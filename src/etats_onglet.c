@@ -29,11 +29,10 @@
 #include "etats_calculs.h"
 #include "etats_config.h"
 #include "gtk_list_button.h"
+#include "menu.h"
 #include "tiers_onglet.h"
 #include "traitement_variables.h"
 #include "utils.h"
-
-
 
 
 void impression_etat ( struct struct_etat *etat );
@@ -294,19 +293,19 @@ GtkWidget *creation_liste_etats ( void )
     }
 
     gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
-							   _("/Reports/Clone report")),
+							   menu_name(_("Reports"), _("Clone report"), NULL)),
 			       FALSE );
     gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
-							   _("/Reports/Print report")),
+							   menu_name(_("Reports"), _("Print report"), NULL)),
 			       FALSE );
     gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
-							   _("/Reports/Export report")),
+							   menu_name(_("Reports"), _("Export report"), NULL)),
 			       FALSE );
     gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
-							   _("/Reports/Remove report")),
+							   menu_name(_("Reports"), _("Remove report"), NULL)),
 			       FALSE );
     gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
-							   _("/Reports/Edit report")),
+							   menu_name(_("Reports"), _("Edit report"), NULL)),
 			       FALSE );
 
     return ( onglet );
@@ -472,7 +471,7 @@ gboolean ajout_etat ( void )
     /*   gtk_box_pack_start ( GTK_BOX(frame), gtk_label_new(""), FALSE, FALSE, 6 ); */
 
     /* on ajoute maintenant la frame */
-    frame = new_paddingbox_with_title ( GTK_DIALOG(dialog)->vbox, FALSE,
+    frame = new_paddingbox_with_title ( GTK_DIALOG(dialog)->vbox, TRUE,
 					_("Description"));
 
     /* on met le label dans une scrolled window */
@@ -487,6 +486,7 @@ gboolean ajout_etat ( void )
     gtk_label_set_line_wrap ( GTK_LABEL ( label_description ), TRUE );
     gtk_scrolled_window_add_with_viewport ( GTK_SCROLLED_WINDOW ( scrolled_window ),
 					    label_description );
+    gtk_widget_set_usize ( scrolled_window, FALSE, 150 );
 
     gtk_viewport_set_shadow_type ( GTK_VIEWPORT ( label_description -> parent ),
 				   GTK_SHADOW_NONE );
@@ -1055,19 +1055,19 @@ void efface_etat ( void )
     gtk_widget_set_sensitive ( bouton_dupliquer_etat, FALSE );
     gtk_widget_set_sensitive ( bouton_effacer_etat, FALSE );
     gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
-							   _("/Reports/Clone report")),
+							   menu_name(_("Reports"), _("Clone report"), NULL)),
 			       FALSE );
     gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
-							   _("/Reports/Print report")),
+							   menu_name(_("Reports"), _("Print report"), NULL)),
 			       FALSE );
     gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
-							   _("/Reports/Export report")),
+							   menu_name(_("Reports"), _("Export report"), NULL)),
 			       FALSE );
     gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
-							   _("/Reports/Remove report")),
+							   menu_name(_("Reports"), _("Remove report"), NULL)),
 			       FALSE );
     gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
-							   _("/Reports/Edit report")),
+							   menu_name(_("Reports"), _("Edit report"), NULL)),
 			       FALSE );
 
 
@@ -1097,19 +1097,19 @@ void changement_etat ( GtkWidget *bouton,
     gtk_widget_set_sensitive ( bouton_effacer_etat, TRUE );
 
     gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
-							   _("/Reports/Clone report")),
+							   menu_name(_("Reports"), _("Clone report"), NULL)),
 			       TRUE );
     gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
-							   _("/Reports/Print report")),
+							   menu_name(_("Reports"), _("Print report"), NULL)),
 			       TRUE );
     gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
-							   _("/Reports/Export report")),
+							   menu_name(_("Reports"), _("Export report"), NULL)),
 			       TRUE );
     gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
-							   _("/Reports/Remove report")),
+							   menu_name(_("Reports"), _("Remove report"), NULL)),
 			       TRUE );
     gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
-							   _("/Reports/Edit report")),
+							   menu_name(_("Reports"), _("Edit report"), NULL)),
 			       TRUE );
 
     gtk_label_set_text ( GTK_LABEL ( label_etat_courant ), etat -> nom_etat );

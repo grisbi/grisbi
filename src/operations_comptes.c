@@ -32,6 +32,7 @@
 #include "barre_outils.h"
 #include "devises.h"
 #include "equilibrage.h"
+#include "menu.h"
 #include "operations_formulaire.h"
 #include "operations_liste.h"
 #include "search_glist.h"
@@ -364,14 +365,12 @@ void reaffiche_liste_comptes ( void )
 			      "\\/" );
 
 	gtk_item_factory_delete_item ( item_factory_menu_general,
-				       g_strconcat ( _("/Accounts/Closed accounts/"),
-						     tmp,
-						     NULL ));
+				       menu_name(_("Accounts"), _("Closed accounts"), tmp ));
 	p_tab_nom_de_compte_variable++;
     }
 
     gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
-							   _("/Accounts/Closed accounts")),
+							   menu_name(_("Accounts"), _("Closed accounts"), NULL)),
 			       FALSE );
 
 
@@ -409,9 +408,7 @@ void reaffiche_liste_comptes ( void )
 				  "_",
 				  "__" );
 
-	    item_factory_entry -> path = g_strconcat ( _("/Accounts/Closed accounts/"),
-						       tmp,
-						       NULL);
+	    item_factory_entry -> path = menu_name(_("Accounts"),  _("Closed accounts"), tmp );
 	    item_factory_entry -> callback = G_CALLBACK ( changement_compte_par_menu );
 
 	    /* 	    on rajoute 1 car sinon pour le compte 0 ça passerait pas... */
@@ -423,7 +420,7 @@ void reaffiche_liste_comptes ( void )
 					   NULL,
 					   1 );
 	    gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
-								   _("/Accounts/Closed accounts")),
+								   menu_name(_("Accounts"), _("Closed accounts"), NULL)),
 				       TRUE );
 
 	}

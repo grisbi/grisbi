@@ -1,23 +1,30 @@
 /* ce fichier contient les définitions de tous les menus et barres d'outils */
 
-
-/*     Copyright (C) 2000-2003  Cédric Auger */
-/* 			cedric@grisbi.org */
-/* 			http://www.grisbi.org */
-
-/*     This program is free software; you can redistribute it and/or modify */
-/*     it under the terms of the GNU General Public License as published by */
-/*     the Free Software Foundation; either version 2 of the License, or */
-/*     (at your option) any later version. */
-
-/*     This program is distributed in the hope that it will be useful, */
-/*     but WITHOUT ANY WARRANTY; without even the implied warranty of */
-/*     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the */
-/*     GNU General Public License for more details. */
-
-/*     You should have received a copy of the GNU General Public License */
-/*     along with this program; if not, write to the Free Software */
-/*     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
+/* ************************************************************************** */
+/* Fichier qui s'occupe de la page d'accueil ( de démarrage lors de           */
+/* l'ouverture d'un fichier de comptes                                        */
+/*                                                                            */
+/*                                  accueil.c                                 */
+/*                                                                            */
+/*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org)	      */
+/*			     2004 Benjamin Drieu (bdrieu@april.org)	      */
+/* 			http://www.grisbi.org				      */
+/*                                                                            */
+/*  This program is free software; you can redistribute it and/or modify      */
+/*  it under the terms of the GNU General Public License as published by      */
+/*  the Free Software Foundation; either version 2 of the License, or         */
+/*  (at your option) any later version.                                       */
+/*                                                                            */
+/*  This program is distributed in the hope that it will be useful,           */
+/*  but WITHOUT ANY WARRANTY; without even the implied warranty of            */
+/*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             */
+/*  GNU General Public License for more details.                              */
+/*                                                                            */
+/*  You should have received a copy of the GNU General Public License         */
+/*  along with this program; if not, write to the Free Software               */
+/*  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "include.h"
 #include "structures.h"
@@ -41,7 +48,6 @@
 
 
 extern GtkItemFactory *item_factory_menu_general;
-extern gchar *nom_navigateur_web;
 
 /***********************************************/
 /* définition de la barre des menus, version gtk */
@@ -56,67 +62,72 @@ GtkWidget *init_menus ( GtkWidget *vbox )
     /* Definition des elements du menu */
 
     GtkItemFactoryEntry menu_item[] = {
-	{_("/File"),    NULL,  NULL, 0, "<Branch>", NULL },
-	{_("/File/Detach"),    NULL,  NULL, 0, "<Tearoff>", NULL },
-	{_("/File/New account file"),  NULL,  G_CALLBACK ( nouveau_fichier), 0, "<StockItem>", GTK_STOCK_NEW },
-	{_("/File/_Open"),   "<CTRL>O", G_CALLBACK ( ouvrir_fichier ), 0, "<StockItem>", GTK_STOCK_OPEN },
-	{_("/File/Sep1"),    NULL,  NULL, 0, "<Separator>", NULL },
-	{_("/File/Save"),   NULL,  G_CALLBACK ( enregistrement_fichier ) , 1, "<StockItem>", GTK_STOCK_SAVE },
-	{_("/File/Save as"),   NULL,  G_CALLBACK ( enregistrer_fichier_sous ), 0, "<StockItem>", GTK_STOCK_SAVE_AS },
-	{_("/File/Sep1"),    NULL, NULL, 0, "<Separator>", NULL },
-	{_("/File/Recently opened files"), NULL,NULL , 0, "<Branch>",NULL, },
-	{_("/File/Sep1"),    NULL, NULL, 0, "<Separator>", NULL },
-	{_("/File/Import"),   NULL,NULL , 0, "<Branch>",NULL  },
-	{_("/File/Import/QIF\\/OFX file ..."),   NULL, G_CALLBACK ( importer_fichier), 0, NULL ,NULL  },
-	{_("/File/Export"),   NULL, NULL, 0, "<Branch>",NULL  },
-	{_("/File/Export/QIF file ..."),   NULL,G_CALLBACK ( exporter_fichier_qif ), 0, NULL ,NULL  },
-	{_("/File/Sep1"),    NULL, NULL, 0, "<Separator>", NULL },
-	{_("/File/Close"),   NULL,G_CALLBACK ( fermer_fichier ), 0, "<StockItem>", GTK_STOCK_CLOSE },
-	{_("/File/Exit"),   NULL, G_CALLBACK ( fermeture_grisbi), 0, "<StockItem>", GTK_STOCK_QUIT },
+        /* File menu */
+	{menu_name(_("File"), NULL, NULL),    NULL,  NULL, 0, "<Branch>", NULL },
+	{menu_name(_("File"), "Detach", NULL),    NULL,  NULL, 0, "<Tearoff>", NULL },
+	{menu_name(_("File"), _("New account file"), NULL),  NULL,  G_CALLBACK ( nouveau_fichier), 0, "<StockItem>", GTK_STOCK_NEW },
+	{menu_name(_("File"), _("_Open"), NULL),   "<CTRL>O", G_CALLBACK ( ouvrir_fichier ), 0, "<StockItem>", GTK_STOCK_OPEN },
+	{menu_name(_("File"), "Sep1", NULL),    NULL,  NULL, 0, "<Separator>", NULL },
+	{menu_name(_("File"), _("Save"), NULL),   NULL,  G_CALLBACK ( enregistrement_fichier ) , 1, "<StockItem>", GTK_STOCK_SAVE },
+	{menu_name(_("File"), _("Save as"), NULL),   NULL,  G_CALLBACK ( enregistrer_fichier_sous ), 0, "<StockItem>", GTK_STOCK_SAVE_AS },
+	{menu_name(_("File"), "Sep1", NULL),    NULL, NULL, 0, "<Separator>", NULL },
+	{menu_name(_("File"), _("Recently opened files"), NULL), NULL,NULL , 0, "<Branch>",NULL, },
+	{menu_name(_("File"), "Sep1", NULL),    NULL, NULL, 0, "<Separator>", NULL },
+	{menu_name(_("File"), _("Import"), NULL),   NULL,NULL , 0, "<Branch>",NULL  },
+	{menu_name(_("File"), _("Import"), _("QIF\\/OFX file ...")),   NULL, G_CALLBACK ( importer_fichier), 0, NULL ,NULL  },
+	{menu_name(_("File"), _("Export"), NULL),   NULL, NULL, 0, "<Branch>",NULL  },
+	{menu_name(_("File"), _("Export"), _("QIF file ...")),   NULL,G_CALLBACK ( exporter_fichier_qif ), 0, NULL ,NULL  },
+	{menu_name(_("File"), "Sep1", NULL),    NULL, NULL, 0, "<Separator>", NULL },
+	{menu_name(_("File"), _("Close"), NULL),   NULL,G_CALLBACK ( fermer_fichier ), 0, "<StockItem>", GTK_STOCK_CLOSE },
+	{menu_name(_("File"), _("Exit"), NULL),   NULL, G_CALLBACK ( fermeture_grisbi), 0, "<StockItem>", GTK_STOCK_QUIT },
 
-	{ _("/Edit"), NULL, NULL, 0, "<Branch>", NULL },
-	{_("/Edit/Detach"),    NULL,  NULL, 0, "<Tearoff>", NULL },
-	{_("/Edit/New transaction"),   NULL, G_CALLBACK (new_transaction ), 0, "<StockItem>", GTK_STOCK_NEW },
-	{_("/Edit/Remove transaction"),   NULL, G_CALLBACK (remove_transaction ), 0, "<StockItem>", GTK_STOCK_DELETE },
-	{_("/Edit/Clone transaction"),   NULL, G_CALLBACK ( clone_selected_transaction), 0, "<StockItem>", GTK_STOCK_COPY },
-	{_("/Edit/Edit transaction"),   NULL, G_CALLBACK ( edition_operation), 0, "<StockItem>", GTK_STOCK_PROPERTIES },
-	{_("/Edit/Sep1"),    NULL, NULL, 0, "<Separator>", NULL },
-	{_("/Edit/Convert transaction to scheduled transaction"),   NULL, NULL, 0, "<StockItem>", GTK_STOCK_CONVERT },
-	{_("/Edit/Move transaction to another account"),   NULL, NULL, 0, "<StockItem>", GTK_STOCK_GO_FORWARD },
-	{_("/Edit/Sep1"),    NULL, NULL, 0, "<Separator>", NULL },
-	{_("/Edit/Preferences"),   NULL, G_CALLBACK (preferences ), 1, "<StockItem>", GTK_STOCK_PREFERENCES },
+	/* Edit menu */
+	{menu_name(_("Edit"), NULL, NULL), NULL, NULL, 0, "<Branch>", NULL },
+	{menu_name(_("Edit"), "Detach", NULL),    NULL,  NULL, 0, "<Tearoff>", NULL },
+	{menu_name(_("Edit"), _("New transaction"), NULL),   NULL, G_CALLBACK (new_transaction ), 0, "<StockItem>", GTK_STOCK_NEW },
+	{menu_name(_("Edit"), _("Remove transaction"), NULL),   NULL, G_CALLBACK (remove_transaction ), 0, "<StockItem>", GTK_STOCK_DELETE },
+	{menu_name(_("Edit"), _("Clone transaction"), NULL),   NULL, G_CALLBACK ( clone_selected_transaction), 0, "<StockItem>", GTK_STOCK_COPY },
+	{menu_name(_("Edit"), _("Edit transaction"), NULL),   NULL, G_CALLBACK ( edition_operation), 0, "<StockItem>", GTK_STOCK_PROPERTIES },
+	{menu_name(_("Edit"), "Sep1", NULL),    NULL, NULL, 0, "<Separator>", NULL },
+	{menu_name(_("Edit"), _("Convert transaction to scheduled transaction"), NULL),   NULL, NULL, 0, "<StockItem>", GTK_STOCK_CONVERT },
+	{menu_name(_("Edit"), _("Move transaction to another account"), NULL),   NULL, NULL, 0, "<StockItem>", GTK_STOCK_GO_FORWARD },
+	{menu_name(_("Edit"), "Sep1", NULL),    NULL, NULL, 0, "<Separator>", NULL },
+	{menu_name(_("Edit"), _("Preferences"), NULL),   NULL, G_CALLBACK (preferences ), 1, "<StockItem>", GTK_STOCK_PREFERENCES },
 
-	{ _("/Accounts"), NULL, NULL, 0, "<Branch>", NULL },
-	{_("/Accounts/Detach"),    NULL,  NULL, 0, "<Tearoff>", NULL },
-	{_("/Accounts/New account"),   NULL, G_CALLBACK (nouveau_compte ), 0, "<StockItem>", GTK_STOCK_NEW },
-	{_("/Accounts/Remove an account"),   NULL, G_CALLBACK ( supprimer_compte), 0, "<StockItem>", GTK_STOCK_DELETE },
-	{_("/Accounts/Sep1"),    NULL, NULL, 0, "<Separator>", NULL },
-	{_("/Accounts/Closed accounts"),   NULL, NULL , 0, "<Branch>", NULL },
+	/* Accounts menu */
+	{menu_name(_("Accounts"), NULL, NULL), NULL, NULL, 0, "<Branch>", NULL },
+	{menu_name(_("Accounts"), "Detach", NULL),    NULL,  NULL, 0, "<Tearoff>", NULL },
+	{menu_name(_("Accounts"), _("New account"), NULL),   NULL, G_CALLBACK (nouveau_compte ), 0, "<StockItem>", GTK_STOCK_NEW },
+	{menu_name(_("Accounts"), _("Remove an account"), NULL),   NULL, G_CALLBACK ( supprimer_compte), 0, "<StockItem>", GTK_STOCK_DELETE },
+	{menu_name(_("Accounts"), "Sep1", NULL),    NULL, NULL, 0, "<Separator>", NULL },
+	{menu_name(_("Accounts"), _("Closed accounts"), NULL),   NULL, NULL , 0, "<Branch>", NULL },
 
-	{ _("/Reports"), NULL, NULL, 0, "<Branch>", NULL },
-	{_("/Reports/Detach"),    NULL,  NULL, 0, "<Tearoff>", NULL },
-	{_("/Reports/New report"),   NULL, G_CALLBACK ( ajout_etat), 0, "<StockItem>", GTK_STOCK_NEW },
-	{_("/Reports/Sep1"),    NULL, NULL, 0, "<Separator>", NULL },
-	{_("/Reports/Clone report"),   NULL, G_CALLBACK (dupliquer_etat ), 0, "<StockItem>", GTK_STOCK_COPY },
-	{_("/Reports/Print report"),   NULL, G_CALLBACK ( impression_etat_courant), 0, "<StockItem>", GTK_STOCK_PRINT },
-	{_("/Reports/Sep1"),    NULL, NULL, 0, "<Separator>", NULL },
-	{_("/Reports/Import report"),   NULL, G_CALLBACK (importer_etat ), 0, "<StockItem>", GTK_STOCK_CONVERT },
-	{_("/Reports/Export report"),   NULL, G_CALLBACK ( exporter_etat), 0, "<StockItem>", GTK_STOCK_CONVERT },
-	{_("/Reports/Sep1"),    NULL, NULL, 0, "<Separator>", NULL },
-	{_("/Reports/Remove report"),   NULL, G_CALLBACK ( efface_etat), 0, "<StockItem>", GTK_STOCK_DELETE },
-	{_("/Reports/Sep1"),    NULL, NULL, 0, "<Separator>", NULL },
-	{_("/Reports/Edit report"),   NULL, G_CALLBACK (personnalisation_etat ), 0, "<StockItem>", GTK_STOCK_PROPERTIES },
+	/* Reports menu */
+	{menu_name(_("Reports"), NULL, NULL), NULL, NULL, 0, "<Branch>", NULL },
+	{menu_name(_("Reports"), "Detach", NULL),    NULL,  NULL, 0, "<Tearoff>", NULL },
+	{menu_name(_("Reports"), _("New report"), NULL),   NULL, G_CALLBACK ( ajout_etat), 0, "<StockItem>", GTK_STOCK_NEW },
+	{menu_name(_("Reports"), "Sep1", NULL),    NULL, NULL, 0, "<Separator>", NULL },
+	{menu_name(_("Reports"), _("Clone report"), NULL),   NULL, G_CALLBACK (dupliquer_etat ), 0, "<StockItem>", GTK_STOCK_COPY },
+	{menu_name(_("Reports"), _("Print report"), NULL),   NULL, G_CALLBACK ( impression_etat_courant), 0, "<StockItem>", GTK_STOCK_PRINT },
+	{menu_name(_("Reports"), "Sep1", NULL),    NULL, NULL, 0, "<Separator>", NULL },
+	{menu_name(_("Reports"), _("Import report"), NULL),   NULL, G_CALLBACK (importer_etat ), 0, "<StockItem>", GTK_STOCK_CONVERT },
+	{menu_name(_("Reports"), _("Export report"), NULL),   NULL, G_CALLBACK ( exporter_etat), 0, "<StockItem>", GTK_STOCK_CONVERT },
+	{menu_name(_("Reports"), "Sep1", NULL),    NULL, NULL, 0, "<Separator>", NULL },
+	{menu_name(_("Reports"), _("Remove report"), NULL),   NULL, G_CALLBACK ( efface_etat), 0, "<StockItem>", GTK_STOCK_DELETE },
+	{menu_name(_("Reports"), "Sep1", NULL),    NULL, NULL, 0, "<Separator>", NULL },
+	{menu_name(_("Reports"), _("Edit report"), NULL),   NULL, G_CALLBACK (personnalisation_etat ), 0, "<StockItem>", GTK_STOCK_PROPERTIES },
 
-	{ _("/Help"), NULL, NULL, 0, "<Branch>", NULL },
-	{_("/Help/Detach"),    NULL,  NULL, 0, "<Tearoff>", NULL },
-	{_("/Help/Manual"),   NULL, affiche_aide_locale, 1, NULL, NULL },
-	{_("/Help/Quickstart"),   NULL, affiche_aide_locale, 2, "<StockItem>", GTK_STOCK_INDEX },
-	{_("/Help/Translation"),   NULL, affiche_aide_locale, 3, NULL, NULL },
-	{_("/Help/About"),   NULL, G_CALLBACK (a_propos ) , 1, NULL, NULL },
-	{_("/Help/Sep1"),    NULL, NULL, 0, "<Separator>", NULL },
-	{_("/Help/Grisbi website"),   NULL, G_CALLBACK (lien_web ), 1, NULL, NULL },
-	{_("/Help/Report a bug"),   NULL, G_CALLBACK ( lien_web), 2,NULL , NULL },
-	{_("/Help/On line User's guide"),   NULL, G_CALLBACK ( lien_web), 3, NULL, NULL }
+	/* Help menu */
+	{menu_name(_("Help"), NULL, NULL), NULL, NULL, 0, "<Branch>", NULL },
+	{menu_name(_("Help"), "Detach", NULL),    NULL,  NULL, 0, "<Tearoff>", NULL },
+	{menu_name(_("Help"), _("Manual"), NULL),   NULL, affiche_aide_locale, 1, NULL, NULL },
+	{menu_name(_("Help"), _("Quickstart"), NULL),   NULL, affiche_aide_locale, 2, "<StockItem>", GTK_STOCK_INDEX },
+	{menu_name(_("Help"), _("Translation"), NULL),   NULL, affiche_aide_locale, 3, NULL, NULL },
+	{menu_name(_("Help"), _("About"), NULL),   NULL, G_CALLBACK (a_propos ) , 1, NULL, NULL },
+	{menu_name(_("Help"), "Sep1", NULL),    NULL, NULL, 0, "<Separator>", NULL },
+	{menu_name(_("Help"), _("Grisbi website"), NULL),   NULL, G_CALLBACK (lien_web ), 1, NULL, NULL },
+	{menu_name(_("Help"), _("Report a bug"), NULL),   NULL, G_CALLBACK ( lien_web), 2,NULL , NULL },
+	{menu_name(_("Help"), _("On line User's guide"), NULL),   NULL, G_CALLBACK ( lien_web), 3, NULL, NULL }
     };
 
 
@@ -180,13 +191,11 @@ void efface_derniers_fichiers_ouverts ( void )
 			      "\\/" );
 
 	gtk_item_factory_delete_item ( item_factory_menu_general,
-				       g_strconcat ( _("/File/Recently opened files/"),
-						     tmp,
-						     NULL ));
+				       menu_name ( _("File"), _("Recently opened files"), tmp ));
     }
 
     gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
-							   _("/File/Recently opened files")),
+							   menu_name ( _("File"), _("Recently opened files"), NULL )),
 			       FALSE );
 
 }
@@ -204,7 +213,7 @@ void affiche_derniers_fichiers_ouverts ( void )
     if ( !nb_derniers_fichiers_ouverts )
     {
 	gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
-							       _("/File/Recently opened files")),
+							       menu_name ( _("File"), _("Recently opened files"), NULL )),
 				   FALSE );
 
 	return;
@@ -225,9 +234,7 @@ void affiche_derniers_fichiers_ouverts ( void )
 			      "_",
 			      "__" );
 
-	item_factory_entry -> path = g_strconcat ( _("/File/Recently opened files/"),
-						   tmp,
-						   NULL);
+	item_factory_entry -> path = menu_name ( _("File"), _("Recently opened files"), tmp );
 	item_factory_entry -> callback = G_CALLBACK ( ouverture_fichier_par_menu );
 	item_factory_entry -> callback_action = i;
 
@@ -238,7 +245,7 @@ void affiche_derniers_fichiers_ouverts ( void )
     }
 
     gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
-							   _("/File/Recently opened files")),
+							   menu_name ( _("File"), _("Recently opened files"), NULL )),
 			       TRUE );
 
 }
@@ -296,3 +303,12 @@ void affiche_aide_locale ( gpointer null,
 /* **************************************************************************************************** */
 
 
+gchar * menu_name ( gchar * menu, gchar * submenu, gchar * subsubmenu )
+{
+  if ( subsubmenu )
+    return g_strconcat ( "/", menu, "/", submenu, "/", subsubmenu, NULL );
+  else if ( submenu )
+    return g_strconcat ( "/", menu, "/", submenu, NULL );
+  else
+    return g_strconcat ( "/", menu, NULL );
+}

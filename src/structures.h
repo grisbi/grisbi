@@ -104,6 +104,11 @@ struct {
     guint display_message_minimum_alert;
     guint display_message_qif_export_currency;
 
+    /* Various commands */
+    gchar * browser_command;
+    gchar * latex_command;
+    gchar * dvips_command;
+
     /* Print stuff */
     struct print_config print_config;
 } etat;
