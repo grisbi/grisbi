@@ -47,7 +47,8 @@ grisbi_SOURCES = 		\
 	etats_calculs.c		\
 	etats_support.c		\
 	etats_gtktable.c	\
-	affichage_liste.c
+	affichage_liste.c	\
+	calendar.c
 
 
 
