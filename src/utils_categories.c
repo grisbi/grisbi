@@ -67,12 +67,11 @@ struct struct_categ *categ_par_nom ( gchar *nom_categ,
 {
     if ( nom_categ
 	 &&
-	 strlen (g_strstrip ( nom_categ )))
+	 strlen ( nom_categ ) )
     {
 	GSList *liste_tmp;
 
-	liste_tmp = g_slist_find_custom ( liste_struct_categories,
-					  g_strstrip (nom_categ),
+	liste_tmp = g_slist_find_custom ( liste_struct_categories, nom_categ,
 					  (GCompareFunc) recherche_categorie_par_nom );
 
 	if ( liste_tmp )
@@ -87,7 +86,7 @@ struct struct_categ *categ_par_nom ( gchar *nom_categ,
 					      sizeof ( struct struct_categ ));
 
 		nouvelle_categorie -> no_categ = ++no_derniere_categorie;
-		nouvelle_categorie -> nom_categ = g_strdup ( g_strstrip ( nom_categ ));
+		nouvelle_categorie -> nom_categ = g_strdup ( nom_categ );
 		nouvelle_categorie -> type_categ = type_categ;
 		nouvelle_categorie -> no_derniere_sous_categ = no_derniere_sous_categ;
 
