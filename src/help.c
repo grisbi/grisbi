@@ -45,7 +45,7 @@ void a_propos ( GtkWidget *bouton,
 
     const gchar *auteurs[] = { 
       _("Alain Pichon (alain.pichon[at]grisbi.org): RHEL packaging"),
-      _("Alain Portal <dionysos[at]grisbi.org>: Programming, manual, Fedora and RedHat packaging"),
+      _("Alain Portal <aportal AT univ-monpt2 DOT fr>: Programming, manual, Fedora and RedHat packaging"),
       _("Andre Pascual (andre[at]linuxgraphic.org) : Logo"),
       _("Axel Rousseau (axel584[at]axel584.org): contributor"),
       _("Benjamin Drieu (bdrieu[at]april.org) : Programming, Debian packaging"),

@@ -4,7 +4,7 @@
 /*                                  csv.c                                     */
 /*                                                                            */
 /*     Copyright (C)	2004 François Terrot (francois.terrot at grisbi.org)  */
-/*			2005 Alain Portal (dionysos at grisbi.org)	      */
+/*			2005 Alain Portal (aportal@univ-monpt.fr)	      */
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
