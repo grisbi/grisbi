@@ -27,6 +27,7 @@
 #include "structures.h"
 #include "variables-extern.c"
 #include "fichiers_gestion.h"
+#include "file_selection.h"
 
 
 
@@ -148,7 +149,7 @@ void ouvrir_fichier ( void )
     gtk_window_set_position ( GTK_WINDOW ( selection_fichier ),
 			      GTK_WIN_POS_MOUSE);
 
-    gtk_file_selection_set_filename ( GTK_FILE_SELECTION ( selection_fichier ),
+    file_selection_set_filename ( GTK_FILE_SELECTION ( selection_fichier ),
 				      dernier_chemin_de_travail );
 
     gtk_signal_connect_object ( GTK_OBJECT ( GTK_FILE_SELECTION ( selection_fichier ) -> cancel_button ),
@@ -205,14 +206,16 @@ void fichier_selectionne ( GtkWidget *selection_fichier)
 
     /* on prend le nouveau nom du fichier */
 
-    nom_fichier_comptes = g_strdup ( gtk_file_selection_get_filename ( GTK_FILE_SELECTION ( selection_fichier)) );
+    nom_fichier_comptes = g_strdup ( file_selection_get_filename ( GTK_FILE_SELECTION ( selection_fichier)) );
 
     gtk_widget_hide ( selection_fichier );
 
     /* on met le répertoire courant dans la variable correspondante */
 
-    dernier_chemin_de_travail = g_strconcat ( GTK_LABEL ( GTK_BIN ( GTK_OPTION_MENU ( GTK_FILE_SELECTION ( selection_fichier ) -> history_pulldown )) -> child ) -> label,
-					      C_DIRECTORY_SEPARATOR,
+    dernier_chemin_de_travail = g_strconcat ( g_filename_to_utf8(
+                                                                 GTK_LABEL ( GTK_BIN ( GTK_OPTION_MENU ( GTK_FILE_SELECTION ( selection_fichier ) -> history_pulldown )) -> child ) -> label,
+					      -1,NULL,NULL,NULL),
+                                              C_DIRECTORY_SEPARATOR,
 					      NULL );
 
     ouverture_confirmee ();
@@ -266,7 +269,7 @@ void ouverture_confirmee ( void )
 						    NULL );
 		g_strfreev ( parametres );
 
-		result = open ( nom_fichier_comptes, O_RDONLY);
+		result = open_from_utf8 ( nom_fichier_comptes, O_RDONLY);
 		if (result == -1)
 		    return;
 		else
@@ -477,7 +480,7 @@ gboolean enregistrement_fichier ( gint origine )
 	fenetre_nom = gtk_file_selection_new ( _("Name the accounts file"));
 	gtk_window_set_modal ( GTK_WINDOW ( fenetre_nom ),
 			       TRUE );
-	gtk_file_selection_set_filename ( GTK_FILE_SELECTION ( fenetre_nom ),
+	file_selection_set_filename ( GTK_FILE_SELECTION ( fenetre_nom ),
 					  dernier_chemin_de_travail );
 	gtk_entry_set_text ( GTK_ENTRY ( GTK_FILE_SELECTION ( fenetre_nom )->selection_entry),
 			     ".gsb" );
@@ -488,7 +491,7 @@ gboolean enregistrement_fichier ( gint origine )
 	{
 	    case GTK_RESPONSE_OK :
 		ancien_nom_fichier_comptes = nom_fichier_comptes;
-		nom_fichier_comptes =g_strdup (gtk_file_selection_get_filename ( GTK_FILE_SELECTION ( fenetre_nom )));
+		nom_fichier_comptes =g_strdup ( file_selection_get_filename ( GTK_FILE_SELECTION ( fenetre_nom )));
 
 		gtk_widget_destroy ( GTK_WIDGET ( fenetre_nom ));
 
@@ -501,7 +504,7 @@ gboolean enregistrement_fichier ( gint origine )
 		}
 
 
-		if ( stat ( nom_fichier_comptes,
+		if ( stat_from_utf8 ( nom_fichier_comptes,
 			    &test_fichier ) != -1 )
 		{
 		    if ( S_ISREG ( test_fichier.st_mode ) )
@@ -838,7 +841,7 @@ void ajoute_nouveau_fichier_liste_ouverture ( gchar *path_fichier )
 	tab_noms_derniers_fichiers_ouverts[nb_derniers_fichiers_ouverts-1] = dernier;
     }
 
-    tab_noms_derniers_fichiers_ouverts[0] = g_strdup ( path_fichier );
+    tab_noms_derniers_fichiers_ouverts[0] = g_strdup (path_fichier);
 
 
     affiche_derniers_fichiers_ouverts();
