@@ -452,6 +452,16 @@ gboolean mise_a_jour_versions_anterieures ( gint no_version,
 
 	    break;
 
+	    /* ************************************* */
+	    /* 	    ouverture d'un fichier 0.6.0     */
+	    /* ************************************* */
+
+	case 60:
+
+
+
+	    break;
+
 	default :
 	    /* 	à ce niveau, c'est que que la version n'est pas connue de grisbi, on donne alors */
 	    /* la version nécessaire pour l'ouvrir */
