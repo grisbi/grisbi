@@ -155,7 +155,7 @@ void affiche_log_message ( void )
 /*************************************************************************************************************/
 void traitement_sigsegv ( gint signal_nb )
 {
-    gchar *home_dir, *errmsg;
+    gchar *gsb_file_default_dir, *errmsg;
 
     errmsg = _("Grisbi triggered a segmentation fault and cannot continue its execution.\n\n");
 
@@ -189,7 +189,7 @@ void traitement_sigsegv ( gint signal_nb )
 	   pas de nom de fichier, on le crée, sinon on rajoute #
 	   autour */
 
-      home_dir = (gchar *) g_get_home_dir();
+        gsb_file_default_dir = (gchar *) my_get_gsb_file_default_dir();
 
 	if ( nom_fichier_comptes )
 	{
@@ -197,17 +197,17 @@ void traitement_sigsegv ( gint signal_nb )
 
 	    gchar **parametres;
 	    gint i=0;
-	    parametres = g_strsplit ( nom_fichier_comptes, "/", 0);
+	    parametres = g_strsplit ( nom_fichier_comptes, C_DIRECTORY_SEPARATOR, 0);
 
 	    while ( parametres[i] )
 		i++;
 
-	    nom_fichier_comptes = g_strconcat ( home_dir, "/#", parametres [i-1], 
+	    nom_fichier_comptes = g_strconcat ( gsb_file_default_dir, "/#", parametres [i-1], 
 						"#", NULL );
 	    g_strfreev ( parametres );
 	}
 	else
-	    nom_fichier_comptes = g_strconcat ( home_dir,
+	    nom_fichier_comptes = g_strconcat ( gsb_file_default_dir,
 						"/#grisbi_plantage_sans_nom#",
 						NULL );
 
