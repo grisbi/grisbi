@@ -1726,7 +1726,7 @@ void fin_edition_echeance ( void )
 		    {
 			/* c'est une ventilation, il n'y a donc aucune catégorie */
 			/* on va appeler la fonction validation_ope_de_ventilation */
-			/* qui va créer les nouvelles opé*/
+			/* qui va créer les nouvelles opé */
 
 			validation_ope_de_ventilation_echeances ( echeance );
 			echeance -> categorie = 0;
