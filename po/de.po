@@ -40,7 +40,7 @@ msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-01-07 09:55+0100\n"
-"PO-Revision-Date: 2005-01-06 12:33+0100\n"
+"PO-Revision-Date: 2005-01-07 19:16+0100\n"
 "Last-Translator: Martin Stromberger <fabiolla@aon.at>\n"
 "Language-Team: Deutsch <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -3264,11 +3264,12 @@ msgid "Show"
 msgstr "Anzeigen"
 
 #: src/echeancier_liste.c:370
-#, fuzzy
 msgid ""
 "Remove selected\n"
 "scheduled transaction"
-msgstr "Buchung löschen"
+msgstr ""
+"Ausgewählte geplante\n"
+"Buchung löschen"
 
 #: src/echeancier_liste.c:399 src/etats_config.c:266 src/import.c:406
 #: src/type_operations.c:296
@@ -5480,11 +5481,8 @@ msgid "Daniel Cartron (cartron[at]grisbi.org) : English"
 msgstr "Daniel Cartron (cartron[at]grisbi.org) : Englisch"
 
 #: src/help.c:66
-#, fuzzy
 msgid "Flavio Henrique Somensi (flavio[at]opens.com.br): Brazilian Portuguese"
-msgstr ""
-"Flavio Henrique Somensi (fsomensi[at]users.sourceforge.net) : Brasilianisch "
-"Portugiesisch"
+msgstr "Flavio Henrique Somensi (fsomensi[at]opens.com.br) : Brasilianisch Portugiesisch"
 
 #: src/help.c:67
 msgid "Giorgio Mandolfo (giorgio[at]pollycoke.org) : Italian"
