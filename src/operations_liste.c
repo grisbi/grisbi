@@ -3247,6 +3247,13 @@ struct structure_operation *  clone_transaction ( struct structure_operation * o
     memcpy(new_transaction, operation, sizeof(struct structure_operation) );
 #endif
     new_transaction -> no_operation = 0;
+
+    if ( operation -> pointe == OPERATION_RAPPROCHEE ||
+	 operation -> pointe == OPERATION_TELERAPPROCHEE )
+      {
+	new_transaction -> pointe = OPERATION_NORMALE;
+      }
+
     ajout_operation ( new_transaction );
 
     if ( new_transaction -> relation_no_operation )
@@ -3278,12 +3285,6 @@ struct structure_operation *  clone_transaction ( struct structure_operation * o
 	    liste_tmp = liste_tmp -> next;
 	}
     }
-
-    if ( operation -> pointe == OPERATION_RAPPROCHEE ||
-	 operation -> pointe == OPERATION_TELERAPPROCHEE )
-      {
-	new_transaction -> pointe = OPERATION_NORMALE;
-      }
 
     return new_transaction;
 }
