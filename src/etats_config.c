@@ -119,6 +119,8 @@ void personnalisation_etat (void)
 				 onglet_etat_montant (),
 				 gtk_label_new (_(" Montant ")) );
 
+      gtk_notebook_set_scrollable ( GTK_NOTEBOOK ( notebook ), TRUE );
+
       gtk_box_pack_start ( GTK_BOX ( onglet_config_etat ),
 			   notebook,
 			   TRUE,
