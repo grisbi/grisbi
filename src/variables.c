@@ -436,8 +436,6 @@ GtkWidget *label_montant_operation_ventilee;                       /*  label cor
 struct structure_operation *ligne_selectionnee_ventilation;              /* struct ope ligne sélectionnée */
 gdouble montant_operation_ventilee;
 gdouble somme_ventilee;
-GtkWidget *bouton_credit;                          /* adr du radio_button crédit */
-GtkWidget *bouton_debit;                          /* adr du radio_button crédit */
 gint enregistre_ope_au_retour;            /* à 1 si au click du bouton valider on enregistre l'opé */
 
 

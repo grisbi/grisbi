@@ -107,6 +107,8 @@ gboolean charge_operations ( void )
 gboolean charge_operations_version_0_3_2 ( xmlDocPtr doc )
 {
   xmlNodePtr node_1;
+  GSList *pointeur_liste;
+  gint i;
 
   /* message d'avertissement */
 
@@ -236,7 +238,6 @@ des paramètres.") );
 				   "Ordre_des_comptes" ))
 		      {
 			gchar **pointeur_char;
-			gint i;
 
 			pointeur_char = g_strsplit ( xmlNodeGetContent ( node_generalites ),
 						     "-",
@@ -430,7 +431,6 @@ des paramètres.") );
 			      if ( xmlNodeGetContent ( node_detail ))
 				{
 				  gchar **pointeur_char;
-				  gint i;
 
 				  pointeur_char = g_strsplit ( xmlNodeGetContent ( node_detail ),
 							       "/",
@@ -1492,6 +1492,49 @@ des paramètres.") );
   /* on libère la mémoire */
 
   xmlFreeDoc ( doc );
+
+  /*   on applique la modif des ventils : si une opé ventilée est < 0, les opés de ventil ont le même signe */
+  /* que l'opé ventilée */
+  /*   pour ça, on fait le tour de toutes les opés, et si on a une opé de ventil, on vérifie le signe de la ventil */
+  /*     associée, si elle est négative, on inverse le signe */
+
+  for ( i=0 ; i<nb_comptes ; i++ )
+    {
+      GSList *pointeur_tmp;
+      struct structure_operation *operation_associee;
+
+      p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
+      operation_associee = NULL;
+
+      pointeur_tmp = LISTE_OPERATIONS;
+
+      while ( pointeur_tmp )
+	{
+	  struct structure_operation *operation;
+
+	  operation = pointeur_tmp -> data;
+
+	  if ( operation -> montant
+	       &&
+	       operation -> no_operation_ventilee_associee )
+	    {
+	      if ( !operation_associee
+		   ||
+		   operation -> no_operation_ventilee_associee != operation_associee -> no_operation )
+		operation_associee = g_slist_find_custom ( LISTE_OPERATIONS,
+							   GINT_TO_POINTER ( operation -> no_operation_ventilee_associee ),
+							   (GCompareFunc) recherche_operation_par_no ) -> data;
+
+	      if ( operation_associee -> montant < 0 )
+		operation -> montant = -operation -> montant;
+	    }
+
+	  pointeur_tmp = pointeur_tmp -> next;
+	}
+    }
+
+
+
 
   /* on marque le fichier comme ouvert */
 

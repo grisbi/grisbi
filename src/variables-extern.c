@@ -470,8 +470,6 @@ extern GtkWidget *label_montant_operation_ventilee;                       /*  la
 extern struct structure_operation *ligne_selectionnee_ventilation;              /* struct ope ligne sélectionnée */
 extern gdouble montant_operation_ventilee;
 extern gdouble somme_ventilee;
-extern GtkWidget *bouton_credit;                          /* adr du radio_button crédit */
-extern GtkWidget *bouton_debit;                          /* adr du radio_button crédit */
 extern gint enregistre_ope_au_retour;            /* à 1 si au click du bouton valider on enregistre l'opé */
 
 

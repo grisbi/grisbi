@@ -5166,7 +5166,7 @@ void etape_finale_affichage_etat ( GSList *ope_selectionnees,
       nb_colonnes = 2 * nb_colonnes;
     }
 
-  nb_colonnes = nb_colonnes + 2;
+  nb_colonnes = nb_colonnes + 3;
   ligne_debut_partie = -1;
 
   nom_categ_en_cours = NULL;

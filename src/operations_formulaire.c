@@ -2368,13 +2368,11 @@ gboolean modifie_date ( GtkWidget *entree )
 	enregistre_ope_au_retour = 1;
 
 	if ( gtk_widget_get_style ( widget_formulaire_operations[3] ) == style_entree_formulaire[0] )
-	  ventiler_operation ( g_strtod ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_operations[3] ))),
-					  NULL ),
-			       0 );
+	  ventiler_operation ( -g_strtod ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_operations[3] ))),
+					   NULL ));
 	else
 	  ventiler_operation ( g_strtod ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_operations[4] ))),
-					  NULL ),
-			       1 );
+					  NULL ));
 
 	return;
       }
@@ -3530,13 +3528,11 @@ gboolean modifie_date ( GtkWidget *entree )
   enregistre_ope_au_retour = 0;
 
   if ( gtk_widget_get_style ( widget_formulaire_operations[3] ) == style_entree_formulaire[0] )
-    ventiler_operation ( g_strtod ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_operations[3] ))),
-				    NULL ),
-			 0 );
+    ventiler_operation ( -g_strtod ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_operations[3] ))),
+				     NULL ));
   else
     ventiler_operation ( g_strtod ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_operations[4] ))),
-				    NULL ),
-			 1 );
+				    NULL ));
  }
  /***********************************************************************************************************/
 

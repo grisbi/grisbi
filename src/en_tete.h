@@ -566,8 +566,7 @@ void clique_champ_formulaire_ventilation ( void );
 void entree_ventilation_perd_focus ( GtkWidget *entree,
 				     GdkEventFocus *ev,
 				     gint *no_origine );
-void ventiler_operation ( gdouble montant,
-			  gint signe );
+void ventiler_operation ( gdouble montant );
 void changement_taille_liste_ventilation ( GtkWidget *clist,
 					   GtkAllocation *allocation,
 					   gpointer null );
