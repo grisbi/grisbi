@@ -49,7 +49,7 @@ GtkWidget * bouton_display_lock_active;
  * Creates a simple TreeView and a TreeModel to handle preference
  * tabs.  Sets preference_tree_model to the newly created TreeModel.
  *
- * \returns a GtkScrolledWindow
+ * \return a GtkScrolledWindow
  */
 GtkWidget * create_preferences_tree ( )
 {
@@ -91,6 +91,10 @@ GtkWidget * create_preferences_tree ( )
 		    ((GCallback)selectionne_liste_preference), 
 		    preference_tree_model);
 
+  /* Choose which entries will be selectable */
+  gtk_tree_selection_set_select_function ( selection, preference_selectable_func, 
+					   NULL, NULL );
+
   /* Put the tree in the scroll */
   gtk_container_add (GTK_CONTAINER (sw), tree_view);
 
@@ -101,6 +105,28 @@ GtkWidget * create_preferences_tree ( )
   return sw;
 }
 
+
+gboolean preference_selectable_func (GtkTreeSelection *selection,
+				     GtkTreeModel *model,
+				     GtkTreePath *path,
+				     gboolean path_currently_selected,
+				     gpointer data)
+{
+  GtkTreeIter iter;
+  GValue value = {0, };
+
+  gtk_tree_model_get_iter ( model, &iter, path );
+  gtk_tree_model_get_value ( model, &iter, 1, &value );
+
+  if ( g_value_get_int(&value) == NOT_A_PAGE )
+    {
+      g_value_unset (&value);
+      return FALSE;
+    }
+
+  g_value_unset (&value);
+  return TRUE;
+}
 
 
 /**
@@ -115,7 +141,6 @@ void preferences ( gint page )
   GtkWidget *right, *w, *vbox, *hbox, *hbox2, *separator, 
     *button_ok, *button_cancel, *tree;
   GtkTreeIter iter, iter2;
-  GtkTreePath * path;
 
   /* Create dialog */
   fenetre_preferences = gtk_dialog_new ();
@@ -305,18 +330,8 @@ gboolean selectionne_liste_preference ( GtkTreeSelection *selection,
 
   gtk_tree_model_get_value (model, &iter, 1, &value);
 
-  /*   if (preference_selected) */
-  /*     { */
-  /*       gtk_widget_hide_all(preference_selected); */
-  /*       g_object_ref(preference_selected); /\* GRUIK *\/ */
-  /*       gtk_container_remove (GTK_CONTAINER (preference_frame), preference_selected); */
-  /*     } */
-
   preference_selected = g_value_get_int(&value);
-  if ( preference_selected != NOT_A_PAGE )
-    {
-      gtk_notebook_set_page (preference_frame, preference_selected);
-    }
+  gtk_notebook_set_page (preference_frame, preference_selected);
 
   g_value_unset (&value);
 

@@ -57,3 +57,9 @@ GtkWidget * new_spin_button ( gdouble * value,
 			      GCallback hook );
 void spin_button_set_value ( GtkWidget * spin, gdouble * value );
 gboolean set_double ( GtkWidget * spin, gdouble * dummy );
+
+GtkWidget * create_preferences_tree ( );
+gboolean preference_selectable_func (GtkTreeSelection *selection,
+				     GtkTreeModel *model, GtkTreePath *path,
+				     gboolean path_currently_selected,
+				     gpointer data);
