@@ -936,8 +936,8 @@ gboolean traitement_clavier_liste_ventilation ( GtkCList *liste,
       break;
 
 
-     /* flèche haut  */
-    case GDK_Up :
+    case GDK_Up :		/* touches flèche haut */
+    case GDK_KP_Up :
 
       ligne = gtk_clist_find_row_from_data ( GTK_CLIST ( liste ), ligne_selectionnee_ventilation );
       if ( ligne )
@@ -953,8 +953,8 @@ gboolean traitement_clavier_liste_ventilation ( GtkCList *liste,
       break;
 
 
-      /* flèche bas */
-    case GDK_Down :
+    case GDK_Down :		/* touches flèche bas */
+    case GDK_KP_Down :
 
       if ( ligne_selectionnee_ventilation != GINT_TO_POINTER ( -1 ) )
 	{
@@ -1050,8 +1050,10 @@ void appui_touche_ventilation ( GtkWidget *entree,
 
   switch ( evenement->keyval )
     {
-    case GDK_Down :                /* flèche bas */
-    case GDK_Up :                       /* flèche haut  */
+     case GDK_Down :		/* touches flèche bas */
+     case GDK_KP_Down :
+     case GDK_Up :		/* touches flèche haut */
+     case GDK_KP_Up :
 
       gtk_signal_emit_stop_by_name ( GTK_OBJECT ( entree ), "key_press_event");
       gtk_widget_grab_focus ( entree );

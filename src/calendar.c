@@ -228,7 +228,8 @@ gboolean clavier_calendrier ( GtkCalendar *pCalendar,
 	  gtk_widget_destroy ( pTopLevelWidget );
        break ;
 
-     case GDK_Left :		/* touche flèche gauche */
+     case GDK_Left :		/* touches flèche gauche */
+     case GDK_KP_Left:
      case GDK_minus:		/* touches - */
      case GDK_KP_Subtract:
 
@@ -269,7 +270,8 @@ gboolean clavier_calendrier ( GtkCalendar *pCalendar,
        gtk_calendar_select_day( pCalendar , jour );
        break ;
 
-     case GDK_Right :		/* touche flèche droite */
+     case GDK_Right :		/* touches flèche droite */
+     case GDK_KP_Right:
      case GDK_plus:		/* touches + */
      case GDK_KP_Add:
 
@@ -301,7 +303,8 @@ gboolean clavier_calendrier ( GtkCalendar *pCalendar,
        gtk_calendar_select_day( pCalendar, jour );
        break ;
 
-     case GDK_Up :		/* touche flèche haut */
+     case GDK_Up :		/* touches flèche haut */
+     case GDK_KP_Up :
 
        /* on passe à la semaine précédente */
 
@@ -339,7 +342,8 @@ gboolean clavier_calendrier ( GtkCalendar *pCalendar,
        gtk_calendar_select_day( pCalendar, jour );
        break ;
 
-     case GDK_Down :		/* touche flèche bas */
+     case GDK_Down :		/* touches flèche bas */
+     case GDK_KP_Down :
 
        /* on passe à la semaine suivante */
 
@@ -370,14 +374,16 @@ gboolean clavier_calendrier ( GtkCalendar *pCalendar,
        gtk_calendar_select_day( pCalendar, jour );
        break ;
 
-     case GDK_Home :		/* touche Home */
+     case GDK_Home :		/* touches Home */
+     case GDK_KP_Home :
 
        /* on passe au 1er jour du mois */
        
        gtk_calendar_select_day( pCalendar, 1 );
        break ;
 
-     case GDK_End :		/* touche End */
+     case GDK_End :		/* touches End */
+     case GDK_KP_End :
 
        /* on passe au dernier jour du mois */
 
@@ -387,7 +393,7 @@ gboolean clavier_calendrier ( GtkCalendar *pCalendar,
        gtk_calendar_select_day( pCalendar, jour );
        break ;
 
-     case GDK_Page_Up :		/* touche PgUp */
+     case GDK_Page_Up :		/* touches PgUp */
      case GDK_KP_Page_Up :
 
        /* on passe au mois précédent */
@@ -408,7 +414,7 @@ gboolean clavier_calendrier ( GtkCalendar *pCalendar,
        gtk_calendar_select_day( pCalendar, jour );
        break ;
 
-     case GDK_Page_Down :		/* touche PgDn */
+     case GDK_Page_Down :		/* touches PgDn */
      case GDK_KP_Page_Down :
 
        /* on passe au mois suivant */
