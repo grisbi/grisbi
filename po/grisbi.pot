@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2004-12-19 02:58+0100\n"
+"POT-Creation-Date: 2004-12-20 18:15+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -146,7 +146,7 @@ msgstr ""
 
 #: src/affichage.c:161 src/affichage_liste.c:36 src/affichage_liste.c:732
 #: src/affichage_liste.c:1037 src/operations_formulaire.c:972
-#: src/operations_formulaire.c:3329
+#: src/operations_formulaire.c:3323
 msgid "Value date"
 msgstr ""
 
@@ -266,7 +266,7 @@ msgstr ""
 #: src/import.c:2670 src/operations_formulaire.c:779
 #: src/operations_formulaire.c:1400 src/operations_formulaire.c:1450
 #: src/operations_formulaire.c:1499 src/operations_formulaire.c:1538
-#: src/operations_formulaire.c:3319
+#: src/operations_formulaire.c:3313
 msgid "Date"
 msgstr ""
 
@@ -276,7 +276,7 @@ msgstr ""
 #: src/echeancier_liste.c:430 src/etats_affiche.c:2161 src/etats_config.c:139
 #: src/etats_config.c:270 src/etats_config.c:7173 src/fenetre_principale.c:96
 #: src/import.c:2677 src/operations_formulaire.c:789
-#: src/operations_formulaire.c:3322
+#: src/operations_formulaire.c:3316
 msgid "Third party"
 msgstr ""
 
@@ -284,7 +284,7 @@ msgstr ""
 #: src/echeancier_formulaire.c:2540 src/echeancier_ventilation.c:967
 #: src/echeancier_ventilation.c:1495 src/etats_affiche.c:2175
 #: src/etats_config.c:262 src/operations_formulaire.c:1116
-#: src/operations_formulaire.c:3336 src/ventilation.c:968
+#: src/operations_formulaire.c:3330 src/ventilation.c:968
 #: src/ventilation.c:1493
 msgid "Budgetary line"
 msgstr ""
@@ -295,7 +295,7 @@ msgstr ""
 #: src/echeancier_formulaire.c:975 src/echeancier_formulaire.c:2532
 #: src/echeancier_ventilation.c:913 src/echeancier_ventilation.c:932
 #: src/echeancier_ventilation.c:1491 src/imputation_budgetaire.c:165
-#: src/operations_formulaire.c:880 src/operations_formulaire.c:3324
+#: src/operations_formulaire.c:880 src/operations_formulaire.c:3318
 #: src/type_operations.c:154 src/type_operations.c:431
 #: src/type_operations.c:857 src/ventilation.c:914 src/ventilation.c:933
 #: src/ventilation.c:1489
@@ -309,7 +309,7 @@ msgstr ""
 #: src/echeancier_formulaire.c:2534 src/echeancier_ventilation.c:885
 #: src/echeancier_ventilation.c:960 src/echeancier_ventilation.c:1493
 #: src/imputation_budgetaire.c:181 src/operations_formulaire.c:965
-#: src/operations_formulaire.c:1320 src/operations_formulaire.c:3326
+#: src/operations_formulaire.c:1320 src/operations_formulaire.c:3320
 #: src/type_operations.c:168 src/type_operations.c:438
 #: src/type_operations.c:853 src/ventilation.c:886 src/ventilation.c:961
 #: src/ventilation.c:1491
@@ -352,7 +352,7 @@ msgstr ""
 #: src/affichage_liste.c:1085 src/echeancier_formulaire.c:1075
 #: src/echeancier_formulaire.c:2542 src/echeancier_ventilation.c:974
 #: src/echeancier_ventilation.c:1497 src/etats_affiche.c:2203
-#: src/operations_formulaire.c:1122 src/operations_formulaire.c:3338
+#: src/operations_formulaire.c:1122 src/operations_formulaire.c:3332
 #: src/ventilation.c:975 src/ventilation.c:1495
 msgid "Voucher"
 msgstr ""
@@ -364,14 +364,14 @@ msgstr ""
 #: src/echeancier_liste.c:433 src/echeancier_ventilation.c:82
 #: src/echeancier_ventilation.c:864 src/echeancier_ventilation.c:1489
 #: src/etats_affiche.c:2182 src/operations_formulaire.c:1129
-#: src/operations_formulaire.c:3341 src/ventilation.c:85 src/ventilation.c:865
+#: src/operations_formulaire.c:3335 src/ventilation.c:85 src/ventilation.c:865
 #: src/ventilation.c:1487
 msgid "Notes"
 msgstr ""
 
 #: src/affichage_liste.c:50 src/affichage_liste.c:900
 #: src/affichage_liste.c:1093 src/etats_affiche.c:2210
-#: src/operations_formulaire.c:1135 src/operations_formulaire.c:3343
+#: src/operations_formulaire.c:1135 src/operations_formulaire.c:3337
 msgid "Bank references"
 msgstr ""
 
@@ -499,7 +499,7 @@ msgid "Categories"
 msgstr ""
 
 #: src/affichage_liste.c:924 src/affichage_liste.c:1101
-#: src/operations_formulaire.c:1110 src/operations_formulaire.c:3333
+#: src/operations_formulaire.c:1110 src/operations_formulaire.c:3327
 msgid "Cheque/Transfer number"
 msgstr ""
 
@@ -1163,7 +1163,7 @@ msgid "Add a subcategory"
 msgstr ""
 
 #. on met le bouton exporter
-#: src/categories_onglet.c:428 src/etats_onglet.c:365 src/export.c:416
+#: src/categories_onglet.c:428 src/etats_onglet.c:365 src/export.c:418
 #: src/imputation_budgetaire.c:340 src/menu.c:77 src/traitement_variables.c:90
 #: src/traitement_variables.c:210
 msgid "Export"
@@ -1264,7 +1264,7 @@ msgstr ""
 #: src/echeancier_formulaire.c:1758 src/echeancier_liste.c:1218
 #: src/echeancier_ventilation.c:204 src/etats_affiche.c:1612
 #: src/operations_formulaire.c:983 src/operations_formulaire.c:1814
-#: src/operations_formulaire.c:2500 src/operations_formulaire.c:2851
+#: src/operations_formulaire.c:2500 src/operations_formulaire.c:2845
 #: src/operations_liste.c:1086 src/operations_liste.c:1688
 #: src/ventilation.c:207
 msgid "Breakdown of transaction"
@@ -1281,7 +1281,7 @@ msgstr ""
 #: src/gnucash.c:666 src/gnucash.c:668 src/ofx.c:400
 #: src/operations_formulaire.c:1008 src/operations_formulaire.c:1918
 #: src/operations_formulaire.c:1923 src/operations_formulaire.c:2371
-#: src/operations_formulaire.c:2931 src/operations_liste.c:1632
+#: src/operations_formulaire.c:2925 src/operations_liste.c:1632
 #: src/ventilation.c:772 src/ventilation.c:1578 src/ventilation.c:1656
 #: src/ventilation.c:2025 src/ventilation.c:2362
 msgid "Transfer"
@@ -1378,33 +1378,38 @@ msgstr ""
 msgid "Cannot import file."
 msgstr ""
 
-#: src/check.c:112
+#. si l'utilisateur n'abandonne pas, faire
+#: src/check.c:55
 msgid ""
 "This will check that the last reconciliation amounts matches with total "
 "amounts of reconcilied transactions (and initial balance)."
 msgstr ""
 
-#: src/check.c:117
-#, c-format
-msgid ""
-"Last reconciliation amount : %f\n"
-"Computed reconciliation amount : %f"
-msgstr ""
-
-#: src/check.c:121
+#: src/check.c:116
 #, c-format
 msgid "Account name : %s\n"
 msgstr ""
 
-#: src/check.c:131
+#: src/check.c:118
+#, c-format
+msgid ""
+"Last reconciliation amount : %f\n"
+"Computed reconciliation amount : %f\n"
+"\n"
+"Do you to continue test?"
+msgstr ""
+
+#: src/check.c:134
 msgid "About reconciliation, your accounting is sane."
 msgstr ""
 
-#: src/check.c:135
+#: src/check.c:138
 #, c-format
 msgid ""
-"In %d account(s) on %d, stored and computed reconciliation don't match.  You "
-"should correct this quickly."
+"There are %d accounts in your file.  %d were tested.\n"
+"In %d account(s), stored and computed reconciliation don't match.  You "
+"should correct this quickly.\n"
+"Generally, in affected accounts, there are too many reconciled transactions."
 msgstr ""
 
 #: src/comptes_gestion.c:88
@@ -1566,8 +1571,8 @@ msgstr ""
 #: src/etats_calculs.c:2513 src/etats_calculs.c:2518 src/etats_calculs.c:2562
 #: src/etats_calculs.c:2567 src/etats_calculs.c:2593 src/etats_calculs.c:2598
 #: src/etats_calculs.c:2626 src/etats_calculs.c:2631 src/etats_calculs.c:2659
-#: src/etats_calculs.c:2664 src/operations_formulaire.c:2680
-#: src/operations_formulaire.c:2681 src/operations_liste.c:1564
+#: src/etats_calculs.c:2664 src/operations_formulaire.c:2674
+#: src/operations_formulaire.c:2675 src/operations_liste.c:1564
 #: src/operations_liste.c:1566 src/ventilation.c:2967 src/ventilation.c:2969
 #: src/ventilation.c:3186 src/ventilation.c:3188
 msgid "Euro"
@@ -3097,7 +3102,7 @@ msgstr ""
 
 #: src/echeancier_formulaire.c:1044 src/echeancier_formulaire.c:2536
 #: src/echeancier_ventilation.c:857 src/echeancier_ventilation.c:1487
-#: src/operations_formulaire.c:1103 src/operations_formulaire.c:3331
+#: src/operations_formulaire.c:1103 src/operations_formulaire.c:3325
 #: src/ventilation.c:858 src/ventilation.c:1485
 msgid "Categories : Sub-categories"
 msgstr ""
@@ -3260,7 +3265,7 @@ msgid "Associated method of payment"
 msgstr ""
 
 #: src/echeancier_ventilation.c:780 src/operations_formulaire.c:1017
-#: src/operations_formulaire.c:2383 src/operations_formulaire.c:2943
+#: src/operations_formulaire.c:2383 src/operations_formulaire.c:2937
 #: src/ventilation.c:781
 msgid "Deleted account"
 msgstr ""
@@ -3843,7 +3848,7 @@ msgid "Dates"
 msgstr ""
 
 #. mise en place de la frame des comptes
-#: src/etats_config.c:135 src/etats_config.c:7127 src/export.c:396
+#: src/etats_config.c:135 src/etats_config.c:7127 src/export.c:398
 #: src/fenetre_principale.c:89 src/menu.c:101 src/menu.c:102 src/menu.c:103
 #: src/menu.c:104 src/menu.c:105 src/menu.c:106 src/operations_comptes.c:382
 #: src/operations_comptes.c:387 src/operations_comptes.c:448
@@ -4506,7 +4511,7 @@ msgstr ""
 msgid "Select methods of payment to include"
 msgstr ""
 
-#: src/etats_latex.c:240 src/export.c:254 src/qif.c:1015
+#: src/etats_latex.c:240 src/export.c:256 src/qif.c:1015
 #, c-format
 msgid "File '%s' already exists"
 msgstr ""
@@ -4869,53 +4874,53 @@ msgid ""
 "the transaction will not be changed."
 msgstr ""
 
-#: src/export.c:153
+#: src/export.c:154
 msgid "Export files"
 msgstr ""
 
-#: src/export.c:165 src/qif.c:928
+#: src/export.c:166 src/qif.c:928
 msgid "Select accounts to export"
 msgstr ""
 
-#: src/export.c:256 src/qif.c:1017
+#: src/export.c:258 src/qif.c:1017
 msgid ""
 "This will irreversibly overwrite previous file.  There is no undo for this."
 msgstr ""
 
-#: src/export.c:264 src/qif.c:1022
+#: src/export.c:266 src/qif.c:1022
 #, c-format
 msgid "File name '%s' invalid !"
 msgstr ""
 
-#: src/export.c:333 src/qif.c:908
+#: src/export.c:335 src/qif.c:908
 msgid "Your file must have a name (saved) to be exported."
 msgstr ""
 
-#: src/export.c:337
+#: src/export.c:339
 msgid "Export format does not define currencies."
 msgstr ""
 
-#: src/export.c:338 src/qif.c:914
+#: src/export.c:340 src/qif.c:914
 msgid "All transactions will be converted into currency of their account."
 msgstr ""
 
-#: src/export.c:396 src/menu.c:106 src/operations_comptes.c:382
+#: src/export.c:398 src/menu.c:106 src/operations_comptes.c:382
 #: src/operations_comptes.c:387 src/operations_comptes.c:448
 #: src/operations_comptes.c:461 src/traitement_variables.c:219
 msgid "Closed accounts"
 msgstr ""
 
 #. To add a new supported format, just add a new line here ...
-#: src/export.c:413
+#: src/export.c:415
 msgid "Accounts to QIF file ..."
 msgstr ""
 
-#: src/export.c:414
+#: src/export.c:416
 msgid "Accounts to CSV file ..."
 msgstr ""
 
 #. File menu
-#: src/export.c:416 src/menu.c:65 src/menu.c:66 src/menu.c:67 src/menu.c:68
+#: src/export.c:418 src/menu.c:65 src/menu.c:66 src/menu.c:67 src/menu.c:68
 #: src/menu.c:69 src/menu.c:70 src/menu.c:71 src/menu.c:72 src/menu.c:73
 #: src/menu.c:74 src/menu.c:75 src/menu.c:76 src/menu.c:77 src/menu.c:79
 #: src/menu.c:80 src/menu.c:81 src/menu.c:82 src/menu.c:83 src/menu.c:84
@@ -5645,7 +5650,7 @@ msgstr ""
 msgid "Replace the old list of budgetary lines"
 msgstr ""
 
-#: src/main.c:132
+#: src/main.c:140
 msgid "Error on sigaction: SIGSEGV won't be trapped\n"
 msgstr ""
 
