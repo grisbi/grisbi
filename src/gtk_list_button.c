@@ -205,7 +205,7 @@ gboolean gtk_list_button_clicked ( GtkButton *button )
   GtkWidget * old, * new;
 
   listbutton = groups [ GTK_LIST_BUTTON(button) -> group ];
-  if ( listbutton )
+  if ( listbutton && GTK_IS_WIDGET(listbutton) )
     {
       gtk_widget_hide ( listbutton -> open_icon );
       gtk_widget_show ( listbutton -> closed_icon );
