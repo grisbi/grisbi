@@ -2099,11 +2099,8 @@ void fin_edition_echeance ( void )
 	{
 	  /* c'est une devise étrangère, on demande le taux de change et les frais de change */
 
-	  demande_taux_de_change ( devise_compte,
-				   devise,
-				   1,
-				   (gdouble ) 0,
-				   (gdouble ) 0 );
+	  demande_taux_de_change ( devise_compte, devise, 1,
+				   (gdouble ) 0, (gdouble ) 0, FALSE );
 
 	  operation -> taux_change = taux_de_change[0];
 	  operation -> frais_change = taux_de_change[1];
@@ -2347,11 +2344,8 @@ void fin_edition_echeance ( void )
 	    {
 	      /* c'est une devise étrangère, on demande le taux de change et les frais de change */
 	  
-	      demande_taux_de_change ( devise_compte_2,
-				       devise,
-				       1,
-				       (gdouble ) 0,
-				       (gdouble ) 0 );
+	      demande_taux_de_change ( devise_compte_2, devise, 1,
+				       (gdouble ) 0, (gdouble ) 0, FALSE );
 
 	      operation_2 -> taux_change = taux_de_change[0];
 	      operation_2 -> frais_change = taux_de_change[1];
