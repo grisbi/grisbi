@@ -155,6 +155,7 @@ extern GtkWidget *tel_correspondant;
 extern gint valeur_echelle_recherche_date_import;
 extern GtkWidget *web_banque;
 extern GtkWidget *window;
+extern gint no_devise_totaux_tiers, no_devise_totaux_categ, no_devise_totaux_ib; 
 /*END_EXTERN*/
 
 
@@ -2974,6 +2975,14 @@ gboolean enregistre_fichier ( gchar *nouveau_fichier )
 		      NULL,
 		      "Numero_devise_totaux_tiers",
 		      itoa ( no_devise_totaux_tiers));
+    xmlNewTextChild ( node,
+		      NULL,
+		      "Numero_devise_totaux_categ",
+		      itoa ( no_devise_totaux_categ));
+    xmlNewTextChild ( node,
+		      NULL,
+		      "Numero_devise_totaux_ib",
+		      itoa ( no_devise_totaux_ib));
     xmlNewTextChild ( node,
 		      NULL,
 		      "Type_affichage_des_echeances",
