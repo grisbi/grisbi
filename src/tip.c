@@ -40,11 +40,22 @@ gint max;
 #define END_STATIC
 
 
+/** 
+ * Display a tip forcefully, even if show_tip option has been disabled.
+ */
 void force_display_tip (  )
 {
   display_tip ( TRUE );
 }
 
+
+
+/**
+ * Display a tip.
+ *
+ * \param force  Forcefully display the tip even if show_tip option
+ *		 has been disabled.
+ */
 void display_tip ( gboolean force )
 {
   GtkWidget * checkbox;
@@ -59,6 +70,7 @@ void display_tip ( gboolean force )
 
   dialog = dialogue_special_no_run ( GTK_MESSAGE_INFO, GTK_BUTTONS_NONE,
 				     make_hint ( _("Did you know that..."),
+						 /* We use the grisbi-tips catalog */
 						 dgettext("grisbi-tips", (tip) ) ) );
 
   checkbox = new_checkbox_with_title ( _("Do not show this message again"), 
@@ -71,7 +83,8 @@ void display_tip ( gboolean force )
 			   GTK_STOCK_GO_FORWARD, 2,
 			   GTK_STOCK_CLOSE, 3,
 			   NULL );
-  
+ 
+  /* We iterate as user can select several tips. */
   while ( TRUE )
     {
       if ( max == etat.last_tip )
@@ -107,6 +120,12 @@ void display_tip ( gboolean force )
 
 
 
+/**
+ * Returns the string representation of next tip to be displayed,
+ * according to last tip displayed.
+ *
+ * \return Pango-formated string of the tip.
+ */
 gchar * get_next_tip ()
 {
   gchar * buffer, * tip = NULL, ** tips;
@@ -134,21 +153,40 @@ gchar * get_next_tip ()
 
 
 
+/**
+ * Remove any leading and trailing tokens that are included in the tip
+ * file.
+ *
+ * \param tip	An unformated string read directly from the "tip.txt"
+ *		file.
+ *
+ * \return	A string cleaned from any format tokens.
+ */
 gchar * format_tip ( gchar * tip )
 {
   g_strstrip ( tip );
+
+  /** Tokens removed include  */
+
+  /* leading '- ' if any */
   if ( g_str_has_prefix ( tip, "- " ) )
     {
       tip += 2;
     }
+
+  /* leading '"' if any */
   if ( g_str_has_prefix ( tip, "\"" ) )
     {
       tip ++;
     }
+
+  /* any '\n' at the end of the string */
   while ( g_str_has_suffix ( tip, "\n" ) )
     {
       tip[strlen(tip)-1] = '\0';
     }
+
+  /* trailing '"' if any */
   if ( g_str_has_suffix ( tip, "\"" ) )
     {
       tip[strlen(tip)-1] = '\0';
@@ -159,6 +197,13 @@ gchar * format_tip ( gchar * tip )
 
 
 
+/**
+ * Change sensitiveness of a one of the buttons of the dialog widget.
+ *
+ * \param dialog	Dialog widget that contains buttons.
+ * \param button	Number of the button to change.
+ * \param state		Sensitiveness to apply to the button.
+ */
 void change_button_sensitiveness ( GtkWidget * dialog, gint button, gboolean state )
 {
   GSList * iter;
