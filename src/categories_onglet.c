@@ -24,7 +24,7 @@
 #include "variables-extern.c"
 #include "categories_onglet.h"
 #include "devises.h"
-#include "erreur.h"
+#include "dialog.h"
 #include "etats_config.h"
 #include "gtkcombofix.h"
 #include "operations_comptes.h"

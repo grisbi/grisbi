@@ -26,7 +26,7 @@
 #include "accueil.h"
 #include "categories_onglet.h"
 #include "devises.h"
-#include "erreur.h"
+#include "dialog.h"
 #include "etats_config.h"
 #include "fichiers_io.h"
 #include "imputation_budgetaire.h"
