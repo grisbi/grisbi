@@ -40,13 +40,13 @@ void modification_fichier ( gboolean modif )
   if ( modif )
     {
       etat.modification_fichier = 1;
-      gtk_widget_set_sensitive ( GTK_WIDGET ( menu_fichier[3].widget ),
+      gtk_widget_set_sensitive ( GTK_WIDGET ( menu_fichier[SAUVER].widget ),
 				 TRUE );
     }
   else
     {
       etat.modification_fichier = 0;
-      gtk_widget_set_sensitive ( GTK_WIDGET ( menu_fichier[3].widget ),
+      gtk_widget_set_sensitive ( GTK_WIDGET ( menu_fichier[SAUVER].widget ),
 				 FALSE );
 
       if ( ( pid_applet = gnome_config_get_int ( "/Grisbi_applet/PID/PID" )))
@@ -71,11 +71,15 @@ void init_variables ( gboolean ouverture )
 
   if ( ouverture )
     {
-      gtk_widget_set_sensitive ( GTK_WIDGET ( menu_fichier[4].widget ),
+      gtk_widget_set_sensitive ( GTK_WIDGET ( menu_fichier[SAUVER_SOUS].widget ),
 				 TRUE );
-      gtk_widget_set_sensitive ( GTK_WIDGET ( menu_fichier[7].widget ),
+      gtk_widget_set_sensitive ( GTK_WIDGET ( menu_fichier[DERNIERS_FICHIERS].widget ),
 				 TRUE );
-      gtk_widget_set_sensitive ( GTK_WIDGET ( menu_fichier[9].widget ),
+      gtk_widget_set_sensitive ( GTK_WIDGET ( menu_fichier[IMPRIMER].widget ),
+				 TRUE );
+      gtk_widget_set_sensitive ( GTK_WIDGET ( menu_fichier[EXPORTER].widget ),
+				 TRUE );
+      gtk_widget_set_sensitive ( GTK_WIDGET ( menu_fichier[FERMER].widget ),
 				 TRUE );
 
       gtk_widget_set_sensitive ( GTK_WIDGET ( menu_comptes[1].widget ),
@@ -128,13 +132,17 @@ void init_variables ( gboolean ouverture )
       nb_banques = 0;
       no_derniere_banque = 0;
 
-      gtk_widget_set_sensitive ( GTK_WIDGET ( menu_fichier[3].widget ),
+      gtk_widget_set_sensitive ( GTK_WIDGET ( menu_fichier[SAUVER].widget ),
 				 FALSE );
-      gtk_widget_set_sensitive ( GTK_WIDGET ( menu_fichier[4].widget ),
+      gtk_widget_set_sensitive ( GTK_WIDGET ( menu_fichier[SAUVER_SOUS].widget ),
 				 FALSE );
-      gtk_widget_set_sensitive ( GTK_WIDGET ( menu_fichier[7].widget ),
+      gtk_widget_set_sensitive ( GTK_WIDGET ( menu_fichier[DERNIERS_FICHIERS].widget ),
 				 FALSE );
-      gtk_widget_set_sensitive ( GTK_WIDGET ( menu_fichier[9].widget ),
+      gtk_widget_set_sensitive ( GTK_WIDGET ( menu_fichier[IMPRIMER].widget ),
+				 FALSE );
+      gtk_widget_set_sensitive ( GTK_WIDGET ( menu_fichier[EXPORTER].widget ),
+				 FALSE );
+      gtk_widget_set_sensitive ( GTK_WIDGET ( menu_fichier[FERMER].widget ),
 				 FALSE );
 
       gtk_widget_set_sensitive ( GTK_WIDGET ( menu_comptes[1].widget ),

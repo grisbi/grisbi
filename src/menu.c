@@ -204,8 +204,7 @@ void efface_derniers_fichiers_ouverts ( void )
     gnome_app_remove_menus ( GNOME_APP ( window ),
 			     "Fichier/Derniers fichiers/",
 			     2 * ( nb_derniers_fichiers_ouverts + 1 ));
-
-  gtk_widget_set_sensitive ( GTK_WIDGET ( menu_fichier[6].widget ),
+  gtk_widget_set_sensitive ( GTK_WIDGET ( menu_fichier[DERNIERS_FICHIERS].widget ),
 			     FALSE );
 
 }
@@ -222,7 +221,7 @@ void affiche_derniers_fichiers_ouverts ( void )
 
   if ( !nb_derniers_fichiers_ouverts )
     {
-      gtk_widget_set_sensitive ( GTK_WIDGET ( menu_fichier[6].widget ),
+      gtk_widget_set_sensitive ( GTK_WIDGET ( menu_fichier[DERNIERS_FICHIERS].widget ),
 				 FALSE );
       return;
     }
@@ -253,7 +252,7 @@ void affiche_derniers_fichiers_ouverts ( void )
 			       menu );
     }
 
-  gtk_widget_set_sensitive ( GTK_WIDGET ( menu_fichier[6].widget ),
+  gtk_widget_set_sensitive ( GTK_WIDGET ( menu_fichier[DERNIERS_FICHIERS].widget ),
 			     TRUE );
 }
 /* **************************************************************************************************** */
