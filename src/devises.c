@@ -377,8 +377,7 @@ void creation_devises_de_base ( void )
 /*                       soit liste_struct_devises dans le cas des paramètres */
 /* **************************************************************************************************** */
 
-GtkWidget *creation_option_menu_devises ( gint devise_cachee,
-					  GSList *liste_tmp )
+GtkWidget *creation_option_menu_devises ( gint devise_cachee, GSList *liste_tmp )
 {
   GtkWidget *menu;
   GtkWidget *menu_item;
@@ -391,7 +390,7 @@ GtkWidget *creation_option_menu_devises ( gint devise_cachee,
 
       /* le 1er item c'est aucune devise */
 
-      menu_item = gtk_menu_item_new_with_label ( _("None") );
+      menu_item = gtk_menu_item_new_with_label ( _("No associated currency") );
       g_object_set_data ( G_OBJECT ( menu_item ),
 			    "adr_devise",
 			    devise_nulle );
@@ -1697,7 +1696,7 @@ GtkWidget *onglet_devises ( void )
 		       FALSE, FALSE, 0);
 
   /* Select first entry if applicable */
-  /* TODO: select */
+  gtk_clist_select_row ( GTK_CLIST(clist_devises_parametres), 0, 0 ); 
 
   return ( vbox_pref );
 

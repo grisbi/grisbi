@@ -1,9 +1,8 @@
 /*  Fichier qui permet l'équilibrage des comptes */
 /*     equilibrage.c */
 
-
-/*     Copyright (C) 2000-2003  Cédric Auger */
-/* 			cedric@grisbi.org */
+/*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org) */
+/*			2003 Benjamin Drieu (bdrieu@april.org) */
 /* 			http://www.grisbi.org */
 
 /*     This program is free software; you can redistribute it and/or modify */
@@ -1229,7 +1228,7 @@ void fill_reconciliation_tree ()
 	  
 	  if ( TYPES_OPES )
 	    result = g_slist_find_custom ( TYPES_OPES,
-					   abs(GPOINTER_TO_INT(liste_tmp -> data)),
+					   (gpointer) abs(GPOINTER_TO_INT(liste_tmp -> data)),
 					   (GCompareFunc) recherche_type_ope_par_no);
 	  if ( result )
 	    {
