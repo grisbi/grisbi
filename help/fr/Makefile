@@ -16,7 +16,7 @@ SHELL = /bin/sh
 srcdir = .
 top_srcdir = ../..
 
-prefix = /tmp
+prefix = /hebus2/grisbi
 exec_prefix = ${prefix}
 
 bindir = ${exec_prefix}/bin
@@ -62,7 +62,7 @@ host_triplet = i686-pc-linux-gnu
 BUILD_INCLUDED_LIBINTL = no
 CATOBJEXT = .gmo
 CC = gcc
-CFLAGS = -g -O2 -DORBIT2=1 -pthread -I/usr/include/libgnome-2.0 -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include -I/usr/include/orbit-2.0 -I/usr/include/libbonobo-2.0 -I/usr/include/gconf/2 -I/usr/include/gnome-vfs-2.0 -I/usr/lib/gnome-vfs-2.0/include -I/usr/include/linc-1.0 -I/usr/include/bonobo-activation-2.0 -I/usr/include/libgnomeui-2.0 -I/usr/include/libgnomecanvas-2.0 -I/usr/include/gtk-2.0 -I/usr/include/libart-2.0 -I/usr/include/libbonoboui-2.0 -I/usr/include/pango-1.0 -I/usr/include/freetype2 -I/usr/lib/gtk-2.0/include -I/usr/include/atk-1.0 -I/usr/X11R6/include -I/usr/include/libxml2 -I/usr/include/gnome-xml  
+CFLAGS = -g -O2 -DORBIT2=1 -pthread -I/usr/include/libgnome-2.0 -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include -I/usr/include/orbit-2.0 -I/usr/include/libbonobo-2.0 -I/usr/include/gconf/2 -I/usr/include/gnome-vfs-2.0 -I/usr/lib/gnome-vfs-2.0/include -I/usr/include/linc-1.0 -I/usr/include/bonobo-activation-2.0 -I/usr/include/libgnomeui-2.0 -I/usr/include/libgnomecanvas-2.0 -I/usr/include/gtk-2.0 -I/usr/include/libart-2.0 -I/usr/include/libbonoboui-2.0 -I/usr/include/pango-1.0 -I/usr/include/freetype2 -I/usr/lib/gtk-2.0/include -I/usr/include/atk-1.0 -I/usr/X11R6/include -I/usr/include/libxml2  
 DATADIRNAME = share
 GENCAT = gencat
 GLIBC21 = yes
@@ -73,7 +73,7 @@ INTLBISON = bison
 INTLLIBS = 
 INTLOBJS = 
 INTL_LIBTOOL_SUFFIX_PREFIX = 
-LDFLAGS =  -pthread -Wl,--export-dynamic -L/usr/X11R6/lib -lgnomeui-2 -lSM -lICE -lbonoboui-2 -lxml2 -lpthread -lgnomecanvas-2 -lgnome-2 -lart_lgpl_2 -lpangoft2-1.0 -lbonobo-2 -lgconf-2 -lgnomevfs-2 -lbonobo-activation -lORBit-2 -llinc -lgthread-2.0 -lgtk-x11-2.0 -lgdk-x11-2.0 -latk-1.0 -lpangoxft-1.0 -lpangox-1.0 -lpango-1.0 -lgdk_pixbuf-2.0 -lm -lgobject-2.0 -lgmodule-2.0 -ldl -lglib-2.0 -lxml -lz  
+LDFLAGS =  -pthread -Wl,--export-dynamic -L/usr/X11R6/lib -lgnomeui-2 -lSM -lICE -lbonoboui-2 -lgnomecanvas-2 -lgnome-2 -lart_lgpl_2 -lpangoft2-1.0 -lbonobo-2 -lgconf-2 -lgnomevfs-2 -lbonobo-activation -lORBit-2 -llinc -lgthread-2.0 -lgtk-x11-2.0 -lgdk-x11-2.0 -latk-1.0 -lpangoxft-1.0 -lpangox-1.0 -lpango-1.0 -lgdk_pixbuf-2.0 -lgobject-2.0 -lgmodule-2.0 -ldl -lglib-2.0 -lxml2 -lpthread -lz -lm  
 LIB = @LIB@
 LIBICONV = 
 LIBINTL = 
@@ -90,7 +90,7 @@ RANLIB = ranlib
 USE_INCLUDED_LIBINTL = no
 USE_NLS = yes
 VERSION = 0.5.0
-prefix = /tmp
+prefix = /hebus2/grisbi
 
 HTML_FILES =  	grisbi-manuel.html 	quickstart.html 	translation.html
 

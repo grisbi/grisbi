@@ -7451,23 +7451,23 @@ fi
   else
      PKG_CONFIG_MIN_VERSION=0.9.0
      if $PKG_CONFIG --atleast-pkgconfig-version $PKG_CONFIG_MIN_VERSION; then
-        echo "$as_me:$LINENO: checking for  libgnome-2.0 libgnomeui-2.0 gtk+-2.0 glib-2.0 gdk-pixbuf-2.0 libxml " >&5
-echo $ECHO_N "checking for  libgnome-2.0 libgnomeui-2.0 gtk+-2.0 glib-2.0 gdk-pixbuf-2.0 libxml ... $ECHO_C" >&6
+        echo "$as_me:$LINENO: checking for  libgnome-2.0 libgnomeui-2.0 gtk+-2.0 glib-2.0 gdk-pixbuf-2.0 libxml-2.0 " >&5
+echo $ECHO_N "checking for  libgnome-2.0 libgnomeui-2.0 gtk+-2.0 glib-2.0 gdk-pixbuf-2.0 libxml-2.0 ... $ECHO_C" >&6
 
-        if $PKG_CONFIG --exists " libgnome-2.0 libgnomeui-2.0 gtk+-2.0 glib-2.0 gdk-pixbuf-2.0 libxml " ; then
+        if $PKG_CONFIG --exists " libgnome-2.0 libgnomeui-2.0 gtk+-2.0 glib-2.0 gdk-pixbuf-2.0 libxml-2.0 " ; then
             echo "$as_me:$LINENO: result: yes" >&5
 echo "${ECHO_T}yes" >&6
             succeeded=yes
 
             echo "$as_me:$LINENO: checking GNOMELIBS_CFLAGS" >&5
 echo $ECHO_N "checking GNOMELIBS_CFLAGS... $ECHO_C" >&6
-            GNOMELIBS_CFLAGS=`$PKG_CONFIG --cflags " libgnome-2.0 libgnomeui-2.0 gtk+-2.0 glib-2.0 gdk-pixbuf-2.0 libxml "`
+            GNOMELIBS_CFLAGS=`$PKG_CONFIG --cflags " libgnome-2.0 libgnomeui-2.0 gtk+-2.0 glib-2.0 gdk-pixbuf-2.0 libxml-2.0 "`
             echo "$as_me:$LINENO: result: $GNOMELIBS_CFLAGS" >&5
 echo "${ECHO_T}$GNOMELIBS_CFLAGS" >&6
 
             echo "$as_me:$LINENO: checking GNOMELIBS_LIBS" >&5
 echo $ECHO_N "checking GNOMELIBS_LIBS... $ECHO_C" >&6
-            GNOMELIBS_LIBS=`$PKG_CONFIG --libs " libgnome-2.0 libgnomeui-2.0 gtk+-2.0 glib-2.0 gdk-pixbuf-2.0 libxml "`
+            GNOMELIBS_LIBS=`$PKG_CONFIG --libs " libgnome-2.0 libgnomeui-2.0 gtk+-2.0 glib-2.0 gdk-pixbuf-2.0 libxml-2.0 "`
             echo "$as_me:$LINENO: result: $GNOMELIBS_LIBS" >&5
 echo "${ECHO_T}$GNOMELIBS_LIBS" >&6
         else
@@ -7475,7 +7475,7 @@ echo "${ECHO_T}$GNOMELIBS_LIBS" >&6
             GNOMELIBS_LIBS=""
             ## If we have a custom action on failure, don't print errors, but
             ## do set a variable so people can do so.
-            GNOMELIBS_PKG_ERRORS=`$PKG_CONFIG --errors-to-stdout --print-errors " libgnome-2.0 libgnomeui-2.0 gtk+-2.0 glib-2.0 gdk-pixbuf-2.0 libxml "`
+            GNOMELIBS_PKG_ERRORS=`$PKG_CONFIG --errors-to-stdout --print-errors " libgnome-2.0 libgnomeui-2.0 gtk+-2.0 glib-2.0 gdk-pixbuf-2.0 libxml-2.0 "`
             echo $GNOMELIBS_PKG_ERRORS
         fi
 
@@ -7490,8 +7490,8 @@ echo "${ECHO_T}$GNOMELIBS_LIBS" >&6
   if test $succeeded = yes; then
      :
   else
-     { { echo "$as_me:$LINENO: error: Library requirements ( libgnome-2.0 libgnomeui-2.0 gtk+-2.0 glib-2.0 gdk-pixbuf-2.0 libxml ) not met; consider adjusting the PKG_CONFIG_PATH environment variable if your libraries are in a nonstandard prefix so pkg-config can find them." >&5
-echo "$as_me: error: Library requirements ( libgnome-2.0 libgnomeui-2.0 gtk+-2.0 glib-2.0 gdk-pixbuf-2.0 libxml ) not met; consider adjusting the PKG_CONFIG_PATH environment variable if your libraries are in a nonstandard prefix so pkg-config can find them." >&2;}
+     { { echo "$as_me:$LINENO: error: Library requirements ( libgnome-2.0 libgnomeui-2.0 gtk+-2.0 glib-2.0 gdk-pixbuf-2.0 libxml-2.0 ) not met; consider adjusting the PKG_CONFIG_PATH environment variable if your libraries are in a nonstandard prefix so pkg-config can find them." >&5
+echo "$as_me: error: Library requirements ( libgnome-2.0 libgnomeui-2.0 gtk+-2.0 glib-2.0 gdk-pixbuf-2.0 libxml-2.0 ) not met; consider adjusting the PKG_CONFIG_PATH environment variable if your libraries are in a nonstandard prefix so pkg-config can find them." >&2;}
    { (exit 1); exit 1; }; }
   fi
 
