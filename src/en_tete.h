@@ -98,7 +98,6 @@ void ouverture_fichier_par_menu ( GtkWidget *menu,
 				  gchar *nom );
 void fichier_selectionne ( GtkWidget *selection_fichier);
 void ouverture_confirmee ( void );
-gboolean impression_fichier ( gint origine );
 gboolean enregistrement_fichier ( gint origine );
 gboolean enregistrer_fichier_sous ( void );
 gboolean fermer_fichier ( void );
@@ -1009,7 +1008,6 @@ gint compare_cheques_etat ( gint chq_ope,
 gint compare_montants_etat ( gdouble montant_ope,
 			     gdouble montant_test,
 			     gint comparateur );
-void impression_etat ( struct struct_etat *etat );
 void rafraichissement_etat ( struct struct_etat *etat );
 gint classement_liste_opes_etat ( struct structure_operation *operation_1,
 				  struct structure_operation *operation_2 );
@@ -1025,13 +1023,6 @@ void denote_struct_sous_jaccentes ( gint origine );
 /***********************************/ 
 
 gchar * etats_titre ();
-
-
-/***********************************/ 
-/* fichier impression.c */
-/***********************************/ 
-
-char * latin2utf8 (char * inchar);
 
 
 /***********************************/ 

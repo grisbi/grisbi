@@ -41,12 +41,10 @@ void nouveau_fichier ( void )
   init_variables ( FALSE );
 
   type_de_compte = demande_type_nouveau_compte ();
-  if ( type_de_compte == -1 )
-    return;
 
   no_compte = initialisation_nouveau_compte ( type_de_compte );
 
-  /* si la création s'est mal passée, on se barre */
+  /* si la création s'est mal placée, on se barre */
 
   if ( no_compte == -1 )
     return;
@@ -348,17 +346,14 @@ void ouverture_confirmee ( void )
 
   /* on met la fonte sur les différents widgets pour que kde la prenne en compte */
 
-  /* FIXME FNONTS */
-/*   if ( fonte_general ) */
-/*     { */
-/*** BENJ FIXME
+  if ( fonte_general )
+    {
       gtk_widget_get_style (label_temps) -> font = gdk_font_load ( fonte_general );
       gtk_widget_get_style (frame_etat_comptes_accueil) -> font = gdk_font_load ( fonte_general );
       gtk_widget_get_style (bouton_ok_equilibrage) -> font = gdk_font_load ( fonte_general );
       gtk_widget_get_style (widget_formulaire_operations[1]) -> font = gdk_font_load ( fonte_general );
       gtk_widget_get_style ( GTK_OPTION_MENU ( widget_formulaire_operations[5] )->menu_item ) -> font = gdk_font_load ( fonte_general );
-***/
-/*     } */
+    }
 
 
   annulation_attente ();
@@ -479,7 +474,7 @@ gboolean enregistrement_fichier ( gint origine )
 	{
 	case 0 :
 	  ancien_nom_fichier_comptes = nom_fichier_comptes;
-	  nom_fichier_comptes = g_strdup ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( gnome_file_entry_gtk_entry ( GNOME_FILE_ENTRY ( fenetre_nom ))))));
+	  nom_fichier_comptes = g_strdup ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( gnome_file_entry_gtk_entry ( GNOME_FILE_ENTRY ( fenetre_nom ))))));
 
 	  gnome_dialog_close ( GNOME_DIALOG ( dialog ));
 

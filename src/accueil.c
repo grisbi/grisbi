@@ -333,6 +333,9 @@ void change_temps ( GtkWidget *label_temps )
   gchar tampon_date [50];
   time_t date;
 
+  if (!GTK_IS_LABEL(label_temps))
+    return;
+
   time ( &date );
   strftime ( tampon_date,
 	     (size_t) 50,

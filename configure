@@ -7764,14 +7764,14 @@ fi
      echo "*** Or see http://www.freedesktop.org/software/gnomeconfig to get gnome-config."
      succeeded=no
   else
-      echo "$as_me:$LINENO: checking for  gnome gtk glib xml gdk_pixbuf print " >&5
-echo $ECHO_N "checking for  gnome gtk glib xml gdk_pixbuf print ... $ECHO_C" >&6
+      echo "$as_me:$LINENO: checking for  gnome gtk glib xml gdk_pixbuf " >&5
+echo $ECHO_N "checking for  gnome gtk glib xml gdk_pixbuf ... $ECHO_C" >&6
 
       echo "$as_me:$LINENO: checking GNOMELIBS_LIBS" >&5
 echo $ECHO_N "checking GNOMELIBS_LIBS... $ECHO_C" >&6
       echo "$as_me:$LINENO: checking GNOMELIBS_CFLAGS" >&5
 echo $ECHO_N "checking GNOMELIBS_CFLAGS... $ECHO_C" >&6
-      for i in  gnome gtk glib xml gdk_pixbuf print
+      for i in  gnome gtk glib xml gdk_pixbuf
 	do
 	if $GNOME_CONFIG --cflags "$i" ; then
 	    GNOMELIBS_TMPCFLAGS=`$GNOME_CONFIG --cflags "$i"`
@@ -7794,8 +7794,8 @@ echo $ECHO_N "checking GNOMELIBS_CFLAGS... $ECHO_C" >&6
   if test $succeeded = yes; then
      :
   else
-     { { echo "$as_me:$LINENO: error: Library requirements ( gnome gtk glib xml gdk_pixbuf print ) not met; consider adjusting the GNOME_CONFIG_PATH environment variable if your libraries are in a nonstandard prefix so gnome-config can find them." >&5
-echo "$as_me: error: Library requirements ( gnome gtk glib xml gdk_pixbuf print ) not met; consider adjusting the GNOME_CONFIG_PATH environment variable if your libraries are in a nonstandard prefix so gnome-config can find them." >&2;}
+     { { echo "$as_me:$LINENO: error: Library requirements ( gnome gtk glib xml gdk_pixbuf ) not met; consider adjusting the GNOME_CONFIG_PATH environment variable if your libraries are in a nonstandard prefix so gnome-config can find them." >&5
+echo "$as_me: error: Library requirements ( gnome gtk glib xml gdk_pixbuf ) not met; consider adjusting the GNOME_CONFIG_PATH environment variable if your libraries are in a nonstandard prefix so gnome-config can find them." >&2;}
    { (exit 1); exit 1; }; }
   fi
 
