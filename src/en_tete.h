@@ -784,16 +784,7 @@ gboolean select_payment_method (GtkTreeSelection *selection,
 				GtkTreeModel *model);
 gboolean deselect_payment_method (GtkTreeSelection *selection,
 				  GtkTreeModel *model);
-void selection_ligne_arbre_types ( GtkWidget *arbre,
-				   GtkCTreeNode *node,
-				   gint col,
-				   GtkWidget *vbox );
-void deselection_ligne_arbre_types ( GtkWidget *arbre,
-				     GtkCTreeNode *node,
-				     gint col,
-				     GtkWidget *vbox );
 void modification_entree_nom_type ( void );
-void modification_type_affichage_entree ( void );
 void modification_type_numerotation_auto (void);
 void modification_entree_type_dernier_no ( void );
 void modification_type_signe ( gint *no_menu );

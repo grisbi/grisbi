@@ -103,10 +103,11 @@ item_toggled (GtkCellRendererToggle *cell,
 
 
 /**
- * TODO: document
- *
+ * Fill the `model' GtkTreeModel with all payment methods known.  They
+ * are organized by account and then my type of payment method: Debit,
+ * Credit, Neutral.
  */
-void fill_tree ()
+void fill_payment_method_tree ()
 {
   GtkTreeIter account_iter, debit_iter, credit_iter, child_iter;
   gint i;
@@ -316,7 +317,7 @@ GtkWidget *onglet_types_operations ( void )
   gtk_container_add ( GTK_CONTAINER ( scrolled_window ),
 		      treeview );
 
-  fill_tree();
+  fill_payment_method_tree ();
 
   /* Create "Add" & "Remove" buttons */
   vbox = gtk_vbox_new ( FALSE, 6 );
@@ -500,36 +501,9 @@ select_payment_method ( GtkTreeSelection *selection,
 
 
 /**
- * Callback used when a payment method is deselected in payment
- * methods list. 
- */
-gboolean
-deselect_payment_method (GtkTreeSelection *selection,
-			 GtkTreeModel *model)
-{
-}
-
-
-
-/** TODO: remove?  */
-void selection_ligne_arbre_types ( GtkWidget *arbre,
-				   GtkCTreeNode *node,
-				   gint col,
-				   GtkWidget *vbox )
-{
-}
-void deselection_ligne_arbre_types ( GtkWidget *arbre,
-				     GtkCTreeNode *node,
-				     gint col,
-				     GtkWidget *vbox )
-{
-}
-
-
-
-/**
- * TODO: document
- *
+ * Callback called when the payment method name is changed in the
+ * GtkEntry associated.  It updates the GtkTreeView list of payment
+ * methods as well as it updates transaction form.
  */
 void modification_entree_nom_type ( void )
 {
@@ -579,7 +553,6 @@ void modification_entree_nom_type ( void )
 									"no_type" ));
 
 	      /* on affiche l'entrée des chèques si nécessaire */
-
 	      type = g_object_get_data ( G_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_operations[9] ) -> menu_item ),
 					 "adr_type" );
 
@@ -600,20 +573,11 @@ void modification_entree_nom_type ( void )
 
 
 
-
 /**
- * TODO: document this
- *
- */
-void modification_type_affichage_entree ( void )
-{
-}
-
-
-
-/**
- * TODO: document this
- *
+ * Callback called when automatic numbering is activated or
+ * deactivated for current payment method.  It activates or
+ * deactivates the "current number" field and updates display of
+ * current number in the list.
  */
 void modification_type_numerotation_auto (void)
 {
@@ -631,7 +595,7 @@ void modification_type_numerotation_auto (void)
 		       -1 );
 
   if (!good || !visible)
-    return; /** Should not theorically happen, though */
+    return; /* Should not theorically happen, though */
 
   if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( entree_automatic_numbering )))
     {
@@ -654,7 +618,9 @@ void modification_type_numerotation_auto (void)
 
 
 /**
- * TODO: document this
+ * Callback called when the GtkSpinButton corresponding to the last
+ * automatic number of the payment method is changed.  It updates the
+ * list.
  */
 void modification_entree_type_dernier_no ( void )
 {
@@ -683,11 +649,20 @@ void modification_entree_type_dernier_no ( void )
 
 
 /**
- * TODO: document this
+ * This is a GtkTreeModelForeachFunc function.  It is used together
+ * with gtk_tree_model_foreach() to search for `data' in the list.
+ * Upon success, select_type_ope() also scrolls on current entry.
  *
+ * \param model A pointer to the GtkTreeModel of the list.
+ * \param path A GtkTreePath set to the current entry.
+ * \param iter A GtkTreeIter set to the current entry.
+ * \param data The struct_type_ope to match with current entry.
+ *
+ * \returns TRUE on success, which means gtk_tree_model_foreach() will
+ *          stop browsing the tree.  FALSE otherwise.
  */
-select_type_ope (GtkTreeModel *model, GtkTreePath *path, 
-		 GtkTreeIter *iter, struct struct_type_ope * data)
+gboolean select_type_ope ( GtkTreeModel *model, GtkTreePath *path, 
+			   GtkTreeIter *iter, struct struct_type_ope * data )
 {
   GtkTreeSelection *selection;
   struct struct_type_ope *type_ope;
@@ -711,8 +686,17 @@ select_type_ope (GtkTreeModel *model, GtkTreePath *path,
 
 
 /**
- * TODO: document this
+ * This function looks for a struct_type_ope which type matches
+ * `signe_type' and returns its number.
  *
+ * \param no_compte	The account to process.
+ * \param signe_type	A payment method sign to match against payment
+ *			methods of specified account.
+ * \param exclude	A payment method that should not be checked,
+ *			as it may be the one which is to be removed.
+ *
+ * \return		The matching payment method number on success, 
+ *			0 otherwise (for transfer).
  */
 gint find_operation_type_by_type ( gint no_compte, gint signe_type, gint exclude )
 {
@@ -817,7 +801,7 @@ void modification_type_signe ( gint *no_menu )
 					G_CALLBACK (select_payment_method),
 					model );
       gtk_tree_store_clear ( GTK_TREE_STORE (model) );
-      fill_tree ();
+      fill_payment_method_tree ();
       gtk_tree_view_expand_all ( GTK_TREE_VIEW(treeview) );
       g_signal_handlers_unblock_by_func ( selection,
 					  G_CALLBACK (select_payment_method),
@@ -873,9 +857,9 @@ void ajouter_type_operation ( void )
 			   PAYMENT_METHODS_POINTER_COLUMN, &type_ope,
 			   -1 );
 
-      if ( visible ) /** This is a payment method */
+      if ( visible ) /* This is a payment method */
 	{
-	  /** Select parent */
+	  /* Select parent */
 	  gtk_tree_model_iter_parent ( GTK_TREE_MODEL(model),
 				       &parent, &iter );
 	  final = &parent;
@@ -1001,7 +985,7 @@ void ajouter_type_operation ( void )
 /**
  * FIXME: document
  *
- **/
+ */
 void supprimer_type_operation ( void )
 {
   struct struct_type_ope *type_ope;
@@ -1100,7 +1084,7 @@ void supprimer_type_operation ( void )
 	  gtk_box_pack_start ( GTK_BOX ( hbox ), option_menu,
 			       FALSE, FALSE, 0 );
 
-	  /** If no operations is available, do not give choice to
+	  /** If no operation is available, do not give choice to
 	      user. */
 	  if ( !GTK_MENU_SHELL ( menu ) -> children )
 	    gtk_widget_set_sensitive ( hbox, FALSE );
