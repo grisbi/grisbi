@@ -150,6 +150,7 @@ GtkWidget *onglet_tiers ( void )
 {
     GtkWidget *onglet;
     GtkWidget *scroll_window;
+    GtkWidget *scrolled_window_text;
     gchar *titres[] =
     {
 	_("Third parties list"),
@@ -235,20 +236,27 @@ GtkWidget *onglet_tiers ( void )
     gtk_widget_show ( entree_nom_tiers );
 
 
-    text_box = gtk_text_new ( NULL,
-			      NULL );
-    gtk_widget_set_sensitive ( text_box,
-			       FALSE );
-    gtk_signal_connect ( GTK_OBJECT ( text_box ),
-			 "changed",
-			 GTK_SIGNAL_FUNC ( modification_du_texte_tiers),
-			 NULL );
-    gtk_box_pack_start ( GTK_BOX ( vbox_frame ),
-			 text_box,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show ( text_box );
+    scrolled_window_text = gtk_scrolled_window_new ( FALSE, FALSE );
+    gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window_text ),
+				     GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC );
+    gtk_scrolled_window_set_shadow_type ( GTK_SCROLLED_WINDOW(scrolled_window_text), 
+					  GTK_SHADOW_IN );
+    gtk_box_pack_start ( GTK_BOX ( vbox_frame ), scrolled_window_text, FALSE, FALSE, 0 );
+
+    text_box = gtk_text_view_new ();
+    gtk_text_view_set_pixels_above_lines (GTK_TEXT_VIEW (text_box), 3);
+    gtk_text_view_set_pixels_below_lines (GTK_TEXT_VIEW (text_box), 3);
+    gtk_text_view_set_left_margin (GTK_TEXT_VIEW (text_box), 3);
+    gtk_text_view_set_right_margin (GTK_TEXT_VIEW (text_box), 3);
+    gtk_text_view_set_wrap_mode ( GTK_TEXT_VIEW (text_box), GTK_WRAP_WORD );
+    gtk_container_add ( GTK_CONTAINER(scrolled_window_text), text_box );
+
+    gtk_widget_set_sensitive ( text_box, FALSE );
+
+    g_signal_connect ( G_OBJECT(gtk_text_view_get_buffer(GTK_TEXT_VIEW(text_box))),
+		       "changed", ((GCallback) modification_du_texte_tiers), NULL );
+
+    gtk_widget_show_all ( scrolled_window_text );
 
     /*   création des boutons modifier et annuler */
 
@@ -860,20 +868,18 @@ gboolean selection_ligne_tiers ( GtkCTree *arbre_tiers, GtkCTreeNode *noeud,
 						  GTK_CTREE_ROW ( GTK_CTREE_ROW ( noeud ) -> parent ) -> parent );
 
 
-    gtk_signal_handler_block_by_func ( GTK_OBJECT ( text_box ),
-				       GTK_SIGNAL_FUNC ( modification_du_texte_tiers),
-				       NULL );
+    g_signal_handlers_block_by_func ( G_OBJECT ( gtk_text_view_get_buffer (GTK_TEXT_VIEW (text_box)) ),
+				      GTK_SIGNAL_FUNC ( modification_du_texte_tiers),
+				      NULL );
     gtk_signal_handler_block_by_func ( GTK_OBJECT ( entree_nom_tiers ),
 				       GTK_SIGNAL_FUNC ( modification_du_texte_tiers),
 				       NULL );
 
     if ( tiers -> texte )
-	gtk_text_insert ( GTK_TEXT ( text_box ),
-			  NULL,
-			  NULL,
-			  NULL,
-			  tiers->texte,
-			  -1 );
+      {
+	gtk_text_buffer_set_text ( gtk_text_view_get_buffer (GTK_TEXT_VIEW (text_box)),
+				   ( tiers->texte ? tiers->texte : "") , -1 );
+      }
 
     gtk_entry_set_text ( GTK_ENTRY ( entree_nom_tiers ),
 			 tiers -> nom_tiers );
@@ -881,17 +887,17 @@ gboolean selection_ligne_tiers ( GtkCTree *arbre_tiers, GtkCTreeNode *noeud,
     gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( entree_nom_tiers ),
 					 GTK_SIGNAL_FUNC ( modification_du_texte_tiers),
 					 NULL );
-    gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( text_box ),
-					 GTK_SIGNAL_FUNC ( modification_du_texte_tiers),
-					 NULL );
+    g_signal_handlers_unblock_by_func ( G_OBJECT ( gtk_text_view_get_buffer (GTK_TEXT_VIEW (text_box)) ),
+					GTK_SIGNAL_FUNC ( modification_du_texte_tiers),
+					NULL );
 
 
-    if ( tiers -> liaison )
-	gtk_text_set_editable ( GTK_TEXT ( text_box ),
-				FALSE );
-    else
-	gtk_text_set_editable ( GTK_TEXT ( text_box ),
-				TRUE );
+/*     if ( tiers -> liaison ) */
+/* 	gtk_text_set_editable ( GTK_TEXT ( text_box ), */
+/* 				FALSE ); */
+/*     else */
+/* 	gtk_text_set_editable ( GTK_TEXT ( text_box ), */
+/* 				TRUE ); */
 
 
     gtk_object_set_data ( GTK_OBJECT ( text_box ),
@@ -981,32 +987,29 @@ gboolean enleve_selection_ligne_tiers ( void )
 			       FALSE );
 
 
-    gtk_signal_handler_block_by_func ( GTK_OBJECT ( text_box ),
-				       GTK_SIGNAL_FUNC ( modification_du_texte_tiers),
-				       NULL );
+    g_signal_handlers_block_by_func ( G_OBJECT ( gtk_text_view_get_buffer (GTK_TEXT_VIEW (text_box)) ),
+				      GTK_SIGNAL_FUNC ( modification_du_texte_tiers),
+				      NULL );
     gtk_signal_handler_block_by_func ( GTK_OBJECT ( entree_nom_tiers ),
 				       GTK_SIGNAL_FUNC ( modification_du_texte_tiers),
 				       NULL );
 
-    gtk_editable_delete_text ( GTK_EDITABLE ( entree_nom_tiers ),
-			       0,
-			       -1 );
-    gtk_editable_delete_text ( GTK_EDITABLE ( text_box ),
-			       0,
-			       -1 );
+    gtk_editable_delete_text ( GTK_EDITABLE ( entree_nom_tiers ), 0, -1 );
+    gtk_text_buffer_set_text ( gtk_text_view_get_buffer (GTK_TEXT_VIEW (text_box)),
+			       "", -1 );
 
     gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( entree_nom_tiers ),
 					 GTK_SIGNAL_FUNC ( modification_du_texte_tiers),
 					 NULL );
-    gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( text_box ),
-					 GTK_SIGNAL_FUNC ( modification_du_texte_tiers),
-					 NULL );
+    g_signal_handlers_unblock_by_func ( G_OBJECT ( gtk_text_view_get_buffer (GTK_TEXT_VIEW (text_box)) ),
+					GTK_SIGNAL_FUNC ( modification_du_texte_tiers),
+					NULL );
 
     gtk_object_remove_data ( GTK_OBJECT (  text_box ),
 			     "adr_struct_tiers" );
 
-    gtk_editable_set_editable ( GTK_EDITABLE ( text_box ),
-				FALSE );
+/*     gtk_editable_set_editable ( GTK_EDITABLE ( text_box ), */
+/* 				FALSE ); */
 
     return FALSE;
 }
@@ -1086,11 +1089,15 @@ void clique_sur_modifier_tiers ( GtkWidget *bouton_modifier,
     }
     else
     {
+        GtkTextIter start, end;
+	GtkTextBuffer *buffer;
+
 	free ( tiers -> texte );
 
-	tiers -> texte = g_strstrip ( gtk_editable_get_chars (GTK_EDITABLE ( text_box ),
-							      0,
-							      gtk_text_get_length (GTK_TEXT (text_box))) );
+        buffer = gtk_text_view_get_buffer ( GTK_TEXT_VIEW ( text_box ) );
+	gtk_text_buffer_get_iter_at_offset ( buffer, &start, 0 );
+	gtk_text_buffer_get_iter_at_offset ( buffer, &end, -1 );
+	tiers -> texte = gtk_text_buffer_get_text ( buffer , &start, &end, TRUE );
     }
 
     gtk_widget_set_sensitive ( bouton_modif_tiers_modifier,
@@ -1113,28 +1120,18 @@ void clique_sur_annuler_tiers ( GtkWidget *bouton_annuler,
     tiers =  gtk_object_get_data ( GTK_OBJECT (  text_box ),
 				   "adr_struct_tiers" );
 
-    gtk_editable_delete_text ( GTK_EDITABLE ( text_box ),
-			       0,
-			       -1 );
-
-    if ( tiers -> texte )
-	gtk_text_insert ( GTK_TEXT ( text_box ),
-			  NULL,
-			  NULL,
-			  NULL,
-			  tiers->texte,
-			  -1 );
-
+    gtk_text_buffer_set_text ( gtk_text_view_get_buffer (GTK_TEXT_VIEW (text_box)),
+			       (tiers->texte ? tiers->texte : ""), -1 );
 
     gtk_entry_set_text ( GTK_ENTRY ( entree_nom_tiers ),
 			 tiers -> nom_tiers );
 
-    if ( tiers -> liaison )
-	gtk_text_set_editable ( GTK_TEXT ( text_box ),
-				FALSE );
-    else
-	gtk_text_set_editable ( GTK_TEXT ( text_box ),
-				TRUE );
+/*     if ( tiers -> liaison ) */
+/* 	gtk_text_set_editable ( GTK_TEXT ( text_box ), */
+/* 				FALSE ); */
+/*     else */
+/* 	gtk_text_set_editable ( GTK_TEXT ( text_box ), */
+/* 				TRUE ); */
 
     gtk_widget_set_sensitive ( bouton_modif_tiers_modifier,
 			       FALSE );
@@ -1442,8 +1439,8 @@ retour_dialogue:
 	mise_a_jour_combofix_tiers ();
     remplit_arbre_tiers ();
 
-    gtk_text_set_editable ( GTK_TEXT ( text_box ),
-			    FALSE );
+/*     gtk_text_set_editable ( GTK_TEXT ( text_box ), */
+/* 			    FALSE ); */
 
     modification_fichier(TRUE);
 }
