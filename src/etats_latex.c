@@ -432,6 +432,14 @@ void latex_safe ( gchar * text )
 		    fprintf ( out, "%c", *text );
 		break;
 
+	    case 'â':
+		if ( *(text+1) == '‚' && *(text+2) == '¬' )
+		{
+		    fprintf ( out, "\\officialeuro" );
+		    text+=2;
+		}
+		break;		    
+		
 	    case '%':
 	    case '&':
 	    case '\\':
