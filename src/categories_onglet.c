@@ -92,12 +92,12 @@ gint *nb_ecritures_par_categ, **nb_ecritures_par_sous_categ;
 /* Category tree model & view */
 GtkTreeStore * categ_tree_model;
 GtkWidget *arbre_categ;
+int no_devise_totaux_categ;
 
 
 /*START_EXTERN*/
 extern gint compte_courant;
 extern gchar *dernier_chemin_de_travail;
-extern struct struct_devise *devise_compte;
 extern struct struct_etat *etat_courant;
 extern GtkWidget *formulaire;
 extern GSList *liste_categories_ventilation_combofix;
@@ -108,7 +108,6 @@ extern gint modif_categ;
 extern gint nb_comptes;
 extern gint nb_ecritures_par_comptes;
 extern gint no_derniere_operation;
-extern gint no_devise_totaux_tiers;
 extern gpointer **p_tab_nom_de_compte;
 extern gpointer **p_tab_nom_de_compte_variable;
 extern GdkPixmap *pixmap_ferme;
@@ -391,12 +390,6 @@ void remplit_arbre_categ ( void )
     gtk_tree_store_clear ( GTK_TREE_STORE (categ_tree_model) );
 
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
-
-    /** Currency used for totals is then chosen from preferences.  */
-    if ( !devise_compte
-	 ||
-	 devise_compte -> no_devise != no_devise_totaux_tiers )
-	devise_compte = devise_par_no ( no_devise_totaux_tiers );
 
     /* Compute category balances. */
     calcule_total_montant_categ ();
