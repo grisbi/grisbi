@@ -1,35 +1,40 @@
-/*  Fichier qui permet l'équilibrage des comptes */
-/*     equilibrage.c */
-
-
-/*     Copyright (C) 2000-2003  Cédric Auger */
-/* 			cedric@grisbi.org */
-/* 			http://www.grisbi.org */
-
-/*     This program is free software; you can redistribute it and/or modify */
-/*     it under the terms of the GNU General Public License as published by */
-/*     the Free Software Foundation; either version 2 of the License, or */
-/*     (at your option) any later version. */
-
-/*     This program is distributed in the hope that it will be useful, */
-/*     but WITHOUT ANY WARRANTY; without even the implied warranty of */
-/*     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the */
-/*     GNU General Public License for more details. */
-
-/*     You should have received a copy of the GNU General Public License */
-/*     along with this program; if not, write to the Free Software */
-/*     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
-
+/* ************************************************************************** */
+/* Fichier qui permet l'équilibrage des comptes                               */
+/* 			equilibrage.c                                         */
+/*                                                                            */
+/*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org)	      */
+/*			2004 Alain Portal (dionysos@grisbi.org) 	      */
+/*			http://www.grisbi.org   			      */
+/*                                                                            */
+/*  This program is free software; you can redistribute it and/or modify      */
+/*  it under the terms of the GNU General Public License as published by      */
+/*  the Free Software Foundation; either version 2 of the License, or         */
+/*  (at your option) any later version.                                       */
+/*                                                                            */
+/*  This program is distributed in the hope that it will be useful,           */
+/*  but WITHOUT ANY WARRANTY; without even the implied warranty of            */
+/*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             */
+/*  GNU General Public License for more details.                              */
+/*                                                                            */
+/*  You should have received a copy of the GNU General Public License         */
+/*  along with this program; if not, write to the Free Software               */
+/*  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "include.h"
 #include "structures.h"
 #include "variables-extern.c"
 #include "en_tete.h"
+#include "calendar.h"
+#include "constants.h"
 
+void souris_equilibrage ( GtkWidget *entree,
+			  GdkEventButton *event );
+gboolean clavier_equilibrage ( GtkWidget *widget,
+			       GdkEventKey *event );
 
-
-
-/* ********************************************************************************************************** */
+/******************************************************************************/
 GtkWidget *creation_fenetre_equilibrage ( void )
 {
   GtkWidget *fenetre_equilibrage;
@@ -48,7 +53,6 @@ GtkWidget *creation_fenetre_equilibrage ( void )
 				   10 );
   gtk_widget_show ( fenetre_equilibrage );
 
-
   /* on met le nom du compte à équilibrer en haut */
  
   label_equilibrage_compte = gtk_label_new ( "" );
@@ -61,7 +65,6 @@ GtkWidget *creation_fenetre_equilibrage ( void )
 		       0);
   gtk_widget_show ( label_equilibrage_compte );
 
-
   separateur = gtk_hseparator_new();
   gtk_box_pack_start ( GTK_BOX ( fenetre_equilibrage ),
 		       separateur,
@@ -70,15 +73,13 @@ GtkWidget *creation_fenetre_equilibrage ( void )
 		       0);
   gtk_widget_show ( separateur );
 
-
   /* on crée le tooltips */
 
   tips = gtk_tooltips_new ();
 
-  /*   sous le nom, on met le no de rapprochement, c'est une entrée car il est modifiable */
+  /* sous le nom, on met le no de rapprochement, c'est une entrée car il est modifiable */
 
-  hbox = gtk_hbox_new ( FALSE,
-			5 );
+  hbox = gtk_hbox_new ( FALSE, 5 );
   gtk_box_pack_start ( GTK_BOX ( fenetre_equilibrage ),
 		       hbox,
 		       FALSE,
@@ -96,7 +97,7 @@ GtkWidget *creation_fenetre_equilibrage ( void )
 
   entree_no_rapprochement = gtk_entry_new ();
   gtk_widget_set_usize ( entree_no_rapprochement,
-			 50,
+			 100,
 			 FALSE );
   gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tips ),
 			 entree_no_rapprochement,
@@ -109,7 +110,6 @@ GtkWidget *creation_fenetre_equilibrage ( void )
 		       0);
   gtk_widget_show ( entree_no_rapprochement );
 
-
   separateur = gtk_hseparator_new();
   gtk_box_pack_start ( GTK_BOX ( fenetre_equilibrage ),
 		       separateur,
@@ -118,11 +118,8 @@ GtkWidget *creation_fenetre_equilibrage ( void )
 		       0);
   gtk_widget_show ( separateur );
 
-
-
-
-  /* on met un premier tab en haut contenant dates et soldes des relevés avec possibilité de modif */
-  /* du courant */
+  /* on met un premier tab en haut contenant dates et soldes des relevés
+     avec possibilité de modif du courant */
 
   table = gtk_table_new ( 3,
 			  5,
@@ -136,14 +133,12 @@ GtkWidget *creation_fenetre_equilibrage ( void )
 		       0);
   gtk_widget_show ( table );
 
-
   separateur = gtk_hseparator_new();
   gtk_table_attach_defaults ( GTK_TABLE ( table ),
 			      separateur,
 			      0, 3,
 			      1, 2 );
   gtk_widget_show ( separateur );
-
 
   separateur = gtk_hseparator_new();
   gtk_table_attach_defaults ( GTK_TABLE ( table ),
@@ -152,15 +147,12 @@ GtkWidget *creation_fenetre_equilibrage ( void )
 			      3, 4 );
   gtk_widget_show ( separateur );
 
-
   separateur = gtk_vseparator_new ();
   gtk_table_attach_defaults ( GTK_TABLE ( table ),
 			      separateur,
 			      1, 2,
 			      0, 5 );
   gtk_widget_show ( separateur );
-
-
 
   label = gtk_label_new ( _("Date") );
   gtk_table_attach_defaults ( GTK_TABLE ( table ),
@@ -169,7 +161,6 @@ GtkWidget *creation_fenetre_equilibrage ( void )
 			      0, 1);
   gtk_widget_show ( label );
 
-
   label = gtk_label_new ( _("Balance") );
   gtk_table_attach_defaults ( GTK_TABLE ( table ),
 			      label,
@@ -177,15 +168,12 @@ GtkWidget *creation_fenetre_equilibrage ( void )
 			      0, 1);
   gtk_widget_show ( label );
 
-
-
   label_ancienne_date_equilibrage = gtk_label_new ( "" );
   gtk_table_attach_defaults ( GTK_TABLE ( table ),
 			      label_ancienne_date_equilibrage,
 			      0, 1,
 			      2, 3 );
   gtk_widget_show ( label_ancienne_date_equilibrage );
-
 
   entree_ancien_solde_equilibrage = gtk_entry_new ( );
   gtk_widget_set_usize ( entree_ancien_solde_equilibrage,
@@ -201,12 +189,18 @@ GtkWidget *creation_fenetre_equilibrage ( void )
 			      2, 3 );
   gtk_widget_show ( entree_ancien_solde_equilibrage );
 
-
-
   entree_nouvelle_date_equilibrage = gtk_entry_new ();
   gtk_widget_set_usize ( entree_nouvelle_date_equilibrage,
 			 50,
 			 FALSE );
+  gtk_signal_connect ( GTK_OBJECT ( entree_nouvelle_date_equilibrage ),
+		       "button-press-event",
+		       GTK_SIGNAL_FUNC ( souris_equilibrage ),
+		       NULL );
+  gtk_signal_connect ( GTK_OBJECT ( entree_nouvelle_date_equilibrage ),
+		       "key-press-event",
+		       GTK_SIGNAL_FUNC ( clavier_equilibrage ),
+		       NULL );
   gtk_signal_connect_after ( GTK_OBJECT ( entree_nouvelle_date_equilibrage ),
 		       "focus-out-event",
 		       GTK_SIGNAL_FUNC ( sortie_entree_date_equilibrage ),
@@ -216,7 +210,6 @@ GtkWidget *creation_fenetre_equilibrage ( void )
 			      0, 1,
 			      4, 5 );
   gtk_widget_show ( entree_nouvelle_date_equilibrage );
-
 
   entree_nouveau_montant_equilibrage = gtk_entry_new ();
   gtk_widget_set_usize ( entree_nouveau_montant_equilibrage,
@@ -232,9 +225,6 @@ GtkWidget *creation_fenetre_equilibrage ( void )
 			      4, 5 );
   gtk_widget_show ( entree_nouveau_montant_equilibrage );
 
-
-
-
   separateur = gtk_hseparator_new();
   gtk_box_pack_start ( GTK_BOX ( fenetre_equilibrage ),
 		       separateur,
@@ -243,12 +233,11 @@ GtkWidget *creation_fenetre_equilibrage ( void )
 		       0);
   gtk_widget_show ( separateur );
 
-
-  /*   la 2ème table contient le solde init, final, du pointage et l'écart */
+  /* la 2ème table contient le solde init, final, du pointage et l'écart */
 
   table = gtk_table_new ( 5,
-				      2,
-				      FALSE );
+			  2,
+			  FALSE );
   gtk_table_set_row_spacings ( GTK_TABLE ( table ),
 			       5 );
   gtk_box_pack_start ( GTK_BOX ( fenetre_equilibrage ),
@@ -257,8 +246,6 @@ GtkWidget *creation_fenetre_equilibrage ( void )
 		       FALSE,
 		       15);
   gtk_widget_show ( table );
-
-
 
   label = gtk_label_new ( COLON(_("Initial balance")) );
   gtk_misc_set_alignment ( GTK_MISC ( label ),
@@ -270,7 +257,6 @@ GtkWidget *creation_fenetre_equilibrage ( void )
 			      0, 1);
   gtk_widget_show ( label );
 
-
   label_equilibrage_initial = gtk_label_new ( "" );
   gtk_misc_set_alignment ( GTK_MISC ( label_equilibrage_initial ),
 			   1,
@@ -280,7 +266,6 @@ GtkWidget *creation_fenetre_equilibrage ( void )
 			      1, 2,
 			      0, 1);
   gtk_widget_show ( label_equilibrage_initial );
-
 
   label = gtk_label_new ( COLON(_("Final balance")) );
   gtk_misc_set_alignment ( GTK_MISC ( label ),
@@ -292,7 +277,6 @@ GtkWidget *creation_fenetre_equilibrage ( void )
 			      1, 2);
   gtk_widget_show ( label );
 
-
   label_equilibrage_final = gtk_label_new ( "" );
   gtk_misc_set_alignment ( GTK_MISC ( label_equilibrage_final ),
 			   1,
@@ -302,7 +286,6 @@ GtkWidget *creation_fenetre_equilibrage ( void )
 			      1, 2,
 			      1, 2);
   gtk_widget_show ( label_equilibrage_final );
-
 
   label = gtk_label_new ( COLON(_("Checking")) );
   gtk_misc_set_alignment ( GTK_MISC ( label ),
@@ -332,7 +315,6 @@ GtkWidget *creation_fenetre_equilibrage ( void )
 			      3, 4);
   gtk_widget_show ( separateur );
 
-
   label = gtk_label_new ( COLON(_("Variance")) );
   gtk_misc_set_alignment ( GTK_MISC ( label ),
 			   0,
@@ -342,7 +324,6 @@ GtkWidget *creation_fenetre_equilibrage ( void )
 			      0, 1,
 			      4, 5);
   gtk_widget_show ( label );
-
 
   label_equilibrage_ecart = gtk_label_new ( "" );
   gtk_misc_set_alignment ( GTK_MISC ( label_equilibrage_ecart ),
@@ -354,10 +335,7 @@ GtkWidget *creation_fenetre_equilibrage ( void )
 			      4, 5);
   gtk_widget_show ( label_equilibrage_ecart );
 
-
-
 /* on met les boutons */
-
 
   hbox = gtk_hbox_new ( TRUE,
 					    5);
@@ -381,7 +359,6 @@ GtkWidget *creation_fenetre_equilibrage ( void )
 		       FALSE,
 		       0);
   gtk_widget_show ( bouton_ok_equilibrage );
-
   
   bouton = gtk_button_new_with_label (_("Cancel") );
   gtk_button_set_relief ( GTK_BUTTON ( bouton),
@@ -397,7 +374,6 @@ GtkWidget *creation_fenetre_equilibrage ( void )
 		       0);
   gtk_widget_show ( bouton );
 
-
   separateur = gtk_hseparator_new();
   gtk_box_pack_end ( GTK_BOX ( fenetre_equilibrage ),
 		       separateur,
@@ -406,16 +382,11 @@ GtkWidget *creation_fenetre_equilibrage ( void )
 		       0);
   gtk_widget_show ( separateur );
 
-
   return ( fenetre_equilibrage );
 }
-/* ********************************************************************************************************** */
+/******************************************************************************/
 
-
-
-
-
-/* ********************************************************************************************************** */
+/******************************************************************************/
 void equilibrage ( void )
 {
   GDate *date;
@@ -428,7 +399,6 @@ void equilibrage ( void )
       return;
     }
 
-
   /* efface le label propriétés du compte */
 
   gtk_widget_hide ( label_proprietes_operations_compte );
@@ -437,9 +407,8 @@ void equilibrage ( void )
 
   calcule_total_pointe_compte ( compte_courant );
 
-
-  /* récupère l'ancien no de rapprochement et essaie d'augmenter la partie numérique */
-  /*   si ne réussit pas, remet juste le nom de l'ancien */
+  /* récupère l'ancien no de rapprochement et essaie d'incrémenter la partie
+     numérique. Si ne réussit pas, remet juste le nom de l'ancien */
 
   if ( DERNIER_NO_RAPPROCHEMENT )
     {
@@ -457,7 +426,6 @@ void equilibrage ( void )
 	  gchar *new_rap;
 
 	  rapprochement = liste_tmp -> data;
-
 
 	  /* on va créer une nouvelle chaine contenant la partie numérique */
 
@@ -539,8 +507,7 @@ void equilibrage ( void )
 					     g_date_day ( date ),
 					     g_date_month ( date ),
 					     g_date_year ( date ) ));
-      g_date_add_months ( date,
-			  1 );
+      g_date_add_months ( date, 1 );
 
       gtk_entry_set_text ( GTK_ENTRY ( entree_ancien_solde_equilibrage ),
 			   g_strdup_printf ("%4.2f", SOLDE_DERNIER_RELEVE ));
@@ -565,22 +532,17 @@ void equilibrage ( void )
 				 TRUE );
     }
 
-
-
   gtk_entry_set_text ( GTK_ENTRY ( entree_nouvelle_date_equilibrage ),
 		       g_strdup_printf ( "%02d/%02d/%d", 
 					 g_date_day ( date ),
 					 g_date_month ( date ),
 					 g_date_year ( date ) ));
 
-
-
   gtk_entry_set_text ( GTK_ENTRY ( entree_nouveau_montant_equilibrage ),
 		       "" );
 
   gtk_label_set_text ( GTK_LABEL ( label_equilibrage_compte ),
 		       NOM_DU_COMPTE );
-
 
   etat.equilibrage = 1;
 
@@ -590,7 +552,6 @@ void equilibrage ( void )
   else
     gtk_widget_set_sensitive ( bouton_ok_equilibrage,
 			       TRUE );
-
 
   /* affiche la liste en opé simplifiées */
 
@@ -606,99 +567,70 @@ void equilibrage ( void )
   change_aspect_liste ( NULL,
 			3 );
 
-
   /* classe la liste des opés en fonction des types ou non */
 
-  if ( TRI
-       &&
-       LISTE_TRI )
+  if ( TRI && LISTE_TRI )
     LISTE_OPERATIONS = g_slist_sort ( LISTE_OPERATIONS,
 				      (GCompareFunc) classement_sliste );
-
 
   remplissage_liste_operations ( compte_courant );
 
   gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_comptes_equilibrage ),
 			  2 );
 
-
   /* la liste des opé prend le focus */
 
   gtk_widget_grab_focus ( GTK_WIDGET ( CLIST_OPERATIONS ));
 }
-/* ********************************************************************************************************** */
+/******************************************************************************/
 
-
-
-/* ********************************************************************************************************** */
+/******************************************************************************/
 void sortie_entree_date_equilibrage ( void )
 {
   gchar *text;
   gint nb_parametres;
   GDate *date;
-  gint date_releve_jour;
-  gint date_releve_mois;
-  gint date_releve_annee;
-
+  gint jour, mois, annee;
 
   text = gtk_entry_get_text ( GTK_ENTRY ( entree_nouvelle_date_equilibrage ) );
 
-  if ( ( nb_parametres = sscanf ( text,
-				  "%d/%d/%d",
-				  &date_releve_jour,
-				  &date_releve_mois,
-				  &date_releve_annee))
-       != 3 )
+  if ( ( nb_parametres = sscanf ( text, "%d/%d/%d", &jour, &mois, &annee ) ) != 3 )
     {
       if ( !nb_parametres || nb_parametres == -1 )
 	return;
 
-
       date = g_date_new ();
-      g_date_set_time ( date,
-			time(NULL));
+      g_date_set_time ( date, time( NULL ) );
 
       if ( nb_parametres == 1)
-	date_releve_mois = g_date_month (date);
+	mois = g_date_month ( date );
 
-      date_releve_annee = g_date_year (date);
-
+      annee = g_date_year ( date );
     }
 
-  if ( g_date_valid_dmy ( date_releve_jour,
-			  date_releve_mois,
-			  date_releve_annee)
-       == FALSE )
+  if ( g_date_valid_dmy ( jour, mois, annee) == FALSE )
     {
       dialogue ( _("Error: invalid date") );
       return;
     };
 
-
   gtk_entry_set_text ( GTK_ENTRY ( entree_nouvelle_date_equilibrage ),
 		       g_strdup_printf ( "%02d/%02d/%d", 
-					 date_releve_jour,
-					 date_releve_mois,
-					 date_releve_annee ) );
+					 jour,
+					 mois,
+					 annee ) );
 	   
-
-
-
-
 }
-/* ********************************************************************************************************** */
+/******************************************************************************/
 
-				      
-/* ********************************************************************************************************** */
+/******************************************************************************/
 void modif_entree_solde_init_equilibrage ( void )
 {
-
   gtk_label_set_text ( GTK_LABEL ( label_equilibrage_initial ),
 		       gtk_entry_get_text ( GTK_ENTRY ( entree_ancien_solde_equilibrage )) );
 
   solde_initial = my_strtod ( gtk_entry_get_text ( GTK_ENTRY ( entree_ancien_solde_equilibrage )),
 			     NULL );
-
 
   if ( fabs ( solde_final - solde_initial - operations_pointees ) < 0.01 )
     {
@@ -716,20 +648,12 @@ void modif_entree_solde_init_equilibrage ( void )
       gtk_widget_set_sensitive ( GTK_WIDGET ( bouton_ok_equilibrage ),
 				 FALSE );
     }
-
 }
-/* ********************************************************************************************************** */
+/******************************************************************************/
 
-
-
-
-
-				      
-/* ********************************************************************************************************** */
+/******************************************************************************/
 void modif_entree_solde_final_equilibrage ( void )
 {
-
-
   gtk_label_set_text ( GTK_LABEL ( label_equilibrage_final ),
 		       gtk_entry_get_text ( GTK_ENTRY ( entree_nouveau_montant_equilibrage )) );
 
@@ -752,24 +676,15 @@ void modif_entree_solde_final_equilibrage ( void )
       gtk_widget_set_sensitive ( GTK_WIDGET ( bouton_ok_equilibrage ),
 				 FALSE );
     }
-
 }
-/* ********************************************************************************************************** */
+/******************************************************************************/
 
-
-
-
-
-
-
-/* ********************************************************************************************************** */
+/******************************************************************************/
 /* on annule l'équilibrage */
-/* ********************************************************************************************************** */
-
+/******************************************************************************/
 void annuler_equilibrage ( GtkWidget *bouton_ann,
 			   gpointer data)
 {
-
   gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_comptes_equilibrage ),
 			  0 );
 
@@ -789,7 +704,6 @@ void annuler_equilibrage ( GtkWidget *bouton_ann,
 	    gtk_button_clicked ( GTK_BUTTON ( bouton_ope_2_lignes ));
 	}
     }
-	
 
   if ( etat.valeur_r_avant_rapprochement )
     change_aspect_liste ( NULL,
@@ -797,7 +711,6 @@ void annuler_equilibrage ( GtkWidget *bouton_ann,
 
   LISTE_OPERATIONS = g_slist_sort ( LISTE_OPERATIONS,
 				    (GCompareFunc) classement_sliste );
-
 
 /*   gtk_clist_set_compare_func ( GTK_CLIST ( CLIST_OPERATIONS ), */
 /* 			       (GtkCListCompareFunc) classement_liste_par_date ); */
@@ -808,17 +721,12 @@ void annuler_equilibrage ( GtkWidget *bouton_ann,
 
   focus_a_la_liste ();
 }
-/* ********************************************************************************************************** */
+/******************************************************************************/
 
-
-
-
-
-/* ********************************************************************************************************** */
+/******************************************************************************/
 /* fonction appelée quand il y a un click dans la colonne des P, et si l'équilibrage */
 /* est en cours */
-/* ********************************************************************************************************** */
-
+/******************************************************************************/
 void pointe_equilibrage ( int p_ligne )
 {
   struct structure_operation *operation;
@@ -827,17 +735,13 @@ void pointe_equilibrage ( int p_ligne )
   operation = gtk_clist_get_row_data ( GTK_CLIST ( CLIST_OPERATIONS ),
 				       p_ligne );
 
-
   if ( operation == GINT_TO_POINTER ( -1 ) )
     return;
-
 
   if ( operation -> pointe == 2 )
     return;
 
-
   p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
-
 
   montant = calcule_montant_devise_renvoi ( operation -> montant,
 					    DEVISE,
@@ -870,14 +774,13 @@ void pointe_equilibrage ( int p_ligne )
 			   3,
 			   "P");
     }
-
     
-  /* si c'est une opé ventilée, on recherche les opé filles pour leur mettre le même pointage que la mère */
+  /* si c'est une opération ventilée, on recherche les opérations filles
+     pour leur mettre le même pointage que la mère */
 
   if ( operation -> operation_ventilee )
     {
       /* p_tab est déjà pointé sur le compte courant */
-
       GSList *liste_tmp;
 
       liste_tmp = LISTE_OPERATIONS;
@@ -894,7 +797,6 @@ void pointe_equilibrage ( int p_ligne )
 	      liste_tmp = liste_tmp -> next;
 	}
     }
-
 
   gtk_label_set_text ( GTK_LABEL ( label_equilibrage_pointe ),
 		       g_strdup_printf ("%4.2f",
@@ -927,14 +829,10 @@ void pointe_equilibrage ( int p_ligne )
 											 (GCompareFunc) recherche_devise_par_no )-> data )) -> code_devise) );
 
   modification_fichier( TRUE );
-
 }
-/* ********************************************************************************************************** */
+/******************************************************************************/
 
-
-
-
-/* ********************************************************************************************************** */
+/******************************************************************************/
 void fin_equilibrage ( GtkWidget *bouton_ok,
 		       gpointer data )
 {
@@ -946,16 +844,13 @@ void fin_equilibrage ( GtkWidget *bouton_ok,
   gint date_releve_mois;
   gint date_releve_annee;
 
-
   if ( fabs ( solde_final - solde_initial - operations_pointees ) >= 0.01 )
     {
       dialogue ( _("There is a variance"));
       return;
     }
 
-
   p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
-
 
   /* récupération de la date */
 
@@ -974,16 +869,14 @@ void fin_equilibrage ( GtkWidget *bouton_ok,
 	  return;
 	}
 
-
       date = g_date_new ();
       g_date_set_time ( date,
 			time(NULL));
 
       if ( nb_parametres == 1)
-	date_releve_mois = g_date_month(date);
+	date_releve_mois = g_date_month( date );
 
-      date_releve_annee = g_date_year(date);
-
+      date_releve_annee = g_date_year( date );
     }
 
   if ( !g_date_valid_dmy ( date_releve_jour,
@@ -1003,7 +896,6 @@ void fin_equilibrage ( GtkWidget *bouton_ok,
 					 date_releve_jour,
 					 date_releve_mois,
 					 date_releve_annee ));
-
 
   /*   récupération du no de rapprochement, */
   /*     s'il n'existe pas,on le crée */
@@ -1044,8 +936,6 @@ void fin_equilibrage ( GtkWidget *bouton_ok,
   else
     DERNIER_NO_RAPPROCHEMENT = 0;
 
-
-
 /* met tous les P à R */
 
   p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
@@ -1067,14 +957,11 @@ void fin_equilibrage ( GtkWidget *bouton_ok,
       pointeur_liste_ope = pointeur_liste_ope -> next;
     }
 
-
-
 /* on réaffiche la liste */
 
   modification_fichier( TRUE );
 
   SOLDE_DERNIER_RELEVE = solde_final;
-
 
   gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_comptes_equilibrage ),
 			  0 );
@@ -1116,40 +1003,31 @@ void fin_equilibrage ( GtkWidget *bouton_ok,
   /* Update account list */
   update_liste_comptes_accueil ();
 }
-/* ********************************************************************************************************** */
+/******************************************************************************/
 
-
-/* ********************************************************************************************************** */
+/******************************************************************************/
 gint recherche_no_rapprochement_par_nom ( struct struct_no_rapprochement *rapprochement,
 					  gchar *no_rap )
 {
-
   return ( strcmp ( rapprochement -> nom_rapprochement,
 		    no_rap ));
-
 }
-/* ********************************************************************************************************** */
+/******************************************************************************/
 
-
-/* ********************************************************************************************************** */
+/******************************************************************************/
 gint recherche_no_rapprochement_par_no ( struct struct_no_rapprochement *rapprochement,
 					 gint *no_rap )
 {
-
   return ( !(rapprochement -> no_rapprochement == GPOINTER_TO_INT ( no_rap )));
-
 }
-/* ********************************************************************************************************** */
+/******************************************************************************/
 
-
-
-/* ********************************************************************************************************** */
+/******************************************************************************/
 void calcule_total_pointe_compte ( gint no_compte )
 {
   GSList *pointeur_liste_ope;
 
   p_tab_nom_de_compte_variable =  p_tab_nom_de_compte + no_compte;
-
   pointeur_liste_ope = LISTE_OPERATIONS;
   operations_pointees = 0;
 
@@ -1184,4 +1062,109 @@ void calcule_total_pointe_compte ( gint no_compte )
 		       g_strdup_printf ( "%4.2f", 
 					 operations_pointees ));
 }
-/* ********************************************************************************************************** */
+/******************************************************************************/
+
+/******************************************************************************/
+void souris_equilibrage ( GtkWidget *entree,
+			  GdkEventButton *event )
+{
+  GtkWidget *popup_cal;
+      
+      if ( event -> type == GDK_2BUTTON_PRESS )
+	{
+	 popup_cal = gsb_calendar_new ( entree );
+/*	 gtk_signal_connect_object ( GTK_OBJECT ( popup_cal ),
+				     "destroy",
+				     GTK_SIGNAL_FUNC ( calendar_destroyed ),
+				     GTK_OBJECT ( entree ) );
+	 gtk_signal_connect_object ( GTK_OBJECT ( popup_cal ),
+				     "destroy",
+				     GTK_SIGNAL_FUNC ( gdk_pointer_ungrab ),
+				     GDK_CURRENT_TIME );*/
+	}
+}
+/******************************************************************************/
+
+/******************************************************************************/
+gboolean clavier_equilibrage ( GtkWidget *widget,
+			       GdkEventKey *event )
+{
+  GtkWidget *popup_cal;
+
+  switch ( event -> keyval )
+   {
+    case GDK_Return :		/* touches entrée */
+    case GDK_KP_Enter :
+
+      gtk_signal_emit_stop_by_name ( GTK_OBJECT ( widget ),
+				     "key-press-event");
+      if ( ( event -> state & GDK_CONTROL_MASK ) == GDK_CONTROL_MASK )
+	popup_cal = gsb_calendar_new ( widget );
+      break;
+
+    case GDK_plus:		/* touches + */
+    case GDK_KP_Add:
+
+	  gtk_signal_emit_stop_by_name ( GTK_OBJECT ( widget ),
+					 "key-press-event");
+	  if ( ( event -> state & GDK_SHIFT_MASK ) != GDK_SHIFT_MASK )
+	    incremente_decremente_date ( widget, ONE_DAY );
+	  else
+	    incremente_decremente_date ( widget, ONE_WEEK );
+	  return TRUE;
+      break;
+
+    case GDK_minus:		/* touches - */
+    case GDK_KP_Subtract:
+
+	  gtk_signal_emit_stop_by_name ( GTK_OBJECT ( widget ),
+					 "key-press-event");
+	  if ( ( event -> state & GDK_SHIFT_MASK ) != GDK_SHIFT_MASK )
+	    incremente_decremente_date ( widget, - ONE_DAY );
+	  else
+	    incremente_decremente_date ( widget, - ONE_WEEK );
+	  return TRUE;
+      break;
+
+    case GDK_Page_Up :		/* touche PgUp */
+    case GDK_KP_Page_Up :
+
+	  gtk_signal_emit_stop_by_name ( GTK_OBJECT ( widget ),
+					 "key-press-event");
+	  if ( ( event -> state & GDK_SHIFT_MASK ) != GDK_SHIFT_MASK )
+	    incremente_decremente_date ( widget, ONE_MONTH );
+	  else
+	    incremente_decremente_date ( widget, ONE_YEAR );
+	  return TRUE;
+      break;
+
+    case GDK_Page_Down :		/* touche PgDown */
+    case GDK_KP_Page_Down :
+
+	  gtk_signal_emit_stop_by_name ( GTK_OBJECT ( widget ),
+					 "key-press-event");
+	  if ( ( event -> state & GDK_SHIFT_MASK ) != GDK_SHIFT_MASK )
+	    incremente_decremente_date ( widget, - ONE_MONTH );
+	  else
+	    incremente_decremente_date ( widget, - ONE_YEAR );
+	  return TRUE;
+
+      break;
+
+    default:
+      /* Reverting to default handler */
+      return FALSE;
+      break;
+    }
+  return TRUE;
+}
+
+
+
+
+
+
+
+
+
+
