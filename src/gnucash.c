@@ -24,18 +24,34 @@
 #include "include.h"
 #include "structures.h"
 
+#include "utils.h"
 
 extern GSList *liste_comptes_importes;
 extern gint nb_comptes;
 
 
-void recuperation_donnees_gnucash_book ( xmlDocPtr book_node );
-void recuperation_donnees_gnucash_categorie ( xmlDocPtr categ_node );
-void recuperation_donnees_gnucash_compte ( xmlDocPtr compte_node );
-gboolean node_strcmp ( xmlDocPtr node, gchar * name );
-xmlDocPtr get_child ( xmlDocPtr node, gchar * child_name );
-gchar * child_content ( xmlDocPtr node, gchar * child_name );
-gchar * get_currency ( xmlDocPtr currency_node );
+void recuperation_donnees_gnucash_book ( xmlNodePtr book_node );
+void recuperation_donnees_gnucash_categorie ( xmlNodePtr categ_node );
+void recuperation_donnees_gnucash_compte ( xmlNodePtr compte_node );
+void recuperation_donnees_gnucash_transaction ( xmlNodePtr transaction_node );
+gboolean node_strcmp ( xmlNodePtr node, gchar * name );
+xmlNodePtr get_child ( xmlNodePtr node, gchar * child_name );
+gchar * child_content ( xmlNodePtr node, gchar * child_name );
+gchar * get_currency ( xmlNodePtr currency_node );
+struct struct_compte_importation * find_imported_account_by_uid ( gchar * guid );
+struct gnucash_category * find_imported_categ_by_uid ( gchar * guid );
+gdouble gnucash_value ( gchar * value );
+
+
+struct gnucash_category {
+  gchar * name;
+  enum gnucash_category_type {
+    GNUCASH_CATEGORY_INCOME,
+    GNUCASH_CATEGORY_EXPENSE,
+  } type;
+  gchar * guid;
+};
+GSList * gnucash_categories = NULL;
 
 
 gboolean recuperation_donnees_gnucash ( gchar * filename )
@@ -61,22 +77,13 @@ gboolean recuperation_donnees_gnucash ( gchar * filename )
 
   printf ("fini\n");
 
-/* 	/\* ajoute le ou les compte aux autres comptes importés *\/ */
-/* 	while ( liste_tmp ) */
-/* 	{ */
-/* 	    liste_comptes_importes = g_slist_append ( liste_comptes_importes, */
-/* 						      liste_tmp -> data ); */
-/* 	    liste_tmp = liste_tmp -> next; */
-/* 	} */
-/*     } */
-
-    return ( TRUE );
+  return ( TRUE );
 }
 
 
-void recuperation_donnees_gnucash_book ( xmlDocPtr book_node )
+void recuperation_donnees_gnucash_book ( xmlNodePtr book_node )
 {
-  xmlDocPtr child_node;
+  xmlNodePtr child_node;
 
   child_node = book_node -> children;
 
@@ -94,12 +101,17 @@ void recuperation_donnees_gnucash_book ( xmlDocPtr book_node )
 	    }
 	}
 
+      if ( node_strcmp(child_node, "transaction") )
+	{
+	  recuperation_donnees_gnucash_transaction ( child_node );
+	}
+
       child_node = child_node -> next;
     }
 }
 
 
-void recuperation_donnees_gnucash_compte ( xmlDocPtr compte_node )
+void recuperation_donnees_gnucash_compte ( xmlNodePtr compte_node )
 {
   struct struct_compte_importation *compte;
 
@@ -108,7 +120,7 @@ void recuperation_donnees_gnucash_compte ( xmlDocPtr compte_node )
   /* Gnucash import */
   compte -> origine = GNUCASH_IMPORT;
 
-  printf ("> New account: %s, devise %s\n", 
+  printf (">>> new account: %s, devise %s\n", 
 	  child_content ( compte_node, "name" ),
 	  get_currency ( get_child(compte_node, "commodity") ) );
 
@@ -119,33 +131,111 @@ void recuperation_donnees_gnucash_compte ( xmlDocPtr compte_node )
   compte -> devise = get_currency ( get_child(compte_node, "commodity") );
   compte -> guid = child_content ( compte_node, "id" );
   compte -> operations_importees = NULL;
-  
+
   liste_comptes_importes = g_slist_append ( liste_comptes_importes, compte );
 }
 
 
-void recuperation_donnees_gnucash_categorie ( xmlDocPtr categ_node )
-{
 
+void recuperation_donnees_gnucash_categorie ( xmlNodePtr categ_node )
+{
+  struct gnucash_category * categ;
+
+  categ = calloc ( 1, sizeof ( struct gnucash_category ));
+
+  categ -> name = child_content ( categ_node, "name" );
+  categ -> guid = child_content ( categ_node, "id" );
+  
+  if ( !strcmp ( child_content ( categ_node, "type" ), "INCOME" ) )
+    {
+      categ -> type = GNUCASH_CATEGORY_INCOME;
+    }
+  else 
+    {
+      categ -> type = GNUCASH_CATEGORY_EXPENSE;
+    }
+
+  printf (">>> new categ: %s\n", categ -> name );
+
+  gnucash_categories = g_slist_append ( gnucash_categories, categ );
 }
 
 
-gchar * get_currency ( xmlDocPtr currency_node )
+
+void recuperation_donnees_gnucash_transaction ( xmlNodePtr transaction_node )
+{
+  struct struct_ope_importation * transaction;
+  struct struct_compte_importation * account;
+  struct gnucash_category * categ;
+  gchar * date, *space;
+  xmlNodePtr splits, split_node, date_node;
+
+  /* Basic properties */
+  transaction = calloc ( 1, sizeof ( struct struct_ope_importation ));
+  transaction -> id_operation = child_content ( transaction_node, "id" );
+  transaction -> tiers = child_content ( transaction_node, "description" );
+  
+
+  /* Transaction date */
+  date_node = get_child ( transaction_node, "date-posted" );
+  transaction -> date = g_date_new ( );
+  date = child_content (date_node, "date");
+  space = strchr(date, ' ');
+  if ( space )
+    *space = 0;
+  g_date_set_parse ( transaction -> date, date );
+  if ( !g_date_valid ( transaction -> date ))
+    fprintf (stderr, "grisbi: Can't parse date %s\n", child_content (date_node, "date"));
+
+  /* Transaction ammount, category, account, etc.. */
+  splits = get_child ( transaction_node, "splits" );
+  split_node = splits -> children;
+  while ( split_node )
+    {
+      if ( node_strcmp ( split_node, "split") )
+	{
+	  account = find_imported_account_by_uid ( child_content(split_node, "account") );
+	  if ( account )
+	    {
+	      account -> operations_importees = 
+		g_slist_append ( account -> operations_importees, transaction );
+	      transaction -> montant = gnucash_value ( child_content(split_node, "value") );
+	      transaction -> notes = child_content(split_node, "memo");
+	      if ( !strcmp(child_content(split_node, "reconciled-state"), "y") )
+		transaction -> p_r = OPERATION_RAPPROCHEE;
+	    }
+	  else 
+	    {
+	      /* This is a category, then */
+	      categ = find_imported_categ_by_uid ( child_content(split_node, "account") );
+	      transaction -> categ = categ -> name;
+	    }
+	}
+
+      split_node = split_node -> next;
+    }
+}
+
+
+
+gchar * get_currency ( xmlNodePtr currency_node )
 {
   /** FIXME: detail how it works */
   return child_content ( currency_node, "id" );
 }
 
 
-gboolean node_strcmp ( xmlDocPtr node, gchar * name )
+
+gboolean node_strcmp ( xmlNodePtr node, gchar * name )
 {
   return node -> name && !strcmp ( node -> name, name );
 }
 
 
-xmlDocPtr get_child ( xmlDocPtr node, gchar * child_name )
+
+xmlNodePtr get_child ( xmlNodePtr node, gchar * child_name )
 {
-  xmlDocPtr iter_node = node -> children;
+  xmlNodePtr iter_node = node -> children;
 
   if (!node) return NULL;
 
@@ -161,9 +251,10 @@ xmlDocPtr get_child ( xmlDocPtr node, gchar * child_name )
 }
 
 
-gchar * child_content ( xmlDocPtr node, gchar * child_name )
+
+gchar * child_content ( xmlNodePtr node, gchar * child_name )
 {
-  xmlDocPtr child_node;
+  xmlNodePtr child_node;
 
   if (!node) return NULL;
 
@@ -173,4 +264,65 @@ gchar * child_content ( xmlDocPtr node, gchar * child_name )
     return xmlNodeGetContent ( child_node );
   
   return NULL;
+}
+
+
+
+struct struct_compte_importation * find_imported_account_by_uid ( gchar * guid )
+{
+  GSList * liste_tmp;
+
+  liste_tmp = liste_comptes_importes;
+
+  while ( liste_tmp )
+    {
+      struct struct_compte_importation * account = liste_tmp -> data;
+
+      if ( !strcmp ( account -> guid, guid ))
+	{
+	  return account;
+	}
+
+      liste_tmp = liste_tmp -> next;
+    }  
+
+  return NULL;
+}
+
+
+
+struct gnucash_category * find_imported_categ_by_uid ( gchar * guid )
+{
+  GSList * liste_tmp;
+
+  liste_tmp = gnucash_categories;
+
+  while ( liste_tmp )
+    {
+      struct gnucash_category * categ = liste_tmp -> data;
+
+      if ( !strcmp ( categ -> guid, guid ))
+	{
+	  return categ;
+	}
+
+      liste_tmp = liste_tmp -> next;
+    }  
+
+  return NULL;
+}
+
+
+
+gdouble gnucash_value ( gchar * value )
+{
+  gchar **tab_value;
+  gdouble number, mantisse;
+
+  tab_value = g_strsplit ( value, "/", 2 );
+  
+  number = my_atoi ( tab_value[0] );
+  mantisse = my_atoi ( tab_value[1] );
+
+  return number / mantisse;
 }
