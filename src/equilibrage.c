@@ -124,16 +124,16 @@ GtkWidget *creation_fenetre_equilibrage ( void )
   gtk_widget_show ( label );
 
   entree_no_rapprochement = gtk_entry_new ();
-  gtk_widget_set_usize ( entree_no_rapprochement,
-			 100, FALSE );
+/*   gtk_widget_set_usize ( entree_no_rapprochement, */
+/* 			 100, FALSE ); */
   gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tips ),
 			 entree_no_rapprochement,
 			 _("If reconciliation reference ends in a digit, it is automatically incremented at each reconciliation."),
 			 _("Reconciliation reference") );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       entree_no_rapprochement,
-		       FALSE,
-		       FALSE,
+		       TRUE,
+		       TRUE,
 		       0);
   gtk_widget_show ( entree_no_rapprochement );
 
