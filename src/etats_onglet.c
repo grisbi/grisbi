@@ -301,7 +301,10 @@ GtkWidget *creation_liste_etats ( void )
 							   menu_name(_("Reports"), _("Print report"), NULL)),
 			       FALSE );
     gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
-							   menu_name(_("Reports"), _("Export report"), NULL)),
+							   menu_name(_("Reports"), _("Export report file"), NULL)),
+			       FALSE );
+    gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
+							   menu_name(_("Reports"), _("Export report as HTML..."), NULL)),
 			       FALSE );
     gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
 							   menu_name(_("Reports"), _("Remove report"), NULL)),
@@ -1071,7 +1074,10 @@ void efface_etat ( void )
 							   menu_name(_("Reports"), _("Print report"), NULL)),
 			       FALSE );
     gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
-							   menu_name(_("Reports"), _("Export report"), NULL)),
+							   menu_name(_("Reports"), _("Export report as HTML..."), NULL)),
+			       FALSE );
+    gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
+							   menu_name(_("Reports"), _("Export report file"), NULL)),
 			       FALSE );
     gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
 							   menu_name(_("Reports"), _("Remove report"), NULL)),
@@ -1113,7 +1119,10 @@ void changement_etat ( GtkWidget *bouton,
 							   menu_name(_("Reports"), _("Print report"), NULL)),
 			       TRUE );
     gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
-							   menu_name(_("Reports"), _("Export report"), NULL)),
+							   menu_name(_("Reports"), _("Export report as HTML..."), NULL)),
+			       TRUE );
+    gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
+							   menu_name(_("Reports"), _("Export report file"), NULL)),
 			       TRUE );
     gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
 							   menu_name(_("Reports"), _("Remove report"), NULL)),

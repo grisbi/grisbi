@@ -117,7 +117,7 @@ void init_variables ( gboolean ouverture )
 							       menu_name(_("Reports"), _("New report"), NULL)),
 				   TRUE );
 	gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
-							       menu_name(_("Reports"), _("Import report"), NULL)),
+							       menu_name(_("Reports"), _("Import report file"), NULL)),
 				   TRUE );
 	gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
 							       menu_name(_("Reports"), _("Clone report"), NULL)),
@@ -126,7 +126,10 @@ void init_variables ( gboolean ouverture )
 							       menu_name(_("Reports"), _("Print report"), NULL)),
 				   TRUE );
 	gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
-							       menu_name(_("Reports"), _("Export report"), NULL)),
+							       menu_name(_("Reports"), _("Export report as HTML..."), NULL)),
+				   TRUE );
+	gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
+							       menu_name(_("Reports"), _("Export report file"), NULL)),
 				   TRUE );
 	gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
 							       menu_name(_("Reports"), _("Remove report"), NULL)),
@@ -231,7 +234,7 @@ void init_variables ( gboolean ouverture )
 							       menu_name(_("Reports"), _("New report"), NULL)),
 				   FALSE );
 	gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
-							       menu_name(_("Reports"), _("Import report"), NULL)),
+							       menu_name(_("Reports"), _("Import report file"), NULL)),
 				   FALSE );
 	gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
 							       menu_name(_("Reports"), _("Clone report"), NULL)),
@@ -240,7 +243,10 @@ void init_variables ( gboolean ouverture )
 							       menu_name(_("Reports"), _("Print report"), NULL)),
 				   FALSE );
 	gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
-							       menu_name(_("Reports"), _("Export report"), NULL)),
+							       menu_name(_("Reports"), _("Export report as HTML..."), NULL)),
+				   FALSE );
+	gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
+							       menu_name(_("Reports"), _("Export report file"), NULL)),
 				   FALSE );
 	gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
 							       menu_name(_("Reports"), _("Remove report"), NULL)),
