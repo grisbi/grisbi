@@ -338,11 +338,8 @@ GtkWidget *new_vbox_with_title_and_icon ( gchar * title,
 
   /* Title hbox */
   hbox = gtk_hbox_new ( FALSE, 5 );
-  gtk_box_pack_start ( GTK_BOX ( vbox_pref ),
-		       hbox,
-		       FALSE,
-		       FALSE,
-		       0);
+  gtk_box_pack_start ( GTK_BOX ( vbox_pref ), hbox,
+		       FALSE, FALSE, 0);
   gtk_widget_show ( hbox );
 
   /* Icon */
@@ -2226,7 +2223,7 @@ paddingbox_new_with_title (GtkWidget * parent, gchar * title)
   /* Then make the vbox itself */
   paddingbox = gtk_vbox_new ( FALSE, 6 );
   gtk_box_pack_start ( GTK_BOX ( hbox ), paddingbox,
-		       FALSE, FALSE, 0);
+		       TRUE, TRUE, 0);
 
   /* Put a label at the end to feed a new line */
   label = gtk_label_new ( "    " );
