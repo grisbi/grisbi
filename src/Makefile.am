@@ -42,6 +42,7 @@ sources = \
 	etats_calculs.c		\
 	etats_config.c		\
 	etats_gtktable.c	\
+	etats_html.c		\
 	etats_latex.c		\
 	etats_onglet.c		\
 	etats_support.c		\

@@ -36,8 +36,6 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static void affichage_etat ( struct struct_etat *etat, 
-		      struct struct_etat_affichage * affichage );
 static gint classement_liste_opes_etat ( struct structure_operation *operation_1,
 				  struct structure_operation *operation_2 );
 static gint classement_ope_perso_etat ( struct structure_operation *operation_1,

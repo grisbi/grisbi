@@ -32,6 +32,7 @@
 #include "traitement_variables.h"
 #include "utils.h"
 #include "etats_config.h"
+#include "etats_html.h"
 #include "utils_file_selection.h"
 #include "utils_files.h"
 /*END_INCLUDE*/
@@ -1163,12 +1164,35 @@ void changement_etat ( GtkWidget *bouton,
     /* on affiche l'état */
     rafraichissement_etat ( etat );
 }
-/*****************************************************************************************************/
 
 
 
+/**
+ *
+ *
+ */
+void export_etat_vers_html ( struct struct_etat *etat )
+{
+    affichage_etat ( etat, &html_affichage );
+}
 
-/*****************************************************************************************************/
+
+
+/**
+ *
+ *
+ */
+void export_etat_courant_vers_html ( )
+{
+    if ( gtk_notebook_get_current_page ( GTK_NOTEBOOK ( notebook_general)) != 7 )
+	gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general),
+				7 );
+
+    export_etat_vers_html ( NULL );
+}
+
+
+
 void exporter_etat ( void )
 {
     GtkWidget *fenetre_nom;
