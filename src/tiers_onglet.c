@@ -1174,7 +1174,7 @@ void supprimer_tiers ( GtkWidget *bouton,
 	GtkWidget *bouton_tiers_generique;
 	GtkWidget *combofix;
 	GSList *liste_combofix;
-	GSList *pointeur;
+	GSList *pointeur, *tmp;
 	GtkWidget *bouton_transfert;
 	gint i;
 	gint nouveau_no;
@@ -1219,7 +1219,6 @@ void supprimer_tiers ( GtkWidget *bouton,
 			     FALSE,
 			     0 );
 
-
 	pointeur = liste_struct_tiers;
 	liste_combofix = NULL;
 
@@ -1231,12 +1230,12 @@ void supprimer_tiers ( GtkWidget *bouton,
 	    pointeur = pointeur -> next;
 	}
 
-
 	combofix = gtk_combofix_new ( liste_combofix,
+				      FALSE,
 				      TRUE,
 				      TRUE,
-				      TRUE,
-				      50 );
+				      0 );
+
 	gtk_box_pack_start ( GTK_BOX ( hbox ),
 			     combofix,
 			     FALSE,
@@ -1288,9 +1287,19 @@ retour_dialogue:
 
 	    /* recherche du nouveau numéro de tiers */
 
-	    nouveau_tiers = g_slist_find_custom ( liste_struct_tiers,
-						  gtk_combofix_get_text ( GTK_COMBOFIX ( combofix ) ),
-						  (GCompareFunc) recherche_tiers_par_nom ) -> data;
+	    tmp = g_slist_find_custom ( liste_struct_tiers,
+					gtk_combofix_get_text ( GTK_COMBOFIX ( combofix ) ),
+					(GCompareFunc) recherche_tiers_par_nom );
+	    if ( !tmp || ! tmp -> data )
+	    {
+		dialogue_error_hint ( _("Grisbi is unable to find this third party.  Be sure entered name is valid and that this third party exists."),
+				      g_strdup_printf ( _("Third party %s not found."),
+							gtk_combofix_get_text ( GTK_COMBOFIX ( combofix ) ) ) );
+		goto retour_dialogue;
+	
+	    }
+
+	    nouveau_tiers = tmp -> data;
 	    nouveau_no = nouveau_tiers -> no_tiers;
 	}
 	else
