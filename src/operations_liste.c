@@ -1605,7 +1605,10 @@ void edition_operation ( void )
 	      gtk_widget_show ( widget_formulaire_operations[9] );
 	    }
 	  else
-	    gtk_widget_hide ( widget_formulaire_operations[9] );
+	    {
+	      gtk_widget_hide ( widget_formulaire_operations[9] );
+	      gtk_widget_hide ( widget_formulaire_operations[10] );
+	    }
 	}
     }
   else
@@ -1626,7 +1629,10 @@ void edition_operation ( void )
 	      gtk_widget_show ( widget_formulaire_operations[9] );
 	    }
 	  else
-	    gtk_widget_hide ( widget_formulaire_operations[9] );
+	    {
+	      gtk_widget_hide ( widget_formulaire_operations[9] );
+	      gtk_widget_hide ( widget_formulaire_operations[10] );
+	    }
 	}
     }
 

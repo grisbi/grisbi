@@ -818,40 +818,42 @@
 				  GINT_TO_POINTER (4));
 	    }
 
-	  if ( GTK_WIDGET_VISIBLE ( widget_formulaire_operations[9] )
+	  if ( etat.affiche_tous_les_types
+	       &&
+	       GTK_WIDGET_VISIBLE ( widget_formulaire_operations[9] )
 	       &&
 	       GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_operations[9] ) -> menu ),
 						       "signe_menu" ))
 	       ==
 	       2 )
 	    {
-	      if ( etat.affiche_tous_les_types )
+	      /* on ne modifie que le défaut */
+	      gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_operations[9] ),
+					    cherche_no_menu_type ( TYPE_DEFAUT_DEBIT ) );
+	      gtk_object_set_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_operations[9] ) -> menu ),
+				    "signe_menu",
+				    GINT_TO_POINTER ( 1 ));
+	    }
+	  else
+	    {
+	      GtkWidget *menu;
+
+	      if ( (menu = creation_menu_types ( 1, compte_courant, 0  )))
 		{
-		  /* on ne modifie que le défaut */
+		  p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
+
+		  gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_operations[9] ),
+					     menu );
 		  gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_operations[9] ),
 						cherche_no_menu_type ( TYPE_DEFAUT_DEBIT ) );
-		  gtk_object_set_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_operations[9] ) -> menu ),
-					"signe_menu",
-					GINT_TO_POINTER ( 1 ));
+		  gtk_widget_show ( widget_formulaire_operations[9] );
 		}
 	      else
 		{
-		  GtkWidget *menu;
-
-		  if ( (menu = creation_menu_types ( 1, compte_courant, 0  )))
-		    {
-		      p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
-
-		      gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_operations[9] ),
-						 menu );
-		      gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_operations[9] ),
-						    cherche_no_menu_type ( TYPE_DEFAUT_DEBIT ) );
-		      gtk_widget_show ( widget_formulaire_operations[9] );
-		    }
-		  else
-		    gtk_widget_hide ( widget_formulaire_operations[9] );
-		}	     
-	    }
+		  gtk_widget_hide ( widget_formulaire_operations[9] );
+		  gtk_widget_hide ( widget_formulaire_operations[10] );
+		}
+	    }	     
 	}
       else
 	texte = "Débit";
@@ -873,39 +875,40 @@
 				  GINT_TO_POINTER (3));
 	    }
 
-	  if ( GTK_WIDGET_VISIBLE ( widget_formulaire_operations[9] )
+	  if ( etat.affiche_tous_les_types
+	       &&
+	       GTK_WIDGET_VISIBLE ( widget_formulaire_operations[9] )
 	       &&
 	       GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_operations[9] ) -> menu ),
 						       "signe_menu" ))
 	       ==
 	       1 )
-	    {
-	      if ( etat.affiche_tous_les_types )
 		/* on ne modifie que le défaut */
-	      {
-		gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_operations[9] ),
-					      cherche_no_menu_type ( TYPE_DEFAUT_CREDIT ) );
-		gtk_object_set_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_operations[9] ) -> menu ),
-				      "signe_menu",
-				      GINT_TO_POINTER ( 2 ));
-	      }
-
+	    {
+	      gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_operations[9] ),
+					    cherche_no_menu_type ( TYPE_DEFAUT_CREDIT ) );
+	      gtk_object_set_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_operations[9] ) -> menu ),
+				    "signe_menu",
+				    GINT_TO_POINTER ( 2 ));
+	    }
+	  else
+	    {
+	      GtkWidget *menu;
+	      
+	      if ( (menu = creation_menu_types ( 2, compte_courant, 0  )))
+		{
+		  p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
+		  
+		  gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_operations[9] ),
+					     menu );
+		  gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_operations[9] ),
+						    cherche_no_menu_type ( TYPE_DEFAUT_CREDIT ) );
+		  gtk_widget_show ( widget_formulaire_operations[9] );
+		}
 	      else
 		{
-		  GtkWidget *menu;
-
-		  if ( (menu = creation_menu_types ( 2, compte_courant, 0  )))
-		    {
-		      p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
-
-		      gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_operations[9] ),
-						 menu );
-		      gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_operations[9] ),
-						    cherche_no_menu_type ( TYPE_DEFAUT_CREDIT ) );
-		      gtk_widget_show ( widget_formulaire_operations[9] );
-		    }
-		  else
-		    gtk_widget_hide ( widget_formulaire_operations[9] );
+		  gtk_widget_hide ( widget_formulaire_operations[9] );
+		  gtk_widget_hide ( widget_formulaire_operations[10] );
 		}
 	    }
 	}
@@ -1859,7 +1862,10 @@ gboolean modifie_date ( GtkWidget *entree )
 	      gtk_widget_show ( widget_formulaire_operations[9] );
 	    }
 	  else
-	    gtk_widget_hide ( widget_formulaire_operations[9] );
+	    {
+	      gtk_widget_hide ( widget_formulaire_operations[9] );
+	      gtk_widget_hide ( widget_formulaire_operations[10] );
+	    }
 	}
     }
   else
@@ -1882,7 +1888,10 @@ gboolean modifie_date ( GtkWidget *entree )
 	      gtk_widget_show ( widget_formulaire_operations[9] );
 	    }
 	  else
-	    gtk_widget_hide ( widget_formulaire_operations[9] );
+	    {
+	      gtk_widget_hide ( widget_formulaire_operations[9] );
+	      gtk_widget_hide ( widget_formulaire_operations[10] );
+	    }
 	}
     }
 
@@ -3622,8 +3631,6 @@ gboolean modifie_date ( GtkWidget *entree )
 
   gtk_widget_set_sensitive ( GTK_WIDGET ( widget_formulaire_operations[9] ),
 			     TRUE );
-/*   gtk_widget_set_sensitive ( GTK_WIDGET ( widget_formulaire_operations[7] ), */
-/* 			     TRUE ); */
   gtk_widget_set_sensitive ( GTK_WIDGET ( widget_formulaire_operations[11] ),
 			     TRUE );
   gtk_widget_set_sensitive ( GTK_WIDGET ( widget_formulaire_operations[5] ),
@@ -3892,6 +3899,12 @@ gint demande_correspondance_type ( struct structure_operation *operation,
     gtk_widget_show ( menu );
   else
     gtk_widget_show_all ( menu );
+
+
+  /* vérifie qu'il y a qque chose dans la liste, sinon renvoie 0 */
+
+  if ( !GTK_MENU_SHELL ( menu ) -> children )
+    return ( FALSE );
 
   /* on met en place le bouton pour afficher les menus */
 

@@ -114,6 +114,8 @@ void preferences ( GtkWidget *widget,
 		       (GtkSignalFunc) changement_preferences,
 		       NULL );
 
+  gnome_property_box_set_state ( GNOME_PROPERTY_BOX ( fenetre_preferences ),
+				 FALSE );
 
 /* on se met sur la page demandée */
 
@@ -225,8 +227,8 @@ GtkWidget *onglet_general ( void )
 		       0 );
   gtk_widget_show ( bouton_solde_mini );
 
-   bouton_pas_solde_mini= gtk_radio_button_new_with_label ( gtk_radio_button_group ( GTK_RADIO_BUTTON ( bouton_solde_mini )),
-						     " Pas de message d'alerte " );
+  bouton_pas_solde_mini= gtk_radio_button_new_with_label ( gtk_radio_button_group ( GTK_RADIO_BUTTON ( bouton_solde_mini )),
+							   " Pas de message d'alerte " );
   gtk_box_pack_start ( GTK_BOX ( vbox ),
 		       bouton_pas_solde_mini,
 		       FALSE,
@@ -424,9 +426,6 @@ GtkWidget *onglet_general ( void )
   if ( !nb_comptes )
     gtk_widget_set_sensitive ( entree_adresse_commune,
 			       FALSE );
-
-
-
 
   return ( vbox_pref );
 
@@ -1334,7 +1333,6 @@ void changement_preferences ( GtkWidget *fenetre_preferences,
   GtkWidget *menu;
 
   home_dir = getenv ("HOME");
-
 
   switch ( page )
     {
