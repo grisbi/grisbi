@@ -851,7 +851,7 @@ void sauve_configuration(void)
 
 
     /* Enregistre dans le ~/.grisbirc */
-    resultat = xmlSaveFormatFile ( g_strconcat ( my_get_grisbirc_dir(), C_GRISBIRC,
+    resultat = utf8_xmlSaveFormatFile ( g_strconcat ( my_get_grisbirc_dir(), C_GRISBIRC,
 						 NULL), doc, 1 );
 
     /* on libère la memoire */

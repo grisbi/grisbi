@@ -35,6 +35,7 @@
 #include "utils_comptes.h"
 #include "etats_onglet.h"
 #include "utils_tiers.h"
+#include "utils_files.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -67,7 +68,7 @@ gboolean charge_etat ( gchar *nom_etat )
 {
     xmlDocPtr doc;
 
-    doc = xmlParseFile ( nom_etat );
+    doc = utf8_xmlParseFile ( nom_etat );
 
     if ( doc )
     {
