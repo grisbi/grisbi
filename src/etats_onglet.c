@@ -231,7 +231,7 @@ GtkWidget *creation_liste_etats ( void )
 
   /* on met le bouton personnaliser */
 
-  bouton_personnaliser_etat = gtk_button_new_with_label ( _("Customise the report") );
+  bouton_personnaliser_etat = gtk_button_new_with_label ( _("Customize report") );
   gtk_button_set_relief ( GTK_BUTTON ( bouton_personnaliser_etat ),
 			  GTK_RELIEF_NONE );
   gtk_widget_set_sensitive ( bouton_personnaliser_etat,
@@ -249,7 +249,7 @@ GtkWidget *creation_liste_etats ( void )
 
   /* on met le bouton dupliquer */
 
-  bouton_dupliquer_etat = gtk_button_new_with_label ( _("Duplicate the report") );
+  bouton_dupliquer_etat = gtk_button_new_with_label ( _("Clone report") );
   gtk_button_set_relief ( GTK_BUTTON ( bouton_dupliquer_etat ),
 			  GTK_RELIEF_NONE );
   gtk_signal_connect ( GTK_OBJECT ( bouton_dupliquer_etat ),
@@ -265,7 +265,7 @@ GtkWidget *creation_liste_etats ( void )
 
   /* mise en place du bouton effacer état */
 
-  bouton_effacer_etat = gtk_button_new_with_label ( _("Delete the report") );
+  bouton_effacer_etat = gtk_button_new_with_label ( _("Delete report") );
   gtk_button_set_relief ( GTK_BUTTON ( bouton_effacer_etat ),
 			  GTK_RELIEF_NONE);
   gtk_box_pack_start ( GTK_BOX ( vbox ),
@@ -485,7 +485,7 @@ void ajout_etat ( void )
 			  FALSE,
 			  FALSE );
 
-  label = gtk_label_new ( _("Select report type:"));
+  label = gtk_label_new ( COLON(_("Select report type")));
   gtk_misc_set_alignment ( GTK_MISC ( label ),
 			   0,
 			   0.5 );
@@ -508,7 +508,7 @@ void ajout_etat ( void )
 
   /* on ajoute maintenant la frame */
 
-  frame = gtk_frame_new ( _("Description:"));
+  frame = gtk_frame_new ( COLON(_("Description")));
   gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
 		       frame,
 		       TRUE,
