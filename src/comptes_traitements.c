@@ -317,7 +317,7 @@ void supprimer_compte ( void )
 
   p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_modifie;
   p_tab_nom_de_compte_courant = p_tab_nom_de_compte + compte_courant;
-  nb_comptes--;
+//  nb_comptes--;
 
   g_slist_free ( LISTE_OPERATIONS );
   nom_compte_supprime = g_strdup ( NOM_DU_COMPTE );
@@ -331,6 +331,7 @@ void supprimer_compte ( void )
       p_tab_nom_de_compte_variable++;
     }
 
+  nb_comptes--;
 
   /* recherche les échéances pour les comptes plaçés après le compe supprimé */
   /* pour leur diminuer leur numéro de compte de 1 */
@@ -697,13 +698,12 @@ gint demande_type_nouveau_compte ( void )
   GtkWidget *separateur;
   gint type_compte;
 
-  dialog = gnome_dialog_new ( _("Choose account type"),
+  dialog = gnome_dialog_new ( "Choix du type de compte",
 			      GNOME_STOCK_BUTTON_OK,
 			      GNOME_STOCK_BUTTON_CANCEL,
 			      NULL );
 
-  label = gtk_label_new ( _("Please coose account type\nThis will create default payment methods.\nYou will eventually be able to change account type." ) );
-  gtk_label_set_line_wrap ( GTK_LABEL ( label ), TRUE );
+  label = gtk_label_new ( "Veuillez choisir le type du compte à créer\nCela permet de créer les moyens de paiement par défaut.\nVous pourrez changer ultérieurement le type de ce compte." );
   gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
 		       label,
 		       FALSE,
