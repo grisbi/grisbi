@@ -1,24 +1,25 @@
-/* Ce fichier s'occupe de la gestion des types d'opérations */
-/* type_operations.c */
-
-/*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org) */
-/*			2003 Benjamin Drieu (bdrieu@april.org) */
-/* 			http://www.grisbi.org */
-
-/*     This program is free software; you can redistribute it and/or modify */
-/*     it under the terms of the GNU General Public License as published by */
-/*     the Free Software Foundation; either version 2 of the License, or */
-/*     (at your option) any later version. */
-
-/*     This program is distributed in the hope that it will be useful, */
-/*     but WITHOUT ANY WARRANTY; without even the implied warranty of */
-/*     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the */
-/*     GNU General Public License for more details. */
-
-/*     You should have received a copy of the GNU General Public License */
-/*     along with this program; if not, write to the Free Software */
-/*     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
-
+/* ************************************************************************** */
+/* Ce fichier s'occupe de la gestion des types d'opérations		      */
+/*                                                                            */
+/*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org)	      */
+/*			2003-2004 Benjamin Drieu (bdrieu@april.org)	      */
+/* 			http://www.grisbi.org				      */
+/*                                                                            */
+/*  This program is free software; you can redistribute it and/or modify      */
+/*  it under the terms of the GNU General Public License as published by      */
+/*  the Free Software Foundation; either version 2 of the License, or         */
+/*  (at your option) any later version.                                       */
+/*                                                                            */
+/*  This program is distributed in the hope that it will be useful,           */
+/*  but WITHOUT ANY WARRANTY; without even the implied warranty of            */
+/*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             */
+/*  GNU General Public License for more details.                              */
+/*                                                                            */
+/*  You should have received a copy of the GNU General Public License         */
+/*  along with this program; if not, write to the Free Software               */
+/*  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "include.h"
 #include "structures.h"
@@ -206,7 +207,7 @@ void fill_payment_method_tree ()
 
 	    if ( type_ope -> numerotation_auto )
 	    {
-		number = itoa ( type_ope -> no_en_cours );
+		number = automatic_numbering_get_new_number ( type_ope ) - 1;
 	    }
 	    else
 	    {
@@ -1599,7 +1600,7 @@ void changement_choix_type_formulaire ( struct struct_type_ope *type )
 	{
 	    entree_prend_focus ( widget_formulaire_operations[TRANSACTION_FORM_CHEQUE] );
 	    gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_operations[TRANSACTION_FORM_CHEQUE] ),
-				 itoa ( type -> no_en_cours  + 1));
+				 automatic_numbering_get_new_number ( type ));
 	}
 	else
 	{
@@ -1641,4 +1642,42 @@ void changement_choix_type_echeancier ( struct struct_type_ope *type )
     else
 	gtk_widget_hide ( widget_formulaire_echeancier[SCHEDULER_FORM_CHEQUE] );
 }
-/* ************************************************************************************************************** */
+
+
+
+/**
+ * Get the max content number associated to a type structure,
+ * increment it and return it.  Handy to find the next number to fill
+ * in the cheque field of the transaction form.
+ *
+ * \param type	The type structure to compute.
+ *
+ * \return	A textual representation of the maximum.
+ */
+gchar * automatic_numbering_get_new_number ( struct struct_type_ope * type )
+{
+    gpointer ** p_tab_nom_de_compte_type = p_tab_nom_de_compte + type -> no_compte;
+    GSList * tmp = NULL;
+    gint max = type -> no_en_cours ;
+
+    tmp = (* (struct donnees_compte **) p_tab_nom_de_compte_type) -> gsliste_operations;
+    
+    while ( tmp )
+    {
+	struct structure_operation * transaction = tmp -> data;
+
+	if ( transaction )
+	{
+	    if ( transaction -> contenu_type && 
+		 transaction -> type_ope == type -> no_type &&
+		 my_atoi ( transaction -> contenu_type ) > max )
+	    {
+		max = atoi ( transaction -> contenu_type );
+	    }
+	}
+
+	tmp = tmp -> next;
+    }
+
+    return itoa ( max + 1 );
+}

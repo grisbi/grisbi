@@ -1780,7 +1780,7 @@ void completion_operation_par_tiers ( void )
 	    {
 		entree_prend_focus ( widget_formulaire_operations[TRANSACTION_FORM_CHEQUE] );
 		gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_operations[TRANSACTION_FORM_CHEQUE] ),
-				     itoa ( type -> no_en_cours + 1 ));
+				     automatic_numbering_get_new_number ( type ) );
 	    }
 	    else
 		if ( operation -> contenu_type )
@@ -2183,7 +2183,7 @@ void fin_edition ( void )
 		    if ( type -> affiche_entree &&
 			 type -> numerotation_auto )
 			gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_operations[TRANSACTION_FORM_CHEQUE] ),
-					     itoa ( type -> no_en_cours + 1 ));
+					     automatic_numbering_get_new_number ( type ) );
 		}
 	    }
 	    liste_tmp = liste_tmp -> next;
@@ -3567,7 +3567,7 @@ void degrise_formulaire_operations ( void )
 
 	    if ( !strlen ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_operations[TRANSACTION_FORM_CHEQUE] ))))
 		gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_operations[TRANSACTION_FORM_CHEQUE] ),
-				     itoa ( type -> no_en_cours  + 1));
+				     automatic_numbering_get_new_number ( type ) );
 	}
     }
 }
