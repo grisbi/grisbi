@@ -27,16 +27,23 @@
 
 /*START_INCLUDE*/
 #include "utils_tiers.h"
+#include "utils_devises.h"
 #include "tiers_onglet.h"
 #include "search_glist.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
+static void reset_payee_counters ();
 /*END_STATIC*/
 
 
 /*START_EXTERN*/
 extern GSList *liste_struct_tiers;
+extern struct struct_tiers * without_payee;
+extern gint nb_comptes;
+extern gpointer **p_tab_nom_de_compte;
+extern gpointer **p_tab_nom_de_compte_variable;
+extern gint no_devise_totaux_tiers;
 /*END_EXTERN*/
 
 
@@ -120,7 +127,140 @@ gchar *tiers_name_by_no ( gint no_tiers,
 	else
 	    return ( g_strdup (_("No third party defined")));
 }
-/* **************************************************************************************************** */
+
+
+
+/**
+ *
+ *
+ */
+void calcule_total_montant_payee ( void )
+{
+    gint i;
+
+    reset_payee_counters();
+
+    without_payee = calloc ( 1, sizeof ( struct struct_tiers ));
+    without_payee -> no_tiers = 0;
+    without_payee -> nom_tiers = _("No payee");
+
+    for ( i=0 ; i<nb_comptes ; i++ )
+    {
+	GSList *liste_tmp;
+
+	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
+
+	liste_tmp = LISTE_OPERATIONS;
+	while ( liste_tmp )
+	{
+	    struct structure_operation *operation;
+
+	    operation = liste_tmp -> data;
+
+	    if ( operation -> tiers )
+	    {
+		struct struct_tiers * payee = NULL;
+
+		/* il y a une catégorie */
+		payee = tiers_par_no ( operation -> tiers );
+
+		add_transaction_to_payee ( operation, payee );
+	    }
+	    else if ( ! operation -> operation_ventilee && 
+		      ! operation -> relation_no_operation )
+	    {
+		add_transaction_to_payee ( operation, without_payee );
+	    }
+
+	    liste_tmp = liste_tmp -> next;
+	}
+    }
+}
+
+
+
+/**
+ *
+ *
+ */
+void add_transaction_to_payee ( struct structure_operation * transaction,
+				struct struct_tiers * payee )
+{
+    gdouble amount = 
+	calcule_montant_devise_renvoi ( transaction -> montant, no_devise_totaux_tiers,
+					transaction -> devise,
+					transaction -> une_devise_compte_egale_x_devise_ope,
+					transaction -> taux_change,
+					transaction -> frais_change );
+
+    if ( payee )
+    {
+	payee -> nb_transactions ++;
+	payee -> balance += amount;
+    }
+    else 
+    {
+	without_payee -> nb_transactions ++;
+	without_payee -> balance ++;
+    }
+}
+
+
+
+/**
+ *
+ *
+ */
+void remove_transaction_from_payee ( struct structure_operation * transaction,
+				     struct struct_tiers * payee )
+{
+    gdouble amount = 
+	calcule_montant_devise_renvoi ( transaction -> montant, no_devise_totaux_tiers,
+					transaction -> devise,
+					transaction -> une_devise_compte_egale_x_devise_ope,
+					transaction -> taux_change,
+					transaction -> frais_change );
+
+    if ( payee )
+    {
+	payee -> nb_transactions --;
+	payee -> balance -= amount;
+	if ( !payee -> nb_transactions ) /* Cope with float errors */
+	    payee -> balance = 0.0;
+    }
+    else
+    {
+	without_payee -> nb_transactions --;
+	without_payee -> balance -= amount;
+	if ( !without_payee -> nb_transactions ) /* Cope with float errors */
+	    without_payee -> balance = 0.0;
+    }
+}
+
+
+
+/**
+ *
+ *
+ */
+void reset_payee_counters ()
+{
+    GSList * tmp;
+
+    without_payee = NULL;
+
+    tmp = liste_struct_tiers;
+    while ( tmp )
+    {
+	struct struct_imputation * payee = tmp -> data;
+
+	payee -> balance = 0.0;
+	payee -> nb_transactions = 0;
+
+	tmp = tmp -> next;
+    }
+}
+
 
 
 /* Local Variables: */
