@@ -111,7 +111,7 @@ void a_propos ( GtkWidget *bouton,
 
   gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
 			     vbox,
-			     gtk_label_new ( _("Generalities")));
+			     gtk_label_new ( _("About Grisbi")));
 
   /* mise en forme de l'onglet auteurs */
 
