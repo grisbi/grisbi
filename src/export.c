@@ -34,10 +34,11 @@
 #include "search_glist.h"
 #include "utils.h"
 #include "utils_files.h"
+#include "menu.h"
 
 #include <gtk/gtk.h>
 
-typedef void (EXPORT_CALLBACK)(GSList* list_file_to_export_to);
+typedef void (EXPORT_CALLBACK)(GSList* list_file_toexport_to);
 
 typedef struct 
 {
@@ -47,8 +48,7 @@ typedef struct
     EXPORT_CALLBACK* callback;
 } export_format;
 
-static gint        g_selected_format = 0;        /**< selected export format choosed in the account selection dialog*/
-static GSList*     g_selected_entries= NULL;     /**< list of checked accounts in the account selected dialog */
+
 
 /**
  * Add a new supported format
@@ -62,7 +62,7 @@ static GSList*     g_selected_entries= NULL;     /**< list of checked accounts i
  *
  * \return format_list list updated
  */
-static GSList* _export_append_format(GSList* format_list,gchar* label,gchar* extension, EXPORT_CALLBACK callback)
+static GSList* export_append_format(GSList* format_list,gchar* label,gchar* extension, EXPORT_CALLBACK callback)
 {/* {{{ */ 
     export_format* new_format = (export_format*)g_malloc(sizeof(export_format));
     
@@ -77,28 +77,36 @@ static GSList* _export_append_format(GSList* format_list,gchar* label,gchar* ext
     }
     return format_list;
 
-}/* }}} append_export_format */
+}/* }}} appendexport_format */
+
 
 /**
- * Signal handler called when the format menu selectection is modified
- * 
- * Updated the current selected format,
- * Updated the handlers
+ * Run the export callback form the given type
  *
- * \param   option_menu format menu widget we received the signal from
- * \param   user_data   associated data to the received signal
+ * The export callback is run only if the type is a valid one and then if the callback
+ * is a valid pointer.
  *
- * \return  FALSE in all cases.
- *
- * \todo to be completed
+ * \param   type    format type to run the export callback
+ * \param   list    argument to pass to the callback
  */
-gboolean signal_menu_type_changed ( GtkOptionMenu * option_menu, gpointer user_data )
+static void export_run_callback(GSList* format_list,gint type,GSList* list)
 {/* {{{ */
-  g_selected_format = gtk_option_menu_get_history ( option_menu );
-  return FALSE;
-} /* }}} */
 
-/**
+    export_format*   format   = g_slist_nth_data(format_list,type);
+    
+    if ((format)&&(format->callback))
+    {
+         (*(format->callback))(list);
+    }
+
+} /* }}} _runexport_callback */
+
+
+static GSList*     g_export_format_list = NULL;
+static GSList*     g_selected_entries= NULL;     /**< list of checked accounts in the account selected dialog */
+
+
+/** 
  * Signal handler called when an entry check button is modified.
  *
  * \param   check_button    which check_button send the signal
@@ -121,65 +129,8 @@ void signal_toggle_account_entry(GtkWidget* check_button,GtkWidget* account_entr
                                                      account_entry);
     }
 } /* }}} signal_toggle_account_entry */
-/**
- * Creation of the dialog containing the format menu using a format list
- *
- * \param   format list containing supported formats
- * \return  newly created option menu widget
- */
-static GtkWidget * _export_file_format_dialog_new (GSList* format_list)
-{/* {{{ */
-    GtkWidget * dialog,*paddingbox;
-    GSList*   list_cursor         = g_slist_nth(format_list,0); // Get first item of the list
-    export_format* pointed_format = NULL;               // format descriptor
-    GtkWidget *hbox, *omenu, *menu, *menu_item;
-
-    // Format option menu creation
-    hbox = gtk_hbox_new ( FALSE, 0 );
-
-    menu = gtk_menu_new ();
-
-    while (list_cursor)
-    {
-        pointed_format = (export_format*)list_cursor->data;
-
-        menu_item = gtk_menu_item_new_with_label ( g_strdup(pointed_format->label) );
-        g_object_set_data ( G_OBJECT ( menu_item ), "file", (gpointer)(pointed_format->type) );
-        gtk_menu_append ( GTK_MENU ( menu ), menu_item );
-
-        list_cursor = g_slist_next(list_cursor);
-    }
-
-    omenu = gtk_option_menu_new ();
-    gtk_option_menu_set_menu ( GTK_OPTION_MENU ( omenu ), menu );
-    g_signal_connect ( G_OBJECT(omenu), "changed", G_CALLBACK (signal_menu_type_changed), NULL );
-    gtk_box_pack_end ( GTK_BOX(hbox), omenu, TRUE, TRUE, 6 );
-    gtk_box_pack_end ( GTK_BOX(hbox), gtk_label_new (COLON(_("Format de fichier"))),
-                       FALSE, FALSE, 0 );
-
-    gtk_widget_show_all ( hbox );
-
-    // Dialog creation
-    dialog = gtk_dialog_new_with_buttons ( _("Export format selection"),
-					   GTK_WINDOW(window),
-					   GTK_DIALOG_DESTROY_WITH_PARENT,
-					   GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-					   GTK_STOCK_OK, GTK_RESPONSE_OK,
-					   NULL );
-    
-    gtk_signal_connect ( GTK_OBJECT ( dialog ), "destroy",
-			 GTK_SIGNAL_FUNC ( gtk_signal_emit_stop_by_name ), "destroy" );
-
-    paddingbox = new_paddingbox_with_title ( GTK_DIALOG(dialog)->vbox, FALSE,
-					     _("Select format to export") );
-    gtk_box_set_spacing ( GTK_BOX(GTK_DIALOG(dialog)->vbox), 6 );
-    gtk_box_pack_start ( GTK_BOX(paddingbox), hbox, TRUE, TRUE, 0 );
 
 
-    g_selected_format = 0;
-    gtk_widget_show_all ( dialog );
-    return dialog;
-} /* }}} _export_file_format_menu_new */
 
 
 /**
@@ -192,11 +143,11 @@ static GtkWidget * _export_file_format_dialog_new (GSList* format_list)
  *
  * \return  newly created dialog widget
  */
-static GtkWidget* _export_accounts_selection_dialog_new(GSList* format_list)
+static GtkWidget* export_accounts_selection_dialog_new(GSList* format_list, gint selected_format)
 {/* {{{ */
     GtkWidget *dialog, *table, *account_entry, *check_button, *paddingbox;
 
-    export_format* format = g_slist_nth_data(format_list,g_selected_format);
+    export_format* format = g_slist_nth_data(format_list,selected_format);
     int i = 0;
 
     dialog = gtk_dialog_new_with_buttons ( _("Export files"),
@@ -271,7 +222,7 @@ static GtkWidget* _export_accounts_selection_dialog_new(GSList* format_list)
     gtk_widget_show_all ( dialog );
     return (dialog);
 
-} /* }}} _export_accounts_selection_dialog_new */
+} /* }}} export_accounts_selection_dialog_new */
 
 
 /**
@@ -282,7 +233,7 @@ static GtkWidget* _export_accounts_selection_dialog_new(GSList* format_list)
  *
  * \return TRUE if all is well, FALSE in other cases.
  */
-static gboolean _export_all_selected_entries_are_valid(GSList* selected_entries_list)
+static gboolean export_all_selected_entries_are_valid(GSList* selected_entries_list)
 {/* {{{ */
     GSList* list_tmp = selected_entries_list;
     GtkWidget*  entry_tmp = NULL;
@@ -318,63 +269,24 @@ static gboolean _export_all_selected_entries_are_valid(GSList* selected_entries_
         list_tmp = g_slist_next(list_tmp);
     }
     return result;
-} /* }}} _export_all_selected_entries_are_valid */
-/**
- * Run the export callback form the given type
- *
- * The export callback is run only if the type is a valid one and then if the callback
- * is a valid pointer.
- *
- * \param   type    format type to run the export callback
- * \param   list    argument to pass to the callback
- */
-static void _run_export_callback(GSList* format_list,gint type,GSList* list)
-{/* {{{ */
+} /* }}} export_all_selected_entries_are_valid */
 
-    export_format*   format   = g_slist_nth_data(format_list,type);
-    
-    if ((format)&&(format->callback))
-    {
-         (*(format->callback))(list);
-    }
 
-} /* }}} _run_export_callback */
-/**
- * This function display the format to export to selection dialog
- *
- * \param list of supported format
- *
- *
- * \return 
- *      TRUE is the user did a valid selection
- *      FALSE in all other cases
- */
-static gboolean _export_select_format_to_export_to(GSList* format_list)
-{/* {{{ */
-    gboolean result = FALSE;
-    GtkWidget* select_format_dialog = _export_file_format_dialog_new(format_list);
 
-    if (GTK_RESPONSE_OK == gtk_dialog_run(GTK_DIALOG(select_format_dialog)))
-    {
-        result = TRUE;
-    }
-    gtk_widget_destroy(select_format_dialog);
-    return result;
-}/* }}} _export_select_format_to_export_to */
 /**
  * This function display the account selection dialog and does the checks
  *
  * \param list of supported format
  *
  */
-static void _export_select_accounts_to_export(GSList* format_list)
+static void export_select_accounts_to_export(GSList* format_list,gint menu_pos)
 {/* {{{ */
     gboolean    export_is_possible = FALSE;
     GtkWidget*  account_selection_dialog;
     gint        result;
+    gint selected_format = menu_pos--;
     
-    
-    account_selection_dialog =  _export_accounts_selection_dialog_new(format_list);
+    account_selection_dialog =  export_accounts_selection_dialog_new(format_list,selected_format);
     while (!export_is_possible)
     {
         result = gtk_dialog_run(GTK_DIALOG(account_selection_dialog));
@@ -385,13 +297,13 @@ static void _export_select_accounts_to_export(GSList* format_list)
         }
         
         // check that all file are writeable
-        export_is_possible = _export_all_selected_entries_are_valid( g_selected_entries);
+        export_is_possible = export_all_selected_entries_are_valid( g_selected_entries);
 
     }
 
     if (export_is_possible)
     {
-        _run_export_callback(format_list,g_selected_format,g_selected_entries);
+        export_run_callback(format_list,selected_format,g_selected_entries);
     }
     
     if ( g_selected_entries )
@@ -402,23 +314,19 @@ static void _export_select_accounts_to_export(GSList* format_list)
 
     gtk_widget_destroy ( account_selection_dialog );
 
-} /* }}} _export_all_selected_entries_are_valid */
-/**
- * THE function to be called we we wanted the export accounts.
- *
- * This is also the ONLY part of the code to modified to add a new export format
- */
-void export_accounts_to_file()
-{
-    GSList* export_format_list = NULL;
+} /* }}} export_all_selected_entries_are_valid */
 
-    g_selected_format = 0;
-    g_selected_entries= NULL;
-    
-    /* To add a new supported format, just add a new line here ... */
-    export_format_list = _export_append_format(export_format_list,_("QIF file"),".qif",&export_qif);
-    export_format_list = _export_append_format(export_format_list,_("CSV file"),".csv",&export_accounts_to_csv);
-    
+
+
+
+/**
+ * Callback function called when the user select a export format from the menu
+ *
+ */
+void export_accounts_to_file_from_menu(gpointer format_list, gint index)
+{/* {{{ */
+    gint format_type = index;
+
     if ( !nom_fichier_comptes )
     {
 	dialogue_error ( _("Your file must have a name (saved) to be exported.") );
@@ -430,15 +338,82 @@ void export_accounts_to_file()
                                      &etat.display_message_qif_export_currency ); 
 
     // If the user selects a valid format
-    if(_export_select_format_to_export_to(export_format_list))
+    export_select_accounts_to_export(g_export_format_list,format_type);
+
+} /* }}} */
+
+/**
+ * This function update the File/Export sub menu corresponding to the list of supported format
+ */
+extern  GtkItemFactory *item_factory_menu_general;
+
+static void export_update_format_menu(GtkItemFactory* menu_bar,gchar* level1, gchar* level2, GSList * format_list)
+{/* {{{ */
+    GtkItemFactoryEntry *item_factory_entry;
+
+    GSList * list_tmp = format_list;
+
+    while (list_tmp)
     {
-        _export_select_accounts_to_export(export_format_list);
+        export_format* format = list_tmp->data;
+        
+        item_factory_entry = (GtkItemFactoryEntry*)calloc (1, sizeof( GtkItemFactoryEntry ));
+
+        item_factory_entry -> path            = menu_name( level1, level2, g_strdup(format->label));
+        item_factory_entry -> callback        = G_CALLBACK ( export_accounts_to_file_from_menu );
+        item_factory_entry -> callback_action = format->type;
+        item_factory_entry -> item_type       = NULL;
+
+        gtk_item_factory_create_item ( menu_bar,
+                                       item_factory_entry,
+                                       format_list,
+                                       1 );
+
+        list_tmp = g_slist_next(list_tmp);
     }
 
-    if (export_format_list) { g_slist_free(export_format_list); }
-    g_selected_format = 0;
-}
+#if 0
+	    tmp = my_strdelimit ( NOM_DU_COMPTE,
+				  "/",
+				  "\\/" );
+	    tmp = my_strdelimit ( tmp,
+				  "_",
+				  "__" );
 
+
+	    item_factory_entry -> callback = G_CALLBACK ( changement_compte_par_menu );
+
+	    /* 	    on rajoute 1 car sinon pour le compte 0 ça passerait pas... */
+
+	    item_factory_entry -> callback_action = GPOINTER_TO_INT ( ordre_comptes_variable->data ) + 1;
+
+	    gtk_item_factory_create_item ( item_factory_menu_general,
+					   item_factory_entry,
+					   NULL,
+					   1 );
+	    gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
+								   menu_name(_("Accounts"), _("Closed accounts"), NULL)),
+				       TRUE );
+
+#endif
+}/* }}} */
+
+/**
+ */
+void export_update_supported_format_menu(GtkItemFactory* menu_bar)
+{
+    // Append the format only on the first call of the function
+    if (g_export_format_list)
+    {
+        return;
+    }
+   
+    /* To add a new supported format, just add a new line here ... */
+    g_export_format_list = export_append_format(g_export_format_list,_("Accounts to QIF file ..."),".qif",&export_qif);
+    g_export_format_list = export_append_format(g_export_format_list,_("Accounts to CSV file ..."),".csv",&export_accounts_to_csv);
+
+    export_update_format_menu(menu_bar,_("File"),_("Export"),g_export_format_list);
+}
 
 
 

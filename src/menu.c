@@ -27,6 +27,7 @@
 #include "structures.h"
 #include "variables-extern.c"
 #include "menu.h"
+#include "export.h"
 
 
 #include "comptes_traitements.h"
@@ -73,8 +74,7 @@ GtkWidget *init_menus ( GtkWidget *vbox )
 	{menu_name(_("File"), _("Import"), NULL),   NULL,NULL , 0, "<Branch>",NULL  },
 	{menu_name(_("File"), _("Import"), _("QIF\\/OFX\\/Gnucash file ...")),   NULL, G_CALLBACK ( importer_fichier), 0, NULL ,NULL  },
 	{menu_name(_("File"), _("Export"), NULL),   NULL, NULL, 0, "<Branch>",NULL  },
-	{menu_name(_("File"), _("Export"), _("QIF file ...")),   NULL,G_CALLBACK ( exporter_fichier_qif ), 0, NULL ,NULL  },
-	{menu_name(_("File"), _("Export"), _("QIF\\/CSV file ...")),   NULL,G_CALLBACK ( export_accounts_to_file ), 0, NULL ,NULL  },
+	//{menu_name(_("File"), _("Export"), _("QIF file ...")),   NULL,G_CALLBACK ( exporter_fichier_qif ), 0, NULL ,NULL  },
 	{menu_name(_("File"), "Sep1", NULL),    NULL, NULL, 0, "<Separator>", NULL },
 	{menu_name(_("File"), _("Close"), NULL),   NULL,G_CALLBACK ( fermer_fichier ), 0, "<StockItem>", GTK_STOCK_CLOSE },
 	{menu_name(_("File"), _("Exit"), NULL),   NULL, G_CALLBACK ( fermeture_grisbi), 0, "<StockItem>", GTK_STOCK_QUIT },
@@ -161,6 +161,9 @@ GtkWidget *init_menus ( GtkWidget *vbox )
 
     gtk_window_add_accel_group(GTK_WINDOW(window),
 			       accel );
+
+    
+    export_update_supported_format_menu(item_factory_menu_general);
 
     gtk_widget_show_all ( barre_menu );
 
