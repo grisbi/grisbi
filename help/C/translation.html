@@ -9,31 +9,35 @@
 <H1 ALIGN=center>Translating Grisbi</H1>
 
 <H3 ALIGN=center>Copyright © 2001-2003 Daniel <FONT COLOR=navy>Cartron</FONT></H3>
-<H4 ALIGN=center>English translation : Daniel <FONT COLOR=navy>Cartron</FONT></H4>
-<H4 ALIGN=center>Corrections : Sébastien <FONT COLOR=navy>Blondeel</FONT></H4>
+<H4 ALIGN=center>English translation: Daniel <FONT COLOR=navy>Cartron</FONT></H4>
+<H4 ALIGN=center>Proof reading: Sébastien <FONT COLOR=navy>Blondeel</FONT> AKA SBI</H4>
 
-<H3 ALIGN=center>Last update :  april the second, 2003</H3>
+<H3 ALIGN=center>Last update:  2003-04-02</H3>
 
-Grisbi needs your help for translations. If you can do some translations in a language
-not yet implemented, please feel free to send a mail to 
-<a href="mailto:daniel@grisbi.org?Subject=[grisbi] Translation&Body="I can translate the user's guide in the following language :">Daniel</a>
-explaning in which language you can translate.
+Grisbi needs your help for translations. If you can do some translations
+in a language not yet implemented, please feel free to send a mail to 
+<a href="mailto:daniel@grisbi.org?Subject=[grisbi] Translation&Body="I
+ can translate the user's guide in the following language:">Daniel</a>
+explaining in which language you can translate.
 
-Then it's really important to subscribe to the <a href="mailto:traduction@grisbi.org">translation mailing list</a> 
+Then it's really important to subscribe to the <a 
+href="mailto:traduction@grisbi.org">translation mailing list</a> 
 by sending <a href="mailto:traduction-subscribe@grisbi.org">this mail</a>.
 
 <h1>The files to translate</h1>
 
-There are several kind of files to translate. We'll check all of them.
+There are several kinds of files to translate. We'll check all of them.
 
-All these files will be avaliable on the <a href="http://www.grisbi.org">Grisbi's site</a> in the section
-Download/Translation. However, if you want to work on the latest issues of the files, you should ask us 
-a CVS and FTP access.
+All these files will be avaliable on the <a 
+href="http://www.grisbi.org">Grisbi's site</a> in the section <a 
+href="http://www.grisbi.org/modules.php?name=Downloads">
+Download/Translation</a>. However, if you want to work on the latest 
+issues of the files, you should ask us for CVS and FTP access.
 
 <h2>The website</h2>
 
 Not the more usefull for the programm but the more usefull for advertising and
-find some help. 
+finding some help. 
 
 The files to translate are :
 
@@ -42,23 +46,28 @@ The files to translate are :
 <LI>grisbi-block-contact-C.txt</LI>
 <li>grisbi-contact-C.txt</li>
 <li>grisbi-home-C.txt</li>
+<li>grisbi-infos-C.txt</li>
 <li>grisbi-mainmenu-C.txt</li>
 <li>grisbi-mirrors-C.txt</li>
 <li>grisbi-title-C.txt</li>
 <li>grisbi-version-C.txt</li>
 
-Once the files are translated you have to change the C in their name for your language code (2letters).
+Once the files are translated you have to rename them with your 
+<a href="http://www.w3.org/WAI/ER/IG/ert/iso639.htm">2 letter ISO-639 language code</a>
+e.g. grisbi-home-en.txt for English or grisbi-home-fr.txt for French.
 
 </ul>
 
 <h2>The programm</h2>
 
-You just have to translate the grisbi.pot file. Then rename it with your language code (2letters) and .po, e.g.
-en.po or fr.po.
+You just have to translate the grisbi.pot file. Then rename it with your 
+<a href="http://www.w3.org/WAI/ER/IG/ert/iso639.htm">2 letter ISO-639 language code</a>
+and .po, e.g. en.po for English or fr.po for French.
+
 
 <h2>The help files</h2>
 
-There are three HTML files and a text file : 
+There are three HTML files and a text file: 
 
 <ul>
 
@@ -71,46 +80,55 @@ There are three HTML files and a text file :
 
 <h2>The user's guide</h2>
 
-The user's guide is made of several .tex files, a makefile, an image directory and a tool directory.
+The user's guide is made of several .tex files, a Makefile, an image 
+directory and a tool directory.
 
-The image directory contains all the screenshots and the icons in two separate sub-directories. We will soon provide
-you some scripts to make the screenshots automatically. We'll also provide you a script that will warn you as soon 
-as a .po change implies a new screenshot. But for the moment you'll have to do it by yourself. Sorry for the 
-inconvenience.
+The image directory contains all the screenshots and the icons in two
+separate sub-directories. We will soon provide you some scripts to make
+the screenshots automatically. We'll also provide you a script that will
+warn you as soon as a .po change implies a new screenshot. But for the
+moment you'll have to do it by yourself. Sorry for the inconvenience.
 
-The tool directory contains the scripts (mainly in perl) that will help you to compile the sources.
+The tool directory contains the scripts (mainly in Perl) that will help
+you to compile the sources.
 
-The .tex files will be soon connected to the .po files, so you won't have to translate any text that appears in
-the GUI.
+The .tex files will be soon connected to the .po files, so you won't
+have to translate any text that appears in the GUI.
 
 <h1>How to translate</h1>
 
-We'll give you some advices that you are not abliged to follow. Only the result means something...
+We'll give you some advice that you are not abliged to follow. Only the
+result matters...
 
 <h2>The website</h2>
 
-As they are php files, you can use any editor you want. You can use a text editor, or an editor
-dedicated to the HTML or PHP as Bluefish or Quanta+.
+As they are HTML files, you can use any editor you want. You can use a
+text editor or an editor dedicated to the HTML as Bluefish or Quanta+.
 
-<h2>The programm</h2>
+<h2>The program</h2>
 
-The .po file can be translated easily with Kbabel, or Emacs, or even VI... Choose the one you want. 
+The .po file can be translated easily with Kbabel, Emacs, or even some
+VI clone... Choose the one you want.
 
-If you are not use to any of these programms, Kbabel will certainly be the easiest one for you. 
+If you are not used to any of these programs, Kbabel will certainly be
+the easiest one for you.
 
 <h2>The help files</h2>
 
-As they are HTML and text files, you can use any editor you want for translating them.
-Just be careful not to translate the tags, only the text :-)
-For the topic.dat you <b>must</b> only translate the second term of each line (which is the label of the entry 
-in the help menu) but not the first one (which is the name of the related file).
+As they are HTML and text files, you can use any editor you want for
+translating them. Just be careful not to translate the tags, only the
+text :-) For the topic.dat you <b>must</b> only translate the second
+term of each line (which is the label of the entry in the help menu) but
+not the first one (which is the name of the related file).
 
 <h2>The user's guide</h2>
 
-The user's guide is written in latex, including macros which will help you to compile the source in two differents
-types, text-only or illustrated. So we recomand you to keep this format. If you are not used with latex, you should 
-try Kile, which is a latex-editor dedicated to KDE. If you really want another file format, let us know, but you'll
-probably have difficults to maintain two differents types at the same time...
+The user's guide is written in LaTeX, including macros which will help
+to compile the source in two differents types, text-only or illustrated.
+We therefore advise you to keep this format. If you are not used with
+LaTeX, you should try Kile, which is a LaTeX-editor dedicated to KDE. If
+you really want another file format, let us know, but you'll probably
+have difficulties to maintain two differents types at the same time...
 
 <h1>How to verify</h1>
 
@@ -118,47 +136,62 @@ Before commiting your translations it's your duty to control they will work.
 
 <h2>The website</h2>
 
-As the website uses text files with the HTML tags you just have to write them with an HTML editor and then
-copy the text part between tne body and /body tags and il should work. Anyway, if it doesn't, it's easy to see on
- the site, so you just have to correct.
+As the website uses text files with the HTML tags you just have to write
+them with an HTML editor and then copy the text part between tne body
+and /body tags and it should work. Anyway, if it doesn't, it's easy to
+see on the site, so you just have to correct.
 
-<h2>The programm</h2>
+<h2>The program</h2>
 
-You should be able to compile the programm on your box. If you never do such a thing don't panic we'll help you.
-You just have to install the needed libraries then compile as it's explained in the user's guide.
+You should be able to compile the program on your box. If you never do
+such a thing don't panic we'll help you. You just have to install the
+needed libraries then compile as it's explained in the user's guide.
 
 <h2>The help files</h2>
 
-They are HTML and TXT files, so it's easy to see if they work. And if you copy them in the right location on your
-box you can see imediately if it's correct.
+They are HTML and TXT files, so it's easy to see if they work. And if
+you copy them in the right location on your box you can see imediately
+if it's correct.
 
-The directory of your language is 
-/usr/share/gnome/help/grisbi/<i>lang</i> where <i>lang</i> is the 2 letters code for your language.
+The directory of your language is
+/usr/share/gnome/help/grisbi/<i>lang</i> where <i>lang</i> is the 2
+letters code for your language.
 
 <h2>The user's guide</h2>
 
-If you use the latex files you just have to compile them with the tools provided, and then control the result 
-either in HTML or PDF format.
+
+<!-- SBIREM explain hot to compile them -->
+
+If you use the LaTeX files you just have to compile them with the tools
+provided, and then control the result either in HTML or PDF format.
 
 <h1>How to commit</h1>
 
-Once you are satisfied, tou have to commit your work in order to let the community use it.
+<!-- SBIREM explain how -->
+
+Once you are satisfied, you have to commit your work in order to let the
+community use it.
 
 <h2>The website</h2>
 
-The best way is to ask our webmaster to give you an access just for your language. So you can add or modify the
-texts as you want. Send a mail to <a href="mailto:webmestres@grisbi.org?Subject=[grisbi site]&Body=I would like to have an access to the website for publishing texts in the following language :">the webmaster</a>
-to ask for an access.
+The best way is to ask our <a href="mailto:webmestres@grisbi.org">webmasters
+</a> to give you an access just for your language, so you can add or 
+modify the texts as you want. Send a mail to
+<a href="mailto:webmestres@grisbi.org?Subject=[grisbi site]&Body=I would 
+like to have an access to the website for publishing texts in the following 
+language:">the webmasters</a> to ask for such an access.
 
 <h2>The programm</h2>
 
-This file have to be commited in the code sources, so if you're a lone translator, 
-you just can send the .po file to 
-<a href="mailto:daniel@grisbi.org?Subject=[grisbi] Translation&Body=You will find attached the .po file for the following language :">Daniel</a>
+This file have to be commited in the code sources, so if you're a lone 
+translator, you just can send the .po file to 
+<a href="mailto:daniel@grisbi.org?Subject=[grisbi] Translation&Body=You 
+will find attached the .po file for the following language:">Daniel</a>
 who will commit it for you.
 
-If you work in a team it's more efficient that one of you asks for the rights to commit the .po and doc files, so you
-just have to deal with him (or her) for the commits.
+If you work in a team it's more efficient that one of you asks for the
+rights to commit the .po and doc files, so you just have to deal with
+him (or her) for the commits.
 
 <h2>The help files</h2>
 
@@ -167,9 +200,10 @@ See above.
 <h2>The user's guide</h2>
 
 The scripts to publish the guide are in the makefile (make transfer).
-You will need the config files, so just ask to
-<a href="mailto:daniel@grisbi.org?Subject=[grisbi] Translation&Body=I need the config files for committing the user's guide for the following language :">Daniel</a>
-the needed files.
+You will need the config files, so just ask to <a
+href="mailto:daniel@grisbi.org?Subject='[grisbi] Translation'&Body='I
+need the config files for committing the user s guide for the following
+language:'">Daniel</a> the needed files.
 
 </BODY>
 </HTML>
