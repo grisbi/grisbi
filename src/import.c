@@ -38,7 +38,9 @@
 #include "fenetre_principale.h"
 #include "fichiers_gestion.h"
 #include "html.h"
+#ifndef _WIN32
 #include "ofx.h"
+#endif
 #include "operations_classement.h"
 #include "operations_comptes.h"
 #include "operations_liste.h"
@@ -172,7 +174,11 @@ gboolean fichier_choisi_importation ( GtkWidget *fenetre )
 	     ||
 	     g_strrstr ( pointeur_char,
 			 "OFX" ))
+        {
+#ifndef _WIN32
 	    recuperation_donnees_ofx ( liste_selection[i]);
+#endif
+        }
 	else
 	{
 	    if ( !strncmp ( pointeur_char,
