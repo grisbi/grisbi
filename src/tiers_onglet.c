@@ -371,6 +371,13 @@ void remplit_arbre_tiers ( void )
 
   gtk_clist_clear ( GTK_CLIST ( arbre_tiers ));
 
+  if ( !devise_compte
+       ||
+       devise_compte -> no_devise != no_devise_totaux_tiers )
+    devise_compte = g_slist_find_custom ( liste_struct_devises,
+					  GINT_TO_POINTER ( no_devise_totaux_tiers ),
+					  ( GCompareFunc ) recherche_devise_par_no) -> data;
+
   /* récupère les montants des tiers */
 
   tab_montant = calcule_total_montant_tiers ();

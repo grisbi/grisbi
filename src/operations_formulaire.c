@@ -2495,6 +2495,11 @@ void fin_edition ( void )
 
       if ( liste_tmp -> data == GINT_TO_POINTER ( -1 ))
 	liste_tmp = NULL;
+      else if ( liste_tmp -> data == NULL )
+	{
+	  dialogue ( _("Erreur: cet état ne comporte pas de tiers sélectionnés."));
+	  return;
+	}
       else
 	{
 	  struct struct_tiers *tiers;
