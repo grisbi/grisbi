@@ -105,7 +105,6 @@ gint ancien_retient_affichage_par_compte;
 
 /*START_EXTERN*/
 extern GtkWidget *label_last_statement;
-extern GtkWidget *label_proprietes_operations_compte;
 extern gint mise_a_jour_liste_comptes_accueil;
 extern GtkTreeStore *model;
 extern GtkWidget *notebook_comptes_equilibrage;
@@ -502,10 +501,6 @@ void equilibrage ( void )
 {
     GDate *date;
 
-    /* efface le label propriétés du compte */
-
-    gtk_widget_hide ( label_proprietes_operations_compte );
-
     /* calcule le montant des opérations pointées */
     /* FIXME : à vérifie mais normalement, pas besoin de ça vu que c'est en temps réel... */
     /*     calcule_total_pointe_compte ( gsb_account_get_current_account () ); */
@@ -784,7 +779,6 @@ gboolean annuler_equilibrage ( void )
     etat.retient_affichage_par_compte = ancien_retient_affichage_par_compte;
 
 
-    gtk_widget_show ( label_proprietes_operations_compte );
     return FALSE;
 }
 /******************************************************************************/
