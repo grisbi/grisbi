@@ -238,26 +238,26 @@ void ouverture_confirmee ( void )
 	      else
 		close (result);
 
-	      dialogue ( _("Loading of the file failed. Grisbi will now try to load\nthe last automatic backup.\nYou will loose all you made since this backup."));
-
 	      mise_en_route_attente ( _("Loading backup") );
 
 	      if ( charge_operations () )
-		/* on a réussi a charger la sauvegarde */
-		nom_fichier_comptes = nom;
+		{
+		  /* on a réussi a charger la sauvegarde */
+		  dialogue ( _("Grisbi was unable to load file.  However, Grisbi loaded a backup file instead.\nHowever, all changes made since this backup were possibly lost."));
+		  nom_fichier_comptes = nom;
+		}
 	      else
 		{
 		  /* le chargement de la sauvegarde a échoué */
 
 		  nom_fichier_comptes = nom;
 		  annulation_attente ();
-		  dialogue ( _("Failed to load backup. Please contact the developpement\n team. They will try to recover your data."));
+		  dialogue ( _("Grisbi was unable to load file.  Additionnaly, Grisbi was unable to load a backup file instead."));
 		  return;
 		}
 	    }
 	  else
 	    {
-	      dialogue ( _("Problem loading file!") );
 	      init_variables ( FALSE );
 	      return;
 	    }
@@ -466,10 +466,6 @@ gboolean enregistrement_fichier ( gint origine )
 					 NULL ));
       gtk_entry_set_position ( GTK_ENTRY ( gnome_file_entry_gtk_entry ( GNOME_FILE_ENTRY ( fenetre_nom ))),
 			       strlen (dernier_chemin_de_travail ));
-      gnome_dialog_editable_enters ( GNOME_DIALOG ( dialog ),
-				     GTK_EDITABLE ( gnome_file_entry_gtk_entry ( GNOME_FILE_ENTRY ( fenetre_nom ))));
-      gtk_window_set_focus ( GTK_WINDOW ( dialog ),
-			     gnome_file_entry_gtk_entry ( GNOME_FILE_ENTRY ( fenetre_nom )));
       gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
 			   fenetre_nom,
 			   FALSE,
