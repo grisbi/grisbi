@@ -1520,7 +1520,7 @@ void recuperation_info_perso_etat ( void )
        &&
        etat_courant -> utilise_mode_paiement )
     {
-      dialogue ( _("All the méthods of payment have been selected. Grisbi will run faster\n without the \"Select the transactions based on payment method\" option") );
+      dialogue ( _("All methods of payment have been selected. Grisbi will run faster without the \"Select the transactions based on payment method\" option") );
       etat_courant -> utilise_mode_paiement = FALSE;
     }
   
