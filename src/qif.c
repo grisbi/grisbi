@@ -452,7 +452,15 @@ void fichier_choisi_importation_qif ( GtkWidget *fenetre )
 		    {
 		      /* on commence une ventilation, si une opé était en cours, on l'enregistre */
 
-		      if ( retour != EOF && operation -> date )
+		      /* ALAIN-FIXME : je ne comprends pas du tout ce test.
+		         D'abord, normalement, on est dans une boucle où
+			 retour != EOF.
+			 Ensuite, pourquoi tester la date de l'opération ?
+			 le bug #180 survient car operation n'existe pas,
+			 on a donc un segment fault lorsqu'on essaye d'accéder
+			 au membre date */
+/*		      if ( retour != EOF && operation -> date ) */
+		      if ( retour != EOF && operation )
 			{
 			  if ( !ventilation )
 			    liste_ope_brut = g_slist_append ( liste_ope_brut, operation );
