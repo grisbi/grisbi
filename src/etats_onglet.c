@@ -344,16 +344,19 @@ GtkWidget *creation_liste_etats ( void )
 							   menu_name(_("Reports"), _("Clone report"), NULL)),
 			       FALSE );
     gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
-							   menu_name(_("Reports"), _("Print report"), NULL)),
+							   menu_name(_("Reports"), _("Print report..."), NULL)),
 			       FALSE );
     gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
-							   menu_name(_("Reports"), _("Export report"), NULL)),
+							   menu_name(_("Reports"), _("Export report..."), NULL)),
+			       FALSE );
+    gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
+							   menu_name(_("Reports"), _("Export report as HTML..."), NULL)),
 			       FALSE );
     gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
 							   menu_name(_("Reports"), _("Remove report"), NULL)),
 			       FALSE );
     gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
-							   menu_name(_("Reports"), _("Edit report"), NULL)),
+							   menu_name(_("Reports"), _("Edit report..."), NULL)),
 			       FALSE );
 
     return ( onglet );
@@ -1106,16 +1109,19 @@ void efface_etat ( void )
 							   menu_name(_("Reports"), _("Clone report"), NULL)),
 			       FALSE );
     gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
-							   menu_name(_("Reports"), _("Print report"), NULL)),
+							   menu_name(_("Reports"), _("Print report..."), NULL)),
 			       FALSE );
     gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
-							   menu_name(_("Reports"), _("Export report"), NULL)),
+							   menu_name(_("Reports"), _("Export report..."), NULL)),
+			       FALSE );
+    gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
+							   menu_name(_("Reports"), _("Export report as HTML..."), NULL)),
 			       FALSE );
     gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
 							   menu_name(_("Reports"), _("Remove report"), NULL)),
 			       FALSE );
     gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
-							   menu_name(_("Reports"), _("Edit report"), NULL)),
+							   menu_name(_("Reports"), _("Edit report..."), NULL)),
 			       FALSE );
 
 
@@ -1151,13 +1157,16 @@ void changement_etat ( GtkWidget *bouton,
 							   menu_name(_("Reports"), _("Print report"), NULL)),
 			       TRUE );
     gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
-							   menu_name(_("Reports"), _("Export report"), NULL)),
+							   menu_name(_("Reports"), _("Export report..."), NULL)),
 			       TRUE );
+    gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
+							   menu_name(_("Reports"), _("Export report as HTML..."), NULL)),
+			       FALSE );
     gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
 							   menu_name(_("Reports"), _("Remove report"), NULL)),
 			       TRUE );
     gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
-							   menu_name(_("Reports"), _("Edit report"), NULL)),
+							   menu_name(_("Reports"), _("Edit report..."), NULL)),
 			       TRUE );
 
     gtk_label_set_text ( GTK_LABEL ( label_etat_courant ), etat -> nom_etat );
