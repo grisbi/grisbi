@@ -148,6 +148,10 @@ void fichier_choisi_importation_qif ( GtkWidget *fenetre )
 		     5 )
 	   &&
 	   strncmp ( pointeur_char,
+		     "!type",
+		     5 )
+	   &&
+	   strncmp ( pointeur_char,
 		     "!Account",
 		     8 )
 	   &&
