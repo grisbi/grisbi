@@ -2328,3 +2328,10 @@ void update_exchange_rate_cache ( struct struct_devise * currency1,
 
   cached_exchange_rates = g_slist_append ( cached_exchange_rates, tmp );
 }
+
+
+
+gboolean is_euro ( struct struct_devise * currency )
+{
+  return (gboolean) !strcmp ( currency -> nom_devise, _("Euro"));
+}

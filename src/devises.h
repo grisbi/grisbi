@@ -56,3 +56,4 @@ void update_exchange_rate_cache ( struct struct_devise * currency1,
 				  gdouble change, gdouble fees );
 struct cached_exchange_rate * cached_exchange_rate ( struct struct_devise * currency1, 
 						     struct struct_devise * currency2 );
+gboolean is_euro ( struct struct_devise * currency );
