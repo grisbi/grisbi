@@ -33,7 +33,23 @@
 
 
 /**
- * Display an info dialog window
+ * Display an info dialog window with a hint displayed larger and in
+ * bold.
+ *
+ * \param text Text to display in window
+ * \param hint Hint to display
+ */
+void dialogue_hint ( gchar *text, gchar *hint )
+{
+  dialogue_special ( GTK_MESSAGE_INFO,
+		     g_strconcat ("<span size=\"larger\" weight=\"bold\">",
+				  hint, "</span>\n\n",
+				  text, NULL) );
+}
+
+
+/**
+ * Display an info dialog window.
  *
  * \param text Text to display in window
  */
@@ -66,6 +82,21 @@ void dialogue_warning ( gchar *text )
 
 
 /**
+ * Display a warning dialog window with an optional hint.
+ *
+ * \param text Text to display in window
+ * \param hint Text to display in window as hint (bold, larger)
+ */
+void dialogue_warning_hint ( gchar *text, gchar * hint )
+{
+  dialogue_special ( GTK_MESSAGE_WARNING,
+		     g_strconcat ("<span size=\"larger\" weight=\"bold\">",
+				  hint, "</span>\n\n",
+				  text, NULL) );
+}
+
+
+/**
  * Display a dialog window with arbitrary icon.
  *
  * \param param Type of Window to display
@@ -75,12 +106,33 @@ void dialogue_special ( GtkMessageType param, gchar * text )
 {
   GtkWidget *dialog;
 
-  dialog = gtk_message_dialog_new ( GTK_WINDOW (window), GTK_DIALOG_DESTROY_WITH_PARENT,
+  dialog = gtk_message_dialog_new ( GTK_WINDOW (window), 
+				    GTK_DIALOG_DESTROY_WITH_PARENT,
 				    param, GTK_BUTTONS_CLOSE, text );
   
   gtk_window_set_modal ( GTK_WINDOW ( dialog ), TRUE );
   gtk_dialog_run (GTK_DIALOG (dialog));
   gtk_widget_destroy ( dialog );
+}
+
+
+/**
+ * This function pop ups a dialog with a hint (first sentence, in
+ * bold), an informal text and a checkbox that allow this message not
+ * to be displayed again thanks to preferences.  It calls
+ * dialogue_conditional to achieve display.
+ *
+ * \param text text to be displayed
+ * \param hint hint to be displayed
+ * \param var variable that both controls whether the dialog will
+ * appear or not and that indicates which variable could be modified
+ * so that this message won't appear again.
+ */
+void dialogue_conditional_hint ( gchar *hint, gchar * text, int * var )
+{
+  dialogue_conditional ( g_strconcat ("<span size=\"larger\" weight=\"bold\">",
+				      hint, "</span>\n\n",
+				      text, NULL), var );
 }
 
 
@@ -96,75 +148,52 @@ void dialogue_special ( GtkMessageType param, gchar * text )
  */
 void dialogue_conditional ( gchar *text, int * var )
 {
-  GtkWidget * vbox, * checkbox;
+  GtkWidget * vbox, * checkbox, *dialog;
 
   if ( !var || *var)
     return;
 
-  win_erreur = gtk_message_dialog_new ( GTK_WINDOW (window),
-					GTK_DIALOG_DESTROY_WITH_PARENT,
-					GTK_MESSAGE_ERROR,
-					GTK_BUTTONS_CLOSE,
-					text );
-  vbox = GTK_DIALOG(win_erreur) -> vbox;
+  dialog = gtk_message_dialog_new ( GTK_WINDOW (window),
+				    GTK_DIALOG_DESTROY_WITH_PARENT,
+				    GTK_MESSAGE_ERROR,
+				    GTK_BUTTONS_CLOSE,
+				    text );
+  gtk_label_set_markup ( GTK_LABEL ( GTK_MESSAGE_DIALOG(dialog)->label ), text );
+
+  vbox = GTK_DIALOG(dialog) -> vbox;
   checkbox = new_checkbox_with_title ( _("Do not show this message again"), var, 
 				       NULL );
   gtk_box_pack_start ( GTK_BOX ( vbox ), checkbox, TRUE, TRUE, 6 );
   gtk_widget_show_all ( checkbox );
 
-  gtk_window_set_modal ( GTK_WINDOW ( win_erreur ), TRUE );
-  gtk_dialog_run (GTK_DIALOG (win_erreur));
-  gtk_widget_destroy ( win_erreur );
+  gtk_window_set_modal ( GTK_WINDOW ( dialog ), TRUE );
+  gtk_dialog_run (GTK_DIALOG (dialog));
+  gtk_widget_destroy ( dialog );
 }
 
 
-
-/*************************************************************************************************************/
-/* Fonction question : */
-/* affiche le texte donné en argument et attend l'appui sur oui ( renvoie TRUE ) ou non (renvoie FALSE )*/
-/*************************************************************************************************************/
-
+/**
+ * Alias for question_yes_no().
+ *
+ * \deprecated This should not be used in newly written code.  Use
+ * question_yes_no() instead.
+ */
 gboolean question ( gchar *texte )
 {
-  GtkWidget *dialogue;
-  GtkWidget *label;
-  gint resultat;
-
-
-  dialogue = gnome_dialog_new ( "Warning",
-				GNOME_STOCK_BUTTON_OK,
-				GNOME_STOCK_BUTTON_CANCEL,
-				NULL );
-  gtk_window_set_transient_for ( GTK_WINDOW ( dialogue ),
-				 GTK_WINDOW ( window ) );
-  gtk_signal_connect ( GTK_OBJECT ( dialogue ),
-		       "delete_event",
-		       GTK_SIGNAL_FUNC ( blocage_boites_dialogues ),
-		       NULL );
-
-  label = gtk_label_new ( texte );
-  gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialogue ) -> vbox ),
-		       label,
-		       TRUE,
-		       TRUE,
-		       0 );
-  gtk_widget_show ( label );
-
-  resultat = gnome_dialog_run_and_close ( GNOME_DIALOG ( dialogue ));
-
-  if ( resultat )
-    return ( FALSE );
-  else
-    return ( TRUE );
+  return question_yes_no ( texte );
 }
-/*************************************************************************************************************/
 
 
-
-/*************************************************************************************************************/
-/* Fonction question_yes_no : */
-/* affiche le texte donné en argument et attend l'appui sur oui ( renvoie TRUE ) ou non (renvoie FALSE )*/
-/*************************************************************************************************************/
+/**
+ * Pop up a warning dialog window with a question and wait for user to
+ * press 'OK' or 'Cancel'.  A hint is displayed on the top of the
+ * window larger and in bold.
+ *
+ * \param hint Hint to be displayed
+ * \param texte Text to be displayed
+ *
+ * \return TRUE if user pressed 'OK'.  FALSE otherwise.
+ */
 gboolean question_yes_no_hint ( gchar * hint, gchar *texte )
 {
   return question_yes_no ( g_strconcat ("<span size=\"larger\" weight=\"bold\">",
@@ -173,6 +202,14 @@ gboolean question_yes_no_hint ( gchar * hint, gchar *texte )
 }
 
 
+/**
+ * Pop up a warning dialog window with a question and wait for user to
+ * press 'OK' or 'Cancel'.
+ *
+ * \param texte  Text to be displayed
+ *
+ * \return TRUE if user pressed 'OK'.  FALSE otherwise.
+ */
 gboolean question_yes_no ( gchar *texte )
 {
   GtkWidget *dialog;
@@ -188,7 +225,7 @@ gboolean question_yes_no ( gchar *texte )
   response = gtk_dialog_run (GTK_DIALOG (dialog));
   gtk_widget_destroy ( dialog );
   
-  if ( response == GTK_RESPONSE_YES )
+  if ( response == GTK_RESPONSE_OK )
     return TRUE;
   else
     return FALSE;
@@ -202,7 +239,6 @@ gboolean question_yes_no ( gchar *texte )
 /* affiche une boite de dialogue qui demande l'entrée d'un texte */
 /* renvoie NULL si annulé ou le texte */
 /*************************************************************************************************************/
-
 gchar *demande_texte ( gchar *titre_fenetre,
 		       gchar *question )
 {
