@@ -1,7 +1,6 @@
 #ifndef OFX_H
 #define OFX_H
 
-#include <libofx/libofx.h>
 gboolean recuperation_donnees_ofx ( gchar *nom_fichier );
 
 #ifndef _WIN32
