@@ -26,6 +26,7 @@
 
 #include "devises.h"
 #include "etats_gtktable.h"
+#include "etats_html.h"
 #include "etats_latex.h"
 #include "etats_affiche.h"
 #include "search_glist.h"
@@ -1493,6 +1494,25 @@ void impression_etat_courant ( )
 				7 );
 
     impression_etat ( NULL );
+}
+
+
+
+
+void export_etat_vers_html ( struct struct_etat *etat )
+{
+    affichage_etat ( etat, &html_affichage );
+}
+
+
+
+void export_etat_courant_vers_html ( )
+{
+    if ( gtk_notebook_get_current_page ( GTK_NOTEBOOK ( notebook_general)) != 7 )
+	gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general),
+				7 );
+
+    export_etat_vers_html ( NULL );
 }
 
 
