@@ -197,7 +197,7 @@ void supprimer_compte ( void )
   gtk_option_menu_set_menu ( GTK_OPTION_MENU ( liste_comptes ),
 			     creation_option_menu_comptes () );
   gtk_option_menu_set_history ( GTK_OPTION_MENU ( liste_comptes ),
-				compte_courant );
+				compte_courant_onglet );
   gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
 		       liste_comptes,
 		       FALSE,

@@ -413,6 +413,7 @@ struct struct_etat
   gint afficher_cheque_ope;
   gint afficher_rappr_ope;
   gint afficher_exo_ope;
+  gint type_classement_ope;     /* 0=date, 1=no opé, 2=tiers, 3=categ, 4=ib, 5=notes, 6=type ope, 7=no chq, 8=pc, 9=ibg, 10=no rappr */
   gint pas_detailler_ventilation;
   gint separer_revenus_depenses;
   gint devise_de_calcul_general;

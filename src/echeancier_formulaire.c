@@ -335,8 +335,8 @@ GtkWidget *creation_formulaire_echeancier ( void )
   widget_formulaire_echeancier[7] = gtk_option_menu_new ();
   gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tips ),
 			 widget_formulaire_echeancier[7],
-			 _("Choix du type d'opération"),
-			 _("Choix du type d'opération") );
+			 _("Choix du mode de règlement"),
+			 _("Choix du mode de règlement") );
   gtk_signal_connect ( GTK_OBJECT ( widget_formulaire_echeancier[7] ),
 		       "key_press_event",
 		       GTK_SIGNAL_FUNC ( pression_touche_formulaire_echeancier ),
@@ -1698,7 +1698,7 @@ void fin_edition_echeance ( void )
        ((struct struct_type_ope  *)( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_echeancier[7] ) -> menu_item ),
 							   "adr_type" )))->numerotation_auto )
     {
-      dialogue ( _(" Impossible de créer ou saisir une échéance automatique\n avec un chèque ou un type d'opération à incrémentation automatique.") );
+      dialogue ( _(" Impossible de créer ou saisir une échéance automatique\n avec un chèque ou un mode de règlement à incrémentation automatique.") );
       return;
     }
 

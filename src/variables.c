@@ -650,6 +650,7 @@ GtkWidget *bouton_inclure_dans_tiers;
 GtkWidget *bouton_afficher_titres_colonnes;
 GtkWidget *bouton_titre_changement;
 GtkWidget *bouton_titre_en_haut;
+GtkWidget *bouton_choix_classement_ope_etat;
 GtkWidget *frame_onglet_generalites;
 
 GtkWidget *radio_button_utilise_exo;
@@ -788,5 +789,14 @@ GtkWidget *boutons_affichage_liste[17];
 GtkWidget *clist_affichage_liste;
 GtkWidget *bouton_choix_perso_colonnes;
 GtkWidget *bouton_caracteristiques_lignes_par_compte;
+GtkWidget *bouton_affichage_lignes_une_ligne;
+GtkWidget *bouton_affichage_lignes_deux_lignes_1;
+GtkWidget *bouton_affichage_lignes_deux_lignes_2;
+GtkWidget *bouton_affichage_lignes_trois_lignes_1;
+GtkWidget *bouton_affichage_lignes_trois_lignes_2;
+GtkWidget *bouton_affichage_lignes_trois_lignes_3;
 gint rapport_largeur_colonnes[7];    /* contient le % de chaque colonne */
 gint taille_largeur_colonnes[7];   /* contient la taille de chaque colonne */
+gint ligne_affichage_une_ligne;    /* contient le no de ligne à afficher lorsqu'on n'affiche qu'une ligne */
+GSList *lignes_affichage_deux_lignes;    /* contient les no de lignes à afficher lorsqu'on affiche deux lignes */
+GSList *lignes_affichage_trois_lignes;    /* contient les no de lignes à afficher lorsqu'on affiche trois lignes */

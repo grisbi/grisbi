@@ -511,7 +511,6 @@ void change_aspect_liste ( GtkWidget *bouton,
 	      p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
 	    }
 	}
-      selectionne_ligne ( compte_courant );
       break;
 
     case 3 :
@@ -558,7 +557,6 @@ void change_aspect_liste ( GtkWidget *bouton,
 	      p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
 	    }
 	}
-      selectionne_ligne ( compte_courant );
       break;
 
 
@@ -699,7 +697,10 @@ void change_aspect_liste ( GtkWidget *bouton,
 /*   si un compte était affiché en ce moment, on le met à jour si necessaire */
 
   if ( gtk_notebook_get_current_page ( GTK_NOTEBOOK ( notebook_general ) ) == 1 )
-       verification_mise_a_jour_liste ();
+    {
+      verification_mise_a_jour_liste ();
+      selectionne_ligne ( compte_courant );
+    }
 
   focus_a_la_liste ();
 }

@@ -297,6 +297,10 @@ void personnalisation_etat (void)
 				 etat_courant -> afficher_exo_ope );
   gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_titres_colonnes ),
 				 etat_courant -> afficher_titre_colonnes );
+
+  gtk_option_menu_set_history ( GTK_OPTION_MENU ( bouton_choix_classement_ope_etat ),
+				etat_courant -> type_classement_ope );
+
   if ( !etat_courant -> type_affichage_titres )
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_titre_en_haut ),
 				   TRUE );
@@ -981,6 +985,9 @@ void recuperation_info_perso_etat ( void )
   etat_courant -> afficher_titre_colonnes = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_titres_colonnes ));
   etat_courant -> type_affichage_titres = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_titre_changement ));
 
+  etat_courant -> type_classement_ope = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( bouton_choix_classement_ope_etat ) -> menu_item ),
+										"no_classement" ));
+
   etat_courant -> devise_de_calcul_general = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( bouton_devise_general_etat ) -> menu_item ),
 										   "no_devise" ));
   etat_courant -> inclure_dans_tiers = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_inclure_dans_tiers ));
@@ -1442,6 +1449,8 @@ GtkWidget *onglet_etat_generalites ( void )
   GtkWidget *table;
   GtkWidget *vbox_onglet;
   GtkWidget *hbox_haut;
+  GtkWidget *menu;
+  GtkWidget *menu_item;
 
   widget_retour = gtk_scrolled_window_new ( FALSE,
 					    FALSE );
@@ -1703,7 +1712,7 @@ GtkWidget *onglet_etat_generalites ( void )
 		       frame_onglet_generalites );
 
 
-  table = gtk_table_new ( 9,
+  table = gtk_table_new ( 11,
 			  3,
 			  FALSE );
   gtk_container_add ( GTK_CONTAINER ( frame_onglet_generalites ),
@@ -1800,7 +1809,7 @@ GtkWidget *onglet_etat_generalites ( void )
 			      1, 2 );
   gtk_widget_show ( hbox );
 
-  bouton_afficher_type_ope = gtk_check_button_new_with_label ( _("le type d'opération") );
+  bouton_afficher_type_ope = gtk_check_button_new_with_label ( _("le mode de règlement") );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       bouton_afficher_type_ope,
 		       FALSE,
@@ -1995,6 +2004,142 @@ GtkWidget *onglet_etat_generalites ( void )
 		       FALSE,
 		       0 );
   gtk_widget_show ( bouton_titre_en_haut );
+
+  /* mise en place du type de classement des opés */
+
+  separateur = gtk_hseparator_new ();
+  gtk_table_attach_defaults ( GTK_TABLE ( table ),
+			     separateur,
+			      0, 3,
+			      9,10 );
+  gtk_widget_show ( separateur );
+
+  hbox = gtk_hbox_new ( FALSE,
+			0 );
+  gtk_table_attach_defaults ( GTK_TABLE ( table ),
+			      hbox,
+			      0, 1,
+			      10, 11 );
+  gtk_widget_show ( hbox );
+
+  label = gtk_label_new ( _("Classement des opérations par ") );
+  gtk_box_pack_start ( GTK_BOX ( hbox ),
+		       label,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( label );
+
+  hbox = gtk_hbox_new ( FALSE,
+			0 );
+  gtk_table_attach_defaults ( GTK_TABLE ( table ),
+			      hbox,
+			      1, 3,
+			      10, 11 );
+  gtk_widget_show ( hbox );
+
+  bouton_choix_classement_ope_etat = gtk_option_menu_new ();
+  gtk_box_pack_start ( GTK_BOX ( hbox ),
+		       bouton_choix_classement_ope_etat,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( bouton_choix_classement_ope_etat );
+
+  menu = gtk_menu_new ();
+
+  menu_item = gtk_menu_item_new_with_label ( _( "date" ));
+  gtk_object_set_data ( GTK_OBJECT ( menu_item ),
+			"no_classement",
+			GINT_TO_POINTER ( 0 ));
+  gtk_menu_append ( GTK_MENU ( menu ),
+		    menu_item );
+  gtk_widget_show ( menu_item );
+
+  menu_item = gtk_menu_item_new_with_label ( _( "n° d'opérations" ));
+  gtk_object_set_data ( GTK_OBJECT ( menu_item ),
+			"no_classement",
+			GINT_TO_POINTER ( 1 ));
+  gtk_menu_append ( GTK_MENU ( menu ),
+		    menu_item );
+  gtk_widget_show ( menu_item );
+
+  menu_item = gtk_menu_item_new_with_label ( _( "tiers" ));
+  gtk_object_set_data ( GTK_OBJECT ( menu_item ),
+			"no_classement",
+			GINT_TO_POINTER ( 2 ));
+  gtk_menu_append ( GTK_MENU ( menu ),
+		    menu_item );
+  gtk_widget_show ( menu_item );
+
+  menu_item = gtk_menu_item_new_with_label ( _( "catégorie" ));
+  gtk_object_set_data ( GTK_OBJECT ( menu_item ),
+			"no_classement",
+			GINT_TO_POINTER ( 3 ));
+  gtk_menu_append ( GTK_MENU ( menu ),
+		    menu_item );
+  gtk_widget_show ( menu_item );
+
+  menu_item = gtk_menu_item_new_with_label ( _( "imputation budgétaire" ));
+  gtk_object_set_data ( GTK_OBJECT ( menu_item ),
+			"no_classement",
+			GINT_TO_POINTER ( 4 ));
+  gtk_menu_append ( GTK_MENU ( menu ),
+		    menu_item );
+  gtk_widget_show ( menu_item );
+
+  menu_item = gtk_menu_item_new_with_label ( _( "note" ));
+  gtk_object_set_data ( GTK_OBJECT ( menu_item ),
+			"no_classement",
+			GINT_TO_POINTER ( 5 ));
+  gtk_menu_append ( GTK_MENU ( menu ),
+		    menu_item );
+  gtk_widget_show ( menu_item );
+
+  menu_item = gtk_menu_item_new_with_label ( _( "mode de règlement" ));
+  gtk_object_set_data ( GTK_OBJECT ( menu_item ),
+			"no_classement",
+			GINT_TO_POINTER ( 6 ));
+  gtk_menu_append ( GTK_MENU ( menu ),
+		    menu_item );
+  gtk_widget_show ( menu_item );
+
+  menu_item = gtk_menu_item_new_with_label ( _( "n° de chèque/virement" ));
+  gtk_object_set_data ( GTK_OBJECT ( menu_item ),
+			"no_classement",
+			GINT_TO_POINTER ( 7 ));
+  gtk_menu_append ( GTK_MENU ( menu ),
+		    menu_item );
+  gtk_widget_show ( menu_item );
+
+  menu_item = gtk_menu_item_new_with_label ( _( "pièce comptable" ));
+  gtk_object_set_data ( GTK_OBJECT ( menu_item ),
+			"no_classement",
+			GINT_TO_POINTER ( 8 ));
+  gtk_menu_append ( GTK_MENU ( menu ),
+		    menu_item );
+  gtk_widget_show ( menu_item );
+
+  menu_item = gtk_menu_item_new_with_label ( _( "information bancaire" ));
+  gtk_object_set_data ( GTK_OBJECT ( menu_item ),
+			"no_classement",
+			GINT_TO_POINTER ( 9 ));
+  gtk_menu_append ( GTK_MENU ( menu ),
+		    menu_item );
+  gtk_widget_show ( menu_item );
+
+  menu_item = gtk_menu_item_new_with_label ( _( "n° de rapprochement" ));
+  gtk_object_set_data ( GTK_OBJECT ( menu_item ),
+			"no_classement",
+			GINT_TO_POINTER ( 10 ));
+  gtk_menu_append ( GTK_MENU ( menu ),
+		    menu_item );
+  gtk_widget_show ( menu_item );
+
+  gtk_option_menu_set_menu ( GTK_OPTION_MENU ( bouton_choix_classement_ope_etat ),
+			     menu );
+  gtk_widget_show ( menu );
+
 
 
   /* on met les connections */

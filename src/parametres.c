@@ -104,13 +104,13 @@ void preferences ( GtkWidget *widget,
 
   gnome_property_box_append_page ( GNOME_PROPERTY_BOX ( fenetre_preferences ),
 				   onglet_types_operations(),
-				   gtk_label_new ( _("Types d'opérations") ) );
+				   gtk_label_new ( _("Modes de règlement") ) );
 
 /* création du 10ème onglet */
 
   gnome_property_box_append_page ( GNOME_PROPERTY_BOX ( fenetre_preferences ),
 				   onglet_affichage_liste(),
-				   gtk_label_new ( _("Affichage liste") ) );
+				   gtk_label_new ( _("Informations affichées") ) );
 
 /* connection du bouton appliquer */
 
@@ -2316,6 +2316,31 @@ void changement_preferences ( GtkWidget *fenetre_preferences,
 					 tips_col_liste_operations[j] );
 		}
 	    }
+
+	  /* récupère les lignes à afficher en fonction de l'affichage */
+
+	  ligne_affichage_une_ligne = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( bouton_affichage_lignes_une_ligne ) -> menu_item ),
+									      "no_ligne" ));
+
+	  lignes_affichage_deux_lignes = NULL;
+	  lignes_affichage_deux_lignes = g_slist_append ( lignes_affichage_deux_lignes,
+							  gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( bouton_affichage_lignes_deux_lignes_1 ) -> menu_item ),
+										"no_ligne" ));
+	  lignes_affichage_deux_lignes = g_slist_append ( lignes_affichage_deux_lignes,
+							  gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( bouton_affichage_lignes_deux_lignes_2 ) -> menu_item ),
+										"no_ligne" ));
+
+	  lignes_affichage_trois_lignes = NULL;
+	  lignes_affichage_trois_lignes = g_slist_append ( lignes_affichage_trois_lignes,
+							  gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( bouton_affichage_lignes_trois_lignes_1 ) -> menu_item ),
+										"no_ligne" ));
+	  lignes_affichage_trois_lignes = g_slist_append ( lignes_affichage_trois_lignes,
+							  gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( bouton_affichage_lignes_trois_lignes_2 ) -> menu_item ),
+										"no_ligne" ));
+	  lignes_affichage_trois_lignes = g_slist_append ( lignes_affichage_trois_lignes,
+							  gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( bouton_affichage_lignes_trois_lignes_3 ) -> menu_item ),
+										"no_ligne" ));
+
 
 	  demande_mise_a_jour_tous_comptes ();
 	  verification_mise_a_jour_liste ();

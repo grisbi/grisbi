@@ -92,13 +92,36 @@ GtkWidget *onglet_affichage ( void )
 		       0 );
   gtk_widget_show ( bouton );
 
-  label = gtk_label_new ( _(" : Modifier la fonte des listes") );
+  label = gtk_label_new ( _(" : Modifier la fonte des listes / ") );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       label,
 		       FALSE,
 		       FALSE,
 		       0 );
   gtk_widget_show ( label );
+
+  /* on remet un font_picker sans nom de fonte pour le raz */
+
+  bouton = gnome_font_picker_new ();
+  gtk_button_set_relief ( GTK_BUTTON ( bouton ),
+			  GTK_RELIEF_NONE );
+  gtk_signal_connect ( GTK_OBJECT ( bouton ),
+		       "font-set",
+		       GTK_SIGNAL_FUNC ( choix_fonte ),
+		       NULL );
+  gtk_box_pack_start ( GTK_BOX ( hbox ),
+		       bouton,
+		       FALSE,
+		       FALSE,
+		       0 );
+
+  gtk_container_remove ( GTK_CONTAINER ( bouton ),
+			 GTK_BIN ( bouton ) -> child );
+  label = gtk_label_new ( _("R.A.Z") );
+  gtk_container_add ( GTK_CONTAINER ( bouton ),
+		      label );
+  gtk_widget_show ( label );
+  gtk_widget_show ( bouton );
 
 
   /*   ajout du choix de la fonte générale */
@@ -129,7 +152,7 @@ GtkWidget *onglet_affichage ( void )
 		       0 );
   gtk_widget_show ( bouton );
 
-  label = gtk_label_new ( _(" : Modifier la fonte générale") );
+  label = gtk_label_new ( _(" : Modifier la fonte générale / ") );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       label,
 		       FALSE,
@@ -137,6 +160,29 @@ GtkWidget *onglet_affichage ( void )
 		       0 );
   gtk_widget_show ( label );
 
+
+  /* on remet un font_picker sans nom de fonte pour le raz */
+
+  bouton = gnome_font_picker_new ();
+  gtk_button_set_relief ( GTK_BUTTON ( bouton ),
+			  GTK_RELIEF_NONE );
+  gtk_signal_connect ( GTK_OBJECT ( bouton ),
+		       "font-set",
+		       GTK_SIGNAL_FUNC ( choix_fonte_general ),
+		       NULL );
+  gtk_box_pack_start ( GTK_BOX ( hbox ),
+		       bouton,
+		       FALSE,
+		       FALSE,
+		       0 );
+
+  gtk_container_remove ( GTK_CONTAINER ( bouton ),
+			 GTK_BIN ( bouton ) -> child );
+  label = gtk_label_new ( _("R.A.Z") );
+  gtk_container_add ( GTK_CONTAINER ( bouton ),
+		      label );
+  gtk_widget_show ( label );
+  gtk_widget_show ( bouton );
 
   /* ajout de la modification du logo de l'accueil  */
 
@@ -721,7 +767,6 @@ void choix_fonte_general ( GtkWidget *bouton,
   GtkStyle *style_general;
 
   fonte_general = g_strdup ( fonte );
-  style_general = gtk_widget_get_default_style ();
 
   style_general = gtk_widget_get_style ( window );
   style_general -> font = gdk_font_load ( fonte );

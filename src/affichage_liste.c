@@ -29,7 +29,7 @@
 gchar *labels_boutons [] = { __("Date"),
 			     __("Date de valeur"),
 			     __("Tiers"),
-			     __("R/P"),
+			     __("Imputation budgétaire"),
 			     __("Débit"),
 			     __("Crédit"),
 			     __("Solde"),
@@ -38,7 +38,7 @@ gchar *labels_boutons [] = { __("Date"),
 			     __("N° rapprochement"),
 			     __("Exercice"),
 			     __("Catégorie"),
-			     __("IB"),
+			     __("P/R"),
 			     __("Pièce comptable"),
 			     __("Notes"),
 			     __("Infos banque/guichet"),
@@ -61,6 +61,7 @@ GtkWidget *onglet_affichage_liste ( void )
   GtkWidget *table;
   GtkWidget *label;
   GtkWidget *hbox;
+
 
   ligne_depart_drag = 0;
   col_depart_drag = 0;
@@ -145,6 +146,10 @@ GtkWidget *onglet_affichage_liste ( void )
 				 "toggled",
 				 GTK_SIGNAL_FUNC ( toggled_bouton_affichage_liste ),
 				 GINT_TO_POINTER ( j + i*6 ));
+	    gtk_signal_connect_object ( GTK_OBJECT ( boutons_affichage_liste[j + i*6] ),
+					"toggled",
+					gnome_property_box_changed,
+					GTK_OBJECT (fenetre_preferences));
 	    gtk_table_attach_defaults ( GTK_TABLE ( table ),
 					boutons_affichage_liste[j + i*6],
 					j, j+1,
@@ -153,16 +158,25 @@ GtkWidget *onglet_affichage_liste ( void )
 	  }
       }
 
+  hbox = gtk_hbox_new ( FALSE,
+			5 );
+  gtk_box_pack_start ( GTK_BOX ( onglet ),
+		       hbox,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( hbox );
+
   /* on permet maintenant de choisir soi même la taille des colonnes */
 
-  bouton_choix_perso_colonnes = gtk_check_button_new_with_label ( _("Grisbi ajuste la taille des colonnes selon le tableau ci-dessus" ));
+  bouton_choix_perso_colonnes = gtk_check_button_new_with_label ( _("Ajuster la taille des colonnes selon le tableau ci-dessus" ));
   gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_choix_perso_colonnes ),
 				 etat.largeur_auto_colonnes );
   gtk_signal_connect_object ( GTK_OBJECT ( bouton_choix_perso_colonnes ),
 			      "toggled",
 			      gnome_property_box_changed,
 			      GTK_OBJECT (fenetre_preferences));
-  gtk_box_pack_start ( GTK_BOX ( onglet ),
+  gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       bouton_choix_perso_colonnes,
 		       FALSE,
 		       FALSE,
@@ -172,19 +186,139 @@ GtkWidget *onglet_affichage_liste ( void )
 
   /* on permet maintenant de choisir soi même la taille des colonnes */
 
-  bouton_caracteristiques_lignes_par_compte = gtk_check_button_new_with_label ( _("Retenir les caractéristiques de l'affichage (R, non R ...) séparément pour chaque compte" ));
+  bouton_caracteristiques_lignes_par_compte = gtk_check_button_new_with_label ( _("Retenir les caractéristiques de l'affichage séparément pour chaque compte" ));
   gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_caracteristiques_lignes_par_compte ),
 				 etat.retient_affichage_par_compte );
   gtk_signal_connect_object ( GTK_OBJECT ( bouton_caracteristiques_lignes_par_compte ),
 			      "toggled",
 			      gnome_property_box_changed,
 			      GTK_OBJECT (fenetre_preferences));
-  gtk_box_pack_start ( GTK_BOX ( onglet ),
+  gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       bouton_caracteristiques_lignes_par_compte,
 		       FALSE,
 		       FALSE,
 		       0 );
   gtk_widget_show ( bouton_caracteristiques_lignes_par_compte );
+
+  /* on permet de choisir quelle ligne seront affichées en fonction des caractéristiques de l'affichage */
+  /* pour opé simplifiée */
+
+  hbox = gtk_hbox_new ( FALSE,
+			5 );
+  gtk_box_pack_start ( GTK_BOX ( onglet ),
+		       hbox,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( hbox );
+
+  label = gtk_label_new ( _("Afficher pour une ligne la "));
+  gtk_box_pack_start ( GTK_BOX ( hbox ),
+		       label,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( label );
+
+  bouton_affichage_lignes_une_ligne = gtk_option_menu_new ();
+  gtk_option_menu_set_menu ( GTK_OPTION_MENU ( bouton_affichage_lignes_une_ligne ),
+			     cree_menu_quatres_lignes ());
+  gtk_box_pack_start ( GTK_BOX ( hbox ),
+		       bouton_affichage_lignes_une_ligne,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( bouton_affichage_lignes_une_ligne );
+
+  /* pour 2 lignes */
+
+  hbox = gtk_hbox_new ( FALSE,
+			5 );
+  gtk_box_pack_start ( GTK_BOX ( onglet ),
+		       hbox,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( hbox );
+
+  label = gtk_label_new ( _("Afficher pour deux lignes les "));
+  gtk_box_pack_start ( GTK_BOX ( hbox ),
+		       label,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( label );
+
+  bouton_affichage_lignes_deux_lignes_1 = gtk_option_menu_new ();
+  gtk_option_menu_set_menu ( GTK_OPTION_MENU ( bouton_affichage_lignes_deux_lignes_1 ),
+			     cree_menu_quatres_lignes ());
+  gtk_box_pack_start ( GTK_BOX ( hbox ),
+		       bouton_affichage_lignes_deux_lignes_1,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( bouton_affichage_lignes_deux_lignes_1 );
+
+  bouton_affichage_lignes_deux_lignes_2 = gtk_option_menu_new ();
+  gtk_option_menu_set_menu ( GTK_OPTION_MENU ( bouton_affichage_lignes_deux_lignes_2 ),
+			     cree_menu_quatres_lignes ());
+  gtk_box_pack_start ( GTK_BOX ( hbox ),
+		       bouton_affichage_lignes_deux_lignes_2,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( bouton_affichage_lignes_deux_lignes_2 );
+
+  /* pour 3 lignes */
+
+  hbox = gtk_hbox_new ( FALSE,
+			5 );
+  gtk_box_pack_start ( GTK_BOX ( onglet ),
+		       hbox,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( hbox );
+
+  label = gtk_label_new ( _("Afficher pour trois lignes les"));
+  gtk_box_pack_start ( GTK_BOX ( hbox ),
+		       label,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( label );
+
+  bouton_affichage_lignes_trois_lignes_1 = gtk_option_menu_new ();
+  gtk_option_menu_set_menu ( GTK_OPTION_MENU ( bouton_affichage_lignes_trois_lignes_1 ),
+			     cree_menu_quatres_lignes ());
+  gtk_box_pack_start ( GTK_BOX ( hbox ),
+		       bouton_affichage_lignes_trois_lignes_1,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( bouton_affichage_lignes_trois_lignes_1 );
+
+  bouton_affichage_lignes_trois_lignes_2 = gtk_option_menu_new ();
+  gtk_option_menu_set_menu ( GTK_OPTION_MENU ( bouton_affichage_lignes_trois_lignes_2 ),
+			     cree_menu_quatres_lignes ());
+  gtk_box_pack_start ( GTK_BOX ( hbox ),
+		       bouton_affichage_lignes_trois_lignes_2,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( bouton_affichage_lignes_trois_lignes_2 );
+
+  bouton_affichage_lignes_trois_lignes_3 = gtk_option_menu_new ();
+  gtk_option_menu_set_menu ( GTK_OPTION_MENU ( bouton_affichage_lignes_trois_lignes_3 ),
+			     cree_menu_quatres_lignes ());
+  gtk_box_pack_start ( GTK_BOX ( hbox ),
+		       bouton_affichage_lignes_trois_lignes_3,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( bouton_affichage_lignes_trois_lignes_3 );
+
+
 
 
 
@@ -204,12 +338,42 @@ GtkWidget *onglet_affichage_liste ( void )
 			   "size-allocate",
 			   GTK_SIGNAL_FUNC ( allocation_clist_affichage_liste ),
 			   NULL );
+
+      /* on place les lignes à afficher */
+
+      gtk_option_menu_set_history ( GTK_OPTION_MENU ( bouton_affichage_lignes_une_ligne ),
+				    ligne_affichage_une_ligne);
+
+      gtk_option_menu_set_history ( GTK_OPTION_MENU ( bouton_affichage_lignes_deux_lignes_1 ),
+				    GPOINTER_TO_INT (lignes_affichage_deux_lignes->data));
+      gtk_option_menu_set_history ( GTK_OPTION_MENU ( bouton_affichage_lignes_deux_lignes_2 ),
+				    GPOINTER_TO_INT (lignes_affichage_deux_lignes->next->data));
+
+      gtk_option_menu_set_history ( GTK_OPTION_MENU ( bouton_affichage_lignes_trois_lignes_1 ),
+				    GPOINTER_TO_INT (lignes_affichage_trois_lignes->data));
+      gtk_option_menu_set_history ( GTK_OPTION_MENU ( bouton_affichage_lignes_trois_lignes_2 ),
+				    GPOINTER_TO_INT (lignes_affichage_trois_lignes->next->data));
+      gtk_option_menu_set_history ( GTK_OPTION_MENU ( bouton_affichage_lignes_trois_lignes_3 ),
+				    GPOINTER_TO_INT (lignes_affichage_trois_lignes->next->next->data));
     }
   else
     {
       gtk_widget_set_sensitive ( table,
 				 FALSE );
       gtk_widget_set_sensitive ( clist_affichage_liste,
+				 FALSE );
+
+      gtk_widget_set_sensitive ( bouton_affichage_lignes_une_ligne,
+				 FALSE );
+      gtk_widget_set_sensitive ( bouton_affichage_lignes_deux_lignes_1,
+				 FALSE );
+      gtk_widget_set_sensitive ( bouton_affichage_lignes_deux_lignes_2,
+				 FALSE );
+      gtk_widget_set_sensitive ( bouton_affichage_lignes_trois_lignes_1,
+				 FALSE );
+      gtk_widget_set_sensitive ( bouton_affichage_lignes_trois_lignes_2,
+				 FALSE );
+      gtk_widget_set_sensitive ( bouton_affichage_lignes_trois_lignes_3,
 				 FALSE );
     }
 
@@ -221,6 +385,73 @@ GtkWidget *onglet_affichage_liste ( void )
   return ( onglet );
 }
 /* ************************************************************************************************************** */
+
+
+/* ************************************************************************************************************** */
+/* renvoie un menu contenant 1ère ligne, 2ème ligne, 3ème ligne, 4ème ligne */
+/* ************************************************************************************************************** */
+
+GtkWidget *cree_menu_quatres_lignes ( void )
+{
+  GtkWidget *menu;
+  GtkWidget *menu_item;
+
+  menu = gtk_menu_new ();
+
+  menu_item = gtk_menu_item_new_with_label ( _("1ère ligne"));
+  gtk_object_set_data ( GTK_OBJECT ( menu_item ),
+			"no_ligne",
+			GINT_TO_POINTER ( 0 ));
+  gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
+			      "activate",
+			      gnome_property_box_changed,
+			      GTK_OBJECT (fenetre_preferences));
+  gtk_menu_append ( GTK_MENU ( menu ),
+		    menu_item );
+  gtk_widget_show ( menu_item );
+
+  menu_item = gtk_menu_item_new_with_label ( _("2ème ligne"));
+  gtk_object_set_data ( GTK_OBJECT ( menu_item ),
+			"no_ligne",
+			GINT_TO_POINTER ( 1 ));
+  gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
+			      "activate",
+			      gnome_property_box_changed,
+			      GTK_OBJECT (fenetre_preferences));
+  gtk_menu_append ( GTK_MENU ( menu ),
+		    menu_item );
+  gtk_widget_show ( menu_item );
+
+  menu_item = gtk_menu_item_new_with_label ( _("3ème ligne"));
+  gtk_object_set_data ( GTK_OBJECT ( menu_item ),
+			"no_ligne",
+			GINT_TO_POINTER ( 2 ));
+  gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
+			      "activate",
+			      gnome_property_box_changed,
+			      GTK_OBJECT (fenetre_preferences));
+  gtk_menu_append ( GTK_MENU ( menu ),
+		    menu_item );
+  gtk_widget_show ( menu_item );
+
+  menu_item = gtk_menu_item_new_with_label ( _("4ème ligne"));
+  gtk_object_set_data ( GTK_OBJECT ( menu_item ),
+			"no_ligne",
+			GINT_TO_POINTER ( 3 ));
+  gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
+			      "activate",
+			      gnome_property_box_changed,
+			      GTK_OBJECT (fenetre_preferences));
+  gtk_menu_append ( GTK_MENU ( menu ),
+		    menu_item );
+  gtk_widget_show ( menu_item );
+
+  gtk_widget_show ( menu );
+
+  return ( menu );
+}
+/* ************************************************************************************************************** */
+
 
 
 /* ************************************************************************************************************** */
@@ -475,7 +706,7 @@ void remplissage_tab_affichage_ope ( GtkWidget *clist )
 		break;
 
 	      case 4:
-		ligne[j] = "P/R";
+		ligne[j] = "Imputations budgétaires";
 		gtk_signal_handler_block_by_func ( GTK_OBJECT ( boutons_affichage_liste[3] ),
 						   GTK_SIGNAL_FUNC ( toggled_bouton_affichage_liste ),
 						   GINT_TO_POINTER (3) );
@@ -583,7 +814,7 @@ void remplissage_tab_affichage_ope ( GtkWidget *clist )
 		break;
 
 	      case 13:
-		ligne[j] = "Imputations budgétaires";
+		ligne[j] = "P/R";
 		gtk_signal_handler_block_by_func ( GTK_OBJECT ( boutons_affichage_liste[12] ),
 						   GTK_SIGNAL_FUNC ( toggled_bouton_affichage_liste ),
 						   GINT_TO_POINTER (12) );
@@ -781,7 +1012,7 @@ void recuperation_noms_colonnes_et_tips ( void )
 		break;
 
 	      case 4:
-		ligne[j] = "P/R";
+		ligne[j] = "Imputations budgétaires";
 		break;
 
 	      case 5:
@@ -817,7 +1048,7 @@ void recuperation_noms_colonnes_et_tips ( void )
 		break;
 
 	      case 13:
-		ligne[j] = "Imputations budgétaires";
+		ligne[j] = "P/R";
 		break;
 
 	      case 14:

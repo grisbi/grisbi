@@ -218,6 +218,10 @@ gboolean charge_etat_version_0_4_0 ( xmlDocPtr doc )
 		etat -> afficher_exo_ope = atoi ( xmlNodeGetContent ( node_detail_etat ));
 
 	      if ( !strcmp ( node_detail_etat -> name,
+			     "Class_ope" ))
+		etat -> type_classement_ope = atoi ( xmlNodeGetContent ( node_detail_etat ));
+
+	      if ( !strcmp ( node_detail_etat -> name,
 			     "Aff_titres_col" ))
 		etat -> afficher_titre_colonnes = atoi ( xmlNodeGetContent ( node_detail_etat ));
 
@@ -1140,6 +1144,11 @@ gboolean enregistre_etat ( gchar *nom_etat )
 		    NULL,
 	       "Aff_exo_ope",
 	       itoa ( etat_courant -> afficher_exo_ope ));
+
+  xmlNewTextChild ( node,
+		    NULL,
+	       "Class_ope",
+	       itoa ( etat_courant -> type_classement_ope ));
 
   xmlNewTextChild ( node,
 		    NULL,

@@ -671,9 +671,56 @@ void remplissage_liste_operations ( gint compte )
 			 &&
 			 NB_LIGNES_OPE == 2 ))
 		    {
+		      gint ligne_affichee;
+
+		      /*  en fonction de i (la ligne en cours) et NB_LIGNES_OPE, on retrouve la ligne qu'il faut */
+		      /* afficher selon les configurations */
+
+		      switch ( NB_LIGNES_OPE )
+			{
+			case 1:
+			  ligne_affichee = ligne_affichage_une_ligne;
+			  break;
+
+			case 2:
+			  if ( i )
+			    ligne_affichee = GPOINTER_TO_INT ( lignes_affichage_deux_lignes -> next -> data );
+			  else
+			    ligne_affichee = GPOINTER_TO_INT ( lignes_affichage_deux_lignes -> data );
+			  break;
+
+			case 3:
+			  switch ( i )
+			    {
+			    case 0:
+			      ligne_affichee = GPOINTER_TO_INT ( lignes_affichage_trois_lignes -> data );
+			      break;
+
+			    case 1:
+			      ligne_affichee = GPOINTER_TO_INT ( lignes_affichage_trois_lignes -> next -> data );
+			      break;
+
+			    case 2:
+			      ligne_affichee = GPOINTER_TO_INT ( lignes_affichage_trois_lignes -> next -> next -> data );
+			      break;
+
+			    default:
+			      ligne_affichee = 0;
+			    }
+			  break;
+
+			case 4:
+			  ligne_affichee = i;
+			  break;
+
+			default:
+			  ligne_affichee = 0;
+			}
+
+
 		      for ( j=0 ; j<7 ; j++ )
 			ligne_clist[i][j] = recherche_contenu_cellule ( operation,
-									tab_affichage_ope[i][j]  );
+									tab_affichage_ope[ligne_affichee][j]  );
 
 		      /* on affiche la ligne */
 
@@ -697,7 +744,7 @@ void remplissage_liste_operations ( gint compte )
 
 		      if ( solde_courant_affichage_liste < 0 )
 			for ( j=0 ; j<7 ; j++ )
-			  if ( tab_affichage_ope[i][j] == 7 )
+			  if ( tab_affichage_ope[ligne_affichee][j] == 7 )
 			    gtk_clist_set_cell_style ( GTK_CLIST ( CLIST_OPERATIONS ),
 						       ligne,
 						       j,
@@ -830,18 +877,37 @@ gchar *recherche_contenu_cellule ( struct structure_operation *operation,
 	return ( NULL );
       break;
 
-      /* mise en forme R/P */
+      /* mise en forme de l'ib */
+
     case 4:
-      if ( operation -> pointe == 1 )
-	return ( "P" );
-      else
+      temp = NULL;
+
+      if ( operation -> imputation )
 	{
-	  if ( operation -> pointe == 2 )
-	    return ( "R" );
-	  else
-	    return ( NULL );
+	  liste_tmp = g_slist_find_custom ( liste_struct_imputation,
+					    GINT_TO_POINTER ( operation -> imputation ),
+					    ( GCompareFunc ) recherche_imputation_par_no );
+
+	  if ( liste_tmp )
+	    {
+	      GSList *liste_tmp_2;
+	      
+	      liste_tmp_2 = g_slist_find_custom ( (( struct struct_categ * )( liste_tmp -> data )) -> liste_sous_categ,
+						  GINT_TO_POINTER ( operation -> sous_imputation ),
+						  ( GCompareFunc ) recherche_sous_imputation_par_no );
+	      if ( liste_tmp_2 )
+		temp = g_strconcat ( (( struct struct_categ * )( liste_tmp -> data )) -> nom_categ,
+				     " : ",
+				     (( struct struct_sous_categ * )( liste_tmp_2 -> data )) -> nom_sous_categ,
+				     NULL );
+	      else
+		temp = (( struct struct_categ * )( liste_tmp -> data )) -> nom_categ;
+	    }
 	}
+
+      return ( temp );
       break;
+
 
       /* mise en forme du débit */
     case 5:
@@ -1064,36 +1130,20 @@ gchar *recherche_contenu_cellule ( struct structure_operation *operation,
 
       break;
 
-      /* mise en forme de l'ib */
+      /* mise en forme R/P */
 
     case 13:
-      temp = NULL;
-
-      if ( operation -> imputation )
+      if ( operation -> pointe == 1 )
+	return ( "P" );
+      else
 	{
-	  liste_tmp = g_slist_find_custom ( liste_struct_imputation,
-					    GINT_TO_POINTER ( operation -> imputation ),
-					    ( GCompareFunc ) recherche_imputation_par_no );
-
-	  if ( liste_tmp )
-	    {
-	      GSList *liste_tmp_2;
-	      
-	      liste_tmp_2 = g_slist_find_custom ( (( struct struct_categ * )( liste_tmp -> data )) -> liste_sous_categ,
-						  GINT_TO_POINTER ( operation -> sous_imputation ),
-						  ( GCompareFunc ) recherche_sous_imputation_par_no );
-	      if ( liste_tmp_2 )
-		temp = g_strconcat ( (( struct struct_categ * )( liste_tmp -> data )) -> nom_categ,
-				     " : ",
-				     (( struct struct_sous_categ * )( liste_tmp_2 -> data )) -> nom_sous_categ,
-				     NULL );
-	      else
-		temp = (( struct struct_categ * )( liste_tmp -> data )) -> nom_categ;
-	    }
+	  if ( operation -> pointe == 2 )
+	    return ( "R" );
+	  else
+	    return ( NULL );
 	}
-
-      return ( temp );
       break;
+
 
       /* mise en place de la pièce comptable */
 
@@ -2429,7 +2479,6 @@ void changement_taille_liste_ope ( GtkWidget *clist,
 			 FALSE  );
 }
 /* ***************************************************************************************************** */
-
 
 
 /* ***************************************************************************************************** */

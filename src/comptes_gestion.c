@@ -1475,37 +1475,6 @@ void modification_details_compte ( void )
     {
       TYPE_DE_COMPTE = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( detail_type_compte ) -> menu_item ),
 							       "no_type_compte" ));
-
-      if ( question_yes_no ( _("Vous avez changé le type du compte.\nVoulez-vous charger les types d'opérations par défaut de ce type de compte ?\n ( ce qui veut dire perdre les anciens types d'opérations créés pour ce compte\net le ou les derniers numéros de chèque )") ))
-	{
-	  GtkWidget *menu;
-
-	  creation_types_par_defaut ( compte_courant,
-				      0);
-
-	  /* change les types d'opé et met le défaut */
-
-	  if ( (menu = creation_menu_types ( 1, compte_courant, 0  )))
-	    {
-	      /* on joue avec les sensitive pour éviter que le 1er mot du menu ne reste grise */
-
-	      gtk_widget_set_sensitive ( widget_formulaire_operations[9],
-					 TRUE );
-	      gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_operations[9] ),
-					 menu );
-	      gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_operations[9] ),
-					    cherche_no_menu_type ( TYPE_DEFAUT_DEBIT ) );
-	      gtk_widget_set_sensitive ( widget_formulaire_operations[9],
-					 FALSE );
-	      gtk_widget_show ( widget_formulaire_operations[9] );
-	    }
-	  else
-	    {
-	      gtk_widget_hide ( widget_formulaire_operations[9] );
-	      gtk_widget_hide ( widget_formulaire_operations[10] );
-	    }
-	}
-
       mise_a_jour_fin_comptes_passifs();
       mise_a_jour_soldes_minimaux();
       formulaire_a_zero();

@@ -174,7 +174,7 @@ GtkWidget *creation_liste_comptes_onglet ( void )
 		      vbox_frame );
   gtk_widget_show ( vbox_frame );
 
-  /* mise en place du bouton équilibrage */
+  /* mise en place des boutons du bas */
 
   bouton = gtk_button_new_with_label ( _("Nouveau compte") );
   gtk_button_set_relief ( GTK_BUTTON ( bouton ),

@@ -1239,20 +1239,17 @@ gint classement_liste_opes_etat ( struct structure_operation *operation_1,
  classement_suivant:
 
   /*   si pointeur est nul, on a fait le tour du classement, les opés sont identiques */
-  /* on classe par date, et si pareil, par no d'opé */
+  /* si elles sont affichées, on classe classement demandé puis par no d'opé si identiques */
+  /* sinon on repart en mettant -1 */
 
   if ( !pointeur )
     {
-      if ( g_date_compare ( operation_1 -> date,
-			    operation_2 -> date ))
-	return ( g_date_compare ( operation_1 -> date,
-				  operation_2 -> date ));
-
-      /*       les dates sont identiques, on classe par no d'opé */
-
-      return ( operation_1 -> no_operation - operation_2 -> no_operation );
+      if ( etat_courant -> afficher_opes )
+	return ( classement_ope_perso_etat ( operation_1,
+					     operation_2 ));
+      else
+	return (-1);
     }
-
 
   switch ( GPOINTER_TO_INT ( pointeur -> data ))
     {
@@ -1394,6 +1391,275 @@ gint classement_liste_opes_etat ( struct structure_operation *operation_1,
   return (0);
 }
 /*****************************************************************************************************/
+
+
+
+/*****************************************************************************************************/
+/* cette fonction est appelée quand l'opé a été classé dans sa categ, ib, compte ou tiers */
+/* et qu'elle doit être affichée ; on classe en fonction de la demande de la conf ( date, no, tiers ...) */
+/* si les 2 opés sont équivalentes à ce niveau, on classe par no d'opé */
+/*****************************************************************************************************/
+
+gint classement_ope_perso_etat ( struct structure_operation *operation_1,
+				 struct structure_operation *operation_2 )
+{
+  gint retour;
+
+  switch ( etat_courant -> type_classement_ope )
+    {
+    case 0:
+      /* date  */
+
+      retour = g_date_compare ( operation_1 -> date,
+				operation_2 -> date );
+      break;
+
+    case 1:
+      /* no opé  */
+
+      retour = operation_1 -> no_operation - operation_2 -> no_operation;
+      break;
+
+    case 2:
+      /* tiers  */
+
+      if ( !operation_1 -> tiers
+	   ||
+	   !operation_2 -> tiers )
+	retour = operation_2 -> tiers - operation_1 -> tiers;
+      else
+	{
+	  struct struct_tiers *tiers_1;
+	  struct struct_tiers *tiers_2;
+
+	  tiers_1 = g_slist_find_custom ( liste_struct_tiers,
+					  GINT_TO_POINTER ( operation_1 -> tiers ),
+					  (GCompareFunc) recherche_tiers_par_no ) -> data;
+	  tiers_2 = g_slist_find_custom ( liste_struct_tiers,
+					  GINT_TO_POINTER ( operation_2 -> tiers ),
+					  (GCompareFunc) recherche_tiers_par_no ) -> data;
+
+	  retour = g_strcasecmp ( tiers_1 -> nom_tiers,
+				  tiers_2 -> nom_tiers );
+	}
+      break;
+
+    case 3:
+      /* categ  */
+
+      if ( !operation_1 -> categorie
+	   ||
+	   !operation_2 -> categorie )
+	retour = operation_2 -> categorie - operation_1 -> categorie;
+      else
+	{
+	  if ( operation_1 -> categorie == operation_2 -> categorie
+	       &&
+	       ( !operation_1 -> sous_categorie
+		 ||
+		 !operation_2 -> sous_categorie ))
+	    retour = operation_2 -> sous_categorie - operation_1 -> sous_categorie;
+	  else
+	    {
+	      struct struct_categ *categ_1;
+	      struct struct_categ *categ_2;
+
+	      categ_1 = g_slist_find_custom ( liste_struct_categories,
+					      GINT_TO_POINTER ( operation_1 -> categorie ),
+					      (GCompareFunc) recherche_categorie_par_no ) -> data;
+	      categ_2 = g_slist_find_custom ( liste_struct_categories,
+					      GINT_TO_POINTER ( operation_2 -> categorie ),
+					      (GCompareFunc) recherche_categorie_par_no ) -> data;
+
+	      if ( operation_1 -> categorie == operation_2 -> categorie )
+		{
+		  struct struct_sous_categ *ss_categ_1;
+		  struct struct_sous_categ *ss_categ_2;
+
+		  ss_categ_1 = g_slist_find_custom ( categ_1 -> liste_sous_categ,
+						     GINT_TO_POINTER ( operation_1 -> sous_categorie ),
+						     (GCompareFunc) recherche_sous_categorie_par_no ) -> data;
+		  ss_categ_2 = g_slist_find_custom ( categ_2 -> liste_sous_categ,
+						     GINT_TO_POINTER ( operation_2 -> sous_categorie ),
+						     (GCompareFunc) recherche_sous_categorie_par_no ) -> data;
+
+		  retour = g_strcasecmp ( ss_categ_1 -> nom_sous_categ,
+					  ss_categ_2 -> nom_sous_categ );
+		}
+	      else
+		retour = g_strcasecmp ( categ_1 -> nom_categ,
+					categ_2 -> nom_categ );
+	    }
+	}
+      break;
+
+    case 4:
+      /* ib  */
+
+      if ( !operation_1 -> imputation
+	   ||
+	   !operation_2 -> imputation )
+	retour = operation_2 -> imputation - operation_1 -> imputation;
+      else
+	{
+	  if ( operation_1 -> imputation == operation_2 -> imputation
+	       &&
+	       ( !operation_1 -> sous_imputation
+		 ||
+		 !operation_2 -> sous_imputation ))
+	    retour = operation_2 -> sous_imputation - operation_1 -> sous_imputation;
+	  else
+	    {
+	      struct struct_imputation *imputation_1;
+	      struct struct_imputation *imputation_2;
+
+	      imputation_1 = g_slist_find_custom ( liste_struct_imputation,
+						   GINT_TO_POINTER ( operation_1 -> imputation ),
+						   (GCompareFunc) recherche_imputation_par_no ) -> data;
+	      imputation_2 = g_slist_find_custom ( liste_struct_imputation,
+						   GINT_TO_POINTER ( operation_2 -> imputation ),
+						   (GCompareFunc) recherche_imputation_par_no ) -> data;
+
+	      if ( operation_1 -> imputation == operation_2 -> imputation )
+		{
+		  struct struct_sous_imputation *ss_imputation_1;
+		  struct struct_sous_imputation *ss_imputation_2;
+
+		  ss_imputation_1 = g_slist_find_custom ( imputation_1 -> liste_sous_imputation,
+							  GINT_TO_POINTER ( operation_1 -> sous_imputation ),
+							  (GCompareFunc) recherche_sous_imputation_par_no ) -> data;
+		  ss_imputation_2 = g_slist_find_custom ( imputation_2 -> liste_sous_imputation,
+							  GINT_TO_POINTER ( operation_2 -> sous_imputation ),
+							  (GCompareFunc) recherche_sous_imputation_par_no ) -> data;
+
+		  retour = g_strcasecmp ( ss_imputation_1 -> nom_sous_imputation,
+					  ss_imputation_2 -> nom_sous_imputation );
+		}
+	      else
+		retour = g_strcasecmp ( imputation_1 -> nom_imputation,
+					imputation_2 -> nom_imputation );
+	    }
+	}
+      break;
+
+    case 5:
+      /* note si une des 2 opés n'a pas de notes, elle va en 2ème */
+
+      if ( operation_1 -> notes
+	   &&
+	   operation_2 -> notes )
+	retour = g_strcasecmp ( operation_1 -> notes,
+				operation_2 -> notes );
+      else
+	retour = GPOINTER_TO_INT ( operation_2 -> notes ) - GPOINTER_TO_INT ( operation_1 -> notes );
+      break;
+
+    case 6:
+      /* type ope  */
+
+      if ( !operation_1 -> type_ope
+	   ||
+	   !operation_2 -> type_ope )
+	retour = operation_2 -> type_ope - operation_1 -> type_ope;
+      else
+	{
+	  /* les opés peuvent provenir de 2 comptes différents, il faut donc trouver les 2 types dans les */
+	  /* listes différentes */
+
+	  struct struct_type_ope *type_1;
+	  struct struct_type_ope *type_2;
+
+	  p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation_1 -> no_compte;
+
+	  type_1 = g_slist_find_custom ( TYPES_OPES,
+					 GINT_TO_POINTER ( operation_1 -> type_ope ),
+					 (GCompareFunc) recherche_type_ope_par_no ) -> data;
+
+	  p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation_2 -> no_compte;
+
+	  type_2 = g_slist_find_custom ( TYPES_OPES,
+					 GINT_TO_POINTER ( operation_2 -> type_ope ),
+					 (GCompareFunc) recherche_type_ope_par_no ) -> data;
+
+	  retour = g_strcasecmp ( type_1 -> nom_type,
+				  type_2 -> nom_type );
+	}
+      break;
+
+    case 7:
+      /* no chq  */
+
+      if ( operation_1 -> contenu_type
+	   &&
+	   operation_2 -> contenu_type )
+	retour = g_strcasecmp ( operation_1 -> contenu_type,
+				operation_2 -> contenu_type );
+      else
+	retour = GPOINTER_TO_INT ( operation_2 -> contenu_type ) - GPOINTER_TO_INT ( operation_1 -> contenu_type );
+      break;
+
+    case 8:
+      /* pc  */
+
+      if ( operation_1 -> no_piece_comptable
+	   &&
+	   operation_2 -> no_piece_comptable )
+	retour = g_strcasecmp ( operation_1 -> no_piece_comptable,
+				operation_2 -> no_piece_comptable );
+      else
+	retour = GPOINTER_TO_INT ( operation_2 -> no_piece_comptable ) - GPOINTER_TO_INT ( operation_1 -> no_piece_comptable );
+      break;
+
+    case 9:
+      /* ibg  */
+
+      if ( operation_1 -> info_banque_guichet
+	   &&
+	   operation_2 -> info_banque_guichet )
+	retour = g_strcasecmp ( operation_1 -> info_banque_guichet,
+				operation_2 -> info_banque_guichet );
+      else
+	retour = GPOINTER_TO_INT ( operation_2 -> info_banque_guichet ) - GPOINTER_TO_INT ( operation_1 -> info_banque_guichet );
+      break;
+
+    case 10:
+      /* no rappr  */
+
+      if ( !operation_1 -> no_rapprochement
+	   ||
+	   !operation_2 -> no_rapprochement )
+	retour = operation_2 -> no_rapprochement - operation_1 -> no_rapprochement;
+      else
+	{
+	  struct struct_no_rapprochement *rappr_1;
+	  struct struct_no_rapprochement *rappr_2;
+
+	  rappr_1 = g_slist_find_custom ( liste_no_rapprochements,
+					GINT_TO_POINTER ( operation_1 -> no_rapprochement ),
+					(GCompareFunc) recherche_no_rapprochement_par_no ) -> data;
+	  rappr_2 = g_slist_find_custom ( liste_no_rapprochements,
+					GINT_TO_POINTER ( operation_2 -> no_rapprochement ),
+					(GCompareFunc) recherche_no_rapprochement_par_no ) -> data;
+
+	retour = g_strcasecmp ( rappr_1 -> nom_rapprochement,
+				rappr_2 -> nom_rapprochement );
+	}
+      break;
+
+    default :
+      retour = 0;
+    }
+
+
+  if ( !retour )
+    retour = operation_1 -> no_operation - operation_2 -> no_operation;
+
+  return ( retour );
+}
+/*****************************************************************************************************/
+
+
+
 
 
 /*****************************************************************************************************/

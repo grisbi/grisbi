@@ -582,7 +582,7 @@ GtkWidget *onglet_types_operations ( void )
   gtk_widget_show ( separateur );
 
 
-  bouton_type_choix_affichage_formulaire = gtk_check_button_new_with_label ( _("Afficher toujours tous les types dans le formulaire") );
+  bouton_type_choix_affichage_formulaire = gtk_check_button_new_with_label ( _("Afficher tous les modes de règlement\ndans le formulaire") );
   gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON( bouton_type_choix_affichage_formulaire ),
 				 etat.affiche_tous_les_types );
   gtk_signal_connect_object ( GTK_OBJECT ( bouton_type_choix_affichage_formulaire ),
@@ -645,7 +645,7 @@ GtkWidget *onglet_types_operations ( void )
   gtk_widget_show ( bouton_type_tri_date );
 
   bouton_type_tri_type = gtk_radio_button_new_with_label ( gtk_radio_button_group ( GTK_RADIO_BUTTON ( bouton_type_tri_date )),
-							   _("Tri par type d'opération") );
+							   _("Tri par mode de règlement") );
   gtk_widget_set_sensitive ( bouton_type_tri_type,
 			     FALSE );
   gtk_box_pack_start ( GTK_BOX ( vbox2 ),
@@ -749,7 +749,7 @@ GtkWidget *onglet_types_operations ( void )
 
   /* la partie du bas contient des check buttons */
 
-  bouton_type_neutre_inclut = gtk_check_button_new_with_label ( _("Inclure les types mixtes dans les Crédits / Débits") );
+  bouton_type_neutre_inclut = gtk_check_button_new_with_label ( _("Inclure les modes de règlement mixtes dans les Crédits / Débits") );
   gtk_widget_set_sensitive ( bouton_type_neutre_inclut,
 			     FALSE );
   gtk_signal_connect ( GTK_OBJECT ( bouton_type_neutre_inclut ),
@@ -1590,12 +1590,12 @@ void supprimer_type_operation ( void )
       GtkWidget *menu;
       gint nouveau_type;
 
-      dialog = gnome_dialog_new ( _( "Suppression d'un type d'opération" ),
+      dialog = gnome_dialog_new ( _( "Suppression d'un mode de règlement" ),
 				  GNOME_STOCK_BUTTON_OK,
 				  GNOME_STOCK_BUTTON_CANCEL,
 				  NULL );
 
-      label = gtk_label_new ( _( "Des opérations sont encore affectées au type sélectionné,\ncette suppression sera donc irréversible et les modifications concernant\nles types d'opérations seront enregistrées." ));
+      label = gtk_label_new ( _( "Des opérations sont encore affectées au mode de règlement sélectionné,\ncette suppression sera donc irréversible et les modifications concernant\nles modes de règlement seront enregistrées." ));
       gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
 			   label,
 			   FALSE,

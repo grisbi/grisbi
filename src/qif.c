@@ -715,6 +715,7 @@ void traitement_donnees_brutes ( void )
       init_variables ( FALSE );
       init_variables ( TRUE );
       creation_liste_categories ();
+      creation_devises_de_base ();
 
       nom_fichier_comptes = NULL;
       nouveau_fichier = 1;

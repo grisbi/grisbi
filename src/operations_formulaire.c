@@ -369,8 +369,8 @@ GtkWidget *creation_formulaire ( void )
   widget_formulaire_operations[9] = gtk_option_menu_new ();
   gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tips ),
 			 widget_formulaire_operations[9],
-			 _("Choix du type d'opération"),
-			 _("Choix du type d'opération") );
+			 _("Choix du mode de règlement"),
+			 _("Choix du mode de règlement") );
   gtk_signal_connect ( GTK_OBJECT ( widget_formulaire_operations[9] ),
 		       "key_press_event",
 		       GTK_SIGNAL_FUNC ( touches_champ_formulaire ),
@@ -1323,10 +1323,6 @@ void clique_champ_formulaire ( GtkWidget *entree,
 			       "key_press_event",
 			       GTK_SIGNAL_FUNC ( touche_calendrier ),
 			       NULL );
-	  gtk_signal_connect_object ( GTK_OBJECT ( popup ),
-				      "destroy",
-				      GTK_SIGNAL_FUNC ( gdk_pointer_ungrab ),
-				      GDK_CURRENT_TIME );
 	  gtk_box_pack_start ( GTK_BOX ( popup_boxv ),
 			       calendrier,
 			       TRUE,
@@ -1340,8 +1336,9 @@ void clique_champ_formulaire ( GtkWidget *entree,
 	  bouton = gtk_button_new_with_label ( _("Annuler") );
 	  gtk_signal_connect_object ( GTK_OBJECT ( bouton ),
 				      "clicked",
-				      GTK_SIGNAL_FUNC ( gtk_widget_destroy ),
-				      GTK_OBJECT ( popup ));
+				      GTK_SIGNAL_FUNC ( ferme_calendrier ),
+				      GTK_OBJECT ( popup ) );
+
 	  gtk_box_pack_start ( GTK_BOX ( popup_boxv ),
 			       bouton,
 			       TRUE,
@@ -1359,8 +1356,6 @@ void clique_champ_formulaire ( GtkWidget *entree,
 			     NULL, 
 			     NULL, 
 			     GDK_CURRENT_TIME );
-
-	  gtk_widget_grab_focus ( GTK_WIDGET ( popup ));
 	}
       break;
 
@@ -1453,10 +1448,6 @@ void clique_champ_formulaire ( GtkWidget *entree,
  			       "key_press_event",
  			       GTK_SIGNAL_FUNC ( touche_calendrier ),
  			       NULL );
- 	  gtk_signal_connect_object ( GTK_OBJECT ( popup ),
- 				      "destroy",
- 				      GTK_SIGNAL_FUNC ( gdk_pointer_ungrab ),
- 				      GDK_CURRENT_TIME );
  	  gtk_box_pack_start ( GTK_BOX ( popup_boxv ),
  			       calendrier,
  			       TRUE,
@@ -1470,7 +1461,7 @@ void clique_champ_formulaire ( GtkWidget *entree,
  	  bouton = gtk_button_new_with_label ( _("Annuler") );
  	  gtk_signal_connect_object ( GTK_OBJECT ( bouton ),
  				      "clicked",
- 				      GTK_SIGNAL_FUNC ( gtk_widget_destroy ),
+ 				      GTK_SIGNAL_FUNC ( ferme_calendrier ),
  				      GTK_OBJECT ( popup ));
  	  gtk_box_pack_start ( GTK_BOX ( popup_boxv ),
  			       bouton,
@@ -1520,7 +1511,6 @@ void touches_champ_formulaire ( GtkWidget *widget,
 	 ||
 	 ev->keyval == 65421 ))
     ev->keyval = 65289;
-
 
   switch (ev->keyval)
     {
@@ -1627,7 +1617,6 @@ void touches_champ_formulaire ( GtkWidget *widget,
 
 	  gtk_widget_grab_focus ( widget_formulaire_operations[origine]  );
 	}
-
       break;
 
 
@@ -1684,6 +1673,21 @@ void touches_champ_formulaire ( GtkWidget *widget,
 
 
 /***********************************************************************************************************/
+void ferme_calendrier ( GtkWidget *popup )
+{
+  gtk_widget_destroy ( popup );
+
+  /*   magouille pour récupérer le focus, sinon le focus reste sur l'entrée */
+  /* de la date tant qu'on n'a pas clické dessus */
+
+  gtk_grab_remove ( window );
+  gtk_grab_add ( window );
+
+}
+/***********************************************************************************************************/
+
+
+/***********************************************************************************************************/
 /* Fonction touche_calendrier */
 /* supprime le calendrier si on appuie sur échap */
 /***********************************************************************************************************/
@@ -1693,7 +1697,7 @@ void touche_calendrier ( GtkWidget *popup,
 			 gpointer null )
 {
   if ( ev->keyval == 65307 )
-    gtk_widget_destroy ( GTK_WIDGET (popup));
+    ferme_calendrier ( popup );
 
 }
 /***********************************************************************************************************/
@@ -1731,7 +1735,7 @@ void date_selectionnee ( GtkCalendar *calendrier,
 
 
 /***********************************************************************************************************/
-/* Fonction date_relle_selectionnee */
+/* Fonction date_bancaire_selectionnee */
 /* appelée lorsqu'on a clické 2 fois sur une date du calendrier pour la date reelle */
 /***********************************************************************************************************/
 
@@ -2785,7 +2789,7 @@ gint verification_validation_operation ( struct structure_operation *operation )
 
 	  if ( gtk_widget_get_style ( widget_formulaire_operations[10] ) == style_entree_formulaire[1] )
 	    {
-	      if ( question ( _("Le type d'opération choisi est à numérotation automatique mais ne contient aucun numéro.\nSouhaitez-vous continuer ?") ) )
+	      if ( question ( _("Le mode de règlement choisi est à numérotation automatique mais ne contient aucun numéro.\nSouhaitez-vous continuer ?") ) )
 		goto sort_test_cheques;
 	      else
 		return (FALSE);

@@ -1508,6 +1508,9 @@ des paramètres.") );
 
   xmlFreeDoc ( doc );
 
+  supprime_operations_orphelines ();
+
+
   /*   on applique la modif des ventils : si une opé ventilée est < 0, les opés de ventil ont le même signe */
   /* que l'opé ventilée */
   /*   pour ça, on fait le tour de toutes les opés, et si on a une opé de ventil, on vérifie le signe de la ventil */
@@ -1591,7 +1594,136 @@ des paramètres.") );
 }
 /***********************************************************************************************************/
 
+/***********************************************************************************************************/
+/* un bug dans les versions antérieurs à la 0.4 pouvait créer des opés de ventil sans ventilation associée */
+/* ou des virements sans contre opération */
+/* on retrouve ces opés, supprime les opés de ventil orphelines et met les relations de virement orphelin */
+/* à 0 */
+/***********************************************************************************************************/
 
+void supprime_operations_orphelines ( void )
+{
+  gint i;
+  gint nb_vir;
+  gint nb_ventil;
+
+  nb_vir = 0;
+  nb_ventil = 0;
+
+  for ( i = 0 ; i < nb_comptes ; i++ )
+    {
+      GSList *liste_tmp;
+
+      p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
+
+      liste_tmp = LISTE_OPERATIONS;
+
+      while ( liste_tmp )
+	{
+	  struct structure_operation *operation;
+	  GSList *result;
+
+	  operation = liste_tmp -> data;
+
+	  /* si c'est un virement, recherche la contre opération */
+
+	  if ( operation -> relation_no_operation )
+	    {
+	      p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> relation_no_compte;
+
+	      result = g_slist_find_custom ( LISTE_OPERATIONS,
+					     GINT_TO_POINTER ( operation -> relation_no_operation ),
+					     (GCompareFunc) recherche_operation_par_no );
+
+	      /* si la contre opération n'est pas trouvée, on met les relations de cette opé à 0 */
+
+	      if ( !result )
+		{
+		  nb_vir++;
+		  operation -> relation_no_operation = 0;
+		  operation -> relation_no_compte = 0;
+		}
+
+	      p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
+	    }
+
+	  /* si c'est une opé de ventil, recherche la ventil associée */
+
+	  if ( operation -> no_operation_ventilee_associee )
+	    {
+	      result = g_slist_find_custom ( LISTE_OPERATIONS,
+					     GINT_TO_POINTER ( operation -> no_operation_ventilee_associee ),
+					     (GCompareFunc) recherche_operation_par_no );
+
+	      /*  si on a trouvé une opé, vérifie que c'est une ventil */
+	      /* sinon, supprime l'opé de ventil */
+
+	      if ( result )
+		{
+		  struct structure_operation *ope_ventil;
+
+		  ope_ventil = result -> data;
+
+		  if ( ope_ventil -> operation_ventilee )
+		    liste_tmp = liste_tmp -> next;
+		  else
+		    {
+		      /* supprime l'opération dans la liste des opés */
+
+		      liste_tmp = liste_tmp -> next;
+		      LISTE_OPERATIONS = g_slist_remove ( LISTE_OPERATIONS,
+							  operation );
+		      NB_OPE_COMPTE--;
+		      nb_ventil++;
+		    }
+
+		}
+	      else
+		{
+		  /* supprime l'opération dans la liste des opés */
+
+		  liste_tmp = liste_tmp -> next;
+		  LISTE_OPERATIONS = g_slist_remove ( LISTE_OPERATIONS,
+						      operation );
+		  NB_OPE_COMPTE--;
+		  nb_ventil++;
+		}
+	    }
+	  else
+	    liste_tmp = liste_tmp -> next;
+	}
+    }
+
+  if ( nb_ventil
+       ||
+       nb_vir )
+    {
+      gchar *message;
+
+      message = "Un bug dans les versions inférieures à la 0.4.0 pouvait faire apparaître des opérations orphelines :\n-soit des virements sans contre-opération,\n-soit des opérations de détails de ventilation sans ventilation mère associée.\n\nGrisbi a recherché ces types d'opérations et a trouvé :\n\n";
+
+      if ( nb_ventil )
+	message = g_strconcat ( message,
+				itoa ( nb_ventil ),
+				" opérations de ventilations orphelines qui ont été simplement supprimées.\n",
+				NULL );
+
+      if ( nb_vir )
+	message = g_strconcat ( message,
+				itoa ( nb_vir ),
+				" virements sans contre-opération, dont les catégories ont été annulées.\n",
+				NULL );
+
+	message = g_strconcat ( message,
+				"\nCes modifications ne devraient pas affecter le fonctionnement de Grisbi ni les soldes de vos comptes.",
+				NULL );
+
+
+
+      dialogue ( message );
+    }
+}
+/***********************************************************************************************************/
 
 
 /*****************************************************************************/
@@ -1727,6 +1859,51 @@ des paramètres.") );
 
 		  g_strfreev ( pointeur_char );
 		}
+
+	      if ( !strcmp ( node_generalites -> name,
+			     "Ligne_aff_une_ligne" ))
+		ligne_affichage_une_ligne = atoi ( xmlNodeGetContent ( node_generalites ));
+
+	      if ( !strcmp ( node_generalites -> name,
+			     "Lignes_aff_deux_lignes" ))
+		{
+		  gchar **pointeur_char;
+
+		  pointeur_char = g_strsplit ( xmlNodeGetContent ( node_generalites ),
+					       "-",
+					       2 );
+
+		  lignes_affichage_deux_lignes = NULL;
+		  lignes_affichage_deux_lignes = g_slist_append ( lignes_affichage_deux_lignes,
+								  GINT_TO_POINTER ( atoi ( pointeur_char[0] )));
+		  lignes_affichage_deux_lignes = g_slist_append ( lignes_affichage_deux_lignes,
+								  GINT_TO_POINTER ( atoi ( pointeur_char[1] )));
+
+		  g_strfreev ( pointeur_char );
+		}
+
+	      if ( !strcmp ( node_generalites -> name,
+			     "Lignes_aff_trois_lignes" ))
+		{
+		  gchar **pointeur_char;
+
+		  pointeur_char = g_strsplit ( xmlNodeGetContent ( node_generalites ),
+					       "-",
+					       3 );
+
+		  lignes_affichage_trois_lignes = NULL;
+		  lignes_affichage_trois_lignes = g_slist_append ( lignes_affichage_trois_lignes,
+								  GINT_TO_POINTER ( atoi ( pointeur_char[0] )));
+		  lignes_affichage_trois_lignes = g_slist_append ( lignes_affichage_trois_lignes,
+								  GINT_TO_POINTER ( atoi ( pointeur_char[1] )));
+		  lignes_affichage_trois_lignes = g_slist_append ( lignes_affichage_trois_lignes,
+								  GINT_TO_POINTER ( atoi ( pointeur_char[2] )));
+
+		  g_strfreev ( pointeur_char );
+		}
+
+
+
 
 
 	      node_generalites = node_generalites -> next;
@@ -3191,6 +3368,10 @@ des paramètres.") );
 			    etat -> afficher_exo_ope = atoi ( xmlNodeGetContent ( node_detail_etat ));
 
 			  if ( !strcmp ( node_detail_etat -> name,
+					 "Class_ope" ))
+			    etat -> type_classement_ope = atoi ( xmlNodeGetContent ( node_detail_etat ));
+
+			  if ( !strcmp ( node_detail_etat -> name,
 					 "Aff_titres_col" ))
 			    etat -> afficher_titre_colonnes = atoi ( xmlNodeGetContent ( node_detail_etat ));
 
@@ -3815,6 +3996,35 @@ gboolean enregistre_fichier ( void )
 		    NULL,
 		    "Rapport_largeur_col",
 		    pointeur_char );
+
+  /* creation des lignes affichées par caractéristiques */
+
+  xmlNewTextChild ( node,
+		    NULL,
+		    "Ligne_aff_une_ligne",
+		    itoa ( ligne_affichage_une_ligne ));
+
+
+  pointeur_char = g_strconcat ( itoa ( GPOINTER_TO_INT ( lignes_affichage_deux_lignes -> data )),
+				"-",
+				itoa ( GPOINTER_TO_INT ( lignes_affichage_deux_lignes -> next -> data )),
+				NULL );
+  xmlNewTextChild ( node,
+		    NULL,
+		    "Lignes_aff_deux_lignes",
+		    pointeur_char );
+
+  pointeur_char = g_strconcat ( itoa ( GPOINTER_TO_INT ( lignes_affichage_trois_lignes -> data )),
+				"-",
+				itoa ( GPOINTER_TO_INT ( lignes_affichage_trois_lignes -> next -> data )),
+				"-",
+				itoa ( GPOINTER_TO_INT ( lignes_affichage_trois_lignes -> next -> next -> data )),
+				NULL );
+  xmlNewTextChild ( node,
+		    NULL,
+		    "Lignes_aff_trois_lignes",
+		    pointeur_char );
+
 
 
   /*   on commence la sauvegarde des comptes : 2 parties, les generalites */
@@ -5140,6 +5350,11 @@ gboolean enregistre_fichier ( void )
 		    NULL,
 		   "Aff_exo_ope",
 		   itoa ( etat -> afficher_exo_ope ));
+
+      xmlNewTextChild ( node_etat,
+		    NULL,
+		   "Class_ope",
+		   itoa ( etat -> type_classement_ope ));
 
       xmlNewTextChild ( node_etat,
 		    NULL,

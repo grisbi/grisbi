@@ -173,15 +173,32 @@ void init_variables ( gboolean ouverture )
 /*****************************************************************************************************/
 void initialise_tab_affichage_ope ( void )
 {
-  gint tab[4][7] = { { 0, 1, 3, 4, 5, 6, 7 },
-		   {0, 2, 12, 0, 9, 8, 0 },
-		   {0, 11, 13, 0, 18, 0, 0 },
-		   {0, 0, 15, 0, 14, 0, 0 }};
+  gint tab[4][7] = { { 18, 1, 3, 13, 5, 6, 7 },
+		   {0, 0, 12, 0, 9, 8, 0 },
+		   {0, 11, 15, 0, 0, 0, 0 },
+		   {0, 0, 0, 0, 0, 0, 0 }};
   gint i, j;
 
   for ( i = 0 ; i<4 ; i++ )
     for ( j = 0 ; j<7 ; j++ )
       tab_affichage_ope[i][j] = tab[i][j];
+
+
+  ligne_affichage_une_ligne = 0;
+
+  lignes_affichage_deux_lignes = NULL;
+  lignes_affichage_deux_lignes = g_slist_append ( lignes_affichage_deux_lignes,
+						  NULL );
+  lignes_affichage_deux_lignes = g_slist_append ( lignes_affichage_deux_lignes,
+						  GINT_TO_POINTER (1));
+
+  lignes_affichage_trois_lignes = NULL;
+  lignes_affichage_trois_lignes = g_slist_append ( lignes_affichage_trois_lignes,
+						  NULL );
+  lignes_affichage_trois_lignes = g_slist_append ( lignes_affichage_trois_lignes,
+						  GINT_TO_POINTER (1));
+  lignes_affichage_trois_lignes = g_slist_append ( lignes_affichage_trois_lignes,
+						  GINT_TO_POINTER (3));
 
 }
 /*****************************************************************************************************/

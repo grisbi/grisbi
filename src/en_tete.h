@@ -68,6 +68,7 @@ void initialise_tab_affichage_ope ( void );
 
 gboolean charge_operations ( void );
 gboolean charge_operations_version_0_3_2 ( xmlDocPtr doc );
+void supprime_operations_orphelines ( void );
 gboolean charge_operations_version_0_4_0 ( xmlDocPtr doc );
 gboolean enregistre_fichier ( void );
 gchar *itoa ( gint integer );
@@ -221,6 +222,7 @@ void clique_champ_formulaire ( GtkWidget *entree,
 void touches_champ_formulaire ( GtkWidget *widget,
 				GdkEventKey *ev,
 				gint *no_origine );
+void ferme_calendrier ( GtkWidget *popup );
 void  touche_calendrier ( GtkWidget *popup,
 			  GdkEventKey *ev,
 			  gpointer null );
@@ -980,6 +982,8 @@ void impression_etat ( struct struct_etat *etat );
 void rafraichissement_etat ( struct struct_etat *etat );
 gint classement_liste_opes_etat ( struct structure_operation *operation_1,
 				  struct structure_operation *operation_2 );
+gint classement_ope_perso_etat ( struct structure_operation *operation_1,
+				 struct structure_operation *operation_2 );
 void etape_finale_affichage_etat ( GSList *ope_selectionnees, 
 				   struct struct_etat_affichage *affichage );
 void denote_struct_sous_jaccentes ( gint origine );
@@ -1108,6 +1112,7 @@ void show_words(GnomePrintContext *pc, GnomeFont *font, GSList *words,
 /************************/ 
 
 GtkWidget *onglet_affichage_liste ( void );
+GtkWidget *cree_menu_quatres_lignes ( void );
 void allocation_clist_affichage_liste ( GtkWidget *clist,
 					GtkAllocation *allocation );
 gboolean pression_bouton_classement_liste ( GtkWidget *clist,
