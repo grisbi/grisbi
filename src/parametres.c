@@ -369,20 +369,22 @@ GtkWidget *onglet_messages_and_warnings ( void )
   /* Display a warning message if minimum balances are under minimum level */
   bouton_solde_mini = new_checkbox_with_title ( _("Do not Warn if balances are under minimum levels"),
 						&(etat.display_message_minimum_alert), NULL );
-  gtk_box_pack_start ( GTK_BOX ( paddingbox ), bouton_solde_mini,
-		       FALSE, FALSE, 0 );
+  gtk_box_pack_start ( GTK_BOX ( paddingbox ), bouton_solde_mini, FALSE, FALSE, 0 );
 
   /* Display a warning message if account file is readable by someone else */
   bouton_affiche_permission = new_checkbox_with_title ( _("Do not warn if account file is readable by someone else"),
 							&(etat.display_message_file_readable), NULL );
-  gtk_box_pack_start ( GTK_BOX ( paddingbox ), bouton_affiche_permission,
-		       FALSE, FALSE, 0 );
+  gtk_box_pack_start ( GTK_BOX ( paddingbox ), bouton_affiche_permission, FALSE, FALSE, 0 );
 
   /* Display a warning message if file is already opened */
   bouton_display_lock_active = new_checkbox_with_title ( _("Do not warn about an already opened file"),
 							&(etat.display_message_lock_active), NULL );
-  gtk_box_pack_start ( GTK_BOX ( paddingbox ), bouton_display_lock_active,
-		       FALSE, FALSE, 0 );
+  gtk_box_pack_start ( GTK_BOX ( paddingbox ), bouton_display_lock_active, FALSE, FALSE, 0 );
+
+  /* Display a warning message that QIF doesn't contain currencies */
+  bouton_display_lock_active = new_checkbox_with_title ( _("Do not warn about about QIF not containing currencies"),
+							&(etat.display_message_qif_export_currency), NULL );
+  gtk_box_pack_start ( GTK_BOX ( paddingbox ), bouton_display_lock_active, FALSE, FALSE, 0 );
 
 
   /* Number of days before a warning message advertising a scheduled

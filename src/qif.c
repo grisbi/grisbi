@@ -845,12 +845,14 @@ void exporter_fichier_qif ( void )
       return;
     }
 
-
-  dialogue ( _("Carreful, the QIF format cannot use currencies,\nall the transactions will be convert in the currencie of their account.")); 
+  
+  dialogue_conditional_hint ( _("QIF format does not define currencies."), 
+			      _("All transactions will be converted into currency of their account."),
+			      &etat.display_message_qif_export_currency ); 
 
   dialog = gnome_dialog_new ( _("Export QIF files"),
-			      GNOME_STOCK_BUTTON_OK,
 			      GNOME_STOCK_BUTTON_CANCEL,
+			      GNOME_STOCK_BUTTON_OK,
 			      NULL );
   gtk_window_set_transient_for ( GTK_WINDOW ( dialog ),
 				 GTK_WINDOW ( window ));
