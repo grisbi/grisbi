@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2004-03-08 10:28+0100\n"
+"POT-Creation-Date: 2004-03-11 16:37+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -28,6 +28,11 @@ msgstr ""
 msgid "Account balances"
 msgstr ""
 
+#.
+#. separateur = gtk_hseparator_new ();
+#. gtk_box_pack_start ( GTK_BOX ( base_box_scroll ), separateur, FALSE, FALSE, 0 );
+#. gtk_widget_show ( separateur );
+#.
 #. mise en place de la partie fin des comptes passif
 #: src/accueil.c:165
 msgid "Closed liabilities accounts"
@@ -38,21 +43,37 @@ msgstr ""
 msgid "Manual scheduled transactions at maturity date"
 msgstr ""
 
+#.
+#. separateur_manu_auto = gtk_hseparator_new ();
+#. gtk_box_pack_start ( GTK_BOX ( base_box_scroll ), separateur_manu_auto, FALSE, FALSE, 0 );
+#.
 #. mise en place de la partie des échéances auto  ( non affiché )
 #: src/accueil.c:188
 msgid "Automatic scheduled transactions entered"
 msgstr ""
 
+#.
+#. separateur_auto_mini = gtk_hseparator_new ();
+#. gtk_box_pack_start ( GTK_BOX ( base_box_scroll ), separateur_auto_mini, FALSE, FALSE, 0 );
+#.
 #. partie des fin d'échéances
 #: src/accueil.c:200
 msgid "Closed scheduled transactions"
 msgstr ""
 
+#.
+#. separateur_ech_finies_soldes_mini = gtk_hseparator_new ();
+#. gtk_box_pack_start ( GTK_BOX ( base_box_scroll ), separateur_ech_finies_soldes_mini, FALSE, FALSE, 0 );
+#.
 #. partie des soldes minimaux autorisés
 #: src/accueil.c:210
 msgid "Minimum authorised balances"
 msgstr ""
 
+#.
+#. separateur_des_soldes_mini = gtk_hseparator_new ();
+#. gtk_box_pack_start ( GTK_BOX ( base_box_scroll ), separateur_des_soldes_mini, FALSE, FALSE, 0 );
+#.
 #. partie des soldes minimaux voulus
 #: src/accueil.c:221
 msgid "Minimum wanted balances"
@@ -478,11 +499,11 @@ msgstr ""
 msgid "Name"
 msgstr ""
 
-#: src/banque.c:1051 src/comptes_gestion.c:624
+#: src/banque.c:1051 src/comptes_gestion.c:627
 msgid "Bank sort code"
 msgstr ""
 
-#: src/banque.c:1087 src/comptes_gestion.c:396
+#: src/banque.c:1087 src/comptes_gestion.c:399
 msgid "Address"
 msgstr ""
 
@@ -1172,17 +1193,17 @@ msgstr ""
 #: src/etats_onglet.c:1418 src/fichiers_gestion.c:498
 #: src/fichiers_gestion.c:562 src/fichiers_gestion.c:564
 #: src/fichiers_gestion.c:612 src/fichiers_gestion.c:614
-#: src/imputation_budgetaire.c:2807 src/qif.c:1433
+#: src/imputation_budgetaire.c:2807 src/qif.c:1437
 msgid "Save file"
 msgstr ""
 
 #: src/categories_onglet.c:3086 src/etats_onglet.c:1422
-#: src/fichiers_gestion.c:502 src/imputation_budgetaire.c:2811 src/qif.c:1437
+#: src/fichiers_gestion.c:502 src/imputation_budgetaire.c:2811 src/qif.c:1441
 msgid "File exists. Do you want to overwrite it?"
 msgstr ""
 
 #: src/categories_onglet.c:3105 src/etats_onglet.c:1441
-#: src/fichiers_gestion.c:524 src/imputation_budgetaire.c:2830 src/qif.c:1455
+#: src/fichiers_gestion.c:524 src/imputation_budgetaire.c:2830 src/qif.c:1459
 #, c-format
 msgid "Invalid filename \"%s\"!"
 msgstr ""
@@ -1196,108 +1217,108 @@ msgstr ""
 msgid "Enter a filename"
 msgstr ""
 
-#: src/comptes_gestion.c:104
+#: src/comptes_gestion.c:107
 msgid "Account name"
 msgstr ""
 
-#: src/comptes_gestion.c:151 src/comptes_traitements.c:743
+#: src/comptes_gestion.c:154 src/comptes_traitements.c:743
 msgid "Account type"
 msgstr ""
 
-#: src/comptes_gestion.c:200
+#: src/comptes_gestion.c:203
 msgid "Account currency"
 msgstr ""
 
-#: src/comptes_gestion.c:241
+#: src/comptes_gestion.c:244
 msgid "Convert this account to euros"
 msgstr ""
 
-#: src/comptes_gestion.c:267
+#: src/comptes_gestion.c:270
 msgid "Closed account"
 msgstr ""
 
-#: src/comptes_gestion.c:325
+#: src/comptes_gestion.c:328
 msgid "Account holder"
 msgstr ""
 
-#: src/comptes_gestion.c:375
+#: src/comptes_gestion.c:378
 msgid "Common address is holder's address"
 msgstr ""
 
-#: src/comptes_gestion.c:437
+#: src/comptes_gestion.c:440
 msgid "Holder has his own address"
 msgstr ""
 
-#: src/comptes_gestion.c:510
+#: src/comptes_gestion.c:513
 msgid "Financial institution"
 msgstr ""
 
-#: src/comptes_gestion.c:567
+#: src/comptes_gestion.c:570
 msgid "Details"
 msgstr ""
 
-#: src/comptes_gestion.c:589
+#: src/comptes_gestion.c:592
 msgid "New financial institution"
 msgstr ""
 
-#: src/comptes_gestion.c:671
+#: src/comptes_gestion.c:674
 msgid "Bank branch code"
 msgstr ""
 
-#: src/comptes_gestion.c:722
+#: src/comptes_gestion.c:725
 msgid "Account number / Key"
 msgstr ""
 
-#: src/comptes_gestion.c:814 src/equilibrage.c:250
+#: src/comptes_gestion.c:817 src/equilibrage.c:250
 msgid "Initial balance"
 msgstr ""
 
-#: src/comptes_gestion.c:863
+#: src/comptes_gestion.c:866
 msgid "Minimum authorised balance"
 msgstr ""
 
-#: src/comptes_gestion.c:910
+#: src/comptes_gestion.c:913
 msgid "Minimum wanted balance"
 msgstr ""
 
-#: src/comptes_gestion.c:986
+#: src/comptes_gestion.c:989
 msgid "Comments"
 msgstr ""
 
 #. création de l'item compte bancaire
-#: src/comptes_gestion.c:1197
+#: src/comptes_gestion.c:1200
 msgid "Bank account"
 msgstr ""
 
 #. création de l'item compte de caisse
-#: src/comptes_gestion.c:1208
+#: src/comptes_gestion.c:1211
 msgid "Cash account"
 msgstr ""
 
 #. création de l'item compte passif
-#: src/comptes_gestion.c:1219
+#: src/comptes_gestion.c:1222
 msgid "Liabilities account"
 msgstr ""
 
 #. création de l'item compte actif
-#: src/comptes_gestion.c:1229
+#: src/comptes_gestion.c:1232
 msgid "Assets account"
 msgstr ""
 
-#: src/comptes_gestion.c:1428
+#: src/comptes_gestion.c:1431
 msgid "Account has no name!"
 msgstr ""
 
-#: src/comptes_gestion.c:1443
+#: src/comptes_gestion.c:1446
 #, c-format
 msgid "Account \"%s\" already exists!"
 msgstr ""
 
-#: src/comptes_gestion.c:1499
+#: src/comptes_gestion.c:1502
 msgid "Confirm currency change"
 msgstr ""
 
-#: src/comptes_gestion.c:1504
+#: src/comptes_gestion.c:1507
 #, c-format
 msgid ""
 "Be carefull, you are changing from a currency that is in the euro zone\n"
@@ -1306,11 +1327,11 @@ msgid ""
 "Do you confirm this change?"
 msgstr ""
 
-#: src/comptes_gestion.c:1750
+#: src/comptes_gestion.c:1753
 msgid "Apply changes to account?"
 msgstr ""
 
-#: src/comptes_gestion.c:1757
+#: src/comptes_gestion.c:1760
 #, c-format
 msgid ""
 "Account \"%s\" has been modified.\n"
@@ -1319,11 +1340,11 @@ msgid ""
 "Do you want to save changes?"
 msgstr ""
 
-#: src/comptes_gestion.c:1799
+#: src/comptes_gestion.c:1802
 msgid "Confirm euro conversion"
 msgstr ""
 
-#: src/comptes_gestion.c:1806
+#: src/comptes_gestion.c:1809
 #, c-format
 msgid ""
 "Warning, euro conversion is irreversible!\n"
@@ -1331,11 +1352,11 @@ msgid ""
 "Are you sure you want to convert account \"%s\" to euros?"
 msgstr ""
 
-#: src/comptes_gestion.c:1836
+#: src/comptes_gestion.c:1839
 msgid "Error: exchange rate between the 2 currencies is 0."
 msgstr ""
 
-#: src/comptes_gestion.c:1843 src/devises.c:50 src/devises.c:541
+#: src/comptes_gestion.c:1846 src/devises.c:50 src/devises.c:541
 #: src/devises.c:1606 src/devises.c:1758 src/devises.c:2091 src/devises.c:2096
 #: src/echeancier_formulaire.c:1763 src/echeancier_formulaire.c:1764
 #: src/echeancier_formulaire.c:1988 src/echeancier_formulaire.c:1989
@@ -1352,7 +1373,7 @@ msgstr ""
 msgid "Euro"
 msgstr ""
 
-#: src/comptes_gestion.c:1848
+#: src/comptes_gestion.c:1851
 msgid "Impossible to find the Euro currency, it has probably been deleted."
 msgstr ""
 
@@ -1394,7 +1415,7 @@ msgid "Deposit"
 msgstr ""
 
 #. c'est un compte ccard
-#: src/comptes_traitements.c:597 src/qif.c:261
+#: src/comptes_traitements.c:597 src/qif.c:265
 msgid "Credit card"
 msgstr ""
 
@@ -1981,7 +2002,7 @@ msgstr ""
 
 #. mise en place de la frame des comptes
 #: src/etats_config.c:123 src/etats_config.c:7097 src/fenetre_principale.c:80
-#: src/menu.c:189 src/operations_onglet.c:73 src/type_operations.c:39
+#: src/menu.c:189 src/operations_onglet.c:72 src/type_operations.c:39
 msgid "Accounts"
 msgstr ""
 
@@ -3560,6 +3581,10 @@ msgstr ""
 msgid "Choose initial tab"
 msgstr ""
 
+#: src/main.c:84
+msgid "tab"
+msgstr ""
+
 #: src/main.c:108
 msgid "Error on sigaction: SIGSEGV won't be trapped\n"
 msgstr ""
@@ -3608,7 +3633,7 @@ msgstr ""
 msgid "Import QIF files"
 msgstr ""
 
-#: src/menu.c:126 src/qif.c:1292
+#: src/menu.c:126 src/qif.c:1296
 msgid "Export QIF files"
 msgstr ""
 
@@ -3690,8 +3715,8 @@ msgid "Contra-transaction method of payment"
 msgstr ""
 
 #. mise en forme du bouton ventilation
-#: src/operations_formulaire.c:506 src/operations_onglet.c:80
-#: src/operations_onglet.c:173
+#: src/operations_formulaire.c:506 src/operations_onglet.c:79
+#: src/operations_onglet.c:169
 msgid "Breakdown"
 msgstr ""
 
@@ -3797,11 +3822,11 @@ msgid ""
 "Deletion canceled..."
 msgstr ""
 
-#: src/operations_onglet.c:86
+#: src/operations_onglet.c:85
 msgid "Reconciliation"
 msgstr ""
 
-#: src/operations_onglet.c:162
+#: src/operations_onglet.c:161
 msgid "Form"
 msgstr ""
 
@@ -3952,61 +3977,61 @@ msgstr ""
 msgid "The file \"%s\" is not a QIF file"
 msgstr ""
 
-#: src/qif.c:269
+#: src/qif.c:273
 msgid "Imported account with no name"
 msgstr ""
 
-#: src/qif.c:273
+#: src/qif.c:277
 msgid "This file is empty!"
 msgstr ""
 
 #. on permet ici de récupérer d'autres comptes
-#: src/qif.c:515
+#: src/qif.c:519
 msgid "List of the imported accounts"
 msgstr ""
 
-#: src/qif.c:526
+#: src/qif.c:530
 msgid "Account to import:\n"
 msgstr ""
 
-#: src/qif.c:528
+#: src/qif.c:532
 msgid "Accounts to import:\n"
 msgstr ""
 
-#: src/qif.c:587
+#: src/qif.c:591
 msgid ""
 "\n"
 "Any other account to import?"
 msgstr ""
 
-#: src/qif.c:874
+#: src/qif.c:878
 msgid "Problem recovering the dates in the QIF file. Import canceled."
 msgstr ""
 
 #. création des listes d'opé
-#: src/qif.c:1204
+#: src/qif.c:1208
 msgid "Processing the information can be long..."
 msgstr ""
 
-#: src/qif.c:1285
+#: src/qif.c:1289
 msgid "You must name (save) your file to be able to export it."
 msgstr ""
 
-#: src/qif.c:1290
+#: src/qif.c:1294
 msgid ""
 "Warning: QIF files don't use currencies.\n"
 "All transactions will be converted to appropriate account's currency."
 msgstr ""
 
-#: src/qif.c:1303
+#: src/qif.c:1307
 msgid "Select the accounts to export"
 msgstr ""
 
-#: src/qif.c:1363
+#: src/qif.c:1367
 msgid "Export a QIF file"
 msgstr ""
 
-#: src/qif.c:1481
+#: src/qif.c:1485
 #, c-format
 msgid ""
 "The following error occured for the file \"%s\":\n"
