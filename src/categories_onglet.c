@@ -2695,6 +2695,16 @@ void appui_sur_ajout_categorie ( void )
 					    COLON(_("Enter name for new category")) )))
 	return;
 
+
+    /* On vérifie si l'opération existe. */
+    if ( categ_par_nom ( nom_categorie, 0, 0, 0 ))
+    {
+	dialogue_warning_hint ( _("Category must be both unique and not empty.  Please use another name for this category."),
+				g_strdup_printf ( _("Category '%s' already exists."),
+						  nom_categorie ) );
+	return;
+    }
+
     /* on l'ajoute à la liste des opés */
 
     nouvelle_categorie = categ_par_nom ( nom_categorie,
@@ -2767,6 +2777,15 @@ void appui_sur_ajout_sous_categorie ( void )
 					      node_parent );
     if ( categorie <= 0 )
 	return;
+
+    /* On vérifie si l'opération existe. */
+    if ( sous_categ_par_nom ( categorie, nom_sous_categorie, 0 ))
+    {
+	dialogue_warning_hint ( _("Sub-category must be both unique and not empty.  Please use another name for this sub-category."),
+				g_strdup_printf ( _("Sub-category '%s' already exists."),
+						  nom_sous_categorie ) );
+	return;
+    }
 
     /* on l'ajoute à la liste des opés */
 
