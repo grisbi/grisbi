@@ -45,7 +45,7 @@ void nouveau_fichier ( void )
   if  (!(p_tab_nom_de_compte = calloc ( 1,
 					sizeof ( gpointer ) )))
     {
-      dialogue ( "Erreur dans l'allocation de mémoire pour créer un nouveau compte !" );
+      dialogue ( _("Erreur dans l'allocation de mémoire pour créer un nouveau compte !") );
       return;
     };
 
@@ -56,7 +56,7 @@ void nouveau_fichier ( void )
   if  (!(*p_tab_nom_de_compte_variable = calloc ( 1,
 						  sizeof (struct donnees_compte) )) )
     {
-      dialogue ( "Erreur dans l'allocation de mémoire pour créer un nouveau compte !" );
+      dialogue ( _("Erreur dans l'allocation de mémoire pour créer un nouveau compte !") );
       return;
     };
 
@@ -66,7 +66,7 @@ void nouveau_fichier ( void )
 
   /* insère ses paramètres ( comme c'est un appel à calloc, tout ce qui est à 0 est déjà initialisé )*/
 
-  NOM_DU_COMPTE = g_strdup ( "Sans nom" );
+  NOM_DU_COMPTE = g_strdup ( _("Sans nom") );
   OPERATION_SELECTIONNEE = GINT_TO_POINTER ( -1 );
   DEVISE = 1;
   MISE_A_JOUR = 1;
@@ -127,7 +127,7 @@ void ouvrir_fichier ( void )
 {
   GtkWidget *selection_fichier;
 
-  selection_fichier = gtk_file_selection_new ( "Ouverture d'un fichier de comptes");
+  selection_fichier = gtk_file_selection_new ( _("Ouverture d'un fichier de comptes"));
   gtk_window_set_position ( GTK_WINDOW ( selection_fichier ),
 			    GTK_WIN_POS_MOUSE);
 
@@ -213,7 +213,7 @@ void fichier_selectionne ( GtkWidget *selection_fichier)
 
 void ouverture_confirmee ( void )
 {
-  mise_en_route_attente ( "Chargement du fichier" );
+  mise_en_route_attente ( _("Chargement du fichier") );
 
   /*   si nb_comptes est différent de 0, c'est que l'on veut tout redessiner car on a changé la fonte */
   /*  si charge opérations renvoie FALSE, c'est qu'il y a eu un pb et un message est déjà affiché */
@@ -223,12 +223,12 @@ void ouverture_confirmee ( void )
       {
 	annulation_attente ();
 	init_variables ( FALSE );
-	dialogue ( "Problème lors du chargement du fichier !" );
+	dialogue ( _("Problème lors du chargement du fichier !") );
 
 	return;
       }
 
-  update_attente ( "Mise en forme des opérations" );
+  update_attente ( _("Mise en forme des opérations") );
 
   /* on save le nom du fichier dans les derniers ouverts */
 
@@ -319,7 +319,7 @@ gboolean enregistrement_fichier ( gint origine )
 
       if ( origine == -1 )
 	{
-	  dialog = gnome_message_box_new ( "Voulez-vous enregistrer le fichier ? ",
+	  dialog = gnome_message_box_new ( _("Voulez-vous enregistrer le fichier ? "),
 					     GNOME_MESSAGE_BOX_QUESTION,
 					     GNOME_STOCK_BUTTON_YES,
 					     GNOME_STOCK_BUTTON_NO,
@@ -346,7 +346,7 @@ gboolean enregistrement_fichier ( gint origine )
 	    }
 	}
 
-      dialog = gnome_dialog_new ( "Création d'un nom de fichier de comptes",
+      dialog = gnome_dialog_new ( _("Création d'un nom de fichier de comptes"),
 				  GNOME_STOCK_BUTTON_OK,
 				  GNOME_STOCK_BUTTON_CANCEL,
 				  NULL );
@@ -359,7 +359,7 @@ gboolean enregistrement_fichier ( gint origine )
 			   GTK_SIGNAL_FUNC ( gtk_signal_emit_stop_by_name ),
 			   "destroy" );
 
-      label = gtk_label_new ( "Entrer un nom pour le fichier de comptes :" );
+      label = gtk_label_new ( _("Entrer un nom pour le fichier de comptes :") );
       gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
 			   label,
 			   FALSE,
@@ -415,11 +415,11 @@ gboolean enregistrement_fichier ( gint origine )
 		  GtkWidget *etes_vous_sur;
 		  GtkWidget *label;
 
-		  etes_vous_sur = gnome_dialog_new ( "Enregistrer le fichier",
+		  etes_vous_sur = gnome_dialog_new ( _("Enregistrer le fichier"),
 						     GNOME_STOCK_BUTTON_YES,
 						     GNOME_STOCK_BUTTON_NO,
 						     NULL );
-		  label = gtk_label_new ( "Le fichier existe. Voulez-vous l'écraser ?" );
+		  label = gtk_label_new ( _("Le fichier existe. Voulez-vous l'écraser ?") );
 		  gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( etes_vous_sur ) -> vbox ),
 				       label,
 				       TRUE,
@@ -441,9 +441,9 @@ gboolean enregistrement_fichier ( gint origine )
 		}
 	      else
 		{
-		  dialogue ( g_strconcat ( "Nom de fichier \"",
+		  dialogue ( g_strconcat ( _("Nom de fichier \""),
 					   nom_fichier_comptes,
-					   "\" invalide !",
+					   _("\" invalide !"),
 					   NULL ));
 		  nom_fichier_comptes = ancien_nom_fichier_comptes;
 		  return(FALSE);
@@ -481,9 +481,9 @@ gboolean enregistrement_fichier ( gint origine )
 	  return ( FALSE );
 
       if ( patience_en_cours )
-	update_attente ( "Enregistrement du fichier" );
+	update_attente ( _("Enregistrement du fichier") );
       else
-	mise_en_route_attente ( "Enregistrement du fichier" );
+	mise_en_route_attente ( _("Enregistrement du fichier") );
 
       result = enregistre_fichier ();
       annulation_attente();
@@ -505,7 +505,7 @@ gboolean enregistrement_fichier ( gint origine )
 	reponse = 0;
       else
 	{
-	  dialogue = gnome_message_box_new ( "Voulez-vous enregistrer le fichier ? ",
+	  dialogue = gnome_message_box_new ( _("Voulez-vous enregistrer le fichier ? "),
 					     GNOME_MESSAGE_BOX_QUESTION,
 					     GNOME_STOCK_BUTTON_YES,
 					     GNOME_STOCK_BUTTON_NO,
@@ -528,9 +528,9 @@ gboolean enregistrement_fichier ( gint origine )
 	      return ( FALSE );
 
 	  if ( patience_en_cours )
-	    update_attente ( "Enregistrement du fichier" );
+	    update_attente ( _("Enregistrement du fichier") );
 	  else
-	    mise_en_route_attente ( "Enregistrement du fichier" );
+	    mise_en_route_attente ( _("Enregistrement du fichier") );
 
 	  result = enregistre_fichier ();
 	  annulation_attente();
@@ -669,7 +669,7 @@ void affiche_titre_fenetre ( void )
       while ( parametres[i] != NULL )
 	i++;
 
-      titre = g_strconcat ( " Grisbi : ",
+      titre = g_strconcat ( _(" Grisbi : "),
 			    parametres [i-1],
 			    NULL );
 
@@ -678,9 +678,9 @@ void affiche_titre_fenetre ( void )
   else
     {
       if ( nb_comptes )
-	titre = "Grisbi - Sans nom";
+	titre = _("Grisbi - Sans nom");
       else
-	titre = "Grisbi";
+	titre = _("Grisbi");
     }
 
   gtk_window_set_title ( GTK_WINDOW ( window ),
@@ -708,7 +708,7 @@ gboolean enregistrement_backup ( void )
 
   xmlSetCompressMode ( compression_backup );
 
-  mise_en_route_attente ( "Enregistrement de la sauvegarde" );
+  mise_en_route_attente ( _("Enregistrement de la sauvegarde") );
   retour = enregistre_fichier();
 
   if ( !retour )

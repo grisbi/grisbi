@@ -90,7 +90,7 @@ gint gnomeprint_initialise ()
   GnomePrintDialog *gpd;
   static int copies=1, collate;
 
-  gpd = GNOME_PRINT_DIALOG (gnome_print_dialog_new("Impression de Grisbi", 
+  gpd = GNOME_PRINT_DIALOG (gnome_print_dialog_new(_("Impression de Grisbi"), 
 						   GNOME_PRINT_DIALOG_COPIES));
   gnome_print_dialog_set_copies(gpd, copies, collate);
 
@@ -537,11 +537,11 @@ gint gnomeprint_affichage_ligne_ope ( struct structure_operation *operation,
 		  p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> relation_no_compte;
 
 		  if ( operation -> montant < 0 )
-		    pointeur = g_strconcat ( "Virement vers ",
+		    pointeur = g_strconcat ( _("Virement vers "),
 					     NOM_DU_COMPTE,
 					     NULL );
 		  else
-		    pointeur = g_strconcat ( "Virement de ",
+		    pointeur = g_strconcat ( _("Virement de "),
 					     NOM_DU_COMPTE,
 					     NULL );
 		}
@@ -859,7 +859,7 @@ gint gnomeprint_affiche_tiers_etat ( struct structure_operation *operation,
 /*****************************************************************************************************/
 gint gnomeprint_affiche_titre_revenus_etat ( gint ligne )
 {
-  gnomeprint_affiche_texte ( "Revenus", subtitle_font );
+  gnomeprint_affiche_texte ( _("Revenus"), subtitle_font );
   gnomeprint_commit_y ( );
   gnomeprint_move_point ( 0, -5 );
 
@@ -871,7 +871,7 @@ gint gnomeprint_affiche_titre_revenus_etat ( gint ligne )
 /*****************************************************************************************************/
 gint gnomeprint_affiche_titre_depenses_etat ( gint ligne )
 {
-  gnomeprint_affiche_texte ( "Dépenses", subtitle_font );
+  gnomeprint_affiche_texte ( _("Dépenses"), subtitle_font );
   gnomeprint_commit_y ( );
   gnomeprint_move_point ( 0, -5 );
 
@@ -902,7 +902,7 @@ gint gnomeprint_affiche_titres_colonnes ( gint ligne )
 
   if ( etat_courant -> afficher_no_ope )
     {
-      gnomeprint_affiche_texte ( "N°", header_font );
+      gnomeprint_affiche_texte ( _("N°"), header_font );
       size = tmp_y - point_y;
       gnomeprint_update_point();
       gnomeprint_move_point ( 8, 0);
@@ -916,7 +916,7 @@ gint gnomeprint_affiche_titres_colonnes ( gint ligne )
 
   if ( etat_courant -> afficher_date_ope )
     {
-      gnomeprint_affiche_texte ( "Date", header_font );
+      gnomeprint_affiche_texte ( _("Date"), header_font );
       size = tmp_y - point_y;
       gnomeprint_update_point();
       gnomeprint_move_point ( 20, 0);
@@ -930,7 +930,7 @@ gint gnomeprint_affiche_titres_colonnes ( gint ligne )
 
   if ( etat_courant -> afficher_exo_ope )
     {
-      gnomeprint_affiche_texte ( "Exercice", header_font );
+      gnomeprint_affiche_texte ( _("Exercice"), header_font );
       size = tmp_y - point_y;
       gnomeprint_update_point();
       gnomeprint_move_point ( 30, 0);
@@ -944,7 +944,7 @@ gint gnomeprint_affiche_titres_colonnes ( gint ligne )
 
   if ( etat_courant -> afficher_tiers_ope )
     {
-      gnomeprint_affiche_texte ( "Tiers", header_font );
+      gnomeprint_affiche_texte ( _("Tiers"), header_font );
       size = tmp_y - point_y;
       gnomeprint_update_point();
       gnomeprint_move_point ( 80, 0);
@@ -958,7 +958,7 @@ gint gnomeprint_affiche_titres_colonnes ( gint ligne )
 
   if ( etat_courant -> afficher_categ_ope )
     {
-      gnomeprint_affiche_texte ( "Catégorie", header_font );
+      gnomeprint_affiche_texte ( _("Catégorie"), header_font );
       size = tmp_y - point_y;
       gnomeprint_update_point();
       gnomeprint_move_point ( 70, 0);
@@ -972,7 +972,7 @@ gint gnomeprint_affiche_titres_colonnes ( gint ligne )
 
   if ( etat_courant -> afficher_ib_ope )
     {
-      gnomeprint_affiche_texte ( "Imputation budgétaire", header_font );
+      gnomeprint_affiche_texte ( _("Imputation budgétaire"), header_font );
       size = tmp_y - point_y;
       gnomeprint_update_point();
       gnomeprint_move_point ( 50, 0);
@@ -986,7 +986,7 @@ gint gnomeprint_affiche_titres_colonnes ( gint ligne )
 
   if ( etat_courant -> afficher_notes_ope )
     {
-      gnomeprint_affiche_texte ( "Notes", header_font );
+      gnomeprint_affiche_texte ( _("Notes"), header_font );
       size = tmp_y - point_y;
       gnomeprint_update_point();
       gnomeprint_move_point ( 50, 0);
@@ -1000,7 +1000,7 @@ gint gnomeprint_affiche_titres_colonnes ( gint ligne )
 
   if ( etat_courant -> afficher_type_ope )
     {
-      gnomeprint_affiche_texte ( "Type", header_font );
+      gnomeprint_affiche_texte ( _("Type"), header_font );
       size = tmp_y - point_y;
       gnomeprint_update_point();
       gnomeprint_move_point ( 30, 0);
@@ -1014,7 +1014,7 @@ gint gnomeprint_affiche_titres_colonnes ( gint ligne )
 
   if ( etat_courant -> afficher_cheque_ope )
     {
-      gnomeprint_affiche_texte ( "Chèque", header_font );
+      gnomeprint_affiche_texte ( _("Chèque"), header_font );
       size = tmp_y - point_y;
       gnomeprint_update_point();
       gnomeprint_move_point ( 20, 0);
@@ -1028,7 +1028,7 @@ gint gnomeprint_affiche_titres_colonnes ( gint ligne )
 
   if ( etat_courant -> afficher_pc_ope )
     {
-      gnomeprint_affiche_texte ( "Pièce comptable", header_font );
+      gnomeprint_affiche_texte ( _("Pièce comptable"), header_font );
       size = tmp_y - point_y;
       gnomeprint_update_point();
       gnomeprint_move_point ( 30, 0);
@@ -1042,7 +1042,7 @@ gint gnomeprint_affiche_titres_colonnes ( gint ligne )
 
   if ( etat_courant -> afficher_infobd_ope )
     {
-      gnomeprint_affiche_texte ( "Info banque/guichet", header_font );
+      gnomeprint_affiche_texte ( _("Info banque/guichet"), header_font );
       size = tmp_y - point_y;
       gnomeprint_update_point();
       gnomeprint_move_point ( 30, 0);
@@ -1056,7 +1056,7 @@ gint gnomeprint_affiche_titres_colonnes ( gint ligne )
 
   if ( etat_courant -> afficher_rappr_ope )
     {
-      gnomeprint_affiche_texte ( "Relevé", header_font );
+      gnomeprint_affiche_texte ( _("Relevé"), header_font );
       size = tmp_y - point_y;
       gnomeprint_update_point();
       gnomeprint_move_point ( 30, 0);
@@ -1068,7 +1068,7 @@ gint gnomeprint_affiche_titres_colonnes ( gint ligne )
       colonne = colonne + 2;
     }
 
-  gnomeprint_affiche_texte ( "Montant", header_font);
+  gnomeprint_affiche_texte ( _("Montant"), header_font);
   gnomeprint_update_point ( );
 
   ligne++;
@@ -1105,7 +1105,7 @@ gint gnomeprint_finish ( )
     {
       GnomePrintMasterPreview * pmp;
       pmp = gnome_print_master_preview_new(gpm, 
-					   "Prévisualisation de l'impression de Grisbi");
+					   _("Prévisualisation de l'impression de Grisbi"));
       gtk_widget_show(GTK_WIDGET(pmp));
     }
   else

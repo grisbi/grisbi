@@ -28,123 +28,123 @@
 
 
 gchar *categories_de_base_debit [] = {
-  "Alimentation : Bar",
-  "Alimentation : Boulangerie",
-  "Alimentation : Cantine",
-  "Alimentation : Confiserie",
-  "Alimentation : Divers",
-  "Alimentation : Epicerie",
-  "Alimentation : Restaurant",
-  "Alimentation : Self",
-  "Alimentation : Supermarché",
-  "Animaux domestiques : Alimentation",
-  "Animaux domestiques : Fournitures diverses",
-  "Animaux domestiques : Toilettage",
-  "Animaux domestiques : Vétérinaire",
-  "Assurance : Automobile",
-  "Assurance : Santé",
-  "Assurance : Habitation",
-  "Assurance : Responsabilité civile",
-  "Assurance : Vie",
-  "Automobile : Carburant",
-  "Automobile : Réparation",
-  "Automobile : Entretien",
-  "Automobile : Stationnement",
-  "Automobile : Amendes",
-  "Divers",
-  "Dons",
-  "Enfants : Crèche / Nourrice",
-  "Enfants : Frais divers",
-  "Enfants : Etudes",
-  "Etudes : Cours",
-  "Etudes : Frais de scolarité",
-  "Etudes : Livres",
-  "Frais divers : Cadeaux",
-  "Frais financiers : Divers",
-  "Frais financiers : Frais bancaires",
-  "Frais financiers : Prêt",
-  "Frais financiers : Charges d'emprunts",
-  "Frais financiers : Remboursement",
-  "Frais professionnels : Non remboursés",
-  "Frais professionnels : Remboursés",
-  "Impôts : Autres impôts",
-  "Impôts : Impôt sur le revenu",
-  "Impôts : Impôts locaux",
-  "Logement : Hotel",
-  "Logement : Loyer",
-  "Logement : Abonnement TV",
-  "Logement : Ameublement",
-  "Logement : Charges",
-  "Logement : Chauffage",
-  "Logement : Décoration",
-  "Logement : Eau",
-  "Logement : Electricité",
-  "Logement : Electroménager",
-  "Logement : Equipement",
-  "Logement : Gaz",
-  "Logement : Jardin",
-  "Logement : Salarié à domicile",
-  "Logement : Téléphone",
-  "Loisirs : Billard",
-  "Loisirs : Bowling",
-  "Loisirs : Cinéma",
-  "Loisirs : Discothèque",
-  "Loisirs : Informatique",
-  "Loisirs : Jeux",
-  "Loisirs : Lecture",
-  "Loisirs : Parc d'attraction",
-  "Loisirs : Spectacle",
-  "Loisirs : Sport",
-  "Loisirs : Vidéo",
-  "Loisirs : Voyage",
-  "Loisirs : Equipement",
-  "Loisirs : Musée / Exposition",
-  "Prêt : Capital",
-  "Santé : Assurance",
-  "Santé : Dentiste",
-  "Santé : Hôpital",
-  "Santé : Kinésithérapeute",
-  "Santé : Médecin",
-  "Santé : Ophtalmologiste",
-  "Santé : Ostéopathe",
-  "Santé : Pharmacie",
-  "Santé : Sécurité sociale",
-  "Soins : Coiffeur",
-  "Soins : Habillement",
-  "Transport : Bus",
-  "Transport : Métro",
-  "Transport : Péage",
-  "Transport : Train",
-  "Transport : Tramway",
-  "Transport : Voyage",
-  "Transport : Train",
-  "Vacances : Logement",
-  "Vacances : Visites",
-  "Vacances : Voyages",
+  _("Alimentation : Bar"),
+  _("Alimentation : Boulangerie"),
+  _("Alimentation : Cantine"),
+  _("Alimentation : Confiserie"),
+  _("Alimentation : Divers"),
+  _("Alimentation : Epicerie"),
+  _("Alimentation : Restaurant"),
+  _("Alimentation : Self"),
+  _("Alimentation : Supermarché"),
+  _("Animaux domestiques : Alimentation"),
+  _("Animaux domestiques : Fournitures diverses"),
+  _("Animaux domestiques : Toilettage"),
+  _("Animaux domestiques : Vétérinaire"),
+  _("Assurance : Automobile"),
+  _("Assurance : Santé"),
+  _("Assurance : Habitation"),
+  _("Assurance : Responsabilité civile"),
+  _("Assurance : Vie"),
+  _("Automobile : Carburant"),
+  _("Automobile : Réparation"),
+  _("Automobile : Entretien"),
+  _("Automobile : Stationnement"),
+  _("Automobile : Amendes"),
+  _("Divers"),
+  _("Dons"),
+  _("Enfants : Crèche / Nourrice"),
+  _("Enfants : Frais divers"),
+  _("Enfants : Etudes"),
+  _("Etudes : Cours"),
+  _("Etudes : Frais de scolarité"),
+  _("Etudes : Livres"),
+  _("Frais divers : Cadeaux"),
+  _("Frais financiers : Divers"),
+  _("Frais financiers : Frais bancaires"),
+  _("Frais financiers : Prêt"),
+  _("Frais financiers : Charges d'emprunts"),
+  _("Frais financiers : Remboursement"),
+  _("Frais professionnels : Non remboursés"),
+  _("Frais professionnels : Remboursés"),
+  _("Impôts : Autres impôts"),
+  _("Impôts : Impôt sur le revenu"),
+  _("Impôts : Impôts locaux"),
+  _("Logement : Hotel"),
+  _("Logement : Loyer"),
+  _("Logement : Abonnement TV"),
+  _("Logement : Ameublement"),
+  _("Logement : Charges"),
+  _("Logement : Chauffage"),
+  _("Logement : Décoration"),
+  _("Logement : Eau"),
+  _("Logement : Electricité"),
+  _("Logement : Electroménager"),
+  _("Logement : Equipement"),
+  _("Logement : Gaz"),
+  _("Logement : Jardin"),
+  _("Logement : Salarié à domicile"),
+  _("Logement : Téléphone"),
+  _("Loisirs : Billard"),
+  _("Loisirs : Bowling"),
+  _("Loisirs : Cinéma"),
+  _("Loisirs : Discothèque"),
+  _("Loisirs : Informatique"),
+  _("Loisirs : Jeux"),
+  _("Loisirs : Lecture"),
+  _("Loisirs : Parc d'attraction"),
+  _("Loisirs : Spectacle"),
+  _("Loisirs : Sport"),
+  _("Loisirs : Vidéo"),
+  _("Loisirs : Voyage"),
+  _("Loisirs : Equipement"),
+  _("Loisirs : Musée / Exposition"),
+  _("Prêt : Capital"),
+  _("Santé : Assurance"),
+  _("Santé : Dentiste"),
+  _("Santé : Hôpital"),
+  _("Santé : Kinésithérapeute"),
+  _("Santé : Médecin"),
+  _("Santé : Ophtalmologiste"),
+  _("Santé : Ostéopathe"),
+  _("Santé : Pharmacie"),
+  _("Santé : Sécurité sociale"),
+  _("Soins : Coiffeur"),
+  _("Soins : Habillement"),
+  _("Transport : Bus"),
+  _("Transport : Métro"),
+  _("Transport : Péage"),
+  _("Transport : Train"),
+  _("Transport : Tramway"),
+  _("Transport : Voyage"),
+  _("Transport : Train"),
+  _("Vacances : Logement"),
+  _("Vacances : Visites"),
+  _("Vacances : Voyages"),
   NULL };
 
 gchar *categories_de_base_credit [] = {
-  "Autres revenus : Allocation chômage",
-  "Autres revenus : Allocation familiales",
-  "Autres revenus : Capital de prêt reçu",
-  "Autres revenus : Crédit d'impôt",
-  "Autres revenus : Jeu",
-  "Autres revenus : Mutuelle santé",
-  "Autres revenus : Sécurité sociale",
-  "Retraite : Pensions",
-  "Retraite : Régime général",
-  "Retraite : Retraite complémentaire",
-  "Revenus de placement : Dividendes",
-  "Revenus de placement : Intérêts",
-  "Revenus de placement : Plus-values",
-  "Salaire : Heures supplémentaires",
-  "Salaire : Primes congés",
-  "Salaire : Primes diverses",
-  "Salaire : Primes résultats",
-  "Salaire : Salaire net",
-  "Revenus divers : Cadeaux",
-  "Revenus divers : Remboursement",
-  "Revenus divers : Vente occasion",
+  _("Autres revenus : Allocation chômage"),
+  _("Autres revenus : Allocation familiales"),
+  _("Autres revenus : Capital de prêt reçu"),
+  _("Autres revenus : Crédit d'impôt"),
+  _("Autres revenus : Jeu"),
+  _("Autres revenus : Mutuelle santé"),
+  _("Autres revenus : Sécurité sociale"),
+  _("Retraite : Pensions"),
+  _("Retraite : Régime général"),
+  _("Retraite : Retraite complémentaire"),
+  _("Revenus de placement : Dividendes"),
+  _("Revenus de placement : Intérêts"),
+  _("Revenus de placement : Plus-values"),
+  _("Salaire : Heures supplémentaires"),
+  _("Salaire : Primes congés"),
+  _("Salaire : Primes diverses"),
+  _("Salaire : Primes résultats"),
+  _("Salaire : Salaire net"),
+  _("Revenus divers : Cadeaux"),
+  _("Revenus divers : Remboursement"),
+  _("Revenus divers : Vente occasion"),
   NULL };
 
 
@@ -161,10 +161,10 @@ GtkWidget *onglet_categories ( void )
   GtkWidget *scroll_window;
   gchar *titres[] =
   {
-    "Liste des catégories",
-    "Montant par catégorie",
-    "Montant par sous-catégorie",
-    "Montant par compte"
+    _("Liste des catégories"),
+    _("Montant par catégorie"),
+    _("Montant par sous-catégorie"),
+    _("Montant par compte")
   };
   GtkWidget *vbox;
   GtkWidget *frame;
@@ -209,7 +209,7 @@ GtkWidget *onglet_categories ( void )
 
 
 
-  frame = gtk_frame_new ( " Informations : " );
+  frame = gtk_frame_new ( _(" Informations : ") );
   gtk_box_pack_start ( GTK_BOX ( vbox ),
 		       frame,
 		       FALSE,
@@ -251,7 +251,7 @@ GtkWidget *onglet_categories ( void )
   gtk_widget_show ( separateur );
 
 
-  label = gtk_label_new ( "Classement :" );
+  label = gtk_label_new ( _("Classement :") );
   gtk_box_pack_start ( GTK_BOX ( vbox_frame ),
 		       label,
 		       FALSE,
@@ -260,7 +260,7 @@ GtkWidget *onglet_categories ( void )
   gtk_widget_show ( label );
 
   bouton_categ_debit = gtk_radio_button_new_with_label ( NULL,
-							 "Débit" );
+							 _("Débit") );
   gtk_widget_set_sensitive ( bouton_categ_debit,
 			     FALSE );
   gtk_signal_connect ( GTK_OBJECT ( bouton_categ_debit ),
@@ -276,7 +276,7 @@ GtkWidget *onglet_categories ( void )
 
 
   bouton_categ_credit = gtk_radio_button_new_with_label_from_widget ( GTK_RADIO_BUTTON ( bouton_categ_debit ),
-								      "Crédit" );
+								      _("Crédit") );
   gtk_widget_set_sensitive ( bouton_categ_credit,
 			     FALSE );
   gtk_box_pack_start ( GTK_BOX ( vbox_frame ),
@@ -360,7 +360,7 @@ GtkWidget *onglet_categories ( void )
 
   /* mise en place des boutons ajout d'1 categ / sous-categ */
 
-  bouton_ajouter_categorie = gtk_button_new_with_label ( "Ajouter une catégorie" );
+  bouton_ajouter_categorie = gtk_button_new_with_label ( _("Ajouter une catégorie") );
   gtk_button_set_relief ( GTK_BUTTON ( bouton_ajouter_categorie ),
 			  GTK_RELIEF_NONE );
   gtk_signal_connect ( GTK_OBJECT ( bouton_ajouter_categorie ),
@@ -374,7 +374,7 @@ GtkWidget *onglet_categories ( void )
 		       0 );
   gtk_widget_show ( bouton_ajouter_categorie );
 
-  bouton_ajouter_sous_categorie = gtk_button_new_with_label ( "Ajouter une sous-catégorie" );
+  bouton_ajouter_sous_categorie = gtk_button_new_with_label ( _("Ajouter une sous-catégorie") );
   gtk_button_set_relief ( GTK_BUTTON ( bouton_ajouter_sous_categorie ),
 			  GTK_RELIEF_NONE );
   gtk_widget_set_sensitive ( bouton_ajouter_sous_categorie,
@@ -670,12 +670,12 @@ void remplit_arbre_categ ( void )
 	   nb_ecritures_par_sous_categ[place_categ][0])
 	{
 	  if ( etat.affiche_nb_ecritures_listes )
-	    text[0] = g_strconcat ( "Aucune sous-catégorie (",
+	    text[0] = g_strconcat ( _("Aucune sous-catégorie ("),
 				    itoa ( nb_ecritures_par_sous_categ[place_categ][0] ),
 				    ")",
 				    NULL );
 	  else
-	    text[0] = "Aucune sous-catégorie";
+	    text[0] = _("Aucune sous-catégorie");
 
 	  text[1] = NULL;
 
@@ -727,12 +727,12 @@ void remplit_arbre_categ ( void )
       if ( etat.affiche_nb_ecritures_listes
 	   &&
 	   nb_ecritures_par_categ[0] )
-	text[0] = g_strconcat ( "Aucune catégorie (",
+	text[0] = g_strconcat ( _("Aucune catégorie ("),
 				itoa ( nb_ecritures_par_categ[0] ),
 				")",
 				NULL );
       else
-	text[0] = "Aucune catégorie";
+	text[0] = _("Aucune catégorie");
 
       text[1] = g_strdup_printf ( "%4.2f %s",
 				  tab_montant_categ[0],
@@ -1005,7 +1005,7 @@ void ouverture_node_categ ( GtkWidget *arbre,
 		      if ( operation -> notes )
 			{
 			  if ( operation -> no_operation_ventilee_associee )
-			    text[0] = g_strdup_printf ( "%d/%d/%d : %4.2f %s (ventilation) [ %s ]",
+			    text[0] = g_strdup_printf ( _("%d/%d/%d : %4.2f %s (ventilation) [ %s ]"),
 							operation -> jour,
 							operation -> mois,
 							operation -> annee,
@@ -1024,7 +1024,7 @@ void ouverture_node_categ ( GtkWidget *arbre,
 		      else
 			{
 			  if ( operation -> no_operation_ventilee_associee )
-			    text[0] = g_strdup_printf ( "%d/%d/%d : %4.2f %s (ventilation)",
+			    text[0] = g_strdup_printf ( _("%d/%d/%d : %4.2f %s (ventilation)"),
 							operation -> jour,
 							operation -> mois,
 							operation -> annee,
@@ -1553,14 +1553,14 @@ void supprimer_categ ( void )
       gint nouveau_no_categ;
       gint nouveau_no_sous_categ;
 
-      dialog = gnome_dialog_new ( "Suppression d'une catégorie",
+      dialog = gnome_dialog_new ( _("Suppression d'une catégorie"),
 					    GNOME_STOCK_BUTTON_OK,
 					    GNOME_STOCK_BUTTON_CANCEL,
 					     NULL);
       gnome_dialog_set_parent ( GNOME_DIALOG ( dialog ),
 				GTK_WINDOW ( window ));
 
-      label = gtk_label_new ( "La catégorie sélectionnée contient encore des opérations.\n\nVous pouvez : " );
+      label = gtk_label_new ( _("La catégorie sélectionnée contient encore des opérations.\n\nVous pouvez : ") );
       gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
 			   label,
 			   FALSE,
@@ -1585,7 +1585,7 @@ void supprimer_categ ( void )
 			   0 );
 
       bouton_transfert = gtk_radio_button_new_with_label ( NULL,
-							   "Transférer les opérations sur la catégorie : "  );
+							   _("Transférer les opérations sur la catégorie : ")  );
       gtk_box_pack_start ( GTK_BOX ( hbox ),
 			   bouton_transfert,
 			   FALSE,
@@ -1672,7 +1672,7 @@ void supprimer_categ ( void )
 			   0 );
 
       bouton_categ_generique = gtk_radio_button_new_with_label ( gtk_radio_button_group ( GTK_RADIO_BUTTON ( bouton_transfert )),
-								 " Supprimer simplement cette catégorie." );
+								 _(" Supprimer simplement cette catégorie.") );
       gtk_box_pack_start ( GTK_BOX ( hbox ),
 			   bouton_categ_generique,
 			   FALSE,
@@ -1698,7 +1698,7 @@ void supprimer_categ ( void )
 
 	  if ( !strlen (gtk_combofix_get_text ( GTK_COMBOFIX ( combofix ))))
 	    {
-	      dialogue ( "Veuillez entrer une catégorie !" );
+	      dialogue ( _("Veuillez entrer une catégorie !") );
 	      goto retour_dialogue;
 	    }
 
@@ -1886,7 +1886,7 @@ void supprimer_sous_categ ( void )
       gint nouveau_no_categ;
       gint nouveau_no_sous_categ;
 
-      dialog = gnome_dialog_new ( "Suppression d'une sous-catégorie",
+      dialog = gnome_dialog_new ( _("Suppression d'une sous-catégorie"),
 					    GNOME_STOCK_BUTTON_OK,
 					    GNOME_STOCK_BUTTON_CANCEL,
 					     NULL);
@@ -1895,7 +1895,7 @@ void supprimer_sous_categ ( void )
       gnome_dialog_set_parent ( GNOME_DIALOG ( dialog ),
 				GTK_WINDOW ( window ));
 
-      label = gtk_label_new ( "La sous-catégorie sélectionnée contient encore des opérations.\n\nVous pouvez : " );
+      label = gtk_label_new ( _("La sous-catégorie sélectionnée contient encore des opérations.\n\nVous pouvez : ") );
       gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
 			   label,
 			   FALSE,
@@ -1920,7 +1920,7 @@ void supprimer_sous_categ ( void )
 			   0 );
 
       bouton_transfert = gtk_radio_button_new_with_label ( NULL,
-							   "Transférer les opérations sur la catégorie : "  );
+							   _("Transférer les opérations sur la catégorie : ")  );
       gtk_box_pack_start ( GTK_BOX ( hbox ),
 			   bouton_transfert,
 			   FALSE,
@@ -2010,7 +2010,7 @@ void supprimer_sous_categ ( void )
 			   0 );
 
       bouton_categ_generique = gtk_radio_button_new_with_label ( gtk_radio_button_group ( GTK_RADIO_BUTTON ( bouton_transfert )),
-											  " Supprimer simplement cette sous-catégorie." );
+											  _(" Supprimer simplement cette sous-catégorie.") );
       gtk_box_pack_start ( GTK_BOX ( hbox ),
 			   bouton_categ_generique,
 			   FALSE,
@@ -2036,7 +2036,7 @@ void supprimer_sous_categ ( void )
 
 	  if ( !strlen (gtk_combofix_get_text ( GTK_COMBOFIX ( combofix ))))
 	    {
-	      dialogue ( "Veuillez entrer une catégorie !" );
+	      dialogue ( _("Veuillez entrer une catégorie !") );
 	      goto retour_dialogue;
 	    }
 
@@ -2379,10 +2379,10 @@ void creation_liste_categ_combofix ( void )
   liste_categ_special = NULL;
 
   liste_categ_special = g_slist_append ( liste_categ_special,
-					 "Opération ventilée" );
+					 _("Opération ventilée") );
 
   liste_categ_special = g_slist_append ( liste_categ_special,
-					 "Virement" );
+					 _("Virement") );
 
   p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
 
@@ -2627,12 +2627,12 @@ void calcule_total_montant_categ ( void )
 
 	      if ( devise_compte -> passage_euro
 		   &&
-		   !strcmp ( devise_operation -> nom_devise, "Euro" ) )
+		   !strcmp ( devise_operation -> nom_devise, _("Euro") ) )
 		montant = operation -> montant * devise_compte -> change;
 	      else
 		if ( devise_operation -> passage_euro
 		     &&
-		     !strcmp ( devise_compte -> nom_devise, "Euro" ))
+		     !strcmp ( devise_compte -> nom_devise, _("Euro") ))
 		  montant = operation -> montant / devise_operation -> change;
 		else
 		  if ( operation -> une_devise_compte_egale_x_devise_ope )
@@ -2771,12 +2771,12 @@ gchar *calcule_total_montant_categ_par_compte ( gint categ,
 
 	      if ( devise_compte -> passage_euro
 		   &&
-		   !strcmp ( devise_operation -> nom_devise, "Euro" ) )
+		   !strcmp ( devise_operation -> nom_devise, _("Euro") ) )
 		montant = operation -> montant * devise_compte -> change;
 	      else
 		if ( devise_operation -> passage_euro
 		     &&
-		     !strcmp ( devise_compte -> nom_devise, "Euro" ))
+		     !strcmp ( devise_compte -> nom_devise, _("Euro") ))
 		  montant = operation -> montant / devise_operation -> change;
 		else
 		  if ( operation -> une_devise_compte_egale_x_devise_ope )
@@ -2811,8 +2811,8 @@ void appui_sur_ajout_categorie ( void )
   gchar *text[4];
   GtkCTreeNode *ligne;
 
-  if ( !( nom_categorie = demande_texte ( "Nouvelle catégorie",
-					   "Entrer le nom de la nouvelle catégorie :" )))
+  if ( !( nom_categorie = demande_texte ( _("Nouvelle catégorie"),
+					   _("Entrer le nom de la nouvelle catégorie :") )))
     return;
 
   /* on l'ajoute à la liste des opés */
@@ -2866,8 +2866,8 @@ void appui_sur_ajout_sous_categorie ( void )
   GtkCTreeNode *ligne;
   GtkCTreeNode *node_parent;
 
-  if ( !( nom_sous_categorie = demande_texte ( "Nouvelle sous-catégorie",
-					       "Entrer le nom de la nouvelle sous-catégorie :" )))
+  if ( !( nom_sous_categorie = demande_texte ( _("Nouvelle sous-catégorie"),
+					       _("Entrer le nom de la nouvelle sous-catégorie :") )))
     return;
 
   /* récupère le node parent */

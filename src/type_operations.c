@@ -36,8 +36,8 @@ GtkWidget *onglet_types_operations ( void )
   GtkWidget *hbox;
   GtkWidget *frame;
   GtkWidget *scrolled_window;
-  gchar *titres[2] = { "Comptes",
-		       "Défaut" };
+  gchar *titres[2] = { _("Comptes"),
+		       _("Défaut") };
   gint i;
   GtkWidget *vbox;
   GtkWidget *hbox2;
@@ -126,7 +126,7 @@ GtkWidget *onglet_types_operations ( void )
 
   /* frame contenant les types d'opérations */
 
-  frame = gtk_frame_new ( "Types d'opérations" );
+  frame = gtk_frame_new ( _("Types d'opérations") );
   gtk_box_pack_start ( GTK_BOX ( onglet ),
 		       frame,
 		       FALSE,
@@ -216,7 +216,7 @@ GtkWidget *onglet_types_operations ( void )
 
       /*       pour chaque compte on ajout débit et crédit */
 
-      ligne[0] = "Débit";
+      ligne[0] = _("Débit");
       ligne[1] = NULL;
 
       node_debit = gtk_ctree_insert_node ( GTK_CTREE ( arbre_types_operations ),
@@ -229,7 +229,7 @@ GtkWidget *onglet_types_operations ( void )
 					   FALSE,
 					   FALSE );
 
-      ligne[0] = "Crédit";
+      ligne[0] = _("Crédit");
       ligne[1] = NULL;
 
       node_credit = gtk_ctree_insert_node ( GTK_CTREE ( arbre_types_operations ),
@@ -384,7 +384,7 @@ GtkWidget *onglet_types_operations ( void )
   gtk_widget_show ( hbox2 );
 
  
-  label = gtk_label_new ( "Nom : " );
+  label = gtk_label_new ( _("Nom : ") );
   gtk_box_pack_start ( GTK_BOX ( hbox2 ),
 		       label,
 		       FALSE,
@@ -414,7 +414,7 @@ GtkWidget *onglet_types_operations ( void )
 
   /* mise en place du bouton fait apparaitre l'entrée */
 
-  bouton_type_apparaitre_entree = gtk_check_button_new_with_label ( "Peut entrer des données supplémentaires" );
+  bouton_type_apparaitre_entree = gtk_check_button_new_with_label ( _("Peut entrer des données supplémentaires") );
   gtk_signal_connect ( GTK_OBJECT ( bouton_type_apparaitre_entree ),
 		       "toggled",
 		       GTK_SIGNAL_FUNC ( modification_type_affichage_entree ),
@@ -442,7 +442,7 @@ GtkWidget *onglet_types_operations ( void )
   gtk_widget_show ( hbox2 );
 
  
-  bouton_type_numerotation_automatique = gtk_check_button_new_with_label ( "Numérotation automatique" );
+  bouton_type_numerotation_automatique = gtk_check_button_new_with_label ( _("Numérotation automatique") );
   gtk_signal_connect ( GTK_OBJECT (bouton_type_numerotation_automatique  ),
 		       "toggled",
 		       GTK_SIGNAL_FUNC ( modification_type_numerotation_auto ),
@@ -492,7 +492,7 @@ GtkWidget *onglet_types_operations ( void )
   bouton_signe_type = gtk_option_menu_new ();
   menu = gtk_menu_new();
 
-  item = gtk_menu_item_new_with_label ( "Neutre" );
+  item = gtk_menu_item_new_with_label ( _("Neutre") );
   gtk_signal_connect_object ( GTK_OBJECT ( item ),
 			      "activate",
 			      GTK_SIGNAL_FUNC ( modification_type_signe ),
@@ -505,7 +505,7 @@ GtkWidget *onglet_types_operations ( void )
 		    item );
   gtk_widget_show ( item );
 
-  item = gtk_menu_item_new_with_label ( "Débit" );
+  item = gtk_menu_item_new_with_label ( _("Débit") );
   gtk_signal_connect_object ( GTK_OBJECT ( item ),
 			      "activate",
 			      GTK_SIGNAL_FUNC ( modification_type_signe ),
@@ -518,7 +518,7 @@ GtkWidget *onglet_types_operations ( void )
 		    item );
   gtk_widget_show ( item );
 
-  item = gtk_menu_item_new_with_label ( "Crédit" );
+  item = gtk_menu_item_new_with_label ( _("Crédit") );
   gtk_signal_connect_object ( GTK_OBJECT ( item ),
 			      "activate",
 			      GTK_SIGNAL_FUNC ( modification_type_signe ),
@@ -543,7 +543,7 @@ GtkWidget *onglet_types_operations ( void )
 
   /* mise en place du choix par défaut */
 
-  bouton_type_choix_defaut = gtk_check_button_new_with_label ( "Par-défaut" );
+  bouton_type_choix_defaut = gtk_check_button_new_with_label ( _("Par-défaut") );
   gtk_signal_connect_object ( GTK_OBJECT ( bouton_type_choix_defaut ),
 			      "toggled",
 			      GTK_SIGNAL_FUNC ( modification_type_par_defaut ),
@@ -582,7 +582,7 @@ GtkWidget *onglet_types_operations ( void )
   gtk_widget_show ( separateur );
 
 
-  bouton_type_choix_affichage_formulaire = gtk_check_button_new_with_label ( "Afficher toujours tous les types dans le formulaire" );
+  bouton_type_choix_affichage_formulaire = gtk_check_button_new_with_label ( _("Afficher toujours tous les types dans le formulaire") );
   gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON( bouton_type_choix_affichage_formulaire ),
 				 etat.affiche_tous_les_types );
   gtk_signal_connect_object ( GTK_OBJECT ( bouton_type_choix_affichage_formulaire ),
@@ -603,7 +603,7 @@ GtkWidget *onglet_types_operations ( void )
   /* mise en place de la liste de tri */
 
 
-  frame = gtk_frame_new ( "Rapprochement : tri des opérations" );
+  frame = gtk_frame_new ( _("Rapprochement : tri des opérations") );
   gtk_box_pack_start ( GTK_BOX ( onglet ),
 		       frame,
 		       TRUE,
@@ -624,7 +624,7 @@ GtkWidget *onglet_types_operations ( void )
   /*   la partie du haut : tri par date ou par type */
 
   bouton_type_tri_date = gtk_radio_button_new_with_label ( NULL,
-							   "Tri par date" );
+							   _("Tri par date") );
   gtk_widget_set_sensitive ( bouton_type_tri_date,
 			     FALSE );
   gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_type_tri_date ),
@@ -645,7 +645,7 @@ GtkWidget *onglet_types_operations ( void )
   gtk_widget_show ( bouton_type_tri_date );
 
   bouton_type_tri_type = gtk_radio_button_new_with_label ( gtk_radio_button_group ( GTK_RADIO_BUTTON ( bouton_type_tri_date )),
-							   "Tri par type d'opération" );
+							   _("Tri par type d'opération") );
   gtk_widget_set_sensitive ( bouton_type_tri_type,
 			     FALSE );
   gtk_box_pack_start ( GTK_BOX ( vbox2 ),
@@ -749,7 +749,7 @@ GtkWidget *onglet_types_operations ( void )
 
   /* la partie du bas contient des check buttons */
 
-  bouton_type_neutre_inclut = gtk_check_button_new_with_label ( "Inclure les types mixtes dans les Crédits / Débits" );
+  bouton_type_neutre_inclut = gtk_check_button_new_with_label ( _("Inclure les types mixtes dans les Crédits / Débits") );
   gtk_widget_set_sensitive ( bouton_type_neutre_inclut,
 			     FALSE );
   gtk_signal_connect ( GTK_OBJECT ( bouton_type_neutre_inclut ),
@@ -1483,7 +1483,7 @@ void ajouter_type_operation ( void )
   else
     type_ope -> no_type = 1;
 
-  type_ope -> nom_type = g_strdup ( "Nouveau" );
+  type_ope -> nom_type = g_strdup ( _("Nouveau") );
   type_ope -> signe_type = 0;
   type_ope -> affiche_entree = 0;
   type_ope -> numerotation_auto = 0;
@@ -1991,7 +1991,7 @@ gint cherche_no_menu_type_echeancier ( gint demande )
 	  if ( ( type -> affiche_entree && !type -> numerotation_auto)
 	       ||
 	       ( type -> numerotation_auto && !strcmp ( GTK_LABEL ( label_saisie_modif ) -> label,
-							"Saisie" )))
+							_("Saisie") )))
 	    {
 	      /* si c'est une saisie, mais le numéro de chq */
 
@@ -2059,7 +2059,7 @@ void changement_choix_type_echeancier ( struct struct_type_ope *type )
   if ( ( type -> affiche_entree && !type -> numerotation_auto )
        ||
        ( type -> numerotation_auto && !strcmp ( GTK_LABEL ( label_saisie_modif ) -> label,
-						"Saisie" )))
+						_("Saisie") )))
     {
       /* si c'est une saisie, met le numéro de chq */
       

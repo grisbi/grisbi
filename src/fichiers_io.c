@@ -43,8 +43,8 @@ gboolean charge_operations ( void )
   stat ( nom_fichier_comptes,
 	 &buffer_stat);
   if ( buffer_stat.st_mode != 33152 && etat.alerte_permission )
-    dialogue ( "Attention, les permissions du fichier ne sont pas à \
-600\n(Ce message peut être désactivé dans les paramètres)" );
+    dialogue ( _("Attention, les permissions du fichier ne sont pas à \
+600\n(Ce message peut être désactivé dans les paramètres)") );
  
   /* on commence par ouvrir le fichier en xml */
   /*   si marche pas, essaye d'ouvrir la version 0.3.1 */
@@ -60,9 +60,9 @@ gboolean charge_operations ( void )
 	   !doc->root->name
 	   ||
 	   g_strcasecmp ( doc->root->name,
-			  "Grisbi" ))
+			  _("Grisbi") ))
 	{
-	  dialogue ( "Fichier de compte invalide." );
+	  dialogue ( _("Fichier de compte invalide.") );
 	  xmlFreeDoc ( doc );
 	  return ( FALSE );
 	}
@@ -78,18 +78,18 @@ gboolean charge_operations ( void )
 	  return ( charge_operations_version_0_4_0 ( doc ));
 
 
-      dialogue ( " Version inconnue ");
+      dialogue ( _(" Version inconnue "));
       xmlFreeDoc ( doc );
 
       return ( FALSE );
     }
   else
     {
-      dialogue ( "Fichier de compte invalide." );
+      dialogue ( _("Fichier de compte invalide.") );
       return ( FALSE );
     }
     
-  dialogue ( "Fichier de compte invalide ou inférieur à la version 0.3.1." );
+  dialogue ( _("Fichier de compte invalide ou inférieur à la version 0.3.1.") );
 
   return ( FALSE );
 
@@ -110,7 +110,7 @@ gboolean charge_operations_version_0_3_2 ( xmlDocPtr doc )
 
   /* message d'avertissement */
 
-  dialogue ( "Attention, le format de données a changé ; si vous voulez conserver l'ancien format\nfaire une copie du fichier AVANT de refermer Grisbi ou de sauvegarder le fichier" );
+  dialogue ( _("Attention, le format de données a changé ; si vous voulez conserver l'ancien format\nfaire une copie du fichier AVANT de refermer Grisbi ou de sauvegarder le fichier") );
 
   /* on place node_1 sur les généralités */
 
@@ -125,7 +125,7 @@ gboolean charge_operations_version_0_3_2 ( xmlDocPtr doc )
       /* on récupère ici les généralités */
 
       if ( !strcmp ( node_1 -> name,
-		     "Généralités" ) )
+		     _("Généralités") ) )
 	{
 	  xmlNodePtr node_generalites;
 
@@ -136,20 +136,20 @@ gboolean charge_operations_version_0_3_2 ( xmlDocPtr doc )
 	  while ( node_generalites )
 	    {
 	      if ( !strcmp ( node_generalites -> name,
-			     "Fichier_ouvert" ))
+			     _("Fichier_ouvert") ))
 		if ( (etat.fichier_deja_ouvert  = atoi ( xmlNodeGetContent ( node_generalites ))))
 		  {
 		    if ( etat.force_enregistrement )
-		      dialogue ( "Attention, le fichier semble déjà ouvert pas un autre \
+		      dialogue ( _("Attention, le fichier semble déjà ouvert pas un autre \
 utilisateur ou n'a pas été fermé correctement (plantage ?).\nCependant Grisbi va \
 forcer l'enregistrement ; cette option est déconseillée\n sauf si vous êtes sûr \
 que personne d'autre n'utilise le fichier pour le moment.\nLa désactivation de \
-cette option s'effectue dans le menu de configuration" );
+cette option s'effectue dans le menu de configuration") );
 		    else
-		      dialogue ( "Attention, le fichier semble déjà ouvert pas un autre \
+		      dialogue ( _("Attention, le fichier semble déjà ouvert pas un autre \
 utilisateur ou n'a pas été fermé correctement (plantage ?).\nVous ne pourrez \
 enregistrer vos modification qu'en activant l'option \"Forcer l'enregistrement\" \
-des paramètres." );
+des paramètres.") );
 		  }
 	    
 
@@ -1542,16 +1542,16 @@ gboolean charge_operations_version_0_4_0 ( xmlDocPtr doc )
 		if ( (etat.fichier_deja_ouvert  = atoi ( xmlNodeGetContent ( node_generalites ))))
 		  {
 		    if ( etat.force_enregistrement )
-		      dialogue ( "Attention, le fichier semble dejà ouvert pas un autre \
+		      dialogue ( _("Attention, le fichier semble dejà ouvert pas un autre \
 utilisateur ou n'a pas ete ferme correctement (plantage ?).\nCependant Grisbi va \
 forcer l'enregistrement ; cette option est deconseillee\n sauf si vous êtes sûr \
 que personne d'autre n'utilise le fichier pour le moment.\nLa desactivation de \
-cette option s'effectue dans le menu de configuration" );
+cette option s'effectue dans le menu de configuration") );
 		    else
-		      dialogue ( "Attention, le fichier semble dejà ouvert pas un autre \
+		      dialogue ( _("Attention, le fichier semble dejà ouvert pas un autre \
 utilisateur ou n'a pas ete ferme correctement (plantage ?).\nVous ne pourrez \
 enregistrer vos modification qu'en activant l'option \"Forcer l'enregistrement\" \
-des paramètres." );
+des paramètres.") );
 		  }
 	    
 
@@ -3317,7 +3317,7 @@ gboolean enregistre_fichier ( void )
 
   if ( etat.fichier_deja_ouvert && !etat.force_enregistrement )
     {
-      dialogue ( " Fichier ouvert par un autre utilisateur, enregistrement impossible\nVous pouvez forcer l'enregistrement à partir des paramètres." );
+      dialogue ( _(_(" Fichier ouvert par un autre utilisateur, enregistrement impossible\nVous pouvez forcer l'enregistrement à partir des paramètres.")) );
       return ( FALSE );
     }
 
@@ -4980,9 +4980,9 @@ gboolean enregistre_fichier ( void )
 
   if ( resultat == -1 )
     {
-      dialogue ( g_strconcat ( "Erreur dans l'enregistrement du fichier :\n\n",
+      dialogue ( g_strconcat ( _("Erreur dans l'enregistrement du fichier :\n\n"),
 			       nom_fichier_comptes,
-			       "\n\nErreur :\n",
+			       _("\n\nErreur :\n"),
 			       strerror ( errno ),
 			       NULL ));
       return ( FALSE );
@@ -5099,7 +5099,7 @@ void fichier_marque_ouvert ( gint ouvert )
 
   if (!(pointeur_fichier_comptes = fopen ( nom_fichier_comptes, "r+")) )
     {
-      dialogue ( g_strconcat ( "Erreur dans la tentative d'ouvrir le fichier\npour le déclarer comme utilisé\n\n",
+      dialogue ( g_strconcat ( _("Erreur dans la tentative d'ouvrir le fichier\npour le déclarer comme utilisé\n\n"),
 			       strerror ( errno ),
 			       NULL ));
       return;

@@ -34,20 +34,20 @@ void a_propos ( GtkWidget *bouton,
   GtkWidget *url;
   GtkWidget *label;
 
-  const gchar *auteur[] = { "Programmation : Cédric Auger  ( cedric@grisbi.org ) ",
-			    "Manuel : Daniel Cartron ( doc@grisbi.org )",
-			    "Logo : André Pascual ( andre@linuxgraphic.org )",
+  const gchar *auteur[] = { _("Programmation : Cédric Auger  ( cedric@grisbi.org ) "),
+			    _("Manuel : Daniel Cartron ( doc@grisbi.org )"),
+			    _("Logo : André Pascual ( andre@linuxgraphic.org )"),
 			    NULL };
 
-  boite = gnome_about_new ( "Grisbi ",
+  boite = gnome_about_new ( _("Grisbi "),
 			    VERSION,
-			    "License GPL ( General Public License )",
+			    _("License GNU GPL ( General Public License )"),
 			    (const gchar **) auteur,
-			    "Programme de gestion financière personnelle",
+			    _("Programme de gestion financière personnelle"),
 			    NULL );
 
-  url = gnome_href_new ( "http://www.grisbi.org",
-			    "WEB :  http://www.grisbi.org " );
+  url = gnome_href_new ( _("http://www.grisbi.org"),
+			    _("WEB :  http://www.grisbi.org ") );
   gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( boite ) -> vbox ),
 		       url,
 		       FALSE,
@@ -55,8 +55,8 @@ void a_propos ( GtkWidget *bouton,
 		       0 );
   gtk_widget_show ( url );
 
-  url = gnome_href_new ( "mailto:infos-subscribe@grisbi.org",
-			 "Inscription à la liste de développement" );
+  url = gnome_href_new ( _("mailto:infos-subscribe@grisbi.org"),
+			 _("Inscription à la liste de développement") );
   gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( boite ) -> vbox ),
 		       url,
 		       FALSE,
@@ -64,8 +64,8 @@ void a_propos ( GtkWidget *bouton,
 		       0 );
   gtk_widget_show ( url );
 
-  url = gnome_href_new ( "mailto:devel-subscribe@grisbi.org",
-			 "Inscription à la liste d'information" );
+  url = gnome_href_new ( _("mailto:devel-subscribe@grisbi.org"),
+			 _("Inscription à la liste d'information") );
   gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( boite ) -> vbox ),
 		       url,
 		       FALSE,
@@ -73,7 +73,7 @@ void a_propos ( GtkWidget *bouton,
 		       0 );
   gtk_widget_show ( url );
 
-  label = gtk_label_new ( "(Annonces de sortie de nouvelle version)" );
+  label = gtk_label_new ( _("(Annonces de sortie de nouvelle version)") );
   gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( boite ) -> vbox ),
 		       label,
 		       FALSE,
@@ -81,8 +81,8 @@ void a_propos ( GtkWidget *bouton,
 		       0 );
   gtk_widget_show ( label );
 
-  url = gnome_href_new ( "http://www.grisbi.org/telechargement/doc/illustre/grisbi.html",
-			 "Documentation en ligne" );
+  url = gnome_href_new ( _("http://www.grisbi.org/telechargement/doc/illustre/grisbi.html"),
+			 _("Documentation en ligne") );
   gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( boite ) -> vbox ),
 		       url,
 		       FALSE,
@@ -90,7 +90,7 @@ void a_propos ( GtkWidget *bouton,
 		       0 );
   gtk_widget_show ( url );
 
-  label = gtk_label_new ( "(Documentations illustrée sur le site de Grisbi)" );
+  label = gtk_label_new ( _("(Documentations illustrée sur le site de Grisbi)") );
   gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( boite ) -> vbox ),
 		       label,
 		       FALSE,

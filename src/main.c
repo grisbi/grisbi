@@ -36,6 +36,8 @@
 #include "variables.c"
 #include "en_tete.h"
 
+//#include <libintl.h>
+#include <locale.h>
 
 
 
@@ -45,11 +47,15 @@
 
 int main (int argc, char *argv[])
 {
-  gnome_init ("Grisbi", VERSION, argc, argv);
+  setlocale (LC_ALL, "");
+  bindtextdomain ("Grisbi", LOCALEDIR);
+  textdomain ("Grisbi");
+
+  gnome_init (_("Grisbi"), VERSION, argc, argv);
 
   /*  Création de la fenêtre principale */
 
-  window = gnome_app_new ("Grisbi", "Grisbi");
+  window = gnome_app_new (_("Grisbi"), _("Grisbi"));
 
 
   gtk_signal_connect ( GTK_OBJECT (window),

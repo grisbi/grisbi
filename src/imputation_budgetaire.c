@@ -40,10 +40,10 @@ GtkWidget *onglet_imputations ( void )
   GtkWidget *scroll_window;
   gchar *titres[] =
   {
-    "Liste des imputations budgétaires",
-    "Montant par IB",
-    "Montant par sous-IB",
-    "Montant par compte"
+    _("Liste des imputations budgétaires"),
+    _("Montant par IB"),
+    _("Montant par sous-IB"),
+    _("Montant par compte")
   };
   GtkWidget *vbox;
   GtkWidget *frame;
@@ -87,7 +87,7 @@ GtkWidget *onglet_imputations ( void )
   gtk_widget_show ( vbox );
 
 
-  frame = gtk_frame_new ( " Informations : " );
+  frame = gtk_frame_new ( _(" Informations : ") );
   gtk_box_pack_start ( GTK_BOX ( vbox ),
 		       frame,
 		       FALSE,
@@ -129,7 +129,7 @@ GtkWidget *onglet_imputations ( void )
   gtk_widget_show ( separateur );
 
 
-  label = gtk_label_new ( "Classement :" );
+  label = gtk_label_new ( _("Classement :") );
   gtk_box_pack_start ( GTK_BOX ( vbox_frame ),
 		       label,
 		       FALSE,
@@ -138,7 +138,7 @@ GtkWidget *onglet_imputations ( void )
   gtk_widget_show ( label );
 
   bouton_imputation_debit = gtk_radio_button_new_with_label ( NULL,
-							 "Débit" );
+							 _("Débit") );
   gtk_widget_set_sensitive ( bouton_imputation_debit,
 			     FALSE );
   gtk_signal_connect ( GTK_OBJECT ( bouton_imputation_debit ),
@@ -154,7 +154,7 @@ GtkWidget *onglet_imputations ( void )
 
 
   bouton_imputation_credit = gtk_radio_button_new_with_label_from_widget ( GTK_RADIO_BUTTON ( bouton_imputation_debit ),
-								      "Crédit" );
+								      _("Crédit") );
   gtk_widget_set_sensitive ( bouton_imputation_credit,
 			     FALSE );
   gtk_box_pack_start ( GTK_BOX ( vbox_frame ),
@@ -238,7 +238,7 @@ GtkWidget *onglet_imputations ( void )
 
   /* mise en place des boutons ajout d'1 imput / sous-imput */
 
-  bouton_ajouter_imputation = gtk_button_new_with_label ( "Ajouter une imputation" );
+  bouton_ajouter_imputation = gtk_button_new_with_label ( _("Ajouter une imputation") );
   gtk_button_set_relief ( GTK_BUTTON ( bouton_ajouter_imputation ),
 			  GTK_RELIEF_NONE );
   gtk_signal_connect ( GTK_OBJECT ( bouton_ajouter_imputation ),
@@ -252,7 +252,7 @@ GtkWidget *onglet_imputations ( void )
 		       0 );
   gtk_widget_show ( bouton_ajouter_imputation );
 
-  bouton_ajouter_sous_imputation = gtk_button_new_with_label ( "Ajouter une sous-imputation" );
+  bouton_ajouter_sous_imputation = gtk_button_new_with_label ( _("Ajouter une sous-imputation") );
   gtk_button_set_relief ( GTK_BUTTON ( bouton_ajouter_sous_imputation ),
 			  GTK_RELIEF_NONE );
   gtk_widget_set_sensitive ( bouton_ajouter_sous_imputation,
@@ -280,7 +280,7 @@ GtkWidget *onglet_imputations ( void )
 
   /* mise en place du bouton fusionner avec les catégories */
 
-  bouton = gtk_button_new_with_label ( "Fusionner les catégories" );
+  bouton = gtk_button_new_with_label ( _("Fusionner les catégories") );
   gtk_button_set_relief ( GTK_BUTTON ( bouton ),
 			  GTK_RELIEF_NONE );
   gtk_signal_connect ( GTK_OBJECT ( bouton ),
@@ -583,12 +583,12 @@ void remplit_arbre_imputation ( void )
 	   nb_ecritures_par_sous_imputation[place_imputation][0] )
 	{
 	  if ( etat.affiche_nb_ecritures_listes )
-	    text[0] = g_strconcat ( "Aucune sous-imputation (",
+	    text[0] = g_strconcat ( _("Aucune sous-imputation ("),
 				    itoa ( nb_ecritures_par_sous_imputation[place_imputation][0] ),
 				    ")",
 				    NULL );
 	  else
-	    text[0] = "Aucune sous-imputation";
+	    text[0] = _("Aucune sous-imputation");
 
 	  text[1] = NULL;
 
@@ -641,12 +641,12 @@ void remplit_arbre_imputation ( void )
       if ( etat.affiche_nb_ecritures_listes
 	   &&
 	   nb_ecritures_par_imputation[0] )
-	text[0] = g_strconcat ( "Aucune imputation (",
+	text[0] = g_strconcat ( _("Aucune imputation ("),
 				itoa ( nb_ecritures_par_imputation[0] ),
 				")",
 				NULL );
       else
-	text[0] = "Aucune imputation";
+	text[0] = _("Aucune imputation");
 
       text[1] = g_strdup_printf ( "%4.2f %s",
 				  tab_montant_imputation[0],
@@ -917,7 +917,7 @@ void ouverture_node_imputation ( GtkWidget *arbre,
 		      if ( operation -> notes )
 			{
 			  if ( operation -> no_operation_ventilee_associee )
-			    text[0] = g_strdup_printf ( "%d/%d/%d : %4.2f %s (ventilation) [ %s ]",
+			    text[0] = g_strdup_printf ( _("%d/%d/%d : %4.2f %s (ventilation) [ %s ]"),
 							operation -> jour,
 							operation -> mois,
 							operation -> annee,
@@ -925,7 +925,7 @@ void ouverture_node_imputation ( GtkWidget *arbre,
 							devise_operation -> code_devise,
 							operation -> notes );
 			  else
-			    text[0] = g_strdup_printf ( "%d/%d/%d : %4.2f %s [ %s ]",
+			    text[0] = g_strdup_printf ( _("%d/%d/%d : %4.2f %s [ %s ]"),
 							operation -> jour,
 							operation -> mois,
 							operation -> annee,
@@ -936,7 +936,7 @@ void ouverture_node_imputation ( GtkWidget *arbre,
 		      else
 			{
 			  if ( operation -> no_operation_ventilee_associee )
-			    text[0] = g_strdup_printf ( "%d/%d/%d : %4.2f %s (ventilation)",
+			    text[0] = g_strdup_printf ( _("%d/%d/%d : %4.2f %s (ventilation)"),
 							operation -> jour,
 							operation -> mois,
 							operation -> annee,
@@ -1464,14 +1464,14 @@ void supprimer_imputation ( void )
       gint nouveau_no_imputation;
       gint nouveau_no_sous_imputation;
 
-      dialog = gnome_dialog_new ( "Suppression d'une imputation",
+      dialog = gnome_dialog_new ( _("Suppression d'une imputation"),
 					    GNOME_STOCK_BUTTON_OK,
 					    GNOME_STOCK_BUTTON_CANCEL,
 					     NULL);
       gnome_dialog_set_parent ( GNOME_DIALOG ( dialog ),
 				GTK_WINDOW ( window ));
 
-      label = gtk_label_new ( "L'imputation sélectionnée contient encore des opérations.\n\nVous pouvez : " );
+      label = gtk_label_new ( _("L'imputation sélectionnée contient encore des opérations.\n\nVous pouvez : ") );
       gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
 			   label,
 			   FALSE,
@@ -1496,7 +1496,7 @@ void supprimer_imputation ( void )
 			   0 );
 
       bouton_transfert = gtk_radio_button_new_with_label ( NULL,
-							   "Transférer les opérations sur l'imputation : "  );
+							   _("Transférer les opérations sur l'imputation : ")  );
       gtk_box_pack_start ( GTK_BOX ( hbox ),
 			   bouton_transfert,
 			   FALSE,
@@ -1580,7 +1580,7 @@ void supprimer_imputation ( void )
 			   0 );
 
       bouton_imputation_generique = gtk_radio_button_new_with_label ( gtk_radio_button_group ( GTK_RADIO_BUTTON ( bouton_transfert )),
-											  " Supprimer simplement cette imputation." );
+											  _(" Supprimer simplement cette imputation.") );
       gtk_box_pack_start ( GTK_BOX ( hbox ),
 			   bouton_imputation_generique,
 			   FALSE,
@@ -1606,7 +1606,7 @@ void supprimer_imputation ( void )
 
 	  if ( !strlen (gtk_combofix_get_text ( GTK_COMBOFIX ( combofix ))))
 	    {
-	      dialogue ( "Veuillez entrer une imputation !" );
+	      dialogue ( _("Veuillez entrer une imputation !") );
 	      goto retour_dialogue;
 	    }
 
@@ -1793,14 +1793,14 @@ void supprimer_sous_imputation ( void )
       gint nouveau_no_imputation;
       gint nouveau_no_sous_imputation;
 
-      dialog = gnome_dialog_new ( "Suppression d'une sous-imputation",
+      dialog = gnome_dialog_new ( _("Suppression d'une sous-imputation"),
 					    GNOME_STOCK_BUTTON_OK,
 					    GNOME_STOCK_BUTTON_CANCEL,
 					     NULL);
       gnome_dialog_set_parent ( GNOME_DIALOG ( dialog ),
 				GTK_WINDOW ( window ));
 
-      label = gtk_label_new ( "La sous-imputation sélectionnée contient encore des opérations.\n\nVous pouvez : " );
+      label = gtk_label_new ( _("La sous-imputation sélectionnée contient encore des opérations.\n\nVous pouvez : ") );
       gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
 			   label,
 			   FALSE,
@@ -1825,7 +1825,7 @@ void supprimer_sous_imputation ( void )
 			   0 );
 
       bouton_transfert = gtk_radio_button_new_with_label ( NULL,
-							   "Transférer les opérations sur l'imputation : "  );
+							   _("Transférer les opérations sur l'imputation : ")  );
       gtk_box_pack_start ( GTK_BOX ( hbox ),
 			   bouton_transfert,
 			   FALSE,
@@ -1908,7 +1908,7 @@ void supprimer_sous_imputation ( void )
 			   0 );
 
       bouton_imputation_generique = gtk_radio_button_new_with_label ( gtk_radio_button_group ( GTK_RADIO_BUTTON ( bouton_transfert )),
-											  " Supprimer simplement cette sous-imputation." );
+											  _(" Supprimer simplement cette sous-imputation.") );
       gtk_box_pack_start ( GTK_BOX ( hbox ),
 			   bouton_imputation_generique,
 			   FALSE,
@@ -1934,7 +1934,7 @@ void supprimer_sous_imputation ( void )
 
 	  if ( !strlen (gtk_combofix_get_text ( GTK_COMBOFIX ( combofix ))))
 	    {
-	      dialogue ( "Veuillez entrer une imputation !" );
+	      dialogue ( _("Veuillez entrer une imputation !") );
 	      goto retour_dialogue;
 	    }
 
@@ -2289,7 +2289,7 @@ void fusion_categories_imputation ( void )
 
   GSList *liste_tmp;
 
-  if ( !question ( "Attention, cette opération va ajouter aux Imputations Budgétaires les catégories\net sous-catégories qui ne s'y trouvent pas.\nDe plus, cette opération est irréversible (pas d'annulation)\nÊtes-vous sûr de continuer ?" ))
+  if ( !question ( _("Attention, cette opération va ajouter aux Imputations Budgétaires les catégories\net sous-catégories qui ne s'y trouvent pas.\nDe plus, cette opération est irréversible (pas d'annulation)\nÊtes-vous sûr de continuer ?") ))
        return;
 
   liste_tmp = liste_struct_categories;
@@ -2423,12 +2423,12 @@ void calcule_total_montant_imputation ( void )
 
 	      if ( devise_compte -> passage_euro
 		   &&
-		   !strcmp ( devise_operation -> nom_devise, "Euro" ) )
+		   !strcmp ( devise_operation -> nom_devise, _("Euro") ) )
 		montant = operation -> montant * devise_compte -> change;
 	      else
 		if ( devise_operation -> passage_euro
 		     &&
-		     !strcmp ( devise_compte -> nom_devise, "Euro" ))
+		     !strcmp ( devise_compte -> nom_devise, _("Euro") ))
 		  montant = operation -> montant / devise_operation -> change;
 		else
 		  if ( operation -> une_devise_compte_egale_x_devise_ope )
@@ -2564,12 +2564,12 @@ gchar *calcule_total_montant_imputation_par_compte ( gint imputation,
 
 	      if ( devise_compte -> passage_euro
 		   &&
-		   !strcmp ( devise_operation -> nom_devise, "Euro" ) )
+		   !strcmp ( devise_operation -> nom_devise, _("Euro") ) )
 		montant = operation -> montant * devise_compte -> change;
 	      else
 		if ( devise_operation -> passage_euro
 		     &&
-		     !strcmp ( devise_compte -> nom_devise, "Euro" ))
+		     !strcmp ( devise_compte -> nom_devise, _("Euro") ))
 		  montant = operation -> montant / devise_operation -> change;
 		else
 		  if ( operation -> une_devise_compte_egale_x_devise_ope )
@@ -2604,8 +2604,8 @@ void appui_sur_ajout_imputation ( void )
   gchar *text[4];
   GtkCTreeNode *ligne;
 
-  if ( !( nom_imputation = demande_texte ( "Nouvelle imputation",
-					   "Entrer le nom de la nouvelle imputation :" )))
+  if ( !( nom_imputation = demande_texte ( _("Nouvelle imputation"),
+					   _("Entrer le nom de la nouvelle imputation :") )))
     return;
 
   /* on l'ajoute à la liste des opés */
@@ -2659,8 +2659,8 @@ void appui_sur_ajout_sous_imputation ( void )
   GtkCTreeNode *ligne;
   GtkCTreeNode *node_parent;
 
-  if ( !( nom_sous_imputation = demande_texte ( "Nouvelle sous-imputation",
-						"Entrer le nom de la nouvelle sous-imputation :" )))
+  if ( !( nom_sous_imputation = demande_texte ( _("Nouvelle sous-imputation"),
+						_("Entrer le nom de la nouvelle sous-imputation :") )))
     return;
 
   /* récupère le node parent */

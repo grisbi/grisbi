@@ -195,11 +195,11 @@ gint gtktable_affiche_total_categories ( gint ligne )
 	  ligne++;
 
 	  if ( nom_categ_en_cours )
-	    label = gtk_label_new ( g_strconcat ( "Total ",
+	    label = gtk_label_new ( g_strconcat ( _("Total "),
 						  nom_categ_en_cours,
 						  NULL ));
 	  else
-	    label = gtk_label_new ( "Total Catégorie : " );
+	    label = gtk_label_new ( _("Total Catégorie : ") );
 	  gtk_misc_set_alignment ( GTK_MISC ( label ),
 				   0,
 				   0.5 );
@@ -359,13 +359,13 @@ gint gtktable_affiche_total_sous_categ ( gint ligne )
 	  if ( nom_categ_en_cours
 	       &&
 	       nom_ss_categ_en_cours )
-	    label = gtk_label_new ( g_strconcat ( "Total ",
+	    label = gtk_label_new ( g_strconcat ( _("Total "),
 						  nom_categ_en_cours,
 						  " : ",
 						  nom_ss_categ_en_cours,
 						  NULL ));
 	  else
-	    label = gtk_label_new ( "Total Sous-catégories : " );
+	    label = gtk_label_new ( _("Total Sous-catégories : ") );
 	  gtk_misc_set_alignment ( GTK_MISC ( label ),
 				   0,
 				   0.5 );
@@ -518,11 +518,11 @@ gint gtktable_affiche_total_ib ( gint ligne )
 	  ligne++;
 
 	  if ( nom_ib_en_cours )
-	    label = gtk_label_new ( g_strconcat ( "Total ",
+	    label = gtk_label_new ( g_strconcat ( _("Total "),
 						  nom_ib_en_cours,
 						  NULL ));
 	  else
-	    label = gtk_label_new ( "Total Imputations budgétaires : " );
+	    label = gtk_label_new ( _("Total Imputations budgétaires : ") );
 	  gtk_misc_set_alignment ( GTK_MISC ( label ),
 				   0,
 				   0.5 );
@@ -677,13 +677,13 @@ gint gtktable_affiche_total_sous_ib ( gint ligne )
 	  if ( nom_ib_en_cours
 	       &&
 	       nom_ss_ib_en_cours )
-	    label = gtk_label_new ( g_strconcat ( "Total ",
+	    label = gtk_label_new ( g_strconcat ( _("Total "),
 						  nom_ib_en_cours,
 						  " : ",
 						  nom_ss_ib_en_cours,
 						  NULL ));
 	  else
-	    label = gtk_label_new ( "Total Sous-imputations budgétaires : " );
+	    label = gtk_label_new ( _("Total Sous-imputations budgétaires : ") );
 	  gtk_misc_set_alignment ( GTK_MISC ( label ),
 				   0,
 				   0.5 );
@@ -834,11 +834,11 @@ gint gtktable_affiche_total_compte ( gint ligne )
 	  ligne++;
 
 	  if ( nom_compte_en_cours )
-	    label = gtk_label_new ( g_strconcat ( "Total ",
+	    label = gtk_label_new ( g_strconcat ( _("Total "),
 						  nom_compte_en_cours,
 						  NULL ));
 	  else
-	    label = gtk_label_new ( "Total Compte : " );
+	    label = gtk_label_new ( _("Total Compte : ") );
 	  gtk_misc_set_alignment ( GTK_MISC ( label ),
 				   0,
 				   0.5 );
@@ -987,11 +987,11 @@ gint gtktable_affiche_total_tiers ( gint ligne )
 	  ligne++;
 
 	  if ( nom_tiers_en_cours )
-	    label = gtk_label_new ( g_strconcat ( "Total ",
+	    label = gtk_label_new ( g_strconcat ( _("Total "),
 						  nom_tiers_en_cours,
 						  NULL ));
 	  else
-	    label = gtk_label_new ( "Total Tiers : " );
+	    label = gtk_label_new ( _("Total Tiers : ") );
 	  gtk_misc_set_alignment ( GTK_MISC ( label ),
 				   0,
 				   0.5 );
@@ -1211,11 +1211,11 @@ gint gtktable_affichage_ligne_ope ( struct structure_operation *operation,
 		  p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> relation_no_compte;
 
 		  if ( operation -> montant < 0 )
-		    pointeur = g_strconcat ( "Virement vers ",
+		    pointeur = g_strconcat ( _("Virement vers "),
 					     NOM_DU_COMPTE,
 					     NULL );
 		  else
-		    pointeur = g_strconcat ( "Virement de ",
+		    pointeur = g_strconcat ( _("Virement de "),
 					     NOM_DU_COMPTE,
 					     NULL );
 		}
@@ -1532,9 +1532,9 @@ gint gtktable_affiche_total_partiel ( gdouble total_partie,
   ligne++;
 
   if ( type )
-    label = gtk_label_new ( "Total dépenses : " );
+    label = gtk_label_new ( _("Total dépenses : ") );
   else
-    label = gtk_label_new ( "Total revenus : " );
+    label = gtk_label_new ( _("Total revenus : ") );
   gtk_misc_set_alignment ( GTK_MISC ( label ),
 			   0,
 			   0.5 );
@@ -1662,7 +1662,7 @@ gint gtktable_affiche_total_general ( gdouble total_general,
 
   ligne++;
 
-  label = gtk_label_new ( "Total général : " );
+  label = gtk_label_new ( _("Total général : ") );
   gtk_misc_set_alignment ( GTK_MISC ( label ),
 			   0,
 			   0.5 );
@@ -1784,7 +1784,7 @@ gint gtktable_affiche_categ_etat ( struct structure_operation *operation,
 	  if ( operation -> relation_no_operation )
 	    {
 	      pointeur_char = g_strconcat ( decalage_categ,
-					    "Virements",
+					    _("Virements"),
 					    NULL );
 	      ancienne_categ_speciale_etat = 1;
 	    }
@@ -1793,14 +1793,14 @@ gint gtktable_affiche_categ_etat ( struct structure_operation *operation,
 	      if ( operation -> operation_ventilee )
 		{
 		  pointeur_char = g_strconcat ( decalage_categ,
-						"Opération ventilée",
+						_("Opération ventilée"),
 						NULL );
 		  ancienne_categ_speciale_etat = 2;
 		}
 	      else
 		{
 		  pointeur_char = g_strconcat ( decalage_categ,
-						"Pas de catégorie",
+						_("Pas de catégorie"),
 						NULL );
 		  ancienne_categ_speciale_etat = 3;
 		}
@@ -1889,7 +1889,7 @@ gint gtktable_affiche_sous_categ_etat ( struct structure_operation *operation,
 	{
 	  if ( etat_courant -> afficher_pas_de_sous_categ )
 	    pointeur_char = g_strconcat ( decalage_sous_categ,
-					  "Pas de sous-catégorie",
+					  _("Pas de sous-catégorie"),
 					  NULL );
 	  else
 	    pointeur_char = "";
@@ -1968,7 +1968,7 @@ gint gtktable_affiche_ib_etat ( struct structure_operation *operation,
 	}
       else
 	pointeur_char = g_strconcat ( decalage_ib,
-				      "Pas d'imputation budgétaire",
+				      _("Pas d'imputation budgétaire"),
 				      NULL );
 
       label = gtk_label_new ( pointeur_char );
@@ -2057,7 +2057,7 @@ gint gtktable_affiche_sous_ib_etat ( struct structure_operation *operation,
 	{
 	  if ( etat_courant -> afficher_pas_de_sous_ib )
 	    pointeur_char = g_strconcat ( decalage_sous_ib,
-					  "Pas de sous-imputation",
+					  _("Pas de sous-imputation"),
 					  NULL );
 	  else
 	    pointeur_char = "";
@@ -2203,7 +2203,7 @@ gint gtktable_affiche_tiers_etat ( struct structure_operation *operation,
 	}
       else
 	pointeur_char = g_strconcat ( decalage_tiers,
-				      "Pas de tiers",
+				      _("Pas de tiers"),
 				      NULL );
 
       label = gtk_label_new ( pointeur_char );
@@ -2251,7 +2251,7 @@ gint gtktable_affiche_titre_revenus_etat ( gint ligne )
   gtk_widget_show ( label );
 
   ligne++;
-  label = gtk_label_new ( "Revenus" );
+  label = gtk_label_new ( _("Revenus") );
   gtk_table_attach ( GTK_TABLE ( table_etat ),
 		     label,
 		     0, 1,
@@ -2297,7 +2297,7 @@ gint gtktable_affiche_titre_depenses_etat ( gint ligne )
 
   ligne++;
 
-  label = gtk_label_new ( "Dépenses" );
+  label = gtk_label_new ( _("Dépenses") );
   gtk_table_attach ( GTK_TABLE ( table_etat ),
 		     label,
 		     0, 1,
@@ -2391,7 +2391,7 @@ gint gtktable_affiche_titres_colonnes ( gint ligne )
 
   if ( etat_courant -> afficher_no_ope )
     {
-      label = gtk_label_new ( "N°" );
+      label = gtk_label_new ( _("N°") );
       gtk_table_attach ( GTK_TABLE ( table_etat ),
 			 label,
 			 colonne, colonne + 1,
@@ -2406,7 +2406,7 @@ gint gtktable_affiche_titres_colonnes ( gint ligne )
 
   if ( etat_courant -> afficher_date_ope )
     {
-      label = gtk_label_new ( "Date" );
+      label = gtk_label_new ( _("Date") );
       gtk_table_attach ( GTK_TABLE ( table_etat ),
 			 label,
 			 colonne, colonne + 1,
@@ -2421,7 +2421,7 @@ gint gtktable_affiche_titres_colonnes ( gint ligne )
 
   if ( etat_courant -> afficher_exo_ope )
     {
-      label = gtk_label_new ( "Exercice" );
+      label = gtk_label_new ( _("Exercice") );
       gtk_table_attach ( GTK_TABLE ( table_etat ),
 			 label,
 			 colonne, colonne + 1,
@@ -2436,7 +2436,7 @@ gint gtktable_affiche_titres_colonnes ( gint ligne )
 
   if ( etat_courant -> afficher_tiers_ope )
     {
-      label = gtk_label_new ( "Tiers" );
+      label = gtk_label_new ( _("Tiers") );
       gtk_table_attach ( GTK_TABLE ( table_etat ),
 			 label,
 			 colonne, colonne + 1,
@@ -2451,7 +2451,7 @@ gint gtktable_affiche_titres_colonnes ( gint ligne )
 
   if ( etat_courant -> afficher_categ_ope )
     {
-      label = gtk_label_new ( "Catégorie" );
+      label = gtk_label_new ( _("Catégorie") );
       gtk_table_attach ( GTK_TABLE ( table_etat ),
 			 label,
 			 colonne, colonne + 1,
@@ -2466,7 +2466,7 @@ gint gtktable_affiche_titres_colonnes ( gint ligne )
 
   if ( etat_courant -> afficher_ib_ope )
     {
-      label = gtk_label_new ( "Imputation budgétaire" );
+      label = gtk_label_new ( _("Imputation budgétaire") );
       gtk_table_attach ( GTK_TABLE ( table_etat ),
 			 label,
 			 colonne, colonne + 1,
@@ -2481,7 +2481,7 @@ gint gtktable_affiche_titres_colonnes ( gint ligne )
 
   if ( etat_courant -> afficher_notes_ope )
     {
-      label = gtk_label_new ( "Notes" );
+      label = gtk_label_new ( _("Notes") );
       gtk_table_attach ( GTK_TABLE ( table_etat ),
 			 label,
 			 colonne, colonne + 1,
@@ -2496,7 +2496,7 @@ gint gtktable_affiche_titres_colonnes ( gint ligne )
 
   if ( etat_courant -> afficher_type_ope )
     {
-      label = gtk_label_new ( "Type" );
+      label = gtk_label_new ( _("Type") );
       gtk_table_attach ( GTK_TABLE ( table_etat ),
 			 label,
 			 colonne, colonne + 1,
@@ -2511,7 +2511,7 @@ gint gtktable_affiche_titres_colonnes ( gint ligne )
 
   if ( etat_courant -> afficher_cheque_ope )
     {
-      label = gtk_label_new ( "Chèque" );
+      label = gtk_label_new ( _("Chèque") );
       gtk_table_attach ( GTK_TABLE ( table_etat ),
 			 label,
 			 colonne, colonne + 1,
@@ -2526,7 +2526,7 @@ gint gtktable_affiche_titres_colonnes ( gint ligne )
 
   if ( etat_courant -> afficher_pc_ope )
     {
-      label = gtk_label_new ( "Pièce comptable" );
+      label = gtk_label_new ( _("Pièce comptable") );
       gtk_table_attach ( GTK_TABLE ( table_etat ),
 			 label,
 			 colonne, colonne + 1,
@@ -2541,7 +2541,7 @@ gint gtktable_affiche_titres_colonnes ( gint ligne )
 
   if ( etat_courant -> afficher_infobd_ope )
     {
-      label = gtk_label_new ( "Info banque/guichet" );
+      label = gtk_label_new ( _("Info banque/guichet") );
       gtk_table_attach ( GTK_TABLE ( table_etat ),
 			 label,
 			 colonne, colonne + 1,
@@ -2556,7 +2556,7 @@ gint gtktable_affiche_titres_colonnes ( gint ligne )
 
   if ( etat_courant -> afficher_rappr_ope )
     {
-      label = gtk_label_new ( "Relevé" );
+      label = gtk_label_new ( _("Relevé") );
       gtk_table_attach ( GTK_TABLE ( table_etat ),
 			 label,
 			 colonne, colonne + 1,

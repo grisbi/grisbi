@@ -14,7 +14,6 @@ GnomeUIInfo menu_derniers_fichiers [1];
 GnomeUIInfo menu_cloture [1];
 
 
-
 /*********************/ 
 /* fichier main.c */
 /*********************/ 

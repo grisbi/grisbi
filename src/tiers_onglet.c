@@ -38,10 +38,10 @@ GtkWidget *onglet_tiers ( void )
   GtkWidget *scroll_window;
   gchar *titres[] =
   {
-    "Liste des tiers",
-    "Montant par tiers",
-    "Montant par compte",
-    "Dernière date"
+    _("Liste des tiers"),
+    _("Montant par tiers"),
+    _("Montant par compte"),
+    _("Dernière date")
   };
   GtkWidget *vbox;
   GtkWidget *frame;
@@ -97,7 +97,7 @@ GtkWidget *onglet_tiers ( void )
 
 
 
-  frame = gtk_frame_new ( " Informations : " );
+  frame = gtk_frame_new ( _(" Informations : ") );
   gtk_box_pack_start ( GTK_BOX ( vbox ),
 		       frame,
 		       FALSE,
@@ -204,7 +204,7 @@ GtkWidget *onglet_tiers ( void )
 
   /* mise en place du bouton ajout d'1 tiers */
 
-  bouton_ajouter_tiers = gtk_button_new_with_label ( "Ajouter un tiers" );
+  bouton_ajouter_tiers = gtk_button_new_with_label ( _("Ajouter un tiers") );
   gtk_button_set_relief ( GTK_BUTTON ( bouton_ajouter_tiers ),
 			  GTK_RELIEF_NONE );
   gtk_signal_connect ( GTK_OBJECT ( bouton_ajouter_tiers ),
@@ -1156,14 +1156,14 @@ void supprimer_tiers ( GtkWidget *bouton,
       gint nouveau_no;
       struct struct_tiers *nouveau_tiers;
 
-      dialog = gnome_dialog_new ( "Suppression d'un tiers",
+      dialog = gnome_dialog_new ( _("Suppression d'un tiers"),
 				  GNOME_STOCK_BUTTON_OK,
 				  GNOME_STOCK_BUTTON_CANCEL,
 				  NULL);
       gnome_dialog_set_parent ( GNOME_DIALOG ( dialog ),
 				GTK_WINDOW ( window ));
 
-      label = gtk_label_new ( "Le tiers sélectionné contient encore des opérations.\n\nVous pouvez : " );
+      label = gtk_label_new ( _("Le tiers sélectionné contient encore des opérations.\n\nVous pouvez : ") );
       gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
 			   label,
 			   FALSE,
@@ -1188,7 +1188,7 @@ void supprimer_tiers ( GtkWidget *bouton,
 			   0 );
 
       bouton_transfert = gtk_radio_button_new_with_label ( NULL,
-							   "Transférer les opérations sur le tiers "  );
+							   _("Transférer les opérations sur le tiers ")  );
       gtk_box_pack_start ( GTK_BOX ( hbox ),
 			   bouton_transfert,
 			   FALSE,
@@ -1231,7 +1231,7 @@ void supprimer_tiers ( GtkWidget *bouton,
 			   0 );
 
       bouton_tiers_generique = gtk_radio_button_new_with_label ( gtk_radio_button_group ( GTK_RADIO_BUTTON ( bouton_transfert )),
-								 " Supprimer simplement ce tiers." );
+								 _(" Supprimer simplement ce tiers.") );
       gtk_box_pack_start ( GTK_BOX ( hbox ),
 			   bouton_tiers_generique,
 			   FALSE,
@@ -1257,7 +1257,7 @@ void supprimer_tiers ( GtkWidget *bouton,
 
 	  if ( !strlen (gtk_combofix_get_text ( GTK_COMBOFIX ( combofix ))))
 	    {
-	      dialogue ( "Veuillez entrer un tiers." );
+	      dialogue ( _("Veuillez entrer un tiers.") );
 	      goto retour_dialogue;
 	    }
 
@@ -1524,12 +1524,12 @@ gfloat *calcule_total_montant_tiers ( void )
 
 		  if ( devise_compte -> passage_euro
 		       &&
-		       !strcmp ( devise_operation -> nom_devise, "Euro" ) )
+		       !strcmp ( devise_operation -> nom_devise, _("Euro") ) )
 		    montant = operation -> montant * devise_compte -> change;
 		  else
 		    if ( devise_operation -> passage_euro
 			 &&
-			 !strcmp ( devise_compte -> nom_devise, "Euro" ))
+			 !strcmp ( devise_compte -> nom_devise, _("Euro") ))
 		      montant = operation -> montant / devise_operation -> change;
 		    else
 		      if ( operation -> une_devise_compte_egale_x_devise_ope )
@@ -1607,12 +1607,12 @@ gchar *calcule_total_montant_tiers_par_compte ( gint no_tiers,
 
 	      if ( devise_compte -> passage_euro
 		   &&
-		   !strcmp ( devise_operation -> nom_devise, "Euro" ) )
+		   !strcmp ( devise_operation -> nom_devise, _("Euro") ) )
 		montant = operation -> montant * devise_compte -> change;
 	      else
 		if ( devise_operation -> passage_euro
 		     &&
-		     !strcmp ( devise_compte -> nom_devise, "Euro" ))
+		     !strcmp ( devise_compte -> nom_devise, _("Euro") ))
 		  montant = operation -> montant / devise_operation -> change;
 		else
 		  if ( operation -> une_devise_compte_egale_x_devise_ope )
@@ -1647,8 +1647,8 @@ void appui_sur_ajout_tiers ( void )
   gchar *text[4];
   GtkCTreeNode *ligne;
 
-  if ( !( nom_tiers = demande_texte ( "Nouveau tiers",
-				      "Entrer le nom du nouveau tiers :" )))
+  if ( !( nom_tiers = demande_texte ( _("Nouveau tiers"),
+				      _("Entrer le nom du nouveau tiers :") )))
     return;
 
   /* on l'ajoute à la liste des opés */

@@ -112,7 +112,7 @@ GtkWidget *creation_fenetre_operations ( void )
   gtk_widget_show ( frame );
 
 
-  solde_label_pointe = gtk_label_new ( " Solde pointé : " );
+  solde_label_pointe = gtk_label_new ( _(" Solde pointé : ") );
   gtk_label_set_justify ( GTK_LABEL ( solde_label_pointe ),
 			  GTK_JUSTIFY_LEFT);
   gtk_container_add ( GTK_CONTAINER ( frame ),
@@ -135,7 +135,7 @@ GtkWidget *creation_fenetre_operations ( void )
   gtk_widget_show ( frame );
 
 
-  solde_label = gtk_label_new ( " Solde courant : " );
+  solde_label = gtk_label_new ( _(" Solde courant : ") );
   gtk_label_set_justify ( GTK_LABEL ( solde_label ),
 			  GTK_JUSTIFY_RIGHT);
   gtk_container_add ( GTK_CONTAINER ( frame ),
@@ -232,7 +232,7 @@ GtkWidget *initialisation_notebook_operations ( void )
   
   gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_listes_operations ),
 			     creation_details_compte (),
-			     gtk_label_new ( "Détails du compte" ) );
+			     gtk_label_new ( _("Détails du compte") ) );
 
   /* rafraichit la fentre d'attente */
 
@@ -243,7 +243,7 @@ GtkWidget *initialisation_notebook_operations ( void )
 
   gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_listes_operations ),
 			     creation_fenetre_ventilation (),
-			     gtk_label_new ( "Ventilation du compte" ) );
+			     gtk_label_new ( _("Ventilation du compte") ) );
 
   /* rafraichit la fentre d'attente */
 
@@ -271,9 +271,9 @@ void creation_listes_operations ( void )
     {
       GtkWidget *onglet;
       GtkWidget *liste;
-      gchar *titres_liste [] = { "Chèque", "Date ",
-				 "Tiers,Catégories, I.B., Notes ",
-				 "R ", "Débit", "Crédit ", "Solde " };
+      gchar *titres_liste [] = { _("Chèque"), _("Date "),
+				 _("Tiers,Catégories, I.B., Notes "),
+				 _("R "), _("Débit"), _("Crédit "), _("Solde ") };
 
       p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
 
@@ -443,9 +443,9 @@ void ajoute_nouvelle_liste_operation ( gint no_compte )
 {
   GtkWidget *onglet;
   GtkWidget *liste;
-  gchar *titres_liste [] = { "Chèque", "Date ",
-			     "Tiers, Catégories, I.B., Notes ",
-			     "R ", "Débit", "Crédit ", "Solde " };
+  gchar *titres_liste [] = { _("Chèque"), _("Date "),
+			     _("Tiers, Catégories, I.B., Notes "),
+			     _("R "), _("Débit"), _("Crédit "), _("Solde ") };
       
   p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_compte;
 
@@ -635,13 +635,13 @@ void remplissage_liste_operations ( gint compte )
     {
       gtk_clist_set_column_title ( GTK_CLIST ( CLIST_OPERATIONS ),
 				   1,
-				   "Date" );
+				   _("Date") );
       gtk_clist_set_column_title ( GTK_CLIST ( CLIST_OPERATIONS ),
 				   2,
-				   "Tiers" );
+				   _("Tiers") );
       gtk_clist_set_column_title ( GTK_CLIST ( CLIST_OPERATIONS ),
 				   3,
-				   "R" );
+				   _("R") );
     }
   else
     {
@@ -649,25 +649,25 @@ void remplissage_liste_operations ( gint compte )
 	{
 	  gtk_clist_set_column_title ( GTK_CLIST ( CLIST_OPERATIONS ),
 				       1,
-				       "Dates" );
+				       _("Dates") );
 	  gtk_clist_set_column_title ( GTK_CLIST ( CLIST_OPERATIONS ),
 				       2,
-				       "Tiers, Catégories, Notes" );
+				       _("Tiers, Catégories, Notes") );
 	  gtk_clist_set_column_title ( GTK_CLIST ( CLIST_OPERATIONS ),
 				       4,
-				       "Débit, Type, N° virement" );
+				       _("Débit, Type, N° virement") );
 	}
       else
 	{
 	  gtk_clist_set_column_title ( GTK_CLIST ( CLIST_OPERATIONS ),
 				       1,
-				       "Dates / Exercice" );
+				       _("Dates / Exercice") );
 	  gtk_clist_set_column_title ( GTK_CLIST ( CLIST_OPERATIONS ),
 				       2,
-				       "Tiers, Catégories, I.B., Notes" );
+				       _("Tiers, Catégories, I.B., Notes") );
 	  gtk_clist_set_column_title ( GTK_CLIST ( CLIST_OPERATIONS ),
 				       4,
-				       "Débit, Type, N° virement, PC" );
+				       _("Débit, Type, N° virement, PC") );
 	}
     }
 
@@ -717,12 +717,12 @@ void remplissage_liste_operations ( gint compte )
 
 		      if ( devise_compte -> passage_euro
 			   &&
-			   !strcmp ( devise_operation -> nom_devise, "Euro" ) )
+			   !strcmp ( devise_operation -> nom_devise, _("Euro") ) )
 			montant = operation -> montant * devise_compte -> change;
 		      else
 			if ( devise_operation -> passage_euro
 			     &&
-			     !strcmp ( devise_compte -> nom_devise, "Euro" ))
+			     !strcmp ( devise_compte -> nom_devise, _("Euro") ))
 			  montant = operation -> montant / devise_operation -> change;
 			else
 			  if ( operation -> une_devise_compte_egale_x_devise_ope )
@@ -925,9 +925,9 @@ void remplissage_liste_operations ( gint compte )
 		      if ( operation -> relation_no_compte == -1 )
 			{
 			  if ( operation -> montant < 0 )
-			    ligne2 [2] = "Virement vers un compte supprimé";
+			    ligne2 [2] = _("Virement vers un compte supprimé");
 			  else
-			    ligne2 [2] = "Virement d'un compte supprimé";
+			    ligne2 [2] = _("Virement d'un compte supprimé");
 			}
 		      else
 			{
@@ -935,11 +935,11 @@ void remplissage_liste_operations ( gint compte )
 			  p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> relation_no_compte;
 
 			  if ( operation -> montant < 0 )
-			    ligne2 [2] = g_strconcat ( "Virement vers ",
+			    ligne2 [2] = g_strconcat ( _("Virement vers "),
 						       NOM_DU_COMPTE,
 						       NULL );
 			  else
-			    ligne2 [2] = g_strconcat ( "Virement de ",
+			    ligne2 [2] = g_strconcat ( _("Virement de "),
 						       NOM_DU_COMPTE,
 						       NULL );
 
@@ -951,7 +951,7 @@ void remplissage_liste_operations ( gint compte )
 		  /* si l'opération est ventilée */
 
 		  if ( operation -> operation_ventilee )
-		    ligne2 [2] = "Opération ventilée";
+		    ligne2 [2] = _("Opération ventilée");
 
 
 		  /*  si on affiche 4 lignes, on met l'exercice, l'ib et la pièce comptable en plus */
@@ -1138,12 +1138,12 @@ void remplissage_liste_operations ( gint compte )
 
 	      if ( devise_compte -> passage_euro
 		   &&
-		   !strcmp ( devise_operation -> nom_devise, "Euro" ) )
+		   !strcmp ( devise_operation -> nom_devise, _("Euro") ) )
 		montant = operation -> montant * devise_compte -> change;
 	      else
 		if ( devise_operation -> passage_euro
 		     &&
-		     !strcmp ( devise_compte -> nom_devise, "Euro" ))
+		     !strcmp ( devise_compte -> nom_devise, _("Euro") ))
 		  montant = operation -> montant / devise_operation -> change;
 		else
 		  if ( operation -> une_devise_compte_egale_x_devise_ope )
@@ -1211,13 +1211,13 @@ void remplissage_liste_operations ( gint compte )
   /* on met les soldes en bas */
 
   gtk_label_set_text ( GTK_LABEL ( solde_label_pointe ),
-		       g_strdup_printf ( " Solde pointé : %4.2f %s",
+		       g_strdup_printf ( _(" Solde pointé : %4.2f %s"),
 					 SOLDE_POINTE,
 					 ((struct struct_devise *)(g_slist_find_custom ( liste_struct_devises,
 											 GINT_TO_POINTER ( DEVISE ),
 											 (GCompareFunc) recherche_devise_par_no )-> data )) -> code_devise) );
   gtk_label_set_text ( GTK_LABEL ( solde_label ),
-		       g_strdup_printf ( " Solde courant : %4.2f %s",
+		       g_strdup_printf ( _(" Solde courant : %4.2f %s"),
 					 SOLDE_COURANT,
 					 ((struct struct_devise *)(g_slist_find_custom ( liste_struct_devises,
 											 GINT_TO_POINTER ( DEVISE ),
@@ -1659,9 +1659,9 @@ void edition_operation ( void )
 
   if ( !( devise -> no_devise == DEVISE
 	  ||
-	  ( devise_compte -> passage_euro && !strcmp ( devise -> nom_devise, "Euro" ))
+	  ( devise_compte -> passage_euro && !strcmp ( devise -> nom_devise, _("Euro") ))
 	  ||
-	  ( !strcmp ( devise_compte -> nom_devise, "Euro" ) && devise -> passage_euro )))
+	  ( !strcmp ( devise_compte -> nom_devise, _("Euro") ) && devise -> passage_euro )))
     gtk_widget_show ( widget_formulaire_operations[6] );
 
 
@@ -1718,13 +1718,13 @@ void edition_operation ( void )
 
       if ( operation -> relation_no_compte == -1 )
 	gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_operations[8] ),
-				"Virement : Compte supprimé" );
+				_("Virement : Compte supprimé") );
       else
 	{
 	  p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> relation_no_compte;
 
 	  gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_operations[8] ),
-				  g_strconcat ( "Virement : ",
+				  g_strconcat ( _("Virement : "),
 						NOM_DU_COMPTE,
 						NULL ));
 
@@ -1740,7 +1740,7 @@ void edition_operation ( void )
 
       entree_prend_focus ( widget_formulaire_operations[8] );
       gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_operations[8] ),
-			      "Opération ventilée" );
+			      _("Opération ventilée") );
       gtk_widget_show ( widget_formulaire_operations[14] );
       gtk_widget_set_sensitive ( widget_formulaire_operations[12],
 				 FALSE );
@@ -1862,10 +1862,10 @@ void edition_operation ( void )
 
   if ( operation -> auto_man )
     gtk_label_set_text ( GTK_LABEL ( widget_formulaire_operations[17]),
-			 "Auto");
+			 _("Auto"));
   else
     gtk_label_set_text ( GTK_LABEL ( widget_formulaire_operations[17]),
-			 "Manuel");
+			 _("Manuel"));
 
 
 
@@ -1933,12 +1933,12 @@ void p_press (void)
 	      
 	    if ( devise_compte -> passage_euro
 		 &&
-		 !strcmp ( devise_operation -> nom_devise, "Euro" ) )
+		 !strcmp ( devise_operation -> nom_devise, _("Euro") ) )
 	      montant = OPERATION_SELECTIONNEE -> montant * devise_compte -> change;
 	    else
 	      if ( devise_operation -> passage_euro
 		   &&
-		   !strcmp ( devise_compte -> nom_devise, "Euro" ))
+		   !strcmp ( devise_compte -> nom_devise, _("Euro") ))
 		montant  = OPERATION_SELECTIONNEE -> montant / devise_operation -> change;
 	      else
 		if ( OPERATION_SELECTIONNEE -> une_devise_compte_egale_x_devise_ope )
@@ -1979,12 +1979,12 @@ void p_press (void)
 	      
 	  if ( devise_compte -> passage_euro
 	       &&
-	       !strcmp ( devise_operation -> nom_devise, "Euro" ) )
+	       !strcmp ( devise_operation -> nom_devise, _("Euro") ) )
 	    montant  = OPERATION_SELECTIONNEE -> montant * devise_compte -> change;
 	  else
 	    if ( devise_operation -> passage_euro
 		 &&
-		 !strcmp ( devise_compte -> nom_devise, "Euro" ))
+		 !strcmp ( devise_compte -> nom_devise, _("Euro") ))
 	      montant = OPERATION_SELECTIONNEE -> montant / devise_operation -> change;
 	    else
 	      if ( OPERATION_SELECTIONNEE -> une_devise_compte_egale_x_devise_ope )
@@ -2037,7 +2037,7 @@ void p_press (void)
   /* met le label du solde pointé */
 
   gtk_label_set_text ( GTK_LABEL ( solde_label_pointe ),
-		       g_strdup_printf ( " Solde pointé : %4.2f %s",
+		       g_strdup_printf ( _(" Solde pointé : %4.2f %s"),
 					 SOLDE_POINTE,
 					 ((struct struct_devise *)(g_slist_find_custom ( liste_struct_devises,
 											 GINT_TO_POINTER ( DEVISE ),
@@ -2181,7 +2181,7 @@ void supprime_operation ( struct structure_operation *operation )
 
   if ( operation -> pointe == 2 )
     {
-      dialogue ( " Impossible de supprimer \n  une opération relevée ... ");
+      dialogue ( _(" Impossible de supprimer \n  une opération relevée ... "));
       return;
     }
 
@@ -2673,12 +2673,12 @@ void mise_a_jour_solde ( gint compte )
 
 	      if ( devise_compte -> passage_euro
 		   &&
-		   !strcmp ( devise_operation -> nom_devise, "Euro" ) )
+		   !strcmp ( devise_operation -> nom_devise, _("Euro") ) )
 		montant = operation -> montant * devise_compte -> change;
 	      else
 		if ( devise_operation -> passage_euro
 		     &&
-		     !strcmp ( devise_compte -> nom_devise, "Euro" ))
+		     !strcmp ( devise_compte -> nom_devise, _("Euro") ))
 		  montant = operation -> montant / devise_operation -> change;
 		else
 		  if ( operation -> une_devise_compte_egale_x_devise_ope )

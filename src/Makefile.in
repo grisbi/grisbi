@@ -1,6 +1,7 @@
-# Makefile.in generated automatically by automake 1.4-p5 from Makefile.am
+# Makefile.in generated automatically by automake 1.5 from Makefile.am.
 
-# Copyright (C) 1994, 1995-8, 1999, 2001 Free Software Foundation, Inc.
+# Copyright 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001
+# Free Software Foundation, Inc.
 # This Makefile.in is free software; the Free Software Foundation
 # gives unlimited permission to copy and/or distribute it,
 # with or without modifications, as long as this notice is preserved.
@@ -10,8 +11,9 @@
 # even the implied warranty of MERCHANTABILITY or FITNESS FOR A
 # PARTICULAR PURPOSE.
 
-# Process this file with automake to produce Makefile.in
+@SET_MAKE@
 
+# Process this file with automake to produce Makefile.in
 
 SHELL = @SHELL@
 
@@ -33,13 +35,9 @@ infodir = @infodir@
 mandir = @mandir@
 includedir = @includedir@
 oldincludedir = /usr/include
-
-DESTDIR =
-
 pkgdatadir = $(datadir)/@PACKAGE@
 pkglibdir = $(libdir)/@PACKAGE@
 pkgincludedir = $(includedir)/@PACKAGE@
-
 top_builddir = ..
 
 ACLOCAL = @ACLOCAL@
@@ -48,59 +46,105 @@ AUTOMAKE = @AUTOMAKE@
 AUTOHEADER = @AUTOHEADER@
 
 INSTALL = @INSTALL@
-INSTALL_PROGRAM = @INSTALL_PROGRAM@ $(AM_INSTALL_PROGRAM_FLAGS)
+INSTALL_PROGRAM = @INSTALL_PROGRAM@
 INSTALL_DATA = @INSTALL_DATA@
 INSTALL_SCRIPT = @INSTALL_SCRIPT@
+INSTALL_HEADER = $(INSTALL_DATA)
 transform = @program_transform_name@
-
 NORMAL_INSTALL = :
 PRE_INSTALL = :
 POST_INSTALL = :
 NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
+host_alias = @host_alias@
+host_triplet = @host@
+AMTAR = @AMTAR@
+AWK = @AWK@
+BUILD_INCLUDED_LIBINTL = @BUILD_INCLUDED_LIBINTL@
+CATALOGS = @CATALOGS@
+CATOBJEXT = @CATOBJEXT@
 CC = @CC@
 CFLAGS = @CFLAGS@
 CPPFLAGS = @CPPFLAGS@
+DATADIRNAME = @DATADIRNAME@
+DEPDIR = @DEPDIR@
+EXEEXT = @EXEEXT@
 EXTRA_GNOME_CFLAGS = @EXTRA_GNOME_CFLAGS@
 EXTRA_GNOME_LIBS = @EXTRA_GNOME_LIBS@
-GNOMEGNORBA_LIBS = @GNOMEGNORBA_LIBS@
-GNOMEUI_LIBS = @GNOMEUI_LIBS@
-GNOME_APPLETS_LIBS = @GNOME_APPLETS_LIBS@
-GNOME_CAPPLET_LIBS = @GNOME_CAPPLET_LIBS@
-GNOME_CONFIG = @GNOME_CONFIG@
-GNOME_DOCKLETS_LIBS = @GNOME_DOCKLETS_LIBS@
-GNOME_INCLUDEDIR = @GNOME_INCLUDEDIR@
-GNOME_LIBDIR = @GNOME_LIBDIR@
-GNOME_LIBS = @GNOME_LIBS@
-GNOME_XML_CFLAGS = @GNOME_XML_CFLAGS@
-GNOME_XML_LIB = @GNOME_XML_LIB@
-GNORBA_CFLAGS = @GNORBA_CFLAGS@
-GNORBA_LIBS = @GNORBA_LIBS@
-GTKXMHTML_LIBS = @GTKXMHTML_LIBS@
-GTK_CFLAGS = @GTK_CFLAGS@
-GTK_CONFIG = @GTK_CONFIG@
-GTK_LIBS = @GTK_LIBS@
+GENCAT = @GENCAT@
+GLIBC21 = @GLIBC21@
+GMOFILES = @GMOFILES@
+GMSGFMT = @GMSGFMT@
+INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
+INSTOBJEXT = @INSTOBJEXT@
+INTLBISON = @INTLBISON@
+INTLLIBS = @INTLLIBS@
+INTLOBJS = @INTLOBJS@
+INTL_LIBTOOL_SUFFIX_PREFIX = @INTL_LIBTOOL_SUFFIX_PREFIX@
 LDFLAGS = @LDFLAGS@
-MAKEINFO = @MAKEINFO@
-ORBIT_CFLAGS = @ORBIT_CFLAGS@
-ORBIT_CONFIG = @ORBIT_CONFIG@
-ORBIT_IDL = @ORBIT_IDL@
-ORBIT_LIBS = @ORBIT_LIBS@
+LIBICONV = @LIBICONV@
+MKINSTALLDIRS = @MKINSTALLDIRS@
+MSGFMT = @MSGFMT@
+OBJEXT = @OBJEXT@
 PACKAGE = @PACKAGE@
-PTHREAD_LIB = @PTHREAD_LIB@
+POFILES = @POFILES@
+POSUB = @POSUB@
+RANLIB = @RANLIB@
+USE_INCLUDED_LIBINTL = @USE_INCLUDED_LIBINTL@
+USE_NLS = @USE_NLS@
 VERSION = @VERSION@
-XPM_LIBS = @XPM_LIBS@
-ZVT_LIBS = @ZVT_LIBS@
-cflags_set = @cflags_set@
-cxxflags_set = @cxxflags_set@
-prefix = @prefix@
+am__include = @am__include@
+am__quote = @am__quote@
+install_sh = @install_sh@
 
-INCLUDES = -I$(top_srcdir) -I$(includedir) $(GNOME_INCLUDEDIR) $(EXTRA_GNOME_CFLAGS)
+localedir = $(datadir)/locale
+INCLUDES = -I$(top_srcdir) -I$(includedir) $(GNOME_INCLUDEDIR) $(EXTRA_GNOME_CFLAGS) -I../intl -DLOCALEDIR=\"$(localedir)\"
 
 bin_PROGRAMS = grisbi
 
-grisbi_SOURCES =  	accueil.c			fenetre_principale.c		operations_liste.c		banque.c			fichier_configuration.c		operations_onglet.c		barre_outils.c			fichiers_gestion.c		parametres.c			categories_onglet.c		fichiers_io.c			patienter.c			comptes_gestion.c		gtk_combofix.c			qif.c				comptes_traitements.c		help.c				tiers_onglet.c			devises.c			main.c				traitement_variables.c		echeancier_formulaire.c		menu.c				echeancier_liste.c		operations_classement.c		equilibrage.c			operations_comptes.c		ventilation.c			erreur.c			operations_formulaire.c 	type_operations.c		exercice.c			imputation_budgetaire.c		affichage.c			etats.c				impression.c
+grisbi_SOURCES = \
+	accueil.c		\
+	fenetre_principale.c	\
+	operations_liste.c	\
+	banque.c		\
+	fichier_configuration.c	\
+	operations_onglet.c	\
+	barre_outils.c		\
+	fichiers_gestion.c	\
+	parametres.c		\
+	categories_onglet.c	\
+	fichiers_io.c		\
+	patienter.c		\
+	comptes_gestion.c	\
+	gtk_combofix.c		\
+	qif.c			\
+	comptes_traitements.c	\
+	help.c			\
+	tiers_onglet.c		\
+	devises.c		\
+	main.c			\
+	traitement_variables.c	\
+	echeancier_formulaire.c	\
+	menu.c			\
+	echeancier_liste.c	\
+	operations_classement.c	\
+	equilibrage.c		\
+	operations_comptes.c	\
+	ventilation.c		\
+	erreur.c		\
+	operations_formulaire.c \
+	type_operations.c	\
+	exercice.c		\
+	imputation_budgetaire.c	\
+	affichage.c		\
+	etats.c			\
+	etats_gtktable.c	\
+	etats_gnomeprint.c	\
+	diaunitspinner.c	\
+	diapagelayout.c		\
+	paper.c			\
+	impression.c
 
 
 grisbi_LDADD = $(GNOME_LIBDIR)	$(GNOMEUI_LIBS) $(EXTRA_GNOME_LIBS) -lgnomeprint
@@ -115,327 +159,368 @@ appicon_DATA = grisbi.png logo_grisbi.xpm
 
 mimedir = $(datadir)/mime-info
 mime_DATA = grisbi.keys grisbi.mime
+subdir = src
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
-CONFIG_HEADER = ../config.h
-CONFIG_CLEAN_FILES = 
-PROGRAMS =  $(bin_PROGRAMS)
+CONFIG_CLEAN_FILES =
+bin_PROGRAMS = grisbi$(EXEEXT)
+PROGRAMS = $(bin_PROGRAMS)
 
+am_grisbi_OBJECTS = accueil.$(OBJEXT) fenetre_principale.$(OBJEXT) \
+	operations_liste.$(OBJEXT) banque.$(OBJEXT) \
+	fichier_configuration.$(OBJEXT) operations_onglet.$(OBJEXT) \
+	barre_outils.$(OBJEXT) fichiers_gestion.$(OBJEXT) \
+	parametres.$(OBJEXT) categories_onglet.$(OBJEXT) \
+	fichiers_io.$(OBJEXT) patienter.$(OBJEXT) \
+	comptes_gestion.$(OBJEXT) gtk_combofix.$(OBJEXT) qif.$(OBJEXT) \
+	comptes_traitements.$(OBJEXT) help.$(OBJEXT) \
+	tiers_onglet.$(OBJEXT) devises.$(OBJEXT) main.$(OBJEXT) \
+	traitement_variables.$(OBJEXT) echeancier_formulaire.$(OBJEXT) \
+	menu.$(OBJEXT) echeancier_liste.$(OBJEXT) \
+	operations_classement.$(OBJEXT) equilibrage.$(OBJEXT) \
+	operations_comptes.$(OBJEXT) ventilation.$(OBJEXT) \
+	erreur.$(OBJEXT) operations_formulaire.$(OBJEXT) \
+	type_operations.$(OBJEXT) exercice.$(OBJEXT) \
+	imputation_budgetaire.$(OBJEXT) affichage.$(OBJEXT) \
+	etats.$(OBJEXT) etats_gtktable.$(OBJEXT) \
+	etats_gnomeprint.$(OBJEXT) diaunitspinner.$(OBJEXT) \
+	diapagelayout.$(OBJEXT) paper.$(OBJEXT) impression.$(OBJEXT)
+grisbi_OBJECTS = $(am_grisbi_OBJECTS)
+grisbi_DEPENDENCIES =
+grisbi_LDFLAGS =
 
-DEFS = @DEFS@ -I. -I$(srcdir) -I..
+DEFS = @DEFS@
+DEFAULT_INCLUDES =  -I. -I$(srcdir)
+CPPFLAGS = @CPPFLAGS@
+LDFLAGS = @LDFLAGS@
 LIBS = @LIBS@
-grisbi_OBJECTS =  accueil.o fenetre_principale.o operations_liste.o \
-banque.o fichier_configuration.o operations_onglet.o barre_outils.o \
-fichiers_gestion.o parametres.o categories_onglet.o fichiers_io.o \
-patienter.o comptes_gestion.o gtk_combofix.o qif.o \
-comptes_traitements.o help.o tiers_onglet.o devises.o main.o \
-traitement_variables.o echeancier_formulaire.o menu.o \
-echeancier_liste.o operations_classement.o equilibrage.o \
-operations_comptes.o ventilation.o erreur.o operations_formulaire.o \
-type_operations.o exercice.o imputation_budgetaire.o affichage.o \
-etats.o impression.o
-grisbi_DEPENDENCIES = 
-grisbi_LDFLAGS = 
-COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
+depcomp = $(SHELL) $(top_srcdir)/depcomp
+@AMDEP_TRUE@DEP_FILES = $(DEPDIR)/accueil.Po $(DEPDIR)/affichage.Po \
+@AMDEP_TRUE@	$(DEPDIR)/banque.Po $(DEPDIR)/barre_outils.Po \
+@AMDEP_TRUE@	$(DEPDIR)/categories_onglet.Po \
+@AMDEP_TRUE@	$(DEPDIR)/comptes_gestion.Po \
+@AMDEP_TRUE@	$(DEPDIR)/comptes_traitements.Po \
+@AMDEP_TRUE@	$(DEPDIR)/devises.Po $(DEPDIR)/diapagelayout.Po \
+@AMDEP_TRUE@	$(DEPDIR)/diaunitspinner.Po \
+@AMDEP_TRUE@	$(DEPDIR)/echeancier_formulaire.Po \
+@AMDEP_TRUE@	$(DEPDIR)/echeancier_liste.Po \
+@AMDEP_TRUE@	$(DEPDIR)/equilibrage.Po $(DEPDIR)/erreur.Po \
+@AMDEP_TRUE@	$(DEPDIR)/etats.Po $(DEPDIR)/etats_gnomeprint.Po \
+@AMDEP_TRUE@	$(DEPDIR)/etats_gtktable.Po $(DEPDIR)/exercice.Po \
+@AMDEP_TRUE@	$(DEPDIR)/fenetre_principale.Po \
+@AMDEP_TRUE@	$(DEPDIR)/fichier_configuration.Po \
+@AMDEP_TRUE@	$(DEPDIR)/fichiers_gestion.Po \
+@AMDEP_TRUE@	$(DEPDIR)/fichiers_io.Po $(DEPDIR)/gtk_combofix.Po \
+@AMDEP_TRUE@	$(DEPDIR)/help.Po $(DEPDIR)/impression.Po \
+@AMDEP_TRUE@	$(DEPDIR)/imputation_budgetaire.Po \
+@AMDEP_TRUE@	$(DEPDIR)/main.Po $(DEPDIR)/menu.Po \
+@AMDEP_TRUE@	$(DEPDIR)/operations_classement.Po \
+@AMDEP_TRUE@	$(DEPDIR)/operations_comptes.Po \
+@AMDEP_TRUE@	$(DEPDIR)/operations_formulaire.Po \
+@AMDEP_TRUE@	$(DEPDIR)/operations_liste.Po \
+@AMDEP_TRUE@	$(DEPDIR)/operations_onglet.Po $(DEPDIR)/paper.Po \
+@AMDEP_TRUE@	$(DEPDIR)/parametres.Po $(DEPDIR)/patienter.Po \
+@AMDEP_TRUE@	$(DEPDIR)/qif.Po $(DEPDIR)/tiers_onglet.Po \
+@AMDEP_TRUE@	$(DEPDIR)/traitement_variables.Po \
+@AMDEP_TRUE@	$(DEPDIR)/type_operations.Po \
+@AMDEP_TRUE@	$(DEPDIR)/ventilation.Po
+COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
+	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
-LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(LDFLAGS) -o $@
-DATA =  $(Applications_DATA) $(appicon_DATA) $(mime_DATA)
+LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
+DIST_SOURCES = $(grisbi_SOURCES)
+DATA = $(Applications_DATA) $(appicon_DATA) $(mime_DATA)
 
-DIST_COMMON =  Makefile.am Makefile.in
-
-
-DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
-
-TAR = tar
-GZIP_ENV = --best
-DEP_FILES =  .deps/accueil.P .deps/affichage.P .deps/banque.P \
-.deps/barre_outils.P .deps/categories_onglet.P .deps/comptes_gestion.P \
-.deps/comptes_traitements.P .deps/devises.P \
-.deps/echeancier_formulaire.P .deps/echeancier_liste.P \
-.deps/equilibrage.P .deps/erreur.P .deps/etats.P .deps/exercice.P \
-.deps/fenetre_principale.P .deps/fichier_configuration.P \
-.deps/fichiers_gestion.P .deps/fichiers_io.P .deps/gtk_combofix.P \
-.deps/help.P .deps/impression.P .deps/imputation_budgetaire.P \
-.deps/main.P .deps/menu.P .deps/operations_classement.P \
-.deps/operations_comptes.P .deps/operations_formulaire.P \
-.deps/operations_liste.P .deps/operations_onglet.P .deps/parametres.P \
-.deps/patienter.P .deps/qif.P .deps/tiers_onglet.P \
-.deps/traitement_variables.P .deps/type_operations.P \
-.deps/ventilation.P
+DIST_COMMON = Makefile.am Makefile.in
 SOURCES = $(grisbi_SOURCES)
-OBJECTS = $(grisbi_OBJECTS)
 
-all: all-redirect
+all: all-am
+
 .SUFFIXES:
-.SUFFIXES: .S .c .o .s
-$(srcdir)/Makefile.in: Makefile.am $(top_srcdir)/configure.in $(ACLOCAL_M4) 
-	cd $(top_srcdir) && $(AUTOMAKE) --gnu src/Makefile
-
-Makefile: $(srcdir)/Makefile.in  $(top_builddir)/config.status $(BUILT_SOURCES)
-	cd $(top_builddir) \
-	  && CONFIG_FILES=$(subdir)/$@ CONFIG_HEADERS= $(SHELL) ./config.status
-
-
-mostlyclean-binPROGRAMS:
-
-clean-binPROGRAMS:
-	-test -z "$(bin_PROGRAMS)" || rm -f $(bin_PROGRAMS)
-
-distclean-binPROGRAMS:
-
-maintainer-clean-binPROGRAMS:
-
+.SUFFIXES: .c .o .obj
+$(srcdir)/Makefile.in:  Makefile.am  $(top_srcdir)/configure.in $(ACLOCAL_M4)
+	cd $(top_srcdir) && \
+	  $(AUTOMAKE) --gnu  src/Makefile
+Makefile:  $(srcdir)/Makefile.in  $(top_builddir)/config.status
+	cd $(top_builddir) && \
+	  CONFIG_HEADERS= CONFIG_LINKS= \
+	  CONFIG_FILES=$(subdir)/$@ $(SHELL) ./config.status
 install-binPROGRAMS: $(bin_PROGRAMS)
 	@$(NORMAL_INSTALL)
 	$(mkinstalldirs) $(DESTDIR)$(bindir)
 	@list='$(bin_PROGRAMS)'; for p in $$list; do \
-	  if test -f $$p; then \
-	    echo "  $(INSTALL_PROGRAM) $$p $(DESTDIR)$(bindir)/`echo $$p|sed 's/$(EXEEXT)$$//'|sed '$(transform)'|sed 's/$$/$(EXEEXT)/'`"; \
-	     $(INSTALL_PROGRAM) $$p $(DESTDIR)$(bindir)/`echo $$p|sed 's/$(EXEEXT)$$//'|sed '$(transform)'|sed 's/$$/$(EXEEXT)/'`; \
+	  p1=`echo $$p|sed 's/$(EXEEXT)$$//'`; \
+	  if test -f $$p \
+	  ; then \
+	    f=`echo $$p1|sed '$(transform);s/$$/$(EXEEXT)/'`; \
+	   echo " $(INSTALL_PROGRAM_ENV) $(INSTALL_PROGRAM) $$p $(DESTDIR)$(bindir)/$$f"; \
+	   $(INSTALL_PROGRAM_ENV) $(INSTALL_PROGRAM) $$p $(DESTDIR)$(bindir)/$$f; \
 	  else :; fi; \
 	done
 
 uninstall-binPROGRAMS:
 	@$(NORMAL_UNINSTALL)
-	list='$(bin_PROGRAMS)'; for p in $$list; do \
-	  rm -f $(DESTDIR)$(bindir)/`echo $$p|sed 's/$(EXEEXT)$$//'|sed '$(transform)'|sed 's/$$/$(EXEEXT)/'`; \
+	@list='$(bin_PROGRAMS)'; for p in $$list; do \
+	  f=`echo $$p|sed 's/$(EXEEXT)$$//;$(transform);s/$$/$(EXEEXT)/'`; \
+	  echo " rm -f $(DESTDIR)$(bindir)/$$f"; \
+	  rm -f $(DESTDIR)$(bindir)/$$f; \
 	done
 
-.s.o:
-	$(COMPILE) -c $<
-
-.S.o:
-	$(COMPILE) -c $<
+clean-binPROGRAMS:
+	-test -z "$(bin_PROGRAMS)" || rm -f $(bin_PROGRAMS)
+grisbi$(EXEEXT): $(grisbi_OBJECTS) $(grisbi_DEPENDENCIES) 
+	@rm -f grisbi$(EXEEXT)
+	$(LINK) $(grisbi_LDFLAGS) $(grisbi_OBJECTS) $(grisbi_LDADD) $(LIBS)
 
 mostlyclean-compile:
-	-rm -f *.o core *.core
-
-clean-compile:
+	-rm -f *.$(OBJEXT) core *.core
 
 distclean-compile:
 	-rm -f *.tab.c
 
-maintainer-clean-compile:
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/accueil.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/affichage.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/banque.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/barre_outils.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/categories_onglet.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/comptes_gestion.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/comptes_traitements.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/devises.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/diapagelayout.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/diaunitspinner.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/echeancier_formulaire.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/echeancier_liste.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/equilibrage.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/erreur.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/etats.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/etats_gnomeprint.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/etats_gtktable.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/exercice.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/fenetre_principale.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/fichier_configuration.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/fichiers_gestion.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/fichiers_io.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/gtk_combofix.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/help.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/impression.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/imputation_budgetaire.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/main.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/menu.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/operations_classement.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/operations_comptes.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/operations_formulaire.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/operations_liste.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/operations_onglet.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/paper.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/parametres.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/patienter.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/qif.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/tiers_onglet.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/traitement_variables.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/type_operations.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/ventilation.Po@am__quote@
 
-grisbi: $(grisbi_OBJECTS) $(grisbi_DEPENDENCIES)
-	@rm -f grisbi
-	$(LINK) $(grisbi_LDFLAGS) $(grisbi_OBJECTS) $(grisbi_LDADD) $(LIBS)
+distclean-depend:
+	-rm -rf $(DEPDIR)
 
+.c.o:
+@AMDEP_TRUE@	source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/$*.Po' tmpdepfile='$(DEPDIR)/$*.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(COMPILE) -c `test -f $< || echo '$(srcdir)/'`$<
+
+.c.obj:
+@AMDEP_TRUE@	source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@	depfile='$(DEPDIR)/$*.Po' tmpdepfile='$(DEPDIR)/$*.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@	$(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+	$(COMPILE) -c `cygpath -w $<`
+CCDEPMODE = @CCDEPMODE@
+uninstall-info-am:
 install-ApplicationsDATA: $(Applications_DATA)
 	@$(NORMAL_INSTALL)
 	$(mkinstalldirs) $(DESTDIR)$(Applicationsdir)
 	@list='$(Applications_DATA)'; for p in $$list; do \
-	  if test -f $(srcdir)/$$p; then \
-	    echo " $(INSTALL_DATA) $(srcdir)/$$p $(DESTDIR)$(Applicationsdir)/$$p"; \
-	    $(INSTALL_DATA) $(srcdir)/$$p $(DESTDIR)$(Applicationsdir)/$$p; \
-	  else if test -f $$p; then \
-	    echo " $(INSTALL_DATA) $$p $(DESTDIR)$(Applicationsdir)/$$p"; \
-	    $(INSTALL_DATA) $$p $(DESTDIR)$(Applicationsdir)/$$p; \
-	  fi; fi; \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  f="`echo $$p | sed -e 's|^.*/||'`"; \
+	  echo " $(INSTALL_DATA) $$d$$p $(DESTDIR)$(Applicationsdir)/$$f"; \
+	  $(INSTALL_DATA) $$d$$p $(DESTDIR)$(Applicationsdir)/$$f; \
 	done
 
 uninstall-ApplicationsDATA:
 	@$(NORMAL_UNINSTALL)
-	list='$(Applications_DATA)'; for p in $$list; do \
-	  rm -f $(DESTDIR)$(Applicationsdir)/$$p; \
+	@list='$(Applications_DATA)'; for p in $$list; do \
+	  f="`echo $$p | sed -e 's|^.*/||'`"; \
+	  echo " rm -f $(DESTDIR)$(Applicationsdir)/$$f"; \
+	  rm -f $(DESTDIR)$(Applicationsdir)/$$f; \
 	done
-
 install-appiconDATA: $(appicon_DATA)
 	@$(NORMAL_INSTALL)
 	$(mkinstalldirs) $(DESTDIR)$(appicondir)
 	@list='$(appicon_DATA)'; for p in $$list; do \
-	  if test -f $(srcdir)/$$p; then \
-	    echo " $(INSTALL_DATA) $(srcdir)/$$p $(DESTDIR)$(appicondir)/$$p"; \
-	    $(INSTALL_DATA) $(srcdir)/$$p $(DESTDIR)$(appicondir)/$$p; \
-	  else if test -f $$p; then \
-	    echo " $(INSTALL_DATA) $$p $(DESTDIR)$(appicondir)/$$p"; \
-	    $(INSTALL_DATA) $$p $(DESTDIR)$(appicondir)/$$p; \
-	  fi; fi; \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  f="`echo $$p | sed -e 's|^.*/||'`"; \
+	  echo " $(INSTALL_DATA) $$d$$p $(DESTDIR)$(appicondir)/$$f"; \
+	  $(INSTALL_DATA) $$d$$p $(DESTDIR)$(appicondir)/$$f; \
 	done
 
 uninstall-appiconDATA:
 	@$(NORMAL_UNINSTALL)
-	list='$(appicon_DATA)'; for p in $$list; do \
-	  rm -f $(DESTDIR)$(appicondir)/$$p; \
+	@list='$(appicon_DATA)'; for p in $$list; do \
+	  f="`echo $$p | sed -e 's|^.*/||'`"; \
+	  echo " rm -f $(DESTDIR)$(appicondir)/$$f"; \
+	  rm -f $(DESTDIR)$(appicondir)/$$f; \
 	done
-
 install-mimeDATA: $(mime_DATA)
 	@$(NORMAL_INSTALL)
 	$(mkinstalldirs) $(DESTDIR)$(mimedir)
 	@list='$(mime_DATA)'; for p in $$list; do \
-	  if test -f $(srcdir)/$$p; then \
-	    echo " $(INSTALL_DATA) $(srcdir)/$$p $(DESTDIR)$(mimedir)/$$p"; \
-	    $(INSTALL_DATA) $(srcdir)/$$p $(DESTDIR)$(mimedir)/$$p; \
-	  else if test -f $$p; then \
-	    echo " $(INSTALL_DATA) $$p $(DESTDIR)$(mimedir)/$$p"; \
-	    $(INSTALL_DATA) $$p $(DESTDIR)$(mimedir)/$$p; \
-	  fi; fi; \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  f="`echo $$p | sed -e 's|^.*/||'`"; \
+	  echo " $(INSTALL_DATA) $$d$$p $(DESTDIR)$(mimedir)/$$f"; \
+	  $(INSTALL_DATA) $$d$$p $(DESTDIR)$(mimedir)/$$f; \
 	done
 
 uninstall-mimeDATA:
 	@$(NORMAL_UNINSTALL)
-	list='$(mime_DATA)'; for p in $$list; do \
-	  rm -f $(DESTDIR)$(mimedir)/$$p; \
+	@list='$(mime_DATA)'; for p in $$list; do \
+	  f="`echo $$p | sed -e 's|^.*/||'`"; \
+	  echo " rm -f $(DESTDIR)$(mimedir)/$$f"; \
+	  rm -f $(DESTDIR)$(mimedir)/$$f; \
 	done
 
 tags: TAGS
 
-ID: $(HEADERS) $(SOURCES) $(LISP)
-	list='$(SOURCES) $(HEADERS)'; \
-	unique=`for i in $$list; do echo $$i; done | \
-	  awk '    { files[$$0] = 1; } \
+ID: $(HEADERS) $(SOURCES) $(LISP) $(TAGS_FILES)
+	list='$(SOURCES) $(HEADERS) $(TAGS_FILES)'; \
+	unique=`for i in $$list; do \
+	    if test -f "$$i"; then echo $$i; else echo $(srcdir)/$$i; fi; \
+	  done | \
+	  $(AWK) '    { files[$$0] = 1; } \
 	       END { for (i in files) print i; }'`; \
-	here=`pwd` && cd $(srcdir) \
-	  && mkid -f$$here/ID $$unique $(LISP)
+	mkid -fID $$unique $(LISP)
 
-TAGS:  $(HEADERS) $(SOURCES)  $(TAGS_DEPENDENCIES) $(LISP)
+TAGS:  $(HEADERS) $(SOURCES)  $(TAGS_DEPENDENCIES) \
+		$(TAGS_FILES) $(LISP)
 	tags=; \
 	here=`pwd`; \
-	list='$(SOURCES) $(HEADERS)'; \
-	unique=`for i in $$list; do echo $$i; done | \
-	  awk '    { files[$$0] = 1; } \
+	list='$(SOURCES) $(HEADERS) $(TAGS_FILES)'; \
+	unique=`for i in $$list; do \
+	    if test -f "$$i"; then echo $$i; else echo $(srcdir)/$$i; fi; \
+	  done | \
+	  $(AWK) '    { files[$$0] = 1; } \
 	       END { for (i in files) print i; }'`; \
 	test -z "$(ETAGS_ARGS)$$unique$(LISP)$$tags" \
-	  || (cd $(srcdir) && etags -o $$here/TAGS $(ETAGS_ARGS) $$tags  $$unique $(LISP))
+	  || etags $(ETAGS_ARGS) $$tags  $$unique $(LISP)
 
-mostlyclean-tags:
-
-clean-tags:
+GTAGS:
+	here=`CDPATH=: && cd $(top_builddir) && pwd` \
+	  && cd $(top_srcdir) \
+	  && gtags -i $(GTAGS_ARGS) $$here
 
 distclean-tags:
-	-rm -f TAGS ID
+	-rm -f TAGS ID GTAGS GRTAGS GSYMS GPATH
 
-maintainer-clean-tags:
+DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 
-distdir = $(top_builddir)/$(PACKAGE)-$(VERSION)/$(subdir)
-
-subdir = src
+top_distdir = ..
+distdir = $(top_distdir)/$(PACKAGE)-$(VERSION)
 
 distdir: $(DISTFILES)
-	here=`cd $(top_builddir) && pwd`; \
-	top_distdir=`cd $(top_distdir) && pwd`; \
-	distdir=`cd $(distdir) && pwd`; \
-	cd $(top_srcdir) \
-	  && $(AUTOMAKE) --include-deps --build-dir=$$here --srcdir-name=$(top_srcdir) --output-dir=$$top_distdir --gnu src/Makefile
 	@for file in $(DISTFILES); do \
-	  d=$(srcdir); \
+	  if test -f $$file; then d=.; else d=$(srcdir); fi; \
+	  dir=`echo "$$file" | sed -e 's,/[^/]*$$,,'`; \
+	  if test "$$dir" != "$$file" && test "$$dir" != "."; then \
+	    $(mkinstalldirs) "$(distdir)/$$dir"; \
+	  fi; \
 	  if test -d $$d/$$file; then \
-	    cp -pr $$d/$$file $(distdir)/$$file; \
+	    cp -pR $$d/$$file $(distdir) \
+	    || exit 1; \
 	  else \
 	    test -f $(distdir)/$$file \
-	    || ln $$d/$$file $(distdir)/$$file 2> /dev/null \
-	    || cp -p $$d/$$file $(distdir)/$$file || :; \
+	    || cp -p $$d/$$file $(distdir)/$$file \
+	    || exit 1; \
 	  fi; \
 	done
-
-DEPS_MAGIC := $(shell mkdir .deps > /dev/null 2>&1 || :)
-
--include $(DEP_FILES)
-
-mostlyclean-depend:
-
-clean-depend:
-
-distclean-depend:
-	-rm -rf .deps
-
-maintainer-clean-depend:
-
-%.o: %.c
-	@echo '$(COMPILE) -c $<'; \
-	$(COMPILE) -Wp,-MD,.deps/$(*F).pp -c $<
-	@-cp .deps/$(*F).pp .deps/$(*F).P; \
-	tr ' ' '\012' < .deps/$(*F).pp \
-	  | sed -e 's/^\\$$//' -e '/^$$/ d' -e '/:$$/ d' -e 's/$$/ :/' \
-	    >> .deps/$(*F).P; \
-	rm .deps/$(*F).pp
-
-%.lo: %.c
-	@echo '$(LTCOMPILE) -c $<'; \
-	$(LTCOMPILE) -Wp,-MD,.deps/$(*F).pp -c $<
-	@-sed -e 's/^\([^:]*\)\.o[ 	]*:/\1.lo \1.o :/' \
-	  < .deps/$(*F).pp > .deps/$(*F).P; \
-	tr ' ' '\012' < .deps/$(*F).pp \
-	  | sed -e 's/^\\$$//' -e '/^$$/ d' -e '/:$$/ d' -e 's/$$/ :/' \
-	    >> .deps/$(*F).P; \
-	rm -f .deps/$(*F).pp
-info-am:
-info: info-am
-dvi-am:
-dvi: dvi-am
 check-am: all-am
 check: check-am
-installcheck-am:
-installcheck: installcheck-am
-install-exec-am: install-binPROGRAMS
-install-exec: install-exec-am
+all-am: Makefile $(PROGRAMS) $(DATA)
 
-install-data-am: install-ApplicationsDATA install-appiconDATA \
-		install-mimeDATA
+installdirs:
+	$(mkinstalldirs) $(DESTDIR)$(bindir) $(DESTDIR)$(Applicationsdir) $(DESTDIR)$(appicondir) $(DESTDIR)$(mimedir)
+
+install: install-am
+install-exec: install-exec-am
 install-data: install-data-am
+uninstall: uninstall-am
 
 install-am: all-am
 	@$(MAKE) $(AM_MAKEFLAGS) install-exec-am install-data-am
-install: install-am
-uninstall-am: uninstall-binPROGRAMS uninstall-ApplicationsDATA \
-		uninstall-appiconDATA uninstall-mimeDATA
-uninstall: uninstall-am
-all-am: Makefile $(PROGRAMS) $(DATA)
-all-redirect: all-am
+
+installcheck: installcheck-am
 install-strip:
-	$(MAKE) $(AM_MAKEFLAGS) AM_INSTALL_PROGRAM_FLAGS=-s install
-installdirs:
-	$(mkinstalldirs)  $(DESTDIR)$(bindir) $(DESTDIR)$(Applicationsdir) \
-		$(DESTDIR)$(appicondir) $(DESTDIR)$(mimedir)
-
-
+	$(MAKE) $(AM_MAKEFLAGS) INSTALL_PROGRAM="$(INSTALL_STRIP_PROGRAM)" \
+	  `test -z '$(STRIP)' || \
+	    echo "INSTALL_PROGRAM_ENV=STRIPPROG='$(STRIP)'"` install
 mostlyclean-generic:
 
 clean-generic:
 
 distclean-generic:
-	-rm -f Makefile $(CONFIG_CLEAN_FILES)
-	-rm -f config.cache config.log stamp-h stamp-h[0-9]*
+	-rm -f Makefile $(CONFIG_CLEAN_FILES) stamp-h stamp-h[0-9]*
 
 maintainer-clean-generic:
-mostlyclean-am:  mostlyclean-binPROGRAMS mostlyclean-compile \
-		mostlyclean-tags mostlyclean-depend mostlyclean-generic
-
-mostlyclean: mostlyclean-am
-
-clean-am:  clean-binPROGRAMS clean-compile clean-tags clean-depend \
-		clean-generic mostlyclean-am
-
+	@echo "This command is intended for maintainers to use"
+	@echo "it deletes files that may require special tools to rebuild."
 clean: clean-am
 
-distclean-am:  distclean-binPROGRAMS distclean-compile distclean-tags \
-		distclean-depend distclean-generic clean-am
+clean-am: clean-binPROGRAMS clean-generic mostlyclean-am
 
 distclean: distclean-am
 
-maintainer-clean-am:  maintainer-clean-binPROGRAMS \
-		maintainer-clean-compile maintainer-clean-tags \
-		maintainer-clean-depend maintainer-clean-generic \
-		distclean-am
-	@echo "This command is intended for maintainers to use;"
-	@echo "it deletes files that may require special tools to rebuild."
+distclean-am: clean-am distclean-compile distclean-depend \
+	distclean-generic distclean-tags
+
+dvi: dvi-am
+
+dvi-am:
+
+info: info-am
+
+info-am:
+
+install-data-am: install-ApplicationsDATA install-appiconDATA \
+	install-mimeDATA
+
+install-exec-am: install-binPROGRAMS
+
+install-info: install-info-am
+
+install-man:
+
+installcheck-am:
 
 maintainer-clean: maintainer-clean-am
 
-.PHONY: mostlyclean-binPROGRAMS distclean-binPROGRAMS clean-binPROGRAMS \
-maintainer-clean-binPROGRAMS uninstall-binPROGRAMS install-binPROGRAMS \
-mostlyclean-compile distclean-compile clean-compile \
-maintainer-clean-compile uninstall-ApplicationsDATA \
-install-ApplicationsDATA uninstall-appiconDATA install-appiconDATA \
-uninstall-mimeDATA install-mimeDATA tags mostlyclean-tags \
-distclean-tags clean-tags maintainer-clean-tags distdir \
-mostlyclean-depend distclean-depend clean-depend \
-maintainer-clean-depend info-am info dvi-am dvi check check-am \
-installcheck-am installcheck install-exec-am install-exec \
-install-data-am install-data install-am install uninstall-am uninstall \
-all-redirect all-am all installdirs mostlyclean-generic \
-distclean-generic clean-generic maintainer-clean-generic clean \
-mostlyclean distclean maintainer-clean
+maintainer-clean-am: distclean-am maintainer-clean-generic
 
+mostlyclean: mostlyclean-am
+
+mostlyclean-am: mostlyclean-compile mostlyclean-generic
+
+uninstall-am: uninstall-ApplicationsDATA uninstall-appiconDATA \
+	uninstall-binPROGRAMS uninstall-info-am uninstall-mimeDATA
+
+.PHONY: GTAGS all all-am check check-am clean clean-binPROGRAMS \
+	clean-generic distclean distclean-compile distclean-depend \
+	distclean-generic distclean-tags distdir dvi dvi-am info \
+	info-am install install-ApplicationsDATA install-am \
+	install-appiconDATA install-binPROGRAMS install-data \
+	install-data-am install-exec install-exec-am install-info \
+	install-info-am install-man install-mimeDATA install-strip \
+	installcheck installcheck-am installdirs maintainer-clean \
+	maintainer-clean-generic mostlyclean mostlyclean-compile \
+	mostlyclean-generic tags uninstall uninstall-ApplicationsDATA \
+	uninstall-am uninstall-appiconDATA uninstall-binPROGRAMS \
+	uninstall-info-am uninstall-mimeDATA
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

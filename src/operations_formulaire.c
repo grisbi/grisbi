@@ -234,8 +234,8 @@
   widget_formulaire_operations[5] = gtk_option_menu_new ();
   gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tips ),
 			 widget_formulaire_operations[5],
-			 "Choix de la devise",
-			 "Choix de la devise" );
+			 _("Choix de la devise"),
+			 _("Choix de la devise") );
   menu = creation_option_menu_devises ( -1,
 					liste_struct_devises );
   gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_operations[5] ),
@@ -255,7 +255,7 @@
 
   /* mise en forme du bouton change */
 
-  widget_formulaire_operations[6] = gtk_button_new_with_label ( "Change ..." );
+  widget_formulaire_operations[6] = gtk_button_new_with_label ( _("Change ...") );
   gtk_button_set_relief ( GTK_BUTTON ( widget_formulaire_operations[6] ),
 			  GTK_RELIEF_NONE );
   gtk_signal_connect ( GTK_OBJECT (  widget_formulaire_operations[6] ),
@@ -397,8 +397,8 @@
   widget_formulaire_operations[9] = gtk_option_menu_new ();
   gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tips ),
 			 widget_formulaire_operations[9],
-			 "Choix du type d'opération",
-			 "Choix du type d'opération" );
+			 _("Choix du type d'opération"),
+			 _("Choix du type d'opération") );
   gtk_signal_connect ( GTK_OBJECT ( widget_formulaire_operations[9] ),
 		       "key_press_event",
 		       GTK_SIGNAL_FUNC ( touches_champ_formulaire ),
@@ -430,8 +430,8 @@
   widget_formulaire_operations[11] = gtk_option_menu_new ();
   gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tips ),
 			 widget_formulaire_operations[11],
-			 "Choix de l'exercice",
-			 "Choix de l'exercice" );
+			 _("Choix de l'exercice"),
+			 _("Choix de l'exercice") );
   menu = gtk_menu_new ();
   gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_operations[11] ),
 			     creation_menu_exercices () );
@@ -518,7 +518,7 @@
 
   /* mise en forme du bouton ventilation */
 
-  widget_formulaire_operations[14] = gtk_button_new_with_label ( "Ventilation ..." );
+  widget_formulaire_operations[14] = gtk_button_new_with_label ( _("Ventilation ...") );
   gtk_button_set_relief ( GTK_BUTTON ( widget_formulaire_operations[14] ),
 			  GTK_RELIEF_NONE );
   gtk_signal_connect ( GTK_OBJECT ( widget_formulaire_operations[14] ),
@@ -598,7 +598,7 @@
 
   /*  Affiche le mode automatique / manuel  */
 
-  widget_formulaire_operations[17] = gtk_label_new ("auto");
+  widget_formulaire_operations[17] = gtk_label_new (_("auto"));
   gtk_table_attach ( GTK_TABLE (table),
 		     widget_formulaire_operations[17],
 		     6, 7, 3, 4,
@@ -786,7 +786,7 @@
 				       widget_formulaire_operations[11] );
 	}
       else
-	texte = "Date";
+	texte = _("Date");
       break;
 
       /*       on sort du tiers : soit vide soit complète le reste de l'opé */
@@ -795,7 +795,7 @@
       if ( strlen ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( entree )))))
 	completion_operation_par_tiers ();
       else
-	texte = "Tiers";
+	texte = _("Tiers");
       break;
 
       /*       on sort du débit : soit vide, soit change le menu des types s'il ne correspond pas */
@@ -851,7 +851,7 @@
 	    }
 	}
       else
-	texte = "Débit";
+	texte = _("Débit");
       break;
 
       /*       on sort du crédit : soit vide, soit change le menu des types s'il n'y a aucun tiers ( <=> nouveau tiers ) */
@@ -907,14 +907,14 @@
 	    }
 	}
       else
-	texte = "Crédit";
+	texte = _("Crédit");
       break;
 
     case 7:
       if ( strlen ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( entree )))))
 	modifie_date ( entree );
       else
-	texte = "Date de valeur";
+	texte = _("Date de valeur");
       break;
 
 
@@ -924,7 +924,7 @@
       if ( strlen ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( entree )))))
 	{
 	  if ( strcmp ( g_strstrip ( gtk_combofix_get_text ( GTK_COMBOFIX ( widget_formulaire_operations[8]))),
-			"Opération ventilée" ))
+			_("Opération ventilée") ))
 	    {
 	      gtk_widget_hide ( widget_formulaire_operations[14] );
 	      gtk_widget_set_sensitive ( widget_formulaire_operations[12],
@@ -938,34 +938,34 @@
 	    }
 	}
       else
-	texte = "Catégories : Sous-catégories";
+	texte = _("Catégories : Sous-catégories");
 
       break;
 
     case 10:
       if ( !strlen ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( entree )))))
-	texte = "n° Chèque/Virement";
+	texte = _("n° Chèque/Virement");
       break;
 
     case 12:
       if ( !strlen ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( entree )))))
-	texte = "Imputation budgétaire";
+	texte = _("Imputation budgétaire");
       break;
 
     case 13:
       if ( !strlen ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( entree )))))
-	texte = "Pièce comptable";
+	texte = _("Pièce comptable");
 
       break;
 
     case 15:
       if ( !strlen ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( entree )))))
-	texte = "Notes";
+	texte = _("Notes");
       break;
 
     case 16:
       if ( !strlen ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( entree )))))
-	texte = "Informations banque/guichet";
+	texte = _("Informations banque/guichet");
       break;
 
        /* on sort de la date réelle , soit c'est vide, soit on la vérifie et la complète si nécessaire  */
@@ -975,7 +975,7 @@
 		    modifie_date ( entree );
 		  }
 		else
-		  texte = "Date de valeur";
+		  texte = _("Date de valeur");
 	break;
 
     default :
@@ -1175,7 +1175,7 @@ void clique_champ_formulaire ( GtkWidget *entree,
 
 	  /* ajoute le bouton annuler */
 
-	  bouton = gtk_button_new_with_label ( "Annuler" );
+	  bouton = gtk_button_new_with_label ( _("Annuler") );
 	  gtk_signal_connect_object ( GTK_OBJECT ( bouton ),
 				      "clicked",
 				      GTK_SIGNAL_FUNC ( gtk_widget_destroy ),
@@ -1304,7 +1304,7 @@ void clique_champ_formulaire ( GtkWidget *entree,
 
  	  /* ajoute le bouton annuler */
 
- 	  bouton = gtk_button_new_with_label ( "Annuler" );
+ 	  bouton = gtk_button_new_with_label ( _("Annuler") );
  	  gtk_signal_connect_object ( GTK_OBJECT ( bouton ),
  				      "clicked",
  				      GTK_SIGNAL_FUNC ( gtk_widget_destroy ),
@@ -1447,7 +1447,7 @@ void clique_champ_formulaire ( GtkWidget *entree,
 	    gtk_widget_set_style (widget_formulaire_operations[4],
 				  style_entree_formulaire[1] );
 	    gtk_entry_set_text ( GTK_ENTRY (widget_formulaire_operations[4]),
-				 "Crédit" );
+				 _("Crédit") );
 	  }
 
       /* on sélectionne le contenu de la nouvelle entrée */
@@ -1921,19 +1921,19 @@ gboolean modifie_date ( GtkWidget *entree )
       /* on demande si on veut récupérer les anciennes opés de ventilation */
 
       gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_operations[8] ),
-			      "Opération ventilée" );
+			      _("Opération ventilée") );
       gtk_widget_show ( widget_formulaire_operations[14] );
 
       /* affiche la question de récupération */
 
-      dialog = gnome_dialog_new ( "Récupération des ventilations ?",
+      dialog = gnome_dialog_new ( _("Récupération des ventilations ?"),
 				  GNOME_STOCK_BUTTON_YES,
 				  GNOME_STOCK_BUTTON_NO,
 				  NULL );
       gtk_window_set_transient_for ( GTK_WINDOW ( dialog ),
 				     GTK_WINDOW ( window ));
 
-      label = gtk_label_new ( "Voulez-vous récupérer aussi les opérations de la dernière ventilation ?" );
+      label = gtk_label_new ( _("Voulez-vous récupérer aussi les opérations de la dernière ventilation ?") );
       gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
 			   label,
 			   FALSE,
@@ -2094,7 +2094,7 @@ gboolean modifie_date ( GtkWidget *entree )
 	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> relation_no_compte;
 
 	gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_operations[8] ),
-				g_strconcat ( "Virement : ",
+				g_strconcat ( _("Virement : "),
 					      NOM_DU_COMPTE,
 					      NULL ));
 
@@ -2251,7 +2251,7 @@ gboolean modifie_date ( GtkWidget *entree )
 
   if ( gtk_widget_get_style ( widget_formulaire_operations[1] ) != style_entree_formulaire[0] )
     {
-      dialogue ( " Erreur : il faut obligatoirement entrer une date.");
+      dialogue ( _(" Erreur : il faut obligatoirement entrer une date."));
       return;
     }
 
@@ -2259,7 +2259,7 @@ gboolean modifie_date ( GtkWidget *entree )
 
   if ( !modifie_date ( widget_formulaire_operations[1] ))
     {
-      dialogue ( " Erreur : La date est invalide" );
+      dialogue ( _(" Erreur : La date est invalide") );
       gtk_widget_grab_focus ( widget_formulaire_operations[1] );
       gtk_entry_select_region ( GTK_ENTRY (  widget_formulaire_operations[1]),
 				0,
@@ -2273,7 +2273,7 @@ gboolean modifie_date ( GtkWidget *entree )
 	&&
 	!modifie_date ( widget_formulaire_operations[7] ))
      {
-       dialogue ( " Erreur : La date de valeur est invalide" );
+       dialogue ( _(" Erreur : La date de valeur est invalide") );
        gtk_widget_grab_focus ( widget_formulaire_operations[7] );
        gtk_entry_select_region ( GTK_ENTRY (  widget_formulaire_operations[7]),
  				0,
@@ -2284,9 +2284,9 @@ gboolean modifie_date ( GtkWidget *entree )
   /* vérification que ce n'est pas un virement sur lui-même */
 
   if ( !g_strcasecmp ( g_strstrip ( gtk_combofix_get_text ( GTK_COMBOFIX (widget_formulaire_operations[8]))),
-		       g_strconcat ( "Virement : ", NOM_DU_COMPTE, NULL ) ) )
+		       g_strconcat ( _("Virement : "), NOM_DU_COMPTE, NULL ) ) )
     {
-      dialogue ( " Erreur : impossibilité de virer un compte   \n    sur lui-même");
+      dialogue ( _(" Erreur : impossibilité de virer un compte   \n    sur lui-même"));
       return;
     }
 
@@ -2314,7 +2314,7 @@ gboolean modifie_date ( GtkWidget *entree )
 
 	  if ( gtk_widget_get_style ( widget_formulaire_operations[10] ) == style_entree_formulaire[1] )
 	    {
-	      if ( question ( "Le type d'opération choisi est à numérotation automatique mais ne contient aucun numéro.\nSouhaitez-vous continuer ?" ) )
+	      if ( question ( _("Le type d'opération choisi est à numérotation automatique mais ne contient aucun numéro.\nSouhaitez-vous continuer ?") ) )
 		goto sort_test_cheques;
 	      else
 		return;
@@ -2339,7 +2339,7 @@ gboolean modifie_date ( GtkWidget *entree )
 		       !strcmp ( operation_tmp -> contenu_type,
 				 no_cheque ))
 		    {
-		      if ( question ( "Attention, le numéro du chèque est déjà utilisé.\nSouhaitez-vous continuer ?" ))
+		      if ( question ( _("Attention, le numéro du chèque est déjà utilisé.\nSouhaitez-vous continuer ?") ))
 			goto sort_test_cheques;
 		      else
 			return;
@@ -2358,7 +2358,7 @@ gboolean modifie_date ( GtkWidget *entree )
     /* sinon on va ventiler tout de suite */
 
     if ( !strcmp ( g_strstrip ( gtk_combofix_get_text ( GTK_COMBOFIX ( widget_formulaire_operations[8] ))),
-		   "Opération ventilée" )
+		   _("Opération ventilée") )
 	 &&
 	 !gtk_object_get_data ( GTK_OBJECT ( formulaire ),
 				"liste_adr_ventilation" ))
@@ -2492,9 +2492,9 @@ gboolean modifie_date ( GtkWidget *entree )
 	  ||
 	  devise -> no_devise == DEVISE
 	  ||
-	  ( devise_compte -> passage_euro && !strcmp ( devise -> nom_devise, "Euro" ))
+	  ( devise_compte -> passage_euro && !strcmp ( devise -> nom_devise, _("Euro") ))
 	  ||
-	  ( !strcmp ( devise_compte -> nom_devise, "Euro" ) && devise -> passage_euro )))
+	  ( !strcmp ( devise_compte -> nom_devise, _("Euro") ) && devise -> passage_euro )))
     {
       /* c'est une devise étrangère, on demande le taux de change et les frais de change */
 
@@ -2664,7 +2664,7 @@ gboolean modifie_date ( GtkWidget *entree )
       /* récupération de la ventilation si nécessaire */
 
       if ( !strcmp ( g_strstrip ( pointeur_char ),
-		     "Opération ventilée" ))
+		     _("Opération ventilée") ))
 	{
 	  /* c'est une opération ventilée : bcp de choses à faire : */
 	  /* -faire le tour de chaque opé de ventilation et remplir les champs qu'on n'avait pu remplir avant (date,tiers,devise... ) */
@@ -2766,7 +2766,7 @@ gboolean modifie_date ( GtkWidget *entree )
 	  if ( strlen ( tableau_char[0] ) )
 	    {
 	      if ( !strcmp ( tableau_char[0],
-			     "Virement" )
+			     _("Virement") )
 		   && tableau_char[1]
 		   && strlen ( tableau_char[1]) )
 		{
@@ -2780,7 +2780,7 @@ gboolean modifie_date ( GtkWidget *entree )
 		  /* sépare entre virement vers un compte et virement vers un compte supprimé */
 
 		  if ( strcmp ( tableau_char[1],
-				"Compte supprimé" ) )
+				_("Compte supprimé") ) )
 		    {
 		      virement = 1;
 
@@ -2802,7 +2802,7 @@ gboolean modifie_date ( GtkWidget *entree )
 
 		      if ( compte_virement == -1 )
 			{
-			  dialogue ( "Erreur : le compte associé au virement est invalide" );
+			  dialogue ( _("Erreur : le compte associé au virement est invalide") );
 			  if ( !operation -> no_operation )
 			    free ( operation );
 			  return;
@@ -2949,12 +2949,12 @@ gboolean modifie_date ( GtkWidget *entree )
 	      
 		  if ( devise_compte -> passage_euro
 		       &&
-		       !strcmp ( devise_operation -> nom_devise, "Euro" ) )
+		       !strcmp ( devise_operation -> nom_devise, _("Euro") ) )
 		    montant = operation -> montant * devise_compte -> change - operation -> frais_change;
 		  else
 		    if ( devise_operation -> passage_euro
 			 &&
-			 !strcmp ( devise_compte -> nom_devise, "Euro" ))
+			 !strcmp ( devise_compte -> nom_devise, _("Euro") ))
 		      montant = operation -> montant / devise_operation -> change;
 		    else
 		      if ( operation -> une_devise_compte_egale_x_devise_ope )
@@ -3063,9 +3063,9 @@ gboolean modifie_date ( GtkWidget *entree )
 	      ||
 	      devise -> no_devise == DEVISE
 	      ||
-	      ( devise_compte_2 -> passage_euro && !strcmp ( devise -> nom_devise, "Euro" ))
+	      ( devise_compte_2 -> passage_euro && !strcmp ( devise -> nom_devise, _("Euro") ))
 	      ||
-	      ( !strcmp ( devise_compte_2 -> nom_devise, "Euro" ) && devise -> passage_euro )))
+	      ( !strcmp ( devise_compte_2 -> nom_devise, _("Euro") ) && devise -> passage_euro )))
 	{
 	  /* c'est une devise étrangère, on demande le taux de change et les frais de change */
 	  
@@ -3313,31 +3313,31 @@ gboolean modifie_date ( GtkWidget *entree )
 		       "" );
 
   gtk_entry_set_text ( GTK_ENTRY (widget_formulaire_operations[1]),
-		       "Date" );
+		       _("Date") );
 
   gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_operations[2] ),
-			  "Tiers" );
+			  _("Tiers") );
   gtk_entry_set_text ( GTK_ENTRY (widget_formulaire_operations[3]),
-		       "Débit" );
+		       _("Débit") );
   gtk_entry_set_text ( GTK_ENTRY (widget_formulaire_operations[4]),
-		       "Crédit" );
+		       _("Crédit") );
 
   gtk_entry_set_text ( GTK_ENTRY (widget_formulaire_operations[7]),
-		       "Date de valeur" );
+		       _("Date de valeur") );
   gtk_combofix_set_text ( GTK_COMBOFIX (widget_formulaire_operations[8]),
-			  "Catégories : Sous-catégories" );
+			  _("Catégories : Sous-catégories") );
   gtk_entry_set_text ( GTK_ENTRY (widget_formulaire_operations[10]),
-		       "n° Chèque/Virement" );
+		       _("n° Chèque/Virement") );
 
   gtk_combofix_set_text ( GTK_COMBOFIX (widget_formulaire_operations[12]),
-			  "Imputation budgétaire" );
+			  _("Imputation budgétaire") );
   gtk_entry_set_text ( GTK_ENTRY (widget_formulaire_operations[13]),
-		       "Pièce comptable" );
+		       _("Pièce comptable") );
 
   gtk_entry_set_text ( GTK_ENTRY (widget_formulaire_operations[15]),
-		       "Notes" );
+		       _("Notes") );
   gtk_entry_set_text ( GTK_ENTRY (widget_formulaire_operations[16]),
-		       "Informations banque/guichet" );
+		       _("Informations banque/guichet") );
 
   gtk_widget_hide ( widget_formulaire_operations[6] );
   gtk_widget_hide ( widget_formulaire_operations[14] );

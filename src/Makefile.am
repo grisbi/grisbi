@@ -1,7 +1,7 @@
 # Process this file with automake to produce Makefile.in
 
-INCLUDES = -I$(top_srcdir) -I$(includedir) $(GNOME_INCLUDEDIR) $(EXTRA_GNOME_CFLAGS)
-
+localedir = $(datadir)/locale
+INCLUDES = -I$(top_srcdir) -I$(includedir) $(GNOME_INCLUDEDIR) $(EXTRA_GNOME_CFLAGS) -I../intl -DLOCALEDIR=\"$(localedir)\"
 
 bin_PROGRAMS = grisbi
 
@@ -63,3 +63,5 @@ appicon_DATA = grisbi.png logo_grisbi.xpm
 
 mimedir = $(datadir)/mime-info
 mime_DATA = grisbi.keys grisbi.mime
+
+

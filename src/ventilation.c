@@ -36,9 +36,9 @@
 GtkWidget *creation_fenetre_ventilation ( void )
 {
   GtkWidget *onglet;
-  gchar *titres[] ={ "Catégorie",
-		     "Notes",
-		     "Montant" };
+  gchar *titres[] ={ _("Catégorie"),
+		     _("Notes"),
+		     _("Montant") };
 
   /* création de la scrolled window  */
 
@@ -159,7 +159,7 @@ GtkWidget *creation_verification_ventilation ( void )
 		       0 );
   gtk_widget_show ( frame );
 
-  label = gtk_label_new ( "Opération ventilée" );
+  label = gtk_label_new ( _("Opération ventilée") );
   gtk_container_add ( GTK_CONTAINER ( frame ),
 		      label );
   gtk_widget_show ( label );
@@ -182,7 +182,7 @@ GtkWidget *creation_verification_ventilation ( void )
   gtk_widget_show ( tableau );
 
 
-  label = gtk_label_new ( "Somme ventilée :" );
+  label = gtk_label_new ( _("Somme ventilée :") );
   gtk_misc_set_alignment ( GTK_MISC ( label ),
 			   0,
 			   0.5 );
@@ -209,7 +209,7 @@ GtkWidget *creation_verification_ventilation ( void )
   gtk_widget_show ( label_somme_ventilee );
 
 
-  label = gtk_label_new ( "Non affecté :" );
+  label = gtk_label_new ( _("Non affecté :") );
   gtk_misc_set_alignment ( GTK_MISC ( label ),
 			   0,
 			   0.5 );
@@ -248,7 +248,7 @@ GtkWidget *creation_verification_ventilation ( void )
 
 
 
-  label = gtk_label_new ( "Montant :" );
+  label = gtk_label_new ( _("Montant :") );
   gtk_misc_set_alignment ( GTK_MISC ( label ),
 			   0,
 			   0.5 );
@@ -287,7 +287,7 @@ GtkWidget *creation_verification_ventilation ( void )
   gtk_widget_show ( separateur );
 
   bouton_credit = gtk_radio_button_new_with_label ( NULL,
-						    "Crédit" );
+						    _("Crédit") );
   gtk_box_pack_start ( GTK_BOX ( onglet ),
 		       bouton_credit,
 		       FALSE,
@@ -296,7 +296,7 @@ GtkWidget *creation_verification_ventilation ( void )
   gtk_widget_show ( bouton_credit );
 
   bouton_debit = gtk_radio_button_new_with_label_from_widget ( GTK_RADIO_BUTTON ( bouton_credit ),
-							       "Débit" );
+							       _("Débit") );
   gtk_box_pack_start ( GTK_BOX ( onglet ),
 		       bouton_debit,
 		       FALSE,
@@ -521,8 +521,8 @@ GtkWidget *creation_formulaire_ventilation ( void )
   widget_formulaire_ventilation[4] = gtk_option_menu_new ();
   gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tips ),
 			 widget_formulaire_ventilation[4],
-			 "Choix de l'exercice",
-			 "Choix de l'exercice" );
+			 _("Choix de l'exercice"),
+			 _("Choix de l'exercice") );
   menu = gtk_menu_new ();
   gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_ventilation[4] ),
 			     creation_menu_exercices () );
@@ -670,35 +670,35 @@ void entree_ventilation_perd_focus ( GtkWidget *entree,
       /* on sort des catégories */
     case 0:
       if ( !strlen ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( entree )))))
-	texte = "Catégories : Sous-catégories";
+	texte = _("Catégories : Sous-catégories");
       break;
 
       /* sort des notes */
 
     case 1:
       if ( !strlen ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( entree )))))
-	texte = "Notes";
+	texte = _("Notes");
       break;
 
       /* sort du montant */
 
     case 2:
       if ( !strlen ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( entree )))))
-	texte = "Montant";
+	texte = _("Montant");
       break;
 
       /* sort de l'ib */
 
     case 3:
       if ( !strlen ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( entree )))))
-	texte = "Imputation budgétaire";
+	texte = _("Imputation budgétaire");
       break;
 
       /* sort de la pièce comptable */
 
     case 5:
       if ( !strlen ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( entree )))))
-	texte = "Pièce comptable";
+	texte = _("Pièce comptable");
       break;
 
 
@@ -1216,15 +1216,15 @@ void echap_formulaire_ventilation ( void )
 
 
   gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_ventilation[0] ),
-			  "Catégories : Sous-catégories" );
+			  _("Catégories : Sous-catégories") );
   gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_ventilation[1]),
-		       "Notes" );
+		       _("Notes") );
   gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_ventilation[2]),
-		       "Montant" );
+		       _("Montant") );
   gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_ventilation[3] ),
-			  "Imputation budgétaire" );
+			  _("Imputation budgétaire") );
   gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_ventilation[5]),
-		       "Pièce comptable" );
+		       _("Pièce comptable") );
 
   gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_ventilation[4] ),
 				0 );
@@ -1330,7 +1330,7 @@ void fin_edition_ventilation ( void )
 	      /* on vérifie ici si c'est un virement */
 
 	      if ( strcmp ( tableau_char[0],
-			    "Virement" ) )
+			    _("Virement") ) )
 		{
 		  /* 	      ce n'est pas un virement, recherche les catég */
 
@@ -1550,13 +1550,13 @@ void fin_edition_ventilation ( void )
 
       if ( compte_vire == -1 )
 	{
-	  dialogue ( "Erreur : le compte associé au virement est invalide" );
+	  dialogue ( _("Erreur : le compte associé au virement est invalide") );
 	  return;
 	}
 
       if ( compte_vire == compte_courant )
 	{
-	  dialogue ( "Erreur : impossible de virer un compte sur lui-même" );
+	  dialogue ( _("Erreur : impossible de virer un compte sur lui-même") );
 	  return;
 	}
 
@@ -1800,7 +1800,7 @@ void edition_operation_ventilation ( void )
       p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> relation_no_compte;
 
       gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_ventilation[0] ),
-			      g_strconcat ( "Virement : ",
+			      g_strconcat ( _("Virement : "),
 					    NOM_DU_COMPTE,
 					    NULL ));
     }
@@ -1911,7 +1911,7 @@ void supprime_operation_ventilation ( void )
 
   if ( operation -> pointe == 2 )
     {
-      dialogue ( " Impossible de supprimer \n  une opération relevée ... ");
+      dialogue ( _(" Impossible de supprimer \n  une opération relevée ... "));
       return;
     }
 
@@ -2057,7 +2057,7 @@ void ajoute_ope_sur_liste_ventilation ( struct structure_operation *operation )
 
       p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> relation_no_compte;
 
-      ligne [0] = g_strconcat ( "Virement : ",
+      ligne [0] = g_strconcat ( _("Virement : "),
 				NOM_DU_COMPTE,
 				NULL );
       p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;

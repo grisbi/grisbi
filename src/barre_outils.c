@@ -71,8 +71,8 @@ GtkWidget *creation_barre_outils ( void )
 			  GTK_RELIEF_NONE );
   gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips ),
 			 bouton_affiche_cache_formulaire,
-			 "Affiche / Masque le formulaire",
-			 "Affiche / Masque le formulaire" );
+			 _("Affiche / Masque le formulaire"),
+			 _("Affiche / Masque le formulaire") );
   gtk_widget_set_usize ( bouton_affiche_cache_formulaire,
 			 15,
 			 15 );
@@ -131,8 +131,8 @@ GtkWidget *creation_barre_outils ( void )
 			  GTK_RELIEF_NONE );
   gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips ),
 			 bouton_ope_completes,
-			 "Opérations complètes",
-			 "Opérations complètes" );
+			 _("Opérations complètes"),
+			 _("Opérations complètes") );
 
   if ( nb_lignes_ope == 4 )
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_ope_completes ),
@@ -164,8 +164,8 @@ GtkWidget *creation_barre_outils ( void )
 			  GTK_RELIEF_NONE );
   gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips ),
 			 bouton_ope_semi_completes,
-			 "Opérations semi-complètes",
-			 "Opérations semi-complètes" );
+			 _("Opérations semi-complètes"),
+			 _("Opérations semi-complètes") );
 
   if ( nb_lignes_ope == 3 )
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_ope_semi_completes ),
@@ -197,8 +197,8 @@ GtkWidget *creation_barre_outils ( void )
 			  GTK_RELIEF_NONE );
   gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips ),
 			 bouton_ope_simples,
-			 "Opérations simplifiées",
-			 "Opérations simplifiées" );
+			 _("Opérations simplifiées"),
+			 _("Opérations simplifiées") );
   if ( nb_lignes_ope == 1 )
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_ope_simples ),
 				   TRUE );
@@ -236,8 +236,8 @@ GtkWidget *creation_barre_outils ( void )
 			  GTK_RELIEF_NONE );
   gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips ),
 			 bouton_affiche_r,
-			 "Opérations rapprochées non masquées",
-			 "Opérations rapprochées non masquées" );
+			 _("Opérations rapprochées non masquées"),
+			 _("Opérations rapprochées non masquées") );
       if (  etat.r_affiches == 1 )
 	gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_affiche_r ),
 				       TRUE );
@@ -267,8 +267,8 @@ GtkWidget *creation_barre_outils ( void )
 			  GTK_RELIEF_NONE );
   gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips ),
 			 bouton_enleve_r,
-			 "Opérations rapprochées masquées",
-			 "Opérations rapprochées masquées" );
+			 _("Opérations rapprochées masquées"),
+			 _("Opérations rapprochées masquées") );
       if (  !etat.r_affiches )
 	gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_enleve_r ),
 				       TRUE );
@@ -306,8 +306,8 @@ GtkWidget *creation_barre_outils ( void )
 			  GTK_RELIEF_NONE );
   gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips ),
 			 bouton_affiche_liste,
-			 "Affiche la liste des opérations",
-			 "Affiche la liste des opérations" );
+			 _("Affiche la liste des opérations"),
+			 _("Affiche la liste des opérations") );
   gtk_widget_set_usize ( bouton_affiche_liste,
 			 15,
 			 15 );
@@ -336,8 +336,8 @@ GtkWidget *creation_barre_outils ( void )
 			  GTK_RELIEF_NONE );
   gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips ),
 			 bouton_affiche_detail_compte,
-			 "Affiche les propriétés du compte",
-			 "Affiche les propriétés du compte" );
+			 _("Affiche les propriétés du compte"),
+			 _("Affiche les propriétés du compte") );
   icone = gnome_pixmap_new_from_xpm_d ( detail_compte );
   gtk_container_add ( GTK_CONTAINER ( bouton_affiche_detail_compte ),
 		      icone );
@@ -365,7 +365,7 @@ GtkWidget *creation_barre_outils ( void )
   gtk_widget_show_all ( separateur );
 
 
-  label_proprietes_operations_compte = gtk_label_new ("Opérations du compte");
+  label_proprietes_operations_compte = gtk_label_new (_("Opérations du compte"));
   gtk_box_pack_end ( GTK_BOX ( hbox ),
 		     label_proprietes_operations_compte,
 		     FALSE,
@@ -592,7 +592,7 @@ void change_aspect_liste ( GtkWidget *bouton,
       gtk_widget_set_sensitive ( bouton_affiche_cache_formulaire,
 				 TRUE );
       gtk_label_set_text ( GTK_LABEL ( label_proprietes_operations_compte ),
-			   "Opérations du compte");
+			   _("Opérations du compte"));
 
 
       /* changement du menu */
@@ -600,8 +600,8 @@ void change_aspect_liste ( GtkWidget *bouton,
       menu = malloc ( 2 * sizeof ( GnomeUIInfo ));
 
       menu -> type = GNOME_APP_UI_ITEM;
-      menu -> label = "Propriétés du compte";
-      menu -> hint = "Propriétés du compte";
+      menu -> label = _("Propriétés du compte");
+      menu -> hint = _("Propriétés du compte");
       menu -> moreinfo = (gpointer) affiche_detail_compte;
       menu -> user_data = NULL;
       menu -> unused_data = NULL;
@@ -615,10 +615,10 @@ void change_aspect_liste ( GtkWidget *bouton,
 
       
       gnome_app_insert_menus ( GNOME_APP ( window ),
-			       "Comptes/Opérations du compte",
+			       _("Comptes/Opérations du compte"),
 			       menu );
       gnome_app_remove_menus ( GNOME_APP ( window ),
-			       "Comptes/Opérations du compte",
+			       _("Comptes/Opérations du compte"),
 			       1 );
 
       break;
@@ -660,8 +660,8 @@ void change_aspect_liste ( GtkWidget *bouton,
 	  menu = malloc ( 2 * sizeof ( GnomeUIInfo ));
 
 	  menu -> type = GNOME_APP_UI_ITEM;
-	  menu -> label = "Opérations du compte";
-	  menu -> hint = "Opérations du compte";
+	  menu -> label = _("Opérations du compte");
+	  menu -> hint = _("Opérations du compte");
 	  menu -> moreinfo = (gpointer) affiche_detail_liste_ope;
 	  menu -> user_data = NULL;
 	  menu -> unused_data = NULL;
@@ -675,10 +675,10 @@ void change_aspect_liste ( GtkWidget *bouton,
 
       
 	  gnome_app_insert_menus ( GNOME_APP ( window ),
-				   "Comptes/Propriétés du compte",
+				   _("Comptes/Propriétés du compte"),
 				   menu );
 	  gnome_app_remove_menus ( GNOME_APP ( window ),
-				   "Comptes/Propriétés du compte",
+				   _("Comptes/Propriétés du compte"),
 				   1 );
 	}
 
@@ -687,7 +687,7 @@ void change_aspect_liste ( GtkWidget *bouton,
 
       gtk_widget_hide ( frame_droite_bas );
       gtk_label_set_text ( GTK_LABEL ( label_proprietes_operations_compte ),
-			   "Propriétés du compte");
+			   _("Propriétés du compte"));
 
       break;
 
@@ -776,8 +776,8 @@ GtkWidget *creation_barre_outils_echeancier ( void )
 			  GTK_RELIEF_NONE );
   gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips ),
 			 bouton_affiche_cache_formulaire_echeancier,
-			 "Affiche / masque le formulaire",
-			 "Affiche / masque le formulaire" );
+			 _("Affiche / masque le formulaire"),
+			 _("Affiche / masque le formulaire") );
   gtk_widget_set_usize ( bouton_affiche_cache_formulaire_echeancier,
 			 15,
 			 15 );
