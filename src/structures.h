@@ -759,6 +759,7 @@ enum origine_importation {
   HTML_IMPORT,
   GNUCASH_IMPORT,
   CSV_IMPORT,
+  GBANKING_IMPORT
 };
 
 /* struture d'une importation : compte contient la liste des opés importées */
