@@ -141,7 +141,7 @@ gboolean recuperation_donnees_qif ( FILE *fichier )
 
 	/* c'est une importation qif */
 
-	compte -> origine = 0;
+	compte -> origine = QIF_IMPORT;
 
 	/* récupération du type de compte */
 
