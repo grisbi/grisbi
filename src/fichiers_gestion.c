@@ -1,23 +1,26 @@
-/* Ce fichier comprend toutes les opérations concernant le traitement */
-/* des fichiers */
-
-/*     Copyright (C) 2000-2003  Cédric Auger */
-/* 			cedric@grisbi.org */
-/* 			http://www.grisbi.org */
-
-/*     This program is free software; you can redistribute it and/or modify */
-/*     it under the terms of the GNU General Public License as published by */
-/*     the Free Software Foundation; either version 2 of the License, or */
-/*     (at your option) any later version. */
-
-/*     This program is distributed in the hope that it will be useful, */
-/*     but WITHOUT ANY WARRANTY; without even the implied warranty of */
-/*     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the */
-/*     GNU General Public License for more details. */
-
-/*     You should have received a copy of the GNU General Public License */
-/*     along with this program; if not, write to the Free Software */
-/*     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
+/* ************************************************************************** */
+/* Ce fichier comprend toutes les opérations concernant le traitement	      */
+/* des fichiers								      */
+/*                                                                            */
+/*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org)	      */
+/*			2003-2004 Benjamin Drieu (bdrieu@april.org)	      */
+/* 			http://www.grisbi.org				      */
+/*                                                                            */
+/*  This program is free software; you can redistribute it and/or modify      */
+/*  it under the terms of the GNU General Public License as published by      */
+/*  the Free Software Foundation; either version 2 of the License, or         */
+/*  (at your option) any later version.                                       */
+/*                                                                            */
+/*  This program is distributed in the hope that it will be useful,           */
+/*  but WITHOUT ANY WARRANTY; without even the implied warranty of            */
+/*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             */
+/*  GNU General Public License for more details.                              */
+/*                                                                            */
+/*  You should have received a copy of the GNU General Public License         */
+/*  along with this program; if not, write to the Free Software               */
+/*  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
+/*                                                                            */
+/* ************************************************************************** */
 
 
 #include "include.h"
@@ -27,6 +30,7 @@
 #include "categories_onglet.h"
 #include "comptes_traitements.h"
 #include "devises.h"
+#include "dialog.h"
 #include "erreur.h"
 #include "fichiers_gestion.h"
 #include "fichiers_io.h"
@@ -407,15 +411,15 @@ gboolean enregistrement_fichier ( gint origine )
     {
       gchar * hint;
 
-      hint = g_strdup_printf (_("Save changes to document '%s' before saving?"),
-			      (nom_fichier_comptes ? nom_fichier_comptes : _("unnamed")));
+      hint = g_strdup_printf (_("Save changes to document '%s' before closing?"),
+			      (nom_fichier_comptes ? g_path_get_basename(nom_fichier_comptes) : _("unnamed")));
 
       dialog = gtk_message_dialog_new ( GTK_WINDOW (window), 
 					GTK_DIALOG_DESTROY_WITH_PARENT,
 					GTK_MESSAGE_WARNING, 
 					GTK_BUTTONS_NONE,
 					"" );
-      gtk_dialog_add_buttons ( dialog,
+      gtk_dialog_add_buttons ( GTK_DIALOG(dialog),
 			       _("Close without saving"), GTK_RESPONSE_NO,
 			       GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 			       GTK_STOCK_SAVE, GTK_RESPONSE_OK,
