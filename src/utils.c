@@ -1844,7 +1844,7 @@ gpointer **verification_p_tab ( gchar *fonction_appelante )
     {
 	/* 	p_tab était mal placée */
 
-	message = _( "Warning : the variable p_tab_nom_de_compte_variable is abnormal.");
+	message = _( "Warning : variable p_tab_nom_de_compte_variable is abnormal.");
 
 	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
 
