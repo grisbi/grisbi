@@ -1,5 +1,7 @@
 New in version 0.5.3 :
  - Bug fixes
+ - Budgetary lines are now enabled by default
+ - Default browser is now mozilla
 
 New in version 0.5.2 :
  - Bug fixes
