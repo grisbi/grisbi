@@ -27,6 +27,7 @@
 #include "barre_outils.h"
 #include "devises.h"
 #include "gtkcombofix.h"
+#include "gtk_list_button.h"
 #include "operations_comptes.h"
 #include "operations_formulaire.h"
 #include "operations_liste.h"
@@ -238,84 +239,17 @@ GtkWidget *creation_liste_comptes (void)
 
 GtkWidget *comptes_appel ( gint no_de_compte )
 {
-  GtkWidget *win_icones;
   GtkWidget *bouton;
-  GtkWidget *icone;
-  GtkWidget *label;
-  GtkWidget *hbox;
 
   p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_de_compte;
 
-
-  win_icones = gtk_hbox_new ( FALSE,
-			      10);
-
-  /*   on crée le bouton contenant le livre fermé et ouvert, seul le fermé est affiché pour l'instant */
-
-  bouton = gtk_button_new ();
-  gtk_signal_connect_object ( GTK_OBJECT (bouton),
-			      "clicked",
+  bouton = gtk_list_button_new ( NOM_DU_COMPTE, 2 );
+  gtk_signal_connect_object ( GTK_OBJECT (bouton), "clicked",
 			      GTK_SIGNAL_FUNC ( changement_compte ),
 			      GINT_TO_POINTER ( no_de_compte ) );
+  gtk_widget_show ( bouton );
 
-  gtk_button_set_relief ( GTK_BUTTON (bouton),
-			  GTK_RELIEF_NONE);
-  gtk_box_pack_start ( GTK_BOX (win_icones),
-		       bouton,
-		       FALSE,
-		       TRUE,
-		       0);
-  gtk_widget_show (bouton);
-
-
-  /*   le bouton contient une hbox avec les 2 livres */
-
-  hbox = gtk_hbox_new ( TRUE,
-			0 );
-  gtk_container_add ( GTK_CONTAINER ( bouton ),
-		      hbox );
-  gtk_widget_show ( hbox );
-
-
-  /* création de l'icone fermée */
-
-/*   icone = gnome_stock_pixmap_widget ( GTK_WIDGET ( bouton ), */
-/* 				      GNOME_STOCK_BUTTON_NO); /\* FIXME *\/ */
-  icone = gtk_image_new_from_stock (GNOME_STOCK_BOOK_RED, GTK_ICON_SIZE_BUTTON);
-  gtk_box_pack_start ( GTK_BOX ( hbox ),
-		       icone,
-		       FALSE,
-		       FALSE,
-		       0 );
-  ICONE_FERMEE = icone;
-  gtk_widget_show ( icone );
-
-  /* création de l'icone ouverte */
-
-/*   icone = gnome_stock_pixmap_widget ( GTK_WIDGET ( bouton ), */
-/* 				      GNOME_STOCK_BUTTON_YES); /\* FIXME *\/ */
-  icone = gtk_image_new_from_stock (GNOME_STOCK_BOOK_OPEN, GTK_ICON_SIZE_BUTTON);  
-  gtk_box_pack_start ( GTK_BOX ( hbox ),
-
-		       icone,
-		       FALSE,
-		       FALSE,
-		       0 );
-  ICONE_OUVERTE = icone;
-
-
-  /* on crée le label à coté du bouton */
-
-  label = gtk_label_new ( NOM_DU_COMPTE );
-  gtk_box_pack_start ( GTK_BOX (win_icones),
-		       label,
-		       FALSE,
-		       TRUE,
-		       0);
-  gtk_widget_show (label);
-
-
-  return ( win_icones );
+  return ( bouton );
 }
 /* ********************************************************************************************************** */
 
@@ -356,27 +290,12 @@ gboolean changement_compte ( gint *compte)
 
   p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
 
-  /* referme le livre */
-
-  gtk_widget_hide ( ICONE_OUVERTE );
-  gtk_widget_show ( ICONE_FERMEE );
-
-
   compte_courant = GPOINTER_TO_INT ( compte );
   p_tab_nom_de_compte_courant = p_tab_nom_de_compte + compte_courant;
   p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
 
-
-  /* ouvre le livre */
-
-  gtk_widget_hide ( ICONE_FERMEE );
-  gtk_widget_show ( ICONE_OUVERTE );
-
-
   /* change le nom du compte courant */
-
-  gtk_label_set_text ( GTK_LABEL ( label_compte_courant),
-		       NOM_DU_COMPTE);
+  gtk_label_set_text ( GTK_LABEL ( label_compte_courant), NOM_DU_COMPTE);
 
 /* change les types d'opé et met le défaut */
 

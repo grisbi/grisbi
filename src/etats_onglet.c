@@ -26,6 +26,7 @@
 #include "etats_calculs.h"
 #include "etats_config.h"
 #include "etats_onglet.h"
+#include "gtk_list_button.h"
 #include "tiers_onglet.h"
 #include "traitement_variables.h"
 
@@ -57,10 +58,9 @@ GtkWidget *creation_onglet_etats ( void )
   frame_liste_etats = gtk_frame_new ( NULL );
   gtk_frame_set_shadow_type ( GTK_FRAME ( frame_liste_etats ),
 			      GTK_SHADOW_IN );
-/*   gtk_box_pack_start ( GTK_BOX ( onglet ), frame_liste_etats, */
-/* 		       FALSE, FALSE, 0 ); */
   gtk_paned_pack1 ( GTK_PANED(onglet), frame_liste_etats, TRUE, TRUE );
   gtk_widget_show (frame_liste_etats);
+
   /* on y met les rapports et les boutons */
   gtk_container_add ( GTK_CONTAINER ( frame_liste_etats ),
 		      creation_liste_etats ());
@@ -68,7 +68,6 @@ GtkWidget *creation_onglet_etats ( void )
   /* Frame de droite */
   frame = gtk_frame_new ( NULL );
   gtk_frame_set_shadow_type ( GTK_FRAME ( frame ), GTK_SHADOW_IN );
-/*   gtk_box_pack_start ( GTK_BOX ( onglet ), frame, TRUE, TRUE, 0 ); */
   gtk_paned_add2 ( GTK_PANED(onglet), frame );
   gtk_widget_show (frame);
 
@@ -416,36 +415,8 @@ void remplissage_liste_etats ( void )
       gtk_box_pack_start ( GTK_BOX ( vbox_liste_etats ), bouton,
 			   FALSE, FALSE, 0 );
 
-      gtk_signal_connect ( GTK_BUTTON(bouton), "clicked",
+      gtk_signal_connect ( GTK_WIDGET(bouton), "clicked",
 			   GTK_SIGNAL_FUNC ( changement_etat ), etat );
-
-/*       /\* création de l'icone fermée *\/ */
-
-/*       if ( etat_courant && etat -> no_etat == etat_courant -> no_etat ) */
-/* 	{ */
-/* 	  icone = gtk_image_new_from_stock (GNOME_STOCK_BOOK_OPEN,  */
-/* 					    GTK_ICON_SIZE_BUTTON);   */
-/* 	  bouton_etat_courant = bouton; */
-/* 	} */
-/*       else */
-/* 	icone = gtk_image_new_from_stock (GNOME_STOCK_BOOK_RED,  */
-/* 					  GTK_ICON_SIZE_BUTTON);   */
-/*       gtk_box_pack_start ( GTK_BOX (hbox), icone, FALSE, TRUE, 0); */
-/*       gtk_widget_show ( icone ); */
-
-/*       /\* on crée le label à coté du bouton *\/ */
-
-/*       label = gtk_label_new ( etat -> nom_etat ); */
-/*       gtk_label_set_line_wrap ( GTK_LABEL ( label ), TRUE ); */
-/*       gtk_box_pack_start ( GTK_BOX (hbox), label, FALSE, TRUE, 0); */
-/*       gtk_widget_show (label); */
-
-/*       gtk_container_add ( GTK_CONTAINER ( bouton ), hbox ); */
-
-/*       gtk_widget_show (bouton); */
-/*       gtk_box_pack_start ( GTK_BOX ( vbox_liste_etats ), bouton, */
-/* 			   FALSE, FALSE, 0 ); */
-
       liste_tmp = liste_tmp -> next;
     }
 

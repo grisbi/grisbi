@@ -38,6 +38,10 @@ gboolean gtk_list_button_clicked ();
 
 /* Globals */
 static GtkButtonClass *parent_class = NULL;
+
+/** Contain a group of buttons, to store the one selected and thus,
+    deselect is when another one is clicked.  Somewhat ugly, but I
+    don't expect this to be widely used, so... */
 GtkListButton * groups[16] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
 
@@ -105,9 +109,10 @@ static void gtk_list_button_init ( GtkListButton *list_button )
   gtk_button_set_relief ( GTK_BUTTON (list_button), GTK_RELIEF_NONE );
 
   g_signal_connect ( GTK_BUTTON(list_button), "clicked", 
-		     gtk_list_button_clicked, NULL );
+		     G_CALLBACK ( gtk_list_button_clicked ), NULL );
 
   gtk_widget_show ( list_button -> hbox );
+  gtk_widget_show ( list_button -> box );
   gtk_widget_show ( list_button -> closed_icon );
   gtk_widget_show ( list_button -> label );
 }

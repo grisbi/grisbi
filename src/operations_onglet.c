@@ -44,26 +44,17 @@ GtkWidget *creation_onglet_operations ( void )
   GtkWidget *frame_droite_haut;
   GtkWidget *fenetre_operations;
 
-
-  onglet = gtk_hbox_new ( FALSE,
-			     10 );
-  gtk_container_set_border_width ( GTK_CONTAINER ( onglet ),
-				   10 );
+  onglet = gtk_hpaned_new ( );
+  gtk_paned_set_position ( GTK_PANED(onglet), 200 );
+  gtk_container_set_border_width ( GTK_CONTAINER ( onglet ), 10 );
   gtk_widget_show ( onglet );
 
-
-/*   création de la fenetre des comptes / ventilation / équilibrage à gauche */
-
+  /*   création de la fenetre des comptes / ventilation / équilibrage
+       à gauche */
   frame_gauche = gtk_frame_new ( NULL );
-  gtk_frame_set_shadow_type ( GTK_FRAME ( frame_gauche ),
-			       GTK_SHADOW_IN );
-  gtk_box_pack_start ( GTK_BOX ( onglet ),
-		       frame_gauche,
-		       FALSE,
-		       FALSE,
-		       0 );
+  gtk_frame_set_shadow_type ( GTK_FRAME ( frame_gauche ), GTK_SHADOW_IN );
+  gtk_paned_pack1 ( GTK_PANED(onglet), frame_gauche, TRUE, TRUE );
   gtk_widget_show (frame_gauche);
-
 
   notebook_comptes_equilibrage = gtk_notebook_new ();
   gtk_notebook_set_show_tabs ( GTK_NOTEBOOK( notebook_comptes_equilibrage ),
@@ -72,117 +63,73 @@ GtkWidget *creation_onglet_operations ( void )
 		      notebook_comptes_equilibrage );
   gtk_widget_show ( notebook_comptes_equilibrage );
 
-
   /*  Création de la fenêtre des comptes */
-
   gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_comptes_equilibrage ),
 			     creation_liste_comptes (),
 			     gtk_label_new ( _("Accounts") ) );
 
-
   /* création de la fenetre de ventilation */
-
   gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_comptes_equilibrage ),
 			     creation_verification_ventilation (),
 			     gtk_label_new ( _("Breakdown") ) );
   
   /* création de la fenetre de l'équilibrage */
-
   gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_comptes_equilibrage ),
 			     creation_fenetre_equilibrage (),
 			     gtk_label_new ( _("Reconciliation") ) );
-  
-
-
+ 
   /* création de la partie droite */
-
-  vbox = gtk_vbox_new ( FALSE,
-			10 );
-  gtk_box_pack_start ( GTK_BOX ( onglet ),
-		       vbox,
-		       TRUE,
-		       TRUE,
-		       0 );
+  vbox = gtk_vbox_new ( FALSE, 10 );
+  gtk_paned_pack2 ( GTK_PANED(onglet), vbox, TRUE, TRUE );
   gtk_widget_show ( vbox );
 
-
   /*  Création de la liste des opérations */
-
   frame_droite_haut = gtk_frame_new ( NULL );
-  gtk_box_pack_start ( GTK_BOX ( vbox ),
-		       frame_droite_haut,
-		       TRUE,
-		       TRUE,
-		       0 );
-  gtk_frame_set_shadow_type ( GTK_FRAME ( frame_droite_haut ),
-			       GTK_SHADOW_IN );
+  gtk_box_pack_start ( GTK_BOX ( vbox ), frame_droite_haut, TRUE, TRUE, 0 );
+  gtk_frame_set_shadow_type ( GTK_FRAME ( frame_droite_haut ), GTK_SHADOW_IN );
   gtk_widget_show (frame_droite_haut);
 
   fenetre_operations = creation_fenetre_operations();
-  gtk_container_set_border_width ( GTK_CONTAINER ( fenetre_operations ),
-				   10);
-  gtk_container_add ( GTK_CONTAINER ( frame_droite_haut ),
-		      fenetre_operations );
+  gtk_container_set_border_width ( GTK_CONTAINER ( fenetre_operations ), 10);
+  gtk_container_add ( GTK_CONTAINER ( frame_droite_haut ), fenetre_operations );
   gtk_widget_show ( fenetre_operations ); 
 
 
   /* création du formulaire */
 
   frame_droite_bas = gtk_frame_new ( NULL );
-  gtk_frame_set_shadow_type ( GTK_FRAME ( frame_droite_bas ),
-			       GTK_SHADOW_IN );
-  gtk_signal_connect ( GTK_OBJECT ( frame_droite_bas ),
-		       "show",
-		       GTK_SIGNAL_FUNC ( allocation_taille_formulaire ),
-		       NULL );
-  gtk_signal_connect ( GTK_OBJECT ( frame_droite_bas ),
-		       "hide",
-		       GTK_SIGNAL_FUNC ( efface_formulaire ),
-		       NULL );
-  gtk_box_pack_start ( GTK_BOX ( vbox ),
-		       frame_droite_bas,
-		       FALSE,
-		       FALSE,
-		       0 );
+  gtk_frame_set_shadow_type ( GTK_FRAME ( frame_droite_bas ), GTK_SHADOW_IN );
+  gtk_signal_connect ( GTK_OBJECT ( frame_droite_bas ), "show",
+		       GTK_SIGNAL_FUNC ( allocation_taille_formulaire ), NULL );
+  gtk_signal_connect ( GTK_OBJECT ( frame_droite_bas ), "hide",
+		       GTK_SIGNAL_FUNC ( efface_formulaire ), NULL );
+  gtk_box_pack_start ( GTK_BOX ( vbox ), frame_droite_bas, FALSE, FALSE, 0 );
 
 
-/*   création du notebook du formulaire ( contient le formulaire et le formulaire simplifié pour la ventilation ) */
-
+  /* création du notebook du formulaire ( contient le formulaire et le
+     formulaire simplifié pour la ventilation ) */
   notebook_formulaire = gtk_notebook_new ();
-  gtk_notebook_set_show_tabs ( GTK_NOTEBOOK( notebook_formulaire ),
-			       FALSE );
-  gtk_container_add ( GTK_CONTAINER ( frame_droite_bas ),
-		      notebook_formulaire );
+  gtk_notebook_set_show_tabs ( GTK_NOTEBOOK( notebook_formulaire ), FALSE );
+  gtk_container_add ( GTK_CONTAINER ( frame_droite_bas ), notebook_formulaire );
   gtk_widget_show ( notebook_formulaire );
 
   if ( etat.formulaire_toujours_affiche )
     gtk_widget_show (frame_droite_bas);
 
-
   /* création du formulaire */
-
   formulaire = creation_formulaire ();
-  gtk_container_set_border_width ( GTK_CONTAINER ( formulaire ),
-				   10);
-  gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_formulaire ),
-			     formulaire,
+  gtk_container_set_border_width ( GTK_CONTAINER ( formulaire ), 10);
+  gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_formulaire ), formulaire,
 			     gtk_label_new ( _("Form") ) );
   gtk_widget_show (formulaire);
 
-
   /* création de la fenetre de ventilation */
-
   gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_formulaire ),
 			     creation_formulaire_ventilation (),
 			     gtk_label_new ( _("Breakdown") ) );
-  
 
   /* on remet la fenetre du formulaire sur le formulaire  */
-
-  gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_formulaire ),
-			  0 );
-
-
+  gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_formulaire ), 0 );
 
   return ( onglet );
 }
