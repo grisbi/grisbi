@@ -22,4 +22,8 @@ grisbi_pixmaps_DATA = \
 	new-sub-categ.png \
 	new-ib.png \
 	new-sub-ib.png \
-	new-payee.png
+	new-payee.png \
+	new-transaction.png \
+	r.png \
+	grid.png
+
