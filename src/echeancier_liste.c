@@ -62,7 +62,7 @@
 gint scheduler_col_width_ratio[NB_COLS_SCHEDULER] = { 10, 26, 20, 14, 14, 28, 8};
 gint scheduler_col_width[NB_COLS_SCHEDULER] ;
 
-void changement_taille_colonne_echeancier ( GtkWidget *clist, gint colonne, gint largeur ) ;
+gboolean changement_taille_colonne_echeancier ( GtkWidget *clist, gint colonne, gint largeur ) ;
 
 
 
@@ -521,12 +521,13 @@ GtkWidget *creation_liste_echeances ( void )
 					GTK_SIGNAL_FUNC ( gtk_widget_grab_focus ),
 					GTK_OBJECT ( liste_echeances ) );
 
-
 	    for ( i = 0 ; i < NB_COLS_SCHEDULER ; i++ )
 	    {
 		gtk_clist_set_column_justification ( GTK_CLIST ( liste_echeances ),
-						     i,
-						     col_justs[i] );
+						     i, col_justs[i] );
+		gtk_clist_set_column_resizeable ( GTK_CLIST ( liste_echeances ),
+						  i, TRUE );
+
 	    }
 
 	    /* dOm : rendre invisible la colonne notes */
@@ -941,12 +942,19 @@ void remplissage_liste_echeance ( void )
 }
 /*****************************************************************************/
 
-/*****************************************************************************/
-void click_ligne_echeance ( GtkCList *liste,
-			    GdkEventButton *evenement,
-			    gpointer data )
+
+
+/**
+ * Handler called upon click on the scheduled transactions list.
+ *
+ *
+ */
+gboolean click_ligne_echeance ( GtkCList *liste, GdkEventButton *evenement, gpointer data )
 {
     gint ligne, colonne, x, y;
+
+    if ( evenement -> window != liste -> clist_window )
+	return FALSE;
 
     /* si le click se situe dans les menus, c'est qu'on redimensionne, on fait rien */
 
@@ -1455,11 +1463,12 @@ void supprime_echeance ( struct operation_echeance *echeance )
 /*****************************************************************************/
 
 /*****************************************************************************/
-void changement_taille_colonne_echeancier ( GtkWidget *clist,
-					    gint colonne,
-					    gint largeur )
+gboolean changement_taille_colonne_echeancier ( GtkWidget *clist, gint colonne,
+						gint largeur )
 {
     gint offset ;
+
+    printf (">>> changement_taille_colonne_echeancier %d\n", colonne);
 
     /* sauvegarde de la largeur de la liste */
     ancienne_largeur_echeances = clist -> allocation.width ;
@@ -1498,6 +1507,8 @@ void changement_taille_colonne_echeancier ( GtkWidget *clist,
 
     /* on sauve la valeur de la nouvelle largeur de la colonne concernée */
     scheduler_col_width[colonne] = largeur ;
+
+    return FALSE;
 }
 /*****************************************************************************/
 
