@@ -486,7 +486,6 @@ gboolean ajout_etat ( void )
     gtk_label_set_line_wrap ( GTK_LABEL ( label_description ), TRUE );
     gtk_scrolled_window_add_with_viewport ( GTK_SCROLLED_WINDOW ( scrolled_window ),
 					    label_description );
-    gtk_widget_set_usize ( scrolled_window, FALSE, 150 );
 
     gtk_viewport_set_shadow_type ( GTK_VIEWPORT ( label_description -> parent ),
 				   GTK_SHADOW_NONE );
@@ -958,8 +957,6 @@ gboolean ajout_etat ( void )
 
     personnalisation_etat ();
     modification_fichier ( TRUE );
-
-    gtk_widget_destroy ( dialog );
 
     return FALSE;
 }
