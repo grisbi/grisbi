@@ -1191,7 +1191,7 @@ gboolean clique_champ_formulaire ( GtkWidget *entree,
      à la fin de fin_edition ), on se barre */
 
   if ( !ev )
-    return;
+    return FALSE;
 
   /* énumération suivant l'entrée où on clique */
 
