@@ -1,4 +1,4 @@
-/*  Fichier qui s'occupe d'afficher les états via une latex */
+/*  Fichier qui s'occupe d'afficher les états via une impression latex */
 /*      etats_latex.c */
 
 /*     Copyright (C)	2004 Benjamin Drieu (bdrieu@april.org)		      */
