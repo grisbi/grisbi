@@ -441,6 +441,7 @@ gboolean enregistrement_fichier ( gint origine )
 				 GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 				 GTK_STOCK_SAVE, GTK_RESPONSE_OK,
 				 NULL );
+	gtk_dialog_set_default_response ( GTK_DIALOG(dialog), GTK_RESPONSE_OK ); 
 	gtk_label_set_markup ( GTK_LABEL ( GTK_MESSAGE_DIALOG(dialog)->label ), 
 			       make_hint ( hint, _("If you close without saving, all of your changes will be discarded.")) );
 
