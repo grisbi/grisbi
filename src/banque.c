@@ -274,6 +274,7 @@ GtkWidget *creation_menu_banques ( void )
 /** TODO: remove this obsolete function */
 void affiche_detail_banque ( GtkWidget *bouton,
 			     gpointer null )
+{
 }
 /* **************************************************************************************************************************** */
 
