@@ -180,24 +180,6 @@ GtkWidget *creation_fenetre_principale (void )
     fprintf(stderr, "Ping2...\n");
 #endif
 
-
-    /* change les titres des colonnes si nécessaire */
-
-    if ( etat.affiche_nb_ecritures_listes )
-    {
-	gtk_clist_set_column_title ( GTK_CLIST ( arbre_tiers ),
-				     0,
-				     _("Third parties list (transactions)") );
-	/* TODO: FIXME */
-/* 	gtk_clist_set_column_title ( GTK_CLIST ( arbre_categ ), */
-/* 				     0, */
-/* 				     _("Categories list (transactions)") ); */
-/* 	gtk_clist_set_column_title ( GTK_CLIST ( arbre_imputation ), */
-/* 				     0, */
-/* 				     _("Budgetary lines list (transactions)") ); */
-    }
-
-
     return ( notebook_general );
 }
 /***********************************************************************************************************/
