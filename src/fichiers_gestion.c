@@ -512,25 +512,8 @@ gboolean enregistrement_fichier ( gint origine )
 		  GtkWidget *etes_vous_sur;
 		  GtkWidget *label;
 
-		  etes_vous_sur = gnome_dialog_new ( _("Save file"),
-						     GNOME_STOCK_BUTTON_YES,
-						     GNOME_STOCK_BUTTON_NO,
-						     NULL );
-		  label = gtk_label_new ( _("File exists. Do you want to overwrite it?") );
-		  gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( etes_vous_sur ) -> vbox ),
-				       label,
-				       TRUE,
-				       TRUE,
-				       5 );
-		  gtk_widget_show ( label );
-
-		  gnome_dialog_set_default ( GNOME_DIALOG ( etes_vous_sur ),
-					     1 );
-		  gnome_dialog_set_parent ( GNOME_DIALOG ( etes_vous_sur ),
-					    GTK_WINDOW ( window ) );
-		  gtk_window_set_modal ( GTK_WINDOW ( etes_vous_sur ),
-					 TRUE );
-		  if ( gnome_dialog_run_and_close ( GNOME_DIALOG ( etes_vous_sur ) ) )
+		  if ( ! question_yes_no_hint (_("File already exists"),
+					       g_strdup_printf (_("Do you want to overwrite file \"%s\"?"), nom_fichier_comptes) ) )
 		    {
 		      nom_fichier_comptes = ancien_nom_fichier_comptes;
 		      return(FALSE);
@@ -538,8 +521,8 @@ gboolean enregistrement_fichier ( gint origine )
 		}
 	      else
 		{
-		  dialogue ( g_strdup_printf ( _("Invalid filename \"%s\"!"),
-					       nom_fichier_comptes ));
+		  dialogue_error ( g_strdup_printf ( _("Invalid filename: \"%s\"!"),
+						     nom_fichier_comptes ));
 		  nom_fichier_comptes = ancien_nom_fichier_comptes;
 		  return(FALSE);
 		}
@@ -570,9 +553,7 @@ gboolean enregistrement_fichier ( gint origine )
       if ( origine == -2 && !etat.force_enregistrement )
 	etat.force_enregistrement = 1;
       
-
-      if ( nom_fichier_backup && strlen(nom_fichier_backup) )
-	enregistrement_backup();
+      enregistrement_backup();
 
       if ( patience_en_cours )
 	update_attente ( _("Save file") );
@@ -622,8 +603,7 @@ gboolean enregistrement_fichier ( gint origine )
 	{
 	case 0 :
 
-	  if ( nom_fichier_backup )
-	    enregistrement_backup();
+	  enregistrement_backup();
 
 	  if ( patience_en_cours )
 	    update_attente ( _("Save file") );
@@ -795,9 +775,10 @@ gboolean enregistrement_backup ( void )
   gchar *buffer;
   gboolean retour;
 
+  if ( !nom_fichier_backup || !strlen(nom_fichier_backup) )
+    return FALSE;
 
   buffer = nom_fichier_comptes;
-
   nom_fichier_comptes = nom_fichier_backup;
 
   xmlSetCompressMode ( compression_backup );
@@ -809,11 +790,9 @@ gboolean enregistrement_backup ( void )
     annulation_attente();
 
   xmlSetCompressMode ( compression_fichier );
-
   nom_fichier_comptes = buffer;
 
   return ( retour );
-
 }
 /* ************************************************************************************************************ */
 
