@@ -33,33 +33,33 @@
 
 
 /*START_INCLUDE*/
-#include "imputation_budgetaire.h"
-#include "utils_devises.h"
-#include "operations_comptes.h"
-#include "tiers_onglet.h"
-#include "fichiers_io.h"
-#include "barre_outils.h"
-#include "operations_liste.h"
-#include "dialog.h"
-#include "gtk_combofix.h"
-#include "metatree.h"
-#include "meta_budgetary.h"
-#include "utils_ib.h"
-#include "utils_str.h"
-#include "traitement_variables.h"
-#include "utils_operations.h"
-#include "search_glist.h"
-#include "etats_config.h"
 #include "affichage_formulaire.h"
+#include "barre_outils.h"
+#include "dialog.h"
+#include "etats_config.h"
+#include "fichiers_io.h"
+#include "gtk_combofix.h"
+#include "imputation_budgetaire.h"
+#include "meta_budgetary.h"
+#include "metatree.h"
+#include "operations_comptes.h"
 #include "operations_formulaire.h"
+#include "operations_liste.h"
+#include "search_glist.h"
+#include "tiers_onglet.h"
+#include "traitement_variables.h"
+#include "utils_buttons.h"
+#include "utils_devises.h"
 #include "utils_file_selection.h"
 #include "utils_files.h"
+#include "utils_ib.h"
+#include "utils_operations.h"
+#include "utils_str.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
 static void appui_sur_ajout_imputation ( void );
 static void appui_sur_ajout_sous_imputation ( void );
-static void calcule_total_montant_imputation ( void );
 static gchar *calcule_total_montant_imputation_par_compte ( gint imputation, gint sous_imputation, 
 						     gint no_compte );
 static void clique_sur_annuler_imputation ( void );
@@ -82,6 +82,11 @@ static void supprimer_imputation ( void );
 static void supprimer_sous_imputation ( void );
 static gboolean verifie_double_click_imputation ( GtkWidget *liste, GdkEventButton *ev,
 					   gpointer null );
+static gboolean budgetary_line_drag_data_get ( GtkTreeDragSource * drag_source, 
+					       GtkTreePath * path,
+					       GtkSelectionData * selection_data );
+GtkWidget *creation_barre_outils_ib ( void );
+gboolean popup_budgetary_line_view_mode_menu ( GtkWidget * button );
 /*END_STATIC*/
 
 
@@ -337,151 +342,75 @@ GtkWidget *onglet_imputations ( void )
     /* FIXME */
     bouton_supprimer_imputation = gtk_button_new_from_stock (GTK_STOCK_REMOVE);
     /*   bouton_supprimer_imputation = GTK_STOCK ( GNOME_STOCK_PIXMAP_REMOVE ); */
-    gtk_button_set_relief ( GTK_BUTTON ( bouton_supprimer_imputation ),
-			    GTK_RELIEF_NONE );
-    gtk_widget_set_sensitive ( bouton_supprimer_imputation,
-			       FALSE );
-    gtk_signal_connect ( GTK_OBJECT ( bouton_supprimer_imputation ),
-			 "clicked",
-			 GTK_SIGNAL_FUNC ( supprimer_imputation ),
-			 NULL );
-    gtk_box_pack_start ( GTK_BOX ( vbox_frame ),
-			 bouton_supprimer_imputation,
-			 FALSE,
-			 FALSE,
-			 0 );
+    gtk_button_set_relief ( GTK_BUTTON ( bouton_supprimer_imputation ), GTK_RELIEF_NONE );
+    gtk_widget_set_sensitive ( bouton_supprimer_imputation, FALSE );
+    gtk_signal_connect ( GTK_OBJECT ( bouton_supprimer_imputation ), "clicked",
+			 GTK_SIGNAL_FUNC ( supprimer_imputation ), NULL );
+    gtk_box_pack_start ( GTK_BOX ( vbox_frame ), bouton_supprimer_imputation, FALSE, FALSE, 0 );
     gtk_widget_show ( bouton_supprimer_imputation );
 
-
     /* mise en place des boutons ajout d'1 imput / sous-imput */
-
     bouton_ajouter_imputation = gtk_button_new_with_label ( _("Add a budget line") );
-    gtk_button_set_relief ( GTK_BUTTON ( bouton_ajouter_imputation ),
-			    GTK_RELIEF_NONE );
-    gtk_signal_connect ( GTK_OBJECT ( bouton_ajouter_imputation ),
-			 "clicked",
-			 GTK_SIGNAL_FUNC ( appui_sur_ajout_imputation ),
-			 NULL );
-    gtk_box_pack_start ( GTK_BOX ( vbox ),
-			 bouton_ajouter_imputation,
-			 FALSE,
-			 FALSE,
-			 0 );
+    gtk_button_set_relief ( GTK_BUTTON ( bouton_ajouter_imputation ), GTK_RELIEF_NONE );
+    gtk_signal_connect ( GTK_OBJECT ( bouton_ajouter_imputation ), "clicked",
+			 GTK_SIGNAL_FUNC ( appui_sur_ajout_imputation ), NULL );
+    gtk_box_pack_start ( GTK_BOX ( vbox ), bouton_ajouter_imputation, FALSE, FALSE, 0 );
     gtk_widget_show ( bouton_ajouter_imputation );
 
     bouton_ajouter_sous_imputation = gtk_button_new_with_label ( _("Add a sub-budget line") );
-    gtk_button_set_relief ( GTK_BUTTON ( bouton_ajouter_sous_imputation ),
-			    GTK_RELIEF_NONE );
-    gtk_widget_set_sensitive ( bouton_ajouter_sous_imputation,
-			       FALSE );
-    gtk_signal_connect ( GTK_OBJECT ( bouton_ajouter_sous_imputation ),
-			 "clicked",
-			 GTK_SIGNAL_FUNC ( appui_sur_ajout_sous_imputation ),
-			 NULL );
-    gtk_box_pack_start ( GTK_BOX ( vbox ),
-			 bouton_ajouter_sous_imputation,
-			 FALSE,
-			 FALSE,
-			 0 );
+    gtk_button_set_relief ( GTK_BUTTON ( bouton_ajouter_sous_imputation ), GTK_RELIEF_NONE );
+    gtk_widget_set_sensitive ( bouton_ajouter_sous_imputation, FALSE );
+    gtk_signal_connect ( GTK_OBJECT ( bouton_ajouter_sous_imputation ), "clicked",
+			 GTK_SIGNAL_FUNC ( appui_sur_ajout_sous_imputation ), NULL );
+    gtk_box_pack_start ( GTK_BOX ( vbox ), bouton_ajouter_sous_imputation, FALSE, FALSE, 0 );
     gtk_widget_show ( bouton_ajouter_sous_imputation );
 
     /* séparation */
-
     separateur = gtk_hseparator_new ();
-    gtk_box_pack_start ( GTK_BOX ( vbox ),
-			 separateur,
-			 FALSE,
-			 FALSE,
-			 5 );
+    gtk_box_pack_start ( GTK_BOX ( vbox ), separateur, FALSE, FALSE, 5 );
     gtk_widget_show ( separateur );
 
     /* mise en place du bouton fusionner avec les catégories */
-
     bouton = gtk_button_new_with_label ( _("Merge categories") );
-    gtk_button_set_relief ( GTK_BUTTON ( bouton ),
-			    GTK_RELIEF_NONE );
-    gtk_signal_connect ( GTK_OBJECT ( bouton ),
-			 "clicked",
-			 GTK_SIGNAL_FUNC ( fusion_categories_imputation ),
-			 NULL );
-    gtk_box_pack_start ( GTK_BOX ( vbox ),
-			 bouton,
-			 FALSE,
-			 FALSE,
-			 0 );
+    gtk_button_set_relief ( GTK_BUTTON ( bouton ), GTK_RELIEF_NONE );
+    gtk_signal_connect ( GTK_OBJECT ( bouton ), "clicked",
+			 GTK_SIGNAL_FUNC ( fusion_categories_imputation ), NULL );
+    gtk_box_pack_start ( GTK_BOX ( vbox ), bouton, FALSE, FALSE, 0 );
     gtk_widget_show ( bouton );
 
-
     /* séparation */
-
     separateur = gtk_hseparator_new ();
-    gtk_box_pack_start ( GTK_BOX ( vbox ),
-			 separateur,
-			 FALSE,
-			 FALSE,
-			 5 );
+    gtk_box_pack_start ( GTK_BOX ( vbox ), separateur, FALSE, FALSE, 5 );
     gtk_widget_show ( separateur );
 
     /* mise en place du bouton exporter */
-
     bouton = gtk_button_new_with_label ( _("Export") );
-    gtk_button_set_relief ( GTK_BUTTON ( bouton ),
-			    GTK_RELIEF_NONE );
-    gtk_signal_connect ( GTK_OBJECT ( bouton ),
-			 "clicked",
-			 GTK_SIGNAL_FUNC ( exporter_ib ),
-			 NULL );
-    gtk_box_pack_start ( GTK_BOX ( vbox ),
-			 bouton,
-			 FALSE,
-			 FALSE,
-			 0 );
+    gtk_button_set_relief ( GTK_BUTTON ( bouton ), GTK_RELIEF_NONE );
+    gtk_signal_connect ( GTK_OBJECT ( bouton ), "clicked", 
+			 GTK_SIGNAL_FUNC ( exporter_ib ), NULL );
+    gtk_box_pack_start ( GTK_BOX ( vbox ), bouton, FALSE, FALSE, 0 );
     gtk_widget_show ( bouton );
 
     /* mise en place du bouton importer */
-
     bouton = gtk_button_new_with_label ( _("Import") );
-    gtk_button_set_relief ( GTK_BUTTON ( bouton ),
-			    GTK_RELIEF_NONE );
-    gtk_signal_connect ( GTK_OBJECT ( bouton ),
-			 "clicked",
-			 GTK_SIGNAL_FUNC ( importer_ib ),
-			 NULL );
-    gtk_box_pack_start ( GTK_BOX ( vbox ),
-			 bouton,
-			 FALSE,
-			 FALSE,
-			 0 );
+    gtk_button_set_relief ( GTK_BUTTON ( bouton ), GTK_RELIEF_NONE );
+    gtk_signal_connect ( GTK_OBJECT ( bouton ), "clicked",
+			 GTK_SIGNAL_FUNC ( importer_ib ), NULL );
+    gtk_box_pack_start ( GTK_BOX ( vbox ), bouton, FALSE, FALSE, 0 );
     gtk_widget_show ( bouton );
 
 
     /*   création de la frame de droite */
 
     frame = gtk_frame_new ( NULL );
-    gtk_frame_set_shadow_type ( GTK_FRAME ( frame ),
-				GTK_SHADOW_IN );
-    gtk_box_pack_start ( GTK_BOX ( onglet ),
-			 frame,
-			 TRUE,
-			 TRUE,
-			 5 );
+    gtk_frame_set_shadow_type ( GTK_FRAME ( frame ), GTK_SHADOW_IN );
+    gtk_box_pack_start ( GTK_BOX ( onglet ), frame, TRUE, TRUE, 5 );
     gtk_widget_show (frame );
 
-    vbox = gtk_vbox_new ( FALSE,
-			  5 );
-    gtk_container_set_border_width ( GTK_CONTAINER ( vbox ),
-				     10 );
-    gtk_container_add ( GTK_CONTAINER ( frame ),
-			vbox );
+    vbox = gtk_vbox_new ( FALSE, 5 );
+    gtk_container_set_border_width ( GTK_CONTAINER ( vbox ), 10 );
+    gtk_container_add ( GTK_CONTAINER ( frame ), vbox );
     gtk_widget_show ( vbox );
-
-    /* on y ajoute la barre d'outils */
-
-    gtk_box_pack_start ( GTK_BOX ( vbox ),
-			 creation_barre_outils_imputation(),
-			 FALSE,
-			 FALSE,
-			 0 );
 
     /* We create the gtktreeview and model early so that they can be referenced. */
     budgetary_line_tree = gtk_tree_view_new();
@@ -490,9 +419,10 @@ GtkWidget *onglet_imputations ( void )
 						     G_TYPE_POINTER, G_TYPE_INT, G_TYPE_INT, 
 						     G_TYPE_INT, G_TYPE_FLOAT );
 
+    /* on y ajoute la barre d'outils */
+    gtk_box_pack_start ( GTK_BOX ( vbox ), creation_barre_outils_ib(), FALSE, FALSE, 0 );
 
     /* création de l'arbre principal */
-
     scroll_window = gtk_scrolled_window_new ( NULL, NULL );
     gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scroll_window ),
 				     GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC );
@@ -504,7 +434,7 @@ GtkWidget *onglet_imputations ( void )
     /* Create model */
     gtk_tree_sortable_set_sort_column_id ( GTK_TREE_SORTABLE(budgetary_line_tree_model), 
 					   META_TREE_TEXT_COLUMN, GTK_SORT_ASCENDING );
-    g_object_set_data ( G_OBJECT (budgetary_line_tree_model), "metatree-interface", 
+    g_object_set_data ( G_OBJECT ( budgetary_line_tree_model), "metatree-interface", 
 			budgetary_interface );
 
     /* Create container + TreeView */
@@ -519,7 +449,8 @@ GtkWidget *onglet_imputations ( void )
 				  GTK_SELECTION_SINGLE );
     gtk_tree_view_set_model (GTK_TREE_VIEW (budgetary_line_tree), 
 			     GTK_TREE_MODEL (budgetary_line_tree_model));
-    g_object_set_data ( G_OBJECT(budgetary_line_tree_model), "tree-view", budgetary_line_tree );
+    g_object_set_data ( G_OBJECT(budgetary_line_tree_model), "tree-view", 
+			budgetary_line_tree );
 
     /* Make category column */
     cell = gtk_cell_renderer_text_new ();
@@ -557,15 +488,15 @@ GtkWidget *onglet_imputations ( void )
 
     /* Connect to signals */
     g_signal_connect ( G_OBJECT(budgetary_line_tree), "row-expanded", 
-		       G_CALLBACK(categ_column_expanded), NULL );
+		       G_CALLBACK(division_column_expanded), NULL );
     g_signal_connect( G_OBJECT(budgetary_line_tree), "row-activated",
-		      G_CALLBACK(categ_activated), NULL);
+		      G_CALLBACK(division_activated), NULL);
 
     dst_iface = GTK_TREE_DRAG_DEST_GET_IFACE (budgetary_line_tree_model);
     if ( dst_iface )
     {
-	dst_iface -> drag_data_received = &categ_drag_data_received;
-	dst_iface -> row_drop_possible = &categ_row_drop_possible;
+	dst_iface -> drag_data_received = &division_drag_data_received;
+	dst_iface -> row_drop_possible = &division_row_drop_possible;
     }
 
     src_iface = GTK_TREE_DRAG_SOURCE_GET_IFACE (budgetary_line_tree_model);
@@ -575,80 +506,8 @@ GtkWidget *onglet_imputations ( void )
 				  GDK_SELECTION_PRIMARY,
 				  GDK_SELECTION_TYPE_ATOM,
 				  1);
-	src_iface -> drag_data_get = &categ_drag_data_get;
+	src_iface -> drag_data_get = &budgetary_line_drag_data_get;
     }
-
-/*     arbre_imputation = gtk_ctree_new_with_titles ( 4, */
-/* 						   0, */
-/* 						   titres ); */
-/*     gtk_ctree_set_line_style ( GTK_CTREE ( arbre_imputation ), */
-/* 			       GTK_CTREE_LINES_DOTTED ); */
-/*     gtk_ctree_set_expander_style ( GTK_CTREE ( arbre_imputation ), */
-/* 				   GTK_CTREE_EXPANDER_CIRCULAR ); */
-/*     gtk_clist_column_titles_passive ( GTK_CLIST ( arbre_imputation )); */
-
-/*     gtk_clist_set_column_justification ( GTK_CLIST ( arbre_imputation ), */
-/* 					 0, */
-/* 					 GTK_JUSTIFY_LEFT); */
-/*     gtk_clist_set_column_justification ( GTK_CLIST ( arbre_imputation ), */
-/* 					 1, */
-/* 					 GTK_JUSTIFY_CENTER); */
-/*     gtk_clist_set_column_justification ( GTK_CLIST ( arbre_imputation ), */
-/* 					 2, */
-/* 					 GTK_JUSTIFY_CENTER); */
-/*     gtk_clist_set_column_justification ( GTK_CLIST ( arbre_imputation ), */
-/* 					 3, */
-/* 					 GTK_JUSTIFY_CENTER); */
-
-/*     gtk_clist_set_column_resizeable ( GTK_CLIST ( arbre_imputation ), */
-/* 				      0, */
-/* 				      FALSE ); */
-/*     gtk_clist_set_column_resizeable ( GTK_CLIST ( arbre_imputation ), */
-/* 				      1, */
-/* 				      FALSE ); */
-/*     gtk_clist_set_column_resizeable ( GTK_CLIST ( arbre_imputation ), */
-/* 				      2, */
-/* 				      FALSE ); */
-/*     gtk_clist_set_column_resizeable ( GTK_CLIST ( arbre_imputation ), */
-/* 				      3, */
-/* 				      FALSE ); */
-
-/*     /\* on met la fontion de tri alphabétique en prenant en compte les accents *\/ */
-
-/*     gtk_clist_set_compare_func ( GTK_CLIST ( arbre_imputation ), */
-/* 				 (GtkCListCompareFunc) classement_alphabetique_tree ); */
-
-/*     gtk_signal_connect ( GTK_OBJECT ( arbre_imputation ), */
-/* 			 "tree-select-row", */
-/* 			 GTK_SIGNAL_FUNC ( selection_ligne_imputation ), */
-/* 			 NULL ); */
-/*     gtk_signal_connect ( GTK_OBJECT ( arbre_imputation ), */
-/* 			 "tree-unselect-row", */
-/* 			 GTK_SIGNAL_FUNC ( enleve_selection_ligne_imputation ), */
-/* 			 NULL ); */
-/*     gtk_signal_connect ( GTK_OBJECT ( arbre_imputation ), */
-/* 			 "button-press-event", */
-/* 			 GTK_SIGNAL_FUNC ( verifie_double_click_imputation ), */
-/* 			 NULL ); */
-/*     gtk_signal_connect ( GTK_OBJECT ( arbre_imputation ), */
-/* 			 "key-press-event", */
-/* 			 GTK_SIGNAL_FUNC ( keypress_ib ), */
-/* 			 NULL ); */
-/*     gtk_signal_connect ( GTK_OBJECT ( arbre_imputation ), */
-/* 			 "size-allocate", */
-/* 			 GTK_SIGNAL_FUNC ( changement_taille_liste_tiers ), */
-/* 			 NULL ); */
-/*     gtk_signal_connect ( GTK_OBJECT ( arbre_imputation ), */
-/* 			 "tree-expand", */
-/* 			 GTK_SIGNAL_FUNC ( ouverture_node_imputation ), */
-/* 			 NULL ); */
-/*     gtk_container_add ( GTK_CONTAINER (  scroll_window ), */
-/* 			arbre_imputation ); */
-/*     gtk_widget_show ( arbre_imputation ); */
-
-
-/*     gtk_clist_set_compare_func ( GTK_CLIST ( arbre_imputation ), */
-/* 				 (GtkCListCompareFunc) classement_alphabetique_tree ); */
 
     /* la 1ère fois qu'on affichera les catég, il faudra remplir la liste */
 
@@ -695,8 +554,8 @@ void remplit_arbre_imputation ( void )
 	budgetary_line = liste_budgetary_line_tmp -> data;
 
 	gtk_tree_store_append (GTK_TREE_STORE (budgetary_line_tree_model), &iter_budgetary_line, NULL);
-	fill_categ_row ( GTK_TREE_MODEL(budgetary_line_tree_model), budgetary_interface, 
-				  &iter_budgetary_line, budgetary_line );
+	fill_division_row ( GTK_TREE_MODEL(budgetary_line_tree_model), budgetary_interface, 
+			    &iter_budgetary_line, budgetary_line );
 
 	/** Each budgetary line has sub budgetary lines. */
 	if ( budgetary_line )
@@ -710,16 +569,16 @@ void remplit_arbre_imputation ( void )
 
 	    gtk_tree_store_append (GTK_TREE_STORE (budgetary_line_tree_model), 
 				   &iter_sub_budgetary_line, &iter_budgetary_line);
-	    fill_sub_categ_row ( GTK_TREE_MODEL(budgetary_line_tree_model), budgetary_interface, 
-				 &iter_sub_budgetary_line, budgetary_line, sub_budgetary_line );
+	    fill_sub_division_row ( GTK_TREE_MODEL(budgetary_line_tree_model), budgetary_interface, 
+				    &iter_sub_budgetary_line, budgetary_line, sub_budgetary_line );
 
 	    liste_sub_budgetary_line_tmp = liste_sub_budgetary_line_tmp -> next;
 	}
 
 	gtk_tree_store_append (GTK_TREE_STORE (budgetary_line_tree_model), 
 			       &iter_sub_budgetary_line, &iter_budgetary_line);
-	fill_sub_categ_row ( GTK_TREE_MODEL(budgetary_line_tree_model), budgetary_interface, 
-			     &iter_sub_budgetary_line, budgetary_line, NULL );
+	fill_sub_division_row ( GTK_TREE_MODEL(budgetary_line_tree_model), budgetary_interface, 
+				&iter_sub_budgetary_line, budgetary_line, NULL );
 	
 	liste_budgetary_line_tmp = liste_budgetary_line_tmp -> next;
     }
@@ -727,12 +586,33 @@ void remplit_arbre_imputation ( void )
     enleve_selection_ligne_imputation ();
     modif_imputation = 0;
 }
-/* **************************************************************************************************** */
 
 
 
+/**
+ * Fill the drag & drop structure with the path of selected column.
+ * This is an interface function called from GTK, much like a callback.
+ *
+ * \param drag_source		Not used.
+ * \param path			Original path for the gtk selection.
+ * \param selection_data	A pointer to the drag & drop structure.
+ *
+ * \return FALSE, to allow future processing by the callback chain.
+ */
+gboolean budgetary_line_drag_data_get ( GtkTreeDragSource * drag_source, GtkTreePath * path,
+					GtkSelectionData * selection_data )
+{
+    if ( path )
+    {
+	gtk_tree_set_row_drag_data (selection_data, 
+				    GTK_TREE_MODEL(budgetary_line_tree_model), path);
+    }
+    
+    return FALSE;
+}
 
-/* **************************************************************************************************** */
+
+
 /* Fonction ouverture_node_imputation */
 /* appeléé lorsqu'on ouvre une imputation, sous imputation ou le compte d'une imputation */
 /* remplit ce qui doit être affiché */
@@ -1475,8 +1355,8 @@ void supprimer_imputation ( void )
 	dialog = gtk_dialog_new_with_buttons ( _("Delete a budgetary line"),
 					       GTK_WINDOW (window),
 					       GTK_DIALOG_MODAL,
-					       GTK_STOCK_OK,0,
 					       GTK_STOCK_CANCEL,1,
+					       GTK_STOCK_OK,0,
 					       NULL);
 
 	label = gtk_label_new ( COLON(_("Some transactions are still assigned to this budgetary line.\n\nYou can")) );
@@ -1806,11 +1686,11 @@ void supprimer_sous_imputation ( void )
 	gint nouveau_no_imputation = 0;
 	gint nouveau_no_sous_imputation = 0;
 
-	dialog = gtk_dialog_new_with_buttons ( _("Deleting a budgetaty line"),
+	dialog = gtk_dialog_new_with_buttons ( _("Deleting a budgetary line"),
 					       GTK_WINDOW (window),
 					       GTK_DIALOG_MODAL,
-					       GTK_STOCK_OK,0,
 					       GTK_STOCK_CANCEL,1,
+					       GTK_STOCK_OK,0,
 					       NULL);
 
 	label = gtk_label_new ( COLON(_("Some transactions are still assigned to this sub-budgetary line.\n\nYou can")) );
@@ -2487,19 +2367,14 @@ void exporter_ib ( void )
 /* **************************************************************************************************** */
 void importer_ib ( void )
 {
-    GtkWidget *dialog;
-    GtkWidget *label;
-    GtkWidget *fenetre_nom;
+    GtkWidget *dialog, *fenetre_nom;
     gint resultat;
     gchar *nom_ib;
-    GtkWidget *bouton_merge_remplace;
-    GtkWidget *menu;
-    GtkWidget *menu_item;
 
-
-    fenetre_nom = file_selection_new (_("Import the budgetary lines" ),FILE_SELECTION_MUST_EXIST);
+    fenetre_nom = file_selection_new (_("Import budgetary lines" ),
+				      FILE_SELECTION_MUST_EXIST);
     file_selection_set_filename ( GTK_FILE_SELECTION ( fenetre_nom ),
-				      dernier_chemin_de_travail );
+				  dernier_chemin_de_travail );
     file_selection_set_entry ( GTK_FILE_SELECTION ( fenetre_nom ), ".igsb" );
 
     resultat = gtk_dialog_run ( GTK_DIALOG ( fenetre_nom ));
@@ -2511,93 +2386,40 @@ void importer_ib ( void )
     }
 
     nom_ib = file_selection_get_filename ( GTK_FILE_SELECTION ( fenetre_nom ));
-
     gtk_widget_destroy ( GTK_WIDGET ( fenetre_nom ));
-
-    /* vérification que c'est possible par la boite de dialog*/
-
-    /* on permet de remplacer/fusionner la liste */
-
-    dialog = gtk_dialog_new_with_buttons ( _("Import the budgetary lines"),
-					   GTK_WINDOW (window),
-					   GTK_DIALOG_MODAL,
-					   GTK_STOCK_OK,0,
-					   GTK_STOCK_CANCEL,1,
-					   NULL );
-    gtk_signal_connect ( GTK_OBJECT ( dialog ),
-			 "destroy",
-			 GTK_SIGNAL_FUNC ( gtk_signal_emit_stop_by_name ),
-			 "destroy" );
-
-    /* pour éviter un warning lors de la compil */
-
-    bouton_merge_remplace = NULL;
 
     if ( no_derniere_operation )
     {
 	/*       il y a déjà des opérations dans le fichier, on ne peut que fusionner */
 
-	label = gtk_label_new ( _("File already contains transactions, the two budgetary lines lists will be merged." ));
-	gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox ),
-			     label,
-			     FALSE,
-			     FALSE,
-			     0 );
-	gtk_widget_show ( label );
+	resultat = question_yes_no_hint ( _("Merge imported budgetary lines with existing?"),
+					  _("File already contains transactions.  If you decide to continue, existing budgetary lines will be merged with imported ones.") );
     }
     else
     {
-	label = gtk_label_new ( COLON(_("Do you want")));
-	gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox ),
-			     label,
-			     FALSE,
-			     FALSE,
-			     0 );
-	gtk_widget_show ( label );
-
-	bouton_merge_remplace = gtk_option_menu_new ();
-	gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox ),
-			     bouton_merge_remplace,
-			     FALSE,
-			     FALSE,
-			     0 );
-	gtk_widget_show ( bouton_merge_remplace );
-
-	menu = gtk_menu_new ();
-
-	menu_item = gtk_menu_item_new_with_label ( _("Merge the two lists of budgetary lines" ));
-	gtk_object_set_data ( GTK_OBJECT ( menu_item ),
-			      "choix",
-			      NULL );
-	gtk_menu_append ( GTK_MENU ( menu ),
-			  menu_item );
-	gtk_widget_show ( menu_item );
-
-	menu_item = gtk_menu_item_new_with_label ( _("Replace the old list of budgetary lines" ));
-	gtk_object_set_data ( GTK_OBJECT ( menu_item ),
-			      "choix",
-			      GINT_TO_POINTER ( 1 ));
-	gtk_menu_append ( GTK_MENU ( menu ),
-			  menu_item );
-	gtk_widget_show ( menu_item );
-
-	gtk_option_menu_set_menu ( GTK_OPTION_MENU ( bouton_merge_remplace ),
-				   menu );
-	gtk_widget_show ( menu );
+	/* on permet de remplacer/fusionner la liste */
+	dialog = dialogue_special_no_run ( GTK_MESSAGE_QUESTION, GTK_BUTTONS_NONE,
+					   make_hint ( _("Merge imported budgetary lines with existing?"),
+						       _("File does not contain transactions.  "
+							 "If you decide to continue, existing budgetary lines will be merged with imported ones.  "
+							 "Once performed, there is no undo for this.\n"
+							 "You may also decide to replace existing budgetary lines with imported ones.") ) );
+	
+	gtk_dialog_add_buttons ( GTK_DIALOG ( dialog ), 
+				 _("Replace existing"), 2,
+				 GTK_STOCK_CANCEL, 0,
+				 GTK_STOCK_OK, 1,
+				 NULL);
+    
+	resultat = gtk_dialog_run ( GTK_DIALOG ( dialog ));
+	gtk_widget_destroy ( GTK_WIDGET ( dialog ));
     }
-
-
-    resultat = gtk_dialog_run ( GTK_DIALOG ( dialog ));
 
     switch ( resultat )
     {
-	case 0 :
+	case 2 :
 	    /* si on a choisi de remplacer l'ancienne liste, on la vire ici */
-
-	    if ( !no_derniere_operation
-		 &&
-		 gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( bouton_merge_remplace ) -> menu_item ),
-				       "choix" ))
+	    if ( !no_derniere_operation )
 	    {
 		g_slist_free ( liste_struct_imputation );
 		liste_struct_imputation = NULL;
@@ -2605,23 +2427,126 @@ void importer_ib ( void )
 		nb_enregistrements_imputations = 0;
 	    }
 
+	case 1:
 	    if ( !charge_ib ( nom_ib ))
 	    {
 		dialogue_error ( _("Cannot import file.") );
 		return;
 	    }
-	    gtk_widget_destroy ( GTK_WIDGET ( dialog ));
-
 	    break;
 
 	default :
-	    gtk_widget_destroy ( GTK_WIDGET ( dialog ));
 	    return;
     }
 }
-/* **************************************************************************************************** */
 
 
+
+/** 
+ * TODO: document this
+ */
+GtkWidget *creation_barre_outils_ib ( void )
+{
+    GtkWidget *hbox, *separateur, *handlebox, *hbox2;
+
+    hbox = gtk_hbox_new ( FALSE, 5 );
+
+    /* HandleBox */
+    handlebox = gtk_handle_box_new ();
+    gtk_box_pack_start ( GTK_BOX ( hbox ), handlebox, FALSE, FALSE, 0 );
+    /* Hbox2 */
+    hbox2 = gtk_hbox_new ( FALSE, 0 );
+    gtk_container_add ( GTK_CONTAINER(handlebox), hbox2 );
+
+    /* Add various icons */
+    gtk_box_pack_start ( GTK_BOX ( hbox2 ), 
+			 new_stock_button_with_label ( GTK_STOCK_NEW, 
+						       _("Budgetary line"),
+						       G_CALLBACK(appui_sur_ajout_division),
+						       budgetary_line_tree_model ), 
+			 FALSE, TRUE, 0 );
+    gtk_box_pack_start ( GTK_BOX ( hbox2 ), 
+			 new_stock_button_with_label ( GTK_STOCK_NEW, 
+						       _("Sub-budgetary line"),
+						       G_CALLBACK(appui_sur_ajout_sub_division),
+						       budgetary_line_tree_model ), 
+			 FALSE, TRUE, 0 );
+    gtk_box_pack_start ( GTK_BOX ( hbox2 ), 
+			 new_stock_button_with_label ( GTK_STOCK_OPEN, 
+						       _("Import"),
+						       G_CALLBACK(importer_ib),
+						       NULL ), 
+			 FALSE, TRUE, 0 );
+    gtk_box_pack_start ( GTK_BOX ( hbox2 ), 
+			 new_stock_button_with_label ( GTK_STOCK_SAVE, 
+						       _("Export"),
+						       G_CALLBACK(exporter_ib),
+						       NULL ), 
+			 FALSE, TRUE, 0 );
+    gtk_box_pack_start ( GTK_BOX ( hbox2 ), 
+			 new_stock_button_with_label ( GTK_STOCK_DELETE, 
+						       _("Delete"),
+						       G_CALLBACK(supprimer_division),
+						       budgetary_line_tree ), 
+			 FALSE, TRUE, 0 );
+    gtk_box_pack_start ( GTK_BOX ( hbox2 ), /* FIXME: write the property dialog */
+			 new_stock_button_with_label (GTK_STOCK_PROPERTIES, 
+						      _("Properties"),
+						      NULL, NULL ), 
+			 FALSE, TRUE, 0 );
+    gtk_box_pack_start ( GTK_BOX ( hbox2 ), 
+			 new_stock_button_with_label_menu ( GTK_STOCK_SELECT_COLOR, 
+							    _("View"),
+							    G_CALLBACK(popup_budgetary_line_view_mode_menu),
+							    NULL ),
+			 FALSE, TRUE, 0 );
+
+    /* Vertical separator */
+    separateur = gtk_vseparator_new ();
+    gtk_box_pack_start ( GTK_BOX ( hbox ), separateur, FALSE, FALSE, 0 );
+    gtk_widget_show_all ( hbox );
+
+
+    return ( hbox );
+}
+
+
+
+/** 
+ * TODO: document this
+ */
+gboolean popup_budgetary_line_view_mode_menu ( GtkWidget * button )
+{
+    GtkWidget *menu, *menu_item;
+
+    menu = gtk_menu_new ();
+
+    /* Edit transaction */
+    menu_item = gtk_image_menu_item_new_with_label ( _("Budgetary line view") );
+    g_signal_connect ( G_OBJECT(menu_item), "activate", 
+		       G_CALLBACK(expand_arbre_division), (gpointer) 0 );
+    g_object_set_data ( G_OBJECT(menu_item), "tree-view", budgetary_line_tree );
+    gtk_menu_append ( menu, menu_item );
+
+    menu_item = gtk_image_menu_item_new_with_label ( _("Sub-budgetary line view") );
+    g_signal_connect ( G_OBJECT(menu_item), "activate", 
+		       G_CALLBACK(expand_arbre_division), (gpointer) 1 );
+    g_object_set_data ( G_OBJECT(menu_item), "tree-view", budgetary_line_tree );
+    gtk_menu_append ( menu, menu_item );
+
+    menu_item = gtk_image_menu_item_new_with_label ( _("Complete view") );
+    g_signal_connect ( G_OBJECT(menu_item), "activate", 
+		       G_CALLBACK(expand_arbre_division), (gpointer) 2 );
+    g_object_set_data ( G_OBJECT(menu_item), "tree-view", budgetary_line_tree );
+    gtk_menu_append ( menu, menu_item );
+
+    gtk_widget_show_all ( menu );
+
+    gtk_menu_popup ( GTK_MENU(menu), NULL, button, set_popup_position, button, 1, 
+		     gtk_get_current_event_time());
+
+    return FALSE;
+}
 
 
 
