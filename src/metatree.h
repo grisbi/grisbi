@@ -89,6 +89,8 @@ void fill_division_row ( GtkTreeModel * model, MetatreeInterface * iface,
 void fill_sub_division_row ( GtkTreeModel * model, MetatreeInterface * iface, 
 			  GtkTreeIter * iter, gpointer division,
 			  gpointer sub_division );
+void fill_transaction_row ( GtkTreeModel * model, GtkTreeIter * iter, 
+			    struct structure_operation * operation );
 gboolean division_drag_data_get ( GtkTreeDragSource * drag_source, GtkTreePath * path,
 			       GtkSelectionData * selection_data );
 gboolean division_row_drop_possible (GtkTreeDragDest * drag_dest, 
@@ -110,6 +112,9 @@ void expand_arbre_division ( GtkWidget *bouton, gint depth );
 void appui_sur_ajout_division ( GtkWidget * button, GtkTreeModel * model );
 void appui_sur_ajout_sub_division ( GtkWidget * button, GtkTreeModel * model );
 GtkTreeIter * get_iter_from_div ( GtkTreeModel * model, int div, int sub_div );
+GtkTreeIter * get_iter_from_pointer ( GtkTreeModel * model, gpointer pointer );
+void update_transaction_in_tree ( MetatreeInterface * iface, GtkTreeModel * model, 
+				  struct structure_operation * transaction );
 /*END_DECLARATION*/
 
 #endif
