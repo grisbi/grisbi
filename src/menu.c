@@ -46,6 +46,7 @@
 #include "comptes_traitements.h"
 #include "etats_config.h"
 #include "parametres.h"
+#include "tip.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -126,7 +127,6 @@ GtkWidget *init_menus ( GtkWidget *vbox )
 	{menu_name(_("View"), _("Show two lines per transaction"), NULL),   NULL, G_CALLBACK(view_menu_cb), TWO_LINES_PER_TRANSACTION, menu_name(_("View"), _("Show one line per transaction"), NULL) },
 	{menu_name(_("View"), _("Show three lines per transaction"), NULL),   NULL, G_CALLBACK(view_menu_cb), THREE_LINES_PER_TRANSACTION, menu_name(_("View"), _("Show one line per transaction"), NULL)},
 	{menu_name(_("View"), _("Show four lines per transaction"), NULL),   NULL, G_CALLBACK(view_menu_cb), FOUR_LINES_PER_TRANSACTION, menu_name(_("View"), _("Show one line per transaction"), NULL)},
-	{menu_name(_("View"), "Sep1", NULL),    NULL, NULL, 0, "<Separator>", NULL },
 
 	/* Accounts menu */
 	{menu_name(_("Accounts"), NULL, NULL), NULL, NULL, 0, "<Branch>", NULL },
@@ -161,7 +161,9 @@ GtkWidget *init_menus ( GtkWidget *vbox )
 	{menu_name(_("Help"), "Sep1", NULL),    NULL, NULL, 0, "<Separator>", NULL },
 	{menu_name(_("Help"), _("Grisbi website"), NULL),   NULL, G_CALLBACK (lien_web ), 1, NULL, NULL },
 	{menu_name(_("Help"), _("Report a bug"), NULL),   NULL, G_CALLBACK ( lien_web), 2,NULL , NULL },
-	{menu_name(_("Help"), _("On line User's guide"), NULL),   NULL, G_CALLBACK ( lien_web), 3, NULL, NULL }
+	{menu_name(_("Help"), _("On line User's guide"), NULL),   NULL, G_CALLBACK ( lien_web), 3, NULL, NULL },
+	{menu_name(_("Help"), "Sep1", NULL),    NULL, NULL, 0, "<Separator>", NULL },
+	{menu_name(_("Help"), _("Today's tip"), NULL),   NULL, G_CALLBACK (display_tip), 3, NULL, NULL },
     };
 
 
