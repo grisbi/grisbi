@@ -36,16 +36,13 @@ GtkWidget *onglet_exercices ( void )
 {
   GtkWidget *hbox_pref, *vbox_pref, *label, *frame;
   GtkWidget *scrolled_window, *vbox, *vbox2, *bouton, *hbox;
-  GtkWidget *paddingbox;
-  GtkSizeGroup * size_group;
+  GtkWidget *paddingbox, *table;
   GSList *liste_tmp;
   gchar *titres[]={_("Name")};
 
-
   vbox_pref = new_vbox_with_title_and_icon ( _("Financial years"),
 					     "financial-years.png" );
-
-  paddingbox = paddingbox_new_with_title ( vbox_pref, FALSE,
+  paddingbox = new_paddingbox_with_title ( vbox_pref, FALSE,
 					   _("Known financial years") );
   hbox = gtk_hbox_new ( FALSE, 5 );
   gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox,
@@ -163,7 +160,7 @@ GtkWidget *onglet_exercices ( void )
 		       clist_exercices_parametres );
   gtk_box_pack_start ( GTK_BOX ( vbox ), bouton_supprimer_exercice,
 		       FALSE, FALSE, 5 );
-
+  /* Associate operations */
   bouton = gtk_button_new_with_label ( _("Associate operations without financial years") );
   gtk_signal_connect ( GTK_OBJECT ( bouton ),
 		       "clicked",
@@ -173,7 +170,6 @@ GtkWidget *onglet_exercices ( void )
 		       FALSE, FALSE, 5 );
   gtk_widget_show ( bouton );
 
-
   /* Handle clist selections */
   gtk_signal_connect ( GTK_OBJECT ( clist_exercices_parametres ), "select-row",
 		       GTK_SIGNAL_FUNC ( selection_ligne_exercice ),
@@ -182,46 +178,57 @@ GtkWidget *onglet_exercices ( void )
 		       GTK_SIGNAL_FUNC ( deselection_ligne_exercice ),
 		       frame );
 
+
   /* Financial year details */
-  paddingbox = paddingbox_new_with_title ( vbox_pref, FALSE,
+  paddingbox = new_paddingbox_with_title ( vbox_pref, FALSE,
 					   _("Financial year details") );
-  size_group = gtk_size_group_new ( GTK_SIZE_GROUP_HORIZONTAL );
+
+  /* Put stuff in a table */
+  table = gtk_table_new ( 2, 2, FALSE );
+  gtk_table_set_row_spacings ( GTK_TABLE ( table ), 6 );
+  gtk_table_set_col_spacings ( GTK_TABLE ( table ), 6 );
+  gtk_box_pack_start ( GTK_BOX ( paddingbox ), table,
+		       FALSE, FALSE, 0 );
 
   /* Financial year name */
-  hbox = gtk_hbox_new ( FALSE, 6 );
-  gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox,
-		       FALSE, FALSE, 0 );
   label = gtk_label_new ( COLON(_("Name")) );
-  gtk_box_pack_start ( GTK_BOX ( hbox ), label,
-		       FALSE, FALSE, 0 );
+  gtk_table_attach ( GTK_TABLE ( table ),
+		     label, 0, 1, 0, 1,
+		     GTK_SHRINK | GTK_FILL, 0,
+		     0, 0 );
   nom_exercice = gtk_entry_new ();
-  gtk_size_group_add_widget ( size_group, nom_exercice );
-  gtk_box_pack_start ( GTK_BOX ( hbox ), nom_exercice,
-		       TRUE, TRUE, 0 );
+  gtk_table_attach ( GTK_TABLE ( table ),
+		     nom_exercice, 1, 2, 0, 1,
+		     GTK_EXPAND | GTK_FILL, 0,
+		     0, 0 );
 
   /* Start */
-  hbox = gtk_hbox_new ( FALSE, 6 );
-  gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox,
-		       FALSE, FALSE, 0 );
   label = gtk_label_new ( COLON(_("Start")) );
-  gtk_box_pack_start ( GTK_BOX ( hbox ), label,
-		       FALSE, FALSE, 0 );
+  gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
+  gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
+  gtk_table_attach ( GTK_TABLE ( table ),
+		     label, 0, 1, 1, 2,
+		     GTK_SHRINK | GTK_FILL, 0,
+		     0, 0 );
   debut_exercice = gtk_entry_new ();
-  gtk_size_group_add_widget ( size_group, debut_exercice );
-  gtk_box_pack_start ( GTK_BOX ( hbox ), debut_exercice,
-		       TRUE, TRUE, 0 );
+  gtk_table_attach ( GTK_TABLE ( table ),
+		     debut_exercice, 1, 2, 1, 2,
+		     GTK_EXPAND | GTK_FILL, 0,
+		     0, 0 );
 
   /* End */
-  hbox = gtk_hbox_new ( FALSE, 6 );
-  gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox,
-		       FALSE, FALSE, 0 );
   label = gtk_label_new ( COLON(_("End")) );
-  gtk_box_pack_start ( GTK_BOX ( hbox ), label,
-		       FALSE, FALSE, 0 );
+  gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
+  gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
+  gtk_table_attach ( GTK_TABLE ( table ),
+		     label, 0, 1, 2, 3,
+		     GTK_SHRINK | GTK_FILL, 0,
+		     0, 0 );
   fin_exercice = gtk_entry_new ();
-  gtk_size_group_add_widget ( size_group, fin_exercice );
-  gtk_box_pack_start ( GTK_BOX ( hbox ), fin_exercice,
-		       TRUE, TRUE, 0 );
+  gtk_table_attach ( GTK_TABLE ( table ),
+		     fin_exercice, 1, 2, 2, 3,
+		     GTK_EXPAND | GTK_FILL, 0,
+		     0, 0 );
 
   /* Activate in transaction form? */
   /* FIXME: make a new checkbox paradigm to allow refining (put data
