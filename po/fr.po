@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2003-10-19 16:43+0200\n"
-"PO-Revision-Date: 2003-10-19 16:48GMT\n"
+"PO-Revision-Date: 2003-10-25 22:49+0200\n"
 "Last-Translator: Benjamin Drieu <bdrieu@april.org>\n"
 "Language-Team: Francais <traduction@grisbi.org>\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -442,7 +442,7 @@ msgstr "Imputations budgétaires"
 #: src/affichage_liste.c:1044 src/operations_formulaire.c:1124
 #: src/operations_formulaire.c:3752
 msgid "Cheque/Transfer number"
-msgstr "n° Chèque/Virement"
+msgstr "N° Chèque/Virement"
 
 #: src/banque.c:105
 msgid "New bank"
@@ -2888,7 +2888,7 @@ msgstr "Catégories : Sous-catégories"
 
 #: src/echeancier_formulaire.c:1065 src/echeancier_formulaire.c:2530
 msgid "Transfer reference"
-msgstr "n° Virement"
+msgstr "N° Virement"
 
 #: src/echeancier_formulaire.c:1094 src/echeancier_formulaire.c:2540
 msgid "Limit date"
@@ -3025,9 +3025,7 @@ msgstr "%02d/%02d/%d : [Aucun Tiers] [%4.2f]"
 msgid ""
 "If reconciliation reference ends in a digit, it is automatically incremented "
 "at each reconciliation."
-msgstr ""
-"Si le n° de rapprochement est terminé par un chiffre, celui-ci est "
-"automatiquement incrémenté à chaque nouveau rapprochement."
+msgstr "Si le numéro de rapprochement est terminé par un chiffre, celui-ci est automatiquement incrémenté à chaque nouveau rapprochement."
 
 #: src/equilibrage.c:285
 msgid "Final balance"
@@ -3835,7 +3833,7 @@ msgstr "Afficher les informations sur"
 
 #: src/etats_config.c:6537
 msgid "the transaction number"
-msgstr "le n° d'opération"
+msgstr "le numéro d'opération"
 
 #: src/etats_config.c:6553
 msgid "the date"
