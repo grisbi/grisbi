@@ -63,7 +63,6 @@ GtkWidget *creation_details_compte ( void )
     GtkWidget *onglet, *vbox, *scrolled_window, *separateur, *hbox, *hbox2;
     GtkWidget *label, *bouton, *vbox2, *scrolled_window_text, *paddingbox;
 
-
     /* la fenetre ppale est une vbox avec les détails en haut et appliquer en bas */
 
     onglet = gtk_vbox_new ( FALSE, 5 );
@@ -262,16 +261,19 @@ GtkWidget *creation_details_compte ( void )
     scrolled_window_text = gtk_scrolled_window_new ( FALSE, FALSE );
     gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window_text ),
 				     GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC );
+    gtk_scrolled_window_set_shadow_type ( GTK_SCROLLED_WINDOW(scrolled_window_text), 
+					  GTK_SHADOW_IN );
     gtk_box_pack_start ( GTK_BOX ( hbox2 ), scrolled_window_text, TRUE, TRUE, 0 );
     gtk_widget_show ( scrolled_window_text );
 
-    detail_adresse_titulaire = gtk_text_new ( NULL, NULL );
-    gtk_text_set_editable ( GTK_TEXT ( detail_adresse_titulaire ), TRUE );
-    gtk_widget_set_sensitive ( detail_adresse_titulaire, FALSE );
-    gtk_container_add ( GTK_CONTAINER ( scrolled_window_text ),
-			detail_adresse_titulaire );
+    detail_adresse_titulaire = gtk_text_view_new ();
+    gtk_text_view_set_pixels_above_lines (GTK_TEXT_VIEW (detail_adresse_titulaire), 3);
+    gtk_text_view_set_pixels_below_lines (GTK_TEXT_VIEW (detail_adresse_titulaire), 3);
+    gtk_text_view_set_left_margin (GTK_TEXT_VIEW (detail_adresse_titulaire), 3);
+    gtk_text_view_set_right_margin (GTK_TEXT_VIEW (detail_adresse_titulaire), 3);
+    gtk_text_view_set_wrap_mode ( GTK_TEXT_VIEW (detail_adresse_titulaire), GTK_WRAP_WORD );
+    gtk_container_add ( GTK_CONTAINER ( scrolled_window_text ), detail_adresse_titulaire );
     gtk_widget_show ( detail_adresse_titulaire );
-
 
     /* ligne de l'établissement financier */
     paddingbox = new_paddingbox_with_title ( vbox, FALSE, _("Bank"));
@@ -486,11 +488,18 @@ GtkWidget *creation_details_compte ( void )
     scrolled_window_text = gtk_scrolled_window_new ( FALSE, FALSE );
     gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window_text ),
 				     GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC );
+    gtk_scrolled_window_set_shadow_type ( GTK_SCROLLED_WINDOW(scrolled_window_text), 
+					  GTK_SHADOW_IN );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), scrolled_window_text, TRUE, TRUE, 5 );
     gtk_widget_show ( scrolled_window_text );
 
-    detail_commentaire = gtk_text_new ( NULL, NULL );
-    gtk_text_set_editable ( GTK_TEXT ( detail_commentaire ), TRUE ); 
+    detail_commentaire = gtk_text_view_new ();
+    gtk_text_view_set_pixels_above_lines (GTK_TEXT_VIEW (detail_commentaire), 3);
+    gtk_text_view_set_pixels_below_lines (GTK_TEXT_VIEW (detail_commentaire), 3);
+    gtk_text_view_set_left_margin (GTK_TEXT_VIEW (detail_commentaire), 3);
+    gtk_text_view_set_right_margin (GTK_TEXT_VIEW (detail_commentaire), 3);
+    gtk_text_view_set_wrap_mode ( GTK_TEXT_VIEW (detail_commentaire), GTK_WRAP_WORD );
+
     gtk_container_add ( GTK_CONTAINER ( scrolled_window_text ), detail_commentaire );
     gtk_widget_show ( detail_commentaire );
 
@@ -564,10 +573,9 @@ GtkWidget *creation_details_compte ( void )
 				"toggled",
 				GTK_SIGNAL_FUNC ( modif_detail_compte ),
 				GTK_OBJECT ( hbox_boutons_modif ) );
-    gtk_signal_connect_object ( GTK_OBJECT ( detail_adresse_titulaire ),
-				"changed",
-				GTK_SIGNAL_FUNC ( modif_detail_compte ),
-				GTK_OBJECT ( hbox_boutons_modif ) );
+    g_signal_connect_swapped ( G_OBJECT(gtk_text_view_get_buffer(GTK_TEXT_VIEW(detail_adresse_titulaire))),
+			       "changed", ((GCallback) modif_detail_compte), 
+			       hbox_boutons_modif );
     gtk_signal_connect_object ( GTK_OBJECT ( GTK_OPTION_MENU ( detail_option_menu_banque  ) -> menu ),
 				"selection-done",
 				GTK_SIGNAL_FUNC ( modif_detail_compte ),
@@ -600,10 +608,9 @@ GtkWidget *creation_details_compte ( void )
 				"changed",
 				GTK_SIGNAL_FUNC ( modif_detail_compte ),
 				GTK_OBJECT ( hbox_boutons_modif ) );
-    gtk_signal_connect_object ( GTK_OBJECT ( detail_commentaire ),
-				"changed",
-				GTK_SIGNAL_FUNC ( modif_detail_compte ),
-				GTK_OBJECT ( hbox_boutons_modif ) );
+    g_signal_connect_swapped ( G_OBJECT(gtk_text_view_get_buffer(GTK_TEXT_VIEW(detail_commentaire))),
+			       "changed", ((GCallback) modif_detail_compte), 
+			       hbox_boutons_modif );
 
     gtk_widget_set_sensitive ( hbox_boutons_modif,
 			       FALSE );
@@ -753,23 +760,18 @@ void remplissage_details_compte ( void )
 	gtk_entry_set_text ( GTK_ENTRY ( detail_titulaire_compte ),
 			     "" );
 
-    gtk_editable_delete_text ( GTK_EDITABLE ( detail_adresse_titulaire ), 
-			       0, 
-			       -1 );
+    gtk_text_buffer_set_text ( gtk_text_view_get_buffer (GTK_TEXT_VIEW (detail_adresse_titulaire)),
+			       ( ADRESSE_TITULAIRE ? ADRESSE_TITULAIRE : "") , -1 );
+
     if ( ADRESSE_TITULAIRE )
-    {
-	gtk_text_insert ( GTK_TEXT ( detail_adresse_titulaire ),
-			  NULL,
-			  NULL,
-			  NULL,
-			  ADRESSE_TITULAIRE,
-			  -1 );
+      {
 	gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( GTK_RADIO_BUTTON ( detail_bouton_adresse_commune ) -> group -> data ),
 				       TRUE );
-    }
+      }
     else
-	gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( detail_bouton_adresse_commune ),
-				       TRUE );
+      gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( detail_bouton_adresse_commune ),
+				     TRUE );
+
     if ( pointeur_banque )
     {
 	struct struct_banque *banque;
@@ -831,17 +833,20 @@ void remplissage_details_compte ( void )
 			 g_strdup_printf ( "%4.2f",
 					   SOLDE_MINI_VOULU ));
 
-    gtk_editable_delete_text ( GTK_EDITABLE ( detail_commentaire ),
-			       0,
-			       -1 );
+/*     gtk_editable_delete_text ( GTK_EDITABLE ( detail_commentaire ), */
+/* 			       0, */
+/* 			       -1 ); */
 
-    if ( COMMENTAIRE )
-	gtk_text_insert ( GTK_TEXT ( detail_commentaire ),
-			  NULL,
-			  NULL,
-			  NULL,
-			  COMMENTAIRE,
-			  -1 );
+/*     if ( COMMENTAIRE ) */
+/* 	gtk_text_insert ( GTK_TEXT ( detail_commentaire ), */
+/* 			  NULL, */
+/* 			  NULL, */
+/* 			  NULL, */
+/* 			  COMMENTAIRE, */
+/* 			  -1 ); */
+
+    gtk_text_buffer_set_text ( gtk_text_view_get_buffer (GTK_TEXT_VIEW (detail_commentaire)),
+			       ( COMMENTAIRE ? COMMENTAIRE : "") , -1 );
 
 
     gtk_widget_set_sensitive ( hbox_boutons_modif,
@@ -858,7 +863,9 @@ void remplissage_details_compte ( void )
 
 void modification_details_compte ( void )
 {
-    gint i;
+    GtkTextIter start, end;
+    GtkTextBuffer *buffer;
+    gint i; 
 
     /* vérification que le compte a un nom */
 
@@ -984,9 +991,10 @@ void modification_details_compte ( void )
 
     if ( !gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( detail_bouton_adresse_commune )))
     {
-	ADRESSE_TITULAIRE = g_strdup ( g_strstrip ( gtk_editable_get_chars (GTK_EDITABLE ( detail_adresse_titulaire ),
-									    0,
-									    -1 )));
+        buffer = gtk_text_view_get_buffer ( GTK_TEXT_VIEW (detail_adresse_titulaire) );
+	gtk_text_buffer_get_iter_at_offset ( buffer, &start, 0 );
+	gtk_text_buffer_get_iter_at_offset ( buffer, &end, -1 );
+	ADRESSE_TITULAIRE = gtk_text_buffer_get_text ( buffer , &start, &end, TRUE );
 
 	if ( strlen ( ADRESSE_TITULAIRE ))
 	{
@@ -1096,10 +1104,11 @@ void modification_details_compte ( void )
 
 
     /* récupération du texte */
+    buffer = gtk_text_view_get_buffer ( GTK_TEXT_VIEW (detail_commentaire) );
+    gtk_text_buffer_get_iter_at_offset ( buffer, &start, 0 );
+    gtk_text_buffer_get_iter_at_offset ( buffer, &end, -1 );
+    COMMENTAIRE = gtk_text_buffer_get_text ( buffer , &start, &end, TRUE );
 
-    COMMENTAIRE = g_strdup ( g_strstrip ( gtk_editable_get_chars (GTK_EDITABLE ( detail_commentaire ),
-								  0,
-								  -1 )));
 
     if ( strlen ( COMMENTAIRE ))
     {
