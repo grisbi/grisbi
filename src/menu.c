@@ -95,7 +95,7 @@ GtkWidget *init_menus ( GtkWidget *vbox )
 	{menu_name(_("File"), "Sep1", NULL),    NULL, NULL, 0, "<Separator>", NULL },
 	{menu_name(_("File"), _("Recently opened files"), NULL), NULL,NULL , 0, "<Branch>",NULL, },
 	{menu_name(_("File"), "Sep1", NULL),    NULL, NULL, 0, "<Separator>", NULL },
-	{menu_name(_("File"), _("Import QIF\\/OFX\\/Gnucash file ..."), NULL),   NULL, G_CALLBACK ( importer_fichier), 0, "<StockItem>" ,GTK_STOCK_CONVERT  },
+	{menu_name(_("File"), _("Import QIF\\/OFX\\/CSV\\/Gnucash file ..."), NULL),   NULL, G_CALLBACK ( importer_fichier), 0, "<StockItem>" ,GTK_STOCK_CONVERT  },
 	{menu_name(_("File"), _("Export QIF file ..."), NULL),   NULL,G_CALLBACK ( exporter_fichier_qif ), 0, "<StockItem>", GTK_STOCK_CONVERT  },
 	{menu_name(_("File"), "Sep1", NULL),    NULL, NULL, 0, "<Separator>", NULL },
 	{menu_name(_("File"), _("Close"), NULL),   NULL,G_CALLBACK ( fermer_fichier ), 0, "<StockItem>", GTK_STOCK_CLOSE },
@@ -161,7 +161,7 @@ GtkWidget *init_menus ( GtkWidget *vbox )
 	{menu_name(_("Help"), _("Report a bug"), NULL),   NULL, G_CALLBACK ( lien_web), 2,NULL , NULL },
 	{menu_name(_("Help"), _("On line User's guide"), NULL),   NULL, G_CALLBACK ( lien_web), 3, NULL, NULL },
 	{menu_name(_("Help"), "Sep1", NULL),    NULL, NULL, 0, "<Separator>", NULL },
-	{menu_name(_("Help"), _("Today's tip"), NULL),   NULL, G_CALLBACK (display_tip), 3, NULL, NULL },
+	{menu_name(_("Help"), _("Today's tip"), NULL),   NULL, G_CALLBACK (force_display_tip), FALSE, NULL, NULL },
     };
 
 
@@ -234,11 +234,11 @@ void efface_derniers_fichiers_ouverts ( void )
 			      "\\" C_DIRECTORY_SEPARATOR );
 
 	gtk_item_factory_delete_item ( item_factory_menu_general,
-				       menu_name ( _("File"), _("_Recently opened files"), tmp ));
+				       menu_name ( _("File"), _("Recently opened files"), tmp ));
     }
 
     gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
-							   menu_name ( _("File"), _("_Recently opened files"), NULL )),
+							   menu_name ( _("File"), _("Recently opened files"), NULL )),
 			       FALSE );
 
 }
