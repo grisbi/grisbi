@@ -26,6 +26,9 @@
 #include "variables-extern.c"
 #include "en_tete.h"
 
+#include "xpm/book-closed.xpm"
+#include "xpm/book-open.xpm"
+
 
 /* **************************************************************************************************** */
 /* Fonction onglet_tiers : */
@@ -48,23 +51,13 @@ GtkWidget *onglet_tiers ( void )
   GtkWidget *vbox_frame;
   GtkWidget *hbox;
 
-
-/* création des pixmaps pour la liste */
-
-  /* FIXME */
-  /* BIG FIXME !!! */
-  /*gnome_stock_pixmap_gdk ( GNOME_STOCK_PIXMAP_BOOK_RED,
-			   "",
-			   &pixmap_ouvre,
-			   &masque_ouvre );
-
-  gnome_stock_pixmap_gdk ( GNOME_STOCK_PIXMAP_BOOK_OPEN,
-			   "",
-			   &pixmap_ferme,
-			   &masque_ferme );
-			   */
-
-
+  /* création des pixmaps pour la liste */
+  pixmap_ouvre = gdk_pixmap_create_from_xpm_d ( GTK_WIDGET(window) -> window,
+						&masque_ouvre, NULL, 
+						book_open_xpm );
+  pixmap_ferme = gdk_pixmap_create_from_xpm_d ( GTK_WIDGET(window) -> window,
+						&masque_ferme, NULL, 
+						book_closed_xpm );
 
 /* création de la fenêtre qui sera renvoyée */
 
@@ -441,14 +434,11 @@ void remplit_arbre_tiers ( void )
 				      NULL,
 				      NULL,
 				      text,
-				      10,
-				      NULL,NULL,NULL,NULL,
-				      /* FIXME
+				      16,
 				      pixmap_ouvre,
 				      masque_ouvre,
 				      pixmap_ferme,
 				      masque_ferme,
-				      */
 				      FALSE,
 				      FALSE );
 
@@ -987,23 +977,17 @@ void clique_sur_modifier_tiers ( GtkWidget *bouton_modifier,
 					 node,
 					 0,
 					 tiers -> nom_tiers,
-					 10,
-					 NULL, NULL );
-	  /* BENJ FIXME
+					 16,
 					 pixmap_ferme,
 					 masque_ferme );
-					 */
 	  else
 	    gtk_ctree_node_set_pixtext ( GTK_CTREE ( arbre_tiers ),
 					 node,
 					 0,
 					 tiers -> nom_tiers,
-					 10,
-					 NULL, NULL );
-	  /* BENJ FIXME
+					 16,
 					 pixmap_ouvre,
 					 masque_ouvre );
-					 */
 
       demande_mise_a_jour_tous_comptes ();
       remplissage_liste_echeance();
@@ -1697,14 +1681,11 @@ void appui_sur_ajout_tiers ( void )
 				  NULL,
 				  NULL,
 				  text,
-				  10,
-				  NULL,NULL,NULL,NULL,
-				  /*
+				  16,
 				  pixmap_ouvre,
 				  masque_ouvre,
 				  pixmap_ferme,
 				  masque_ferme,
-				  */
 				  FALSE,
 				  FALSE );
 
