@@ -6587,7 +6587,7 @@ gboolean enregistre_fichier ( gboolean force )
     xmlNewTextChild ( node,
 		      NULL,
 		      "Utilise_logo",
-		      etat.utilise_logo );
+		      itoa (etat.utilise_logo ));
 
     xmlNewTextChild ( node,
 		      NULL,

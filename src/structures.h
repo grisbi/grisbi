@@ -74,6 +74,7 @@ struct {
     guint en_train_de_sauvegarder;
     guint en_train_de_charger;
     guint utilise_logo;
+    guint utilise_fonte_listes;
 
     /* Various display message stuff  */
     guint display_message_lock_active;

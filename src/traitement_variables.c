@@ -214,3 +214,77 @@ void initialise_tab_affichage_ope ( void )
 
 }
 /*****************************************************************************************************/
+
+
+/*****************************************************************************************************/
+void initialisation_couleurs_listes ( void )
+{
+    GdkColor couleur1;
+    GdkColor couleur2;
+    GdkColor couleur_rouge;
+    GdkColor couleur_selection;
+    GdkColor couleur_grise;
+
+    /* Initialisation des couleurs de la clist */
+
+    couleur1.red = COULEUR1_RED ;
+    couleur1.green = COULEUR1_GREEN;
+    couleur1.blue = COULEUR1_BLUE;
+
+    couleur2.red = COULEUR2_RED;
+    couleur2.green = COULEUR2_GREEN;
+    couleur2.blue = COULEUR2_BLUE;
+
+    couleur_rouge.red = COULEUR_ROUGE_RED;
+    couleur_rouge.green = COULEUR_ROUGE_GREEN;
+    couleur_rouge.blue = COULEUR_ROUGE_BLUE;
+
+    couleur_grise.red = COULEUR_GRISE_RED;
+    couleur_grise.green = COULEUR_GRISE_GREEN;
+    couleur_grise.blue = COULEUR_GRISE_BLUE;
+
+    /* initialise la couleur de la sélection */
+
+    couleur_selection.red= COULEUR_SELECTION_RED;
+    couleur_selection.green= COULEUR_SELECTION_GREEN ;
+    couleur_selection.blue= COULEUR_SELECTION_BLUE;
+
+
+    /* initialise les variables style_couleur_1 et style_couleur_2 qui serviront */
+    /* à mettre la couleur de fond */
+
+    style_couleur [0] = gtk_style_copy ( gtk_widget_get_style (GTK_WIDGET (window)) );
+    style_couleur [0]->fg[GTK_STATE_NORMAL] = style_couleur [0]->black;
+    style_couleur [0]->base[GTK_STATE_NORMAL] = couleur2;
+    style_couleur [0]->fg[GTK_STATE_SELECTED] = style_couleur [0]->black;
+    style_couleur [0]->bg[GTK_STATE_SELECTED] = couleur_selection;
+
+    style_couleur [1] = gtk_style_copy ( gtk_widget_get_style (GTK_WIDGET (window)) );
+    style_couleur [1]->fg[GTK_STATE_NORMAL] = style_couleur [1]->black;
+    style_couleur [1]->base[GTK_STATE_NORMAL] = couleur1;
+    style_couleur [1]->fg[GTK_STATE_SELECTED] = style_couleur [1]->black;
+    style_couleur [1]->bg[GTK_STATE_SELECTED] = couleur_selection;
+
+
+    /* initialise les variables style_rouge_couleur [1] et style_rouge_couleur [2] qui serviront */
+    /* à mettre en rouge le solde quand il est négatif */
+
+    style_rouge_couleur [0] = gtk_style_copy ( gtk_widget_get_style (GTK_WIDGET (window)) );
+    style_rouge_couleur [0] ->fg[GTK_STATE_NORMAL] = couleur_rouge;
+    style_rouge_couleur [0] ->base[GTK_STATE_NORMAL] = couleur2;
+    style_rouge_couleur [0] ->fg[GTK_STATE_SELECTED] = couleur_rouge;
+    style_rouge_couleur [0] ->bg[GTK_STATE_SELECTED] = couleur_selection;
+
+    style_rouge_couleur [1] = gtk_style_copy ( gtk_widget_get_style (GTK_WIDGET (window)) );
+    style_rouge_couleur [1] ->fg[GTK_STATE_NORMAL] = couleur_rouge;
+    style_rouge_couleur [1] ->base[GTK_STATE_NORMAL] = couleur1;
+    style_rouge_couleur [1] ->fg[GTK_STATE_SELECTED] = couleur_rouge;
+    style_rouge_couleur [1] ->bg[GTK_STATE_SELECTED] = couleur_selection;
+
+    style_gris = gtk_style_copy ( gtk_widget_get_style (GTK_WIDGET (window)) );
+    style_gris ->base[GTK_STATE_NORMAL] = couleur_grise;
+    style_gris ->fg[GTK_STATE_NORMAL] = style_gris->black;
+
+}
+/*****************************************************************************************************/
+

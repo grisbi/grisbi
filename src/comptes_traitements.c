@@ -237,7 +237,7 @@ void supprimer_compte ( void )
 				  (GCompareFunc)cherche_compte_dans_echeances )))
     {
       if ( echeance_selectionnnee == ECHEANCE_COURANTE )
-	ECHEANCE_COURANTE = -1;
+	ECHEANCE_COURANTE = GINT_TO_POINTER (-1);
 
       gsliste_echeances = g_slist_remove ( gsliste_echeances, ECHEANCE_COURANTE );
       nb_echeances--;
