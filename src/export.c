@@ -146,7 +146,7 @@ void signal_toggle_account_entry(GtkWidget* check_button,GtkWidget* account_entr
 static GtkWidget* export_accounts_selection_dialog_new(GSList* format_list, gint selected_format)
 {/* {{{ */
     GtkWidget *dialog, *table, *account_entry, *check_button, *paddingbox;
-    gchar *sFilename;
+    gchar *sFilename = NULL;
     GtkWidget *pScroll, *pVBox;
 
     export_format* format = g_slist_nth_data(format_list,selected_format);
