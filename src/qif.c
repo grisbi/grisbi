@@ -129,7 +129,7 @@ void fichier_choisi_importation_qif ( GtkWidget *fenetre )
 				    "r" ) ))
 	{
 	  dialogue ( g_strconcat ("cannot open ", nom_fichier_qif, ": ",
-				  strerror ( errno ), NULL ));
+				  latin2utf8 ( strerror(errno) ), NULL ));
 	  return;
 	}
 
@@ -297,13 +297,11 @@ void fichier_choisi_importation_qif ( GtkWidget *fenetre )
 
 		  /* on vire les crochets s'ils y sont */
 
-		  compte -> nom_de_compte = g_strdelimit ( compte -> nom_de_compte,
-							   "[",
-							   ' ' );
-		  compte -> nom_de_compte = g_strdelimit ( compte -> nom_de_compte,
-							   "]",
-							   ' ' );
-		  compte -> nom_de_compte = g_strstrip ( compte -> nom_de_compte );
+		  compte -> nom_de_compte = latin2utf8 (g_strdelimit ( compte -> nom_de_compte,
+								       "[", ' ' ));
+		  compte -> nom_de_compte = latin2utf8 (g_strdelimit ( compte -> nom_de_compte,
+							   "]", ' ' ));
+		  compte -> nom_de_compte = latin2utf8 (g_strstrip ( compte -> nom_de_compte ));
 
 		}
 	    }
@@ -340,8 +338,7 @@ void fichier_choisi_importation_qif ( GtkWidget *fenetre )
 
 	  ventilation = NULL;
 
-	  operation = calloc ( 1,
-			       sizeof ( struct struct_operation_qif ));
+	  operation = calloc ( 1, sizeof ( struct struct_operation_qif ));
 
 	  do
 	    {
@@ -377,9 +374,8 @@ void fichier_choisi_importation_qif ( GtkWidget *fenetre )
 
 		  if ( pointeur_char[0] == 'M' )
 		    {
-		      operation -> notes = g_strstrip ( g_strdelimit ( pointeur_char + 1,
-								       ";",
-								       '/' ));
+		      operation -> notes = latin2utf8 (g_strstrip ( g_strdelimit ( pointeur_char + 1,
+								       ";", '/' )));
 		      if ( !strlen ( operation -> notes ))
 			operation -> notes = NULL;
 		    }
@@ -406,13 +402,11 @@ void fichier_choisi_importation_qif ( GtkWidget *fenetre )
 
 			  pointeur_char = g_strjoinv ( NULL,
 						       tab_char );
-			  operation -> montant = my_strtod ( pointeur_char + 1,
-							    NULL );
+			  operation -> montant = my_strtod ( pointeur_char + 1, NULL );
 			  g_strfreev ( tab_char );
 			}
 		      else
-			operation -> montant = my_strtod ( pointeur_char + 1,
-							  NULL );
+			operation -> montant = my_strtod ( pointeur_char + 1, NULL );
 
 		      g_strfreev ( tab );
 		    }
@@ -420,20 +414,19 @@ void fichier_choisi_importation_qif ( GtkWidget *fenetre )
 		  /* récupération du chèque */
 
 		  if ( pointeur_char[0] == 'N' )
-		    operation -> cheque = my_strtod ( pointeur_char + 1,
-						     NULL );
+		    operation -> cheque = my_strtod ( pointeur_char + 1, NULL );
 
 
 		  /* récupération du tiers */
 	  
 		  if ( pointeur_char[0] == 'P' )
-		    operation -> tiers = g_strdup ( pointeur_char + 1 );
+		    operation -> tiers = latin2utf8 (g_strdup ( pointeur_char + 1 ));
 
 
 		  /* récupération des catég */
 
 		  if ( pointeur_char[0] == 'L' )
-		    operation -> categ = g_strdup ( pointeur_char + 1 );
+		    operation -> categ = latin2utf8 (g_strdup ( pointeur_char + 1 ));
 
 
 		  /* récupération de la ventilation et de sa categ */
@@ -445,13 +438,13 @@ void fichier_choisi_importation_qif ( GtkWidget *fenetre )
 		      if ( retour != EOF && operation -> date )
 			{
 			  if ( !ventilation )
-			    liste_ope_brut = g_slist_append ( liste_ope_brut,
-							      operation );
+			    liste_ope_brut = g_slist_append ( liste_ope_brut, operation );
 			}
 		      else
 			{
-			  /*c'est la fin du fichier ou l'opé n'est pas valide, donc les ventils ne sont pas valides non plus */
-
+			  /*c'est la fin du fichier ou l'opé n'est pas
+			    valide, donc les ventils ne sont pas
+			    valides non plus */
 			  free ( operation );
 
 			  if ( ventilation )
@@ -464,25 +457,21 @@ void fichier_choisi_importation_qif ( GtkWidget *fenetre )
 		      /* si une ventilation était en cours, on l'enregistre */
 
 		      if ( ventilation )
-			liste_ope_brut = g_slist_append ( liste_ope_brut,
-							  ventilation );
+			liste_ope_brut = g_slist_append ( liste_ope_brut, ventilation );
 
 		      if ( operation )
 			{
-			  ventilation = calloc ( 1,
-						 sizeof ( struct struct_operation_qif ));
-
+			  ventilation = calloc ( 1, sizeof ( struct struct_operation_qif ));
 			  operation -> operation_ventilee = 1;
 
 			  /* récupération des données de l'opération en cours */
-
 			  ventilation -> date = operation -> date;
 			  ventilation -> tiers = operation -> tiers;
 			  ventilation -> cheque = operation -> cheque;
 			  ventilation -> p_r = operation -> p_r;
 			  ventilation -> ope_de_ventilation = 1;
 
-			  ventilation -> categ = g_strdup ( pointeur_char + 1 );
+			  ventilation -> categ = latin2utf8 (g_strdup ( pointeur_char + 1 ));
 			}
 		    }
 
@@ -514,33 +503,21 @@ void fichier_choisi_importation_qif ( GtkWidget *fenetre )
 		    {
 		      gchar **tab;
 
-		      tab = g_strsplit ( pointeur_char,
-					 ".",
-					 2 );
+		      tab = g_strsplit ( pointeur_char, ".", 2 );
 
 		      if( tab[1] )
 			{
 			  gchar **tab_char;
-
-			  tab_char = g_strsplit ( pointeur_char,
-						  ",",
-						  FALSE );
-
-			  pointeur_char = g_strjoinv ( NULL,
-						       tab_char );
-			  ventilation -> montant = my_strtod ( pointeur_char + 1,
-							      NULL );
-
+			  tab_char = g_strsplit ( pointeur_char, ",", FALSE );
+			  pointeur_char = g_strjoinv ( NULL, tab_char );
+			  ventilation -> montant = my_strtod ( pointeur_char + 1, NULL );
 			  g_strfreev ( tab_char );
 			}
 		      else
-			ventilation -> montant = my_strtod ( pointeur_char + 1,
-							    NULL );
+			ventilation -> montant = my_strtod ( pointeur_char + 1, NULL );
 
 		      g_strfreev ( tab );
-
 		    }
-
 		}
 	    }
 	  while ( pointeur_char[0] != '^' && retour != EOF );
@@ -551,15 +528,13 @@ void fichier_choisi_importation_qif ( GtkWidget *fenetre )
 
 	  if ( ventilation )
 	    {
-	      liste_ope_brut = g_slist_append ( liste_ope_brut,
-						ventilation );
+	      liste_ope_brut = g_slist_append ( liste_ope_brut, ventilation );
 	      ventilation = NULL;
 	    }
 	  else
 	    {
 	      if ( retour != EOF && operation -> date )
-		liste_ope_brut = g_slist_append ( liste_ope_brut,
-						  operation );
+		liste_ope_brut = g_slist_append ( liste_ope_brut, operation );
 	      else
 		free ( operation );
 	    }
@@ -580,7 +555,6 @@ void fichier_choisi_importation_qif ( GtkWidget *fenetre )
   g_strfreev(selection);
 
   gtk_widget_hide ( fenetre );
-
 
   traitement_donnees_brutes();
 }
@@ -630,24 +604,17 @@ void traitement_donnees_brutes ( void )
   else
     label = gtk_label_new ( _("Accounts to import:\n") );
 
-  gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
-		       label,
-		       FALSE,
-		       FALSE,
-		       0 );
+  gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ), label,
+		       FALSE, FALSE, 0 );
   gtk_widget_show ( label );
 
 
   frame = gtk_frame_new ( NULL );
-  gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
-		       frame,
-		       FALSE,
-		       FALSE,
-		       0 );
+  gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ), frame,
+		       FALSE, FALSE, 0 );
   gtk_widget_show ( frame );
 
-  scrolled_window = gtk_scrolled_window_new ( NULL,
-					      NULL );
+  scrolled_window = gtk_scrolled_window_new ( NULL, NULL );
   gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window ),
 				   GTK_POLICY_AUTOMATIC,
 				   GTK_POLICY_AUTOMATIC );
@@ -656,17 +623,12 @@ void traitement_donnees_brutes ( void )
   gtk_widget_show ( scrolled_window );
 
 
-  vbox = gtk_vbox_new ( FALSE,
-			10 );
-  gtk_container_set_border_width ( GTK_CONTAINER ( vbox ),
-				   10 );
+  vbox = gtk_vbox_new ( FALSE, 10 );
+  gtk_container_set_border_width ( GTK_CONTAINER ( vbox ), 10 );
   gtk_scrolled_window_add_with_viewport ( GTK_SCROLLED_WINDOW ( scrolled_window ),
 					  vbox );
-  gtk_widget_set_usize ( scrolled_window,
-			 200,
-			 200 );
+  gtk_widget_set_usize ( scrolled_window, 200, 200 );
   gtk_widget_show ( vbox );
-
 
 
   liste_tmp = liste_comptes_qif;
@@ -674,27 +636,18 @@ void traitement_donnees_brutes ( void )
   while ( liste_tmp )
     {
       label = gtk_label_new ( (( struct donnees_compte * )( liste_tmp -> data )) -> nom_de_compte );
-      gtk_misc_set_alignment ( GTK_MISC ( label ),
-			       0,
-			       0.5 );
-      gtk_box_pack_start ( GTK_BOX ( vbox ),
-			   label,
-			   FALSE,
-			   FALSE,
-			   0 );
+      gtk_misc_set_alignment ( GTK_MISC ( label ), 0, 0.5 );
+      gtk_box_pack_start ( GTK_BOX ( vbox ), label,
+			   FALSE, FALSE, 0 );
       gtk_widget_show ( label );
 
       liste_tmp = liste_tmp -> next;
     }
 
   label = gtk_label_new ( _("Import another account?") );
-  gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
-		       label,
-		       FALSE,
-		       FALSE,
-		       0 );
+  gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ), label,
+		       FALSE, FALSE, 0 );
   gtk_widget_show ( label );
-
 
   retour = gnome_dialog_run_and_close ( GNOME_DIALOG ( dialog ));
 
@@ -860,9 +813,7 @@ void traitement_donnees_brutes ( void )
 	      /* 	      si format_date = 0, c'est sous la forme jjmm sinon mmjj */
 
 
-	      tab_str = g_strsplit ( operation_qif -> date,
-				     "/",
-				     3 );
+	      tab_str = g_strsplit ( operation_qif -> date, "/", 3 );
 
 	      if ( tab_str [2] && tab_str [1] )
 		{
@@ -870,26 +821,20 @@ void traitement_donnees_brutes ( void )
 
 		  if ( format_date )
 		    {
-		      operation -> mois = my_strtod ( tab_str[0],
-						     NULL );
-		      operation -> jour = my_strtod ( tab_str[1],
-						     NULL );
+		      operation -> mois = my_strtod ( tab_str[0], NULL );
+		      operation -> jour = my_strtod ( tab_str[1], NULL );
 		    }
 		  else
 		    {
-		      operation -> jour = my_strtod ( tab_str[0],
-						     NULL );
-		      operation -> mois = my_strtod ( tab_str[1],
-						     NULL );
+		      operation -> jour = my_strtod ( tab_str[0], NULL );
+		      operation -> mois = my_strtod ( tab_str[1], NULL );
 		    }
 
 		  if ( strlen ( tab_str[2] ) == 4 )
-		    operation -> annee = my_strtod ( tab_str[2],
-						    NULL );
+		    operation -> annee = my_strtod ( tab_str[2], NULL );
 		  else
 		    {
-		      operation -> annee = my_strtod ( tab_str[2],
-						      NULL );
+		      operation -> annee = my_strtod ( tab_str[2], NULL );
 		      if ( operation -> annee < 80 )
 			operation -> annee = operation -> annee + 2000;
 		      else
@@ -904,33 +849,25 @@ void traitement_donnees_brutes ( void )
 
 		      gchar **tab_str2;
 
-		      tab_str2 = g_strsplit ( tab_str[1],
-					      "'",
-					      2 );
+		      tab_str2 = g_strsplit ( tab_str[1], "'", 2 );
 
 		      if ( format_date )
 			{
-			  operation -> mois = my_strtod ( tab_str[0],
-							 NULL );
-			  operation -> jour = my_strtod ( tab_str2[0],
-							 NULL );
+			  operation -> mois = my_strtod ( tab_str[0], NULL );
+			  operation -> jour = my_strtod ( tab_str2[0], NULL );
 			}
 		      else
 			{
-			  operation -> jour = my_strtod ( tab_str[0],
-							 NULL );
-			  operation -> mois = my_strtod ( tab_str2[0],
-							 NULL );
+			  operation -> jour = my_strtod ( tab_str[0], NULL );
+			  operation -> mois = my_strtod ( tab_str2[0], NULL );
 			}
 
 		      /* si on avait 'xx, en fait ça peut être 'xx ou 'xxxx ... */
 
 		      if ( strlen ( tab_str2[1] ) == 2 )
-			operation -> annee = my_strtod ( tab_str2[1],
-							NULL ) + 2000;
+			operation -> annee = my_strtod ( tab_str2[1], NULL ) + 2000;
 		      else
-			operation -> annee = my_strtod ( tab_str2[1],
-							NULL );
+			operation -> annee = my_strtod ( tab_str2[1], NULL );
 		      g_strfreev ( tab_str2 );
 
 		    }
@@ -938,21 +875,15 @@ void traitement_donnees_brutes ( void )
 		    {
 		      /* le format est aaaa-mm-jj */
 
-		      tab_str = g_strsplit ( operation_qif -> date,
-					     "-",
-					     3 );
+		      tab_str = g_strsplit ( operation_qif -> date, "-", 3 );
 
-		      operation -> mois = my_strtod ( tab_str[1],
-						     NULL );
-		      operation -> jour = my_strtod ( tab_str[2],
-						     NULL );
+		      operation -> mois = my_strtod ( tab_str[1], NULL );
+		      operation -> jour = my_strtod ( tab_str[2], NULL );
 		      if ( strlen ( tab_str[0] ) == 4 )
-			operation -> annee = my_strtod ( tab_str[0],
-							NULL );
+			operation -> annee = my_strtod ( tab_str[0], NULL );
 		      else
 			{
-			  operation -> annee = my_strtod ( tab_str[0],
-							NULL );
+			  operation -> annee = my_strtod ( tab_str[0], NULL );
 			if ( operation -> annee < 80 )
 			  operation -> annee = operation -> annee + 2000;
 			else
@@ -992,7 +923,6 @@ void traitement_donnees_brutes ( void )
 
 	      operation -> montant = operation_qif -> montant;
 	      solde_courant = solde_courant + operation_qif -> montant;
-
 	      operation -> devise = compte -> devise;
 
 	      /* récupération du tiers */
@@ -1059,9 +989,7 @@ void traitement_donnees_brutes ( void )
 			  struct struct_sous_categ *sous_categ ;
 
 
-			  tab_str = g_strsplit ( operation_qif -> categ,
-						 ":",
-						 2 );
+			  tab_str = g_strsplit ( operation_qif -> categ, ":", 2 );
 
 
 			  /* récupération ou création de la catégorie */
@@ -1070,8 +998,7 @@ void traitement_donnees_brutes ( void )
 						      g_strstrip ( tab_str[0] ),
 						      (GCompareFunc) recherche_categorie_par_nom ))
 			    {
-			      categ = calloc ( 1,
-					       sizeof ( struct struct_categ ));
+			      categ = calloc ( 1, sizeof ( struct struct_categ ));
 
 			      categ -> no_categ = ++no_derniere_categorie;
 			      categ -> nom_categ = g_strdup ( g_strstrip ( tab_str[0] ) );
@@ -1103,8 +1030,7 @@ void traitement_donnees_brutes ( void )
 							  g_strstrip ( tab_str[1] ),
 							  (GCompareFunc) recherche_sous_categorie_par_nom ))
 				{
-				  sous_categ = calloc ( 1,
-							sizeof ( struct struct_sous_categ ));
+				  sous_categ = calloc ( 1, sizeof ( struct struct_sous_categ ));
 
 				  sous_categ -> no_sous_categ = ++( categ -> no_derniere_sous_categ );
 				  sous_categ -> nom_sous_categ = g_strdup ( g_strstrip ( tab_str[1] ));
@@ -1160,9 +1086,11 @@ void traitement_donnees_brutes ( void )
 
 		      type = liste_tmp -> data;
 
-		      /* si l'opé on trouve un type à incrémentation automatique et que le signe du type est bon, on l'enregistre */
-		      /*   et on arrête la recherche, sinon, on l'enregistre mais on continue la recherche dans l'espoir de trouver */
-		      /* mieux */
+		      /* si l'opé on trouve un type à incrémentation
+			 automatique et que le signe du type est bon,
+			 on l'enregistre et on arrête la recherche,
+			 sinon, on l'enregistre mais on continue la
+			 recherche dans l'espoir de mieux */
 
 		      if ( type -> numerotation_auto )
 			{
@@ -1312,8 +1240,7 @@ void traitement_donnees_brutes ( void )
 
       creation_listes_operations ();
       changement_compte ( GINT_TO_POINTER ( compte_courant ) );
-      gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ),
-			      0 );
+      gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ), 0 );
     }
   else
     while ( nb_comptes_ajoutes )
