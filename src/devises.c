@@ -183,7 +183,8 @@ static struct iso_4217_currency iso_4217_currencies[] = {
   { NULL },
 };
 
-/* Columns numbers for currencies list  */
+
+/** Columns numbers for currencies list  */
 enum currency_list_column {
   COUNTRY_NAME_COLUMN = 0,
   CURRENCY_NAME_COLUMN,
@@ -192,6 +193,23 @@ enum currency_list_column {
   CONTINENT_NAME_COLUMN,
   NUM_CURRENCIES_COLUMNS,
 };
+
+
+/** Exchange rates cache, used by update_exchange_rate_cache and
+    cached_exchange_rates */
+GSList * cached_exchange_rates = NULL;
+
+/** This structure holds informations needed for exchange rates
+    cache. */
+struct cached_exchange_rate {
+  struct struct_devise * currency1;	/** First currency */
+  struct struct_devise * currency2;	/** Second currency */
+  gdouble rate;				/** Exchange rate betweend
+					    currency1 and currency 2 */
+  gdouble fees;				/** Fees associated with
+					    exchange rate */
+};
+
 
 
 gint
@@ -1121,8 +1139,6 @@ gboolean passe_a_l_euro ( GtkWidget *toggle_bouton,
 /***********************************************************************************************************/
 
 
-
-
 /***********************************************************************************************************/
 /* Fonction demande_taux_de_change : */
 /* affiche une fenetre permettant d'entrer le taux de change entre la devise du compte et la devise demandée */
@@ -1134,10 +1150,20 @@ void demande_taux_de_change ( struct struct_devise *devise_compte,
 			      struct struct_devise *devise ,
 			      gint une_devise_compte_egale_x_devise_ope,
 			      gdouble taux_change,
-			      gdouble frais_change)
+			      gdouble frais_change,
+			      gboolean force )
 {
   GtkWidget *dialog, *label, *entree, *menu, *item, *hbox, *entree_frais;
+  struct cached_exchange_rate * cache;
   gint resultat;
+
+  if ( !force && 
+       (cache = cached_exchange_rate ( devise_compte, devise )) )
+    {
+      taux_de_change[0] = cache -> rate;
+      taux_de_change[1] = cache -> fees;
+      return;
+    }
   
   dialog = gnome_dialog_new ( _("Entry of the exchange rate"),
 			      GNOME_STOCK_BUTTON_OK, NULL );
@@ -1331,6 +1357,10 @@ void demande_taux_de_change ( struct struct_devise *devise_compte,
 	taux_de_change[0] = -taux_de_change[0];
 
       gnome_dialog_close ( GNOME_DIALOG ( dialog ));
+
+      update_exchange_rate_cache ( devise_compte, devise, 
+				   taux_de_change[0], taux_de_change[1] );
+
     }
   else
     {
@@ -1720,6 +1750,7 @@ gboolean selection_ligne_devise ( GtkWidget *liste,
 				  GtkWidget *frame )
 {
   struct struct_devise *devise;
+  gint blocked1, blocked2;
 
   ligne_selection_devise = ligne;
   devise = gtk_clist_get_row_data ( GTK_CLIST ( liste ),
@@ -1736,12 +1767,12 @@ gboolean selection_ligne_devise ( GtkWidget *liste,
   g_signal_handlers_block_by_func ( G_OBJECT(option_menu_devises),
 				    G_CALLBACK (changement_devise_associee), 
 				    (gpointer) clist_devises_parametres );
-  g_signal_handlers_block_by_func ( G_OBJECT(devise_1),
-				    G_CALLBACK (devise_selectionnee), 
-				    (gpointer) 1 );
-  g_signal_handlers_block_by_func ( G_OBJECT(devise_2),
-				    G_CALLBACK (devise_selectionnee), 
-				    (gpointer) 0 );
+  blocked1 = g_signal_handlers_block_by_func ( G_OBJECT(devise_1),
+					       G_CALLBACK (devise_selectionnee), 
+					       (gpointer) 1 );
+  blocked2 = g_signal_handlers_block_by_func ( G_OBJECT(devise_2),
+					       G_CALLBACK (devise_selectionnee), 
+					       (gpointer) 0 );
   gtk_option_menu_set_menu ( GTK_OPTION_MENU ( option_menu_devises ),
 			     creation_option_menu_devises (devise -> no_devise,
 							   liste_struct_devises ));
@@ -1753,12 +1784,14 @@ gboolean selection_ligne_devise ( GtkWidget *liste,
 				!( devise -> une_devise_1_egale_x_devise_2 ));
   gtk_option_menu_set_history ( GTK_OPTION_MENU ( devise_2 ),
 				devise -> une_devise_1_egale_x_devise_2 );
-  g_signal_handlers_unblock_by_func ( G_OBJECT(devise_1),
-				      G_CALLBACK (devise_selectionnee), 
-				      (gpointer) 1 );
-  g_signal_handlers_unblock_by_func ( G_OBJECT(devise_2),
-				      G_CALLBACK (devise_selectionnee), 
-				      (gpointer) 0 );
+  if ( blocked1 )
+    g_signal_handlers_unblock_by_func ( G_OBJECT(devise_1),
+					G_CALLBACK (devise_selectionnee), 
+					(gpointer) 1 );
+  if ( blocked2 )
+    g_signal_handlers_unblock_by_func ( G_OBJECT(devise_2),
+					G_CALLBACK (devise_selectionnee), 
+					(gpointer) 0 );
   g_signal_handlers_unblock_by_func ( G_OBJECT(option_menu_devises),
 				      G_CALLBACK (changement_devise_associee), 
 				      (gpointer) clist_devises_parametres );
@@ -2029,12 +2062,12 @@ create_change_menus (struct struct_devise *devise)
   gtk_option_menu_set_history ( GTK_OPTION_MENU ( devise_2 ),
 				devise -> une_devise_1_egale_x_devise_2 );
 
-  g_signal_handlers_unblock_by_func ( G_OBJECT(devise_1),
-				      G_CALLBACK (devise_selectionnee), 
-				      (gpointer) 1 );
-  g_signal_handlers_unblock_by_func ( G_OBJECT(devise_2),
-				      G_CALLBACK (devise_selectionnee), 
-				      (gpointer) 0 );
+/*   g_signal_handlers_unblock_by_func ( G_OBJECT(devise_1), */
+/* 				      G_CALLBACK (devise_selectionnee),  */
+/* 				      (gpointer) 1 ); */
+/*   g_signal_handlers_unblock_by_func ( G_OBJECT(devise_2), */
+/* 				      G_CALLBACK (devise_selectionnee),  */
+/* 				      (gpointer) 0 ); */
 }
 
 
@@ -2213,14 +2246,75 @@ gdouble calcule_montant_devise_renvoi ( gdouble montant_init,
 
   return ( montant);
 }
-/* **************************************************************************************************************************** */
 
 
-
+/**
+ * Return either currency's name or currency's ISO4217 nickname if no
+ * name is found.
+ *
+ * \param devise A pointer to a struct_devise holding currency
+ * informations.
+ *
+ * \return name or ISO4217 name of currency.
+ */
 gchar * devise_name ( struct struct_devise * devise )
 {
   if (devise -> code_devise && (strlen(devise -> code_devise) > 0))
     return devise -> code_devise;
 
   return devise -> code_iso4217_devise;
+}
+
+
+/**
+ * Find whether echange rate between two currencies is known.  If so,
+ * returns a cached_exchange_rate structure with exchange rate
+ * information.
+ *
+ * \param currency1 First currency
+ * \param currency2 Second currency
+ *
+ * \return FALSE on failure, a pointer to a cached_exchange_rate
+ * structure on success.
+ */
+struct cached_exchange_rate *
+cached_exchange_rate ( struct struct_devise * currency1, 
+		       struct struct_devise * currency2 )
+{
+  GSList * liste_tmp = cached_exchange_rates;
+  struct cached_exchange_rate * tmp;
+
+  while ( liste_tmp )
+    {
+      tmp = liste_tmp -> data;
+      if ( currency1 == tmp -> currency1 && currency2 == tmp -> currency2 )
+	return tmp;
+    }
+
+  return NULL;
+}
+
+
+/**
+ * Update exchange rate cache according to arguments.
+ *
+ * \param currency1 First currency.
+ * \param currency2 Second currency.
+ * \param change    Exchange rate between two currencies.
+ * \param fees      Fees of transaction.
+ */
+void update_exchange_rate_cache ( struct struct_devise * currency1, 
+				  struct struct_devise * currency2,
+				  gdouble change, gdouble fees )
+{
+  struct cached_exchange_rate * tmp;
+
+  tmp = (struct cached_exchange_rate *) malloc(sizeof(struct cached_exchange_rate));
+
+  tmp -> currency1 = currency1;
+  tmp -> currency2 = currency2;
+  tmp -> rate = change;
+  tmp -> fees = fees;
+
+  cached_exchange_rates = g_slist_append ( cached_exchange_rates, tmp );
 }
