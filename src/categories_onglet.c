@@ -769,21 +769,16 @@ void merge_liste_categories ( void )
 	gchar **split_categ;
 	struct struct_sous_categ *sous_categ;
 
-	split_categ = g_strsplit ( categ[i],
-				   " : ",
-				   2 );
+	split_categ = g_strsplit ( _(categ[i]), " : ", 2 );
 
-	categorie = categ_par_nom( split_categ[0],
-				   1,
-				   debit,
-				   0 );
+	categorie = categ_par_nom( g_strstrip (g_strdup (split_categ[0])),
+				   1, debit, 0 );
 
-	sous_categ = sous_categ_par_nom ( categorie,
-					  split_categ[1],
-					  1 );
+	if ( split_categ[1] )
+	    sous_categ = sous_categ_par_nom ( categorie,
+					      g_strstrip(g_strdup (split_categ[1])), 1 );
 
 	/* libère le tableau créé */
-
 	g_strfreev ( split_categ );
 
 	i++;
