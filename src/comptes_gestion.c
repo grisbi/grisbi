@@ -753,7 +753,9 @@ void remplissage_details_compte ( void )
 	gtk_entry_set_text ( GTK_ENTRY ( detail_titulaire_compte ),
 			     "" );
 
-
+    gtk_editable_delete_text ( GTK_EDITABLE ( detail_adresse_titulaire ), 
+			       0, 
+			       -1 );
     if ( ADRESSE_TITULAIRE )
     {
 	gtk_text_insert ( GTK_TEXT ( detail_adresse_titulaire ),
