@@ -60,6 +60,7 @@ sources = \
 	menu.c			\
 	meta_categories.c	\
 	meta_budgetary.c	\
+	meta_payee.c		\
 	metatree.c		\
 	ofx.c                   \
 	operations_comptes.c	\
