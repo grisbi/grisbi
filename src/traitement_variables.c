@@ -51,9 +51,6 @@ void modification_fichier ( gboolean modif )
       gtk_widget_set_sensitive ( GTK_WIDGET ( menu_fichier[SAUVER].widget ),
 				 FALSE );
 
-      if ( ( pid_applet = gnome_config_get_int ( "/Grisbi_applet/PID/PID" )))
-	kill ( pid_applet, SIGUSR1 );
-
     }
 
 }

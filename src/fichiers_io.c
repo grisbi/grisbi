@@ -1743,15 +1743,6 @@ gboolean charge_operations_version_0_3_2 ( xmlDocPtr doc )
 	}
     }
 
-  /*   récupère le chemin du logo, qui est dans le fichier à partir de la 0.4.0 */
-
-  chemin_logo = gnome_config_get_string ( g_strconcat ( "/", FICHIER_CONF, "/Affichage/Chemin_du_logo", NULL ));
-
-  if ( !chemin_logo
-       ||
-       !strlen ( chemin_logo ))
-    chemin_logo = CHEMIN_LOGO;
-
   /* met l'affichage des opés comme il l'était avant */
 
   initialise_tab_affichage_ope();
