@@ -1025,75 +1025,84 @@ void etape_finale_affichage_etat ( GSList *ope_selectionnees,
   GList *pointeur_glist;
 
 
-  /* on commence par séparer la liste revenus et de dépenses */
-  /*   si le classement racine est la catégorie, on sépare par catégorie */
-  /* de revenu ou de dépense */
-  /* si c'est un autre, on sépare par montant positif ou négatif */
-
-  pointeur_glist = etat_courant -> type_classement;
+  /*   soit on sépare en revenus et dépenses, soit non */
 
   liste_ope_revenus = NULL;
   liste_ope_depenses = NULL;
   pointeur_tmp = ope_selectionnees;
+  pointeur_glist = etat_courant -> type_classement;
 
-  while ( pointeur_tmp )
+  if ( etat_courant -> separer_revenus_depenses )
     {
-      struct structure_operation *operation;
+      /* on commence par séparer la liste revenus et de dépenses */
+      /*   si le classement racine est la catégorie, on sépare par catégorie */
+      /* de revenu ou de dépense */
+      /* si c'est un autre, on sépare par montant positif ou négatif */
 
-      operation = pointeur_tmp -> data;
-
-      if ( GPOINTER_TO_INT ( pointeur_glist -> data ) == 1 )
+      while ( pointeur_tmp )
 	{
-	  /* le classement racine est la catégorie */
-	  /* s'il n'y a pas de catég, c'est un virement ou une ventilation */
-	  /*       dans ce cas, on classe en fonction du montant */
+	  struct structure_operation *operation;
 
-	  if ( operation -> categorie )
+	  operation = pointeur_tmp -> data;
+
+	  if ( GPOINTER_TO_INT ( pointeur_glist -> data ) == 1 )
 	    {
-	      struct struct_categ *categ;
+	      /* le classement racine est la catégorie */
+	      /* s'il n'y a pas de catég, c'est un virement ou une ventilation */
+	      /*       dans ce cas, on classe en fonction du montant */
 
-	      categ = g_slist_find_custom ( liste_struct_categories,
-					    GINT_TO_POINTER ( operation -> categorie ),
-					    (GCompareFunc) recherche_categorie_par_no ) -> data;
+	      if ( operation -> categorie )
+		{
+		  struct struct_categ *categ;
 
-	      if ( categ -> type_categ )
-		liste_ope_depenses = g_slist_append ( liste_ope_depenses,
-						      operation );
+		  categ = g_slist_find_custom ( liste_struct_categories,
+						GINT_TO_POINTER ( operation -> categorie ),
+						(GCompareFunc) recherche_categorie_par_no ) -> data;
+
+		  if ( categ -> type_categ )
+		    liste_ope_depenses = g_slist_append ( liste_ope_depenses,
+							  operation );
+		  else
+		    liste_ope_revenus = g_slist_append ( liste_ope_revenus,
+							 operation );
+		}
 	      else
-		liste_ope_revenus = g_slist_append ( liste_ope_revenus,
-						     operation );
+		{
+		  if ( operation -> montant < 0
+		       ||
+		       ( fabs ( operation -> montant ) < 0.01
+			 &&
+			 etat_courant -> choix_montant_nul == 2 ))
+		    liste_ope_depenses = g_slist_append ( liste_ope_depenses,
+							  operation );
+		  else
+		    liste_ope_revenus = g_slist_append ( liste_ope_revenus,
+							 operation );
+		}
 	    }
 	  else
 	    {
+	      /* le classement racine n'est pas la catég, on sépare en fonction du montant */
+
 	      if ( operation -> montant < 0
-	       ||
-	       ( fabs ( operation -> montant ) < 0.01
-		 &&
-		 etat_courant -> choix_montant_nul == 2 ))
+		   ||
+		   ( fabs ( operation -> montant ) < 0.01
+		     &&
+		     etat_courant -> choix_montant_nul == 2 ))
 		liste_ope_depenses = g_slist_append ( liste_ope_depenses,
 						      operation );
 	      else
 		liste_ope_revenus = g_slist_append ( liste_ope_revenus,
 						     operation );
 	    }
+	  pointeur_tmp = pointeur_tmp -> next;
 	}
-      else
-	{
-	  /* le classement racine n'est pas la catég, on sépare en fonction du montant */
-
-	  if ( operation -> montant < 0
-	       ||
-	       ( fabs ( operation -> montant ) < 0.01
-		 &&
-		 etat_courant -> choix_montant_nul == 2 ))
-	    liste_ope_depenses = g_slist_append ( liste_ope_depenses,
-						  operation );
-	  else
-	    liste_ope_revenus = g_slist_append ( liste_ope_revenus,
-						 operation );
-	}
-      pointeur_tmp = pointeur_tmp -> next;
     }
+  else
+    /*     on ne veut pas séparer en revenus et dépenses, on garde juste la liste d'opé telle quelle */
+
+    liste_ope_revenus = ope_selectionnees;
+
 
   /* on va maintenant classer ces 2 listes dans l'ordre adéquat */
 
@@ -1263,15 +1272,15 @@ void etape_finale_affichage_etat ( GSList *ope_selectionnees,
   nom_tiers_en_cours = NULL;
 
   if (! affichage -> init (ope_selectionnees))
-    {
-      return;
-    }
+    return;
+
 
   /* on commence à remplir le tableau */
 
   /* on met le titre */
 
   total_general = 0;
+  nb_ope_general_etat = 0;
   ligne = affichage -> afficher_titre ( 0 );
 
   /* séparation */
@@ -1325,6 +1334,15 @@ void etape_finale_affichage_etat ( GSList *ope_selectionnees,
       total_partie = 0;
       date_debut_periode = NULL;
 
+      nb_ope_categ_etat = 0;
+      nb_ope_sous_categ_etat = 0;
+      nb_ope_ib_etat = 0;
+      nb_ope_sous_ib_etat = 0;
+      nb_ope_compte_etat = 0;
+      nb_ope_tiers_etat = 0;
+      nb_ope_partie_etat = 0;
+      nb_ope_periode_etat = 0;
+
       changement_de_groupe_etat = 0;
       debut_affichage_etat = 1;
       devise_compte_en_cours_etat = NULL;
@@ -1332,33 +1350,9 @@ void etape_finale_affichage_etat ( GSList *ope_selectionnees,
       /* on met ici le pointeur sur les revenus ou sur les dépenses */
       /* en vérifiant qu'il y en a */
 
-      if ( !i )
+      if ( i )
 	{
-	  /* on met le pointeur sur les revenus */
-
-	  if ( liste_ope_revenus )
-	    {
-	      pointeur_tmp = liste_ope_revenus;
-
-	      ligne = affichage -> affiche_titre_revenus_etat ( ligne );
-	    }
-	  else
-	    {
-	      /* il n'y a pas de revenus, on saute directement aux dépenses */
-
-	      i++;
-	      pointeur_tmp = liste_ope_depenses;
-
-	      /* 	      s'il n'y a pas de dépenses non plus, on sort de la boucle */
- 
-	      if ( !liste_ope_depenses )
-		goto fin_boucle_affichage_etat;
-
-	      ligne = affichage -> affiche_titre_depenses_etat ( ligne );
-	    }
-	}
-      else
-	{
+	  /* c'est le second passage */
 	  /* on met le pointeur sur les dépenses */
 
 	  if ( liste_ope_depenses )
@@ -1371,6 +1365,48 @@ void etape_finale_affichage_etat ( GSList *ope_selectionnees,
 	    }
 	  else
 	    goto fin_boucle_affichage_etat;
+	}
+      else
+	{
+	  /* c'est le premier passage */
+	  /* on met le pointeur sur les revenus */
+	  /* si on n'a pas demandé de séparer les débits et crédits, on ne met pas de titre */
+
+	  if ( etat_courant -> separer_revenus_depenses )
+	    {
+	      /* on sépare les revenus des débits */
+
+	      if ( liste_ope_revenus )
+		{
+		  pointeur_tmp = liste_ope_revenus;
+
+		  ligne = affichage -> affiche_titre_revenus_etat ( ligne );
+		}
+	      else
+		{
+		  /* il n'y a pas de revenus, on saute directement aux dépenses */
+
+		  i++;
+		  pointeur_tmp = liste_ope_depenses;
+
+		  /* 	      s'il n'y a pas de dépenses non plus, on sort de la boucle */
+ 
+		  if ( !liste_ope_depenses )
+		    goto fin_boucle_affichage_etat;
+
+		  ligne = affichage -> affiche_titre_depenses_etat ( ligne );
+		}
+	    }
+	  else
+	    {
+	      /* 	      on ne sépare pas les débits et les crédits, donc pas de titre, juste */
+	      /* une vérification qu'il y a des opérations */
+
+	      if ( liste_ope_revenus )
+		pointeur_tmp = liste_ope_revenus;
+	      else
+		goto fin_boucle_affichage_etat;
+	    }
 	}
 
 
@@ -1477,6 +1513,8 @@ void etape_finale_affichage_etat ( GSList *ope_selectionnees,
 		}
 	      montant_categ_etat = montant_categ_etat + montant;
 	      montant_sous_categ_etat = montant_sous_categ_etat + montant;
+	      nb_ope_categ_etat++;
+	      nb_ope_sous_categ_etat++;
 	    }
 
 	  /* calcule le montant de l'ib */
@@ -1510,6 +1548,8 @@ void etape_finale_affichage_etat ( GSList *ope_selectionnees,
 		}
 	      montant_ib_etat = montant_ib_etat + montant;
 	      montant_sous_ib_etat = montant_sous_ib_etat + montant;
+	      nb_ope_ib_etat++;
+	      nb_ope_sous_ib_etat++;
 	    }
 
 	  /* calcule le montant du tiers */
@@ -1542,6 +1582,7 @@ void etape_finale_affichage_etat ( GSList *ope_selectionnees,
 		  montant = ( rint (montant * 100 )) / 100;
 		}
 	      montant_tiers_etat = montant_tiers_etat + montant;
+	      nb_ope_tiers_etat++;
 	    }
 
 	  /* calcule le montant du compte */
@@ -1590,6 +1631,7 @@ void etape_finale_affichage_etat ( GSList *ope_selectionnees,
 		  montant = ( rint (montant * 100 )) / 100;
 		}
 	      montant_compte_etat = montant_compte_etat + montant;
+	      nb_ope_compte_etat++;
 	    }
 
 	  /* calcule les montants totaux */
@@ -1620,6 +1662,8 @@ void etape_finale_affichage_etat ( GSList *ope_selectionnees,
 	      montant = ( rint (montant * 100 )) / 100;
 	    }
 
+	  total_general = total_general + montant;
+	  nb_ope_general_etat++;
 
 	  /* calcule le montant de la periode */
 
@@ -1651,10 +1695,11 @@ void etape_finale_affichage_etat ( GSList *ope_selectionnees,
 		  montant = ( rint (montant * 100 )) / 100;
 		}
 	      montant_periode_etat = montant_periode_etat + montant;
+	      nb_ope_periode_etat++;
 	    }
 
 	  total_partie = total_partie + montant;
-	  total_general = total_general + montant;
+	  nb_ope_partie_etat++;
 
 	  changement_de_groupe_etat = 0;
 
@@ -1705,10 +1750,12 @@ void etape_finale_affichage_etat ( GSList *ope_selectionnees,
 	}
 
       /* on affiche le total de la partie en cours */
+       /* si les revenus et dépenses ne sont pas mélangés */
 
-      ligne = affichage -> affiche_total_partiel ( total_partie,
-				      ligne,
-				      i );
+       if ( etat_courant -> separer_revenus_depenses )
+	 ligne = affichage -> affiche_total_partiel ( total_partie,
+						      ligne,
+						      i );
 
     fin_boucle_affichage_etat:
     }

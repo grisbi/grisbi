@@ -884,6 +884,7 @@ gint recherche_etat_par_no ( struct struct_etat *etat,
 			     gint *no_etat );
 void exporter_etat ( void );
 void importer_etat ( void );
+void duppliquer_etat ( void );
 
 /***********************************/ 
 /* fichier etats_config.c */

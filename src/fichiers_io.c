@@ -3130,6 +3130,9 @@ des paramètres.") );
 		      etat -> afficher_opes = atoi ( xmlGetProp ( node_detail,
 								  "Aff_ope" ));
 
+		      etat -> afficher_nb_opes = atoi ( xmlGetProp ( node_detail,
+								  "Aff_nb_ope" ));
+
 		      etat -> afficher_no_ope = atoi ( xmlGetProp ( node_detail,
 								    "Aff_no_ope" ));
 
@@ -3180,6 +3183,9 @@ des paramètres.") );
 
 		      etat -> pas_detailler_ventilation = atoi ( xmlGetProp ( node_detail,
 									"Pas_detail_ventil" ));
+
+		      etat -> separer_revenus_depenses = atoi ( xmlGetProp ( node_detail,
+									     "Sep_rev_dep" ));
 
 		      etat -> devise_de_calcul_general = atoi ( xmlGetProp ( node_detail,
 									"Devise_gen" ));
@@ -5056,6 +5062,10 @@ gboolean enregistre_fichier ( void )
 		   itoa ( etat -> afficher_opes ));
 
       xmlSetProp ( node_etat,
+		   "Aff_nb_ope",
+		   itoa ( etat -> afficher_nb_opes ));
+
+      xmlSetProp ( node_etat,
 		   "Aff_no_ope",
 		   itoa ( etat -> afficher_no_ope ));
 
@@ -5122,6 +5132,10 @@ gboolean enregistre_fichier ( void )
       xmlSetProp ( node_etat,
 		   "Pas_detail_ventil",
 		   itoa ( etat -> pas_detailler_ventilation ));
+
+      xmlSetProp ( node_etat,
+		   "Sep_rev_dep",
+		   itoa ( etat -> separer_revenus_depenses ));
 
       xmlSetProp ( node_etat,
 		   "Devise_gen",
@@ -5716,6 +5730,10 @@ gboolean enregistre_etat ( gchar *nom_etat )
 	       itoa ( etat_courant -> afficher_opes ));
 
   xmlSetProp ( node,
+	       "Aff_nb_ope",
+	       itoa ( etat_courant -> afficher_nb_opes ));
+
+  xmlSetProp ( node,
 	       "Aff_no_ope",
 	       itoa ( etat_courant -> afficher_no_ope ));
 
@@ -5782,6 +5800,10 @@ gboolean enregistre_etat ( gchar *nom_etat )
   xmlSetProp ( node,
 	       "Pas_detail_ventil",
 	       itoa ( etat_courant -> pas_detailler_ventilation ));
+
+  xmlSetProp ( node,
+	       "Sep_rev_dep",
+	       itoa ( etat_courant -> separer_revenus_depenses ));
 
   xmlSetProp ( node,
 	       "Devise_gen",
@@ -6277,6 +6299,9 @@ gboolean charge_etat_version_0_4_0 ( xmlDocPtr doc )
 	  etat -> afficher_opes = atoi ( xmlGetProp ( node,
 						      "Aff_ope" ));
 
+	  etat -> afficher_nb_opes = atoi ( xmlGetProp ( node,
+						      "Aff_nb_ope" ));
+
 	  etat -> afficher_no_ope = atoi ( xmlGetProp ( node,
 							"Aff_no_ope" ));
 
@@ -6327,6 +6352,9 @@ gboolean charge_etat_version_0_4_0 ( xmlDocPtr doc )
 
 	  etat -> pas_detailler_ventilation = atoi ( xmlGetProp ( node,
 								  "Pas_detail_ventil" ));
+
+	  etat -> separer_revenus_depenses = atoi ( xmlGetProp ( node,
+								 "Sep_rev_dep" ));
 
 	  etat -> devise_de_calcul_general = atoi ( xmlGetProp ( node,
 								 "Devise_gen" ));

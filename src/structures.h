@@ -398,6 +398,7 @@ struct struct_etat
 
   gint afficher_r;         /* 0=ttes les opés, 1=que les opés non R, 2=que les opés R */
   gint afficher_opes;
+  gint afficher_nb_opes;
   gint afficher_date_ope;
   gint afficher_tiers_ope;
   gint afficher_categ_ope;
@@ -413,6 +414,7 @@ struct struct_etat
   gint afficher_rappr_ope;
   gint afficher_exo_ope;
   gint pas_detailler_ventilation;
+  gint separer_revenus_depenses;
   gint devise_de_calcul_general;
   gint afficher_titre_colonnes;
   gint type_affichage_titres;        /* 0 = en haut, 1 = à chaque changement de section */

@@ -260,6 +260,8 @@ void personnalisation_etat (void)
 
   gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_opes ),
 				 etat_courant -> afficher_opes );
+  gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_nb_opes ),
+				 etat_courant -> afficher_nb_opes );
 
   gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_no_ope ),
 				 etat_courant -> afficher_no_ope );
@@ -289,6 +291,8 @@ void personnalisation_etat (void)
 				 etat_courant -> afficher_infobd_ope );
   gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_pas_detailler_ventilation ),
 				 etat_courant -> pas_detailler_ventilation );
+  gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_separer_revenus_depenses ),
+				 etat_courant -> separer_revenus_depenses );
   gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_exo_opes ),
 				 etat_courant -> afficher_exo_ope );
   gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_titres_colonnes ),
@@ -972,6 +976,7 @@ void recuperation_info_perso_etat ( void )
   /* récupération de l'affichage des opés */
 
   etat_courant -> afficher_opes = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_opes ));
+  etat_courant -> afficher_nb_opes = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_nb_opes ));
 
   etat_courant -> afficher_no_ope = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_no_ope ));
   etat_courant -> afficher_date_ope = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_date_opes ));
@@ -987,6 +992,7 @@ void recuperation_info_perso_etat ( void )
   etat_courant -> afficher_rappr_ope = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_no_rappr ));
   etat_courant -> afficher_infobd_ope = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_infobd_opes ));
   etat_courant -> pas_detailler_ventilation = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_pas_detailler_ventilation ));
+  etat_courant -> separer_revenus_depenses = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_separer_revenus_depenses ));
   etat_courant -> afficher_exo_ope = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_exo_opes ));
   etat_courant -> afficher_titre_colonnes = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_titres_colonnes ));
   etat_courant -> type_affichage_titres = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_titre_changement ));
@@ -1559,15 +1565,34 @@ GtkWidget *onglet_etat_generalites ( void )
 
 
 
+  hbox = gtk_hbox_new ( FALSE,
+			0 );
+  gtk_box_pack_start ( GTK_BOX ( vbox_onglet ),
+		       hbox,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( hbox );
+
   /* afficher ou non les opés */
 
   bouton_afficher_opes = gtk_check_button_new_with_label ( _("Afficher les opérations") );
-  gtk_box_pack_start ( GTK_BOX ( vbox_onglet ),
+  gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       bouton_afficher_opes,
 		       FALSE,
 		       FALSE,
 		       0 );
   gtk_widget_show ( bouton_afficher_opes );
+
+  /* afficher ou non le nb d'opés avec les totaux */
+
+  bouton_afficher_nb_opes = gtk_check_button_new_with_label ( _("Afficher le nombre d'opérations avec les totaux") );
+  gtk_box_pack_start ( GTK_BOX ( hbox ),
+		       bouton_afficher_nb_opes,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( bouton_afficher_nb_opes );
 
   /* demande les détails affichés dans les opérations */
 
@@ -1911,13 +1936,32 @@ GtkWidget *onglet_etat_generalites ( void )
 		       bouton_titre_en_haut );
 
 
-  bouton_pas_detailler_ventilation = gtk_check_button_new_with_label ( _("Ne pas détailler les opérations ventilées") );
+  hbox = gtk_hbox_new ( FALSE,
+			5 );
   gtk_box_pack_start ( GTK_BOX ( vbox_onglet ),
+		       hbox,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( hbox );
+
+  bouton_pas_detailler_ventilation = gtk_check_button_new_with_label ( _("Ne pas détailler les opérations ventilées") );
+  gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       bouton_pas_detailler_ventilation,
 		       FALSE,
 		       FALSE,
 		       0 );
   gtk_widget_show ( bouton_pas_detailler_ventilation );
+
+  bouton_separer_revenus_depenses = gtk_check_button_new_with_label ( _("Séparer les revenus et les dépenses") );
+  gtk_box_pack_start ( GTK_BOX ( hbox ),
+		       bouton_separer_revenus_depenses,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( bouton_separer_revenus_depenses );
+
+
 
   hbox = gtk_hbox_new ( FALSE,
 			5 );

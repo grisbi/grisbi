@@ -19,7 +19,7 @@
 /*     along with this program; if not, write to the Free Software */
 /*     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 
-/* $Id: etats_gnomeprint.c,v 1.16 2002/10/22 15:06:30 benj Exp $ */
+/* $Id: etats_gnomeprint.c,v 1.17 2002/11/11 10:44:10 grisbi Exp $ */
 
 #include "include.h"
 #include "structures.h"
@@ -827,7 +827,8 @@ gint gnomeprint_affiche_total_categories ( gint ligne )
   montant_categ_etat = 0;
   nom_categ_en_cours = NULL;
   titres_affiches = 0;
-  
+  nb_ope_categ_etat = 0;
+
   return (ligne );
 }
 /*****************************************************************************************************/
@@ -844,6 +845,7 @@ gint gnomeprint_affiche_total_sous_categ ( gint ligne )
   montant_sous_categ_etat = 0;
   nom_ss_categ_en_cours = NULL;
   titres_affiches = 0;
+  nb_ope_sous_categ_etat = 0;
 
   return (ligne );
 }
@@ -929,6 +931,7 @@ gint gnomeprint_affiche_total_ib ( gint ligne )
   montant_ib_etat = 0;
   nom_ib_en_cours = NULL;
   titres_affiches = 0;
+  nb_ope_ib_etat = 0;
 
   return (ligne );
 }
@@ -947,6 +950,7 @@ gint gnomeprint_affiche_total_sous_ib ( gint ligne )
   montant_sous_ib_etat = 0;
   nom_ss_ib_en_cours = NULL;
   titres_affiches = 0;
+  nb_ope_sous_ib_etat = 0;
 
   return (ligne );
 }
@@ -965,6 +969,7 @@ gint gnomeprint_affiche_total_compte ( gint ligne )
   montant_compte_etat = 0;
   nom_compte_en_cours = NULL;
   titres_affiches = 0;
+  nb_ope_compte_etat = 0;
 
   return (ligne );
 }
@@ -983,6 +988,7 @@ gint gnomeprint_affiche_total_tiers ( gint ligne )
   montant_tiers_etat = 0;
   nom_tiers_en_cours = NULL;
   titres_affiches = 0;
+  nb_ope_tiers_etat = 0;
 
   return (ligne );
 }
@@ -1375,7 +1381,7 @@ gint gnomeprint_affiche_total_general ( gdouble total_general,
 
 /*****************************************************************************************************/
 gint gnomeprint_affiche_categ_etat ( struct structure_operation *operation,
-			  			  gchar *decalage_categ,
+				     gchar *decalage_categ,
 				     gint ligne )
 {
   gchar *pointeur_char;

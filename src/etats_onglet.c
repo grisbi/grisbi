@@ -32,6 +32,12 @@ GtkWidget *creation_onglet_etats ( void )
   GtkWidget *frame;
   GtkWidget *vbox;
 
+  /*   au départ, aucun état n'est ouvert */
+
+  bouton_etat_courant = NULL;
+  etat_courant = NULL;
+
+
   onglet = gtk_hbox_new ( FALSE,
 			  10 );
   gtk_container_set_border_width ( GTK_CONTAINER ( onglet ),
@@ -125,10 +131,6 @@ GtkWidget *creation_onglet_etats ( void )
 
   /* l'onglet de config sera créé que si nécessaire */
 
-  /*   au départ, aucun état n'est ouvert */
-
-  bouton_etat_courant = NULL;
-  etat_courant = NULL;
   onglet_config_etat = NULL;
 
 
@@ -255,6 +257,21 @@ GtkWidget *creation_liste_etats ( void )
 		       NULL );
   gtk_widget_show ( bouton );
 
+  /* on met le bouton duppliquer */
+
+  bouton_duppliquer_etat = gtk_button_new_with_label ( _("Duppliquer un état ...") );
+  gtk_button_set_relief ( GTK_BUTTON ( bouton_duppliquer_etat ),
+			  GTK_RELIEF_NONE );
+  gtk_signal_connect ( GTK_OBJECT ( bouton_duppliquer_etat ),
+		       "clicked",
+		       GTK_SIGNAL_FUNC ( duppliquer_etat ),
+		       NULL );
+  gtk_box_pack_start ( GTK_BOX ( vbox ),
+		       bouton_duppliquer_etat,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( bouton_duppliquer_etat );
 
   /* mise en place du bouton équilibrage */
 
@@ -272,10 +289,13 @@ GtkWidget *creation_liste_etats ( void )
 		       NULL );
   gtk_widget_show ( bouton_effacer_etat );
 
-  if ( !liste_struct_etats )
-    gtk_widget_set_sensitive ( bouton_effacer_etat,
-			       FALSE );
-
+  if ( !etat_courant )
+    {
+      gtk_widget_set_sensitive ( bouton_effacer_etat,
+				 FALSE );
+      gtk_widget_set_sensitive ( bouton_duppliquer_etat,
+				 FALSE );
+    }
 
   return ( onglet );
 
@@ -545,12 +565,14 @@ void ajout_etat ( void )
 			     TRUE );
   gtk_widget_set_sensitive ( bouton_exporter_etat,
 			     TRUE );
+  gtk_widget_set_sensitive ( bouton_duppliquer_etat,
+			     TRUE );
+  gtk_widget_set_sensitive ( bouton_effacer_etat,
+			     TRUE );
 
   gtk_label_set_text ( GTK_LABEL ( label_etat_courant ),
 		       etat_courant -> nom_etat );
 
-  gtk_widget_set_sensitive ( bouton_effacer_etat,
-			     TRUE );
 
   personnalisation_etat ();
   modification_fichier ( TRUE );
@@ -564,23 +586,23 @@ void efface_etat ( void )
 {
   GtkWidget *dialog;
   GtkWidget *label;
-  GtkWidget *option_menu;
   gint resultat;
-  GSList *liste_tmp;
-  GtkWidget *menu;
-  struct struct_etat *etat;
 
   if ( !liste_struct_etats )
     return;
 
-  dialog = gnome_dialog_new ( _("Sélection de l'état à effacer :"),
-			      GNOME_STOCK_BUTTON_OK,
-			      GNOME_STOCK_BUTTON_CANCEL,
+  if ( !etat_courant )
+    return;
+
+  dialog = gnome_dialog_new ( _("Confirmation de la suppression d'un état"),
+			      GNOME_STOCK_BUTTON_YES,
+			      GNOME_STOCK_BUTTON_NO,
 			      NULL );
   gtk_window_set_transient_for ( GTK_WINDOW ( dialog ),
 				 GTK_WINDOW ( window ));
 
-  label = gtk_label_new ( _("Choisir l'état à effacer :") );
+  label = gtk_label_new ( g_strdup_printf ( _("Êtes-vous sûr de vouloir supprimer l'état %s ?"),
+					    etat_courant -> nom_etat ));
   gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
 		       label,
 		       FALSE,
@@ -589,94 +611,42 @@ void efface_etat ( void )
   gtk_widget_show ( label );
 
 
-  option_menu = gtk_option_menu_new ();
-  menu = gtk_menu_new ();
-
-  liste_tmp = liste_struct_etats;
-
-  while ( liste_tmp )
-    {
-      GtkWidget *menu_item;
-
-      etat = liste_tmp -> data;
-
-      menu_item = gtk_menu_item_new_with_label ( etat -> nom_etat );
-      gtk_object_set_data ( GTK_OBJECT ( menu_item ),
-			    "adr_etat",
-			    etat );
-      gtk_menu_append ( GTK_MENU ( menu ),
-			menu_item );
-      gtk_widget_show ( menu_item );
-
-      liste_tmp = liste_tmp -> next;
-    }
-
-  gtk_option_menu_set_menu ( GTK_OPTION_MENU ( option_menu ),
-			     menu );
-  gtk_widget_show ( menu );
-
-  gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
-		       option_menu,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( option_menu );
-
-  if ( etat_courant )
-    gtk_option_menu_set_history ( GTK_OPTION_MENU ( option_menu ),
-				  g_slist_position ( liste_struct_etats,
-						     g_slist_find_custom ( liste_struct_etats,
-									   GINT_TO_POINTER ( etat_courant -> no_etat ),
-									   (GCompareFunc) recherche_etat_par_no )));
-
   resultat = gnome_dialog_run ( GNOME_DIALOG ( dialog ));
 
   if ( !resultat )
     {
-     
-      etat = gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( option_menu ) -> menu_item ),
-				   "adr_etat" );
-
-      /*   si l'état courant était celui qu'on efface, on met l'état courant à -1 et */
+      /*   on met l'état courant à -1 et */
       /* le bouton à null, et le label de l'état en cours à rien */
 
-      if ( etat_courant
-	   &&
-	   etat_courant -> no_etat == etat -> no_etat )
-	{
-	  etat_courant = NULL;
-	  bouton_etat_courant = NULL;
-	  gtk_label_set_text ( GTK_LABEL ( label_etat_courant ),
-			       "" );
-	  gtk_widget_set_sensitive ( bouton_personnaliser_etat,
-				     FALSE );
-	  gtk_widget_set_sensitive ( bouton_imprimer_etat,
-				     FALSE );
-	  gtk_widget_set_sensitive ( bouton_exporter_etat,
-				     FALSE );
-
-	  /* il faut aussi ici virer l'état affiché quand ce sera fait */
-
-	  if ( GTK_BIN ( scrolled_window_etat ) -> child )
-	    gtk_container_remove ( GTK_CONTAINER ( scrolled_window_etat ),
-				   GTK_BIN ( scrolled_window_etat ) -> child );
-	}
-
       liste_struct_etats = g_slist_remove ( liste_struct_etats,
-					    etat );
+					    etat_courant );
+
+      etat_courant = NULL;
+      bouton_etat_courant = NULL;
+      gtk_label_set_text ( GTK_LABEL ( label_etat_courant ),
+			   "" );
+      gtk_widget_set_sensitive ( bouton_personnaliser_etat,
+				 FALSE );
+      gtk_widget_set_sensitive ( bouton_imprimer_etat,
+				 FALSE );
+      gtk_widget_set_sensitive ( bouton_exporter_etat,
+				 FALSE );
+      gtk_widget_set_sensitive ( bouton_duppliquer_etat,
+				 FALSE );
+      gtk_widget_set_sensitive ( bouton_effacer_etat,
+				 FALSE );
+
+ 
+      if ( GTK_BIN ( scrolled_window_etat ) -> child )
+	gtk_container_remove ( GTK_CONTAINER ( scrolled_window_etat ),
+			       GTK_BIN ( scrolled_window_etat ) -> child );
+
 
 
       /* on réaffiche la liste des états */
 
       remplissage_liste_etats ();
-
-      /*   s'il ne reste plus d'état, on grise le bouton */
-
-      if ( !liste_struct_etats )
-	gtk_widget_set_sensitive ( bouton_effacer_etat,
-				   FALSE );
       modification_fichier ( TRUE );
-
     }
 
   if ( GNOME_IS_DIALOG ( dialog ))
@@ -714,6 +684,10 @@ void changement_etat ( GtkWidget *bouton,
   gtk_widget_set_sensitive ( bouton_imprimer_etat,
 			     TRUE );
   gtk_widget_set_sensitive ( bouton_exporter_etat,
+			     TRUE );
+  gtk_widget_set_sensitive ( bouton_duppliquer_etat,
+			     TRUE );
+  gtk_widget_set_sensitive ( bouton_effacer_etat,
 			     TRUE );
 
   icone = gnome_stock_pixmap_widget ( GTK_WIDGET ( bouton ),
@@ -953,5 +927,87 @@ void importer_etat ( void )
       gnome_dialog_close ( GNOME_DIALOG ( dialog ));
       return;
     }
+}
+/*****************************************************************************************************/
+
+
+
+/*****************************************************************************************************/
+/* cette fonction crée une copie de l'état courant */
+/*****************************************************************************************************/
+
+void duppliquer_etat ( void )
+{
+  struct struct_etat *etat;
+
+  etat = calloc ( 1,
+		  sizeof ( struct struct_etat ));
+
+
+  /* on recopie les données de l'état courant */
+
+  memcpy ( etat,
+	   etat_courant,
+	   sizeof ( struct struct_etat ));
+
+  /* il reste juste à faire une copie des listes et des chaines pour terminer */
+
+  etat -> no_etat = ++no_dernier_etat;
+
+  etat -> nom_etat = g_strdup ( etat_courant -> nom_etat );
+  etat -> no_exercices = g_slist_copy ( etat_courant -> no_exercices );
+
+  if ( etat_courant -> date_perso_debut )
+    etat -> date_perso_debut = g_date_new_dmy ( g_date_day ( etat_courant -> date_perso_debut ),
+						g_date_month ( etat_courant -> date_perso_debut ),
+						g_date_year ( etat_courant -> date_perso_debut ));
+						
+  if ( etat_courant -> date_perso_fin )
+    etat -> date_perso_fin = g_date_new_dmy ( g_date_day ( etat_courant -> date_perso_fin ),
+						g_date_month ( etat_courant -> date_perso_fin ),
+						g_date_year ( etat_courant -> date_perso_fin ));
+						
+  etat -> type_classement = g_list_copy ( etat_courant -> type_classement );
+  etat -> no_comptes = g_slist_copy ( etat_courant -> no_comptes );
+  etat -> no_comptes_virements = g_slist_copy ( etat_courant -> no_comptes_virements );
+  etat -> no_categ = g_slist_copy ( etat_courant -> no_categ );
+  etat -> no_ib = g_slist_copy ( etat_courant -> no_ib );
+  etat -> no_tiers = g_slist_copy ( etat_courant -> no_tiers );
+
+  if ( etat_courant -> texte )
+    etat -> texte = g_strdup ( etat_courant -> texte );
+
+
+
+  /* on l'ajoute à la liste */
+
+  liste_struct_etats = g_slist_append ( liste_struct_etats,
+					etat );
+
+  /* on réaffiche la liste des états */
+
+  etat_courant = etat;
+
+  remplissage_liste_etats ();
+
+  gtk_widget_set_sensitive ( bouton_personnaliser_etat,
+			     TRUE );
+  gtk_widget_set_sensitive ( bouton_imprimer_etat,
+			     TRUE );
+  gtk_widget_set_sensitive ( bouton_exporter_etat,
+			     TRUE );
+  gtk_widget_set_sensitive ( bouton_duppliquer_etat,
+			     TRUE );
+  gtk_widget_set_sensitive ( bouton_effacer_etat,
+			     TRUE );
+
+  gtk_label_set_text ( GTK_LABEL ( label_etat_courant ),
+		       etat_courant -> nom_etat );
+
+  gtk_widget_set_sensitive ( bouton_effacer_etat,
+			     TRUE );
+
+  personnalisation_etat ();
+  modification_fichier ( TRUE );
 }
 /*****************************************************************************************************/
