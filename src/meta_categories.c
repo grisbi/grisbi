@@ -31,6 +31,7 @@
 
 
 /*START_STATIC*/
+gpointer category_get_without_div_pointer ();
 gpointer category_get_div_pointer (int);
 gpointer category_get_sub_div_pointer (int, int);
 gpointer category_get_div_pointer_from_name (gchar *,gboolean);
@@ -67,6 +68,7 @@ void category_scheduled_set_sub_div_id (struct operation_echeance *, int);
 static MetatreeInterface _category_interface = {
     N_("No category"),
     N_("No sub-category"),
+    category_get_without_div_pointer,
     category_get_div_pointer,
     category_get_sub_div_pointer,
     category_get_div_pointer_from_name,
@@ -107,6 +109,18 @@ MetatreeInterface * category_interface = &_category_interface;
 /* liste des structures de catég */
 extern GSList *liste_struct_categories;
 extern gint nb_enregistrements_categories;
+extern struct struct_categ * without_category;
+
+
+/**
+ *
+ *
+ */
+gpointer category_get_without_div_pointer ( )
+{
+    return (gpointer) without_category;
+}
+
 
 
 /**
@@ -447,6 +461,8 @@ gint category_add_sub_div ( int div_id )
     int i = 1;
 
     parent_category = category_get_div_pointer ( div_id );
+    if ( ! parent_category )
+	return -1;
 
     /** Find a unique name for category */
     name =  _("New sub-category");
