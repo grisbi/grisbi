@@ -1658,7 +1658,7 @@ void supprimer_imputation ( void )
 
 		    sous_imputation = sous_pointeur -> data;
 
-		    if ( imputation -> type_imputation )
+		    if ( imputation_tmp -> type_imputation )
 			liste_imputation_debit = g_slist_append ( liste_imputation_debit,
 								  g_strconcat ( "\t",
 										sous_imputation -> nom_sous_imputation,
@@ -1982,21 +1982,21 @@ void supprimer_sous_imputation ( void )
 
 	    while ( sous_pointeur )
 	    {
-		struct struct_sous_imputation *sous_imputation;
+		struct struct_sous_imputation *sous_imputation_tmp;
 
-		sous_imputation = sous_pointeur -> data;
+		sous_imputation_tmp = sous_pointeur -> data;
 
-		if ( sous_imputation -> no_sous_imputation !=  sous_imputation -> no_sous_imputation )
+		if ( sous_imputation_tmp -> no_sous_imputation != sous_imputation -> no_sous_imputation )
 		{
 		    if ( imputation -> type_imputation )
 			liste_imputation_debit = g_slist_append ( liste_imputation_debit,
 								  g_strconcat ( "\t",
-										sous_imputation -> nom_sous_imputation,
+										sous_imputation_tmp -> nom_sous_imputation,
 										NULL ) );
 		    else
 			liste_imputation_credit = g_slist_append ( liste_imputation_credit,
 								   g_strconcat ( "\t",
-										 sous_imputation -> nom_sous_imputation,
+										 sous_imputation_tmp -> nom_sous_imputation,
 										 NULL ) );
 		}
 		sous_pointeur = sous_pointeur -> next;
