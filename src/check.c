@@ -59,7 +59,7 @@ void reconciliation_check ( void )
   {
     /* On fera la vérification des comptes dans l'ordre préféré
        de l'utilisateur. On fait une copie de la liste car
-       on va y écrire dedans. */
+       on va y écrire dedans pour sortir de la boucle de test des comptes. */
 
     pUserAccountsList = g_slist_copy ( ordre_comptes );
 
@@ -96,18 +96,13 @@ void reconciliation_check ( void )
 	       &&
 	       !pTransaction -> no_operation_ventilee_associee )
 	  {
-	      gdouble transaction_amount;
-
-	      transaction_amount = calcule_montant_devise_renvoi ( pTransaction -> montant,
-								  DEVISE,
-								   pTransaction -> devise,
-								   pTransaction -> une_devise_compte_egale_x_devise_ope,
-								   pTransaction -> taux_change,
-								   pTransaction -> frais_change );
-
-	      reconcilied_amount = reconcilied_amount + transaction_amount;
+	      reconcilied_amount += calcule_montant_devise_renvoi ( pTransaction -> montant,
+								    DEVISE,
+								    pTransaction -> devise,
+								    pTransaction -> une_devise_compte_egale_x_devise_ope,
+								    pTransaction -> taux_change,
+								    pTransaction -> frais_change );
 	  }
-
 	  pTransactionList = pTransactionList -> next;
 	  free ( pTransaction );
 	}
@@ -125,6 +120,9 @@ void reconciliation_check ( void )
 				    NOM_DU_COMPTE);
 	  if ( !question_yes_no_hint ( pHint, pText ) )
 	  {
+	    /* En utilisant une méthode de sortie de boucle plus propre,
+	       il est possible de se passer de pUserAccountsList et
+	       et de travailler directement avec ordre_comptes. */
 	    pUserAccountsList -> next = NULL;
 	  }
 	}
