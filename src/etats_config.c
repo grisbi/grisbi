@@ -4624,13 +4624,6 @@ void remplit_liste_comparaisons_textes_etat ( void )
 
   liste_tmp = etat_courant -> liste_struct_comparaison_textes;
 
-  /*   s'il n'y a rien dans la liste, on met juste une ligne vide */
-
-  if ( !liste_tmp )
-    {
-      ajoute_ligne_liste_comparaisons_textes_etat ( NULL );
-      return;
-    }
 
   /* commence par effacer l'ancienne liste */
 
@@ -4638,6 +4631,14 @@ void remplit_liste_comparaisons_textes_etat ( void )
     gtk_container_remove ( GTK_CONTAINER ( liste_textes_etat ),
 			   (( GtkBoxChild *) ( GTK_BOX ( liste_textes_etat ) -> children -> data )) -> widget );
 
+
+  /*   s'il n'y a rien dans la liste, on met juste une ligne vide */
+
+  if ( !liste_tmp )
+    {
+      ajoute_ligne_liste_comparaisons_textes_etat ( NULL );
+      return;
+    }
 
   /*   on fait le tour de la liste des comparaisons de texte, ajoute une ligne */
   /* et la remplit à chaque fois */
@@ -4700,11 +4701,11 @@ void remplit_liste_comparaisons_textes_etat ( void )
 
       /* on désensitive tous ce qui est nécessaire */
 
-      if ( comp_textes -> champ == 6
+      if ( comp_textes -> champ == 8
 	   ||
-	   comp_textes -> champ == 7
+	   comp_textes -> champ == 9
 	   ||
-	   comp_textes -> champ == 8 )
+	   comp_textes -> champ == 10 )
 	{
 	  /* 	  on est sur un chq ou une pc */
 	  /* on rend sensitif les check button et la hbox correspondante */
@@ -5237,7 +5238,7 @@ GtkWidget *cree_bouton_champ ( struct struct_comparaison_textes_etat *comp_texte
 			      GTK_OBJECT ( comp_textes -> bouton_utilise_no ));
   gtk_widget_show ( menu_item );
 
-  menu_item = gtk_menu_item_new_with_label ( _("l'imputation budgétaire"));
+  menu_item = gtk_menu_item_new_with_label ( _("la sous-catégorie"));
   gtk_menu_append ( GTK_MENU ( menu ),
 		    menu_item );
   gtk_object_set_data ( GTK_OBJECT ( menu_item ),
@@ -5261,7 +5262,7 @@ GtkWidget *cree_bouton_champ ( struct struct_comparaison_textes_etat *comp_texte
 			      GTK_OBJECT ( comp_textes -> bouton_utilise_no ));
   gtk_widget_show ( menu_item );
 
-  menu_item = gtk_menu_item_new_with_label ( _("la note"));
+  menu_item = gtk_menu_item_new_with_label ( _("l'imputation budgétaire"));
   gtk_menu_append ( GTK_MENU ( menu ),
 		    menu_item );
   gtk_object_set_data ( GTK_OBJECT ( menu_item ),
@@ -5285,7 +5286,7 @@ GtkWidget *cree_bouton_champ ( struct struct_comparaison_textes_etat *comp_texte
 			      GTK_OBJECT ( comp_textes -> bouton_utilise_no ));
   gtk_widget_show ( menu_item );
 
-  menu_item = gtk_menu_item_new_with_label ( _("la référence bancaire"));
+  menu_item = gtk_menu_item_new_with_label ( _("la sous-imputation budgétaire"));
   gtk_menu_append ( GTK_MENU ( menu ),
 		    menu_item );
   gtk_object_set_data ( GTK_OBJECT ( menu_item ),
@@ -5309,12 +5310,60 @@ GtkWidget *cree_bouton_champ ( struct struct_comparaison_textes_etat *comp_texte
 			      GTK_OBJECT ( comp_textes -> bouton_utilise_no ));
   gtk_widget_show ( menu_item );
 
-  menu_item = gtk_menu_item_new_with_label ( _("la pièce comptable"));
+  menu_item = gtk_menu_item_new_with_label ( _("la note"));
   gtk_menu_append ( GTK_MENU ( menu ),
 		    menu_item );
   gtk_object_set_data ( GTK_OBJECT ( menu_item ),
 			"no_champ",
 			GINT_TO_POINTER ( 6 ));
+  gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
+			      "activate",
+			      GTK_SIGNAL_FUNC ( sensitive_widget ),
+			      GTK_OBJECT ( comp_textes -> hbox_txt ));
+  gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
+			      "activate",
+			      GTK_SIGNAL_FUNC ( desensitive_widget ),
+			      GTK_OBJECT ( comp_textes -> hbox_chq ));
+  gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
+			      "activate",
+			      GTK_SIGNAL_FUNC ( desensitive_widget ),
+			      GTK_OBJECT ( comp_textes -> bouton_utilise_txt ));
+  gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
+			      "activate",
+			      GTK_SIGNAL_FUNC ( desensitive_widget ),
+			      GTK_OBJECT ( comp_textes -> bouton_utilise_no ));
+  gtk_widget_show ( menu_item );
+
+  menu_item = gtk_menu_item_new_with_label ( _("la référence bancaire"));
+  gtk_menu_append ( GTK_MENU ( menu ),
+		    menu_item );
+  gtk_object_set_data ( GTK_OBJECT ( menu_item ),
+			"no_champ",
+			GINT_TO_POINTER ( 7 ));
+  gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
+			      "activate",
+			      GTK_SIGNAL_FUNC ( sensitive_widget ),
+			      GTK_OBJECT ( comp_textes -> hbox_txt ));
+  gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
+			      "activate",
+			      GTK_SIGNAL_FUNC ( desensitive_widget ),
+			      GTK_OBJECT ( comp_textes -> hbox_chq ));
+  gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
+			      "activate",
+			      GTK_SIGNAL_FUNC ( desensitive_widget ),
+			      GTK_OBJECT ( comp_textes -> bouton_utilise_txt ));
+  gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
+			      "activate",
+			      GTK_SIGNAL_FUNC ( desensitive_widget ),
+			      GTK_OBJECT ( comp_textes -> bouton_utilise_no ));
+  gtk_widget_show ( menu_item );
+
+  menu_item = gtk_menu_item_new_with_label ( _("la pièce comptable"));
+  gtk_menu_append ( GTK_MENU ( menu ),
+		    menu_item );
+  gtk_object_set_data ( GTK_OBJECT ( menu_item ),
+			"no_champ",
+			GINT_TO_POINTER ( 8 ));
   gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
 			      "activate",
 			      GTK_SIGNAL_FUNC ( sensitive_widget ),
@@ -5335,7 +5384,7 @@ GtkWidget *cree_bouton_champ ( struct struct_comparaison_textes_etat *comp_texte
 		    menu_item );
   gtk_object_set_data ( GTK_OBJECT ( menu_item ),
 			"no_champ",
-			GINT_TO_POINTER ( 7 ));
+			GINT_TO_POINTER ( 9 ));
   gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
 			      "activate",
 			      GTK_SIGNAL_FUNC ( sensitive_widget ),
@@ -5355,7 +5404,7 @@ GtkWidget *cree_bouton_champ ( struct struct_comparaison_textes_etat *comp_texte
 		    menu_item );
   gtk_object_set_data ( GTK_OBJECT ( menu_item ),
 			"no_champ",
-			GINT_TO_POINTER ( 8 ));
+			GINT_TO_POINTER ( 10 ));
   gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
 			      "activate",
 			      GTK_SIGNAL_FUNC ( sensitive_widget ),
@@ -5623,13 +5672,6 @@ void remplit_liste_comparaisons_montants_etat ( void )
 
   liste_tmp = etat_courant -> liste_struct_comparaison_montants;
 
-  /*   s'il n'y a rien dans la liste, on met juste une ligne vide */
-
-  if ( !liste_tmp )
-    {
-      ajoute_ligne_liste_comparaisons_montants_etat ( NULL );
-      return;
-    }
 
   /* commence par effacer l'ancienne liste */
 
@@ -5637,6 +5679,14 @@ void remplit_liste_comparaisons_montants_etat ( void )
     gtk_container_remove ( GTK_CONTAINER ( liste_montants_etat ),
 			   (( GtkBoxChild *) ( GTK_BOX ( liste_montants_etat ) -> children -> data )) -> widget );
 
+
+  /*   s'il n'y a rien dans la liste, on met juste une ligne vide */
+
+  if ( !liste_tmp )
+    {
+      ajoute_ligne_liste_comparaisons_montants_etat ( NULL );
+      return;
+    }
 
   /*   on fait le tour de la liste des comparaisons de montant, ajoute une ligne */
   /* et la remplit à chaque fois */

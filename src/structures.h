@@ -503,7 +503,8 @@ struct struct_comparaison_montants_etat
 struct struct_comparaison_textes_etat
 {
   gint lien_struct_precedente;    /* -1=1ère comparaison, 0=et, 1=ou, 2=sauf */
-  gint champ;                      /* 0=tiers, 1= info tiers, 2= categ, 3=ib, 4=note, 5=ref banc, 6=pc, 7=chq, 8=rappr */
+  gint champ;                      /* 0=tiers, 1= info tiers, 2= categ, 3= ss categ, 4=ib, 5= ss-ib */
+  /*                         6=note, 7=ref banc, 8=pc, 9=chq, 10=rappr */
 
   /* pour les comparaisons de txt */
 

@@ -241,11 +241,11 @@ GSList *recupere_opes_etat ( struct struct_etat *etat )
 		      /* on vérifie maintenant en fontion de l'opérateur */
 		      /* si c'est un chq ou une pc et que utilise_txt, on utilise leur no */
 
-		      if ( ( comp_textes -> champ == 6
+		      if ( ( comp_textes -> champ == 8
 			     ||
-			     comp_textes -> champ == 7
+			     comp_textes -> champ == 9
 			     ||
-			     comp_textes -> champ == 8 )
+			     comp_textes -> champ == 10 )
 			   &&
 			   !comp_textes -> utilise_txt )
 			{
@@ -798,6 +798,31 @@ gchar *recupere_texte_test_etat ( struct structure_operation *operation,
       break;
 
     case 3:
+      /* ss-categ */
+
+      if ( operation -> categorie
+	   &&
+	   operation -> sous_categorie )
+	{
+	  struct struct_categ *categ;
+	  struct struct_sous_categ *ss_categ;
+
+	  categ = g_slist_find_custom ( liste_struct_categories,
+					GINT_TO_POINTER ( operation -> categorie ),
+					(GCompareFunc) recherche_categorie_par_no ) -> data;
+
+
+	  ss_categ = g_slist_find_custom ( categ -> liste_sous_categ,
+					   GINT_TO_POINTER ( operation -> sous_categorie ),
+					   (GCompareFunc) recherche_sous_categorie_par_no ) -> data;
+
+	  texte = ss_categ -> nom_sous_categ;
+	}
+      else
+	texte = NULL;
+      break;
+
+    case 4:
       /* ib */
 
       if ( operation -> imputation )
@@ -814,32 +839,56 @@ gchar *recupere_texte_test_etat ( struct structure_operation *operation,
 	texte = NULL;
       break;
 
-    case 4:
+    case 5:
+      /* ss-ib */
+
+      if ( operation -> imputation
+	   &&
+	   operation -> sous_imputation )
+	{
+	  struct struct_imputation *ib;
+	  struct struct_sous_imputation *ss_ib;
+
+	  ib = g_slist_find_custom ( liste_struct_imputation,
+				     GINT_TO_POINTER ( operation -> imputation ),
+				     (GCompareFunc) recherche_imputation_par_no ) -> data;
+
+	  ss_ib = g_slist_find_custom ( ib -> liste_sous_imputation,
+					GINT_TO_POINTER ( operation -> sous_imputation ),
+					(GCompareFunc) recherche_sous_imputation_par_no ) -> data;
+
+	  texte = ss_ib -> nom_sous_imputation;
+	}
+      else
+	texte = NULL;
+      break;
+
+    case 6:
       /* notes  */
 
       texte = operation -> notes;
       break;
 
-    case 5:
+    case 7:
       /* ref bancaires  */
 
       texte = operation -> info_banque_guichet;
       break;
 
-    case 6:
+    case 8:
       /* pc */
 
       texte = operation -> no_piece_comptable;
       break;
 
 
-    case 7:
+    case 9:
       /* chq  */
 
       texte = operation -> contenu_type;
       break;
 
-    case 8:
+    case 10:
       /* no rappr */
 
       if ( operation -> no_rapprochement )
