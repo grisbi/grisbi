@@ -164,7 +164,7 @@ GtkWidget *creation_formulaire ( void )
 										      FALSE,
 										      TRUE,
 										      TRUE,
-										      0 );
+										      50 );
     gtk_table_attach ( GTK_TABLE ( table ),
 		       widget_formulaire_operations[TRANSACTION_FORM_PARTY],
 		       2, 3, 0, 1,
@@ -1837,7 +1837,7 @@ void completion_operation_par_tiers ( void )
 	    GSList *liste_des_opes_de_ventilation;
 
 	    liste_des_opes_de_ventilation = NULL;
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte_ope_trouvee;
+	    p_tab_nom_de_compte_variable = p_tab_nom_de_compte_ope_trouvee;
 	    pointeur_ope = LISTE_OPERATIONS;
 
 	    while ( pointeur_ope )

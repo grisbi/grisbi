@@ -160,7 +160,7 @@ GtkWidget *creation_formulaire_echeancier ( void )
 									     FALSE,
 									     TRUE,
 									     TRUE,
-									     0 );
+									     50 );
     gtk_signal_connect ( GTK_OBJECT ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_PARTY] ) -> entry ),
 			 "key-press-event",
 			 GTK_SIGNAL_FUNC ( pression_touche_formulaire_echeancier ),
@@ -1976,7 +1976,7 @@ void fin_edition_echeance ( void )
 	}
 
 
-	/* récupération du montant */
+	/* rÃÂ©cupération du montant */
 
 	if ( gtk_widget_get_style ( widget_formulaire_echeancier[SCHEDULER_FORM_DEBIT] ) == style_entree_formulaire[ENCLAIR] )
 	    operation -> montant = -my_strtod ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_echeancier[SCHEDULER_FORM_DEBIT] ))),
