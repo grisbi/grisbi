@@ -42,16 +42,14 @@ void charge_configuration ( void )
   int result;
   struct stat buffer_stat;
 
+  raz_configuration ();
+
   if ( stat ( g_strconcat ( getenv ("HOME"), "/.grisbirc", NULL ),&buffer_stat ) == -1 ) {
-    if ( ! gnome_config_get_int( g_strconcat ( "/", FICHIER_CONF, "/Geometry/Width", NULL) )  )
+    if ( gnome_config_get_int( g_strconcat ( "/", FICHIER_CONF, "/Geometry/Width", NULL) ) )
       {
-	raz_configuration ();
+	charge_configuration_ancien();
 	return;
       }
-    else {
-      charge_configuration_ancien();
-      return;
-    }
   }
 
   doc = xmlParseFile ( g_strconcat ( getenv ("HOME"), "/.grisbirc", NULL ) );
@@ -288,6 +286,37 @@ void charge_configuration ( void )
 	  node_messages = node_messages->next;
 	}
       }
+   if ( !strcmp ( node -> name, "Print_config" ) )
+      {
+	xmlNodePtr node_print;
+
+	node_print = node -> children;
+	while (node_print) {
+	  if ( !strcmp ( node_print -> name, "printer" ) ) {
+	    etat.print_config.printer = atoi(xmlNodeGetContent (node_print));
+	  }
+	  if ( !strcmp ( node_print -> name, "printer_name" ) ) {
+	    etat.print_config.printer_name = xmlNodeGetContent (node_print);
+	  }
+	  if ( !strcmp ( node_print -> name, "printer_filename" ) ) {
+	    etat.print_config.printer_filename = xmlNodeGetContent (node_print);
+	  }
+	  if ( !strcmp ( node_print -> name, "filetype" ) ) {
+	    etat.print_config.filetype = atoi(xmlNodeGetContent (node_print));
+	  }
+	  if ( !strcmp ( node_print -> name, "orientation" ) ) {
+	    etat.print_config.orientation = atoi(xmlNodeGetContent (node_print));
+	  }
+	  if ( !strcmp ( node_print -> name, "paper_config" ) ) {
+	    etat.print_config.paper_config.width = atoi(xmlGetProp (node_print, "width"));
+	    etat.print_config.paper_config.height = atoi(xmlGetProp (node_print, "height"));
+	    etat.print_config.paper_config.name = xmlGetProp (node_print, "name");
+	  }
+
+	  node_print = node_print->next;
+	}
+      }
+
     node = node -> next;
   }
 }
@@ -447,6 +476,16 @@ void raz_configuration ( void )
   etat.display_message_lock_active = 0;
   etat.display_message_file_readable = 0;
   etat.display_message_minimum_alert = 0;
+
+  /* Print */
+  etat.print_config.printer = 0;
+  etat.print_config.printer_name = "lpr";
+  etat.print_config.printer_filename = "";
+  etat.print_config.filetype = POSTSCRIPT_FILE;
+  etat.print_config.paper_config.name = _("A4");
+  etat.print_config.paper_config.width = 21;
+  etat.print_config.paper_config.height = 29.7;
+  etat.print_config.orientation = LANDSCAPE;
 }
 /* ***************************************************************************************************** */
 
@@ -581,6 +620,19 @@ void sauve_configurationXML(void)
 		itoa(etat.display_message_file_readable));
   xmlNewChild ( node,NULL, "display_message_minimum_alert",
 		itoa(etat.display_message_minimum_alert));
+
+  /* sauvegarde des messages */
+  node = xmlNewChild ( doc->children, NULL, "Print_config", NULL );
+  xmlNewChild ( node, NULL, "printer", itoa(etat.print_config.printer));
+  xmlNewChild ( node, NULL, "printer_name", etat.print_config.printer_name);
+  xmlNewChild ( node, NULL, "printer_filename", etat.print_config.printer_filename);
+  xmlNewChild ( node, NULL, "filetype", itoa(etat.print_config.filetype));
+  xmlNewChild ( node, NULL, "orientation", itoa(etat.print_config.orientation));
+  node = xmlNewChild ( node, NULL, "paper_config", NULL);
+  xmlSetProp ( node, "name", etat.print_config.paper_config.name);
+  xmlSetProp ( node, "width", itoa(etat.print_config.paper_config.width));
+  xmlSetProp ( node, "height", itoa(etat.print_config.paper_config.height));
+
 
   /* Enregistre dans le ~/.grisbirc */
   resultat = xmlSaveFormatFile ( g_strconcat ( getenv ("HOME"), "/.grisbirc",
