@@ -407,7 +407,7 @@ void ouverture_confirmee ( void )
     block_menu_cb = TRUE;
     widget = gtk_item_factory_get_item ( item_factory_menu_general,
 					 menu_name(_("View"), _("Show reconciled transactions"), NULL) );
-    gtk_check_menu_item_set_active( GTK_MENU_ITEM(widget), AFFICHAGE_R );
+    gtk_check_menu_item_set_active( GTK_CHECK_MENU_ITEM(widget), AFFICHAGE_R );
 
     /* On met à jour le contrôle dans le menu du nombre de lignes affichées */
     switch ( NB_LIGNES_OPE )
@@ -427,7 +427,7 @@ void ouverture_confirmee ( void )
       }
 
     widget = gtk_item_factory_get_item ( item_factory_menu_general, item_name );
-    gtk_check_menu_item_set_active( GTK_MENU_ITEM(widget), TRUE );
+    gtk_check_menu_item_set_active( GTK_CHECK_MENU_ITEM(widget), TRUE );
     block_menu_cb = FALSE;
 
     /*     on ajoute la fentre principale à la window */
