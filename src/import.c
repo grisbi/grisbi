@@ -125,6 +125,7 @@ extern gpointer **p_tab_nom_de_compte_variable;
 extern GtkTreeSelection * selection;
 extern GtkWidget *tree_view;
 extern GtkWidget *window;
+extern GSList *ordre_comptes;
 /*END_EXTERN*/
 
 
@@ -613,6 +614,7 @@ void cree_ligne_recapitulatif ( struct struct_compte_importation *compte,
     GtkWidget *menu;
     GtkWidget *menu_item;
     gint no_compte_trouve;
+    GSList *ordre_comptes_variable;
 
 
     /* mise en place de la date si elle existe */
@@ -794,42 +796,47 @@ void cree_ligne_recapitulatif ( struct struct_compte_importation *compte,
     {
 	menu = gtk_menu_new ();
 
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
+	ordre_comptes_variable = ordre_comptes;
+
 	do
 	{
-	    menu_item = gtk_menu_item_new_with_label ( NOM_DU_COMPTE );
-	    gtk_object_set_data ( GTK_OBJECT ( menu_item ),
-				  "no_compte",
-				  GINT_TO_POINTER ( p_tab_nom_de_compte_variable - p_tab_nom_de_compte ));
+	    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + GPOINTER_TO_INT ( ordre_comptes_variable -> data );
+	
+	    if ( !COMPTE_CLOTURE )
+	    {
+		menu_item = gtk_menu_item_new_with_label ( NOM_DU_COMPTE );
+		gtk_object_set_data ( GTK_OBJECT ( menu_item ),
+				      "no_compte",
+				      GINT_TO_POINTER ( p_tab_nom_de_compte_variable - p_tab_nom_de_compte ));
 
-	    /* on recherche quel compte était noté dans le fichier  */
-	    /* s'il y a une id, on la prend en priorité sur le nom */
+		/* on recherche quel compte était noté dans le fichier  */
+		/* s'il y a une id, on la prend en priorité sur le nom */
 
-	    if ( compte -> id_compte
-		 &&
-		 ID_COMPTE
-		 &&
-		 !g_strcasecmp ( compte -> id_compte,
-				 ID_COMPTE ))
-		no_compte_trouve = p_tab_nom_de_compte_variable - p_tab_nom_de_compte;
+		if ( compte -> id_compte
+		     &&
+		     ID_COMPTE
+		     &&
+		     !g_strcasecmp ( compte -> id_compte,
+				     ID_COMPTE ))
+		    no_compte_trouve = p_tab_nom_de_compte_variable - p_tab_nom_de_compte;
 
-	    /* 		on ne passe par cette étape que si le compte n'a pas déjà été trouvé avec l'id */
+		/* on ne passe par cette étape que si le compte n'a pas déjà été trouvé avec l'id */
 
-	    if ( no_compte_trouve == -1
-		 &&
-		 compte -> nom_de_compte
-		 &&
-		 !g_strcasecmp ( compte -> nom_de_compte,
-				 NOM_DU_COMPTE ))
-		no_compte_trouve = p_tab_nom_de_compte_variable - p_tab_nom_de_compte;
+		if ( no_compte_trouve == -1
+		     &&
+		     compte -> nom_de_compte
+		     &&
+		     !g_strcasecmp ( compte -> nom_de_compte,
+				     NOM_DU_COMPTE ))
+		    no_compte_trouve = p_tab_nom_de_compte_variable - p_tab_nom_de_compte;
 
 
-	    gtk_menu_append ( GTK_MENU ( menu ),
-			      menu_item );
-	    gtk_widget_show ( menu_item );
-	    p_tab_nom_de_compte_variable++;
+		gtk_menu_append ( GTK_MENU ( menu ),
+				  menu_item );
+		gtk_widget_show ( menu_item );
+	    }
 	}
-	while ( p_tab_nom_de_compte_variable < (p_tab_nom_de_compte + nb_comptes ) );
+	while ( (  ordre_comptes_variable = ordre_comptes_variable -> next ) );
 
 	gtk_option_menu_set_menu ( GTK_OPTION_MENU ( compte -> bouton_compte ),
 				   menu );
