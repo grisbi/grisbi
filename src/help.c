@@ -1,9 +1,8 @@
 /* Fichier help.c */
 
-
-/*     Copyright (C) 2000  Cédric Auger */
-/* 			cedric@grisbi.org */
-/* 		 	http://www.grisbi.org */
+/*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org) */
+/*			2003 Benjamin Drieu (bdrieu@april.org) */
+/* 			http://www.grisbi.org */
 
 /*     This program is free software; you can redistribute it and/or modify */
 /*     it under the terms of the GNU General Public License as published by */
@@ -43,12 +42,13 @@ void a_propos ( GtkWidget *bouton,
   const gchar *auteurs[] = { _("Cedric Auger <cedric@grisbi.org>: Programming"),
 			    _("Daniel Cartron <doc@grisbi.org>: Manual, website, consultancy"),
 			    _("Benjamin Drieu <bdrieu@april.org>: Programming, Debian packaging"),
+			    _("Alain Portal <dionysos@grisbi.org>: Programming, RedHat packaging"),
 			    _("Gerald Niel <gerald.niel@grisbi.org>: RPM packaging, website"),
 			    _("Andre Pascual <andre@linuxgraphic.org>: Logo"),
 			    _("Jakub 'jimmac' Steiner <jimmac@ximian.com>: Icons"),
 			    _("Tigert <tigert@gimp.org>: Icons"),
 			    NULL };
-  const gchar *traducteurs[] = { "Daniel Cartron (cartron@grisbi.org) : English",
+  const gchar *traducteurs[] = { _("Daniel Cartron (cartron@grisbi.org) : English"),
 				 NULL };
   const gchar *liens[] = { COLON(_("Website")),
 			   "http://www.grisbi.org/",
