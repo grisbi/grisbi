@@ -93,10 +93,10 @@ int main (int argc, char *argv[])
       {NULL, '\0', 0, NULL, 0}};
 
 
-  setlocale (LC_ALL, "");
-  bindtextdomain ("grisbi", LOCALEDIR);
-  textdomain ("grisbi");
-
+/*   setlocale (LC_ALL, ""); */
+  bindtextdomain (PACKAGE, LOCALEDIR);
+  bind_textdomain_codeset (PACKAGE, "UTF-8");
+  textdomain (PACKAGE);
 
   gnome_init_with_popt_table ("Grisbi", VERSION, argc, argv, options, 0, &ctx);
 
