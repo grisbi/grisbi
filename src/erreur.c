@@ -204,6 +204,8 @@ gchar *demande_texte ( gchar *titre_fenetre,
   gtk_window_set_transient_for ( GTK_WINDOW ( dialog ),
 				 GTK_WINDOW ( window ));
 
+  gtk_window_set_position ( GTK_WINDOW ( dialog ), GTK_WIN_POS_CENTER );
+
   label = gtk_label_new ( question );
   gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
 		       label,
