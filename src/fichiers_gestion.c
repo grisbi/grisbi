@@ -582,14 +582,16 @@ gboolean enregistrement_fichier ( gint origine )
       result = enregistre_fichier ( 0 );
       annulation_attente();
 
-      modification_fichier ( FALSE );
-      affiche_titre_fenetre ();
+      if ( result )
+	{
+	  modification_fichier ( FALSE );
+	  affiche_titre_fenetre ();
+	  fichier_marque_ouvert ( TRUE );
+	  ajoute_nouveau_fichier_liste_ouverture ( nom_fichier_comptes );
 
-      fichier_marque_ouvert ( TRUE );
+	  etat.force_enregistrement = etat_force;
+	}
 
-      ajoute_nouveau_fichier_liste_ouverture ( nom_fichier_comptes );
-
-      etat.force_enregistrement = etat_force;
       return ( result );
     }
   else
@@ -631,11 +633,13 @@ gboolean enregistrement_fichier ( gint origine )
 	  result = enregistre_fichier ( 0 );
 	  annulation_attente();
 
-	  modification_fichier ( FALSE );
-	  affiche_titre_fenetre ();
-  
-	  fichier_marque_ouvert ( TRUE );
-	  ajoute_nouveau_fichier_liste_ouverture ( nom_fichier_comptes );
+	  if ( result )
+	    {
+	      modification_fichier ( FALSE );
+	      affiche_titre_fenetre ();
+	      fichier_marque_ouvert ( TRUE );
+	      ajoute_nouveau_fichier_liste_ouverture ( nom_fichier_comptes );
+	    }
 
 	  return ( result );
 
