@@ -24,4 +24,6 @@ gboolean click_dialog_ope_orphelines ( GtkWidget *dialog,
 gboolean click_sur_liste_opes_orphelines ( GtkCellRendererToggle *renderer, 
 		gchar *ligne,
 		GtkTreeModel *store  );
+GtkWidget *onglet_importation (void);
+gboolean changement_valeur_echelle_recherche_date_import ( GtkWidget *spin_button );
 

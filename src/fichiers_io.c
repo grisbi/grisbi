@@ -34,7 +34,7 @@
 #include "traitement_variables.h"
 #include <libxml/tree.h>
 
-
+extern gint valeur_echelle_recherche_date_import;
 
 int
 myisolat1ToUTF8(unsigned char* out, int *outlen,
@@ -1914,6 +1914,10 @@ void supprime_operations_orphelines ( void )
 
 	dialogue ( message );
     }
+    /*     ajout de la 0.5 -> valeur_echelle_recherche_date_import qu'on me à 2 */
+
+    valeur_echelle_recherche_date_import = 2;
+
     etat.en_train_de_charger = 0;
 }
 /***********************************************************************************************************/
@@ -4193,6 +4197,9 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 	node_1 = node_1 -> next;
     }
 
+    /*     ajout de la 0.5 -> valeur_echelle_recherche_date_import qu'on me à 2 */
+
+    valeur_echelle_recherche_date_import = 2;
 
     /* on libère la memoire */
 
@@ -4305,6 +4312,10 @@ gboolean charge_operations_version_0_5_0 ( xmlDocPtr doc )
 		if ( !strcmp ( node_generalites -> name,
 			       "Numero_derniere_operation" ))
 		    no_derniere_operation= atoi ( xmlNodeGetContent ( node_generalites ));
+
+		if ( !strcmp ( node_generalites -> name,
+			       "Echelle_date_import" ))
+		    valeur_echelle_recherche_date_import = atoi ( xmlNodeGetContent ( node_generalites ));
 
 		if ( !strcmp ( node_generalites -> name,
 			       "Chemin_logo" ))
@@ -6562,6 +6573,11 @@ gboolean enregistre_fichier ( gboolean force )
 		      NULL,
 		      "Numero_derniere_operation",
 		      itoa ( no_derniere_operation));
+
+    xmlNewTextChild ( node,
+		      NULL,
+		      "Echelle_date_import",
+		      itoa (valeur_echelle_recherche_date_import ));
 
     xmlNewTextChild ( node,
 		      NULL,

@@ -38,9 +38,11 @@
 #include "ofx.h"
 #include "html.h"
 #include "dialog.h"
+#include "parametres.h"
 
 
 gint derniere_operation_enregistrement_ope_import;
+gint valeur_echelle_recherche_date_import;
 
 
 /* *******************************************************************************/
@@ -1479,9 +1481,9 @@ void ajout_opes_importees ( struct struct_compte_importation *compte_import )
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( compte_import -> bouton_compte )->menu_item ),
 												 "no_compte" ));
 
-/* si le compte importé a une id, on la vérifie ici */
-/*     si elle est absente, on met celle importée */
-/*     si elle est différente, on demande si on la remplace */
+    /* si le compte importé a une id, on la vérifie ici */
+    /*     si elle est absente, on met celle importée */
+    /*     si elle est différente, on demande si on la remplace */
 
     if ( compte_import -> id_compte )
     {
@@ -1490,8 +1492,8 @@ void ajout_opes_importees ( struct struct_compte_importation *compte_import )
 	    if ( g_strcasecmp ( ID_COMPTE,
 				compte_import -> id_compte ))
 	    {
-/* 		l'id du compte choisi et l'id du compte importé sont différents */
-/* 		    on propose encore d'arrêter... */
+		/* 		l'id du compte choisi et l'id du compte importé sont différents */
+		/* 		    on propose encore d'arrêter... */
 
 
 		if ( question_yes_no ( _("The id of the imported and chosen accounts are not the same.\nPerhaps you choose a wrong account ?\nIf you choose to continue, the id of the account will be changed.\nDo you want to continue ?")))
@@ -1505,7 +1507,7 @@ void ajout_opes_importees ( struct struct_compte_importation *compte_import )
 
     }
 
-    
+
     /* on fait un premier tour de la liste des opés pour repérer celles qui sont déjà entrées */
     /*   si on n'importe que du ofx, c'est facile, chaque opé est repérée par une id */
     /*     donc si l'opé importée a une id, il suffit de rechercher l'id dans le compte, si elle */
@@ -1573,7 +1575,7 @@ void ajout_opes_importees ( struct struct_compte_importation *compte_import )
 
 	    }
 
-/* 	    si l'opé d'import a un no de chq, on le recherche */
+	    /* 	    si l'opé d'import a un no de chq, on le recherche */
 
 	    if ( operation_import -> action != 2
 		 &&
@@ -1593,12 +1595,27 @@ void ajout_opes_importees ( struct struct_compte_importation *compte_import )
 		    operation_import -> action = 2;
 		}
 	    }
-	    
+
 	    /* on fait donc le tour de la liste des opés pour retrouver une opé comparable */
 	    /* si elle n'a pas déjà été retrouvée par id... */
 
 	    if ( operation_import -> action != 2 )
 	    {
+		GDate *date_debut_comparaison;
+		GDate *date_fin_comparaison;
+
+		date_debut_comparaison = g_date_new_dmy ( g_date_get_day ( operation_import -> date ),
+							  g_date_get_month ( operation_import -> date ),
+							  g_date_get_year ( operation_import -> date ));
+		g_date_subtract_days ( date_debut_comparaison,
+				       valeur_echelle_recherche_date_import );
+
+		date_fin_comparaison = g_date_new_dmy ( g_date_get_day ( operation_import -> date ),
+							g_date_get_month ( operation_import -> date ),
+							g_date_get_year ( operation_import -> date ));
+		g_date_add_days ( date_fin_comparaison,
+				  valeur_echelle_recherche_date_import );
+
 		liste_ope = LISTE_OPERATIONS;
 
 		while ( liste_ope )
@@ -1607,10 +1624,16 @@ void ajout_opes_importees ( struct struct_compte_importation *compte_import )
 
 		    operation = liste_ope -> data;
 
-		    if ( operation -> montant == operation_import -> montant
+		    if ( fabs ( operation -> montant - operation_import -> montant ) < 0.01
 			 &&
-			 !g_date_compare ( operation -> date,
-					   operation_import -> date ))
+			 ( g_date_compare ( operation -> date,
+					    date_debut_comparaison ) >= 0 )
+			 &&
+			 ( g_date_compare ( operation -> date,
+					    date_fin_comparaison ) <= 0 )
+
+			 &&
+			 !operation_import -> ope_de_ventilation )
 		    {
 			/* l'opé a la même date et le même montant, on la marque pour demander quoi faire à l'utilisateur */
 			operation_import -> action = 1; 
@@ -1677,10 +1700,10 @@ void ajout_opes_importees ( struct struct_compte_importation *compte_import )
 /* recherche une opé par son numéro de cheque dans la liste des opérations	      */
 /******************************************************************************/
 gint recherche_operation_par_cheque ( struct structure_operation *operation,
-				  gint *no_chq )
+				      gint *no_chq )
 {
     if ( operation -> contenu_type )
-	  return ( ! ( atoi (operation -> contenu_type) == GPOINTER_TO_INT ( no_chq ) ));
+	return ( ! ( atoi (operation -> contenu_type) == GPOINTER_TO_INT ( no_chq ) ));
 }
 /******************************************************************************/
 
@@ -1753,6 +1776,7 @@ void confirmation_enregistrement_ope_import ( struct struct_compte_importation *
 	ope_import = liste_tmp -> data;
 
 	/* on n'affiche pas si c'est des opés de ventil, si la mère est cochée, les filles seront alors cochées */
+	/* on ne teste pas ici car ça a été testé avant */
 
 	if ( ope_import -> action 
 	     &&
@@ -2182,10 +2206,10 @@ void pointe_opes_importees ( struct struct_compte_importation *compte_import )
 							"no_compte" ));
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_compte;
 
- 
-/* si le compte importé a une id, on la vérifie ici */
-/*     si elle est absente, on met celle importée */
-/*     si elle est différente, on demande si on la remplace */
+
+    /* si le compte importé a une id, on la vérifie ici */
+    /*     si elle est absente, on met celle importée */
+    /*     si elle est différente, on demande si on la remplace */
 
     if ( compte_import -> id_compte )
     {
@@ -2194,8 +2218,8 @@ void pointe_opes_importees ( struct struct_compte_importation *compte_import )
 	    if ( g_strcasecmp ( ID_COMPTE,
 				compte_import -> id_compte ))
 	    {
-/* 		l'id du compte choisi et l'id du compte importé sont différents */
-/* 		    on propose encore d'arrêter... */
+		/* 		l'id du compte choisi et l'id du compte importé sont différents */
+		/* 		    on propose encore d'arrêter... */
 
 
 		if ( question_yes_no ( _("The id of the imported and chosen accounts are not the same.\nPerhaps you choose a wrong account ?\nIf you choose to continue, the id of the account will be changed.\nDo you want to continue ?")))
@@ -2208,8 +2232,8 @@ void pointe_opes_importees ( struct struct_compte_importation *compte_import )
 	    ID_COMPTE = g_strdup ( compte_import -> id_compte );
 
     }
-    
-   /* on fait le tour des opés importées et recherche dans la liste d'opé s'il y a la correspondance */
+
+    /* on fait le tour des opés importées et recherche dans la liste d'opé s'il y a la correspondance */
 
 
     liste_tmp = compte_import -> operations_importees;
@@ -2223,7 +2247,6 @@ void pointe_opes_importees ( struct struct_compte_importation *compte_import )
 	struct structure_operation *operation;
 	gint i;
 	struct struct_ope_importation *autre_ope_import;
-
 	ope_import = liste_tmp -> data;
 	ope_trouvees = NULL;
 
@@ -2244,10 +2267,28 @@ void pointe_opes_importees ( struct struct_compte_importation *compte_import )
 
 	/* si on n'a rien trouvé par id, */
 	/* on fait le tour de la liste d'opés pour trouver des opés comparable */
-	/* cad même date et même montant et pas une opé de ventil */
+	/* cad même date avec + ou - une échelle et même montant et pas une opé de ventil */
+
 
 	if ( !ope_trouvees )
 	{
+	    GDate *date_debut_comparaison;
+	    GDate *date_fin_comparaison;
+
+	    date_debut_comparaison = g_date_new_dmy ( g_date_get_day ( ope_import -> date ),
+						      g_date_get_month ( ope_import -> date ),
+						      g_date_get_year ( ope_import -> date ));
+	    g_date_subtract_days ( date_debut_comparaison,
+				   valeur_echelle_recherche_date_import );
+
+	    date_fin_comparaison = g_date_new_dmy ( g_date_get_day ( ope_import -> date ),
+						    g_date_get_month ( ope_import -> date ),
+						    g_date_get_year ( ope_import -> date ));
+	    g_date_add_days ( date_fin_comparaison,
+			      valeur_echelle_recherche_date_import );
+
+
+
 	    liste_ope = LISTE_OPERATIONS;
 
 	    while ( liste_ope )
@@ -2256,8 +2297,12 @@ void pointe_opes_importees ( struct struct_compte_importation *compte_import )
 
 		if ( fabs ( operation -> montant - ope_import -> montant ) < 0.01
 		     &&
-		     !g_date_compare ( operation -> date,
-				       ope_import -> date )
+		     ( g_date_compare ( operation -> date,
+					date_debut_comparaison ) >= 0 )
+		     &&
+		     ( g_date_compare ( operation -> date,
+					date_fin_comparaison ) <= 0 )
+
 		     &&
 		     !operation -> no_operation_ventilee_associee )
 		    /* on a retouvé une opé de même date et même montant, on l'ajoute à la liste des opés trouvées */
@@ -2343,12 +2388,31 @@ void pointe_opes_importees ( struct struct_compte_importation *compte_import )
 
 		while ( liste_ope )
 		{
+		    GDate *date_debut_comparaison;
+		    GDate *date_fin_comparaison;
+
 		    autre_ope_import = liste_ope -> data;
+		    date_debut_comparaison = g_date_new_dmy ( g_date_get_day ( autre_ope_import -> date ),
+							      g_date_get_month ( autre_ope_import -> date ),
+							      g_date_get_year ( autre_ope_import -> date ));
+		    g_date_subtract_days ( date_debut_comparaison,
+					   valeur_echelle_recherche_date_import );
+
+		    date_fin_comparaison = g_date_new_dmy ( g_date_get_day ( autre_ope_import -> date ),
+							    g_date_get_month ( autre_ope_import -> date ),
+							    g_date_get_year ( autre_ope_import -> date ));
+		    g_date_add_days ( date_fin_comparaison,
+				      valeur_echelle_recherche_date_import );
+
 
 		    if ( fabs ( autre_ope_import -> montant - ope_import -> montant ) < 0.01
 			 &&
-			 !g_date_compare ( autre_ope_import -> date,
-					   ope_import -> date )
+			 ( g_date_compare ( operation -> date,
+					    date_debut_comparaison ) >= 0 )
+			 &&
+			 ( g_date_compare ( operation -> date,
+					    date_fin_comparaison ) <= 0 )
+
 			 &&
 			 !autre_ope_import -> ope_de_ventilation )
 			/* on a retouvé une opé d'import de même date et même montant, on incrémente le nb d'opé d'import semblables trouvees */
@@ -2708,5 +2772,77 @@ gboolean click_sur_liste_opes_orphelines ( GtkCellRendererToggle *renderer,
     }
     return ( FALSE );
 }		
+/* *******************************************************************************/
+
+
+
+/* *******************************************************************************/
+/* page de configuration pour l'importation */
+/* *******************************************************************************/
+GtkWidget *onglet_importation (void)
+{
+    GtkWidget *vbox_pref;
+    GtkWidget *hbox;
+    GtkWidget *label;
+    GtkWidget *bouton;
+
+    vbox_pref = new_vbox_with_title_and_icon ( _("Import"),
+					       "files.png" ); 
+    hbox = gtk_hbox_new ( FALSE,
+			  0 );
+    gtk_box_pack_start ( GTK_BOX ( vbox_pref ),
+			 hbox,
+			 FALSE,
+			 FALSE,
+			 0 );
+    gtk_widget_show ( hbox );
+
+    label = gtk_label_new ( _("Search the transaction "));
+    gtk_box_pack_start ( GTK_BOX ( hbox ),
+			 label,
+			 FALSE,
+			 FALSE,
+			 0 );
+    gtk_widget_show ( label );
+
+    bouton = gtk_spin_button_new_with_range ( 0.0,
+					      100.0,
+					      1.0);
+    gtk_spin_button_set_value ( GTK_SPIN_BUTTON ( bouton ),
+				valeur_echelle_recherche_date_import );
+    g_signal_connect ( G_OBJECT ( bouton ),
+		       "value-changed",
+		       G_CALLBACK ( changement_valeur_echelle_recherche_date_import ),
+		       NULL );
+    gtk_box_pack_start ( GTK_BOX ( hbox ),
+			 bouton,
+			 FALSE,
+			 FALSE,
+			 0 );
+    gtk_widget_show ( bouton );
+
+    label = gtk_label_new ( _("days around the date in the imported transaction."));
+    gtk_box_pack_start ( GTK_BOX ( hbox ),
+			 label,
+			 FALSE,
+			 FALSE,
+			 0 );
+    gtk_widget_show ( label );
+
+
+
+
+    return ( vbox_pref );
+}
+/* *******************************************************************************/
+
+
+/* *******************************************************************************/
+gboolean changement_valeur_echelle_recherche_date_import ( GtkWidget *spin_button )
+{
+    valeur_echelle_recherche_date_import = gtk_spin_button_get_value_as_int ( GTK_SPIN_BUTTON ( spin_button ));
+    modification_fichier ( TRUE );
+    return ( FALSE );
+}
 /* *******************************************************************************/
 
