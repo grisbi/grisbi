@@ -14,11 +14,11 @@ and receipt categories, and also budgetary lines, financial years, and
 other informations that make Grisbi adapted for associations (except
 those that require double entry accounting). 
 
-The complete manuel is avaliable on line. The version that comes with
-the software is not illustrated, but you can replace it by the
-illustrated version at any time, which is availiable for download on
-this site.  The manuel will be soon completed with a Guide concerning
-accounting for associations.
+The complete manuel (in French) is downloadable from our website
+(http://www.grisbi.org/download.en.html#doc) or browsable directly
+from the web at http://www.grisbi.org/manuel.fr.html.  An English
+translation is underway thanks to Cyril Duveau <linux4cyril@free.fr>.
+Please contact him directly if you want to help him.
 
 If you want to keep updated with Grisbi releases, you may subscribe to
 the mailing list infos@grisbi.org (see Contacts) and if you like to
@@ -34,7 +34,7 @@ Bug reports : http://www.grisbi.org/bugtracking
 
 Release history :
 		
-  Version 0.4.4 : 23/03/2004
+  Version 0.4.4 : 25/03/2004
   Version 0.4.3 : 02/01/2004
   Version 0.4.2 : 25/12/2003
   Version 0.4.1 : 04/07/2003
