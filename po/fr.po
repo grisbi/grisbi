@@ -1,35 +1,15 @@
-# translation of fr.po to
-# translation of fr.po to
-# translation of fr.po to
-# translation of fr.po to
-# translation of fr.po to
-# translation of fr.po to
-# translation of fr.po to
-# translation of fr.po to
-# translation of fr.po to
-# translation of fr.po to
-# translation of fr.po to
-# translation of fr.po to
-# translation of fr.po to
-# translation of fr.po to
-# translation of fr.po to
-# translation of fr.po to
-# translation of fr.po to
 # translation of fr.po to français
 # Grisbi translation into French
 # Copyright (C) 2003	Daniel Cartron <daniel@cartron.org>, 2003.
-# 			Benjamin Drieu <bdrieu@april.org>, 2003,2004.
-# 			Alain Portal <aportal@univ-montp2.fr>, 2003.
-# Alain PORTAL <alain.portal@free.fr>, 2004.
-# Alain PORTAL <aportal@univ-montp2.fr>, 2004, 2005.
-# Alain PORTAL <alain@localhost.localdomain>, 2004,2005.
+# 			Benjamin Drieu <bdrieu@april.org>, 2003, 2004.
+# 			Alain Portal <aportal@univ-montp2.fr>, 2003, 2004, 2005.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-01-04 14:32+0100\n"
-"PO-Revision-Date: 2005-01-04 15:31+0100\n"
+"POT-Creation-Date: 2005-01-05 13:31+0100\n"
+"PO-Revision-Date: 2005-01-05 13:34+0100\n"
 "Last-Translator: Alain PORTAL <aportal@univ-montp2.fr>\n"
 "Language-Team: français <traduc@traduc.org>\n"
 "MIME-Version: (null)\n"
@@ -219,7 +199,8 @@ msgstr "Utiliser le logo"
 
 #: src/affichage.c:321
 msgid "Click on preview to change homepage logo"
-msgstr "Cliquer sur la prévisualisation pour modifier le logo de l'onglet « Accueil »"
+msgstr ""
+"Cliquer sur la prévisualisation pour modifier le logo de l'onglet « Accueil »"
 
 #: src/affichage.c:377
 msgid "Click on preview to change animation"
@@ -445,7 +426,8 @@ msgstr "Ajuster la taille des colonnes selon le tableau ci-dessus"
 
 #: src/affichage_liste.c:139
 msgid "Remember display settings for each account separately"
-msgstr "Retenir les caractéristiques de l'affichage séparément pour chaque compte"
+msgstr ""
+"Retenir les caractéristiques de l'affichage séparément pour chaque compte"
 
 #: src/affichage_liste.c:145
 msgid "Revert to defaults"
@@ -620,7 +602,7 @@ msgid "E-Mail"
 msgstr "Mail"
 
 #. Website
-#: src/banque.c:626 src/help.c:70
+#: src/banque.c:626 src/help.c:71
 msgid "Website"
 msgstr "Web"
 
@@ -1399,7 +1381,8 @@ msgstr "Importer une liste de catégories"
 
 #. il y a dÃ©jÃ  des opÃ©rations dans le fichier, on ne peut que fusionner
 #: src/categories_onglet.c:3139
-msgid "File already contains transactions, the two categories lists will be merged."
+msgid ""
+"File already contains transactions, the two categories lists will be merged."
 msgstr ""
 "Le fichier contient déjà des opérations, les deux listes de catégories "
 "seront fusionnées."
@@ -4057,7 +4040,7 @@ msgstr "Date initiale"
 msgid "Final date"
 msgstr "Date finale"
 
-#. on met dans la partie de gauche une liste contenant les comptes Ã
+#. on met dans la partie de gauche une liste contenant les comptes Ã 
 #. sÃ©lectionner
 #: src/etats_config.c:2290
 msgid "Select transactions only for given accounts"
@@ -4103,7 +4086,8 @@ msgstr "Inclure les virements de ou vers les comptes d'actif et de passif"
 
 #: src/etats_config.c:2574
 msgid "Include transfers from or to accounts not in this report"
-msgstr "Inclure les virements de ou vers les comptes ne figurant pas dans l'état"
+msgstr ""
+"Inclure les virements de ou vers les comptes ne figurant pas dans l'état"
 
 #: src/etats_config.c:2587
 msgid "Include transfers from or to these accounts"
@@ -4425,7 +4409,8 @@ msgstr "Afficher le nombre d'opérations avec les totaux"
 
 #: src/etats_config.c:6262
 msgid "Consider the third parties of this report as a multiple third party."
-msgstr "Inclure cet état dans la liste des tiers du formulaire de saisie d'opération."
+msgstr ""
+"Inclure cet état dans la liste des tiers du formulaire de saisie d'opération."
 
 #: src/etats_config.c:6333
 msgid "Display the information about"
@@ -4608,7 +4593,7 @@ msgstr "Afficher un sous-total lors du changement de sous-imputation"
 msgid "Display \"No sub-budgetary line\" if none"
 msgstr "Afficher « Pas de sous-imputation » si absente"
 
-#. on met dans la partie de gauche une liste contenant les modes de paiement Ã
+#. on met dans la partie de gauche une liste contenant les modes de paiement Ã 
 #. sÃ©lectionner
 #: src/etats_config.c:7455
 msgid "Select the transactions by method of payment"
@@ -4822,7 +4807,8 @@ msgstr ""
 #. etat vierge
 #: src/etats_onglet.c:1010
 msgid "This report is an empty one. You need to customise it entirely."
-msgstr "Cette option crée un état vierge dans lequel vous devez tout configurer."
+msgstr ""
+"Cette option crée un état vierge dans lequel vous devez tout configurer."
 
 #. remise de chÃ¨ques
 #: src/etats_onglet.c:1016
@@ -4867,7 +4853,8 @@ msgstr "Effacer l'état « %s » ?"
 
 #: src/etats_onglet.c:1056
 msgid "This will irreversibly remove this report.  There is no undo for this."
-msgstr "Cela détruira irrémédiablement cet état. Il n'y a pas d'annulation possible."
+msgstr ""
+"Cela détruira irrémédiablement cet état. Il n'y a pas d'annulation possible."
 
 #: src/etats_onglet.c:1159
 msgid "Export report"
@@ -5018,7 +5005,8 @@ msgid "Select accounts to export"
 msgstr "Sélectionner les comptes à exporter"
 
 #: src/export.c:258 src/qif.c:1018
-msgid "This will irreversibly overwrite previous file.  There is no undo for this."
+msgid ""
+"This will irreversibly overwrite previous file.  There is no undo for this."
 msgstr ""
 "Cela détruira irrémédiablement le fichier précédent. Il n'y a pas "
 "d'annulation possible."
@@ -5268,7 +5256,8 @@ msgstr "opérations ventilées, toutes ont été effacées.\n"
 
 #: src/fichiers_io.c:1834
 msgid "transfers without contra-transaction, which categories were deleted.\n"
-msgstr "virements sans contre opération, dont les catégories ont été effacées.\n"
+msgstr ""
+"virements sans contre opération, dont les catégories ont été effacées.\n"
 
 #: src/fichiers_io.c:1839
 msgid ""
@@ -5355,7 +5344,8 @@ msgstr ""
 #: src/gnucash.c:517
 #, c-format
 msgid "Either file \"%s\" does not exist or it is not a regular file."
-msgstr "Soit le fichier « %s » n'existe pas, soit ce n'est pas un fichier normal."
+msgstr ""
+"Soit le fichier « %s » n'existe pas, soit ce n'est pas un fichier normal."
 
 #: src/gnucash.c:519
 #, c-format
@@ -5404,7 +5394,9 @@ msgstr "Alain Pichon (alain.pichon[at]grisbi.org) : paquets RHEL."
 msgid ""
 "Alain Portal <dionysos[at]grisbi.org>: Programming, manual, Fedora and "
 "RedHat packaging"
-msgstr "Alain Portal (dionysos[at]grisbi.org) : programmation, manuel, paquets RedHat et Fedora"
+msgstr ""
+"Alain Portal (dionysos[at]grisbi.org) : programmation, manuel, paquets "
+"RedHat et Fedora"
 
 #: src/help.c:49
 msgid "Andre Pascual (andre[at]linuxgraphic.org) : Logo"
@@ -5469,54 +5461,62 @@ msgid "Daniel Cartron (cartron[at]grisbi.org) : English"
 msgstr "Daniel Cartron (cartron[at]grisbi.org) : Anglais"
 
 #: src/help.c:66
+msgid ""
+"Flavio Henrique Somensi (fsomensi[at]users.sourceforge.net) : Brazilian "
+"Portuguese"
+msgstr ""
+"Flavio Henrique Somensi (fsomensi[at]users.sourceforge.net) : Portugais pour "
+"brésiliens"
+
+#: src/help.c:67
 msgid "Giorgio Mandolfo (giorgio[at]pollycoke.org) : Italian"
 msgstr "Giorgio Mandolfo (giorgio[at]pollycoke.org) : Italien"
 
-#: src/help.c:67
+#: src/help.c:68
 msgid "Martin Stromberger (Fabiolla[at]aon.at): German"
 msgstr "Martin Stromberger (Fabiolla[at]aon.at): Allemand"
 
-#: src/help.c:73
+#: src/help.c:74
 msgid "Development list (discuss, participate, criticize, ...) : "
 msgstr "Liste de développement (discussion, participation, critiques, ...) : "
 
-#: src/help.c:75 src/help.c:81
+#: src/help.c:76 src/help.c:82
 msgid "subscribe"
 msgstr "s'inscrire"
 
-#: src/help.c:76
+#: src/help.c:77
 msgid "Bug report"
 msgstr "Rapport de bogue"
 
-#: src/help.c:79
+#: src/help.c:80
 msgid "Information list (new releases announces, ...) : "
 msgstr "Liste d'informations (annonce de nouvelles versions, ...) : "
 
-#: src/help.c:82
+#: src/help.c:83
 msgid "Grisbi documentation"
 msgstr "Documentation de Grisbi"
 
-#: src/help.c:89
+#: src/help.c:90
 msgid "About..."
 msgstr "À propos..."
 
-#: src/help.c:133
+#: src/help.c:134
 msgid "About Grisbi"
 msgstr "À propos de Grisbi"
 
-#: src/help.c:168
+#: src/help.c:169
 msgid "Authors"
 msgstr "Auteurs"
 
-#: src/help.c:205
+#: src/help.c:206
 msgid "Translators"
 msgstr "Traducteurs"
 
-#: src/help.c:252
+#: src/help.c:253
 msgid "Links"
 msgstr "Liens"
 
-#: src/help.c:276
+#: src/help.c:277
 msgid "License"
 msgstr "Licence"
 
@@ -6088,7 +6088,8 @@ msgstr ""
 
 #: src/ofx.c:346
 msgid "A transaction try to be saved but no account was created...\n"
-msgstr "Tentative d'enregistrement d'une opération sans compte créé précédemment...\n"
+msgstr ""
+"Tentative d'enregistrement d'une opération sans compte créé précédemment...\n"
 
 #: src/ofx.c:410
 msgid "Check"
@@ -6172,7 +6173,8 @@ msgstr "Récupération des ventilations ?"
 
 #: src/operations_formulaire.c:1820
 msgid "Do you want to recover all the lines of the last breakdown?"
-msgstr "Voulez-vous récupérer aussi les opérations de la dernière ventilation ?"
+msgstr ""
+"Voulez-vous récupérer aussi les opérations de la dernière ventilation ?"
 
 #: src/operations_formulaire.c:2072 src/operations_formulaire.c:2524
 #: src/tiers_onglet.c:1429
@@ -6260,7 +6262,8 @@ msgid "Imposible to delete a reconciled transaction."
 msgstr "Impossible de supprimer une opération relevée."
 
 #: src/operations_liste.c:2103
-msgid "The contra-transaction of this transfer is reconciled, deletion impossible."
+msgid ""
+"The contra-transaction of this transfer is reconciled, deletion impossible."
 msgstr ""
 "La contre-opération de ce virement est relevée, la suppression est "
 "impossible."
@@ -6322,7 +6325,8 @@ msgstr "Ne pas avertir lorsque les seuils minimums sont atteints"
 
 #: src/parametres.c:393
 msgid "Do not warn if account file is readable by someone else"
-msgstr "Ne pas avertir lorsque le fichier de compte est lisible par quelqu'un d'autre"
+msgstr ""
+"Ne pas avertir lorsque le fichier de compte est lisible par quelqu'un d'autre"
 
 #. Display a warning message if file is already opened
 #: src/parametres.c:398
@@ -6339,7 +6343,8 @@ msgid "Scheduler warnings"
 msgstr "Alertes de l'échéancier"
 
 #: src/parametres.c:415
-msgid "Number of days before a warning message advertising a scheduled transaction"
+msgid ""
+"Number of days before a warning message advertising a scheduled transaction"
 msgstr "Nombre de jours précédant le rappel d'une échéance"
 
 #: src/parametres.c:479
@@ -6724,4 +6729,3 @@ msgid "This transfer has a reconciled contra-transaction, deletion canceled."
 msgstr ""
 "La contre-opération de ce virement est relevée, on ne peut donc les "
 "supprimer."
-
