@@ -927,4 +927,4 @@ gint affiche_titres_colonnes ( GtkWidget *table_etat,
 /* fichier impression.c */
 /***********************************/ 
 
-gboolean imprime_fichier ( void );
+gboolean impression_etat ( struct struct_etat *etat );

@@ -350,7 +350,19 @@ GtkWidget *creation_barre_boutons_etats ( void )
 		       0 );
   gtk_widget_show ( bouton );
 
-
+  bouton = gtk_button_new_with_label ( "Imprimer" );
+  gtk_button_set_relief ( GTK_BUTTON ( bouton ),
+			  GTK_RELIEF_NONE );
+  gtk_signal_connect_object ( GTK_OBJECT ( bouton ),
+			      "clicked",
+			      GTK_SIGNAL_FUNC ( impression_etat ),
+			      NULL );
+  gtk_box_pack_start ( GTK_BOX ( widget_retour ),
+		       bouton,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( bouton );
 
   return ( widget_retour );
 }

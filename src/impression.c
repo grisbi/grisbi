@@ -1,7 +1,7 @@
-/* Fichier fichiers_io.c */
-/* Contient toutes les procédures relatives à l'accès au disque */
+/* Fichier impression.c */
+/* Contient toutes les procédures relatives à l'impression */
 
-/*     Copyright (C) 2000-2001  Benjamin Drieu */
+/*     Copyright (C) 2002  Benjamin Drieu */
 /* 			bdrieu@april.org */
 /* 			http://www.grisbi.org */
 
@@ -40,59 +40,12 @@
 #include <libgnomeprint/gnome-print-dialog.h>
 
 /* Prototypes */
-gboolean imprimer_pc ( GnomePrintContext * );
+gboolean imprimer_pc ( GnomePrintContext *pc, struct struct_etat *etat );
+void ecrire_texte ( GnomePrintContext * pc, char * texte );
 
-gboolean imprime_fichier ( void )
-{
-  GnomePrintContext *pc = NULL;
-  GnomePrintMaster *gpm = NULL;
-
-  GnomePrintDialog *gpd;
-  static int copies=1, collate;
-  int do_preview=0;
-  
-  gpd = GNOME_PRINT_DIALOG (gnome_print_dialog_new("Impression de Grisbi", GNOME_PRINT_DIALOG_COPIES));
-  gnome_print_dialog_set_copies(gpd, copies, collate);
-
-  switch (gnome_dialog_run(GNOME_DIALOG(gpd))) {
-  case GNOME_PRINT_PRINT:
-    do_preview = 0;
-    break;
-  case GNOME_PRINT_PREVIEW:
-    do_preview = 1;
-    break;
-  case GNOME_PRINT_CANCEL:
-    gnome_dialog_close (GNOME_DIALOG(gpd));
-    return 0;
-  }
-
-  gpm = gnome_print_master_new();
-  gnome_print_dialog_get_copies(gpd, &copies, &collate);
-  gnome_print_master_set_copies(gpm, copies, collate);
-  gnome_print_master_set_printer(gpm, gnome_print_dialog_get_printer(gpd));
-
-  gnome_dialog_close (GNOME_DIALOG(gpd));
-  pc = gnome_print_master_get_context(gpm);
-
-  imprimer_pc(pc);
-
-  gnome_print_master_close(gpm);
-  if (do_preview)
-    {
-      GnomePrintMasterPreview * pmp;
-      pmp = gnome_print_master_preview_new(gpm, "Prévisualisation de l'impression de Grisbi");
-      gtk_widget_show(GTK_WIDGET(pmp));
-    }
-  else
-    {
-      gnome_print_master_print(gpm);
-    }
-
-  /* FIXME: quand est-ce qu'on le détruit ? */
-/*   gtk_object_unref (GTK_OBJECT (pc)); */
-
-  return 1;
-}
+/* Globales ... à refaire je pense */
+GnomeFont *title_font, *text_font;
+int point_x=10, point_y=600;
 
 
 int
@@ -147,29 +100,40 @@ char * latin2utf8 (char * inchar)
 }
 
 
-gboolean imprimer_pc ( GnomePrintContext * pc )
+gboolean imprimer_pc ( GnomePrintContext * pc, struct struct_etat *etat )
 {
-  GnomeFont *title_font, *text_font;
-  char buffer[1024];
+  int i;
 
   gnome_print_beginpage (pc, "Impression grisbi");
-  gnome_print_gsave (pc);
 
   title_font = gnome_font_new_closest ("Times", GNOME_FONT_BOLD, 1, 36);
   text_font = gnome_font_new_closest ("Times", GNOME_FONT_BOLD, 1, 14);
 
-  gnome_print_setfont (pc, title_font);
-  gnome_print_setrgbcolor (pc, 1, 0, 0);
-  gnome_print_moveto (pc, 10, 800);
-  gnome_print_show (pc, latin2utf8(NOM_DU_COMPTE));
+  p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
 
-  gnome_print_setfont (pc, text_font);
-  gnome_print_setrgbcolor (pc, 0, 0, 0);
-  gnome_print_moveto (pc, 10, 750);
-  sprintf(buffer, "Solde courant: %.2f euros", SOLDE_COURANT);
-  gnome_print_show (pc, latin2utf8(buffer));
+  for ( i=0 ; i<nb_comptes ; i++ )
+    {
+      /* on commence par vérifier que le compte fait partie de l'état */
 
-  gnome_print_grestore (pc);
+      if ( !etat -> utilise_detail_comptes
+	   ||
+	   g_slist_index ( etat -> no_comptes,
+			   GINT_TO_POINTER ( i )) != -1 )
+	{
+	  /* 	  le compte est bon, passe à la suite de la sélection */
+
+	  /* on va faire le tour de toutes les opés du compte */
+
+	  GSList *pointeur_tmp;
+
+	  pointeur_tmp = LISTE_OPERATIONS;
+
+	  printf ("On imprime %s\n", NOM_DU_COMPTE);
+	  ecrire_texte(pc, NOM_DU_COMPTE);
+	}
+      p_tab_nom_de_compte_variable++;
+    }
+
   gnome_print_showpage (pc);
 
   /*   gtk_object_unref (GTK_OBJECT (title_font)); */
@@ -177,4 +141,81 @@ gboolean imprimer_pc ( GnomePrintContext * pc )
   /*   gnome_print_context_close (pc); */
 
   return 1;
+}
+
+
+void ecrire_texte(GnomePrintContext * pc, char * texte)
+{
+  gnome_print_gsave (pc);
+  gnome_print_setfont (pc, title_font);
+  gnome_print_setrgbcolor (pc, 1, 0, 0);
+  gnome_print_moveto (pc, point_x, point_y);
+  gnome_print_show (pc, latin2utf8(NOM_DU_COMPTE));
+  gnome_print_grestore (pc);
+  point_x+=0;
+  point_y+=30;
+}
+
+
+gboolean impression_etat ( struct struct_etat *etat )
+{
+  GnomePrintContext *pc = NULL;
+  GnomePrintMaster *gpm = NULL;
+
+  GnomePrintDialog *gpd;
+  static int copies=1, collate;
+  int do_preview=0;
+  
+
+  if ( !etat )
+    {
+      if ( etat_courant )
+	etat = etat_courant;
+      else
+	return 0;
+    }
+
+  gpd = GNOME_PRINT_DIALOG (gnome_print_dialog_new("Impression de Grisbi", GNOME_PRINT_DIALOG_COPIES));
+  gnome_print_dialog_set_copies(gpd, copies, collate);
+
+  switch (gnome_dialog_run(GNOME_DIALOG(gpd))) {
+  case GNOME_PRINT_PRINT:
+    do_preview = 0;
+    break;
+  case GNOME_PRINT_PREVIEW:
+    do_preview = 1;
+    break;
+  case GNOME_PRINT_CANCEL:
+    gnome_dialog_close (GNOME_DIALOG(gpd));
+    return 0;
+  }
+
+  gpm = gnome_print_master_new();
+  gnome_print_dialog_get_copies(gpd, &copies, &collate);
+  gnome_print_master_set_copies(gpm, copies, collate);
+  gnome_print_master_set_printer(gpm, gnome_print_dialog_get_printer(gpd));
+
+  gnome_dialog_close (GNOME_DIALOG(gpd));
+  pc = gnome_print_master_get_context(gpm);
+
+
+  imprimer_pc(pc, etat);
+
+  gnome_print_master_close(gpm);
+  if (do_preview)
+    {
+      GnomePrintMasterPreview * pmp;
+      pmp = gnome_print_master_preview_new(gpm, "Prévisualisation de l'impression de Grisbi");
+      gtk_widget_show(GTK_WIDGET(pmp));
+    }
+  else
+    {
+      gnome_print_master_print(gpm);
+    }
+
+  /* FIXME: quand est-ce qu'on le détruit ? */
+/*   gtk_object_unref (GTK_OBJECT (pc)); */
+
+  return 1;
+
 }
