@@ -1611,6 +1611,7 @@ void completion_operation_par_tiers ( void )
   struct struct_tiers *tiers;
   struct structure_operation *operation;
   GSList *pointeur_ope;
+  gpointer ** p_tab_nom_de_compte_ope_trouvee;
 
   /* s'il y a quelque chose dans les entrées débit/crédit ou catégories, on se barre */
 
@@ -1638,6 +1639,7 @@ void completion_operation_par_tiers ( void )
   /* s'il n'y a aucune opé correspondante, on fait le tour de tous les comptes */
 
   p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
+  p_tab_nom_de_compte_ope_trouvee = p_tab_nom_de_compte_courant;
 
   operation = NULL;
   pointeur_ope = LISTE_OPERATIONS;
@@ -1697,6 +1699,8 @@ void completion_operation_par_tiers ( void )
 	    }
 	  p_tab_nom_de_compte_variable++;
 	}
+      p_tab_nom_de_compte_variable--;
+      p_tab_nom_de_compte_ope_trouvee = p_tab_nom_de_compte_variable;
     }
 
   /* si on n'a trouvé aucune opération, on se tire */
@@ -1706,7 +1710,8 @@ void completion_operation_par_tiers ( void )
 
   /* remplit les différentes entrées du formulaire */
 
-  p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
+//  p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
+  p_tab_nom_de_compte_variable = p_tab_nom_de_compte_ope_trouvee;
 
   /* remplit les montant et place le menu correspondant dans l'option menu des types */
 
@@ -1920,7 +1925,8 @@ void completion_operation_par_tiers ( void )
 
 		      nouvelle_operation -> no_type_associe = contre_operation -> type_ope;
 
-		      p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
+//		      p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
+	  p_tab_nom_de_compte_variable = p_tab_nom_de_compte_ope_trouvee;
 		    }
 
 		  liste_des_opes_de_ventilation = g_slist_append ( liste_des_opes_de_ventilation,
