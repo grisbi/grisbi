@@ -61,7 +61,8 @@
 #define	_PWD_H_
 
 #include <sys/types.h>
-    
+#include <windows.h>
+#include <glib.h>    
 /* 
  * Definitions of uid_t and getuid is the one found in the cygwin <sys/types.h> 
  */
@@ -73,8 +74,8 @@ uid_t   getuid(void);
  * only the fields used by GRISBI are declared 
  */
 struct passwd {
-	char	*pw_name;		/* user name */
-	char	*pw_gecos;		/* Honeywell login info */
+	gchar pw_name[MAX_PATH];		/* user name */
+	gchar pw_gecos[MAX_PATH];		/* Honeywell login info */
 };
 
 struct passwd	*getpwuid (uid_t);

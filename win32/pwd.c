@@ -57,20 +57,48 @@
  *	@(#)pwd.h	5.13 (Berkeley) 5/28/91
  */
 #include "pwd.h"
+#ifndef UNICODE
+#define UNICODE
+#endif
+
 #include <stdio.h>
+#include <windows.h>
+#include <lm.h>
+#include <Secext.h>
+/*
+ * The way to implement these function is discribed here ...
+ *  http://msdn.microsoft.com/library/default.asp?url=/library/en-us/dnucmg/html/UCMGch09.asp
+ */
+ 
+/**
+ *
+ */
+static struct passwd current_user;
 
-// FIXME: Have a real implementation of theses functions ...
-// A way to implement these function is discribed here ...
-// http://msdn.microsoft.com/library/default.asp?url=/library/en-us/dnucmg/html/UCMGch09.asp:
-//
-
+/**
+ * Not needed by windows to get the current user, so return a universal value
+ * \return 0
+ */
 uid_t getuid(void)
 {
     return 0;
 }
-
-struct passwd	*getpwuid (uid_t uid)
+/**
+ *
+ * \return the address of the static current_user struct
+ */
+struct passwd *getpwuid (uid_t uid)
 {
-    return (struct passwd*)(NULL); 
+    LPTSTR lpszSystemInfo;          // pointer to system information string 
+    TCHAR tchBuffer[MAX_PATH + 1];  // buffer for expanded string
+    DWORD cchBuff = MAX_PATH +1;    // size of user name
+
+    lpszSystemInfo = tchBuffer;
+
+    // Get and display the user name.
+    GetUserName(lpszSystemInfo, &cchBuff);
+    g_strlcat  (current_user.pw_name,lpszSystemInfo,MAX_PATH);
+    g_strlcat  (current_user.pw_gecos,lpszSystemInfo,MAX_PATH);
+    return     &current_user; 
 }
 
