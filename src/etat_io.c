@@ -30,6 +30,7 @@
 #include "search_glist.h"
 #include "traitement_variables.h"
 #include "utils.h"
+#include "utils_files.h"
 #include "devises.h"
 
 
