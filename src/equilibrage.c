@@ -1225,12 +1225,14 @@ gboolean clavier_equilibrage ( GtkWidget *widget,
 void fill_reconciliation_tree ()
 {
     GtkTreeIter account_iter, payment_method_iter;
-    gint i;
+    GSList *pUserAccountsList = NULL;
 
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
+    pUserAccountsList = g_slist_copy ( ordre_comptes );
 
-    for ( i=0 ; i<nb_comptes ; i++ )
+    do
     {
+	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + GPOINTER_TO_INT ( pUserAccountsList -> data );
+
 	GSList * liste_tmp;
 
 	gtk_tree_store_append (reconcile_model, &account_iter, NULL);
@@ -1307,9 +1309,9 @@ void fill_reconciliation_tree ()
 		gtk_tree_path_free ( treepath );
 	    }
 	}
-
-	p_tab_nom_de_compte_variable++;
     }
+    while ( (  pUserAccountsList = pUserAccountsList -> next ) );
+    g_slist_free ( pUserAccountsList );
 }
 
 
