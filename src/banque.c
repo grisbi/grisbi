@@ -425,6 +425,7 @@ void affiche_detail_banque ( GtkWidget *bouton,
 
   dialogue = gnome_dialog_new ( _("Détail d'une banque"),
 				GNOME_STOCK_BUTTON_OK,
+				GNOME_STOCK_PIXMAP_PROPERTIES,
 				NULL );
   gtk_window_set_transient_for ( GTK_WINDOW ( dialogue ),
 				 GTK_WINDOW ( window ));
@@ -671,10 +672,18 @@ void affiche_detail_banque ( GtkWidget *bouton,
       gtk_widget_show ( label );
     }
 
-
-
-
-  gnome_dialog_run_and_close ( GNOME_DIALOG ( dialogue ));
+  switch (gnome_dialog_run_and_close ( GNOME_DIALOG ( dialogue )))
+    {
+    case 0:			/* OK */
+      return;
+    case 1:			/* Properties */
+      preferences ( (GtkWidget *) NULL, 6 );
+      gtk_clist_select_row ( (GtkCList *) clist_banques_parametres, banque -> no_banque-1, 0 );
+      return;
+    case -1:			/* Something went wrong or user closed
+				   dialog with window manager */
+      return;
+    }
 
 }
 /* **************************************************************************************************************************** */

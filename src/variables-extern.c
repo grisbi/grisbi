@@ -453,6 +453,7 @@ extern struct struct_devise *devise_operation;
 /* fichier gestion_comptes.c */
 /***********************************/ 
 
+extern GtkWidget *bouton_detail;
 extern GtkWidget *detail_nom_compte;
 extern GtkWidget *detail_type_compte;
 extern GtkWidget *detail_titulaire_compte;

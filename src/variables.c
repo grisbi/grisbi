@@ -419,6 +419,7 @@ struct struct_devise *devise_operation;
 /* fichier gestion_comptes.c */
 /***********************************/ 
 
+GtkWidget *bouton_detail;
 GtkWidget *detail_nom_compte;
 GtkWidget *detail_type_compte;
 GtkWidget *detail_titulaire_compte;

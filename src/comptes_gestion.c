@@ -564,19 +564,19 @@ GtkWidget *creation_details_compte ( void )
 		       0 );
   gtk_widget_show ( hbox2 );
 
-  bouton = gtk_button_new_with_label ( _("Détails") );
-  gtk_button_set_relief ( GTK_BUTTON ( bouton ),
+  bouton_detail = gtk_button_new_with_label ( _("Détails") );
+  gtk_button_set_relief ( GTK_BUTTON ( bouton_detail ),
 			  GTK_RELIEF_NONE );
-  gtk_signal_connect ( GTK_OBJECT ( bouton ),
+  gtk_signal_connect ( GTK_OBJECT ( bouton_detail ),
 		       "clicked",
 		       GTK_SIGNAL_FUNC ( affiche_detail_banque ),
 		       NULL );
   gtk_box_pack_start ( GTK_BOX ( hbox2 ),
-			    bouton,
+			    bouton_detail,
 			    FALSE,
 			    FALSE,
 			    5 );
-  gtk_widget_show ( bouton );
+  gtk_widget_show ( bouton_detail );
 
   separateur = gtk_vseparator_new ();
   gtk_box_pack_start ( GTK_BOX ( hbox2 ),
@@ -1860,11 +1860,19 @@ void changement_de_banque ( void )
 				 "adr_banque" );
 
   if ( banque && banque->code_banque )
-    gtk_label_set_text ( GTK_LABEL ( label_code_banque ),
-			 banque->code_banque );
+    {
+      gtk_label_set_text ( GTK_LABEL ( label_code_banque ),
+			   banque->code_banque );
+      gtk_widget_set_sensitive ( bouton_detail,
+				 TRUE );
+    }
   else
-    gtk_label_set_text ( GTK_LABEL ( label_code_banque ),
-			 "" );
+    {
+      gtk_label_set_text ( GTK_LABEL ( label_code_banque ),
+			   "" );
+      gtk_widget_set_sensitive ( bouton_detail,
+				 FALSE );
+    }
 
 
 }
