@@ -57,25 +57,14 @@ struct struct_etat_affichage gnomeprint_affichage = {
 
 GnomePrintContext *pc = NULL;
 GnomePrintMaster *gpm = NULL;
-int do_preview=0;
+int do_preview=0, page=0, num_ope=0;
 GnomeFont *title_font, *subtitle_font, *header_font, *text_font;
 float point_x, point_y, tmp_x, tmp_y;
 gfloat red=0, green=0, blue=0;
 
 
-
-/* my_gnome_print_dialog_new (const char *title, int flags) */
-/* { */
-/* 	GtkWidget *w; */
-
-/* 	w = GTK_WIDGET ( gtk_type_new (gnome_print_dialog_get_type ())); */
-/* 	if (GNOME_PRINT_DIALOG (w)->printer == NULL) */
-/* 		return NULL; */
-/* 	gnome_dialog_constructv(GNOME_DIALOG(w), title, print_buttons()); */
-/* 	init_body(GNOME_PRINT_DIALOG(w), flags); */
-/* 	return w; */
-/* } */
-
+#define HMARGIN 15
+#define VMARGIN 15
 
 
 /*****************************************************************************************************/
@@ -123,13 +112,49 @@ gint gnomeprint_initialise ()
   header_font = gnome_font_new_closest ("Times", GNOME_FONT_BOLD, 0, 12);
   text_font = gnome_font_new_closest ("Times", GNOME_FONT_BOOK, 0, 12);
 
-  tmp_x = point_x = 10;
-  tmp_y = point_y = gnome_paper_psheight(gnome_print_master_get_paper(gpm));
+  tmp_x = point_x = HMARGIN;
+  tmp_y = point_y = gnome_paper_psheight(gnome_print_master_get_paper(gpm)) - VMARGIN;
 
   return 1;
 }
 /*****************************************************************************************************/
 
+/*****************************************************************************************************/
+/* passe à la page suivante si nécessaire */
+/*****************************************************************************************************/
+void gnomeprint_verifier_nouvelle_page ( void )
+{
+  if ( tmp_y < 20 )
+    {
+      gnome_print_showpage ( pc );
+      gnome_print_beginpage ( pc, g_strdup_printf ("%d", ++page) );
+      tmp_x = point_x = HMARGIN;
+      tmp_y = point_y = gnome_paper_psheight(gnome_print_master_get_paper(gpm)) - VMARGIN;
+    }
+}
+/*****************************************************************************************************/
+
+
+/*****************************************************************************************************/
+/* passe à la ligne suivante si nécessaire */
+/*****************************************************************************************************/
+void gnomeprint_verifier_nouvelle_ligne ( int height, int margin )
+{
+  if ( tmp_x > (gnome_paper_pswidth(gnome_print_master_get_paper(gpm)) - margin - HMARGIN))
+    {
+      tmp_y += height;
+      tmp_x = HMARGIN;
+      gnomeprint_commit_point ( );
+      if (num_ope % 2)
+	{
+	  gnomeprint_rectangle ( HMARGIN, 
+				 tmp_y,
+				 gnome_paper_pswidth(gnome_print_master_get_paper(gpm))-HMARGIN, 
+				 tmp_y + height);
+	}
+    }
+}
+/*****************************************************************************************************/
 
 /*****************************************************************************************************/
 /* modifie la couleur utilisée pour l'affichage */
@@ -216,8 +241,7 @@ void gnomeprint_commit_y ( )
 /*****************************************************************************************************/
 gint gnomeprint_affiche_titre ( gint ligne )
 {
-  /* TODO: utiliser un compteur de page ? */
-  gnome_print_beginpage (pc, "1");
+  gnome_print_beginpage ( pc, g_strdup_printf ( "%d", ++page ) );
 
   gnomeprint_set_color ( 1, 0, 0 );
   gnomeprint_affiche_texte (etat_courant -> nom_etat, title_font);
@@ -239,6 +263,8 @@ void gnomeprint_affiche_texte ( char * texte, GnomeFont * font)
 {
   gint font_height = gnome_font_get_size(font);
 
+  gnomeprint_verifier_nouvelle_page ();
+
   gnomeprint_update_point ( );
 
   gnome_print_gsave (pc);
@@ -254,10 +280,12 @@ void gnomeprint_affiche_texte ( char * texte, GnomeFont * font)
 
 
 /*****************************************************************************************************/
-/* Affiche un */
+/* Affiche un séparateur vertical */
 /*****************************************************************************************************/
 void gnomeprint_barre_verticale ( gint taille )
 {
+  gnomeprint_verifier_nouvelle_page ();
+
   gnome_print_gsave (pc);
   gnome_print_setlinewidth (pc, 1);
   gnome_print_moveto (pc, point_x, point_y);
@@ -269,17 +297,37 @@ void gnomeprint_barre_verticale ( gint taille )
 
 
 /*****************************************************************************************************/
+/* Affiche un rectangle */
+/*****************************************************************************************************/
+void gnomeprint_rectangle ( gfloat x1, gfloat y1, gfloat x2, gfloat y2 )
+{
+  gnome_print_gsave (pc);
+  
+  gnome_print_setrgbcolor ( pc, 0.8, 0.8, 0.8 );
+  gnome_print_moveto (pc, x1, y1);
+  gnome_print_lineto (pc, x1, y2);
+  gnome_print_lineto (pc, x2, y2);
+  gnome_print_lineto (pc, x2, y1);
+  gnome_print_closepath (pc);
+  gnome_print_fill (pc);
+  gnome_print_grestore (pc);
+}
+
+
+/*****************************************************************************************************/
 /* Affiche un séparateur horizontal */
 /*****************************************************************************************************/
 gint gnomeprint_affiche_separateur ( gint ligne )
 {
+  gnomeprint_verifier_nouvelle_page ();
+
   gnomeprint_move_point ( 0, -5 ); 
 
   gnome_print_gsave (pc);
   gnome_print_setlinewidth (pc, 2);
   gnome_print_moveto (pc, point_x, point_y);
   gnome_print_lineto (pc, 
-		      gnome_paper_pswidth(gnome_print_master_get_paper(gpm))-10, 
+		      gnome_paper_pswidth(gnome_print_master_get_paper(gpm))-HMARGIN, 
 		      point_y); 
   gnome_print_stroke (pc);
   gnome_print_grestore (pc);
@@ -297,7 +345,6 @@ gint gnomeprint_affiche_separateur ( gint ligne )
 /*****************************************************************************************************/
 gint gnomeprint_affiche_total_categories ( gint ligne )
 {
-
   montant_categ_etat = 0;
   nom_categ_en_cours = NULL;
   titres_affiches = 0;
@@ -315,8 +362,6 @@ gint gnomeprint_affiche_total_categories ( gint ligne )
 /*****************************************************************************************************/
 gint gnomeprint_affiche_total_sous_categ ( gint ligne )
 {
-
-
   montant_sous_categ_etat = 0;
   nom_ss_categ_en_cours = NULL;
   titres_affiches = 0;
@@ -356,8 +401,6 @@ gint gnomeprint_affiche_total_ib ( gint ligne )
 	       &&
 	       ligne_debut_partie != -1 )
 	    {
-	      gint i;
-	      gint colonne;
 	      gnomeprint_affiche_separateur ( ligne );
 	    }
 	      
@@ -365,7 +408,7 @@ gint gnomeprint_affiche_total_ib ( gint ligne )
 	  
 	  ligne++;
 	  
-	  gnomeprint_move_point ( 10, 0 );
+	  gnomeprint_move_point ( HMARGIN, 0 );
 
 	  ligne++;
 
@@ -401,7 +444,7 @@ gint gnomeprint_affiche_total_ib ( gint ligne )
 	}
     }
 
-  tmp_x = 10;
+  tmp_x = HMARGIN;
   gnomeprint_commit_point ( );
 
   montant_ib_etat = 0;
@@ -473,8 +516,10 @@ gint gnomeprint_affiche_total_tiers ( gint ligne )
 gint gnomeprint_affichage_ligne_ope ( struct structure_operation *operation,
 			   gint ligne )
 {
-  int colonne;
-  int size;
+  int colonne, origine_y = tmp_y;
+  int size=0;
+
+  gnomeprint_verifier_nouvelle_page ();
 
   if ( etat_courant -> afficher_opes )
     {
@@ -488,14 +533,34 @@ gint gnomeprint_affichage_ligne_ope ( struct structure_operation *operation,
 	   etat_courant -> afficher_titre_colonnes
 	   &&
 	   etat_courant -> type_affichage_titres )
-	ligne = gnomeprint_affichage . affiche_titres_colonnes ( ligne );
+	{
+	  ligne = gnomeprint_affichage . affiche_titres_colonnes ( ligne );
+	  num_ope = 0;
+	}
 
       colonne = 1;
+
+      /* C'est laid, mais je n'ai pas le temps d'implémenter le
+	 mécanisme propre auquel je pense : j'ai promis une
+	 impression fonctionnelle pour demain */
+      gnomeprint_set_color ( 1, 1, 1);
+      gnomeprint_affiche_texte (itoa ( operation -> no_operation ), text_font);
+      size = tmp_y - point_y;
+      origine_y = point_y;      
+      if (num_ope % 2)
+	{
+	  gnomeprint_rectangle ( HMARGIN, 
+				 origine_y,
+				 gnome_paper_pswidth(gnome_print_master_get_paper(gpm))-HMARGIN, 
+				 origine_y + size);
+	}
+      gnomeprint_set_color ( 0, 0, 0);
+
 
       if ( etat_courant -> afficher_no_ope )
 	{
 	  gnomeprint_affiche_texte (itoa ( operation -> no_operation ), text_font);
-	  size = tmp_y - point_y;
+
 	  gnomeprint_update_point ();
 	  gnomeprint_move_point ( 8, 0 );
 	  gnomeprint_update_point ( );
@@ -505,8 +570,10 @@ gint gnomeprint_affichage_ligne_ope ( struct structure_operation *operation,
 	  colonne = colonne + 2;
 	}
 
+
       if ( etat_courant -> afficher_date_ope )
 	{
+	  gnomeprint_verifier_nouvelle_ligne ( size, 20 );
 	  gnomeprint_affiche_texte ( g_strdup_printf  ( "%.2d/%.2d/%d",
 							operation -> jour,
 							operation -> mois,
@@ -524,6 +591,7 @@ gint gnomeprint_affichage_ligne_ope ( struct structure_operation *operation,
 
       if ( etat_courant -> afficher_exo_ope )
 	{
+	  gnomeprint_verifier_nouvelle_ligne ( size, 30 );
 	  if ( operation -> no_exercice )
 	    {
 	      gnomeprint_affiche_texte( ((struct struct_exercice *)(g_slist_find_custom ( liste_struct_exercices,
@@ -544,6 +612,7 @@ gint gnomeprint_affichage_ligne_ope ( struct structure_operation *operation,
 
       if ( etat_courant -> afficher_tiers_ope )
 	{
+	  gnomeprint_verifier_nouvelle_ligne ( size, 80 );
 	  if ( operation -> tiers )
 	    {
 	      gnomeprint_affiche_texte( ((struct struct_tiers *)
@@ -568,6 +637,8 @@ gint gnomeprint_affichage_ligne_ope ( struct structure_operation *operation,
 	  gchar *pointeur;
 
 	  pointeur = NULL;
+
+	  gnomeprint_verifier_nouvelle_ligne ( size, 70 );
 
 	  if ( operation -> categorie )
 	    {
@@ -624,10 +695,10 @@ gint gnomeprint_affichage_ligne_ope ( struct structure_operation *operation,
 	  colonne = colonne + 2;
 	}
 
-
-
       if ( etat_courant -> afficher_ib_ope )
 	{
+	  gnomeprint_verifier_nouvelle_ligne ( size, 50 );
+
 	  if ( operation -> imputation )
 	    {
 	      struct struct_imputation *ib;
@@ -652,7 +723,7 @@ gint gnomeprint_affichage_ligne_ope ( struct structure_operation *operation,
 	      size = tmp_y - point_y;
 	    }
 	  gnomeprint_update_point();
-	  gnomeprint_move_point ( 70, 0);
+	  gnomeprint_move_point ( 50, 0);
 	  gnomeprint_update_point ( );
 	  gnomeprint_barre_verticale ( size );
 	  gnomeprint_move_point ( 2, 0 );
@@ -663,6 +734,8 @@ gint gnomeprint_affichage_ligne_ope ( struct structure_operation *operation,
 
       if ( etat_courant -> afficher_notes_ope )
 	{
+	  gnomeprint_verifier_nouvelle_ligne ( size, 70 );
+
 	  if ( operation -> notes )
 	    {
 	      gnomeprint_affiche_texte ( operation -> notes, text_font );
@@ -682,6 +755,8 @@ gint gnomeprint_affichage_ligne_ope ( struct structure_operation *operation,
 	{
 	  GSList *pointeur;
 
+	  gnomeprint_verifier_nouvelle_ligne ( size, 30 );
+
 	  p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> no_compte;
 
 	  pointeur = g_slist_find_custom ( TYPES_OPES,
@@ -694,9 +769,9 @@ gint gnomeprint_affichage_ligne_ope ( struct structure_operation *operation,
 	      type = pointeur -> data;
 
 	      gnomeprint_affiche_texte ( type -> nom_type, text_font );
+	      size = tmp_y - point_y;
 	    }
 
-	  size = tmp_y - point_y;
 	  gnomeprint_update_point();
 	  gnomeprint_move_point ( 30, 0);
 	  gnomeprint_update_point ( );
@@ -710,6 +785,8 @@ gint gnomeprint_affichage_ligne_ope ( struct structure_operation *operation,
 
       if ( etat_courant -> afficher_cheque_ope )
 	{
+	  gnomeprint_verifier_nouvelle_ligne ( size, 20 );
+
 	  if ( operation -> contenu_type )
 	    {
 	      gnomeprint_affiche_texte ( operation -> contenu_type, text_font );
@@ -729,6 +806,8 @@ gint gnomeprint_affichage_ligne_ope ( struct structure_operation *operation,
 
       if ( etat_courant -> afficher_pc_ope )
 	{
+	  gnomeprint_verifier_nouvelle_ligne ( size, 30 );
+
 	  if ( operation -> no_piece_comptable )
 	    {
 	      gnomeprint_affiche_texte ( operation -> no_piece_comptable, text_font );
@@ -766,6 +845,8 @@ gint gnomeprint_affichage_ligne_ope ( struct structure_operation *operation,
 	{
 	  GSList *pointeur;
 
+	  gnomeprint_verifier_nouvelle_ligne ( size, 30 );
+
 	  pointeur = g_slist_find_custom ( liste_no_rapprochements,
 					   GINT_TO_POINTER ( operation -> no_rapprochement ),
 					   (GCompareFunc) recherche_no_rapprochement_par_no );
@@ -791,6 +872,8 @@ gint gnomeprint_affichage_ligne_ope ( struct structure_operation *operation,
 
       /* on affiche le montant au bout de la ligne */
 
+      gnomeprint_verifier_nouvelle_ligne ( size, 20 );
+
       if ( devise_compte_en_cours_etat
 	   &&
 	   operation -> devise == devise_compte_en_cours_etat -> no_devise )
@@ -815,8 +898,10 @@ gint gnomeprint_affichage_ligne_ope ( struct structure_operation *operation,
       ligne++;
     }
 
-  tmp_x = 10;
+  tmp_x = HMARGIN;
   gnomeprint_commit_point ();
+
+  num_ope ++;
 
   return ( ligne );
 }
@@ -850,7 +935,7 @@ gint gnomeprint_affiche_total_partiel ( gdouble total_partie,
 					       total_partie,
 					       devise_generale_etat -> code_devise ),
 			     text_font );
-  tmp_x = 10;
+  tmp_x = HMARGIN;
   gnomeprint_commit_x ( );
   gnomeprint_affiche_separateur ( ligne );
 
@@ -886,7 +971,7 @@ gint gnomeprint_affiche_total_general ( gdouble total_general,
 					       devise_generale_etat -> code_devise ),
 			     header_font );
 
-  tmp_x = 10;
+  tmp_x = HMARGIN;
   gnomeprint_commit_x ( );
   gnomeprint_affiche_separateur ( ligne );
 
@@ -980,7 +1065,10 @@ gint gnomeprint_affiche_categ_etat ( struct structure_operation *operation,
 	    }
 	}
 
-      gnomeprint_affiche_texte ( pointeur_char, text_font );
+      gnomeprint_move_point ( 0, -2 );
+      gnomeprint_affiche_texte ( pointeur_char, header_font );
+      gnomeprint_commit_point ( );
+      gnomeprint_move_point ( 0, -2 );
 
       ligne_debut_partie = ligne;
       denote_struct_sous_jaccentes ( 1 );
@@ -1054,7 +1142,7 @@ gint gnomeprint_affiche_ib_etat ( struct structure_operation *operation,
 				      NULL );
 
       gnomeprint_affiche_texte ( pointeur_char, text_font );
-      gnomeprint_commit_point ( );
+      gnomeprint_commit_y ( );
       ligne++;
 
       ligne_debut_partie = ligne;
@@ -1206,6 +1294,7 @@ gint gnomeprint_affiche_titres_colonnes ( gint ligne )
 
   if ( etat_courant -> afficher_date_ope )
     {
+      gnomeprint_verifier_nouvelle_ligne ( size, 20 );
       gnomeprint_affiche_texte ( _("Date"), header_font );
       size = tmp_y - point_y;
       gnomeprint_update_point();
@@ -1220,6 +1309,7 @@ gint gnomeprint_affiche_titres_colonnes ( gint ligne )
 
   if ( etat_courant -> afficher_exo_ope )
     {
+      gnomeprint_verifier_nouvelle_ligne ( size, 30 );
       gnomeprint_affiche_texte ( _("Exercice"), header_font );
       size = tmp_y - point_y;
       gnomeprint_update_point();
@@ -1234,6 +1324,7 @@ gint gnomeprint_affiche_titres_colonnes ( gint ligne )
 
   if ( etat_courant -> afficher_tiers_ope )
     {
+      gnomeprint_verifier_nouvelle_ligne ( size, 80 );
       gnomeprint_affiche_texte ( _("Tiers"), header_font );
       size = tmp_y - point_y;
       gnomeprint_update_point();
@@ -1248,6 +1339,7 @@ gint gnomeprint_affiche_titres_colonnes ( gint ligne )
 
   if ( etat_courant -> afficher_categ_ope )
     {
+      gnomeprint_verifier_nouvelle_ligne ( size, 70 );
       gnomeprint_affiche_texte ( _("Catégorie"), header_font );
       size = tmp_y - point_y;
       gnomeprint_update_point();
@@ -1262,6 +1354,7 @@ gint gnomeprint_affiche_titres_colonnes ( gint ligne )
 
   if ( etat_courant -> afficher_ib_ope )
     {
+      gnomeprint_verifier_nouvelle_ligne ( size, 50 );
       gnomeprint_affiche_texte ( _("Imputation budgétaire"), header_font );
       size = tmp_y - point_y;
       gnomeprint_update_point();
@@ -1276,6 +1369,7 @@ gint gnomeprint_affiche_titres_colonnes ( gint ligne )
 
   if ( etat_courant -> afficher_notes_ope )
     {
+      gnomeprint_verifier_nouvelle_ligne ( size, 70 );
       gnomeprint_affiche_texte ( _("Notes"), header_font );
       size = tmp_y - point_y;
       gnomeprint_update_point();
@@ -1290,6 +1384,7 @@ gint gnomeprint_affiche_titres_colonnes ( gint ligne )
 
   if ( etat_courant -> afficher_type_ope )
     {
+      gnomeprint_verifier_nouvelle_ligne ( size, 30 );
       gnomeprint_affiche_texte ( _("Type"), header_font );
       size = tmp_y - point_y;
       gnomeprint_update_point();
@@ -1304,6 +1399,7 @@ gint gnomeprint_affiche_titres_colonnes ( gint ligne )
 
   if ( etat_courant -> afficher_cheque_ope )
     {
+      gnomeprint_verifier_nouvelle_ligne ( size, 20 );
       gnomeprint_affiche_texte ( _("Chèque"), header_font );
       size = tmp_y - point_y;
       gnomeprint_update_point();
@@ -1318,6 +1414,7 @@ gint gnomeprint_affiche_titres_colonnes ( gint ligne )
 
   if ( etat_courant -> afficher_pc_ope )
     {
+      gnomeprint_verifier_nouvelle_ligne ( size, 30 );
       gnomeprint_affiche_texte ( _("Pièce comptable"), header_font );
       size = tmp_y - point_y;
       gnomeprint_update_point();
@@ -1332,6 +1429,7 @@ gint gnomeprint_affiche_titres_colonnes ( gint ligne )
 
   if ( etat_courant -> afficher_infobd_ope )
     {
+      gnomeprint_verifier_nouvelle_ligne ( size, 30 );
       gnomeprint_affiche_texte ( _("Info banque/guichet"), header_font );
       size = tmp_y - point_y;
       gnomeprint_update_point();
@@ -1346,6 +1444,7 @@ gint gnomeprint_affiche_titres_colonnes ( gint ligne )
 
   if ( etat_courant -> afficher_rappr_ope )
     {
+      gnomeprint_verifier_nouvelle_ligne ( size, 30 );
       gnomeprint_affiche_texte ( _("Relevé"), header_font );
       size = tmp_y - point_y;
       gnomeprint_update_point();
@@ -1354,16 +1453,16 @@ gint gnomeprint_affiche_titres_colonnes ( gint ligne )
       gnomeprint_barre_verticale ( size );
       gnomeprint_move_point ( 2, 0 );
       gnomeprint_update_point ();
-
       colonne = colonne + 2;
     }
 
+  gnomeprint_verifier_nouvelle_ligne ( size, 20 );
   gnomeprint_affiche_texte ( _("Montant"), header_font);
   gnomeprint_update_point ( );
 
   ligne++;
 
-  tmp_x = 10;
+  tmp_x = HMARGIN;
   tmp_y += size;
   gnomeprint_commit_point ( );
 

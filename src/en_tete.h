@@ -978,3 +978,4 @@ void gnomeprint_commit_x ( );
 void gnomeprint_commit_y ( );
 void gnomeprint_move_point ( gfloat x, gfloat y ); 
 void gnomeprint_update_point ( );
+void gnomeprint_rectangle ( gfloat x1, gfloat y1, gfloat x2, gfloat y2 );
