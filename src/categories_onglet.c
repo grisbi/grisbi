@@ -490,9 +490,9 @@ GtkWidget *onglet_categories ( void )
     gtk_tree_view_set_rules_hint (GTK_TREE_VIEW (arbre_categ), TRUE);
     gtk_tree_view_enable_model_drag_source(GTK_TREE_VIEW(arbre_categ),
 					   GDK_BUTTON1_MASK, row_targets, 1,
-					   GDK_ACTION_MOVE );
+					   GDK_ACTION_MOVE | GDK_ACTION_COPY );
     gtk_tree_view_enable_model_drag_dest ( GTK_TREE_VIEW(arbre_categ), row_targets,
-					   1, GDK_ACTION_MOVE );
+					   1, GDK_ACTION_MOVE | GDK_ACTION_COPY );
     gtk_tree_view_set_reorderable (GTK_TREE_VIEW(arbre_categ), TRUE);
     gtk_tree_selection_set_mode ( gtk_tree_view_get_selection ( GTK_TREE_VIEW(arbre_categ)),
 				  GTK_SELECTION_SINGLE );
@@ -658,14 +658,17 @@ void fill_categ_row ( GtkTreeIter * iter, struct struct_categ * categ )
 
     label = ( categ ? categ -> nom_categ : _("No category") );
 
-    if ( etat.affiche_nb_ecritures_listes
-	 &&
+    if ( ! categ )
+	categ = without_category;
+
+    if ( etat.affiche_nb_ecritures_listes && 
+	 categ &&
 	 categ -> nb_transactions )
 	label = g_strconcat ( label, " (",
 			      itoa ( categ -> nb_transactions ), ")",
 			      NULL );
 
-    if ( categ -> nb_transactions )
+    if ( categ && categ -> nb_transactions )
 	balance = g_strdup_printf ( _("%4.2f %s"), categ -> balance,
 				    devise_code ( devise_compte ) );
     
@@ -2266,20 +2269,28 @@ gboolean categ_row_drop_possible ( GtkTreeDragDest * drag_dest, GtkTreePath * de
 {
     if ( dest_path && selection_data )
     {
+	enum meta_tree_row_type orig_type, dest_type;
 	GtkTreePath * orig_path;
 	GtkTreeModel * model;
-	enum meta_tree_row_type orig_type, dest_type;
+	gint no_div;
+	gpointer pointer;
 
 	gtk_tree_get_row_drag_data (selection_data, &model, &orig_path);
 	orig_type = metatree_get_row_type ( model, orig_path );
 
 	dest_type = metatree_get_row_type ( model, dest_path );
+	if ( ! metatree_get ( model, dest_path, META_TREE_NO_DIV_COLUMN, (gpointer) &no_div ) ||
+	     ! metatree_get ( model, dest_path, META_TREE_POINTER_COLUMN, (gpointer) &pointer ) )
+	{
+	    return FALSE;
+	}
 
 	switch ( orig_type )
 	{
 	    case META_TREE_SUB_DIV:
 		if ( dest_type == META_TREE_DIV && 
-		    ! gtk_tree_path_is_ancestor ( dest_path, orig_path ) )
+		    ! gtk_tree_path_is_ancestor ( dest_path, orig_path ) &&
+		     pointer && no_div != 0 ) /* i.e. ancestor is no "No category" */
 		    return TRUE;
 		break;
 
@@ -2318,7 +2329,8 @@ void create_new_sub_div ( GtkTreeModel * model, GtkTreePath * parent,
 gboolean categ_drag_data_received ( GtkTreeDragDest * drag_dest, GtkTreePath * dest_path,
 				    GtkSelectionData * selection_data )
 {
-    printf (">>> categ_drag_data_received %p, %p, %p\n", drag_dest, dest_path, selection_data);
+    if ( DEBUG )
+	printf (">>> categ_drag_data_received %p, %p, %p\n", drag_dest, dest_path, selection_data);
     if ( dest_path && selection_data )
     {
 	GtkTreeModel * model;
@@ -2358,7 +2370,10 @@ gboolean categ_drag_data_received ( GtkTreeDragDest * drag_dest, GtkTreePath * d
 
 		dest_sub_categ = sous_categ_par_nom ( dest_categ,
 						      sub_categ -> nom_sous_categ, 1 );
-		no_dest_sub_categ = dest_sub_categ -> no_sous_categ;
+		if ( dest_sub_categ )
+		    no_dest_sub_categ = dest_sub_categ -> no_sous_categ;
+		else
+		    no_dest_sub_categ = 0;
 
 		/* Populate tree */
 		gtk_tree_model_get_iter ( model, &iter_parent, dest_path );
@@ -2400,8 +2415,6 @@ gboolean categ_drag_data_received ( GtkTreeDragDest * drag_dest, GtkTreePath * d
 		gtk_tree_model_get_iter ( model, &orig_iter, orig_path );
 		gtk_tree_store_remove ( GTK_TREE_STORE(categ_tree_model), &orig_iter );
 
-		dest_categ -> liste_sous_categ = g_slist_append ( dest_categ -> liste_sous_categ,
-								  sub_categ );
 		orig_categ -> liste_sous_categ = g_slist_remove ( orig_categ -> liste_sous_categ,
 								  sub_categ );
 		mise_a_jour_combofix_categ();
