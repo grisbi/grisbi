@@ -282,7 +282,7 @@ GtkWidget *creation_formulaire_echeancier ( void )
 			   _("Choose the account"),
 			   _("Choose the account") );
 
-    menu = creation_option_menu_comptes ( GTK_SIGNAL_FUNC(changement_choix_compte_echeancier), TRUE );
+    menu = creation_option_menu_comptes_nonclos ( GTK_SIGNAL_FUNC(changement_choix_compte_echeancier), TRUE );
     gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_ACCOUNT] ),
 			       menu );
     gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_ACCOUNT] ),
