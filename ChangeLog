@@ -1,0 +1,680 @@
+2004-05-22 15:48  cedric_grisbi
+
+	* src/devises.c: fix 317 : warning devises
+
+2004-05-22 15:44  Benjamin Drieu <bdrieu@april.org>
+
+	* src/help.c: Mention Giorgio as a contributor to the italian
+	  translation even if he said he stopped the translation
+
+2004-05-22 15:38  Benjamin Drieu <bdrieu@april.org>
+
+	* src/fichiers_io.c: Don't compare with grisbi version but with
+	  cgsb or igsb versions
+
+2004-05-22 15:32  Benjamin Drieu <bdrieu@april.org>
+
+	* src/fichiers_io.c: Use a better approach to handle future
+	  versions of igsb & cgsb files
+
+2004-05-22 15:17  Benjamin Drieu <bdrieu@april.org>
+
+	* src/etats_latex.c: Respect paper size in landscape mode (Closes:
+	  #309) Remove some fixme (hey cedric :-))
+
+2004-05-20 17:21  Alain Portal <dionysos@grisbi.org>
+	* src/etats_affiche.c: Use singular when appropriate.
+
+2004-05-20 14:09  Alain Portal <dionysos@grisbi.org>
+	* src/etats_onglet.c: Fix a bug in the "Monthly outgoings by third
+	  party" report.
+
+2004-05-19 23:17  Cedric Auger <cedric@grisbi.org>
+
+	* src/: categories_onglet.c, fichiers_io.c,
+	  imputation_budgetaire.c: corrections bugs import/export categ/ib
+
+2004-05-19 17:28  Cedric Auger <cedric@grisbi.org>
+
+	* src/traitement_variables.c: grise/degrise les menus en fonction
+	  de l'ouverture ou non d'un fichier
+
+2004-05-19 17:16  Cedric Auger <cedric@grisbi.org>
+
+	* src/: devises.c, ofx.c, utils.c: fix bug import ofx sans fichier
+	  ouvert
+
+2004-05-19 16:57  Cedric Auger <cedric@grisbi.org>
+
+	* src/: import.c, qif.c, utils.c, utils.h: fix 315 : plantage
+	  import fichier
+
+2004-05-19 12:31  Cedric Auger <cedric@grisbi.org>
+
+	* src/: dialog.c, fichiers_io.c, operations_comptes.c,
+	  operations_formulaire.c, operations_liste.c: fix divers bugs :
+	  impossible de marquer le fichier '' comme utilise garde plus la
+	  derniere date entree focus sur le bouton fermer pour la touche
+	  entree sur les dialog
+
+2004-05-19 11:56  Cedric Auger <cedric@grisbi.org>
+
+	* src/: affichage.c, comptes_onglet.c, devises.c,
+	  fichier_configuration.c, operations_liste.c,
+	  traitement_variables.c: correction bugs divers : comptes de
+	  l'onglet comptes ecartes pb devise des soldes finaux acceuil
+	  crash lors du pointage
+
+2004-05-19 10:18  Benjamin Drieu <bdrieu@april.org>
+
+	* src/parametres.c: Mark file aas opened (closes: #186)
+
+2004-05-16 12:09  Benjamin Drieu <bdrieu@april.org>
+
+	* src/: fichiers_gestion.c, menu.c: Reverse recent files entries
+	  (more natural)
+
+2004-05-16 12:06  Benjamin Drieu <bdrieu@april.org>
+
+	* src/fichiers_io.c: Print file version instead of grisbi's version
+
+2004-05-13 23:31  François Terrot <francois@terrot.net>
+
+	* src/: Makefile.am, ofx.c, ofx.h: #315 - dummy
+	  recuperation_donnees_ofx function for system with no libofx need
+	  to return a value NOOFX protection is moved to ofx.c which
+	  integrate grisbi_SOURCES in all cases
+
+2004-05-13 23:27  François Terrot <francois@terrot.net>
+
+	* src/import.c: #315 - crash when importing OFX file on Windows
+
+2004-05-12 23:35  François Terrot <francois@terrot.net>
+
+	* win32/win32utils.c:  Improvement APPDATA support on NT4
+
+2004-05-12 22:47  François Terrot <francois@terrot.net>
+
+	* src/constants.h, src/fichier_configuration.c, src/include.h,
+	  src/utils.c, win32/win32utils.c, win32/win32utils.h:	#236 - run
+	  default browser for windows
+	   protect contants.h again multi include call
+	   move some constantes into constants.h
+	  dynamically link to shfolder
+
+2004-05-11 17:39  Benjamin Drieu <bdrieu@april.org>
+
+	* src/: Makefile.am, menu.c: Make help system locale aware (closes:
+	  #304)
+
+2004-05-11 17:38  Benjamin Drieu <bdrieu@april.org>
+
+	* src/operations_liste.c: use dialogue_error
+
+2004-05-11 17:38  Benjamin Drieu <bdrieu@april.org>
+
+	* src/gtk_list_button.c: Comment out IMHO useless warnings
+
+2004-05-11 17:00  Benjamin Drieu <bdrieu@april.org>
+
+	* src/parametres.c: Fix a bug that caused backup file not to be
+	  saved in some cases (closes: #186)
+
+2004-05-11 16:32  Benjamin Drieu <bdrieu@april.org>
+
+	* src/operations_liste.c: Remove useless printf
+
+2004-05-09 15:28  Alain Portal <dionysos@grisbi.org>
+	* src/etats_config.c: Remove function declaration.
+
+2004-05-09 15:23  Alain Portal <dionysos@grisbi.org>
+	* src/: etats_config.c, etats_config.h: Fix #308.
+
+2004-05-09 02:09  Alain Portal <dionysos@grisbi.org>
+	* src/echeancier_liste.c: Week start on monday on all isplayed
+	  calendars.
+
+2004-05-09 01:57  Alain Portal <dionysos@grisbi.org>
+	* src/echeancier_onglet.c: Dont allow widget size smaller than the
+	  calendar requisition.
+
+2004-05-08 15:33  Alain Portal <dionysos@grisbi.org>
+	* src/equilibrage.c: Fix #100.
+
+2004-05-06 20:20  Cedric Auger <cedric@grisbi.org>
+
+	* po/fr.po, src/variables-extern.c: fix des warnings et des
+	  dernieres traductions
+
+2004-05-06 17:40  Cedric Auger <cedric@grisbi.org>
+
+	* src/etats_onglet.c: empecher le drag and drop pour la liste des
+	  etats, car non encore implemente
+
+2004-05-06 16:42  Cedric Auger <cedric@grisbi.org>
+
+	* src/operations_liste.c: fix 294 : suite et fin, rÃ¨glement des pb
+	  de surfing de la liste
+
+2004-05-06 16:30  Cedric Auger <cedric@grisbi.org>
+
+	* src/: echeancier_formulaire.c, operations_formulaire.c,
+	  tiers_onglet.c: fix 279 en partie : lenteur du combofix
+
+2004-05-06 15:55  Cedric Auger <cedric@grisbi.org>
+
+	* src/: etats_onglet.c, operations_formulaire.c, variables.c,
+	  ventilation.c, ventilation.h: fix 294 + un segfault : pb reprise
+	  de ventilation
+
+2004-05-05 20:15  Cedric Auger <cedric@grisbi.org>
+
+	* src/ventilation.c: fix 302 : plantage avec les ventilations
+
+2004-05-04 22:13  Cedric Auger <cedric@grisbi.org>
+
+	* src/echeancier_liste.c: un oubli du cvs precedent
+
+2004-05-04 22:12  Cedric Auger <cedric@grisbi.org>
+
+	* src/: echeancier_liste.c, import.c: efface les echeances de
+	  ventils lors de l'effacement d'une ventil
+
+2004-05-04 20:05  Cedric Auger <cedric@grisbi.org>
+
+	* src/: comptes_gestion.c, comptes_traitements.c,
+	  comptes_traitements.h, echeancier_liste.c, equilibrage.c,
+	  equilibrage.h, operations_comptes.c, operations_formulaire.c,
+	  operations_liste.c, operations_liste.h, structures.h, utils.c,
+	  utils.h, variables.c, ventilation.c: fix 289 : pb mise a jour
+	  soldes fix 294 : recuperation de ventilation fix 295 : date du
+	  rapprochement fix 298 : message d'alerte fix 299 : compte des
+	  echeances fis 300 : ordre des comptes accueil
+
+2004-05-04 19:29  Alain Portal <dionysos@grisbi.org>
+	* src/: echeancier_ventilation.c, ventilation.c: Fix previous
+	  commit mistake.
+
+2004-05-04 13:50  Alain Portal <dionysos@grisbi.org>
+	* src/: echeancier_ventilation.c, ventilation.c: Use defined
+	  constants instead of numerical values.
+
+2004-05-04 13:34  Alain Portal <dionysos@grisbi.org>
+	* src/operations_liste.c: Use defined constants instead of
+	  numerical values.
+
+2004-05-04 13:30  Alain Portal <dionysos@grisbi.org>
+	* src/: variables.c, variables-extern.c, affichage.c: Use defined
+	  constants instead of numerical values.
+
+2004-05-04 13:19  Alain Portal <dionysos@grisbi.org>
+	* src/echeancier_formulaire.c: Use defined constants instead of
+	  numerical values.
+
+2004-05-04 13:16  Alain Portal <dionysos@grisbi.org>
+	* src/import.c: Use defined constants instead of numerical values.
+
+2004-05-04 13:11  Alain Portal <dionysos@grisbi.org>
+	* src/comptes_gestion.c: Use defined constants instead of numerical
+	  values.
+
+2004-05-04 13:08  Alain Portal <dionysos@grisbi.org>
+	* src/devises.c: Use defined constants instead of numerical values.
+
+2004-05-04 13:01  Alain Portal <dionysos@grisbi.org>
+	* src/tiers_onglet.c: Use defined constants instead of numerical
+	  values.
+
+2004-05-04 12:57  Alain Portal <dionysos@grisbi.org>
+	* src/echeancier_liste.c: Use defined constants instead of
+	  numerical values.
+
+2004-05-04 11:51  Alain Portal <dionysos@grisbi.org>
+	* src/echeancier_ventilation.c: Use defined constants instead of
+	  numerical values.
+
+2004-05-04 11:35  Alain Portal <dionysos@grisbi.org>
+	* src/categories_onglet.c: Use defined constants instead of
+	  numerical values.
+
+2004-05-04 11:29  Alain Portal <dionysos@grisbi.org>
+	* src/imputation_budgetaire.c: Use defined constants instead of
+	  numerical values.
+
+2004-05-04 11:25  Alain Portal <dionysos@grisbi.org>
+	* src/exercice.c: Use defined constants instead of numerical
+	  values.
+
+2004-05-04 11:16  Alain Portal <dionysos@grisbi.org>
+	* src/type_operations.c: Use defined constants instead of numerical
+	  values.
+
+2004-05-04 11:03  Alain Portal <dionysos@grisbi.org>
+	* src/ventilation.c: src/cvslog_constant
+
+2004-05-03 20:52  Cedric Auger <cedric@grisbi.org>
+
+	* src/: comptes_onglet.c, etats_onglet.c, fichiers_gestion.c,
+	  fichiers_io.c, gtk_list_button.c, gtk_list_button.h,
+	  operations_comptes.c, operations_comptes.h, utils.c: fix 275 :
+	  ordre des comptes par drag and drop fix 278 et 288 : seuils
+	  minimaux fix 282 : message d'erreur permission
+
+2004-05-02 17:00  Alain Portal <dionysos@grisbi.org>
+	* src/operations_comptes.c: Fix #293.
+
+2004-05-02 13:52  François Terrot <francois@terrot.net>
+
+	* win32/: win32utils.c, win32utils.h: go back to SHGetFolder but
+	  dynamically loaded this time : from shell32.dll or shfolder.dll
+
+2004-05-02 13:08  Alain Portal <dionysos@grisbi.org>
+	* src/operations_liste.c: Fix #289.
+
+2004-05-01 23:43  Alain Portal <dionysos@grisbi.org>
+	* src/: categories_onglet.c, tiers_onglet.c,
+	  imputation_budgetaire.c: i18n more strings
+
+2004-05-01 17:49  Alain Portal <dionysos@grisbi.org>
+	* src/tiers_onglet.c: Fix a part of #292.
+
+2004-05-01 16:35  Alain Portal <dionysos@grisbi.org>
+	* src/accueil.c: Fix #281: manual scheduled transaction form size.
+
+2004-04-29 00:01  François Terrot <francois@terrot.net>
+
+	* src/: fichier_configuration.c, parametres.c: Desactivate "read
+	  file permission" feature on Windows (hide also the corresponding
+	  option
+
+2004-04-27 22:04  François Terrot <francois@terrot.net>
+
+	* win32/win32utils.c: add a \\ at the end of windows directory
+
+2004-04-27 21:30  François Terrot <francois@terrot.net>
+
+	* win32/: win32utils.c, win32utils.h: gtk button localisation issue
+	  fixed, NT4 default dir issue fixed
+
+2004-04-27 08:52  Gérald Niel <gerald.niel@grisbi.org>
+
+	* AUTHORS, src/help.c: Add Fedora packager and update some
+	  information about me
+
+2004-04-26 17:48  Alain Portal <dionysos@grisbi.org>
+	* src/help.c: Update contribution.
+
+2004-04-26 15:04  Benjamin Drieu <bdrieu@april.org>
+
+	* src/: etat_io.c, search_glist.c: Strengthen report import + fix a
+	  bug in currency search
+
+2004-04-26 12:06  Cedric Auger <cedric@grisbi.org>
+
+	* src/accueil.c: fix 280 : plantage seuil minimal
+
+2004-04-26 00:02  Benjamin Drieu <bdrieu@april.org>
+
+	* src/etat_io.c: Improve dialog
+
+2004-04-25 19:29  Alain Portal <dionysos@grisbi.org>
+	* src/accueil.c: Fix #246.  Separate accounts display according
+	  their type.
+
+2004-04-25 15:14  Benjamin Drieu <bdrieu@april.org>
+
+	* src/: echeancier_onglet.c, echeancier_ventilation.c,
+	  etats_affiche.c, qif.c: Typo & text enhancements
+
+2004-04-25 15:11  Alain Portal <dionysos@grisbi.org>
+	* src/operations_liste.c: Use defined constants instead of
+	  numericals values.
+
+2004-04-25 14:57  Alain Portal <dionysos@grisbi.org>
+	* src/comptes_traitements.c: Clean file.  Use defined constants
+	  instead of numericals values.
+
+2004-04-25 14:09  Benjamin Drieu <bdrieu@april.org>
+
+	* src/utils.c: Change messages to something more obvious
+
+2004-04-25 12:46  Alain Portal <dionysos@grisbi.org>
+	* src/comptes_traitements.c: Account list in context menu is now
+	  created according the user chosen order.
+
+2004-04-25 10:54  Cedric Auger <cedric@grisbi.org>
+
+	* src/fichiers_io.c: empeche plantage et affiche la version
+	  necessaire de grisbi pour ouvrir un fichier non reconnu
+
+2004-04-25 01:19  Alain Portal <dionysos@grisbi.org>
+	* src/: comptes_traitements.c, comptes_traitements.h,
+	  echeancier_formulaire.c, import.c, operations_liste.c: Don't
+	  allow transactions on closed accounts.
+
+2004-04-24 22:49  Alain Portal <dionysos@grisbi.org>
+	* src/: structures.h, affichage.c, categories_onglet.c, devises.c,
+	  exercice.c, imputation_budgetaire.c, operations_comptes.c,
+	  tiers_onglet.c, type_operations.c, ventilation.c: Move misplace
+	  constants definitions
+
+2004-04-24 20:46  Benjamin Drieu <bdrieu@april.org>
+
+	* src/: utils.c, utils.h, variables-extern.c, variables.c: Use
+	  doubles instead of ints to prevent integer overflow
+
+2004-04-24 20:44  Benjamin Drieu <bdrieu@april.org>
+
+	* src/etats_calculs.c: Do not double totals
+
+2004-04-24 20:44  Benjamin Drieu <bdrieu@april.org>
+
+	* src/accueil.c: Minor layout improvement
+
+2004-04-24 15:49  François Terrot <francois@terrot.net>
+
+	* src/main.c: fix pb when running from .gsb file + a forgotten
+	  directory separator
+
+2004-04-24 15:44  François Terrot <francois@terrot.net>
+
+	* win32/: pwd.c, pwd.h: retrieve usename from Windows
+
+2004-04-24 15:43  François Terrot <francois@terrot.net>
+
+	* win32/: win32utils.c, win32utils.h: some new usefull function to
+	  fix last windows problems
+
+2004-04-23 15:31  François Terrot <francois@terrot.net>
+
+	* src/import.c: OFX suport is now managed used NOOFX flag
+
+2004-04-22 21:30  Cedric Auger <cedric@grisbi.org>
+
+	* src/: barre_outils.c, fichier_configuration.c: considere les
+	  modifications d'affichage (R/nonR/nb lignes) comme une
+	  modification du fichier(->demande d'enregistrer)
+
+2004-04-21 14:31  Cedric Auger <cedric@grisbi.org>
+
+	* src/: etats_affiche.c, etats_affiche.h, etats_calculs.c,
+	  etats_onglet.c, exercice.c, exercice.h, fichiers_io.c,
+	  variables-extern.c, variables.c: fix 267 : separation des
+	  resultats de l'etat par exo non implementee
+
+2004-04-20 22:04  Cedric Auger <cedric@grisbi.org>
+
+	* src/: parametres.c, utils.c: fix 266 : plantage quand modifie la
+	  compression + autre bug : garde pas la valeur quand change
+	  memorisation des derniers fichiers ouverts
+
+2004-04-20 21:23  Cedric Auger <cedric@grisbi.org>
+
+	* src/equilibrage.c: fix 264 : n'affiche l'ecart lors du
+	  rapprochement que quand un solde final est donne
+
+2004-04-20 21:10  Cedric Auger <cedric@grisbi.org>
+
+	* src/: etats_calculs.c, etats_config.c, etats_onglet.c: fix 262 :
+	  passe sur l'onglet etat quand utilise une commande du menu etats
+
+2004-04-20 20:59  Cedric Auger <cedric@grisbi.org>
+
+	* src/utils.c: permet d'insÃ©rer %s dans la commande du browser
+	  pour le remplacer par l'url
+
+2004-04-20 20:44  Cedric Auger <cedric@grisbi.org>
+
+	* src/: affichage_liste.c, fichiers_gestion.c, utils.c: fix 260 :
+	  disparition des opes quand reglage par defaut
+
+2004-04-20 20:22  Cedric Auger <cedric@grisbi.org>
+
+	* src/: qif.c, tiers_onglet.c, utils.c, utils.h,
+	  variables-extern.c, variables.c: correction import qif :
+	  possibilite d'importer un qif multi-comptes correction de divers
+	  petits bugs dans les qifs
+
+2004-04-20 20:19  Cedric Auger <cedric@grisbi.org>
+
+	* src/: accueil.c, categories_onglet.c, comptes_traitements.c,
+	  devises.c, devises.h, echeancier_formulaire.c, equilibrage.c,
+	  etat_io.c, etats_affiche.c, fichiers_gestion.c, import.c,
+	  imputation_budgetaire.c, operations_comptes.c,
+	  operations_liste.c: correction import qif : possibilite
+	  d'importer un qif multi-comptes correction de divers petits bugs
+	  dans les qifs
+
+2004-04-20 18:31  Alain Portal <dionysos@grisbi.org>
+	* src/etats_affiche.c: Fix typo
+
+2004-04-19 14:32  François Terrot <francois@terrot.net>
+
+	* src/fichier_configuration.c: function wording error
+
+2004-04-18 21:57  François Terrot <francois@terrot.net>
+
+	* src/: import.c, include.h, menu.c: Windows file managements
+	  issues (crash under windows98, improvement of directory name
+	  management, default directories)
+
+2004-04-18 21:53  François Terrot <francois@terrot.net>
+
+	* src/: utils.c, fichier_configuration.c, fichiers_gestion.c:
+	  Windows file managements issues (crash under windows98,
+	  improvement of directory name management, default directories)
+
+2004-04-18 21:50  François Terrot <francois@terrot.net>
+
+	* src/erreur.c: Windows file managements issues (crash under
+	  windows98, improvement of directory name management, default
+	  directories)
+
+2004-04-18 21:42  François Terrot <francois@terrot.net>
+
+	* win32/win32utils.c, win32/win32utils.h, src/utils.h: Windows file
+	  managements issues (crash under windows98, improvement of
+	  directory name management, default directories)
+
+2004-04-17 17:35  Benjamin Drieu <bdrieu@april.org>
+
+	* src/etats_affiche.c: i18n more strings
+
+2004-04-17 13:26  Cedric Auger <cedric@grisbi.org>
+
+	* src/affichage.c: fix 261 : fenetre des parametres trop large
+	  quand passage de la 0.4.5 Ã  la 0.5
+
+2004-04-16 15:19  Cedric Auger <cedric@grisbi.org>
+
+	* src/operations_liste.c: correction idem
+
+2004-04-16 15:10  Cedric Auger <cedric@grisbi.org>
+
+	* src/operations_formulaire.c: correction bug comme le precedent
+
+2004-04-16 14:53  Cedric Auger <cedric@grisbi.org>
+
+	* src/echeancier_liste.c: tombe par hasard sur une erreur, sais pas
+	  si entrainait un plantage... corigÃ©
+
+2004-04-16 09:39  Cedric Auger <cedric@grisbi.org>
+
+	* src/: affichage_liste.c, exercice.c, import.c,
+	  operations_liste.c: application des modis quand change
+	  l'affichage de la liste dans les parametres
+
+2004-04-15 23:34  Cedric Auger <cedric@grisbi.org>
+
+	* src/utils.c: fix 237 : message d'erreur si aucun navigateur web
+	  defini
+
+2004-04-15 23:24  Cedric Auger <cedric@grisbi.org>
+
+	* src/: comptes_onglet.c, comptes_traitements.c: ouverture du livre
+	  courant au demarrage dans l'onglet comptes correction bug nouveau
+	  compte, le nouveau bouton ne s'affichait pas dans l'onglet
+	  comptes
+
+2004-04-15 22:29  Cedric Auger <cedric@grisbi.org>
+
+	* src/fichiers_gestion.c: evite un warning lors de la compilation
+
+2004-04-15 22:27  Cedric Auger <cedric@grisbi.org>
+
+	* src/: fichier_configuration.c, fichiers_gestion.c: enregistrement
+	  conf quand ferme fichier evite un plantage quand enregistrement
+	  de conf sans fichier ouvert
+
+2004-04-15 19:06  Cedric Auger <cedric@grisbi.org>
+
+	* src/parametres.c: fix 242 : entree fichier sauvegarde trop petite
+
+2004-04-15 19:00  Cedric Auger <cedric@grisbi.org>
+
+	* src/: categories_onglet.c, imputation_budgetaire.c,
+	  tiers_onglet.c: fix 247 : pb dans les totaux des listes
+	  tiers-categ-ib
+
+2004-04-15 18:00  Cedric Auger <cedric@grisbi.org>
+
+	* src/: comptes_onglet.c, echeancier_onglet.c, etats_onglet.c,
+	  fichier_configuration.c, operations_onglet.c, structures.h: fix
+	  243 : largeur des colonnes de comptes, etats...
+
+2004-04-15 17:22  Cedric Auger <cedric@grisbi.org>
+
+	* src/: affichage_liste.c, affichage_liste.h, operations_liste.c,
+	  operations_liste.h, parametres.c: fix 244 : pb largeur colonnes
+
+2004-04-15 16:01  Cedric Auger <cedric@grisbi.org>
+
+	* src/: affichage_liste.c, fichier_configuration.c,
+	  operations_classement.c, operations_classement.h,
+	  operations_liste.c, structures.h: bug 251 : possibilite de trier
+	  en plus par r/p
+
+2004-04-15 15:12  Cedric Auger <cedric@grisbi.org>
+
+	* src/: comptes_gestion.c, erreur.c, operations_formulaire.c: bug
+	  143 : virement vers comptes clots
+
+2004-04-15 14:55  Cedric Auger <cedric@grisbi.org>
+
+	* src/: accueil.c, echeancier_formulaire.c, echeancier_liste.c,
+	  fichiers_gestion.c, main.c, operations_liste.c: correction #228 :
+	  pb transfo ope->echeance correction 250 : transfo
+	  ventilation->echeance association de l'icone au programme
+
+2004-04-15 13:23  Benjamin Drieu <bdrieu@april.org>
+
+	* src/: categories_onglet.c, imputation_budgetaire.c,
+	  tiers_onglet.c: Invert open and closed books (Closes: #245)
+
+2004-04-15 12:55  Benjamin Drieu <bdrieu@april.org>
+
+	* src/erreur.c: Remove occurence of $HOME
+
+2004-04-15 12:39  Benjamin Drieu <bdrieu@april.org>
+
+	* src/main.c: Revert to file before indentation
+
+2004-04-14 13:47  Cedric Auger <cedric@grisbi.org>
+
+	* src/: main.c, structures.h: retrait de la definition FICHIER_CONF
+	  qui ne sert plus ajout d'une icone par defaut pour le programme
+
+2004-04-13 18:47  François Terrot <francois@terrot.net>
+
+	* win32/: pwd.c, pwd.h: first part of bug 233: dummy pwd.h
+	  simulation to be able to build under windows
+
+2004-04-13 14:47  Benjamin Drieu <bdrieu@april.org>
+
+	* src/: accueil.c, operations_liste.c: Cast balances to int so that
+	  we do not have float problems anymore (closes: #148)
+
+2004-04-13 14:18  Benjamin Drieu <bdrieu@april.org>
+
+	* pixmaps/Makefile.am, pixmaps/dollar.gif, pixmaps/euro.gif,
+	  src/Makefile.am, src/accueil.c, src/fichier_configuration.c,
+	  src/fichiers_io.c, src/menu.c, src/structures.h,
+	  src/xpm/dollard.gif, src/xpm/euro.gif: Move gif files Adapt
+	  Makefile.am to install them Properly handle GIF_DEFAULT and HELP
+	  Rename HELP to HELP_PATH, GIF_DEFAULT to ANIM_PATH, CHEMIN_LOGO
+	  to LOGO_PATH
+
+2004-04-13 13:58  Benjamin Drieu <bdrieu@april.org>
+
+	* src/type_operations.c: Fix a nasty bug that prevented expired
+	  scheduled transactions to set voucher number (closes: #224)
+
+2004-04-13 13:44  Benjamin Drieu <bdrieu@april.org>
+
+	* src/utils.c: Use previous year for template date if current month
+	  is january and entered date is october, november or december
+
+2004-04-13 12:01  Benjamin Drieu <bdrieu@april.org>
+
+	* src/: fichier_configuration.c, utils.c: Improve browser error
+	  handling & give a default value
+
+2004-04-13 11:58  Benjamin Drieu <bdrieu@april.org>
+
+	* src/help.c: Fix URL
+
+2004-04-13 11:14  Benjamin Drieu <bdrieu@april.org>
+
+	* src/operations_liste.c: Avoid side effects
+
+2004-04-13 11:07  Benjamin Drieu <bdrieu@april.org>
+
+	* src/operations_liste.c: Fix the clone bug that caused cloned
+	  transaction to be transfers (closes: #229)
+
+2004-04-12 21:24  François Terrot <francois@terrot.net>
+
+	* src/import.c: disable OFX import for Windows (temporary
+	  patch)(bug 232)
+
+2004-04-12 21:07  François Terrot <francois@terrot.net>
+
+	* src/fichiers_io.c: xmlIndentTreeOuput is no more available in
+	  Windows port of libxml2
+
+2004-04-12 20:55  François Terrot <francois@terrot.net>
+
+	* src/main.c: Windows does not manage signal this way.
+
+2004-04-12 17:52  Cedric Auger <cedric@grisbi.org>
+
+	* src/: fichiers_io.c, import.c, search_glist.c: correction bug
+	  declaration en const EUR
+
+2004-04-12 16:42  Cedric Auger <cedric@grisbi.org>
+
+	* config.guess, config.h.in, config.sub, src/import.c: correction
+	  bug 231 : pb import ofx
+
+2004-04-12 11:28  Cedric Auger <cedric@grisbi.org>
+
+	* src/: fichier_configuration.c, fichiers_io.c: conf par defaut si
+	  pas de .grisbirc et .gnome/Grisbi met le symbole euro et EUR
+	  quand chargement d'un ancien fichier s'il y avait un logo qui
+	  n'existe plus, charge le logo par defaut
+
+2004-04-11 23:15  Gérald Niel <gerald.niel@grisbi.org>
+
+	* src/help.c: Modification adresse Mail G. Niel Modification liens
+	  vers les listes.
+
+2004-04-11 17:14  Cedric Auger <cedric@grisbi.org>
+
+	* Makefile.in, po/Makefile.in, src/accueil.c: correction affichage
+	  lettres accentuees dans l'accueil
+
+2004-04-09 07:45  Cedric Auger <cedric@grisbi.org>
+
+	* po/Makefile.in, src/echeancier_onglet.c, src/echeancier_onglet.h:
+	  ajout de fichiers echeancier_onglet (2Ã¨me oubli :-) fatiguÃ©
+	  l'autre jour !!!)
