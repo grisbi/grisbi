@@ -2468,6 +2468,10 @@ gboolean modifie_date ( GtkWidget *entree )
     operation -> montant = g_strtod ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_operations[4] ))),
 				      NULL );
 
+  /* récupération de la devise */
+ 
+  devise = gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_operations[5] ) -> menu_item ),
+				 "adr_devise" );
 
 
   /* récupération de la devise */

@@ -63,7 +63,7 @@ gchar *categories_de_base_debit [] = {
   __("Frais divers : Cadeaux"),
   __("Frais financiers : Divers"),
   __("Frais financiers : Frais bancaires"),
-  __("Frais financiers : Prêt"),
+  __("Frais financiers : Emprunt"),
   __("Frais financiers : Charges d'emprunts"),
   __("Frais financiers : Remboursement"),
   __("Frais professionnels : Non remboursés"),

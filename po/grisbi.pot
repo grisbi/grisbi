@@ -485,7 +485,7 @@ msgid "Frais financiers : Frais bancaires"
 msgstr ""
 
 #: src/categories_onglet.c:65
-msgid "Frais financiers : Prêt"
+msgid "Frais financiers : Emprunt"
 msgstr ""
 
 #: src/categories_onglet.c:66
