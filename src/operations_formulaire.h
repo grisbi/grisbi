@@ -46,4 +46,4 @@ void increment_decrement_date ( GtkWidget *entree, gint demande );
 void increment_decrement_champ ( GtkWidget *entry, gint increment );
 gint place_type_choix_type ( GtkWidget *option_menu,
 			     gint type );
-void new_transaction ( );
+

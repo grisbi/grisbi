@@ -1173,6 +1173,8 @@ void selectionne_ligne_souris ( GtkCList *liste,
 
   if ( evenement -> type == GDK_2BUTTON_PRESS )
     edition_operation ();
+  else if ( evenement -> button == 3 )
+    popup_menu ();
   else
     focus_a_la_liste ();
 
@@ -2007,7 +2009,7 @@ void supprime_operation ( struct structure_operation *operation )
 
 	  if ( ope_liee -> pointe == 2 )
 	    {
-	      dialogue ( SPACIFY(_("The contra-transaction of this transfer is reconciled,\ndeletion impossible...")));
+	      dialogue ( SPACIFY(_("The contra-transaction of this transfer is reconciled, deletion impossible...")));
 	      return;
 	    }
 
@@ -2182,6 +2184,9 @@ void supprime_operation ( struct structure_operation *operation )
   modification_fichier( TRUE );
 }
 /******************************************************************************/
+
+
+
 
 /******************************************************************************/
 /* Fonction recherche_operation_par_no					      */
@@ -2499,3 +2504,119 @@ void changement_taille_colonne ( GtkWidget *clist,
   taille_largeur_colonnes[colonne] = largeur;
 }
 /******************************************************************************/
+
+
+/**
+ *  Empty transaction form and select transactions tab.
+ */
+void new_transaction () 
+{
+  if ( p_tab_nom_de_compte_courant )
+    p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
+  else 
+    p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
+
+  OPERATION_SELECTIONNEE = GINT_TO_POINTER ( -1 );
+
+  gtk_clist_unselect_all ( GTK_CLIST ( CLIST_OPERATIONS ) );
+  gtk_widget_grab_focus ( CLIST_OPERATIONS );
+  echap_formulaire();
+  edition_operation ();
+  gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ), 1 );
+}
+
+
+/**
+ * Remove selected transaction if any.
+ */
+void remove_transaction ()
+{
+  if ( p_tab_nom_de_compte_courant )
+    p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
+  else 
+    p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
+
+  if ( OPERATION_SELECTIONNEE == GINT_TO_POINTER(-1) )
+    return;
+
+  supprime_operation ( OPERATION_SELECTIONNEE );
+  gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ), 1 );
+}
+
+
+/**
+ * Move selected transaction to another account
+ */
+void move_operation_to_account ()
+{
+}
+
+
+/**
+ * Remove selected transaction if any.
+ */
+void popup_menu ()
+{
+  GtkWidget *menu, *menu_item;
+
+  if ( p_tab_nom_de_compte_courant )
+    p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
+  else 
+    p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
+
+  if ( OPERATION_SELECTIONNEE == GINT_TO_POINTER(-1) )
+    return;
+
+  menu = gtk_menu_new ();
+
+  /* New transaction */
+  menu_item = gtk_image_menu_item_new_with_label ( _("New transaction") );
+  gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM(menu_item),
+				  gtk_image_new_from_stock ( GTK_STOCK_NEW,
+							     GTK_ICON_SIZE_MENU ));
+  gtk_menu_append ( menu, menu_item );
+
+  /* Delete transaction */
+  menu_item = gtk_image_menu_item_new_with_label ( _("Delete transaction") );
+  gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM(menu_item),
+				  gtk_image_new_from_stock ( GTK_STOCK_DELETE,
+							     GTK_ICON_SIZE_MENU ));
+  gtk_menu_append ( menu, menu_item );
+
+  /* Clone transaction */
+  menu_item = gtk_image_menu_item_new_with_label ( _("Clone transaction") );
+  gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM(menu_item),
+				  gtk_image_new_from_stock ( GTK_STOCK_COPY,
+							     GTK_ICON_SIZE_MENU ));
+  gtk_menu_append ( menu, menu_item );
+
+  /* Edit transaction */
+  menu_item = gtk_image_menu_item_new_with_label ( _("Edit transaction") );
+  gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM(menu_item),
+				  gtk_image_new_from_stock ( GTK_STOCK_PROPERTIES,
+							     GTK_ICON_SIZE_MENU ));
+  gtk_menu_append ( menu, menu_item );
+
+  gtk_menu_append ( menu, gtk_separator_menu_item_new() );
+
+  /* Convert to scheduled transaction */
+  menu_item = gtk_image_menu_item_new_with_label ( _("Convert to scheduled transaction") );
+  gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM(menu_item),
+				  gtk_image_new_from_stock ( GTK_STOCK_CONVERT,
+							     GTK_ICON_SIZE_MENU ));
+  gtk_menu_append ( menu, menu_item );
+
+  /* Move to another account */
+  menu_item = gtk_image_menu_item_new_with_label ( _("Move to another account") );
+  gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM(menu_item),
+				  gtk_image_new_from_stock ( GTK_STOCK_JUMP_TO,
+							     GTK_ICON_SIZE_MENU ));
+  gtk_menu_append ( menu, menu_item );
+
+  /* Add accounts submenu */
+  gtk_menu_item_set_submenu ( GTK_MENU_ITEM(menu_item), 
+			      GTK_WIDGET(creation_option_menu_comptes(move_operation_to_account)) );
+
+  gtk_widget_show_all (menu);
+  gtk_menu_popup ( GTK_MENU(menu), NULL, NULL, NULL, NULL, 3, gtk_get_current_event_time());
+}

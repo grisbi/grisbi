@@ -29,7 +29,7 @@
 #include "help.h"
 #include "fichiers_gestion.h"
 #include "erreur.h"
-#include "operations_formulaire.h"
+#include "operations_liste.h"
 #include "parametres.h"
 
 #include "./xpm/export.xpm"
@@ -132,18 +132,16 @@ void init_menus ( GtkWidget * win )
       GNOMEUIINFO_END
     };
 
-  static GnomeUIInfo tmp_menu_editer [4] = 
+  static GnomeUIInfo tmp_menu_editer [5] = 
     {
       GNOMEUIINFO_ITEM_STOCK (N_("New transaction"), 
 			      N_("Create a new transaction"),
 			      new_transaction,
 			      GNOME_STOCK_MENU_NEW),
-/*
       GNOMEUIINFO_ITEM_STOCK (N_("Remove transaction"), 
 			      N_("Remove selected transaction"),
 			      remove_transaction,
-			      GNOME_STOCK_MENU_NEW),
-*/
+			      GNOME_STOCK_MENU_TRASH),
       GNOMEUIINFO_SEPARATOR,
       GNOMEUIINFO_MENU_PREFERENCES_ITEM (preferences, NULL),
       GNOMEUIINFO_END

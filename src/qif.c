@@ -1285,7 +1285,7 @@ void traitement_donnees_brutes ( void )
 /* on met à jour l'option menu du formulaire des échéances */
 
   gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_echeancier[5] ),
-			     creation_option_menu_comptes () );
+			     creation_option_menu_comptes (changement_choix_compte_echeancier) );
 
   /* mise à jour de l'accueil */
 

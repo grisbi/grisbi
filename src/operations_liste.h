@@ -36,3 +36,6 @@ void verifie_ligne_selectionnee_visible ( void );
 void changement_taille_colonne ( GtkWidget *clist,
 				 gint colonne,
 				 gint largeur );
+void new_transaction ( );
+void remove_transaction ( );
+void popup_menu ( );
