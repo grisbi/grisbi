@@ -301,9 +301,6 @@ GtkWidget *new_vbox_with_title_and_icon ( gchar * title,
 
 
 
-
-
-
 /* ******************************************************************************* */
 /* fonction qui vérifie la validité de la variable p_tab_nom_de_compte_variable */
 /* si elle n'est pas valide, la place sur le compte courant, et si pas encore nécessaire, */

@@ -18,5 +18,7 @@ gboolean termine_idle ( void );
 void update_ecran ( void );
 gpointer **verification_p_tab ( gchar *fonction_appelante );
 gboolean assert_account_loaded ();
+
+
 /*END_DECLARATION*/
 
