@@ -1091,7 +1091,7 @@ gboolean clavier_equilibrage ( GtkWidget *widget,
 
 	    gtk_signal_emit_stop_by_name ( GTK_OBJECT ( widget ),
 					   "key-press-event");
-	    if ( ( event -> state & GDK_SHIFT_MASK ) != GDK_SHIFT_MASK )
+	    if ( ( event -> state & GDK_SHIFT_MASK ) != GDK_SHIFT_MASK || event -> keyval != GDK_KP_Add )
 		inc_dec_date ( widget, ONE_DAY );
 	    else
 		inc_dec_date ( widget, ONE_WEEK );
@@ -1103,7 +1103,7 @@ gboolean clavier_equilibrage ( GtkWidget *widget,
 
 	    gtk_signal_emit_stop_by_name ( GTK_OBJECT ( widget ),
 					   "key-press-event");
-	    if ( ( event -> state & GDK_SHIFT_MASK ) != GDK_SHIFT_MASK )
+	    if ( ( event -> state & GDK_SHIFT_MASK ) != GDK_SHIFT_MASK || event -> keyval != GDK_KP_Subtract )
 		inc_dec_date ( widget, - ONE_DAY );
 	    else
 		inc_dec_date ( widget, - ONE_WEEK );
