@@ -877,6 +877,7 @@ void denote_struct_sous_jaccentes ( gint origine );
 /* fichier impression.c */
 /***********************************/ 
 
+char * latin2utf8 (char * inchar);
 
 
 /***********************************/ 
@@ -969,3 +970,11 @@ gint gnomeprint_affiche_totaux_sous_jaccent ( gint origine,
 					      gint ligne );
 gint gnomeprint_affiche_titres_colonnes ( gint ligne );
 gint gnomeprint_finish ( );
+
+void gnomeprint_affiche_texte ( char * texte, GnomeFont * font );
+void gnomeprint_set_color ( gfloat red, gfloat green, gfloat blue );
+void gnomeprint_commit_point ( );
+void gnomeprint_commit_x ( );
+void gnomeprint_commit_y ( );
+void gnomeprint_move_point ( gfloat x, gfloat y ); 
+void gnomeprint_update_point ( );
