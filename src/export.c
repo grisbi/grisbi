@@ -2,7 +2,7 @@
 
 
 /*     Copyright (C) 2000-2003  Cédric Auger */
-/*			2005 Alain Portal (aportal@univ-monpt2.fr)	      */
+/*			2005 Alain Portal (aportal@univ-montp2.fr)	      */
 /* 			cedric@grisbi.org */
 /* 			http://www.grisbi.org */
 /*     This program is free software; you can redistribute it and/or modify */

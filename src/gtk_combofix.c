@@ -2,7 +2,7 @@
  *
  *     Copyright (C)	2001 Cédric Auger (cedric@grisbi.org) 
  *			2003 Benjamin Drieu (bdrieu@april.org) 
- *			2005 Alain Portal (aportal@univ-monpt2.fr) 
+ *			2005 Alain Portal (aportal@univ-montp2.fr) 
  * 			http://www.grisbi.org
  *
  * This library is free software; you can redistribute it and/or
