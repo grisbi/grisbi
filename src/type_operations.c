@@ -979,6 +979,9 @@ void supprimer_type_operation ( void )
 			     PAYMENT_METHODS_POINTER_COLUMN, &type_ope,
 			     -1 );
 
+	if ( ! type_ope )
+	    return;
+
 	/** We then put related operations in a temporary list */
 	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + type_ope -> no_compte;
 	pointeur_tmp = LISTE_OPERATIONS;
