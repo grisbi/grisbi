@@ -753,14 +753,14 @@ void update_liste_comptes_accueil ( void )
 	  
 	  /* Mise en place du style du label en fonction du solde courant */
 	  pStyleLabelSoldeCourant = gtk_style_copy ( gtk_widget_get_style (pLabel));
-	  if ( SOLDE_COURANT => SOLDE_MINI_VOULU )
+	  if ( SOLDE_COURANT >= SOLDE_MINI_VOULU )
 	    {
 	     pStyleLabelSoldeCourant->fg[GTK_STATE_NORMAL] = CouleurSoldeAlarmeVerteNormal;
 	     pStyleLabelSoldeCourant->fg[GTK_STATE_PRELIGHT] = CouleurSoldeAlarmeVertePrelight;
 	    }
 	  else
 	    {
-	     if ( SOLDE_COURANT => SOLDE_MINI )
+	     if ( SOLDE_COURANT >= SOLDE_MINI )
 	       {
 		pStyleLabelSoldeCourant->fg[GTK_STATE_NORMAL] = CouleurSoldeAlarmeOrangeNormal;
 		pStyleLabelSoldeCourant->fg[GTK_STATE_PRELIGHT] = CouleurSoldeAlarmeOrangePrelight;
@@ -871,14 +871,14 @@ void update_liste_comptes_accueil ( void )
 	  
 	  /* Mise en place du style du label en fonction du solde pointé */
 	  pStyleLabelSoldePointe = gtk_style_copy ( gtk_widget_get_style (pLabel));
-	  if ( SOLDE_POINTE => SOLDE_MINI_VOULU )
+	  if ( SOLDE_POINTE >= SOLDE_MINI_VOULU )
 	    {
 	     pStyleLabelSoldePointe->fg[GTK_STATE_NORMAL] = CouleurSoldeAlarmeVerteNormal;
 	     pStyleLabelSoldePointe->fg[GTK_STATE_PRELIGHT] = CouleurSoldeAlarmeVertePrelight;
 	    }
 	  else
 	    {
-	     if ( SOLDE_POINTE => SOLDE_MINI )
+	     if ( SOLDE_POINTE >= SOLDE_MINI )
 	       {
 		pStyleLabelSoldePointe->fg[GTK_STATE_NORMAL] = CouleurSoldeAlarmeOrangeNormal;
 		pStyleLabelSoldePointe->fg[GTK_STATE_PRELIGHT] = CouleurSoldeAlarmeOrangePrelight;
