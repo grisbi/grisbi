@@ -200,6 +200,7 @@ void charge_configuration ( void )
 		}
 		if ( !strcmp ( node_io -> name, "Compression_fichier" ) ) {
 		    compression_fichier = my_atoi(xmlNodeGetContent ( node_io));
+		    xmlSetCompressMode ( compression_fichier );
 		}
 		if ( !strcmp ( node_io -> name, "Compression_backup" ) ) {
 		    compression_backup = my_atoi(xmlNodeGetContent ( node_io));
