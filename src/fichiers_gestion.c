@@ -635,7 +635,8 @@ gint question_fermer_sans_enregistrer ( void )
 	return GTK_RESPONSE_NO;
     
     if ( etat.sauvegarde_auto && 
-	 ( !etat.fichier_deja_ouvert || etat.force_enregistrement ))
+	 ( !etat.fichier_deja_ouvert || etat.force_enregistrement ) &&
+	 nom_fichier_comptes )
       return GTK_RESPONSE_OK;
 
     /*     si le fichier était déjà locké et que force enregistrement n'est pas mis, */
