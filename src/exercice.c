@@ -237,9 +237,10 @@ GtkWidget *onglet_exercices ( void )
 		       5 );
   gtk_widget_show ( separateur );
 
+
   /* création du bouton association automatique */
 
-  bouton = gtk_button_new_with_label ( "Association automatique ..." );
+  bouton = gtk_button_new_with_label ( _("Association automatique ...") );
   gtk_button_set_relief ( GTK_BUTTON ( bouton ),
 			  GTK_RELIEF_NONE );
   gtk_signal_connect ( GTK_OBJECT ( bouton ),
@@ -252,7 +253,6 @@ GtkWidget *onglet_exercices ( void )
 		       FALSE,
 		       5 );
   gtk_widget_show ( bouton );
-
 
 
   /* création de la 2ème colonne */
@@ -983,19 +983,6 @@ GtkWidget *creation_menu_exercices ( void )
 			NULL );
   gtk_widget_show ( menu_item );
 
-  /* le second est non affiché */
-
-  menu_item = gtk_menu_item_new_with_label ( "Non affiché" );
-  gtk_menu_append ( GTK_MENU ( menu ),
-		    menu_item );
-  gtk_object_set_data ( GTK_OBJECT ( menu_item ),
-			"adr_exercice",
-			GINT_TO_POINTER (-1) );
-  gtk_object_set_data ( GTK_OBJECT ( menu_item ),
-			"no_exercice",
-			GINT_TO_POINTER (-1) );
-  gtk_widget_show ( menu_item );
-
 
   pointeur = liste_struct_exercices;
 
@@ -1054,9 +1041,7 @@ gint cherche_no_menu_exercice ( gint no_demande )
       liste_tmp = liste_tmp -> next;
     }
 
-  /*   l'exo n'est pas affiché, on retourne 1 */
-
-  return ( 1 );
+  return ( FALSE );
 }
 /* ************************************************************************************************************** */
 
@@ -1147,14 +1132,14 @@ void association_automatique ( void )
   gint resultat;
   gint i;
 
-  dialog = gnome_dialog_new ( "Association automatique d'exercice",
+  dialog = gnome_dialog_new ( _("Association automatique d'exercice"),
 			      GNOME_STOCK_BUTTON_APPLY,
 			      GNOME_STOCK_BUTTON_CANCEL,
 			      NULL );
   gtk_window_set_transient_for ( GTK_WINDOW ( dialog ),
 				 GTK_WINDOW ( fenetre_preferences ));
 
-  label = gtk_label_new ( "Cette fonction associe chaque opération sans exercice avec l'exercice lui correspondant.\nSi aucun exercice ne correspond, l'opération sera inchangée." );
+  label = gtk_label_new ( _("Cette fonction associe chaque opération sans exercice avec l'exercice lui correspondant.\nSi aucun exercice ne correspond, l'opération sera inchangée.") );
   gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
 		       label,
 		       FALSE,
@@ -1207,6 +1192,9 @@ void association_automatique ( void )
 	}
       p_tab_nom_de_compte_variable++;
     }
+
+  demande_mise_a_jour_tous_comptes ();
+  verification_mise_a_jour_liste();
 
   modification_fichier ( TRUE );
 }
