@@ -53,7 +53,7 @@ struct struct_compte_importation * find_imported_account_by_uid ( gchar * guid )
 struct struct_compte_importation * find_imported_account_by_name ( gchar * name );
 struct struct_ope_importation * new_transaction_from_split ( struct gnucash_split * split,
 							     gchar * tiers, GDate * date );
-GSList * make_split_list_from_xml_transaction_node ( xmlNodePtr, gint * );
+GSList * make_split_list_from_xml_transaction_node ( xmlNodePtr, gdouble * );
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -344,7 +344,7 @@ void recuperation_donnees_gnucash_transaction ( xmlNodePtr transaction_node )
 
 
 GSList * make_split_list_from_xml_transaction_node ( xmlNodePtr transaction_node,
-						     gint * total )
+						     gdouble * total )
 {
     xmlNodePtr splits, split_node;
     GSList * split_list = NULL;
