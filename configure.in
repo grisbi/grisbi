@@ -23,7 +23,28 @@ AM_GNU_GETTEXT
 AC_CHECK_LIB(intl,main)
 
 dnl Check for libofx
-AC_CHECK_HEADER(libofx/libofx.h,LDFLAGS="${LDFLAGS} -lofx",CFLAGS="${CFLAGS} -DNOOFX";noofx=true)
+AC_CHECK_HEADER(libofx/libofx.h,,noofx=true)
+AC_ARG_WITH(ofx,
+    [  --without-ofx           build grisbi without ofx support [default=with]],
+    [build_ofx=$withval],
+    [build_ofx=yes]
+)
+if test x$build_ofx != xno
+then
+    if test x$noofx != xtrue
+    then
+        AC_CHECK_LIB(ofx, ofx_set_status_cb, OFX_0_7="-DOFX_0_7")
+        LDFLAGS="${LDFLAGS} -lofx"
+	CFLAGS="${CFLAGS} $OFX_0_7"
+    else
+        noofx=true
+        AC_MSG_RESULT([Libofx header missing. Check your libofx installation])
+	CFLAGS="${CFLAGS} -DNOOFX"
+    fi
+else
+    noofx=true
+    CFLAGS="${CFLAGS} -DNOOFX"
+fi
 AM_CONDITIONAL(NOOFX, test x$noofx = xtrue)
 
 
@@ -33,6 +54,14 @@ PKG_CHECK_MODULES(GRISBI, gtk+-2.0 >= 2.2.0 glib-2.0 >= 2.2 libxml-2.0 >= 2.0)
 LDFLAGS="${LDFLAGS} ${GRISBI_LIBS}"
 CFLAGS="${CFLAGS} ${GRISBI_CFLAGS}"
 
+dnl
+dnl check for g2banking
+dnl
+AC_G2BANKING()
+if test "$have_g2banking" = "yes"; then
+  CFLAGS="$CFLAGS $g2banking_includes"
+  LDFLAGS="$LDFLAGS $g2banking_libs"
+fi
 
 AC_SUBST(CFLAGS)
 AC_SUBST(LDFLAGS)
