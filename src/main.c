@@ -36,7 +36,7 @@
 #include "variables.c"
 #include "en_tete.h"
 
-//#include <libintl.h>
+#include <libintl.h>
 #include <locale.h>
 
 

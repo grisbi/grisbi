@@ -60,7 +60,7 @@ gboolean charge_operations ( void )
 	   !doc->root->name
 	   ||
 	   g_strcasecmp ( doc->root->name,
-			  _("Grisbi") ))
+			  "Grisbi" ))
 	{
 	  dialogue ( _("Fichier de compte invalide.") );
 	  xmlFreeDoc ( doc );
@@ -150,7 +150,7 @@ gboolean charge_operations_version_0_3_2 ( xmlDocPtr doc )
       /* on récupère ici les généralités */
 
       if ( !strcmp ( node_1 -> name,
-		     _("Généralités") ) )
+		     "Généralités" ) )
 	{
 	  xmlNodePtr node_generalites;
 
@@ -160,8 +160,13 @@ gboolean charge_operations_version_0_3_2 ( xmlDocPtr doc )
 
 	  while ( node_generalites )
 	    {
+	      /* FIXME: One day, put a non-word there.  Rationale:
+		 i10nizing this would break things and using French or
+		 even English is not an option for foreigners.  Btw,
+		 we should not rely on a French oritented file
+		 format.  [benj] */
 	      if ( !strcmp ( node_generalites -> name,
-			     _("Fichier_ouvert") ))
+			     "Fichier_ouvert" ))
 		if ( (etat.fichier_deja_ouvert  = atoi ( xmlNodeGetContent ( node_generalites ))))
 		  {
 		    if ( etat.force_enregistrement )
@@ -6286,7 +6291,7 @@ gboolean charge_categ ( gchar *nom_categ )
 	   !doc->root->name
 	   ||
 	   g_strcasecmp ( doc->root->name,
-			  _("Grisbi_categ") ))
+			  "Grisbi_categ" ))
 	{
 	  dialogue ( _("Ce fichier n'est pas une liste de catégories Grisbi") );
 	  xmlFreeDoc ( doc );
@@ -6634,7 +6639,7 @@ gboolean charge_ib ( gchar *nom_ib )
 	   !doc->root->name
 	   ||
 	   g_strcasecmp ( doc->root->name,
-			  _("Grisbi_ib") ))
+			  "Grisbi_ib" ))
 	{
 	  dialogue ( _("Ce fichier n'est pas une liste d'imputaions budgétaires Grisbi") );
 	  xmlFreeDoc ( doc );

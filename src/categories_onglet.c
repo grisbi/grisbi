@@ -26,7 +26,7 @@
 #include "variables-extern.c"
 #include "en_tete.h"
 
-#define __(X) X
+#define __(X) N_(X)
 
 gchar *categories_de_base_debit [] = {
   __("Alimentation : Bar"),

@@ -1,4 +1,3 @@
-# Generated automatically from Makefile.in.in by configure.
 # Makefile for program source directory in GNU NLS utilities package.
 # Copyright (C) 1995-1997, 2000, 2001 by Ulrich Drepper <drepper@gnu.ai.mit.edu>
 #
@@ -20,7 +19,8 @@ SHELL = /bin/sh
 srcdir = .
 top_srcdir = ..
 
-prefix = /usr/local
+
+prefix = /tmp
 exec_prefix = ${prefix}
 datadir = ${prefix}/share
 localedir = $(datadir)/locale
@@ -45,14 +45,14 @@ INCLUDES = -I.. -I$(top_srcdir)/intl
 
 COMPILE = $(CC) -c $(DEFS) $(INCLUDES) $(CPPFLAGS) $(CFLAGS) $(XCFLAGS)
 
-POFILES =  en.po es.po
-GMOFILES =  en.gmo es.gmo
+POFILES = @POFILES@
+GMOFILES = @GMOFILES@
 DISTFILES = ChangeLog Makefile.in.in POTFILES.in $(PACKAGE).pot \
 $(POFILES) $(GMOFILES)
 
 POTFILES = \
 
-CATALOGS =  en.gmo es.gmo
+CATALOGS = @CATALOGS@
 
 .SUFFIXES:
 .SUFFIXES: .c .o .po .pox .gmo .mo
@@ -83,7 +83,7 @@ all-no:
 
 $(srcdir)/$(PACKAGE).pot: $(POTFILES) $(srcdir)/POTFILES.in
 	$(XGETTEXT) --default-domain=$(PACKAGE) --directory=$(top_srcdir) \
-	  --add-comments --keyword=_ --keyword=N_ \
+	  --add-comments --keyword=_ --keyword=__ \
 	  --files-from=$(srcdir)/POTFILES.in \
 	&& test ! -f $(PACKAGE).po \
 	   || ( rm -f $(srcdir)/$(PACKAGE).pot \

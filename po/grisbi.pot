@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Grisbi 0.4.0\n"
 "POT-Creation-Date: 2003-03-05 10:50+0100\n"
-"PO-Revision-Date: 2003-04-08 00:23+0200\n"
+"PO-Revision-Date: 2003-04-10 18:38+0200\n"
 "Last-Translator: Daniel Cartron <daniel@cartron.org>\n"
 "Language-Team: Français <fr@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -358,7 +358,6 @@ msgid "Confirmation de modification"
 msgstr "Confirmation of changes"
 
 #: src/banque.c:1612
-#, fuzzy
 msgid "Des modifications ont été apportées à la banque"
 msgstr "The bank has changed"
 
@@ -427,7 +426,6 @@ msgstr "Display operations"
 
 #: src/barre_outils.c:985 src/barre_outils.c:986 src/barre_outils.c:1148
 #: src/barre_outils.c:1149
-#, fuzzy
 msgid "Afficher les sous-divisions"
 msgstr "Display sub-divisions"
 
@@ -719,9 +717,8 @@ msgid "Le compte n'a pas de nom !"
 msgstr "Account has no name!"
 
 #: src/comptes_gestion.c:1513
-#, fuzzy
 msgid "Confirmation de changement de devise"
-msgstr "Confirm the currency change"
+msgstr "Confirm currency change"
 
 #: src/comptes_gestion.c:1518
 #, c-format
@@ -759,9 +756,8 @@ msgstr ""
 "Do you want to save changes?"
 
 #: src/comptes_gestion.c:1777
-#, fuzzy
 msgid "Confirmation de passage à l'euro"
-msgstr "Confirm the euro conversion"
+msgstr "Confirm euro conversion"
 
 #: src/comptes_gestion.c:1784
 #, c-format
@@ -777,9 +773,8 @@ msgstr ""
 "Are you sure you want to convert the account  \"%s\" in euros?"
 
 #: src/comptes_gestion.c:1814
-#, fuzzy
 msgid "Erreur : le taux de change entre les 2 monnaies est de 0."
-msgstr "Error : The exchange rate beetween the 2 currencies is 0."
+msgstr "Error : exchange rate beetween the 2 currencies is 0."
 
 #: src/comptes_gestion.c:1821 src/devises.c:50 src/devises.c:543
 #: src/devises.c:1608 src/devises.c:1760 src/devises.c:2093 src/devises.c:2098
@@ -1101,7 +1096,6 @@ msgid "Erreur : La date limite est invalide"
 msgstr "Error : invalid limit date"
 
 #: src/echeancier_formulaire.c:1644 src/operations_formulaire.c:2772
-#, fuzzy
 msgid ""
 "Erreur : impossibilité de virer un compte   \n"
 "    sur lui-même"
@@ -1135,7 +1129,7 @@ msgstr "Modification"
 #: src/echeancier_liste.c:182
 #, fuzzy
 msgid "Affichage des échéances"
-msgstr "Display the scheduled transactions"
+msgstr "Display scheduled transactions"
 
 #: src/echeancier_liste.c:203
 msgid "Du mois"
@@ -1194,7 +1188,7 @@ msgstr "Yearly"
 #: src/echeancier_liste.c:773
 #, c-format
 msgid "%d mois"
-msgstr "%s months"
+msgstr "%d months"
 
 #: src/echeancier_liste.c:776
 #, c-format
@@ -1265,9 +1259,8 @@ msgid "Valider"
 msgstr "Valid"
 
 #: src/equilibrage.c:427
-#, fuzzy
 msgid "Il n'y a aucune opérations dans ce compte"
-msgstr "This account has no transaction"
+msgstr "This account does not contain any transaction"
 
 #: src/equilibrage.c:676 src/equilibrage.c:975 src/equilibrage.c:995
 msgid "Erreur : date invalide"
@@ -1373,7 +1366,6 @@ msgstr ""
 "Thanks a lot!"
 
 #: src/etat_io.c:48
-#, fuzzy
 msgid "Ce fichier n'est pas un état Grisbi"
 msgstr "This file is not a Grisbi report"
 
@@ -1386,7 +1378,6 @@ msgid "Pour ouvrir ce fichier, il vous faut la version %s de Grisbi"
 msgstr "Grisbi version %s is needed to open this file"
 
 #: src/etat_io.c:71
-#, fuzzy
 msgid "Fichier d'état invalide."
 msgstr "Invalid report file"
 
@@ -1536,12 +1527,10 @@ msgid "Dimanche"
 msgstr "Sunday"
 
 #: src/etats_config.c:81
-#, fuzzy
 msgid "Configuration états"
 msgstr "Reports setup"
 
 #: src/etats_config.c:108
-#, fuzzy
 msgid "Sélection des données"
 msgstr "Data selection"
 
@@ -1588,12 +1577,10 @@ msgid "Divers"
 msgstr "Misc."
 
 #: src/etats_config.c:156
-#, fuzzy
 msgid "Organisation des données"
 msgstr "Data organisation"
 
 #: src/etats_config.c:163
-#, fuzzy
 msgid "Affichage des données"
 msgstr "Data display"
 
@@ -1665,7 +1652,6 @@ msgid "Utiliser des plages de dates"
 msgstr "Use dates ranges"
 
 #: src/etats_config.c:1812
-#, fuzzy
 msgid "Utiliser les exercices"
 msgstr "Use financial years"
 
@@ -1678,12 +1664,10 @@ msgid "Exercice courant"
 msgstr "Current financial year"
 
 #: src/etats_config.c:1868
-#, fuzzy
 msgid "Exercice précédent"
 msgstr "Former financial year"
 
 #: src/etats_config.c:1879
-#, fuzzy
 msgid "Détailler les exercices utilisés"
 msgstr "Detail financial years"
 
@@ -1698,7 +1682,6 @@ msgstr "Final date"
 #. on met dans la partie de gauche une liste contenant les comptes à
 #. sélectionner
 #: src/etats_config.c:2370
-#, fuzzy
 msgid "Sélectionner les opérations uniquement sur certains comptes"
 msgstr "Select transactions only for given accounts"
 
@@ -1733,7 +1716,6 @@ msgid "Sélectionner les comptes d'actif"
 msgstr "Select assets accounts"
 
 #: src/etats_config.c:2637
-#, fuzzy
 msgid "Ne pas inclure les virements"
 msgstr "Do not include transfers"
 
@@ -1742,7 +1724,6 @@ msgid "Inclure les virements de ou vers les comptes d'actif et de passif"
 msgstr "Include transfers from or to assets or liabilities accounts"
 
 #: src/etats_config.c:2659
-#, fuzzy
 msgid "Inclure les virements de ou vers les comptes ne figurant pas dans l'état"
 msgstr "Include transfers from or to accounts not in this report"
 
@@ -1752,36 +1733,30 @@ msgstr "Include transfers from or to the accounts"
 
 #. on rajoute le bouton exclure les opé non virement
 #: src/etats_config.c:2826
-#, fuzzy
 msgid "Exclure les opérations qui ne sont pas des virements"
 msgstr "Exclude the transactions which are not transfers"
 
 #: src/etats_config.c:2953
-#, fuzzy
 msgid "Détailler les catégories utilisées"
-msgstr "Detail the categories"
+msgstr "Detail categories"
 
 #: src/etats_config.c:2991
-#, fuzzy
 msgid "Sélectionner les catégories à inclure dans l'état"
-msgstr "Select the categories to include"
+msgstr "Select categories to include"
 
 #: src/etats_config.c:3067
 msgid "Catégories de revenus"
 msgstr "Income categories"
 
 #: src/etats_config.c:3081
-#, fuzzy
 msgid "Catégories de dépenses"
 msgstr "Outgoing categories"
 
 #: src/etats_config.c:3106
-#, fuzzy
 msgid "Exclure les opérations sans catégorie"
 msgstr "Exclude transactions with no category"
 
 #: src/etats_config.c:3233
-#, fuzzy
 msgid "Détailler les imputations budgétaires utilisées"
 msgstr "Detail budgetary lines"
 
@@ -1798,27 +1773,22 @@ msgid "I.B. de dépenses"
 msgstr "Outgoing budget lines"
 
 #: src/etats_config.c:3384
-#, fuzzy
 msgid "Exclure les opérations sans imputation budgétaire"
 msgstr "Exclude transactions without budgetary line"
 
 #: src/etats_config.c:3508
-#, fuzzy
 msgid "Détailler les tiers utilisés"
 msgstr "Detail third parties"
 
 #: src/etats_config.c:3546
-#, fuzzy
 msgid "Sélectionner les tiers à inclure dans l'état"
-msgstr "Select the third parties to include in this report"
+msgstr "Select third parties to include in this report"
 
 #: src/etats_config.c:3707
-#, fuzzy
 msgid "Sélectionner les opérations par rapport à du texte"
-msgstr "Select transactions according to the text"
+msgstr "Select transactions according using plain text search"
 
 #: src/etats_config.c:4013
-#, fuzzy
 msgid "Opérations dont"
 msgstr "Transactions whose"
 
@@ -1837,7 +1807,6 @@ msgid "Ajouter"
 msgstr "Add"
 
 #: src/etats_config.c:4257 src/etats_config.c:5113
-#, fuzzy
 msgid "Retirer"
 msgstr "Remove"
 
@@ -1862,7 +1831,6 @@ msgid "l'imputation budgétaire"
 msgstr "the budgetary line"
 
 #: src/etats_config.c:4455 src/etats_config.c:6652
-#, fuzzy
 msgid "la sous-imputation budgétaire"
 msgstr "the sub-budgetary line"
 
@@ -2184,10 +2152,9 @@ msgstr "reconciliation reference"
 #: src/etats_config.c:6962
 #, fuzzy
 msgid "Rendre les opérations interactives"
-msgstr "Make the transactions reactives"
+msgstr "Make the transactions clickable"
 
 #: src/etats_config.c:7038
-#, fuzzy
 msgid "Devise utilisée pour les totaux généraux"
 msgstr "General totals currency"
 
@@ -2209,9 +2176,8 @@ msgstr "Ammount comparison currency"
 
 #. on permet d'afficher le nom du compte
 #: src/etats_config.c:7337
-#, fuzzy
 msgid "Afficher le nom du compte"
-msgstr "Display the account name"
+msgstr "Display account name"
 
 #. on permet d'afficher un ss total lors de chgt de compte
 #. activé uniquement si on a regroupé les opés par compte
@@ -2223,7 +2189,7 @@ msgstr "Display a sub-total for each account"
 #: src/etats_config.c:7382
 #, fuzzy
 msgid "Afficher le nom du tiers"
-msgstr "Display the third party's name"
+msgstr "Display third party's name"
 
 #. permet d'afficher un ss total lors de chgt de tiers
 #. activé uniquement si on utilise les tiers
@@ -2233,7 +2199,6 @@ msgstr "Dsplay a sub-total for each third party"
 
 #. affichage possible du nom de la categ
 #: src/etats_config.c:7445
-#, fuzzy
 msgid "Afficher le nom de la (sous-)catégorie"
 msgstr "Display the (sub-)category's name"
 
@@ -2257,7 +2222,6 @@ msgid "Afficher \"Pas de sous-catégorie\" si absente"
 msgstr "Display \" No sub-category\" if none"
 
 #: src/etats_config.c:7538
-#, fuzzy
 msgid "Afficher le nom de la (sous-)imputation"
 msgstr "Display the (sub-)budget line name"
 
@@ -2277,9 +2241,8 @@ msgid "Afficher un sous-total lors du changement de sous-imputation"
 msgstr "Display a sub-total for each sub-budget line"
 
 #: src/etats_config.c:7596
-#, fuzzy
 msgid "Afficher \"Pas de sous-imputation\" si absente"
-msgstr "Display \"No budget line\" if none"
+msgstr "Display \"No sub-budgetary line\" if none"
 
 #. on met dans la partie de gauche une liste contenant les modes de paiement à
 #. sélectionner
@@ -2288,14 +2251,12 @@ msgid "Sélectionner les opérations en fonction des modes de règlement"
 msgstr "Select the transactions by method of payment"
 
 #: src/etats_config.c:7678
-#, fuzzy
 msgid "Sélectionner les modes de règlement à inclure dans l'état"
-msgstr "Select the methods of payment to include"
+msgstr "Select methods of payment to include"
 
 #: src/etats_gnomeprint.c:92
-#, fuzzy
 msgid "Impression de Grisbi"
-msgstr "Print Grisbi"
+msgstr "Grisbi Print"
 
 #: src/etats_gnomeprint.c:409 src/etats_gnomeprint.c:1116
 #: src/etats_gtktable.c:2318 src/operations_liste.c:1115
@@ -2387,7 +2348,6 @@ msgid "Total Catégorie ( %d opérations )"
 msgstr "Category total ( %d transactions )"
 
 #: src/etats_gtktable.c:691
-#, fuzzy
 msgid "Total Catégorie"
 msgstr "Category total"
 
@@ -2431,7 +2391,6 @@ msgid "Total Compte : ( %d opérations )"
 msgstr "Account total : ( %d transactions )"
 
 #: src/etats_gtktable.c:1419
-#, fuzzy
 msgid "Total Compte"
 msgstr "Account total"
 
@@ -2444,6 +2403,7 @@ msgstr "Third party total : ( %d transactions )"
 msgid "Total Tiers"
 msgstr "Third party total"
 
+# TODO: Use localized dates here instead : american dates are not make of %d/%d/%d.
 #: src/etats_gtktable.c:1805
 #, c-format
 #, fuzzy
@@ -2894,9 +2854,9 @@ msgstr ""
 "named %s. \n"
 "Keep it for a while just in case."
 
-#: src/fichiers_io.c:164
-msgid "Fichier_ouvert"
-msgstr ""
+#~ #: src/fichiers_io.c:164
+#~ msgid "Fichier_ouvert"
+#~ msgstr ""
 
 #: src/fichiers_io.c:168
 msgid ""
@@ -2984,11 +2944,11 @@ msgid ""
 "Erreur dans la tentative d'ouvrir le fichier\n"
 "pour le déclarer comme utilisé\n"
 "\n"
-msgstr ""
+msgstr "Error opening and locking file.\n"
 
-#: src/fichiers_io.c:6289
-msgid "Grisbi_categ"
-msgstr ""
+#~ #: src/fichiers_io.c:6289
+#~ msgid "Grisbi_categ"
+#~ msgstr ""
 
 #: src/fichiers_io.c:6291
 #, fuzzy
@@ -3010,9 +2970,9 @@ msgstr ""
 "\n"
 "Error :\n"
 
-#: src/fichiers_io.c:6637
-msgid "Grisbi_ib"
-msgstr ""
+#~ #: src/fichiers_io.c:6637
+#~ msgid "Grisbi_ib"
+#~ msgstr ""
 
 #: src/fichiers_io.c:6639
 msgid "Ce fichier n'est pas une liste d'imputaions budgétaires Grisbi"
@@ -3190,7 +3150,7 @@ msgstr "Import the budgetary lines"
 
 #: src/main.c:71
 msgid "Erreur sur sigaction, le signal SIGSEGV ne sera pas détourné\n"
-msgstr ""
+msgstr "Error on sigaction: SIGSEGV won't be trapped\n"
 
 #: src/menu.c:42
 msgid "Créer un nouveau compte"
@@ -3282,12 +3242,12 @@ msgstr "Help"
 
 #: src/menu.c:224 src/menu.c:270
 msgid "Fichier/Derniers fichiers/"
-msgstr ""
+msgstr "Files/Last files/"
 
 #: src/operations_comptes.c:147 src/operations_comptes.c:464
 #: src/operations_comptes.c:509
 msgid "Comptes/Comptes cloturés/"
-msgstr ""
+msgstr "Accounts/Closed Accounts/"
 
 #: src/operations_comptes.c:188 src/operations_comptes.c:192
 msgid "Dernier relevé"
