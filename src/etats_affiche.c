@@ -1608,7 +1608,7 @@ gint etat_affiche_affiche_categ_etat ( struct structure_operation *operation,
 		if ( operation -> relation_no_operation )
 		{
 		    pointeur_char = g_strconcat ( decalage_categ,
-						  _("Transfers"),
+						  _("Transfert"),
 						  NULL );
 		    ancienne_categ_speciale_etat = 1;
 		}
