@@ -223,7 +223,7 @@ GtkWidget *creation_liste_etats ( void )
 
   /* mise en place du bouton ajouter */
 
-  bouton = gtk_button_new_with_label ( _("Add a report") );
+  bouton = gtk_button_new_with_label ( _("New report") );
   gtk_label_set_line_wrap ( GTK_LABEL(GTK_BIN(bouton)->child), TRUE );
   gtk_button_set_relief ( GTK_BUTTON ( bouton ),
 			  GTK_RELIEF_NONE);
@@ -273,28 +273,24 @@ GtkWidget *creation_liste_etats ( void )
   gtk_widget_show ( bouton_dupliquer_etat );
 
   /* mise en place du bouton effacer état */
-
   bouton_effacer_etat = gtk_button_new_with_label ( _("Delete report") );
-  gtk_button_set_relief ( GTK_BUTTON ( bouton_effacer_etat ),
-			  GTK_RELIEF_NONE);
-  gtk_box_pack_start ( GTK_BOX ( vbox ),
-		       bouton_effacer_etat,
-		       FALSE,
-		       TRUE,
-		       0);
-  gtk_signal_connect ( GTK_OBJECT (bouton_effacer_etat),
-		       "clicked",
-		       GTK_SIGNAL_FUNC ( efface_etat ),
-		       NULL );
+  gtk_button_set_relief ( GTK_BUTTON ( bouton_effacer_etat ), GTK_RELIEF_NONE);
+  gtk_box_pack_start ( GTK_BOX ( vbox ), bouton_effacer_etat, FALSE, TRUE, 0);
+  gtk_signal_connect ( GTK_OBJECT (bouton_effacer_etat), "clicked",
+		       GTK_SIGNAL_FUNC ( efface_etat ), NULL );
   gtk_widget_show ( bouton_effacer_etat );
 
   if ( !etat_courant )
     {
-      gtk_widget_set_sensitive ( bouton_effacer_etat,
-				 FALSE );
-      gtk_widget_set_sensitive ( bouton_dupliquer_etat,
-				 FALSE );
+      gtk_widget_set_sensitive ( bouton_effacer_etat, FALSE );
+      gtk_widget_set_sensitive ( bouton_dupliquer_etat, FALSE );
     }
+
+  gtk_widget_set_sensitive ( GTK_WIDGET ( menu_reports[2].widget ), FALSE );
+  gtk_widget_set_sensitive ( GTK_WIDGET ( menu_reports[3].widget ), FALSE );
+  gtk_widget_set_sensitive ( GTK_WIDGET ( menu_reports[6].widget ), FALSE );
+  gtk_widget_set_sensitive ( GTK_WIDGET ( menu_reports[8].widget ), FALSE );
+  gtk_widget_set_sensitive ( GTK_WIDGET ( menu_reports[10].widget ), FALSE );
 
   return ( onglet );
 
@@ -415,7 +411,7 @@ void remplissage_liste_etats ( void )
       gtk_box_pack_start ( GTK_BOX ( vbox_liste_etats ), bouton,
 			   FALSE, FALSE, 0 );
 
-      gtk_signal_connect ( GTK_WIDGET(bouton), "clicked",
+      gtk_signal_connect ( GTK_OBJECT(bouton), "clicked",
 			   GTK_SIGNAL_FUNC ( changement_etat ), etat );
       liste_tmp = liste_tmp -> next;
     }
@@ -1107,71 +1103,41 @@ void change_choix_nouvel_etat ( GtkWidget *menu_item,
 void efface_etat ( void )
 {
   GtkWidget *dialog;
-  GtkWidget *label;
-  gint resultat;
 
-  if ( !liste_struct_etats )
+  if ( !liste_struct_etats || !etat_courant )
     return;
 
-  if ( !etat_courant )
+  if ( !question_yes_no_hint ( g_strdup_printf (_("Delete report \"%s\"?"),
+					       etat_courant -> nom_etat ),
+			       _("This will irreversibly remove this report.  There is no undo for this.") ))
     return;
 
-  dialog = gnome_dialog_new ( _("Confirm the deletion of a report"),
-			      GNOME_STOCK_BUTTON_YES,
-			      GNOME_STOCK_BUTTON_NO,
-			      NULL );
-  gtk_window_set_transient_for ( GTK_WINDOW ( dialog ),
-				 GTK_WINDOW ( window ));
+  /*   on met l'état courant à -1 et */
+  /* le bouton à null, et le label de l'état en cours à rien */
+  liste_struct_etats = g_slist_remove ( liste_struct_etats, etat_courant );
 
-  label = gtk_label_new ( g_strdup_printf ( _("Do you really want to delete report %s?"),
-					    etat_courant -> nom_etat ));
-  gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
-		       label,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( label );
-
-
-  resultat = gnome_dialog_run ( GNOME_DIALOG ( dialog ));
-
-  if ( !resultat )
-    {
-      /*   on met l'état courant à -1 et */
-      /* le bouton à null, et le label de l'état en cours à rien */
-
-      liste_struct_etats = g_slist_remove ( liste_struct_etats,
-					    etat_courant );
-
-      etat_courant = NULL;
-      bouton_etat_courant = NULL;
-      gtk_label_set_text ( GTK_LABEL ( label_etat_courant ),
-			   "" );
-      gtk_widget_set_sensitive ( bouton_personnaliser_etat,
-				 FALSE );
-      gtk_widget_set_sensitive ( bouton_raffraichir_etat,
-				 FALSE );
-      gtk_widget_set_sensitive ( bouton_imprimer_etat,
-				 FALSE );
-      gtk_widget_set_sensitive ( bouton_exporter_etat,
-				 FALSE );
-      gtk_widget_set_sensitive ( bouton_dupliquer_etat,
-				 FALSE );
-      gtk_widget_set_sensitive ( bouton_effacer_etat,
-				 FALSE );
-
+  etat_courant = NULL;
+  bouton_etat_courant = NULL;
+  gtk_label_set_text ( GTK_LABEL ( label_etat_courant ), "" );
+  gtk_widget_set_sensitive ( bouton_personnaliser_etat, FALSE );
+  gtk_widget_set_sensitive ( bouton_raffraichir_etat, FALSE );
+  gtk_widget_set_sensitive ( bouton_imprimer_etat, FALSE );
+  gtk_widget_set_sensitive ( bouton_exporter_etat, FALSE );
+  gtk_widget_set_sensitive ( bouton_dupliquer_etat, FALSE );
+  gtk_widget_set_sensitive ( bouton_effacer_etat, FALSE );
+  gtk_widget_set_sensitive ( GTK_WIDGET ( menu_reports[2].widget ), FALSE );
+  gtk_widget_set_sensitive ( GTK_WIDGET ( menu_reports[3].widget ), FALSE );
+  gtk_widget_set_sensitive ( GTK_WIDGET ( menu_reports[6].widget ), FALSE );
+  gtk_widget_set_sensitive ( GTK_WIDGET ( menu_reports[8].widget ), FALSE );
+  gtk_widget_set_sensitive ( GTK_WIDGET ( menu_reports[10].widget ), FALSE );
  
-      if ( GTK_BIN ( scrolled_window_etat ) -> child )
-	gtk_widget_hide ( GTK_BIN ( scrolled_window_etat ) -> child );
+  if ( GTK_BIN ( scrolled_window_etat ) -> child )
+    gtk_widget_hide ( GTK_BIN ( scrolled_window_etat ) -> child );
 
-      /* on réaffiche la liste des états */
+  /* on réaffiche la liste des états */
 
-      remplissage_liste_etats ();
-      modification_fichier ( TRUE );
-    }
-
-  if ( GNOME_IS_DIALOG ( dialog ))
-    gnome_dialog_close ( GNOME_DIALOG ( dialog ));
+  remplissage_liste_etats ();
+  modification_fichier ( TRUE );
 
 }
 /*****************************************************************************************************/
@@ -1191,6 +1157,12 @@ void changement_etat ( GtkWidget *bouton,
   gtk_widget_set_sensitive ( bouton_exporter_etat, TRUE );
   gtk_widget_set_sensitive ( bouton_dupliquer_etat, TRUE );
   gtk_widget_set_sensitive ( bouton_effacer_etat, TRUE );
+
+  gtk_widget_set_sensitive ( GTK_WIDGET ( menu_reports[2].widget ), TRUE );
+  gtk_widget_set_sensitive ( GTK_WIDGET ( menu_reports[3].widget ), TRUE );
+  gtk_widget_set_sensitive ( GTK_WIDGET ( menu_reports[6].widget ), TRUE );
+  gtk_widget_set_sensitive ( GTK_WIDGET ( menu_reports[8].widget ), TRUE );
+  gtk_widget_set_sensitive ( GTK_WIDGET ( menu_reports[10].widget ), TRUE );
 
   gtk_label_set_text ( GTK_LABEL ( label_etat_courant ), etat -> nom_etat );
   gtk_label_set_line_wrap ( GTK_LABEL ( label_etat_courant ), TRUE );
@@ -1536,24 +1508,16 @@ void dupliquer_etat ( void )
 
   remplissage_liste_etats ();
 
-  gtk_widget_set_sensitive ( bouton_personnaliser_etat,
-			     TRUE );
-  gtk_widget_set_sensitive ( bouton_raffraichir_etat,
-			     TRUE );
-  gtk_widget_set_sensitive ( bouton_imprimer_etat,
-			     TRUE );
-  gtk_widget_set_sensitive ( bouton_exporter_etat,
-			     TRUE );
-  gtk_widget_set_sensitive ( bouton_dupliquer_etat,
-			     TRUE );
-  gtk_widget_set_sensitive ( bouton_effacer_etat,
-			     TRUE );
+  gtk_widget_set_sensitive ( bouton_personnaliser_etat, TRUE );
+  gtk_widget_set_sensitive ( bouton_raffraichir_etat, TRUE );
+  gtk_widget_set_sensitive ( bouton_imprimer_etat, TRUE );
+  gtk_widget_set_sensitive ( bouton_exporter_etat, TRUE );
+  gtk_widget_set_sensitive ( bouton_dupliquer_etat, TRUE );
+  gtk_widget_set_sensitive ( bouton_effacer_etat, TRUE );
 
-  gtk_label_set_text ( GTK_LABEL ( label_etat_courant ),
-		       etat_courant -> nom_etat );
+  gtk_label_set_text ( GTK_LABEL ( label_etat_courant ), etat_courant -> nom_etat );
 
-  gtk_widget_set_sensitive ( bouton_effacer_etat,
-			     TRUE );
+  gtk_widget_set_sensitive ( bouton_effacer_etat, TRUE );
 
   personnalisation_etat ();
   modification_fichier ( TRUE );
