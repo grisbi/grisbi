@@ -28,7 +28,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 /*
- * àtodo : Add the multi selection management for FileDialog
+ * @todo : Add the multi selection management for FileDialog
  * @todo : Add a Windows compliant filter management.
  * @todo : Set the file independant from "include.h" added as an easy convenient
  *  way of resolving compilation warnings .
@@ -42,73 +42,30 @@ extern "C" {
 #include "utils_file_selection.h"
 #include <gtk/gtk.h>
 
-#ifdef _WIN32
+#ifdef _WIN32_USE_FILE_DIALOG
 #include "win32_file_selection.h"
 #endif
 
 #define FILE_SELECTION_PROPERTY(prop,value) ((prop & value) == value) 
     
-/* file_selection_new a enhanced version of gtk_file_selection_new.
- *
- * Include the overwrite check feature in the save mode dialog
- *
- * \param title title of the dialog
- * \param properties properties of the dialog behaviour
- *
- *  Authorised to hijack the gtk file dialog under Windows to use
- *  the Windows standard one.
- * */
-GtkWidget* file_selection_new(const gchar      *title,const  gint properties)
-{
-    GtkWidget *filesel;
-
-    filesel = gtk_file_selection_new(title);
-
-#ifdef _WIN32_USE_FILE_DIALOG
-    /* On Windows, we "hijack" the standard gtk signals */
-    win32_file_selection_set_properties(properties);
-    g_signal_connect_data  (GTK_OBJECT(filesel), "show", G_CALLBACK( win32_file_selection_signal_show) , NULL, NULL,0);
-    g_signal_connect_data  (GTK_OBJECT(filesel), "hide", G_CALLBACK( win32_file_selection_signal_hide) , NULL, NULL,0);
-#else
-    gtk_window_set_modal ( GTK_WINDOW ( filesel ), TRUE );
-
-    if (FILE_SELECTION_PROPERTY(properties,FILE_SELECTION_IS_SAVE_DIALOG) && !FILE_SELECTION_PROPERTY(properties,FILE_SELECTION_NOOVERWRITECHECK))
-     {
-        g_signal_connect_swapped  (GTK_OBJECT ( GTK_FILE_SELECTION ( filesel ) -> ok_button),
-				   "clicked",
-				   GTK_SIGNAL_FUNC(file_selection_overwrite_file_check),
-				   GTK_OBJECT (filesel) );
-    }
-
-#endif
-
-    return GTK_WIDGET (filesel);
-
-}
-
 /** Validate the selected filename from a GtkFileSelection
  *
  * If the user select or enter an existing filename, this function asks her to confirm she wants to
  * overwrite the file.
  * 
  * \param selection_fichier GtkFileSelection widget
- * \param presult           pointer on a gboolean you want to retrieve the result in
- *      *presult = TRUE if the filename is ok (file does not exists or user confirm to overwrite it)
- *      *presult = FALSE in all other cases
- *      if presult is set to NULL, the function send a "response" event to the widget
- *      GTK_RESPONSE_OK or GTK_RESPONSE_NONE
+ * \return
+ *      - TRUE if the filename is ok (file does not exists or user confirm to overwrite it)
+ *      - FALSE in all other cases (filename empty, ...)
  *      
- *      \todo check if the file name is not empty
  */      
-void file_selection_overwrite_file_check( GtkWidget *selection_fichier, gboolean* presult)
+static gboolean _file_selection_overwrite_file_check( GtkWidget *selection_fichier)
 { /* {{{ */
-    gchar* filename;
-    struct stat test_file;
     gboolean result = TRUE;
+    gchar* filename = g_strdup ( gtk_file_selection_get_filename ( GTK_FILE_SELECTION ( selection_fichier)) );
+    struct stat test_file;
 
-    filename = g_strdup ( gtk_file_selection_get_filename ( GTK_FILE_SELECTION ( selection_fichier)) );
-
-    if (!strlen(filename))
+    if ((!filename)||(!strlen(filename)))
     {
         result = FALSE;
     }
@@ -127,32 +84,36 @@ void file_selection_overwrite_file_check( GtkWidget *selection_fichier, gboolean
         }
         
     }
-
-    gtk_dialog_response(GTK_DIALOG(GTK_FILE_SELECTION(selection_fichier)),
-			(result) ? GTK_RESPONSE_OK : GTK_RESPONSE_NONE);
+    return result;
 
 } /* }}} file_selection_check_filename */
 
-
+/** Handler called by the "Save" GTKFileSelection dialog on button_ok "clicked" signal.
+ * 
+ * Send:
+ * - GTK_RESPONSE_OK   if the selected filename does not exists or if the user confirm the overwrite
+ * - GTK_RESPONSE_NONE in all others cases.
+ */
+void file_selection_overwrite_file_check_signal(GtkWidget *selection_fichier)
+{ /* {{{ */
+    gtk_dialog_response(GTK_DIALOG(GTK_FILE_SELECTION(selection_fichier)),
+			(_file_selection_overwrite_file_check(selection_fichier) == TRUE) ? GTK_RESPONSE_OK : GTK_RESPONSE_NONE);
+} /* }}} file_selection_overwrite_file_check_signal */
 
 /** Validate the selected filename from a GtkFileSelection.  Check if file exists.
  *
  * \param selection_fichier GtkFileSelection widget
- * \param presult           pointer on a gboolean you want to retrieve the result in
- *      *presult = TRUE if the filename is ok (file does exist)
- *      *presult = FALSE in all other cases
- *      if presult is set to NULL, the function send a "response" event to the widget
- *      GTK_RESPONSE_OK or GTK_RESPONSE_NONE
- *      
- *      \todo check if the file name is not empty
+ * \return
+ *      - TRUE if the filename is ok (file exists and is valid)
+ *      - FALSE in all other cases (filename empty, ...)
  */      
-gboolean file_selection_check_filename ( GtkWidget *selection_fichier, gboolean* presult)
+static gboolean _file_selection_check_filename ( GtkWidget *selection_fichier)
 { /* {{{ */
-    gchar* filename =  g_strdup ( gtk_file_selection_get_filename ( GTK_FILE_SELECTION ( selection_fichier)) );
-    struct stat test_file;
-    
     gboolean result = TRUE;
-    if (!strlen(filename))
+    gchar* filename = g_strdup ( gtk_file_selection_get_filename ( GTK_FILE_SELECTION ( selection_fichier)) );
+    struct stat test_file;
+
+    if ((!filename)||(!strlen(filename)))
     {
         result = FALSE;
     }
@@ -165,14 +126,67 @@ gboolean file_selection_check_filename ( GtkWidget *selection_fichier, gboolean*
 	result = FALSE;
     }
 
-    if (presult)
-    {
-        *presult = result;
-    }
-
     return result;
 } /* }}} file_selection_check_filename */
 
+/** Handler called by the "Open" GTKFileSelection dialog on button_ok "clicked" signal.
+ * 
+ * Send:
+ * - GTK_RESPONSE_OK   if the selected filename exists
+ * - GTK_RESPONSE_NONE in all others cases.
+ */
+void file_selection_check_filename_signal(GtkWidget *selection_fichier)
+{ /* {{{ */
+    gtk_dialog_response(GTK_DIALOG(GTK_FILE_SELECTION(selection_fichier)),
+			(_file_selection_check_filename(selection_fichier) == TRUE) ? GTK_RESPONSE_OK : GTK_RESPONSE_NONE);
+} /* }}} file_selection_check_filename_signal */
+
+/* file_selection_new a enhanced version of gtk_file_selection_new.
+ *
+ * Include the overwrite check feature in the save mode dialog
+ * Include the file must exist feature in the open mode dialog
+ *
+ * \param title title of the dialog
+ * \param properties properties of the dialog behaviour
+ *
+ *  Authorised to hijack the gtk file dialog under Windows to use
+ *  the Windows standard one.
+ * */
+GtkWidget* file_selection_new(const gchar      *title,const  gint properties)
+{ /* {{{ */
+    GtkWidget *filesel;
+
+    filesel = gtk_file_selection_new(title);
+
+#ifdef _WIN32_USE_FILE_DIALOG
+    /*! \todo On Windows, we "hijack" the standard gtk signals */
+    win32_file_selection_set_properties(properties);
+    g_signal_connect_data  (GTK_OBJECT(filesel), "show", G_CALLBACK( win32_file_selection_signal_show) , NULL, NULL,0);
+    g_signal_connect_data  (GTK_OBJECT(filesel), "hide", G_CALLBACK( win32_file_selection_signal_hide) , NULL, NULL,0);
+#else
+    gtk_window_set_modal ( GTK_WINDOW ( filesel ), TRUE );
+
+    if (FILE_SELECTION_PROPERTY(properties,FILE_SELECTION_IS_SAVE_DIALOG) && !FILE_SELECTION_PROPERTY(properties,FILE_SELECTION_NOOVERWRITECHECK))
+     {
+        g_signal_connect_swapped  (GTK_OBJECT ( GTK_FILE_SELECTION ( filesel ) -> ok_button),
+				   "clicked",
+				   GTK_SIGNAL_FUNC(file_selection_overwrite_file_check_signal),
+				   GTK_OBJECT (filesel) );
+    }
+    else if (FILE_SELECTION_PROPERTY(properties,FILE_SELECTION_IS_OPEN_DIALOG) && !FILE_SELECTION_PROPERTY(properties,FILE_SELECTION_MUST_EXIST))
+    {
+        g_signal_connect_swapped  (GTK_OBJECT ( GTK_FILE_SELECTION ( filesel ) -> ok_button),
+				   "clicked",
+				   GTK_SIGNAL_FUNC(file_selection_check_filename_signal),
+				   GTK_OBJECT (filesel) );
+    }
+
+
+#endif
+
+    return GTK_WIDGET (filesel);
+
+} /* }}} file_selection_new */
 
 
 /** file_selection_set_entry.
@@ -184,9 +198,9 @@ gboolean file_selection_check_filename ( GtkWidget *selection_fichier, gboolean*
  *  
  */
 void file_selection_set_entry(GtkFileSelection* filesel,const gchar* utf8string)
-{
+{ /* {{{ */
     gtk_entry_set_text ( GTK_ENTRY (filesel->selection_entry),g_filename_from_utf8(utf8string,-1,NULL,NULL,NULL));
-}
+} /* }}} file_selection_set_entry */
 
 /** file_selection_get_entry.
  * 
@@ -200,9 +214,10 @@ void file_selection_set_entry(GtkFileSelection* filesel,const gchar* utf8string)
  *  
  */
 gchar* file_selection_get_entry(GtkFileSelection* filesel)
-{
+{ /* {{{ */
     return g_filename_to_utf8(gtk_entry_get_text(GTK_ENTRY (filesel->selection_entry)),-1,NULL,NULL,NULL);
-}
+} /* }}} file_selection_get_entry */
+
 /** file_selection_set_filename
  *
  * Set the filename property of the GtkFileSelection after having converted in the locale char set
@@ -211,9 +226,10 @@ gchar* file_selection_get_entry(GtkFileSelection* filesel)
  * \param utf8filename the string to set coded with the UTF8 charset
  */
 void file_selection_set_filename(GtkFileSelection* filesel,const gchar* utf8filename)
-{
+{ /* {{{ */
     gtk_file_selection_set_filename(filesel, g_locale_from_utf8(utf8filename,-1,NULL,NULL,NULL));
-}
+} /* }}} file_selection_set_filename */
+
 /** file_selection_get_filename
  *
  * Get the filename property of the GtkFileSelection, converted in UFT-8 charset
@@ -224,9 +240,9 @@ void file_selection_set_filename(GtkFileSelection* filesel,const gchar* utf8file
  *  where no more used (no need to add any g_strdup string to use it)
  */
 gchar* file_selection_get_filename(GtkFileSelection* filesel)
-{
+{ /* {{{ */
     return g_filename_to_utf8(gtk_file_selection_get_filename(filesel),-1,NULL,NULL,NULL);
-}
+} /* }}} file_selection_get_filename */
 
 /**
  * file_selection_get_selections.
@@ -243,7 +259,7 @@ gchar* file_selection_get_filename(GtkFileSelection* filesel)
  *   
  * */
 gchar** file_selection_get_selections(GtkFileSelection* filesel)
-{
+{ /* {{{ */
     gchar** gtk_selections = gtk_file_selection_get_selections(filesel);
     gchar** utf8selections = NULL;
     gint    num_selections = -1;
@@ -290,8 +306,8 @@ gchar** file_selection_get_selections(GtkFileSelection* filesel)
  * There is no need to use g_strdup before using the returned string.
  *
  * */
-gchar* file_selection_get_last_directory(GtkFileSelection* filesel,gboolean ended) /* {{{ */
-{
+gchar* file_selection_get_last_directory(GtkFileSelection* filesel,gboolean ended) 
+{/* {{{ */
     gchar*   dirstr      = g_strdup(GTK_LABEL(GTK_BIN(GTK_OPTION_MENU(filesel->history_pulldown))->child)->label);
     gint     dirstr_len  = strlen(dirstr);
     gchar*   sepstr      = g_strdup(G_DIR_SEPARATOR_S);
