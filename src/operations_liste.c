@@ -1819,7 +1819,7 @@ void p_press (void)
 			   gtk_clist_find_row_from_data ( GTK_CLIST ( CLIST_OPERATIONS ),
 							  OPERATION_SELECTIONNEE ),
 			   3,
-			   "P");
+			   _("P"));
       modification_fichier( TRUE );
     }
 
@@ -1922,7 +1922,7 @@ void r_press (void)
 			     gtk_clist_find_row_from_data ( GTK_CLIST ( CLIST_OPERATIONS ),
 							    OPERATION_SELECTIONNEE ),
 			     TRANSACTION_COL_NB_PR,
-			     "R");
+			     _("R"));
       else
 	{
 	  /* l'opération va disparaitre, on met donc la sélection sur l'opé suivante */
