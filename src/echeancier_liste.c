@@ -367,7 +367,7 @@ GtkWidget *creation_partie_gauche_echeancier ( void )
 		       5 );
     gtk_widget_show ( separation );
 
-    bouton_saisir_echeancier = gtk_button_new_with_label ( _("Remove selected transaction") );
+    bouton_saisir_echeancier = gtk_button_new_with_label ( _("Remove selected\nscheduled transaction") );
     gtk_button_set_relief ( GTK_BUTTON ( bouton_saisir_echeancier ), GTK_RELIEF_NONE );
     gtk_signal_connect_object ( GTK_OBJECT ( bouton_saisir_echeancier ), "clicked",
 				GTK_SIGNAL_FUNC ( supprime_echeance), NULL );
@@ -1358,7 +1358,7 @@ void supprime_echeance ( struct operation_echeance *echeance )
 	GtkWidget *dialog;
 	gchar * occurences = "";
 
-	occurences = g_strdup_printf ( "%02d/%02d/%d : %s [%4.2f]",
+	occurences = g_strdup_printf ( " %02d/%02d/%d : %s [%4.2f]",
 				       echeance -> jour,
 				       echeance -> mois,
 				       echeance -> annee,
