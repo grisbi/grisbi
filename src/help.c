@@ -38,10 +38,10 @@ void a_propos ( GtkWidget *bouton,
   GtkWidget *hbox;
   gint i;
 
-  const gchar *generalites = _("Grisbi est un logiciel vous permettant de gérer votre comptabilité personnelle sous Linux.\nLe principe de base d'un tel logiciel est de vous permettre de classer vos opérations financières, quelles qu'elles soient, de façon simple et intuitive, afin de pouvoir les exploiter au mieux en fonction de vos besoins.\nGrisbi a pris le parti de la simplicité et de l'efficacité pour un usage de base, sans toutefois exclure la sophistication nécessaire à un usage avancé. Les fonctionnalités futures tenteront toujours de respecter ces critères.");
+  const gchar *generalites = _("Grisbi is a personnal accounting application for Linux\nSuch a program allows you to sort your financial transactions, whatever they are, in a convenient and intuitive way.  Thus, you will be able to manage them as to fit your needs the more you can.\nGrisbi aims both at simplicty and efficiency for common use, and at a powerful use for power users.  We will always try to respect this as features will come.");
 
   const gchar *auteurs[] = { _("Cédric Auger (cedric@grisbi.org) : Programming"),
-			    _("Daniel Cartron (doc@grisbi.org) : Manual, website, csultancy"),
+			    _("Daniel Cartron (doc@grisbi.org) : Manual, website, consultancy"),
 			    _("Benjamin Drieu (bdrieu@april.org) : Programming, Debian packaging"),
 			    _("Gérald Niel (gerald.niel@grisbi.org) : RPM packaging, website"),
 			    _("André Pascual (andre@linuxgraphic.org) : Logo"),
@@ -50,7 +50,7 @@ void a_propos ( GtkWidget *bouton,
 				 NULL };
   const gchar *liens[] = { COLON(_("Website")),
 			   "http://www.grisbi.org/",
-			   _("http://www.grisbi.org/"),
+			   "http://www.grisbi.org/",
 			   _("Development list (discuss, participate, criticize, ...) : "),
 			   "mailto:devel-subscribe@grisbi.org",
 			   _("subscribe"),
@@ -62,7 +62,7 @@ void a_propos ( GtkWidget *bouton,
 			   _("subscribe"),
 			   COLON(_("Grisbi documentation")),
 			   "http://www.grisbi.org/modules.php?name=Documentation",
-			   _("http://www.grisbi.org/modules.php?name=Documentation"),
+			   "http://www.grisbi.org/modules.php?name=Documentation",
 			   NULL };
 
   const gchar *license = "This program is free software; you can redistribute it and/or modify\nit under the terms of the GNU General Public License as published by\nthe Free Software Foundation; either version 2 of the License, or\n(at your option) any later version.\n\nThis program is distributed in the hope that it will be useful,\nbut WITHOUT ANY WARRANTY; without even the implied warranty of\nMERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\nGNU General Public License for more details.You should have received a copy of the GNU General Public License\nalong with this program; if not, write to the Free Software\nFoundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA";
