@@ -1688,6 +1688,11 @@ GtkWidget * tab_display_reconciliation ( void )
   gtk_container_add ( GTK_CONTAINER ( vbox_fleches_tri ), button_move_down );
   gtk_widget_set_sensitive ( button_move_down, FALSE );
 
+  if ( !nb_comptes )
+    {
+      gtk_widget_set_sensitive ( vbox_pref, FALSE );
+    }
+
   return vbox_pref;
 }
 

@@ -213,6 +213,11 @@ onglet_display_transaction_form ( void )
 					  &etat.affichage_exercice_automatique, 
 					  NULL);
 
+  if ( !nb_comptes )
+    {
+      gtk_widget_set_sensitive ( vbox_pref, FALSE );
+    }
+
   return vbox_pref;
 }
 
@@ -229,7 +234,7 @@ GtkWidget * onglet_display_fonts ( void )
   GtkWidget *label, *paddingbox;
   GtkWidget *table, *font_button;
   GtkWidget *hbox_font, *init_button;
-  GdkPixbuf * pixbuf;
+  GdkPixbuf * pixbuf = NULL;
 
   vbox_pref = new_vbox_with_title_and_icon ( _("Fonts & logo"),
 					     "fonts.png" );
@@ -247,7 +252,11 @@ GtkWidget * onglet_display_fonts ( void )
   gtk_button_set_relief ( GTK_BUTTON ( logo_button ),
 			  GTK_RELIEF_NONE );
 
-  pixbuf = gdk_pixbuf_new_from_file (chemin_logo, NULL);
+  if ( chemin_logo )
+    {
+      pixbuf = gdk_pixbuf_new_from_file (chemin_logo, NULL);
+    }
+
   if (!pixbuf)
     {
       preview = gtk_image_new_from_stock ( GTK_STOCK_MISSING_IMAGE, 
@@ -380,6 +389,11 @@ GtkWidget * onglet_display_fonts ( void )
 		     TRUE, FALSE, 0 );
   g_signal_connect (init_button, "clicked", 
 		    G_CALLBACK (init_fonts), NULL);
+
+  if ( !nb_comptes )
+    {
+      gtk_widget_set_sensitive ( vbox_pref, FALSE );
+    }
 
   return vbox_pref;
 }

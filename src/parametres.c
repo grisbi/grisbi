@@ -389,8 +389,12 @@ GtkWidget *onglet_messages_and_warnings ( void )
 
   gtk_widget_show_all ( vbox_pref );
 
-  return ( vbox_pref );
+  if ( !nb_comptes )
+    {
+      gtk_widget_set_sensitive ( vbox_pref, FALSE );
+    }
 
+  return ( vbox_pref );
 }
 
 
@@ -562,6 +566,12 @@ GtkWidget *onglet_fichier ( void )
 		       FALSE, FALSE, 0 );
 
   gtk_widget_show_all ( vbox_pref );
+
+  if ( !nb_comptes )
+    {
+      gtk_widget_set_sensitive ( vbox_pref, FALSE );
+    }
+
   return ( vbox_pref );
 }
 

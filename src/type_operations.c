@@ -437,6 +437,12 @@ GtkWidget *onglet_types_operations ( void )
 		     GTK_EXPAND | GTK_FILL, 0,
 		     0, 0 );
 
+  /** Do not set this tab sensitive is no account file is opened. */
+  if ( !nb_comptes )
+    {
+      gtk_widget_set_sensitive ( vbox_pref, FALSE );
+    }
+
   return ( vbox_pref );
 }
 

@@ -136,6 +136,11 @@ GtkWidget *onglet_affichage_liste ( void )
   gtk_box_pack_end ( GTK_BOX(onglet), bouton,
 		     TRUE, FALSE, 0 );
 
+  if ( !nb_comptes )
+    {
+      gtk_widget_set_sensitive ( onglet, FALSE );
+    }
+
   return ( onglet );
 }
 
@@ -177,7 +182,7 @@ gboolean transactions_list_display_modes_menu_changed  ( GtkWidget * menu_shell,
 /** FIXME: document this */
 GtkWidget *onglet_affichage_operations ( void )
 {
-  GtkWidget * vbox_pref, *onglet, *table, *label, *hbox, *bouton, *paddingbox;
+  GtkWidget * vbox_pref, *onglet, *table, *label, *hbox, *paddingbox;
 
   vbox_pref = new_vbox_with_title_and_icon ( _("Transactions list"),
 					     "transaction-list.png" );
@@ -290,7 +295,6 @@ GtkWidget *onglet_affichage_operations ( void )
       gtk_widget_set_sensitive ( bouton_affichage_lignes_trois_lignes_1, FALSE );
       gtk_widget_set_sensitive ( bouton_affichage_lignes_trois_lignes_2, FALSE );
       gtk_widget_set_sensitive ( bouton_affichage_lignes_trois_lignes_3, FALSE );
-      gtk_widget_set_sensitive ( bouton, FALSE );
     }
 
   /* Connect all menus */
@@ -319,6 +323,11 @@ GtkWidget *onglet_affichage_operations ( void )
 					  _("by value date"),
 					  _("by date"),
 					  &etat.classement_par_date, NULL);
+
+  if ( !nb_comptes )
+    {
+      gtk_widget_set_sensitive ( vbox_pref, FALSE );
+    }
 
   return ( vbox_pref );
 }
