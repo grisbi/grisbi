@@ -264,7 +264,7 @@ gint html_initialise (GSList * opes_selectionnees)
 				      dernier_chemin_de_travail );
 
     gtk_entry_set_text ( GTK_ENTRY ( GTK_FILE_SELECTION ( file_selector )->selection_entry),
-			 g_strconcat ( etats_titre(), ".gsb", NULL ));
+			 g_strconcat ( etats_titre(), ".html", NULL ));
 
     resultat = gtk_dialog_run ( GTK_DIALOG ( file_selector ));
     switch ( resultat )
@@ -326,9 +326,9 @@ gint html_finish ()
 
 
 /** 
- * Print a html safe string into the html_out file descriptor.  All chars
- * that cannot be printed via html are converted to their html
- * equivalent (i.e. backslashes are escaped).
+ * Print a html safe string into the html_out file descriptor.  All
+ * chars that cannot be printed via html are converted to their html
+ * equivalent
  *
  * \param text Text to print.
  */
