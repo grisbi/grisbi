@@ -74,10 +74,16 @@ GtkJustification col_justs[] = { GTK_JUSTIFY_CENTER,
     GTK_JUSTIFY_RIGHT,
     GTK_JUSTIFY_RIGHT };
 
+gint allocation_precedente;
+
 extern struct operation_echeance *echeance_selectionnnee;
 extern gint no_derniere_echeance;
 extern GSList *gsliste_echeances; 
 extern gint nb_echeances;
+
+
+/* FIXME INSTABLE : REPRENDRE AUSSI L'ANCIEN FICHIER, VERIFIER QU'IL N'Y A PAS EU DE CORRECTIONS DE BUGS DANS CE FICHIER */
+/* AUTRES QUE L'AJUSTEMENT DE LA TAILLE DES COLONNES */
 
 /******************************************************************************/
 /*  Routine qui crée la fenêtre de la liste des opé  */
@@ -90,6 +96,9 @@ GtkWidget *creation_fenetre_operations ( void )
 
     /*   la fenetre des opé est une vbox : la liste en haut, le solde et  */
     /*     des boutons de conf au milieu, le formulaire en bas */
+
+/* FIXME: à virer sur l'instable */
+    allocation_precedente = 0;
 
     win_operations = gtk_vbox_new ( FALSE,
 				    5 );
@@ -1112,7 +1121,7 @@ gchar *recherche_contenu_cellule ( struct structure_operation *operation,
 /* Fonction selectionne_ligne_souris */
 /* place la sélection sur l'opé clickée */
 /******************************************************************************/
-void selectionne_ligne_souris ( GtkCList *liste,
+gboolean selectionne_ligne_souris ( GtkCList *liste,
 				GdkEventButton *evenement,
 				gpointer data)
 {
@@ -1121,7 +1130,7 @@ void selectionne_ligne_souris ( GtkCList *liste,
     /* si le click se situe dans les menus, c'est qu'on redimensionne, on fait rien */
 
     if ( evenement -> window != liste -> clist_window )
-	return;
+	return FALSE;
 
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
 
@@ -1145,7 +1154,7 @@ void selectionne_ligne_souris ( GtkCList *liste,
     {
 	if ( evenement -> button == 3 )
 	    popup_transaction_context_menu ( FALSE );
-	return;
+	return FALSE;
     }
 
     if ( etat.equilibrage &&
@@ -1182,6 +1191,7 @@ void selectionne_ligne_souris ( GtkCList *liste,
     else
 	focus_a_la_liste ();
 
+    return FALSE;
 }
 /******************************************************************************/
 
@@ -2210,7 +2220,7 @@ void changement_taille_liste_ope ( GtkWidget *clist,
 				   GtkAllocation *allocation,
 				   gint *compte )
 {
-    gint i;
+    gint i, j;
     gint largeur;
     gint col0, col1, col2, col3, col4, col5, col6;
 
@@ -2218,6 +2228,15 @@ void changement_taille_liste_ope ( GtkWidget *clist,
 
     if ( window -> allocation.width < 700 )
 	return;
+
+    /*     pour éviter que le système ne s'emballe... */
+
+    if ( allocation -> width
+	 ==
+	 allocation_precedente )
+	return;
+
+    allocation_precedente = allocation -> width;
 
     if ( allocation )
 	largeur = allocation -> width;
@@ -2227,16 +2246,21 @@ void changement_taille_liste_ope ( GtkWidget *clist,
     /* si la largeur est automatique, on change la largeur des colonnes */
     /* sinon, on y met les valeurs fixes */
 
-    if ( etat.largeur_auto_colonnes )
-	for ( i = 0 ; i < TRANSACTION_LIST_COL_NB ; i++ )
-	    gtk_clist_set_column_width ( GTK_CLIST ( clist ),
-					 i,
-					 rapport_largeur_colonnes[i] * largeur / 100 );
-    else
-	for ( i = 0 ; i < TRANSACTION_LIST_COL_NB ; i++ )
-	    gtk_clist_set_column_width ( GTK_CLIST ( clist ),
-					 i,
-					 taille_largeur_colonnes[i] );
+    for ( j=0 ; j<nb_comptes ; j++ )
+    {
+	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + j;
+
+	if ( etat.largeur_auto_colonnes )
+	    for ( i = 0 ; i < TRANSACTION_LIST_COL_NB ; i++ )
+		gtk_clist_set_column_width ( GTK_CLIST ( CLIST_OPERATIONS ),
+					     i,
+					     rapport_largeur_colonnes[i] * largeur / 100 );
+	else
+	    for ( i = 0 ; i < TRANSACTION_LIST_COL_NB ; i++ )
+		gtk_clist_set_column_width ( GTK_CLIST ( CLIST_OPERATIONS ),
+					     i,
+					     taille_largeur_colonnes[i] );
+    }
 
     /* met les entrées du formulaire selon une taille proportionnelle */
 
