@@ -40,32 +40,23 @@
 #include "traitement_variables.h"
 #include "echeancier_liste.h"
 #include "etats_config.h"
+#include "meta_payee.h"
+#include "metatree.h"
 #include "utils_tiers.h"
+#include "utils_buttons.h"
 #include "affichage_formulaire.h"
 #include "operations_formulaire.h"
+#include "utils_tiers.h"
+#include "utils.h"
+#include "utils_editables.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static void appui_sur_ajout_tiers ( void );
-static gfloat *calcule_total_montant_tiers ( void );
-static gchar *calcule_total_montant_tiers_par_compte ( gint no_tiers, gint no_compte );
-static void clique_sur_annuler_tiers ( GtkWidget *bouton_annuler,
-				gpointer null );
-static void clique_sur_modifier_tiers ( GtkWidget *bouton_modifier,
-				 gpointer null );
-static gboolean enleve_selection_ligne_tiers ( void );
-static gboolean expand_selected_tiers ( GtkWidget *liste, GdkEventButton *ev, gpointer null );
-static gboolean keypress_tiers ( GtkWidget *widget, GdkEventKey *ev, gint *no_origine );
-static void modification_du_texte_tiers ( GtkText *texte,
-				   gpointer null );
-static void ouverture_node_tiers ( GtkWidget *arbre,
-			    GtkCTreeNode *node,
-			    gpointer null );
-static gboolean selection_ligne_tiers ( GtkCTree *arbre_tiers, GtkCTreeNode *noeud,
-				 gint colonne, gpointer null );
-static void supprimer_tiers ( GtkWidget *bouton,
-		       gpointer null );
-static gboolean verifie_double_click ( GtkWidget *liste, GdkEventButton *ev, gpointer null );
+static gboolean payee_drag_data_get ( GtkTreeDragSource * drag_source, GtkTreePath * path,
+				      GtkSelectionData * selection_data );
+static gboolean popup_payee_view_mode_menu ( GtkWidget * button );
+GtkWidget *creation_barre_outils_tiers ( void );
+gboolean edit_payee ( GtkWidget * button, GtkTreeView * view );
 /*END_STATIC*/
 
 
@@ -116,6 +107,9 @@ gint *nb_ecritures_par_tiers;
 
 gint nb_ecritures_par_comptes;
 
+GtkWidget *payee_tree;
+GtkTreeStore *payee_tree_model;
+
 
 
 
@@ -150,13 +144,14 @@ GtkWidget *onglet_tiers ( void )
 {
     GtkWidget *onglet, *scroll_window, *scrolled_window_text;
     GtkWidget *vbox, *frame, *vbox_frame, *hbox;
-    gchar *titres[] =
-    {
-	_("Third parties list"),
-	_("Amount per third party"),
-	_("Amount per account"),
-	_("Last date")
+    GtkTreeViewColumn *column;
+    GtkCellRenderer *cell;
+    GtkTreeDragDestIface * dst_iface;
+    GtkTreeDragSourceIface * src_iface;
+    static GtkTargetEntry row_targets[] = {
+	{ "GTK_TREE_MODEL_ROW", GTK_TARGET_SAME_WIDGET, 0 }
     };
+
 
     /* création des pixmaps pour la liste */
     pixmap_ouvre = gdk_pixmap_create_from_xpm_d ( GTK_WIDGET(window) -> window,
@@ -219,10 +214,10 @@ GtkWidget *onglet_tiers ( void )
     entree_nom_tiers = gtk_entry_new ();
     gtk_widget_set_sensitive ( entree_nom_tiers,
 			       FALSE );
-    gtk_signal_connect ( GTK_OBJECT ( entree_nom_tiers ),
-			 "changed",
-			 GTK_SIGNAL_FUNC ( modification_du_texte_tiers),
-			 NULL );
+/*     gtk_signal_connect ( GTK_OBJECT ( entree_nom_tiers ), */
+/* 			 "changed", */
+/* 			 GTK_SIGNAL_FUNC ( modification_du_texte_tiers), */
+/* 			 NULL ); */
     gtk_box_pack_start ( GTK_BOX ( vbox_frame ),
 			 entree_nom_tiers,
 			 FALSE,
@@ -248,8 +243,8 @@ GtkWidget *onglet_tiers ( void )
 
     gtk_widget_set_sensitive ( text_box, FALSE );
 
-    g_signal_connect ( G_OBJECT(gtk_text_view_get_buffer(GTK_TEXT_VIEW(text_box))),
-		       "changed", ((GCallback) modification_du_texte_tiers), NULL );
+/*     g_signal_connect ( G_OBJECT(gtk_text_view_get_buffer(GTK_TEXT_VIEW(text_box))), */
+/* 		       "changed", ((GCallback) modification_du_texte_tiers), NULL ); */
 
     gtk_widget_show_all ( scrolled_window_text );
 
@@ -272,10 +267,10 @@ GtkWidget *onglet_tiers ( void )
 			    GTK_RELIEF_NONE );
     gtk_widget_set_sensitive ( bouton_modif_tiers_modifier,
 			       FALSE );
-    gtk_signal_connect ( GTK_OBJECT ( bouton_modif_tiers_modifier ),
-			 "clicked",
-			 GTK_SIGNAL_FUNC ( clique_sur_modifier_tiers ),
-			 NULL );
+/*     gtk_signal_connect ( GTK_OBJECT ( bouton_modif_tiers_modifier ), */
+/* 			 "clicked", */
+/* 			 GTK_SIGNAL_FUNC ( clique_sur_modifier_tiers ), */
+/* 			 NULL ); */
     gtk_box_pack_start ( GTK_BOX ( hbox ),
 			 bouton_modif_tiers_modifier,
 			 FALSE,
@@ -286,10 +281,10 @@ GtkWidget *onglet_tiers ( void )
     bouton_modif_tiers_annuler = gtk_button_new_from_stock (GTK_STOCK_CANCEL);
     gtk_button_set_relief ( GTK_BUTTON ( bouton_modif_tiers_annuler ),
 			    GTK_RELIEF_NONE );
-    gtk_signal_connect ( GTK_OBJECT ( bouton_modif_tiers_annuler ),
-			 "clicked",
-			 GTK_SIGNAL_FUNC ( clique_sur_annuler_tiers ),
-			 NULL );
+/*     gtk_signal_connect ( GTK_OBJECT ( bouton_modif_tiers_annuler ), */
+/* 			 "clicked", */
+/* 			 GTK_SIGNAL_FUNC ( clique_sur_annuler_tiers ), */
+/* 			 NULL ); */
     gtk_widget_set_sensitive ( bouton_modif_tiers_annuler,
 			       FALSE );
     gtk_box_pack_start ( GTK_BOX ( hbox ),
@@ -306,7 +301,7 @@ GtkWidget *onglet_tiers ( void )
 			       FALSE );
     gtk_signal_connect ( GTK_OBJECT ( bouton_supprimer_tiers ),
 			 "clicked",
-			 GTK_SIGNAL_FUNC ( supprimer_tiers ),
+			 GTK_SIGNAL_FUNC ( supprimer_division ),
 			 NULL );
     gtk_box_pack_start ( GTK_BOX ( vbox_frame ),
 			 bouton_supprimer_tiers,
@@ -320,10 +315,10 @@ GtkWidget *onglet_tiers ( void )
     bouton_ajouter_tiers = gtk_button_new_with_label ( _("Add a third party") );
     gtk_button_set_relief ( GTK_BUTTON ( bouton_ajouter_tiers ),
 			    GTK_RELIEF_NONE );
-    gtk_signal_connect ( GTK_OBJECT ( bouton_ajouter_tiers ),
-			 "clicked",
-			 GTK_SIGNAL_FUNC ( appui_sur_ajout_tiers ),
-			 NULL );
+/*     gtk_signal_connect ( GTK_OBJECT ( bouton_ajouter_tiers ), */
+/* 			 "clicked", */
+/* 			 GTK_SIGNAL_FUNC ( appui_sur_ajout_tiers ), */
+/* 			 NULL ); */
     gtk_box_pack_start ( GTK_BOX ( vbox ),
 			 bouton_ajouter_tiers,
 			 FALSE,
@@ -352,8 +347,14 @@ GtkWidget *onglet_tiers ( void )
 			vbox );
     gtk_widget_show ( vbox );
 
-    /* on y ajoute la barre d'outils */
+    /* We create the gtktreeview and model early so that they can be referenced. */
+    payee_tree = gtk_tree_view_new();
+    payee_tree_model = gtk_tree_store_new ( META_TREE_NUM_COLUMNS, 
+					    G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, 
+					    G_TYPE_POINTER, G_TYPE_INT, G_TYPE_INT, 
+					    G_TYPE_INT, G_TYPE_FLOAT );
 
+    /* on y ajoute la barre d'outils */
     gtk_box_pack_start ( GTK_BOX ( vbox ),
 			 creation_barre_outils_tiers(),
 			 FALSE,
@@ -361,109 +362,178 @@ GtkWidget *onglet_tiers ( void )
 			 0 );
 
     /* création de l'arbre principal */
-
-    scroll_window = gtk_scrolled_window_new ( NULL,
-					      NULL );
+    scroll_window = gtk_scrolled_window_new ( NULL, NULL );
     gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scroll_window ),
-				     GTK_POLICY_AUTOMATIC,
-				     GTK_POLICY_AUTOMATIC );
-    gtk_box_pack_start ( GTK_BOX ( vbox ),
-			 scroll_window,
-			 TRUE,
-			 TRUE,
-			 0 );
+				     GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC );
+    gtk_scrolled_window_set_shadow_type ( GTK_SCROLLED_WINDOW(scroll_window), 
+					  GTK_SHADOW_IN );
+    gtk_box_pack_start ( GTK_BOX ( vbox ), scroll_window, TRUE, TRUE, 0 );
     gtk_widget_show ( scroll_window );
 
+    /* Create model */
+    gtk_tree_sortable_set_sort_column_id ( GTK_TREE_SORTABLE(payee_tree_model), 
+					   META_TREE_TEXT_COLUMN, GTK_SORT_ASCENDING );
+    g_object_set_data ( G_OBJECT ( payee_tree_model), "metatree-interface", 
+			payee_interface );
 
-    arbre_tiers = gtk_ctree_new_with_titles ( 4,
-					      0,
-					      titres );
-    gtk_ctree_set_line_style ( GTK_CTREE ( arbre_tiers ),
-			       GTK_CTREE_LINES_DOTTED );
-    gtk_ctree_set_expander_style ( GTK_CTREE ( arbre_tiers ),
-				   GTK_CTREE_EXPANDER_CIRCULAR );
-    gtk_clist_column_titles_passive ( GTK_CLIST ( arbre_tiers ));
-    gtk_clist_set_column_justification ( GTK_CLIST ( arbre_tiers ),
-					 0,
-					 GTK_JUSTIFY_LEFT);
-    gtk_clist_set_column_justification ( GTK_CLIST ( arbre_tiers ),
-					 1,
-					 GTK_JUSTIFY_CENTER);
-    gtk_clist_set_column_justification ( GTK_CLIST ( arbre_tiers ),
-					 2,
-					 GTK_JUSTIFY_CENTER);
-    gtk_clist_set_column_justification ( GTK_CLIST ( arbre_tiers ),
-					 3,
-					 GTK_JUSTIFY_CENTER);
-    gtk_clist_set_column_justification ( GTK_CLIST ( arbre_tiers ),
-					 4,
-					 GTK_JUSTIFY_CENTER);
+    /* Create container + TreeView */
+    gtk_tree_view_set_rules_hint (GTK_TREE_VIEW (payee_tree), TRUE);
+    gtk_tree_view_enable_model_drag_source(GTK_TREE_VIEW(payee_tree),
+					   GDK_BUTTON1_MASK, row_targets, 1,
+					   GDK_ACTION_MOVE | GDK_ACTION_COPY );
+    gtk_tree_view_enable_model_drag_dest ( GTK_TREE_VIEW(payee_tree), row_targets,
+					   1, GDK_ACTION_MOVE | GDK_ACTION_COPY );
+    gtk_tree_view_set_reorderable (GTK_TREE_VIEW(payee_tree), TRUE);
+    gtk_tree_selection_set_mode ( gtk_tree_view_get_selection ( GTK_TREE_VIEW(payee_tree)),
+				  GTK_SELECTION_SINGLE );
+    gtk_tree_view_set_model (GTK_TREE_VIEW (payee_tree), 
+			     GTK_TREE_MODEL (payee_tree_model));
+    g_object_set_data ( G_OBJECT(payee_tree_model), "tree-view", 
+			payee_tree );
 
-    gtk_clist_set_column_resizeable ( GTK_CLIST ( arbre_tiers ),
-				      0,
-				      FALSE );
-    gtk_clist_set_column_resizeable ( GTK_CLIST ( arbre_tiers ),
-				      1,
-				      FALSE );
-    gtk_clist_set_column_resizeable ( GTK_CLIST ( arbre_tiers ),
-				      2,
-				      FALSE );
-    gtk_clist_set_column_resizeable ( GTK_CLIST ( arbre_tiers ),
-				      3,
-				      FALSE );
-    gtk_clist_set_column_resizeable ( GTK_CLIST ( arbre_tiers ),
-				      4,
-				      FALSE );
+    /* Make category column */
+    cell = gtk_cell_renderer_text_new ();
+    column = gtk_tree_view_column_new_with_attributes (_("Payees"), cell, 
+						       "text", META_TREE_TEXT_COLUMN, 
+						       "weight", META_TREE_FONT_COLUMN,
+						       NULL);
+#if GTK_CHECK_VERSION(2,4,0)
+    gtk_tree_view_column_set_expand ( column, TRUE );
+#endif
+    gtk_tree_view_append_column ( GTK_TREE_VIEW ( payee_tree ), 
+				  GTK_TREE_VIEW_COLUMN ( column ) );
 
-    /* on met la fontion de tri alphabétique en prenant en compte les accents */
+    /* Make account column */
+    cell = gtk_cell_renderer_text_new ();
+    column = gtk_tree_view_column_new_with_attributes ("Account", cell, 
+						       "text", META_TREE_ACCOUNT_COLUMN, 
+						       "weight", META_TREE_FONT_COLUMN,
+						       NULL);
+    gtk_tree_view_append_column ( GTK_TREE_VIEW ( payee_tree ), 
+				  GTK_TREE_VIEW_COLUMN ( column ) );
 
-    gtk_clist_set_compare_func ( GTK_CLIST ( arbre_tiers ),
-				 (GtkCListCompareFunc) classement_alphabetique_tree );
+    /* Make balance column */
+    cell = gtk_cell_renderer_text_new ();
+    column = gtk_tree_view_column_new_with_attributes ("Balance", cell, 
+						       "text", META_TREE_BALANCE_COLUMN,
+						       "weight", META_TREE_FONT_COLUMN,
+						       "xalign", META_TREE_XALIGN_COLUMN,
+						       NULL);
+    gtk_tree_view_append_column ( GTK_TREE_VIEW ( payee_tree ), 
+				  GTK_TREE_VIEW_COLUMN ( column ) );
 
-    gtk_signal_connect ( GTK_OBJECT ( arbre_tiers ),
-			 "tree-select-row",
-			 GTK_SIGNAL_FUNC ( selection_ligne_tiers ),
-			 NULL );
-    gtk_signal_connect ( GTK_OBJECT ( arbre_tiers ),
-			 "tree-unselect-row",
-			 GTK_SIGNAL_FUNC ( enleve_selection_ligne_tiers ),
-			 NULL );
-    gtk_signal_connect ( GTK_OBJECT ( arbre_tiers ),
-			 "button-press-event",
-			 GTK_SIGNAL_FUNC ( verifie_double_click ),
-			 NULL );
-    gtk_signal_connect ( GTK_OBJECT ( arbre_tiers ),
-			 "key-press-event",
-			 GTK_SIGNAL_FUNC ( keypress_tiers ),
-			 NULL );
-    gtk_signal_connect ( GTK_OBJECT ( arbre_tiers ),
-			 "size-allocate",
-			 GTK_SIGNAL_FUNC ( changement_taille_liste_tiers ),
-			 NULL );
-    gtk_signal_connect ( GTK_OBJECT ( arbre_tiers ),
-			 "tree-expand",
-			 GTK_SIGNAL_FUNC ( ouverture_node_tiers ),
-			 NULL );
+    gtk_container_add ( GTK_CONTAINER ( scroll_window ), payee_tree );
+    gtk_widget_show ( payee_tree );
 
-    gtk_container_add ( GTK_CONTAINER (  scroll_window ),
-			arbre_tiers );
-    gtk_widget_show ( arbre_tiers );
+    /* Connect to signals */
+    g_signal_connect ( G_OBJECT(payee_tree), "row-expanded", 
+		       G_CALLBACK(division_column_expanded), NULL );
+    g_signal_connect( G_OBJECT(payee_tree), "row-activated",
+		      G_CALLBACK(division_activated), NULL);
 
+    dst_iface = GTK_TREE_DRAG_DEST_GET_IFACE (payee_tree_model);
+    if ( dst_iface )
+    {
+	dst_iface -> drag_data_received = &division_drag_data_received;
+	dst_iface -> row_drop_possible = &division_row_drop_possible;
+    }
 
-    /* on met la fontion de tri alphabétique en prenant en compte les accents */
-
-    gtk_clist_set_compare_func ( GTK_CLIST ( arbre_tiers ),
-				 (GtkCListCompareFunc) classement_alphabetique_tree );
+    src_iface = GTK_TREE_DRAG_SOURCE_GET_IFACE (payee_tree_model);
+    if ( src_iface )
+    {
+	gtk_selection_add_target (payee_tree,
+				  GDK_SELECTION_PRIMARY,
+				  GDK_SELECTION_TYPE_ATOM,
+				  1);
+	src_iface -> drag_data_get = &payee_drag_data_get;
+    }
 
     /* la 1ère fois qu'on affichera les tiers, il faudra remplir la liste */
-
     modif_tiers = 1;
 
     return ( onglet );
 
 }
-/* **************************************************************************************************** */
 
+
+
+GtkWidget *creation_barre_outils_tiers ( void )
+{
+    GtkWidget *hbox, *separateur, *handlebox, *hbox2;
+
+    hbox = gtk_hbox_new ( FALSE, 5 );
+
+    /* HandleBox */
+    handlebox = gtk_handle_box_new ();
+    gtk_box_pack_start ( GTK_BOX ( hbox ), handlebox, FALSE, FALSE, 0 );
+    /* Hbox2 */
+    hbox2 = gtk_hbox_new ( FALSE, 0 );
+    gtk_container_add ( GTK_CONTAINER(handlebox), hbox2 );
+
+    /* Add various icons */
+    gtk_box_pack_start ( GTK_BOX ( hbox2 ), 
+			 new_button_with_label_and_image ( _("New payee"), "new-payee.png",
+							   G_CALLBACK(appui_sur_ajout_division),
+							   payee_tree_model ), 
+			 FALSE, TRUE, 0 );
+    gtk_box_pack_start ( GTK_BOX ( hbox2 ), 
+			 new_stock_button_with_label ( GTK_STOCK_DELETE, 
+						       _("Delete"),
+						       G_CALLBACK(supprimer_division),
+						       payee_tree ), 
+			 FALSE, TRUE, 0 );
+    gtk_box_pack_start ( GTK_BOX ( hbox2 ), /* FIXME: write the property dialog */
+			 new_stock_button_with_label (GTK_STOCK_PROPERTIES, 
+						      _("Properties"),
+						      G_CALLBACK(edit_payee), 
+						      payee_tree ), 
+			 FALSE, TRUE, 0 );
+    gtk_box_pack_start ( GTK_BOX ( hbox2 ), 
+			 new_stock_button_with_label_menu ( GTK_STOCK_SELECT_COLOR, 
+							    _("View"),
+							    G_CALLBACK(popup_payee_view_mode_menu),
+							    NULL ),
+			 FALSE, TRUE, 0 );
+
+    /* Vertical separator */
+    separateur = gtk_vseparator_new ();
+    gtk_box_pack_start ( GTK_BOX ( hbox ), separateur, FALSE, FALSE, 0 );
+    gtk_widget_show_all ( hbox );
+
+    return ( hbox );
+}
+
+
+
+/** 
+ * TODO: document this
+ */
+gboolean popup_payee_view_mode_menu ( GtkWidget * button )
+{
+    GtkWidget *menu, *menu_item;
+
+    menu = gtk_menu_new ();
+
+    /* Edit transaction */
+    menu_item = gtk_image_menu_item_new_with_label ( _("Payee view") );
+    g_signal_connect ( G_OBJECT(menu_item), "activate", 
+		       G_CALLBACK(expand_arbre_division), (gpointer) 0 );
+    g_object_set_data ( G_OBJECT(menu_item), "tree-view", payee_tree );
+    gtk_menu_append ( menu, menu_item );
+
+    menu_item = gtk_image_menu_item_new_with_label ( _("Complete view") );
+    g_signal_connect ( G_OBJECT(menu_item), "activate", 
+		       G_CALLBACK(expand_arbre_division), (gpointer) 2 );
+    g_object_set_data ( G_OBJECT(menu_item), "tree-view", payee_tree );
+    gtk_menu_append ( menu, menu_item );
+
+    gtk_widget_show_all ( menu );
+
+    gtk_menu_popup ( GTK_MENU(menu), NULL, button, set_popup_position, button, 1, 
+		     gtk_get_current_event_time());
+
+    return FALSE;
+}
 
 
 
@@ -475,671 +545,72 @@ GtkWidget *onglet_tiers ( void )
 
 void remplit_arbre_tiers ( void )
 {
-    gchar *text[4];
-    GSList *liste_tiers_tmp;
-    gfloat *tab_montant;
-    gint place_tiers;
+    GSList *liste_payee_tmp;
+    GtkTreeIter iter_payee;
 
-    if ( DEBUG )
-	printf ( "remplit_arbre_tiers\n" );
+    /** First, remove previous tree */
+    gtk_tree_store_clear ( GTK_TREE_STORE (payee_tree_model) );
 
-    /* freeze le ctree */
+    p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
 
-    gtk_clist_freeze ( GTK_CLIST ( arbre_tiers ));
-
-    /*   efface l'ancien arbre */
-
-    gtk_clist_clear ( GTK_CLIST ( arbre_tiers ));
-
+    /** Currency used for totals is then chosen from preferences.  */
     if ( !devise_compte
 	 ||
 	 devise_compte -> no_devise != no_devise_totaux_tiers )
 	devise_compte = devise_par_no ( no_devise_totaux_tiers );
 
-    /* récupère les montants des tiers */
+    /* Compute payee balances. */
+    calcule_total_montant_payee ();
 
-    tab_montant = calcule_total_montant_tiers ();
+    /** Then, populate tree with payee. */
+    liste_payee_tmp = g_slist_prepend ( liste_struct_tiers, NULL );
+    while ( liste_payee_tmp )
+    {
+	struct struct_tiers *payee;
 
-    /* remplit l'arbre */
+	payee = liste_payee_tmp -> data;
 
-    liste_tiers_tmp = liste_struct_tiers;
-    place_tiers = 0;
+	gtk_tree_store_append (GTK_TREE_STORE (payee_tree_model), &iter_payee, NULL);
+	fill_division_row ( GTK_TREE_MODEL(payee_tree_model), payee_interface, 
+			    &iter_payee, payee );
 
-    while ( liste_tiers_tmp )
-    { 
-	struct struct_tiers *tiers;
-	GtkCTreeNode *ligne;
-
-
-	tiers = liste_tiers_tmp -> data;
-
-	if ( fabs ( tab_montant[place_tiers]) >= 0.01
-	     || nb_ecritures_par_tiers[place_tiers] )
-	    text[1] = g_strdup_printf ( _("%4.2f %s"),
-					tab_montant[place_tiers],
-					devise_code ( devise_compte ) );
-	else
-	    text[1] = NULL;
-
-	/* nb_ecritures_par_tiers a été calculé dans cacule_total_montant_tiers */
-
-	if ( etat.affiche_nb_ecritures_listes
-	     &&
-	     nb_ecritures_par_tiers[place_tiers] )
-	    text[0] = g_strconcat ( tiers -> nom_tiers,
-				    " (",
-				    itoa ( nb_ecritures_par_tiers[place_tiers] ),
-				    ")",
-				    NULL );
-	else
-	    text[0] = tiers -> nom_tiers;
-
-	text[2] = NULL;
-
-	if ( date_dernier_tiers[place_tiers] )
-	    text[3] = g_strconcat ( itoa ( g_date_day ( date_dernier_tiers[place_tiers] )),
-				    "/",
-				    itoa ( g_date_month ( date_dernier_tiers[place_tiers] )),
-				    "/",
-				    itoa ( g_date_year ( date_dernier_tiers[place_tiers] )),
-				    NULL );
-	else
-	    text[3] = NULL;
-
-
-	ligne = gtk_ctree_insert_node ( GTK_CTREE ( arbre_tiers ),
-					NULL,
-					NULL,
-					text,
-					16,
-					pixmap_ferme,
-					masque_ferme,
-					pixmap_ouvre,
-					masque_ouvre,
-					FALSE,
-					FALSE );
-
-	/* on associe à ce tiers à l'adr de sa struct */
-
-	gtk_ctree_node_set_row_data ( GTK_CTREE ( arbre_tiers ),
-				      ligne,
-				      tiers );
-
-
-	/* pour chacun des tiers, on met un fils bidon pour pouvoir l'ouvrir */
-
-	ligne = gtk_ctree_insert_node ( GTK_CTREE ( arbre_tiers ),
-					ligne,
-					NULL,
-					text,
-					5,
-					NULL,
-					NULL,
-					NULL,
-					NULL,
-					FALSE,
-					FALSE );
-
-	/* on associe le fils bidon à -1 */
-
-	gtk_ctree_node_set_row_data ( GTK_CTREE ( arbre_tiers ),
-				      ligne,
-				      GINT_TO_POINTER (-1));
-
-
-
-	place_tiers++;
-	liste_tiers_tmp = liste_tiers_tmp -> next;
+	liste_payee_tmp = liste_payee_tmp -> next;
     }
-
-    /* on efface les libère les tableaux */
-
-    free ( tab_montant );
-    free ( date_dernier_tiers );
-    free ( nb_ecritures_par_tiers );
-
-    /* on trie par ordre alphabétique */
-
-    gtk_ctree_sort_node ( GTK_CTREE ( arbre_tiers ),
-			  NULL );
-
-    /* defreeze le ctree */
-
-    gtk_clist_thaw ( GTK_CLIST ( arbre_tiers ));
-
-    enleve_selection_ligne_tiers ();
 
     modif_tiers = 0;
 }
-/* **************************************************************************************************** */
 
 
 
-/* **************************************************************************************************** */
+/**
+ * Fill the drag & drop structure with the path of selected column.
+ * This is an interface function called from GTK, much like a callback.
+ *
+ * \param drag_source		Not used.
+ * \param path			Original path for the gtk selection.
+ * \param selection_data	A pointer to the drag & drop structure.
+ *
+ * \return FALSE, to allow future processing by the callback chain.
+ */
+gboolean payee_drag_data_get ( GtkTreeDragSource * drag_source, GtkTreePath * path,
+			       GtkSelectionData * selection_data )
+{
+    if ( path )
+    {
+	gtk_tree_set_row_drag_data (selection_data, GTK_TREE_MODEL(payee_tree_model), path);
+    }
+    
+    return FALSE;
+}
+
+
+
 gint classement_alphabetique_tree ( GtkWidget *tree,
 				    GtkCListRow *ligne_1,
 				    GtkCListRow *ligne_2 )
 {
     return g_utf8_collate ( ligne_1->cell->u.text, ligne_2->cell->u.text );
 }
-/* **************************************************************************************************** */
-
-
-
-/* **************************************************************************************************** */
-/* Fonction ouverture_node_tiers */
-/* appeléé lorsqu'on ouvre un tiers ou le compte d'un tiers */
-/* remplit ce qui doit être affiché */
-/* **************************************************************************************************** */
-
-void ouverture_node_tiers ( GtkWidget *arbre,
-			    GtkCTreeNode *node,
-			    gpointer null )
-{			    
-    GtkCTreeRow *row;
-    gchar *text[4];
-    GtkCTreeNode *node_insertion;
-
-
-
-    row = GTK_CTREE_ROW ( node );
-
-    /*   si le fiston = -1, c'est qu'il n'a pas encore été créé */
-    /* dans le cas contraire, on vire */
-
-    if ( GPOINTER_TO_INT ( gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_tiers ),
-							 row -> children )) != -1 )
-	return;
-
-    /* freeze le ctree */
-
-    gtk_clist_freeze ( GTK_CLIST ( arbre_tiers ));
-
-    /* on commence par virer la ligne bidon qui était attachée à ce noeud */
-
-    gtk_ctree_remove_node ( GTK_CTREE ( arbre_tiers ),
-			    row -> children );
-
-    /* séparation entre ouverture de tiers ( 0 ) et ouverture de compte ( 1 ) */
-
-    if ( row -> level == 1)
-    {
-	/* c'est une ouverture de tiers */
-
-	guint no_tiers_selectionne;
-	GSList *pointeur_ope;
-	gint i;
-
-	no_tiers_selectionne = ((struct struct_tiers *)( gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_tiers ),
-										       node ))) -> no_tiers;
-
-
-	/* on va scanner tous les comptes, dès qu'un tiers correspondant au tiers sélectionné est trouvé */
-	/* on affiche le nom du compte */
-
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
-
-
-	for ( i = 0 ; i < nb_comptes ; i++ )
-	{
-	    pointeur_ope = LISTE_OPERATIONS;
-
-	    while ( pointeur_ope )
-	    {
-		struct structure_operation *operation;
-
-		operation = pointeur_ope -> data;
-
-		if ( operation -> tiers == no_tiers_selectionne )
-		{
-		    /* affiche le compte courant */
-
-		    text[2] = calcule_total_montant_tiers_par_compte ( operation -> tiers,
-								       operation -> no_compte );
-
-		    if ( etat.affiche_nb_ecritures_listes
-			 &&
-			 nb_ecritures_par_comptes )
-			text[0] = g_strconcat ( NOM_DU_COMPTE,
-						" (",
-						itoa ( nb_ecritures_par_comptes ),
-						")",
-						NULL );
-		    else
-			text[0] = NOM_DU_COMPTE;
-
-		    text[1] = NULL;
-		    text[3] = NULL;
-
-		    node_insertion = gtk_ctree_insert_node ( GTK_CTREE ( arbre_tiers ),
-							     node,
-							     NULL,
-							     text,
-							     5,
-							     NULL,
-							     NULL,
-							     NULL,
-							     NULL,
-							     FALSE,
-							     FALSE );
-
-		    /* associe le no de compte à la ligne du compte */
-
-		    gtk_ctree_node_set_row_data ( GTK_CTREE ( arbre_tiers ),
-						  node_insertion,
-						  GINT_TO_POINTER ( i ));
-
-		    /* on met une ligne bidon pour pouvoir l'ouvrir */
-
-		    node_insertion = gtk_ctree_insert_node ( GTK_CTREE ( arbre_tiers ),
-							     node_insertion,
-							     NULL,
-							     text,
-							     5,
-							     NULL,
-							     NULL,
-							     NULL,
-							     NULL,
-							     FALSE,
-							     FALSE );
-
-		    /* associe le no de compte à la ligne du compte */
-
-		    gtk_ctree_node_set_row_data ( GTK_CTREE ( arbre_tiers ),
-						  node_insertion,
-						  GINT_TO_POINTER ( -1 ));
-
-		    pointeur_ope = NULL;
-		}
-		else
-		    pointeur_ope = pointeur_ope -> next;
-	    }
-
-	    p_tab_nom_de_compte_variable++;
-	}
-    }
-    else
-    {
-	/* c'est une ouverture d'un compte */
-	/*       cette fois, on fait le tour de toutes les opés du compte pour afficher celles qui correspondent au tiers */
-
-	guint no_tiers_selectionne;
-	GSList *pointeur_ope;
-
-	no_tiers_selectionne = ((struct struct_tiers *)( gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_tiers ),
-										       GTK_CTREE_ROW ( node ) -> parent ))) -> no_tiers;
-
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + GPOINTER_TO_INT ( gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_tiers ),
-													     node ));
-
-	pointeur_ope = LISTE_OPERATIONS;
-
-	while ( pointeur_ope )
-	{
-	    struct struct_devise *devise_operation;
-	    struct structure_operation *operation;
-
-	    operation = pointeur_ope -> data;
-
-	    devise_operation = devise_par_no ( operation -> devise );
-
-	    if ( ( operation -> tiers == no_tiers_selectionne )
-		 &&
-		 !operation -> no_operation_ventilee_associee )
-	    {
-		if ( operation -> notes )
-		    text[0] = g_strdup_printf ( "%d/%d/%d : %4.2f %s [ %s ]",
-						operation -> jour,
-						operation -> mois,
-						operation -> annee,
-						operation -> montant,
-						devise_code ( devise_operation ),
-						operation -> notes );
-		else
-		    text[0] = g_strdup_printf ( "%d/%d/%d : %4.2f %s",
-						operation -> jour,
-						operation -> mois,
-						operation -> annee,
-						operation -> montant,
-						devise_code ( devise_operation ) );
-
-		text[1] = NULL;
-		text[2] = NULL;
-		text[3] = NULL;
-
-		node_insertion = gtk_ctree_insert_node ( GTK_CTREE ( arbre_tiers ),
-							 node,
-							 NULL,
-							 text,
-							 5,
-							 NULL,
-							 NULL,
-							 NULL,
-							 NULL,
-							 FALSE,
-							 FALSE );
-
-		/* on associe à cette opé l'adr de sa struct */
-
-		gtk_ctree_node_set_row_data ( GTK_CTREE ( arbre_tiers ),
-					      node_insertion,
-					      operation );
-	    }
-
-	    pointeur_ope = pointeur_ope -> next;
-	}
-    }
-
-    /* defreeze le ctree */
-
-    gtk_clist_thaw ( GTK_CLIST ( arbre_tiers ));
-
-}
-/* **************************************************************************************************** */
-
-
-
-/* **************************************************************************************************** */
-gboolean selection_ligne_tiers ( GtkCTree *arbre_tiers, GtkCTreeNode *noeud,
-				 gint colonne, gpointer null )
-{
-    struct struct_tiers *tiers;
-
-    gtk_widget_set_sensitive ( entree_nom_tiers,
-			       TRUE );
-    gtk_widget_set_sensitive ( text_box,
-			       TRUE );
-
-    if ( GTK_CTREE_ROW ( noeud ) -> level  == 1 )
-    {
-	tiers = gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_tiers ),
-					      noeud );
-	gtk_widget_set_sensitive ( bouton_supprimer_tiers,
-				   TRUE );
-    }
-    else
-	if ( GTK_CTREE_ROW ( noeud ) -> level  == 2 )
-	    tiers = gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_tiers ),
-						  GTK_CTREE_ROW ( noeud ) -> parent );
-	else
-	    tiers = gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_tiers ),
-						  GTK_CTREE_ROW ( GTK_CTREE_ROW ( noeud ) -> parent ) -> parent );
-
-
-    g_signal_handlers_block_by_func ( G_OBJECT ( gtk_text_view_get_buffer (GTK_TEXT_VIEW (text_box)) ),
-				      GTK_SIGNAL_FUNC ( modification_du_texte_tiers),
-				      NULL );
-    gtk_signal_handler_block_by_func ( GTK_OBJECT ( entree_nom_tiers ),
-				       GTK_SIGNAL_FUNC ( modification_du_texte_tiers),
-				       NULL );
-
-    if ( tiers -> texte )
-      {
-	gtk_text_buffer_set_text ( gtk_text_view_get_buffer (GTK_TEXT_VIEW (text_box)),
-				   ( tiers->texte ? tiers->texte : "") , -1 );
-      }
-
-    gtk_entry_set_text ( GTK_ENTRY ( entree_nom_tiers ),
-			 tiers -> nom_tiers );
-
-    gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( entree_nom_tiers ),
-					 GTK_SIGNAL_FUNC ( modification_du_texte_tiers),
-					 NULL );
-    g_signal_handlers_unblock_by_func ( G_OBJECT ( gtk_text_view_get_buffer (GTK_TEXT_VIEW (text_box)) ),
-					GTK_SIGNAL_FUNC ( modification_du_texte_tiers),
-					NULL );
-
-
-/*     if ( tiers -> liaison ) */
-/* 	gtk_text_set_editable ( GTK_TEXT ( text_box ), */
-/* 				FALSE ); */
-/*     else */
-/* 	gtk_text_set_editable ( GTK_TEXT ( text_box ), */
-/* 				TRUE ); */
-
-
-    gtk_object_set_data ( GTK_OBJECT ( text_box ),
-			  "adr_struct_tiers",
-			  tiers );
-
-    return FALSE;
-}
-/* **************************************************************************************************** */
-
-
-
-gboolean verifie_double_click ( GtkWidget *liste, GdkEventButton *ev, gpointer null )
-{
-    if ( ev -> type == GDK_2BUTTON_PRESS )
-    {
-	expand_selected_tiers (NULL, NULL, NULL);
-    }
-
-    return FALSE;
-}
-
-
-gboolean keypress_tiers ( GtkWidget *widget, GdkEventKey *ev, gint *no_origine )
-{
-    GtkCTreeNode *node;
-
-    if ( ev->keyval == GDK_Return || 
-	 ev->keyval == GDK_KP_Enter )
-    { 
-	node = gtk_ctree_node_nth ( GTK_CTREE(arbre_tiers), 
-				    GTK_CLIST(arbre_tiers) -> focus_row );
-	gtk_ctree_select ( GTK_CTREE(arbre_tiers), node );
-	gtk_ctree_expand ( GTK_CTREE(arbre_tiers), node );
-
-	expand_selected_tiers (NULL, NULL, NULL);
-    }
-
-    return FALSE;
-}
-
-
-
-gboolean expand_selected_tiers ( GtkWidget *liste, GdkEventButton *ev, gpointer null )
-{
-    struct structure_operation *operation;
-
-    if ( !GTK_CLIST ( arbre_tiers ) -> selection
-	 ||
-	 GTK_CTREE_ROW ( ( GTK_CLIST ( arbre_tiers ) -> selection ) -> data ) -> level != 3 )
-	return FALSE;
-
-    /* passage sur le compte concerné */
-
-    operation = gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_tiers ),
-					      GTK_CTREE_NODE ( ( GTK_CLIST ( arbre_tiers ) -> selection ) -> data ) );
-
-    changement_compte ( GINT_TO_POINTER ( operation -> no_compte ));
-
-
-    /* récupération de la ligne de l'opé dans la liste ; affichage de toutes les opé si nécessaire */
-
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
-
-    if ( operation -> pointe == 3 && !AFFICHAGE_R )
-	change_aspect_liste ( 5 );
-
-    selectionne_ligne ( OPERATION_SELECTIONNEE );
-
-    return FALSE;
-}
-/* **************************************************************************************************** */
-
-
-/* **************************************************************************************************** */
-gboolean enleve_selection_ligne_tiers ( void )
-{
-    gtk_widget_set_sensitive ( bouton_supprimer_tiers,
-			       FALSE );
-    gtk_widget_set_sensitive ( bouton_modif_tiers_modifier,
-			       FALSE );
-    gtk_widget_set_sensitive ( bouton_modif_tiers_annuler,
-			       FALSE );
-    gtk_widget_set_sensitive ( entree_nom_tiers,
-			       FALSE );
-    gtk_widget_set_sensitive ( text_box,
-			       FALSE );
-
-
-    g_signal_handlers_block_by_func ( G_OBJECT ( gtk_text_view_get_buffer (GTK_TEXT_VIEW (text_box)) ),
-				      GTK_SIGNAL_FUNC ( modification_du_texte_tiers),
-				      NULL );
-    gtk_signal_handler_block_by_func ( GTK_OBJECT ( entree_nom_tiers ),
-				       GTK_SIGNAL_FUNC ( modification_du_texte_tiers),
-				       NULL );
-
-    gtk_editable_delete_text ( GTK_EDITABLE ( entree_nom_tiers ), 0, -1 );
-    gtk_text_buffer_set_text ( gtk_text_view_get_buffer (GTK_TEXT_VIEW (text_box)),
-			       "", -1 );
-
-    gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( entree_nom_tiers ),
-					 GTK_SIGNAL_FUNC ( modification_du_texte_tiers),
-					 NULL );
-    g_signal_handlers_unblock_by_func ( G_OBJECT ( gtk_text_view_get_buffer (GTK_TEXT_VIEW (text_box)) ),
-					GTK_SIGNAL_FUNC ( modification_du_texte_tiers),
-					NULL );
-
-    gtk_object_remove_data ( GTK_OBJECT (  text_box ),
-			     "adr_struct_tiers" );
-
-/*     gtk_editable_set_editable ( GTK_EDITABLE ( text_box ), */
-/* 				FALSE ); */
-
-    return FALSE;
-}
-/* **************************************************************************************************** */
-
-
-
-
-/* **************************************************************************************************** */
-void modification_du_texte_tiers ( GtkText *texte,
-				   gpointer null )
-{
-    gtk_widget_set_sensitive ( bouton_modif_tiers_modifier,
-			       TRUE );
-    gtk_widget_set_sensitive ( bouton_modif_tiers_annuler,
-			       TRUE );
-}
-/* **************************************************************************************************** */
-
-
-/* **************************************************************************************************** */
-void clique_sur_modifier_tiers ( GtkWidget *bouton_modifier,
-				 gpointer null )
-{
-    struct struct_tiers *tiers;
-    GtkCTreeNode *node;
-
-
-    tiers =  gtk_object_get_data ( GTK_OBJECT (  text_box ),
-				   "adr_struct_tiers" );
-
-    /* si c'est une modif du nom, on doit réafficher la liste des tiers et les listes des opés, sinon, on change juste le texte */
-
-    if ( strcmp ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree_nom_tiers ))),
-		  tiers -> nom_tiers ))
-    {
-	free ( tiers -> nom_tiers );
-
-	tiers -> nom_tiers = g_strdup ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree_nom_tiers ))) );
-
-
-	node = GTK_CTREE_NODE ( ( GTK_CLIST ( arbre_tiers ) -> selection ) -> data );
-
-	if ( GTK_CTREE_ROW ( node ) -> level != 1 )
-	{
-	    node = GTK_CTREE_ROW ( node ) -> parent;
-
-	    if ( GTK_CTREE_ROW ( node ) -> level == 2 )
-		node = GTK_CTREE_ROW ( node ) -> parent;
-	}
-
-
-	if ( GTK_CTREE_ROW ( node ) -> expanded )
-	    gtk_ctree_node_set_pixtext ( GTK_CTREE ( arbre_tiers ),
-					 node,
-					 0,
-					 tiers -> nom_tiers,
-					 16,
-					 masque_ferme,
-					 pixmap_ferme );
-	else
-	    gtk_ctree_node_set_pixtext ( GTK_CTREE ( arbre_tiers ),
-					 node,
-					 0,
-					 tiers -> nom_tiers,
-					 16,
-					 pixmap_ouvre,
-					 masque_ouvre );
-
-	demande_mise_a_jour_tous_comptes ();
-	remplissage_liste_echeance();
-	mise_a_jour_liste_echeances_manuelles_accueil = 1;
-	mise_a_jour_liste_echeances_auto_accueil = 1;
-	if ( mise_a_jour_combofix_tiers_necessaire )
-	    mise_a_jour_combofix_tiers ();
-
-    }
-    else
-    {
-        GtkTextIter start, end;
-	GtkTextBuffer *buffer;
-
-	free ( tiers -> texte );
-
-        buffer = gtk_text_view_get_buffer ( GTK_TEXT_VIEW ( text_box ) );
-	gtk_text_buffer_get_iter_at_offset ( buffer, &start, 0 );
-	gtk_text_buffer_get_iter_at_offset ( buffer, &end, -1 );
-	tiers -> texte = gtk_text_buffer_get_text ( buffer , &start, &end, TRUE );
-    }
-
-    gtk_widget_set_sensitive ( bouton_modif_tiers_modifier,
-			       FALSE );
-    gtk_widget_set_sensitive ( bouton_modif_tiers_annuler,
-			       FALSE );
-
-    modification_fichier(TRUE);
-}
-/* **************************************************************************************************** */
-
-
-/* **************************************************************************************************** */
-void clique_sur_annuler_tiers ( GtkWidget *bouton_annuler,
-				gpointer null )
-{
-    struct struct_tiers *tiers;
-
-
-    tiers =  gtk_object_get_data ( GTK_OBJECT (  text_box ),
-				   "adr_struct_tiers" );
-
-    gtk_text_buffer_set_text ( gtk_text_view_get_buffer (GTK_TEXT_VIEW (text_box)),
-			       (tiers->texte ? tiers->texte : ""), -1 );
-
-    gtk_entry_set_text ( GTK_ENTRY ( entree_nom_tiers ),
-			 tiers -> nom_tiers );
-
-/*     if ( tiers -> liaison ) */
-/* 	gtk_text_set_editable ( GTK_TEXT ( text_box ), */
-/* 				FALSE ); */
-/*     else */
-/* 	gtk_text_set_editable ( GTK_TEXT ( text_box ), */
-/* 				TRUE ); */
-
-    gtk_widget_set_sensitive ( bouton_modif_tiers_modifier,
-			       FALSE );
-    gtk_widget_set_sensitive ( bouton_modif_tiers_annuler,
-			       FALSE );
-
-}
-/* **************************************************************************************************** */
-
-
 
 
 
@@ -1149,7 +620,6 @@ void clique_sur_annuler_tiers ( GtkWidget *bouton_annuler,
 /* entrée : le nouveau tiers */
 /* retour : le no de tiers */
 /***********************************************************************************************************/
-
 struct struct_tiers *ajoute_nouveau_tiers ( gchar *tiers )
 {
     struct struct_tiers *nouveau_tiers;
@@ -1157,278 +627,21 @@ struct struct_tiers *ajoute_nouveau_tiers ( gchar *tiers )
     if ( !strlen ( g_strstrip ( tiers )))
 	return NULL;
 
-    nouveau_tiers = calloc ( 1,
-			     sizeof ( struct struct_tiers ));
+    nouveau_tiers = calloc ( 1, sizeof ( struct struct_tiers ));
 
     nouveau_tiers -> no_tiers = ++no_dernier_tiers;
     nouveau_tiers -> nom_tiers = g_strdup ( g_strstrip ( tiers ));
 
-    liste_struct_tiers = g_slist_append ( liste_struct_tiers,
-					  nouveau_tiers );
+    liste_struct_tiers = g_slist_append ( liste_struct_tiers, nouveau_tiers );
     nb_enregistrements_tiers++;
     mise_a_jour_combofix_tiers_necessaire = 1;
+    mise_a_jour_combofix_tiers ();
 
     return ( nouveau_tiers );
 }
-/***********************************************************************************************************/
 
 
 
-
-
-/* **************************************************************************************************** */
-void supprimer_tiers ( GtkWidget *bouton,
-		       gpointer null )
-{
-    struct struct_tiers *tiers;
-    GtkCTreeNode *node;
-    GSList *pointeur_ope;
-    gint i;
-    gint ope_trouvee;
-
-    node = GTK_CTREE_NODE ( ( GTK_CLIST ( arbre_tiers ) -> selection ) -> data );
-
-    tiers = gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_tiers ),
-					  node );
-
-    /* on fait le tour de tous les comptes pour vérifier s'il reste une opé à ce tiers */
-
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
-
-    ope_trouvee = 0;
-
-    for ( i = 0 ; i < nb_comptes ; i++ )
-    {
-	pointeur_ope = LISTE_OPERATIONS;
-
-	while ( pointeur_ope )
-	{
-	    struct structure_operation *operation;
-
-	    operation = pointeur_ope -> data;
-
-	    if ( operation -> tiers == tiers -> no_tiers )
-	    {
-		/* une opération associée à ce tiers a été trouvée  = > on sort de la recherche */
-
-		pointeur_ope = NULL;
-		i = nb_comptes;
-		ope_trouvee = 1;
-	    }
-	    else
-		pointeur_ope = pointeur_ope -> next;
-	}
-	p_tab_nom_de_compte_variable++;
-    }
-
-    /* fait le tour des échéances pour vérifier s'il reste une opé à ce tiers */
-
-    if ( !ope_trouvee )
-    {
-	pointeur_ope = liste_struct_echeances;
-
-	while ( pointeur_ope )
-	{
-	    struct operation_echeance *echeance;
-
-	    echeance = pointeur_ope -> data;
-
-	    if ( echeance -> tiers == tiers -> no_tiers )
-	    {
-		pointeur_ope = NULL;
-		ope_trouvee = 1;
-	    }
-	    else
-		pointeur_ope = pointeur_ope -> next;
-	}
-    }
-
-
-
-    if ( ope_trouvee )
-    {
-	GtkWidget *dialog, *hbox, *bouton_tiers_generique, *combofix, *bouton_transfert;
-	GSList *liste_combofix, *pointeur;
-	gint i, resultat, nouveau_no;
-	struct struct_tiers *nouveau_tiers;
-
-	dialog = dialogue_special_no_run ( GTK_MESSAGE_WARNING, GTK_BUTTONS_OK_CANCEL,
-					   make_hint ( g_strdup_printf (_("Third party '%s' still contains transactions."), tiers -> nom_tiers ),
-						       _("If you want to remove this third party but want to keep transactions, you can transfer them to another third party.  Otherwise, transactions can be simply deleted along with this third party.") ));
-
-	/*       mise en place du choix tranfert vers un autre tiers */
-
-	hbox = gtk_hbox_new ( FALSE,
-			      5 );
-	gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox ),
-			     hbox,
-			     FALSE,
-			     FALSE,
-			     0 );
-
-	bouton_transfert = gtk_radio_button_new_with_label ( NULL,
-							     POSTSPACIFY(_("Transfer the transactions to"))  );
-	gtk_box_pack_start ( GTK_BOX ( hbox ),
-			     bouton_transfert,
-			     FALSE,
-			     FALSE,
-			     0 );
-
-	pointeur = liste_struct_tiers;
-	liste_combofix = NULL;
-
-	while ( pointeur )
-	{
-	    if ( ((struct struct_tiers * )( pointeur -> data )) -> no_tiers != tiers -> no_tiers )
-		liste_combofix = g_slist_append ( liste_combofix,
-						  ((struct struct_tiers * )( pointeur -> data )) -> nom_tiers );
-	    pointeur = pointeur -> next;
-	}
-
-	combofix = gtk_combofix_new ( liste_combofix,
-				      FALSE,
-				      TRUE,
-				      TRUE,
-				      0 );
-
-	gtk_box_pack_start ( GTK_BOX ( hbox ),
-			     combofix,
-			     FALSE,
-			     FALSE,
-			     0 );
-
-
-
-	/*       mise en place du choix supprimer le tiers */
-
-	hbox = gtk_hbox_new ( FALSE,
-			      5 );
-	gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox ),
-			     hbox,
-			     FALSE,
-			     FALSE,
-			     0 );
-
-	bouton_tiers_generique = gtk_radio_button_new_with_label ( gtk_radio_button_group ( GTK_RADIO_BUTTON ( bouton_transfert )),
-								   PRESPACIFY(_("Just delete this third party.")) );
-	gtk_box_pack_start ( GTK_BOX ( hbox ),
-			     bouton_tiers_generique,
-			     FALSE,
-			     FALSE,
-			     0 );
-
-	gtk_widget_show_all ( dialog );
-
-
-retour_dialogue:
-	resultat = gtk_dialog_run ( GTK_DIALOG ( dialog ) );
-
-	if ( resultat != GTK_RESPONSE_OK )
-	  {
-	    gtk_widget_destroy ( GTK_WIDGET ( dialog ) );
-	    return;
-	  }
-
-	if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_transfert )) )
-	{
-
-	    if ( !strlen (gtk_combofix_get_text ( GTK_COMBOFIX ( combofix ))))
-	    {
-		dialogue_warning_hint ( _("It is compulsory to specify a destination third party to move transactions but no third party was entered."),
-					_("Please enter a third party!"));
-		goto retour_dialogue;
-	    }
-
-	    /* recherche du nouveau numéro de tiers */
-
-	    nouveau_tiers = tiers_par_nom ( gtk_combofix_get_text ( GTK_COMBOFIX ( combofix )),
-					    0 );
-
- 	    if ( !nouveau_tiers )
- 	    {
- 		dialogue_error_hint ( _("Grisbi is unable to find this third party.  Be sure entered name is valid and that this third party exists."),
- 				      g_strdup_printf ( _("Third party %s not found."),
- 							gtk_combofix_get_text ( GTK_COMBOFIX ( combofix ) ) ) );
- 		goto retour_dialogue;
- 	    }
-	    
-	    nouveau_no = nouveau_tiers -> no_tiers;
-	}
-	else
-	    nouveau_no = 0;
-
-
-	/* on fait le tour des opés pour mettre le nouveau numéro de tiers */
-
-
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
-
-	for ( i = 0 ; i < nb_comptes ; i++ )
-	{
-	    pointeur_ope = LISTE_OPERATIONS;
-
-	    while ( pointeur_ope )
-	    {
-		struct structure_operation *operation;
-
-		operation = pointeur_ope -> data;
-
-		if ( operation -> tiers == tiers -> no_tiers )
-		    operation -> tiers = nouveau_no;
-
-		pointeur_ope = pointeur_ope -> next;
-	    }
-	    p_tab_nom_de_compte_variable++;
-	}
-
-
-	/* fait le tour des échéances pour mettre le nouveau numéro de tiers */
-
-	pointeur_ope = liste_struct_echeances;
-
-	while ( pointeur_ope )
-	{
-	    struct operation_echeance *echeance;
-
-	    echeance = pointeur_ope -> data;
-
-	    if ( echeance -> tiers == tiers -> no_tiers )
-		echeance -> tiers = nouveau_no;
-
-	    pointeur_ope = pointeur_ope -> next;
-	}
-
-
-	demande_mise_a_jour_tous_comptes ();
-	remplissage_liste_echeance();
-
-	gtk_widget_destroy ( GTK_WIDGET ( dialog ) );
-
-    }
-
-
-    /* supprime dans la liste des tiers  */
-
-    liste_struct_tiers = g_slist_remove ( liste_struct_tiers,
-					  tiers );
-    nb_enregistrements_tiers--;
-
-
-    if ( mise_a_jour_combofix_tiers_necessaire )
-	mise_a_jour_combofix_tiers ();
-    remplit_arbre_tiers ();
-
-/*     gtk_text_set_editable ( GTK_TEXT ( text_box ), */
-/* 			    FALSE ); */
-
-    modification_fichier(TRUE);
-}
-/* **************************************************************************************************** */
-
-
-
-
-/* **************************************************************************************************** */
 void creation_liste_tiers_combofix ( void )
 {
     GSList *pointeur;
@@ -1493,47 +706,91 @@ void creation_liste_tiers_combofix ( void )
     liste_tiers_combofix = g_slist_append ( liste_tiers_combofix,
 					    liste_tmp );
 }
-/* **************************************************************************************************** */
 
 
 
-
-
-/* ***************************************************************************************************** */
-/* Fonction changement_taille_liste_tiers */
-/* appelée dès que la taille de la clist a changé ( fait aussi les catég et l'ib ) */
-/* pour mettre la taille des différentes colonnes */
-/* ***************************************************************************************************** */
-
-gboolean changement_taille_liste_tiers ( GtkWidget *clist,
-					 GtkAllocation *allocation,
-					 gpointer null )
+/**
+ *
+ *
+ */
+gboolean edit_payee ( GtkWidget * button, GtkTreeView * view )
 {
-    gint tiers, date;
-    gint largeur;
+    GtkWidget * dialog, *paddingbox, *table, *label, *entry, *hbox, *scrolled_window;
+    GtkTreeSelection * selection;
+    GtkTreeModel * model;
+    GtkTreeIter iter;
+    gint no_division = -1;
+    struct struct_tiers * payee = NULL;
+    gchar * title;
 
-    largeur = allocation->width;
+    selection = gtk_tree_view_get_selection ( view );
+    if ( selection && gtk_tree_selection_get_selected(selection, &model, &iter))
+    {
+	gtk_tree_model_get ( model, &iter, 
+			     META_TREE_POINTER_COLUMN, &payee,
+			     META_TREE_NO_DIV_COLUMN, &no_division,
+			     -1 );
+    }
 
-    tiers = ( 43 * largeur) / 100;
-    date = ( 17 * largeur) / 100;
+    if ( !selection || no_division <= 0 )
+	return FALSE;
 
+    title = g_strdup_printf ( _("Properties for %s"), payee -> nom_tiers);
+    dialog = gtk_dialog_new_with_buttons ( title, GTK_WINDOW (window), GTK_DIALOG_MODAL,
+					   GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE, NULL);
 
-    gtk_clist_set_column_width ( GTK_CLIST ( clist ),
-				 0,
-				 tiers );
-    gtk_clist_set_column_width ( GTK_CLIST ( clist ),
-				 1,
-				 date );
-    gtk_clist_set_column_width ( GTK_CLIST ( clist ),
-				 2,
-				 date );
-    gtk_clist_set_column_width ( GTK_CLIST ( clist ),
-				 3,
-				 date );
+    /* Ugly dance to avoid side effects on dialog's vbox. */
+    hbox = gtk_hbox_new ( FALSE, 0 );
+    gtk_box_pack_start ( GTK_BOX(GTK_DIALOG(dialog)->vbox), hbox, FALSE, FALSE, 0 );
+    paddingbox = new_paddingbox_with_title ( hbox, TRUE, title );
+    gtk_container_set_border_width ( GTK_CONTAINER(hbox), 6 );
+    gtk_container_set_border_width ( GTK_CONTAINER(paddingbox), 6 );
 
-    return FALSE;
+    table = gtk_table_new ( 0, 2, FALSE );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), table, FALSE, FALSE, 6 );
+    gtk_table_set_col_spacings ( GTK_TABLE(table), 6 );
+    gtk_table_set_row_spacings ( GTK_TABLE(table), 6 );
+
+    /* Name entry */
+    label = gtk_label_new ( _("Name"));
+    gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.5 );
+    gtk_table_attach ( GTK_TABLE(table), label, 0, 1, 0, 1,
+		       GTK_SHRINK | GTK_FILL, GTK_SHRINK | GTK_FILL, 0, 0 );
+
+    entry = new_text_entry ( &(payee -> nom_tiers), NULL );
+    gtk_widget_set_usize ( entry, 400, 0 );
+    gtk_table_attach ( GTK_TABLE(table), entry, 1, 2, 0, 1, GTK_EXPAND|GTK_FILL, 0, 0, 0 );
+
+    /* Description entry */
+    label = gtk_label_new ( _("Description"));
+    gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.5 );
+    gtk_table_attach ( GTK_TABLE(table), label, 0, 1, 1, 2,
+		       GTK_SHRINK | GTK_FILL, GTK_SHRINK | GTK_FILL, 0, 0 );
+
+    entry = new_text_area ( &(payee -> texte), NULL );
+    scrolled_window = gtk_scrolled_window_new ( NULL, NULL );
+    gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window ),
+				     GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC );
+    gtk_scrolled_window_set_shadow_type ( GTK_SCROLLED_WINDOW(scrolled_window), 
+					  GTK_SHADOW_IN );
+    gtk_container_add ( GTK_CONTAINER ( scrolled_window ), entry );
+    gtk_table_attach ( GTK_TABLE(table), scrolled_window, 
+		       1, 2, 1, 2, GTK_EXPAND|GTK_FILL, 0, 0, 0 );
+
+    gtk_widget_show_all ( dialog );
+    free ( title );
+
+    gtk_dialog_run ( GTK_DIALOG(dialog) );
+    gtk_widget_destroy ( dialog );
+
+    mise_a_jour_combofix_tiers ();
+
+    fill_division_row ( model, payee_interface,
+			get_iter_from_div ( model, payee -> no_tiers, -1 ), payee );
+
+    return TRUE;
 }
-/* ***************************************************************************************************** */
+
 
 
 
@@ -1541,7 +798,6 @@ gboolean changement_taille_liste_tiers ( GtkWidget *clist,
 /* Fonction mise_a_jour_combofix_tiers */
 /* recrée la liste des combofix et l'applique à tous les combofix du tiers */
 /* ***************************************************************************************************** */
-
 void mise_a_jour_combofix_tiers ( void )
 {
     if ( DEBUG )
@@ -1573,192 +829,6 @@ void mise_a_jour_combofix_tiers ( void )
     mise_a_jour_combofix_tiers_necessaire = 0;
     modif_tiers = 1;
 }
-/* ***************************************************************************************************** */
-
-
-/* **************************************************************************************************** */
-/* crée un tableau de gint aussi gd que le nb de tiers */
-/* et le renvoie */
-/* **************************************************************************************************** */
-
-gfloat *calcule_total_montant_tiers ( void )
-{
-    gint i;
-    gfloat *tab_retour;
-
-    /* on crée le tableau de retour */
-
-    tab_retour = calloc ( nb_enregistrements_tiers,
-			  sizeof ( gfloat ));
-    date_dernier_tiers = calloc ( nb_enregistrements_tiers,
-				  sizeof ( gpointer ));
-    nb_ecritures_par_tiers = calloc ( nb_enregistrements_tiers,
-				      sizeof ( gint ));
-
-    for ( i=0 ; i<nb_comptes ; i++ )
-    {
-	GSList *liste_tmp;
-
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
-
-	liste_tmp = LISTE_OPERATIONS;
-
-	while ( liste_tmp )
-	{
-	    struct structure_operation *operation;
-	    gdouble montant;
-	    gint place_tiers;
-
-	    operation = liste_tmp -> data;
-
-	    if ( operation -> tiers &&
-		 !operation -> no_operation_ventilee_associee )
-	    {
-		/* recherche la place du tiers dans la liste */
-
-		place_tiers = g_slist_index ( liste_struct_tiers,
-					      tiers_par_no ( operation -> tiers ));
-
-		montant = calcule_montant_devise_renvoi ( operation -> montant,
-							  no_devise_totaux_tiers,
-							  operation -> devise,
-							  operation -> une_devise_compte_egale_x_devise_ope,
-							  operation -> taux_change,
-							  operation -> frais_change );
-
-		tab_retour[place_tiers] = tab_retour[place_tiers] + montant;
-
-		if ( !date_dernier_tiers[place_tiers]
-		     ||
-		     g_date_compare ( operation->date,
-				      date_dernier_tiers[place_tiers] ) > 0 )
-		    date_dernier_tiers[place_tiers] = operation -> date;
-
-		nb_ecritures_par_tiers[place_tiers]++;
-	    }
-	    liste_tmp = liste_tmp -> next;
-	}
-    }
-
-    return ( tab_retour );
-}
-/* **************************************************************************************************** */
-
-
-
-
-
-
-/* **************************************************************************************************** */
-gchar *calcule_total_montant_tiers_par_compte ( gint no_tiers, gint no_compte )
-{
-    gdouble retour_int;
-    GSList *liste_tmp;
-
-    retour_int = 0;
-    nb_ecritures_par_comptes = 0;
-
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_compte;
-
-    liste_tmp = LISTE_OPERATIONS;
-
-    while ( liste_tmp )
-    {
-	struct structure_operation *operation;
-
-	operation = liste_tmp -> data;
-
-	if ( operation -> tiers == no_tiers &&
-	     !operation -> no_operation_ventilee_associee)
-	{
-	    gdouble montant;
-
-	    montant = calcule_montant_devise_renvoi ( operation -> montant,
-						      no_devise_totaux_tiers,
-						      operation -> devise,
-						      operation -> une_devise_compte_egale_x_devise_ope,
-						      operation -> taux_change,
-						      operation -> frais_change );
-
-	    retour_int = retour_int + montant;
-	    nb_ecritures_par_comptes++;
-	}
-	liste_tmp = liste_tmp -> next;
-    }
-
-    if ( nb_ecritures_par_comptes )
-	return ( g_strdup_printf ( _("%4.2f %s"),
-				   retour_int,
-				   devise_code_by_no ( no_devise_totaux_tiers ) ));
-    else
-	return ( NULL );
-}
-/* **************************************************************************************************** */
-
-
-/* **************************************************************************************************** */
-void appui_sur_ajout_tiers ( void )
-{
-    gchar *nom_tiers;
-    struct struct_tiers *nouveau_tiers;
-    gchar *text[4];
-    GtkCTreeNode *ligne;
-
-    nom_tiers = demande_texte ( _("New third party"),
-				COLON(_("Enter the new third party's name")));
-
-    if ( !nom_tiers || !strcmp(nom_tiers, ""))
-	return;
-
-    /* On vérifie si l'opération existe. */
-    if ( tiers_par_nom ( nom_tiers, 0 ) )
-    {
-	dialogue_warning_hint ( _("Third party must be both unique and not empty.  Please use another name for this third party."),
-				g_strdup_printf ( _("Third party '%s' already exists."),
-						  nom_tiers ) );
-	return;
-    }
-
-    /* on l'ajoute à la liste des opés */
-
-    nouveau_tiers = ajoute_nouveau_tiers ( nom_tiers );
-
-
-    /* on l'ajoute directement au ctree et on fait le tri pour éviter de toute la réafficher */
-
-    text[0] = nouveau_tiers -> nom_tiers;
-    text[1] = NULL;
-    text[2] = NULL;
-    text[3] = NULL;
-
-    ligne = gtk_ctree_insert_node ( GTK_CTREE ( arbre_tiers ),
-				    NULL,
-				    NULL,
-				    text,
-				    16,
-				    pixmap_ferme,
-				    masque_ferme,
-				    pixmap_ouvre,
-				    masque_ouvre,
-				    FALSE,
-				    FALSE );
-
-    /* on associe à ce tiers à l'adr de sa struct */
-
-    gtk_ctree_node_set_row_data ( GTK_CTREE ( arbre_tiers ),
-				  ligne,
-				  nouveau_tiers );
-
-    gtk_ctree_sort_recursive ( GTK_CTREE ( arbre_tiers ),
-			       NULL );
-
-     if ( mise_a_jour_combofix_tiers_necessaire )
-	 mise_a_jour_combofix_tiers();
-    modif_tiers = 0;
-    modification_fichier(TRUE);
-}
-/* **************************************************************************************************** */
-
 
 
 /* Local Variables: */
