@@ -783,7 +783,7 @@ struct struct_ope_importation
 
     gdouble montant;
 
-    gint p_r;
+    enum operation_etat_rapprochement p_r;
 
     gint type_de_transaction;
 
