@@ -8596,7 +8596,7 @@ void fichier_marque_ouvert ( gint ouvert )
 	 *
 	 * -- francois@terrot.net
 	 */
-	position = ftell(pointeur_fichier_comptes);
+	long position = ftell(pointeur_fichier_comptes);
 	if ( position != -1 )
 	{
 	    fseek ( pointeur_fichier_comptes, position, SEEK_SET );
