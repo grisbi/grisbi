@@ -562,7 +562,8 @@ void demande_taux_de_change ( struct struct_devise *devise_compte,
 			      struct struct_devise *devise,
 			      gint une_devise_compte_egale_x_devise_ope,
 			      gdouble taux_change,
-			      gdouble frais_change );
+			      gdouble frais_change,
+			      gboolean force );
 gboolean devise_selectionnee ( GtkWidget *menu_shell,
 			       gint origine );
 GtkWidget *onglet_devises ( void );
@@ -591,6 +592,11 @@ gdouble calcule_montant_devise_renvoi ( gdouble montant_init,
 					gdouble frais_change );
 gchar * devise_name (struct struct_devise * devise );
 void create_change_menus (struct struct_devise *devise);
+void update_exchange_rate_cache ( struct struct_devise * currency1, 
+				  struct struct_devise * currency2,
+				  gdouble change, gdouble fees );
+struct cached_exchange_rate * cached_exchange_rate ( struct struct_devise * currency1, 
+						     struct struct_devise * currency2 );
 
 
 /***********************************/ 
@@ -932,7 +938,7 @@ GtkWidget *creation_onglet_etats ( void );
 GtkWidget *creation_liste_etats ( void );
 GtkWidget *creation_barre_boutons_etats ( void );
 void remplissage_liste_etats ( void );
-void ajout_etat ( void );
+gboolean ajout_etat ( void );
 void change_choix_nouvel_etat ( GtkWidget *menu_item,
 				GtkWidget *label_description );
 void efface_etat ( void );
