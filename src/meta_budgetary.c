@@ -33,6 +33,7 @@
 
 
 /*START_STATIC*/
+gpointer budgetary_line_get_without_div_pointer ();
 gpointer budgetary_line_get_div_pointer (int);
 gpointer budgetary_line_get_sub_div_pointer (int, int);
 gpointer budgetary_line_get_div_pointer_from_name (gchar *,gboolean);
@@ -70,12 +71,14 @@ void budgetary_line_scheduled_set_sub_div_id (struct operation_echeance *, int);
 extern gint mise_a_jour_combofix_imputation_necessaire;
 extern GSList * liste_struct_imputation;
 extern gint nb_enregistrements_imputations;
+extern struct struct_imputation * without_budgetary_line;
 /*START_EXTERN*/
 
 
 static MetatreeInterface _budgetary_interface = {
     N_("No budgetary line"),
     N_("No sub-budgetary line"),
+    budgetary_line_get_without_div_pointer,
     budgetary_line_get_div_pointer,
     budgetary_line_get_sub_div_pointer,
     budgetary_line_get_div_pointer_from_name,
@@ -112,6 +115,17 @@ static MetatreeInterface _budgetary_interface = {
 };
 
 MetatreeInterface * budgetary_interface = &_budgetary_interface;
+
+
+
+/**
+ *
+ *
+ */
+gpointer budgetary_line_get_without_div_pointer ( )
+{
+    return (gpointer) without_budgetary_line;
+}
 
 
 
@@ -426,12 +440,12 @@ gint budgetary_line_add_div ()
     int i = 1;
 
     /** Find a unique name for budgetary_line */
-    name =  _("New budgetary_line");
+    name =  g_strdup ( _("New budgetary line") );
 
     while ( imputation_par_nom ( name, 0, 0, 0 ) )
     {
 	i++;
-	name = g_strdup_printf ( _("New budgetary_line #%d"), i ); 
+	name = g_strdup_printf ( _("New budgetary line #%d"), i ); 
     }
 
     new_budgetary_line = imputation_par_nom ( name, 1, 0, 0 );
@@ -457,12 +471,12 @@ gint budgetary_line_add_sub_div ( int div_id )
     parent_budgetary_line = budgetary_line_get_div_pointer ( div_id );
 
     /** Find a unique name for budgetary_line */
-    name =  _("New sub-budgetary_line");
+    name =  g_strdup ( _("New sub-budgetary line") );
 
     while ( sous_imputation_par_nom ( parent_budgetary_line, name, 0 ) )
     {
 	i++;
-	name = g_strdup_printf ( _("New sub-budgetary_line #%d"), i ); 
+	name = g_strdup_printf ( _("New sub-budgetary line #%d"), i ); 
     }
 
     new_sub_budgetary_line = sous_imputation_par_nom ( parent_budgetary_line, name, 1 );
