@@ -2107,11 +2107,18 @@ void r_press (void)
 	modification_fichier( TRUE );
       }
 
+  /*   à ce niveau, on reteste OPERATION_SELECTIONNEE car comme on a peut être déplacé */
+  /*     la sélection vers le bas, elle peut être revenue à -1 */
+
+  p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
+
+  if ( OPERATION_SELECTIONNEE == GINT_TO_POINTER ( -1 ) )
+    return;
+
   /* si c'est une ventil */
   /* fait le tour des opés du compte pour rechercher les opés de ventil associées à */
   /* cette ventil */
 
-  p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
 
   if ( OPERATION_SELECTIONNEE -> operation_ventilee )
     {
