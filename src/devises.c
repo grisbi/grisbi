@@ -2069,12 +2069,12 @@ gdouble calcule_montant_devise_renvoi ( gdouble montant_init,
 
     /* on a maintenant les 2 devises, on peut faire les calculs */
 
-    if ( devise_compte -> passage_euro
+    if ( devise_compte && devise_compte -> passage_euro
 	 &&
 	 !strcmp ( devise_operation -> nom_devise, _("Euro") ) )
 	montant = montant_init * devise_compte -> change;
     else
-	if ( devise_operation -> passage_euro
+	if ( devise_operation && devise_operation -> passage_euro
 	     &&
 	     !strcmp ( devise_compte -> nom_devise, _("Euro") ))
 	    montant = montant_init / devise_operation -> change;
@@ -2088,7 +2088,8 @@ gdouble calcule_montant_devise_renvoi ( gdouble montant_init,
 	    }
 	    else
 	    {
-		if ( devise_operation -> no_devise_en_rapport == no_devise_renvoi &&
+		if ( devise_operation &&
+		     devise_operation -> no_devise_en_rapport == no_devise_renvoi &&
 		     devise_operation -> change )
 		{
 		    if ( devise_operation -> une_devise_1_egale_x_devise_2 )
