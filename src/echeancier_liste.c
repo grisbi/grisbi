@@ -1432,6 +1432,33 @@ void supprime_echeance ( struct operation_echeance *echeance )
 	    break;
 
 	case 1:
+	    /* 	    si c'est une ventil, on supprime les opés filles */
+
+	    if ( echeance -> operation_ventilee )
+	    {
+		GSList *liste_tmp;
+
+		liste_tmp = gsliste_echeances;
+
+		while ( liste_tmp )
+		{
+		    struct operation_echeance *echeance_tmp;
+
+		    echeance_tmp = liste_tmp -> data;
+		    
+		    if ( echeance_tmp -> no_operation_ventilee_associee == echeance -> no_operation )
+		    {
+			liste_tmp = liste_tmp -> next;
+			gsliste_echeances = g_slist_remove ( gsliste_echeances, 
+							     echeance_tmp );
+		    }
+		    else
+			liste_tmp = liste_tmp -> next;
+		}
+	    }
+
+	    /* 	    on vire l'échéance elle même */
+
 	    gsliste_echeances = g_slist_remove ( gsliste_echeances, 
 						 echeance );
 	    free ( echeance );

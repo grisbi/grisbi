@@ -952,12 +952,8 @@ void traitement_operations_importees ( void )
 
 	/* on met à jour l'option menu du formulaire des échéances */
 
-	gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_ACCOUNT] ),
-				   creation_option_menu_comptes_nonclos ( NULL,
-									  FALSE ) );
-
-
 	update_liste_comptes_accueil ();
+	update_options_menus_comptes ();
 	mise_a_jour_soldes_minimaux ();
 
 	affiche_titre_fenetre ();
