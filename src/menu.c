@@ -191,12 +191,12 @@ GtkWidget *init_menus ( GtkWidget *vbox )
     block_menu_cb = TRUE;
     widget = gtk_item_factory_get_item ( item_factory_menu_general,
 					 menu_name(_("View"), _("Show transaction form"), NULL) );
-    gtk_check_menu_item_set_active( GTK_MENU_ITEM(widget),
+    gtk_check_menu_item_set_active( GTK_CHECK_MENU_ITEM(widget),
 				    etat.formulaire_toujours_affiche );
 
     widget = gtk_item_factory_get_item ( item_factory_menu_general,
 					 menu_name(_("View"), _("Show grid"), NULL) );
-    gtk_check_menu_item_set_active( GTK_MENU_ITEM(widget), etat.affichage_grille );
+    gtk_check_menu_item_set_active( GTK_CHECK_MENU_ITEM(widget), etat.affichage_grille );
     block_menu_cb = FALSE;
 
     gtk_window_add_accel_group(GTK_WINDOW(window), accel );
@@ -367,36 +367,9 @@ void view_menu_cb ( gpointer callback_data, guint callback_action, GtkWidget *wi
       affiche_cache_le_formulaire();
       break;
     case HIDE_SHOW_GRID:
-      g_signal_handlers_block_by_func ( G_OBJECT ( bouton_affiche_r ),
-					G_CALLBACK ( change_aspect_liste ),
-					GINT_TO_POINTER (0));
-      g_signal_handlers_block_by_func ( G_OBJECT ( bouton_enleve_r ),
-					G_CALLBACK ( change_aspect_liste ),
-					GINT_TO_POINTER (0));
-      gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON (bouton_grille), !etat.affichage_grille );
       change_aspect_liste (0);
-      g_signal_handlers_unblock_by_func ( G_OBJECT ( bouton_affiche_r ),
-					  G_CALLBACK ( change_aspect_liste ),
-					  GINT_TO_POINTER (0));
-      g_signal_handlers_unblock_by_func ( G_OBJECT ( bouton_enleve_r ),
-					  G_CALLBACK ( change_aspect_liste ),
-					  GINT_TO_POINTER (0));
       break;
     case HIDE_SHOW_RECONCILED_TRANSACTIONS:
-      g_signal_handlers_block_by_func ( G_OBJECT ( bouton_affiche_r ),
-					G_CALLBACK ( change_aspect_liste ),
-					GINT_TO_POINTER (5));
-      g_signal_handlers_block_by_func ( G_OBJECT ( bouton_enleve_r ),
-					G_CALLBACK ( change_aspect_liste ),
-					GINT_TO_POINTER (6));
-      gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON (bouton_affiche_r), !AFFICHAGE_R );
-      gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON (bouton_enleve_r), AFFICHAGE_R );
-      g_signal_handlers_unblock_by_func ( G_OBJECT ( bouton_affiche_r ),
-					  G_CALLBACK ( change_aspect_liste ),
-					  GINT_TO_POINTER (5));
-      g_signal_handlers_unblock_by_func ( G_OBJECT ( bouton_enleve_r ),
-					  G_CALLBACK ( change_aspect_liste ),
-					  GINT_TO_POINTER (6));
       if ( AFFICHAGE_R )
 	change_aspect_liste(6);
       else
@@ -416,4 +389,6 @@ void view_menu_cb ( gpointer callback_data, guint callback_action, GtkWidget *wi
       change_aspect_liste (4);
       break;
     }
+
+  mise_a_jour_boutons_caract_liste (compte_courant);
 }
