@@ -117,7 +117,7 @@ cflags_set = @cflags_set@
 cxxflags_set = @cxxflags_set@
 prefix = @prefix@
 
-SUBDIRS = macros src po intl #help
+SUBDIRS = macros src po intl help
 
 EXTRA_DIST = 
 

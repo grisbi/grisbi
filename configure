@@ -7813,7 +7813,7 @@ LDFLAGS="$LDFLAGS $GNOMELIBS_LIBS"
 
 
 
-                                                  ac_config_files="$ac_config_files Makefile po/Makefile.in intl/Makefile src/Makefile macros/Makefile"
+                                                                                ac_config_files="$ac_config_files Makefile po/Makefile.in intl/Makefile src/Makefile macros/Makefile help/Makefile help/C/Makefile help/fr/Makefile"
 cat >confcache <<\_ACEOF
 # This file is a shell script that caches the results of configure
 # tests run on this system so they can be shared between configure
@@ -8354,6 +8354,9 @@ do
   "intl/Makefile" ) CONFIG_FILES="$CONFIG_FILES intl/Makefile" ;;
   "src/Makefile" ) CONFIG_FILES="$CONFIG_FILES src/Makefile" ;;
   "macros/Makefile" ) CONFIG_FILES="$CONFIG_FILES macros/Makefile" ;;
+  "help/Makefile" ) CONFIG_FILES="$CONFIG_FILES help/Makefile" ;;
+  "help/C/Makefile" ) CONFIG_FILES="$CONFIG_FILES help/C/Makefile" ;;
+  "help/fr/Makefile" ) CONFIG_FILES="$CONFIG_FILES help/fr/Makefile" ;;
   "default-1" ) CONFIG_COMMANDS="$CONFIG_COMMANDS default-1" ;;
   "default-2" ) CONFIG_COMMANDS="$CONFIG_COMMANDS default-2" ;;
   "config.h" ) CONFIG_HEADERS="$CONFIG_HEADERS config.h" ;;

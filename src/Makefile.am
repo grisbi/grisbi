@@ -1,7 +1,7 @@
 # Process this file with automake to produce Makefile.in
 
 localedir = $(datadir)/locale
-INCLUDES = -I$(top_srcdir) -I$(includedir) $(GNOME_INCLUDEDIR) $(EXTRA_GNOME_CFLAGS) -I../intl -DLOCALEDIR=\"$(localedir)\" -DCHEMIN_LOGO="$(datadir)/pixmaps/logo_grisbi.xpm" -DAPPLET_BIN_DIR="$(bindir)/grisbi_applet"
+INCLUDES = -I$(top_srcdir) -I$(includedir) $(GNOME_INCLUDEDIR) $(EXTRA_GNOME_CFLAGS) -I../intl -DLOCALEDIR=\"$(localedir)\" -DCHEMIN_LOGO="\"$(datadir)/pixmaps/logo_grisbi.xpm\"" -DAPPLET_BIN_DIR="\"$(bindir)/grisbi_applet\""
 
 bin_PROGRAMS = grisbi
 

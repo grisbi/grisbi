@@ -53,4 +53,7 @@ po/Makefile.in
 intl/Makefile
 src/Makefile
 macros/Makefile
+help/Makefile
+help/C/Makefile
+help/fr/Makefile
 ])
