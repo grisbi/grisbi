@@ -2520,7 +2520,7 @@ void valider_ventilation ( void )
 	  gint resultat;
 
 	  if ( ! question_yes_no_hint ( _("Incomplete breakdown"),
-					_("The transaction amount isn't fully broken down.\nProceed anyway?") ))
+					_("Transaction amount isn't fully broken down.\nProceed anyway?") ))
 	    return;
 	}
 
@@ -2570,10 +2570,10 @@ void quitter_ventilation ( void )
      qui modifient la position dans la liste des opérations */
 
   gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( frame_droite_bas ),
-				       GTK_SIGNAL_FUNCTION(allocation_taille_formulaire),
+				       GTK_SIGNAL_FUNC(allocation_taille_formulaire),
 				       NULL );
   gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( frame_droite_bas ),
-				       GTK_SIGNAL_FUNCTION(efface_formulaire),
+				       GTK_SIGNAL_FUNC(efface_formulaire),
 				       NULL );
 
   gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_formulaire ), 0 );
