@@ -169,7 +169,7 @@ static struct iso_4217_currency iso_4217_currencies[] = {
   { "PGK", N_("Pacific Ocean"), N_("Papua New Guinea Kina"), N_("Papua New Guinea"), "PGK", NULL, TRUE },
   { "WST", N_("Pacific Ocean"), N_("Samoa Tala"), N_("Samoa"), "WST", NULL, TRUE },
   { "SBD", N_("Pacific Ocean"), N_("Solomon Islands Dollar"), N_("Solomon Islands"), "SBD", NULL, TRUE },
-  { "TPE", N_("Pacific Ocean"), N_("Timor Escudo"), N_(""), "TPE", NULL, TRUE },
+  { "TPE", N_("Pacific Ocean"), N_("Timor Escudo"), N_("Timor"), "TPE", NULL, TRUE },
   { "TOP", N_("Pacific Ocean"), N_("Tongan Pa'anga"), N_("Tonga"), "TOP", NULL, TRUE },
   { "USD", N_("Pacific Ocean"), N_("United States Dollar"), N_("Panama"), "USD", "$", TRUE },
   { "VUV", N_("Pacific Ocean"), N_("Vanuatu Vatu"), N_("Vanuatu"), "VUV", NULL, TRUE },
@@ -269,7 +269,7 @@ void creation_devises_de_base ( void )
 
   devise -> no_devise = 1;
   devise -> nom_devise= g_strdup ( _("Euro") );
-  devise -> code_iso4217_devise = g_strdup ( _("EUR") );
+  devise -> code_iso4217_devise = "EUR";
   devise -> code_devise = g_strdup ( _("€") );
   devise -> passage_euro = 0;
   devise -> date_dernier_change = NULL;
@@ -407,23 +407,24 @@ new_currency_list ()
     {
       gtk_tree_store_append (model, &iter, NULL);
       gtk_tree_store_set (model, &iter,
-			  COUNTRY_NAME_COLUMN, *continent,
+			  COUNTRY_NAME_COLUMN, _(*continent),
 			  CURRENCY_NAME_COLUMN, FALSE,
 			  CURRENCY_ISO_CODE_COLUMN, FALSE,
 			  CURRENCY_NICKNAME_COLUMN, FALSE,
-			  CONTINENT_NAME_COLUMN, *continent,
+			  CONTINENT_NAME_COLUMN, _(*continent),
 			  -1);
 
       while (currency -> country_code && 
-	     !strcmp(currency -> continent, *continent))
+	     /* No need to translate ;-P */
+	     !strcmp(currency -> continent, *continent)) 
 	{
 	  gtk_tree_store_append (model, &child_iter, &iter);
 	  gtk_tree_store_set (model, &child_iter,
-			      COUNTRY_NAME_COLUMN, currency -> country_name,
-			      CURRENCY_NAME_COLUMN, currency -> currency_name,
-			      CURRENCY_ISO_CODE_COLUMN, currency -> currency_code,
-			      CURRENCY_NICKNAME_COLUMN, currency -> currency_nickname,
-			      CONTINENT_NAME_COLUMN, currency -> continent,
+			      COUNTRY_NAME_COLUMN, _(currency -> country_name),
+			      CURRENCY_NAME_COLUMN, _(currency -> currency_name),
+			      CURRENCY_ISO_CODE_COLUMN, _(currency -> currency_code),
+			      CURRENCY_NICKNAME_COLUMN, _(currency -> currency_nickname),
+			      CONTINENT_NAME_COLUMN, _(currency -> continent),
 			      -1);
 	  currency++;
 	}
@@ -600,7 +601,7 @@ void ajout_devise ( GtkWidget *bouton,
     paddingbox_new_with_title (GTK_WIDGET ( GNOME_DIALOG ( dialog ) -> vbox ),
 			       _("Euro zone currency"));
 
-  check_bouton = gtk_check_button_new_with_label ( _("Will switch to euro") );
+  check_bouton = gtk_check_button_new_with_label ( _("Will switch to Euro") );
   gtk_box_pack_start ( GTK_BOX ( paddingbox ), check_bouton,
 		       TRUE, TRUE, 0 );
 
@@ -1417,7 +1418,7 @@ GtkWidget *onglet_devises ( void )
   GtkWidget *scrolled_window, *vbox;
   GSList *liste_tmp;
   gchar *titres_devise [3] = { _("Currency"),
-			       _("Code ISO"),
+			       _("ISO Code"),
 			       _("Sign") };
   GtkWidget *bouton;
   GtkWidget *hbox;
@@ -1464,7 +1465,7 @@ GtkWidget *onglet_devises ( void )
 
   /*   s'il n'y a pas de fichier ouvert, on grise */
   if ( !nb_comptes )
-    gtk_widget_set_sensitive ( vbox, FALSE );
+    gtk_widget_set_sensitive ( vbox_pref, FALSE );
   else
     {
       /* on crée la liste_struct_devises_tmp qui est un copie de liste_struct_devises originale */

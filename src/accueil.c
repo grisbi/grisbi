@@ -649,7 +649,7 @@ void update_liste_comptes_accueil ( void )
   gtk_widget_show ( pTable );
 
   /* Création et remplissage de la première ligne du tableau */
-  pLabel = gtk_label_new (_("Curent balance"));
+  pLabel = gtk_label_new (_("Current balance"));
   gtk_misc_set_alignment ( GTK_MISC ( pLabel ),
 			   0.5,
 			   0.5);

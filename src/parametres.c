@@ -438,7 +438,7 @@ GtkWidget *onglet_messages_and_warnings ( void )
 
   /* Affichage ou non d'un message d'alerte sur la permission du
      fichier de compte */
-  bouton_affiche_permission = gtk_check_button_new_with_label ( SPACIFY(_("Display a warning message if account file is readable by someone else")) );
+  bouton_affiche_permission = gtk_check_button_new_with_label ( SPACIFY(_("Display a warning message if account file is readable by someone else.")) );
   gtk_box_pack_start ( GTK_BOX ( paddingbox ),
 		       bouton_affiche_permission,
 		       FALSE,
@@ -518,7 +518,7 @@ GtkWidget *onglet_fichier ( void )
 
   /* Account file handling */
   paddingbox = paddingbox_new_with_title (vbox_pref, 
-					  _("Account file handling"));
+					  _("Account files handling"));
 
   /* Automatically load last file on startup? */
   bouton_avec_demarrage = 
