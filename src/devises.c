@@ -444,19 +444,19 @@ GtkWidget *creation_option_menu_devises ( gint devise_cachee,
   return ( menu );
 
 }
-/* **************************************************************************************************** */
 
 
-GtkWidget *
-new_currency_list ()
-{ 
-  GtkTreeViewColumn *column;
-  GtkCellRenderer *cell;
-  GtkWidget *sw, *treeview;
-  GtkTreeStore *model;
+
+/**
+ * TODO: document this
+ *
+ */
+void fill_currency_list ( GtkTreeView * view, gboolean include_obsolete )
+{
+  GtkTreeModel * model;
   GtkTreeIter iter, child_iter;
-  struct iso_4217_currency * currency= iso_4217_currencies;
   gchar ** continent;
+  struct iso_4217_currency * currency= iso_4217_currencies;
   gchar * continents[] = {
     N_("Africa"),
     N_("Asia"),
@@ -467,26 +467,13 @@ new_currency_list ()
     N_("Southern America"),
     NULL,
   };
-  gint col_offset;
 
-  sw = gtk_scrolled_window_new (NULL, NULL);
-  gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (sw),
-				       GTK_SHADOW_ETCHED_IN);
-  gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw),
-				  GTK_POLICY_NEVER,
-				  GTK_POLICY_ALWAYS);
-  /* create tree store */
-  model = gtk_tree_store_new (NUM_CURRENCIES_COLUMNS,
-			      G_TYPE_STRING,
-			      G_TYPE_STRING,
-			      G_TYPE_STRING,
-			      G_TYPE_STRING,
-			      G_TYPE_STRING);
+  model = gtk_tree_view_get_model ( view );
 
   for (continent = continents; *continent; continent++)
     {
-      gtk_tree_store_append (model, &iter, NULL);
-      gtk_tree_store_set (model, &iter,
+      gtk_tree_store_append (GTK_TREE_STORE(model), &iter, NULL);
+      gtk_tree_store_set (GTK_TREE_STORE(model), &iter,
 			  COUNTRY_NAME_COLUMN, _(*continent),
 			  CURRENCY_NAME_COLUMN, FALSE,
 			  CURRENCY_ISO_CODE_COLUMN, FALSE,
@@ -498,17 +485,63 @@ new_currency_list ()
 	     /* No need to translate ;-P */
 	     !strcmp(currency -> continent, *continent)) 
 	{
-	  gtk_tree_store_append (model, &child_iter, &iter);
-	  gtk_tree_store_set (model, &child_iter,
-			      COUNTRY_NAME_COLUMN, _(currency -> country_name),
-			      CURRENCY_NAME_COLUMN, _(currency -> currency_name),
-			      CURRENCY_ISO_CODE_COLUMN, _(currency -> currency_code),
-			      CURRENCY_NICKNAME_COLUMN, _(currency -> currency_nickname),
-			      CONTINENT_NAME_COLUMN, _(currency -> continent),
-			      -1);
+	  if ( include_obsolete || currency -> active )
+	    {
+	      gtk_tree_store_append (GTK_TREE_STORE(model), &child_iter, &iter);
+	      gtk_tree_store_set (GTK_TREE_STORE(model), &child_iter,
+				  COUNTRY_NAME_COLUMN, _(currency -> country_name),
+				  CURRENCY_NAME_COLUMN, _(currency -> currency_name),
+				  CURRENCY_ISO_CODE_COLUMN, _(currency -> currency_code),
+				  CURRENCY_NICKNAME_COLUMN, _(currency -> currency_nickname),
+				  CONTINENT_NAME_COLUMN, _(currency -> continent),
+				  -1);
+	    }
 	  currency++;
 	}
     }
+  gtk_tree_view_expand_all ( view );
+}
+
+
+
+/**
+ * TODO: document this
+ *
+ */
+gboolean rebuild_currency_list ( GtkWidget * checkbox, GtkTreeView * view )
+{
+  GtkTreeModel * model;
+ 
+  model = gtk_tree_view_get_model ( view );
+  gtk_tree_store_clear ( GTK_TREE_STORE (model) );
+  fill_currency_list ( view, 
+		       gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbox)) );
+}
+
+
+
+/**
+ * TODO: document this
+ *
+ */
+GtkWidget * new_currency_list ()
+{ 
+  GtkTreeViewColumn *column;
+  GtkCellRenderer *cell;
+  GtkWidget *sw, *treeview, *vbox, *checkbox;
+  GtkTreeStore *model;
+  gint col_offset;
+
+  sw = gtk_scrolled_window_new (NULL, NULL);
+  gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (sw),
+				       GTK_SHADOW_ETCHED_IN);
+  gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw),
+				  GTK_POLICY_NEVER,
+				  GTK_POLICY_ALWAYS);
+  /* Create tree store */
+  model = gtk_tree_store_new (NUM_CURRENCIES_COLUMNS,
+			      G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING,
+			      G_TYPE_STRING, G_TYPE_STRING);
 
   /* Create tree view */
   treeview = gtk_tree_view_new_with_model (GTK_TREE_MODEL(model));
@@ -546,6 +579,7 @@ new_currency_list ()
 						 CURRENCY_ISO_CODE_COLUMN,
 						 NULL);
   column = gtk_tree_view_get_column (GTK_TREE_VIEW (treeview), col_offset - 1);
+  gtk_tree_view_column_set_alignment ( column, 0.5 );
   gtk_tree_view_column_set_clickable (GTK_TREE_VIEW_COLUMN (column), TRUE);
 
   cell = gtk_cell_renderer_text_new ();
@@ -574,7 +608,19 @@ new_currency_list ()
   gtk_container_add (GTK_CONTAINER (sw), treeview);
   gtk_container_set_resize_mode (GTK_CONTAINER (sw), GTK_RESIZE_PARENT);
 
-  return sw;
+  vbox = gtk_vbox_new ( FALSE, 6 );
+  gtk_box_pack_start ( GTK_BOX(vbox), sw,
+		       FALSE, FALSE, 0 );
+  
+  checkbox = gtk_check_button_new_with_label ( _("Include obsolete currencies"));
+  gtk_box_pack_start ( GTK_BOX(vbox), checkbox,
+		       FALSE, FALSE, 0 );
+  g_signal_connect ( G_OBJECT(checkbox), "toggled",
+		     (GCallback) rebuild_currency_list, treeview );
+
+  fill_currency_list ( GTK_TREE_VIEW(treeview), FALSE );
+
+  return vbox;
 }
 
 
