@@ -36,7 +36,8 @@ int main ( int argc, char *argv[] )
   GnomeCanvasGroup *root_canvas;
   GdkImlibImage *image_applet;
 
-  applet_widget_init ( "grisbi_applet", "0.3.2",
+  applet_widget_init ( "grisbi_applet",
+		       VERSION,
 		       argc, argv,
 		       NULL, 0, NULL );
 

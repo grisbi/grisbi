@@ -420,6 +420,10 @@ void equilibrage ( void )
 {
   GDate *date;
 
+  p_tab_nom_de_compte_variable = NULL;
+  printf ( "%d\n", NB_OPE_COMPTE );
+
+
   p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
 
   if ( !NB_OPE_COMPTE )

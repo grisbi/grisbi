@@ -35,9 +35,7 @@
 /* variables contenant juste 0 ou 1 */
 
 struct {
-  guint ouvre_fichier : 1;
   guint modification_fichier : 1;
-  guint formulaire_en_cours : 1;
   guint ancienne_date : 1;
   guint ctrl : 1;
   guint equilibrage : 1;
@@ -66,6 +64,8 @@ struct {
   guint classement_par_date :1;   /* à 1 si le classement de la liste d'opé se fait par date */
   guint largeur_auto_colonnes :1;
   guint retient_affichage_par_compte :1;   /* à 1 si les caractéristiques de l'affichage (R, non R ...) diffèrent par compte */
+  guint en_train_de_sauvegarder :1;
+  guint en_train_de_charger :1;
 } etat;
 
 

@@ -3,7 +3,7 @@
 /* Programme de gestion financière personnelle                                   */
 /*           	  license : GPL                                                  */
 /*                                                                               */
-/* 	          Version : 0.3.2                                                */
+/* 	          Version : 0.4.0                                                */
 /*      Auteur : Cédric Auger   ( cedric@grisbi.org )                            */
 /*                                http://www.grisbi.org                          */
 /* *******************************************************************************/
@@ -47,11 +47,29 @@
 
 int main (int argc, char *argv[])
 {
+  struct sigaction sig_sev;
+
   setlocale (LC_ALL, "");
   bindtextdomain ("grisbi", LOCALEDIR);
   textdomain ("grisbi");
 
   gnome_init (_("Grisbi"), VERSION, argc, argv);
+
+
+  /* on commence par détourner le signal SIGSEGV */
+
+  memset ( &sig_sev,
+	   0,
+	   sizeof ( struct sigaction ));
+  sig_sev.sa_handler = traitement_sigsegv;
+  sig_sev.sa_flags = 0;
+  sigemptyset (&(sig_sev.sa_mask));
+      
+  if ( sigaction ( SIGSEGV,
+		   &sig_sev,
+		   NULL ))
+    printf (_( "Erreur sur sigaction, le signal SIGSEGV ne sera pas détourné\n" ));
+
 
   /*  Création de la fenêtre principale */
 

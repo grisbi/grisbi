@@ -688,7 +688,7 @@ void affiche_titre_fenetre ( void )
 				"/",
 				0);
 
-      while ( parametres[i] != NULL )
+      while ( parametres[i] )
 	i++;
 
       titre = g_strconcat ( _(" Grisbi : "),

@@ -38,6 +38,7 @@ gboolean question_yes_no ( gchar *texte );
 gchar *demande_texte ( gchar *titre_fenetre,
 		       gchar *question );
 void affiche_log_message ( void );
+void traitement_sigsegv ( gint signal_nb );
 
 
 

@@ -307,3 +307,90 @@ void affiche_log_message ( void )
 
 }
 /*************************************************************************************************************/
+
+
+
+/*************************************************************************************************************/
+void traitement_sigsegv ( gint signal_nb )
+{
+  GtkWidget *dialog;
+  gchar *home_dir;
+
+  /*   il y a 3 possibilités : */
+  /*     soit on était en train de charger un fichier, c'est que celui-ci est corrompu */
+  /* soit on était en train de sauver un fichier, et là on peut rien faire */
+  /* sinon on essaie de sauver le fichier sous le nom entouré de # */
+
+  if ( etat.en_train_de_charger )
+    {
+      dialog = gnome_error_dialog ( _("Oups, Grisbi a planté pendant le chargement du fichier (erreur de segmentation).\nSoit celui-ci est corrompu, soit il s'agit d'un bug grave.\nRéessayez de le charger, si ça plante toujours contactez webmestre@grisbi.org." ));
+      gnome_dialog_run_and_close ( GNOME_DIALOG ( dialog ));
+      gtk_main_quit();
+      exit(0);
+    }
+
+
+  if ( etat.en_train_de_sauvegarder )
+    {
+      dialog = gnome_error_dialog ( _("Oups, Grisbi a planté pendant la sauvegarde du fichier (erreur de segmentation).\nCelle-ci est donc impossible, essayez de recréer le bug si possible et contactez webmestre@grisbi.org." ));
+      gnome_dialog_run_and_close ( GNOME_DIALOG ( dialog ));
+      gtk_main_quit();
+      exit(0);
+    }
+
+  if ( !etat.modification_fichier )
+    {
+      dialog = gnome_error_dialog ( _("Oups, Grisbi a planté (erreur de segmentation).\nC'est pas bien grave, vous n'aviez pas fait de modifications,\ncependant si vous arrivez à recréer le bug, pouvez-vous l'ajouter sur le site de grisbi (http://www.grisbi.org) ?\n Merci !" ));
+      gnome_dialog_run_and_close ( GNOME_DIALOG ( dialog ));
+      gtk_main_quit();
+      exit(0);
+    }
+
+  /* c'est un bug pendant le fonctionnement de Grisbi */
+
+  /*   s'il n'y a pas de nom de fichier, on le crée, sinon on rajoute # autour */
+
+  home_dir = getenv ("HOME");
+
+  if ( nom_fichier_comptes )
+    {
+      /* on récupère le nome du fichier sans le chemin */
+
+      gchar **parametres;
+      gint i=0;
+
+      parametres = g_strsplit ( nom_fichier_comptes,
+				"/",
+				0);
+
+      while ( parametres[i] )
+	i++;
+
+      nom_fichier_comptes = g_strconcat ( home_dir,
+					  "/#",
+					  parametres [i-1],
+					  "#",
+					  NULL );
+      g_strfreev ( parametres );
+    }
+  else
+    nom_fichier_comptes = g_strconcat ( home_dir,
+					"/#grisbi_plantage_sans_nom#",
+					NULL );
+
+    if ( patience_en_cours )
+      update_attente ( _("Enregistrement du fichier") );
+    else
+      mise_en_route_attente ( _("Enregistrement du fichier") );
+
+  enregistre_fichier ();
+  annulation_attente();
+
+  dialog = gnome_error_dialog ( g_strdup_printf (_("Oups, Grisbi a planté (erreur de segmentation).\nIl a essayé de sauvegarder le fichier juste avant, sous le nom %s.\nEssayez de l'ouvrir, avec un peu de chances vous n'aurez rien perdu.\nDe plus, si vous arrivez à recréer le bug, pouvez-vous l'ajouter sur le site de grisbi (http://www.grisbi.org) ?\n Merci !" ),
+						 nom_fichier_comptes ));
+  gnome_dialog_run_and_close ( GNOME_DIALOG ( dialog ));
+  gtk_main_quit();
+  exit(0);
+
+}
+/*************************************************************************************************************/

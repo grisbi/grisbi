@@ -117,10 +117,21 @@ gboolean charge_operations_version_0_3_2 ( xmlDocPtr doc )
 {
   xmlNodePtr node_1;
   gint i;
+  gchar *nom_sauvegarde;
 
-  /* message d'avertissement */
+  etat.en_train_de_charger = 1;
 
-  dialogue ( _("Attention, le format de données a changé ; si vous voulez conserver l'ancien format\nfaire une copie du fichier AVANT de refermer Grisbi ou de sauvegarder le fichier") );
+  /* on copie le fichier en ajoutant l'extension 0_3_2 et on met message d'avertissement */
+
+  nom_sauvegarde = g_strconcat ( nom_fichier_comptes,
+				 "_version_0_3_2",
+				 NULL );
+
+  system ( g_strdup_printf ( "cp %s %s",
+			     nom_fichier_comptes,
+			     nom_sauvegarde ));
+  dialogue ( g_strdup_printf ( _("Attention, le format de données a changé ; Grisbi a fait une sauvegarde de votre ancien fichier\nsous le nom : %s.\nGardez-la un certain temps pour pouvoir éventuellement y revenir en cas de gros bug découvert."),
+			       nom_sauvegarde ));
 
   /* on place node_1 sur les généralités */
 
@@ -1722,6 +1733,7 @@ void supprime_operations_orphelines ( void )
 
       dialogue ( message );
     }
+  etat.en_train_de_charger = 0;
 }
 /***********************************************************************************************************/
 
@@ -1733,6 +1745,8 @@ void supprime_operations_orphelines ( void )
 gboolean charge_operations_version_0_4_0 ( xmlDocPtr doc )
 {
   xmlNodePtr node_1;
+
+  etat.en_train_de_charger = 1;
 
   /* on place node_1 sur les generalites */
 
@@ -3856,6 +3870,8 @@ des paramètres.") );
 
   xmlFreeDoc ( doc );
 
+  etat.en_train_de_charger = 0;
+
   /* on marque le fichier comme ouvert */
 
   fichier_marque_ouvert ( TRUE );
@@ -3895,6 +3911,8 @@ gboolean enregistre_fichier ( void )
       return ( FALSE );
     }
 
+
+  etat.en_train_de_sauvegarder = 1;
 
   /* on met à jour les soldes des comptes */
 
@@ -5939,6 +5957,8 @@ gboolean enregistre_fichier ( void )
   modification_fichier ( FALSE );
 
   affiche_titre_fenetre ();
+
+  etat.en_train_de_sauvegarder = 0;
 
   return ( TRUE );
 }

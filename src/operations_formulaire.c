@@ -703,8 +703,6 @@ void echap_formulaire ( void )
 	}
     }
 
-  etat.formulaire_en_cours = 0;
-
   formulaire_a_zero();
 
   p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
@@ -1178,8 +1176,6 @@ void clique_champ_formulaire ( GtkWidget *entree,
 			       GdkEventButton *ev,
 			       gint *no_origine )
 {
-  etat.formulaire_en_cours = 1;
-
   /* on rend sensitif tout ce qui ne l'était pas sur le formulaire */
 
   degrise_formulaire_operations ();
@@ -2615,8 +2611,6 @@ void fin_edition ( void )
 
   p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> no_compte;
 
-  etat.formulaire_en_cours = 0;
-
   if ( gtk_object_get_data ( GTK_OBJECT ( formulaire ),
 			     "adr_struct_ope" ) )
     {
@@ -2639,7 +2633,6 @@ void fin_edition ( void )
 				-1);
       gtk_widget_grab_focus ( GTK_WIDGET ( widget_formulaire_operations[1] ));
 
-      etat.formulaire_en_cours = 1;
     }
 
   /* on réaffiche la liste courante pour afficher les categ qui ont été ajoutée après */
