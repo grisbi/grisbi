@@ -22,6 +22,7 @@
 #include "include.h"
 #include "structures.h"
 #include "variables-extern.c"
+
 #include "categories_onglet.h"
 #include "devises.h"
 #include "dialog.h"
@@ -32,6 +33,7 @@
 #include "traitement_variables.h"
 #include "barre_outils.h"
 #include "tiers_onglet.h"
+
 
 gchar *categories_de_base_debit [] = {
   N_("Food : Bar"),
@@ -521,6 +523,10 @@ GtkWidget *onglet_categories ( void )
   gtk_signal_connect ( GTK_OBJECT ( arbre_categ ),
 		       "button-press-event",
 		       GTK_SIGNAL_FUNC ( verifie_double_click_categ ),
+		       NULL );
+  gtk_signal_connect ( GTK_OBJECT ( arbre_categ ),
+		       "key-press-event",
+		       GTK_SIGNAL_FUNC ( keypress_category ),
 		       NULL );
   gtk_signal_connect ( GTK_OBJECT ( arbre_categ ),
 		       "tree-select-row",
@@ -1313,53 +1319,74 @@ gboolean verifie_double_click_categ ( GtkWidget *liste, GdkEventButton *ev,
 {
   if ( ev -> type == GDK_2BUTTON_PRESS )
     {
-      struct structure_operation *operation;
-
-      if ( GTK_CLIST ( arbre_categ ) -> selection
-	   &&
-	   ( GTK_CTREE_ROW ( ( GTK_CLIST ( arbre_categ ) -> selection ) -> data ) -> level == 4
-	     ||
-	     ( GTK_CTREE_ROW ( ( GTK_CLIST ( arbre_categ ) -> selection ) -> data ) -> level == 3
-	       &&
-	       gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_categ ),
-					      GTK_CTREE_ROW ( GTK_CTREE_ROW (( GTK_CLIST ( arbre_categ ) -> selection ) -> data ) -> parent ) -> parent ) > 0)))
-	{
-	  /* passage sur le compte concerné */
-
-	  operation = gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_categ ),
-						    GTK_CTREE_NODE ( ( GTK_CLIST ( arbre_categ ) -> selection ) -> data ) );
-
-	  if (!operation || operation == GINT_TO_POINTER(-1))
-	    return;
-
-	  /* si c'est une opé de ventilation, on se place sur l'opé
-	     ventilée correspondante */ 
-	  if ( operation -> no_operation_ventilee_associee )
-	    {
-	      p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> no_compte;
-
-	      operation = g_slist_find_custom ( LISTE_OPERATIONS,
-						GINT_TO_POINTER ( operation -> no_operation_ventilee_associee ),
-						(GCompareFunc) recherche_operation_par_no ) -> data;
-	    }
-
-	  changement_compte ( GINT_TO_POINTER ( operation -> no_compte ));
-
-	  p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
-
-	  if ( operation -> pointe == 2 && !AFFICHAGE_R )
-	    {
-	      AFFICHAGE_R = 1;
-	      remplissage_liste_operations ( compte_courant );
-	    }
-
-	  OPERATION_SELECTIONNEE = operation;
-
-	  selectionne_ligne ( compte_courant );
-	}
+      expand_selected_category();
     }
+
+  return FALSE;
 }
 /* **************************************************************************************************** */
+
+
+gboolean keypress_category ( GtkWidget *widget, GdkEventKey *ev, gint *no_origine )
+{
+  if ( ev->keyval == GDK_Return || 
+       ev->keyval == GDK_KP_Enter )
+    { 
+      expand_selected_category ();
+    }
+
+  return FALSE;
+}
+
+
+void expand_selected_category ()
+{
+  struct structure_operation *operation;
+
+  if ( GTK_CLIST ( arbre_categ ) -> selection
+       &&
+       ( GTK_CTREE_ROW ( ( GTK_CLIST ( arbre_categ ) -> selection ) -> data ) -> level == 4
+	 ||
+	 ( GTK_CTREE_ROW ( ( GTK_CLIST ( arbre_categ ) -> selection ) -> data ) -> level == 3
+	   &&
+	   gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_categ ),
+					 GTK_CTREE_ROW ( GTK_CTREE_ROW (( GTK_CLIST ( arbre_categ ) -> selection ) -> data ) -> parent ) -> parent ) > 0)))
+    {
+      /* passage sur le compte concerné */
+
+      operation = gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_categ ),
+						GTK_CTREE_NODE ( ( GTK_CLIST ( arbre_categ ) -> selection ) -> data ) );
+
+      if (!operation || operation == GINT_TO_POINTER(-1))
+	return;
+
+      /* si c'est une opé de ventilation, on se place sur l'opé
+	 ventilée correspondante */ 
+      if ( operation -> no_operation_ventilee_associee )
+	{
+	  p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> no_compte;
+
+	  operation = g_slist_find_custom ( LISTE_OPERATIONS,
+					    GINT_TO_POINTER ( operation -> no_operation_ventilee_associee ),
+					    (GCompareFunc) recherche_operation_par_no ) -> data;
+	}
+
+      changement_compte ( GINT_TO_POINTER ( operation -> no_compte ));
+
+      p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
+
+      if ( operation -> pointe == 2 && !AFFICHAGE_R )
+	{
+	  AFFICHAGE_R = 1;
+	  remplissage_liste_operations ( compte_courant );
+	}
+
+      OPERATION_SELECTIONNEE = operation;
+
+      selectionne_ligne ( compte_courant );
+    }
+
+}
 
 
 /* **************************************************************************************************** */

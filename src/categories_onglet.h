@@ -35,3 +35,5 @@ void appui_sur_ajout_categorie ( void );
 void appui_sur_ajout_sous_categorie ( void );
 void exporter_categ ( void );
 void importer_categ ( void );
+gboolean keypress_category ( GtkWidget *widget, GdkEventKey *ev, gint *no_origine );
+void expand_selected_category () ;
