@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-01-12 10:10+0100\n"
-"PO-Revision-Date: 2005-01-12 10:25+0100\n"
+"POT-Creation-Date: 2005-01-20 13:46+0100\n"
+"PO-Revision-Date: 2005-01-20 13:56+0100\n"
 "Last-Translator: Alain PORTAL <aportal@univ-montp2.fr>\n"
 "Language-Team: français <traduc@traduc.org>\n"
 "MIME-Version: (null)\n"
@@ -164,7 +164,7 @@ msgstr "Imputations budgétaires"
 
 #: src/affichage.c:188
 msgid "Voucher number"
-msgstr "Numéro de pièce"
+msgstr "Numéro de pièce comptable"
 
 #: src/affichage.c:197
 msgid "Bank reference"
@@ -491,7 +491,7 @@ msgstr "4ème ligne"
 msgid "Payer/payee"
 msgstr "Débiteur/Créditeur"
 
-#: src/affichage_liste.c:816 src/equilibrage.c:1640
+#: src/affichage_liste.c:816 src/equilibrage.c:1653
 msgid "Payment method"
 msgstr "Méthodes de réglement"
 
@@ -514,8 +514,8 @@ msgstr "Imputations budgétaires"
 
 #: src/banque.c:122 src/comptes_traitements.c:135
 #: src/comptes_traitements.c:145 src/operations_formulaire.c:2201
-#: src/operations_liste.c:2859 src/operations_liste.c:2925
-#: src/operations_liste.c:3196 src/operations_liste.c:3289
+#: src/operations_liste.c:2859 src/operations_liste.c:2926
+#: src/operations_liste.c:3198 src/operations_liste.c:3291
 msgid "Cannot allocate memory, bad things will happen soon"
 msgstr "Erreur dans l'allocation de mémoire, ça va très mal se passer"
 
@@ -1297,8 +1297,8 @@ msgstr "Opération ventilée"
 #: src/echeancier_formulaire.c:1732 src/echeancier_formulaire.c:2090
 #: src/echeancier_formulaire.c:2991 src/echeancier_liste.c:1213
 #: src/echeancier_ventilation.c:771 src/echeancier_ventilation.c:1580
-#: src/echeancier_ventilation.c:1663 src/echeancier_ventilation.c:2022
-#: src/echeancier_ventilation.c:2295 src/ofx.c:442
+#: src/echeancier_ventilation.c:1662 src/echeancier_ventilation.c:2021
+#: src/echeancier_ventilation.c:2294 src/ofx.c:442
 #: src/operations_formulaire.c:1008 src/operations_formulaire.c:1918
 #: src/operations_formulaire.c:1923 src/operations_formulaire.c:2371
 #: src/operations_formulaire.c:2928 src/operations_liste.c:1632
@@ -1465,8 +1465,14 @@ msgid ""
 "No transactions will be lost, but in some cases, you will have to manually "
 "move transactions to this new sub-category."
 msgstr ""
-"À cause d'un bogue introduit dans une version précédente de Grisbi, des sous-catégories peuvent partager, dans certains cas, le même identifiant numérique, entrainant le fait que des opérations ont deux sous-catégories. Si vous choisissez de continuer, Grisbi effacera un des deux doublons pour le recréer avec un nouvel identifiant.\n\n"
-"Aucune opération ne sera perdue ! Mais, dans certains cas, il vous faudra déplacer des opérations vers cette nouvelle sous-catégorie."
+"À cause d'un bogue introduit dans une version précédente de Grisbi, des sous-"
+"catégories peuvent partager, dans certains cas, le même identifiant "
+"numérique, entrainant le fait que des opérations ont deux sous-catégories. "
+"Si vous choisissez de continuer, Grisbi effacera un des deux doublons pour "
+"le recréer avec un nouvel identifiant.\n"
+"\n"
+"Aucune opération ne sera perdue ! Mais, dans certains cas, il vous faudra "
+"déplacer des opérations vers cette nouvelle sous-catégorie."
 
 #: src/check.c:248
 msgid "Fix inconsistencies in sub-categories?"
@@ -1744,7 +1750,7 @@ msgid "Sub-budgetary lines"
 msgstr "Sous-imputations budgétaires"
 
 #. met le pointage
-#: src/csv.c:298 src/equilibrage.c:839 src/operations_liste.c:1097
+#: src/csv.c:298 src/equilibrage.c:847 src/operations_liste.c:1097
 #: src/operations_liste.c:1886
 msgid "P"
 msgstr "P"
@@ -3231,8 +3237,8 @@ msgstr "N° Virement"
 msgid "Limit date"
 msgstr "Date limite"
 
-#: src/echeancier_formulaire.c:1475 src/equilibrage.c:940
-#: src/equilibrage.c:960 src/operations_formulaire.c:2327
+#: src/echeancier_formulaire.c:1475 src/equilibrage.c:948
+#: src/equilibrage.c:968 src/operations_formulaire.c:2327
 msgid "Invalid date"
 msgstr "Date invalide"
 
@@ -3409,11 +3415,11 @@ msgstr "Impossible de virer un compte sur lui-même"
 msgid "No account associated with the transfer"
 msgstr "Aucun compte associé au virement"
 
-#: src/echeancier_ventilation.c:2490 src/ventilation.c:2561
+#: src/echeancier_ventilation.c:2489 src/ventilation.c:2561
 msgid "Incomplete breakdown"
 msgstr "Ventilation incomplète"
 
-#: src/echeancier_ventilation.c:2491 src/ventilation.c:2562
+#: src/echeancier_ventilation.c:2490 src/ventilation.c:2562
 msgid ""
 "Transaction amount isn't fully broken down.\n"
 "Proceed anyway?"
@@ -3421,7 +3427,7 @@ msgstr ""
 "Le montant de l'opération n'est pas totalement ventilé.\n"
 "Continuer quand même ?"
 
-#: src/echeancier_ventilation.c:2673 src/ventilation.c:2805
+#: src/echeancier_ventilation.c:2672 src/ventilation.c:2805
 msgid "A breakdown line is to be deleted though it is not yet registered."
 msgstr ""
 "Une opé de ventilation a été marquée pour la suppression alors qu'elle "
@@ -3451,35 +3457,35 @@ msgstr "Pointage"
 msgid "Variance"
 msgstr "Écart"
 
-#: src/equilibrage.c:892 src/operations_comptes.c:312
+#: src/equilibrage.c:900 src/operations_comptes.c:312
 #: src/operations_liste.c:765 src/operations_liste.c:1941
 #, c-format
 msgid "Checked balance: %4.2f %s"
 msgstr "Solde pointé : %4.2f %s"
 
-#: src/equilibrage.c:919
+#: src/equilibrage.c:927
 msgid "There is a variance"
 msgstr "L'écart n'est pas de zéro"
 
-#: src/equilibrage.c:969 src/operations_comptes.c:299
+#: src/equilibrage.c:977 src/operations_comptes.c:299
 #, c-format
 msgid "Last statement: %02d/%02d/%d"
 msgstr "Dernier relevé : %02d/%02d/%d"
 
-#: src/equilibrage.c:1603 src/operations_onglet.c:83 src/parametres.c:258
+#: src/equilibrage.c:1616 src/operations_onglet.c:83 src/parametres.c:258
 #: src/type_operations.c:252
 msgid "Reconciliation"
 msgstr "Rapprochement"
 
-#: src/equilibrage.c:1607
+#: src/equilibrage.c:1620
 msgid "Reconciliation: sort transactions"
 msgstr "Rapprochement : tri des opérations"
 
-#: src/equilibrage.c:1655
+#: src/equilibrage.c:1668
 msgid "Sort by date"
 msgstr "Tri par date"
 
-#: src/equilibrage.c:1672
+#: src/equilibrage.c:1685
 msgid "Split neutral payment methods"
 msgstr "Séparer les modes de paiement neutres"
 
@@ -6334,7 +6340,7 @@ msgstr ""
 msgid "Delete transaction"
 msgstr "Supprimer l'opération"
 
-#: src/operations_liste.c:3100
+#: src/operations_liste.c:3102
 msgid "Cannot move a transfer on his contra-account"
 msgstr "Impossible de déplacer un virement vers son compte de destination"
 
