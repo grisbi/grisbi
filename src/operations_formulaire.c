@@ -346,7 +346,7 @@ GtkWidget *cree_element_formulaire_par_no ( gint no_element )
 						FALSE,
 						TRUE,
 						TRUE,
-						50 );
+						0 );
 	    gtk_widget_show ( widget );
 	    break;
 
