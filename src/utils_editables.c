@@ -292,3 +292,44 @@ void increment_decrement_champ ( GtkWidget *entry, gint increment )
 /******************************************************************************/
 
 
+
+
+/******************************************************************************/
+/* calcule le total du contenu de l'entrée donnée en argument */
+/* accepte les + et les - */
+/* \param entry entrée d'un montant */
+/* \return gdouble total de ce qui est dans l'entrée */
+/******************************************************************************/
+gdouble calcule_total_entree ( GtkWidget *entry )
+{
+    gchar *string;
+    gchar *pointeur;
+    gdouble total;
+
+    total = 0;
+	
+    string = g_strdup ( gtk_entry_get_text ( GTK_ENTRY ( entry )));
+
+    pointeur = string + strlen (string);
+
+    while ( pointeur != string )
+    {
+	if ( pointeur[0] == '+'
+	     ||
+	     pointeur[0] == '-' )
+	{
+	    total = total + my_strtod ( pointeur,
+					NULL );
+	    pointeur[0] = 0;
+	}
+	pointeur--;
+    }
+    total = total + my_strtod ( pointeur,
+				NULL );
+
+
+    return total;
+}
+/******************************************************************************/
+
+

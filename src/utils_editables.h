@@ -1,4 +1,5 @@
 /*START_DECLARATION*/
+gdouble calcule_total_entree ( GtkWidget *entry );
 void entry_set_value ( GtkWidget * entry, gchar ** value );
 void increment_decrement_champ ( GtkWidget *entry, gint increment );
 GtkWidget * new_text_area ( gchar ** value, GCallback hook );
