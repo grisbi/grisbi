@@ -26,6 +26,7 @@
 #include "variables-extern.c"
 #include "en_tete.h"
 
+#include "etats.h"
 #include "etats_gtktable.h"
 
 
@@ -33,7 +34,7 @@ gint gtktable_initialise (GSList * opes_selectionnees);
 gint gtktable_finish ();
 void gtktable_attach_hsep ( int x, int x2, int y, int y2);
 void gtktable_attach_vsep ( int x, int x2, int y, int y2);
-void gtktable_attach_label ( gchar * text, int x, int x2, int y, int y2, 
+void gtktable_attach_label ( gchar * text, gdouble properties, int x, int x2, int y, int y2, 
 			     enum alignement align, struct structure_operation * ope );
 
 struct struct_etat_affichage gtktable_affichage = {
@@ -46,13 +47,14 @@ struct struct_etat_affichage gtktable_affichage = {
 
 
 /**
- * FIXME: TODO
+ * Draw a label 
  *
  */
-void gtktable_attach_label ( gchar * text, int x, int x2, int y, int y2, 
+void gtktable_attach_label ( gchar * text, gdouble properties, int x, int x2, int y, int y2, 
 			     enum alignement align, struct structure_operation * ope )
 {
   GtkWidget * label;
+  GtkStyle * style;
 
   if (!text)
     {
@@ -60,7 +62,7 @@ void gtktable_attach_label ( gchar * text, int x, int x2, int y, int y2,
     }
 
   label = gtk_label_new ( text );
-  gtk_widget_show ( label );
+  gtk_label_set_line_wrap ( GTK_LABEL(label), TRUE );
 
   switch (align) 
     {
@@ -75,19 +77,18 @@ void gtktable_attach_label ( gchar * text, int x, int x2, int y, int y2,
       break;
     }
 
+  style = gtk_style_copy ( gtk_widget_get_style (label));
+
   if ( ope )
     {
       GtkWidget *event_box;
       GdkColor color;
-      GtkStyle * style;
 
       /* Put prelight */
-      style = gtk_style_copy ( gtk_widget_get_style (label));
       color.red =   1.00 * 65535 ;
       color.green = 0.00 * 65535 ;
       color.blue =  0.00 * 65535 ;
       style->fg[GTK_STATE_PRELIGHT] = color;
-      gtk_widget_set_style ( label, style );
 
       event_box = gtk_event_box_new ();
       gtk_signal_connect ( GTK_OBJECT ( event_box ),
@@ -118,6 +119,25 @@ void gtktable_attach_label ( gchar * text, int x, int x2, int y, int y2,
 			 GTK_SHRINK | GTK_FILL,
 			 0, 0 );
     }
+
+  if ( ((gint) properties) & TEXT_ITALIC)
+    pango_font_description_set_style ( style -> font_desc, 
+				       PANGO_STYLE_ITALIC );
+  if ( ((gint) properties) & TEXT_BOLD)
+    pango_font_description_set_weight ( style -> font_desc, 
+					PANGO_WEIGHT_BOLD );
+  if ( ((gint) properties) & TEXT_HUGE )
+    pango_font_description_set_weight ( style -> font_desc, 
+					pango_font_description_get_size(style->font_desc) + 100 );
+  if ( ((gint) properties) & TEXT_LARGE )
+    pango_font_description_set_weight ( style -> font_desc, 
+					pango_font_description_get_size(style->font_desc) + 2 );
+  if ( ((gint) properties) & TEXT_SMALL )
+    pango_font_description_set_weight ( style -> font_desc, 
+					pango_font_description_get_size(style->font_desc) - 2 );
+
+  gtk_widget_set_style ( label, style );
+  gtk_widget_show ( label );
 }
 
 
