@@ -12,13 +12,9 @@ void selectionne_devise_tiers_etat_courant ( void );
 void recuperation_info_perso_etat ( void );
 void stylise_tab_label_etat ( gint *no_page );
 GtkWidget *onglet_etat_dates ( void );
-void click_liste_etat ( GtkCList *liste,
-			GdkEventButton *evenement,
-			gint origine );
-gboolean clique_sur_entree_date_etat ( GtkWidget *entree,
-				   GdkEventButton *ev );
-void date_selectionnee_etat ( GtkCalendar *calendrier,
-			      GtkWidget *popup );
+void click_liste_etat ( GtkCList *liste, GdkEventButton *evenement, gint origine );
+gboolean clique_sur_entree_date_etat ( GtkWidget *entree, GdkEventButton *ev );
+void date_selectionnee_etat ( GtkCalendar *calendrier, GtkWidget *popup );
 void change_separation_result_periode ( void );
 void modif_type_separation_dates ( gint *origine );
 void remplissage_liste_exo_etats ( void );
@@ -50,11 +46,9 @@ void ajoute_ligne_liste_comparaisons_montants_etat ( struct struct_comparaison_m
 GtkWidget *cree_ligne_comparaison_montant ( struct struct_comparaison_montants_etat *comp_montants );
 GtkWidget *cree_bouton_lien_lignes_comparaison ( void );
 GtkWidget *cree_bouton_comparateur_montant ( struct struct_comparaison_montants_etat *comp_montants );
-void change_comparaison_montant ( GtkWidget *menu_item,
-				  struct struct_comparaison_montants_etat *comp_montants );
+void change_comparaison_montant ( GtkWidget *menu_item, struct struct_comparaison_montants_etat *comp_montants );
 GtkWidget *cree_bouton_comparateur_texte ( struct struct_comparaison_textes_etat *comp_textes );
-void change_comparaison_texte ( GtkWidget *menu_item,
-				struct struct_comparaison_textes_etat *comp_textes );
+void change_comparaison_texte ( GtkWidget *menu_item, struct struct_comparaison_textes_etat *comp_textes );
 GtkWidget *cree_bouton_lien ( GtkWidget *hbox );
 void retire_ligne_liste_comparaisons_montants_etat ( struct struct_comparaison_montants_etat *ancien_comp_montants );
 GtkWidget *onglet_etat_divers ( void );
