@@ -1853,7 +1853,7 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 		if ( (etat.fichier_deja_ouvert  = atoi ( xmlNodeGetContent ( node_generalites ))))
 		  {
 		    if ( etat.force_enregistrement )
-		      dialogue ( _("Attention, le fichier semble dejà ouvert pas un autre \
+		      dialogue ( _("Attention, le fichier semble déjà ouvert pas un autre \
 utilisateur.\nCependant Grisbi va \
 forcer l'enregistrement ; cette option est déconseillée\n sauf si vous êtes sûr \
 que personne d'autre n'utilise le fichier pour le moment.\nLa désactivation de \

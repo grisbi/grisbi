@@ -3648,7 +3648,7 @@ void ajout_operation ( struct structure_operation *operation )
   /* on classe la liste */
 
   LISTE_OPERATIONS = g_slist_sort ( LISTE_OPERATIONS,
-				    (GCompareFunc) classement_sliste_par_date );
+				    (GCompareFunc) classement_sliste );
 
   if ( operation -> no_compte == compte_courant )
     verification_mise_a_jour_liste ();

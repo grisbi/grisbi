@@ -218,6 +218,29 @@ gint classement_liste_par_tri_courant ( GtkWidget *liste,
 
 
 /* ********************************************************************************************************** */
+/* cette fonction est appelée pour classer les opérations dans la sliste avant que cette liste */
+/* soit affichée ; trie automatiquement la liste en fonction du moment */
+/* ********************************************************************************************************** */
+
+gint classement_sliste ( struct structure_operation *operation_1,
+			 struct structure_operation *operation_2 )
+{
+  
+  /* pour l'instant, soit on est en train d'équilibrer et c'est par tri courant, */
+  /* sinon c'est par date (qui utilise la date de valeur si nécessaire) */
+
+  if ( etat.equilibrage )
+    return ( classement_sliste_par_tri_courant ( operation_1,
+						 operation_2 ));
+  else
+    return ( classement_sliste_par_date ( operation_1,
+					  operation_2 ));
+
+}
+/* ********************************************************************************************************** */
+
+
+/* ********************************************************************************************************** */
 /* Fonction par défaut : par ordre de date */
 /* ********************************************************************************************************** */
 
@@ -283,6 +306,14 @@ gint classement_sliste_par_tri_courant ( struct structure_operation *operation_1
   gint buffer;
 
   p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
+
+  /*   on classe soit par le tri désiré, soit par date, et dans ce cas on renvoie au tri normal */
+
+  if ( !TRI
+       ||
+       !LISTE_TRI )
+    return ( classement_sliste_par_date ( operation_1,
+					  operation_2 ));
 
   /* si l'opé est négative et que le type est neutre et que les types neutres sont séparés, on lui */
   /* met la position du type négatif */

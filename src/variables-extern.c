@@ -657,7 +657,9 @@ extern gint ligne_debut_partie;
 extern GtkWidget *notebook_etats;
 extern GtkWidget *onglet_affichage_etat;
 extern GtkWidget *onglet_config_etat;
+extern GtkWidget *notebook_config_etat;
 extern GtkWidget *notebook_selection;
+extern GtkWidget *notebook_aff_donnees;
 
 
 /***********************************/ 

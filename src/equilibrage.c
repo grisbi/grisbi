@@ -612,7 +612,7 @@ void equilibrage ( void )
        &&
        LISTE_TRI )
     LISTE_OPERATIONS = g_slist_sort ( LISTE_OPERATIONS,
-				      (GCompareFunc) classement_sliste_par_tri_courant );
+				      (GCompareFunc) classement_sliste );
 
 
 /*     gtk_clist_set_compare_func ( GTK_CLIST ( CLIST_OPERATIONS ), */
@@ -799,7 +799,7 @@ void annuler_equilibrage ( GtkWidget *bouton_ann,
 			  2 );
 
   LISTE_OPERATIONS = g_slist_sort ( LISTE_OPERATIONS,
-				    (GCompareFunc) classement_sliste_par_date );
+				    (GCompareFunc) classement_sliste );
 
 /*   gtk_clist_set_compare_func ( GTK_CLIST ( CLIST_OPERATIONS ), */
 /* 			       (GtkCListCompareFunc) classement_liste_par_date ); */
@@ -1101,7 +1101,7 @@ void fin_equilibrage ( GtkWidget *bouton_ok,
 			  2 );
 
   LISTE_OPERATIONS = g_slist_sort ( LISTE_OPERATIONS,
-				    (GCompareFunc) classement_sliste_par_date );
+				    (GCompareFunc) classement_sliste );
 
 /*   gtk_clist_set_compare_func ( GTK_CLIST ( CLIST_OPERATIONS ), */
 /* 			       (GtkCListCompareFunc) classement_liste_par_date ); */

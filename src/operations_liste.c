@@ -373,7 +373,7 @@ void creation_listes_operations ( void )
       /* on classe la liste en fonction de la date */
 
       LISTE_OPERATIONS = g_slist_sort ( LISTE_OPERATIONS,
-					(GCompareFunc) classement_sliste_par_date );
+					(GCompareFunc) classement_sliste );
 
       remplissage_liste_operations ( i );
     }
@@ -546,7 +546,7 @@ void ajoute_nouvelle_liste_operation ( gint no_compte )
   /*   par défaut, le classement de la liste s'effectue par date */
 
   LISTE_OPERATIONS = g_slist_sort ( LISTE_OPERATIONS,
-				    (GCompareFunc) classement_sliste_par_date );
+				    (GCompareFunc) classement_sliste );
 
 
   gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_listes_operations ),
@@ -2015,6 +2015,16 @@ void p_press (void)
 	}
     }
 
+
+  /* p_tab est déjà sur le compte courant */
+
+  if ( !devise_compte
+       ||
+       devise_compte -> no_devise != DEVISE )
+    devise_compte = g_slist_find_custom ( liste_struct_devises,
+					  GINT_TO_POINTER ( DEVISE ),
+					  ( GCompareFunc ) recherche_devise_par_no ) -> data;
+
   /* met le label du solde pointé */
 
   gtk_label_set_text ( GTK_LABEL ( solde_label_pointe ),
@@ -2556,10 +2566,8 @@ void verification_mise_a_jour_liste ( void )
   value = ajustement -> value;
   page_size = ajustement -> page_size;
 
-  /* on classe la liste en fonction de la date ou date de valeur */
-
   LISTE_OPERATIONS = g_slist_sort ( LISTE_OPERATIONS,
-				    (GCompareFunc) classement_sliste_par_date );
+				    (GCompareFunc) classement_sliste );
 
   remplissage_liste_operations ( GPOINTER_TO_INT ( compte ) );
 

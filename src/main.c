@@ -48,12 +48,49 @@
 int main (int argc, char *argv[])
 {
   struct sigaction sig_sev;
+  gchar *texte = _("Permet de choisir la page de démarrage du logiciel");
+  gchar *short_texte = _("w[,x[,y[,z]]]]");
+  poptContext ctx;
+  gint demande_page;
+
+  /* on ajoute la possibilité de mettre l'option --onglet dans la ligne de commande */
+  /* Permet d'ouvrir le fichier demandé sur l'onglet désiré  */
+  /* w=-1 : fenêtre de configuration */
+  /*    x=numéro de l'onglet de configuration (0-9) */
+  /* w=0 : onglet d'accueil (identique sans argument) */
+  /* w=1 : onglet des opérations */
+  /* w=2 : onglet de l'échéancier */
+  /* w=3 : onglet des comptes */
+  /* w=4 : onglet des tiers */
+  /* w=5 : onglet des catégories */
+  /* w=6 : onglet des imputations budgétaires */
+  /* w=7 : onglet des états */
+  /*   x=numéro de l'état à afficher */
+  /*   y=absent pour rester sur l'état, numéro de l'onglet principal de personnalisation sinon */
+  /*   z=numéro de l'onglet secondaire de la personnalisation */
+
+  /*   Exemples : */
+  /* grisbi --onglet=3 mes_comptes */
+  /* place grisbi directement sur l'échéancier du fichier mes_comptes */
+  /* grisbi --onglet=-1,3 mes_comptes */
+  /* affiche la configuration de grisbi et la place sur Affichage */
+  /* grisbi --onglet=7,2 mes_comptes */
+  /* affiche le 3ème état */
+  /* grisbi --onglet=7,2,2,2 mes_comptes */
+  /* affiche l'onglet opération de l'onglet Affichage des données du 3ème état */
+
+
+ struct poptOption options[] = {
+      {"onglet", '\0', POPT_ARG_STRING, NULL, 0, texte, short_texte },
+      {NULL, '\0', 0, NULL, 0}};
+
 
   setlocale (LC_ALL, "");
   bindtextdomain ("grisbi", LOCALEDIR);
   textdomain ("grisbi");
 
-  gnome_init (_("Grisbi"), VERSION, argc, argv);
+
+  gnome_init_with_popt_table ("Grisbi", VERSION, argc, argv, options, 0, &ctx);
 
 
   /* on commence par détourner le signal SIGSEGV */
@@ -129,18 +166,207 @@ int main (int argc, char *argv[])
       gtk_widget_get_style (window) -> font = gdk_font_load ( fonte_general );
     }
 
-    if ( argc > 1 )
-     {
-       nom_fichier_comptes = argv[1];
-       ouverture_confirmee();
-     }
-    else
+  /* on vérifie les arguments de ligne de commande */
+
+  demande_page = 0;
+
+  switch ( argc )
+    {
+    case 1:
+      /* il n'y a aucun argument */
+
+      /* ouvre le dernier fichier s'il existe et si c'est demandé */
+
       if ( etat.dernier_fichier_auto
 	   &&
 	   nom_fichier_comptes
 	   &&
 	   strlen ( nom_fichier_comptes ) )
 	ouverture_confirmee();
+      break;
+
+    case 2:
+      /* l'argument peut être soit --onglet, soit le fichier à ouvrir */
+
+      if ( !strncmp ( argv[1],
+		      "--",
+		      2 ))
+	{
+	  demande_page = 1;
+
+	  /* ouvre le dernier fichier s'il existe et si c'est demandé */
+
+	  if ( etat.dernier_fichier_auto
+	       &&
+	       nom_fichier_comptes
+	       &&
+	       strlen ( nom_fichier_comptes ) )
+	    ouverture_confirmee();
+	}
+      else
+	{
+	  nom_fichier_comptes = argv[1];
+	  ouverture_confirmee();
+	}
+      break;
+
+    case 3:
+      /* il y a --onglet et un nom de fichier */
+      /*       il faut que argv[1] commence par -- sinon on considère que c'est le nom de fichier */
+      /* et on oublie le 2ème argument */
+
+      if ( !strncmp ( argv[1],
+		      "--",
+		      2 ))
+	{
+	  demande_page = 1;
+
+	  /* ouvre le fichier demandé */
+
+	  nom_fichier_comptes = argv[2];
+	  ouverture_confirmee();
+	}
+      else
+	{
+	  nom_fichier_comptes = argv[1];
+	  ouverture_confirmee();
+	}
+      break;
+    }
+
+  /*   à ce niveau, le fichier doit être chargé, on met sur l'onglet demandé si nécessaire */
+
+  if ( nb_comptes
+       &&
+       demande_page )
+    {
+      gchar **split_argument;
+
+      split_argument = g_strsplit ( argv[1],
+				    "=",
+				    2 );
+
+      /*       si le 2ème argument retourné est null, c'est qu'on avait marqué --onglet= */
+      /* et dans ce cas on fait rien */
+
+      if ( split_argument[1] )
+	{
+	  gchar **split_chiffres;
+
+	  split_chiffres = g_strsplit ( split_argument[1],
+					",",
+					0 );
+
+	  /* 	  comme split_argument[1] existait, split_chiffres[0] existe forcemment */
+
+	  switch ( atoi ( split_chiffres[0] ))
+	    {
+	    case -1:
+	      /* on demande l'onglet de configuration */
+
+	      /* on affiche l'onglet du 2ème argument s'il existe */
+
+	      if ( split_chiffres[1] )
+		preferences ( NULL,
+			      atoi ( split_chiffres[1] ));
+	      else
+		preferences ( NULL,
+			      0 );
+
+	      break;
+
+	    case 0:
+	    case 1:
+	    case 2:
+	    case 3:
+	    case 4:
+	    case 5:
+	    case 6:
+
+	      gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ),
+				      atoi ( split_chiffres[0] ));
+	      break;
+
+	    case 7:
+	      /* on demande l'onglet des états  */
+
+	      gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ),
+				      atoi ( split_chiffres[0] ));
+
+	      /* s'il y a un chiffre ensuite, on ouvre l'état correspondant à ce chiffre */
+
+	      if ( split_chiffres[1]
+		   &&
+		   liste_struct_etats )
+		{
+		  GSList *liste_tmp;
+
+		  liste_tmp = g_slist_nth ( liste_struct_etats,
+					    atoi ( split_chiffres[1] ));
+
+		  /* si on a sélectionné un état qui n'existait pas, on ouvre le 1er */
+
+		  if ( !liste_tmp )
+		    liste_tmp = liste_struct_etats;
+
+		  etat_courant = liste_tmp -> data;
+
+		  remplissage_liste_etats ();
+
+		  gtk_widget_set_sensitive ( bouton_personnaliser_etat,
+					     TRUE );
+		  /* FIXME: réactiver àca le jour ou on sort l'impression
+		     mais de toutes faàons, àca sera mergé 
+		     gtk_widget_set_sensitive ( bouton_imprimer_etat,
+		     TRUE );
+		  */
+		  gtk_widget_set_sensitive ( bouton_exporter_etat,
+					     TRUE );
+		  gtk_widget_set_sensitive ( bouton_dupliquer_etat,
+					     TRUE );
+		  gtk_widget_set_sensitive ( bouton_effacer_etat,
+					     TRUE );
+
+		  gtk_label_set_text ( GTK_LABEL ( label_etat_courant ),
+				       etat_courant -> nom_etat );
+
+
+		  rafraichissement_etat ( etat_courant );
+
+		  /* s'il y a une suite dans la demande en ligne de commande, on ouvre la personnalisation */
+
+		  if ( split_chiffres[2] )
+		    {
+		      personnalisation_etat ();
+
+		      /* le 1er chiffre correspond aux 1ers onglets */
+
+		      gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_config_etat ),
+					      atoi ( split_chiffres[2] ));
+
+		      /* s'il y a encore un chiffre, c'est pour le sous onglet */
+
+		      if ( split_chiffres[3] )
+			{
+			  switch ( atoi ( split_chiffres[2] ))
+			    {
+			    case 0:
+
+			      gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_selection ),
+						      atoi ( split_chiffres[3] ));
+			      break;
+			    case 2:
+			      gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_aff_donnees ),
+						      atoi ( split_chiffres[3] ));
+			      break;
+			    }
+			}
+		    }
+		}
+	      break;
+	    }
+	}
+    }
 
 
   gtk_main ();

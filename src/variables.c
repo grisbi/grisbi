@@ -624,7 +624,9 @@ gint ligne_debut_partie;
 GtkWidget *notebook_etats;
 GtkWidget *onglet_affichage_etat;
 GtkWidget *onglet_config_etat;
+GtkWidget *notebook_config_etat;
 GtkWidget *notebook_selection;
+GtkWidget *notebook_aff_donnees;
 
 
 /***********************************/ 

@@ -72,8 +72,6 @@ void personnalisation_etat (void)
 
   if ( !onglet_config_etat )
     {
-      GtkWidget *notebook;
-
       onglet_config_etat = gtk_vbox_new ( FALSE,
 					5 );
       gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_etats ),
@@ -83,15 +81,15 @@ void personnalisation_etat (void)
 
       /* on commence par créer le notebook parent de la config des états */
 
-      notebook = gtk_notebook_new ();
-      gtk_notebook_set_scrollable ( GTK_NOTEBOOK ( notebook ),
+      notebook_config_etat = gtk_notebook_new ();
+      gtk_notebook_set_scrollable ( GTK_NOTEBOOK ( notebook_config_etat ),
 				    TRUE );
       gtk_box_pack_start ( GTK_BOX ( onglet_config_etat ),
-			   notebook,
+			   notebook_config_etat,
 			   TRUE,
 			   TRUE,
 			   0 );
-      gtk_widget_show ( notebook );
+      gtk_widget_show ( notebook_config_etat );
 
 
       /* on ajoute les onglets dans l'onglet de base correspondant */
@@ -103,7 +101,7 @@ void personnalisation_etat (void)
 				       5 );
       gtk_notebook_set_scrollable ( GTK_NOTEBOOK ( notebook_selection ),
 				    TRUE );
-      gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
+      gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_config_etat ),
 				 notebook_selection,
 				 gtk_label_new (_("Sélection des données")) );
       gtk_widget_show ( notebook_selection );
@@ -151,19 +149,19 @@ void personnalisation_etat (void)
 
       /* remplissage de l'onglet d'organisation */
 
-      gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
+      gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_config_etat ),
 				 page_organisation_donnees (),
 				 gtk_label_new (_("Organisation des données")) );
 
 
       /* remplissage de l'onglet d'affichage */
 
-      gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
+      gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_config_etat ),
 				 page_affichage_donnees (),
 				 gtk_label_new (_("Affichage des données")) );
 
 
-      gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook),
+      gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_config_etat),
 			      0 );
 
       /* mise en place des boutons appliquer et annuler */
@@ -6304,34 +6302,33 @@ void click_bas_classement_etat ( void )
 /*****************************************************************************************************/
 GtkWidget *page_affichage_donnees ( void )
 {
-  GtkWidget *widget_retour;
 
   /* on crée un notebook */
 
-  widget_retour = gtk_notebook_new ();
-  gtk_notebook_set_scrollable ( GTK_NOTEBOOK (widget_retour  ),
+  notebook_aff_donnees = gtk_notebook_new ();
+  gtk_notebook_set_scrollable ( GTK_NOTEBOOK (notebook_aff_donnees  ),
 				TRUE );
-  gtk_container_set_border_width ( GTK_CONTAINER ( widget_retour ),
+  gtk_container_set_border_width ( GTK_CONTAINER ( notebook_aff_donnees ),
 				   5 );
-  gtk_widget_show ( widget_retour );
+  gtk_widget_show ( notebook_aff_donnees );
 
-  gtk_notebook_append_page ( GTK_NOTEBOOK ( widget_retour ),
+  gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_aff_donnees ),
 			     onglet_affichage_etat_generalites (),
 			     gtk_label_new (SPACIFY(_("Généralités"))) );
 
-  gtk_notebook_append_page ( GTK_NOTEBOOK ( widget_retour ),
+  gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_aff_donnees ),
 			     onglet_affichage_etat_divers (),
 			     gtk_label_new (SPACIFY(_("Titres"))) );
 
-  gtk_notebook_append_page ( GTK_NOTEBOOK ( widget_retour ),
+  gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_aff_donnees ),
 			     onglet_affichage_etat_operations (),
 			     gtk_label_new (SPACIFY(_("Opérations"))) );
 
-  gtk_notebook_append_page ( GTK_NOTEBOOK ( widget_retour ),
+  gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_aff_donnees ),
 			     onglet_affichage_etat_devises (),
 			     gtk_label_new (SPACIFY(_("Devises"))) );
 
-  return ( widget_retour );
+  return ( notebook_aff_donnees );
 }
 /*****************************************************************************************************/
 

@@ -30,93 +30,256 @@
 void a_propos ( GtkWidget *bouton,
 		gint data )
 {
-  GtkWidget *boite;
+  GtkWidget *dialogue;
   GtkWidget *url;
   GtkWidget *label;
+  GtkWidget *notebook;
+  GtkWidget *vbox;
+  GtkWidget *hbox;
+  gint i;
 
-  const gchar *auteur[] = { "Auger Cédric ( cedric@grisbi.org ) : ",
-			    _("Programmation"),
-			    "Cartron Daniel ( doc@grisbi.org ) : ",
-			    _("Écriture de documentation, site Internet, conseils en comptabilité et en ergonomie"),
-			    "Drieu Benjamin ( bdrieu@april.org ) : ",
-			    _("Programmation, packaging Debian"),
-			    "Niel Gérald ( gerald.niel@grisbi.org ) : ",
-			    _("Site Internet, packaging RPM"),
-			    "Pascual André ( andre@linuxgraphic.org ) : ",
-			    _("Logo"),
+  const gchar *generalites = _( "Grisbi est un logiciel vous permettant de gérer votre comptabilité personnelle sous Linux.
+
+Le principe de base d'un tel logiciel est de vous permettre de classer vos opérations financières, quelles qu'elles soient, de façon simple et intuitive, afin de pouvoir les exploiter au mieux en fonction de vos besoins.
+
+Grisbi a pris le parti de la simplicité et de l'efficacité pour un usage de base, sans toutefois exclure la sophistication nécessaire à un usage avancé. Les fonctionnalités futures tenteront toujours de respecter ces critères." );
+
+  const gchar *auteurs[] = { _("Auger Cédric ( cedric@grisbi.org ) : Programmation"),
+			    _("Cartron Daniel ( doc@grisbi.org ) : Manuel, Site internet, conseils en comptabilité"),
+			    _("Drieu Benjamin ( bdrieu@april.org ) : Programmation, packages deb"),
+			    _("Niel Gérald ( gerald.niel@grisbi.org ) : Packages RPM, Site internet"),
+			    _("Pascual André ( andre@linuxgraphic.org ) : Logo"),
 			    NULL };
+  const gchar *traducteurs[] = { "prénom nom (nom@prénom.org) : Anglais",
+				 NULL };
+  const gchar *liens[] = { _("Site internet : "),
+			   "http://www.grisbi.org/",
+			   _("http://www.grisbi.org/"),
+			   _("Liste de développement (discuter, participer, critiquer...) : "),
+			   "mailto:devel-subscribe@grisbi.org",
+			   _("s'inscrire"),
+			   _("Signaler un bug : "),
+			   "http://www.grisbi.org/bugtracking",
+			   "http://www.grisbi.org/bugtracking",
+			   _("Liste d'informations (annonces de sorties de nouvelles versions) : "),
+			   "mailto:infos-subscribe@grisbi.org",
+			   _("s'inscrire"),
+			   _("Documentation illustrée sur le site de grisbi : "),
+			   "http://www.grisbi.org/modules.php?name=Documentation",
+			   _("http://www.grisbi.org/modules.php?name=Documentation"),
+			   NULL };
 
-  boite = gnome_about_new ( _("Grisbi"),
-			    VERSION,
-			    _("License GNU GPL"),
-			    (const gchar **) auteur,
-			    _("Programme de gestion financière personnelle"),
-			    NULL );
+  const gchar *license = "
+    This program is free software; you can redistribute it and/or modify     
+    it under the terms of the GNU General Public License as published by     
+    the Free Software Foundation; either version 2 of the License, or        
+    (at your option) any later version.                                      
+                                                                             
+    This program is distributed in the hope that it will be useful,          
+    but WITHOUT ANY WARRANTY; without even the implied warranty of           
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the            
+    GNU General Public License for more details.                             
+                                                                             
+    You should have received a copy of the GNU General Public License        
+    along with this program; if not, write to the Free Software              
+    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA";
 
-  url = gnome_href_new ( "http://www.grisbi.org/",
-			 _("WEB : http://www.grisbi.org/") );
-  gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( boite ) -> vbox ),
-		       url,
-		       FALSE,
-		       FALSE,
+  dialogue = gnome_dialog_new ( _("À propos de..."),
+				GNOME_STOCK_BUTTON_APPLY,
+				NULL );
+  gtk_window_set_transient_for ( GTK_WINDOW ( dialogue ),
+				 GTK_WINDOW ( window ) );
+
+  notebook = gtk_notebook_new ();
+  gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialogue ) -> vbox ),
+		       notebook,
+		       TRUE,
+		       TRUE,
 		       0 );
-  gtk_widget_show ( url );
+  gtk_widget_show ( notebook );
 
-  url = gnome_href_new ( "mailto:devel-subscribe@grisbi.org",
-			 _("Inscription à la liste de développement") );
-  gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( boite ) -> vbox ),
-		       url,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( url );
 
-  url = gnome_href_new ( "http://www.grisbi.org/bugtracking",
-			 "Signaler un bug: http://www.grisbi.org/bugtracking" );
-  gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( boite ) -> vbox ),
- 		       url,
- 		       FALSE,
- 		       FALSE,
- 		       0 );
-  gtk_widget_show ( url );
+  /* mise en forme de l'onglet de généralités */
 
-  url = gnome_href_new ( "mailto:infos-subscribe@grisbi.org",
-			 _("Inscription à la liste d'information") );
-  gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( boite ) -> vbox ),
-		       url,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( url );
+  vbox = gtk_vbox_new ( FALSE,
+			5 );
+  gtk_container_set_border_width ( GTK_CONTAINER ( vbox ),
+				   10 );
+  gtk_widget_show ( vbox );
 
-  label = gtk_label_new ( _("(Annonces de sortie de nouvelle version)") );
-  gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( boite ) -> vbox ),
+  label = gtk_label_new ( g_strconcat ( "Grisbi ",
+					VERSION,
+					"\n\n",
+					NULL ));
+  gtk_box_pack_start ( GTK_BOX ( vbox ),
 		       label,
 		       FALSE,
 		       FALSE,
 		       0 );
   gtk_widget_show ( label );
 
-  url = gnome_href_new ( "http://www.grisbi.org/modules.php?name=Manuel",
-			 _("Documentation en ligne") );
-  gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( boite ) -> vbox ),
-		       url,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( url );
 
-  label = gtk_label_new ( _("(Documentation illustrée sur le site de Grisbi)") );
-  gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( boite ) -> vbox ),
+  label = gtk_label_new ( generalites );
+  gtk_label_set_line_wrap ( GTK_LABEL ( label ),
+			    TRUE );
+  gtk_box_pack_start ( GTK_BOX ( vbox ),
+		       label,
+		       TRUE,
+		       TRUE,
+		       0 );
+  gtk_widget_show ( label );
+
+  gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
+			     vbox,
+			     gtk_label_new ( _("Généralités" )));
+
+  /* mise en forme de l'onglet auteurs */
+
+
+  vbox = gtk_vbox_new ( FALSE,
+			5 );
+  gtk_container_set_border_width ( GTK_CONTAINER ( vbox ),
+				   10 );
+  gtk_widget_show ( vbox );
+
+  i=0;
+
+  while ( auteurs[i] )
+    {
+      hbox = gtk_hbox_new ( FALSE, 
+			    0 );
+      gtk_box_pack_start ( GTK_BOX ( vbox ),
+			   hbox,
+			   FALSE,
+			   FALSE,
+			   0 );
+      gtk_widget_show ( hbox );
+
+      label = gtk_label_new ( auteurs[i] );
+      gtk_box_pack_start ( GTK_BOX ( hbox ),
+			   label,
+			   FALSE,
+			   FALSE,
+			   0 );
+      gtk_widget_show ( label );
+      i++;
+    }
+
+  gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
+			     vbox,
+			     gtk_label_new ( _("Auteurs" )));
+
+
+  /* mise en forme de l'onglet traduction */
+
+
+  vbox = gtk_vbox_new ( FALSE,
+			5 );
+  gtk_container_set_border_width ( GTK_CONTAINER ( vbox ),
+				   10 );
+  gtk_widget_show ( vbox );
+
+  i=0;
+
+  while ( traducteurs[i] )
+    {
+      hbox = gtk_hbox_new ( FALSE, 
+			    0 );
+      gtk_box_pack_start ( GTK_BOX ( vbox ),
+			   hbox,
+			   FALSE,
+			   FALSE,
+			   0 );
+      gtk_widget_show ( hbox );
+
+      label = gtk_label_new ( traducteurs[i] );
+      gtk_box_pack_start ( GTK_BOX ( hbox ),
+			   label,
+			   FALSE,
+			   FALSE,
+			   0 );
+      gtk_widget_show ( label );
+      i++;
+    }
+
+  gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
+			     vbox,
+			     gtk_label_new ( _("Traducteurs" )));
+
+
+  /* mise en forme de l'onglet liens */
+
+
+  vbox = gtk_vbox_new ( FALSE,
+			5 );
+  gtk_container_set_border_width ( GTK_CONTAINER ( vbox ),
+				   10 );
+  gtk_widget_show ( vbox );
+
+  i=0;
+
+  while ( liens[i] )
+    {
+      hbox = gtk_hbox_new ( FALSE,
+			    5 );
+      gtk_box_pack_start ( GTK_BOX ( vbox ),
+			   hbox,
+			   FALSE,
+			   FALSE,
+			   0 );
+      gtk_widget_show ( hbox );
+
+      label = gtk_label_new ( liens[i] );
+      gtk_box_pack_start ( GTK_BOX ( hbox ),
+			   label,
+			   FALSE,
+			   FALSE,
+			   0 );
+      gtk_widget_show ( label );
+
+      url = gnome_href_new ( liens[i+1],
+			     liens[i+2] );
+      gtk_box_pack_start ( GTK_BOX ( hbox ),
+			   url,
+			   FALSE,
+			   FALSE,
+			   0 );
+      gtk_widget_show ( url );
+      
+      i = i + 3;
+    }
+
+  gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
+			     vbox,
+			     gtk_label_new ( _("Liens" )));
+
+
+  /* mise en forme de l'onglet de license */
+
+  vbox = gtk_vbox_new ( FALSE,
+			5 );
+  gtk_container_set_border_width ( GTK_CONTAINER ( vbox ),
+				   10 );
+  gtk_widget_show ( vbox );
+
+  label = gtk_label_new ( license );
+/*   gtk_label_set_line_wrap ( GTK_LABEL ( label ), */
+/* 			    TRUE ); */
+  gtk_box_pack_start ( GTK_BOX ( vbox ),
 		       label,
 		       FALSE,
 		       FALSE,
 		       0 );
   gtk_widget_show ( label );
 
-  gnome_dialog_set_parent ( GNOME_DIALOG ( boite ),
-			    GTK_WINDOW ( window));
+  gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
+			     vbox,
+			     gtk_label_new ( _("License" )));
 
-  gtk_widget_show ( boite );
+  gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook ),
+			  0 );
+
+  gnome_dialog_run_and_close ( GNOME_DIALOG ( dialogue ));
+
 }
 /* **************************************************************************************************************************** */
