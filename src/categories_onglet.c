@@ -82,9 +82,9 @@ static gboolean categ_drag_data_get ( GtkTreeDragSource * drag_source, GtkTreePa
 static gboolean categ_row_drop_possible (GtkTreeDragDest * drag_dest, 
 					 GtkTreePath * dest_path,
 					 GtkSelectionData * selection_data);
-gboolean categ_drag_data_received ( GtkWidget *widget, GdkDragContext *dc,
-				    guint x, guint y, GtkSelectionData *sd,
-				    guint info, guint t, gpointer data );
+gboolean categ_drag_data_received ( GtkTreeDragDest   *drag_dest,
+				    GtkTreePath       *path,
+				    GtkSelectionData  *selection_data );
 /*END_STATIC*/
 
 
@@ -178,6 +178,8 @@ GtkWidget *onglet_categories ( void )
     GtkWidget *label;
     GtkWidget *separateur;
     GtkWidget *bouton;
+    GtkTreeDragDestIface * dst_iface;
+    GtkTreeDragSourceIface * src_iface;
 
 
     /* création de la fenêtre qui sera renvoyée */
@@ -487,7 +489,7 @@ GtkWidget *onglet_categories ( void )
 					    G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, 
 					    G_TYPE_POINTER, G_TYPE_INT, G_TYPE_INT, 
 					    G_TYPE_INT, G_TYPE_FLOAT );
-    gtk_tree_sortable_set_sort_column_id ( GTK_TREE_MODEL(categ_tree_model), 
+    gtk_tree_sortable_set_sort_column_id ( GTK_TREE_SORTABLE(categ_tree_model), 
 					   CATEGORY_TREE_TEXT_COLUMN, GTK_SORT_ASCENDING );
 
     /* Create container + TreeView */
@@ -495,7 +497,7 @@ GtkWidget *onglet_categories ( void )
     gtk_tree_view_set_rules_hint (GTK_TREE_VIEW (arbre_categ), TRUE);
     gtk_tree_view_enable_model_drag_source(GTK_TREE_VIEW(arbre_categ),
 					   GDK_BUTTON1_MASK, row_targets, 1,
-					   GDK_ACTION_MOVE);
+					   GDK_ACTION_MOVE | GDK_ACTION_COPY );
     gtk_tree_view_enable_model_drag_dest ( GTK_TREE_VIEW(arbre_categ), row_targets,
 					   1, GDK_ACTION_MOVE );
     gtk_tree_view_set_reorderable (GTK_TREE_VIEW (arbre_categ), TRUE);
@@ -541,12 +543,21 @@ GtkWidget *onglet_categories ( void )
 		       G_CALLBACK(categ_column_expanded), NULL );
     g_signal_connect( G_OBJECT(arbre_categ), "row-activated",
 		      G_CALLBACK(categ_activated), NULL);
-    g_signal_connect( G_OBJECT(arbre_categ), "drag-data-get",
-		      G_CALLBACK(categ_drag_data_get), NULL);
-/*     g_signal_connect( G_OBJECT(arbre_categ), "row-drop-possible", */
-/* 		      G_CALLBACK(categ_row_drop_possible), NULL); */
-    g_signal_connect( G_OBJECT(arbre_categ), "drag-data-received",
-		      G_CALLBACK(categ_drag_data_received), NULL);
+
+    dst_iface = GTK_TREE_DRAG_DEST_GET_IFACE (categ_tree_model);
+    if ( dst_iface )
+    {
+	printf ("> Yeah\n");
+	dst_iface -> drag_data_received = &categ_drag_data_received;
+	dst_iface -> row_drop_possible = &categ_row_drop_possible;
+    }
+
+    src_iface = GTK_TREE_DRAG_SOURCE_GET_IFACE (categ_tree_model);
+    if ( src_iface )
+    {
+	printf ("> Yeah\n");
+	src_iface -> drag_data_get = &categ_drag_data_get;
+    }
 
     /* on met la fontion de tri alphabétique en prenant en compte les accents */
     gtk_clist_set_compare_func ( GTK_CLIST ( arbre_categ ),
@@ -2535,29 +2546,29 @@ GtkWidget *creation_barre_outils_categ ( void )
     handlebox = gtk_handle_box_new ();
     gtk_box_pack_start ( GTK_BOX ( hbox ), handlebox, FALSE, FALSE, 0 );
     /* Hbox2 */
-    hbox2 = gtk_hbox_new ( FALSE, 0 );
+    hbox2 = gtk_hbox_new ( TRUE, 0 );
     gtk_container_add ( GTK_CONTAINER(handlebox), hbox2 );
 
     /* Add various icons */
     gtk_box_pack_start ( GTK_BOX ( hbox2 ), 
 			 new_stock_button_with_label ( GTK_STOCK_NEW, G_CALLBACK(appui_sur_ajout_categorie) ), 
-			 FALSE, FALSE, 0 );
+			 FALSE, TRUE, 0 );
     gtk_box_pack_start ( GTK_BOX ( hbox2 ), 
 			 new_stock_button_with_label ( GTK_STOCK_OPEN, G_CALLBACK(importer_categ) ), 
-			 FALSE, FALSE, 0 );
+			 FALSE, TRUE, 0 );
     gtk_box_pack_start ( GTK_BOX ( hbox2 ), 
 			 new_stock_button_with_label ( GTK_STOCK_SAVE, G_CALLBACK(exporter_categ) ), 
-			 FALSE, FALSE, 0 );
+			 FALSE, TRUE, 0 );
     gtk_box_pack_start ( GTK_BOX ( hbox2 ), 
 			 new_stock_button_with_label ( GTK_STOCK_DELETE, G_CALLBACK(supprimer_categ) ), 
-			 FALSE, FALSE, 0 );
+			 FALSE, TRUE, 0 );
     gtk_box_pack_start ( GTK_BOX ( hbox2 ), /* FIXME: write the property dialog */
 			 new_stock_button_with_label (GTK_STOCK_PROPERTIES, NULL), 
-			 FALSE, FALSE, 0 );
+			 FALSE, TRUE, 0 );
     gtk_box_pack_start ( GTK_BOX ( hbox2 ), 
 			 new_stock_button_with_label_menu ( GTK_STOCK_SELECT_COLOR, 
 							    G_CALLBACK(popup_category_view_mode_menu) ),
-			 FALSE, FALSE, 0 );
+			 FALSE, TRUE, 0 );
 
     /* Vertical separator */
     separateur = gtk_vseparator_new ();
@@ -2753,9 +2764,8 @@ gboolean categ_activated ( GtkTreeView * treeview, GtkTreePath * path,
 			    -1);
 
 	/* We do not jump to a transaction if a category is specified */
-	if ( operation && no_categ == 0 && no_sous_categ == 0 )
+	if ( operation && no_categ == -1 && no_sous_categ == -1 )
 	{
-
 	    changement_compte ( GINT_TO_POINTER ( operation -> no_compte ));
 	    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
 	    if ( operation -> pointe == 3 && !AFFICHAGE_R )
@@ -2776,14 +2786,28 @@ gboolean categ_activated ( GtkTreeView * treeview, GtkTreePath * path,
 gboolean categ_drag_data_get ( GtkTreeDragSource * drag_source, GtkTreePath * path,
 			       GtkSelectionData * selection_data )
 {
-    printf (">>> plop\n");
+    if ( path )
+    {
+	GtkTreeIter iter;
+	gint no_categ, no_sub_categ;
+	gpointer pointer;
 
-/*     gtk_selection_data_set_text ( selection_data, "plop" ); */
+	if ( gtk_tree_model_get_iter ( GTK_TREE_MODEL(categ_tree_model), &iter, path ) )
+	{
+	    gtk_tree_model_get ( GTK_TREE_MODEL(categ_tree_model), &iter,
+				 CATEGORY_TREE_NO_CATEG_COLUMN, &no_categ, 
+				 CATEGORY_TREE_NO_SUB_CATEG_COLUMN, &no_sub_categ, 
+				 CATEGORY_TREE_POINTER_COLUMN, &pointer, 
+				 -1 );
 
-    gtk_selection_data_set (selection_data, GDK_SELECTION_TYPE_STRING,
-			    8, "plop", 4);
+/* 	    gtk_selection_data_set (selection_data, GDK_SELECTION_TYPE_INTEGER, */
+/* 				    32, pointer, sizeof(gpointer) ); */
+	}
+    }
+
     return TRUE;
 }
+
 
 
 /**
@@ -2793,7 +2817,23 @@ gboolean categ_drag_data_get ( GtkTreeDragSource * drag_source, GtkTreePath * pa
 gboolean categ_row_drop_possible ( GtkTreeDragDest * drag_dest, GtkTreePath * dest_path,
 				   GtkSelectionData * selection_data )
 {
-    return TRUE;
+    if ( dest_path )
+    {
+	GtkTreeIter iter;
+	gint no_categ, no_sub_categ;
+
+	if ( gtk_tree_model_get_iter ( GTK_TREE_MODEL(categ_tree_model), &iter, dest_path ) )
+	{
+	    gtk_tree_model_get ( GTK_TREE_MODEL(categ_tree_model), &iter,
+				 CATEGORY_TREE_NO_CATEG_COLUMN, &no_categ, 
+				 CATEGORY_TREE_NO_SUB_CATEG_COLUMN, &no_sub_categ, 
+				 -1 );
+	    if ( no_categ != -1 && no_sub_categ != -1 )
+		return TRUE;
+	}
+    }
+
+    return FALSE;
 }
 
 
@@ -2802,24 +2842,23 @@ gboolean categ_row_drop_possible ( GtkTreeDragDest * drag_dest, GtkTreePath * de
  * 
  *
  */
-gboolean categ_drag_data_received ( GtkWidget *widget, GdkDragContext *dc,
-				    guint x, guint y, GtkSelectionData *sd,
-				    guint info, guint t, gpointer data )
+gboolean categ_drag_data_received ( GtkTreeDragDest   *drag_dest,
+				    GtkTreePath       *path,
+				    GtkSelectionData  *selection_data )
 {
     GtkTreeIter iter;
-    GtkTreeViewColumn * column;
-    gint cell_x, cell_y;
-    GtkTreePath * path;
 
-    printf (">> received\n");
+    printf (">> received %p\n", path);
 
-/*     gtk_tree_view_get_dest_row_at_pos ( widget, x, y, &path, GTK_TREE_VIEW_DROP_BEFORE ); */
-    gtk_tree_view_get_path_at_pos ( arbre_categ, x, y, &path, &column, &cell_x, &cell_y );
-
-    if ( path && gtk_tree_model_get_iter ( GTK_TREE_MODEL(categ_tree_model), &iter, path ) )
+    if ( path )
     {
-	gchar * str = gtk_selection_data_get_text ( sd );
-	printf ("!!> %s\n", str);
+	gchar * buffer;
+
+	gtk_tree_model_get_iter ( GTK_TREE_MODEL(categ_tree_model), &iter, path );
+	gtk_tree_model_get ( GTK_TREE_MODEL(categ_tree_model), &iter, 
+			     CATEGORY_TREE_TEXT_COLUMN, &buffer,
+			     -1);
+	printf ("!!> %s\n", buffer);
 
 	return TRUE;
     }
