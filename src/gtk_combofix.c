@@ -1,5 +1,8 @@
 /* ComboFix Widget
- * Copyright (C) 2001 Cédric Auger
+ *
+ *     Copyright (C)	2001 Cédric Auger (cedric@grisbi.org) 
+ *			2003 Benjamin Drieu (bdrieu@april.org) 
+ * 			http://www.grisbi.org
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Library General Public
