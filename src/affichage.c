@@ -141,7 +141,7 @@ onglet_display_transaction_form ( void )
   gtk_table_attach ( GTK_TABLE ( table ),
 		     new_checkbox_with_title (_("Transaction number"),
 					      &etat.affiche_no_operation,
-					      ((GCallback*)update_transaction_form)),
+					      ((GCallback) update_transaction_form)),
 		     0, 1, 0, 1,
 		     GTK_SHRINK | GTK_FILL,
 		     GTK_SHRINK | GTK_FILL,
@@ -150,7 +150,7 @@ onglet_display_transaction_form ( void )
   gtk_table_attach ( GTK_TABLE ( table ),
 		     new_checkbox_with_title (_("Value date"),
 					      &etat.affiche_date_bancaire,
-					      ((GCallback*)update_transaction_form)),
+					      ((GCallback) update_transaction_form)),
 		     0, 1, 1, 2,
 		     GTK_SHRINK | GTK_FILL,
 		     GTK_SHRINK | GTK_FILL,
@@ -159,7 +159,7 @@ onglet_display_transaction_form ( void )
   gtk_table_attach ( GTK_TABLE ( table ),
 		     new_checkbox_with_title (_("Financial year"),
 					      &etat.utilise_exercice,
-					      ((GCallback*)update_transaction_form)),
+					      ((GCallback) update_transaction_form)),
 		     0, 1, 2, 3,
 		     GTK_SHRINK | GTK_FILL,
 		     GTK_SHRINK | GTK_FILL,
@@ -168,7 +168,7 @@ onglet_display_transaction_form ( void )
   gtk_table_attach ( GTK_TABLE ( table ),
 		     new_checkbox_with_title (_("Budgetary information"),
 					      &etat.utilise_imputation_budgetaire,
-					      ((GCallback*)update_transaction_form)),
+					      ((GCallback) update_transaction_form)),
 		     0, 1, 3, 4,
 		     GTK_SHRINK | GTK_FILL,
 		     GTK_SHRINK | GTK_FILL,
@@ -177,7 +177,7 @@ onglet_display_transaction_form ( void )
   gtk_table_attach ( GTK_TABLE ( table ),
 		     new_checkbox_with_title (_("Voucher number"),
 					      &etat.utilise_piece_comptable,
-					      ((GCallback*)update_transaction_form)),
+					      ((GCallback) update_transaction_form)),
 		     1, 2, 0, 1,
 		     GTK_SHRINK | GTK_FILL,
 		     GTK_SHRINK | GTK_FILL,
@@ -186,7 +186,7 @@ onglet_display_transaction_form ( void )
   gtk_table_attach ( GTK_TABLE ( table ),
 		     new_checkbox_with_title (_("Bank reference"),
 					      &etat.utilise_info_banque_guichet,
-					      ((GCallback*)update_transaction_form)),
+					      ((GCallback) update_transaction_form)),
 		     1, 2, 1, 2,
 		     GTK_SHRINK | GTK_FILL,
 		     GTK_SHRINK | GTK_FILL,
@@ -195,7 +195,7 @@ onglet_display_transaction_form ( void )
   gtk_table_attach ( GTK_TABLE ( table ),
 		     new_checkbox_with_title (_("'Accept' and 'Cancel' buttons"),
 					      &etat.affiche_boutons_valider_annuler,
-					      ((GCallback*)update_transaction_form)),
+					      ((GCallback) update_transaction_form)),
 		     1, 2, 2, 3,
 		     GTK_SHRINK | GTK_FILL,
 		     GTK_SHRINK | GTK_FILL,
@@ -413,7 +413,7 @@ GtkWidget *onglet_display_addresses ( void )
 		       FALSE, FALSE, 0);
 
   entree_titre_fichier = new_text_entry (&titre_fichier,
-					 ((GCallback*)update_homepage_title));
+					 ((GCallback)update_homepage_title));
   gtk_box_pack_start ( GTK_BOX ( hbox ), entree_titre_fichier,
 		       TRUE, TRUE, 0);
 

@@ -25,9 +25,6 @@
 #include "variables-extern.c"
 #include "en_tete.h"
 
-/** TODO: MOVE IT ! */
-void create_change_menus (struct struct_devise *devise);
-
 
 GtkWidget *entree_nom, *entree_code, *entree_iso_code;
 
@@ -1653,7 +1650,8 @@ GtkWidget *onglet_devises ( void )
   gtk_box_pack_start ( GTK_BOX ( hbox_ligne_change ), devise_2,
 		       FALSE, FALSE, 0);
 
-  gtk_widget_set_sensitive ( paddingbox, FALSE );
+  /* Select first entry if applicable */
+  /* TODO: select */
 
   return ( vbox_pref );
 
