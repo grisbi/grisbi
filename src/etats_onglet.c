@@ -22,13 +22,17 @@
 #include "include.h"
 #include "structures.h"
 #include "variables-extern.c"
+
 #include "erreur.h"
 #include "etats_calculs.h"
 #include "etats_config.h"
 #include "etats_onglet.h"
 #include "gtk_list_button.h"
+#include "parametres.h"
 #include "tiers_onglet.h"
 #include "traitement_variables.h"
+
+#include "dialog.h"
 
 
 void impression_etat ( struct struct_etat *etat );
@@ -445,186 +449,114 @@ gboolean ajout_etat ( void )
   GtkWidget *scrolled_window;
 
 
-  dialog = gnome_dialog_new ( _("Create a report"),
-			      GNOME_STOCK_BUTTON_OK,
-			      GNOME_STOCK_BUTTON_CANCEL,
-			      NULL );
-  gtk_window_set_transient_for ( GTK_WINDOW ( dialog ),
-				 GTK_WINDOW ( window ));
-  gtk_widget_set_usize ( dialog,
-			 400,
-			 250 );
-  gtk_window_set_policy ( GTK_WINDOW ( dialog ),
-			  FALSE,
-			  FALSE,
-			  FALSE );
-
-  label = gtk_label_new ( COLON(_("Select report type")));
-  gtk_misc_set_alignment ( GTK_MISC ( label ),
-			   0,
-			   0.5 );
-  gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
-		       label,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( label );
-
+  dialog = dialogue_special_no_run ( GTK_MESSAGE_QUESTION,
+ 				     GTK_BUTTONS_OK_CANCEL,
+ 				     make_hint ( _("Choose template for new report"),
+ 						 _("You are about to create a new report.  For convenience, you can choose between the following templates.  Reports may be customized later." ) ) );
+  
+  frame = new_paddingbox_with_title ( GTK_DIALOG(dialog)->vbox, FALSE,
+				      _("Report type"));
+  
   /* on commence par créer l'option menu */
-
   option_menu = gtk_option_menu_new ();
-  gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
-		       option_menu,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( option_menu );
+  gtk_box_pack_start ( GTK_BOX(frame), option_menu, FALSE, FALSE, 0 );
+
+  /* On met une ligne blanche entre les paddingboxes */
+/*   gtk_box_pack_start ( GTK_BOX(frame), gtk_label_new(""), FALSE, FALSE, 6 ); */
 
   /* on ajoute maintenant la frame */
-
-  frame = gtk_frame_new ( COLON(_("Description")));
-  gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
-		       frame,
-		       TRUE,
-		       TRUE,
-		       0 );
-  gtk_widget_show ( frame );
-
+  frame = new_paddingbox_with_title ( GTK_DIALOG(dialog)->vbox, FALSE,
+				      _("Description"));
+  
   /* on met le label dans une scrolled window */
-
-  scrolled_window = gtk_scrolled_window_new ( FALSE,
-					      FALSE );
+  scrolled_window = gtk_scrolled_window_new ( FALSE, FALSE );
   gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window ),
-				   GTK_POLICY_AUTOMATIC,
-				   GTK_POLICY_AUTOMATIC );
-  gtk_container_add ( GTK_CONTAINER ( frame ),
-		      scrolled_window );
-  gtk_widget_show ( scrolled_window );
-
-
+ 				   GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC );
+  gtk_box_pack_start ( GTK_BOX(frame), scrolled_window, TRUE, TRUE, 6 );
+  
   /* on ajoute maintenant le label */
-
   label_description = gtk_label_new ( "" );
-  gtk_label_set_line_wrap ( GTK_LABEL ( label_description ),
-			    TRUE );
+  gtk_misc_set_alignment ( GTK_MISC ( label_description ), 0, 0 );
+  gtk_label_set_line_wrap ( GTK_LABEL ( label_description ), TRUE );
   gtk_scrolled_window_add_with_viewport ( GTK_SCROLLED_WINDOW ( scrolled_window ),
-					  label_description );
-  gtk_widget_show ( label_description );
+  					  label_description );
 
   gtk_viewport_set_shadow_type ( GTK_VIEWPORT ( label_description -> parent ),
 				 GTK_SHADOW_NONE );
 
   /* on crée ici le menu qu'on ajoute à l'option menu */
-
   menu = gtk_menu_new ();
 
   menu_item = gtk_menu_item_new_with_label ( _("Last month incomes and outgoings"));
-  gtk_menu_append ( GTK_MENU ( menu ),
-		    menu_item );
-  gtk_object_set_data ( GTK_OBJECT ( menu_item ),
-			"no_etat",
+  gtk_menu_append ( GTK_MENU ( menu ), menu_item );
+  gtk_object_set_data ( GTK_OBJECT ( menu_item ), "no_etat",
 			GINT_TO_POINTER ( 0 ));
-  gtk_signal_connect ( GTK_OBJECT ( menu_item ),
-			      "activate",
-			      GTK_SIGNAL_FUNC ( change_choix_nouvel_etat ),
-			      GTK_OBJECT ( label_description ));
-  gtk_widget_show ( menu_item );
-
-  /* on met le texte du 1er choix */
-
-  change_choix_nouvel_etat ( menu_item,
-			     label_description );
-
-
-  menu_item = gtk_menu_item_new_with_label ( _("Current month incomes and outgoings"));
-  gtk_menu_append ( GTK_MENU ( menu ),
-		    menu_item );
-  gtk_object_set_data ( GTK_OBJECT ( menu_item ),
-			"no_etat",
-			GINT_TO_POINTER ( 1 ));
-  gtk_signal_connect ( GTK_OBJECT ( menu_item ),
-		       "activate",
+  gtk_signal_connect ( GTK_OBJECT ( menu_item ), "activate",
 		       GTK_SIGNAL_FUNC ( change_choix_nouvel_etat ),
 		       GTK_OBJECT ( label_description ));
-  gtk_widget_show ( menu_item );
 
+  /* on met le texte du 1er choix */
+  change_choix_nouvel_etat ( menu_item, label_description );
+
+  menu_item = gtk_menu_item_new_with_label ( _("Current month incomes and outgoings"));
+  gtk_menu_append ( GTK_MENU ( menu ), menu_item )
+; gtk_object_set_data ( GTK_OBJECT ( menu_item ), "no_etat",
+			GINT_TO_POINTER ( 1 ));
+  gtk_signal_connect ( GTK_OBJECT ( menu_item ), "activate",
+		       GTK_SIGNAL_FUNC ( change_choix_nouvel_etat ),
+		       GTK_OBJECT ( label_description ));
 
   menu_item = gtk_menu_item_new_with_label ( _("Annual budget"));
-  gtk_menu_append ( GTK_MENU ( menu ),
-		    menu_item );
-  gtk_object_set_data ( GTK_OBJECT ( menu_item ),
-			"no_etat",
+  gtk_menu_append ( GTK_MENU ( menu ), menu_item );
+  gtk_object_set_data ( GTK_OBJECT ( menu_item ), "no_etat",
 			GINT_TO_POINTER ( 2 ));
-  gtk_signal_connect ( GTK_OBJECT ( menu_item ),
-			      "activate",
-			      GTK_SIGNAL_FUNC ( change_choix_nouvel_etat ),
-			      GTK_OBJECT ( label_description ));
-  gtk_widget_show ( menu_item );
+  gtk_signal_connect ( GTK_OBJECT ( menu_item ), "activate",
+		       GTK_SIGNAL_FUNC ( change_choix_nouvel_etat ),
+		       GTK_OBJECT ( label_description ));
 
   menu_item = gtk_menu_item_new_with_label ( _("Cheques deposit"));
-  gtk_menu_append ( GTK_MENU ( menu ),
-		    menu_item );
-  gtk_object_set_data ( GTK_OBJECT ( menu_item ),
-			"no_etat",
+  gtk_menu_append ( GTK_MENU ( menu ), menu_item );
+  gtk_object_set_data ( GTK_OBJECT ( menu_item ), "no_etat",
 			GINT_TO_POINTER ( 4 ));
-  gtk_signal_connect ( GTK_OBJECT ( menu_item ),
-			      "activate",
-			      GTK_SIGNAL_FUNC ( change_choix_nouvel_etat ),
-			      GTK_OBJECT ( label_description ));
-  gtk_widget_show ( menu_item );
-
+  gtk_signal_connect ( GTK_OBJECT ( menu_item ), "activate",
+		       GTK_SIGNAL_FUNC ( change_choix_nouvel_etat ),
+		       GTK_OBJECT ( label_description ));
 
   menu_item = gtk_menu_item_new_with_label ( _("Monthly outgoings by third party"));
-  gtk_menu_append ( GTK_MENU ( menu ),
-		    menu_item );
-  gtk_object_set_data ( GTK_OBJECT ( menu_item ),
-			"no_etat",
+  gtk_menu_append ( GTK_MENU ( menu ), menu_item );
+  gtk_object_set_data ( GTK_OBJECT ( menu_item ), "no_etat",
 			GINT_TO_POINTER ( 5 ));
-  gtk_signal_connect ( GTK_OBJECT ( menu_item ),
-			      "activate",
-			      GTK_SIGNAL_FUNC ( change_choix_nouvel_etat ),
-			      GTK_OBJECT ( label_description ));
-  gtk_widget_show ( menu_item );
-
+  gtk_signal_connect ( GTK_OBJECT ( menu_item ), "activate",
+		       GTK_SIGNAL_FUNC ( change_choix_nouvel_etat ),
+		       GTK_OBJECT ( label_description ));
 
   menu_item = gtk_menu_item_new_with_label ( _("Search"));
-  gtk_menu_append ( GTK_MENU ( menu ),
-		    menu_item );
-  gtk_object_set_data ( GTK_OBJECT ( menu_item ),
-			"no_etat",
+  gtk_menu_append ( GTK_MENU ( menu ), menu_item );
+  gtk_object_set_data ( GTK_OBJECT ( menu_item ), "no_etat",
 			GINT_TO_POINTER ( 6 ));
-  gtk_signal_connect ( GTK_OBJECT ( menu_item ),
-			      "activate",
-			      GTK_SIGNAL_FUNC ( change_choix_nouvel_etat ),
-			      GTK_OBJECT ( label_description ));
-  gtk_widget_show ( menu_item );
-
+  gtk_signal_connect ( GTK_OBJECT ( menu_item ), "activate",
+		       GTK_SIGNAL_FUNC ( change_choix_nouvel_etat ),
+		       GTK_OBJECT ( label_description ));
 
   menu_item = gtk_menu_item_new_with_label ( _("Blank report"));
-  gtk_menu_append ( GTK_MENU ( menu ),
-		    menu_item );
-  gtk_object_set_data ( GTK_OBJECT ( menu_item ),
-			"no_etat",
+  gtk_menu_append ( GTK_MENU ( menu ), menu_item );
+  gtk_object_set_data ( GTK_OBJECT ( menu_item ), "no_etat",
 			GINT_TO_POINTER ( 3 ));
-  gtk_signal_connect ( GTK_OBJECT ( menu_item ),
-			      "activate",
-			      GTK_SIGNAL_FUNC ( change_choix_nouvel_etat ),
-			      GTK_OBJECT ( label_description ));
-  gtk_widget_show ( menu_item );
+  gtk_signal_connect ( GTK_OBJECT ( menu_item ), "activate",
+		       GTK_SIGNAL_FUNC ( change_choix_nouvel_etat ),
+		       GTK_OBJECT ( label_description ));
+  gtk_option_menu_set_menu ( GTK_OPTION_MENU ( option_menu ), menu );
 
-  gtk_option_menu_set_menu ( GTK_OPTION_MENU ( option_menu ),
-			     menu );
-  gtk_widget_show ( menu );
-
+  gtk_box_set_spacing ( GTK_BOX(GTK_DIALOG(dialog)->vbox), 6 );
+  gtk_widget_show_all ( dialog );
 
   /* on attend le choix de l'utilisateur */
 
-  resultat = gnome_dialog_run ( GNOME_DIALOG ( dialog ));
+  resultat = gtk_dialog_run ( GTK_DIALOG ( dialog ));
 
-  if ( resultat )
+  if ( resultat != GTK_RESPONSE_OK )
     {
-      if ( GNOME_IS_DIALOG ( dialog ))
-	gnome_dialog_close ( GNOME_DIALOG ( dialog ));
+      gtk_widget_destroy ( dialog );
       return;
     }
 
@@ -638,8 +570,7 @@ gboolean ajout_etat ( void )
 
   /* on crée le nouvel état */
 
-  etat = calloc ( 1,
-		  sizeof ( struct struct_etat ));
+  etat = calloc ( 1, sizeof ( struct struct_etat ));
 
   etat -> no_etat = ++no_dernier_etat;
 
@@ -996,39 +927,32 @@ gboolean ajout_etat ( void )
 
 
     default :
-      dialogue ( _("Unknown report type, creation cancelled"));
+      dialogue_error ( _("Unknown report type, creation cancelled"));
       return;
     }
 
   /* on l'ajoute à la liste */
-
-  liste_struct_etats = g_slist_append ( liste_struct_etats,
-					etat );
+  liste_struct_etats = g_slist_append ( liste_struct_etats, etat );
 
   /* on réaffiche la liste des états */
-
   etat_courant = etat;
 
   remplissage_liste_etats ();
 
-  gtk_widget_set_sensitive ( bouton_personnaliser_etat,
-			     TRUE );
-  gtk_widget_set_sensitive ( bouton_raffraichir_etat,
-			     TRUE );
-  gtk_widget_set_sensitive ( bouton_imprimer_etat,
-			     TRUE );
-  gtk_widget_set_sensitive ( bouton_exporter_etat,
-			     TRUE );
-  gtk_widget_set_sensitive ( bouton_dupliquer_etat,
-			     TRUE );
-  gtk_widget_set_sensitive ( bouton_effacer_etat,
-			     TRUE );
+  gtk_widget_set_sensitive ( bouton_personnaliser_etat, TRUE );
+  gtk_widget_set_sensitive ( bouton_raffraichir_etat, TRUE );
+  gtk_widget_set_sensitive ( bouton_imprimer_etat, TRUE );
+  gtk_widget_set_sensitive ( bouton_exporter_etat, TRUE );
+  gtk_widget_set_sensitive ( bouton_dupliquer_etat, TRUE );
+  gtk_widget_set_sensitive ( bouton_effacer_etat, TRUE );
 
   gtk_label_set_text ( GTK_LABEL ( label_etat_courant ),
 		       etat_courant -> nom_etat );
 
   personnalisation_etat ();
   modification_fichier ( TRUE );
+
+  gtk_widget_destroy ( dialog );
 
   return FALSE;
 }
