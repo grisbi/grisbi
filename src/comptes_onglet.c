@@ -243,14 +243,9 @@ void reaffiche_liste_comptes_onglet ( void )
 	{
 	  p_tab_nom_de_compte_variable = p_tab_nom_de_compte + GPOINTER_TO_INT ( ordre_comptes_variable->data );
 
-	  if ( ! COMPTE_CLOTURE )
-	    {
-	      bouton = comptes_appel_onglet ( GPOINTER_TO_INT ( ordre_comptes_variable->data ));
-	      gtk_box_pack_start (GTK_BOX (vbox_liste_comptes_onglet), bouton,
-				  FALSE, FALSE, 0);
-	      gtk_widget_show_all (bouton);
-	    }
-
+	  bouton = comptes_appel_onglet ( GPOINTER_TO_INT ( ordre_comptes_variable->data ));
+	  gtk_box_pack_start (GTK_BOX (vbox_liste_comptes_onglet), bouton, FALSE, FALSE, 0);
+	  gtk_widget_show_all (bouton);
 	}
       while ( (  ordre_comptes_variable = ordre_comptes_variable->next ) );
     }
