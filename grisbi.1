@@ -25,8 +25,6 @@ grisbi \- Personal finance tracking program based on GTK
 This manual page documents briefly the
 .B grisbi
 command.
-This manual page was written for the Debian GNU/Linux distribution
-because the original program does not have a manual page.
 .PP
 .\" TeX users may be more comfortable with the \fB<whatever>\fP and
 .\" \fI<whatever>\fP escape sequences to invode bold face and italics, 
@@ -74,6 +72,24 @@ Show summary of options.
 .TP
 .B \-\-version
 Show version of program.
+.TP
+.B \-\-tab=w[,x[,y[,z]]]]        
+Choose initial tab.
+.B w 
+is the tab to select.
+If 
+.B w 
+is set to the reports tab, 
+.B x 
+is the number of report to display.
+If 
+.B y 
+is set, customize selected report and jump to specified report
+customization tab.  If 
+.B y 
+is set, 
+.B z 
+is the subtab to select.
+
 .SH AUTHOR
 This manual page was written by Benjamin Drieu <benj@debian.org>,
-for the Debian GNU/Linux system (but may be used by others).
