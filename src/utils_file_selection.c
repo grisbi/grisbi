@@ -112,7 +112,8 @@ gchar** file_selection_get_selections(GtkFileSelection* filesel)
     // alloc new selection table
     if (num_selections > 0)
     {
-        utf8selections = (gchar**)g_malloc(num_selections*sizeof(gchar*));
+        // We allocate num_selection entry + one for the last NULL end of line
+        utf8selections = (gchar**)g_malloc((num_selections+1)*sizeof(gchar*));
     }
 
     // fill the new selection table with the uft8 converted selected strings
@@ -123,6 +124,7 @@ gchar** file_selection_get_selections(GtkFileSelection* filesel)
         {
             utf8selections[idx_selection] = g_filename_to_utf8(gtk_selections[idx_selection],-1,NULL,NULL,NULL);
         }
+        utf8selections[num_selections] = NULL;
     }
     if (gtk_selections)
     {
