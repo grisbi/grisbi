@@ -3,6 +3,7 @@ GtkWidget *initialisation_notebook_operations ( void );
 void creation_listes_operations ( void );
 gint empeche_pression_titre_colonne ( GtkWidget *bouton );
 void ajoute_nouvelle_liste_operation ( gint no_compte );
+void update_titres_colonnes ( void );
 void onglet_compte_realize ( GtkWidget *onglet, GtkWidget *liste );
 void remplissage_liste_operations ( gint compte );
 gchar *recherche_contenu_cellule ( struct structure_operation *operation,

@@ -51,6 +51,7 @@
 #include "type_operations.h"
 #include "utils.h"
 #include "ventilation.h"
+#include "affichage_liste.h"
 
 
 GtkJustification col_justs[] = { GTK_JUSTIFY_CENTER,
@@ -466,6 +467,36 @@ void ajoute_nouvelle_liste_operation ( gint no_compte )
     remplissage_liste_operations ( no_compte );
 }
 /******************************************************************************/
+
+
+/******************************************************************************/
+void update_titres_colonnes ( void )
+{
+    gint i, j;
+    GtkTooltips *tooltip;
+
+    recuperation_noms_colonnes_et_tips ();
+    
+    tooltip = gtk_tooltips_new ();
+
+    for ( i=0 ; i<nb_comptes ; i++ )
+    {
+	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
+
+	for ( j = 0 ; j<7 ; j++ )
+	{
+	    gtk_clist_set_column_title ( GTK_CLIST ( CLIST_OPERATIONS ),
+					 j,
+					 titres_colonnes_liste_operations[j] );
+	    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltip ),
+				   GTK_CLIST ( CLIST_OPERATIONS ) -> column[j].button,
+				   tips_col_liste_operations[j],
+				   tips_col_liste_operations[j] );
+	}
+    }
+}
+/******************************************************************************/
+
 
 /******************************************************************************/
 /* Fonction onglet_compte_realize */

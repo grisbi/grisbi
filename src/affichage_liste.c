@@ -681,6 +681,10 @@ gboolean lache_bouton_classement_liste ( GtkWidget *clist,
     tab_affichage_ope[ligne_depart_drag][col_depart_drag] = tab_affichage_ope[ligne_arrivee_drag][col_arrivee_drag];
     tab_affichage_ope[ligne_arrivee_drag][col_arrivee_drag] = buffer_int;
 
+    /*     on met à jour les titres */
+
+    update_titres_colonnes ();
+
 /*     on réaffiche les listes d'opé */
 
     demande_mise_a_jour_tous_comptes ();
