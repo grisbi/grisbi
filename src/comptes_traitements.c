@@ -30,6 +30,7 @@
 #include "comptes_traitements.h"
 #include "echeancier_liste.h"
 #include "erreur.h"
+#include "dialog.h"
 #include "etats_config.h"
 #include "fichiers_gestion.h"
 #include "imputation_budgetaire.h"
@@ -206,66 +207,15 @@ void supprimer_compte ( void )
   gchar *nom_compte_supprime;
   gint page_en_cours;
 
+  compte_modifie = compte_courant_onglet;
+  p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_modifie;
 
-  dialog = gnome_dialog_new ( _("Select an account"),
-			      GNOME_STOCK_BUTTON_OK,
-			      GNOME_STOCK_BUTTON_CANCEL,
-			      NULL );
-  gtk_window_set_transient_for ( GTK_WINDOW ( dialog ),
-				 GTK_WINDOW ( window ));
-  gtk_signal_connect ( GTK_OBJECT ( dialog),
-		       "destroy_event",
-		       GTK_SIGNAL_FUNC ( blocage_boites_dialogues ),
-		       NULL );
-  gtk_signal_connect ( GTK_OBJECT ( dialog ),
-		       "destroy_event",
-		       GTK_SIGNAL_FUNC ( blocage_boites_dialogues ),
-		       GINT_TO_POINTER ( 1 ) );
+  if ( !question_yes_no (g_strdup_printf (_("Are you sure you want to delete account '%s'?"), NOM_DU_COMPTE) ))
+    return;
 
-  p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
-
-  label = gtk_label_new ( _("Select the account to delete:\n\n\n(Be careful, the account will be permanently deleted!\nIf you just want to close the account, you must\ngo to the account properties.)") );
-  gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
-		       label,
-		       FALSE,
-		       FALSE,
-		       5 );
-  gtk_widget_show ( label );
-
-
-  liste_comptes = gtk_option_menu_new ();
-  gtk_option_menu_set_menu ( GTK_OPTION_MENU ( liste_comptes ),
-			     creation_option_menu_comptes (GTK_SIGNAL_FUNC(changement_choix_compte_echeancier), TRUE) );
-  gtk_option_menu_set_history ( GTK_OPTION_MENU ( liste_comptes ),
-				compte_courant_onglet );
-  gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
-		       liste_comptes,
-		       FALSE,
-		       FALSE,
-		       5 );
-  gtk_widget_show ( liste_comptes );
-
-  resultat = gnome_dialog_run ( GNOME_DIALOG ( dialog ));
-
-
-  /* le compte à supprimer est maintenant choisi */
-
-  if ( resultat )
-    {
-      gnome_dialog_close ( GNOME_DIALOG ( dialog ));
-      return;
-    }
-
-
-  compte_modifie = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( liste_comptes ) -> menu_item ),
-							   "no_compte" ) );
-
-  gnome_dialog_close  ( GNOME_DIALOG ( dialog ));
-
-
-/* on commence ici la suppression du compte */
+  /* on commence ici la suppression du compte */
  
-/* si qu'un compte, on fermer le fichier */
+  /* si qu'un compte, on fermer le fichier */
 
   if ( nb_comptes == 1 )
     {
@@ -274,38 +224,31 @@ void supprimer_compte ( void )
       return;
     }
 
-  
-
-
   /* supprime l'onglet du compte */
-
   gtk_notebook_remove_page ( GTK_NOTEBOOK ( notebook_listes_operations ),
 			     compte_modifie + 1 );
 
   /*       suppression des échéances */
-
-  while ( ( pointeur_liste = g_slist_find_custom ( gsliste_echeances,
-						   GINT_TO_POINTER ( compte_modifie ),
-						   (GCompareFunc) cherche_compte_dans_echeances ) ) )
+  while ( ( pointeur_liste = 
+	    g_slist_find_custom ( gsliste_echeances,
+				  GINT_TO_POINTER ( compte_modifie ),
+				  (GCompareFunc)cherche_compte_dans_echeances )))
     {
       if ( echeance_selectionnnee == ECHEANCE_COURANTE )
 	ECHEANCE_COURANTE = -1;
 
-      gsliste_echeances = g_slist_remove ( gsliste_echeances, 
-					   ECHEANCE_COURANTE );
+      gsliste_echeances = g_slist_remove ( gsliste_echeances, ECHEANCE_COURANTE );
       nb_echeances--;
     }
 
 
-
   /* supprime le compte de la liste de l'ordre des comptes */
-
   ordre_comptes = g_slist_remove ( ordre_comptes,
 				   GINT_TO_POINTER ( compte_modifie ));
 
 
-  /* modifie les numéros des comptes supérieurs au compte supprimé dans l'ordre des comptes */
-
+  /* modifie les numéros des comptes supérieurs au compte supprimé
+     dans l'ordre des comptes */
   pointeur_liste = ordre_comptes;
 
   do
@@ -336,8 +279,7 @@ void supprimer_compte ( void )
   g_slist_free ( LISTE_OPERATIONS );
   nom_compte_supprime = g_strdup ( NOM_DU_COMPTE );
 
-/* on décale en mémoire les comptes situés après */
-
+  /* on décale en mémoire les comptes situés après */
   for ( i = compte_modifie ; i < nb_comptes ; i++ )
     {
       NO_COMPTE = NO_COMPTE -1;
@@ -349,7 +291,6 @@ void supprimer_compte ( void )
 
   /* recherche les échéances pour les comptes plaçés après le compe supprimé */
   /* pour leur diminuer leur numéro de compte de 1 */
-
   pointeur_liste = gsliste_echeances;
 
   while ( pointeur_liste )
@@ -362,10 +303,11 @@ void supprimer_compte ( void )
       pointeur_liste = pointeur_liste -> next;
     }
 
-
   /*   fait le tour des opés de tous les comptes, */
-  /*     pour les opés des comptes > à celui supprimé, on descend le no de compte */
-  /*     pour les virements vers le compte supprimé, met relation_no_compte à -1 */
+  /*     pour les opés des comptes > à celui supprimé, on descend le
+	 no de compte */
+  /*     pour les virements vers le compte supprimé, met
+	 relation_no_compte à -1 */
 
   p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
 
@@ -406,7 +348,6 @@ void supprimer_compte ( void )
   if ( compte_courant_onglet )
     compte_courant_onglet--;
 
-
   /* retire le bouton du compte dans la liste des comptes */
   /*   pour cela, on efface vbox_liste_comptes et on le recrée */
 
@@ -426,13 +367,12 @@ void supprimer_compte ( void )
 
   /* réaffiche la liste si necessaire */
 
-  page_en_cours = gtk_notebook_get_current_page ( GTK_NOTEBOOK ( notebook_general ));
+  page_en_cours = gtk_notebook_get_current_page (GTK_NOTEBOOK(notebook_general));
 
   changement_compte ( GINT_TO_POINTER ( compte_courant ));
 
-  gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ),
-			  page_en_cours );
-      
+  gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ), page_en_cours );
+
   remplissage_liste_echeance ();
   update_liste_echeances_manuelles_accueil();
   update_liste_comptes_accueil ();
