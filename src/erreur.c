@@ -97,6 +97,7 @@ gboolean question ( gchar *texte )
 				GNOME_STOCK_BUTTON_CANCEL,
 				NULL );
   gtk_window_set_transient_for ( GTK_WINDOW ( dialogue ), GTK_WINDOW ( window ) );
+  gtk_window_set_position ( GTK_WINDOW ( dialogue ), GTK_WIN_POS_CENTER );
   gtk_signal_connect ( GTK_OBJECT ( dialogue ),
 		       "delete_event",
 		       GTK_SIGNAL_FUNC ( blocage_boites_dialogues ),
@@ -131,6 +132,7 @@ gboolean question_yes_no ( gchar *texte )
 				GNOME_STOCK_BUTTON_NO,
 				NULL );
   gtk_window_set_transient_for ( GTK_WINDOW ( dialogue ), GTK_WINDOW ( window ) );
+  gtk_window_set_position ( GTK_WINDOW ( dialogue ), GTK_WIN_POS_CENTER );
   gtk_signal_connect ( GTK_OBJECT ( dialogue ),
 		       "delete_event",
 		       GTK_SIGNAL_FUNC ( blocage_boites_dialogues ),
@@ -213,6 +215,7 @@ void affiche_log_message ( void )
 			      GNOME_STOCK_BUTTON_OK,
 			      NULL );
   gtk_window_set_transient_for ( GTK_WINDOW ( dialog ), GTK_WINDOW ( window ) );
+  gtk_window_set_position ( GTK_WINDOW ( dialog ), GTK_WIN_POS_CENTER );
 
   label = gtk_label_new ( COLON(_("This operation returned a message")));
   gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ), label, FALSE, FALSE, 0 );
@@ -254,6 +257,7 @@ void traitement_sigsegv ( gint signal_nb )
   if ( etat.en_train_de_charger )
     {
       dialog = gnome_error_dialog ( _("Ooops, Grisbi crashed while loading the file (segfault).\nEither the file is corrupted, or it is a major bug.\nTry to load the file again. If you can repeat this crash, could you report it on Grisbi's bugtracker (http://www.grisbi.org/bugtracking/)?\nIt would really help us to fix it.\nThanks a lot!"));
+      gtk_window_set_position ( GTK_WINDOW ( dialog ), GTK_WIN_POS_CENTER );
       gnome_dialog_run_and_close ( GNOME_DIALOG ( dialog ));
       fichier_marque_ouvert ( FALSE );
       gtk_main_quit();
@@ -263,6 +267,7 @@ void traitement_sigsegv ( gint signal_nb )
   if ( etat.en_train_de_sauvegarder )
     {
       dialog = gnome_error_dialog ( _("Ooops, Grisbi crashed while trying to save the file (segfault).\nSo it's impossible to save your file.\nIf you can repeat this crash, could you report it on Grisbi's bugtracker (http://www.grisbi.org/bugtracking/)?\nIt would really help us to fix it.\nThanks a lot!"));
+      gtk_window_set_position ( GTK_WINDOW ( dialog ), GTK_WIN_POS_CENTER );
       gnome_dialog_run_and_close ( GNOME_DIALOG ( dialog ));
       fichier_marque_ouvert ( FALSE );
       gtk_main_quit();
@@ -272,6 +277,7 @@ void traitement_sigsegv ( gint signal_nb )
   if ( !etat.modification_fichier )
     {
       dialog = gnome_error_dialog ( _("Ooops, Grisbi crashed (segfault).\nNo matter, you didn't modify anything.\nIf you can repeat this crash, could you report it on Grisbi's bugtracker (http://www.grisbi.org/bugtracking/)?\nIt would really help us to fix it.\nThanks a lot!"));
+      gtk_window_set_position ( GTK_WINDOW ( dialog ), GTK_WIN_POS_CENTER );
       gnome_dialog_run_and_close ( GNOME_DIALOG ( dialog ));
       fichier_marque_ouvert ( FALSE );
       gtk_main_quit();
