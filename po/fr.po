@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2003-09-08 22:11+0200\n"
-"PO-Revision-Date: 2003-09-08 22:13GMT\n"
+"PO-Revision-Date: 2003-09-08 22:34+0200\n"
 "Last-Translator: Benjamin Drieu <bdrieu@april.org>\n"
 "Language-Team: Francais <traduction@grisbi.org>\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -3175,7 +3175,7 @@ msgstr "Défaut"
 #: src/equilibrage.c:1209 src/operations_onglet.c:85 src/parametres.c:212
 #: src/type_operations.c:51
 msgid "Reconciliation"
-msgstr "Equilibrage"
+msgstr "Rapprochement"
 
 #: src/equilibrage.c:1212
 msgid "Reconciliation: sort transactions"
