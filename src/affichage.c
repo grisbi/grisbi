@@ -785,9 +785,9 @@ void choix_fonte_general ( GtkWidget *bouton,
 			      3 );
 
       gtk_widget_destroy ( notebook_general );
-      gtk_widget_destroy ( GNOME_APP ( window ) -> menubar );
-      GNOME_APP ( window ) -> menubar = NULL;
-      gnome_app_create_menus ( GNOME_APP ( window ), 
+/*       gtk_widget_destroy ( GNOME_APP ( window ) -> menubar ); */
+/*       GNOME_APP ( window ) -> menubar = NULL; */
+      gnome_app_create_menus ( GNOME_APP ( window ),
 			       menu_principal );
 
       ouverture_confirmee ();

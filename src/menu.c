@@ -264,8 +264,7 @@ void affiche_derniers_fichiers_ouverts ( void )
       menu -> widget = NULL;
 
       (menu + 1)->type = GNOME_APP_UI_ENDOFINFO;
-
-
+    
       gnome_app_insert_menus ( GNOME_APP ( window ),
 			       _("File/Recently opened files/"),
 			       menu );

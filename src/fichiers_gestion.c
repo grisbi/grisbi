@@ -306,7 +306,8 @@ void ouverture_confirmee ( void )
 
   /* on save le nom du fichier dans les derniers ouverts */
 
-  ajoute_nouveau_fichier_liste_ouverture ( nom_fichier_comptes );
+  if (nom_fichier_comptes)
+    ajoute_nouveau_fichier_liste_ouverture ( nom_fichier_comptes );
 
   /* affiche le nom du fichier de comptes dans le titre de la fenetre */
 
@@ -815,7 +816,8 @@ void ajoute_nouveau_fichier_liste_ouverture ( gchar *path_fichier )
   gint position;
   gchar *dernier;
 
-  if ( !nb_max_derniers_fichiers_ouverts )
+  if ( !nb_max_derniers_fichiers_ouverts ||
+       ! path_fichier)
     return;
 
   /* on commence par vérifier si ce fichier n'est pas dans les nb_derniers_fichiers_ouverts noms */
@@ -842,7 +844,10 @@ void ajoute_nouveau_fichier_liste_ouverture ( gchar *path_fichier )
 
       for ( i=position ; i>0 ; i-- )
 	tab_noms_derniers_fichiers_ouverts[i] = tab_noms_derniers_fichiers_ouverts[i-1];
-      tab_noms_derniers_fichiers_ouverts[0] = g_strdup ( path_fichier );
+      if ( path_fichier )
+	tab_noms_derniers_fichiers_ouverts[0] = g_strdup ( path_fichier );
+      else
+	tab_noms_derniers_fichiers_ouverts[0] = g_strdup ( "<no file>" );
 
       affiche_derniers_fichiers_ouverts();
 
