@@ -191,11 +191,6 @@ int main (int argc, char *argv[])
 			     GTK_SIGNAL_FUNC ( fermeture_grisbi ),
 			     NULL );
 
-	gtk_signal_connect (GTK_OBJECT (window),
-			    "destroy",
-			    GTK_SIGNAL_FUNC ( fermeture_grisbi ),
-			    NULL );
-
 	gtk_window_set_policy ( GTK_WINDOW ( window ),
 				TRUE,
 				TRUE,
