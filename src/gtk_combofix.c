@@ -549,11 +549,7 @@ static void change_arrow ( GtkWidget *bouton,
       gtk_arrow_set ( GTK_ARROW ( GTK_BIN ( combofix -> arrow ) -> child ),
 		      GTK_ARROW_DOWN,
 		      GTK_SHADOW_ETCHED_OUT);
-      affiche_proposition ( GINT_TO_POINTER ( -1 ),
-			    "",
-			    0,
-			    0,
-			    combofix );
+      affiche_proposition ( GINT_TO_POINTER ( -1 ), NULL, 0, 0, combofix );
     }
 } 
 /* **************************************************************************************************** */
@@ -629,7 +625,7 @@ static void affiche_proposition ( GtkWidget *entree,
 
  recherche_completion:
 
-  for ( i=0; texte && longueur&& i < strlen(texte); i++)
+  for ( i=0; texte && longueur && i < longueur; i++)
     {
       if ( isupper(texte[i]) )
  	{
@@ -1452,7 +1448,6 @@ static void  focus_out_combofix ( GtkWidget *widget,
 				 "focus-out-event" );
 
   case_sensitive = 0;
-  printf (">> %d\n", case_sensitive);
 
   gtk_widget_get_pointer ( GTK_WIDGET ( combofix ),
 			   &x,
@@ -1604,18 +1599,19 @@ static void efface_texte ( GtkWidget *entree,
 			   GtkComboFix *combofix )
 {
 
-  if ( ( !GTK_WIDGET_VISIBLE ( combofix -> popup )
+  if ( ( !GTK_WIDGET_VISIBLE ( combofix -> popup ) 
 	 ||
 	 ( strlen ( gtk_entry_get_text ( GTK_ENTRY ( combofix -> entry )))
 	   ||
 	   ( end - start ) ))
        &&
        combofix -> affiche_liste )
-    affiche_proposition ( NULL,
-			  "",
-			  0,
-			  0,
-			  combofix );
+    affiche_proposition ( NULL, NULL, 0, 0, combofix );
+
+  if ( !strlen ( gtk_entry_get_text ( GTK_ENTRY(combofix -> entry) ) ) )
+    {
+      case_sensitive = 0;
+    }
 
 }
 /* **************************************************************************************************** */
