@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: it\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-11-26 13:28+0100\n"
+"POT-Creation-Date: 2004-12-10 10:43+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Giorgio Mandolfo <giorgio@pollycoke.org>\n"
 "Language-Team: Italian <LL@li.org>\n"
@@ -146,7 +146,7 @@ msgstr "Numero di registrazione"
 
 #: src/affichage.c:161 src/affichage_liste.c:36 src/affichage_liste.c:732
 #: src/affichage_liste.c:1037 src/operations_formulaire.c:972
-#: src/operations_formulaire.c:3328
+#: src/operations_formulaire.c:3338
 msgid "Value date"
 msgstr "Data di valuta"
 
@@ -267,7 +267,7 @@ msgstr "Seleziona un nuovo logo"
 #: src/import.c:2667 src/operations_formulaire.c:779
 #: src/operations_formulaire.c:1400 src/operations_formulaire.c:1450
 #: src/operations_formulaire.c:1499 src/operations_formulaire.c:1538
-#: src/operations_formulaire.c:3318
+#: src/operations_formulaire.c:3328
 msgid "Date"
 msgstr "Data"
 
@@ -277,7 +277,7 @@ msgstr "Data"
 #: src/echeancier_liste.c:430 src/etats_affiche.c:2161 src/etats_config.c:139
 #: src/etats_config.c:270 src/etats_config.c:7173 src/fenetre_principale.c:96
 #: src/import.c:2674 src/operations_formulaire.c:789
-#: src/operations_formulaire.c:3321
+#: src/operations_formulaire.c:3331
 msgid "Third party"
 msgstr "Terza parte"
 
@@ -285,7 +285,7 @@ msgstr "Terza parte"
 #: src/echeancier_formulaire.c:2540 src/echeancier_ventilation.c:967
 #: src/echeancier_ventilation.c:1495 src/etats_affiche.c:2175
 #: src/etats_config.c:262 src/operations_formulaire.c:1116
-#: src/operations_formulaire.c:3335 src/ventilation.c:968
+#: src/operations_formulaire.c:3345 src/ventilation.c:968
 #: src/ventilation.c:1493
 msgid "Budgetary line"
 msgstr "Imputazione del budget"
@@ -296,7 +296,7 @@ msgstr "Imputazione del budget"
 #: src/echeancier_formulaire.c:975 src/echeancier_formulaire.c:2532
 #: src/echeancier_ventilation.c:913 src/echeancier_ventilation.c:932
 #: src/echeancier_ventilation.c:1491 src/imputation_budgetaire.c:165
-#: src/operations_formulaire.c:880 src/operations_formulaire.c:3323
+#: src/operations_formulaire.c:880 src/operations_formulaire.c:3333
 #: src/type_operations.c:154 src/type_operations.c:431
 #: src/type_operations.c:857 src/ventilation.c:914 src/ventilation.c:933
 #: src/ventilation.c:1489
@@ -310,7 +310,7 @@ msgstr "Debito"
 #: src/echeancier_formulaire.c:2534 src/echeancier_ventilation.c:885
 #: src/echeancier_ventilation.c:960 src/echeancier_ventilation.c:1493
 #: src/imputation_budgetaire.c:181 src/operations_formulaire.c:965
-#: src/operations_formulaire.c:1320 src/operations_formulaire.c:3325
+#: src/operations_formulaire.c:1320 src/operations_formulaire.c:3335
 #: src/type_operations.c:168 src/type_operations.c:438
 #: src/type_operations.c:853 src/ventilation.c:886 src/ventilation.c:961
 #: src/ventilation.c:1491
@@ -353,7 +353,7 @@ msgstr "C/R"
 #: src/affichage_liste.c:1085 src/echeancier_formulaire.c:1075
 #: src/echeancier_formulaire.c:2542 src/echeancier_ventilation.c:974
 #: src/echeancier_ventilation.c:1497 src/etats_affiche.c:2203
-#: src/operations_formulaire.c:1122 src/operations_formulaire.c:3337
+#: src/operations_formulaire.c:1122 src/operations_formulaire.c:3347
 #: src/ventilation.c:975 src/ventilation.c:1495
 msgid "Voucher"
 msgstr "Voucher"
@@ -365,14 +365,14 @@ msgstr "Voucher"
 #: src/echeancier_liste.c:433 src/echeancier_ventilation.c:82
 #: src/echeancier_ventilation.c:864 src/echeancier_ventilation.c:1489
 #: src/etats_affiche.c:2182 src/operations_formulaire.c:1129
-#: src/operations_formulaire.c:3340 src/ventilation.c:85 src/ventilation.c:865
+#: src/operations_formulaire.c:3350 src/ventilation.c:85 src/ventilation.c:865
 #: src/ventilation.c:1487
 msgid "Notes"
 msgstr "Note"
 
 #: src/affichage_liste.c:50 src/affichage_liste.c:900
 #: src/affichage_liste.c:1093 src/etats_affiche.c:2210
-#: src/operations_formulaire.c:1135 src/operations_formulaire.c:3342
+#: src/operations_formulaire.c:1135 src/operations_formulaire.c:3352
 msgid "Bank references"
 msgstr "Riferimento bancario"
 
@@ -501,7 +501,7 @@ msgid "Categories"
 msgstr "Categorie"
 
 #: src/affichage_liste.c:924 src/affichage_liste.c:1101
-#: src/operations_formulaire.c:1110 src/operations_formulaire.c:3332
+#: src/operations_formulaire.c:1110 src/operations_formulaire.c:3342
 msgid "Cheque/Transfer number"
 msgstr "Numero di assegno"
 
@@ -513,8 +513,8 @@ msgstr "Imputazione di budget"
 
 #: src/banque.c:122 src/comptes_traitements.c:135
 #: src/comptes_traitements.c:145 src/operations_formulaire.c:2201
-#: src/operations_liste.c:2804 src/operations_liste.c:3046
-#: src/operations_liste.c:3139
+#: src/operations_liste.c:2857 src/operations_liste.c:2923
+#: src/operations_liste.c:3164 src/operations_liste.c:3257
 msgid "Cannot allocate memory, bad things will happen soon"
 msgstr ""
 
@@ -801,7 +801,7 @@ msgid "Studies : Lessons"
 msgstr ""
 
 #: src/categories_onglet.c:77
-msgid "Studies : Scool fees"
+msgid "Studies : School fees"
 msgstr ""
 
 #: src/categories_onglet.c:78
@@ -809,11 +809,11 @@ msgid "Studies : Books"
 msgstr ""
 
 #: src/categories_onglet.c:79
-msgid "Miscelanious : Gifts"
+msgid "Miscellaneous : Gifts"
 msgstr ""
 
 #: src/categories_onglet.c:80
-msgid "Financial expenses : Miscelanious"
+msgid "Financial expenses : Miscellaneous"
 msgstr ""
 
 #: src/categories_onglet.c:81
@@ -833,15 +833,15 @@ msgid "Financial expenses : Refunding"
 msgstr ""
 
 #: src/categories_onglet.c:85
-msgid "Professionnal expenses : Non refundable"
+msgid "Professional expenses : Non refundable"
 msgstr ""
 
 #: src/categories_onglet.c:86
-msgid "Professionnal expenses : Refundable"
+msgid "Professional expenses : Refundable"
 msgstr ""
 
 #: src/categories_onglet.c:87
-msgid "Taxes : Miscelanious"
+msgid "Taxes : Miscellaneous"
 msgstr ""
 
 #: src/categories_onglet.c:88
@@ -901,7 +901,7 @@ msgid "Housing : Gaz"
 msgstr ""
 
 #: src/categories_onglet.c:102
-msgid "Housiing : Garden"
+msgid "Housing : Garden"
 msgstr ""
 
 #: src/categories_onglet.c:103
@@ -1175,7 +1175,7 @@ msgstr ""
 #. mise en place du bouton exporter
 #: src/categories_onglet.c:428 src/etats_onglet.c:365 src/export.c:416
 #: src/imputation_budgetaire.c:340 src/menu.c:76 src/traitement_variables.c:90
-#: src/traitement_variables.c:205
+#: src/traitement_variables.c:208
 msgid "Export"
 msgstr ""
 
@@ -1281,7 +1281,7 @@ msgstr ""
 msgid "Breakdown of transaction"
 msgstr ""
 
-#. Si c'est un virement, on fait les vérifications
+#. Si c'est un virement, on fait les vÃ©rifications
 #: src/categories_onglet.c:2567 src/comptes_traitements.c:556
 #: src/comptes_traitements.c:641 src/echeancier_formulaire.c:1523
 #: src/echeancier_formulaire.c:1570 src/echeancier_formulaire.c:1728
@@ -1560,13 +1560,13 @@ msgid "Impossible to find the Euro currency, it has probably been deleted."
 msgstr ""
 
 #. mise en place des boutons du bas
-#: src/comptes_onglet.c:159 src/menu.c:98
+#: src/comptes_onglet.c:159 src/menu.c:99
 msgid "New account"
 msgstr ""
 
 #. mise en place du bouton "supprimer un compte"
-#: src/comptes_onglet.c:169 src/menu.c:99 src/traitement_variables.c:96
-#: src/traitement_variables.c:211
+#: src/comptes_onglet.c:169 src/menu.c:100 src/traitement_variables.c:96
+#: src/traitement_variables.c:214
 msgid "Remove an account"
 msgstr ""
 
@@ -3064,7 +3064,7 @@ msgstr ""
 
 #: src/echeancier_formulaire.c:1044 src/echeancier_formulaire.c:2536
 #: src/echeancier_ventilation.c:857 src/echeancier_ventilation.c:1487
-#: src/operations_formulaire.c:1103 src/operations_formulaire.c:3330
+#: src/operations_formulaire.c:1103 src/operations_formulaire.c:3340
 #: src/ventilation.c:858 src/ventilation.c:1485
 msgid "Categories : Sub-categories"
 msgstr ""
@@ -3816,12 +3816,12 @@ msgstr ""
 #. mise en place de la frame des comptes
 #. Accounts menu
 #: src/etats_config.c:135 src/etats_config.c:7127 src/export.c:396
-#: src/fenetre_principale.c:89 src/menu.c:96 src/menu.c:97 src/menu.c:98
-#: src/menu.c:99 src/menu.c:100 src/menu.c:101 src/operations_comptes.c:382
+#: src/fenetre_principale.c:89 src/menu.c:97 src/menu.c:98 src/menu.c:99
+#: src/menu.c:100 src/menu.c:101 src/menu.c:102 src/operations_comptes.c:382
 #: src/operations_comptes.c:387 src/operations_comptes.c:448
 #: src/operations_comptes.c:461 src/operations_onglet.c:71
-#: src/traitement_variables.c:96 src/traitement_variables.c:211
-#: src/traitement_variables.c:214
+#: src/traitement_variables.c:96 src/traitement_variables.c:214
+#: src/traitement_variables.c:217
 msgid "Accounts"
 msgstr ""
 
@@ -4502,25 +4502,25 @@ msgstr ""
 #: src/etats_onglet.c:1079 src/etats_onglet.c:1082 src/etats_onglet.c:1085
 #: src/etats_onglet.c:1088 src/etats_onglet.c:1118 src/etats_onglet.c:1121
 #: src/etats_onglet.c:1124 src/etats_onglet.c:1127 src/etats_onglet.c:1130
-#: src/etats_onglet.c:1133 src/fenetre_principale.c:120 src/menu.c:104
-#: src/menu.c:105 src/menu.c:106 src/menu.c:107 src/menu.c:108 src/menu.c:109
-#: src/menu.c:110 src/menu.c:111 src/menu.c:112 src/menu.c:113 src/menu.c:114
-#: src/menu.c:115 src/menu.c:116 src/menu.c:117 src/traitement_variables.c:117
-#: src/traitement_variables.c:120 src/traitement_variables.c:123
-#: src/traitement_variables.c:126 src/traitement_variables.c:129
-#: src/traitement_variables.c:132 src/traitement_variables.c:135
-#: src/traitement_variables.c:138 src/traitement_variables.c:235
-#: src/traitement_variables.c:238 src/traitement_variables.c:241
+#: src/etats_onglet.c:1133 src/fenetre_principale.c:120 src/menu.c:105
+#: src/menu.c:106 src/menu.c:107 src/menu.c:108 src/menu.c:109 src/menu.c:110
+#: src/menu.c:111 src/menu.c:112 src/menu.c:113 src/menu.c:114 src/menu.c:115
+#: src/menu.c:116 src/menu.c:117 src/menu.c:118 src/traitement_variables.c:120
+#: src/traitement_variables.c:123 src/traitement_variables.c:126
+#: src/traitement_variables.c:129 src/traitement_variables.c:132
+#: src/traitement_variables.c:135 src/traitement_variables.c:138
+#: src/traitement_variables.c:141 src/traitement_variables.c:241
 #: src/traitement_variables.c:244 src/traitement_variables.c:247
 #: src/traitement_variables.c:250 src/traitement_variables.c:253
-#: src/traitement_variables.c:256
+#: src/traitement_variables.c:256 src/traitement_variables.c:259
+#: src/traitement_variables.c:262
 msgid "Reports"
 msgstr ""
 
 #. mise en place du bouton ajouter
 #. on ajoute un état vierge appelé nouvel état
-#: src/etats_onglet.c:236 src/etats_onglet.c:736 src/menu.c:106
-#: src/traitement_variables.c:117 src/traitement_variables.c:235
+#: src/etats_onglet.c:236 src/etats_onglet.c:736 src/menu.c:107
+#: src/traitement_variables.c:120 src/traitement_variables.c:241
 msgid "New report"
 msgstr ""
 
@@ -4531,8 +4531,8 @@ msgstr ""
 
 #. on met le bouton dupliquer
 #: src/etats_onglet.c:271 src/etats_onglet.c:300 src/etats_onglet.c:1073
-#: src/etats_onglet.c:1118 src/menu.c:108 src/traitement_variables.c:123
-#: src/traitement_variables.c:241
+#: src/etats_onglet.c:1118 src/menu.c:109 src/traitement_variables.c:126
+#: src/traitement_variables.c:247
 msgid "Clone report"
 msgstr ""
 
@@ -4542,32 +4542,32 @@ msgid "Delete report"
 msgstr ""
 
 #: src/etats_onglet.c:303 src/etats_onglet.c:1076 src/etats_onglet.c:1121
-#: src/menu.c:109 src/traitement_variables.c:126
-#: src/traitement_variables.c:244
+#: src/menu.c:110 src/traitement_variables.c:129
+#: src/traitement_variables.c:250
 msgid "Print report"
 msgstr ""
 
 #: src/etats_onglet.c:306 src/etats_onglet.c:1082 src/etats_onglet.c:1127
-#: src/menu.c:113 src/traitement_variables.c:132
-#: src/traitement_variables.c:250
+#: src/menu.c:114 src/traitement_variables.c:135
+#: src/traitement_variables.c:256
 msgid "Export report file"
 msgstr ""
 
 #: src/etats_onglet.c:309 src/etats_onglet.c:1079 src/etats_onglet.c:1124
-#: src/menu.c:110 src/traitement_variables.c:129
-#: src/traitement_variables.c:247
+#: src/menu.c:111 src/traitement_variables.c:132
+#: src/traitement_variables.c:253
 msgid "Export report as HTML..."
 msgstr ""
 
 #: src/etats_onglet.c:312 src/etats_onglet.c:1085 src/etats_onglet.c:1130
-#: src/menu.c:115 src/traitement_variables.c:135
-#: src/traitement_variables.c:253
+#: src/menu.c:116 src/traitement_variables.c:138
+#: src/traitement_variables.c:259
 msgid "Remove report"
 msgstr ""
 
 #: src/etats_onglet.c:315 src/etats_onglet.c:1088 src/etats_onglet.c:1133
-#: src/menu.c:117 src/traitement_variables.c:138
-#: src/traitement_variables.c:256
+#: src/menu.c:118 src/traitement_variables.c:141
+#: src/traitement_variables.c:262
 msgid "Edit report"
 msgstr ""
 
@@ -4873,9 +4873,9 @@ msgstr ""
 msgid "All transactions will be converted into currency of their account."
 msgstr ""
 
-#: src/export.c:396 src/menu.c:101 src/operations_comptes.c:382
+#: src/export.c:396 src/menu.c:102 src/operations_comptes.c:382
 #: src/operations_comptes.c:387 src/operations_comptes.c:448
-#: src/operations_comptes.c:461 src/traitement_variables.c:214
+#: src/operations_comptes.c:461 src/traitement_variables.c:217
 msgid "Closed accounts"
 msgstr ""
 
@@ -4896,13 +4896,13 @@ msgstr "Conto del titolo"
 #: src/export.c:416 src/menu.c:64 src/menu.c:65 src/menu.c:66 src/menu.c:67
 #: src/menu.c:68 src/menu.c:69 src/menu.c:70 src/menu.c:71 src/menu.c:72
 #: src/menu.c:73 src/menu.c:74 src/menu.c:75 src/menu.c:76 src/menu.c:78
-#: src/menu.c:79 src/menu.c:80 src/menu.c:196 src/menu.c:200 src/menu.c:218
-#: src/menu.c:239 src/menu.c:250 src/print_config.c:168
+#: src/menu.c:79 src/menu.c:80 src/menu.c:197 src/menu.c:201 src/menu.c:219
+#: src/menu.c:240 src/menu.c:251 src/print_config.c:168
 #: src/traitement_variables.c:58 src/traitement_variables.c:65
 #: src/traitement_variables.c:87 src/traitement_variables.c:90
-#: src/traitement_variables.c:93 src/traitement_variables.c:199
-#: src/traitement_variables.c:202 src/traitement_variables.c:205
-#: src/traitement_variables.c:208
+#: src/traitement_variables.c:93 src/traitement_variables.c:202
+#: src/traitement_variables.c:205 src/traitement_variables.c:208
+#: src/traitement_variables.c:211
 msgid "File"
 msgstr ""
 
@@ -5637,16 +5637,16 @@ msgid "_Open"
 msgstr ""
 
 #: src/menu.c:69 src/traitement_variables.c:58 src/traitement_variables.c:65
-#: src/traitement_variables.c:199
+#: src/traitement_variables.c:202
 msgid "Save"
 msgstr ""
 
-#: src/menu.c:70 src/traitement_variables.c:87 src/traitement_variables.c:202
+#: src/menu.c:70 src/traitement_variables.c:87 src/traitement_variables.c:205
 msgid "Save as"
 msgstr ""
 
-#: src/menu.c:72 src/menu.c:196 src/menu.c:200 src/menu.c:218 src/menu.c:239
-#: src/menu.c:250
+#: src/menu.c:72 src/menu.c:197 src/menu.c:201 src/menu.c:219 src/menu.c:240
+#: src/menu.c:251
 msgid "Recently opened files"
 msgstr ""
 
@@ -5654,7 +5654,7 @@ msgstr ""
 msgid "QIF\\/OFX\\/Gnucash file ..."
 msgstr ""
 
-#: src/menu.c:79 src/traitement_variables.c:93 src/traitement_variables.c:208
+#: src/menu.c:79 src/traitement_variables.c:93 src/traitement_variables.c:211
 msgid "Close"
 msgstr ""
 
@@ -5665,99 +5665,105 @@ msgstr ""
 #. Edit menu
 #: src/menu.c:83 src/menu.c:84 src/menu.c:85 src/menu.c:86 src/menu.c:87
 #: src/menu.c:88 src/menu.c:89 src/menu.c:90 src/menu.c:91 src/menu.c:92
-#: src/menu.c:93 src/operations_comptes.c:405 src/operations_comptes.c:410
-#: src/operations_comptes.c:489 src/operations_comptes.c:505
-#: src/operations_comptes.c:512 src/traitement_variables.c:99
-#: src/traitement_variables.c:102 src/traitement_variables.c:105
-#: src/traitement_variables.c:108 src/traitement_variables.c:111
-#: src/traitement_variables.c:114 src/traitement_variables.c:217
-#: src/traitement_variables.c:220 src/traitement_variables.c:223
-#: src/traitement_variables.c:226 src/traitement_variables.c:229
-#: src/traitement_variables.c:232
+#: src/menu.c:93 src/menu.c:94 src/operations_comptes.c:405
+#: src/operations_comptes.c:410 src/operations_comptes.c:489
+#: src/operations_comptes.c:505 src/operations_comptes.c:512
+#: src/traitement_variables.c:99 src/traitement_variables.c:102
+#: src/traitement_variables.c:105 src/traitement_variables.c:108
+#: src/traitement_variables.c:111 src/traitement_variables.c:114
+#: src/traitement_variables.c:117 src/traitement_variables.c:220
+#: src/traitement_variables.c:223 src/traitement_variables.c:226
+#: src/traitement_variables.c:229 src/traitement_variables.c:232
+#: src/traitement_variables.c:235 src/traitement_variables.c:238
 msgid "Edit"
 msgstr ""
 
 #. New transaction
 #: src/menu.c:85 src/operations_liste.c:2654 src/traitement_variables.c:99
-#: src/traitement_variables.c:217
+#: src/traitement_variables.c:220
 msgid "New transaction"
 msgstr ""
 
-#: src/menu.c:86 src/traitement_variables.c:102 src/traitement_variables.c:220
+#: src/menu.c:86
+#, fuzzy
+msgid "Use selected transaction as a template"
+msgstr "Transazioni pianificate chiuse"
+
+#: src/menu.c:87 src/traitement_variables.c:105 src/traitement_variables.c:226
 msgid "Remove transaction"
 msgstr ""
 
 #. Clone transaction
-#: src/menu.c:87 src/operations_liste.c:2674 src/traitement_variables.c:105
-#: src/traitement_variables.c:223
+#: src/menu.c:88 src/operations_liste.c:2682 src/traitement_variables.c:108
+#: src/traitement_variables.c:229
 msgid "Clone transaction"
 msgstr ""
 
 #. Edit transaction
-#: src/menu.c:88 src/operations_liste.c:2641 src/traitement_variables.c:108
-#: src/traitement_variables.c:226
+#: src/menu.c:89 src/operations_liste.c:2641 src/traitement_variables.c:111
+#: src/traitement_variables.c:232
 msgid "Edit transaction"
 msgstr ""
 
 #. Convert to scheduled transaction
-#: src/menu.c:90 src/operations_liste.c:2687 src/traitement_variables.c:111
-#: src/traitement_variables.c:229
+#: src/menu.c:91 src/operations_liste.c:2695 src/traitement_variables.c:114
+#: src/traitement_variables.c:235
 msgid "Convert transaction to scheduled transaction"
 msgstr ""
 
 #. Move to another account
-#: src/menu.c:91 src/operations_comptes.c:405 src/operations_comptes.c:410
+#: src/menu.c:92 src/operations_comptes.c:405 src/operations_comptes.c:410
 #: src/operations_comptes.c:490 src/operations_comptes.c:505
-#: src/operations_comptes.c:512 src/operations_liste.c:2697
-#: src/traitement_variables.c:114 src/traitement_variables.c:232
+#: src/operations_comptes.c:512 src/operations_liste.c:2705
+#: src/traitement_variables.c:117 src/traitement_variables.c:238
 msgid "Move transaction to another account"
 msgstr ""
 
-#: src/menu.c:93
+#: src/menu.c:94
 msgid "Preferences"
 msgstr ""
 
-#: src/menu.c:112 src/traitement_variables.c:120
-#: src/traitement_variables.c:238
+#: src/menu.c:113 src/traitement_variables.c:123
+#: src/traitement_variables.c:244
 msgid "Import report file"
 msgstr ""
 
 #. Help menu
-#: src/menu.c:120 src/menu.c:121 src/menu.c:122 src/menu.c:123 src/menu.c:124
-#: src/menu.c:125 src/menu.c:126 src/menu.c:127 src/menu.c:128 src/menu.c:129
+#: src/menu.c:121 src/menu.c:122 src/menu.c:123 src/menu.c:124 src/menu.c:125
+#: src/menu.c:126 src/menu.c:127 src/menu.c:128 src/menu.c:129 src/menu.c:130
 msgid "Help"
 msgstr ""
 
-#: src/menu.c:122
+#: src/menu.c:123
 #, fuzzy
 msgid "Grisbi Manual"
 msgstr "Logo di Grisbi"
 
-#: src/menu.c:123
+#: src/menu.c:124
 msgid "Quickstart"
 msgstr ""
 
-#: src/menu.c:124
+#: src/menu.c:125
 msgid "Translation"
 msgstr ""
 
-#: src/menu.c:125
+#: src/menu.c:126
 msgid "About"
 msgstr ""
 
-#: src/menu.c:127
+#: src/menu.c:128
 msgid "Grisbi website"
 msgstr ""
 
-#: src/menu.c:128
+#: src/menu.c:129
 msgid "Report a bug"
 msgstr ""
 
-#: src/menu.c:129
+#: src/menu.c:130
 msgid "On line User's guide"
 msgstr ""
 
-#: src/menu.c:287 src/menu.c:291 src/menu.c:295
+#: src/menu.c:288 src/menu.c:292 src/menu.c:296
 msgid "C"
 msgstr ""
 
@@ -5878,7 +5884,7 @@ msgstr ""
 msgid "Contra-transaction method of payment"
 msgstr ""
 
-#. affiche la question de récupération
+#. affiche la question de rÃ©cupÃ©ration
 #: src/operations_formulaire.c:1819
 msgid "Recover breakdown?"
 msgstr ""
@@ -5976,12 +5982,18 @@ msgid ""
 "reconciled.  Deletion canceled."
 msgstr ""
 
-#. Delete transaction
+#. New transaction from
 #: src/operations_liste.c:2662
+#, fuzzy
+msgid "New transaction from"
+msgstr "Tabella di registrazione"
+
+#. Delete transaction
+#: src/operations_liste.c:2670
 msgid "Delete transaction"
 msgstr ""
 
-#: src/operations_liste.c:2950
+#: src/operations_liste.c:3068
 msgid "Cannot move a transfer on his contra-account"
 msgstr ""
 
@@ -6303,6 +6315,11 @@ msgstr ""
 #, c-format
 msgid "Third party '%s' already exists."
 msgstr ""
+
+#: src/traitement_variables.c:102 src/traitement_variables.c:223
+#, fuzzy
+msgid "New transaction from selected"
+msgstr "Tabella di registrazione"
 
 #. Should not happen theorically
 #. Should not happen!
