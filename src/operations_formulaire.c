@@ -1803,8 +1803,6 @@ void completion_operation_par_tiers ( void )
 
     if ( operation -> operation_ventilee )
     {
-	GtkWidget *dialog;
-	GtkWidget *label;
 	gint result;
 
 	entree_prend_focus ( widget_formulaire_operations[TRANSACTION_FORM_CATEGORY] );
