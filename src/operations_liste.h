@@ -7,7 +7,7 @@ void onglet_compte_realize ( GtkWidget *onglet, GtkWidget *liste );
 void remplissage_liste_operations ( gint compte );
 gchar *recherche_contenu_cellule ( struct structure_operation *operation,
 				   gint no_affichage );
-void selectionne_ligne_souris ( GtkCList *liste_operations,
+gboolean selectionne_ligne_souris ( GtkCList *liste_operations,
 				GdkEventButton *evenement, gpointer data);
 gboolean traitement_clavier_liste ( GtkCList *liste_operations, 
 				    GdkEventKey *evenement, gpointer data);

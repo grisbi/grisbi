@@ -2592,7 +2592,7 @@ gchar *calcule_total_montant_imputation_par_compte ( gint imputation, gint sous_
 	liste_tmp = liste_tmp -> next;
     }
 
-    devise = g_slist_find_custom ( liste_struct_devises, GINT_TO_POINTER(DEVISE),
+    devise = g_slist_find_custom ( liste_struct_devises, GINT_TO_POINTER(no_devise_totaux_tiers),
 				   ( GCompareFunc ) recherche_devise_par_no) -> data;
 
     if ( retour_int )

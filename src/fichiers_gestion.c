@@ -573,12 +573,13 @@ gboolean enregistrement_fichier ( gint origine )
     /*     si on a enregistré le fichier le fichier courant, celui ci peut être considéré comme fermé à l'ouverture maintenant */
 
     if ( result )
+    {
 	etat.fichier_deja_ouvert = 0;
-
-    modification_fichier ( FALSE );
-    affiche_titre_fenetre ();
-    fichier_marque_ouvert ( TRUE );
-    ajoute_nouveau_fichier_liste_ouverture ( nom_fichier_comptes );
+	modification_fichier ( FALSE );
+	affiche_titre_fenetre ();
+	fichier_marque_ouvert ( TRUE );
+	ajoute_nouveau_fichier_liste_ouverture ( nom_fichier_comptes );
+    }
 
     return ( result );
 }

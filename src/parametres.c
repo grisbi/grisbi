@@ -143,14 +143,13 @@ void preferences ( gint page )
     GtkTreeIter iter, iter2;
 
     /* Create dialog */
-    fenetre_preferences = gtk_dialog_new ();
-    gtk_dialog_add_buttons (GTK_DIALOG(fenetre_preferences), 
-			    /* FIXME: untill we implement the help system, this is useless */
-			    /* 			  GTK_STOCK_HELP,  GTK_RESPONSE_HELP, */
-			    GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE,
-			    NULL);
-    gtk_window_set_title ( GTK_WINDOW ( fenetre_preferences ),
-			   _("Grisbi setup") );
+    fenetre_preferences = gtk_dialog_new_with_buttons (_("Grisbi setup"), 
+						       GTK_WINDOW ( window ),
+						       GTK_DIALOG_MODAL,
+						       /* FIXME: untill we implement the help system, this is useless */
+						       /* 			  GTK_STOCK_HELP,  GTK_RESPONSE_HELP, */
+						       GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE,
+						       NULL);
 
     /* Create List & Tree for topics */
     tree = create_preferences_tree();  
@@ -559,7 +558,7 @@ GtkWidget *onglet_fichier ( void )
 				 (GCallback) change_backup_path,
 				 NULL);
 	gtk_box_pack_start ( GTK_BOX ( hbox ), entree_chemin_backup,
-			     FALSE, FALSE, 0 );
+			     TRUE, TRUE, 0 );
     }
     else
     {

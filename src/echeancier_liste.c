@@ -1201,7 +1201,13 @@ void edition_echeance ( void )
 		if ( echeance_selectionnnee -> operation_ventilee )
 		{
 		    texte =  g_strdup (_("Breakdown of transaction"));
-		    gtk_widget_show ( widget_formulaire_echeancier[SCHEDULER_FORM_BREAKDOWN] );
+
+/* 		    on n'affiche le bouton de ventilation que si on est dans l'onglet des échéances, pas */
+/* 			en formulaire flottant */
+
+		    if ( !etat.formulaire_echeance_dans_fenetre ) 
+			gtk_widget_show ( widget_formulaire_echeancier[SCHEDULER_FORM_BREAKDOWN] );
+
 		    gtk_widget_set_sensitive ( widget_formulaire_echeancier[SCHEDULER_FORM_EXERCICE],
 					       FALSE );
 		    gtk_widget_set_sensitive ( widget_formulaire_echeancier[SCHEDULER_FORM_BUDGETARY],
@@ -2083,7 +2089,9 @@ void verification_echeances_a_terme ( void )
 	    /* ce n'est pas une échéance automatique, on la répertorie dans la liste des échéances à saisir */
 
 	    if ( g_date_compare ( ECHEANCE_COURANTE -> date,
-				  pGDateCurrent ) <= 0 )
+				  pGDateCurrent ) <= 0
+		 &&
+		 !ECHEANCE_COURANTE -> no_operation_ventilee_associee )
 		echeances_a_saisir = g_slist_append ( echeances_a_saisir ,
 						      ECHEANCE_COURANTE );
 

@@ -29,6 +29,7 @@
 #include "comptes_traitements.h"
 #include "gtk_list_button.h"
 
+GtkWidget *paned_onglet_comptes;
 
 
 
@@ -36,19 +37,22 @@
 /*****************************************************************************************************/
 GtkWidget *creation_onglet_comptes ( void )
 {
-    GtkWidget *onglet, *frame;
+    GtkWidget *frame;
 
-    onglet = gtk_hpaned_new ( );
-    gtk_paned_set_position ( GTK_PANED(onglet), 200 );
-    gtk_container_set_border_width ( GTK_CONTAINER ( onglet ), 10 );
-    gtk_widget_show ( onglet );
+    paned_onglet_comptes = gtk_hpaned_new ( );
+    if ( !etat.largeur_colonne_comptes_comptes )
+	etat.largeur_colonne_comptes_comptes = 200;
+
+    gtk_paned_set_position ( GTK_PANED(paned_onglet_comptes), etat.largeur_colonne_comptes_comptes );
+    gtk_container_set_border_width ( GTK_CONTAINER ( paned_onglet_comptes ), 10 );
+    gtk_widget_show ( paned_onglet_comptes );
 
 
     /*   création de la fenetre des comptes / ventilation / équilibrage à gauche */
 
     frame = gtk_frame_new ( NULL );
     gtk_frame_set_shadow_type ( GTK_FRAME ( frame ), GTK_SHADOW_IN );
-    gtk_paned_pack1 ( GTK_PANED(onglet), frame, TRUE, TRUE );
+    gtk_paned_pack1 ( GTK_PANED(paned_onglet_comptes), frame, TRUE, TRUE );
     gtk_widget_show (frame);
 
     gtk_container_add ( GTK_CONTAINER ( frame ), creation_liste_comptes_onglet ());
@@ -58,7 +62,7 @@ GtkWidget *creation_onglet_comptes ( void )
 
     frame = gtk_frame_new ( NULL );
     gtk_frame_set_shadow_type ( GTK_FRAME ( frame ), GTK_SHADOW_IN );
-    gtk_paned_pack2 ( GTK_PANED(onglet), frame, TRUE, TRUE );
+    gtk_paned_pack2 ( GTK_PANED(paned_onglet_comptes), frame, TRUE, TRUE );
     gtk_widget_show (frame);
 
     gtk_container_add ( GTK_CONTAINER ( frame ), creation_details_compte ());
@@ -71,7 +75,7 @@ GtkWidget *creation_onglet_comptes ( void )
     reaffiche_liste_comptes_onglet ();
     remplissage_details_compte ();
 
-    return ( onglet );
+    return ( paned_onglet_comptes );
 }
 /*****************************************************************************************************/
 

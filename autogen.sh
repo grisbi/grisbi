@@ -1,19 +1,28 @@
 #!/bin/sh
 #
+# autogen.sh glue for CMU Cyrus IMAP
+# $Id: autogen.sh,v 1.5 2004/04/15 18:40:24 cedric_grisbi Exp $
+#
 # Requires: automake, autoconf, dpkg-dev
 
 PATH_AUTOMAKE=/usr/share/automake
 
-# test for slackware
+# test for some distribution...
+# Y'a pas plus simple ?
+
 if test -x /usr/share/automake-1.7
 then
 	PATH_AUTOMAKE=/usr/share/automake-1.7
 fi
 
-# test for Red-Hat
 if test -x /usr/share/automake-1.6
 then
 	PATH_AUTOMAKE=/usr/share/automake-1.6
+fi
+
+if test -x /usr/share/automake-1.4
+then
+	PATH_AUTOMAKE=/usr/share/automake-1.4
 fi
 
 # Refresh GNU autotools toolchain.

@@ -18,3 +18,6 @@ gint classement_sliste_par_tri_courant ( struct structure_operation *operation_1
 					 struct structure_operation *operation_2 );
 gint classe_liste_alphabetique ( gchar *string_1,
 				 gchar *string_2 );
+gint classement_sliste_par_date_rp ( struct structure_operation *pTransaction1,
+				     struct structure_operation *pTransaction2 );
+

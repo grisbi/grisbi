@@ -94,6 +94,7 @@ struct {
     guint en_train_de_charger;
     guint utilise_logo;
     guint utilise_fonte_listes;
+    guint classement_rp;   /*à 1 si on veut un classement r/p avant les dates FIXME : à virer sur l'instable*/
 
     /* Various display message stuff  */
     guint display_message_lock_active;
@@ -112,6 +113,14 @@ struct {
 
     /* Print stuff */
     struct print_config print_config;
+    
+    /*     largeur des panned */
+
+    gint largeur_colonne_comptes_operation;
+    gint largeur_colonne_echeancier;
+    gint largeur_colonne_comptes_comptes;
+    gint largeur_colonne_etat;
+
 } etat;
 
 

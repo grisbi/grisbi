@@ -1049,6 +1049,7 @@ void modification_details_compte ( void )
     if ( COMPTE_CLOTURE != gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( detail_compte_cloture )))
     {
 	COMPTE_CLOTURE = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( detail_compte_cloture ));
+	mise_a_jour_categ();
 	reaffiche_liste_comptes ();
 	update_liste_comptes_accueil ();
 	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant_onglet;

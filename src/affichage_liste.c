@@ -26,6 +26,9 @@
 #include "operations_liste.h"
 #include "traitement_variables.h"
 #include "utils.h"
+#include "constants.h"
+
+
 
 
 
@@ -48,6 +51,14 @@ gchar *labels_boutons [] = { N_("Date"),
     N_("Transaction number"),
     NULL };
 
+/* utilisée pour éviter l'emballement de la connection allocation */
+
+gint ancienne_allocation_liste;
+gint affichage_realise;
+
+extern gint allocation_precedente;
+
+/* FIXME : !!!!!!!!!! DES QUE UPDATE DANS L'INSTABLE, REPRENDRE LE FICHIER SAUVÉ ET EFFACER CELUI LA !!!!!!!!!!!!!!!!!!!!!!!!!! */
 
 
 /** FIXME: document this */
@@ -83,10 +94,6 @@ GtkWidget *onglet_affichage_liste ( void )
 			     "button_release_event",
 			     GTK_SIGNAL_FUNC ( lache_bouton_classement_liste ),
 			     NULL );
-	gtk_signal_connect ( GTK_OBJECT ( clist_affichage_liste ),
-			     "size-allocate",
-			     GTK_SIGNAL_FUNC ( changement_taille_liste_affichage ),
-			     NULL );
 	gtk_box_pack_start ( GTK_BOX ( paddingbox ), clist_affichage_liste,
 			     FALSE, FALSE, 0 );
 
@@ -121,6 +128,10 @@ GtkWidget *onglet_affichage_liste ( void )
 	bouton_choix_perso_colonnes = new_checkbox_with_title ( _("Adjust column size according to this table"),
 								&(etat.largeur_auto_colonnes),
 								NULL );
+	g_signal_connect ( G_OBJECT ( bouton_choix_perso_colonnes ),
+			   "toggled",
+			   G_CALLBACK ( change_choix_ajustement_auto_colonnes ),
+			   NULL );
 	gtk_box_pack_start ( GTK_BOX ( paddingbox ), bouton_choix_perso_colonnes,
 			     FALSE, FALSE, 0 );
 
@@ -144,10 +155,105 @@ GtkWidget *onglet_affichage_liste ( void )
 	    gtk_widget_set_sensitive ( onglet, FALSE );
 	}
 
+	if ( nb_comptes )
+	{
+	    /* on remplit le tableau */
+
+	    ancienne_allocation_liste = 0;
+	    affichage_realise = 0;
+	    remplissage_tab_affichage_ope ( clist_affichage_liste );
+	    g_signal_connect ( G_OBJECT ( clist_affichage_liste ),
+				 "size-allocate",
+				 G_CALLBACK ( allocation_clist_affichage_liste ),
+				 NULL );
+	}
+	else
+	    gtk_widget_set_sensitive ( onglet,
+				       FALSE ); 
+
 	return ( onglet );
 }
+/***********************************************************************************************************************/
 
 
+/***********************************************************************************************************************/
+gboolean change_choix_ajustement_auto_colonnes ( GtkWidget *bouton )
+{
+    /* etat.largeur_auto_colonnes est réglé automatiquement */
+    /*     il ne reste qu'à modifier les colonnes elles même */
+
+    gint i,j;
+
+    if ( etat.largeur_auto_colonnes )
+    {
+	allocation_precedente = 0;
+
+/* 	on transforme toutes les colonnes de tous les comptes en non resizeable */
+
+	for ( j=0 ; j < nb_comptes ; j++ )
+	{
+	    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + j;
+
+	    for ( i = 0 ; i < 7 ; i++ )
+		gtk_clist_set_column_resizeable ( GTK_CLIST ( CLIST_OPERATIONS),
+						  i,
+						  FALSE );
+	    changement_taille_liste_ope ( CLIST_OPERATIONS,
+					  &(CLIST_OPERATIONS -> allocation),
+					  GINT_TO_POINTER(j) );
+	}
+    }
+    else
+    {
+	for ( j=0 ; j < nb_comptes ; j++ )
+	{
+	    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + j;
+	    for ( i = 0 ; i < 7 ; i++ )
+	    {
+		gtk_clist_set_column_resizeable ( GTK_CLIST ( CLIST_OPERATIONS ),
+						  i,
+						  TRUE );
+		taille_largeur_colonnes[i] = GTK_CLIST ( CLIST_OPERATIONS ) -> column[i].width;
+	    }
+	}
+   }
+    modification_fichier ( TRUE );
+    return ( FALSE );
+}
+/***********************************************************************************************************************/
+
+
+/***********************************************************************************************************************/
+gboolean change_largeur_colonne ( GtkWidget *clist,
+				  gint colonne,
+				  gint largeur )
+{
+    rapport_largeur_colonnes[colonne] = largeur*100/clist->allocation.width;
+    if ( etat.largeur_auto_colonnes )
+    {
+	gint i,j;
+	
+	for ( j = 0 ; j<nb_comptes ; j++ )
+	{
+	    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + j;
+
+	    for ( i = 0 ; i < 7 ; i++ )
+		gtk_clist_set_column_width ( GTK_CLIST ( CLIST_OPERATIONS),
+					     i,
+					     rapport_largeur_colonnes[i] * GTK_WIDGET ( CLIST_OPERATIONS ) -> allocation.width / 100 );
+	}
+    }
+						 
+    modification_fichier ( TRUE );
+
+    return FALSE;
+}
+/***********************************************************************************************************************/
+
+
+
+
+/***********************************************************************************************************************/
 /** TODO: document this */
 gboolean transactions_list_display_modes_menu_changed  ( GtkWidget * menu_shell,
 							 gint origine )
@@ -187,6 +293,7 @@ gboolean transactions_list_display_modes_menu_changed  ( GtkWidget * menu_shell,
 GtkWidget *onglet_affichage_operations ( void )
 {
     GtkWidget * vbox_pref, *table, *label, *paddingbox;
+    GtkWidget *bouton;
 
     vbox_pref = new_vbox_with_title_and_icon ( _("Transactions list"),
 					       "transaction-list.png" );
@@ -263,15 +370,6 @@ GtkWidget *onglet_affichage_operations ( void )
 
     if ( nb_comptes )
     {
-	/* on remplit le tableau */
-
-	remplissage_tab_affichage_ope ( clist_affichage_liste );
-
-	gtk_signal_connect ( GTK_OBJECT ( clist_affichage_liste ),
-			     "size-allocate",
-			     GTK_SIGNAL_FUNC ( allocation_clist_affichage_liste ),
-			     NULL );
-
 	/* on place les lignes à afficher */
 
 	gtk_option_menu_set_history ( GTK_OPTION_MENU ( bouton_affichage_lignes_une_ligne ),
@@ -292,7 +390,6 @@ GtkWidget *onglet_affichage_operations ( void )
     else
     {
 	gtk_widget_set_sensitive ( table, FALSE );
-	gtk_widget_set_sensitive ( clist_affichage_liste, FALSE ); 
 	gtk_widget_set_sensitive ( bouton_affichage_lignes_une_ligne, FALSE );
 	gtk_widget_set_sensitive ( bouton_affichage_lignes_deux_lignes_1, FALSE );
 	gtk_widget_set_sensitive ( bouton_affichage_lignes_deux_lignes_2, FALSE );
@@ -327,6 +424,23 @@ GtkWidget *onglet_affichage_operations ( void )
 					    _("by value date"),
 					    _("by date"),
 					    &etat.classement_par_date, NULL);
+
+/*     on permet de regrouper les opérations pointées */
+
+    bouton = new_checkbox_with_title ( _("Bring together marked transactions"),
+							    &(etat.classement_rp),
+							    NULL );
+    gtk_signal_connect ( GTK_OBJECT ( bouton),
+			 "clicked",
+			 GTK_SIGNAL_FUNC ( demande_mise_a_jour_tous_comptes ),
+			 NULL );
+    gtk_signal_connect ( GTK_OBJECT ( bouton),
+			 "clicked",
+			 GTK_SIGNAL_FUNC ( verification_mise_a_jour_liste ),
+			 NULL );
+    gtk_box_pack_start ( GTK_BOX ( vbox_pref ), bouton,
+			 FALSE, FALSE, 0 );
+    gtk_widget_show ( bouton );
 
     if ( !nb_comptes )
     {
@@ -390,38 +504,39 @@ GtkWidget *cree_menu_quatres_lignes ( void )
 
 
 /* ************************************************************************************************************** */
-void allocation_clist_affichage_liste ( GtkWidget *clist,
-					GtkAllocation *allocation )
+gboolean allocation_clist_affichage_liste ( GtkWidget *clist,
+					    GtkAllocation *allocation )
 {
     gint i;
-    gint largeur;
 
-    /* on stoppe l'appel à cette fonction */
+    if ( ancienne_allocation_liste == allocation -> width )
+	return FALSE;
 
-    gtk_signal_handler_block_by_func ( GTK_OBJECT ( clist ),
-				       GTK_SIGNAL_FUNC ( allocation_clist_affichage_liste ),
-				       NULL );
-
+   
     /* règle les largeurs de colonnes */
 
-    if ( allocation )
-	largeur = allocation->width;
-    else
-	largeur = clist -> allocation.width;
+    ancienne_allocation_liste = allocation->width;
 
-    /*   si la largeur est automatique, on change la largeur des colonnes */
-    /*     sinon, on y met les valeurs fixes */
+    /* on met la largeur des colonnes en fonction de ce qui avait été enregistré */
 
-    if ( etat.largeur_auto_colonnes )
-	for ( i=0 ; i<7 ; i++ )
-	    gtk_clist_set_column_width ( GTK_CLIST ( clist ),
-					 i,
-					 rapport_largeur_colonnes[i] * largeur / 100 );
-    else
-	for ( i=0 ; i<7 ; i++ )
-	    gtk_clist_set_column_width ( GTK_CLIST ( clist ),
-					 i,
-					 taille_largeur_colonnes[i] );
+    for ( i=0 ; i<7 ; i++ )
+	gtk_clist_set_column_width ( GTK_CLIST ( clist ),
+				     i,
+				     rapport_largeur_colonnes[i] * ancienne_allocation_liste / 100 );
+
+
+    /*     cette variable sert à éviter que la liste des opés ne soit redimmensionnée un peu */
+    /* 	lors de l'affichage des préférences */
+
+    if ( !affichage_realise )
+    {
+	affichage_realise = 1;
+	gtk_signal_connect ( GTK_OBJECT ( clist ),
+			     "resize-column",
+			     GTK_SIGNAL_FUNC ( change_largeur_colonne ),
+			     NULL );
+    }
+     return FALSE;
 }
 /* ************************************************************************************************************** */
 
@@ -876,27 +991,6 @@ void toggled_bouton_affichage_liste ( GtkWidget *bouton,
     }
 
     remplissage_tab_affichage_ope ( clist_affichage_liste );
-}
-/* ************************************************************************************************************** */
-
-
-
-/* ************************************************************************************************************** */
-void changement_taille_liste_affichage ( GtkWidget *clist,
-					 GtkAllocation *allocation )
-{
-    gint i;
-    gint largeur;
-
-
-    largeur = allocation->width;
-    gtk_signal_handler_block_by_func ( GTK_OBJECT ( clist ),
-				       GTK_SIGNAL_FUNC ( changement_taille_liste_affichage ),
-				       NULL );
-    for ( i=0 ; i<6 ; i++ )
-	gtk_clist_set_column_width ( GTK_CLIST ( clist ),
-				     i,
-				     rapport_largeur_colonnes[i] * largeur / 100 );
 }
 /* ************************************************************************************************************** */
 

@@ -118,7 +118,7 @@ int main (int argc, char *argv[])
 
 	/* on commence par détourner le signal SIGSEGV */
 #ifndef _WIN32
-        /* sauf sous Windows */
+    /* sauf sous Windows*/
 	memset ( &sig_sev, 0, sizeof ( struct sigaction ));
 	sig_sev.sa_handler = traitement_sigsegv;
 	sig_sev.sa_flags = 0;
@@ -150,6 +150,13 @@ int main (int argc, char *argv[])
 				TRUE,
 				TRUE,
 				FALSE );
+
+	/* 	création de la pixmap du logiciel */
+
+	gtk_window_set_default_icon_from_file ( g_strconcat(PIXMAPS_DIR,
+							    "/euro.gif",
+							    NULL),
+						NULL );
 
 	window_vbox_principale = gtk_vbox_new ( FALSE,
 						5 );

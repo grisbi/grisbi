@@ -61,7 +61,7 @@ extern GtkWidget *separateur_formulaire_echeancier;
 extern GtkWidget *hbox_valider_annuler_echeance;
 extern GSList *echeances_a_saisir;
 extern GSList *echeances_saisies;
-
+extern GtkWidget *notebook_formulaire_echeances;
 
 /* ************************************************************************* */
 GtkWidget *creation_onglet_accueil ( void )
@@ -331,14 +331,15 @@ gboolean saisie_echeance_accueil ( GtkWidget *event_box,
 
     /* met le formulaire dans la boite de dialogue */
     width = frame_formulaire_echeancier -> allocation . width;
-    gtk_widget_unrealize ( frame_formulaire_echeancier );
+    gtk_widget_unrealize ( formulaire_echeancier );
     gtk_widget_reparent ( formulaire_echeancier, GTK_DIALOG ( dialog ) -> vbox );
     gtk_widget_set_usize ( GTK_WIDGET ( dialog ), width, FALSE );
+
+    etat.formulaire_echeance_dans_fenetre = 1;
 
     /* remplit le formulaire */
     click_sur_saisir_echeance();
 
-    etat.formulaire_echeance_dans_fenetre = 1;
     gtk_widget_show ( formulaire_echeancier );
     if ( etat.affiche_boutons_valider_annuler )
     {
@@ -347,10 +348,29 @@ gboolean saisie_echeance_accueil ( GtkWidget *event_box,
     }
 
     resultat = gtk_dialog_run ( GTK_DIALOG ( dialog ));
+
     if ( resultat == GTK_RESPONSE_OK )
 	fin_edition_echeance ();
 
     gtk_widget_reparent ( formulaire_echeancier, ancien_parent );
+
+/*     en remettant la fenetre, elle passe en onglet 2, après l'onglet du formulaire de */
+/* 	ventilation ... on la remet en 1 */
+
+    gtk_notebook_reorder_child ( GTK_NOTEBOOK ( notebook_formulaire_echeances ),
+				 formulaire_echeancier,
+				 0 );
+    gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_formulaire_echeances ),
+			    0 );
+
+/*     de plus, on a perdu le nom de l'étiquette, c'est inutilisé pour l'instant mais on */
+/* 	sait jamais... */
+
+    gtk_notebook_set_tab_label ( GTK_NOTEBOOK ( notebook_formulaire_echeances ),
+				 formulaire_echeancier,
+				 gtk_label_new ( _("Form")));
+
+
     etat.formulaire_echeance_dans_fenetre = 0;
     gtk_widget_destroy ( dialog );
 
@@ -368,6 +388,8 @@ gboolean saisie_echeance_accueil ( GtkWidget *event_box,
 
     if ( !etat.formulaire_echeancier_toujours_affiche )
 	gtk_widget_hide ( frame_formulaire_echeancier );
+
+
 
     return FALSE;
 }

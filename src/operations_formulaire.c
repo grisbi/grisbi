@@ -2366,10 +2366,6 @@ gint verification_validation_operation ( struct structure_operation *operation )
 	    tableau_char[1] = g_strstrip ( tableau_char[1] );
 
 
-	/* ALAIN-FIXME : ce premier test est-il vraiment nécessaire ? */
-
-	if ( strlen ( tableau_char[0] ) )
-	{
 	    /* Si c'est un virement, on fait les vérifications */
 	    if ( !strcmp ( tableau_char[0], _("Transfer") ) )
 	    {
@@ -2402,7 +2398,6 @@ gint verification_validation_operation ( struct structure_operation *operation )
 			p_tab_nom_de_compte_variable++;
 		    }
 
-		    p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
 
 		    if ( compte_virement == -1 )
 		    {
@@ -2415,8 +2410,20 @@ gint verification_validation_operation ( struct structure_operation *operation )
 			dialogue_error ( _("Can't issue a transfer its own account.") );
 			return (FALSE);
 		    }
+
+/* 		    vérifie si le compte n'est pas clos */
+
+		    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_virement;
+
+		    if ( COMPTE_CLOTURE )
+		    {
+			dialogue_error ( _("Can't issue a transfer on a closed account." ));
+			return ( FALSE );
+		    }
+
+		    p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
+
 		}
-	    }
 	}
 	g_strfreev ( tableau_char );
     }

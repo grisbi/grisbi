@@ -1,5 +1,5 @@
-/*  Fichier qui s'occupe de former les différentes fenêtres de l'onglet des opés */
-/*      onglet_operations.c */
+/*  Fichier qui s'occupe de former les différentes fenêtres de l'paned_onglet_operations des opés */
+/*      paned_onglet_operations_operations.c */
 
 /*     Copyright (C) 2000-2003  Cédric Auger */
 /* 			cedric@grisbi.org */
@@ -32,26 +32,30 @@
 #include "ventilation.h"
 #include "operations_onglet.h"
 
+GtkWidget *paned_onglet_operations;
 
 /*****************************************************************************************************/
 GtkWidget *creation_onglet_operations ( void )
 {
-    GtkWidget *onglet;
     GtkWidget *frame_gauche;
     GtkWidget *vbox;
     GtkWidget *frame_droite_haut;
     GtkWidget *fenetre_operations;
 
-    onglet = gtk_hpaned_new ( );
-    gtk_paned_set_position ( GTK_PANED(onglet), 200 );
-    gtk_container_set_border_width ( GTK_CONTAINER ( onglet ), 10 );
-    gtk_widget_show ( onglet );
+    paned_onglet_operations = gtk_hpaned_new ( );
+
+    if ( !etat.largeur_colonne_comptes_operation )
+	etat.largeur_colonne_comptes_operation = 200;
+
+    gtk_paned_set_position ( GTK_PANED(paned_onglet_operations), etat.largeur_colonne_comptes_operation );
+    gtk_container_set_border_width ( GTK_CONTAINER ( paned_onglet_operations ), 10 );
+    gtk_widget_show ( paned_onglet_operations );
 
     /*   création de la fenetre des comptes / ventilation / équilibrage
 	 à gauche */
     frame_gauche = gtk_frame_new ( NULL );
     gtk_frame_set_shadow_type ( GTK_FRAME ( frame_gauche ), GTK_SHADOW_IN );
-    gtk_paned_pack1 ( GTK_PANED(onglet), frame_gauche, TRUE, TRUE );
+    gtk_paned_pack1 ( GTK_PANED(paned_onglet_operations), frame_gauche, TRUE, TRUE );
     gtk_widget_show (frame_gauche);
 
     notebook_comptes_equilibrage = gtk_notebook_new ();
@@ -80,7 +84,7 @@ GtkWidget *creation_onglet_operations ( void )
 
     /* création de la partie droite */
     vbox = gtk_vbox_new ( FALSE, 10 );
-    gtk_paned_pack2 ( GTK_PANED(onglet), vbox, TRUE, TRUE );
+    gtk_paned_pack2 ( GTK_PANED(paned_onglet_operations), vbox, TRUE, TRUE );
     gtk_widget_show ( vbox );
 
     /*  Création de la liste des opérations */
@@ -131,6 +135,6 @@ GtkWidget *creation_onglet_operations ( void )
     /* on remet la fenetre du formulaire sur le formulaire  */
     gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_formulaire ), 0 );
 
-    return ( onglet );
+    return ( paned_onglet_operations );
 }
 /*****************************************************************************************************/

@@ -34,6 +34,7 @@
 #include "traitement_variables.h"
 #include "utils.h"
 
+GtkWidget *paned_onglet_etats;
 
 void impression_etat ( struct struct_etat *etat );
 
@@ -43,7 +44,6 @@ extern GtkItemFactory *item_factory_menu_general;
 /*****************************************************************************************************/
 GtkWidget *creation_onglet_etats ( void )
 {
-    GtkWidget *onglet;
     GtkWidget *frame;
     GtkWidget *vbox;
 
@@ -53,18 +53,20 @@ GtkWidget *creation_onglet_etats ( void )
     etat_courant = NULL;
 
 
-    /*   onglet = gtk_hbox_new ( FALSE, 10 ); */
-    onglet = gtk_hpaned_new ();
-    gtk_paned_set_position ( GTK_PANED(onglet), 200 );
-    gtk_container_set_border_width ( GTK_CONTAINER ( onglet ), 10 );
-    gtk_widget_show ( onglet );
+    paned_onglet_etats = gtk_hpaned_new ();
+    if ( !etat.largeur_colonne_etat )
+	etat.largeur_colonne_etat = 200;
+
+    gtk_paned_set_position ( GTK_PANED(paned_onglet_etats),etat.largeur_colonne_etat  );
+    gtk_container_set_border_width ( GTK_CONTAINER ( paned_onglet_etats ), 10 );
+    gtk_widget_show ( paned_onglet_etats );
 
     /*   création de la fenetre des noms des états */
     /* on reprend le principe des comptes dans la fenetre des opés */
     frame_liste_etats = gtk_frame_new ( NULL );
     gtk_frame_set_shadow_type ( GTK_FRAME ( frame_liste_etats ),
 				GTK_SHADOW_IN );
-    gtk_paned_pack1 ( GTK_PANED(onglet), frame_liste_etats, TRUE, TRUE );
+    gtk_paned_pack1 ( GTK_PANED(paned_onglet_etats), frame_liste_etats, TRUE, TRUE );
     gtk_widget_show (frame_liste_etats);
 
     /* on y met les rapports et les boutons */
@@ -74,7 +76,7 @@ GtkWidget *creation_onglet_etats ( void )
     /* Frame de droite */
     frame = gtk_frame_new ( NULL );
     gtk_frame_set_shadow_type ( GTK_FRAME ( frame ), GTK_SHADOW_IN );
-    gtk_paned_add2 ( GTK_PANED(onglet), frame );
+    gtk_paned_add2 ( GTK_PANED(paned_onglet_etats), frame );
     gtk_widget_show (frame);
 
     /* création du notebook contenant l'état et la config */
@@ -129,7 +131,7 @@ GtkWidget *creation_onglet_etats ( void )
     onglet_config_etat = NULL;
 
 
-    return ( onglet );
+    return ( paned_onglet_etats );
 }
 /*****************************************************************************************************/
 

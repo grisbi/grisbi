@@ -1671,6 +1671,7 @@ void fin_edition_echeance ( void )
 
 
 	/*   récupération des catégories / sous-catég, s'ils n'existent pas, on les crée */
+	/* s'il n'y a pas de catég, ce n'es pas un virement non plus, donc on met compte_virement à -1 */
 
 	if ( gtk_widget_get_style ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_CATEGORY] ) -> entry ) == style_entree_formulaire[ENCLAIR] )
 	{
@@ -2515,7 +2516,7 @@ void formulaire_echeancier_a_zero ( void )
     gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_MODE] ),
 				  0 );
     gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_FREQUENCY] ),
-				  0 );
+				  2 );
     gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_FREQ_CUSTOM_MENU] ),
 				  0 );
     gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_ACCOUNT] ),
@@ -2524,7 +2525,7 @@ void formulaire_echeancier_a_zero ( void )
 
 
     gtk_widget_hide ( widget_formulaire_echeancier[SCHEDULER_FORM_BREAKDOWN] );
-    gtk_widget_hide ( widget_formulaire_echeancier[SCHEDULER_FORM_FINAL_DATE] );
+    gtk_widget_show ( widget_formulaire_echeancier[SCHEDULER_FORM_FINAL_DATE] );
     gtk_widget_hide ( widget_formulaire_echeancier[SCHEDULER_FORM_FREQ_CUSTOM_NB] );
     gtk_widget_hide ( widget_formulaire_echeancier[SCHEDULER_FORM_FREQ_CUSTOM_MENU] );
 

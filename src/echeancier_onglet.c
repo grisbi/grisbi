@@ -1,6 +1,6 @@
 
-/*  Fichier qui s'occupe de former les différentes fenêtres de l'onglet des opés */
-/*      onglet_operations.c */
+/*  Fichier qui s'occupe de former les différentes fenêtres de l'paned_onglet_echeancier des opés */
+/*      paned_onglet_echeancier_operations.c */
 
 /*     Copyright (C) 2000-2003  Cédric Auger */
 /* 			cedric@grisbi.org */
@@ -37,7 +37,7 @@ GtkWidget *formulaire_echeancier;
 GtkWidget *fenetre_ventilations;
 GtkWidget *notebook_formulaire_echeances;
 GtkWidget *notebook_liste_ventil_echeances;
-
+GtkWidget *paned_onglet_echeancier;
 
 
 extern GtkWidget *frame_formulaire_echeancier;
@@ -45,24 +45,27 @@ extern GtkWidget *frame_formulaire_echeancier;
 /*****************************************************************************************************/
 GtkWidget *creation_onglet_echeancier ( void )
 {
-    GtkWidget *onglet;
     GtkWidget *frame_gauche;
     GtkWidget *vbox;
     GtkWidget *frame_droite_haut;
 
-    onglet = gtk_hpaned_new ( );
-    gtk_paned_set_position ( GTK_PANED(onglet),
-			     200 );
-    gtk_container_set_border_width ( GTK_CONTAINER ( onglet ),
+    paned_onglet_echeancier = gtk_hpaned_new ( );
+
+    if ( !etat.largeur_colonne_echeancier )
+	etat.largeur_colonne_echeancier = 200;
+
+    gtk_paned_set_position ( GTK_PANED(paned_onglet_echeancier),
+			     etat.largeur_colonne_echeancier );
+    gtk_container_set_border_width ( GTK_CONTAINER ( paned_onglet_echeancier ),
 				     10 );
-    gtk_widget_show ( onglet );
+    gtk_widget_show ( paned_onglet_echeancier );
 
     /*   création de la fenetre des calendrier / ventilation à gauche */
 
     frame_gauche = gtk_frame_new ( NULL );
     gtk_frame_set_shadow_type ( GTK_FRAME ( frame_gauche ),
 				GTK_SHADOW_IN );
-    gtk_paned_pack1 ( GTK_PANED(onglet), 
+    gtk_paned_pack1 ( GTK_PANED(paned_onglet_echeancier), 
 		      frame_gauche,
 		      TRUE,
 		      TRUE );
@@ -91,7 +94,7 @@ GtkWidget *creation_onglet_echeancier ( void )
     /* création de la partie droite */
     vbox = gtk_vbox_new ( FALSE,
 			  10 );
-    gtk_paned_pack2 ( GTK_PANED(onglet),
+    gtk_paned_pack2 ( GTK_PANED(paned_onglet_echeancier),
 		      vbox,
 		      TRUE,
 		      TRUE );
@@ -164,6 +167,6 @@ GtkWidget *creation_onglet_echeancier ( void )
 			       gtk_label_new ( _("Breakdown") ) );
 
 
-    return ( onglet );
+    return ( paned_onglet_echeancier );
 }
 /*****************************************************************************************************/
