@@ -706,6 +706,9 @@ void ajout_devise ( GtkWidget *bouton,
 	      gtk_clist_set_row_data  ( GTK_CLIST ( widget ),
 					ligne_liste,
 					devise );
+	      gtk_clist_select_row ( GTK_CLIST ( widget ),
+				     ligne_liste, 0 );
+	      gtk_clist_sort ( GTK_CLIST ( widget ) ); 
 
 	      /* dégrise appliquer dans paramètres */
 
@@ -1767,6 +1770,14 @@ gboolean selection_ligne_devise ( GtkWidget *liste,
   gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( entree_code_devise_parametres ),
 				       GTK_SIGNAL_FUNC ( changement_code_entree_devise ),
 				       NULL );
+  gtk_signal_handler_block_by_func ( GTK_OBJECT ( entree_iso_code_devise_parametres ),
+				     GTK_SIGNAL_FUNC ( changement_iso_code_entree_devise ),
+				     NULL );
+  gtk_entry_set_text ( GTK_ENTRY ( entree_iso_code_devise_parametres ),
+		       devise -> code_iso4217_devise );
+  gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( entree_iso_code_devise_parametres ),
+				       GTK_SIGNAL_FUNC ( changement_iso_code_entree_devise ),
+				       NULL );
 
 
   /* crée le menu des devises en enlevant la devise courante */
@@ -1845,6 +1856,15 @@ gboolean deselection_ligne_devise ( GtkWidget *liste,
 		       "" );
   gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( entree_code_devise_parametres ),
 				       GTK_SIGNAL_FUNC ( changement_code_entree_devise ),
+				       NULL );
+
+  gtk_signal_handler_block_by_func ( GTK_OBJECT ( entree_iso_code_devise_parametres ),
+				     GTK_SIGNAL_FUNC ( changement_iso_code_entree_devise ),
+				     NULL );
+  gtk_entry_set_text ( GTK_ENTRY ( entree_iso_code_devise_parametres ),
+		       "" );
+  gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( entree_iso_code_devise_parametres ),
+				       GTK_SIGNAL_FUNC ( changement_iso_code_entree_devise ),
 				       NULL );
 
 
@@ -2195,8 +2215,7 @@ gboolean changement_code_entree_devise ( void )
 }
 /* **************************************************************************************************************************** */
 
-
-
+/* **************************************************************************************************************************** */
 gboolean changement_iso_code_entree_devise ( void )
 {
   struct struct_devise *devise;
