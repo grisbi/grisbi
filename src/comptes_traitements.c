@@ -654,95 +654,44 @@ gint demande_type_nouveau_compte ( void )
   gint resultat;
   GtkWidget *label;
   GtkWidget *hbox;
-  GtkWidget *hbox2;
   GtkWidget *bouton;
   GtkWidget *separateur;
   gint type_compte;
 
-  dialog = gnome_dialog_new ( _("Choose account type"),
-			      GNOME_STOCK_BUTTON_OK,
-			      GNOME_STOCK_BUTTON_CANCEL,
-			      NULL );
+  dialog = dialogue_special_no_run ( GTK_MESSAGE_QUESTION,
+				     GTK_BUTTONS_OK_CANCEL,
+				     make_hint ( _("Choose account type"),
+						 _("If you choose to continue, an account will be created with default payment methods chosen according to your choice.\nYou will be able to change account type later." ) ) );
 
-  label = gtk_label_new ( _("Please choose account type\nThis will create default payment methods.\nYou will eventually be able to change account type." ) );
-  gtk_label_set_line_wrap ( GTK_LABEL ( label ), TRUE );
-  gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
-		       label,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( label );
-
-  separateur = gtk_hseparator_new ();
-  gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
-		       separateur,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( separateur );
-
-
-/* création de la ligne du type de compte */
-
-  hbox = gtk_hbox_new ( TRUE,
-			0 );
-  gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
-		       hbox,
-		       FALSE,
-		       FALSE,
-		       0 );
+  /* création de la ligne du type de compte */
+  hbox = gtk_hbox_new ( FALSE, 0 );
+  gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG(dialog) -> vbox ), hbox,
+		       FALSE, FALSE, 6 );
   gtk_widget_show ( hbox );
 
-  hbox2 = gtk_hbox_new ( FALSE,
-			 0 );
-  gtk_box_pack_start ( GTK_BOX ( hbox ),
-		       hbox2,
-		       FALSE,
-		       TRUE,
-		       0 );
-  gtk_widget_show ( hbox2 );
-
   label = gtk_label_new ( COLON(_("Account type")) );
-  gtk_box_pack_start ( GTK_BOX ( hbox2 ),
-		       label,
-		       FALSE,
-		       FALSE,
-		       0 );
+  gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 12 );
   gtk_widget_show ( label );
-
-
-  hbox2 = gtk_hbox_new ( FALSE,
-			 0 );
-  gtk_box_pack_start ( GTK_BOX ( hbox ),
-		       hbox2,
-		       FALSE,
-		       TRUE,
-		       0 );
-  gtk_widget_show ( hbox2 );
 
   bouton = gtk_option_menu_new ();
   gtk_option_menu_set_menu ( GTK_OPTION_MENU ( bouton ),
 			     creation_menu_type_compte() );
-  gtk_box_pack_start ( GTK_BOX ( hbox2 ),
-		       bouton,
-		       FALSE,
-		       FALSE,
-		       0 );
+  gtk_box_pack_start ( GTK_BOX (hbox), bouton, TRUE, TRUE, 12 );
   gtk_widget_show ( bouton );
 
-  resultat = gnome_dialog_run ( GNOME_DIALOG ( dialog ));
+  resultat = gtk_dialog_run ( GTK_DIALOG(dialog) );
 
-
-  if ( resultat )
+  if ( resultat != GTK_RESPONSE_OK )
     {
-      gnome_dialog_close ( GNOME_DIALOG ( dialog ));
+      gtk_widget_destroy ( dialog );
       return ( -1 );
     }
-
+  
   type_compte = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( bouton ) -> menu_item ),
 							"no_type_compte" ));
 
-  gnome_dialog_close ( GNOME_DIALOG ( dialog ));
+  gtk_widget_destroy ( dialog );
+
   return ( type_compte );
 }
 /***********************************************************************************************************/
