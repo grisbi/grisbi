@@ -987,8 +987,8 @@ void clique_sur_modifier_tiers ( GtkWidget *bouton_modifier,
 					 0,
 					 tiers -> nom_tiers,
 					 16,
-					 masque_ferme,
-					 pixmap_ferme );
+					 pixmap_ferme,
+					 masque_ferme );
 	else
 	    gtk_ctree_node_set_pixtext ( GTK_CTREE ( arbre_tiers ),
 					 node,
