@@ -484,53 +484,7 @@ GtkWidget *gtk_combofix_new_complex ( GSList *liste,
 static gint classe_alphabetique ( gchar *string_1,
 				  gchar *string_2 )
 {
-    /*   comme la fonction g_strcasecmp met les accents derrière, on magouille pour les prendre en compte */
-
-    string_1 = g_strdup ( string_1 );
-    string_1 = g_strdelimit ( string_1,
-			      "éÉèÈêÊ",
-			      'e' );
-    string_1 = g_strdelimit ( string_1,
-			      "çÇ",
-			      'c' );
-    string_1 = g_strdelimit ( string_1,
-			      "àÀ",
-			      'a' );
-    string_1 = g_strdelimit ( string_1,
-			      "ùûÙÛ",
-			      'u' );
-    string_1 = g_strdelimit ( string_1,
-			      "ôÔ",
-			      'o' );
-    string_1 = g_strdelimit ( string_1,
-			      "îÎ",
-			      'i' );
-
-    string_2 = g_strdup ( string_2 );
-    string_2 = g_strdelimit ( string_2,
-			      "éÉèÈêÊ",
-			      'e' );
-    string_2 = g_strdelimit ( string_2,
-			      "çÇ",
-			      'c' );
-    string_2 = g_strdelimit ( string_2,
-			      "àÀ",
-			      'a' );
-    string_2 = g_strdelimit ( string_2,
-			      "ùûÙÛ",
-			      'u' );
-    string_2 = g_strdelimit ( string_2,
-			      "ôÔ",
-			      'o' );
-    string_2 = g_strdelimit ( string_2,
-			      "îÎ",
-			      'i' );
-
-
-
-    return ( g_strcasecmp ( string_1,
-			    string_2 ));
-
+    return g_utf8_collate ( string_1, string_2 );
 }
 /* **************************************************************************************************** */
 
