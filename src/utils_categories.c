@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                  utils_categories.c                    */
 /*                                                                            */
-/*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org)	      */
+/*     Copyright (C)	2000-2003 CÃ©dric Auger (cedric@grisbi.org)	      */
 /*			2003-2004 Benjamin Drieu (bdrieu@april.org)	      */
 /*			2003-2004 Alain Portal (dionysos@grisbi.org)	      */
 /* 			http://www.grisbi.org				      */
@@ -48,12 +48,12 @@ extern gint no_derniere_categorie;
 
 
 /* **************************************************************************************************** */
-/* retourne l'adr de la categ dont le nom est donné en argument */
-/* si pas trouvée : */
+/* retourne l'adr de la categ dont le nom est donnÃ© en argument */
+/* si pas trouvÃ©e : */
 /* renvoie NULL si creer = 0*/
-/* la crée et renvoie son adr avec le type_categ et la derniere sous_categ donnés si creer = 1 */
-/* type_categ = 0=crédit ; 1 = débit ; 2 = spécial */
-/* si on ajoute une categ, on met mise_a_jour_combofix_categ_necessaire à 1 */
+/* la crÃ©e et renvoie son adr avec le type_categ et la derniere sous_categ donnÃ©s si creer = 1 */
+/* type_categ = 0=crÃ©dit ; 1 = dÃ©bit ; 2 = spÃ©cial */
+/* si on ajoute une categ, on met mise_a_jour_combofix_categ_necessaire Ã  1 */
 /* **************************************************************************************************** */
 
 struct struct_categ *categ_par_nom ( gchar *nom_categ,
@@ -104,11 +104,11 @@ struct struct_categ *categ_par_nom ( gchar *nom_categ,
 
 
 /* **************************************************************************************************** */
-/* retourne l'adr de la sous categ dont le nom est donné en argument */
-/* si pas trouvée : */
-/* la crée et renvoie son adr si creer=1 */
+/* retourne l'adr de la sous categ dont le nom est donnÃ© en argument */
+/* si pas trouvÃ©e : */
+/* la crÃ©e et renvoie son adr si creer=1 */
 /* renvoie NULL si creer = 0 */
-/* si on ajoute une categ, on met mise_a_jour_combofix_categ_necessaire à 1 */
+/* si on ajoute une categ, on met mise_a_jour_combofix_categ_necessaire Ã  1 */
 /* **************************************************************************************************** */
 
 struct struct_sous_categ *sous_categ_par_nom ( struct struct_categ *categ,
@@ -158,8 +158,8 @@ struct struct_sous_categ *sous_categ_par_nom ( struct struct_categ *categ,
 
 
 /* **************************************************************************************************** */
-/* cette fonction renvoie l'adr de la categ demandée en argument */
-/* et NULL si pas trouvée */
+/* cette fonction renvoie l'adr de la categ demandÃ©e en argument */
+/* et NULL si pas trouvÃ©e */
 /* **************************************************************************************************** */
 struct struct_categ *categ_par_no ( gint no_categorie )
 {
@@ -180,7 +180,7 @@ struct struct_categ *categ_par_no ( gint no_categorie )
 
 
 /* **************************************************************************************************** */
-/* cette fonction renvoie l'adr de la sous categ demandée */
+/* cette fonction renvoie l'adr de la sous categ demandÃ©e */
 /* ou NULL si la categ ou la sous categ n'existe pas */
 /* **************************************************************************************************** */
 struct struct_sous_categ *sous_categ_par_no ( gint no_categorie,

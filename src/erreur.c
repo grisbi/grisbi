@@ -1,9 +1,9 @@
 /* ************************************************************************** */
-/* Contient toutes les procédures relatives aux erreurs et à la fin du prog   */
+/* Contient toutes les procÃ©dures relatives aux erreurs et Ã  la fin du prog   */
 /*                                                                            */
 /*                                  erreur.c                                  */
 /*                                                                            */
-/*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org)	      */
+/*     Copyright (C)	2000-2003 CÃ©dric Auger (cedric@grisbi.org)	      */
 /*			2003-2004 Benjamin Drieu (bdrieu@april.org)	      */
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
@@ -56,14 +56,14 @@ extern GtkWidget *window;
 
 
 /*****************************************************************************************************************/
-/* fonction appelée lors de la demande de fermeture de grisbi */
+/* fonction appelÃ©e lors de la demande de fermeture de grisbi */
 /*****************************************************************************************************************/
 
 
 gboolean fermeture_grisbi ( void )
 {
 
-    /*     si le fichier n'est pas enregistré, on le propose */
+    /*     si le fichier n'est pas enregistrÃ©, on le propose */
 
     if ( etat.modification_fichier )
     {
@@ -74,7 +74,7 @@ gboolean fermeture_grisbi ( void )
 	switch ( retour )
 	{
 	    /* 	    on veut enregistrer */
-	    /* 	    si ça se passe pas bien, on arrête la fermeture */
+	    /* 	    si Ã§a se passe pas bien, on arrÃªte la fermeture */
 	    case GTK_RESPONSE_OK:
 		if ( !enregistrement_fichier(-1))
 		    return TRUE;
@@ -85,13 +85,13 @@ gboolean fermeture_grisbi ( void )
 
 		break;
 
-		/* 		on a annulé */
+		/* 		on a annulÃ© */
 	    default:
 		return TRUE;
 	}
     }
 
-    /*     à ce niveau, soit le fichier a été enregistré, soit on ne veut pas l'enregistrer */
+    /*     Ã  ce niveau, soit le fichier a Ã©tÃ© enregistrÃ©, soit on ne veut pas l'enregistrer */
     /* 	on ferme grisbi */
 
     sauve_configuration ();
@@ -193,10 +193,10 @@ void traitement_sigsegv ( gint signal_nb )
 
     errmsg = _("Grisbi triggered a segmentation fault and cannot continue its execution.\n\n");
 
-    /*   il y a 3 possibilités : */
-    /*     soit on était en train de charger un fichier, c'est que celui-ci est corrompu */
-    /* soit on était en train de sauver un fichier, et là on peut rien faire */
-    /* sinon on essaie de sauver le fichier sous le nom entouré de # */
+    /*   il y a 3 possibilitÃ©s : */
+    /*     soit on Ã©tait en train de charger un fichier, c'est que celui-ci est corrompu */
+    /* soit on Ã©tait en train de sauver un fichier, et lÃ  on peut rien faire */
+    /* sinon on essaie de sauver le fichier sous le nom entourÃ© de # */
 
     if ( etat.en_train_de_charger || 
 	 etat.en_train_de_sauvegarder || 
@@ -218,14 +218,14 @@ void traitement_sigsegv ( gint signal_nb )
     else 
     {
 	/* c'est un bug pendant le fonctionnement de Grisbi s'il n'y a
-	   pas de nom de fichier, on le crée, sinon on rajoute #
+	   pas de nom de fichier, on le crÃ©e, sinon on rajoute #
 	   autour */
 
         gsb_file_default_dir = (gchar *) my_get_gsb_file_default_dir();
 
 	if ( nom_fichier_comptes )
 	{
-	    /* on récupère le nome du fichier sans le chemin */
+	    /* on rÃ©cupÃ¨re le nome du fichier sans le chemin */
 
 	    gchar **parametres;
 	    gint i=0;
@@ -263,7 +263,7 @@ void traitement_sigsegv ( gint signal_nb )
     dialogue_error_hint ( errmsg, 
 			  _("Grisbi terminated due to a segmentation fault.") );
 
-    /*     on évite le message du fichier ouvert à la prochaine ouverture */
+    /*     on Ã©vite le message du fichier ouvert Ã  la prochaine ouverture */
 
     modification_etat_ouverture_fichier ( FALSE );
     exit(1);

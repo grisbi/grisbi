@@ -1,7 +1,7 @@
-/* Ce fichier s'occupe de la gestion des types d'opérations */
+/* Ce fichier s'occupe de la gestion des types d'opÃ©rations */
 /* type_operations.c */
 
-/*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org) */
+/*     Copyright (C)	2000-2003 CÃ©dric Auger (cedric@grisbi.org) */
 /*			2003 Benjamin Drieu (bdrieu@april.org) */
 /* 			http://www.grisbi.org */
 
@@ -116,9 +116,9 @@ void payment_method_toggled ( GtkCellRendererToggle *cell, gchar *path_str,
 
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + type_ope -> no_compte;
 
-    if (type_ope -> signe_type == 1) /* Débit */
+    if (type_ope -> signe_type == 1) /* DÃ©bit */
 	TYPE_DEFAUT_DEBIT = type_ope -> no_type;
-    else if  (type_ope -> signe_type == 2) /* Crédit */
+    else if  (type_ope -> signe_type == 2) /* CrÃ©dit */
 	TYPE_DEFAUT_CREDIT = type_ope -> no_type;
 
     if (! toggle_item)
@@ -603,7 +603,7 @@ void modification_entree_nom_type ( void )
 		    TYPE_DEFAUT_DEBIT = GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_par_element (TRANSACTION_FORM_TYPE) ) -> menu_item ),
 									      "no_type" ));
 
-		    /* on affiche l'entrée des chèques si nécessaire */
+		    /* on affiche l'entrÃ©e des chÃ¨ques si nÃ©cessaire */
 		    type = g_object_get_data ( G_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_par_element (TRANSACTION_FORM_TYPE) ) -> menu_item ),
 					       "adr_type" );
 
@@ -975,12 +975,12 @@ void ajouter_type_operation ( void )
     modification_fichier ( TRUE );
 
     /* FIXME: implement that */
-    /*       /\* on ajoute ce type à la liste des tris *\/ */
+    /*       /\* on ajoute ce type Ã  la liste des tris *\/ */
 
     /*       liste_tri_tmp[no_compte] = g_slist_append ( liste_tri_tmp[no_compte],	/\* FIXME *\/ */
     /* 						  GINT_TO_POINTER ( type_ope -> no_type )); */
 
-    /*       /\*   si les neutres doivent être intégrés dans les débits crédits, on ajoute son opposé *\/ */
+    /*       /\*   si les neutres doivent Ãªtre intÃ©grÃ©s dans les dÃ©bits crÃ©dits, on ajoute son opposÃ© *\/ */
 
     /*       if ( neutres_inclus_tmp[no_compte] ) */
     /* 	liste_tri_tmp[no_compte] = g_slist_append ( liste_tri_tmp[no_compte], */
@@ -1166,7 +1166,7 @@ void supprimer_type_operation ( void )
 
 	modification_fichier ( TRUE );
 
-	/* on retire le no de type dans la liste de tri et on réaffiche la liste */
+	/* on retire le no de type dans la liste de tri et on rÃ©affiche la liste */
 	/*       liste_tri_tmp[type_ope->no_compte] = g_slist_remove ( liste_tri_tmp[type_ope->no_compte], */
 	/* 							    GINT_TO_POINTER ( type_ope -> no_type )); */
 
@@ -1176,7 +1176,7 @@ void supprimer_type_operation ( void )
 
 	/*       remplit_liste_tri_par_type ( type_ope->no_compte ); */
 
-	/*   si le type était par défaut, on met le défaut à 0 */
+	/*   si le type Ã©tait par dÃ©faut, on met le dÃ©faut Ã  0 */
     }
 }
 /* ************************************************************************************************************** */
@@ -1187,9 +1187,9 @@ void supprimer_type_operation ( void )
 
 /* ************************************************************************************************************** */
 /* Fonction creation_menu_types */
-/* argument : 1 : renvoie un menu de débits */
-/* 2 : renvoie un menu de crédits */
-/* l'origine est 0 si vient des opérations, 1 si vient des échéances, 2 pour ne pas mettre de signal quand il y a un chgt */
+/* argument : 1 : renvoie un menu de dÃ©bits */
+/* 2 : renvoie un menu de crÃ©dits */
+/* l'origine est 0 si vient des opÃ©rations, 1 si vient des Ã©chÃ©ances, 2 pour ne pas mettre de signal quand il y a un chgt */
 /* ************************************************************************************************************** */
 
 GtkWidget *creation_menu_types ( gint demande,
@@ -1226,16 +1226,16 @@ GtkWidget *creation_menu_types ( gint demande,
 	{
 	    GtkWidget *item;
 
-	    /* avant de mettre l'item, on crée le menu si nécessaire */
+	    /* avant de mettre l'item, on crÃ©e le menu si nÃ©cessaire */
 	    /* le faire ici permet de retourner null si il n'y a rien */
-	    /*   dans le menu (sinon, si rien dans les crédits, mais qque */
-	    /* chose dans les débits, renvoie un menu vide qui sera affiché */
+	    /*   dans le menu (sinon, si rien dans les crÃ©dits, mais qque */
+	    /* chose dans les dÃ©bits, renvoie un menu vide qui sera affichÃ© */
 
 	    if ( !menu )
 	    {
 		menu = gtk_menu_new();
 
-		/* on associe au menu la valeur 1 pour menu de débit et 2 pour menu de crédit */
+		/* on associe au menu la valeur 1 pour menu de dÃ©bit et 2 pour menu de crÃ©dit */
 
 		gtk_object_set_data ( GTK_OBJECT ( menu ),
 				      "signe_menu",
@@ -1287,10 +1287,10 @@ GtkWidget *creation_menu_types ( gint demande,
 
 /* ************************************************************************************************************** */
 /* Fonction cherche_no_menu_type */
-/*   argument : le numéro du type demandé */
-/* renvoie la place demandée dans l'option menu du formulaire */
-/* pour mettre l'history et affiche l'entrée du chq si nécessaire */
-/* retourne -1 si pas trouvé */
+/*   argument : le numÃ©ro du type demandÃ© */
+/* renvoie la place demandÃ©e dans l'option menu du formulaire */
+/* pour mettre l'history et affiche l'entrÃ©e du chq si nÃ©cessaire */
+/* retourne -1 si pas trouvÃ© */
 /* ************************************************************************************************************** */
 
 gint cherche_no_menu_type ( gint demande )
@@ -1319,7 +1319,7 @@ gint cherche_no_menu_type ( gint demande )
 
 	    retour = i;
 
-	    /* affiche l'entrée chq du formulaire si nécessaire */
+	    /* affiche l'entrÃ©e chq du formulaire si nÃ©cessaire */
 
 	    type = gtk_object_get_data ( GTK_OBJECT ( liste_tmp -> data ),
 					 "adr_type");
@@ -1344,10 +1344,10 @@ gint cherche_no_menu_type ( gint demande )
 
 /* ************************************************************************************************************** */
 /* Fonction cherche_no_menu_type_associe */
-/*   argument : le numéro du type demandé */
-/* renvoie la place demandée dans l'option menu du formulaire du type associé */
-/* retourne -1 si pas trouvé */
-/* origine = 0 pour les opérations */
+/*   argument : le numÃ©ro du type demandÃ© */
+/* renvoie la place demandÃ©e dans l'option menu du formulaire du type associÃ© */
+/* retourne -1 si pas trouvÃ© */
+/* origine = 0 pour les opÃ©rations */
 /* origine = 1 pour les ventilations */
 /* ************************************************************************************************************** */
 
@@ -1394,10 +1394,10 @@ gint cherche_no_menu_type_associe ( gint demande,
 
 /* ************************************************************************************************************** */
 /* Fonction cherche_no_menu_type_echeancier */
-/*   argument : le numéro du type demandé */
-/* renvoie la place demandée dans l'option menu du formulaire */
-/* pour mettre l'history et affiche l'entrée du chq si nécessaire */
-/* retourne -1 si pas trouvé */
+/*   argument : le numÃ©ro du type demandÃ© */
+/* renvoie la place demandÃ©e dans l'option menu du formulaire */
+/* pour mettre l'history et affiche l'entrÃ©e du chq si nÃ©cessaire */
+/* retourne -1 si pas trouvÃ© */
 /* ************************************************************************************************************** */
 
 gint cherche_no_menu_type_echeancier ( gint demande )
@@ -1423,20 +1423,20 @@ gint cherche_no_menu_type_echeancier ( gint demande )
 
 	    retour = i;
 
-	    /* affiche l'entrée chq du formulaire si nécessaire */
+	    /* affiche l'entrÃ©e chq du formulaire si nÃ©cessaire */
 
 	    type = gtk_object_get_data ( GTK_OBJECT ( liste_tmp -> data ),
 					 "adr_type");
 
-	    /* soit c'est un type qui affiche l'entrée et qui n'est pas numéroté automatiquement */
-	    /* soit c'est un type numéroté auto et c'est une saisie */
+	    /* soit c'est un type qui affiche l'entrÃ©e et qui n'est pas numÃ©rotÃ© automatiquement */
+	    /* soit c'est un type numÃ©rotÃ© auto et c'est une saisie */
 
 	    if ( ( type -> affiche_entree && !type -> numerotation_auto)
 		 ||
 		 ( type -> numerotation_auto && !strcmp ( GTK_LABEL ( label_saisie_modif ) -> label,
 							  _("Input") )))
 	    {
-		/* si c'est une saisie, mais le numéro de chq */
+		/* si c'est une saisie, mais le numÃ©ro de chq */
 
 		if ( type -> numerotation_auto )
 		{
@@ -1468,13 +1468,13 @@ void changement_choix_type_formulaire ( struct struct_type_ope *type )
     if ( !verifie_element_formulaire_existe ( TRANSACTION_FORM_CHEQUE ))
 	return;
 
-    /* affiche l'entrée de chèque si nécessaire */
+    /* affiche l'entrÃ©e de chÃ¨que si nÃ©cessaire */
 
     if ( type -> affiche_entree )
     {
 	gtk_widget_show ( widget_formulaire_par_element (TRANSACTION_FORM_CHEQUE) );
 
-	/* met le no suivant si nécessaire */
+	/* met le no suivant si nÃ©cessaire */
 
 	if ( type -> numerotation_auto )
 	{
@@ -1502,14 +1502,14 @@ void changement_choix_type_formulaire ( struct struct_type_ope *type )
 void changement_choix_type_echeancier ( struct struct_type_ope *type )
 {
 
-    /* affiche l'entrée de chèque si nécessaire */
+    /* affiche l'entrÃ©e de chÃ¨que si nÃ©cessaire */
 
     if ( ( type -> affiche_entree && !type -> numerotation_auto )
 	 ||
 	 ( type -> numerotation_auto && !strcmp ( GTK_LABEL ( label_saisie_modif ) -> label,
 						  _("Input") )))
     {
-	/* si c'est une saisie, met le numéro de chq */
+	/* si c'est une saisie, met le numÃ©ro de chq */
 
 	if ( type -> numerotation_auto )
 	{

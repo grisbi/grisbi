@@ -1,8 +1,8 @@
 /* ************************************************************************** */
-/* Ce fichier comprend toutes les opÈrations concernant le traitement	      */
+/* Ce fichier comprend toutes les op√©rations concernant le traitement	      */
 /* des fichiers								      */
 /*                                                                            */
-/*     Copyright (C)	2000-2003 CÈdric Auger (cedric@grisbi.org)	      */
+/*     Copyright (C)	2000-2003 C√©dric Auger (cedric@grisbi.org)	      */
 /*			2003-2004 Benjamin Drieu (bdrieu@april.org)	      */
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
@@ -99,8 +99,8 @@ extern GtkWidget *window_vbox_principale;
 
 
 /* ************************************************************************************************************ */
-/* cette fonction est appelÈe par les menus */
-/* elle ferme l'ancien fichier, crÈe un compte vierge */
+/* cette fonction est appel√©e par les menus */
+/* elle ferme l'ancien fichier, cr√©e un compte vierge */
 /* et initialise l'affichage */
 /* ************************************************************************************************************ */
 void nouveau_fichier ( void )
@@ -119,13 +119,13 @@ void nouveau_fichier ( void )
     if ( type_de_compte == -1 )
 	return;
 
-    /*     crÈation de la 1Ëre devise */
+    /*     cr√©ation de la 1√®re devise */
 
     ajout_devise ( NULL );
 
     no_compte = initialisation_nouveau_compte ( type_de_compte );
 
-    /* si la crÈation s'est mal passÈe, on se barre */
+    /* si la cr√©ation s'est mal pass√©e, on se barre */
 
     if ( no_compte == -1 )
 	return;
@@ -133,7 +133,7 @@ void nouveau_fichier ( void )
     initialisation_variables_nouveau_fichier ();
     initialisation_graphiques_nouveau_fichier ();
 
-    /* on se met sur l'onglet de propriÈtÈs du compte */
+    /* on se met sur l'onglet de propri√©t√©s du compte */
 
     gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ),
 			    3 );
@@ -148,7 +148,7 @@ void nouveau_fichier ( void )
 /* ************************************************************************************************************ */
 void initialisation_variables_nouveau_fichier ( void )
 {
-    /*   la taille des colonnes est automatique au dÈpart, on y met les rapports de base */
+    /*   la taille des colonnes est automatique au d√©part, on y met les rapports de base */
 
     etat.largeur_auto_colonnes = 1;
     rapport_largeur_colonnes[0] = 11;
@@ -159,7 +159,7 @@ void initialisation_variables_nouveau_fichier ( void )
     rapport_largeur_colonnes[5] = 11;
     rapport_largeur_colonnes[6] = 11;
 
-    /* crÈation des listes d'origine */
+    /* cr√©ation des listes d'origine */
 
     creation_liste_categories ();
 }
@@ -168,22 +168,22 @@ void initialisation_variables_nouveau_fichier ( void )
 
 
 /* ************************************************************************************************************ */
-/* cette fonction est appelÈe lors de la crÈation d'un nouveau fichier, elle s'occupe */
+/* cette fonction est appel√©e lors de la cr√©ation d'un nouveau fichier, elle s'occupe */
 /* de l'initialisation de la partie graphique */
 /* ************************************************************************************************************ */
 void initialisation_graphiques_nouveau_fichier ( void )
 {
-    /* dÈgrise les menus nÈcessaire */
+    /* d√©grise les menus n√©cessaire */
 
     menus_sensitifs ( TRUE );
 
     creation_liste_categ_combofix ();
 
-    /*     rÈcupËre l'organisation des colonnes  */
+    /*     r√©cup√®re l'organisation des colonnes  */
     
     recuperation_noms_colonnes_et_tips ();
 
-    /* on crÈe le notebook principal */
+    /* on cr√©e le notebook principal */
 
     gtk_box_pack_start ( GTK_BOX ( window_vbox_principale),
 			 creation_fenetre_principale(),
@@ -257,8 +257,8 @@ void ouverture_fichier_par_menu ( gpointer null,
 void fichier_selectionne ( GtkWidget *selection_fichier)
 {
 
-    /*   on cache la fenetre de sÈlection et ferme le fichier en cours */
-    /*     si lors de la fermeture, on a voulu enregistrer mais Áa n'a pas marchÈ => return */
+    /*   on cache la fenetre de s√©lection et ferme le fichier en cours */
+    /*     si lors de la fermeture, on a voulu enregistrer mais √ßa n'a pas march√© => return */
 
     gtk_widget_hide ( selection_fichier );
 
@@ -277,7 +277,7 @@ void fichier_selectionne ( GtkWidget *selection_fichier)
 
     gtk_widget_hide ( selection_fichier );
 
-    /* on met le rÈpertoire courant dans la variable correspondante */
+    /* on met le r√©pertoire courant dans la variable correspondante */
 
     dernier_chemin_de_travail = g_strconcat ( GTK_LABEL ( GTK_BIN ( GTK_OPTION_MENU ( GTK_FILE_SELECTION ( selection_fichier ) -> history_pulldown )) -> child ) -> label,
 					      C_DIRECTORY_SEPARATOR,
@@ -292,7 +292,7 @@ void fichier_selectionne ( GtkWidget *selection_fichier)
 /* ************************************************************************************************************ */
 /* Fonction ouverture_confirmee */
 /* ouvre le fichier dont le nom est dans nom_fichier_comptes */
-/* ne se prÈocupe pas d'un ancien fichier ou d'une initialisation de variables */
+/* ne se pr√©ocupe pas d'un ancien fichier ou d'une initialisation de variables */
 /* ************************************************************************************************************ */
 
 void ouverture_confirmee ( void )
@@ -306,11 +306,11 @@ void ouverture_confirmee ( void )
 
     mise_en_route_attente ( _("Load an accounts file") );
 
-    /*  si charge opÈrations renvoie FALSE, c'est qu'il y a eu un pb et un message est dÈj‡ affichÈ */
+    /*  si charge op√©rations renvoie FALSE, c'est qu'il y a eu un pb et un message est d√©j√† affich√© */
 
     if ( !charge_operations ( nom_fichier_comptes ) )
     {
-	/* 	  le chargement du fichier a plantÈ, si l'option sauvegarde ‡ l'ouverture est activÈe, on */
+	/* 	  le chargement du fichier a plant√©, si l'option sauvegarde √† l'ouverture est activ√©e, on */
 	/* propose de charger l'ancien fichier */
 
 	annulation_attente ();
@@ -321,7 +321,7 @@ void ouverture_confirmee ( void )
 	    gint result;
 	    gchar **parametres;
 
-	    /* on crÈe le nom de la sauvegarde */
+	    /* on cr√©e le nom de la sauvegarde */
 
 	    nom = g_strdup ( nom_fichier_comptes );
 	    i=0;
@@ -347,12 +347,12 @@ void ouverture_confirmee ( void )
 
 	    if ( charge_operations ( nom ) )
 	    {
-		/* on a rÈussi a charger la sauvegarde */
+		/* on a r√©ussi a charger la sauvegarde */
 		dialogue ( _("Grisbi was unable to load file.  However, Grisbi loaded a backup file instead.\nHowever, all changes made since this backup were possibly lost."));
 	    }
 	    else
 	    {
-		/* le chargement de la sauvegarde a ÈchouÈ */
+		/* le chargement de la sauvegarde a √©chou√© */
 
 		annulation_attente ();
 		dialogue ( _("Grisbi was unable to load file.  Additionnaly, Grisbi was unable to load a backup file instead."));
@@ -367,8 +367,8 @@ void ouverture_confirmee ( void )
     }
     else
     {
-	/* 	    l'ouverture du fichier s'est bien passÈe */
-	/* 	si on veut faire une sauvegarde auto ‡ chaque ouverture, c'est ici */
+	/* 	    l'ouverture du fichier s'est bien pass√©e */
+	/* 	si on veut faire une sauvegarde auto √† chaque ouverture, c'est ici */
 
 	if ( etat.sauvegarde_demarrage )
 	{
@@ -381,7 +381,7 @@ void ouverture_confirmee ( void )
 
 	    i=0;
 
-	    /* 	      on rÈcupËre uniquement le nom du fichier, pas le chemin */
+	    /* 	      on r√©cup√®re uniquement le nom du fichier, pas le chemin */
 
 	    parametres = g_strsplit ( nom,
 				      "/",
@@ -406,7 +406,7 @@ void ouverture_confirmee ( void )
 
     update_attente ( _("Checking schedulers"));
 
-    /*     on vÈrifie si des ÈchÈances sont ‡ rÈcupÈrer */
+    /*     on v√©rifie si des √©ch√©ances sont √† r√©cup√©rer */
 
     verification_echeances_a_terme ();
 
@@ -419,14 +419,14 @@ void ouverture_confirmee ( void )
     if (nom_fichier_comptes)
 	ajoute_nouveau_fichier_liste_ouverture ( nom_fichier_comptes );
 
-    /*     rÈcupËre l'organisation des colonnes  */
+    /*     r√©cup√®re l'organisation des colonnes  */
 
     recuperation_noms_colonnes_et_tips ();
 
     /*  on calcule les soldes courants */
     /*     important de le faire avant l'affichage de l'accueil */
     /* 	va afficher le message qu'une fois tous les comptes remplis */
-    /* 	(donc aprËs l'idle ) */
+    /* 	(donc apr√®s l'idle ) */
     
     update_attente ( _("Checking amounts"));
 
@@ -437,7 +437,7 @@ void ouverture_confirmee ( void )
 	SOLDE_COURANT = calcule_solde_compte ( i );
 	SOLDE_POINTE = calcule_solde_pointe_compte ( i );
 
-	/* 	on met ‡ jour les affichage solde mini et autres */
+	/* 	on met √† jour les affichage solde mini et autres */
 
 	MESSAGE_SOUS_MINI = SOLDE_COURANT < SOLDE_MINI;
 	MESSAGE_SOUS_MINI_VOULU = SOLDE_COURANT < SOLDE_MINI_VOULU;
@@ -448,13 +448,13 @@ void ouverture_confirmee ( void )
     }
 
     /*     on va afficher la page d'accueil */
-    /*     l'appel se fera lors de la crÈation de la fenÍtre principale */
+    /*     l'appel se fera lors de la cr√©ation de la fen√™tre principale */
 
     mise_a_jour_liste_comptes_accueil = 1;
     mise_a_jour_soldes_minimaux = 1;
     mise_a_jour_fin_comptes_passifs = 1;
 
-    /*     crÈation de la liste des tiers pour le combofix */
+    /*     cr√©ation de la liste des tiers pour le combofix */
     
     creation_liste_tiers_combofix ();
 
@@ -466,23 +466,23 @@ void ouverture_confirmee ( void )
 
     creation_liste_imputation_combofix ();
 
-    /* on crÈe le notebook principal */
+    /* on cr√©e le notebook principal */
 
     update_attente ( _("Making main window"));
 
     creation_fenetre_principale();
     
-    /*     on dÈgrise les menus */
+    /*     on d√©grise les menus */
 
     menus_sensitifs ( TRUE );
 
-    /* On met ‡ jour l'affichage des opÈrations rapprochÈes */
+    /* On met √† jour l'affichage des op√©rations rapproch√©es */
     block_menu_cb = TRUE;
     widget = gtk_item_factory_get_item ( item_factory_menu_general,
 					 menu_name(_("View"), _("Show reconciled transactions"), NULL) );
     gtk_check_menu_item_set_active( GTK_CHECK_MENU_ITEM(widget), AFFICHAGE_R );
 
-    /* On met ‡ jour le contrÙle dans le menu du nombre de lignes affichÈes */
+    /* On met √† jour le contr√¥le dans le menu du nombre de lignes affich√©es */
     switch ( NB_LIGNES_OPE )
       {
       case 1 :
@@ -503,7 +503,7 @@ void ouverture_confirmee ( void )
     gtk_check_menu_item_set_active( GTK_CHECK_MENU_ITEM(widget), TRUE );
     block_menu_cb = FALSE;
 
-    /*     on ajoute la fentre principale ‡ la window */
+    /*     on ajoute la fentre principale √† la window */
 
     gtk_box_pack_start ( GTK_BOX ( window_vbox_principale),
 			 notebook_general,
@@ -522,11 +522,11 @@ void ouverture_confirmee ( void )
 
 
 /* ************************************************************************************************************ */
-/* Fonction appelÈ lorsqu'on veut enregistrer le fichier ( fin de prog, fermeture fichier ... ) */
+/* Fonction appel√© lorsqu'on veut enregistrer le fichier ( fin de prog, fermeture fichier ... ) */
 /* enregistre automatiquement ou demande */
 /* si origine = -1 : provient de la fonction fermeture_grisbi */
 /* si origine = -2 : provient de enregistrer sous */
-/* retour : TRUE si tout va bien, cad on ne veut pas enregistrer ou c'est enregistrÈ */
+/* retour : TRUE si tout va bien, cad on ne veut pas enregistrer ou c'est enregistr√© */
 /* ************************************************************************************************************ */
 
 gboolean enregistrement_fichier ( gint origine )
@@ -551,7 +551,7 @@ gboolean enregistrement_fichier ( gint origine )
     if ( !nouveau_nom_enregistrement )
 	return FALSE;
 
-    /*     on vÈrifie que le fichier n'est pas lockÈ */
+    /*     on v√©rifie que le fichier n'est pas lock√© */
 
     if ( etat.fichier_deja_ouvert
 	 &&
@@ -576,8 +576,8 @@ gboolean enregistrement_fichier ( gint origine )
 
     if ( result )
     {
-	/* 	l'enregistrement s'est bien passÈ, */
-	/* 	on dÈlock le fichier (l'ancien ou le courant) */
+	/* 	l'enregistrement s'est bien pass√©, */
+	/* 	on d√©lock le fichier (l'ancien ou le courant) */
 	    
 	modification_etat_ouverture_fichier ( FALSE );
 
@@ -587,7 +587,7 @@ gboolean enregistrement_fichier ( gint origine )
 
 	modification_etat_ouverture_fichier ( TRUE );
 
-	/* 	dans tout les cas, le fichier n'Ètait plus ouvert ‡ l'ouverture */
+	/* 	dans tout les cas, le fichier n'√©tait plus ouvert √† l'ouverture */
 
 	etat.fichier_deja_ouvert = 0;
 	modification_fichier ( FALSE );
@@ -595,7 +595,7 @@ gboolean enregistrement_fichier ( gint origine )
 	ajoute_nouveau_fichier_liste_ouverture ( nom_fichier_comptes );
     }
 
-    /*     on enregistre la backup si nÈcessaire */
+    /*     on enregistre la backup si n√©cessaire */
 
     enregistrement_backup();
 
@@ -616,7 +616,7 @@ gboolean enregistrer_fichier_sous ( void )
 
 
 /* ************************************************************************************************************ */
-/* cette fonction est appelÈe pour proposer d'enregistrer si le fichier est modifiÈ */
+/* cette fonction est appel√©e pour proposer d'enregistrer si le fichier est modifi√© */
 /* elle n'enregistre pas, elle retourne juste le choix de l'utilisateur */
 /* retourne : */
 /* GTK_RESPONSE_OK : veut enregistrer */
@@ -629,13 +629,13 @@ gint question_fermer_sans_enregistrer ( void )
     gint result;
     GtkWidget *dialog;
 
-    /*     si le fichier n'est pas modifiÈ on renvoie qu'on ne veut pas enregistrer */
+    /*     si le fichier n'est pas modifi√© on renvoie qu'on ne veut pas enregistrer */
 
     if ( !etat.modification_fichier )
 	return GTK_RESPONSE_NO;
     
-    /*     si le fichier Ètait dÈj‡ lockÈ et que force enregistrement n'est pas mis, */
-    /*     on prÈvient ici */
+    /*     si le fichier √©tait d√©j√† lock√© et que force enregistrement n'est pas mis, */
+    /*     on pr√©vient ici */
 
     dialog = gtk_message_dialog_new ( GTK_WINDOW (window), 
 				      GTK_DIALOG_DESTROY_WITH_PARENT,
@@ -685,7 +685,7 @@ gint question_fermer_sans_enregistrer ( void )
 
 
 /* ************************************************************************************************************ */
-/* cette fonction est appelÈe lors de l'enregistrement, s'il n'y a pas de nom */
+/* cette fonction est appel√©e lors de l'enregistrement, s'il n'y a pas de nom */
 /* ou si on fait un enregistrement sous */
 /* elle renvoie le nouveau nom */
 /* ************************************************************************************************************ */
@@ -713,7 +713,7 @@ gchar *demande_nom_enregistrement ( void )
 
 	    gtk_widget_destroy ( GTK_WIDGET ( fenetre_nom ));
 
-	    /* vÈrification que qque chose a ÈtÈ entrÈ */
+	    /* v√©rification que qque chose a √©t√© entr√© */
 
 	    if ( !strlen ( nouveau_nom ))
 		return NULL;
@@ -780,7 +780,7 @@ gboolean fermer_fichier ( void )
 
 	case GTK_RESPONSE_NO :
 
-	    /* 	    l'enregistrement s'est bien passÈ ou on a choisi de ne pas enregistrer */
+	    /* 	    l'enregistrement s'est bien pass√© ou on a choisi de ne pas enregistrer */
 
 	    /*     on enregistre la config */
 
@@ -790,7 +790,7 @@ gboolean fermer_fichier ( void )
 
 	    termine_idle ();
 
-	    /* si le fichier n'Ètait pas dÈj‡ ouvert, met ‡ 0 l'ouverture */
+	    /* si le fichier n'√©tait pas d√©j√† ouvert, met √† 0 l'ouverture */
 
 	    if ( !etat.fichier_deja_ouvert
 		 &&
@@ -807,7 +807,7 @@ gboolean fermer_fichier ( void )
 		id_temps = 0;
 	    }
 
-	    /* libËre les opÈrations de tous les comptes */
+	    /* lib√®re les op√©rations de tous les comptes */
 
 	    p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
 
@@ -823,7 +823,7 @@ gboolean fermer_fichier ( void )
 
 	    free ( p_tab_nom_de_compte );
 
-	    /* libËre les ÈchÈances */
+	    /* lib√®re les √©ch√©ances */
 
 	    g_slist_free ( liste_struct_echeances );
 	    g_slist_free ( echeances_a_saisir );
@@ -856,7 +856,7 @@ gboolean fermer_fichier ( void )
 
 
 /* ************************************************************************************************************ */
-/* Fonction appelÈe une fois qu'on a nommÈ le fichier de compte */
+/* Fonction appel√©e une fois qu'on a nomm√© le fichier de compte */
 /* met juste le titre dans la fenetre principale */
 /* ************************************************************************************************************ */
 void affiche_titre_fenetre ( void )
@@ -893,7 +893,7 @@ void affiche_titre_fenetre ( void )
 
 /* ************************************************************************************************************ */
 /* Fonction enregistrement_backup */
-/* appelÈe si necessaire au dÈbut de l'enregistrement */
+/* appel√©e si necessaire au d√©but de l'enregistrement */
 /* ************************************************************************************************************ */
 
 gboolean enregistrement_backup ( void )
@@ -939,8 +939,8 @@ void ajoute_nouveau_fichier_liste_ouverture ( gchar *path_fichier )
 
     /* ALAIN-FIXME */
     /* si on n'a pas un chemin absolu, on n'enregistre pas ce fichier
-       dans la liste. Du moins jusqu'‡ ce que quelqu'un trouve un moyen
-       pour rÈcupÈrer le chemein absolu */
+       dans la liste. Du moins jusqu'√† ce que quelqu'un trouve un moyen
+       pour r√©cup√©rer le chemein absolu */
 
     if ( !g_path_is_absolute ( nom_fichier_comptes ) )
     {
@@ -955,7 +955,7 @@ void ajoute_nouveau_fichier_liste_ouverture ( gchar *path_fichier )
 	return;
     }
 
-    /* on commence par vÈrifier si ce fichier n'est pas dans les nb_derniers_fichiers_ouverts noms */
+    /* on commence par v√©rifier si ce fichier n'est pas dans les nb_derniers_fichiers_ouverts noms */
 
     position = 0;
 
@@ -963,7 +963,7 @@ void ajoute_nouveau_fichier_liste_ouverture ( gchar *path_fichier )
 	if ( !strcmp ( path_fichier,
 		       tab_noms_derniers_fichiers_ouverts[i] ))
 	{
-	    /* 	si ce fichier est dÈj‡ le dernier ouvert, on laisse tomber */
+	    /* 	si ce fichier est d√©j√† le dernier ouvert, on laisse tomber */
 
 	    if ( !i )
 		return;
@@ -975,7 +975,7 @@ void ajoute_nouveau_fichier_liste_ouverture ( gchar *path_fichier )
 
     if ( position )
     {
-	/*       le fichier a ÈtÈ trouvÈ, on fait juste une rotation */
+	/*       le fichier a √©t√© trouv√©, on fait juste une rotation */
 
 	for ( i=position ; i>0 ; i-- )
 	    tab_noms_derniers_fichiers_ouverts[i] = tab_noms_derniers_fichiers_ouverts[i-1];
@@ -989,9 +989,9 @@ void ajoute_nouveau_fichier_liste_ouverture ( gchar *path_fichier )
 	return;
     }
 
-    /*   le fichier est nouveau, on dÈcale tout d'un cran et on met le nouveau ‡ 0 */
+    /*   le fichier est nouveau, on d√©cale tout d'un cran et on met le nouveau √† 0 */
 
-    /*   si on est dÈj‡ au max, c'est juste un dÈcalage avec perte du dernier */
+    /*   si on est d√©j√† au max, c'est juste un d√©calage avec perte du dernier */
     /* on garde le ptit dernier dans le cas contraire */
 
     if ( nb_derniers_fichiers_ouverts )

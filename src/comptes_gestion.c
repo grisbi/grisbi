@@ -2,7 +2,7 @@
 /*  Fichier qui s'occupe de la gestion des comptes			      */
 /*			gestion_comptes.c				      */
 /*                                                                            */
-/*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org)	      */
+/*     Copyright (C)	2000-2003 CÃ©dric Auger (cedric@grisbi.org)	      */
 /*			2004      Benjamin Drieu (bdrieu@april.org) 	      */
 /*			2003-2004 Alain Portal (dionysos@grisbi.org) 	      */
 /*			http://www.grisbi.org   			      */
@@ -98,7 +98,7 @@ extern GtkTreeSelection * selection;
 
 /* ************************************************************************************************************ */
 /* Fonction creation_details_compte */
-/* crée la fenêtre qui sera l'onglet 2 du notebook du compte */
+/* crÃ©e la fenÃªtre qui sera l'onglet 2 du notebook du compte */
 /* ************************************************************************************************************ */
 
 GtkWidget *creation_details_compte ( void )
@@ -107,14 +107,14 @@ GtkWidget *creation_details_compte ( void )
     GtkWidget *label, *bouton, *vbox2, *scrolled_window_text, *paddingbox;
 
 
-    /* la fenetre ppale est une vbox avec les détails en haut et appliquer en bas */
+    /* la fenetre ppale est une vbox avec les dÃ©tails en haut et appliquer en bas */
 
     onglet = gtk_vbox_new ( FALSE, 5 );
     gtk_container_set_border_width ( GTK_CONTAINER ( onglet ), 10 );
     gtk_widget_show ( onglet );
 
 
-    /* partie du haut avec les détails du compte */
+    /* partie du haut avec les dÃ©tails du compte */
 
     scrolled_window = gtk_scrolled_window_new ( FALSE, FALSE );
     gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window ),
@@ -131,7 +131,7 @@ GtkWidget *creation_details_compte ( void )
 
     paddingbox = new_paddingbox_with_title (vbox, FALSE, _("Account details"));
 
-    /* création de la ligne du nom du compte */
+    /* crÃ©ation de la ligne du nom du compte */
 
     hbox = gtk_hbox_new ( TRUE, 0 );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0 );
@@ -154,7 +154,7 @@ GtkWidget *creation_details_compte ( void )
     gtk_widget_show ( detail_nom_compte );
 
 
-    /* création de la ligne du type de compte */
+    /* crÃ©ation de la ligne du type de compte */
     hbox = gtk_hbox_new ( TRUE, 0 );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0 );
     gtk_widget_show ( hbox );
@@ -179,7 +179,7 @@ GtkWidget *creation_details_compte ( void )
     gtk_widget_show ( detail_type_compte );
 
 
-    /* création de la ligne de la devise */
+    /* crÃ©ation de la ligne de la devise */
     hbox = gtk_hbox_new ( TRUE, 0 );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0 );
     gtk_widget_show ( hbox );
@@ -203,7 +203,7 @@ GtkWidget *creation_details_compte ( void )
     gtk_box_pack_start ( GTK_BOX ( hbox2 ), detail_devise_compte, TRUE, TRUE, 0 );
     gtk_widget_show ( detail_devise_compte );
 
-    /* création de la ligne de passage à l'euro */
+    /* crÃ©ation de la ligne de passage Ã  l'euro */
 /*     hbox_bouton_passage_euro = gtk_hbox_new ( TRUE, 0 ); */
 /*     gtk_box_pack_start ( GTK_BOX ( paddingbox ), */
 /* 			 hbox_bouton_passage_euro, FALSE, FALSE, 0 ); */
@@ -218,7 +218,7 @@ GtkWidget *creation_details_compte ( void )
 /*     gtk_widget_show ( bouton_passage_euro ); */
 
 
-    /* création de la ligne compte cloturé */
+    /* crÃ©ation de la ligne compte cloturÃ© */
     hbox = gtk_hbox_new ( TRUE, 0 );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0 );
     gtk_widget_show ( hbox );
@@ -228,7 +228,7 @@ GtkWidget *creation_details_compte ( void )
     gtk_widget_show ( detail_compte_cloture );
 
 
-    /* création de la ligne du titulaire du compte */
+    /* crÃ©ation de la ligne du titulaire du compte */
     paddingbox = new_paddingbox_with_title ( vbox, FALSE, _("Account holder"));
 
     hbox = gtk_hbox_new ( TRUE, 0 );
@@ -253,7 +253,7 @@ GtkWidget *creation_details_compte ( void )
     gtk_widget_show ( detail_titulaire_compte );
 
 
-    /* création de la ligne titulaire a l'adr commune */
+    /* crÃ©ation de la ligne titulaire a l'adr commune */
     hbox = gtk_hbox_new ( TRUE, 0 );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0 );
     gtk_widget_show ( hbox );
@@ -280,7 +280,7 @@ GtkWidget *creation_details_compte ( void )
 
 
 
-    /* création de la ligne titulaire a sa propre adresse */
+    /* crÃ©ation de la ligne titulaire a sa propre adresse */
     hbox = gtk_hbox_new ( TRUE, 0 );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0 );
     gtk_widget_show ( hbox );
@@ -316,7 +316,7 @@ GtkWidget *creation_details_compte ( void )
     gtk_widget_show ( detail_adresse_titulaire );
 
 
-    /* ligne de l'établissement financier */
+    /* ligne de l'Ã©tablissement financier */
     paddingbox = new_paddingbox_with_title ( vbox, FALSE, _("Bank"));
 
     hbox = gtk_hbox_new ( TRUE, 0 );
@@ -343,7 +343,7 @@ GtkWidget *creation_details_compte ( void )
     gtk_box_pack_start ( GTK_BOX ( hbox2 ), detail_option_menu_banque, TRUE, TRUE, 0 );
     gtk_widget_show ( detail_option_menu_banque );
 
-    /* mise en place de la ligne détails de la banque et créer */
+    /* mise en place de la ligne dÃ©tails de la banque et crÃ©er */
 
     hbox = gtk_hbox_new ( TRUE, 0 );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0 );
@@ -376,7 +376,7 @@ GtkWidget *creation_details_compte ( void )
     gtk_widget_show ( bouton );
 
 
-    /* création de la ligne contenant le code de la banque */
+    /* crÃ©ation de la ligne contenant le code de la banque */
     hbox = gtk_hbox_new ( TRUE, 0 );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0 );
     gtk_widget_show ( hbox );
@@ -399,7 +399,7 @@ GtkWidget *creation_details_compte ( void )
     gtk_widget_show ( label_code_banque );
 
 
-    /* création de la ligne du guichet */
+    /* crÃ©ation de la ligne du guichet */
     hbox = gtk_hbox_new ( TRUE, 0 );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0 );
     gtk_widget_show ( hbox );
@@ -423,7 +423,7 @@ GtkWidget *creation_details_compte ( void )
     gtk_widget_show ( detail_guichet );
 
 
-    /* création de la ligne du numéro du compte */
+    /* crÃ©ation de la ligne du numÃ©ro du compte */
     hbox = gtk_hbox_new ( TRUE, 0 );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0 );
     gtk_widget_show ( hbox );
@@ -452,7 +452,7 @@ GtkWidget *creation_details_compte ( void )
 
 
 
-    /* création de la ligne du solde initial */
+    /* crÃ©ation de la ligne du solde initial */
     paddingbox = new_paddingbox_with_title ( vbox, FALSE, _("Balances"));
 
     hbox = gtk_hbox_new ( TRUE, 0 );
@@ -477,7 +477,7 @@ GtkWidget *creation_details_compte ( void )
     gtk_widget_show ( detail_solde_init );
 
 
-    /* création de la ligne du solde mini autorisé */
+    /* crÃ©ation de la ligne du solde mini autorisÃ© */
     hbox = gtk_hbox_new ( TRUE, 0 );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0 );
     gtk_widget_show ( hbox );
@@ -500,7 +500,7 @@ GtkWidget *creation_details_compte ( void )
     gtk_widget_show ( detail_solde_mini_autorise );
 
 
-    /* création de la ligne du solde mini voulu */
+    /* crÃ©ation de la ligne du solde mini voulu */
     hbox = gtk_hbox_new ( TRUE, 0 );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0 );
     gtk_widget_show ( hbox );
@@ -523,7 +523,7 @@ GtkWidget *creation_details_compte ( void )
     gtk_widget_show ( detail_solde_mini_voulu );
 
 
-    /* création de la ligne du commentaire */
+    /* crÃ©ation de la ligne du commentaire */
     paddingbox = new_paddingbox_with_title ( vbox, FALSE, _("Comments"));
 
     scrolled_window_text = gtk_scrolled_window_new ( FALSE, FALSE );
@@ -537,7 +537,7 @@ GtkWidget *creation_details_compte ( void )
     gtk_container_add ( GTK_CONTAINER ( scrolled_window_text ), detail_commentaire );
     gtk_widget_show ( detail_commentaire );
 
-    /* séparation de la fenetre */
+    /* sÃ©paration de la fenetre */
 
     separateur = gtk_hseparator_new ();
     gtk_box_pack_start ( GTK_BOX ( onglet ),
@@ -585,7 +585,7 @@ GtkWidget *creation_details_compte ( void )
     gtk_widget_show_all ( vbox );
 
 
-    /*   à ce niveau, on relie toute modif à une fonction qui rend sensitif les boutons appliquer et annuler */
+    /*   Ã  ce niveau, on relie toute modif Ã  une fonction qui rend sensitif les boutons appliquer et annuler */
 
     gtk_signal_connect_object ( GTK_OBJECT ( detail_titulaire_compte ),
 				"changed",
@@ -677,7 +677,7 @@ void changement_bouton_adresse_commune_perso ( void )
 
 /* ************************************************************************************************************ */
 /* Fonction creation_menu_type_compte */
-/* crée un menu contenant tous les types de compte associés à leur numéro */
+/* crÃ©e un menu contenant tous les types de compte associÃ©s Ã  leur numÃ©ro */
 /* et le renvoie */
 /* ************************************************************************************************************ */
 
@@ -689,7 +689,7 @@ GtkWidget *creation_menu_type_compte ( void )
     menu = gtk_menu_new ();
     gtk_widget_show ( menu );
 
-    /* création de l'item compte bancaire */
+    /* crÃ©ation de l'item compte bancaire */
 
     menu_item = gtk_menu_item_new_with_label ( _("Bank account") );
     gtk_menu_append ( GTK_MENU ( menu ),
@@ -700,7 +700,7 @@ GtkWidget *creation_menu_type_compte ( void )
     gtk_widget_show ( menu_item );
 
 
-    /* création de l'item compte de caisse */
+    /* crÃ©ation de l'item compte de caisse */
 
     menu_item = gtk_menu_item_new_with_label ( _("Cash account") );
     gtk_menu_append ( GTK_MENU ( menu ),
@@ -711,7 +711,7 @@ GtkWidget *creation_menu_type_compte ( void )
     gtk_widget_show ( menu_item );
 
 
-    /* création de l'item compte passif */
+    /* crÃ©ation de l'item compte passif */
 
     menu_item = gtk_menu_item_new_with_label ( _("Liabilities account") );
     gtk_menu_append ( GTK_MENU ( menu ),
@@ -721,7 +721,7 @@ GtkWidget *creation_menu_type_compte ( void )
 			  GINT_TO_POINTER ( 2 ));
     gtk_widget_show ( menu_item );
 
-    /* création de l'item compte actif */
+    /* crÃ©ation de l'item compte actif */
 
     menu_item = gtk_menu_item_new_with_label ( _("Assets account") );
     gtk_menu_append ( GTK_MENU ( menu ),
@@ -740,7 +740,7 @@ GtkWidget *creation_menu_type_compte ( void )
 
 /* ************************************************************************************************************ */
 /* Fonction modif_detail_compte */
-/* appelée dès qu'une modification est faite sur le détail d'un compte */
+/* appelÃ©e dÃ¨s qu'une modification est faite sur le dÃ©tail d'un compte */
 /* affiche les boutons appliquer / annuler  */
 /* ************************************************************************************************************ */
 
@@ -889,14 +889,14 @@ void remplissage_details_compte ( void )
 
 /* ************************************************************************************************************ */
 /* Fonction modification_details_compte */
-/* appelée par le bouton appliquer du détail des comptes */
+/* appelÃ©e par le bouton appliquer du dÃ©tail des comptes */
 /* ************************************************************************************************************ */
 
 void modification_details_compte ( void )
 {
     gint i;
 
-    /* vérification que le compte a un nom */
+    /* vÃ©rification que le compte a un nom */
 
     if ( !strlen ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( detail_nom_compte ))) )
     {
@@ -906,7 +906,7 @@ void modification_details_compte ( void )
 
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
 
-    /* vérification que ce nom ne soit pas déjà utilisé */
+    /* vÃ©rification que ce nom ne soit pas dÃ©jÃ  utilisÃ© */
 
     for ( i = 0; i < nb_comptes; i++)
     {
@@ -923,7 +923,7 @@ void modification_details_compte ( void )
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant_onglet;
 
 
-    /* récupération du titulaire */
+    /* rÃ©cupÃ©ration du titulaire */
 
     TITULAIRE = g_strdup ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( detail_titulaire_compte ))));
 
@@ -931,7 +931,7 @@ void modification_details_compte ( void )
 	TITULAIRE = NULL;
 
 
-    /* vérification du type de compte */
+    /* vÃ©rification du type de compte */
 
     if ( GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( detail_type_compte ) -> menu_item ),
 						 "no_type_compte" ))
@@ -948,7 +948,7 @@ void modification_details_compte ( void )
     }
 
 
-    /* vérification de la devise */
+    /* vÃ©rification de la devise */
 
     if ( DEVISE != GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( detail_devise_compte ) -> menu_item ),
 							   "no_devise" )) )
@@ -996,7 +996,7 @@ void modification_details_compte ( void )
 
 	DEVISE = nouvelle_devise -> no_devise;
 	
-/* FIXME : voir pourquoi remplissage opé et remettre l'ajustement */
+/* FIXME : voir pourquoi remplissage opÃ© et remettre l'ajustement */
 
 /* 	value = gtk_clist_get_vadjustment ( GTK_CLIST ( CLIST_OPERATIONS )) -> value; */
 	remplissage_liste_operations ( compte_courant_onglet );
@@ -1010,7 +1010,7 @@ void modification_details_compte ( void )
     }
 
 
-    /* récupération de l'adr du titulaire */
+    /* rÃ©cupÃ©ration de l'adr du titulaire */
 
     if ( !gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( detail_bouton_adresse_commune )))
     {
@@ -1034,7 +1034,7 @@ void modification_details_compte ( void )
 	ADRESSE_TITULAIRE = NULL;
 
 
-    /* enregistrement de l'établissement financier */
+    /* enregistrement de l'Ã©tablissement financier */
 
     BANQUE = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( detail_option_menu_banque ) -> menu_item ),
 						     "no_banque" ));
@@ -1053,14 +1053,14 @@ void modification_details_compte ( void )
     if ( !strlen ( NO_COMPTE_BANQUE ))
 	NO_COMPTE_BANQUE = NULL;
 
-    /* enregistrement de la clé du compte */
+    /* enregistrement de la clÃ© du compte */
 
     CLE_COMPTE = g_strdup ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( detail_cle_compte ))));
 
     if ( !strlen ( CLE_COMPTE ))
 	CLE_COMPTE = NULL;
 
-    /* enregistrement du compte cloturé */
+    /* enregistrement du compte cloturÃ© */
 
     if ( COMPTE_CLOTURE != gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( detail_compte_cloture )))
     {
@@ -1074,7 +1074,7 @@ void modification_details_compte ( void )
     }
 
 
-    /* vérification du solde initial */
+    /* vÃ©rification du solde initial */
 
     if ( SOLDE_INIT != my_strtod ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( detail_solde_init ))),
 				   NULL ) )
@@ -1083,7 +1083,7 @@ void modification_details_compte ( void )
 	SOLDE_INIT = my_strtod ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( detail_solde_init ))),
 				 NULL );
 
-/* FIXME : voir pourquoi remplissage opé et remettre l'ajustement */
+/* FIXME : voir pourquoi remplissage opÃ© et remettre l'ajustement */
 
 /* 	value = gtk_clist_get_vadjustment ( GTK_CLIST ( CLIST_OPERATIONS )) -> value; */
 	remplissage_liste_operations ( compte_courant_onglet );
@@ -1097,7 +1097,7 @@ void modification_details_compte ( void )
 	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant_onglet;
     }
 
-    /* vérification du solde mini autorisé */
+    /* vÃ©rification du solde mini autorisÃ© */
 
     if ( SOLDE_MINI != my_strtod ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( detail_solde_mini_autorise ))),
 				   NULL ) )
@@ -1113,7 +1113,7 @@ void modification_details_compte ( void )
 
 
 
-    /* vérification du solde mini voulu */
+    /* vÃ©rification du solde mini voulu */
 
     if ( SOLDE_MINI_VOULU != my_strtod ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( detail_solde_mini_voulu ))),
 					 NULL ) )
@@ -1127,7 +1127,7 @@ void modification_details_compte ( void )
     }
 
 
-    /* récupération du texte */
+    /* rÃ©cupÃ©ration du texte */
 
     COMMENTAIRE = g_strdup ( g_strstrip ( gtk_editable_get_chars (GTK_EDITABLE ( detail_commentaire ),
 								  0,
@@ -1146,9 +1146,9 @@ void modification_details_compte ( void )
 	COMMENTAIRE = NULL;
 
 
-    /* vérification du nom du compte */
-    /* on doit le vérifier en dernier car s'il a changé, on va réafficher */
-    /* la liste des comptes, et les infos non encore récupérées vont être */
+    /* vÃ©rification du nom du compte */
+    /* on doit le vÃ©rifier en dernier car s'il a changÃ©, on va rÃ©afficher */
+    /* la liste des comptes, et les infos non encore rÃ©cupÃ©rÃ©es vont Ãªtre */
     /* perdues */
 
     if ( !NOM_DU_COMPTE
@@ -1187,8 +1187,8 @@ void modification_details_compte ( void )
 
 /* ************************************************************************************************************ */
 /* Fonction sort_du_detail_compte */
-/* appelée quand on change de compte dans les propriétés des comptes */
-/* si des modifs avaient été faites, on demande si on enregistre */
+/* appelÃ©e quand on change de compte dans les propriÃ©tÃ©s des comptes */
+/* si des modifs avaient Ã©tÃ© faites, on demande si on enregistre */
 /* ************************************************************************************************************ */
 
 void sort_du_detail_compte ( void )
@@ -1223,7 +1223,7 @@ void sort_du_detail_compte ( void )
 
 
 /* ************************************************************************************************************ */
-/* Appelée lorsqu'on change de banque le compte, met à jour le code de la banque écrit en dessous */
+/* AppelÃ©e lorsqu'on change de banque le compte, met Ã  jour le code de la banque Ã©crit en dessous */
 /* ************************************************************************************************************ */
 void changement_de_banque ( GtkWidget * menu_shell )
 {

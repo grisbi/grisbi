@@ -1,5 +1,5 @@
-/* fichier d'en tête gsbcalendar.h */
-/* Constantes utilisées par la fonction inc_dec_date */
+/* fichier d'en tÃªte gsbcalendar.h */
+/* Constantes utilisÃ©es par la fonction inc_dec_date */
 # define ONE_DAY 1
 # define ONE_WEEK 7
 # define ONE_MONTH 30

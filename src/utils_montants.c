@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                  utils_montants.c                         */
 /*                                                                            */
-/*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org)	      */
+/*     Copyright (C)	2000-2003 CÃ©dric Auger (cedric@grisbi.org)	      */
 /*			2003-2004 Benjamin Drieu (bdrieu@april.org)	      */
 /*			2003-2004 Alain Portal (dionysos@grisbi.org)	      */
 /* 			http://www.grisbi.org				      */
@@ -52,8 +52,8 @@ extern gdouble solde_initial;
 
 
 /******************************************************************************/
-/* cette fonction calcule le total des opés P du compte donné en argument */
-/* et met à jour les labels d'équilibrage */
+/* cette fonction calcule le total des opÃ©s P du compte donnÃ© en argument */
+/* et met Ã  jour les labels d'Ã©quilibrage */
 /******************************************************************************/
 void calcule_total_pointe_compte ( gint no_compte )
 {
@@ -70,7 +70,7 @@ void calcule_total_pointe_compte ( gint no_compte )
 
 	operation = pointeur_liste_ope -> data;
 
-	/* on ne prend en compte l'opé que si c'est pas une opé de ventil */
+	/* on ne prend en compte l'opÃ© que si c'est pas une opÃ© de ventil */
 
 	if ( operation -> pointe == 1
 	     &&
@@ -116,7 +116,7 @@ void calcule_total_pointe_compte ( gint no_compte )
 
 
 /******************************************************************************/
-/* cette fonction calcule et renvoie le solde du compte donné en argument */
+/* cette fonction calcule et renvoie le solde du compte donnÃ© en argument */
 /******************************************************************************/
 gdouble calcule_solde_compte ( gint no_compte )
 {
@@ -138,7 +138,7 @@ gdouble calcule_solde_compte ( gint no_compte )
 
 	operation = liste_tmp -> data;
 
-	/* 	si l'opé est ventilée, on saute */
+	/* 	si l'opÃ© est ventilÃ©e, on saute */
 
 	if ( !operation -> no_operation_ventilee_associee )
 	solde = solde + calcule_montant_devise_renvoi ( operation -> montant,
@@ -157,7 +157,7 @@ gdouble calcule_solde_compte ( gint no_compte )
 
 
 /******************************************************************************/
-/* cette fonction calcule et renvoie le solde pointé du compte donné en argument */
+/* cette fonction calcule et renvoie le solde pointÃ© du compte donnÃ© en argument */
 /******************************************************************************/
 gdouble calcule_solde_pointe_compte ( gint no_compte )
 {
@@ -179,7 +179,7 @@ gdouble calcule_solde_pointe_compte ( gint no_compte )
 
 	operation = liste_tmp -> data;
 
-	/* 	si l'opé est ventilÃ©e ou non pointée, on saute */
+	/* 	si l'opÃ© est ventilÃÂ©e ou non pointÃ©e, on saute */
 
 	if ( operation -> pointe
 	     &&

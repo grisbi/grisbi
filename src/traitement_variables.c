@@ -1,7 +1,7 @@
 /* Fichier traitement_variables.c */
-/* Contient toutes les procédures relatives au traitement des variables */
+/* Contient toutes les procÃ©dures relatives au traitement des variables */
 
-/*     Copyright (C) 2000-2003  Cédric Auger */
+/*     Copyright (C) 2000-2003  CÃ©dric Auger */
 /* 			cedric@grisbi.org */
 /* 			http://www.grisbi.org */
 
@@ -121,8 +121,8 @@ extern GtkWidget *window;
 
 
 /*****************************************************************************************************/
-/* fonction appelée lors de modification ou non de fichier */
-/* TRUE indique que le fichier a été modifié */
+/* fonction appelÃ©e lors de modification ou non de fichier */
+/* TRUE indique que le fichier a Ã©tÃ© modifiÃ© */
 /* FALSE non */
 /* ajuste la sensitive des menus en fonction */
 /*****************************************************************************************************/
@@ -266,7 +266,7 @@ void init_variables ( void )
     mise_a_jour_combofix_categ_necessaire = 0;
     mise_a_jour_combofix_imputation_necessaire = 0;
 
-    /*     on met à jour les valeurs par défaut des largeurs de colonnes de la liste d'échéances */
+    /*     on met Ã  jour les valeurs par dÃ©faut des largeurs de colonnes de la liste d'Ã©chÃ©ances */
 
     for ( i = 0 ; i < NB_COLS_SCHEDULER ; i++ )
 	scheduler_col_width[i] = scheduler_col_width_init[i];
@@ -297,13 +297,13 @@ void initialisation_couleurs_listes ( void )
     couleur_rouge.green = COULEUR_ROUGE_GREEN;
     couleur_rouge.blue = COULEUR_ROUGE_BLUE;
 
-    /*     couleur grise de l'échéancier */
+    /*     couleur grise de l'Ã©chÃ©ancier */
 
     couleur_grise.red = COULEUR_GRISE_RED;
     couleur_grise.green = COULEUR_GRISE_GREEN;
     couleur_grise.blue = COULEUR_GRISE_BLUE;
 
-    /* initialise la couleur de la sélection */
+    /* initialise la couleur de la sÃ©lection */
 
     couleur_selection.red= COULEUR_SELECTION_RED;
     couleur_selection.green= COULEUR_SELECTION_GREEN ;
@@ -311,7 +311,7 @@ void initialisation_couleurs_listes ( void )
 
     /* FIXME : plus besoin des styles... */
     /* initialise les variables style_couleur_1 et style_couleur_2 qui serviront */
-    /* à mettre la couleur de fond */
+    /* Ã  mettre la couleur de fond */
 
     style_couleur [0] = gtk_style_copy ( gtk_widget_get_style (GTK_WIDGET (window)) );
     style_couleur [0]->fg[GTK_STATE_NORMAL] = style_couleur [0]->black;
@@ -327,7 +327,7 @@ void initialisation_couleurs_listes ( void )
 
 
     /* initialise les variables style_rouge_couleur [1] et style_rouge_couleur [2] qui serviront */
-    /* à mettre en rouge le solde quand il est négatif */
+    /* Ã  mettre en rouge le solde quand il est nÃ©gatif */
 
     style_rouge_couleur [0] = gtk_style_copy ( gtk_widget_get_style (GTK_WIDGET (window)) );
     style_rouge_couleur [0] ->fg[GTK_STATE_NORMAL] = couleur_rouge;
@@ -349,8 +349,8 @@ void initialisation_couleurs_listes ( void )
 /*****************************************************************************************************/
 
 /*****************************************************************************************************/
-/* si grise = 1 ; grise tous les menus qui doivent l'être quand aucun fichier n'est en mémoire */
-/* si grise = 0 ; dégrise les même menus */
+/* si grise = 1 ; grise tous les menus qui doivent l'Ãªtre quand aucun fichier n'est en mÃ©moire */
+/* si grise = 0 ; dÃ©grise les mÃªme menus */
 /*****************************************************************************************************/
 
 void menus_sensitifs ( gboolean sensitif )
@@ -425,10 +425,10 @@ void initialise_tab_affichage_ope ( void )
 
 
 /*****************************************************************************************************/
-/* cette fonction, appelée par l'initialisation des variables globales remet l'organisation de */
-/* formulaire à zéro : */
-/* date		tiers	débit		crédit 	*/
-/* 		catég	mode paiement	chq 	*/
+/* cette fonction, appelÃ©e par l'initialisation des variables globales remet l'organisation de */
+/* formulaire Ã  zÃ©ro : */
+/* date		tiers	dÃ©bit		crÃ©dit 	*/
+/* 		catÃ©g	mode paiement	chq 	*/
 /* ventil	notes	mode contre op		*/
 /*****************************************************************************************************/
 struct organisation_formulaire *mise_a_zero_organisation_formulaire ( void )

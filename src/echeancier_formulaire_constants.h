@@ -1,5 +1,5 @@
-/* Constantes qui définisent le numéro de widget dans le formulaire
-   de saisie des échéances */
+/* Constantes qui dÃ©finisent le numÃ©ro de widget dans le formulaire
+   de saisie des Ã©chÃ©ances */
 # define SCHEDULER_FORM_DATE 0
 # define SCHEDULER_FORM_PARTY 1
 # define SCHEDULER_FORM_DEBIT 2

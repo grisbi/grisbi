@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                  utils_echeances.c                         */
 /*                                                                            */
-/*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org)	      */
+/*     Copyright (C)	2000-2003 CÃ©dric Auger (cedric@grisbi.org)	      */
 /*			2003-2004 Benjamin Drieu (bdrieu@april.org)	      */
 /*			2003-2004 Alain Portal (dionysos@grisbi.org)	      */
 /* 			http://www.grisbi.org				      */
@@ -45,8 +45,8 @@ extern GSList *liste_struct_echeances;
 
 
 /*****************************************************************************************************/
-/* renvoie l'adr de l'échéance demandée par son no */
-/* renvoie NULL si pas trouvée */
+/* renvoie l'adr de l'Ã©chÃ©ance demandÃ©e par son no */
+/* renvoie NULL si pas trouvÃ©e */
 /*****************************************************************************************************/
 struct operation_echeance *echeance_par_no ( gint no_echeance )
 {
@@ -68,8 +68,8 @@ struct operation_echeance *echeance_par_no ( gint no_echeance )
 
 
 /*****************************************************************************************************/
-/* renvoie l'adr de l'échéance demandée par son no de banque */
-/* renvoie NULL si pas trouvée */
+/* renvoie l'adr de l'Ã©chÃ©ance demandÃ©e par son no de banque */
+/* renvoie NULL si pas trouvÃ©e */
 /*****************************************************************************************************/
 struct operation_echeance *echeance_par_no_compte ( gint no_compte )
 {

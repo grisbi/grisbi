@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                  utils_editables.c                    */
 /*                                                                            */
-/*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org)	      */
+/*     Copyright (C)	2000-2003 CÃ©dric Auger (cedric@grisbi.org)	      */
 /*			2003-2004 Benjamin Drieu (bdrieu@april.org)	      */
 /*			2003-2004 Alain Portal (dionysos@grisbi.org)	      */
 /* 			http://www.grisbi.org				      */
@@ -295,10 +295,10 @@ void increment_decrement_champ ( GtkWidget *entry, gint increment )
 
 
 /******************************************************************************/
-/* calcule le total du contenu de l'entrée donnée en argument */
+/* calcule le total du contenu de l'entrÃ©e donnÃ©e en argument */
 /* accepte les + et les - */
-/* \param entry entrée d'un montant */
-/* \return gdouble total de ce qui est dans l'entrée */
+/* \param entry entrÃ©e d'un montant */
+/* \return gdouble total de ce qui est dans l'entrÃ©e */
 /******************************************************************************/
 gdouble calcule_total_entree ( GtkWidget *entry )
 {

@@ -1,4 +1,4 @@
-/* Constantes qui définisent le numéro associé au paramètre
+/* Constantes qui dÃ©finisent le numÃ©ro associÃ© au paramÃštre
  * dans le formulaire */
 # define TRANSACTION_FORM_DATE 1
 # define TRANSACTION_FORM_DEBIT 2

@@ -4,7 +4,7 @@
 /*                                                                            */
 /*                                  fonctions_utiles.c                        */
 /*                                                                            */
-/*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org)	      */
+/*     Copyright (C)	2000-2003 CÃ©dric Auger (cedric@grisbi.org)	      */
 /*			2003-2004 Benjamin Drieu (bdrieu@april.org)	      */
 /*			2003-2004 Alain Portal (dionysos@grisbi.org)	      */
 /*			2003-2004 Francois Terrot (francois.terrot@grisbi.org)*/
@@ -112,7 +112,7 @@ void desensitive_widget ( GtkWidget *widget )
 gboolean lance_navigateur_web ( const gchar *url )
 {
 /*     si la commande du navigateur contient %s, on le remplace par url, */
-/*     sinon on ajoute l'url à la fin et & */
+/*     sinon on ajoute l'url Ã  la fin et & */
 /*     sous Windows si la commande est vide ou equale a la valeur par defaut on lance le butineur par defaut (open) */
 
     gchar **split;
@@ -305,10 +305,10 @@ GtkWidget *new_vbox_with_title_and_icon ( gchar * title,
 
 
 /* ******************************************************************************* */
-/* fonction qui vérifie la validité de la variable p_tab_nom_de_compte_variable */
-/* si elle n'est pas valide, la place sur le compte courant, et si pas encore nécessaire, */
+/* fonction qui vÃ©rifie la validitÃ© de la variable p_tab_nom_de_compte_variable */
+/* si elle n'est pas valide, la place sur le compte courant, et si pas encore nÃ©cessaire, */
 /*     la place sur le 1er compte. dans ce cas, si nb_comptes = 0 on met un message  */
-/* comme quoi ça va sûrement crasher derrière */
+/* comme quoi Ã§a va sÃ»rement crasher derriÃ¨re */
 /*     si p_tab_nom_de_compte_variable n'est pas valide, affiche un message d'erreur */
 /* return le p_tab_nom_de_compte_variable ou NULL si pas de comptes */
 /* ******************************************************************************* */
@@ -331,7 +331,7 @@ gpointer **verification_p_tab ( gchar *fonction_appelante )
 	 ||
 	 p_tab_nom_de_compte_variable < p_tab_nom_de_compte )
     {
-	/* 	p_tab était mal placée */
+	/* 	p_tab Ã©tait mal placÃ©e */
 
 	message = _( "Warning : variable p_tab_nom_de_compte_variable is abnormal.");
 
@@ -368,8 +368,8 @@ gpointer **verification_p_tab ( gchar *fonction_appelante )
 
 
 /******************************************************************************/
-/* cette fonction démarre la vérification idle si elle ne l'est pas déjà */
-/* l'idle se terminera d'elle même ou forcé */
+/* cette fonction dÃ©marre la vÃ©rification idle si elle ne l'est pas dÃ©jÃ  */
+/* l'idle se terminera d'elle mÃªme ou forcÃ© */
 /******************************************************************************/
 void demarrage_idle ( void )
 {
@@ -386,8 +386,8 @@ void demarrage_idle ( void )
 
 
 /******************************************************************************/
-/* cette fonction arrête la vérification idle */
-/* renvoie TRUE si la fonction était en cours de fonctionnement */
+/* cette fonction arrÃªte la vÃ©rification idle */
+/* renvoie TRUE si la fonction Ã©tait en cours de fonctionnement */
 /******************************************************************************/
 gboolean termine_idle ( void )
 {
@@ -407,7 +407,7 @@ gboolean termine_idle ( void )
 
 
 /******************************************************************************/
-/* cette fonction rafraichit l'écran pendant les traitements d'information */
+/* cette fonction rafraichit l'Ã©cran pendant les traitements d'information */
 /******************************************************************************/
 void update_ecran ( void )
 {

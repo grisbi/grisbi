@@ -1,7 +1,7 @@
-/* ce fichier de la gestion du format html (import d'opérations) */
+/* ce fichier de la gestion du format html (import d'opÃ©rations) */
 
 
-/*     Copyright (C) 2000-2003  Cédric Auger */
+/*     Copyright (C) 2000-2003  CÃ©dric Auger */
 /* 			cedric@grisbi.org */
 /* 			http://www.grisbi.org */
 

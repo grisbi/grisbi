@@ -1,9 +1,9 @@
 /* ************************************************************************** */
-/* fichier qui s'occupe de la partie gauche de l'échéancier                   */
+/* fichier qui s'occupe de la partie gauche de l'Ã©chÃ©ancier                   */
 /* concerne le calendrier, choix des comptes, de l'affichage...               */
 /* 			echeancier_infos.c                                     */
 /*                                                                            */
-/*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org)	      */
+/*     Copyright (C)	2000-2003 CÃ©dric Auger (cedric@grisbi.org)	      */
 /*			2004 Alain Portal (dionysos@grisbi.org) 	      */
 /* 			http://www.grisbi.org   			      */
 /*                                                                            */
@@ -41,9 +41,9 @@ GtkWidget *calendrier_echeances;
 GtkWidget *entree_personnalisation_affichage_echeances;
 GtkWidget *bouton_personnalisation_affichage_echeances;
 GtkWidget *bouton_valider_echeance_perso;
-gint affichage_echeances; /* contient 0(mois), 1 (2 mois), 2(année), 3(toutes), 4(perso) */
-gint affichage_echeances_perso_nb_libre;     /* contient le contenu de l'entrée */
-gint affichage_echeances_perso_j_m_a;        /* contient 0 (jours), 1 (mois), 2 (années) */
+gint affichage_echeances; /* contient 0(mois), 1 (2 mois), 2(annÃ©e), 3(toutes), 4(perso) */
+gint affichage_echeances_perso_nb_libre;     /* contient le contenu de l'entrÃ©e */
+gint affichage_echeances_perso_j_m_a;        /* contient 0 (jours), 1 (mois), 2 (annÃ©es) */
 
 
 /*START_EXTERN*/
@@ -78,7 +78,7 @@ GtkWidget *creation_partie_gauche_echeancier ( void )
     gtk_widget_show ( vbox );
 
 
-    /* création du calendrier */
+    /* crÃ©ation du calendrier */
 
     time ( &temps );
 
@@ -218,7 +218,7 @@ GtkWidget *creation_partie_gauche_echeancier ( void )
 			 0 );
     gtk_widget_show ( hbox );
 
-    /* met un bouton valider qui est juste utilisé pour faire sortir le focus de l'entrée */
+    /* met un bouton valider qui est juste utilisÃ© pour faire sortir le focus de l'entrÃ©e */
 
     bouton_valider_echeance_perso = gtk_button_new_with_label ( _("Show"));
     gtk_button_set_relief ( GTK_BUTTON ( bouton_valider_echeance_perso ),
@@ -230,7 +230,7 @@ GtkWidget *creation_partie_gauche_echeancier ( void )
 		       0 );
 
 
-    /* le menu jour / mois / année */
+    /* le menu jour / mois / annÃ©e */
 
     bouton_personnalisation_affichage_echeances = gtk_option_menu_new ();
     menu = gtk_menu_new ();
@@ -288,7 +288,7 @@ GtkWidget *creation_partie_gauche_echeancier ( void )
 		       FALSE,
 		       0 );
 
-    /* affiche si nécessire les paramètres perso */
+    /* affiche si nÃ©cessire les paramÃštres perso */
 
     if ( affichage_echeances == 4 )
     {
@@ -372,7 +372,7 @@ GtkWidget *creation_partie_gauche_echeancier ( void )
 
 /*****************************************************************************/
 /* Fonction : mise_a_jour_calendrier					     */
-/* met en gras les jours où il y a une échéance				     */
+/* met en gras les jours oÃ¹ il y a une Ã©chÃ©ance				     */
 /*****************************************************************************/
 void mise_a_jour_calendrier ( void )
 {
@@ -388,7 +388,7 @@ void mise_a_jour_calendrier ( void )
     gtk_calendar_clear_marks ( GTK_CALENDAR ( calendrier_echeances ));
 
 
-    /* si le jour courant doit y apparaitre, on le sélectionne */
+    /* si le jour courant doit y apparaitre, on le sÃ©lectionne */
 
     time ( &temps );
 
@@ -401,8 +401,8 @@ void mise_a_jour_calendrier ( void )
 	gtk_calendar_select_day ( GTK_CALENDAR ( calendrier_echeances ),
 				  FALSE );
 
-    /* on fait le tour de toutes les échéances, les amène au mois du calendrier
-       et mise en gras du jour de l'échéance */
+    /* on fait le tour de toutes les Ã©chÃ©ances, les amÃšne au mois du calendrier
+       et mise en gras du jour de l'Ã©chÃ©ance */
 
     pointeur = liste_struct_echeances;
 
@@ -418,7 +418,7 @@ void mise_a_jour_calendrier ( void )
 					  echeance -> annee );
 
 	/* si c'est une fois */
-	/* ou si c'est personnalisé mais la periodicité est de 0, */
+	/* ou si c'est personnalisÃ© mais la periodicitÃ© est de 0, */
 	/* on passe */
 
 	if ( echeance -> periodicite
@@ -430,22 +430,22 @@ void mise_a_jour_calendrier ( void )
 	    while ( g_date_compare ( copie_date_ech,
 				     date_calendrier ) < 0 )
 	    {
-		/* périodicité hebdomadaire */
+		/* pÃ©riodicitÃ© hebdomadaire */
 		if ( echeance -> periodicite == 1 )
 		    g_date_add_days ( copie_date_ech,
 				      7 );
 		else
-		    /* périodicité mensuelle */
+		    /* pÃ©riodicitÃ© mensuelle */
 		    if ( echeance -> periodicite == 2 )
 			g_date_add_months ( copie_date_ech,
 					    1 );
 		    else
-			/* périodicité annuelle */
+			/* pÃ©riodicitÃ© annuelle */
 			if ( echeance -> periodicite == 3 )
 			    g_date_add_years ( copie_date_ech,
 					       1 );
 			else
-			    /* périodicité perso */
+			    /* pÃ©riodicitÃ© perso */
 			    if ( !echeance -> intervalle_periodicite_personnalisee )
 				g_date_add_days ( copie_date_ech,
 						  echeance -> periodicite_personnalisee );
@@ -458,8 +458,8 @@ void mise_a_jour_calendrier ( void )
 						       echeance -> periodicite_personnalisee );
 	    }  
 
-	/* à ce niveau, soit l'échéance est sur le mois du calendrier,
-	   soit elle l'a dépassé, soit elle a dépassé sa date limite */
+	/* Ã  ce niveau, soit l'Ã©chÃ©ance est sur le mois du calendrier,
+	   soit elle l'a dÃ©passÃ©, soit elle a dÃ©passÃ© sa date limite */
 
 	if ( !( copie_date_ech -> month != date_calendrier -> month
 		||

@@ -1,8 +1,8 @@
-/* Ce fichier s'occupe des différents paramètres d'affichage réglés
-   dans les paramètres */
+/* Ce fichier s'occupe des diffÃ©rents paramÃ¨tres d'affichage rÃ©glÃ©s
+   dans les paramÃ¨tres */
 /* affichage.c */
 
-/*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org) */
+/*     Copyright (C)	2000-2003 CÃ©dric Auger (cedric@grisbi.org) */
 /*			2003-2004 Benjamin Drieu (bdrieu@april.org) */
 /* 			http://www.grisbi.org */
 
@@ -202,7 +202,7 @@ GtkWidget * onglet_display_fonts ( void )
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox,
 			 FALSE, FALSE, 0 );
 
-    /*     le logo est grisé ou non suivant qu'on l'utilise ou pas */
+    /*     le logo est grisÃ© ou non suivant qu'on l'utilise ou pas */
 
     gtk_widget_set_sensitive ( hbox,
 			       etat.utilise_logo );
@@ -261,7 +261,7 @@ GtkWidget * onglet_display_fonts ( void )
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox,
 			 FALSE, FALSE, 0 );
 
-    /*     le logo est grisé ou non suivant qu'on l'utilise ou pas */
+    /*     le logo est grisÃ© ou non suivant qu'on l'utilise ou pas */
 
     anim_button = gtk_button_new ();
     gtk_button_set_relief ( GTK_BUTTON ( anim_button ),
@@ -272,8 +272,8 @@ GtkWidget * onglet_display_fonts ( void )
 
     if (pixbuf_anim)
     {
-	/* 	si l'animation est trop grande, compliqué pour la réduire de taille */
-	/* 	    donc on affiche juste la première image en pixbuf */
+	/* 	si l'animation est trop grande, compliquÃ© pour la rÃ©duire de taille */
+	/* 	    donc on affiche juste la premiÃ¨re image en pixbuf */
 
 	if ( gdk_pixbuf_animation_get_width (pixbuf_anim) > 64
 	     ||
@@ -331,7 +331,7 @@ GtkWidget * onglet_display_fonts ( void )
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( check_button ),
 				   etat.utilise_fonte_listes );
 
-    /*     on crée la vbox qui contiendra la font button et le raz */
+    /*     on crÃ©e la vbox qui contiendra la font button et le raz */
 
     vbox = gtk_vbox_new ( FALSE,
 			  10 );
@@ -641,13 +641,13 @@ gboolean init_fonts ( GtkWidget * button,
 /* **************************************************************************************************************************** */
 void update_fonte_listes ( void )
 {
-    /* met à jour toutes les listes avec la fonte avec pango_desc_fonte_liste ou null */
-    /*     on va faire le tour de toutes les listes pour rajouter à la position 11 la fonte ou null  */
+    /* met Ã  jour toutes les listes avec la fonte avec pango_desc_fonte_liste ou null */
+    /*     on va faire le tour de toutes les listes pour rajouter Ã  la position 11 la fonte ou null  */
 
     PangoFontDescription *fonte_desc;
     gint i;
 
-    /*     pour reprendre la fonte de base, on récupère celle de la liste des tiers, qui n'est pas modifiée */
+    /*     pour reprendre la fonte de base, on rÃ©cupÃ¨re celle de la liste des tiers, qui n'est pas modifiÃ©e */
 
     if ( etat.utilise_fonte_listes )
 	fonte_desc = pango_desc_fonte_liste;
@@ -812,8 +812,8 @@ void change_animation ( GtkWidget *widget,
 
     if (pixbuf)
     {
-	/* 	si l'animation est trop grande, compliqué pour la réduire de taille */
-	/* 	    donc on affiche juste la première image en pixbuf */
+	/* 	si l'animation est trop grande, compliquÃ© pour la rÃ©duire de taille */
+	/* 	    donc on affiche juste la premiÃ¨re image en pixbuf */
 
 	if ( gdk_pixbuf_animation_get_width (pixbuf) > 64
 	     ||

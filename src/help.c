@@ -1,6 +1,6 @@
 /* Fichier help.c */
 
-/*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org) */
+/*     Copyright (C)	2000-2003 CÃ©dric Auger (cedric@grisbi.org) */
 /*			2003 Benjamin Drieu (bdrieu@april.org) */
 /* 			http://www.grisbi.org */
 
@@ -104,7 +104,7 @@ void a_propos ( GtkWidget *bouton,
 		gtk_widget_show ( notebook );
 
 
-		/* mise en forme de l'onglet de généralités */
+		/* mise en forme de l'onglet de gÃ©nÃ©ralitÃ©s */
 
 		vbox = gtk_vbox_new ( FALSE, 5 );
 		gtk_container_set_border_width ( GTK_CONTAINER ( vbox ), 10 );

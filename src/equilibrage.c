@@ -1,8 +1,8 @@
 /* ************************************************************************** */
-/* Fichier qui permet l'équilibrage des comptes                               */
+/* Fichier qui permet l'Ã©quilibrage des comptes                               */
 /* 			equilibrage.c                                         */
 /*                                                                            */
-/*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org)	      */
+/*     Copyright (C)	2000-2003 CÃ©dric Auger (cedric@grisbi.org)	      */
 /*			2003 Benjamin Drieu (bdrieu@april.org)		      */
 /*			2004 Alain Portal (dionysos@grisbi.org) 	      */
 /*			http://www.grisbi.org   			      */
@@ -95,7 +95,7 @@ GtkWidget *label_equilibrage_ecart;
 GtkWidget *bouton_ok_equilibrage;
 GSList *liste_struct_rapprochements;            /* contient la liste des structures de no_rapprochement */
 
-/* ces 3 variables retiennent les données de l'utilisateur avant rapprochement */
+/* ces 3 variables retiennent les donnÃ©es de l'utilisateur avant rapprochement */
 
 gint ancien_nb_lignes_ope;
 gint ancien_r_modifiable;
@@ -146,7 +146,7 @@ GtkWidget *creation_fenetre_equilibrage ( void )
     gtk_widget_show ( fenetre_equilibrage );
 
 
-    /* on met le nom du compte à équilibrer en haut */
+    /* on met le nom du compte Ã  Ã©quilibrer en haut */
 
     label_equilibrage_compte = gtk_label_new ( "" );
     gtk_label_set_justify ( GTK_LABEL ( label_equilibrage_compte ),
@@ -168,11 +168,11 @@ GtkWidget *creation_fenetre_equilibrage ( void )
     gtk_widget_show ( separateur );
 
 
-    /* on crée le tooltips */
+    /* on crÃ©e le tooltips */
 
     tips = gtk_tooltips_new ();
 
-    /* sous le nom, on met le no de rapprochement, c'est une entrée car il est modifiable */
+    /* sous le nom, on met le no de rapprochement, c'est une entrÃ©e car il est modifiable */
 
     hbox = gtk_hbox_new ( FALSE, 5 );
     gtk_box_pack_start ( GTK_BOX ( fenetre_equilibrage ),
@@ -213,8 +213,8 @@ GtkWidget *creation_fenetre_equilibrage ( void )
 			 0);
     gtk_widget_show ( separateur );
 
-    /* on met un premier tab en haut contenant dates et soldes des relevés
-       avec possibilité de modif du courant */
+    /* on met un premier tab en haut contenant dates et soldes des relevÃ©s
+       avec possibilitÃ© de modif du courant */
 
     table = gtk_table_new ( 3,
 			    5,
@@ -341,7 +341,7 @@ GtkWidget *creation_fenetre_equilibrage ( void )
     gtk_widget_show ( separateur );
 
 
-    /* la 2ème table contient le solde init, final, du pointage et l'écart */
+    /* la 2Ã¨me table contient le solde init, final, du pointage et l'Ã©cart */
 
     table = gtk_table_new ( 5,
 			    2,
@@ -512,17 +512,17 @@ void equilibrage ( void )
 
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
 
-    /* efface le label propriétés du compte */
+    /* efface le label propriÃ©tÃ©s du compte */
 
     gtk_widget_hide ( label_proprietes_operations_compte );
 
-    /* calcule le montant des opérations pointées */
-    /* FIXME : à vérifie mais normalement, pas besoin de ça vu que c'est en temps réel... */
+    /* calcule le montant des opÃ©rations pointÃ©es */
+    /* FIXME : Ã  vÃ©rifie mais normalement, pas besoin de Ã§a vu que c'est en temps rÃ©el... */
     /*     calcule_total_pointe_compte ( compte_courant ); */
 
 
-    /* récupère l'ancien no de rapprochement et essaie d'incrémenter la partie
-       numérique. Si ne réussit pas, remet juste le nom de l'ancien */
+    /* rÃ©cupÃ¨re l'ancien no de rapprochement et essaie d'incrÃ©menter la partie
+       numÃ©rique. Si ne rÃ©ussit pas, remet juste le nom de l'ancien */
 
     if ( DERNIER_NO_RAPPROCHEMENT )
     {
@@ -535,7 +535,7 @@ void equilibrage ( void )
 	    gchar *pointeur_mobile;
 	    gchar *pointeur_fin;
 
-	    /* on va créer une nouvelle chaine contenant la partie numérique */
+	    /* on va crÃ©er une nouvelle chaine contenant la partie numÃ©rique */
 
 	    pointeur_fin = new_rap + (strlen ( new_rap ) - 1) * sizeof (gchar);
 	    pointeur_mobile = pointeur_fin;
@@ -545,7 +545,7 @@ void equilibrage ( void )
 
 	    if ( pointeur_mobile != pointeur_fin )
 	    {
-		/* la fin du no de rapprochement est numérique */
+		/* la fin du no de rapprochement est numÃ©rique */
 
 		gchar *rempl_zero;
 		gchar *partie_num;
@@ -559,12 +559,12 @@ void equilibrage ( void )
 
 		longueur = strlen ( partie_num );
 
-		/* on incrémente la partie numérique */
+		/* on incrÃ©mente la partie numÃ©rique */
 
 		partie_num = itoa ( my_atoi ( partie_num ) + 1 );
 
-		/* si la nouvelle partie numérique est plus petite que l'ancienne, */
-		/* c'est que des 0 ont été shuntés, on va les rajouter ici */
+		/* si la nouvelle partie numÃ©rique est plus petite que l'ancienne, */
+		/* c'est que des 0 ont Ã©tÃ© shuntÃ©s, on va les rajouter ici */
 
 		nouvelle_longueur = strlen ( partie_num );
 
@@ -599,7 +599,7 @@ void equilibrage ( void )
 	gtk_entry_set_text ( GTK_ENTRY ( entree_no_rapprochement ),
 			     "" );
 
-    /* récupère l'ancienne date et l'augmente d'1 mois et le met dans entree_nouvelle_date_equilibrage */
+    /* rÃ©cupÃ¨re l'ancienne date et l'augmente d'1 mois et le met dans entree_nouvelle_date_equilibrage */
 
     if ( DATE_DERNIER_RELEVE )
     {
@@ -662,9 +662,9 @@ void equilibrage ( void )
 				   TRUE );
 
 
-    /* affiche la liste en opé simplifiées sans R*/
+    /* affiche la liste en opÃ© simplifiÃ©es sans R*/
 
-    /*     déjà on passe en choix par compte pour éviter de refaire toutes les listes */
+    /*     dÃ©jÃ  on passe en choix par compte pour Ã©viter de refaire toutes les listes */
 
     ancien_retient_affichage_par_compte = etat.retient_affichage_par_compte;
     etat.retient_affichage_par_compte = 1;
@@ -675,7 +675,7 @@ void equilibrage ( void )
     AFFICHAGE_R = 0;
     gtk_button_clicked ( GTK_BUTTON ( bouton_enleve_r ));
 
-    /*     on affiche les opés sur 1 ligne */
+    /*     on affiche les opÃ©s sur 1 ligne */
 
     ancien_nb_lignes_ope = NB_LIGNES_OPE;
     gtk_button_clicked ( GTK_BUTTON ( bouton_ope_lignes[0] ));
@@ -691,7 +691,7 @@ void equilibrage ( void )
 /******************************************************************************/
 gboolean sortie_entree_date_equilibrage ( GtkWidget *entree )
 {
-    /* si l'entrée contenant la date est vide, alors on met la date du jour */
+    /* si l'entrÃ©e contenant la date est vide, alors on met la date du jour */
 
     if ( strlen ( g_strstrip ( (gchar*) gtk_entry_get_text ( GTK_ENTRY ( entree )))) == 0  )
 	gtk_entry_set_text ( GTK_ENTRY ( entree ), gsb_today() );
@@ -739,7 +739,7 @@ gboolean modif_entree_solde_final_equilibrage ( void )
     gtk_label_set_text ( GTK_LABEL ( label_equilibrage_final ),
 			 (char *) gtk_entry_get_text ( GTK_ENTRY ( entree_nouveau_montant_equilibrage )) );
 
-    /*     s'il n'y a rien dans l'entrée du montant de l'eq, on efface, l'écart */
+    /*     s'il n'y a rien dans l'entrÃ©e du montant de l'eq, on efface, l'Ã©cart */
 
     if ( strlen ( gtk_entry_get_text ( GTK_ENTRY ( entree_nouveau_montant_equilibrage ))))
 	gtk_widget_show ( label_equilibrage_ecart );
@@ -771,7 +771,7 @@ gboolean modif_entree_solde_final_equilibrage ( void )
 /******************************************************************************/
 
 /******************************************************************************/
-/* on annule l'équilibrage */
+/* on annule l'Ã©quilibrage */
 /******************************************************************************/
 gboolean annuler_equilibrage ( void )
 {
@@ -802,7 +802,7 @@ gboolean annuler_equilibrage ( void )
 /******************************************************************************/
 
 /******************************************************************************/
-/* fonction appelée quand il y a un click dans la colonne des P, et si l'équilibrage */
+/* fonction appelÃ©e quand il y a un click dans la colonne des P, et si l'Ã©quilibrage */
 /* est en cours */
 /******************************************************************************/
 void pointe_equilibrage ( int p_ligne )
@@ -858,12 +858,12 @@ void pointe_equilibrage ( int p_ligne )
     }
 
 
-    /* si c'est une opération ventilée, on recherche les opérations filles
-       pour leur mettre le même pointage que la mère */
+    /* si c'est une opÃ©ration ventilÃ©e, on recherche les opÃ©rations filles
+       pour leur mettre le mÃªme pointage que la mÃ¨re */
 
     if ( operation -> operation_ventilee )
     {
-	/* p_tab est déjà pointé sur le compte courant */
+	/* p_tab est dÃ©jÃ  pointÃ© sur le compte courant */
 
 	GSList *liste_tmp;
 
@@ -932,7 +932,7 @@ gboolean fin_equilibrage ( GtkWidget *bouton_ok,
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
 
 
-    /* récupération de la date */
+    /* rÃ©cupÃ©ration de la date */
 
     text = (char *) gtk_entry_get_text ( GTK_ENTRY ( entree_nouvelle_date_equilibrage ) );
 
@@ -980,8 +980,8 @@ gboolean fin_equilibrage ( GtkWidget *bouton_ok,
 					   date_releve_annee ));
 
 
-    /*   récupération du no de rapprochement, */
-    /*     s'il n'existe pas,on le crée */
+    /*   rÃ©cupÃ©ration du no de rapprochement, */
+    /*     s'il n'existe pas,on le crÃ©e */
 
     if ( strlen ( g_strstrip ( (char *) gtk_entry_get_text ( GTK_ENTRY ( entree_no_rapprochement )))))
     {
@@ -994,7 +994,7 @@ gboolean fin_equilibrage ( GtkWidget *bouton_ok,
 
 	if ( rapprochement )
 	{
-	    /* le rapprochement existe déjà */
+	    /* le rapprochement existe dÃ©jÃ  */
 
 	    DERNIER_NO_RAPPROCHEMENT = rapprochement -> no_rapprochement;
 	}
@@ -1017,7 +1017,7 @@ gboolean fin_equilibrage ( GtkWidget *bouton_ok,
 
 
 
-    /* met tous les P à R */
+    /* met tous les P Ã  R */
 
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
 
@@ -1040,13 +1040,13 @@ gboolean fin_equilibrage ( GtkWidget *bouton_ok,
 
 
 
-    /* on réaffiche la liste */
+    /* on rÃ©affiche la liste */
 
     modification_fichier( TRUE );
 
     SOLDE_DERNIER_RELEVE = solde_final;
 
-    /*     on remet tout normal pour les opérations */
+    /*     on remet tout normal pour les opÃ©rations */
 
     annuler_equilibrage ();
 
@@ -1077,7 +1077,7 @@ gboolean clavier_equilibrage ( GtkWidget *widget,
 
     switch ( event -> keyval )
     {
-	case GDK_Return :		/* touches entrée */
+	case GDK_Return :		/* touches entrÃ©e */
 	case GDK_KP_Enter :
 
 	    gtk_signal_emit_stop_by_name ( GTK_OBJECT ( widget ),
@@ -1470,7 +1470,7 @@ void reconcile_include_neutral_toggled ( GtkCellRendererToggle *cell,
     }
     else
     {
-	/* on efface tous les nombres négatifs de la liste */
+	/* on efface tous les nombres nÃ©gatifs de la liste */
 
 	liste_tmp = LISTE_TRI;
 
@@ -1518,7 +1518,7 @@ GtkWidget * tab_display_reconciliation ( void )
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox,
 			 TRUE, TRUE, 0 );
 
-    /* mise en place de la liste qui contient les types classés */
+    /* mise en place de la liste qui contient les types classÃ©s */
     scrolled_window = gtk_scrolled_window_new ( NULL, NULL );
     gtk_box_pack_start ( GTK_BOX ( hbox ), scrolled_window,
 			 TRUE, TRUE, 0);
@@ -1593,7 +1593,7 @@ GtkWidget * tab_display_reconciliation ( void )
 
     fill_reconciliation_tree();
 
-    /* on place ici les flèches sur le côté de la liste */
+    /* on place ici les flÃ¨ches sur le cÃ´tÃ© de la liste */
     vbox_fleches_tri = gtk_vbutton_box_new ();
     gtk_box_pack_start ( GTK_BOX ( hbox ), vbox_fleches_tri,
 			 FALSE, FALSE, 0);

@@ -1,7 +1,7 @@
 /* ce fichier de la gestion de l'import de fichiers (qif, ofx...) */
 
 
-/*     Copyright (C) 2000-2003  Cédric Auger */
+/*     Copyright (C) 2000-2003  CÃ©dric Auger */
 /* 			cedric@grisbi.org */
 /* 			http://www.grisbi.org */
 
@@ -115,7 +115,7 @@ extern GtkWidget *window;
 
 /* *******************************************************************************/
 /* fonction importer_fichier */
-/* appelée par le menu importer */
+/* appelÃ©e par le menu importer */
 /* *******************************************************************************/
 
 void importer_fichier ( void )
@@ -131,7 +131,7 @@ void importer_fichier ( void )
 
 
 /* *******************************************************************************/
-/* Affiche la fenêtre de sélection de fichier pour l'import */
+/* Affiche la fenÃªtre de sÃ©lection de fichier pour l'import */
 /* *******************************************************************************/
 
 void selection_fichiers_import ( void )
@@ -171,8 +171,8 @@ void selection_fichiers_import ( void )
 /* *******************************************************************************/
 gboolean fichier_choisi_importation ( GtkWidget *fenetre )
 {
-    /* un ou plusieurs fichiers ont été sélectionnés dans la gtk_file_selection en argument */
-    /* on va récupérer ces fichiers et les trier par qif/ofx/web */
+    /* un ou plusieurs fichiers ont Ã©tÃ© sÃ©lectionnÃ©s dans la gtk_file_selection en argument */
+    /* on va rÃ©cupÃ©rer ces fichiers et les trier par qif/ofx/web */
 
     gchar **liste_selection;
     gint i;	
@@ -185,13 +185,13 @@ gboolean fichier_choisi_importation ( GtkWidget *fenetre )
       TYPE_HTML,
     } type;
 
-    /* on sauve le répertoire courant  */
+    /* on sauve le rÃ©pertoire courant  */
 
     dernier_chemin_de_travail = g_strconcat ( GTK_LABEL ( GTK_BIN ( GTK_OPTION_MENU ( GTK_FILE_SELECTION ( fenetre ) -> history_pulldown )) -> child ) -> label,
                                               C_DIRECTORY_SEPARATOR,
 					      NULL );
 
-    /* on va récupérer tous les fichiers sélectionnés puis proposer d'en importer d'autres */
+    /* on va rÃ©cupÃ©rer tous les fichiers sÃ©lectionnÃ©s puis proposer d'en importer d'autres */
 
 
     liste_selection = gtk_file_selection_get_selections ( GTK_FILE_SELECTION ( fenetre ));
@@ -208,7 +208,7 @@ gboolean fichier_choisi_importation ( GtkWidget *fenetre )
 	if ( !( fichier = fopen ( liste_selection[i],
 				  "r" )))
 	{
-	    /* on n'a pas réussi à ouvrir le fichier, on affiche l'erreur et on retourne sur la sélection des fichiers */
+	    /* on n'a pas rÃ©ussi Ã  ouvrir le fichier, on affiche l'erreur et on retourne sur la sÃ©lection des fichiers */
 
 	    dialogue ( latin2utf8 ( strerror ( errno ) ) );
             return FALSE;
@@ -216,15 +216,15 @@ gboolean fichier_choisi_importation ( GtkWidget *fenetre )
 
 
 	/*       le fichier est ouvert, on va trier entre qif/ofx/html */
-	/* 	le plus simple est ofx, on a <OFX> au départ */
-	/* 	bon, en fait, non... on peut avoir ofx ou OFX n'importe où... */
+	/* 	le plus simple est ofx, on a <OFX> au dÃ©part */
+	/* 	bon, en fait, non... on peut avoir ofx ou OFX n'importe oÃ¹... */
 	/*       pour le qif, on recherche !Type, !Account ou !Option */
 	/* si ce n'est aucun des 3, on regarde s'il y a une ouverture de balise < dans ce cas */
-	/* on fait comme si c'était du html */
-	/*       chacune des fonctions récupèrent les infos du compte et les opés, et ajoutent la struct_compte_importation */
-	/* 	à liste_comptes_importes */
+	/* on fait comme si c'Ã©tait du html */
+	/*       chacune des fonctions rÃ©cupÃ¨rent les infos du compte et les opÃ©s, et ajoutent la struct_compte_importation */
+	/* 	Ã  liste_comptes_importes */
 
-	/* 	certains fichiers contiennent une ligne blanche au début... */
+	/* 	certains fichiers contiennent une ligne blanche au dÃ©but... */
 
 	do
 	    get_line_from_file ( fichier,
@@ -295,7 +295,7 @@ gboolean fichier_choisi_importation ( GtkWidget *fenetre )
 	    break;
 
 	  case TYPE_HTML:
-	    /* Pour l'instant html non implémenté */
+	    /* Pour l'instant html non implÃ©mentÃ© */
 	    result = recuperation_donnees_html ( fichier );
 	    break;
 
@@ -322,7 +322,7 @@ gboolean fichier_choisi_importation ( GtkWidget *fenetre )
         i++;
     }
 
-    /* le fait de détruire la fenetre va envoyer directement sur l'affichage des infos */
+    /* le fait de dÃ©truire la fenetre va envoyer directement sur l'affichage des infos */
 
     gtk_widget_destroy ( fenetre );
     return ( result );
@@ -334,8 +334,8 @@ gboolean fichier_choisi_importation ( GtkWidget *fenetre )
 /* *******************************************************************************/
 gboolean affichage_recapitulatif_importation ( void )
 {
-    /* on affiche un tableau récapitulatif des comptes importés */
-    /* propose l'action à faire pour chaque compte et propose */
+    /* on affiche un tableau rÃ©capitulatif des comptes importÃ©s */
+    /* propose l'action Ã  faire pour chaque compte et propose */
     /* d'en importer d'autres */
 
     gint retour;
@@ -385,13 +385,13 @@ gboolean affichage_recapitulatif_importation ( void )
 
     if ( dialog_recapitulatif )
       {
-	/*  la boite a déjà été créé, on ajoute les nouveaux comptes à la suite */
+	/*  la boite a dÃ©jÃ  Ã©tÃ© crÃ©Ã©, on ajoute les nouveaux comptes Ã  la suite */
 
-	/* on vérifie déjà s'il y a plus d'éléments dans la liste que de lignes sur le tableau */
+	/* on vÃ©rifie dÃ©jÃ  s'il y a plus d'Ã©lÃ©ments dans la liste que de lignes sur le tableau */
 
 	if ( g_slist_length ( liste_comptes_importes ) > ( GTK_TABLE ( table_recapitulatif ) -> nrows - 1 ))
 	{
-	    /* on démarre au nouveaux comptes */
+	    /* on dÃ©marre au nouveaux comptes */
 
 	    liste_tmp = g_slist_nth ( liste_comptes_importes,
 				      GTK_TABLE ( table_recapitulatif ) -> nrows - 1 );
@@ -410,7 +410,7 @@ gboolean affichage_recapitulatif_importation ( void )
     }
     else
     {
-	/* la boite n'a pas encore été créé, on le fait */
+	/* la boite n'a pas encore Ã©tÃ© crÃ©Ã©, on le fait */
 
 	dialog_recapitulatif = gtk_dialog_new_with_buttons ( _("Actions on imported accounts:" ),
 							     GTK_WINDOW ( window ),
@@ -542,7 +542,7 @@ gboolean affichage_recapitulatif_importation ( void )
 
 
 
-	/* si aucun compte n'est ouvert, on crée les devises de base */
+	/* si aucun compte n'est ouvert, on crÃ©e les devises de base */
 
 	if ( !nb_comptes )
 	{
@@ -592,14 +592,14 @@ gboolean affichage_recapitulatif_importation ( void )
     {
 	case GTK_RESPONSE_OK:
 
-	    /*  on a appuyé sur ok, il ne reste plus qu'à traiter les infos */
+	    /*  on a appuyÃ© sur ok, il ne reste plus qu'Ã  traiter les infos */
 
 	    traitement_operations_importees ();
 	    gtk_widget_destroy ( dialog_recapitulatif );
 	    break;
 
 	case 1:
-	    /*  on a appuyé sur ajouter, on réaffiche la boite de sélection de fichier */
+	    /*  on a appuyÃ© sur ajouter, on rÃ©affiche la boite de sÃ©lection de fichier */
 
 	    gtk_widget_hide ( dialog_recapitulatif );
 	    selection_fichiers_import ();
@@ -618,7 +618,7 @@ gboolean affichage_recapitulatif_importation ( void )
 /* *******************************************************************************/
 void ajout_devise_dans_liste_import ( void )
 {
-    /* permet d'ajouter une devise au moment de l'importation d'opérations */
+    /* permet d'ajouter une devise au moment de l'importation d'opÃ©rations */
 
     GSList *liste_tmp;
 
@@ -626,7 +626,7 @@ void ajout_devise_dans_liste_import ( void )
     ajout_devise (NULL);
 
 
-    /*     on met maintenant à jour les options menu des devise dans la liste des comptes importés */
+    /*     on met maintenant Ã  jour les options menu des devise dans la liste des comptes importÃ©s */
 
     liste_tmp = liste_comptes_importes;
 
@@ -649,7 +649,7 @@ void ajout_devise_dans_liste_import ( void )
 void cree_ligne_recapitulatif ( struct struct_compte_importation *compte,
 				gint position )
 {
-    /* crée la ligne du compte en argument dans le récapitulatif à la position donnée */
+    /* crÃ©e la ligne du compte en argument dans le rÃ©capitulatif Ã  la position donnÃ©e */
 
     GtkWidget *label;
     GtkWidget *menu;
@@ -704,7 +704,7 @@ void cree_ligne_recapitulatif ( struct struct_compte_importation *compte,
     }
 
 
-    /* on crée le bouton de choix de devise */
+    /* on crÃ©e le bouton de choix de devise */
 
     compte -> bouton_devise = gtk_option_menu_new ();
     gtk_option_menu_set_menu ( GTK_OPTION_MENU ( compte -> bouton_devise ),
@@ -736,10 +736,10 @@ void cree_ligne_recapitulatif ( struct struct_compte_importation *compte,
 							  devise ));
 	else
 	{
-	    /* 	    la devise avait un nom mais n'a pas été retrouvée; 2 possibilités : */
-	    /* 		- soit elle n'est pas crÃƒ©é (l'utilisateur
-			  la créera une fois la fenetre affichée) */ 
-	    /* 		- soit elle est créé mais pas avec le bon code */
+	    /* 	    la devise avait un nom mais n'a pas Ã©tÃ© retrouvÃ©e; 2 possibilitÃ©s : */
+	    /* 		- soit elle n'est pas crÃƒÂƒÂ©Ã© (l'utilisateur
+			  la crÃ©era une fois la fenetre affichÃ©e) */ 
+	    /* 		- soit elle est crÃ©Ã© mais pas avec le bon code */
 	    dialogue_warning_hint ( g_strdup_printf ( _( "Currency of imported account '%s' is %s.  Either this currency doesn't exist so you have to create it in next window, or this currency already exists but the ISO code is wrong.\nTo avoid this message, please set its ISO code in configuration."),
 						      compte -> nom_de_compte,
 						      compte -> devise ),
@@ -748,15 +748,15 @@ void cree_ligne_recapitulatif ( struct struct_compte_importation *compte,
 	}
     }
 
-    /* on crée les boutons de comptes et de type de compte tout de suite */
-    /*   pour les (dé)sensitiver lors de changement de l'action */
+    /* on crÃ©e les boutons de comptes et de type de compte tout de suite */
+    /*   pour les (dÃ©)sensitiver lors de changement de l'action */
 
     compte -> bouton_compte = gtk_option_menu_new ();
     compte -> bouton_type_compte = gtk_option_menu_new ();
 
 
-    /* on crée le bouton de l'action demandée */
-    /* si aucun fichier n'est ouvert, on ne propose que créer un compte */
+    /* on crÃ©e le bouton de l'action demandÃ©e */
+    /* si aucun fichier n'est ouvert, on ne propose que crÃ©er un compte */
 
     compte -> bouton_action = gtk_option_menu_new ();
 
@@ -827,8 +827,8 @@ void cree_ligne_recapitulatif ( struct struct_compte_importation *compte,
     gtk_widget_show ( compte -> bouton_action );
 
 
-    /* on crée le bouton du compte sélectionné */
-    /* si aucun fichier n'est ouvert, on ne crée pas ce bouton */
+    /* on crÃ©e le bouton du compte sÃ©lectionnÃ© */
+    /* si aucun fichier n'est ouvert, on ne crÃ©e pas ce bouton */
 
     no_compte_trouve = -1;
 
@@ -844,8 +844,8 @@ void cree_ligne_recapitulatif ( struct struct_compte_importation *compte,
 				  "no_compte",
 				  GINT_TO_POINTER ( p_tab_nom_de_compte_variable - p_tab_nom_de_compte ));
 
-	    /* on recherche quel compte était noté dans le fichier  */
-	    /* s'il y a une id, on la prend en priorité sur le nom */
+	    /* on recherche quel compte Ã©tait notÃ© dans le fichier  */
+	    /* s'il y a une id, on la prend en prioritÃ© sur le nom */
 
 	    if ( compte -> id_compte
 		 &&
@@ -855,7 +855,7 @@ void cree_ligne_recapitulatif ( struct struct_compte_importation *compte,
 				 ID_COMPTE ))
 		no_compte_trouve = p_tab_nom_de_compte_variable - p_tab_nom_de_compte;
 
-	    /* 		on ne passe par cette étape que si le compte n'a pas déjà été trouvé avec l'id */
+	    /* 		on ne passe par cette Ã©tape que si le compte n'a pas dÃ©jÃ  Ã©tÃ© trouvÃ© avec l'id */
 
 	    if ( no_compte_trouve == -1
 		 &&
@@ -888,7 +888,7 @@ void cree_ligne_recapitulatif ( struct struct_compte_importation *compte,
 
     }
 
-    /* on crée le bouton du type de compte  */
+    /* on crÃ©e le bouton du type de compte  */
 
 
     gtk_option_menu_set_menu ( GTK_OPTION_MENU ( compte -> bouton_type_compte ),
@@ -952,7 +952,7 @@ void cree_ligne_recapitulatif ( struct struct_compte_importation *compte,
 		       0, 0 );
     gtk_widget_show ( label );
 
-    /* 	si on a trouvé un compte qui correspond, on l'affiche, et on passe le 1er option menu à ajouter les opérations */
+    /* 	si on a trouvÃ© un compte qui correspond, on l'affiche, et on passe le 1er option menu Ã  ajouter les opÃ©rations */
 
     if ( no_compte_trouve != -1 )
     {
@@ -976,12 +976,12 @@ void cree_ligne_recapitulatif ( struct struct_compte_importation *compte,
 void traitement_operations_importees ( void )
 {
     /* cette fonction va faire le tour de liste_comptes_importes */
-    /* et faire l'action demandée pour chaque compte importé */
+    /* et faire l'action demandÃ©e pour chaque compte importÃ© */
 
     GSList *liste_tmp;
     gint nouveau_fichier;
 
-    /* fait le nécessaire si aucun compte n'est ouvert */
+    /* fait le nÃ©cessaire si aucun compte n'est ouvert */
 
     if ( nb_comptes )
 	nouveau_fichier = 0;
@@ -1005,7 +1005,7 @@ void traitement_operations_importees ( void )
 							 "no_action" )))
 	{
 	    case 0:
-		/* créer */
+		/* crÃ©er */
 
 		creation_compte_importe ( compte );
 		break;
@@ -1027,23 +1027,23 @@ void traitement_operations_importees ( void )
 	liste_tmp = liste_tmp -> next;
     }
 
-    /*     à ce niveau, il y a forcemment des comptes de créés donc si rien */
+    /*     Ã  ce niveau, il y a forcemment des comptes de crÃ©Ã©s donc si rien */
     /* 	c'est que pb, on se barre */
 
     if (!nb_comptes)
 	return;
 
-    /* les différentes liste d'opérations ont été créés, on va faire le tour des opés */
-    /* pour retrouver celles qui ont relation_no_compte à -2 */
-    /* c'est que c'est un virement, il reste à retrouver le compte et l'opération correspondants */
+    /* les diffÃ©rentes liste d'opÃ©rations ont Ã©tÃ© crÃ©Ã©s, on va faire le tour des opÃ©s */
+    /* pour retrouver celles qui ont relation_no_compte Ã  -2 */
+    /* c'est que c'est un virement, il reste Ã  retrouver le compte et l'opÃ©ration correspondants */
 
-    /* virements_a_chercher est à 1 si on doit chercher des relations entre opés importées */
+    /* virements_a_chercher est Ã  1 si on doit chercher des relations entre opÃ©s importÃ©es */
 
     if ( virements_a_chercher )
 	cree_liens_virements_ope_import ();
 
 
-    /* création des listes d'opé */
+    /* crÃ©ation des listes d'opÃ© */
 
     mise_en_route_attente ( _("Please wait") );
 
@@ -1053,8 +1053,8 @@ void traitement_operations_importees ( void )
     }
     else
     {
-	/* on fait le tour des comptes ajoutés pour leur créer une liste d'opé */
-	/* 	et mettre à jour ceux qui le doivent */
+	/* on fait le tour des comptes ajoutÃ©s pour leur crÃ©er une liste d'opÃ© */
+	/* 	et mettre Ã  jour ceux qui le doivent */
 
 	gint i;
 
@@ -1064,7 +1064,7 @@ void traitement_operations_importees ( void )
 
 	    if ( !TREE_VIEW_LISTE_OPERATIONS )
 	    {
-		/*     on crée le tree_view du compte */
+		/*     on crÃ©e le tree_view du compte */
 
 		creation_colonnes_tree_view_par_compte (i);
 
@@ -1073,12 +1073,12 @@ void traitement_operations_importees ( void )
 				     TRUE,
 				     TRUE,
 				     0 );
-		/* on met à jour l'option menu du formulaire des échéances */
+		/* on met Ã  jour l'option menu du formulaire des Ã©chÃ©ances */
 
 		update_options_menus_comptes ();
 
 
-		/* 	on réaffiche la liste des comptes */
+		/* 	on rÃ©affiche la liste des comptes */
 
 		reaffiche_liste_comptes();
 		reaffiche_liste_comptes_onglet ();
@@ -1095,7 +1095,7 @@ void traitement_operations_importees ( void )
 	    }
 	}
 
-	/* 	mise à jour de l'accueil */
+	/* 	mise Ã  jour de l'accueil */
 
 	mise_a_jour_liste_comptes_accueil = 1;
 	mise_a_jour_soldes_minimaux = 1;
@@ -1104,14 +1104,14 @@ void traitement_operations_importees ( void )
 
     }
 
-    /* on recrée les combofix des tiers et des catégories */
+    /* on recrÃ©e les combofix des tiers et des catÃ©gories */
 
     if ( mise_a_jour_combofix_tiers_necessaire )
 	mise_a_jour_combofix_tiers ();
     if ( mise_a_jour_combofix_categ_necessaire )
 	mise_a_jour_combofix_categ();
 
-    /* 	on remplit ce qui est nécessaire */
+    /* 	on remplit ce qui est nÃ©cessaire */
 
     demarrage_idle ();
 
@@ -1122,18 +1122,18 @@ void traitement_operations_importees ( void )
 /* *******************************************************************************/
 
 /* *******************************************************************************/
-/* cette fontion recherche des opés qui sont des virements non encore reliés après un import
-   dans ce cas ces opé sont marquées à -2 en relation_no_compte et info_banque_guichet contient
-   le nom du compte de virement. la fonction crée donc les liens entre virements */
+/* cette fontion recherche des opÃ©s qui sont des virements non encore reliÃ©s aprÃ¨s un import
+   dans ce cas ces opÃ© sont marquÃ©es Ã  -2 en relation_no_compte et info_banque_guichet contient
+   le nom du compte de virement. la fonction crÃ©e donc les liens entre virements */
 /* *******************************************************************************/
 
 void cree_liens_virements_ope_import ( void )
 {
-    /* on fait le tour de toutes les opés des comptes */
-    /* si une opé à un relation_no_compte à -2 , */
-    /* on recherche le compte associé dont le nom est dans info_banque_guichet */
-    /*   et une opé ayant une relation_no_compte à -2, le nom du compte dans info_banque_guichet */
-    /* le même montant, le même jour avec le même tiers */
+    /* on fait le tour de toutes les opÃ©s des comptes */
+    /* si une opÃ© Ã  un relation_no_compte Ã  -2 , */
+    /* on recherche le compte associÃ© dont le nom est dans info_banque_guichet */
+    /*   et une opÃ© ayant une relation_no_compte Ã  -2, le nom du compte dans info_banque_guichet */
+    /* le mÃªme montant, le mÃªme jour avec le mÃªme tiers */
 
     gint i;
 
@@ -1153,11 +1153,11 @@ void cree_liens_virements_ope_import ( void )
 
 	    operation = liste_tmp -> data;
 
-	    /* on fait la sélection sur relation_no_compte */
+	    /* on fait la sÃ©lection sur relation_no_compte */
 
 	    if ( operation -> relation_no_compte == -2 )
 	    {
-		/* recherche du compte associé */
+		/* recherche du compte associÃ© */
 
 		gint j;
 		gint compte_trouve;
@@ -1176,8 +1176,8 @@ void cree_liens_virements_ope_import ( void )
 			compte_trouve = j;
 		}
 
-		/* 		  si on n'a pas trouvé de relation avec l'autre compte, on vire les liaisons */
-		/* et ça devient une opé normale sans catégorie */
+		/* 		  si on n'a pas trouvÃ© de relation avec l'autre compte, on vire les liaisons */
+		/* et Ã§a devient une opÃ© normale sans catÃ©gorie */
 
 		if ( compte_trouve == -1 )
 		{
@@ -1187,7 +1187,7 @@ void cree_liens_virements_ope_import ( void )
 		}
 		else
 		{
-		    /*  on a trouvé le compte opposé ; on cherche maintenant l'opération */
+		    /*  on a trouvÃ© le compte opposÃ© ; on cherche maintenant l'opÃ©ration */
 
 		    GSList *pointeur_tmp;
 
@@ -1214,7 +1214,7 @@ void cree_liens_virements_ope_import ( void )
 			     &&
 			     !g_date_compare ( operation -> date, operation_2 -> date ))
 			{
-			    /* la 2ème opération correspond en tout point à la 1ère, on met les relations */
+			    /* la 2Ã¨me opÃ©ration correspond en tout point Ã  la 1Ã¨re, on met les relations */
 
 			    operation -> relation_no_operation = operation_2 -> no_operation;
 			    operation -> relation_no_compte = operation_2 -> no_compte;
@@ -1228,8 +1228,8 @@ void cree_liens_virements_ope_import ( void )
 			pointeur_tmp = pointeur_tmp -> next;
 		    }
 
-		    /*   on a fait le tour de l'autre compte, si aucune contre opération n'a été trouvée, on vire les */
-		    /* relations et ça devient une opé normale */
+		    /*   on a fait le tour de l'autre compte, si aucune contre opÃ©ration n'a Ã©tÃ© trouvÃ©e, on vire les */
+		    /* relations et Ã§a devient une opÃ© normale */
 
 		    if ( operation -> relation_no_compte == -2 )
 		    {
@@ -1250,8 +1250,8 @@ void cree_liens_virements_ope_import ( void )
 /* *******************************************************************************/
 void creation_compte_importe ( struct struct_compte_importation *compte_import )
 {
-    /* crée un nouveau compte contenant les données de la structure importée */
-    /* ajoute ce compte aux anciens et crée la liste des opérations */
+    /* crÃ©e un nouveau compte contenant les donnÃ©es de la structure importÃ©e */
+    /* ajoute ce compte aux anciens et crÃ©e la liste des opÃ©rations */
 
     struct structure_operation *operation;
     gint derniere_operation;
@@ -1259,12 +1259,12 @@ void creation_compte_importe ( struct struct_compte_importation *compte_import )
     gint no_compte;
 
 
-    /*     on crée et initialise le nouveau compte  */
-    /*     le type par défaut est 0 (compte bancaire) */
+    /*     on crÃ©e et initialise le nouveau compte  */
+    /*     le type par dÃ©faut est 0 (compte bancaire) */
 
     no_compte = initialisation_nouveau_compte ( 0 );
 
-    /*     si ça c'est mal passé, on se barre */
+    /*     si Ã§a c'est mal passÃ©, on se barre */
 
     if ( no_compte == -1 )
 	return;
@@ -1279,9 +1279,9 @@ void creation_compte_importe ( struct struct_compte_importation *compte_import )
 
 	ID_COMPTE = g_strdup ( compte_import -> id_compte );
 
-	/* 	en théorie cet id est "no_banque no_guichet no_comptecle" */
-	/* on va essayer d'importer ces données ici */
-	/* si on rencontre un null, on s'arrête */
+	/* 	en thÃ©orie cet id est "no_banque no_guichet no_comptecle" */
+	/* on va essayer d'importer ces donnÃ©es ici */
+	/* si on rencontre un null, on s'arrÃªte */
 
 	tab_str = g_strsplit ( ID_COMPTE,
 			       " ",
@@ -1317,7 +1317,7 @@ void creation_compte_importe ( struct struct_compte_importation *compte_import )
     DEVISE = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( compte_import -> bouton_devise ) -> menu_item ),
 						     "no_devise" ));
 
-    /* met le type de compte si différent de 0 */
+    /* met le type de compte si diffÃ©rent de 0 */
 
     switch ( compte_import -> type_de_compte )
     {
@@ -1337,10 +1337,10 @@ void creation_compte_importe ( struct struct_compte_importation *compte_import )
     SOLDE_POINTE = SOLDE_INIT;
 
 
-    /* on fait maintenant le tour des opés de ce compte */
+    /* on fait maintenant le tour des opÃ©s de ce compte */
 
-    /* la variable derniere_operation est utilisée pour garder le numéro de l'opé */
-    /* précédente pour les ventilations */
+    /* la variable derniere_operation est utilisÃ©e pour garder le numÃ©ro de l'opÃ© */
+    /* prÃ©cÃ©dente pour les ventilations */
 
     derniere_operation = 0;
 
@@ -1356,16 +1356,16 @@ void creation_compte_importe ( struct struct_compte_importation *compte_import )
 	operation = calloc ( 1,
 			     sizeof ( struct structure_operation ));
 
-	/* récupération du no de l'opé */
+	/* rÃ©cupÃ©ration du no de l'opÃ© */
 
 	operation -> no_operation = ++no_derniere_operation;
 
-	/* 	récupéération de l'id si elle existe */
+	/* 	rÃ©cupÃ©Ã©ration de l'id si elle existe */
 
 	if ( operation_import -> id_operation )
 	    operation -> id_operation = g_strdup ( operation_import -> id_operation );
 
-	/* récupération de la date */
+	/* rÃ©cupÃ©ration de la date */
 
 	operation -> jour = g_date_day ( operation_import -> date );
 	operation -> mois = g_date_month ( operation_import -> date );
@@ -1375,7 +1375,7 @@ void creation_compte_importe ( struct struct_compte_importation *compte_import )
 					     operation -> mois,
 					     operation -> annee );
 
-	/* récupération de la date de valeur */
+	/* rÃ©cupÃ©ration de la date de valeur */
 
 	if ( operation_import -> date_de_valeur )
 	{
@@ -1388,21 +1388,21 @@ void creation_compte_importe ( struct struct_compte_importation *compte_import )
 							  operation -> annee_bancaire );
 	}
 
-	/* récupération du no de compte */
+	/* rÃ©cupÃ©ration du no de compte */
 
 	operation -> no_compte = NO_COMPTE;
 
 
-	/* récupération du montant */
+	/* rÃ©cupÃ©ration du montant */
 
 	operation -> montant = operation_import -> montant;
 
-	/* 	  récupération de la devise, sur la popup affichée */
+	/* 	  rÃ©cupÃ©ration de la devise, sur la popup affichÃ©e */
 
 	operation -> devise = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( compte_import -> bouton_devise ) -> menu_item ),
 								      "no_devise" ));
 
-	/* récupération du tiers */
+	/* rÃ©cupÃ©ration du tiers */
 
 	if ( operation_import -> tiers
 	     &&
@@ -1410,18 +1410,18 @@ void creation_compte_importe ( struct struct_compte_importation *compte_import )
 	    operation -> tiers = tiers_par_nom ( operation_import -> tiers,
 						 1 ) -> no_tiers;
 
-	/* vérification si c'est ventilé, sinon récupération des catégories */
+	/* vÃ©rification si c'est ventilÃ©, sinon rÃ©cupÃ©ration des catÃ©gories */
 
 
 	if ( operation_import -> operation_ventilee )
 	{
-	    /* l'opération est ventilée */
+	    /* l'opÃ©ration est ventilÃ©e */
 
 	    operation -> operation_ventilee = 1;
 	}
 	else
 	{
-	    /* vérification que ce n'est pas un virement */
+	    /* vÃ©rification que ce n'est pas un virement */
 
 	    if ( operation_import -> categ
 		 &&
@@ -1429,9 +1429,9 @@ void creation_compte_importe ( struct struct_compte_importation *compte_import )
 	    {
 		if ( operation_import -> categ[0] == '[' )
 		{
-		    /* 		      c'est un virement, or le compte n'a peut être pas encore été créé, */
-		    /* on va mettre le nom du compte dans info_banque_guichet qui n'est jamais utilisé */
-		    /* lors d'import, et relation_no_compte sera mis à -2 (-1 est déjà utilisé pour les comptes supprimés */
+		    /* 		      c'est un virement, or le compte n'a peut Ãªtre pas encore Ã©tÃ© crÃ©Ã©, */
+		    /* on va mettre le nom du compte dans info_banque_guichet qui n'est jamais utilisÃ© */
+		    /* lors d'import, et relation_no_compte sera mis Ã  -2 (-1 est dÃ©jÃ  utilisÃ© pour les comptes supprimÃ©s */
 
 		    operation -> info_banque_guichet = operation_import -> categ;
 		    operation -> relation_no_compte = -2;
@@ -1449,7 +1449,7 @@ void creation_compte_importe ( struct struct_compte_importation *compte_import )
 					   2 );
 
 
-		    /* récupération ou création de la catégorie */
+		    /* rÃ©cupÃ©ration ou crÃ©ation de la catÃ©gorie */
 
 		    categ = categ_par_nom ( tab_str[0],
 					    1,
@@ -1460,7 +1460,7 @@ void creation_compte_importe ( struct struct_compte_importation *compte_import )
 		    {
 			operation -> categorie = categ -> no_categ;
 
-			/* récupération ou création de la sous-catégorie */
+			/* rÃ©cupÃ©ration ou crÃ©ation de la sous-catÃ©gorie */
 
 			sous_categ = sous_categ_par_nom ( categ,
 							  tab_str[1],
@@ -1473,17 +1473,17 @@ void creation_compte_importe ( struct struct_compte_importation *compte_import )
 	    }
 	}
 
-	/* récupération des notes */
+	/* rÃ©cupÃ©ration des notes */
 
 	operation -> notes = g_strdup ( operation_import -> notes );
 
 
-	/* récupération du chèque et mise en forme du type d'opération */
+	/* rÃ©cupÃ©ration du chÃ¨que et mise en forme du type d'opÃ©ration */
 
 	if ( operation_import -> cheque )
 	{
-	    /* c'est un chèque, on va rechercher un type à incrémentation automatique et mettre l'opé sous ce type */
-	    /* si un tel type n'existe pas, on met quand même le no dans contenu_type et on met le type par défaut */
+	    /* c'est un chÃ¨que, on va rechercher un type Ã  incrÃ©mentation automatique et mettre l'opÃ© sous ce type */
+	    /* si un tel type n'existe pas, on met quand mÃªme le no dans contenu_type et on met le type par dÃ©faut */
 
 	    struct struct_type_ope *type_choisi;
 	    GSList *liste_tmp;
@@ -1504,8 +1504,8 @@ void creation_compte_importe ( struct struct_compte_importation *compte_import )
 
 		type = liste_tmp -> data;
 
-		/* si l'opé on trouve un type à incrémentation automatique et que le signe du type est bon, on l'enregistre */
-		/*   et on arrête la recherche, sinon, on l'enregistre mais on continue la recherche dans l'espoir de trouver */
+		/* si l'opÃ© on trouve un type Ã  incrÃ©mentation automatique et que le signe du type est bon, on l'enregistre */
+		/*   et on arrÃªte la recherche, sinon, on l'enregistre mais on continue la recherche dans l'espoir de trouver */
 		/* mieux */
 
 		if ( type -> numerotation_auto )
@@ -1531,7 +1531,7 @@ void creation_compte_importe ( struct struct_compte_importation *compte_import )
 		    liste_tmp = liste_tmp -> next;
 	    }
 
-	    /* type_choisi contient l'adr du type qui a été utilisé, on peut y mettre le dernier no de chèque */
+	    /* type_choisi contient l'adr du type qui a Ã©tÃ© utilisÃ©, on peut y mettre le dernier no de chÃ¨que */
 
 	    if ( type_choisi )
 		type_choisi -> no_en_cours = MAX ( operation_import -> cheque,
@@ -1539,7 +1539,7 @@ void creation_compte_importe ( struct struct_compte_importation *compte_import )
 	}
 	else
 	{
-	    /* comme ce n'est pas un chèque, on met sur le type par défaut */
+	    /* comme ce n'est pas un chÃ¨que, on met sur le type par dÃ©faut */
 
 	    if ( operation -> montant < 0 )
 		operation -> type_ope = TYPE_DEFAUT_DEBIT;
@@ -1548,11 +1548,11 @@ void creation_compte_importe ( struct struct_compte_importation *compte_import )
 
 	}
 
-	/* récupération du pointé */
+	/* rÃ©cupÃ©ration du pointÃ© */
 
 	operation -> pointe = operation_import -> p_r;
 
-	/* si c'est une ope de ventilation, lui ajoute le no de l'opération précÃ©dente */
+	/* si c'est une ope de ventilation, lui ajoute le no de l'opÃ©ration prÃ©cÃƒÂ©dente */
 
 	if ( operation_import -> ope_de_ventilation )
 	    operation -> no_operation_ventilee_associee = derniere_operation;
@@ -1560,12 +1560,12 @@ void creation_compte_importe ( struct struct_compte_importation *compte_import )
 	    derniere_operation = operation -> no_operation;
 
 
-	/* ajoute l'opération dans la liste des opés du compte */
+	/* ajoute l'opÃ©ration dans la liste des opÃ©s du compte */
 
 	LISTE_OPERATIONS = g_slist_append ( LISTE_OPERATIONS,
 					    operation );
 
-	/* 	mise à jour des montants */
+	/* 	mise Ã  jour des montants */
 
 	if ( !operation -> operation_ventilee )
 	{
@@ -1600,15 +1600,15 @@ void ajout_opes_importees ( struct struct_compte_importation *compte_import )
     gint no_compte;
     
 
-    /* on se place sur le compte dans lequel on va importer les opés */
+    /* on se place sur le compte dans lequel on va importer les opÃ©s */
 
     no_compte = recupere_no_compte ( compte_import -> bouton_compte );
 
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_compte;
 
-    /* si le compte importé a une id, on la vérifie ici */
-    /*     si elle est absente, on met celle importée */
-    /*     si elle est différente, on demande si on la remplace */
+    /* si le compte importÃ© a une id, on la vÃ©rifie ici */
+    /*     si elle est absente, on met celle importÃ©e */
+    /*     si elle est diffÃ©rente, on demande si on la remplace */
 
     if ( compte_import -> id_compte )
     {
@@ -1617,8 +1617,8 @@ void ajout_opes_importees ( struct struct_compte_importation *compte_import )
 	    if ( g_strcasecmp ( ID_COMPTE,
 				compte_import -> id_compte ))
 	    {
-		/* 		l'id du compte choisi et l'id du compte importé sont différents */
-		/* 		    on propose encore d'arrêter... */
+		/* 		l'id du compte choisi et l'id du compte importÃ© sont diffÃ©rents */
+		/* 		    on propose encore d'arrÃªter... */
 
 
 		if ( question_yes_no_hint ( _("The id of the imported and chosen accounts are different"),
@@ -1634,17 +1634,17 @@ void ajout_opes_importees ( struct struct_compte_importation *compte_import )
     }
 
 
-    /* on fait un premier tour de la liste des opés pour repérer celles qui sont déjà entrées */
-    /*   si on n'importe que du ofx, c'est facile, chaque opé est repérée par une id */
-    /*     donc si l'opé importée a une id, il suffit de rechercher l'id dans le compte, si elle */
-    /*     n'y est pas l'opé est à enregistrer */
-    /*     si on importe du qif ou du html, il n'y a pas d'id. donc soit on retrouve une opé semblable */
-    /*     (cad même montant et même date, on ne fait pas joujou avec le tiers car l'utilisateur */
-    /* a pu le changer), et on demande à l'utilisateur quoi faire, sinon on enregistre l'opé */
+    /* on fait un premier tour de la liste des opÃ©s pour repÃ©rer celles qui sont dÃ©jÃ  entrÃ©es */
+    /*   si on n'importe que du ofx, c'est facile, chaque opÃ© est repÃ©rÃ©e par une id */
+    /*     donc si l'opÃ© importÃ©e a une id, il suffit de rechercher l'id dans le compte, si elle */
+    /*     n'y est pas l'opÃ© est Ã  enregistrer */
+    /*     si on importe du qif ou du html, il n'y a pas d'id. donc soit on retrouve une opÃ© semblable */
+    /*     (cad mÃªme montant et mÃªme date, on ne fait pas joujou avec le tiers car l'utilisateur */
+    /* a pu le changer), et on demande Ã  l'utilisateur quoi faire, sinon on enregistre l'opÃ© */
 
 
-    /*   pour gagner en rapidité, on va récupérer la dernière date du compte, toutes les opés importées */
-    /* qui ont une date supérieure sont automatiquement acceptées */
+    /*   pour gagner en rapiditÃ©, on va rÃ©cupÃ©rer la derniÃ¨re date du compte, toutes les opÃ©s importÃ©es */
+    /* qui ont une date supÃ©rieure sont automatiquement acceptÃ©es */
 
 
     liste_tmp = LISTE_OPERATIONS;
@@ -1674,23 +1674,23 @@ void ajout_opes_importees ( struct struct_compte_importation *compte_import )
 	struct struct_ope_importation *operation_import;
 	operation_import = liste_tmp -> data;
 
-	/* on ne fait le tour de la liste des opés que si la date de l'opé importée est inférieure à la dernière date */
+	/* on ne fait le tour de la liste des opÃ©s que si la date de l'opÃ© importÃ©e est infÃ©rieure Ã  la derniÃ¨re date */
 	/* de la liste */
 
 	if ( g_date_compare ( derniere_date,
 			      operation_import -> date ) >= 0 )
 	{
-	    /* 	    si l'opé d'import a une id, on recherche ça en priorité */
+	    /* 	    si l'opÃ© d'import a une id, on recherche Ã§a en prioritÃ© */
 
 	    if ( operation_import -> id_operation
 		 &&
 		 operation_par_id ( operation_import -> id_operation,
 				    no_compte ))
-		/* comme on est sûr que cette opé a déjà été enregistree, on met l'action à 2, cad on demande l'avis de personne pour */
+		/* comme on est sÃ»r que cette opÃ© a dÃ©jÃ  Ã©tÃ© enregistree, on met l'action Ã  2, cad on demande l'avis de personne pour */
 		    /*     pas l'enregistrer */
 		    operation_import -> action = 2;
 
-	    /* 	    si l'opé d'import a un no de chq, on le recherche */
+	    /* 	    si l'opÃ© d'import a un no de chq, on le recherche */
 
 	    if ( operation_import -> action != 2
 		 &&
@@ -1698,12 +1698,12 @@ void ajout_opes_importees ( struct struct_compte_importation *compte_import )
 		 &&
 		 operation_par_cheque ( operation_import -> cheque,
 					no_compte ))
-		/* 	comme on est sûr que cette opé a déjà été enregistree, on met l'action à 2, cad on demande l'avis de personne pour */
+		/* 	comme on est sÃ»r que cette opÃ© a dÃ©jÃ  Ã©tÃ© enregistree, on met l'action Ã  2, cad on demande l'avis de personne pour */
 		/*  pas l'enregistrer */
 		operation_import -> action = 2;
 
-	    /* on fait donc le tour de la liste des opés pour retrouver une opé comparable */
-	    /* si elle n'a pas déjà été retrouvée par id... */
+	    /* on fait donc le tour de la liste des opÃ©s pour retrouver une opÃ© comparable */
+	    /* si elle n'a pas dÃ©jÃ  Ã©tÃ© retrouvÃ©e par id... */
 
 	    if ( operation_import -> action != 2 )
 	    {
@@ -1742,7 +1742,7 @@ void ajout_opes_importees ( struct struct_compte_importation *compte_import )
 			 &&
 			 !operation_import -> ope_de_ventilation )
 		    {
-			/* l'opé a la même date et le même montant, on la marque pour demander quoi faire à l'utilisateur */
+			/* l'opÃ© a la mÃªme date et le mÃªme montant, on la marque pour demander quoi faire Ã  l'utilisateur */
 			operation_import -> action = 1; 
 			operation_import -> ope_correspondante = operation;
 			demande_confirmation = 1;
@@ -1754,17 +1754,17 @@ void ajout_opes_importees ( struct struct_compte_importation *compte_import )
 	liste_tmp = liste_tmp -> next;
     }
 
-    /*   à ce niveau, toutes les opés douteuses ont été marquées, on appelle la fonction qui */
-    /* se charge de demander à l'utilisateur que faire */
+    /*   Ã  ce niveau, toutes les opÃ©s douteuses ont Ã©tÃ© marquÃ©es, on appelle la fonction qui */
+    /* se charge de demander Ã  l'utilisateur que faire */
 
     if ( demande_confirmation )
 	confirmation_enregistrement_ope_import ( compte_import );
 
 
-    /* on fait le tour des opés de ce compte et enregistre les opés */
+    /* on fait le tour des opÃ©s de ce compte et enregistre les opÃ©s */
 
-    /* la variable derniere_operation est utilisée pour garder le numéro de l'opé */
-    /* précédente pour les ventilations */
+    /* la variable derniere_operation est utilisÃ©e pour garder le numÃ©ro de l'opÃ© */
+    /* prÃ©cÃ©dente pour les ventilations */
 
     derniere_operation_enregistrement_ope_import = 0;
 
@@ -1776,11 +1776,11 @@ void ajout_opes_importees ( struct struct_compte_importation *compte_import )
 
 	operation_import = liste_tmp -> data;
 
-	/* vérifie qu'on doit bien l'enregistrer */
+	/* vÃ©rifie qu'on doit bien l'enregistrer */
 
 	if ( !operation_import -> action )
 	{
-	    /* on récupère à ce niveau la devise choisie dans la liste */
+	    /* on rÃ©cupÃ¨re Ã  ce niveau la devise choisie dans la liste */
 
 	    operation_import -> devise = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( compte_import -> bouton_devise ) -> menu_item ),
 										 "no_devise" ));
@@ -1802,8 +1802,8 @@ void ajout_opes_importees ( struct struct_compte_importation *compte_import )
 /* *******************************************************************************/
 void confirmation_enregistrement_ope_import ( struct struct_compte_importation *compte_import )
 {
-    /*   cette fonction fait le tour des opérations importées, et demande que faire pour celles */
-    /* qui sont douteuses lors d'un ajout des opés à un compte existant */
+    /*   cette fonction fait le tour des opÃ©rations importÃ©es, et demande que faire pour celles */
+    /* qui sont douteuses lors d'un ajout des opÃ©s Ã  un compte existant */
 
     GSList *liste_tmp;
     GtkWidget *dialog;
@@ -1852,7 +1852,7 @@ void confirmation_enregistrement_ope_import ( struct struct_compte_importation *
 				     10 );
     gtk_widget_show ( vbox );
 
-    /*   on fait maintenant le tour des opés importées et affichent celles à problème */
+    /*   on fait maintenant le tour des opÃ©s importÃ©es et affichent celles Ã  problÃ¨me */
 
     liste_tmp = compte_import -> operations_importees;
 
@@ -1862,8 +1862,8 @@ void confirmation_enregistrement_ope_import ( struct struct_compte_importation *
 
 	ope_import = liste_tmp -> data;
 
-	/* on n'affiche pas si c'est des opés de ventil, si la mère est cochée, les filles seront alors cochées */
-	/* on ne teste pas ici car ça a été testé avant */
+	/* on n'affiche pas si c'est des opÃ©s de ventil, si la mÃ¨re est cochÃ©e, les filles seront alors cochÃ©es */
+	/* on ne teste pas ici car Ã§a a Ã©tÃ© testÃ© avant */
 
 	if ( ope_import -> action == 1 
 	     &&
@@ -1965,8 +1965,8 @@ void confirmation_enregistrement_ope_import ( struct struct_compte_importation *
 
 	ope_import = liste_tmp -> data;
 
-	/* si c'est une opé de ventil, elle n'était pas affichée, dans ce cas si l'action de la
-	   dernière ventil était 0, on fait de même pour les filles */
+	/* si c'est une opÃ© de ventil, elle n'Ã©tait pas affichÃ©e, dans ce cas si l'action de la
+	   derniÃ¨re ventil Ã©tait 0, on fait de mÃªme pour les filles */
 
 	if ( ope_import -> ope_de_ventilation )
 	{
@@ -1984,7 +1984,7 @@ void confirmation_enregistrement_ope_import ( struct struct_compte_importation *
 	{
 	    ope_import -> action = 0;
 
-	    /* si c'était une ventil on met l'action de la dernière ventil à 0 */
+	    /* si c'Ã©tait une ventil on met l'action de la derniÃ¨re ventil Ã  0 */
 
 	    if ( ope_import -> operation_ventilee )
 		action_derniere_ventilation = 0;	
@@ -2011,16 +2011,16 @@ struct structure_operation *enregistre_ope_importee ( struct struct_ope_importat
     operation = calloc ( 1,
 			 sizeof ( struct structure_operation ));
 
-    /* récupération du no de l'opé */
+    /* rÃ©cupÃ©ration du no de l'opÃ© */
 
     operation -> no_operation = ++no_derniere_operation;
 
-    /* récupération de l'id de l'opé s'il existe */
+    /* rÃ©cupÃ©ration de l'id de l'opÃ© s'il existe */
 
     if ( operation_import -> id_operation )
 	operation -> id_operation = g_strdup ( operation_import -> id_operation );
 
-    /* récupération de la date */
+    /* rÃ©cupÃ©ration de la date */
 
     operation -> jour = g_date_day ( operation_import -> date );
     operation -> mois = g_date_month ( operation_import -> date );
@@ -2030,7 +2030,7 @@ struct structure_operation *enregistre_ope_importee ( struct struct_ope_importat
 					 operation -> mois,
 					 operation -> annee );
 
-    /* récupération de la date de valeur */
+    /* rÃ©cupÃ©ration de la date de valeur */
 
     if ( operation_import -> date_de_valeur )
     {
@@ -2043,37 +2043,37 @@ struct structure_operation *enregistre_ope_importee ( struct struct_ope_importat
 						      operation -> annee );
     }
 
-    /* récupération du no de compte */
+    /* rÃ©cupÃ©ration du no de compte */
 
     operation -> no_compte = NO_COMPTE;
 
 
-    /* récupération du montant */
+    /* rÃ©cupÃ©ration du montant */
 
     operation -> montant = operation_import -> montant;
 
-    /* 	  récupération de la devise, sur la popup affichée */
+    /* 	  rÃ©cupÃ©ration de la devise, sur la popup affichÃ©e */
 
     operation -> devise = operation_import -> devise;
 
-    /* rÃ©cupération du tiers */
+    /* rÃƒÂ©cupÃ©ration du tiers */
 
     if ( operation_import -> tiers )
 	operation -> tiers = tiers_par_nom ( operation_import -> tiers,
 					     1 ) -> no_tiers;
 
-    /* vérification si c'est ventilé, sinon récupération des catégories */
+    /* vÃ©rification si c'est ventilÃ©, sinon rÃ©cupÃ©ration des catÃ©gories */
 
 
     if ( operation_import -> operation_ventilee )
     {
-	/* l'opération est ventilée */
+	/* l'opÃ©ration est ventilÃ©e */
 
 	operation -> operation_ventilee = 1;
     }
     else
     {
-	/* vérification que ce n'est pas un virement */
+	/* vÃ©rification que ce n'est pas un virement */
 
 	if ( operation_import -> categ
 	     &&
@@ -2081,9 +2081,9 @@ struct structure_operation *enregistre_ope_importee ( struct struct_ope_importat
 	{
 	    if ( operation_import -> categ[0] == '[' )
 	    {
-		/* 		      c'est un virement, or le compte n'a peut être pas encore été créé, */
-		/* on va mettre le nom du compte dans info_banque_guichet qui n'est jamais utilisé */
-		/* lors d'import, et relation_no_compte sera mis à -2 (-1 est déjà utilisé pour les comptes supprimés */
+		/* 		      c'est un virement, or le compte n'a peut Ãªtre pas encore Ã©tÃ© crÃ©Ã©, */
+		/* on va mettre le nom du compte dans info_banque_guichet qui n'est jamais utilisÃ© */
+		/* lors d'import, et relation_no_compte sera mis Ã  -2 (-1 est dÃ©jÃ  utilisÃ© pour les comptes supprimÃ©s */
 
 		operation -> info_banque_guichet = operation_import -> categ;
 		operation -> relation_no_compte = -2;
@@ -2099,7 +2099,7 @@ struct structure_operation *enregistre_ope_importee ( struct struct_ope_importat
 				       2 );
 
 
-		/* récupération ou création de la catégorie */
+		/* rÃ©cupÃ©ration ou crÃ©ation de la catÃ©gorie */
 
 		categ = categ_par_nom ( tab_str[0],
 					1,
@@ -2112,7 +2112,7 @@ struct structure_operation *enregistre_ope_importee ( struct struct_ope_importat
 
 		    operation -> categorie = categ -> no_categ;
 
-		    /* récupération ou création de la sous-catégorie */
+		    /* rÃ©cupÃ©ration ou crÃ©ation de la sous-catÃ©gorie */
 
 		    sous_categ = sous_categ_par_nom ( categ,
 						      g_strstrip ( tab_str[1]),
@@ -2125,17 +2125,17 @@ struct structure_operation *enregistre_ope_importee ( struct struct_ope_importat
 	}
     }
 
-    /* récupÃ©ration des notes */
+    /* rÃ©cupÃƒÂ©ration des notes */
 
     operation -> notes = operation_import -> notes;
 
 
-    /* récupÃ©ration du chèque et mise en forme du type d'opération */
+    /* rÃ©cupÃƒÂ©ration du chÃ¨que et mise en forme du type d'opÃ©ration */
 
     if ( operation_import -> cheque )
     {
-	/* c'est un chèque, on va rechercher un type à incrémentation automatique et mettre l'opé sous ce type */
-	/* si un tel type n'existe pas, on met quand même le no dans contenu_type et on met le type par défaut */
+	/* c'est un chÃ¨que, on va rechercher un type Ã  incrÃ©mentation automatique et mettre l'opÃ© sous ce type */
+	/* si un tel type n'existe pas, on met quand mÃªme le no dans contenu_type et on met le type par dÃ©faut */
 
 	struct struct_type_ope *type_choisi;
 	GSList *liste_tmp;
@@ -2156,8 +2156,8 @@ struct structure_operation *enregistre_ope_importee ( struct struct_ope_importat
 
 	    type = liste_tmp -> data;
 
-	    /* si l'opé on trouve un type à incrémentation automatique et que le signe du type est bon, on l'enregistre */
-	    /*   et on arrête la recherche, sinon, on l'enregistre mais on continue la recherche dans l'espoir de trouver */
+	    /* si l'opÃ© on trouve un type Ã  incrÃ©mentation automatique et que le signe du type est bon, on l'enregistre */
+	    /*   et on arrÃªte la recherche, sinon, on l'enregistre mais on continue la recherche dans l'espoir de trouver */
 	    /* mieux */
 
 	    if ( type -> numerotation_auto )
@@ -2183,7 +2183,7 @@ struct structure_operation *enregistre_ope_importee ( struct struct_ope_importat
 		liste_tmp = liste_tmp -> next;
 	}
 
-	/* type_choisi contient l'adr du type qui a été utilisé, on peut y mettre le dernier no de chèque */
+	/* type_choisi contient l'adr du type qui a Ã©tÃ© utilisÃ©, on peut y mettre le dernier no de chÃ¨que */
 
 	if ( type_choisi )
 	    type_choisi -> no_en_cours = MAX ( operation_import -> cheque,
@@ -2191,7 +2191,7 @@ struct structure_operation *enregistre_ope_importee ( struct struct_ope_importat
     }
     else
     {
-	/* comme ce n'est pas un chèque, on met sur le type par défaut */
+	/* comme ce n'est pas un chÃ¨que, on met sur le type par dÃ©faut */
 
 	if ( operation -> montant < 0 )
 	    operation -> type_ope = TYPE_DEFAUT_DEBIT;
@@ -2201,11 +2201,11 @@ struct structure_operation *enregistre_ope_importee ( struct struct_ope_importat
     }
 
 
-    /* récupération du pointé */
+    /* rÃ©cupÃ©ration du pointÃ© */
 
     operation -> pointe = operation_import -> p_r;
 
-    /* si c'est une ope de ventilation, lui ajoute le no de l'opération précédente */
+    /* si c'est une ope de ventilation, lui ajoute le no de l'opÃ©ration prÃ©cÃ©dente */
 
     if ( operation_import -> ope_de_ventilation )
 	operation -> no_operation_ventilee_associee = derniere_operation_enregistrement_ope_import ;
@@ -2213,7 +2213,7 @@ struct structure_operation *enregistre_ope_importee ( struct struct_ope_importat
 	derniere_operation_enregistrement_ope_import  = operation -> no_operation;
 
 
-    /* ajoute l'opération dans la liste des opés du compte */
+    /* ajoute l'opÃ©ration dans la liste des opÃ©s du compte */
 
     LISTE_OPERATIONS = g_slist_insert_sorted ( LISTE_OPERATIONS,
 					       operation,
@@ -2235,15 +2235,15 @@ void pointe_opes_importees ( struct struct_compte_importation *compte_import )
     gint no_compte;
 
 
-    /* on se place sur le compte dans lequel on va pointer les opés */
+    /* on se place sur le compte dans lequel on va pointer les opÃ©s */
 
     no_compte = recupere_no_compte ( compte_import -> bouton_compte );
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_compte;
 
 
-    /* si le compte importé a une id, on la vérifie ici */
-    /*     si elle est absente, on met celle importée */
-    /*     si elle est différente, on demande si on la remplace */
+    /* si le compte importÃ© a une id, on la vÃ©rifie ici */
+    /*     si elle est absente, on met celle importÃ©e */
+    /*     si elle est diffÃ©rente, on demande si on la remplace */
 
     if ( compte_import -> id_compte )
     {
@@ -2252,8 +2252,8 @@ void pointe_opes_importees ( struct struct_compte_importation *compte_import )
 	    if ( g_strcasecmp ( ID_COMPTE,
 				compte_import -> id_compte ))
 	    {
-		/* 		l'id du compte choisi et l'id du compte importé sont différents */
-		/* 		    on propose encore d'arrêter... */
+		/* 		l'id du compte choisi et l'id du compte importÃ© sont diffÃ©rents */
+		/* 		    on propose encore d'arrÃªter... */
 
 
 		if ( question_yes_no_hint ( _("The id of the imported and chosen accounts are different"),
@@ -2268,7 +2268,7 @@ void pointe_opes_importees ( struct struct_compte_importation *compte_import )
 
     }
 
-    /* on fait le tour des opés importées et recherche dans la liste d'opé s'il y a la correspondance */
+    /* on fait le tour des opÃ©s importÃ©es et recherche dans la liste d'opÃ© s'il y a la correspondance */
 
 
     liste_tmp = compte_import -> operations_importees;
@@ -2287,7 +2287,7 @@ void pointe_opes_importees ( struct struct_compte_importation *compte_import )
 	ope_trouvees = NULL;
 	operation = NULL;
 
-	/* si l'opé d'import a une id, on recherche dans la liste d'opé pour trouver
+	/* si l'opÃ© d'import a une id, on recherche dans la liste d'opÃ© pour trouver
 	   une id comparable */
 
 	if ( ope_import -> id_operation )
@@ -2302,9 +2302,9 @@ void pointe_opes_importees ( struct struct_compte_importation *compte_import )
 						ope );
 	}
 
-	/* si on n'a rien trouvé par id, */
-	/* on fait le tour de la liste d'opés pour trouver des opés comparable */
-	/* cad même date avec + ou - une échelle et même montant et pas une opé de ventil */
+	/* si on n'a rien trouvÃ© par id, */
+	/* on fait le tour de la liste d'opÃ©s pour trouver des opÃ©s comparable */
+	/* cad mÃªme date avec + ou - une Ã©chelle et mÃªme montant et pas une opÃ© de ventil */
 
 
 	if ( !ope_trouvees )
@@ -2342,28 +2342,28 @@ void pointe_opes_importees ( struct struct_compte_importation *compte_import )
 
 		     &&
 		     !operation -> no_operation_ventilee_associee )
-		    /* on a retouvé une opé de même date et même montant, on l'ajoute à la liste des opés trouvées */
+		    /* on a retouvÃ© une opÃ© de mÃªme date et mÃªme montant, on l'ajoute Ã  la liste des opÃ©s trouvÃ©es */
 		    ope_trouvees = g_slist_append ( ope_trouvees,
 						    operation );
 
 		liste_ope = liste_ope -> next;
 	    }
 	}
-	/*       à ce stade, ope_trouvees contient la ou les opés qui sont comparables à l'opé importée */
+	/*       Ã  ce stade, ope_trouvees contient la ou les opÃ©s qui sont comparables Ã  l'opÃ© importÃ©e */
 	/* soit il n'y en n'a qu'une, et on la pointe, soit il y en a plusieurs, et on recherche dans */
-	/* 	les opés importées s'il y en a d'autre comparables, et on pointe les opés en fonction */
-	/* du nb de celles importées */
+	/* 	les opÃ©s importÃ©es s'il y en a d'autre comparables, et on pointe les opÃ©s en fonction */
+	/* du nb de celles importÃ©es */
 
 	switch ( g_slist_length ( ope_trouvees ))
 	{
 	    case 0:
-		/* aucune opé comparable n'a été retrouvée */
-		/* on marque donc cette opé comme seule */
-		/* sauf si c'est une opé de ventil  */
+		/* aucune opÃ© comparable n'a Ã©tÃ© retrouvÃ©e */
+		/* on marque donc cette opÃ© comme seule */
+		/* sauf si c'est une opÃ© de ventil  */
 
 		if ( !ope_import -> ope_de_ventilation ) 
 		{
-		    /* on met le no de compte et la devise de l'opération si plus tard on l'enregistre */
+		    /* on met le no de compte et la devise de l'opÃ©ration si plus tard on l'enregistre */
 
 		    ope_import -> no_compte = no_compte;
 		    ope_import -> devise = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( compte_import -> bouton_devise ) -> menu_item ),
@@ -2375,9 +2375,9 @@ void pointe_opes_importees ( struct struct_compte_importation *compte_import )
 		break;
 
 	    case 1:
-		/*  il n'y a qu'une opé retrouvée, on la pointe */
-		/* si elle est déjà pointée ou relevée, on ne fait rien */
-		/* si l'opé d'import a une id et pas l'opé, on marque l'id dans l'opé */
+		/*  il n'y a qu'une opÃ© retrouvÃ©e, on la pointe */
+		/* si elle est dÃ©jÃ  pointÃ©e ou relevÃ©e, on ne fait rien */
+		/* si l'opÃ© d'import a une id et pas l'opÃ©, on marque l'id dans l'opÃ© */
 
 		operation = ope_trouvees -> data;
 
@@ -2391,7 +2391,7 @@ void pointe_opes_importees ( struct struct_compte_importation *compte_import )
 		    operation -> pointe = 2;
 		    MISE_A_JOUR = 1;
 
-		    /* si c'est une opé ventilée, on recherche les opé filles pour leur mettre le même pointage que la mère */
+		    /* si c'est une opÃ© ventilÃ©e, on recherche les opÃ© filles pour leur mettre le mÃªme pointage que la mÃ¨re */
 
 		    if ( operation -> operation_ventilee )
 		    {
@@ -2414,11 +2414,11 @@ void pointe_opes_importees ( struct struct_compte_importation *compte_import )
 		break;
 
 	    default: 	   
-		/* il y a plusieurs opé trouvées correspondant à l'opé importée */
+		/* il y a plusieurs opÃ© trouvÃ©es correspondant Ã  l'opÃ© importÃ©e */
 
-		/* on va voir s'il y a d'autres opées importées ayant la même date et le même montant
-		   si on retrouve autant d'opé importées que d'opé trouvées, on peut marquer cette
-		   opé sans s'en préoccuper */
+		/* on va voir s'il y a d'autres opÃ©es importÃ©es ayant la mÃªme date et le mÃªme montant
+		   si on retrouve autant d'opÃ© importÃ©es que d'opÃ© trouvÃ©es, on peut marquer cette
+		   opÃ© sans s'en prÃ©occuper */
 
 
 		i=0;
@@ -2453,7 +2453,7 @@ void pointe_opes_importees ( struct struct_compte_importation *compte_import )
 
 			 &&
 			 !autre_ope_import -> ope_de_ventilation )
-			/* on a retouvé une opé d'import de même date et même montant, on incrémente le nb d'opé d'import semblables trouvees */
+			/* on a retouvÃ© une opÃ© d'import de mÃªme date et mÃªme montant, on incrÃ©mente le nb d'opÃ© d'import semblables trouvees */
 			i++;
 
 		    liste_ope = liste_ope -> next;
@@ -2461,10 +2461,10 @@ void pointe_opes_importees ( struct struct_compte_importation *compte_import )
 
 		if ( i ==  g_slist_length ( ope_trouvees ))
 		{
-		    /* on a trouvé autant d'opé d'import semblables que d'opés semblables dans la liste d'opé
-		       donc on peut marquer les opés trouvées */
-		    /* pour celles qui sont déjà pointées, on ne fait rien */
-		    /* si l'opé importée à une id, on met cette id dans l'opération si elle n'en a pas */
+		    /* on a trouvÃ© autant d'opÃ© d'import semblables que d'opÃ©s semblables dans la liste d'opÃ©
+		       donc on peut marquer les opÃ©s trouvÃ©es */
+		    /* pour celles qui sont dÃ©jÃ  pointÃ©es, on ne fait rien */
+		    /* si l'opÃ© importÃ©e Ã  une id, on met cette id dans l'opÃ©ration si elle n'en a pas */
 
 		    GSList *liste_tmp_2;
 
@@ -2484,7 +2484,7 @@ void pointe_opes_importees ( struct struct_compte_importation *compte_import )
 			    operation -> pointe = 2;
 			    MISE_A_JOUR = 1;
 
-			    /* si c'est une opé ventilée, on recherche les opé filles pour leur mettre le même pointage que la mère */
+			    /* si c'est une opÃ© ventilÃ©e, on recherche les opÃ© filles pour leur mettre le mÃªme pointage que la mÃ¨re */
 
 			    if ( operation -> operation_ventilee )
 			    {
@@ -2508,8 +2508,8 @@ void pointe_opes_importees ( struct struct_compte_importation *compte_import )
 		}
 		else
 		{
-		    /* on a trouvé un nombre différent d'opés d'import et d'opés semblables dans la liste d'opés
-		       on marque donc cette opé d'import comme seule */
+		    /* on a trouvÃ© un nombre diffÃ©rent d'opÃ©s d'import et d'opÃ©s semblables dans la liste d'opÃ©s
+		       on marque donc cette opÃ© d'import comme seule */
 
 		    ope_import -> no_compte = no_compte;
 		    ope_import -> devise = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( compte_import -> bouton_devise ) -> menu_item ),
@@ -2522,9 +2522,9 @@ void pointe_opes_importees ( struct struct_compte_importation *compte_import )
 	liste_tmp = liste_tmp -> next;
     }
 
-    /* a ce niveau, liste_opes_import_celibataires contient les opés d'import dont on n'a pas retrouvé
-       l'opé correspondante
-       on les affiche dans une liste en proposant de les ajouter à la liste */
+    /* a ce niveau, liste_opes_import_celibataires contient les opÃ©s d'import dont on n'a pas retrouvÃ©
+       l'opÃ© correspondante
+       on les affiche dans une liste en proposant de les ajouter Ã  la liste */
 
     if ( liste_opes_import_celibataires )
     {
@@ -2585,7 +2585,7 @@ void pointe_opes_importees ( struct struct_compte_importation *compte_import )
 	    liste_tmp = liste_tmp -> next;
 	}
 
-	/* on crée la liste des opés célibataires
+	/* on crÃ©e la liste des opÃ©s cÃ©libataires
 	   et on y associe la gslist */
 
 	liste_ope_celibataires = gtk_tree_view_new_with_model ( GTK_TREE_MODEL (store));
@@ -2667,9 +2667,9 @@ gboolean click_dialog_ope_orphelines ( GtkWidget *dialog,
     {
 	case 1:
 	case GTK_RESPONSE_OK:
-	    /* on ajoute la ou les opés marquées à la liste d'opés en les pointant d'un T
+	    /* on ajoute la ou les opÃ©s marquÃ©es Ã  la liste d'opÃ©s en les pointant d'un T
 	       puis on les retire de la liste des orphelines
-	       s'il ne reste plus d'opés orphelines, on ferme la boite de dialogue */
+	       s'il ne reste plus d'opÃ©s orphelines, on ferme la boite de dialogue */
 
 	    liste_opes_import_celibataires = g_object_get_data ( G_OBJECT ( liste_ope_celibataires ),
 								 "liste_ope" );
@@ -2679,7 +2679,7 @@ gboolean click_dialog_ope_orphelines ( GtkWidget *dialog,
 
 	    liste_tmp = liste_opes_import_celibataires;
 
-	    /* normalement, pas besoin de mettre ça à 0 car normalement pas de ventilations à ce stade... */
+	    /* normalement, pas besoin de mettre Ã§a Ã  0 car normalement pas de ventilations Ã  ce stade... */
 
 	    derniere_operation_enregistrement_ope_import = 0;
 
@@ -2695,7 +2695,7 @@ gboolean click_dialog_ope_orphelines ( GtkWidget *dialog,
 
 		if ( enregistre )
 		{
-		    /* à ce niveau, l'opé a été cochée donc on l'enregistre en la marquant T	 */
+		    /* Ã  ce niveau, l'opÃ© a Ã©tÃ© cochÃ©e donc on l'enregistre en la marquant T	 */
 
 		    struct struct_ope_importation *ope_import;
 		    struct structure_operation *operation;
@@ -2706,14 +2706,14 @@ gboolean click_dialog_ope_orphelines ( GtkWidget *dialog,
 							  ope_import -> no_compte );
 		    operation -> pointe = 2;
 
-		    /* on a enregistré l'opé, on la retire maintenant de la liste et de la sliste */
+		    /* on a enregistrÃ© l'opÃ©, on la retire maintenant de la liste et de la sliste */
 
 		    last_item = liste_tmp;
 		    liste_tmp = liste_tmp -> next;
 		    liste_opes_import_celibataires = g_slist_remove_link ( liste_opes_import_celibataires,
 									   last_item );
 
-		    /* on retire la ligne qu'on vient d'enregistrer, celà met l'iter directement sur la suite */
+		    /* on retire la ligne qu'on vient d'enregistrer, celÃ  met l'iter directement sur la suite */
 
 		    gtk_list_store_remove ( GTK_LIST_STORE ( model),
 					    &iter );
@@ -2726,30 +2726,30 @@ gboolean click_dialog_ope_orphelines ( GtkWidget *dialog,
 		}
 	    }
 
-	    /* s'il n'y a plus rien à enregistrer on vire la boite de dialog */
+	    /* s'il n'y a plus rien Ã  enregistrer on vire la boite de dialog */
 
 	    if ( !g_slist_length ( liste_opes_import_celibataires ))
 		gtk_widget_destroy ( dialog );
 
-	    /* on enregistre la nouvelle liste d'opé pour la retrouver plus tard */
+	    /* on enregistre la nouvelle liste d'opÃ© pour la retrouver plus tard */
 
 	    g_object_set_data ( G_OBJECT ( liste_ope_celibataires ),
 				"liste_ope",
 				liste_opes_import_celibataires );
 
-	    /* il est possible que les opés importées soient des virements, il faut faire les
+	    /* il est possible que les opÃ©s importÃ©es soient des virements, il faut faire les
 	       relations ici */
 	    if ( virements_a_chercher )
 		cree_liens_virements_ope_import ();
 
-	    /* on recrée les combofix des tiers et des catégories */
+	    /* on recrÃ©e les combofix des tiers et des catÃ©gories */
 
 	    if ( mise_a_jour_combofix_tiers_necessaire )
 		mise_a_jour_combofix_tiers ();
 	    if ( mise_a_jour_combofix_categ_necessaire )
 		mise_a_jour_combofix_categ();
 
-	    /* mise à jour de l'accueil */
+	    /* mise Ã  jour de l'accueil */
 
 	    mise_a_jour_liste_comptes_accueil = 1;
 	    mise_a_jour_soldes_minimaux = 1;

@@ -1,7 +1,7 @@
-/*  Fichier qui s'occupe de l'onglet états */
+/*  Fichier qui s'occupe de l'onglet Ã©tats */
 /*      etats.c */
 
-/*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org) */
+/*     Copyright (C)	2000-2003 CÃ©dric Auger (cedric@grisbi.org) */
 /*			2002-2004 Benjamin Drieu (bdrieu@april.org) */
 /* 			http://www.grisbi.org */
 
@@ -51,9 +51,9 @@ GtkWidget *paned_onglet_etats;
 GSList *liste_struct_etats;
 gint no_dernier_etat;
 GtkWidget *frame_liste_etats;
-GtkWidget *label_etat_courant;        /* label en haut de la liste des états */
-GtkWidget *vbox_liste_etats;          /* vbox contenant la liste des états */
-GtkWidget *bouton_etat_courant;          /* adr du bouton de l'état en cours, pour le refermer qd change */
+GtkWidget *label_etat_courant;        /* label en haut de la liste des Ã©tats */
+GtkWidget *vbox_liste_etats;          /* vbox contenant la liste des Ã©tats */
+GtkWidget *bouton_etat_courant;          /* adr du bouton de l'Ã©tat en cours, pour le refermer qd change */
 struct struct_etat *etat_courant;
 GtkWidget *bouton_effacer_etat;
 GtkWidget *bouton_personnaliser_etat;
@@ -62,7 +62,7 @@ GtkWidget *bouton_imprimer_etat;
 GtkWidget *bouton_exporter_etat;
 GtkWidget *bouton_importer_etat;
 GtkWidget *bouton_dupliquer_etat;
-GtkWidget *scrolled_window_etat;          /* contient l'état en cours */
+GtkWidget *scrolled_window_etat;          /* contient l'Ã©tat en cours */
 gint nb_colonnes;
 gint ligne_debut_partie;
 GtkWidget *notebook_etats;
@@ -88,7 +88,7 @@ GtkWidget *creation_onglet_etats ( void )
     GtkWidget *frame;
     GtkWidget *vbox;
 
-    /*   au départ, aucun état n'est ouvert */
+    /*   au dÃ©part, aucun Ã©tat n'est ouvert */
 
     bouton_etat_courant = NULL;
     etat_courant = NULL;
@@ -102,8 +102,8 @@ GtkWidget *creation_onglet_etats ( void )
     gtk_container_set_border_width ( GTK_CONTAINER ( paned_onglet_etats ), 10 );
     gtk_widget_show ( paned_onglet_etats );
 
-    /*   création de la fenetre des noms des états */
-    /* on reprend le principe des comptes dans la fenetre des opés */
+    /*   crÃ©ation de la fenetre des noms des Ã©tats */
+    /* on reprend le principe des comptes dans la fenetre des opÃ©s */
     frame_liste_etats = gtk_frame_new ( NULL );
     gtk_frame_set_shadow_type ( GTK_FRAME ( frame_liste_etats ),
 				GTK_SHADOW_IN );
@@ -120,7 +120,7 @@ GtkWidget *creation_onglet_etats ( void )
     gtk_paned_add2 ( GTK_PANED(paned_onglet_etats), frame );
     gtk_widget_show (frame);
 
-    /* création du notebook contenant l'état et la config */
+    /* crÃ©ation du notebook contenant l'Ã©tat et la config */
     notebook_etats = gtk_notebook_new ();
     gtk_notebook_set_show_tabs ( GTK_NOTEBOOK ( notebook_etats ), FALSE );
     gtk_notebook_set_show_border ( GTK_NOTEBOOK(notebook_etats), FALSE );
@@ -128,21 +128,21 @@ GtkWidget *creation_onglet_etats ( void )
     gtk_widget_show ( notebook_etats );
 
 
-    /* création de la partie droite */
+    /* crÃ©ation de la partie droite */
 
     vbox = gtk_vbox_new ( FALSE, 10 );
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_etats ), vbox, gtk_label_new ( _("Reports")));
     gtk_widget_show ( vbox );
 
 
-    /*  Création de la partie contenant l'état */
+    /*  CrÃ©ation de la partie contenant l'Ã©tat */
 
     frame = gtk_frame_new ( NULL );
     gtk_box_pack_start ( GTK_BOX ( vbox ), frame, TRUE, TRUE, 0 );
     gtk_frame_set_shadow_type ( GTK_FRAME ( frame ), GTK_SHADOW_NONE );
     gtk_widget_show (frame);
 
-    /* on y met une scrolled window qui sera remplit par l'état */
+    /* on y met une scrolled window qui sera remplit par l'Ã©tat */
 
     scrolled_window_etat = gtk_scrolled_window_new ( FALSE, FALSE );
     gtk_scrolled_window_set_shadow_type ( GTK_SCROLLED_WINDOW(scrolled_window_etat), GTK_SHADOW_NONE );
@@ -151,7 +151,7 @@ GtkWidget *creation_onglet_etats ( void )
     gtk_container_add ( GTK_CONTAINER ( frame ), scrolled_window_etat );
     gtk_widget_show ( scrolled_window_etat );
 
-    /* création de la partie contenant les boutons (personnaliser ...) */
+    /* crÃ©ation de la partie contenant les boutons (personnaliser ...) */
 
     frame = gtk_frame_new ( NULL );
     gtk_frame_set_shadow_type ( GTK_FRAME ( frame ), GTK_SHADOW_NONE );
@@ -167,7 +167,7 @@ GtkWidget *creation_onglet_etats ( void )
 
     /*   g_signal_connect ( GTK_PANED(onglet), "move-handle", gtk_container_resize_children, NULL); */
 
-    /* l'onglet de config sera créé que si nécessaire */
+    /* l'onglet de config sera crÃ©Ã© que si nÃ©cessaire */
 
     onglet_config_etat = NULL;
 
@@ -193,7 +193,7 @@ GtkWidget *creation_liste_etats ( void )
     GtkWidget *scrolled_window;
 
 
-    /*  Création d'une fenêtre générale*/
+    /*  CrÃ©ation d'une fenÃªtre gÃ©nÃ©rale*/
 
     onglet = gtk_vbox_new ( FALSE,
 			    10);
@@ -201,7 +201,7 @@ GtkWidget *creation_liste_etats ( void )
     gtk_widget_show ( onglet );
 
 
-    /*  Création du label contenant le rapport courant en haut */
+    /*  CrÃ©ation du label contenant le rapport courant en haut */
     /*   on place le label dans une frame */
 
     frame = gtk_frame_new ( NULL );
@@ -224,9 +224,9 @@ GtkWidget *creation_liste_etats ( void )
     gtk_label_set_line_wrap ( GTK_LABEL ( label_etat_courant ), TRUE );
 
 
-    /*  Création de la fenêtre des etats */
-    /*  qui peut contenir des barres de défilement si */
-    /*  nécessaire */
+    /*  CrÃ©ation de la fenÃªtre des etats */
+    /*  qui peut contenir des barres de dÃ©filement si */
+    /*  nÃ©cessaire */
 
     scrolled_window = gtk_scrolled_window_new ( NULL,
 						NULL);
@@ -241,7 +241,7 @@ GtkWidget *creation_liste_etats ( void )
     gtk_widget_show ( scrolled_window );
 
 
-    /*  création de la vbox qui contient la liste des états */
+    /*  crÃ©ation de la vbox qui contient la liste des Ã©tats */
 
     vbox_liste_etats = gtk_vbox_new ( FALSE, 0);
     gtk_scrolled_window_add_with_viewport ( GTK_SCROLLED_WINDOW (scrolled_window ),
@@ -250,11 +250,11 @@ GtkWidget *creation_liste_etats ( void )
 				   GTK_SHADOW_NONE );
     gtk_widget_show (vbox_liste_etats);
 
-    /*  ajout des différents états */
+    /*  ajout des diffÃ©rents Ã©tats */
 
     remplissage_liste_etats ();
 
-    /* ajout des boutons pour supprimer / ajouter un état */
+    /* ajout des boutons pour supprimer / ajouter un Ã©tat */
 
     frame = gtk_frame_new ( NULL );
     gtk_frame_set_shadow_type ( GTK_FRAME ( frame ), GTK_SHADOW_ETCHED_IN );
@@ -321,7 +321,7 @@ GtkWidget *creation_liste_etats ( void )
 			 0 );
     gtk_widget_show ( bouton_dupliquer_etat );
 
-    /* mise en place du bouton effacer état */
+    /* mise en place du bouton effacer Ã©tat */
     bouton_effacer_etat = gtk_button_new_with_label ( _("Delete report") );
     gtk_button_set_relief ( GTK_BUTTON ( bouton_effacer_etat ), GTK_RELIEF_NONE);
     gtk_box_pack_start ( GTK_BOX ( vbox ), bouton_effacer_etat, FALSE, TRUE, 0);
@@ -424,7 +424,7 @@ GtkWidget *creation_barre_boutons_etats ( void )
 
 /*****************************************************************************************************/
 /* Fontion remplissage_liste_etats */
-/* vide et remplit la liste des états */
+/* vide et remplit la liste des Ã©tats */
 /*****************************************************************************************************/
 
 void remplissage_liste_etats ( void )
@@ -433,7 +433,7 @@ void remplissage_liste_etats ( void )
     GSList *liste_tmp;
 
 
-    /* on commence par détruire tous les enfants de la vbox */
+    /* on commence par dÃ©truire tous les enfants de la vbox */
 
     pointeur = GTK_BOX ( vbox_liste_etats ) -> children;
 
@@ -449,7 +449,7 @@ void remplissage_liste_etats ( void )
 			       child -> widget );
     }
 
-    /* on remplit maintenant avec tous les états */
+    /* on remplit maintenant avec tous les Ã©tats */
 
     liste_tmp = liste_struct_etats;
 
@@ -474,7 +474,7 @@ void remplissage_liste_etats ( void )
 
 
 /*****************************************************************************************************/
-/* on propose une liste d'états prémachés et les remplis en fonction du choix */
+/* on propose une liste d'Ã©tats prÃ©machÃ©s et les remplis en fonction du choix */
 /* de la personne */
 /*****************************************************************************************************/
 
@@ -504,7 +504,7 @@ gboolean ajout_etat ( void )
     frame = new_paddingbox_with_title ( GTK_DIALOG(dialog)->vbox, FALSE,
 					_("Report type"));
 
-    /* on commence par créer l'option menu */
+    /* on commence par crÃ©er l'option menu */
     option_menu = gtk_option_menu_new ();
     gtk_box_pack_start ( GTK_BOX(frame), option_menu, FALSE, FALSE, 0 );
 
@@ -531,7 +531,7 @@ gboolean ajout_etat ( void )
     gtk_viewport_set_shadow_type ( GTK_VIEWPORT ( label_description -> parent ),
 				   GTK_SHADOW_NONE );
 
-    /* on crée ici le menu qu'on ajoute à l'option menu */
+    /* on crÃ©e ici le menu qu'on ajoute Ã  l'option menu */
     menu = gtk_menu_new ();
 
     menu_item = gtk_menu_item_new_with_label ( _("Last month incomes and outgoings"));
@@ -608,26 +608,26 @@ gboolean ajout_etat ( void )
     }
 
 
-    /* on récupère le type d'état voulu */
+    /* on rÃ©cupÃ¨re le type d'Ã©tat voulu */
 
     resultat = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( option_menu ) -> menu_item ),
 						       "no_etat" ));
     gtk_widget_destroy ( GTK_WIDGET ( dialog ));
 
 
-    /* on crée le nouvel état */
+    /* on crÃ©e le nouvel Ã©tat */
 
     etat = calloc ( 1, sizeof ( struct struct_etat ));
 
     etat -> no_etat = ++no_dernier_etat;
 
 
-    /* on remplit maintenant l'état en fonction de ce qu'on a demandé */
+    /* on remplit maintenant l'Ã©tat en fonction de ce qu'on a demandÃ© */
 
     switch ( resultat )
     {
 	case 0:
-	    /*  revenus et dépenses du mois précédent  */
+	    /*  revenus et dÃ©penses du mois prÃ©cÃ©dent  */
 
 	    etat -> nom_etat = g_strdup ( _("Previous month incomes and outgoings") );
 
@@ -658,7 +658,7 @@ gboolean ajout_etat ( void )
 	    etat -> afficher_pas_de_sous_categ = 1;
 	    etat -> afficher_nom_categ = 1;
 
-	    /*   les devises sont à 1 (euro) */
+	    /*   les devises sont Ã  1 (euro) */
 
 	    etat -> devise_de_calcul_general = 1;
 	    etat -> devise_de_calcul_categ = 1;
@@ -669,7 +669,7 @@ gboolean ajout_etat ( void )
 	    break;
 
 	case 1:
-	    /*  revenus et dépenses du mois courant  */
+	    /*  revenus et dÃ©penses du mois courant  */
 
 	    etat -> nom_etat = g_strdup ( _("Current month incomes and outgoings") );
 
@@ -700,7 +700,7 @@ gboolean ajout_etat ( void )
 	    etat -> afficher_pas_de_sous_categ = 1;
 	    etat -> afficher_nom_categ = 1;
 
-	    /*   les devises sont à 1 (euro) */
+	    /*   les devises sont Ã  1 (euro) */
 
 	    etat -> devise_de_calcul_general = 1;
 	    etat -> devise_de_calcul_categ = 1;
@@ -732,7 +732,7 @@ gboolean ajout_etat ( void )
 	    etat -> type_classement = g_list_append ( etat -> type_classement,
 						      GINT_TO_POINTER ( 6 ));
 
-	    /*   les devises sont à 1 (euro) */
+	    /*   les devises sont Ã  1 (euro) */
 
 	    etat -> devise_de_calcul_general = 1;
 	    etat -> devise_de_calcul_categ = 1;
@@ -751,7 +751,7 @@ gboolean ajout_etat ( void )
 	    etat -> afficher_nom_categ = 1;
 	    etat -> exclure_montants_nuls = 1;
 
-	    /*   tout le reste est à NULL, ce qui est très bien */
+	    /*   tout le reste est Ã  NULL, ce qui est trÃ¨s bien */
 
 	    break;
 
@@ -759,7 +759,7 @@ gboolean ajout_etat ( void )
 
 	case 3:
 
-	    /* on ajoute un état vierge appelé nouvel état */
+	    /* on ajoute un Ã©tat vierge appelÃ© nouvel Ã©tat */
 
 	    etat -> nom_etat = g_strdup ( _("New report") );
 
@@ -778,7 +778,7 @@ gboolean ajout_etat ( void )
 	    etat -> type_classement = g_list_append ( etat -> type_classement,
 						      GINT_TO_POINTER ( 6 ));
 
-	    /*   les devises sont à 1 (euro) */
+	    /*   les devises sont Ã  1 (euro) */
 
 	    etat -> devise_de_calcul_general = 1;
 	    etat -> devise_de_calcul_categ = 1;
@@ -802,13 +802,13 @@ gboolean ajout_etat ( void )
 	    etat -> exclure_montants_nuls = 1;
 
 
-	    /*   tout le reste est à NULL, ce qui est très bien */
+	    /*   tout le reste est Ã  NULL, ce qui est trÃ¨s bien */
 
 	    break;
 
 	case 4:
 
-	    /* remise de chèques */
+	    /* remise de chÃ¨ques */
 
 	    etat -> nom_etat = g_strdup ( _("Cheques deposit") );
 
@@ -827,7 +827,7 @@ gboolean ajout_etat ( void )
 	    etat -> type_classement = g_list_append ( etat -> type_classement,
 						      GINT_TO_POINTER ( 6 ));
 
-	    /*   les devises sont à 1 (euro) */
+	    /*   les devises sont Ã  1 (euro) */
 
 	    etat -> devise_de_calcul_general = 1;
 	    etat -> devise_de_calcul_categ = 1;
@@ -844,7 +844,7 @@ gboolean ajout_etat ( void )
 	    etat -> exclure_montants_nuls = 1;
 	    etat -> utilise_montant = 1;
 
-	    /* on doit créer une structure de montant qui dit que ça va être positif */
+	    /* on doit crÃ©er une structure de montant qui dit que Ã§a va Ãªtre positif */
 
 	    comp_montant = calloc ( 1,
 				    sizeof ( struct struct_comparaison_montants_etat ));
@@ -856,13 +856,13 @@ gboolean ajout_etat ( void )
 									 comp_montant );
 
 
-	    /*   tout le reste est à NULL, ce qui est très bien */
+	    /*   tout le reste est Ã  NULL, ce qui est trÃ¨s bien */
 
 	    break;
 
 	case 5:
 
-	    /* dépenses mensuelles par tiers */
+	    /* dÃ©penses mensuelles par tiers */
 
 	    etat -> nom_etat = g_strdup ( _("Monthly outgoings by third party") );
 
@@ -881,7 +881,7 @@ gboolean ajout_etat ( void )
 	    etat -> type_classement = g_list_append ( etat -> type_classement,
 						      GINT_TO_POINTER ( 5 ));
 
-	    /*   les devises sont à 1 (euro) */
+	    /*   les devises sont Ã  1 (euro) */
 
 	    etat -> devise_de_calcul_general = 1;
 	    etat -> devise_de_calcul_categ = 1;
@@ -914,7 +914,7 @@ gboolean ajout_etat ( void )
 	    etat -> afficher_nom_tiers = 1;
 
 
-	    /*   tout le reste est à NULL, ce qui est très bien */
+	    /*   tout le reste est Ã  NULL, ce qui est trÃ¨s bien */
 
 	    break;
 
@@ -939,7 +939,7 @@ gboolean ajout_etat ( void )
 	    etat -> type_classement = g_list_append ( etat -> type_classement,
 						      GINT_TO_POINTER ( 6 ));
 
-	    /*   les devises sont à 1 (euro) */
+	    /*   les devises sont Ã  1 (euro) */
 
 	    etat -> devise_de_calcul_general = 1;
 	    etat -> devise_de_calcul_categ = 1;
@@ -969,7 +969,7 @@ gboolean ajout_etat ( void )
 	    etat -> type_separation_plage = 2;
 	    etat -> type_virement = 2;
 
-	    /*   tout le reste est à NULL, ce qui est très bien */
+	    /*   tout le reste est Ã  NULL, ce qui est trÃ¨s bien */
 
 	    break;
 
@@ -979,10 +979,10 @@ gboolean ajout_etat ( void )
 	    return FALSE;
     }
 
-    /* on l'ajoute à la liste */
+    /* on l'ajoute Ã  la liste */
     liste_struct_etats = g_slist_append ( liste_struct_etats, etat );
 
-    /* on réaffiche la liste des états */
+    /* on rÃ©affiche la liste des Ã©tats */
     etat_courant = etat;
 
     remplissage_liste_etats ();
@@ -1015,13 +1015,13 @@ void change_choix_nouvel_etat ( GtkWidget *menu_item,
 						     "no_etat" )))
     {
 	case 0:
-	    /* revenus et dépenses du mois dernier  */
+	    /* revenus et dÃ©penses du mois dernier  */
 
 	    description = _("This report displays totals for last month's transactions sorted by categories and sub-categories. You just need to select the account(s). By default, all accounts are selected.");
 	    break;
 
 	case 1:
-	    /* revenus et dépenses du mois en cours  */
+	    /* revenus et dÃ©penses du mois en cours  */
 
 	    description = _("This report displays totals of current month's transactions sorted by categories and sub-categories. You just need to select the account(s). By default, all accounts are selected.");
 	    break;
@@ -1039,13 +1039,13 @@ void change_choix_nouvel_etat ( GtkWidget *menu_item,
 	    break;
 
 	case 4:
-	    /* remise de chèques  */
+	    /* remise de chÃ¨ques  */
 
 	    description = _("This report displays the cheques deposit. You just need to select the account(s). By default all accounts are selected.");
 	    break;
 
 	case 5:
-	    /* dépenses mensuelles par tiers  */
+	    /* dÃ©penses mensuelles par tiers  */
 
 	    description = _("This report displays current month's outgoings sorted by third parties. You just need to select the account(s). By default all accounts areselected.");
 	    break;
@@ -1084,8 +1084,8 @@ void efface_etat ( void )
 				 _("This will irreversibly remove this report.  There is no undo for this.") ))
 	return;
 
-    /*   on met l'état courant à -1 et */
-    /* le bouton à null, et le label de l'état en cours à rien */
+    /*   on met l'Ã©tat courant Ã  -1 et */
+    /* le bouton Ã  null, et le label de l'Ã©tat en cours Ã  rien */
     liste_struct_etats = g_slist_remove ( liste_struct_etats, etat_courant );
 
     etat_courant = NULL;
@@ -1117,7 +1117,7 @@ void efface_etat ( void )
     if ( GTK_BIN ( scrolled_window_etat ) -> child )
 	gtk_widget_hide ( GTK_BIN ( scrolled_window_etat ) -> child );
 
-    /* on réaffiche la liste des états */
+    /* on rÃ©affiche la liste des Ã©tats */
 
     remplissage_liste_etats ();
     modification_fichier ( TRUE );
@@ -1158,7 +1158,7 @@ void changement_etat ( GtkWidget *bouton,
     gtk_label_set_text ( GTK_LABEL ( label_etat_courant ), etat -> nom_etat );
     gtk_label_set_line_wrap ( GTK_LABEL ( label_etat_courant ), TRUE );
 
-    /* on affiche l'état */
+    /* on affiche l'Ã©tat */
     rafraichissement_etat ( etat );
 }
 /*****************************************************************************************************/
@@ -1194,7 +1194,7 @@ void exporter_etat ( void )
 
 	    gtk_widget_destroy ( GTK_WIDGET ( fenetre_nom ));
 
-	    /* vérification que c'est possible */
+	    /* vÃ©rification que c'est possible */
 
 	    if ( !strlen ( nom_etat ))
 		return;
@@ -1260,7 +1260,7 @@ void importer_etat ( void )
 
 	    gtk_widget_destroy ( GTK_WIDGET ( fenetre_nom ));
 
-	    /* vérification que c'est possible */
+	    /* vÃ©rification que c'est possible */
 
 	    if ( !strlen ( nom_etat ))
 		return;
@@ -1284,7 +1284,7 @@ void importer_etat ( void )
 
 
 /*****************************************************************************************************/
-/* cette fonction crée une copie de l'état courant */
+/* cette fonction crÃ©e une copie de l'Ã©tat courant */
 /*****************************************************************************************************/
 
 void dupliquer_etat ( void )
@@ -1300,13 +1300,13 @@ void dupliquer_etat ( void )
 		    sizeof ( struct struct_etat ));
 
 
-    /* on recopie les données de l'état courant */
+    /* on recopie les donnÃ©es de l'Ã©tat courant */
 
     memcpy ( etat,
 	     etat_courant,
 	     sizeof ( struct struct_etat ));
 
-    /* il reste juste à faire une copie des listes et des chaines pour terminer */
+    /* il reste juste Ã  faire une copie des listes et des chaines pour terminer */
 
     etat -> no_etat = ++no_dernier_etat;
 
@@ -1391,12 +1391,12 @@ void dupliquer_etat ( void )
 
 
 
-    /* on l'ajoute à la liste */
+    /* on l'ajoute Ã  la liste */
 
     liste_struct_etats = g_slist_append ( liste_struct_etats,
 					  etat );
 
-    /* on réaffiche la liste des états */
+    /* on rÃ©affiche la liste des Ã©tats */
 
     etat_courant = etat;
 

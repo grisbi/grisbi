@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                  classement_echeances.c                    */
 /*                                                                            */
-/*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org)	      */
+/*     Copyright (C)	2000-2003 CÃ©dric Auger (cedric@grisbi.org)	      */
 /*			2003-2004 Benjamin Drieu (bdrieu@april.org)	      */
 /*			2003-2004 Alain Portal (dionysos@grisbi.org)	      */
 /* 			http://www.grisbi.org				      */
@@ -40,7 +40,7 @@
 
 
 /* ************************************************************************* */
-/* Classement de deux échéances d'opérations par date                        */
+/* Classement de deux Ã©chÃ©ances d'opÃ©rations par date                        */
 /* ************************************************************************* */
 gint classement_sliste_echeance_par_date ( struct operation_echeance * a, 
 					   struct operation_echeance * b )

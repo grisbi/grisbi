@@ -1,6 +1,6 @@
 /* permet la configuration du logiciel */
 
-/*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org) */
+/*     Copyright (C)	2000-2003 CÃ©dric Auger (cedric@grisbi.org) */
 /*			2003-2004 Benjamin Drieu (bdrieu@april.org) */
 /* 			http://www.grisbi.org */
 
@@ -399,7 +399,7 @@ void preferences ( gint page )
 
 
 /* ************************************************************************************************************** */
-/* callback appelé quand on sélectionne un membre de la liste */
+/* callback appelÃ© quand on sÃ©lectionne un membre de la liste */
 /* ************************************************************************************************************** */
 gboolean selectionne_liste_preference ( GtkTreeSelection *selection,
 					GtkTreeModel *model )
@@ -606,7 +606,7 @@ GtkWidget *onglet_fichier ( void )
 	/* Ugly dance ... */
 	checkbox_set_value ( bouton_demande_backup, &dummy, FALSE );
 
-	/* Mise en forme de l'entrée du chemin de la backup */
+	/* Mise en forme de l'entrÃ©e du chemin de la backup */
 	hbox = gtk_hbox_new ( FALSE, 5 );
 	gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox,
 			     FALSE, FALSE, 0 );

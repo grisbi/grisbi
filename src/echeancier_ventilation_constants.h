@@ -1,5 +1,5 @@
-/* Constantes qui définisent le numéro de widget dans le formulaire
-   de ventilation des opérations planifiées */
+/* Constantes qui dÃ©finisent le numÃ©ro de widget dans le formulaire
+   de ventilation des opÃ©rations planifiÃ©es */
 # define SCHEDULER_BREAKDOWN_FORM_CATEGORY 0
 # define SCHEDULER_BREAKDOWN_FORM_NOTES 1
 # define SCHEDULER_BREAKDOWN_FORM_DEBIT 2

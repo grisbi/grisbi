@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                  utils_rapprochements.c                    */
 /*                                                                            */
-/*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org)	      */
+/*     Copyright (C)	2000-2003 CÃ©dric Auger (cedric@grisbi.org)	      */
 /*			2003-2004 Benjamin Drieu (bdrieu@april.org)	      */
 /*			2003-2004 Alain Portal (dionysos@grisbi.org)	      */
 /* 			http://www.grisbi.org				      */
@@ -44,8 +44,8 @@ extern GSList *liste_struct_rapprochements;
 
 
 /* ********************************************************************************************************* */
-/* renvoie l'adr l'adr du rapprochement demandé par son no */
-/* ou NULL si pas trouvé */
+/* renvoie l'adr l'adr du rapprochement demandÃ© par son no */
+/* ou NULL si pas trouvÃ© */
 /* ********************************************************************************************************* */
 struct struct_no_rapprochement *rapprochement_par_no ( gint no_rapprochement )
 {
@@ -65,8 +65,8 @@ struct struct_no_rapprochement *rapprochement_par_no ( gint no_rapprochement )
 
 
 /* ********************************************************************************************************* */
-/* renvoie l'adr l'adr du rapprochement demandé par son nom */
-/* ou NULL si pas trouvé */
+/* renvoie l'adr l'adr du rapprochement demandÃ© par son nom */
+/* ou NULL si pas trouvÃ© */
 /* ********************************************************************************************************* */
 struct struct_no_rapprochement *rapprochement_par_nom ( gchar *nom_rapprochement )
 {

@@ -1,7 +1,7 @@
-/* fichier qui s'occupe de l'onglet de gestion des catégories */
+/* fichier qui s'occupe de l'onglet de gestion des catÃ©gories */
 /*           categories_onglet.c */
 
-/*     Copyright (C) 2000-2003  Cédric Auger */
+/*     Copyright (C) 2000-2003  CÃ©dric Auger */
 /* 			cedric@grisbi.org */
 /* 			http://www.grisbi.org */
 
@@ -87,7 +87,7 @@ GtkWidget *bouton_supprimer_categ;
 GtkWidget *bouton_ajouter_categorie;
 GtkWidget *bouton_ajouter_sous_categorie;
 
-/* liste des structures de catég */
+/* liste des structures de catÃ©g */
 
 GSList *liste_struct_categories;
 
@@ -95,7 +95,7 @@ GSList *liste_struct_categories;
 
 GSList *liste_categories_combofix;
 
-/* nombre de catégories */
+/* nombre de catÃ©gories */
 
 gint nb_enregistrements_categories;
 gint no_derniere_categorie;
@@ -151,7 +151,7 @@ extern GtkWidget *window;
 
 /* **************************************************************************************************** */
 /* Fonction onglet_categories : */
-/* crée et renvoie le widget contenu dans l'onglet */
+/* crÃ©e et renvoie le widget contenu dans l'onglet */
 /* **************************************************************************************************** */
 
 GtkWidget *onglet_categories ( void )
@@ -174,7 +174,7 @@ GtkWidget *onglet_categories ( void )
     GtkWidget *bouton;
 
 
-    /* création de la fenêtre qui sera renvoyée */
+    /* crÃ©ation de la fenÃªtre qui sera renvoyÃ©e */
 
     onglet = gtk_hbox_new ( FALSE,
 			    5 );
@@ -183,7 +183,7 @@ GtkWidget *onglet_categories ( void )
     gtk_widget_show ( onglet );
 
 
-    /*   création de la frame de gauche */
+    /*   crÃ©ation de la frame de gauche */
 
     frame = gtk_frame_new ( NULL );
     gtk_frame_set_shadow_type ( GTK_FRAME ( frame ),
@@ -239,7 +239,7 @@ GtkWidget *onglet_categories ( void )
     gtk_widget_show ( entree_nom_categ );
 
 
-    /* création des radio bouton débit/crédit */
+    /* crÃ©ation des radio bouton dÃ©bit/crÃ©dit */
 
     separateur = gtk_hseparator_new ();
     gtk_box_pack_start ( GTK_BOX ( vbox_frame ),
@@ -297,7 +297,7 @@ GtkWidget *onglet_categories ( void )
 
 
 
-    /*   création des boutons modifier et annuler */
+    /*   crÃ©ation des boutons modifier et annuler */
 
     hbox = gtk_hbox_new ( TRUE,
 			  5 );
@@ -431,7 +431,7 @@ GtkWidget *onglet_categories ( void )
 
 
 
-    /*   création de la frame de droite */
+    /*   crÃ©ation de la frame de droite */
 
     frame = gtk_frame_new ( NULL );
     gtk_frame_set_shadow_type ( GTK_FRAME ( frame ),
@@ -460,7 +460,7 @@ GtkWidget *onglet_categories ( void )
 			 FALSE,
 			 0 );
 
-    /* création de l'arbre principal */
+    /* crÃ©ation de l'arbre principal */
 
     scroll_window = gtk_scrolled_window_new ( NULL,
 					      NULL );
@@ -539,12 +539,12 @@ GtkWidget *onglet_categories ( void )
     gtk_widget_show ( arbre_categ );
 
 
-    /* on met la fontion de tri alphabétique en prenant en compte les accents */
+    /* on met la fontion de tri alphabÃ©tique en prenant en compte les accents */
 
     gtk_clist_set_compare_func ( GTK_CLIST ( arbre_categ ),
 				 (GtkCListCompareFunc) classement_alphabetique_tree );
 
-    /* la 1ère fois qu'on affichera les catég, il faudra remplir la liste */
+    /* la 1Ã¨re fois qu'on affichera les catÃ©g, il faudra remplir la liste */
 
     modif_categ = 1;
 
@@ -579,7 +579,7 @@ void remplit_arbre_categ ( void )
     gtk_clist_clear ( GTK_CLIST ( arbre_categ ));
 
 
-    /*   le devise est choisie dans les paramètres */
+    /*   le devise est choisie dans les paramÃ¨tres */
 
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
 
@@ -588,7 +588,7 @@ void remplit_arbre_categ ( void )
 	 devise_compte -> no_devise != no_devise_totaux_tiers )
 	devise_compte = devise_par_no ( no_devise_totaux_tiers );
 
-    /* calcule les montants des catég et sous categ */
+    /* calcule les montants des catÃ©g et sous categ */
 
     calcule_total_montant_categ ();
 
@@ -639,7 +639,7 @@ void remplit_arbre_categ ( void )
 					FALSE,
 					FALSE );
 
-	/* on associe à cette categ à l'adr de sa struct */
+	/* on associe Ã  cette categ Ã  l'adr de sa struct */
 
 	gtk_ctree_node_set_row_data ( GTK_CTREE ( arbre_categ ),
 				      ligne,
@@ -696,7 +696,7 @@ void remplit_arbre_categ ( void )
 						       FALSE,
 						       FALSE );
 
-	    /* on associe cette sous_categ à l'adr de sa struct */
+	    /* on associe cette sous_categ Ã  l'adr de sa struct */
 
 	    gtk_ctree_node_set_row_data ( GTK_CTREE ( arbre_categ ),
 					  ligne_sous_categ,
@@ -716,7 +716,7 @@ void remplit_arbre_categ ( void )
 						       FALSE,
 						       FALSE );
 
-	    /* on associe le fils bidon à -1 */
+	    /* on associe le fils bidon Ã  -1 */
 
 	    gtk_ctree_node_set_row_data ( GTK_CTREE ( arbre_categ ),
 					  ligne_sous_categ,
@@ -727,7 +727,7 @@ void remplit_arbre_categ ( void )
 	    liste_sous_categ_tmp = liste_sous_categ_tmp -> next;
 	}
 
-	/*       on a fini de saisir les sous catégories, s'il y avait des opés sans sous catég, on les mets ici */
+	/*       on a fini de saisir les sous catÃ©gories, s'il y avait des opÃ©s sans sous catÃ©g, on les mets ici */
 
 	if ( tab_montant_sous_categ[place_categ]
 	     &&
@@ -776,7 +776,7 @@ void remplit_arbre_categ ( void )
 						       FALSE,
 						       FALSE );
 
-	    /* on associe le fils bidon à -1 */
+	    /* on associe le fils bidon Ã  -1 */
 
 	    gtk_ctree_node_set_row_data ( GTK_CTREE ( arbre_categ ),
 					  ligne_sous_categ,
@@ -787,7 +787,7 @@ void remplit_arbre_categ ( void )
 	liste_categ_tmp = liste_categ_tmp -> next;
     }
 
-    /*   on a fini de mettre les catégories, on met ici les opés sans catég */
+    /*   on a fini de mettre les catÃ©gories, on met ici les opÃ©s sans catÃ©g */
 
     if ( tab_montant_categ[0] )
     {
@@ -863,7 +863,7 @@ void remplit_arbre_categ ( void )
 						   FALSE,
 						   FALSE );
 
-	/* on associe le fils bidon à -1 */
+	/* on associe le fils bidon Ã  -1 */
 
 	gtk_ctree_node_set_row_data ( GTK_CTREE ( arbre_categ ),
 				      ligne_sous_categ,
@@ -900,8 +900,8 @@ void remplit_arbre_categ ( void )
 
 /* **************************************************************************************************** */
 /* Fonction ouverture_node_categ */
-/* appeléé lorsqu'on ouvre une categ, sous categ ou le compte d'une categ */
-/* remplit ce qui doit être affiché */
+/* appelÃ©Ã© lorsqu'on ouvre une categ, sous categ ou le compte d'une categ */
+/* remplit ce qui doit Ãªtre affichÃ© */
 /* **************************************************************************************************** */
 
 gboolean ouverture_node_categ ( GtkWidget *arbre, GtkCTreeNode *node, 
@@ -918,7 +918,7 @@ gboolean ouverture_node_categ ( GtkWidget *arbre, GtkCTreeNode *node,
     if ( !row || row->level == 1 )
 	return(FALSE);
 
-    /*   si le fiston = -1, c'est qu'il n'a pas encore été créé */
+    /*   si le fiston = -1, c'est qu'il n'a pas encore Ã©tÃ© crÃ©Ã© */
     /* dans le cas contraire, on vire */
 
     if ( GPOINTER_TO_INT ( gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_categ ),
@@ -930,16 +930,16 @@ gboolean ouverture_node_categ ( GtkWidget *arbre, GtkCTreeNode *node,
     gtk_clist_freeze ( GTK_CLIST ( arbre_categ ));
 
 
-    /* on commence par virer la ligne bidon qui était attachée à ce noeud */
+    /* on commence par virer la ligne bidon qui Ã©tait attachÃ©e Ã  ce noeud */
 
     gtk_ctree_remove_node ( GTK_CTREE ( arbre_categ ),
 			    row -> children );
 
-    /* séparation entre ouverture de sous-categ ( 2 ) et ouverture de compte ( 3 ) */
+    /* sÃ©paration entre ouverture de sous-categ ( 2 ) et ouverture de compte ( 3 ) */
 
     if ( row -> level == 2 )
     {
-	/* c'est une ouverture de sous categ, on récupère sa structure  */
+	/* c'est une ouverture de sous categ, on rÃ©cupÃ¨re sa structure  */
 
 	struct struct_categ *categ;
 	struct struct_sous_categ *sous_categ;
@@ -967,7 +967,7 @@ gboolean ouverture_node_categ ( GtkWidget *arbre, GtkCTreeNode *node,
 	    no_sous_categ = 0;
 	}
 
-	/* on va scanner tous les comptes, dès qu'un tiers correspondant au tiers sélectionné est trouvé */
+	/* on va scanner tous les comptes, dÃ¨s qu'un tiers correspondant au tiers sÃ©lectionnÃ© est trouvÃ© */
 	/* on affiche le nom du compte */
 
 	p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
@@ -1022,7 +1022,7 @@ gboolean ouverture_node_categ ( GtkWidget *arbre, GtkCTreeNode *node,
 							     FALSE,
 							     FALSE );
 
-		    /* associe le no de compte à la ligne du compte */
+		    /* associe le no de compte Ã  la ligne du compte */
 
 		    gtk_ctree_node_set_row_data ( GTK_CTREE ( arbre_categ ),
 						  node_insertion,
@@ -1042,7 +1042,7 @@ gboolean ouverture_node_categ ( GtkWidget *arbre, GtkCTreeNode *node,
 							     FALSE,
 							     FALSE );
 
-		    /* on associe le fils bidon à -1 */
+		    /* on associe le fils bidon Ã  -1 */
 
 		    gtk_ctree_node_set_row_data ( GTK_CTREE ( arbre_categ ),
 						  node_insertion,
@@ -1060,7 +1060,7 @@ gboolean ouverture_node_categ ( GtkWidget *arbre, GtkCTreeNode *node,
     else
     {
 	/* c'est une ouverture d'un compte */
-	/*       cette fois, on fait le tour de toutes les opés du compte pour afficher celles qui correspondent à la categ */
+	/*       cette fois, on fait le tour de toutes les opÃ©s du compte pour afficher celles qui correspondent Ã  la categ */
 
 	struct struct_categ *categ;
 	struct struct_sous_categ *sous_categ;
@@ -1161,7 +1161,7 @@ gboolean ouverture_node_categ ( GtkWidget *arbre, GtkCTreeNode *node,
 							 FALSE,
 							 FALSE );
 
-		/* on associe à cette opé l'adr de sa struct */
+		/* on associe Ã  cette opÃ© l'adr de sa struct */
 
 		gtk_ctree_node_set_row_data ( GTK_CTREE ( arbre_categ ),
 					      node_insertion,
@@ -1344,7 +1344,7 @@ void expand_selected_category ()
 	     gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_categ ),
 					   GTK_CTREE_ROW ( GTK_CTREE_ROW (( GTK_CLIST ( arbre_categ ) -> selection ) -> data ) -> parent ) -> parent ) > 0)))
     {
-	/* passage sur le compte concerné */
+	/* passage sur le compte concernÃ© */
 
 	operation = gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_categ ),
 						  GTK_CTREE_NODE ( ( GTK_CLIST ( arbre_categ ) -> selection ) -> data ) );
@@ -1352,8 +1352,8 @@ void expand_selected_category ()
 	if (!operation || operation == GINT_TO_POINTER(-1))
 	    return;
 
-	/* si c'est une opé de ventilation, on se place sur l'opé
-	   ventilée correspondante */ 
+	/* si c'est une opÃ© de ventilation, on se place sur l'opÃ©
+	   ventilÃ©e correspondante */ 
 
 	operation = operation_par_no ( operation -> no_operation_ventilee_associee,
 				       operation -> no_compte );
@@ -1437,8 +1437,8 @@ void clique_sur_modifier_categ ( void )
     GtkCTreeNode *node;
 
 
-    /* si c'est une categ et si c'est une modif du nom, on doit réafficher la liste des categ et les listes des opés, sinon, on change juste la categ et */
-    /* met à jour les listes de categories */
+    /* si c'est une categ et si c'est une modif du nom, on doit rÃ©afficher la liste des categ et les listes des opÃ©s, sinon, on change juste la categ et */
+    /* met Ã  jour les listes de categories */
     /* si c'est une sous categ, c'est obligmy_atoirement un changement de nom */
 
     if ( gtk_object_get_data ( GTK_OBJECT (  entree_nom_categ ),
@@ -1601,7 +1601,7 @@ void supprimer_categ ( void )
     if ( categ <= 0 )
 	return;
 
-    /* fait le tour des opés pour en trouver une qui a cette catégorie */
+    /* fait le tour des opÃ©s pour en trouver une qui a cette catÃ©gorie */
 
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
     ope_trouvee = 0;
@@ -1630,7 +1630,7 @@ void supprimer_categ ( void )
 	p_tab_nom_de_compte_variable++;
     }
 
-    /* fait le tour des échéances pour en trouver une qui a cette catégorie  */
+    /* fait le tour des Ã©chÃ©ances pour en trouver une qui a cette catÃ©gorie  */
 
     liste_tmp2 = liste_struct_echeances;
     echeance_trouvee = 0;
@@ -1760,7 +1760,7 @@ void supprimer_categ ( void )
 	    pointeur = pointeur -> next;
 	}
 
-	/*   on ajoute les listes des crédits / débits à la liste du combofix du formulaire */
+	/*   on ajoute les listes des crÃ©dits / dÃ©bits Ã  la liste du combofix du formulaire */
 
 	liste_combofix = g_slist_append ( liste_combofix,
 					  liste_categ_debit );
@@ -1852,7 +1852,7 @@ retour_dialogue:
 	    g_strfreev ( split_categ );
 	}
 
-	/* on fait le tour des opés pour mettre le nouveau numéro de categ et sous_categ */
+	/* on fait le tour des opÃ©s pour mettre le nouveau numÃ©ro de categ et sous_categ */
 
 	p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
 
@@ -1878,7 +1878,7 @@ retour_dialogue:
 	    p_tab_nom_de_compte_variable++;
 	}
 
-	/* fait le tour des échéances pour mettre le nouveau numéro de categ et sous_categ  */
+	/* fait le tour des Ã©chÃ©ances pour mettre le nouveau numÃ©ro de categ et sous_categ  */
 
 	liste_tmp = liste_struct_echeances;
 
@@ -1962,7 +1962,7 @@ void supprimer_sous_categ ( void )
 	return;
 
 
-    /* fait le tour des opés pour en trouver une qui a cette sous-catégorie */
+    /* fait le tour des opÃ©s pour en trouver une qui a cette sous-catÃ©gorie */
 
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
     ope_trouvee = 0;
@@ -1995,7 +1995,7 @@ void supprimer_sous_categ ( void )
     }
 
 
-    /* fait le tour des échéances pour en trouver une qui a cette catégorie  */
+    /* fait le tour des Ã©chÃ©ances pour en trouver une qui a cette catÃ©gorie  */
 
     liste_tmp2 = liste_struct_echeances;
     echeance_trouvee = 0;
@@ -2127,7 +2127,7 @@ void supprimer_sous_categ ( void )
 	    pointeur = pointeur -> next;
 	}
 
-	/*   on ajoute les listes des crÃ©dits / débits à la liste du combofix du formulaire */
+	/*   on ajoute les listes des crÃƒÂ©dits / dÃ©bits Ã  la liste du combofix du formulaire */
 
 	liste_combofix = g_slist_append ( liste_combofix,
 					  liste_categ_debit );
@@ -2192,7 +2192,7 @@ retour_dialogue:
 		goto retour_dialogue;
 	    }
 
-	    /* récupère les no de categ et sous categ */
+	    /* rÃ©cupÃ¨re les no de categ et sous categ */
 
 	    split_categ = g_strsplit ( gtk_combofix_get_text ( GTK_COMBOFIX ( combofix )),
 				       " : ",
@@ -2224,7 +2224,7 @@ retour_dialogue:
 	}
 
 
-	/* on fait le tour des opés pour mettre le nouveau numéro de categ et sous_categ */
+	/* on fait le tour des opÃ©s pour mettre le nouveau numÃ©ro de categ et sous_categ */
 
 	p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
 
@@ -2252,7 +2252,7 @@ retour_dialogue:
 	    p_tab_nom_de_compte_variable++;
 	}
 
-	/* fait le tour des échéances pour mettre le nouveau numéro de categ et sous_categ  */
+	/* fait le tour des Ã©chÃ©ances pour mettre le nouveau numÃ©ro de categ et sous_categ  */
 
 	liste_tmp = liste_struct_echeances;
 
@@ -2307,8 +2307,8 @@ retour_dialogue:
 
 /***********************************************************************************************************/
 /* Routine creation_liste_categories */
-/* appelée lors d'un nouveau fichier */
-/* crée la liste des catégories à partir de la liste ci dessus */
+/* appelÃ©e lors d'un nouveau fichier */
+/* crÃ©e la liste des catÃ©gories Ã  partir de la liste ci dessus */
 /* en fait, merge la liste de base avec rien */
 /***********************************************************************************************************/
 
@@ -2330,7 +2330,7 @@ void creation_liste_categories ( void )
 /***********************************************************************************************************/
 /* Routine merge_liste_categories */
 /*   merge la liste de categories existante ( aucune quand vient de creation_liste_categories ) */
-/* avec la liste de base du début du fichier */
+/* avec la liste de base du dÃ©but du fichier */
 /***********************************************************************************************************/
 
 void merge_liste_categories ( void )
@@ -2342,7 +2342,7 @@ void merge_liste_categories ( void )
 
     debit = 0;
 
-    /* récupération des crédits puis des débits*/
+    /* rÃ©cupÃ©ration des crÃ©dits puis des dÃ©bits*/
 
 retour_recuperation :
 
@@ -2371,14 +2371,14 @@ retour_recuperation :
 					  split_categ[1],
 					  1 );
 
-	/* libère le tableau créé */
+	/* libÃ¨re le tableau crÃ©Ã© */
 
 	g_strfreev ( split_categ );
 
 	i++;
     }
 
-    /*       si on a fait les crédits, on fait les débits */
+    /*       si on a fait les crÃ©dits, on fait les dÃ©bits */
 
     if ( !debit )
     {
@@ -2391,11 +2391,11 @@ retour_recuperation :
 
 
 /***********************************************************************************************************/
-/*  Routine qui crée la liste des catégories pour les combofix du formulaire et de la ventilation */
-/* c'est à dire 3 listes dans 1 liste : */
-/* la première contient les catégories de débit */
-/* la seconde contient les catégories de crédit */
-/* la troisième contient les catégories spéciales ( virement, retrait, ventilation ) */
+/*  Routine qui crÃ©e la liste des catÃ©gories pour les combofix du formulaire et de la ventilation */
+/* c'est Ã  dire 3 listes dans 1 liste : */
+/* la premiÃ¨re contient les catÃ©gories de dÃ©bit */
+/* la seconde contient les catÃ©gories de crÃ©dit */
+/* la troisiÃ¨me contient les catÃ©gories spÃ©ciales ( virement, retrait, ventilation ) */
 /* la ventilation n'apparait pas dans les ventilations */
 /***********************************************************************************************************/
 
@@ -2458,7 +2458,7 @@ void creation_liste_categ_combofix ( void )
     }
 
 
-    /*   on ajoute les listes des crédits / débits à la liste du combofix du formulaire */
+    /*   on ajoute les listes des crÃ©dits / dÃ©bits Ã  la liste du combofix du formulaire */
 
     liste_categories_combofix = g_slist_append ( liste_categories_combofix,
 						 liste_categ_debit );
@@ -2468,7 +2468,7 @@ void creation_liste_categ_combofix ( void )
 
 
 
-    /*   on ajoute les listes des crédits / débits à la liste du combofix des  échéances  */
+    /*   on ajoute les listes des crÃ©dits / dÃ©bits Ã  la liste du combofix des  Ã©chÃ©ances  */
 
     liste_categories_ventilation_combofix = g_slist_append ( liste_categories_ventilation_combofix,
 							     liste_categ_debit );
@@ -2476,7 +2476,7 @@ void creation_liste_categ_combofix ( void )
 							     liste_categ_credit );
 
 
-    /* création des catégories spéciales : les virements et la ventilation pour le formulaire */
+    /* crÃ©ation des catÃ©gories spÃ©ciales : les virements et la ventilation pour le formulaire */
 
     liste_categ_special = NULL;
 
@@ -2501,7 +2501,7 @@ void creation_liste_categ_combofix ( void )
     liste_categories_combofix = g_slist_append ( liste_categories_combofix,
 						 liste_categ_special );
 
-    /* on saute le texte Opération ventilée */
+    /* on saute le texte OpÃ©ration ventilÃ©e */
 
     liste_categ_special = liste_categ_special -> next;
 
@@ -2516,8 +2516,8 @@ void creation_liste_categ_combofix ( void )
 
 /***********************************************************************************************************/
 /* Fonction mise_a_jour_combofix_categ */
-/* recrée les listes de catégories des combofix */
-/* et remet les combofix à jour */
+/* recrÃ©e les listes de catÃ©gories des combofix */
+/* et remet les combofix Ã  jour */
 /***********************************************************************************************************/
 
 void mise_a_jour_combofix_categ ( void )
@@ -2554,7 +2554,7 @@ void mise_a_jour_combofix_categ ( void )
 				TRUE,
 				TRUE );
 
-    /* FIXME : ça ne devrait pas se trouver dans cette fonction */
+    /* FIXME : Ã§a ne devrait pas se trouver dans cette fonction */
 
     if ( etat_courant )
     {
@@ -2573,7 +2573,7 @@ void mise_a_jour_combofix_categ ( void )
 
 
 /* **************************************************************************************************** */
-/* crée un tableau de categ et de sous categ aussi gds que le nb de tiers */
+/* crÃ©e un tableau de categ et de sous categ aussi gds que le nb de tiers */
 /* et les renvoie dans un tab de 2 pointeurs */
 /* **************************************************************************************************** */
 
@@ -2581,9 +2581,9 @@ void calcule_total_montant_categ ( void )
 {
     gint i;
 
-    /* on crée les tableaux de montant */
+    /* on crÃ©e les tableaux de montant */
 
-    /* le +1 pour reserver le [0] pour aucune catégorie */
+    /* le +1 pour reserver le [0] pour aucune catÃ©gorie */
 
     tab_montant_categ = calloc ( nb_enregistrements_categories + 1,
 				 sizeof ( gfloat ));
@@ -2612,7 +2612,7 @@ void calcule_total_montant_categ ( void )
 
 	    operation = liste_tmp -> data;
 
-	    /* on commence par calculer le montant dans la devise choisie dans les paramètres */
+	    /* on commence par calculer le montant dans la devise choisie dans les paramÃ¨tres */
 
 	    montant = calcule_montant_devise_renvoi ( operation -> montant,
 						      no_devise_totaux_tiers,
@@ -2621,13 +2621,13 @@ void calcule_total_montant_categ ( void )
 						      operation -> taux_change,
 						      operation -> frais_change );
 
-	    /* on traite ensuite l'opération */
+	    /* on traite ensuite l'opÃ©ration */
 
 	    if ( operation -> categorie )
 	    {
 		struct struct_categ *categorie;
 
-		/* il y a une catégorie */
+		/* il y a une catÃ©gorie */
 
 		categorie = categ_par_no ( operation -> categorie );
 
@@ -2636,7 +2636,7 @@ void calcule_total_montant_categ ( void )
 		place_categ = g_slist_index ( liste_struct_categories,
 					      categorie );
 
-		/* crée la place pour les sous catég de cette categ si ce n'est déjà fait */
+		/* crÃ©e la place pour les sous catÃ©g de cette categ si ce n'est dÃ©jÃ  fait */
 
 		if ( !tab_montant_sous_categ[place_categ] )
 		{
@@ -2644,7 +2644,7 @@ void calcule_total_montant_categ ( void )
 
 		    nb_sous_categ = g_slist_length ( categorie -> liste_sous_categ );
 
-		    /* on réserve nb_sous_categ + 1 pour aucune sous categ qui sera en [0] */
+		    /* on rÃ©serve nb_sous_categ + 1 pour aucune sous categ qui sera en [0] */
 
 		    tab_montant_sous_categ[place_categ] = calloc ( nb_sous_categ + 1,
 								   sizeof ( float ));
@@ -2655,7 +2655,7 @@ void calcule_total_montant_categ ( void )
 		tab_montant_categ[place_categ+1] = tab_montant_categ[place_categ+1] + montant;
 		nb_ecritures_par_categ[place_categ+1]++;
 
-		/* on ajoute maintenant le montant à la sous categ si elle existe */
+		/* on ajoute maintenant le montant Ã  la sous categ si elle existe */
 
 		if ( operation -> sous_categorie )
 		{
@@ -2678,7 +2678,7 @@ void calcule_total_montant_categ ( void )
 		}
 	    }
 	    else
-		/* il n'y a pas de catégorie */
+		/* il n'y a pas de catÃ©gorie */
 		/* on met le montant dans tab_montant_categ[0} si e n'est ni un virement ni une ventil */
 		if ( !operation -> relation_no_operation
 		     &&
@@ -2760,7 +2760,7 @@ void appui_sur_ajout_categorie ( void )
 					    COLON(_("Enter name for new category")) )))
 	return;
 
-    /* on l'ajoute à la liste des opés */
+    /* on l'ajoute Ã  la liste des opÃ©s */
 
     nouvelle_categorie = categ_par_nom ( nom_categorie,
 					 1,
@@ -2768,7 +2768,7 @@ void appui_sur_ajout_categorie ( void )
 					 0 );
 
 
-    /* on l'ajoute directement au ctree et on fait le tri pour éviter de toute la réafficher */
+    /* on l'ajoute directement au ctree et on fait le tri pour Ã©viter de toute la rÃ©afficher */
 
     text[0] = nouvelle_categorie -> nom_categ;
     text[1] = NULL;
@@ -2787,7 +2787,7 @@ void appui_sur_ajout_categorie ( void )
 				    FALSE,
 				    FALSE );
 
-    /* on associe à ce categorie à l'adr de sa struct */
+    /* on associe Ã  ce categorie Ã  l'adr de sa struct */
 
     gtk_ctree_node_set_row_data ( GTK_CTREE ( arbre_categ ),
 				  ligne,
@@ -2819,27 +2819,27 @@ void appui_sur_ajout_sous_categorie ( void )
 						 COLON(_("Enter name for new sub-category")) )))
 	return;
 
-    /* récupère le node parent */
+    /* rÃ©cupÃ¨re le node parent */
 
     node_parent = GTK_CLIST ( arbre_categ ) -> selection -> data;
 
     while ( GTK_CTREE_ROW ( node_parent ) -> level != 1 )
 	node_parent = GTK_CTREE_ROW ( node_parent ) -> parent;
 
-    /* on récupère l'categorie parente */
+    /* on rÃ©cupÃ¨re l'categorie parente */
 
     categorie = gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_categ ),
 					      node_parent );
     if ( categorie <= 0 )
 	return;
 
-    /* on l'ajoute à la liste des opés */
+    /* on l'ajoute Ã  la liste des opÃ©s */
 
     nouvelle_sous_categorie = sous_categ_par_nom ( categorie,
 						   nom_sous_categorie,
 						   1 );
 
-    /* on l'ajoute directement au ctree et on fait le tri pour éviter de toute la réafficher */
+    /* on l'ajoute directement au ctree et on fait le tri pour Ã©viter de toute la rÃ©afficher */
 
     text[0] = nouvelle_sous_categorie -> nom_sous_categ;
     text[1] = NULL;
@@ -2858,7 +2858,7 @@ void appui_sur_ajout_sous_categorie ( void )
 				    FALSE,
 				    FALSE );
 
-    /* on associe à ce categorie à l'adr de sa struct */
+    /* on associe Ã  ce categorie Ã  l'adr de sa struct */
 
     gtk_ctree_node_set_row_data ( GTK_CTREE ( arbre_categ ),
 				  ligne,
@@ -2900,7 +2900,7 @@ void exporter_categ ( void )
 
 	    gtk_widget_destroy ( GTK_WIDGET ( fenetre_nom ));
 
-	    /* vérification que c'est possible */
+	    /* vÃ©rification que c'est possible */
 
 	    if ( !strlen ( nom_categ ))
 		return;
@@ -2970,7 +2970,7 @@ void importer_categ ( void )
 
     gtk_widget_destroy ( GTK_WIDGET (fenetre_nom  ));
 
-    /* vérification que c'est possible */
+    /* vÃ©rification que c'est possible */
 
     if ( !strlen ( nom_categ ))
 	return;
@@ -2990,13 +2990,13 @@ void importer_categ ( void )
 			 GTK_SIGNAL_FUNC ( gtk_signal_emit_stop_by_name ),
 			 "destroy" );
 
-    /* pour éviter un warning lors de la compil */
+    /* pour Ã©viter un warning lors de la compil */
 
     bouton_merge_remplace = NULL;
 
     if ( no_derniere_operation )
     {
-	/*       il y a déjà des opérations dans le fichier, on ne peut que fusionner */
+	/*       il y a dÃ©jÃ  des opÃ©rations dans le fichier, on ne peut que fusionner */
 
 	label = gtk_label_new ( _("File already contains transactions, the two categories lists will be merged." ));
 	gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox ),

@@ -4,8 +4,8 @@
 #define COL_NB_FREQUENCY 3
 #define COL_NB_MODE 4
 #define COL_NB_NOTES 5
-#define COL_NB_AMOUNT 6		/* doit être le dernier de la liste
-				   à cause de plusieurs boucles for */
+#define COL_NB_AMOUNT 6		/* doit Ãªtre le dernier de la liste
+				   Ã  cause de plusieurs boucles for */
 #define NB_COLS_SCHEDULER 7
 
 

@@ -1,4 +1,4 @@
-/*  Fonctions utilitaires à destination des plugins d'état  */
+/*  Fonctions utilitaires Ã  destination des plugins d'Ã©tat  */
 /*      etats.c */
 
 /*     Copyright (C) 2002  Benjamin Drieu */
@@ -97,7 +97,7 @@ gchar * etats_titre ()
 			liste_tmp = liste_tmp -> next;
 		}
 
-		/* 	  à ce niveau, exo contient l'exercice courant ou NULL */
+		/* 	  Ã  ce niveau, exo contient l'exercice courant ou NULL */
 
 		if ( exo )
 		    titre = g_strconcat ( titre,
@@ -112,8 +112,8 @@ gchar * etats_titre ()
 		break;
 
 	    case 2:
-		/* exo précédent */
-		/* on recherche l'exo précédent */
+		/* exo prÃ©cÃ©dent */
+		/* on recherche l'exo prÃ©cÃ©dent */
 
 		while ( liste_tmp )
 		{
@@ -123,8 +123,8 @@ gchar * etats_titre ()
 
 		    if ( exo_courant )
 		    {
-			/* exo_courant est forcemment après exo_precedent */
-			/* si l'exo en court est après exo_courant, on met exo_courant */
+			/* exo_courant est forcemment aprÃ¨s exo_precedent */
+			/* si l'exo en court est aprÃ¨s exo_courant, on met exo_courant */
 			/* dans exo_precedent, et l'exo en court dans exo_courant */
 			/*   sinon, on compare avec exo_precedent */
 
@@ -136,7 +136,7 @@ gchar * etats_titre ()
 			}
 			else
 			{
-			    /* l'exo en cours est avant exo_courant, on le compare à exo_precedent */
+			    /* l'exo en cours est avant exo_courant, on le compare Ã  exo_precedent */
 
 			    if ( !exo_precedent
 				 ||
@@ -152,7 +152,7 @@ gchar * etats_titre ()
 		    liste_tmp = liste_tmp -> next;
 		}
 
-		/* 	  à ce niveau, exo_precedent contient l'exercice précédent ou NULL */
+		/* 	  Ã  ce niveau, exo_precedent contient l'exercice prÃ©cÃ©dent ou NULL */
 
 		if ( exo_precedent )
 		    titre = g_strconcat ( titre,
@@ -168,7 +168,7 @@ gchar * etats_titre ()
 
 	    case 3:
 		/* exos perso */
-		/* 	  un ou plusieurs exos ont été sélectionnés, on récupère le nom de chacuns */
+		/* 	  un ou plusieurs exos ont Ã©tÃ© sÃ©lectionnÃ©s, on rÃ©cupÃ¨re le nom de chacuns */
 
 		liste_tmp = etat_courant -> no_exercices;
 
@@ -204,7 +204,7 @@ gchar * etats_titre ()
     }     
     else
     {
-	/* c'est une plage de dates qui a été entrée */
+	/* c'est une plage de dates qui a Ã©tÃ© entrÃ©e */
 
 	gchar buffer_date[15];
 	gchar buffer_date_2[15];
@@ -244,7 +244,7 @@ gchar * etats_titre ()
 		break;
 
 	    case 2:
-		/* cumul à ce jour */
+		/* cumul Ã  ce jour */
 
 		titre = g_strconcat ( titre,
 				      ", ", g_strdup_printf ( _("total at %d/%d/%d"),
@@ -271,7 +271,7 @@ gchar * etats_titre ()
 		break;
 
 	    case 4:
-		/* année en cours */
+		/* annÃ©e en cours */
 
 		titre = g_strconcat ( titre,
 				      ", ", g_strdup_printf ( _("year %d"),
@@ -302,7 +302,7 @@ gchar * etats_titre ()
 		break;
 
 	    case 7:
-		/* mois précédent */
+		/* mois prÃ©cÃ©dent */
 
 		g_date_subtract_months ( date_jour,
 					 1 );
@@ -320,7 +320,7 @@ gchar * etats_titre ()
 		break;
 
 	    case 8:
-		/* année précédente */
+		/* annÃ©e prÃ©cÃ©dente */
 
 		titre = g_strconcat ( titre,
 				      ", ", g_strdup_printf ( _("year %d"),

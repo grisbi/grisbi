@@ -1,8 +1,8 @@
 /* Fichier ventilation.c */
-/* s'occupe de tout ce qui concerne les ventilation des opérations */
+/* s'occupe de tout ce qui concerne les ventilation des opÃ©rations */
 
 
-/*     Copyright (C) 2000-2003  Cédric Auger */
+/*     Copyright (C) 2000-2003  CÃ©dric Auger */
 /* 			cedric@grisbi.org */
 /* 			http://www.grisbi.org */
 
@@ -77,17 +77,17 @@ static void valider_ventilation ( void );
 
 
 
-/* list strore des ventilations, créé à l'appel de la ventil */
-/* et détruit ensuite */
+/* list strore des ventilations, crÃ©Ã© Ã  l'appel de la ventil */
+/* et dÃ©truit ensuite */
 
 GtkListStore *list_store_ventils = NULL;
 
-/* contient le no de la ligne sélectionnée en cours */
-/* mise à -1 lors de la création du list_store */
+/* contient le no de la ligne sÃ©lectionnÃ©e en cours */
+/* mise Ã  -1 lors de la crÃ©ation du list_store */
 
 gint ligne_selectionnee_ventilation;
 
-/* magouille utilisée pour bloquer un signal size-allocate qui s'emballe */
+/* magouille utilisÃ©e pour bloquer un signal size-allocate qui s'emballe */
 
 gint ancienne_largeur_ventilation;
 
@@ -98,13 +98,13 @@ gdouble montant_operation_ventilee;
 gdouble somme_ventilee;
 
 
-/* adresses des labels de montants à gauche */
+/* adresses des labels de montants Ã  gauche */
 
 GtkWidget *label_somme_ventilee;
 GtkWidget *label_non_affecte;
 GtkWidget *label_montant_operation_ventilee;
 
-/* à 1 si au click du bouton valider on enregistre l'opé */
+/* Ã  1 si au click du bouton valider on enregistre l'opÃ© */
 
 gint enregistre_ope_au_retour;
 
@@ -143,7 +143,7 @@ extern GtkWidget *tree_view_liste_ventilations;
 
 /*******************************************************************************************/
 /* Fonction  creation_verification_ventilation*/
-/* crée la fenetre à la place de la liste des comptes qui contient les boutons et l'état de la ventilation */
+/* crÃ©e la fenetre Ã  la place de la liste des comptes qui contient les boutons et l'Ã©tat de la ventilation */
 /*******************************************************************************************/
 
 GtkWidget *creation_verification_ventilation ( void )
@@ -157,7 +157,7 @@ GtkWidget *creation_verification_ventilation ( void )
     GtkWidget *bouton;
 
 
-    /* création de la vbox */
+    /* crÃ©ation de la vbox */
 
     onglet = gtk_vbox_new ( FALSE,
 			    10 );
@@ -170,7 +170,7 @@ GtkWidget *creation_verification_ventilation ( void )
     gtk_widget_show ( onglet );
 
 
-    /* création du titre "opération ventilée" */
+    /* crÃ©ation du titre "opÃ©ration ventilÃ©e" */
 
     frame = gtk_frame_new ( NULL );
     gtk_box_pack_start ( GTK_BOX ( onglet ),
@@ -186,7 +186,7 @@ GtkWidget *creation_verification_ventilation ( void )
     gtk_widget_show ( label );
 
 
-    /* création du tableau */
+    /* crÃ©ation du tableau */
 
     tableau = gtk_table_new ( 4,
 			      2,
@@ -354,7 +354,7 @@ GtkWidget *creation_verification_ventilation ( void )
 
 /*******************************************************************************************/
 /* Fonction creation_formulaire_ventilation */
-/* crée la fenetre qui contient e formulaire pour la ventilation */
+/* crÃ©e la fenetre qui contient e formulaire pour la ventilation */
 /*******************************************************************************************/
 
 GtkWidget *creation_formulaire_ventilation ( void )
@@ -365,11 +365,11 @@ GtkWidget *creation_formulaire_ventilation ( void )
     GtkWidget *bouton;
     GtkWidget *menu;
 
-    /* on crée le tooltips */
+    /* on crÃ©e le tooltips */
 
     tips = gtk_tooltips_new ();
 
-    /* création du formulaire */
+    /* crÃ©ation du formulaire */
 
     onglet = gtk_vbox_new ( FALSE,
 			    5 );
@@ -391,7 +391,7 @@ GtkWidget *creation_formulaire_ventilation ( void )
 			 0 );
     gtk_widget_show ( table );
 
-    /* mise en place des catégories */
+    /* mise en place des catÃ©gories */
 
     widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_CATEGORY] = gtk_combofix_new_complex ( liste_categories_ventilation_combofix,
 								  FALSE,
@@ -455,7 +455,7 @@ GtkWidget *creation_formulaire_ventilation ( void )
 
 
 
-    /* mise en place du débit */
+    /* mise en place du dÃ©bit */
 
     widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_DEBIT] = gtk_entry_new ();
     gtk_signal_connect ( GTK_OBJECT ( widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_DEBIT] ),
@@ -483,7 +483,7 @@ GtkWidget *creation_formulaire_ventilation ( void )
     gtk_widget_show ( widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_DEBIT] );
 
 
-    /* mise en place du crédit */
+    /* mise en place du crÃ©dit */
 
     widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_CREDIT] = gtk_entry_new ();
     gtk_signal_connect ( GTK_OBJECT ( widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_CREDIT] ),
@@ -511,7 +511,7 @@ GtkWidget *creation_formulaire_ventilation ( void )
     gtk_widget_show ( widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_CREDIT] );
 
 
-    /*  Affiche l'imputation budgétaire */
+    /*  Affiche l'imputation budgÃ©taire */
 
     widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_BUDGETARY] = gtk_combofix_new_complex ( liste_imputations_combofix,
 								  FALSE,
@@ -548,8 +548,8 @@ GtkWidget *creation_formulaire_ventilation ( void )
     gtk_widget_show (widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_BUDGETARY]);
 
 
-    /* mise en place du type de l'opé associée en cas de virement */
-    /* non affiché au départ */
+    /* mise en place du type de l'opÃ© associÃ©e en cas de virement */
+    /* non affichÃ© au dÃ©part */
 
     widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_CONTRA] = gtk_option_menu_new ();
     gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tips ),
@@ -567,7 +567,7 @@ GtkWidget *creation_formulaire_ventilation ( void )
 		       GTK_SHRINK | GTK_FILL,
 		       0,0);
 
-    /* création du bouton de l'exo */
+    /* crÃ©ation du bouton de l'exo */
 
     widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_EXERCICE] = gtk_option_menu_new ();
     gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tips ),
@@ -589,7 +589,7 @@ GtkWidget *creation_formulaire_ventilation ( void )
 		       0,0);
     gtk_widget_show ( widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_EXERCICE] );
 
-    /*   création de l'entrée du no de pièce comptable */
+    /*   crÃ©ation de l'entrÃ©e du no de piÃ¨ce comptable */
 
     widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_VOUCHER] = gtk_entry_new();
     gtk_table_attach ( GTK_TABLE (table),
@@ -616,7 +616,7 @@ GtkWidget *creation_formulaire_ventilation ( void )
 			 GINT_TO_POINTER ( TRANSACTION_BREAKDOWN_FORM_VOUCHER ) );
     gtk_widget_show ( widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_VOUCHER] );
 
-    /* séparation d'avec les boutons */
+    /* sÃ©paration d'avec les boutons */
 
     separateur_formulaire_ventilations = gtk_hseparator_new ();
     gtk_box_pack_start ( GTK_BOX ( onglet ),
@@ -668,7 +668,7 @@ GtkWidget *creation_formulaire_ventilation ( void )
     gtk_widget_show ( bouton );
 
 
-    /*   met l'adr de l'opé dans le formulaire à -1 */
+    /*   met l'adr de l'opÃ© dans le formulaire Ã  -1 */
 
     gtk_object_set_data ( GTK_OBJECT ( widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_CATEGORY] ),
 			  "adr_struct_ope",
@@ -686,7 +686,7 @@ GtkWidget *creation_formulaire_ventilation ( void )
 gboolean clique_champ_formulaire_ventilation ( void )
 {
 
-    /* on rend sensitif tout ce qui ne l'était pas sur le formulaire */
+    /* on rend sensitif tout ce qui ne l'Ã©tait pas sur le formulaire */
 
     gtk_widget_set_sensitive ( GTK_WIDGET ( widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_CONTRA] ),
 			       TRUE );
@@ -703,7 +703,7 @@ gboolean clique_champ_formulaire_ventilation ( void )
 
 
 /***********************************************************************************************************/
-/* Fonction appelée quand une entry perd le focus */
+/* Fonction appelÃ©e quand une entry perd le focus */
 /* si elle ne contient rien, on remet la fonction en gris */
 /***********************************************************************************************************/
 
@@ -716,12 +716,12 @@ gboolean entree_ventilation_perd_focus ( GtkWidget *entree, GdkEventFocus *ev,
 
     switch ( GPOINTER_TO_INT ( no_origine ))
     {
-	/* on sort des catégories */
+	/* on sort des catÃ©gories */
 	case TRANSACTION_BREAKDOWN_FORM_CATEGORY :
 	    if ( strlen ( g_strstrip ( (char *) gtk_entry_get_text ( GTK_ENTRY ( entree )))))
 	    {
 		/* si c'est un virement, on met le menu des types de l'autre compte */
-		/* si ce menu n'est pas déjà affiché */
+		/* si ce menu n'est pas dÃ©jÃ  affichÃ© */
 
 		gchar **tableau_char;
 
@@ -742,7 +742,7 @@ gboolean entree_ventilation_perd_focus ( GtkWidget *entree, GdkEventFocus *ev,
 			 && tableau_char[1]
 			 && strlen ( tableau_char[1]) )
 		    {
-			/* c'est un virement : on recherche le compte associé et on affiche les types de paiement */
+			/* c'est un virement : on recherche le compte associÃ© et on affiche les types de paiement */
 
 			gint i;
 
@@ -765,14 +765,14 @@ gboolean entree_ventilation_perd_focus ( GtkWidget *entree, GdkEventFocus *ev,
 				p_tab_nom_de_compte_variable++;
 			    }
 
-			    /* si on a touvé un compte de virement, que celui ci n'est pas le compte */
-			    /* courant et que son menu des types n'est pas encore affiché, on crée le menu */
+			    /* si on a touvÃ© un compte de virement, que celui ci n'est pas le compte */
+			    /* courant et que son menu des types n'est pas encore affichÃ©, on crÃ©e le menu */
 
 			    if ( compte_virement != -1
 				 &&
 				 compte_virement != compte_courant )
 			    {
-				/* si le menu affiché est déjà celui du compte de virement, on n'y touche pas */
+				/* si le menu affichÃ© est dÃ©jÃ  celui du compte de virement, on n'y touche pas */
 
 				if ( !GTK_WIDGET_VISIBLE ( widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_CONTRA] )
 				     ||
@@ -780,18 +780,18 @@ gboolean entree_ventilation_perd_focus ( GtkWidget *entree, GdkEventFocus *ev,
 				       !=
 				       compte_virement ))
 				{
-				    /* vérifie quel est le montant entré, affiche les types opposés de l'autre compte */
+				    /* vÃ©rifie quel est le montant entrÃ©, affiche les types opposÃ©s de l'autre compte */
 
 				    GtkWidget *menu;
 
 				    if ( gtk_widget_get_style ( widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_BUDGETARY] ) == style_entree_formulaire[ENCLAIR] )
-					/* il y a un montant dans le crédit */
+					/* il y a un montant dans le crÃ©dit */
 					menu = creation_menu_types ( 1, compte_virement, 2  );
 				    else
-					/* il y a un montant dans le débit ou défaut */
+					/* il y a un montant dans le dÃ©bit ou dÃ©faut */
 					menu = creation_menu_types ( 2, compte_virement, 2  );
 
-				    /* si un menu à été créé, on l'affiche */
+				    /* si un menu Ã  Ã©tÃ© crÃ©Ã©, on l'affiche */
 
 				    if ( menu )
 				    {
@@ -801,7 +801,7 @@ gboolean entree_ventilation_perd_focus ( GtkWidget *entree, GdkEventFocus *ev,
 				    }
 
 				    /* on associe le no de compte de virement au formulaire pour le retrouver */
-				    /* rapidement s'il y a un chgt débit/crédit */
+				    /* rapidement s'il y a un chgt dÃ©bit/crÃ©dit */
 
 				    gtk_object_set_data ( GTK_OBJECT ( widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_CONTRA] ),
 							  "compte_virement",
@@ -833,7 +833,7 @@ gboolean entree_ventilation_perd_focus ( GtkWidget *entree, GdkEventFocus *ev,
 		texte = _("Notes");
 	    break;
 
-	    /* sort du débit */
+	    /* sort du dÃ©bit */
 	    /*   soit vide, soit change le menu des types s'il ne correspond pas */
 
 	case TRANSACTION_BREAKDOWN_FORM_DEBIT :
@@ -842,7 +842,7 @@ gboolean entree_ventilation_perd_focus ( GtkWidget *entree, GdkEventFocus *ev,
 		 &&
 		 gtk_widget_get_style ( widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_DEBIT] ) == style_entree_formulaire[ENCLAIR] )
 	    {
-		/* on  commence par virer ce qu'il y avait dans les crédits */
+		/* on  commence par virer ce qu'il y avait dans les crÃ©dits */
 
 		if ( gtk_widget_get_style ( widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_CREDIT] ) == style_entree_formulaire[ENCLAIR] )
 		{
@@ -854,8 +854,8 @@ gboolean entree_ventilation_perd_focus ( GtkWidget *entree, GdkEventFocus *ev,
 					 _("Credit") );
 		}
 
-		/* comme il y a eu un changement de signe, on change aussi le type de l'opé associée */
-		/* s'il est affiché */
+		/* comme il y a eu un changement de signe, on change aussi le type de l'opÃ© associÃ©e */
+		/* s'il est affichÃ© */
 
 		if ( GTK_WIDGET_VISIBLE ( widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_CONTRA] )
 		     &&
@@ -882,14 +882,14 @@ gboolean entree_ventilation_perd_focus ( GtkWidget *entree, GdkEventFocus *ev,
 		texte = _("Debit");
 	    break;
 
-	    /* sort du crédit */
+	    /* sort du crÃ©dit */
 
 	case TRANSACTION_BREAKDOWN_FORM_CREDIT :
 	    if ( strlen ( g_strstrip ( (char *) gtk_entry_get_text ( GTK_ENTRY ( entree ))))
 		 &&
 		 gtk_widget_get_style ( widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_CREDIT] ) == style_entree_formulaire[ENCLAIR])
 	    {
-		/* on  commence par virer ce qu'il y avait dans les débits */
+		/* on  commence par virer ce qu'il y avait dans les dÃ©bits */
 
 		if ( gtk_widget_get_style ( widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_DEBIT] ) == style_entree_formulaire[ENCLAIR] )
 		{
@@ -901,8 +901,8 @@ gboolean entree_ventilation_perd_focus ( GtkWidget *entree, GdkEventFocus *ev,
 					 _("Debit") );
 		}
 
-		/* comme il y a eu un changement de signe, on change aussi le type de l'opé associée */
-		/* s'il est affiché */
+		/* comme il y a eu un changement de signe, on change aussi le type de l'opÃ© associÃ©e */
+		/* s'il est affichÃ© */
 
 		if ( GTK_WIDGET_VISIBLE ( widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_CONTRA] )
 		     &&
@@ -936,7 +936,7 @@ gboolean entree_ventilation_perd_focus ( GtkWidget *entree, GdkEventFocus *ev,
 		texte = _("Budgetary line");
 	    break;
 
-	    /* sort de la pièce comptable */
+	    /* sort de la piÃ¨ce comptable */
 
 	case TRANSACTION_BREAKDOWN_FORM_VOUCHER :
 	    if ( !strlen ( g_strstrip ( (char *) gtk_entry_get_text ( GTK_ENTRY ( entree )))))
@@ -946,7 +946,7 @@ gboolean entree_ventilation_perd_focus ( GtkWidget *entree, GdkEventFocus *ev,
     }
 
 
-    /* l'entrée était vide, on remet le défaut */
+    /* l'entrÃ©e Ã©tait vide, on remet le dÃ©faut */
 
     if ( texte )
     {
@@ -965,9 +965,9 @@ gboolean entree_ventilation_perd_focus ( GtkWidget *entree, GdkEventFocus *ev,
 
 /*******************************************************************************************/
 /* Fonction ventiler_operation */
-/* appelée lorsque la catégorie est Ventilation lors de l'enregistrement d'une opé */
-/* ou lors d'une modif d'une opé ventilée */
-/* Arguments : montant de l'opé */
+/* appelÃ©e lorsque la catÃ©gorie est Ventilation lors de l'enregistrement d'une opÃ© */
+/* ou lors d'une modif d'une opÃ© ventilÃ©e */
+/* Arguments : montant de l'opÃ© */
 /*******************************************************************************************/
 
 void ventiler_operation ( gdouble montant )
@@ -980,7 +980,7 @@ void ventiler_operation ( gdouble montant )
 
     gtk_widget_show ( scrolled_window_liste_ventilations );
 
-    /* on met la taille au formulaire et à la liste */
+    /* on met la taille au formulaire et Ã  la liste */
 
     ancienne_largeur_ventilation = 0;
 
@@ -995,14 +995,14 @@ void ventiler_operation ( gdouble montant )
     gtk_tree_view_set_model ( GTK_TREE_VIEW (tree_view_liste_ventilations  ),
 			      GTK_TREE_MODEL ( list_store_ventils ));
 
-    /* met à jour les labels */
+    /* met Ã  jour les labels */
 
     gtk_label_set_text ( GTK_LABEL ( label_somme_ventilee ),
 			 g_strdup_printf ( "%4.2f",
 					   somme_ventilee ) );
 
 
-    /*   s'il n'y a pas de montant total, celui ci = la somme ventilée */
+    /*   s'il n'y a pas de montant total, celui ci = la somme ventilÃ©e */
 
     if ( montant_operation_ventilee )
     {
@@ -1048,7 +1048,7 @@ void ventiler_operation ( gdouble montant )
 
 /***************************************************************************************************/
 /* Fonction traitement_clavier_liste */
-/* gère le clavier sur la clist */
+/* gÃ¨re le clavier sur la clist */
 /***************************************************************************************************/
 
 gboolean traitement_clavier_liste_ventilation ( GtkWidget *widget_variable,
@@ -1056,14 +1056,14 @@ gboolean traitement_clavier_liste_ventilation ( GtkWidget *widget_variable,
 {
     switch ( evenement->keyval )
     {
-	/* entrée */
+	/* entrÃ©e */
 	case GDK_KP_Enter:
 	case GDK_Return:
 
 	    edition_operation_ventilation ();
 	    break;
 
-	case GDK_Up :		/* touches flèche haut */
+	case GDK_Up :		/* touches flÃ¨che haut */
 	case GDK_KP_Up :
 
 	    if ( ligne_selectionnee_ventilation )
@@ -1071,7 +1071,7 @@ gboolean traitement_clavier_liste_ventilation ( GtkWidget *widget_variable,
 	    break;
 
 
-	case GDK_Down :		/* touches flèche bas */
+	case GDK_Down :		/* touches flÃ¨che bas */
 	case GDK_KP_Down :
 
 	    if ( ligne_selectionnee_ventilation
@@ -1103,7 +1103,7 @@ gboolean traitement_clavier_liste_ventilation ( GtkWidget *widget_variable,
 
 /***************************************************************************************************/
 /* Fonction selectionne_ligne_souris */
-/* place la sélection sur l'opé clickée */
+/* place la sÃ©lection sur l'opÃ© clickÃ©e */
 /***************************************************************************************************/
 
 gboolean selectionne_ligne_souris_ventilation ( GtkWidget *tree_view,
@@ -1114,17 +1114,17 @@ gboolean selectionne_ligne_souris_ventilation ( GtkWidget *tree_view,
     GtkTreePath *path;
     GtkTreeViewColumn *tree_colonne;
 
-/*     on n'accède pas à cette fonction par un signal, mais par selectionne_ligne_souris */
-/* 	qui provient de la liste d'opé */
+/*     on n'accÃ¨de pas Ã  cette fonction par un signal, mais par selectionne_ligne_souris */
+/* 	qui provient de la liste d'opÃ© */
 
-    /* Récupération des coordonnées de la souris */
+    /* RÃ©cupÃ©ration des coordonnÃ©es de la souris */
 
     gdk_window_get_pointer ( gtk_tree_view_get_bin_window ( GTK_TREE_VIEW ( tree_view )),
 			     &x,
 			     &y,
 			     FALSE );
 
-    /*     on récupère le path aux coordonnées */
+    /*     on rÃ©cupÃ¨re le path aux coordonnÃ©es */
     /* 	si ce n'est pas une ligne de la liste, on se barre */
 
     if ( !gtk_tree_view_get_path_at_pos ( GTK_TREE_VIEW ( tree_view ),
@@ -1136,13 +1136,13 @@ gboolean selectionne_ligne_souris_ventilation ( GtkWidget *tree_view,
 					  NULL ))
 	return (TRUE);
 
-    /* Récupération de la ligne de l'opération cliquée */
+    /* RÃ©cupÃ©ration de la ligne de l'opÃ©ration cliquÃ©e */
 
     ligne = my_atoi ( gtk_tree_path_to_string ( path ));
 
     selectionne_ligne_ventilation( ligne );
 
-    /*  si on a double-cliqué sur une opération, c'est ici */
+    /*  si on a double-cliquÃ© sur une opÃ©ration, c'est ici */
 
     if ( evenement -> type == GDK_2BUTTON_PRESS )
 	edition_operation_ventilation ();
@@ -1157,7 +1157,7 @@ gboolean selectionne_ligne_souris_ventilation ( GtkWidget *tree_view,
 
 /***********************************************************************************************************/
 /* Fonction appui_touche_ventilation  */
-/* gére l'action du clavier sur les entrées du formulaire de ventilation */
+/* gÃ©re l'action du clavier sur les entrÃ©es du formulaire de ventilation */
 /***********************************************************************************************************/
 gboolean appui_touche_ventilation ( GtkWidget *entree,
 				    GdkEventKey *evenement,
@@ -1167,17 +1167,17 @@ gboolean appui_touche_ventilation ( GtkWidget *entree,
 
     origine = GPOINTER_TO_INT ( no_origine );
 
-    /*   si etat.entree = 1, la touche entrée finit l'opération (
-	 fonction par défaut ) sinon elle fait comme tab */
+    /*   si etat.entree = 1, la touche entrÃ©e finit l'opÃ©ration (
+	 fonction par dÃ©faut ) sinon elle fait comme tab */
 
     if ( !etat.entree && ( evenement -> keyval == GDK_Return || evenement -> keyval == GDK_KP_Enter ))
 	evenement->keyval = GDK_Tab ;
 
     switch (evenement->keyval)
     {
-	case GDK_Down :		/* touches flèche bas */
+	case GDK_Down :		/* touches flÃ¨che bas */
 	case GDK_KP_Down :
-	case GDK_Up :		/* touches flèche haut */
+	case GDK_Up :		/* touches flÃ¨che haut */
 	case GDK_KP_Up :
 
 	    gtk_widget_grab_focus ( entree );
@@ -1187,7 +1187,7 @@ gboolean appui_touche_ventilation ( GtkWidget *entree,
 
 	case GDK_Tab:
 
-	    /* on efface la sélection en cours si c'est une entrée ou un combofix */
+	    /* on efface la sÃ©lection en cours si c'est une entrÃ©e ou un combofix */
 
 	    if ( GTK_IS_ENTRY ( entree ))
 		gtk_entry_select_region ( GTK_ENTRY ( entree ), 0, 0);
@@ -1211,7 +1211,7 @@ gboolean appui_touche_ventilation ( GtkWidget *entree,
 			GTK_IS_BUTTON ( widget_formulaire_ventilation[origine] ) )))
 		origine = (origine + 1 ) % TRANSACTION_BREAKDOWN_FORM_TOTAL_WIDGET;
 
-	    /*       si on se retrouve sur les catég et que etat.entree = 0, on enregistre l'opérations */
+	    /*       si on se retrouve sur les catÃ©g et que etat.entree = 0, on enregistre l'opÃ©rations */
 
 	    if ( !origine && !etat.entree )
 	    {
@@ -1219,15 +1219,15 @@ gboolean appui_touche_ventilation ( GtkWidget *entree,
 		return TRUE;
 	    }
 
-	    /* si on se retrouve sur le crédit et qu'il y a qque chose dans le débit, on passe au suivant */
-	    /*       à ce niveau, il n'y a pas eu encore de focus out donc on peut tester par strlen */
+	    /* si on se retrouve sur le crÃ©dit et qu'il y a qque chose dans le dÃ©bit, on passe au suivant */
+	    /*       Ã  ce niveau, il n'y a pas eu encore de focus out donc on peut tester par strlen */
 
 	    if ( origine == TRANSACTION_BREAKDOWN_FORM_CREDIT
 		 &&
 		 strlen ( (char *) gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_DEBIT] ))))
 		origine = (origine + 1 ) % TRANSACTION_BREAKDOWN_FORM_TOTAL_WIDGET;
 
-	    /* on sélectionne le contenu de la nouvelle entrée */
+	    /* on sÃ©lectionne le contenu de la nouvelle entrÃ©e */
 
 	    if ( GTK_IS_COMBOFIX ( widget_formulaire_ventilation[origine] ) )
 	    {
@@ -1277,7 +1277,7 @@ gboolean appui_touche_ventilation ( GtkWidget *entree,
 void echap_formulaire_ventilation ( void )
 {
 
-    /* on met les styles des entrées au gris */
+    /* on met les styles des entrÃ©es au gris */
 
     gtk_widget_set_style ( GTK_COMBOFIX ( widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_CATEGORY] )->entry,
 			   style_entree_formulaire[ENGRIS] );
@@ -1324,7 +1324,7 @@ void echap_formulaire_ventilation ( void )
 
     gtk_widget_hide ( widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_CONTRA] );
 
-    /*   met l'adr de l'opé dans le formulaire à -1 */
+    /*   met l'adr de l'opÃ© dans le formulaire Ã  -1 */
 
     gtk_object_set_data ( GTK_OBJECT ( widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_CATEGORY] ),
 			  "adr_struct_ope",
@@ -1348,32 +1348,32 @@ void fin_edition_ventilation ( void )
     gint compte_vire;
     gint perte_ligne_selectionnee;
 
-    /* pour éviter les warnings lors de la compil */
+    /* pour Ã©viter les warnings lors de la compil */
 
     compte_vire = 0;
     tableau_char = NULL;
 
-    /* on met le focus sur la liste des opés pour éventuellement faire perdre le focus aux entrées des */
-    /* montants pour faire les modifs nécessaires automatiquement */
+    /* on met le focus sur la liste des opÃ©s pour Ã©ventuellement faire perdre le focus aux entrÃ©es des */
+    /* montants pour faire les modifs nÃ©cessaires automatiquement */
 
     gtk_widget_grab_focus ( tree_view_liste_ventilations );
 
-    /* perte ligne sélectionnée sera à 1 s'il y a une magouille avec les virements et */
-    /* qu'on recrée une opé au lieu de la modifier. dans ce cas on remettra la ligne */
-    /* sélectionné sur la nouvelle opé */
+    /* perte ligne sÃ©lectionnÃ©e sera Ã  1 s'il y a une magouille avec les virements et */
+    /* qu'on recrÃ©e une opÃ© au lieu de la modifier. dans ce cas on remettra la ligne */
+    /* sÃ©lectionnÃ© sur la nouvelle opÃ© */
 
     perte_ligne_selectionnee = 0;
 
-    /*   dans cette fonction, on récupère les infos du formulaire qu'on met dans une structure */
-    /* de ventilation, et on ajoute cette structure à celle en cours (ou modifie si elle existait */
-    /* déjà */
+    /*   dans cette fonction, on rÃ©cupÃ¨re les infos du formulaire qu'on met dans une structure */
+    /* de ventilation, et on ajoute cette structure Ã  celle en cours (ou modifie si elle existait */
+    /* dÃ©jÃ  */
 
-    /* on vérifie si c'est un virement que le compte est valide et que ce n'est pas un virement sur lui-même */
+    /* on vÃ©rifie si c'est un virement que le compte est valide et que ce n'est pas un virement sur lui-mÃªme */
 
 
     if ( gtk_widget_get_style ( GTK_COMBOFIX ( widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_CATEGORY] ) -> entry ) == style_entree_formulaire[ENCLAIR] )
     {
-	/*       on split déjÃ  les catég, sans libérer la variable, pour la récupérer ensuite pour les categ */
+	/*       on split dÃ©jÃƒÂ  les catÃ©g, sans libÃ©rer la variable, pour la rÃ©cupÃ©rer ensuite pour les categ */
 
 	tableau_char = g_strsplit ( g_strstrip ( gtk_combofix_get_text ( GTK_COMBOFIX ( widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_CATEGORY] ))),
 				    ":",
@@ -1437,7 +1437,7 @@ void fin_edition_ventilation ( void )
     }
 
 
-    /*   on récupère l'adresse de l'opération, soit c'est une modif, soit c'est une nouvelle (-1) */
+    /*   on rÃ©cupÃ¨re l'adresse de l'opÃ©ration, soit c'est une modif, soit c'est une nouvelle (-1) */
 
     operation = gtk_object_get_data ( GTK_OBJECT ( widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_CATEGORY] ),
 				      "adr_struct_ope" );
@@ -1453,19 +1453,19 @@ void fin_edition_ventilation ( void )
 	modification = 1;
 
 
-    /*   récupération des catégories / sous-catég, s'ils n'existent pas, on les crée */
-    /* la variable tableau_char est déjà initialisée lors des tests du virement */
+    /*   rÃ©cupÃ©ration des catÃ©gories / sous-catÃ©g, s'ils n'existent pas, on les crÃ©e */
+    /* la variable tableau_char est dÃ©jÃ  initialisÃ©e lors des tests du virement */
 
-    /*   il y a 3 possibilités en rapport avec les virements : */
-    /* si l'ancienne opé était un virement, la nouvelle est : */
-    /* soit virement vers le mÃªme compte */
+    /*   il y a 3 possibilitÃ©s en rapport avec les virements : */
+    /* si l'ancienne opÃ© Ã©tait un virement, la nouvelle est : */
+    /* soit virement vers le mÃƒÂªme compte */
     /* soit virement vers un autre compte */
     /* soit ce n'est plus un virement */
-    /*     pour la 1ère, c'est une modif normale d'opé */
-    /*     pour les 2nde et 3ème, on supprime cette opé et en recrée une nouvelle */
+    /*     pour la 1Ã¨re, c'est une modif normale d'opÃ© */
+    /*     pour les 2nde et 3Ã¨me, on supprime cette opÃ© et en recrÃ©e une nouvelle */
 
-    /* il faut donc mettre la récup des catég en premier car il peut y avoir un changement au niveau des */
-    /* modif avec suppression de l'ancienne et création d'une nouvelle ope */
+    /* il faut donc mettre la rÃ©cup des catÃ©g en premier car il peut y avoir un changement au niveau des */
+    /* modif avec suppression de l'ancienne et crÃ©ation d'une nouvelle ope */
 
     if ( gtk_widget_get_style ( GTK_COMBOFIX ( widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_CATEGORY] ) -> entry ) == style_entree_formulaire[ENCLAIR] )
     {
@@ -1473,15 +1473,15 @@ void fin_edition_ventilation ( void )
 
 	if ( strlen ( tableau_char[0] ) )
 	{
-	    /* on vérifie ici si c'est un virement */
+	    /* on vÃ©rifie ici si c'est un virement */
 
 	    if ( strcmp ( tableau_char[0],
 			  _("Transfer") ) )
 	    {
-		/* ce n'est pas un virement, recherche les catég */
+		/* ce n'est pas un virement, recherche les catÃ©g */
 
-		/* si c'est une modif d'opé et que l'ancienne opé était un virement */
-		/* on marque cette opé comme supprimée et on en fait une nouvelle */
+		/* si c'est une modif d'opÃ© et que l'ancienne opÃ© Ã©tait un virement */
+		/* on marque cette opÃ© comme supprimÃ©e et on en fait une nouvelle */
 
 		if ( modification
 		     &&
@@ -1494,7 +1494,7 @@ void fin_edition_ventilation ( void )
 		    perte_ligne_selectionnee = 1;
 		}
 
-		/* recherche des catégories */
+		/* recherche des catÃ©gories */
 
 		categ = categ_par_nom ( tableau_char[0],
 					1,
@@ -1519,13 +1519,13 @@ void fin_edition_ventilation ( void )
 	    {
 		/* c'est un virement */
 
-		/* si c'est une nouvelle opé, on est content et on prend juste le compte de virement */
-		/* si c'est une modif d'opé et que l'ancienne n'était pas un virement, idem */
-		/* si l'ancienne était un virement vers le même compte, idem */
-		/* si l'ancienne était un virement vers un autre compte, c'est qu'on cherche les bugs ... */
-		/* dans ce cas, on marque l'opé comme supprimée et on en recrée une nouvelle */
+		/* si c'est une nouvelle opÃ©, on est content et on prend juste le compte de virement */
+		/* si c'est une modif d'opÃ© et que l'ancienne n'Ã©tait pas un virement, idem */
+		/* si l'ancienne Ã©tait un virement vers le mÃªme compte, idem */
+		/* si l'ancienne Ã©tait un virement vers un autre compte, c'est qu'on cherche les bugs ... */
+		/* dans ce cas, on marque l'opÃ© comme supprimÃ©e et on en recrÃ©e une nouvelle */
 
-		/* le no de compte du virement est déjà dans compte_vire */
+		/* le no de compte du virement est dÃ©jÃ  dans compte_vire */
 
 		if ( modification
 		     &&
@@ -1533,7 +1533,7 @@ void fin_edition_ventilation ( void )
 		     &&
 		     operation -> relation_no_compte != compte_vire )
 		{
-		    /* on supprime donc l'opé et en crée une nouvelle */
+		    /* on supprime donc l'opÃ© et en crÃ©e une nouvelle */
 
 		    operation -> supprime = 1;
 		    operation = calloc ( 1,
@@ -1542,12 +1542,12 @@ void fin_edition_ventilation ( void )
 		    perte_ligne_selectionnee = 1;
 		}
 
-		/* on met les no de categ à 0 */
+		/* on met les no de categ Ã  0 */
 
 		operation -> categorie = 0;
 		operation -> sous_categorie = 0;
 
-		/* on met le compte en relation si c'est une nouvelle opération */
+		/* on met le compte en relation si c'est une nouvelle opÃ©ration */
 
 		if ( !modification )
 		    operation -> relation_no_operation = -1;
@@ -1555,14 +1555,14 @@ void fin_edition_ventilation ( void )
 		operation -> relation_no_compte = compte_vire;
 	    }
 	}
-	/*       on peut maintenant libérer la variable tableau_char, qui ne sera plus utilisée */
+	/*       on peut maintenant libÃ©rer la variable tableau_char, qui ne sera plus utilisÃ©e */
 
 	g_strfreev ( tableau_char );
     }
     else
     {
-	/* il n'y a aucune catég, si c'est une modif d'opé et que cette opé était un virement, */
-	/* on marque cette opé comme supprimée et on en recrée une nouvelle */
+	/* il n'y a aucune catÃ©g, si c'est une modif d'opÃ© et que cette opÃ© Ã©tait un virement, */
+	/* on marque cette opÃ© comme supprimÃ©e et on en recrÃ©e une nouvelle */
 
 	if ( modification
 	     &&
@@ -1576,13 +1576,13 @@ void fin_edition_ventilation ( void )
 	}
     }
 
-    /* récupération du type d'opé associée s'il est affiché */
+    /* rÃ©cupÃ©ration du type d'opÃ© associÃ©e s'il est affichÃ© */
 
     if ( GTK_WIDGET_VISIBLE ( widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_CONTRA] ))
 	operation -> no_type_associe = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_CONTRA] ) -> menu_item ),
 									       "no_type" ));
 
-    /* récupération des notes */
+    /* rÃ©cupÃ©ration des notes */
 
     if ( gtk_widget_get_style ( widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_NOTES] ) == style_entree_formulaire[ENCLAIR] )
 	operation -> notes = g_strdup ( g_strstrip ( (char *) gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_NOTES] ))));
@@ -1590,17 +1590,17 @@ void fin_edition_ventilation ( void )
 	operation -> notes = NULL;
 
 
-    /* récupération du montant */
+    /* rÃ©cupÃ©ration du montant */
 
     if ( gtk_widget_get_style ( widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_DEBIT] ) == style_entree_formulaire[ENCLAIR] )
-	/* c'est un débit */
+	/* c'est un dÃ©bit */
 	operation -> montant = -calcule_total_entree ( widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_DEBIT] );
     else
 	operation -> montant = calcule_total_entree ( widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_CREDIT] );
 
 
 
-    /* récupération de l'imputation budgétaire */
+    /* rÃ©cupÃ©ration de l'imputation budgÃ©taire */
 
     if ( gtk_widget_get_style ( GTK_COMBOFIX ( widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_BUDGETARY] ) -> entry ) == style_entree_formulaire[ENCLAIR] )
     {
@@ -1637,10 +1637,10 @@ void fin_edition_ventilation ( void )
 	g_strfreev ( tableau_char );
     }
 
-    /* récupération de l'exercice */
-    /* si l'exo est à -1, c'est que c'est sur non affiché */
-    /* soit c'est une modif d'opé et on touche pas à l'exo */
-    /* soit c'est une nouvelle opé et on met l'exo à 0 */
+    /* rÃ©cupÃ©ration de l'exercice */
+    /* si l'exo est Ã  -1, c'est que c'est sur non affichÃ© */
+    /* soit c'est une modif d'opÃ© et on touche pas Ã  l'exo */
+    /* soit c'est une nouvelle opÃ© et on met l'exo Ã  0 */
 
     if ( GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_EXERCICE] ) -> menu_item ),
 						 "no_exercice" )) == -1 )
@@ -1653,7 +1653,7 @@ void fin_edition_ventilation ( void )
 									   "no_exercice" ));
 
 
-    /* récupération du no de pièce comptable */
+    /* rÃ©cupÃ©ration du no de piÃ¨ce comptable */
 
     if ( gtk_widget_get_style ( widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_VOUCHER] ) == style_entree_formulaire[ENCLAIR] )
 	operation -> no_piece_comptable = g_strdup ( g_strstrip ( (char *) gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_VOUCHER] ))));
@@ -1662,25 +1662,25 @@ void fin_edition_ventilation ( void )
 
 
 
-    /* on a rempli l'opération, on l'ajoute à la liste */
+    /* on a rempli l'opÃ©ration, on l'ajoute Ã  la liste */
     /* si c'est une modif */
 
     if ( !modification )
     {
 	GSList *liste_struct_ventilations;
 
-	/* récupération de la liste de ventilations */
+	/* rÃ©cupÃ©ration de la liste de ventilations */
 
 	liste_struct_ventilations = gtk_object_get_data ( GTK_OBJECT ( formulaire ),
 							  "liste_adr_ventilation" );
 
-	/*   si cette liste est à -1 (ce qui veut dire qu'elle est nulle en réalité mais */
-	/* qu'elle a déjà été éditée ), on la met à 0 */
+	/*   si cette liste est Ã  -1 (ce qui veut dire qu'elle est nulle en rÃ©alitÃ© mais */
+	/* qu'elle a dÃ©jÃ  Ã©tÃ© Ã©ditÃ©e ), on la met Ã  0 */
 
 	if ( liste_struct_ventilations == GINT_TO_POINTER ( -1 ))
 	    liste_struct_ventilations = NULL;
 
-	/* on ajoute l'opé */
+	/* on ajoute l'opÃ© */
 
 	liste_struct_ventilations = g_slist_append ( liste_struct_ventilations,
 						     operation );
@@ -1691,13 +1691,13 @@ void fin_edition_ventilation ( void )
     }
 
 
-    /* on met à jour la liste des ventilations */
+    /* on met Ã  jour la liste des ventilations */
 
     remplit_liste_ventilation ();
 
-    /*   si perte_ligne_selectionnee = 1, c'est qu'au lieu de modifier une opé (virement), on l'a */
-    /* effacé puis recréÃ© une nouvelle. comme ça se fait que lors d'une modif d'opé, on remet */
-    /* la selection sur cette nouvelle opé */
+    /*   si perte_ligne_selectionnee = 1, c'est qu'au lieu de modifier une opÃ© (virement), on l'a */
+    /* effacÃ© puis recrÃ©ÃƒÂ© une nouvelle. comme Ã§a se fait que lors d'une modif d'opÃ©, on remet */
+    /* la selection sur cette nouvelle opÃ© */
 
     if ( perte_ligne_selectionnee == 1 )
 	selectionne_ligne_ventilation ( cherche_ligne_from_operation_ventilee ( operation ));
@@ -1708,7 +1708,7 @@ void fin_edition_ventilation ( void )
     if ( mise_a_jour_combofix_imputation_necessaire )
 	mise_a_jour_combofix_imputation ();
 
-    /* efface le formulaire et prépare l'opé suivante */
+    /* efface le formulaire et prÃ©pare l'opÃ© suivante */
 
     echap_formulaire_ventilation ();
 
@@ -1724,8 +1724,8 @@ void fin_edition_ventilation ( void )
 
 
 /***********************************************************************************************************/
-/* recherche la ligne d'une ventil donnée en argument */
-/* renvoie le no ou -1 si pas trouvée */
+/* recherche la ligne d'une ventil donnÃ©e en argument */
+/* renvoie le no ou -1 si pas trouvÃ©e */
 /***********************************************************************************************************/
 gint cherche_ligne_from_operation_ventilee ( struct struct_ope_ventil *operation )
 {
@@ -1760,8 +1760,8 @@ gint cherche_ligne_from_operation_ventilee ( struct struct_ope_ventil *operation
 
 
 /***********************************************************************************************************/
-/* recherche l'opé de ventil dont le no de ligne est donné en argument */
-/* renvoie le no ou NULL si pas trouvée */
+/* recherche l'opÃ© de ventil dont le no de ligne est donnÃ© en argument */
+/* renvoie le no ou NULL si pas trouvÃ©e */
 /***********************************************************************************************************/
 struct struct_ope_ventil *cherche_operation_ventilee_from_ligne ( gint no_ligne )
 {
@@ -1789,7 +1789,7 @@ struct struct_ope_ventil *cherche_operation_ventilee_from_ligne ( gint no_ligne 
 
 /***********************************************************************************************************/
 /* Fonction edition_operation_ventilation */
-/* appelé lors d'un double click ou entrée sur une opé de ventilation */
+/* appelÃ© lors d'un double click ou entrÃ©e sur une opÃ© de ventilation */
 /***********************************************************************************************************/
 
 void edition_operation_ventilation ( void )
@@ -1797,13 +1797,13 @@ void edition_operation_ventilation ( void )
     struct struct_ope_ventil *operation;
     gchar *char_tmp;
 
-    /* on récupère la struc de l'opé de ventil, ou -1 si c'est une nouvelle */
+    /* on rÃ©cupÃ¨re la struc de l'opÃ© de ventil, ou -1 si c'est une nouvelle */
 
     operation = cherche_operation_ventilee_from_ligne (ligne_selectionnee_ventilation);
 
     echap_formulaire_ventilation ();
 
-    /* dégrise ce qui est nécessaire */
+    /* dÃ©grise ce qui est nÃ©cessaire */
 
     clique_champ_formulaire_ventilation ();
 
@@ -1811,7 +1811,7 @@ void edition_operation_ventilation ( void )
 			  "adr_struct_ope",
 			  operation );
 
-    /* si l'opé est -1, c'est que c'est une nouvelle opé */
+    /* si l'opÃ© est -1, c'est que c'est une nouvelle opÃ© */
 
     if ( operation == GINT_TO_POINTER ( -1 ) )
     {
@@ -1821,7 +1821,7 @@ void edition_operation_ventilation ( void )
     }
 
 
-    /*   l'opé n'est pas -1, c'est une modif, on remplit les champs */
+    /*   l'opÃ© n'est pas -1, c'est une modif, on remplit les champs */
 
     gtk_object_set_data ( GTK_OBJECT ( widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_CATEGORY] ),
 			  "adr_struct_ope",
@@ -1844,7 +1844,7 @@ void edition_operation_ventilation ( void )
 			     g_strdup_printf ( "%4.2f", operation -> montant ));
     }
 
-    /* si l'opération est relevée, empêche la modif du montant */
+    /* si l'opÃ©ration est relevÃ©e, empÃªche la modif du montant */
 
     if ( operation -> pointe == 3 )
     {
@@ -1854,7 +1854,7 @@ void edition_operation_ventilation ( void )
 				   FALSE );
     }
 
-    /* mise en forme des catégories */
+    /* mise en forme des catÃ©gories */
 
     if ( operation -> relation_no_operation )
     {
@@ -1871,8 +1871,8 @@ void edition_operation_ventilation ( void )
 					      NOM_DU_COMPTE,
 					      NULL ));
 
-	/*       si la contre opération est relevée, on désensitive les montants et les categ */
-	/* seulement valable si ce virement existe déjà */
+	/*       si la contre opÃ©ration est relevÃ©e, on dÃ©sensitive les montants et les categ */
+	/* seulement valable si ce virement existe dÃ©jÃ  */
 
 	if ( operation -> no_operation )
 	{
@@ -1893,7 +1893,7 @@ void edition_operation_ventilation ( void )
 					   FALSE );
 	    }
 	}
-	/* on met le type de l'opé associée */
+	/* on met le type de l'opÃ© associÃ©e */
 
 	if ( operation -> montant < 0 )
 	    menu = creation_menu_types ( 2,
@@ -1942,7 +1942,7 @@ void edition_operation_ventilation ( void )
     }
 
 
-    /* met en place l'imputation budgétaire */
+    /* met en place l'imputation budgÃ©taire */
 
     char_tmp = nom_imputation_par_no ( operation -> imputation,
 				       operation -> sous_imputation );
@@ -1960,7 +1960,7 @@ void edition_operation_ventilation ( void )
 				   cherche_no_menu_exercice ( operation -> no_exercice,
 							      widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_EXERCICE] ));
 
-    /* mise en place de la pièce comptable */
+    /* mise en place de la piÃ¨ce comptable */
 
     if ( operation -> no_piece_comptable )
     {
@@ -1970,7 +1970,7 @@ void edition_operation_ventilation ( void )
     }
 
 
-    /*   on a fini de remplir le formulaire, on donne le focus à la date */
+    /*   on a fini de remplir le formulaire, on donne le focus Ã  la date */
 
     if ( GTK_WIDGET_SENSITIVE ( widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_CATEGORY] ))
     {
@@ -2002,7 +2002,7 @@ void supprime_operation_ventilation ( void )
     struct struct_ope_ventil *operation;
     GtkTreeIter iter;
 
-/*     supprime l'opé de ventil pointÃ©e par ligne_selectionnee_ventilation */
+/*     supprime l'opÃ© de ventil pointÃƒÂ©e par ligne_selectionnee_ventilation */
 
     operation = cherche_operation_ventilee_from_ligne ( ligne_selectionnee_ventilation );
 
@@ -2011,8 +2011,8 @@ void supprime_operation_ventilation ( void )
 	 !operation )
 	return;
 
-    /* si l'opération est relevée ou si c'est un virement et que la contre opération est */
-    /*   relevée, on ne peut la supprimer */
+    /* si l'opÃ©ration est relevÃ©e ou si c'est un virement et que la contre opÃ©ration est */
+    /*   relevÃ©e, on ne peut la supprimer */
 
     if ( operation -> pointe == 3 )
     {
@@ -2025,7 +2025,7 @@ void supprime_operation_ventilation ( void )
 	     &&
 	     operation -> relation_no_operation != -1 )
 	{
-	    /* on va chercher la contre opération */
+	    /* on va chercher la contre opÃ©ration */
 
 	    struct structure_operation *operation_associee;
 
@@ -2043,7 +2043,7 @@ void supprime_operation_ventilation ( void )
     }
 
 
-    /* on marque cette opération comme supprimée si ce n'est pas une nouvelle */
+    /* on marque cette opÃ©ration comme supprimÃ©e si ce n'est pas une nouvelle */
     /* sinon on la supprime tout simplement de la liste */
 
     if ( operation -> no_operation )
@@ -2064,7 +2064,7 @@ void supprime_operation_ventilation ( void )
 
     selectionne_ligne_ventilation (ligne_selectionnee_ventilation + 1);
 
-    /* supprime l'opération de la liste */
+    /* supprime l'opÃ©ration de la liste */
 
     if ( gtk_tree_model_get_iter_from_string ( GTK_TREE_MODEL ( list_store_ventils ),
 					       &iter,
@@ -2082,7 +2082,7 @@ void supprime_operation_ventilation ( void )
 
 /***********************************************************************************************************/
 /* Fonction remplit_liste_ventilation */
-/* récupère la liste des struct d'opé de ventil sur le formulaire et affiche ces opés */
+/* rÃ©cupÃ¨re la liste des struct d'opÃ© de ventil sur le formulaire et affiche ces opÃ©s */
 /***********************************************************************************************************/
 
 void remplit_liste_ventilation ( void )
@@ -2097,11 +2097,11 @@ void remplit_liste_ventilation ( void )
 	gtk_list_store_clear ( GTK_LIST_STORE( list_store_ventils ));
     else
     {
-	/*     on crée le list_store qui va contenir les ventils */
-	/* 	col 0 à 2 -> les données */
-	/* 	col 3 -> l'adr de l'opé */
+	/*     on crÃ©e le list_store qui va contenir les ventils */
+	/* 	col 0 Ã  2 -> les donnÃ©es */
+	/* 	col 3 -> l'adr de l'opÃ© */
 	/* 	    col 4 -> couleur du fond */
-	/* 	    clo 5 -> sauvegarde couleur background quand ligne sélectionnée */
+	/* 	    clo 5 -> sauvegarde couleur background quand ligne sÃ©lectionnÃ©e */
 	/* 	    col 6 -> la fonte */
 
 	list_store_ventils = gtk_list_store_new ( 7,
@@ -2116,7 +2116,7 @@ void remplit_liste_ventilation ( void )
 
 
     
-    /* récupère la liste des struct_ope_ventil */
+    /* rÃ©cupÃ¨re la liste des struct_ope_ventil */
 
     liste_tmp = gtk_object_get_data ( GTK_OBJECT ( formulaire ),
 				      "liste_adr_ventilation" );
@@ -2129,7 +2129,7 @@ void remplit_liste_ventilation ( void )
     }
 
 
-    /* ajoute la ligne blanche associee à -1 */
+    /* ajoute la ligne blanche associee Ã  -1 */
 
     gtk_list_store_append ( list_store_ventils,
 			    &iter );
@@ -2140,7 +2140,7 @@ void remplit_liste_ventilation ( void )
 			     i, NULL,
 			     -1 );
 
-    /*     si elle est sélectionnée, c'est ici */
+    /*     si elle est sÃ©lectionnÃ©e, c'est ici */
 
     if ( ligne_selectionnee_ventilation == -1 )
 	{
@@ -2153,7 +2153,7 @@ void remplit_liste_ventilation ( void )
 									      &iter ));
 	}
 
-    /* on met le no d'opération de cette ligne à -1 */
+    /* on met le no d'opÃ©ration de cette ligne Ã  -1 */
 
     gtk_list_store_set ( list_store_ventils,
 			 &iter,
@@ -2167,7 +2167,7 @@ void remplit_liste_ventilation ( void )
     mise_a_jour_couleurs_liste_ventilation ();
 
 
-    /* on met à jour les labels d'état */
+    /* on met Ã  jour les labels d'Ã©tat */
 
     calcule_montant_ventilation ();
 }
@@ -2175,7 +2175,7 @@ void remplit_liste_ventilation ( void )
 
 
 /***********************************************************************************************************/
-/* prend en argument une opé de ventil dont l'adr de la struct est donnée en argument */
+/* prend en argument une opÃ© de ventil dont l'adr de la struct est donnÃ©e en argument */
 /***********************************************************************************************************/
 
 void ajoute_ope_sur_liste_ventilation ( struct struct_ope_ventil *operation )
@@ -2184,13 +2184,13 @@ void ajoute_ope_sur_liste_ventilation ( struct struct_ope_ventil *operation )
     GtkTreeIter iter;
     gint i;
 
-    /*   si cette opération a été supprimée, on ne l'affiche pas */
+    /*   si cette opÃ©ration a Ã©tÃ© supprimÃ©e, on ne l'affiche pas */
 
     if ( operation -> supprime )
 	return;
 
 
-    /* mise en forme des catégories */
+    /* mise en forme des catÃ©gories */
 
     if ( operation -> relation_no_operation )
     {
@@ -2229,7 +2229,7 @@ void ajoute_ope_sur_liste_ventilation ( struct struct_ope_ventil *operation )
 			     i, ligne[i],
 			     -1 );
 
-    /*     si elle est sélectionnée, c'est ici */
+    /*     si elle est sÃ©lectionnÃ©e, c'est ici */
 
     if ( ligne_selectionnee_ventilation == my_atoi ( gtk_tree_model_get_string_from_iter ( GTK_TREE_MODEL ( list_store_ventils ),
 											&iter )))
@@ -2246,7 +2246,7 @@ void ajoute_ope_sur_liste_ventilation ( struct struct_ope_ventil *operation )
 			     6, pango_desc_fonte_liste,
 			     -1 );
 
-    /* on met le no d'opération  */
+    /* on met le no d'opÃ©ration  */
 
     gtk_list_store_set ( list_store_ventils,
 			 &iter,
@@ -2261,7 +2261,7 @@ void calcule_montant_ventilation ( void )
 {
     GSList *liste_tmp;
 
-    /* fait le tour de la liste pour retrouver les ventil affichée pour calculer le montant */
+    /* fait le tour de la liste pour retrouver les ventil affichÃ©e pour calculer le montant */
 
     somme_ventilee = 0;
     liste_tmp = gtk_object_get_data ( GTK_OBJECT ( formulaire ),
@@ -2327,7 +2327,7 @@ void mise_a_jour_couleurs_liste_ventilation ( void )
     GtkTreeIter iter;
 
 /*     met l'alternance de couleurs de la liste */
-/* 	ne sélectionne pas car déjà fait avant */
+/* 	ne sÃ©lectionne pas car dÃ©jÃ  fait avant */
 
 /*     pas besoin de test car il y a au moins la ligne blanche... */
 
@@ -2336,7 +2336,7 @@ void mise_a_jour_couleurs_liste_ventilation ( void )
     couleur_en_cours = 0;
     do
     {
-/* 	si la ligne est sélectionnée, on le place en sauvegarde de background */
+/* 	si la ligne est sÃ©lectionnÃ©e, on le place en sauvegarde de background */
 
 	if ( ligne_selectionnee_ventilation == my_atoi ( gtk_tree_model_get_string_from_iter ( GTK_TREE_MODEL ( list_store_ventils ),
 											    &iter )))
@@ -2367,12 +2367,12 @@ void selectionne_ligne_ventilation ( gint nouvelle_ligne )
     if ( DEBUG )
 	printf ( "selectionne_ligne ventilation\n" );
 
-    /*     si on est déjà dessus, on se barre */
+    /*     si on est dÃ©jÃ  dessus, on se barre */
 
     if ( nouvelle_ligne == ligne_selectionnee_ventilation )
 	return;
 
-    /*   vire l'ancienne sélection : consiste à remettre la couleur d'origine du background */
+    /*   vire l'ancienne sÃ©lection : consiste Ã  remettre la couleur d'origine du background */
 
     if ( ligne_selectionnee_ventilation != -1
 	 &&
@@ -2380,7 +2380,7 @@ void selectionne_ligne_ventilation ( gint nouvelle_ligne )
 					       &iter,
 					       itoa ( ligne_selectionnee_ventilation )))
     {
-	/* 	iter est maintenant positionné sur la 1ère ligne de l'opé à désélectionner */
+	/* 	iter est maintenant positionnÃ© sur la 1Ã¨re ligne de l'opÃ© Ã  dÃ©sÃ©lectionner */
 
 	gtk_tree_model_get ( GTK_TREE_MODEL ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view_liste_ventilations ))),
 			     &iter,
@@ -2404,7 +2404,7 @@ void selectionne_ligne_ventilation ( gint nouvelle_ligne )
 					       itoa ( ligne_selectionnee_ventilation )))
     {
 
-	/* 	iter est maintenant positionné sur la 1ère ligne de l'opé à sélectionner */
+	/* 	iter est maintenant positionnÃ© sur la 1Ã¨re ligne de l'opÃ© Ã  sÃ©lectionner */
 
 	gtk_tree_model_get ( GTK_TREE_MODEL ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view_liste_ventilations ))),
 			     &iter,
@@ -2420,7 +2420,7 @@ void selectionne_ligne_ventilation ( gint nouvelle_ligne )
 			     -1 );
     }
 
-    /*     on déplace le scrolling de la liste si nécessaire pour afficher la sélection */
+    /*     on dÃ©place le scrolling de la liste si nÃ©cessaire pour afficher la sÃ©lection */
 
     ajuste_scrolling_liste_ventilations_a_selection ();
 }
@@ -2429,18 +2429,18 @@ void selectionne_ligne_ventilation ( gint nouvelle_ligne )
 
 /* ************************************************************************** */
 /* Fonction valider_ventilation                                               */
-/* appelée par appui du bouton valider                                        */
+/* appelÃ©e par appui du bouton valider                                        */
 /* ************************************************************************** */
 void valider_ventilation ( void )
 {
     /* Cette fonction est toute simple car la liste des structures des
-       ventilations a été mise à jour au fur et à mesure et toujours associée
-       au formulaire des opérations. Donc, il faut juste réafficher ce qu'il faut
-       et return. C'est la validation réelle de l'opération qui créera/supprimera
-       toutes les opérations */
+       ventilations a Ã©tÃ© mise Ã  jour au fur et Ã  mesure et toujours associÃ©e
+       au formulaire des opÃ©rations. Donc, il faut juste rÃ©afficher ce qu'il faut
+       et return. C'est la validation rÃ©elle de l'opÃ©ration qui crÃ©era/supprimera
+       toutes les opÃ©rations */
 
     /* Si par contre cette liste est null, on met -1 sur le formulaire pour
-       montrer qu'on est passé par là et qu'on veut une liste nulle */
+       montrer qu'on est passÃ© par lÃ  et qu'on veut une liste nulle */
 
     /* On associe l'adresse de la nouvelle liste des ventilation au formulaire,
        met -1 si la liste est vide */
@@ -2471,16 +2471,16 @@ void valider_ventilation ( void )
 
 /* ************************************************************************** */
 /* Fonction annuler_ventilation                                               */
-/* appelée par appui du bouton annuler                                        */
+/* appelÃ©e par appui du bouton annuler                                        */
 /* ************************************************************************** */
 void annuler_ventilation ( void )
 {
-    /* Cette fonction remet la liste des structures de ventilation par défaut
-       en recherchant les opérations de ventilation dans la liste des opérations
+    /* Cette fonction remet la liste des structures de ventilation par dÃ©faut
+       en recherchant les opÃ©rations de ventilation dans la liste des opÃ©rations
        puis appelle valider ventilation */
-    /*     si des opés de ventils avaient été mises par complétion du tiers, en faisant */
-    /* 	annuler elles vont disparaitre car elles ne sont pas encore enregistrées */
-    /* 	dans ce cas on les ajoutes à la nouvelle liste créé */
+    /*     si des opÃ©s de ventils avaient Ã©tÃ© mises par complÃ©tion du tiers, en faisant */
+    /* 	annuler elles vont disparaitre car elles ne sont pas encore enregistrÃ©es */
+    /* 	dans ce cas on les ajoutes Ã  la nouvelle liste crÃ©Ã© */
 
     GSList *nouvelle_liste;
     GSList *ancienne_liste;
@@ -2524,15 +2524,15 @@ void annuler_ventilation ( void )
 
 /* ************************************************************************** */
 /* Fonction quitter_ventilation                                               */
-/* appelée valider_ventilation et quitter_ventilation                         */
+/* appelÃ©e valider_ventilation et quitter_ventilation                         */
 /* ************************************************************************** */
 void quitter_ventilation ( void )
 {
-    /* Cette fonction remet la liste des structures de ventilation par défaut
-       en recherchant les opérations de ventilation dans la liste des opérations
+    /* Cette fonction remet la liste des structures de ventilation par dÃ©faut
+       en recherchant les opÃ©rations de ventilation dans la liste des opÃ©rations
        puis appelle valider ventilation */
 
-    /*     on réaffiche la tree_view de la liste d'opés en cours */
+    /*     on rÃ©affiche la tree_view de la liste d'opÃ©s en cours */
 
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
 
@@ -2566,7 +2566,7 @@ void quitter_ventilation ( void )
 /* ************************************************************************** */
 
 /***********************************************************************************************************/
-/* Cette fonction prend une opé ventilée en argument et crée la liste des opés de ventil */
+/* Cette fonction prend une opÃ© ventilÃ©e en argument et crÃ©e la liste des opÃ©s de ventil */
 /* qui correspondent avec des struct struct_ope_ventil */
 /* renvoie cette liste */
 /***********************************************************************************************************/
@@ -2580,7 +2580,7 @@ GSList *creation_liste_ope_de_ventil ( struct structure_operation *operation )
     liste_ventil = NULL;
     liste_operations = NULL;
 
-    /* si c'est une nouvelle opé, il n'y a aucun opé de ventil associée */
+    /* si c'est une nouvelle opÃ©, il n'y a aucun opÃ© de ventil associÃ©e */
 
     if ( !operation )
 	return ( NULL );
@@ -2595,7 +2595,7 @@ GSList *creation_liste_ope_de_ventil ( struct structure_operation *operation )
 
 	operation_2 = liste_tmp -> data;
 
-	/* si l'opération est une opé de ventil de l'opé demandée, on lui fait une struct struct_ope_ventil */
+	/* si l'opÃ©ration est une opÃ© de ventil de l'opÃ© demandÃ©e, on lui fait une struct struct_ope_ventil */
 
 	if ( operation_2 -> no_operation_ventilee_associee == operation -> no_operation )
 	{
@@ -2624,7 +2624,7 @@ GSList *creation_liste_ope_de_ventil ( struct structure_operation *operation )
 	    ope_ventil -> relation_no_compte = operation_2 -> relation_no_compte;
 	    ope_ventil -> pointe = operation_2 -> pointe;
 
-	    /* si c'est un virement, on va rechercher le type de l'autre opération */
+	    /* si c'est un virement, on va rechercher le type de l'autre opÃ©ration */
 
 	    if ( ope_ventil -> relation_no_operation )
 	    {
@@ -2649,22 +2649,22 @@ GSList *creation_liste_ope_de_ventil ( struct structure_operation *operation )
 
 
 /***********************************************************************************************************/
-/* cette fonction est appelée lors de la validation d'une ventilation */
-/* l'opération en argument a déjà son numéro d'opé */
-/* ellse fait le tour des structures de ventil et crée/supprime/modifie */
-/* les opérations nécessaires */
+/* cette fonction est appelÃ©e lors de la validation d'une ventilation */
+/* l'opÃ©ration en argument a dÃ©jÃ  son numÃ©ro d'opÃ© */
+/* ellse fait le tour des structures de ventil et crÃ©e/supprime/modifie */
+/* les opÃ©rations nÃ©cessaires */
 /***********************************************************************************************************/
 
 void validation_ope_de_ventilation ( struct structure_operation *operation )
 {
     GSList *liste_struct_ventilations;
 
-    /* récupération de la liste de ventilations */
+    /* rÃ©cupÃ©ration de la liste de ventilations */
 
     liste_struct_ventilations = gtk_object_get_data ( GTK_OBJECT ( formulaire ),
 						      "liste_adr_ventilation" );
 
-    /*   si cette liste est à -1, c'est qu'elle est null, donc rien à faire */
+    /*   si cette liste est Ã  -1, c'est qu'elle est null, donc rien Ã  faire */
 
     if ( liste_struct_ventilations == GINT_TO_POINTER ( -1 ))
 	return;
@@ -2675,13 +2675,13 @@ void validation_ope_de_ventilation ( struct structure_operation *operation )
 
 	ope_ventil = liste_struct_ventilations -> data;
 
-	/*       si cette opé est supprimée, c'est ici */
-	/* cela sous entend qu'elle existait déjà */
-	/* et si c'était un virement, l'autre va être automatiquement supprimée */
+	/*       si cette opÃ© est supprimÃ©e, c'est ici */
+	/* cela sous entend qu'elle existait dÃ©jÃ  */
+	/* et si c'Ã©tait un virement, l'autre va Ãªtre automatiquement supprimÃ©e */
 
 	if ( ope_ventil -> supprime )
 	{
-	    /* petite protection quand même, normalement le texte ne devrait jamais apparaitre */
+	    /* petite protection quand mÃªme, normalement le texte ne devrait jamais apparaitre */
 
 	    if ( !ope_ventil -> no_operation )
 		dialogue_warning ( _("A breakdown line is to be deleted though it is not yet registered."));
@@ -2691,13 +2691,13 @@ void validation_ope_de_ventilation ( struct structure_operation *operation )
 	}
 	else
 	{
-	    /* l'opération ne doit pas être supprimée, c'est qu'elle doit être créée ou modifiée */
-	    /* 	  on n'a pas à s'embêter avec des changements de virements ou autres trucs bizarres, dans */
-	    /* ce cas il y aura eu une suppression puis une nouvelle opération */
+	    /* l'opÃ©ration ne doit pas Ãªtre supprimÃ©e, c'est qu'elle doit Ãªtre crÃ©Ã©e ou modifiÃ©e */
+	    /* 	  on n'a pas Ã  s'embÃªter avec des changements de virements ou autres trucs bizarres, dans */
+	    /* ce cas il y aura eu une suppression puis une nouvelle opÃ©ration */
 
 	    if ( ope_ventil -> no_operation )
 	    {
-		/* c'est une modif d'opération */
+		/* c'est une modif d'opÃ©ration */
 
 		struct structure_operation *ope_modifiee;
 
@@ -2706,7 +2706,7 @@ void validation_ope_de_ventilation ( struct structure_operation *operation )
 
 		if ( ope_modifiee )
 		{
-		    /* on récupère d'abord les modifs de l'opé de ventil */
+		    /* on rÃ©cupÃ¨re d'abord les modifs de l'opÃ© de ventil */
 
 		    ope_modifiee -> montant = ope_ventil -> montant;
 		    ope_modifiee -> categorie = ope_ventil -> categorie;
@@ -2723,7 +2723,7 @@ void validation_ope_de_ventilation ( struct structure_operation *operation )
 		    if ( ope_ventil -> no_piece_comptable )
 			ope_modifiee -> no_piece_comptable = g_strdup ( ope_ventil -> no_piece_comptable );
 
-		    /* on récupère ensuite les modifs de la ventilation */
+		    /* on rÃ©cupÃ¨re ensuite les modifs de la ventilation */
 
 		    ope_modifiee -> jour = operation -> jour;
 		    ope_modifiee -> mois = operation -> mois;
@@ -2753,16 +2753,16 @@ void validation_ope_de_ventilation ( struct structure_operation *operation )
 		    ope_modifiee -> auto_man = operation -> auto_man;
 		    ope_modifiee -> no_rapprochement = operation -> no_rapprochement;
 
-		    /* théoriquement, cette ligne n'est pas nécessaire vu que c'est une modif d'opé de ventil */
+		    /* thÃ©oriquement, cette ligne n'est pas nÃ©cessaire vu que c'est une modif d'opÃ© de ventil */
 
 		    ope_modifiee -> no_operation_ventilee_associee = operation -> no_operation;
 
-		    /* si cette opé de ventil est un virement, on met à jour la contre opération */
+		    /* si cette opÃ© de ventil est un virement, on met Ã  jour la contre opÃ©ration */
 
 		    if ( ope_ventil -> relation_no_operation )
 		    {
-			/*  soit c'était un virement, et on modifie l'opé associée */
-			/* soit c'est un nouveau virement, et on crée l'opé associée */
+			/*  soit c'Ã©tait un virement, et on modifie l'opÃ© associÃ©e */
+			/* soit c'est un nouveau virement, et on crÃ©e l'opÃ© associÃ©e */
 
 			p_tab_nom_de_compte_variable = p_tab_nom_de_compte + ope_ventil -> relation_no_compte;
 
@@ -2770,7 +2770,7 @@ void validation_ope_de_ventilation ( struct structure_operation *operation )
 
 			if ( ope_ventil -> relation_no_operation != -1 )
 			{
-			    /* c'était déjà un virement vers ce compte */
+			    /* c'Ã©tait dÃ©jÃ  un virement vers ce compte */
 
 			    struct structure_operation *ope_modifiee_2;
 
@@ -2831,7 +2831,7 @@ void validation_ope_de_ventilation ( struct structure_operation *operation )
 					    ||
 					    ( !strcmp ( devise_compte_2 -> nom_devise, _("Euro") ) && devise_compte_1 -> passage_euro )))
 				    {
-					/* c'est une devise étrangère, on demande le taux de change et les frais de change */
+					/* c'est une devise Ã©trangÃ¨re, on demande le taux de change et les frais de change */
 
 					demande_taux_de_change ( devise_compte_2,
 								 devise_compte_1,
@@ -2860,7 +2860,7 @@ void validation_ope_de_ventilation ( struct structure_operation *operation )
 			}
 			else
 			{
-			    /* c'est un nouveau virement, on doit créer l'opé associée */
+			    /* c'est un nouveau virement, on doit crÃ©er l'opÃ© associÃ©e */
 
 			    struct structure_operation *nouvelle_ope_2;
 
@@ -2919,7 +2919,7 @@ void validation_ope_de_ventilation ( struct structure_operation *operation )
 			    nouvelle_ope_2 -> relation_no_operation = ope_modifiee ->  no_operation;
 			    nouvelle_ope_2 -> relation_no_compte = ope_modifiee ->  no_compte;
 
-			    /* 		    on réaffiche la contre opération pour faire apparaitre la catég */
+			    /* 		    on rÃ©affiche la contre opÃ©ration pour faire apparaitre la catÃ©g */
 
 			    remplit_ligne_operation ( nouvelle_ope_2,
 						      NULL );
@@ -2929,15 +2929,15 @@ void validation_ope_de_ventilation ( struct structure_operation *operation )
 	    }
 	    else
 	    {
-		/* c'est une nouvelle opération */
-		/*  on la crée, l'ajoute et si c'est un virement on crée la contre opération */
+		/* c'est une nouvelle opÃ©ration */
+		/*  on la crÃ©e, l'ajoute et si c'est un virement on crÃ©e la contre opÃ©ration */
 
 		struct structure_operation *nouvelle_ope;
 
 		nouvelle_ope = calloc ( 1,
 					sizeof ( struct structure_operation ));
 
-		/* on récupère d'abord les modifs de l'opé de ventil */
+		/* on rÃ©cupÃ¨re d'abord les modifs de l'opÃ© de ventil */
 
 		nouvelle_ope -> montant = ope_ventil -> montant;
 		nouvelle_ope -> categorie = ope_ventil -> categorie;
@@ -2954,7 +2954,7 @@ void validation_ope_de_ventilation ( struct structure_operation *operation )
 
 		nouvelle_ope -> no_exercice = ope_ventil -> no_exercice;
 
-		/* on récupère ensuite les modifs de la ventilation */
+		/* on rÃ©cupÃ¨re ensuite les modifs de la ventilation */
 
 		nouvelle_ope -> jour = operation -> jour;
 		nouvelle_ope -> mois = operation -> mois;
@@ -2986,11 +2986,11 @@ void validation_ope_de_ventilation ( struct structure_operation *operation )
 
 		nouvelle_ope -> no_operation_ventilee_associee = operation -> no_operation;
 
-		/* on ajoute cette opé à la liste */
+		/* on ajoute cette opÃ© Ã  la liste */
 
 		ajout_operation ( nouvelle_ope );
 
-		/* si cette opé de ventil est un virement, on crée la contre opération */
+		/* si cette opÃ© de ventil est un virement, on crÃ©e la contre opÃ©ration */
 
 		if ( ope_ventil -> relation_no_operation )
 		{
@@ -3050,7 +3050,7 @@ void validation_ope_de_ventilation ( struct structure_operation *operation )
 			    ||
 			    ( !strcmp ( devise_compte_2 -> nom_devise, _("Euro") ) && devise_compte_1 -> passage_euro )))
 		    {
-			/* c'est une devise étrangère, on demande le taux de change et les frais de change */
+			/* c'est une devise Ã©trangÃ¨re, on demande le taux de change et les frais de change */
 
 			demande_taux_de_change ( devise_compte_2, devise_compte_1, 1,
 						 (gdouble ) 0, (gdouble ) 0, FALSE );
@@ -3081,7 +3081,7 @@ void validation_ope_de_ventilation ( struct structure_operation *operation )
 		    nouvelle_ope_2 -> relation_no_operation = nouvelle_ope -> no_operation;
 		    nouvelle_ope_2 -> relation_no_compte = nouvelle_ope -> no_compte;
 
-		    /* 		    on réaffiche la contre opération pour faire apparaitre la catég */
+		    /* 		    on rÃ©affiche la contre opÃ©ration pour faire apparaitre la catÃ©g */
 
 		    remplit_ligne_operation ( nouvelle_ope_2,
 					      NULL );
@@ -3099,8 +3099,8 @@ void validation_ope_de_ventilation ( struct structure_operation *operation )
 
 /******************************************************************************/
 /* Fonction changement_taille_liste_ope					      */
-/* appelée dès que la taille de la clist a changé			      */
-/* pour mettre la taille des différentes colonnes			      */
+/* appelÃ©e dÃ¨s que la taille de la clist a changÃ©			      */
+/* pour mettre la taille des diffÃ©rentes colonnes			      */
 /******************************************************************************/
 gboolean changement_taille_liste_ope_ventilation ( GtkWidget *tree_view,
 						   GtkAllocation *allocation )
@@ -3111,7 +3111,7 @@ gboolean changement_taille_liste_ope_ventilation ( GtkWidget *tree_view,
     gint montant;
 
 
-    /*     pour éviter que le système ne s'emballe... */
+    /*     pour Ã©viter que le systÃ¨me ne s'emballe... */
 
     if ( allocation -> width
 	 ==
@@ -3132,13 +3132,13 @@ gboolean changement_taille_liste_ope_ventilation ( GtkWidget *tree_view,
 					   montant );
 
 
-    /* met les entrées du formulaire à la même taille */
+    /* met les entrÃ©es du formulaire Ã  la mÃªme taille */
 
     col0 = ancienne_largeur_ventilation * 32  / 100;
     col1 = ancienne_largeur_ventilation * 32  / 100;
     col2 = ancienne_largeur_ventilation * 15  / 100;
 
-    /* 1ère ligne */
+    /* 1Ã¨re ligne */
 
     gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_CATEGORY] ),
 			   col0,
@@ -3153,7 +3153,7 @@ gboolean changement_taille_liste_ope_ventilation ( GtkWidget *tree_view,
 			   col2,
 			   FALSE );
 
-    /* 2ème ligne */
+    /* 2Ã¨me ligne */
 
     gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_BUDGETARY] ),
 			   col0,
@@ -3180,7 +3180,7 @@ gboolean changement_taille_liste_ope_ventilation ( GtkWidget *tree_view,
 
 
 /******************************************************************************/
-/* cette fonction affiche les traits verticaux et horizontaux sur la liste des opés */
+/* cette fonction affiche les traits verticaux et horizontaux sur la liste des opÃ©s */
 /******************************************************************************/
 void affichage_traits_liste_ventilation ( void )
 {
@@ -3191,8 +3191,8 @@ void affichage_traits_liste_ventilation ( void )
     GtkAdjustment *adjustment;
     gint derniere_ligne;
 
-    /*  FIXME   sachant qu'on appelle ça à chaque expose-event, cad très souvent ( dès que la souris passe dessus ), */
-    /*     ça peut ralentir bcp... à vérifier  */
+    /*  FIXME   sachant qu'on appelle Ã§a Ã  chaque expose-event, cad trÃ¨s souvent ( dÃ¨s que la souris passe dessus ), */
+    /*     Ã§a peut ralentir bcp... Ã  vÃ©rifier  */
 
     fenetre = gtk_tree_view_get_bin_window ( GTK_TREE_VIEW ( tree_view_liste_ventilations ));
     gdk_drawable_get_size ( GDK_DRAWABLE ( fenetre ),
@@ -3202,20 +3202,20 @@ void affichage_traits_liste_ventilation ( void )
     if ( !gc_separateur_operation )
 	gc_separateur_operation = gdk_gc_new ( GDK_DRAWABLE ( fenetre ));
 
-    /*     si la hauteur des lignes n'est pas encore calculée, on le fait ici */
+    /*     si la hauteur des lignes n'est pas encore calculÃ©e, on le fait ici */
 
     if ( !hauteur_ligne_liste_opes )
 	hauteur_ligne_liste_opes = recupere_hauteur_ligne_tree_view ( tree_view_liste_ventilations );
 
-    /*     on commence par calculer la dernière ligne en pixel correspondant à la dernière opé de la liste */
-    /* 	pour éviter de dessiner les traits en dessous */
+    /*     on commence par calculer la derniÃ¨re ligne en pixel correspondant Ã  la derniÃ¨re opÃ© de la liste */
+    /* 	pour Ã©viter de dessiner les traits en dessous */
 
     derniere_ligne = hauteur_ligne_liste_opes * GTK_LIST_STORE ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view_liste_ventilations ))) -> length;
     hauteur = MIN ( derniere_ligne,
 		    hauteur );
 
     /*     le plus facile en premier... les lignes verticales */
-    /*     dépend de si on est en train de ventiler ou non */
+    /*     dÃ©pend de si on est en train de ventiler ou non */
     /*     on en profite pour ajuster nb_ligne_ope_tree_view */
 
     x=0;
@@ -3229,8 +3229,8 @@ void affichage_traits_liste_ventilation ( void )
 			x, hauteur );
     }
 
-    /*     les lignes horizontales : il faut calculer la position y de chaque changement d'opé à l'écran */
-    /*     on calcule la position y de la 1ère ligne à afficher */
+    /*     les lignes horizontales : il faut calculer la position y de chaque changement d'opÃ© Ã  l'Ã©cran */
+    /*     on calcule la position y de la 1Ã¨re ligne Ã  afficher */
 
     adjustment = gtk_tree_view_get_vadjustment ( GTK_TREE_VIEW ( tree_view_liste_ventilations ));
 
@@ -3259,7 +3259,7 @@ void ajuste_scrolling_liste_ventilations_a_selection ( void )
     GtkAdjustment *v_adjustment;
     gint y_ligne;
 
-    /*     si on n'a pas encore récupéré la hauteur des lignes, on va le faire ici */
+    /*     si on n'a pas encore rÃ©cupÃ©rÃ© la hauteur des lignes, on va le faire ici */
 
     if ( !hauteur_ligne_liste_opes )
 	hauteur_ligne_liste_opes = recupere_hauteur_ligne_tree_view ( tree_view_liste_ventilations );
@@ -3268,7 +3268,7 @@ void ajuste_scrolling_liste_ventilations_a_selection ( void )
 
     y_ligne = ligne_selectionnee_ventilation * hauteur_ligne_liste_opes;
 
-    /*     si l'opé est trop haute, on la rentre et la met en haut */
+    /*     si l'opÃ© est trop haute, on la rentre et la met en haut */
 
     if ( y_ligne < v_adjustment -> value )
 	gtk_adjustment_set_value ( GTK_ADJUSTMENT ( v_adjustment ),

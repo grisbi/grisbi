@@ -227,7 +227,7 @@ GtkWidget * print_config_paper ( GtkWidget * dialog )
 
     for ( i = 0; paper_sizes[i].name; i++ )
     {
-	item = gtk_menu_item_new_with_label (g_strdup_printf ("%s (%2.1fcm × %2.1fcm)",
+	item = gtk_menu_item_new_with_label (g_strdup_printf ("%s (%2.1fcm Ã %2.1fcm)",
 							      _(paper_sizes[i].name),
 							      paper_sizes[i].width/10,
 							      paper_sizes[i].height/10));

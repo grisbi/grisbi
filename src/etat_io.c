@@ -1,7 +1,7 @@
-/*  Fichier qui s'occupe de l'export et de l'import des états */
+/*  Fichier qui s'occupe de l'export et de l'import des Ã©tats */
 /*      etats.c */
 
-/*     Copyright (C) 2000-2003  Cédric Auger */
+/*     Copyright (C) 2000-2003  CÃ©dric Auger */
 /* 			cedric@grisbi.org */
 /* 			http://www.grisbi.org */
 
@@ -48,7 +48,7 @@ static gint recupere_tiers_par_nom_etat ( gchar *nom );
 /*END_STATIC*/
 
 
-gchar *log_message;        /* utilisé comme log lors de l'import d'un état */
+gchar *log_message;        /* utilisÃ© comme log lors de l'import d'un Ã©tat */
 
 
 /*START_EXTERN*/
@@ -71,7 +71,7 @@ gboolean charge_etat ( gchar *nom_etat )
 
     if ( doc )
     {
-	/* vérifications d'usage */
+	/* vÃ©rifications d'usage */
 
 	if ( !doc->children
 	     ||
@@ -85,7 +85,7 @@ gboolean charge_etat ( gchar *nom_etat )
 	    return ( FALSE );
 	}
 
-	/* récupère la version de fichier */
+	/* rÃ©cupÃ¨re la version de fichier */
 
 	if (( strcmp (  xmlNodeGetContent ( doc->children->children->children ), VERSION )))
 	  {
@@ -110,7 +110,7 @@ gboolean charge_etat_version_0_4_0 ( xmlDocPtr doc )
     xmlNodePtr node;
     struct struct_etat *etat;
 
-    /*   on met à null le log_message, il sera affiché à la fin en cas de pb */
+    /*   on met Ã  null le log_message, il sera affichÃ© Ã  la fin en cas de pb */
 
     log_message = NULL;
 
@@ -143,7 +143,7 @@ gboolean charge_etat_version_0_4_0 ( xmlDocPtr doc )
 	    }
 	}
 
-	/* on recupère ici l'etat */
+	/* on recupÃ¨re ici l'etat */
 
 	if ( !strcmp ( node -> name,
 		       "Details" ))
@@ -643,7 +643,7 @@ gboolean charge_etat_version_0_4_0 ( xmlDocPtr doc )
 			comp_textes -> montant_2 = my_atoi ( xmlGetProp ( node_comp_textes,
 								       "Mont_2" ));
 
-			/* on a fini de remplir le détail de la comparaison, on l'ajoute à la liste */
+			/* on a fini de remplir le dÃ©tail de la comparaison, on l'ajoute Ã  la liste */
 
 			etat -> liste_struct_comparaison_textes = g_slist_append ( etat -> liste_struct_comparaison_textes,
 										   comp_textes );
@@ -692,7 +692,7 @@ gboolean charge_etat_version_0_4_0 ( xmlDocPtr doc )
 									      "Mont_2" ),
 								 NULL );
 
-			/* on a fini de remplir le détail de la comparaison, on l'ajoute à la liste */
+			/* on a fini de remplir le dÃ©tail de la comparaison, on l'ajoute Ã  la liste */
 
 			etat -> liste_struct_comparaison_montants = g_slist_append ( etat -> liste_struct_comparaison_montants,
 										     comp_montants );
@@ -728,7 +728,7 @@ gboolean charge_etat_version_0_4_0 ( xmlDocPtr doc )
 
 		node_detail_etat = node_detail_etat -> next;
 	    }
-	    /* on a fini de remplir l'état, on l'ajoute à la liste */
+	    /* on a fini de remplir l'Ã©tat, on l'ajoute Ã  la liste */
 
 	    liste_struct_etats = g_slist_append ( liste_struct_etats,
 						  etat );
@@ -737,11 +737,11 @@ gboolean charge_etat_version_0_4_0 ( xmlDocPtr doc )
 	node = node -> next;
     }
 
-    /* on libère la memoire */
+    /* on libÃ¨re la memoire */
 
     xmlFreeDoc ( doc );
 
-    /* on rafraichit la liste des états */
+    /* on rafraichit la liste des Ã©tats */
 
     remplissage_liste_etats ();
 
@@ -750,7 +750,7 @@ gboolean charge_etat_version_0_4_0 ( xmlDocPtr doc )
 
     modification_fichier ( TRUE );
 
-    /* on affiche le log si nécessaire */
+    /* on affiche le log si nÃ©cessaire */
 
     affiche_log_message ();
 
@@ -763,8 +763,8 @@ gboolean charge_etat_version_0_4_0 ( xmlDocPtr doc )
 /***********************************************************************************************************/
 /* fonction recupere_devise_par_nom_etat */
 /* prend le nom d'une devise en argument et essaie */
-/* de retrouver son numéro */
-/* si rien n'est trouvé, renvoie le no de la 1ère devise et ajoute un message */
+/* de retrouver son numÃ©ro */
+/* si rien n'est trouvÃ©, renvoie le no de la 1Ã¨re devise et ajoute un message */
 /* dans le log */
 /***********************************************************************************************************/
 
@@ -797,8 +797,8 @@ gint recupere_devise_par_nom_etat ( gchar *nom )
 /***********************************************************************************************************/
 /* fonction recupere_exo_par_nom_etat */
 /* prend le nom de l'exo en argument et essaie */
-/* de retrouver son numéro */
-/* si rien n'est trouvé, renvoie 0 et ajoute un message */
+/* de retrouver son numÃ©ro */
+/* si rien n'est trouvÃ©, renvoie 0 et ajoute un message */
 /* dans le log */
 /***********************************************************************************************************/
 
@@ -835,8 +835,8 @@ gint recupere_exo_par_nom_etat ( gchar *nom )
 /***********************************************************************************************************/
 /* fonction recupere_compte_par_nom_etat */
 /* prend le nom du compte en argument et essaie */
-/* de retrouver son numéro */
-/* si rien n'est trouvé, renvoie -1 et ajoute un message */
+/* de retrouver son numÃ©ro */
+/* si rien n'est trouvÃ©, renvoie -1 et ajoute un message */
 /* dans le log */
 /***********************************************************************************************************/
 
@@ -866,8 +866,8 @@ gint recupere_compte_par_nom_etat ( gchar *nom )
 /***********************************************************************************************************/
 /* fonction recupere_categ_par_nom_etat */
 /* prend le nom de la categ en argument et essaie */
-/* de retrouver son numéro */
-/* si rien n'est trouvé, renvoie 0 et ajoute un message */
+/* de retrouver son numÃ©ro */
+/* si rien n'est trouvÃ©, renvoie 0 et ajoute un message */
 /* dans le log */
 /***********************************************************************************************************/
 
@@ -906,8 +906,8 @@ gint recupere_categ_par_nom_etat ( gchar *nom )
 /***********************************************************************************************************/
 /* fonction recupere_ib_par_nom_etat */
 /* prend le nom de l'ib en argument et essaie */
-/* de retrouver son numéro */
-/* si rien n'est trouvé, renvoie 0 et ajoute un message */
+/* de retrouver son numÃ©ro */
+/* si rien n'est trouvÃ©, renvoie 0 et ajoute un message */
 /* dans le log */
 /***********************************************************************************************************/
 
@@ -946,8 +946,8 @@ gint recupere_ib_par_nom_etat ( gchar *nom )
 /***********************************************************************************************************/
 /* fonction recupere_tiers_par_nom_etat */
 /* prend le nom du tiers en argument et essaie */
-/* de retrouver son numéro */
-/* si rien n'est trouvé, renvoie 0 et ajoute un message */
+/* de retrouver son numÃ©ro */
+/* si rien n'est trouvÃ©, renvoie 0 et ajoute un message */
 /* dans le log */
 /***********************************************************************************************************/
 
@@ -1003,7 +1003,7 @@ gboolean enregistre_etat ( gchar *nom_etat )
 				    "Grisbi_etat",
 				    NULL );
 
-    /* on commence à ajouter les generalites */
+    /* on commence Ã  ajouter les generalites */
 
     node = xmlNewChild ( doc->children,
 			 NULL,
@@ -1692,7 +1692,7 @@ gboolean enregistre_etat ( gchar *nom_etat )
     resultat = xmlSaveFile ( nom_etat,
 			     doc );
 
-    /* on libère la memoire */
+    /* on libÃ¨re la memoire */
 
     xmlFreeDoc ( doc );
 

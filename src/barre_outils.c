@@ -1,7 +1,7 @@
 /* fichier qui barre d'outils */
 /*           barre_outils.c */
 
-/*     Copyright (C) 2000-2003  CÈdric Auger */
+/*     Copyright (C) 2000-2003  C√©dric Auger */
 /* 			cedric@grisbi.org */
 /* 			http://www.grisbi.org */
 
@@ -108,7 +108,7 @@ GtkWidget *creation_barre_outils ( void )
     GtkWidget *hbox2;
 
 
-    /*     on utilise le tooltip gÈnÈral */
+    /*     on utilise le tooltip g√©n√©ral */
 
     if ( !tooltips_general_grisbi )
 	tooltips_general_grisbi = gtk_tooltips_new ();
@@ -188,7 +188,7 @@ GtkWidget *creation_barre_outils ( void )
     gtk_widget_show_all ( separateur );
 
 
-    /* bouton opÈrations 1 ligne */
+    /* bouton op√©rations 1 ligne */
 
     bouton_ope_lignes[0] = gtk_radio_button_new ( FALSE );
     gtk_toggle_button_set_mode ( GTK_TOGGLE_BUTTON ( bouton_ope_lignes[0]),
@@ -218,7 +218,7 @@ GtkWidget *creation_barre_outils ( void )
     gtk_widget_show_all ( bouton_ope_lignes[0] );
 
 
-    /* bouton opÈrations 2 lignes */
+    /* bouton op√©rations 2 lignes */
 
     bouton_ope_lignes[1] = gtk_radio_button_new_from_widget ( GTK_RADIO_BUTTON ( bouton_ope_lignes[0] ));
     gtk_toggle_button_set_mode ( GTK_TOGGLE_BUTTON ( bouton_ope_lignes[1]),
@@ -250,7 +250,7 @@ GtkWidget *creation_barre_outils ( void )
 
 
 
-    /* bouton opÈrations 3 lignes */
+    /* bouton op√©rations 3 lignes */
 
     bouton_ope_lignes[2] = gtk_radio_button_new_from_widget ( GTK_RADIO_BUTTON ( bouton_ope_lignes[0] ));
     gtk_toggle_button_set_mode ( GTK_TOGGLE_BUTTON ( bouton_ope_lignes[2]),
@@ -280,7 +280,7 @@ GtkWidget *creation_barre_outils ( void )
     gtk_widget_show_all ( bouton_ope_lignes[2] );
 
 
-    /* bouton opÈrations 4 lignes */
+    /* bouton op√©rations 4 lignes */
 
     bouton_ope_lignes[3] = gtk_radio_button_new_from_widget ( GTK_RADIO_BUTTON ( bouton_ope_lignes[0] ));
     gtk_toggle_button_set_mode ( GTK_TOGGLE_BUTTON ( bouton_ope_lignes[3]),
@@ -319,7 +319,7 @@ GtkWidget *creation_barre_outils ( void )
     gtk_widget_show_all ( separateur );
 
 
-    /* bouton affiche opÈrations relevÈes */
+    /* bouton affiche op√©rations relev√©es */
 
     bouton_affiche_r = gtk_radio_button_new ( NULL);
     gtk_toggle_button_set_mode ( GTK_TOGGLE_BUTTON ( bouton_affiche_r ),
@@ -348,7 +348,7 @@ GtkWidget *creation_barre_outils ( void )
     gtk_widget_show_all ( bouton_affiche_r );
 
 
-    /* bouton efface opÈrations relevÈes */
+    /* bouton efface op√©rations relev√©es */
 
     bouton_enleve_r = gtk_radio_button_new_from_widget ( GTK_RADIO_BUTTON ( bouton_affiche_r ));
     gtk_toggle_button_set_mode ( GTK_TOGGLE_BUTTON (bouton_enleve_r ),
@@ -385,7 +385,7 @@ GtkWidget *creation_barre_outils ( void )
 			 0 );
     gtk_widget_show_all ( separateur );
 
-    /*     bouton affiche/masque la grille des opÈrations */
+    /*     bouton affiche/masque la grille des op√©rations */
 
     bouton_grille = gtk_check_button_new ();
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON (bouton_grille ),
@@ -441,7 +441,7 @@ gboolean change_aspect_liste ( gint demande )
 
     p_tab_nom_de_compte_variable=p_tab_nom_de_compte + compte_courant;
 
-/* FIXME : dËs que gtk 2.4 ‡ la maison, utiliser le gtk_tree_model_filter */
+/* FIXME : d√®s que gtk 2.4 √† la maison, utiliser le gtk_tree_model_filter */
 
     block_menu_cb = TRUE;
 
@@ -504,7 +504,7 @@ gboolean change_aspect_liste ( gint demande )
 	    mise_a_jour_boutons_grille ();
 	    break;
 
-	/* 	1, 2, 3 et 4 sont les nb de lignes qu'on demande ‡ afficher */
+	/* 	1, 2, 3 et 4 sont les nb de lignes qu'on demande √† afficher */
 
 	case 1 :
 	    widget = gtk_item_factory_get_item ( item_factory_menu_general,
@@ -678,7 +678,7 @@ GtkWidget *creation_barre_outils_echeancier ( void )
     gtk_widget_show ( bouton_affiche_commentaire_echeancier );
 
 
-    /*     bouton affiche/masque la grille des opÈrations */
+    /*     bouton affiche/masque la grille des op√©rations */
 
     bouton_grille_echeancier = gtk_check_button_new ();
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON (bouton_grille_echeancier ),
@@ -1149,7 +1149,7 @@ GtkWidget *creation_barre_outils_imputation ( void )
 
 
 /*******************************************************************************************/
-/* Ètend l'arbre donnÈ en argument en fonction du bouton cliqu√© (profondeur contenue */
+/* √©tend l'arbre donn√© en argument en fonction du bouton cliqu√É¬© (profondeur contenue */
 /* dans le bouton) */
 /*******************************************************************************************/
 
@@ -1172,9 +1172,9 @@ void demande_expand_arbre ( GtkWidget *bouton,
 
     gtk_clist_freeze ( GTK_CLIST ( ctree ));
 
-    /* on doit faire Áa Ètage par Ètage car il y a des ajouts ‡ chaque ouverture de noeud */
+    /* on doit faire √ßa √©tage par √©tage car il y a des ajouts √† chaque ouverture de noeud */
 
-    /*   rÈcupËre le noeud sÈlectionnÈ, s'il n'y en a aucun, fera tout l'arbre */
+    /*   r√©cup√®re le noeud s√©lectionn√©, s'il n'y en a aucun, fera tout l'arbre */
 
     noeud_selectionne = NULL;
 
@@ -1195,15 +1195,15 @@ void demande_expand_arbre ( GtkWidget *bouton,
 
 
 /*******************************************************************************************/
-/* cette fonction met les boutons du nb lignes par opÈ et de l'affichage de R en fonction du compte */
-/* envoyÈ en argument */
+/* cette fonction met les boutons du nb lignes par op√© et de l'affichage de R en fonction du compte */
+/* envoy√© en argument */
 /*******************************************************************************************/
 
 void mise_a_jour_boutons_caract_liste ( gint no_compte )
 {
     p_tab_nom_de_compte_variable=p_tab_nom_de_compte + no_compte;
 
-    /*     on veut juste mettre les boutons ‡ jour, sans redessiner la liste */
+    /*     on veut juste mettre les boutons √† jour, sans redessiner la liste */
     /*     on bloque donc les appels aux fonctions */
 
     g_signal_handlers_block_by_func ( G_OBJECT ( bouton_ope_lignes[0] ),
@@ -1295,7 +1295,7 @@ void mise_a_jour_boutons_grille ( void )
 					G_CALLBACK ( change_aspect_liste ),
 					GINT_TO_POINTER (0));
     
-    /* On met maintenant le bouton grille de l'ÈchÈancier ou pas */
+    /* On met maintenant le bouton grille de l'√©ch√©ancier ou pas */
     g_signal_handlers_block_by_func ( G_OBJECT ( bouton_grille_echeancier ),
 				      G_CALLBACK ( change_aspect_liste ),
 				      GINT_TO_POINTER (0));

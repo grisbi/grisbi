@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                  utils_ib.c                    */
 /*                                                                            */
-/*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org)	      */
+/*     Copyright (C)	2000-2003 CÃ©dric Auger (cedric@grisbi.org)	      */
 /*			2003-2004 Benjamin Drieu (bdrieu@april.org)	      */
 /*			2003-2004 Alain Portal (dionysos@grisbi.org)	      */
 /* 			http://www.grisbi.org				      */
@@ -50,12 +50,12 @@ extern gint no_derniere_imputation;
 
 
 /* **************************************************************************************************** */
-/* retourne l'adr de la ib dont le nom est donné en argument */
-/* si pas trouvée : */
+/* retourne l'adr de la ib dont le nom est donnÃ© en argument */
+/* si pas trouvÃ©e : */
 /* renvoie NULL si creer = 0*/
-/* la crée et renvoie son adr avec le type_ib et la derniere sous_ib donnés si creer = 1 */
-/* type_ib = 0=crédit ; 1 = débit  */
-/* si on ajoute une ib, on met mise_a_jour_combofix_imputation_necessaire à 1 */
+/* la crÃ©e et renvoie son adr avec le type_ib et la derniere sous_ib donnÃ©s si creer = 1 */
+/* type_ib = 0=crÃ©dit ; 1 = dÃ©bit  */
+/* si on ajoute une ib, on met mise_a_jour_combofix_imputation_necessaire Ã  1 */
 /* **************************************************************************************************** */
 
 struct struct_imputation *imputation_par_nom ( gchar *nom_ib,
@@ -106,11 +106,11 @@ struct struct_imputation *imputation_par_nom ( gchar *nom_ib,
 
 
 /* **************************************************************************************************** */
-/* retourne l'adr de la sous imputation dont le nom est donné en argument */
-/* si pas trouvée : */
-/* la crée et renvoie son adr si creer=1 */
+/* retourne l'adr de la sous imputation dont le nom est donnÃ© en argument */
+/* si pas trouvÃ©e : */
+/* la crÃ©e et renvoie son adr si creer=1 */
 /* renvoie NULL si creer = 0 */
-/* si on ajoute une imputation, on met mise_a_jour_combofix_imputation_necessaire à 1 */
+/* si on ajoute une imputation, on met mise_a_jour_combofix_imputation_necessaire Ã  1 */
 /* **************************************************************************************************** */
 
 struct struct_sous_imputation *sous_imputation_par_nom ( struct struct_imputation *imputation,
@@ -160,8 +160,8 @@ struct struct_sous_imputation *sous_imputation_par_nom ( struct struct_imputatio
 
 
 /* **************************************************************************************************** */
-/* cette fonction renvoie l'adr de la imputation demandée en argument */
-/* et NULL si pas trouvée */
+/* cette fonction renvoie l'adr de la imputation demandÃ©e en argument */
+/* et NULL si pas trouvÃ©e */
 /* **************************************************************************************************** */
 struct struct_imputation *imputation_par_no ( gint no_imputation )
 {
@@ -182,7 +182,7 @@ struct struct_imputation *imputation_par_no ( gint no_imputation )
 
 
 /* **************************************************************************************************** */
-/* cette fonction renvoie l'adr de la sous imputation demandée */
+/* cette fonction renvoie l'adr de la sous imputation demandÃ©e */
 /* ou NULL si la imputation ou la sous imputation n'existe pas */
 /* **************************************************************************************************** */
 struct struct_sous_imputation *sous_imputation_par_no ( gint no_imputation,

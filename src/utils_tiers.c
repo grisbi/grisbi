@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                  utils_tiers.c                             */
 /*                                                                            */
-/*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org)	      */
+/*     Copyright (C)	2000-2003 CÃ©dric Auger (cedric@grisbi.org)	      */
 /*			2003-2004 Benjamin Drieu (bdrieu@april.org)	      */
 /*			2003-2004 Alain Portal (dionysos@grisbi.org)	      */
 /* 			http://www.grisbi.org				      */
@@ -45,8 +45,8 @@ extern GSList *liste_struct_tiers;
 
 
 /* **************************************************************************************************** */
-/* renvoie le tiers demandé par son no */
-/* ou NULL si pas trouvé */
+/* renvoie le tiers demandÃ© par son no */
+/* ou NULL si pas trouvÃ© */
 /* **************************************************************************************************** */
 struct struct_tiers *tiers_par_no ( gint no_tiers )
 {
@@ -66,8 +66,8 @@ struct struct_tiers *tiers_par_no ( gint no_tiers )
 
 
 /* **************************************************************************************************** */
-/* renvoie le tiers demandé par son no */
-/* si creer = 1, crée le tiers si pas trouvé */
+/* renvoie le tiers demandÃ© par son no */
+/* si creer = 1, crÃ©e le tiers si pas trouvÃ© */
 /* ou NULL si pb */
 /* **************************************************************************************************** */
 struct struct_tiers *tiers_par_nom ( gchar *nom_tiers,
@@ -99,10 +99,10 @@ struct struct_tiers *tiers_par_nom ( gchar *nom_tiers,
 
 
 /* **************************************************************************************************** */
-/* retourne le tiers en donnant comme argument son numéro */
+/* retourne le tiers en donnant comme argument son numÃ©ro */
 /* retour : soit le nom du tiers
- * 	    soit No third party defined si return_null est FALSE et pas de tiers trouvé,
- * 	    soit NULL si return_null est TRUE et pas de tiers trouvé */
+ * 	    soit No third party defined si return_null est FALSE et pas de tiers trouvÃ©,
+ * 	    soit NULL si return_null est TRUE et pas de tiers trouvÃ© */
 /* **************************************************************************************************** */
 
 gchar *tiers_name_by_no ( gint no_tiers,

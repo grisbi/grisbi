@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                  utils_operations.c                    */
 /*                                                                            */
-/*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org)	      */
+/*     Copyright (C)	2000-2003 CÃ©dric Auger (cedric@grisbi.org)	      */
 /*			2003-2004 Benjamin Drieu (bdrieu@april.org)	      */
 /*			2003-2004 Alain Portal (dionysos@grisbi.org)	      */
 /* 			http://www.grisbi.org				      */
@@ -45,8 +45,8 @@ extern gpointer **p_tab_nom_de_compte_variable;
 
 
 /*****************************************************************************************************/
-/* renvoie l'adr de l'opé demandée par son no */
-/* ou NULL si pas trouvée */
+/* renvoie l'adr de l'opÃ© demandÃ©e par son no */
+/* ou NULL si pas trouvÃ©e */
 /*****************************************************************************************************/
 struct structure_operation *operation_par_no ( gint no_operation,
 					       gint no_compte )
@@ -69,8 +69,8 @@ struct structure_operation *operation_par_no ( gint no_operation,
 
 
 /*****************************************************************************************************/
-/* renvoie l'adr de l'opé demandée par son no de cheque */
-/* ou NULL si pas trouvée */
+/* renvoie l'adr de l'opÃ© demandÃ©e par son no de cheque */
+/* ou NULL si pas trouvÃ©e */
 /*****************************************************************************************************/
 struct structure_operation *operation_par_cheque ( gint no_cheque,
 						   gint no_compte )
@@ -93,8 +93,8 @@ struct structure_operation *operation_par_cheque ( gint no_cheque,
 
 
 /*****************************************************************************************************/
-/* renvoie l'adr de l'opé demandée par son no id*/
-/* ou NULL si pas trouvée */
+/* renvoie l'adr de l'opÃ© demandÃ©e par son no id*/
+/* ou NULL si pas trouvÃ©e */
 /*****************************************************************************************************/
 struct structure_operation *operation_par_id ( gchar *no_id,
 					       gint no_compte )

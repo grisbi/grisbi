@@ -1,7 +1,7 @@
 /* Fichier banque.c */
 /* s'occupe de tout ce qui concerne les banques */
 
-/*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org) */
+/*     Copyright (C)	2000-2003 CÃ©dric Auger (cedric@grisbi.org) */
 /*			2003-2004 Benjamin Drieu (bdrieu@april.org) */
 /* 			http://www.grisbi.org */
 
@@ -153,7 +153,7 @@ gboolean update_bank_menu ()
 
 /* ***************************************************************************************************** */
 /* Fonction ajout_banque */
-/* appelée par le bouton ajouter de l'onglet banques des paramètres */
+/* appelÃ©e par le bouton ajouter de l'onglet banques des paramÃ¨tres */
 /* ***************************************************************************************************** */
 
 struct struct_banque * ajout_banque ( GtkWidget *bouton, GtkWidget *clist )
@@ -164,12 +164,12 @@ struct struct_banque * ajout_banque ( GtkWidget *bouton, GtkWidget *clist )
 
     if ( clist && GTK_IS_CLIST(clist) )
     {
-	/* enlève la sélection de la liste ( ce qui nettoie les entrées ) */
+	/* enlÃ¨ve la sÃ©lection de la liste ( ce qui nettoie les entrÃ©es ) */
 	gtk_clist_unselect_all ( GTK_CLIST ( clist ));
     }
 
-    /* crée une nouvelle banque au nom de "nouvelle banque" en mettant
-       tous les paramètres à 0 et le no à -1 */
+    /* crÃ©e une nouvelle banque au nom de "nouvelle banque" en mettant
+       tous les paramÃ¨tres Ã  0 et le no Ã  -1 */
     banque = calloc ( 1, sizeof ( struct struct_banque ));
     banque -> no_banque = -1;
     banque -> nom_banque = g_strdup ( _("New bank") );
@@ -183,13 +183,13 @@ struct struct_banque * ajout_banque ( GtkWidget *bouton, GtkWidget *clist )
     {
 	ligne_insert = gtk_clist_append ( GTK_CLIST ( clist ), ligne );
 
-	/* on associe à la ligne la struct de la banque */
+	/* on associe Ã  la ligne la struct de la banque */
 	gtk_clist_set_row_data ( GTK_CLIST ( clist ), ligne_insert, banque );
 
-	/* on sélectionne le nouveau venu */
+	/* on sÃ©lectionne le nouveau venu */
 	gtk_clist_select_row ( GTK_CLIST ( clist ), ligne_insert, 0 );
 
-	/* on sélectionne le "nouvelle banque" et lui donne le focus */
+	/* on sÃ©lectionne le "nouvelle banque" et lui donne le focus */
 	gtk_entry_select_region ( GTK_ENTRY ( nom_banque ), 0, -1 );
 	gtk_widget_grab_focus ( nom_banque );
     }
@@ -205,7 +205,7 @@ struct struct_banque * ajout_banque ( GtkWidget *bouton, GtkWidget *clist )
 
 /* **************************************************************************************************************************** */
 /* Fonction supprime_banque */
-/* appelée lorsqu'on clicke sur le bouton annuler dans les paramètres */
+/* appelÃ©e lorsqu'on clicke sur le bouton annuler dans les paramÃ¨tres */
 /* **************************************************************************************************************************** */
 
 void supprime_banque ( GtkWidget *bouton,
@@ -240,7 +240,7 @@ void supprime_banque ( GtkWidget *bouton,
 
     if ( !resultat )
     {
-	/* on désensitive la hbox_boutons_modif_banque au cas où on était en train de modifier */
+	/* on dÃ©sensitive la hbox_boutons_modif_banque au cas oÃ¹ on Ã©tait en train de modifier */
 	/* la banque */
 
 	gtk_widget_set_sensitive ( hbox_boutons_modif_banque,
@@ -261,7 +261,7 @@ void supprime_banque ( GtkWidget *bouton,
 
 /* ************************************************************************************************************ */
 /* Fonction creation_menu_banques */
-/* crée un menu qui contient les noms des banques associés à leur no et adr */
+/* crÃ©e un menu qui contient les noms des banques associÃ©s Ã  leur no et adr */
 /* et le renvoie */
 /* ************************************************************************************************************ */
 
@@ -388,7 +388,7 @@ GtkWidget *onglet_banques ( void )
 		ligne_insert = gtk_clist_append ( GTK_CLIST ( clist_banques_parametres ),
 						  ligne );
 
-		/* on associe à la ligne la struct de la banque */
+		/* on associe Ã  la ligne la struct de la banque */
 
 		gtk_clist_set_row_data ( GTK_CLIST ( clist_banques_parametres ),
 					 ligne_insert,
@@ -797,8 +797,8 @@ void edit_bank ( GtkWidget * button, struct struct_banque * bank )
 
 
 /* **************************************************************************************************** */
-/* cette fonction renvoie l'adr de la banque demandée en argument */
-/* et NULL si pas trouvée */
+/* cette fonction renvoie l'adr de la banque demandÃ©e en argument */
+/* et NULL si pas trouvÃ©e */
 /* **************************************************************************************************** */
 struct struct_banque *banque_par_no ( gint no_banque )
 {

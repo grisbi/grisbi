@@ -2,7 +2,7 @@
 /* fichier qui s'occupe de l'onglet de gestion des imputations                */
 /* 			imputation_budgetaire.c                               */
 /*                                                                            */
-/*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org)	      */
+/*     Copyright (C)	2000-2003 CÃ©dric Auger (cedric@grisbi.org)	      */
 /*			2004 Benjamin Drieu (bdrieu@april.org)		      */
 /*			2004 Alain Portal (dionysos@grisbi.org) 	      */
 /*			http://www.grisbi.org   			      */
@@ -92,9 +92,9 @@ GtkWidget *bouton_supprimer_imputation;
 GtkWidget *bouton_ajouter_imputation;
 GtkWidget *bouton_ajouter_sous_imputation;
 
-GSList *liste_struct_imputation;    /* liste des structures de catég */
+GSList *liste_struct_imputation;    /* liste des structures de catÃ©g */
 GSList *liste_imputations_combofix;        /*  liste des noms des imputation et sous imputation pour le combofix */
-gint nb_enregistrements_imputations;        /* nombre de catégories */
+gint nb_enregistrements_imputations;        /* nombre de catÃ©gories */
 gint no_derniere_imputation;
 gfloat *tab_montant_imputation;             /* buffer */
 gfloat **tab_montant_sous_imputation;            /* buffer */
@@ -136,7 +136,7 @@ extern GtkWidget *window;
 
 /* **************************************************************************************************** */
 /* Fonction onglet_imputations : */
-/* crée et renvoie le widget contenu dans l'onglet */
+/* crÃ©e et renvoie le widget contenu dans l'onglet */
 /* **************************************************************************************************** */
 
 GtkWidget *onglet_imputations ( void )
@@ -159,7 +159,7 @@ GtkWidget *onglet_imputations ( void )
     GtkWidget *bouton;
 
 
-    /* création de la fenêtre qui sera renvoyée */
+    /* crÃ©ation de la fenÃªtre qui sera renvoyÃ©e */
 
     onglet = gtk_hbox_new ( FALSE,
 			    5 );
@@ -171,7 +171,7 @@ GtkWidget *onglet_imputations ( void )
 
     /* mise en place de la partie de gauche */
 
-    /*   création de la frame de gauche */
+    /*   crÃ©ation de la frame de gauche */
 
     frame = gtk_frame_new ( NULL );
     gtk_frame_set_shadow_type ( GTK_FRAME ( frame ),
@@ -223,7 +223,7 @@ GtkWidget *onglet_imputations ( void )
     gtk_widget_show ( entree_nom_imputation );
 
 
-    /* création des radio bouton débit/crédit */
+    /* crÃ©ation des radio bouton dÃ©bit/crÃ©dit */
 
     separateur = gtk_hseparator_new ();
     gtk_box_pack_start ( GTK_BOX ( vbox_frame ),
@@ -281,7 +281,7 @@ GtkWidget *onglet_imputations ( void )
 
 
 
-    /*   création des boutons modifier et annuler */
+    /*   crÃ©ation des boutons modifier et annuler */
 
     hbox = gtk_hbox_new ( TRUE,
 			  5 );
@@ -379,7 +379,7 @@ GtkWidget *onglet_imputations ( void )
 			 0 );
     gtk_widget_show ( bouton_ajouter_sous_imputation );
 
-    /* séparation */
+    /* sÃ©paration */
 
     separateur = gtk_hseparator_new ();
     gtk_box_pack_start ( GTK_BOX ( vbox ),
@@ -389,7 +389,7 @@ GtkWidget *onglet_imputations ( void )
 			 5 );
     gtk_widget_show ( separateur );
 
-    /* mise en place du bouton fusionner avec les catégories */
+    /* mise en place du bouton fusionner avec les catÃ©gories */
 
     bouton = gtk_button_new_with_label ( _("Merge categories") );
     gtk_button_set_relief ( GTK_BUTTON ( bouton ),
@@ -406,7 +406,7 @@ GtkWidget *onglet_imputations ( void )
     gtk_widget_show ( bouton );
 
 
-    /* séparation */
+    /* sÃ©paration */
 
     separateur = gtk_hseparator_new ();
     gtk_box_pack_start ( GTK_BOX ( vbox ),
@@ -449,7 +449,7 @@ GtkWidget *onglet_imputations ( void )
     gtk_widget_show ( bouton );
 
 
-    /*   création de la frame de droite */
+    /*   crÃ©ation de la frame de droite */
 
     frame = gtk_frame_new ( NULL );
     gtk_frame_set_shadow_type ( GTK_FRAME ( frame ),
@@ -477,7 +477,7 @@ GtkWidget *onglet_imputations ( void )
 			 FALSE,
 			 0 );
 
-    /* création de l'arbre principal */
+    /* crÃ©ation de l'arbre principal */
 
     scroll_window = gtk_scrolled_window_new ( NULL,
 					      NULL );
@@ -527,7 +527,7 @@ GtkWidget *onglet_imputations ( void )
 				      3,
 				      FALSE );
 
-    /* on met la fontion de tri alphabétique en prenant en compte les accents */
+    /* on met la fontion de tri alphabÃ©tique en prenant en compte les accents */
 
     gtk_clist_set_compare_func ( GTK_CLIST ( arbre_imputation ),
 				 (GtkCListCompareFunc) classement_alphabetique_tree );
@@ -564,7 +564,7 @@ GtkWidget *onglet_imputations ( void )
     gtk_clist_set_compare_func ( GTK_CLIST ( arbre_imputation ),
 				 (GtkCListCompareFunc) classement_alphabetique_tree );
 
-    /* la 1ère fois qu'on affichera les catég, il faudra remplir la liste */
+    /* la 1Ã¨re fois qu'on affichera les catÃ©g, il faudra remplir la liste */
 
     modif_imputation = 1;
 
@@ -591,7 +591,7 @@ void remplit_arbre_imputation ( void )
 
     gtk_clist_freeze ( GTK_CLIST ( arbre_imputation ));
 
-    /* retire la sélection */
+    /* retire la sÃ©lection */
 
     gtk_clist_unselect_all ( GTK_CLIST ( arbre_imputation ));
 
@@ -600,7 +600,7 @@ void remplit_arbre_imputation ( void )
     gtk_clist_clear ( GTK_CLIST ( arbre_imputation ));
 
 
-    /* récupération de la devise des paramètres */
+    /* rÃ©cupÃ©ration de la devise des paramÃ¨tres */
 
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
 
@@ -661,7 +661,7 @@ void remplit_arbre_imputation ( void )
 					FALSE,
 					FALSE );
 
-	/* on associe à ce imputation à l'adr de sa struct */
+	/* on associe Ã  ce imputation Ã  l'adr de sa struct */
 
 	gtk_ctree_node_set_row_data ( GTK_CTREE ( arbre_imputation ),
 				      ligne,
@@ -720,7 +720,7 @@ void remplit_arbre_imputation ( void )
 							    FALSE,
 							    FALSE );
 
-	    /* on associe cette sous_imputation à l'adr de sa struct */
+	    /* on associe cette sous_imputation Ã  l'adr de sa struct */
 
 	    gtk_ctree_node_set_row_data ( GTK_CTREE ( arbre_imputation ),
 					  ligne_sous_imputation,
@@ -741,7 +741,7 @@ void remplit_arbre_imputation ( void )
 							    FALSE,
 							    FALSE );
 
-	    /* on associe le fils bidon à -1 */
+	    /* on associe le fils bidon Ã  -1 */
 
 	    gtk_ctree_node_set_row_data ( GTK_CTREE ( arbre_imputation ),
 					  ligne_sous_imputation,
@@ -751,7 +751,7 @@ void remplit_arbre_imputation ( void )
 	    liste_sous_imputation_tmp = liste_sous_imputation_tmp -> next;
 	}
 
-	/*       on a fini de saisir les sous catégories, s'il y avait des opés sans sous catég, on les mets ici */
+	/*       on a fini de saisir les sous catÃ©gories, s'il y avait des opÃ©s sans sous catÃ©g, on les mets ici */
 
 	if ( tab_montant_sous_imputation[place_imputation]
 	     &&
@@ -800,7 +800,7 @@ void remplit_arbre_imputation ( void )
 							    FALSE,
 							    FALSE );
 
-	    /* on associe le fils bidon à -1 */
+	    /* on associe le fils bidon Ã  -1 */
 
 	    gtk_ctree_node_set_row_data ( GTK_CTREE ( arbre_imputation ),
 					  ligne_sous_imputation,
@@ -811,7 +811,7 @@ void remplit_arbre_imputation ( void )
 	liste_imputation_tmp = liste_imputation_tmp -> next;
     }
 
-    /*   on a fini de mettre les catégories, on met ici les opés sans catég */
+    /*   on a fini de mettre les catÃ©gories, on met ici les opÃ©s sans catÃ©g */
 
     if ( tab_montant_imputation[0] )
     {
@@ -885,7 +885,7 @@ void remplit_arbre_imputation ( void )
 					FALSE,
 					FALSE );
 
-	/* on associe le fils bidon à -1 */
+	/* on associe le fils bidon Ã  -1 */
 
 	gtk_ctree_node_set_row_data ( GTK_CTREE ( arbre_imputation ),
 				      ligne,
@@ -924,8 +924,8 @@ void remplit_arbre_imputation ( void )
 
 /* **************************************************************************************************** */
 /* Fonction ouverture_node_imputation */
-/* appeléé lorsqu'on ouvre une imputation, sous imputation ou le compte d'une imputation */
-/* remplit ce qui doit être affiché */
+/* appelÃ©Ã© lorsqu'on ouvre une imputation, sous imputation ou le compte d'une imputation */
+/* remplit ce qui doit Ãªtre affichÃ© */
 /* **************************************************************************************************** */
 
 void ouverture_node_imputation ( GtkWidget *arbre,
@@ -943,7 +943,7 @@ void ouverture_node_imputation ( GtkWidget *arbre,
     if ( row->level == 1 )
 	return;
 
-    /*   si le fiston = -1, c'est qu'il n'a pas encore été créé */
+    /*   si le fiston = -1, c'est qu'il n'a pas encore Ã©tÃ© crÃ©Ã© */
     /* dans le cas contraire, on vire */
 
     if ( GPOINTER_TO_INT ( gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_imputation ),
@@ -956,16 +956,16 @@ void ouverture_node_imputation ( GtkWidget *arbre,
     gtk_clist_freeze ( GTK_CLIST ( arbre_imputation ));
 
 
-    /* on commence par virer la ligne bidon qui était attachée à ce noeud */
+    /* on commence par virer la ligne bidon qui Ã©tait attachÃ©e Ã  ce noeud */
 
     gtk_ctree_remove_node ( GTK_CTREE ( arbre_imputation ),
 			    row -> children );
 
-    /* séparation entre ouverture de sous-imputation ( 2 ) et ouverture de compte ( 3 ) */
+    /* sÃ©paration entre ouverture de sous-imputation ( 2 ) et ouverture de compte ( 3 ) */
 
     if ( row -> level == 2 )
     {
-	/* c'est une ouverture de sous imputation, on récupère sa structure  */
+	/* c'est une ouverture de sous imputation, on rÃ©cupÃ¨re sa structure  */
 
 	struct struct_imputation *imputation;
 	struct struct_sous_imputation *sous_imputation;
@@ -990,7 +990,7 @@ void ouverture_node_imputation ( GtkWidget *arbre,
 	    no_sous_imputation = 0;
 	}
 
-	/* on va scanner tous les comptes, dès qu'une imputation correspondant à l'imput sélectionnée est trouvé */
+	/* on va scanner tous les comptes, dÃ¨s qu'une imputation correspondant Ã  l'imput sÃ©lectionnÃ©e est trouvÃ© */
 	/* on affiche le nom du compte */
 
 	p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
@@ -1045,7 +1045,7 @@ void ouverture_node_imputation ( GtkWidget *arbre,
 							     FALSE,
 							     FALSE );
 
-		    /* associe le no de compte à la ligne du compte */
+		    /* associe le no de compte Ã  la ligne du compte */
 
 		    gtk_ctree_node_set_row_data ( GTK_CTREE ( arbre_imputation ),
 						  node_insertion,
@@ -1065,7 +1065,7 @@ void ouverture_node_imputation ( GtkWidget *arbre,
 							     FALSE,
 							     FALSE );
 
-		    /* on associe le fils bidon à -1 */
+		    /* on associe le fils bidon Ã  -1 */
 
 		    gtk_ctree_node_set_row_data ( GTK_CTREE ( arbre_imputation ),
 						  node_insertion,
@@ -1084,7 +1084,7 @@ void ouverture_node_imputation ( GtkWidget *arbre,
     else
     {
 	/* c'est une ouverture d'un compte */
-	/*       cette fois, on fait le tour de toutes les opés du compte pour afficher celles qui correspondent à la imputation */
+	/*       cette fois, on fait le tour de toutes les opÃ©s du compte pour afficher celles qui correspondent Ã  la imputation */
 
 	struct struct_imputation *imputation;
 	struct struct_sous_imputation *sous_imputation;
@@ -1184,7 +1184,7 @@ void ouverture_node_imputation ( GtkWidget *arbre,
 							 FALSE,
 							 FALSE );
 
-		/* on associe à cette opé l'adr de sa struct */
+		/* on associe Ã  cette opÃ© l'adr de sa struct */
 
 		gtk_ctree_node_set_row_data ( GTK_CTREE ( arbre_imputation ),
 					      node_insertion,
@@ -1363,12 +1363,12 @@ gboolean expand_selected_ib (  )
 	     !gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_imputation ),
 					    GTK_CTREE_ROW ( GTK_CTREE_ROW (( GTK_CLIST ( arbre_imputation ) -> selection ) -> data ) -> parent ) -> parent ))))
     {
-	/* passage sur le compte concerné */
+	/* passage sur le compte concernÃ© */
 
 	operation = gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_imputation ),
 						  GTK_CTREE_NODE ( ( GTK_CLIST ( arbre_imputation ) -> selection ) -> data ) );
 
-	/* si c'est une opé de ventilation, on se place sur l'opé ventilée correspondante */
+	/* si c'est une opÃ© de ventilation, on se place sur l'opÃ© ventilÃ©e correspondante */
 
 	if ( operation -> no_operation_ventilee_associee )
 	    operation = operation_par_no ( operation -> no_operation_ventilee_associee,
@@ -1453,8 +1453,8 @@ void clique_sur_modifier_imputation ( void )
     GtkCTreeNode *node;
 
 
-    /* si c'est une imputation et si c'est une modif du nom, on doit réafficher la liste des imputation et les listes des opés, sinon, on change juste la imputation et */
-    /* met à jour les listes de imputations */
+    /* si c'est une imputation et si c'est une modif du nom, on doit rÃ©afficher la liste des imputation et les listes des opÃ©s, sinon, on change juste la imputation et */
+    /* met Ã  jour les listes de imputations */
     /* si c'est une sous imputation, c'est obligmy_atoirement un changement de nom */
 
     if ( gtk_object_get_data ( GTK_OBJECT (  entree_nom_imputation ),
@@ -1610,7 +1610,7 @@ void supprimer_imputation ( void )
     imputation = gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_imputation ),
 					       node );
 
-    /* fait le tour des opés pour en trouver une qui a cette catégorie */
+    /* fait le tour des opÃ©s pour en trouver une qui a cette catÃ©gorie */
 
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
     ope_trouvee = 0;
@@ -1749,7 +1749,7 @@ void supprimer_imputation ( void )
 	    pointeur = pointeur -> next;
 	}
 
-	/*   on ajoute les listes des crédits / débits à la liste du combofix du formulaire */
+	/*   on ajoute les listes des crÃ©dits / dÃ©bits Ã  la liste du combofix du formulaire */
 
 	liste_combofix = g_slist_append ( liste_combofix,
 					  liste_imputation_debit );
@@ -1842,7 +1842,7 @@ retour_dialogue:
 	}
 
 
-	/* on fait le tour des opés pour mettre le nouveau numéro de imputation et sous_imputation */
+	/* on fait le tour des opÃ©s pour mettre le nouveau numÃ©ro de imputation et sous_imputation */
 
 	p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
 
@@ -1868,7 +1868,7 @@ retour_dialogue:
 	    p_tab_nom_de_compte_variable++;
 	}
 
-	/* fait le tour des échéances pour mettre le nouveau numéro de imputation et sous_imputation  */
+	/* fait le tour des Ã©chÃ©ances pour mettre le nouveau numÃ©ro de imputation et sous_imputation  */
 
 	liste_tmp = liste_struct_echeances;
 
@@ -1942,7 +1942,7 @@ void supprimer_sous_imputation ( void )
     imputation = gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_imputation ),
 					       node );
 
-    /* fait le tour des opés pour en trouver une qui a cette sous-catégorie */
+    /* fait le tour des opÃ©s pour en trouver une qui a cette sous-catÃ©gorie */
 
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
     ope_trouvee = 0;
@@ -2082,7 +2082,7 @@ void supprimer_sous_imputation ( void )
 	    pointeur = pointeur -> next;
 	}
 
-	/*   on ajoute les listes des crédits / débits à la liste du combofix du formulaire */
+	/*   on ajoute les listes des crÃ©dits / dÃ©bits Ã  la liste du combofix du formulaire */
 
 	liste_combofix = g_slist_append ( liste_combofix,
 					  liste_imputation_debit );
@@ -2142,7 +2142,7 @@ retour_dialogue:
 		goto retour_dialogue;
 	    }
 
-	    /* récupère les no de imputation et sous imputation */
+	    /* rÃ©cupÃ¨re les no de imputation et sous imputation */
 
 	    split_imputation = g_strsplit ( gtk_combofix_get_text ( GTK_COMBOFIX ( combofix )),
 					    " : ",
@@ -2178,7 +2178,7 @@ retour_dialogue:
 	}
 
 
-	/* on fait le tour des opés pour mettre le nouveau numéro de imputation et sous_imputation */
+	/* on fait le tour des opÃ©s pour mettre le nouveau numÃ©ro de imputation et sous_imputation */
 
 	p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
 
@@ -2206,7 +2206,7 @@ retour_dialogue:
 	    p_tab_nom_de_compte_variable++;
 	}
 
-	/* fait le tour des échéances pour mettre le nouveau numéro de imputation et sous_imputation  */
+	/* fait le tour des Ã©chÃ©ances pour mettre le nouveau numÃ©ro de imputation et sous_imputation  */
 
 	liste_tmp = liste_struct_echeances;
 
@@ -2260,12 +2260,12 @@ retour_dialogue:
 
 
 /***********************************************************************************************************/
-/*  Routine qui crée la liste des catégories pour les combofix du formulaire et de la ventilation */
-/* c'est à dire 3 listes dans 1 liste : */
-/* la première contient les catégories de débit */
-/* la seconde contient les catégories de crédit */
-/* la troisième contient les catégories spéciales ( virement, retrait, ventilation ) */
-/* la ventilation n'apparait pas dans les échéances ( et dans la ventilation ) */
+/*  Routine qui crÃ©e la liste des catÃ©gories pour les combofix du formulaire et de la ventilation */
+/* c'est Ã  dire 3 listes dans 1 liste : */
+/* la premiÃ¨re contient les catÃ©gories de dÃ©bit */
+/* la seconde contient les catÃ©gories de crÃ©dit */
+/* la troisiÃ¨me contient les catÃ©gories spÃ©ciales ( virement, retrait, ventilation ) */
+/* la ventilation n'apparait pas dans les Ã©chÃ©ances ( et dans la ventilation ) */
 /***********************************************************************************************************/
 
 void creation_liste_imputation_combofix ( void )
@@ -2322,7 +2322,7 @@ void creation_liste_imputation_combofix ( void )
     }
 
 
-    /*   on ajoute les listes des crédits / débits à la liste du combofix du formulaire */
+    /*   on ajoute les listes des crÃ©dits / dÃ©bits Ã  la liste du combofix du formulaire */
 
     liste_imputations_combofix = g_slist_append ( liste_imputations_combofix,
 						  liste_imputation_debit );
@@ -2336,8 +2336,8 @@ void creation_liste_imputation_combofix ( void )
 
 /***********************************************************************************************************/
 /* Fonction mise_a_jour_combofix_imputation */
-/* recrée les listes de catégories des combofix */
-/* et remet les combofix à jour */
+/* recrÃ©e les listes de catÃ©gories des combofix */
+/* et remet les combofix Ã  jour */
 /***********************************************************************************************************/
 
 void mise_a_jour_combofix_imputation ( void )
@@ -2363,7 +2363,7 @@ void mise_a_jour_combofix_imputation ( void )
 			    TRUE,
 			    TRUE );
 
-    /* FIXME : ça ne devrait pas se trouver dans cette fonction */
+    /* FIXME : Ã§a ne devrait pas se trouver dans cette fonction */
 
     if ( etat_courant )
     {
@@ -2382,7 +2382,7 @@ void mise_a_jour_combofix_imputation ( void )
 /***************************************************************************************************/
 void fusion_categories_imputation ( void )
 {
-    /* on fait le tour des catégories et on ajoute aux imputations celles qui n'existent pas */
+    /* on fait le tour des catÃ©gories et on ajoute aux imputations celles qui n'existent pas */
 
     GSList *liste_tmp;
 
@@ -2399,7 +2399,7 @@ void fusion_categories_imputation ( void )
 
 	categorie = liste_tmp -> data;
 
-	/* vérifie si une imputation du nom de la catégorie existe */
+	/* vÃ©rifie si une imputation du nom de la catÃ©gorie existe */
 
 	imputation = imputation_par_nom ( categorie -> nom_categ,
 					  1,
@@ -2408,7 +2408,7 @@ void fusion_categories_imputation ( void )
 	
 	if ( imputation )
 	{
-	    /* on fait maintenant la comparaison avec les sous catég et les sous imputations */
+	    /* on fait maintenant la comparaison avec les sous catÃ©g et les sous imputations */
 
 	    liste_sous_tmp = categorie -> liste_sous_categ;
 
@@ -2429,7 +2429,7 @@ void fusion_categories_imputation ( void )
 	liste_tmp = liste_tmp -> next;
     }
 
-    /* on met à jour les listes */
+    /* on met Ã  jour les listes */
 
     if ( mise_a_jour_combofix_imputation_necessaire )
 	mise_a_jour_combofix_imputation ();
@@ -2443,7 +2443,7 @@ void fusion_categories_imputation ( void )
 
 
 /* **************************************************************************************************** */
-/* crée un tableau de imputation et de sous imputation aussi gds que le nb de tiers */
+/* crÃ©e un tableau de imputation et de sous imputation aussi gds que le nb de tiers */
 /* et les renvoie dans un tab de 2 pointeurs */
 /* **************************************************************************************************** */
 
@@ -2451,9 +2451,9 @@ void calcule_total_montant_imputation ( void )
 {
     gint i;
 
-    /* on crée les tableaux de montant */
+    /* on crÃ©e les tableaux de montant */
 
-    /* le +1 pour reserver le [0] pour aucune catégorie */
+    /* le +1 pour reserver le [0] pour aucune catÃ©gorie */
 
     tab_montant_imputation = calloc ( nb_enregistrements_imputations + 1,
 				      sizeof ( gfloat ));
@@ -2483,7 +2483,7 @@ void calcule_total_montant_imputation ( void )
 
 	    operation = liste_tmp -> data;
 
-	    /* on commence par calculer le montant dans la devise demandée */
+	    /* on commence par calculer le montant dans la devise demandÃ©e */
 
 	    montant = calcule_montant_devise_renvoi ( operation -> montant,
 						      no_devise_totaux_tiers,
@@ -2492,7 +2492,7 @@ void calcule_total_montant_imputation ( void )
 						      operation -> taux_change,
 						      operation -> frais_change );
 
-	    /* on traite ensuite l'opération */
+	    /* on traite ensuite l'opÃ©ration */
 
 	    if ( operation -> imputation )
 	    {
@@ -2507,7 +2507,7 @@ void calcule_total_montant_imputation ( void )
 		place_imputation = g_slist_index ( liste_struct_imputation,
 						   imputation );
 
-		/* crée la place pour les sous catég de cette imputation si ce n'est déjà fait */
+		/* crÃ©e la place pour les sous catÃ©g de cette imputation si ce n'est dÃ©jÃ  fait */
 
 		if ( !tab_montant_sous_imputation[place_imputation] )
 		{
@@ -2515,7 +2515,7 @@ void calcule_total_montant_imputation ( void )
 
 		    nb_sous_imputation = g_slist_length ( imputation -> liste_sous_imputation );
 
-		    /* on réserve nb_sous_imputation + 1 pour aucune sous imputation qui sera en [0] */
+		    /* on rÃ©serve nb_sous_imputation + 1 pour aucune sous imputation qui sera en [0] */
 
 		    tab_montant_sous_imputation[place_imputation] = calloc ( nb_sous_imputation + 1,
 									     sizeof ( float ));
@@ -2526,7 +2526,7 @@ void calcule_total_montant_imputation ( void )
 		tab_montant_imputation[place_imputation+1] = tab_montant_imputation[place_imputation+1] + montant;
 		nb_ecritures_par_imputation[place_imputation+1]++;
 
-		/* on ajoute maintenant le montant à la sous imputation si elle existe */
+		/* on ajoute maintenant le montant Ã  la sous imputation si elle existe */
 
 		if ( operation -> sous_imputation )
 		{
@@ -2629,14 +2629,14 @@ void appui_sur_ajout_imputation ( void )
 					     COLON(_("Enter the name of the new budgetary line")) )))
 	return;
 
-    /* on l'ajoute à la liste des opés */
+    /* on l'ajoute Ã  la liste des opÃ©s */
 
     nouvelle_imputation = imputation_par_nom ( nom_imputation,
 					       1,
 					       0,
 					       0 );
 
-    /* on l'ajoute directement au ctree et on fait le tri pour éviter de toute la réafficher */
+    /* on l'ajoute directement au ctree et on fait le tri pour Ã©viter de toute la rÃ©afficher */
 
     text[0] = nouvelle_imputation -> nom_imputation;
     text[1] = NULL;
@@ -2655,7 +2655,7 @@ void appui_sur_ajout_imputation ( void )
 				    FALSE,
 				    FALSE );
 
-    /* on associe à ce imputation à l'adr de sa struct */
+    /* on associe Ã  ce imputation Ã  l'adr de sa struct */
 
     gtk_ctree_node_set_row_data ( GTK_CTREE ( arbre_imputation ),
 				  ligne,
@@ -2687,26 +2687,26 @@ void appui_sur_ajout_sous_imputation ( void )
 						  COLON(_("Enter the name of the new sub-budgetary line")) )))
 	return;
 
-    /* récupère le node parent */
+    /* rÃ©cupÃ¨re le node parent */
 
     node_parent = GTK_CLIST ( arbre_imputation ) -> selection -> data;
 
     while ( GTK_CTREE_ROW ( node_parent ) -> level != 1 )
 	node_parent = GTK_CTREE_ROW ( node_parent ) -> parent;
 
-    /* on récupère l'imputation parente */
+    /* on rÃ©cupÃ¨re l'imputation parente */
 
     imputation = gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_imputation ),
 					       node_parent );
 
-    /* on l'ajoute à la liste des opés */
+    /* on l'ajoute Ã  la liste des opÃ©s */
 
     nouvelle_sous_imputation = sous_imputation_par_nom ( imputation,
 							 nom_sous_imputation,
 							 1 );
 
 
-    /* on l'ajoute directement au ctree et on fait le tri pour éviter de toute la réafficher */
+    /* on l'ajoute directement au ctree et on fait le tri pour Ã©viter de toute la rÃ©afficher */
 
     text[0] = nouvelle_sous_imputation -> nom_sous_imputation;
     text[1] = NULL;
@@ -2725,7 +2725,7 @@ void appui_sur_ajout_sous_imputation ( void )
 				    FALSE,
 				    FALSE );
 
-    /* on associe à ce imputation à l'adr de sa struct */
+    /* on associe Ã  ce imputation Ã  l'adr de sa struct */
 
     gtk_ctree_node_set_row_data ( GTK_CTREE ( arbre_imputation ),
 				  ligne,
@@ -2766,7 +2766,7 @@ void exporter_ib ( void )
 
 	    gtk_widget_destroy ( GTK_WIDGET ( fenetre_nom ));
 
-	    /* vérification que c'est possible */
+	    /* vÃ©rification que c'est possible */
 
 	    if ( !strlen ( nom_ib ))
 		return;
@@ -2835,7 +2835,7 @@ void importer_ib ( void )
 
     gtk_widget_destroy ( GTK_WIDGET ( fenetre_nom ));
 
-    /* vérification que c'est possible */
+    /* vÃ©rification que c'est possible */
 
     if ( !strlen ( nom_ib ))
 	return;
@@ -2853,13 +2853,13 @@ void importer_ib ( void )
 			 GTK_SIGNAL_FUNC ( gtk_signal_emit_stop_by_name ),
 			 "destroy" );
 
-    /* pour éviter un warning lors de la compil */
+    /* pour Ã©viter un warning lors de la compil */
 
     bouton_merge_remplace = NULL;
 
     if ( no_derniere_operation )
     {
-	/*       il y a déjà des opérations dans le fichier, on ne peut que fusionner */
+	/*       il y a dÃ©jÃ  des opÃ©rations dans le fichier, on ne peut que fusionner */
 
 	label = gtk_label_new ( _("File already contains transactions, the two budgetary lines lists will be merged." ));
 	gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox ),

@@ -65,7 +65,7 @@ struct _GtkListButtonClass
 guint gtk_list_button_get_type ( void );
 
 /* ************************************************************** */
-/* crée et renvoie un nouveau list_button contenant le text */
+/* crÃ©e et renvoie un nouveau list_button contenant le text */
 /* group entre 0 et 15 */
 /* can_drag 1 ou 0 */
 /* ************************************************************** */
@@ -77,20 +77,20 @@ GtkWidget *gtk_list_button_new ( gchar * text,
 
 
 /* ************************************************************** */
-/* ferme l'icône du bouton donné en argument */
+/* ferme l'icÃŽne du bouton donnÃ© en argument */
 /* ************************************************************** */
 void gtk_list_button_close ( GtkButton *button );
 
 
 /* ************************************************************** */
-/* change le nom du list_button donné en argument */
+/* change le nom du list_button donnÃ© en argument */
 /* ************************************************************** */
 
 void gtk_list_button_set_name ( GtkListButton *, gchar * );
 
 
 /* ************************************************************** */
-/* récupère la donnée du bouton donné en argument */
+/* rÃ©cupÃšre la donnÃ©e du bouton donnÃ© en argument */
 /* ************************************************************** */
 
 gpointer gtk_list_button_get_data ( GtkListButton *button );

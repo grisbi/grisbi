@@ -1,7 +1,7 @@
 
 
-/* Constantes qui définisent le numéro de widget dans le formulaire
-   de ventilation des opérations */
+/* Constantes qui dÃ©finisent le numÃ©ro de widget dans le formulaire
+   de ventilation des opÃ©rations */
 # define TRANSACTION_BREAKDOWN_FORM_CATEGORY 0
 # define TRANSACTION_BREAKDOWN_FORM_NOTES 1
 # define TRANSACTION_BREAKDOWN_FORM_DEBIT 2

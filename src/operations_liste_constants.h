@@ -1,5 +1,5 @@
-/* Constantes qui définisent le numéro de colonne dans la liste des opérations
-   dans l'onglet opérations */
+/* Constantes qui dÃ©finisent le numÃ©ro de colonne dans la liste des opÃ©rations
+   dans l'onglet opÃ©rations */
 #define TRANSACTION_COL_NB_CHECK 0
 #define TRANSACTION_COL_NB_DATE 1
 #define TRANSACTION_COL_NB_PARTY 2
@@ -11,8 +11,8 @@
 
 #define TRANSACTION_LIST_ROWS_NB 4
 
-/* constantes qui définissent le no associé au paramètre
- * dans la liste d'opé */
+/* constantes qui dÃ©finissent le no associÃ© au paramÃštre
+ * dans la liste d'opÃ© */
 # define TRANSACTION_LIST_DATE 1
 # define TRANSACTION_LIST_VALUE_DATE 2
 # define TRANSACTION_LIST_PARTY 3

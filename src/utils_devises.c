@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                  utils_devises.c                           */
 /*                                                                            */
-/*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org)	      */
+/*     Copyright (C)	2000-2003 CÃ©dric Auger (cedric@grisbi.org)	      */
 /*			2003-2004 Benjamin Drieu (bdrieu@april.org)	      */
 /*			2003-2004 Alain Portal (dionysos@grisbi.org)	      */
 /* 			http://www.grisbi.org				      */
@@ -46,9 +46,9 @@ extern GSList *liste_struct_devises;
 
 
 /* **************************************************************************************************************************** */
-/* cette fonction prend en argument un montant, la devise de renvoi (en général la devise du compte) */
-/*      et la devise du montant donné en argument */
-/* elle renvoie le montant de l'opération dans la devise de renvoi */
+/* cette fonction prend en argument un montant, la devise de renvoi (en gÃ©nÃ©ral la devise du compte) */
+/*      et la devise du montant donnÃ© en argument */
+/* elle renvoie le montant de l'opÃ©ration dans la devise de renvoi */
 /* **************************************************************************************************************************** */
 
 gdouble calcule_montant_devise_renvoi ( gdouble montant_init,
@@ -60,7 +60,7 @@ gdouble calcule_montant_devise_renvoi ( gdouble montant_init,
 {
     gdouble montant;
 
-    /* tout d'abord, si les 2 devises sont les mÃªmes, on renvoie le montant directement */
+    /* tout d'abord, si les 2 devises sont les mÃÂªmes, on renvoie le montant directement */
 
     if ( no_devise_renvoi == no_devise_montant )
 	return ( montant_init );
@@ -69,14 +69,14 @@ gdouble calcule_montant_devise_renvoi ( gdouble montant_init,
     /* on utilise les variables globales devise_compte et devise_operation pour */
     /* gagner du temps */
 
-    /* rÃ©cupÃ¨re la devise du compte si nÃ©cessaire */
+    /* rÃÂ©cupÃÂšre la devise du compte si nÃÂ©cessaire */
 
     if ( !devise_compte
 	 ||
 	 devise_compte -> no_devise != no_devise_renvoi )
 	devise_compte = devise_par_no ( no_devise_renvoi );
 
-    /* rÃ©cupÃ¨re la devise de l'opÃ©ration si nÃ©cessaire */
+    /* rÃÂ©cupÃÂšre la devise de l'opÃÂ©ration si nÃÂ©cessaire */
 
     if ( !devise_operation
 	 ||
@@ -110,7 +110,7 @@ gdouble calcule_montant_devise_renvoi ( gdouble montant_init,
 
 /* ***************************************************************************************** */
 /* renvoie la devise correspondant au no */
-/* renvoie NULL si pas trouvée */
+/* renvoie NULL si pas trouvÃ©e */
 /* ***************************************************************************************** */
 struct struct_devise *devise_par_no ( gint no_devise )
 {
@@ -131,7 +131,7 @@ struct struct_devise *devise_par_no ( gint no_devise )
 
 /* ***************************************************************************************** */
 /* renvoie la devise correspondant au nom */
-/* renvoie NULL si pas trouvée */
+/* renvoie NULL si pas trouvÃ©e */
 /* ***************************************************************************************** */
 struct struct_devise *devise_par_nom ( gchar *nom_devise )
 {
@@ -152,7 +152,7 @@ struct struct_devise *devise_par_nom ( gchar *nom_devise )
 
 /* ***************************************************************************************** */
 /* renvoie la devise correspondant au code iso */
-/* renvoie NULL si pas trouvée */
+/* renvoie NULL si pas trouvÃ©e */
 /* ***************************************************************************************** */
 struct struct_devise *devise_par_code_iso ( gchar *code_iso )
 {
@@ -199,7 +199,7 @@ gchar * devise_code ( struct struct_devise * devise )
 
 /* ***************************************************************************************** */
 /* renvoie le code de la devise correspondante au no */
-/* ou null si pas trouvée */
+/* ou null si pas trouvÃ©e */
 /* ***************************************************************************************** */
 
 gchar * devise_code_by_no ( gint no_devise )
@@ -210,7 +210,7 @@ gchar * devise_code_by_no ( gint no_devise )
 
 
 /* ***************************************************************************************** */
-/* renvoie le nom de la devise donné en argument */
+/* renvoie le nom de la devise donnÃ© en argument */
 /* ***************************************************************************************** */
 gchar * devise_name ( struct struct_devise * devise )
 {

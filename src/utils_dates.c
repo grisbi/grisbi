@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                  utils_dates.c                             */
 /*                                                                            */
-/*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org)	      */
+/*     Copyright (C)	2000-2003 CÃ©dric Auger (cedric@grisbi.org)	      */
 /*			2003-2004 Benjamin Drieu (bdrieu@april.org)	      */
 /*			2003-2004 Alain Portal (dionysos@grisbi.org)	      */
 /* 			http://www.grisbi.org				      */
@@ -90,9 +90,9 @@ GDate *gdate_today ( void )
 
 /******************************************************************************/
 /* Fonction modifie_date                                                      */
-/* prend en argument une entrée contenant une date                            */
-/* vérifie la validité et la modifie si seulement une partie est donnée       */
-/* met la date du jour si l'entrée est vide                                   */
+/* prend en argument une entrÃ©e contenant une date                            */
+/* vÃ©rifie la validitÃ© et la modifie si seulement une partie est donnÃ©e       */
+/* met la date du jour si l'entrÃ©e est vide                                   */
 /* renvoie TRUE si la date est correcte                                       */
 /******************************************************************************/
 gboolean modifie_date ( GtkWidget *entree )
@@ -102,7 +102,7 @@ gboolean modifie_date ( GtkWidget *entree )
     GDate *date;
     gchar **tab_date;
 
-    /* si l'entrée est grise, on se barre */
+    /* si l'entrÃ©e est grise, on se barre */
 
     if (( gtk_widget_get_style ( entree ) == style_entree_formulaire[ENGRIS] ))
 	return ( FALSE );
@@ -111,7 +111,7 @@ gboolean modifie_date ( GtkWidget *entree )
 
     if ( !strlen ( pointeur_entry ))
     {
-	/* si on est dans la conf des états, on ne met pas la date du jour, on */
+	/* si on est dans la conf des Ã©tats, on ne met pas la date du jour, on */
 	/* laisse vide */
 
 	if ( entree != entree_date_init_etat &&
@@ -128,7 +128,7 @@ gboolean modifie_date ( GtkWidget *entree )
 
 	if ( tab_date[2] && tab_date[1] )
 	{
-	    /*       on a rentré les 3 chiffres de la date */
+	    /*       on a rentrÃ© les 3 chiffres de la date */
 
 	    jour = my_strtod ( tab_date[0],  NULL );
 	    mois = my_strtod ( tab_date[1], NULL );
@@ -143,7 +143,7 @@ gboolean modifie_date ( GtkWidget *entree )
 	else
 	    if ( tab_date[1] )
 	    {
-		/* 	on a rentré la date sous la forme xx/xx , il suffit de mettre l'année courante */
+		/* 	on a rentrÃ© la date sous la forme xx/xx , il suffit de mettre l'annÃ©e courante */
 
 		jour = my_strtod ( tab_date[0], NULL );
 		mois = my_strtod ( tab_date[1], NULL );
@@ -152,8 +152,8 @@ gboolean modifie_date ( GtkWidget *entree )
 	    }
 	    else
 	    {
-		/* 	on a rentré que le jour de la date, il faut mettre le mois et l'année courante */
-		/* ou bien on a rentré la date sous forme jjmm ou jjmmaa ou jjmmaaaa */
+		/* 	on a rentrÃ© que le jour de la date, il faut mettre le mois et l'annÃ©e courante */
+		/* ou bien on a rentrÃ© la date sous forme jjmm ou jjmmaa ou jjmmaaaa */
 
 		gchar buffer[3];
 
@@ -233,9 +233,9 @@ gboolean modifie_date ( GtkWidget *entree )
 
 /******************************************************************************/
 /* Fonction format_date                                                       */
-/* Prend en argument une entrée contenant une date                            */
-/* Vérifie la validité et la modifie si seulement une partie est donnée       */
-/* Met la date du jour si l'entrée est vide                                   */
+/* Prend en argument une entrÃ©e contenant une date                            */
+/* VÃ©rifie la validitÃ© et la modifie si seulement une partie est donnÃ©e       */
+/* Met la date du jour si l'entrÃ©e est vide                                   */
 /* Renvoie TRUE si la date est correcte                                       */
 /******************************************************************************/
 gboolean format_date ( GtkWidget *entree )
@@ -263,7 +263,7 @@ gboolean format_date ( GtkWidget *entree )
 
 	if ( tab_date[2] && tab_date[1] )
 	{
-	    /* on a rentré les 3 chiffres de la date */
+	    /* on a rentrÃ© les 3 chiffres de la date */
 	    jour = my_atoi ( tab_date[0] );
 	    mois = my_atoi ( tab_date[1] );
 	    annee = my_atoi ( tab_date[2] );
@@ -280,17 +280,17 @@ gboolean format_date ( GtkWidget *entree )
 	{
 	    if ( tab_date[1] )
 	    {
-		/* on a rentré la date sous la forme xx/xx,
-		   il suffit de mettre l'année courante */
+		/* on a rentrÃ© la date sous la forme xx/xx,
+		   il suffit de mettre l'annÃ©e courante */
 		jour = my_atoi ( tab_date[0] );
 		mois = my_atoi ( tab_date[1] );
 		annee = g_date_year ( date );
 	    }
 	    else
 	    {
-		/* on a rentré que le jour de la date,
-		   il faut mettre le mois et l'année courante
-		   ou bien on a rentré la date sous forme
+		/* on a rentrÃ© que le jour de la date,
+		   il faut mettre le mois et l'annÃ©e courante
+		   ou bien on a rentrÃ© la date sous forme
 		   jjmm ou jjmmaa ou jjmmaaaa */
 		gchar buffer[3];
 
@@ -644,10 +644,10 @@ GtkWidget * get_entry_from_date_entry (GtkWidget * hbox)
 
 
 /* ******************************************************************************* */
-/* cette fonction renvoie une chaine formatée jj/mm/aaaa à partir */
-/* du Gdate donné en argument */
-/* \param date GDate demandée */
-/* \return la date formatée ou "" */
+/* cette fonction renvoie une chaine formatÃ©e jj/mm/aaaa Ã  partir */
+/* du Gdate donnÃ© en argument */
+/* \param date GDate demandÃ©e */
+/* \return la date formatÃ©e ou "" */
 /* ******************************************************************************* */
 gchar *renvoie_date_formatee ( GDate *date )
 {

@@ -1,6 +1,6 @@
 /* ComboFix Widget
  *
- *     Copyright (C)	2001 Cédric Auger (cedric@grisbi.org) 
+ *     Copyright (C)	2001 CÃ©dric Auger (cedric@grisbi.org) 
  *			2003 Benjamin Drieu (bdrieu@april.org) 
  * 			http://www.grisbi.org
  *
@@ -146,7 +146,7 @@ static void gtk_combofix_init ( GtkComboFix *combofix )
     GtkWidget *vbox;
     GtkWidget *frame;
 
-    /*   création de la vbox ( permet d'éviter que le combofix s'agrandisse si on agrandit la fenetre )*/
+    /*   crÃ©ation de la vbox ( permet d'Ã©viter que le combofix s'agrandisse si on agrandit la fenetre )*/
 
     vbox = gtk_vbox_new ( FALSE,
 			  0 );
@@ -157,7 +157,7 @@ static void gtk_combofix_init ( GtkComboFix *combofix )
     gtk_widget_show ( vbox );
 
 
-    /*   création de la hbox */
+    /*   crÃ©ation de la hbox */
 
     hbox = gtk_hbox_new ( FALSE,
 			  0 );
@@ -170,7 +170,7 @@ static void gtk_combofix_init ( GtkComboFix *combofix )
     gtk_widget_show ( hbox );
 
 
-    /* création de l'entrée */
+    /* crÃ©ation de l'entrÃ©e */
 
     combofix->entry = gtk_entry_new();
 
@@ -205,7 +205,7 @@ static void gtk_combofix_init ( GtkComboFix *combofix )
 			 0 );
     gtk_widget_show ( combofix->entry );
 
-    /*   création de l'arrow */
+    /*   crÃ©ation de l'arrow */
 
     combofix -> arrow = gtk_button_new ();
     gtk_button_set_relief ( GTK_BUTTON ( combofix -> arrow ),
@@ -228,8 +228,8 @@ static void gtk_combofix_init ( GtkComboFix *combofix )
     gtk_widget_show_all ( combofix->arrow);
 
 
-    /* création du menu attaché au widget */
-    /* on ne crée que pour l'instant la window popup et la boite qui contiendra la liste, une scrolledWindow */
+    /* crÃ©ation du menu attachÃ© au widget */
+    /* on ne crÃ©e que pour l'instant la window popup et la boite qui contiendra la liste, une scrolledWindow */
 
     combofix->popup = gtk_window_new ( GTK_WINDOW_POPUP );
     gtk_window_set_policy ( GTK_WINDOW ( combofix->popup ),
@@ -255,7 +255,7 @@ static void gtk_combofix_init ( GtkComboFix *combofix )
     combofix -> label_selectionne = -1;
 
 
-    /* pour l'instant, met la liste à 0 */
+    /* pour l'instant, met la liste Ã  0 */
 
     combofix -> liste = NULL;
 
@@ -268,14 +268,14 @@ static void gtk_combofix_init ( GtkComboFix *combofix )
 /* **************************************************************************************************** */
 /* gtk_combofix_new : */
 /* arguments :             */
-/* liste :                      liste de noms ( \t en début de chaine pour une sous catégorie ) */
-/* force_text :            TRUE ( le texte doit correspondre à la liste ) / FALSE */
-/* affiche_liste :         TRUE ( la liste sera affichée en tapant le mot ) / FALSE */
-/* classement_auto : TRUE ( la liste est toujours classée par ordre alphabétique ) / FALSE  */
-/* lignes_max : contient le nb maximal de lignes affichées de la liste, si 0=les affiche toutes, */
-/* s'il est dépassé, n'affiche rien */
+/* liste :                      liste de noms ( \t en dÃ©but de chaine pour une sous catÃ©gorie ) */
+/* force_text :            TRUE ( le texte doit correspondre Ã  la liste ) / FALSE */
+/* affiche_liste :         TRUE ( la liste sera affichÃ©e en tapant le mot ) / FALSE */
+/* classement_auto : TRUE ( la liste est toujours classÃ©e par ordre alphabÃ©tique ) / FALSE  */
+/* lignes_max : contient le nb maximal de lignes affichÃ©es de la liste, si 0=les affiche toutes, */
+/* s'il est dÃ©passÃ©, n'affiche rien */
 /*                                                                                                               */
-/* retour : le widget gtk_combofix ( une hbox contenant l'entrée et d'une arrow ) */
+/* retour : le widget gtk_combofix ( une hbox contenant l'entrÃ©e et d'une arrow ) */
 /* **************************************************************************************************** */
 
 GtkWidget *gtk_combofix_new ( GSList *liste,
@@ -325,12 +325,12 @@ GtkWidget *gtk_combofix_new ( GSList *liste,
 			GTK_SHADOW_ETCHED_OUT);
 
 
-    /* création de la liste des complétions : système de catégories - sous catégories */
-    /* toutes catégorie est mise dans la liste */
-    /*   les sous-catég sont mises sous la forme catég : sous-catég */
-    /* on trie à la fin la liste par ordre alphabétique pour que lors d'une complétion, c'est le 1er qui sorte */
+    /* crÃ©ation de la liste des complÃ©tions : systÃ¨me de catÃ©gories - sous catÃ©gories */
+    /* toutes catÃ©gorie est mise dans la liste */
+    /*   les sous-catÃ©g sont mises sous la forme catÃ©g : sous-catÃ©g */
+    /* on trie Ã  la fin la liste par ordre alphabÃ©tique pour que lors d'une complÃ©tion, c'est le 1er qui sorte */
 
-    /* protège de l'erreur si on met une sous categ en 1er */
+    /* protÃ¨ge de l'erreur si on met une sous categ en 1er */
 
     derniere_categ = "";
 
@@ -367,15 +367,15 @@ GtkWidget *gtk_combofix_new ( GSList *liste,
 /* **************************************************************************************************** */
 /* gtk_combofix_new_complex : */
 /* arguments :                             */
-/* liste :                      liste de liste de noms ( \t en début de chaine pour une sous catégorie ) */
-/*                               chaque liste sera séparée d'une ligne */
-/* force_text :            TRUE ( le texte doit correspondre à la liste ) / FALSE */
-/* affiche_liste :         TRUE ( la liste sera affichée en tapant le mot ) / FALSE */
-/* classement_auto : TRUE ( la liste est toujours classée par ordre alphabétique ) / FALSE  */
-/* lignes_max : contient le nb maximal de lignes affichées de la liste, si 0=les affiche toutes, */
-/* s'il est dépassé, n'affiche rien */
+/* liste :                      liste de liste de noms ( \t en dÃ©but de chaine pour une sous catÃ©gorie ) */
+/*                               chaque liste sera sÃ©parÃ©e d'une ligne */
+/* force_text :            TRUE ( le texte doit correspondre Ã  la liste ) / FALSE */
+/* affiche_liste :         TRUE ( la liste sera affichÃ©e en tapant le mot ) / FALSE */
+/* classement_auto : TRUE ( la liste est toujours classÃ©e par ordre alphabÃ©tique ) / FALSE  */
+/* lignes_max : contient le nb maximal de lignes affichÃ©es de la liste, si 0=les affiche toutes, */
+/* s'il est dÃ©passÃ©, n'affiche rien */
 /*                                                                                                                                    */
-/* retour : le widget gtk_combofix ( une hbox contenant l'entrée et d'une arrow ) */
+/* retour : le widget gtk_combofix ( une hbox contenant l'entrÃ©e et d'une arrow ) */
 /* **************************************************************************************************** */
 
 GtkWidget *gtk_combofix_new_complex ( GSList *liste,
@@ -434,11 +434,11 @@ GtkWidget *gtk_combofix_new_complex ( GSList *liste,
 			GTK_ARROW_UP,
 			GTK_SHADOW_ETCHED_OUT);
 
-    /* création de la liste des complétions : système de catégories - sous catégories */
-    /* toutes catégorie est mise dans la liste */
-    /*   les sous-catég sont mises sous la forme catég : sous-catég */
+    /* crÃ©ation de la liste des complÃ©tions : systÃ¨me de catÃ©gories - sous catÃ©gories */
+    /* toutes catÃ©gorie est mise dans la liste */
+    /*   les sous-catÃ©g sont mises sous la forme catÃ©g : sous-catÃ©g */
 
-    /* protège de l'erreur si on met une sous categ en 1er */
+    /* protÃ¨ge de l'erreur si on met une sous categ en 1er */
 
     derniere_categ = "";
 
@@ -484,46 +484,46 @@ GtkWidget *gtk_combofix_new_complex ( GSList *liste,
 static gint classe_alphabetique ( gchar *string_1,
 				  gchar *string_2 )
 {
-    /*   comme la fonction g_strcasecmp met les accents derrière, on magouille pour les prendre en compte */
+    /*   comme la fonction g_strcasecmp met les accents derriÃ¨re, on magouille pour les prendre en compte */
 
     string_1 = g_strdup ( string_1 );
     string_1 = g_strdelimit ( string_1,
-			      "éÉèÈêÊ",
+			      "Ã©Ã‰Ã¨ÃˆÃªÃŠ",
 			      'e' );
     string_1 = g_strdelimit ( string_1,
-			      "çÇ",
+			      "Ã§Ã‡",
 			      'c' );
     string_1 = g_strdelimit ( string_1,
-			      "àÀ",
+			      "Ã Ã€",
 			      'a' );
     string_1 = g_strdelimit ( string_1,
-			      "ùûÙÛ",
+			      "Ã¹Ã»Ã™Ã›",
 			      'u' );
     string_1 = g_strdelimit ( string_1,
-			      "ôÔ",
+			      "Ã´Ã”",
 			      'o' );
     string_1 = g_strdelimit ( string_1,
-			      "îÎ",
+			      "Ã®Ã",
 			      'i' );
 
     string_2 = g_strdup ( string_2 );
     string_2 = g_strdelimit ( string_2,
-			      "éÉèÈêÊ",
+			      "Ã©Ã‰Ã¨ÃˆÃªÃŠ",
 			      'e' );
     string_2 = g_strdelimit ( string_2,
-			      "çÇ",
+			      "Ã§Ã‡",
 			      'c' );
     string_2 = g_strdelimit ( string_2,
-			      "àÀ",
+			      "Ã Ã€",
 			      'a' );
     string_2 = g_strdelimit ( string_2,
-			      "ùûÙÛ",
+			      "Ã¹Ã»Ã™Ã›",
 			      'u' );
     string_2 = g_strdelimit ( string_2,
-			      "ôÔ",
+			      "Ã´Ã”",
 			      'o' );
     string_2 = g_strdelimit ( string_2,
-			      "îÎ",
+			      "Ã®Ã",
 			      'i' );
 
 
@@ -537,13 +537,13 @@ static gint classe_alphabetique ( gchar *string_1,
 
 /* **************************************************************************************************** */
 /* Fonction : change_arrow : */
-/* appelée lors de click sur la flèche */
+/* appelÃ©e lors de click sur la flÃ¨che */
 /* **************************************************************************************************** */
 
 static gboolean change_arrow ( GtkWidget *bouton,
 			       GtkComboFix *combofix )
 {
-    /* nécessaire de mettre le grab_focus en premier pour le fonctionnement avec grisbi */
+    /* nÃ©cessaire de mettre le grab_focus en premier pour le fonctionnement avec grisbi */
 
     gtk_widget_grab_focus ( combofix -> entry );
 
@@ -576,8 +576,8 @@ static gboolean change_arrow ( GtkWidget *bouton,
 
 
 /* **************************************************************************************************** */
-/* fonction appelée à la fin lorsqu'une lettre est tapée */
-/* ou lorsque du texte est effacé : dans ce cas entree = NULL */
+/* fonction appelÃ©e Ã  la fin lorsqu'une lettre est tapÃ©e */
+/* ou lorsque du texte est effacÃ© : dans ce cas entree = NULL */
 /* **************************************************************************************************** */
 
 static gboolean affiche_proposition ( GtkWidget *entree,
@@ -608,13 +608,13 @@ static gboolean affiche_proposition ( GtkWidget *entree,
     couleur_bleue.green = COULEUR_GREEN;
     couleur_bleue.blue = COULEUR_BLUE;
 
-    /*   pour éviter un warning lors de la compil : */
+    /*   pour Ã©viter un warning lors de la compil : */
 
     categorie = "";
 
 
     /*   si la liste de mot est nulle, soit force_text n'est pas mis, et on vire, soit il est mis, */
-    /* et on vide l'entrée avant de virer */
+    /* et on vide l'entrÃ©e avant de virer */
 
     if ( !combofix->liste  )
     {
@@ -636,7 +636,7 @@ static gboolean affiche_proposition ( GtkWidget *entree,
 	return TRUE;
     }
 
-    /* recherche de la complétion */
+    /* recherche de la complÃ©tion */
 
 recherche_completion:
 
@@ -675,8 +675,8 @@ recherche_completion:
     else
 	completion = "";
 
-    /* commence par vérifier l'entrée si force_text = 1 */
-    /* si le mot n'existe pas dans la liste autorisée, efface ce qui a été ajouté */
+    /* commence par vÃ©rifier l'entrÃ©e si force_text = 1 */
+    /* si le mot n'existe pas dans la liste autorisÃ©e, efface ce qui a Ã©tÃ© ajoutÃ© */
 
     if ( combofix -> force_text
 	 &&
@@ -707,8 +707,8 @@ recherche_completion:
     }
 
 
-    /*   si on voulait juste une complétion sans popup, on la fait et on s'en va */
-    /* ne fait pas la complétion si c'est du texte effacé */
+    /*   si on voulait juste une complÃ©tion sans popup, on la fait et on s'en va */
+    /* ne fait pas la complÃ©tion si c'est du texte effacÃ© */
 
     if ( entree && !combofix -> affiche_liste && completion )
     {
@@ -717,7 +717,7 @@ recherche_completion:
 	    gtk_combofix_set_text ( combofix,
 				    completion );
 
-	    /*  l'affichage de la sélection se fera plus tard ( une fois l'objet dessiné ) */
+	    /*  l'affichage de la sÃ©lection se fera plus tard ( une fois l'objet dessinÃ© ) */
 
 	    rafraichir_selection = 1;
 	}
@@ -725,11 +725,11 @@ recherche_completion:
     }
 
 
-    /* on commence à récupérer toutes les lignes qu'on va inclure dans la box */
-    /* si le nb de lignes est > à lignes_max, on n'affiche pas */
+    /* on commence Ã  rÃ©cupÃ©rer toutes les lignes qu'on va inclure dans la box */
+    /* si le nb de lignes est > Ã  lignes_max, on n'affiche pas */
 
 
-    /* si on a clické sur l'arrow, on affiche toute la liste */
+    /* si on a clickÃ© sur l'arrow, on affiche toute la liste */
 
     if ( entree == GINT_TO_POINTER ( -1 ) )
 	chaine = texte;
@@ -747,7 +747,7 @@ recherche_completion:
 	    GSList *sous_liste_tmp;
 	    GSList *sous_liste_affichee;
 
-	    /* protection si pas de catég à une sous-categ */
+	    /* protection si pas de catÃ©g Ã  une sous-categ */
 
 	    categorie = "";
 
@@ -760,16 +760,16 @@ recherche_completion:
 
 		string = g_strdup ( sous_liste_tmp -> data );
 
-		/* la comparaison est différente selon que ce soit une catég ou une sous catég : */
-		/*  pour une catég, on la compare directement avec l'entrée */
-		/* pour une sous-catég, on compare categ : sous-categ avec l'entrée */
+		/* la comparaison est diffÃ©rente selon que ce soit une catÃ©g ou une sous catÃ©g : */
+		/*  pour une catÃ©g, on la compare directement avec l'entrÃ©e */
+		/* pour une sous-catÃ©g, on compare categ : sous-categ avec l'entrÃ©e */
 
 		if ( string[0] != '\t' )
 		{
 		    gchar *string_tot;
 
-		    /* c'est une catégorie */
-		    /* sauvegarde de la catégorie pour tester les sous-catégories */
+		    /* c'est une catÃ©gorie */
+		    /* sauvegarde de la catÃ©gorie pour tester les sous-catÃ©gories */
 
 		    categorie = string;
 		    string_tot = g_strconcat ( string,
@@ -784,7 +784,7 @@ recherche_completion:
 					  strlen ( string_tot )))
 
 		    {
-			/* cette catégorie devra être affichée */
+			/* cette catÃ©gorie devra Ãªtre affichÃ©e */
 
 			sous_liste_affichee = g_slist_append ( sous_liste_affichee,
 							       string );
@@ -800,7 +800,7 @@ recherche_completion:
 							NULL ),
 					  strlen ( chaine )))
 		    {
-			/* cette sous-catég devra être affichée */
+			/* cette sous-catÃ©g devra Ãªtre affichÃ©e */
 
 			sous_liste_affichee = g_slist_append ( sous_liste_affichee,
 							       string );
@@ -825,7 +825,7 @@ recherche_completion:
 	    }
 
 	    /* on a fait le tour de la sous-liste du combofix complex */
-	    /* on ajoute la sous-liste des textes à afficher dans liste_affichee */
+	    /* on ajoute la sous-liste des textes Ã  afficher dans liste_affichee */
 
 	    liste_affichee = g_slist_append ( liste_affichee,
 					      sous_liste_affichee );
@@ -837,21 +837,21 @@ recherche_completion:
 	{
 	    gchar *string;
 
-	    /* protection si pas de catég à une sous-categ */
+	    /* protection si pas de catÃ©g Ã  une sous-categ */
 
 	    categorie = "";
 
 	    string = liste_tmp -> data;
 
-	    /* la comparaison est différente selon que ce soit une catég ou une sous catég : */
-	    /*  pour une catég, on la compare directement avec l'entrée */
-	    /* pour une sous-catég, on compare categ : sous-categ avec l'entrée */
+	    /* la comparaison est diffÃ©rente selon que ce soit une catÃ©g ou une sous catÃ©g : */
+	    /*  pour une catÃ©g, on la compare directement avec l'entrÃ©e */
+	    /* pour une sous-catÃ©g, on compare categ : sous-categ avec l'entrÃ©e */
 
 	    if ( string[0] != '\t' )
 	    {
 		gchar *string_tot;
 
-		/* sauvegarde de la catégorie pour tester les sous-catégories */
+		/* sauvegarde de la catÃ©gorie pour tester les sous-catÃ©gories */
 
 		categorie = string;
 		string_tot = g_strconcat ( string,
@@ -904,7 +904,7 @@ recherche_completion:
 	}
 
 
-    /*   si on est censé trier, c'est ici, où on ne trie que les lignes qu'on va afficher */
+    /*   si on est censÃ© trier, c'est ici, oÃ¹ on ne trie que les lignes qu'on va afficher */
 
 
     if ( combofix -> auto_sort )
@@ -928,8 +928,8 @@ recherche_completion:
     }
 
 
-    /* on crée la nouvelle box si necessaire en fonction du contenu de l'entrée */
-    /* et la complétion */
+    /* on crÃ©e la nouvelle box si necessaire en fonction du contenu de l'entrÃ©e */
+    /* et la complÃ©tion */
 
     scrolled_window = gtk_scrolled_window_new ( FALSE,
 						FALSE );
@@ -978,18 +978,18 @@ recherche_completion:
 
 		if ( string[0] != '\t' )
 		{
-		    /* c'est une catégorie, on la met dans la liste */
+		    /* c'est une catÃ©gorie, on la met dans la liste */
 
 
-		    /* on met la catég dans la variable qui sera utilisée dans l'affichage de la sous catég */
+		    /* on met la catÃ©g dans la variable qui sera utilisÃ©e dans l'affichage de la sous catÃ©g */
 
 		    categorie = string;
 
-		    /* permet d'éviter d'avoir une barre en haut */
+		    /* permet d'Ã©viter d'avoir une barre en haut */
 
 		    menu_rempli_ok = 1;
 
-		    /* on met une séparation si nécessaire */
+		    /* on met une sÃ©paration si nÃ©cessaire */
 
 		    if ( menu_rempli )
 		    {
@@ -1004,7 +1004,7 @@ recherche_completion:
 			menu_rempli = 0;
 		    }
 
-		    /* création de l'event_box */
+		    /* crÃ©ation de l'event_box */
 
 		    event_box = gtk_event_box_new ();
 		    gtk_widget_set_style ( event_box,
@@ -1021,7 +1021,7 @@ recherche_completion:
 					 GTK_SIGNAL_FUNC ( click_sur_label ),
 					 combofix );
 
-		    /* création du label */
+		    /* crÃ©ation du label */
 
 		    label = gtk_label_new ( string );
 
@@ -1046,7 +1046,7 @@ recherche_completion:
 		{
 		    /* c'est une sous-categ, on la met dans la liste avec un espace devant */
 
-		    /* création de l'event_box */
+		    /* crÃ©ation de l'event_box */
 
 		    event_box = gtk_event_box_new ();
 		    gtk_widget_set_style ( event_box,
@@ -1113,11 +1113,11 @@ recherche_completion:
 	    {
 		/* c'est une categ, on l'affiche */
 
-		/* on met la catég dans la variable qui sera utilisée dans l'affichage de la sous catég */
+		/* on met la catÃ©g dans la variable qui sera utilisÃ©e dans l'affichage de la sous catÃ©g */
 
 		categorie = string;
 
-		/* création de l'event_box */
+		/* crÃ©ation de l'event_box */
 
 		event_box = gtk_event_box_new ();
 		gtk_widget_set_style ( event_box,
@@ -1135,7 +1135,7 @@ recherche_completion:
 				     combofix );
 
 
-		/* création du label */
+		/* crÃ©ation du label */
 
 		label = gtk_label_new ( string );
 
@@ -1159,7 +1159,7 @@ recherche_completion:
 	    {
 		/* c'est une sous-categ, on la met dans la liste avec un espace devant */
 
-		/* création de l'event_box */
+		/* crÃ©ation de l'event_box */
 
 		event_box = gtk_event_box_new ();
 		gtk_widget_set_style ( event_box,
@@ -1209,19 +1209,19 @@ recherche_completion:
 
     if ( entree && completion )
     {
-	/* on affiche maintenant la complétion dans le combofix */
+	/* on affiche maintenant la complÃ©tion dans le combofix */
 
 	gtk_combofix_set_text ( combofix,
 				completion );
 
-	/*  l'affichage de la sélection se fera plus tard ( une fois l'objet dessiné ) */
+	/*  l'affichage de la sÃ©lection se fera plus tard ( une fois l'objet dessinÃ© ) */
 
 	rafraichir_selection = 1;
     }
 
 
-    /*la liste est maintenant créée ; si la popup était déjà faite, on remplace l'ancienne liste, sinon, on crée la popup */
-    /* la position et la taille de la popup seront calculées quand la taille sera allouée */
+    /*la liste est maintenant crÃ©Ã©e ; si la popup Ã©tait dÃ©jÃ  faite, on remplace l'ancienne liste, sinon, on crÃ©e la popup */
+    /* la position et la taille de la popup seront calculÃ©es quand la taille sera allouÃ©e */
 
     combofix -> label_selectionne = -1;
 
@@ -1315,7 +1315,7 @@ static gboolean realize_scrolled_window ( GtkWidget *vbox,
 				    combofix );
 
 
-    /* récupère la position de l'entry pour définir x et y du placement de la fenêtre */
+    /* rÃ©cupÃ¨re la position de l'entry pour dÃ©finir x et y du placement de la fenÃªtre */
 
     gdk_window_get_origin ( GTK_WIDGET ( combofix->entry )->window,
 			    &x,
@@ -1323,7 +1323,7 @@ static gboolean realize_scrolled_window ( GtkWidget *vbox,
 
     hauteur = vbox -> requisition.height + 10;
 
-    /*   si la largeur de la liste est > à celle du combofix, une scrollbar sera affichée en bas, on augment la hauteur */
+    /*   si la largeur de la liste est > Ã  celle du combofix, une scrollbar sera affichÃ©e en bas, on augment la hauteur */
 
     if ( vbox -> requisition.width > GTK_WIDGET ( combofix -> entry ) -> allocation.width )
 	hauteur = hauteur + GTK_SCROLLED_WINDOW  ( combofix->box ) -> hscrollbar -> requisition.height + 5;
@@ -1331,13 +1331,13 @@ static gboolean realize_scrolled_window ( GtkWidget *vbox,
 
 
     /*   si la popup est trop petite pour contenir toute la liste et que la place vers le haut est 2 fois plus grande que vers le bas, */
-    /*     on affiche la popup au dessus de l'entrée */
+    /*     on affiche la popup au dessus de l'entrÃ©e */
 
     if ( (( gdk_screen_height () - y - GTK_WIDGET ( combofix ) -> allocation.height ) < hauteur )
 	 &&
 	 ( ( ( gdk_screen_height () - y ) * 3 ) < y ) )
     {
-	/* on met la popup au dessus de l'entrée */
+	/* on met la popup au dessus de l'entrÃ©e */
 
 	if ( y > hauteur )
 	    y = y - hauteur;
@@ -1349,7 +1349,7 @@ static gboolean realize_scrolled_window ( GtkWidget *vbox,
     }
     else
     {
-	/* on met la popup en dessous de l'entrée */
+	/* on met la popup en dessous de l'entrÃ©e */
 
 	y = y + GTK_WIDGET ( combofix ) -> requisition.height;
 
@@ -1375,16 +1375,16 @@ static gboolean realize_scrolled_window ( GtkWidget *vbox,
 
 
 /* **************************************************************************************************** */
-/* fonction appelée lorsque la popup reçoit un évènement button_press */
-/* résultat : on vire la popup */
-/* une autre fonction se charge de récupérer le label si c'est un click sur la popup */
+/* fonction appelÃ©e lorsque la popup reÃ§oit un Ã©vÃ¨nement button_press */
+/* rÃ©sultat : on vire la popup */
+/* une autre fonction se charge de rÃ©cupÃ©rer le label si c'est un click sur la popup */
 /* **************************************************************************************************** */
 
 static gboolean gtk_combofix_button_press ( GtkWidget *widget,
 					    GdkEventButton *ev,
 					    GtkComboFix *combofix )
 {
-    /*   si le click est sur la popup ( pour éviter que la popup vire si on click sur les barres de défilement ), on fait rien */
+    /*   si le click est sur la popup ( pour Ã©viter que la popup vire si on click sur les barres de dÃ©filement ), on fait rien */
 
     if ( ( ev -> x_root > ( GTK_WIDGET ( combofix->popup ) -> allocation.x ))
 	 &&
@@ -1416,7 +1416,7 @@ static gboolean met_combofix_en_prelight ( GtkWidget *event_box,
 	return TRUE;
     }
 
-    /* efface l'ancienne sélection */
+    /* efface l'ancienne sÃ©lection */
 
     if ( combofix -> label_selectionne != -1 )
 	gtk_widget_set_state ( GTK_WIDGET ( g_slist_nth_data ( combofix->event_box, combofix -> label_selectionne ) ),
@@ -1425,7 +1425,7 @@ static gboolean met_combofix_en_prelight ( GtkWidget *event_box,
     gtk_widget_set_state ( GTK_WIDGET ( event_box ),
 			   GTK_STATE_PRELIGHT );
 
-    /* met à jour la variable label_selectionne */
+    /* met Ã  jour la variable label_selectionne */
 
     combofix -> label_selectionne  = g_slist_index ( combofix -> event_box,
 						     event_box );
@@ -1470,7 +1470,7 @@ static gboolean focus_out_combofix ( GtkWidget *widget,
 			     &x,
 			     &y );
 
-    /*   si la popup était affichée, on la cache et on libère le grab pointer */
+    /*   si la popup Ã©tait affichÃ©e, on la cache et on libÃ¨re le grab pointer */
 
     if ( GTK_WIDGET_VISIBLE ( combofix -> popup ) )
     {
@@ -1482,7 +1482,7 @@ static gboolean focus_out_combofix ( GtkWidget *widget,
 	    gtk_widget_hide ( combofix->popup );
     }
 
-    /*   si force_text est mis, il faut que le texte corresponde, sinon, met le 1er trouvé */
+    /*   si force_text est mis, il faut que le texte corresponde, sinon, met le 1er trouvÃ© */
 
     if ( combofix -> force_text )
     {
@@ -1496,7 +1496,7 @@ static gboolean focus_out_combofix ( GtkWidget *widget,
 
 	liste_tmp = combofix->liste_completion;
 
-	/* recherche de la chaine tapée dans la liste et remplit l'entrée de la 1ère*/
+	/* recherche de la chaine tapÃ©e dans la liste et remplit l'entrÃ©e de la 1Ã¨re*/
 
 	do
 	    if ( !g_strncasecmp ( chaine,
@@ -1542,7 +1542,7 @@ static gboolean met_selection ( GtkWidget *entry,
 
 
 /* **************************************************************************************************** */
-/* vérifie avant d'effacer une partie du texte si force_text est mis, que le résultat fait partit de la liste */
+/* vÃ©rifie avant d'effacer une partie du texte si force_text est mis, que le rÃ©sultat fait partit de la liste */
 /* **************************************************************************************************** */
 static gboolean verifie_efface_texte ( GtkWidget *entree,
 				       gint start,
@@ -1564,7 +1564,7 @@ static gboolean verifie_efface_texte ( GtkWidget *entree,
     if ( !combofix -> liste )
 	return TRUE;
 
-    /* crée la future chaine */
+    /* crÃ©e la future chaine */
 
     chaine = g_strdup ( gtk_entry_get_text ( GTK_ENTRY ( combofix -> entry ) ));
     longueur = strlen ( chaine );
@@ -1575,7 +1575,7 @@ static gboolean verifie_efface_texte ( GtkWidget *entree,
     memmove ( chaine + start, chaine + end, longueur - end );
     chaine [longueur - end + start] = 0;
 
-    /* vérifie que la chaine fait partie de la liste */
+    /* vÃ©rifie que la chaine fait partie de la liste */
 
     liste_tmp = combofix->liste_completion;
 
@@ -1587,12 +1587,12 @@ static gboolean verifie_efface_texte ( GtkWidget *entree,
 	    return TRUE;
     while ( ( liste_tmp = liste_tmp -> next ) );
 
-    /*   pas trouvé dans la liste -> stoppe le signal */
+    /*   pas trouvÃ© dans la liste -> stoppe le signal */
 
     gtk_signal_emit_stop_by_name ( GTK_OBJECT ( combofix -> entry ),
 				   "delete_text" );
 
-    /*   la position du curseur a déjà été modifiée, on le remet à sa place */
+    /*   la position du curseur a dÃ©jÃ  Ã©tÃ© modifiÃ©e, on le remet Ã  sa place */
 
     if( gtk_editable_get_position ( GTK_EDITABLE ( combofix -> entry ) ) == start )
 	gtk_editable_set_position ( GTK_EDITABLE ( combofix -> entry ),
@@ -1608,8 +1608,8 @@ static gboolean verifie_efface_texte ( GtkWidget *entree,
 
 
 /* **************************************************************************************************** */
-/* lorsque du texte est effacé, on recrée la popup mais plus de sélection */
-/* en mettant le 1er arg de affiche_proposition à NULL */
+/* lorsque du texte est effacÃ©, on recrÃ©e la popup mais plus de sÃ©lection */
+/* en mettant le 1er arg de affiche_proposition Ã  NULL */
 /* **************************************************************************************************** */
 
 static gboolean efface_texte ( GtkWidget *entree,
@@ -1641,7 +1641,7 @@ static gboolean efface_texte ( GtkWidget *entree,
 
 /* **************************************************************************************************** */
 /* fonction gtk_combofix_set_text */
-/* fonction externe qui prend comme argument le combofix et le texte à mettre dedans */
+/* fonction externe qui prend comme argument le combofix et le texte Ã  mettre dedans */
 /* **************************************************************************************************** */
 
 void gtk_combofix_set_text ( GtkComboFix *combofix,
@@ -1697,7 +1697,7 @@ void gtk_combofix_view_list ( GtkComboFix *combofix,
     g_return_if_fail (GTK_IS_COMBOFIX (combofix));
 
 
-    /* si pas de changement par rapport à ce qui est affiché -> dégage */
+    /* si pas de changement par rapport Ã  ce qui est affichÃ© -> dÃ©gage */
 
     if ( ( valeur == FALSE && combofix->affiche_liste == 0 ) || ( valeur != FALSE && combofix->affiche_liste == 1 ))
 	return;
@@ -1740,8 +1740,8 @@ static gboolean touche_pressee ( GtkWidget *entry,
     switch ( ev -> keyval )
     {
 
-	/* touche gauche ou droite pressée s'il y a une sélection, vire la
-	   sélection et place le curseur à la fin de cette sélection */
+	/* touche gauche ou droite pressÃ©e s'il y a une sÃ©lection, vire la
+	   sÃ©lection et place le curseur Ã  la fin de cette sÃ©lection */
 	case GDK_Left :
 	case GDK_KP_Left:
 	case GDK_Right :
@@ -1753,7 +1753,7 @@ static gboolean touche_pressee ( GtkWidget *entry,
 	    gtk_widget_hide ( combofix->popup );
 	    return FALSE;
 
-	    /* touche entrée : prend le label sélectionné puis vire la popup */
+	    /* touche entrÃ©e : prend le label sÃ©lectionnÃ© puis vire la popup */
 	case GDK_KP_Enter :
 	case GDK_Return :
 
@@ -1765,7 +1765,7 @@ static gboolean touche_pressee ( GtkWidget *entry,
 					       "key-press-event" );
 	    }
 
-	    /* touches échap  : vire la popup et  la sélection */
+	    /* touches Ã©chap  : vire la popup et  la sÃ©lection */
 	case GDK_Escape:
 
 	    if ( GTK_WIDGET_VISIBLE ( combofix -> popup ))
@@ -1782,12 +1782,12 @@ static gboolean touche_pressee ( GtkWidget *entry,
 	    }
 	    break;
 
-	case GDK_Down :		/* touches flèche bas */
+	case GDK_Down :		/* touches flÃ¨che bas */
 	case GDK_KP_Down :
 
 	    gtk_signal_emit_stop_by_name ( GTK_OBJECT ( combofix -> entry ),
 					   "key-press-event" );
-	    /*     si la popup n'est pas affichée à cause de l'arrow, descend l'arrow, affiche la liste */
+	    /*     si la popup n'est pas affichÃ©e Ã  cause de l'arrow, descend l'arrow, affiche la liste */
 	    if ( combofix -> affiche_liste == 0 || !GTK_WIDGET_VISIBLE ( combofix->popup ) )
 	    {
 		gtk_widget_grab_focus ( GTK_WIDGET ( combofix -> arrow ));
@@ -1795,7 +1795,7 @@ static gboolean touche_pressee ( GtkWidget *entry,
 			       combofix );
 		gtk_widget_grab_focus ( GTK_WIDGET ( combofix -> entry ));
 	    }
-	    /*       si la popup est affichée, on descend dans la liste, sinon, c'est qu'il n'y avait aucune sélection possible */
+	    /*       si la popup est affichÃ©e, on descend dans la liste, sinon, c'est qu'il n'y avait aucune sÃ©lection possible */
 
 	    if ( GTK_WIDGET_VISIBLE ( combofix->popup ) )
 	    {
@@ -1812,7 +1812,7 @@ static gboolean touche_pressee ( GtkWidget *entry,
 
 		    ajustement = gtk_scrolled_window_get_vadjustment ( GTK_SCROLLED_WINDOW ( combofix -> box ));
 
-		    /* 	  si on est en dessous de la liste, on la décale vers le bas */
+		    /* 	  si on est en dessous de la liste, on la dÃ©cale vers le bas */
 
 		    while ( ( combofix -> label_selectionne + 1 )* ( GTK_WIDGET ( g_slist_nth_data ( combofix->event_box, combofix -> label_selectionne ) )) -> allocation.height > ajustement -> value + ajustement -> page_size )
 			gtk_adjustment_set_value ( ajustement,
@@ -1824,7 +1824,7 @@ static gboolean touche_pressee ( GtkWidget *entry,
 	    }
 	    break;
 
-	case GDK_Up :		/* touches flèche haut */
+	case GDK_Up :		/* touches flÃ¨che haut */
 	case GDK_KP_Up :
 
 	    gtk_signal_emit_stop_by_name ( GTK_OBJECT ( combofix -> entry ),
@@ -1843,7 +1843,7 @@ static gboolean touche_pressee ( GtkWidget *entry,
 
 		ajustement = gtk_scrolled_window_get_vadjustment ( GTK_SCROLLED_WINDOW ( combofix -> box ));
 
-		/* 	  si on est au dessus de la liste, on la décale vers le haut */
+		/* 	  si on est au dessus de la liste, on la dÃ©cale vers le haut */
 
 		while ( combofix -> label_selectionne* ( GTK_WIDGET ( g_slist_nth_data ( combofix->event_box, combofix -> label_selectionne ) )) -> allocation.height < ajustement -> value )
 		    gtk_adjustment_set_value ( ajustement,
@@ -1881,7 +1881,7 @@ static gboolean touche_pressee ( GtkWidget *entry,
 
 		ajustement = gtk_scrolled_window_get_vadjustment ( GTK_SCROLLED_WINDOW ( combofix -> box ));
 
-		/* 	  si on est au dessus de la liste, on la décale vers le haut */
+		/* 	  si on est au dessus de la liste, on la dÃ©cale vers le haut */
 
 		while ( combofix -> label_selectionne* ( GTK_WIDGET ( g_slist_nth_data ( combofix->event_box, combofix -> label_selectionne ) )) -> allocation.height < ajustement -> value )
 		    gtk_adjustment_set_value ( ajustement,
@@ -1898,7 +1898,7 @@ static gboolean touche_pressee ( GtkWidget *entry,
 
 	    gtk_signal_emit_stop_by_name ( GTK_OBJECT ( combofix -> entry ),
 					   "key-press-event" );
-	    /*     si la popup n'est pas affichée à cause de l'arrow, descend l'arrow, affiche la liste */
+	    /*     si la popup n'est pas affichÃ©e Ã  cause de l'arrow, descend l'arrow, affiche la liste */
 	    if ( combofix -> affiche_liste == 0 || !GTK_WIDGET_VISIBLE ( combofix->popup ) )
 	    {
 		gtk_widget_grab_focus ( GTK_WIDGET ( combofix -> arrow ));
@@ -1906,7 +1906,7 @@ static gboolean touche_pressee ( GtkWidget *entry,
 			       combofix );
 		gtk_widget_grab_focus ( GTK_WIDGET ( combofix -> entry ));
 	    }
-	    /*       si la popup est affichée, on descend dans la liste, sinon, c'est qu'il n'y avait aucune sélection possible */
+	    /*       si la popup est affichÃ©e, on descend dans la liste, sinon, c'est qu'il n'y avait aucune sÃ©lection possible */
 
 	    if ( GTK_WIDGET_VISIBLE ( combofix->popup ) )
 	    {
@@ -1936,7 +1936,7 @@ static gboolean touche_pressee ( GtkWidget *entry,
 
 		    ajustement = gtk_scrolled_window_get_vadjustment ( GTK_SCROLLED_WINDOW ( combofix -> box ));
 
-		    /* 	  si on est en dessous de la liste, on la décale vers le bas */
+		    /* 	  si on est en dessous de la liste, on la dÃ©cale vers le bas */
 
 		    while ( ( combofix -> label_selectionne + 1 )* ( GTK_WIDGET ( g_slist_nth_data ( combofix->event_box, combofix -> label_selectionne ) )) -> allocation.height > ajustement -> value + ajustement -> page_size )
 			gtk_adjustment_set_value ( ajustement,
@@ -1955,9 +1955,9 @@ static gboolean touche_pressee ( GtkWidget *entry,
 
 /* **************************************************************************************************** */
 /* Fonction gtk_combofix_show_arrow : */
-/* affiche ou non la flèche permettant d'afficher la liste */
+/* affiche ou non la flÃ¨che permettant d'afficher la liste */
 /* argument : la combofix */
-/*                     booleen TRUE ( affiche la flèche ) / FALSE */
+/*                     booleen TRUE ( affiche la flÃ¨che ) / FALSE */
 /* **************************************************************************************************** */
 
 void gtk_combofix_show_arrow ( GtkComboFix *combofix,
@@ -1980,7 +1980,7 @@ void gtk_combofix_show_arrow ( GtkComboFix *combofix,
 
 /* **************************************************************************************************** */
 /* Fonction gtk_combofix_sort : */
-/* classe la liste en respectant les différentes listes si c'est un complex, et en respectant les catég / sous-categ  */
+/* classe la liste en respectant les diffÃ©rentes listes si c'est un complex, et en respectant les catÃ©g / sous-categ  */
 /* argument : la combofix */
 /* **************************************************************************************************** */
 
@@ -2020,7 +2020,7 @@ static GSList *classe_combofix ( GSList *liste )
     gchar *string;
 
 
-    /* on recrée d'abord la liste sous la forme categ : sous-categ */
+    /* on recrÃ©e d'abord la liste sous la forme categ : sous-categ */
 
     pointeur = liste;
     categ = "";
@@ -2044,7 +2044,7 @@ static GSList *classe_combofix ( GSList *liste )
     liste = g_slist_sort ( liste,
 			   ( GCompareFunc ) classe_alphabetique );
 
-    /*       on retire les catégories des sous-categ */
+    /*       on retire les catÃ©gories des sous-categ */
 
     pointeur = liste;
 
@@ -2135,12 +2135,12 @@ void gtk_combofix_set_list ( GtkComboFix *combofix,
     combofix -> auto_sort = classement_auto;
 
 
-    /* création de la liste des complétions : système de catégories - sous catégories */
-    /* toutes catégorie est mise dans la liste */
-    /*   les sous-catég sont mises sous la forme catég : sous-catég */
-    /* on trie à la fin la liste par ordre alphabétique pour que lors d'une complétion, c'est le 1er qui sorte */
+    /* crÃ©ation de la liste des complÃ©tions : systÃ¨me de catÃ©gories - sous catÃ©gories */
+    /* toutes catÃ©gorie est mise dans la liste */
+    /*   les sous-catÃ©g sont mises sous la forme catÃ©g : sous-catÃ©g */
+    /* on trie Ã  la fin la liste par ordre alphabÃ©tique pour que lors d'une complÃ©tion, c'est le 1er qui sorte */
 
-    /* protège de l'erreur si on met une sous categ en 1er */
+    /* protÃ¨ge de l'erreur si on met une sous categ en 1er */
 
     derniere_categ = "";
 
@@ -2217,8 +2217,8 @@ static gboolean touche_pressee_dans_popup ( GtkWidget *popup,
 
 /* **************************************************************************************************** */
 /* Fonction gtk_combofix_set_lignes_max : */
-/* permet de choisir le nombre maximal de lignes affichées dans la liste  */
-/* s'il vaut 0, toutes les lignes seront affichées */
+/* permet de choisir le nombre maximal de lignes affichÃ©es dans la liste  */
+/* s'il vaut 0, toutes les lignes seront affichÃ©es */
 /* arguments :                           */
 /*       combofix : la combofix          */
 /*       liste : une gslist              */

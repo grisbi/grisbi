@@ -1,8 +1,8 @@
 /* ************************************************************************** */
-/* Contient toutes les fonctions utilisées pour classer la liste des opé      */
+/* Contient toutes les fonctions utilisÃ©es pour classer la liste des opÃ©      */
 /* 			classement_liste.c                                    */
 /*                                                                            */
-/*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org)	      */
+/*     Copyright (C)	2000-2003 CÃ©dric Auger (cedric@grisbi.org)	      */
 /*			2004 Alain Portal (dionysos@grisbi.org) 	      */
 /*			http://www.grisbi.org   			      */
 /*                                                                            */
@@ -54,8 +54,8 @@ extern gpointer **p_tab_nom_de_compte_variable;
 
 
 /* ************************************************************************** */
-/* classement par no d'opé (donc d'entrée)                                    */
-/* FIXME : encore utilisé par les échéances */
+/* classement par no d'opÃ© (donc d'entrÃ©e)                                    */
+/* FIXME : encore utilisÃ© par les Ã©chÃ©ances */
 /* ************************************************************************** */
 gint classement_liste_par_no_ope_ventil ( GtkWidget *liste,
 					  GtkCListRow *ligne_1,
@@ -85,11 +85,11 @@ gint classement_liste_par_no_ope_ventil ( GtkWidget *liste,
 
 
 /* ************************************************************************** */
-/* Fonction par défaut : par ordre de date                                    */
-/* appelée aussi en fin de classement pour tout classement */
-/* classe par date ou date de valeur suivant la conf, puis par no d'opé */
-/* retour = -1 si operation_1 doit être placée en 1er */
-/* et classe en fonction de r/p si demandé (FIXME : virer dans l'instable) */
+/* Fonction par dÃ©faut : par ordre de date                                    */
+/* appelÃ©e aussi en fin de classement pour tout classement */
+/* classe par date ou date de valeur suivant la conf, puis par no d'opÃ© */
+/* retour = -1 si operation_1 doit Ãªtre placÃ©e en 1er */
+/* et classe en fonction de r/p si demandÃ© (FIXME : virer dans l'instable) */
 /* ************************************************************************** */
 gint classement_sliste_par_date ( struct structure_operation *operation_1,
 				  struct structure_operation *operation_2 )
@@ -118,8 +118,8 @@ gint classement_sliste_par_date ( struct structure_operation *operation_1,
 		retour = g_date_compare ( operation_1 -> date, operation_2 -> date );
 	}
 
-	/* on a classé par date de valeur, si c'est la même date,
-	   alors on classe par date d'opération */
+	/* on a classÃ© par date de valeur, si c'est la mÃªme date,
+	   alors on classe par date d'opÃ©ration */
 
 	if ( !retour )
 	    retour = g_date_compare ( operation_1 -> date, operation_2 -> date );
@@ -140,8 +140,8 @@ gint classement_sliste_par_date ( struct structure_operation *operation_1,
 /* ************************************************************************** */
 
 /* ************************************************************************** */
-/* classement opérations par no */
-/* retour = -1 si operation_1 doit être placée en 1er */
+/* classement opÃ©rations par no */
+/* retour = -1 si operation_1 doit Ãªtre placÃ©e en 1er */
 /* ************************************************************************** */
 gint classement_sliste_par_no ( struct structure_operation *operation_1,
 				struct structure_operation *operation_2 )
@@ -163,8 +163,8 @@ gint classement_sliste_par_no ( struct structure_operation *operation_1,
 
 
 /* ************************************************************************** */
-/* classement opérations R -> T -> P */
-/* retour = -1 si operation_1 doit être placée en 1er */
+/* classement opÃ©rations R -> T -> P */
+/* retour = -1 si operation_1 doit Ãªtre placÃ©e en 1er */
 /* ************************************************************************** */
 gint classement_sliste_par_pointage ( struct structure_operation *operation_1,
 				     struct structure_operation *operation_2 )
@@ -189,15 +189,15 @@ gint classement_sliste_par_pointage ( struct structure_operation *operation_1,
 
 
 /* ************************************************************************** */
-/* classement opérations par debit */
-/* retour = -1 si operation_1 doit être placée en 1er */
+/* classement opÃ©rations par debit */
+/* retour = -1 si operation_1 doit Ãªtre placÃ©e en 1er */
 /* ************************************************************************** */
 gint classement_sliste_par_debit ( struct structure_operation *operation_1,
 				   struct structure_operation *operation_2 )
 {
     gint retour;
 
-/*     on place les débits en premier, et par ordre croissant */
+/*     on place les dÃ©bits en premier, et par ordre croissant */
 /*     si la devise est identique, easy c'est direct, sinon on doit transformer les montant */
 /*     dans la devise du compte */
 
@@ -241,15 +241,15 @@ gint classement_sliste_par_debit ( struct structure_operation *operation_1,
 
 
 /* ************************************************************************** */
-/* classement opérations par credit */
-/* retour = -1 si operation_1 doit être placée en 1er */
+/* classement opÃ©rations par credit */
+/* retour = -1 si operation_1 doit Ãªtre placÃ©e en 1er */
 /* ************************************************************************** */
 gint classement_sliste_par_credit ( struct structure_operation *operation_1,
 				    struct structure_operation *operation_2 )
 {
     gint retour;
 
-/*     on place les crédits en premier et par ordre croissant */
+/*     on place les crÃ©dits en premier et par ordre croissant */
 /*     si la devise est identique, easy c'est direct, sinon on doit transformer les montant */
 /*     dans la devise du compte */
 
@@ -295,8 +295,8 @@ gint classement_sliste_par_credit ( struct structure_operation *operation_1,
 
 
 /* ************************************************************************** */
-/* classement opérations par montant */
-/* retour = -1 si operation_1 doit être placée en 1er */
+/* classement opÃ©rations par montant */
+/* retour = -1 si operation_1 doit Ãªtre placÃ©e en 1er */
 /* ************************************************************************** */
 gint classement_sliste_par_montant ( struct structure_operation *operation_1,
 				     struct structure_operation *operation_2 )
@@ -347,8 +347,8 @@ gint classement_sliste_par_montant ( struct structure_operation *operation_1,
 
 
 /* ************************************************************************** */
-/* classement opérations par devise */
-/* retour = -1 si operation_1 doit être placée en 1er */
+/* classement opÃ©rations par devise */
+/* retour = -1 si operation_1 doit Ãªtre placÃ©e en 1er */
 /* ************************************************************************** */
 gint classement_sliste_par_devise ( struct structure_operation *operation_1,
 				     struct structure_operation *operation_2 )
@@ -392,8 +392,8 @@ gint classement_sliste_par_devise ( struct structure_operation *operation_1,
 
 
 /* ************************************************************************** */
-/* classement opérations par tiers */
-/* retour = -1 si operation_1 doit être placée en 1er */
+/* classement opÃ©rations par tiers */
+/* retour = -1 si operation_1 doit Ãªtre placÃ©e en 1er */
 /* ************************************************************************** */
 gint classement_sliste_par_tiers ( struct structure_operation *operation_1,
 				     struct structure_operation *operation_2 )
@@ -437,9 +437,9 @@ gint classement_sliste_par_tiers ( struct structure_operation *operation_1,
 
 
 /* ************************************************************************** */
-/* classement opérations par catégories  */
+/* classement opÃ©rations par catÃ©gories  */
 /* categ -> ventil -> virements -> pas de categ */
-/* retour = -1 si operation_1 doit être placée en 1er */
+/* retour = -1 si operation_1 doit Ãªtre placÃ©e en 1er */
 /* ************************************************************************** */
 gint classement_sliste_par_categories ( struct structure_operation *operation_1,
 					struct structure_operation *operation_2 )
@@ -467,12 +467,12 @@ gint classement_sliste_par_categories ( struct structure_operation *operation_1,
 	    retour = 1;
 	else
 	{
-	    /* 	    cas le plus compliqé : les opés sont soit virement, soit ventil */
+	    /* 	    cas le plus compliqÃ© : les opÃ©s sont soit virement, soit ventil */
 	    /* 	    on va placer les ventils avant les virements */
 	    if ( operation_1 -> operation_ventilee )
 	    {
 		if ( operation_2 -> operation_ventilee )
-		    /* 		    les 2 opés sont des ventils */
+		    /* 		    les 2 opÃ©s sont des ventils */
 		    retour = 0;
 		else
 		    retour = -1;
@@ -497,7 +497,7 @@ gint classement_sliste_par_categories ( struct structure_operation *operation_1,
 			if ( operation_2 -> relation_no_operation )
 			    retour = 1;
 			else
-			    /* 			    ce sont 2 opés sans categ */
+			    /* 			    ce sont 2 opÃ©s sans categ */
 			    retour = 0;
 		}
 	    }
@@ -521,8 +521,8 @@ gint classement_sliste_par_categories ( struct structure_operation *operation_1,
 
 
 /* ************************************************************************** */
-/* classement opérations par imputation  */
-/* retour = -1 si operation_1 doit être placée en 1er */
+/* classement opÃ©rations par imputation  */
+/* retour = -1 si operation_1 doit Ãªtre placÃ©e en 1er */
 /* ************************************************************************** */
 gint classement_sliste_par_imputation ( struct structure_operation *operation_1,
 					struct structure_operation *operation_2 )
@@ -569,8 +569,8 @@ gint classement_sliste_par_imputation ( struct structure_operation *operation_1,
 
 
 /* ************************************************************************** */
-/* classement opérations par notes */
-/* retour = -1 si operation_1 doit être placée en 1er */
+/* classement opÃ©rations par notes */
+/* retour = -1 si operation_1 doit Ãªtre placÃ©e en 1er */
 /* ************************************************************************** */
 gint classement_sliste_par_notes ( struct structure_operation *operation_1,
 				   struct structure_operation *operation_2 )
@@ -611,9 +611,9 @@ gint classement_sliste_par_notes ( struct structure_operation *operation_1,
 
 
 /* ************************************************************************** */
-/* classement opérations par auto/man */
-/* retour = -1 si operation_1 doit être placée en 1er */
-/* on met les opérations automatiques en 1er */
+/* classement opÃ©rations par auto/man */
+/* retour = -1 si operation_1 doit Ãªtre placÃ©e en 1er */
+/* on met les opÃ©rations automatiques en 1er */
 /* ************************************************************************** */
 gint classement_sliste_par_auto_man ( struct structure_operation *operation_1,
 				      struct structure_operation *operation_2 )
@@ -639,8 +639,8 @@ gint classement_sliste_par_auto_man ( struct structure_operation *operation_1,
 
 
 /* ************************************************************************** */
-/* classement opérations par no de rapprochement */
-/* retour = -1 si operation_1 doit être placée en 1er */
+/* classement opÃ©rations par no de rapprochement */
+/* retour = -1 si operation_1 doit Ãªtre placÃ©e en 1er */
 /* ************************************************************************** */
 gint classement_sliste_par_no_rapprochement ( struct structure_operation *operation_1,
 					      struct structure_operation *operation_2 )
@@ -685,8 +685,8 @@ gint classement_sliste_par_no_rapprochement ( struct structure_operation *operat
 
 
 /* ************************************************************************** */
-/* classement opérations par exercice */
-/* retour = -1 si operation_1 doit être placée en 1er */
+/* classement opÃ©rations par exercice */
+/* retour = -1 si operation_1 doit Ãªtre placÃ©e en 1er */
 /* ************************************************************************** */
 gint classement_sliste_par_exercice ( struct structure_operation *operation_1,
 				      struct structure_operation *operation_2 )
@@ -752,8 +752,8 @@ gint classement_sliste_par_exercice ( struct structure_operation *operation_1,
 
 
 /* ************************************************************************** */
-/* classement opérations par piece comptable  */
-/* retour = -1 si operation_1 doit être placée en 1er */
+/* classement opÃ©rations par piece comptable  */
+/* retour = -1 si operation_1 doit Ãªtre placÃ©e en 1er */
 /* ************************************************************************** */
 gint classement_sliste_par_pc ( struct structure_operation *operation_1,
 				struct structure_operation *operation_2 )
@@ -794,8 +794,8 @@ gint classement_sliste_par_pc ( struct structure_operation *operation_1,
 
 
 /* ************************************************************************** */
-/* classement opérations par info banque_guichet */
-/* retour = -1 si operation_1 doit être placée en 1er */
+/* classement opÃ©rations par info banque_guichet */
+/* retour = -1 si operation_1 doit Ãªtre placÃ©e en 1er */
 /* ************************************************************************** */
 gint classement_sliste_par_ibg ( struct structure_operation *operation_1,
 				 struct structure_operation *operation_2 )
@@ -836,8 +836,8 @@ gint classement_sliste_par_ibg ( struct structure_operation *operation_1,
 
 
 /* ************************************************************************** */
-/* classement opérations par type d'opé */
-/* retour = -1 si operation_1 doit être placée en 1er */
+/* classement opÃ©rations par type d'opÃ© */
+/* retour = -1 si operation_1 doit Ãªtre placÃ©e en 1er */
 /* ************************************************************************** */
 gint classement_sliste_par_type_ope ( struct structure_operation *operation_1,
 				      struct structure_operation *operation_2 )
@@ -901,30 +901,30 @@ gint classement_sliste_par_type_ope ( struct structure_operation *operation_1,
 
 
 /* ************************************************************************** */
-/* classement d'une liste composée de chaines par ordre alphabétique          */
+/* classement d'une liste composÃ©e de chaines par ordre alphabÃ©tique          */
 /* en prenant en compte les accents                                           */
 /* ************************************************************************** */
 gint classe_liste_alphabetique ( gchar *string_1,
 				 gchar *string_2 )
 {
-    /* comme la fonction g_strcasecmp met les accents derrière,
+    /* comme la fonction g_strcasecmp met les accents derriÃ¨re,
        on magouille pour les prendre en compte */
 
     string_1 = g_strdup ( string_1 );
-    string_1 = g_strdelimit ( string_1, "éÉèÈêÊ", 'e' );
-    string_1 = g_strdelimit ( string_1, "çÇ", 'c' );
-    string_1 = g_strdelimit ( string_1, "àÀ", 'a' );
-    string_1 = g_strdelimit ( string_1, "ùûÙÛ", 'u' );
-    string_1 = g_strdelimit ( string_1, "ôÔ", 'o' );
-    string_1 = g_strdelimit ( string_1, "îÎ", 'i' );
+    string_1 = g_strdelimit ( string_1, "Ã©Ã‰Ã¨ÃˆÃªÃŠ", 'e' );
+    string_1 = g_strdelimit ( string_1, "Ã§Ã‡", 'c' );
+    string_1 = g_strdelimit ( string_1, "Ã Ã€", 'a' );
+    string_1 = g_strdelimit ( string_1, "Ã¹Ã»Ã™Ã›", 'u' );
+    string_1 = g_strdelimit ( string_1, "Ã´Ã”", 'o' );
+    string_1 = g_strdelimit ( string_1, "Ã®Ã", 'i' );
 
     string_2 = g_strdup ( string_2 );
-    string_2 = g_strdelimit ( string_2, "éÉèÈêÊ", 'e' );
-    string_2 = g_strdelimit ( string_2, "çÇ", 'c' );
-    string_2 = g_strdelimit ( string_2, "àÀ", 'a' );
-    string_2 = g_strdelimit ( string_2, "ùûÙÛ", 'u' );
-    string_2 = g_strdelimit ( string_2, "ôÔ", 'o' );
-    string_2 = g_strdelimit ( string_2, "îÎ", 'i' );
+    string_2 = g_strdelimit ( string_2, "Ã©Ã‰Ã¨ÃˆÃªÃŠ", 'e' );
+    string_2 = g_strdelimit ( string_2, "Ã§Ã‡", 'c' );
+    string_2 = g_strdelimit ( string_2, "Ã Ã€", 'a' );
+    string_2 = g_strdelimit ( string_2, "Ã¹Ã»Ã™Ã›", 'u' );
+    string_2 = g_strdelimit ( string_2, "Ã´Ã”", 'o' );
+    string_2 = g_strdelimit ( string_2, "Ã®Ã", 'i' );
 
     return ( g_strcasecmp ( string_1, string_2 ));
 }

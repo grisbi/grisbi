@@ -1,7 +1,7 @@
 /* Ce fichier s'occupe de la gestion des exercices */
 /* exercice.c */
 
-/*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org) */
+/*     Copyright (C)	2000-2003 CÃ©dric Auger (cedric@grisbi.org) */
 /*			2003 Benjamin Drieu (bdrieu@april.org) */
 /* 			http://www.grisbi.org */
 
@@ -214,7 +214,7 @@ GtkWidget *onglet_exercices ( void )
 	    ligne_insert = gtk_clist_append ( GTK_CLIST (clist_exercices_parametres),
 					      ligne );
 
-	    /* on associe à la ligne la struct de la exercice */
+	    /* on associe Ã  la ligne la struct de la exercice */
 	    gtk_clist_set_row_data ( GTK_CLIST ( clist_exercices_parametres ),
 				     ligne_insert,
 				     exercice );
@@ -333,7 +333,7 @@ GtkWidget *onglet_exercices ( void )
 
 /* ***************************************************************************************************** */
 /* Fonction ajout_exercice */
-/* appelée par le bouton ajouter de l'onglet exercices des paramètres */
+/* appelÃ©e par le bouton ajouter de l'onglet exercices des paramÃ¨tres */
 /* ***************************************************************************************************** */
 
 void ajout_exercice ( GtkWidget *bouton,
@@ -343,11 +343,11 @@ void ajout_exercice ( GtkWidget *bouton,
     gchar *ligne[1];
     gint ligne_insert;
 
-    /* Enlève la sélection de la liste ( ce qui nettoie les entrées ) */
+    /* EnlÃ¨ve la sÃ©lection de la liste ( ce qui nettoie les entrÃ©es ) */
     gtk_clist_unselect_all ( GTK_CLIST ( clist ));
 
-    /* crée un nouvelle exercice au nom de "nouvel exercice" en mettant
-       tous les paramètres à 0 et le no à -1 */
+    /* crÃ©e un nouvelle exercice au nom de "nouvel exercice" en mettant
+       tous les paramÃ¨tres Ã  0 et le no Ã  -1 */
     exercice = calloc ( 1, sizeof ( struct struct_exercice ));
     exercice -> no_exercice = -1;
     exercice -> nom_exercice = g_strdup ( _("New financial year") );
@@ -360,13 +360,13 @@ void ajout_exercice ( GtkWidget *bouton,
 
     ligne_insert = gtk_clist_append ( GTK_CLIST ( clist ), ligne );
 
-    /* on associe à la ligne la struct de la exercice */
+    /* on associe Ã  la ligne la struct de la exercice */
     gtk_clist_set_row_data ( GTK_CLIST ( clist ), ligne_insert, exercice );
 
-    /* on sélectionne le nouveau venu */
+    /* on sÃ©lectionne le nouveau venu */
     gtk_clist_select_row ( GTK_CLIST ( clist ), ligne_insert, 0 );
 
-    /* on sélectionne le "nouvel exercice" et lui donne le focus */
+    /* on sÃ©lectionne le "nouvel exercice" et lui donne le focus */
     gtk_entry_select_region ( GTK_ENTRY ( nom_exercice ), 0, -1 );
     gtk_widget_grab_focus ( nom_exercice );
 
@@ -377,7 +377,7 @@ void ajout_exercice ( GtkWidget *bouton,
 
 /* **************************************************************************************************************************** */
 /* Fonction supprime_exercice */
-/* appelée lorsqu'on clicke sur le bouton annuler dans les paramètres */
+/* appelÃ©e lorsqu'on clicke sur le bouton annuler dans les paramÃ¨tres */
 /* **************************************************************************************************************************** */
 
 void supprime_exercice ( GtkWidget *bouton, GtkWidget *liste )
@@ -461,10 +461,10 @@ void deselection_ligne_exercice ( GtkWidget *liste,
 
 //* ************************************************************************************************************ */
 /* Fonction creation_menu_exercices */
-/* crée un menu qui contient les noms des exercices associés à leur no et adr */
+/* crÃ©e un menu qui contient les noms des exercices associÃ©s Ã  leur no et adr */
 /* et le renvoie */
-/* origine = 0 si ça vient des opérations */
-/* origine = 1 si ça vient de l'échéancier ; dans ce cas on rajoute automatique */
+/* origine = 0 si Ã§a vient des opÃ©rations */
+/* origine = 1 si Ã§a vient de l'Ã©chÃ©ancier ; dans ce cas on rajoute automatique */
 /* ************************************************************************************************************ */
 
 GtkWidget *creation_menu_exercices ( gint origine )
@@ -477,7 +477,7 @@ GtkWidget *creation_menu_exercices ( gint origine )
     gtk_widget_show ( menu );
 
 
-    /* si ça vient de l'échéancier, le 1er est automatique */
+    /* si Ã§a vient de l'Ã©chÃ©ancier, le 1er est automatique */
     /* on lui associe -2 */
 
     if ( origine )
@@ -509,7 +509,7 @@ GtkWidget *creation_menu_exercices ( gint origine )
     gtk_widget_show ( menu_item );
 
 
-    /* le second est non affiché */
+    /* le second est non affichÃ© */
     /* on lui associe -1 */
 
     menu_item = gtk_menu_item_new_with_label ( _("Not displayed") );
@@ -557,7 +557,7 @@ GtkWidget *creation_menu_exercices ( gint origine )
 /* ************************************************************************************************************** */
 /* fonction affiche_exercice_par_date */
 /* met automatiquement l'option menu de l'exercice par rapport */
-/* à la date dans le formulaire */
+/* Ã  la date dans le formulaire */
 /* ************************************************************************************************************** */
 
 void affiche_exercice_par_date ( GtkWidget *entree_date,
@@ -623,7 +623,7 @@ void affiche_exercice_par_date ( GtkWidget *entree_date,
 	liste_tmp = liste_tmp -> next;
     }
 
-    /*       si rien trouvé, met à aucun */
+    /*       si rien trouvÃ©, met Ã  aucun */
 
     if ( !trouve )
 	gtk_option_menu_set_history ( GTK_OPTION_MENU ( option_menu_exercice ),
@@ -635,7 +635,7 @@ void affiche_exercice_par_date ( GtkWidget *entree_date,
 
 /* ************************************************************************************************************** */
 /* fonction association_automatique */
-/* recherche les opés sans exercice, et les associe si possible avec un des exercice créé */
+/* recherche les opÃ©s sans exercice, et les associe si possible avec un des exercice crÃ©Ã© */
 /* ************************************************************************************************************** */
 
 void association_automatique ( void )

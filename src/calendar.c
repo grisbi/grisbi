@@ -2,7 +2,7 @@
 /* Ce fichier s'occupe de la gestion des calendriers                          */
 /* 			gsbcalendar.c                                         */
 /*                                                                            */
-/*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org)	      */
+/*     Copyright (C)	2000-2003 CÃ©dric Auger (cedric@grisbi.org)	      */
 /*			2004 Alain Portal (dionysos@grisbi.org) 	      */
 /*			http://www.grisbi.org   			      */
 /*                                                                            */
@@ -45,9 +45,9 @@ extern GtkWidget *window;
 
 
 /******************************************************************************/
-/* Crée une fenètre (popup) calendrier.                                       */
-/* Cette fenètre est « rattachée » au widget (une entrée de texte) que l'on   */
-/* passe en paramètre et qui récupèrera une date, à moins que l'on abandonne  */
+/* CrÃ©e une fenÃ¨tre (popup) calendrier.                                       */
+/* Cette fenÃ¨tre est Â« rattachÃ©e Â» au widget (une entrÃ©e de texte) que l'on   */
+/* passe en paramÃ¨tre et qui rÃ©cupÃ¨rera une date, Ã  moins que l'on abandonne  */
 /* la saisie de la date par un appui sur la touche ESC lorsque le calendrier  */
 /* est ouvert.                                                                */
 /******************************************************************************/
@@ -62,7 +62,7 @@ GtkWidget *gsb_calendar_new ( GtkWidget *entry )
     GtkWidget *bouton;
     GtkWidget *frame;
 
-    /* création de la popup */
+    /* crÃ©ation de la popup */
 
     popup = gtk_window_new ( GTK_WINDOW_POPUP );
     gtk_window_set_modal ( GTK_WINDOW ( popup ), TRUE );
@@ -75,7 +75,7 @@ GtkWidget *gsb_calendar_new ( GtkWidget *entry )
 /* 				GTK_SIGNAL_FUNC ( gtk_grab_remove ), */
 /* 				GTK_OBJECT ( entree )); */
 
-  /* création de l'intérieur de la popup */
+  /* crÃ©ation de l'intÃ©rieur de la popup */
 
     frame = gtk_frame_new ( NULL );
     gtk_container_add ( GTK_CONTAINER ( popup ), frame );
@@ -100,7 +100,7 @@ GtkWidget *gsb_calendar_new ( GtkWidget *entry )
 
     pCalendar = gtk_calendar_new();
 
-    /* parce qu'il y a une différence de type et un décalage de valeur
+    /* parce qu'il y a une diffÃ©rence de type et un dÃ©calage de valeur
        pour identifier le mois :
        - pour g_date, janvier = 1
        - pour gtk_calendar, janvier = 0 */
@@ -140,24 +140,24 @@ GtkWidget *gsb_calendar_new ( GtkWidget *entry )
 			 0 );
     gtk_widget_show ( bouton );
 
-    /* cherche la position où l'on va mettre la popup */
-    /* on récupère la position de l'entrée date par rapport à laquelle on va placer la popup */
+    /* cherche la position oÃ¹ l'on va mettre la popup */
+    /* on rÃ©cupÃ¨re la position de l'entrÃ©e date par rapport Ã  laquelle on va placer la popup */
 
     gdk_window_get_origin ( GTK_WIDGET ( entry ) -> window,
 			    &x,
 			    &y );
 
-    /* on récupère la taille de la popup */
+    /* on rÃ©cupÃ¨re la taille de la popup */
 
     taille_popup = malloc ( sizeof ( GtkRequisition ));
     gtk_widget_size_request ( GTK_WIDGET ( popup ), taille_popup );
 
-    /* pour la soustraire à la position de l'entrée date */
+    /* pour la soustraire Ã  la position de l'entrÃ©e date */
 
     y -= taille_popup -> height;
 
-    /* si une des coordonnées est négative, alors la fonction
-       gtk_widget_set_uposition échoue et affiche la popup en 0,0 */
+    /* si une des coordonnÃ©es est nÃ©gative, alors la fonction
+       gtk_widget_set_uposition Ã©choue et affiche la popup en 0,0 */
 
     if ( x < 0 )
 	x = 0 ;
@@ -181,7 +181,7 @@ GtkWidget *gsb_calendar_new ( GtkWidget *entry )
 
 /******************************************************************************/
 /* Fonction date_selectionnee */
-/* appelée lorsqu'on a clické 2 fois sur une date du calendrier */
+/* appelÃ©e lorsqu'on a clickÃ© 2 fois sur une date du calendrier */
 /******************************************************************************/
 void date_selection ( GtkCalendar *pCalendar,
 		      GtkWidget *entry )
@@ -204,8 +204,8 @@ void date_selection ( GtkCalendar *pCalendar,
 
 /******************************************************************************/
 /* Fonction clavier_calendrier                                                */
-/* cette fonction est appelée à chaque appui sur une touche du clavier        */
-/* lorsque qu'une fenêtre popup calendrier est ouverte.                       */
+/* cette fonction est appelÃ©e Ã  chaque appui sur une touche du clavier        */
+/* lorsque qu'une fenÃªtre popup calendrier est ouverte.                       */
 /******************************************************************************/
 gboolean clavier_calendrier ( GtkCalendar *pCalendar,
 			      GdkEventKey *ev,
@@ -215,7 +215,7 @@ gboolean clavier_calendrier ( GtkCalendar *pCalendar,
     gint offset = 7;
     GtkWidget *pTopLevelWidget;
 
-    /* on récupère la popup du calendrier pour pouvoir la détruire en temps voulu */
+    /* on rÃ©cupÃ¨re la popup du calendrier pour pouvoir la dÃ©truire en temps voulu */
     pTopLevelWidget = gtk_widget_get_toplevel ( GTK_WIDGET ( pCalendar ) );
 
     gtk_calendar_get_date ( pCalendar, &annee, &mois, &jour );
@@ -232,7 +232,7 @@ gboolean clavier_calendrier ( GtkCalendar *pCalendar,
 		gtk_widget_destroy ( pTopLevelWidget );
 	    break ;
 
-	case GDK_Return :		/* touches entrée */
+	case GDK_Return :		/* touches entrÃ©e */
 	case GDK_KP_Enter :
 
 	    /* on valide la date choisie */
@@ -248,34 +248,34 @@ gboolean clavier_calendrier ( GtkCalendar *pCalendar,
 		gtk_widget_destroy ( pTopLevelWidget );
 	    break ;
 
-	case GDK_Left :		/* touches flèche gauche */
+	case GDK_Left :		/* touches flÃ¨che gauche */
 	case GDK_KP_Left:
 	case GDK_minus:		/* touches - */
 	case GDK_KP_Subtract:
 
-	    /* on passe au jour précédent */
+	    /* on passe au jour prÃ©cÃ©dent */
 
 	    jour--;
-	    /* si la date n'est pas valide, c'est parce qu'on a changé de mois */
+	    /* si la date n'est pas valide, c'est parce qu'on a changÃ© de mois */
 	    if ( g_date_valid_day ( jour ) != TRUE )
 	    {
 		/* donc, dernier jour ...*/
 		jour = 31 ;
-		/* ... du mois précédent */
+		/* ... du mois prÃ©cÃ©dent */
 		mois-- ;
-		/* parce qu'il y a une différence de type et un décalage de valeur
+		/* parce qu'il y a une diffÃ©rence de type et un dÃ©calage de valeur
 		   pour identifier le mois :
 		   - pour g_date, janvier = 1
 		   - pour gtk_calendar, janvier = 0 */
-		/* si le mois n'est pas valide, c'est parce qu'on a changé d'année */
+		/* si le mois n'est pas valide, c'est parce qu'on a changÃ© d'annÃ©e */
 		if ( g_date_valid_month ( mois + 1 ) != TRUE )
 		{
-		    /* donc mois de décembre... */
+		    /* donc mois de dÃ©cembre... */
 		    mois = 11;
-		    /* de l'année précédente */
+		    /* de l'annÃ©e prÃ©cÃ©dente */
 		    annee--;
-		    /* si l'année n'est pas valide, ça craint !!!!, alors on choisit
-		       le début de notre ère chrétienne :-) */
+		    /* si l'annÃ©e n'est pas valide, Ã§a craint !!!!, alors on choisit
+		       le dÃ©but de notre Ã¨re chrÃ©tienne :-) */
 		    if ( g_date_valid_year ( annee ) != TRUE )
 			annee = 1;
 		}
@@ -283,14 +283,14 @@ gboolean clavier_calendrier ( GtkCalendar *pCalendar,
 		while ( g_date_valid_dmy ( jour, mois + 1, annee ) != TRUE )
 		    jour--;
 	    }
-	    /* on positionne le calendrier au milieu du mois pour éviter des effets
+	    /* on positionne le calendrier au milieu du mois pour Ã©viter des effets
 	       de bord de la fonction gtk_calendar_select_month */
 	    gtk_calendar_select_day( pCalendar , 15 );
 	    gtk_calendar_select_month ( pCalendar , mois, annee );
 	    gtk_calendar_select_day( pCalendar , jour );
 	    break ;
 
-	case GDK_Right :		/* touches flèche droite */
+	case GDK_Right :		/* touches flÃ¨che droite */
 	case GDK_KP_Right:
 	case GDK_plus:		/* touches + */
 	case GDK_KP_Add:
@@ -298,22 +298,22 @@ gboolean clavier_calendrier ( GtkCalendar *pCalendar,
 	    /* on passe au jour suivant */
 
 	    jour++;
-	    /* si la date n'est pas valide, c'est parce qu'on a changé de mois */
+	    /* si la date n'est pas valide, c'est parce qu'on a changÃ© de mois */
 	    if ( g_date_valid_dmy ( jour, mois + 1, annee ) != TRUE )
 	    {
 		/* donc, premier jour ...*/
 		jour = 1 ;
 		/* ... du mois suivant */
 		mois++ ;
-		/* si le mois n'est pas valide, c'est parce qu'on a changé d'année */
+		/* si le mois n'est pas valide, c'est parce qu'on a changÃ© d'annÃ©e */
 		if ( g_date_valid_month ( mois + 1 ) != TRUE )
 		{
 		    /* donc mois de janvier... */
 		    mois = 0;
-		    /* de l'année suivante */
+		    /* de l'annÃ©e suivante */
 		    annee++;
-		    /* si l'année n'est pas valide, c'est qu'on a fait le tour du temps :-))),
-		       alors on choisit le début de notre ère chrétienne :-) */
+		    /* si l'annÃ©e n'est pas valide, c'est qu'on a fait le tour du temps :-))),
+		       alors on choisit le dÃ©but de notre Ã¨re chrÃ©tienne :-) */
 		    if ( g_date_valid_year ( annee ) != TRUE )
 			annee = 1;
 		}
@@ -323,29 +323,29 @@ gboolean clavier_calendrier ( GtkCalendar *pCalendar,
 	    gtk_calendar_select_day( pCalendar, jour );
 	    break ;
 
-	case GDK_Up :		/* touches flèche haut */
+	case GDK_Up :		/* touches flÃ¨che haut */
 	case GDK_KP_Up :
 
-	    /* on passe à la semaine précédente */
+	    /* on passe Ã  la semaine prÃ©cÃ©dente */
 
 	    jour -= 7;
-	    /* si la date n'est pas valide, c'est parce qu'on a changé de mois */
+	    /* si la date n'est pas valide, c'est parce qu'on a changÃ© de mois */
 	    if ( g_date_valid_day ( jour ) != TRUE )
 	    {
-		/* on revient donc en arrière */
+		/* on revient donc en arriÃ¨re */
 		jour += 7;
 		offset = 7;
 		/* pour calculer le nombre de jours qu'il faut soustraire au mois
-		   précédent */
+		   prÃ©cÃ©dent */
 		while ( g_date_valid_day ( jour - 7 + offset  ) == TRUE )
 		    offset--;
 		mois-- ;
-		/* si le mois n'est pas valide, c'est parce qu'on a changé d'année */
+		/* si le mois n'est pas valide, c'est parce qu'on a changÃ© d'annÃ©e */
 		if ( g_date_valid_month ( mois + 1 ) != TRUE )
 		{
-		    /* donc mois de décembre... */
+		    /* donc mois de dÃ©cembre... */
 		    mois = 11;
-		    /* de l'année précédente */
+		    /* de l'annÃ©e prÃ©cÃ©dente */
 		    annee--;
 		    if ( g_date_valid_year ( annee ) != TRUE )
 			annee = 1;
@@ -354,7 +354,7 @@ gboolean clavier_calendrier ( GtkCalendar *pCalendar,
 		jour = 31;
 		while ( g_date_valid_dmy ( jour, mois + 1, annee ) != TRUE )
 		    jour--;
-		/* pour lui soustraire le nombre de jours précédemment calculé */
+		/* pour lui soustraire le nombre de jours prÃ©cÃ©demment calculÃ© */
 		jour -= offset;
 	    }
 	    gtk_calendar_select_day( pCalendar , 15 );
@@ -362,10 +362,10 @@ gboolean clavier_calendrier ( GtkCalendar *pCalendar,
 	    gtk_calendar_select_day( pCalendar, jour );
 	    break ;
 
-	case GDK_Down :		/* touches flèche bas */
+	case GDK_Down :		/* touches flÃ¨che bas */
 	case GDK_KP_Down :
 
-	    /* on passe à la semaine suivante */
+	    /* on passe Ã  la semaine suivante */
 
 	    jour += 7 ;
 	    if ( g_date_valid_dmy ( jour, mois + 1, annee ) != TRUE )
@@ -376,7 +376,7 @@ gboolean clavier_calendrier ( GtkCalendar *pCalendar,
 		    offset++;
 		offset--;
 		mois++ ;
-		/* parce qu'il y a une différence de type et un décalage de valeur
+		/* parce qu'il y a une diffÃ©rence de type et un dÃ©calage de valeur
 		   pour identifier le mois :
 		   - pour g_date, janvier = 1
 		   - pour gtk_calendar, janvier = 0 */
@@ -416,7 +416,7 @@ gboolean clavier_calendrier ( GtkCalendar *pCalendar,
 	case GDK_Page_Up :		/* touches PgUp */
 	case GDK_KP_Page_Up :
 
-	    /* on passe au mois précédent */
+	    /* on passe au mois prÃ©cÃ©dent */
 
 	    gtk_calendar_select_day( pCalendar , 15 );
 	    mois-- ;
@@ -464,9 +464,9 @@ gboolean clavier_calendrier ( GtkCalendar *pCalendar,
 /******************************************************************************/
 
 /******************************************************************************/
-/* appelée lors de l'appui des touche + ou - sur les formulaires              */
-/* augmente ou diminue la date entrée de 1 jour, 1 semaine, 1 mois, 1 an,     */
-/* suivant la valeur du paramètre « demande »                                 */
+/* appelÃ©e lors de l'appui des touche + ou - sur les formulaires              */
+/* augmente ou diminue la date entrÃ©e de 1 jour, 1 semaine, 1 mois, 1 an,     */
+/* suivant la valeur du paramÃ¨tre Â« demande Â»                                 */
 /******************************************************************************/
 void inc_dec_date ( GtkWidget *entree, gint demande )
 {
@@ -474,7 +474,7 @@ void inc_dec_date ( GtkWidget *entree, gint demande )
     GDate *date;
     gint jour, mois, annee;
 
-    /* on commence par vérifier que la date est valide */
+    /* on commence par vÃ©rifier que la date est valide */
 
     if ( !format_date ( entree ) )
 	return;

@@ -1,7 +1,7 @@
-/*  Fichier qui s'occupe d'afficher les états via une gtktable */
+/*  Fichier qui s'occupe d'afficher les Ã©tats via une gtktable */
 /*      etats_gtktable.c */
 
-/*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org)	      */
+/*     Copyright (C)	2000-2003 CÃ©dric Auger (cedric@grisbi.org)	      */
 /*			2004 Benjamin Drieu (bdrieu@april.org)		      */
 /* 			http://www.grisbi.org				      */
 
@@ -216,7 +216,7 @@ void gtktable_attach_hsep ( int x, int x2, int y, int y2)
 /*****************************************************************************************************/
 gint gtktable_initialise (GSList * opes_selectionnees)
 {
-    /* on peut maintenant créer la table */
+    /* on peut maintenant crÃ©er la table */
     /* pas besoin d'indiquer la hauteur, elle grandit automatiquement */
 
     if ( GTK_IS_WIDGET(table_etat) )
@@ -252,24 +252,24 @@ gint gtktable_finish ()
 
 
 /*****************************************************************************************************/
-/* cette fonction est appelée si on click sur une opé dans un état */
-/* elle affiche la liste des opés sur cette opé */
+/* cette fonction est appelÃ©e si on click sur une opÃ© dans un Ã©tat */
+/* elle affiche la liste des opÃ©s sur cette opÃ© */
 /*****************************************************************************************************/
 
 void gtktable_click_sur_ope_etat ( struct structure_operation *operation )
 {
-    /* si c'est une opé de ventilation, on affiche l'opération mère */
+    /* si c'est une opÃ© de ventilation, on affiche l'opÃ©ration mÃ¨re */
 
     operation = operation_par_no ( operation -> no_operation_ventilee_associee,
 				   operation -> no_compte );
 
     if ( operation )
     {
-	/* passage sur le compte concerné */
+	/* passage sur le compte concernÃ© */
 
 	changement_compte ( GINT_TO_POINTER ( operation -> no_compte ));
 
-	/* récupération de la ligne de l'opé dans la liste ; affichage de toutes les opé si nécessaire */
+	/* rÃ©cupÃ©ration de la ligne de l'opÃ© dans la liste ; affichage de toutes les opÃ© si nÃ©cessaire */
 
 	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
 

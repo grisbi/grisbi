@@ -1,8 +1,8 @@
 /* ************************************************************************** */
-/* Ce fichier s'occupe de la gestion du formulaire de saisie des opérations   */
+/* Ce fichier s'occupe de la gestion du formulaire de saisie des opÃ©rations   */
 /* 			formulaire.c                                          */
 /*                                                                            */
-/*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org)	      */
+/*     Copyright (C)	2000-2003 CÃ©dric Auger (cedric@grisbi.org)	      */
 /*			2003-2004 Benjamin Drieu (bdrieu@april.org)	      */
 /*			2004 Alain Portal (dionysos@grisbi.org) 	      */
 /*			http://www.grisbi.org   			      */
@@ -92,13 +92,13 @@ static void widget_grab_focus_formulaire ( gint no_element );
 
 GtkWidget *vbox_elements_formulaire;
 
-/* vbox contenant le séparateur et les boutons valider/annuler */
-/* affichée ou non suivant la conf */
+/* vbox contenant le sÃ©parateur et les boutons valider/annuler */
+/* affichÃ©e ou non suivant la conf */
 
 GtkWidget *vbox_boutons_formulaire;
 
-/* les 2 styles pour les éléments du formulaire : */
-/* normal ou grisé */
+/* les 2 styles pour les Ã©lÃ©ments du formulaire : */
+/* normal ou grisÃ© */
 
 GtkStyle *style_entree_formulaire[2];
 
@@ -150,16 +150,16 @@ extern GtkTooltips *tooltips_general_grisbi;
 
 
 /******************************************************************************/
-/*  Routine qui crée le formulaire et le renvoie                              */
+/*  Routine qui crÃ©e le formulaire et le renvoie                              */
 /******************************************************************************/
 GtkWidget *creation_formulaire ( void )
 {
     GdkColor couleur_normale;
     GdkColor couleur_grise;
 
-    /* On crée tout de suite les styles qui seront appliqués aux entrées du formulaire : */
+    /* On crÃ©e tout de suite les styles qui seront appliquÃ©s aux entrÃ©es du formulaire : */
     /*     style_entree_formulaire[ENCLAIR] sera la couleur noire, normale */
-    /*     style_entree_formulaire[ENGRIS] sera une couleur atténuée quand le formulaire est vide */
+    /*     style_entree_formulaire[ENGRIS] sera une couleur attÃ©nuÃ©e quand le formulaire est vide */
 
     couleur_normale.red = COULEUR_NOIRE_RED;
     couleur_normale.green = COULEUR_NOIRE_GREEN;
@@ -179,12 +179,12 @@ GtkWidget *creation_formulaire ( void )
     g_object_ref ( style_entree_formulaire[ENGRIS] );
 
     /* le formulaire est une vbox avec en haut un tableau de 6 colonnes, et */
-    /* en bas si demandé les boutons valider et annuler */
+    /* en bas si demandÃ© les boutons valider et annuler */
 
     formulaire = gtk_vbox_new ( FALSE, 5 );
 
 
-    /*     mise en place de la vbox qui contient les éléments du formulaire */
+    /*     mise en place de la vbox qui contient les Ã©lÃ©ments du formulaire */
 
     vbox_elements_formulaire = gtk_vbox_new ( FALSE,
 					      0 );
@@ -214,7 +214,7 @@ GtkWidget *creation_formulaire ( void )
 
 /******************************************************************************/
 /* cette fonction remplit le formulaire en fonction de l'organisation du fomulaire */
-/* du compte donné en argument */
+/* du compte donnÃ© en argument */
 /******************************************************************************/
 void remplissage_formulaire ( gint no_compte )
 {
@@ -223,7 +223,7 @@ void remplissage_formulaire ( gint no_compte )
     GtkWidget *table;
 
 
-    /*     s'il y avait déjà un formulaire, on l'efface */
+    /*     s'il y avait dÃ©jÃ  un formulaire, on l'efface */
 
     if ( GTK_BOX ( vbox_elements_formulaire ) -> children )
     {
@@ -234,7 +234,7 @@ void remplissage_formulaire ( gint no_compte )
 	gtk_widget_destroy ( child -> widget );
     }
 	 
-    /*     récupère l'organisation du formulaire courant */
+    /*     rÃ©cupÃ¨re l'organisation du formulaire courant */
 
     organisation_formulaire = renvoie_organisation_formulaire ();
 
@@ -296,8 +296,8 @@ void remplissage_formulaire ( gint no_compte )
 
 
 /******************************************************************************/
-/* cette fonction retourne le widget correspondant à l'élément donné en argument */
-/* ce widget est initialisé, shown, et les signaux sont activés */
+/* cette fonction retourne le widget correspondant Ã  l'Ã©lÃ©ment donnÃ© en argument */
+/* ce widget est initialisÃ©, shown, et les signaux sont activÃ©s */
 /******************************************************************************/
 GtkWidget *cree_element_formulaire_par_no ( gint no_element )
 {
@@ -340,7 +340,7 @@ GtkWidget *cree_element_formulaire_par_no ( gint no_element )
 	    break;
 
 	case TRANSACTION_FORM_PARTY:
-	    /*  entrée du tiers : c'est une combofix */
+	    /*  entrÃ©e du tiers : c'est une combofix */
 
 	    widget = gtk_combofix_new_complex ( liste_tiers_combofix,
 						FALSE,
@@ -351,7 +351,7 @@ GtkWidget *cree_element_formulaire_par_no ( gint no_element )
 	    break;
 
 	case TRANSACTION_FORM_CATEGORY:
-	    /*  Affiche les catégories / sous-catégories */
+	    /*  Affiche les catÃ©gories / sous-catÃ©gories */
 
 	    widget = gtk_combofix_new_complex ( liste_categories_combofix,
 						FALSE,
@@ -375,7 +375,7 @@ GtkWidget *cree_element_formulaire_par_no ( gint no_element )
 	    break;
 
 	case TRANSACTION_FORM_BUDGET:
-	    /* Affiche l'imputation budgétaire */
+	    /* Affiche l'imputation budgÃ©taire */
 
 	    widget = gtk_combofix_new_complex ( liste_imputations_combofix,
 						FALSE,
@@ -396,7 +396,7 @@ GtkWidget *cree_element_formulaire_par_no ( gint no_element )
 				   _("Choose the method of payment"),
 				   _("Choose the method of payment") );
 
-	    /* le menu par défaut est celui des débits */
+	    /* le menu par dÃ©faut est celui des dÃ©bits */
 	    /* 	    le widget ne s'afffiche que s'il y a des types */
 
 	    if ( ( menu = creation_menu_types ( 1, compte_courant, 0 ) ) )
@@ -442,8 +442,8 @@ GtkWidget *cree_element_formulaire_par_no ( gint no_element )
 
 
 	case TRANSACTION_FORM_CONTRA:
-	    /* mise en place du type associé lors d'un virement */
-	    /* non affiché au départ et pas de menu au départ */
+	    /* mise en place du type associÃ© lors d'un virement */
+	    /* non affichÃ© au dÃ©part et pas de menu au dÃ©part */
 
 	    widget = gtk_option_menu_new ();
 	    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi ),
@@ -502,7 +502,7 @@ GtkWidget *cree_element_formulaire_par_no ( gint no_element )
 				     GINT_TO_POINTER ( no_element ));
 	    }
 	    else
-		/* ce n'est ni un combofix, ni une entrée */
+		/* ce n'est ni un combofix, ni une entrÃ©e */
 		gtk_signal_connect ( GTK_OBJECT ( widget ),
 				     "key-press-event",
 				     GTK_SIGNAL_FUNC ( touches_champ_formulaire ),
@@ -516,7 +516,7 @@ GtkWidget *cree_element_formulaire_par_no ( gint no_element )
 
 
 /******************************************************************************/
-/* crée la partie basse du formulaire : les boutons valider et annuler */
+/* crÃ©e la partie basse du formulaire : les boutons valider et annuler */
 /* et renvoie la vbox */
 /******************************************************************************/
 GtkWidget *creation_boutons_formulaire ( void )
@@ -530,7 +530,7 @@ GtkWidget *creation_boutons_formulaire ( void )
     vbox = gtk_vbox_new ( FALSE,
 			  0);
     
-    /* séparation d'avec les boutons */
+    /* sÃ©paration d'avec les boutons */
 
     separateur = gtk_hseparator_new ();
     gtk_box_pack_start ( GTK_BOX ( vbox ),
@@ -595,8 +595,8 @@ void echap_formulaire ( void )
 {
     GSList *liste_tmp;
 
-    /*     on libère la mémoire des ventilations */
-    /* 	dans tous les cas, toutes les modifs apportées ne l'étaient que */
+    /*     on libÃ¨re la mÃ©moire des ventilations */
+    /* 	dans tous les cas, toutes les modifs apportÃ©es ne l'Ã©taient que */
     /* 	dans cette liste */
 
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
@@ -630,14 +630,14 @@ void echap_formulaire ( void )
 
 
 /******************************************************************************/
-/* Fonction appelée quand une entry prend le focus */
-/* si elle contient encore des éléments grisés, on les enlève */
+/* Fonction appelÃ©e quand une entry prend le focus */
+/* si elle contient encore des Ã©lÃ©ments grisÃ©s, on les enlÃ¨ve */
 /******************************************************************************/
 gboolean entree_prend_focus ( GtkWidget *entree )
 {
 
-    /*     l'entrée qui arrive peut être un combofix */
-    /* si le style est le gris, on efface le contenu de l'entrée, sinon on fait rien */
+    /*     l'entrÃ©e qui arrive peut Ãªtre un combofix */
+    /* si le style est le gris, on efface le contenu de l'entrÃ©e, sinon on fait rien */
 
     if ( GTK_IS_ENTRY ( entree ))
     {
@@ -662,7 +662,7 @@ gboolean entree_prend_focus ( GtkWidget *entree )
 /******************************************************************************/
 
 /******************************************************************************/
-/* Fonction appelée quand une entry perd le focus */
+/* Fonction appelÃ©e quand une entry perd le focus */
 /* si elle ne contient rien, on remet la fonction en gris */
 /******************************************************************************/
 gboolean entree_perd_focus ( GtkWidget *entree,
@@ -671,13 +671,13 @@ gboolean entree_perd_focus ( GtkWidget *entree,
 {
     gchar *texte;
 
-    /*     on retire la sélection */
+    /*     on retire la sÃ©lection */
 
     gtk_editable_select_region ( GTK_EDITABLE ( entree ),
 				 0,
 				 0 );
 
-    /*     on efface la popup du combofix si elle est affichée(arrive parfois pas trouvé pourquoi) */
+    /*     on efface la popup du combofix si elle est affichÃ©e(arrive parfois pas trouvÃ© pourquoi) */
 
     if ( GPOINTER_TO_INT ( no_origine ) == TRANSACTION_FORM_PARTY
 	 ||
@@ -698,15 +698,15 @@ gboolean entree_perd_focus ( GtkWidget *entree,
 
     switch ( GPOINTER_TO_INT ( no_origine ) )
     {
-	/* on sort de la date, soit c'est vide, soit on la vérifie,
-	   la complète si nécessaire et met à jour l'exercice */
+	/* on sort de la date, soit c'est vide, soit on la vÃ©rifie,
+	   la complÃ¨te si nÃ©cessaire et met Ã  jour l'exercice */
 	case TRANSACTION_FORM_DATE :
 
 	    if ( strlen ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree )))))
 	    {
 		modifie_date ( entree );
 
-		/* si c'est une modif d'opé, on ne change pas l'exercice */
+		/* si c'est une modif d'opÃ©, on ne change pas l'exercice */
 		/* 		si on n'utilise pas l'exo, la fonction ne fera rien */
 
 		if ( !gtk_object_get_data ( GTK_OBJECT ( formulaire ),
@@ -718,7 +718,7 @@ gboolean entree_perd_focus ( GtkWidget *entree,
 		texte = _("Date");
 	    break;
 
-	    /* on sort du tiers : soit vide soit complète le reste de l'opé */
+	    /* on sort du tiers : soit vide soit complÃ¨te le reste de l'opÃ© */
 
 	case TRANSACTION_FORM_PARTY :
 
@@ -726,13 +726,13 @@ gboolean entree_perd_focus ( GtkWidget *entree,
 		texte = _("Third party");
 	    break;
 
-	    /* on sort du débit : soit vide, soit change le menu des types s'il ne correspond pas */
+	    /* on sort du dÃ©bit : soit vide, soit change le menu des types s'il ne correspond pas */
 
 	case TRANSACTION_FORM_DEBIT :
 
 	    if ( strlen ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree )))))
 	    {
-		/* on commence par virer ce qu'il y avait dans les crédits */
+		/* on commence par virer ce qu'il y avait dans les crÃ©dits */
 
 		if ( gtk_widget_get_style ( widget_formulaire_par_element (TRANSACTION_FORM_CREDIT) ) == style_entree_formulaire[ENCLAIR] )
 		{
@@ -743,7 +743,7 @@ gboolean entree_perd_focus ( GtkWidget *entree,
 					GINT_TO_POINTER ( TRANSACTION_FORM_CREDIT ) );
 		}
 
-		/* si c'est un menu de crédit, on y met le menu de débit */
+		/* si c'est un menu de crÃ©dit, on y met le menu de dÃ©bit */
 
 		if ( verifie_element_formulaire_existe ( TRANSACTION_FORM_TYPE ))
 		{
@@ -758,7 +758,7 @@ gboolean entree_perd_focus ( GtkWidget *entree,
 			 ||
 			 !GTK_WIDGET_VISIBLE ( widget_formulaire_par_element (TRANSACTION_FORM_TYPE) ))
 		    {
-			/* on crée le nouveau menu et on met le défaut */
+			/* on crÃ©e le nouveau menu et on met le dÃ©faut */
 
 			GtkWidget *menu;
 
@@ -776,8 +776,8 @@ gboolean entree_perd_focus ( GtkWidget *entree,
 			    gtk_widget_hide ( widget_formulaire_par_element (TRANSACTION_FORM_CHEQUE) );
 			}
 
-			/* comme il y a eu un changement de signe, on change aussi le type de l'opé associée */
-			/* s'il est affiché */
+			/* comme il y a eu un changement de signe, on change aussi le type de l'opÃ© associÃ©e */
+			/* s'il est affichÃ© */
 
 			if ( verifie_element_formulaire_existe ( TRANSACTION_FORM_CONTRA )
 			     &&
@@ -804,9 +804,9 @@ gboolean entree_perd_focus ( GtkWidget *entree,
 		    }	
 		    else
 		    {
-			/* on n'a pas recréé de menu, donc soit c'est déjà un menu de débit, soit tous les types */
-			/* sont affichés, soit le widget n'est pas visible */
-			/* on met donc le défaut, sauf si il y a qque chose dans les categ ou que le widget n'est pas visible */
+			/* on n'a pas recrÃ©Ã© de menu, donc soit c'est dÃ©jÃ  un menu de dÃ©bit, soit tous les types */
+			/* sont affichÃ©s, soit le widget n'est pas visible */
+			/* on met donc le dÃ©faut, sauf si il y a qque chose dans les categ ou que le widget n'est pas visible */
 
 			if ( GTK_WIDGET_VISIBLE ( widget_formulaire_par_element (TRANSACTION_FORM_TYPE) )
 			     &&
@@ -822,14 +822,14 @@ gboolean entree_perd_focus ( GtkWidget *entree,
 		texte = _("Debit");
 	    break;
 
-	    /* on sort du crédit : soit vide, soit change le menu des types
+	    /* on sort du crÃ©dit : soit vide, soit change le menu des types
 	       s'il n'y a aucun tiers ( <=> nouveau tiers ) */
 
 	case TRANSACTION_FORM_CREDIT :
 
 	    if ( strlen ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree )))))
 	    {
-		/* on commence par virer ce qu'il y avait dans les débits */
+		/* on commence par virer ce qu'il y avait dans les dÃ©bits */
 
 		if ( gtk_widget_get_style ( widget_formulaire_par_element (TRANSACTION_FORM_DEBIT) ) == style_entree_formulaire[ENCLAIR] )
 		{
@@ -840,8 +840,8 @@ gboolean entree_perd_focus ( GtkWidget *entree,
 					GINT_TO_POINTER ( TRANSACTION_FORM_DEBIT ));
 		}
 
-		/* si c'est un menu de crédit, on y met le menu de débit,
-		   sauf si tous les types sont affichés */
+		/* si c'est un menu de crÃ©dit, on y met le menu de dÃ©bit,
+		   sauf si tous les types sont affichÃ©s */
 
 		if ( verifie_element_formulaire_existe ( TRANSACTION_FORM_TYPE ))
 		{
@@ -853,7 +853,7 @@ gboolean entree_perd_focus ( GtkWidget *entree,
 								   "signe_menu" )) == 1 ) ||
 			 !GTK_WIDGET_VISIBLE ( widget_formulaire_par_element (TRANSACTION_FORM_TYPE) ))
 		    {
-			/* on crée le nouveau menu et on met le défaut */
+			/* on crÃ©e le nouveau menu et on met le dÃ©faut */
 
 			GtkWidget *menu;
 
@@ -871,8 +871,8 @@ gboolean entree_perd_focus ( GtkWidget *entree,
 			    gtk_widget_hide ( widget_formulaire_par_element (TRANSACTION_FORM_CHEQUE) );
 			}
 
-			/* comme il y a eu un changement de signe, on change aussi le type de l'opé associée */
-			/* s'il est affiché */
+			/* comme il y a eu un changement de signe, on change aussi le type de l'opÃ© associÃ©e */
+			/* s'il est affichÃ© */
 
 			if ( verifie_element_formulaire_existe ( TRANSACTION_FORM_CONTRA )
 			     &&
@@ -897,9 +897,9 @@ gboolean entree_perd_focus ( GtkWidget *entree,
 		    }
 		    else
 		    {
-			/* on n'a pas recréé de menu, donc soit c'est déjà un menu de débit, soit tous les types */
-			/* sont affichés, soit le widget n'est pas visible */
-			/* on met donc le défaut, sauf si il y a qque chose dans les categ ou que le widget n'est pas visible */
+			/* on n'a pas recrÃ©Ã© de menu, donc soit c'est dÃ©jÃ  un menu de dÃ©bit, soit tous les types */
+			/* sont affichÃ©s, soit le widget n'est pas visible */
+			/* on met donc le dÃ©faut, sauf si il y a qque chose dans les categ ou que le widget n'est pas visible */
 
 
 			if ( GTK_WIDGET_VISIBLE ( widget_formulaire_par_element (TRANSACTION_FORM_TYPE) )
@@ -923,7 +923,7 @@ gboolean entree_perd_focus ( GtkWidget *entree,
 		texte = _("Value date");
 	    break;
 
-	    /* sort des catégories : si c'est une opé ventilée, affiche le bouton de ventilation */
+	    /* sort des catÃ©gories : si c'est une opÃ© ventilÃ©e, affiche le bouton de ventilation */
 	    /* si c'est un virement affiche le bouton des types de l'autre compte */
 
 	case TRANSACTION_FORM_CATEGORY :
@@ -943,7 +943,7 @@ gboolean entree_perd_focus ( GtkWidget *entree,
 			gtk_widget_set_sensitive ( widget_formulaire_par_element (TRANSACTION_FORM_BUDGET),
 						   TRUE );
 
-		    /* vérification que ce n'est pas un virement */
+		    /* vÃ©rification que ce n'est pas un virement */
 
 		    tableau_char = g_strsplit ( gtk_combofix_get_text ( GTK_COMBOFIX ( widget_formulaire_par_element (TRANSACTION_FORM_CATEGORY) )),
 						":",
@@ -962,7 +962,7 @@ gboolean entree_perd_focus ( GtkWidget *entree,
 			     && tableau_char[1]
 			     && strlen ( tableau_char[1] ) )
 			{
-			    /* c'est un virement : on recherche le compte associé et on affiche les types de paiement */
+			    /* c'est un virement : on recherche le compte associÃ© et on affiche les types de paiement */
 
 			    gint i;
 
@@ -985,8 +985,8 @@ gboolean entree_perd_focus ( GtkWidget *entree,
 				    p_tab_nom_de_compte_variable++;
 				}
 
-				/* si on a touvé un compte de virement, que celui ci n'est pas le compte */
-				/* courant et que son menu des types n'est pas encore affiché, on crée le menu */
+				/* si on a touvÃ© un compte de virement, que celui ci n'est pas le compte */
+				/* courant et que son menu des types n'est pas encore affichÃ©, on crÃ©e le menu */
 
 				if ( compte_virement != -1
 				     &&
@@ -994,7 +994,7 @@ gboolean entree_perd_focus ( GtkWidget *entree,
 				     &&
 				     verifie_element_formulaire_existe ( TRANSACTION_FORM_CONTRA ))
 				{
-				    /* si le menu affiché est déjà celui du compte de virement, on n'y touche pas */
+				    /* si le menu affichÃ© est dÃ©jÃ  celui du compte de virement, on n'y touche pas */
 
 				    if ( !GTK_WIDGET_VISIBLE ( widget_formulaire_par_element (TRANSACTION_FORM_CONTRA) )
 					 ||
@@ -1002,18 +1002,18 @@ gboolean entree_perd_focus ( GtkWidget *entree,
 					   !=
 					   compte_virement ))
 				    {
-					/* vérifie quel est le montant entré, affiche les types opposés de l'autre compte */
+					/* vÃ©rifie quel est le montant entrÃ©, affiche les types opposÃ©s de l'autre compte */
 
 					GtkWidget *menu;
 
 					if ( gtk_widget_get_style ( widget_formulaire_par_element (TRANSACTION_FORM_CREDIT) ) == style_entree_formulaire[ENCLAIR] )
-					    /* il y a un montant dans le crédit */
+					    /* il y a un montant dans le crÃ©dit */
 					    menu = creation_menu_types ( 1, compte_virement, 2  );
 					else
-					    /* il y a un montant dans le débit ou défaut */
+					    /* il y a un montant dans le dÃ©bit ou dÃ©faut */
 					    menu = creation_menu_types ( 2, compte_virement, 2  );
 
-					/* si un menu à été créé, on l'affiche */
+					/* si un menu Ã  Ã©tÃ© crÃ©Ã©, on l'affiche */
 
 					if ( menu )
 					{
@@ -1023,7 +1023,7 @@ gboolean entree_perd_focus ( GtkWidget *entree,
 					}
 
 					/* on associe le no de compte de virement au formulaire pour le retrouver */
-					/* rapidement s'il y a un chgt débit/crédit */
+					/* rapidement s'il y a un chgt dÃ©bit/crÃ©dit */
 
 					gtk_object_set_data ( GTK_OBJECT ( widget_formulaire_par_element (TRANSACTION_FORM_CONTRA) ),
 							      "compte_virement",
@@ -1099,9 +1099,9 @@ gboolean entree_perd_focus ( GtkWidget *entree,
 	    break;
     }
 
-    /* si l'entrée était vide, on remet le défaut */
-    /* si l'origine était un combofix, il faut remettre le texte */
-    /* avec le gtk_combofix (sinon risque de complétion), donc utiliser l'origine */
+    /* si l'entrÃ©e Ã©tait vide, on remet le dÃ©faut */
+    /* si l'origine Ã©tait un combofix, il faut remettre le texte */
+    /* avec le gtk_combofix (sinon risque de complÃ©tion), donc utiliser l'origine */
 
     if ( texte )
     {
@@ -1133,12 +1133,12 @@ gboolean clique_champ_formulaire ( GtkWidget *entree,
     GtkWidget *popup_cal;
     struct struct_type_ope *type;
 
-    /* on rend sensitif tout ce qui ne l'était pas sur le formulaire */
+    /* on rend sensitif tout ce qui ne l'Ã©tait pas sur le formulaire */
 
     degrise_formulaire_operations ();
 
-    /* si l'entrée de la date est grise, on met la date courante seulement
-       si la date réelle est grise aussi. Dans le cas contraire,
+    /* si l'entrÃ©e de la date est grise, on met la date courante seulement
+       si la date rÃ©elle est grise aussi. Dans le cas contraire,
        c'est elle qui prend le focus */
 
     if ( gtk_widget_get_style ( widget_formulaire_par_element (TRANSACTION_FORM_DATE) ) == style_entree_formulaire[ENGRIS] )
@@ -1157,7 +1157,7 @@ gboolean clique_champ_formulaire ( GtkWidget *entree,
     }
 
 
-    /*   si le type par défaut est un chèque, on met le nouveau numéro */
+    /*   si le type par dÃ©faut est un chÃ¨que, on met le nouveau numÃ©ro */
 
     if ( verifie_element_formulaire_existe ( TRANSACTION_FORM_TYPE )
 	 &&
@@ -1176,13 +1176,13 @@ gboolean clique_champ_formulaire ( GtkWidget *entree,
 	}
     }
 
-    /* si ev est null ( cad que ça ne vient pas d'un click mais appelé par ex
-       à la fin de fin_edition ), on se barre */
+    /* si ev est null ( cad que Ã§a ne vient pas d'un click mais appelÃ© par ex
+       Ã  la fin de fin_edition ), on se barre */
 
     if ( !ev )
 	return FALSE;
 
-    /* énumération suivant l'entrée où on clique */
+    /* Ã©numÃ©ration suivant l'entrÃ©e oÃ¹ on clique */
 
     switch ( GPOINTER_TO_INT ( no_origine ) )
     {
@@ -1216,7 +1216,7 @@ gboolean touches_champ_formulaire ( GtkWidget *widget,
 
     origine = GPOINTER_TO_INT ( no_origine );
 
-    /* si etat.entree = 1, la touche entrée finit l'opération ( fonction par défaut ) */
+    /* si etat.entree = 1, la touche entrÃ©e finit l'opÃ©ration ( fonction par dÃ©faut ) */
     /* sinon elle fait comme tab */
 
     if ( !etat.entree && ( ev -> keyval == GDK_Return || ev -> keyval == GDK_KP_Enter ))
@@ -1224,7 +1224,7 @@ gboolean touches_champ_formulaire ( GtkWidget *widget,
 
     switch ( ev -> keyval )
     {
-	case GDK_Escape :		/* échap */
+	case GDK_Escape :		/* Ã©chap */
 
 	    echap_formulaire();
 	    break;
@@ -1251,11 +1251,11 @@ gboolean touches_champ_formulaire ( GtkWidget *widget,
 	    break;
 
 
-	    /* 	    tabulation inversée (+SHIFT) */
+	    /* 	    tabulation inversÃ©e (+SHIFT) */
 
 	case GDK_ISO_Left_Tab:
 
-	    /* 	    on passe au widget précédent */
+	    /* 	    on passe au widget prÃ©cÃ©dent */
 
 	    element_suivant = recherche_element_suivant_formulaire ( origine,
 								     0 );
@@ -1268,10 +1268,10 @@ gboolean touches_champ_formulaire ( GtkWidget *widget,
 
 	case GDK_Tab :
 
-	    /* une tabulation passe au widget affiché suivant */
-	    /* et retourne à la date ou enregistre l'opé s'il est à la fin */
+	    /* une tabulation passe au widget affichÃ© suivant */
+	    /* et retourne Ã  la date ou enregistre l'opÃ© s'il est Ã  la fin */
 
-	    /* 	    si on est sur le débit et qu'on a entré qque chose dedans, on efface le crédit */
+	    /* 	    si on est sur le dÃ©bit et qu'on a entrÃ© qque chose dedans, on efface le crÃ©dit */
 
 	    if ( origine == TRANSACTION_FORM_DEBIT
 		 &&
@@ -1283,7 +1283,7 @@ gboolean touches_champ_formulaire ( GtkWidget *widget,
 				     _("Credit") );
 	    }
 	    
-	    /* 	    si on est sur le crédit et qu'on a entré qque chose dedans, on efface le débit */
+	    /* 	    si on est sur le crÃ©dit et qu'on a entrÃ© qque chose dedans, on efface le dÃ©bit */
 
 	    if ( origine == TRANSACTION_FORM_CREDIT
 		 &&
@@ -1307,7 +1307,7 @@ gboolean touches_champ_formulaire ( GtkWidget *widget,
 	    return TRUE;
 	    break;
 
-	    /* touches entrée */
+	    /* touches entrÃ©e */
 
 	case GDK_KP_Enter :
 	case GDK_Return :
@@ -1465,13 +1465,13 @@ gboolean touches_champ_formulaire ( GtkWidget *widget,
 
 
 /******************************************************************************/
-/* cette fonction vérifie s'il y a une date entrée dans le widget date */
-/* dont le no est donné en argument */
-/* si l'entrée est vide,  */
+/* cette fonction vÃ©rifie s'il y a une date entrÃ©e dans le widget date */
+/* dont le no est donnÃ© en argument */
+/* si l'entrÃ©e est vide,  */
 /*     soit c'est une entree de date de valeur */
-/*     	on met la date de la date d'opération */
-/* 	ou la date du jour si l'opé n'a pas de date */
-/*    soit c'est la date d'opé, on met la date du jour */
+/*     	on met la date de la date d'opÃ©ration */
+/* 	ou la date du jour si l'opÃ© n'a pas de date */
+/*    soit c'est la date d'opÃ©, on met la date du jour */
 /* \param origine le no du champ de date : */
 /* 	TRANSACTION_FORM_DATE */
 /* 	TRANSACTION_FORM_VALUE_DATE */
@@ -1485,13 +1485,13 @@ void verifie_champs_dates ( gint origine )
 	case TRANSACTION_FORM_VALUE_DATE:
 
 	    /* si la date de valeur est vide, alors on
-	       récupère la date d'opération comme date de valeur */
+	       rÃ©cupÃ¨re la date d'opÃ©ration comme date de valeur */
 
 	    widget = widget_formulaire_par_element ( origine );
 
 	    if ( !strlen ( gtk_entry_get_text ( GTK_ENTRY ( widget ))))
 	    {
-		/* si la date d'opération est vide elle aussi */
+		/* si la date d'opÃ©ration est vide elle aussi */
 		/* 		    on met la date du jour dans les 2 champs */
 
 		GtkWidget *entree_date;
@@ -1524,7 +1524,7 @@ void verifie_champs_dates ( gint origine )
 	case TRANSACTION_FORM_DATE:
 
 	    /* si le champ est vide, alors on
-	       récupère la date du jour comme date d'opération */
+	       rÃ©cupÃ¨re la date du jour comme date d'opÃ©ration */
 
 	    widget = widget_formulaire_par_element ( origine );
 
@@ -1538,15 +1538,15 @@ void verifie_champs_dates ( gint origine )
 
 
 /******************************************************************************/
-/* renvoie le no d'élément dans le formulaire correspondant à l'élément suivant */
-/* dans le sens donné en argument */
-/* l'élément retourné peut recevoir le focus et il est affiché */
-/* \param element_courant le no d'élément d'origine */
-/* \param sens_deplacement le sens de déplacement pour retrouver l'élément suivant 
+/* renvoie le no d'Ã©lÃ©ment dans le formulaire correspondant Ã  l'Ã©lÃ©ment suivant */
+/* dans le sens donnÃ© en argument */
+/* l'Ã©lÃ©ment retournÃ© peut recevoir le focus et il est affichÃ© */
+/* \param element_courant le no d'Ã©lÃ©ment d'origine */
+/* \param sens_deplacement le sens de dÃ©placement pour retrouver l'Ã©lÃ©ment suivant 
  * 				(0=gauche, 1=droite, 2=haut, 3=bas) */
-/* \return no de l'élément qui recevra le focus,
+/* \return no de l'Ã©lÃ©ment qui recevra le focus,
  * 		-1 en cas de pb ou pas de changement
- * 		-2 en cas de fin d'opération (tab sur bout du formulaire)*/
+ * 		-2 en cas de fin d'opÃ©ration (tab sur bout du formulaire)*/
 /******************************************************************************/
 gint recherche_element_suivant_formulaire ( gint element_courant,
 					    gint sens_deplacement )
@@ -1573,8 +1573,8 @@ gint recherche_element_suivant_formulaire ( gint element_courant,
 	    /* 	    gauche */
 	    case 0:
 
-		/* 		on recherche l'élément précédent, si on est en haut à gauche */
-		/* 		    on passe en bas à droite */
+		/* 		on recherche l'Ã©lÃ©ment prÃ©cÃ©dent, si on est en haut Ã  gauche */
+		/* 		    on passe en bas Ã  droite */
 
 		if ( !colonne && !ligne )
 		{
@@ -1593,9 +1593,9 @@ gint recherche_element_suivant_formulaire ( gint element_courant,
 		/* 		droite */
 	    case 1:
 
-		/* 		on recherche l'élément suivant */
-		/* 		    si on est en bas à droite, on passe en haut à gauche */
-		/* 		ou on enregistre l'opé en fonction de la conf */
+		/* 		on recherche l'Ã©lÃ©ment suivant */
+		/* 		    si on est en bas Ã  droite, on passe en haut Ã  gauche */
+		/* 		ou on enregistre l'opÃ© en fonction de la conf */
 
 		if ( colonne == organisation_formulaire -> nb_colonnes - 1
 		     &&
@@ -1656,8 +1656,8 @@ gint recherche_element_suivant_formulaire ( gint element_courant,
 
 
 /******************************************************************************/
-/* vérifie si l'élément du formulaire donné en argument peut recevoir le focus */
-/* \param no_element l'élément à tester */
+/* vÃ©rifie si l'Ã©lÃ©ment du formulaire donnÃ© en argument peut recevoir le focus */
+/* \param no_element l'Ã©lÃ©ment Ã  tester */
 /* \return TRUE s'il peut recevoir le focus */
 /******************************************************************************/
 gboolean element_focusable ( gint no_element )
@@ -1696,7 +1696,7 @@ gboolean element_focusable ( gint no_element )
 
 
 /******************************************************************************/
-/* met le focus sur le widget du formulaire dont le no est donné en argument */
+/* met le focus sur le widget du formulaire dont le no est donnÃ© en argument */
 /******************************************************************************/
 void widget_grab_focus_formulaire ( gint no_element )
 {
@@ -1719,9 +1719,9 @@ void widget_grab_focus_formulaire ( gint no_element )
 
 /******************************************************************************/
 /* Fonction completion_operation_par_tiers                                    */
-/* appelée lorsque le tiers perd le focus                                     */
-/* récupère le tiers, et recherche la dernière opé associée à ce tiers        */
-/* remplit le reste de l'opération avec les dernières données                 */
+/* appelÃ©e lorsque le tiers perd le focus                                     */
+/* rÃ©cupÃ¨re le tiers, et recherche la derniÃ¨re opÃ© associÃ©e Ã  ce tiers        */
+/* remplit le reste de l'opÃ©ration avec les derniÃ¨res donnÃ©es                 */
 /* \return FALSE pas de tiers, ou pb */
 /******************************************************************************/
 gboolean completion_operation_par_tiers ( GtkWidget *entree )
@@ -1744,7 +1744,7 @@ gboolean completion_operation_par_tiers ( GtkWidget *entree )
     if ( !strlen ( nom_tiers ))
 	return FALSE;
 
-    /*     pour la complétion, seul la date et le tiers doivent être remplis, sinon on ne fait rien */
+    /*     pour la complÃ©tion, seul la date et le tiers doivent Ãªtre remplis, sinon on ne fait rien */
 
     organisation_formulaire = renvoie_organisation_formulaire ();
     pas_de_completion = 0;
@@ -1779,7 +1779,7 @@ gboolean completion_operation_par_tiers ( GtkWidget *entree )
 	return TRUE;
     
 
-    /* recherche le tiers demandé */
+    /* recherche le tiers demandÃ© */
 
     tiers = tiers_par_nom ( nom_tiers,
 			    0 );
@@ -1789,16 +1789,16 @@ gboolean completion_operation_par_tiers ( GtkWidget *entree )
     if ( !tiers )
 	return TRUE;
 
-    /*     on essaie de retrouver la dernière opé entrée avec ce tiers */
+    /*     on essaie de retrouver la derniÃ¨re opÃ© entrÃ©e avec ce tiers */
 
     operation = recherche_derniere_occurence_tiers ( tiers -> no_tiers );
 
-    /* si on n'a trouvé aucune opération, on se tire */
+    /* si on n'a trouvÃ© aucune opÃ©ration, on se tire */
 
     if ( !operation )
 	return TRUE;
 
-    /*     on fait le tour du formulaire en ne remplissant que ce qui est nécessaire */
+    /*     on fait le tour du formulaire en ne remplissant que ce qui est nÃ©cessaire */
 
     for ( i=0 ; i < organisation_formulaire -> nb_lignes ; i++ )
 	for ( j=0 ; j <  organisation_formulaire -> nb_colonnes ; j++ )
@@ -1833,8 +1833,8 @@ gboolean completion_operation_par_tiers ( GtkWidget *entree )
 
 		    if ( operation -> operation_ventilee )
 		    {
-			/* 			c'est une opé ventilée, on met la catég, affiche le bouton, et propose de */
-			/* 			    récupérer les opé filles */
+			/* 			c'est une opÃ© ventilÃ©e, on met la catÃ©g, affiche le bouton, et propose de */
+			/* 			    rÃ©cupÃ©rer les opÃ© filles */
 
 			entree_prend_focus ( widget );
 			gtk_combofix_set_text ( GTK_COMBOFIX ( widget ),
@@ -1865,7 +1865,7 @@ gboolean completion_operation_par_tiers ( GtkWidget *entree )
 			}
 			else
 			{
-			    /* c'est des catégories normales */
+			    /* c'est des catÃ©gories normales */
 
 			    char_tmp = nom_categ_par_no ( operation -> categorie,
 							  operation -> sous_categorie );
@@ -1910,7 +1910,7 @@ gboolean completion_operation_par_tiers ( GtkWidget *entree )
 
 		    if ( menu )
 		    {
-			/* on met en place les types et se place sur celui correspondant à l'opé */
+			/* on met en place les types et se place sur celui correspondant Ã  l'opÃ© */
 
 			gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget ),
 						   menu );
@@ -1969,7 +1969,7 @@ gboolean completion_operation_par_tiers ( GtkWidget *entree )
 			{
 			    struct structure_operation *contre_operation;
 
-			    /* on met en place les types et se place sur celui correspondant à l'opé */
+			    /* on met en place les types et se place sur celui correspondant Ã  l'opÃ© */
 
 			    gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget ),
 						       menu );
@@ -1996,8 +1996,8 @@ gboolean completion_operation_par_tiers ( GtkWidget *entree )
 
 
 /******************************************************************************/
-/* cette fonction est appelée lorsque l'option menu des devises du formulaire a changé */
-/* elle vérifie si la devise choisie à un taux de change fixe avec la devise du compte */
+/* cette fonction est appelÃ©e lorsque l'option menu des devises du formulaire a changÃ© */
+/* elle vÃ©rifie si la devise choisie Ã  un taux de change fixe avec la devise du compte */
 /* sinon elle affiche le bouton de change */
 /******************************************************************************/
 void verification_bouton_change_devise ( void )
@@ -2024,9 +2024,9 @@ void verification_bouton_change_devise ( void )
 
 
 /******************************************************************************/
-/* cette fonction recherche la dernière occurence du tiers donné en argument */
+/* cette fonction recherche la derniÃ¨re occurence du tiers donnÃ© en argument */
 /* commence la recherche dans le comptes courant */
-/* puis fait le tour de tous les comptes si elle n'a pas trouvé */
+/* puis fait le tour de tous les comptes si elle n'a pas trouvÃ© */
 /******************************************************************************/
 struct structure_operation *recherche_derniere_occurence_tiers ( gint no_tiers )
 {
@@ -2035,8 +2035,8 @@ struct structure_operation *recherche_derniere_occurence_tiers ( gint no_tiers )
     struct structure_operation *ope_test;
     gint i;
 
-    /* on fait d'abord le tour du compte courant pour recherche une opé avec ce tiers */
-    /* s'il n'y a aucune opé correspondante, on fait le tour de tous les comptes */
+    /* on fait d'abord le tour du compte courant pour recherche une opÃ© avec ce tiers */
+    /* s'il n'y a aucune opÃ© correspondante, on fait le tour de tous les comptes */
 
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
 
@@ -2065,9 +2065,9 @@ struct structure_operation *recherche_derniere_occurence_tiers ( gint no_tiers )
 
     if ( !operation )
     {
-	/* aucune opération correspondant à ce tiers n'a été trouvée dans le compte courant */
-	/* on recherche dans les autres comptes, la première trouvée fera l'affaire */
-	/* FIXME : tester si c'est beaucoup plus long sur un gros fichier de récupérer la dernière opé entrée... */
+	/* aucune opÃ©ration correspondant Ã  ce tiers n'a Ã©tÃ© trouvÃ©e dans le compte courant */
+	/* on recherche dans les autres comptes, la premiÃ¨re trouvÃ©e fera l'affaire */
+	/* FIXME : tester si c'est beaucoup plus long sur un gros fichier de rÃ©cupÃ©rer la derniÃ¨re opÃ© entrÃ©e... */
 
 	p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
 
@@ -2102,8 +2102,8 @@ struct structure_operation *recherche_derniere_occurence_tiers ( gint no_tiers )
 
 
 /******************************************************************************/
-/* cette fonction est appelée lors de la complétion par tiers si l'opé de complétion */
-/* est une ventilation. propose de récupérer les opés filles */
+/* cette fonction est appelÃ©e lors de la complÃ©tion par tiers si l'opÃ© de complÃ©tion */
+/* est une ventilation. propose de rÃ©cupÃ©rer les opÃ©s filles */
 /******************************************************************************/
 void recuperation_ope_filles_completion_tiers ( struct structure_operation *operation )
 {
@@ -2111,7 +2111,7 @@ void recuperation_ope_filles_completion_tiers ( struct structure_operation *oper
     GSList *liste_des_opes_de_ventilation;
     GSList *pointeur_ope;
 
-    /* affiche la question de récupération */
+    /* affiche la question de rÃ©cupÃ©ration */
 
     result = question_yes_no_hint ( _("This is a breakdown transaction"),
 				    _("Recover breakdown?"));
@@ -2120,7 +2120,7 @@ void recuperation_ope_filles_completion_tiers ( struct structure_operation *oper
     if ( !result )
 	return;
 
-    /* récupération des anciennes opés filles de la ventilation */
+    /* rÃ©cupÃ©ration des anciennes opÃ©s filles de la ventilation */
 
     liste_des_opes_de_ventilation = NULL;
     pointeur_ope = LISTE_OPERATIONS;
@@ -2152,7 +2152,7 @@ void recuperation_ope_filles_completion_tiers ( struct structure_operation *oper
 		nouvelle_operation -> no_piece_comptable = g_strdup ( ope_test -> no_piece_comptable );
 
 
-	    /* 		    on met par_completion à 1 pour éviter de les effacer si on va dans l'échéance */
+	    /* 		    on met par_completion Ã  1 pour Ã©viter de les effacer si on va dans l'Ã©chÃ©ance */
 	    /* 			et qu'on annule */
 
 	    nouvelle_operation -> par_completion = 1;
@@ -2166,7 +2166,7 @@ void recuperation_ope_filles_completion_tiers ( struct structure_operation *oper
 		nouvelle_operation -> relation_no_operation = -1;
 		nouvelle_operation -> relation_no_compte = ope_test -> relation_no_compte;
 
-		/*  on va chercher le type de l'opé associée */
+		/*  on va chercher le type de l'opÃ© associÃ©e */
 
 		contre_operation = operation_par_no ( ope_test -> relation_no_operation,
 						      ope_test -> relation_no_compte );
@@ -2194,11 +2194,11 @@ void recuperation_ope_filles_completion_tiers ( struct structure_operation *oper
 
 
 /******************************************************************************/
-/* place l'option_menu des types de paiement sur le no de type donné en argument */
-/* s'il ne le trouve pas met le type par défaut du compte */
+/* place l'option_menu des types de paiement sur le no de type donnÃ© en argument */
+/* s'il ne le trouve pas met le type par dÃ©faut du compte */
 /* \param no_type le no de type voulu */
 /* \param no_option_menu TRANSACTION_FORM_TYPE ou TRANSACTION_FORM_CONTRA */
-/* \param contenu le contenu du type à afficher si nécessaire */
+/* \param contenu le contenu du type Ã  afficher si nÃ©cessaire */
 /******************************************************************************/
 void place_type_formulaire ( gint no_type,
 			     gint no_option_menu,
@@ -2211,11 +2211,11 @@ void place_type_formulaire ( gint no_type,
 
     option_menu = widget_formulaire_par_element (no_option_menu);
 
-    /* recherche le type de l'opé */
+    /* recherche le type de l'opÃ© */
 
     place_type = cherche_no_menu_type ( no_type );
 
-    /* si aucun type n'a été trouvé, on cherche le défaut */
+    /* si aucun type n'a Ã©tÃ© trouvÃ©, on cherche le dÃ©faut */
 
     if ( place_type == -1 )
     {
@@ -2234,23 +2234,23 @@ void place_type_formulaire ( gint no_type,
 	else
 	    place_type = cherche_no_menu_type ( TYPE_DEFAUT_CREDIT );
 
-	/* si le type par défaut n'est pas trouvé, on met 0 */
+	/* si le type par dÃ©faut n'est pas trouvÃ©, on met 0 */
 
 	if ( place_type == -1 )
 	    place_type = 0;
     }
 
-    /*       à ce niveau, place type est mis */
+    /*       Ã  ce niveau, place type est mis */
 
     gtk_option_menu_set_history ( GTK_OPTION_MENU ( option_menu ),
 				  place_type );
 
-    /*     si on est sur le contre type, on vire ici car on ne donne pas la possibilité de rentrer un commentaire */
+    /*     si on est sur le contre type, on vire ici car on ne donne pas la possibilitÃ© de rentrer un commentaire */
 
     if ( no_option_menu == TRANSACTION_FORM_CONTRA )
 	return;
 
-    /* récupère l'adr du type pour mettre un n° auto si nécessaire */
+    /* rÃ©cupÃ¨re l'adr du type pour mettre un nÂ° auto si nÃ©cessaire */
 
     type = gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( option_menu ) -> menu_item ),
 				 "adr_type" );
@@ -2281,8 +2281,8 @@ void place_type_formulaire ( gint no_type,
 
 
 /******************************************************************************/
-/* procédure appelée lors de la fin de l'édition d'opération */
-/* crée une nouvelle opération à partir du formulaire */
+/* procÃ©dure appelÃ©e lors de la fin de l'Ã©dition d'opÃ©ration */
+/* crÃ©e une nouvelle opÃ©ration Ã  partir du formulaire */
 /* puis appelle ajout_operation pour la sauver */
 /******************************************************************************/
 gboolean fin_edition ( void )
@@ -2292,7 +2292,7 @@ gboolean fin_edition ( void )
     GSList *liste_no_tiers;
     GSList *liste_tmp;
 
-    /* récupération de l'opération : soit l'adr de la struct, soit NULL si nouvelle */
+    /* rÃ©cupÃ©ration de l'opÃ©ration : soit l'adr de la struct, soit NULL si nouvelle */
 
     operation = gtk_object_get_data ( GTK_OBJECT ( formulaire ),
 				      "adr_struct_ope" );
@@ -2302,41 +2302,41 @@ gboolean fin_edition ( void )
     else
 	modification = 0;
 
-    /*     on donne le focus à la liste, pour que le widget en cours perde le focus */
-    /* 	et applique les modifs nécessaires */
+    /*     on donne le focus Ã  la liste, pour que le widget en cours perde le focus */
+    /* 	et applique les modifs nÃ©cessaires */
 
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
 
     gtk_widget_grab_focus ( TREE_VIEW_LISTE_OPERATIONS );
     
-   /* on commence par vérifier que les données entrées sont correctes */
-    /* si la fonction renvoie false, c'est qu'on doit arrêter là */
+   /* on commence par vÃ©rifier que les donnÃ©es entrÃ©es sont correctes */
+    /* si la fonction renvoie false, c'est qu'on doit arrÃªter lÃ  */
 
     if ( !verification_validation_operation ( operation ))
 	return FALSE;
 
-    /* si le tiers est un état, on va faire autant d'opérations qu'il y a de tiers
-       dans l'état concerné. On va créer une liste avec les nos de tiers
-       ( ou -1, le tiers n'est pas un état), puis on fera une boucle sur cette liste
-       pour ajouter autant d'opérations que de tiers */
+    /* si le tiers est un Ã©tat, on va faire autant d'opÃ©rations qu'il y a de tiers
+       dans l'Ã©tat concernÃ©. On va crÃ©er une liste avec les nos de tiers
+       ( ou -1, le tiers n'est pas un Ã©tat), puis on fera une boucle sur cette liste
+       pour ajouter autant d'opÃ©rations que de tiers */
 
     liste_no_tiers = NULL;
 
-    /*     on vérifie que le champ tiers existe... */
+    /*     on vÃ©rifie que le champ tiers existe... */
 
     if ( verifie_element_formulaire_existe ( TRANSACTION_FORM_PARTY ))
     {
 	if ( strncmp ( g_strstrip ( gtk_combofix_get_text ( GTK_COMBOFIX ( widget_formulaire_par_element (TRANSACTION_FORM_PARTY) ))),
 		       COLON(_("Report")),
 		       7 ))
-	    /*     ce n'est pas un état, on met -1 comme no de tiers */
+	    /*     ce n'est pas un Ã©tat, on met -1 comme no de tiers */
 	    liste_no_tiers = g_slist_append (liste_no_tiers,
 					     GINT_TO_POINTER ( -1 ));
 	else
 	{
-	    /* c'est bien un état */
-	    /* on commence par retrouver le nom de l'état */
-	    /* toutes les vérifications ont été faites précédemment */
+	    /* c'est bien un Ã©tat */
+	    /* on commence par retrouver le nom de l'Ã©tat */
+	    /* toutes les vÃ©rifications ont Ã©tÃ© faites prÃ©cÃ©demment */
 
 	    gchar **tableau_char;
 	    struct struct_etat *etat;
@@ -2365,7 +2365,7 @@ gboolean fin_edition ( void )
 
 		g_strfreev ( tableau_char );
 
-		/* à ce niveau, etat contient l'adr le la struct de l'état choisi */
+		/* Ã  ce niveau, etat contient l'adr le la struct de l'Ã©tat choisi */
 
 		liste_opes_selectionnees = recupere_opes_etat ( etat );
 
@@ -2390,21 +2390,21 @@ gboolean fin_edition ( void )
 	}
     }
     else
-	/* 	il n'y a pas de tiers, donc ce n'est pas un état */
+	/* 	il n'y a pas de tiers, donc ce n'est pas un Ã©tat */
 	liste_no_tiers = g_slist_append (liste_no_tiers,
 					 GINT_TO_POINTER ( -1 ));
 
 
-    /* à ce niveau, liste_no_tiers contient la liste des no de tiers pour chacun desquels on */
-    /* fera une opé, ou -1 si on utilise que le tiers dans l'entrée du formulaire */
-    /* on fait donc le tour de cette liste en ajoutant l'opé à chaque fois */
+    /* Ã  ce niveau, liste_no_tiers contient la liste des no de tiers pour chacun desquels on */
+    /* fera une opÃ©, ou -1 si on utilise que le tiers dans l'entrÃ©e du formulaire */
+    /* on fait donc le tour de cette liste en ajoutant l'opÃ© Ã  chaque fois */
 
     liste_tmp = liste_no_tiers;
 
     while ( liste_tmp )
     {
 	/* soit on va chercher le tiers dans la liste des no de tiers et on le met dans le formulaire, */
-	/* soit on laisse tel quel et on met liste_tmp à NULL */
+	/* soit on laisse tel quel et on met liste_tmp Ã  NULL */
 
 	if ( liste_tmp -> data == GINT_TO_POINTER ( -1 ) )
 	    liste_tmp = NULL;
@@ -2420,13 +2420,13 @@ gboolean fin_edition ( void )
 		gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_par_element (TRANSACTION_FORM_PARTY) ),
 					tiers_name_by_no ( GPOINTER_TO_INT (liste_tmp -> data), TRUE ));
 
-		/* si le moyen de paiement est à incrémentation automatique, à partir de la 2ème opé, */
-		/* on incrémente le contenu (no de chèque en général) */
+		/* si le moyen de paiement est Ã  incrÃ©mentation automatique, Ã  partir de la 2Ã¨me opÃ©, */
+		/* on incrÃ©mente le contenu (no de chÃ¨que en gÃ©nÃ©ral) */
 
-		/* comme c'est une liste de tiers, c'est forcemment une nouvelle opé */
-		/* donc si operation n'est pas nul, c'est qu'on n'est pas sur la 1ère */
-		/* donc on peut incrémenter si nécessaire le contenu */
-		/* et on peut récupérer le no_type de l'ancienne opé */
+		/* comme c'est une liste de tiers, c'est forcemment une nouvelle opÃ© */
+		/* donc si operation n'est pas nul, c'est qu'on n'est pas sur la 1Ã¨re */
+		/* donc on peut incrÃ©menter si nÃ©cessaire le contenu */
+		/* et on peut rÃ©cupÃ©rer le no_type de l'ancienne opÃ© */
 
 		if ( operation )
 		{
@@ -2449,7 +2449,7 @@ gboolean fin_edition ( void )
 	    }
 	}
 
-	/* si c'est une nouvelle opé, on la crée en mettant tout à 0 sauf le no de compte et la devise */
+	/* si c'est une nouvelle opÃ©, on la crÃ©e en mettant tout Ã  0 sauf le no de compte et la devise */
 
 	if ( !modification )
 	{
@@ -2462,19 +2462,19 @@ gboolean fin_edition ( void )
 	    }
 	    operation -> no_compte = compte_courant;
 
-	    /* 	    la devise par défaut est celle du compte, elle sera modifiée si nécessaire plus tard */
+	    /* 	    la devise par dÃ©faut est celle du compte, elle sera modifiÃ©e si nÃ©cessaire plus tard */
 
 	    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
 
 	    operation -> devise = DEVISE;
 	}
 
-	/* on récupère les données du formulaire sauf la categ qui est traitée plus tard */
+	/* on rÃ©cupÃ¨re les donnÃ©es du formulaire sauf la categ qui est traitÃ©e plus tard */
 
 	recuperation_donnees_generales_formulaire ( operation );
 
-	/* il faut ajouter l'opération à la liste à ce niveau pour lui attribuer un numéro */
-	/* celui ci sera utilisé si c'est un virement ou si c'est une ventil qui contient des */
+	/* il faut ajouter l'opÃ©ration Ã  la liste Ã  ce niveau pour lui attribuer un numÃ©ro */
+	/* celui ci sera utilisÃ© si c'est un virement ou si c'est une ventil qui contient des */
 	/* virements */
 
 	if ( modification )
@@ -2482,26 +2482,26 @@ gboolean fin_edition ( void )
 	else
 	    ajout_operation ( operation );
 
-	/*   récupération des catégories / sous-catég, s'ils n'existent pas, on les crée */
-	/* à mettre en dernier car si c'est une opé ventilée, chaque opé de ventil va récupérer les données du dessus */
+	/*   rÃ©cupÃ©ration des catÃ©gories / sous-catÃ©g, s'ils n'existent pas, on les crÃ©e */
+	/* Ã  mettre en dernier car si c'est une opÃ© ventilÃ©e, chaque opÃ© de ventil va rÃ©cupÃ©rer les donnÃ©es du dessus */
 
 	recuperation_categorie_formulaire ( operation,
 					    modification );
     }
 
-    /* on libère la liste des no tiers */
+    /* on libÃ¨re la liste des no tiers */
 
     g_slist_free ( liste_no_tiers );
 
-    /* si on est en train d'équilibrer => recalcule le total pointé */
+    /* si on est en train d'Ã©quilibrer => recalcule le total pointÃ© */
 
     if ( etat.equilibrage )
 	calcule_total_pointe_compte ( compte_courant );
 
 
-    /* si c'était une nouvelle opération, on efface le formulaire,
+    /* si c'Ã©tait une nouvelle opÃ©ration, on efface le formulaire,
        on remet la date pour la suivante,
-       si c'était une modification, on redonne le focus à la liste */
+       si c'Ã©tait une modification, on redonne le focus Ã  la liste */
 
     formulaire_a_zero ();
 
@@ -2512,7 +2512,7 @@ gboolean fin_edition ( void )
     }
     else
     {
-	/* 	c'est une nouvelle opé, on sauvegarde la dernière date */
+	/* 	c'est une nouvelle opÃ©, on sauvegarde la derniÃ¨re date */
 
 	GtkWidget *entree_date;
 
@@ -2528,7 +2528,7 @@ gboolean fin_edition ( void )
     }
 
 
-    /* met à jour les listes ( nouvelle opération associée au tiers et à la catégorie ) */
+    /* met Ã  jour les listes ( nouvelle opÃ©ration associÃ©e au tiers et Ã  la catÃ©gorie ) */
 
     if ( mise_a_jour_combofix_tiers_necessaire )
 	mise_a_jour_combofix_tiers ();
@@ -2537,7 +2537,7 @@ gboolean fin_edition ( void )
     if ( mise_a_jour_combofix_imputation_necessaire )
 	mise_a_jour_combofix_imputation ();
 
-    /*     on affiche un avertissement si nécessaire */
+    /*     on affiche un avertissement si nÃ©cessaire */
 
     affiche_dialogue_soldes_minimaux ();
 
@@ -2547,8 +2547,8 @@ gboolean fin_edition ( void )
 /******************************************************************************/
 
 /******************************************************************************/
-/* vérifie que les données dans le formulaire sont valides pour enregistrer   */
-/* l'opération appelée lors de la fin_edition d'une opé                       */
+/* vÃ©rifie que les donnÃ©es dans le formulaire sont valides pour enregistrer   */
+/* l'opÃ©ration appelÃ©e lors de la fin_edition d'une opÃ©                       */
 /******************************************************************************/
 gint verification_validation_operation ( struct structure_operation *operation )
 {
@@ -2556,7 +2556,7 @@ gint verification_validation_operation ( struct structure_operation *operation )
     GSList *liste_tmp;
 
 
-    /* on vérifie qu'il y a bien une date */
+    /* on vÃ©rifie qu'il y a bien une date */
 
     if ( gtk_widget_get_style ( widget_formulaire_par_element (TRANSACTION_FORM_DATE) ) != style_entree_formulaire[ENCLAIR] )
     {
@@ -2564,7 +2564,7 @@ gint verification_validation_operation ( struct structure_operation *operation )
 	return (FALSE);
     }
 
-    /* vérifie que la date est correcte */
+    /* vÃ©rifie que la date est correcte */
 
     if ( !modifie_date ( widget_formulaire_par_element (TRANSACTION_FORM_DATE) ))
     {
@@ -2577,7 +2577,7 @@ gint verification_validation_operation ( struct structure_operation *operation )
     }
 
 
-    /* vérifie que la date de valeur est correcte */
+    /* vÃ©rifie que la date de valeur est correcte */
 
     if ( verifie_element_formulaire_existe ( TRANSACTION_FORM_VALUE_DATE )
 	 &&
@@ -2593,7 +2593,7 @@ gint verification_validation_operation ( struct structure_operation *operation )
 	return (FALSE);
     }
 
-    /* vérification que ce n'est pas un virement sur lui-même */
+    /* vÃ©rification que ce n'est pas un virement sur lui-mÃªme */
     /* et que le compte de virement existe */
 
     if ( verifie_element_formulaire_existe ( TRANSACTION_FORM_CATEGORY )
@@ -2610,11 +2610,11 @@ gint verification_validation_operation ( struct structure_operation *operation )
 	    tableau_char[1] = g_strstrip ( tableau_char[1] );
 
 
-	/* Si c'est un virement, on fait les vérifications */
+	/* Si c'est un virement, on fait les vÃ©rifications */
 	
 	if ( !strcmp ( tableau_char[0], _("Transfer") ) )
 	{
-	    /* S'il n'y a rien après "Transfer", alors : */
+	    /* S'il n'y a rien aprÃ¨s "Transfer", alors : */
 	    
 	    if ( !tableau_char[1] ||
 		 !strlen ( tableau_char[1] ) )
@@ -2623,7 +2623,7 @@ gint verification_validation_operation ( struct structure_operation *operation )
 		return (FALSE);
 	    }
 	    
-	    /* si c'est un virement vers un compte supprimé, laisse passer */
+	    /* si c'est un virement vers un compte supprimÃ©, laisse passer */
 
 	    if ( strcmp ( tableau_char[1],
 			  _("Deleted account") ) )
@@ -2658,7 +2658,7 @@ gint verification_validation_operation ( struct structure_operation *operation )
 		    return (FALSE);
 		}
 
-		/* 		    vérifie si le compte n'est pas clos */
+		/* 		    vÃ©rifie si le compte n'est pas clos */
 
 		p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_virement;
 
@@ -2672,8 +2672,8 @@ gint verification_validation_operation ( struct structure_operation *operation )
 	g_strfreev ( tableau_char );
     }
 
-    /* pour les types qui sont à incrémentation automatique ( surtout les chèques ) */
-    /* on fait le tour des operations pour voir si le no n'a pas déjà été utilisé */
+    /* pour les types qui sont Ã  incrÃ©mentation automatique ( surtout les chÃ¨ques ) */
+    /* on fait le tour des operations pour voir si le no n'a pas dÃ©jÃ  Ã©tÃ© utilisÃ© */
     /* si operation n'est pas nul, c'est une modif donc on ne fait pas ce test */
 
     if ( verifie_element_formulaire_existe ( TRANSACTION_FORM_CHEQUE )
@@ -2689,7 +2689,7 @@ gint verification_validation_operation ( struct structure_operation *operation )
 	{
 	    struct structure_operation *operation_tmp;
 
-	    /* vérifie s'il y a quelque chose */
+	    /* vÃ©rifie s'il y a quelque chose */
 
 	    if ( gtk_widget_get_style ( widget_formulaire_par_element (TRANSACTION_FORM_CHEQUE) ) == style_entree_formulaire[ENGRIS] )
 	    {
@@ -2699,13 +2699,13 @@ gint verification_validation_operation ( struct structure_operation *operation )
 		    return (FALSE);
 	    }
 
-	    /* vérifie si le no de chèque n'est pas déjà utilisé */
+	    /* vÃ©rifie si le no de chÃ¨que n'est pas dÃ©jÃ  utilisÃ© */
 
 	    operation_tmp = operation_par_cheque ( my_atoi ( g_strdup ( gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_par_element (TRANSACTION_FORM_CHEQUE) )))),
 						   compte_courant );
 
-	    /* si on a trouvé le même no de chèque, si c'est une nouvelle opé, c'est pas normal, */
-	    /* si c'est une modif d'opé, c'est normal que si c'est cette opé qu'on a trouvé */
+	    /* si on a trouvÃ© le mÃªme no de chÃ¨que, si c'est une nouvelle opÃ©, c'est pas normal, */
+	    /* si c'est une modif d'opÃ©, c'est normal que si c'est cette opÃ© qu'on a trouvÃ© */
 
 	    if ( operation_tmp
 		 &&
@@ -2723,7 +2723,7 @@ gint verification_validation_operation ( struct structure_operation *operation )
 
 sort_test_cheques :
 
-    /* vérifie  si c'est une opération ventilée, */
+    /* vÃ©rifie  si c'est une opÃ©ration ventilÃ©e, */
     /* si c'est le cas, si la liste des ventilation existe (soit adr de liste, soit -1), on va l'enregistrer plus tard */
     /* sinon on va ventiler tout de suite */
 
@@ -2747,7 +2747,7 @@ sort_test_cheques :
     }
 
 
-    /* on vérifie si le tiers est un état, que c'est une nouvelle opération */
+    /* on vÃ©rifie si le tiers est un Ã©tat, que c'est une nouvelle opÃ©ration */
 
     if ( verifie_element_formulaire_existe ( TRANSACTION_FORM_PARTY )
 	 &&
@@ -2757,7 +2757,7 @@ sort_test_cheques :
     {
 	gint trouve;
 
-	/* on vérifie d'abord si c'est une modif d'opé */
+	/* on vÃ©rifie d'abord si c'est une modif d'opÃ© */
 
 	if ( operation )
 	{
@@ -2765,7 +2765,7 @@ sort_test_cheques :
 	    return (FALSE);
 	}
 
-	/* on vérifie maintenant si l'état existe */
+	/* on vÃ©rifie maintenant si l'Ã©tat existe */
 
 	tableau_char = g_strsplit ( g_strstrip ( gtk_combofix_get_text ( GTK_COMBOFIX ( widget_formulaire_par_element (TRANSACTION_FORM_PARTY) ))),
 				    ":",
@@ -2812,8 +2812,8 @@ sort_test_cheques :
 /******************************************************************************/
 
 /******************************************************************************/
-/* cette fonction récupère les données du formulaire et les met dans          */
-/* l'opération en argument sauf la catég                                      */
+/* cette fonction rÃ©cupÃ¨re les donnÃ©es du formulaire et les met dans          */
+/* l'opÃ©ration en argument sauf la catÃ©g                                      */
 /******************************************************************************/
 void recuperation_donnees_generales_formulaire ( struct structure_operation *operation )
 {
@@ -2823,7 +2823,7 @@ void recuperation_donnees_generales_formulaire ( struct structure_operation *ope
     struct organisation_formulaire *organisation_formulaire;
 
 
-    /*     on fait le tour du formulaire en ne récupérant que ce qui est nécessaire */
+    /*     on fait le tour du formulaire en ne rÃ©cupÃ©rant que ce qui est nÃ©cessaire */
 
     organisation_formulaire = renvoie_organisation_formulaire ();
 
@@ -2876,9 +2876,9 @@ void recuperation_donnees_generales_formulaire ( struct structure_operation *ope
 
 		case TRANSACTION_FORM_EXERCICE:
 
-		    /* si l'exo est à -1, c'est que c'est sur non affiché */
-		    /* soit c'est une modif d'opé et on touche pas à l'exo */
-		    /* soit c'est une nouvelle opé et on met l'exo à 0 */
+		    /* si l'exo est Ã  -1, c'est que c'est sur non affichÃ© */
+		    /* soit c'est une modif d'opÃ© et on touche pas Ã  l'exo */
+		    /* soit c'est une nouvelle opÃ© et on met l'exo Ã  0 */
 
 		    if ( GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget ) -> menu_item ),
 								 "no_exercice" )) == -1 )
@@ -2918,7 +2918,7 @@ void recuperation_donnees_generales_formulaire ( struct structure_operation *ope
 
 		case TRANSACTION_FORM_BUDGET:
 
-		    /* si c'est une opé ventilée, on ne récupère pas l'ib */
+		    /* si c'est une opÃ© ventilÃ©e, on ne rÃ©cupÃ¨re pas l'ib */
 
 		    if ( gtk_widget_get_style ( GTK_COMBOFIX ( widget ) -> entry ) == style_entree_formulaire[ENCLAIR]
 			 &&
@@ -3006,14 +3006,14 @@ void recuperation_donnees_generales_formulaire ( struct structure_operation *ope
 
 		case TRANSACTION_FORM_DEVISE:
 
-		    /* récupération de la devise */
+		    /* rÃ©cupÃ©ration de la devise */
 
 		    devise = gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget ) -> menu_item ),
 						   "adr_devise" );
 
 		    /* si c'est la devise du compte ou */
-		    /* si c'est un compte qui doit passer à l'euro ( la transfo se fait au niveau de l'affichage de la liste ) */
-		    /* ou si c'est un compte en euro et l'opé est dans une devise qui doit passer à l'euro -> pas de change à demander */
+		    /* si c'est un compte qui doit passer Ã  l'euro ( la transfo se fait au niveau de l'affichage de la liste ) */
+		    /* ou si c'est un compte en euro et l'opÃ© est dans une devise qui doit passer Ã  l'euro -> pas de change Ã  demander */
 
 		    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
 
@@ -3036,7 +3036,7 @@ void recuperation_donnees_generales_formulaire ( struct structure_operation *ope
 			      &&
 			      devise -> passage_euro )))
 		    {
-			/* c'est une devise étrangère, on demande le taux de change et les frais de change */
+			/* c'est une devise Ã©trangÃ¨re, on demande le taux de change et les frais de change */
 
 			demande_taux_de_change ( devise_compte, devise, 1,
 						 ( gdouble ) 0, ( gdouble ) 0, FALSE );
@@ -3075,8 +3075,8 @@ void recuperation_donnees_generales_formulaire ( struct structure_operation *ope
 /******************************************************************************/
 
 /******************************************************************************/
-/* récupération des categ du formulaire, crée la contre opération si          */
-/* nécessaire ou remplit les opés de ventil                                   */
+/* rÃ©cupÃ©ration des categ du formulaire, crÃ©e la contre opÃ©ration si          */
+/* nÃ©cessaire ou remplit les opÃ©s de ventil                                   */
 /******************************************************************************/
 void recuperation_categorie_formulaire ( struct structure_operation *operation,
 					 gint modification )
@@ -3097,23 +3097,23 @@ void recuperation_categorie_formulaire ( struct structure_operation *operation,
 
 	pointeur_char = g_strstrip ( g_strdup ( gtk_entry_get_text ( GTK_ENTRY ( entree_categ ))));
 
-	/* récupération de la ventilation si nécessaire */
+	/* rÃ©cupÃ©ration de la ventilation si nÃ©cessaire */
 
 	if ( !strcmp ( pointeur_char,
 		       _("Breakdown of transaction") ))
 	{
-	    /* c'est une opé ventilée, on va appeler la fonction validation_ope_de_ventilation */
-	    /* qui va créer les nouvelles opé, les contre-opérations et faire toutes les */
-	    /* suppressions nécessaires */
+	    /* c'est une opÃ© ventilÃ©e, on va appeler la fonction validation_ope_de_ventilation */
+	    /* qui va crÃ©er les nouvelles opÃ©, les contre-opÃ©rations et faire toutes les */
+	    /* suppressions nÃ©cessaires */
 
-	    /*  auparavant, si c'est une modif d'opé et que l'ancienne opé était un virement, on  */
-	    /* vire l'ancienne opé associée */
+	    /*  auparavant, si c'est une modif d'opÃ© et que l'ancienne opÃ© Ã©tait un virement, on  */
+	    /* vire l'ancienne opÃ© associÃ©e */
 
 	    if ( modification
 		 &&
 		 operation -> relation_no_operation )
 	    {
-		/* c'était un virement, et ce ne l'est plus, donc on efface l'opé en relation */
+		/* c'Ã©tait un virement, et ce ne l'est plus, donc on efface l'opÃ© en relation */
 
 		contre_operation = operation_par_no ( operation -> relation_no_operation,
 						      operation -> relation_no_compte );
@@ -3135,8 +3135,8 @@ void recuperation_categorie_formulaire ( struct structure_operation *operation,
 	}
 	else
 	{
-	    /* ce n'est pas une opé ventilée, si c'est une modif d'opé et que */
-	    /* c'en était une, on supprime les opés de ventil asssociées */
+	    /* ce n'est pas une opÃ© ventilÃ©e, si c'est une modif d'opÃ© et que */
+	    /* c'en Ã©tait une, on supprime les opÃ©s de ventil asssociÃ©es */
 
 	    if ( modification
 		 &&
@@ -3165,7 +3165,7 @@ void recuperation_categorie_formulaire ( struct structure_operation *operation,
 		operation -> operation_ventilee = 0;
 	    }
 
-	    /* on va maintenant séparer entre virement et catég normale */
+	    /* on va maintenant sÃ©parer entre virement et catÃ©g normale */
 
 	    tableau_char = g_strsplit ( pointeur_char,
 					":",
@@ -3184,17 +3184,17 @@ void recuperation_categorie_formulaire ( struct structure_operation *operation,
 		     && tableau_char[1]
 		     && strlen ( tableau_char[1] ) )
 		{
-		    /* c'est un virement, il n'y a donc aucune catégorie */
+		    /* c'est un virement, il n'y a donc aucune catÃ©gorie */
 
 		    operation -> categorie = 0;
 		    operation -> sous_categorie = 0;
 
-		    /* sépare entre virement vers un compte et virement vers un compte supprimé */
+		    /* sÃ©pare entre virement vers un compte et virement vers un compte supprimÃ© */
 
 		    if ( strcmp ( tableau_char[1],
 				  _("Deleted account") ) )
 		    {
-			/* c'est un virement normal, on appelle la fonction qui va traiter ça */
+			/* c'est un virement normal, on appelle la fonction qui va traiter Ã§a */
 
 			validation_virement_operation ( operation,
 							modification,
@@ -3202,7 +3202,7 @@ void recuperation_categorie_formulaire ( struct structure_operation *operation,
 		    }
 		    else
 		    {
-			/* c'est un virement vers un compte supprimé */
+			/* c'est un virement vers un compte supprimÃ© */
 
 			operation -> relation_no_compte = -1;
 			operation -> relation_no_operation = 1;
@@ -3210,13 +3210,13 @@ void recuperation_categorie_formulaire ( struct structure_operation *operation,
 		}
 		else
 		{
-		    /* c'est une catég normale, si c'est une modif d'opé, vérifier si ce n'était pas un virement */
+		    /* c'est une catÃ©g normale, si c'est une modif d'opÃ©, vÃ©rifier si ce n'Ã©tait pas un virement */
 
 		    if ( modification
 			 &&
 			 operation -> relation_no_operation )
 		    {
-			/* c'était un virement, et ce ne l'est plus, donc on efface l'opé en relation */
+			/* c'Ã©tait un virement, et ce ne l'est plus, donc on efface l'opÃ© en relation */
 
 			contre_operation = operation_par_no ( operation -> relation_no_operation,
 							      operation -> relation_no_compte );
@@ -3258,9 +3258,9 @@ void recuperation_categorie_formulaire ( struct structure_operation *operation,
 /******************************************************************************/
 
 /******************************************************************************/
-/* cette fonction crée la contre-opération, l'enregistre et met en place      */
+/* cette fonction crÃ©e la contre-opÃ©ration, l'enregistre et met en place      */
 /* les liens si c'est une modif de virement, elle supprime aussi l'ancienne   */
-/* contre opération                                                           */
+/* contre opÃ©ration                                                           */
 /******************************************************************************/
 void validation_virement_operation ( struct structure_operation *operation,
 				     gint modification,
@@ -3273,9 +3273,9 @@ void validation_virement_operation ( struct structure_operation *operation,
 
     save_ptab = p_tab_nom_de_compte_variable;
 
-    /* on n'a plus besoin de faire de tests, ceux ci ont été fait dans verification_validation_operation */
+    /* on n'a plus besoin de faire de tests, ceux ci ont Ã©tÃ© fait dans verification_validation_operation */
 
-    /* récupère le no du compte de la contre opération */
+    /* rÃ©cupÃ¨re le no du compte de la contre opÃ©ration */
 
     compte_virement = -1;
 
@@ -3291,25 +3291,25 @@ void validation_virement_operation ( struct structure_operation *operation,
 	}
     }
 
-    /*   2 possibilités, soit c'est un nouveau virement ou une modif qui n'était pas un virement, */
+    /*   2 possibilitÃ©s, soit c'est un nouveau virement ou une modif qui n'Ã©tait pas un virement, */
     /* soit c'est une modif de virement */
-    /*     dans le 2nd cas, si on a modifié le compte de la contre opération */
-    /*     on supprime l'ancienne contre opération et c'est un nouveau virement */
+    /*     dans le 2nd cas, si on a modifiÃ© le compte de la contre opÃ©ration */
+    /*     on supprime l'ancienne contre opÃ©ration et c'est un nouveau virement */
 
     if ( modification )
     {
-	/*       c'est une modif d'opé */
-	/* 	soit c'était un virement vers un autre compte et dans ce cas on vire la contre-opération pour la recréer plus tard */
-	/* soit c'est un virement vers le même compte et dans ce cas on fait rien, la contre opé sera modifiée automatiquement */
-	/* soit ce n'était pas un virement et dans ce cas on considère l'opé comme une nouvelle opé */
+	/*       c'est une modif d'opÃ© */
+	/* 	soit c'Ã©tait un virement vers un autre compte et dans ce cas on vire la contre-opÃ©ration pour la recrÃ©er plus tard */
+	/* soit c'est un virement vers le mÃªme compte et dans ce cas on fait rien, la contre opÃ© sera modifiÃ©e automatiquement */
+	/* soit ce n'Ã©tait pas un virement et dans ce cas on considÃ¨re l'opÃ© comme une nouvelle opÃ© */
 
 	if ( operation -> relation_no_operation )
 	{
-	    /* c'était déjà un virement, on ne vire la contre opé que si le compte cible a changé */
+	    /* c'Ã©tait dÃ©jÃ  un virement, on ne vire la contre opÃ© que si le compte cible a changÃ© */
 
 	    if ( operation -> relation_no_compte != compte_virement )
 	    {
-		/* il faut retirer l'ancienne contre opération */
+		/* il faut retirer l'ancienne contre opÃ©ration */
 
 		contre_operation = operation_par_no ( operation -> relation_no_operation,
 						      operation -> relation_no_compte );
@@ -3325,13 +3325,13 @@ void validation_virement_operation ( struct structure_operation *operation,
 	}
 	else
 	{
-	    /* ce n'était pas un virement, on considère que c'est une nouvelle opé pour créer la contre opération */
+	    /* ce n'Ã©tait pas un virement, on considÃ¨re que c'est une nouvelle opÃ© pour crÃ©er la contre opÃ©ration */
 
 	    modification = 0;
 	}
     }
 
-    /*   on en est maintenant à soit nouveau virement, soit modif de virement sans chgt de compte */
+    /*   on en est maintenant Ã  soit nouveau virement, soit modif de virement sans chgt de compte */
 
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_virement;
 
@@ -3349,7 +3349,7 @@ void validation_virement_operation ( struct structure_operation *operation,
 	contre_operation -> frais_change = 0;
     }
 
-    /* remplit la nouvelle opé */
+    /* remplit la nouvelle opÃ© */
 
     contre_operation -> jour = operation -> jour;
     contre_operation -> mois = operation -> mois;
@@ -3359,8 +3359,8 @@ void validation_virement_operation ( struct structure_operation *operation,
 						contre_operation->annee);
     contre_operation -> montant = -operation -> montant;
 
-    /* si c'est la devise du compte ou si c'est un compte qui doit passer à l'euro ( la transfo se fait au niveau */
-    /* de l'affichage de la liste ) ou si c'est un compte en euro et l'opé est dans une devise qui doit passer à l'euro -> ok */
+    /* si c'est la devise du compte ou si c'est un compte qui doit passer Ã  l'euro ( la transfo se fait au niveau */
+    /* de l'affichage de la liste ) ou si c'est un compte en euro et l'opÃ© est dans une devise qui doit passer Ã  l'euro -> ok */
 
     devise_compte_2 = devise_par_no ( DEVISE );
 
@@ -3376,7 +3376,7 @@ void validation_virement_operation ( struct structure_operation *operation,
 	    ||
 	    ( is_euro(devise_compte_2) && devise -> passage_euro )))
     {
-	/* c'est une devise étrangère, on demande le taux de change et les frais de change */
+	/* c'est une devise Ã©trangÃ¨re, on demande le taux de change et les frais de change */
 
 	demande_taux_de_change ( devise_compte_2, devise, 1,
 				 (gdouble ) 0, (gdouble ) 0, FALSE );
@@ -3400,7 +3400,7 @@ void validation_virement_operation ( struct structure_operation *operation,
 
     contre_operation -> auto_man = operation -> auto_man;
 
-    /* récupération du type de l'autre opé */
+    /* rÃ©cupÃ©ration du type de l'autre opÃ© */
 
     if ( verifie_element_formulaire_existe ( TRANSACTION_FORM_CONTRA )
 	 &&
@@ -3429,21 +3429,21 @@ void validation_virement_operation ( struct structure_operation *operation,
     contre_operation -> pointe = operation -> pointe;
     contre_operation -> no_rapprochement = operation -> no_rapprochement;
 
-    /*   on a fini de remplir l'opé, on peut l'ajouter Ã  la liste */
+    /*   on a fini de remplir l'opÃ©, on peut l'ajouter ÃƒÂ  la liste */
 
     if ( contre_operation -> no_operation )
 	modifie_operation ( contre_operation );
     else
 	ajout_operation ( contre_operation );
 
-    /* on met maintenant les relations entre les diffÃ©rentes opé */
+    /* on met maintenant les relations entre les diffÃƒÂ©rentes opÃ© */
 
     operation -> relation_no_operation = contre_operation -> no_operation;
     operation -> relation_no_compte = contre_operation -> no_compte;
     contre_operation -> relation_no_operation = operation -> no_operation;
     contre_operation -> relation_no_compte = operation -> no_compte;
 
-    /*     on réaffiche juste les 2 opés, sans rien modifier d'autre */
+    /*     on rÃ©affiche juste les 2 opÃ©s, sans rien modifier d'autre */
     /* 	juste pour afficher la categ (virement) */
 
     remplit_ligne_operation ( operation,
@@ -3461,9 +3461,9 @@ void validation_virement_operation ( struct structure_operation *operation,
 
 /******************************************************************************/
 /* Fonction ajout_operation                                                   */
-/* ajoute l'opération donnée en argument à la liste des opés, trie la liste   */
-/* et réaffiche la clist                                                      */
-/* remplit le no d'opération     	                                    */
+/* ajoute l'opÃ©ration donnÃ©e en argument Ã  la liste des opÃ©s, trie la liste   */
+/* et rÃ©affiche la clist                                                      */
+/* remplit le no d'opÃ©ration     	                                    */
 /******************************************************************************/
 void ajout_operation ( struct structure_operation *operation )
 {
@@ -3478,13 +3478,13 @@ void ajout_operation ( struct structure_operation *operation )
 
     save_ptab = p_tab_nom_de_compte_variable;
 
-    /* on met l'opé dant la liste en la classant */
-    /*     cette fonction place en même temps p_tab_nom_de_compte_variable */
+    /* on met l'opÃ© dant la liste en la classant */
+    /*     cette fonction place en mÃªme temps p_tab_nom_de_compte_variable */
 
     insere_operation_dans_liste ( operation );
 
-    /*     on ne met à jour le store que si l'opé est affichée, cad si c'est une opé de ventil */
-    /* 	ou R et que les R ne sont pas affichés, on ne fait rien */
+    /*     on ne met Ã  jour le store que si l'opÃ© est affichÃ©e, cad si c'est une opÃ© de ventil */
+    /* 	ou R et que les R ne sont pas affichÃ©s, on ne fait rien */
 
     if ( !(operation -> no_operation_ventilee_associee
 	   ||
@@ -3496,15 +3496,15 @@ void ajout_operation ( struct structure_operation *operation )
 
 	verification_list_store_termine ( operation -> no_compte );
 
-	/* on recherche l'iter de l'opé suivante */
-	/*     on est sûr que l'opé va être trouvée vu qu'on vient de l'ajouter */
+	/* on recherche l'iter de l'opÃ© suivante */
+	/*     on est sÃ»r que l'opÃ© va Ãªtre trouvÃ©e vu qu'on vient de l'ajouter */
 
 	liste_tmp = g_slist_find ( LISTE_OPERATIONS,
 				   operation ) -> next;
 
 	if ( liste_tmp )
 	{
-	    /* 	    si l'opé suivant n'est pas affichée, il faut rechercher la 1ère affichée */
+	    /* 	    si l'opÃ© suivant n'est pas affichÃ©e, il faut rechercher la 1Ã¨re affichÃ©e */
 
 	    operation_suivante = liste_tmp -> data;
 
@@ -3526,18 +3526,18 @@ void ajout_operation ( struct structure_operation *operation )
 	else
 	    operation_suivante = GINT_TO_POINTER (-1);
 
-	/*     on recherche l'iter de l'opé suivant pour insérer l'opé juste avant */
+	/*     on recherche l'iter de l'opÃ© suivant pour insÃ©rer l'opÃ© juste avant */
 
 	iter = cherche_iter_operation ( operation_suivante );
 
-	/*     on insère l'iter de l'opération qu'on ajoute */
+	/*     on insÃ¨re l'iter de l'opÃ©ration qu'on ajoute */
 
 	remplit_ligne_operation ( operation,
 				  iter );
 
-	/*     on recherche l'iter de l'opération qu'on vient d'ajouter */
-	/* 	pour mettre à jour les couleurs et les soldes */
-	/*     il est nécessaire de faire une copie d'iter, car chaque fonction va */
+	/*     on recherche l'iter de l'opÃ©ration qu'on vient d'ajouter */
+	/* 	pour mettre Ã  jour les couleurs et les soldes */
+	/*     il est nÃ©cessaire de faire une copie d'iter, car chaque fonction va */
 	/* 	le modifier */
 
 	iter = cherche_iter_operation ( operation );
@@ -3559,11 +3559,11 @@ void ajout_operation ( struct structure_operation *operation )
 								    operation -> taux_change,
 								    operation -> frais_change );
 
-    /* on met à jour les labels des soldes */
+    /* on met Ã  jour les labels des soldes */
 
     mise_a_jour_labels_soldes ();
 
-    /* on réaffichera l'accueil */
+    /* on rÃ©affichera l'accueil */
 
     mise_a_jour_liste_comptes_accueil = 1;
     mise_a_jour_soldes_minimaux = 1;
@@ -3576,9 +3576,9 @@ void ajout_operation ( struct structure_operation *operation )
 
 
 /******************************************************************************/
-/* cette fonction met juste l'opé dans la sliste, et ajuste le nb d'opérations */
-/* elle ne fait aucune autre mise à jour */
-/* si l'opé a déjà un no, elle ne fait rien */
+/* cette fonction met juste l'opÃ© dans la sliste, et ajuste le nb d'opÃ©rations */
+/* elle ne fait aucune autre mise Ã  jour */
+/* si l'opÃ© a dÃ©jÃ  un no, elle ne fait rien */
 /******************************************************************************/
 
 void insere_operation_dans_liste ( struct structure_operation *operation )
@@ -3600,7 +3600,7 @@ void insere_operation_dans_liste ( struct structure_operation *operation )
 
 /******************************************************************************/
 /* Fonction modifie_operation                                                 */
-/* modifie l'opération donnée en argument sur la liste des opés, trie la liste*/
+/* modifie l'opÃ©ration donnÃ©e en argument sur la liste des opÃ©s, trie la liste*/
 /******************************************************************************/
 void modifie_operation ( struct structure_operation *operation )
 {
@@ -3612,35 +3612,35 @@ void modifie_operation ( struct structure_operation *operation )
     save_ptab = p_tab_nom_de_compte_variable;
 
     /*     si la liste n'est pas finie, on la finie avant */
-    /*     théoriquement elle est finie à ce niveau car soit on modifie une opé */
-    /* 	qu'on voit, soit ajout_operation a été appelé avant dans le cas */
-    /* 	de virements ; mais bon, ça coute rien de tester... */
+    /*     thÃ©oriquement elle est finie Ã  ce niveau car soit on modifie une opÃ© */
+    /* 	qu'on voit, soit ajout_operation a Ã©tÃ© appelÃ© avant dans le cas */
+    /* 	de virements ; mais bon, Ã§a coute rien de tester... */
 	
      verification_list_store_termine ( operation -> no_compte );
 
-    /*     réaffiche l'opÃ©ration */
+    /*     rÃ©affiche l'opÃƒÂ©ration */
 
     remplit_ligne_operation ( operation,
 			      NULL );
 
-    /*     on recherche l'iter de l'opération qu'on vient d'ajouter */
-    /* 	pour mettre à jour les soldes */
+    /*     on recherche l'iter de l'opÃ©ration qu'on vient d'ajouter */
+    /* 	pour mettre Ã  jour les soldes */
 
     update_soldes_list_store ( operation -> no_compte,
 			       cherche_iter_operation ( operation ));
 
-    /*     on recalcule les soldes pointés ou totaux */
+    /*     on recalcule les soldes pointÃ©s ou totaux */
     /* 	ya plus rapide mais j'ai la flemme */
     /* 	voir si ralentit vraiment... */
 
     SOLDE_COURANT = calcule_solde_compte ( operation -> no_compte );
     SOLDE_POINTE = calcule_solde_pointe_compte ( operation -> no_compte );
 
-    /* on met à jour les labels des soldes */
+    /* on met Ã  jour les labels des soldes */
 
     mise_a_jour_labels_soldes ();
 
-    /* on réaffichera l'accueil */
+    /* on rÃ©affichera l'accueil */
 
     mise_a_jour_liste_comptes_accueil = 1;
     mise_a_jour_soldes_minimaux = 1;
@@ -3662,7 +3662,7 @@ void formulaire_a_zero (void)
 
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
 
-    /*     on fait le tour du formulaire en ne récupérant que ce qui est nécessaire */
+    /*     on fait le tour du formulaire en ne rÃ©cupÃ©rant que ce qui est nÃ©cessaire */
 
     organisation_formulaire = renvoie_organisation_formulaire ();
 
@@ -3841,7 +3841,7 @@ void formulaire_a_zero (void)
 
 /******************************************************************************/
 /* Fonction affiche_cache_le_formulaire                                       */
-/* si le formulaire était affichÃ©, le cache et vice-versa                     */
+/* si le formulaire Ã©tait affichÃƒÂ©, le cache et vice-versa                     */
 /******************************************************************************/
 
 void affiche_cache_le_formulaire ( void )
@@ -3871,7 +3871,7 @@ void affiche_cache_le_formulaire ( void )
 	gtk_widget_show ( frame_droite_bas );
 	etat.formulaire_toujours_affiche = 1;
 
-	/* 	si après avoir remonté le formulaire la ligne sélectionnée est cachée, */
+	/* 	si aprÃ¨s avoir remontÃ© le formulaire la ligne sÃ©lectionnÃ©e est cachÃ©e, */
 	/* 	on la remonte pour la mettre juste au dessus du formulaire */
 
 	update_ecran ();
@@ -3899,8 +3899,8 @@ void affiche_cache_le_formulaire ( void )
 
 /******************************************************************************/
 /* Fonction basculer_vers_ventilation                                         */
-/* appelée par l'appui du bouton Ventilation...                               */
-/* permet de voir les opés ventilées d'une ventilation                        */
+/* appelÃ©e par l'appui du bouton Ventilation...                               */
+/* permet de voir les opÃ©s ventilÃ©es d'une ventilation                        */
 /******************************************************************************/
 void basculer_vers_ventilation ( GtkWidget *bouton,
 				 gpointer null )
@@ -3918,7 +3918,7 @@ void basculer_vers_ventilation ( GtkWidget *bouton,
 
 /******************************************************************************/
 /* Fonction click_sur_bouton_voir_change  */
-/* permet de modifier un change établi pour une opération */
+/* permet de modifier un change Ã©tabli pour une opÃ©ration */
 /******************************************************************************/
 void click_sur_bouton_voir_change ( void )
 {
@@ -3983,7 +3983,7 @@ void degrise_formulaire_operations ( void )
 
 
 /******************************************************************************/
-/* renvoie l'organisation du formulaire courant en fonction des paramètres */
+/* renvoie l'organisation du formulaire courant en fonction des paramÃ¨tres */
 /******************************************************************************/
 struct organisation_formulaire *renvoie_organisation_formulaire ( void )
 {
@@ -4007,7 +4007,7 @@ struct organisation_formulaire *renvoie_organisation_formulaire ( void )
 
 
 /******************************************************************************/
-/* renvoie l'adr du widget du formulaire dont l'élément est donné en argument */
+/* renvoie l'adr du widget du formulaire dont l'Ã©lÃ©ment est donnÃ© en argument */
 /******************************************************************************/
 GtkWidget *widget_formulaire_par_element ( gint no_element )
 {

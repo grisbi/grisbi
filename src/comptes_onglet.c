@@ -1,7 +1,7 @@
 /* fichier qui s'occupe de la gestion des comptes */
 /*           gestion_comptes.c */
 
-/*     Copyright (C) 2000-2003  Cédric Auger */
+/*     Copyright (C) 2000-2003  CÃ©dric Auger */
 /* 			cedric@grisbi.org */
 /* 			http://www.grisbi.org */
 
@@ -70,7 +70,7 @@ GtkWidget *creation_onglet_comptes ( void )
     gtk_widget_show ( paned_onglet_comptes );
 
 
-    /*   création de la fenetre des comptes / ventilation / équilibrage à gauche */
+    /*   crÃ©ation de la fenetre des comptes / ventilation / Ã©quilibrage Ã  gauche */
 
     frame = gtk_frame_new ( NULL );
     gtk_frame_set_shadow_type ( GTK_FRAME ( frame ), GTK_SHADOW_IN );
@@ -80,7 +80,7 @@ GtkWidget *creation_onglet_comptes ( void )
     gtk_container_add ( GTK_CONTAINER ( frame ), creation_liste_comptes_onglet ());
 
 
-    /* création de la partie droite */
+    /* crÃ©ation de la partie droite */
 
     frame = gtk_frame_new ( NULL );
     gtk_frame_set_shadow_type ( GTK_FRAME ( frame ), GTK_SHADOW_IN );
@@ -89,8 +89,8 @@ GtkWidget *creation_onglet_comptes ( void )
 
     gtk_container_add ( GTK_CONTAINER ( frame ), creation_details_compte ());
 
-    /*  Création d'une icone et du nom par compte, et placement dans la
-	liste selon l'ordre désiré et met le livre ouvert pour le compte
+    /*  CrÃ©ation d'une icone et du nom par compte, et placement dans la
+	liste selon l'ordre dÃ©sirÃ© et met le livre ouvert pour le compte
 	0 */
 
     compte_courant_onglet = 0;
@@ -111,13 +111,13 @@ GtkWidget *creation_liste_comptes_onglet ( void )
     GtkWidget *vbox_frame;
     GtkWidget *scrolled_window;
 
-    /*  Création d'une fenêtre générale*/
+    /*  CrÃ©ation d'une fenÃªtre gÃ©nÃ©rale*/
 
     onglet = gtk_vbox_new ( FALSE, 10);
     gtk_container_set_border_width ( GTK_CONTAINER ( onglet ), 10 );
     gtk_widget_show ( onglet );
 
-    /*  Création du label Comptes en haut */
+    /*  CrÃ©ation du label Comptes en haut */
     /*   on place le label dans une frame */
 
     frame = gtk_frame_new ( NULL );
@@ -140,9 +140,9 @@ GtkWidget *creation_liste_comptes_onglet ( void )
     gtk_widget_show (label_compte_courant_onglet);
 
 
-    /*  Création de la fenêtre des comptes */
-    /*  qui peut contenir des barres de défilement si */
-    /*  nécessaire */
+    /*  CrÃ©ation de la fenÃªtre des comptes */
+    /*  qui peut contenir des barres de dÃ©filement si */
+    /*  nÃ©cessaire */
 
     scrolled_window = gtk_scrolled_window_new ( NULL, NULL);
     gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window ),
@@ -152,7 +152,7 @@ GtkWidget *creation_liste_comptes_onglet ( void )
     gtk_widget_show ( scrolled_window );
 
 
-    /*  création d'une vbox contenant la liste des comptes */
+    /*  crÃ©ation d'une vbox contenant la liste des comptes */
 
     vbox_liste_comptes_onglet = gtk_vbox_new ( FALSE, 0);
     gtk_scrolled_window_add_with_viewport ( GTK_SCROLLED_WINDOW (scrolled_window ),
@@ -163,7 +163,7 @@ GtkWidget *creation_liste_comptes_onglet ( void )
 
 
     /* ajoute les boutons nouveau et supprimer */
-    /* les 2 seront intégrés dans une frame */
+    /* les 2 seront intÃ©grÃ©s dans une frame */
 
     frame = gtk_frame_new ( NULL );
     gtk_frame_set_shadow_type ( GTK_FRAME ( frame ), GTK_SHADOW_ETCHED_IN );
@@ -206,7 +206,7 @@ GtkWidget *creation_liste_comptes_onglet ( void )
 
 /* ********************************************************************************************************** */
 /** Fonction qui renvoie un widget contenant un bouton **/
-/** de compte associé à son nom **/
+/** de compte associÃ© Ã  son nom **/
 /* ********************************************************************************************************** */
 
 GtkWidget *comptes_appel_onglet ( gint no_de_compte )
@@ -235,7 +235,7 @@ GtkWidget *comptes_appel_onglet ( gint no_de_compte )
 void changement_compte_onglet ( GtkWidget *bouton,
 				gint compte )
 {
-    /* demande si nécessaire si on enregistre */
+    /* demande si nÃ©cessaire si on enregistre */
     sort_du_detail_compte ();
 
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte;
@@ -253,7 +253,7 @@ void changement_compte_onglet ( GtkWidget *bouton,
 
 
 /* *********************************************************************************************************** */
-/*   on réaffiche la liste des comptes s'il y a eu un changement */
+/*   on rÃ©affiche la liste des comptes s'il y a eu un changement */
 /* *********************************************************************************************************** */
 
 void reaffiche_liste_comptes_onglet ( void )
@@ -268,7 +268,7 @@ void reaffiche_liste_comptes_onglet ( void )
 			       (( GtkBoxChild *) ( GTK_BOX ( vbox_liste_comptes_onglet ) -> children -> data )) -> widget );
 
 
-    /*  Création d'une icone et du nom par compte, et placement dans la liste selon l'ordre désiré  */
+    /*  CrÃ©ation d'une icone et du nom par compte, et placement dans la liste selon l'ordre dÃ©sirÃ©  */
 
     if ( nb_comptes )
     {

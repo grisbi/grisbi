@@ -1,8 +1,8 @@
-/*  Fichier qui affiche une fenetre pour faire patienter pendant les opérations longues */
+/*  Fichier qui affiche une fenetre pour faire patienter pendant les opÃ©rations longues */
 /*     patienter.c */
 
 
-/*     Copyright (C) 2000-2003  Cédric Auger */
+/*     Copyright (C) 2000-2003  CÃ©dric Auger */
 /* 			cedric@grisbi.org */
 /* 			http://www.grisbi.org */
 
@@ -48,7 +48,7 @@ extern GtkWidget *window;
 /* ******************************************************************************************** */
 /* mise_en_route_attente */
 /* origine : 0 : chargement de fichier */
-/* 1 : opération longue */
+/* 1 : opÃ©ration longue */
 /* ******************************************************************************************** */
 
 void mise_en_route_attente ( gchar *message )
@@ -66,7 +66,7 @@ void mise_en_route_attente ( gchar *message )
 
     idle_stoppe = termine_idle ();
 
-    /*     s'il y a déjà une attente en cours, on l'update */
+    /*     s'il y a dÃ©jÃ  une attente en cours, on l'update */
 
     if ( patience_en_cours )
     {
@@ -151,7 +151,7 @@ void update_attente ( gchar *message )
     if ( DEBUG )
 	printf ( "update_attente %s\n", message );
 
-    /*     s'il n'y a pas de patience en cours, on la débute */
+    /*     s'il n'y a pas de patience en cours, on la dÃ©bute */
 
     if ( !patience_en_cours )
     {

@@ -1,9 +1,9 @@
 /* ************************************************************************** */
-/* Ce fichier contient les définitions de tous les menus et barres d'outils   */
+/* Ce fichier contient les dÃ©finitions de tous les menus et barres d'outils   */
 /*                                                                            */
 /*                                  menu.c                                    */
 /*                                                                            */
-/*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org)	      */
+/*     Copyright (C)	2000-2003 CÃ©dric Auger (cedric@grisbi.org)	      */
 /*			     2004 Benjamin Drieu (bdrieu@april.org)	      */
 /*			http://www.grisbi.org				      */
 /*                                                                            */
@@ -72,7 +72,7 @@ gboolean block_menu_cb = FALSE;
 
 
 /***********************************************/
-/* définition de la barre des menus, version gtk */
+/* dÃ©finition de la barre des menus, version gtk */
 /***********************************************/
 
 GtkWidget *init_menus ( GtkWidget *vbox )

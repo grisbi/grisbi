@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                  utils_exercices.c                    */
 /*                                                                            */
-/*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org)	      */
+/*     Copyright (C)	2000-2003 CÃ©dric Auger (cedric@grisbi.org)	      */
 /*			2003-2004 Benjamin Drieu (bdrieu@april.org)	      */
 /*			2003-2004 Alain Portal (dionysos@grisbi.org)	      */
 /* 			http://www.grisbi.org				      */
@@ -48,8 +48,8 @@ extern GtkWidget *nom_exercice;
 
 /* ************************************************************************************************************** */
 /* Fonction cherche_no_menu_exercice */
-/*   argument : le numéro de l'exercice demandé */
-/* renvoie la place demandée dans l'option menu du formulaire */
+/*   argument : le numÃ©ro de l'exercice demandÃ© */
+/* renvoie la place demandÃ©e dans l'option menu du formulaire */
 /* pour mettre l'history */
 /* ************************************************************************************************************** */
 
@@ -71,12 +71,12 @@ gint cherche_no_menu_exercice ( gint no_demande,
 	trouve = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( liste_tmp -> data ),
 							 "no_exercice" ));
 
-	/*       si trouve = no demandé, c'est bon, on se barre */
+	/*       si trouve = no demandÃ©, c'est bon, on se barre */
 
 	if ( trouve == no_demande )
 	    return ( i );
 
-	/*  si on est sur la position du non affiché, on le sauve */
+	/*  si on est sur la position du non affichÃ©, on le sauve */
 
 	if ( trouve == -1 )
 	    non_affiche = i;
@@ -85,7 +85,7 @@ gint cherche_no_menu_exercice ( gint no_demande,
 	liste_tmp = liste_tmp -> next;
     }
 
-    /*   l'exo n'est pas affiché, on retourne la position de non affiché */
+    /*   l'exo n'est pas affichÃ©, on retourne la position de non affichÃ© */
 
     return ( non_affiche );
 }
@@ -95,7 +95,7 @@ gint cherche_no_menu_exercice ( gint no_demande,
 
 /* ************************************************************************************************************** */
 /* fonction recherche_exo_correspondant */
-/* renvoie l'exercice correspondant la date donnée en argument */
+/* renvoie l'exercice correspondant la date donnÃ©e en argument */
 /* si aucun ne correspond, on renvoie 0 */
 /* ************************************************************************************************************** */
 
@@ -121,7 +121,7 @@ gint recherche_exo_correspondant ( GDate *date )
 	liste_tmp = liste_tmp -> next;
     }
 
-    /*   on n'a pas trouvé l'exo, on retourne 0 */
+    /*   on n'a pas trouvÃ© l'exo, on retourne 0 */
 
     return ( 0 );
 
@@ -130,8 +130,8 @@ gint recherche_exo_correspondant ( GDate *date )
 
 
 /* ************************************************************************************************************** */
-/* renvoie l'adr de l'exo demandé par son no */
-/* ou NULL si pas trouvé */
+/* renvoie l'adr de l'exo demandÃ© par son no */
+/* ou NULL si pas trouvÃ© */
 /* ************************************************************************************************************** */
 struct struct_exercice *exercice_par_no ( gint no_exo )
 {
@@ -151,8 +151,8 @@ struct struct_exercice *exercice_par_no ( gint no_exo )
 
 
 /* ************************************************************************************************************** */
-/* renvoie l'adr de l'exo demandé par son nom */
-/* ou NULL si pas trouvé */
+/* renvoie l'adr de l'exo demandÃ© par son nom */
+/* ou NULL si pas trouvÃ© */
 /* ************************************************************************************************************** */
 struct struct_exercice *exercice_par_nom ( gchar *nom_exo )
 {
@@ -170,8 +170,8 @@ struct struct_exercice *exercice_par_nom ( gchar *nom_exo )
 /* ************************************************************************************************************** */
 
 /* ************************************************************************************************************** */
-/* renvoie le nom de l'exercice donné en argument */
-/* ou bien null si non trouvé */
+/* renvoie le nom de l'exercice donnÃ© en argument */
+/* ou bien null si non trouvÃ© */
 /* ************************************************************************************************************** */
 
 gchar *exercice_name_by_no ( gint no_exo )

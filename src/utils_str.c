@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                  utils_str.c                               */
 /*                                                                            */
-/*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org)	      */
+/*     Copyright (C)	2000-2003 CÃ©dric Auger (cedric@grisbi.org)	      */
 /*			2003-2004 Benjamin Drieu (bdrieu@april.org)	      */
 /*			2003-2004 Alain Portal (dionysos@grisbi.org)	      */
 /* 			http://www.grisbi.org				      */
@@ -80,7 +80,7 @@ gchar *itoa ( gint integer )
 
 
 /***********************************************************************************************************/
-/* identique à itoa */
+/* identique Ã  itoa */
 /***********************************************************************************************************/
 gchar *my_itoa ( gint integer )
 {
@@ -92,7 +92,7 @@ gchar *my_itoa ( gint integer )
 
 
 /***********************************************************************************************************/
-/* cette fonction protège atoi qui plante quand on lui envoie un null */
+/* cette fonction protÃšge atoi qui plante quand on lui envoie un null */
 /***********************************************************************************************************/
 
 gint my_atoi ( gchar *chaine )
@@ -109,17 +109,17 @@ gint my_atoi ( gchar *chaine )
 
 /******************************************************************************/
 /* Fonction my_strtod (string to decimal)                                    */
-/* Convertie une chaine de caractères en un nombre                            */
-/* Paramètres d'entrée :                                                      */
-/*   - nptr : pointeur sur la chaine de caractères à convertir                */
-/*   - endptr : n'est pas utilisé, alors à quoi peut-il bien servir ?         */
+/* Convertie une chaine de caractÃšres en un nombre                            */
+/* ParamÃštres d'entrÃ©e :                                                      */
+/*   - nptr : pointeur sur la chaine de caractÃšres Ã  convertir                */
+/*   - endptr : n'est pas utilisÃ©, alors Ã  quoi peut-il bien servir ?         */
 /* Valeur de retour :                                                         */
-/*   - resultat : le résultat de la conversion                                */
+/*   - resultat : le rÃ©sultat de la conversion                                */
 /* Variables locales :                                                        */
-/*   - entier : la partie entière du résultat                                 */
-/*   - mantisse : la partie décimale du résultat                              */
-/*   - invert : le signe du résultat (0 -> positif, 1 -> négatif)             */
-/*   - p, m : pointeurs locaux sur la chaine de caractères à convertir        */
+/*   - entier : la partie entiÃšre du rÃ©sultat                                 */
+/*   - mantisse : la partie dÃ©cimale du rÃ©sultat                              */
+/*   - invert : le signe du rÃ©sultat (0 -> positif, 1 -> nÃ©gatif)             */
+/*   - p, m : pointeurs locaux sur la chaine de caractÃšres Ã  convertir        */
 /******************************************************************************/
 double my_strtod ( char *nptr, char **endptr )
 {
@@ -243,14 +243,14 @@ int myisolat1ToUTF8(unsigned char* out, int *outlen,
 /* **************************************************************************************************** */
 /* remplace les parties delimiters */
 /* par new_delimiters */
-/* new_delemiters peut contenir plusieurs caratères */
+/* new_delemiters peut contenir plusieurs caratÃšres */
 /* **************************************************************************************************** */
 gchar *my_strdelimit ( gchar *string,
 		       gchar *delimiters,
 		       gchar *new_delimiters )
 {
-    /* fonction identique à g_strdelimit, sauf que new_delimiters n'est pas limité à 1 caractère */
-    /*     et la chaine renvoyée est une copie, pas l'original */
+    /* fonction identique Ã  g_strdelimit, sauf que new_delimiters n'est pas limitÃ© Ã  1 caractÃšre */
+    /*     et la chaine renvoyÃ©e est une copie, pas l'original */
 
     gchar **tab_str;
     gchar *retour;
@@ -392,9 +392,9 @@ gint my_strncasecmp ( gchar *chaine_1,
 
 
 /* ******************************************************************************* */
-/* cette fonction s'assure que la chaine donnée en argument ne dépasse pas la taille */
-/* donnée en argument. si elle dépasse, renvoie la chaine, avec la taille voulue, et */
-/* ... à la fin */
+/* cette fonction s'assure que la chaine donnÃ©e en argument ne dÃ©passe pas la taille */
+/* donnÃ©e en argument. si elle dÃ©passe, renvoie la chaine, avec la taille voulue, et */
+/* ... Ã  la fin */
 /* ******************************************************************************* */
 gchar *limit_string ( gchar *string,
 		      gint length )
@@ -420,8 +420,8 @@ gchar *limit_string ( gchar *string,
 
 
 /* ******************************************************************************* */
-/* fonction qui récupère une ligne de charactère dans une chaine */
-/* elle alloue la mémoire nécessaire et n'incorpore pas le \n final */
+/* fonction qui rÃ©cupÃšre une ligne de charactÃšre dans une chaine */
+/* elle alloue la mÃ©moire nÃ©cessaire et n'incorpore pas le \n final */
 /* renvoie NULL en cas de pb */
 /* ******************************************************************************* */
 gchar *get_line_from_string ( gchar *string )

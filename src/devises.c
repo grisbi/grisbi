@@ -1,7 +1,7 @@
 /* Fichier devises.c */
 /* s'occupe de tout ce qui concerne les devises */
 
-/*     Copyright (C)	2000-2003 C�dric Auger (cedric@grisbi.org) */
+/*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org) */
 /*			2003 Benjamin Drieu (bdrieu@april.org) */
 /* 			http://www.grisbi.org */
 
@@ -124,7 +124,7 @@ GtkWidget *entree_nom_devise_parametres;
 GtkWidget *entree_iso_code_devise_parametres;
 GtkWidget *entree_code_devise_parametres;
 
-gint ligne_selection_devise;               /* contient la ligne s�lectionn�e dans la liste des devises */
+gint ligne_selection_devise;               /* contient la ligne sélectionnée dans la liste des devises */
 struct struct_devise *devise_compte;
 struct struct_devise *devise_operation;
 
@@ -265,7 +265,7 @@ void update_currency_widgets()
 						  devise_par_no ( DEVISE ))); 
 
 
-    /* on recr�e les boutons de devises dans la conf de l'�tat */
+    /* on recrée les boutons de devises dans la conf de l'état */
 
     if ( onglet_config_etat )
     {
@@ -302,11 +302,11 @@ void update_currency_widgets()
 
 /* **************************************************************************************************** */
 /* Fonction creation_option_menu_devises */
-/* retourne le menu d'un option menu avec les diff�rentes devises d�finies */
+/* retourne le menu d'un option menu avec les différentes devises définies */
 /* si devise_cachee = -1, met toutes les devises sous forme de leur sigle */
-/* sinon, ne met pas la devise correspondant � devise_cachee ( 0 = aucune ) */
-/* liste_tmp est la liste utilis�e : soit liste_struct_devises dans le cas g�n�ral, */
-/*                       soit liste_struct_devises dans le cas des param�tres */
+/* sinon, ne met pas la devise correspondant à devise_cachee ( 0 = aucune ) */
+/* liste_tmp est la liste utilisée : soit liste_struct_devises dans le cas général, */
+/*                       soit liste_struct_devises dans le cas des paramètres */
 /* **************************************************************************************************** */
 
 GtkWidget *creation_option_menu_devises ( gint devise_cachee, GSList *liste_tmp )
@@ -532,7 +532,7 @@ GtkWidget * new_currency_list ()
     gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE(model), 
 					  COUNTRY_NAME_COLUMN, GTK_SORT_ASCENDING);
 
-    /*     mis sur collapse, trouve �a plus pratique � discuter si n�cessaire [cedric] */
+    /*     mis sur collapse, trouve ça plus pratique à discuter si nécessaire [cedric] */
     /* expand all rows after the treeview widget has been realized */
     /*     g_signal_connect (treeview, "realize", */
     /* 		      G_CALLBACK (gtk_tree_view_expand_all), NULL); */
@@ -563,10 +563,10 @@ GtkWidget * new_currency_list ()
 
 /***********************************************************************************************************/
 /* Fonction ajout_devise */
-/* appel�e pour cr�er une nouvelle devise */
-/* soit c'est la clist des param�tres */
+/* appelée pour créer une nouvelle devise */
+/* soit c'est la clist des paramètres */
 /* soit il est NULL, quand il provient de l'import ou nouveau fichier */
-/* dans tous les cas, on ne repart pas s'il n'y a aucune devise d�finie */
+/* dans tous les cas, on ne repart pas s'il n'y a aucune devise définie */
 /***********************************************************************************************************/
 
 void ajout_devise ( GtkWidget *widget )
@@ -683,7 +683,7 @@ reprise_dialog:
 		 (strlen ( code_devise ) ||
 		  strlen ( code_iso4217_devise )))
 	    {
-		/* 		recherche si la devise existe d�j�, si c'est le cas, on refuse */
+		/* 		recherche si la devise existe déjà, si c'est le cas, on refuse */
 
 		if ( devise_par_nom ( nom_devise )
 		     ||
@@ -744,7 +744,7 @@ gint bloque_echap_choix_devise ( GtkWidget *dialog,
 				 gpointer null )
 {
 
-    /* empèche la touche echap de fermer la fenetre */
+    /* empÃšche la touche echap de fermer la fenetre */
 
     if ( key -> keyval == GDK_Escape )
     {
@@ -781,8 +781,8 @@ void retrait_devise ( GtkWidget *bouton,
     devise = gtk_clist_get_row_data ( GTK_CLIST ( liste ),
 				      ligne_selection_devise );
 
-    /*   recherche dans tous les comptes, les opés et les échéances si la devise n'est pas utilisée */
-    /* si elle l'est, empêche sa suppression */
+    /*   recherche dans tous les comptes, les opÃ©s et les Ã©chÃ©ances si la devise n'est pas utilisÃ©e */
+    /* si elle l'est, empÃªche sa suppression */
 
     devise_trouvee = 0;
 
@@ -856,9 +856,9 @@ void retrait_devise ( GtkWidget *bouton,
 
 /***********************************************************************************************************/
 /* Fonction demande_taux_de_change : */
-/* affiche une fenetre permettant d'entrer le taux de change entre la devise du compte et la devise demandée */
+/* affiche une fenetre permettant d'entrer le taux de change entre la devise du compte et la devise demandÃ©e */
 /* renvoie ce taux de change */
-/* le taux renvoyé est <0 si une_devise_compte_egale_x_devise_ope = 1, > 0 sinon */
+/* le taux renvoyÃ© est <0 si une_devise_compte_egale_x_devise_ope = 1, > 0 sinon */
 /***********************************************************************************************************/
 
 void demande_taux_de_change ( struct struct_devise *devise_compte,
@@ -896,7 +896,7 @@ void demande_taux_de_change ( struct struct_devise *devise_compte,
     gtk_box_set_spacing ( GTK_BOX ( GTK_DIALOG (dialog)->vbox ), 6 );
     
 
-    /* création de la ligne du change */
+    /* crÃ©ation de la ligne du change */
 
     hbox = gtk_hbox_new ( FALSE, 5 );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox,
@@ -925,8 +925,8 @@ void demande_taux_de_change ( struct struct_devise *devise_compte,
     gtk_box_pack_start ( GTK_BOX ( hbox ), option_menu_devise_2,
 			 TRUE, TRUE, 0);
 
-    /* création du menu de la 1ère devise ( le menu comporte la devise
-       courante et celle associée ) */
+    /* crÃ©ation du menu de la 1Ãšre devise ( le menu comporte la devise
+       courante et celle associÃ©e ) */
     menu = gtk_menu_new ();
 
     item = gtk_menu_item_new_with_label ( devise -> nom_devise );
@@ -946,8 +946,8 @@ void demande_taux_de_change ( struct struct_devise *devise_compte,
 			option_menu_devise_2 );
     g_object_set_data ( G_OBJECT (option_menu_devise_1), "currency", devise );
 
-    /* création du menu de la 2ème devise ( le menu comporte la devise
-       courante et celle associée ) */
+    /* crÃ©ation du menu de la 2Ãšme devise ( le menu comporte la devise
+       courante et celle associÃ©e ) */
     menu = gtk_menu_new ();
 
     item = gtk_menu_item_new_with_label ( devise -> nom_devise );
@@ -967,7 +967,7 @@ void demande_taux_de_change ( struct struct_devise *devise_compte,
 			option_menu_devise_1 );
     g_object_set_data ( G_OBJECT (option_menu_devise_2), "currency", devise );
 
-    /* création de la ligne des frais de change */
+    /* crÃ©ation de la ligne des frais de change */
     hbox = gtk_hbox_new ( FALSE, 5 );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox,
 			 FALSE, FALSE, 5 );
@@ -988,7 +988,7 @@ void demande_taux_de_change ( struct struct_devise *devise_compte,
 
     gtk_widget_show_all ( dialog );
 
-    /* choix des 1ère et 2ème devise */
+    /* choix des 1Ãšre et 2Ãšme devise */
     if ( taux_change || frais_change )
     {
 
@@ -1014,18 +1014,18 @@ void demande_taux_de_change ( struct struct_devise *devise_compte,
     }
     else
     {
-	/* vérifie s'il y a déjà une association entre la devise du
-	   compte et la devise de l'opération */
+	/* vÃ©rifie s'il y a dÃ©jÃ  une association entre la devise du
+	   compte et la devise de l'opÃ©ration */
 	if ( devise_compte -> no_devise_en_rapport == devise -> no_devise )
 	{
 	    /* il y a une association de la devise du compte vers la
-	       devise de l'opération */
+	       devise de l'opÃ©ration */
 	    gtk_option_menu_set_history ( GTK_OPTION_MENU ( option_menu_devise_1 ),
 					  devise_compte -> une_devise_1_egale_x_devise_2 );
 	    gtk_option_menu_set_history ( GTK_OPTION_MENU ( option_menu_devise_2 ),
 					  !( devise_compte -> une_devise_1_egale_x_devise_2 ));
 
-	    /* si un change est déjà entré, on l'affiche */
+	    /* si un change est dÃ©jÃ  entrÃ©, on l'affiche */
 	    if ( devise_compte -> date_dernier_change )
 		gtk_entry_set_text ( GTK_ENTRY ( entree ),
 				     g_strdup_printf ( "%f",
@@ -1034,13 +1034,13 @@ void demande_taux_de_change ( struct struct_devise *devise_compte,
 	else
 	    if ( devise -> no_devise_en_rapport == devise_compte -> no_devise )
 	    {
-		/* il y a une association de la devise de l'opération
+		/* il y a une association de la devise de l'opÃ©ration
 		   vers la devise du compte */
 		gtk_option_menu_set_history ( GTK_OPTION_MENU ( option_menu_devise_1 ),
 					      !(devise -> une_devise_1_egale_x_devise_2 ));
 		gtk_option_menu_set_history ( GTK_OPTION_MENU ( option_menu_devise_2 ),
 					      devise -> une_devise_1_egale_x_devise_2 );
-		/* si un change est déjà entré, on l'affiche */
+		/* si un change est dÃ©jÃ  entrÃ©, on l'affiche */
 		if ( devise -> date_dernier_change )
 		    gtk_entry_set_text ( GTK_ENTRY ( entree ),
 					 g_strdup_printf ( "%f",
@@ -1048,7 +1048,7 @@ void demande_taux_de_change ( struct struct_devise *devise_compte,
 	    }
 	    else
 	    {
-		/* il n'y a aucun rapport établi entre les 2 devises */
+		/* il n'y a aucun rapport Ã©tabli entre les 2 devises */
 		gtk_option_menu_set_history ( GTK_OPTION_MENU ( option_menu_devise_1 ),
 					      1 );
 		gtk_option_menu_set_history ( GTK_OPTION_MENU ( option_menu_devise_2 ),
@@ -1201,7 +1201,7 @@ GtkWidget *onglet_devises ( void )
 		ligne_insert = gtk_clist_append ( GTK_CLIST ( clist_devises_parametres ),
 						  ligne );
 
-		/* on associe à la ligne la struct de la devise */
+		/* on associe Ã  la ligne la struct de la devise */
 
 		gtk_clist_set_row_data ( GTK_CLIST ( clist_devises_parametres ),
 					 ligne_insert,
@@ -1318,7 +1318,7 @@ GtkWidget *onglet_devises ( void )
 
 /* **************************************************************************************************************************** */
 /* Fonction selection_ligne_devise */
-/* appelée lorsqu'on sélectionne une devise dans la liste */
+/* appelÃ©e lorsqu'on sÃ©lectionne une devise dans la liste */
 /* **************************************************************************************************************************** */
 
 gboolean selection_ligne_devise ( GtkWidget *liste,
@@ -1338,7 +1338,7 @@ gboolean selection_ligne_devise ( GtkWidget *liste,
     entry_set_value(entree_code_devise_parametres, &(devise->code_devise));
     entry_set_value(entree_iso_code_devise_parametres, &(devise->code_iso4217_devise));
 
-    /*     n�cessaire d'interdire le changement du nom de l'euro car tous les tests se font sur son nom */
+    /*     nécessaire d'interdire le changement du nom de l'euro car tous les tests se font sur son nom */
 
     if ( strcmp ( devise->nom_devise, "Euro" ))
 	gtk_widget_set_sensitive ( entree_nom_devise_parametres,
@@ -1354,7 +1354,7 @@ gboolean selection_ligne_devise ( GtkWidget *liste,
 
 /* **************************************************************************************************************************** */
 /* Fonction deselection_ligne_devise */
-/* appelée lorsqu'on dés�©lectionne une devise dans la liste */
+/* appelÃ©e lorsqu'on dÃ©sÃÂ©lectionne une devise dans la liste */
 /* **************************************************************************************************************************** */
 
 gboolean deselection_ligne_devise ( GtkWidget *liste,
@@ -1515,7 +1515,7 @@ struct struct_devise *create_currency ( gchar * nom_devise, gchar * code_devise,
 
 
   /* 	  si le widget n'est pas nul, c'est une clist, c'est que l'appel vient du menu de configuration, */
-  /* on met la liste � jour et on ajoute la devise � liste_struct_devises */
+  /* on met la liste à  jour et on ajoute la devise à  liste_struct_devises */
 
   devise -> no_devise = ++no_derniere_devise;
   liste_struct_devises = g_slist_append ( liste_struct_devises, devise );

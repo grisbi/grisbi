@@ -1,8 +1,8 @@
 /* ************************************************************************** */
-/* fichier qui s'occupe de tout ce qui concerne l'échéancier                  */
+/* fichier qui s'occupe de tout ce qui concerne l'Ã©chÃ©ancier                  */
 /* 			echeances_liste.c                                     */
 /*                                                                            */
-/*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org)	      */
+/*     Copyright (C)	2000-2003 CÃ©dric Auger (cedric@grisbi.org)	      */
 /*			2004 Alain Portal (dionysos@grisbi.org) 	      */
 /* 			http://www.grisbi.org   			      */
 /*                                                                            */
@@ -72,13 +72,13 @@ static void update_couleurs_background_echeancier ( void );
 
 gint scheduler_col_width[NB_COLS_SCHEDULER] ;
 
-/* cette variable empêche qu'au redimensionnement de la liste */
-/* les colonnes soient diminuées */
+/* cette variable empÃªche qu'au redimensionnement de la liste */
+/* les colonnes soient diminuÃ©es */
 
 gint bloque_taille_colonne;
 
-/* cette variable est à 1 une fois qu'une échéance est sélectionnée */
-/* remise à zéro lors d'un réaffichage de la liste ou de background */
+/* cette variable est Ã  1 une fois qu'une Ã©chÃ©ance est sÃ©lectionnÃ©e */
+/* remise Ã  zÃ©ro lors d'un rÃ©affichage de la liste ou de background */
 
 gint selection_echeance_finie;
 
@@ -91,11 +91,11 @@ GtkTreeViewColumn *colonnes_liste_echeancier[NB_COLS_SCHEDULER];
 GtkWidget *bouton_saisir_echeancier;
 struct operation_echeance *echeance_selectionnnee;
 
-GSList *liste_struct_echeances;                 /* contient la liste des struct échéances */
+GSList *liste_struct_echeances;                 /* contient la liste des struct Ã©chÃ©ances */
 gint nb_echeances;
 gint no_derniere_echeance;
 
-gint decalage_echeance;      /* nb de jours avant l'échéance pour prévenir */
+gint decalage_echeance;      /* nb de jours avant l'Ã©chÃ©ance pour prÃ©venir */
 
 gint ancienne_largeur_echeances;
 
@@ -135,7 +135,7 @@ extern GtkWidget *window;
 
 /*****************************************************************************/
 /* fonction creation_liste_echeances					     */
-/* renvoie la tree_view pour y mettre les échéances				     */
+/* renvoie la tree_view pour y mettre les Ã©chÃ©ances				     */
 /*****************************************************************************/
 GtkWidget *creation_liste_echeances ( void )
 {
@@ -167,7 +167,7 @@ GtkWidget *creation_liste_echeances ( void )
     GtkListStore *store;
 
 
-    /*   à la base, on a une vbox */
+    /*   Ã  la base, on a une vbox */
 
     vbox = gtk_vbox_new ( FALSE,
 			  5 );
@@ -176,7 +176,7 @@ GtkWidget *creation_liste_echeances ( void )
     gtk_widget_show ( vbox );
 
 
-    /* création de la barre d'outils */
+    /* crÃ©ation de la barre d'outils */
 
     gtk_box_pack_start ( GTK_BOX ( vbox ),
 			 creation_barre_outils_echeancier(),
@@ -184,7 +184,7 @@ GtkWidget *creation_liste_echeances ( void )
 			 FALSE,
 			 0 );
 
-    /* création de la scrolled window */
+    /* crÃ©ation de la scrolled window */
 
     scrolled_window = gtk_scrolled_window_new ( NULL,
 						NULL);
@@ -198,14 +198,14 @@ GtkWidget *creation_liste_echeances ( void )
 			 5 );
     gtk_widget_show ( scrolled_window );
 
-    /*     création du tree view */
+    /*     crÃ©ation du tree view */
 
     tree_view_liste_echeances = gtk_tree_view_new ();
     gtk_container_add ( GTK_CONTAINER ( scrolled_window ),
 			tree_view_liste_echeances );
     gtk_widget_show ( tree_view_liste_echeances );
 
-    /*     on ne peut sélectionner qu'une ligne */
+    /*     on ne peut sÃ©lectionner qu'une ligne */
 
     gtk_tree_selection_set_mode ( GTK_TREE_SELECTION ( gtk_tree_view_get_selection ( GTK_TREE_VIEW( tree_view_liste_echeances ))),
 				  GTK_SELECTION_NONE );
@@ -218,14 +218,14 @@ GtkWidget *creation_liste_echeances ( void )
 				 G_CALLBACK ( affichage_traits_liste_echeances ),
 				 NULL );
 
-    /* vérifie le simple ou double click */
+    /* vÃ©rifie le simple ou double click */
 
     g_signal_connect ( G_OBJECT ( tree_view_liste_echeances ),
 		       "button_press_event",
 		       G_CALLBACK ( click_ligne_echeance ),
 		       NULL );
 
-    /* vérifie la touche entrée, haut et bas */
+    /* vÃ©rifie la touche entrÃ©e, haut et bas */
 
     g_signal_connect ( G_OBJECT ( tree_view_liste_echeances ),
 		       "key_press_event",
@@ -240,7 +240,7 @@ GtkWidget *creation_liste_echeances ( void )
 		       NULL );
 
 
-    /*     création des colonnes */
+    /*     crÃ©ation des colonnes */
 
     for ( i = 0 ; i < NB_COLS_SCHEDULER ; i++ )
     {
@@ -277,21 +277,21 @@ GtkWidget *creation_liste_echeances ( void )
 /* 			   GINT_TO_POINTER (i)); */
     }
 
-    /*     on a créé les colonnes, on va afficher/cacher selon la préf de l'utilisateur */
+    /*     on a crÃ©Ã© les colonnes, on va afficher/cacher selon la prÃ©f de l'utilisateur */
 
     etat.affichage_commentaire_echeancier = 1 - etat.affichage_commentaire_echeancier;
     affiche_cache_commentaire_echeancier ();
 
-    /*     on crée le list_store maintenant et on l'associe vide au tree_view */
-    /* création de la liste des échéances */
+    /*     on crÃ©e le list_store maintenant et on l'associe vide au tree_view */
+    /* crÃ©ation de la liste des Ã©chÃ©ances */
 
-    /*     commence à créer le store : */
-    /* 	col 0 à 7 : les infos affichées */
+    /*     commence Ã  crÃ©er le store : */
+    /* 	col 0 Ã  7 : les infos affichÃ©es */
     /* 	col 8 : couleur du background */
-    /* 	col 9 : sauvegarde background quand ligne sélectionnée */
+    /* 	col 9 : sauvegarde background quand ligne sÃ©lectionnÃ©e */
     /* 	col 10 : couleur du solde */
-    /* 	col 11 : adr de l'échéance */
-    /* 	col 12 : contient NULL ou l'adr de la pangofontdescription utilisée */
+    /* 	col 11 : adr de l'Ã©chÃ©ance */
+    /* 	col 12 : contient NULL ou l'adr de la pangofontdescription utilisÃ©e */
 
     store = gtk_list_store_new ( 13,
 				 G_TYPE_STRING,
@@ -327,7 +327,7 @@ GtkWidget *creation_liste_echeances ( void )
 
 
 /*****************************************************************************/
-/* cette fonction teste la touche entrée sur la liste d'échéances	     */
+/* cette fonction teste la touche entrÃ©e sur la liste d'Ã©chÃ©ances	     */
 /*****************************************************************************/
 gboolean traitement_clavier_liste_echeances ( GtkWidget *tree_view_liste_echeances,
 					      GdkEventKey *evenement )
@@ -337,14 +337,14 @@ gboolean traitement_clavier_liste_echeances ( GtkWidget *tree_view_liste_echeanc
 
     switch ( evenement->keyval )
     {
-	case GDK_Return :		/* touches entrée */
+	case GDK_Return :		/* touches entrÃ©e */
 	case GDK_KP_Enter :
 
 	    edition_echeance ();
 	    break;
 
 
-	case GDK_Up :		/* touches flèche haut */
+	case GDK_Up :		/* touches flÃ¨che haut */
 	case GDK_KP_Up :
 
 
@@ -352,7 +352,7 @@ gboolean traitement_clavier_liste_echeances ( GtkWidget *tree_view_liste_echeanc
 
 	    if ( ligne_selectionnee )
 	    {
-		/* 		on saute les doubles d'échéances */
+		/* 		on saute les doubles d'Ã©chÃ©ances */
 
 		do
 		    ligne_selectionnee--;
@@ -365,7 +365,7 @@ gboolean traitement_clavier_liste_echeances ( GtkWidget *tree_view_liste_echeanc
 	    break;
 
 
-	case GDK_Down :		/* touches flèche bas */
+	case GDK_Down :		/* touches flÃ¨che bas */
 	case GDK_KP_Down :
 
 
@@ -373,7 +373,7 @@ gboolean traitement_clavier_liste_echeances ( GtkWidget *tree_view_liste_echeanc
 	    {
 		ligne_selectionnee = cherche_ligne_echeance ( echeance_selectionnnee );
 
-		/* 		on saute les doubles d'échéances */
+		/* 		on saute les doubles d'Ã©chÃ©ances */
 
 		do
 		    ligne_selectionnee++;
@@ -403,7 +403,7 @@ void affiche_cache_commentaire_echeancier( void )
     
     etat.affichage_commentaire_echeancier = 1 - etat.affichage_commentaire_echeancier;
 
-    /*     sans bloquer ici, un signal allocation va être envoyé, donc on évite de rerécupérer */
+    /*     sans bloquer ici, un signal allocation va Ãªtre envoyÃ©, donc on Ã©vite de rerÃ©cupÃ©rer */
     /* 	toutes les tailles de colonnes */
 
     bloque_taille_colonne = 1;
@@ -475,11 +475,11 @@ void remplissage_liste_echeance ( void )
     if ( DEBUG )
 	printf ( "remplissage_liste_echeance\n" );
 
-    /*     récupération du store */
+    /*     rÃ©cupÃ©ration du store */
 
     store = GTK_LIST_STORE (gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view_liste_echeances )));
     
-    /*     récupération de la date de la fin de l'affichage */
+    /*     rÃ©cupÃ©ration de la date de la fin de l'affichage */
 
     date_fin = date_fin_affichage_liste_echeance ();
 
@@ -505,7 +505,7 @@ void remplissage_liste_echeance ( void )
 
 	    ligne[COL_NB_DATE] = renvoie_date_formatee ( echeance -> date );
 
-	    /* 	    mise en forme de la périodicité */
+	    /* 	    mise en forme de la pÃ©riodicitÃ© */
 
 	    switch ( echeance ->periodicite )
 	    {
@@ -559,8 +559,8 @@ void remplissage_liste_echeance ( void )
 	    ligne[COL_NB_AMOUNT] = g_strdup_printf ( "%4.2f",
 						     echeance -> montant );
 
-	    /* on va ajouter l'échéance une ou plusieurs fois en changeant juste sa date */
-	    /* en fontion de l'affichage de l'échéance */
+	    /* on va ajouter l'Ã©chÃ©ance une ou plusieurs fois en changeant juste sa date */
+	    /* en fontion de l'affichage de l'Ã©chÃ©ance */
 
 	    if ( !( g_date_compare ( date_fin, echeance -> date ) <= 0
 		    &&
@@ -570,8 +570,8 @@ void remplissage_liste_echeance ( void )
 		GDate *pGDateCurrent;
 		struct operation_echeance *echeance_tmp;
 
-		/* 		echeance_tmp contient l'adr de l'échéance mère, puis NULL pour les */
-		/* 		    échéances calculées */
+		/* 		echeance_tmp contient l'adr de l'Ã©chÃ©ance mÃ¨re, puis NULL pour les */
+		/* 		    Ã©chÃ©ances calculÃ©es */
 
 		echeance_tmp = echeance;
 
@@ -591,7 +591,7 @@ void remplissage_liste_echeance ( void )
 					     i, ligne[i],
 					     -1 );
 
-		    /* on met le numéro de l'échéance celui ci est à NULL si c'est une échéance calculée */
+		    /* on met le numÃ©ro de l'Ã©chÃ©ance celui ci est Ã  NULL si c'est une Ã©chÃ©ance calculÃ©e */
 
 		    gtk_list_store_set ( GTK_LIST_STORE ( store ),
 					 &iter,
@@ -631,7 +631,7 @@ void remplissage_liste_echeance ( void )
     gtk_list_store_append ( GTK_LIST_STORE (store),
 			    &iter );
 
-    /* on met le numéro de l'échéance à -1 */
+    /* on met le numÃ©ro de l'Ã©chÃ©ance Ã  -1 */
 
     gtk_list_store_set ( GTK_LIST_STORE ( store ),
 			 &iter,
@@ -684,7 +684,7 @@ void update_couleurs_background_echeancier ( void )
 	couleur_en_cours = 1 - couleur_en_cours;
     }
     
-    /*     il n'y a plus de sélection */
+    /*     il n'y a plus de sÃ©lection */
 
     selection_echeance_finie = 0;
 }
@@ -709,8 +709,8 @@ void selectionne_echeance ( struct operation_echeance *echeance )
 	    printf ( "selectionne_echeance %d\n",echeance ->no_operation );
     }
 
-    /*     si echeance_selectionnnee est nulle, c'est qu'il n'y a encore aucune sélection, donc */
-    /* 	on ne retire pas l'ancienne sélection */
+    /*     si echeance_selectionnnee est nulle, c'est qu'il n'y a encore aucune sÃ©lection, donc */
+    /* 	on ne retire pas l'ancienne sÃ©lection */
 
     if ( (echeance == echeance_selectionnnee
 	 &&
@@ -724,13 +724,13 @@ void selectionne_echeance ( struct operation_echeance *echeance )
 
     model = GTK_TREE_MODEL ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view_liste_echeances )));
 
-    /*   vire l'ancienne sélection : consiste à remettre la couleur d'origine du background */
+    /*   vire l'ancienne sÃ©lection : consiste Ã  remettre la couleur d'origine du background */
 
     if ( echeance_selectionnnee )
     {
 	iter = cherche_iter_echeance ( echeance_selectionnnee );
 
-	/* 	iter est maintenant positionné sur la 1ère ligne de l'opé à désélectionner */
+	/* 	iter est maintenant positionnÃ© sur la 1Ã¨re ligne de l'opÃ© Ã  dÃ©sÃ©lectionner */
 
 	gtk_tree_model_get ( model,
 			     iter,
@@ -747,7 +747,7 @@ void selectionne_echeance ( struct operation_echeance *echeance )
 
     iter = cherche_iter_echeance ( echeance_selectionnnee );
 
-    /* 	iter est maintenant positionnÃ© sur la 1ère ligne de l'opÃƒ© à sélectionner */
+    /* 	iter est maintenant positionnÃƒÂ© sur la 1Ã¨re ligne de l'opÃƒÂƒÂ© Ã  sÃ©lectionner */
 
     gtk_tree_model_get ( model,
 			 iter,
@@ -759,7 +759,7 @@ void selectionne_echeance ( struct operation_echeance *echeance )
 			 9, couleur,
 			 -1 );
 
-    /*     on déplace le scrolling de la liste si nécessaire pour afficher la sélection */
+    /*     on dÃ©place le scrolling de la liste si nÃ©cessaire pour afficher la sÃ©lection */
 
     ajuste_scrolling_liste_echeances_a_selection ();
 
@@ -774,7 +774,7 @@ void ajuste_scrolling_liste_echeances_a_selection ( void )
     GtkAdjustment *v_adjustment;
     gint y_ligne;
 
-    /*     si on n'a pas encore récupéré la hauteur des lignes, on va le faire ici */
+    /*     si on n'a pas encore rÃ©cupÃ©rÃ© la hauteur des lignes, on va le faire ici */
 
     if ( !hauteur_ligne_liste_opes )
 	hauteur_ligne_liste_opes = recupere_hauteur_ligne_tree_view ( tree_view_liste_echeances );
@@ -783,7 +783,7 @@ void ajuste_scrolling_liste_echeances_a_selection ( void )
 
     y_ligne = cherche_ligne_echeance ( echeance_selectionnnee ) * hauteur_ligne_liste_opes;
 
-    /*     si l'opé est trop haute, on la rentre et la met en haut */
+    /*     si l'opÃ© est trop haute, on la rentre et la met en haut */
 
     if ( y_ligne < v_adjustment -> value )
 	gtk_adjustment_set_value ( GTK_ADJUSTMENT ( v_adjustment ),
@@ -801,8 +801,8 @@ void ajuste_scrolling_liste_echeances_a_selection ( void )
 
 /******************************************************************************/
 /* fonction cherche_iter_echeance */
-/* retrouve l'iter correspondant à l'opération donnée en argument dans la tree_view des opérations */
-/* renvoie null si pas trouvé
+/* retrouve l'iter correspondant Ã  l'opÃ©ration donnÃ©e en argument dans la tree_view des opÃ©rations */
+/* renvoie null si pas trouvÃ©
 * \param echeance
 * \return iter correspondant
 *****************************************************************************/
@@ -817,7 +817,7 @@ GtkTreeIter *cherche_iter_echeance ( struct operation_echeance *echeance )
 
     model = GTK_TREE_MODEL ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view_liste_echeances )));
 
-    /*     on va faire le tour de la liste, et dès qu'une opé = echeance */
+    /*     on va faire le tour de la liste, et dÃ¨s qu'une opÃ© = echeance */
     /* 	on retourne son iter */
 
     gtk_tree_model_get_iter_first ( model,
@@ -847,7 +847,7 @@ GtkTreeIter *cherche_iter_echeance ( struct operation_echeance *echeance )
 
 
 /******************************************************************************/
-/* cette fonction renvoie le no de ligne de l'opération en argument */
+/* cette fonction renvoie le no de ligne de l'opÃ©ration en argument */
 /******************************************************************************/
 gint cherche_ligne_echeance ( struct operation_echeance *echeance )
 {
@@ -863,7 +863,7 @@ gint cherche_ligne_echeance ( struct operation_echeance *echeance )
 
 
 /******************************************************************************/
-/* renvoie l'adr de l'opération correspondant  à la ligne envoyées */
+/* renvoie l'adr de l'opÃ©ration correspondant  Ã  la ligne envoyÃ©es */
 /* en argument */
 /******************************************************************************/
 struct operation_echeance *cherche_echeance_from_ligne ( gint ligne )
@@ -893,7 +893,7 @@ GDate *date_fin_affichage_liste_echeance ( void )
 {
     GDate *date_fin;
     
-   /* on récupère la date du jour et la met dans date_fin pour les vérifications ultérieures */
+   /* on rÃ©cupÃ¨re la date du jour et la met dans date_fin pour les vÃ©rifications ultÃ©rieures */
 
     date_fin = gdate_today ();
 
@@ -955,14 +955,14 @@ gboolean click_ligne_echeance ( GtkWidget *tree_view,
 	return(FALSE);
 
 
-    /* Récupération des coordonnées de la souris */
+    /* RÃ©cupÃ©ration des coordonnÃ©es de la souris */
 
     gdk_window_get_pointer ( gtk_tree_view_get_bin_window ( GTK_TREE_VIEW ( tree_view )),
 			     &x,
 			     &y,
 			     FALSE );
 
-    /*     on récupère le path aux coordonnées */
+    /*     on rÃ©cupÃ¨re le path aux coordonnÃ©es */
     /* 	si ce n'est pas une ligne de la liste, on se barre */
 
     if ( !gtk_tree_view_get_path_at_pos ( GTK_TREE_VIEW ( tree_view ),
@@ -982,7 +982,7 @@ gboolean click_ligne_echeance ( GtkWidget *tree_view,
 					  &iter,
 					  gtk_tree_path_to_string ( path ));
 
-    /*     on récupère l'échéance clickée, si elle est nulle c'est que c'est un doublon */
+    /*     on rÃ©cupÃ¨re l'Ã©chÃ©ance clickÃ©e, si elle est nulle c'est que c'est un doublon */
     /* 	et on fait rien */
 
     gtk_tree_model_get ( GTK_TREE_MODEL ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view ))),
@@ -1008,8 +1008,8 @@ gboolean click_ligne_echeance ( GtkWidget *tree_view,
 
 /*****************************************************************************/
 /* Fonction edition_echeance						     */
-/* appelée par double click ou entrée sur une échéance. Elle recopie	     */
-/* l'échéance sélectionnée dans le formulaire d'échéance pour la modifier    */
+/* appelÃ©e par double click ou entrÃ©e sur une Ã©chÃ©ance. Elle recopie	     */
+/* l'Ã©chÃ©ance sÃ©lectionnÃ©e dans le formulaire d'Ã©chÃ©ance pour la modifier    */
 /*****************************************************************************/
 void edition_echeance ( void )
 {
@@ -1017,12 +1017,12 @@ void edition_echeance ( void )
     
     formulaire_echeancier_a_zero ();
 
-    /*   si le formulaire est caché, on le montre */
+    /*   si le formulaire est cachÃ©, on le montre */
 
     gtk_widget_show ( frame_formulaire_echeancier );
 
-    /* si c'est une nouvelle échéance, on met la date courante,
-       la sélectionne et lui donne le focus */
+    /* si c'est une nouvelle Ã©chÃ©ance, on met la date courante,
+       la sÃ©lectionne et lui donne le focus */
 
     if ( echeance_selectionnnee == GINT_TO_POINTER ( -1 ))
     {
@@ -1038,7 +1038,7 @@ void edition_echeance ( void )
     }
 
 
-    /* c'est une modif d'échéance ou une saisie */
+    /* c'est une modif d'Ã©chÃ©ance ou une saisie */
 
     entree_prend_focus ( widget_formulaire_echeancier[SCHEDULER_FORM_DATE] );
     gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_echeancier[SCHEDULER_FORM_DATE] ),
@@ -1065,7 +1065,7 @@ void edition_echeance ( void )
 				  recherche_compte_dans_option_menu (  widget_formulaire_echeancier[SCHEDULER_FORM_ACCOUNT],
 								       echeance_selectionnnee -> compte ));
 
-    /* mise en place des montants et des types associés */
+    /* mise en place des montants et des types associÃ©s */
 
     if ( echeance_selectionnnee -> montant < 0 )
     {
@@ -1074,7 +1074,7 @@ void edition_echeance ( void )
 	gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_echeancier[SCHEDULER_FORM_DEBIT] ),
 			     g_strdup_printf ( "%4.2f",
 					       -echeance_selectionnnee -> montant ));
-	/* met le menu des types débits */
+	/* met le menu des types dÃ©bits */
 
 
 	if ( (menu = creation_menu_types ( 1,
@@ -1095,7 +1095,7 @@ void edition_echeance ( void )
 	gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_echeancier[SCHEDULER_FORM_CREDIT] ),
 			     g_strdup_printf ( "%4.2f",
 					       echeance_selectionnnee -> montant ));
-	/* met le menu des types crédits */
+	/* met le menu des types crÃ©dits */
 
 
 	if ( (menu = creation_menu_types ( 2,
@@ -1112,7 +1112,7 @@ void edition_echeance ( void )
 
 
     /* mise en place des devises */
-    /* FIXME : me demande si yaurait pas un g_slist_index à mettre ici... */
+    /* FIXME : me demande si yaurait pas un g_slist_index Ã  mettre ici... */
 
     gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_DEVISE] ),
 				  devise_par_no ( echeance_selectionnnee -> devise ) -> no_devise - 1 );
@@ -1125,14 +1125,14 @@ void edition_echeance ( void )
 
 	if ( echeance_selectionnnee -> categorie )
 	{
-	    /* 	    il y a donc des catégs/sous-catég */
+	    /* 	    il y a donc des catÃ©gs/sous-catÃ©g */
 
 	    texte =  nom_categ_par_no ( echeance_selectionnnee -> categorie,
 					echeance_selectionnnee -> sous_categorie );
 	}
 	else
 	{
-	    /* 	    c'est soit un virement, soit une opé ventilée */
+	    /* 	    c'est soit un virement, soit une opÃ© ventilÃ©e */
 
 	    if ( echeance_selectionnnee -> compte_virement )
 	    {
@@ -1148,7 +1148,7 @@ void edition_echeance ( void )
 		{
 		    texte =  g_strdup (_("Breakdown of transaction"));
 
-/* 		    on n'affiche le bouton de ventilation que si on est dans l'onglet des échéances, pas */
+/* 		    on n'affiche le bouton de ventilation que si on est dans l'onglet des Ã©chÃ©ances, pas */
 /* 			en formulaire flottant */
 
 		    if ( !etat.formulaire_echeance_dans_fenetre ) 
@@ -1159,7 +1159,7 @@ void edition_echeance ( void )
 		    gtk_widget_set_sensitive ( widget_formulaire_echeancier[SCHEDULER_FORM_BUDGETARY],
 					       FALSE );
 
-		    /* met la liste des opés de ventilation dans liste_adr_ventilation */
+		    /* met la liste des opÃ©s de ventilation dans liste_adr_ventilation */
 
 		    gtk_object_set_data ( GTK_OBJECT ( formulaire_echeancier ),
 					  "liste_adr_ventilation",
@@ -1167,7 +1167,7 @@ void edition_echeance ( void )
 		}
 		else
 		{ 
-		    /* 		    normalement, on devrait pas arriver là... bon, on laisse comme ça */
+		    /* 		    normalement, on devrait pas arriver lÃ ... bon, on laisse comme Ã§a */
 		    texte = NULL;
 		}
 	    }
@@ -1182,7 +1182,7 @@ void edition_echeance ( void )
     }
 
 
-    /* met l'option menu du type d'opé */
+    /* met l'option menu du type d'opÃ© */
 
     if ( GTK_WIDGET_VISIBLE ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] ))
 	gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] ),
@@ -1202,7 +1202,7 @@ void edition_echeance ( void )
 				   cherche_no_menu_exercice ( echeance_selectionnnee -> no_exercice,
 							      widget_formulaire_echeancier[SCHEDULER_FORM_EXERCICE] ));
 
-    /* met en place l'imputation budgétaire */
+    /* met en place l'imputation budgÃ©taire */
 
     char_tmp = nom_imputation_par_no ( echeance_selectionnnee -> imputation,
 				       echeance_selectionnnee -> sous_imputation );
@@ -1228,7 +1228,7 @@ void edition_echeance ( void )
 			     echeance_selectionnnee -> notes );
     }
 
-    /* mise en place de la périodicité */
+    /* mise en place de la pÃ©riodicitÃ© */
 
     gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_FREQUENCY] ),
 				  echeance_selectionnnee -> periodicite );
@@ -1251,7 +1251,7 @@ void edition_echeance ( void )
     }
 
 
-    /* mise en place de la périodicité perso si nécessaire */
+    /* mise en place de la pÃ©riodicitÃ© perso si nÃ©cessaire */
 
     if ( echeance_selectionnnee -> periodicite == 4 )
     {
@@ -1266,14 +1266,14 @@ void edition_echeance ( void )
     }
 
 
-    /* sélectionne la date et lui donne le focus */
+    /* sÃ©lectionne la date et lui donne le focus */
 
     gtk_entry_select_region ( GTK_ENTRY ( widget_formulaire_echeancier[SCHEDULER_FORM_DATE] ),
 			      0,
 			      -1 );
     gtk_widget_grab_focus ( widget_formulaire_echeancier[SCHEDULER_FORM_DATE] );
 
-    /* met l'adr de l'échéance courante dans l'entrée de la date */
+    /* met l'adr de l'Ã©chÃ©ance courante dans l'entrÃ©e de la date */
 
     gtk_object_set_data ( GTK_OBJECT ( formulaire_echeancier ),
 			  "adr_echeance",
@@ -1294,7 +1294,7 @@ void supprime_echeance ( struct operation_echeance *echeance )
 	 echeance == GINT_TO_POINTER ( -1 ))
 	return;
 
-    /* si la périodicité n'est pas de 1 fois demande juste celle ci ou toutes,
+    /* si la pÃ©riodicitÃ© n'est pas de 1 fois demande juste celle ci ou toutes,
        sinon, choisit automatiquement toutes */
 
     if ( echeance -> periodicite )
@@ -1353,7 +1353,7 @@ void supprime_echeance ( struct operation_echeance *echeance )
 	    break;
 
 	case 1:
-	    /* 	    si c'est une ventil, on supprime les opés filles */
+	    /* 	    si c'est une ventil, on supprime les opÃ©s filles */
 
 	    if ( echeance -> operation_ventilee )
 	    {
@@ -1380,7 +1380,7 @@ void supprime_echeance ( struct operation_echeance *echeance )
 		}
 	    }
 
-	    /* 	    on vire l'échéance elle même */
+	    /* 	    on vire l'Ã©chÃ©ance elle mÃªme */
 
 	    liste_struct_echeances = g_slist_remove ( liste_struct_echeances, 
 						      echeance );
@@ -1408,7 +1408,7 @@ void supprime_echeance ( struct operation_echeance *echeance )
 
 /*****************************************************************************/
 /* Fonction changement_taille_liste_echeances				     */
-/* avec les tree view, cette fonction est appelée quand : */
+/* avec les tree view, cette fonction est appelÃ©e quand : */
 /* -click sur un titre de colonne */
 /* -modification de la taille d'une colonne */
 /* -modification de la taille du tree_view */
@@ -1420,14 +1420,14 @@ gboolean changement_taille_liste_echeances ( GtkWidget *tree_view,
     gint i;
     gint col1, col2, col3, col4, col5, col6, col7;
 
-    /*     on va séparer en 2 parties : */
+    /*     on va sÃ©parer en 2 parties : */
     /* 	soit la largeur = ancienne_largeur_echeances, dans ce cas on dit que c'est un redimensionnement de colonne */
     /* 	soit la largeur != ancienne_largeur_echeances et c'est un redimensionnement de la liste */
 
     if ( tree_view -> allocation.width == ancienne_largeur_echeances )
     {
 	/* 	c'est un redimensionnement de colonne */
-	/* on ne fait juste que récupérer les largeurs de colonnes */
+	/* on ne fait juste que rÃ©cupÃ©rer les largeurs de colonnes */
 
 	gint rapport_frequence;
 
@@ -1441,8 +1441,8 @@ gboolean changement_taille_liste_echeances ( GtkWidget *tree_view,
 
 	printf ( "redimension colonne\n" );
 
-	/* 	avant de modifier, on va garder le rapport entre la fréquence et le mode */
-	/* 	    pour les réappliquer derrière */
+	/* 	avant de modifier, on va garder le rapport entre la frÃ©quence et le mode */
+	/* 	    pour les rÃ©appliquer derriÃ¨re */
 
 	if ( scheduler_col_width[COL_NB_NOTES] )
 	    rapport_frequence = (scheduler_col_width[COL_NB_FREQUENCY] * 100 ) / (scheduler_col_width[COL_NB_NOTES]);
@@ -1451,7 +1451,7 @@ gboolean changement_taille_liste_echeances ( GtkWidget *tree_view,
 	
 	for ( i = 0 ; i < NB_COLS_SCHEDULER ; i++ )
 	{
-	    /* calcul de la valeur relative du redimensionnement de la colonne concernée */
+	    /* calcul de la valeur relative du redimensionnement de la colonne concernÃ©e */
 
 	    largeur = gtk_tree_view_column_get_width ( GTK_TREE_VIEW_COLUMN ( colonnes_liste_echeancier[i] ));
 
@@ -1459,19 +1459,19 @@ gboolean changement_taille_liste_echeances ( GtkWidget *tree_view,
 	}
 
 	/* 	en fonction de la conf, on calcule la largeur des notes ou remet le rapport entre */
-	/* 	    la fréquence et le mode */
+	/* 	    la frÃ©quence et le mode */
 
 	if ( etat.affichage_commentaire_echeancier )
 	{
-	    /* 	    c'est la note qui est affichée, donc on applique le rapport aux */
-	    /* 		2 colonnes non affichées */
+	    /* 	    c'est la note qui est affichÃ©e, donc on applique le rapport aux */
+	    /* 		2 colonnes non affichÃ©es */
 	
 	    scheduler_col_width[COL_NB_FREQUENCY] = (rapport_frequence * scheduler_col_width[COL_NB_NOTES]) / 100;
 	    scheduler_col_width[COL_NB_MODE] = scheduler_col_width[COL_NB_NOTES] - scheduler_col_width[COL_NB_FREQUENCY];
 	}
 	else
 	{
-	    /* 	    la colonne cachée de notes vaut la somme des 2 affichées */
+	    /* 	    la colonne cachÃ©e de notes vaut la somme des 2 affichÃ©es */
 
 	    scheduler_col_width[COL_NB_NOTES] =  scheduler_col_width[COL_NB_FREQUENCY] + scheduler_col_width[COL_NB_MODE];
 	}
@@ -1488,19 +1488,19 @@ gboolean changement_taille_liste_echeances ( GtkWidget *tree_view,
 
     largeur = tree_view -> allocation.width ;
 
-    /* on établit alors les largeurs des colonnes */
-	/* 	on ne met pas la valeur de la dernière colonne */
+    /* on Ã©tablit alors les largeurs des colonnes */
+	/* 	on ne met pas la valeur de la derniÃ¨re colonne */
 
     for ( i = 0 ; i < NB_COLS_SCHEDULER - 1 ; i++ )
 	gtk_tree_view_column_set_fixed_width ( GTK_TREE_VIEW_COLUMN ( colonnes_liste_echeancier[i] ),
 					       (scheduler_col_width[i] * largeur ) / 100 );
 
     /* on sauve la valeur courante de la largeur de la liste pour
-       une utilisation ultérieure */
+       une utilisation ultÃ©rieure */
 
     ancienne_largeur_echeances = largeur ;
 
-    /* met les entrées du formulaire à la même taille */
+    /* met les entrÃ©es du formulaire Ã  la mÃªme taille */
 
     col1 = ( 7 * largeur) / 100;
     col2 = ( 13 * largeur) / 100;
@@ -1510,7 +1510,7 @@ gboolean changement_taille_liste_echeances ( GtkWidget *tree_view,
     col6 = ( 10 * largeur) / 100;
     col7 = ( 10 * largeur) / 100;
 
-    /* 1ère ligne */
+    /* 1Ã¨re ligne */
 
     gtk_widget_set_usize ( GTK_WIDGET ( label_saisie_modif ),
 			   col1,
@@ -1531,7 +1531,7 @@ gboolean changement_taille_liste_echeances ( GtkWidget *tree_view,
 			   col6 + col7,
 			   FALSE );
 
-    /* 2ème ligne */
+    /* 2Ã¨me ligne */
 
     gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_echeancier[SCHEDULER_FORM_ACCOUNT] ),
 			   col1 + col2,
@@ -1546,7 +1546,7 @@ gboolean changement_taille_liste_echeances ( GtkWidget *tree_view,
 			   col6 + col7,
 			   FALSE );
 
-    /* 3ème ligne */
+    /* 3Ã¨me ligne */
 
     gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_echeancier[SCHEDULER_FORM_EXERCICE] ),
 			   col1 + col2,
@@ -1561,7 +1561,7 @@ gboolean changement_taille_liste_echeances ( GtkWidget *tree_view,
 			   col6 + col7,
 			   FALSE );
 
-    /* 4ème ligne */
+    /* 4Ã¨me ligne */
 
     gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_echeancier[SCHEDULER_FORM_MODE] ),
 			   col1 + col2,
@@ -1599,25 +1599,25 @@ void verification_echeances_a_terme ( void )
     if ( DEBUG )
 	printf ( "verification_echeances_a_terme\n" );
 
-    /* les échÃ©ances à saisir sont revérifiées à chaque fois. Par contre, les
-       échéances saisies sont ajoutées à la liste de celles déjà saisies */
+    /* les Ã©chÃƒÂ©ances Ã  saisir sont revÃ©rifiÃ©es Ã  chaque fois. Par contre, les
+       Ã©chÃ©ances saisies sont ajoutÃ©es Ã  la liste de celles dÃ©jÃ  saisies */
 
     echeances_a_saisir = NULL;
 
-    /* récupère la date du jour et la met en format gdate */
+    /* rÃ©cupÃ¨re la date du jour et la met en format gdate */
 
     pGDateCurrent = g_date_new ();
     g_date_set_time ( pGDateCurrent,
 		      time ( NULL ));
 
-    /* on y ajoute le décalage de l'échéance */
+    /* on y ajoute le dÃ©calage de l'Ã©chÃ©ance */
 
     g_date_add_days ( pGDateCurrent,
 		      decalage_echeance );
 
 
-    /* on fait le tour des échéances : si elle est auto, elle est enregistrée,
-       sinon elle est juste répertoriée */
+    /* on fait le tour des Ã©chÃ©ances : si elle est auto, elle est enregistrÃ©e,
+       sinon elle est juste rÃ©pertoriÃ©e */
 
     pointeur_liste = liste_struct_echeances;
     ancien_pointeur = NULL;
@@ -1627,7 +1627,7 @@ void verification_echeances_a_terme ( void )
     {
 	if ( ECHEANCE_COURANTE -> auto_man )
 	{
-	    /* tant que cette échéance auto n'est pas arrivée à aujourd'hui, on recommence */
+	    /* tant que cette Ã©chÃ©ance auto n'est pas arrivÃ©e Ã  aujourd'hui, on recommence */
 
 	    while ( pointeur_liste != ancien_pointeur
 		    &&
@@ -1638,13 +1638,13 @@ void verification_echeances_a_terme ( void )
 		GSList *pointeur_liste_ventil;
 
 
-		/* crée l'opÃ©ration */
+		/* crÃ©e l'opÃƒÂ©ration */
 
 		operation = calloc ( 1,
 				     sizeof ( struct structure_operation ) ); 
 
 
-		/* remplit l'opération */
+		/* remplit l'opÃ©ration */
 
 		operation -> jour = ECHEANCE_COURANTE -> jour;
 		operation -> mois = ECHEANCE_COURANTE -> mois;
@@ -1661,11 +1661,11 @@ void verification_echeances_a_terme ( void )
 		operation -> devise = ECHEANCE_COURANTE -> devise;
 
 
-		/* demande si nécessaire la valeur de la devise et du change */
+		/* demande si nÃ©cessaire la valeur de la devise et du change */
 
 		p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> no_compte;
 
-		/* récupération des devises de l'opé et du compte */
+		/* rÃ©cupÃ©ration des devises de l'opÃ© et du compte */
 
 		devise = devise_par_no ( operation -> devise );
 
@@ -1682,7 +1682,7 @@ void verification_echeances_a_terme ( void )
 			||
 			( !strcmp ( devise_compte -> nom_devise, _("Euro") ) && devise -> passage_euro )))
 		{
-		    /* c'est une devise étrangère, on demande le taux de change et les frais de change */
+		    /* c'est une devise Ã©trangÃ¨re, on demande le taux de change et les frais de change */
 
 		    demande_taux_de_change ( devise_compte, devise, 1,
 					     (gdouble ) 0, (gdouble ) 0, FALSE );
@@ -1734,21 +1734,21 @@ void verification_echeances_a_terme ( void )
 		    operation -> no_exercice = ECHEANCE_COURANTE -> no_exercice;
 
 
-		/*   on a fini de remplir l'opé, on peut l'ajouter à la liste */
+		/*   on a fini de remplir l'opÃ©, on peut l'ajouter Ã  la liste */
 
 		insere_operation_dans_liste ( operation );
 
-		/*   si c'était un virement, on crée une copie de l'opé, on l'ajoute à la liste puis on remplit les relations */
+		/*   si c'Ã©tait un virement, on crÃ©e une copie de l'opÃ©, on l'ajoute Ã  la liste puis on remplit les relations */
 
-		/* FIXME : le jour où on choisira le type de la contre opération dans les échéances, il faudra changer ici */
-		/* cette opé de ventil est un virement */
+		/* FIXME : le jour oÃ¹ on choisira le type de la contre opÃ©ration dans les Ã©chÃ©ances, il faudra changer ici */
+		/* cette opÃ© de ventil est un virement */
 
 		if ( virement )
 		    ajoute_contre_operation_echeance_dans_liste ( operation,
 								  ECHEANCE_COURANTE -> compte_virement,
 								  operation -> type_ope );
 
-		/* 	si c'était une échéance ventilée, c'est ici qu'on fait joujou */
+		/* 	si c'Ã©tait une Ã©chÃ©ance ventilÃ©e, c'est ici qu'on fait joujou */
 
 		pointeur_liste_ventil = creation_liste_ope_de_ventil_echeances ( ECHEANCE_COURANTE );
 
@@ -1759,7 +1759,7 @@ void verification_echeances_a_terme ( void )
 		    struct struct_ope_ventil *ope_ventil;
 		    struct structure_operation *operation_fille;
 
-		    /* 	    la mère est donc une ventil */
+		    /* 	    la mÃ¨re est donc une ventil */
 
 		    operation -> operation_ventilee = 1;
 
@@ -1782,7 +1782,7 @@ void verification_echeances_a_terme ( void )
 
 		    operation_fille -> no_exercice = ope_ventil -> no_exercice;
 
-		    /* 	    le reste est identique à la mère */
+		    /* 	    le reste est identique Ã  la mÃ¨re */
 
 		    operation_fille -> jour = operation -> jour;
 		    operation_fille -> mois = operation -> mois;
@@ -1812,16 +1812,16 @@ void verification_echeances_a_terme ( void )
 		    operation_fille -> no_operation_ventilee_associee = operation -> no_operation;
 
 
-		    /*   on a fini de remplir l'opé, on peut l'ajouter à la liste */
+		    /*   on a fini de remplir l'opÃ©, on peut l'ajouter Ã  la liste */
 
 		    insere_operation_dans_liste ( operation_fille );
 
 
-		    /* 	    on vérifie maintenant si c'est un virement */
+		    /* 	    on vÃ©rifie maintenant si c'est un virement */
 
 		    if ( ope_ventil -> relation_no_operation == -1 )
 		    {
-			/* cette opé de ventil est un virement */
+			/* cette opÃ© de ventil est un virement */
 
 			ajoute_contre_operation_echeance_dans_liste ( operation_fille,
 							 ope_ventil -> relation_no_compte,
@@ -1836,7 +1836,7 @@ void verification_echeances_a_terme ( void )
 						     operation );
 
 
-		/* passe l'échéance à la prochaine date */
+		/* passe l'Ã©chÃ©ance Ã  la prochaine date */
 
 		incrementation_echeance ( ECHEANCE_COURANTE );
 
@@ -1850,7 +1850,7 @@ void verification_echeances_a_terme ( void )
 	    }
 	}
 	else
-	    /* ce n'est pas une échéance automatique, on la répertorie dans la liste des échéances à saisir */
+	    /* ce n'est pas une Ã©chÃ©ance automatique, on la rÃ©pertorie dans la liste des Ã©chÃ©ances Ã  saisir */
 
 	    if ( g_date_compare ( ECHEANCE_COURANTE -> date,
 				  pGDateCurrent ) <= 0
@@ -1885,14 +1885,14 @@ void verification_echeances_a_terme ( void )
 
 
 /*****************************************************************************/
-/* Fonction appelée lorsqu'on change le bouton pour l'affichage des	     */
-/* échéances ( choix mois, 2 mois ... )					     */
+/* Fonction appelÃ©e lorsqu'on change le bouton pour l'affichage des	     */
+/* Ã©chÃ©ances ( choix mois, 2 mois ... )					     */
 /*****************************************************************************/
 gboolean modification_affichage_echeances ( gint *origine )
 {
     switch ( GPOINTER_TO_INT ( origine ))
     {
-	/* vient de l'entrée qui perd le focus */
+	/* vient de l'entrÃ©e qui perd le focus */
 
 	case 5:
 
@@ -1947,9 +1947,9 @@ gboolean modification_affichage_echeances ( gint *origine )
 /*****************************************************************************/
 
 /*****************************************************************************/
-/* reçoit en argument une échéance et une date, renvoie la date suivante     */
-/* en accord avec la périodicité de l'échéance				     */
-/* renvoie null si la date limite est dépassée ou si c'est une fois	     */
+/* reÃ§oit en argument une Ã©chÃ©ance et une date, renvoie la date suivante     */
+/* en accord avec la pÃ©riodicitÃ© de l'Ã©chÃ©ance				     */
+/* renvoie null si la date limite est dÃ©passÃ©e ou si c'est une fois	     */
 /*****************************************************************************/
 GDate *date_suivante_echeance ( struct operation_echeance *echeance,
 				GDate *pGDateCurrent )
@@ -1961,7 +1961,7 @@ GDate *date_suivante_echeance ( struct operation_echeance *echeance,
 	return ( pGDateCurrent );
     }
 
-    /* périodicité hebdomadaire */
+    /* pÃ©riodicitÃ© hebdomadaire */
     if ( echeance -> periodicite == 1 )
     {
 	g_date_add_days ( pGDateCurrent,
@@ -1972,17 +1972,17 @@ GDate *date_suivante_echeance ( struct operation_echeance *echeance,
 			    0 );
     }
     else
-	/* périodicité mensuelle */
+	/* pÃ©riodicitÃ© mensuelle */
 	if ( echeance -> periodicite == 2 )
 	    g_date_add_months ( pGDateCurrent,
 				1 );
 	else
-	    /* périodicité annuelle */
+	    /* pÃ©riodicitÃ© annuelle */
 	    if ( echeance -> periodicite == 3 )
 		g_date_add_years ( pGDateCurrent,
 				   1 );
 	    else
-		/* périodicité perso */
+		/* pÃ©riodicitÃ© perso */
 		if ( !echeance -> intervalle_periodicite_personnalisee )
 		{
 		    g_date_add_days ( pGDateCurrent,
@@ -2014,7 +2014,7 @@ GDate *date_suivante_echeance ( struct operation_echeance *echeance,
 
 
 /******************************************************************************/
-/* cette fonction affiche les traits verticaux et horizontaux sur la liste des échéances */
+/* cette fonction affiche les traits verticaux et horizontaux sur la liste des Ã©chÃ©ances */
 /******************************************************************************/
 gboolean affichage_traits_liste_echeances ( void )
 {
@@ -2035,19 +2035,19 @@ gboolean affichage_traits_liste_echeances ( void )
     if ( !gc_separateur_operation )
 	gc_separateur_operation = gdk_gc_new ( GDK_DRAWABLE ( fenetre ));
 
-    /*     si la hauteur des lignes n'est pas encore calculée, on le fait ici */
+    /*     si la hauteur des lignes n'est pas encore calculÃ©e, on le fait ici */
 
     hauteur_ligne_liste_opes = recupere_hauteur_ligne_tree_view ( tree_view_liste_echeances );
 
-    /*     on commence par calculer la dernière ligne en pixel correspondant à la dernière opé de la liste */
-    /* 	pour éviter de dessiner les traits en dessous */
+    /*     on commence par calculer la derniÃ¨re ligne en pixel correspondant Ã  la derniÃ¨re opÃ© de la liste */
+    /* 	pour Ã©viter de dessiner les traits en dessous */
 
     derniere_ligne = hauteur_ligne_liste_opes * GTK_LIST_STORE ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view_liste_echeances ))) -> length;
     hauteur = MIN ( derniere_ligne,
 		    hauteur );
 
     /*     le plus facile en premier... les lignes verticales */
-    /*     dépend de si on est en train de ventiler ou non */
+    /*     dÃ©pend de si on est en train de ventiler ou non */
     /*     on en profite pour ajuster nb_ligne_ope_tree_view */
 
     x=0;
@@ -2061,8 +2061,8 @@ gboolean affichage_traits_liste_echeances ( void )
 			x, hauteur );
     }
 
-    /*     les lignes horizontales : il faut calculer la position y de chaque changement d'opé à l'écran */
-    /*     on calcule la position y de la 1ère ligne à afficher */
+    /*     les lignes horizontales : il faut calculer la position y de chaque changement d'opÃ© Ã  l'Ã©cran */
+    /*     on calcule la position y de la 1Ã¨re ligne Ã  afficher */
 
     if ( hauteur_ligne_liste_opes )
     {

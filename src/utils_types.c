@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                  utils_types.c                             */
 /*                                                                            */
-/*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org)	      */
+/*     Copyright (C)	2000-2003 CÃ©dric Auger (cedric@grisbi.org)	      */
 /*			2003-2004 Benjamin Drieu (bdrieu@april.org)	      */
 /*			2003-2004 Alain Portal (dionysos@grisbi.org)	      */
 /* 			http://www.grisbi.org				      */
@@ -44,8 +44,8 @@ extern gpointer **p_tab_nom_de_compte_variable;
 
 
 /* ************************************************************************************************************** */
-/* renvoie le type ope demandé en argument */
-/* ou NULL si pas trouvé */
+/* renvoie le type ope demandÃ© en argument */
+/* ou NULL si pas trouvÃ© */
 /* ************************************************************************************************************** */
 struct struct_type_ope *type_ope_par_no ( gint no_type_ope,
 					  gint no_compte )
@@ -67,7 +67,7 @@ struct struct_type_ope *type_ope_par_no ( gint no_type_ope,
 
 
 /* ************************************************************************************************************** */
-/* renvoie le nom du type_ope correspondant au numéro donné */
+/* renvoie le nom du type_ope correspondant au numÃ©ro donnÃ© */
 /* ou null */
 /* ************************************************************************************************************** */
 gchar *type_ope_name_by_no ( gint no_type_ope,

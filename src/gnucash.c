@@ -105,7 +105,7 @@ gboolean recuperation_donnees_gnucash ( gchar * filename )
 	      if ( strcmp(type, "INCOME") && strcmp(type, "EXPENSES") &&
 		   strcmp(type, "EQUITY") )
 		{
-		  /* Ce n'est pas un compte de catégories */
+		  /* Ce n'est pas un compte de catÃ©gories */
 		  recuperation_donnees_gnucash_compte ( root_node );
 		}
 	      else

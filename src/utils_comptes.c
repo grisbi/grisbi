@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                  utils_comptes.c                           */
 /*                                                                            */
-/*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org)	      */
+/*     Copyright (C)	2000-2003 CÃ©dric Auger (cedric@grisbi.org)	      */
 /*			2003-2004 Benjamin Drieu (bdrieu@april.org)	      */
 /*			2003-2004 Alain Portal (dionysos@grisbi.org)	      */
 /* 			http://www.grisbi.org				      */
@@ -48,9 +48,9 @@ extern GtkWidget *widget_formulaire_echeancier[SCHEDULER_FORM_TOTAL_WIDGET];
 
 
 /* ************************************************************************** */
-/* cette fonction est appelée pour mettre un option menu de compte sur le */
-/* compte donné en argument */
-/* elle renvoie le no à mettre dans history */
+/* cette fonction est appelÃ©e pour mettre un option menu de compte sur le */
+/* compte donnÃ© en argument */
+/* elle renvoie le no Ã  mettre dans history */
 /* ************************************************************************** */
 gint recherche_compte_dans_option_menu ( GtkWidget *option_menu,
 					 gint no_compte )
@@ -79,7 +79,7 @@ gint recherche_compte_dans_option_menu ( GtkWidget *option_menu,
 
 
 /* ************************************************************************** */
-/* cette fonction renvoie le no de compte sélectionné par l'option menu */
+/* cette fonction renvoie le no de compte sÃ©lectionnÃ© par l'option menu */
 /* \param option_menu l'option menu des comptes */
 /* \return le no de compte ou -1 si pb */
 /* ************************************************************************** */
@@ -108,7 +108,7 @@ gint recupere_no_compte ( GtkWidget *option_menu )
 
 void update_options_menus_comptes ( void )
 {
-    /*     on met à jour l'option menu de l'échéancier */
+    /*     on met Ã  jour l'option menu de l'Ã©chÃ©ancier */
 
     gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_ACCOUNT] ),
 			       creation_option_menu_comptes(GTK_SIGNAL_FUNC(changement_choix_compte_echeancier),
@@ -119,7 +119,7 @@ void update_options_menus_comptes ( void )
 
 
 /* ************************************************************************** */
-/* renvoie le nom du compte donné en argument ou NULL */
+/* renvoie le nom du compte donnÃ© en argument ou NULL */
 /* ************************************************************************** */
 gchar *compte_name_by_no ( gint no_compte )
 {
@@ -139,7 +139,7 @@ gchar *compte_name_by_no ( gint no_compte )
 
 
 /* ************************************************************************** */
-/* renvoie le no du compte donné en argument ou -1 */
+/* renvoie le no du compte donnÃ© en argument ou -1 */
 /* ************************************************************************** */
 gint no_compte_by_name ( gchar *name )
 {

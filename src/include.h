@@ -1,4 +1,4 @@
-/* fichier d'en tête include.h */
+/* fichier d'en tÃªte include.h */
 
 
 #include "config.h"

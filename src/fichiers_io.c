@@ -1,7 +1,7 @@
 /* Fichier fichiers_io.c */
-/* Contient toutes les procédures relatives à l'accès au disque */
+/* Contient toutes les procÃ©dures relatives Ã  l'accÃ¨s au disque */
 
-/*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org) */
+/*     Copyright (C)	2000-2003 CÃ©dric Auger (cedric@grisbi.org) */
 /*			2003-2004 Benjamin Drieu (bdrieu@april.org) */
 /* 			http://www.grisbi.org */
 
@@ -23,7 +23,7 @@
 #include "include.h"
 #include "echeancier_liste_constants.h"
 
-/* structure utilisée pour récupérer les nos de versions */
+/* structure utilisÃ©e pour rÃ©cupÃ©rer les nos de versions */
 
 struct recuperation_version
 {
@@ -76,11 +76,11 @@ static void switch_t_r ( void );
 
 gchar *nom_fichier_comptes;
 
-/* pointe vers un tableau de pointeurs vers les comptes en mémoire*/
+/* pointe vers un tableau de pointeurs vers les comptes en mÃ©moire*/
 
 gpointer **p_tab_nom_de_compte;
 
-/* idem, mais utilisé pour se déplacer */
+/* idem, mais utilisÃ© pour se dÃ©placer */
 
 gpointer **p_tab_nom_de_compte_variable;
 
@@ -89,7 +89,7 @@ gchar *titre_fichier;
 gchar *adresse_commune;
 gchar *adresse_secondaire;
 
-/* contient le dernier numéro d'opération de tous les comptes réunis */
+/* contient le dernier numÃ©ro d'opÃ©ration de tous les comptes rÃ©unis */
 
 gint no_derniere_operation;
 gint nb_comptes;
@@ -158,7 +158,7 @@ extern GtkWidget *window;
 
 
 /****************************************************************************/
-/** Procédure qui charge les opérations en mémoire sous forme de structures**/
+/** ProcÃ©dure qui charge les opÃ©rations en mÃ©moire sous forme de structures**/
 /****************************************************************************/
 
 gboolean charge_operations ( gchar *nom_fichier )
@@ -171,7 +171,7 @@ gboolean charge_operations ( gchar *nom_fichier )
     if ( DEBUG )
 	printf ( "charge_operations\n" );
 
-    /* vérification de la permission du fichier */
+    /* vÃ©rification de la permission du fichier */
 
     result = stat ( nom_fichier, &buffer_stat);
 
@@ -190,11 +190,11 @@ gboolean charge_operations ( gchar *nom_fichier )
 	{
 	    gint no_version;
 
-	    /* récupère la version de fichier */
+	    /* rÃ©cupÃ¨re la version de fichier */
 
 	    version = recupere_version_fichier ( doc );
 
-	    /* 	    si les versions ne sont pas récupérées, c'est que ce n'est pas un fichier grisbi */
+	    /* 	    si les versions ne sont pas rÃ©cupÃ©rÃ©es, c'est que ce n'est pas un fichier grisbi */
 
 	    if ( !version -> version_fichier
 		 ||
@@ -214,14 +214,14 @@ gboolean charge_operations ( gchar *nom_fichier )
 
 
 	    /* 	    on va commencer par charger le fichier */
-	    /* 		théoriquement toute version peut être chargée, même une version */
+	    /* 		thÃ©oriquement toute version peut Ãªtre chargÃ©e, mÃªme une version */
 	    /* 		du futur, la seule chose, c'est qu'on le remarquera ensuite et */
-	    /* 		on ne le démarrera pas */
+	    /* 		on ne le dÃ©marrera pas */
 
 	    charge_fichier_xml_grisbi ( doc );
 
 	    /* 	    on effectue les modif en fonction de la version du fichier */
-	    /* 		et retourne TRUE si ça s'est bien passé */
+	    /* 		et retourne TRUE si Ã§a s'est bien passÃ© */
 
 	    return (mise_a_jour_versions_anterieures ( no_version,
 						       version ));
@@ -246,7 +246,7 @@ gboolean charge_operations ( gchar *nom_fichier )
 
 /***********************************************************************************************************/
 /* renvoie la version du fichier et de grisbi qui a fait le fichier */
-/* les strings sont à null si non récupérées */
+/* les strings sont Ã  null si non rÃ©cupÃ©rÃ©es */
 /***********************************************************************************************************/
 struct recuperation_version *recupere_version_fichier ( xmlDocPtr doc )
 {
@@ -262,7 +262,7 @@ struct recuperation_version *recupere_version_fichier ( xmlDocPtr doc )
 
     while ( node_1 )
     {
-	/* les versions de fichier et de grisbi font partie des généralités */
+	/* les versions de fichier et de grisbi font partie des gÃ©nÃ©ralitÃ©s */
 
 	if ( !strcmp ( node_1 -> name,
 		       "Generalites" ))
@@ -293,7 +293,7 @@ struct recuperation_version *recupere_version_fichier ( xmlDocPtr doc )
 
 
 /*****************************************************************************/
-/* cette fonction rajoute les modifications qui ont été faite en fonction des différentes */
+/* cette fonction rajoute les modifications qui ont Ã©tÃ© faite en fonction des diffÃ©rentes */
 /* versions */
 /*****************************************************************************/
 gboolean mise_a_jour_versions_anterieures ( gint no_version,
@@ -303,7 +303,7 @@ gboolean mise_a_jour_versions_anterieures ( gint no_version,
     struct struct_devise *devise;
     struct stat buffer_stat;
 
-    /*     par défaut le fichier n'est pas modifié sauf si on charge une version précédente */
+    /*     par dÃ©faut le fichier n'est pas modifiÃ© sauf si on charge une version prÃ©cÃ©dente */
 
     modification_fichier ( FALSE );
 
@@ -315,8 +315,8 @@ gboolean mise_a_jour_versions_anterieures ( gint no_version,
 
 	case 40:
 
-	    /* il n'y a aucune différence de struct entre la 0.4.0 et la 0.4.1 */
-	    /* sauf que la 0.4.0 n'attribuait pas le no de relevé aux opés filles */
+	    /* il n'y a aucune diffÃ©rence de struct entre la 0.4.0 et la 0.4.1 */
+	    /* sauf que la 0.4.0 n'attribuait pas le no de relevÃ© aux opÃ©s filles */
 	    /* d'une ventilation */
 
 	    for ( i = 0 ; i < nb_comptes ; i++ )
@@ -333,7 +333,7 @@ gboolean mise_a_jour_versions_anterieures ( gint no_version,
 
 		    operation = liste_tmp -> data;
 
-		    /*  si l'opération est une ventil, on refait le tour de la liste pour trouver ses filles */
+		    /*  si l'opÃ©ration est une ventil, on refait le tour de la liste pour trouver ses filles */
 
 		    if ( operation -> operation_ventilee )
 		    {
@@ -364,18 +364,18 @@ gboolean mise_a_jour_versions_anterieures ( gint no_version,
 
 	case 41:
 
-	    /*     ajout de la 0.5 -> valeur_echelle_recherche_date_import qu'on me à 2 */
+	    /*     ajout de la 0.5 -> valeur_echelle_recherche_date_import qu'on me Ã  2 */
 
 	    valeur_echelle_recherche_date_import = 2;
 
-	    /* 	    passage à l'utf8 : on fait le tour des devises pour retrouver l'euro */
+	    /* 	    passage Ã  l'utf8 : on fait le tour des devises pour retrouver l'euro */
 	    /* Handle Euro nicely */
 
 	    devise = devise_par_nom ( g_strdup ("Euro"));
 
 	    if ( devise )
 	    {
-		devise -> code_devise = "â‚¬";
+		devise -> code_devise = "Ã¢Â‚Â¬";
 		devise -> code_iso4217_devise = g_strdup ("EUR");
 	    }
 
@@ -385,14 +385,14 @@ gboolean mise_a_jour_versions_anterieures ( gint no_version,
 	    /* ************************************* */
 
 	case 50:
-	    /* pour l'instant le fichier 0.5.1 ne diffère pas de la version 0.5.0 */
-	    /*     excepté un changement dans la notation du pointage */
+	    /* pour l'instant le fichier 0.5.1 ne diffÃ¨re pas de la version 0.5.0 */
+	    /*     exceptÃ© un changement dans la notation du pointage */
 	    /*     rien=0 ; P=1 ; T=2 ; R=3 */
-	    /*     on fait donc le tour des opés pour inverser R et P */
+	    /*     on fait donc le tour des opÃ©s pour inverser R et P */
 
 	    switch_t_r ();
 
-	    /* 	    on met l'organisation des formulaires de tous les comptes à 0 */
+	    /* 	    on met l'organisation des formulaires de tous les comptes Ã  0 */
 
 	    for ( i=0 ; i<nb_comptes ; i++ )
 	    {
@@ -400,8 +400,8 @@ gboolean mise_a_jour_versions_anterieures ( gint no_version,
 		ORGANISATION_FORMULAIRE = mise_a_zero_organisation_formulaire(); 
 	    }
 
-	    /* 	    un bug dans la 0.5.0 permettait à des comptes d'avoir un affichage différent, */
-	    /* 	    même si celui ci devait être identique pour tous, on vérifie ici */
+	    /* 	    un bug dans la 0.5.0 permettait Ã  des comptes d'avoir un affichage diffÃ©rent, */
+	    /* 	    mÃªme si celui ci devait Ãªtre identique pour tous, on vÃ©rifie ici */
 
 	    if ( !etat.retient_affichage_par_compte )
 	    {
@@ -436,7 +436,7 @@ gboolean mise_a_jour_versions_anterieures ( gint no_version,
 
 
 	    /* ********************************************************* */
-	    /* 	    à mettre à chaque fois juste avant la version stable */
+	    /* 	    Ã  mettre Ã  chaque fois juste avant la version stable */
 	    /* ********************************************************* */
 
 	    modification_fichier ( TRUE );
@@ -453,8 +453,8 @@ gboolean mise_a_jour_versions_anterieures ( gint no_version,
 	    break;
 
 	default :
-	    /* 	à ce niveau, c'est que que la version n'est pas connue de grisbi, on donne alors */
-	    /* la version nécessaire pour l'ouvrir */
+	    /* 	Ã  ce niveau, c'est que que la version n'est pas connue de grisbi, on donne alors */
+	    /* la version nÃ©cessaire pour l'ouvrir */
 
 	    dialogue_error ( g_strdup_printf ( _("Grisbi version %s is needed to open this file.\nYou are using version %s."),
 					       version -> version_fichier,
@@ -463,9 +463,9 @@ gboolean mise_a_jour_versions_anterieures ( gint no_version,
 	    return ( FALSE );
     }
 
-    /*     on met maintenant les généralités pour toutes les versions */
+    /*     on met maintenant les gÃ©nÃ©ralitÃ©s pour toutes les versions */
 
-    /* 	s'il y avait un ancien logo mais qu'il n'existe plus, on met le logo par défaut */
+    /* 	s'il y avait un ancien logo mais qu'il n'existe plus, on met le logo par dÃ©faut */
 
     if ( !chemin_logo
 	 ||
@@ -492,7 +492,7 @@ gboolean mise_a_jour_versions_anterieures ( gint no_version,
 
 
 /*****************************************************************************/
-/* charge la structure générale du fichier de grisbi, quelle que soit la version */
+/* charge la structure gÃ©nÃ©rale du fichier de grisbi, quelle que soit la version */
 /*****************************************************************************/
 gboolean charge_fichier_xml_grisbi ( xmlDocPtr doc )
 {
@@ -501,76 +501,76 @@ gboolean charge_fichier_xml_grisbi ( xmlDocPtr doc )
 
     etat.en_train_de_charger = 1;
 
-    /* on place node_1 sur les généralités */
+    /* on place node_1 sur les gÃ©nÃ©ralitÃ©s */
 
     node_1 = root -> children;
 
     /*   on met en place la boucle de node_1, qui va successivement passer */
-    /*     par les généralités, les comptes, les échéances ... */
+    /*     par les gÃ©nÃ©ralitÃ©s, les comptes, les Ã©chÃ©ances ... */
 
     while ( node_1 )
     {
-	/* on récupère ici les généralités */
+	/* on rÃ©cupÃ¨re ici les gÃ©nÃ©ralitÃ©s */
 
 	if ( !strcmp ( node_1 -> name,
 		       "Generalites" ) )
 	    recuperation_generalites_xml ( node_1 -> children );
 
-	/* on recupère ici les comptes et operations */
+	/* on recupÃ¨re ici les comptes et operations */
 
 	if ( !strcmp ( node_1 -> name,
 		       "Comptes" ))
 	    recuperation_comptes_xml ( node_1 -> children );
 
-	/* on recupère ici les echeances */
+	/* on recupÃ¨re ici les echeances */
 
 	if ( !strcmp ( node_1 -> name,
 		       "Echeances" ))
 	    recuperation_echeances_xml ( node_1 -> children );
 
-	/* on recupère ici les tiers */
+	/* on recupÃ¨re ici les tiers */
 
 	if ( !strcmp ( node_1 -> name,
 		       "Tiers" ))
 	    recuperation_tiers_xml ( node_1 -> children );
 
-	/* on recupère ici les categories */
+	/* on recupÃ¨re ici les categories */
 
 	if ( !strcmp ( node_1 -> name,
 		       "Categories" ))
 	    recuperation_categories_xml( node_1 -> children );
 
-	/* on recupère ici les imputations */
+	/* on recupÃ¨re ici les imputations */
 
 	if ( !strcmp ( node_1 -> name,
 		       "Imputations" ))
 	    recuperation_imputations_xml ( node_1 -> children );
 
-	/* on recupère ici les devises */
+	/* on recupÃ¨re ici les devises */
 
 	if ( !strcmp ( node_1 -> name,
 		       "Devises" ))
 	    recuperation_devises_xml ( node_1 -> children );
 
-	/* on recupère ici les banques */
+	/* on recupÃ¨re ici les banques */
 
 	if ( !strcmp ( node_1 -> name,
 		       "Banques" ))
 	    recuperation_banques_xml ( node_1 -> children );
 
-	/* on recupère ici les exercices */
+	/* on recupÃ¨re ici les exercices */
 
 	if ( !strcmp ( node_1 -> name,
 		       "Exercices" ))
 	    recuperation_exercices_xml( node_1 -> children );
 
-	/* on recupère ici les rapprochements */
+	/* on recupÃ¨re ici les rapprochements */
 
 	if ( !strcmp ( node_1 -> name,
 		       "Rapprochements" ))
 	    recuperation_rapprochements_xml ( node_1 -> children );
 
-	/* on recupère ici les etats */
+	/* on recupÃ¨re ici les etats */
 
 	if ( !strcmp ( node_1 -> name,
 		       "Etats" ))
@@ -581,7 +581,7 @@ gboolean charge_fichier_xml_grisbi ( xmlDocPtr doc )
 
     etat.en_train_de_charger = 0;
 
-    /* on libère la mémoire */
+    /* on libÃ¨re la mÃ©moire */
 
     xmlFreeDoc ( doc );
 
@@ -596,11 +596,11 @@ gboolean charge_fichier_xml_grisbi ( xmlDocPtr doc )
 /***********************************************************************************************************/
 void switch_t_r ( void )
 {
-/* cette fonction fait le tour des opérations et change le marquage T et R des opés */
+/* cette fonction fait le tour des opÃ©rations et change le marquage T et R des opÃ©s */
 /*     R devient pointe=3 */
 /*     T devient pointe=2 */
 
-/*     à n'appeler que pour une version antérieure à 0.5.1 */
+/*     Ã  n'appeler que pour une version antÃ©rieure Ã  0.5.1 */
 
     gint i;
 
@@ -644,8 +644,8 @@ void switch_t_r ( void )
 
 
 /***********************************************************************************************************/
-/* fonction qui charge les généralités dans un fichier xml grisbi */
-/* appelée quand la fonction de chargement retouver les généralités */
+/* fonction qui charge les gÃ©nÃ©ralitÃ©s dans un fichier xml grisbi */
+/* appelÃ©e quand la fonction de chargement retouver les gÃ©nÃ©ralitÃ©s */
 /***********************************************************************************************************/
 
 gboolean recuperation_generalites_xml ( xmlNodePtr node_generalites )
@@ -828,7 +828,7 @@ gboolean recuperation_comptes_xml ( xmlNodePtr node_comptes )
 
 	    while ( node_generalites )
 	    {
-		/* recupère l'ordre des comptes */
+		/* recupÃ¨re l'ordre des comptes */
 
 		if ( !strcmp ( node_generalites -> name,
 			       "Ordre_des_comptes" ))
@@ -861,7 +861,7 @@ gboolean recuperation_comptes_xml ( xmlNodePtr node_comptes )
 		    p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
 		}
 
-		/* recupère le compte courant */
+		/* recupÃ¨re le compte courant */
 
 		if ( !strcmp ( node_generalites -> name,
 			       "Compte_courant" ))
@@ -873,14 +873,14 @@ gboolean recuperation_comptes_xml ( xmlNodePtr node_comptes )
 	    }
 	}
 
-	/* on recupère les details de chaque compte */
+	/* on recupÃ¨re les details de chaque compte */
 
 	if ( !strcmp ( node_comptes -> name,
 		       "Compte" ))
 	{
 	    xmlNodePtr node_nom_comptes;
 
-	    /* normalement p_tab_nom_de_compte_variable est dejà place */
+	    /* normalement p_tab_nom_de_compte_variable est dejÃ  place */
 
 	    /* on cree la structure du compte */
 
@@ -893,7 +893,7 @@ gboolean recuperation_comptes_xml ( xmlNodePtr node_comptes )
 
 	    while ( node_nom_comptes )
 	    {
-		/* on recupère les details du compte */
+		/* on recupÃ¨re les details du compte */
 
 		if ( !strcmp ( node_nom_comptes -> name,
 			       "Details" ))
@@ -1060,7 +1060,7 @@ gboolean recuperation_comptes_xml ( xmlNodePtr node_comptes )
 					   "No_classement" ))
 				NO_CLASSEMENT = my_atoi ( xmlNodeGetContent ( node_detail ));
 
-			    /* récupération de l'agencement du formulaire */
+			    /* rÃ©cupÃ©ration de l'agencement du formulaire */
 
 			    if ( !strcmp ( node_detail -> name,
 					   "Nb_colonnes_formulaire" ))
@@ -1128,13 +1128,13 @@ gboolean recuperation_comptes_xml ( xmlNodePtr node_comptes )
 		    }
 		}
 
-		/* dans certains cas d'import qif, le nom du compte peut être nul */
-		/* dans ce cas le met à "" */
+		/* dans certains cas d'import qif, le nom du compte peut Ãªtre nul */
+		/* dans ce cas le met Ã  "" */
 
 		if ( !NOM_DU_COMPTE )
 		    NOM_DU_COMPTE = g_strdup ( "" );
 
-		/* on recupère ici le detail des types */
+		/* on recupÃ¨re ici le detail des types */
 
 		if ( !strcmp ( node_nom_comptes -> name,
 			       "Detail_de_Types" ))
@@ -1177,7 +1177,7 @@ gboolean recuperation_comptes_xml ( xmlNodePtr node_comptes )
 		}
 
 
-		/* on recupère ici le detail des opes */
+		/* on recupÃ¨re ici le detail des opes */
 
 		if ( !strcmp ( node_nom_comptes -> name,
 			       "Detail_des_operations" ))
@@ -1342,7 +1342,7 @@ gboolean recuperation_comptes_xml ( xmlNodePtr node_comptes )
 		}
 		node_nom_comptes = node_nom_comptes -> next;
 	    }
-	    /* 		    le compte est fini, on peut mettre à jour qques variables */
+	    /* 		    le compte est fini, on peut mettre Ã  jour qques variables */
 
 
 	    if ( SOLDE_COURANT < SOLDE_MINI_VOULU )
@@ -1374,7 +1374,7 @@ gboolean recuperation_comptes_xml ( xmlNodePtr node_comptes )
 
 
 /***********************************************************************************************************/
-/* fonction qui charge les échéances dans un fichier xml grisbi */
+/* fonction qui charge les Ã©chÃ©ances dans un fichier xml grisbi */
 /***********************************************************************************************************/
 
 gboolean recuperation_echeances_xml ( xmlNodePtr node_echeances )
@@ -1687,7 +1687,7 @@ gboolean recuperation_categories_xml ( xmlNodePtr node_categories )
 		    categorie -> no_derniere_sous_categ = my_atoi ( xmlGetProp ( node_detail,
 										 "No_derniere_sous_cagegorie" ));
 
-		    /*  pour chaque categorie, on recupère les sous-categories */
+		    /*  pour chaque categorie, on recupÃ¨re les sous-categories */
 
 		    categorie -> liste_sous_categ = NULL;
 		    node_sous_categ = node_detail -> children;
@@ -1788,7 +1788,7 @@ gboolean recuperation_imputations_xml ( xmlNodePtr node_imputations )
 		    imputation -> no_derniere_sous_imputation = my_atoi ( xmlGetProp ( node_detail,
 										       "No_derniere_sous_imputation" ));
 
-		    /*  pour chaque categorie, on recupère les sous-categories */
+		    /*  pour chaque categorie, on recupÃ¨re les sous-categories */
 
 		    imputation -> liste_sous_imputation = NULL;
 		    node_sous_imputation = node_detail -> children;
@@ -1896,8 +1896,8 @@ gboolean recuperation_devises_xml ( xmlNodePtr node_devises )
 			!strlen ( devise -> code_iso4217_devise ))
 			devise -> code_iso4217_devise = NULL;
 
-		    /* 	   la suite n'est utile que pour les anciennes devises qui sont passées à l'euro */
-		    /* 	non utilisées pour les autres */
+		    /* 	   la suite n'est utile que pour les anciennes devises qui sont passÃ©es Ã  l'euro */
+		    /* 	non utilisÃ©es pour les autres */
 
 		    devise -> passage_euro = my_atoi ( xmlGetProp ( node_detail,
 								    "Passage_euro" ));
@@ -2250,14 +2250,14 @@ gboolean recuperation_etats_xml ( xmlNodePtr node_etats )
 		liste_struct_etats = NULL;
 		node_detail = node_etats -> children;
 
-		/* on fait maintenant le tour de tous les états */
+		/* on fait maintenant le tour de tous les Ã©tats */
 
 		while ( node_detail )
 		{
 		    struct struct_etat *etat;
 		    xmlNodePtr node_detail_etat;
 
-		    /* création du nouvel état */
+		    /* crÃ©ation du nouvel Ã©tat */
 
 		    if ( node_detail -> type != XML_TEXT_NODE &&
 			 !strcmp ( node_detail -> name, "Etat") )
@@ -2265,7 +2265,7 @@ gboolean recuperation_etats_xml ( xmlNodePtr node_etats )
 			etat = calloc ( 1, sizeof ( struct struct_etat ));
 			node_detail_etat = node_detail -> children;
 
-			/* on récupère les données de l'état */
+			/* on rÃ©cupÃ¨re les donnÃ©es de l'Ã©tat */
 
 			while ( node_detail_etat )
 			{
@@ -2758,7 +2758,7 @@ gboolean recuperation_etats_xml ( xmlNodePtr node_etats )
 					    comp_textes -> montant_2 = my_atoi ( xmlGetProp ( node_comp_textes,
 											      "Mont_2" ));
 
-					    /* on a fini de remplir le détail de la comparaison, on l'ajoute à la liste */
+					    /* on a fini de remplir le dÃ©tail de la comparaison, on l'ajoute Ã  la liste */
 
 					    etat -> liste_struct_comparaison_textes = g_slist_append ( etat -> liste_struct_comparaison_textes,
 												       comp_textes );
@@ -2810,7 +2810,7 @@ gboolean recuperation_etats_xml ( xmlNodePtr node_etats )
 												  "Mont_2" ),
 										     NULL );
 
-					    /* on a fini de remplir le détail de la comparaison, on l'ajoute à la liste */
+					    /* on a fini de remplir le dÃ©tail de la comparaison, on l'ajoute Ã  la liste */
 
 					    etat -> liste_struct_comparaison_montants = g_slist_append ( etat -> liste_struct_comparaison_montants,
 													 comp_montants );
@@ -2850,7 +2850,7 @@ gboolean recuperation_etats_xml ( xmlNodePtr node_etats )
 			    node_detail_etat = node_detail_etat -> next;
 			}
 
-			/* on a fini de remplir l'état, on l'ajoute à la liste */
+			/* on a fini de remplir l'Ã©tat, on l'ajoute Ã  la liste */
 			liste_struct_etats = g_slist_append ( liste_struct_etats, etat );
 		    }
 		    node_detail = node_detail -> next;
@@ -2890,13 +2890,13 @@ gboolean enregistre_fichier ( gchar *nouveau_fichier )
     if ( DEBUG )
 	printf ( "enregistre_fichier : %s\n", nouveau_fichier );
 
-    /*     on ne se préocupe plus des ouvertures et autre à ce niveau */
-    /*     cette fonction enregistre le fichier sans avertissement(écrasement, fichier déjà ouvert...) */
-    /* 	tout doit être fait avant */
+    /*     on ne se prÃ©ocupe plus des ouvertures et autre Ã  ce niveau */
+    /*     cette fonction enregistre le fichier sans avertissement(Ã©crasement, fichier dÃ©jÃ  ouvert...) */
+    /* 	tout doit Ãªtre fait avant */
 
     
     /* on regarde ici si le fichier existe */
-    /*   s'il n'existe pas on mettre ses permissions à 600, sinon on les laisse comme ça */
+    /*   s'il n'existe pas on mettre ses permissions Ã  600, sinon on les laisse comme Ã§a */
 
     if ( stat ( nouveau_fichier,
 		&buffer_stat ) == -1 )
@@ -2918,7 +2918,7 @@ gboolean enregistre_fichier ( gchar *nouveau_fichier )
 				    "Grisbi",
 				    NULL );
 
-    /* on commence à ajouter les generalites */
+    /* on commence Ã  ajouter les generalites */
 
     node = xmlNewChild ( doc->children,
 			 NULL,
@@ -2991,7 +2991,7 @@ gboolean enregistre_fichier ( gchar *nouveau_fichier )
 		  "Caracteristiques_par_compte",
 		  itoa(etat.retient_affichage_par_compte));
 
-    /* creation de l'ordre de l'affichage des opés */
+    /* creation de l'ordre de l'affichage des opÃ©s */
 
     pointeur_char = NULL;
 
@@ -3030,7 +3030,7 @@ gboolean enregistre_fichier ( gchar *nouveau_fichier )
 		      "Rapport_largeur_col",
 		      pointeur_char );
 
-    /* creation des lignes affichées par caractéristiques */
+    /* creation des lignes affichÃ©es par caractÃ©ristiques */
 
     xmlNewTextChild ( node,
 		      NULL,
@@ -3059,14 +3059,14 @@ gboolean enregistre_fichier ( gchar *nouveau_fichier )
 		      pointeur_char );
 
 
-    /*     si on utilise un formulaire différent pour chaque compte */
+    /*     si on utilise un formulaire diffÃ©rent pour chaque compte */
 
     xmlNewChild ( node,
 		  NULL,
 		  "Formulaire_distinct_par_compte",
 		  itoa(etat.formulaire_distinct_par_compte));
 
-    /* creation des rapport largeurs colonnes de l'échéancier */
+    /* creation des rapport largeurs colonnes de l'Ã©chÃ©ancier */
 
     pointeur_char = NULL;
 
@@ -4278,7 +4278,7 @@ gboolean enregistre_fichier ( gchar *nouveau_fichier )
 
     /* c'est node_1 qui va contenir les generalites */
 
-    /* on n'a pas de generalites, peut être un jour ... */
+    /* on n'a pas de generalites, peut Ãªtre un jour ... */
 
     /*   node_1 = xmlNewChild ( node, */
     /* 			 NULL, */
@@ -5020,7 +5020,7 @@ gboolean enregistre_fichier ( gchar *nouveau_fichier )
 #endif
     resultat = xmlSaveFormatFile ( nouveau_fichier, doc, 1 );
 
-    /* on libère la memoire */
+    /* on libÃ¨re la memoire */
 
     xmlFreeDoc ( doc );
 
@@ -5032,7 +5032,7 @@ gboolean enregistre_fichier ( gchar *nouveau_fichier )
     }
 
 
-    /* si c'est un nouveau fichier, on met à 600 ses permissions */
+    /* si c'est un nouveau fichier, on met Ã  600 ses permissions */
 
     if ( mettre_permission )
 	chmod ( nouveau_fichier,
@@ -5048,7 +5048,7 @@ gboolean enregistre_fichier ( gchar *nouveau_fichier )
 
 
 /***********************************************************************************************************/
-/* crée ou supprime un fichier du nom .nom.swp */
+/* crÃ©e ou supprime un fichier du nom .nom.swp */
 /* renvoie true si ok */
 /***********************************************************************************************************/
 
@@ -5062,9 +5062,9 @@ gboolean modification_etat_ouverture_fichier ( gboolean fichier_ouvert )
 
 
     /*     on efface et on recommence... bon, changement de technique : lors de l'ouverture */
-    /* 	d'un fichier, on crée un fichier .nom.swp qu'on efface à sa fermeture */
+    /* 	d'un fichier, on crÃ©e un fichier .nom.swp qu'on efface Ã  sa fermeture */
 
-    /*     si on ne force pas l'enregistrement et si le fichier était déjà ouvert, on ne fait rien */
+    /*     si on ne force pas l'enregistrement et si le fichier Ã©tait dÃ©jÃ  ouvert, on ne fait rien */
 
     if ( (etat.fichier_deja_ouvert
 	  &&
@@ -5073,7 +5073,7 @@ gboolean modification_etat_ouverture_fichier ( gboolean fichier_ouvert )
 	 !nom_fichier_comptes )
 	return TRUE;
 
-    /*     on commence par vérifier que le fichier de nom_fichier_comptes existe bien */
+    /*     on commence par vÃ©rifier que le fichier de nom_fichier_comptes existe bien */
 
     result = stat ( nom_fichier_comptes, &buffer_stat);
 
@@ -5086,7 +5086,7 @@ gboolean modification_etat_ouverture_fichier ( gboolean fichier_ouvert )
     }
 
 
-    /*     création du nom du fichier swp */
+    /*     crÃ©ation du nom du fichier swp */
 
     tab_str = g_strsplit ( nom_fichier_comptes,
 			   "/",
@@ -5105,16 +5105,16 @@ gboolean modification_etat_ouverture_fichier ( gboolean fichier_ouvert )
 				   tab_str );
     g_strfreev ( tab_str );
 
-    /*     maintenant on sépare entre l'effacement ou la création du fichier swp */
+    /*     maintenant on sÃ©pare entre l'effacement ou la crÃ©ation du fichier swp */
 
     if ( fichier_ouvert )
     {
-	/* 	on ouvre le fichier, donc on crée le fichier de lock */
+	/* 	on ouvre le fichier, donc on crÃ©e le fichier de lock */
 
 	FILE *fichier;
 
-	/* 	commence par tester si ce fichier existe, si c'est le cas on prévient l'utilisateur */
-	/* 	    avec possibilité d'annuler l'action ou d'effacer le fichier de lock */
+	/* 	commence par tester si ce fichier existe, si c'est le cas on prÃ©vient l'utilisateur */
+	/* 	    avec possibilitÃ© d'annuler l'action ou d'effacer le fichier de lock */
 
 	result = stat ( nom_fichier_lock, &buffer_stat);
 
@@ -5127,7 +5127,7 @@ gboolean modification_etat_ouverture_fichier ( gboolean fichier_ouvert )
 					_("Either this file is already opened by another user or it wasn't closed correctly (maybe Grisbi crashed?).\nGrisbi can't save the file unless you activate the \"Force saving locked files\" option in setup."),
 					&(etat.display_message_lock_active) );
 	    
-	    /* 	    on retourne true, vu que le fichier est déjà créé et qu'on a prévenu */
+	    /* 	    on retourne true, vu que le fichier est dÃ©jÃ  crÃ©Ã© et qu'on a prÃ©venu */
 
 	    etat.fichier_deja_ouvert = 1;
 	    return TRUE;
@@ -5151,18 +5151,18 @@ gboolean modification_etat_ouverture_fichier ( gboolean fichier_ouvert )
     }
     else
     {
-	/* 	on ferme le fichier, donc on détruit le fichier de lock */
+	/* 	on ferme le fichier, donc on dÃ©truit le fichier de lock */
 
 	etat.fichier_deja_ouvert = 0;
 
-	/* 	on vérifie d'abord que ce fichier existe */
+	/* 	on vÃ©rifie d'abord que ce fichier existe */
 
 	result = stat ( nom_fichier_lock, &buffer_stat);
 
 	if ( result == -1 )
 	{
 	    /* 	    le fichier de lock n'existe */
-	    /* 	    on s'en fout, de toute façon fallait le virer, on s'en va */
+	    /* 	    on s'en fout, de toute faÃ§on fallait le virer, on s'en va */
 
 	    return TRUE;
 	}
@@ -5203,7 +5203,7 @@ gboolean enregistre_categ ( gchar *nom_categ )
 				    "Grisbi_categ",
 				    NULL );
 
-    /* on commence à ajouter les generalites */
+    /* on commence Ã  ajouter les generalites */
 
     node = xmlNewChild ( doc->children,
 			 NULL,
@@ -5290,7 +5290,7 @@ gboolean enregistre_categ ( gchar *nom_categ )
     resultat = xmlSaveFile ( nom_categ,
 			     doc );
 
-    /* on libÃ¨re la memoire */
+    /* on libÃƒÅ¡re la memoire */
 
     xmlFreeDoc ( doc );
 
@@ -5323,7 +5323,7 @@ gboolean charge_categ ( gchar *nom_categ )
 
     if ( doc )
     {
-	/* vérifications d'usage */
+	/* vÃ©rifications d'usage */
 
 	xmlNodePtr root = xmlDocGetRootElement(doc);
 
@@ -5339,7 +5339,7 @@ gboolean charge_categ ( gchar *nom_categ )
 	    return ( FALSE );
 	}
 
-	/* récupère la version de fichier */
+	/* rÃ©cupÃ¨re la version de fichier */
 	if (( strcmp (  xmlNodeGetContent ( root->children->next->children->next ), VERSION_FICHIER_CATEG )))
 	  {
 	    dialogue_warning_hint ( g_strdup_printf (_("This budgetary lines list has been produced with grisbi version %s, Grisbi will nevertheless try to import it."), xmlNodeGetContent ( root->children->next->children->next )),
@@ -5356,8 +5356,8 @@ gboolean charge_categ ( gchar *nom_categ )
 			 "0.5.0" )))
 	    return ( charge_categ_version_0_4_0 ( doc ));
 
-	/* 	à ce niveau, c'est que que la version n'est pas connue de grisbi, on donne alors */
-	/* la version nécessaire pour l'ouvrir */
+	/* 	Ã  ce niveau, c'est que que la version n'est pas connue de grisbi, on donne alors */
+	/* la version nÃ©cessaire pour l'ouvrir */
 
 	dialogue_error ( g_strdup_printf ( _("Grisbi version %s is needed to open this file"),
 					   xmlNodeGetContent ( doc->children->children->children->next )));
@@ -5404,13 +5404,13 @@ gboolean charge_categ_version_0_4_0 ( xmlDocPtr doc )
 
 	    while ( node_generalites )
 	    {
-		/* rien pour l'instant, peut être un jour ? */
+		/* rien pour l'instant, peut Ãªtre un jour ? */
 
 		node_generalites = node_generalites -> next;
 	    }
 	}
 
-	/* on recupère ici les catég */
+	/* on recupÃ¨re ici les catÃ©g */
 
 	if ( !strcmp ( node -> name,
 		       "Details_des_categories" ))
@@ -5428,9 +5428,9 @@ gboolean charge_categ_version_0_4_0 ( xmlDocPtr doc )
 		if ( node_detail -> type != XML_TEXT_NODE )
 		{
 
-		    /* 	      on doit réaliser une fusion, pour ça, soit la catég existe, et on fait le */
-		    /* tour des sous catég en ajoutant celles qui n'existent pas, soit elle n'existe pas et on */
-		    /* ajoute la catég et ses sous categ */
+		    /* 	      on doit rÃ©aliser une fusion, pour Ã§a, soit la catÃ©g existe, et on fait le */
+		    /* tour des sous catÃ©g en ajoutant celles qui n'existent pas, soit elle n'existe pas et on */
+		    /* ajoute la catÃ©g et ses sous categ */
 
 		    liste_tmp = g_slist_find_custom ( liste_struct_categories,
 						      xmlGetProp ( node_detail,
@@ -5439,7 +5439,7 @@ gboolean charge_categ_version_0_4_0 ( xmlDocPtr doc )
 
 		    if ( liste_tmp )
 		    {
-			/* 		  la catégorie existe, on fait le tour des sous catégories */
+			/* 		  la catÃ©gorie existe, on fait le tour des sous catÃ©gories */
 
 			categorie = liste_tmp -> data;
 
@@ -5452,7 +5452,7 @@ gboolean charge_categ_version_0_4_0 ( xmlDocPtr doc )
 
 			    if ( node_sous_categ -> type != XML_TEXT_NODE )
 			    {
-				/* on ne prend la sous catég que si elle n'existe pas */
+				/* on ne prend la sous catÃ©g que si elle n'existe pas */
 
 				liste_tmp_2 = g_slist_find_custom ( categorie -> liste_sous_categ,
 								    xmlGetProp ( node_sous_categ,
@@ -5479,7 +5479,7 @@ gboolean charge_categ_version_0_4_0 ( xmlDocPtr doc )
 		    }
 		    else
 		    {
-			/* la catégorie n'existe pas, on l'ajoute */
+			/* la catÃ©gorie n'existe pas, on l'ajoute */
 
 
 			categorie = calloc ( 1,
@@ -5495,7 +5495,7 @@ gboolean charge_categ_version_0_4_0 ( xmlDocPtr doc )
 			categorie -> no_derniere_sous_categ = my_atoi ( xmlGetProp ( node_detail,
 										  "No_derniere_sous_cagegorie" ));
 
-			/*  pour chaque categorie, on recupère les sous-categories */
+			/*  pour chaque categorie, on recupÃ¨re les sous-categories */
 
 			categorie -> liste_sous_categ = NULL;
 			node_sous_categ = node_detail -> children;
@@ -5531,7 +5531,7 @@ gboolean charge_categ_version_0_4_0 ( xmlDocPtr doc )
 	node = node -> next;
     }
 
-    /* on libère la memoire */
+    /* on libÃ¨re la memoire */
 
     xmlFreeDoc ( doc );
 
@@ -5575,7 +5575,7 @@ gboolean enregistre_ib ( gchar *nom_ib )
 				    "Grisbi_ib",
 				    NULL );
 
-    /* on commence à ajouter les generalites */
+    /* on commence Ã  ajouter les generalites */
 
     node = xmlNewChild ( doc->children,
 			 NULL,
@@ -5663,7 +5663,7 @@ gboolean enregistre_ib ( gchar *nom_ib )
 				   doc,
 				   1 );
 
-    /* on libère la memoire */
+    /* on libÃ¨re la memoire */
 
     xmlFreeDoc ( doc );
 
@@ -5692,7 +5692,7 @@ gboolean charge_ib ( gchar *nom_ib )
 
     if ( doc )
     {
-	/* vérifications d'usage */
+	/* vÃ©rifications d'usage */
 
 	xmlNodePtr root = xmlDocGetRootElement(doc);
 	    
@@ -5708,7 +5708,7 @@ gboolean charge_ib ( gchar *nom_ib )
 	    return ( FALSE );
 	}
 
-	/* récupère la version de fichier */
+	/* rÃ©cupÃ¨re la version de fichier */
 
 	if (( !strcmp (  xmlNodeGetContent ( root->children->next->children->next ),
 			 "0.4.0" )))
@@ -5720,8 +5720,8 @@ gboolean charge_ib ( gchar *nom_ib )
 			 "0.5.0" )))
 	    return ( charge_ib_version_0_4_0 ( doc ));
 
-	/* 	à ce niveau, c'est que que la version n'est pas connue de grisbi, on donne alors */
-	/* la version nÃ©cessaire pour l'ouvrir */
+	/* 	Ã  ce niveau, c'est que que la version n'est pas connue de grisbi, on donne alors */
+	/* la version nÃƒÂ©cessaire pour l'ouvrir */
 
 	if (( strcmp (  xmlNodeGetContent ( root->children->next->children->next ), VERSION_FICHIER_IB )))
 	  {
@@ -5770,14 +5770,14 @@ gboolean charge_ib_version_0_4_0 ( xmlDocPtr doc )
 
 	    while ( node_generalites )
 	    {
-		/* rien pour l'instant, peut être un jour ? */
+		/* rien pour l'instant, peut Ãªtre un jour ? */
 
 
 		node_generalites = node_generalites -> next;
 	    }
 	}
 
-	/* on recupère ici les ib */
+	/* on recupÃ¨re ici les ib */
 
 	if ( !strcmp ( node -> name,
 		       "Details_des_ib" ))
@@ -5795,7 +5795,7 @@ gboolean charge_ib_version_0_4_0 ( xmlDocPtr doc )
 		if ( node_detail -> type != XML_TEXT_NODE )
 		{
 
-		    /* 	      on doit réaliser une fusion, pour ça, soit l'ib existe, et on fait le */
+		    /* 	      on doit rÃ©aliser une fusion, pour Ã§a, soit l'ib existe, et on fait le */
 		    /* tour des sous ib en ajoutant celles qui n'existent pas, soit elle n'existe pas et on */
 		    /* ajoute l'ib et ses sous ib */
 
@@ -5807,7 +5807,7 @@ gboolean charge_ib_version_0_4_0 ( xmlDocPtr doc )
 
 		    if ( liste_tmp )
 		    {
-			/* 		  la catégorie existe, on fait le tour des sous catégories */
+			/* 		  la catÃ©gorie existe, on fait le tour des sous catÃ©gories */
 
 			ib = liste_tmp -> data;
 
@@ -5820,7 +5820,7 @@ gboolean charge_ib_version_0_4_0 ( xmlDocPtr doc )
 
 			    if ( node_sous_ib -> type != XML_TEXT_NODE )
 			    {
-				/* on ne prend la sous catég que si elle n'existe pas */
+				/* on ne prend la sous catÃ©g que si elle n'existe pas */
 
 				liste_tmp_2 = g_slist_find_custom ( ib -> liste_sous_imputation,
 								    latin2utf8(xmlGetProp ( node_sous_ib,
@@ -5863,7 +5863,7 @@ gboolean charge_ib_version_0_4_0 ( xmlDocPtr doc )
 			ib -> no_derniere_sous_imputation = my_atoi ( latin2utf8(xmlGetProp ( node_detail,
 											   "No_derniere_sous_imputation" )));
 
-			/*  pour chaque ib, on recupère les sous-ib */
+			/*  pour chaque ib, on recupÃ¨re les sous-ib */
 
 			ib -> liste_sous_imputation = NULL;
 			node_sous_ib = node_detail -> children;
@@ -5898,7 +5898,7 @@ gboolean charge_ib_version_0_4_0 ( xmlDocPtr doc )
 	node = node -> next;
     }
 
-    /* on libère la memoire */
+    /* on libÃ¨re la memoire */
 
     xmlFreeDoc ( doc );
 

@@ -57,7 +57,7 @@ static gboolean leaving_button_while_dragging ( GtkWidget *button,
   don't expect this to be widely used, so... */
 GtkListButton *groups[16] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
-/* id du signal appelé pendant un drag */
+/* id du signal appelÃ© pendant un drag */
 
 gulong id_signal_drag_and_drop;
 
@@ -65,11 +65,11 @@ gulong id_signal_drag_and_drop;
 
 GtkWidget *dragging_button = NULL;
 
-/* utilisé pour différencier un click d'un drag quand le drag est actif */
+/* utilisÃ© pour diffÃ©rencier un click d'un drag quand le drag est actif */
 
 gint moved;
 
-/* utilisé à la création du list_button pour passer can_drag à la fonction gtk_list_button_init */
+/* utilisÃ© Ã  la crÃ©ation du list_button pour passer can_drag Ã  la fonction gtk_list_button_init */
 
 gint list_button_can_drag;
 
@@ -181,7 +181,7 @@ GtkWidget *gtk_list_button_new ( gchar * text, int group, int can_drag, gpointer
 {
     GtkListButton *list_button;
 
-    /* FIXME : comme je sais pas comment passer l'argument can_drag à gtk_list_button_init */
+    /* FIXME : comme je sais pas comment passer l'argument can_drag Ã  gtk_list_button_init */
     /* 	    je le mets en variable globale */
 
     list_button_can_drag = can_drag;
@@ -304,8 +304,8 @@ gboolean gtk_list_button_destroy ( GtkListButton * listbutton )
 
 
 /* *********************************************************************************************************** */
-/* cette fonction est appelée lorsqu'on presse un button de compte */
-/* elle permet de débuter un drag and drop  */
+/* cette fonction est appelÃ©e lorsqu'on presse un button de compte */
+/* elle permet de dÃ©buter un drag and drop  */
 /* *********************************************************************************************************** */
 gboolean gtk_list_button_press_event ( GtkWidget *button,
 				       GdkEventButton *ev )
@@ -317,16 +317,16 @@ gboolean gtk_list_button_press_event ( GtkWidget *button,
 	gtk_list_button_release_event ( button,
 					ev );
     
-    /*     on récupère maintenant le bouton qu'on va dragger */
+    /*     on rÃ©cupÃšre maintenant le bouton qu'on va dragger */
 
     dragging_button = button;
 
-    /* pour que le drag fonctionne bien, les boutons doivent être accolés, ce qu'on fait */
+    /* pour que le drag fonctionne bien, les boutons doivent Ãªtre accolÃ©s, ce qu'on fait */
     /*     ici, et s'ils ne le sont pas on met un warning */
 
     if ( gtk_box_get_spacing ( GTK_BOX ( dragging_button -> parent )))
     {
-	/* 	le spacing de la vbox est > 0, on le met à 0 */
+	/* 	le spacing de la vbox est > 0, on le met Ã  0 */
 
 	gtk_box_set_spacing ( GTK_BOX ( dragging_button -> parent ),
 			      0 );
@@ -355,7 +355,7 @@ gboolean gtk_list_button_press_event ( GtkWidget *button,
 				      &pack_type );
 	if ( padding )
 	{
-	    printf ( "Warning : the padding of the button n°%d was not 0.\nIt is necessary to permit to drag the buttons\nIt's done.\n",
+	    printf ( "Warning : the padding of the button nÂ°%d was not 0.\nIt is necessary to permit to drag the buttons\nIt's done.\n",
 		     g_list_position ( GTK_BOX ( dragging_button -> parent ) -> children,
 				       liste_tmp ));
 	    padding = 0;
@@ -382,8 +382,8 @@ gboolean gtk_list_button_press_event ( GtkWidget *button,
 		       NULL,
 		       ev -> time );
 
-    /*     moved est utilisé pour fair la différence entre un click et un grab */
-    /* 	il sera mis à 1 si on déplace le compte  */
+    /*     moved est utilisÃ© pour fair la diffÃ©rence entre un click et un grab */
+    /* 	il sera mis Ã  1 si on dÃ©place le compte  */
 
     moved = 0;
 
@@ -397,7 +397,7 @@ gboolean gtk_list_button_press_event ( GtkWidget *button,
 
 
 /* *********************************************************************************************************** */
-/* cette fonction est appelée lorsqu'on lache un button de compte */
+/* cette fonction est appelÃ©e lorsqu'on lache un button de compte */
 /* elle permet de finir un drag and drop  */
 /* *********************************************************************************************************** */
 gboolean gtk_list_button_release_event ( GtkWidget *button,
@@ -415,7 +415,7 @@ gboolean gtk_list_button_release_event ( GtkWidget *button,
 				  id_signal_drag_and_drop );
 
 
-    /*     si on n'a pas bougé le bouton, c'est que c'est un click */
+    /*     si on n'a pas bougÃ© le bouton, c'est que c'est un click */
 
     if ( moved )
 	g_signal_emit_by_name ( G_OBJECT ( dragging_button ),
@@ -434,7 +434,7 @@ gboolean gtk_list_button_release_event ( GtkWidget *button,
 
 
 /* *********************************************************************************************************** */
-/* ces fonction est appelée pendant un drag and drop si la souris sort */
+/* ces fonction est appelÃ©e pendant un drag and drop si la souris sort */
 /* du button en cours de drag */
 /* *********************************************************************************************************** */
 gint search_child_in_box ( GtkBoxChild *box_child,
@@ -455,7 +455,7 @@ gboolean leaving_button_while_dragging ( GtkWidget *button,
     gint height_dragging_button;
 
 
-    /*     si dragging_button est NULL, on ne devrait pas être ici... */
+    /*     si dragging_button est NULL, on ne devrait pas Ãªtre ici... */
 
     if ( !dragging_button )
 	return FALSE;
@@ -472,11 +472,11 @@ gboolean leaving_button_while_dragging ( GtkWidget *button,
 	 y < dragging_button -> allocation.height )
 	return FALSE;
 
-    /*     on met moved à 1 pour éviter que le grab soit pris pour un click */
+    /*     on met moved Ã  1 pour Ã©viter que le grab soit pris pour un click */
 
     moved = 1;
 
-    /*     on récupère la fenetre ici car si l'event fin press button est réalisé, */
+    /*     on rÃ©cupÃšre la fenetre ici car si l'event fin press button est rÃ©alisÃ©, */
     /*     dragging_button devient null et plantage... */
 
     dragging_button_init = dragging_button;
@@ -484,8 +484,8 @@ gboolean leaving_button_while_dragging ( GtkWidget *button,
     dragging_parent = dragging_button -> parent;
     height_dragging_button = dragging_button -> allocation.height;
 
-    /* on récupère maintenant les coordonnées du pointeur dans */
-    /*     la vbox (le pointeur est bloqué dans cette window )*/
+    /* on rÃ©cupÃšre maintenant les coordonnÃ©es du pointeur dans */
+    /*     la vbox (le pointeur est bloquÃ© dans cette window )*/
 
     gdk_window_get_pointer ( dragging_window,
 			     &x,
@@ -496,7 +496,7 @@ gboolean leaving_button_while_dragging ( GtkWidget *button,
 			      &x_widget,
 			      &y_widget );
 
-    /*     on récupère la place du dragging_button dans la vbox */
+    /*     on rÃ©cupÃšre la place du dragging_button dans la vbox */
     /*     et le nb de boutons dans la vbox */
 
     position = g_list_position ( GTK_BOX ( dragging_parent ) -> children,
@@ -507,11 +507,11 @@ gboolean leaving_button_while_dragging ( GtkWidget *button,
 
 
     if ( position == -1 )
-	/* 	juste une protection au cas où, mais ne devrait jamais arriver (comme les bugs...) */
+	/* 	juste une protection au cas oÃ¹, mais ne devrait jamais arriver (comme les bugs...) */
 	return FALSE;
 
 
-    /*     on va déplacer le dragging_button pour qu'il atteigne le pointeur */
+    /*     on va dÃ©placer le dragging_button pour qu'il atteigne le pointeur */
 
     if ( y < y_widget )
     {
@@ -560,9 +560,9 @@ gboolean leaving_button_while_dragging ( GtkWidget *button,
 	}
     }				    
 
-/*     si y > à y_widget + height_dragging_button à ce niveau, c'est que la souris */
+/*     si y > Ã  y_widget + height_dragging_button Ã  ce niveau, c'est que la souris */
 /* 	est en dessous du dernier bouton dans la box du parent */
-/* 	on fait perdre le grab sinon ne récupère pas le bouton release event */
+/* 	on fait perdre le grab sinon ne rÃ©cupÃšre pas le bouton release event */
 
     if ( y > y_widget + height_dragging_button )
 	gtk_list_button_release_event ( button,
@@ -576,7 +576,7 @@ gboolean leaving_button_while_dragging ( GtkWidget *button,
 				
 
 /* *********************************************************************************************************** */
-/* retourne la donnée donnée à la création du bouton */
+/* retourne la donnÃ©e donnÃ©e Ã  la crÃ©ation du bouton */
 /* *********************************************************************************************************** */
 gpointer gtk_list_button_get_data ( GtkListButton *button )
 {
