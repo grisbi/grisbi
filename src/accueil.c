@@ -267,7 +267,6 @@ void change_temps ( GtkWidget *label_temps )
 {
     gchar tampon_date [50], * tampon;
     time_t date;
-    GError *error = NULL;
 
     time ( &date );
     strftime ( tampon_date,
