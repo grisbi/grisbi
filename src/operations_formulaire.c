@@ -1816,25 +1816,11 @@ void completion_operation_par_tiers ( void )
 
 	/* affiche la question de récupération */
 
-	dialog = gtk_dialog_new_with_buttons ( _("Recover breakdown?"),
-					       GTK_WINDOW (window),
-					       GTK_DIALOG_MODAL,
-					       GTK_STOCK_YES,0,
-					       GTK_STOCK_NO,1,
-					       NULL );
+	result = question_yes_no_hint ( _("Recover breakdown?"),
+					_("Do you want to recover all the lines of the last breakdown?") );
 
-	label = gtk_label_new ( _("Do you want to recover all the lines of the last breakdown?") );
-	gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox ),
-			     label,
-			     FALSE,
-			     FALSE,
-			     5 );
-	gtk_widget_show ( label );
 
-	result = gtk_dialog_run ( GTK_DIALOG ( dialog ));
-	gtk_widget_destroy ( dialog );
-
-	if ( !result )
+	if ( result )
 	{
 	    /* récupération des anciennes opés de la ventilation */
 
@@ -1864,6 +1850,7 @@ void completion_operation_par_tiers ( void )
 		    if ( ope_test -> notes )
 			nouvelle_operation -> notes = g_strdup ( ope_test -> notes );
 
+		    nouvelle_operation -> no_exercice = ope_test -> no_exercice;
 		    nouvelle_operation -> imputation = ope_test -> imputation;
 		    nouvelle_operation -> sous_imputation = ope_test -> sous_imputation;
 
