@@ -35,6 +35,7 @@
 #include "operations_liste.h"
 #include "utils_devises.h"
 #include "utils_montants.h"
+#include "utils_editables.h"
 #include "utils_categories.h"
 #include "type_operations.h"
 #include "devises.h"
@@ -44,7 +45,6 @@
 #include "utils_dates.h"
 #include "gtk_combofix.h"
 #include "utils_ib.h"
-#include "utils_editables.h"
 #include "utils_str.h"
 #include "menu.h"
 #include "categories_onglet.h"
@@ -2907,15 +2907,13 @@ void recuperation_donnees_generales_formulaire ( struct structure_operation *ope
 		case TRANSACTION_FORM_DEBIT:
 
 		    if ( gtk_widget_get_style ( widget ) == style_entree_formulaire[ENCLAIR] )
-			operation -> montant = -my_strtod ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( widget )),
-							    NULL );
+			operation -> montant = -calcule_total_entree ( widget );
 		    break;
 
 		case TRANSACTION_FORM_CREDIT:
 
 		    if ( gtk_widget_get_style ( widget ) == style_entree_formulaire[ENCLAIR] )
-			operation -> montant = my_strtod ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( widget )),
-							   NULL );
+			operation -> montant = calcule_total_entree ( widget );
 		    break;
 
 		case TRANSACTION_FORM_BUDGET:

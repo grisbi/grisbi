@@ -31,6 +31,7 @@
 
 /*START_INCLUDE*/
 #include "echeancier_ventilation.h"
+#include "utils_editables.h"
 #include "utils_categories.h"
 #include "utils_exercices.h"
 #include "type_operations.h"
@@ -44,7 +45,6 @@
 #include "utils_ib.h"
 #include "categories_onglet.h"
 #include "imputation_budgetaire.h"
-#include "utils_str.h"
 #include "utils_comptes.h"
 #include "operations_liste.h"
 #include "echeancier_liste.h"
@@ -1818,11 +1818,9 @@ void fin_edition_ventilation_echeances ( void )
 
     if ( gtk_widget_get_style ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_DEBIT] ) == style_entree_formulaire[ENCLAIR] )
 	/* c'est un débit */
-	operation -> montant = -my_strtod ( g_strstrip ( (char *) gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_DEBIT] ))),
-					    NULL );
+	operation -> montant = -calcule_total_entree ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_DEBIT] );
     else
-	operation -> montant = my_strtod ( g_strstrip ( (char *) gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CREDIT] ))),
-					   NULL );
+	operation -> montant = calcule_total_entree ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CREDIT] );
 
 
 

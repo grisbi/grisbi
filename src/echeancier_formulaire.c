@@ -31,6 +31,7 @@
 #include "echeancier_formulaire.h"
 #include "exercice.h"
 #include "operations_formulaire.h"
+#include "utils_editables.h"
 #include "utils_categories.h"
 #include "comptes_traitements.h"
 #include "utils_exercices.h"
@@ -1631,11 +1632,9 @@ void fin_edition_echeance ( void )
 	/* récupération du montant */
 
 	if ( gtk_widget_get_style ( widget_formulaire_echeancier[SCHEDULER_FORM_DEBIT] ) == style_entree_formulaire[ENCLAIR] )
-	    echeance -> montant = -my_strtod ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_echeancier[SCHEDULER_FORM_DEBIT] ))),
-					       NULL );
+	    echeance -> montant = -calcule_total_entree (widget_formulaire_echeancier[SCHEDULER_FORM_DEBIT] );
 	else
-	    echeance -> montant = my_strtod ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_echeancier[SCHEDULER_FORM_CREDIT] ))),
-					      NULL );
+	    echeance -> montant = calcule_total_entree (widget_formulaire_echeancier[SCHEDULER_FORM_CREDIT] );
 
 	/* récupération de la devise */
 

@@ -224,8 +224,12 @@ gboolean fichier_choisi_importation ( GtkWidget *fenetre )
 	/*       chacune des fonctions récupèrent les infos du compte et les opés, et ajoutent la struct_compte_importation */
 	/* 	à liste_comptes_importes */
 
-	get_line_from_file ( fichier,
-			     &pointeur_char );
+	/* 	certains fichiers contiennent une ligne blanche au début... */
+
+	do
+	    get_line_from_file ( fichier,
+				 &pointeur_char );
+	while ( strlen ( pointeur_char ) == 1 );
 
 
 	if ( g_strrstr ( pointeur_char,
