@@ -532,7 +532,7 @@ void fill_currency_list ( GtkTreeView * view, gboolean include_obsolete )
     GtkTreeModel * model;
     GtkTreeIter iter, child_iter;
     gchar ** continent;
-    struct iso_4217_currency * currency= iso_4217_currencies;
+    struct iso_4217_currency * currency = iso_4217_currencies;
     gchar * continents[] = {
 	N_("Africa"),
 	N_("Asia"),
@@ -717,7 +717,6 @@ GtkWidget * new_currency_list ()
 void ajout_devise ( GtkWidget *widget )
 {
     GtkWidget *dialog, *label, *table;
-    GtkWidget *entree_conversion_euro;
     GtkWidget *list, *paddingbox;
     struct struct_devise *devise;
     gchar *nom_devise, *code_devise, *code_iso4217_devise;
@@ -835,33 +834,11 @@ reprise_dialog:
 		     ||
 		     devise_par_code_iso ( code_iso4217_devise ))
 		{
-		    dialogue ( _("The currency already exists..." ));
+		    dialogue ( _("Currency already exists." ));
 		    goto reprise_dialog;
 		}
 
-		devise = malloc ( sizeof ( struct struct_devise ));
-		devise -> nom_devise = nom_devise;
-		devise -> code_devise = code_devise;
-		devise -> code_iso4217_devise = code_iso4217_devise;
-		devise -> passage_euro = 0;
-		devise -> no_devise_en_rapport = 0;
-		devise -> date_dernier_change = NULL;
-		devise -> une_devise_1_egale_x_devise_2 = 0;
-
-		if ( devise -> passage_euro )
-		    devise -> change = my_strtod ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree_conversion_euro ))),
-						   NULL );
-		else
-		    devise -> change = 0;
-
-
-		/* 	  si le widget n'est pas nul, c'est une clist, c'est que l'appel vient du menu de configuration, */
-		/* on met la liste ра jour et on ajoute la devise ра liste_struct_devises */
-
-		devise -> no_devise = ++no_derniere_devise;
-		liste_struct_devises = g_slist_append ( liste_struct_devises,
-							devise );
-		nb_devises++;
+		devise = create_currency ( nom_devise, code_devise, code_iso4217_devise);
 
 		if ( widget )
 		{
@@ -1864,3 +1841,47 @@ gchar * devise_name ( struct struct_devise * devise )
 }
 /* ***************************************************************************************** */
 
+
+struct struct_devise *
+create_currency ( gchar * nom_devise, gchar * code_devise, gchar * code_iso4217_devise )
+{
+  struct struct_devise * devise;
+  
+  devise = malloc ( sizeof ( struct struct_devise ));
+  devise -> nom_devise = nom_devise;
+  devise -> code_devise = code_devise;
+  devise -> code_iso4217_devise = code_iso4217_devise;
+  devise -> passage_euro = 0;
+  devise -> no_devise_en_rapport = 0;
+  devise -> date_dernier_change = NULL;
+  devise -> une_devise_1_egale_x_devise_2 = 0;
+
+  devise -> change = 0;
+
+
+  /* 	  si le widget n'est pas nul, c'est une clist, c'est que l'appel vient du menu de configuration, */
+  /* on met la liste ра jour et on ajoute la devise ра liste_struct_devises */
+
+  devise -> no_devise = ++no_derniere_devise;
+  liste_struct_devises = g_slist_append ( liste_struct_devises, devise );
+  nb_devises++;
+
+  return devise;
+}
+
+
+struct struct_devise * find_currency_from_iso4217_list ( gchar * currency_name )
+{
+  struct iso_4217_currency * currency = iso_4217_currencies;
+
+  while ( currency -> country_name )
+    {
+      if ( !strcmp ( currency -> currency_code, currency_name ) )
+	return create_currency ( currency -> currency_name, 
+				 currency -> currency_nickname, 
+				 currency -> currency_code );
+      currency++;
+    }
+
+  return NULL;
+}
