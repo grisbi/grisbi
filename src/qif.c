@@ -139,7 +139,6 @@ gboolean recuperation_donnees_qif ( FILE *fichier )
 	{
 	    if ( !pas_le_premier_compte )
 	    {
-		dialogue ( _("This file is empty!") );
 		return FALSE;
 	    }
 	    else
@@ -312,7 +311,6 @@ gboolean recuperation_donnees_qif ( FILE *fichier )
 	    free (compte);
 	    if ( !pas_le_premier_compte )
 	    {
-		dialogue ( _("This file is empty!") );
 		return (FALSE);
 	    }
 	    else

@@ -86,8 +86,7 @@ gboolean recuperation_donnees_ofx ( gchar *nom_fichier )
 
     if ( !compte_ofx_importation_en_cours )
     {
-	dialogue_error ( _("The new account has not been created."));
-	return ( FALSE );
+      return ( FALSE );
     }
 
     if ( erreur_import_ofx )
