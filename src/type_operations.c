@@ -30,10 +30,10 @@
 enum payment_methods_columns {
   PAYMENT_METHODS_NAME_COLUMN = 0,
   PAYMENT_METHODS_NUMBERING_COLUMN,
-  PAYMENT_METHODS_TYPE_COLUMN,
   PAYMENT_METHODS_DEFAULT_COLUMN,
-  PAYMENT_METHODS_ACTIVABLE_COLUMN,
+  PAYMENT_METHODS_TYPE_COLUMN,
   PAYMENT_METHODS_VISIBLE_COLUMN,
+  PAYMENT_METHODS_ACTIVABLE_COLUMN,
   NUM_PAYMENT_METHODS_COLUMNS,
 };
 
@@ -50,8 +50,6 @@ item_toggled (GtkCellRendererToggle *cell,
   GtkTreePath *path = gtk_tree_path_new_from_string (path_str);
   GtkTreeIter iter;
   gboolean toggle_item;
-
-  gint *column;
 
   /* get toggled iter */
   gtk_tree_model_get_iter (model, &iter, path);
@@ -184,8 +182,8 @@ GtkWidget *onglet_types_operations ( void )
   model = gtk_tree_store_new (NUM_PAYMENT_METHODS_COLUMNS,
 			      G_TYPE_STRING,
 			      G_TYPE_STRING,
-			      G_TYPE_UINT,
 			      G_TYPE_BOOLEAN,
+			      G_TYPE_INT,
 			      G_TYPE_BOOLEAN,
 			      G_TYPE_BOOLEAN);
   treeview = gtk_tree_view_new_with_model ( GTK_TREE_MODEL (model) );
@@ -205,6 +203,22 @@ GtkWidget *onglet_types_operations ( void )
 				       NULL);
   gtk_tree_view_append_column ( GTK_TREE_VIEW(treeview), column);
 
+  /* Defaults */
+  cell = gtk_cell_renderer_toggle_new ();
+  g_signal_connect (cell, "toggled", G_CALLBACK (item_toggled), model);
+  gtk_cell_renderer_toggle_set_radio ( GTK_CELL_RENDERER_TOGGLE(cell), TRUE );
+  g_object_set (cell, "xalign", 1.0, NULL);
+  column = gtk_tree_view_column_new ( );
+  gtk_tree_view_column_set_alignment ( column, 1.0 );
+  gtk_tree_view_column_pack_end ( column, cell, FALSE );
+  gtk_tree_view_column_set_title ( column, _("Default") );
+  gtk_tree_view_column_set_attributes (column, cell,
+				       "active", PAYMENT_METHODS_DEFAULT_COLUMN,
+				       "activatable", PAYMENT_METHODS_ACTIVABLE_COLUMN,
+				       "visible", PAYMENT_METHODS_VISIBLE_COLUMN,
+				       NULL);
+  gtk_tree_view_append_column ( GTK_TREE_VIEW(treeview), column);
+
   /* Numbering */
   cell = gtk_cell_renderer_text_new ();
   column = gtk_tree_view_column_new ( );
@@ -212,20 +226,6 @@ GtkWidget *onglet_types_operations ( void )
   gtk_tree_view_column_set_title ( column, _("Numbering") );
   gtk_tree_view_column_set_attributes (column, cell,
 				       "text", PAYMENT_METHODS_NUMBERING_COLUMN,
-				       NULL);
-  gtk_tree_view_append_column ( GTK_TREE_VIEW(treeview), column);
-
-  /* Defaults */
-  cell = gtk_cell_renderer_toggle_new ();
-  g_signal_connect (cell, "toggled", G_CALLBACK (item_toggled), model);
-  gtk_cell_renderer_toggle_set_radio ( GTK_CELL_RENDERER_TOGGLE(cell), TRUE );
-  column = gtk_tree_view_column_new ( );
-  gtk_tree_view_column_pack_end ( column, cell, FALSE );
-  gtk_tree_view_column_set_title ( column, _("Default") );
-  gtk_tree_view_column_set_attributes (column, cell,
-				       "active", PAYMENT_METHODS_DEFAULT_COLUMN,
-				       "activatable", PAYMENT_METHODS_ACTIVABLE_COLUMN,
-				       "visible", PAYMENT_METHODS_VISIBLE_COLUMN,
 				       NULL);
   gtk_tree_view_append_column ( GTK_TREE_VIEW(treeview), column);
 
@@ -249,7 +249,7 @@ GtkWidget *onglet_types_operations ( void )
       gtk_tree_store_append (model, &account_iter, NULL);
       gtk_tree_store_set (model, &account_iter,
 			  PAYMENT_METHODS_NAME_COLUMN, NOM_DU_COMPTE,
-			  PAYMENT_METHODS_NUMBERING_COLUMN, FALSE,
+			  PAYMENT_METHODS_NUMBERING_COLUMN, "",
 			  PAYMENT_METHODS_TYPE_COLUMN, FALSE,
 			  PAYMENT_METHODS_DEFAULT_COLUMN, FALSE,
 			  PAYMENT_METHODS_ACTIVABLE_COLUMN, FALSE, 
@@ -260,7 +260,7 @@ GtkWidget *onglet_types_operations ( void )
       gtk_tree_store_append (model, &debit_iter, &account_iter);
       gtk_tree_store_set (model, &debit_iter,
 			  PAYMENT_METHODS_NAME_COLUMN, _("Debit"),
-			  PAYMENT_METHODS_NUMBERING_COLUMN, FALSE,
+			  PAYMENT_METHODS_NUMBERING_COLUMN, "",
 			  PAYMENT_METHODS_TYPE_COLUMN, FALSE,
 			  PAYMENT_METHODS_DEFAULT_COLUMN, FALSE,
 			  PAYMENT_METHODS_ACTIVABLE_COLUMN, FALSE, 
@@ -271,7 +271,7 @@ GtkWidget *onglet_types_operations ( void )
       gtk_tree_store_append (model, &credit_iter, &account_iter);
       gtk_tree_store_set (model, &credit_iter,
 			  PAYMENT_METHODS_NAME_COLUMN, _("Credit"),
-			  PAYMENT_METHODS_NUMBERING_COLUMN, FALSE,
+			  PAYMENT_METHODS_NUMBERING_COLUMN, "",
 			  PAYMENT_METHODS_TYPE_COLUMN, FALSE,
 			  PAYMENT_METHODS_DEFAULT_COLUMN, FALSE,
 			  PAYMENT_METHODS_ACTIVABLE_COLUMN, FALSE, 
@@ -464,6 +464,7 @@ select_payment_method (GtkTreeSelection *selection,
 {
   GtkTreeIter iter;
   GValue value_name = {0, };
+  GValue value_visible = {0, };
   GValue value_numbering = {0, };
   GValue value_type = {0, };
   gboolean good;
@@ -475,10 +476,10 @@ select_payment_method (GtkTreeSelection *selection,
 
   good = gtk_tree_selection_get_selected (selection, NULL, &iter);
   gtk_tree_model_get_value (model, &iter, PAYMENT_METHODS_VISIBLE_COLUMN, 
-			    &value_name);
+			    &value_visible);
 
   if (! good ||
-      ! g_value_get_boolean(&value_name))
+      ! g_value_get_boolean(&value_visible))
     {
       gtk_entry_set_text ( GTK_ENTRY ( entree_type_nom ), "");
       gtk_entry_set_text ( GTK_ENTRY ( entree_type_dernier_no ), "" );
@@ -489,6 +490,8 @@ select_payment_method (GtkTreeSelection *selection,
     }
   else
     {
+      gtk_tree_model_get_value (model, &iter, PAYMENT_METHODS_NAME_COLUMN, 
+				&value_name);
       gtk_tree_model_get_value (model, &iter, PAYMENT_METHODS_NUMBERING_COLUMN, 
 				&value_numbering);
       gtk_tree_model_get_value (model, &iter, PAYMENT_METHODS_TYPE_COLUMN, 
@@ -499,7 +502,7 @@ select_payment_method (GtkTreeSelection *selection,
       gtk_entry_set_text ( GTK_ENTRY ( entree_type_dernier_no ),
 			   g_value_get_string(&value_numbering) );
       gtk_option_menu_set_history ( GTK_OPTION_MENU ( bouton_signe_type ),
-				    g_value_get_uint(&value_type));
+				    g_value_get_int(&value_type));
     }
 
   gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( entree_type_nom ),
