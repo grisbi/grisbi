@@ -4,6 +4,9 @@
 /*     Copyright (C) 2000-2002  Cédric Auger */
 /* 			cedric@grisbi.org */
 /* 			http://www.grisbi.org */
+/*     Copyright (C) 2002  Benjamin Drieu */
+/* 			bdrieu@april.org */
+/* 			http://www.grisbi.org */
 
 /*     This program is free software; you can redistribute it and/or modify */
 /*     it under the terms of the GNU General Public License as published by */
@@ -243,7 +246,7 @@ GtkWidget *creation_liste_etats ( void )
 
   /* mise en place du bouton ajouter */
 
-  bouton = gtk_button_new_with_label ( _("Ajouter un état ...") );
+  bouton = gtk_button_new_with_label ( _("Ajouter un état") );
   gtk_button_set_relief ( GTK_BUTTON ( bouton ),
 			  GTK_RELIEF_NONE);
   gtk_box_pack_start ( GTK_BOX ( vbox ),
@@ -257,9 +260,27 @@ GtkWidget *creation_liste_etats ( void )
 		       NULL );
   gtk_widget_show ( bouton );
 
+  /* on met le bouton personnaliser */
+
+  bouton_personnaliser_etat = gtk_button_new_with_label ( _("Personnaliser l'état") );
+  gtk_button_set_relief ( GTK_BUTTON ( bouton_personnaliser_etat ),
+			  GTK_RELIEF_NONE );
+  gtk_widget_set_sensitive ( bouton_personnaliser_etat,
+			     FALSE );
+  gtk_signal_connect ( GTK_OBJECT ( bouton_personnaliser_etat ),
+		       "clicked",
+		       GTK_SIGNAL_FUNC ( personnalisation_etat ),
+		       NULL );
+  gtk_box_pack_start ( GTK_BOX ( vbox ),
+		       bouton_personnaliser_etat,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( bouton_personnaliser_etat );
+
   /* on met le bouton dupliquer */
 
-  bouton_dupliquer_etat = gtk_button_new_with_label ( _("Dupliquer un état ...") );
+  bouton_dupliquer_etat = gtk_button_new_with_label ( _("Dupliquer l'état") );
   gtk_button_set_relief ( GTK_BUTTON ( bouton_dupliquer_etat ),
 			  GTK_RELIEF_NONE );
   gtk_signal_connect ( GTK_OBJECT ( bouton_dupliquer_etat ),
@@ -275,7 +296,7 @@ GtkWidget *creation_liste_etats ( void )
 
   /* mise en place du bouton effacer état */
 
-  bouton_effacer_etat = gtk_button_new_with_label ( _("Effacer un état ...") );
+  bouton_effacer_etat = gtk_button_new_with_label ( _("Effacer l'état") );
   gtk_button_set_relief ( GTK_BUTTON ( bouton_effacer_etat ),
 			  GTK_RELIEF_NONE);
   gtk_box_pack_start ( GTK_BOX ( vbox ),
@@ -316,24 +337,6 @@ GtkWidget *creation_barre_boutons_etats ( void )
   widget_retour = gtk_hbox_new ( FALSE,
 				 5 );
   gtk_widget_show ( widget_retour );
-
-  /* on met le bouton personnaliser */
-
-  bouton_personnaliser_etat = gtk_button_new_with_label ( _("Personnaliser ...") );
-  gtk_button_set_relief ( GTK_BUTTON ( bouton_personnaliser_etat ),
-			  GTK_RELIEF_NONE );
-  gtk_widget_set_sensitive ( bouton_personnaliser_etat,
-			     FALSE );
-  gtk_signal_connect ( GTK_OBJECT ( bouton_personnaliser_etat ),
-		       "clicked",
-		       GTK_SIGNAL_FUNC ( personnalisation_etat ),
-		       NULL );
-  gtk_box_pack_start ( GTK_BOX ( widget_retour ),
-		       bouton_personnaliser_etat,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( bouton_personnaliser_etat );
 
   /* on met le bouton rafraichir */
 
@@ -567,8 +570,11 @@ void ajout_etat ( void )
 
   gtk_widget_set_sensitive ( bouton_personnaliser_etat,
 			     TRUE );
+  /* FIXME: réactiver àca le jour ou on sort l'impression
+	mais de toutes faàons, àca sera mergé 
   gtk_widget_set_sensitive ( bouton_imprimer_etat,
 			     TRUE );
+  */
   gtk_widget_set_sensitive ( bouton_exporter_etat,
 			     TRUE );
   gtk_widget_set_sensitive ( bouton_dupliquer_etat,
@@ -687,8 +693,11 @@ void changement_etat ( GtkWidget *bouton,
   etat_courant = etat;
   gtk_widget_set_sensitive ( bouton_personnaliser_etat,
 			     TRUE );
+/* FIXME: réactiver àca le jour ou on sort l'impression
+	mais de toutes faàons, àca sera mergé 
   gtk_widget_set_sensitive ( bouton_imprimer_etat,
 			     TRUE );
+*/
   gtk_widget_set_sensitive ( bouton_exporter_etat,
 			     TRUE );
   gtk_widget_set_sensitive ( bouton_dupliquer_etat,
@@ -1055,8 +1064,11 @@ void dupliquer_etat ( void )
 
   gtk_widget_set_sensitive ( bouton_personnaliser_etat,
 			     TRUE );
+/* FIXME: réactiver àca le jour ou on sort l'impression
+	mais de toutes faàons, àca sera mergé 
   gtk_widget_set_sensitive ( bouton_imprimer_etat,
 			     TRUE );
+*/
   gtk_widget_set_sensitive ( bouton_exporter_etat,
 			     TRUE );
   gtk_widget_set_sensitive ( bouton_dupliquer_etat,
