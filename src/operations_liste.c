@@ -3107,7 +3107,6 @@ gboolean move_operation_to_account ( struct structure_operation * transaction,
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + transaction -> no_compte;
 
     LISTE_OPERATIONS = g_slist_remove ( LISTE_OPERATIONS, transaction );
-    free ( transaction );
     NB_OPE_COMPTE--;
 
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + account;
