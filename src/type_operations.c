@@ -48,7 +48,7 @@ item_toggled (GtkCellRendererToggle *cell,
 {
   GtkTreeModel *model = (GtkTreeModel *)data;
   GtkTreePath *path = gtk_tree_path_new_from_string (path_str);
-  GtkTreeIter iter;
+  GtkTreeIter iter, parent, child;
   gboolean toggle_item;
 
   /* get toggled iter */
@@ -59,6 +59,24 @@ item_toggled (GtkCellRendererToggle *cell,
 
   /* do something with the value */
   toggle_item ^= 1;
+
+  gtk_tree_model_iter_parent ( model, &parent, &iter );
+  
+  if ( gtk_tree_model_iter_children (model, &child, &parent) )
+    {
+      do 
+	{
+	  gtk_tree_store_set (GTK_TREE_STORE (model), &child, 
+			      PAYMENT_METHODS_DEFAULT_COLUMN, FALSE, 
+			      -1);	  
+	}
+      while ( gtk_tree_model_iter_next (model, &child) );
+    } 
+  else
+    {
+      /* Should not happen theorically */
+      dialogue ( _("Serious brain damage expected.") );
+    }
 
   /* set new value */
   gtk_tree_store_set (GTK_TREE_STORE (model), &iter, 
@@ -174,7 +192,7 @@ GtkWidget *onglet_types_operations ( void )
 				   GTK_POLICY_AUTOMATIC,
 				   GTK_POLICY_AUTOMATIC );
   gtk_scrolled_window_set_shadow_type ( GTK_SCROLLED_WINDOW ( scrolled_window ),
-					GTK_SHADOW_ETCHED_IN );
+					GTK_SHADOW_IN);
   gtk_box_pack_start ( GTK_BOX ( hbox ), scrolled_window,
 		       TRUE, TRUE, 0 );
 
@@ -207,10 +225,10 @@ GtkWidget *onglet_types_operations ( void )
   cell = gtk_cell_renderer_toggle_new ();
   g_signal_connect (cell, "toggled", G_CALLBACK (item_toggled), model);
   gtk_cell_renderer_toggle_set_radio ( GTK_CELL_RENDERER_TOGGLE(cell), TRUE );
-  g_object_set (cell, "xalign", 1.0, NULL);
+  g_object_set (cell, "xalign", 0.5, NULL);
   column = gtk_tree_view_column_new ( );
-  gtk_tree_view_column_set_alignment ( column, 1.0 );
-  gtk_tree_view_column_pack_end ( column, cell, FALSE );
+  gtk_tree_view_column_set_alignment ( column, 0.5 );
+  gtk_tree_view_column_pack_end ( column, cell, TRUE );
   gtk_tree_view_column_set_title ( column, _("Default") );
   gtk_tree_view_column_set_attributes (column, cell,
 				       "active", PAYMENT_METHODS_DEFAULT_COLUMN,
