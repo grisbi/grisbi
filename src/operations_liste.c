@@ -2028,6 +2028,12 @@ void p_press (void)
 		       g_strdup_printf ( PRESPACIFY(_("Checked balance: %4.2f %s")),
 					 SOLDE_POINTE,
 					 devise_name ( devise_compte )) );
+
+  /* ALAIN-FIXME : solution batarde me semble-t'il pour actualiser le solde pointé
+   sur la fenêtre d'accueil après que l'on ait pointé l'opération */
+
+  update_liste_comptes_accueil ();
+
 }
 /***************************************************************************************************/
 
@@ -2614,6 +2620,11 @@ void verification_mise_a_jour_liste ( void )
 void mise_a_jour_solde ( gint compte )
 {
   gdouble solde_courant;
+  
+  /* ALAIN-FIXME : si on recalcule le solde courant, il n'y a pas de raison d'en faire autant
+  pour le solde pointé. C'est donc à vérifier */
+  gdouble solde_pointe;
+
   GSList *liste_operations_tmp;
 
   p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte;
@@ -2621,6 +2632,10 @@ void mise_a_jour_solde ( gint compte )
   /* on fait le tour de toutes les opérations */
 
   solde_courant = SOLDE_INIT;
+
+  /* ALAIN-FIXME : si on recalcule le solde courant, il n'y a pas de raison d'en faire autant
+  pour le solde pointé. C'est donc à vérifier */
+  solde_pointe = SOLDE_INIT;
 
   liste_operations_tmp = LISTE_OPERATIONS;
 
@@ -2650,6 +2665,10 @@ void mise_a_jour_solde ( gint compte )
     }
 
   SOLDE_COURANT = solde_courant;
+
+  /* ALAIN-FIXME : si on recalcule le solde courant, il n'y a pas de raison d'en faire autant
+  pour le solde pointé. C'est donc à vérifier */
+  SOLDE_POINTE = solde_pointe;
 }
 /* ***************************************************************************************************** */
 
