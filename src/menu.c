@@ -107,16 +107,16 @@ void init_menus ( GtkWidget * win )
 
   static GnomeUIInfo tmp_menu_importer [] = 
     {
-      GNOMEUIINFO_ITEM ( N_("File"),
-			       N_("Import file"),
-			       importer_fichier,
-			       import_xpm ),
+      GNOMEUIINFO_ITEM ( N_("QIF/OFX file ..."),
+			 N_("Import file"),
+			 importer_fichier,
+			 import_xpm ),
       GNOMEUIINFO_END
     };
 
   static GnomeUIInfo tmp_menu_exporter [] = 
     {
-      GNOMEUIINFO_ITEM ( N_("QIF File"),
+      GNOMEUIINFO_ITEM ( N_("QIF File..."),
 			 N_("Export QIF file"),
 			 exporter_fichier_qif,
 			 export_xpm ),
