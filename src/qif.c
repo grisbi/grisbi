@@ -379,7 +379,7 @@ gboolean recuperation_donnees_qif ( FILE *fichier )
 		{
 		  /* on commence une ventilation, si une opé était en cours, on l'enregistre */
 
-		  if ( retour != EOF && operation -> date_tmp )
+		  if ( retour != EOF && operation && operation -> date_tmp )
 		    {
 		      if ( !ventilation )
 			compte -> operations_importees = g_slist_append ( compte -> operations_importees,
@@ -407,15 +407,18 @@ gboolean recuperation_donnees_qif ( FILE *fichier )
 		  ventilation = calloc ( 1,
 					 sizeof ( struct struct_ope_importation ));
 
-		  operation -> operation_ventilee = 1;
+		  if ( operation )
+		    {
+		      operation -> operation_ventilee = 1;
 
-		  /* récupération des données de l'opération en cours */
+		      /* récupération des données de l'opération en cours */
 
-		  ventilation -> date_tmp = g_strdup ( operation -> date_tmp );
-		  ventilation -> tiers = operation -> tiers;
-		  ventilation -> cheque = operation -> cheque;
-		  ventilation -> p_r = operation -> p_r;
-		  ventilation -> ope_de_ventilation = 1;
+		      ventilation -> date_tmp = g_strdup ( operation -> date_tmp );
+		      ventilation -> tiers = operation -> tiers;
+		      ventilation -> cheque = operation -> cheque;
+		      ventilation -> p_r = operation -> p_r;
+		      ventilation -> ope_de_ventilation = 1;
+		    }
 
 	      	if ( g_utf8_validate ( pointeur_char+1,-1,NULL ))
 		{
