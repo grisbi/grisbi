@@ -47,15 +47,23 @@ void date_set_value ( GtkWidget * hbox, GDate ** value, gboolean update );
 gboolean popup_calendar ( GtkWidget * button, gpointer data );
 void close_calendar_popup ( GtkWidget *popup );
 GtkWidget * get_entry_from_date_entry (GtkWidget *);
-GtkWidget * new_spin_button ( gint * value, 
+GtkWidget * new_int_spin_button ( gint * value, 
+				  gdouble lower, gdouble upper, 
+				  gdouble step_increment, gdouble page_increment, 
+				  gdouble page_size, 
+				  gdouble climb_rate, guint digits,
+				  GCallback hook );
+GtkWidget * new_spin_button ( gdouble * value, 
 			      gdouble lower, gdouble upper, 
 			      gdouble step_increment, gdouble page_increment, 
 			      gdouble page_size, 
 			      gdouble climb_rate, guint digits,
 			      GCallback hook );
-void spin_button_set_value ( GtkWidget * spin, gdouble * value );
-gboolean set_double ( GtkWidget * spin, gdouble * dummy );
-gboolean set_int ( GtkWidget * menu, gint * dummy );
+void spin_button_set_value ( GtkWidget * spin, gint * value );
+void spin_button_set_value_double ( GtkWidget * spin, gdouble * value );
+gboolean set_int_from_spin ( GtkWidget * spin, gint * dummy );
+gboolean set_double_from_spin ( GtkWidget * spin, gdouble * dummy );
+gboolean set_int_from_menu ( GtkWidget * menu, gint * dummy );
 gint my_strcasecmp ( gchar *chaine_1,
 		     gchar *chaine_2 );
 gint my_strncasecmp ( gchar *chaine_1,

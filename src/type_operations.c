@@ -394,10 +394,10 @@ GtkWidget *onglet_types_operations ( void )
 		       label, 0, 1, 1, 2,
 		       GTK_SHRINK | GTK_FILL, 0,
 		       0, 0 );
-    entree_type_dernier_no = new_spin_button (NULL,
-					      0, G_MAXDOUBLE, 
-					      1, 5, 5, 
-					      2, 0, (GCallback) modification_entree_type_dernier_no );
+    entree_type_dernier_no = new_int_spin_button (NULL,
+						  0, G_MAXDOUBLE, 
+						  1, 5, 5, 
+						  2, 0, (GCallback) modification_entree_type_dernier_no );
     gtk_table_attach ( GTK_TABLE ( table ),
 		       entree_type_dernier_no, 1, 2, 1, 2,
 		       GTK_EXPAND | GTK_FILL, 0,
@@ -481,7 +481,7 @@ select_payment_method ( GtkTreeSelection *selection, GtkTreeModel *model )
     {
 	/* Blanking entries */
 	entry_set_value ( entree_type_nom, NULL );
-	spin_button_set_value ( entree_type_dernier_no, NULL );
+	spin_button_set_value ( entree_type_dernier_no, (gint *) NULL );
 	gtk_entry_set_text ( GTK_ENTRY ( entree_type_dernier_no ), "" );
 	checkbox_set_value ( entree_automatic_numbering, NULL, TRUE );
 	/* Some widgets are useless */
@@ -501,7 +501,7 @@ select_payment_method ( GtkTreeSelection *selection, GtkTreeModel *model )
 	/* Filling entries */
 	entry_set_value ( entree_type_nom, &(type_ope -> nom_type) );
 	spin_button_set_value ( entree_type_dernier_no, 
-				(gdouble *) &(type_ope -> no_en_cours) );
+				(gint *) &(type_ope -> no_en_cours) );
 	checkbox_set_value ( entree_automatic_numbering, 
 			     &(type_ope -> numerotation_auto), TRUE );
 	gtk_option_menu_set_history ( GTK_OPTION_MENU ( bouton_signe_type ),

@@ -416,9 +416,9 @@ GtkWidget *onglet_messages_and_warnings ( void )
     gtk_box_pack_start ( GTK_BOX ( hbox ), label,
 			 FALSE, FALSE, 0 );
 
-    entree_jours = new_spin_button ( &(decalage_echeance),
-				     /* Limit to one year */
-				     0, 365, 1, 5, 1, 1, 0, NULL ); 
+    entree_jours = new_int_spin_button ( &(decalage_echeance),
+					 /* Limit to one year */
+					 0, 365, 1, 5, 1, 1, 0, NULL ); 
     gtk_box_pack_start ( GTK_BOX ( hbox ), entree_jours,
 			 FALSE, FALSE, 0 );
 
@@ -505,8 +505,8 @@ GtkWidget *onglet_fichier ( void )
     gtk_box_pack_start ( GTK_BOX ( hbox ), label,
 			 FALSE, FALSE, 0 );
     spin_button_compression_fichier = 
-	new_spin_button ( &(compression_fichier),
-			  0.0, 9.0, 1.0, 5.0, 1.0, 1.0, 0, NULL );
+	new_int_spin_button ( &(compression_fichier),
+			      0.0, 9.0, 1.0, 5.0, 1.0, 1.0, 0, NULL );
 
     gtk_box_pack_start ( GTK_BOX ( hbox ), spin_button_compression_fichier,
 			 FALSE, FALSE, 0 );
@@ -519,8 +519,8 @@ GtkWidget *onglet_fichier ( void )
     gtk_box_pack_start ( GTK_BOX ( hbox ), label,
 			 FALSE, FALSE, 0 );
     spin_button_derniers_fichiers_ouverts = 
-	new_spin_button ( &(nb_max_derniers_fichiers_ouverts),
-			  0.0, 20.0, 1.0, 5.0, 1.0, 1.0, 0, NULL );
+	new_int_spin_button ( &(nb_max_derniers_fichiers_ouverts),
+			      0.0, 20.0, 1.0, 5.0, 1.0, 1.0, 0, NULL );
     gtk_box_pack_start ( GTK_BOX ( hbox ), spin_button_derniers_fichiers_ouverts,
 			 FALSE, FALSE, 0 );
 
@@ -596,8 +596,8 @@ GtkWidget *onglet_fichier ( void )
     gtk_box_pack_start ( GTK_BOX ( hbox ), label,
 			 FALSE, FALSE, 0 );
 
-    spin_button_compression_backup = new_spin_button ( &(compression_backup),
-						       0, 9, 1, 5, 1, 1, 0, NULL );
+    spin_button_compression_backup = new_int_spin_button ( &(compression_backup),
+							   0, 9, 1, 5, 1, 1, 0, NULL );
     gtk_box_pack_start ( GTK_BOX ( hbox ), spin_button_compression_backup,
 			 FALSE, FALSE, 0 );
 
