@@ -112,6 +112,6 @@
 #endif
 
 /* quelques chaines de configuration*/
-#define ETAT_WWW_BROWSER "www-browser"
+#define ETAT_WWW_BROWSER "x-www-browser"
 
 #endif // !_CONSTANTS_H
