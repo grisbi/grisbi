@@ -25,6 +25,7 @@
 #include "structures.h"
 #include "variables-extern.c"
 #include "ofx.h"
+#include "dialog.h"
 
 #ifdef NOOFX
 /* dummy recuperation_donnees_ofx function implementation for system with no LIBOFX */
