@@ -28,6 +28,8 @@
 #include "include.h"
 #include "structures.h"
 #include "variables-extern.c"
+
+#include "devises.h"
 #include "search_glist.h"
 #include "utils.h"
 
@@ -113,8 +115,7 @@ gint recherche_banque_par_no ( struct struct_banque *banque,
 gint recherche_devise_par_nom ( struct struct_devise *devise,
 				gchar *nom )
 {
-    return ( g_strcasecmp ( g_strstrip ( devise -> nom_devise ),
-			    nom ) );
+    return ( g_strcasecmp ( g_strstrip ( devise_name(devise) ), nom ) );
 }
 /* ************************************************************************************************************ */
 
