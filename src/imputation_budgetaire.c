@@ -2771,7 +2771,7 @@ void exporter_ib ( void )
     struct stat test_fichier;
     gchar *nom_ib;
 
-    fenetre_nom = gtk_file_selection_new (  _("Export the budgetary lines"));
+    fenetre_nom = file_selection_new (  _("Export the budgetary lines"),FILE_SELECTION_IS_SAVE_DIALOG);
     file_selection_set_filename ( GTK_FILE_SELECTION ( fenetre_nom ),
 				      dernier_chemin_de_travail );
     file_selection_set_entry ( GTK_FILE_SELECTION ( fenetre_nom ), ".igsb" );
@@ -2784,26 +2784,7 @@ void exporter_ib ( void )
 
 	    gtk_widget_destroy ( GTK_WIDGET ( fenetre_nom ));
 
-	    /* vérification que c'est possible */
-
-	    if ( !strlen ( nom_ib ))
-		return;
-
-	    if ( utf8_stat ( nom_ib,
-			&test_fichier ) != -1 )
-	    {
-		if ( S_ISREG ( test_fichier.st_mode ) )
-		{
-		    if ( !question_yes_no_hint ( _("Save file"),
-						 _("File exists. Do you want to overwrite it?")))
-			return;
-		}
-		else
-		{
-		    dialogue_error ( g_strdup_printf ( _("Invalid filename \"%s\"!"), nom_ib ));
-		    return;
-		}
-	    }
+	    /* vérification que c'est possible est faite par la boite de dialogue */
 
 	    if ( !enregistre_ib ( nom_ib ))
 	    {
@@ -2835,7 +2816,7 @@ void importer_ib ( void )
     GtkWidget *menu_item;
 
 
-    fenetre_nom = gtk_file_selection_new (_("Import the budgetary lines" ));
+    fenetre_nom = file_selection_new (_("Import the budgetary lines" ),FILE_SELECTION_MUST_EXISTS);
     file_selection_set_filename ( GTK_FILE_SELECTION ( fenetre_nom ),
 				      dernier_chemin_de_travail );
     file_selection_set_entry ( GTK_FILE_SELECTION ( fenetre_nom ), ".igsb" );
@@ -2852,10 +2833,7 @@ void importer_ib ( void )
 
     gtk_widget_destroy ( GTK_WIDGET ( fenetre_nom ));
 
-    /* vérification que c'est possible */
-
-    if ( !strlen ( nom_ib ))
-	return;
+    /* vérification que c'est possible par la boite de dialog*/
 
     /* on permet de remplacer/fusionner la liste */
 

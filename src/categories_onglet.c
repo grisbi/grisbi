@@ -2839,7 +2839,7 @@ void exporter_categ ( void )
     struct stat test_fichier;
     gchar *nom_categ;
 
-    fenetre_nom = gtk_file_selection_new ( _("Export categories"));
+    fenetre_nom = file_selection_new ( _("Export categories"),FILE_SELECTION_IS_SAVE_DIALOG);
     file_selection_set_filename ( GTK_FILE_SELECTION ( fenetre_nom ),
 				      dernier_chemin_de_travail );
     file_selection_set_entry ( GTK_FILE_SELECTION ( fenetre_nom ),
@@ -2900,7 +2900,7 @@ void importer_categ ( void )
     gint resultat;
     gchar *nom_categ;
 
-    fenetre_nom = gtk_file_selection_new ( _("Import a category list"));
+    fenetre_nom = file_selection_new ( _("Import a category list"),FILE_SELECTION_IS_OPEN_DIALOG|FILE_SELECTION_MUST_EXISTS);
     file_selection_set_filename ( GTK_FILE_SELECTION ( fenetre_nom ),
 				      dernier_chemin_de_travail );
     file_selection_set_entry ( GTK_FILE_SELECTION ( fenetre_nom ),

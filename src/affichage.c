@@ -854,7 +854,8 @@ gboolean modification_logo_accueil ( gint origine )
 
     if ( origine )
     {
-	file_selector = gtk_file_selection_new (_("Select a new animation"));
+	file_selector = file_selection_new (_("Select a new animation"),
+                                            FILE_SELECTION_IS_OPEN_DIALOG|FILE_SELECTION_MUST_EXISTS);
 	g_signal_connect (G_OBJECT (GTK_FILE_SELECTION (file_selector)->ok_button),
 			  "clicked",
 			  G_CALLBACK (change_animation),
@@ -862,7 +863,8 @@ gboolean modification_logo_accueil ( gint origine )
     }
     else
     {
-	file_selector = gtk_file_selection_new (_("Select a new logo"));
+	file_selector = file_selection_new (_("Select a new logo"),
+                                            FILE_SELECTION_IS_OPEN_DIALOG|FILE_SELECTION_MUST_EXISTS);
 
 	g_signal_connect (G_OBJECT (GTK_FILE_SELECTION (file_selector)->ok_button),
 			  "clicked",

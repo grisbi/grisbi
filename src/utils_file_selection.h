@@ -1,3 +1,7 @@
+/*! 
+ * \file  utils_file_selections.h
+ * \brief  GtkFileSelection enhancement API interface
+ */
 /* ************************************************************************** */
 /*                                                                            */
 /*                  GtkFileSelection enhancement API                          */
@@ -6,6 +10,8 @@
 /*      All input string are given in UTF8 to the API which convert them to   */
 /*      the good charset, (same for output from locale to UTF8)               */
 /*   Add some more convenient ways to access the GtkFileSelection properties  */
+/*   Authorised to hijack the standard GTK file_selection dialog to replace it*/
+/*  by the default Windows one                                                */
 /*                                                                            */
 /*                        file_selection.h                                    */
 /*                                                                            */
@@ -28,10 +34,21 @@
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef _H_UTILS_FILE_SELECTION_
-#define _H_UTILS_FILE_SELECTION_ "$Id: utils_file_selection.h,v 1.1 2004/08/22 20:16:01 teilginn Exp $"
+#define _H_UTILS_FILE_SELECTION_ "$Id: utils_file_selection.h,v 1.2 2004/09/12 15:50:01 teilginn Exp $"
 
 #include <gtk/gtk.h>
 
+/*! File selection dialog behaviour properties */
+#define FILE_SELECTION_DEFAULT          0x0000  /**< No particular behaviour (open file dialog)*/
+#define FILE_SELECTION_IS_OPEN_DIALOG   0x0000  /**< The file selection is used for open operation   */
+#define FILE_SELECTION_IS_SAVE_DIALOG   0x0001  /**< The file selection is used for a save operation */
+#define FILE_SELECTION_NOOVERWRITECHECK 0x0002  /**< No existance check and overwrite confirmation done - used only for save operations */
+#define FILE_SELECTION_MUST_EXISTS      0x0002  /**< The selected file name must exists - only for open operation*/
+#define FILE_SELECTION_MULTISELECTION   0x0004  /**< allow the multi selection behaviour */
+
+
+GtkWidget* file_selection_new(const gchar* title,const gint properties);
+void file_selection_overwrite_file_check( GtkWidget *selection_fichier, gboolean* presult);
 void   file_selection_set_entry(GtkFileSelection* filesel,const gchar* utf8string);
 gchar* file_selection_get_entry(GtkFileSelection* filesel);
 void   file_selection_set_filename(GtkFileSelection* filsel,const gchar* utf8filename);

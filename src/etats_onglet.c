@@ -1180,7 +1180,7 @@ void exporter_etat ( void )
 	gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general),
 				7 );
 
-    fenetre_nom = gtk_file_selection_new (_("Export report") );
+    fenetre_nom = file_selection_new (_("Export report"),FILE_SELECTION_IS_SAVE_DIALOG );
     file_selection_set_filename ( GTK_FILE_SELECTION ( fenetre_nom ),
 				      dernier_chemin_de_travail );
     file_selection_set_entry (  GTK_FILE_SELECTION ( fenetre_nom ),
@@ -1196,28 +1196,7 @@ void exporter_etat ( void )
 
 	    gtk_widget_destroy ( GTK_WIDGET ( fenetre_nom ));
 
-	    /* v√©rification que c'est possible */
-
-	    if ( !strlen ( nom_etat ))
-		return;
-
-	    if ( utf8_stat ( nom_etat,
-			&test_fichier ) != -1 )
-	    {
-		if ( S_ISREG ( test_fichier.st_mode ) )
-		{
-		    if ( ! question_yes_no_hint ( g_strdup_printf ( _("File '%s' already exists."), nom_etat ),
-						  _("Do you want to overwrite it?") ) )
-			return;
-		}
-		else
-		{
-		    dialogue_error_hint ( g_strdup_printf ( _("File \"%s\" exists and is not a regular file."),
-							    nom_etat ),
-					  g_strdup_printf ( _("Error saving file '%s'." ), nom_etat ) );
-		    return;
-		}
-	    }
+	    /* la v√©rification que c'est possible a ÈtÈ faite par la boite de selection*/
 
 	    if ( !enregistre_etat ( nom_etat ))
 	    {
@@ -1245,7 +1224,7 @@ void importer_etat ( void )
 	gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general),
 				7 );
 
-    fenetre_nom = gtk_file_selection_new ( _("Import a report"));
+    fenetre_nom = file_selection_new ( _("Import a report") , FILE_SELECTION_MUST_EXISTS);
     file_selection_set_filename ( GTK_FILE_SELECTION ( fenetre_nom ),
 				      dernier_chemin_de_travail );
     file_selection_set_entry (  GTK_FILE_SELECTION ( fenetre_nom ),
@@ -1262,10 +1241,7 @@ void importer_etat ( void )
 
 	    gtk_widget_destroy ( GTK_WIDGET ( fenetre_nom ));
 
-	    /* v√©rification que c'est possible */
-
-	    if ( !strlen ( nom_etat ))
-		return;
+	    /* la v√©rification que c'est possible a ÈtÈ faite par la boite de selection*/
 
 
 	    if ( !charge_etat ( nom_etat ))

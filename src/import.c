@@ -156,7 +156,7 @@ void selection_fichiers_import ( void )
 
     file_type = TYPE_UNKNOWN;
 
-    fenetre = gtk_file_selection_new ( _("Select files to import") );
+    fenetre = file_selection_new ( _("Select files to import"),FILE_SELECTION_MUST_EXISTS );
     gtk_window_set_transient_for ( GTK_WINDOW ( fenetre ),
 				   GTK_WINDOW ( window ));
     gtk_window_set_modal ( GTK_WINDOW ( fenetre ),

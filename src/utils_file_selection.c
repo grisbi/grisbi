@@ -1,4 +1,5 @@
 /* ************************************************************************** */
+/* \file            utils_file_selection.c                                    */
 /*                                                                            */
 /*                  GtkFileSelection enhancement API                          */
 /*                                                                            */
@@ -7,7 +8,6 @@
 /*      the good charset, (same for output from locale to UTF8)               */
 /*   Add some more convenient ways to access the GtkFileSelection properties  */
 /*                                                                            */
-/*                        file_selection.c                                    */
 /*                                                                            */
 /*     Copyright (C)	2004- xxxx François Terrot (grisbi@terrot.net)	      */
 /* 			http://www.grisbi.org				      */
@@ -27,9 +27,117 @@
 /*  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 /*                                                                            */
 /* ************************************************************************** */
+/*
+ * àtodo : Add the multi selection management for FileDialog
+ * @todo : Add a Windows compliant filter management.
+ * @todo : Set the file independant from "include.h" added as an easy convenient
+ *  way of resolving compilation warnings .
+ */
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
 
+#include "include.h"
+#include "utils_files.h"
 #include "utils_file_selection.h"
 #include <gtk/gtk.h>
+
+#ifdef _WIN32
+#include "win32_file_selection.h"
+#endif
+
+#define FILE_SELECTION_PROPERTY(prop,value) ((prop & value) == value) 
+    
+/* file_selection_new a enhanced version of gtk_file_selection_new.
+ *
+ * Include the overwrite check feature in the save mode dialog
+ *
+ * \param title title of the dialog
+ * \param properties properties of the dialog behaviour
+ *
+ *  Authorised to hijack the gtk file dialog under Windows to use
+ *  the Windows standard one.
+ * */
+GtkWidget* file_selection_new(const gchar      *title,const  gint properties)
+{
+    GtkWidget *filesel;
+
+    filesel = gtk_file_selection_new(title);
+
+#ifdef _WIN32_USE_FILE_DIALOG
+    /* On Windows, we "hijack" the standard gtk signals */
+    win32_file_selection_set_properties(properties);
+    g_signal_connect_data  (GTK_OBJECT(filesel), "show", G_CALLBACK( win32_file_selection_signal_show) , NULL, NULL,0);
+    g_signal_connect_data  (GTK_OBJECT(filesel), "hide", G_CALLBACK( win32_file_selection_signal_hide) , NULL, NULL,0);
+#else
+    gtk_window_set_modal ( GTK_WINDOW ( filesel ), TRUE );
+
+    if (FILE_SELECTION_PROPERTY(properties,FILE_SELECTION_IS_SAVE_DIALOG) && !FILE_SELECTION_PROPERTY(properties,FILE_SELECTION_NOOVERWRITECHECK))
+     {
+        g_signal_connect_data  (GTK_OBJECT ( GTK_FILE_SELECTION ( filesel ) -> ok_button),
+                                "clicked",
+                                GTK_SIGNAL_FUNC(file_selection_overwrite_file_check),
+                                GTK_OBJECT (filesel),
+                                NULL,0);
+    }
+
+#endif
+
+    return GTK_WIDGET (filesel);
+
+}
+
+/** Validate the selected filename from a GtkFileSelection
+ *
+ * If the user select or enter an existing filename, this function asks her to confirm she wants to
+ * overwrite the file.
+ * 
+ * \param selection_fichier GtkFileSelection widget
+ * \param presult           pointer on a gboolean you want to retrieve the result in
+ *      *presult = TRUE if the filename is ok (file does not exists or user confirm to overwrite it)
+ *      *presult = FALSE in all other cases
+ *      if presult is set to NULL, the function send a "response" event to the widget
+ *      GTK_RESPONSE_OK or GTK_RESPONSE_NONE
+ *      
+ *      \todo check if the file name is not empty
+ */      
+void file_selection_overwrite_file_check( GtkWidget *selection_fichier, gboolean* presult)
+{ /* {{{ */
+    gchar* filename =  g_strdup ( gtk_file_selection_get_filename ( GTK_FILE_SELECTION ( selection_fichier)) );
+    struct stat test_file;
+    
+    gboolean result = TRUE;
+    if (!strlen(filename))
+    {
+        result = FALSE;
+    }
+    else if (utf8_stat ( filename, &test_file ) != -1)
+    {
+        // The file already exists and is writeable, ask the user if she wants to overwrite it 
+        if ( S_ISREG ( test_file.st_mode ) )
+	{
+            result = question_yes_no_hint (_("File already exists"),
+                                            g_strdup_printf (_("Do you want to overwrite file \"%s\"?"), filename));
+        }
+        else
+        {
+            dialogue_error ( g_strdup_printf ( _("Invalid filename: \"%s\"!"), filename ));
+            result = FALSE;
+        }
+        
+    }
+
+    if (presult)
+    {
+        *presult = result;
+    }
+    else
+    {
+        gtk_dialog_response(GTK_DIALOG(GTK_FILE_SELECTION(selection_fichier)),
+                            (result) ? GTK_RESPONSE_OK : GTK_RESPONSE_NONE);
+    }
+} /* }}} file_selection_check_filename */
+
 
 /** file_selection_set_entry.
  *
@@ -176,6 +284,11 @@ gchar* file_selection_get_last_directory(GtkFileSelection* filesel,gboolean ende
     return g_filename_to_utf8(dirstr,-1,NULL,NULL,NULL);
 
 } /* }}} file_selection_get_last_directory */
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
+
 
 /* Local Variables: */
 /* c-basic-offset: 4 */

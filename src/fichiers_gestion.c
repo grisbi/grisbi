@@ -215,7 +215,7 @@ void ouvrir_fichier ( void )
 {
     GtkWidget *selection_fichier;
 
-    selection_fichier = gtk_file_selection_new ( _("Open an accounts file"));
+    selection_fichier = file_selection_new ( _("Open an accounts file"),FILE_SELECTION_MUST_EXISTS);
     gtk_window_set_position ( GTK_WINDOW ( selection_fichier ),
 			      GTK_WIN_POS_MOUSE);
 
@@ -707,7 +707,7 @@ gchar *demande_nom_enregistrement ( void )
     gint resultat;
     struct stat test_fichier;
 
-    fenetre_nom = gtk_file_selection_new ( _("Name the accounts file"));
+    fenetre_nom = file_selection_new ( _("Name the accounts file"),FILE_SELECTION_IS_SAVE_DIALOG);
     gtk_window_set_modal ( GTK_WINDOW ( fenetre_nom ),
 			   TRUE );
     file_selection_set_filename ( GTK_FILE_SELECTION ( fenetre_nom ),
@@ -724,29 +724,8 @@ gchar *demande_nom_enregistrement ( void )
 
 	    gtk_widget_destroy ( GTK_WIDGET ( fenetre_nom ));
 
-	    /* vérification que qque chose a été entré */
+	    /* Les vérifications d'usage ont  été faite par la boite de dialogue*/
 
-	    if ( !strlen ( nouveau_nom ))
-		return NULL;
-
-
-	    if ( utf8_stat ( nouveau_nom,
-			&test_fichier ) != -1 )
-	    {
-		if ( S_ISREG ( test_fichier.st_mode ) )
-		{
-		    if ( ! question_yes_no_hint ( g_strdup_printf ( _("File '%s' already exists."), nouveau_nom ),
-						  _("Do you want to overwrite it?") ) )
-			return NULL;
-		}
-		else
-		{
-		    dialogue_error_hint ( g_strdup_printf ( _("File \"%s\" exists and is not a regular file."),
-							    nouveau_nom ),
-					  g_strdup_printf ( _("Error saving file '%s'." ), nouveau_nom ) );
-		    return NULL;
-		}
-	    }
 	    break;
 
 	default :

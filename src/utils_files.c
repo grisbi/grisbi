@@ -277,7 +277,7 @@ xmlDocPtr utf8_xmlParseFile(const gchar *utf8filename)
  *
  * \return xmlSaveFormatFile returned value
  */
-gint        utf8_xmlSaveFormatFile(const gchar *utf8filename, xmlDocPtr cur, gint format);
+gint        utf8_xmlSaveFormatFile(const gchar *utf8filename, xmlDocPtr cur, gint format)
 { 
     return xmlSaveFormatFile(g_filename_from_utf8(utf8filename,-1,NULL,NULL,NULL),cur,format);
 }
