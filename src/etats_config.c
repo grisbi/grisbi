@@ -449,6 +449,9 @@ void personnalisation_etat (void)
 					   g_date_day ( etat_courant -> date_perso_debut ),
 					   g_date_month ( etat_courant -> date_perso_debut ),
 					   g_date_year ( etat_courant -> date_perso_debut )));
+  else
+    gtk_entry_set_text ( GTK_ENTRY ( entree_date_init_etat ), gsb_today() );
+
 
   if ( etat_courant -> date_perso_fin )
     gtk_entry_set_text ( GTK_ENTRY ( entree_date_finale_etat ),
@@ -456,6 +459,8 @@ void personnalisation_etat (void)
 					   g_date_day ( etat_courant -> date_perso_fin ),
 					   g_date_month ( etat_courant -> date_perso_fin ),
 					   g_date_year ( etat_courant -> date_perso_fin )));
+  else
+    gtk_entry_set_text ( GTK_ENTRY ( entree_date_finale_etat ), gsb_today() );
 
   /* on remplit les détails de la séparation des dates */
 
@@ -2077,13 +2082,6 @@ gboolean pression_touche_date_etat ( GtkWidget *widget,
 				      GTK_SIGNAL_FUNC ( ferme_calendrier ),
 				      GTK_OBJECT ( widget ) );
 	  gtk_widget_grab_focus ( GTK_WIDGET ( popup_cal ) );
-	 }
-       /* si la touche CTRL n'est pas active, alors on valide simplement
-	  la saisie de l'échéance */
-       else
-	 {
-	  /* ALAIN-FIXME */
-	  dialogue("prévoir autre chose");
 	 }
        return TRUE;
        break;
