@@ -31,4 +31,33 @@ enum meta_tree_row_type {
     META_TREE_INVALID,
 };
 
+
+/** Interface between various tree data and metatree */
+typedef struct metatree_interface {
+  gchar * no_div_label;
+  gchar * no_sub_div_label;
+  gpointer (* get_div_pointer) (int);
+  gpointer (* get_sub_div_pointer) (int,int);
+  gpointer (* get_div_pointer_from_name) (gchar *,gboolean);
+  gpointer (* get_sub_div_pointer_from_name) (int,gchar *,gboolean);
+  gint (* div_nb_transactions) (gpointer);
+  gint (* sub_div_nb_transactions) (gpointer,gpointer);
+  gchar * (* div_name) (gpointer);
+  gchar * (* sub_div_name) (gpointer);
+  gdouble (* div_balance) (gpointer);
+  gdouble (* sub_div_balance) (gpointer,gpointer);
+  gint (* div_id) (gpointer);
+  gint (* sub_div_id) (gpointer);
+  gint (* transaction_div_id) (struct structure_operation *);
+  gint (* transaction_sub_div_id) (struct structure_operation *);
+  void (* transaction_set_div_id) (struct structure_operation *, int);
+  void (* transaction_set_sub_div_id) (struct structure_operation *, int);
+  gboolean (* remove_div) (int);
+  gboolean (* remove_sub_div) (int, int);
+  gboolean (* add_transaction_to_div) (struct structure_operation *, int);
+  gboolean (* add_transaction_to_sub_div) (struct structure_operation *, int, int);
+  gboolean (* remove_transaction_from_div) (struct structure_operation *, int);
+  gboolean (* remove_transaction_from_sub_div) (struct structure_operation *, int, int);
+} MetatreeInterface;
+
 #endif
