@@ -118,6 +118,10 @@ void charge_configuration ( void )
 
   etat.affiche_tous_les_types = gnome_config_get_int ( g_strconcat ( "/", FICHIER_CONF, "/Affichage/Affichage_tous_types", NULL ));
   etat.affiche_no_operation = gnome_config_get_int ( g_strconcat ( "/", FICHIER_CONF, "/Affichage/Affiche_no_operation", NULL ));
+/* GDC */
+  etat.affiche_date_bancaire = gnome_config_get_int ( g_strconcat ( "/", FICHIER_CONF, "/Affichage/Affiche_date_bancaire", NULL ));
+  etat.classement_par_date = gnome_config_get_int ( g_strconcat ( "/", FICHIER_CONF, "/Affichage/Tri_par_date", NULL ));
+/* FinGDC */
   etat.affiche_boutons_valider_annuler = gnome_config_get_int ( g_strconcat ( "/", FICHIER_CONF, "/Affichage/Affiche_boutons_valider_annuler", NULL ));
   etat.affichage_exercice_automatique  = gnome_config_get_int ( g_strconcat ( "/", FICHIER_CONF, "/Exercice/Affichage_exercice_automatique", NULL ));
   etat.affiche_nb_ecritures_listes  = gnome_config_get_int ( g_strconcat ( "/", FICHIER_CONF, "/Exercice/Affichage_nb_ecritures", NULL ));
@@ -163,6 +167,9 @@ void raz_configuration ( void )
   chemin_logo = CHEMIN_LOGO;         /* au départ, le logo est celui livré avec grisbi */
   etat.affiche_tous_les_types = 0;   /* par défaut, on n'affiche ds le formulaire que les types du débit ou crédit */
   etat.affiche_no_operation = 1;
+  etat.affiche_date_bancaire = 1; /* GDC : par défaut, on affiche la date bancaire (colonne et champ) */
+  etat.classement_par_date = 1;  /* par défaut, on tri la liste des opés par les dates */
+
   etat.affiche_boutons_valider_annuler = 1;
   dernier_chemin_de_travail = g_strconcat ( getenv ("HOME"),
 					    "/",
@@ -288,6 +295,12 @@ void sauve_configuration (void)
 			 etat.affiche_tous_les_types );
   gnome_config_set_int ( g_strconcat ( "/", FICHIER_CONF, "/Affichage/Affiche_no_operation", NULL ),
 			 etat.affiche_no_operation );
+/* GDC : gestion de la date réelle */
+  gnome_config_set_int ( g_strconcat ( "/", FICHIER_CONF, "/Affichage/Affiche_date_bancaire", NULL ),
+			 etat.affiche_date_bancaire );
+  gnome_config_set_int ( g_strconcat ( "/", FICHIER_CONF, "/Affichage/Tri_par_date", NULL ),
+			 etat.classement_par_date );
+/* FinGDC */
   gnome_config_set_int ( g_strconcat ( "/", FICHIER_CONF, "/Affichage/Affiche_boutons_valider_annuler", NULL ),
 			 etat.affiche_boutons_valider_annuler );
   gnome_config_set_int ( g_strconcat ( "/", FICHIER_CONF, "/Exercice/Affichage_nb_ecritures", NULL ),

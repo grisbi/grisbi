@@ -27,10 +27,11 @@
 
 
 
-/*****************************************************************************************************************/
+/****************************************************************************/
 /** Procédure qui charge les opérations en mémoire sous forme de structures**/
-/** elle rend la main en ayant initialisée la variable p_tab_nom_de_compte, tableau de pointeurs vers chaque compte :**/
-/*******************************************************************************************************************/
+/** elle rend la main en ayant initialisée la variable p_tab_nom_de_compte,**/
+/** tableau de pointeurs vers chaque compte :                              **/
+/****************************************************************************/
 
 gboolean charge_operations ( void )
 {
@@ -42,7 +43,8 @@ gboolean charge_operations ( void )
   stat ( nom_fichier_comptes,
 	 &buffer_stat);
   if ( buffer_stat.st_mode != 33152 && etat.alerte_permission )
-    dialogue ( "Attention, les permissions du fichier ne sont pas à 600\n(Ce message peut être désactivé dans les paramètres)" );
+    dialogue ( "Attention, les permissions du fichier ne sont pas à \
+600\n(Ce message peut être désactivé dans les paramètres)" );
  
   /* on commence par ouvrir le fichier en xml */
   /*   si marche pas, essaye d'ouvrir la version 0.3.1 */
@@ -67,8 +69,9 @@ gboolean charge_operations ( void )
 
       /* récupère la version */
 
-      if ( !strcmp (  xmlNodeGetContent ( doc->root->childs->childs ),
-		      "0.3.2" ))
+        /* GDC : utilisation de la même fonction */
+        if (( !strcmp (  xmlNodeGetContent ( doc->root->childs->childs ),
+			 "0.3.2" )))
 	return ( charge_operations_version_0_3_2 ( doc ));
 
       dialogue ( " Version inconnue ");
@@ -106,7 +109,8 @@ gboolean charge_operations ( void )
 
   if ( strcmp ( buffer_en_tete, "Comptes]" ) == 0 )
     {
-      dialogue ( "Le fichier chargé est trop ancien :\nà partir de la version 0.2.5, seule la version précédente\npeut être mise à jour" );
+      dialogue ( "Le fichier chargé est trop ancien :\nà partir de la version \
+0.2.5, seule la version précédente\npeut être mise à jour" );
       fclose ( pointeur_fichier_comptes );
       return ( FALSE );
     }
@@ -135,7 +139,9 @@ gboolean charge_operations ( void )
        !strcmp ( version , "0.2.4" ) || !strcmp ( version , "0,2,4" ) ||
        !strcmp ( version , "0.2.5" ) || !strcmp ( version , "0,2,5" ) )
     {
-      dialogue ( "Le fichier est trop ancien :\ncette version de Grisbi ne peut charge que les fichiers provenant\ndes versions 0.3.0, 0.3.1 et 0.3.2\nPour mettre à jour votre fichier, vous devez charger une version plus ancienne de Grisbi" );
+      dialogue ( "Le fichier est trop ancien :\ncette version de Grisbi ne peut\
+ charge que les fichiers provenant\ndes versions 0.3.0, 0.3.1 et 0.3.2\nPour \
+mettre à jour votre fichier, vous devez charger une version plus ancienne de Grisbi" );
       fclose ( pointeur_fichier_comptes );
       return ( FALSE );
     }
@@ -295,7 +301,11 @@ gboolean charge_operations_version_0_3_0 ( void )
       while ( strcmp ( buffer_en_tete, g_strconcat ( "[", NOM_DU_COMPTE, "]", NULL )) );
 
       fscanf ( pointeur_fichier_comptes,
-	       "Type de compte = %d\nNombre d'operations = %d\nDevise = %d\nBanque = %d\nNo de compte = %a[^\n]\nDernier cheque = %lu\nSolde initial = %as\nSolde mini voulu = %as\nSolde mini autorise = %as\nSolde courant = %as\nNumero derniere operation = %*d\nDate du dernier releve = %a[^\n]\nSolde du dernier releve = %as\nCompte cloture = %d\nCommentaire = {%a[^}]}\nTri = %d\n\n",
+	       "Type de compte = %d\nNombre d'operations = %d\nDevise = %d\nBanque = \
+%d\nNo de compte = %a[^\n]\nDernier cheque = %lu\nSolde initial = %as\nSolde mini \
+voulu = %as\nSolde mini autorise = %as\nSolde courant = %as\nNumero derniere \
+operation = %*d\nDate du dernier releve = %a[^\n]\nSolde du dernier releve = %as\
+\nCompte cloture = %d\nCommentaire = {%a[^}]}\nTri = %d\n\n",
 	       &TYPE_DE_COMPTE,
 	       &NB_OPE_COMPTE,
 	       &DEVISE,
@@ -538,6 +548,42 @@ gboolean charge_operations_version_0_3_0 ( void )
 
 	  /* récupère l'opération */
 
+		if ( !strcmp ( version , "0.3.1gdc" ) )
+		{
+		  if (	  fscanf ( pointeur_fichier_comptes,
+			   "{ %u ; %d/%d/%d ; %d/%d/%d ; %as ; %d ; %d ; %as ; %as ; %u ; %u ; %u ; %d ; %a[^;] ; %lu ; %hd ; %hd ; %u ; %u ; %u }\n",
+			   &operation -> no_operation,
+			   &operation -> jour,
+			   &operation -> mois,
+			   &operation -> annee,
+			   &operation -> jour_bancaire,
+			   &operation -> mois_bancaire,
+			   &operation -> annee_bancaire,
+			   &buffer_montant[0],
+			   &operation -> devise,
+			   &operation -> une_devise_compte_egale_x_devise_ope,
+			   &buffer_montant[1],
+			   &buffer_montant[2],
+			   &operation -> tiers,
+			   &operation -> categorie,
+			   &operation -> sous_categorie,
+			   &operation -> operation_ventilee,
+			   &operation -> notes,
+			   &buffer_cheque,
+			   &operation -> pointe,
+			   &operation -> auto_man,
+			   &operation -> relation_no_operation,
+			   &operation -> relation_no_compte,
+			   &operation -> no_operation_ventilee_associee ) < 20 )
+			{
+				dialogue ( g_strdup_printf ( "Problème dans la récupération des opérations !\nOpération n°%d\nCompte n°%d\n",
+					   operation -> no_operation,
+					   i ));
+	      return ( FALSE );
+	    }
+		}
+		else
+		{
 	  if (	  fscanf ( pointeur_fichier_comptes,
 			   "{ %u ; %d/%d/%d ; %as ; %d ; %d ; %as ; %as ; %u ; %u ; %u ; %d ; %a[^;] ; %lu ; %hd ; %hd ; %u ; %u ; %u }\n",
 			   &ancien_no_operation,
@@ -566,6 +612,7 @@ gboolean charge_operations_version_0_3_0 ( void )
 					   i ));
 	      return ( FALSE );
 	    }
+		}
 
 	  /* 	  récupération du montant */
 
@@ -903,9 +950,14 @@ gboolean charge_operations_version_0_3_0 ( void )
       gchar *texte;
 
       if ( g_slist_length ( liste_ope_liees ) < 10 )
-	texte = "Les opérations suivantes étaient liées ( virement ou ventilation )\nmais n'ont pas trouvé d'opération correspondante :\n\n";
+	texte = "Les opérations suivantes étaient liées ( virement ou ventilation )\
+\nmais n'ont pas trouvé d'opération correspondante :\n\n";
       else
-	dialogue ( texte = "Des opérations étaient liées ( virement ou ventilation)\nmais n'ont pas trouvé d'opération correspondante\n(Elles vont être écrites sur la sortie standart).\nL'erreur provient sûrement d'un bug non connu d'une version précédente ...\nVous pouvez aller voir les opérations directement dans le fichier de compte." );
+	dialogue ( texte = "Des opérations étaient liées ( virement ou ventilation)\
+\nmais n'ont pas trouvé d'opération correspondante\n(Elles vont être écrites \
+sur la sortie standart).\nL'erreur provient sûrement d'un bug non connu d'une \
+version précédente ...\nVous pouvez aller voir les opérations directement dans \
+le fichier de compte." );
 
       liste_tmp = liste_ope_liees;
 
@@ -939,7 +991,9 @@ gboolean charge_operations_version_0_3_0 ( void )
 	}
 
       texte = g_strconcat ( texte,
-			    "\nL'erreur provient sûrement d'un bug non connu d'une version précédente ...\nVous pouvez aller voir les opérations directement dans le fichier de compte.",
+			    "\nL'erreur provient sûrement d'un bug non connu d'une version \
+précédente ...\nVous pouvez aller voir les opérations directement dans le fichier \
+de compte.",
 			    NULL );
 
       if ( g_slist_length ( liste_ope_liees ) < 10 )
@@ -1479,46 +1533,50 @@ gboolean recherche_ope_liee_par_no_et_par_compte ( struct struct_ope_liee *struc
 
 
 
-/***********************************************************************************************************/
+/*****************************************************************************/
 /* utilisée pour le passage de la 0.3.1 à la 0.3.2 */
-/***********************************************************************************************************/
+/*****************************************************************************/
 
-gboolean recherche_ope_ventilee_liee_par_no_et_par_compte ( struct struct_ope_liee *struct_ope_liee,
+gboolean recherche_ope_ventilee_liee_par_no_et_par_compte (
+								struct struct_ope_liee *struct_ope_liee,
 							    struct structure_operation *operation )
 {
 
-  return (!(( struct_ope_liee -> ancien_no_ope == operation -> no_operation_ventilee_associee )
+  return (!(( struct_ope_liee -> ancien_no_ope ==
+				operation -> no_operation_ventilee_associee )
 	    &&
 	    ( struct_ope_liee -> compte_ope == operation -> no_compte )));
 
 
 }
-/***********************************************************************************************************/
+/*****************************************************************************/
 
 
 
 
-/***********************************************************************************************************/
+/*****************************************************************************/
 /* utilisée pour le passage de la 0.3.1 à la 0.3.2 */
-/***********************************************************************************************************/
+/*****************************************************************************/
 
-gboolean recherche_ope_de_ventil_liee_par_no_et_par_compte ( struct struct_ope_liee *struct_ope_liee,
+gboolean recherche_ope_de_ventil_liee_par_no_et_par_compte (
+								struct struct_ope_liee *struct_ope_liee,
 							     struct structure_operation *operation )
 {
-  return (!(( struct_ope_liee -> ope_liee -> no_operation_ventilee_associee == operation -> no_operation )
+  return (!(( struct_ope_liee -> ope_liee -> no_operation_ventilee_associee ==
+					operation -> no_operation )
 	    &&
 	    ( struct_ope_liee -> compte_ope == operation -> no_compte )));
 
 }
-/***********************************************************************************************************/
+/*****************************************************************************/
 
 
 
 
 
-/***********************************************************************************************************/
+/*****************************************************************************/
 /* ajout de la 0.3.2 : passage au xml */
-/***********************************************************************************************************/
+/*****************************************************************************/
 
 gboolean charge_operations_version_0_3_2 ( xmlDocPtr doc )
 {
@@ -1552,9 +1610,16 @@ gboolean charge_operations_version_0_3_2 ( xmlDocPtr doc )
 		if ( (etat.fichier_deja_ouvert  = atoi ( xmlNodeGetContent ( node_generalites ))))
 		  {
 		    if ( etat.force_enregistrement )
-		      dialogue ( "Attention, le fichier semble déjà ouvert pas un autre utilisateur ou n'a pas été fermé correctement (plantage ?).\nCependant Grisbi va forcer l'enregistrement ; cette option est déconseillée\n sauf si vous êtes sûr que personne d'autre n'utilise le fichier pour le moment.\nLa désactivation de cette option s'effectue dans le menu de configuration" );
+		      dialogue ( "Attention, le fichier semble déjà ouvert pas un autre \
+utilisateur ou n'a pas été fermé correctement (plantage ?).\nCependant Grisbi va \
+forcer l'enregistrement ; cette option est déconseillée\n sauf si vous êtes sûr \
+que personne d'autre n'utilise le fichier pour le moment.\nLa désactivation de \
+cette option s'effectue dans le menu de configuration" );
 		    else
-		      dialogue ( "Attention, le fichier semble déjà ouvert pas un autre utilisateur ou n'a pas été fermé correctement (plantage ?).\nVous ne pourrez enregistrer vos modification qu'en activant l'option \"Forcer l'enregistrement\" des paramètres." );
+		      dialogue ( "Attention, le fichier semble déjà ouvert pas un autre \
+utilisateur ou n'a pas été fermé correctement (plantage ?).\nVous ne pourrez \
+enregistrer vos modification qu'en activant l'option \"Forcer l'enregistrement\" \
+des paramètres." );
 		  }
 	    
 
@@ -1909,6 +1974,7 @@ gboolean charge_operations_version_0_3_2 ( xmlDocPtr doc )
 			{
 			  struct structure_operation *operation;
 			  gchar **pointeur_char;
+			  gchar *pointeur;
 
 			  operation = malloc ( sizeof (struct structure_operation ));
 
@@ -1926,6 +1992,39 @@ gboolean charge_operations_version_0_3_2 ( xmlDocPtr doc )
 							       operation -> mois,
 							       operation -> annee );
 			  g_strfreev ( pointeur_char );
+
+			  /* GDC prise en compte de la lecture de la date bancaire */
+
+			  pointeur = xmlGetProp ( node_ope,
+						  "Db" );
+
+			  if ( pointeur )
+			    {
+			      pointeur_char = g_strsplit ( pointeur,
+							   "/",
+							   3 );
+			      operation -> jour_bancaire = atoi ( pointeur_char[0] );
+			      operation -> mois_bancaire = atoi ( pointeur_char[1] );
+			      operation -> annee_bancaire = atoi ( pointeur_char[2] );
+
+			      if ( operation -> jour_bancaire )
+				operation -> date_bancaire = g_date_new_dmy ( operation -> jour_bancaire,
+									      operation -> mois_bancaire,
+									      operation -> annee_bancaire );
+			      else
+				operation -> date_bancaire = NULL;
+
+			      g_strfreev ( pointeur_char );
+			    }
+			  else
+			    {
+			      operation -> jour_bancaire = 0;
+			      operation -> mois_bancaire = 0;
+			      operation -> annee_bancaire = 0;
+			      operation -> date_bancaire = NULL;
+			    }
+			  
+			  /* GDCFin */
 
 			  operation -> montant = g_strtod ( xmlGetProp ( node_ope,
 									 "M" ),
@@ -3303,6 +3402,15 @@ gboolean enregistre_fichier ( void )
 					 operation -> jour,
 					 operation -> mois,
 					 operation -> annee ));
+
+    /* GDC : Ecriture de la date bancaire */
+	  xmlSetProp ( node_ope,
+		       "Db",
+		       g_strdup_printf ( "%d/%d/%d",
+					 operation -> jour_bancaire,
+					 operation -> mois_bancaire,
+					 operation -> annee_bancaire ));
+    /* GDCFin */
 
 	  xmlSetProp ( node_ope,
 		       "M",

@@ -55,12 +55,14 @@ struct {
   guint affichage_exercice_automatique : 1;   /* à 1 si exercice automatique selon la date, 0 si affiche le dernier choisi */
   guint affiche_tous_les_types : 1;      /* à 1 si tous les types sont dans le check button et non pas juste les débits ou crédits */
   guint affiche_no_operation :1;
+  guint affiche_date_bancaire :1; /* GDC : à 1 si on veut afficher la colonne et le champ de la date réelle */
   guint utilise_exercice :1;
   guint utilise_imputation_budgetaire :1;
   guint utilise_piece_comptable :1;
   guint utilise_info_banque_guichet :1;
   guint affiche_boutons_valider_annuler :1;
   guint affiche_nb_ecritures_listes :1;
+  guint classement_par_date :1;   /* à 1 si le classement de la liste d'opé se fait par date */
 } etat;
 
 
@@ -73,6 +75,14 @@ struct structure_operation
   guint jour;
   guint mois;
   guint annee;
+
+  /* GDC La date a laquelle a reellement ete effectuee l'operation
+     contrairement a date qui est celle de prise en compte en banque */
+  GDate *date_bancaire;
+  guint jour_bancaire;
+  guint mois_bancaire;
+  guint annee_bancaire;
+  /* GDCFin */
 
   guint no_compte;
 

@@ -982,18 +982,18 @@ void update_liste_echeances_auto_accueil ( void )
 
 	  p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation->no_compte;
 
-	  if ( ECHEANCE_COURANTE -> montant >= 0 )
+	  if ( operation -> montant >= 0 )
 	    label = gtk_label_new ( g_strdup_printf (" Crédit de %4.2f %s sur %s",
 						     operation->montant,
 						     ((struct struct_devise *)(g_slist_find_custom ( liste_struct_devises,
-												     GINT_TO_POINTER ( ECHEANCE_COURANTE -> devise ),
+												     GINT_TO_POINTER ( operation -> devise ),
 												     (GCompareFunc) recherche_devise_par_no )->data))-> code_devise,
 						     NOM_DU_COMPTE ));
 	  else
 	    label = gtk_label_new ( g_strdup_printf (" Débit de %4.2f %s sur %s",
 						     -operation->montant,
 						     ((struct struct_devise *)(g_slist_find_custom ( liste_struct_devises,
-												     GINT_TO_POINTER (  ECHEANCE_COURANTE -> devise ),
+												     GINT_TO_POINTER (  operation -> devise ),
 												     (GCompareFunc) recherche_devise_par_no )->data))-> code_devise,
 						     NOM_DU_COMPTE ));
 

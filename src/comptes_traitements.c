@@ -108,8 +108,8 @@ void  nouveau_compte ( void )
 
 /* on met à jour l'option menu des formulaires des échéances et des opés */
 
-  gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_operations[7] ),
-			     creation_option_menu_comptes () );
+/*   gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_operations[7] ), */
+/* 			     creation_option_menu_comptes () ); */
   gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_echeancier[5] ),
 			     creation_option_menu_comptes () );
 

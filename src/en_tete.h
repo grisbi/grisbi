@@ -218,6 +218,11 @@ void  touche_calendrier ( GtkWidget *popup,
 void date_selectionnee ( GtkCalendar *calendrier,
 			 GtkWidget *popup );
 gboolean modifie_date ( GtkWidget *entree );
+/* GDC : gestion de la date reelle */
+void date_bancaire_selectionnee ( GtkCalendar *calendrier,
+			 GtkWidget *popup );
+void  modifie_date_bancaire ( GtkWidget *entree );
+/* FinGDC */
 void  completion_operation_par_tiers ( void );
 void fin_edition ( void );
 void ajout_operation ( struct structure_operation *operation );

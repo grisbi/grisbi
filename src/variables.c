@@ -568,6 +568,7 @@ gint **nb_ecritures_par_sous_imputation;           /* buffer */
 
 GtkWidget *liste_choix_ordre_comptes;
 GtkWidget *bouton_afficher_no_operation;
+GtkWidget *bouton_afficher_date_bancaire;
 GtkWidget *bouton_utiliser_exercices;
 GtkWidget *bouton_utiliser_imputation_budgetaire;
 GtkWidget *bouton_utiliser_piece_comptable;
@@ -575,3 +576,5 @@ GtkWidget *bouton_utiliser_info_banque_guichet;
 GtkWidget *bouton_afficher_boutons_valider_annuler;
 GtkWidget *bouton_choix_devise_totaux_tiers;
 GtkWidget *bouton_afficher_nb_ecritures;
+GtkWidget *bouton_classer_liste_par_date;
+GtkWidget *bouton_classer_liste_par_date_bancaire;

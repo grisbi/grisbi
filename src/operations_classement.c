@@ -34,6 +34,7 @@ gint classement_liste_par_date ( GtkWidget *liste,
 				 GtkCListRow *ligne_1,
 				 GtkCListRow *ligne_2 )
 {
+
   struct structure_operation *operation_1;
   struct structure_operation *operation_2;
   gint retour;
@@ -48,8 +49,34 @@ gint classement_liste_par_date ( GtkWidget *liste,
   if ( operation_2 == GINT_TO_POINTER ( -1 ) )
     return ( -1 );
 
-  retour = g_date_compare ( operation_1 -> date,
-			    operation_2 -> date );
+  if ( etat.classement_par_date )
+    /* on classe par dates normales */
+    retour = g_date_compare ( operation_1 -> date,
+			      operation_2 -> date );
+  else
+    {
+      /*       on classe par date bancaire, si elle existe */
+
+      if ( operation_1 -> date_bancaire )
+	{
+	  if ( operation_2 -> date_bancaire )
+	    retour = g_date_compare ( operation_1 -> date_bancaire,
+				      operation_2 -> date_bancaire );
+	  else
+	    retour = g_date_compare ( operation_1 -> date_bancaire,
+				      operation_2 -> date );
+	}
+      else
+	{
+	  if ( operation_2 -> date_bancaire )
+	    retour = g_date_compare ( operation_1 -> date,
+				      operation_2 -> date_bancaire );
+	  else
+	    retour = g_date_compare ( operation_1 -> date,
+				      operation_2 -> date );
+	}
+    }
+
 
   if ( retour )
     return ( retour );
@@ -70,7 +97,6 @@ gint classement_liste_par_no_ope ( GtkWidget *liste,
 {
   struct structure_operation *operation_1;
   struct structure_operation *operation_2;
-  gint retour;
 
   operation_1 = ligne_1 -> data;
   operation_2 = ligne_2 -> data;
@@ -137,8 +163,42 @@ gint classement_liste_par_tri_courant ( GtkWidget *liste,
   /*   s'ils ont le même type, on classe par date */
 
   if ( pos_type_ope_1 == pos_type_ope_2 )
-    return ( g_date_compare ( operation_1->date,
-			      operation_2->date ));
+    {
+      gint retour;
+
+      if ( etat.classement_par_date )
+	/* on classe par dates normales */
+	retour = g_date_compare ( operation_1 -> date,
+				  operation_2 -> date );
+      else
+	{
+	  /*       on classe par date bancaire, si elle existe */
+
+	  if ( operation_1 -> date_bancaire )
+	    {
+	      if ( operation_2 -> date_bancaire )
+		retour = g_date_compare ( operation_1 -> date_bancaire,
+					  operation_2 -> date_bancaire );
+	      else
+		retour = g_date_compare ( operation_1 -> date_bancaire,
+					  operation_2 -> date );
+	    }
+	  else
+	    {
+	      if ( operation_2 -> date_bancaire )
+		retour = g_date_compare ( operation_1 -> date,
+					  operation_2 -> date_bancaire );
+	      else
+		retour = g_date_compare ( operation_1 -> date,
+					  operation_2 -> date );
+	    }
+	}
+
+      if ( retour )
+	return ( retour );
+      else
+	return ( operation_1 -> no_operation - operation_2 -> no_operation );
+    }
 
 
   if ( pos_type_ope_1 < pos_type_ope_2 )

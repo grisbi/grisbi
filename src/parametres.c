@@ -1530,6 +1530,22 @@ void changement_preferences ( GtkWidget *fenetre_preferences,
       else
 	gtk_widget_hide ( widget_formulaire_operations[0] );
 
+	/* GDC : affichage ou effacement du champ de date réelle et de la liste */
+
+      p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
+
+      if ( ( etat.affiche_date_bancaire = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_date_bancaire ))))
+	{
+	  gtk_widget_show ( widget_formulaire_operations[7] );
+	  gtk_clist_set_column_visibility ( GTK_CLIST ( CLIST_OPERATIONS ), 2, TRUE );
+	}
+      else
+	{
+	  gtk_widget_hide ( widget_formulaire_operations[7] );
+	  gtk_clist_set_column_visibility ( GTK_CLIST ( CLIST_OPERATIONS ), 2, FALSE );
+	}
+	/* FinGDC */
+
       if ( ( etat.utilise_exercice = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_utiliser_exercices ))))
 	{
 	  gtk_widget_show ( widget_formulaire_operations[11] );
@@ -1653,9 +1669,15 @@ void changement_preferences ( GtkWidget *fenetre_preferences,
 	    mise_a_jour_imputation ();
 	}
 
+      /* récupération du tri par date ou date bancaire */
+
+      etat.classement_par_date = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_classer_liste_par_date ));
+
       reaffiche_liste_comptes ();
       update_liste_comptes_accueil();
       modification_fichier ( TRUE );
+      demande_mise_a_jour_tous_comptes();
+      verification_mise_a_jour_liste();
       break;
 
     case 4 :

@@ -326,7 +326,7 @@ GtkWidget *onglet_affichage ( void )
   gtk_widget_show_all ( vbox );
 
 
-  /*   place la partie de gauche : comptabilité */
+  /*   place la partie de droite : comptabilité */
 
   separateur = gtk_vseparator_new ();
   gtk_box_pack_start ( GTK_BOX ( onglet ),
@@ -373,6 +373,22 @@ GtkWidget *onglet_affichage ( void )
 		       FALSE,
 		       0 );
   gtk_widget_show ( bouton_afficher_no_operation );
+
+	/* GDC : bouton pour choisir d'afficher ou non la date réelle (colonne et champ) */
+  bouton_afficher_date_bancaire = gtk_check_button_new_with_label ( "Afficher la date bancaire des opérations." );
+  gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_date_bancaire ),
+				 etat.affiche_date_bancaire );
+  gtk_signal_connect_object ( GTK_OBJECT ( bouton_afficher_date_bancaire ),
+			      "toggled",
+			      gnome_property_box_changed,
+			      GTK_OBJECT (fenetre_preferences));
+  gtk_box_pack_start ( GTK_BOX ( vbox2 ),
+		       bouton_afficher_date_bancaire,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( bouton_afficher_date_bancaire );
+	/* FinGDC */
 
   bouton_utiliser_exercices = gtk_check_button_new_with_label ( "Utiliser les Exercices." );
   gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_utiliser_exercices ),
@@ -516,6 +532,73 @@ GtkWidget *onglet_affichage ( void )
 		       0 );
   gtk_widget_show ( bouton_afficher_nb_ecritures );
 
+
+  /*   place la partie de droite : classement des listes */
+
+  separateur = gtk_vseparator_new ();
+  gtk_box_pack_start ( GTK_BOX ( onglet ),
+		       separateur,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( separateur );
+
+
+  vbox = gtk_vbox_new ( FALSE,
+			     5 );
+  gtk_box_pack_start ( GTK_BOX ( onglet ),
+		       vbox,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( vbox );
+
+  frame = gtk_frame_new ( "Tri de la liste d'opérations" );
+  gtk_box_pack_start ( GTK_BOX ( vbox ),
+		       frame,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( frame );
+
+  vbox2 = gtk_vbox_new ( FALSE,
+			 5 );
+  gtk_container_add ( GTK_CONTAINER ( frame ),
+		      vbox2 );
+  gtk_widget_show ( vbox2 );
+
+  bouton_classer_liste_par_date = gtk_radio_button_new_with_label ( NULL,
+								    "Classer par date" );
+  gtk_signal_connect_object ( GTK_OBJECT ( bouton_classer_liste_par_date ),
+			      "toggled",
+			      gnome_property_box_changed,
+			      GTK_OBJECT (fenetre_preferences));
+  gtk_box_pack_start ( GTK_BOX ( vbox2 ),
+		       bouton_classer_liste_par_date,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( bouton_classer_liste_par_date );
+
+  bouton_classer_liste_par_date_bancaire = gtk_radio_button_new_with_label ( gtk_radio_button_group ( GTK_RADIO_BUTTON ( bouton_classer_liste_par_date)),
+									     "Classer par date bancaire" );
+  gtk_signal_connect_object ( GTK_OBJECT ( bouton_classer_liste_par_date_bancaire ),
+			      "toggled",
+			      gnome_property_box_changed,
+			      GTK_OBJECT (fenetre_preferences));
+  gtk_box_pack_start ( GTK_BOX ( vbox2 ),
+		       bouton_classer_liste_par_date_bancaire,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( bouton_classer_liste_par_date_bancaire );
+
+  if ( etat.classement_par_date )
+    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_classer_liste_par_date ),
+				   TRUE );
+  else
+    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_classer_liste_par_date_bancaire ),
+				   TRUE );
 
 
   return ( onglet );

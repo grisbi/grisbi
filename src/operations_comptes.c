@@ -418,8 +418,8 @@ void changement_compte ( gint *compte)
 
   /* change le défaut de l'option menu des comptes du formulaire */
 
-  gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_operations[7] ),
-				compte_courant );
+/*   gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_operations[7] ), */
+/* 				compte_courant ); */
 
   /* change le défaut de l'option menu des devises du formulaire */
 
