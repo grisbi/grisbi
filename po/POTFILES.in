@@ -42,7 +42,10 @@ src/import.c
 src/imputation_budgetaire.c
 src/main.c
 src/menu.c
+src/metatree.c
 src/meta_budgetary.c
+src/meta_categories.c
+src/meta_payee.c
 src/ofx.c
 src/operations_comptes.c
 src/operations_formulaire.c
