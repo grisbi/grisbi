@@ -6,13 +6,13 @@
 #include <locale.h>
 #include <stdio.h>
 #include <string.h>
+#include <sys/types.h>
 #include <sys/timeb.h>
 #include <time.h>
 #include <sys/stat.h>
 #include <unistd.h>
 #include <fcntl.h>
 #include <pwd.h>
-#include <sys/types.h>
 #include <signal.h>
 #include <ctype.h>
 #include <errno.h>
@@ -27,3 +27,9 @@
 #include <gtk/gtktext.h>
 #include <gdk/gdkkeysyms.h>
 #include <popt.h>
+
+#ifndef _WIN32
+#define C_DIRECTORY_SEPARATOR "/"
+#else
+#define C_DIRECTORY_SEPARATOR "\\"
+#endif
