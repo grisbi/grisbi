@@ -506,7 +506,7 @@ gboolean enregistrement_fichier ( gint origine )
       else
 	mise_en_route_attente ( _("Enregistrement du fichier") );
 
-      result = enregistre_fichier ();
+      result = enregistre_fichier ( 0 );
       annulation_attente();
 
       fichier_marque_ouvert ( TRUE );
@@ -553,7 +553,7 @@ gboolean enregistrement_fichier ( gint origine )
 	  else
 	    mise_en_route_attente ( _("Enregistrement du fichier") );
 
-	  result = enregistre_fichier ();
+	  result = enregistre_fichier ( 0 );
 	  annulation_attente();
 
 	  fichier_marque_ouvert ( TRUE );
@@ -731,7 +731,7 @@ gboolean enregistrement_backup ( void )
   xmlSetCompressMode ( compression_backup );
 
   mise_en_route_attente ( _("Enregistrement de la sauvegarde") );
-  retour = enregistre_fichier();
+  retour = enregistre_fichier( 1 );
 
   if ( !retour )
     annulation_attente();

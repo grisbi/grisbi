@@ -3891,7 +3891,7 @@ des paramètres.") );
 /* retourne FALSE : pas de nom => gtkfileselection a pris la main ou erreur */
 /***********************************************************************************************************/
 
-gboolean enregistre_fichier ( void )
+gboolean enregistre_fichier ( gboolean force )
 {
   xmlDocPtr doc;
   xmlNodePtr node;
@@ -3905,7 +3905,7 @@ gboolean enregistre_fichier ( void )
 
   /*   si le fichier est dejà ouvert par un autre, ne peut enregistrer */
 
-  if ( etat.fichier_deja_ouvert && !etat.force_enregistrement )
+  if ( etat.fichier_deja_ouvert && !etat.force_enregistrement && !force )
     {
       dialogue ( _(_(" Fichier ouvert par un autre utilisateur, enregistrement impossible\nVous pouvez forcer l'enregistrement à partir des paramètres.")) );
       return ( FALSE );

@@ -383,7 +383,7 @@ void traitement_sigsegv ( gint signal_nb )
     else
       mise_en_route_attente ( _("Enregistrement du fichier") );
 
-  enregistre_fichier ();
+  enregistre_fichier ( 1 );
   annulation_attente();
 
   dialog = gnome_error_dialog ( g_strdup_printf (_("Oups, Grisbi a planté (erreur de segmentation).\nIl a essayé de sauvegarder le fichier juste avant, sous le nom %s.\nEssayez de l'ouvrir, avec un peu de chances vous n'aurez rien perdu.\nDe plus, si vous arrivez à recréer le bug, pouvez-vous l'ajouter sur le site de grisbi (http://www.grisbi.org) ?\n Merci !" ),
