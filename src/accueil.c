@@ -46,6 +46,7 @@ GtkWidget *creation_onglet_accueil ( void )
   gchar tampon_date [50];
   time_t date;
 
+
 /*  la première séparation : une hbox : à gauche, le logo, à droite le reste */
 
   fenetre_accueil = gtk_hbox_new ( FALSE,
@@ -55,11 +56,6 @@ GtkWidget *creation_onglet_accueil ( void )
 
 
   /* création du logo */
-
-  if ( !chemin_logo
-       ||
-       !strlen ( chemin_logo ))
-    chemin_logo = CHEMIN_LOGO;
 
   if ( chemin_logo )
     {
@@ -139,7 +135,20 @@ GtkWidget *creation_onglet_accueil ( void )
   gtk_widget_show ( label );
 
 
-  label_jour = gtk_label_new ( "" );
+  /* met la date à coté */
+
+  time ( &date );
+  strftime ( (gchar *) tampon_date,
+	     (size_t) 50,
+	     "%A %d %B %Y",
+	     (const struct tm *) localtime ( &date ) );
+
+
+/* met la première lettre en majuscule */
+
+  tampon_date[0] = toupper ( tampon_date[0]);
+
+  label_jour = gtk_label_new ( tampon_date );
   gtk_misc_set_alignment ( GTK_MISC (label_jour ),
 			   1,
 			   1);
@@ -151,16 +160,21 @@ GtkWidget *creation_onglet_accueil ( void )
 		       5 );
   gtk_widget_show ( label_jour );
 
-  label_temps = gtk_label_new ( "" );
 
+  /*   crée le timer qui appelle la fonction change_temps toutes les secondes */
+
+  strftime ( (gchar *) tampon_date,
+	     (size_t) 50,
+	     "%X",
+	     (const struct tm *) localtime ( &date ) );
+
+  label_temps = gtk_label_new ( tampon_date );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       label_temps,
 		       TRUE,
 		       FALSE,
 		       5 );
   gtk_widget_show ( label_temps );
-
-  change_temps(label_temps);
 
   id_temps = gtk_timeout_add ( 1000,
 			       (GtkFunction) change_temps,
@@ -172,18 +186,13 @@ GtkWidget *creation_onglet_accueil ( void )
   if ( titre_fichier )
     {
       label_titre_fichier = gtk_label_new ( titre_fichier );
+      gtk_box_pack_start ( GTK_BOX ( base ),
+			   label_titre_fichier,
+			   FALSE,
+			   FALSE,
+			   0 );
+      gtk_widget_show ( label_titre_fichier );
     }
-  else
-    {
-      label_titre_fichier = gtk_label_new ( "" );
-    }
-
-  gtk_box_pack_start ( GTK_BOX ( base ),
-		       label_titre_fichier,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( label_titre_fichier );
 
   /* séparation haut-bas */
 /*
@@ -378,37 +387,26 @@ GtkWidget *creation_onglet_accueil ( void )
 /* ************************************************************************* */
 void change_temps ( GtkWidget *label_temps )
 {
-  gchar tampon_date [50], * tampon;
+  gchar tampon_date [50];
   time_t date;
-  GError *error = NULL;
 
   time ( &date );
-  strftime ( tampon_date,
+  strftime ( (gchar *) tampon_date,
 	     (size_t) 50,
 	     "%X",
 	     (const struct tm *) localtime ( &date ) );
 
-  /* Convert to UTF-8 */
-  tampon = g_convert (tampon_date, strlen(tampon_date), 
-		      "UTF-8", "ISO-8859-1", 
-		      NULL, NULL, &error);
-
+/* met la première lettre en majuscule */
+  tampon_date[0] = toupper ( tampon_date[0]);
   gtk_label_set_text ( GTK_LABEL (label_temps ),
-		       tampon );
+		       tampon_date );
 
-  strftime ( tampon_date,
+  strftime ( (gchar *) tampon_date,
 	     (size_t) 50,
 	     "%A %d %B %Y",
 	     (const struct tm *) localtime ( &date ) );
-  /* Convert to UTF-8 */
-  tampon = g_convert (tampon_date, strlen(tampon_date), 
-		      "UTF-8", "ISO-8859-1", 
-		      NULL, NULL, &error);
-  /* Capitalize */
-  tampon[0] = toupper ( tampon[0] );
-
   gtk_label_set_text ( GTK_LABEL (label_jour ),
-		       tampon );
+		       tampon_date );
 
 }
 /* ************************************************************************* */
@@ -419,15 +417,17 @@ void change_temps ( GtkWidget *label_temps )
 /*        Fonction appelée lorsqu'on clicke sur une échéance à saisir        */
 /* ************************************************************************* */
 
-gboolean saisie_echeance_accueil ( GtkWidget *event_box,
-				   GdkEventButton *event,
-				   struct operation_echeance *echeance )
+void saisie_echeance_accueil ( GtkWidget *event_box,
+			       GdkEventButton *event,
+			       struct operation_echeance *echeance )
 {
   GtkWidget *ancien_parent;
   struct operation_echeance *ancienne_selection_echeance;
   GtkWidget *dialog;
   gint resultat;
 
+
+    
   /* on sélectionne l'échéance demandée */
 
   ancienne_selection_echeance = echeance_selectionnnee;
@@ -499,7 +499,6 @@ gboolean saisie_echeance_accueil ( GtkWidget *event_box,
 
 
   etat.formulaire_echeance_dans_fenetre = 1;
-  dialogue_echeance = dialog;
 
   resultat = gnome_dialog_run ( GNOME_DIALOG ( dialog ));
 
@@ -530,31 +529,26 @@ gboolean saisie_echeance_accueil ( GtkWidget *event_box,
   if ( !etat.formulaire_echeancier_toujours_affiche )
     gtk_widget_hide ( frame_formulaire_echeancier );
 
-  return FALSE;
 }
 /* ************************************************************************* */
 
 /* ************************************************************************* */
-gboolean met_en_prelight ( GtkWidget *event_box,
-			   GdkEventMotion *event,
-			   gpointer pointeur )
+void met_en_prelight ( GtkWidget *event_box,
+			GdkEventMotion *event,
+			gpointer pointeur )
 {
   gtk_widget_set_state ( GTK_WIDGET ( GTK_BIN (event_box)->child ),
 			 GTK_STATE_PRELIGHT );
-
-  return FALSE;
 }
 /* ************************************************************************* */
 
 /* ************************************************************************* */
-gboolean met_en_normal ( GtkWidget *event_box,
-			 GdkEventMotion *event,
-			 gpointer pointeur )
+void met_en_normal ( GtkWidget *event_box,
+		     GdkEventMotion *event,
+		     gpointer pointeur )
 {
   gtk_widget_set_state ( GTK_WIDGET ( GTK_BIN (event_box)->child ),
 			 GTK_STATE_NORMAL );
-
-  return FALSE;
 }
 /* ************************************************************************* */
 
@@ -659,7 +653,7 @@ void update_liste_comptes_accueil ( void )
   gtk_widget_show ( pTable );
 
   /* Création et remplissage de la première ligne du tableau */
-  pLabel = gtk_label_new (_("Current balance"));
+  pLabel = gtk_label_new (_("Curent balance"));
   gtk_misc_set_alignment ( GTK_MISC ( pLabel ),
 			   0.5,
 			   0.5);
@@ -720,15 +714,15 @@ void update_liste_comptes_accueil ( void )
 	  /* Création d'une boite à évènement qui sera rattachée au nom du compte */
 	  pEventBox = gtk_event_box_new ();
 	  gtk_signal_connect ( GTK_OBJECT ( pEventBox ),
-			       "enter-notify-event",
+			       "enter_notify_event",
 			       GTK_SIGNAL_FUNC ( met_en_prelight ),
 			       NULL );
 	  gtk_signal_connect ( GTK_OBJECT ( pEventBox ),
-			       "leave-notify-event",
+			       "leave_notify_event",
 			       GTK_SIGNAL_FUNC ( met_en_normal ),
 			       NULL );
 	  gtk_signal_connect_object ( GTK_OBJECT ( pEventBox ),
-				      "button-press-event",
+				      "button_press_event",
 				      GTK_SIGNAL_FUNC ( changement_compte ),
 				      GINT_TO_POINTER ( ordre_comptes_variable->data ) );
 	  gtk_table_attach ( GTK_TABLE ( pTable ),
@@ -753,14 +747,14 @@ void update_liste_comptes_accueil ( void )
 	  
 	  /* Mise en place du style du label en fonction du solde courant */
 	  pStyleLabelSoldeCourant = gtk_style_copy ( gtk_widget_get_style (pLabel));
-	  if ( SOLDE_COURANT > SOLDE_MINI_VOULU )
+	  if ( SOLDE_COURANT >= SOLDE_MINI_VOULU )
 	    {
 	     pStyleLabelSoldeCourant->fg[GTK_STATE_NORMAL] = CouleurSoldeAlarmeVerteNormal;
 	     pStyleLabelSoldeCourant->fg[GTK_STATE_PRELIGHT] = CouleurSoldeAlarmeVertePrelight;
 	    }
 	  else
 	    {
-	     if ( SOLDE_COURANT > SOLDE_MINI )
+	     if ( SOLDE_COURANT >= SOLDE_MINI )
 	       {
 		pStyleLabelSoldeCourant->fg[GTK_STATE_NORMAL] = CouleurSoldeAlarmeOrangeNormal;
 		pStyleLabelSoldeCourant->fg[GTK_STATE_PRELIGHT] = CouleurSoldeAlarmeOrangePrelight;
@@ -777,15 +771,15 @@ void update_liste_comptes_accueil ( void )
 	  /* Création d'une boite à évènement qui sera rattachée au solde courant du compte */
 	  pEventBox = gtk_event_box_new ();
 	  gtk_signal_connect ( GTK_OBJECT ( pEventBox ),
-			       "enter-notify-event",
+			       "enter_notify_event",
 			       GTK_SIGNAL_FUNC ( met_en_prelight ),
 			       NULL );
 	  gtk_signal_connect ( GTK_OBJECT ( pEventBox ),
-			       "leave-notify-event",
+			       "leave_notify_event",
 			       GTK_SIGNAL_FUNC ( met_en_normal ),
 			       NULL );
 	  gtk_signal_connect_object ( GTK_OBJECT ( pEventBox ),
-				      "button-press-event",
+				      "button_press_event",
 				      GTK_SIGNAL_FUNC ( changement_compte ),
 				      GINT_TO_POINTER ( ordre_comptes_variable->data ));
 	  gtk_table_attach ( GTK_TABLE ( pTable ),
@@ -802,9 +796,9 @@ void update_liste_comptes_accueil ( void )
 	  gtk_widget_show ( pLabel );
 
 	  /* Quatrième colonne : elle contient le symbole de la devise du compte */
-	  pLabel = gtk_label_new ( devise_name ( g_slist_find_custom ( liste_struct_devises,
-								       GINT_TO_POINTER ( DEVISE ),
-								       (GCompareFunc) recherche_devise_par_no ) -> data ) );
+	  pLabel = gtk_label_new ( ((struct struct_devise *)(g_slist_find_custom ( liste_struct_devises,
+										  GINT_TO_POINTER ( DEVISE ),
+										  (GCompareFunc) recherche_devise_par_no )-> data )) -> code_devise);
 	  gtk_misc_set_alignment ( GTK_MISC ( pLabel ),
 				   0,
 				   0.5);
@@ -871,14 +865,14 @@ void update_liste_comptes_accueil ( void )
 	  
 	  /* Mise en place du style du label en fonction du solde pointé */
 	  pStyleLabelSoldePointe = gtk_style_copy ( gtk_widget_get_style (pLabel));
-	  if ( SOLDE_POINTE > SOLDE_MINI_VOULU )
+	  if ( SOLDE_POINTE >= SOLDE_MINI_VOULU )
 	    {
 	     pStyleLabelSoldePointe->fg[GTK_STATE_NORMAL] = CouleurSoldeAlarmeVerteNormal;
 	     pStyleLabelSoldePointe->fg[GTK_STATE_PRELIGHT] = CouleurSoldeAlarmeVertePrelight;
 	    }
 	  else
 	    {
-	     if ( SOLDE_POINTE > SOLDE_MINI )
+	     if ( SOLDE_POINTE >= SOLDE_MINI )
 	       {
 		pStyleLabelSoldePointe->fg[GTK_STATE_NORMAL] = CouleurSoldeAlarmeOrangeNormal;
 		pStyleLabelSoldePointe->fg[GTK_STATE_PRELIGHT] = CouleurSoldeAlarmeOrangePrelight;
@@ -895,15 +889,15 @@ void update_liste_comptes_accueil ( void )
 	  /* Création d'une boite à évènement qui sera rattachée au solde pointé du compte */
 	  pEventBox = gtk_event_box_new ();
 	  gtk_signal_connect ( GTK_OBJECT ( pEventBox ),
-			       "enter-notify-event",
+			       "enter_notify_event",
 			       GTK_SIGNAL_FUNC ( met_en_prelight ),
 			       NULL );
 	  gtk_signal_connect ( GTK_OBJECT ( pEventBox ),
-			       "leave-notify-event",
+			       "leave_notify_event",
 			       GTK_SIGNAL_FUNC ( met_en_normal ),
 			       NULL );
 	  gtk_signal_connect_object ( GTK_OBJECT ( pEventBox ),
-				      "button-press-event",
+				      "button_press_event",
 				      GTK_SIGNAL_FUNC ( changement_compte ),
 				      GINT_TO_POINTER ( ordre_comptes_variable->data ));
 	  gtk_table_attach ( GTK_TABLE ( pTable ),
@@ -920,9 +914,9 @@ void update_liste_comptes_accueil ( void )
 	  gtk_widget_show ( pLabel );
 
 	  /* Septième colonne : elle contient le symbole de la devise du compte */
-	  pLabel = gtk_label_new ( devise_name((struct struct_devise *)(g_slist_find_custom ( liste_struct_devises,
+	  pLabel = gtk_label_new ( ((struct struct_devise *)(g_slist_find_custom ( liste_struct_devises,
 									  GINT_TO_POINTER ( DEVISE ),
-									  (GCompareFunc) recherche_devise_par_no )-> data )));
+									  (GCompareFunc) recherche_devise_par_no )-> data )) -> code_devise);
 	  gtk_misc_set_alignment ( GTK_MISC ( pLabel ),
 				   0,
 				   0.5);
@@ -990,9 +984,9 @@ void update_liste_comptes_accueil ( void )
   gtk_widget_show ( pLabel );
 
   /* Quatrième colonne : elle contient le symbole de la devise du compte */
-  pLabel = gtk_label_new ( devise_name((struct struct_devise *)(g_slist_find_custom ( liste_struct_devises,
+  pLabel = gtk_label_new ( ((struct struct_devise *)(g_slist_find_custom ( liste_struct_devises,
 									  GINT_TO_POINTER ( DEVISE ),
-									  (GCompareFunc) recherche_devise_par_no )-> data )) );
+									  (GCompareFunc) recherche_devise_par_no )-> data )) -> code_devise);
   gtk_misc_set_alignment ( GTK_MISC ( pLabel ),
 			   0,
 			   0.5);
@@ -1021,9 +1015,9 @@ void update_liste_comptes_accueil ( void )
   gtk_widget_show ( pLabel );
 
   /* Septième colonne : elle contient le symbole de la devise du compte */
-  pLabel = gtk_label_new ( devise_name ((struct struct_devise *)(g_slist_find_custom ( liste_struct_devises,
+  pLabel = gtk_label_new ( ((struct struct_devise *)(g_slist_find_custom ( liste_struct_devises,
 									  GINT_TO_POINTER ( DEVISE ),
-									  (GCompareFunc) recherche_devise_par_no )-> data )) );
+									  (GCompareFunc) recherche_devise_par_no )-> data )) -> code_devise);
   gtk_misc_set_alignment ( GTK_MISC ( pLabel ),
 			   0,
 			   0.5);
@@ -1155,15 +1149,15 @@ void update_liste_echeances_manuelles_accueil ( void )
 
 	  event_box = gtk_event_box_new ();
 	  gtk_signal_connect ( GTK_OBJECT ( event_box ),
-			       "enter-notify-event",
+			       "enter_notify_event",
 			       GTK_SIGNAL_FUNC ( met_en_prelight ),
 			       NULL );
 	  gtk_signal_connect ( GTK_OBJECT ( event_box ),
-			       "leave-notify-event",
+			       "leave_notify_event",
 			       GTK_SIGNAL_FUNC ( met_en_normal ),
 			       NULL );
 	  gtk_signal_connect ( GTK_OBJECT ( event_box ),
-			       "button-press-event",
+			       "button_press_event",
 			       (GtkSignalFunc) saisie_echeance_accueil,
 			       ECHEANCE_COURANTE );
 	  gtk_box_pack_start ( GTK_BOX ( hbox ),
@@ -1205,16 +1199,16 @@ void update_liste_echeances_manuelles_accueil ( void )
 	  if ( ECHEANCE_COURANTE -> montant >= 0 )
 	    label = gtk_label_new ( g_strdup_printf (_("%4.2f %s credit on %s"),
 						     ECHEANCE_COURANTE->montant,
-						     devise_name((struct struct_devise *)(g_slist_find_custom ( liste_struct_devises,
+						     ((struct struct_devise *)(g_slist_find_custom ( liste_struct_devises,
 												     GINT_TO_POINTER ( ECHEANCE_COURANTE -> devise ),
-												     (GCompareFunc) recherche_devise_par_no )->data)),
+												     (GCompareFunc) recherche_devise_par_no )->data))-> code_devise,
 						     NOM_DU_COMPTE ));
 	  else
 	    label = gtk_label_new ( g_strdup_printf (_("%4.2f %s debit on %s"),
 						     -ECHEANCE_COURANTE->montant,
-						     devise_name((struct struct_devise *)(g_slist_find_custom ( liste_struct_devises,
+						     ((struct struct_devise *)(g_slist_find_custom ( liste_struct_devises,
 												     GINT_TO_POINTER ( ECHEANCE_COURANTE -> devise ),
-												     (GCompareFunc) recherche_devise_par_no )->data)),
+												     (GCompareFunc) recherche_devise_par_no )->data))-> code_devise,
 						     NOM_DU_COMPTE ));
 
 
@@ -1342,16 +1336,16 @@ void update_liste_echeances_auto_accueil ( void )
 	  if ( operation -> montant >= 0 )
 	    label = gtk_label_new ( g_strdup_printf (_("%4.2f %s credit on %s"),
 						     operation->montant,
-						     devise_name((struct struct_devise *)(g_slist_find_custom ( liste_struct_devises,
+						     ((struct struct_devise *)(g_slist_find_custom ( liste_struct_devises,
 												     GINT_TO_POINTER ( operation -> devise ),
-												     (GCompareFunc) recherche_devise_par_no )->data)),
+												     (GCompareFunc) recherche_devise_par_no )->data))-> code_devise,
 						     NOM_DU_COMPTE ));
 	  else
 	    label = gtk_label_new ( g_strdup_printf (_("%4.2f %s debit on %s"),
 						     -operation->montant,
-						     devise_name((struct struct_devise *)(g_slist_find_custom ( liste_struct_devises,
+						     ((struct struct_devise *)(g_slist_find_custom ( liste_struct_devises,
 												     GINT_TO_POINTER (  operation -> devise ),
-												     (GCompareFunc) recherche_devise_par_no )->data)),
+												     (GCompareFunc) recherche_devise_par_no )->data))-> code_devise,
 						     NOM_DU_COMPTE ));
 
 	  gtk_misc_set_alignment ( GTK_MISC ( label ),
