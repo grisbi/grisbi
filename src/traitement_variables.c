@@ -95,6 +95,45 @@ void init_variables ( gboolean ouverture )
 	gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
 							       menu_name(_("Accounts"), _("Remove an account"), NULL)),
 				   TRUE );
+	gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
+							       menu_name(_("Edit"), _("New transaction"), NULL)),
+				   TRUE );
+	gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
+							       menu_name(_("Edit"), _("Remove transaction"), NULL)),
+				   TRUE );
+	gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
+							       menu_name(_("Edit"), _("Clone transaction"), NULL)),
+				   TRUE );
+	gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
+							       menu_name(_("Edit"), _("Edit transaction"), NULL)),
+				   TRUE );
+	gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
+							       menu_name(_("Edit"), _("Convert transaction to scheduled transaction"), NULL)),
+				   TRUE );
+	gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
+							       menu_name(_("Edit"), _("Move transaction to another account"), NULL)),
+				   TRUE );
+	gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
+							       menu_name(_("Reports"), _("New report"), NULL)),
+				   TRUE );
+	gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
+							       menu_name(_("Reports"), _("Import report"), NULL)),
+				   TRUE );
+	gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
+							       menu_name(_("Reports"), _("Clone report"), NULL)),
+				   TRUE );
+	gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
+							       menu_name(_("Reports"), _("Print report"), NULL)),
+				   TRUE );
+	gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
+							       menu_name(_("Reports"), _("Export report"), NULL)),
+				   TRUE );
+	gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
+							       menu_name(_("Reports"), _("Remove report"), NULL)),
+				   TRUE );
+	gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
+							       menu_name(_("Reports"), _("Edit report"), NULL)),
+				   TRUE );
 
 	/* remplit les tabeaux tips_col_liste_operations et titres_colonnes_liste_operations */
 
@@ -169,6 +208,45 @@ void init_variables ( gboolean ouverture )
 				   FALSE );
 	gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
 							       menu_name(_("Accounts"), _("Closed accounts"), NULL)),
+				   FALSE );
+	gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
+							       menu_name(_("Edit"), _("New transaction"), NULL)),
+				   FALSE );
+	gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
+							       menu_name(_("Edit"), _("Remove transaction"), NULL)),
+				   FALSE );
+	gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
+							       menu_name(_("Edit"), _("Clone transaction"), NULL)),
+				   FALSE );
+	gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
+							       menu_name(_("Edit"), _("Edit transaction"), NULL)),
+				   FALSE );
+	gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
+							       menu_name(_("Edit"), _("Convert transaction to scheduled transaction"), NULL)),
+				   FALSE );
+	gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
+							       menu_name(_("Edit"), _("Move transaction to another account"), NULL)),
+				   FALSE );
+	gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
+							       menu_name(_("Reports"), _("New report"), NULL)),
+				   FALSE );
+	gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
+							       menu_name(_("Reports"), _("Import report"), NULL)),
+				   FALSE );
+	gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
+							       menu_name(_("Reports"), _("Clone report"), NULL)),
+				   FALSE );
+	gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
+							       menu_name(_("Reports"), _("Print report"), NULL)),
+				   FALSE );
+	gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
+							       menu_name(_("Reports"), _("Export report"), NULL)),
+				   FALSE );
+	gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
+							       menu_name(_("Reports"), _("Remove report"), NULL)),
+				   FALSE );
+	gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
+							       menu_name(_("Reports"), _("Edit report"), NULL)),
 				   FALSE );
 
 
