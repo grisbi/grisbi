@@ -842,24 +842,22 @@ gchar *recherche_contenu_cellule ( struct structure_operation *operation,
       /* mise en forme de la date */
 
     case 1:
-      return ( g_strconcat ( itoa ( operation -> jour ),
-			     "/",
-			     itoa ( operation -> mois ),
-			     "/",
-			     itoa ( operation -> annee ),
-			     NULL ));
+      /* FIXME: should use locale + strftime for that */
+      return ( g_strdup_printf ("%02d/%02d/%04d", 
+				operation -> jour,
+				operation -> mois,
+				operation -> annee ));
       break;
 
       /* mise en forme de la date de valeur */
 
     case 2:
       if ( operation -> jour_bancaire )
-	return ( g_strconcat ( itoa ( operation -> jour_bancaire ),
-			       "/",
-			       itoa ( operation -> mois_bancaire ),
-			       "/",
-			       itoa ( operation -> annee_bancaire ),
-			       NULL ));
+	/* FIXME: should use locale + strftime for that */
+	return ( g_strdup_printf ("%02d/%02d/%04d",
+				  operation -> jour_bancaire,
+				  operation -> mois_bancaire,
+				  operation -> annee_bancaire ));
       else
 	return ( NULL );
       break;
