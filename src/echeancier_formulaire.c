@@ -1387,7 +1387,8 @@ gboolean pression_touche_formulaire_echeancier ( GtkWidget *widget,
 
     case 65307 :
 
-      if (! etat.formulaire_echeance_dans_fenetre )
+      formulaire_echeancier_a_zero();
+      if (! etat.formulaire_echeancier_toujours_affiche )
 	{
 	  gtk_signal_emit_stop_by_name ( GTK_OBJECT ( widget ),
 					 "key-press-event");
@@ -1395,7 +1396,7 @@ gboolean pression_touche_formulaire_echeancier ( GtkWidget *widget,
 	  echap_formulaire_echeancier();
 	  gtk_widget_hide ( frame_formulaire_echeancier );
 	}
-      return TRUE;
+      return FALSE;
 
       /* tab */
 

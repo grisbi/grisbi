@@ -387,9 +387,7 @@ GtkWidget *creation_partie_gauche_echeancier ( void )
 		      hbox2 );
   gtk_widget_show ( hbox2 );
 
-  /* FIXME */
-/*   icone = gnome_stock_new_with_icon ( GNOME_STOCK_PIXMAP_REFRESH ); */
-  icone = gtk_image_new_from_stock (GTK_STOCK_PRINT, GTK_ICON_SIZE_BUTTON);  
+  icone = gtk_image_new_from_stock (GTK_STOCK_APPLY, GTK_ICON_SIZE_BUTTON);  
   gtk_box_pack_start ( GTK_BOX ( hbox2 ),
 		       icone,
 		       FALSE,
@@ -398,7 +396,7 @@ GtkWidget *creation_partie_gauche_echeancier ( void )
   gtk_widget_show ( icone );
     
 
-  label = gtk_label_new ( _("Enter") );
+  label = gtk_label_new ( _("Validate") );
   gtk_box_pack_start ( GTK_BOX ( hbox2 ),
 		       label,
 		       FALSE,
@@ -495,7 +493,7 @@ GtkWidget *creation_liste_echeances ( void )
   /*   vérifie les touche entrée, haut et bas */
 
   gtk_signal_connect ( GTK_OBJECT (liste_echeances),
-		       "key_press_event",
+		       "key-press-event",
 		       GTK_SIGNAL_FUNC ( traitement_clavier_liste_echeances ),
 		       NULL );
 
@@ -1046,7 +1044,7 @@ void edition_echeance ( void )
       etat.formulaire_echeancier_toujours_affiche = 1;
       gtk_widget_show ( frame_formulaire_echeancier );
       gtk_signal_connect ( GTK_OBJECT ( frame_formulaire_echeancier ),
-			   "draw",
+			   "map",
 			   GTK_SIGNAL_FUNC ( verifie_ligne_selectionnee_echeance_visible ),
 			   NULL );
 
