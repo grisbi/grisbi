@@ -75,7 +75,7 @@ static void touche_pressee_dans_popup ( GtkWidget *popup,
 /* Variables globales */
 
 static gint rafraichir_selection = 0;
-
+static gint case_sensitive = 0;
 
 
 
@@ -585,7 +585,7 @@ static void affiche_proposition ( GtkWidget *entree,
   GdkColor couleur_bleue;
   GSList *liste_affichee;
   gchar *categorie;
-  gint ligne_en_cours;
+  gint ligne_en_cours, i;
 
 #define COULEUR_RED  40000
 #define COULEUR_GREEN  40000
@@ -629,6 +629,15 @@ static void affiche_proposition ( GtkWidget *entree,
 
  recherche_completion:
 
+  for ( i=0; texte && longueur&& i < strlen(texte); i++)
+    {
+      if ( isupper(texte[i]) )
+ 	{
+ 	  case_sensitive = 1;
+ 	  break;
+ 	}
+    }
+ 
   chaine = gtk_entry_get_text ( GTK_ENTRY ( combofix -> entry ));
   completion = NULL;
 
@@ -638,10 +647,16 @@ static void affiche_proposition ( GtkWidget *entree,
 
       while ( liste_tmp && !completion )
 	{
-	  if ( !g_strncasecmp ( chaine,
-				liste_tmp->data, 
-				strlen ( chaine ) ) )
-	    completion = liste_tmp -> data;
+	  if ( !case_sensitive )
+	    {
+	      if ( !g_strncasecmp ( chaine, liste_tmp->data, strlen ( chaine ) ) )
+		completion = liste_tmp -> data;
+	    }
+	  else
+	    {
+	      if ( !strncmp ( chaine, liste_tmp->data, strlen ( chaine ) ) )
+		completion = liste_tmp -> data;
+	    }
 	  
 	  liste_tmp = liste_tmp -> next;
 	}
@@ -1435,6 +1450,9 @@ static void  focus_out_combofix ( GtkWidget *widget,
 
   gtk_signal_emit_stop_by_name ( GTK_OBJECT ( widget ),
 				 "focus-out-event" );
+
+  case_sensitive = 0;
+  printf (">> %d\n", case_sensitive);
 
   gtk_widget_get_pointer ( GTK_WIDGET ( combofix ),
 			   &x,
