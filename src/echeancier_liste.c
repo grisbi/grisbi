@@ -876,6 +876,7 @@ void edition_echeance ( void )
   /* c'est une modif d'échéance ou une saisie */
 
   entree_prend_focus ( widget_formulaire_echeancier[SCHEDULER_FORM_DATE] );
+  gtk_label_set_text ( GTK_LABEL ( label_saisie_modif ),  _("Modification") );
   gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_echeancier[SCHEDULER_FORM_DATE] ),
 		       g_strdup_printf ( "%02d/%02d/%04d",
 					 echeance_selectionnnee -> jour,

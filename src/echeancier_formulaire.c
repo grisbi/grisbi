@@ -1407,7 +1407,7 @@ void fin_edition_echeance ( void )
   /* on sépare ici en 2 parties : si le label label_saisie_modif contient Modification, c'est une modif ou une nvelle échéance, */
   /* s'il contient Saisie, on enregistre l'opé */
 
-  if ( strcmp ( GTK_LABEL ( label_saisie_modif ) -> label, _("Input") ) )
+  if ( strcmp ( GTK_LABEL ( label_saisie_modif ) -> label, _("Modification") ) )
     {
       /* On commence ici la partie modification / nouvelle échéance */
 
@@ -1415,7 +1415,8 @@ void fin_edition_echeance ( void )
 
       if ( !echeance )
 	echeance = calloc ( 1, sizeof ( struct operation_echeance ));
-
+      if ( echeance == NULL )
+	dialogue("Problème d'allocation mémoire");
       /* récupère la date */
 
 
@@ -2142,6 +2143,11 @@ void formulaire_echeancier_a_zero ( void )
 void incrementation_echeance ( struct operation_echeance *echeance )
 {
   GDate *date_suivante;
+
+
+  /* To prevent segment fault */
+  if ( echeance == NULL )
+    return ;
 
   /* périodicité hebdomadaire */
   if ( echeance -> periodicite == 1 )
