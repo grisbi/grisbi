@@ -115,7 +115,7 @@ GtkWidget *creation_formulaire_echeancier ( void )
 
   /* création du combofix des tiers */
 
-  widget_formulaire_echeancier[1] = gtk_combofix_new (  liste_tiers_combofix,
+  widget_formulaire_echeancier[1] = gtk_combofix_new (  liste_tiers_combofix_echeancier,
 							FALSE,
 							TRUE,
 							TRUE,

@@ -2411,14 +2411,14 @@ void creation_liste_categ_combofix ( void )
 
 	  if ( categorie -> type_categ )
 	    liste_categ_debit = g_slist_append ( liste_categ_debit,
-							g_strconcat ( "\t",
-								      sous_categ -> nom_sous_categ,
-								      NULL ) );
+						 g_strconcat ( "\t",
+							       sous_categ -> nom_sous_categ,
+							       NULL ) );
 	  else
 	    liste_categ_credit = g_slist_append ( liste_categ_credit,
-							 g_strconcat ( "\t",
-								       sous_categ -> nom_sous_categ,
-								       NULL ) );
+						  g_strconcat ( "\t",
+								sous_categ -> nom_sous_categ,
+								NULL ) );
 
 	  sous_pointeur = sous_pointeur -> next;
 	}

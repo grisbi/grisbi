@@ -68,14 +68,8 @@ GtkWidget *creation_formulaire ( void )
   formulaire = gtk_vbox_new ( FALSE,
 			      5 );
 
-  /* le formulaire est une table de 6 colonnes  sur 4 */
+  /* le formulaire est une table de 7 colonnes  sur 4 */
 
-  /*  table = gtk_table_new (4, 7, FALSE);*/
-  /* GDC : 7 colonnes (1 ajoutee pour la date_reelle
-     Le commentaire d'origine est passe de 7 colonnes (3.1.1)
-     à 6 (3.1.2) mais l'appel de fonction est resté le même !
-     Je ne suis pas sur de ce qu'il faut faire... Je laisse 7
-     pour le moment comme dans la 3.1.2 */
   table = gtk_table_new (4, 7, FALSE);
 
   gtk_table_set_col_spacings ( GTK_TABLE ( table ),
@@ -139,11 +133,11 @@ GtkWidget *creation_formulaire ( void )
   /*  entrée du tiers : c'est une combofix */
 
   creation_liste_tiers_combofix();
-  widget_formulaire_operations[2] = gtk_combofix_new ( liste_tiers_combofix,
-						       FALSE,
-						       TRUE,
-						       TRUE,
-						       0 );
+  widget_formulaire_operations[2] = gtk_combofix_new_complex ( liste_tiers_combofix,
+							       FALSE,
+							       TRUE,
+							       TRUE,
+							       0 );
   gtk_table_attach ( GTK_TABLE (table),
 		     widget_formulaire_operations[2],
 		     2,3, 0,1,
@@ -2398,16 +2392,19 @@ void completion_operation_par_tiers ( void )
 void fin_edition ( void )
 {
   struct structure_operation *operation;
-  struct structure_operation *operation_2;
-  gchar *pointeur_char;
-  GSList *pointeur_liste;
-  gchar **tableau_char;
   gint modification;
+  GSList *liste_no_tiers;
+  GSList *liste_tmp;
 
   /*   récupération de l'opération : soit l'adr de la struct, soit NULL si nouvelle */
 
   operation = gtk_object_get_data ( GTK_OBJECT ( formulaire ),
 				    "adr_struct_ope" );
+
+  if ( operation )
+    modification = 1;
+  else
+    modification = 0;
 
   /* on commence par vérifier que les données entrées sont correctes */
   /*   si la fonction renvoie false, c'est qu'on doit arrêter là */
@@ -2416,299 +2413,172 @@ void fin_edition ( void )
     return;
 
 
-  /* si c'est une nouvelle opé, on la créeen mettant tout à 0 sauf le no de compte */
+  /*   si le tiers est un état, on va faire autant d'opérations qu'il y a de tiers dans */
+  /* l'état concerné */
+  /* on va créer une liste avec les nos de tiers ( ou -1  */
+  /* le tiers n'est pas un état), puis on fera une boucle sur cette liste pour ajouter autant d'opérations */
+  /* que de tiers */
 
-  if ( !operation )
-    {
-      operation = calloc ( 1,
-			   sizeof ( struct structure_operation ) );
-      operation -> no_compte = compte_courant;
-      modification = 0;
-    }
+  liste_no_tiers = NULL;
+
+  if ( strncmp ( g_strstrip ( gtk_combofix_get_text ( GTK_COMBOFIX ( widget_formulaire_operations[2] ))),
+		 _("État : "),
+		 7 ))
+    /*     ce n'est pas un état, on met -1 comme no de tiers */
+    liste_no_tiers = g_slist_append (liste_no_tiers,
+				     GINT_TO_POINTER ( -1 ));
   else
-    modification = 1;
-
-
-  /* on récupère les données du formulaire sauf la categ qui est traitée plus tard */
-
-  recuperation_donnees_generales_formulaire ( operation );
-
-  p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
-
-  /* il faut ajouter l'opération à la liste à ce niveau pour lui attribuer un numéro */
-  /* celui ci sera utilisé si c'est un virement ou si c'est une ventil qui contient des */
-  /* virements */
-
-  ajout_operation ( operation );
-
-
-  /*   récupération des catégories / sous-catég, s'ils n'existent pas, on les crée */
-  /* à mettre en dernier car si c'est une opé ventilée, chaque opé de ventil va récupérer les données du dessus */
-
-  if ( gtk_widget_get_style ( GTK_COMBOFIX ( widget_formulaire_operations[8] ) -> entry ) == style_entree_formulaire[0] )
     {
-      struct struct_categ *categ;
-      
-      pointeur_char = gtk_combofix_get_text ( GTK_COMBOFIX ( widget_formulaire_operations[8] ));
+      /* c'est bien un état */
+      /* on commence par retrouver le nom de l'état */
+      /* toutes les vérifications ont été faites précédemment */
 
-      /* récupération de la ventilation si nécessaire */
+      gchar **tableau_char;
+      struct struct_etat *etat;
+      GSList *liste_opes_selectionnees;
 
-      if ( !strcmp ( g_strstrip ( pointeur_char ),
-		     _("Opération ventilée") ))
+      tableau_char = g_strsplit ( g_strstrip ( gtk_combofix_get_text ( GTK_COMBOFIX ( widget_formulaire_operations[2] ))),
+				  ":",
+				  2 );
+
+      tableau_char[1] = g_strstrip ( tableau_char[1] );
+      liste_tmp = liste_struct_etats;
+      etat = NULL;
+
+      while ( liste_tmp )
 	{
-	  /* c'est une opé ventilée, on va appeler la fonction validation_ope_de_ventilation */
-	  /* qui va créer les nouvelles opé, les contre-opérations et faire toutes les */
-	  /* suppressions nécessaires */
+	  etat = liste_tmp -> data;
 
-	  /*  auparavant, si c'est une modif d'opé et que l'ancienne opé était un virement, on  */
-	  /* vire l'ancienne opé associée */
+	  if ( !strcmp ( etat -> nom_etat,
+			 tableau_char[1] ))
+	    liste_tmp = NULL;
+	  else
+	    liste_tmp = liste_tmp -> next;
+	}
 
-	  if ( modification
-	       &&
-	       operation -> relation_no_operation )
+      g_strfreev ( tableau_char );
+
+      /*       à ce niveau, etat contient l'adr le la struct de l'état choisi */
+
+      liste_opes_selectionnees = recupere_opes_etat ( etat );
+
+      liste_tmp = liste_opes_selectionnees;
+
+      while ( liste_tmp )
+	{
+	  struct structure_operation *operation;
+
+	  operation = liste_tmp -> data;
+
+	  if ( !g_slist_find ( liste_no_tiers,
+			       GINT_TO_POINTER ( operation -> tiers )))
+	    liste_no_tiers = g_slist_append ( liste_no_tiers,
+					      GINT_TO_POINTER ( operation -> tiers ));
+
+	  liste_tmp = liste_tmp -> next;
+	}
+
+      g_slist_free ( liste_opes_selectionnees );
+    }
+
+
+  /*   à ce niveau, liste_no_tiers contient la liste des no de tiers pour chacun desquels on */
+  /*     fera une opé, ou -1 si on utilise que le tiers dans l'entrée du formulaire */
+  /* on fait donc le tour de cette liste en ajoutant l'opé à chaque fois */
+
+  liste_tmp = liste_no_tiers;
+
+  while ( liste_tmp )
+    {
+      /*       soit on va chercher le tiers dans la liste des no de tiers et on le met dans le formulaire, */
+      /* soit on laisse tel quel et on met liste_tmp à NULL */
+
+      if ( liste_tmp -> data == GINT_TO_POINTER ( -1 ))
+	liste_tmp = NULL;
+      else
+	{
+	  struct struct_tiers *tiers;
+
+	  tiers = g_slist_find_custom ( liste_struct_tiers,
+					liste_tmp -> data,
+					(GCompareFunc) recherche_tiers_par_no ) -> data;
+
+	  gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_operations[2] ),
+				  tiers -> nom_tiers );
+
+	  /* si le moyen de paiement est à incrémentation automatique, à partir de la 2ème opé, */
+	  /* on incrémente le contenu (no de chèque en général) */
+
+	  /* comme c'est une liste de tiers, c'est forcemment une nouvelle opé */
+	  /* donc si operation n'est pas nul, c'est qu'on n'est pas sur la 1ère */
+	  /* donc on peut incrémenter si nécessaire le contenu */
+	  /* et on peut récupérer le no_type de l'ancienne opé */
+
+	  if ( operation )
 	    {
-	      /* c'était un virement, et ce ne l'est plus, donc on efface l'opé en relation */
-
-	      p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> relation_no_compte;
-
-	      operation_2 = g_slist_find_custom ( LISTE_OPERATIONS,
-						  GINT_TO_POINTER ( operation -> relation_no_operation ),
-						  ( GCompareFunc ) recherche_operation_par_no ) -> data;
-	  
-	      operation_2 -> relation_no_operation = 0;
-	      MISE_A_JOUR = 1;
-
-	      supprime_operation ( operation_2 );
+	      struct struct_type_ope *type;
 
 	      p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
 
-	      operation -> relation_no_operation = 0;
-	      operation -> relation_no_compte = 0;
+	      type = g_slist_find_custom ( TYPES_OPES,
+					   GINT_TO_POINTER ( operation -> type_ope ),
+					   (GCompareFunc) recherche_type_ope_par_no ) -> data;
+
+	      if ( type -> affiche_entree
+		   &&
+		   type -> numerotation_auto )
+		gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_operations[10] ),
+				     itoa ( type -> no_en_cours + 1 ));
 	    }
 
-	  validation_ope_de_ventilation ( operation );
-	  operation -> operation_ventilee = 1;
+
+	  liste_tmp = liste_tmp -> next;
 	}
-      else
+
+
+      /* si c'est une nouvelle opé, on la crée en mettant tout à 0 sauf le no de compte */
+
+      if ( !modification )
 	{
-	  /* ce n'est pas une opé ventilée, si c'est une modif d'opé et que */
-	  /* c'en était une, on supprime les opés de ventil asssociées */
-
-	  if ( modification
-	       &&
-	       operation -> operation_ventilee )
-	    {
-	      GSList *liste_tmp;
-
-	      liste_tmp = LISTE_OPERATIONS;
-
-	      while ( liste_tmp )
-		{
-		  struct structure_operation *ope_tmp;
-		      
-		  ope_tmp = liste_tmp -> data;
-
-		  if ( ope_tmp -> no_operation_ventilee_associee == operation -> no_operation )
-		    {
-		      liste_tmp = liste_tmp -> next;
-		      supprime_operation ( ope_tmp );
-		    }
-		  else
-		    liste_tmp = liste_tmp -> next;
-		}
-	      operation -> operation_ventilee = 0;
-	    }
-
-	  /* on va maintenant séparer entre virement et catég normale */
-
-
-	  tableau_char = g_strsplit ( pointeur_char,
-				      ":",
-				      2 );
-      
-	  tableau_char[0] = g_strstrip ( tableau_char[0] );
-
-	  if ( tableau_char[1] )
-	    tableau_char[1] = g_strstrip ( tableau_char[1] );
-
-
-	  if ( strlen ( tableau_char[0] ) )
-	    {
-	      if ( !strcmp ( tableau_char[0],
-			     _("Virement") )
-		   && tableau_char[1]
-		   && strlen ( tableau_char[1]) )
-		{
-		  /* c'est un virement, il n'y a donc aucune catégorie */
-
-		  operation -> categorie = 0;
-		  operation -> sous_categorie = 0;
-
-		  /* sépare entre virement vers un compte et virement vers un compte supprimé */
-
-		  if ( strcmp ( tableau_char[1],
-				_("Compte supprimé") ) )
-		    {
-		      /* c'est un virement normal, on appelle la fonction qui va traiter ça */
-
-		      validation_virement_operation ( operation,
-						      modification,
-						      tableau_char[1] );
-		    }
-		  else
-		    {
-		      /* c'est un virement vers un compte supprimé */
-
-		      operation -> relation_no_compte = -1;
-		      operation -> relation_no_operation = 1;
-		    }
-		}
-	      else
-		{
-		  /* c'est une catég normale, si c'est une modif d'opé, vérifier si ce n'était pas un virement */
-
-		  if ( modification
-		       &&
-		       operation -> relation_no_operation )
-		    {
-		      /* c'était un virement, et ce ne l'est plus, donc on efface l'opé en relation */
-
-		      p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> relation_no_compte;
-
-		      operation_2 = g_slist_find_custom ( LISTE_OPERATIONS,
-							  GINT_TO_POINTER ( operation -> relation_no_operation ),
-							  ( GCompareFunc ) recherche_operation_par_no ) -> data;
-	  
-		      operation_2 -> relation_no_operation = 0;
-		      MISE_A_JOUR = 1;
-
-		      supprime_operation ( operation_2 );
-
-		      p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
-
-		      operation -> relation_no_operation = 0;
-		      operation -> relation_no_compte = 0;
-		    }
-
-		  pointeur_liste = g_slist_find_custom ( liste_struct_categories,
-							 tableau_char[0],
-							 ( GCompareFunc ) recherche_categorie_par_nom );
-
-		  if ( pointeur_liste )
-		    categ = pointeur_liste -> data;
-		  else
-		    {
-		      categ = ajoute_nouvelle_categorie ( tableau_char[0] );
-		      if ( operation -> montant < 0 )
-			categ -> type_categ = 1;
-		      else
-			categ -> type_categ = 0;
-		    }
-
-		  operation -> categorie = categ -> no_categ;
-	  
-		  if ( tableau_char[1] && strlen (tableau_char[1]) )
-		    {
-		      struct struct_sous_categ *sous_categ;
-		  
-		      pointeur_liste = g_slist_find_custom ( categ -> liste_sous_categ,
-							     tableau_char[1],
-							     ( GCompareFunc ) recherche_sous_categorie_par_nom );
-	      
-		      if ( pointeur_liste )
-			sous_categ = pointeur_liste -> data;
-		      else
-			sous_categ = ajoute_nouvelle_sous_categorie ( tableau_char[1],
-								      categ );
-		  
-		      operation -> sous_categorie = sous_categ -> no_sous_categ;
-		    }
-		  else
-		    operation -> sous_categorie = 0;
-		}
-	    }
-	  else
-	    {
-	      operation -> categorie = 0;
-	      operation -> sous_categorie = 0;
-	    }
-	  g_strfreev ( tableau_char );
+	  operation = calloc ( 1,
+			       sizeof ( struct structure_operation ) );
+	  operation -> no_compte = compte_courant;
 	}
+
+
+      /* on récupère les données du formulaire sauf la categ qui est traitée plus tard */
+
+      recuperation_donnees_generales_formulaire ( operation );
+
+      p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
+
+      /* il faut ajouter l'opération à la liste à ce niveau pour lui attribuer un numéro */
+
+      /* celui ci sera utilisé si c'est un virement ou si c'est une ventil qui contient des */
+      /* virements */
+
+      ajout_operation ( operation );
+
+
+      /*   récupération des catégories / sous-catég, s'ils n'existent pas, on les crée */
+      /* à mettre en dernier car si c'est une opé ventilée, chaque opé de ventil va récupérer les données du dessus */
+
+      recuperation_categorie_formulaire ( operation,
+					  modification );
     }
-  else
-    {
-      operation -> categorie = 0;
-      operation -> sous_categorie = 0;
-    }
- 
+
+
+
+  /* on libère la liste des no tiers */
+
+  g_slist_free ( liste_no_tiers );
 
 
   /* si on est en train d'équilibrer => recalcule le total pointé */
 
   if ( etat.equilibrage )
     {
-      GSList *pointeur_liste_ope;
-      struct struct_devise *devise_compte;
-      struct struct_devise *devise_operation;
-
-      p_tab_nom_de_compte_variable =  p_tab_nom_de_compte_courant;
-
-      /* récupère l'adr de la devise du compte */
-
-      devise_compte = g_slist_find_custom ( liste_struct_devises,
-					    GINT_TO_POINTER ( DEVISE ),
-					    ( GCompareFunc ) recherche_devise_par_no) -> data;
-
-      pointeur_liste_ope = LISTE_OPERATIONS;
-      operations_pointees = 0;
-
-      while ( pointeur_liste_ope )
-	{
-	  struct structure_operation *operation;
-
-	  operation = pointeur_liste_ope -> data;
-
-	  if ( operation -> pointe == 1 )
-	    {
-	      gdouble montant;
-
-	      if ( operation -> devise == DEVISE )
-		montant = operation -> montant;
-	      else
-		{
-		  /* ce n'est pas la devise du compte, si le compte passe à l'euro et que la devise est l'euro, utilise la conversion du compte, */
-		  /* si c'est une devise qui passe à l'euro et que la devise du compte est l'euro, utilise la conversion du compte */
-		  /* sinon utilise la conversion stockée dans l'opé */
-	      
-		  devise_operation = g_slist_find_custom ( liste_struct_devises,
-							   GINT_TO_POINTER ( operation -> devise ),
-							   ( GCompareFunc ) recherche_devise_par_no ) -> data;
-	      
-		  if ( devise_compte -> passage_euro
-		       &&
-		       !strcmp ( devise_operation -> nom_devise, _("Euro") ) )
-		    montant = operation -> montant * devise_compte -> change - operation -> frais_change;
-		  else
-		    if ( devise_operation -> passage_euro
-			 &&
-			 !strcmp ( devise_compte -> nom_devise, _("Euro") ))
-		      montant = operation -> montant / devise_operation -> change;
-		    else
-		      if ( operation -> une_devise_compte_egale_x_devise_ope )
-			montant = operation -> montant / operation -> taux_change - operation -> frais_change;
-		      else
-			montant = operation -> montant * operation -> taux_change - operation -> frais_change;
-		  montant = ( rint (montant * 100 )) / 100;
-		}
-	      operations_pointees = operations_pointees + montant;
-	    }
-
-	  pointeur_liste_ope = pointeur_liste_ope -> next;
-	}
-
-      gtk_label_set_text ( GTK_LABEL ( label_equilibrage_pointe ),
-			   g_strdup_printf ( "%4.2f", 
-					     operations_pointees ));
+      calcule_total_pointe_compte ( compte_courant );
 
       if ( fabs ( solde_final - solde_initial - operations_pointees ) < 0.01 )
 	{
@@ -2727,7 +2597,6 @@ void fin_edition ( void )
 				     FALSE );
 	}
     }
-
 
 
   /* si c'était une nouvelle opération, on efface le formulaire, on remet la date pour la suivante, */
@@ -2786,6 +2655,8 @@ void fin_edition ( void )
 
 gint verification_validation_operation ( struct structure_operation *operation )
 {
+  gchar **tableau_char;
+  GSList *liste_tmp;
 
   p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
 
@@ -2828,8 +2699,6 @@ gint verification_validation_operation ( struct structure_operation *operation )
 
   if ( gtk_widget_get_style ( GTK_COMBOFIX ( widget_formulaire_operations[8] ) -> entry ) == style_entree_formulaire[0] )
     {
-      gchar **tableau_char;
-
       tableau_char = g_strsplit ( gtk_combofix_get_text ( GTK_COMBOFIX ( widget_formulaire_operations[8] )),
 				  ":",
 				  2 );
@@ -2903,7 +2772,6 @@ gint verification_validation_operation ( struct structure_operation *operation )
 
       if ( type -> numerotation_auto )
 	{
-	  GSList *liste_tmp;
 	  gchar *no_cheque;
 
 	  /* vérifie s'il y a quelque chose */
@@ -2980,7 +2848,56 @@ gint verification_validation_operation ( struct structure_operation *operation )
 	return (FALSE);
       }
 
+  /*   on vérifie si le tiers est un état, que c'est une nouvelle opérations */
 
+  if ( !strncmp ( g_strstrip ( gtk_combofix_get_text ( GTK_COMBOFIX ( widget_formulaire_operations[2] ))),
+		  _("État : "),
+		  7 ))
+    {
+      gint trouve;
+
+      /* on vérifie d'abord si c'est une modif d'opé */
+
+      if ( operation )
+	{
+	  dialogue ( _("Erreur : Une opération dont le tiers est un état doit forcemment être une nouvelle opération.") );
+	  return (FALSE);
+	}
+
+      /* on vérifie maintenant si l'état existe */
+
+      tableau_char = g_strsplit ( g_strstrip ( gtk_combofix_get_text ( GTK_COMBOFIX ( widget_formulaire_operations[2] ))),
+				  ":",
+				  2 );
+
+      tableau_char[1] = g_strstrip ( tableau_char[1] );
+      liste_tmp = liste_struct_etats;
+      trouve = 0;
+
+      while ( liste_tmp )
+	{
+	  struct struct_etat *etat;
+
+	  etat = liste_tmp -> data;
+
+	  if ( !strcmp ( etat -> nom_etat,
+			 tableau_char[1] ))
+	    {
+	      trouve = 1;
+	      liste_tmp = NULL;
+	    }
+	  else
+	    liste_tmp = liste_tmp -> next;
+	}
+
+      g_strfreev ( tableau_char );
+
+      if ( !trouve )
+	{
+	  dialogue ( _("Erreur : Le nom de l'état dans le tiers est invalide.") );
+	  return (FALSE);
+	}
+    }
 
   return ( TRUE );
 }
@@ -3269,6 +3186,218 @@ void recuperation_donnees_generales_formulaire ( struct structure_operation *ope
 }
 /***********************************************************************************************************/
 
+
+
+/***********************************************************************************************************/
+/* récupération des categ du formulaire, crée la contre opération si nécessaire ou remplit les opés */
+/* de ventil */
+/***********************************************************************************************************/
+
+void recuperation_categorie_formulaire ( struct structure_operation *operation,
+					 gint modification )
+{
+  gchar *pointeur_char;
+  GSList *pointeur_liste;
+  gchar **tableau_char;
+  struct structure_operation *operation_2;
+
+  if ( gtk_widget_get_style ( GTK_COMBOFIX ( widget_formulaire_operations[8] ) -> entry ) == style_entree_formulaire[0] )
+    {
+      struct struct_categ *categ;
+      
+      pointeur_char = gtk_combofix_get_text ( GTK_COMBOFIX ( widget_formulaire_operations[8] ));
+
+      /* récupération de la ventilation si nécessaire */
+
+      if ( !strcmp ( g_strstrip ( pointeur_char ),
+		     _("Opération ventilée") ))
+	{
+	  /* c'est une opé ventilée, on va appeler la fonction validation_ope_de_ventilation */
+	  /* qui va créer les nouvelles opé, les contre-opérations et faire toutes les */
+	  /* suppressions nécessaires */
+
+	  /*  auparavant, si c'est une modif d'opé et que l'ancienne opé était un virement, on  */
+	  /* vire l'ancienne opé associée */
+
+	  if ( modification
+	       &&
+	       operation -> relation_no_operation )
+	    {
+	      /* c'était un virement, et ce ne l'est plus, donc on efface l'opé en relation */
+
+	      p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> relation_no_compte;
+
+	      operation_2 = g_slist_find_custom ( LISTE_OPERATIONS,
+						  GINT_TO_POINTER ( operation -> relation_no_operation ),
+						  ( GCompareFunc ) recherche_operation_par_no ) -> data;
+	  
+	      operation_2 -> relation_no_operation = 0;
+	      MISE_A_JOUR = 1;
+
+	      supprime_operation ( operation_2 );
+
+	      p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
+
+	      operation -> relation_no_operation = 0;
+	      operation -> relation_no_compte = 0;
+	    }
+
+	  validation_ope_de_ventilation ( operation );
+	  operation -> operation_ventilee = 1;
+	}
+      else
+	{
+	  /* ce n'est pas une opé ventilée, si c'est une modif d'opé et que */
+	  /* c'en était une, on supprime les opés de ventil asssociées */
+
+	  if ( modification
+	       &&
+	       operation -> operation_ventilee )
+	    {
+	      GSList *liste_tmp;
+
+	      liste_tmp = LISTE_OPERATIONS;
+
+	      while ( liste_tmp )
+		{
+		  struct structure_operation *ope_tmp;
+		      
+		  ope_tmp = liste_tmp -> data;
+
+		  if ( ope_tmp -> no_operation_ventilee_associee == operation -> no_operation )
+		    {
+		      liste_tmp = liste_tmp -> next;
+		      supprime_operation ( ope_tmp );
+		    }
+		  else
+		    liste_tmp = liste_tmp -> next;
+		}
+	      operation -> operation_ventilee = 0;
+	    }
+
+	  /* on va maintenant séparer entre virement et catég normale */
+
+
+	  tableau_char = g_strsplit ( pointeur_char,
+				      ":",
+				      2 );
+      
+	  tableau_char[0] = g_strstrip ( tableau_char[0] );
+
+	  if ( tableau_char[1] )
+	    tableau_char[1] = g_strstrip ( tableau_char[1] );
+
+
+	  if ( strlen ( tableau_char[0] ) )
+	    {
+	      if ( !strcmp ( tableau_char[0],
+			     _("Virement") )
+		   && tableau_char[1]
+		   && strlen ( tableau_char[1]) )
+		{
+		  /* c'est un virement, il n'y a donc aucune catégorie */
+
+		  operation -> categorie = 0;
+		  operation -> sous_categorie = 0;
+
+		  /* sépare entre virement vers un compte et virement vers un compte supprimé */
+
+		  if ( strcmp ( tableau_char[1],
+				_("Compte supprimé") ) )
+		    {
+		      /* c'est un virement normal, on appelle la fonction qui va traiter ça */
+
+		      validation_virement_operation ( operation,
+						      modification,
+						      tableau_char[1] );
+		    }
+		  else
+		    {
+		      /* c'est un virement vers un compte supprimé */
+
+		      operation -> relation_no_compte = -1;
+		      operation -> relation_no_operation = 1;
+		    }
+		}
+	      else
+		{
+		  /* c'est une catég normale, si c'est une modif d'opé, vérifier si ce n'était pas un virement */
+
+		  if ( modification
+		       &&
+		       operation -> relation_no_operation )
+		    {
+		      /* c'était un virement, et ce ne l'est plus, donc on efface l'opé en relation */
+
+		      p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> relation_no_compte;
+
+		      operation_2 = g_slist_find_custom ( LISTE_OPERATIONS,
+							  GINT_TO_POINTER ( operation -> relation_no_operation ),
+							  ( GCompareFunc ) recherche_operation_par_no ) -> data;
+	  
+		      operation_2 -> relation_no_operation = 0;
+		      MISE_A_JOUR = 1;
+
+		      supprime_operation ( operation_2 );
+
+		      p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
+
+		      operation -> relation_no_operation = 0;
+		      operation -> relation_no_compte = 0;
+		    }
+
+		  pointeur_liste = g_slist_find_custom ( liste_struct_categories,
+							 tableau_char[0],
+							 ( GCompareFunc ) recherche_categorie_par_nom );
+
+		  if ( pointeur_liste )
+		    categ = pointeur_liste -> data;
+		  else
+		    {
+		      categ = ajoute_nouvelle_categorie ( tableau_char[0] );
+		      if ( operation -> montant < 0 )
+			categ -> type_categ = 1;
+		      else
+			categ -> type_categ = 0;
+		    }
+
+		  operation -> categorie = categ -> no_categ;
+	  
+		  if ( tableau_char[1] && strlen (tableau_char[1]) )
+		    {
+		      struct struct_sous_categ *sous_categ;
+		  
+		      pointeur_liste = g_slist_find_custom ( categ -> liste_sous_categ,
+							     tableau_char[1],
+							     ( GCompareFunc ) recherche_sous_categorie_par_nom );
+	      
+		      if ( pointeur_liste )
+			sous_categ = pointeur_liste -> data;
+		      else
+			sous_categ = ajoute_nouvelle_sous_categorie ( tableau_char[1],
+								      categ );
+		  
+		      operation -> sous_categorie = sous_categ -> no_sous_categ;
+		    }
+		  else
+		    operation -> sous_categorie = 0;
+		}
+	    }
+	  else
+	    {
+	      operation -> categorie = 0;
+	      operation -> sous_categorie = 0;
+	    }
+	  g_strfreev ( tableau_char );
+	}
+    }
+  else
+    {
+      operation -> categorie = 0;
+      operation -> sous_categorie = 0;
+    }
+ }
+/***********************************************************************************************************/
 
 /***********************************************************************************************************/
 /* cette fonction crée la contre-opération, l'enregistre et met en place les liens */

@@ -419,9 +419,7 @@ GtkWidget *creation_fenetre_equilibrage ( void )
 void equilibrage ( void )
 {
   GDate *date;
-  GSList *pointeur_liste_ope;
   struct struct_devise *devise_compte;
-  struct struct_devise *devise_operation;
 
   p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
 
@@ -444,57 +442,7 @@ void equilibrage ( void )
 
   /* calcule le montant des opérations pointées */
 
-  pointeur_liste_ope = LISTE_OPERATIONS;
-  operations_pointees = 0;
-
-  while ( pointeur_liste_ope )
-    {
-      struct structure_operation *operation;
-
-      operation = pointeur_liste_ope -> data;
-
-      if ( operation -> pointe == 1 )
-	{
-	  gdouble montant;
-
-	  if ( operation -> devise == DEVISE )
-	    montant = operation -> montant;
-	  else
-	    {
-	      /* ce n'est pas la devise du compte, si le compte passe à l'euro et que la devise est l'euro, utilise la conversion du compte, */
-	      /* si c'est une devise qui passe à l'euro et que la devise du compte est l'euro, utilise la conversion du compte */
-	      /* sinon utilise la conversion stockée dans l'opé */
-	      
-	      devise_operation = g_slist_find_custom ( liste_struct_devises,
-						       GINT_TO_POINTER ( operation -> devise ),
-						       ( GCompareFunc ) recherche_devise_par_no ) -> data;
-	      
-	      if ( devise_compte -> passage_euro
-		   &&
-		   !strcmp ( devise_operation -> nom_devise, _("Euro") ) )
-		montant = operation -> montant * devise_compte -> change;
-	      else
-		if ( devise_operation -> passage_euro
-		     &&
-		     !strcmp ( devise_compte -> nom_devise, _("Euro") ))
-		  montant = operation -> montant / devise_operation -> change;
-		else
-		  if ( operation -> une_devise_compte_egale_x_devise_ope )
-		    montant = operation -> montant / operation -> taux_change - operation -> frais_change;
-		  else
-		    montant = operation -> montant * operation -> taux_change - operation -> frais_change;
-
-	      montant = ( rint (montant * 100 )) / 100;
-	    }
-	  operations_pointees = operations_pointees + montant;
-	}
-
-      pointeur_liste_ope = pointeur_liste_ope -> next;
-    }
-
-  gtk_label_set_text ( GTK_LABEL ( label_equilibrage_pointe ),
-		       g_strdup_printf ( "%4.2f", 
-					 operations_pointees ));
+  calcule_total_pointe_compte ( compte_courant );
 
 
   /* récupère l'ancien no de rapprochement et essaie d'augmenter la partie numérique */
@@ -1208,5 +1156,75 @@ gint recherche_no_rapprochement_par_no ( struct struct_no_rapprochement *rapproc
 
   return ( !(rapprochement -> no_rapprochement == GPOINTER_TO_INT ( no_rap )));
 
+}
+/* ********************************************************************************************************** */
+
+
+
+/* ********************************************************************************************************** */
+void calcule_total_pointe_compte ( gint no_compte )
+{
+  GSList *pointeur_liste_ope;
+  struct struct_devise *devise_compte;
+  struct struct_devise *devise_operation;
+
+  p_tab_nom_de_compte_variable =  p_tab_nom_de_compte + no_compte;
+
+  /* récupère l'adr de la devise du compte */
+
+  devise_compte = g_slist_find_custom ( liste_struct_devises,
+					GINT_TO_POINTER ( DEVISE ),
+					( GCompareFunc ) recherche_devise_par_no) -> data;
+
+  pointeur_liste_ope = LISTE_OPERATIONS;
+  operations_pointees = 0;
+
+  while ( pointeur_liste_ope )
+    {
+      struct structure_operation *operation;
+
+      operation = pointeur_liste_ope -> data;
+
+      if ( operation -> pointe == 1 )
+	{
+	  gdouble montant;
+
+	  if ( operation -> devise == DEVISE )
+	    montant = operation -> montant;
+	  else
+	    {
+	      /* ce n'est pas la devise du compte, si le compte passe à l'euro et que la devise est l'euro, utilise la conversion du compte, */
+	      /* si c'est une devise qui passe à l'euro et que la devise du compte est l'euro, utilise la conversion du compte */
+	      /* sinon utilise la conversion stockée dans l'opé */
+	      
+	      devise_operation = g_slist_find_custom ( liste_struct_devises,
+						       GINT_TO_POINTER ( operation -> devise ),
+						       ( GCompareFunc ) recherche_devise_par_no ) -> data;
+	      
+	      if ( devise_compte -> passage_euro
+		   &&
+		   !strcmp ( devise_operation -> nom_devise, _("Euro") ) )
+		montant = operation -> montant * devise_compte -> change - operation -> frais_change;
+	      else
+		if ( devise_operation -> passage_euro
+		     &&
+		     !strcmp ( devise_compte -> nom_devise, _("Euro") ))
+		  montant = operation -> montant / devise_operation -> change;
+		else
+		  if ( operation -> une_devise_compte_egale_x_devise_ope )
+		    montant = operation -> montant / operation -> taux_change - operation -> frais_change;
+		  else
+		    montant = operation -> montant * operation -> taux_change - operation -> frais_change;
+	      montant = ( rint (montant * 100 )) / 100;
+	    }
+	  operations_pointees = operations_pointees + montant;
+	}
+
+      pointeur_liste_ope = pointeur_liste_ope -> next;
+    }
+
+  gtk_label_set_text ( GTK_LABEL ( label_equilibrage_pointe ),
+		       g_strdup_printf ( "%4.2f", 
+					 operations_pointees ));
 }
 /* ********************************************************************************************************** */

@@ -348,6 +348,7 @@ gint no_dernier_tiers;
 GList tiers_combo;                         /* liste des struct_chaine_completion pour la complétion  */
 GSList *liste_struct_tiers;             /* contient la liste des struct liste_tiers de tous les tiers */
 GSList *liste_tiers_combofix;            /* liste des tiers pour le combofix */
+GSList *liste_tiers_combofix_echeancier;            /* liste des tiers pour le combofix de l'échéancier */
 GDate **date_dernier_tiers;            /* contient la date du dernier tiers lors de l'affichage de chaque tiers */
 gint no_devise_totaux_tiers;
 gint *nb_ecritures_par_tiers;           /* variable tampon */
@@ -646,6 +647,7 @@ GtkWidget *bouton_afficher_exo_opes;
 GtkWidget *bouton_pas_detailler_ventilation;
 GtkWidget *bouton_separer_revenus_depenses;
 GtkWidget *bouton_devise_general_etat;
+GtkWidget *bouton_inclure_dans_tiers;
 GtkWidget *bouton_afficher_titres_colonnes;
 GtkWidget *bouton_titre_changement;
 GtkWidget *bouton_titre_en_haut;

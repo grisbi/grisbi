@@ -35,11 +35,6 @@ void affichage_etat ( struct struct_etat *etat,
 		      struct struct_etat_affichage * affichage )
 {
   GSList *liste_opes_selectionnees;
-  gint i;
-  gint no_exercice_recherche;
-  struct struct_devise *devise_montant;
-  struct struct_devise *devise_operation;
-
 
   if ( !etat )
     {
@@ -50,9 +45,42 @@ void affichage_etat ( struct struct_etat *etat,
     }
 
   if ( !affichage )
-    {
-      affichage = &gtktable_affichage;
-    }
+    affichage = &gtktable_affichage;
+
+
+  /*   selection des opérations */
+  /* on va mettre l'adresse des opés sélectionnées dans une liste */
+
+  liste_opes_selectionnees = recupere_opes_etat ( etat );
+
+
+  /*   à ce niveau, on a récupéré toutes les opés qui entreront dans */
+  /* l'état ; reste plus qu'à les classer et les afficher */
+  /* on classe la liste et l'affiche en fonction du choix du type de classement */
+
+  etape_finale_affichage_etat ( liste_opes_selectionnees,
+				affichage );
+}
+/*****************************************************************************************************/
+
+
+
+/*****************************************************************************************************/
+/* cette fontion prend en argument l'adr d'un état, fait le tour de tous les comptes et */
+/* sélectionne les opérations qui appartiennent à cet état. elle renvoie une liste des */
+/* adr de ces opérations */
+/* elle est appelée pour l'affichage d'un état ou pour la récupération des tiers d'un état */
+/*****************************************************************************************************/
+
+GSList *recupere_opes_etat ( struct struct_etat *etat )
+{
+  GSList *liste_operations_etat;
+  gint i;
+  gint no_exercice_recherche;
+  struct struct_devise *devise_montant;
+  struct struct_devise *devise_operation;
+
+  liste_operations_etat = NULL;
 
   /* si on utilise l'exercice courant ou précédent, on cherche ici */
   /* le numéro de l'exercice correspondant */
@@ -151,21 +179,15 @@ void affichage_etat ( struct struct_etat *etat,
   /* on récupère la devise des monants pour les tests de montants */
 
   devise_montant = g_slist_find_custom ( liste_struct_devises,
-					GINT_TO_POINTER ( etat_courant -> choix_devise_montant ),
+					GINT_TO_POINTER ( etat -> choix_devise_montant ),
 					( GCompareFunc ) recherche_devise_par_no) -> data;
   devise_operation = NULL;
-
-
-  /*   selection des opérations */
-  /* on va mettre l'adresse des opés sélectionnées dans une liste */
-
-  liste_opes_selectionnees = NULL;
-
-  p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
 
   for ( i=0 ; i<nb_comptes ; i++ )
     {
       /* on commence par vérifier que le compte fait partie de l'état */
+
+      p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
 
       if ( !etat -> utilise_detail_comptes
 	   ||
@@ -556,7 +578,8 @@ void affichage_etat ( struct struct_etat *etat,
 	      if ( etat -> utilise_categ )
 		{
 		  /* on va maintenant vérifier que les catég sont bonnes */
- 
+		  /* si on exclut les opés sans categ, on vérifie que c'est pas un virement ni une ventilation */
+
 		  if ((( etat -> utilise_detail_categ
 			 &&
 			 g_slist_index ( etat -> no_categ,
@@ -566,7 +589,9 @@ void affichage_etat ( struct struct_etat *etat,
 			 &&
 			 !operation -> categorie ))
 		      &&
-		      !operation -> operation_ventilee )
+		      !operation -> operation_ventilee
+		      &&
+		      !operation -> relation_no_operation )
 		    goto operation_refusee;
 		}
 
@@ -792,27 +817,21 @@ void affichage_etat ( struct struct_etat *etat,
 		}
 
 
-	      liste_opes_selectionnees = g_slist_append ( liste_opes_selectionnees,
-							  operation );
+	      liste_operations_etat = g_slist_append ( liste_operations_etat,
+						       operation );
 
 	    operation_refusee:
 	      pointeur_tmp = pointeur_tmp -> next;
 	    }
 	}
-      p_tab_nom_de_compte_variable++;
     }
 
-  /*   à ce niveau, on a récupéré toutes les opés qui entreront dans */
-  /* l'état ; reste plus qu'à les classer et les afficher */
 
-
-  /* on classe la liste et l'affiche en fonction du choix du type de classement */
-
-  etape_finale_affichage_etat ( liste_opes_selectionnees, affichage );
-
-
+  return ( liste_operations_etat );
 }
 /*****************************************************************************************************/
+
+
 
 
 /*****************************************************************************************************/

@@ -115,7 +115,6 @@ void  nouveau_compte ( void )
 
   update_liste_comptes_accueil ();
 
-
   remplissage_liste_comptes_etats ();
   selectionne_liste_comptes_etat_courant ();
 

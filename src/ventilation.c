@@ -2991,14 +2991,5 @@ void validation_ope_de_ventilation ( struct structure_operation *operation )
 	}
       liste_struct_ventilations = liste_struct_ventilations -> next;
     }
-
-  /* libération de la liste de ventilations */
-
-  liste_struct_ventilations = gtk_object_get_data ( GTK_OBJECT ( formulaire ),
-						    "liste_adr_ventilation" );
-  g_slist_free ( liste_struct_ventilations );
-  gtk_object_set_data ( GTK_OBJECT ( formulaire ),
-			"liste_adr_ventilation",
-			NULL );
 }
 /***********************************************************************************************************/

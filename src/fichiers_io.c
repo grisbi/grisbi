@@ -3190,6 +3190,9 @@ des paramètres.") );
 		      etat -> devise_de_calcul_general = atoi ( xmlGetProp ( node_detail,
 									"Devise_gen" ));
 
+		      etat -> inclure_dans_tiers = atoi ( xmlGetProp ( node_detail,
+									     "Incl_tiers" ));
+
 		      etat -> exo_date = atoi ( xmlGetProp ( node_detail,
 							     "Exo_date" ));
 							  			  
@@ -5141,6 +5144,10 @@ gboolean enregistre_fichier ( void )
 		   "Devise_gen",
 		   itoa ( etat -> devise_de_calcul_general ));
 
+      xmlSetProp ( node_etat,
+		   "Incl_tiers",
+		   itoa ( etat -> inclure_dans_tiers ));
+
 
       xmlSetProp ( node_etat,
 		   "Exo_date",
@@ -5809,6 +5816,10 @@ gboolean enregistre_etat ( gchar *nom_etat )
 	       "Devise_gen",
 	       itoa ( etat_courant -> devise_de_calcul_general ));
 
+  xmlSetProp ( node,
+	       "Incl_tiers",
+	       itoa ( etat_courant -> inclure_dans_tiers ));
+
 
   xmlSetProp ( node,
 	       "Exo_date",
@@ -6358,6 +6369,9 @@ gboolean charge_etat_version_0_4_0 ( xmlDocPtr doc )
 
 	  etat -> devise_de_calcul_general = atoi ( xmlGetProp ( node,
 								 "Devise_gen" ));
+
+	  etat -> inclure_dans_tiers = atoi ( xmlGetProp ( node,
+							   "Incl_tiers" ));
 
 	  etat -> exo_date = atoi ( xmlGetProp ( node,
 						 "Exo_date" ));

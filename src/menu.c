@@ -113,6 +113,10 @@ void init_menus ( GtkWidget * win )
 			       N_("Importation de fichiers QIF"),
 			       importer_fichier_qif,
 			       GNOME_STOCK_PIXMAP_CONVERT ),
+/*       GNOMEUIINFO_ITEM_STOCK ( N_("Fichier QIF GD"), */
+/* 			       N_("Importation de fichiers QIF"), */
+/* 			       iqc_fichier, */
+/* 			       GNOME_STOCK_PIXMAP_CONVERT ), */
       GNOMEUIINFO_END
     };
 

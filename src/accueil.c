@@ -1071,7 +1071,9 @@ void mise_a_jour_soldes_minimaux ( void )
 
   for ( i = 0 ; i < nb_comptes ; i++ )
     {
-      if ( SOLDE_COURANT < SOLDE_MINI && TYPE_DE_COMPTE != 2 )
+      if ( SOLDE_COURANT < SOLDE_MINI
+	   &&
+	   TYPE_DE_COMPTE != 2 )
 	{
 	  if ( vbox_1 )
 	    {

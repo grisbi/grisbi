@@ -1342,17 +1342,66 @@ void supprimer_tiers ( GtkWidget *bouton,
 void creation_liste_tiers_combofix ( void )
 {
   GSList *pointeur;
-  
+  GSList *liste_tmp;
+
+  /* on commence à créer les 2 listes semblables de tous les tiers */
+  /*   celle du formulaire est de type complex, cad qu'elle contiendra 2 listes : */
+  /* les tiers et les états sélectionnés */
+
   pointeur = liste_struct_tiers;
   liste_tiers_combofix = NULL;
+  liste_tiers_combofix_echeancier = NULL;
+  liste_tmp = NULL;
 
   while ( pointeur )
     {
-      liste_tiers_combofix = g_slist_append ( liste_tiers_combofix,
-					      ((struct struct_tiers * )( pointeur -> data )) -> nom_tiers );
+      liste_tmp = g_slist_append ( liste_tmp,
+				   ((struct struct_tiers * )( pointeur -> data )) -> nom_tiers );
+      liste_tiers_combofix_echeancier = g_slist_append ( liste_tiers_combofix_echeancier,
+							 ((struct struct_tiers * )( pointeur -> data )) -> nom_tiers );
       pointeur = pointeur -> next;
     }
 
+  /* on ajoute liste tmp à liste_tiers_combofix */
+
+  liste_tiers_combofix = g_slist_append ( liste_tiers_combofix,
+					  liste_tmp );
+
+  /* on fait maintenant le tour des états pour rajouter ceux qui ont été sélectionnés */
+
+  liste_tmp = NULL;
+  pointeur = liste_struct_etats;
+
+  while ( pointeur )
+    {
+      struct struct_etat *etat;
+
+      etat = pointeur -> data;
+
+      if ( etat -> inclure_dans_tiers )
+	{
+	  if ( liste_tmp )
+	    liste_tmp = g_slist_append ( liste_tmp,
+					 g_strconcat ( "\t",
+						       g_strdup ( etat -> nom_etat ),
+						       NULL ));
+	  else
+	    {
+	      liste_tmp = g_slist_append ( liste_tmp,
+					   _( "État" ));
+	      liste_tmp = g_slist_append ( liste_tmp,
+					   g_strconcat ( "\t",
+							 g_strdup ( etat -> nom_etat ),
+							 NULL ));
+	    }
+	}
+      pointeur = pointeur -> next;
+    }
+
+  /* on ajoute liste tmp à liste_tiers_combofix */
+
+  liste_tiers_combofix = g_slist_append ( liste_tiers_combofix,
+					  liste_tmp );
 }
 /* **************************************************************************************************** */
 
@@ -1408,15 +1457,18 @@ void mise_a_jour_tiers ( void )
 
   gtk_combofix_set_list ( GTK_COMBOFIX ( widget_formulaire_operations[2] ),
 			  liste_tiers_combofix,
-			  FALSE,
+			  TRUE,
 			  TRUE );
   gtk_combofix_set_list ( GTK_COMBOFIX ( widget_formulaire_echeancier[1] ),
-			  liste_tiers_combofix,
+			  liste_tiers_combofix_echeancier,
 			  FALSE,
 			  TRUE );
 
-  remplissage_liste_tiers_etats ();
-  selectionne_liste_tiers_etat_courant ();
+  if ( etat_courant )
+    {
+      remplissage_liste_tiers_etats ();
+      selectionne_liste_tiers_etat_courant ();
+    }
 
   modif_tiers = 1;
 }

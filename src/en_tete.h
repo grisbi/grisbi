@@ -241,6 +241,8 @@ void recuperation_donnees_generales_formulaire ( struct structure_operation *ope
 void validation_virement_operation ( struct structure_operation *operation,
 				     gint modification,
 				     gchar *nom_compte_vire );
+void recuperation_categorie_formulaire ( struct structure_operation *operation,
+					 gint modification );
 gint comparaison_date_list_ope ( struct structure_operation *ope_1,
 				 struct structure_operation *ope_2);
 void formulaire_a_zero (void);
@@ -343,6 +345,7 @@ gint recherche_no_rapprochement_par_nom ( struct struct_no_rapprochement *rappro
 					  gchar *no_rap );
 gint recherche_no_rapprochement_par_no ( struct struct_no_rapprochement *rapprochement,
 					 gint *no_rap );
+void calcule_total_pointe_compte ( gint no_compte );
 
 
 
@@ -637,6 +640,7 @@ void validation_ope_de_ventilation ( struct structure_operation *operation );
 /***********************************/ 
 
 void importer_fichier_qif ( void );
+/* void iqc_fichier(void); */
 void selection_fichier_qif ( void );
 void fichier_choisi_importation_qif ( GtkWidget *fenetre );
 void traitement_donnees_brutes ( void );
@@ -939,6 +943,7 @@ GtkWidget *onglet_etat_montant ( void );
 
 void affichage_etat ( struct struct_etat *etat, 
 		      struct struct_etat_affichage *affichage );
+GSList *recupere_opes_etat ( struct struct_etat *etat );
 void impression_etat ( struct struct_etat *etat );
 void rafraichissement_etat ( struct struct_etat *etat );
 gint classement_liste_opes_etat ( struct structure_operation *operation_1,

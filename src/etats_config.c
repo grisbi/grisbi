@@ -300,6 +300,8 @@ void personnalisation_etat (void)
   if ( !etat_courant -> type_affichage_titres )
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_titre_en_haut ),
 				   TRUE );
+  gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_inclure_dans_tiers ),
+				 etat_courant -> inclure_dans_tiers );
 
   /* on rend insensitif les sous qque choses si nécessaire */
 
@@ -712,6 +714,8 @@ void selectionne_liste_comptes_etat_courant ( void )
 
   if ( !etat_courant )
     return;
+  if ( !liste_comptes_etat )
+    return;
 
   gtk_clist_unselect_all ( GTK_CLIST ( liste_comptes_etat ));
 
@@ -764,6 +768,8 @@ void selectionne_liste_categ_etat_courant ( void )
   GSList *pointeur_sliste;
 
   if ( !etat_courant )
+    return;
+  if ( !liste_categ_etat )
     return;
 
   gtk_clist_unselect_all ( GTK_CLIST ( liste_categ_etat ));
@@ -848,6 +854,9 @@ void selectionne_liste_tiers_etat_courant ( void )
   GSList *pointeur_sliste;
 
   if ( !etat_courant )
+    return;
+
+  if ( !onglet_config_etat )
     return;
 
   gtk_clist_unselect_all ( GTK_CLIST ( liste_tiers_etat ));
@@ -999,6 +1008,8 @@ void recuperation_info_perso_etat ( void )
 
   etat_courant -> devise_de_calcul_general = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( bouton_devise_general_etat ) -> menu_item ),
 										   "no_devise" ));
+  etat_courant -> inclure_dans_tiers = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_inclure_dans_tiers ));
+
   /* récupération des dates */
 
   etat_courant -> exo_date = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( radio_button_utilise_exo ));
@@ -1990,6 +2001,26 @@ GtkWidget *onglet_etat_generalites ( void )
 		       FALSE,
 		       0 );
   gtk_widget_show ( bouton_devise_general_etat );
+
+
+  /* mise en place du bouton pour faire apparaitre l'état dans la liste des tiers */
+
+  hbox = gtk_hbox_new ( FALSE,
+			5 );
+  gtk_box_pack_start ( GTK_BOX ( vbox_onglet ),
+		       hbox,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( hbox );
+
+  bouton_inclure_dans_tiers = gtk_check_button_new_with_label ( _("Inclure cette état dans la liste des tiers du formulaire.") );
+  gtk_box_pack_start ( GTK_BOX ( hbox ),
+		       bouton_inclure_dans_tiers,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( bouton_inclure_dans_tiers );
 
   return ( widget_retour );
 }
@@ -3115,7 +3146,7 @@ void remplissage_liste_comptes_etats ( void )
 {
   gint i;
 
-  if ( !onglet_config_etat )
+  if ( !liste_comptes_etat )
     return;
 
   gtk_clist_clear ( GTK_CLIST ( liste_comptes_etat ) );
@@ -3694,7 +3725,7 @@ void remplissage_liste_categ_etats ( void )
 {
   GSList *pointeur_liste;
 
-  if ( !onglet_config_etat )
+  if ( !liste_categ_etat )
     return;
 
   gtk_clist_clear ( GTK_CLIST ( liste_categ_etat ) );
