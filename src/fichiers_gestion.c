@@ -657,14 +657,15 @@ gint question_fermer_sans_enregistrer ( void )
 	 &&
 	 !etat.force_enregistrement )
     {
-      hint = _("Save locked files?");
-      message = g_strdup_printf ( _("The document '%s' is locked but modified. If you want to save it, you must cancel and save it with another name or activate the \"%s\" option in setup."),
-				  (nom_fichier_comptes ? g_path_get_basename(nom_fichier_comptes) : _("unnamed")),
-				  _("Force saving of locked files"));
-      gtk_dialog_add_buttons ( GTK_DIALOG(dialog),
-			       _("Close without saving"), GTK_RESPONSE_NO,
-			       GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-			       NULL );
+	hint = _("Save locked files?");
+	message = g_strdup_printf ( _("The document '%s' is locked but modified. If you want to save it, you must cancel and save it with another name or activate the \"%s\" option in setup."),
+				    (nom_fichier_comptes ? g_path_get_basename(nom_fichier_comptes) : _("unnamed")),
+				    _("Force saving of locked files"));
+	gtk_dialog_add_buttons ( GTK_DIALOG(dialog),
+				 _("Close without saving"), GTK_RESPONSE_NO,
+				 GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+				 NULL );
+	gtk_dialog_set_default_response ( GTK_DIALOG(dialog), GTK_RESPONSE_CANCEL ); 
     }
     else
     {
@@ -675,6 +676,7 @@ gint question_fermer_sans_enregistrer ( void )
 				 GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 				 GTK_STOCK_SAVE, GTK_RESPONSE_OK,
 				 NULL );
+	gtk_dialog_set_default_response ( GTK_DIALOG(dialog), GTK_RESPONSE_OK ); 
     }
 
     message = g_strconcat ( message, 
