@@ -4,6 +4,7 @@
 /** Interface between various tree data and metatree */
 typedef struct metatree_interface {
     gint depth;
+    struct struct_devise * (* tree_currency) ();
     /* Read operations */
     gchar * no_div_label;
     gchar * no_sub_div_label;
