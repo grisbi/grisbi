@@ -27,6 +27,7 @@
 #define START_INCLUDE
 #include "fichier_configuration_constants.h"
 #include "dialog.h"
+#include "tip.h"
 #include "utils_buttons.h"
 #define END_INCLUDE
 
@@ -58,7 +59,7 @@ void display_tip ( gboolean force )
 
   dialog = dialogue_special_no_run ( GTK_MESSAGE_INFO, GTK_BUTTONS_NONE,
 				     make_hint ( _("Did you know that..."),
-						 _(tip) ) );
+						 dgettext("grisbi-tips", (tip) ) ) );
 
   checkbox = new_checkbox_with_title ( _("Do not show this message again"), 
 				       &(etat.show_tip), NULL );
@@ -86,14 +87,14 @@ void display_tip ( gboolean force )
 	  change_button_sensitiveness ( dialog, 1, TRUE ); 
 	  gtk_label_set_markup ( GTK_LABEL ( GTK_MESSAGE_DIALOG(dialog) -> label ), 
 				 make_hint ( _("Did you know that..."),
-					     _( get_next_tip () ) ) );
+					     dgettext("grisbi-tips", get_next_tip ()) ) );
 	  break;
 
 	case 2:
 	  etat.last_tip ++;
 	  gtk_label_set_markup ( GTK_LABEL ( GTK_MESSAGE_DIALOG(dialog) -> label ), 
 				 make_hint ( _("Did you know that..."),
-					     _( get_next_tip () ) ) );
+					     dgettext("grisbi-tips", get_next_tip () ) ) );
 	  change_button_sensitiveness ( dialog, 0, TRUE );
 	  break;
 
@@ -127,8 +128,6 @@ gchar * get_next_tip ()
 	  break;
 	}
     }
-
-  printf ("> going to display %d\n", etat.last_tip);
 
   return format_tip ( tip );
 }
@@ -167,7 +166,7 @@ void change_button_sensitiveness ( GtkWidget * dialog, gint button, gboolean sta
   if ( ! dialog )
     return;
 
-  iter = gtk_container_get_children ( GTK_DIALOG(dialog) -> action_area);
+  iter = (GSList *) gtk_container_get_children ( GTK_CONTAINER ( GTK_DIALOG(dialog) -> action_area) );
 
   while ( iter )
     {
