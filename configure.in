@@ -1,6 +1,6 @@
 AC_INIT(src/main.c)
 AM_CONFIG_HEADER(config.h)
-AM_INIT_AUTOMAKE(grisbi,0.5.1pre1)
+AM_INIT_AUTOMAKE(grisbi,0.5.1pre2)
 AM_ACLOCAL_INCLUDE(macros)
 AM_MAINTAINER_MODE
 
