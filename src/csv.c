@@ -103,6 +103,7 @@ gchar*  csv_field_exercice   = NULL; /*!< exercices (string) optional depending 
 gchar*  csv_field_piece      = NULL; /*!< (string) */
 gchar*  csv_field_cheque     = NULL; /*!< cheques */
 gchar*  csv_field_rappro     = NULL; /*!< reconciliation number (string) */
+gchar*  csv_field_info_bank  = NULL; /*!< bank references (string) */
 
 /**
  * \brief clear temporary variable used to store field to display.
@@ -142,6 +143,7 @@ static void csv_clear_fields(gboolean clear_all)
   CSV_CLEAR_FIELD(csv_field_exercice);
   CSV_CLEAR_FIELD(csv_field_piece);
   CSV_CLEAR_FIELD(csv_field_cheque);
+  CSV_CLEAR_FIELD(csv_field_info_bank);
   CSV_CLEAR_FIELD(csv_field_rappro);
 } /* }}} csv_clear_fields */
 
@@ -182,6 +184,7 @@ static void csv_add_record(FILE* file,gboolean clear_all)
   CSV_STR_FIELD(file,csv_field_notes);
   CSV_STR_FIELD(file,csv_field_piece);
   CSV_STR_FIELD(file,csv_field_rappro);
+  CSV_STR_FIELD(file,csv_field_info_bank);
   CSV_END_RECORD(file);
   csv_clear_fields(clear_all);
 } /* }}} csv_add_record */
@@ -248,6 +251,7 @@ void export_accounts_to_csv (GSList* export_entries_list )
 	csv_field_sous_imput = g_strdup(_("Sub-budgetary lines"));
 	csv_field_piece      = g_strdup(_("Voucher"));
 	csv_field_rappro     = g_strdup(_("Reconciliation number"));
+	csv_field_info_bank  = g_strdup(_("Bank references"));
       }
 
       csv_add_record(fichier_csv,TRUE);
@@ -315,7 +319,7 @@ void export_accounts_to_csv (GSList* export_entries_list )
 	    if ( pointeur )
 	      csv_field_tiers = g_strdup ( ((struct struct_tiers *)(pointeur -> data )) -> nom_tiers );
 
-	    /* met le rapprochement */
+	    /* met le numéro du rapprochement */
 	    if ( operation -> no_rapprochement )
 	    {
 	      pointeur = g_slist_find_custom ( liste_no_rapprochements,
@@ -326,6 +330,12 @@ void export_accounts_to_csv (GSList* export_entries_list )
 	      if ( pointeur )
 		csv_field_rappro = g_strdup ( ((struct struct_no_rapprochement *)(pointeur->data)) -> nom_rapprochement );
 	    }
+ 
+	    /* Met les informations bancaires de l'opération. Elles n'existent
+	       qu'au niveau de l'opération mère */
+	    CSV_CLEAR_FIELD(csv_field_info_bank);
+	    if ( operation -> info_banque_guichet )
+	      csv_field_info_bank = g_strdup(operation -> info_banque_guichet );
 
 	    /* met le montant, transforme la devise si necessaire */
 
