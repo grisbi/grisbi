@@ -202,8 +202,7 @@ void sauve_configuration (void)
 
   if ( GTK_WIDGET ( window) -> window )
     {
-      gtk_window_get_size ( GTK_WIDGET(window), 
-			    &largeur_window, &hauteur_window);
+      gtk_window_get_size ( GTK_WINDOW(window), &largeur_window, &hauteur_window);
     }
   else
     {

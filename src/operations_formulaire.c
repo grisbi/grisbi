@@ -1599,7 +1599,7 @@ gboolean touches_champ_formulaire ( GtkWidget *widget,
 
       if ( origine == 4 )
 	if ( gtk_widget_get_style ( widget_formulaire_operations[origine-1] ) == style_entree_formulaire[0] &&
-	     strlen(gtk_entry_get_text(widget_formulaire_operations[origine-1])))
+	     strlen(gtk_entry_get_text(GTK_ENTRY(widget_formulaire_operations[origine-1]))))
 	  {
 	    origine++;
 	    gtk_widget_set_style (widget_formulaire_operations[4],

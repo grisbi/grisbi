@@ -794,7 +794,7 @@ GtkWidget *creation_barre_outils_echeancier ( void )
 
   /* dOm : ajout commutateur d'affichage de commentaires */
   /* bouton affiche / cache le commentaire dans la liste de l'echeancier */
-  scheduler_display_hide_comments = gnome_pixmap_new_from_xpm_d ( comments_xpm );
+  scheduler_display_hide_comments = gnome_pixmap_new_from_xpm_d ( (const gchar **) comments_xpm );
   bouton_affiche_commentaire_echeancier = gtk_button_new ();
   gtk_widget_show ( scheduler_display_hide_comments );
   gtk_container_add ( GTK_CONTAINER ( bouton_affiche_commentaire_echeancier ),

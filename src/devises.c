@@ -1357,7 +1357,7 @@ gboolean devise_selectionnee ( GtkWidget *menu_shell, gint origine )
   gint position;
   struct struct_devise *devise;
 
-  devise = g_object_get_data(menu_shell, "currency");
+  devise = g_object_get_data( G_OBJECT(menu_shell), "currency");
 
   if ( devise )
     {
