@@ -16,6 +16,9 @@ New in version 0.5.0 :
  - application menu improvements
  - combofix completion (i.e. in transaction form) can now be either
    case sensitive or insensitive according to input upper/lower case
+ - transactions, accounts and reports lists are now fully clickable
+ - improve bank details and new bank dialogs
+ - keyboard navigation in third party, categories and budgetary lines
 
 New in version 0.4.3 : 
  - Bug fixes
