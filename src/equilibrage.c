@@ -386,9 +386,6 @@ GtkWidget *creation_fenetre_equilibrage ( void )
 				label_equilibrage_ecart,
 				1, 2,
 				4, 5);
-    gtk_widget_show ( label_equilibrage_ecart );
-
-
 
     /* on met les boutons */
 
@@ -701,6 +698,13 @@ void modif_entree_solde_final_equilibrage ( void )
 {
     gtk_label_set_text ( GTK_LABEL ( label_equilibrage_final ),
 			 (char *) gtk_entry_get_text ( GTK_ENTRY ( entree_nouveau_montant_equilibrage )) );
+
+    /*     s'il n'y a rien dans l'entrée du montant de l'eq, on efface, l'écart */
+
+    if ( strlen ( gtk_entry_get_text ( GTK_ENTRY ( entree_nouveau_montant_equilibrage ))))
+	gtk_widget_show ( label_equilibrage_ecart );
+    else
+	gtk_widget_hide ( label_equilibrage_ecart );
 
     solde_final = my_strtod ( (char *) gtk_entry_get_text ( GTK_ENTRY ( entree_nouveau_montant_equilibrage )),
 			      NULL );
