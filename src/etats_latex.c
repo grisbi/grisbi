@@ -245,7 +245,7 @@ gint latex_finish ()
     dialogue ( _("LaTeX run was unable to complete, see console output for details.") );
   else 
     {
-      if ( !system ( "dvips -t landscape toto.dvi" ) )
+      if ( !system ( "dvips -t landscape toto.dvi -o toto.ps" ) )
 	{
 	  system ( "gv toto.ps &" );
 	}
