@@ -498,6 +498,9 @@ GtkWidget * creation_option_menu_comptes ( GtkSignalFunc func,
 
     menu = gtk_menu_new ();
 
+    if ( ! p_tab_nom_de_compte )
+      return menu;
+
     ordre_comptes_variable = ordre_comptes;
 
     do

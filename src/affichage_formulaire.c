@@ -455,6 +455,9 @@ void mise_a_jour_organisation_formulaire ( gint no_compte )
     gint j;
     gint no_element_en_cours;
     
+    if ( ! p_tab_nom_de_compte )
+      return;
+
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_compte;
 
     /*     on commence par remplir le store */
