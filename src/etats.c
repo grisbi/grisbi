@@ -5176,8 +5176,10 @@ void etape_finale_affichage_etat ( GSList *ope_selectionnees,
   nom_compte_en_cours = NULL;
   nom_tiers_en_cours = NULL;
 
-  /* FIXME: que faire si ca renvoie 0 ? */
-  affichage -> init ();
+  if (! affichage -> init ())
+    {
+      return;
+    }
 
   /* on commence à remplir le tableau */
 
