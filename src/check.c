@@ -284,6 +284,7 @@ gboolean duplicate_div_check ()
 
 	    mise_a_jour_categ();
 	}
+	g_free ( output );
     }
 
     return num_duplicate;
