@@ -12,9 +12,6 @@
    language is requested. */
 #undef ENABLE_NLS
 
-/* GRISBI_BIN_DIR */
-#undef GRISBI_BIN_DIR
-
 /* Define to 1 if you have `alloca', as a function or macro. */
 #undef HAVE_ALLOCA
 
@@ -159,9 +156,6 @@
 
 /* Define if you have the unsigned long long type. */
 #undef HAVE_UNSIGNED_LONG_LONG
-
-/* Define to 1 if you have the <X11/SM/SMlib.h> header file. */
-#undef HAVE_X11_SM_SMLIB_H
 
 /* Define to 1 if you have the `__argz_count' function. */
 #undef HAVE___ARGZ_COUNT
