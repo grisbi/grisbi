@@ -6136,7 +6136,7 @@ void fichier_marque_ouvert ( gint ouvert )
 
   if ( retour != EOF )
   {
-#ifdef CYGWIN
+#ifdef CYGWIN || defined(__FreeBSD__)
 
       /* CYGWIN ne pouvant maitrise l'acces bufferise au fichier de
        * Windows, il gere 2 curseurs de fichiers differents afin de
@@ -6161,7 +6161,7 @@ void fichier_marque_ouvert ( gint ouvert )
        */
       fseek(pointeur_fichier_comptes,ftell(pointeur_fichier_comptes),SEEK_SET);
 
-#endif /* CYGWIN */
+#endif /* CYGWIN + __FreeBSD__ */
        
     fprintf ( pointeur_fichier_comptes, itoa ( ouvert ));
   }
