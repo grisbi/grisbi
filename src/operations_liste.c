@@ -3266,7 +3266,7 @@ gboolean move_operation_to_account ( struct structure_operation * transaction,
 
 	if ( transaction -> relation_no_compte == account )
 	{
-	    dialogue ( _("Error : cannot move a transfer on his contra-account"));
+	    dialogue_error ( _("Cannot move a transfer on his contra-account"));
 	    return FALSE;
 	}
 
