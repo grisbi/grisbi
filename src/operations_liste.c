@@ -2061,6 +2061,30 @@ void r_press (void)
       else
 	remplissage_liste_operations ( compte_courant );
 
+      /* si c'est une ventil */
+      /* fait le tour des opés du compte pour rechercher les opés de ventil associées à */
+      /* cette ventil */
+
+      if ( OPERATION_SELECTIONNEE -> operation_ventilee )
+	{
+	  GSList *liste_tmp;
+
+	  liste_tmp = LISTE_OPERATIONS;
+
+	  while ( liste_tmp )
+	    {
+	      struct structure_operation *operation;
+
+	      operation = liste_tmp -> data;
+
+	      if ( operation -> no_operation_ventilee_associee == OPERATION_SELECTIONNEE -> no_operation )
+		operation -> pointe = 2;
+
+	      liste_tmp = liste_tmp -> next;
+	    }
+	}
+
+
       modification_fichier( TRUE );
     }
   else
@@ -2073,6 +2097,29 @@ void r_press (void)
 							      OPERATION_SELECTIONNEE ),
 			       3,
 			       NULL );
+
+	  /* si c'est une ventil */
+	  /* fait le tour des opés du compte pour rechercher les opés de ventil associées à */
+	  /* cette ventil */
+
+	  if ( OPERATION_SELECTIONNEE -> operation_ventilee )
+	    {
+	      GSList *liste_tmp;
+
+	      liste_tmp = LISTE_OPERATIONS;
+
+	      while ( liste_tmp )
+		{
+		  struct structure_operation *operation;
+
+		  operation = liste_tmp -> data;
+
+		  if ( operation -> no_operation_ventilee_associee == OPERATION_SELECTIONNEE -> no_operation )
+		    operation -> pointe = 0;
+
+		  liste_tmp = liste_tmp -> next;
+		}
+	    }
 
 	  modification_fichier( TRUE );
 	}

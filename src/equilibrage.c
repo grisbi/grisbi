@@ -100,7 +100,7 @@ GtkWidget *creation_fenetre_equilibrage ( void )
 			 FALSE );
   gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tips ),
 			 entree_no_rapprochement,
-			 "Le numéro de rapprochement est composé de deux parties maximum séparées par un tiret. Si la seconde est numérique, elle est incrémentée automatiquement à chaque rapprochement.",
+			 "Si le n° de rapprochement est terminé par un chiffre, celui-ci est automatiquement incrémenté à chaque nouveau rapprochement.",
 			 "Numéro de rapprochement" );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       entree_no_rapprochement,

@@ -2367,7 +2367,7 @@ void fin_edition ( void )
 
       /* récupération de la ventilation si nécessaire */
 
-      if ( !strcmp ( pointeur_char,
+      if ( !strcmp ( g_strstrip ( pointeur_char ),
 		     "Opération ventilée" ))
 	{
 	  /* c'est une opération ventilée : bcp de choses à faire : */
@@ -2415,9 +2415,6 @@ void fin_edition ( void )
 
 		  ope_de_ventilation -> tiers = operation -> tiers;
 		  ope_de_ventilation -> type_ope = operation -> type_ope;
-		  ope_de_ventilation -> no_exercice = operation -> no_exercice;
-		  ope_de_ventilation -> imputation = operation -> imputation;
-		  ope_de_ventilation -> sous_imputation = operation -> sous_imputation;
 		  ope_de_ventilation -> pointe = operation -> pointe;
 		  ope_de_ventilation -> auto_man = operation -> auto_man;
 
@@ -2447,9 +2444,6 @@ void fin_edition ( void )
 		      ope_virement -> tiers = ope_de_ventilation -> tiers;
 		      ope_virement -> auto_man = ope_de_ventilation -> auto_man;
 		      ope_virement -> type_ope = ope_de_ventilation -> type_ope;
-		      ope_virement -> no_exercice = ope_de_ventilation -> no_exercice;
-		      ope_virement -> imputation = ope_de_ventilation -> imputation;
-		      ope_virement -> sous_imputation = ope_de_ventilation -> sous_imputation;
 
 		      MISE_A_JOUR = 1;
 
@@ -2704,31 +2698,7 @@ void fin_edition ( void )
 
   /*   si c'était un virement, on crée une copie de l'opé, on l'ajout à la liste puis on remplit les relations */
 
-  if ( !virement )
-    {
-      if ( operation -> relation_no_operation )
-	{
-	  /* c'était un virement, et ce ne l'est plus, donc on efface l'opé en relation */
-
-	  p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> relation_no_compte;
-
-	  operation_2 = g_slist_find_custom ( LISTE_OPERATIONS,
-					      GINT_TO_POINTER ( operation -> relation_no_operation ),
-					      ( GCompareFunc ) recherche_operation_par_no ) -> data;
-	  
-	  operation_2 -> relation_no_operation = 0;
-
-	  supprime_operation ( operation_2 );
-
-	  p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
-
-	  operation -> relation_no_operation = 0;
-	  operation -> relation_no_compte = 0;
-
-	  MISE_A_JOUR = 1;
-	}
-    }
-  else
+  if ( virement )
     {    
       /* si c'était une nvelle opé, les relations sont nulles, sinon récupère l'opé correspondante */
 
@@ -2869,7 +2839,30 @@ void fin_edition ( void )
       MISE_A_JOUR = 1;
       verification_mise_a_jour_liste ();
     }
+  else
+    {
+      if ( operation -> relation_no_operation )
+	{
+	  /* c'était un virement, et ce ne l'est plus, donc on efface l'opé en relation */
 
+	  p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> relation_no_compte;
+
+	  operation_2 = g_slist_find_custom ( LISTE_OPERATIONS,
+					      GINT_TO_POINTER ( operation -> relation_no_operation ),
+					      ( GCompareFunc ) recherche_operation_par_no ) -> data;
+	  
+	  operation_2 -> relation_no_operation = 0;
+	  MISE_A_JOUR = 1;
+
+	  supprime_operation ( operation_2 );
+
+
+	  p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
+
+	  operation -> relation_no_operation = 0;
+	  operation -> relation_no_compte = 0;
+	}
+    }
 
 
   /* si c'était une nouvelle opération, on efface le formulaire, on remet la date pour la suivante, */

@@ -1063,6 +1063,7 @@ void selectionne_ligne_souris_ventilation ( GtkCList *liste,
 			 ligne,
 			 colonne );
 
+  gtk_widget_grab_focus ( GTK_WIDGET (liste) );
 
   if ( evenement -> type == GDK_2BUTTON_PRESS )
     edition_operation_ventilation ();
@@ -1232,6 +1233,8 @@ void echap_formulaire_ventilation ( void )
 			     FALSE );
   gtk_widget_set_sensitive ( GTK_WIDGET ( hbox_valider_annuler_ventil ),
 			     FALSE );
+  gtk_widget_set_sensitive ( widget_formulaire_ventilation[2],
+			     TRUE );
 
 /*   met l'adr de l'opé dans le formulaire à -1 */
 
@@ -1574,7 +1577,7 @@ void fin_edition_ventilation ( void )
 					       (GCompareFunc) recherche_operation_par_no ) -> data;
 
 
-	  /* on y met le nouveau montant et la note */
+	  /* on y met le nouveau montant et la note, l'ib, l'exercice et la pièce comptable */
 
 	  if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_credit ) ) )
 	    ope_associee -> montant = -operation -> montant;
@@ -1586,6 +1589,15 @@ void fin_edition_ventilation ( void )
 	    ope_associee -> notes = g_strdup ( operation -> notes );
 	  else
 	    ope_associee -> notes = NULL;
+
+	  ope_associee -> imputation = operation -> imputation;
+	  ope_associee -> sous_imputation = operation -> sous_imputation;
+	  ope_associee -> no_exercice = operation -> no_exercice;
+
+	  if ( operation -> no_piece_comptable )
+	    ope_associee -> no_piece_comptable = g_strdup ( operation -> no_piece_comptable );
+	  else
+	    ope_associee -> no_piece_comptable = NULL;
 
 	  MISE_A_JOUR = 1;
 	}
@@ -1770,6 +1782,12 @@ void edition_operation_ventilation ( void )
     gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_ventilation[2] ),
 			 g_strdup_printf ( "%4.2f", operation -> montant ));
 
+  /* si l'opération est relevée, empêche la modif du montant */
+
+  if ( operation -> pointe == 2 )
+    gtk_widget_set_sensitive ( widget_formulaire_ventilation[2],
+			       FALSE );
+
 
   /* mise en forme des catégories */
 
@@ -1944,6 +1962,7 @@ void supprime_operation_ventilation ( void )
 
 
   calcule_montant_ventilation();
+  mise_a_jour_couleurs_liste_ventilation();
   selectionne_ligne_ventilation ();
 
   modification_fichier( TRUE );
@@ -2211,7 +2230,7 @@ void selectionne_ligne_ventilation ( void )
 
 /***********************************************************************************************************/
 /* Fonction valider_ventilation */
-/* appelée par appui du bouton valider */
+/* appelée par appui du bouton fermer */
 /***********************************************************************************************************/
 
 void valider_ventilation ( void )
