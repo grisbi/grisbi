@@ -573,6 +573,7 @@ void raz_configuration ( void )
     /* Commands */
     etat.latex_command = "latex";
     etat.dvips_command = "dvips";
+    etat.browser_command = "www-browser";
 
     /* Print */
     etat.print_config.printer = 0;
