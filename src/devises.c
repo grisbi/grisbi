@@ -1117,10 +1117,10 @@ void demande_taux_de_change ( struct struct_devise *devise_compte,
 			 FALSE, FALSE, 5 );
 
     entree_frais = gtk_entry_new ();
-    gtk_entry_set_activates_default ( GTK_ENTRY ( entree_frais ),
-				      TRUE );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), entree_frais,
-			 TRUE, TRUE, 5 );
+    gtk_entry_set_activates_default ( GTK_ENTRY ( entree_frais ), TRUE );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), entree_frais, TRUE, TRUE, 5 );
+    g_object_set_data ( G_OBJECT (option_menu_devise_1), "change", entree_frais );
+    g_object_set_data ( G_OBJECT (option_menu_devise_2), "change", entree_frais );
 
     label = gtk_label_new ( devise_compte -> nom_devise );
     gtk_box_pack_start ( GTK_BOX ( hbox ), label,
@@ -1146,6 +1146,8 @@ void demande_taux_de_change ( struct struct_devise *devise_compte,
 	    gtk_option_menu_set_history ( GTK_OPTION_MENU ( option_menu_devise_2 ),
 					  1 );
 	}
+	if ( ! une_devise_compte_egale_x_devise_ope ) 
+	    taux_change = 1 / taux_change;
 	gtk_entry_set_text ( GTK_ENTRY ( entree ),
 			     g_strdup_printf ( "%f", taux_change ));
 	gtk_entry_set_text ( GTK_ENTRY ( entree_frais ),
@@ -1169,7 +1171,9 @@ void demande_taux_de_change ( struct struct_devise *devise_compte,
 	    if ( devise_compte -> date_dernier_change )
 		gtk_entry_set_text ( GTK_ENTRY ( entree ),
 				     g_strdup_printf ( "%f",
-						       devise_compte -> change ));
+						       (devise_compte -> une_devise_1_egale_x_devise_2 ? 
+							1/devise_compte -> change :
+							devise_compte -> change ) ));
 	}
 	else
 	    if ( devise -> no_devise_en_rapport == devise_compte -> no_devise )
@@ -1184,7 +1188,9 @@ void demande_taux_de_change ( struct struct_devise *devise_compte,
 		if ( devise -> date_dernier_change )
 		    gtk_entry_set_text ( GTK_ENTRY ( entree ),
 					 g_strdup_printf ( "%f",
-							   devise -> change ));
+							   (devise_compte -> une_devise_1_egale_x_devise_2 ? 
+							    devise -> change :
+							    1/devise -> change ) ));
 	    }
 	    else
 	    {
@@ -1243,7 +1249,7 @@ void demande_taux_de_change ( struct struct_devise *devise_compte,
  */
 gboolean devise_selectionnee ( GtkWidget *menu_shell, gint origine )
 {
-    GtkWidget * associate;
+    GtkWidget * associate, *entry;
     gint position;
     struct struct_devise *devise;
 
@@ -1259,6 +1265,11 @@ gboolean devise_selectionnee ( GtkWidget *menu_shell, gint origine )
 					  (gpointer) !origine );
 	if (associate)
 	    gtk_option_menu_set_history ( GTK_OPTION_MENU(associate), 1 - position );
+
+/* 	entry = g_object_get_data ( G_OBJECT(menu_shell), "entry" ); */
+/* 	if ( entry ) */
+/* 	    gtk_signal_func */
+
 	g_signal_handlers_unblock_by_func ( G_OBJECT(associate),
 					    G_CALLBACK (devise_selectionnee), 
 					    (gpointer) !origine );
@@ -1618,7 +1629,7 @@ GtkWidget * new_currency_option_menu ( gint * value, GCallback hook )
     if (value && *value)
 	gtk_option_menu_set_history ( GTK_OPTION_MENU(currency_list), *value - 1 );
 
-    g_signal_connect ( GTK_OBJECT (currency_list), "changed", (GCallback) set_int, value );
+    g_signal_connect ( GTK_OBJECT (currency_list), "changed", (GCallback) set_int_from_menu, value );
     g_signal_connect ( GTK_OBJECT (currency_list), "changed", (GCallback) hook, value );
     g_object_set_data ( G_OBJECT ( currency_list ), "pointer", value);
 
@@ -1828,7 +1839,7 @@ gboolean change_passera_euro ( GtkWidget *bouton,
 	/*       gtk_entry_set_text ( GTK_ENTRY ( entree_conversion ), */
 	/* 			   g_strdup_printf ( "%f", */
 	/* 					     devise -> change )); */
-	spin_button_set_value ( entree_conversion, &(devise->change) );
+	spin_button_set_value_double ( entree_conversion, &(devise->change) );
 
 	/* on rend le tout sensitif */
 
@@ -1874,7 +1885,7 @@ gboolean change_passera_euro ( GtkWidget *bouton,
 
 	    gtk_label_set_text ( GTK_LABEL ( label_date_dernier_change ),
 				 g_strconcat (_("Last exchange rate"), ": ", date, NULL ));
-	    spin_button_set_value ( entree_conversion, &(devise->change) );
+	    spin_button_set_value_double ( entree_conversion, &(devise->change) );
 	}
 	else
 	{
@@ -1882,7 +1893,7 @@ gboolean change_passera_euro ( GtkWidget *bouton,
 				 _("No exchange rate defined")  );
 	    /* mise en place du change courant */
 
-	    spin_button_set_value ( entree_conversion, &(devise->change) );
+	    spin_button_set_value_double ( entree_conversion, &(devise->change) );
 	    /* 	  gtk_entry_set_text ( GTK_ENTRY ( entree_conversion ), "" ); */
 	}
 
@@ -2021,7 +2032,7 @@ gboolean changement_devise_associee ( GtkWidget *menu_devises,
 	devise -> no_devise_en_rapport = devise_associee -> no_devise;
 
 	create_change_menus(devise); 
-	spin_button_set_value ( entree_conversion, &(devise->change));
+	spin_button_set_value_double ( entree_conversion, &(devise->change));
     }
     else
     {
@@ -2033,7 +2044,7 @@ gboolean changement_devise_associee ( GtkWidget *menu_devises,
 	gtk_option_menu_set_menu ( GTK_OPTION_MENU ( devise_2 ),
 				   menu );
 
-	spin_button_set_value ( entree_conversion, 0 );
+	spin_button_set_value_double ( entree_conversion, 0 );
 	/*       gtk_entry_set_text ( GTK_ENTRY ( entree_conversion ), */
 	/* 			   "" ); */
 	gtk_widget_set_sensitive ( hbox_ligne_change,
