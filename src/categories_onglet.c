@@ -1,23 +1,24 @@
-/* fichier qui s'occupe de l'onglet de gestion des catégories */
-/*           categories_onglet.c */
-
-/*     Copyright (C) 2000-2003  Cédric Auger */
-/* 			cedric@grisbi.org */
-/* 			http://www.grisbi.org */
-
-/*     This program is free software; you can redistribute it and/or modify */
-/*     it under the terms of the GNU General Public License as published by */
-/*     the Free Software Foundation; either version 2 of the License, or */
-/*     (at your option) any later version. */
-
-/*     This program is distributed in the hope that it will be useful, */
-/*     but WITHOUT ANY WARRANTY; without even the implied warranty of */
-/*     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the */
-/*     GNU General Public License for more details. */
-
-/*     You should have received a copy of the GNU General Public License */
-/*     along with this program; if not, write to the Free Software */
-/*     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
+/* ************************************************************************** */
+/*                                                                            */
+/*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org)	      */
+/*			     2004 Benjamin Drieu (bdrieu@april.org)	      */
+/* 			http://www.grisbi.org				      */
+/*                                                                            */
+/*  This program is free software; you can redistribute it and/or modify      */
+/*  it under the terms of the GNU General Public License as published by      */
+/*  the Free Software Foundation; either version 2 of the License, or         */
+/*  (at your option) any later version.                                       */
+/*                                                                            */
+/*  This program is distributed in the hope that it will be useful,           */
+/*  but WITHOUT ANY WARRANTY; without even the implied warranty of            */
+/*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             */
+/*  GNU General Public License for more details.                              */
+/*                                                                            */
+/*  You should have received a copy of the GNU General Public License         */
+/*  along with this program; if not, write to the Free Software               */
+/*  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "include.h"
 #include "echeancier_formulaire_constants.h"
@@ -61,17 +62,12 @@ static void importer_categ ( void );
 static gboolean keypress_category ( GtkWidget *widget, GdkEventKey *ev, gint *no_origine );
 static void merge_liste_categories ( void );
 static void modification_du_texte_categ ( void );
-static gboolean selection_ligne_categ ( GtkCTree *arbre_categ, GtkCTreeNode *noeud,
-				 gint colonne, gpointer null );
 static void supprimer_categ ( void );
 static void supprimer_sous_categ ( struct struct_sous_categ *sous_categ, gint no_categ );
-static gboolean verifie_double_click_categ ( GtkWidget *liste, GdkEventButton *ev,
-				      gpointer null );
 static gboolean categ_column_expanded  (GtkTreeView * treeview, GtkTreeIter * iter, 
 					GtkTreePath * tree_path, gpointer user_data );
 static gboolean categ_activated ( GtkTreeView * treeview, GtkTreePath * path,
 				  GtkTreeViewColumn * col, gpointer userdata );
-static gchar *calcule_total_montant_categ_par_compte ( gint categ, gint sous_categ, gint no_compte );
 static void fill_categ_row ( GtkTreeIter * iter, struct struct_categ * categ, 
 			     gint place_categ );
 static void fill_sub_categ_row ( GtkTreeIter * iter, struct struct_sous_categ * sous_categ,
@@ -82,9 +78,9 @@ static gboolean categ_drag_data_get ( GtkTreeDragSource * drag_source, GtkTreePa
 static gboolean categ_row_drop_possible (GtkTreeDragDest * drag_dest, 
 					 GtkTreePath * dest_path,
 					 GtkSelectionData * selection_data);
-gboolean categ_drag_data_received ( GtkTreeDragDest   *drag_dest,
-				    GtkTreePath       *path,
-				    GtkSelectionData  *selection_data );
+static gboolean categ_drag_data_received ( GtkTreeDragDest   *drag_dest,
+					   GtkTreePath       *path,
+					   GtkSelectionData  *selection_data );
 /*END_STATIC*/
 
 
@@ -547,7 +543,7 @@ GtkWidget *onglet_categories ( void )
     dst_iface = GTK_TREE_DRAG_DEST_GET_IFACE (categ_tree_model);
     if ( dst_iface )
     {
-	printf ("> Yeah\n");
+	printf (">> YEAH\n");
 	dst_iface -> drag_data_received = &categ_drag_data_received;
 	dst_iface -> row_drop_possible = &categ_row_drop_possible;
     }
@@ -555,7 +551,10 @@ GtkWidget *onglet_categories ( void )
     src_iface = GTK_TREE_DRAG_SOURCE_GET_IFACE (categ_tree_model);
     if ( src_iface )
     {
-	printf ("> Yeah\n");
+	gtk_selection_add_target (arbre_categ,
+				  GDK_SELECTION_PRIMARY,
+				  GDK_SELECTION_TYPE_ATOM,
+				  1);
 	src_iface -> drag_data_get = &categ_drag_data_get;
     }
 
@@ -700,7 +699,7 @@ void fill_categ_row ( GtkTreeIter * iter, struct struct_categ * categ,
 			      itoa ( nb_ecritures_par_categ[place_categ] ), ")",
 			      NULL );
 
-    if ( tab_montant_categ[place_categ+1] )
+    if ( tab_montant_categ[place_categ] )
 	balance = g_strdup_printf ( _("%4.2f %s"), 
 				    tab_montant_categ[place_categ],
 				    devise_code ( devise_compte ) );
@@ -783,133 +782,7 @@ void fill_sub_categ_row ( GtkTreeIter * iter, struct struct_sous_categ * sous_ca
 
 
 /* **************************************************************************************************** */
-gboolean selection_ligne_categ ( GtkCTree *arbre_categ, GtkCTreeNode *noeud,
-				 gint colonne, gpointer null )
-{
-    GtkCTreeNode *node_tmp;
 
-    node_tmp = noeud;
-
-    while ( GTK_CTREE_ROW ( node_tmp ) -> level  != 1 )
-	node_tmp = GTK_CTREE_ROW ( node_tmp ) -> parent;
-
-    if ( GTK_CTREE_ROW ( noeud ) -> level != 1 )
-	gtk_widget_set_sensitive ( bouton_ajouter_sous_categorie,
-				   FALSE );
-    else
-	gtk_widget_set_sensitive ( bouton_ajouter_sous_categorie,
-				   TRUE );
-
-
-
-    if ( GTK_CTREE_ROW ( noeud ) -> level  == 1 &&
-	 gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_categ ),
-				       noeud ) &&
-	 gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_categ ),
-				       noeud ) != GINT_TO_POINTER(-1) )
-    {
-	struct struct_categ *categ;
-
-	categ = gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_categ ),
-					      noeud );
-
-	gtk_signal_handler_block_by_func ( GTK_OBJECT ( entree_nom_categ ),
-					   GTK_SIGNAL_FUNC ( modification_du_texte_categ),
-					   NULL );
-
-	gtk_entry_set_text ( GTK_ENTRY ( entree_nom_categ ),
-			     categ -> nom_categ );
-
-	gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( entree_nom_categ ),
-					     GTK_SIGNAL_FUNC ( modification_du_texte_categ),
-					     NULL );
-
-	gtk_object_set_data ( GTK_OBJECT ( entree_nom_categ ),
-			      "adr_struct_categ",
-			      categ );
-	gtk_object_set_data ( GTK_OBJECT ( entree_nom_categ ),
-			      "adr_struct_sous_categ",
-			      NULL );
-
-	gtk_widget_set_sensitive ( bouton_supprimer_categ,
-				   TRUE );
-	gtk_widget_set_sensitive ( entree_nom_categ,
-				   TRUE );
-	gtk_widget_set_sensitive ( bouton_categ_debit,
-				   TRUE );
-	gtk_widget_set_sensitive ( bouton_categ_credit,
-				   TRUE );
-
-	gtk_signal_handler_block_by_func ( GTK_OBJECT ( bouton_categ_debit ),
-					   GTK_SIGNAL_FUNC ( modification_du_texte_categ ),
-					   NULL );
-	if ( categ -> type_categ )
-	    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_categ_debit ),
-					   TRUE );
-	else
-	    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_categ_credit ),
-					   TRUE );
-
-	gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( bouton_categ_debit ),
-					     GTK_SIGNAL_FUNC ( modification_du_texte_categ ),
-					     NULL );
-    }
-    else
-	if ( GTK_CTREE_ROW ( noeud ) -> level  == 2
-	     &&
-	     gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_categ ),
-					   noeud ) > 0
-	     &&
-	     gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_categ ),
-					   GTK_CTREE_ROW ( noeud ) -> parent ) > 0 )
-	{
-	    struct struct_sous_categ *sous_categ;
-
-	    sous_categ = gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_categ ),
-						       noeud );
-	    if ( sous_categ == GINT_TO_POINTER(-1) )
-		return(FALSE);
-
-	    gtk_signal_handler_block_by_func ( GTK_OBJECT ( entree_nom_categ ),
-					       GTK_SIGNAL_FUNC ( modification_du_texte_categ),
-					       NULL );
-
-	    gtk_entry_set_text ( GTK_ENTRY ( entree_nom_categ ),
-				 sous_categ -> nom_sous_categ );
-
-	    gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( entree_nom_categ ),
-						 GTK_SIGNAL_FUNC ( modification_du_texte_categ),
-						 NULL );
-
-	    gtk_object_set_data ( GTK_OBJECT ( entree_nom_categ ),
-				  "adr_struct_categ",
-				  NULL );
-	    gtk_object_set_data ( GTK_OBJECT ( entree_nom_categ ),
-				  "adr_struct_sous_categ",
-				  sous_categ );
-
-	    gtk_widget_set_sensitive ( bouton_supprimer_categ,
-				       TRUE );
-	    gtk_widget_set_sensitive ( entree_nom_categ,
-				       TRUE );
-	}
-
-    return FALSE;
-}
-/* **************************************************************************************************** */
-
-
-
-gboolean verifie_double_click_categ ( GtkWidget *liste, GdkEventButton *ev,
-				      gpointer null )
-{
-    if ( ev -> type == GDK_2BUTTON_PRESS )
-    {
-	expand_selected_category();
-    }
-
-    return FALSE;
-}
 
 
 gboolean keypress_category ( GtkWidget *widget, GdkEventKey *ev, gint *no_origine )
@@ -2380,59 +2253,6 @@ void calcule_total_montant_categ ( void )
 
 
 /* **************************************************************************************************** */
-gchar *calcule_total_montant_categ_par_compte ( gint categ, gint sous_categ, gint no_compte )
-{
-    gdouble retour_int;
-    GSList *liste_tmp;
-
-    retour_int = 0;
-    nb_ecritures_par_comptes = 0;
-
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_compte;
-
-    liste_tmp = LISTE_OPERATIONS;
-
-    while ( liste_tmp )
-    {
-	struct structure_operation *operation;
-
-	operation = liste_tmp -> data;
-
-	if ( operation -> categorie == categ
-	     &&
-	     operation -> sous_categorie == sous_categ
-	     &&
-	     !operation -> relation_no_operation
-	     &&
-	     !operation -> operation_ventilee   )
-	{
-	    gdouble montant;
-
-	    montant = calcule_montant_devise_renvoi ( operation -> montant,
-						      no_devise_totaux_tiers,
-						      operation -> devise,
-						      operation -> une_devise_compte_egale_x_devise_ope,
-						      operation -> taux_change,
-						      operation -> frais_change );
-
-	    retour_int = retour_int + montant;
-	    nb_ecritures_par_comptes++;
-	}
-	liste_tmp = liste_tmp -> next;
-    }
-
-    if ( retour_int )
-	return ( g_strdup_printf ( _("%4.2f %s"),
-				   retour_int,
-				   devise_code_by_no ( no_devise_totaux_tiers ) ));
-    else
-	return ( NULL );
-}
-/* **************************************************************************************************** */
-
-
-
-/* **************************************************************************************************** */
 gboolean exporter_categ ( GtkButton * widget, gpointer data )
 {
     GtkWidget * fenetre_nom;
@@ -2693,6 +2513,14 @@ gboolean categ_column_expanded  (GtkTreeView * treeview, GtkTreeIter * iter, Gtk
 			    notes = operation -> notes;
 			}
 		    }
+		    else
+		    {
+			struct struct_tiers * tiers = tiers_par_no ( operation -> tiers );
+			if ( tiers )
+			{
+			    notes = tiers -> nom_tiers;
+			}
+		    }
 
 		    label = g_strdup_printf ( _("%02d/%02d/%04d"),
 					      operation -> jour,
@@ -2792,20 +2620,22 @@ gboolean categ_drag_data_get ( GtkTreeDragSource * drag_source, GtkTreePath * pa
 	gint no_categ, no_sub_categ;
 	gpointer pointer;
 
-	if ( gtk_tree_model_get_iter ( GTK_TREE_MODEL(categ_tree_model), &iter, path ) )
-	{
-	    gtk_tree_model_get ( GTK_TREE_MODEL(categ_tree_model), &iter,
-				 CATEGORY_TREE_NO_CATEG_COLUMN, &no_categ, 
-				 CATEGORY_TREE_NO_SUB_CATEG_COLUMN, &no_sub_categ, 
-				 CATEGORY_TREE_POINTER_COLUMN, &pointer, 
-				 -1 );
+/* 	if ( gtk_tree_model_get_iter ( GTK_TREE_MODEL(categ_tree_model), &iter, path ) ) */
+/* 	{ */
+/* 	    gtk_tree_model_get ( GTK_TREE_MODEL(categ_tree_model), &iter, */
+/* 				 CATEGORY_TREE_NO_CATEG_COLUMN, &no_categ,  */
+/* 				 CATEGORY_TREE_NO_SUB_CATEG_COLUMN, &no_sub_categ,  */
+/* 				 CATEGORY_TREE_POINTER_COLUMN, &pointer,  */
+/* 				 -1 ); */
 
-/* 	    gtk_selection_data_set (selection_data, GDK_SELECTION_TYPE_INTEGER, */
-/* 				    32, pointer, sizeof(gpointer) ); */
-	}
+/* 	    printf ("@@> %p\n", path); */
+/* 	    gtk_selection_data_set (selection_data, GDK_SELECTION_TYPE_ATOM, */
+/* 				    sizeof(gpointer)*8, path, 0 ); */
+	    gtk_tree_set_row_drag_data (selection_data, categ_tree_model, path);
+/* 	} */
     }
 
-    return TRUE;
+    return FALSE;
 }
 
 
@@ -2829,10 +2659,14 @@ gboolean categ_row_drop_possible ( GtkTreeDragDest * drag_dest, GtkTreePath * de
 				 CATEGORY_TREE_NO_SUB_CATEG_COLUMN, &no_sub_categ, 
 				 -1 );
 	    if ( no_categ != -1 && no_sub_categ != -1 )
+	    {
+		printf (">>> Possible\n");
 		return TRUE;
+	    }
 	}
     }
 
+    printf (">>> Pas Possible\n");
     return FALSE;
 }
 
@@ -2842,28 +2676,83 @@ gboolean categ_row_drop_possible ( GtkTreeDragDest * drag_dest, GtkTreePath * de
  * 
  *
  */
-gboolean categ_drag_data_received ( GtkTreeDragDest   *drag_dest,
-				    GtkTreePath       *path,
-				    GtkSelectionData  *selection_data )
+gboolean categ_drag_data_received ( GtkTreeDragDest * drag_dest, GtkTreePath * path,
+				    GtkSelectionData * selection_data )
 {
     GtkTreeIter iter;
 
-    printf (">> received %p\n", path);
+/*     GdkAtom *atoms; */
+/*     GList *item_list; */
+/*     int i; */
+
+/*     /\* **** IMPORTANT **** Check to see if retrieval succeeded  *\/ */
+/*     if (selection_data->length < 0) */
+/* 	{ */
+/* 	    g_print ("Selection retrieval failed\n"); */
+/* 	    return; */
+/* 	} */
+/*     /\* Make sure we got the data in the expected form *\/ */
+/*     if (selection_data->type != GDK_SELECTION_TYPE_ATOM) */
+/* 	{ */
+/* 	    g_print ("Selection \"TARGETS\" was not returned as atoms!\n"); */
+/* 	    return; */
+/* 	} */
+  
+/*     /\* Print out the atoms we received *\/ */
+/*     atoms = (GdkAtom *)selection_data->data; */
+
+/*     item_list = NULL; */
+/*     for (i = 0; i < selection_data->length / sizeof(GdkAtom); i++) */
+/* 	{ */
+/* 	    char *name; */
+/* 	    name = gdk_atom_name (atoms[i]); */
+/* 	    if (name != NULL) */
+/* 		g_print ("%s\n",name); */
+/* 	    else */
+/* 		g_print ("(bad atom)\n"); */
+/* 	} */
+
+
+
+    /*     printf (">> received %p\n", path); */
 
     if ( path )
     {
 	gchar * buffer;
+	gint no_categ, no_sub_categ;
+	gpointer pointer;
 
 	gtk_tree_model_get_iter ( GTK_TREE_MODEL(categ_tree_model), &iter, path );
-	gtk_tree_model_get ( GTK_TREE_MODEL(categ_tree_model), &iter, 
+	gtk_tree_model_get ( GTK_TREE_MODEL(categ_tree_model), &iter,
 			     CATEGORY_TREE_TEXT_COLUMN, &buffer,
+			     CATEGORY_TREE_NO_CATEG_COLUMN, &no_categ,
+			     CATEGORY_TREE_NO_SUB_CATEG_COLUMN, &no_sub_categ,
+			     CATEGORY_TREE_POINTER_COLUMN, &pointer,
 			     -1);
 	printf ("!!> %s\n", buffer);
 
-	return TRUE;
+
+	if ( no_categ != -1 && selection_data )
+	{
+	    GtkTreePath * origpath;
+	    GtkTreeIter origiter;
+
+	    gtk_tree_get_row_drag_data (selection_data, categ_tree_model, &origpath);
+	    gtk_tree_model_get_iter ( GTK_TREE_MODEL(categ_tree_model), &origiter, origpath );
+
+	    gtk_tree_model_get ( GTK_TREE_MODEL(categ_tree_model), &origiter,
+				 CATEGORY_TREE_TEXT_COLUMN, &buffer,
+				 CATEGORY_TREE_NO_CATEG_COLUMN, &no_categ,
+				 CATEGORY_TREE_NO_SUB_CATEG_COLUMN, &no_sub_categ,
+				 CATEGORY_TREE_POINTER_COLUMN, &pointer,
+				 -1);
+	    printf ("~~> %s\n", buffer);
+	}
+	
+	return FALSE;
     }
     
-    return TRUE;
+    return FALSE;
 }
 
 
@@ -2895,7 +2784,6 @@ void expand_arbre_categ ( GtkWidget *bouton, gint depth )
     gtk_tree_view_collapse_all ( GTK_TREE_VIEW(arbre_categ) );
     gtk_tree_model_foreach ( GTK_TREE_MODEL(categ_tree_model), categ_node_maybe_expand, (gpointer) depth );
 }
-/*******************************************************************************************/
 
 
 
