@@ -1557,13 +1557,9 @@ void creation_compte_importe ( struct struct_compte_importation *compte_import )
     classe_liste_operations ( no_compte );
 
 }
-/* *******************************************************************************/
 
 
 
-
-
-/* *******************************************************************************/
 void ajout_opes_importees ( struct struct_compte_importation *compte_import )
 {
     GSList *liste_tmp;
