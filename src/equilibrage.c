@@ -810,6 +810,11 @@ void pointe_equilibrage ( int p_ligne )
     struct structure_operation *operation;
     gdouble montant;
     GtkTreeIter iter;
+    gint col;
+
+    col = find_p_r_col ();
+    if ( col == -1 )
+	return;
 
     operation = cherche_operation_from_ligne ( p_ligne,
 					       compte_courant );
@@ -841,7 +846,7 @@ void pointe_equilibrage ( int p_ligne )
 
 	gtk_list_store_set ( GTK_LIST_STORE ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( TREE_VIEW_LISTE_OPERATIONS ))),
 			     &iter,
-			     3, NULL,
+			     col, NULL,
 			     -1 );
     }
     else
@@ -853,7 +858,7 @@ void pointe_equilibrage ( int p_ligne )
 	
 	gtk_list_store_set ( GTK_LIST_STORE ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( TREE_VIEW_LISTE_OPERATIONS ))),
 			     &iter,
-			     3, _("P"),
+			     col, _("P"),
 			     -1 );
     }
 

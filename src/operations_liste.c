@@ -112,8 +112,6 @@ static gdouble solde_debut_affichage ( gint no_compte );
 
 
 
-
-
 /*  adr du notebook qui contient les opés de chaque compte */
 
 GtkWidget *notebook_listes_operations;
@@ -1814,10 +1812,8 @@ gboolean selectionne_ligne_souris ( GtkWidget *tree_view,
 
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
 
-    if ( etat.equilibrage 
-	 &&
-	 colonne == TRANSACTION_COL_NB_PR 
-	 &&
+    if ( etat.equilibrage &&
+	 colonne == find_p_r_col() &&
 	 !(ligne % NB_LIGNES_OPE) )
 	pointe_equilibrage ( ligne );
 
@@ -1826,7 +1822,7 @@ gboolean selectionne_ligne_souris ( GtkWidget *tree_view,
 
     if ( ( ( evenement -> state & GDK_CONTROL_MASK ) == GDK_CONTROL_MASK )
 	 &&
-	 colonne == TRANSACTION_COL_NB_PR )
+	 colonne == find_p_r_col() )
 	p_press ();
 
     /*  si on a double-cliqué ou bouton droit sur une opération, c'est ici */
@@ -2182,6 +2178,30 @@ gint cherche_ligne_operation ( struct structure_operation *operation )
 }
 /******************************************************************************/
 
+
+
+/**
+ * Find column number for the P_R cell.  Usefull because in some
+ * occasions, we need to know where is this column and it can be
+ * changed in preferences.
+ *
+ * \return column number for the P_R cell.
+ */
+gint find_p_r_col ()
+{
+    gint i, j;
+
+    for ( i=0 ; i<4 ; i++ )
+    {
+	for ( j=0 ; j<7 ; j++ )
+	{
+	    if ( tab_affichage_ope[i][j] == 13 )
+		return j;
+	}
+    }
+    
+    return -1;
+}
 
 
 
@@ -2561,6 +2581,11 @@ void p_press (void)
     gdouble montant;
     struct structure_operation *operation;
     GtkTreeIter *iter;
+    gint col;
+
+    col = find_p_r_col ();
+    if ( col == -1 )
+	return;
 
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
 
@@ -2584,7 +2609,7 @@ void p_press (void)
 						  operation -> taux_change,
 						  operation -> frais_change );
 
-	if ( etat.equilibrage )
+	IF ( etat.equilibrage )
 	    operations_pointees = operations_pointees - montant;
 
 	SOLDE_POINTE = SOLDE_POINTE - montant;
@@ -2592,7 +2617,7 @@ void p_press (void)
 
 	gtk_list_store_set ( GTK_LIST_STORE ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( TREE_VIEW_LISTE_OPERATIONS ))),
 			     iter,
-			     3, NULL,
+			     col, NULL,
 			     -1 );
     }
     else
@@ -2612,7 +2637,7 @@ void p_press (void)
 
 	gtk_list_store_set ( GTK_LIST_STORE ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( TREE_VIEW_LISTE_OPERATIONS ))),
 			     iter,
-			     3, _("P"),
+			     col, _("P"),
 			     -1 );
     }
 
@@ -2685,6 +2710,11 @@ void r_press (void)
 {
     struct structure_operation *operation;
     GtkTreeIter *iter;
+    gint col;
+
+    col = find_p_r_col ();
+    if ( col == -1 )
+	return;
 
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
 
@@ -2709,7 +2739,7 @@ void r_press (void)
 	if ( AFFICHAGE_R )
 	    gtk_list_store_set ( GTK_LIST_STORE ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( TREE_VIEW_LISTE_OPERATIONS ))),
 				 iter,
-				 3, _("R"),
+				 col, _("R"),
 				 -1 );
 	else
 	{
@@ -2729,7 +2759,7 @@ void r_press (void)
 
 	    gtk_list_store_set ( GTK_LIST_STORE ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( TREE_VIEW_LISTE_OPERATIONS ))),
 				 iter,
-				 3, NULL,
+				 col, NULL,
 				 -1 );
 
 	    modification_fichier( TRUE );
