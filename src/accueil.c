@@ -42,6 +42,7 @@
 #include "imputation_budgetaire.h"
 #include "categories_onglet.h"
 #include "dialog.h"
+#include "gtk_list_button.h"
 
 #define show_paddingbox(child) gtk_widget_show_all (gtk_widget_get_parent(gtk_widget_get_parent(gtk_widget_get_parent(GTK_WIDGET(child)))))
 #define hide_paddingbox(child) gtk_widget_hide_all (gtk_widget_get_parent(gtk_widget_get_parent(gtk_widget_get_parent(GTK_WIDGET(child)))))
@@ -622,8 +623,8 @@ void update_liste_comptes_accueil ( void )
 				     NULL );
 		gtk_signal_connect_object ( GTK_OBJECT ( pEventBox ),
 					    "button-press-event",
-					    GTK_SIGNAL_FUNC ( changement_compte ),
-					    GINT_TO_POINTER ( ordre_comptes_variable->data ) );
+					    GTK_SIGNAL_FUNC ( click_sur_compte_accueil ),
+					    ordre_comptes_variable->data );
 		gtk_table_attach ( GTK_TABLE ( pTable ), pEventBox,
 				   1, 2, i, i+1,
 				   GTK_FILL | GTK_SHRINK, GTK_FILL | GTK_SHRINK,
@@ -671,7 +672,7 @@ void update_liste_comptes_accueil ( void )
 		gtk_signal_connect_object ( GTK_OBJECT ( pEventBox ),
 					    "button-press-event",
 					    GTK_SIGNAL_FUNC ( changement_compte ),
-					    GINT_TO_POINTER ( ordre_comptes_variable->data ));
+					    ordre_comptes_variable->data );
 		gtk_table_attach ( GTK_TABLE ( pTable ), pEventBox,
 				   2, 3, i, i+1,
 				   GTK_FILL | GTK_SHRINK, GTK_FILL | GTK_SHRINK,
@@ -733,7 +734,7 @@ void update_liste_comptes_accueil ( void )
 		gtk_signal_connect_object ( GTK_OBJECT ( pEventBox ),
 					    "button-press-event",
 					    GTK_SIGNAL_FUNC ( changement_compte ),
-					    GINT_TO_POINTER ( ordre_comptes_variable->data ));
+					    ordre_comptes_variable->data );
 		gtk_table_attach ( GTK_TABLE ( pTable ), pEventBox,
 				   5, 6, i, i+1,
 				   GTK_FILL| GTK_SHRINK, GTK_FILL| GTK_SHRINK,
@@ -906,7 +907,7 @@ void update_liste_comptes_accueil ( void )
 				     NULL );
 		gtk_signal_connect_object ( GTK_OBJECT ( pEventBox ),
 					    "button-press-event",
-					    GTK_SIGNAL_FUNC ( changement_compte ),
+					    GTK_SIGNAL_FUNC ( click_sur_compte_accueil ),
 					    GINT_TO_POINTER ( ordre_comptes_variable->data ) );
 		gtk_table_attach ( GTK_TABLE ( pTable ), pEventBox,
 				   1, 2, i, i+1,
@@ -991,7 +992,7 @@ void update_liste_comptes_accueil ( void )
 				     NULL );
 		gtk_signal_connect_object ( GTK_OBJECT ( pEventBox ),
 					    "button-press-event",
-					    GTK_SIGNAL_FUNC ( changement_compte ),
+					    GTK_SIGNAL_FUNC ( click_sur_compte_accueil ),
 					    GINT_TO_POINTER ( ordre_comptes_variable->data ));
 		gtk_table_attach ( GTK_TABLE ( pTable ), pEventBox,
 				   2, 3, i, i+1,
@@ -1053,7 +1054,7 @@ void update_liste_comptes_accueil ( void )
 				     NULL );
 		gtk_signal_connect_object ( GTK_OBJECT ( pEventBox ),
 					    "button-press-event",
-					    GTK_SIGNAL_FUNC ( changement_compte ),
+					    GTK_SIGNAL_FUNC ( click_sur_compte_accueil ),
 					    GINT_TO_POINTER ( ordre_comptes_variable->data ));
 		gtk_table_attach ( GTK_TABLE ( pTable ), pEventBox,
 				   5, 6, i, i+1,
@@ -1227,7 +1228,7 @@ void update_liste_comptes_accueil ( void )
 				     NULL );
 		gtk_signal_connect_object ( GTK_OBJECT ( pEventBox ),
 					    "button-press-event",
-					    GTK_SIGNAL_FUNC ( changement_compte ),
+					    GTK_SIGNAL_FUNC ( click_sur_compte_accueil ),
 					    GINT_TO_POINTER ( ordre_comptes_variable->data ) );
 		gtk_table_attach ( GTK_TABLE ( pTable ), pEventBox,
 				   1, 2, i, i+1,
@@ -1312,7 +1313,7 @@ void update_liste_comptes_accueil ( void )
 				     NULL );
 		gtk_signal_connect_object ( GTK_OBJECT ( pEventBox ),
 					    "button-press-event",
-					    GTK_SIGNAL_FUNC ( changement_compte ),
+					    GTK_SIGNAL_FUNC ( click_sur_compte_accueil ),
 					    GINT_TO_POINTER ( ordre_comptes_variable->data ));
 		gtk_table_attach ( GTK_TABLE ( pTable ), pEventBox,
 				   2, 3, i, i+1,
@@ -1374,7 +1375,7 @@ void update_liste_comptes_accueil ( void )
 				     NULL );
 		gtk_signal_connect_object ( GTK_OBJECT ( pEventBox ),
 					    "button-press-event",
-					    GTK_SIGNAL_FUNC ( changement_compte ),
+					    GTK_SIGNAL_FUNC ( click_sur_compte_accueil ),
 					    GINT_TO_POINTER ( ordre_comptes_variable->data ));
 		gtk_table_attach ( GTK_TABLE ( pTable ), pEventBox,
 				   5, 6, i, i+1,
@@ -1466,6 +1467,39 @@ void update_liste_comptes_accueil ( void )
     gtk_widget_show_all (vbox);
 }
 /* ************************************************************************* */
+
+
+
+/* ************************************************************************* */
+/* cette fonction est appelée quand on click sur un compte dans l'accueil */
+/* elle fait un click sur le bouton du compte dans l'onglet des opérations */
+/* ************************************************************************* */
+gboolean click_sur_compte_accueil ( gint *no_compte )
+{
+    GList *liste_tmp;
+
+    liste_tmp = GTK_BOX ( vbox_liste_comptes ) -> children;
+
+    while ( liste_tmp )
+    {
+	GtkBoxChild *child;
+
+	child = liste_tmp -> data;
+
+	if ( gtk_list_button_get_data ( GTK_LIST_BUTTON ( child-> widget )) == no_compte )
+	{
+	    gtk_button_clicked ( GTK_BUTTON ( child -> widget ));
+	    liste_tmp = NULL;
+	    continue;
+	}
+	liste_tmp = liste_tmp -> next;
+    }
+    return FALSE;
+}
+/* ************************************************************************* */
+
+
+
 
 /* ************************************************************************* */
 /* Classement de deux échéances d'opérations par date                        */
@@ -1747,8 +1781,6 @@ void update_soldes_minimaux ( void )
     GSList *liste_autorise;
     GSList *liste_voulu;
     GSList *liste_autorise_et_voulu;
-    GSList *liste_tmp;
-    gchar *texte_affiche;
 
 
     if ( !mise_a_jour_soldes_minimaux  )
@@ -1805,27 +1837,11 @@ void update_soldes_minimaux ( void )
 	    gtk_misc_set_alignment ( GTK_MISC ( label ), MISC_LEFT, MISC_TOP );
 	    gtk_widget_show ( label );
 
-	    if ( !MESSAGE_SOUS_MINI && !patience_en_cours )
-	    {
-		if ( solde_courant  - solde_mini_voulu <= 0.01 )
-		{
-		    liste_autorise_et_voulu = g_slist_append ( liste_autorise_et_voulu,
-							       NOM_DU_COMPTE );
-		    MESSAGE_SOUS_MINI_VOULU = 1;
-		}
-		else
-		{
-		    liste_autorise = g_slist_append ( liste_autorise,
-						      NOM_DU_COMPTE );
-		}
-		MESSAGE_SOUS_MINI = 1;
-	    }
-
 	    show_paddingbox ( frame_etat_soldes_minimaux_autorises );
 	}
 
-	if ( solde_courant - solde_mini_voulu <= 0.01 && TYPE_DE_COMPTE != 2 &&
-	     solde_courant - solde_mini >= 0.01 && TYPE_DE_COMPTE != 2)
+	if ( solde_courant < solde_mini_voulu && TYPE_DE_COMPTE != 2 &&
+	     solde_courant > solde_mini && TYPE_DE_COMPTE != 2)
 	{
 	    if ( !vbox_2 )
 	    {
@@ -1839,28 +1855,102 @@ void update_soldes_minimaux ( void )
 	    gtk_box_pack_start ( GTK_BOX ( vbox_2 ), label, FALSE, FALSE, 0 );
 	    gtk_widget_show ( label );
 
-	    if ( !MESSAGE_SOUS_MINI_VOULU && !patience_en_cours )
+	    show_paddingbox ( frame_etat_soldes_minimaux_voulus );
+	}
+    }
+    
+    /*     on affiche une boite d'avertissement si nécessaire */
+
+    affiche_dialogue_soldes_minimaux ();
+    mise_a_jour_liste_comptes_accueil = 1;
+}
+/* ************************************************************************* */
+
+
+
+/* ************************************************************************* */
+/* cette fonction vérifie les soldes minimaux et affiche une boite de dialogue */
+/* avec les comptes en dessous des seuils si non désactivé */
+/* ************************************************************************* */
+
+void affiche_dialogue_soldes_minimaux ( void )
+{
+    gint i;
+    GSList *liste_autorise;
+    GSList *liste_voulu;
+    GSList *liste_autorise_et_voulu;
+    GSList *liste_tmp;
+    gchar *texte_affiche;
+
+
+    if ( !mise_a_jour_soldes_minimaux  )
+	return;
+
+    if ( DEBUG )
+	printf ( "affiche_dialogue_soldes_minimaux\n" );
+
+    liste_autorise = NULL;
+    liste_voulu = NULL;
+    liste_autorise_et_voulu = NULL;
+
+
+    for ( i = 0 ; i < nb_comptes ; i++ )
+    {
+	gint solde_courant;
+	gint solde_mini;
+	gint solde_mini_voulu;
+
+	p_tab_nom_de_compte_variable=p_tab_nom_de_compte + i;
+
+	/* le plus simple est de faire les comparaisons de soldes sur des integer */
+
+	solde_courant = rint ( SOLDE_COURANT * 100 );
+	solde_mini = rint ( SOLDE_MINI * 100 );
+	solde_mini_voulu = rint ( SOLDE_MINI_VOULU * 100 );
+
+
+	if ( solde_courant < solde_mini
+	     &&
+	     TYPE_DE_COMPTE != 2
+	     &&
+	     !MESSAGE_SOUS_MINI
+	     &&
+	     !patience_en_cours )
+	{
+	    if ( solde_courant  < solde_mini_voulu )
 	    {
-		if ( solde_courant - solde_mini <= 0.01 )
-		{
-		    liste_autorise_et_voulu = g_slist_append ( liste_autorise_et_voulu,
-							       NOM_DU_COMPTE );
-		    MESSAGE_SOUS_MINI = 1;
-		}
-		else
-		{
-		    liste_voulu = g_slist_append ( liste_voulu,
-						   NOM_DU_COMPTE );
-		}
+		liste_autorise_et_voulu = g_slist_append ( liste_autorise_et_voulu,
+							   NOM_DU_COMPTE );
+		MESSAGE_SOUS_MINI_VOULU = 1;
+	    }
+	    else
+	    {
+		liste_autorise = g_slist_append ( liste_autorise,
+						  NOM_DU_COMPTE );
+	    }
+	    MESSAGE_SOUS_MINI = 1;
+	}
+
+	if ( solde_courant < solde_mini_voulu
+	     &&
+	     solde_courant > solde_mini
+	     &&
+	     TYPE_DE_COMPTE != 2
+	     &&
+	     !MESSAGE_SOUS_MINI_VOULU
+	     &&
+	     !patience_en_cours )
+	    {
+		liste_voulu = g_slist_append ( liste_voulu,
+					       NOM_DU_COMPTE );
 		MESSAGE_SOUS_MINI_VOULU = 1;
 	    }
 
-	    show_paddingbox ( frame_etat_soldes_minimaux_voulus );
-	}
+	/* 	si on repasse au dessus des seuils, c'est comme si on n'avait rien affiché */
 
-	if ( solde_courant - solde_mini <= 0.01)
+	if ( solde_courant > solde_mini )
 	    MESSAGE_SOUS_MINI = 0;
-	if ( solde_courant - solde_mini_voulu >= 0.01)
+	if ( solde_courant > solde_mini_voulu )
 	    MESSAGE_SOUS_MINI_VOULU = 0;
     }
 
@@ -1949,10 +2039,11 @@ void update_soldes_minimaux ( void )
     if ( strlen ( texte_affiche ))
 	dialogue_conditional ( texte_affiche,
 			       &(etat.display_message_minimum_alert));
-
-    mise_a_jour_liste_comptes_accueil = 1;
 }
 /* ************************************************************************* */
+
+
+
 
 
 /* ************************************************************************* */

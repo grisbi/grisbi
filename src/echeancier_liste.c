@@ -47,6 +47,7 @@
 #include "tiers_onglet.h"
 #include "categories_onglet.h"
 #include "imputation_budgetaire.h"
+#include "comptes_traitements.h"
 
 
 
@@ -1097,7 +1098,8 @@ void edition_echeance ( void )
     /* mise en place du compte */
 
     gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_ACCOUNT] ),
-				  echeance_selectionnnee -> compte );
+				  recherche_compte_dans_option_menu (  widget_formulaire_echeancier[SCHEDULER_FORM_ACCOUNT],
+								       echeance_selectionnnee -> compte ));
 
     /* mise en place des montants et des types associés */
 
@@ -1840,7 +1842,7 @@ void verification_echeances_a_terme ( void )
 		GSList *pointeur_liste_ventil;
 
 
-		/* crée l'opération */
+		/* crée l'opÃ©ration */
 
 		operation = calloc ( 1,
 				     sizeof ( struct structure_operation ) ); 

@@ -1156,10 +1156,7 @@ void modification_details_compte ( void )
 	mise_a_jour_fin_comptes_passifs = 1;
 	if ( mise_a_jour_combofix_categ_necessaire )
 	    mise_a_jour_combofix_categ();
-
-	gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_ACCOUNT] ),
-				   creation_option_menu_comptes(GTK_SIGNAL_FUNC(changement_choix_compte_echeancier), TRUE) );
-
+	update_options_menus_comptes ();
 	remplissage_liste_comptes_etats ();
 	selectionne_liste_comptes_etat_courant ();
 

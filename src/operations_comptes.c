@@ -41,12 +41,15 @@
 #include "ventilation.h"
 #include "gtk_list_button.h"
 #include "main.h"
+#include "comptes_onglet.h"
+#include "traitement_variables.h"
+#include "comptes_traitements.h"
 
 
 
 extern GtkItemFactory *item_factory_menu_general;
 extern gint id_fonction_idle;
-
+extern gint mise_a_jour_liste_comptes_accueil;
 
 
 /* ********************************************************************************************************** */
@@ -121,7 +124,7 @@ GtkWidget *creation_liste_comptes (void)
     /*  création d'une vbox contenant la liste des comptes */
 
     vbox_liste_comptes = gtk_vbox_new ( FALSE,
-					10);
+					0);
     gtk_scrolled_window_add_with_viewport ( GTK_SCROLLED_WINDOW (scrolled_window ),
 					    vbox_liste_comptes);
     gtk_viewport_set_shadow_type ( GTK_VIEWPORT ( GTK_BIN ( scrolled_window )  -> child ),
@@ -212,10 +215,15 @@ GtkWidget *comptes_appel ( gint no_de_compte )
 
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_de_compte;
 
-    bouton = gtk_list_button_new ( NOM_DU_COMPTE, 2 );
-    gtk_signal_connect_object ( GTK_OBJECT (bouton), "clicked",
+    bouton = gtk_list_button_new ( NOM_DU_COMPTE, 2, TRUE, GINT_TO_POINTER (no_de_compte));
+    gtk_signal_connect_object ( GTK_OBJECT (bouton),
+				"clicked",
 				GTK_SIGNAL_FUNC ( changement_compte ),
 				GINT_TO_POINTER ( no_de_compte ) );
+    g_signal_connect ( G_OBJECT ( bouton ),
+		       "reordered",
+		       G_CALLBACK ( changement_ordre_liste_comptes ),
+		       NULL );
     gtk_widget_show ( bouton );
 
     return ( bouton );
@@ -242,6 +250,12 @@ gboolean changement_compte ( gint *compte)
 {
     GtkWidget *menu;
 
+    /*   si on n'est pas sur l'onglet comptes du notebook, on y passe */
+
+    if ( gtk_notebook_get_current_page ( GTK_NOTEBOOK ( notebook_general ) ) != 1 )
+	gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ),
+				1 );
+
     /* si on était dans une ventilation d'opération, alors on annule la ventilation */
 
 /*     if ( gtk_notebook_get_current_page ( GTK_NOTEBOOK ( notebook_comptes_equilibrage ) ) == 1 ) */
@@ -261,12 +275,6 @@ gboolean changement_compte ( gint *compte)
 	p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
 
 	VALUE_AJUSTEMENT_LISTE_OPERATIONS = gtk_tree_view_get_vadjustment ( GTK_TREE_VIEW ( TREE_VIEW_LISTE_OPERATIONS )) -> value;
-
-	/*   si on n'est pas sur l'onglet comptes du notebook, on y passe */
-
-	if ( gtk_notebook_get_current_page ( GTK_NOTEBOOK ( notebook_general ) ) != 1 )
-	    gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ),
-				    1 );
 
 	/*     on retire la fleche du classement courant */
 
@@ -329,7 +337,7 @@ gboolean changement_compte ( gint *compte)
 
     /* affiche le solde final en bas */
 
-    mise_a_jour_labels_soldes ( compte_courant );
+    mise_a_jour_labels_soldes ();
 
     /* change le défaut de l'option menu des devises du formulaire */
 
@@ -399,10 +407,6 @@ gboolean changement_compte ( gint *compte)
 
     gtk_widget_show ( SCROLLED_WINDOW_LISTE_OPERATIONS );
     
-    /* FIXME : trouver une meilleure solution pour actualiser la liste des
-       comptes. Voir bogue #293 */
-    reaffiche_liste_comptes ();
-
     return FALSE;
 }
 /* ********************************************************************************************************** */
@@ -503,3 +507,68 @@ void reaffiche_liste_comptes ( void )
 
 }
 /* *********************************************************************************************************** */
+
+
+
+
+
+/* *********************************************************************************************************** */
+/* cette fonction est appelée lorsque l'ordre des comptes a été changé, soit */
+/* par l'onglet de compte, soit par l'onglet de la liste des opérations */
+/* *********************************************************************************************************** */
+gboolean changement_ordre_liste_comptes ( GtkWidget *bouton )
+{
+    GSList *nouvelle_liste_comptes;
+    GList *liste_tmp;
+    GSList *sliste_tmp;
+
+
+    liste_tmp = GTK_BOX ( bouton-> parent ) -> children;
+    nouvelle_liste_comptes = NULL;
+
+    while ( liste_tmp )
+    {
+	GtkBoxChild *box_child;
+
+	box_child = liste_tmp -> data;
+
+	nouvelle_liste_comptes = g_slist_append ( nouvelle_liste_comptes,
+						  gtk_list_button_get_data ( GTK_LIST_BUTTON ( box_child -> widget )));
+	liste_tmp = liste_tmp -> next;
+    }
+
+    /*     on va vérifier que tous les comptes de l'ancienne liste sont présents dans la nouvelle */
+    /* 	car si l'on part de l'onglet des opérations, les compltes cloturés ne sont pas */
+    /* 	affichés */
+
+    sliste_tmp = ordre_comptes;
+
+    while ( sliste_tmp )
+    {
+	if ( g_slist_index ( nouvelle_liste_comptes,
+			     sliste_tmp -> data ) == -1 )
+	    nouvelle_liste_comptes = g_slist_append ( nouvelle_liste_comptes,
+						      sliste_tmp -> data );
+	sliste_tmp = sliste_tmp -> next;
+    }
+
+    g_slist_free ( ordre_comptes );
+    ordre_comptes = nouvelle_liste_comptes;
+
+    /*     on réaffiche la liste des comptes de l'autre fenetre */
+
+    if ( bouton -> parent == vbox_liste_comptes )
+	/* 	on est sur la liste des comptes de l'onglet opérations, donc on réaffiche l'onglet comptes */
+	reaffiche_liste_comptes_onglet ();
+    else
+	reaffiche_liste_comptes ();
+
+    mise_a_jour_liste_comptes_accueil = 1;
+
+    update_options_menus_comptes ();
+    modification_fichier (TRUE);
+
+    return ( FALSE );
+}
+/* *********************************************************************************************************** */
+

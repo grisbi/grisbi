@@ -376,6 +376,11 @@ void ouverture_confirmee ( void )
 
 	SOLDE_COURANT = calcule_solde_compte ( i );
 	SOLDE_POINTE = calcule_solde_pointe_compte ( i );
+
+	/* 	on met à jour les affichage solde mini et autres */
+
+	MESSAGE_SOUS_MINI = SOLDE_COURANT < SOLDE_MINI;
+	MESSAGE_SOUS_MINI_VOULU = SOLDE_COURANT < SOLDE_MINI_VOULU;
     }
 
     /*     on va afficher la page d'accueil */
@@ -778,6 +783,9 @@ void ajoute_nouveau_fichier_liste_ouverture ( gchar *path_fichier )
     if ( !nb_max_derniers_fichiers_ouverts ||
 	 ! path_fichier)
 	return;
+
+    if ( nb_derniers_fichiers_ouverts < 0 )
+	nb_derniers_fichiers_ouverts = 0;
 
     /* ALAIN-FIXME */
     /* si on n'a pas un chemin absolu, on n'enregistre pas ce fichier

@@ -419,7 +419,7 @@ void remplissage_liste_etats ( void )
 
 	etat = liste_tmp -> data;
 
-	bouton = gtk_list_button_new ( etat -> nom_etat, 0 );
+	bouton = gtk_list_button_new ( etat -> nom_etat, 0, TRUE, GINT_TO_POINTER (etat->no_etat) );
 	gtk_widget_show_all (bouton) ;
 	gtk_box_pack_start ( GTK_BOX ( vbox_liste_etats ), bouton,
 			     FALSE, FALSE, 0 );

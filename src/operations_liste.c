@@ -115,6 +115,7 @@ extern gdouble solde_initial;
 extern gdouble solde_final;
 extern GtkWidget *bouton_ok_equilibrage;
 extern gint mise_a_jour_liste_comptes_accueil;
+extern gint mise_a_jour_soldes_minimaux;
 extern gint mise_a_jour_liste_echeances_auto_accueil;
 extern gint mise_a_jour_combofix_tiers_necessaire;
 extern gint mise_a_jour_combofix_categ_necessaire;
@@ -1061,7 +1062,7 @@ gchar *recherche_contenu_cellule ( struct structure_operation *operation,
 	case 8:
 	    if ( operation -> devise != DEVISE )
 	    {
-		/* on doit calculer et afficher le montant de l'opÃƒƒ© */
+		/* on doit calculer et afficher le montant de l'opÃƒƒƒƒƒƒ© */
 
 		montant = calcule_montant_devise_renvoi ( operation -> montant,
 							  DEVISE,
@@ -1347,16 +1348,23 @@ void update_soldes_list_store ( gint compte,
 	ligne_solde_precedent = my_atoi ( gtk_tree_model_get_string_from_iter ( GTK_TREE_MODEL ( STORE_LISTE_OPERATIONS ),
 										iter )) - NB_LIGNES_OPE + ligne;
 
-	if ( gtk_tree_model_get_iter_from_string ( GTK_TREE_MODEL ( STORE_LISTE_OPERATIONS ),
-						   &iter_ligne_solde_precedent,
-						   itoa ( ligne_solde_precedent )))
-	    gtk_tree_model_get ( GTK_TREE_MODEL ( STORE_LISTE_OPERATIONS ),
-				 &iter_ligne_solde_precedent,
-				 colonne, &str_tmp,
-				 -1 );
+	/* 	si on est sur la première ligne, on reprend le solde du début */
 
-	solde_courant = my_strtod ( str_tmp,
-				    NULL );
+	if ( ligne_solde_precedent < 0 )
+	    solde_courant = solde_debut_affichage ( compte );
+	else
+	{
+	    if ( gtk_tree_model_get_iter_from_string ( GTK_TREE_MODEL ( STORE_LISTE_OPERATIONS ),
+						       &iter_ligne_solde_precedent,
+						       itoa ( ligne_solde_precedent )))
+		gtk_tree_model_get ( GTK_TREE_MODEL ( STORE_LISTE_OPERATIONS ),
+				     &iter_ligne_solde_precedent,
+				     colonne, &str_tmp,
+				     -1 );
+
+	    solde_courant = my_strtod ( str_tmp,
+					NULL );
+	}
     }
     else
     {
@@ -1607,7 +1615,7 @@ gboolean selectionne_ligne_souris ( GtkWidget *tree_view,
 
     /* Récupération de la 1ère ligne de l'opération cliquée */
 
-    ligne = atoi ( gtk_tree_path_to_string ( path ));
+    ligne = my_atoi ( gtk_tree_path_to_string ( path ));
     ligne = ligne / NB_LIGNES_OPE * NB_LIGNES_OPE;
 
     selectionne_ligne( cherche_operation_from_ligne ( ligne,
@@ -2500,7 +2508,7 @@ void p_press (void)
 
 /*     met à jour les labels des soldes  */
 
-    mise_a_jour_labels_soldes ( compte_courant );
+    mise_a_jour_labels_soldes ();
 
     modification_fichier( TRUE );
 /* ALAIN-FIXME : solution batarde me semble-t'il pour actualiser le solde pointé
@@ -2755,7 +2763,7 @@ void supprime_operation ( struct structure_operation *operation )
 
     /*     on met à jour les labels de solde */
 
-    mise_a_jour_labels_soldes ( operation -> no_compte );
+    mise_a_jour_labels_soldes ();
 
     /* si on est en train d'équilibrer => recalcule le total pointé */
 
@@ -2770,6 +2778,8 @@ void supprime_operation ( struct structure_operation *operation )
     /* on réaffiche la liste de l'état des comptes de l'accueil */
 
     mise_a_jour_liste_comptes_accueil = 1;
+    mise_a_jour_soldes_minimaux = 1;
+    affiche_dialogue_soldes_minimaux ();
 
 
     /* FIXME : on devrait réafficher les listes de tiers, categ, ib... */
@@ -3011,7 +3021,7 @@ void popup_transaction_context_menu ( gboolean full )
 
     /* Add accounts submenu */
     gtk_menu_item_set_submenu ( GTK_MENU_ITEM(menu_item), 
-				GTK_WIDGET(creation_option_menu_comptes_nonclos(GTK_SIGNAL_FUNC(move_selected_operation_to_account), FALSE)) );
+				GTK_WIDGET(creation_option_menu_comptes(GTK_SIGNAL_FUNC(move_selected_operation_to_account), FALSE, FALSE)) );
 
     gtk_widget_show_all (menu);
     gtk_menu_popup ( GTK_MENU(menu), NULL, NULL, NULL, NULL, 3, gtk_get_current_event_time());
@@ -3167,33 +3177,27 @@ void move_selected_operation_to_account ( GtkMenuItem * menu_item )
     target_account = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT(menu_item), 
 							     "no_compte" ) );  
 
-    move_operation_to_account ( OPERATION_SELECTIONNEE, target_account );
+    if ( move_operation_to_account ( OPERATION_SELECTIONNEE, target_account ))
+    {
+	gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ), 1 );
 
-    gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ), 1 );
+	if ( mise_a_jour_combofix_tiers_necessaire )
+	    mise_a_jour_combofix_tiers ();
+	if ( mise_a_jour_combofix_categ_necessaire )
+	    mise_a_jour_combofix_categ ();
+	if ( mise_a_jour_combofix_imputation_necessaire )
+	    mise_a_jour_combofix_imputation ();
 
-    if ( mise_a_jour_combofix_tiers_necessaire )
-	mise_a_jour_combofix_tiers ();
-    if ( mise_a_jour_combofix_categ_necessaire )
-	mise_a_jour_combofix_categ ();
-    if ( mise_a_jour_combofix_imputation_necessaire )
-	mise_a_jour_combofix_imputation ();
+	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + source_account;
 
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + source_account;
+	SOLDE_COURANT = calcule_solde_compte ( source_account );
+	SOLDE_POINTE = calcule_solde_pointe_compte ( source_account );
 
-    SOLDE_COURANT = calcule_solde_compte ( source_account );
-    SOLDE_POINTE = calcule_solde_pointe_compte ( source_account );
+	mise_a_jour_labels_soldes ();
 
-    gtk_label_set_text ( GTK_LABEL ( solde_label_pointe ),
-			 g_strdup_printf ( PRESPACIFY(_("Checked balance: %4.2f %s")),
-					   SOLDE_POINTE,
-					   devise_name_by_no ( DEVISE )));
-    gtk_label_set_text ( GTK_LABEL ( solde_label ),
-			 g_strdup_printf ( PRESPACIFY(_("Current balance: %4.2f %s")),
-					   SOLDE_COURANT,
-					   devise_name_by_no ( DEVISE )));
-
-    p_tab_nom_de_compte_variable = tmp;
-    modification_fichier ( TRUE );
+	p_tab_nom_de_compte_variable = tmp;
+	modification_fichier ( TRUE );
+    }
 }
 
 
@@ -3203,9 +3207,10 @@ void move_selected_operation_to_account ( GtkMenuItem * menu_item )
  *
  * \param transaction Transaction to move to other account
  * \param account Account to move the transaction to
+ * return TRUE if ok
  */
-void move_operation_to_account ( struct structure_operation * transaction,
-				 gint account )
+gboolean move_operation_to_account ( struct structure_operation * transaction,
+				     gint account )
 {
     GtkTreeIter *iter;
     gpointer ** tmp = p_tab_nom_de_compte_variable;
@@ -3213,6 +3218,15 @@ void move_operation_to_account ( struct structure_operation * transaction,
     if ( transaction -> relation_no_operation )
     {
 	struct structure_operation * contra_transaction;
+
+	/* 	l'opération est un virement, si on veut la déplacer vers le compte */
+	/* 	    viré, on refuse */
+
+	if ( transaction -> relation_no_compte == account )
+	{
+	    dialogue ( _("Error : cannot move a transfer on his contra-account"));
+	    return FALSE;
+	}
 
 	contra_transaction = operation_par_no (  transaction -> relation_no_operation,
 						 transaction -> relation_no_compte );
@@ -3255,11 +3269,11 @@ void move_operation_to_account ( struct structure_operation * transaction,
 	g_slist_free ( liste_tmp );
     }
 
+    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + transaction -> no_compte;
+
     LISTE_OPERATIONS = g_slist_remove ( LISTE_OPERATIONS, transaction );
 
     /*     si l'opération était affichée, on la retire du list_store */
-
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + transaction -> no_compte;
 
     iter = cherche_iter_operation ( transaction );
 
@@ -3300,6 +3314,7 @@ void move_operation_to_account ( struct structure_operation * transaction,
 					       (GCompareFunc) CLASSEMENT_COURANT );
     ajout_operation ( transaction );
     p_tab_nom_de_compte_variable = tmp;
+    return TRUE;
 }
 
 
@@ -3843,14 +3858,9 @@ gpointer recupere_classement_par_no ( gint no_tri )
 /* cette fonction met juste les labels sous la liste des opés à jour */
 /* les soldes ont dû être calculé avant */
 /******************************************************************************/
-void mise_a_jour_labels_soldes ( gint no_compte )
+void mise_a_jour_labels_soldes ( void )
 {
-    /*     on ne met à jour que si c'est le compte affiché */
-
-    if ( no_compte != compte_courant )
-	return;
-
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_compte;
+    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
 
     /*     met le solde */
 
@@ -4532,7 +4542,7 @@ void mise_a_jour_affichage_lignes ( gint nb_lignes )
 			if ( g_slist_index ( liste_lignes_en_trop,
 					     GINT_TO_POINTER ( no_ligne_affichee )) != -1 )
 			{
-			    /* 	ce no de ligne a été retrouvé dans liste_lignes_en_trop, c'est qu'il faut le remplacer */
+			    /* 	ce no de ligne a étÃ© retrouvé dans liste_lignes_en_trop, c'est qu'il faut le remplacer */
 			    /* 	ou le virer */
 
 			    if ( liste_lignes_a_afficher_tmp )

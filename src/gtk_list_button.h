@@ -51,19 +51,45 @@ struct _GtkListButton
   GtkWidget *closed_icon;
   GtkWidget *open_icon;
   gint group;
+  gpointer data;
 };
 
 
 struct _GtkListButtonClass
 {
   GtkButtonClass parent_class;
+  void (* reordered)  (GtkButton *button);
 };
 
 
 guint gtk_list_button_get_type ( void );
 
-GtkWidget *gtk_list_button_new ( gchar *, int );
+/* ************************************************************** */
+/* crée et renvoie un nouveau list_button contenant le text */
+/* group entre 0 et 15 */
+/* can_drag 1 ou 0 */
+/* ************************************************************** */
+
+GtkWidget *gtk_list_button_new ( gchar * text,
+				 int group,
+				 int can_drag,
+				 gpointer data );
+
+/* ************************************************************** */
+/* change le nom du list_button donné en argument */
+/* ************************************************************** */
+
 void gtk_list_button_set_name ( GtkListButton *, gchar * );
+
+
+/* ************************************************************** */
+/* récupère la donnée du bouton donné en argument */
+/* ************************************************************** */
+
+gpointer gtk_list_button_get_data ( GtkListButton *button );
+				    
+
+
 gboolean gtk_list_button_clicked ( GtkButton *button );
 
 

@@ -46,8 +46,8 @@ void remove_transaction ( );
 void clone_selected_transaction ( );
 struct structure_operation * clone_transaction ( struct structure_operation * operation );
 void move_selected_operation_to_account ( GtkMenuItem * menu_item );
-void move_operation_to_account ( struct structure_operation * transaction, 
-				 gint account );
+gboolean move_operation_to_account ( struct structure_operation * transaction, 
+				     gint account );
 void schedule_selected_transaction ( );
 struct operation_echeance * schedule_transaction ( struct structure_operation * transaction );
 void popup_transaction_context_menu ( gboolean full );
@@ -57,7 +57,7 @@ gboolean click_sur_titre_colonne_operations ( GtkTreeViewColumn *colonne,
 gboolean changement_choix_tri_liste_operations ( gchar *nom_tri );
 gint recupere_no_from_nom_champ_tri ( gchar *nom_tri );
 gpointer recupere_classement_par_no ( gint no_tri );
-void mise_a_jour_labels_soldes ( gint no_compte );
+void mise_a_jour_labels_soldes ( void );
 void my_list_store_sort ( gint no_compte,
 			 GSList *liste_avant_tri,
 			 GSList *liste_apres_tri );

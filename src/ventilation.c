@@ -1097,7 +1097,7 @@ gboolean selectionne_ligne_souris_ventilation ( GtkWidget *tree_view,
 
     /* Récupération de la ligne de l'opération cliquée */
 
-    ligne = atoi ( gtk_tree_path_to_string ( path ));
+    ligne = my_atoi ( gtk_tree_path_to_string ( path ));
 
     selectionne_ligne_ventilation( ligne );
 
@@ -1707,7 +1707,7 @@ gint cherche_ligne_from_operation_ventilee ( struct struct_ope_ventil *operation
 			     -1 );
 
 	if ( adresse == operation )
-	    no_ligne = atoi ( gtk_tree_model_get_string_from_iter ( GTK_TREE_MODEL ( list_store_ventils ),
+	    no_ligne = my_atoi ( gtk_tree_model_get_string_from_iter ( GTK_TREE_MODEL ( list_store_ventils ),
 								    &iter ));
     }
     while ( gtk_tree_model_iter_next ( GTK_TREE_MODEL ( list_store_ventils ),
@@ -2110,7 +2110,7 @@ void remplit_liste_ventilation ( void )
 				 4, &couleur_selection,
 				 -1 );
 
-	    ligne_selectionnee_ventilation = atoi ( gtk_tree_model_get_string_from_iter ( GTK_TREE_MODEL ( list_store_ventils ),
+	    ligne_selectionnee_ventilation = my_atoi ( gtk_tree_model_get_string_from_iter ( GTK_TREE_MODEL ( list_store_ventils ),
 									      &iter ));
 	}
 
@@ -2192,7 +2192,7 @@ void ajoute_ope_sur_liste_ventilation ( struct struct_ope_ventil *operation )
 
     /*     si elle est sélectionnée, c'est ici */
 
-    if ( ligne_selectionnee_ventilation == atoi ( gtk_tree_model_get_string_from_iter ( GTK_TREE_MODEL ( list_store_ventils ),
+    if ( ligne_selectionnee_ventilation == my_atoi ( gtk_tree_model_get_string_from_iter ( GTK_TREE_MODEL ( list_store_ventils ),
 											&iter )))
 	gtk_list_store_set ( list_store_ventils,
 			     &iter,
@@ -2299,7 +2299,7 @@ void mise_a_jour_couleurs_liste_ventilation ( void )
     {
 /* 	si la ligne est sélectionnée, on le place en sauvegarde de background */
 
-	if ( ligne_selectionnee_ventilation == atoi ( gtk_tree_model_get_string_from_iter ( GTK_TREE_MODEL ( list_store_ventils ),
+	if ( ligne_selectionnee_ventilation == my_atoi ( gtk_tree_model_get_string_from_iter ( GTK_TREE_MODEL ( list_store_ventils ),
 											    &iter )))
 	    gtk_list_store_set ( list_store_ventils,
 				 &iter,
@@ -2439,11 +2439,39 @@ void annuler_ventilation ( void )
     /* Cette fonction remet la liste des structures de ventilation par défaut
        en recherchant les opérations de ventilation dans la liste des opérations
        puis appelle valider ventilation */
+    /*     si des opés de ventils avaient été mises par complétion du tiers, en faisant */
+    /* 	annuler elles vont disparaitre car elles ne sont pas encore enregistrées */
+    /* 	dans ce cas on les ajoutes à la nouvelle liste créé */
+
+    GSList *nouvelle_liste;
+    GSList *ancienne_liste;
+    GSList *liste_tmp;
+
+
+    ancienne_liste = gtk_object_get_data ( GTK_OBJECT ( formulaire ),
+					   "liste_adr_ventilation" );
+    nouvelle_liste = creation_liste_ope_de_ventil ( gtk_object_get_data ( GTK_OBJECT ( formulaire ),
+									       "adr_struct_ope" ));
+
+    liste_tmp = ancienne_liste;
+
+    while ( liste_tmp )
+    {
+	struct struct_ope_ventil *ventil;
+
+	ventil = liste_tmp -> data;
+
+	if ( ventil -> par_completion )
+	    nouvelle_liste = g_slist_append ( nouvelle_liste,
+					      ventil );
+	liste_tmp = liste_tmp -> next;
+    }
+
+    g_slist_free ( ancienne_liste );
 
     gtk_object_set_data ( GTK_OBJECT ( formulaire ),
 			  "liste_adr_ventilation",
-			  creation_liste_ope_de_ventil ( gtk_object_get_data ( GTK_OBJECT ( formulaire ),
-									       "adr_struct_ope" )));
+			  nouvelle_liste );
 
     quitter_ventilation ();
 }

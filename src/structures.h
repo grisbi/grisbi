@@ -614,7 +614,7 @@ struct struct_comparaison_textes_etat
 
     /* pourles comparaisons de txt */
 
-    GtkWidget *bouton_utilise_txt;    /* sensitif en cas de champ Ã  no */
+    GtkWidget *bouton_utilise_txt;    /* sensitif en cas de champ Ãƒƒ  no */
     GtkWidget *hbox_txt;
     GtkWidget *bouton_operateur;
     GtkWidget *entree_txt;
@@ -672,6 +672,7 @@ struct struct_ope_ventil
     gint no_exercice;
 
     gint supprime;   /* à 1 quand cette opé doit être supprimée */
+    gint par_completion;    /*à 1 si cette opé a été ajoutée suite à une complétion de tiers*/
 };
 
 

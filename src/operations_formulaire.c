@@ -704,33 +704,25 @@ void echap_formulaire ( void )
 {
     GSList *liste_tmp;
 
-    /* si c'est une nouvelle opé ventilée et qu'on a utilisé la complétion */
-    /* il faut effacer les opés de ventilation automatiquement créées */
-    /* celles ci sont dans la liste dans "liste_adr_ventilation" */
+   /*     on libère la mémoire des ventilations */
+    /* 	dans tous les cas, toutes les modifs apportées ne l'étaient que */
+    /* 	dans cette liste */
 
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
 
     liste_tmp = gtk_object_get_data ( GTK_OBJECT ( formulaire ),
 				      "liste_adr_ventilation" );
 
-    if ( liste_tmp
-	 &&
-	 !gtk_object_get_data ( GTK_OBJECT ( formulaire ),
-				"adr_struct_ope" )
-	 &&
-	 liste_tmp != GINT_TO_POINTER ( -1 ))
+    while ( liste_tmp )
     {
-	while ( liste_tmp )
-	{
-	    ligne_selectionnee_ventilation = cherche_ligne_from_operation_ventilee (liste_tmp -> data);
-	    supprime_operation_ventilation ();
-	    liste_tmp = liste_tmp -> next;
-	}
+	free ( liste_tmp -> data );
+	liste_tmp = liste_tmp -> next;
     }
 
-    formulaire_a_zero();
+    g_slist_free ( gtk_object_get_data ( GTK_OBJECT ( formulaire ),
+					 "liste_adr_ventilation" ));
 
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
+    formulaire_a_zero();
 
     if ( !etat.formulaire_toujours_affiche )
 	gtk_widget_hide ( frame_droite_bas );
@@ -1880,6 +1872,12 @@ void completion_operation_par_tiers ( void )
 		    if ( ope_test -> no_piece_comptable )
 			nouvelle_operation -> no_piece_comptable = g_strdup ( ope_test -> no_piece_comptable );
 
+
+		    /* 		    on met par_completion à 1 pour éviter de les effacer si on va dans l'échéance */
+		    /* 			et qu'on annule */
+
+		    nouvelle_operation -> par_completion = 1;
+
 		    /* si c'est un virement, on met le compte de virement et le type choisi */
 
 		    if ( ope_test -> relation_no_operation )
@@ -2263,6 +2261,10 @@ gboolean fin_edition ( void )
     if ( mise_a_jour_combofix_imputation_necessaire )
 	mise_a_jour_combofix_imputation ();
 
+    /*     on affiche un avertissement si nécessaire */
+
+    affiche_dialogue_soldes_minimaux ();
+
     modification_fichier ( TRUE );
     return FALSE;
 }
@@ -2397,7 +2399,7 @@ gint verification_validation_operation ( struct structure_operation *operation )
     }
 
     /* pour les types qui sont à incrÃ©mentation automatique ( surtout les chÃ¨ques ) */
-    /* on fait le tour des operations pour voir si le no n'a pas déjà été utilisÃƒƒƒƒƒƒƒƒ© */
+    /* on fait le tour des operations pour voir si le no n'a pas déjà été utilisÃƒƒÂƒƒƒƒƒƒ© */
     /* si operation n'est pas nul, c'est une modif donc on ne fait pas ce test */
 
     if ( GTK_WIDGET_VISIBLE ( widget_formulaire_operations[TRANSACTION_FORM_CHEQUE] ))
@@ -3190,7 +3192,7 @@ void ajout_operation ( struct structure_operation *operation )
 	   ||
 	   ( operation -> pointe == 3
 	     &&
-	     AFFICHAGE_R )))
+	     !AFFICHAGE_R )))
     {
 	/*     si la liste n'est pas finie, on la finie avant */
 
@@ -3203,7 +3205,26 @@ void ajout_operation ( struct structure_operation *operation )
 				   operation ) -> next;
 
 	if ( liste_tmp )
+	{
+	    /* 	    si l'opé suivant n'est pas affichée, il faut rechercher la 1ère affichée */
+
 	    operation_suivante = liste_tmp -> data;
+
+	    while ( liste_tmp
+		    &&
+		    ( operation_suivante -> no_operation_ventilee_associee
+		      ||
+		      ( operation_suivante -> pointe == 3
+			&&
+			!AFFICHAGE_R )))
+	    {
+		liste_tmp = liste_tmp -> next;
+		operation_suivante = liste_tmp -> data;
+	    }
+
+	    if ( !liste_tmp )
+		operation_suivante = GINT_TO_POINTER (-1);
+	}
 	else
 	    operation_suivante = GINT_TO_POINTER (-1);
 
@@ -3242,7 +3263,7 @@ void ajout_operation ( struct structure_operation *operation )
 
     /* on met à jour les labels des soldes */
 
-    mise_a_jour_labels_soldes ( operation -> no_compte );
+    mise_a_jour_labels_soldes ();
 
     /* on réaffichera l'accueil */
 
@@ -3337,7 +3358,7 @@ void modifie_operation ( struct structure_operation *operation )
 
     /* on met à jour les labels des soldes */
 
-    mise_a_jour_labels_soldes ( operation -> no_compte );
+    mise_a_jour_labels_soldes ();
 
     /* on réaffichera l'accueil */
 

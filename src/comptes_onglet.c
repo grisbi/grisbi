@@ -29,6 +29,7 @@
 #include "comptes_traitements.h"
 #include "gtk_list_button.h"
 #include "utils.h"
+#include "operations_comptes.h"
 
 
 GtkWidget *paned_onglet_comptes;
@@ -46,7 +47,7 @@ GtkWidget *creation_onglet_comptes ( void )
 	etat.largeur_colonne_comptes_comptes = 200;
 
     gtk_paned_set_position ( GTK_PANED(paned_onglet_comptes), etat.largeur_colonne_comptes_comptes );
-    gtk_container_set_border_width ( GTK_CONTAINER ( paned_onglet_comptes ), 10 );
+    gtk_container_set_border_width ( GTK_CONTAINER ( paned_onglet_comptes ), 0 );
     gtk_widget_show ( paned_onglet_comptes );
 
 
@@ -195,10 +196,15 @@ GtkWidget *comptes_appel_onglet ( gint no_de_compte )
 
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_de_compte;
 
-    bouton = gtk_list_button_new ( NOM_DU_COMPTE, 1 );
-    gtk_signal_connect ( GTK_OBJECT (bouton), "clicked",
+    bouton = gtk_list_button_new ( NOM_DU_COMPTE, 1, TRUE, GINT_TO_POINTER (no_de_compte));
+    gtk_signal_connect ( GTK_OBJECT (bouton),
+			 "clicked",
 			 GTK_SIGNAL_FUNC ( changement_compte_onglet ),
 			 GINT_TO_POINTER ( no_de_compte ) );
+    g_signal_connect ( G_OBJECT ( bouton ),
+		       "reordered",
+		       G_CALLBACK ( changement_ordre_liste_comptes ),
+		       NULL );
 
     return ( bouton );
 }

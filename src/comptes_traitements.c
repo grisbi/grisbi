@@ -99,8 +99,7 @@ void  nouveau_compte ( void )
 
     /* on met à jour l'option menu des formulaires des échéances et des opés */
 
-    gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_ACCOUNT] ),
-			       creation_option_menu_comptes (GTK_SIGNAL_FUNC(changement_choix_compte_echeancier), TRUE) );
+	update_options_menus_comptes ();
 
 
     /* mise à jour de l'accueil */
@@ -354,8 +353,7 @@ void supprimer_compte ( void )
 
     /* on met à jour l'option menu du formulaire des échéances */
 
-    gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_ACCOUNT] ),
-			       creation_option_menu_comptes (GTK_SIGNAL_FUNC(changement_choix_compte_echeancier), TRUE) );
+	update_options_menus_comptes ();
 
     /* réaffiche la liste si necessaire */
 
@@ -385,11 +383,13 @@ void supprimer_compte ( void )
  * \param func Function to call when a line is selected
  * \param activate_currrent If set to TRUE, does not mark as
  *        unsensitive current account
+ * \param include_closed If set to TRUE, include the closed accounts
  *
  * \return A newly created option menu
  */
 GtkWidget * creation_option_menu_comptes ( GtkSignalFunc func, 
-					   gboolean activate_currrent )
+					   gboolean activate_currrent,
+					   gboolean include_closed )
 {
     GtkWidget *menu;
     GtkWidget *item;
@@ -403,54 +403,9 @@ GtkWidget * creation_option_menu_comptes ( GtkSignalFunc func,
     {
 	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + GPOINTER_TO_INT ( ordre_comptes_variable -> data );
 
-	item = gtk_menu_item_new_with_label ( NOM_DU_COMPTE );
-	gtk_object_set_data ( GTK_OBJECT ( item ),
-			      "no_compte",
-			      GINT_TO_POINTER ( p_tab_nom_de_compte_variable - p_tab_nom_de_compte ));
-	if ( func )
-	    gtk_signal_connect ( GTK_OBJECT ( item ), "activate", GTK_SIGNAL_FUNC(func), NULL );
-	gtk_menu_append ( GTK_MENU ( menu ), item );
-
-	if ( !activate_currrent && 
-	     p_tab_nom_de_compte_courant == p_tab_nom_de_compte_variable )
-	{
-	    gtk_widget_set_sensitive ( item, FALSE );
-	}      
-
-	gtk_widget_show ( item );
-    }
-    while ( (  ordre_comptes_variable = ordre_comptes_variable -> next ) );
-
-    return ( menu );
-}
-/* ************************************************************************** */
-
-/**
- *  Create an option menu with the list of unclosed accounts.  This list is
- *  clickable and activates func if specified.
- *
- * \param func Function to call when a line is selected
- * \param activate_currrent If set to TRUE, does not mark as
- *        unsensitive current account
- *
- * \return A newly created option menu
- */
-GtkWidget * creation_option_menu_comptes_nonclos ( GtkSignalFunc func, 
-						   gboolean activate_currrent )
-{
-    GtkWidget *menu;
-    GtkWidget *item;
-    GSList *ordre_comptes_variable;
-
-    menu = gtk_menu_new ();
-
-    ordre_comptes_variable = ordre_comptes;
-
-    do
-    {
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + GPOINTER_TO_INT ( ordre_comptes_variable -> data );
-	
-	if ( !COMPTE_CLOTURE )
+	if ( !COMPTE_CLOTURE
+	     ||
+	     include_closed )
 	{
 	    item = gtk_menu_item_new_with_label ( NOM_DU_COMPTE );
 	    gtk_object_set_data ( GTK_OBJECT ( item ),
@@ -474,6 +429,10 @@ GtkWidget * creation_option_menu_comptes_nonclos ( GtkSignalFunc func,
     return ( menu );
 }
 /* ************************************************************************** */
+
+
+
+
 
 /* ************************************************************************** */
 void changement_choix_compte_echeancier ( void )
@@ -712,3 +671,55 @@ gint demande_type_nouveau_compte ( void )
     return ( type_compte );
 }
 /* ************************************************************************** */
+
+
+
+
+/* ************************************************************************** */
+/* cette fonction est appelée pour mettre un option menu de compte sur le */
+/* compte donné en argument */
+/* elle renvoie le no à mettre dans history */
+/* ************************************************************************** */
+gint recherche_compte_dans_option_menu ( GtkWidget *option_menu,
+					 gint no_compte )
+{
+    GList *liste_menu;
+    GList *liste_tmp;
+
+    liste_menu = GTK_MENU_SHELL ( gtk_option_menu_get_menu ( GTK_OPTION_MENU ( option_menu ))) -> children;
+    liste_tmp = liste_menu;
+
+    while ( liste_tmp )
+    {
+	gint *no;
+
+	no = gtk_object_get_data ( GTK_OBJECT ( liste_tmp -> data ),
+				   "no_compte" );
+	if ( GPOINTER_TO_INT (no) == no_compte )
+	    return g_list_position ( liste_menu,
+				     liste_tmp );
+	liste_tmp = liste_tmp -> next;
+    }
+    return 0;
+}
+/* ************************************************************************** */
+
+
+
+
+/* ************************************************************************** */
+/* il y a eu un chgt dans les comptes, cette fonction modifie les */
+/* options menus qui contiennent les noms de compte */
+/* ************************************************************************** */
+
+void update_options_menus_comptes ( void )
+{
+    /*     on met à jour l'option menu de l'échéancier */
+
+    gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_ACCOUNT] ),
+			       creation_option_menu_comptes(GTK_SIGNAL_FUNC(changement_choix_compte_echeancier),
+							    TRUE,
+							    FALSE ));
+}
+/* ************************************************************************** */
+
