@@ -1382,10 +1382,7 @@ void pression_touche_formulaire_echeancier ( GtkWidget *widget,
       /* echap */
 
     case 65307 :
-
-      gtk_signal_emit_stop_by_name ( GTK_OBJECT ( widget ),
-				     "key_press_event");
-      gtk_widget_grab_focus ( liste_echeances );
+      gtk_signal_emit_stop_by_name ( GTK_OBJECT ( widget ), "key_press_event");
       echap_formulaire_echeancier();
       break;
 
