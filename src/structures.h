@@ -6,8 +6,6 @@
 
 /* Chemin des fichiers */
 
-#define APPLET_BIN_DIR "/usr/local/bin/grisbi_applet"
-#define CHEMIN_LOGO "/usr/share/pixmaps/logo_grisbi.xpm"
 #define FICHIER_CONF "Grisbi-dev"       /* à mettre à Grisbi-dev pdt le dvt et Grisbi à la sortie d'une version */
 
 /* initialisation des couleurs */

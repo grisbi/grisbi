@@ -73,8 +73,8 @@ gboolean charge_operations ( void )
 			 "0.3.2" )))
 	  return ( charge_operations_version_0_3_2 ( doc ));
 
-        if (( !strcmp (  xmlNodeGetContent ( doc->root->childs->childs ),
-			 "0.4" )))
+        if (( !strncmp (  xmlNodeGetContent ( doc->root->childs->childs ),
+			 "0.4", 3 )))
 	  return ( charge_operations_version_0_4_0 ( doc ));
 
 

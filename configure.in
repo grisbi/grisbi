@@ -11,7 +11,6 @@ dnl AC_DEFINE_UNQUOTED(VERSION, "$VERSION")
 AC_SUBST(PACKAGE)
 AC_SUBST(VERSION)
 
-
 AC_ISC_POSIX
 AC_PROG_CC
 AC_STDC_HEADERS
@@ -33,7 +32,7 @@ AC_SUBST(prefix)
 AC_SUBST(EXTRA_GNOME_LIBS)
 AC_SUBST(EXTRA_GNOME_CFLAGS)
 
-GNOME_CHECK_MODULES(GNOMELIBS, [ gnome gtk glib xml gdk_pixbuf ])
+GNOME_CHECK_MODULES(GNOMELIBS, [ gnome gtk glib xml gdk_pixbuf print ])
 CFLAGS="$CFLAGS $GNOMELIBS_CFLAGS"
 LDFLAGS="$LDFLAGS $GNOMELIBS_LIBS"
 
@@ -47,6 +46,8 @@ AM_CONDITIONAL(APPLET, test $APPLET = true)
 AC_SUBST(CFLAGS)
 AC_SUBST(LDFLAGS)
 
+AC_DEFINE_UNQUOTED(APPLET_BIN_DIR, "$acl_final_exec_prefix/bin/grisbi_applet")
+AC_DEFINE_UNQUOTED(CHEMIN_LOGO, "$acl_final_prefix/share/pixmaps/logo_grisbi.xpm")
 
 dnl ******************************
 dnl Makefiles
