@@ -34,7 +34,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pt_BR\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-01-05 13:31+0100\n"
+"POT-Creation-Date: 2005-01-07 09:55+0100\n"
 "PO-Revision-Date: 2005-01-05 10:51-0200\n"
 "Last-Translator: \n"
 "Language-Team:  <pt@li.org>\n"
@@ -120,14 +120,14 @@ msgstr "Saldo das contas de bens em %s"
 msgid "No third party defined"
 msgstr "Nenhum terceiro definido"
 
-#: src/accueil.c:1593 src/accueil.c:1707 src/echeancier_formulaire.c:2716
-#: src/echeancier_formulaire.c:2760
+#: src/accueil.c:1593 src/accueil.c:1707 src/echeancier_formulaire.c:2713
+#: src/echeancier_formulaire.c:2757
 #, c-format
 msgid "%4.2f %s credit on %s"
 msgstr "%4.2f%s créditos em %s"
 
-#: src/accueil.c:1598 src/accueil.c:1712 src/echeancier_formulaire.c:2721
-#: src/echeancier_formulaire.c:2765
+#: src/accueil.c:1598 src/accueil.c:1712 src/echeancier_formulaire.c:2718
+#: src/echeancier_formulaire.c:2762
 #, c-format
 msgid "%4.2f %s debit on %s"
 msgstr "%4.2f%s débitos em %s"
@@ -289,7 +289,7 @@ msgstr "Selecione um novo logotipo"
 #. on met les titres des colonnes
 #: src/affichage_liste.c:35 src/affichage_liste.c:720
 #: src/affichage_liste.c:1033 src/echeancier_formulaire.c:905
-#: src/echeancier_formulaire.c:2533 src/echeancier_liste.c:428
+#: src/echeancier_formulaire.c:2530 src/echeancier_liste.c:398
 #: src/equilibrage.c:194 src/etats_affiche.c:2147 src/import.c:364
 #: src/import.c:2670 src/operations_formulaire.c:779
 #: src/operations_formulaire.c:1400 src/operations_formulaire.c:1450
@@ -300,8 +300,8 @@ msgstr "Data"
 
 #. mise en place de la frame des tiers
 #: src/affichage_liste.c:37 src/affichage_liste.c:1041
-#: src/echeancier_formulaire.c:914 src/echeancier_formulaire.c:2535
-#: src/echeancier_liste.c:430 src/etats_affiche.c:2161 src/etats_config.c:139
+#: src/echeancier_formulaire.c:914 src/echeancier_formulaire.c:2532
+#: src/echeancier_liste.c:400 src/etats_affiche.c:2161 src/etats_config.c:139
 #: src/etats_config.c:270 src/etats_config.c:7179 src/fenetre_principale.c:96
 #: src/import.c:2677 src/operations_formulaire.c:789
 #: src/operations_formulaire.c:3319
@@ -309,7 +309,7 @@ msgid "Third party"
 msgstr "Terceiros"
 
 #: src/affichage_liste.c:38 src/echeancier_formulaire.c:1067
-#: src/echeancier_formulaire.c:2545 src/echeancier_ventilation.c:967
+#: src/echeancier_formulaire.c:2542 src/echeancier_ventilation.c:967
 #: src/echeancier_ventilation.c:1495 src/etats_affiche.c:2175
 #: src/etats_config.c:262 src/operations_formulaire.c:1116
 #: src/operations_formulaire.c:3333 src/ventilation.c:968
@@ -320,7 +320,7 @@ msgstr "Orçamento"
 #. Debit type
 #: src/affichage_liste.c:39 src/affichage_liste.c:768
 #: src/affichage_liste.c:1049 src/categories_onglet.c:288
-#: src/echeancier_formulaire.c:975 src/echeancier_formulaire.c:2537
+#: src/echeancier_formulaire.c:975 src/echeancier_formulaire.c:2534
 #: src/echeancier_ventilation.c:913 src/echeancier_ventilation.c:932
 #: src/echeancier_ventilation.c:1491 src/imputation_budgetaire.c:165
 #: src/operations_formulaire.c:880 src/operations_formulaire.c:3321
@@ -334,7 +334,7 @@ msgstr "Débito"
 #: src/affichage_liste.c:40 src/affichage_liste.c:780
 #: src/affichage_liste.c:1053 src/categories_onglet.c:304
 #: src/echeancier_formulaire.c:1037 src/echeancier_formulaire.c:1279
-#: src/echeancier_formulaire.c:2539 src/echeancier_ventilation.c:885
+#: src/echeancier_formulaire.c:2536 src/echeancier_ventilation.c:885
 #: src/echeancier_ventilation.c:960 src/echeancier_ventilation.c:1493
 #: src/imputation_budgetaire.c:181 src/operations_formulaire.c:965
 #: src/operations_formulaire.c:1320 src/operations_formulaire.c:3323
@@ -350,7 +350,7 @@ msgid "Balance"
 msgstr "Saldo"
 
 #: src/affichage_liste.c:42 src/affichage_liste.c:804
-#: src/affichage_liste.c:1061 src/echeancier_liste.c:434
+#: src/affichage_liste.c:1061 src/echeancier_liste.c:404
 #: src/echeancier_ventilation.c:83 src/echeancier_ventilation.c:293
 #: src/import.c:2685 src/ventilation.c:86 src/ventilation.c:296
 msgid "Amount"
@@ -378,7 +378,7 @@ msgstr "C/R"
 
 #: src/affichage_liste.c:48 src/affichage_liste.c:876
 #: src/affichage_liste.c:1085 src/echeancier_formulaire.c:1075
-#: src/echeancier_formulaire.c:2547 src/echeancier_ventilation.c:974
+#: src/echeancier_formulaire.c:2544 src/echeancier_ventilation.c:974
 #: src/echeancier_ventilation.c:1497 src/etats_affiche.c:2203
 #: src/operations_formulaire.c:1122 src/operations_formulaire.c:3335
 #: src/ventilation.c:975 src/ventilation.c:1495
@@ -388,8 +388,8 @@ msgstr "Comprovante"
 #. Notes
 #: src/affichage_liste.c:49 src/affichage_liste.c:888
 #: src/affichage_liste.c:1089 src/banque.c:709
-#: src/echeancier_formulaire.c:1081 src/echeancier_formulaire.c:2549
-#: src/echeancier_liste.c:433 src/echeancier_ventilation.c:82
+#: src/echeancier_formulaire.c:1081 src/echeancier_formulaire.c:2546
+#: src/echeancier_liste.c:403 src/echeancier_ventilation.c:82
 #: src/echeancier_ventilation.c:864 src/echeancier_ventilation.c:1489
 #: src/etats_affiche.c:2182 src/operations_formulaire.c:1129
 #: src/operations_formulaire.c:3338 src/ventilation.c:85 src/ventilation.c:865
@@ -1306,7 +1306,7 @@ msgstr "Apagar somente esta sub-categoria."
 
 #: src/categories_onglet.c:2565 src/echeancier_formulaire.c:1047
 #: src/echeancier_formulaire.c:1502 src/echeancier_formulaire.c:1535
-#: src/echeancier_formulaire.c:1762 src/echeancier_liste.c:1218
+#: src/echeancier_formulaire.c:1762 src/echeancier_liste.c:1188
 #: src/echeancier_ventilation.c:204 src/etats_affiche.c:1612
 #: src/operations_formulaire.c:983 src/operations_formulaire.c:1814
 #: src/operations_formulaire.c:2504 src/operations_formulaire.c:2848
@@ -1319,8 +1319,8 @@ msgstr "Divisão da transação"
 #: src/categories_onglet.c:2568 src/comptes_traitements.c:556
 #: src/comptes_traitements.c:641 src/echeancier_formulaire.c:1523
 #: src/echeancier_formulaire.c:1570 src/echeancier_formulaire.c:1732
-#: src/echeancier_formulaire.c:2093 src/echeancier_formulaire.c:2994
-#: src/echeancier_liste.c:1243 src/echeancier_ventilation.c:771
+#: src/echeancier_formulaire.c:2090 src/echeancier_formulaire.c:2991
+#: src/echeancier_liste.c:1213 src/echeancier_ventilation.c:771
 #: src/echeancier_ventilation.c:1580 src/echeancier_ventilation.c:1663
 #: src/echeancier_ventilation.c:2022 src/echeancier_ventilation.c:2295
 #: src/ofx.c:442 src/operations_formulaire.c:1008
@@ -1405,8 +1405,10 @@ msgstr "Importar uma lista de categorias"
 
 #. il y a dÃ©jÃ  des opÃ©rations dans le fichier, on ne peut que fusionner
 #: src/categories_onglet.c:3139
-msgid "File already contains transactions, the two categories lists will be merged."
-msgstr "Arquivo contém transações, as duas categorias exibidas serão mescladas."
+msgid ""
+"File already contains transactions, the two categories lists will be merged."
+msgstr ""
+"Arquivo contém transações, as duas categorias exibidas serão mescladas."
 
 #: src/categories_onglet.c:3149 src/imputation_budgetaire.c:2887
 msgid "Do you want"
@@ -1621,7 +1623,8 @@ msgstr "Converte conta \"%s\" para Euro?"
 
 #: src/comptes_gestion.c:1213
 msgid "Euro conversion is irreversible, are you sure you want to continue?"
-msgstr "Conversão para Euro é irreversível, você tem certeza que deseja continuar ?"
+msgstr ""
+"Conversão para Euro é irreversível, você tem certeza que deseja continuar ?"
 
 #: src/comptes_gestion.c:1233
 msgid "Exchange rate between the 2 currencies is 0."
@@ -1629,10 +1632,10 @@ msgstr "Taxa de troca entre as duas moedas é zero."
 
 #: src/comptes_gestion.c:1240 src/devises.c:380 src/devises.c:956
 #: src/devises.c:1740 src/devises.c:1822 src/devises.c:2165 src/devises.c:2170
-#: src/devises.c:2295 src/echeancier_formulaire.c:2052
-#: src/echeancier_formulaire.c:2054 src/echeancier_formulaire.c:2428
-#: src/echeancier_formulaire.c:2430 src/echeancier_liste.c:1967
-#: src/echeancier_liste.c:1969 src/etats_calculs.c:2445
+#: src/devises.c:2295 src/echeancier_formulaire.c:2049
+#: src/echeancier_formulaire.c:2051 src/echeancier_formulaire.c:2425
+#: src/echeancier_formulaire.c:2427 src/echeancier_liste.c:1939
+#: src/echeancier_liste.c:1941 src/etats_calculs.c:2445
 #: src/etats_calculs.c:2450 src/etats_calculs.c:2480 src/etats_calculs.c:2485
 #: src/etats_calculs.c:2515 src/etats_calculs.c:2520 src/etats_calculs.c:2564
 #: src/etats_calculs.c:2569 src/etats_calculs.c:2595 src/etats_calculs.c:2600
@@ -3119,39 +3122,39 @@ msgstr "Dividir"
 msgid "Automatic/manual scheduled transaction"
 msgstr "Agenda de transações automática/manual"
 
-#: src/echeancier_formulaire.c:538 src/echeancier_liste.c:833
+#: src/echeancier_formulaire.c:538 src/echeancier_liste.c:803
 #: src/operations_liste.c:1801
 msgid "Manual"
 msgstr "Manual"
 
-#: src/echeancier_formulaire.c:546 src/echeancier_liste.c:831
+#: src/echeancier_formulaire.c:546 src/echeancier_liste.c:801
 #: src/exercice.c:547
 msgid "Automatic"
 msgstr "Automática"
 
 #: src/echeancier_formulaire.c:601 src/echeancier_formulaire.c:602
-#: src/echeancier_liste.c:431
+#: src/echeancier_liste.c:401
 msgid "Frequency"
 msgstr "Frequência"
 
-#: src/echeancier_formulaire.c:610 src/echeancier_liste.c:216
-#: src/echeancier_liste.c:791
+#: src/echeancier_formulaire.c:610 src/echeancier_liste.c:214
+#: src/echeancier_liste.c:761
 msgid "Once"
 msgstr "Uma vez"
 
-#: src/echeancier_formulaire.c:626 src/echeancier_liste.c:793
+#: src/echeancier_formulaire.c:626 src/echeancier_liste.c:763
 msgid "Weekly"
 msgstr "Semanal"
 
-#: src/echeancier_formulaire.c:642 src/echeancier_liste.c:795
+#: src/echeancier_formulaire.c:642 src/echeancier_liste.c:765
 msgid "Monthly"
 msgstr "Mensal"
 
-#: src/echeancier_formulaire.c:658 src/echeancier_liste.c:797
+#: src/echeancier_formulaire.c:658 src/echeancier_liste.c:767
 msgid "Yearly"
 msgstr "Anual"
 
-#: src/echeancier_formulaire.c:674 src/echeancier_liste.c:226
+#: src/echeancier_formulaire.c:674 src/echeancier_liste.c:224
 #: src/etats_config.c:44
 msgid "Custom"
 msgstr "Padrão"
@@ -3161,31 +3164,31 @@ msgstr "Padrão"
 msgid "Custom frequency"
 msgstr "Freqüência padrão"
 
-#: src/echeancier_formulaire.c:767 src/echeancier_liste.c:276
+#: src/echeancier_formulaire.c:767 src/echeancier_liste.c:274
 msgid "Days"
 msgstr "Dias"
 
-#: src/echeancier_formulaire.c:775 src/echeancier_liste.c:288
+#: src/echeancier_formulaire.c:775 src/echeancier_liste.c:286
 #: src/etats_config.c:5967
 msgid "Months"
 msgstr "Meses"
 
-#: src/echeancier_formulaire.c:783 src/echeancier_liste.c:300
+#: src/echeancier_formulaire.c:783 src/echeancier_liste.c:298
 msgid "Years"
 msgstr "Anos"
 
-#: src/echeancier_formulaire.c:1044 src/echeancier_formulaire.c:2541
+#: src/echeancier_formulaire.c:1044 src/echeancier_formulaire.c:2538
 #: src/echeancier_ventilation.c:857 src/echeancier_ventilation.c:1487
 #: src/operations_formulaire.c:1103 src/operations_formulaire.c:3328
 #: src/ventilation.c:858 src/ventilation.c:1485
 msgid "Categories : Sub-categories"
 msgstr "Categorias ; sub-categorias"
 
-#: src/echeancier_formulaire.c:1062 src/echeancier_formulaire.c:2543
+#: src/echeancier_formulaire.c:1062 src/echeancier_formulaire.c:2540
 msgid "Transfer reference"
 msgstr "Transferência referente"
 
-#: src/echeancier_formulaire.c:1090 src/echeancier_formulaire.c:2551
+#: src/echeancier_formulaire.c:1090 src/echeancier_formulaire.c:2548
 msgid "Limit date"
 msgstr "Data limite"
 
@@ -3219,78 +3222,81 @@ msgid ""
 "Impossible to create or entry an automatic scheduled transaction\n"
 " with a cheque or a method of payment with an automatic incremental number."
 msgstr ""
-"Impossível criar ou entrar com uma transação agendada automática com um cheque "
-"ou um método do pagamento com um número incremental automático."
+"Impossível criar ou entrar com uma transação agendada automática com um "
+"cheque ou um método do pagamento com um número incremental automático."
 
-#: src/echeancier_formulaire.c:1634 src/echeancier_liste.c:688
+#: src/echeancier_formulaire.c:1634 src/echeancier_liste.c:658
 #: src/type_operations.c:1562 src/type_operations.c:1633
 msgid "Input"
 msgstr "Entrar"
 
-#: src/echeancier_formulaire.c:2591 src/echeancier_liste.c:585
-#: src/echeancier_liste.c:1012
+#: src/echeancier_formulaire.c:2588 src/echeancier_liste.c:555
+#: src/echeancier_liste.c:982
 msgid "Modification"
 msgstr "Modificações"
 
-#: src/echeancier_liste.c:167
+#: src/echeancier_liste.c:165
 msgid "Display scheduled transactions"
 msgstr "Exibir transações agendadas"
 
-#: src/echeancier_liste.c:188
+#: src/echeancier_liste.c:186
 msgid "Of month"
 msgstr "Do mês"
 
-#: src/echeancier_liste.c:197
+#: src/echeancier_liste.c:195
 msgid "Of next two months"
 msgstr "Dos próximos dois meses"
 
-#: src/echeancier_liste.c:206
+#: src/echeancier_liste.c:204
 msgid "Of year"
 msgstr "Do ano"
 
 #. met un bouton valider qui est juste utilisÃ© pour faire sortir le focus de l'entrÃ©e
 #. Pas de handler associÃ© car il suffit juste de faire perdre le focus
-#: src/echeancier_liste.c:261
+#: src/echeancier_liste.c:259
 msgid "Show"
 msgstr "Mostrar"
 
-#: src/echeancier_liste.c:392
-msgid "Validate"
-msgstr "Validado"
+#: src/echeancier_liste.c:370
+#, fuzzy
+msgid ""
+"Remove selected\n"
+"scheduled transaction"
+msgstr "Apagar transação"
 
-#: src/echeancier_liste.c:429 src/etats_config.c:266 src/import.c:406
+#: src/echeancier_liste.c:399 src/etats_config.c:266 src/import.c:406
 #: src/type_operations.c:296
 msgid "Account"
 msgstr "Conta"
 
-#: src/echeancier_liste.c:432
+#: src/echeancier_liste.c:402
 msgid "Mode"
 msgstr "Modo"
 
-#: src/echeancier_liste.c:802
+#: src/echeancier_liste.c:772
 #, c-format
 msgid "%d months"
 msgstr "%d meses"
 
-#: src/echeancier_liste.c:805
+#: src/echeancier_liste.c:775
 #, c-format
 msgid "%d years"
 msgstr "%d anos"
 
-#: src/echeancier_liste.c:808
+#: src/echeancier_liste.c:778
 #, c-format
 msgid "%d days"
 msgstr "%d dias"
 
-#: src/echeancier_liste.c:1395 src/etats_affiche.c:2016
+#: src/echeancier_liste.c:1367 src/etats_affiche.c:2016
 msgid "No third party"
 msgstr "Sem terceiros"
 
-#: src/echeancier_liste.c:1400
+#: src/echeancier_liste.c:1372
 msgid "Delete a scheduled transaction"
 msgstr "Apaga uma transação agendada"
 
-#: src/echeancier_liste.c:1401
+#: src/echeancier_liste.c:1373
 msgid ""
 "Do you want to delete just this occurrence or the whole scheduled "
 "transaction?"
@@ -3298,15 +3304,15 @@ msgstr ""
 "Você quer apagar somente esta ocorrência ou todo o agendamento desta "
 "transação ?"
 
-#: src/echeancier_liste.c:1405
+#: src/echeancier_liste.c:1377
 msgid "All the occurences"
 msgstr "Todas as ocorrências"
 
-#: src/echeancier_liste.c:1406
+#: src/echeancier_liste.c:1378
 msgid "Only this one"
 msgstr "Somente esta"
 
-#: src/echeancier_liste.c:1914
+#: src/echeancier_liste.c:1886
 msgid ""
 "This breakdown of transaction contains a transfer on itself.  Either change "
 "the sub transaction to transfer on another account or change account of the "
@@ -3315,7 +3321,7 @@ msgstr ""
 "A divisão da transação contém uma transferência nela. Mude a sub-transação "
 "para transferir para outra conta ou mude a conta d transação nela."
 
-#: src/echeancier_liste.c:1915
+#: src/echeancier_liste.c:1887
 msgid "Can't issue scheduled operation"
 msgstr "Não posso editar uma transação agendada"
 
@@ -3470,7 +3476,8 @@ msgstr "Grisbi criou um arquivo de backup para %s ."
 
 #: src/erreur.c:233
 msgid "Please report this problem to http://www.grisbi.org/bugtracking/"
-msgstr "Por favor, reporte este problema para http://www.grisbi.org/bugtracking/"
+msgstr ""
+"Por favor, reporte este problema para http://www.grisbi.org/bugtracking/"
 
 #: src/erreur.c:237
 msgid "Grisbi terminated due to a segmentation fault."
@@ -4060,7 +4067,7 @@ msgstr "Data inicial"
 msgid "Final date"
 msgstr "Data final"
 
-#. on met dans la partie de gauche une liste contenant les comptes Ã
+#. on met dans la partie de gauche une liste contenant les comptes Ã 
 #. sÃ©lectionner
 #: src/etats_config.c:2290
 msgid "Select transactions only for given accounts"
@@ -4108,7 +4115,8 @@ msgstr ""
 
 #: src/etats_config.c:2574
 msgid "Include transfers from or to accounts not in this report"
-msgstr "Transferências incluidas a partir ou para contas não estão neste relatório"
+msgstr ""
+"Transferências incluidas a partir ou para contas não estão neste relatório"
 
 #: src/etats_config.c:2587
 msgid "Include transfers from or to these accounts"
@@ -4613,7 +4621,7 @@ msgstr "Exibir um sub-total para cada sub-orçamento"
 msgid "Display \"No sub-budgetary line\" if none"
 msgstr "Exibir \"Nenhum sub-orçamento\" se não existir"
 
-#. on met dans la partie de gauche une liste contenant les modes de paiement Ã
+#. on met dans la partie de gauche une liste contenant les modes de paiement Ã 
 #. sÃ©lectionner
 #: src/etats_config.c:7455
 msgid "Select the transactions by method of payment"
@@ -4630,7 +4638,8 @@ msgstr "Arquivo %s já existe"
 
 #: src/etats_latex.c:328
 msgid "LaTeX run was unable to complete, see console output for details."
-msgstr "LaTeX foi incapaz de terminar, veja a saída no console para maiores detalhes."
+msgstr ""
+"LaTeX foi incapaz de terminar, veja a saída no console para maiores detalhes."
 
 #: src/etats_latex.c:348
 msgid "Cannot send job to printer"
@@ -4638,7 +4647,8 @@ msgstr "Não posso enviar trabalho para imprimir"
 
 #: src/etats_latex.c:354
 msgid "dvips was unable to complete, see console output for details."
-msgstr "dvips foi incapaz de terminar, veja a saída no console para maiores detalhes."
+msgstr ""
+"dvips foi incapaz de terminar, veja a saída no console para maiores detalhes."
 
 #. Reports menu
 #: src/etats_onglet.c:95 src/etats_onglet.c:300 src/etats_onglet.c:303
@@ -5021,7 +5031,8 @@ msgid "Select accounts to export"
 msgstr "Selecionar contas para exportar"
 
 #: src/export.c:258 src/qif.c:1018
-msgid "This will irreversibly overwrite previous file.  There is no undo for this."
+msgid ""
+"This will irreversibly overwrite previous file.  There is no undo for this."
 msgstr ""
 "Isto irá sobrescrever irreversívelmente o arquivo anterior. Você não terá "
 "como recuperá-lo."
@@ -5214,7 +5225,8 @@ msgstr "Não posso abrir arquivo '%s': %s"
 #: src/fichiers_io.c:155
 #, c-format
 msgid "Cannot open file '%s' : this is not a grisbi file"
-msgstr "Não posso abrir o arquivo '%s' ; este não é um arquivo no formato grisbi"
+msgstr ""
+"Não posso abrir o arquivo '%s' ; este não é um arquivo no formato grisbi"
 
 #: src/fichiers_io.c:197
 #, c-format
@@ -5266,7 +5278,8 @@ msgstr "Transações divididas, todas ela serão apagadas.\n"
 
 #: src/fichiers_io.c:1834
 msgid "transfers without contra-transaction, which categories were deleted.\n"
-msgstr "transferência sem uma contra-transação, cujas categorias foram apagadas.\n"
+msgstr ""
+"transferência sem uma contra-transação, cujas categorias foram apagadas.\n"
 
 #: src/fichiers_io.c:1839
 msgid ""
@@ -5431,7 +5444,8 @@ msgstr "Dominique Parisot (parisot[at]villey-le-sec.com): colaborador"
 msgid ""
 "Francois Terrot (grisbi[at]terrot.net): Windows packaging and port, "
 "programming"
-msgstr "Francois Terrot (grisbi[at]terrot.net): pacotes Windows port, programador"
+msgstr ""
+"Francois Terrot (grisbi[at]terrot.net): pacotes Windows port, programador"
 
 #: src/help.c:56
 msgid "Gerald Niel (gerald.niel[at]grisbi.org): Slackware packaging, website"
@@ -5466,10 +5480,11 @@ msgid "Daniel Cartron (cartron[at]grisbi.org) : English"
 msgstr "Daniel Cartron (cartron[at]grisbi.org) : English"
 
 #: src/help.c:66
-msgid ""
-"Flavio Henrique Somensi (fsomensi[at]users.sourceforge.net) : Brazilian "
-"Portuguese"
-msgstr "Flavio Henrique Somensi (fsomensi[at]users.sourceforge.net) : Português Brasil"
+#, fuzzy
+msgid "Flavio Henrique Somensi (flavio[at]opens.com.br): Brazilian Portuguese"
+msgstr ""
+"Flavio Henrique Somensi (fsomensi[at]users.sourceforge.net) : Português "
+"Brasil"
 
 #: src/help.c:67
 msgid "Giorgio Mandolfo (giorgio[at]pollycoke.org) : Italian"
@@ -5481,7 +5496,8 @@ msgstr "Martin Stromberger (Fabiolla[at]aon.at): German"
 
 #: src/help.c:74
 msgid "Development list (discuss, participate, criticize, ...) : "
-msgstr "Lista de desnnvolvedores (discussões, participantes, sugestões, ...) : "
+msgstr ""
+"Lista de desnnvolvedores (discussões, participantes, sugestões, ...) : "
 
 #: src/help.c:76 src/help.c:82
 msgid "subscribe"
@@ -6256,7 +6272,8 @@ msgid "Imposible to delete a reconciled transaction."
 msgstr "Impossível apagar uma transação reconciliada"
 
 #: src/operations_liste.c:2103
-msgid "The contra-transaction of this transfer is reconciled, deletion impossible."
+msgid ""
+"The contra-transaction of this transfer is reconciled, deletion impossible."
 msgstr ""
 "A contra transação para esta transferência está reconciliada, Não é possível "
 "apagá-la."
@@ -6335,7 +6352,8 @@ msgid "Scheduler warnings"
 msgstr "Mensagens da agenda"
 
 #: src/parametres.c:415
-msgid "Number of days before a warning message advertising a scheduled transaction"
+msgid ""
+"Number of days before a warning message advertising a scheduled transaction"
 msgstr "Número de dias antes de exibir mensagens de transações agendadas"
 
 #: src/parametres.c:479
@@ -6718,3 +6736,5 @@ msgstr ""
 "Esta transferência tem uma contra-transação reconciliada, Não é possível "
 "apagá-la."
 
+#~ msgid "Validate"
+#~ msgstr "Validado"
