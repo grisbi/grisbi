@@ -620,12 +620,12 @@ GtkWidget *creation_formulaire ( void )
   if ( etat.affiche_boutons_valider_annuler )
     gtk_widget_show ( hbox_valider_annuler_ope );
 
-  bouton = gtk_button_new_from_stock ( GTK_STOCK_CANCEL );
+  bouton = gtk_button_new_from_stock ( GTK_STOCK_OK );
   gtk_button_set_relief ( GTK_BUTTON ( bouton ),
 			  GTK_RELIEF_NONE );
   gtk_signal_connect ( GTK_OBJECT ( bouton ),
 		       "clicked",
-		       GTK_SIGNAL_FUNC ( echap_formulaire ),
+		       GTK_SIGNAL_FUNC ( fin_edition ),
 		       NULL );
   gtk_box_pack_end ( GTK_BOX ( hbox_valider_annuler_ope ),
 		     bouton,
@@ -634,12 +634,12 @@ GtkWidget *creation_formulaire ( void )
 		     0 );
   gtk_widget_show ( bouton );
 
-  bouton = gtk_button_new_from_stock ( GTK_STOCK_OK );
+  bouton = gtk_button_new_from_stock ( GTK_STOCK_CANCEL );
   gtk_button_set_relief ( GTK_BUTTON ( bouton ),
 			  GTK_RELIEF_NONE );
   gtk_signal_connect ( GTK_OBJECT ( bouton ),
 		       "clicked",
-		       GTK_SIGNAL_FUNC ( fin_edition ),
+		       GTK_SIGNAL_FUNC ( echap_formulaire ),
 		       NULL );
   gtk_box_pack_end ( GTK_BOX ( hbox_valider_annuler_ope ),
 		     bouton,
