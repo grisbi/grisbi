@@ -35,7 +35,6 @@
 #include "calendar.h"
 #include "categories_onglet.h"
 #include "comptes_traitements.h"
-#include "constants.h"
 #include "devises.h"
 #include "dialog.h"
 #include "echeancier_liste.h"
