@@ -1386,11 +1386,14 @@ gboolean pression_touche_formulaire_echeancier ( GtkWidget *widget,
 
     case 65307 :
 
-      gtk_signal_emit_stop_by_name ( GTK_OBJECT ( widget ),
-				     "key-press-event");
-      gtk_widget_grab_focus ( liste_echeances );
-      echap_formulaire_echeancier();
-      gtk_widget_hide ( frame_formulaire_echeancier );
+      if (! etat.formulaire_echeance_dans_fenetre )
+	{
+	  gtk_signal_emit_stop_by_name ( GTK_OBJECT ( widget ),
+					 "key-press-event");
+	  gtk_widget_grab_focus ( liste_echeances );
+	  echap_formulaire_echeancier();
+	  gtk_widget_hide ( frame_formulaire_echeancier );
+	}
       return TRUE;
 
       /* tab */
@@ -1494,16 +1497,17 @@ gboolean pression_touche_formulaire_echeancier ( GtkWidget *widget,
 
       if (! etat.formulaire_echeance_dans_fenetre )
 	{
-	  //gtk_signal_emit_stop_by_name ( GTK_OBJECT ( widget ),
-					 //"key-press-event");
-
 	  /* on fait perdre le focus au widget courant pour faire les changements automatiques si nécessaire */
 
 	  gtk_widget_grab_focus ( liste_echeances );
 	  fin_edition_echeance ();
+	  return FALSE;
+	}
+      else
+	{
+	  return TRUE;
 	}
 
-      return FALSE;
 
       /* touches + */
 

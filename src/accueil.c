@@ -452,15 +452,25 @@ gboolean saisie_echeance_accueil ( GtkWidget *event_box,
 
   resultat = gnome_dialog_run ( GNOME_DIALOG ( dialog ));
 
-  if ( !resultat )
-    fin_edition_echeance ();
+  if ( resultat == 0 )
+    {
+      fin_edition_echeance ();
+    }
+  
+  if ( resultat == -1 )
+    {
+      creation_formulaire_echeancier(); 
+      gtk_container_add ( GTK_CONTAINER ( frame_formulaire_echeancier ),
+			  creation_formulaire_echeancier () );
+      return;
+    }
+
+  etat.formulaire_echeance_dans_fenetre = 0;
 
   gtk_widget_reparent ( formulaire_echeancier,
 			ancien_parent );
 
   gnome_dialog_close ( GNOME_DIALOG ( dialog ));
-
-  etat.formulaire_echeance_dans_fenetre = 0;
 
   /* remet les boutons valider/annuler si necessaire */
 
@@ -469,7 +479,6 @@ gboolean saisie_echeance_accueil ( GtkWidget *event_box,
       gtk_widget_show (separateur_formulaire_echeancier);
       gtk_widget_show (hbox_valider_annuler_echeance);
     }
-
 
   formulaire_echeancier_a_zero();
 
