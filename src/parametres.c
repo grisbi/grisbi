@@ -354,14 +354,12 @@ GtkWidget *new_vbox_with_title_and_icon ( gchar * title,
       gtk_widget_show ( image );
     }
 
-  /* Fix the &amp; problem */
-  /* FIXME !!! */
-
   /* Nice huge title */
   label = gtk_label_new ( title );
   gtk_label_set_markup ( GTK_LABEL(label), 
 			 g_strconcat ("<span size=\"x-large\" weight=\"bold\">",
-				      title,	/* FIXME: escape any "&" */
+				      g_markup_escape_text (title,
+							    strlen(title)),
 				      "</span>",
 				      NULL ) );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
@@ -391,7 +389,7 @@ GtkWidget *onglet_messages_and_warnings ( void )
   GtkWidget *separateur;
   GtkWidget *paddingbox, *label;
 
-  vbox_pref = new_vbox_with_title_and_icon ( _("Messages &amp; warnings"),
+  vbox_pref = new_vbox_with_title_and_icon ( _("Messages & warnings"),
 					     "pixmaps/warnings.png" );
 
   hbox_pref = gtk_hbox_new ( FALSE,
@@ -2204,7 +2202,7 @@ paddingbox_new_with_title (GtkWidget * parent, gchar * title)
   GtkWidget * hbox, *paddingbox, *label;
 
   label = gtk_label_new ( "" );
-  gtk_misc_set_alignment ( GTK_LABEL ( label ), 0, 1 );
+  gtk_misc_set_alignment ( GTK_MISC ( label ), 0, 1 );
   gtk_label_set_markup ( GTK_LABEL ( label ), 
 			 g_strconcat ("<span weight=\"bold\">",
 				      title,
