@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2004-02-27 11:37+0100\n"
+"POT-Creation-Date: 2004-03-01 09:06+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -88,14 +88,14 @@ msgstr ""
 msgid "No third party defined"
 msgstr ""
 
-#: src/accueil.c:926 src/accueil.c:1032 src/echeancier_formulaire.c:2230
-#: src/echeancier_formulaire.c:2267
+#: src/accueil.c:926 src/accueil.c:1032 src/echeancier_formulaire.c:2238
+#: src/echeancier_formulaire.c:2275
 #, c-format
 msgid "%4.2f %s credit on %s"
 msgstr ""
 
-#: src/accueil.c:933 src/accueil.c:1039 src/echeancier_formulaire.c:2237
-#: src/echeancier_formulaire.c:2274
+#: src/accueil.c:933 src/accueil.c:1039 src/echeancier_formulaire.c:2245
+#: src/echeancier_formulaire.c:2282
 #, c-format
 msgid "%4.2f %s debit on %s"
 msgstr ""
@@ -225,7 +225,7 @@ msgid "Reset to default logo"
 msgstr ""
 
 #: src/affichage_liste.c:27 src/affichage_liste.c:1023
-#: src/echeancier_formulaire.c:763 src/echeancier_formulaire.c:2094
+#: src/echeancier_formulaire.c:763 src/echeancier_formulaire.c:2097
 #: src/echeancier_liste.c:326 src/equilibrage.c:157 src/etats_gtktable.c:3441
 #: src/operations_formulaire.c:754 src/operations_formulaire.c:3265
 msgid "Date"
@@ -238,7 +238,7 @@ msgstr ""
 
 #. mise en place de la frame des tiers
 #: src/affichage_liste.c:29 src/affichage_liste.c:1031
-#: src/echeancier_formulaire.c:772 src/echeancier_formulaire.c:2102
+#: src/echeancier_formulaire.c:772 src/echeancier_formulaire.c:2105
 #: src/echeancier_liste.c:328 src/etats_config.c:127 src/etats_config.c:257
 #: src/etats_config.c:7143 src/etats_gtktable.c:3471
 #: src/fenetre_principale.c:87 src/operations_formulaire.c:764
@@ -247,7 +247,7 @@ msgid "Third party"
 msgstr ""
 
 #: src/affichage_liste.c:30 src/echeancier_formulaire.c:910
-#: src/echeancier_formulaire.c:2104 src/etats_config.c:249
+#: src/echeancier_formulaire.c:2107 src/etats_config.c:249
 #: src/etats_gtktable.c:3501 src/operations_formulaire.c:1084
 #: src/operations_formulaire.c:3272 src/ventilation.c:744
 #: src/ventilation.c:1147
@@ -257,7 +257,7 @@ msgstr ""
 #. pour chaque compte on ajout débit et crédit
 #: src/affichage_liste.c:31 src/affichage_liste.c:1039
 #: src/categories_onglet.c:262 src/echeancier_formulaire.c:832
-#: src/echeancier_formulaire.c:2095 src/imputation_budgetaire.c:145
+#: src/echeancier_formulaire.c:2098 src/imputation_budgetaire.c:145
 #: src/operations_formulaire.c:855 src/operations_formulaire.c:3267
 #: src/type_operations.c:219 src/type_operations.c:508 src/ventilation.c:694
 #: src/ventilation.c:709 src/ventilation.c:1149
@@ -266,7 +266,7 @@ msgstr ""
 
 #: src/affichage_liste.c:32 src/affichage_liste.c:1043
 #: src/categories_onglet.c:278 src/echeancier_formulaire.c:892
-#: src/echeancier_formulaire.c:1132 src/echeancier_formulaire.c:2096
+#: src/echeancier_formulaire.c:1132 src/echeancier_formulaire.c:2099
 #: src/imputation_budgetaire.c:161 src/operations_formulaire.c:942
 #: src/operations_formulaire.c:1283 src/operations_formulaire.c:3268
 #: src/type_operations.c:232 src/type_operations.c:521 src/ventilation.c:667
@@ -308,7 +308,7 @@ msgid "C/R"
 msgstr ""
 
 #: src/affichage_liste.c:40 src/affichage_liste.c:1075
-#: src/echeancier_formulaire.c:920 src/echeancier_formulaire.c:2099
+#: src/echeancier_formulaire.c:920 src/echeancier_formulaire.c:2102
 #: src/etats_gtktable.c:3561 src/operations_formulaire.c:1090
 #: src/operations_formulaire.c:3273 src/ventilation.c:751
 #: src/ventilation.c:1151
@@ -317,7 +317,7 @@ msgstr ""
 
 #: src/affichage_liste.c:41 src/affichage_liste.c:1079 src/banque.c:691
 #: src/banque.c:1360 src/echeancier_formulaire.c:926
-#: src/echeancier_formulaire.c:2100 src/echeancier_liste.c:331
+#: src/echeancier_formulaire.c:2103 src/echeancier_liste.c:331
 #: src/etats_gtktable.c:3516 src/operations_formulaire.c:1097
 #: src/operations_formulaire.c:3274 src/ventilation.c:50 src/ventilation.c:650
 #: src/ventilation.c:1148
@@ -325,7 +325,7 @@ msgid "Notes"
 msgstr ""
 
 #: src/affichage_liste.c:42 src/affichage_liste.c:1083
-#: src/echeancier_formulaire.c:915 src/echeancier_formulaire.c:2098
+#: src/echeancier_formulaire.c:915 src/echeancier_formulaire.c:2101
 #: src/etats_gtktable.c:3576 src/operations_formulaire.c:1103
 #: src/operations_formulaire.c:3275
 msgid "Bank references"
@@ -1134,9 +1134,9 @@ msgstr ""
 #. on vérifie ici si c'est un virement
 #: src/categories_onglet.c:2519 src/comptes_traitements.c:572
 #: src/comptes_traitements.c:659 src/echeancier_formulaire.c:1350
-#: src/echeancier_formulaire.c:1360 src/echeancier_formulaire.c:1484
-#: src/echeancier_formulaire.c:1788 src/echeancier_formulaire.c:2490
-#: src/echeancier_liste.c:987 src/operations_formulaire.c:982
+#: src/echeancier_formulaire.c:1360 src/echeancier_formulaire.c:1487
+#: src/echeancier_formulaire.c:1791 src/echeancier_formulaire.c:2498
+#: src/echeancier_liste.c:988 src/operations_formulaire.c:982
 #: src/operations_formulaire.c:1926 src/operations_formulaire.c:2357
 #: src/operations_formulaire.c:2891 src/operations_liste.c:1577
 #: src/ventilation.c:559 src/ventilation.c:1223 src/ventilation.c:1295
@@ -1169,7 +1169,7 @@ msgstr ""
 msgid "Enter name for export"
 msgstr ""
 
-#: src/categories_onglet.c:3082 src/erreur.c:309 src/erreur.c:311
+#: src/categories_onglet.c:3082 src/erreur.c:315 src/erreur.c:317
 #: src/etats_onglet.c:1418 src/fichiers_gestion.c:498
 #: src/fichiers_gestion.c:562 src/fichiers_gestion.c:564
 #: src/fichiers_gestion.c:612 src/fichiers_gestion.c:614
@@ -1333,9 +1333,9 @@ msgstr ""
 
 #: src/comptes_gestion.c:1829 src/devises.c:50 src/devises.c:541
 #: src/devises.c:1606 src/devises.c:1758 src/devises.c:2091 src/devises.c:2096
-#: src/echeancier_formulaire.c:1750 src/echeancier_formulaire.c:1751
-#: src/echeancier_formulaire.c:1975 src/echeancier_formulaire.c:1976
-#: src/echeancier_liste.c:1611 src/echeancier_liste.c:1612
+#: src/echeancier_formulaire.c:1753 src/echeancier_formulaire.c:1754
+#: src/echeancier_formulaire.c:1978 src/echeancier_formulaire.c:1979
+#: src/echeancier_liste.c:1612 src/echeancier_liste.c:1613
 #: src/etats_calculs.c:2393 src/etats_calculs.c:2398 src/etats_calculs.c:2428
 #: src/etats_calculs.c:2433 src/etats_calculs.c:2463 src/etats_calculs.c:2468
 #: src/etats_calculs.c:2512 src/etats_calculs.c:2517 src/etats_calculs.c:2543
@@ -1565,17 +1565,17 @@ msgstr ""
 msgid "Years"
 msgstr ""
 
-#: src/echeancier_formulaire.c:899 src/echeancier_formulaire.c:2103
+#: src/echeancier_formulaire.c:899 src/echeancier_formulaire.c:2106
 #: src/operations_formulaire.c:1071 src/operations_formulaire.c:3270
 #: src/ventilation.c:643 src/ventilation.c:1146
 msgid "Categories : Sub-categories"
 msgstr ""
 
-#: src/echeancier_formulaire.c:905 src/echeancier_formulaire.c:2097
+#: src/echeancier_formulaire.c:905 src/echeancier_formulaire.c:2100
 msgid "Transfer reference"
 msgstr ""
 
-#: src/echeancier_formulaire.c:935 src/echeancier_formulaire.c:2101
+#: src/echeancier_formulaire.c:935 src/echeancier_formulaire.c:2104
 msgid "Limit date"
 msgstr ""
 
@@ -1604,9 +1604,14 @@ msgstr ""
 
 #. on sépare ici en 2 parties : si le label label_saisie_modif contient Modification, c'est une modif ou une nvelle échéance,
 #. s'il contient Saisie, on enregistre l'opé
-#: src/echeancier_formulaire.c:1410 src/echeancier_formulaire.c:2127
-#: src/echeancier_liste.c:528 src/echeancier_liste.c:872
-#: src/type_operations.c:2248 src/type_operations.c:2319
+#: src/echeancier_formulaire.c:1410 src/echeancier_liste.c:815
+#: src/echeancier_liste.c:879
+msgid "Modification"
+msgstr ""
+
+#: src/echeancier_formulaire.c:2130 src/echeancier_liste.c:528
+#: src/echeancier_liste.c:872 src/type_operations.c:2248
+#: src/type_operations.c:2319
 msgid "Input"
 msgstr ""
 
@@ -1666,29 +1671,25 @@ msgstr ""
 msgid "%d days"
 msgstr ""
 
-#: src/echeancier_liste.c:815
-msgid "Modification"
-msgstr ""
-
-#: src/echeancier_liste.c:1122
+#: src/echeancier_liste.c:1123
 msgid "Delete a scheduled transaction maturity"
 msgstr ""
 
-#: src/echeancier_liste.c:1123
+#: src/echeancier_liste.c:1124
 msgid "Only this one"
 msgstr ""
 
-#: src/echeancier_liste.c:1124
+#: src/echeancier_liste.c:1125
 msgid "All the occurences"
 msgstr ""
 
-#: src/echeancier_liste.c:1128
+#: src/echeancier_liste.c:1129
 msgid ""
 "Do you want to delete just this occurrence or the whole scheduled "
 "transaction?"
 msgstr ""
 
-#: src/echeancier_liste.c:1142
+#: src/echeancier_liste.c:1143
 #, c-format
 msgid "%02d/%02d/%d : [No third party] [%4.2f]"
 msgstr ""
@@ -1743,19 +1744,19 @@ msgstr ""
 msgid "Last statement: %02d/%02d/%d"
 msgstr ""
 
-#: src/erreur.c:95 src/erreur.c:129
+#: src/erreur.c:95 src/erreur.c:130
 msgid "Warning"
 msgstr ""
 
-#: src/erreur.c:212
+#: src/erreur.c:214
 msgid "Log message"
 msgstr ""
 
-#: src/erreur.c:217
+#: src/erreur.c:220
 msgid "This operation returned a message"
 msgstr ""
 
-#: src/erreur.c:256
+#: src/erreur.c:259
 msgid ""
 "Ooops, Grisbi crashed while loading the file (segfault).\n"
 "Either the file is corrupted, or it is a major bug.\n"
@@ -1765,7 +1766,7 @@ msgid ""
 "Thanks a lot!"
 msgstr ""
 
-#: src/erreur.c:265
+#: src/erreur.c:269
 msgid ""
 "Ooops, Grisbi crashed while trying to save the file (segfault).\n"
 "So it's impossible to save your file.\n"
@@ -1775,7 +1776,7 @@ msgid ""
 "Thanks a lot!"
 msgstr ""
 
-#: src/erreur.c:274
+#: src/erreur.c:279
 msgid ""
 "Ooops, Grisbi crashed (segfault).\n"
 "No matter, you didn't modify anything.\n"
@@ -1785,11 +1786,11 @@ msgid ""
 "Thanks a lot!"
 msgstr ""
 
-#: src/erreur.c:306
+#: src/erreur.c:312
 msgid "/#grisbi_crash_no_name#"
 msgstr ""
 
-#: src/erreur.c:316
+#: src/erreur.c:322
 #, c-format
 msgid ""
 "Ooops, Grisbi crashed (segfault).\n"
@@ -3230,10 +3231,9 @@ msgid ""
 "You can deactivate this option in the setup."
 msgstr ""
 
-#: src/fichiers_io.c:176 src/fichiers_io.c:1864
+#: src/fichiers_io.c:176
 msgid ""
-"Warning: either this file is already opened by another user or it wasn't "
-"closed\n"
+"Warning: either this file is already opened by another user or it wasn't\n"
 "closed correctly (maybe Grisbi crashed?).\n"
 "Grisbi can't save the file unless you activate the \"Force saving\" \n"
 "option in the setup."
@@ -3261,6 +3261,15 @@ msgstr ""
 msgid ""
 "These modifications should not impact on neither Grisbi's behavior nor your "
 "accounts balances."
+msgstr ""
+
+#: src/fichiers_io.c:1864
+msgid ""
+"Warning: either this file is already opened by another user or it wasn't "
+"closed\n"
+"closed correctly (maybe Grisbi crashed?).\n"
+"Grisbi can't save the file unless you activate the \"Force saving\" \n"
+"option in the setup."
 msgstr ""
 
 #: src/fichiers_io.c:3995
