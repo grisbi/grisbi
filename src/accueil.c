@@ -499,33 +499,20 @@ gboolean met_en_normal ( GtkWidget *event_box,
 /* ************************************************************************* */
 
 
+
 void update_liste_comptes_accueil ( void )
 {
   GtkWidget *pTable, *pEventBox, *pLabel, *vbox, *paddingbox;
-  
-  GdkColor CouleurSoldeAlarmeVerteNormal,
-	   CouleurSoldeAlarmeVertePrelight,
-	   CouleurSoldeAlarmeOrangeNormal,
-	   CouleurSoldeAlarmeOrangePrelight,
-	   CouleurSoldeAlarmeRougeNormal,
-	   CouleurSoldeAlarmeRougePrelight,
-	   CouleurNomCompteNormal,
-	   CouleurNomComptePrelight;
-  
-  GtkStyle *pStyleLabelNomCompte,
-	   *pStyleLabelSoldeCourant,
-	   *pStyleLabelSoldePointe;
-  
-  GSList *ordre_comptes_variable,
-	 *liste_operations_tmp;
-  
-  gdouble montant,
-	  solde_global_courant,
-	  solde_global_pointe;
-  
+  GdkColor CouleurSoldeAlarmeVerteNormal, CouleurSoldeAlarmeVertePrelight,
+	   CouleurSoldeAlarmeOrangeNormal, CouleurSoldeAlarmeOrangePrelight,
+	   CouleurSoldeAlarmeRougeNormal, CouleurSoldeAlarmeRougePrelight,
+	   CouleurNomCompteNormal, CouleurNomComptePrelight;
+  GtkStyle *pStyleLabelNomCompte, *pStyleLabelSoldeCourant, 
+    *pStyleLabelSoldePointe;
+  GSList *ordre_comptes_variable, *liste_operations_tmp, *devise;
+  gdouble montant, solde_global_courant, solde_global_pointe;
+  GList *children;
   gint i;
-
-  GSList *devise;
   
   
   if ( !nb_comptes )
@@ -572,9 +559,15 @@ void update_liste_comptes_accueil ( void )
   /* Création du cadre principal */
 /*   gtk_notebook_remove_page ( GTK_NOTEBOOK (frame_etat_comptes_accueil), 0 ); */
 
+  /* Remove previous child */
+  children = gtk_container_get_children(GTK_CONTAINER(frame_etat_comptes_accueil));
+  if ( children && children -> data)
+    gtk_container_remove ( GTK_CONTAINER(frame_etat_comptes_accueil),
+			   GTK_WIDGET(children -> data) );
+
+  /* Create the handle vbox  */
   vbox = gtk_vbox_new ( FALSE, 6 );
-  gtk_container_add ( GTK_CONTAINER ( frame_etat_comptes_accueil ),
-		      vbox );
+  gtk_container_add ( GTK_CONTAINER ( frame_etat_comptes_accueil ), vbox );
 
   for ( devise = liste_struct_devises; devise ; devise = devise->next )
     {
@@ -611,8 +604,6 @@ void update_liste_comptes_accueil ( void )
   pTable = gtk_table_new ( nb_comptes + 4, 8, FALSE );
   gtk_box_pack_start ( GTK_BOX ( paddingbox ), pTable,
 		       FALSE, FALSE, 0 );
-  gtk_widget_show_all ( paddingbox );
-  gtk_widget_show_all ( pTable );
 
   /* Création et remplissage de la première ligne du tableau */
   pLabel = gtk_label_new (_("Current balance"));
@@ -890,6 +881,7 @@ void update_liste_comptes_accueil ( void )
 	  solde_global_pointe += SOLDE_POINTE ;
 	}
 
+      i++;
     }
   while ( ( ordre_comptes_variable = ordre_comptes_variable->next ) );
 
@@ -931,9 +923,10 @@ void update_liste_comptes_accueil ( void )
   gtk_widget_show ( pLabel );
 
   /* Quatrième colonne : elle contient le symbole de la devise du compte */
-  pLabel = gtk_label_new ( devise_name((struct struct_devise *)(g_slist_find_custom ( liste_struct_devises,
-									  ((struct struct_devise *) devise -> data) -> no_devise,
-									  (GCompareFunc) recherche_devise_par_no )-> data )) );
+  pLabel = gtk_label_new ( devise_name((struct struct_devise *)
+				       (g_slist_find_custom ( liste_struct_devises,
+							      (gpointer) ((struct struct_devise *) devise -> data) -> no_devise,
+							      (GCompareFunc) recherche_devise_par_no )-> data )) );
   gtk_misc_set_alignment ( GTK_MISC ( pLabel ), 0, 0.5);
   gtk_table_attach ( GTK_TABLE ( pTable ),
 		     pLabel,
@@ -958,9 +951,10 @@ void update_liste_comptes_accueil ( void )
   gtk_widget_show ( pLabel );
 
   /* Septième colonne : elle contient le symbole de la devise du compte */
-  pLabel = gtk_label_new ( devise_name ((struct struct_devise *)(g_slist_find_custom ( liste_struct_devises,
-								       ((struct struct_devise *) devise -> data) -> no_devise,
-									  (GCompareFunc) recherche_devise_par_no )-> data )) );
+  pLabel = gtk_label_new ( devise_name ((struct struct_devise *)
+					(g_slist_find_custom ( liste_struct_devises,
+							       (gpointer) ((struct struct_devise *) devise -> data) -> no_devise,
+							       (GCompareFunc) recherche_devise_par_no )-> data )) );
   gtk_misc_set_alignment ( GTK_MISC ( pLabel ), 0, 0.5);
   gtk_table_attach ( GTK_TABLE ( pTable ),
 		     pLabel,
@@ -971,7 +965,8 @@ void update_liste_comptes_accueil ( void )
 		     5, 0 );
   gtk_widget_show ( pLabel );
 
-  i++;
+  gtk_widget_show_all ( paddingbox );
+  gtk_widget_show_all ( pTable );
 
     }
 
