@@ -29,6 +29,8 @@
 #include "variables-extern.c"
 #include "en_tete.h"
 
+GtkWidget * label_jour;
+
 /* ************************************************************************* */
 GtkWidget *creation_onglet_accueil ( void )
 {
@@ -146,17 +148,17 @@ GtkWidget *creation_onglet_accueil ( void )
 
   tampon_date[0] = toupper ( tampon_date[0]);
 
-  label = gtk_label_new ( tampon_date );
-  gtk_misc_set_alignment ( GTK_MISC (label ),
+  label_jour = gtk_label_new ( tampon_date );
+  gtk_misc_set_alignment ( GTK_MISC (label_jour ),
 			   1,
 			   1);
 
   gtk_box_pack_start ( GTK_BOX ( hbox ),
-		       label,
+		       label_jour,
 		       TRUE,
  		       TRUE,
 		       5 );
-  gtk_widget_show ( label );
+  gtk_widget_show ( label_jour );
 
 
   /*   crée le timer qui appelle la fonction change_temps toutes les secondes */
@@ -394,7 +396,16 @@ void change_temps ( GtkWidget *label_temps )
 	     "%X",
 	     (const struct tm *) localtime ( &date ) );
 
+/* met la première lettre en majuscule */
+  tampon_date[0] = toupper ( tampon_date[0]);
   gtk_label_set_text ( GTK_LABEL (label_temps ),
+		       tampon_date );
+
+  strftime ( (gchar *) tampon_date,
+	     (size_t) 50,
+	     "%A %d %B %Y",
+	     (const struct tm *) localtime ( &date ) );
+  gtk_label_set_text ( GTK_LABEL (label_jour ),
 		       tampon_date );
 
 }
