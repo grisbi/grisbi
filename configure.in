@@ -21,10 +21,13 @@ dnl Check for NLS support.
 ALL_LINGUAS="fr"
 AM_GNU_GETTEXT
 AC_CHECK_LIB(intl,main)
-AC_CHECK_HEADER(libofx/libofx.h,LDFLAGS="${LDFLAGS} -lofx",AC_MSG_ERROR(cannot find libofx header needed for OFX support.))
+
+dnl Check for libofx
+AC_CHECK_HEADER(libofx/libofx.h,LDFLAGS="${LDFLAGS} -lofx",CFLAGS="${CFLAGS} -DNOOFX";noofx=true)
+AM_CONDITIONAL(NOOFX, test x$noofx = xtrue)
+
 
 AC_SUBST(prefix)
-
 
 PKG_CHECK_MODULES(GRISBI, gtk+-2.0 glib-2.0 libxml-2.0)
 LDFLAGS="${LDFLAGS} ${GRISBI_LIBS}"

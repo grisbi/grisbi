@@ -4,7 +4,7 @@ localedir = $(datadir)/locale
 INCLUDES = -I$(top_srcdir) -I$(includedir) -I../intl -DLOCALEDIR=\"$(localedir)\" -DPIXMAPS_DIR="\"$(datadir)/pixmaps/grisbi\"" -DCHEMIN_LOGO="\"$(datadir)/pixmaps/grisbi/grisbi-logo.png\"" -Wall 
 bin_PROGRAMS = grisbi
 
-grisbi_SOURCES = 		\
+sources = 			\
 	accueil.c		\
 	affichage.c		\
 	affichage_liste.c	\
@@ -52,7 +52,6 @@ grisbi_SOURCES = 		\
 	print_config.c		\
 	qif.c			\
 	import.c		\
-	ofx.c			\
 	html.c			\
 	tiers_onglet.c		\
 	traitement_variables.c	\
@@ -60,6 +59,12 @@ grisbi_SOURCES = 		\
 	ventilation.c		\
 	utils.c			\
 	search_glist.c
+
+if NOOFX
+grisbi_SOURCES = $(sources)
+else
+grisbi_SOURCES = $(sources) ofx.c
+endif
 
 grisbi_INCLUDES =		\
 	accueil.h		\
@@ -111,7 +116,6 @@ grisbi_INCLUDES =		\
 	print_config.h		\
 	qif.h			\
 	import.h		\
-	ofx.h			\
 	html.h			\
 	structures.h		\
 	tiers_onglet.h		\
