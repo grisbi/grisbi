@@ -100,7 +100,7 @@ void applique_modif_banque ( GtkWidget *liste )
   banque = gtk_clist_get_row_data ( GTK_CLIST ( liste ),
 				    ligne_selection_banque );
 
-  if ( !strlen ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( nom_banque )))))
+  if ( !strlen ( g_strstrip ( (char *) gtk_entry_get_text ( GTK_ENTRY ( nom_banque )))))
     {
       dialogue ( _("You must name this bank.") );
       return;
@@ -112,38 +112,38 @@ void applique_modif_banque ( GtkWidget *liste )
       nb_banques_tmp++;
     }
 
-  banque -> nom_banque = g_strdup ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( nom_banque ))));
+  banque -> nom_banque = g_strdup ( g_strstrip ( (char *) gtk_entry_get_text ( GTK_ENTRY ( nom_banque ))));
 
-  banque -> code_banque = g_strdup ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( code_banque ))));
+  banque -> code_banque = g_strdup ( g_strstrip ( (char *) gtk_entry_get_text ( GTK_ENTRY ( code_banque ))));
   if ( !strlen ( banque -> code_banque ))
     banque -> code_banque = NULL;
 
-  banque -> tel_banque = g_strdup ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( tel_banque ))));
+  banque -> tel_banque = g_strdup ( g_strstrip ( (char *) gtk_entry_get_text ( GTK_ENTRY ( tel_banque ))));
   if ( !strlen ( banque -> tel_banque ))
     banque -> tel_banque = NULL;
 
-  banque -> email_banque = g_strdup ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( email_banque ))));
+  banque -> email_banque = g_strdup ( g_strstrip ( (char *) gtk_entry_get_text ( GTK_ENTRY ( email_banque ))));
   if ( !strlen ( banque -> email_banque ))
     banque -> email_banque = NULL;
 
-  banque -> web_banque = g_strdup ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( web_banque ))));
+  banque -> web_banque = g_strdup ( g_strstrip ( (char *) gtk_entry_get_text ( GTK_ENTRY ( web_banque ))));
   if ( !strlen ( banque -> web_banque ))
     banque -> web_banque = NULL;
 
 
-  banque -> nom_correspondant = g_strdup ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( nom_correspondant ))));
+  banque -> nom_correspondant = g_strdup ( g_strstrip ( (char *) gtk_entry_get_text ( GTK_ENTRY ( nom_correspondant ))));
   if ( !strlen ( banque -> nom_correspondant ))
     banque -> nom_correspondant = NULL;
 
-  banque -> tel_correspondant = g_strdup ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( tel_correspondant ))));
+  banque -> tel_correspondant = g_strdup ( g_strstrip ( (char *) gtk_entry_get_text ( GTK_ENTRY ( tel_correspondant ))));
   if ( !strlen ( banque -> tel_correspondant ))
     banque -> tel_correspondant = NULL;
 
-  banque -> email_correspondant = g_strdup ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( email_correspondant ))));
+  banque -> email_correspondant = g_strdup ( g_strstrip ( (char *) gtk_entry_get_text ( GTK_ENTRY ( email_correspondant ))));
   if ( !strlen ( banque -> email_correspondant ))
     banque -> email_correspondant = NULL;
 
-  banque -> fax_correspondant = g_strdup ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( fax_correspondant ))));
+  banque -> fax_correspondant = g_strdup ( g_strstrip ( (char *) gtk_entry_get_text ( GTK_ENTRY ( fax_correspondant ))));
   if ( !strlen ( banque -> fax_correspondant ))
     banque -> fax_correspondant = NULL;
 
