@@ -183,7 +183,15 @@ static struct iso_4217_currency iso_4217_currencies[] = {
   { NULL },
 };
 
-
+/* Columns numbers for currencies list  */
+enum currency_list_column {
+  COUNTRY_NAME_COLUMN = 0,
+  CURRENCY_NAME_COLUMN,
+  CURRENCY_ISO_CODE_COLUMN,
+  CURRENCY_NICKNAME_COLUMN,
+  CONTINENT_NAME_COLUMN,
+  NUM_CURRENCIES_COLUMNS,
+};
 
 
 gint

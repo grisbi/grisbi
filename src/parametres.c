@@ -90,83 +90,54 @@ GtkWidget * create_preferences_tree ( )
 }
 
 
-/* ************************************************************************************************************** */
-void preferences ( GtkWidget *widget,
-		   gint page_demandee )
+
+/**
+ * Creates a new GtkDialog with a paned list of topics and a paned
+ * notebook that allows to switch between all pages.  A click on the
+ * list selects one specific page.
+ *
+ * \param page Initial page to select.
+ */
+void preferences ( gint page )
 {
   GtkWidget *tree, *right, *w, *vbox, *hbox, *hbox2, *separator,
     *button_ok, *button_cancel;
   GtkTreeIter iter, iter2;
   GtkTreePath * path;
 
-  /* création de la fenêtre */
-
+  /* Create dialog */
   fenetre_preferences = gtk_dialog_new ();
-
   gtk_dialog_add_buttons (GTK_DIALOG(fenetre_preferences), 
 			  GTK_STOCK_HELP,  GTK_RESPONSE_HELP,
 			  GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE,
 			  NULL);
-
   gtk_window_set_title ( GTK_WINDOW ( fenetre_preferences ),
 			 _("Grisbi setup") );
-/*   gtk_window_set_transient_for ( GTK_WINDOW (fenetre_preferences), */
-/* 				 GTK_WINDOW (window)); */
-/*   gtk_window_set_modal ( GTK_WINDOW (fenetre_preferences), */
-/* 			 TRUE); */
 
+  /* Create List & Tree for topics */
   tree = create_preferences_tree();  
   hpaned = gtk_hpaned_new();
   gtk_paned_add1(GTK_PANED(hpaned), tree);
   hbox = gtk_hbox_new ( FALSE, 0 );
   gtk_paned_add2(GTK_PANED(hpaned), hbox);
 
-  gtk_box_pack_start ( GTK_BOX ( hbox ),
-		       gtk_label_new ( "    " ),
-		       FALSE,
-		       FALSE,
-		       0 );
+  gtk_box_pack_start ( GTK_BOX ( hbox ), gtk_label_new ( "    " ),
+		       FALSE, FALSE, 0 ); /* FIXME: ugly! */
+
+  /* Frame for preferences */
   preference_frame = GTK_NOTEBOOK ( gtk_notebook_new () );
   gtk_notebook_set_show_border ( preference_frame, FALSE );
   gtk_notebook_set_show_tabs  ( preference_frame, FALSE );
   gtk_notebook_set_scrollable ( preference_frame, TRUE );
-
   gtk_box_pack_start ( GTK_BOX ( hbox ), GTK_WIDGET(preference_frame),
 		       TRUE, TRUE, 0 );
-
-  /* On range le tout dans une vbox */
-/*   vbox = gtk_vbox_new ( FALSE, 10 ); */
-/*   gtk_box_pack_start ( GTK_BOX ( vbox ), hpaned, */
-/* 		       TRUE, TRUE, 0); */
-
-  /* Avec un sépareteur entre le haut et les boutons */
-/*   separator = gtk_hseparator_new (); */
-/*   gtk_box_pack_start ( GTK_BOX ( vbox ), separator, */
-/* 		       FALSE, FALSE, 0 ); */
-  
-  /* Création des boutons en bas */
-/*   hbox = gtk_hbox_new ( FALSE, 6 ); */
-/*   button_help = gtk_button_new_from_stock ( GTK_STOCK_HELP ); */
-/*   button_close = gtk_button_new_from_stock ( GTK_STOCK_CLOSE ); */
-/*   gtk_container_set_border_width ( &((GtkButton *) button_help)->bin, 5 ); */
-/*   gtk_container_set_border_width ( &((GtkButton *) button_close)->bin, 5 ); */
-/*   gtk_box_pack_start ( GTK_BOX ( hbox ), button_help, */
-/* 		       FALSE, TRUE, 0 ); */
-
-/*   hbox2 = gtk_hbox_new ( TRUE, 5 ); */
-/*   gtk_box_pack_end ( GTK_BOX ( hbox2 ), button_close, */
-/* 		     TRUE, TRUE, 0 ); */
-/*   gtk_box_pack_end ( GTK_BOX ( hbox ), hbox2, */
-/* 		       FALSE, TRUE, 0 ); */
-/*   gtk_box_pack_start ( GTK_BOX ( vbox ), hbox, */
-/* 		       FALSE, FALSE, 0 ); */
 
   /* File tab */
   gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter, NULL);
   gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
 		      &iter,
 		      0, _("Files"),
-		      1, 0,
+		      1, FILES_PAGE,
 		      -1);
   gtk_notebook_append_page (preference_frame, onglet_fichier(), NULL);
 
@@ -175,48 +146,48 @@ void preferences ( GtkWidget *widget,
   gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
 		      &iter,
 		      0, _("Display"),
-		      1, -1,
+		      1, NOT_A_PAGE,
 		      -1);
   gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
   gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
 		      &iter2,
 		      0, _("Messages & warnings"),
-		      1, 1,
+		      1, MESSAGES_AND_WARNINGS_PAGE,
 		      -1);
   gtk_notebook_append_page (preference_frame, onglet_messages_and_warnings(), NULL);
   gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
   gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
 		      &iter2,
 		      0, _("Addresses & titles"),
-		      1, 2,
+		      1, ADDRESSES_AND_TITLES_PAGE,
 		      -1);
   gtk_notebook_append_page (preference_frame, onglet_display_addresses(), NULL);
   gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
   gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
 		      &iter2,
 		      0, _("Transaction form"),
-		      1, 3,
+		      1, TRANSACTION_FORM_PAGE,
 		      -1);
   gtk_notebook_append_page (preference_frame, onglet_display_transaction_form(), NULL);
   gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
   gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
 		      &iter2,
 		      0, _("Transaction list"),
-		      1, 4,
+		      1, TRANSACTION_LIST_PAGE,
 		      -1);
   gtk_notebook_append_page (preference_frame, onglet_affichage_liste(), NULL);
   gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
   gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
 		      &iter2,
 		      0, _("Reconciliation"),
-		      1, 5,
+		      1, RECONCILIATION_PAGE,
 		      -1);
   gtk_notebook_append_page (preference_frame, tab_display_reconciliation(), NULL);
   gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
   gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
 		      &iter2,
 		      0, _("Fonts & logo"),
-		      1, 6,
+		      1, FONTS_AND_LOGO_PAGE,
 		      -1);
   gtk_notebook_append_page (preference_frame, onglet_display_fonts(), NULL);
 
@@ -225,52 +196,48 @@ void preferences ( GtkWidget *widget,
   gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
 		      &iter,
 		      0, _("Resources"),
-		      1, -1,
+		      1, NOT_A_PAGE,
 		      -1);
   gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
   gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
 		      &iter2,
 		      0, _("Currencies"),
-		      1, 7,
+		      1, CURRENCIES_PAGE,
 		      -1);
   gtk_notebook_append_page (preference_frame, onglet_devises(), NULL);
   gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
   gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
 		      &iter2,
 		      0, _("Banks"),
-		      1, 8,
+		      1, BANKS_PAGE,
 		      -1);
   gtk_notebook_append_page (preference_frame, onglet_banques(), NULL);
   gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
   gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
 		      &iter2,
 		      0, _("Financial years"),
-		      1, 9,
+		      1, FINANCIAL_YEARS_PAGE,
 		      -1);
   gtk_notebook_append_page (preference_frame, onglet_exercices(), NULL);
   gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
   gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
 		      &iter2,
 		      0, _("Methods of payment"),
-		      1, 10,
+		      1, METHODS_OF_PAYMENT_PAGE,
 		      -1);
   gtk_notebook_append_page (preference_frame, 
 			    onglet_types_operations(),
 			    NULL);
 
-  /* On se met sur la page demandée */
-/*   path = gtk_tree_path_new (); */
-/*   gtk_tree_path_append_index (path, 3); */
-/*   gtk_tree_selection_select_path (selection,  */
-/* 				  path); */
-/*   gtk_tree_path_free (path); */
-
-/*   gtk_widget_show_all ( fenetre_preferences ); */
+  if ( page )
+    {
+      gtk_notebook_set_current_page ( preference_frame, page );
+    }
 
   gtk_widget_show_all ( hpaned );
   gtk_container_set_border_width ( hpaned, 6 );
-  gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG(fenetre_preferences) -> vbox ), hpaned,
-		       TRUE, TRUE, 0);
+  gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG(fenetre_preferences) -> vbox ), 
+		       hpaned, TRUE, TRUE, 0);
 
   while ( 1 )
     {
@@ -1550,8 +1517,9 @@ void real_changement_preferences ( GtkWidget *fenetre_preferences,
 	    }
 	}
 
-      if ( ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_affichage_applet ) ) ) && (!verifie_affichage_applet() ) )
-	system ( g_strconcat ( APPLET_BIN_DIR, "&", NULL ) );
+      /* FIXME: reintroduce if we add applet again */
+/*       if ( ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_affichage_applet ) ) ) && (!verifie_affichage_applet() ) ) */
+/* 	system ( g_strconcat ( APPLET_BIN_DIR, "&", NULL ) ); */
 
       if ( ( !gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_affichage_applet ) ) ) && (verifie_affichage_applet()  ) )
 	  kill ( pid_applet, SIGTERM );

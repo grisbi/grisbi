@@ -56,6 +56,11 @@ GtkWidget *creation_onglet_accueil ( void )
 
   /* création du logo */
 
+  if ( !chemin_logo
+       ||
+       !strlen ( chemin_logo ))
+    chemin_logo = CHEMIN_LOGO;
+
   if ( chemin_logo )
     {
       logo_accueil =  gnome_pixmap_new_from_file ( chemin_logo );

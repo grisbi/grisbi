@@ -715,8 +715,9 @@ void affiche_detail_banque ( GtkWidget *bouton,
     case 0:			/* OK */
       return;
     case 1:			/* Properties */
-      preferences ( (GtkWidget *) NULL, 6 );
-      gtk_clist_select_row ( (GtkCList *) clist_banques_parametres, banque -> no_banque-1, 0 );
+      preferences ( BANKS_PAGE );
+      gtk_clist_select_row ( (GtkCList *) clist_banques_parametres, 
+			     banque -> no_banque-1, 0 );
       return;
     case -1:			/* Something went wrong or user closed
 				   dialog with window manager */

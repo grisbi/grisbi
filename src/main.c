@@ -279,11 +279,9 @@ int main (int argc, char *argv[])
 	      /* on affiche l'onglet du 2ème argument s'il existe */
 
 	      if ( split_chiffres[1] )
-		preferences ( NULL,
-			      atoi ( split_chiffres[1] ));
+		preferences ( atoi ( split_chiffres[1] ));
 	      else
-		preferences ( NULL,
-			      0 );
+		preferences ( 0 );
 
 	      break;
 
