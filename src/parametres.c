@@ -29,7 +29,7 @@ GtkWidget * hpaned;
 GtkNotebook * preference_frame;
 gint preference_selected = -1;
 GtkTreeSelection * selection;
-GtkWidget * button_apply;
+GtkWidget * button_close, * button_help;
 
 
 /**
@@ -101,15 +101,19 @@ void preferences ( GtkWidget *widget,
 
   /* création de la fenêtre */
 
-  fenetre_preferences = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+  fenetre_preferences = gtk_dialog_new ();
 
-  gtk_container_set_border_width ( GTK_CONTAINER ( fenetre_preferences ), 10 );
+  gtk_dialog_add_buttons (GTK_DIALOG(fenetre_preferences), 
+			  GTK_STOCK_HELP,  GTK_RESPONSE_HELP,
+			  GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE,
+			  NULL);
+
   gtk_window_set_title ( GTK_WINDOW ( fenetre_preferences ),
 			 _("Grisbi setup") );
-  gtk_window_set_transient_for ( GTK_WINDOW (fenetre_preferences),
-				 GTK_WINDOW (window));
-  gtk_window_set_modal ( GTK_WINDOW (fenetre_preferences),
-			 TRUE);
+/*   gtk_window_set_transient_for ( GTK_WINDOW (fenetre_preferences), */
+/* 				 GTK_WINDOW (window)); */
+/*   gtk_window_set_modal ( GTK_WINDOW (fenetre_preferences), */
+/* 			 TRUE); */
 
   tree = create_preferences_tree();  
   hpaned = gtk_hpaned_new();
@@ -131,36 +135,31 @@ void preferences ( GtkWidget *widget,
 		       TRUE, TRUE, 0 );
 
   /* On range le tout dans une vbox */
-  vbox = gtk_vbox_new ( FALSE, 10 );
-  gtk_box_pack_start ( GTK_BOX ( vbox ), hpaned,
-		       TRUE, TRUE, 0);
+/*   vbox = gtk_vbox_new ( FALSE, 10 ); */
+/*   gtk_box_pack_start ( GTK_BOX ( vbox ), hpaned, */
+/* 		       TRUE, TRUE, 0); */
 
   /* Avec un sépareteur entre le haut et les boutons */
-  separator = gtk_hseparator_new ();
-  gtk_box_pack_start ( GTK_BOX ( vbox ), separator,
-		       FALSE, FALSE, 0 );
+/*   separator = gtk_hseparator_new (); */
+/*   gtk_box_pack_start ( GTK_BOX ( vbox ), separator, */
+/* 		       FALSE, FALSE, 0 ); */
   
   /* Création des boutons en bas */
-  hbox = gtk_hbox_new ( FALSE, 6 );
-  button_ok = gtk_button_new_from_stock (GTK_STOCK_OK);
-  button_cancel = gtk_button_new_from_stock (GTK_STOCK_CANCEL);
-  button_apply = gtk_button_new_from_stock (GTK_STOCK_APPLY);
+/*   hbox = gtk_hbox_new ( FALSE, 6 ); */
+/*   button_help = gtk_button_new_from_stock ( GTK_STOCK_HELP ); */
+/*   button_close = gtk_button_new_from_stock ( GTK_STOCK_CLOSE ); */
+/*   gtk_container_set_border_width ( &((GtkButton *) button_help)->bin, 5 ); */
+/*   gtk_container_set_border_width ( &((GtkButton *) button_close)->bin, 5 ); */
+/*   gtk_box_pack_start ( GTK_BOX ( hbox ), button_help, */
+/* 		       FALSE, TRUE, 0 ); */
 
-
-  hbox2 = gtk_hbox_new ( TRUE, 5 );
-  gtk_box_pack_end ( GTK_BOX ( hbox2 ), button_ok,
-		     TRUE, TRUE, 0 );
-  gtk_box_pack_end ( GTK_BOX ( hbox2 ), button_cancel,
-		     TRUE, TRUE, 0 );
-  gtk_box_pack_end ( GTK_BOX ( hbox2 ), button_apply,
-		     TRUE, TRUE, 0 );
-  gtk_box_pack_end ( GTK_BOX ( hbox ), hbox2,
-		       FALSE, FALSE, 0 );
-
-  gtk_box_pack_start ( GTK_BOX ( vbox ), hbox,
-		       FALSE, FALSE, 0 );
-  gtk_container_add (GTK_CONTAINER (fenetre_preferences), vbox);
-
+/*   hbox2 = gtk_hbox_new ( TRUE, 5 ); */
+/*   gtk_box_pack_end ( GTK_BOX ( hbox2 ), button_close, */
+/* 		     TRUE, TRUE, 0 ); */
+/*   gtk_box_pack_end ( GTK_BOX ( hbox ), hbox2, */
+/* 		       FALSE, TRUE, 0 ); */
+/*   gtk_box_pack_start ( GTK_BOX ( vbox ), hbox, */
+/* 		       FALSE, FALSE, 0 ); */
 
   /* File tab */
   gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter, NULL);
@@ -260,25 +259,15 @@ void preferences ( GtkWidget *widget,
 			    NULL);
 
   /* Connection des boutons en bas */
-  gtk_signal_connect ( GTK_OBJECT ( button_apply ),
-		       "clicked",
-		       (GtkSignalFunc) changement_preferences,
-		       NULL );
-  gtk_signal_connect ( GTK_OBJECT ( button_cancel ),
-		       "clicked",
-		       (GtkSignalFunc) fermeture_preferences,
-		       NULL );
-  gtk_signal_connect ( GTK_OBJECT ( button_ok ),
-		       "clicked",
-		       (GtkSignalFunc) changement_preferences,
-		       NULL );
-  gtk_signal_connect_after ( GTK_OBJECT ( button_ok ),
-		       "clicked",
-		       (GtkSignalFunc) fermeture_preferences,
-		       NULL );
-
-  /* Le bouton appliquer est inactif */
-  gtk_widget_set_sensitive ( button_apply, FALSE );
+/*   gtk_signal_connect ( GTK_OBJECT ( button_close ), */
+/* 		       "clicked", */
+/* 		       (GtkSignalFunc) fermeture_preferences, */
+/* 		       NULL ); */
+  /* FIXME */
+/*   gtk_signal_connect_after ( GTK_OBJECT ( button_help ), */
+/* 		       "clicked", */
+/* 		       (GtkSignalFunc) fermeture_preferences, */
+/* 		       NULL ); */
 
   /* On se met sur la page demandée */
 /*   path = gtk_tree_path_new (); */
@@ -287,8 +276,24 @@ void preferences ( GtkWidget *widget,
 /* 				  path); */
 /*   gtk_tree_path_free (path); */
 
-  gtk_widget_show_all ( fenetre_preferences );
+/*   gtk_widget_show_all ( fenetre_preferences ); */
 
+  gtk_widget_show_all ( hpaned );
+  gtk_container_set_border_width ( hpaned, 10 );
+  gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG(fenetre_preferences) -> vbox ), hpaned,
+		       TRUE, TRUE, 0);
+
+  while ( 1 )
+    {
+      switch (gtk_dialog_run ( GTK_DIALOG ( fenetre_preferences ) ))
+	{
+	case GTK_RESPONSE_CLOSE:
+	  gtk_widget_destroy ( GTK_WIDGET ( fenetre_preferences ));
+	  return;
+	case GTK_RESPONSE_HELP:
+	  break;
+	}
+    }
 }
 /* ************************************************************************************************************** */
 
@@ -334,7 +339,7 @@ gboolean selectionne_liste_preference ( GtkTreeSelection *selection,
 /* ************************************************************************************************************** */
 void activer_bouton_appliquer ( )
 {
-  gtk_widget_set_sensitive ( button_apply, TRUE );
+/*   gtk_widget_set_sensitive ( button_apply, TRUE ); */
 }
 
 
@@ -2164,7 +2169,6 @@ void real_changement_preferences ( GtkWidget *fenetre_preferences,
 
   sauve_configuration ();
 
-  gtk_widget_set_sensitive ( button_apply, FALSE );
 }
 /* **************************************************************************************************************************** */
 
