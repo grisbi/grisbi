@@ -410,14 +410,14 @@ void verifie_compte_clos ( gint no_nouveau_compte )
 
     /*     si le compte courant est déjà cloturé, on fait rien */
 
-    if ( COMPTE_CLOTURE )
+    if ( gsb_account_get_closed_account (compte_courant) )
 	return;
 
     save_ptab = p_tab_nom_de_compte_variable;
     
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_nouveau_compte;
 
-    if ( COMPTE_CLOTURE )
+    if ( gsb_account_get_closed_account (no_nouveau_compte) )
     {
 	p_tab_nom_de_compte_variable = save_ptab;
 
@@ -498,7 +498,7 @@ void reaffiche_liste_comptes ( void )
     {
 	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + GPOINTER_TO_INT ( ordre_comptes_variable->data );
 
-	if ( ! COMPTE_CLOTURE )
+	if ( ! gsb_account_get_closed_account (GPOINTER_TO_INT ( ordre_comptes_variable->data )) )
 	{
 	    bouton = comptes_appel( GPOINTER_TO_INT ( ordre_comptes_variable->data ));
 	    gtk_box_pack_start (GTK_BOX (vbox_liste_comptes), bouton, FALSE, FALSE, 0);
@@ -554,7 +554,7 @@ void reaffiche_liste_comptes ( void )
     {
 	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + GPOINTER_TO_INT ( ordre_comptes_variable->data );
 
-	if ( ! COMPTE_CLOTURE )
+	if ( ! gsb_account_get_closed_account (GPOINTER_TO_INT ( ordre_comptes_variable->data )) )
 	{
 	    GtkItemFactoryEntry *item_factory_entry;
 	    gchar *tmp;

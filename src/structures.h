@@ -312,7 +312,7 @@ struct donnees_compte
 /* #define NO_GUICHET ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> no_guichet */
 /* #define NO_COMPTE_BANQUE ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> no_compte_banque */
 /* #define CLE_COMPTE ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> cle_compte */
-#define COMPTE_CLOTURE ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> compte_cloture
+/* #define COMPTE_CLOTURE ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> compte_cloture */
 #define COMMENTAIRE ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> commentaire
 #define TRI ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> tri
 #define LISTE_TRI ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> liste_tri

@@ -1282,6 +1282,120 @@ gboolean gsb_account_set_bank_account_key ( gint no_account,
 }
 
 
+/** get closed_account on the account given
+ * \param no_account no of the account
+ * \return last number of reconcile or 0 if the account doesn't exist
+ * */
+gint gsb_account_get_closed_account ( gint no_account )
+{
+    struct_account *account;
+
+    account = gsb_account_get_structure ( no_account );
+
+    if (!account )
+	return 0;
+
+    return account -> closed_account;
+}
+
+
+/** set closed_account in the account given
+ * \param no_account no of the account
+ * \param closed_account closed_account to set
+ * \return TRUE, ok ; FALSE, problem
+ * */
+gboolean gsb_account_set_closed_account ( gint no_account,
+					  gint closed_account )
+{
+    struct_account *account;
+
+    account = gsb_account_get_structure ( no_account );
+
+    if (!account )
+	return FALSE;
+
+    account -> closed_account = closed_account;
+
+    return TRUE;
+}
+
+
+/** get the comment of the account
+ * \param no_account no of the account
+ * \return comment or NULL if the account doesn't exist
+ * */
+gchar *gsb_account_get_comment ( gint no_account )
+{
+    struct_account *account;
+
+    account = gsb_account_get_structure ( no_account );
+
+    if (!account )
+	return NULL;
+
+    return account -> comment;
+}
+
+
+/** set the comment of the account
+ * \param no_account no of the account
+ * \param comment comment to set
+ * \return TRUE, ok ; FALSE, problem
+ * */
+gboolean gsb_account_set_comment ( gint no_account,
+				   gchar *comment )
+{
+    struct_account *account;
+
+    account = gsb_account_get_structure ( no_account );
+
+    if (!account )
+	return FALSE;
+
+    account -> comment = comment;
+
+    return TRUE;
+}
+
+
+
+/** get sort_type on the account given
+ * \param no_account no of the account
+ * \return sort_type or 0 if the account doesn't exist
+ * */
+gint gsb_account_get_sort_type ( gint no_account )
+{
+    struct_account *account;
+
+    account = gsb_account_get_structure ( no_account );
+
+    if (!account )
+	return 0;
+
+    return account -> sort_type;
+}
+
+
+/** set sort_type in the account given
+ * \param no_account no of the account
+ * \param sort_type sort_type to set
+ * \return TRUE, ok ; FALSE, problem
+ * */
+gboolean gsb_account_set_sort_type ( gint no_account,
+				     gint sort_type )
+{
+    struct_account *account;
+
+    account = gsb_account_get_structure ( no_account );
+
+    if (!account )
+	return FALSE;
+
+    account -> sort_type = sort_type;
+
+    return TRUE;
+}
+
 
 
 

@@ -561,7 +561,7 @@ void update_liste_comptes_accueil ( void )
 
     for ( i = 0 ; i < nb_comptes ; i++ )
     {
-	if ( !COMPTE_CLOTURE )
+	if ( !gsb_account_get_closed_account (i) )
 	{
 	    if ( gsb_account_get_kind (i) == GSB_TYPE_ASSET )
 	    {
@@ -593,7 +593,7 @@ void update_liste_comptes_accueil ( void )
 	for ( i = 0 ; i < nb_comptes ; i++ )
 	{
 	    if ( gsb_account_get_currency (i) == ((struct struct_devise *) devise -> data) -> no_devise
-		 && ! COMPTE_CLOTURE
+		 && ! gsb_account_get_closed_account (i)
 		 && ( gsb_account_get_kind (i) == GSB_TYPE_BANK
 		      || gsb_account_get_kind (i) == GSB_TYPE_CASH ))
 		devise_is_used = 1;
@@ -638,7 +638,7 @@ void update_liste_comptes_accueil ( void )
 
 	    p_tab_nom_de_compte_variable=p_tab_nom_de_compte + no_compte;
 
-	    if ( !COMPTE_CLOTURE &&
+	    if ( !gsb_account_get_closed_account (no_compte) &&
 		 gsb_account_get_currency (no_compte) == ((struct struct_devise *) devise -> data) -> no_devise
 		 && gsb_account_get_kind (no_compte) != GSB_TYPE_LIABILITIES
 		 && gsb_account_get_kind (no_compte) != GSB_TYPE_ASSET )
@@ -883,7 +883,7 @@ void update_liste_comptes_accueil ( void )
 	for ( i = 0 ; i < nb_comptes ; i++ )
 	{
 	    if ( gsb_account_get_currency (i) == ((struct struct_devise *) devise -> data) -> no_devise
-		 && ! COMPTE_CLOTURE
+		 && ! gsb_account_get_closed_account (i)
 		 && gsb_account_get_kind (i) == GSB_TYPE_LIABILITIES )
 		devise_is_used = 1;
 	    p_tab_nom_de_compte_variable++;	  
@@ -927,7 +927,7 @@ void update_liste_comptes_accueil ( void )
 
 	    p_tab_nom_de_compte_variable=p_tab_nom_de_compte + no_compte;
 
-	    if ( !COMPTE_CLOTURE &&
+	    if ( !gsb_account_get_closed_account (no_compte) &&
 		 gsb_account_get_currency (no_compte) == ((struct struct_devise *) devise -> data) -> no_devise &&
 		 gsb_account_get_kind (no_compte) == GSB_TYPE_LIABILITIES )
 	    {
@@ -1209,7 +1209,7 @@ void update_liste_comptes_accueil ( void )
 	for ( i = 0 ; i < nb_comptes ; i++ )
 	{
 	    if ( gsb_account_get_currency (i) == ((struct struct_devise *) devise -> data) -> no_devise &&
-		 !COMPTE_CLOTURE &&
+		 !gsb_account_get_closed_account (i) &&
 		 gsb_account_get_kind (i) == GSB_TYPE_ASSET )
 		devise_is_used = 1;
 	    p_tab_nom_de_compte_variable++;	  
@@ -1253,7 +1253,7 @@ void update_liste_comptes_accueil ( void )
 
 	    p_tab_nom_de_compte_variable=p_tab_nom_de_compte + no_compte;
 
-	    if ( !COMPTE_CLOTURE &&
+	    if ( !gsb_account_get_closed_account (no_compte) &&
 		 gsb_account_get_currency (no_compte) == ((struct struct_devise *) devise -> data) -> no_devise &&
 		 gsb_account_get_kind (no_compte) == GSB_TYPE_ASSET )
 	    {

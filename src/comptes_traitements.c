@@ -515,7 +515,7 @@ GtkWidget * creation_option_menu_comptes ( GtkSignalFunc func,
     {
 	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + GPOINTER_TO_INT ( ordre_comptes_variable -> data );
 
-	if ( !COMPTE_CLOTURE
+	if ( !gsb_account_get_closed_account (GPOINTER_TO_INT ( ordre_comptes_variable -> data ))
 	     ||
 	     include_closed )
 	{

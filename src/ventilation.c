@@ -1411,7 +1411,7 @@ void fin_edition_ventilation ( void )
 			if ( !strcmp ( gsb_account_get_name (i),
 				       tableau_char[1] ) )
 			{
-			    if ( COMPTE_CLOTURE )
+			    if ( gsb_account_get_closed_account (i) )
 				compte_vire = -2;
 			    else
 				compte_vire = i;

@@ -1027,7 +1027,8 @@ gboolean recuperation_comptes_xml ( xmlNodePtr node_comptes )
 
 			    if ( !strcmp ( node_detail -> name,
 					   "Compte_cloture" ))
-				COMPTE_CLOTURE = my_atoi ( xmlNodeGetContent ( node_detail ));
+				gsb_account_set_closed_account ( no_compte,
+								 my_atoi ( xmlNodeGetContent ( node_detail )) );
 
 			    if ( !strcmp ( node_detail -> name,
 					   "Affichage_r" ))
@@ -1041,7 +1042,8 @@ gboolean recuperation_comptes_xml ( xmlNodePtr node_comptes )
 
 			    if ( !strcmp ( node_detail -> name,
 					   "Commentaires" ))
-				COMMENTAIRE = xmlNodeGetContent ( node_detail );
+				gsb_account_set_comment ( no_compte,
+							  xmlNodeGetContent ( node_detail ) );
 
 			    if ( !strcmp ( node_detail -> name,
 					   "Adresse_du_titulaire" ))
@@ -3337,7 +3339,7 @@ gboolean enregistre_fichier ( gchar *nouveau_fichier )
 	xmlNewTextChild ( node_compte,
 			  NULL,
 			  "Compte_cloture",
-			  itoa ( COMPTE_CLOTURE ));
+			  itoa ( gsb_account_get_closed_account (i) ));
 
 	xmlNewTextChild ( node_compte,
 			  NULL,
@@ -3352,7 +3354,7 @@ gboolean enregistre_fichier ( gchar *nouveau_fichier )
 	xmlNewTextChild ( node_compte,
 			  NULL,
 			  "Commentaires",
-			  COMMENTAIRE );
+			  gsb_account_get_comment (i) );
 
 	xmlNewTextChild ( node_compte,
 			  NULL,
@@ -3377,7 +3379,7 @@ gboolean enregistre_fichier ( gchar *nouveau_fichier )
 	xmlNewTextChild ( node_compte,
 			  NULL,
 			  "Tri_par_type",
-			  itoa ( TRI ));
+			  itoa ( gsb_account_get_sort_type (i) ));
 
 	xmlNewTextChild ( node_compte,
 			  NULL,

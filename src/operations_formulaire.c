@@ -2664,7 +2664,7 @@ gint verification_validation_operation ( struct structure_operation *operation )
 
 		p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_virement;
 
-		if ( COMPTE_CLOTURE )
+		if ( gsb_account_get_closed_account (compte_virement) )
 		{
 		    dialogue_error ( _("Can't issue a transfer on a closed account." ));
 		    return ( FALSE );

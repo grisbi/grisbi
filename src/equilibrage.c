@@ -1228,7 +1228,7 @@ void fill_reconciliation_tree ()
 	}
 
 	if ( gtk_tree_model_iter_has_child( GTK_TREE_MODEL(reconcile_model), &account_iter) &&
-	     TRI )
+	     gsb_account_get_sort_type (GPOINTER_TO_INT ( pUserAccountsList -> data )) )
 	{
 	    GtkTreePath * treepath;
 	    treepath = gtk_tree_model_get_path (GTK_TREE_MODEL(reconcile_model), &account_iter);
@@ -1394,6 +1394,7 @@ void reconcile_by_date_toggled ( GtkCellRendererToggle *cell,
     GtkTreePath * treepath;
     GtkTreeIter iter;
     gboolean toggle;
+    gpointer adr_compte;
 
     treepath = gtk_tree_path_new_from_string ( path_str );
     gtk_tree_model_get_iter ( GTK_TREE_MODEL (reconcile_model),
@@ -1401,7 +1402,7 @@ void reconcile_by_date_toggled ( GtkCellRendererToggle *cell,
 
     gtk_tree_model_get (GTK_TREE_MODEL(reconcile_model), &iter, 
 			RECONCILIATION_SORT_COLUMN, &toggle, 
-			RECONCILIATION_ACCOUNT_COLUMN, &p_tab_nom_de_compte_variable,
+			RECONCILIATION_ACCOUNT_COLUMN, &adr_compte,
 			-1);
 
     toggle ^= 1;
@@ -1410,7 +1411,13 @@ void reconcile_by_date_toggled ( GtkCellRendererToggle *cell,
     gtk_tree_store_set (GTK_TREE_STORE (reconcile_model), &iter, 
 			RECONCILIATION_SORT_COLUMN, toggle, 
 			-1);
-    TRI = ! toggle;  /* Set to 1 (sort by types) if toggle is not selected */
+
+    /* Set to 1 (sort by types) if toggle is not selected */
+
+    /* FIXME : remplacer adr compte par le no du compte, voir au niveau du tri_model */
+    
+    gsb_account_set_sort_type ( adr_compte,
+				! toggle );
 
     if (toggle)
     {

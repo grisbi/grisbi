@@ -95,6 +95,7 @@ gint gsb_account_get_bank ( gint no_account );
 gchar *gsb_account_get_bank_account_key ( gint no_account );
 gchar *gsb_account_get_bank_account_number ( gint no_account );
 gchar *gsb_account_get_bank_branch_code ( gint no_account );
+gint gsb_account_get_closed_account ( gint no_account );
 gpointer gsb_account_get_column ( gint no_account,
 				  gint no_column );
 gint gsb_account_get_currency ( gint no_account );
@@ -129,6 +130,8 @@ gboolean gsb_account_set_bank_account_number ( gint no_account,
 					       gchar *bank_account_number );
 gboolean gsb_account_set_bank_branch_code ( gint no_account,
 					    gchar *bank_branch_code );
+gboolean gsb_account_set_closed_account ( gint no_account,
+					  gint closed_account );
 gboolean gsb_account_set_column ( gint no_account,
 				  gint no_column,
 				  gpointer column );

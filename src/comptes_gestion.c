@@ -857,7 +857,7 @@ void remplissage_details_compte ( void )
 			     "" );
 
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON( detail_compte_cloture ),
-				   COMPTE_CLOTURE );
+				   gsb_account_get_closed_account (compte_courant_onglet) );
 
 
     gtk_entry_set_text ( GTK_ENTRY ( detail_solde_init ),
@@ -872,20 +872,8 @@ void remplissage_details_compte ( void )
 			 g_strdup_printf ( "%4.2f",
 					   gsb_account_get_mini_balance_wanted (compte_courant_onglet) ));
 
-/*     gtk_editable_delete_text ( GTK_EDITABLE ( detail_commentaire ), */
-/* 			       0, */
-/* 			       -1 ); */
-
-/*     if ( COMMENTAIRE ) */
-/* 	gtk_text_insert ( GTK_TEXT ( detail_commentaire ), */
-/* 			  NULL, */
-/* 			  NULL, */
-/* 			  NULL, */
-/* 			  COMMENTAIRE, */
-/* 			  -1 ); */
-
     gtk_text_buffer_set_text ( gtk_text_view_get_buffer (GTK_TEXT_VIEW (detail_commentaire)),
-			       ( COMMENTAIRE ? COMMENTAIRE : "") , -1 );
+			       ( gsb_account_get_comment (compte_courant_onglet) ? gsb_account_get_comment (compte_courant_onglet) : "") , -1 );
 
 
     gtk_widget_set_sensitive ( hbox_boutons_modif,
@@ -1082,9 +1070,10 @@ void modification_details_compte ( void )
 
     /* enregistrement du compte cloturé */
 
-    if ( COMPTE_CLOTURE != gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( detail_compte_cloture )))
+    if ( gsb_account_get_closed_account (compte_courant_onglet) != gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( detail_compte_cloture )))
     {
-	COMPTE_CLOTURE = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( detail_compte_cloture ));
+	gsb_account_set_closed_account ( compte_courant_onglet,
+					 gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( detail_compte_cloture )));
 	if ( mise_a_jour_combofix_categ_necessaire )
 	    mise_a_jour_combofix_categ();
 	reaffiche_liste_comptes ();
@@ -1160,19 +1149,23 @@ void modification_details_compte ( void )
     buffer = gtk_text_view_get_buffer ( GTK_TEXT_VIEW (detail_commentaire) );
     gtk_text_buffer_get_iter_at_offset ( buffer, &start, 0 );
     gtk_text_buffer_get_iter_at_offset ( buffer, &end, -1 );
-    COMMENTAIRE = gtk_text_buffer_get_text ( buffer , &start, &end, TRUE );
+    gsb_account_set_comment ( compte_courant_onglet,
+			      gtk_text_buffer_get_text ( buffer , &start, &end, TRUE ) );
 
-    if ( strlen ( COMMENTAIRE ))
+    if ( strlen ( gsb_account_get_comment (compte_courant_onglet) ))
     {
-	COMMENTAIRE = g_strdelimit ( COMMENTAIRE,
-				     "{",
-				     '(' );
-	COMMENTAIRE = g_strdelimit ( COMMENTAIRE,
-				     "}",
-				     ')' );
+	gsb_account_set_comment ( compte_courant_onglet,
+				  g_strdelimit ( gsb_account_get_comment (compte_courant_onglet),
+						 "{",
+						 '(' ) );
+	gsb_account_set_comment ( compte_courant_onglet,
+				  g_strdelimit ( gsb_account_get_comment (compte_courant_onglet),
+						 "}",
+						 ')' ) );
     }
     else
-	COMMENTAIRE = NULL;
+	gsb_account_set_comment ( compte_courant_onglet,
+				  NULL );
 
 
     /* vérification du nom du compte */

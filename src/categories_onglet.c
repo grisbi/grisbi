@@ -662,7 +662,7 @@ void creation_liste_categ_combofix ( void )
 
     for ( i = 0 ; i < nb_comptes ; i++ )
     {
-	if ( ! COMPTE_CLOTURE )
+	if ( ! gsb_account_get_closed_account (i) )
 	    liste_categ_special = g_slist_append ( liste_categ_special,
 						   g_strconcat ( "\t",
 								 gsb_account_get_name (i),
