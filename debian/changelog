@@ -1,6 +1,7 @@
 grisbi (0.3.2-2) unstable; urgency=low
 
   * Fix wrong build dependencies.  (Closes: #159239)
+  * Fix control file
 
  -- Benjamin Drieu <benj@debian.org>  Mon,  9 Sep 2002 10:34:31 +0200
 
