@@ -26,6 +26,7 @@
 #include "structures.h"
 #include "variables-extern.c"
 #include "en_tete.h"
+#include "calendar.h"
 
 
   #define COL_NB_DATE 0
@@ -848,12 +849,13 @@ void remplissage_liste_echeance ( void )
 	     affichage_echeances != 3 ))
 	{
 	  gint sortie;
-	  GDate *date_courante;
+//	  GDate *date_courante;
+	  GDate *pGDateCurrent;
 	  struct operation_echeance *echeance;
 
 	  echeance = ECHEANCE_COURANTE;
 	  sortie = 1;
-	  date_courante = g_date_new_dmy ( ECHEANCE_COURANTE -> date -> day,
+	  pGDateCurrent = g_date_new_dmy ( ECHEANCE_COURANTE -> date -> day,
 					   ECHEANCE_COURANTE -> date -> month,
 					   ECHEANCE_COURANTE -> date -> year );
 
@@ -878,22 +880,22 @@ void remplissage_liste_echeance ( void )
 
 	      /* c'est maintenant qu'on voit si on sort ou pas ... */
 
-	      date_courante = date_suivante_echeance ( ECHEANCE_COURANTE,
-						       date_courante );
+	      pGDateCurrent = date_suivante_echeance ( ECHEANCE_COURANTE,
+						       pGDateCurrent );
 
-	      if ( date_courante
+	      if ( pGDateCurrent
 		   &&
 		   g_date_compare ( date_fin,
-				    date_courante ) > 0
+				    pGDateCurrent ) > 0
 		   &&
 		   affichage_echeances != 3
 		   &&
 		   ECHEANCE_COURANTE -> periodicite )
 		{
 		  ligne[COL_NB_DATE] = g_strdup_printf ( "%02d/%02d/%d",
-					       g_date_day ( date_courante ),
-					       g_date_month ( date_courante ),
-					       g_date_year ( date_courante ));
+					       g_date_day ( pGDateCurrent ),
+					       g_date_month ( pGDateCurrent ),
+					       g_date_year ( pGDateCurrent ));
 		  echeance = NULL;
 		}
 	      else
@@ -1073,7 +1075,7 @@ void edition_echeance ( void )
     {
       entree_prend_focus ( widget_formulaire_echeancier[0] );
       gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_echeancier[0] ),
-			   date_jour() );
+			   gsb_today() );
       gtk_entry_select_region ( GTK_ENTRY ( widget_formulaire_echeancier[0] ),
 				0,
 				-1 );
@@ -1798,7 +1800,7 @@ void click_sur_jour_calendrier_echeance ( GtkWidget *calendrier,
 /*****************************************************************************/
 void verification_echeances_a_terme ( void )
 {
-  GDate *date_courante;
+  GDate *pGDateCurrent;
   GSList *pointeur_liste;
   GSList *ancien_pointeur;
   struct struct_devise *devise;
@@ -1811,13 +1813,13 @@ void verification_echeances_a_terme ( void )
 
   /* récupère la date du jour et la met en format gdate */
 
-  date_courante = g_date_new ();
-  g_date_set_time ( date_courante,
+  pGDateCurrent = g_date_new ();
+  g_date_set_time ( pGDateCurrent,
 		    time ( NULL ));
 
   /* on y ajoute le décalage de l'échéance */
 
-  g_date_add_days ( date_courante,
+  g_date_add_days ( pGDateCurrent,
 		    decalage_echeance );
 
 
@@ -1836,7 +1838,7 @@ void verification_echeances_a_terme ( void )
 	 
 	  while ( pointeur_liste != ancien_pointeur
 		  &&
-		  g_date_compare ( ECHEANCE_COURANTE -> date, date_courante ) <= 0 )
+		  g_date_compare ( ECHEANCE_COURANTE -> date, pGDateCurrent ) <= 0 )
 	    {
 	      struct structure_operation *operation;
 	      gint virement;
@@ -2020,7 +2022,7 @@ void verification_echeances_a_terme ( void )
 	/* ce n'est pas une échéance automatique, on la répertorie dans la liste des échéances à saisir */
 
 	if ( g_date_compare ( ECHEANCE_COURANTE -> date,
-			      date_courante ) <= 0 )
+			      pGDateCurrent ) <= 0 )
 	  echeances_a_saisir = g_slist_append ( echeances_a_saisir ,
 						ECHEANCE_COURANTE );
 
@@ -2132,60 +2134,60 @@ void modification_affichage_echeances ( gint *origine )
 /* renvoie null si la date limite est dépassée ou si c'est une fois	     */
 /*****************************************************************************/
 GDate *date_suivante_echeance ( struct operation_echeance *echeance,
-				GDate *date_courante )
+				GDate *pGDateCurrent )
 {
   if ( !echeance -> periodicite )
     {
-      date_courante = NULL;
+      pGDateCurrent = NULL;
 
-      return ( date_courante );
+      return ( pGDateCurrent );
     }
 
   /* périodicité hebdomadaire */
   if ( echeance -> periodicite == 1 )
     {
-      g_date_add_days ( date_courante,
+      g_date_add_days ( pGDateCurrent,
 			7 );
       /* magouille car il semble y avoir un bug dans g_date_add_days qui ne fait pas l'addition si on ne met pas la ligne suivante */
-      g_date_add_months ( date_courante,
+      g_date_add_months ( pGDateCurrent,
 			  0 );
     }
   else
     /* périodicité mensuelle */
     if ( echeance -> periodicite == 2 )
-      g_date_add_months ( date_courante,
+      g_date_add_months ( pGDateCurrent,
 			  1 );
     else
       /* périodicité annuelle */
       if ( echeance -> periodicite == 3 )
-	g_date_add_years ( date_courante,
+	g_date_add_years ( pGDateCurrent,
 			   1 );
       else
 	/* périodicité perso */
 	if ( !echeance -> intervalle_periodicite_personnalisee )
 	  {
-	    g_date_add_days ( date_courante,
+	    g_date_add_days ( pGDateCurrent,
 			      echeance -> periodicite_personnalisee );
 
 	    /* magouille car il semble y avoir un bug dans g_date_add_days qui ne fait pas l'addition si on ne met pas la ligne suivante */
-	    g_date_add_months ( date_courante,
+	    g_date_add_months ( pGDateCurrent,
 				0 );
 	  }
 	else
 	  if ( echeance -> intervalle_periodicite_personnalisee == 1 )
-	    g_date_add_months ( date_courante,
+	    g_date_add_months ( pGDateCurrent,
 				echeance -> periodicite_personnalisee );
 	  else
-	    g_date_add_years ( date_courante,
+	    g_date_add_years ( pGDateCurrent,
 			       echeance -> periodicite_personnalisee );
   
   if ( echeance -> date_limite
        &&
-       g_date_compare ( date_courante,
+       g_date_compare ( pGDateCurrent,
 			echeance -> date_limite ) > 0 )
-    date_courante = NULL;
+    pGDateCurrent = NULL;
 
-  return ( date_courante );
+  return ( pGDateCurrent );
 }
 /*****************************************************************************/
 

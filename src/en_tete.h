@@ -244,7 +244,6 @@ void recuperation_categorie_formulaire ( struct structure_operation *operation,
 gint comparaison_date_list_ope ( struct structure_operation *ope_1,
 				 struct structure_operation *ope_2);
 void formulaire_a_zero (void);
-gchar *date_jour ( void );
 void affiche_cache_le_formulaire ( void );
 
 /*dOm fonction callback */

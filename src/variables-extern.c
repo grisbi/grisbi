@@ -187,7 +187,6 @@ extern gint operations_affichees;       /* nb d'opé affichées ( variable en fonc
 extern GtkWidget *widget_formulaire_operations[19];
 extern GtkWidget *separateur_formulaire_operations;
 extern GtkWidget *hbox_valider_annuler_ope;
-extern gchar date_courante[11];             /* contient soit la date du jour, soit la derniere date entree */
 extern GtkStyle *style_entree_formulaire[2];
 
 

@@ -1,23 +1,25 @@
-/* Ce fichier s'occupe de la gestion des exercices */
-/* exercice.c */
-
-/*     Copyright (C) 2000-2003  Cédric Auger */
-/* 			cedric@grisbi.org */
-/* 			http:// www.grisbi.org */
-
-/*     This program is free software; you can redistribute it and/or modify */
-/*     it under the terms of the GNU General Public License as published by */
-/*     the Free Software Foundation; either version 2 of the License, or */
-/*     (at your option) any later version. */
-
-/*     This program is distributed in the hope that it will be useful, */
-/*     but WITHOUT ANY WARRANTY; without even the implied warranty of */
-/*     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the */
-/*     GNU General Public License for more details. */
-
-/*     You should have received a copy of the GNU General Public License */
-/*     along with this program; if not, write to the Free Software */
-/*     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
+/* ************************************************************************** */
+/* Ce fichier s'occupe de la gestion des exercices                            */
+/* 			exercice.c                                            */
+/*                                                                            */
+/*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org)	      */
+/*			http://www.grisbi.org   			      */
+/*                                                                            */
+/*  This program is free software; you can redistribute it and/or modify      */
+/*  it under the terms of the GNU General Public License as published by      */
+/*  the Free Software Foundation; either version 2 of the License, or         */
+/*  (at your option) any later version.                                       */
+/*                                                                            */
+/*  This program is distributed in the hope that it will be useful,           */
+/*  but WITHOUT ANY WARRANTY; without even the implied warranty of            */
+/*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             */
+/*  GNU General Public License for more details.                              */
+/*                                                                            */
+/*  You should have received a copy of the GNU General Public License         */
+/*  along with this program; if not, write to the Free Software               */
+/*  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
+/*                                                                            */
+/* ************************************************************************** */
 
 
 #include "include.h"
@@ -28,7 +30,7 @@
 
 
 
-/* ************************************************************************************************************** */
+/* ************************************************************************** */
 GtkWidget *onglet_exercices ( void )
 {
   GtkWidget *hbox_pref, *vbox_pref;
@@ -43,7 +45,6 @@ GtkWidget *onglet_exercices ( void )
   GtkWidget *hbox;
   gchar *titres[]={_("Name")};
 
-
   vbox_pref = gtk_vbox_new ( FALSE,
 			     5 );
   gtk_widget_show ( vbox_pref );
@@ -56,7 +57,6 @@ GtkWidget *onglet_exercices ( void )
 		       TRUE,
 		       0);
   gtk_widget_show ( hbox_pref );
-
 
 
 /* création de la 1ère colonne */
@@ -74,7 +74,6 @@ GtkWidget *onglet_exercices ( void )
 
 
 /* création de la clist des exercies */
-
 
   scrolled_window = gtk_scrolled_window_new ( NULL, NULL );
   gtk_box_pack_start ( GTK_BOX ( vbox ),
@@ -106,7 +105,6 @@ GtkWidget *onglet_exercices ( void )
   gtk_widget_show ( clist_exercices_parametres );
 
 
-
   /*   si pas de fichier ouvert, on grise */
 
   if ( !nb_comptes )
@@ -114,9 +112,9 @@ GtkWidget *onglet_exercices ( void )
 			       FALSE );
   else
     {
-
-      /* on crée la liste_struct_exercices_tmp qui est un copie de liste_struct_exercices originale */
-      /* avec laquelle on travaillera dans les parametres */
+      /* on crée la liste_struct_exercices_tmp qui est une copie de
+         liste_struct_exercices originale avec laquelle on travaillera
+	 dans les parametres */
 
       liste_struct_exercices_tmp = NULL;
       liste_tmp = liste_struct_exercices;
@@ -223,10 +221,6 @@ GtkWidget *onglet_exercices ( void )
 		       5 );
   gtk_widget_show ( bouton_supprimer_exercice );
 
-
-
-
-
 /* séparation */
 
   separateur = gtk_hseparator_new ();
@@ -253,8 +247,6 @@ GtkWidget *onglet_exercices ( void )
 		       5 );
   gtk_widget_show ( bouton );
 
-
-
   /* création de la 2ème colonne */
 
   vbox = gtk_vbox_new ( FALSE,
@@ -268,8 +260,7 @@ GtkWidget *onglet_exercices ( void )
 		       0);
   gtk_widget_show ( vbox );
 
-
-/* frame de droite-haut qui contient les caractéristiques de la exercice */
+/* frame de droite-haut qui contient les caractéristiques de l'exercice */
 
   frame = gtk_frame_new ( NULL );
   gtk_container_set_border_width ( GTK_CONTAINER ( frame ),
@@ -302,7 +293,6 @@ GtkWidget *onglet_exercices ( void )
 		      vbox2 );
   gtk_widget_show ( vbox2 );
 
-
   /* mise en forme du nom de l'exercice */
 
   hbox = gtk_hbox_new ( FALSE,
@@ -329,7 +319,6 @@ GtkWidget *onglet_exercices ( void )
 		       FALSE,
 		       0 );
   gtk_widget_show ( nom_exercice );
-
 
 /* mise en forme des dates de début et fin de l'exercice */
 
@@ -401,8 +390,6 @@ GtkWidget *onglet_exercices ( void )
 		       0 );
   gtk_widget_show ( affichage_exercice );
 
-
-
 /* séparation */
 
   separateur = gtk_hseparator_new ();
@@ -426,8 +413,8 @@ GtkWidget *onglet_exercices ( void )
 		       5 );
   gtk_widget_show ( hbox_boutons_modif_exercice );
 
-
-/*   on met ici toutes les connections qui, pour chaque changement, rendent sensitif les boutons */
+/* on met ici toutes les connections qui, pour chaque changement,
+   rendent sensitif les boutons */
 
   gtk_signal_connect ( GTK_OBJECT ( nom_exercice ),
 		       "changed",
@@ -469,7 +456,6 @@ GtkWidget *onglet_exercices ( void )
 		       FALSE,
 		       5 );
   gtk_widget_show ( bouton );
-
 
 /* frame de droite-bas qui contient le choix de l'affichage des exercices */
 
@@ -525,15 +511,12 @@ GtkWidget *onglet_exercices ( void )
 
   return ( vbox_pref );
 }
-/* ************************************************************************************************************** */
+/* ************************************************************************** */
 
-
-
-/* ***************************************************************************************************** */
-/* Fonction ajout_exercice */
-/* appelée par le bouton ajouter de l'onglet exercices des paramètres */
-/* ***************************************************************************************************** */
-
+/* ************************************************************************** */
+/* Fonction ajout_exercice                                                    */
+/* appelée par le bouton ajouter de l'onglet exercices des paramètres         */
+/* ************************************************************************** */
 void ajout_exercice ( GtkWidget *bouton,
 		    GtkWidget *clist )
 {
@@ -546,7 +529,8 @@ void ajout_exercice ( GtkWidget *bouton,
   gtk_clist_unselect_all ( GTK_CLIST ( clist ));
 
 
-/* crée une nouvelle exercice au nom de "nouvel exercice" en mettant tous les paramètres à 0 et le no à -1 */
+/* crée un nouvel exercice nommé "nouvel exercice" en mettant
+   tous les paramètres à 0 et le no à -1 */
 
   exercice = calloc ( 1,
 		    sizeof ( struct struct_exercice ));
@@ -562,7 +546,7 @@ void ajout_exercice ( GtkWidget *bouton,
   ligne_insert = gtk_clist_append ( GTK_CLIST ( clist ),
 				    ligne );
 
-  /* on associe à la ligne la struct de la exercice */
+  /* on associe à la ligne la struct de l'exercice */
 
   gtk_clist_set_row_data ( GTK_CLIST ( clist ),
 			   ligne_insert,
@@ -574,7 +558,7 @@ void ajout_exercice ( GtkWidget *bouton,
 			 ligne_insert,
 			 0 );
 
-/* on sélectionne le "nouvel exercice" et lui donne le focus */
+/* on sélectionne le "nouvel exercice" et on lui donne le focus */
 
   gtk_widget_set_sensitive ( hbox_boutons_modif_exercice,
 			     TRUE );
@@ -585,14 +569,12 @@ void ajout_exercice ( GtkWidget *bouton,
 
 
 }
-/* ***************************************************************************************************** */
+/* ************************************************************************** */
 
-
-/* **************************************************************************************************************************** */
-/* Fonction supprime_exercice */
-/* appelée lorsqu'on clicke sur le bouton annuler dans les paramètres */
-/* **************************************************************************************************************************** */
-
+/* ************************************************************************** */
+/* Fonction supprime_exercice                                                 */
+/* appelée lorsqu'on clicke sur le bouton annuler dans les paramètres         */
+/* ************************************************************************** */
 void supprime_exercice ( GtkWidget *bouton,
 		       GtkWidget *liste )
 {
@@ -634,20 +616,13 @@ void supprime_exercice ( GtkWidget *bouton,
 
       gnome_property_box_changed ( GNOME_PROPERTY_BOX ( fenetre_preferences));
     }
-
 }
-/* **************************************************************************************************************************** */
+/* ************************************************************************** */
 
-
-
-
-
-
-/* **************************************************************************************************************************** */
-/* Fonction selection_ligne_exercice */
-/* appelée lorsqu'on sélectionne une exercice dans la liste */
-/* **************************************************************************************************************************** */
-
+/* ************************************************************************** */
+/* Fonction selection_ligne_exercice                                          */
+/* appelée lorsqu'on sélectionne un exercice dans la liste                    */
+/* ************************************************************************** */
 void selection_ligne_exercice ( GtkWidget *liste,
 			      gint ligne,
 			      gint colonne,
@@ -690,20 +665,13 @@ void selection_ligne_exercice ( GtkWidget *liste,
 			     FALSE );
   gtk_widget_set_sensitive ( bouton_supprimer_exercice,
 			     TRUE );
-
-
-
 }
-/* **************************************************************************************************************************** */
+/* ************************************************************************** */
 
-
-
-
-/* **************************************************************************************************************************** */
-/* Fonction deselection_ligne_exercice */
-/* appelée lorsqu'on désélectionne une exercice dans la liste */
-/* **************************************************************************************************************************** */
-
+/* ************************************************************************** */
+/* Fonction deselection_ligne_exercice                                        */
+/* appelée lorsqu'on désélectionne une exercice dans la liste                 */
+/* ************************************************************************** */
 void deselection_ligne_exercice ( GtkWidget *liste,
 			      gint ligne,
 			      gint colonne,
@@ -739,7 +707,7 @@ void deselection_ligne_exercice ( GtkWidget *liste,
 
       resultat = gnome_dialog_run_and_close ( GNOME_DIALOG ( dialogue ));
 
-      /*       si on veut les enregistrer , ok */
+      /* si on veut les enregistrer , ok */
       /* si on ne veut pas et que c'est un nouvel exercice -> on l'efface */
 
       if ( !resultat )
@@ -773,28 +741,21 @@ void deselection_ligne_exercice ( GtkWidget *liste,
   gtk_widget_set_sensitive ( bouton_supprimer_exercice,
 			     FALSE );
 }
-/* **************************************************************************************************************************** */
+/* ************************************************************************** */
 
-
-
-/* **************************************************************************************************************************** */
+/* ************************************************************************** */
 void modif_detail_exercice ( void )
 {
-
-  gtk_widget_set_sensitive ( hbox_boutons_modif_exercice,
-			     TRUE );
+  gtk_widget_set_sensitive ( hbox_boutons_modif_exercice, TRUE );
 
 }
-/* **************************************************************************************************************************** */
+/* ************************************************************************** */
 
-
-
-
-/* ***************************************************************************************************** */
-/* Fonction applique_modif_exercice */
-/* appelée par le bouton appliquer qui devient sensitif lorsqu'on modifie la exercice des paramètres */
-/* ***************************************************************************************************** */
-
+/* ************************************************************************** */
+/* Fonction applique_modif_exercice                                           */
+/* appelée par le bouton appliquer qui devient sensitif lorsqu'on modifie     */
+/* l'exercice des paramètres                                                  */
+/* ************************************************************************** */
 void applique_modif_exercice ( GtkWidget *liste )
 {
   struct struct_exercice *exercice;
@@ -874,15 +835,12 @@ void applique_modif_exercice ( GtkWidget *liste )
 
   gnome_property_box_changed ( GNOME_PROPERTY_BOX ( fenetre_preferences));
 }
-/* ***************************************************************************************************** */
+/* ************************************************************************** */
 
-
-
-/* **************************************************************************************************************************** */
-/* Fonction annuler_modif_exercice */
-/* appelée lorsqu'on clicke sur le bouton annuler dans les paramètres */
-/* **************************************************************************************************************************** */
-
+/* ************************************************************************** */
+/* Fonction annuler_modif_exercice                                            */
+/* appelée lorsqu'on clicke sur le bouton annuler dans les paramètres         */
+/* ************************************************************************** */
 void annuler_modif_exercice ( GtkWidget *bouton,
 			      GtkWidget *liste )
 {
@@ -923,7 +881,6 @@ void annuler_modif_exercice ( GtkWidget *bouton,
 					   g_date_day ( exercice -> date_fin ),
 					   g_date_month ( exercice -> date_fin ),
 					   g_date_year ( exercice -> date_fin )));
-					   
 
   gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( affichage_exercice ),
 				 exercice -> affiche_dans_formulaire );
@@ -931,48 +888,35 @@ void annuler_modif_exercice ( GtkWidget *bouton,
   gtk_widget_set_sensitive ( hbox_boutons_modif_exercice,
 			     FALSE );
 }
-/* **************************************************************************************************************************** */
+/* ************************************************************************** */
 
-
-
-
-
-/* ************************************************************************************************************ */
+/* ************************************************************************** */
 gint recherche_exercice_par_nom ( struct struct_exercice *exercice,
 				gchar *nom )
 {
-
   return ( g_strcasecmp ( g_strstrip ( exercice -> nom_exercice ),
 			  nom ) );
-
 }
-/* ************************************************************************************************************ */
+/* ************************************************************************** */
 
-
-
-/***********************************************************************************************************/
-/* Fonction recherche_exercice_par_no */
-/* appelée par un g_slist_find_custom */
-/***********************************************************************************************************/
-
+/* ************************************************************************** */
+/* Fonction recherche_exercice_par_no                                         */
+/* appelée par un g_slist_find_custom                                         */
+/* ************************************************************************** */
 gint recherche_exercice_par_no ( struct struct_exercice *exercice,
 				 gint *no_exercice )
 {
-
   return ( exercice -> no_exercice != GPOINTER_TO_INT ( no_exercice ));
-
 }
-/***********************************************************************************************************/
+/* ************************************************************************** */
 
-
-
-/* ************************************************************************************************************ */
-/* Fonction creation_menu_exercices */
+/* ************************************************************************** */
+/* Fonction creation_menu_exercices                                           */
 /* crée un menu qui contient les noms des exercices associés à leur no et adr */
-/* et le renvoie */
-/* origine = 0 si ça vient des opérations */
+/* et le renvoie                                                              */
+/* origine = 0 si ça vient des opérations                                     */
 /* origine = 1 si ça vient de l'échéancier ; dans ce cas on rajoute automatique */
-/* ************************************************************************************************************ */
+/* ************************************************************************** */
 
 GtkWidget *creation_menu_exercices ( gint origine )
 {
@@ -982,7 +926,6 @@ GtkWidget *creation_menu_exercices ( gint origine )
 
   menu = gtk_menu_new ();
   gtk_widget_show ( menu );
-
 
   /* si ça vient de l'échéancier, le 1er est automatique */
   /* on lui associe -2 */
@@ -1015,7 +958,6 @@ GtkWidget *creation_menu_exercices ( gint origine )
 			NULL );
   gtk_widget_show ( menu_item );
 
-
   /* le second est non affiché */
   /* on lui associe -1 */
 
@@ -1029,7 +971,6 @@ GtkWidget *creation_menu_exercices ( gint origine )
 			"no_exercice",
 			GINT_TO_POINTER (-1));
   gtk_widget_show ( menu_item );
-
 
   pointeur = liste_struct_exercices;
 
@@ -1058,17 +999,14 @@ GtkWidget *creation_menu_exercices ( gint origine )
 
   return ( menu );
 }
-/* ************************************************************************************************************ */
+/* ************************************************************************** */
 
-
-  
-/* ************************************************************************************************************** */
-/* Fonction cherche_no_menu_exercice */
-/*   argument : le numéro de l'exercice demandé */
-/* renvoie la place demandée dans l'option menu du formulaire */
-/* pour mettre l'history */
-/* ************************************************************************************************************** */
-
+/* ************************************************************************** */
+/* Fonction cherche_no_menu_exercice                                          */
+/*   argument : le numéro de l'exercice demandé                               */
+/* renvoie la place demandée dans l'option menu du formulaire                 */
+/* pour mettre l'history                                                      */
+/* ************************************************************************** */
 gint cherche_no_menu_exercice ( gint no_demande,
 				GtkWidget *option_menu )
 {
@@ -1083,16 +1021,15 @@ gint cherche_no_menu_exercice ( gint no_demande,
 
   while ( liste_tmp )
     {
-
       trouve = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( liste_tmp -> data ),
 						       "no_exercice" ));
 
-      /*       si trouve = no demandé, c'est bon, on se barre */
+      /* si trouve = no demandé, c'est bon, on se barre */
 
       if ( trouve == no_demande )
 	return ( i );
 
-      /*  si on est sur la position du non affiché, on le sauve */
+      /* si on est sur la position du non affiché, on le sauve */
 
       if ( trouve == -1 )
 	non_affiche = i;
@@ -1101,23 +1038,22 @@ gint cherche_no_menu_exercice ( gint no_demande,
       liste_tmp = liste_tmp -> next;
     }
 
-  /*   l'exo n'est pas affiché, on retourne la position de non affiché */
+  /* l'exo n'est pas affiché, on retourne la position de non affiché */
 
   return ( non_affiche );
 }
-/* ************************************************************************************************************** */
+/* ************************************************************************** */
 
-
-/* ************************************************************************************************************** */
-/* fonction affiche_exercice_par_date */
-/* met automatiquement l'option menu de l'exercice par rapport */
-/* à la date dans le formulaire */
-/* ************************************************************************************************************** */
-
+/* ************************************************************************** */
+/* fonction affiche_exercice_par_date                                         */
+/* met automatiquement l'option menu de l'exercice par rapport                */
+/* à la date dans le formulaire                                               */
+/* ************************************************************************** */
 void affiche_exercice_par_date ( GtkWidget *entree_date,
 				 GtkWidget *option_menu_exercice )
 {
-  GDate *date_courante;
+//  GDate *date_courante;
+  GDate *pCurrentGDate;
   gint jour, mois, an;
   GSList *liste_tmp;
   gint trouve;
@@ -1125,21 +1061,16 @@ void affiche_exercice_par_date ( GtkWidget *entree_date,
   if ( !etat.affichage_exercice_automatique )
     return;
 
-
   sscanf ( gtk_entry_get_text ( GTK_ENTRY ( entree_date )),
 	   "%d/%d/%d",
 	   &jour,
 	   &mois,
 	   &an );
 
-  if ( !g_date_valid_dmy ( jour,
-			   mois,
-			   an ))
+  if ( !g_date_valid_dmy ( jour, mois, an ))
     return;
 
-  date_courante = g_date_new_dmy ( jour,
-				   mois,
-				   an );
+  pCurrentGDate = g_date_new_dmy ( jour, mois, an );
 
   /* on fait le tour des exercices pour trouver le premier qui inclut la date */
 
@@ -1152,42 +1083,33 @@ void affiche_exercice_par_date ( GtkWidget *entree_date,
 
       exercice = liste_tmp -> data;
 
-      if ( exercice->date_debut
-	   &&
-	   exercice->date_fin
-	   &&
-	   exercice->affiche_dans_formulaire
-	   &&
-	   (g_date_compare ( date_courante,
-			     exercice->date_debut ) >= 0 )
-	   &&
-	   (g_date_compare ( date_courante,
-			     exercice->date_fin ) <= 0 ))
+      if ( exercice -> date_debut &&
+	   exercice -> date_fin &&
+	   exercice -> affiche_dans_formulaire &&
+	   ( g_date_compare ( pCurrentGDate, exercice -> date_debut ) >= 0 ) &&
+	   ( g_date_compare ( pCurrentGDate, exercice -> date_fin ) <= 0 ))
 	{
 	  gtk_option_menu_set_history ( GTK_OPTION_MENU ( option_menu_exercice ),
 					cherche_no_menu_exercice ( exercice->no_exercice,
 								   option_menu_exercice ));
 	  trouve = 1;
 	}
-
       liste_tmp = liste_tmp -> next;
     }
 
-  /*       si rien trouvé, met à aucun */
+  /* si rien trouvé, met à aucun */
 
   if ( !trouve )
     gtk_option_menu_set_history ( GTK_OPTION_MENU ( option_menu_exercice ),
 				  0 );
 }
-/* ************************************************************************************************************** */
+/* ************************************************************************** */
 
-
-
-/* ************************************************************************************************************** */
-/* fonction association_automatique */
-/* recherche les opés sans exercice, et les associe si possible avec un des exercice créé */
-/* ************************************************************************************************************** */
-
+/* ************************************************************************** */
+/* fonction association_automatique                                           */
+/* recherche les opés sans exercice, et les associe si possible               */
+/* avec un des exercices créés                                                */
+/* ************************************************************************** */
 void association_automatique ( void )
 {
   GtkWidget *dialog;
@@ -1241,11 +1163,8 @@ void association_automatique ( void )
 
 		  exo = pointeur_exo -> data;
 
-		  if ( g_date_compare ( exo -> date_debut,
-					operation -> date ) <= 0
-		       &&
-		       g_date_compare ( exo -> date_fin,
-					operation -> date ) >= 0 )
+		  if ( g_date_compare ( exo -> date_debut, operation -> date ) <= 0 &&
+		       g_date_compare ( exo -> date_fin, operation -> date ) >= 0 )
 		    operation -> no_exercice = exo -> no_exercice;
 
 		  pointeur_exo = pointeur_exo -> next;
@@ -1261,16 +1180,13 @@ void association_automatique ( void )
 
   modification_fichier ( TRUE );
 }
-/* ************************************************************************************************************** */
+/* ************************************************************************** */
 
-
-
-/* ************************************************************************************************************** */
-/* fonction recherche_exo_correspondant */
-/* renvoie l'exercice correspondant la date donnée en argument */
-/* si aucun ne correspond, on renvoie 0 */
-/* ************************************************************************************************************** */
-
+/* ************************************************************************** */
+/* fonction recherche_exo_correspondant                                       */
+/* renvoie l'exercice correspondant la date donnée en argument                */
+/* si aucun ne correspond, on renvoie 0                                       */
+/* ************************************************************************** */
 gint recherche_exo_correspondant ( GDate *date )
 {
   GSList *liste_tmp;
@@ -1283,11 +1199,8 @@ gint recherche_exo_correspondant ( GDate *date )
 
       exo = liste_tmp -> data;
 
-      if ( g_date_compare ( exo -> date_debut,
-			    date ) <= 0
-	   &&
-	   g_date_compare ( exo -> date_fin,
-			    date ) >= 0 )
+      if ( g_date_compare ( exo -> date_debut, date ) <= 0 &&
+	   g_date_compare ( exo -> date_fin, date ) >= 0 )
 	return ( exo -> no_exercice );
 
       liste_tmp = liste_tmp -> next;
@@ -1296,6 +1209,5 @@ gint recherche_exo_correspondant ( GDate *date )
 /*   on n'a pas trouvé l'exo, on retourne 0 */
 
   return ( 0 );
-
 }
-/* ************************************************************************************************************** */
+/* ************************************************************************** */

@@ -23,6 +23,7 @@
 #include "structures.h"
 #include "variables-extern.c"
 #include "en_tete.h"
+#include "calendar.h"
 
 gchar *liste_plages_dates[] = {
   N_("All"),
@@ -2132,7 +2133,7 @@ void clique_sur_entree_date_etat ( GtkWidget *entree,
 		       &cal_jour,
 		       &cal_mois,
 		       &cal_annee)))
-	sscanf ( date_jour(),
+	sscanf ( gsb_today(),
 		 "%d/%d/%d",
 		 &cal_jour,
 		 &cal_mois,

@@ -28,6 +28,7 @@
 #include "structures.h"
 #include "variables-extern.c"
 #include "en_tete.h"
+#include "calendar.h"
 
 
 
@@ -1184,7 +1185,7 @@ void clique_champ_formulaire_echeancier ( GtkWidget *entree,
       entree_prend_focus ( widget_formulaire_echeancier[0] );
 
       gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_echeancier[0] ),
-			   date_jour() );
+			   gsb_today() );
 
       /* si le click est sur l'entrée de la date, on la sélectionne et elle prend le focus */
 
@@ -1260,14 +1261,14 @@ void clique_champ_formulaire_echeancier ( GtkWidget *entree,
 			 &cal_mois,
 			 &cal_annee );
 	      else
-		sscanf ( date_jour(),
+		sscanf ( gsb_today(),
 			 "%d/%d/%d",
 			 &cal_jour,
 			 &cal_mois,
 			 &cal_annee);
 	    }
 	  else
-	    sscanf ( date_jour(),
+	    sscanf ( gsb_today(),
 		     "%d/%d/%d",
 		     &cal_jour,
 		     &cal_mois,

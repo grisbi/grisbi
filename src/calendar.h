@@ -5,11 +5,5 @@ gboolean clavier_calendrier ( GtkCalendar *pCalendar,
 			      GtkWidget *entry );
 void date_selection ( GtkCalendar *pCalendar,
 		      GtkWidget *entry );
-void calendar_destroyed ( GtkWidget *popup,
-			 GdkEventKey *ev,
-			 GtkEntry *entry );
-/*
-void calendar_destroy ( GtkButton *button,
-			  GdkEventKey *ev,
-			  GtkCalendar *pCalendar );*/
+gchar *gsb_today ( void ) ;
 

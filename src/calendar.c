@@ -23,9 +23,11 @@
 /* ************************************************************************** */
 
 
+#include <gnome.h>
 #include "calendar.h"
 
 
+#define SIZEOF_FORMATTED_STRING_DATE 11
 
 /******************************************************************************/
 /* crée une fenètre (popup) calendrier dans le formulaire d'opération.        */
@@ -66,12 +68,12 @@ GtkWidget *gsb_calendar_new ( GtkWidget *entry )
   gtk_widget_show ( pVBox );
 
   if ( !( strlen ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( entry )))) &&
-	  sscanf ( gtk_entry_get_text ( GTK_ENTRY ( entry )),
+	  sscanf ( ( gchar * ) gtk_entry_get_text ( GTK_ENTRY ( entry )),
 		   "%d/%d/%d",
 		   &jour,
 		   &mois,
 		   &annee )))
-    sscanf ( date_jour(),
+    sscanf ( gsb_today(),
 	     "%d/%d/%d",
 	     &jour,
 	     &mois,
@@ -437,89 +439,18 @@ gboolean clavier_calendrier ( GtkCalendar *pCalendar,
 /******************************************************************************/
 
 /******************************************************************************/
-void calendar_destroy2 ( GtkButton *button,
-			GdkEventKey *ev,
-			GtkCalendar *pCalendar )
-{
-  GtkWidget *pTopLevelWidget;
-	  
-	  
-	  dialogue("1");
-
-  pTopLevelWidget = gtk_widget_get_toplevel ( GTK_WIDGET ( pCalendar ) );
-  	  dialogue("2");
-  
-	  
-	     
-       if ( GTK_WIDGET_TOPLEVEL ( pTopLevelWidget ) )
-       {
-	  dialogue("3");
-	  gtk_widget_destroy ( pTopLevelWidget );
-	}
-
-}
-
-
+/* fonction qui retourne la date du jour sous forme de string                 */
 /******************************************************************************/
-void calendar_destroyed ( GtkWidget *popup,
-			GdkEventKey *ev,
-			GtkEntry *entry )
+gchar *gsb_today ( void )
 {
-/*  GtkWidget *pTopLevelWidget;
+  time_t temps;
+  gchar date[SIZEOF_FORMATTED_STRING_DATE];
 
-  dialogue("1");
-
-  pTopLevelWidget = gtk_widget_get_toplevel ( GTK_WIDGET ( pCalendar ) );
-  
-  dialogue("2");
-     
-  if ( GTK_WIDGET_TOPLEVEL ( pTopLevelWidget ) )
-    {
-     dialogue("3");
-     gtk_widget_destroy ( pTopLevelWidget );
-    }
-*/
-  GtkWidget *tmp;
-
-  tmp = gtk_grab_get_current ();
-  if (tmp)
-    gtk_grab_remove ( tmp );
-
-  gtk_grab_add (GTK_WIDGET ( entry ));
-
-//gdk_pointer_ungrab (GDK_CURRENT_TIME);
-
+  time ( &temps );
+  strftime ( date,
+	     SIZEOF_FORMATTED_STRING_DATE,
+	     "%d/%m/%Y",
+	     localtime ( &temps ) );
+  return ( g_strdup ( date ) );
 }
 /******************************************************************************/
-
-
-gboolean calendar_destroy3 ( GtkWidget *popup,
-			  GdkEventKey *ev,
-			  GtkWidget *entry )
-{
-  GtkWidget *pTopLevelWidget;
-
-  pTopLevelWidget = gtk_widget_get_ancestor ( GTK_WIDGET ( entry ), GTK_WINDOW_TOPLEVEL );
-/*	      gtk_signal_emit_by_name ( GTK_OBJECT ( entry ),
-					     "focus_out_event");*/
-       if ( pTopLevelWidget != NULL )
-	 {
-	  dialogue("Coucou 2");
-	  gtk_grab_remove ( GTK_WIDGET ( pTopLevelWidget ));
-	  gtk_grab_add ( GTK_WIDGET ( pTopLevelWidget ));
-	 }
-       else
-	  dialogue("Tant pis !!!");
-       /*
-       
-       if ( GTK_WIDGET_TOPLEVEL ( pTopLevelWidget ) )
-	 {
-	  pTopLevelWindow = gdk_window_get_parent ( GTK_WIDGET ( pTopLevelWidget ) -> window );
-
-   gtk_widget_grab_focus ( GTK_WIDGET ( entry ) );
-  */
-	  gtk_grab_remove ( GTK_WIDGET ( pTopLevelWidget ));
-	  gtk_grab_add ( GTK_WIDGET ( pTopLevelWidget ));
-}
-
-

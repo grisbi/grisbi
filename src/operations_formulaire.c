@@ -28,32 +28,9 @@
 #include "structures.h"
 #include "variables-extern.c"
 #include "en_tete.h"
-#include "calendar.c"
+#include "calendar.h"
+#include "constant.h"
 
-# define ONE_DAY 1
-# define ONE_WEEK 7
-# define ONE_MONTH 30
-# define ONE_YEAR 365
-
-# define TRANSACTION_FORM_OP_NB 0
-# define TRANSACTION_FORM_DATE 1
-# define TRANSACTION_FORM_PARTY 2
-# define TRANSACTION_FORM_DEBIT 3
-# define TRANSACTION_FORM_CREDIT 4
-# define TRANSACTION_FORM_DEVISE 5
-# define TRANSACTION_FORM_CHANGE 6
-# define TRANSACTION_FORM_VALUE_DATE 7
-# define TRANSACTION_FORM_CATEGORY 8
-# define TRANSACTION_FORM_TYPE 9
-# define TRANSACTION_FORM_CHEQUE 10
-# define TRANSACTION_FORM_EXERCICE 11
-# define TRANSACTION_FORM_BUDGET 12
-# define TRANSACTION_FORM_CONTRA 13
-# define TRANSACTION_FORM_VOUCHER 14
-# define TRANSACTION_FORM_BREAKDOWN 15
-# define TRANSACTION_FORM_NOTES 16
-# define TRANSACTION_FORM_BANK 17
-# define TRANSACTION_FORM_MODE 18
 
 /******************************************************************************/
 /*  Routine qui crée le formulaire et le renvoie                              */
@@ -302,7 +279,7 @@ GtkWidget *creation_formulaire ( void )
 		       "button-press-event",
 		       GTK_SIGNAL_FUNC ( clique_champ_formulaire ),
 		       GINT_TO_POINTER ( TRANSACTION_FORM_VALUE_DATE )  );
-  gtk_signal_connect_after ( GTK_OBJECT ( widget_formulaire_operations[TRANSACTION_FORM_VALUE_DATE] ),
+  gtk_signal_connect ( GTK_OBJECT ( widget_formulaire_operations[TRANSACTION_FORM_VALUE_DATE] ),
 		       "key-press-event",
 		       GTK_SIGNAL_FUNC ( touches_champ_formulaire ),
 		       GINT_TO_POINTER ( TRANSACTION_FORM_VALUE_DATE )  );
@@ -752,9 +729,9 @@ void entree_prend_focus ( GtkWidget *entree )
 /* Fonction appelée quand une entry perd le focus */
 /* si elle ne contient rien, on remet la fonction en gris */
 /******************************************************************************/
-gboolean entree_perd_focus ( GtkWidget *entree,
-			     GdkEventFocus *ev,
-			     gint *no_origine )
+void entree_perd_focus ( GtkWidget *entree,
+			 GdkEventFocus *ev,
+			 gint *no_origine )
 {
   gchar *texte;
 
@@ -1196,7 +1173,7 @@ void clique_champ_formulaire ( GtkWidget *entree,
       entree_prend_focus ( widget_formulaire_operations[TRANSACTION_FORM_DATE] );
 
       gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_operations[TRANSACTION_FORM_DATE] ),
-			   date_jour() );
+			   gsb_today() );
 
       /* si le click est sur l'entrée de la date, on la sélectionne et elle prend le focus */
 
@@ -1598,11 +1575,10 @@ gboolean modifie_date ( GtkWidget *entree )
       /*       si on est dans la conf des états, on ne met pas la date du jour, on */
       /* laisse vide */
 
-      if ( entree != entree_date_init_etat
-	   &&
+      if ( entree != entree_date_init_etat &&
 	   entree != entree_date_finale_etat )
 	gtk_entry_set_text ( GTK_ENTRY ( entree ),
-			     date_jour() );
+			     gsb_today() );
     }
   else
     {
@@ -2473,11 +2449,11 @@ gint verification_validation_operation ( struct structure_operation *operation )
     }
 
   /* la date est correcte, il faut l'enregistrer dans date_courante */
-
+/*
   strncpy ( date_courante,
 	    gtk_entry_get_text ( GTK_ENTRY (  widget_formulaire_operations[TRANSACTION_FORM_DATE] )),
 	    10 );
-
+*/
   /* vérifie que la date de valeur est correcte */
 
   if ( gtk_widget_get_style ( widget_formulaire_operations[TRANSACTION_FORM_VALUE_DATE] ) == style_entree_formulaire[0]
@@ -3523,28 +3499,6 @@ void formulaire_a_zero (void)
 
   gtk_widget_set_sensitive ( bouton_affiche_cache_formulaire,
 			     TRUE );
-}
-/******************************************************************************/
-
-/******************************************************************************/
-/* procédure qui renvoie soit la dâte du jour,                                */
-/* soit l'ancienne date tapée sous forme de string                            */
-/******************************************************************************/
-gchar *date_jour ( void )
-{
-  time_t temps;
-
-  if ( !etat.ancienne_date )
-    {
-      time ( &temps );
-
-      strftime ( date_courante,
-		 11,
-		 "%d/%m/%Y",
-		 localtime ( &temps ) );
-      etat.ancienne_date = 1;
-    }
-  return ( g_strdup ( date_courante ) );
 }
 /******************************************************************************/
 
