@@ -54,11 +54,64 @@ grisbi_SOURCES = 		\
 	type_operations.c	\
 	ventilation.c
 
+grisbi_INCLUDES =		\
+	accueil.h		\
+	affichage.h		\
+	affichage_liste.h	\
+	banque.h		\
+	barre_outils.h		\
+	calendar.h		\
+	categories_onglet.h	\
+	comptes_gestion.h	\
+	comptes_onglet.h	\
+	comptes_traitements.h	\
+	constants.h		\
+	devises.h		\
+	dialog.h		\
+	echeancier_formulaire.h	\
+	echeancier_liste.h	\
+	equilibrage.h		\
+	erreur.h		\
+	etat_io.h		\
+	etats_calculs.h		\
+	etats_config.h		\
+	etats_gtktable.h	\
+	etats.h			\
+	etats_latex.h		\
+	etats_onglet.h		\
+	etats_support.h		\
+	exercice.h		\
+	fenetre_principale.h	\
+	fichier_configuration.h	\
+	fichiers_gestion.h	\
+	fichiers_io.h		\
+	gtkcombofix.h		\
+	gtk_list_button.h	\
+	help.h			\
+	imputation_budgetaire.h	\
+	include.h		\
+	main.h			\
+	menu.h			\
+	operations_classement.h	\
+	operations_comptes.h	\
+	operations_formulaire.h	\
+	operations_liste.h	\
+	operations_onglet.h	\
+	parametres.h		\
+	patienter.h		\
+	print_config.h		\
+	qif.h			\
+	structures.h		\
+	tiers_onglet.h		\
+	traitement_variables.h	\
+	type_operations.h	\
+	ventilation.h
+
 
 #grisbi_LDADD =	$(GNOME_LIBDIR)	$(GNOMEUI_LIBS)
 
 
-EXTRA_DIST = grisbi.desktop grisbi.keys grisbi.mime
+EXTRA_DIST = grisbi.desktop grisbi.keys grisbi.mime $(grisbi_INCLUDES)
 
 Applicationsdir = $(datadir)/gnome/apps/Applications
 Applications_DATA = grisbi.desktop
