@@ -115,9 +115,9 @@ GtkWidget *onglet_affichage_liste ( void )
       }
 
   /* on permet maintenant de choisir soi même la taille des colonnes */
-  bouton_choix_perso_colonnes = gtk_check_button_new_with_label ( _("Adjust column size according to this table"));
-  gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_choix_perso_colonnes ),
-				 etat.largeur_auto_colonnes );
+  bouton_choix_perso_colonnes = new_checkbox_with_title ( _("Adjust column size according to this table"),
+							  &(etat.largeur_auto_colonnes),
+							  NULL );
   gtk_box_pack_start ( GTK_BOX ( paddingbox ), bouton_choix_perso_colonnes,
 		       FALSE, FALSE, 0 );
 
