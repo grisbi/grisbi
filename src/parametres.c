@@ -485,7 +485,7 @@ GtkWidget *onglet_fichier ( void )
 			 FALSE, FALSE, 0 );
     spin_button_compression_fichier = 
 	new_spin_button ( &(compression_fichier),
-			  0, 9, 1, 5, 1, 1, 0, NULL );
+			  0.0, 9.0, 1.0, 5.0, 1.0, 1.0, 0, NULL );
 
     gtk_box_pack_start ( GTK_BOX ( hbox ), spin_button_compression_fichier,
 			 FALSE, FALSE, 0 );
@@ -499,7 +499,7 @@ GtkWidget *onglet_fichier ( void )
 			 FALSE, FALSE, 0 );
     spin_button_derniers_fichiers_ouverts = 
 	new_spin_button ( &(nb_max_derniers_fichiers_ouverts),
-			  0, 20, 1, 5, 1, 1, 0, NULL );
+			  0.0, 20.0, 1.0, 5.0, 1.0, 1.0, 0, NULL );
     gtk_box_pack_start ( GTK_BOX ( hbox ), spin_button_derniers_fichiers_ouverts,
 			 FALSE, FALSE, 0 );
 

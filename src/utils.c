@@ -1626,16 +1626,16 @@ void spin_button_set_value ( GtkWidget * spin, gdouble * value )
  */
 gboolean set_double ( GtkWidget * spin, gdouble * dummy)
 {
-    gdouble *data;
+   gint *data;
 
     data = g_object_get_data ( G_OBJECT(spin), "pointer" );
 
     if ( data )
     {
-	*data = gtk_spin_button_get_value ( GTK_SPIN_BUTTON(spin) );
+	*data = gtk_spin_button_get_value_as_int ( GTK_SPIN_BUTTON(spin) );
     }
 
-    /* Mark file as modified */
+	/* Mark file as modified */
     modification_fichier ( TRUE );
     return (FALSE);
 }
