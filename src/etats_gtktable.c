@@ -1,9 +1,9 @@
 /*  Fichier qui s'occupe d'afficher les états via une gtktable */
 /*      etats_gtktable.c */
 
-/*     Copyright (C) 2000-2003  Cédric Auger */
-/* 			cedric@grisbi.org */
-/* 			http://www.grisbi.org */
+/*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org)	      */
+/*			2004 Benjamin Drieu (bdrieu@april.org)		      */
+/* 			http://www.grisbi.org				      */
 
 /*     This program is free software; you can redistribute it and/or modify */
 /*     it under the terms of the GNU General Public License as published by */
@@ -201,13 +201,12 @@ gint gtktable_initialise (GSList * opes_selectionnees)
 /*****************************************************************************************************/
 gint gtktable_affiche_titre ( gint ligne )
 {
-  GtkWidget *label;
   gchar *titre;
 
   titre = etats_titre () ;
 
-  gtktable_attach_label ( titre, 0, nb_colonnes,
-			  ligne, ligne + 1, LEFT, NULL );
+  gtktable_attach_label ( titre, 0, nb_colonnes-1,
+		      ligne, ligne + 1, LEFT, NULL );
 
   return 1;
 }
@@ -217,17 +216,7 @@ gint gtktable_affiche_titre ( gint ligne )
 /*****************************************************************************************************/
 gint gtktable_affiche_separateur ( gint ligne )
 {
-  GtkWidget * separateur;
-  separateur = gtk_hseparator_new ();
-  gtk_table_attach ( GTK_TABLE ( table_etat ),
-		     separateur,
-		     0, nb_colonnes,
-		     ligne, ligne + 1,
-		     GTK_SHRINK | GTK_FILL,
-		     GTK_SHRINK | GTK_FILL,
-		     0, 0 );
-  gtk_widget_show ( separateur );
-
+  gtktable_attach_hsep ( 0, nb_colonnes-1, ligne, ligne + 1 );
   return ligne + 1;
 }
 /*****************************************************************************************************/
@@ -240,8 +229,6 @@ gint gtktable_affiche_separateur ( gint ligne )
 /*****************************************************************************************************/
 gint gtktable_affiche_total_categories ( gint ligne )
 {
-  GtkWidget *separateur;
-  GtkWidget *label;
   char * text;
 
   if ( etat_courant -> utilise_categ
@@ -284,7 +271,7 @@ gint gtktable_affiche_total_categories ( gint ligne )
 	  gtktable_attach_label ( NULL, 1, nb_colonnes -1, ligne, ligne + 1, LEFT, NULL );
 	  ligne++;
 
-	  gtktable_attach_hsep ( 1, nb_colonnes, ligne, ligne + 1 );
+	  gtktable_attach_hsep ( 1, nb_colonnes-1, ligne, ligne + 1 );
 	  ligne++;
 
 	  if ( nom_categ_en_cours )
@@ -305,7 +292,7 @@ gint gtktable_affiche_total_categories ( gint ligne )
 				  ligne, ligne + 1, LEFT, NULL );
 
 	  text = g_strdup_printf ( "%4.2f %s", montant_categ_etat, devise_name ( devise_categ_etat ) );
-	  gtktable_attach_label ( text, nb_colonnes -1, nb_colonnes,
+	  gtktable_attach_label ( text, nb_colonnes - 2, nb_colonnes - 1,
 				  ligne, ligne + 1, RIGHT, NULL );
 
 	  ligne++;
@@ -324,7 +311,7 @@ gint gtktable_affiche_total_categories ( gint ligne )
 	  else
 	    text =g_strdup_printf ( "%4.2f %s", montant_categ_etat, devise_name ( devise_categ_etat ) );
 
-	  gtktable_attach_label ( text, nb_colonnes -1, nb_colonnes,
+	  gtktable_attach_label ( text, nb_colonnes - 2, nb_colonnes - 1,
 				  ligne, ligne + 1, RIGHT, NULL );
 
 	  ligne++;
@@ -416,7 +403,7 @@ gint gtktable_affiche_total_sous_categ ( gint ligne )
 	  gtktable_attach_label ( text, 1, nb_colonnes - 1, ligne, ligne + 1, LEFT, NULL );
 
 	  text = g_strdup_printf ( "%4.2f %s", montant_sous_categ_etat, devise_name ( devise_categ_etat ) );
-	  gtktable_attach_label ( text, nb_colonnes -1, nb_colonnes, ligne, ligne + 1, RIGHT, NULL );
+	  gtktable_attach_label ( text, nb_colonnes - 2, nb_colonnes - 1, ligne, ligne + 1, RIGHT, NULL );
 	  ligne++;
 
 	  gtktable_attach_label ( NULL, 1, nb_colonnes - 1, ligne, ligne + 1, LEFT, NULL );
@@ -432,7 +419,7 @@ gint gtktable_affiche_total_sous_categ ( gint ligne )
 	  else
 	    text = g_strdup_printf ( "%4.2f %s", montant_sous_categ_etat, devise_name ( devise_categ_etat ) );
 
-	    gtktable_attach_label ( text, nb_colonnes -1, nb_colonnes, ligne, ligne + 1, RIGHT, NULL );
+	    gtktable_attach_label ( text, nb_colonnes - 2, nb_colonnes - 1, ligne, ligne + 1, RIGHT, NULL );
 	    ligne++;
 	}
     }
@@ -517,7 +504,7 @@ gint gtktable_affiche_total_ib ( gint ligne )
 	  gtktable_attach_label ( text, 1, nb_colonnes - 1, ligne, ligne + 1, LEFT, NULL );
 
 	  text = g_strdup_printf ( "%4.2f %s", montant_ib_etat, devise_name ( devise_ib_etat ) );
-	  gtktable_attach_label ( text, nb_colonnes -1, nb_colonnes, ligne, ligne + 1, RIGHT, NULL );
+	  gtktable_attach_label ( text, nb_colonnes - 2, nb_colonnes - 1, ligne, ligne + 1, RIGHT, NULL );
 	  ligne++;
 
 	  gtktable_attach_label ( NULL, 1, nb_colonnes - 1, ligne, ligne + 1, CENTER, NULL );
@@ -533,7 +520,7 @@ gint gtktable_affiche_total_ib ( gint ligne )
 	  else
 	    text = g_strdup_printf ( "%4.2f %s", montant_ib_etat, devise_name ( devise_ib_etat ) );
 
-	  gtktable_attach_label ( text, nb_colonnes -1, nb_colonnes, ligne, ligne + 1, RIGHT, NULL );
+	  gtktable_attach_label ( text, nb_colonnes - 2, nb_colonnes - 1, ligne, ligne + 1, RIGHT, NULL );
 	  ligne++;
 	}
     }
@@ -621,7 +608,7 @@ gint gtktable_affiche_total_sous_ib ( gint ligne )
 	  gtktable_attach_label ( text, 1, nb_colonnes - 1, ligne, ligne + 1, LEFT, NULL );
 
 	  text = g_strdup_printf ( "%4.2f %s", montant_sous_ib_etat, devise_name ( devise_ib_etat ) );
-	  gtktable_attach_label ( text, nb_colonnes -1, nb_colonnes, ligne, ligne + 1, RIGHT, NULL );
+	  gtktable_attach_label ( text, nb_colonnes - 2, nb_colonnes - 1, ligne, ligne + 1, RIGHT, NULL );
 	  ligne++;
 
 	  gtktable_attach_label ( NULL, 1, nb_colonnes - 1, ligne, ligne + 1, CENTER, NULL );
@@ -637,7 +624,7 @@ gint gtktable_affiche_total_sous_ib ( gint ligne )
 	  else
 	    text = g_strdup_printf ( "%4.2f %s", montant_sous_ib_etat, devise_name ( devise_ib_etat )) ;
 				     
-	  gtktable_attach_label ( text, nb_colonnes -1, nb_colonnes, ligne, ligne + 1, RIGHT, NULL );
+	  gtktable_attach_label ( text, nb_colonnes - 2, nb_colonnes - 1, ligne, ligne + 1, RIGHT, NULL );
 	  ligne++;
 	}
     }
@@ -718,7 +705,7 @@ gint gtktable_affiche_total_compte ( gint ligne )
 	  gtktable_attach_label ( text, 1, nb_colonnes - 1, ligne, ligne + 1, LEFT, NULL );
 
 	  text = g_strdup_printf ( "%4.2f %s", montant_compte_etat, devise_name ( devise_compte_en_cours_etat ) );
-	  gtktable_attach_label ( text, nb_colonnes -1, nb_colonnes, ligne, ligne + 1, RIGHT, NULL );
+	  gtktable_attach_label ( text, nb_colonnes - 2, nb_colonnes - 1, ligne, ligne + 1, RIGHT, NULL );
 	  ligne++;
 
 	  gtktable_attach_label ( NULL, 1, nb_colonnes - 1, ligne, ligne + 1, CENTER, NULL );
@@ -734,7 +721,7 @@ gint gtktable_affiche_total_compte ( gint ligne )
 	  else
 	    text = g_strdup_printf ( "%4.2f %s", montant_compte_etat, devise_name (devise_compte_en_cours_etat) );
 
-	  gtktable_attach_label ( text, nb_colonnes -1, nb_colonnes, ligne, ligne + 1, RIGHT, NULL );  
+	  gtktable_attach_label ( text, nb_colonnes - 2, nb_colonnes - 1, ligne, ligne + 1, RIGHT, NULL );  
 	  ligne++;
 	}
     }
@@ -812,7 +799,7 @@ gint gtktable_affiche_total_tiers ( gint ligne )
 	  gtktable_attach_label ( text, 1, nb_colonnes - 1, ligne, ligne + 1, LEFT, NULL );
 	  
 	  text = g_strdup_printf ( "%4.2f %s", montant_tiers_etat, devise_name ( devise_tiers_etat ) );
-	  gtktable_attach_label ( text, nb_colonnes -1, nb_colonnes, ligne, ligne + 1, RIGHT, NULL );
+	  gtktable_attach_label ( text, nb_colonnes - 2, nb_colonnes - 1, ligne, ligne + 1, RIGHT, NULL );
 	  ligne++;
 
 	  gtktable_attach_label ( NULL, 1, nb_colonnes - 1, ligne, ligne + 1, CENTER, NULL );
@@ -828,7 +815,7 @@ gint gtktable_affiche_total_tiers ( gint ligne )
 	  else
 	    text = g_strdup_printf ( "%4.2f %s", montant_tiers_etat, devise_name ( devise_tiers_etat ) );
 
-	  gtktable_attach_label ( text, nb_colonnes -1, nb_colonnes, ligne, ligne + 1, RIGHT, NULL );
+	  gtktable_attach_label ( text, nb_colonnes - 2, nb_colonnes - 1, ligne, ligne + 1, RIGHT, NULL );
 	  ligne++;
 	}
     }
@@ -1534,28 +1521,28 @@ gint gtktable_affiche_total_partiel ( gdouble total_partie,
   if ( type )
     {
       if ( etat_courant -> afficher_nb_opes )
-	text = g_strdup_printf ( COLON(_("Outgoings total (%d transactions)")), nb_ope_partie_etat );
+	text = g_strdup_printf ( COLON(_("Total expenses (%d transactions)")), nb_ope_partie_etat );
       else
-	text = COLON(_("Outgoing total"));
+	text = COLON(_("Total expenses"));
     }
   else
     {
       if ( etat_courant -> afficher_nb_opes )
-	text = g_strdup_printf ( COLON(_("Incomes total (%d transactions)")), nb_ope_partie_etat );
+	text = g_strdup_printf ( COLON(_("Total income (%d transactions)")), nb_ope_partie_etat );
       else
-	text = COLON(_("Income total"));
+	text = COLON(_("Total income"));
     }
   
-  gtktable_attach_label ( text, 1, nb_colonnes, ligne, ligne + 1, LEFT, NULL );
+  gtktable_attach_label ( text, 0, nb_colonnes, ligne, ligne + 1, LEFT, NULL );
 
   text = g_strdup_printf ( "%4.2f %s", total_partie, devise_name ( devise_generale_etat ) );
-  gtktable_attach_label ( text, nb_colonnes - 1, nb_colonnes, ligne, ligne + 1, RIGHT, NULL );
+  gtktable_attach_label ( text, nb_colonnes - 2, nb_colonnes - 1, ligne, ligne + 1, RIGHT, NULL );
   ligne++;
 
-  gtktable_attach_hsep ( 0, nb_colonnes, ligne, ligne + 1 );
+  gtktable_attach_hsep ( 0, nb_colonnes - 1, ligne, ligne + 1 );
   ligne++;
   
-  gtktable_attach_label ( NULL, 1, nb_colonnes, ligne, ligne + 1, CENTER, NULL );
+  gtktable_attach_label ( NULL, 1, nb_colonnes - 1, ligne, ligne + 1, CENTER, NULL );
   ligne++;
 
   nom_categ_en_cours = NULL;
@@ -1606,10 +1593,10 @@ gint gtktable_affiche_total_general ( gdouble total_general,
   else
     text = COLON(_("General total"));
   
-  gtktable_attach_label ( text, 1, nb_colonnes -1, ligne, ligne + 1, LEFT, NULL );
+  gtktable_attach_label ( text, 0, nb_colonnes, ligne, ligne + 1, LEFT, NULL );
 
   text = g_strdup_printf ( "%4.2f %s", total_general, devise_name ( devise_generale_etat ) );
-  gtktable_attach_label ( text, nb_colonnes -1, nb_colonnes, ligne, ligne + 1, RIGHT, NULL );
+  gtktable_attach_label ( text, nb_colonnes - 2, nb_colonnes - 1, ligne, ligne + 1, RIGHT, NULL );
   ligne++;
 
   gtktable_attach_hsep ( 0, nb_colonnes, ligne, ligne + 1 );
