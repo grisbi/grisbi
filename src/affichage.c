@@ -30,6 +30,7 @@
 #include "operations_liste.h"
 #include "affichage_formulaire.h"
 #include "utils_file_selection.h"
+#include "data_account.h"
 #include "main.h"
 #include "traitement_variables.h"
 #include "utils.h"
@@ -662,18 +663,18 @@ void update_fonte_listes ( void )
 
 	p_tab_nom_de_compte_variable=p_tab_nom_de_compte + i;
 
-	if ( STORE_LISTE_OPERATIONS
+	if ( gsb_account_get_store (i)
 	     &&
-	     gtk_tree_model_get_iter_first ( GTK_TREE_MODEL ( STORE_LISTE_OPERATIONS ),
+	     gtk_tree_model_get_iter_first ( GTK_TREE_MODEL ( gsb_account_get_store (i) ),
 					     &iter ))
 	    do
 	    {
-		gtk_list_store_set ( GTK_LIST_STORE (STORE_LISTE_OPERATIONS),
+		gtk_list_store_set ( GTK_LIST_STORE (gsb_account_get_store (i)),
 				     &iter,
 				     11, fonte_desc,
 				     -1 );
 	    }
-	    while ( gtk_tree_model_iter_next ( GTK_TREE_MODEL (STORE_LISTE_OPERATIONS),
+	    while ( gtk_tree_model_iter_next ( GTK_TREE_MODEL (gsb_account_get_store (i)),
 					       &iter ));
     }
 

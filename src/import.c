@@ -1059,7 +1059,7 @@ void traitement_operations_importees ( void )
 	    
 	    if ( MISE_A_JOUR )
 	    {
-		gtk_list_store_clear ( STORE_LISTE_OPERATIONS );
+		gtk_list_store_clear ( gsb_account_get_store (i) );
 		SLIST_DERNIERE_OPE_AJOUTEE = NULL;
 		COULEUR_BACKGROUND_FINI = 0;
 		AFFICHAGE_SOLDE_FINI = 0;

@@ -528,23 +528,23 @@ GtkWidget *creation_tree_view_operations_par_compte ( gint no_compte )
     /*	    col 10 -> sauvegarde background quand ligne sélectionnée */
     /*	    col 11 -> contient NULL ou l'adr de la pangofontdescription utilisée */
     /* 	    col 12 -> contient le no de ligne affichée (par le choix de l'ordre d'affichage des lignes) */
-
-    STORE_LISTE_OPERATIONS = gtk_list_store_new ( 13,
-						  G_TYPE_STRING,
-						  G_TYPE_STRING,
-						  G_TYPE_STRING,
-						  G_TYPE_STRING,
-						  G_TYPE_STRING,
-						  G_TYPE_STRING,
-						  G_TYPE_STRING,
-						  GDK_TYPE_COLOR,
-						  G_TYPE_STRING,
-						  G_TYPE_POINTER,
-						  GDK_TYPE_COLOR,
-						  PANGO_TYPE_FONT_DESCRIPTION,
-						  G_TYPE_INT );
+    gsb_account_set_store ( no_compte,
+			    gtk_list_store_new ( 13,
+						 G_TYPE_STRING,
+						 G_TYPE_STRING,
+						 G_TYPE_STRING,
+						 G_TYPE_STRING,
+						 G_TYPE_STRING,
+						 G_TYPE_STRING,
+						 G_TYPE_STRING,
+						 GDK_TYPE_COLOR,
+						 G_TYPE_STRING,
+						 G_TYPE_POINTER,
+						 GDK_TYPE_COLOR,
+						 PANGO_TYPE_FONT_DESCRIPTION,
+						 G_TYPE_INT ));
     gtk_tree_view_set_model ( GTK_TREE_VIEW (gsb_account_get_tree_view (no_compte)),
-			      GTK_TREE_MODEL ( STORE_LISTE_OPERATIONS ));
+			      GTK_TREE_MODEL ( gsb_account_get_store (no_compte) ));
     SLIST_DERNIERE_OPE_AJOUTEE = NULL;
 
     update_fleches_classement_tree_view ( no_compte );
@@ -820,7 +820,7 @@ void remplissage_liste_operations ( gint compte )
 
     /*     on efface la liste */
 	
-    gtk_list_store_clear ( STORE_LISTE_OPERATIONS );
+    gtk_list_store_clear ( gsb_account_get_store (compte) );
     
     /*     plus rien n'est affiché */
 
@@ -936,12 +936,12 @@ void ajoute_operations_compte_dans_list_store ( gint compte,
     {
 	/* on met à NULL tout les pointeurs */
 
-	gtk_list_store_append ( STORE_LISTE_OPERATIONS,
+	gtk_list_store_append ( gsb_account_get_store (compte),
 				&iter_liste_operations );
 
 	/* on met le no d'opération de cette ligne à -1 */
 
-	gtk_list_store_set ( STORE_LISTE_OPERATIONS,
+	gtk_list_store_set ( gsb_account_get_store (compte),
 			     &iter_liste_operations,
 			     9, GINT_TO_POINTER (-1),
 			     -1 );
@@ -1000,12 +1000,12 @@ void remplit_ligne_operation ( struct structure_operation *operation,
 	    /* 	    soit on remplace l'opé donnée en argument */
 
 	    if ( iter == GINT_TO_POINTER (-1))
-		gtk_list_store_append ( STORE_LISTE_OPERATIONS,
+		gtk_list_store_append ( gsb_account_get_store (operation -> no_compte),
 					&iter_liste );
 	    else
 	    {
 		if ( iter )
-		    gtk_list_store_insert_before ( STORE_LISTE_OPERATIONS,
+		    gtk_list_store_insert_before ( gsb_account_get_store (operation -> no_compte),
 						   &iter_liste,
 						   iter );
 		else
@@ -1015,7 +1015,7 @@ void remplit_ligne_operation ( struct structure_operation *operation,
 		    /* sinon c'est un iter next */
 
 		    if ( i )
-			gtk_tree_model_iter_next ( GTK_TREE_MODEL (STORE_LISTE_OPERATIONS),
+			gtk_tree_model_iter_next ( GTK_TREE_MODEL (gsb_account_get_store (operation -> no_compte)),
 						   &iter_liste );
 		    else
 		    {
@@ -1120,14 +1120,14 @@ void affiche_ligne_ope ( struct structure_operation *operation,
 
     for ( i=0 ; i<TRANSACTION_LIST_COL_NB ; i++ )
 	if ( ligne_list[ligne][i] != GINT_TO_POINTER (-1))
-	    gtk_list_store_set ( STORE_LISTE_OPERATIONS,
+	    gtk_list_store_set ( gsb_account_get_store (operation -> no_compte),
 				 iter,
 				 i, ligne_list[ligne][i],
 				 -1 );
 
     /* on associe à cette ligne l'adr de la struct de l'opé */
 
-    gtk_list_store_set ( STORE_LISTE_OPERATIONS,
+    gtk_list_store_set ( gsb_account_get_store (operation -> no_compte),
 			 iter,
 			 9, operation,
 			 -1 );
@@ -1135,14 +1135,14 @@ void affiche_ligne_ope ( struct structure_operation *operation,
     /* 		    si on utilise une fonte perso, c'est ici */
 
     if ( etat.utilise_fonte_listes )
-	gtk_list_store_set ( STORE_LISTE_OPERATIONS,
+	gtk_list_store_set ( gsb_account_get_store (operation -> no_compte),
 			     iter,
 			     11, pango_desc_fonte_liste,
 			     -1 );
 
     /*     on y ajoute le no de ligne */
 
-    gtk_list_store_set ( STORE_LISTE_OPERATIONS,
+    gtk_list_store_set ( gsb_account_get_store (operation -> no_compte),
 			 iter,
 			 12, ligne,
 			 -1 );
@@ -1461,12 +1461,12 @@ void update_couleurs_background ( gint compte,
     {
 	result_iter = 1;
 	iter = iter_debut;
-	couleur_en_cours =( my_atoi ( gtk_tree_model_get_string_from_iter ( GTK_TREE_MODEL ( STORE_LISTE_OPERATIONS ),
+	couleur_en_cours =( my_atoi ( gtk_tree_model_get_string_from_iter ( GTK_TREE_MODEL ( gsb_account_get_store (compte) ),
 									   iter )) / gsb_account_get_nb_rows ( compte ) ) % 2;
     }
     else
     {
-	result_iter = gtk_tree_model_get_iter_first ( GTK_TREE_MODEL ( STORE_LISTE_OPERATIONS ),
+	result_iter = gtk_tree_model_get_iter_first ( GTK_TREE_MODEL ( gsb_account_get_store (compte) ),
 						      &iter_liste_operations );
 	iter = &iter_liste_operations;
 	couleur_en_cours = 0;
@@ -1481,11 +1481,11 @@ void update_couleurs_background ( gint compte,
 	{
 	    if ( result_iter )
 	    {
-		gtk_list_store_set ( STORE_LISTE_OPERATIONS,
+		gtk_list_store_set ( gsb_account_get_store (compte),
 				     iter,
 				     7, &couleur_fond[couleur_en_cours],
 				     -1 );
-		result_iter = gtk_tree_model_iter_next ( GTK_TREE_MODEL ( STORE_LISTE_OPERATIONS ),
+		result_iter = gtk_tree_model_iter_next ( GTK_TREE_MODEL ( gsb_account_get_store (compte) ),
 							 iter );
 	    }
 	}
@@ -1552,7 +1552,7 @@ void update_soldes_list_store ( gint compte,
 	
 	/* 	on reprend le solde au niveau de l'opé précédente */
 
-	ligne_solde_precedent = my_atoi ( gtk_tree_model_get_string_from_iter ( GTK_TREE_MODEL ( STORE_LISTE_OPERATIONS ),
+	ligne_solde_precedent = my_atoi ( gtk_tree_model_get_string_from_iter ( GTK_TREE_MODEL ( gsb_account_get_store (compte) ),
 										iter )) - gsb_account_get_nb_rows ( compte ) + position_solde -> ligne;
 
 	/* 	si on est sur la première ligne, on reprend le solde du début */
@@ -1561,10 +1561,10 @@ void update_soldes_list_store ( gint compte,
 	    solde_courant = solde_debut_affichage ( compte );
 	else
 	{
-	    if ( gtk_tree_model_get_iter_from_string ( GTK_TREE_MODEL ( STORE_LISTE_OPERATIONS ),
+	    if ( gtk_tree_model_get_iter_from_string ( GTK_TREE_MODEL ( gsb_account_get_store (compte) ),
 						       &iter_ligne_solde_precedent,
 						       itoa ( ligne_solde_precedent )))
-		gtk_tree_model_get ( GTK_TREE_MODEL ( STORE_LISTE_OPERATIONS ),
+		gtk_tree_model_get ( GTK_TREE_MODEL ( gsb_account_get_store (compte) ),
 				     &iter_ligne_solde_precedent,
 				     position_solde -> colonne, &str_tmp,
 				     -1 );
@@ -1575,7 +1575,7 @@ void update_soldes_list_store ( gint compte,
     }
     else
     {
-	result_iter = gtk_tree_model_get_iter_first ( GTK_TREE_MODEL ( STORE_LISTE_OPERATIONS ),
+	result_iter = gtk_tree_model_get_iter_first ( GTK_TREE_MODEL ( gsb_account_get_store (compte) ),
 						      &iter_liste_operations );
 	iter = &iter_liste_operations;
 
@@ -1592,11 +1592,11 @@ void update_soldes_list_store ( gint compte,
 	/* 	on se place sur la bonne ligne */
 	
 	for ( i=0 ; i<position_solde -> ligne ; i++ )
-	    result_iter = gtk_tree_model_iter_next ( GTK_TREE_MODEL ( STORE_LISTE_OPERATIONS ),
+	    result_iter = gtk_tree_model_iter_next ( GTK_TREE_MODEL ( gsb_account_get_store (compte) ),
 						     iter );
 
 
-	gtk_tree_model_get ( GTK_TREE_MODEL ( STORE_LISTE_OPERATIONS ),
+	gtk_tree_model_get ( GTK_TREE_MODEL ( gsb_account_get_store (compte) ),
 			     iter,
 			     9, &operation,
 			     -1 );
@@ -1610,7 +1610,7 @@ void update_soldes_list_store ( gint compte,
 									    operation -> taux_change,
 									    operation -> frais_change );
 
-	    gtk_list_store_set ( STORE_LISTE_OPERATIONS,
+	    gtk_list_store_set ( gsb_account_get_store (compte),
 				 iter,
 				 position_solde -> colonne, g_strdup_printf ( "%4.2f",
 							    solde_courant ),
@@ -1619,13 +1619,13 @@ void update_soldes_list_store ( gint compte,
 	    /* 	on met la couleur du solde */
 
 	    if ( solde_courant > -0.01 )
-		gtk_list_store_set ( STORE_LISTE_OPERATIONS,
+		gtk_list_store_set ( gsb_account_get_store (compte),
 				     iter,
 				     8, NULL,
 				     -1 );
 
 	    else
-		gtk_list_store_set ( STORE_LISTE_OPERATIONS,
+		gtk_list_store_set ( gsb_account_get_store (compte),
 				     iter,
 				     8, "red",
 				     -1 );
@@ -1635,7 +1635,7 @@ void update_soldes_list_store ( gint compte,
 	/* 	on se place sur la prochaine opé */
 
 	for ( i=0 ; i<(gsb_account_get_nb_rows ( compte ) - position_solde -> ligne ) ; i++ )
-	    result_iter = gtk_tree_model_iter_next ( GTK_TREE_MODEL ( STORE_LISTE_OPERATIONS ),
+	    result_iter = gtk_tree_model_iter_next ( GTK_TREE_MODEL ( gsb_account_get_store (compte) ),
 						     iter );
    }
     AFFICHAGE_SOLDE_FINI = 1;
@@ -2107,9 +2107,9 @@ struct structure_operation *operation_from_iter ( GtkTreeIter *iter,
 
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_compte;
 
-    if ( gtk_list_store_iter_is_valid ( STORE_LISTE_OPERATIONS,
+    if ( gtk_list_store_iter_is_valid ( gsb_account_get_store (no_compte),
 					iter ))
-	gtk_tree_model_get ( GTK_TREE_MODEL (STORE_LISTE_OPERATIONS),
+	gtk_tree_model_get ( GTK_TREE_MODEL (gsb_account_get_store (no_compte)),
 			     iter,
 			     9, &operation,
 			     -1 );
@@ -2938,7 +2938,7 @@ void supprime_operation ( struct structure_operation *operation )
 								    operation -> no_compte );
 
 	for ( i=0 ; i<gsb_account_get_nb_rows ( operation -> no_compte ) ; i++ )
-	    gtk_list_store_remove ( GTK_LIST_STORE ( STORE_LISTE_OPERATIONS ),
+	    gtk_list_store_remove ( GTK_LIST_STORE ( gsb_account_get_store (operation -> no_compte) ),
 				    iter );
 
 	/*     on met à jour les couleurs et les soldes */
@@ -3059,7 +3059,7 @@ void demande_mise_a_jour_tous_comptes ( void )
     {
 	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
 	
-	gtk_list_store_clear ( GTK_LIST_STORE ( STORE_LISTE_OPERATIONS ));
+	gtk_list_store_clear ( GTK_LIST_STORE ( gsb_account_get_store (i) ));
 	SLIST_DERNIERE_OPE_AJOUTEE = NULL;
     }
 
@@ -3472,7 +3472,7 @@ gboolean move_operation_to_account ( struct structure_operation * transaction,
 								    transaction -> no_compte );
 
 	for ( i=0 ; i<gsb_account_get_nb_rows ( transaction -> no_compte ) ; i++ )
-	    gtk_list_store_remove ( GTK_LIST_STORE ( STORE_LISTE_OPERATIONS ),
+	    gtk_list_store_remove ( GTK_LIST_STORE ( gsb_account_get_store (transaction -> no_compte) ),
 				    iter );
 
 	/*     on met à jour les couleurs et les soldes */
@@ -4080,7 +4080,7 @@ void my_list_store_sort ( gint no_compte,
 
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_compte;
 
-    longueur = STORE_LISTE_OPERATIONS -> length;
+    longueur = gsb_account_get_store (no_compte) -> length;
 
     pos = malloc ( longueur * sizeof ( gint ));
 
@@ -4101,7 +4101,7 @@ void my_list_store_sort ( gint no_compte,
 
     /* FIXME : bug dans cette fonction avant GTK 2.4 */
 
-    gtk_list_store_reorder ( STORE_LISTE_OPERATIONS,
+    gtk_list_store_reorder ( gsb_account_get_store (no_compte),
 			     pos );
 
     g_slist_free ( liste_avant_classement );
@@ -4221,7 +4221,7 @@ void mise_a_jour_affichage_r ( gint affichage_r )
 		ligne_ope_pour_insertion = g_slist_index ( LISTE_OPERATIONS,
 							   cherche_operation_from_ligne ( 0,
 											  i ));
-		gtk_tree_model_get_iter_first ( GTK_TREE_MODEL ( STORE_LISTE_OPERATIONS ),
+		gtk_tree_model_get_iter_first ( GTK_TREE_MODEL ( gsb_account_get_store (i) ),
 						iter );
 
 		liste_tmp = LISTE_OPERATIONS;
@@ -4326,7 +4326,7 @@ void mise_a_jour_affichage_r ( gint affichage_r )
 		    ajoute_operations_compte_dans_list_store ( i,
 							       0 );
 
-		iter_valide = gtk_tree_model_get_iter_first ( GTK_TREE_MODEL ( STORE_LISTE_OPERATIONS ),
+		iter_valide = gtk_tree_model_get_iter_first ( GTK_TREE_MODEL ( gsb_account_get_store (i) ),
 							      iter );
 
 		while ( iter_valide )
@@ -4340,11 +4340,11 @@ void mise_a_jour_affichage_r ( gint affichage_r )
 			 &&
 			 operation -> pointe == 3 )
 			for ( j=0 ; j<gsb_account_get_nb_rows ( i ) ; j++ )
-			    gtk_list_store_remove ( GTK_LIST_STORE ( STORE_LISTE_OPERATIONS ),
+			    gtk_list_store_remove ( GTK_LIST_STORE ( gsb_account_get_store (i) ),
 						    iter );
 		    else
 			for ( j=0 ; j<gsb_account_get_nb_rows ( i ) ; j++ )
-			    iter_valide = gtk_tree_model_iter_next ( GTK_TREE_MODEL ( STORE_LISTE_OPERATIONS ),
+			    iter_valide = gtk_tree_model_iter_next ( GTK_TREE_MODEL ( gsb_account_get_store (i) ),
 								     iter );
 		}
 		COULEUR_BACKGROUND_FINI = 0;
@@ -4574,9 +4574,9 @@ void mise_a_jour_affichage_lignes ( gint nb_lignes )
 	    nb_reste_lignes_blanches = nb_lignes;
 	    ligne_en_cours = 0;
 
-	    pos = malloc ( (GTK_LIST_STORE ( STORE_LISTE_OPERATIONS ) -> length) / gsb_account_get_nb_rows ( i ) * nb_lignes * sizeof (gint));
+	    pos = malloc ( (GTK_LIST_STORE ( gsb_account_get_store (i) ) -> length) / gsb_account_get_nb_rows ( i ) * nb_lignes * sizeof (gint));
 
-	    iter_valide = gtk_tree_model_get_iter_first ( GTK_TREE_MODEL ( STORE_LISTE_OPERATIONS ),
+	    iter_valide = gtk_tree_model_get_iter_first ( GTK_TREE_MODEL ( gsb_account_get_store (i) ),
 							  iter );
 
 	    while ( iter_valide )
@@ -4607,7 +4607,7 @@ void mise_a_jour_affichage_lignes ( gint nb_lignes )
 		    {
 			gint no_ligne_affichee;
 
-			gtk_tree_model_get ( GTK_TREE_MODEL ( STORE_LISTE_OPERATIONS ),
+			gtk_tree_model_get ( GTK_TREE_MODEL ( gsb_account_get_store (i) ),
 					     iter,
 					     12, &no_ligne_affichee,
 					     -1 );
@@ -4627,7 +4627,7 @@ void mise_a_jour_affichage_lignes ( gint nb_lignes )
 						    GPOINTER_TO_INT ( liste_lignes_a_afficher_tmp -> data ));
 				liste_lignes_a_afficher_tmp = g_slist_delete_link ( liste_lignes_a_afficher_tmp,
 										    liste_lignes_a_afficher_tmp );
-				iter_valide = gtk_tree_model_iter_next ( GTK_TREE_MODEL ( STORE_LISTE_OPERATIONS ),
+				iter_valide = gtk_tree_model_iter_next ( GTK_TREE_MODEL ( gsb_account_get_store (i) ),
 									 iter );
 			    }
 			    else
@@ -4635,12 +4635,12 @@ void mise_a_jour_affichage_lignes ( gint nb_lignes )
 				/*il n'y a plus de lignes à afficher, on supprime la ligne correspondant à l'iter */
 				/* cette fonction incrÃ©mente en même temps iter */
 
-				iter_valide = gtk_list_store_remove ( GTK_LIST_STORE ( STORE_LISTE_OPERATIONS ),
+				iter_valide = gtk_list_store_remove ( GTK_LIST_STORE ( gsb_account_get_store (i) ),
 								      iter );
 			    }
 			}
 			else
-			    iter_valide = gtk_tree_model_iter_next ( GTK_TREE_MODEL ( STORE_LISTE_OPERATIONS ),
+			    iter_valide = gtk_tree_model_iter_next ( GTK_TREE_MODEL ( gsb_account_get_store (i) ),
 								     iter );
 		    }
 
@@ -4654,7 +4654,7 @@ void mise_a_jour_affichage_lignes ( gint nb_lignes )
 		    {
 			GtkTreeIter new_iter;
 
-			gtk_list_store_insert_before ( GTK_LIST_STORE ( STORE_LISTE_OPERATIONS ),
+			gtk_list_store_insert_before ( GTK_LIST_STORE ( gsb_account_get_store (i) ),
 						       &new_iter,
 						       iter );
 			affiche_ligne_ope ( operation,
@@ -4685,14 +4685,14 @@ void mise_a_jour_affichage_lignes ( gint nb_lignes )
 
 		    if ( nb_reste_lignes_blanches )
 		    {
-			iter_valide = gtk_tree_model_iter_next ( GTK_TREE_MODEL ( STORE_LISTE_OPERATIONS ),
+			iter_valide = gtk_tree_model_iter_next ( GTK_TREE_MODEL ( gsb_account_get_store (i) ),
 								 iter );
 			nb_reste_lignes_blanches--;
 			pos[ligne_en_cours] = ligne_en_cours;
 			ligne_en_cours++;
 		    }
 		    else
-			iter_valide = gtk_list_store_remove ( GTK_LIST_STORE ( STORE_LISTE_OPERATIONS ),
+			iter_valide = gtk_list_store_remove ( GTK_LIST_STORE ( gsb_account_get_store (i) ),
 							      iter );
 		}
 	    }
@@ -4706,18 +4706,18 @@ void mise_a_jour_affichage_lignes ( gint nb_lignes )
 
 		/* on met à NULL tout les pointeurs */
 
-		gtk_list_store_append ( STORE_LISTE_OPERATIONS,
+		gtk_list_store_append ( gsb_account_get_store (i),
 					iter );
 
 		for ( k=0 ; k<TRANSACTION_LIST_COL_NB ; k++ )
-		    gtk_list_store_set ( STORE_LISTE_OPERATIONS,
+		    gtk_list_store_set ( gsb_account_get_store (i),
 					 iter,
 					 k, NULL,
 					 -1 );
 
 		/* on met le no d'opération de cette ligne à -1 */
 
-		gtk_list_store_set ( STORE_LISTE_OPERATIONS,
+		gtk_list_store_set ( gsb_account_get_store (i),
 				     iter,
 				     9, GINT_TO_POINTER (-1),
 				     -1 );
@@ -4730,7 +4730,7 @@ void mise_a_jour_affichage_lignes ( gint nb_lignes )
 
 	    /* FIXME : bug dans cette fonction avant GTK 2.4 */
 
-	    gtk_list_store_reorder ( STORE_LISTE_OPERATIONS,
+	    gtk_list_store_reorder ( gsb_account_get_store (i),
 				     pos );
 
 	    free (pos);
