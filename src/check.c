@@ -30,6 +30,7 @@
 #include "variables-extern.c"
 #include "check.h"
 
+#include "categories_onglet.h"
 #include "devises.h"
 #include "dialog.h"
 
