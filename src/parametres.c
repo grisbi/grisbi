@@ -2676,18 +2676,19 @@ GtkWidget * new_spin_button ( gdouble * value,
 
   g_object_set_data ( G_OBJECT (spin), "value-changed",
 		      (gpointer) g_signal_connect_swapped ( GTK_OBJECT (adjustment),
-							   "value_changed", 
+							   "value-changed", 
 							   (GCallback) set_double, spin));
   if ( hook )
     {
       g_object_set_data ( G_OBJECT (spin), "hook",
 			  (gpointer) g_signal_connect_swapped ( GTK_OBJECT (adjustment), 
-							       "value_changed", 
+							       "value-changed", 
 							       (GCallback) hook, spin ));
     }
 
   return spin;
 }
+
 
 
 /**
@@ -2720,10 +2721,10 @@ void spin_button_set_value ( GtkWidget * spin, gdouble * value )
 
   /* Unblock everything */
   if ( g_object_get_data ((GObject*) spin, "value-changed") > 0 )
-    g_signal_handler_block ( GTK_OBJECT(adjustment),
-			     (gulong) g_object_get_data ((GObject*) spin, 
-							 "value-changed"));
+    g_signal_handler_unblock ( GTK_OBJECT(adjustment),
+			       (gulong) g_object_get_data ((GObject*) spin, 
+							   "value-changed"));
   if ( g_object_get_data ((GObject*) spin, "hook") > 0 )
-    g_signal_handler_block ( GTK_OBJECT(adjustment),
-			     (gulong) g_object_get_data ((GObject*) spin, "hook"));
+    g_signal_handler_unblock ( GTK_OBJECT(adjustment),
+			       (gulong) g_object_get_data ((GObject*) spin, "hook"));
 }
