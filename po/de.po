@@ -38,7 +38,7 @@ msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-12-10 10:43+0100\n"
-"PO-Revision-Date: 2004-11-29 21:54+0100\n"
+"PO-Revision-Date: 2004-12-13 00:02+0100\n"
 "Last-Translator: Martin Stromberger <fabiolla@aon.at>\n"
 "Language-Team: Deutsch <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -138,8 +138,7 @@ msgstr "%4.2f %s Soll in %s"
 #: src/accueil.c:1797 src/accueil.c:1832
 #, c-format
 msgid "Balance of account %s is under wanted and authorised minima!"
-msgstr ""
-"Der Saldo des Kontos %s ist unter dem festgelegtem und zulässigen Minimum!"
+msgstr "Der Saldo des Kontos %s ist unter dem festgelegtem und zulässigen Minimum!"
 
 #: src/accueil.c:1803
 #, c-format
@@ -833,7 +832,6 @@ msgid "Studies : Lessons"
 msgstr "Studium : Lektionen"
 
 #: src/categories_onglet.c:77
-#, fuzzy
 msgid "Studies : School fees"
 msgstr "Studium : Studiengebühren"
 
@@ -842,12 +840,10 @@ msgid "Studies : Books"
 msgstr "Studium : Bücher"
 
 #: src/categories_onglet.c:79
-#, fuzzy
 msgid "Miscellaneous : Gifts"
 msgstr "Verschiedenes : Geschenke"
 
 #: src/categories_onglet.c:80
-#, fuzzy
 msgid "Financial expenses : Miscellaneous"
 msgstr "Finanzausgaben : Verschiedens"
 
@@ -868,17 +864,14 @@ msgid "Financial expenses : Refunding"
 msgstr "Finanzausgaben : Rückerstattung"
 
 #: src/categories_onglet.c:85
-#, fuzzy
 msgid "Professional expenses : Non refundable"
 msgstr "Firmenausgaben : Keine Rückerstattung"
 
 #: src/categories_onglet.c:86
-#, fuzzy
 msgid "Professional expenses : Refundable"
 msgstr "Firmenausgaben : Rückerstattung"
 
 #: src/categories_onglet.c:87
-#, fuzzy
 msgid "Taxes : Miscellaneous"
 msgstr "Steuern : Verschiedenes"
 
@@ -939,7 +932,6 @@ msgid "Housing : Gaz"
 msgstr "Wohnen : Gas"
 
 #: src/categories_onglet.c:102
-#, fuzzy
 msgid "Housing : Garden"
 msgstr "Wohnen : Garten"
 
@@ -1417,10 +1409,8 @@ msgstr "Kategorien importieren - Grisbi"
 
 #. il y a déjà des opérations dans le fichier, on ne peut que fusionner
 #: src/categories_onglet.c:3138
-msgid ""
-"File already contains transactions, the two categories lists will be merged."
-msgstr ""
-"Die Datei enhält bereis Buchungen, die Kategorien werden zusammengeführt."
+msgid "File already contains transactions, the two categories lists will be merged."
+msgstr "Die Datei enhält bereis Buchungen, die Kategorien werden zusammengeführt."
 
 #: src/categories_onglet.c:3148 src/imputation_budgetaire.c:2886
 msgid "Do you want"
@@ -3246,8 +3236,7 @@ msgstr "Eine geplante Buchung löschen"
 msgid ""
 "Do you want to delete just this occurrence or the whole scheduled "
 "transaction?"
-msgstr ""
-"Wollen Sie nur dieses Vorkommen, oder die gesamte geplante Buchung löschen?"
+msgstr "Wollen Sie nur dieses Vorkommen, oder die gesamte geplante Buchung löschen?"
 
 #: src/echeancier_liste.c:1405
 msgid "All the occurences"
@@ -4373,8 +4362,7 @@ msgstr "Name des Berichts"
 
 #: src/etats_config.c:6237
 msgid "Diplay the number of transactions with the totals"
-msgstr ""
-"Die Anzahl der Buchungen in einem Verhältnis zu allen Buchungen anzeigen"
+msgstr "Die Anzahl der Buchungen in einem Verhältnis zu allen Buchungen anzeigen"
 
 #: src/etats_config.c:6256
 msgid "Consider the third parties of this report as a multiple third party."
@@ -4974,8 +4962,7 @@ msgid "Select accounts to export"
 msgstr "Die zu exportierenden Konten auswählen"
 
 #: src/export.c:256 src/qif.c:1017
-msgid ""
-"This will irreversibly overwrite previous file.  There is no undo for this."
+msgid "This will irreversibly overwrite previous file.  There is no undo for this."
 msgstr "Dieser Vorgang wird die bestehende Datei überschreiben."
 
 #: src/export.c:264 src/qif.c:1022
@@ -5162,8 +5149,7 @@ msgstr "Die Datei '%s' kann nicht geöffnet werden: %s"
 #: src/fichiers_io.c:155
 #, c-format
 msgid "Cannot open file '%s' : this is not a grisbi file"
-msgstr ""
-"Die Datei %s kann nicht geöffnet werden. Diese Datei ist keine Grisbi Datei"
+msgstr "Die Datei %s kann nicht geöffnet werden. Diese Datei ist keine Grisbi Datei"
 
 #: src/fichiers_io.c:197
 #, c-format
@@ -5343,8 +5329,7 @@ msgid "Alain Pichon (alain.pichon[at]grisbi.org): Fedora and RHEL packaging"
 msgstr "Alain Pichon (alain.pichon[at]grisbi.org): Fedora Paketverwaltung"
 
 #: src/help.c:48
-msgid ""
-"Alain Portal <dionysos[at]grisbi.org>: Programming, manual, RedHat packaging"
+msgid "Alain Portal <dionysos[at]grisbi.org>: Programming, manual, RedHat packaging"
 msgstr ""
 "Alain Portal (dionysos[at]grisbi.org): Programmierung, Handbuch, RedHat "
 "Paketverwaltung"
@@ -5359,8 +5344,7 @@ msgstr "Axel Rousseau (axel584[at]axel584.org): Mitarbeiter"
 
 #: src/help.c:51
 msgid "Benjamin Drieu (bdrieu[at]april.org) : Programming, Debian packaging"
-msgstr ""
-"Benjamin Drieu (bdrieu[at]april.org) : Programmierung, Debian Paketverwaltung"
+msgstr "Benjamin Drieu (bdrieu[at]april.org) : Programmierung, Debian Paketverwaltung"
 
 #: src/help.c:52
 msgid "Cedric Auger (cedric[at]grisbi.org) : Programming"
@@ -5384,8 +5368,7 @@ msgstr ""
 
 #: src/help.c:56
 msgid "Gerald Niel (gerald.niel[at]grisbi.org): Slackware packaging, website"
-msgstr ""
-"Gerald Niel (gerald.niel[at]grisbi.org): Slackware Paketverwaltung, Webseite"
+msgstr "Gerald Niel (gerald.niel[at]grisbi.org): Slackware Paketverwaltung, Webseite"
 
 #: src/help.c:57
 msgid "PMF (ugly.duck[at]gmx.de): Zaurus packaging"
@@ -5878,9 +5861,8 @@ msgid "New transaction"
 msgstr "Neue Buchung"
 
 #: src/menu.c:86
-#, fuzzy
 msgid "Use selected transaction as a template"
-msgstr "Die Buchungen nach Beträge auswählen"
+msgstr "Die ausgewählte Buchung als Vorlage verwenden"
 
 #: src/menu.c:87 src/traitement_variables.c:105 src/traitement_variables.c:226
 msgid "Remove transaction"
@@ -6093,8 +6075,7 @@ msgstr "Splittbuchung wiederherstellen?"
 
 #: src/operations_formulaire.c:1820
 msgid "Do you want to recover all the lines of the last breakdown?"
-msgstr ""
-"Sollen alle Buchungszeilen der letzten Aufsplittung wiederhergestellt werden?"
+msgstr "Sollen alle Buchungszeilen der letzten Aufsplittung wiederhergestellt werden?"
 
 #: src/operations_formulaire.c:2072 src/operations_formulaire.c:2520
 #: src/tiers_onglet.c:1428
@@ -6138,8 +6119,7 @@ msgstr ""
 
 #: src/operations_formulaire.c:2529
 msgid "A transaction with a multiple third party must be a new one."
-msgstr ""
-"Es kann nur eine neue Buchung an mehrere Empfänger durchgeführt werden."
+msgstr "Es kann nur eine neue Buchung an mehrere Empfänger durchgeführt werden."
 
 #: src/operations_formulaire.c:2563
 msgid "Invalid multiple third party."
@@ -6182,10 +6162,8 @@ msgid "Imposible to delete a reconciled transaction."
 msgstr "Eine abgestimmte Buchung kann nicht gelöscht werden."
 
 #: src/operations_liste.c:2103
-msgid ""
-"The contra-transaction of this transfer is reconciled, deletion impossible."
-msgstr ""
-"Die Gegenbuchung ist bereits abgestimmt, eine Löschung ist nicht möglich."
+msgid "The contra-transaction of this transfer is reconciled, deletion impossible."
+msgstr "Die Gegenbuchung ist bereits abgestimmt, eine Löschung ist nicht möglich."
 
 #: src/operations_liste.c:2151
 msgid ""
@@ -6197,9 +6175,8 @@ msgstr ""
 
 #. New transaction from
 #: src/operations_liste.c:2662
-#, fuzzy
 msgid "New transaction from"
-msgstr "Neue Buchung"
+msgstr "Neue Buchung von"
 
 #. Delete transaction
 #: src/operations_liste.c:2670
@@ -6267,8 +6244,7 @@ msgid "Scheduler warnings"
 msgstr "Planer Meldungen"
 
 #: src/parametres.c:407
-msgid ""
-"Number of days before a warning message advertising a scheduled transaction"
+msgid "Number of days before a warning message advertising a scheduled transaction"
 msgstr "Hinweis für eine geplante Buchung (Tage davor) anzeigen"
 
 #: src/parametres.c:471
@@ -6545,9 +6521,8 @@ msgid "Third party '%s' already exists."
 msgstr "Der Empfänger '%s' ist bereits vorhanden."
 
 #: src/traitement_variables.c:102 src/traitement_variables.c:223
-#, fuzzy
 msgid "New transaction from selected"
-msgstr "Neue Buchung"
+msgstr "Neue Buchung von ausgewählt"
 
 #. Should not happen theorically
 #. Should not happen!
@@ -6658,3 +6633,4 @@ msgid "This transfer has a reconciled contra-transaction, deletion canceled."
 msgstr ""
 "Diese Buchung hat eine abgestimmte Gegenbuchung, die Löschung wurde "
 "abgebrochen."
+
