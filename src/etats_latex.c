@@ -299,6 +299,10 @@ gint latex_finish ()
 				      (etat.print_config.printer ? 
 				       (g_strconcat ( tempname, ".ps", NULL )) : 
 				       etat.print_config.printer_filename) );
+	  unlink ( g_strdup_printf ("%s.tex", tempname) );
+	  unlink ( g_strdup_printf ("%s.aux", tempname) );
+	  unlink ( g_strdup_printf ("%s.dvi", tempname) );
+	  unlink ( g_strdup_printf ("%s.log", tempname) );
 	  if ( !system ( command ) )
 	    {
 	      if ( etat.print_config.printer )
@@ -318,13 +322,9 @@ gint latex_finish ()
 	    }
 	}
 
-      printf (">> will unlink %s.tex\n", tempname);
-      printf (">> will unlink %s.aux\n", tempname);
-      printf (">> will unlink %s.dvi\n", tempname);
-      printf (">> will unlink %s.log\n", tempname);
       if ( etat.print_config.printer )
 	{
-	  printf (">> will unlink %s.ps\n", tempname);
+	  unlink ( g_strdup_printf ("%s.ps", tempname) );
 	}
 
       g_free ( tempname );
