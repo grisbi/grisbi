@@ -385,13 +385,16 @@ GtkWidget * creation_option_menu_comptes ( GtkSignalFunc func,
 {
     GtkWidget *menu;
     GtkWidget *item;
+    GSList *ordre_comptes_variable;
 
     menu = gtk_menu_new ();
 
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
+    ordre_comptes_variable = ordre_comptes;
 
     do
     {
+	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + GPOINTER_TO_INT ( ordre_comptes_variable -> data );
+
 	item = gtk_menu_item_new_with_label ( NOM_DU_COMPTE );
 	gtk_object_set_data ( GTK_OBJECT ( item ),
 			      "no_compte",
@@ -407,9 +410,8 @@ GtkWidget * creation_option_menu_comptes ( GtkSignalFunc func,
 	}      
 
 	gtk_widget_show ( item );
-	p_tab_nom_de_compte_variable++;
     }
-    while ( p_tab_nom_de_compte_variable < (p_tab_nom_de_compte + nb_comptes ) );
+    while ( (  ordre_comptes_variable = ordre_comptes_variable -> next ) );
 
     return ( menu );
 }
@@ -430,13 +432,16 @@ GtkWidget * creation_option_menu_comptes_nonclos ( GtkSignalFunc func,
 {
     GtkWidget *menu;
     GtkWidget *item;
+    GSList *ordre_comptes_variable;
 
     menu = gtk_menu_new ();
 
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
+    ordre_comptes_variable = ordre_comptes;
 
     do
     {
+	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + GPOINTER_TO_INT ( ordre_comptes_variable -> data );
+	
 	if ( !COMPTE_CLOTURE )
 	{
 	    item = gtk_menu_item_new_with_label ( NOM_DU_COMPTE );
@@ -448,16 +453,15 @@ GtkWidget * creation_option_menu_comptes_nonclos ( GtkSignalFunc func,
 	    gtk_menu_append ( GTK_MENU ( menu ), item );
 
 	    if ( !activate_currrent && 
-		p_tab_nom_de_compte_courant == p_tab_nom_de_compte_variable )
+		 p_tab_nom_de_compte_courant == p_tab_nom_de_compte_variable )
 	    {
 		gtk_widget_set_sensitive ( item, FALSE );
 	    }      
 
 	    gtk_widget_show ( item );
 	}
-	p_tab_nom_de_compte_variable++;
     }
-    while ( p_tab_nom_de_compte_variable < (p_tab_nom_de_compte + nb_comptes ) );
+    while ( (  ordre_comptes_variable = ordre_comptes_variable -> next ) );
 
     return ( menu );
 }
