@@ -1995,7 +1995,7 @@ void completion_operation_par_tiers ( void )
 
 	liste_tmp_2 = g_slist_find_custom ( (( struct struct_imputation * )( liste_tmp -> data )) -> liste_sous_imputation,
 					    GINT_TO_POINTER ( operation -> sous_imputation ),
-					    ( GCompareFunc ) recherche_sous_categorie_par_no );
+					    ( GCompareFunc ) recherche_sous_imputation_par_no );
 	if ( liste_tmp_2 )
 	    gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_operations[TRANSACTION_FORM_BUDGET] ),
 				    g_strconcat ( (( struct struct_imputation * )( liste_tmp -> data )) -> nom_imputation,
