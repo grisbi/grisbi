@@ -98,7 +98,7 @@ localedir = $(datadir)/locale
 INCLUDES = -I$(top_srcdir) -I$(includedir) $(GNOME_INCLUDEDIR) -I../intl -DLOCALEDIR=\"$(localedir)\" -DPIXMAPS_DIR="\"$(datadir)/pixmaps/grisbi\"" -DCHEMIN_LOGO="\"$(datadir)/pixmaps/grisbi/grisbi-logo.png\""
 bin_PROGRAMS = grisbi
 
-grisbi_SOURCES =  	accueil.c			affichage.c			affichage_liste.c		banque.c			barre_outils.c			calendar.c			categories_onglet.c		comptes_gestion.c		comptes_onglet.c		comptes_traitements.c		devises.c			dialog.c			echeancier_formulaire.c		echeancier_liste.c		equilibrage.c			erreur.c			etat_io.c			etats_affiche.c			etats_calculs.c			etats_config.c			etats_gtktable.c		etats_latex.c			etats_onglet.c			etats_support.c			exercice.c			fenetre_principale.c		fichier_configuration.c		fichiers_gestion.c		fichiers_io.c			gtk_combofix.c			help.c				imputation_budgetaire.c		main.c				menu.c				operations_classement.c		operations_comptes.c		operations_formulaire.c 	operations_liste.c		operations_onglet.c		parametres.c			patienter.c			qif.c				tiers_onglet.c			traitement_variables.c		type_operations.c		ventilation.c
+grisbi_SOURCES =  	accueil.c			affichage.c			affichage_liste.c		banque.c			barre_outils.c			calendar.c			categories_onglet.c		comptes_gestion.c		comptes_onglet.c		comptes_traitements.c		devises.c			dialog.c			echeancier_formulaire.c		echeancier_liste.c		equilibrage.c			erreur.c			etat_io.c			etats_affiche.c			etats_calculs.c			etats_config.c			etats_gtktable.c		etats_latex.c			etats_onglet.c			etats_support.c			exercice.c			fenetre_principale.c		fichier_configuration.c		fichiers_gestion.c		fichiers_io.c			gtk_combofix.c			help.c				imputation_budgetaire.c		main.c				menu.c				operations_classement.c		operations_comptes.c		operations_formulaire.c 	operations_liste.c		operations_onglet.c		parametres.c			patienter.c			print_config.c			qif.c				tiers_onglet.c			traitement_variables.c		type_operations.c		ventilation.c
 
 
 #grisbi_LDADD =	$(GNOME_LIBDIR)	$(GNOMEUI_LIBS)
@@ -129,8 +129,8 @@ exercice.o fenetre_principale.o fichier_configuration.o \
 fichiers_gestion.o fichiers_io.o gtk_combofix.o help.o \
 imputation_budgetaire.o main.o menu.o operations_classement.o \
 operations_comptes.o operations_formulaire.o operations_liste.o \
-operations_onglet.o parametres.o patienter.o qif.o tiers_onglet.o \
-traitement_variables.o type_operations.o ventilation.o
+operations_onglet.o parametres.o patienter.o print_config.o qif.o \
+tiers_onglet.o traitement_variables.o type_operations.o ventilation.o
 grisbi_LDADD = $(LDADD)
 grisbi_DEPENDENCIES = 
 grisbi_LDFLAGS = 
@@ -161,8 +161,9 @@ DEP_FILES =  .deps/accueil.P .deps/affichage.P .deps/affichage_liste.P \
 .deps/operations_classement.P .deps/operations_comptes.P \
 .deps/operations_formulaire.P .deps/operations_liste.P \
 .deps/operations_onglet.P .deps/parametres.P .deps/patienter.P \
-.deps/qif.P .deps/tiers_onglet.P .deps/traitement_variables.P \
-.deps/type_operations.P .deps/ventilation.P
+.deps/print_config.P .deps/qif.P .deps/tiers_onglet.P \
+.deps/traitement_variables.P .deps/type_operations.P \
+.deps/ventilation.P
 SOURCES = $(grisbi_SOURCES)
 OBJECTS = $(grisbi_OBJECTS)
 

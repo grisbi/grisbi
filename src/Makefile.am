@@ -46,6 +46,7 @@ grisbi_SOURCES = 		\
 	operations_onglet.c	\
 	parametres.c		\
 	patienter.c		\
+	print_config.c		\
 	qif.c			\
 	tiers_onglet.c		\
 	traitement_variables.c	\
