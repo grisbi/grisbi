@@ -700,7 +700,7 @@ void click_sur_saisir_echeance ( void )
 /* ************************************************************************************************************ */
 void remplissage_liste_echeance ( void )
 {
-  gchar *ligne[6];
+  gchar *ligne[7];
   GSList *pointeur_liste;
   int ligne_clist;
   gint couleur_en_cours;
@@ -906,7 +906,7 @@ void remplissage_liste_echeance ( void )
 
   /* met la ligne blanche */
 
-  for ( i = 0 ; i<6 ; i++ )
+  for ( i = 0 ; i<7 ; i++ )
     ligne[i] = NULL;
 
   ligne_clist = gtk_clist_append ( GTK_CLIST ( liste_echeances ),
