@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: en\n"
-"POT-Creation-Date: 2004-01-05 15:13+0100\n"
-"PO-Revision-Date: 2004-01-05 15:16GMT\n"
+"POT-Creation-Date: 2004-01-05 15:50+0100\n"
+"PO-Revision-Date: 2004-01-05 15:52GMT\n"
 "Last-Translator: Alain PORTAL <aportal@univ-montp2.fr>\n"
 "Language-Team:  <traduction@grisbi.org>\n"
 "MIME-Version: 1.0\n"
@@ -3595,7 +3595,7 @@ msgstr "Aucune sous-imputation"
 
 #: src/imputation_budgetaire.c:714
 #, c-format
-msgid "No budget line (%d]"
+msgid "No budget line (%d)"
 msgstr "Aucune imputation (%d)"
 
 #: src/imputation_budgetaire.c:717

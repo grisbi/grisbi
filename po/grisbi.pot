@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2004-01-05 15:13+0100\n"
+"POT-Creation-Date: 2004-01-05 15:50+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -3437,7 +3437,7 @@ msgstr ""
 
 #: src/imputation_budgetaire.c:714
 #, c-format
-msgid "No budget line (%d]"
+msgid "No budget line (%d)"
 msgstr ""
 
 #: src/imputation_budgetaire.c:717
