@@ -3423,7 +3423,7 @@ gint gtktable_affiche_titres_colonnes ( gint ligne )
 
   if ( etat_courant -> afficher_no_ope )
     {
-      label = gtk_label_new ( _("N°") );
+      label = gtk_label_new ( _("Number") );
       gtk_table_attach ( GTK_TABLE ( table_etat ),
 			 label,
 			 colonne, colonne + 1,

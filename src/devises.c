@@ -269,7 +269,8 @@ void creation_devises_de_base ( void )
   devise -> no_devise = 1;
   devise -> nom_devise= g_strdup ( _("Euro") );
   devise -> code_iso4217_devise = "EUR";
-  devise -> code_devise = g_strdup ( _("€") );
+  /* Do not translate, this is UTF-8 babe !*/
+  devise -> code_devise = g_strdup ( "€" ); 
   devise -> passage_euro = 0;
   devise -> date_dernier_change = NULL;
   devise -> une_devise_1_egale_x_devise_2 = 0;
