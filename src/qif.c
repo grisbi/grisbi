@@ -38,6 +38,8 @@ void importer_fichier_qif ( void )
   liste_comptes_qif = NULL;
 
   selection_fichier_qif ();
+
+  update_liste_comptes_accueil();
 }
 /* *******************************************************************************/
 
