@@ -33,6 +33,7 @@
 static gchar * child_content ( xmlNodePtr node, gchar * child_name );
 static struct struct_compte_importation * find_imported_account_by_uid ( gchar * guid );
 static struct gnucash_category * find_imported_categ_by_uid ( gchar * guid );
+static struct gnucash_category * find_imported_categ_by_name ( gchar * name );
 static xmlNodePtr get_child ( xmlNodePtr node, gchar * child_name );
 static gchar * get_currency ( xmlNodePtr currency_node );
 static gdouble gnucash_value ( gchar * value );
@@ -44,8 +45,12 @@ static void recuperation_donnees_gnucash_compte ( xmlNodePtr compte_node );
 static void recuperation_donnees_gnucash_transaction ( xmlNodePtr transaction_node );
 /*END_STATIC*/
 
+/*START_EXTERN*/
+extern GSList *liste_comptes_importes;
+extern gchar * tempname;
+/*END_EXTERN*/
 
-
+/* Structures */
 struct gnucash_category {
   gchar * name;
   enum gnucash_category_type {
@@ -54,12 +59,16 @@ struct gnucash_category {
   } type;
   gchar * guid;
 };
-GSList * gnucash_categories = NULL;
 
-/*START_EXTERN*/
-extern GSList *liste_comptes_importes;
-extern gchar * tempname;
-/*END_EXTERN*/
+struct gnucash_split {
+  gdouble amount;
+  gchar * category;
+  gchar * account;
+  gchar * contra_account;
+};
+
+/* Variables */
+GSList * gnucash_categories = NULL;
 
 
 gboolean recuperation_donnees_gnucash ( gchar * filename )
@@ -223,90 +232,106 @@ void recuperation_donnees_gnucash_categorie ( xmlNodePtr categ_node )
 void recuperation_donnees_gnucash_transaction ( xmlNodePtr transaction_node )
 {
   struct struct_ope_importation * transaction;
-  struct struct_compte_importation * account = NULL;
-  struct gnucash_category * categ;
   gchar * date, *space;
   xmlNodePtr splits, split_node, date_node;
+  GSList * split_list = NULL;
 
-  /* Basic properties */
-  transaction = calloc ( 1, sizeof ( struct struct_ope_importation ));
-  transaction -> id_operation = child_content ( transaction_node, "id" );
-  transaction -> tiers = child_content ( transaction_node, "description" );
-
-  /* Transaction date */
-  date_node = get_child ( transaction_node, "date-posted" );
-  transaction -> date = g_date_new ( );
-  date = child_content (date_node, "date");
-  space = strchr(date, ' ');
-  if ( space )
-    *space = 0;
-  g_date_set_parse ( transaction -> date, date );
-  if ( !g_date_valid ( transaction -> date ))
-    fprintf (stderr, "grisbi: Can't parse date %s\n", child_content (date_node, "date"));
-
-  /* Transaction ammount, category, account, etc.. */
+  /* Transaction amount, category, account, etc.. */
   splits = get_child ( transaction_node, "splits" );
   split_node = splits -> children;
 
   while ( split_node )
     {
       struct struct_compte_importation * split_account = NULL; 
+      struct gnucash_category * categ = NULL;
+      struct gnucash_split * split;
+      gdouble amount;
+
       if ( node_strcmp ( split_node, "split" ) )
 	{
-	  split_account = find_imported_account_by_uid (child_content(split_node, "account"));
-	  if ( split_account )
-	    {			
-	      /* This split is about a real account. */
-	      if ( account )
-		{
-		  /* First split was about a real account, this is then a transfer. */
-		  struct struct_compte_importation * contra_account;
-		  struct struct_ope_importation * contra_transaction;
+	  split_account = find_imported_account_by_uid ( child_content( split_node, 
+									"account" ) );
+	  categ = find_imported_categ_by_uid ( child_content(split_node, "account") );
 
-		  contra_account = split_account;
-		  contra_transaction = calloc ( 1, sizeof ( struct struct_ope_importation ));
-		  contra_transaction -> montant = gnucash_value ( child_content(split_node, "value") );
-		  contra_transaction -> tiers = child_content ( transaction_node, "description" );
-		  contra_transaction -> notes = child_content(split_node, "memo");
-		  if ( !strcmp(child_content(split_node, "reconciled-state"), "y") )
-		    contra_transaction -> p_r = OPERATION_RAPPROCHEE;
-
-		  transaction -> categ = g_strconcat ( _("Transfer"), " : ", 
-						       contra_account -> nom_de_compte, NULL);
-		  contra_transaction -> categ = g_strconcat ( _("Transfer"), " : ", 
-							      account -> nom_de_compte, NULL);
-		  contra_transaction -> date = transaction -> date;
-
-		  contra_account -> operations_importees = g_slist_append ( contra_account -> operations_importees, contra_transaction );
-		}
-	      else 
-		{
-		  /* This is the first split */
-		  account = split_account;
-		  account -> operations_importees = g_slist_append ( account -> operations_importees, transaction );
-		  transaction -> montant = gnucash_value ( child_content(split_node, "value") );
-		  transaction -> notes = child_content(split_node, "memo");
-		  if ( !strcmp(child_content(split_node, "reconciled-state"), "y") )
-		    transaction -> p_r = OPERATION_RAPPROCHEE;
-		}
+	  amount = gnucash_value ( child_content(split_node, "value") );
+	  split = find_split ( split_list, amount, split_account, categ );
+	  if ( split )
+	    {
+	      update_split ( split, split_account, categ );
 	    }
 	  else
 	    {
-	      /* This is a category split */
-	      categ = find_imported_categ_by_uid ( child_content(split_node, "account") );
-	      if ( categ )
-		{
-		  /* This is a normal transaction with a category */
-		  transaction -> categ = categ -> name;
-		}
-	      else
-		{
-		  /* Something is wrong. */
-		}
+	      split_list = g_slist_append ( split_list, 
+					    new_split ( amount, split_account, categ ) );
 	    }
 	}
-
       split_node = split_node -> next;
+    }
+
+  if ( g_slist_length ( split_list ) == 1 )
+    {
+      
+    }
+  else 
+    {
+      while ( split_list )
+	{
+	  struct gnucash_split * split = split_list -> data;
+
+	  /* Basic properties */
+	  transaction = calloc ( 1, sizeof ( struct struct_ope_importation ));
+	  transaction -> id_operation = child_content ( transaction_node, "id" );
+	  transaction -> tiers = child_content ( transaction_node, "description" );
+
+	  /* Transaction date */
+	  date_node = get_child ( transaction_node, "date-posted" );
+	  transaction -> date = g_date_new ( );
+	  date = child_content (date_node, "date");
+	  space = strchr(date, ' ');
+	  if ( space )
+	    *space = 0;
+	  g_date_set_parse ( transaction -> date, date );
+	  if ( !g_date_valid ( transaction -> date ))
+	    fprintf (stderr, "grisbi: Can't parse date %s\n", child_content (date_node, "date"));
+	  transaction = calloc ( 1, sizeof ( struct struct_ope_importation ));
+	  transaction -> montant = amount;
+	  transaction -> tiers = child_content ( transaction_node, "description" );
+	  transaction -> notes = child_content ( split_node, "memo" );
+
+	  if ( split -> contra_account )
+	    {
+	      /* First split was about a real account, this is then a transfer. */
+	      struct struct_compte_importation * contra_account;
+	      struct struct_ope_importation * contra_transaction;
+	  
+	      contra_transaction = calloc ( 1, sizeof ( struct struct_ope_importation ));
+	      contra_transaction -> montant = amount;
+	      contra_transaction -> tiers = transaction -> tiers;
+	      contra_transaction -> notes = transaction -> notes;
+	      /* 	  if ( !strcmp(child_content(split_node, "reconciled-state"), "y") ) */
+	      /* 	    contra_transaction -> p_r = OPERATION_RAPPROCHEE; */
+
+	      transaction -> categ = g_strconcat ( _("Transfer"), " : ",
+						   split -> contra_account, NULL);
+	      contra_transaction -> categ = g_strconcat ( _("Transfer"), " : ",
+							  split -> account, NULL);
+	      contra_transaction -> date = transaction -> date;
+
+	      contra_account = find_imported_account_by_name ( split -> contra_account );
+	      contra_account -> operations_importees = g_slist_append ( contra_account -> operations_importees, contra_transaction );
+	    }
+	  else
+	    {
+	      account -> categ = split -> category;
+	    }
+
+	  account -> operations_importees = g_slist_append ( account -> operations_importees, transaction );
+      
+	  /* 		  if ( !strcmp(child_content(split_node, "reconciled-state"), "y") ) */
+	  /* 		    transaction -> p_r = OPERATION_RAPPROCHEE; */
+      
+	  split_list = split_list -> next;
+	}
     }
 }
 
@@ -384,6 +409,29 @@ struct struct_compte_importation * find_imported_account_by_uid ( gchar * guid )
 
 
 
+struct struct_compte_importation * find_imported_account_by_name ( gchar * ma,e )
+{
+  GSList * liste_tmp;
+
+  liste_tmp = liste_comptes_importes;
+
+  while ( liste_tmp )
+    {
+      struct struct_compte_importation * account = liste_tmp -> data;
+
+      if ( !strcmp ( account -> nom_du_compte, name ))
+	{
+	  return account;
+	}
+
+      liste_tmp = liste_tmp -> next;
+    }  
+
+  return NULL;
+}
+
+
+
 struct gnucash_category * find_imported_categ_by_uid ( gchar * guid )
 {
   GSList * liste_tmp;
@@ -419,6 +467,7 @@ gdouble gnucash_value ( gchar * value )
 
   return number / mantisse;
 }
+
 
 
 xmlDocPtr parse_gnucash_file ( gchar * filename )
@@ -480,3 +529,126 @@ xmlDocPtr parse_gnucash_file ( gchar * filename )
   
   return doc;
 }
+
+
+
+
+
+/* 	      /\* This split is about a real account. *\/ */
+/* 	      if ( account ) */
+/* 		{ */
+/* 		  /\* First split was about a real account, this is then a transfer. *\/ */
+/* 		  struct struct_compte_importation * contra_account; */
+/* 		  struct struct_ope_importation * contra_transaction; */
+
+/* 		  contra_account = split_account; */
+/* 		  contra_transaction = calloc ( 1, sizeof ( struct struct_ope_importation )); */
+/* 		  contra_transaction -> montant = gnucash_value ( child_content(split_node, "value") ); */
+/* 		  contra_transaction -> tiers = child_content ( transaction_node, "description" ); */
+/* 		  contra_transaction -> notes = child_content(split_node, "memo"); */
+/* 		  if ( !strcmp(child_content(split_node, "reconciled-state"), "y") ) */
+/* 		    contra_transaction -> p_r = OPERATION_RAPPROCHEE; */
+
+/* 		  transaction -> categ = g_strconcat ( _("Transfer"), " : ",  */
+/* 						       contra_account -> nom_de_compte, NULL); */
+/* 		  contra_transaction -> categ = g_strconcat ( _("Transfer"), " : ",  */
+/* 							      account -> nom_de_compte, NULL); */
+/* 		  contra_transaction -> date = transaction -> date; */
+
+/* 		  contra_account -> operations_importees = g_slist_append ( contra_account -> operations_importees, contra_transaction ); */
+/* 		} */
+/* 	      else  */
+/* 		{ */
+/* 		  /\* This is the first split *\/ */
+/* 		  account = split_account; */
+/* 		  account -> operations_importees = g_slist_append ( account -> operations_importees, transaction ); */
+/* 		  transaction -> montant = gnucash_value ( child_content(split_node, "value") ); */
+/* 		  transaction -> notes = child_content(split_node, "memo"); */
+/* 		  if ( !strcmp(child_content(split_node, "reconciled-state"), "y") ) */
+/* 		    transaction -> p_r = OPERATION_RAPPROCHEE; */
+/* 		} */
+/* 	    } */
+/* 	  else */
+/* 	    { */
+/* 	      /\* This is a category split *\/ */
+/* 	      categ = find_imported_categ_by_uid ( child_content(split_node, "account") ); */
+/* 	      if ( categ ) */
+/* 		{ */
+/* 		  /\* This is a normal transaction with a category *\/ */
+/* 		  transaction -> categ = categ -> name; */
+/* 		} */
+/* 	      else */
+/* 		{ */
+/* 		  /\* Something is wrong. *\/ */
+/* 		} */
+/* 	    } */
+/* 	} */
+
+
+
+struct gnucash_split * find_split ( GSList * split_list, gdouble amount, 
+				    struct struct_compte_importation * account, 
+				    struct gnucash_category * categ )
+{
+  GSList * tmp;
+  
+  tmp = split_list;
+  while ( tmp )
+    {
+      struct gnucash_split * split = tmp -> data;
+      if ( amount == - split -> amount &&
+	   ! ( split -> account && split -> category ) &&
+	   ! ( split -> category && categ ) )
+	{
+	  return split;
+	}
+
+      tmp = tmp -> next;
+    }
+  
+  return NULL;
+}
+
+
+
+void update_split ( struct gnucash_split * split, gchar * account, gchar * categ )
+{
+  if ( categ )
+    {
+      split -> category = g_strdup ( categ );
+    }
+
+  if ( account )
+    {
+      if ( split -> account )
+	{
+	  split -> account = g_strdup ( account );
+	}
+      else
+	{
+	  split -> contra_account = g_strdup ( account );
+	}
+    }
+}
+
+
+
+struct gnucash_split * new_split ( gdouble amount, gchar * account, gchar * categ )
+{
+  struct gnucash_split * split;
+
+  split = calloc ( 1, sizeof ( struct gnucash_split ));
+
+  split -> amount = amount;
+  if ( account )
+    split -> account = g_strdup ( account );
+  else 
+    split -> account = NULL;
+  if ( categ )
+    split -> category = g_strdup ( categ );
+  else 
+    split -> category = NULL;
+
+  return split;
+}
+
