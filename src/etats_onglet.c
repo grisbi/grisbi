@@ -32,7 +32,6 @@ GtkWidget *creation_onglet_etats ( void )
   GtkWidget *frame;
   GtkWidget *vbox;
 
-
   onglet = gtk_hbox_new ( FALSE,
 			  10 );
   gtk_container_set_border_width ( GTK_CONTAINER ( onglet ),
@@ -43,31 +42,43 @@ GtkWidget *creation_onglet_etats ( void )
   /*   création de la fenetre des noms des états */
   /* on reprend le principe des comptes dans la fenetre des opés */
 
-  frame = gtk_frame_new ( NULL );
-  gtk_frame_set_shadow_type ( GTK_FRAME ( frame ),
+  frame_liste_etats = gtk_frame_new ( NULL );
+  gtk_frame_set_shadow_type ( GTK_FRAME ( frame_liste_etats ),
 			      GTK_SHADOW_IN );
   gtk_box_pack_start ( GTK_BOX ( onglet ),
-		       frame,
+		       frame_liste_etats,
 		       FALSE,
 		       FALSE,
 		       0 );
-  gtk_widget_show (frame);
+  gtk_widget_show (frame_liste_etats);
 
   /* on y met les rapports et les boutons */
 
-  gtk_container_add ( GTK_CONTAINER ( frame ),
+  gtk_container_add ( GTK_CONTAINER ( frame_liste_etats ),
 		      creation_liste_etats ());
+
+
+
+  /* création du notebook contenant l'état et la config */
+
+  notebook_etats = gtk_notebook_new ();
+  gtk_notebook_set_show_tabs ( GTK_NOTEBOOK ( notebook_etats ),
+			       FALSE );
+  gtk_box_pack_start ( GTK_BOX ( onglet ),
+		       notebook_etats,
+		       TRUE,
+		       TRUE,
+		       0 );
+  gtk_widget_show ( notebook_etats );
 
 
   /* création de la partie droite */
 
   vbox = gtk_vbox_new ( FALSE,
 			10 );
-  gtk_box_pack_start ( GTK_BOX ( onglet ),
-		       vbox,
-		       TRUE,
-		       TRUE,
-		       0 );
+  gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_etats ),
+			     vbox,
+			     gtk_label_new ( _( "Affichage états" )));
   gtk_widget_show ( vbox );
 
 
@@ -112,10 +123,14 @@ GtkWidget *creation_onglet_etats ( void )
 		      creation_barre_boutons_etats ());
 
 
+  /* l'onglet de config sera créé que si nécessaire */
+
   /*   au départ, aucun état n'est ouvert */
 
   bouton_etat_courant = NULL;
   etat_courant = NULL;
+  onglet_config_etat = NULL;
+
 
   return ( onglet );
 }
@@ -609,7 +624,9 @@ void efface_etat ( void )
       /*   si l'état courant était celui qu'on efface, on met l'état courant à -1 et */
       /* le bouton à null, et le label de l'état en cours à rien */
 
-      if ( etat_courant -> no_etat == etat -> no_etat )
+      if ( etat_courant
+	   &&
+	   etat_courant -> no_etat == etat -> no_etat )
 	{
 	  etat_courant = NULL;
 	  bouton_etat_courant = NULL;

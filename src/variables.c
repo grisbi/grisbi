@@ -578,11 +578,12 @@ GtkWidget *bouton_classer_liste_par_date_bancaire;
 
 
 /***********************************/ 
-/* fichier etats.c */
+/* fichier etats_onglet.c */
 /***********************************/ 
 
 GSList *liste_struct_etats;
 gint no_dernier_etat;
+GtkWidget *frame_liste_etats;
 GtkWidget *label_etat_courant;        /* label en haut de la liste des états */
 GtkWidget *vbox_liste_etats;          /* vbox contenant la liste des états */
 GtkWidget *bouton_etat_courant;          /* adr du bouton de l'état en cours, pour le refermer qd change */
@@ -595,6 +596,13 @@ GtkWidget *bouton_importer_etat;
 GtkWidget *scrolled_window_etat;          /* contient l'état en cours */
 gint nb_colonnes;
 gint ligne_debut_partie;
+GtkWidget *notebook_etats;
+GtkWidget *onglet_affichage_etat;
+GtkWidget *onglet_config_etat;
+
+/***********************************/ 
+/* fichier etats_config.c */
+/***********************************/ 
 
 GtkWidget *entree_nom_etat;
 GtkWidget *liste_type_classement_etat;
@@ -618,6 +626,7 @@ GtkWidget *bouton_devise_general_etat;
 GtkWidget *bouton_afficher_titres_colonnes;
 GtkWidget *bouton_titre_changement;
 GtkWidget *bouton_titre_en_haut;
+GtkWidget *frame_onglet_generalites;
 
 GtkWidget *radio_button_utilise_exo;
 GtkWidget *radio_button_utilise_dates;

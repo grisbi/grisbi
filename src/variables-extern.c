@@ -611,11 +611,12 @@ extern GtkWidget *bouton_classer_liste_par_date_bancaire;
 
 
 /***********************************/ 
-/* fichier etats.c */
+/* fichier etats_onglet.c */
 /***********************************/ 
 
 extern GSList *liste_struct_etats;
 extern gint no_dernier_etat;
+extern GtkWidget *frame_liste_etats;
 extern GtkWidget *label_etat_courant;        /* label en haut de la liste des états */
 extern GtkWidget *vbox_liste_etats;          /* vbox contenant la liste des états */
 extern GtkWidget *bouton_etat_courant;          /* adr du bouton de l'état en cours, pour le refermer qd change */
@@ -628,6 +629,14 @@ extern GtkWidget *bouton_importer_etat;
 extern GtkWidget *scrolled_window_etat;          /* contient l'état en cours */
 extern gint nb_colonnes;
 extern gint ligne_debut_partie;
+extern GtkWidget *notebook_etats;
+extern GtkWidget *onglet_affichage_etat;
+extern GtkWidget *onglet_config_etat;
+
+
+/***********************************/ 
+/* fichier etats_config.c */
+/***********************************/ 
 
 extern GtkWidget *entree_nom_etat;
 extern GtkWidget *liste_type_classement_etat;
@@ -651,6 +660,7 @@ extern GtkWidget *bouton_devise_general_etat;
 extern GtkWidget *bouton_afficher_titres_colonnes;
 extern GtkWidget *bouton_titre_changement;
 extern GtkWidget *bouton_titre_en_haut;
+extern GtkWidget *frame_onglet_generalites;
 
 extern GtkWidget *radio_button_utilise_exo;
 extern GtkWidget *radio_button_utilise_dates;

@@ -2206,6 +2206,9 @@ void mise_a_jour_imputation ( void )
 			  TRUE,
 			  TRUE );
 
+  remplissage_liste_ib_etats ();
+  selectionne_devise_ib_etat_courant ();
+
   modif_imputation = 1;
 }
 /***********************************************************************************************************/

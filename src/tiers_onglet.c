@@ -1418,6 +1418,9 @@ void mise_a_jour_tiers ( void )
 			  FALSE,
 			  TRUE );
 
+  remplissage_liste_tiers_etats ();
+  selectionne_liste_tiers_etat_courant ();
+
   modif_tiers = 1;
 }
 /* ***************************************************************************************************** */

@@ -858,12 +858,22 @@ void importer_etat ( void );
 /***********************************/ 
 
 void personnalisation_etat (void);
-GtkWidget *onglet_etat_generalites ( struct struct_etat *etat );
+void annule_modif_config ( void );
+void selectionne_liste_exo_etat_courant ( void );
+void selectionne_liste_comptes_etat_courant ( void );
+void selectionne_liste_categ_etat_courant ( void );
+void selectionne_devise_categ_etat_courant ( void );
+void selectionne_liste_ib_etat_courant ( void );
+void selectionne_devise_ib_etat_courant ( void );
+void selectionne_liste_tiers_etat_courant ( void );
+void selectionne_devise_tiers_etat_courant ( void );
+void recuperation_info_perso_etat ( void );
+GtkWidget *onglet_etat_generalites ( void );
 void click_haut_classement_etat ( void );
 void click_bas_classement_etat ( void );
 void sens_desensitive_pointeur ( GtkWidget *boutton,
 				 GtkWidget *widget );
-GtkWidget *onglet_etat_dates ( struct struct_etat *etat );
+GtkWidget *onglet_etat_dates ( void );
 void click_liste_etat ( GtkCList *liste,
 			GdkEventButton *evenement,
 			gint origine );
@@ -873,14 +883,19 @@ void date_selectionnee_etat ( GtkCalendar *calendrier,
 			      GtkWidget *popup );
 void change_separation_result_periode ( void );
 void modif_type_separation_dates ( gint *origine );
-GtkWidget *onglet_etat_comptes ( struct struct_etat *etat );
-GtkWidget *onglet_etat_categories ( struct struct_etat *etat );
+void remplissage_liste_exo_etats ( void );
+GtkWidget *onglet_etat_comptes ( void );
+void remplissage_liste_comptes_etats ( void );
+GtkWidget *onglet_etat_categories ( void );
 void click_type_categ_etat ( gint type );
-GtkWidget *onglet_etat_ib ( struct struct_etat *etat );
+void remplissage_liste_categ_etats ( void );
+GtkWidget *onglet_etat_ib ( void );
 void click_type_ib_etat ( gint type );
-GtkWidget *onglet_etat_tiers ( struct struct_etat *etat );
-GtkWidget *onglet_etat_texte ( struct struct_etat *etat );
-GtkWidget *onglet_etat_montant ( struct struct_etat *etat );
+void remplissage_liste_ib_etats ( void );
+GtkWidget *onglet_etat_tiers ( void );
+void remplissage_liste_tiers_etats ( void );
+GtkWidget *onglet_etat_texte ( void );
+GtkWidget *onglet_etat_montant ( void );
 
 /***********************************/ 
 /* fichier etats_calculs.c */

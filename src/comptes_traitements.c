@@ -123,6 +123,10 @@ void  nouveau_compte ( void )
   change_aspect_liste ( NULL,
 			5 );
 
+  remplissage_liste_comptes_etats ();
+  selectionne_liste_comptes_etat_courant ();
+
+
   modification_fichier ( TRUE );
 }
 /* *********************************************************************************************************** */
@@ -370,6 +374,9 @@ void supprimer_compte ( void )
   update_liste_comptes_accueil ();
   mise_a_jour_soldes_minimaux ();
   mise_a_jour_fin_comptes_passifs();
+
+  remplissage_liste_comptes_etats ();
+  selectionne_liste_comptes_etat_courant ();
 
   modification_fichier( TRUE ); 
 

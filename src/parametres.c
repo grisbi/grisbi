@@ -1832,6 +1832,23 @@ void changement_preferences ( GtkWidget *fenetre_preferences,
 						       g_slist_find_custom ( liste_struct_devises,
 									     GINT_TO_POINTER ( no_devise_totaux_tiers ),
 									     ( GCompareFunc ) recherche_devise_par_no )));
+
+      /* on recrée les boutons de devises dans la conf de l'état */
+
+      gtk_option_menu_set_menu ( GTK_OPTION_MENU ( bouton_devise_categ_etat ),
+				 creation_option_menu_devises ( 0,
+								liste_struct_devises ));
+      gtk_option_menu_set_menu ( GTK_OPTION_MENU ( bouton_devise_ib_etat ),
+				 creation_option_menu_devises ( 0,
+								liste_struct_devises ));
+      gtk_option_menu_set_menu ( GTK_OPTION_MENU ( bouton_devise_tiers_etat ),
+				 creation_option_menu_devises ( 0,
+								liste_struct_devises ));
+
+      selectionne_devise_categ_etat_courant ();
+      selectionne_devise_ib_etat_courant ();
+      selectionne_devise_tiers_etat_courant ();
+
       mise_a_jour_tiers ();
       mise_a_jour_categ ();
       mise_a_jour_imputation ();
@@ -2006,6 +2023,15 @@ void changement_preferences ( GtkWidget *fenetre_preferences,
 
 
       etat.affichage_exercice_automatique = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_affichage_auto_exercice ));
+
+      /* on remplit à nouveau la liste des exos de la conf de l'état */
+
+      remplissage_liste_exo_etats ();
+
+      /* on resélectionne dans cette liste ce qui était sélectionné */
+
+      selectionne_liste_exo_etat_courant ();
+
 
       modification_fichier ( TRUE );
       break;

@@ -2480,6 +2480,9 @@ void mise_a_jour_categ ( void )
 			  TRUE,
 			  TRUE );
 
+  remplissage_liste_categ_etats ();
+  selectionne_liste_categ_etat_courant ();
+
   modif_categ = 1;
 }
 /***********************************************************************************************************/

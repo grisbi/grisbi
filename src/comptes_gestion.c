@@ -1448,6 +1448,9 @@ void modification_details_compte ( void )
       gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_echeancier[5] ),
 				 creation_option_menu_comptes () );
 
+      remplissage_liste_comptes_etats ();
+      selectionne_liste_comptes_etat_courant ();
+
       p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
     }
 

@@ -60,80 +60,720 @@ gchar *jours_semaine[] = {
 
 void personnalisation_etat (void)
 {
-  GtkWidget *dialog;
-  gint resultat;
   GtkWidget *notebook;
-  gchar *pointeur_char;
+  GtkWidget *separateur;
+  GtkWidget *bouton;
+  GtkWidget *hbox;
+  GtkCTreeNode *parent;
   GList *pointeur_liste;
-  gint i;
 
   if ( !etat_courant )
     return;
 
-  /* la fenetre affichée est une gnome dialog */
 
-  dialog = gnome_dialog_new ( g_strconcat ( _("Personnalisation de l'état : "),
-					    etat_courant -> nom_etat,
-					    NULL ),
-			      GNOME_STOCK_BUTTON_OK,
-			      GNOME_STOCK_BUTTON_CANCEL,
-			      NULL );
-  gtk_window_set_transient_for ( GTK_WINDOW ( dialog ),
-				 GTK_WINDOW ( window ));
-  gnome_dialog_set_default ( GNOME_DIALOG ( dialog ),
-			     0 );
-
-  notebook = gtk_notebook_new ();
-  
-  gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
-			     onglet_etat_generalites (etat_courant),
-			     gtk_label_new (_(" Généralités ")) );
-
-  gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
-			     onglet_etat_dates (etat_courant),
-			     gtk_label_new (_(" Dates ")) );
-
-  gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
-			     onglet_etat_comptes (etat_courant),
-			     gtk_label_new (_(" Comptes ")) );
-
-  gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
-			     onglet_etat_categories (etat_courant),
-			     gtk_label_new (_(" Catégories ")) );
-
-  gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
-			     onglet_etat_ib (etat_courant),
-			     gtk_label_new (_(" Imputation budgétaire ")) );
-
-  gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
-			     onglet_etat_tiers (etat_courant),
-			     gtk_label_new (_(" Tiers ")) );
-
-  gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
-			     onglet_etat_texte (etat_courant),
-			     gtk_label_new (_(" Texte ")) );
-
-  gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
-			     onglet_etat_montant (etat_courant),
-			     gtk_label_new (_(" Montant ")) );
-
-  gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
-		       notebook,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( notebook );
-
- retour_etat:
-
-  resultat = gnome_dialog_run ( GNOME_DIALOG ( dialog ));
-
-  if ( resultat )
+  if ( !onglet_config_etat )
     {
-      if ( GNOME_IS_DIALOG ( dialog ))
-	gnome_dialog_close ( GNOME_DIALOG ( dialog ));
-      return;
+
+      onglet_config_etat = gtk_vbox_new ( FALSE,
+					5 );
+      gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_etats ),
+				 onglet_config_etat,
+				 gtk_label_new ( _( "Configuration états" )));
+      gtk_widget_show ( onglet_config_etat );
+
+      notebook = gtk_notebook_new ();
+  
+      gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
+				 onglet_etat_generalites (),
+				 gtk_label_new (_(" Généralités ")) );
+
+      gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
+				 onglet_etat_dates (),
+				 gtk_label_new (_(" Dates ")) );
+
+      gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
+				 onglet_etat_comptes (),
+				 gtk_label_new (_(" Comptes ")) );
+
+      gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
+				 onglet_etat_categories (),
+				 gtk_label_new (_(" Catégories ")) );
+
+      gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
+				 onglet_etat_ib (),
+				 gtk_label_new (_(" Imputation budgétaire ")) );
+
+      gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
+				 onglet_etat_tiers (),
+				 gtk_label_new (_(" Tiers ")) );
+
+      gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
+				 onglet_etat_texte (),
+				 gtk_label_new (_(" Texte ")) );
+
+      gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
+				 onglet_etat_montant (),
+				 gtk_label_new (_(" Montant ")) );
+
+      gtk_box_pack_start ( GTK_BOX ( onglet_config_etat ),
+			   notebook,
+			   TRUE,
+			   TRUE,
+			   0 );
+      gtk_widget_show ( notebook );
+
+      separateur = gtk_hseparator_new ();
+      gtk_box_pack_start ( GTK_BOX ( onglet_config_etat ),
+			   separateur,
+			   FALSE,
+			   FALSE,
+			   0 );
+      gtk_widget_show ( separateur );
+
+      hbox = gtk_hbox_new ( FALSE,
+			    5 );
+      gtk_box_pack_start ( GTK_BOX ( onglet_config_etat ),
+			   hbox,
+			   FALSE,
+			   FALSE,
+			   0 );
+      gtk_widget_show ( hbox );
+
+      bouton = gnome_stock_button ( GNOME_STOCK_BUTTON_CANCEL );
+      gtk_button_set_relief ( GTK_BUTTON ( bouton ),
+			      GTK_RELIEF_NONE );
+      gtk_signal_connect ( GTK_OBJECT ( bouton ),
+			   "clicked",
+			   GTK_SIGNAL_FUNC ( annule_modif_config ),
+			   NULL );
+      gtk_box_pack_end ( GTK_BOX ( hbox ),
+			   bouton,
+			   FALSE,
+			   FALSE,
+			   0 );
+      gtk_widget_show ( bouton);
+
+      bouton = gnome_stock_button ( GNOME_STOCK_BUTTON_APPLY );
+      gtk_button_set_relief ( GTK_BUTTON ( bouton ),
+			      GTK_RELIEF_NONE );
+      gtk_signal_connect ( GTK_OBJECT ( bouton ),
+			   "clicked",
+			   GTK_SIGNAL_FUNC ( recuperation_info_perso_etat ),
+			   NULL );
+      gtk_box_pack_end ( GTK_BOX ( hbox ),
+			   bouton,
+			   FALSE,
+			   FALSE,
+			   0 );
+      gtk_widget_show ( bouton );
     }
+
+
+  /* on va maintenant remplir toutes les infos de l'état */
+
+
+  /* onglet généralités */
+
+
+  /* on met le nom de l'état */
+
+  gtk_entry_set_text ( GTK_ENTRY ( entree_nom_etat ),
+		       etat_courant -> nom_etat );
+
+  /* on remplit le ctree en fonction du classement courant */
+
+  pointeur_liste = etat_courant -> type_classement;
+  parent = NULL;
+  gtk_clist_clear ( GTK_CLIST ( liste_type_classement_etat ));
+
+  while ( pointeur_liste )
+    {
+      gchar *text[1];
+
+      text[0] = NULL;
+
+      switch ( GPOINTER_TO_INT ( pointeur_liste -> data ))
+	{
+	case 1:
+	  text[0] = _("Catégorie");
+	  break;
+
+	case 3:
+	  text[0] = _("Imputation budgétaire");
+	  break;
+
+	case 5:
+	  text[0] = _("Compte");
+	  break;
+
+	case 6:
+	  text[0] = _("Tiers");
+	  break;
+
+	default:
+	}
+
+      if ( text[0] )
+	{
+	  parent = gtk_ctree_insert_node ( GTK_CTREE ( liste_type_classement_etat ),
+					   parent,
+					   NULL,
+					   text,
+					   5,
+					   NULL,
+					   NULL,
+					   NULL,
+					   NULL,
+					   FALSE,
+					   TRUE );
+	  gtk_ctree_node_set_row_data ( GTK_CTREE ( liste_type_classement_etat ),
+					GTK_CTREE_NODE ( parent ),
+					pointeur_liste -> data );
+	}
+
+      pointeur_liste = pointeur_liste -> next;
+    }
+
+  gtk_clist_select_row ( GTK_CLIST ( liste_type_classement_etat ),
+			 0,
+			 0 );
+
+  gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_opes ),
+				 etat_courant -> afficher_opes );
+
+  gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_no_ope ),
+				 etat_courant -> afficher_no_ope );
+  gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_date_opes ),
+				 etat_courant -> afficher_date_ope );
+  gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_tiers_opes ),
+				 etat_courant -> afficher_tiers_ope );
+  gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_categ_opes ),
+				 etat_courant -> afficher_categ_ope );
+  gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_sous_categ_opes ),
+				 etat_courant -> afficher_sous_categ_ope );
+  gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_type_ope ),
+				 etat_courant -> afficher_type_ope );
+  gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_ib_opes ),
+				 etat_courant -> afficher_ib_ope );
+  gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_sous_ib_opes ),
+				 etat_courant -> afficher_sous_ib_ope );
+  gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_no_cheque ),
+				 etat_courant -> afficher_cheque_ope );
+  gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_notes_opes ),
+				 etat_courant -> afficher_notes_ope );
+  gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_pc_opes ),
+				 etat_courant -> afficher_pc_ope );
+  gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_no_rappr ),
+				 etat_courant -> afficher_rappr_ope );
+  gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_infobd_opes ),
+				 etat_courant -> afficher_infobd_ope );
+  gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_pas_detailler_ventilation ),
+				 etat_courant -> pas_detailler_ventilation );
+  gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_exo_opes ),
+				 etat_courant -> afficher_exo_ope );
+  gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_titres_colonnes ),
+				 etat_courant -> afficher_titre_colonnes );
+  if ( !etat_courant -> type_affichage_titres )
+    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_titre_en_haut ),
+				   TRUE );
+
+  /* on rend insensitif les sous qque choses si nécessaire */
+
+  sens_desensitive_pointeur ( bouton_afficher_opes,
+			      frame_onglet_generalites );
+  sens_desensitive_pointeur ( bouton_afficher_categ_opes,
+			      bouton_afficher_sous_categ_opes );
+  sens_desensitive_pointeur ( bouton_afficher_ib_opes,
+			      bouton_afficher_sous_ib_opes );
+  sens_desensitive_pointeur ( bouton_afficher_titres_colonnes,
+			      bouton_titre_changement );
+  sens_desensitive_pointeur ( bouton_afficher_titres_colonnes,
+			      bouton_titre_en_haut );
+
+  /* mise en forme de la devise */
+
+  gtk_option_menu_set_history ( GTK_OPTION_MENU ( bouton_devise_general_etat ),
+				g_slist_position ( liste_struct_devises,
+						   g_slist_find_custom ( liste_struct_devises,
+									 GINT_TO_POINTER ( etat_courant -> devise_de_calcul_general ),
+									 ( GCompareFunc ) recherche_devise_par_no )));
+
+  /* onglet dates */
+
+
+  if ( etat_courant -> exo_date )
+    {
+      gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( radio_button_utilise_exo ),
+				     TRUE );
+      gtk_widget_set_sensitive ( vbox_utilisation_date,
+				 FALSE );
+    }
+  else
+    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( radio_button_utilise_dates ),
+				   TRUE );
+
+
+  if ( etat_courant -> utilise_detail_exo == 3 )
+    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_detaille_exo_etat ),
+				   TRUE );
+  else
+    {
+      gtk_widget_set_sensitive ( vbox_generale_exo_etat,
+				 FALSE );
+
+      if ( etat_courant -> utilise_detail_exo )
+	{
+	  if ( etat_courant -> utilise_detail_exo == 1 )
+	    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_exo_courant ),
+					   TRUE );
+	  else
+	    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_exo_precedent ),
+					   TRUE );
+	}
+      else
+	gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_exo_tous ),
+				       TRUE );
+    }
+
+
+  /* on sélectionne les exercices */
+
+  selectionne_liste_exo_etat_courant ();
+
+  gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_separe_exo_etat ),
+				 etat_courant -> separation_par_exo );
+
+  /* on sélectionne la plage de date */
+
+  gtk_clist_select_row ( GTK_CLIST ( liste_plages_dates_etat ),
+			 etat_courant -> no_plage_date,
+			 0 );
+
+  if ( etat_courant -> no_plage_date != 1 )
+    {
+      gtk_widget_set_sensitive ( entree_date_init_etat,
+				 FALSE );
+      gtk_widget_set_sensitive ( entree_date_finale_etat,
+				 FALSE );
+    }
+  else
+    {
+      gtk_widget_set_sensitive ( entree_date_init_etat,
+				 TRUE );
+      gtk_widget_set_sensitive ( entree_date_finale_etat,
+				 TRUE );
+    }
+
+  /* on remplit les dates perso si elles existent */
+
+  if ( etat_courant -> date_perso_debut )
+    gtk_entry_set_text ( GTK_ENTRY ( entree_date_init_etat ),
+			 g_strdup_printf ( "%d/%d/%d",
+					   g_date_day ( etat_courant -> date_perso_debut ),
+					   g_date_month ( etat_courant -> date_perso_debut ),
+					   g_date_year ( etat_courant -> date_perso_debut )));
+
+  if ( etat_courant -> date_perso_fin )
+    gtk_entry_set_text ( GTK_ENTRY ( entree_date_finale_etat ),
+			 g_strdup_printf ( "%d/%d/%d",
+					   g_date_day ( etat_courant -> date_perso_fin ),
+					   g_date_month ( etat_courant -> date_perso_fin ),
+					   g_date_year ( etat_courant -> date_perso_fin )));
+
+  /* on remplit les détails de la séparation des dates */
+
+  if ( etat_courant -> separation_par_plage )
+    {
+      gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_separe_plages_etat ),
+				     TRUE );
+      gtk_widget_set_sensitive ( bouton_type_separe_plages_etat,
+				 TRUE );
+      modif_type_separation_dates ( GINT_TO_POINTER ( etat_courant -> type_separation_plage ));
+    }
+  else
+    {
+      gtk_widget_set_sensitive ( bouton_type_separe_plages_etat,
+				 FALSE );
+      gtk_widget_set_sensitive ( bouton_debut_semaine,
+				 FALSE );
+      gtk_widget_set_sensitive ( bouton_type_separe_perso_etat,
+				 FALSE );
+      gtk_widget_set_sensitive ( entree_separe_perso_etat,
+				 FALSE );
+    }
+
+  gtk_option_menu_set_history ( GTK_OPTION_MENU ( bouton_type_separe_plages_etat ),
+				etat_courant -> type_separation_plage );
+  gtk_option_menu_set_history ( GTK_OPTION_MENU ( bouton_debut_semaine ),
+				etat_courant -> jour_debut_semaine );
+  gtk_option_menu_set_history ( GTK_OPTION_MENU ( bouton_type_separe_perso_etat ),
+				etat_courant -> type_separation_perso );
+
+  if ( etat_courant -> delai_separation_perso )
+    gtk_entry_set_text ( GTK_ENTRY ( entree_separe_perso_etat ),
+			 itoa ( etat_courant -> delai_separation_perso ));
+
+
+  /* onglet comptes */
+
+  if ( etat_courant -> utilise_detail_comptes )
+    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_detaille_comptes_etat ),
+				   TRUE );
+  else
+    gtk_widget_set_sensitive ( vbox_generale_comptes_etat,
+			       FALSE );
+
+  selectionne_liste_comptes_etat_courant ();
+
+  gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_regroupe_ope_compte_etat ),
+				 etat_courant -> regroupe_ope_par_compte );
+  gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_affiche_sous_total_compte ),
+				 etat_courant -> affiche_sous_total_compte );
+
+  sens_desensitive_pointeur ( bouton_regroupe_ope_compte_etat,
+			      bouton_affiche_sous_total_compte );
+
+
+  /* onglet catégories */
+
+  if ( etat_courant -> utilise_categ )
+    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_utilise_categ_etat ),
+				   TRUE );
+  else
+    gtk_widget_set_sensitive ( vbox_generale_categ_etat,
+			       FALSE );
+
+  if ( etat_courant -> utilise_detail_categ )
+    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_detaille_categ_etat ),
+				   TRUE );
+  else
+    gtk_widget_set_sensitive ( hbox_detaille_categ_etat,
+			       FALSE );
+
+  /* on sélectionne les catégories choisies */
+
+  selectionne_liste_categ_etat_courant ();
+
+  gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_exclure_ope_sans_categ ),
+				 etat_courant -> exclure_ope_sans_categ );
+  gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_affiche_sous_total_categ ),
+				 etat_courant -> affiche_sous_total_categ );
+  gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_sous_categ ),
+				 etat_courant -> afficher_sous_categ );
+  gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_affiche_sous_total_sous_categ ),
+				 etat_courant -> affiche_sous_total_sous_categ );
+  gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_pas_de_sous_categ ),
+				 etat_courant -> afficher_pas_de_sous_categ );
+  sens_desensitive_pointeur ( bouton_afficher_sous_categ,
+			      bouton_affiche_sous_total_sous_categ );
+  sens_desensitive_pointeur ( bouton_afficher_sous_categ,
+			      bouton_afficher_pas_de_sous_categ );
+
+  if ( etat_courant -> type_virement )
+    {
+      if ( etat_courant -> type_virement == 1 )
+	gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_inclusion_virements_actifs_etat ),
+				       TRUE );
+      else
+	gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_inclusion_virements_hors_etat ),
+				       TRUE );
+    }
+  else
+    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_non_inclusion_virements ),
+				   TRUE );
+
+  /* mise en forme de la devise */
+
+  selectionne_devise_categ_etat_courant ();
+
+  /* onglet ib */
+
+  if ( etat_courant -> utilise_ib )
+    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_utilise_ib_etat ),
+				   TRUE );
+  else
+    gtk_widget_set_sensitive ( vbox_generale_ib_etat,
+			       FALSE );
+
+  if ( etat_courant -> utilise_detail_ib )
+    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_detaille_ib_etat ),
+				   TRUE );
+  else
+    gtk_widget_set_sensitive ( hbox_detaille_ib_etat,
+			       FALSE );
+
+  /* on sélectionne les ib choisies */
+
+  selectionne_liste_ib_etat_courant ();
+
+  gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_exclure_ope_sans_ib ),
+				 etat_courant -> exclure_ope_sans_ib );
+  gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_affiche_sous_total_ib ),
+				 etat_courant -> affiche_sous_total_ib );
+  gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_sous_ib ),
+				 etat_courant -> afficher_sous_ib );
+  gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_affiche_sous_total_sous_ib ),
+				 etat_courant -> affiche_sous_total_sous_ib );
+  gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_pas_de_sous_ib ),
+				 etat_courant -> afficher_pas_de_sous_ib );
+  sens_desensitive_pointeur ( bouton_afficher_sous_ib,
+			      bouton_affiche_sous_total_sous_ib );
+  sens_desensitive_pointeur ( bouton_afficher_sous_ib,
+			      bouton_afficher_pas_de_sous_ib );
+
+  /* mise en forme de la devise */
+
+  selectionne_devise_ib_etat_courant ();
+
+  /* onglet tiers */
+
+  if ( etat_courant -> utilise_tiers )
+    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_utilise_tiers_etat ),
+				   TRUE );
+  else
+    gtk_widget_set_sensitive ( vbox_generale_tiers_etat,
+			       FALSE );
+
+  if ( etat_courant -> utilise_detail_tiers )
+    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_detaille_tiers_etat ),
+				   TRUE );
+  else
+    gtk_widget_set_sensitive ( hbox_detaille_tiers_etat,
+			       FALSE );
+ 
+  /* on sélectionne les tiers choisies */
+
+  selectionne_liste_tiers_etat_courant();
+
+  gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_affiche_sous_total_tiers ),
+				 etat_courant -> affiche_sous_total_tiers );
+
+  /* mise en forme de la devise */
+
+  selectionne_devise_tiers_etat_courant ();
+
+  /*  onglet texte */
+
+  if ( etat_courant -> texte )
+    gtk_entry_set_text ( GTK_ENTRY ( entree_texte_etat ),
+			 g_strstrip ( etat_courant -> texte ));
+
+
+  /* onglet montant */
+
+  if ( etat_courant -> montant )
+    gtk_entry_set_text ( GTK_ENTRY ( entree_montant_etat ),
+			 g_strdup_printf ( "%4.2f",
+					   etat_courant -> montant ));
+
+  /* on se met sur la bonne page */
+
+  gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_etats ),
+			  1 );
+
+  /* on empêche le changement d'état */
+
+  gtk_widget_set_sensitive ( frame_liste_etats,
+			     FALSE );
+
+}
+/*****************************************************************************************************/
+
+
+/*****************************************************************************************************/
+void annule_modif_config ( void )
+{
+
+  gtk_widget_set_sensitive ( frame_liste_etats,
+			     TRUE );
+  gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_etats ),
+			  0 );
+
+}
+/*****************************************************************************************************/
+
+
+
+/*****************************************************************************************************/
+void selectionne_liste_exo_etat_courant ( void )
+{
+  GSList *pointeur_sliste;
+
+  if ( !etat_courant )
+    return;
+
+  pointeur_sliste = etat_courant -> no_exercices;
+
+  while ( pointeur_sliste )
+    {
+      gtk_clist_select_row ( GTK_CLIST ( liste_exo_etat ),
+			     g_slist_position ( liste_struct_exercices,
+						g_slist_find_custom ( liste_struct_exercices,
+								      pointeur_sliste -> data,
+								      (GCompareFunc) recherche_exercice_par_no )),
+			     0 );
+      pointeur_sliste = pointeur_sliste -> next;
+    }
+}
+/*****************************************************************************************************/
+
+
+
+
+/*****************************************************************************************************/
+void selectionne_liste_comptes_etat_courant ( void )
+{
+  GSList *pointeur_sliste;
+
+  if ( !etat_courant )
+    return;
+
+  pointeur_sliste = etat_courant -> no_comptes;
+
+  while ( pointeur_sliste )
+    {
+      gtk_clist_select_row ( GTK_CLIST ( liste_comptes_etat ),
+			     gtk_clist_find_row_from_data ( GTK_CLIST ( liste_comptes_etat ),
+							    pointeur_sliste -> data ),
+			     0 );
+      pointeur_sliste = pointeur_sliste -> next;
+    }
+}
+/*****************************************************************************************************/
+
+
+
+
+/*****************************************************************************************************/
+void selectionne_liste_categ_etat_courant ( void )
+{
+  GSList *pointeur_sliste;
+
+  if ( !etat_courant )
+    return;
+
+  pointeur_sliste = etat_courant -> no_categ;
+
+  while ( pointeur_sliste )
+    {
+      gtk_clist_select_row ( GTK_CLIST ( liste_categ_etat ),
+			     gtk_clist_find_row_from_data ( GTK_CLIST ( liste_categ_etat ),
+							    pointeur_sliste -> data ),
+			     0 );
+      pointeur_sliste = pointeur_sliste -> next;
+    }
+}
+/*****************************************************************************************************/
+
+/*****************************************************************************************************/
+void selectionne_devise_categ_etat_courant ( void )
+{
+
+  if ( !etat_courant )
+    return;
+
+  gtk_option_menu_set_history ( GTK_OPTION_MENU ( bouton_devise_categ_etat ),
+				g_slist_position ( liste_struct_devises,
+						   g_slist_find_custom ( liste_struct_devises,
+									 GINT_TO_POINTER ( etat_courant -> devise_de_calcul_categ ),
+									 ( GCompareFunc ) recherche_devise_par_no )));
+}
+/*****************************************************************************************************/
+
+
+
+
+/*****************************************************************************************************/
+void selectionne_liste_ib_etat_courant ( void )
+{
+  GSList *pointeur_sliste;
+
+  if ( !etat_courant )
+    return;
+
+  pointeur_sliste = etat_courant -> no_ib;
+
+  while ( pointeur_sliste )
+    {
+      gtk_clist_select_row ( GTK_CLIST ( liste_ib_etat ),
+			     gtk_clist_find_row_from_data ( GTK_CLIST ( liste_ib_etat ),
+							    pointeur_sliste -> data ),
+			     0 );
+      pointeur_sliste = pointeur_sliste -> next;
+    }
+}
+/*****************************************************************************************************/
+
+
+
+/*****************************************************************************************************/
+void selectionne_devise_ib_etat_courant ( void )
+{
+
+  if ( !etat_courant )
+    return;
+
+  gtk_option_menu_set_history ( GTK_OPTION_MENU ( bouton_devise_ib_etat ),
+				g_slist_position ( liste_struct_devises,
+						   g_slist_find_custom ( liste_struct_devises,
+									 GINT_TO_POINTER ( etat_courant -> devise_de_calcul_ib ),
+									 ( GCompareFunc ) recherche_devise_par_no )));
+}
+/*****************************************************************************************************/
+
+
+
+
+/*****************************************************************************************************/
+void selectionne_liste_tiers_etat_courant ( void )
+{
+  GSList *pointeur_sliste;
+
+  if ( !etat_courant )
+    return;
+
+  pointeur_sliste = etat_courant -> no_tiers;
+
+  while ( pointeur_sliste )
+    {
+      gtk_clist_select_row ( GTK_CLIST ( liste_tiers_etat ),
+			     gtk_clist_find_row_from_data ( GTK_CLIST ( liste_tiers_etat ),
+							    pointeur_sliste -> data ),
+			     0 );
+      pointeur_sliste = pointeur_sliste -> next;
+    }
+}
+/*****************************************************************************************************/
+
+
+
+
+
+/*****************************************************************************************************/
+void selectionne_devise_tiers_etat_courant ( void )
+{
+
+  if ( !etat_courant )
+    return;
+
+  gtk_option_menu_set_history ( GTK_OPTION_MENU ( bouton_devise_tiers_etat ),
+				g_slist_position ( liste_struct_devises,
+						   g_slist_find_custom ( liste_struct_devises,
+									 GINT_TO_POINTER ( etat_courant -> devise_de_calcul_tiers ),
+									 ( GCompareFunc ) recherche_devise_par_no )));
+}
+/*****************************************************************************************************/
+
+
+
+
+/*****************************************************************************************************/
+void recuperation_info_perso_etat ( void )
+{
+  GList *pointeur_liste;
+  gchar *pointeur_char;
+  gint i;
+
 
   /* vérification que les dates init et finales sont correctes */
 
@@ -142,7 +782,7 @@ void personnalisation_etat (void)
        !modifie_date ( entree_date_init_etat ))
     {
       dialogue ( _("La date initiale personnelle est invalide") );
-      goto retour_etat;
+      return;
     }
 
   if ( strlen ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( entree_date_finale_etat ))))
@@ -150,7 +790,7 @@ void personnalisation_etat (void)
        !modifie_date ( entree_date_finale_etat ))
     {
       dialogue ( _("La date finale personnelle est invalide") );
-      goto retour_etat;
+      return;
     }
 
 
@@ -165,6 +805,9 @@ void personnalisation_etat (void)
 		etat_courant -> nom_etat ))
     {
       etat_courant -> nom_etat = g_strdup ( pointeur_char );
+
+      gtk_label_set_text ( GTK_LABEL ( label_etat_courant ),
+			   etat_courant -> nom_etat );
 
       /* on réaffiche la liste des états */
 
@@ -505,43 +1148,59 @@ void personnalisation_etat (void)
     etat_courant -> montant = 0;
 
 
-  gnome_dialog_close ( GNOME_DIALOG ( dialog ));
   modification_fichier ( TRUE );
 
   /* on réaffiche l'état */
 
   rafraichissement_etat ( etat_courant );
+
+  /* on repasse à la 1ère page du notebook */
+
+  gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_etats ),
+			  0 );
+  gtk_widget_set_sensitive ( frame_liste_etats,
+			     TRUE );
+
 }
 /*****************************************************************************************************/
 
 
 
 /*****************************************************************************************************/
-GtkWidget *onglet_etat_generalites ( struct struct_etat *etat )
+GtkWidget *onglet_etat_generalites ( void )
 {
   GtkWidget *widget_retour;
   GtkWidget *label;
   GtkWidget *hbox;
   GtkWidget *scrolled_window;
   GtkWidget *frame;
-  GList *pointeur_liste;
-  GtkCTreeNode *parent;
   GtkWidget *vbox;
   GtkWidget *fleche;
   GtkWidget *separateur;
-  GtkWidget * table;
+  GtkWidget *table;
+  GtkWidget *vbox_onglet;
 
-  widget_retour = gtk_vbox_new ( FALSE,
-				 5 );
-  gtk_container_set_border_width ( GTK_CONTAINER ( widget_retour ),
-				   10 );
+  widget_retour = gtk_scrolled_window_new ( FALSE,
+					    FALSE );
+  gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( widget_retour ),
+				   GTK_POLICY_AUTOMATIC,
+				   GTK_POLICY_AUTOMATIC );
   gtk_widget_show ( widget_retour );
+
+
+  vbox_onglet = gtk_vbox_new ( FALSE,
+				 5 );
+  gtk_container_set_border_width ( GTK_CONTAINER ( vbox_onglet ),
+				   10 );
+  gtk_scrolled_window_add_with_viewport ( GTK_SCROLLED_WINDOW ( widget_retour ),
+					  vbox_onglet );
+  gtk_widget_show ( vbox_onglet );
 
   /* choix du nom du rapport */
 
   hbox = gtk_hbox_new ( FALSE,
 			5 );
-  gtk_box_pack_start ( GTK_BOX ( widget_retour ),
+  gtk_box_pack_start ( GTK_BOX ( vbox_onglet ),
 		       hbox,
 		       FALSE,
 		       FALSE,
@@ -568,7 +1227,7 @@ GtkWidget *onglet_etat_generalites ( struct struct_etat *etat )
 
   hbox = gtk_hbox_new ( FALSE,
 			5 );
-  gtk_box_pack_start ( GTK_BOX ( widget_retour ),
+  gtk_box_pack_start ( GTK_BOX ( vbox_onglet ),
 		       hbox,
 		       FALSE,
 		       FALSE,
@@ -658,7 +1317,7 @@ GtkWidget *onglet_etat_generalites ( struct struct_etat *etat )
 
 
   bouton_afficher_opes = gtk_check_button_new_with_label ( _("Afficher les opérations") );
-  gtk_box_pack_start ( GTK_BOX ( widget_retour ),
+  gtk_box_pack_start ( GTK_BOX ( vbox_onglet ),
 		       bouton_afficher_opes,
 		       FALSE,
 		       FALSE,
@@ -669,20 +1328,20 @@ GtkWidget *onglet_etat_generalites ( struct struct_etat *etat )
 
   hbox = gtk_hbox_new ( FALSE,
 			0 );
-  gtk_box_pack_start ( GTK_BOX ( widget_retour ),
+  gtk_box_pack_start ( GTK_BOX ( vbox_onglet ),
 		       hbox,
 		       FALSE,
 		       FALSE,
 		       0 );
   gtk_widget_show ( hbox );
 
-  frame = gtk_frame_new ( _("Afficher les informations sur") );
+  frame_onglet_generalites = gtk_frame_new ( _("Afficher les informations sur") );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
-		       frame,
+		       frame_onglet_generalites,
 		       FALSE,
 		       FALSE,
 		       0 );
-  gtk_widget_show ( frame );
+  gtk_widget_show ( frame_onglet_generalites );
 
 
   /* connection pour rendre sensitif la frame */
@@ -690,13 +1349,13 @@ GtkWidget *onglet_etat_generalites ( struct struct_etat *etat )
   gtk_signal_connect ( GTK_OBJECT ( bouton_afficher_opes ),
 		       "toggled",
 		       GTK_SIGNAL_FUNC ( sens_desensitive_pointeur ),
-		       frame );
+		       frame_onglet_generalites );
 
 
   table = gtk_table_new ( 9,
 			  3,
 			  FALSE );
-  gtk_container_add ( GTK_CONTAINER ( frame ),
+  gtk_container_add ( GTK_CONTAINER ( frame_onglet_generalites ),
 		      table );
   gtk_widget_show ( table );
 
@@ -1008,7 +1667,7 @@ GtkWidget *onglet_etat_generalites ( struct struct_etat *etat )
 
 
   bouton_pas_detailler_ventilation = gtk_check_button_new_with_label ( _("Ne pas détailler les opérations ventilées") );
-  gtk_box_pack_start ( GTK_BOX ( widget_retour ),
+  gtk_box_pack_start ( GTK_BOX ( vbox_onglet ),
 		       bouton_pas_detailler_ventilation,
 		       FALSE,
 		       FALSE,
@@ -1017,7 +1676,7 @@ GtkWidget *onglet_etat_generalites ( struct struct_etat *etat )
 
   hbox = gtk_hbox_new ( FALSE,
 			5 );
-  gtk_box_pack_start ( GTK_BOX ( widget_retour ),
+  gtk_box_pack_start ( GTK_BOX ( vbox_onglet ),
 		       hbox,
 		       FALSE,
 		       FALSE,
@@ -1042,131 +1701,6 @@ GtkWidget *onglet_etat_generalites ( struct struct_etat *etat )
 		       FALSE,
 		       0 );
   gtk_widget_show ( bouton_devise_general_etat );
-
-
-
-
-  /* on met le nom de l'état */
-
-  gtk_entry_set_text ( GTK_ENTRY ( entree_nom_etat ),
-		       etat -> nom_etat );
-
-  /* on remplit le ctree en fonction du classement courant */
-
-  pointeur_liste = etat -> type_classement;
-  parent = NULL;
-
-  while ( pointeur_liste )
-    {
-      gchar *text[1];
-
-      text[0] = NULL;
-
-      switch ( GPOINTER_TO_INT ( pointeur_liste -> data ))
-	{
-	case 1:
-	  text[0] = _("Catégorie");
-	  break;
-
-	case 3:
-	  text[0] = _("Imputation budgétaire");
-	  break;
-
-	case 5:
-	  text[0] = _("Compte");
-	  break;
-
-	case 6:
-	  text[0] = _("Tiers");
-	  break;
-
-	default:
-	}
-
-      if ( text[0] )
-	{
-	  parent = gtk_ctree_insert_node ( GTK_CTREE ( liste_type_classement_etat ),
-					   parent,
-					   NULL,
-					   text,
-					   5,
-					   NULL,
-					   NULL,
-					   NULL,
-					   NULL,
-					   FALSE,
-					   TRUE );
-	  gtk_ctree_node_set_row_data ( GTK_CTREE ( liste_type_classement_etat ),
-					GTK_CTREE_NODE ( parent ),
-					pointeur_liste -> data );
-	}
-
-      pointeur_liste = pointeur_liste -> next;
-    }
-
-  gtk_clist_select_row ( GTK_CLIST ( liste_type_classement_etat ),
-			 0,
-			 0 );
-
-  gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_opes ),
-				 etat -> afficher_opes );
-
-  gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_no_ope ),
-				 etat -> afficher_no_ope );
-  gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_date_opes ),
-				 etat -> afficher_date_ope );
-  gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_tiers_opes ),
-				 etat -> afficher_tiers_ope );
-  gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_categ_opes ),
-				 etat -> afficher_categ_ope );
-  gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_sous_categ_opes ),
-				 etat -> afficher_sous_categ_ope );
-  gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_type_ope ),
-				 etat -> afficher_type_ope );
-  gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_ib_opes ),
-				 etat -> afficher_ib_ope );
-  gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_sous_ib_opes ),
-				 etat -> afficher_sous_ib_ope );
-  gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_no_cheque ),
-				 etat -> afficher_cheque_ope );
-  gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_notes_opes ),
-				 etat -> afficher_notes_ope );
-  gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_pc_opes ),
-				 etat -> afficher_pc_ope );
-  gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_no_rappr ),
-				 etat -> afficher_rappr_ope );
-  gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_infobd_opes ),
-				 etat -> afficher_infobd_ope );
-  gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_pas_detailler_ventilation ),
-				 etat -> pas_detailler_ventilation );
-  gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_exo_opes ),
-				 etat -> afficher_exo_ope );
-  gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_titres_colonnes ),
-				 etat -> afficher_titre_colonnes );
-  if ( !etat_courant -> type_affichage_titres )
-    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_titre_en_haut ),
-				   TRUE );
-
-  /* on rend insensitif les sous qque choses si nécessaire */
-
-  sens_desensitive_pointeur ( bouton_afficher_opes,
-			      frame );
-  sens_desensitive_pointeur ( bouton_afficher_categ_opes,
-			      bouton_afficher_sous_categ_opes );
-  sens_desensitive_pointeur ( bouton_afficher_ib_opes,
-			      bouton_afficher_sous_ib_opes );
-  sens_desensitive_pointeur ( bouton_afficher_titres_colonnes,
-			      bouton_titre_changement );
-  sens_desensitive_pointeur ( bouton_afficher_titres_colonnes,
-			      bouton_titre_en_haut );
-
-  /* mise en forme de la devise */
-
-  gtk_option_menu_set_history ( GTK_OPTION_MENU ( bouton_devise_general_etat ),
-				g_slist_position ( liste_struct_devises,
-						   g_slist_find_custom ( liste_struct_devises,
-									 GINT_TO_POINTER ( etat -> devise_de_calcul_general ),
-									 ( GCompareFunc ) recherche_devise_par_no )));
 
   return ( widget_retour );
 }
@@ -1285,13 +1819,12 @@ void sens_desensitive_pointeur ( GtkWidget *bouton,
 
 
 /*****************************************************************************************************/
-GtkWidget *onglet_etat_dates ( struct struct_etat *etat )
+GtkWidget *onglet_etat_dates ( void )
 {
   GtkWidget *widget_retour;
   GtkWidget *separateur;
   GtkWidget *vbox;
   GtkWidget *scrolled_window;
-  GSList *pointeur_liste;
   gchar **plages_dates;
   gint i;
   GtkWidget *hbox;
@@ -1299,19 +1832,30 @@ GtkWidget *onglet_etat_dates ( struct struct_etat *etat )
   GtkWidget *frame;
   GtkWidget *menu;
   GtkWidget *menu_item;
+  GtkWidget *hbox_onglet;
 
-  widget_retour = gtk_hbox_new ( FALSE,
-				 5 );
-  gtk_container_set_border_width ( GTK_CONTAINER ( widget_retour ),
-				   10 );
+  widget_retour = gtk_scrolled_window_new ( FALSE,
+					    FALSE );
+  gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( widget_retour ),
+				   GTK_POLICY_AUTOMATIC,
+				   GTK_POLICY_AUTOMATIC );
   gtk_widget_show ( widget_retour );
+
+
+  hbox_onglet = gtk_hbox_new ( FALSE,
+				 5 );
+  gtk_container_set_border_width ( GTK_CONTAINER ( hbox_onglet ),
+				   10 );
+  gtk_scrolled_window_add_with_viewport ( GTK_SCROLLED_WINDOW ( widget_retour ),
+					  hbox_onglet );
+  gtk_widget_show ( hbox_onglet );
 
 
   /*   on met en forme la partie de gauche : utilisation des exercices */
 
   vbox = gtk_vbox_new ( FALSE,
 			5 );
-  gtk_box_pack_start ( GTK_BOX ( widget_retour ),
+  gtk_box_pack_start ( GTK_BOX ( hbox_onglet ),
 		       vbox,
 		       TRUE,
 		       TRUE,
@@ -1432,27 +1976,8 @@ GtkWidget *onglet_etat_dates ( struct struct_etat *etat )
 
   /* on remplit la liste des exercices */
 
-  pointeur_liste = liste_struct_exercices;
+  remplissage_liste_exo_etats ();
 
-  while ( pointeur_liste )
-    {
-      struct struct_exercice *exercice;
-      gchar *nom[1];
-      gint ligne;
-
-      exercice = pointeur_liste -> data;
-
-      nom[0] = exercice -> nom_exercice;
-
-      ligne = gtk_clist_append ( GTK_CLIST ( liste_exo_etat ),
-				 nom );
-
-      gtk_clist_set_row_data ( GTK_CLIST ( liste_exo_etat ),
-			       ligne,
-			       GINT_TO_POINTER ( exercice -> no_exercice ));
-
-      pointeur_liste = pointeur_liste -> next;
-    }
 
   bouton_separe_exo_etat = gtk_check_button_new_with_label ( _("Séparer les résultats par exercice") );
   gtk_box_pack_start ( GTK_BOX ( vbox_utilisation_exo ),
@@ -1463,7 +1988,7 @@ GtkWidget *onglet_etat_dates ( struct struct_etat *etat )
   gtk_widget_show ( bouton_separe_exo_etat );
 
   separateur = gtk_vseparator_new ();
-  gtk_box_pack_start ( GTK_BOX ( widget_retour ),
+  gtk_box_pack_start ( GTK_BOX ( hbox_onglet ),
 		       separateur,
 		       FALSE,
 		       FALSE,
@@ -1475,7 +2000,7 @@ GtkWidget *onglet_etat_dates ( struct struct_etat *etat )
 
   vbox = gtk_vbox_new ( FALSE,
 			5 );
-  gtk_box_pack_start ( GTK_BOX ( widget_retour ),
+  gtk_box_pack_start ( GTK_BOX ( hbox_onglet ),
 		       vbox,
 		       TRUE,
 		       TRUE,
@@ -1829,136 +2354,6 @@ GtkWidget *onglet_etat_dates ( struct struct_etat *etat )
 		       0 );
   gtk_widget_show ( bouton_debut_semaine );
 
-
-
-  /* on remplit maintenant en fonction des données */
-
-  if ( etat -> exo_date )
-    {
-      gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( radio_button_utilise_exo ),
-				     TRUE );
-      gtk_widget_set_sensitive ( vbox_utilisation_date,
-				 FALSE );
-    }
-  else
-    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( radio_button_utilise_dates ),
-				   TRUE );
-
-
-  if ( etat -> utilise_detail_exo == 3 )
-    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_detaille_exo_etat ),
-				   TRUE );
-  else
-    {
-      gtk_widget_set_sensitive ( vbox_generale_exo_etat,
-				 FALSE );
-
-      if ( etat -> utilise_detail_exo )
-	{
-	  if ( etat -> utilise_detail_exo == 1 )
-	    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_exo_courant ),
-					   TRUE );
-	  else
-	    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_exo_precedent ),
-					   TRUE );
-	}
-      else
-	gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_exo_tous ),
-				       TRUE );
-    }
-
-
-  /* on sélectionne les exercices */
-
-  pointeur_liste = etat -> no_exercices;
-
-  while ( pointeur_liste )
-    {
-      gtk_clist_select_row ( GTK_CLIST ( liste_exo_etat ),
-			     g_slist_position ( liste_struct_exercices,
-						g_slist_find_custom ( liste_struct_exercices,
-								      pointeur_liste -> data,
-								      (GCompareFunc) recherche_exercice_par_no )),
-			     0 );
-      pointeur_liste = pointeur_liste -> next;
-    }
-
-
-
-  gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_separe_exo_etat ),
-				 etat -> separation_par_exo );
-
-  /* on sélectionne la plage de date */
-
-  gtk_clist_select_row ( GTK_CLIST ( liste_plages_dates_etat ),
-			 etat -> no_plage_date,
-			 0 );
-
-  if ( etat -> no_plage_date != 1 )
-    {
-      gtk_widget_set_sensitive ( entree_date_init_etat,
-				 FALSE );
-      gtk_widget_set_sensitive ( entree_date_finale_etat,
-				 FALSE );
-    }
-  else
-    {
-      gtk_widget_set_sensitive ( entree_date_init_etat,
-				 TRUE );
-      gtk_widget_set_sensitive ( entree_date_finale_etat,
-				 TRUE );
-    }
-
-  /* on remplit les dates perso si elles existent */
-
-  if ( etat -> date_perso_debut )
-    gtk_entry_set_text ( GTK_ENTRY ( entree_date_init_etat ),
-			 g_strdup_printf ( "%d/%d/%d",
-					   g_date_day ( etat -> date_perso_debut ),
-					   g_date_month ( etat -> date_perso_debut ),
-					   g_date_year ( etat -> date_perso_debut )));
-
-  if ( etat -> date_perso_fin )
-    gtk_entry_set_text ( GTK_ENTRY ( entree_date_finale_etat ),
-			 g_strdup_printf ( "%d/%d/%d",
-					   g_date_day ( etat -> date_perso_fin ),
-					   g_date_month ( etat -> date_perso_fin ),
-					   g_date_year ( etat -> date_perso_fin )));
-
-  /* on remplit les détails de la séparation des dates */
-
-  if ( etat -> separation_par_plage )
-    {
-      gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_separe_plages_etat ),
-				     TRUE );
-      gtk_widget_set_sensitive ( bouton_type_separe_plages_etat,
-				 TRUE );
-      modif_type_separation_dates ( GINT_TO_POINTER ( etat -> type_separation_plage ));
-    }
-  else
-    {
-      gtk_widget_set_sensitive ( bouton_type_separe_plages_etat,
-				 FALSE );
-      gtk_widget_set_sensitive ( bouton_debut_semaine,
-				 FALSE );
-      gtk_widget_set_sensitive ( bouton_type_separe_perso_etat,
-				 FALSE );
-      gtk_widget_set_sensitive ( entree_separe_perso_etat,
-				 FALSE );
-    }
-
-  gtk_option_menu_set_history ( GTK_OPTION_MENU ( bouton_type_separe_plages_etat ),
-				etat -> type_separation_plage );
-  gtk_option_menu_set_history ( GTK_OPTION_MENU ( bouton_debut_semaine ),
-				etat -> jour_debut_semaine );
-  gtk_option_menu_set_history ( GTK_OPTION_MENU ( bouton_type_separe_perso_etat ),
-				etat -> type_separation_perso );
-
-  if ( etat -> delai_separation_perso )
-    gtk_entry_set_text ( GTK_ENTRY ( entree_separe_perso_etat ),
-			 itoa ( etat -> delai_separation_perso ));
-
-
   return ( widget_retour );
 }
 /*****************************************************************************************************/
@@ -2255,31 +2650,76 @@ void modif_type_separation_dates ( gint *origine )
 /*****************************************************************************************************/
 
 
+/*****************************************************************************************************/
+void remplissage_liste_exo_etats ( void )
+{
+  GSList *pointeur_liste;
+
+  if ( !onglet_config_etat )
+    return;
+
+  gtk_clist_clear ( GTK_CLIST ( liste_exo_etat ) );
+
+  pointeur_liste = liste_struct_exercices;
+
+  while ( pointeur_liste )
+    {
+      struct struct_exercice *exercice;
+      gchar *nom[1];
+      gint ligne;
+
+      exercice = pointeur_liste -> data;
+
+      nom[0] = exercice -> nom_exercice;
+
+      ligne = gtk_clist_append ( GTK_CLIST ( liste_exo_etat ),
+				 nom );
+
+      gtk_clist_set_row_data ( GTK_CLIST ( liste_exo_etat ),
+			       ligne,
+			       GINT_TO_POINTER ( exercice -> no_exercice ));
+
+      pointeur_liste = pointeur_liste -> next;
+    }
+}
+/*****************************************************************************************************/
+
+
 
 /*****************************************************************************************************/
-GtkWidget *onglet_etat_comptes ( struct struct_etat *etat )
+GtkWidget *onglet_etat_comptes ( void )
 {
   GtkWidget *widget_retour;
   GtkWidget *scrolled_window;
   GtkWidget *bouton;
   GtkWidget *vbox;
-  gint i;
   GtkWidget *label;
-  GSList *pointeur_liste;
   GtkWidget *hbox;
+  GtkWidget *vbox_onglet;
 
-  widget_retour = gtk_vbox_new ( FALSE,
-				 5 );
-  gtk_container_set_border_width ( GTK_CONTAINER ( widget_retour ),
-				   10 );
+  widget_retour = gtk_scrolled_window_new ( FALSE,
+					    FALSE );
+  gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( widget_retour ),
+				   GTK_POLICY_AUTOMATIC,
+				   GTK_POLICY_AUTOMATIC );
   gtk_widget_show ( widget_retour );
+
+
+  vbox_onglet = gtk_vbox_new ( FALSE,
+				 5 );
+  gtk_container_set_border_width ( GTK_CONTAINER ( vbox_onglet ),
+				   10 );
+  gtk_scrolled_window_add_with_viewport ( GTK_SCROLLED_WINDOW ( widget_retour ),
+					  vbox_onglet );
+  gtk_widget_show ( vbox_onglet );
+
 
 
   /* on met dans la partie de gauche une liste contenant les comptes à */
   /* sélectionner */
 
   bouton_detaille_comptes_etat = gtk_check_button_new_with_label ( _("Détailler les comptes utilisés") );
-  gtk_box_pack_start ( GTK_BOX ( widget_retour ),
+  gtk_box_pack_start ( GTK_BOX ( vbox_onglet ),
 		       bouton_detaille_comptes_etat,
 		       FALSE,
 		       FALSE,
@@ -2288,7 +2728,7 @@ GtkWidget *onglet_etat_comptes ( struct struct_etat *etat )
 
   vbox_generale_comptes_etat = gtk_vbox_new ( FALSE,
 					      5 );
-  gtk_box_pack_start ( GTK_BOX ( widget_retour ),
+  gtk_box_pack_start ( GTK_BOX ( vbox_onglet ),
 		       vbox_generale_comptes_etat,
 		       TRUE,
 		       TRUE,
@@ -2342,23 +2782,7 @@ GtkWidget *onglet_etat_comptes ( struct struct_etat *etat )
 
   /* on remplit la liste des comptes */
 
-  p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
-
-  for ( i=0 ; i<nb_comptes ; i++ )
-    {
-      gchar *nom[1];
-      gint ligne;
-
-      nom[0] = NOM_DU_COMPTE;
-
-      ligne = gtk_clist_append ( GTK_CLIST ( liste_comptes_etat ),
-				 nom );
-
-      gtk_clist_set_row_data ( GTK_CLIST ( liste_comptes_etat ),
-			       ligne,
-			       GINT_TO_POINTER ( NO_COMPTE ));
-      p_tab_nom_de_compte_variable++;
-    }
+  remplissage_liste_comptes_etats ();
 
       
 
@@ -2403,7 +2827,7 @@ GtkWidget *onglet_etat_comptes ( struct struct_etat *etat )
 
 
   bouton_regroupe_ope_compte_etat = gtk_check_button_new_with_label ( _("Regrouper les opérations par compte") );
-  gtk_box_pack_start ( GTK_BOX ( widget_retour ),
+  gtk_box_pack_start ( GTK_BOX ( vbox_onglet ),
 		       bouton_regroupe_ope_compte_etat,
 		       FALSE,
 		       FALSE,
@@ -2411,7 +2835,7 @@ GtkWidget *onglet_etat_comptes ( struct struct_etat *etat )
   gtk_widget_show ( bouton_regroupe_ope_compte_etat );
 
   bouton_affiche_sous_total_compte = gtk_check_button_new_with_label ( _("Afficher un sous-total lors d'un changement de compte") );
-  gtk_box_pack_start ( GTK_BOX ( widget_retour ),
+  gtk_box_pack_start ( GTK_BOX ( vbox_onglet ),
 		       bouton_affiche_sous_total_compte,
 		       FALSE,
 		       FALSE,
@@ -2423,33 +2847,6 @@ GtkWidget *onglet_etat_comptes ( struct struct_etat *etat )
 		       GTK_SIGNAL_FUNC ( sens_desensitive_pointeur ),
 		       bouton_affiche_sous_total_compte );
 
-  /* on va maintenant sélectionner les comptes nécessaires */
-
-  if ( etat -> utilise_detail_comptes )
-    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_detaille_comptes_etat ),
-				   TRUE );
-  else
-    gtk_widget_set_sensitive ( vbox_generale_comptes_etat,
-			       FALSE );
-
-  pointeur_liste = etat -> no_comptes;
-
-  while ( pointeur_liste )
-    {
-      gtk_clist_select_row ( GTK_CLIST ( liste_comptes_etat ),
-			     gtk_clist_find_row_from_data ( GTK_CLIST ( liste_comptes_etat ),
-							    pointeur_liste -> data ),
-			     0 );
-      pointeur_liste = pointeur_liste -> next;
-    }
-
-  gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_regroupe_ope_compte_etat ),
-				 etat -> regroupe_ope_par_compte );
-  gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_affiche_sous_total_compte ),
-				 etat -> affiche_sous_total_compte );
-
-  sens_desensitive_pointeur ( bouton_regroupe_ope_compte_etat,
-			      bouton_affiche_sous_total_compte );
   return ( widget_retour );
 }
 /*****************************************************************************************************/
@@ -2457,26 +2854,71 @@ GtkWidget *onglet_etat_comptes ( struct struct_etat *etat )
 
 
 /*****************************************************************************************************/
-GtkWidget *onglet_etat_categories ( struct struct_etat *etat )
+void remplissage_liste_comptes_etats ( void )
+{
+  gint i;
+
+  if ( !onglet_config_etat )
+    return;
+
+  gtk_clist_clear ( GTK_CLIST ( liste_comptes_etat ) );
+
+  p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
+
+  for ( i=0 ; i<nb_comptes ; i++ )
+    {
+      gchar *nom[1];
+      gint ligne;
+
+      nom[0] = NOM_DU_COMPTE;
+
+      ligne = gtk_clist_append ( GTK_CLIST ( liste_comptes_etat ),
+				 nom );
+
+      gtk_clist_set_row_data ( GTK_CLIST ( liste_comptes_etat ),
+			       ligne,
+			       GINT_TO_POINTER ( NO_COMPTE ));
+      p_tab_nom_de_compte_variable++;
+    }
+}
+/*****************************************************************************************************/
+
+
+
+
+/*****************************************************************************************************/
+GtkWidget *onglet_etat_categories ( void )
 {
   GtkWidget *widget_retour;
   GtkWidget *frame;
   GtkWidget *vbox;
   GtkWidget *label;
-  GSList *pointeur_liste;
   GtkWidget *scrolled_window;
   GtkWidget *bouton;
   GtkWidget *separateur;
   GtkWidget *hbox;
+  GtkWidget *vbox_onglet;
 
-  widget_retour = gtk_vbox_new ( FALSE,
-				 5 );
-  gtk_container_set_border_width ( GTK_CONTAINER ( widget_retour ),
-				   10 );
+  widget_retour = gtk_scrolled_window_new ( FALSE,
+					    FALSE );
+  gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( widget_retour ),
+				   GTK_POLICY_AUTOMATIC,
+				   GTK_POLICY_AUTOMATIC );
   gtk_widget_show ( widget_retour );
 
+
+  vbox_onglet = gtk_vbox_new ( FALSE,
+				 5 );
+  gtk_container_set_border_width ( GTK_CONTAINER ( vbox_onglet ),
+				   10 );
+  gtk_scrolled_window_add_with_viewport ( GTK_SCROLLED_WINDOW ( widget_retour ),
+					  vbox_onglet );
+  gtk_widget_show ( vbox_onglet );
+
+
+
   bouton_utilise_categ_etat = gtk_check_button_new_with_label ( _("Utiliser les catégories dans l'état") );
-  gtk_box_pack_start ( GTK_BOX ( widget_retour ),
+  gtk_box_pack_start ( GTK_BOX ( vbox_onglet ),
 		       bouton_utilise_categ_etat,
 		       FALSE,
 		       FALSE,
@@ -2485,7 +2927,7 @@ GtkWidget *onglet_etat_categories ( struct struct_etat *etat )
 
   vbox_generale_categ_etat = gtk_vbox_new ( FALSE,
 					    5 );
-  gtk_box_pack_start ( GTK_BOX ( widget_retour ),
+  gtk_box_pack_start ( GTK_BOX ( vbox_onglet ),
 		       vbox_generale_categ_etat,
 		       FALSE,
 		       FALSE,
@@ -2584,29 +3026,7 @@ GtkWidget *onglet_etat_categories ( struct struct_etat *etat )
 
   /* on va remplir la liste avec les catégories */
 
-  pointeur_liste = liste_struct_categories;
-
-  while ( pointeur_liste )
-    {
-      struct struct_categ *categ;
-      gchar *nom[1];
-      gint ligne;
-
-      categ = pointeur_liste -> data;
-
-      nom[0] = categ -> nom_categ;
-
-      ligne = gtk_clist_append ( GTK_CLIST ( liste_categ_etat ),
-				 nom );
-
-      gtk_clist_set_row_data ( GTK_CLIST ( liste_categ_etat ),
-			       ligne,
-			       GINT_TO_POINTER ( categ -> no_categ ));
-
-      pointeur_liste = pointeur_liste -> next;
-    }
-
-  gtk_clist_sort ( GTK_CLIST ( liste_categ_etat ));
+  remplissage_liste_categ_etats ();
 
   /*   sur la partie de droite, on met les boutons (dé)sélectionner tout */
 
@@ -2787,7 +3207,7 @@ GtkWidget *onglet_etat_categories ( struct struct_etat *etat )
 
 
   separateur = gtk_hseparator_new ();
-  gtk_box_pack_start ( GTK_BOX ( widget_retour ),
+  gtk_box_pack_start ( GTK_BOX ( vbox_onglet ),
 		       separateur,
 		       FALSE,
 		       FALSE,
@@ -2798,7 +3218,7 @@ GtkWidget *onglet_etat_categories ( struct struct_etat *etat )
 
   bouton_inclusion_virements_actifs_etat = gtk_radio_button_new_with_label ( NULL,
 									     _("Inclure les virements de ou vers les comptes d'actif et de passif") );
-  gtk_box_pack_start ( GTK_BOX ( widget_retour ),
+  gtk_box_pack_start ( GTK_BOX ( vbox_onglet ),
 		       bouton_inclusion_virements_actifs_etat,
 		       TRUE,
 		       FALSE,
@@ -2807,7 +3227,7 @@ GtkWidget *onglet_etat_categories ( struct struct_etat *etat )
 
   bouton_inclusion_virements_hors_etat = gtk_radio_button_new_with_label ( gtk_radio_button_group ( GTK_RADIO_BUTTON ( bouton_inclusion_virements_actifs_etat )),
 									   _("Inclure les virements de ou vers les comptes ne figurant pas dans l'état") );
-  gtk_box_pack_start ( GTK_BOX ( widget_retour ),
+  gtk_box_pack_start ( GTK_BOX ( vbox_onglet ),
 		       bouton_inclusion_virements_hors_etat,
 		       TRUE,
 		       FALSE,
@@ -2816,79 +3236,12 @@ GtkWidget *onglet_etat_categories ( struct struct_etat *etat )
 
   bouton_non_inclusion_virements = gtk_radio_button_new_with_label ( gtk_radio_button_group ( GTK_RADIO_BUTTON ( bouton_inclusion_virements_actifs_etat )),
 								     _("Ne pas inclure les virements") );
-  gtk_box_pack_start ( GTK_BOX ( widget_retour ),
+  gtk_box_pack_start ( GTK_BOX ( vbox_onglet ),
 		       bouton_non_inclusion_virements,
 		       TRUE,
 		       FALSE,
 		       0 );
   gtk_widget_show ( bouton_non_inclusion_virements );
-
-
-  /* on remplit les infos de l'état */
-
-  if ( etat -> utilise_categ )
-    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_utilise_categ_etat ),
-				   TRUE );
-  else
-    gtk_widget_set_sensitive ( vbox_generale_categ_etat,
-			       FALSE );
-
-  if ( etat -> utilise_detail_categ )
-    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_detaille_categ_etat ),
-				   TRUE );
-  else
-    gtk_widget_set_sensitive ( hbox_detaille_categ_etat,
-			       FALSE );
-
-  /* on sélectionne les catégories choisies */
-
-  pointeur_liste = etat -> no_categ;
-
-  while ( pointeur_liste )
-    {
-      gtk_clist_select_row ( GTK_CLIST ( liste_categ_etat ),
-			     gtk_clist_find_row_from_data ( GTK_CLIST ( liste_categ_etat ),
-							    pointeur_liste -> data ),
-			     0 );
-      pointeur_liste = pointeur_liste -> next;
-    }
-
-  gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_exclure_ope_sans_categ ),
-				 etat -> exclure_ope_sans_categ );
-  gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_affiche_sous_total_categ ),
-				 etat -> affiche_sous_total_categ );
-  gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_sous_categ ),
-				 etat -> afficher_sous_categ );
-  gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_affiche_sous_total_sous_categ ),
-				 etat -> affiche_sous_total_sous_categ );
-  gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_pas_de_sous_categ ),
-				 etat -> afficher_pas_de_sous_categ );
-  sens_desensitive_pointeur ( bouton_afficher_sous_categ,
-			      bouton_affiche_sous_total_sous_categ );
-  sens_desensitive_pointeur ( bouton_afficher_sous_categ,
-			      bouton_afficher_pas_de_sous_categ );
-
-  if ( etat -> type_virement )
-    {
-      if ( etat -> type_virement == 1 )
-	gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_inclusion_virements_actifs_etat ),
-				       TRUE );
-      else
-	gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_inclusion_virements_hors_etat ),
-				       TRUE );
-    }
-  else
-    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_non_inclusion_virements ),
-				   TRUE );
-
-  /* mise en forme de la devise */
-
-  gtk_option_menu_set_history ( GTK_OPTION_MENU ( bouton_devise_categ_etat ),
-				g_slist_position ( liste_struct_devises,
-						   g_slist_find_custom ( liste_struct_devises,
-									 GINT_TO_POINTER ( etat -> devise_de_calcul_categ ),
-									 ( GCompareFunc ) recherche_devise_par_no )));
-
 
   return ( widget_retour );
 }
@@ -2926,28 +3279,79 @@ void click_type_categ_etat ( gint type )
 /*****************************************************************************************************/
 
 
+/*****************************************************************************************************/
+void remplissage_liste_categ_etats ( void )
+{
+  GSList *pointeur_liste;
+
+  if ( !onglet_config_etat )
+    return;
+
+  gtk_clist_clear ( GTK_CLIST ( liste_categ_etat ) );
+
+  pointeur_liste = liste_struct_categories;
+
+  while ( pointeur_liste )
+    {
+      struct struct_categ *categ;
+      gchar *nom[1];
+      gint ligne;
+
+      categ = pointeur_liste -> data;
+
+      nom[0] = categ -> nom_categ;
+
+      ligne = gtk_clist_append ( GTK_CLIST ( liste_categ_etat ),
+				 nom );
+
+      gtk_clist_set_row_data ( GTK_CLIST ( liste_categ_etat ),
+			       ligne,
+			       GINT_TO_POINTER ( categ -> no_categ ));
+
+      pointeur_liste = pointeur_liste -> next;
+    }
+
+  gtk_clist_sort ( GTK_CLIST ( liste_categ_etat ));
+
+}
+/*****************************************************************************************************/
+
+
+
 
 /*****************************************************************************************************/
-GtkWidget *onglet_etat_ib ( struct struct_etat *etat )
+GtkWidget *onglet_etat_ib ( void )
 {
   GtkWidget *widget_retour;
   GtkWidget *frame;
   GtkWidget *vbox;
   GtkWidget *label;
-  GSList *pointeur_liste;
   GtkWidget *scrolled_window;
   GtkWidget *bouton;
   GtkWidget *hbox;
   GtkWidget *separateur;
+  GtkWidget *vbox_onglet;
 
-  widget_retour = gtk_vbox_new ( FALSE,
-				 5 );
-  gtk_container_set_border_width ( GTK_CONTAINER ( widget_retour ),
-				   10 );
+  widget_retour = gtk_scrolled_window_new ( FALSE,
+					    FALSE );
+  gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( widget_retour ),
+				   GTK_POLICY_AUTOMATIC,
+				   GTK_POLICY_AUTOMATIC );
   gtk_widget_show ( widget_retour );
 
+
+  vbox_onglet = gtk_vbox_new ( FALSE,
+				 5 );
+  gtk_container_set_border_width ( GTK_CONTAINER ( vbox_onglet ),
+				   10 );
+  gtk_scrolled_window_add_with_viewport ( GTK_SCROLLED_WINDOW ( widget_retour ),
+					  vbox_onglet );
+  gtk_widget_show ( vbox_onglet );
+
+
+
   bouton_utilise_ib_etat = gtk_check_button_new_with_label ( _("Utiliser les imputations budgétaires dans l'état") );
-  gtk_box_pack_start ( GTK_BOX ( widget_retour ),
+  gtk_box_pack_start ( GTK_BOX ( vbox_onglet ),
 		       bouton_utilise_ib_etat,
 		       FALSE,
 		       FALSE,
@@ -2956,7 +3360,7 @@ GtkWidget *onglet_etat_ib ( struct struct_etat *etat )
 
   vbox_generale_ib_etat = gtk_vbox_new ( FALSE,
 					 5 );
-  gtk_box_pack_start ( GTK_BOX ( widget_retour ),
+  gtk_box_pack_start ( GTK_BOX ( vbox_onglet ),
 		       vbox_generale_ib_etat,
 		       TRUE,
 		       TRUE,
@@ -3055,29 +3459,7 @@ GtkWidget *onglet_etat_ib ( struct struct_etat *etat )
 
   /* on va remplir la liste avec les ib */
 
-  pointeur_liste = liste_struct_imputation;
-
-  while ( pointeur_liste )
-    {
-      struct struct_imputation *imputation;
-      gchar *nom[1];
-      gint ligne;
-
-      imputation = pointeur_liste -> data;
-
-      nom[0] = imputation -> nom_imputation;
-
-      ligne = gtk_clist_append ( GTK_CLIST ( liste_ib_etat ),
-				 nom );
-
-      gtk_clist_set_row_data ( GTK_CLIST ( liste_ib_etat ),
-			       ligne,
-			       GINT_TO_POINTER ( imputation -> no_imputation ));
-
-      pointeur_liste = pointeur_liste -> next;
-    }
-
-  gtk_clist_sort ( GTK_CLIST ( liste_ib_etat ));
+  remplissage_liste_ib_etats ();
 
   /*   sur la partie de droite, on met les boutons (dé)sélectionner tout */
 
@@ -3252,58 +3634,6 @@ GtkWidget *onglet_etat_ib ( struct struct_etat *etat )
   gtk_widget_show ( bouton_devise_ib_etat );
 
 
-  /* on remplit les infos de l'état */
-
-  if ( etat -> utilise_ib )
-    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_utilise_ib_etat ),
-				   TRUE );
-  else
-    gtk_widget_set_sensitive ( vbox_generale_ib_etat,
-			       FALSE );
-
-  if ( etat -> utilise_detail_ib )
-    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_detaille_ib_etat ),
-				   TRUE );
-  else
-    gtk_widget_set_sensitive ( hbox_detaille_ib_etat,
-			       FALSE );
-
-  /* on sélectionne les ib choisies */
-
-  pointeur_liste = etat -> no_ib;
-
-  while ( pointeur_liste )
-    {
-      gtk_clist_select_row ( GTK_CLIST ( liste_ib_etat ),
-			     gtk_clist_find_row_from_data ( GTK_CLIST ( liste_ib_etat ),
-							    pointeur_liste -> data ),
-			     0 );
-      pointeur_liste = pointeur_liste -> next;
-    }
-
-  gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_exclure_ope_sans_ib ),
-				 etat -> exclure_ope_sans_ib );
-  gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_affiche_sous_total_ib ),
-				 etat -> affiche_sous_total_ib );
-  gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_sous_ib ),
-				 etat -> afficher_sous_ib );
-  gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_affiche_sous_total_sous_ib ),
-				 etat -> affiche_sous_total_sous_ib );
-  gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_pas_de_sous_ib ),
-				 etat -> afficher_pas_de_sous_ib );
-  sens_desensitive_pointeur ( bouton_afficher_sous_ib,
-			      bouton_affiche_sous_total_sous_ib );
-  sens_desensitive_pointeur ( bouton_afficher_sous_ib,
-			      bouton_afficher_pas_de_sous_ib );
-
-  /* mise en forme de la devise */
-
-  gtk_option_menu_set_history ( GTK_OPTION_MENU ( bouton_devise_ib_etat ),
-				g_slist_position ( liste_struct_devises,
-						   g_slist_find_custom ( liste_struct_devises,
-									 GINT_TO_POINTER ( etat -> devise_de_calcul_ib ),
-									 ( GCompareFunc ) recherche_devise_par_no )));
-
   return ( widget_retour );
 }
 /*****************************************************************************************************/
@@ -3339,9 +3669,46 @@ void click_type_ib_etat ( gint type )
 /*****************************************************************************************************/
 
 
+/*****************************************************************************************************/
+void remplissage_liste_ib_etats ( void )
+{
+  GSList *pointeur_liste;
+
+  if ( !onglet_config_etat )
+    return;
+
+  gtk_clist_clear ( GTK_CLIST ( liste_ib_etat ) );
+
+  pointeur_liste = liste_struct_imputation;
+
+  while ( pointeur_liste )
+    {
+      struct struct_imputation *imputation;
+      gchar *nom[1];
+      gint ligne;
+
+      imputation = pointeur_liste -> data;
+
+      nom[0] = imputation -> nom_imputation;
+
+      ligne = gtk_clist_append ( GTK_CLIST ( liste_ib_etat ),
+				 nom );
+
+      gtk_clist_set_row_data ( GTK_CLIST ( liste_ib_etat ),
+			       ligne,
+			       GINT_TO_POINTER ( imputation -> no_imputation ));
+
+      pointeur_liste = pointeur_liste -> next;
+    }
+
+  gtk_clist_sort ( GTK_CLIST ( liste_ib_etat ));
+}
+/*****************************************************************************************************/
+
+
 
 /*****************************************************************************************************/
-GtkWidget *onglet_etat_tiers ( struct struct_etat *etat )
+GtkWidget *onglet_etat_tiers ( void )
 {
   GtkWidget *widget_retour;
 
@@ -3349,19 +3716,31 @@ GtkWidget *onglet_etat_tiers ( struct struct_etat *etat )
   GtkWidget *vbox;
   GtkWidget *vbox2;
   GtkWidget *label;
-  GSList *pointeur_liste;
   GtkWidget *scrolled_window;
   GtkWidget *bouton;
   GtkWidget *hbox;
+  GtkWidget *vbox_onglet;
 
-  widget_retour = gtk_vbox_new ( FALSE,
-				 5 );
-  gtk_container_set_border_width ( GTK_CONTAINER ( widget_retour ),
-				   10 );
+  widget_retour = gtk_scrolled_window_new ( FALSE,
+					    FALSE );
+  gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( widget_retour ),
+				   GTK_POLICY_AUTOMATIC,
+				   GTK_POLICY_AUTOMATIC );
   gtk_widget_show ( widget_retour );
 
+
+  vbox_onglet = gtk_vbox_new ( FALSE,
+				 5 );
+  gtk_container_set_border_width ( GTK_CONTAINER ( vbox_onglet ),
+				   10 );
+  gtk_scrolled_window_add_with_viewport ( GTK_SCROLLED_WINDOW ( widget_retour ),
+					  vbox_onglet );
+  gtk_widget_show ( vbox_onglet );
+
+
+
   bouton_utilise_tiers_etat = gtk_check_button_new_with_label ( _("Utiliser les tiers dans l'état") );
-  gtk_box_pack_start ( GTK_BOX ( widget_retour ),
+  gtk_box_pack_start ( GTK_BOX ( vbox_onglet ),
 		       bouton_utilise_tiers_etat,
 		       FALSE,
 		       FALSE,
@@ -3370,7 +3749,7 @@ GtkWidget *onglet_etat_tiers ( struct struct_etat *etat )
 
   vbox_generale_tiers_etat = gtk_vbox_new ( FALSE,
 					    5 );
-  gtk_box_pack_start ( GTK_BOX ( widget_retour ),
+  gtk_box_pack_start ( GTK_BOX ( vbox_onglet ),
 		       vbox_generale_tiers_etat,
 		       TRUE,
 		       TRUE,
@@ -3469,29 +3848,7 @@ GtkWidget *onglet_etat_tiers ( struct struct_etat *etat )
 
   /* on va remplir la liste avec les tiers */
 
-  pointeur_liste = liste_struct_tiers;
-
-  while ( pointeur_liste )
-    {
-      struct struct_tiers *tiers;
-      gchar *nom[1];
-      gint ligne;
-
-      tiers = pointeur_liste -> data;
-
-      nom[0] = tiers -> nom_tiers;
-
-      ligne = gtk_clist_append ( GTK_CLIST ( liste_tiers_etat ),
-				 nom );
-
-      gtk_clist_set_row_data ( GTK_CLIST ( liste_tiers_etat ),
-			       ligne,
-			       GINT_TO_POINTER ( tiers -> no_tiers ));
-
-      pointeur_liste = pointeur_liste -> next;
-    }
-
-  gtk_clist_sort ( GTK_CLIST ( liste_tiers_etat ));
+  remplissage_liste_tiers_etats ();
 
   /*   sur la partie de droite, on met les boutons (dé)sélectionner tout */
 
@@ -3570,69 +3927,78 @@ GtkWidget *onglet_etat_tiers ( struct struct_etat *etat )
   gtk_widget_show ( bouton_devise_tiers_etat );
 
 
+  return ( widget_retour );
+}
+/*****************************************************************************************************/
 
-  /* on remplit les infos de l'état */
+/*****************************************************************************************************/
+void remplissage_liste_tiers_etats ( void )
+{
+  GSList *pointeur_liste;
 
-  if ( etat -> utilise_tiers )
-    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_utilise_tiers_etat ),
-				   TRUE );
-  else
-    gtk_widget_set_sensitive ( vbox_generale_tiers_etat,
-			       FALSE );
+  if ( !onglet_config_etat )
+    return;
 
-  if ( etat -> utilise_detail_tiers )
-    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_detaille_tiers_etat ),
-				   TRUE );
-  else
-    gtk_widget_set_sensitive ( hbox_detaille_tiers_etat,
-			       FALSE );
- 
-  /* on sélectionne les tiers choisies */
+  gtk_clist_clear ( GTK_CLIST ( liste_tiers_etat ) );
 
-  pointeur_liste = etat -> no_tiers;
+  pointeur_liste = liste_struct_tiers;
 
   while ( pointeur_liste )
     {
-      gtk_clist_select_row ( GTK_CLIST ( liste_tiers_etat ),
-			     gtk_clist_find_row_from_data ( GTK_CLIST ( liste_tiers_etat ),
-							    pointeur_liste -> data ),
-			     0 );
+      struct struct_tiers *tiers;
+      gchar *nom[1];
+      gint ligne;
+
+      tiers = pointeur_liste -> data;
+
+      nom[0] = tiers -> nom_tiers;
+
+      ligne = gtk_clist_append ( GTK_CLIST ( liste_tiers_etat ),
+				 nom );
+
+      gtk_clist_set_row_data ( GTK_CLIST ( liste_tiers_etat ),
+			       ligne,
+			       GINT_TO_POINTER ( tiers -> no_tiers ));
+
       pointeur_liste = pointeur_liste -> next;
     }
-    
-  gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_affiche_sous_total_tiers ),
-				 etat -> affiche_sous_total_tiers );
 
-  /* mise en forme de la devise */
+  gtk_clist_sort ( GTK_CLIST ( liste_tiers_etat ));
 
-  gtk_option_menu_set_history ( GTK_OPTION_MENU ( bouton_devise_tiers_etat ),
-				g_slist_position ( liste_struct_devises,
-						   g_slist_find_custom ( liste_struct_devises,
-									 GINT_TO_POINTER ( etat -> devise_de_calcul_tiers ),
-									 ( GCompareFunc ) recherche_devise_par_no )));
 
-  return ( widget_retour );
 }
 /*****************************************************************************************************/
 
 
 
 /*****************************************************************************************************/
-GtkWidget *onglet_etat_texte ( struct struct_etat *etat )
+GtkWidget *onglet_etat_texte ( void )
 {
   GtkWidget *widget_retour;
   GtkWidget *hbox;
   GtkWidget *label;
+  GtkWidget *vbox_onglet;
 
-  widget_retour = gtk_vbox_new ( FALSE,
-				 5 );
-  gtk_container_set_border_width ( GTK_CONTAINER ( widget_retour ),
-				   10 );
+  widget_retour = gtk_scrolled_window_new ( FALSE,
+					    FALSE );
+  gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( widget_retour ),
+				   GTK_POLICY_AUTOMATIC,
+				   GTK_POLICY_AUTOMATIC );
   gtk_widget_show ( widget_retour );
+
+
+  vbox_onglet = gtk_vbox_new ( FALSE,
+				 5 );
+  gtk_container_set_border_width ( GTK_CONTAINER ( vbox_onglet ),
+				   10 );
+  gtk_scrolled_window_add_with_viewport ( GTK_SCROLLED_WINDOW ( widget_retour ),
+					  vbox_onglet );
+  gtk_widget_show ( vbox_onglet );
+
 
   hbox = gtk_hbox_new ( FALSE,
 			5 );
-  gtk_box_pack_start ( GTK_BOX ( widget_retour ),
+  gtk_box_pack_start ( GTK_BOX ( vbox_onglet ),
 		       hbox,
 		       FALSE,
 		       FALSE,
@@ -3649,7 +4015,7 @@ GtkWidget *onglet_etat_texte ( struct struct_etat *etat )
 
   hbox = gtk_hbox_new ( FALSE,
 			5 );
-  gtk_box_pack_start ( GTK_BOX ( widget_retour ),
+  gtk_box_pack_start ( GTK_BOX ( vbox_onglet ),
 		       hbox,
 		       FALSE,
 		       FALSE,
@@ -3664,11 +4030,6 @@ GtkWidget *onglet_etat_texte ( struct struct_etat *etat )
 		     0 );
   gtk_widget_show ( entree_texte_etat );
 
-  /*   on remplit l'entrée */
-
-  if ( etat -> texte )
-    gtk_entry_set_text ( GTK_ENTRY ( entree_texte_etat ),
-			 g_strstrip ( etat -> texte ));
 
   return ( widget_retour );
 }
@@ -3677,21 +4038,34 @@ GtkWidget *onglet_etat_texte ( struct struct_etat *etat )
 
 
 /*****************************************************************************************************/
-GtkWidget *onglet_etat_montant ( struct struct_etat *etat )
+GtkWidget *onglet_etat_montant ( void )
 {
   GtkWidget *widget_retour;
   GtkWidget *hbox;
   GtkWidget *label;
+  GtkWidget *vbox_onglet;
 
-  widget_retour = gtk_vbox_new ( FALSE,
-				 5 );
-  gtk_container_set_border_width ( GTK_CONTAINER ( widget_retour ),
-				   10 );
+  widget_retour = gtk_scrolled_window_new ( FALSE,
+					    FALSE );
+  gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( widget_retour ),
+				   GTK_POLICY_AUTOMATIC,
+				   GTK_POLICY_AUTOMATIC );
   gtk_widget_show ( widget_retour );
+
+
+  vbox_onglet = gtk_vbox_new ( FALSE,
+				 5 );
+  gtk_container_set_border_width ( GTK_CONTAINER ( vbox_onglet ),
+				   10 );
+  gtk_scrolled_window_add_with_viewport ( GTK_SCROLLED_WINDOW ( widget_retour ),
+					  vbox_onglet );
+  gtk_widget_show ( vbox_onglet );
+
+
 
   hbox = gtk_hbox_new ( FALSE,
 			5 );
-  gtk_box_pack_start ( GTK_BOX ( widget_retour ),
+  gtk_box_pack_start ( GTK_BOX ( vbox_onglet ),
 		       hbox,
 		       FALSE,
 		       FALSE,
@@ -3708,7 +4082,7 @@ GtkWidget *onglet_etat_montant ( struct struct_etat *etat )
 
   hbox = gtk_hbox_new ( FALSE,
 			5 );
-  gtk_box_pack_start ( GTK_BOX ( widget_retour ),
+  gtk_box_pack_start ( GTK_BOX ( vbox_onglet ),
 		       hbox,
 		       FALSE,
 		       FALSE,
@@ -3723,12 +4097,6 @@ GtkWidget *onglet_etat_montant ( struct struct_etat *etat )
 		     0 );
   gtk_widget_show ( entree_montant_etat );
 
-  /* on remplit l'entrée */
-
-  if ( etat -> montant )
-    gtk_entry_set_text ( GTK_ENTRY ( entree_montant_etat ),
-			 g_strdup_printf ( "%4.2f",
-					   etat -> montant ));
 
   return ( widget_retour );
 }
