@@ -398,7 +398,7 @@ void add_transaction_to_category ( struct structure_operation * transaction,
 	sub_category -> nb_transactions ++;
 	sub_category -> balance += amount;
     }
-    else 
+    else if ( category )
     {
 	category -> nb_direct_transactions ++;
 	category -> direct_balance += amount;
