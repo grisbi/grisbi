@@ -26,7 +26,7 @@
 
 /*START_INCLUDE*/
 #include "gnucash.h"
-#include "utils.h"
+#include "utils_str.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

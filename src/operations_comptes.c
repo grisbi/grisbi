@@ -33,10 +33,11 @@
 #include "barre_outils.h"
 #include "operations_liste.h"
 #include "traitement_variables.h"
-#include "utils.h"
+#include "utils_str.h"
 #include "comptes_onglet.h"
 #include "operations_formulaire.h"
-#include "comptes_traitements.h"
+#include "utils.h"
+#include "utils_comptes.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

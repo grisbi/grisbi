@@ -25,6 +25,7 @@
 
 
 #include "include.h"
+#include "operations_formulaire_constants.h"
 
 
 /*START_INCLUDE*/
@@ -32,23 +33,32 @@
 #include "accueil.h"
 #include "exercice.h"
 #include "operations_liste.h"
-#include "devises.h"
-#include "equilibrage.h"
-#include "categories_onglet.h"
+#include "utils_devises.h"
+#include "utils_montants.h"
+#include "utils_categories.h"
 #include "type_operations.h"
+#include "devises.h"
 #include "dialog.h"
+#include "equilibrage.h"
 #include "calendar.h"
-#include "utils.h"
+#include "utils_dates.h"
 #include "gtk_combofix.h"
-#include "imputation_budgetaire.h"
+#include "utils_ib.h"
+#include "utils_editables.h"
+#include "utils_str.h"
 #include "menu.h"
+#include "categories_onglet.h"
+#include "imputation_budgetaire.h"
 #include "tiers_onglet.h"
 #include "operations_comptes.h"
 #include "traitement_variables.h"
-#include "operations_onglet.h"
+#include "utils_operations.h"
 #include "affichage_formulaire.h"
-#include "comptes_traitements.h"
+#include "utils_comptes.h"
 #include "etats_calculs.h"
+#include "utils_tiers.h"
+#include "utils_types.h"
+#include "utils.h"
 #include "ventilation.h"
 /*END_INCLUDE*/
 
@@ -71,7 +81,7 @@ static gboolean touches_champ_formulaire ( GtkWidget *widget,
 				    gint *no_origine );
 static gint verification_validation_operation ( struct structure_operation *operation );
 static void verifie_champs_dates ( gint origine );
-static void widget_grab_focus_echeancier ( gint no_element );
+static void widget_grab_focus_formulaire ( gint no_element );
 /*END_STATIC*/
 
 
@@ -1226,7 +1236,7 @@ gboolean touches_champ_formulaire ( GtkWidget *widget,
 
 	    element_suivant = recherche_element_suivant_formulaire ( origine,
 								     2 );
-	    widget_grab_focus_echeancier ( element_suivant );
+	    widget_grab_focus_formulaire ( element_suivant );
 	    return TRUE;
 	    break;
 
@@ -1236,7 +1246,7 @@ gboolean touches_champ_formulaire ( GtkWidget *widget,
 
 	    element_suivant = recherche_element_suivant_formulaire ( origine,
 								     3 );
-	    widget_grab_focus_echeancier ( element_suivant );
+	    widget_grab_focus_formulaire ( element_suivant );
 	    return TRUE;
 	    break;
 
@@ -1249,7 +1259,7 @@ gboolean touches_champ_formulaire ( GtkWidget *widget,
 
 	    element_suivant = recherche_element_suivant_formulaire ( origine,
 								     0 );
-	    widget_grab_focus_echeancier ( element_suivant );
+	    widget_grab_focus_formulaire ( element_suivant );
 
 	    return TRUE;
 	    break;
@@ -1292,7 +1302,7 @@ gboolean touches_champ_formulaire ( GtkWidget *widget,
 	    if ( element_suivant == -2 )
 		fin_edition();
 	    else
-		widget_grab_focus_echeancier ( element_suivant );
+		widget_grab_focus_formulaire ( element_suivant );
 
 	    return TRUE;
 	    break;
@@ -1686,9 +1696,9 @@ gboolean element_focusable ( gint no_element )
 
 
 /******************************************************************************/
-/* met le focus sur le widget de l'échéancier dont le no est donné en argument */
+/* met le focus sur le widget du formulaire dont le no est donné en argument */
 /******************************************************************************/
-void widget_grab_focus_echeancier ( gint no_element )
+void widget_grab_focus_formulaire ( gint no_element )
 {
     GtkWidget *widget;
 

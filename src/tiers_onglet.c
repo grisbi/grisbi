@@ -22,29 +22,30 @@
 
 
 #include "include.h"
+#include "echeancier_formulaire_constants.h"
+#include "operations_formulaire_constants.h"
 
 
 
 
 /*START_INCLUDE*/
 #include "tiers_onglet.h"
-#include "devises.h"
+#include "utils_devises.h"
 #include "barre_outils.h"
 #include "operations_comptes.h"
 #include "operations_liste.h"
 #include "dialog.h"
 #include "gtk_combofix.h"
-#include "utils.h"
+#include "utils_str.h"
 #include "traitement_variables.h"
-#include "search_glist.h"
 #include "echeancier_liste.h"
 #include "etats_config.h"
+#include "utils_tiers.h"
 #include "affichage_formulaire.h"
 #include "operations_formulaire.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static struct struct_tiers *ajoute_nouveau_tiers ( gchar *tiers );
 static void appui_sur_ajout_tiers ( void );
 static gfloat *calcule_total_montant_tiers ( void );
 static gchar *calcule_total_montant_tiers_par_compte ( gint no_tiers, gint no_compte );
@@ -1773,82 +1774,4 @@ void appui_sur_ajout_tiers ( void )
 }
 /* **************************************************************************************************** */
 
-
-/* **************************************************************************************************** */
-/* renvoie le tiers demandé par son no */
-/* ou NULL si pas trouvé */
-/* **************************************************************************************************** */
-struct struct_tiers *tiers_par_no ( gint no_tiers )
-{
-    GSList *liste_tmp;
-
-    liste_tmp = g_slist_find_custom ( liste_struct_tiers,
-				      GINT_TO_POINTER ( no_tiers ),
-				      (GCompareFunc) recherche_tiers_par_no );
-
-    if ( liste_tmp )
-	return ( liste_tmp -> data );
-
-    return NULL;
-}
-/* **************************************************************************************************** */
-
-
-
-/* **************************************************************************************************** */
-/* renvoie le tiers demandé par son no */
-/* si creer = 1, crée le tiers si pas trouvé */
-/* ou NULL si pb */
-/* **************************************************************************************************** */
-struct struct_tiers *tiers_par_nom ( gchar *nom_tiers,
-				     gboolean creer )
-{
-    GSList *liste_tmp;
-
-    liste_tmp = g_slist_find_custom ( liste_struct_tiers,
-				      g_strstrip ( nom_tiers ),
-				      (GCompareFunc) recherche_tiers_par_nom );
-
-    if ( liste_tmp )
-	return ( liste_tmp -> data );
-    else
-    {
-	if ( creer )
-	{
-	    struct struct_tiers *tiers;
-
-	    tiers = ajoute_nouveau_tiers ( nom_tiers );
-	    return ( tiers );
-	}
-    }
-
-    return NULL;
-}
-/* **************************************************************************************************** */
-
-
-
-/* **************************************************************************************************** */
-/* retourne le tiers en donnant comme argument son numéro */
-/* retour : soit le nom du tiers
- * 	    soit No third party defined si return_null est FALSE et pas de tiers trouvé,
- * 	    soit NULL si return_null est TRUE et pas de tiers trouvé */
-/* **************************************************************************************************** */
-
-gchar *tiers_name_by_no ( gint no_tiers,
-			  gboolean return_null )
-{
-    struct struct_tiers *tiers;
-
-    tiers = tiers_par_no ( no_tiers );
-
-    if (tiers)
-	return ( tiers->nom_tiers );
-    else
-	if ( return_null )
-	    return NULL;
-	else
-	    return ( g_strdup (_("No third party defined")));
-}
-/* **************************************************************************************************** */
 

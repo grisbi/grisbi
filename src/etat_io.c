@@ -25,15 +25,16 @@
 /*START_INCLUDE*/
 #include "etat_io.h"
 #include "erreur.h"
-#include "categories_onglet.h"
-#include "devises.h"
+#include "utils_categories.h"
+#include "utils_devises.h"
 #include "dialog.h"
-#include "exercice.h"
-#include "imputation_budgetaire.h"
-#include "utils.h"
+#include "utils_exercices.h"
+#include "utils_ib.h"
+#include "utils_str.h"
 #include "traitement_variables.h"
+#include "utils_comptes.h"
 #include "etats_onglet.h"
-#include "tiers_onglet.h"
+#include "utils_tiers.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -55,7 +56,6 @@ extern GtkWidget *bouton_effacer_etat;
 extern struct struct_etat *etat_courant;
 extern GSList *liste_struct_devises;
 extern GSList *liste_struct_etats;
-extern gint nb_comptes;
 extern GtkWidget *nom_exercice;
 extern gpointer **p_tab_nom_de_compte;
 extern gpointer **p_tab_nom_de_compte_variable;
@@ -843,21 +843,8 @@ gint recupere_exo_par_nom_etat ( gchar *nom )
 gint recupere_compte_par_nom_etat ( gchar *nom )
 {
     gint no_compte;
-    gint i;
 
-    no_compte = -1;
-
-    for ( i=0 ; i<nb_comptes ; i++ )
-    {
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
-
-	if ( !g_strcasecmp ( NOM_DU_COMPTE,
-			     nom ))
-	{
-	    no_compte = i;
-	    i=nb_comptes;
-	}
-    }
+    no_compte = no_compte_by_name ( nom );
 
     if ( no_compte == -1 )
     {

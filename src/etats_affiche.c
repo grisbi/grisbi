@@ -28,15 +28,15 @@
 /*START_INCLUDE*/
 #include "etats_affiche.h"
 #include "etats_calculs.h"
-#include "devises.h"
+#include "utils_devises.h"
 #include "etats_support.h"
-#include "exercice.h"
-#include "utils.h"
-#include "categories_onglet.h"
-#include "imputation_budgetaire.h"
-#include "equilibrage.h"
-#include "tiers_onglet.h"
-#include "type_operations.h"
+#include "utils_exercices.h"
+#include "utils_str.h"
+#include "utils_categories.h"
+#include "utils_ib.h"
+#include "utils_rapprochements.h"
+#include "utils_tiers.h"
+#include "utils_types.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

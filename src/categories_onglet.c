@@ -20,9 +20,18 @@
 /*     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 
 #include "include.h"
+#include "echeancier_formulaire_constants.h"
+#include "ventilation_constants.h"
+#include "echeancier_ventilation_constants.h"
+#include "categories_onglet_constants.h"
+#include "operations_formulaire_constants.h"
+
+
+
 /*START_INCLUDE*/
 #include "categories_onglet.h"
-#include "devises.h"
+#include "utils_devises.h"
+#include "utils_categories.h"
 #include "operations_comptes.h"
 #include "tiers_onglet.h"
 #include "fichiers_io.h"
@@ -30,10 +39,9 @@
 #include "operations_liste.h"
 #include "dialog.h"
 #include "gtk_combofix.h"
-#include "utils.h"
+#include "utils_str.h"
 #include "traitement_variables.h"
-#include "operations_onglet.h"
-#include "search_glist.h"
+#include "utils_operations.h"
 #include "etats_config.h"
 #include "affichage_formulaire.h"
 #include "operations_formulaire.h"
@@ -57,8 +65,6 @@ static gboolean ouverture_node_categ ( GtkWidget *arbre, GtkCTreeNode *node,
 				gpointer null );
 static gboolean selection_ligne_categ ( GtkCTree *arbre_categ, GtkCTreeNode *noeud,
 				 gint colonne, gpointer null );
-static struct struct_sous_categ *sous_categ_par_no ( gint no_categorie,
-					      gint no_sous_categorie );
 static void supprimer_categ ( void );
 static void supprimer_sous_categ ( void );
 static gboolean verifie_double_click_categ ( GtkWidget *liste, GdkEventButton *ev,
@@ -67,127 +73,6 @@ static gboolean verifie_double_click_categ ( GtkWidget *liste, GdkEventButton *e
 
 
 
-
-gchar *categories_de_base_debit [] = {
-    N_("Food : Bar"),
-    N_("Food : Baker"),
-    N_("Food : Canteen"),
-    N_("Food : Sweets"),
-    N_("Food : Misc"),
-    N_("Food : Grocery"),
-    N_("Food : Restaurant"),
-    N_("Food : Self-service"),
-    N_("Food : Supermarket"),
-    N_("Pets : Food"),
-    N_("Pets : Various supplies"),
-    N_("Pets : Grooming"),
-    N_("Pets : Veterinary surgeon"),
-    N_("Insurance : Car"),
-    N_("Insurance : Health"),
-    N_("Insurance : House"),
-    N_("Insurance : Civil liability"),
-    N_("Insurance : Life"),
-    N_("Car : Fuel"),
-    N_("Car : Repairs"),
-    N_("Car : Maintenance"),
-    N_("Car : Parking"),
-    N_("Car : Fines"),
-    N_("Misc."),
-    N_("Gifts"),
-    N_("Children : Nurse"),
-    N_("Children : Misc."),
-    N_("Children : Studies"),
-    N_("Studies : Lessons"),
-    N_("Studies : Scool fees"),
-    N_("Studies : Books"),
-    N_("Miscelanious : Gifts"),
-    N_("Financial expenses : Miscelanious"),
-    N_("Financial expenses : Bank charges"),
-    N_("Financial expenses : Loan/Mortgage"),
-    N_("Financial expenses : Charges"),
-    N_("Financial expenses : Refunding"),
-    N_("Professionnal expenses : Non refundable"),
-    N_("Professionnal expenses : Refundable"),
-    N_("Taxes : Miscelanious"),
-    N_("Taxes : Income"),
-    N_("Taxes : Land"),
-    N_("Housing : Hotel"),
-    N_("Housing : Rent"),
-    N_("Housing : TV"),
-    N_("Housing : Furnitures"),
-    N_("Housing : Charges"),
-    N_("Housing : Heating"),
-    N_("Housing : Decoration"),
-    N_("Housing : Water"),
-    N_("Housing : Electricity"),
-    N_("Housing : White products"),
-    N_("Housing : Equipment"),
-    N_("Housing : Gaz"),
-    N_("Housiing : Garden"),
-    N_("Housing : House keeper"),
-    N_("Housing : Phone"),
-    N_("Housing : Mobile Phone"),
-    N_("Leisures : Snooker"),
-    N_("Leisures : Bowling"),
-    N_("Leisures : Movies"),
-    N_("Leisures : Night club"),
-    N_("Leisures : IT"),
-    N_("Leisures : Games"),
-    N_("Leisures : Books"),
-    N_("Leisures : Parks"),
-    N_("Leisures : Concerts"),
-    N_("Leisures : Sports"),
-    N_("Leisures : Video"),
-    N_("Leisures : Travels"),
-    N_("Leisures : Equipment"),
-    N_("Leisures : Museums/Exhibitions"),
-    N_("Loan/Mortgage : Capital"),
-    N_("Health : Insurance"),
-    N_("Health : Dentist"),
-    N_("Health : Hospital"),
-    N_("Health : Kinesitherapist"),
-    N_("Health : Doctor"),
-    N_("Health : Ophtalmologist"),
-    N_("Health : Osteopath"),
-    N_("Health : Chemist"),
-    N_("Health : Social security"),
-    N_("Care : Hairdresser"),
-    N_("Care : Clothing"),
-    N_("Transport : Bus"),
-    N_("Transport : Metro"),
-    N_("Transport : Toll"),
-    N_("Transport : Train"),
-    N_("Transport : Tramway"),
-    N_("Transport : Travels"),
-    N_("Transport : Train"),
-    N_("Hollydays : Housing"),
-    N_("Hollydays : Visits"),
-    N_("Hollydays : Travels"),
-    NULL };
-
-gchar *categories_de_base_credit [] = {
-    N_("Other incomes : Unemployment benefit"),
-    N_("Other incomes : Family allowance"),
-    N_("Other incomes : Tax credit"),
-    N_("Other incomes : Gamble"),
-    N_("Other incomes : Mutual insurance"),
-    N_("Other incomes : Social security"),
-    N_("Retirement : Retirement Fund"),
-    N_("Retirement : Pension"),
-    N_("Retirement : Supplementary pension"),
-    N_("Investment incomes : Dividends"),
-    N_("Investment incomes : Interests"),
-    N_("Investment incomes : Capital gain"),
-    N_("Salary : Overtime"),
-    N_("Salary : Leave allowance"),
-    N_("Salary : Misc. premiums"),
-    N_("Salary : Success fee"),
-    N_("Salary : Net salary"),
-    N_("Misc. incomes : Gifts"),
-    N_("Misc. incomes : Refunds"),
-    N_("Misc. incomes : Second hand sales"),
-    NULL
-};
 
 
 gint mise_a_jour_combofix_categ_necessaire;
@@ -3197,228 +3082,4 @@ void importer_categ ( void )
     }
 }
 /* **************************************************************************************************** */
-
-
-
-
-/* **************************************************************************************************** */
-/* retourne l'adr de la categ dont le nom est donné en argument */
-/* si pas trouvée : */
-/* renvoie NULL si creer = 0*/
-/* la crée et renvoie son adr avec le type_categ et la derniere sous_categ donnés si creer = 1 */
-/* type_categ = 0=crédit ; 1 = débit ; 2 = spécial */
-/* si on ajoute une categ, on met mise_a_jour_combofix_categ_necessaire à 1 */
-/* **************************************************************************************************** */
-
-struct struct_categ *categ_par_nom ( gchar *nom_categ,
-				     gboolean creer,
-				     gint type_categ,
-				     gint no_derniere_sous_categ )
-{
-    if ( nom_categ
-	 &&
-	 strlen (g_strstrip ( nom_categ )))
-    {
-	GSList *liste_tmp;
-
-	liste_tmp = g_slist_find_custom ( liste_struct_categories,
-					  g_strstrip (nom_categ),
-					  (GCompareFunc) recherche_categorie_par_nom );
-
-	if ( liste_tmp )
-	    return liste_tmp -> data;
-	else
-	{
-	    if ( creer )
-	    {
-		struct struct_categ *nouvelle_categorie;
-
-		nouvelle_categorie = calloc ( 1,
-					      sizeof ( struct struct_categ ));
-
-		nouvelle_categorie -> no_categ = ++no_derniere_categorie;
-		nouvelle_categorie -> nom_categ = g_strdup ( g_strstrip ( nom_categ ));
-		nouvelle_categorie -> type_categ = type_categ;
-		nouvelle_categorie -> no_derniere_sous_categ = no_derniere_sous_categ;
-
-		liste_struct_categories = g_slist_append ( liste_struct_categories,
-							   nouvelle_categorie );
-		nb_enregistrements_categories++;
-		mise_a_jour_combofix_categ_necessaire = 1;
-
-		return ( nouvelle_categorie );
-	    }
-	}
-    }
-    return NULL;
-}
-/* **************************************************************************************************** */
-   
-
-
-
-/* **************************************************************************************************** */
-/* retourne l'adr de la sous categ dont le nom est donné en argument */
-/* si pas trouvée : */
-/* la crée et renvoie son adr si creer=1 */
-/* renvoie NULL si creer = 0 */
-/* si on ajoute une categ, on met mise_a_jour_combofix_categ_necessaire à 1 */
-/* **************************************************************************************************** */
-
-struct struct_sous_categ *sous_categ_par_nom ( struct struct_categ *categ,
-					       gchar *nom_sous_categ,
-					       gboolean creer )
-{
-    if ( categ
-	 &&
-	 nom_sous_categ
-	 &&
-	 strlen ( g_strstrip ( nom_sous_categ )))
-    {
-	GSList *liste_tmp;
-
-	liste_tmp = g_slist_find_custom ( categ -> liste_sous_categ,
-					  g_strstrip (nom_sous_categ),
-					  (GCompareFunc) recherche_sous_categorie_par_nom );
-
-	if ( liste_tmp )
-	    return liste_tmp -> data;
-	else
-	{
-	    if ( creer )
-	    {
-		struct struct_sous_categ *nouvelle_sous_categorie;
-
-		nouvelle_sous_categorie = malloc ( sizeof ( struct struct_sous_categ ));
-
-		nouvelle_sous_categorie -> no_sous_categ = ++( categ -> no_derniere_sous_categ );
-		nouvelle_sous_categorie -> nom_sous_categ = g_strdup ( g_strstrip ( nom_sous_categ ));
-
-		categ -> liste_sous_categ = g_slist_append ( categ -> liste_sous_categ,
-							     nouvelle_sous_categorie );
-
-		mise_a_jour_combofix_categ_necessaire = 1;
-		return ( nouvelle_sous_categorie );
-	    }
-	}
-    }
-
-    return NULL;
-}
-/* **************************************************************************************************** */
-
-
-
-
-
-/* **************************************************************************************************** */
-/* cette fonction renvoie l'adr de la categ demandée en argument */
-/* et NULL si pas trouvée */
-/* **************************************************************************************************** */
-struct struct_categ *categ_par_no ( gint no_categorie )
-{
-    if ( no_categorie )
-    {
-	GSList *liste_tmp;
-
-	liste_tmp = g_slist_find_custom ( liste_struct_categories,
-					  GINT_TO_POINTER ( no_categorie ),
-					  (GCompareFunc) recherche_categorie_par_no );
-
-	if ( liste_tmp )
-	    return ( liste_tmp -> data );
-    }
-    return NULL;
-}
-/* **************************************************************************************************** */
-
-
-/* **************************************************************************************************** */
-/* cette fonction renvoie l'adr de la sous categ demandée */
-/* ou NULL si la categ ou la sous categ n'existe pas */
-/* **************************************************************************************************** */
-struct struct_sous_categ *sous_categ_par_no ( gint no_categorie,
-					      gint no_sous_categorie )
-{
-    if ( no_categorie
-	 &&
-	 no_sous_categorie )
-    {
-	GSList *liste_tmp;
-
-	liste_tmp = g_slist_find_custom ( liste_struct_categories,
-					  GINT_TO_POINTER ( no_categorie ),
-					  (GCompareFunc) recherche_categorie_par_no );
-
-	if ( liste_tmp )
-	{
-	    struct struct_categ *categ;
-
-	    categ = liste_tmp -> data;
-
-	    liste_tmp = g_slist_find_custom ( categ -> liste_sous_categ,
-					      GINT_TO_POINTER ( no_sous_categorie ),
-					      (GCompareFunc) recherche_sous_categorie_par_no );
-
-	    if ( liste_tmp )
-		return ( liste_tmp -> data );
-	}
-    }
-    return NULL;
-}
-/* **************************************************************************************************** */
-
-
-
-
-/* **************************************************************************************************** */
-/* cette fonction renvoie une chaine de la forme */
-/* soit categ : sous categ */
-/* soit categ si no_sous_categorie=0 ou si la sous_categ n'existe pas */
-/* ou NULL si la categ n'existe pas */
-/* **************************************************************************************************** */
-gchar *nom_categ_par_no ( gint no_categorie,
-			  gint no_sous_categorie )
-{
-    struct struct_categ *categ;
-    struct struct_sous_categ *sous_categ;
-
-    categ = categ_par_no ( no_categorie );
-    sous_categ = sous_categ_par_no ( no_categorie,
-				     no_sous_categorie );
-
-    if ( sous_categ )
-	/* 	s'il y a une sous categ, c'est qu'il y a une categ... */
-	return ( g_strconcat ( categ -> nom_categ,
-			       " : ",
-			       sous_categ -> nom_sous_categ,
-			       NULL ));
-    else
-	if ( categ )
-	    return ( g_strdup ( categ -> nom_categ ));
-	
-    return NULL;
-}
-/* **************************************************************************************************** */
-
-
-/* **************************************************************************************************** */
-/* cette fonction renvoie une chaine contenant la sous categ */
-/* ou NULL si la categ ou la sous categ n'existe pas */
-/* **************************************************************************************************** */
-gchar *nom_sous_categ_par_no ( gint no_categorie,
-			       gint no_sous_categorie )
-{
-    struct struct_sous_categ *sous_categ;
-
-    sous_categ = sous_categ_par_no ( no_categorie,
-				     no_sous_categorie );
-
-    if ( sous_categ )
-	    return ( g_strdup ( sous_categ -> nom_sous_categ ));
-	
-    return NULL;
-}
-/* **************************************************************************************************** */
-
 

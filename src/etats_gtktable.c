@@ -31,7 +31,7 @@
 #include "barre_outils.h"
 #include "operations_comptes.h"
 #include "utils.h"
-#include "operations_onglet.h"
+#include "utils_operations.h"
 #include "operations_liste.h"
 /*END_INCLUDE*/
 

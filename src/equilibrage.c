@@ -25,6 +25,7 @@
 
 
 #include "include.h"
+#include "equilibrage_constants.h"
 
 
 
@@ -32,14 +33,17 @@
 
 /*START_INCLUDE*/
 #include "equilibrage.h"
-#include "devises.h"
+#include "utils_devises.h"
+#include "utils_montants.h"
 #include "operations_liste.h"
 #include "dialog.h"
-#include "utils.h"
+#include "utils_dates.h"
 #include "calendar.h"
+#include "utils_str.h"
 #include "traitement_variables.h"
-#include "search_glist.h"
-#include "type_operations.h"
+#include "utils.h"
+#include "utils_rapprochements.h"
+#include "utils_types.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -53,7 +57,6 @@ static gboolean fin_equilibrage ( GtkWidget *bouton_ok,
 		       gpointer data );
 static gboolean modif_entree_solde_final_equilibrage ( void );
 static gboolean modif_entree_solde_init_equilibrage ( void );
-static struct struct_no_rapprochement *rapprochement_par_no ( gint no_rapprochement );
 static void reconcile_by_date_toggled ( GtkCellRendererToggle *cell, 
 				 gchar *path_str, gpointer data );
 static void reconcile_include_neutral_toggled ( GtkCellRendererToggle *cell, 
@@ -68,15 +71,6 @@ static gboolean souris_equilibrage ( GtkWidget *entree,
 
 
 
-enum reconciliation_columns {
-    RECONCILIATION_NAME_COLUMN = 0,
-    RECONCILIATION_VISIBLE_COLUMN,
-    RECONCILIATION_SORT_COLUMN,
-    RECONCILIATION_SPLIT_NEUTRAL_COLUMN,
-    RECONCILIATION_ACCOUNT_COLUMN,
-    RECONCILIATION_TYPE_COLUMN,
-    NUM_RECONCILIATION_COLUMNS,
-};
 
 
 GtkWidget * reconcile_treeview;
@@ -1063,67 +1057,6 @@ gboolean fin_equilibrage ( GtkWidget *bouton_ok,
 /******************************************************************************/
 
 
-
-/******************************************************************************/
-void calcule_total_pointe_compte ( gint no_compte )
-{
-    GSList *pointeur_liste_ope;
-
-    p_tab_nom_de_compte_variable =  p_tab_nom_de_compte + no_compte;
-
-    pointeur_liste_ope = LISTE_OPERATIONS;
-    operations_pointees = 0;
-
-    while ( pointeur_liste_ope )
-    {
-	struct structure_operation *operation;
-
-	operation = pointeur_liste_ope -> data;
-
-	/* on ne prend en compte l'opé que si c'est pas une opé de ventil */
-
-	if ( operation -> pointe == 1
-	     &&
-	     !operation -> no_operation_ventilee_associee )
-	{
-	    gdouble montant;
-
-	    montant = calcule_montant_devise_renvoi ( operation -> montant,
-						      DEVISE,
-						      operation -> devise,
-						      operation -> une_devise_compte_egale_x_devise_ope,
-						      operation -> taux_change,
-						      operation -> frais_change );
-
-	    operations_pointees = operations_pointees + montant;
-	}
-
-	pointeur_liste_ope = pointeur_liste_ope -> next;
-    }
-
-    gtk_label_set_text ( GTK_LABEL ( label_equilibrage_pointe ),
-			 g_strdup_printf ( "%4.2f", 
-					   operations_pointees ));
-
-    if ( fabs ( solde_final - solde_initial - operations_pointees ) < 0.01 )
-    {
-	gtk_label_set_text ( GTK_LABEL ( label_equilibrage_ecart ),
-			     g_strdup_printf ( "%4.2f",
-					       0.0 ));
-	gtk_widget_set_sensitive ( GTK_WIDGET ( bouton_ok_equilibrage ),
-				   TRUE );
-    }
-    else
-    {
-	gtk_label_set_text ( GTK_LABEL ( label_equilibrage_ecart ),
-			     g_strdup_printf ( "%4.2f",
-					       solde_final - solde_initial - operations_pointees ));
-	gtk_widget_set_sensitive ( GTK_WIDGET ( bouton_ok_equilibrage ),
-				   FALSE );
-    }
-}
-/******************************************************************************/
-
 /******************************************************************************/
 gboolean souris_equilibrage ( GtkWidget *entree,
 			      GdkEventButton *event )
@@ -1686,67 +1619,5 @@ GtkWidget * tab_display_reconciliation ( void )
 
     return vbox_pref;
 }
-
-
-
-/* ********************************************************************************************************* */
-/* renvoie l'adr l'adr du rapprochement demandé par son no */
-/* ou NULL si pas trouvé */
-/* ********************************************************************************************************* */
-struct struct_no_rapprochement *rapprochement_par_no ( gint no_rapprochement )
-{
-    GSList *liste_tmp;
-
-    liste_tmp = g_slist_find_custom ( liste_struct_rapprochements,
-				      GINT_TO_POINTER ( no_rapprochement ),
-				      (GCompareFunc) recherche_rapprochement_par_no );
-
-    if ( liste_tmp )
-	return ( liste_tmp -> data );
-
-    return NULL;
-}
-/* ********************************************************************************************************* */
-
-
-
-/* ********************************************************************************************************* */
-/* renvoie l'adr l'adr du rapprochement demandé par son nom */
-/* ou NULL si pas trouvé */
-/* ********************************************************************************************************* */
-struct struct_no_rapprochement *rapprochement_par_nom ( gchar *nom_rapprochement )
-{
-    GSList *liste_tmp;
-
-    liste_tmp = g_slist_find_custom ( liste_struct_rapprochements,
-				      g_strstrip ( nom_rapprochement ),
-				      (GCompareFunc) recherche_rapprochement_par_nom );
-
-    if ( liste_tmp )
-	return ( liste_tmp -> data );
-
-    return NULL;
-}
-/* ********************************************************************************************************* */
-
-
-
-/* ********************************************************************************************************* */
-/* renvoie le nom du rapprochement ou NULL s'il n'existe pas */
-/* ********************************************************************************************************* */
-gchar *rapprochement_name_by_no ( gint no_rapprochement )
-{
-    struct struct_no_rapprochement *rapprochement;
-
-    rapprochement = rapprochement_par_no ( no_rapprochement );
-
-    if ( rapprochement )
-	return ( g_strdup (rapprochement -> nom_rapprochement ));
-
-    return NULL;
-}
-/* ********************************************************************************************************* */
-
-
 
 

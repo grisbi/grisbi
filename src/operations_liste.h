@@ -3,8 +3,6 @@ gboolean affichage_traits_liste_operation ( void );
 void ajoute_operations_compte_dans_list_store ( gint compte,
 						gint par_partie );
 void ajuste_scrolling_liste_operations_a_selection ( gint compte );
-gdouble calcule_solde_compte ( gint no_compte );
-gdouble calcule_solde_pointe_compte ( gint no_compte );
 gboolean changement_taille_liste_ope ( GtkWidget *tree_view,
 				       GtkAllocation *allocation );
 GtkTreeIter *cherche_iter_operation ( struct structure_operation *operation );

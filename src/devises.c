@@ -21,6 +21,9 @@
 
 
 #include "include.h"
+#include "devises_constants.h"
+#include "echeancier_formulaire_constants.h"
+#include "operations_formulaire_constants.h"
 
 
 
@@ -29,13 +32,15 @@
 /*START_INCLUDE*/
 #include "devises.h"
 #include "dialog.h"
-#include "utils.h"
+#include "utils_devises.h"
+#include "utils_editables.h"
 #include "categories_onglet.h"
 #include "imputation_budgetaire.h"
 #include "tiers_onglet.h"
 #include "comptes_gestion.h"
 #include "traitement_variables.h"
-#include "search_glist.h"
+#include "utils_str.h"
+#include "utils.h"
 #include "etats_config.h"
 #include "affichage_formulaire.h"
 #include "operations_formulaire.h"
@@ -86,172 +91,6 @@ static void update_exchange_rate_cache ( struct struct_devise * currency1,
 
 GtkWidget *entree_nom, *entree_code, *entree_iso_code;
 
-static struct iso_4217_currency iso_4217_currencies[] = {
-    { N_("Africa"), N_("Algerian Dinar"), N_("Algeria"), "DZD", NULL, TRUE },
-    { N_("Africa"), N_("Botswana Pula"), N_("Botswana"), "BWP", NULL, TRUE },
-    { N_("Africa"), N_("Burundi Franc"), N_("Burundi"), "BIF", NULL, TRUE },
-    { N_("Africa"), N_("CFA Franc BCEAO"), N_("Niger"), "XOF", NULL, TRUE },
-    { N_("Africa"), N_("CFA Franc BCEAO"), N_("Senegal"), "XOF", NULL, TRUE },
-    { N_("Africa"), N_("CFA Franc BEAC"), N_("Cameroon"), "XAF", NULL, TRUE },
-    { N_("Africa"), N_("CFA Franc BEAC"), N_("Chad"), "XAF", NULL, TRUE },
-    { N_("Africa"), N_("CFA Franc BEAC"), N_("Congo"), "XAF", NULL, TRUE },
-    { N_("Africa"), N_("Comoro Franc"), N_("Comoros"), "KMF", NULL, TRUE },
-    { N_("Africa"), N_("Egyptian Pound"), N_("Egypt"), "EGP", NULL, TRUE },
-    { N_("Africa"), N_("Ethiopian Birr"), N_("Ethiopia"), "ETB", NULL, TRUE },
-    { N_("Africa"), N_("Gambian Dalasi"), N_("Gambia"), "GMD", NULL, TRUE },
-    { N_("Africa"), N_("Ghana Cedi"), N_("Ghana"), "GHC", NULL, TRUE },
-    { N_("Africa"), N_("Guinea-Bissau Peso"), N_("Guinea-Bissau"), "GWP", NULL, TRUE },
-    { N_("Africa"), N_("Kenyan Shilling"), N_("Kenya"), "KES", NULL, TRUE },
-    { N_("Africa"), N_("Liberian Dollar"), N_("Liberia"), "LRD", NULL, TRUE },
-    { N_("Africa"), N_("Libyan Dinar"), N_("Libyan Arab Jamahiriya"), "LYD", NULL, TRUE },
-    { N_("Africa"), N_("Malagasy Franc"), N_("Madagascar"), "MGF", NULL, TRUE },
-    { N_("Africa"), N_("Malawi Kwacha"), N_("Malawi"), "MWK", NULL, TRUE },
-    { N_("Africa"), N_("Mauritania Ouguiya"), N_("Mauritania"), "MRO", NULL, TRUE },
-    { N_("Africa"), N_("Moazambique Metical"), N_("Mozambique"), "MZM", NULL, TRUE },
-    { N_("Africa"), N_("Moroccan Dirham"), N_("Morocco"), "MAD", NULL, TRUE },
-    { N_("Africa"), N_("Nigerian Naira"), N_("Nigeria"), "NGN", NULL, TRUE },
-    { N_("Africa"), N_("Rwanda Franc"), N_("Rwanda"), "RWF", NULL, TRUE },
-    { N_("Africa"), N_("Sao Tome and Principe Dobra"), N_("Sao Tome and Principe"), "STD", NULL, TRUE },
-    { N_("Africa"), N_("Seychelles Rupee"), N_("Seychelles"), "SCR", NULL, TRUE },
-    { N_("Africa"), N_("Sierra Leonean Leone"), N_("Sierra Leone"), "SLL", NULL, TRUE },
-    { N_("Africa"), N_("Somali Shilling"), N_("Somalia"), "SOS", NULL, TRUE },
-    { N_("Africa"), N_("South African Rand"), N_("Lesotho"), "ZAR", NULL, TRUE },
-    { N_("Africa"), N_("South African Rand"), N_("Namibia"), "ZAR", NULL, TRUE },
-    { N_("Africa"), N_("South African Rand"), N_("South Africa"), "ZAR", NULL, TRUE },
-    { N_("Africa"), N_("Swaziland Lilangeni"), N_("Swaziland"), "SZL", NULL, TRUE },
-    { N_("Africa"), N_("Tanzanian Shilling"), N_("United Republic of Tanzania"), "TZS", NULL, TRUE },
-    { N_("Africa"), N_("Tunisian Dinar"), N_("Tunisia"), "TND", NULL, TRUE },
-    { N_("Africa"), N_("Zambian Kwacha"), N_("Zambia"), "ZMK", NULL, TRUE },
-    { N_("Africa"), N_("Zimbabwe Dollar"), N_("Zimbabwe"), "ZWD", NULL, TRUE },
-    { N_("Asia"), N_("Afghani"), N_("Afghanistan"), "AFA", NULL, TRUE },
-    { N_("Asia"), N_("Bahraini Dinar"), N_("Bahrain"), "BHD", NULL, TRUE },
-    { N_("Asia"), N_("Bangladesh Taka"), N_("Bangladesh"), "BDT", NULL, TRUE },
-    { N_("Asia"), N_("Brunei Dollar"), N_("Brunei Darussalam"), "BND", NULL, TRUE },
-    { N_("Asia"), N_("Cambodian Riel"), N_("Cambodia"), "KHR", NULL, TRUE },
-    { N_("Asia"), N_("Cyprus Pound"), N_("Cyprus"), "CYP", NULL, TRUE },
-    { N_("Asia"), N_("Hong Kong Dollar"), N_("Hong Kong"), "HKD", NULL, TRUE },
-    { N_("Asia"), N_("Indian Rupee"), N_("Bhutan"), "INR", NULL, TRUE },
-    { N_("Asia"), N_("Indian Rupee"), N_("India"), "INR", NULL, TRUE },
-    { N_("Asia"), N_("Indonesian Rupiah"), N_("Indonesia"), "IDR", NULL, TRUE },
-    { N_("Asia"), N_("Iranian Rial"), N_("Iran"), "IRR", NULL, TRUE },
-    { N_("Asia"), N_("Iraqi Dinar"), N_("Iraq"), "IQD", NULL, TRUE },
-    { N_("Asia"), N_("Japanese Yen"), N_("Japan"), "JPY", "Â¥", TRUE },
-    { N_("Asia"), N_("Jordanian Dinar"), N_("Jordan"), "JOD", NULL, TRUE },
-    { N_("Asia"), N_("Kuwaiti Dinar"), N_("Kuwait"), "KWD", NULL, TRUE },
-    { N_("Asia"), N_("Lao Kip"), N_("Lao People's Democratic Republic"), "LAK", NULL, TRUE },
-    { N_("Asia"), N_("Lebanese Pound"), N_("Lebanon"), "LBP", NULL, TRUE },
-    { N_("Asia"), N_("Macau Pataca"), N_("Macao"), "MOP", NULL, TRUE },
-    { N_("Asia"), N_("Malaysian Ringgit"), N_("Malaysia"), "MYR", NULL, TRUE },
-    { N_("Asia"), N_("Mongolian Tugrik"), N_("Mongolia"), "MNT", NULL, TRUE },
-    { N_("Asia"), N_("Nepalese Rupee"), N_("Nepal"), "NPR", NULL, TRUE },
-    { N_("Asia"), N_("New Israeli Shekel"), N_("Israel"), "ILS", NULL, TRUE },
-    { N_("Asia"), N_("New Taiwan Dollar"), N_("Taiwan, Province of China"), "TWD", NULL, TRUE },
-    { N_("Asia"), N_("North Korean Won"), N_("Democratic People's Republic of Korea"), "KPW", NULL, TRUE },
-    { N_("Asia"), N_("Pakistan Rupee"), N_("Pakistan"), "PKR", NULL, TRUE },
-    { N_("Asia"), N_("Philippine peso"), N_("Philippines"), "PHP", NULL, TRUE },
-    { N_("Asia"), N_("Qatari Rial"), N_("Qatar"), "QAR", NULL, TRUE },
-    { N_("Asia"), N_("Rial Omani"), N_("Oman"), "OMR", NULL, TRUE },
-    { N_("Asia"), N_("Russian Ruble"), N_("Russia"), "RUR", NULL, TRUE },
-    { N_("Asia"), N_("Saudi Riyal"), N_("Saudi Arabia"), "SAR", NULL, TRUE },
-    { N_("Asia"), N_("Singapore Dollar"), N_("Singapore"), "SGD", NULL, TRUE },
-    { N_("Asia"), N_("South Korean Won"), N_("Republic of Korea"), "KRW", NULL, TRUE },
-    { N_("Asia"), N_("Sri Lanka Rupee"), N_("Sri Lanka"), "LKR", NULL, TRUE },
-    { N_("Asia"), N_("Syrian Pound"), N_("Syrian Arab Republic"), "SYP", NULL, TRUE },
-    { N_("Asia"), N_("Thai Baht"), N_("Thailand"), "THB", NULL, TRUE },
-    { N_("Asia"), N_("Turkish Lira"), N_("Turkey"), "TRL", NULL, TRUE },
-    { N_("Asia"), N_("United Arab Emirates Dirham"), N_("United Arab Emirates"), "AED", NULL, TRUE },
-    { N_("Asia"), N_("Viet Nam Dong"), N_("Viet Nam"), "VND", NULL, TRUE },
-    { N_("Asia"), N_("Yemeni Rial"), N_("Yemen"), "YER", NULL, TRUE },
-    { N_("Asia"), N_("Yuan Renminbi"), N_("China"), "CNY", NULL, TRUE },
-    { N_("Central America"), N_("Belize Dollar"), N_("Belize"), "BZD", NULL, TRUE },
-    { N_("Central America"), N_("Costa Rican Colon"), N_("Costa Rica"), "CRC", NULL, TRUE },
-    { N_("Central America"), N_("Guatemalan Quetzal"), N_("Guatemala"), "GTQ", NULL, TRUE },
-    { N_("Central America"), N_("Honduran Lempira"), N_("Honduras"), "HNL", NULL, TRUE },
-    { N_("Central America"), N_("Mexican Peso"), N_("Mexico"), "MXP", NULL, FALSE },
-    { N_("Central America"), N_("Panama Balboa"), N_("Panama"), "PAB", NULL, TRUE },
-    { N_("Europe"), N_("Albanian Lek"), N_("Albania"), "ALL", NULL, TRUE },
-    { N_("Europe"), N_("Austrian Schilling"), N_("Austria"), "ATS", NULL, FALSE },
-    { N_("Europe"), N_("Belgian Franc"), N_("Belgium"), "BEF", NULL, FALSE },
-    { N_("Europe"), N_("Bulgarian Lev"), N_("Bulgaria"), "BGL", NULL, FALSE },
-    { N_("Europe"), N_("Czech Koruna"), N_("Czech Republic"), "CZK", NULL, TRUE },
-    { N_("Europe"), N_("Danish Krone"), N_("Denmark"), "DKK", NULL, TRUE },
-    { N_("Europe"), N_("Deutsche Mark"), N_("Germany"), "DEM", NULL, FALSE },
-    { N_("Europe"), N_("Euro"), N_("CEE"), "EUR", "â‚¬", TRUE },
-    { N_("Europe"), N_("Finnish Markka"), N_("Finland"), "FIM", NULL, FALSE },
-    { N_("Europe"), N_("French Franc"), N_("France"), "FRF", NULL, FALSE },
-    { N_("Europe"), N_("Gibraltar Pound"), N_("Gibraltar"), "GIP", NULL, TRUE },
-    { N_("Europe"), N_("Greek Drachma"), N_("Greece"), "GRD", NULL, FALSE },
-    { N_("Europe"), N_("Hungarian Forint"), N_("Hungary"), "HUF", NULL, TRUE },
-    { N_("Europe"), N_("Iceland Krona"), N_("Iceland"), "ISK", NULL, TRUE },
-    { N_("Europe"), N_("Irish Pound"), N_("Ireland"), "IEP", NULL, FALSE },
-    { N_("Europe"), N_("Italian Lira"), N_("Holy See"), "ITL", NULL, FALSE },
-    { N_("Europe"), N_("Italian Lira"), N_("Italy"), "ITL", NULL, FALSE },
-    { N_("Europe"), N_("Italian Lira"), N_("San Marino"), "ITL", NULL, FALSE },
-    { N_("Europe"), N_("Luxembourg Franc"), N_("Luxembourg"), "LUF", NULL, FALSE },
-    { N_("Europe"), N_("Netherlands Guilder"), N_("Netherlands"), "NLG", NULL, FALSE },
-    { N_("Europe"), N_("New Yugoslavian Dinar"), N_("Serbia and Montenegro"), "YUD", NULL, FALSE },
-    { N_("Europe"), N_("Norwegian Krone"), N_("Norway"), "NOK", NULL, TRUE },
-    { N_("Europe"), N_("Polish Zloty"), N_("Poland"), "PLZ", NULL, FALSE },
-    { N_("Europe"), N_("Portuguese Escudo"), N_("Portugal"), "PTE", NULL, FALSE },
-    { N_("Europe"), N_("Pound Sterling"), N_("United Kingdom"), "GBP", "Â£", TRUE },
-    { N_("Europe"), N_("Romanian Leu"), N_("Romania"), "ROL", NULL, TRUE },
-    { N_("Europe"), N_("Slovak Koruna"), N_("Slovakia"), "SKK", NULL, TRUE },
-    { N_("Europe"), N_("Slovene Tolar"), N_("Slovenia"), "SIT", NULL, TRUE },
-    { N_("Europe"), N_("Spanish Peseta"), N_("Spain"), "ESP", NULL, FALSE },
-    { N_("Europe"), N_("Swedish Krona"), N_("Sweden"), "SEK", NULL, TRUE },
-    { N_("Europe"), N_("Swiss Franc"), N_("Liechtenstein"), "CHF", NULL, TRUE },
-    { N_("Europe"), N_("Swiss Franc"), N_("Switzerland"), "CHF", NULL, TRUE },
-    { N_("Northern America"), N_("Bahamian Dollar"), N_("Bahamas"), "BSD", NULL, TRUE },
-    { N_("Northern America"), N_("Barbados Dollar"), N_("Barbados"), "BBD", NULL, TRUE },
-    { N_("Northern America"), N_("Bermuda Dollar"), N_("Bermuda"), "BMD", NULL, TRUE },
-    { N_("Northern America"), N_("Canadian Dollar"), N_("Canada"), "CAD", NULL, TRUE },
-    { N_("Northern America"), N_("Cayman Islands Dollar"), N_("Cayman Islands"), "KYD", NULL, TRUE },
-    { N_("Northern America"), N_("Cuban Peso"), N_("Cuba"), "CUP", NULL, TRUE },
-    { N_("Northern America"), N_("Dominican Peso"), N_("Dominican Republic"), "DOP", NULL, TRUE },
-    { N_("Northern America"), N_("East Caribbean Dollar"), N_("Grenada"), "XCD", NULL, TRUE },
-    { N_("Northern America"), N_("East Caribbean Dollar"), N_("Saint Lucia"), "XCD", NULL, TRUE },
-    { N_("Northern America"), N_("Haitian Gourde"), N_("Haiti"), "HTG", NULL, TRUE },
-    { N_("Northern America"), N_("Jamaican Dollar"), N_("Jamaica"), "JMD", NULL, TRUE },
-    { N_("Northern America"), N_("Netherlands Antillian Guilder"), N_("Netherlands Antilles"), "ANG", NULL, TRUE },
-    { N_("Northern America"), N_("Trinidad and Tobago Dollar"), N_("Trinidad and Tobago"), "TTD", NULL, TRUE },
-    { N_("Northern America"), N_("United States Dollar"), N_("United States"), "USD", "$", TRUE },
-    { N_("Pacific Ocean"), N_("Australian Dollar"), N_("Australia"), "AUD", NULL, TRUE },
-    { N_("Pacific Ocean"), N_("Australian Dollar"), N_("Kiribati"), "AUD", NULL, TRUE },
-    { N_("Pacific Ocean"), N_("Australian Dollar"), N_("Nauru"), "AUD", NULL, TRUE },
-    { N_("Pacific Ocean"), N_("Australian Dollar"), N_("Tuvalu"), "AUD", NULL, TRUE },
-    { N_("Pacific Ocean"), N_("CFP Franc"), N_("French Polynesia"), "XPF", NULL, TRUE },
-    { N_("Pacific Ocean"), N_("CFP Franc"), N_("New Caledonia"), "XPF", NULL, TRUE },
-    { N_("Pacific Ocean"), N_("CFP Franc"), N_("Wallis and Futuna"), "XPF", NULL, TRUE },
-    { N_("Pacific Ocean"), N_("Fiji Dollar"), N_("Fiji"), "FJD", NULL, TRUE },
-    { N_("Pacific Ocean"), N_("New Zealand Dollar"), N_("Cook Islands"), "NZD", NULL, TRUE },
-    { N_("Pacific Ocean"), N_("New Zealand Dollar"), N_("New Zealand"), "NZD", NULL, TRUE },
-    { N_("Pacific Ocean"), N_("Papua New Guinea Kina"), N_("Papua New Guinea"), "PGK", NULL, TRUE },
-    { N_("Pacific Ocean"), N_("Samoa Tala"), N_("Samoa"), "WST", NULL, TRUE },
-    { N_("Pacific Ocean"), N_("Solomon Islands Dollar"), N_("Solomon Islands"), "SBD", NULL, TRUE },
-    { N_("Pacific Ocean"), N_("Timor Escudo"), N_("Timor"), "TPE", NULL, TRUE },
-    { N_("Pacific Ocean"), N_("Tongan Pa'anga"), N_("Tonga"), "TOP", NULL, TRUE },
-    { N_("Pacific Ocean"), N_("United States Dollar"), N_("Panama"), "USD", "$", TRUE },
-    { N_("Pacific Ocean"), N_("Vanuatu Vatu"), N_("Vanuatu"), "VUV", NULL, TRUE },
-    { N_("Southern America"), N_("Chilean Peso"), N_("Chile"), "CLP", NULL, TRUE },
-    { N_("Southern America"), N_("Colombian Peso"), N_("Colombia"), "COP", NULL, TRUE },
-    { N_("Southern America"), N_("Ecuador Sucre"), N_("Ecuador"), "ECS", NULL, FALSE },
-    { N_("Southern America"), N_("Guyana Dollar"), N_("Guyana"), "GYD", NULL, TRUE },
-    { N_("Southern America"), N_("Paraguay Guarani"), N_("Paraguay"), "PYG", NULL, TRUE },
-    { N_("Southern America"), N_("Suriname Guilder"), N_("Suriname"), "SRG", NULL, TRUE },
-    { N_("Southern America"), N_("Venezuelan Bolivar"), N_("Venezuela"), "VEB", NULL, TRUE },
-    { NULL },
-};
-
-
-/** Columns numbers for currencies list  */
-enum currency_list_column {
-    COUNTRY_NAME_COLUMN = 0,
-    CURRENCY_NAME_COLUMN,
-    CURRENCY_ISO_CODE_COLUMN,
-    CURRENCY_NICKNAME_COLUMN,
-    CONTINENT_NAME_COLUMN,
-    NUM_CURRENCIES_COLUMNS,
-};
 
 
 /** Exchange rates cache, used by update_exchange_rate_cache and
@@ -1597,67 +1436,6 @@ gboolean changement_iso_code_entree_devise ( void )
 
 
 
-/* **************************************************************************************************************************** */
-/* cette fonction prend en argument un montant, la devise de renvoi (en général la devise du compte) */
-/*      et la devise du montant donné en argument */
-/* elle renvoie le montant de l'opération dans la devise de renvoi */
-/* **************************************************************************************************************************** */
-
-gdouble calcule_montant_devise_renvoi ( gdouble montant_init,
-					gint no_devise_renvoi,
-					gint no_devise_montant,
-					gint une_devise_compte_egale_x_devise_ope,
-					gdouble taux_change,
-					gdouble frais_change )
-{
-    gdouble montant;
-
-    /* tout d'abord, si les 2 devises sont les mÃªmes, on renvoie le montant directement */
-
-    if ( no_devise_renvoi == no_devise_montant )
-	return ( montant_init );
-
-    /*   il faut faire une transformation du montant */
-    /* on utilise les variables globales devise_compte et devise_operation pour */
-    /* gagner du temps */
-
-    /* rÃ©cupÃ¨re la devise du compte si nÃ©cessaire */
-
-    if ( !devise_compte
-	 ||
-	 devise_compte -> no_devise != no_devise_renvoi )
-	devise_compte = devise_par_no ( no_devise_renvoi );
-
-    /* rÃ©cupÃ¨re la devise de l'opÃ©ration si nÃ©cessaire */
-
-    if ( !devise_operation
-	 ||
-	 devise_operation -> no_devise != no_devise_montant )
-	devise_operation = devise_par_no ( no_devise_montant );
-
-    /* on a maintenant les 2 devises, on peut faire les calculs */
-
-    if ( devise_compte -> passage_euro
-	 &&
-	 !strcmp ( devise_operation -> nom_devise, _("Euro") ) )
-	montant = montant_init * devise_compte -> change;
-    else
-	if ( devise_operation -> passage_euro
-	     &&
-	     !strcmp ( devise_compte -> nom_devise, _("Euro") ))
-	    montant = montant_init / devise_operation -> change;
-	else
-	    if ( une_devise_compte_egale_x_devise_ope )
-		montant = montant_init / taux_change - frais_change;
-	    else
-		montant = montant_init * taux_change - frais_change;
-
-    montant = ( rint (montant * 100 )) / 100;
-
-    return ( montant);
-}
-
-
 
 /**
  * Find whether echange rate between two currencies is known.  If so,
@@ -1712,133 +1490,14 @@ void update_exchange_rate_cache ( struct struct_devise * currency1,
 
     cached_exchange_rates = g_slist_append ( cached_exchange_rates, tmp );
 }
-
-
-
-gboolean is_euro ( struct struct_devise * currency )
-{
-    return (gboolean) !strcmp ( currency -> nom_devise, _("Euro"));
-}
-
-
-
-/* ***************************************************************************************** */
-/* renvoie la devise correspondant au no */
-/* renvoie NULL si pas trouvée */
-/* ***************************************************************************************** */
-struct struct_devise *devise_par_no ( gint no_devise )
-{
-    GSList *liste_tmp;
-
-    liste_tmp = g_slist_find_custom ( liste_struct_devises,
-				      GINT_TO_POINTER ( no_devise ),
-				      (GCompareFunc) recherche_devise_par_no );
-
-    if ( liste_tmp )
-	return ( liste_tmp -> data );
- 
-    return NULL;
-}
 /* ***************************************************************************************** */
 
 
-
-/* ***************************************************************************************** */
-/* renvoie la devise correspondant au nom */
-/* renvoie NULL si pas trouvée */
-/* ***************************************************************************************** */
-struct struct_devise *devise_par_nom ( gchar *nom_devise )
-{
-    GSList *liste_tmp;
-
-    liste_tmp = g_slist_find_custom ( liste_struct_devises,
-				      g_strstrip ( nom_devise ),
-				      (GCompareFunc) recherche_devise_par_nom );
-
-    if ( liste_tmp )
-	return ( liste_tmp -> data );
- 
-    return NULL;
-}
-/* ***************************************************************************************** */
-
-
-
-/* ***************************************************************************************** */
-/* renvoie la devise correspondant au code iso */
-/* renvoie NULL si pas trouvée */
-/* ***************************************************************************************** */
-struct struct_devise *devise_par_code_iso ( gchar *code_iso )
-{
-    GSList *liste_tmp;
-
-    liste_tmp = g_slist_find_custom ( liste_struct_devises,
-				      g_strstrip ( code_iso ),
-				      (GCompareFunc) recherche_devise_par_code_iso );
-
-    if ( liste_tmp )
-	return ( liste_tmp -> data );
- 
-    return NULL;
-}
-/* ***************************************************************************************** */
-
-
-
-/**
- * Return either currency's code or currency's ISO4217 nickname if no
- * name is found.
- *
- * \param devise A pointer to a struct_devise holding currency
- * informations.
- *
- * \return name or ISO4217 name of currency.
- * or NULL if devise is NULL
- */
-gchar * devise_code ( struct struct_devise * devise )
-{
-    if ( devise )
-    {
-	if ( devise -> code_devise && (strlen(devise -> code_devise) > 0))
-	    return devise -> code_devise;
-
-	return devise -> code_iso4217_devise;
-    }
-    return NULL;
-}
 
 
 
 
 /* ***************************************************************************************** */
-/* renvoie le code de la devise correspondante au no */
-/* ou null si pas trouvée */
-/* ***************************************************************************************** */
-
-gchar * devise_code_by_no ( gint no_devise )
-{
-    return ( devise_code ( devise_par_no ( no_devise )));
-}
-/* ***************************************************************************************** */
-
-
-/* ***************************************************************************************** */
-/* renvoie le nom de la devise donné en argument */
-/* ***************************************************************************************** */
-gchar * devise_name ( struct struct_devise * devise )
-{
-    if ( devise )
-    {
-	if ( devise -> nom_devise && (strlen(devise -> nom_devise) > 0))
-	    return devise -> nom_devise;
-
-	return devise -> code_iso4217_devise;
-    }
-    return NULL;
-}
-/* ***************************************************************************************** */
-
-
 struct struct_devise *create_currency ( gchar * nom_devise, gchar * code_devise, gchar * code_iso4217_devise )
 {
   struct struct_devise * devise;
@@ -1881,3 +1540,5 @@ struct struct_devise * find_currency_from_iso4217_list ( gchar * currency_name )
 
   return NULL;
 }
+/* ***************************************************************************************** */
+

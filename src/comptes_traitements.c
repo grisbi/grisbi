@@ -25,6 +25,8 @@
 /* ************************************************************************** */
 
 #include "include.h"
+#include "echeancier_formulaire_constants.h"
+#include "operations_formulaire_constants.h"
 
 /*START_INCLUDE*/
 #include "comptes_traitements.h"
@@ -34,13 +36,14 @@
 #include "comptes_gestion.h"
 #include "utils.h"
 #include "dialog.h"
-#include "echeancier_onglet.h"
+#include "utils_echeances.h"
 #include "fichiers_gestion.h"
 #include "categories_onglet.h"
 #include "imputation_budgetaire.h"
 #include "tiers_onglet.h"
 #include "traitement_variables.h"
 #include "comptes_onglet.h"
+#include "utils_comptes.h"
 #include "etats_config.h"
 #include "echeancier_liste.h"
 /*END_INCLUDE*/
@@ -769,94 +772,4 @@ gint demande_type_nouveau_compte ( void )
 /* ************************************************************************** */
 
 
-
-
-/* ************************************************************************** */
-/* cette fonction est appelée pour mettre un option menu de compte sur le */
-/* compte donné en argument */
-/* elle renvoie le no à mettre dans history */
-/* ************************************************************************** */
-gint recherche_compte_dans_option_menu ( GtkWidget *option_menu,
-					 gint no_compte )
-{
-    GList *liste_menu;
-    GList *liste_tmp;
-
-    liste_menu = GTK_MENU_SHELL ( gtk_option_menu_get_menu ( GTK_OPTION_MENU ( option_menu ))) -> children;
-    liste_tmp = liste_menu;
-
-    while ( liste_tmp )
-    {
-	gint *no;
-
-	no = gtk_object_get_data ( GTK_OBJECT ( liste_tmp -> data ),
-				   "no_compte" );
-	if ( GPOINTER_TO_INT (no) == no_compte )
-	    return g_list_position ( liste_menu,
-				     liste_tmp );
-	liste_tmp = liste_tmp -> next;
-    }
-    return 0;
-}
-/* ************************************************************************** */
-
-
-/* ************************************************************************** */
-/* cette fonction renvoie le no de compte sélectionné par l'option menu */
-/* \param option_menu l'option menu des comptes */
-/* \return le no de compte ou -1 si pb */
-/* ************************************************************************** */
-gint recupere_no_compte ( GtkWidget *option_menu )
-{
-    gint no_compte;
-    
-    if ( !option_menu
-	 ||
-	 !GTK_IS_OPTION_MENU ( option_menu ))
-	return -1;
-
-    no_compte = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT (  GTK_OPTION_MENU ( option_menu ) -> menu_item ),
-							"no_compte" ));
-    return no_compte;
-}
-/* ************************************************************************** */
-
-
-
-
-/* ************************************************************************** */
-/* il y a eu un chgt dans les comptes, cette fonction modifie les */
-/* options menus qui contiennent les noms de compte */
-/* ************************************************************************** */
-
-void update_options_menus_comptes ( void )
-{
-    /*     on met à jour l'option menu de l'échéancier */
-
-    gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_ACCOUNT] ),
-			       creation_option_menu_comptes(GTK_SIGNAL_FUNC(changement_choix_compte_echeancier),
-							    TRUE,
-							    FALSE ));
-}
-/* ************************************************************************** */
-
-
-/* ************************************************************************** */
-/* renvoie le nom du compte donné en argument ou NULL */
-/* ************************************************************************** */
-gchar *compte_name_by_no ( gint no_compte )
-{
-
-    if ( no_compte >= 0
-	 &&
-	 no_compte <= nb_comptes )
-    {
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_compte;
-	return ( g_strdup ( NOM_DU_COMPTE ));
-    }
-    else
-	return NULL;
-
-}
-/* ************************************************************************** */
 

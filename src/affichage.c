@@ -31,7 +31,9 @@
 #include "affichage_formulaire.h"
 #include "main.h"
 #include "traitement_variables.h"
+#include "utils_buttons.h"
 #include "utils.h"
+#include "utils_editables.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

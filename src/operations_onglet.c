@@ -20,7 +20,6 @@
 /*     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 
 
-
 #include "include.h"
 
 
@@ -32,7 +31,6 @@
 #include "operations_formulaire.h"
 #include "ventilation.h"
 #include "operations_comptes.h"
-#include "search_glist.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -50,8 +48,6 @@ extern GtkWidget *formulaire;
 extern GtkWidget *frame_droite_bas;
 extern GtkWidget *notebook_comptes_equilibrage;
 extern GtkWidget *notebook_formulaire;
-extern gpointer **p_tab_nom_de_compte;
-extern gpointer **p_tab_nom_de_compte_variable;
 /*END_EXTERN*/
 
 
@@ -157,74 +153,4 @@ GtkWidget *creation_onglet_operations ( void )
 }
 /*****************************************************************************************************/
 
-
-/*****************************************************************************************************/
-/* renvoie l'adr de l'opé demandée par son no */
-/* ou NULL si pas trouvée */
-/*****************************************************************************************************/
-struct structure_operation *operation_par_no ( gint no_operation,
-					       gint no_compte )
-{
-    GSList *liste_tmp;
-
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_compte;
-    
-    liste_tmp = g_slist_find_custom ( LISTE_OPERATIONS,
-				      GINT_TO_POINTER ( no_operation ),
-				      (GCompareFunc) recherche_operation_par_no );
-
-    if ( liste_tmp )
-	return ( liste_tmp -> data );
-
-    return NULL;
-}
-/*****************************************************************************************************/
-
-
-
-/*****************************************************************************************************/
-/* renvoie l'adr de l'opé demandée par son no de cheque */
-/* ou NULL si pas trouvée */
-/*****************************************************************************************************/
-struct structure_operation *operation_par_cheque ( gint no_cheque,
-						   gint no_compte )
-{
-    GSList *liste_tmp;
-
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_compte;
-    
-    liste_tmp = g_slist_find_custom ( LISTE_OPERATIONS,
-				      GINT_TO_POINTER ( no_cheque ),
-				      (GCompareFunc) recherche_operation_par_cheque );
-
-    if ( liste_tmp )
-	return ( liste_tmp -> data );
-
-    return NULL;
-}
-/*****************************************************************************************************/
-
-
-
-/*****************************************************************************************************/
-/* renvoie l'adr de l'opé demandée par son no id*/
-/* ou NULL si pas trouvée */
-/*****************************************************************************************************/
-struct structure_operation *operation_par_id ( gchar *no_id,
-					       gint no_compte )
-{
-    GSList *liste_tmp;
-
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_compte;
-    
-    liste_tmp = g_slist_find_custom ( LISTE_OPERATIONS,
-				      g_strstrip ( no_id ),
-				      (GCompareFunc) recherche_operation_par_id );
-
-    if ( liste_tmp )
-	return ( liste_tmp -> data );
-
-    return NULL;
-}
-/*****************************************************************************************************/
 

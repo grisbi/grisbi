@@ -23,23 +23,30 @@
 
 #include "include.h"
 
+#include "ventilation_constants.h"
 
+#include "operations_formulaire_constants.h"
 
 
 /*START_INCLUDE*/
 #include "ventilation.h"
 #include "operations_formulaire.h"
-#include "categories_onglet.h"
+#include "utils_categories.h"
 #include "operations_liste.h"
-#include "exercice.h"
+#include "utils_exercices.h"
 #include "type_operations.h"
+#include "exercice.h"
 #include "devises.h"
+#include "utils_devises.h"
 #include "dialog.h"
 #include "gtk_combofix.h"
+#include "utils_ib.h"
+#include "utils_str.h"
+#include "categories_onglet.h"
 #include "imputation_budgetaire.h"
+#include "utils_operations.h"
+#include "utils_comptes.h"
 #include "utils.h"
-#include "operations_onglet.h"
-#include "comptes_traitements.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

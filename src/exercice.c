@@ -21,15 +21,21 @@
 
 
 #include "include.h"
+#include "operations_formulaire_constants.h"
+#include "echeancier_formulaire_constants.h"
+#include "ventilation_constants.h"
 
 
 /*START_INCLUDE*/
 #include "exercice.h"
-#include "utils.h"
+#include "utils_buttons.h"
+#include "utils_exercices.h"
+#include "utils_dates.h"
 #include "operations_liste.h"
+#include "utils_editables.h"
 #include "traitement_variables.h"
+#include "utils.h"
 #include "dialog.h"
-#include "search_glist.h"
 #include "operations_formulaire.h"
 /*END_INCLUDE*/
 
@@ -548,53 +554,6 @@ GtkWidget *creation_menu_exercices ( gint origine )
 /* ************************************************************************************************************ */
 
 
-
-/* ************************************************************************************************************** */
-/* Fonction cherche_no_menu_exercice */
-/*   argument : le numéro de l'exercice demandé */
-/* renvoie la place demandée dans l'option menu du formulaire */
-/* pour mettre l'history */
-/* ************************************************************************************************************** */
-
-gint cherche_no_menu_exercice ( gint no_demande,
-				GtkWidget *option_menu )
-{
-    GList *liste_tmp;
-    gint trouve;
-    gint non_affiche;
-    gint i;
-
-    liste_tmp = GTK_MENU_SHELL ( GTK_OPTION_MENU ( option_menu ) -> menu ) -> children;
-    i= 0;
-    non_affiche = 0;
-
-    while ( liste_tmp )
-    {
-
-	trouve = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( liste_tmp -> data ),
-							 "no_exercice" ));
-
-	/*       si trouve = no demandé, c'est bon, on se barre */
-
-	if ( trouve == no_demande )
-	    return ( i );
-
-	/*  si on est sur la position du non affiché, on le sauve */
-
-	if ( trouve == -1 )
-	    non_affiche = i;
-
-	i++;
-	liste_tmp = liste_tmp -> next;
-    }
-
-    /*   l'exo n'est pas affiché, on retourne la position de non affiché */
-
-    return ( non_affiche );
-}
-/* ************************************************************************************************************** */
-
-
 /* ************************************************************************************************************** */
 /* fonction affiche_exercice_par_date */
 /* met automatiquement l'option menu de l'exercice par rapport */
@@ -738,99 +697,4 @@ void association_automatique ( void )
 }
 /* ************************************************************************************************************** */
 
-
-
-/* ************************************************************************************************************** */
-/* fonction recherche_exo_correspondant */
-/* renvoie l'exercice correspondant la date donnée en argument */
-/* si aucun ne correspond, on renvoie 0 */
-/* ************************************************************************************************************** */
-
-gint recherche_exo_correspondant ( GDate *date )
-{
-    GSList *liste_tmp;
-
-    liste_tmp = liste_struct_exercices;
-
-    while ( liste_tmp )
-    {
-	struct struct_exercice *exo;
-
-	exo = liste_tmp -> data;
-
-	if ( g_date_compare ( exo -> date_debut,
-			      date ) <= 0
-	     &&
-	     g_date_compare ( exo -> date_fin,
-			      date ) >= 0 )
-	    return ( exo -> no_exercice );
-
-	liste_tmp = liste_tmp -> next;
-    }
-
-    /*   on n'a pas trouvé l'exo, on retourne 0 */
-
-    return ( 0 );
-
-}
-/* ************************************************************************************************************** */
-
-
-/* ************************************************************************************************************** */
-/* renvoie l'adr de l'exo demandé par son no */
-/* ou NULL si pas trouvé */
-/* ************************************************************************************************************** */
-struct struct_exercice *exercice_par_no ( gint no_exo )
-{
-    GSList *liste_tmp;
-
-    liste_tmp = g_slist_find_custom ( liste_struct_exercices,
-				      GINT_TO_POINTER ( no_exo ),
-				      (GCompareFunc) recherche_exercice_par_no );
-
-    if ( liste_tmp )
-	return ( liste_tmp -> data );
- 
-    return NULL;
-}
-/* ************************************************************************************************************** */
-
-
-
-/* ************************************************************************************************************** */
-/* renvoie l'adr de l'exo demandé par son nom */
-/* ou NULL si pas trouvé */
-/* ************************************************************************************************************** */
-struct struct_exercice *exercice_par_nom ( gchar *nom_exo )
-{
-    GSList *liste_tmp;
-
-    liste_tmp = g_slist_find_custom ( liste_struct_exercices,
-				      g_strstrip ( nom_exo ),
-				      (GCompareFunc) recherche_exercice_par_nom );
-
-    if ( liste_tmp )
-	return ( liste_tmp -> data );
- 
-    return NULL;
-}
-/* ************************************************************************************************************** */
-
-/* ************************************************************************************************************** */
-/* renvoie le nom de l'exercice donné en argument */
-/* ou bien null si non trouvé */
-/* ************************************************************************************************************** */
-
-gchar *exercice_name_by_no ( gint no_exo )
-{
-    struct struct_exercice *exo;
-
-    exo = exercice_par_no ( no_exo );
-
-    if ( exo )
-	return ( g_strdup (exo -> nom_exercice ));
-
-    return NULL;
-}
-/* ************************************************************************************************************** */
 

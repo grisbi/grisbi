@@ -26,15 +26,15 @@
 
 
 /*START_INCLUDE*/
-#include "operations_classement.h"
-#include "devises.h"
-#include "exercice.h"
-#include "utils.h"
-#include "categories_onglet.h"
-#include "imputation_budgetaire.h"
-#include "equilibrage.h"
-#include "tiers_onglet.h"
-#include "type_operations.h"
+#include "classement_operations.h"
+#include "utils_devises.h"
+#include "utils_exercices.h"
+#include "utils_str.h"
+#include "utils_categories.h"
+#include "utils_ib.h"
+#include "utils_rapprochements.h"
+#include "utils_tiers.h"
+#include "utils_types.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

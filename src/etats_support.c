@@ -24,7 +24,7 @@
 
 /*START_INCLUDE*/
 #include "etats_support.h"
-#include "exercice.h"
+#include "utils_exercices.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

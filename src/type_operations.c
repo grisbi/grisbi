@@ -21,17 +21,23 @@
 
 
 #include "include.h"
+#include "type_operations_constants.h"
+#include "echeancier_formulaire_constants.h"
+#include "operations_formulaire_constants.h"
+#include "ventilation_constants.h"
 
 
 
 
 /*START_INCLUDE*/
 #include "type_operations.h"
-#include "utils.h"
+#include "utils_buttons.h"
 #include "dialog.h"
 #include "operations_formulaire.h"
+#include "utils_editables.h"
+#include "utils_str.h"
 #include "traitement_variables.h"
-#include "search_glist.h"
+#include "utils.h"
 #include "affichage_formulaire.h"
 /*END_INCLUDE*/
 
@@ -56,17 +62,6 @@ static void supprimer_type_operation ( void );
 
 
 
-/** Columns for payment methods tree */
-enum payment_methods_columns {
-    PAYMENT_METHODS_NAME_COLUMN = 0,
-    PAYMENT_METHODS_NUMBERING_COLUMN,
-    PAYMENT_METHODS_DEFAULT_COLUMN,
-    PAYMENT_METHODS_TYPE_COLUMN,
-    PAYMENT_METHODS_VISIBLE_COLUMN,
-    PAYMENT_METHODS_ACTIVABLE_COLUMN,
-    PAYMENT_METHODS_POINTER_COLUMN,
-    NUM_PAYMENT_METHODS_COLUMNS,
-};
 
 
 GtkWidget *treeview;
@@ -1529,46 +1524,4 @@ void changement_choix_type_echeancier ( struct struct_type_ope *type )
 }
 /* ************************************************************************************************************** */
 
-
-/* ************************************************************************************************************** */
-/* renvoie le type ope demandé en argument */
-/* ou NULL si pas trouvé */
-/* ************************************************************************************************************** */
-struct struct_type_ope *type_ope_par_no ( gint no_type_ope,
-					  gint no_compte )
-{
-    GSList *liste_tmp;
-
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_compte;
-
-    liste_tmp = g_slist_find_custom ( TYPES_OPES,
-				      GINT_TO_POINTER ( no_type_ope ),
-				      (GCompareFunc) recherche_type_ope_par_no );
-
-    if ( liste_tmp )
-	return ( liste_tmp -> data );
-
-    return NULL;
-}
-/* ************************************************************************************************************** */
-
-
-/* ************************************************************************************************************** */
-/* renvoie le nom du type_ope correspondant au numéro donné */
-/* ou null */
-/* ************************************************************************************************************** */
-gchar *type_ope_name_by_no ( gint no_type_ope,
-			     gint no_de_compte )
-{
-    struct struct_type_ope *type_ope;
-
-    type_ope = type_ope_par_no ( no_type_ope,
-				 no_de_compte );
-
-    if ( type_ope )
-	return ( type_ope -> nom_type );
-
-    return NULL;
-}
-/* ************************************************************************************************************** */
 

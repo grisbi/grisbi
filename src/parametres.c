@@ -23,8 +23,10 @@
 
 /*START_INCLUDE*/
 #include "parametres.h"
-#include "utils.h"
+#include "utils_buttons.h"
 #include "traitement_variables.h"
+#include "utils.h"
+#include "utils_editables.h"
 #include "affichage_liste.h"
 #include "banque.h"
 #include "devises.h"

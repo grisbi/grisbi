@@ -34,6 +34,7 @@
 
 
 #include "include.h"
+#include "fichier_configuration_constants.h"
 
 
 /*START_INCLUDE*/
@@ -44,6 +45,7 @@
 #include "utils.h"
 #include "erreur.h"
 #include "traitement_variables.h"
+#include "utils_str.h"
 #include "fichiers_gestion.h"
 #include "etats_config.h"
 #include "parametres.h"

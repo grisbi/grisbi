@@ -22,6 +22,7 @@
 
 
 #include "include.h"
+#include "fichier_configuration_constants.h"
 
 
 
@@ -29,23 +30,30 @@
 #include "import.h"
 #include "devises.h"
 #include "patienter.h"
+#include "utils_montants.h"
+#include "utils_categories.h"
 #include "operations_liste.h"
-#include "categories_onglet.h"
 #include "comptes_gestion.h"
 #include "utils.h"
+#include "utils_devises.h"
 #include "dialog.h"
+#include "utils_files.h"
 #include "traitement_variables.h"
 #include "fichiers_gestion.h"
 #include "comptes_traitements.h"
+#include "utils_str.h"
 #include "accueil.h"
+#include "categories_onglet.h"
 #include "tiers_onglet.h"
-#include "operations_onglet.h"
+#include "utils_operations.h"
 #include "operations_comptes.h"
 #include "comptes_onglet.h"
 #include "gnucash.h"
 #include "html.h"
 #include "ofx.h"
 #include "qif.h"
+#include "utils_comptes.h"
+#include "utils_tiers.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

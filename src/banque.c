@@ -26,6 +26,7 @@
 #include "banque.h"
 #include "comptes_gestion.h"
 #include "dialog.h"
+#include "utils_editables.h"
 #include "utils.h"
 #include "search_glist.h"
 /*END_INCLUDE*/

@@ -28,7 +28,8 @@
 
 /*START_INCLUDE*/
 #include "calendar.h"
-#include "utils.h"
+#include "utils_dates.h"
+#include "utils_str.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

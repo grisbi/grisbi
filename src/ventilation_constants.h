@@ -1,0 +1,15 @@
+
+
+/* Constantes qui définisent le numéro de widget dans le formulaire
+   de ventilation des opérations */
+# define TRANSACTION_BREAKDOWN_FORM_CATEGORY 0
+# define TRANSACTION_BREAKDOWN_FORM_NOTES 1
+# define TRANSACTION_BREAKDOWN_FORM_DEBIT 2
+# define TRANSACTION_BREAKDOWN_FORM_CREDIT 3
+# define TRANSACTION_BREAKDOWN_FORM_BUDGETARY 4
+# define TRANSACTION_BREAKDOWN_FORM_CONTRA 5
+# define TRANSACTION_BREAKDOWN_FORM_EXERCICE 6
+# define TRANSACTION_BREAKDOWN_FORM_VOUCHER 7
+# define TRANSACTION_BREAKDOWN_FORM_TOTAL_WIDGET 8	 /* must be the last of the list */
+
+

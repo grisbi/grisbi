@@ -25,6 +25,7 @@
 
 
 #include "include.h"
+#include "fichier_configuration_constants.h"
 
 
 /*START_INCLUDE*/
@@ -34,7 +35,7 @@
 #include "fichiers_io.h"
 #include "fichiers_gestion.h"
 #include "traitement_variables.h"
-#include "utils.h"
+#include "utils_files.h"
 #include "fichier_configuration.h"
 /*END_INCLUDE*/
 

@@ -31,8 +31,8 @@
 
 /*START_INCLUDE*/
 #include "search_glist.h"
-#include "devises.h"
-#include "utils.h"
+#include "utils_devises.h"
+#include "utils_str.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

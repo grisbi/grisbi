@@ -26,24 +26,25 @@
 /* ************************************************************************** */
 
 #include "include.h"
+#include "accueil_constants.h"
 
 
 /*START_INCLUDE*/
 #include "accueil.h"
-#include "devises.h"
+#include "utils_devises.h"
 #include "operations_comptes.h"
+#include "classement_echeances.h"
 #include "echeancier_liste.h"
 #include "dialog.h"
 #include "operations_liste.h"
 #include "echeancier_formulaire.h"
 #include "gtk_list_button.h"
+#include "utils_str.h"
 #include "utils.h"
-#include "tiers_onglet.h"
+#include "utils_tiers.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static gint classement_date_echeance ( struct operation_echeance * a, 
-				struct operation_echeance * b );
 static gboolean click_sur_compte_accueil ( gint *no_compte );
 static gboolean saisie_echeance_accueil ( GtkWidget *event_box,
 				   GdkEventButton *event,
@@ -1546,34 +1547,6 @@ gboolean click_sur_compte_accueil ( gint *no_compte )
 
 
 
-/* ************************************************************************* */
-/* Classement de deux échéances d'opérations par date                        */
-/* ************************************************************************* */
-gint classement_date_echeance ( struct operation_echeance * a, 
-				struct operation_echeance * b )
-{
-    if ( a->annee > b->annee )
-	return 1;
-    else if ( a->annee < b->annee )
-	return -1;
-    else 
-    {
-	if ( a->mois > b->mois )
-	    return 1;
-	else if ( a->mois < b->mois )
-	    return -1;
-	else 
-	{
-	    if ( a->jour > b->jour )
-		return 1;
-	    else if ( a->jour < b->jour )
-		return -1;
-	    else
-		return 0;
-	}
-    }
-}
-/* ************************************************************************* */
 
 /* ************************************************************************* */
 void update_liste_echeances_manuelles_accueil ( void )
@@ -1633,7 +1606,7 @@ void update_liste_echeances_manuelles_accueil ( void )
 
 
 	pointeur_liste = g_slist_sort(echeances_a_saisir,
-				      (GCompareFunc) classement_date_echeance);
+				      (GCompareFunc) classement_sliste_echeance_par_date );
 
 	while ( pointeur_liste )
 	{

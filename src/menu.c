@@ -24,6 +24,8 @@
 /* ************************************************************************** */
 
 #include "include.h"
+#include "fichier_configuration_constants.h"
+#include "menu_constants.h"
 
 
 /*START_INCLUDE*/
@@ -40,6 +42,7 @@
 #include "etats_calculs.h"
 #include "utils.h"
 #include "main.h"
+#include "utils_str.h"
 #include "comptes_traitements.h"
 #include "etats_config.h"
 #include "parametres.h"
@@ -54,15 +57,6 @@ static void view_menu_cb ( gpointer callback_data, guint callback_action, GtkWid
 /*END_STATIC*/
 
 
-enum view_menu_action {
-  HIDE_SHOW_TRANSACTION_FORM = 0,
-  HIDE_SHOW_GRID,
-  HIDE_SHOW_RECONCILED_TRANSACTIONS,
-  ONE_LINE_PER_TRANSACTION,
-  TWO_LINES_PER_TRANSACTION,
-  THREE_LINES_PER_TRANSACTION,
-  FOUR_LINES_PER_TRANSACTION,
-};
 
 /*START_EXTERN*/
 extern gint compte_courant;

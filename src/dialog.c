@@ -29,7 +29,7 @@
 
 /*START_INCLUDE*/
 #include "dialog.h"
-#include "utils.h"
+#include "utils_buttons.h"
 #include "parametres.h"
 /*END_INCLUDE*/
 

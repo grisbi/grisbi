@@ -24,15 +24,15 @@
 
 /*START_INCLUDE*/
 #include "etats_calculs.h"
-#include "devises.h"
-#include "categories_onglet.h"
+#include "utils_devises.h"
+#include "utils_categories.h"
 #include "search_glist.h"
 #include "etats_affiche.h"
-#include "utils.h"
-#include "imputation_budgetaire.h"
-#include "equilibrage.h"
-#include "tiers_onglet.h"
-#include "type_operations.h"
+#include "utils_str.h"
+#include "utils_ib.h"
+#include "utils_rapprochements.h"
+#include "utils_tiers.h"
+#include "utils_types.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

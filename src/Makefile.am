@@ -13,6 +13,8 @@ sources = 			\
 	barre_outils.c		\
 	calendar.c		\
 	categories_onglet.c	\
+	classement_operations.c	\
+	classement_echeances.c	\
 	comptes_gestion.c	\
 	comptes_onglet.c	\
 	comptes_traitements.c	\
@@ -46,7 +48,6 @@ sources = 			\
 	main.c			\
 	menu.c			\
 	ofx.c                   \
-	operations_classement.c	\
 	operations_comptes.c	\
 	operations_formulaire.c \
 	operations_liste.c	\
@@ -62,6 +63,22 @@ sources = 			\
 	type_operations.c	\
 	ventilation.c		\
 	utils.c			\
+	utils_buttons.c		\
+	utils_categories.c	\
+	utils_comptes.c		\
+	utils_dates.c		\
+	utils_devises.c		\
+	utils_echeances.c	\
+	utils_editables.c	\
+	utils_exercices.c	\
+	utils_files.c		\
+	utils_ib.c		\
+	utils_montants.c	\
+	utils_operations.c	\
+	utils_rapprochements.c	\
+	utils_str.c		\
+	utils_tiers.c		\
+	utils_types.c		\
 	search_glist.c
 
 grisbi_SOURCES = $(sources)
@@ -75,6 +92,8 @@ grisbi_INCLUDES =		\
 	barre_outils.h		\
 	calendar.h		\
 	categories_onglet.h	\
+	classement_operations.h	\
+	classement_echeances.h	\
 	comptes_gestion.h	\
 	comptes_onglet.h	\
 	comptes_traitements.h	\
@@ -108,7 +127,6 @@ grisbi_INCLUDES =		\
 	include.h		\
 	main.h			\
 	menu.h			\
-	operations_classement.h	\
 	operations_comptes.h	\
 	operations_formulaire.h	\
 	operations_liste.h	\
@@ -125,6 +143,22 @@ grisbi_INCLUDES =		\
 	type_operations.h	\
 	ventilation.h		\
 	utils.h			\
+	utils_buttons.h		\
+	utils_categories.h	\
+	utils_comptes.h		\
+	utils_dates.h		\
+	utils_devises.h		\
+	utils_echeances.h	\
+	utils_editables.h	\
+	utils_exercices.h	\
+	utils_files.h		\
+	utils_ib.h		\
+	utils_montants.h	\
+	utils_operations.h	\
+	utils_rapprochements.h	\
+	utils_str.h		\
+	utils_tiers.h		\
+	utils_types.h		\
 	search_glist.h
 
 

@@ -24,7 +24,7 @@
 
 /*START_INCLUDE*/
 #include "help.h"
-#include "utils.h"
+#include "utils_buttons.h"
 #include "dialog.h"
 /*END_INCLUDE*/
 

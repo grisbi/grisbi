@@ -25,6 +25,7 @@
 
 #include "include.h"
 #include "mouse.h"
+#include "operations_formulaire_constants.h"
 
 /* cette structure est utilisée pour retrouver la position de la cellule solde sur une opération */
 
@@ -43,11 +44,11 @@ struct structure_position_solde
 #include "ventilation.h"
 #include "accueil.h"
 #include "operations_formulaire.h"
-#include "devises.h"
-#include "equilibrage.h"
-#include "exercice.h"
+#include "utils_devises.h"
+#include "utils_montants.h"
+#include "utils_exercices.h"
 #include "search_glist.h"
-#include "operations_classement.h"
+#include "classement_operations.h"
 #include "echeancier_formulaire.h"
 #include "barre_outils.h"
 #include "type_operations.h"
@@ -55,14 +56,22 @@ struct structure_position_solde
 #include "utils.h"
 #include "dialog.h"
 #include "echeancier_liste.h"
+#include "equilibrage.h"
 #include "gtk_combofix.h"
+#include "utils_str.h"
 #include "main.h"
 #include "categories_onglet.h"
 #include "imputation_budgetaire.h"
 #include "tiers_onglet.h"
 #include "operations_comptes.h"
 #include "traitement_variables.h"
-#include "operations_onglet.h"
+#include "utils_categories.h"
+#include "utils_ib.h"
+#include "utils_operations.h"
+#include "utils_rapprochements.h"
+#include "utils_dates.h"
+#include "utils_tiers.h"
+#include "utils_types.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -1706,89 +1715,6 @@ gdouble solde_debut_affichage ( gint no_compte )
 	if ( !(operation -> no_operation_ventilee_associee
 	       ||
 	       operation -> pointe != 3 ))
-	solde = solde + calcule_montant_devise_renvoi ( operation -> montant,
-							DEVISE,
-							operation -> devise,
-							operation -> une_devise_compte_egale_x_devise_ope,
-							operation -> taux_change,
-							operation -> frais_change );
-	liste_tmp = liste_tmp -> next;
-    }
-
-    return ( solde );
-}
-/******************************************************************************/
-
-
-/******************************************************************************/
-/* cette fonction calcule et renvoie le solde du compte donné en argument */
-/******************************************************************************/
-gdouble calcule_solde_compte ( gint no_compte )
-{
-    gdouble solde;
-    GSList *liste_tmp;
-
-    if ( DEBUG )
-	printf ( "calcule_solde_compte %d\n", no_compte );
-
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_compte;
-
-    solde = SOLDE_INIT;
-
-    liste_tmp = LISTE_OPERATIONS;
-
-    while ( liste_tmp )
-    {
-	struct structure_operation *operation;
-
-	operation = liste_tmp -> data;
-
-	/* 	si l'opé est ventilée, on saute */
-
-	if ( !operation -> no_operation_ventilee_associee )
-	solde = solde + calcule_montant_devise_renvoi ( operation -> montant,
-							DEVISE,
-							operation -> devise,
-							operation -> une_devise_compte_egale_x_devise_ope,
-							operation -> taux_change,
-							operation -> frais_change );
-	liste_tmp = liste_tmp -> next;
-    }
-
-    return ( solde );
-}
-/******************************************************************************/
-
-
-
-/******************************************************************************/
-/* cette fonction calcule et renvoie le solde pointé du compte donné en argument */
-/******************************************************************************/
-gdouble calcule_solde_pointe_compte ( gint no_compte )
-{
-    gdouble solde;
-    GSList *liste_tmp;
-
-    if ( DEBUG )
-	printf ( "calcule_solde_pointe_compte %d\n", no_compte );
-
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_compte;
-
-    solde = SOLDE_INIT;
-
-    liste_tmp = LISTE_OPERATIONS;
-
-    while ( liste_tmp )
-    {
-	struct structure_operation *operation;
-
-	operation = liste_tmp -> data;
-
-	/* 	si l'opé est ventilÃ©e ou non pointée, on saute */
-
-	if ( operation -> pointe
-	     &&
-	     !operation -> no_operation_ventilee_associee )
 	solde = solde + calcule_montant_devise_renvoi ( operation -> montant,
 							DEVISE,
 							operation -> devise,
@@ -3889,12 +3815,6 @@ gboolean click_sur_titre_colonne_operations ( GtkTreeViewColumn *colonne,
 				       "activate",
 				       G_CALLBACK ( changement_choix_classement_liste_operations ),
 				       tab_char[i] );
-/* 	    g_signal_connect_data ( G_OBJECT(menu_item), */
-/* 				    "activate", */
-/* 				    G_CALLBACK ( g_strfreev ), */
-/* 				    tab_char, */
-/* 				    NULL, */
-/* 				    G_CONNECT_AFTER | G_CONNECT_SWAPPED); */
 	    gtk_menu_append ( menu,
 			      menu_item );
 	    gtk_widget_show ( menu_item );

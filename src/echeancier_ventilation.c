@@ -23,23 +23,29 @@
 
 
 #include "include.h"
+#include "echeancier_ventilation_constants.h"
+#include "echeancier_formulaire_constants.h"
+#include "operations_formulaire_constants.h"
 
 
 
 /*START_INCLUDE*/
 #include "echeancier_ventilation.h"
-#include "categories_onglet.h"
-#include "exercice.h"
+#include "utils_categories.h"
+#include "utils_exercices.h"
 #include "type_operations.h"
-#include "operations_classement.h"
+#include "classement_operations.h"
 #include "echeancier_formulaire.h"
+#include "exercice.h"
 #include "dialog.h"
-#include "echeancier_onglet.h"
+#include "utils_echeances.h"
 #include "operations_formulaire.h"
 #include "gtk_combofix.h"
+#include "utils_ib.h"
+#include "categories_onglet.h"
 #include "imputation_budgetaire.h"
-#include "utils.h"
-#include "comptes_traitements.h"
+#include "utils_str.h"
+#include "utils_comptes.h"
 #include "operations_liste.h"
 #include "echeancier_liste.h"
 /*END_INCLUDE*/

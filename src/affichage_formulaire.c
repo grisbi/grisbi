@@ -21,14 +21,19 @@
 
 
 #include "include.h"
+#include "operations_formulaire_constants.h"
+
 
 /*START_INCLUDE*/
 #include "affichage_formulaire.h"
 #include "comptes_traitements.h"
 #include "dialog.h"
-#include "utils.h"
+#include "utils_str.h"
 #include "operations_comptes.h"
 #include "traitement_variables.h"
+#include "utils_buttons.h"
+#include "utils.h"
+#include "utils_comptes.h"
 #include "operations_formulaire.h"
 /*END_INCLUDE*/
 

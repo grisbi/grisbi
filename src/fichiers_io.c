@@ -21,6 +21,7 @@
 
 
 #include "include.h"
+#include "echeancier_liste_constants.h"
 
 /* structure utilisée pour récupérer les nos de versions */
 
@@ -36,11 +37,12 @@ struct recuperation_version
 #include "fichiers_io.h"
 #include "categories_onglet.h"
 #include "imputation_budgetaire.h"
-#include "devises.h"
+#include "utils_devises.h"
 #include "dialog.h"
-#include "utils.h"
+#include "utils_str.h"
 #include "main.h"
 #include "traitement_variables.h"
+#include "utils_buttons.h"
 #include "fichiers_gestion.h"
 #include "search_glist.h"
 #include "operations_liste.h"

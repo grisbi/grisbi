@@ -24,6 +24,7 @@
 
 
 #include "include.h"
+#include "fichier_configuration_constants.h"
 
 
 /*START_INCLUDE*/
@@ -31,7 +32,7 @@
 #include "menu.h"
 #include "devises.h"
 #include "patienter.h"
-#include "operations_liste.h"
+#include "utils_montants.h"
 #include "fenetre_principale.h"
 #include "operations_comptes.h"
 #include "fichiers_io.h"
@@ -43,9 +44,11 @@
 #include "erreur.h"
 #include "traitement_variables.h"
 #include "main.h"
-#include "utils.h"
+#include "utils_files.h"
 #include "affichage_liste.h"
+#include "operations_liste.h"
 #include "fichier_configuration.h"
+#include "utils.h"
 #include "echeancier_liste.h"
 /*END_INCLUDE*/
 

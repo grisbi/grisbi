@@ -32,17 +32,19 @@
 #include "comptes_gestion.h"
 #include "banque.h"
 #include "devises.h"
+#include "utils_devises.h"
 #include "dialog.h"
 #include "operations_formulaire.h"
 #include "categories_onglet.h"
 #include "traitement_variables.h"
+#include "utils_str.h"
 #include "utils.h"
 #include "operations_comptes.h"
 #include "comptes_onglet.h"
 #include "etats_config.h"
 #include "echeancier_liste.h"
 #include "operations_liste.h"
-#include "comptes_traitements.h"
+#include "utils_comptes.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
