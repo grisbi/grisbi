@@ -1478,7 +1478,7 @@ void fin_edition_echeance ( void )
 
     if ( !modifie_date ( widget_formulaire_echeancier[SCHEDULER_FORM_DATE] ))
     {
-	dialogue ( PRESPACIFY(_("Error: invalid date")) );
+	dialogue_error ( PRESPACIFY(_("Invalid date")) );
 	gtk_widget_grab_focus ( widget_formulaire_echeancier[SCHEDULER_FORM_DATE] );
 	gtk_entry_select_region ( GTK_ENTRY (  widget_formulaire_echeancier[SCHEDULER_FORM_DATE]),
 				  0,
@@ -1492,7 +1492,7 @@ void fin_edition_echeance ( void )
 		  _("None") ))
 	if ( !modifie_date ( widget_formulaire_echeancier[SCHEDULER_FORM_FINAL_DATE] ))
 	{
-	    dialogue ( PRESPACIFY(_("Error: invalid limit date")) );
+	    dialogue_error ( PRESPACIFY(_("Invalid limit date")) );
 	    gtk_widget_grab_focus ( widget_formulaire_echeancier[SCHEDULER_FORM_FINAL_DATE] );
 	    gtk_entry_select_region ( GTK_ENTRY (  widget_formulaire_echeancier[SCHEDULER_FORM_FINAL_DATE]),
 				      0,
