@@ -1288,16 +1288,15 @@ gboolean traitement_clavier_liste ( GtkCList *liste,
 
   switch ( evenement->keyval )
     {
-    case 65293 :
-    case 65421 :
-                         /* entrée */
-
+    case GDK_Return :
+    case GDK_KP_Enter :
+      /* entrée */
       edition_operation ();
       break;
 
 
-    case 65362 :                       /* flèche haut  */
-
+    case GDK_Up :  
+      /* flèche haut  */
       ligne = gtk_clist_find_row_from_data ( GTK_CLIST ( liste ),
 					     OPERATION_SELECTIONNEE );
       if ( ligne )
@@ -1310,11 +1309,10 @@ gboolean traitement_clavier_liste ( GtkCList *liste,
 	  selectionne_ligne ( compte_courant );
 
 	}
-      break;
+      return TRUE;
 
 
-    case 65364 :                /* flèche bas */
-
+    case GDK_Down:                /* flèche bas */
       if ( OPERATION_SELECTIONNEE != GINT_TO_POINTER ( -1 ) )
 	{
 	  ligne = gtk_clist_find_row_from_data ( GTK_CLIST ( liste ),
@@ -1328,41 +1326,37 @@ gboolean traitement_clavier_liste ( GtkCList *liste,
 	  selectionne_ligne ( compte_courant );
 
 	}
-      break;
+      return TRUE;
 
 
-    case 65535 :               /*  del  */
-
+    case GDK_Delete:               /*  del  */
       supprime_operation ( OPERATION_SELECTIONNEE );
-      break;
+      return TRUE;
 
 
-    case 65507 :
+    case GDK_Control_L:
       /* touche ctrl gauche */
-    case 65508:
+    case GDK_Control_R:
       /* touche ctrl droite */
-
       ctrl_press ();
       break;
 
 
-    case 112 :                /* touche p */
-    case 80 :                /* touche P */
-
+    case GDK_P:                /* touche P */
+    case GDK_p:                /* touche p */
       p_press ();
       break;
 
-    case 114 :                /* touche r */
-    case 82 :                /* touche R */
-
+    case GDK_r:                /* touche r */
+    case GDK_R:                /* touche R */
       r_press ();
       break;
 
-    default : return (FALSE);
+    default: 
+      return FALSE;
     }
 
-
-  return (FALSE);
+  return FALSE;
 }
 /***************************************************************************************************/
 

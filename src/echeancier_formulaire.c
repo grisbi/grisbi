@@ -1359,9 +1359,9 @@ void clique_champ_formulaire_echeancier ( GtkWidget *entree,
 
 
 /***********************************************************************************************************/
-void pression_touche_formulaire_echeancier ( GtkWidget *widget,
-					     GdkEventKey *ev,
-					     gint no_widget )
+gboolean pression_touche_formulaire_echeancier ( GtkWidget *widget,
+						 GdkEventKey *ev,
+						 gint no_widget )
 {
 
 
@@ -1379,17 +1379,13 @@ void pression_touche_formulaire_echeancier ( GtkWidget *widget,
   switch ( ev -> keyval)
     {
 
-      /* echap */
-
-    case 65307 :
+    case GDK_Escape :
       gtk_signal_emit_stop_by_name ( GTK_OBJECT ( widget ), "key_press_event");
       echap_formulaire_echeancier();
-      break;
+      return TRUE;
 
-      /* tab */
 
-    case 65289 :
-
+    case GDK_Tab :
       gtk_signal_emit_stop_by_name ( GTK_OBJECT ( widget ),
 				     "key_press_event");
 
@@ -1432,7 +1428,7 @@ void pression_touche_formulaire_echeancier ( GtkWidget *widget,
 	     etat.entree ))
 	{
 	  fin_edition_echeance ();
-	  return;
+	  return TRUE;
 	}
 
       /* si le prochain est le débit, on vérifie s'il n'y a rien dans cette entrée et s'il y a quelque chose dans l'entrée du crédit */
@@ -1478,13 +1474,11 @@ void pression_touche_formulaire_echeancier ( GtkWidget *widget,
 	  gtk_widget_grab_focus ( widget_formulaire_echeancier[no_widget]  );
 	}
 
-      break;
+      return TRUE;
 
 
-    case 65293 :
-    case 65421 :
-      /* entree */
-
+    case GDK_Return:
+    case GDK_KP_Enter:
       if ( !etat.formulaire_echeance_dans_fenetre )
 	{
 	  gtk_signal_emit_stop_by_name ( GTK_OBJECT ( widget ),
@@ -1496,12 +1490,11 @@ void pression_touche_formulaire_echeancier ( GtkWidget *widget,
 
 	  fin_edition_echeance ();
 	}
-      break;
+      return TRUE;
 
-      /* touches + */
 
-    case 65451:
-    case 61:
+    case GDK_plus:
+    case GDK_KP_Add:
       /*       si on est dans une entree de date, on augmente d'un jour la date */
 
       if ( !no_widget
@@ -1513,12 +1506,11 @@ void pression_touche_formulaire_echeancier ( GtkWidget *widget,
 	  incremente_decremente_date ( widget_formulaire_echeancier[no_widget],
 				       1 );
 	}
-      break;
+      return TRUE;
 
-      /* touches - */
 
-    case 65453:
-    case 45:
+    case GDK_minus:
+    case GDK_KP_Subtract:
       /*       si on est dans une entree de date, on diminue d'un jour la date */
 
       if ( !no_widget
@@ -1530,9 +1522,13 @@ void pression_touche_formulaire_echeancier ( GtkWidget *widget,
 	  incremente_decremente_date ( widget_formulaire_echeancier[no_widget],
 				       -1 );
 	}
-      break;
+      return TRUE;
 
+    default:
+      break;
     }
+
+  return FALSE;
 }
 /***********************************************************************************************************/
 

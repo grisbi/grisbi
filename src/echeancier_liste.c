@@ -587,7 +587,7 @@ gboolean traitement_clavier_liste_echeances ( GtkCList *liste_echeances,
       gtk_label_set_text ( GTK_LABEL ( label_saisie_modif ),
 			   _("Modification") );
       edition_echeance ();
-      break;
+      return TRUE;
 
 
     case 65362 :                       /* flèche haut  */
@@ -607,11 +607,10 @@ gboolean traitement_clavier_liste_echeances ( GtkCList *liste_echeances,
 	  selectionne_echeance ();
 
 	}
-      break;
+      return TRUE;
 
 
     case 65364 :                /* flèche bas */
-
       if ( echeance_selectionnnee != GINT_TO_POINTER ( -1 ) )
 	{
 	  ligne = gtk_clist_find_row_from_data ( GTK_CLIST ( liste_echeances ),
@@ -627,17 +626,16 @@ gboolean traitement_clavier_liste_echeances ( GtkCList *liste_echeances,
 	  gtk_clist_unselect_all ( GTK_CLIST ( liste_echeances ) );
 	  selectionne_echeance ();
 	}
-      break;
+      return TRUE;
 
 
     case 65535 :               /*  del  */
-
       supprime_echeance ();
       break;
 
     }
 
-  return ( FALSE );    
+  return FALSE;
 }
 /* *************************************************************************************************************** */
 
