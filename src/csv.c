@@ -428,6 +428,8 @@ void export_accounts_to_csv (GSList* export_entries_list )
                                     /* on commence par mettre la catég et sous categ de l'opé et de l'opé de ventilation */
                                     csv_field_ventil  =  g_strdup("V"); // -> mark 
 
+                                    csv_field_operation = g_strdup_printf("%d",ope_test -> no_operation);
+
                                     if ( ope_test -> relation_no_operation )
                                     {
                                         /* c'est un virement */
