@@ -18,5 +18,7 @@ GtkWidget * new_stock_button_with_label ( gchar * stock_id, gchar * name,
 GtkWidget * new_stock_button_with_label_menu ( gchar * stock_id, gchar * name, 
 					       GCallback callback, gpointer data );
 void set_popup_position (GtkMenu *menu, gint *x, gint *y, gboolean *push_in, gpointer user_data);
+GtkWidget * new_button_with_label_and_image ( gchar * name, gchar * filename,
+					      GCallback callback, gpointer data );
 /*END_DECLARATION*/
 

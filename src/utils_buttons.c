@@ -29,23 +29,19 @@
 #include "utils_buttons.h"
 #include "utils.h"
 #include "traitement_variables.h"
+#include "fichier_configuration_constants.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
 static gboolean set_boolean ( GtkWidget * checkbox, guint * dummy);
 static gboolean set_double ( GtkWidget * spin, gdouble * dummy);
 static GtkWidget * new_stock_image_label ( gchar * stock_id, gchar * name );
+static GtkWidget * new_image_label ( gchar * image_name, gchar * name );
 /*END_STATIC*/
 
 
 /*START_EXTERN*/
 /*END_EXTERN*/
-
-
-
-
-
-
 
 
 
@@ -358,6 +354,36 @@ GtkWidget * new_stock_button_with_label ( gchar * stock_id, gchar * name,
 
 
 
+/**
+ *
+ *
+ */
+GtkWidget * new_button_with_label_and_image ( gchar * name, gchar * filename,
+					      GCallback callback, gpointer data )
+{
+    GtkWidget * button, *vbox;
+
+    vbox = new_image_label ( filename, name );
+
+    button = gtk_button_new ();
+    gtk_button_set_relief ( GTK_BUTTON(button), GTK_RELIEF_NONE );
+
+    gtk_container_add ( GTK_CONTAINER(button), vbox );
+    gtk_widget_show_all ( button );
+
+    if ( callback )
+    {
+	g_signal_connect ( G_OBJECT(button), "clicked", G_CALLBACK(callback), data );
+    }
+    return button;
+}
+
+
+
+/**
+ *
+ *
+ */
 GtkWidget * new_stock_button_with_label_menu ( gchar * stock_id, gchar * name, 
 					       GCallback callback, gpointer data )
 {
@@ -386,6 +412,7 @@ GtkWidget * new_stock_button_with_label_menu ( gchar * stock_id, gchar * name,
 }
 
 
+
 GtkWidget * new_stock_image_label ( gchar * stock_id, gchar * name )
 {
     GtkWidget * vbox, * label, * image;
@@ -400,6 +427,30 @@ GtkWidget * new_stock_image_label ( gchar * stock_id, gchar * name )
     vbox = gtk_vbox_new ( FALSE, 0 );
     gtk_box_pack_start ( GTK_BOX(vbox), image, FALSE, FALSE, 0 );
     gtk_box_pack_start ( GTK_BOX(vbox), label, FALSE, FALSE, 0 );
+
+    return vbox;
+}
+
+
+
+GtkWidget * new_image_label ( gchar * image_name, gchar * name )
+{
+    GtkWidget * hbox, * vbox, * label, * image;
+
+    /* Define image */
+    image = gtk_image_new_from_file (g_strconcat(PIXMAPS_DIR, C_DIRECTORY_SEPARATOR,
+						 image_name, NULL));
+    
+    /* Define label */
+    label = gtk_label_new ( name );
+    gtk_label_set_text_with_mnemonic ( GTK_LABEL(label), name );
+    gtk_label_set_line_wrap ( GTK_LABEL(label), TRUE );
+    
+    vbox = gtk_vbox_new ( FALSE, 0 );
+    gtk_box_pack_start ( GTK_BOX(vbox), image, FALSE, FALSE, 0 );
+    gtk_box_pack_start ( GTK_BOX(vbox), label, FALSE, FALSE, 0 );
+
+    gtk_widget_show_all ( vbox );
 
     return vbox;
 }
