@@ -1,9 +1,9 @@
-/* fichier qui s'occupe de l'onglet de gestion des impputations */
-/*           imputation_budgetaire.c */
+/* fichier qui s'occupe de l'onglet de gestion des catégories */
+/*           categories_onglet.c */
 
-/*     Copyright (C) 2000-2002  Cédric Auger */
-/* 			cedric@grisbi.org */
-/* 			http://www.grisbi.org */
+/*     Copyright (C) 2000-2001  Cédric Auger */
+/* 			grisbi@tuxfamily.org */
+/* 			http://grisbi.tuxfamily.org */
 
 /*     This program is free software; you can redistribute it and/or modify */
 /*     it under the terms of the GNU General Public License as published by */
@@ -40,10 +40,10 @@ GtkWidget *onglet_imputations ( void )
   GtkWidget *scroll_window;
   gchar *titres[] =
   {
-    _("Liste des imputations budgétaires"),
-    _("Montant par IB"),
-    _("Montant par sous-IB"),
-    _("Montant par compte")
+    "Liste des imputations budgétaires",
+    "Montant par IB",
+    "Montant par sous-IB",
+    "Montant par compte"
   };
   GtkWidget *vbox;
   GtkWidget *frame;
@@ -87,7 +87,7 @@ GtkWidget *onglet_imputations ( void )
   gtk_widget_show ( vbox );
 
 
-  frame = gtk_frame_new ( _(" Informations : ") );
+  frame = gtk_frame_new ( " Informations : " );
   gtk_box_pack_start ( GTK_BOX ( vbox ),
 		       frame,
 		       FALSE,
@@ -129,7 +129,7 @@ GtkWidget *onglet_imputations ( void )
   gtk_widget_show ( separateur );
 
 
-  label = gtk_label_new ( _("Classement :") );
+  label = gtk_label_new ( "Classement :" );
   gtk_box_pack_start ( GTK_BOX ( vbox_frame ),
 		       label,
 		       FALSE,
@@ -138,7 +138,7 @@ GtkWidget *onglet_imputations ( void )
   gtk_widget_show ( label );
 
   bouton_imputation_debit = gtk_radio_button_new_with_label ( NULL,
-							 _("Débit") );
+							 "Débit" );
   gtk_widget_set_sensitive ( bouton_imputation_debit,
 			     FALSE );
   gtk_signal_connect ( GTK_OBJECT ( bouton_imputation_debit ),
@@ -154,7 +154,7 @@ GtkWidget *onglet_imputations ( void )
 
 
   bouton_imputation_credit = gtk_radio_button_new_with_label_from_widget ( GTK_RADIO_BUTTON ( bouton_imputation_debit ),
-								      _("Crédit") );
+								      "Crédit" );
   gtk_widget_set_sensitive ( bouton_imputation_credit,
 			     FALSE );
   gtk_box_pack_start ( GTK_BOX ( vbox_frame ),
@@ -238,7 +238,7 @@ GtkWidget *onglet_imputations ( void )
 
   /* mise en place des boutons ajout d'1 imput / sous-imput */
 
-  bouton_ajouter_imputation = gtk_button_new_with_label ( _("Ajouter une imputation") );
+  bouton_ajouter_imputation = gtk_button_new_with_label ( "Ajouter une imputation" );
   gtk_button_set_relief ( GTK_BUTTON ( bouton_ajouter_imputation ),
 			  GTK_RELIEF_NONE );
   gtk_signal_connect ( GTK_OBJECT ( bouton_ajouter_imputation ),
@@ -252,7 +252,7 @@ GtkWidget *onglet_imputations ( void )
 		       0 );
   gtk_widget_show ( bouton_ajouter_imputation );
 
-  bouton_ajouter_sous_imputation = gtk_button_new_with_label ( _("Ajouter une sous-imputation") );
+  bouton_ajouter_sous_imputation = gtk_button_new_with_label ( "Ajouter une sous-imputation" );
   gtk_button_set_relief ( GTK_BUTTON ( bouton_ajouter_sous_imputation ),
 			  GTK_RELIEF_NONE );
   gtk_widget_set_sensitive ( bouton_ajouter_sous_imputation,
@@ -275,60 +275,17 @@ GtkWidget *onglet_imputations ( void )
 		       separateur,
 		       FALSE,
 		       FALSE,
-		       5 );
+		       10 );
   gtk_widget_show ( separateur );
 
   /* mise en place du bouton fusionner avec les catégories */
 
-  bouton = gtk_button_new_with_label ( _("Fusionner les catégories") );
+  bouton = gtk_button_new_with_label ( "Fusionner les catégories" );
   gtk_button_set_relief ( GTK_BUTTON ( bouton ),
 			  GTK_RELIEF_NONE );
   gtk_signal_connect ( GTK_OBJECT ( bouton ),
 		       "clicked",
 		       GTK_SIGNAL_FUNC ( fusion_categories_imputation ),
-		       NULL );
-  gtk_box_pack_start ( GTK_BOX ( vbox ),
-		       bouton,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( bouton );
-
-
-  /* séparation */
-
-  separateur = gtk_hseparator_new ();
-  gtk_box_pack_start ( GTK_BOX ( vbox ),
-		       separateur,
-		       FALSE,
-		       FALSE,
-		       5 );
-  gtk_widget_show ( separateur );
-
-  /* mise en place du bouton exporter */
-
-  bouton = gtk_button_new_with_label ( _("Exporter ...") );
-  gtk_button_set_relief ( GTK_BUTTON ( bouton ),
-			  GTK_RELIEF_NONE );
-  gtk_signal_connect ( GTK_OBJECT ( bouton ),
-		       "clicked",
-		       GTK_SIGNAL_FUNC ( exporter_ib ),
-		       NULL );
-  gtk_box_pack_start ( GTK_BOX ( vbox ),
-		       bouton,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( bouton );
-
-  /* mise en place du bouton importer */
-
-  bouton = gtk_button_new_with_label ( _("Importer ...") );
-  gtk_button_set_relief ( GTK_BUTTON ( bouton ),
-			  GTK_RELIEF_NONE );
-  gtk_signal_connect ( GTK_OBJECT ( bouton ),
-		       "clicked",
-		       GTK_SIGNAL_FUNC ( importer_ib ),
 		       NULL );
   gtk_box_pack_start ( GTK_BOX ( vbox ),
 		       bouton,
@@ -626,12 +583,12 @@ void remplit_arbre_imputation ( void )
 	   nb_ecritures_par_sous_imputation[place_imputation][0] )
 	{
 	  if ( etat.affiche_nb_ecritures_listes )
-	    text[0] = g_strconcat ( _("Aucune sous-imputation ("),
+	    text[0] = g_strconcat ( "Aucune sous-imputation (",
 				    itoa ( nb_ecritures_par_sous_imputation[place_imputation][0] ),
 				    ")",
 				    NULL );
 	  else
-	    text[0] = _("Aucune sous-imputation");
+	    text[0] = "Aucune sous-imputation";
 
 	  text[1] = NULL;
 
@@ -684,12 +641,12 @@ void remplit_arbre_imputation ( void )
       if ( etat.affiche_nb_ecritures_listes
 	   &&
 	   nb_ecritures_par_imputation[0] )
-	text[0] = g_strconcat ( _("Aucune imputation ("),
+	text[0] = g_strconcat ( "Aucune imputation (",
 				itoa ( nb_ecritures_par_imputation[0] ),
 				")",
 				NULL );
       else
-	text[0] = _("Aucune imputation");
+	text[0] = "Aucune imputation";
 
       text[1] = g_strdup_printf ( "%4.2f %s",
 				  tab_montant_imputation[0],
@@ -825,7 +782,7 @@ void ouverture_node_imputation ( GtkWidget *arbre,
 	  no_sous_imputation = 0;
 	}
 
-      /* on va scanner tous les comptes, dès qu'une imputation correspondant à l'imput sélectionnée est trouvé */
+      /* on va scanner tous les comptes, dès qu'un tiers correspondant au tiers sélectionné est trouvé */
       /* on affiche le nom du compte */
 
       p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
@@ -851,8 +808,8 @@ void ouverture_node_imputation ( GtkWidget *arbre,
 		  /* affiche le compte courant */
 
 		  text[3] = calcule_total_montant_imputation_par_compte ( operation -> imputation,
-									  operation -> sous_imputation,
-									  operation -> no_compte );
+								     operation -> sous_imputation,
+								     operation -> no_compte );
 
 		  if ( etat.affiche_nb_ecritures_listes
 		       &&
@@ -960,7 +917,7 @@ void ouverture_node_imputation ( GtkWidget *arbre,
 		      if ( operation -> notes )
 			{
 			  if ( operation -> no_operation_ventilee_associee )
-			    text[0] = g_strdup_printf ( _("%d/%d/%d : %4.2f %s (ventilation) [ %s ]"),
+			    text[0] = g_strdup_printf ( "%d/%d/%d : %4.2f %s (ventilation) [ %s ]",
 							operation -> jour,
 							operation -> mois,
 							operation -> annee,
@@ -968,7 +925,7 @@ void ouverture_node_imputation ( GtkWidget *arbre,
 							devise_operation -> code_devise,
 							operation -> notes );
 			  else
-			    text[0] = g_strdup_printf ( _("%d/%d/%d : %4.2f %s [ %s ]"),
+			    text[0] = g_strdup_printf ( "%d/%d/%d : %4.2f %s [ %s ]",
 							operation -> jour,
 							operation -> mois,
 							operation -> annee,
@@ -979,7 +936,7 @@ void ouverture_node_imputation ( GtkWidget *arbre,
 		      else
 			{
 			  if ( operation -> no_operation_ventilee_associee )
-			    text[0] = g_strdup_printf ( _("%d/%d/%d : %4.2f %s (ventilation)"),
+			    text[0] = g_strdup_printf ( "%d/%d/%d : %4.2f %s (ventilation)",
 							operation -> jour,
 							operation -> mois,
 							operation -> annee,
@@ -1045,7 +1002,7 @@ void fermeture_node_imputation ( GtkWidget *arbre,
 
   /*   si on ferme une imputation, on fait rien */
 
-  if ( GTK_CTREE_ROW ( node )->level == 1 
+  if ( GTK_CTREE_ROW ( node )->level == 1
        &&
        gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_imputation ),
 				     node ))
@@ -1507,14 +1464,14 @@ void supprimer_imputation ( void )
       gint nouveau_no_imputation;
       gint nouveau_no_sous_imputation;
 
-      dialog = gnome_dialog_new ( _("Suppression d'une imputation"),
+      dialog = gnome_dialog_new ( "Suppression d'une imputation",
 					    GNOME_STOCK_BUTTON_OK,
 					    GNOME_STOCK_BUTTON_CANCEL,
 					     NULL);
       gnome_dialog_set_parent ( GNOME_DIALOG ( dialog ),
 				GTK_WINDOW ( window ));
 
-      label = gtk_label_new ( _("L'imputation sélectionnée contient encore des opérations.\n\nVous pouvez : ") );
+      label = gtk_label_new ( "L'imputation sélectionnée contient encore des opérations.\n\nVous pouvez : " );
       gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
 			   label,
 			   FALSE,
@@ -1539,7 +1496,7 @@ void supprimer_imputation ( void )
 			   0 );
 
       bouton_transfert = gtk_radio_button_new_with_label ( NULL,
-							   _("Transférer les opérations sur l'imputation : ")  );
+							   "Transférer les opérations sur l'imputation : "  );
       gtk_box_pack_start ( GTK_BOX ( hbox ),
 			   bouton_transfert,
 			   FALSE,
@@ -1554,22 +1511,22 @@ void supprimer_imputation ( void )
 
       while ( pointeur )
 	{
-	  struct struct_imputation *imputation;
+	  struct struct_imputation *imputation_tmp;
 	  GSList *sous_pointeur;
 
-	  imputation = pointeur -> data;
+	  imputation_tmp = pointeur -> data;
 
-	  if ( imputation-> no_imputation != imputation -> no_imputation )
+	  if ( imputation_tmp -> no_imputation != imputation -> no_imputation )
 	    {
-	      if ( imputation -> type_imputation )
+	      if ( imputation_tmp -> type_imputation )
 		liste_imputation_debit = g_slist_append ( liste_imputation_debit,
-						     g_strdup ( imputation -> nom_imputation ) );
+							  g_strdup ( imputation_tmp -> nom_imputation ));
 	      else
 		liste_imputation_credit = g_slist_append ( liste_imputation_credit,
-						      g_strdup ( imputation -> nom_imputation ) );
+							   g_strdup ( imputation_tmp -> nom_imputation ));
 
 
-	      sous_pointeur = imputation -> liste_sous_imputation;
+	      sous_pointeur = imputation_tmp -> liste_sous_imputation;
 
 	      while ( sous_pointeur )
 		{
@@ -1605,7 +1562,8 @@ void supprimer_imputation ( void )
       combofix = gtk_combofix_new_complex ( liste_combofix,
 					    TRUE,
 					    TRUE,
-					    TRUE );
+					    TRUE,
+					    0 );
       gtk_box_pack_start ( GTK_BOX ( hbox ),
 			   combofix,
 			   FALSE,
@@ -1623,7 +1581,7 @@ void supprimer_imputation ( void )
 			   0 );
 
       bouton_imputation_generique = gtk_radio_button_new_with_label ( gtk_radio_button_group ( GTK_RADIO_BUTTON ( bouton_transfert )),
-											  _(" Supprimer simplement cette imputation.") );
+											  " Supprimer simplement cette imputation." );
       gtk_box_pack_start ( GTK_BOX ( hbox ),
 			   bouton_imputation_generique,
 			   FALSE,
@@ -1649,7 +1607,7 @@ void supprimer_imputation ( void )
 
 	  if ( !strlen (gtk_combofix_get_text ( GTK_COMBOFIX ( combofix ))))
 	    {
-	      dialogue ( _("Veuillez entrer une imputation !") );
+	      dialogue ( "Veuillez entrer une imputation !" );
 	      goto retour_dialogue;
 	    }
 
@@ -1836,14 +1794,14 @@ void supprimer_sous_imputation ( void )
       gint nouveau_no_imputation;
       gint nouveau_no_sous_imputation;
 
-      dialog = gnome_dialog_new ( _("Suppression d'une sous-imputation"),
+      dialog = gnome_dialog_new ( "Suppression d'une sous-imputation",
 					    GNOME_STOCK_BUTTON_OK,
 					    GNOME_STOCK_BUTTON_CANCEL,
 					     NULL);
       gnome_dialog_set_parent ( GNOME_DIALOG ( dialog ),
 				GTK_WINDOW ( window ));
 
-      label = gtk_label_new ( _("La sous-imputation sélectionnée contient encore des opérations.\n\nVous pouvez : ") );
+      label = gtk_label_new ( "La sous-imputation sélectionnée contient encore des opérations.\n\nVous pouvez : " );
       gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
 			   label,
 			   FALSE,
@@ -1868,7 +1826,7 @@ void supprimer_sous_imputation ( void )
 			   0 );
 
       bouton_transfert = gtk_radio_button_new_with_label ( NULL,
-							   _("Transférer les opérations sur l'imputation : ")  );
+							   "Transférer les opérations sur l'imputation : "  );
       gtk_box_pack_start ( GTK_BOX ( hbox ),
 			   bouton_transfert,
 			   FALSE,
@@ -1933,7 +1891,8 @@ void supprimer_sous_imputation ( void )
       combofix = gtk_combofix_new_complex ( liste_combofix,
 					    TRUE,
 					    TRUE,
-					    TRUE );
+					    TRUE,
+					    0 );
       gtk_box_pack_start ( GTK_BOX ( hbox ),
 			   combofix,
 			   FALSE,
@@ -1951,7 +1910,7 @@ void supprimer_sous_imputation ( void )
 			   0 );
 
       bouton_imputation_generique = gtk_radio_button_new_with_label ( gtk_radio_button_group ( GTK_RADIO_BUTTON ( bouton_transfert )),
-											  _(" Supprimer simplement cette sous-imputation.") );
+											  " Supprimer simplement cette sous-imputation." );
       gtk_box_pack_start ( GTK_BOX ( hbox ),
 			   bouton_imputation_generique,
 			   FALSE,
@@ -1977,7 +1936,7 @@ void supprimer_sous_imputation ( void )
 
 	  if ( !strlen (gtk_combofix_get_text ( GTK_COMBOFIX ( combofix ))))
 	    {
-	      dialogue ( _("Veuillez entrer une imputation !") );
+	      dialogue ( "Veuillez entrer une imputation !" );
 	      goto retour_dialogue;
 	    }
 
@@ -2206,9 +2165,6 @@ void mise_a_jour_imputation ( void )
 			  TRUE,
 			  TRUE );
 
-  remplissage_liste_ib_etats ();
-  selectionne_devise_ib_etat_courant ();
-
   modif_imputation = 1;
 }
 /***********************************************************************************************************/
@@ -2335,7 +2291,7 @@ void fusion_categories_imputation ( void )
 
   GSList *liste_tmp;
 
-  if ( !question ( _("Attention, cette opération va ajouter aux Imputations Budgétaires les catégories\net sous-catégories qui ne s'y trouvent pas.\nDe plus, cette opération est irréversible (pas d'annulation)\nÊtes-vous sûr de continuer ?") ))
+  if ( !question ( "Attention, cette opération va ajouter aux Imputations Budgétaires les catégories\net sous-catégories qui ne s'y trouvent pas.\nDe plus, cette opération est irréversible (pas d'annulation)\nÊtes-vous sûr de continuer ?" ))
        return;
 
   liste_tmp = liste_struct_categories;
@@ -2469,12 +2425,12 @@ void calcule_total_montant_imputation ( void )
 
 	      if ( devise_compte -> passage_euro
 		   &&
-		   !strcmp ( devise_operation -> nom_devise, _("Euro") ) )
+		   !strcmp ( devise_operation -> nom_devise, "Euro" ) )
 		montant = operation -> montant * devise_compte -> change;
 	      else
 		if ( devise_operation -> passage_euro
 		     &&
-		     !strcmp ( devise_compte -> nom_devise, _("Euro") ))
+		     !strcmp ( devise_compte -> nom_devise, "Euro" ))
 		  montant = operation -> montant / devise_operation -> change;
 		else
 		  if ( operation -> une_devise_compte_egale_x_devise_ope )
@@ -2544,8 +2500,8 @@ void calcule_total_montant_imputation ( void )
 		}
 	    }
 	  else
-	      /* il n'y a pas d'imputation */
-	      /* on met le montant dans tab_montant_imputation[0} si ce n'est une ventil */
+	      /* il n'y a pas de catégorie */
+	      /* on met le montant dans tab_montant_imputation[0} si e n'est ni un virement ni une ventil */
 	    if ( !operation -> operation_ventilee )
 	      {
 		tab_montant_imputation[0] = tab_montant_imputation[0] + montant;
@@ -2562,8 +2518,8 @@ void calcule_total_montant_imputation ( void )
 
 /* **************************************************************************************************** */
 gchar *calcule_total_montant_imputation_par_compte ( gint imputation,
-						     gint sous_imputation,
-						     gint no_compte )
+						gint sous_imputation,
+						gint no_compte )
 {
   gdouble retour_int;
   struct struct_devise *devise_compte;
@@ -2579,7 +2535,6 @@ gchar *calcule_total_montant_imputation_par_compte ( gint imputation,
 					( GCompareFunc ) recherche_devise_par_no) -> data;
 
   liste_tmp = LISTE_OPERATIONS;
-
 
   while ( liste_tmp )
     {
@@ -2610,12 +2565,12 @@ gchar *calcule_total_montant_imputation_par_compte ( gint imputation,
 
 	      if ( devise_compte -> passage_euro
 		   &&
-		   !strcmp ( devise_operation -> nom_devise, _("Euro") ) )
+		   !strcmp ( devise_operation -> nom_devise, "Euro" ) )
 		montant = operation -> montant * devise_compte -> change;
 	      else
 		if ( devise_operation -> passage_euro
 		     &&
-		     !strcmp ( devise_compte -> nom_devise, _("Euro") ))
+		     !strcmp ( devise_compte -> nom_devise, "Euro" ))
 		  montant = operation -> montant / devise_operation -> change;
 		else
 		  if ( operation -> une_devise_compte_egale_x_devise_ope )
@@ -2650,8 +2605,8 @@ void appui_sur_ajout_imputation ( void )
   gchar *text[4];
   GtkCTreeNode *ligne;
 
-  if ( !( nom_imputation = demande_texte ( _("Nouvelle imputation"),
-					   _("Entrer le nom de la nouvelle imputation :") )))
+  if ( !( nom_imputation = demande_texte ( "Nouvelle imputation",
+					   "Entrer le nom de la nouvelle imputation :" )))
     return;
 
   /* on l'ajoute à la liste des opés */
@@ -2705,8 +2660,8 @@ void appui_sur_ajout_sous_imputation ( void )
   GtkCTreeNode *ligne;
   GtkCTreeNode *node_parent;
 
-  if ( !( nom_sous_imputation = demande_texte ( _("Nouvelle sous-imputation"),
-						_("Entrer le nom de la nouvelle sous-imputation :") )))
+  if ( !( nom_sous_imputation = demande_texte ( "Nouvelle sous-imputation",
+						"Entrer le nom de la nouvelle sous-imputation :" )))
     return;
 
   /* récupère le node parent */
@@ -2759,296 +2714,5 @@ void appui_sur_ajout_sous_imputation ( void )
   mise_a_jour_imputation();
   modif_imputation = 0;
   modification_fichier(TRUE);
-}
-/* **************************************************************************************************** */
-
-
-
-/* **************************************************************************************************** */
-void exporter_ib ( void )
-{
-  GtkWidget *dialog;
-  GtkWidget *label;
-  GtkWidget *fenetre_nom;
-  gint resultat;
-  struct stat test_fichier;
-  gchar *nom_ib;
-
-  dialog = gnome_dialog_new ( _("Exporter les imputations budgétaires"),
-			      GNOME_STOCK_BUTTON_OK,
-			      GNOME_STOCK_BUTTON_CANCEL,
-			      NULL );
-  gtk_window_set_transient_for ( GTK_WINDOW ( dialog ),
-				 GTK_WINDOW ( window ));
-  gnome_dialog_set_default ( GNOME_DIALOG ( dialog ),
-			     0 );
-  gtk_signal_connect ( GTK_OBJECT ( dialog ),
-		       "destroy",
-		       GTK_SIGNAL_FUNC ( gtk_signal_emit_stop_by_name ),
-		       "destroy" );
-
-  label = gtk_label_new ( _("Entrer un nom pour l'export :") );
-  gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
-		       label,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( label );
-
-  fenetre_nom = gnome_file_entry_new ( "nom_fichier",
-				       "nom_fichier" );
-  gnome_file_entry_set_default_path ( GNOME_FILE_ENTRY ( fenetre_nom ),
-				      dernier_chemin_de_travail );
-  gtk_entry_set_text ( GTK_ENTRY ( gnome_file_entry_gtk_entry ( GNOME_FILE_ENTRY ( fenetre_nom ))),
-		       g_strconcat ( dernier_chemin_de_travail,
-				     ".igsb",
-				     NULL ));
-  gtk_entry_set_position ( GTK_ENTRY ( gnome_file_entry_gtk_entry ( GNOME_FILE_ENTRY ( fenetre_nom ))),
-			   strlen (dernier_chemin_de_travail ));
-  gnome_dialog_editable_enters ( GNOME_DIALOG ( dialog ),
-				 GTK_EDITABLE ( gnome_file_entry_gtk_entry ( GNOME_FILE_ENTRY ( fenetre_nom ))));
-  gtk_window_set_focus ( GTK_WINDOW ( dialog ),
-			 gnome_file_entry_gtk_entry ( GNOME_FILE_ENTRY ( fenetre_nom )));
-  gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
-		       fenetre_nom,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( fenetre_nom );
-
-  resultat = gnome_dialog_run ( GNOME_DIALOG ( dialog ));
-
-  switch ( resultat )
-    {
-    case 0 :
-      nom_ib = g_strdup ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( gnome_file_entry_gtk_entry ( GNOME_FILE_ENTRY ( fenetre_nom ))))));
-
-      gnome_dialog_close ( GNOME_DIALOG ( dialog ));
-
-      /* vérification que c'est possible */
-
-      if ( !strlen ( nom_ib ))
-	return;
-
-      if ( stat ( nom_ib,
-		  &test_fichier ) != -1 )
-	{
-	  if ( S_ISREG ( test_fichier.st_mode ) )
-	    {
-	      GtkWidget *etes_vous_sur;
-	      GtkWidget *label;
-
-	      etes_vous_sur = gnome_dialog_new ( _("Enregistrer le fichier"),
-						 GNOME_STOCK_BUTTON_YES,
-						 GNOME_STOCK_BUTTON_NO,
-						 NULL );
-	      label = gtk_label_new ( _("Le fichier existe. Voulez-vous l'écraser ?") );
-	      gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( etes_vous_sur ) -> vbox ),
-				   label,
-				   TRUE,
-				   TRUE,
-				   5 );
-	      gtk_widget_show ( label );
-
-	      gnome_dialog_set_default ( GNOME_DIALOG ( etes_vous_sur ),
-					 1 );
-	      gnome_dialog_set_parent ( GNOME_DIALOG ( etes_vous_sur ),
-					GTK_WINDOW ( window ) );
-	      gtk_window_set_modal ( GTK_WINDOW ( etes_vous_sur ),
-				     TRUE );
-	      if ( gnome_dialog_run_and_close ( GNOME_DIALOG ( etes_vous_sur ) ) )
-		return;
-	    }
-	  else
-	    {
-	      dialogue ( g_strconcat ( _("Nom de fichier \""),
-				       nom_ib,
-				       _("\" invalide !"),
-				       NULL ));
-	      return;
-	    }
-	}
-
-      if ( !enregistre_ib ( nom_ib ))
-	{
-	  dialogue ( "L'enregistrement a échoué." );
-	  return;
-	}
-
-      break;
-
-    default :
-      gnome_dialog_close ( GNOME_DIALOG ( dialog ));
-      return;
-    }
-}
-/* **************************************************************************************************** */
-
-
-
-/* **************************************************************************************************** */
-void importer_ib ( void )
-{
-  GtkWidget *dialog;
-  GtkWidget *label;
-  GtkWidget *fenetre_nom;
-  gint resultat;
-  gchar *nom_ib;
-  GtkWidget *bouton_merge_remplace;
-  GtkWidget *menu;
-  GtkWidget *menu_item;
-  GtkWidget *separateur;
-
-
-  dialog = gnome_dialog_new ( _("Importer une liste d'imputations budgétaires"),
-			      GNOME_STOCK_BUTTON_OK,
-			      GNOME_STOCK_BUTTON_CANCEL,
-			      NULL );
-  gtk_window_set_transient_for ( GTK_WINDOW ( dialog ),
-				 GTK_WINDOW ( window ));
-  gnome_dialog_set_default ( GNOME_DIALOG ( dialog ),
-			     0 );
-  gtk_signal_connect ( GTK_OBJECT ( dialog ),
-		       "destroy",
-		       GTK_SIGNAL_FUNC ( gtk_signal_emit_stop_by_name ),
-		       "destroy" );
-
-  label = gtk_label_new ( _("Entrer le nom du fichier :") );
-  gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
-		       label,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( label );
-
-  fenetre_nom = gnome_file_entry_new ( "nom_fichier",
-				       "nom_fichier" );
-  gnome_file_entry_set_default_path ( GNOME_FILE_ENTRY ( fenetre_nom ),
-				      dernier_chemin_de_travail );
-  gtk_entry_set_text ( GTK_ENTRY ( gnome_file_entry_gtk_entry ( GNOME_FILE_ENTRY ( fenetre_nom ))),
-		       g_strconcat ( dernier_chemin_de_travail,
-				     ".igsb",
-				     NULL ));
-  gtk_entry_set_position ( GTK_ENTRY ( gnome_file_entry_gtk_entry ( GNOME_FILE_ENTRY ( fenetre_nom ))),
-			   strlen (dernier_chemin_de_travail ));
-  gnome_dialog_editable_enters ( GNOME_DIALOG ( dialog ),
-				 GTK_EDITABLE ( gnome_file_entry_gtk_entry ( GNOME_FILE_ENTRY ( fenetre_nom ))));
-  gtk_window_set_focus ( GTK_WINDOW ( dialog ),
-			 gnome_file_entry_gtk_entry ( GNOME_FILE_ENTRY ( fenetre_nom )));
-  gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
-		       fenetre_nom,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( fenetre_nom );
-
-
-  /* on permet de remplacer/fusionner la liste */
-
-  separateur = gtk_hseparator_new ();
-  gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
-		       separateur,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( separateur );
-
-  /* pour éviter un warning lors de la compil */
-
-  bouton_merge_remplace = NULL;
-
-  if ( no_derniere_operation )
-    {
-      /*       il y a déjà des opérations dans le fichier, on ne peut que fusionner */
-
-      label = gtk_label_new ( "Le fichier contient déjà des opérations,\nles deux listes d'IB seront fusionnées." );
-      gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
-			   label,
-			   FALSE,
-			   FALSE,
-			   0 );
-      gtk_widget_show ( label );
-    }
-  else
-    {
-      label = gtk_label_new ( "Voulez-vous :" );
-      gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
-			   label,
-			   FALSE,
-			   FALSE,
-			   0 );
-      gtk_widget_show ( label );
-
-      bouton_merge_remplace = gtk_option_menu_new ();
-      gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
-			   bouton_merge_remplace,
-			   FALSE,
-			   FALSE,
-			   0 );
-      gtk_widget_show ( bouton_merge_remplace );
-
-      menu = gtk_menu_new ();
-
-      menu_item = gtk_menu_item_new_with_label ( "Fusionner les deux listes d'IB" );
-      gtk_object_set_data ( GTK_OBJECT ( menu_item ),
-			    "choix",
-			    NULL );
-      gtk_menu_append ( GTK_MENU ( menu ),
-			menu_item );
-      gtk_widget_show ( menu_item );
-
-      menu_item = gtk_menu_item_new_with_label ( "Remplacer l'ancienne liste d'IB" );
-      gtk_object_set_data ( GTK_OBJECT ( menu_item ),
-			    "choix",
-			    GINT_TO_POINTER ( 1 ));
-      gtk_menu_append ( GTK_MENU ( menu ),
-			menu_item );
-      gtk_widget_show ( menu_item );
-
-      gtk_option_menu_set_menu ( GTK_OPTION_MENU ( bouton_merge_remplace ),
-				 menu );
-      gtk_widget_show ( menu );
-    }
-
-
-  resultat = gnome_dialog_run ( GNOME_DIALOG ( dialog ));
-
-  switch ( resultat )
-    {
-    case 0 :
-      nom_ib = g_strdup ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( gnome_file_entry_gtk_entry ( GNOME_FILE_ENTRY ( fenetre_nom ))))));
-
-      gnome_dialog_close ( GNOME_DIALOG ( dialog ));
-
-      /* vérification que c'est possible */
-
-      if ( !strlen ( nom_ib ))
-	return;
-
-      /* si on a choisi de remplacer l'ancienne liste, on la vire ici */
-
-      if ( !no_derniere_operation
-	   &&
-	   gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( bouton_merge_remplace ) -> menu_item ),
-				 "choix" ))
-	{
-	  g_slist_free ( liste_struct_imputation );
-	  liste_struct_imputation = NULL;
-	  no_derniere_imputation = 0;
-	  nb_enregistrements_imputations = 0;
-	}
-
-      if ( !charge_ib ( nom_ib ))
-	{
-	  dialogue ( "L'importation a échoué." );
-	  return;
-	}
-
-      break;
-
-    default :
-      gnome_dialog_close ( GNOME_DIALOG ( dialog ));
-      return;
-    }
 }
 /* **************************************************************************************************** */

@@ -1,7 +1,7 @@
 /* Ce fichier s'occupe des manipulations de comptes */
 /* comptes_traitements.c */
 
-/*     Copyright (C) 2000-2002  Cédric Auger */
+/*     Copyright (C) 2000-2001  Cédric Auger */
 /* 			cedric@grisbi.org */
 /* 			http://www.grisbi.org */
 
@@ -35,6 +35,8 @@
 void  nouveau_compte ( void )
 {
   GtkWidget *bouton;
+  gint compte_visible;
+
 
   if ( !nb_comptes )
     {
@@ -42,20 +44,23 @@ void  nouveau_compte ( void )
       return;
     }
 
+  compte_visible = p_tab_nom_de_compte_courant - p_tab_nom_de_compte;
+
   if  (!(p_tab_nom_de_compte = realloc ( p_tab_nom_de_compte, ( nb_comptes + 1 )* sizeof ( gpointer ) )))
     {
-      dialogue ( _("Erreur dans l'allocation de mémoire pour créer un nouveau compte !") );
+      dialogue ( "Erreur dans l'allocation de mémoire pour créer un nouveau compte !" );
       return;
     };
 
 
   p_tab_nom_de_compte_variable = p_tab_nom_de_compte + nb_comptes;
+  p_tab_nom_de_compte_courant = p_tab_nom_de_compte + compte_visible; 
 
 
   if  (!(*p_tab_nom_de_compte_variable = calloc ( 1,
 						  sizeof (struct donnees_compte) )) )
     {
-      dialogue ( _("Erreur dans l'allocation de mémoire pour créer un nouveau compte !") );
+      dialogue ( "Erreur dans l'allocation de mémoire pour créer un nouveau compte !" );
       return;
     };
 
@@ -63,7 +68,7 @@ void  nouveau_compte ( void )
 
   /* insère ses paramètres ( comme c'est un appel à calloc, tout ce qui est à 0 est déjà initialisé )*/
 
-  NOM_DU_COMPTE = g_strdup ( _("Sans nom") );
+  NOM_DU_COMPTE = g_strdup ( "Sans nom" );
   OPERATION_SELECTIONNEE = GINT_TO_POINTER ( -1 );
   DEVISE = 1;
   MISE_A_JOUR = 1;
@@ -103,6 +108,8 @@ void  nouveau_compte ( void )
 
 /* on met à jour l'option menu des formulaires des échéances et des opés */
 
+/*   gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_operations[7] ), */
+/* 			     creation_option_menu_comptes () ); */
   gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_echeancier[5] ),
 			     creation_option_menu_comptes () );
 
@@ -111,33 +118,10 @@ void  nouveau_compte ( void )
 
   update_liste_comptes_accueil ();
 
+  changement_compte ( GINT_TO_POINTER ( nb_comptes - 1 ));
 
-  remplissage_liste_comptes_etats ();
-  selectionne_liste_comptes_etat_courant ();
-
-  gtk_widget_set_sensitive ( bouton_supprimer_compte,
-			     TRUE );
-
-
-  /* on crée le nouveau compte dans les propriétés des comptes */
-
-  bouton = comptes_appel_onglet ( nb_comptes - 1 );
-  gtk_box_pack_start (GTK_BOX (vbox_liste_comptes_onglet),
-		      bouton,
-		      FALSE,
-		      FALSE,
-		      0);
-  gtk_widget_show (bouton);
-
-  /* on se place sur le nouveau compte pour faire les modifs */
-
-  changement_compte_onglet ( ((GtkBoxChild *)(GTK_BOX ( bouton ) -> children -> data))->widget,
-			     nb_comptes - 1 );
-
-  /* on se met sur l'onglet de propriétés du compte */
-
-  gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ),
-			  3 );
+  change_aspect_liste ( NULL,
+			5 );
 
   modification_fichier ( TRUE );
 }
@@ -164,7 +148,7 @@ void supprimer_compte ( void )
   gint page_en_cours;
 
 
-  dialog = gnome_dialog_new ( _("Sélection d'un compte"),
+  dialog = gnome_dialog_new ( "Sélection d'un compte",
 			      GNOME_STOCK_BUTTON_OK,
 			      GNOME_STOCK_BUTTON_CANCEL,
 			      NULL );
@@ -181,7 +165,7 @@ void supprimer_compte ( void )
 
   p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
 
-  label = gtk_label_new ( _("Choisir le compte à supprimer :\n\n\n( Attention, il s'agit d'un suppression définitive !\n Pour clôturer un compte, il faut\naller dans le détail du compte concerné. ) ") );
+  label = gtk_label_new ( "Choisir le compte à supprimer :\n\n\n( Attention, il s'agit d'un suppression définitive !\n Pour clôturer un compte, il faut\naller dans le détail du compte concerné. ) " );
   gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
 		       label,
 		       FALSE,
@@ -237,7 +221,7 @@ void supprimer_compte ( void )
   /* supprime l'onglet du compte */
 
   gtk_notebook_remove_page ( GTK_NOTEBOOK ( notebook_listes_operations ),
-			     compte_modifie + 1 );
+			     compte_modifie + 2 );
 
   /*       suppression des échéances */
 
@@ -387,9 +371,6 @@ void supprimer_compte ( void )
   mise_a_jour_soldes_minimaux ();
   mise_a_jour_fin_comptes_passifs();
 
-  remplissage_liste_comptes_etats ();
-  selectionne_liste_comptes_etat_courant ();
-
   modification_fichier( TRUE ); 
 
 }
@@ -532,7 +513,7 @@ void creation_types_par_defaut ( gint no_compte,
 
       type_ope = malloc ( sizeof ( struct struct_type_ope ));
       type_ope -> no_type = 1;
-      type_ope -> nom_type = g_strdup ( _("Virement") );
+      type_ope -> nom_type = g_strdup ( "Virement" );
       type_ope -> signe_type = 0;
       type_ope -> affiche_entree = 1;
       type_ope -> numerotation_auto = 0;
@@ -544,7 +525,7 @@ void creation_types_par_defaut ( gint no_compte,
 
       type_ope = malloc ( sizeof ( struct struct_type_ope ));
       type_ope -> no_type = 2;
-      type_ope -> nom_type = g_strdup ( _("Dépôt") );
+      type_ope -> nom_type = g_strdup ( "Dépôt" );
       type_ope -> signe_type = 2;
       type_ope -> affiche_entree = 0;
       type_ope -> numerotation_auto = 0;
@@ -556,7 +537,7 @@ void creation_types_par_defaut ( gint no_compte,
 
       type_ope = malloc ( sizeof ( struct struct_type_ope ));
       type_ope -> no_type = 3;
-      type_ope -> nom_type = g_strdup ( _("C.B.") );
+      type_ope -> nom_type = g_strdup ( "C.B." );
       type_ope -> signe_type = 1;
       type_ope -> affiche_entree = 0;
       type_ope -> numerotation_auto = 0;
@@ -568,7 +549,7 @@ void creation_types_par_defaut ( gint no_compte,
 
       type_ope = malloc ( sizeof ( struct struct_type_ope ));
       type_ope -> no_type = 4;
-      type_ope -> nom_type = g_strdup ( _("Prélèvement") );
+      type_ope -> nom_type = g_strdup ( "Prélèvement" );
       type_ope -> signe_type = 1;
       type_ope -> affiche_entree = 0;
       type_ope -> numerotation_auto = 0;
@@ -580,7 +561,7 @@ void creation_types_par_defaut ( gint no_compte,
 
       type_ope = malloc ( sizeof ( struct struct_type_ope ));
       type_ope -> no_type = 5;
-      type_ope -> nom_type = g_strdup ( _("Chèque") );
+      type_ope -> nom_type = g_strdup ( "Chèque" );
       type_ope -> signe_type = 1;
       type_ope -> affiche_entree = 1;
       type_ope -> numerotation_auto = 1;
@@ -619,7 +600,7 @@ void creation_types_par_defaut ( gint no_compte,
 
 	  type_ope = malloc ( sizeof ( struct struct_type_ope ));
 	  type_ope -> no_type = 1;
-	  type_ope -> nom_type = g_strdup ( _("Virement") );
+	  type_ope -> nom_type = g_strdup ( "Virement" );
 	  type_ope -> signe_type = 0;
 	  type_ope -> affiche_entree = 1;
 	  type_ope -> numerotation_auto = 0;

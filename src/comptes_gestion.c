@@ -1,7 +1,7 @@
 /* fichier qui s'occupe de la gestion des comptes */
 /*           gestion_comptes.c */
 
-/*     Copyright (C) 2000-2002  Cédric Auger */
+/*     Copyright (C) 2000-2001  Cédric Auger */
 /* 			cedric@grisbi.org */
 /* 			http://www.grisbi.org */
 
@@ -101,7 +101,7 @@ GtkWidget *creation_details_compte ( void )
   gtk_widget_show ( hbox2 );
 
 
-  label = gtk_label_new ( _("Nom du compte : ") );
+  label = gtk_label_new ( "Nom du compte : " );
   gtk_box_pack_start ( GTK_BOX ( hbox2 ),
 		       label,
 		       FALSE,
@@ -148,7 +148,7 @@ GtkWidget *creation_details_compte ( void )
 		       0 );
   gtk_widget_show ( hbox2 );
 
-  label = gtk_label_new ( _("Type du compte : ") );
+  label = gtk_label_new ( "Type du compte : " );
   gtk_box_pack_start ( GTK_BOX ( hbox2 ),
 		       label,
 		       FALSE,
@@ -197,7 +197,7 @@ GtkWidget *creation_details_compte ( void )
 		       0 );
   gtk_widget_show ( hbox2 );
 
-  label = gtk_label_new ( _("Devise du compte : ") );
+  label = gtk_label_new ( "Devise du compte : " );
   gtk_box_pack_start ( GTK_BOX ( hbox2 ),
 		       label,
 		       FALSE,
@@ -238,7 +238,7 @@ GtkWidget *creation_details_compte ( void )
 		       0 );
   gtk_widget_show ( hbox_bouton_passage_euro );
 
-  bouton_passage_euro = gtk_button_new_with_label ( _("Passer ce compte à l'euro") );
+  bouton_passage_euro = gtk_button_new_with_label ( "Passer ce compte à l'euro" );
   gtk_signal_connect ( GTK_OBJECT ( bouton_passage_euro ),
 		       "clicked",
 		       GTK_SIGNAL_FUNC ( passage_a_l_euro ),
@@ -264,7 +264,7 @@ GtkWidget *creation_details_compte ( void )
 		       0 );
   gtk_widget_show ( hbox );
 
-  detail_compte_cloture = gtk_check_button_new_with_label ( _("Compte clôturé") );
+  detail_compte_cloture = gtk_check_button_new_with_label ( "Compte clôturé" );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       detail_compte_cloture,
 		       FALSE,
@@ -322,7 +322,7 @@ GtkWidget *creation_details_compte ( void )
   gtk_widget_show ( hbox2 );
 
 
-  label = gtk_label_new ( _("Titulaire du compte : ") );
+  label = gtk_label_new ( "Titulaire du compte : " );
   gtk_box_pack_start ( GTK_BOX ( hbox2 ),
 		       label,
 		       FALSE,
@@ -372,7 +372,7 @@ GtkWidget *creation_details_compte ( void )
 
 
   detail_bouton_adresse_commune = gtk_radio_button_new_with_label ( NULL,
-								    _("L'adresse commune est celle du titulaire") );
+								    "L'adresse commune est celle du titulaire" );
   gtk_signal_connect ( GTK_OBJECT ( detail_bouton_adresse_commune ),
 		       "toggled",
 		       GTK_SIGNAL_FUNC ( changement_bouton_adresse_commune_perso ),
@@ -393,7 +393,7 @@ GtkWidget *creation_details_compte ( void )
 		       0 );
   gtk_widget_show ( hbox2 );
 
-  label = gtk_label_new ( _("Adresse :") );
+  label = gtk_label_new ( "Adresse :" );
   gtk_box_pack_start ( GTK_BOX ( hbox2 ),
 		       label,
 		       FALSE,
@@ -434,7 +434,7 @@ GtkWidget *creation_details_compte ( void )
   gtk_widget_show ( hbox2 );
 
   bouton = gtk_radio_button_new_with_label ( gtk_radio_button_group ( GTK_RADIO_BUTTON ( detail_bouton_adresse_commune)),
-					     _("Le titulaire a sa propre adresse") );
+					     "Le titulaire a sa propre adresse" );
   gtk_box_pack_start ( GTK_BOX ( hbox2 ),
 		       bouton,
 		       FALSE,
@@ -507,7 +507,7 @@ GtkWidget *creation_details_compte ( void )
   gtk_widget_show ( hbox2 );
 
 
-  label = gtk_label_new ( _("Etablissement financier : ") );
+  label = gtk_label_new ( "Etablissement financier : " );
   gtk_box_pack_start ( GTK_BOX ( hbox2 ),
 		       label,
 		       FALSE,
@@ -564,7 +564,7 @@ GtkWidget *creation_details_compte ( void )
 		       0 );
   gtk_widget_show ( hbox2 );
 
-  bouton = gtk_button_new_with_label ( _("Détails") );
+  bouton = gtk_button_new_with_label ( "Détails" );
   gtk_button_set_relief ( GTK_BUTTON ( bouton ),
 			  GTK_RELIEF_NONE );
   gtk_signal_connect ( GTK_OBJECT ( bouton ),
@@ -586,7 +586,7 @@ GtkWidget *creation_details_compte ( void )
 		       5 );
   gtk_widget_show ( separateur );
 
-  bouton = gtk_button_new_with_label ( _("Créer ...") );
+  bouton = gtk_button_new_with_label ( "Créer ..." );
   gtk_button_set_relief ( GTK_BUTTON ( bouton ),
 			  GTK_RELIEF_NONE );
   gtk_signal_connect ( GTK_OBJECT ( bouton ),
@@ -621,7 +621,7 @@ GtkWidget *creation_details_compte ( void )
 		       0 );
   gtk_widget_show ( hbox2 );
 
-  label = gtk_label_new ( _("Code de la banque : ") );
+  label = gtk_label_new ( "Code de la banque : " );
   gtk_box_pack_start ( GTK_BOX ( hbox2 ),
 		       label,
 		       FALSE,
@@ -668,7 +668,7 @@ GtkWidget *creation_details_compte ( void )
 		       0 );
   gtk_widget_show ( hbox2 );
 
-  label = gtk_label_new ( _("Guichet / Agence : ") );
+  label = gtk_label_new ( "Guichet / Agence : " );
   gtk_box_pack_start ( GTK_BOX ( hbox2 ),
 		       label,
 		       FALSE,
@@ -719,7 +719,7 @@ GtkWidget *creation_details_compte ( void )
 		       0 );
   gtk_widget_show ( hbox2 );
 
-  label = gtk_label_new ( _("Numéro de compte / Clé : ") );
+  label = gtk_label_new ( "Numéro de compte / Clé : " );
   gtk_box_pack_start ( GTK_BOX ( hbox2 ),
 		       label,
 		       FALSE,
@@ -811,7 +811,7 @@ GtkWidget *creation_details_compte ( void )
 		       0 );
   gtk_widget_show ( hbox2 );
 
-  label = gtk_label_new ( _("Solde initial : ") );
+  label = gtk_label_new ( "Solde initial : " );
   gtk_box_pack_start ( GTK_BOX ( hbox2 ),
 		       label,
 		       FALSE,
@@ -860,7 +860,7 @@ GtkWidget *creation_details_compte ( void )
 		       0 );
   gtk_widget_show ( hbox2 );
 
-  label = gtk_label_new ( _("Solde minimal autorisé : ") );
+  label = gtk_label_new ( "Solde minimal autorisé : " );
   gtk_box_pack_start ( GTK_BOX ( hbox2 ),
 		       label,
 		       FALSE,
@@ -907,7 +907,7 @@ GtkWidget *creation_details_compte ( void )
 		       0 );
   gtk_widget_show ( hbox2 );
 
-  label = gtk_label_new ( _("Solde minimal voulu : ") );
+  label = gtk_label_new ( "Solde minimal voulu : " );
   gtk_box_pack_start ( GTK_BOX ( hbox2 ),
 		       label,
 		       FALSE,
@@ -983,7 +983,7 @@ GtkWidget *creation_details_compte ( void )
 		       0 );
   gtk_widget_show ( vbox2 );
 
-  label = gtk_label_new ( _("Commentaires : ") );
+  label = gtk_label_new ( "Commentaires : " );
   gtk_box_pack_start ( GTK_BOX ( vbox2 ),
 		       label,
 		       FALSE,
@@ -1194,7 +1194,7 @@ GtkWidget *creation_menu_type_compte ( void )
 
   /* création de l'item compte bancaire */
 
-  menu_item = gtk_menu_item_new_with_label ( _("Compte bancaire") );
+  menu_item = gtk_menu_item_new_with_label ( "Compte bancaire" );
   gtk_menu_append ( GTK_MENU ( menu ),
 		    menu_item );
   gtk_object_set_data ( GTK_OBJECT ( menu_item ),
@@ -1205,7 +1205,7 @@ GtkWidget *creation_menu_type_compte ( void )
 
   /* création de l'item compte de caisse */
 
-  menu_item = gtk_menu_item_new_with_label ( _("Compte de caisse") );
+  menu_item = gtk_menu_item_new_with_label ( "Compte de caisse" );
   gtk_menu_append ( GTK_MENU ( menu ),
 		    menu_item );
   gtk_object_set_data ( GTK_OBJECT ( menu_item ),
@@ -1216,22 +1216,12 @@ GtkWidget *creation_menu_type_compte ( void )
 
   /* création de l'item compte passif */
 
-  menu_item = gtk_menu_item_new_with_label ( _("Compte de passif") );
+  menu_item = gtk_menu_item_new_with_label ( "Compte de passif" );
   gtk_menu_append ( GTK_MENU ( menu ),
 		    menu_item );
   gtk_object_set_data ( GTK_OBJECT ( menu_item ),
 			"no_type_compte",
 			GINT_TO_POINTER ( 2 ));
-  gtk_widget_show ( menu_item );
-
-  /* création de l'item compte actif */
-
-  menu_item = gtk_menu_item_new_with_label ( _("Compte d'actif") );
-  gtk_menu_append ( GTK_MENU ( menu ),
-		    menu_item );
-  gtk_object_set_data ( GTK_OBJECT ( menu_item ),
-			"no_type_compte",
-			GINT_TO_POINTER ( 3 ));
   gtk_widget_show ( menu_item );
 
 
@@ -1265,7 +1255,7 @@ void remplissage_details_compte ( void )
 {
   GSList *pointeur_banque;
 
-  p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant_onglet;
+  p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
 
 
   gtk_entry_set_text ( GTK_ENTRY ( detail_nom_compte ),
@@ -1425,11 +1415,11 @@ void modification_details_compte ( void )
 
   if ( !strlen ( gtk_entry_get_text ( GTK_ENTRY ( detail_nom_compte ))) )
     {
-      dialogue ( _("Le compte n'a pas de nom !") );
+      dialogue ( "Le compte n'a pas de nom !" );
       return;
     }
 
-  p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant_onglet;
+  p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
 
 
   /* récupération du titulaire */
@@ -1458,10 +1448,7 @@ void modification_details_compte ( void )
       gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_echeancier[5] ),
 				 creation_option_menu_comptes () );
 
-      remplissage_liste_comptes_etats ();
-      selectionne_liste_comptes_etat_courant ();
-
-      p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant_onglet;
+      p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
     }
 
 
@@ -1475,7 +1462,7 @@ void modification_details_compte ( void )
       TYPE_DE_COMPTE = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( detail_type_compte ) -> menu_item ),
 							       "no_type_compte" ));
 
-      if ( question_yes_no ( _("Vous avez changé le type du compte.\nVoulez-vous charger les types d'opérations par défaut de ce type de compte ?\n ( ce qui veut dire perdre les anciens types d'opérations créés pour ce compte\net le ou les derniers numéros de chèque )") ))
+      if ( question_yes_no ( "Vous avez changé le type du compte.\nVoulez-vous charger les types d'opérations par défaut de ce type de compte ?\n ( ce qui veut dire perdre les anciens types d'opérations créés pour ce compte\net le ou les derniers numéros de chèque )" ))
 	{
 	  GtkWidget *menu;
 
@@ -1517,7 +1504,7 @@ void modification_details_compte ( void )
       mise_a_jour_fin_comptes_passifs();
       mise_a_jour_soldes_minimaux();
       formulaire_a_zero();
-      p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant_onglet;
+      p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
       
     }
 
@@ -1545,16 +1532,16 @@ void modification_details_compte ( void )
 	  GtkWidget *label;
 	  gint resultat;
 
-	  dialogue = gnome_dialog_new ( _("Confirmation de changement de devise"),
+	  dialogue = gnome_dialog_new ( "Confirmation de changement de devise",
 					GNOME_STOCK_BUTTON_YES,
 					GNOME_STOCK_BUTTON_NO,
 					NULL );
 
-	  label = gtk_label_new ( g_strconcat ( _("Attention, vous passez d'une devise qui passera à  l'euro : "),
+	  label = gtk_label_new ( g_strconcat ( "Attention, vous passez d'une devise qui passera à  l'euro : ",
 						devise_compte -> nom_devise,
-						_("\nà une qui n'y passera pas : "),
+						"\nà une qui n'y passera pas : ",
 						nouvelle_devise -> nom_devise,
-						_("\nLes paiements en euro du compte seront perdus !\n\nConfirmez vous le changement ?"),
+						"\nLes paiements en euro du compte seront perdus !\n\nConfirmez vous le changement ?",
 						NULL ));
 	  gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialogue ) -> vbox ),
 			       label,
@@ -1600,7 +1587,7 @@ void modification_details_compte ( void )
       update_liste_comptes_accueil ();
       update_liste_echeances_manuelles_accueil ();
 
-      p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant_onglet;
+      p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
 
     }
 
@@ -1662,7 +1649,7 @@ void modification_details_compte ( void )
       COMPTE_CLOTURE = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( detail_compte_cloture ));
       reaffiche_liste_comptes ();
       update_liste_comptes_accueil ();
-      p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant_onglet;
+      p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
 
     }
 
@@ -1686,7 +1673,7 @@ void modification_details_compte ( void )
       mise_a_jour_fin_comptes_passifs();
 
 
-      p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant_onglet;
+      p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
     }
 
 /* vérification du solde mini autorisé */
@@ -1699,7 +1686,7 @@ void modification_details_compte ( void )
       MESSAGE_SOUS_MINI = 0;
  
       mise_a_jour_soldes_minimaux();
-      p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant_onglet;
+      p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
    }
 
 
@@ -1714,7 +1701,7 @@ void modification_details_compte ( void )
       MESSAGE_SOUS_MINI_VOULU = 0;
  
       mise_a_jour_soldes_minimaux();
-      p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant_onglet;
+      p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
     }
 
 
@@ -1749,14 +1736,17 @@ void modification_details_compte ( void )
 
 /* ************************************************************************************************************ */
 /* Fonction sort_du_detail_compte */
-/* appelée quand on change de compte dans les propriétés des comptes */
-/* si des modifs avaient été faites, on demande si on enregistre */
+/* appelée dès que la fenêtre du détail du compte est effacée, demande si nécessaire */
+/* d'appliquer les changements */
 /* ************************************************************************************************************ */
 
-void sort_du_detail_compte ( void )
+void sort_du_detail_compte ( GtkWidget *notebook,
+			     GtkNotebookPage *page,
+			     gint page_num,
+			     gpointer null )
 {
 
-  if ( GTK_WIDGET_SENSITIVE ( hbox_boutons_modif ) )
+  if ( !gtk_notebook_get_current_page ( GTK_NOTEBOOK ( notebook )) && GTK_WIDGET_SENSITIVE ( hbox_boutons_modif ) )
     {
       GtkWidget *dialogue;
       GtkWidget *label;
@@ -1764,18 +1754,18 @@ void sort_du_detail_compte ( void )
       gpointer **save;
 
       save = p_tab_nom_de_compte_variable;
-      p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant_onglet;
+      p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
 
-      dialogue = gnome_dialog_new ( _("Appliquer les modifications au compte ?"),
+      dialogue = gnome_dialog_new ( "Appliquer les modifications au compte ?",
 				    GNOME_STOCK_BUTTON_YES,
 				    GNOME_STOCK_BUTTON_NO,
 				    NULL );
       gtk_window_set_transient_for ( GTK_WINDOW ( dialogue ),
 				     GTK_WINDOW ( window ));
 
-      label = gtk_label_new ( g_strconcat ( _("Des modifications ont été apportées au compte :\n"),
+      label = gtk_label_new ( g_strconcat ( "Des modifications ont été apportées au compte :\n",
 					    NOM_DU_COMPTE,
-					    _("\n\nVoulez-vous les enregistrer ?"),
+					    "\n\nVoulez-vous les enregistrer ?",
 					    NULL ));
       gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialogue ) -> vbox ),
 			   label,
@@ -1786,14 +1776,13 @@ void sort_du_detail_compte ( void )
 
       resultat = gnome_dialog_run_and_close ( GNOME_DIALOG ( dialogue ));
 
-      if ( resultat )
-	gtk_widget_set_sensitive ( hbox_boutons_modif,
-				   FALSE );
-      else
+      if ( !resultat )
 	modification_details_compte ();
 
       p_tab_nom_de_compte_variable = save;
     }
+
+
 }
 /* ************************************************************************************************************ */
 
@@ -1814,16 +1803,16 @@ void passage_a_l_euro ( GtkWidget *bouton,
 
   p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
 
-  dialog = gnome_dialog_new ( _("Confirmation de passage à l'euro"),
+  dialog = gnome_dialog_new ( "Confirmation de passage à l'euro",
 				GNOME_STOCK_BUTTON_YES,
 				GNOME_STOCK_BUTTON_NO,
 				NULL );
   gtk_window_set_transient_for ( GTK_WINDOW ( dialog ),
 				 GTK_WINDOW ( window ));
 
-  label = gtk_label_new ( g_strconcat ( _("Attention, le passage à l'euro est une opération irréversible !\n\nÊtes-vous sûr de vouloir passer le compte "),
+  label = gtk_label_new ( g_strconcat ( "Attention, le passage à l'euro est une opération irréversible !\n\nÊtes-vous sûr de vouloir passer le compte ",
 					NOM_DU_COMPTE,
-					_(" à l'euro ?"),
+					" à l'euro ?",
 					NULL ));
   gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
 		       label,
@@ -1853,19 +1842,19 @@ void passage_a_l_euro ( GtkWidget *bouton,
 
       if ( !change )
 	{
-	  dialogue ( _("Erreur : le taux de change entre les 2 monnaies est de 0.") );
+	  dialogue ( "Erreur : le taux de change entre les 2 monnaies est de 0." );
 	  return;
 	}
 
       /* retrouve le no de l'euro */
 
       pointeur = g_slist_find_custom ( liste_struct_devises,
-				       _("Euro"),
+				       "Euro",
 				       ( GCompareFunc ) recherche_devise_par_nom );
 
       if ( !pointeur )
 	{
-	  dialogue ( _("La monnaie Euro est introuvable, elle a dû être effacée des devises.") );
+	  dialogue ( "La monnaie Euro est introuvable, elle a dû être effacée des devises." );
 	  return;
 	}
 

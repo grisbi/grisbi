@@ -2,7 +2,7 @@
 /* s'occupe de tout ce qui concerne les banques */
 
 
-/*     Copyright (C) 2000-2002  Cédric Auger */
+/*     Copyright (C) 2000-2001  Cédric Auger */
 /* 			cedric@grisbi.org */
 /* 			http://www.grisbi.org */
 
@@ -36,9 +36,9 @@
 GtkWidget *creation_fenetre_ventilation ( void )
 {
   GtkWidget *onglet;
-  gchar *titres[] ={ _("Catégorie"),
-		     _("Notes"),
-		     _("Montant") };
+  gchar *titres[] ={ "Catégorie",
+		     "Notes",
+		     "Montant" };
 
   /* création de la scrolled window  */
 
@@ -159,7 +159,7 @@ GtkWidget *creation_verification_ventilation ( void )
 		       0 );
   gtk_widget_show ( frame );
 
-  label = gtk_label_new ( _("Opération ventilée") );
+  label = gtk_label_new ( "Opération ventilée" );
   gtk_container_add ( GTK_CONTAINER ( frame ),
 		      label );
   gtk_widget_show ( label );
@@ -182,7 +182,7 @@ GtkWidget *creation_verification_ventilation ( void )
   gtk_widget_show ( tableau );
 
 
-  label = gtk_label_new ( _("Somme ventilée :") );
+  label = gtk_label_new ( "Somme ventilée :" );
   gtk_misc_set_alignment ( GTK_MISC ( label ),
 			   0,
 			   0.5 );
@@ -209,7 +209,7 @@ GtkWidget *creation_verification_ventilation ( void )
   gtk_widget_show ( label_somme_ventilee );
 
 
-  label = gtk_label_new ( _("Non affecté :") );
+  label = gtk_label_new ( "Non affecté :" );
   gtk_misc_set_alignment ( GTK_MISC ( label ),
 			   0,
 			   0.5 );
@@ -248,7 +248,7 @@ GtkWidget *creation_verification_ventilation ( void )
 
 
 
-  label = gtk_label_new ( _("Montant :") );
+  label = gtk_label_new ( "Montant :" );
   gtk_misc_set_alignment ( GTK_MISC ( label ),
 			   0,
 			   0.5 );
@@ -273,6 +273,36 @@ GtkWidget *creation_verification_ventilation ( void )
 		     GTK_SHRINK | GTK_FILL,
 		     0, 0 );
   gtk_widget_show ( label_montant_operation_ventilee );
+
+
+
+/* mise en forme des boutons débit et crédit */
+
+  separateur = gtk_hseparator_new ();
+  gtk_box_pack_start ( GTK_BOX ( onglet ),
+		       separateur,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( separateur );
+
+  bouton_credit = gtk_radio_button_new_with_label ( NULL,
+						    "Crédit" );
+  gtk_box_pack_start ( GTK_BOX ( onglet ),
+		       bouton_credit,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( bouton_credit );
+
+  bouton_debit = gtk_radio_button_new_with_label_from_widget ( GTK_RADIO_BUTTON ( bouton_credit ),
+							       "Débit" );
+  gtk_box_pack_start ( GTK_BOX ( onglet ),
+		       bouton_debit,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( bouton_debit );
 
 
 
@@ -310,6 +340,9 @@ GtkWidget *creation_verification_ventilation ( void )
 		       0 );
   gtk_widget_show (bouton  );
 
+
+
+  
   return ( onglet );
 }
 /*******************************************************************************************/
@@ -357,9 +390,10 @@ GtkWidget *creation_formulaire_ventilation ( void )
   /* mise en place des catégories */
 
   widget_formulaire_ventilation[0] = gtk_combofix_new_complex ( liste_categories_echeances_combofix,
-							    FALSE,
-							    TRUE,
-							    TRUE );
+								FALSE,
+								TRUE,
+								TRUE,
+								0 );
   gtk_signal_connect ( GTK_OBJECT ( GTK_COMBOFIX ( widget_formulaire_ventilation[0] ) -> entry ),
  		       "key_press_event",
 		       GTK_SIGNAL_FUNC ( appui_touche_ventilation ),
@@ -450,7 +484,8 @@ GtkWidget *creation_formulaire_ventilation ( void )
   widget_formulaire_ventilation[3] = gtk_combofix_new_complex ( liste_imputations_combofix,
 								FALSE,
 								TRUE,
-								TRUE );
+								TRUE,
+								0 );
   gtk_table_attach ( GTK_TABLE (table),
 		     widget_formulaire_ventilation[3],
 		     0, 1, 1, 2,
@@ -488,8 +523,8 @@ GtkWidget *creation_formulaire_ventilation ( void )
   widget_formulaire_ventilation[4] = gtk_option_menu_new ();
   gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tips ),
 			 widget_formulaire_ventilation[4],
-			 _("Choix de l'exercice"),
-			 _("Choix de l'exercice") );
+			 "Choix de l'exercice",
+			 "Choix de l'exercice" );
   menu = gtk_menu_new ();
   gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_ventilation[4] ),
 			     creation_menu_exercices () );
@@ -637,35 +672,35 @@ void entree_ventilation_perd_focus ( GtkWidget *entree,
       /* on sort des catégories */
     case 0:
       if ( !strlen ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( entree )))))
-	texte = _("Catégories : Sous-catégories");
+	texte = "Catégories : Sous-catégories";
       break;
 
       /* sort des notes */
 
     case 1:
       if ( !strlen ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( entree )))))
-	texte = _("Notes");
+	texte = "Notes";
       break;
 
       /* sort du montant */
 
     case 2:
       if ( !strlen ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( entree )))))
-	texte = _("Montant");
+	texte = "Montant";
       break;
 
       /* sort de l'ib */
 
     case 3:
       if ( !strlen ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( entree )))))
-	texte = _("Imputation budgétaire");
+	texte = "Imputation budgétaire";
       break;
 
       /* sort de la pièce comptable */
 
     case 5:
       if ( !strlen ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( entree )))))
-	texte = _("Pièce comptable");
+	texte = "Pièce comptable";
       break;
 
 
@@ -696,7 +731,8 @@ void entree_ventilation_perd_focus ( GtkWidget *entree,
 /*             signe : 0 : débit, 1 : crédit */
 /*******************************************************************************************/
 
-void ventiler_operation ( gdouble montant )
+void ventiler_operation ( gdouble montant,
+			  gint signe )
 {
   /*   si liste_ope est NULL, c'est une nouvelle opé, les ventils ne peuvent être associées */
   /* à un no d'opé, on les met donc à -1 */
@@ -747,13 +783,24 @@ void ventiler_operation ( gdouble montant )
     {
       gtk_label_set_text ( GTK_LABEL ( label_non_affecte ),
 			   "" );
-      gtk_label_set_text ( GTK_LABEL ( label_montant_operation_ventilee ),
-			   g_strdup_printf ( "%4.2f",
-					     somme_ventilee ));
+	gtk_label_set_text ( GTK_LABEL ( label_montant_operation_ventilee ),
+			     g_strdup_printf ( "%4.2f",
+					       somme_ventilee ));
     }
 
 
   gtk_widget_grab_focus ( liste_operations_ventilees );
+
+
+  /* mise à jour du choix débit / crédit */
+
+  if ( signe )
+    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_credit ),
+				   TRUE );
+  else
+    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_debit ),
+				   TRUE );
+
 
 
   /* bloque les fonctions */
@@ -1171,15 +1218,15 @@ void echap_formulaire_ventilation ( void )
 
 
   gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_ventilation[0] ),
-			  _("Catégories : Sous-catégories") );
+			  "Catégories : Sous-catégories" );
   gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_ventilation[1]),
-		       _("Notes") );
+		       "Notes" );
   gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_ventilation[2]),
-		       _("Montant") );
+		       "Montant" );
   gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_ventilation[3] ),
-			  _("Imputation budgétaire") );
+			  "Imputation budgétaire" );
   gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_ventilation[5]),
-		       _("Pièce comptable") );
+		       "Pièce comptable" );
 
   gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_ventilation[4] ),
 				0 );
@@ -1285,7 +1332,7 @@ void fin_edition_ventilation ( void )
 	      /* on vérifie ici si c'est un virement */
 
 	      if ( strcmp ( tableau_char[0],
-			    _("Virement") ) )
+			    "Virement" ) )
 		{
 		  /* 	      ce n'est pas un virement, recherche les catég */
 
@@ -1505,13 +1552,13 @@ void fin_edition_ventilation ( void )
 
       if ( compte_vire == -1 )
 	{
-	  dialogue ( _("Erreur : le compte associé au virement est invalide") );
+	  dialogue ( "Erreur : le compte associé au virement est invalide" );
 	  return;
 	}
 
       if ( compte_vire == compte_courant )
 	{
-	  dialogue ( _("Erreur : impossible de virer un compte sur lui-même") );
+	  dialogue ( "Erreur : impossible de virer un compte sur lui-même" );
 	  return;
 	}
 
@@ -1534,7 +1581,10 @@ void fin_edition_ventilation ( void )
 
 	  /* on y met le nouveau montant et la note, l'ib, l'exercice et la pièce comptable */
 
-	  ope_associee -> montant = operation -> montant;
+	  if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_credit ) ) )
+	    ope_associee -> montant = -operation -> montant;
+	  else
+	    ope_associee -> montant = operation -> montant;
 
 
 	  if ( operation -> notes )
@@ -1593,7 +1643,10 @@ void fin_edition_ventilation ( void )
 	  /* on y met le nouveau montant et la note */
 	  /* 	  si la ventilation est un crédit, on inverse le montant */
 
-	  ope_associee -> montant = operation -> montant;
+	  if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_credit ) ) )
+	    ope_associee -> montant = -operation -> montant;
+	  else
+	    ope_associee -> montant = operation -> montant;
 
 
 	  if ( operation -> notes )
@@ -1749,7 +1802,7 @@ void edition_operation_ventilation ( void )
       p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> relation_no_compte;
 
       gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_ventilation[0] ),
-			      g_strconcat ( _("Virement : "),
+			      g_strconcat ( "Virement : ",
 					    NOM_DU_COMPTE,
 					    NULL ));
     }
@@ -1860,7 +1913,7 @@ void supprime_operation_ventilation ( void )
 
   if ( operation -> pointe == 2 )
     {
-      dialogue ( _(" Impossible de supprimer \n  une opération relevée ... "));
+      dialogue ( " Impossible de supprimer \n  une opération relevée ... ");
       return;
     }
 
@@ -2006,7 +2059,7 @@ void ajoute_ope_sur_liste_ventilation ( struct structure_operation *operation )
 
       p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> relation_no_compte;
 
-      ligne [0] = g_strconcat ( _("Virement : "),
+      ligne [0] = g_strconcat ( "Virement : ",
 				NOM_DU_COMPTE,
 				NULL );
       p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
@@ -2097,6 +2150,8 @@ void calcule_montant_ventilation ( void )
 /***********************************************************************************************************/
 void mise_a_jour_labels_ventilation ( void )
 {
+  /* si c'est un débit, on inverse le signe */
+
   gtk_label_set_text ( GTK_LABEL ( label_somme_ventilee ),
 		       g_strdup_printf ( "%4.2f",
 					 somme_ventilee ));
@@ -2169,6 +2224,8 @@ void selectionne_ligne_ventilation ( void )
 		       0,
 		       0.5,
 		       0 );
+
+
 }
 /***********************************************************************************************************/
 
@@ -2212,7 +2269,7 @@ void valider_ventilation ( void )
 
   gtk_widget_show ( barre_outils );
   gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_listes_operations ),
-			  compte_courant + 1 );
+			  compte_courant + 2 );
   gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_comptes_equilibrage ),
 			  0 );
   gtk_widget_show ( formulaire );
@@ -2235,23 +2292,43 @@ void valider_ventilation ( void )
   gtk_widget_grab_focus ( GTK_COMBOFIX ( widget_formulaire_operations[8] ) -> entry );
 
 
-
-  if ( !montant_operation_ventilee )
+  if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_credit ) ) )
     {
-      if ( somme_ventilee < 0 )
-	{
-	  entree_prend_focus ( widget_formulaire_operations[3] );
-	  gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_operations[3] ),
-			       g_strdup_printf ( "%4.2f",
-						 fabs (somme_ventilee) ));
-	}
+      entree_prend_focus ( widget_formulaire_operations[4] );
+
+      if ( montant_operation_ventilee )
+	gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_operations[4] ),
+			     g_strdup_printf ( "%4.2f",
+					       montant_operation_ventilee ));
       else
-	{
-	  entree_prend_focus ( widget_formulaire_operations[4] );
-	  gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_operations[4] ),
-			       g_strdup_printf ( "%4.2f",
-						 somme_ventilee ));
-	}
+	gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_operations[4] ),
+			     g_strdup_printf ( "%4.2f",
+					       somme_ventilee ));
+
+      gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_operations[3] ),
+			   "" );
+      entree_perd_focus ( widget_formulaire_operations[3],
+			  NULL,
+			  GINT_TO_POINTER (3) );
+    }
+  else
+    {
+      entree_prend_focus ( widget_formulaire_operations[3] );
+
+      if ( montant_operation_ventilee )
+	gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_operations[3] ),
+			     g_strdup_printf ( "%4.2f",
+					       montant_operation_ventilee ));
+      else
+	gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_operations[3] ),
+			     g_strdup_printf ( "%4.2f",
+					       somme_ventilee ));
+
+      gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_operations[4] ),
+			   "" );
+      entree_perd_focus ( widget_formulaire_operations[4],
+			  NULL,
+			  GINT_TO_POINTER (4) );
     }
 
   modification_fichier ( TRUE );

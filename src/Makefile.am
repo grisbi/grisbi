@@ -1,7 +1,7 @@
 # Process this file with automake to produce Makefile.in
 
-localedir = $(datadir)/locale
-INCLUDES = -I$(top_srcdir) -I$(includedir) $(GNOME_INCLUDEDIR) $(EXTRA_GNOME_CFLAGS) -I../intl -DLOCALEDIR=\"$(localedir)\"
+INCLUDES = -I$(top_srcdir) -I$(includedir) $(GNOME_INCLUDEDIR) $(EXTRA_GNOME_CFLAGS)
+
 
 bin_PROGRAMS = grisbi
 
@@ -19,7 +19,6 @@ grisbi_SOURCES = 		\
 	fichiers_io.c		\
 	patienter.c		\
 	comptes_gestion.c	\
-	comptes_onglet.c	\
 	gtk_combofix.c		\
 	qif.c			\
 	comptes_traitements.c	\
@@ -40,17 +39,11 @@ grisbi_SOURCES = 		\
 	type_operations.c	\
 	exercice.c		\
 	imputation_budgetaire.c	\
-	affichage.c		\
-	etats_onglet.c		\
-	etats_config.c		\
-	etats_calculs.c		\
-	etats_gtktable.c	\
-	etats_gnomeprint.c	\
-	impression.c
+	affichage.c
 
 
 
-grisbi_LDADD =	$(GNOME_LIBDIR)	$(GNOMEUI_LIBS) $(EXTRA_GNOME_LIBS) -lgnomeprint
+grisbi_LDADD =	$(GNOME_LIBDIR)	$(GNOMEUI_LIBS) $(EXTRA_GNOME_LIBS)
 
 
 EXTRA_DIST = grisbi.desktop grisbi.png logo_grisbi.xpm grisbi.keys grisbi.mime
@@ -63,5 +56,3 @@ appicon_DATA = grisbi.png logo_grisbi.xpm
 
 mimedir = $(datadir)/mime-info
 mime_DATA = grisbi.keys grisbi.mime
-
-

@@ -1,6 +1,6 @@
 /* ce fichier se charge de toutes les opérations relative à la configuration sauvegardée */
 
-/*     Copyright (C) 2000-2002  Cédric Auger */
+/*     Copyright (C) 2000-2001  Cédric Auger */
 /* 			cedric@grisbi.org */
 /* 			http://www.grisbi.org */
 
@@ -111,11 +111,17 @@ void charge_configuration ( void )
 
   etat.formulaire_toujours_affiche = gnome_config_get_int ( g_strconcat ( "/", FICHIER_CONF, "/Affichage/Affichage_formulaire", NULL ));
   etat.formulaire_echeancier_toujours_affiche  = gnome_config_get_int ( g_strconcat ( "/", FICHIER_CONF, "/Affichage/Affichage_formulaire_echeancier", NULL ));
+  chemin_logo = gnome_config_get_string ( g_strconcat ( "/", FICHIER_CONF, "/Affichage/Chemin_du_logo", NULL ));
+
+  if ( !chemin_logo )
+    chemin_logo = CHEMIN_LOGO;
 
   etat.affiche_tous_les_types = gnome_config_get_int ( g_strconcat ( "/", FICHIER_CONF, "/Affichage/Affichage_tous_types", NULL ));
   etat.affiche_no_operation = gnome_config_get_int ( g_strconcat ( "/", FICHIER_CONF, "/Affichage/Affiche_no_operation", NULL ));
+/* GDC */
   etat.affiche_date_bancaire = gnome_config_get_int ( g_strconcat ( "/", FICHIER_CONF, "/Affichage/Affiche_date_bancaire", NULL ));
   etat.classement_par_date = gnome_config_get_int ( g_strconcat ( "/", FICHIER_CONF, "/Affichage/Tri_par_date", NULL ));
+/* FinGDC */
   etat.affiche_boutons_valider_annuler = gnome_config_get_int ( g_strconcat ( "/", FICHIER_CONF, "/Affichage/Affiche_boutons_valider_annuler", NULL ));
   etat.affichage_exercice_automatique  = gnome_config_get_int ( g_strconcat ( "/", FICHIER_CONF, "/Exercice/Affichage_exercice_automatique", NULL ));
   etat.affiche_nb_ecritures_listes  = gnome_config_get_int ( g_strconcat ( "/", FICHIER_CONF, "/Exercice/Affichage_nb_ecritures", NULL ));
@@ -158,6 +164,7 @@ void raz_configuration ( void )
   fonte_general = NULL;
   etat.alerte_permission = 1;       /* par défaut, on prévient quand le fichier n'est pas à 600 */
   etat.force_enregistrement = 0;     /* par défaut, on ne force pas l'enregistrement */
+  chemin_logo = CHEMIN_LOGO;         /* au départ, le logo est celui livré avec grisbi */
   etat.affiche_tous_les_types = 0;   /* par défaut, on n'affiche ds le formulaire que les types du débit ou crédit */
   etat.affiche_no_operation = 1;
   etat.affiche_date_bancaire = 1; /* GDC : par défaut, on affiche la date bancaire (colonne et champ) */
@@ -282,14 +289,18 @@ void sauve_configuration (void)
 			 etat.formulaire_toujours_affiche );
   gnome_config_set_int ( g_strconcat ( "/", FICHIER_CONF, "/Affichage/Affichage_formulaire_echeancier", NULL ),
 			 etat.formulaire_echeancier_toujours_affiche );
+  gnome_config_set_string ( g_strconcat ( "/", FICHIER_CONF, "/Affichage/Chemin_du_logo", NULL ),
+			    chemin_logo );
   gnome_config_set_int ( g_strconcat ( "/", FICHIER_CONF, "/Affichage/Affichage_tous_types", NULL ),
 			 etat.affiche_tous_les_types );
   gnome_config_set_int ( g_strconcat ( "/", FICHIER_CONF, "/Affichage/Affiche_no_operation", NULL ),
 			 etat.affiche_no_operation );
+/* GDC : gestion de la date réelle */
   gnome_config_set_int ( g_strconcat ( "/", FICHIER_CONF, "/Affichage/Affiche_date_bancaire", NULL ),
 			 etat.affiche_date_bancaire );
   gnome_config_set_int ( g_strconcat ( "/", FICHIER_CONF, "/Affichage/Tri_par_date", NULL ),
 			 etat.classement_par_date );
+/* FinGDC */
   gnome_config_set_int ( g_strconcat ( "/", FICHIER_CONF, "/Affichage/Affiche_boutons_valider_annuler", NULL ),
 			 etat.affiche_boutons_valider_annuler );
   gnome_config_set_int ( g_strconcat ( "/", FICHIER_CONF, "/Exercice/Affichage_nb_ecritures", NULL ),

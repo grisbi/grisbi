@@ -1,7 +1,7 @@
 /* Ce fichier s'occupe de la gestion des exercices */
 /* exercice.c */
 
-/*     Copyright (C) 2000-2002  Cédric Auger */
+/*     Copyright (C) 2000-2001  Cédric Auger */
 /* 			cedric@grisbi.org */
 /* 			http:// www.grisbi.org */
 
@@ -41,7 +41,7 @@ GtkWidget *onglet_exercices ( void )
   GtkWidget *vbox2;
   GtkWidget *bouton;
   GtkWidget *hbox;
-  gchar *titres[]={_("Nom")};
+  gchar *titres[]={"Nom"};
 
 
   vbox_pref = gtk_vbox_new ( FALSE,
@@ -237,6 +237,7 @@ GtkWidget *onglet_exercices ( void )
 		       5 );
   gtk_widget_show ( separateur );
 
+
   /* création du bouton association automatique */
 
   bouton = gtk_button_new_with_label ( _("Association automatique ...") );
@@ -252,7 +253,6 @@ GtkWidget *onglet_exercices ( void )
 		       FALSE,
 		       5 );
   gtk_widget_show ( bouton );
-
 
 
   /* création de la 2ème colonne */
@@ -314,7 +314,7 @@ GtkWidget *onglet_exercices ( void )
 		       5 );
   gtk_widget_show ( hbox );
 
-  label = gtk_label_new ( _("Nom : ") );
+  label = gtk_label_new ( "Nom : " );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       label,
 		       FALSE,
@@ -342,7 +342,7 @@ GtkWidget *onglet_exercices ( void )
 		       5 );
   gtk_widget_show ( hbox );
 
-  label = gtk_label_new ( _("Début : ") );
+  label = gtk_label_new ( "Début : " );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       label,
 		       FALSE,
@@ -366,7 +366,7 @@ GtkWidget *onglet_exercices ( void )
 		       0 );
   gtk_widget_show ( separateur );
 
-  label = gtk_label_new ( _("Fin : ") );
+  label = gtk_label_new ( "Fin : " );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       label,
 		       FALSE,
@@ -393,7 +393,7 @@ GtkWidget *onglet_exercices ( void )
 		       5 );
   gtk_widget_show ( hbox );
 
-  affichage_exercice = gtk_check_button_new_with_label ( _("Affiché dans le formulaire") );
+  affichage_exercice = gtk_check_button_new_with_label ( "Affiché dans le formulaire" );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       affichage_exercice,
 		       FALSE,
@@ -473,7 +473,7 @@ GtkWidget *onglet_exercices ( void )
 
 /* frame de droite-bas qui contient le choix de l'affichage des exercices */
 
-  frame = gtk_frame_new ( _("Affichage de l'exercice") );
+  frame = gtk_frame_new ( "Affichage de l'exercice" );
   gtk_container_set_border_width ( GTK_CONTAINER ( frame ),
 				   10 );
   gtk_box_pack_start ( GTK_BOX ( vbox ),
@@ -493,7 +493,7 @@ GtkWidget *onglet_exercices ( void )
 
 
   bouton_affichage_auto_exercice = gtk_radio_button_new_with_label ( NULL,
-								     _("Affichage automatique selon la date") );
+								     "Affichage automatique selon la date" );
   gtk_box_pack_start ( GTK_BOX ( vbox2 ),
 		       bouton_affichage_auto_exercice,
 		       FALSE,
@@ -502,7 +502,7 @@ GtkWidget *onglet_exercices ( void )
   gtk_widget_show ( bouton_affichage_auto_exercice );
 
   bouton = gtk_radio_button_new_with_label ( gtk_radio_button_group ( GTK_RADIO_BUTTON (bouton_affichage_auto_exercice)),
-					     _("Affichage du dernier exercice choisi") );
+					     "Affichage du dernier exercice choisi" );
   gtk_box_pack_start ( GTK_BOX ( vbox2 ),
 		       bouton,
 		       FALSE,
@@ -552,7 +552,7 @@ void ajout_exercice ( GtkWidget *bouton,
 		    sizeof ( struct struct_exercice ));
 
   exercice -> no_exercice = -1;
-  exercice -> nom_exercice = g_strdup ( _("Nouvel exercice") );
+  exercice -> nom_exercice = g_strdup ( "Nouvel exercice" );
 
   liste_struct_exercices_tmp = g_slist_append ( liste_struct_exercices_tmp,
 					      exercice );
@@ -604,14 +604,14 @@ void supprime_exercice ( GtkWidget *bouton,
   exercice = gtk_clist_get_row_data ( GTK_CLIST ( liste ),
 				    ligne_selection_exercice );
 
-  dialogue = gnome_dialog_new ( _("Confirmation de suppression de l'exercice"),
+  dialogue = gnome_dialog_new ( "Confirmation de suppression de l'exercice",
 				GNOME_STOCK_BUTTON_YES,
 				GNOME_STOCK_BUTTON_NO,
 				NULL );
   gtk_window_set_transient_for ( GTK_WINDOW ( dialogue ),
 				 GTK_WINDOW ( fenetre_preferences ));
 
-  label = gtk_label_new ( g_strconcat ( _("Etes-vous sûr de vouloir supprimer l'exercice :\n"),
+  label = gtk_label_new ( g_strconcat ( "Etes-vous sûr de vouloir supprimer l'exercice :\n",
 					exercice -> nom_exercice,
 					" ?",
 					NULL ) );
@@ -721,16 +721,16 @@ void deselection_ligne_exercice ( GtkWidget *liste,
       exercice = gtk_clist_get_row_data ( GTK_CLIST ( liste ),
 					ligne );
 
-      dialogue = gnome_dialog_new ( _("Confirmation de modification"),
+      dialogue = gnome_dialog_new ( "Confirmation de modification",
 				    GNOME_STOCK_BUTTON_YES,
 				    GNOME_STOCK_BUTTON_NO,
 				    NULL );
       gtk_window_set_transient_for ( GTK_WINDOW ( dialogue ),
 				     GTK_WINDOW ( fenetre_preferences ));
 
-      label = gtk_label_new ( g_strconcat ( _("Des modifications ont été apportées à l'exercice : "),
+      label = gtk_label_new ( g_strconcat ( "Des modifications ont été apportées à l'exercice : ",
 					    exercice -> nom_exercice,
-					    _("\n\nVoulez-vous les enregistrer ?"),
+					    "\n\nVoulez-vous les enregistrer ?",
 					    NULL ) );
       gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialogue ) -> vbox ),
 			   label,
@@ -806,7 +806,7 @@ void applique_modif_exercice ( GtkWidget *liste )
 
   if ( !strlen ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( nom_exercice )))))
     {
-      dialogue ( _("Vous devez donner un nom à l'exercice.") );
+      dialogue ( "Vous devez donner un nom à l'exercice." );
       return;
     }
 
@@ -972,7 +972,7 @@ GtkWidget *creation_menu_exercices ( void )
 
   /* le premier nom est Aucun */
 
-  menu_item = gtk_menu_item_new_with_label ( _("Aucun") );
+  menu_item = gtk_menu_item_new_with_label ( "Aucun" );
   gtk_menu_append ( GTK_MENU ( menu ),
 		    menu_item );
   gtk_object_set_data ( GTK_OBJECT ( menu_item ),
@@ -981,19 +981,6 @@ GtkWidget *creation_menu_exercices ( void )
   gtk_object_set_data ( GTK_OBJECT ( menu_item ),
 			"no_exercice",
 			NULL );
-  gtk_widget_show ( menu_item );
-
-  /* le second est non affiché */
-
-  menu_item = gtk_menu_item_new_with_label ( _("Non affiché") );
-  gtk_menu_append ( GTK_MENU ( menu ),
-		    menu_item );
-  gtk_object_set_data ( GTK_OBJECT ( menu_item ),
-			"adr_exercice",
-			GINT_TO_POINTER (-1) );
-  gtk_object_set_data ( GTK_OBJECT ( menu_item ),
-			"no_exercice",
-			GINT_TO_POINTER (-1) );
   gtk_widget_show ( menu_item );
 
 
@@ -1005,7 +992,10 @@ GtkWidget *creation_menu_exercices ( void )
 
       exercice = pointeur -> data;
 
-      if ( exercice->affiche_dans_formulaire )
+      /* met à TRUE volontairement pour cacher le bug quand l'exo n'est pas affiché */
+      /* corrigé dans la version 0.4 */
+
+      if ( TRUE /* exercice->affiche_dans_formulaire */ )
 	{
 	  menu_item = gtk_menu_item_new_with_label ( exercice -> nom_exercice );
 	  gtk_menu_append ( GTK_MENU ( menu ),
@@ -1054,9 +1044,7 @@ gint cherche_no_menu_exercice ( gint no_demande )
       liste_tmp = liste_tmp -> next;
     }
 
-  /*   l'exo n'est pas affiché, on retourne 1 */
-
-  return ( 1 );
+  return ( FALSE );
 }
 /* ************************************************************************************************************** */
 

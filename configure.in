@@ -1,25 +1,13 @@
 AC_INIT(src/main.c)
-AM_CONFIG_HEADER(config.h)
-AM_INIT_AUTOMAKE(grisbi,0.4.0)
-AM_ACLOCAL_INCLUDE(macros)
 
-PACKAGE=grisbi
-VERSION=0.4.0
-MKINSTALLDIRS
-dnl AC_DEFINE_UNQUOTED(PACKAGE, "$PACKAGE")
-dnl AC_DEFINE_UNQUOTED(VERSION, "$VERSION")
-AC_SUBST(PACKAGE)
-AC_SUBST(VERSION)
+AM_INIT_AUTOMAKE(grisbi, 0.3.3 )
+AM_CONFIG_HEADER(config.h)
+
+AM_ACLOCAL_INCLUDE(macros)
 
 AC_ISC_POSIX
 AC_PROG_CC
 AC_STDC_HEADERS
-AC_PROG_RANLIB
-
-dnl Check for NLS support.                                                      
-ALL_LINGUAS="en es"
-AM_GNU_GETTEXT
-AC_CHECK_LIB(intl,main)
 
 GNOME_INIT
 
@@ -29,14 +17,16 @@ GNOME_XML_CHECK
 
 AC_SUBST(prefix)
 
+EXTRA_GNOME_LIBS=``
+EXTRA_GNOME_CFLAGS=``
+
 AC_SUBST(EXTRA_GNOME_LIBS)
 AC_SUBST(EXTRA_GNOME_CFLAGS)
 
-GNOME_CHECK_MODULES(GNOMELIBS, [ gnome gtk glib xml gdk_pixbuf print ])
-CFLAGS="$CFLAGS $GNOMELIBS_CFLAGS"
-LDFLAGS="$LDFLAGS $GNOMELIBS_LIBS"
+CFLAGS="$CFLAGS `$GNOME_CONFIG --cflags gnome gtk glib applets xml`"
+LDFLAGS="$LDFLAGS `$GNOME_CONFIG --libs gnome gtk glib applets xml`"
 
-AC_ARG_WITH(applet, [  --with-applet           Support for grisbi applet])
+AC_ARG_WITH(applet, [  --without-applet        No support for grisbi applet])
 
 APPLET="false"
 if test "$with_applet" != 'no' ; then
@@ -46,13 +36,10 @@ GNOME_CHECK_MODULES(GA, [ applets ],
 fi
 AM_CONDITIONAL(APPLET, test $APPLET = true)
 
-
 AC_SUBST(CFLAGS)
+AC_SUBST(CPPFLAGS)
 AC_SUBST(LDFLAGS)
 
-AC_DEFINE_UNQUOTED(APPLET_BIN_DIR, "$acl_final_exec_prefix/bin/grisbi_applet")
-AC_DEFINE_UNQUOTED(GRISBI_BIN_DIR, "$acl_final_exec_prefix/bin/grisbi")
-AC_DEFINE_UNQUOTED(CHEMIN_LOGO, "$acl_final_prefix/share/pixmaps/logo_grisbi.xpm")
 
 dnl ******************************
 dnl Makefiles
@@ -60,10 +47,9 @@ dnl ******************************
 
 AC_OUTPUT([
 Makefile
-po/Makefile.in
-intl/Makefile
 src/Makefile
 applet/Makefile
 help/Makefile
+help/C/Makefile
 macros/Makefile
 ])

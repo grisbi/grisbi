@@ -2,7 +2,7 @@
 /*     patienter.c */
 
 
-/*     Copyright (C) 2000-2002  Cédric Auger */
+/*     Copyright (C) 2000-2001  Cédric Auger */
 /* 			cedric@grisbi.org */
 /* 			http://www.grisbi.org */
 
@@ -88,7 +88,7 @@ void mise_en_route_attente ( gchar *message )
 			  vbox );
       gtk_widget_show ( vbox );
 
-      label = gtk_label_new ( _("Veuillez patienter ...") );
+      label = gtk_label_new ( "Veuillez patienter ..." );
       gtk_box_pack_start ( GTK_BOX ( vbox ),
 			   label,
 			   FALSE,

@@ -2,14 +2,13 @@
 /* contient toutes les structures du prog */
 
 
-#define VERSION_FICHIER "0.4.0"
-#define VERSION_FICHIER_ETAT "0.4.0"
-#define VERSION_FICHIER_CATEG "0.4.0"
-#define VERSION_FICHIER_IB "0.4.0"
+#define VERSION "0.3.3"
 
 /* Chemin des fichiers */
 
-#define FICHIER_CONF "Grisbi-dev"       /* à mettre à Grisbi-dev pdt le dvt et Grisbi à la sortie d'une version */
+#define APPLET_BIN_DIR "/usr/local/bin/grisbi_applet"
+#define CHEMIN_LOGO "/usr/share/pixmaps/logo_grisbi.xpm"
+#define FICHIER_CONF "Grisbi"       /* à mettre à Grisbi-dev pdt le dvt et Grisbi à la sortie d'une version */
 
 /* initialisation des couleurs */
 
@@ -42,7 +41,6 @@ struct {
   guint ctrl : 1;
   guint equilibrage : 1;
   guint r_affiches : 1;
-  guint valeur_r_avant_rapprochement : 1;
   guint r_modifiable : 1;
   guint dernier_fichier_auto : 1;
   guint sauvegarde_auto : 1;
@@ -78,13 +76,10 @@ struct structure_operation
   guint mois;
   guint annee;
 
-  /* GDC La date a laquelle a reellement ete effectuee l'operation
-     contrairement a date qui est celle de prise en compte en banque */
   GDate *date_bancaire;
   guint jour_bancaire;
   guint mois_bancaire;
   guint annee_bancaire;
-  /* GDCFin */
 
   guint no_compte;
 
@@ -126,7 +121,7 @@ struct structure_operation
 struct donnees_compte
 {
   gint no_compte;
-  gint type_de_compte;          /* 0 = bancaire, 1 = espèce, 2 = passif, 3= actif */
+  gint type_de_compte;          /* 0 = bancaire, 1 = espèce, 2 = passif */
   gchar *nom_de_compte;
   gint nb_operations;
   gdouble solde_initial;
@@ -164,7 +159,7 @@ struct donnees_compte
 
 
 
-/* pointeurs vers les comptes en fonction de p...variable */
+/* pointeurs vers les comptes en fonction de p_tab_nom_de_compte_variable */
 
 #define NO_COMPTE ((struct donnees_compte *) (*p_tab_nom_de_compte_variable)) -> no_compte
 #define TYPE_DE_COMPTE ((struct donnees_compte *) (*p_tab_nom_de_compte_variable)) -> type_de_compte
@@ -230,6 +225,8 @@ struct operation_echeance
   guint no_exercice;             /* exercice de l'opé */
   guint imputation;
   guint sous_imputation;
+  gchar *no_piece_comptable;
+  gchar *info_banque_guichet;
 
   gshort periodicite;             /*  0=une fois, 1=hebdo, 2=mensuel, 3=annuel, 4=perso */
   gshort intervalle_periodicite_personnalisee;   /* 0=jours, 1=mois, 2=annees */
@@ -386,142 +383,4 @@ struct struct_no_rapprochement
 {
   gint no_rapprochement;
   gchar *nom_rapprochement;
-};
-
-
-struct struct_etat
-{
-  gint no_etat;
-  gchar *nom_etat;
-
-  gint afficher_r;         /* 0=ttes les opés, 1=que les opés non R, 2=que les opés R */
-  gint afficher_opes;
-  gint afficher_date_ope;
-  gint afficher_tiers_ope;
-  gint afficher_categ_ope;
-  gint afficher_sous_categ_ope;
-  gint afficher_ib_ope;
-  gint afficher_sous_ib_ope;
-  gint afficher_notes_ope;
-  gint afficher_pc_ope;
-  gint afficher_infobd_ope;
-  gint afficher_no_ope;
-  gint afficher_type_ope;
-  gint afficher_cheque_ope;
-  gint afficher_rappr_ope;
-  gint afficher_exo_ope;
-  gint pas_detailler_ventilation;
-  gint devise_de_calcul_general;
-  gint afficher_titre_colonnes;
-  gint type_affichage_titres;        /* 0 = en haut, 1 = à chaque changement de section */
-
-  gint exo_date;         /* 1-> utilise l'exo / 0 -> utilise une plage de date */
-  gint utilise_detail_exo;   /* 0=tous, 1=exercice courant, 2=exercice précédent, 3=perso */
-  GSList *no_exercices;            /* liste des no d'exos utilisés dans l'état */
-  gint separation_par_exo;       /* 1=oui, 0=non */
-  gint no_plage_date;       /* 0=perso, 1=toutes ... */
-  GDate *date_perso_debut;
-  GDate *date_perso_fin;
-  gint separation_par_plage;       /* 1=oui, 0=non */
-  gint type_separation_plage;        /*  0=semaines, 1=mois, 2=année, 3=perso */
-  gint jour_debut_semaine;           /* 0=lundi ... */
-  gint type_separation_perso;        /* 0=jour, 1=mois, 2=année */
-  gint delai_separation_perso;
-
-  GList *type_classement;  /* liste de no : 1=caté,2=ss categ,3=ib,4=ss ib,5=compte,6=tiers */
-
-  gint utilise_detail_comptes;
-  GSList *no_comptes;
-  gint regroupe_ope_par_compte;
-  gint affiche_sous_total_compte;
-
-  gint type_virement;   /* 0: pas de virements / 1:seulement les virements vers comptes actifs-passifs/2:virements hors état/3:perso */
-  GSList *no_comptes_virements;
-  gint exclure_ope_non_virement;
-
-  gint utilise_categ;
-  gint utilise_detail_categ;
-  GSList *no_categ;
-  gint afficher_sous_categ;
-  gint affiche_sous_total_categ;
-  gint affiche_sous_total_sous_categ;
-  gint exclure_ope_sans_categ;
-  gint devise_de_calcul_categ;
-  gint afficher_pas_de_sous_categ;
-
-  gint utilise_ib;
-  gint utilise_detail_ib;
-  GSList *no_ib;
-  gint afficher_sous_ib;
-  gint affiche_sous_total_ib;
-  gint affiche_sous_total_sous_ib;
-  gint exclure_ope_sans_ib;
-  gint devise_de_calcul_ib;
-  gint afficher_pas_de_sous_ib;
-
-  gint utilise_tiers;
-  gint utilise_detail_tiers;
-  GSList *no_tiers;
-  gint affiche_sous_total_tiers;
-  gint devise_de_calcul_tiers;
-
-  gchar *texte;
-
-  gint utilise_montant_neg_pos;
-  gint type_neg_pos;               /* 1=positif, 0=négatif */
-  gint utilise_valeur;
-  gint type_operateur_valeur;     /* 0=, 1<, 2<=, 3>, 4>= */
-  gfloat montant_valeur;
-  gint utilise_inclusion;
-  gfloat montant_inclusion_inf;
-  gint type_operateur_inf_inclusion;   /* 0<, 1<= */
-  gint type_operateur_sup_inclusion;    /* 0<, 1<= */
-  gfloat montant_inclusion_sup;
-  gint choix_montant_nul;     /* 1=exclu, 0=pos et neg, 2=neg, 3=pos */
-  gint choix_devise_montant;
-};
-
-
-struct struct_etat_affichage
-{
-  gint (* init) ( );
-  gint (* afficher_titre) ( gint );
-  gint (* afficher_separateur) ( gint );
-  gint (* affiche_total_categories) ( gint ligne );
-  gint (* affiche_total_sous_categ) ( gint ligne );
-  gint (* affiche_total_ib) ( gint ligne );
-  gint (* affiche_total_sous_ib) ( gint ligne );
-  gint (* affiche_total_compte) ( gint ligne );
-  gint (* affiche_total_tiers) ( gint ligne );
-  gint (* affichage_ligne_ope) ( struct structure_operation *operation,
-				 gint ligne );
-  gint (* affiche_total_partiel) ( gdouble total_partie,
-				   gint ligne,
-				   gint type );
-  gint (* affiche_total_general) ( gdouble total_general,
-				   gint ligne );
-  gint (* affiche_categ_etat) ( struct structure_operation *operation,
-				gchar *decalage_categ,
-				gint ligne );
-  gint (* affiche_sous_categ_etat) ( struct structure_operation *operation,
-				     gchar *decalage_sous_categ,
-				     gint ligne );
-  gint (* affiche_ib_etat) ( struct structure_operation *operation,
-			     gchar *decalage_ib,
-			     gint ligne );
-  gint (* affiche_sous_ib_etat) ( struct structure_operation *operation,
-				  gchar *decalage_sous_ib,
-				  gint ligne );
-  gint (* affiche_compte_etat) ( struct structure_operation *operation,
-				 gchar *decalage_compte,
-				 gint ligne );
-  gint (* affiche_tiers_etat) ( struct structure_operation *operation,
-				gchar *decalage_tiers,
-				gint ligne );
-  gint (* affiche_titre_revenus_etat) ( gint ligne );
-  gint (* affiche_titre_depenses_etat) ( gint ligne );
-  gint (* affiche_totaux_sous_jaccent) ( gint origine,
-					 gint ligne );
-  gint (* affiche_titres_colonnes) ( gint ligne );
-  gint (* finish) ( );
 };

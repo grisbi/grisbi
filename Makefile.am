@@ -1,10 +1,11 @@
 ## Process this file with automake to produce Makefile.in
 
 if APPLET
-SUBDIRS = macros src help po intl applet
+SUBDIRS = macros src help applet
 else
-SUBDIRS = macros src help po intl
+SUBDIRS = macros src help
 endif
+
 
 EXTRA_DIST = 
 

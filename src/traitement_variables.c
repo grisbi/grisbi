@@ -1,7 +1,7 @@
 /* Fichier traitement_variables.c */
 /* Contient toutes les procédures relatives au traitement des variables */
 
-/*     Copyright (C) 2000-2002  Cédric Auger */
+/*     Copyright (C) 2000-2001  Cédric Auger */
 /* 			cedric@grisbi.org */
 /* 			http://www.grisbi.org */
 
@@ -40,13 +40,13 @@ void modification_fichier ( gboolean modif )
   if ( modif )
     {
       etat.modification_fichier = 1;
-      gtk_widget_set_sensitive ( GTK_WIDGET ( menu_fichier[SAUVER].widget ),
+      gtk_widget_set_sensitive ( GTK_WIDGET ( menu_fichier[3].widget ),
 				 TRUE );
     }
   else
     {
       etat.modification_fichier = 0;
-      gtk_widget_set_sensitive ( GTK_WIDGET ( menu_fichier[SAUVER].widget ),
+      gtk_widget_set_sensitive ( GTK_WIDGET ( menu_fichier[3].widget ),
 				 FALSE );
 
       if ( ( pid_applet = gnome_config_get_int ( "/Grisbi_applet/PID/PID" )))
@@ -71,11 +71,11 @@ void init_variables ( gboolean ouverture )
 
   if ( ouverture )
     {
-      gtk_widget_set_sensitive ( GTK_WIDGET ( menu_fichier[SAUVER_SOUS].widget ),
+      gtk_widget_set_sensitive ( GTK_WIDGET ( menu_fichier[4].widget ),
 				 TRUE );
-      gtk_widget_set_sensitive ( GTK_WIDGET ( menu_fichier[EXPORTER].widget ),
+      gtk_widget_set_sensitive ( GTK_WIDGET ( menu_fichier[7].widget ),
 				 TRUE );
-      gtk_widget_set_sensitive ( GTK_WIDGET ( menu_fichier[FERMER].widget ),
+      gtk_widget_set_sensitive ( GTK_WIDGET ( menu_fichier[9].widget ),
 				 TRUE );
 
       gtk_widget_set_sensitive ( GTK_WIDGET ( menu_comptes[1].widget ),
@@ -96,7 +96,6 @@ void init_variables ( gboolean ouverture )
       etat.ancienne_date = 0;
 
       nom_fichier_backup = NULL;
-      chemin_logo = NULL;
 
       gsliste_echeances = NULL;
       nb_echeances = 0;
@@ -129,19 +128,29 @@ void init_variables ( gboolean ouverture )
       nb_banques = 0;
       no_derniere_banque = 0;
 
-      gtk_widget_set_sensitive ( GTK_WIDGET ( menu_fichier[SAUVER].widget ),
+/*       etat.formulaire_toujours_affiche = 0; */
+/*       etat.formulaire_echeancier_toujours_affiche = 0; */
+
+/*       creation_devises_de_base (); */
+
+      gtk_widget_set_sensitive ( GTK_WIDGET ( menu_fichier[3].widget ),
 				 FALSE );
-      gtk_widget_set_sensitive ( GTK_WIDGET ( menu_fichier[SAUVER_SOUS].widget ),
+      gtk_widget_set_sensitive ( GTK_WIDGET ( menu_fichier[4].widget ),
 				 FALSE );
-      gtk_widget_set_sensitive ( GTK_WIDGET ( menu_fichier[EXPORTER].widget ),
+      gtk_widget_set_sensitive ( GTK_WIDGET ( menu_fichier[7].widget ),
 				 FALSE );
-      gtk_widget_set_sensitive ( GTK_WIDGET ( menu_fichier[FERMER].widget ),
+      gtk_widget_set_sensitive ( GTK_WIDGET ( menu_fichier[9].widget ),
 				 FALSE );
 
       gtk_widget_set_sensitive ( GTK_WIDGET ( menu_comptes[1].widget ),
 				 FALSE );
-      gtk_widget_set_sensitive ( GTK_WIDGET ( menu_comptes[3].widget ),
+      gtk_widget_set_sensitive ( GTK_WIDGET ( menu_comptes[5].widget ),
 				 FALSE );
+
+/*       etat.utilise_exercice = 1; */
+/*       etat.utilise_imputation_budgetaire = 1; */
+/*       etat.utilise_piece_comptable = 1; */
+/*       etat.utilise_info_banque_guichet = 1; */
 
       liste_no_rapprochements = NULL;
 
@@ -153,10 +162,6 @@ void init_variables ( gboolean ouverture )
 	  g_slist_free ( liste_struct_exercices );
 	  liste_struct_exercices = NULL;
 	}
-
-      liste_struct_etats = NULL;
-      no_dernier_etat = 0;
-      etat_courant = NULL;
     }
 }
 /*****************************************************************************************************/

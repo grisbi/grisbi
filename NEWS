@@ -1,12 +1,3 @@
-Version 0.4.0 :
-
-- Ajout des rapports financiers
-- Possibilité d'associer automatiquement les opérations sans exercice à leur
-	exercice correspondant
-- Import/export des états créés
-- Import/export de listes de catégories
-- Import/export de listes d'IB
-
 Version 0.3.2 :
 
 - Amélioration de l'import de qifs
