@@ -96,6 +96,9 @@ gboolean recuperation_donnees_gnucash ( gchar * filename )
       if ( root )
 	root_node = root -> children;
 
+	/* FIXME: root_node may not be initialized here.
+	 * Initialize to NULL ? return FALSE ? */
+	 
       while ( root_node )
 	{
 	  if ( node_strcmp(root_node, "book") )
