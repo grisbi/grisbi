@@ -555,7 +555,8 @@ gboolean enregistrement_fichier ( gint origine )
 	dialogue_conditional_hint ( g_strdup_printf( _("Can not save file \"%s\""), nom_fichier_comptes),
 				    g_strdup_printf( _("Grisbi was unable to save this file because it is locked.  Please save it with another name or activate the \"%s\" option in setup.  Alternatively, choose the \"%s\" option below."),
 						     _("Force saving of locked files"),
-						     _("Do not show this message again")), &(etat.force_enregistrement ) );
+						     _("Do not show this message again")), 
+				    &(etat.force_enregistrement ) );
 	return ( FALSE );
     }
 
@@ -617,7 +618,7 @@ gboolean enregistrer_fichier_sous ( void )
 /* ************************************************************************************************************ */
 gint question_fermer_sans_enregistrer ( void )
 {
-    gchar * hint;
+    gchar * hint, * message = "";
     gint result;
     GtkWidget *dialog;
 
@@ -638,13 +639,14 @@ gint question_fermer_sans_enregistrer ( void )
 	 &&
 	 !etat.force_enregistrement )
     {
-	hint = g_strdup_printf (_("The document '%s' is locked but modified. If you want to save it, you must cancel and save it with another name or activate the \"%s\" option in setup."),
+      hint = _("Save locked files?");
+      message = g_strdup_printf ( _("The document '%s' is locked but modified. If you want to save it, you must cancel and save it with another name or activate the \"%s\" option in setup."),
 				  (nom_fichier_comptes ? g_path_get_basename(nom_fichier_comptes) : _("unnamed")),
 				  _("Force saving of locked files"));
-	gtk_dialog_add_buttons ( GTK_DIALOG(dialog),
-				 _("Close without saving"), GTK_RESPONSE_NO,
-				 GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-				 NULL );
+      gtk_dialog_add_buttons ( GTK_DIALOG(dialog),
+			       _("Close without saving"), GTK_RESPONSE_NO,
+			       GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+			       NULL );
     }
     else
     {
@@ -657,8 +659,12 @@ gint question_fermer_sans_enregistrer ( void )
 				 NULL );
     }
 
+    message = g_strconcat ( message, 
+			    _("If you close without saving, all of your changes will be discarded."),
+			    NULL );
+    
     gtk_label_set_markup ( GTK_LABEL ( GTK_MESSAGE_DIALOG(dialog)->label ), 
-			   make_hint ( hint, _("If you close without saving, all of your changes will be discarded.")) );
+			   make_hint ( hint, message ) );
 
     gtk_window_set_modal ( GTK_WINDOW ( dialog ), TRUE );
 
