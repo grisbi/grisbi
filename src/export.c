@@ -260,7 +260,7 @@ static gboolean export_all_selected_entries_are_valid(GSList* selected_entries_l
 	    }
 	    else
 	    {
-		dialogue ( g_strdup_printf ( _("File name '%s' invalid !"),
+		dialogue ( g_strdup_printf ( _("File name '%s' invalid!"),
 					     file_name ));
                 result = FALSE;
                 break;
