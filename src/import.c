@@ -129,7 +129,7 @@ gboolean fichier_choisi_importation ( GtkWidget *fenetre )
     /* on sauve le répertoire courant  */
 
     dernier_chemin_de_travail = g_strconcat ( GTK_LABEL ( GTK_BIN ( GTK_OPTION_MENU ( GTK_FILE_SELECTION ( fenetre ) -> history_pulldown )) -> child ) -> label,
-					      "/",
+                                              C_DIRECTORY_SEPARATOR,
 					      NULL );
 
     /* on va récupérer tous les fichiers sélectionnés puis proposer d'en importer d'autres */

@@ -208,7 +208,7 @@ void fichier_selectionne ( GtkWidget *selection_fichier)
     /* on met le répertoire courant dans la variable correspondante */
 
     dernier_chemin_de_travail = g_strconcat ( GTK_LABEL ( GTK_BIN ( GTK_OPTION_MENU ( GTK_FILE_SELECTION ( selection_fichier ) -> history_pulldown )) -> child ) -> label,
-					      "/",
+					      C_DIRECTORY_SEPARATOR,
 					      NULL );
 
     ouverture_confirmee ();
@@ -250,12 +250,12 @@ void ouverture_confirmee ( void )
 		nom = nom_fichier_comptes;
 		i=0;
 
-		parametres = g_strsplit ( nom_fichier_comptes, "/", 0);
+		parametres = g_strsplit ( nom_fichier_comptes, C_DIRECTORY_SEPARATOR, 0);
 		while ( parametres[i] )
 		    i++;
 
-		nom_fichier_comptes = g_strconcat ( g_get_home_dir(),
-						    "/.",
+		nom_fichier_comptes = g_strconcat ( my_get_gsb_file_default_dir(),
+						    C_DIRECTORY_SEPARATOR,
 						    parametres [i-1],
 						    ".bak",
 						    NULL );
@@ -315,7 +315,7 @@ void ouverture_confirmee ( void )
 		while ( parametres[i] )
 		    i++;
 
-		nom_fichier_comptes = g_strconcat ( g_get_home_dir(),
+		nom_fichier_comptes = g_strconcat ( my_get_gsb_file_default_dir(),
 						    "/.",
 						    parametres [i-1],
 						    ".bak",
@@ -690,7 +690,7 @@ void affiche_titre_fenetre ( void )
     if ( nom_fichier_comptes )
     {
 	parametres = g_strsplit ( nom_fichier_comptes,
-				  "/",
+				  C_DIRECTORY_SEPARATOR,
 				  0);
 
 	while ( parametres[i] )
