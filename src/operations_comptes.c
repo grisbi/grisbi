@@ -51,9 +51,8 @@ GtkWidget *creation_liste_comptes (void)
   /* On place le label dans une frame */
 
   frame_label_compte_courant = gtk_frame_new ( NULL );
-  gtk_frame_set_shadow_type ( GTK_FRAME ( frame_label_compte_courant ),
-			      GTK_SHADOW_ETCHED_OUT );
-  gtk_box_pack_start ( GTK_BOX ( onglet ), frame_label_compte_courant, FALSE, TRUE, 0);
+  gtk_frame_set_shadow_type ( GTK_FRAME ( frame_label_compte_courant ), GTK_SHADOW_ETCHED_OUT );
+  gtk_box_pack_start ( GTK_BOX ( onglet ), frame_label_compte_courant, FALSE, TRUE, 0 );
   gtk_widget_show ( frame_label_compte_courant );
 
   /* On ne met rien dans le label, il sera rempli ensuite */
@@ -70,15 +69,14 @@ GtkWidget *creation_liste_comptes (void)
   gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window ),
 				   GTK_POLICY_NEVER,
 				   GTK_POLICY_AUTOMATIC);
-  gtk_box_pack_start ( GTK_BOX ( onglet ), scrolled_window, TRUE, TRUE, 0);
+  gtk_box_pack_start ( GTK_BOX ( onglet ), scrolled_window, TRUE, TRUE, 0 );
   gtk_widget_show ( scrolled_window );
 
   /* Création d'une vbox contenant la liste des comptes */
 
-  vbox_liste_comptes = gtk_vbox_new ( FALSE, 10);
+  vbox_liste_comptes = gtk_vbox_new ( FALSE, 10 );
   gtk_scrolled_window_add_with_viewport ( GTK_SCROLLED_WINDOW ( scrolled_window ), vbox_liste_comptes );
-  gtk_viewport_set_shadow_type ( GTK_VIEWPORT ( GTK_BIN ( scrolled_window ) -> child ),
-				 GTK_SHADOW_NONE );
+  gtk_viewport_set_shadow_type ( GTK_VIEWPORT ( GTK_BIN ( scrolled_window ) -> child ), GTK_SHADOW_NONE );
   gtk_widget_show ( vbox_liste_comptes );
   
 
@@ -113,7 +111,7 @@ GtkWidget *creation_liste_comptes (void)
 	      menu -> ac_mods = GDK_BUTTON1_MASK;
 	      menu -> widget = NULL;
 
-	      (menu + 1)->type = GNOME_APP_UI_ENDOFINFO;
+	      ( menu + 1 )->type = GNOME_APP_UI_ENDOFINFO;
 
 	      gnome_app_insert_menus ( GNOME_APP ( window ),
 				       _("Accounts/Closed accounts/"),
@@ -123,8 +121,6 @@ GtkWidget *creation_liste_comptes (void)
 	    }
 	  else
 	    gtk_widget_show ( bouton );
-
-	  
 	}
       while ( (  ordre_comptes_variable = ordre_comptes_variable -> next ) );
     }
@@ -133,9 +129,8 @@ GtkWidget *creation_liste_comptes (void)
      les 2 seront intégrés dans une frame */
 
   frame_equilibrage = gtk_frame_new ( NULL );
-  gtk_frame_set_shadow_type ( GTK_FRAME ( frame_equilibrage ),
-			      GTK_SHADOW_ETCHED_IN );
-  gtk_box_pack_start ( GTK_BOX ( onglet ), frame_equilibrage, FALSE, TRUE, 0);
+  gtk_frame_set_shadow_type ( GTK_FRAME ( frame_equilibrage ), GTK_SHADOW_ETCHED_IN );
+  gtk_box_pack_start ( GTK_BOX ( onglet ), frame_equilibrage, FALSE, TRUE, 0 );
   gtk_widget_show ( frame_equilibrage );
 
   vbox_frame_equilibrage = gtk_vbox_new ( FALSE, 5 );
@@ -153,15 +148,14 @@ GtkWidget *creation_liste_comptes (void)
   else
     label_releve = gtk_label_new ( COLON(_("Last statement")) );
 
-  gtk_box_pack_start ( GTK_BOX ( vbox_frame_equilibrage ), label_releve, FALSE, TRUE, 0);
+  gtk_box_pack_start ( GTK_BOX ( vbox_frame_equilibrage ), label_releve, FALSE, TRUE, 0 );
   gtk_widget_show ( label_releve );
 
   /* mise en place du bouton équilibrage */
 
   bouton = gtk_button_new_with_label ( _("Reconcile") );
-  gtk_button_set_relief ( GTK_BUTTON ( bouton ),
-			  GTK_RELIEF_NONE);
-  gtk_box_pack_start ( GTK_BOX ( vbox_frame_equilibrage ), bouton, FALSE, TRUE, 0);
+  gtk_button_set_relief ( GTK_BUTTON ( bouton ), GTK_RELIEF_NONE);
+  gtk_box_pack_start ( GTK_BOX ( vbox_frame_equilibrage ), bouton, FALSE, TRUE, 0 );
   gtk_signal_connect ( GTK_OBJECT ( bouton ),
 		       "clicked",
 		       GTK_SIGNAL_FUNC ( equilibrage ),
@@ -186,7 +180,6 @@ GtkWidget *comptes_appel ( gint no_de_compte )
 
   p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_de_compte;
 
-
   win_icones = gtk_hbox_new ( FALSE, 10);
 
   /* On crée le bouton contenant le livre fermé et ouvert,
@@ -199,7 +192,7 @@ GtkWidget *comptes_appel ( gint no_de_compte )
 			      GINT_TO_POINTER ( no_de_compte ) );
 
   gtk_button_set_relief ( GTK_BUTTON ( bouton ), GTK_RELIEF_NONE );
-  gtk_box_pack_start ( GTK_BOX ( win_icones ), bouton, FALSE, TRUE, 0);
+  gtk_box_pack_start ( GTK_BOX ( win_icones ), bouton, FALSE, TRUE, 0 );
   gtk_widget_show ( bouton );
 
   /* Le bouton contient une hbox avec les 2 livres */
@@ -224,7 +217,7 @@ GtkWidget *comptes_appel ( gint no_de_compte )
   /* on crée le label à coté du bouton */
 
   label = gtk_label_new ( NOM_DU_COMPTE );
-  gtk_box_pack_start ( GTK_BOX ( win_icones ), label, FALSE, TRUE, 0);
+  gtk_box_pack_start ( GTK_BOX ( win_icones ), label, FALSE, TRUE, 0 );
   gtk_widget_show ( label );
 
   return ( win_icones );
@@ -246,7 +239,7 @@ void changement_compte ( gint *compte)
 {
   GtkWidget *menu;
 
-  /*   si on n'est pas sur l'onglet comptes du notebook, on y passe */
+  /* Si on n'est pas sur l'onglet comptes du notebook, on y passe */
 
   if ( gtk_notebook_get_current_page ( GTK_NOTEBOOK ( notebook_general ) ) != 1 )
     gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ), 1 );
@@ -275,7 +268,7 @@ void changement_compte ( gint *compte)
 
   gtk_label_set_text ( GTK_LABEL ( label_compte_courant), NOM_DU_COMPTE );
 
-/* change les types d'opé et met le défaut */
+  /* change les types d'opé et met le défaut */
 
   if ( ( menu = creation_menu_types ( 1, compte_courant, 0 )))
     {
@@ -374,35 +367,35 @@ void reaffiche_liste_comptes ( void )
 
   do
     {
-      p_tab_nom_de_compte_variable = p_tab_nom_de_compte + GPOINTER_TO_INT ( ordre_comptes_variable->data );
+      p_tab_nom_de_compte_variable = p_tab_nom_de_compte + GPOINTER_TO_INT ( ordre_comptes_variable -> data );
       
-      bouton = comptes_appel( GPOINTER_TO_INT ( ordre_comptes_variable->data ));
-      gtk_box_pack_start ( GTK_BOX (vbox_liste_comptes), bouton, FALSE, FALSE, 0);
+      bouton = comptes_appel( GPOINTER_TO_INT ( ordre_comptes_variable -> data ));
+      gtk_box_pack_start ( GTK_BOX ( vbox_liste_comptes ), bouton, FALSE, FALSE, 0 );
 
-	  if ( COMPTE_CLOTURE )
-	    {
-	      GnomeUIInfo *menu;
+      if ( COMPTE_CLOTURE )
+	{
+	 GnomeUIInfo *menu;
 
-	      menu = malloc ( 2 * sizeof ( GnomeUIInfo ));
+	 menu = malloc ( 2 * sizeof ( GnomeUIInfo ));
 
-	      menu -> type = GNOME_APP_UI_ITEM;
-	      menu -> label = NOM_DU_COMPTE;
-	      menu -> hint = NOM_DU_COMPTE;
-	      menu -> moreinfo = (gpointer) changement_compte_par_menu;
-	      menu -> user_data = ordre_comptes_variable->data;
-	      menu -> unused_data = NULL;
-	      menu -> pixmap_type = 0;
-	      menu -> pixmap_info = 0;
-	      menu -> accelerator_key = 0;
-	      menu -> ac_mods = GDK_BUTTON1_MASK;
-	      menu -> widget = NULL;
+	 menu -> type = GNOME_APP_UI_ITEM;
+	 menu -> label = NOM_DU_COMPTE;
+	 menu -> hint = NOM_DU_COMPTE;
+	 menu -> moreinfo = (gpointer) changement_compte_par_menu;
+	 menu -> user_data = ordre_comptes_variable->data;
+	 menu -> unused_data = NULL;
+	 menu -> pixmap_type = 0;
+	 menu -> pixmap_info = 0;
+	 menu -> accelerator_key = 0;
+	 menu -> ac_mods = GDK_BUTTON1_MASK;
+	 menu -> widget = NULL;
 
-	      ( menu + 1 ) -> type = GNOME_APP_UI_ENDOFINFO;
-	      gnome_app_insert_menus ( GNOME_APP ( window ), _("Accounts/Closed accounts/"), menu );
-	      gtk_widget_set_sensitive ( GTK_WIDGET ( menu_comptes[3].widget ), TRUE );
-	    }
-	  else
-	    gtk_widget_show ( bouton );
+	 ( menu + 1 ) -> type = GNOME_APP_UI_ENDOFINFO;
+	 gnome_app_insert_menus ( GNOME_APP ( window ), _("Accounts/Closed accounts/"), menu );
+	 gtk_widget_set_sensitive ( GTK_WIDGET ( menu_comptes[3].widget ), TRUE );
+	}
+      else
+	gtk_widget_show ( bouton );
     }
   while ( ( ordre_comptes_variable = ordre_comptes_variable->next ) );
 
