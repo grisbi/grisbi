@@ -2232,3 +2232,7 @@ void gtk_combofix_set_lignes_max ( GtkComboFix *combofix,
     combofix -> lignes_max = lignes_max;
 }
 /* **************************************************************************************************** */
+
+/* Local Variables: */
+/* c-basic-offset: 4 */
+/* End: */

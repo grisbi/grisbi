@@ -88,3 +88,7 @@ struct operation_echeance *echeance_par_no_compte ( gint no_compte )
 }
 /*****************************************************************************************************/
 
+
+/* Local Variables: */
+/* c-basic-offset: 4 */
+/* End: */

@@ -268,3 +268,7 @@ gchar *nom_sous_categ_par_no ( gint no_categorie,
 /* **************************************************************************************************** */
 
 
+
+/* Local Variables: */
+/* c-basic-offset: 4 */
+/* End: */

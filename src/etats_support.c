@@ -441,3 +441,7 @@ gchar * etats_titre ()
 
     return titre;
 }
+
+/* Local Variables: */
+/* c-basic-offset: 4 */
+/* End: */

@@ -867,3 +867,7 @@ struct struct_banque *banque_par_no ( gint no_banque )
 /* **************************************************************************************************** */
 
 
+
+/* Local Variables: */
+/* c-basic-offset: 4 */
+/* End: */

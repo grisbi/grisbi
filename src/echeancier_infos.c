@@ -508,3 +508,7 @@ void click_sur_jour_calendrier_echeance ( GtkWidget *calendrier,
 /*****************************************************************************/
 
 
+
+/* Local Variables: */
+/* c-basic-offset: 4 */
+/* End: */

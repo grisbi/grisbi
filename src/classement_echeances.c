@@ -69,3 +69,7 @@ gint classement_sliste_echeance_par_date ( struct operation_echeance * a,
 /* ************************************************************************* */
 
 
+
+/* Local Variables: */
+/* c-basic-offset: 4 */
+/* End: */

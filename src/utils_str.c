@@ -450,3 +450,7 @@ gint count_char_from_string ( gchar *search_char, gchar *string )
     return compteur;
 }
 /* ******************************************************************************* */
+
+/* Local Variables: */
+/* c-basic-offset: 4 */
+/* End: */

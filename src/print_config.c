@@ -327,3 +327,7 @@ gboolean print_config_radio_toggled ( GtkToggleButton * togglebutton, gpointer u
 
   return FALSE;
 }
+
+/* Local Variables: */
+/* c-basic-offset: 4 */
+/* End: */

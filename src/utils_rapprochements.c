@@ -104,3 +104,7 @@ gchar *rapprochement_name_by_no ( gint no_rapprochement )
 
 
 
+
+/* Local Variables: */
+/* c-basic-offset: 4 */
+/* End: */

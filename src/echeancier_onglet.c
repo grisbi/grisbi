@@ -180,3 +180,7 @@ GtkWidget *creation_onglet_echeancier ( void )
 /*****************************************************************************************************/
 
 
+
+/* Local Variables: */
+/* c-basic-offset: 4 */
+/* End: */

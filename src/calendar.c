@@ -535,3 +535,7 @@ void inc_dec_date ( GtkWidget *entree, gint demande )
 }
 /******************************************************************************/
 
+
+/* Local Variables: */
+/* c-basic-offset: 4 */
+/* End: */

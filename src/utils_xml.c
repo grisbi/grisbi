@@ -74,3 +74,7 @@ gchar * child_content ( xmlNodePtr node, gchar * child_name )
   
   return NULL;
 }
+
+/* Local Variables: */
+/* c-basic-offset: 4 */
+/* End: */

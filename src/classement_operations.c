@@ -930,3 +930,7 @@ gint classe_liste_alphabetique ( gchar *string_1,
 }
 /* ************************************************************************** */
 
+
+/* Local Variables: */
+/* c-basic-offset: 4 */
+/* End: */

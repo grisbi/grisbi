@@ -398,3 +398,7 @@ void view_menu_cb ( gpointer callback_data, guint callback_action, GtkWidget *wi
 
   mise_a_jour_boutons_caract_liste (compte_courant);
 }
+
+/* Local Variables: */
+/* c-basic-offset: 4 */
+/* End: */

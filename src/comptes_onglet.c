@@ -297,3 +297,7 @@ void reaffiche_liste_comptes_onglet ( void )
     remplissage_details_compte ();
 }
 /* *********************************************************************************************************** */
+
+/* Local Variables: */
+/* c-basic-offset: 4 */
+/* End: */

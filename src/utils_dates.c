@@ -668,3 +668,7 @@ gchar *renvoie_date_formatee ( GDate *date )
 /* ******************************************************************************* */
 
 
+
+/* Local Variables: */
+/* c-basic-offset: 4 */
+/* End: */

@@ -263,3 +263,7 @@ gboolean  is_option_with_arg(gchar *argv, gchar *o)
 {
 	return (strncmp(argv, o, strlen(o)) == 0) && (argv[strlen(o)-1] == '=');
 }
+
+/* Local Variables: */
+/* c-basic-offset: 4 */
+/* End: */

@@ -588,3 +588,7 @@ gpointer gtk_list_button_get_data ( GtkListButton *button )
 }
 /* *********************************************************************************************************** */
 
+
+/* Local Variables: */
+/* c-basic-offset: 4 */
+/* End: */

@@ -235,3 +235,7 @@ void change_button_sensitiveness ( GtkWidget * dialog, gint button, gboolean sta
       iter = iter -> next;
     }
 }
+
+/* Local Variables: */
+/* c-basic-offset: 4 */
+/* End: */

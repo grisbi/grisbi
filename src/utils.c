@@ -439,3 +439,7 @@ void update_ecran ( void )
 
 
 
+
+/* Local Variables: */
+/* c-basic-offset: 4 */
+/* End: */

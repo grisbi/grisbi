@@ -272,3 +272,7 @@ gchar *nom_sous_imputation_par_no ( gint no_imputation,
 
 
 
+
+/* Local Variables: */
+/* c-basic-offset: 4 */
+/* End: */

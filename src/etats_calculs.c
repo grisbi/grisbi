@@ -2683,3 +2683,7 @@ void denote_struct_sous_jaccentes ( gint origine )
 }
 /*****************************************************************************************************/
 
+
+/* Local Variables: */
+/* c-basic-offset: 4 */
+/* End: */

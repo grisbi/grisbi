@@ -198,3 +198,7 @@ gdouble calcule_solde_pointe_compte ( gint no_compte )
 /******************************************************************************/
 
 
+
+/* Local Variables: */
+/* c-basic-offset: 4 */
+/* End: */

@@ -234,3 +234,7 @@ gboolean is_euro ( struct struct_devise * currency )
 
 
 
+
+/* Local Variables: */
+/* c-basic-offset: 4 */
+/* End: */

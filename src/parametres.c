@@ -765,3 +765,7 @@ GtkWidget *onglet_programmes (void)
     return ( vbox_pref );
 }
 /* *******************************************************************************/
+
+/* Local Variables: */
+/* c-basic-offset: 4 */
+/* End: */

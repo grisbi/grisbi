@@ -154,3 +154,7 @@ GtkWidget *creation_onglet_operations ( void )
 /*****************************************************************************************************/
 
 
+
+/* Local Variables: */
+/* c-basic-offset: 4 */
+/* End: */

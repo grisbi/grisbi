@@ -280,3 +280,7 @@ void gtktable_click_sur_ope_etat ( struct structure_operation *operation )
     }
 }
 /*****************************************************************************************************/
+
+/* Local Variables: */
+/* c-basic-offset: 4 */
+/* End: */

@@ -2074,3 +2074,7 @@ gboolean affichage_traits_liste_echeances ( void )
 
 
 
+
+/* Local Variables: */
+/* c-basic-offset: 4 */
+/* End: */

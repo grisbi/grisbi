@@ -576,3 +576,7 @@ gboolean utilisation_temps_idle ( gpointer null )
 }
 /************************************************************************************************/
 
+
+/* Local Variables: */
+/* c-basic-offset: 4 */
+/* End: */

@@ -280,3 +280,7 @@ gint utf8_remove(const gchar* utf8filename)
     return remove(g_filename_from_utf8(utf8filename,-1,NULL,NULL,NULL));
 }
 
+
+/* Local Variables: */
+/* c-basic-offset: 4 */
+/* End: */

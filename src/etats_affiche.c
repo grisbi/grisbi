@@ -2251,3 +2251,7 @@ gint etat_affiche_finish ()
 {
     return etat_affichage_output -> finish ();
 }
+
+/* Local Variables: */
+/* c-basic-offset: 4 */
+/* End: */

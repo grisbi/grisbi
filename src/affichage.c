@@ -919,3 +919,7 @@ gboolean update_homepage_title (GtkEntry *entry, gchar *value,
 
     return FALSE;
 }
+
+/* Local Variables: */
+/* c-basic-offset: 4 */
+/* End: */

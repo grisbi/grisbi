@@ -164,3 +164,7 @@ gint no_compte_by_name ( gchar *name )
 }
 /* ************************************************************************** */
 
+
+/* Local Variables: */
+/* c-basic-offset: 4 */
+/* End: */

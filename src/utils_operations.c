@@ -117,3 +117,7 @@ struct structure_operation *operation_par_id ( gchar *no_id,
 
 
 
+
+/* Local Variables: */
+/* c-basic-offset: 4 */
+/* End: */

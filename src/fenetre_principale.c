@@ -276,3 +276,7 @@ gboolean change_page_notebook ( GtkNotebook *notebook,
     return ( FALSE );
 }
 /***********************************************************************************************************/
+
+/* Local Variables: */
+/* c-basic-offset: 4 */
+/* End: */

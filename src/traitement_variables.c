@@ -478,3 +478,7 @@ struct organisation_formulaire *mise_a_zero_organisation_formulaire ( void )
 }
 /*****************************************************************************************************/
 
+
+/* Local Variables: */
+/* c-basic-offset: 4 */
+/* End: */

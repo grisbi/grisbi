@@ -329,3 +329,7 @@ gdouble calcule_total_entree ( GtkWidget *entry )
     return total;
 }
 
+
+/* Local Variables: */
+/* c-basic-offset: 4 */
+/* End: */

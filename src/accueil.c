@@ -2129,3 +2129,7 @@ gboolean select_expired_scheduled_transaction ( GtkWidget * event_box, GdkEventB
     edition_operation ();
     return ( FALSE );
 }
+
+/* Local Variables: */
+/* c-basic-offset: 4 */
+/* End: */

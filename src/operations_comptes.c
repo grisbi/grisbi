@@ -692,3 +692,7 @@ void mise_a_jour_taille_formulaire ( gint largeur_formulaire )
 
 
 
+
+/* Local Variables: */
+/* c-basic-offset: 4 */
+/* End: */
