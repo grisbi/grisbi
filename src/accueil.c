@@ -1547,6 +1547,8 @@ gboolean click_sur_compte_accueil ( gint *no_compte )
 /* ************************************************************************* */
 void update_liste_echeances_manuelles_accueil ( void )
 {
+    verification_echeances_a_terme ();
+
     if ( !mise_a_jour_liste_echeances_manuelles_accueil )
 	return;
 

@@ -28,6 +28,9 @@
 /*START_INCLUDE*/
 #include "utils_operations.h"
 #include "search_glist.h"
+#include "meta_categories.h"
+#include "meta_budgetary.h"
+#include "meta_payee.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -37,6 +40,7 @@
 /*START_EXTERN*/
 extern gpointer **p_tab_nom_de_compte;
 extern gpointer **p_tab_nom_de_compte_variable;
+extern GtkTreeModel * categ_tree_model, * payee_tree_model, * budgetary_line_tree_model;
 /*END_EXTERN*/
 
 
@@ -112,11 +116,59 @@ struct structure_operation *operation_par_id ( gchar *no_id,
 
     return NULL;
 }
-/*****************************************************************************************************/
 
 
 
+/**
+ *
+ *
+ */
+void update_transaction_in_categ_tree ( struct structure_operation * transaction )
+{
+    /* FIXME: Kludgeish, we should maintain a state. */
+    calcule_total_montant_categ();
+    update_transaction_in_tree ( category_interface, categ_tree_model, transaction );
+}
 
+
+
+/**
+ *
+ *
+ */
+void update_transaction_in_budgetary_line_tree ( struct structure_operation * transaction )
+{
+    /* FIXME: Kludgeish, we should maintain a state. */
+    calcule_total_montant_budgetary_line();
+    update_transaction_in_tree ( budgetary_interface, budgetary_line_tree_model, 
+				 transaction );
+}
+
+
+
+/**
+ *
+ *
+ */
+void update_transaction_in_payee_tree ( struct structure_operation * transaction )
+{
+    /* FIXME: Kludgeish, we should maintain a state. */
+    calcule_total_montant_payee();
+    update_transaction_in_tree ( payee_interface, payee_tree_model, transaction );
+}
+
+
+
+/**
+ *
+ *
+ */
+void update_transaction_in_trees ( struct structure_operation * transaction )
+{
+    update_transaction_in_categ_tree ( transaction );
+    update_transaction_in_payee_tree ( transaction );
+    update_transaction_in_budgetary_line_tree ( transaction );
+}
 
 /* Local Variables: */
 /* c-basic-offset: 4 */

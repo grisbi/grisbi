@@ -1784,6 +1784,9 @@ gboolean selectionne_ligne_souris ( GtkWidget *tree_view,
 	return (TRUE);
     }
 
+    /*     si on est en train d'équilibrer, on fait le boulot */
+    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
+
     /* Récupération de la 1ère ligne de l'opération cliquée */
 
     ligne = my_atoi ( gtk_tree_path_to_string ( path ));
@@ -1819,10 +1822,6 @@ gboolean selectionne_ligne_souris ( GtkWidget *tree_view,
 
     colonne = g_list_index ( gtk_tree_view_get_columns ( GTK_TREE_VIEW ( tree_view )),
 			     tree_colonne );
-
-    /*     si on est en train d'équilibrer, on fait le boulot */
-
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
 
     if ( etat.equilibrage &&
 	 colonne == find_p_r_col() &&
@@ -3207,7 +3206,7 @@ void clone_selected_transaction ()
 {
     if (! assert_selected_transaction()) return;
 
-    clone_transaction ( OPERATION_SELECTIONNEE );
+    update_transaction_in_trees ( clone_transaction ( OPERATION_SELECTIONNEE ) );
 
     gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ), 1 );
 
@@ -3312,6 +3311,8 @@ void move_selected_operation_to_account ( GtkMenuItem * menu_item )
     {
 	gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ), 1 );
 
+	update_transaction_in_trees ( OPERATION_SELECTIONNEE );
+
 	if ( mise_a_jour_combofix_tiers_necessaire )
 	    mise_a_jour_combofix_tiers ();
 	if ( mise_a_jour_combofix_categ_necessaire )
@@ -3359,6 +3360,8 @@ void move_selected_operation_to_account_nb ( gint *account )
 	    mise_a_jour_combofix_categ ();
 	if ( mise_a_jour_combofix_imputation_necessaire )
 	    mise_a_jour_combofix_imputation ();
+
+	update_transaction_in_trees ( OPERATION_SELECTIONNEE );
 
 	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + source_account;
 

@@ -452,6 +452,11 @@ void supprimer_compte ( void )
     if ( mise_a_jour_combofix_imputation_necessaire )
 	mise_a_jour_combofix_imputation();
 
+    /* Replace trees contents. */
+    remplit_arbre_categ ();
+    remplit_arbre_imputation ();
+    remplit_arbre_tiers ();
+
     /* on met ï¿œjour l'option menu du formulaire des ï¿œhï¿œnces */
 
 	update_options_menus_comptes ();

@@ -2213,6 +2213,8 @@ void fin_edition_echeance ( void )
 						 ope_ventil -> no_type_associe );
 	    }
 
+	    update_transaction_in_trees ( operation_fille );
+
 	    pointeur_liste = pointeur_liste -> next;
 	}
 
@@ -2227,6 +2229,7 @@ void fin_edition_echeance ( void )
 	gtk_widget_show ( widget_formulaire_echeancier[SCHEDULER_FORM_FREQUENCY] );
 	gtk_widget_show ( widget_formulaire_echeancier[SCHEDULER_FORM_FREQUENCY] );
 
+	update_transaction_in_trees ( operation );    
     }
 
 

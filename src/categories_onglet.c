@@ -46,11 +46,13 @@
 #include "etats_config.h"
 #include "affichage_formulaire.h"
 #include "operations_formulaire.h"
+#include "utils.h"
 #include "utils_file_selection.h"
 #include "utils_files.h"
 #include "utils_buttons.h"
 #include "utils_comptes.h"
 #include "utils_tiers.h"
+#include "utils_editables.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -735,7 +737,6 @@ void mise_a_jour_combofix_categ ( void )
     }
 
     mise_a_jour_combofix_categ_necessaire = 0;
-    modif_categ = 1;
 }
 
 

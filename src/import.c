@@ -281,6 +281,11 @@ gboolean fichier_choisi_importation ( GtkWidget *fenetre )
 
     affichage_recapitulatif_importation();
 
+    /* Replace trees contents. */
+    remplit_arbre_categ ();
+    remplit_arbre_imputation ();
+    remplit_arbre_tiers ();
+
     return ( result );
 }
 /* *******************************************************************************/

@@ -1081,6 +1081,10 @@ void modification_details_compte ( void )
 	mise_a_jour_liste_comptes_accueil = 1;
 	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant_onglet;
 
+	/* Replace trees contents. */
+	remplit_arbre_categ ();
+	remplit_arbre_imputation ();
+	remplit_arbre_tiers ();
     }
 
 
@@ -1177,6 +1181,12 @@ void modification_details_compte ( void )
 	mise_a_jour_fin_comptes_passifs = 1;
 	if ( mise_a_jour_combofix_categ_necessaire )
 	    mise_a_jour_combofix_categ();
+
+	/* Replace trees contents. */
+	remplit_arbre_categ ();
+	remplit_arbre_imputation ();
+	remplit_arbre_tiers ();
+
 	update_options_menus_comptes ();
 	remplissage_liste_comptes_etats ();
 	selectionne_liste_comptes_etat_courant ();

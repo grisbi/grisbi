@@ -868,9 +868,7 @@ gboolean division_drag_data_received ( GtkTreeDragDest * drag_dest, GtkTreePath 
 		gtk_tree_model_get_iter ( model, &iter_parent, dest_path );
 		gtk_tree_store_append ( GTK_TREE_STORE(model), &iter, &iter_parent);
 		fill_sub_division_row ( model, iface, &iter, 
-					iface -> get_div_pointer (no_dest_division),
-					iface -> get_sub_div_pointer ( no_dest_division, 
-								       no_dest_sub_division ) );
+					dest_division, dest_sub_division );
 
 		for ( account = 0; account < nb_comptes; account ++ )
 		{
