@@ -1039,6 +1039,10 @@ void ventiler_operation ( gdouble montant )
     echap_formulaire_ventilation ();
 
     gtk_widget_grab_focus ( tree_view_liste_ventilations );
+
+    /* As it is a breakdown of transaction, we need to hide balance
+       labels */
+    hide_balance_labels ();
 }
 /*******************************************************************************************/
 
@@ -1352,6 +1356,10 @@ void fin_edition_ventilation ( void )
 
     compte_vire = 0;
     tableau_char = NULL;
+
+    /* As it is no longer a breakdown of transaction, we need to show
+       balance labels again */
+    show_balance_labels ();
 
     /* on met le focus sur la liste des opés pour éventuellement faire perdre le focus aux entrées des */
     /* montants pour faire les modifs nécessaires automatiquement */
@@ -1719,6 +1727,7 @@ void fin_edition_ventilation ( void )
 	clique_champ_formulaire_ventilation ();
 	gtk_widget_grab_focus ( GTK_COMBOFIX ( widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_CATEGORY] ) -> entry );
     }
+
 }
 /***********************************************************************************************************/
 
@@ -2517,6 +2526,10 @@ void annuler_ventilation ( void )
     gtk_object_set_data ( GTK_OBJECT ( formulaire ),
 			  "liste_adr_ventilation",
 			  nouvelle_liste );
+
+    /* As it is no longer a breakdown of transaction, we need to show
+       balance labels again */
+    show_balance_labels ();
 
     quitter_ventilation ();
 }

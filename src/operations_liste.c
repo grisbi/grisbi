@@ -3994,6 +3994,21 @@ void mise_a_jour_labels_soldes ( void )
 /******************************************************************************/
 
 
+void hide_balance_labels ( void )
+{
+    gtk_widget_hide ( gtk_widget_get_parent(solde_label) );
+    gtk_widget_hide ( gtk_widget_get_parent(solde_label_pointe) );
+}
+
+
+void show_balance_labels ( void )
+{
+    gtk_widget_show ( gtk_widget_get_parent(solde_label) );
+    gtk_widget_show ( gtk_widget_get_parent(solde_label_pointe) );
+}
+
+
+
 /******************************************************************************************************************/
 /* la partie suivante est un copier/coller de gtk 2.2 car il y a un bug */
 /* qui est réparé dans la version 2.4 */
