@@ -5260,7 +5260,8 @@ gboolean charge_operations_version_0_5_0 ( xmlDocPtr doc )
 			  !strlen ( devise -> code_iso4217_devise ))
 			devise -> code_iso4217_devise = NULL;
 		      /* Handle Euro nicely */
-		      if (! strcmp (devise -> code_devise, "E"))
+		      if (devise -> code_devise && 
+			  ! strcmp (devise -> code_devise, "E"))
 			{
 			  devise -> code_devise = "€";
 			}
