@@ -1083,21 +1083,6 @@ void creation_compte_importe ( struct struct_compte_importation *compte_import,
     creation_types_par_defaut ( nb_comptes - 1,
 				0);
 
-    if ( !nouveau_fichier )
-    {
-	/* crée le nouveau bouton du compte et l'ajoute à la liste des comptes */
-
-	bouton = comptes_appel(nb_comptes - 1 );
-	gtk_box_pack_start (GTK_BOX (vbox_liste_comptes),
-			    bouton,
-			    FALSE,
-			    FALSE,
-			    0);
-	gtk_widget_show (bouton);
-    }
-
-
-
     /* on fait maintenant le tour des opés de ce compte */
 
     /* la variable derniere_operation est utilisée pour garder le numéro de l'opé */

@@ -55,170 +55,170 @@ gboolean
 update_transaction_form ( GtkWidget * checkbox,
 			  gpointer data )
 {
-  if ( nb_comptes && gtk_widget_get_style ( widget_formulaire_operations[TRANSACTION_FORM_DATE] ) == 
-       style_entree_formulaire[0] )
+    if ( nb_comptes && gtk_widget_get_style ( widget_formulaire_operations[TRANSACTION_FORM_DATE] ) == 
+	 style_entree_formulaire[0] )
     {
-      if ( etat.affiche_no_operation )
-	gtk_widget_show ( widget_formulaire_operations[TRANSACTION_FORM_OP_NB] );
-      else
-	gtk_widget_hide ( widget_formulaire_operations[TRANSACTION_FORM_OP_NB] );
+	if ( etat.affiche_no_operation )
+	    gtk_widget_show ( widget_formulaire_operations[TRANSACTION_FORM_OP_NB] );
+	else
+	    gtk_widget_hide ( widget_formulaire_operations[TRANSACTION_FORM_OP_NB] );
 
-      gtk_widget_set_sensitive ( widget_formulaire_operations[TRANSACTION_FORM_VALUE_DATE],
-				 etat.affiche_date_bancaire );
+	gtk_widget_set_sensitive ( widget_formulaire_operations[TRANSACTION_FORM_VALUE_DATE],
+				   etat.affiche_date_bancaire );
 
-      gtk_widget_set_sensitive ( widget_formulaire_operations[TRANSACTION_FORM_EXERCICE],
-				 etat.utilise_exercice );
-      gtk_widget_set_sensitive ( widget_formulaire_ventilation[6],
-				 etat.utilise_exercice );
-      gtk_widget_set_sensitive ( widget_formulaire_echeancier[9],
-				 etat.utilise_exercice );
+	gtk_widget_set_sensitive ( widget_formulaire_operations[TRANSACTION_FORM_EXERCICE],
+				   etat.utilise_exercice );
+	gtk_widget_set_sensitive ( widget_formulaire_ventilation[6],
+				   etat.utilise_exercice );
+	gtk_widget_set_sensitive ( widget_formulaire_echeancier[9],
+				   etat.utilise_exercice );
 
-      gtk_widget_set_sensitive ( widget_formulaire_operations[TRANSACTION_FORM_BUDGET],
-				 etat.utilise_imputation_budgetaire );
-      gtk_widget_set_sensitive ( page_imputations,
-				 etat.utilise_imputation_budgetaire );
-      gtk_widget_set_sensitive ( widget_formulaire_ventilation[4],
-				 etat.utilise_imputation_budgetaire );
-      gtk_widget_set_sensitive ( widget_formulaire_echeancier[10],
-				 etat.utilise_imputation_budgetaire );
+	gtk_widget_set_sensitive ( widget_formulaire_operations[TRANSACTION_FORM_BUDGET],
+				   etat.utilise_imputation_budgetaire );
+	gtk_widget_set_sensitive ( page_imputations,
+				   etat.utilise_imputation_budgetaire );
+	gtk_widget_set_sensitive ( widget_formulaire_ventilation[4],
+				   etat.utilise_imputation_budgetaire );
+	gtk_widget_set_sensitive ( widget_formulaire_echeancier[10],
+				   etat.utilise_imputation_budgetaire );
 
-      gtk_widget_set_sensitive ( widget_formulaire_operations[TRANSACTION_FORM_VOUCHER],
-				 etat.utilise_piece_comptable );
-      gtk_widget_set_sensitive ( widget_formulaire_ventilation[7],
-				 etat.utilise_piece_comptable );
-      gtk_widget_set_sensitive ( widget_formulaire_echeancier[12],
-				 etat.utilise_piece_comptable );
+	gtk_widget_set_sensitive ( widget_formulaire_operations[TRANSACTION_FORM_VOUCHER],
+				   etat.utilise_piece_comptable );
+	gtk_widget_set_sensitive ( widget_formulaire_ventilation[7],
+				   etat.utilise_piece_comptable );
+	gtk_widget_set_sensitive ( widget_formulaire_echeancier[12],
+				   etat.utilise_piece_comptable );
 
-      gtk_widget_set_sensitive ( widget_formulaire_operations[TRANSACTION_FORM_BANK],
-				 etat.utilise_info_banque_guichet );
-      gtk_widget_set_sensitive ( widget_formulaire_echeancier[11],
-				 etat.utilise_info_banque_guichet );
+	gtk_widget_set_sensitive ( widget_formulaire_operations[TRANSACTION_FORM_BANK],
+				   etat.utilise_info_banque_guichet );
+	gtk_widget_set_sensitive ( widget_formulaire_echeancier[11],
+				   etat.utilise_info_banque_guichet );
 
-      if ( etat.affiche_boutons_valider_annuler )
+	if ( etat.affiche_boutons_valider_annuler )
 	{
-	  gtk_widget_show ( separateur_formulaire_operations );
-	  gtk_widget_show ( hbox_valider_annuler_ope );
-	  gtk_widget_show ( separateur_formulaire_echeancier );
-	  gtk_widget_show ( hbox_valider_annuler_echeance );
+	    gtk_widget_show ( separateur_formulaire_operations );
+	    gtk_widget_show ( hbox_valider_annuler_ope );
+	    gtk_widget_show ( separateur_formulaire_echeancier );
+	    gtk_widget_show ( hbox_valider_annuler_echeance );
 	}
-      else
+	else
 	{
-	  gtk_widget_hide ( separateur_formulaire_operations );
-	  gtk_widget_hide ( hbox_valider_annuler_ope );
-	  gtk_widget_hide ( separateur_formulaire_echeancier );
-	  gtk_widget_hide ( hbox_valider_annuler_echeance );
+	    gtk_widget_hide ( separateur_formulaire_operations );
+	    gtk_widget_hide ( hbox_valider_annuler_ope );
+	    gtk_widget_hide ( separateur_formulaire_echeancier );
+	    gtk_widget_hide ( hbox_valider_annuler_echeance );
 
-	  affiche_cache_le_formulaire ();
-	  affiche_cache_le_formulaire ();
+	    affiche_cache_le_formulaire ();
+	    affiche_cache_le_formulaire ();
 	}
     }
 }
 
 
-GtkWidget *
+    GtkWidget *
 onglet_display_transaction_form ( void )
 {
-  GtkWidget *hbox, *vbox_pref;
-  GtkWidget *label, *paddingbox;
-  GtkWidget *table, *bouton, *radiogroup;
+    GtkWidget *hbox, *vbox_pref;
+    GtkWidget *label, *paddingbox;
+    GtkWidget *table, *bouton, *radiogroup;
 
-  vbox_pref = new_vbox_with_title_and_icon ( _("Transaction form"),
-					     "form.png" );
+    vbox_pref = new_vbox_with_title_and_icon ( _("Transaction form"),
+					       "form.png" );
 
-  /* What to do if RETURN is pressed into transaction form */
-  radiogroup = new_radiogroup_with_title (vbox_pref,
-					  _("Pressing RETURN in transaction form"),
-					  _("selects next field"),
-					  _("terminates transaction"),
-					  &etat.entree, NULL);
+    /* What to do if RETURN is pressed into transaction form */
+    radiogroup = new_radiogroup_with_title (vbox_pref,
+					    _("Pressing RETURN in transaction form"),
+					    _("selects next field"),
+					    _("terminates transaction"),
+					    &etat.entree, NULL);
 
-  /* Displayed fields */
-  paddingbox = new_paddingbox_with_title (vbox_pref, FALSE, 
-					  COLON(_("Displayed fields")));
-  
-  table = gtk_table_new ( 0, 2, TRUE );
-  gtk_table_set_col_spacings ( GTK_TABLE ( table ), 5 );
-  gtk_box_pack_start ( GTK_BOX ( paddingbox ),
-		       table,
-		       FALSE, FALSE, 0 );
+    /* Displayed fields */
+    paddingbox = new_paddingbox_with_title (vbox_pref, FALSE, 
+					    COLON(_("Displayed fields")));
 
-  gtk_table_attach ( GTK_TABLE ( table ),
-		     new_checkbox_with_title (_("Transaction number"),
-					      &etat.affiche_no_operation,
-					      ((GCallback) update_transaction_form)),
-		     0, 1, 0, 1,
-		     GTK_SHRINK | GTK_FILL,
-		     GTK_SHRINK | GTK_FILL,
-		     0, 0 );
+    table = gtk_table_new ( 0, 2, TRUE );
+    gtk_table_set_col_spacings ( GTK_TABLE ( table ), 5 );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ),
+			 table,
+			 FALSE, FALSE, 0 );
 
-  gtk_table_attach ( GTK_TABLE ( table ),
-		     new_checkbox_with_title (_("Value date"),
-					      &etat.affiche_date_bancaire,
-					      ((GCallback) update_transaction_form)),
-		     0, 1, 1, 2,
-		     GTK_SHRINK | GTK_FILL,
-		     GTK_SHRINK | GTK_FILL,
-		     0, 0 );
+    gtk_table_attach ( GTK_TABLE ( table ),
+		       new_checkbox_with_title (_("Transaction number"),
+						&etat.affiche_no_operation,
+						((GCallback) update_transaction_form)),
+		       0, 1, 0, 1,
+		       GTK_SHRINK | GTK_FILL,
+		       GTK_SHRINK | GTK_FILL,
+		       0, 0 );
 
-  gtk_table_attach ( GTK_TABLE ( table ),
-		     new_checkbox_with_title (_("Financial year"),
-					      &etat.utilise_exercice,
-					      ((GCallback) update_transaction_form)),
-		     0, 1, 2, 3,
-		     GTK_SHRINK | GTK_FILL,
-		     GTK_SHRINK | GTK_FILL,
-		     0, 0 );
+    gtk_table_attach ( GTK_TABLE ( table ),
+		       new_checkbox_with_title (_("Value date"),
+						&etat.affiche_date_bancaire,
+						((GCallback) update_transaction_form)),
+		       0, 1, 1, 2,
+		       GTK_SHRINK | GTK_FILL,
+		       GTK_SHRINK | GTK_FILL,
+		       0, 0 );
 
-  gtk_table_attach ( GTK_TABLE ( table ),
-		     new_checkbox_with_title (_("Budgetary information"),
-					      &etat.utilise_imputation_budgetaire,
-					      ((GCallback) update_transaction_form)),
-		     0, 1, 3, 4,
-		     GTK_SHRINK | GTK_FILL,
-		     GTK_SHRINK | GTK_FILL,
-		     0, 0 );
+    gtk_table_attach ( GTK_TABLE ( table ),
+		       new_checkbox_with_title (_("Financial year"),
+						&etat.utilise_exercice,
+						((GCallback) update_transaction_form)),
+		       0, 1, 2, 3,
+		       GTK_SHRINK | GTK_FILL,
+		       GTK_SHRINK | GTK_FILL,
+		       0, 0 );
 
-  gtk_table_attach ( GTK_TABLE ( table ),
-		     new_checkbox_with_title (_("Voucher number"),
-					      &etat.utilise_piece_comptable,
-					      ((GCallback) update_transaction_form)),
-		     1, 2, 0, 1,
-		     GTK_SHRINK | GTK_FILL,
-		     GTK_SHRINK | GTK_FILL,
-		     0, 0 );
+    gtk_table_attach ( GTK_TABLE ( table ),
+		       new_checkbox_with_title (_("Budgetary information"),
+						&etat.utilise_imputation_budgetaire,
+						((GCallback) update_transaction_form)),
+		       0, 1, 3, 4,
+		       GTK_SHRINK | GTK_FILL,
+		       GTK_SHRINK | GTK_FILL,
+		       0, 0 );
 
-  gtk_table_attach ( GTK_TABLE ( table ),
-		     new_checkbox_with_title (_("Bank reference"),
-					      &etat.utilise_info_banque_guichet,
-					      ((GCallback) update_transaction_form)),
-		     1, 2, 1, 2,
-		     GTK_SHRINK | GTK_FILL,
-		     GTK_SHRINK | GTK_FILL,
-		     0, 0 );
+    gtk_table_attach ( GTK_TABLE ( table ),
+		       new_checkbox_with_title (_("Voucher number"),
+						&etat.utilise_piece_comptable,
+						((GCallback) update_transaction_form)),
+		       1, 2, 0, 1,
+		       GTK_SHRINK | GTK_FILL,
+		       GTK_SHRINK | GTK_FILL,
+		       0, 0 );
 
-  gtk_table_attach ( GTK_TABLE ( table ),
-		     new_checkbox_with_title (_("'Accept' and 'Cancel' buttons"),
-					      &etat.affiche_boutons_valider_annuler,
-					      ((GCallback) update_transaction_form)),
-		     1, 2, 2, 3,
-		     GTK_SHRINK | GTK_FILL,
-		     GTK_SHRINK | GTK_FILL,
-		     0, 0 );
+    gtk_table_attach ( GTK_TABLE ( table ),
+		       new_checkbox_with_title (_("Bank reference"),
+						&etat.utilise_info_banque_guichet,
+						((GCallback) update_transaction_form)),
+		       1, 2, 1, 2,
+		       GTK_SHRINK | GTK_FILL,
+		       GTK_SHRINK | GTK_FILL,
+		       0, 0 );
 
-  /* How to display financial year */
-  radiogroup = new_radiogroup_with_title (vbox_pref,
-					  _("By default, use financial year"),
-					  _("last selected financial year"),
-					  _("according to transaction date"),
-					  &etat.affichage_exercice_automatique, 
-					  NULL);
+    gtk_table_attach ( GTK_TABLE ( table ),
+		       new_checkbox_with_title (_("'Accept' and 'Cancel' buttons"),
+						&etat.affiche_boutons_valider_annuler,
+						((GCallback) update_transaction_form)),
+		       1, 2, 2, 3,
+		       GTK_SHRINK | GTK_FILL,
+		       GTK_SHRINK | GTK_FILL,
+		       0, 0 );
 
-  if ( !nb_comptes )
+    /* How to display financial year */
+    radiogroup = new_radiogroup_with_title (vbox_pref,
+					    _("By default, use financial year"),
+					    _("last selected financial year"),
+					    _("according to transaction date"),
+					    &etat.affichage_exercice_automatique, 
+					    NULL);
+
+    if ( !nb_comptes )
     {
-      gtk_widget_set_sensitive ( vbox_pref, FALSE );
+	gtk_widget_set_sensitive ( vbox_pref, FALSE );
     }
 
-  return vbox_pref;
+    return vbox_pref;
 }
 
 
@@ -230,172 +230,172 @@ onglet_display_transaction_form ( void )
  */
 GtkWidget * onglet_display_fonts ( void )
 {
-  GtkWidget *hbox, *vbox_pref;
-  GtkWidget *label, *paddingbox;
-  GtkWidget *table, *font_button;
-  GtkWidget *hbox_font, *init_button;
-  GdkPixbuf * pixbuf = NULL;
+    GtkWidget *hbox, *vbox_pref;
+    GtkWidget *label, *paddingbox;
+    GtkWidget *table, *font_button;
+    GtkWidget *hbox_font, *init_button;
+    GdkPixbuf * pixbuf = NULL;
 
-  vbox_pref = new_vbox_with_title_and_icon ( _("Fonts & logo"),
-					     "fonts.png" );
+    vbox_pref = new_vbox_with_title_and_icon ( _("Fonts & logo"),
+					       "fonts.png" );
 
 
-  /* Change Grisbi Logo */
-  paddingbox = new_paddingbox_with_title ( vbox_pref, FALSE,
-					   _("Grisbi logo") );
+    /* Change Grisbi Logo */
+    paddingbox = new_paddingbox_with_title ( vbox_pref, FALSE,
+					     _("Grisbi logo") );
 
-  hbox = gtk_hbox_new ( FALSE, 5 );
-  gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox,
-		       FALSE, FALSE, 0 );
+    hbox = gtk_hbox_new ( FALSE, 5 );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox,
+			 FALSE, FALSE, 0 );
 
-  logo_button = gtk_button_new ();
-  gtk_button_set_relief ( GTK_BUTTON ( logo_button ),
-			  GTK_RELIEF_NONE );
+    logo_button = gtk_button_new ();
+    gtk_button_set_relief ( GTK_BUTTON ( logo_button ),
+			    GTK_RELIEF_NONE );
 
-  if ( chemin_logo )
+    if ( chemin_logo )
     {
-      pixbuf = gdk_pixbuf_new_from_file (chemin_logo, NULL);
+	pixbuf = gdk_pixbuf_new_from_file (chemin_logo, NULL);
     }
 
-  if (!pixbuf)
+    if (!pixbuf)
     {
-      preview = gtk_image_new_from_stock ( GTK_STOCK_MISSING_IMAGE, 
-					   GTK_ICON_SIZE_BUTTON );
+	preview = gtk_image_new_from_stock ( GTK_STOCK_MISSING_IMAGE, 
+					     GTK_ICON_SIZE_BUTTON );
     }
-  else
+    else
     {
-      if ( gdk_pixbuf_get_width(pixbuf) > 64 ||
-	   gdk_pixbuf_get_height(pixbuf) > 64)
+	if ( gdk_pixbuf_get_width(pixbuf) > 64 ||
+	     gdk_pixbuf_get_height(pixbuf) > 64)
 	{
-	  GdkPixbuf * tmp;
-	  tmp = gdk_pixbuf_new ( GDK_COLORSPACE_RGB, TRUE, 8, 
-				 gdk_pixbuf_get_width(pixbuf)/2, 
-				 gdk_pixbuf_get_height(pixbuf)/2 );
-	  gdk_pixbuf_scale ( pixbuf, tmp, 0, 0, 
-			     gdk_pixbuf_get_width(pixbuf)/2, 
-			     gdk_pixbuf_get_height(pixbuf)/2,
-			     0, 0, 0.5, 0.5, GDK_INTERP_HYPER );
-	  pixbuf = tmp;
+	    GdkPixbuf * tmp;
+	    tmp = gdk_pixbuf_new ( GDK_COLORSPACE_RGB, TRUE, 8, 
+				   gdk_pixbuf_get_width(pixbuf)/2, 
+				   gdk_pixbuf_get_height(pixbuf)/2 );
+	    gdk_pixbuf_scale ( pixbuf, tmp, 0, 0, 
+			       gdk_pixbuf_get_width(pixbuf)/2, 
+			       gdk_pixbuf_get_height(pixbuf)/2,
+			       0, 0, 0.5, 0.5, GDK_INTERP_HYPER );
+	    pixbuf = tmp;
 	}
-      preview = gtk_image_new_from_pixbuf (pixbuf);
+	preview = gtk_image_new_from_pixbuf (pixbuf);
     }
 
-  logo_button = gtk_button_new ();
-  gtk_container_add (GTK_CONTAINER(logo_button), preview);
-  gtk_signal_connect ( GTK_OBJECT ( logo_button ), "clicked",
-		       GTK_SIGNAL_FUNC ( modification_logo_accueil ), NULL );
-  gtk_box_pack_start ( GTK_BOX ( hbox ), logo_button,
-		       FALSE, FALSE, 0 );
+    logo_button = gtk_button_new ();
+    gtk_container_add (GTK_CONTAINER(logo_button), preview);
+    gtk_signal_connect ( GTK_OBJECT ( logo_button ), "clicked",
+			 GTK_SIGNAL_FUNC ( modification_logo_accueil ), NULL );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), logo_button,
+			 FALSE, FALSE, 0 );
 
-  label = gtk_label_new ( _("Click on preview to change homepage logo") );
-  gtk_box_pack_start ( GTK_BOX ( hbox ), label,
-		       FALSE, FALSE, 0 );
+    label = gtk_label_new ( _("Click on preview to change homepage logo") );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), label,
+			 FALSE, FALSE, 0 );
 
-  /* Change fonts */
-  paddingbox = new_paddingbox_with_title ( vbox_pref, FALSE,
-					   _("Fonts") );
+    /* Change fonts */
+    paddingbox = new_paddingbox_with_title ( vbox_pref, FALSE,
+					     _("Fonts") );
 
-  /* Create table */
-  table = gtk_table_new ( 2, 2, FALSE );
-  gtk_table_set_col_spacings ( GTK_TABLE ( table ), 5 );
-  gtk_table_set_row_spacings ( GTK_TABLE ( table ), 5 );
-  gtk_box_pack_start ( GTK_BOX ( paddingbox ), table,
-		       FALSE, FALSE, 0 );
+    /* Create table */
+    table = gtk_table_new ( 2, 2, FALSE );
+    gtk_table_set_col_spacings ( GTK_TABLE ( table ), 5 );
+    gtk_table_set_row_spacings ( GTK_TABLE ( table ), 5 );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), table,
+			 FALSE, FALSE, 0 );
 
-  /* Change general font */
-  label = gtk_label_new (COLON(_("General font")));
-  gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
-  gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_RIGHT );
-  gtk_table_attach ( GTK_TABLE ( table ),
-		     label, 0, 1, 0, 1,
-		     GTK_SHRINK | GTK_FILL, 0,
-		     0, 0 );
+    /* Change general font */
+    label = gtk_label_new (COLON(_("General font")));
+    gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
+    gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_RIGHT );
+    gtk_table_attach ( GTK_TABLE ( table ),
+		       label, 0, 1, 0, 1,
+		       GTK_SHRINK | GTK_FILL, 0,
+		       0, 0 );
 
-  /* Create font button */
-  font_button = gtk_button_new ();
-  hbox_font = gtk_hbox_new ( FALSE, 0 );
-  general_font_name_label = gtk_label_new (general_font_name);
-  if (fonte_general)
+    /* Create font button */
+    font_button = gtk_button_new ();
+    hbox_font = gtk_hbox_new ( FALSE, 0 );
+    general_font_name_label = gtk_label_new (general_font_name);
+    if (fonte_general)
     {
-      gtk_widget_modify_font (general_font_name_label,
-			      pango_font_description_from_string (fonte_general));
+	gtk_widget_modify_font (general_font_name_label,
+				pango_font_description_from_string (fonte_general));
     }
-  gtk_box_pack_start ( GTK_BOX ( hbox_font ), 
-		       general_font_name_label,
-		       TRUE, TRUE, 5 );
-  gtk_box_pack_start ( GTK_BOX ( hbox_font ), 
-		       gtk_vseparator_new (),
-		       FALSE, FALSE, 0 );
-  general_font_size_label = gtk_label_new (general_font_size);
-  gtk_box_pack_start ( GTK_BOX ( hbox_font ), 
+    gtk_box_pack_start ( GTK_BOX ( hbox_font ), 
+			 general_font_name_label,
+			 TRUE, TRUE, 5 );
+    gtk_box_pack_start ( GTK_BOX ( hbox_font ), 
+			 gtk_vseparator_new (),
+			 FALSE, FALSE, 0 );
+    general_font_size_label = gtk_label_new (general_font_size);
+    gtk_box_pack_start ( GTK_BOX ( hbox_font ), 
+			 general_font_size_label,
+			 FALSE, FALSE, 5 );
+    gtk_container_add (GTK_CONTAINER ( font_button ), hbox_font);
+    gtk_signal_connect ( GTK_OBJECT ( font_button ),
+			 "clicked",
+			 GTK_SIGNAL_FUNC ( choix_fonte_general ),
+			 NULL );
+    gtk_table_attach ( GTK_TABLE ( table ),
+		       font_button, 1, 2, 0, 1,
+		       GTK_EXPAND | GTK_FILL, 0,
+		       0, 0 );
+    update_font_button(general_font_name_label,
 		       general_font_size_label,
-		       FALSE, FALSE, 5 );
-  gtk_container_add (GTK_CONTAINER ( font_button ), hbox_font);
-  gtk_signal_connect ( GTK_OBJECT ( font_button ),
-		       "clicked",
-		       GTK_SIGNAL_FUNC ( choix_fonte_general ),
-		       NULL );
-  gtk_table_attach ( GTK_TABLE ( table ),
-		     font_button, 1, 2, 0, 1,
-		     GTK_EXPAND | GTK_FILL, 0,
-		     0, 0 );
-  update_font_button(general_font_name_label,
-		     general_font_size_label,
-		     fonte_general);
+		       fonte_general);
 
-  /* Change list font */
-  label = gtk_label_new (COLON(_("Transaction list font")));
-  gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
-  gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_RIGHT );
-  gtk_table_attach ( GTK_TABLE ( table ),
-		     label, 0, 1, 1, 2,
-		     GTK_SHRINK | GTK_FILL, 0,
-		     0, 0 );
+    /* Change list font */
+    label = gtk_label_new (COLON(_("Transaction list font")));
+    gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
+    gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_RIGHT );
+    gtk_table_attach ( GTK_TABLE ( table ),
+		       label, 0, 1, 1, 2,
+		       GTK_SHRINK | GTK_FILL, 0,
+		       0, 0 );
 
-  /* Create font button */
-  font_button = gtk_button_new ();
-  hbox_font = gtk_hbox_new ( FALSE, 0 );
-  list_font_name_label = gtk_label_new (list_font_name);
-  if ( fonte_liste )
+    /* Create font button */
+    font_button = gtk_button_new ();
+    hbox_font = gtk_hbox_new ( FALSE, 0 );
+    list_font_name_label = gtk_label_new (list_font_name);
+    if ( fonte_liste )
     {
-      gtk_widget_modify_font (list_font_name_label,
-			      pango_font_description_from_string (fonte_liste));
+	gtk_widget_modify_font (list_font_name_label,
+				pango_font_description_from_string (fonte_liste));
     }
-  gtk_box_pack_start ( GTK_BOX ( hbox_font ), 
-		       list_font_name_label,
-		       TRUE, TRUE, 5 );
-  gtk_box_pack_start ( GTK_BOX ( hbox_font ), 
-		       gtk_vseparator_new (),
-		       FALSE, FALSE, 0 );
-  list_font_size_label = gtk_label_new ("");
-  gtk_box_pack_start ( GTK_BOX ( hbox_font ), 
+    gtk_box_pack_start ( GTK_BOX ( hbox_font ), 
+			 list_font_name_label,
+			 TRUE, TRUE, 5 );
+    gtk_box_pack_start ( GTK_BOX ( hbox_font ), 
+			 gtk_vseparator_new (),
+			 FALSE, FALSE, 0 );
+    list_font_size_label = gtk_label_new ("");
+    gtk_box_pack_start ( GTK_BOX ( hbox_font ), 
+			 list_font_size_label,
+			 FALSE, FALSE, 5 );
+    gtk_container_add (GTK_CONTAINER(font_button), hbox_font);
+    gtk_signal_connect ( GTK_OBJECT ( font_button ),
+			 "clicked",
+			 GTK_SIGNAL_FUNC ( choix_fonte ),
+			 NULL );
+    gtk_table_attach ( GTK_TABLE ( table ),
+		       font_button, 1, 2, 1, 2,
+		       GTK_EXPAND | GTK_FILL, 0,
+		       0, 0 );
+    update_font_button(list_font_name_label,
 		       list_font_size_label,
-		       FALSE, FALSE, 5 );
-  gtk_container_add (GTK_CONTAINER(font_button), hbox_font);
-  gtk_signal_connect ( GTK_OBJECT ( font_button ),
-		       "clicked",
-		       GTK_SIGNAL_FUNC ( choix_fonte ),
-		       NULL );
-  gtk_table_attach ( GTK_TABLE ( table ),
-		     font_button, 1, 2, 1, 2,
-		     GTK_EXPAND | GTK_FILL, 0,
-		     0, 0 );
-  update_font_button(list_font_name_label,
-		     list_font_size_label,
-		     fonte_liste);
+		       fonte_liste);
 
-  init_button = gtk_button_new_with_label ( SPACIFY(_("Revert to defaults fonts")) );
-  gtk_box_pack_end ( GTK_BOX ( vbox_pref ), init_button,
-		     TRUE, FALSE, 0 );
-  g_signal_connect (init_button, "clicked", 
-		    G_CALLBACK (init_fonts), NULL);
+    init_button = gtk_button_new_with_label ( SPACIFY(_("Revert to defaults fonts")) );
+    gtk_box_pack_end ( GTK_BOX ( vbox_pref ), init_button,
+		       TRUE, FALSE, 0 );
+    g_signal_connect (init_button, "clicked", 
+		      G_CALLBACK (init_fonts), NULL);
 
-  if ( !nb_comptes )
+    if ( !nb_comptes )
     {
-      gtk_widget_set_sensitive ( vbox_pref, FALSE );
+	gtk_widget_set_sensitive ( vbox_pref, FALSE );
     }
 
-  return vbox_pref;
+    return vbox_pref;
 }
 
 
@@ -407,74 +407,74 @@ GtkWidget * onglet_display_fonts ( void )
  */
 GtkWidget *onglet_display_addresses ( void )
 {
-  GtkWidget *hbox, *vbox_pref, *separateur, *scrolled_window, *label, *frame;
-  GtkWidget *vbox2, *fleche, *hbox2, *bouton, *onglet, *paddingbox;
-  GSList *liste_tmp;
+    GtkWidget *hbox, *vbox_pref, *separateur, *scrolled_window, *label, *frame;
+    GtkWidget *vbox2, *fleche, *hbox2, *bouton, *onglet, *paddingbox;
+    GSList *liste_tmp;
 
-  vbox_pref = new_vbox_with_title_and_icon ( _("Addresses & titles"),
-					     "addresses.png" );
+    vbox_pref = new_vbox_with_title_and_icon ( _("Addresses & titles"),
+					       "addresses.png" );
 
-  /* Account file title */
-  paddingbox = new_paddingbox_with_title ( vbox_pref, FALSE,
-					   _("Titles") );
-  hbox = gtk_hbox_new ( FALSE, 6 );
-  gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox,
-		       FALSE, FALSE, 0);
+    /* Account file title */
+    paddingbox = new_paddingbox_with_title ( vbox_pref, FALSE,
+					     _("Titles") );
+    hbox = gtk_hbox_new ( FALSE, 6 );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox,
+			 FALSE, FALSE, 0);
 
-  label = gtk_label_new ( COLON(_("Accounts file title")) );
-  gtk_box_pack_start ( GTK_BOX ( hbox ), label,
-		       FALSE, FALSE, 0);
+    label = gtk_label_new ( COLON(_("Accounts file title")) );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), label,
+			 FALSE, FALSE, 0);
 
-  entree_titre_fichier = new_text_entry (&titre_fichier,
-					 ((GCallback)update_homepage_title));
-  gtk_box_pack_start ( GTK_BOX ( hbox ), entree_titre_fichier,
-		       TRUE, TRUE, 0);
+    entree_titre_fichier = new_text_entry (&titre_fichier,
+					   ((GCallback)update_homepage_title));
+    gtk_box_pack_start ( GTK_BOX ( hbox ), entree_titre_fichier,
+			 TRUE, TRUE, 0);
 
-  /* Addresses */
-  paddingbox = new_paddingbox_with_title ( vbox_pref, FALSE,
-					   _("Addresses") );
+    /* Addresses */
+    paddingbox = new_paddingbox_with_title ( vbox_pref, FALSE,
+					     _("Addresses") );
 
-  /* Common address */
-  label = gtk_label_new ( COLON(_("Common address")) );
-  gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
-  gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
-  gtk_box_pack_start ( GTK_BOX ( paddingbox ), label,
-		       TRUE, TRUE, 0);
-  scrolled_window = gtk_scrolled_window_new ( NULL, NULL );
-  gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window ),
-				   GTK_POLICY_AUTOMATIC,
-				   GTK_POLICY_AUTOMATIC );
-  gtk_box_pack_start ( GTK_BOX ( paddingbox ), scrolled_window,
-		       FALSE, FALSE, 0);
-  gtk_scrolled_window_set_shadow_type ( GTK_SCROLLED_WINDOW(scrolled_window), 
-					GTK_SHADOW_IN );
-  entree_adresse_commune = new_text_area ( &adresse_commune, NULL );
-  gtk_container_add ( GTK_CONTAINER ( scrolled_window ),
-		      entree_adresse_commune );
+    /* Common address */
+    label = gtk_label_new ( COLON(_("Common address")) );
+    gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
+    gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), label,
+			 TRUE, TRUE, 0);
+    scrolled_window = gtk_scrolled_window_new ( NULL, NULL );
+    gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window ),
+				     GTK_POLICY_AUTOMATIC,
+				     GTK_POLICY_AUTOMATIC );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), scrolled_window,
+			 FALSE, FALSE, 0);
+    gtk_scrolled_window_set_shadow_type ( GTK_SCROLLED_WINDOW(scrolled_window), 
+					  GTK_SHADOW_IN );
+    entree_adresse_commune = new_text_area ( &adresse_commune, NULL );
+    gtk_container_add ( GTK_CONTAINER ( scrolled_window ),
+			entree_adresse_commune );
 
-  /* Secondary address */
-  /** \note This is not implemented yet */
-  label = gtk_label_new ( COLON(_("Secondary address")) );
-  gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
-  gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
-  gtk_box_pack_start ( GTK_BOX ( paddingbox ), label,
-		       TRUE, TRUE, 0);
-  scrolled_window = gtk_scrolled_window_new ( NULL, NULL );
-  gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window ),
-				   GTK_POLICY_AUTOMATIC,
-				   GTK_POLICY_AUTOMATIC );
-  gtk_scrolled_window_set_shadow_type ( GTK_SCROLLED_WINDOW(scrolled_window), 
-					GTK_SHADOW_IN );
-  gtk_box_pack_start ( GTK_BOX ( paddingbox ), scrolled_window,
-		       FALSE, FALSE, 0);
-  entree_adresse_secondaire = new_text_area ( &adresse_secondaire, NULL );
-  gtk_container_add ( GTK_CONTAINER ( scrolled_window ),
-		      entree_adresse_secondaire );
+    /* Secondary address */
+    /** \note This is not implemented yet */
+    label = gtk_label_new ( COLON(_("Secondary address")) );
+    gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
+    gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), label,
+			 TRUE, TRUE, 0);
+    scrolled_window = gtk_scrolled_window_new ( NULL, NULL );
+    gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window ),
+				     GTK_POLICY_AUTOMATIC,
+				     GTK_POLICY_AUTOMATIC );
+    gtk_scrolled_window_set_shadow_type ( GTK_SCROLLED_WINDOW(scrolled_window), 
+					  GTK_SHADOW_IN );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), scrolled_window,
+			 FALSE, FALSE, 0);
+    entree_adresse_secondaire = new_text_area ( &adresse_secondaire, NULL );
+    gtk_container_add ( GTK_CONTAINER ( scrolled_window ),
+			entree_adresse_secondaire );
 
-  if ( !nb_comptes )
-    gtk_widget_set_sensitive ( vbox_pref, FALSE );
+    if ( !nb_comptes )
+	gtk_widget_set_sensitive ( vbox_pref, FALSE );
 
-  return ( vbox_pref );
+    return ( vbox_pref );
 }
 
 
@@ -488,14 +488,14 @@ GtkWidget *onglet_affichage ( void )
 /* FIXME remove as it is deprecated */
 void selection_choix_ordre_comptes ( GtkWidget *box )
 {
-/*   gtk_widget_set_sensitive ( box, TRUE ); */
+    /*   gtk_widget_set_sensitive ( box, TRUE ); */
 }
 
 
 /* FIXME remove as it is deprecated */
 void deselection_choix_ordre_comptes ( GtkWidget *box )
 {
-/*   gtk_widget_set_sensitive ( box, FALSE ); */
+    /*   gtk_widget_set_sensitive ( box, FALSE ); */
 }
 /* ************************************************************************************************************** */
 
@@ -504,12 +504,12 @@ void deselection_choix_ordre_comptes ( GtkWidget *box )
 /* **************************************************************************************************************************** */
 void deplacement_haut ( void )
 {
-  if ( !GPOINTER_TO_INT (GTK_CLIST ( liste_choix_ordre_comptes ) -> selection -> data ))
-    return;
+    if ( !GPOINTER_TO_INT (GTK_CLIST ( liste_choix_ordre_comptes ) -> selection -> data ))
+	return;
 
-  gtk_clist_swap_rows ( GTK_CLIST ( liste_choix_ordre_comptes ),
-			GPOINTER_TO_INT ( GTK_CLIST ( liste_choix_ordre_comptes ) -> selection -> data ),
-			GPOINTER_TO_INT ( GTK_CLIST ( liste_choix_ordre_comptes ) -> selection -> data ) - 1 );
+    gtk_clist_swap_rows ( GTK_CLIST ( liste_choix_ordre_comptes ),
+			  GPOINTER_TO_INT ( GTK_CLIST ( liste_choix_ordre_comptes ) -> selection -> data ),
+			  GPOINTER_TO_INT ( GTK_CLIST ( liste_choix_ordre_comptes ) -> selection -> data ) - 1 );
 
 }
 /* **************************************************************************************************************************** */
@@ -521,12 +521,12 @@ void deplacement_haut ( void )
 /* **************************************************************************************************************************** */
 void deplacement_bas ( void )
 {
-  if ( GPOINTER_TO_INT (GTK_CLIST ( liste_choix_ordre_comptes ) -> selection -> data ) == ( nb_comptes - 1 ) )
-    return;
+    if ( GPOINTER_TO_INT (GTK_CLIST ( liste_choix_ordre_comptes ) -> selection -> data ) == ( nb_comptes - 1 ) )
+	return;
 
-  gtk_clist_swap_rows ( GTK_CLIST ( liste_choix_ordre_comptes ),
-			GPOINTER_TO_INT ( GTK_CLIST ( liste_choix_ordre_comptes ) -> selection -> data ),
-			GPOINTER_TO_INT ( GTK_CLIST ( liste_choix_ordre_comptes ) -> selection -> data ) + 1 );
+    gtk_clist_swap_rows ( GTK_CLIST ( liste_choix_ordre_comptes ),
+			  GPOINTER_TO_INT ( GTK_CLIST ( liste_choix_ordre_comptes ) -> selection -> data ),
+			  GPOINTER_TO_INT ( GTK_CLIST ( liste_choix_ordre_comptes ) -> selection -> data ) + 1 );
 }
 /* **************************************************************************************************************************** */
 
@@ -547,30 +547,30 @@ void update_font_button(GtkWidget * name_label,
 			GtkWidget * size_label,
 			gchar * fontname)
 {
-  gchar * font_name, *font_size, *tmp;
+    gchar * font_name, *font_size, *tmp;
 
-   if (!fontname)
-    fontname = "Sans 10";
+    if (!fontname)
+	fontname = "Sans 10";
 
-  gtk_widget_modify_font (name_label,
-			  pango_font_description_from_string(fontname));
+    gtk_widget_modify_font (name_label,
+			    pango_font_description_from_string(fontname));
 
-  font_name = g_strdup ( fontname );
-  tmp = font_name + strlen(font_name) - 1;
-  while (isdigit(*tmp) ||
-	 (*tmp) == '.')
-    tmp --;
-  font_size = tmp+1;
-	
-  while (*tmp == ' ' ||
-	 *tmp == ',')
+    font_name = g_strdup ( fontname );
+    tmp = font_name + strlen(font_name) - 1;
+    while (isdigit(*tmp) ||
+	   (*tmp) == '.')
+	tmp --;
+    font_size = tmp+1;
+
+    while (*tmp == ' ' ||
+	   *tmp == ',')
     {
-      *tmp=0;
-      tmp--;
+	*tmp=0;
+	tmp--;
     }
 
-  gtk_label_set_text (GTK_LABEL(name_label), font_name);
-  gtk_label_set_text (GTK_LABEL(size_label), font_size);
+    gtk_label_set_text (GTK_LABEL(name_label), font_name);
+    gtk_label_set_text (GTK_LABEL(size_label), font_size);
 }
 
 
@@ -584,14 +584,14 @@ void update_font_button(GtkWidget * name_label,
 gboolean init_fonts ( GtkWidget * button,
 		      gpointer user_data)
 {
-  fonte_liste = "Sans 10";
-  fonte_general = "Sans 10";
-  update_font_button (list_font_name_label, 
-		      list_font_size_label, 
-		      fonte_liste);
-  update_font_button (general_font_name_label, 
-		      general_font_size_label, 
-		      fonte_general);
+    fonte_liste = "Sans 10";
+    fonte_general = "Sans 10";
+    update_font_button (list_font_name_label, 
+			list_font_size_label, 
+			fonte_liste);
+    update_font_button (general_font_name_label, 
+			general_font_size_label, 
+			fonte_general);
 }
 
 
@@ -601,60 +601,60 @@ void choix_fonte ( GtkWidget *bouton,
 		   gchar *fonte,
 		   gpointer null )
 {
-  GdkFont *font;
-  gchar * fontname;
-  GtkWidget * dialog;
-  gint i, size;
+    GdkFont *font;
+    gchar * fontname;
+    GtkWidget * dialog;
+    gint i, size;
 
-  dialog = gtk_font_selection_dialog_new (COLON(_("Transaction list font")));
-  if (fonte_liste)
-    gtk_font_selection_dialog_set_font_name (GTK_FONT_SELECTION_DIALOG(dialog), 
-					     fonte_liste);
-  gtk_window_set_modal ( GTK_WINDOW ( dialog ), 
-			 TRUE );
+    dialog = gtk_font_selection_dialog_new (COLON(_("Transaction list font")));
+    if (fonte_liste)
+	gtk_font_selection_dialog_set_font_name (GTK_FONT_SELECTION_DIALOG(dialog), 
+						 fonte_liste);
+    gtk_window_set_modal ( GTK_WINDOW ( dialog ), 
+			   TRUE );
 
-  switch ( gtk_dialog_run ( GTK_DIALOG ( dialog ) ) )
+    switch ( gtk_dialog_run ( GTK_DIALOG ( dialog ) ) )
     {
-      case GTK_RESPONSE_OK:
-	fontname = gtk_font_selection_dialog_get_font_name (GTK_FONT_SELECTION_DIALOG(dialog));
-	gtk_widget_destroy (dialog);  
-	update_font_button (list_font_name_label, list_font_size_label, 
-			    fontname);
-	break;
-      default:
-	gtk_widget_destroy (dialog);
-	return;
+	case GTK_RESPONSE_OK:
+	    fontname = gtk_font_selection_dialog_get_font_name (GTK_FONT_SELECTION_DIALOG(dialog));
+	    gtk_widget_destroy (dialog);  
+	    update_font_button (list_font_name_label, list_font_size_label, 
+				fontname);
+	    break;
+	default:
+	    gtk_widget_destroy (dialog);
+	    return;
     }
 
-  fonte_liste = fontname;
-  
-  if ( nb_comptes )
+    fonte_liste = fontname;
+
+    if ( nb_comptes )
     {
-      font = gdk_font_load ( fonte_liste );
+	font = gdk_font_load ( fonte_liste );
 
-      /* Use font */
-      style_couleur[0] -> font_desc = pango_font_description_from_string(fontname);
-      style_couleur[1] -> font_desc = pango_font_description_from_string(fontname);
-      style_rouge_couleur[0] -> font_desc = pango_font_description_from_string(fontname);
-      style_rouge_couleur[1] -> font_desc = pango_font_description_from_string(fontname);
-      gtk_style_set_font (style_couleur [0], NULL);
-      gtk_style_set_font (style_couleur [1], NULL);
-      gtk_style_set_font (style_rouge_couleur [0], NULL);
-      gtk_style_set_font (style_rouge_couleur [1], NULL);
+	/* Use font */
+	style_couleur[0] -> font_desc = pango_font_description_from_string(fontname);
+	style_couleur[1] -> font_desc = pango_font_description_from_string(fontname);
+	style_rouge_couleur[0] -> font_desc = pango_font_description_from_string(fontname);
+	style_rouge_couleur[1] -> font_desc = pango_font_description_from_string(fontname);
+	gtk_style_set_font (style_couleur [0], NULL);
+	gtk_style_set_font (style_couleur [1], NULL);
+	gtk_style_set_font (style_rouge_couleur [0], NULL);
+	gtk_style_set_font (style_rouge_couleur [1], NULL);
 
-      /* Find font size */
-      p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
-      for ( i = 0 ; i < nb_comptes ; i++ )
+	/* Find font size */
+	p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
+	for ( i = 0 ; i < nb_comptes ; i++ )
 	{
-	  gint size = pango_font_description_get_size
-	    (pango_font_description_from_string(fontname));
-	  gtk_clist_set_row_height ( GTK_CLIST ( CLIST_OPERATIONS ),
-				     (size/PANGO_SCALE) + 2 );
-	  gtk_clist_set_row_height ( GTK_CLIST ( liste_echeances ),
-				     (size/PANGO_SCALE) + 2 );
-	  p_tab_nom_de_compte_variable++;
+	    gint size = pango_font_description_get_size
+		(pango_font_description_from_string(fontname));
+	    gtk_clist_set_row_height ( GTK_CLIST ( CLIST_OPERATIONS ),
+				       (size/PANGO_SCALE) + 2 );
+	    gtk_clist_set_row_height ( GTK_CLIST ( liste_echeances ),
+				       (size/PANGO_SCALE) + 2 );
+	    p_tab_nom_de_compte_variable++;
 	}
-      modification_fichier ( TRUE );
+	modification_fichier ( TRUE );
     }
 }
 /* **************************************************************************************************************************** */
@@ -668,54 +668,54 @@ void choix_fonte_general ( GtkWidget *bouton,
 			   gchar *fonte,
 			   gpointer null )
 {
-  GdkFont *font;
-  gchar * fontname;
-  GtkWidget * dialog;
-  GtkStyle * style_general;
-  gint i;
+    GdkFont *font;
+    gchar * fontname;
+    GtkWidget * dialog;
+    GtkStyle * style_general;
+    gint i;
 
-  dialog = gtk_font_selection_dialog_new (COLON(_("General font")));
-  if (fonte_general)
-    gtk_font_selection_dialog_set_font_name (GTK_FONT_SELECTION_DIALOG(dialog), 
-					     fonte_general);
-  gtk_window_set_modal ( GTK_WINDOW ( dialog ), 
-			 TRUE );
+    dialog = gtk_font_selection_dialog_new (COLON(_("General font")));
+    if (fonte_general)
+	gtk_font_selection_dialog_set_font_name (GTK_FONT_SELECTION_DIALOG(dialog), 
+						 fonte_general);
+    gtk_window_set_modal ( GTK_WINDOW ( dialog ), 
+			   TRUE );
 
-  switch ( gtk_dialog_run ( GTK_DIALOG ( dialog ) ) )
+    switch ( gtk_dialog_run ( GTK_DIALOG ( dialog ) ) )
     {
-    case GTK_RESPONSE_OK:
-      fontname = gtk_font_selection_dialog_get_font_name (GTK_FONT_SELECTION_DIALOG(dialog));
-      update_font_button (general_font_name_label, general_font_size_label, 
-			  fontname);
+	case GTK_RESPONSE_OK:
+	    fontname = gtk_font_selection_dialog_get_font_name (GTK_FONT_SELECTION_DIALOG(dialog));
+	    update_font_button (general_font_name_label, general_font_size_label, 
+				fontname);
 
-      gtk_widget_destroy (dialog);
-      break;
-    default:
-      gtk_widget_destroy (dialog);
-      return;
+	    gtk_widget_destroy (dialog);
+	    break;
+	default:
+	    gtk_widget_destroy (dialog);
+	    return;
     }
 
-  fonte_general = fontname;
-  style_general = gtk_widget_get_style ( window );
-  style_general -> font_desc = pango_font_description_from_string(fontname);
-  gtk_style_set_font (style_general, gdk_font_load ( fonte_general ));
-  gtk_style_set_font (style_general, gdk_font_load ( fonte_general ));
+    fonte_general = fontname;
+    style_general = gtk_widget_get_style ( window );
+    style_general -> font_desc = pango_font_description_from_string(fontname);
+    gtk_style_set_font (style_general, gdk_font_load ( fonte_general ));
+    gtk_style_set_font (style_general, gdk_font_load ( fonte_general ));
 
-  if ( nb_comptes )
+    if ( nb_comptes )
     {
-/*       gtk_notebook_set_page ( GTK_NOTEBOOK ( GNOME_PROPERTY_BOX ( fenetre_preferences ) -> notebook ), */
-/* 			      0 ); */
-/*       gtk_notebook_set_page ( GTK_NOTEBOOK ( GNOME_PROPERTY_BOX ( fenetre_preferences ) -> notebook ), */
-/* 			      3 ); */
+	/*       gtk_notebook_set_page ( GTK_NOTEBOOK ( GNOME_PROPERTY_BOX ( fenetre_preferences ) -> notebook ), */
+	/* 			      0 ); */
+	/*       gtk_notebook_set_page ( GTK_NOTEBOOK ( GNOME_PROPERTY_BOX ( fenetre_preferences ) -> notebook ), */
+	/* 			      3 ); */
 
-      gtk_widget_destroy ( notebook_general );
-/*       gtk_widget_destroy ( GNOME_APP ( window ) -> menubar ); */
-/*       GNOME_APP ( window ) -> menubar = NULL; */
-/*       gnome_app_create_menus ( GNOME_APP ( window ), */
-/* 			       menu_principal ); */
+	gtk_widget_destroy ( notebook_general );
+	/*       gtk_widget_destroy ( GNOME_APP ( window ) -> menubar ); */
+	/*       GNOME_APP ( window ) -> menubar = NULL; */
+	/*       gnome_app_create_menus ( GNOME_APP ( window ), */
+	/* 			       menu_principal ); */
 
-      ouverture_confirmee ();
-      modification_fichier ( TRUE );
+	ouverture_confirmee ();
+	modification_fichier ( TRUE );
     }
 }
 /* **************************************************************************************************************************** */
@@ -724,102 +724,102 @@ void choix_fonte_general ( GtkWidget *bouton,
 
 void change_logo_accueil ( GtkWidget *widget, gpointer user_data )
 {
-  GtkWidget *dialog, *choix, *bouton;
-  GtkWidget *file_selector = (GtkWidget *)user_data;
-  GdkPixbuf * pixbuf;
-  gint resultat;
-  const gchar *selected_filename;
+    GtkWidget *dialog, *choix, *bouton;
+    GtkWidget *file_selector = (GtkWidget *)user_data;
+    GdkPixbuf * pixbuf;
+    gint resultat;
+    const gchar *selected_filename;
 
-   selected_filename = gtk_file_selection_get_filename (GTK_FILE_SELECTION (file_selector));
+    selected_filename = gtk_file_selection_get_filename (GTK_FILE_SELECTION (file_selector));
 
-  if ( nb_comptes )
+    if ( nb_comptes )
     {
-      /* on change le logo */
-      chemin_logo = (gchar *) selected_filename;
+	/* on change le logo */
+	chemin_logo = (gchar *) selected_filename;
 
-      if ( !chemin_logo ||
-	   !strlen ( g_strstrip ( chemin_logo )) )
+	if ( !chemin_logo ||
+	     !strlen ( g_strstrip ( chemin_logo )) )
 	{
-	  chemin_logo = NULL;
-	  if ( logo_accueil && GTK_IS_WIDGET ( logo_accueil ))
-	    gtk_widget_hide ( logo_accueil );
+	    chemin_logo = NULL;
+	    if ( logo_accueil && GTK_IS_WIDGET ( logo_accueil ))
+		gtk_widget_hide ( logo_accueil );
 	}
-      else
+	else
 	{
-	  /* Update homepage logo */
-	  gtk_widget_destroy ( logo_accueil ); 
-	  logo_accueil =  gnome_pixmap_new_from_file ( chemin_logo );
-	  gtk_box_pack_start ( GTK_BOX ( page_accueil ), logo_accueil,
-			       FALSE, FALSE, 0 );
-	  gtk_widget_show ( logo_accueil );
+	    /* Update homepage logo */
+	    gtk_widget_destroy ( logo_accueil ); 
+	    logo_accueil =  gnome_pixmap_new_from_file ( chemin_logo );
+	    gtk_box_pack_start ( GTK_BOX ( page_accueil ), logo_accueil,
+				 FALSE, FALSE, 0 );
+	    gtk_widget_show ( logo_accueil );
 	}
 
-      /* Update preview */
-      pixbuf = gdk_pixbuf_new_from_file (chemin_logo, NULL);
-      gtk_container_remove (GTK_CONTAINER(logo_button), preview);
-      if (!pixbuf)
+	/* Update preview */
+	pixbuf = gdk_pixbuf_new_from_file (chemin_logo, NULL);
+	gtk_container_remove (GTK_CONTAINER(logo_button), preview);
+	if (!pixbuf)
 	{
-	  preview = gtk_image_new_from_stock ( GTK_STOCK_MISSING_IMAGE, 
-					       GTK_ICON_SIZE_BUTTON );
+	    preview = gtk_image_new_from_stock ( GTK_STOCK_MISSING_IMAGE, 
+						 GTK_ICON_SIZE_BUTTON );
 	}
-      else
+	else
 	{
-	  if ( gdk_pixbuf_get_width(pixbuf) > 64 ||
-	       gdk_pixbuf_get_height(pixbuf) > 64)
+	    if ( gdk_pixbuf_get_width(pixbuf) > 64 ||
+		 gdk_pixbuf_get_height(pixbuf) > 64)
 	    {
-	      GdkPixbuf * tmp;
-	      tmp = gdk_pixbuf_new ( GDK_COLORSPACE_RGB, TRUE, 8, 
-				     gdk_pixbuf_get_width(pixbuf)/2, 
-				     gdk_pixbuf_get_height(pixbuf)/2 );
-	      gdk_pixbuf_scale ( pixbuf, tmp, 0, 0, 
-				 gdk_pixbuf_get_width(pixbuf)/2, 
-				 gdk_pixbuf_get_height(pixbuf)/2,
-				 0, 0, 0.5, 0.5, GDK_INTERP_HYPER );
-	      pixbuf = tmp;
+		GdkPixbuf * tmp;
+		tmp = gdk_pixbuf_new ( GDK_COLORSPACE_RGB, TRUE, 8, 
+				       gdk_pixbuf_get_width(pixbuf)/2, 
+				       gdk_pixbuf_get_height(pixbuf)/2 );
+		gdk_pixbuf_scale ( pixbuf, tmp, 0, 0, 
+				   gdk_pixbuf_get_width(pixbuf)/2, 
+				   gdk_pixbuf_get_height(pixbuf)/2,
+				   0, 0, 0.5, 0.5, GDK_INTERP_HYPER );
+		pixbuf = tmp;
 	    }
-	  preview = gtk_image_new_from_pixbuf (pixbuf);
+	    preview = gtk_image_new_from_pixbuf (pixbuf);
 	}
-      gtk_widget_show ( preview );
-      gtk_container_add ( GTK_CONTAINER(logo_button), preview );
+	gtk_widget_show ( preview );
+	gtk_container_add ( GTK_CONTAINER(logo_button), preview );
     }
 
-  /* on sauvegarde le chemin */
+    /* on sauvegarde le chemin */
 }
 
 
 /* **************************************************************************************************************************** */
 void modification_logo_accueil ( void )
 {
-  GtkWidget *dialog, *choix, *bouton, *file_selector;
-  GdkPixbuf * pixbuf;
-  gint resultat;
+    GtkWidget *dialog, *choix, *bouton, *file_selector;
+    GdkPixbuf * pixbuf;
+    gint resultat;
 
-  file_selector = gtk_file_selection_new (_("Select a new logo"));
-   
-  g_signal_connect (GTK_OBJECT (GTK_FILE_SELECTION (file_selector)->ok_button),
-		    "clicked",
-		    G_CALLBACK (change_logo_accueil),
-		    (gpointer) file_selector);
+    file_selector = gtk_file_selection_new (_("Select a new logo"));
 
-  gtk_window_set_transient_for ( GTK_WINDOW ( file_selector ),
-				 GTK_WINDOW ( fenetre_preferences ));
-  gtk_window_set_modal ( GTK_WINDOW ( file_selector ), TRUE );
+    g_signal_connect (GTK_OBJECT (GTK_FILE_SELECTION (file_selector)->ok_button),
+		      "clicked",
+		      G_CALLBACK (change_logo_accueil),
+		      (gpointer) file_selector);
 
-   /* Ensure that the dialog box is destroyed when the user clicks a button. */
-   
-   g_signal_connect_swapped (GTK_OBJECT (GTK_FILE_SELECTION (file_selector)->ok_button),
-                             "clicked",
-                             G_CALLBACK (gtk_widget_destroy), 
-                             (gpointer) file_selector); 
+    gtk_window_set_transient_for ( GTK_WINDOW ( file_selector ),
+				   GTK_WINDOW ( fenetre_preferences ));
+    gtk_window_set_modal ( GTK_WINDOW ( file_selector ), TRUE );
 
-   g_signal_connect_swapped (GTK_OBJECT (GTK_FILE_SELECTION (file_selector)->cancel_button),
-                             "clicked",
-                             G_CALLBACK (gtk_widget_destroy),
-                             (gpointer) file_selector); 
-   
-   /* Display that dialog */
-   
-   gtk_widget_show (file_selector);
+    /* Ensure that the dialog box is destroyed when the user clicks a button. */
+
+    g_signal_connect_swapped (GTK_OBJECT (GTK_FILE_SELECTION (file_selector)->ok_button),
+			      "clicked",
+			      G_CALLBACK (gtk_widget_destroy), 
+			      (gpointer) file_selector); 
+
+    g_signal_connect_swapped (GTK_OBJECT (GTK_FILE_SELECTION (file_selector)->cancel_button),
+			      "clicked",
+			      G_CALLBACK (gtk_widget_destroy),
+			      (gpointer) file_selector); 
+
+    /* Display that dialog */
+
+    gtk_widget_show (file_selector);
 
 }
 /* **************************************************************************************************************************** */
@@ -829,13 +829,13 @@ void modification_logo_accueil ( void )
 void remise_a_zero_logo ( GtkWidget *bouton,
 			  GtkWidget *pixmap_entry )
 {
-  chemin_logo = CHEMIN_LOGO;
+    chemin_logo = CHEMIN_LOGO;
 
-  gtk_entry_set_text ( GTK_ENTRY ( gnome_pixmap_entry_gtk_entry ( GNOME_PIXMAP_ENTRY ( pixmap_entry ))),
-		       chemin_logo );
+    gtk_entry_set_text ( GTK_ENTRY ( gnome_pixmap_entry_gtk_entry ( GNOME_PIXMAP_ENTRY ( pixmap_entry ))),
+			 chemin_logo );
 
-  gnome_pixmap_entry_set_preview ( GNOME_PIXMAP_ENTRY ( pixmap_entry ),
-				   TRUE );
+    gnome_pixmap_entry_set_preview ( GNOME_PIXMAP_ENTRY ( pixmap_entry ),
+				     TRUE );
 }
 /* **************************************************************************************************************************** */
 
@@ -853,13 +853,13 @@ gboolean
 update_homepage_title (GtkEntry *entry, gchar *value, 
 		       gint length, gint * position)
 {
-  gtk_label_set_text ( GTK_LABEL(label_titre_fichier), 
-		       (gchar *) gtk_entry_get_text (GTK_ENTRY (entry)) );
+    gtk_label_set_text ( GTK_LABEL(label_titre_fichier), 
+			 (gchar *) gtk_entry_get_text (GTK_ENTRY (entry)) );
 
-  gtk_label_set_markup ( GTK_LABEL ( label_titre_fichier ), 
-			 g_strconcat ("<span size=\"x-large\">",
-				      (gchar *) gtk_entry_get_text (GTK_ENTRY (entry)),
-				      "</span>", NULL ) );
-  
-  return FALSE;
+    gtk_label_set_markup ( GTK_LABEL ( label_titre_fichier ), 
+			   g_strconcat ("<span size=\"x-large\">",
+					(gchar *) gtk_entry_get_text (GTK_ENTRY (entry)),
+					"</span>", NULL ) );
+
+    return FALSE;
 }

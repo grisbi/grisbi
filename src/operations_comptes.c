@@ -33,7 +33,7 @@
 #include "operations_liste.h"
 #include "type_operations.h"
 #include "equilibrage.h"
-
+#include "gtk_list_button.h"
 
 
 /* ********************************************************************************************************** */
@@ -42,143 +42,143 @@
 
 GtkWidget *creation_liste_comptes (void)
 {
-  GtkWidget *onglet;
-  GtkWidget *frame_label_compte_courant;
-  GSList *ordre_comptes_variable;
-  GtkWidget *bouton;
-  GtkWidget *frame_equilibrage;
-  GtkWidget *vbox_frame_equilibrage;
-  GtkWidget *scrolled_window;
+    GtkWidget *onglet;
+    GtkWidget *frame_label_compte_courant;
+    GSList *ordre_comptes_variable;
+    GtkWidget *bouton;
+    GtkWidget *frame_equilibrage;
+    GtkWidget *vbox_frame_equilibrage;
+    GtkWidget *scrolled_window;
 
-  /*  Création d'une fenêtre générale*/
+    /*  Création d'une fenêtre générale*/
 
-  onglet = gtk_vbox_new ( FALSE,
-			  10);
-  gtk_container_set_border_width ( GTK_CONTAINER ( onglet ),
-				   10 );
-  gtk_widget_show ( onglet );
+    onglet = gtk_vbox_new ( FALSE,
+			    10);
+    gtk_container_set_border_width ( GTK_CONTAINER ( onglet ),
+				     10 );
+    gtk_widget_show ( onglet );
 
-  /*  Création du label Comptes en haut */
-
-
-  /*   on place le label dans une frame */
-
-  frame_label_compte_courant = gtk_frame_new ( NULL );
-  gtk_frame_set_shadow_type ( GTK_FRAME ( frame_label_compte_courant ),
-			      GTK_SHADOW_ETCHED_OUT );
-  gtk_box_pack_start ( GTK_BOX (onglet),
-		       frame_label_compte_courant,
-		       FALSE,
-		       TRUE,
-		       0);
-  gtk_widget_show (frame_label_compte_courant);
+    /*  Création du label Comptes en haut */
 
 
-  /*   on ne met rien dans le label, il sera rempli ensuite */
+    /*   on place le label dans une frame */
 
-  label_compte_courant = gtk_label_new ( "" );
-  gtk_misc_set_alignment ( GTK_MISC (label_compte_courant  ),
-			   0.5,
-			   0.5);
-  gtk_container_add ( GTK_CONTAINER ( frame_label_compte_courant ),
-		      label_compte_courant );
-  gtk_widget_show (label_compte_courant);
+    frame_label_compte_courant = gtk_frame_new ( NULL );
+    gtk_frame_set_shadow_type ( GTK_FRAME ( frame_label_compte_courant ),
+				GTK_SHADOW_ETCHED_OUT );
+    gtk_box_pack_start ( GTK_BOX (onglet),
+			 frame_label_compte_courant,
+			 FALSE,
+			 TRUE,
+			 0);
+    gtk_widget_show (frame_label_compte_courant);
 
 
-  /*  Création de la fenêtre des comptes */
-  /*  qui peut contenir des barres de défilement si */
-  /*  nécessaire */
+    /*   on ne met rien dans le label, il sera rempli ensuite */
 
-  scrolled_window = gtk_scrolled_window_new ( NULL,
-					      NULL);
-  gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window ),
-				   GTK_POLICY_NEVER,
-				   GTK_POLICY_AUTOMATIC);
-  gtk_box_pack_start ( GTK_BOX ( onglet ),
-		       scrolled_window,
-		       TRUE,
-		       TRUE,
-		       0);
-  gtk_widget_show ( scrolled_window );
-  
+    label_compte_courant = gtk_label_new ( "" );
+    gtk_misc_set_alignment ( GTK_MISC (label_compte_courant  ),
+			     0.5,
+			     0.5);
+    gtk_container_add ( GTK_CONTAINER ( frame_label_compte_courant ),
+			label_compte_courant );
+    gtk_widget_show (label_compte_courant);
 
-  /*  création d'une vbox contenant la liste des comptes */
 
-  vbox_liste_comptes = gtk_vbox_new ( FALSE,
-				      10);
-  gtk_scrolled_window_add_with_viewport ( GTK_SCROLLED_WINDOW (scrolled_window ),
-					  vbox_liste_comptes);
-  gtk_viewport_set_shadow_type ( GTK_VIEWPORT ( GTK_BIN ( scrolled_window )  -> child ),
-				 GTK_SHADOW_NONE );
-  gtk_widget_show (vbox_liste_comptes);
-  
+    /*  Création de la fenêtre des comptes */
+    /*  qui peut contenir des barres de défilement si */
+    /*  nécessaire */
 
-  /*  Création d'une icone et du nom par compte, et placement dans la
-      liste selon l'ordre désiré  */
-  if ( nb_comptes )
+    scrolled_window = gtk_scrolled_window_new ( NULL,
+						NULL);
+    gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window ),
+				     GTK_POLICY_NEVER,
+				     GTK_POLICY_AUTOMATIC);
+    gtk_box_pack_start ( GTK_BOX ( onglet ),
+			 scrolled_window,
+			 TRUE,
+			 TRUE,
+			 0);
+    gtk_widget_show ( scrolled_window );
+
+
+    /*  création d'une vbox contenant la liste des comptes */
+
+    vbox_liste_comptes = gtk_vbox_new ( FALSE,
+					10);
+    gtk_scrolled_window_add_with_viewport ( GTK_SCROLLED_WINDOW (scrolled_window ),
+					    vbox_liste_comptes);
+    gtk_viewport_set_shadow_type ( GTK_VIEWPORT ( GTK_BIN ( scrolled_window )  -> child ),
+				   GTK_SHADOW_NONE );
+    gtk_widget_show (vbox_liste_comptes);
+
+
+    /*  Création d'une icone et du nom par compte, et placement dans la
+	liste selon l'ordre désiré  */
+    if ( nb_comptes )
     {
-      reaffiche_liste_comptes ();
+	reaffiche_liste_comptes ();
     }
 
-  /* ajoute le bouton et le label pour l'équilibrage de compte */
-  /* les 2 seront intégrés dans une frame */
+    /* ajoute le bouton et le label pour l'équilibrage de compte */
+    /* les 2 seront intégrés dans une frame */
 
-  frame_equilibrage = gtk_frame_new ( NULL );
-  gtk_frame_set_shadow_type ( GTK_FRAME ( frame_equilibrage ),
-			      GTK_SHADOW_ETCHED_IN );
-  gtk_box_pack_start ( GTK_BOX ( onglet ),
-		       frame_equilibrage,
-		       FALSE,
-		       TRUE,
-		       0);
-  gtk_widget_show ( frame_equilibrage );
-
-
-  vbox_frame_equilibrage = gtk_vbox_new ( FALSE,
-					  5 );
-  gtk_container_add ( GTK_CONTAINER  ( frame_equilibrage ),
-		      vbox_frame_equilibrage );
-  gtk_widget_show ( vbox_frame_equilibrage );
+    frame_equilibrage = gtk_frame_new ( NULL );
+    gtk_frame_set_shadow_type ( GTK_FRAME ( frame_equilibrage ),
+				GTK_SHADOW_ETCHED_IN );
+    gtk_box_pack_start ( GTK_BOX ( onglet ),
+			 frame_equilibrage,
+			 FALSE,
+			 TRUE,
+			 0);
+    gtk_widget_show ( frame_equilibrage );
 
 
-  /* mise en place du label */
-
-  p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
-
-  if ( nb_comptes )
-    label_releve = gtk_label_new ( g_strconcat ( COLON(_("Last statement")),
-						 DATE_DERNIER_RELEVE,
-						 NULL ) );
-  else
-    label_releve = gtk_label_new ( COLON(_("Last statement")) );
-
-  gtk_box_pack_start ( GTK_BOX ( vbox_frame_equilibrage ),
-		       label_releve,
-		       FALSE,
-		       TRUE,
-		       0);
-  gtk_widget_show ( label_releve );
+    vbox_frame_equilibrage = gtk_vbox_new ( FALSE,
+					    5 );
+    gtk_container_add ( GTK_CONTAINER  ( frame_equilibrage ),
+			vbox_frame_equilibrage );
+    gtk_widget_show ( vbox_frame_equilibrage );
 
 
-  /* mise en place du bouton équilibrage */
+    /* mise en place du label */
 
-  bouton = gtk_button_new_with_label ( _("Reconcile") );
-  gtk_button_set_relief ( GTK_BUTTON ( bouton ),
-			  GTK_RELIEF_NONE);
-  gtk_box_pack_start ( GTK_BOX ( vbox_frame_equilibrage ),
-		       bouton,
-		       FALSE,
-		       TRUE,
-		       0);
-  gtk_signal_connect ( GTK_OBJECT (bouton),
-		       "clicked",
-		       GTK_SIGNAL_FUNC ( equilibrage ),
-		       NULL );
-  gtk_widget_show ( bouton );
+    p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
+
+    if ( nb_comptes )
+	label_releve = gtk_label_new ( g_strconcat ( COLON(_("Last statement")),
+						     DATE_DERNIER_RELEVE,
+						     NULL ) );
+    else
+	label_releve = gtk_label_new ( COLON(_("Last statement")) );
+
+    gtk_box_pack_start ( GTK_BOX ( vbox_frame_equilibrage ),
+			 label_releve,
+			 FALSE,
+			 TRUE,
+			 0);
+    gtk_widget_show ( label_releve );
 
 
-  return ( onglet );
-  
+    /* mise en place du bouton équilibrage */
+
+    bouton = gtk_button_new_with_label ( _("Reconcile") );
+    gtk_button_set_relief ( GTK_BUTTON ( bouton ),
+			    GTK_RELIEF_NONE);
+    gtk_box_pack_start ( GTK_BOX ( vbox_frame_equilibrage ),
+			 bouton,
+			 FALSE,
+			 TRUE,
+			 0);
+    gtk_signal_connect ( GTK_OBJECT (bouton),
+			 "clicked",
+			 GTK_SIGNAL_FUNC ( equilibrage ),
+			 NULL );
+    gtk_widget_show ( bouton );
+
+
+    return ( onglet );
+
 }
 /* ********************************************************************************************************** */
 
@@ -192,17 +192,17 @@ GtkWidget *creation_liste_comptes (void)
 
 GtkWidget *comptes_appel ( gint no_de_compte )
 {
-  GtkWidget *bouton;
+    GtkWidget *bouton;
 
-  p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_de_compte;
+    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_de_compte;
 
-  bouton = gtk_list_button_new ( NOM_DU_COMPTE, 2 );
-  gtk_signal_connect_object ( GTK_OBJECT (bouton), "clicked",
-			      GTK_SIGNAL_FUNC ( changement_compte ),
-			      GINT_TO_POINTER ( no_de_compte ) );
-  gtk_widget_show ( bouton );
+    bouton = gtk_list_button_new ( NOM_DU_COMPTE, 2 );
+    gtk_signal_connect_object ( GTK_OBJECT (bouton), "clicked",
+				GTK_SIGNAL_FUNC ( changement_compte ),
+				GINT_TO_POINTER ( no_de_compte ) );
+    gtk_widget_show ( bouton );
 
-  return ( bouton );
+    return ( bouton );
 }
 /* ********************************************************************************************************** */
 
@@ -211,7 +211,7 @@ GtkWidget *comptes_appel ( gint no_de_compte )
 void changement_compte_par_menu ( GtkWidget *menu,
 				  gint *compte )
 {
-  changement_compte ( compte );
+    changement_compte ( compte );
 }
 /* ********************************************************************************************************** */
 
@@ -224,103 +224,103 @@ void changement_compte_par_menu ( GtkWidget *menu,
 
 gboolean changement_compte ( gint *compte)
 {
-  GtkWidget *menu;
+    GtkWidget *menu;
 
-  /*   si on n'est pas sur l'onglet comptes du notebook, on y passe */
+    /*   si on n'est pas sur l'onglet comptes du notebook, on y passe */
 
-  if ( gtk_notebook_get_current_page ( GTK_NOTEBOOK ( notebook_general ) ) != 1 )
-    gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ),
-			    1 );
+    if ( gtk_notebook_get_current_page ( GTK_NOTEBOOK ( notebook_general ) ) != 1 )
+	gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ),
+				1 );
 
-  /* si on était dans une ventilation d'opération, alors on annule la ventilation */
+    /* si on était dans une ventilation d'opération, alors on annule la ventilation */
 
-  if ( gtk_notebook_get_current_page ( GTK_NOTEBOOK ( notebook_comptes_equilibrage ) ) == 1 )
-    annuler_ventilation();
+    if ( gtk_notebook_get_current_page ( GTK_NOTEBOOK ( notebook_comptes_equilibrage ) ) == 1 )
+	annuler_ventilation();
 
-  /* ferme le formulaire */
+    /* ferme le formulaire */
 
-  echap_formulaire ();
+    echap_formulaire ();
 
-  p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
+    p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
 
-  compte_courant = GPOINTER_TO_INT ( compte );
-  p_tab_nom_de_compte_courant = p_tab_nom_de_compte + compte_courant;
-  p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
+    compte_courant = GPOINTER_TO_INT ( compte );
+    p_tab_nom_de_compte_courant = p_tab_nom_de_compte + compte_courant;
+    p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
 
-  /* change le nom du compte courant */
-  gtk_label_set_text ( GTK_LABEL ( label_compte_courant), NOM_DU_COMPTE);
+    /* change le nom du compte courant */
+    gtk_label_set_text ( GTK_LABEL ( label_compte_courant), NOM_DU_COMPTE);
 
-/* change les types d'opé et met le défaut */
+    /* change les types d'opé et met le défaut */
 
-  if ( (menu = creation_menu_types ( 1, compte_courant, 0  )))
+    if ( (menu = creation_menu_types ( 1, compte_courant, 0  )))
     {
-      /* on joue avec les sensitive pour éviter que le 1er mot du menu ne reste grise */
+	/* on joue avec les sensitive pour éviter que le 1er mot du menu ne reste grise */
 
-      gtk_widget_set_sensitive ( widget_formulaire_operations[TRANSACTION_FORM_TYPE],
-				 TRUE );
-      gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_operations[TRANSACTION_FORM_TYPE] ),
-				 menu );
-      gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_operations[TRANSACTION_FORM_TYPE] ),
-				    cherche_no_menu_type ( TYPE_DEFAUT_DEBIT ) );
-      gtk_widget_set_sensitive ( widget_formulaire_operations[TRANSACTION_FORM_TYPE],
-				 FALSE );
-      gtk_widget_show ( widget_formulaire_operations[TRANSACTION_FORM_TYPE] );
+	gtk_widget_set_sensitive ( widget_formulaire_operations[TRANSACTION_FORM_TYPE],
+				   TRUE );
+	gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_operations[TRANSACTION_FORM_TYPE] ),
+				   menu );
+	gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_operations[TRANSACTION_FORM_TYPE] ),
+				      cherche_no_menu_type ( TYPE_DEFAUT_DEBIT ) );
+	gtk_widget_set_sensitive ( widget_formulaire_operations[TRANSACTION_FORM_TYPE],
+				   FALSE );
+	gtk_widget_show ( widget_formulaire_operations[TRANSACTION_FORM_TYPE] );
     }
-  else
+    else
     {
-      gtk_widget_hide ( widget_formulaire_operations[TRANSACTION_FORM_TYPE] );
-      gtk_widget_hide ( widget_formulaire_operations[TRANSACTION_FORM_CHEQUE] );
+	gtk_widget_hide ( widget_formulaire_operations[TRANSACTION_FORM_TYPE] );
+	gtk_widget_hide ( widget_formulaire_operations[TRANSACTION_FORM_CHEQUE] );
     }
 
 
 
-  if ( DATE_DERNIER_RELEVE )
-    gtk_label_set_text ( GTK_LABEL ( label_releve ),
-			 g_strdup_printf ( _("Last statement: %02d/%02d/%d"), 
-					     g_date_day ( DATE_DERNIER_RELEVE ),
-					     g_date_month ( DATE_DERNIER_RELEVE ),
-					     g_date_year ( DATE_DERNIER_RELEVE ) ));
+    if ( DATE_DERNIER_RELEVE )
+	gtk_label_set_text ( GTK_LABEL ( label_releve ),
+			     g_strdup_printf ( _("Last statement: %02d/%02d/%d"), 
+					       g_date_day ( DATE_DERNIER_RELEVE ),
+					       g_date_month ( DATE_DERNIER_RELEVE ),
+					       g_date_year ( DATE_DERNIER_RELEVE ) ));
 
-  else
-    gtk_label_set_text ( GTK_LABEL ( label_releve ),
-			 _("Last statement: none") );
-
-
-  /* affiche le solde final en bas */
-
-  gtk_label_set_text ( GTK_LABEL ( solde_label_pointe ),
-		       g_strdup_printf ( PRESPACIFY(_("Checked balance: %4.2f %s")),
-					 SOLDE_POINTE,
-					 devise_name ((struct struct_devise *)(g_slist_find_custom ( liste_struct_devises,
-											 GINT_TO_POINTER ( DEVISE ),
-											 (GCompareFunc) recherche_devise_par_no )-> data ))) );
-  gtk_label_set_text ( GTK_LABEL ( solde_label ),
-		       g_strdup_printf ( PRESPACIFY(_("Current balance: %4.2f %s")),
-					 SOLDE_COURANT,
-					 devise_name ((struct struct_devise *)(g_slist_find_custom ( liste_struct_devises,
-											 GINT_TO_POINTER ( DEVISE ),
-											 (GCompareFunc) recherche_devise_par_no )-> data ))) );
+    else
+	gtk_label_set_text ( GTK_LABEL ( label_releve ),
+			     _("Last statement: none") );
 
 
-  /* change le défaut de l'option menu des devises du formulaire */
+    /* affiche le solde final en bas */
 
-  gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_operations[TRANSACTION_FORM_DEVISE] ),
-				g_slist_position ( liste_struct_devises,
-						   g_slist_find_custom ( liste_struct_devises,
-									 GINT_TO_POINTER ( DEVISE ),
-									 ( GCompareFunc ) recherche_devise_par_no )));
+    gtk_label_set_text ( GTK_LABEL ( solde_label_pointe ),
+			 g_strdup_printf ( PRESPACIFY(_("Checked balance: %4.2f %s")),
+					   SOLDE_POINTE,
+					   devise_name ((struct struct_devise *)(g_slist_find_custom ( liste_struct_devises,
+												       GINT_TO_POINTER ( DEVISE ),
+												       (GCompareFunc) recherche_devise_par_no )-> data ))) );
+    gtk_label_set_text ( GTK_LABEL ( solde_label ),
+			 g_strdup_printf ( PRESPACIFY(_("Current balance: %4.2f %s")),
+					   SOLDE_COURANT,
+					   devise_name ((struct struct_devise *)(g_slist_find_custom ( liste_struct_devises,
+												       GINT_TO_POINTER ( DEVISE ),
+												       (GCompareFunc) recherche_devise_par_no )-> data ))) );
 
-  /* met les boutons R et nb lignes par opé comme il faut */
 
-  mise_a_jour_boutons_caract_liste ( compte_courant );
+    /* change le défaut de l'option menu des devises du formulaire */
 
-  focus_a_la_liste ();
-  etat.ancienne_date = 0;
+    gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_operations[TRANSACTION_FORM_DEVISE] ),
+				  g_slist_position ( liste_struct_devises,
+						     g_slist_find_custom ( liste_struct_devises,
+									   GINT_TO_POINTER ( DEVISE ),
+									   ( GCompareFunc ) recherche_devise_par_no )));
 
-  gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_listes_operations ),
-			  compte_courant + 1 );
+    /* met les boutons R et nb lignes par opé comme il faut */
 
-  return FALSE;
+    mise_a_jour_boutons_caract_liste ( compte_courant );
+
+    focus_a_la_liste ();
+    etat.ancienne_date = 0;
+
+    gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_listes_operations ),
+			    compte_courant + 1 );
+
+    return FALSE;
 }
 /* ********************************************************************************************************** */
 
@@ -332,77 +332,80 @@ gboolean changement_compte ( gint *compte)
 
 void reaffiche_liste_comptes ( void )
 {
-  GSList *ordre_comptes_variable;
-  GtkWidget *bouton;
-  gint i;
+    GSList *ordre_comptes_variable;
+    GtkWidget *bouton;
+    gint i;
 
-/* commence par effacer tous les comptes */
+    /* commence par effacer tous les comptes */
 
-  while ( GTK_BOX ( vbox_liste_comptes ) -> children )
-    gtk_container_remove ( GTK_CONTAINER ( vbox_liste_comptes ),
-			   (( GtkBoxChild *) ( GTK_BOX ( vbox_liste_comptes ) -> children -> data )) -> widget );
+    while ( GTK_BOX ( vbox_liste_comptes ) -> children )
+	gtk_container_remove ( GTK_CONTAINER ( vbox_liste_comptes ),
+			       (( GtkBoxChild *) ( GTK_BOX ( vbox_liste_comptes ) -> children -> data )) -> widget );
 
-  /* on efface les menus des comptes cloturés */
+    /* on efface les menus des comptes cloturés */
 
-  p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
+    p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
 
-  for ( i=0 ; i<nb_comptes ; i++ )
+    for ( i=0 ; i<nb_comptes ; i++ )
     {
-      if ( COMPTE_CLOTURE )
-	gnome_app_remove_menus ( GNOME_APP ( window ),
-				 _("Accounts/Closed accounts/"),
-				 2 );
-      p_tab_nom_de_compte_variable++;
+	if ( COMPTE_CLOTURE )
+	    gnome_app_remove_menus ( GNOME_APP ( window ),
+				     _("Accounts/Closed accounts/"),
+				     2 );
+	p_tab_nom_de_compte_variable++;
     }
 
-  gtk_widget_set_sensitive ( GTK_WIDGET ( menu_comptes[3].widget ), FALSE );
+    gtk_widget_set_sensitive ( GTK_WIDGET ( menu_comptes[3].widget ), FALSE );
 
-  /*  Création d'une icone et du nom par compte, et placement dans la liste selon l'ordre désiré  */
+    /*  Création d'une icone et du nom par compte, et placement dans la liste selon l'ordre désiré  */
 
-  ordre_comptes_variable = ordre_comptes;
-  do
+    ordre_comptes_variable = ordre_comptes;
+    do
     {
-      p_tab_nom_de_compte_variable = p_tab_nom_de_compte + GPOINTER_TO_INT ( ordre_comptes_variable->data );
-      
-      if ( ! COMPTE_CLOTURE )
+	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + GPOINTER_TO_INT ( ordre_comptes_variable->data );
+
+	if ( ! COMPTE_CLOTURE )
 	{
-	  bouton = comptes_appel( GPOINTER_TO_INT ( ordre_comptes_variable->data ));
-	  gtk_box_pack_start (GTK_BOX (vbox_liste_comptes), bouton, FALSE, FALSE, 0);
-	  gtk_widget_show (bouton);
+	    bouton = comptes_appel( GPOINTER_TO_INT ( ordre_comptes_variable->data ));
+	    gtk_box_pack_start (GTK_BOX (vbox_liste_comptes), bouton, FALSE, FALSE, 0);
+	    gtk_widget_show (bouton);
+
+/* 	    si c'est le compte courant, on ouvre le livre */
+
+	    if ( p_tab_nom_de_compte_variable == p_tab_nom_de_compte + compte_courant )
+		gtk_list_button_clicked ( GTK_BUTTON ( bouton ));
 	}
-      else
+	else
 	{
-	  GnomeUIInfo *menu;
+	    GnomeUIInfo *menu;
 
-	  menu = malloc ( 2 * sizeof ( GnomeUIInfo ));
+	    menu = malloc ( 2 * sizeof ( GnomeUIInfo ));
 
-	  menu -> type = GNOME_APP_UI_ITEM;
-	  menu -> label = NOM_DU_COMPTE;
-	  menu -> hint = NOM_DU_COMPTE;
-	  menu -> moreinfo = (gpointer) changement_compte_par_menu;
-	  menu -> user_data = ordre_comptes_variable->data;
-	  menu -> unused_data = NULL;
-	  menu -> pixmap_type = 0;
-	  menu -> pixmap_info = 0;
-	  menu -> accelerator_key = 0;
-	  menu -> ac_mods = GDK_BUTTON1_MASK;
-	  menu -> widget = NULL;
+	    menu -> type = GNOME_APP_UI_ITEM;
+	    menu -> label = NOM_DU_COMPTE;
+	    menu -> hint = NOM_DU_COMPTE;
+	    menu -> moreinfo = (gpointer) changement_compte_par_menu;
+	    menu -> user_data = ordre_comptes_variable->data;
+	    menu -> unused_data = NULL;
+	    menu -> pixmap_type = 0;
+	    menu -> pixmap_info = 0;
+	    menu -> accelerator_key = 0;
+	    menu -> ac_mods = GDK_BUTTON1_MASK;
+	    menu -> widget = NULL;
 
-	  (menu + 1)->type = GNOME_APP_UI_ENDOFINFO;
+	    (menu + 1)->type = GNOME_APP_UI_ENDOFINFO;
 
 
-	  gnome_app_insert_menus ( GNOME_APP ( window ),
-				   _("Accounts/Closed accounts/"),
-				   menu );
+	    gnome_app_insert_menus ( GNOME_APP ( window ),
+				     _("Accounts/Closed accounts/"),
+				     menu );
 
-	  gtk_widget_set_sensitive ( GTK_WIDGET ( menu_comptes[3].widget ),
-				     TRUE );
+	    gtk_widget_set_sensitive ( GTK_WIDGET ( menu_comptes[3].widget ),
+				       TRUE );
 	}
 
     }
-  while ( (  ordre_comptes_variable = ordre_comptes_variable->next ) );
+    while ( (  ordre_comptes_variable = ordre_comptes_variable->next ) );
 
-  /* ouvre le livre */
-  p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
 }
 /* *********************************************************************************************************** */
