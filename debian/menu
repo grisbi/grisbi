@@ -1,2 +1,2 @@
-?package(grisbi):needs=X11 section=Apps/Tools\
+?package(grisbi):needs="X11" section="Apps/Tools"\
   title="grisbi" command="/usr/bin/grisbi"

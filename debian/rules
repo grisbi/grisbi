@@ -43,6 +43,12 @@ install: build
 	# Add here commands to install the package into debian/grisbi.
 	$(MAKE) install prefix=$(CURDIR)/debian/grisbi/usr sysconfdir=$(CURDIR)/debian/grisbi/etc
 
+	mkdir -p $(CURDIR)/debian/grisbi/usr/share/mimelnk/application
+	cp debian/x-grisbi.desktop $(CURDIR)/debian/grisbi/usr/share/mimelnk/application/
+	mkdir -p $(CURDIR)/debian/grisbi/usr/share/applnk/Applications
+	cp debian/grisbi.desktop $(CURDIR)/debian/grisbi/usr/share/applnk/Applications
+	mkdir -p $(CURDIR)/debian/grisbi/usr/share/mime-info
+	cp debian/grisbi.mime debian/grisbi.keys $(CURDIR)/debian/grisbi/usr/share/mime-info
 
 # Build architecture-independent files here.
 binary-indep: build install
