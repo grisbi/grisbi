@@ -1,23 +1,28 @@
-/* fichier qui s'occupe de la gestion des comptes */
-/*           gestion_comptes.c */
+/* ************************************************************************** */
+/*  Fichier qui s'occupe de la gestion des comptes			      */
+/*			gestion_comptes.c				      */
+/*                                                                            */
+/*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org)	      */
+/*			2004      Benjamin Drieu (bdrieu@april.org) 	      */
+/*			2003-2004 Alain Portal (dionysos@grisbi.org) 	      */
+/*			http://www.grisbi.org   			      */
+/*                                                                            */
+/*  This program is free software; you can redistribute it and/or modify      */
+/*  it under the terms of the GNU General Public License as published by      */
+/*  the Free Software Foundation; either version 2 of the License, or         */
+/*  (at your option) any later version.                                       */
+/*                                                                            */
+/*  This program is distributed in the hope that it will be useful,           */
+/*  but WITHOUT ANY WARRANTY; without even the implied warranty of            */
+/*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             */
+/*  GNU General Public License for more details.                              */
+/*                                                                            */
+/*  You should have received a copy of the GNU General Public License         */
+/*  along with this program; if not, write to the Free Software               */
+/*  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
+/*                                                                            */
+/* ************************************************************************** */
 
-/*     Copyright (C) 2000-2003  Cédric Auger */
-/* 			cedric@grisbi.org */
-/* 			http://www.grisbi.org */
-
-/*     This program is free software; you can redistribute it and/or modify */
-/*     it under the terms of the GNU General Public License as published by */
-/*     the Free Software Foundation; either version 2 of the License, or */
-/*     (at your option) any later version. */
-
-/*     This program is distributed in the hope that it will be useful, */
-/*     but WITHOUT ANY WARRANTY; without even the implied warranty of */
-/*     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the */
-/*     GNU General Public License for more details. */
-
-/*     You should have received a copy of the GNU General Public License */
-/*     along with this program; if not, write to the Free Software */
-/*     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 
 #include "include.h"
 #include "structures.h"
@@ -1706,7 +1711,7 @@ void modification_details_compte ( void )
       mise_a_jour_categ();
 
       gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_echeancier[5] ),
-				 creation_option_menu_comptes(changement_choix_compte_echeancier) );
+				 creation_option_menu_comptes(GTK_SIGNAL_FUNC(changement_choix_compte_echeancier)) );
 
       remplissage_liste_comptes_etats ();
       selectionne_liste_comptes_etat_courant ();
@@ -1827,7 +1832,7 @@ void passage_a_l_euro ( GtkWidget *bouton,
 
       if ( !change )
 	{
-	  dialogue ( _("Error: exchange rate beetween the 2 currencies is 0.") );
+	  dialogue_error ( _("exchange rate beetween the 2 currencies is 0.") );
 	  return;
 	}
 

@@ -1687,7 +1687,7 @@ void supprimer_imputation ( void )
 
 	  if ( !strlen (gtk_combofix_get_text ( GTK_COMBOFIX ( combofix ))))
 	    {
-	      dialogue ( _("Please enter a budgetary line!") );
+	      dialogue_error ( _("Please enter a budgetary line!") );
 	      goto retour_dialogue;
 	    }
 
@@ -2016,7 +2016,7 @@ void supprimer_sous_imputation ( void )
 
 	  if ( !strlen (gtk_combofix_get_text ( GTK_COMBOFIX ( combofix ))))
 	    {
-	      dialogue ( _("Please enter a budgetary line!") );
+	      dialogue_error ( _("Please enter a budgetary line!") );
 	      goto retour_dialogue;
 	    }
 
@@ -2841,15 +2841,14 @@ void exporter_ib ( void )
 	    }
 	  else
 	    {
-	      dialogue ( g_strdup_printf ( _("Invalid filename \"%s\"!"),
-					   nom_ib ));
+	      dialogue_error ( g_strdup_printf ( _("Invalid filename \"%s\"!"), nom_ib ));
 	      return;
 	    }
 	}
 
       if ( !enregistre_ib ( nom_ib ))
 	{
-	  dialogue ( _("Cannot save file.") );
+	  dialogue_error ( _("Cannot save file.") );
 	  return;
 	}
 
@@ -3021,7 +3020,7 @@ void importer_ib ( void )
 
       if ( !charge_ib ( nom_ib ))
 	{
-	  dialogue ( _("Cannot import file.") );
+	  dialogue_error ( _("Cannot import file.") );
 	  return;
 	}
 

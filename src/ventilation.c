@@ -1566,19 +1566,19 @@ void fin_edition_ventilation ( void )
 
 		  if ( compte_vire == -1 )
 		    {
-		      dialogue ( _("Warning: the associated account for this transfer is invalid") );
+		      dialogue_error ( _("The associated account for this transfer is invalid") );
 		      return;
 		    }
 
 		  if ( compte_vire == compte_courant )
 		    {
-		      dialogue ( _("Error: it's impossible to transfer an account to itself") );
+		      dialogue_error ( _("It's impossible to transfer an account to itself") );
 		      return;
 		    }
 		}
 	      else
 		{
-		  dialogue ( _("Error: no account associated with the transfer") );
+		  dialogue_error ( _("No account associated with the transfer") );
 		  return;
 		}
 	    }
@@ -2164,7 +2164,7 @@ void supprime_operation_ventilation ( void )
 
   if ( operation -> pointe == 2 )
     {
-      dialogue ( PRESPACIFY(_("This transaction has a reconciled breakdown line,\ndeletion canceled...")));
+      dialogue_error ( _("This transaction has a reconciled breakdown line, deletion canceled.") );
       return;
     }
   else
@@ -2191,7 +2191,7 @@ void supprime_operation_ventilation ( void )
 
 	      if ( operation_associee -> pointe == 2 )
 		{
-		  dialogue ( SPACIFY(_("This transfer has a reconciled contra-transaction,\ndeletion canceled...")));
+		  dialogue_error ( _("This transfer has a reconciled contra-transaction, deletion canceled.") );
 		  return;
 		}
 	    }
@@ -2713,7 +2713,7 @@ void validation_ope_de_ventilation ( struct structure_operation *operation )
 	  /* petite protection quand même, normalement le texte ne devrait jamais apparaitre */
 
 	  if ( !ope_ventil -> no_operation )
-	    dialogue ( _("Strange... a breakdown line is to be deleted though it is not yet registered..."));
+	    dialogue_warning ( _("A breakdown line is to be deleted though it is not yet registered."));
 	  else
 	    {
 	      GSList *tmp;

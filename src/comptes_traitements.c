@@ -92,7 +92,7 @@ void  nouveau_compte ( void )
 /* on met à jour l'option menu des formulaires des échéances et des opés */
 
   gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_echeancier[5] ),
-			     creation_option_menu_comptes (changement_choix_compte_echeancier) );
+			     creation_option_menu_comptes (GTK_SIGNAL_FUNC(changement_choix_compte_echeancier)) );
 
 
   /* mise à jour de l'accueil */
@@ -141,7 +141,7 @@ gint initialisation_nouveau_compte ( gint type_de_compte )
 
   if  (!(p_tab_nom_de_compte = realloc ( p_tab_nom_de_compte, ( nb_comptes + 1 )* sizeof ( gpointer ) )))
     {
-      dialogue ( _("Error: cannot allocate memory for this new account!") );
+      dialogue ( _("Cannot allocate memory, bad things will happen soon") );
       return (-1);
     };
 
@@ -151,7 +151,7 @@ gint initialisation_nouveau_compte ( gint type_de_compte )
   if  (!(*p_tab_nom_de_compte_variable = calloc ( 1,
 						  sizeof (struct donnees_compte) )) )
     {
-      dialogue ( _("Error: cannot allocate memory for this new account!") );
+      dialogue ( _("Cannot allocate memory, bad things will happen soon") );
       return (-1);
     };
 
@@ -235,7 +235,7 @@ void supprimer_compte ( void )
 
   liste_comptes = gtk_option_menu_new ();
   gtk_option_menu_set_menu ( GTK_OPTION_MENU ( liste_comptes ),
-			     creation_option_menu_comptes (changement_choix_compte_echeancier) );
+			     creation_option_menu_comptes (GTK_SIGNAL_FUNC(changement_choix_compte_echeancier)) );
   gtk_option_menu_set_history ( GTK_OPTION_MENU ( liste_comptes ),
 				compte_courant_onglet );
   gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
@@ -421,7 +421,7 @@ void supprimer_compte ( void )
 /* on met à jour l'option menu du formulaire des échéances */
 
   gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_echeancier[5] ),
-			     creation_option_menu_comptes (changement_choix_compte_echeancier) );
+			     creation_option_menu_comptes (GTK_SIGNAL_FUNC(changement_choix_compte_echeancier)) );
 
   /* réaffiche la liste si necessaire */
 
@@ -471,7 +471,7 @@ gint cherche_compte_dans_echeances ( struct operation_echeance *echeance,
 /* retourne un option menu contenant les comptes du fichier courant */
 /***********************************************************************************************************/
 
-GtkWidget *creation_option_menu_comptes ( GtkSignalFunc * func )
+GtkWidget *creation_option_menu_comptes ( GtkSignalFunc func )
 {
   GtkWidget *menu;
   GtkWidget *item;
@@ -486,7 +486,7 @@ GtkWidget *creation_option_menu_comptes ( GtkSignalFunc * func )
       gtk_object_set_data ( GTK_OBJECT ( item ),
 			    "no_compte",
 			    GINT_TO_POINTER ( p_tab_nom_de_compte_variable - p_tab_nom_de_compte ));
-      gtk_signal_connect ( GTK_OBJECT ( item ), "activate", func, NULL );
+      gtk_signal_connect ( GTK_OBJECT ( item ), "activate", GTK_SIGNAL_FUNC(func), NULL );
       gtk_menu_append ( GTK_MENU ( menu ),
 			item );
       gtk_widget_show ( item );

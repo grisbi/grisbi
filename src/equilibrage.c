@@ -450,7 +450,7 @@ void equilibrage ( void )
 
   if ( !NB_OPE_COMPTE )
     {
-      dialogue ( _("This account does not contain any transaction") );
+      dialogue_error ( _("This account does not contain any transaction") );
       return;
     }
 
@@ -916,7 +916,7 @@ void fin_equilibrage ( GtkWidget *bouton_ok,
     {
       if ( !nb_parametres || nb_parametres == -1 )
 	{
-	  dialogue ( _("Error: invalid date") );
+	  dialogue_error ( _("Invalid date") );
 	  return;
 	}
 
@@ -936,7 +936,7 @@ void fin_equilibrage ( GtkWidget *bouton_ok,
 			   date_releve_mois,
 			   date_releve_annee))
     {
-      dialogue ( _("Error: invalid date") );
+      dialogue_error ( _("Invalid date") );
       return;
     }
 
