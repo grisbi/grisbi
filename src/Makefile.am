@@ -9,7 +9,7 @@ config_dir = config
 sources_config = 			\
 	configuration.c
 
-includes_config= \
+include_config= \
 	configuration.h  \
 	xmlnames.h      
 
