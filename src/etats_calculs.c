@@ -2270,7 +2270,7 @@ void etape_finale_affichage_etat ( GSList *ope_selectionnees,
 	      ligne = affichage -> affiche_titre_depenses_etat ( ligne );
 	    }
 	  else
-	    goto fin_boucle_affichage_etat;
+	    continue;
 	}
       else
 	{
@@ -2298,7 +2298,7 @@ void etape_finale_affichage_etat ( GSList *ope_selectionnees,
 		  /* 	      s'il n'y a pas de dépenses non plus, on sort de la boucle */
  
 		  if ( !liste_ope_depenses )
-		    goto fin_boucle_affichage_etat;
+		    continue;
 
 		  ligne = affichage -> affiche_titre_depenses_etat ( ligne );
 		}
@@ -2311,7 +2311,7 @@ void etape_finale_affichage_etat ( GSList *ope_selectionnees,
 	      if ( liste_ope_revenus )
 		pointeur_tmp = liste_ope_revenus;
 	      else
-		goto fin_boucle_affichage_etat;
+		continue;
 	    }
 	}
 
@@ -2663,7 +2663,6 @@ void etape_finale_affichage_etat ( GSList *ope_selectionnees,
 						      ligne,
 						      i );
 
-    fin_boucle_affichage_etat:
     }
 
   /* on affiche maintenant le total général */

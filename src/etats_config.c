@@ -255,6 +255,7 @@ void personnalisation_etat (void)
 	  break;
 
 	default:
+	  break;
 	}
 
       if ( text[0] )

@@ -430,9 +430,9 @@ void affiche_cache_le_formulaire_echeancier ( void );
 void clique_champ_formulaire_echeancier ( GtkWidget *entree,
 					  GdkEventButton *ev,
 					  gint *no_origine );
-void pression_touche_formulaire_echeancier ( GtkWidget *widget,
-					     GdkEventKey *ev,
-					     gint no_widget );
+gboolean pression_touche_formulaire_echeancier ( GtkWidget *widget,
+						 GdkEventKey *ev,
+						 gint no_widget );
 void affiche_date_limite_echeancier ( void );
 void cache_date_limite_echeancier ( void );
 void affiche_personnalisation_echeancier ( void );
