@@ -2414,11 +2414,9 @@ gint find_p_r_line ()
 
 
 /** 
- * called to edit a transaction, put it in the form
- * unsensitive some form part if necessary (for breakdowns for example)
+ * Called to edit a transaction, put it in the form unsensitive some
+ * form part if necessary (for breakdowns for example)
  * 
- * \param none
- *
  * \return FALSE
  * */
 gboolean gsb_transactions_list_edit_current_transaction ( void )
@@ -2432,16 +2430,9 @@ gboolean gsb_transactions_list_edit_current_transaction ( void )
 
     transaction = gsb_account_get_current_transaction (gsb_account_get_current_account ());
 
-    /* init the form */
-
-    if ( !etat.formulaire_toujours_affiche )
-	gtk_widget_show ( frame_droite_bas );
-    
-    gtk_widget_set_sensitive ( bouton_affiche_cache_formulaire,
-			       FALSE );
-
     formulaire_a_zero ();
     degrise_formulaire_operations ();
+    gtk_expander_set_expanded ( GTK_EXPANDER ( frame_droite_bas ), TRUE );
 
     /* if the transaction is the white line, we set the date and go away */
     
