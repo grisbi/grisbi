@@ -37,6 +37,7 @@
 #include "equilibrage.h"
 #include "categories_onglet.h"
 #include "tiers_onglet.h"
+#include "fichiers_io.h"
 
 /*****************************************************************************************************/
 gint etat_affiche_affiche_titre ( gint ligne )
