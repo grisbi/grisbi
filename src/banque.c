@@ -886,7 +886,7 @@ GtkWidget *onglet_banques ( void )
   paddingbox = paddingbox_new_with_title ( vbox2, FALSE,
 					   _("Bank details") );
   gtk_box_set_child_packing (GTK_BOX(vbox_pref), paddingbox, 
-			     FALSE, FALSE, 0, GTK_PACK_START);
+			     FALSE, FALSE, 5, GTK_PACK_START);
 
   /* Active only if a bank is selected */
   gtk_signal_connect ( GTK_OBJECT ( clist_banques_parametres ),
@@ -899,11 +899,11 @@ GtkWidget *onglet_banques ( void )
 		       paddingbox );
 
   /* Create a table to align things nicely */
-  table = gtk_table_new ( 0, 2, FALSE );
+  table = gtk_table_new ( 2, 2, FALSE );
   gtk_table_set_col_spacings ( GTK_TABLE ( table ), 5 );
   gtk_table_set_row_spacings ( GTK_TABLE ( table ), 5 );
   gtk_box_pack_start ( GTK_BOX ( paddingbox ), table,
-		       TRUE, TRUE, 0 );
+		       TRUE, TRUE, 5 );
 
   /* Bank name item */
   label = gtk_label_new ( COLON(_("Name")) );
@@ -1002,11 +1002,11 @@ GtkWidget *onglet_banques ( void )
 
   /* Contact */
   paddingbox = paddingbox_new_with_title ( vbox2, FALSE, _("Contact") );
-  table = gtk_table_new ( 0, 2, FALSE );
+  table = gtk_table_new ( 2, 2, FALSE );
   gtk_table_set_col_spacings ( GTK_TABLE ( table ), 5 );
   gtk_table_set_row_spacings ( GTK_TABLE ( table ), 5 );
   gtk_box_pack_start ( GTK_BOX ( paddingbox ), table,
-		       TRUE, TRUE, 0 );
+		       TRUE, TRUE, 5 );
 
   label = gtk_label_new ( COLON(_("Name")) );
   gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
