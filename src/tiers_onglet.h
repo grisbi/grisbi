@@ -1,8 +1,5 @@
 /*START_DECLARATION*/
 struct struct_tiers *ajoute_nouveau_tiers ( gchar *tiers );
-gboolean changement_taille_liste_tiers ( GtkWidget *clist,
-					 GtkAllocation *allocation,
-					 gpointer null );
 gint classement_alphabetique_tree ( GtkWidget *tree,
 				    GtkCListRow *ligne_1,
 				    GtkCListRow *ligne_2 );
