@@ -140,39 +140,23 @@ void change_page_notebook ( GtkNotebook *notebook,
 {
 
 /* retire l'horloge si part de l'accueil */
-
+/* ALAIN : est-ce bien nécessaire
       if ( id_temps )
 	{
 	  gtk_timeout_remove ( id_temps );
 	  id_temps = 0;
 	}
-
-
-/* remet l'horloge si revient à l'accueil */
-
-
-  if ( !numero_page )
-    {
-      gchar tampon_date[50];
-      time_t date;
-
-      time ( &date );
-      strftime ( (gchar *) tampon_date,
-		 (size_t) 50,
-		 "%X",
-		 (const struct tm *) localtime ( &date ) );
-
-      gtk_label_set_text ( GTK_LABEL (label_temps ),
-			   tampon_date );
-      id_temps = gtk_timeout_add ( 1000,
-				   (GtkFunction) change_temps,
-				   GTK_WIDGET ( label_temps ));
-
-    }    
-
+*/
   switch ( numero_page )
     {
-      /* si on va sur la fenêtre des comptes => focus à la liste */
+/* remet l'horloge si revient à l'accueil */
+	
+	case 0:
+	  id_temps = gtk_timeout_add ( 1000,
+				   (GtkFunction) change_temps,
+				   GTK_WIDGET ( label_temps ));
+      
+	  /* si on va sur la fenêtre des comptes => focus à la liste */
 
     case 1:
       p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;

@@ -29,8 +29,6 @@
 #include "variables-extern.c"
 #include "en_tete.h"
 
-GtkWidget * label_jour;
-
 /* ************************************************************************* */
 GtkWidget *creation_onglet_accueil ( void )
 {
@@ -43,9 +41,6 @@ GtkWidget *creation_onglet_accueil ( void )
   GtkWidget *hbox;
   GtkWidget *label;
   GtkWidget *separateur;
-  gchar tampon_date [50];
-  time_t date;
-
 
 /*  la première séparation : une hbox : à gauche, le logo, à droite le reste */
 
@@ -67,17 +62,6 @@ GtkWidget *creation_onglet_accueil ( void )
 			   FALSE,
 			   20 );
       gtk_widget_show ( logo_accueil );
-
-      /* séparation gauche-droite */
-/*
-      separateur = gtk_vseparator_new ();
-      gtk_box_pack_start ( GTK_BOX ( fenetre_accueil ),
-			   separateur,
-			   FALSE,
-			   FALSE,
-			   0 );
-      gtk_widget_show ( separateur );
-*/
     }
   else
     logo_accueil = NULL;
@@ -137,44 +121,15 @@ GtkWidget *creation_onglet_accueil ( void )
 
   /* met la date à coté */
 
-  time ( &date );
-  strftime ( (gchar *) tampon_date,
-	     (size_t) 50,
-	     "%A %d %B %Y",
-	     (const struct tm *) localtime ( &date ) );
-
-
-/* met la première lettre en majuscule */
-
-  tampon_date[0] = toupper ( tampon_date[0]);
-
-  label_jour = gtk_label_new ( tampon_date );
-  gtk_misc_set_alignment ( GTK_MISC (label_jour ),
-			   1,
-			   1);
-
-  gtk_box_pack_start ( GTK_BOX ( hbox ),
-		       label_jour,
-		       TRUE,
- 		       TRUE,
-		       5 );
-  gtk_widget_show ( label_jour );
-
-
-  /*   crée le timer qui appelle la fonction change_temps toutes les secondes */
-
-  strftime ( (gchar *) tampon_date,
-	     (size_t) 50,
-	     "%X",
-	     (const struct tm *) localtime ( &date ) );
-
-  label_temps = gtk_label_new ( tampon_date );
+  label_temps = gtk_label_new ( "" );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       label_temps,
 		       TRUE,
 		       FALSE,
 		       5 );
   gtk_widget_show ( label_temps );
+
+  change_temps(label_temps);
 
   id_temps = gtk_timeout_add ( 1000,
 			       (GtkFunction) change_temps,
@@ -193,17 +148,6 @@ GtkWidget *creation_onglet_accueil ( void )
 			   0 );
       gtk_widget_show ( label_titre_fichier );
     }
-
-  /* séparation haut-bas */
-/*
-  separateur = gtk_hseparator_new ();
-  gtk_box_pack_start ( GTK_BOX ( base ),
-		       separateur,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( separateur );
-*/
 
   /* on crée à ce niveau base_scroll qui est aussi une vbox mais qui peut scroller verticalement */
 
@@ -391,23 +335,15 @@ void change_temps ( GtkWidget *label_temps )
   time_t date;
 
   time ( &date );
-  strftime ( (gchar *) tampon_date,
+  strftime ( tampon_date,
 	     (size_t) 50,
-	     "%X",
+	     "%A %d %B %Y %X",
 	     (const struct tm *) localtime ( &date ) );
 
 /* met la première lettre en majuscule */
   tampon_date[0] = toupper ( tampon_date[0]);
   gtk_label_set_text ( GTK_LABEL (label_temps ),
 		       tampon_date );
-
-  strftime ( (gchar *) tampon_date,
-	     (size_t) 50,
-	     "%A %d %B %Y",
-	     (const struct tm *) localtime ( &date ) );
-  gtk_label_set_text ( GTK_LABEL (label_jour ),
-		       tampon_date );
-
 }
 /* ************************************************************************* */
 
