@@ -861,12 +861,10 @@ void exporter_fichier_qif ( void )
     paddingbox = new_paddingbox_with_title ( GTK_DIALOG(dialog)->vbox, FALSE,
 					     _("Select accounts to export") );
     gtk_box_set_spacing ( GTK_BOX(GTK_DIALOG(dialog)->vbox), 6 );
-    gtk_container_set_border_width ( GTK_CONTAINER(paddingbox), 6 );
 
-    table = gtk_table_new ( 3, nb_comptes, FALSE );
-    gtk_container_set_border_width ( GTK_CONTAINER ( table ), 10 );
-    gtk_table_set_col_spacings ( GTK_TABLE ( table ), 10 );
-    gtk_box_pack_start ( GTK_BOX(paddingbox), table, FALSE, FALSE, 0 );
+    table = gtk_table_new ( 2, nb_comptes, FALSE );
+    gtk_table_set_col_spacings ( GTK_TABLE ( table ), 12 );
+    gtk_box_pack_start ( GTK_BOX(paddingbox), table, TRUE, TRUE, 0 );
     gtk_widget_show ( table );
 
     /* on met chaque compte dans la table */
@@ -901,7 +899,7 @@ void exporter_fichier_qif ( void )
 			   entree,
 			   1, 2,
 			   i, i+1,
-			   GTK_SHRINK | GTK_FILL,
+			   GTK_EXPAND | GTK_FILL,
 			   GTK_SHRINK | GTK_FILL,
 			   0, 0 );
 	gtk_widget_show ( entree );
