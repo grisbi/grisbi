@@ -351,8 +351,7 @@ GtkWidget * tab_display_reconciliation ( void );
 /* fichier parametres.c */
 /************************/ 
 
-void preferences ( GtkWidget *widget,
-		   gint page_demandee );
+void preferences ( gint page );
 GtkWidget * paddingbox_new_with_title (GtkWidget * parent, gboolean fill, gchar * title);
 GtkWidget *new_vbox_with_title_and_icon ( gchar * title,
 					  gchar * image_filename);

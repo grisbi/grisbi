@@ -11,4 +11,6 @@ grisbi_pixmaps_DATA = \
 	payment-methods.png \
 	reconciliation.png \
 	transaction-list.png \
-	warnings.png
+	warnings.png \
+	grisbi-logo.png \
+	grisbi.png

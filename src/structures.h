@@ -9,7 +9,7 @@
 
 /* Chemin des fichiers */
 
-#define FICHIER_CONF "Grisbi"       /* à mettre à Grisbi-dev pdt le dvt et Grisbi à la sortie d'une version */
+#define FICHIER_CONF "Grisbi-dev"       /* à mettre à Grisbi-dev pdt le dvt et Grisbi à la sortie d'une version */
 
 /* initialisation des couleurs */
 
@@ -638,7 +638,7 @@ struct struct_ope_ventil
 };
 
 
-
+/* Handle an ISO 4217 currency.  Not specific to Grisbi. */
 struct iso_4217_currency 
 {
   gchar * country_code;
@@ -650,12 +650,20 @@ struct iso_4217_currency
   gboolean active;
 };
 
-enum
-  {
-    COUNTRY_NAME_COLUMN = 0,
-    CURRENCY_NAME_COLUMN,
-    CURRENCY_ISO_CODE_COLUMN,
-    CURRENCY_NICKNAME_COLUMN,
-    CONTINENT_NAME_COLUMN,
-    NUM_CURRENCIES_COLUMNS,
-  };
+
+/* Preference pages */
+enum  {
+  NOT_A_PAGE = -1,
+  FILES_PAGE,
+  MESSAGES_AND_WARNINGS_PAGE,
+  ADDRESSES_AND_TITLES_PAGE,
+  TRANSACTION_FORM_PAGE,
+  TRANSACTION_LIST_PAGE,
+  RECONCILIATION_PAGE,
+  FONTS_AND_LOGO_PAGE,
+  CURRENCIES_PAGE,
+  BANKS_PAGE,
+  FINANCIAL_YEARS_PAGE,
+  METHODS_OF_PAYMENT_PAGE,
+  NUM_PREFERENCES_PAGES
+};

@@ -95,7 +95,7 @@ VERSION = @VERSION@
 prefix = @prefix@
 
 localedir = $(datadir)/locale
-INCLUDES = -I$(top_srcdir) -I$(includedir) $(GNOME_INCLUDEDIR) -I../intl -DLOCALEDIR=\"$(localedir)\" -DPIXMAPS_DIR="\"$(datadir)/pixmaps/grisbi\"" -DCHEMIN_LOGO="\"$(datadir)/pixmaps/logo_grisbi.png\"" -DAPPLET_BIN_DIR="\"$(bindir)/grisbi_applet\""
+INCLUDES = -I$(top_srcdir) -I$(includedir) $(GNOME_INCLUDEDIR) -I../intl -DLOCALEDIR=\"$(localedir)\" -DPIXMAPS_DIR="\"$(datadir)/pixmaps/grisbi\"" -DCHEMIN_LOGO="\"$(datadir)/pixmaps/grisbi/grisbi-logo.png\""
 bin_PROGRAMS = grisbi
 
 grisbi_SOURCES =  	accueil.c			fenetre_principale.c		operations_liste.c		banque.c			fichier_configuration.c		operations_onglet.c		barre_outils.c			fichiers_gestion.c		parametres.c			categories_onglet.c		fichiers_io.c			patienter.c			comptes_gestion.c		comptes_onglet.c		gtk_combofix.c			qif.c				comptes_traitements.c		help.c				tiers_onglet.c			devises.c			main.c				traitement_variables.c		echeancier_formulaire.c		menu.c				echeancier_liste.c		operations_classement.c		equilibrage.c			operations_comptes.c		ventilation.c			erreur.c			operations_formulaire.c 	type_operations.c		exercice.c			imputation_budgetaire.c		affichage.c			etat_io.c			etats_onglet.c			etats_config.c			etats_calculs.c			etats_support.c			etats_gtktable.c		affichage_liste.c
@@ -103,13 +103,10 @@ grisbi_SOURCES =  	accueil.c			fenetre_principale.c		operations_liste.c		banque.
 
 #grisbi_LDADD =	$(GNOME_LIBDIR)	$(GNOMEUI_LIBS)
 
-EXTRA_DIST = grisbi.desktop grisbi.png logo_grisbi.xpm grisbi.keys grisbi.mime
+EXTRA_DIST = grisbi.desktop grisbi.keys grisbi.mime
 
 Applicationsdir = $(datadir)/gnome/apps/Applications
 Applications_DATA = grisbi.desktop
-
-appicondir = $(datadir)/pixmaps
-appicon_DATA = grisbi.png logo_grisbi.xpm
 
 mimedir = $(datadir)/mime-info
 mime_DATA = grisbi.keys grisbi.mime
@@ -139,7 +136,7 @@ grisbi_LDFLAGS =
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
 LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(LDFLAGS) -o $@
-DATA =  $(Applications_DATA) $(appicon_DATA) $(mime_DATA)
+DATA =  $(Applications_DATA) $(mime_DATA)
 
 DIST_COMMON =  Makefile.am Makefile.in
 
@@ -240,25 +237,6 @@ uninstall-ApplicationsDATA:
 	@$(NORMAL_UNINSTALL)
 	list='$(Applications_DATA)'; for p in $$list; do \
 	  rm -f $(DESTDIR)$(Applicationsdir)/$$p; \
-	done
-
-install-appiconDATA: $(appicon_DATA)
-	@$(NORMAL_INSTALL)
-	$(mkinstalldirs) $(DESTDIR)$(appicondir)
-	@list='$(appicon_DATA)'; for p in $$list; do \
-	  if test -f $(srcdir)/$$p; then \
-	    echo " $(INSTALL_DATA) $(srcdir)/$$p $(DESTDIR)$(appicondir)/$$p"; \
-	    $(INSTALL_DATA) $(srcdir)/$$p $(DESTDIR)$(appicondir)/$$p; \
-	  else if test -f $$p; then \
-	    echo " $(INSTALL_DATA) $$p $(DESTDIR)$(appicondir)/$$p"; \
-	    $(INSTALL_DATA) $$p $(DESTDIR)$(appicondir)/$$p; \
-	  fi; fi; \
-	done
-
-uninstall-appiconDATA:
-	@$(NORMAL_UNINSTALL)
-	list='$(appicon_DATA)'; for p in $$list; do \
-	  rm -f $(DESTDIR)$(appicondir)/$$p; \
 	done
 
 install-mimeDATA: $(mime_DATA)
@@ -372,15 +350,14 @@ installcheck: installcheck-am
 install-exec-am: install-binPROGRAMS
 install-exec: install-exec-am
 
-install-data-am: install-ApplicationsDATA install-appiconDATA \
-		install-mimeDATA
+install-data-am: install-ApplicationsDATA install-mimeDATA
 install-data: install-data-am
 
 install-am: all-am
 	@$(MAKE) $(AM_MAKEFLAGS) install-exec-am install-data-am
 install: install-am
 uninstall-am: uninstall-binPROGRAMS uninstall-ApplicationsDATA \
-		uninstall-appiconDATA uninstall-mimeDATA
+		uninstall-mimeDATA
 uninstall: uninstall-am
 all-am: Makefile $(PROGRAMS) $(DATA)
 all-redirect: all-am
@@ -388,7 +365,7 @@ install-strip:
 	$(MAKE) $(AM_MAKEFLAGS) AM_INSTALL_PROGRAM_FLAGS=-s install
 installdirs:
 	$(mkinstalldirs)  $(DESTDIR)$(bindir) $(DESTDIR)$(Applicationsdir) \
-		$(DESTDIR)$(appicondir) $(DESTDIR)$(mimedir)
+		$(DESTDIR)$(mimedir)
 
 
 mostlyclean-generic:
@@ -428,10 +405,9 @@ maintainer-clean: maintainer-clean-am
 maintainer-clean-binPROGRAMS uninstall-binPROGRAMS install-binPROGRAMS \
 mostlyclean-compile distclean-compile clean-compile \
 maintainer-clean-compile uninstall-ApplicationsDATA \
-install-ApplicationsDATA uninstall-appiconDATA install-appiconDATA \
-uninstall-mimeDATA install-mimeDATA tags mostlyclean-tags \
-distclean-tags clean-tags maintainer-clean-tags distdir \
-mostlyclean-depend distclean-depend clean-depend \
+install-ApplicationsDATA uninstall-mimeDATA install-mimeDATA tags \
+mostlyclean-tags distclean-tags clean-tags maintainer-clean-tags \
+distdir mostlyclean-depend distclean-depend clean-depend \
 maintainer-clean-depend info-am info dvi-am dvi check check-am \
 installcheck-am installcheck install-exec-am install-exec \
 install-data-am install-data install-am install uninstall-am uninstall \

@@ -1,7 +1,7 @@
 # Process this file with automake to produce Makefile.in
 
 localedir = $(datadir)/locale
-INCLUDES = -I$(top_srcdir) -I$(includedir) $(GNOME_INCLUDEDIR) -I../intl -DLOCALEDIR=\"$(localedir)\" -DPIXMAPS_DIR="\"$(datadir)/pixmaps/grisbi\"" -DCHEMIN_LOGO="\"$(datadir)/pixmaps/logo_grisbi.png\"" -DAPPLET_BIN_DIR="\"$(bindir)/grisbi_applet\""
+INCLUDES = -I$(top_srcdir) -I$(includedir) $(GNOME_INCLUDEDIR) -I../intl -DLOCALEDIR=\"$(localedir)\" -DPIXMAPS_DIR="\"$(datadir)/pixmaps/grisbi\"" -DCHEMIN_LOGO="\"$(datadir)/pixmaps/grisbi/grisbi-logo.png\""
 bin_PROGRAMS = grisbi
 
 grisbi_SOURCES = 		\
@@ -53,13 +53,10 @@ grisbi_SOURCES = 		\
 #grisbi_LDADD =	$(GNOME_LIBDIR)	$(GNOMEUI_LIBS)
 
 
-EXTRA_DIST = grisbi.desktop grisbi.png logo_grisbi.xpm grisbi.keys grisbi.mime
+EXTRA_DIST = grisbi.desktop grisbi.keys grisbi.mime
 
 Applicationsdir = $(datadir)/gnome/apps/Applications
 Applications_DATA = grisbi.desktop
-
-appicondir = $(datadir)/pixmaps
-appicon_DATA = grisbi.png logo_grisbi.xpm
 
 mimedir = $(datadir)/mime-info
 mime_DATA = grisbi.keys grisbi.mime
