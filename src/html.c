@@ -42,8 +42,11 @@
 /* *******************************************************************************/
 gboolean recuperation_donnees_html ( FILE *fichier )
 {
-  dialogue (_("This does not work at this moment"));
 
     return ( TRUE );
 }
 /* *******************************************************************************/
+
+/* Local Variables: */
+/* c-basic-offset: 4 */
+/* End: */
