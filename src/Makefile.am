@@ -43,9 +43,6 @@ grisbi_SOURCES = 		\
 	etats.c			\
 	etats_gtktable.c	\
 	etats_gnomeprint.c	\
-	diaunitspinner.c	\
-	diapagelayout.c		\
-	paper.c			\
 	impression.c
 
 
