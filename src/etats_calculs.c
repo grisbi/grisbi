@@ -742,10 +742,12 @@ GSList *recupere_opes_etat ( struct struct_etat *etat )
 
 		/* vérification du type d'opération */
 
-		if ( etat -> utilise_mode_paiement &&
-		     operation -> type_ope)
+		if ( etat -> utilise_mode_paiement )
 		{
 		    struct struct_type_ope *type_ope;
+
+		    if ( ! operation -> type_ope )
+			goto operation_refusee;
 
 		    /* normalement p_tab... est sur le compte en cours */
 
