@@ -33,6 +33,7 @@
 #include "categories_onglet.h"
 #include "devises.h"
 #include "dialog.h"
+#include "exercice.h"
 #include "search_glist.h"
 
 
@@ -40,6 +41,7 @@
 gboolean reconciliation_check ( void );
 gboolean duplicate_div_check ( void );
 gboolean contra_transaction_check ( void );
+gboolean financial_years_check ( void );
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -59,6 +61,7 @@ gboolean debug_check ( void )
     inconsistency = reconciliation_check();
     inconsistency |= duplicate_div_check();
     inconsistency |= contra_transaction_check();
+    inconsistency |= financial_years_check();
 
     if ( !inconsistency )
     {
@@ -433,3 +436,139 @@ gboolean contra_transaction_check ( void )
   return corrupted_file;
 }
 
+/******************************************************************************/
+/* financial_years_check.                                                     */
+/* Cette fonction est appelée après la création de toutes les listes          */
+/* Elle permet de vérifier la cohérence des exercices des opérations          */
+/* avec l'opération mère. En effetsuite à la découverte du bogue #542                                        */
+/******************************************************************************/
+gboolean financial_years_check ( void )
+{
+  gint affected_accounts = 0;
+  gboolean corrupted_file = FALSE;
+  GSList *pUserAccountsList = NULL;
+  gchar *pHint = NULL, *pText = "";
+
+  /* S'il n'y a pas de compte, on quitte */
+  if ( !nb_comptes )
+    return FALSE;
+
+  /* Si on n'utilise pas les exercices, on quitte */
+  if ( !etat.utilise_exercice )
+    return FALSE;
+    
+  /* On fera la vérification des comptes dans l'ordre préféré
+     de l'utilisateur. On fait une copie de la liste. */
+  pUserAccountsList = g_slist_copy ( ordre_comptes );
+  
+  /* Pour chacun des comptes, faire */
+  do
+  {
+    gboolean corrupted_account = FALSE;
+    GSList *pTransactionList;
+    gchar *account_name = NULL;
+
+    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + GPOINTER_TO_INT ( pUserAccountsList -> data );
+      
+    /* On affiche le nom du compte testé. Si le compte n'est pas affecté,
+       on libèrera la mémoire */
+    account_name = g_strdup_printf ("%s", NOM_DU_COMPTE);
+
+    /* On récupère la liste des opérations */
+    pTransactionList = LISTE_OPERATIONS;
+
+    while ( pTransactionList )
+    {
+      struct structure_operation *pBreakdownTransaction;
+
+      pBreakdownTransaction = pTransactionList -> data;
+
+      /* si c'est une ventilation d'opération et que cette ventilation a un exercice,
+         on va voir si l'opération mère possède le même exercice */
+      if ( pBreakdownTransaction -> no_operation_ventilee_associee &&
+           pBreakdownTransaction -> no_exercice )
+      {
+	struct structure_operation *pTransaction;
+
+	pTransaction = g_slist_find_custom ( LISTE_OPERATIONS,
+					     GINT_TO_POINTER ( pBreakdownTransaction -> no_operation_ventilee_associee ),
+					     (GCompareFunc) recherche_operation_par_no ) -> data;
+	if (!pTransaction)
+	{
+	  /* S'il n'y avait pas eu encore d'erreur dans ce compte,
+	     on affiche son nom */
+	  if ( !corrupted_account ) {
+	    pText = g_strconcat ( pText,
+				  g_strdup_printf ( "\n<span weight=\"bold\">%s</span>\n",
+						    account_name), 
+				  NULL );
+	  }
+	  pText = g_strconcat ( pText,
+				g_strdup_printf ( _("Breakdown line #%d is orpheanous.\n"),
+						  pBreakdownTransaction -> no_operation),
+				NULL );
+	  corrupted_account = TRUE;
+	}
+	else
+	{
+	  if( pTransaction -> no_exercice != pBreakdownTransaction -> no_exercice )
+	  {
+	    /* S'il n'y avait pas eu encore d'erreur dans ce compte,
+	       on affiche son nom */
+	    if ( !corrupted_account ) {
+	      pText = g_strconcat ( pText,
+				    g_strdup_printf ( "\n<span weight=\"bold\">%s</span>\n",
+						    account_name), 
+				    NULL );
+	    }
+	    pText = g_strconcat ( pText,
+				  g_strdup_printf ( _("Transaction #%d has a financial year named %s and "
+						      "breakdown line #%d of this transaction has a "
+						      "financial year named %s\n"),
+						    pTransaction -> no_operation,
+						    exercice_name_by_no ( pTransaction -> no_exercice ),
+						    pBreakdownTransaction -> no_operation,
+						    exercice_name_by_no ( pBreakdownTransaction -> no_exercice ) ),
+				  NULL );
+	    corrupted_account = TRUE;
+	  }
+	}
+      
+      }
+      pTransactionList = pTransactionList -> next;
+    }
+    if ( corrupted_account ) {
+      corrupted_file = TRUE;
+      affected_accounts++;
+    }
+    g_free ( account_name );
+  }
+  while ( ( pUserAccountsList = pUserAccountsList -> next ) );
+
+  if ( affected_accounts )
+  {
+    pText = g_strconcat ( _("Grisbi found breakdown lines that have financial years different "
+			    "from the financial years of the related transaction.  Perhaps it isn't "
+			    "a problem, but perhaps it is.\n"
+			    "The following accounts seems inconsistent:\n"), 
+			  pText, NULL );
+
+    if ( affected_accounts > 1 )
+    {
+      pHint = g_strdup_printf ( _("%d accounts have inconsistencies."), 
+				affected_accounts );
+    }
+    else
+    {
+      pHint = _("An account has inconsistencies.");
+    }
+
+    dialogue_warning_hint ( pText, pHint );
+
+    g_free ( pText );
+    g_free ( pHint );
+  }
+  g_slist_free ( pUserAccountsList );
+
+  return corrupted_file;
+}
