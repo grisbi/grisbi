@@ -33,13 +33,42 @@
 #include "devises.h"
 #include "dialog.h"
 
+
+/*START_STATIC*/
+gboolean reconciliation_check ( void );
+gboolean duplicate_div_check ( void );
+/*END_STATIC*/
+
+/*START_EXTERN*/
+/*END_EXTERN*/
+
+
+
+/**
+ * Performs various checks on Grisbi files.
+ *
+ * @return TRUE
+ */
+gboolean debug_check ( void )
+{
+    if ( !reconciliation_check() && !duplicate_div_check () )
+    {
+	dialogue_hint ( _("Grisbi found no known inconsistency in accounts processed."),
+			_("No inconsistency found.") );
+    }
+    
+    return TRUE;
+}
+
+
+
 /******************************************************************************/
 /* reconciliation_check.                                                      */
 /* Cette fonction est appelée après la création de toutes les listes.         */
 /* Elle permet de vérifier la cohérence des rapprochements suite à la         */
 /* découverte des bogues #466 et #488.                                        */
 /******************************************************************************/
-void reconciliation_check ( void )
+gboolean reconciliation_check ( void )
 {
   gint affected_accounts = 0;
   gint tested_account = 0;
@@ -48,7 +77,7 @@ void reconciliation_check ( void )
 
   /* S'il n'y a pas de compte, on quitte */
   if ( !nb_comptes )
-    return;
+    return 0;
     
   /* On fera la vérification des comptes dans l'ordre préféré
      de l'utilisateur. On fait une copie de la liste. */
@@ -116,12 +145,7 @@ void reconciliation_check ( void )
   }
   while ( (  pUserAccountsList = pUserAccountsList -> next ) );
 
-  if ( !affected_accounts )
-  {
-    dialogue_hint ( _("Grisbi found no known inconsistency in accounts processed."),
-		    _("No inconsistency found.") );
-  }
-  else
+  if ( affected_accounts )
   {
     pText = g_strconcat ( _("Grisbi found accounts where reconciliation totals are inconsistent "
 			    "with the sum of reconcilied transactions.  Generally, the cause is "
@@ -146,4 +170,111 @@ void reconciliation_check ( void )
     free ( pHint );
   }
   g_slist_free ( pUserAccountsList );
+
+  return affected_accounts;
 }
+
+
+
+/**
+ * Find if two sub categories are the same
+ *
+ */
+gint find_duplicate_categ ( struct struct_sous_categ * a, struct struct_sous_categ * b )
+{
+    if ( a != b && a -> no_sous_categ == b -> no_sous_categ )
+    {
+	return 0;
+    }
+    return 1;
+}
+
+
+
+/**
+ *
+ *
+ */
+gboolean duplicate_div_check ()
+{
+    GSList * tmp;
+    gint num_duplicate = 0;
+    gchar * output = "";
+
+    tmp = liste_struct_categories;
+    while ( tmp )
+    {
+	struct struct_categ * categ = tmp -> data;
+	GSList * tmp_sous_categ = categ -> liste_sous_categ;
+
+	while ( tmp_sous_categ )
+	{
+	    GSList * duplicate;
+	    duplicate = g_slist_find_custom ( categ -> liste_sous_categ, 
+					      tmp_sous_categ -> data,
+					      (GCompareFunc) find_duplicate_categ );
+	    /* Second comparison is just there to find only one of them. */
+	    if ( duplicate && duplicate > tmp_sous_categ )
+	    {
+		output = g_strconcat ( output, 
+				       g_strdup_printf ( _("Sub-category <i>'%s : %s'</i> is a duplicate of <i>'%s : %s'</i>\n"), 
+							 categ -> nom_categ,
+							 ((struct struct_sous_categ *) tmp_sous_categ -> data) -> nom_sous_categ,
+							 categ -> nom_categ,
+							 ((struct struct_sous_categ *) duplicate -> data) -> nom_sous_categ ),
+				       NULL );
+		num_duplicate ++;
+	    }
+	    tmp_sous_categ = tmp_sous_categ -> next;
+	}
+	
+	tmp = tmp -> next;
+    }
+
+    if ( num_duplicate )
+    {
+	output = g_strconcat ( output, "\n",
+			       _("Due to a bug in previous versions of Grisbi, "
+				 "sub-categories may share the same numeric id in some "
+				 "cases, resulting in transactions having two sub-categories.  "
+				 "If you choose to continue, Grisbi will "
+				 "remove one of each sub-categories duplicate and "
+				 "recreate it with a new id.\n\n"
+				 "No transactions will be lost, but in some cases, you "
+				 "will have to manually move transactions to this new "
+				 "sub-category."),
+			       NULL );
+	if ( question_yes_no_hint ( _("Fix inconsistencies in sub-categories?"), output ) )
+	{
+	    tmp = liste_struct_categories;
+	    while ( tmp )
+	    {
+		struct struct_categ * categ = tmp -> data;
+		GSList * tmp_sous_categ = categ -> liste_sous_categ;
+
+		while ( tmp_sous_categ )
+		{
+		    GSList * duplicate;
+		    duplicate = g_slist_find_custom ( categ -> liste_sous_categ, 
+						      tmp_sous_categ -> data,
+						      (GCompareFunc) find_duplicate_categ );
+		    /* Second comparison is just there to find only one of them. */
+		    if ( duplicate && duplicate > tmp_sous_categ )
+		    {
+			struct struct_sous_categ * duplicate_categ = duplicate -> data;
+
+			duplicate_categ -> no_sous_categ = ++(categ -> no_derniere_sous_categ);
+		    }
+		    tmp_sous_categ = tmp_sous_categ -> next;
+		}
+	
+		tmp = tmp -> next;
+	    }
+
+	    mise_a_jour_categ();
+	}
+    }
+
+    return num_duplicate;
+}
+

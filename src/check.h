@@ -1,1 +1,1 @@
-void reconciliation_check ( void );
+gboolean debug_check ( void );
