@@ -68,6 +68,11 @@ void display_tip ( gboolean force )
   etat.last_tip ++;
   tip = get_next_tip ();
 
+  // If no tips found ... no dialog will be displayed...
+  if (!tip)
+  {
+      return;
+  }
   dialog = dialogue_special_no_run ( GTK_MESSAGE_INFO, GTK_BUTTONS_NONE,
 				     make_hint ( _("Did you know that..."),
 						 /* We use the grisbi-tips catalog */
@@ -132,8 +137,13 @@ gchar * get_next_tip ()
   gchar * buffer, * tip = NULL, ** tips;
   gint length;
 
-  g_file_get_contents ( g_strconcat ( HELP_PATH, C_DIRECTORY_SEPARATOR, "tips.txt", NULL ),
-			&buffer, &length, NULL );
+  // If there any problem during tip file reading, return NULL 
+  if (!g_file_get_contents ( g_strconcat ( HELP_PATH, C_DIRECTORY_SEPARATOR, "tips.txt", NULL ),
+			&buffer, &length, NULL ))
+  {
+      return NULL;
+  }
+
   tips = g_strsplit ( buffer, "\"\n\n", length );
 
   for ( ; tips && *tips ; tips++ )
