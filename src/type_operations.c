@@ -2,7 +2,7 @@
 /* type_operations.c */
 
 /*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org) */
-/*			2003 Benjamin Drieu (bdrieu@april.org) */
+/*			2003-2004 Benjamin Drieu (bdrieu@april.org) */
 /* 			http://www.grisbi.org */
 
 /*     This program is free software; you can redistribute it and/or modify */
@@ -1016,6 +1016,9 @@ void supprimer_type_operation ( void )
 			     PAYMENT_METHODS_VISIBLE_COLUMN, &visible,
 			     PAYMENT_METHODS_POINTER_COLUMN, &type_ope,
 			     -1 );
+
+	if ( ! type_ope )
+	    return;
 
 	/** We then put related operations in a temporary list */
 	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + type_ope -> no_compte;
