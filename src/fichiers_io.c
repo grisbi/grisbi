@@ -170,9 +170,9 @@ gboolean charge_operations_version_0_3_2 ( xmlDocPtr doc )
 		if ( (etat.fichier_deja_ouvert  = atoi ( xmlNodeGetContent ( node_generalites ))))
 		  {
 		    if ( etat.force_enregistrement )
-		      dialogue ( _("Warning: either this file is already opened by another user or it wasn't\nclosed correctly (maybe Grisbi crashed?).\nGrisbi will however overwrite the file.\nWe advise you not to use this option except if you know excactly what\nyou are doing (i.e. nobody else uses this file for the moment).\n\nYou can deactivate this option in the setup.") );
+		      dialogue ( _("Warning: either this file is already opened by another user or it wasn't closed correctly (maybe Grisbi crashed?).\n\nGrisbi will however overwrite the file.  We advise you not to use this option except if you know exactly what you are doing (i.e. nobody else uses this file for the moment).\n\nYou can deactivate this option in the setup.") );
 		    else
-		      dialogue ( _("Warning: either this file is already opened by another user or it wasn't closed\nclosed correctly (maybe Grisbi crashed?).\nGrisbi can't save the file unless you activate the \"Force saving\" \noption in the setup.") );
+		      dialogue ( _("Warning: either this file is already opened by another user or it wasn't closed correctly (maybe Grisbi crashed?).\nGrisbi can't save the file unless you activate the \"Force saving\" \noption in the setup.") );
 		  }	    
 
 	      if ( !strcmp ( node_generalites -> name,
@@ -1731,6 +1731,7 @@ void supprime_operations_orphelines ( void )
     {
       gchar *message;
 
+      /* FIXME */
       message = "Un bug dans les versions inférieures à la 0.4.0 pouvait faire apparaître des opérations orphelines :\n-soit des virements sans contre-opération,\n-soit des opérations de détails de ventilation sans ventilation mère associée.\n\nGrisbi a recherché ces types d'opérations et a trouvé :\n\n";
 
       if ( nb_ventil )
@@ -1858,7 +1859,7 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 		if ( (etat.fichier_deja_ouvert  = atoi ( xmlNodeGetContent ( node_generalites ))))
 		  {
 		    if ( etat.force_enregistrement )
-		      dialogue ( _("Warning: either this file is already opened by another user or it wasn't\nclosed correctly (maybe Grisbi crashed?).\nGrisbi will however overwrite the file.\nWe advise you not to use this option except if you know excactly what\nyou are doing (i.e. nobody else uses this file for the moment).\n\nYou can deactivate this option in the setup.") );
+		      dialogue ( _("Warning: either this file is already opened by another user or it wasn't closed correctly (maybe Grisbi crashed?).\n\nGrisbi will however overwrite the file.  We advise you not to use this option except if you know exactly what you are doing (i.e. nobody else uses this file for the moment).\n\nYou can deactivate this option in the setup.") );
 		    else
 		      dialogue ( _("Warning: either this file is already opened by another user or it wasn't closed\nclosed correctly (maybe Grisbi crashed?).\nGrisbi can't save the file unless you activate the \"Force saving\" \noption in the setup.") );
 		  }

@@ -40,11 +40,11 @@ void a_propos ( GtkWidget *bouton,
 
   const gchar *generalites = _("Grisbi is a personnal accounting application for Linux\nSuch a program allows you to sort your financial transactions, whatever they are, in a convenient and intuitive way.  Thus, you will be able to manage them as to fit your needs the more you can.\nGrisbi aims both at simplicty and efficiency for common use, and at a powerful use for power users.  We will always try to respect this as features will come.");
 
-  const gchar *auteurs[] = { _("Cédric Auger (cedric@grisbi.org) : Programming"),
+  const gchar *auteurs[] = { _("CÃ©dric Auger (cedric@grisbi.org) : Programming"),
 			    _("Daniel Cartron (doc@grisbi.org) : Manual, website, consultancy"),
 			    _("Benjamin Drieu (bdrieu@april.org) : Programming, Debian packaging"),
-			    _("Gérald Niel (gerald.niel@grisbi.org) : RPM packaging, website"),
-			    _("André Pascual (andre@linuxgraphic.org) : Logo"),
+			    _("GÃ©rald Niel (gerald.niel@grisbi.org) : RPM packaging, website"),
+			    _("AndrÃ© Pascual (andre@linuxgraphic.org) : Logo"),
 			    NULL };
   const gchar *traducteurs[] = { "Daniel Cartron (cartron@grisbi.org) : English",
 				 NULL };
@@ -65,7 +65,7 @@ void a_propos ( GtkWidget *bouton,
 			   "http://www.grisbi.org/modules.php?name=Documentation",
 			   NULL };
 
-  const gchar *license = "This program is free software; you can redistribute it and/or modify\nit under the terms of the GNU General Public License as published by\nthe Free Software Foundation; either version 2 of the License, or\n(at your option) any later version.\n\nThis program is distributed in the hope that it will be useful,\nbut WITHOUT ANY WARRANTY; without even the implied warranty of\nMERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\nGNU General Public License for more details.You should have received a copy of the GNU General Public License\nalong with this program; if not, write to the Free Software\nFoundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA";
+  const gchar *license = "This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.\n\nThis program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.\n\nYou should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA";
 
   dialogue = gnome_dialog_new ( _("About..."),
 				GNOME_STOCK_BUTTON_APPLY,
@@ -94,6 +94,14 @@ void a_propos ( GtkWidget *bouton,
 					VERSION,
 					"\n\n",
 					NULL ));
+  gtk_label_set_markup ( label, 
+			 g_strconcat ( "<span size=\"large\" weight=\"bold\">",
+				       
+				       "Grisbi ",
+					VERSION,
+					"</span>",
+					NULL ) );
+
   gtk_box_pack_start ( GTK_BOX ( vbox ),
 		       label,
 		       FALSE,
@@ -246,8 +254,8 @@ void a_propos ( GtkWidget *bouton,
   gtk_widget_show ( vbox );
 
   label = gtk_label_new ( license );
-/*   gtk_label_set_line_wrap ( GTK_LABEL ( label ), */
-/* 			    TRUE ); */
+  gtk_label_set_line_wrap ( GTK_LABEL ( label ),
+			    TRUE );
   gtk_box_pack_start ( GTK_BOX ( vbox ),
 		       label,
 		       FALSE,
