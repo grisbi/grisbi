@@ -301,10 +301,10 @@ struct donnees_compte
 /* #define SOLDE_POINTE ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> solde_pointe */
 /* #define LISTE_OPERATIONS ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> gsliste_operations */
 /* #define OPERATION_SELECTIONNEE ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> operation_selectionnee */
-#define MESSAGE_SOUS_MINI ((struct donnees_compte *) (*verification_p_tab("define_compte"))) ->  message_sous_mini
-#define MESSAGE_SOUS_MINI_VOULU ((struct donnees_compte *) (*verification_p_tab("define_compte"))) ->  message_sous_mini_voulu
-#define DATE_DERNIER_RELEVE ((struct donnees_compte *) (*verification_p_tab("define_compte"))) ->  date_releve
-#define SOLDE_DERNIER_RELEVE ((struct donnees_compte *) (*verification_p_tab("define_compte"))) ->  solde_releve
+/* #define MESSAGE_SOUS_MINI ((struct donnees_compte *) (*verification_p_tab("define_compte"))) ->  message_sous_mini */
+/* #define MESSAGE_SOUS_MINI_VOULU ((struct donnees_compte *) (*verification_p_tab("define_compte"))) ->  message_sous_mini_voulu */
+/* #define DATE_DERNIER_RELEVE ((struct donnees_compte *) (*verification_p_tab("define_compte"))) ->  date_releve */
+/* #define SOLDE_DERNIER_RELEVE ((struct donnees_compte *) (*verification_p_tab("define_compte"))) ->  solde_releve */
 #define DERNIER_NO_RAPPROCHEMENT ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> dernier_no_rapprochement
 #define MISE_A_JOUR ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> mise_a_jour
 #define DEVISE ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> devise

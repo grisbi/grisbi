@@ -1011,8 +1011,9 @@ gboolean recuperation_comptes_xml ( xmlNodePtr node_comptes )
 
 			    if ( !strcmp ( node_detail -> name,
 					   "Solde_dernier_releve" ))
-				SOLDE_DERNIER_RELEVE = my_strtod ( xmlNodeGetContent ( node_detail ),
-								   NULL );
+				gsb_account_set_reconcile_balance ( no_compte,
+								    my_strtod ( xmlNodeGetContent ( node_detail ),
+										NULL ) );
 
 			    if ( !strcmp ( node_detail -> name,
 					   "Dernier_no_de_rapprochement" ))
@@ -3320,7 +3321,7 @@ gboolean enregistre_fichier ( gchar *nouveau_fichier )
 			  NULL,
 			  "Solde_dernier_releve",
 			  g_strdup_printf ( "%4.7f",
-					    SOLDE_DERNIER_RELEVE ));
+					    gsb_account_get_reconcile_balance (i)));
 
 	xmlNewTextChild ( node_compte,
 			  NULL,

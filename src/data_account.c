@@ -975,3 +975,42 @@ gboolean gsb_account_set_current_reconcile_date ( gint no_account,
 
 
 
+/** get the reconcile balance of the account
+ * \param no_account no of the account
+ * \return balance or NULL if the account doesn't exist
+ * */
+gdouble gsb_account_get_reconcile_balance ( gint no_account )
+{
+    struct_account *account;
+
+    account = gsb_account_get_structure ( no_account );
+
+    if (!account )
+	return 0;
+
+    return account -> reconcile_balance;
+}
+
+
+/** set the reconcile balance of the account
+ * \param no_account no of the account
+ * \param balance balance to set
+ * \return TRUE, ok ; FALSE, problem
+ * */
+gboolean gsb_account_set_reconcile_balance ( gint no_account,
+					     gdouble balance )
+{
+    struct_account *account;
+
+    account = gsb_account_get_structure ( no_account );
+
+    if (!account )
+	return FALSE;
+
+    account -> reconcile_balance = balance;
+
+    return TRUE;
+}
+
+
+
