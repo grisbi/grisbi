@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2003-04-14 11:07+0200\n"
+"POT-Creation-Date: 2003-04-15 10:01+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -205,6 +205,110 @@ msgstr ""
 
 #: src/affichage.c:829
 msgid "Rétablir le logo de Grisbi"
+msgstr ""
+
+#: src/affichage_liste.c:27 src/echeancier_formulaire.c:916
+#: src/echeancier_formulaire.c:2514 src/echeancier_liste.c:437
+#: src/equilibrage.c:165 src/etats_gnomeprint.c:2004 src/etats_gtktable.c:3441
+#: src/operations_formulaire.c:785 src/operations_formulaire.c:3729
+msgid "Date"
+msgstr ""
+
+#: src/affichage_liste.c:28 src/operations_formulaire.c:984
+#: src/operations_formulaire.c:3739
+msgid "Date de valeur"
+msgstr ""
+
+#. mise en place de la frame des tiers
+#: src/affichage_liste.c:29 src/echeancier_formulaire.c:925
+#: src/echeancier_formulaire.c:2516 src/echeancier_liste.c:437
+#: src/etats_config.c:126 src/etats_config.c:256 src/etats_config.c:7358
+#: src/etats_gnomeprint.c:2034 src/etats_gtktable.c:3471
+#: src/fenetre_principale.c:84 src/operations_formulaire.c:794
+#: src/operations_formulaire.c:3732
+msgid "Tiers"
+msgstr ""
+
+#: src/affichage_liste.c:30 src/echeancier_formulaire.c:1070
+#: src/echeancier_formulaire.c:2526 src/etats_config.c:248
+#: src/etats_gnomeprint.c:2064 src/etats_gtktable.c:3501
+#: src/operations_formulaire.c:1127 src/operations_formulaire.c:3746
+#: src/ventilation.c:924 src/ventilation.c:1465
+msgid "Imputation budgétaire"
+msgstr ""
+
+#. pour chaque compte on ajout débit et crédit
+#: src/affichage_liste.c:31 src/categories_onglet.c:263
+#: src/echeancier_formulaire.c:988 src/echeancier_formulaire.c:2518
+#: src/imputation_budgetaire.c:141 src/operations_formulaire.c:886
+#: src/operations_formulaire.c:3734 src/type_operations.c:219
+#: src/type_operations.c:508 src/ventilation.c:870 src/ventilation.c:889
+#: src/ventilation.c:1461
+msgid "Débit"
+msgstr ""
+
+#: src/affichage_liste.c:32 src/categories_onglet.c:279
+#: src/echeancier_formulaire.c:1052 src/echeancier_formulaire.c:1465
+#: src/echeancier_formulaire.c:2520 src/imputation_budgetaire.c:157
+#: src/operations_formulaire.c:977 src/operations_formulaire.c:1601
+#: src/operations_formulaire.c:3736 src/type_operations.c:232
+#: src/type_operations.c:521 src/ventilation.c:842 src/ventilation.c:917
+#: src/ventilation.c:1463
+msgid "Crédit"
+msgstr ""
+
+#: src/affichage_liste.c:33 src/equilibrage.c:173
+msgid "Solde"
+msgstr ""
+
+#: src/affichage_liste.c:34
+msgid "Montant (devise compte)"
+msgstr ""
+
+#: src/affichage_liste.c:35
+msgid "Moyen de paiement"
+msgstr ""
+
+#: src/affichage_liste.c:36
+msgid "N° rapprochement"
+msgstr ""
+
+#: src/affichage_liste.c:37 src/etats_gnomeprint.c:2019
+#: src/etats_gtktable.c:3456
+msgid "Exercice"
+msgstr ""
+
+#: src/affichage_liste.c:38 src/etats_config.c:244 src/etats_gnomeprint.c:2049
+#: src/etats_gtktable.c:3486 src/ventilation.c:39
+msgid "Catégorie"
+msgstr ""
+
+#: src/affichage_liste.c:39
+msgid "P/R"
+msgstr ""
+
+#: src/affichage_liste.c:40 src/echeancier_formulaire.c:1080
+#: src/echeancier_formulaire.c:2530 src/etats_gnomeprint.c:2124
+#: src/etats_gtktable.c:3561 src/operations_formulaire.c:1132
+#: src/operations_formulaire.c:3748 src/ventilation.c:931
+#: src/ventilation.c:1467
+msgid "Pièce comptable"
+msgstr ""
+
+#: src/affichage_liste.c:41 src/echeancier_formulaire.c:1086
+#: src/echeancier_formulaire.c:2532 src/etats_gnomeprint.c:2079
+#: src/etats_gtktable.c:3516 src/operations_formulaire.c:1138
+#: src/operations_formulaire.c:3751 src/ventilation.c:40 src/ventilation.c:821
+#: src/ventilation.c:1459
+msgid "Notes"
+msgstr ""
+
+#: src/affichage_liste.c:42
+msgid "Infos banque/guichet"
+msgstr ""
+
+#: src/affichage_liste.c:43
+msgid "N° opération"
 msgstr ""
 
 #: src/affichage_liste.c:51
@@ -429,6 +533,458 @@ msgstr ""
 msgid "Afficher les sous-divisions"
 msgstr ""
 
+#: src/categories_onglet.c:30
+msgid "Alimentation : Bar"
+msgstr ""
+
+#: src/categories_onglet.c:31
+msgid "Alimentation : Boulangerie"
+msgstr ""
+
+#: src/categories_onglet.c:32
+msgid "Alimentation : Cantine"
+msgstr ""
+
+#: src/categories_onglet.c:33
+msgid "Alimentation : Confiserie"
+msgstr ""
+
+#: src/categories_onglet.c:34
+msgid "Alimentation : Divers"
+msgstr ""
+
+#: src/categories_onglet.c:35
+msgid "Alimentation : Epicerie"
+msgstr ""
+
+#: src/categories_onglet.c:36
+msgid "Alimentation : Restaurant"
+msgstr ""
+
+#: src/categories_onglet.c:37
+msgid "Alimentation : Self"
+msgstr ""
+
+#: src/categories_onglet.c:38
+msgid "Alimentation : Supermarché"
+msgstr ""
+
+#: src/categories_onglet.c:39
+msgid "Animaux domestiques : Alimentation"
+msgstr ""
+
+#: src/categories_onglet.c:40
+msgid "Animaux domestiques : Fournitures diverses"
+msgstr ""
+
+#: src/categories_onglet.c:41
+msgid "Animaux domestiques : Toilettage"
+msgstr ""
+
+#: src/categories_onglet.c:42
+msgid "Animaux domestiques : Vétérinaire"
+msgstr ""
+
+#: src/categories_onglet.c:43
+msgid "Assurance : Automobile"
+msgstr ""
+
+#: src/categories_onglet.c:44
+msgid "Assurance : Santé"
+msgstr ""
+
+#: src/categories_onglet.c:45
+msgid "Assurance : Habitation"
+msgstr ""
+
+#: src/categories_onglet.c:46
+msgid "Assurance : Responsabilité civile"
+msgstr ""
+
+#: src/categories_onglet.c:47
+msgid "Assurance : Vie"
+msgstr ""
+
+#: src/categories_onglet.c:48
+msgid "Automobile : Carburant"
+msgstr ""
+
+#: src/categories_onglet.c:49
+msgid "Automobile : Réparation"
+msgstr ""
+
+#: src/categories_onglet.c:50
+msgid "Automobile : Entretien"
+msgstr ""
+
+#: src/categories_onglet.c:51
+msgid "Automobile : Stationnement"
+msgstr ""
+
+#: src/categories_onglet.c:52
+msgid "Automobile : Amendes"
+msgstr ""
+
+#: src/categories_onglet.c:53 src/etats_config.c:150
+msgid "Divers"
+msgstr ""
+
+#: src/categories_onglet.c:54
+msgid "Dons"
+msgstr ""
+
+#: src/categories_onglet.c:55
+msgid "Enfants : Crèche / Nourrice"
+msgstr ""
+
+#: src/categories_onglet.c:56
+msgid "Enfants : Frais divers"
+msgstr ""
+
+#: src/categories_onglet.c:57
+msgid "Enfants : Etudes"
+msgstr ""
+
+#: src/categories_onglet.c:58
+msgid "Etudes : Cours"
+msgstr ""
+
+#: src/categories_onglet.c:59
+msgid "Etudes : Frais de scolarité"
+msgstr ""
+
+#: src/categories_onglet.c:60
+msgid "Etudes : Livres"
+msgstr ""
+
+#: src/categories_onglet.c:61
+msgid "Frais divers : Cadeaux"
+msgstr ""
+
+#: src/categories_onglet.c:62
+msgid "Frais financiers : Divers"
+msgstr ""
+
+#: src/categories_onglet.c:63
+msgid "Frais financiers : Frais bancaires"
+msgstr ""
+
+#: src/categories_onglet.c:64
+msgid "Frais financiers : Emprunt"
+msgstr ""
+
+#: src/categories_onglet.c:65
+msgid "Frais financiers : Charges d'emprunts"
+msgstr ""
+
+#: src/categories_onglet.c:66
+msgid "Frais financiers : Remboursement"
+msgstr ""
+
+#: src/categories_onglet.c:67
+msgid "Frais professionnels : Non remboursés"
+msgstr ""
+
+#: src/categories_onglet.c:68
+msgid "Frais professionnels : Remboursés"
+msgstr ""
+
+#: src/categories_onglet.c:69
+msgid "Impôts : Autres impôts"
+msgstr ""
+
+#: src/categories_onglet.c:70
+msgid "Impôts : Impôt sur le revenu"
+msgstr ""
+
+#: src/categories_onglet.c:71
+msgid "Impôts : Impôts locaux"
+msgstr ""
+
+#: src/categories_onglet.c:72
+msgid "Logement : Hotel"
+msgstr ""
+
+#: src/categories_onglet.c:73
+msgid "Logement : Loyer"
+msgstr ""
+
+#: src/categories_onglet.c:74
+msgid "Logement : Abonnement TV"
+msgstr ""
+
+#: src/categories_onglet.c:75
+msgid "Logement : Ameublement"
+msgstr ""
+
+#: src/categories_onglet.c:76
+msgid "Logement : Charges"
+msgstr ""
+
+#: src/categories_onglet.c:77
+msgid "Logement : Chauffage"
+msgstr ""
+
+#: src/categories_onglet.c:78
+msgid "Logement : Décoration"
+msgstr ""
+
+#: src/categories_onglet.c:79
+msgid "Logement : Eau"
+msgstr ""
+
+#: src/categories_onglet.c:80
+msgid "Logement : Electricité"
+msgstr ""
+
+#: src/categories_onglet.c:81
+msgid "Logement : Electroménager"
+msgstr ""
+
+#: src/categories_onglet.c:82
+msgid "Logement : Equipement"
+msgstr ""
+
+#: src/categories_onglet.c:83
+msgid "Logement : Gaz"
+msgstr ""
+
+#: src/categories_onglet.c:84
+msgid "Logement : Jardin"
+msgstr ""
+
+#: src/categories_onglet.c:85
+msgid "Logement : Salarié à domicile"
+msgstr ""
+
+#: src/categories_onglet.c:86
+msgid "Logement : Téléphone"
+msgstr ""
+
+#: src/categories_onglet.c:87
+msgid "Loisirs : Billard"
+msgstr ""
+
+#: src/categories_onglet.c:88
+msgid "Loisirs : Bowling"
+msgstr ""
+
+#: src/categories_onglet.c:89
+msgid "Loisirs : Cinéma"
+msgstr ""
+
+#: src/categories_onglet.c:90
+msgid "Loisirs : Discothèque"
+msgstr ""
+
+#: src/categories_onglet.c:91
+msgid "Loisirs : Informatique"
+msgstr ""
+
+#: src/categories_onglet.c:92
+msgid "Loisirs : Jeux"
+msgstr ""
+
+#: src/categories_onglet.c:93
+msgid "Loisirs : Lecture"
+msgstr ""
+
+#: src/categories_onglet.c:94
+msgid "Loisirs : Parc d'attraction"
+msgstr ""
+
+#: src/categories_onglet.c:95
+msgid "Loisirs : Spectacle"
+msgstr ""
+
+#: src/categories_onglet.c:96
+msgid "Loisirs : Sport"
+msgstr ""
+
+#: src/categories_onglet.c:97
+msgid "Loisirs : Vidéo"
+msgstr ""
+
+#: src/categories_onglet.c:98
+msgid "Loisirs : Voyage"
+msgstr ""
+
+#: src/categories_onglet.c:99
+msgid "Loisirs : Equipement"
+msgstr ""
+
+#: src/categories_onglet.c:100
+msgid "Loisirs : Musée / Exposition"
+msgstr ""
+
+#: src/categories_onglet.c:101
+msgid "Prêt : Capital"
+msgstr ""
+
+#: src/categories_onglet.c:102
+msgid "Santé : Assurance"
+msgstr ""
+
+#: src/categories_onglet.c:103
+msgid "Santé : Dentiste"
+msgstr ""
+
+#: src/categories_onglet.c:104
+msgid "Santé : Hôpital"
+msgstr ""
+
+#: src/categories_onglet.c:105
+msgid "Santé : Kinésithérapeute"
+msgstr ""
+
+#: src/categories_onglet.c:106
+msgid "Santé : Médecin"
+msgstr ""
+
+#: src/categories_onglet.c:107
+msgid "Santé : Ophtalmologiste"
+msgstr ""
+
+#: src/categories_onglet.c:108
+msgid "Santé : Ostéopathe"
+msgstr ""
+
+#: src/categories_onglet.c:109
+msgid "Santé : Pharmacie"
+msgstr ""
+
+#: src/categories_onglet.c:110
+msgid "Santé : Sécurité sociale"
+msgstr ""
+
+#: src/categories_onglet.c:111
+msgid "Soins : Coiffeur"
+msgstr ""
+
+#: src/categories_onglet.c:112
+msgid "Soins : Habillement"
+msgstr ""
+
+#: src/categories_onglet.c:113
+msgid "Transport : Bus"
+msgstr ""
+
+#: src/categories_onglet.c:114
+msgid "Transport : Métro"
+msgstr ""
+
+#: src/categories_onglet.c:115
+msgid "Transport : Péage"
+msgstr ""
+
+#: src/categories_onglet.c:116 src/categories_onglet.c:119
+msgid "Transport : Train"
+msgstr ""
+
+#: src/categories_onglet.c:117
+msgid "Transport : Tramway"
+msgstr ""
+
+#: src/categories_onglet.c:118
+msgid "Transport : Voyage"
+msgstr ""
+
+#: src/categories_onglet.c:120
+msgid "Vacances : Logement"
+msgstr ""
+
+#: src/categories_onglet.c:121
+msgid "Vacances : Visites"
+msgstr ""
+
+#: src/categories_onglet.c:122
+msgid "Vacances : Voyages"
+msgstr ""
+
+#: src/categories_onglet.c:126
+msgid "Autres revenus : Allocation chômage"
+msgstr ""
+
+#: src/categories_onglet.c:127
+msgid "Autres revenus : Allocation familiales"
+msgstr ""
+
+#: src/categories_onglet.c:128
+msgid "Autres revenus : Capital de prêt reçu"
+msgstr ""
+
+#: src/categories_onglet.c:129
+msgid "Autres revenus : Crédit d'impôt"
+msgstr ""
+
+#: src/categories_onglet.c:130
+msgid "Autres revenus : Jeu"
+msgstr ""
+
+#: src/categories_onglet.c:131
+msgid "Autres revenus : Mutuelle santé"
+msgstr ""
+
+#: src/categories_onglet.c:132
+msgid "Autres revenus : Sécurité sociale"
+msgstr ""
+
+#: src/categories_onglet.c:133
+msgid "Retraite : Pensions"
+msgstr ""
+
+#: src/categories_onglet.c:134
+msgid "Retraite : Régime général"
+msgstr ""
+
+#: src/categories_onglet.c:135
+msgid "Retraite : Retraite complémentaire"
+msgstr ""
+
+#: src/categories_onglet.c:136
+msgid "Revenus de placement : Dividendes"
+msgstr ""
+
+#: src/categories_onglet.c:137
+msgid "Revenus de placement : Intérêts"
+msgstr ""
+
+#: src/categories_onglet.c:138
+msgid "Revenus de placement : Plus-values"
+msgstr ""
+
+#: src/categories_onglet.c:139
+msgid "Salaire : Heures supplémentaires"
+msgstr ""
+
+#: src/categories_onglet.c:140
+msgid "Salaire : Primes congés"
+msgstr ""
+
+#: src/categories_onglet.c:141
+msgid "Salaire : Primes diverses"
+msgstr ""
+
+#: src/categories_onglet.c:142
+msgid "Salaire : Primes résultats"
+msgstr ""
+
+#: src/categories_onglet.c:143
+msgid "Salaire : Salaire net"
+msgstr ""
+
+#: src/categories_onglet.c:144
+msgid "Revenus divers : Cadeaux"
+msgstr ""
+
+#: src/categories_onglet.c:145
+msgid "Revenus divers : Remboursement"
+msgstr ""
+
+#: src/categories_onglet.c:146
+msgid "Revenus divers : Vente occasion"
+msgstr ""
+
 #: src/categories_onglet.c:164 src/parametres.c:1802
 msgid "Liste des catégories"
 msgstr ""
@@ -455,24 +1011,6 @@ msgstr ""
 msgid "Classement"
 msgstr ""
 
-#. pour chaque compte on ajout débit et crédit
-#: src/categories_onglet.c:263 src/echeancier_formulaire.c:988
-#: src/echeancier_formulaire.c:2518 src/imputation_budgetaire.c:141
-#: src/operations_formulaire.c:886 src/operations_formulaire.c:3734
-#: src/type_operations.c:219 src/type_operations.c:508 src/ventilation.c:870
-#: src/ventilation.c:889 src/ventilation.c:1461
-msgid "Débit"
-msgstr ""
-
-#: src/categories_onglet.c:279 src/echeancier_formulaire.c:1052
-#: src/echeancier_formulaire.c:1465 src/echeancier_formulaire.c:2520
-#: src/imputation_budgetaire.c:157 src/operations_formulaire.c:977
-#: src/operations_formulaire.c:1601 src/operations_formulaire.c:3736
-#: src/type_operations.c:232 src/type_operations.c:521 src/ventilation.c:842
-#: src/ventilation.c:917 src/ventilation.c:1463
-msgid "Crédit"
-msgstr ""
-
 #. mise en place des boutons ajout d'1 categ / sous-categ
 #: src/categories_onglet.c:363
 msgid "Ajouter une catégorie"
@@ -484,13 +1022,13 @@ msgstr ""
 
 #. on met le bouton exporter
 #: src/categories_onglet.c:403 src/etats_onglet.c:377
-#: src/imputation_budgetaire.c:310
+#: src/imputation_budgetaire.c:310 src/menu.c:177
 msgid "Exporter"
 msgstr ""
 
 #. on met le bouton importer
 #: src/categories_onglet.c:419 src/etats_onglet.c:395
-#: src/imputation_budgetaire.c:326
+#: src/imputation_budgetaire.c:326 src/menu.c:175
 msgid "Importer"
 msgstr ""
 
@@ -789,12 +1327,12 @@ msgid "La monnaie Euro est introuvable, elle a dû être effacée des devises."
 msgstr ""
 
 #. mise en place des boutons du bas
-#: src/comptes_onglet.c:179
+#: src/comptes_onglet.c:179 src/menu.c:41
 msgid "Nouveau compte"
 msgstr ""
 
 #. mise en place du bouton équilibrage
-#: src/comptes_onglet.c:197
+#: src/comptes_onglet.c:197 src/menu.c:45 src/menu.c:46
 msgid "Supprimer un compte"
 msgstr ""
 
@@ -986,7 +1524,7 @@ msgstr ""
 msgid "Annuel"
 msgstr ""
 
-#: src/echeancier_formulaire.c:668
+#: src/echeancier_formulaire.c:668 src/etats_config.c:29
 msgid "Personnalisé"
 msgstr ""
 
@@ -1008,22 +1546,6 @@ msgstr ""
 msgid "Années"
 msgstr ""
 
-#: src/echeancier_formulaire.c:916 src/echeancier_formulaire.c:2514
-#: src/echeancier_liste.c:437 src/equilibrage.c:165
-#: src/etats_gnomeprint.c:2004 src/etats_gtktable.c:3441
-#: src/operations_formulaire.c:785 src/operations_formulaire.c:3729
-msgid "Date"
-msgstr ""
-
-#. mise en place de la frame des tiers
-#: src/echeancier_formulaire.c:925 src/echeancier_formulaire.c:2516
-#: src/echeancier_liste.c:437 src/etats_config.c:126 src/etats_config.c:256
-#: src/etats_config.c:7358 src/etats_gnomeprint.c:2034
-#: src/etats_gtktable.c:3471 src/fenetre_principale.c:84
-#: src/operations_formulaire.c:794 src/operations_formulaire.c:3732
-msgid "Tiers"
-msgstr ""
-
 #: src/echeancier_formulaire.c:1059 src/echeancier_formulaire.c:2522
 #: src/operations_formulaire.c:1116 src/operations_formulaire.c:3741
 #: src/ventilation.c:814 src/ventilation.c:1457
@@ -1034,31 +1556,9 @@ msgstr ""
 msgid "n° Virement"
 msgstr ""
 
-#: src/echeancier_formulaire.c:1070 src/echeancier_formulaire.c:2526
-#: src/etats_config.c:248 src/etats_gnomeprint.c:2064
-#: src/etats_gtktable.c:3501 src/operations_formulaire.c:1127
-#: src/operations_formulaire.c:3746 src/ventilation.c:924
-#: src/ventilation.c:1465
-msgid "Imputation budgétaire"
-msgstr ""
-
 #: src/echeancier_formulaire.c:1075 src/echeancier_formulaire.c:2528
 #: src/operations_formulaire.c:1143 src/operations_formulaire.c:3753
 msgid "Informations banque/guichet"
-msgstr ""
-
-#: src/echeancier_formulaire.c:1080 src/echeancier_formulaire.c:2530
-#: src/etats_gnomeprint.c:2124 src/etats_gtktable.c:3561
-#: src/operations_formulaire.c:1132 src/operations_formulaire.c:3748
-#: src/ventilation.c:931 src/ventilation.c:1467
-msgid "Pièce comptable"
-msgstr ""
-
-#: src/echeancier_formulaire.c:1086 src/echeancier_formulaire.c:2532
-#: src/etats_gnomeprint.c:2079 src/etats_gtktable.c:3516
-#: src/operations_formulaire.c:1138 src/operations_formulaire.c:3751
-#: src/ventilation.c:40 src/ventilation.c:821 src/ventilation.c:1459
-msgid "Notes"
 msgstr ""
 
 #: src/echeancier_formulaire.c:1094 src/echeancier_formulaire.c:2534
@@ -1123,7 +1623,7 @@ msgstr ""
 msgid "De l'année"
 msgstr ""
 
-#: src/echeancier_liste.c:231
+#: src/echeancier_liste.c:231 src/etats_config.c:28
 msgid "Toutes"
 msgstr ""
 
@@ -1213,10 +1713,6 @@ msgstr ""
 
 #: src/equilibrage.c:104
 msgid "Numéro de rapprochement"
-msgstr ""
-
-#: src/equilibrage.c:173
-msgid "Solde"
 msgstr ""
 
 #: src/equilibrage.c:285
@@ -1316,10 +1812,6 @@ msgid ""
 "Merci !"
 msgstr ""
 
-#: src/etat_io.c:46
-msgid "Grisbi_etat"
-msgstr ""
-
 #: src/etat_io.c:48
 msgid "Ce fichier n'est pas un état Grisbi"
 msgstr ""
@@ -1405,6 +1897,78 @@ msgid ""
 "%s"
 msgstr ""
 
+#: src/etats_config.c:30
+msgid "Cumul à ce jour"
+msgstr ""
+
+#: src/etats_config.c:31
+msgid "Mois en cours"
+msgstr ""
+
+#: src/etats_config.c:32
+msgid "Année en cours"
+msgstr ""
+
+#: src/etats_config.c:33
+msgid "Cumul mensuel"
+msgstr ""
+
+#: src/etats_config.c:34
+msgid "Cumul annuel"
+msgstr ""
+
+#: src/etats_config.c:35
+msgid "Mois précédent"
+msgstr ""
+
+#: src/etats_config.c:36
+msgid "Année précédente"
+msgstr ""
+
+#: src/etats_config.c:37
+msgid "30 derniers jours"
+msgstr ""
+
+#: src/etats_config.c:38
+msgid "3 derniers mois"
+msgstr ""
+
+#: src/etats_config.c:39
+msgid "6 derniers mois"
+msgstr ""
+
+#: src/etats_config.c:40
+msgid "12 derniers mois"
+msgstr ""
+
+#: src/etats_config.c:44
+msgid "Lundi"
+msgstr ""
+
+#: src/etats_config.c:45
+msgid "Mardi"
+msgstr ""
+
+#: src/etats_config.c:46
+msgid "Mercredi"
+msgstr ""
+
+#: src/etats_config.c:47
+msgid "Jeudi"
+msgstr ""
+
+#: src/etats_config.c:48
+msgid "Vendredi"
+msgstr ""
+
+#: src/etats_config.c:49
+msgid "Samedi"
+msgstr ""
+
+#: src/etats_config.c:50
+msgid "Dimanche"
+msgstr ""
+
 #: src/etats_config.c:81
 msgid "Configuration états"
 msgstr ""
@@ -1424,7 +1988,7 @@ msgstr ""
 
 #. mise en place de la frame des comptes
 #: src/etats_config.c:122 src/etats_config.c:7312 src/fenetre_principale.c:77
-#: src/operations_onglet.c:72 src/type_operations.c:39
+#: src/menu.c:189 src/operations_onglet.c:72 src/type_operations.c:39
 msgid "Comptes"
 msgstr ""
 
@@ -1446,12 +2010,9 @@ msgstr ""
 msgid "Montants"
 msgstr ""
 
-#: src/etats_config.c:146 src/etats_gtktable.c:3531
+#: src/etats_config.c:146 src/etats_gtktable.c:3531 src/menu.c:97
+#: src/menu.c:98
 msgid "Mode de règlement"
-msgstr ""
-
-#: src/etats_config.c:150
-msgid "Divers"
 msgstr ""
 
 #: src/etats_config.c:156
@@ -1460,11 +2021,6 @@ msgstr ""
 
 #: src/etats_config.c:163
 msgid "Affichage des données"
-msgstr ""
-
-#: src/etats_config.c:244 src/etats_gnomeprint.c:2049
-#: src/etats_gtktable.c:3486 src/ventilation.c:39
-msgid "Catégorie"
 msgstr ""
 
 #: src/etats_config.c:960
@@ -1904,7 +2460,7 @@ msgstr ""
 msgid "Opérations"
 msgstr ""
 
-#: src/etats_config.c:6332 src/parametres.c:88
+#: src/etats_config.c:6332 src/menu.c:82 src/menu.c:83 src/parametres.c:88
 msgid "Devises"
 msgstr ""
 
@@ -2221,10 +2777,6 @@ msgstr ""
 
 #: src/etats_gnomeprint.c:1989 src/etats_gtktable.c:3426
 msgid "N°"
-msgstr ""
-
-#: src/etats_gnomeprint.c:2019 src/etats_gtktable.c:3456
-msgid "Exercice"
 msgstr ""
 
 #: src/etats_gnomeprint.c:2094
@@ -2553,18 +3105,18 @@ msgid "exercice précédent"
 msgstr ""
 
 #: src/etats_support.c:159
-msgid "exercices "
+msgid "exercices"
 msgstr ""
 
 #: src/etats_support.c:163
-msgid "exercice "
+msgid "exercice"
 msgstr ""
 
 #: src/etats_support.c:204
 msgid "toutes les dates"
 msgstr ""
 
-#: src/etats_support.c:216 src/etats_support.c:342
+#: src/etats_support.c:216 src/etats_support.c:326
 #, c-format
 msgid "du %d/%d/%d au %d/%d/%d"
 msgstr ""
@@ -2578,49 +3130,34 @@ msgstr ""
 msgid "cumul au %d/%d/%d"
 msgstr ""
 
-#: src/etats_support.c:253 src/etats_support.c:310
+#: src/etats_support.c:251 src/etats_support.c:300
 #, c-format
-msgid "mois d'%s %d"
+msgid "%s %d"
 msgstr ""
 
-#: src/etats_support.c:259 src/etats_support.c:316
-#, c-format
-msgid "mois de %s %d"
-msgstr ""
-
-#: src/etats_support.c:269 src/etats_support.c:326
+#: src/etats_support.c:261 src/etats_support.c:310
 #, c-format
 msgid "année %d"
 msgstr ""
 
-#: src/etats_support.c:278
+#: src/etats_support.c:270
 #, c-format
 msgid "cumul mensuel au %d/%d/%d"
 msgstr ""
 
-#: src/etats_support.c:289
+#: src/etats_support.c:281
 #, c-format
 msgid "cumul annuel au %d/%d/%d"
 msgstr ""
 
-#: src/etats_support.c:374 src/etats_support.c:423 src/etats_support.c:472
+#: src/etats_support.c:355 src/etats_support.c:385 src/etats_support.c:414
 #, c-format
-msgid "du mois d'%s %d "
+msgid "de %s %d"
 msgstr ""
 
-#: src/etats_support.c:380 src/etats_support.c:429 src/etats_support.c:478
+#: src/etats_support.c:359 src/etats_support.c:389 src/etats_support.c:418
 #, c-format
-msgid "du mois de %s %d "
-msgstr ""
-
-#: src/etats_support.c:389 src/etats_support.c:438 src/etats_support.c:487
-#, c-format
-msgid "au mois d'%s %d"
-msgstr ""
-
-#: src/etats_support.c:395 src/etats_support.c:444 src/etats_support.c:493
-#, c-format
-msgid "au mois de %s %d"
+msgid "à %s %d"
 msgstr ""
 
 #. création du bouton association automatique
@@ -3072,6 +3609,94 @@ msgstr ""
 msgid "Erreur sur sigaction, le signal SIGSEGV ne sera pas détourné\n"
 msgstr ""
 
+#: src/menu.c:42
+msgid "Créer un nouveau compte"
+msgstr ""
+
+#: src/menu.c:50
+msgid "Comptes cloturés"
+msgstr ""
+
+#: src/menu.c:57 src/menu.c:58 src/parametres.c:53
+msgid "Général"
+msgstr ""
+
+#: src/menu.c:62 src/menu.c:63 src/parametres.c:60
+msgid "Fichiers"
+msgstr ""
+
+#: src/menu.c:67 src/menu.c:68 src/parametres.c:66
+msgid "Échéances"
+msgstr ""
+
+#: src/menu.c:72 src/menu.c:73 src/parametres.c:73
+msgid "Affichage"
+msgstr ""
+
+#: src/menu.c:77 src/menu.c:78 src/parametres.c:80
+msgid "Applet"
+msgstr ""
+
+#: src/menu.c:87 src/menu.c:88 src/parametres.c:95
+msgid "Banques"
+msgstr ""
+
+#: src/menu.c:92 src/menu.c:93 src/parametres.c:101
+msgid "Exercices"
+msgstr ""
+
+#: src/menu.c:102 src/menu.c:103 src/parametres.c:113
+msgid "Informations affichées"
+msgstr ""
+
+#: src/menu.c:112 src/menu.c:125
+msgid "Fichier QIF"
+msgstr ""
+
+#: src/menu.c:113
+msgid "Importation de fichiers QIF"
+msgstr ""
+
+#: src/menu.c:126
+msgid "Exportation de fichiers QIF"
+msgstr ""
+
+#: src/menu.c:143 src/menu.c:144
+msgid "Site Grisbi"
+msgstr ""
+
+#: src/menu.c:148 src/menu.c:149
+msgid "Signaler un bug"
+msgstr ""
+
+#: src/menu.c:153 src/menu.c:154
+msgid "Documentation sur le site"
+msgstr ""
+
+#: src/menu.c:163 src/type_operations.c:1486
+msgid "Nouveau"
+msgstr ""
+
+#: src/menu.c:164
+msgid "Création d'un nouveau fichier"
+msgstr ""
+
+#: src/menu.c:172
+msgid "Derniers fichiers"
+msgstr ""
+
+#: src/menu.c:187
+msgid "Fichier"
+msgstr ""
+
+#: src/menu.c:191
+msgid "Configuration"
+msgstr ""
+
+#: src/menu.c:193
+msgid "Aide"
+msgstr ""
+
 #: src/menu.c:224 src/menu.c:270
 msgid "Fichier/Derniers fichiers/"
 msgstr ""
@@ -3112,10 +3737,6 @@ msgstr ""
 #: src/operations_formulaire.c:518 src/operations_onglet.c:79
 #: src/operations_onglet.c:169
 msgid "Ventilation"
-msgstr ""
-
-#: src/operations_formulaire.c:984 src/operations_formulaire.c:3739
-msgid "Date de valeur"
 msgstr ""
 
 #: src/operations_formulaire.c:1030 src/operations_formulaire.c:2744
@@ -3233,40 +3854,8 @@ msgstr ""
 msgid "Configuration Grisbi"
 msgstr ""
 
-#: src/parametres.c:53
-msgid "Général"
-msgstr ""
-
-#: src/parametres.c:60
-msgid "Fichiers"
-msgstr ""
-
-#: src/parametres.c:66
-msgid "Échéances"
-msgstr ""
-
-#: src/parametres.c:73
-msgid "Affichage"
-msgstr ""
-
-#: src/parametres.c:80
-msgid "Applet"
-msgstr ""
-
-#: src/parametres.c:95
-msgid "Banques"
-msgstr ""
-
-#: src/parametres.c:101
-msgid "Exercices"
-msgstr ""
-
 #: src/parametres.c:107
 msgid "Modes de règlement"
-msgstr ""
-
-#: src/parametres.c:113
-msgid "Informations affichées"
 msgstr ""
 
 #: src/parametres.c:185
@@ -3580,10 +4169,6 @@ msgstr ""
 #. la partie du bas contient des check buttons
 #: src/type_operations.c:752
 msgid "Inclure les modes de règlement mixtes dans les Crédits / Débits"
-msgstr ""
-
-#: src/type_operations.c:1486
-msgid "Nouveau"
 msgstr ""
 
 #: src/type_operations.c:1593
