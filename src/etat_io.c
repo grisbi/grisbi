@@ -43,7 +43,7 @@ gboolean charge_etat ( gchar *nom_etat )
 	   !doc->root->name
 	   ||
 	   g_strcasecmp ( doc->root->name,
-			  _("Grisbi_etat") ))
+			  "Grisbi_etat" ))
 	{
 	  dialogue ( _("Ce fichier n'est pas un état Grisbi") );
 	  xmlFreeDoc ( doc );
