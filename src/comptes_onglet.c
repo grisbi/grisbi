@@ -254,6 +254,11 @@ void reaffiche_liste_comptes_onglet ( void )
 	    bouton = comptes_appel_onglet ( GPOINTER_TO_INT ( ordre_comptes_variable->data ));
 	    gtk_box_pack_start (GTK_BOX (vbox_liste_comptes_onglet), bouton, FALSE, FALSE, 0);
 	    gtk_widget_show_all (bouton);
+
+	    /* 	    si c'est le compte courant, on ouvre le livre */
+
+	    if (  p_tab_nom_de_compte_variable == p_tab_nom_de_compte + compte_courant_onglet )
+		gtk_list_button_clicked ( GTK_BUTTON ( bouton ));
 	}
 	while ( (  ordre_comptes_variable = ordre_comptes_variable->next ) );
     }
