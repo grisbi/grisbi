@@ -2,6 +2,7 @@ New in version 0.5.2 :
  - Bug fixes
  - Gnucash file import is now supported
  - German translation thanks to Martin Stromberger
+ - CSV export
 
 New in version 0.5.1 :
  - Bug fixes
