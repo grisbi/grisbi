@@ -137,6 +137,9 @@ void charge_configuration ( void )
     fichier_a_verifier = g_slist_append ( fichier_a_verifier,
 					  tab_noms_fichiers[i] );
 
+  /* Messages */
+  etat.display_message_lock_active  = gnome_config_get_int ( g_strconcat ( "/", FICHIER_CONF, "/Messages/display_message_lock_active", NULL ));
+
 }
 /* ***************************************************************************************************** */
 
@@ -182,6 +185,9 @@ void raz_configuration ( void )
   compression_backup = 0;
   etat.largeur_auto_colonnes = 1;
   etat.retient_affichage_par_compte = 0;
+
+  /* Messages */
+  etat.display_message_lock_active = 1;
 }
 /* ***************************************************************************************************** */
 
@@ -314,7 +320,9 @@ void sauve_configuration (void)
   gnome_config_set_int ( g_strconcat ( "/", FICHIER_CONF, "/Exercice/Affichage_exercice_automatique", NULL ),
 			 etat.affichage_exercice_automatique );
 
-  gnome_config_sync();
+  gnome_config_set_int ( g_strconcat ( "/", FICHIER_CONF, "/Messages/display_message_lock_active", NULL ),
+			 etat.display_message_lock_active );
 
+  gnome_config_sync();
 }
 /* ***************************************************************************************************** */

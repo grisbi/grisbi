@@ -82,6 +82,39 @@ void dialogue ( gchar *texte_dialogue )
 /*************************************************************************************************************/
 
 
+/**
+ * This function pop ups a dialog with an informal text and a checkbox
+ * that allow this message not to be displayed again thanks to
+ * preferences.
+ *
+ * \param text text to be displayed
+ * \param var variable that both controls whether the dialog will
+ * appear or not and that indicates which variable could be modified
+ * so that this message won't appear again.
+ */
+void dialogue_conditional ( gchar *text, int * var )
+{
+  GtkWidget * vbox, * checkbox;
+
+  if ( !var || *var)
+    return;
+
+  win_erreur = gtk_message_dialog_new ( GTK_WINDOW (window),
+					GTK_DIALOG_DESTROY_WITH_PARENT,
+					GTK_MESSAGE_ERROR,
+					GTK_BUTTONS_CLOSE,
+					text );
+  vbox = GTK_DIALOG(win_erreur) -> vbox;
+  checkbox = new_checkbox_with_title ( _("Do not show this message again"),
+				       var, NULL );
+  gtk_box_pack_start ( GTK_BOX ( vbox ), checkbox, TRUE, TRUE, 6 );
+  gtk_widget_show_all ( checkbox );
+
+  gtk_window_set_modal ( GTK_WINDOW ( win_erreur ), TRUE );
+  gtk_dialog_run (GTK_DIALOG (win_erreur));
+  gtk_widget_destroy ( win_erreur );
+}
+
 
 
 

@@ -31,6 +31,7 @@ gint preference_selected = -1;
 GtkTreeSelection * selection;
 GtkWidget * button_close, * button_help;
 GtkWidget *tree_view;
+GtkWidget * bouton_display_lock_active;
 
 
 /**
@@ -372,6 +373,13 @@ GtkWidget *onglet_messages_and_warnings ( void )
   gtk_box_pack_start ( GTK_BOX ( paddingbox ), bouton_affiche_permission,
 		       FALSE, FALSE, 0 );
 
+  /* Display a warning message if file is already opened */
+  bouton_display_lock_active = new_checkbox_with_title ( _("Do not warn about an already opened file"),
+							&(etat.display_message_lock_active), NULL );
+  gtk_box_pack_start ( GTK_BOX ( paddingbox ), bouton_display_lock_active,
+		       FALSE, FALSE, 0 );
+
+
   /* Number of days before a warning message advertising a scheduled
      transaction */
   paddingbox = new_paddingbox_with_title (vbox_pref, FALSE,
@@ -406,7 +414,7 @@ gboolean change_backup_path (GtkEntry *entry, gchar *value,
 /*   if ( nom_fichier_backup ) */
 /*     g_strfreev ( nom_fichier_backup ); */
   nom_fichier_backup = g_strdup ( gtk_entry_get_text ( GTK_ENTRY(entry) ));
-  if ( !strlen(nom_fichier_backup) )
+  if ( nom_fichier_backup && !strlen(nom_fichier_backup) )
     {
       nom_fichier_backup = NULL;
     }
@@ -448,7 +456,7 @@ GtkWidget *onglet_fichier ( void )
 
   /* Warn if file is used by someone else? */
   bouton_force_enregistrement = 
-    new_checkbox_with_title ( _("Warn if file is used by someone else"),
+    new_checkbox_with_title ( _("Force save of locked files"),
 			      &(etat.force_enregistrement), NULL );
   gtk_box_pack_start ( GTK_BOX ( paddingbox ), bouton_force_enregistrement,
 		       FALSE, FALSE, 0 );
@@ -521,7 +529,7 @@ GtkWidget *onglet_fichier ( void )
       gnome_file_entry_set_modal ( GNOME_FILE_ENTRY ( entree_chemin_backup ),
 				   TRUE );
 
-      if ( nom_fichier_backup )
+      if ( nom_fichier_backup && strlen(nom_fichier_backup) )
 	{
 	  gtk_entry_set_text ( GTK_ENTRY ( gnome_file_entry_gtk_entry ( GNOME_FILE_ENTRY (entree_chemin_backup ))),
 			       nom_fichier_backup );

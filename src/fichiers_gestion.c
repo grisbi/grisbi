@@ -559,7 +559,7 @@ gboolean enregistrement_fichier ( gint origine )
 	etat.force_enregistrement = 1;
       
 
-      if ( nom_fichier_backup )
+      if ( nom_fichier_backup && strlen(nom_fichier_backup) )
 	enregistrement_backup();
 
       if ( patience_en_cours )
