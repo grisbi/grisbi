@@ -374,7 +374,7 @@ void changement_preferences ( GtkWidget *fenetre_preferences,
 			      gint page,
 			      gpointer data );
 gint verifie_affichage_applet ( void );
-
+void fermeture_preferences ( GtkWidget *, gint, gpointer);
 
 
 /***********************************/ 
@@ -507,9 +507,9 @@ void ajout_devise ( GtkWidget *bouton,
 gint bloque_echap_choix_devise ( GtkWidget *dialog,
 				 GdkEventKey *key,
 				 gpointer null );
-void nom_nouvelle_devise_defini ( GtkWidget *entree,
-				  GdkEventFocus *ev,
-				  GtkWidget *label );
+gboolean nom_nouvelle_devise_defini ( GtkWidget *entree,
+				      GdkEventFocus *ev,
+				      GtkWidget *label );
 void retrait_devise ( GtkWidget *bouton,
 		      GtkWidget *liste );
 gint recherche_devise_par_nom ( struct struct_devise *devise,
@@ -524,25 +524,25 @@ void demande_taux_de_change ( struct struct_devise *devise_compte,
 			      gint une_devise_compte_egale_x_devise_ope,
 			      gdouble taux_change,
 			      gdouble frais_change );
-void devise_selectionnee ( GtkWidget *menu_shell,
-			   gint origine );
+gboolean devise_selectionnee ( GtkWidget *menu_shell,
+			       gint origine );
 GtkWidget *onglet_devises ( void );
-void selection_ligne_devise ( GtkWidget *liste,
-			      gint ligne,
-			      gint colonne,
-			      GdkEventButton *ev,
-			      GtkWidget *frame );
-void deselection_ligne_devise ( GtkWidget *liste,
-				gint ligne,
-				gint colonne,
-				GdkEventButton *ev,
-				GtkWidget *frame );
-void change_passera_euro ( GtkWidget *bouton,
-			   GtkWidget *liste );
-void changement_devise_associee ( GtkWidget *menu_devises,
-				  GtkWidget *liste );
-void changement_nom_entree_devise ( void );
-void changement_code_entree_devise ( void );
+gboolean selection_ligne_devise ( GtkWidget *liste,
+				  gint ligne,
+				  gint colonne,
+				  GdkEventButton *ev,
+				  GtkWidget *frame );
+gboolean deselection_ligne_devise ( GtkWidget *liste,
+				    gint ligne,
+				    gint colonne,
+				    GdkEventButton *ev,
+				    GtkWidget *frame );
+gboolean change_passera_euro ( GtkWidget *bouton,
+			       GtkWidget *liste );
+gboolean changement_devise_associee ( GtkWidget *menu_devises,
+				      GtkWidget *liste );
+gboolean changement_nom_entree_devise ( void );
+gboolean changement_code_entree_devise ( void );
 gdouble calcule_montant_devise_renvoi ( gdouble montant_init,
 					gint no_devise_renvoi,
 					gint no_devise_montant,

@@ -28,9 +28,8 @@ GtkTreeStore *preference_tree_model;
 GtkWidget * hpaned;
 GtkWidget * preference_frame;
 GtkWidget * preference_selected = NULL;
-
-void fermeture_preferences ( GtkWidget *, gint, gpointer);
-     
+GtkTreeSelection *selection;
+   
 
 selection_cb(GtkTreeSelection *selection,
 	     GtkTreeModel     *model)
@@ -67,7 +66,6 @@ GtkWidget * create_preferences_tree()
   GtkTreeIter iter;
   GtkTreeViewColumn *column;
   GtkCellRenderer *cell;
-  GtkTreeSelection *selection;
 
   preference_tree_model = gtk_tree_store_new (2, 
 					      G_TYPE_STRING, 
@@ -282,9 +280,11 @@ void preferences ( GtkWidget *widget,
 
 
 /* on se met sur la page demandée */
-
-/*   gtk_notebook_set_page ( GTK_NOTEBOOK ( GNOME_PROPERTY_BOX ( fenetre_preferences ) -> notebook ), */
-/* 			  page_demandee ); */
+  gtk_tree_model_iter_nth_child (preference_tree_model,
+				 &iter,
+				 NULL,
+				 page_demandee);
+  gtk_tree_selection_select_iter (selection, &iter);
 
   gtk_widget_show_all ( fenetre_preferences );
 

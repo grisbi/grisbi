@@ -322,8 +322,8 @@ void ajout_devise ( GtkWidget *bouton,
     {
     case 0 :
 
-      nom_devise = g_strstrip ( g_strdup ( gtk_entry_get_text ( GTK_ENTRY ( entree_nom ))));
-      code_devise = g_strstrip ( g_strdup ( gtk_entry_get_text ( GTK_ENTRY ( entree_code ))));
+      nom_devise = g_strstrip ( g_strdup ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree_nom ))));
+      code_devise = g_strstrip ( g_strdup ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree_code ))));
  
       if ( strlen ( nom_devise ) && strlen ( code_devise ) )
 	{
@@ -340,7 +340,7 @@ void ajout_devise ( GtkWidget *bouton,
 	  devise -> une_devise_1_egale_x_devise_2 = 0;
 
 	  if ( devise -> passage_euro )
-	    devise -> change = g_strtod ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( entree_conversion_euro ))),
+	    devise -> change = g_strtod ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree_conversion_euro ))),
 					  NULL );
 	  else
 	    devise -> change = 0;
@@ -412,8 +412,6 @@ void ajout_devise ( GtkWidget *bouton,
 	}
       break;
 
-    default :
-      
     }
   gnome_dialog_close ( GNOME_DIALOG ( dialog ));
 }
@@ -450,18 +448,17 @@ gint bloque_echap_choix_devise ( GtkWidget *dialog,
 /* affiche le nom de la devise derrière l'entrée pour la conversion en euro */
 /***********************************************************************************************************/
 
-void nom_nouvelle_devise_defini ( GtkWidget *entree,
+gboolean nom_nouvelle_devise_defini ( GtkWidget *entree,
 				  GdkEventFocus *ev,
 				  GtkWidget *label )
 {
   gchar *nom_devise;
 
-  if ( strlen ( nom_devise = g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( entree )))))
+  if ( strlen ( nom_devise = g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree )))))
     gtk_label_set_text ( GTK_LABEL ( label ),
 			 nom_devise );
 
-
-
+  return FALSE;
 }
 /***********************************************************************************************************/
 
@@ -997,9 +994,9 @@ void demande_taux_de_change ( struct struct_devise *devise_compte,
     {
       struct struct_devise *devise_tmp;
 
-      taux_de_change[0] = g_strtod ( gtk_entry_get_text ( GTK_ENTRY ( entree )),
+      taux_de_change[0] = g_strtod ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree )),
 				  NULL );
-      taux_de_change[1] = g_strtod ( gtk_entry_get_text ( GTK_ENTRY ( entree_frais )),
+      taux_de_change[1] = g_strtod ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree_frais )),
 				  NULL );
 
       devise_tmp = gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( option_menu_devise_1 ) -> menu_item ),
@@ -1031,8 +1028,8 @@ void demande_taux_de_change ( struct struct_devise *devise_compte,
 /*              origine = 1 sinon */
 /***********************************************************************************************************/
 
-void devise_selectionnee ( GtkWidget *menu_shell,
-			   gint origine )
+gboolean devise_selectionnee ( GtkWidget *menu_shell,
+			       gint origine )
 {
   gint position;
 
@@ -1057,6 +1054,7 @@ void devise_selectionnee ( GtkWidget *menu_shell,
 				    1 - position );
     }
 
+  return FALSE;
 }
 /***********************************************************************************************************/
 
@@ -1529,11 +1527,11 @@ GtkWidget *onglet_devises ( void )
 /* appelée lorsqu'on sélectionne une devise dans la liste */
 /* **************************************************************************************************************************** */
 
-void selection_ligne_devise ( GtkWidget *liste,
-			      gint ligne,
-			      gint colonne,
-			      GdkEventButton *ev,
-			      GtkWidget *frame )
+gboolean selection_ligne_devise ( GtkWidget *liste,
+				  gint ligne,
+				  gint colonne,
+				  GdkEventButton *ev,
+				  GtkWidget *frame )
 {
   struct struct_devise *devise;
 
@@ -1620,7 +1618,7 @@ void selection_ligne_devise ( GtkWidget *liste,
     gtk_widget_set_sensitive ( entree_nom_devise_parametres,
 			       TRUE );
 
-
+  return FALSE;
 }
 /* **************************************************************************************************************************** */
 
@@ -1631,11 +1629,11 @@ void selection_ligne_devise ( GtkWidget *liste,
 /* appelée lorsqu'on désélectionne une devise dans la liste */
 /* **************************************************************************************************************************** */
 
-void deselection_ligne_devise ( GtkWidget *liste,
-				gint ligne,
-				gint colonne,
-				GdkEventButton *ev,
-				GtkWidget *frame )
+gboolean deselection_ligne_devise ( GtkWidget *liste,
+				    gint ligne,
+				    gint colonne,
+				    GdkEventButton *ev,
+				    GtkWidget *frame )
 {
   struct struct_devise *devise;
 
@@ -1683,7 +1681,7 @@ void deselection_ligne_devise ( GtkWidget *liste,
 
       devise -> une_devise_1_egale_x_devise_2 = 0;
       devise -> no_devise_en_rapport = 1;
-      devise -> change = g_strtod ( gtk_entry_get_text ( GTK_ENTRY ( entree_conversion )),
+      devise -> change = g_strtod ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree_conversion )),
 				    NULL );
       devise -> date_dernier_change = NULL;
 
@@ -1692,7 +1690,7 @@ void deselection_ligne_devise ( GtkWidget *liste,
     {
       /*       si le change a changé, c'est qu'il y a une mise à jours */
 
-      if ( g_strtod ( gtk_entry_get_text ( GTK_ENTRY ( entree_conversion )),
+      if ( g_strtod ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree_conversion )),
 		      NULL )
 	   !=
 	   devise -> change )
@@ -1718,7 +1716,7 @@ void deselection_ligne_devise ( GtkWidget *liste,
       else
 	devise -> une_devise_1_egale_x_devise_2 = 0;
       
-      devise -> change = g_strtod ( gtk_entry_get_text ( GTK_ENTRY ( entree_conversion )),
+      devise -> change = g_strtod ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree_conversion )),
 				    NULL );
     }
 	    
@@ -1731,6 +1729,7 @@ void deselection_ligne_devise ( GtkWidget *liste,
   gtk_widget_set_sensitive ( bouton_supprimer_devise,
 			     FALSE );
 
+  return FALSE;
 }
 /* **************************************************************************************************************************** */
 
@@ -1741,7 +1740,7 @@ void deselection_ligne_devise ( GtkWidget *liste,
 /* appelée quand appuie sur le bouton Passera à l'euro */
 /* **************************************************************************************************************************** */
 
-void change_passera_euro ( GtkWidget *bouton,
+gboolean change_passera_euro ( GtkWidget *bouton,
 			   GtkWidget *liste )
 {
   struct struct_devise *devise;
@@ -1885,6 +1884,7 @@ void change_passera_euro ( GtkWidget *bouton,
 
     }
 
+  return FALSE;
 }
 /* **************************************************************************************************************************** */
 
@@ -1894,7 +1894,7 @@ void change_passera_euro ( GtkWidget *bouton,
 /* appelée lorsqu'on change la devise comparée */
 /* **************************************************************************************************************************** */
 
-void changement_devise_associee ( GtkWidget *menu_devises,
+gboolean changement_devise_associee ( GtkWidget *menu_devises,
 				  GtkWidget *liste )
 {
   struct struct_devise *devise;
@@ -2006,43 +2006,45 @@ void changement_devise_associee ( GtkWidget *menu_devises,
 				 FALSE );
     }
 
-
+  return FALSE;
 }
 /* **************************************************************************************************************************** */
 
 
 /* **************************************************************************************************************************** */
-void changement_nom_entree_devise ( void )
+gboolean changement_nom_entree_devise ( void )
 {
   struct struct_devise *devise;
 
   devise = gtk_clist_get_row_data ( GTK_CLIST ( clist_devises_parametres ),
 				    ligne_selection_devise );
 
-  devise -> nom_devise = g_strdup ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( entree_nom_devise_parametres ))));
+  devise -> nom_devise = g_strdup ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree_nom_devise_parametres ))));
 
   gtk_clist_set_text ( GTK_CLIST ( clist_devises_parametres ),
 		       ligne_selection_devise,
 		       0,
 		       devise -> nom_devise );
+  return FALSE;
 }
 /* **************************************************************************************************************************** */
 
 
 /* **************************************************************************************************************************** */
-void changement_code_entree_devise ( void )
+gboolean changement_code_entree_devise ( void )
 {
   struct struct_devise *devise;
 
   devise = gtk_clist_get_row_data ( GTK_CLIST ( clist_devises_parametres ),
 				    ligne_selection_devise );
 
-  devise -> code_devise = g_strdup ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( entree_code_devise_parametres ))));
+  devise -> code_devise = g_strdup ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree_code_devise_parametres ))));
 
   gtk_clist_set_text ( GTK_CLIST ( clist_devises_parametres ),
 		       ligne_selection_devise,
 		       1,
 		       devise -> code_devise );
+  return FALSE;
 }
 /* **************************************************************************************************************************** */
 
