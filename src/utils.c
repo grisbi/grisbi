@@ -164,7 +164,7 @@ gboolean lance_navigateur_web ( const gchar *url )
 
     if ( system ( chaine ) == -1 )
     {
-	dialogue_error_hint ( g_strdup_printf ( _("Grisbi was unable to execute a web browser to browse url <tt>%s</tt>.\nThe command was : %s\nPlease adjust your settings to a valid executable."), url, chaine ),
+	dialogue_error_hint ( g_strdup_printf ( _("Grisbi was unable to execute a web browser to browse url <tt>%s</tt>.\nThe command was: %s.\nPlease adjust your settings to a valid executable."), url, chaine ),
 			      _("Cannot execute web browser") );
     }
 

@@ -728,7 +728,7 @@ reprise_dialog:
 
 	    if ( !liste_struct_devises )
 	    {
-		dialogue ( _("You must define at least one currency for your file !" ));
+		dialogue ( _("You must define at least one currency for your file!" ));
 		goto reprise_dialog;
 	    }
     }
