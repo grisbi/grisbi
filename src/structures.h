@@ -466,7 +466,7 @@ struct struct_etat
 
 struct struct_etat_affichage
 {
-  void (* init) ( );
+  gint (* init) ( );
   gint (* afficher_titre) ( gint );
   gint (* afficher_separateur) ( gint );
   gint (* affiche_total_categories) ( gint );
@@ -505,4 +505,5 @@ struct struct_etat_affichage
   gint (* affiche_totaux_sous_jaccent) ( gint origine,
 					 gint ligne );
   gint (* affiche_titres_colonnes) ( gint ligne );
+  gint (* finish) ( );
 };

@@ -5577,6 +5577,7 @@ void etape_finale_affichage_etat ( GSList *ope_selectionnees,
   ligne = affichage -> affiche_total_general ( total_general,
 				  ligne );
 
+  affichage -> finish ();
 }
 /*****************************************************************************************************/
 

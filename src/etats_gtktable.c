@@ -50,7 +50,8 @@ struct struct_etat_affichage gtktable_affichage = {
   gtktable_affiche_titre_revenus_etat,
   gtktable_affiche_titre_depenses_etat,
   gtktable_affiche_totaux_sous_jaccent,
-  gtktable_affiche_titres_colonnes
+  gtktable_affiche_titres_colonnes,
+  gtktable_finish
 };
 
 gint gtktable_initialise ()
@@ -2588,3 +2589,9 @@ gint gtktable_affiche_titres_colonnes ( gint ligne )
   return ( ligne );
 }
 /*****************************************************************************************************/
+
+
+gint gtktable_finish ()
+{
+  /* Nothing to do in GTK */
+}

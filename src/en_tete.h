@@ -922,6 +922,7 @@ gint gtktable_affiche_titre_depenses_etat ( gint ligne );
 gint gtktable_affiche_totaux_sous_jaccent ( gint origine,
 					    gint ligne );
 gint gtktable_affiche_titres_colonnes ( gint ligne );
+gint gtktable_finish ( );
 
 
 /***********************************/ 
@@ -967,3 +968,4 @@ gint gnomeprint_affiche_titre_depenses_etat ( gint ligne );
 gint gnomeprint_affiche_totaux_sous_jaccent ( gint origine,
 					      gint ligne );
 gint gnomeprint_affiche_titres_colonnes ( gint ligne );
+gint gnomeprint_finish ( );
