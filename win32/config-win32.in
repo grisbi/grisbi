@@ -78,6 +78,22 @@
 // from fnctl.h
 // for fichier_gestion.c
 #define	O_RDONLY	_O_RDONLY
+
+// from string.h
+__CRT_INLINE int __cdecl strcasecmp (const char * __sz1, const char * __sz2) {return _stricmp (__sz1, __sz2);}
+
+// from sys/stat.h
+#include <sys/stat.h>
+_CRTIMP int __cdecl	fstat (int, struct stat*);
+_CRTIMP int __cdecl	chmod (const char*, int);
+_CRTIMP int __cdecl	stat (const char*, struct stat*);
+
+// from io.h
+#include <io.h>
+_CRTIMP int __cdecl open (const char*, int, ...);
+_CRTIMP int __cdecl close (int);
+_CRTIMP int __cdecl unlink (const char*);
+
 #endif // _NO_OLDNAMES
 
 #endif //  _WIN32
