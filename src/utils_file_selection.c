@@ -119,7 +119,7 @@ gchar** file_selection_get_selections(GtkFileSelection* filesel)
     // free the gtk allocated strings (no more needed)
     if (utf8selections)
     {
-        while (idx_selection < num_selections)
+        for (idx_selection  = 0;idx_selection < num_selections;idx_selection++)
         {
             utf8selections[idx_selection] = g_filename_to_utf8(gtk_selections[idx_selection],-1,NULL,NULL,NULL);
         }
