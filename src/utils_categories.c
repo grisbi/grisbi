@@ -119,16 +119,14 @@ struct struct_sous_categ *sous_categ_par_nom ( struct struct_categ *categ,
 					       gchar *nom_sous_categ,
 					       gboolean creer )
 {
-    if ( categ
-	 &&
-	 nom_sous_categ
-	 &&
-	 strlen ( g_strstrip ( nom_sous_categ )))
+    if ( categ &&
+	 nom_sous_categ &&
+	 strlen ( nom_sous_categ ))
     {
 	GSList *liste_tmp;
 
 	liste_tmp = g_slist_find_custom ( categ -> liste_sous_categ,
-					  g_strstrip (nom_sous_categ),
+					  nom_sous_categ,
 					  (GCompareFunc) recherche_sous_categorie_par_nom );
 
 	if ( liste_tmp )
@@ -142,7 +140,7 @@ struct struct_sous_categ *sous_categ_par_nom ( struct struct_categ *categ,
 		nouvelle_sous_categorie = malloc ( sizeof ( struct struct_sous_categ ));
 
 		nouvelle_sous_categorie -> no_sous_categ = ++( categ -> no_derniere_sous_categ );
-		nouvelle_sous_categorie -> nom_sous_categ = g_strdup ( g_strstrip ( nom_sous_categ ));
+		nouvelle_sous_categorie -> nom_sous_categ = g_strdup ( nom_sous_categ );
 		nouvelle_sous_categorie -> nb_transactions = 0;
 		nouvelle_sous_categorie -> balance = 0.0;
 
@@ -362,7 +360,7 @@ void remove_transaction_from_category ( struct structure_operation * transaction
 	if ( !sub_category -> nb_transactions ) /* Cope with float errors */
 	    sub_category -> balance = 0.0;
     }
-    else 
+    else if ( category )
     {
 	category -> nb_direct_transactions --;
 	category -> direct_balance -= amount;
