@@ -954,31 +954,14 @@ void modification_details_compte ( void )
 
 	if ( devise_compte -> passage_euro && !nouvelle_devise -> passage_euro )
 	{
-	    GtkWidget *dialogue;
-	    GtkWidget *label;
 	    gint resultat;
 
-	    dialogue = gtk_dialog_new_with_buttons ( _("Confirm currency change"),
-						     GTK_WINDOW (window),
-						     GTK_DIALOG_MODAL,
-						     GTK_STOCK_YES,0,
-						     GTK_STOCK_NO,1,
-						     NULL );
+	    resultat = question_yes_no_hint ( _("Confirm currency change"),
+					      g_strdup_printf ( _("You are changing from a currency that is in the euro zone (%s) to one that isn't (%s).  Transactions in euros will be lost!  There is no undo for this.\nDo you confirm this change?"), 
+								devise_compte -> nom_devise,
+								nouvelle_devise -> nom_devise));
 
-	    label = gtk_label_new ( g_strdup_printf ( _("Be carefull, you are changing from a currency that is in the euro zone\n(%s) to one that isn't (%s). Transactions in euros will be lost!\n\nDo you confirm this change?"), 
-						      devise_compte -> nom_devise,
-						      nouvelle_devise -> nom_devise));
-	    gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialogue ) -> vbox ),
-				 label,
-				 FALSE,
-				 FALSE,
-				 0 );
-	    gtk_widget_show ( label );
-
-	    resultat = gtk_dialog_run ( GTK_DIALOG ( dialogue ));
-	    gtk_widget_destroy ( dialogue );
-
-	    if ( resultat )
+	    if ( !resultat )
 		return;
 	}
 
@@ -1201,36 +1184,18 @@ void sort_du_detail_compte ( void )
 
     if ( GTK_WIDGET_SENSITIVE ( hbox_boutons_modif ) )
     {
-	GtkWidget *dialogue;
-	GtkWidget *label;
 	gint resultat;
 	gpointer **save;
 
 	save = p_tab_nom_de_compte_variable;
 	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant_onglet;
 
-	dialogue = gtk_dialog_new_with_buttons ( _("Apply changes to account?"),
-						 GTK_WINDOW (window),
-						 GTK_DIALOG_MODAL,
-						 GTK_STOCK_YES,0,
-						 GTK_STOCK_NO,1,
-						 NULL );
-
-	label = gtk_label_new ( g_strdup_printf ( _("Account \"%s\" has been modified.\n\n\nDo you want to save changes?"),
-						  NOM_DU_COMPTE ) );
-	gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialogue ) -> vbox ),
-			     label,
-			     FALSE,
-			     FALSE,
-			     0 );
-	gtk_widget_show ( label );
-
-	resultat = gtk_dialog_run ( GTK_DIALOG ( dialogue ));
-	gtk_widget_destroy ( dialogue );
-
-	if ( resultat )
-	    gtk_widget_set_sensitive ( hbox_boutons_modif,
-				       FALSE );
+	resultat = question_yes_no_hint ( _("Apply changes to account?"),
+					  g_strdup_printf ( _("Account \"%s\" has been modified.\nDo you want to save changes?"),
+							    NOM_DU_COMPTE ) );
+	
+	if ( !resultat )
+	    gtk_widget_set_sensitive ( hbox_boutons_modif, FALSE );
 	else
 	{
 	    modification_details_compte ();
