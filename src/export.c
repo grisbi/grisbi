@@ -26,6 +26,7 @@
 #include "variables-extern.c"
 #include "export.h"
 #include "qif.h"
+#include "csv.h"
 
 
 #include "devises.h"
@@ -396,6 +397,7 @@ static void _export_select_accounts_to_export(GSList* format_list)
     if ( g_selected_entries )
     {
         g_slist_free ( g_selected_entries );
+        g_selected_entries = NULL;
     }
 
     gtk_widget_destroy ( account_selection_dialog );
@@ -415,7 +417,7 @@ void export_accounts_to_file()
     
     /* To add a new supported format, just add a new line here ... */
     export_format_list = _export_append_format(export_format_list,_("QIF file"),".qif",&export_qif);
-    //export_format_list = _export_append_format(export_format_list,_("CSV file"),".csv",NULL);
+    export_format_list = _export_append_format(export_format_list,_("CSV file"),".csv",&export_accounts_to_csv);
     
     if ( !nom_fichier_comptes )
     {
@@ -434,7 +436,6 @@ void export_accounts_to_file()
     }
 
     if (export_format_list) { g_slist_free(export_format_list); }
-    if (g_selected_entries) { g_slist_free(g_selected_entries); }
     g_selected_format = 0;
 }
 
