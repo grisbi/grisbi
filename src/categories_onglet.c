@@ -594,6 +594,8 @@ void merge_liste_categories ( void )
 	gchar **split_categ;
 	struct struct_sous_categ *sous_categ;
 
+	split_categ = g_strsplit ( _(categ[i]), " : ", 2 );
+
 	categorie = categ_par_nom( g_strstrip (g_strdup (split_categ[0])),
 				   1, debit, 0 );
 
