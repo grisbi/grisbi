@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: en\n"
 "POT-Creation-Date: 2003-04-15 10:01+0200\n"
-"PO-Revision-Date: 2003-06-06 09:17GMT\n"
+"PO-Revision-Date: 2003-06-26 13:15+0200\n"
 "Last-Translator: Alain PORTAL <aportal@univ-montp2.fr>\n"
 "Language-Team:  <fr@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -911,10 +911,10 @@ msgstr "Other incomes : Unemployment benefit"
 msgid "Autres revenus : Allocation familiales"
 msgstr "Other incomes : Family allowance"
 
-#: src/categories_onglet.c:128
-#, fuzzy
-msgid "Autres revenus : Capital de prêt reçu"
-msgstr "Other incomes : "
+#~ #: src/categories_onglet.c:128
+#~ #, fuzzy
+#~ msgid "Autres revenus : Capital de prêt reçu"
+#~ msgstr "Other incomes : "
 
 #: src/categories_onglet.c:129
 msgid "Autres revenus : Crédit d'impôt"
@@ -934,12 +934,11 @@ msgstr "Other incomes : Social security"
 
 #: src/categories_onglet.c:133
 msgid "Retraite : Pensions"
-msgstr "Retirement : Pension"
+msgstr "Retirement : Retirement Fund"
 
 #: src/categories_onglet.c:134
-#, fuzzy
 msgid "Retraite : Régime général"
-msgstr "Retirement :"
+msgstr "Retirement : Pension"
 
 #: src/categories_onglet.c:135
 msgid "Retraite : Retraite complémentaire"
@@ -3220,9 +3219,8 @@ msgstr "Custom dates ranges not filled"
 
 #: src/etats_support.c:234
 #, c-format
-#, fuzzy
 msgid "cumul au %d/%d/%d"
-msgstr "year to date %d/%d/%d"
+msgstr "total at %d/%d/%d"
 
 #: src/etats_support.c:251 src/etats_support.c:300
 #, c-format
@@ -3236,15 +3234,13 @@ msgstr "year %d"
 
 #: src/etats_support.c:270
 #, c-format
-#, fuzzy
 msgid "cumul mensuel au %d/%d/%d"
-msgstr "month to date %d/%d/%d total"
+msgstr "month total at %d/%d/%d"
 
 #: src/etats_support.c:281
 #, c-format
-#, fuzzy
 msgid "cumul annuel au %d/%d/%d"
-msgstr "year to date %d/%d/%d"
+msgstr "year total at %d/%d/%d"
 
 #: src/etats_support.c:355 src/etats_support.c:385 src/etats_support.c:414
 #, c-format
@@ -3569,7 +3565,6 @@ msgid "Modification de permission"
 msgstr "Permission fix"
 
 #: src/fichiers_io.c:6855
-#, fuzzy
 msgid ""
 "Votre fichier de compte ne devrait pas être lisible par qui que ce soit\n"
 "d'autre que vous ; or, il l'est.\n"
@@ -3578,7 +3573,7 @@ msgid ""
 msgstr ""
 "Your account file should not be readable by anybody else,\n"
 "but it is. You should change its permissions.\n"
-"Do you want that to be done by me ?\n"
+"Should I fix this now?\n"
 
 #: src/help.c:38
 msgid "Programming"
@@ -4409,15 +4404,12 @@ msgstr ""
 "Strange... a breakdown line is to be deleted though it is not "
 "yet registered..."
 
-#, fuzzy
 #~ msgid "Grisbi_etat"
 #~ msgstr "Grisbi"
 
-#, fuzzy
 #~ msgid "exercice courant ("
 #~ msgstr "current financial year"
 
-#, fuzzy
 #~ msgid "exercice précédent ("
 #~ msgstr "former financial year"
 
