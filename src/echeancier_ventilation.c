@@ -330,21 +330,6 @@ GtkWidget *creation_verification_ventilation_echeances ( void )
     gtk_widget_show ( hbox );
 
 
-    bouton = gtk_button_new_from_stock (GTK_STOCK_OK);
-
-    gtk_button_set_relief ( GTK_BUTTON ( bouton ),
-			    GTK_RELIEF_NONE );
-    gtk_signal_connect ( GTK_OBJECT ( bouton ),
-			 "clicked",
-			 GTK_SIGNAL_FUNC ( valider_ventilation_echeances ),
-			 NULL );
-    gtk_box_pack_start ( GTK_BOX ( hbox ),
-			 bouton,
-			 TRUE,
-			 FALSE,
-			 0 );
-    gtk_widget_show ( bouton );
-
     bouton = gtk_button_new_from_stock    (GTK_STOCK_CANCEL);
     gtk_button_set_relief ( GTK_BUTTON ( bouton ),
 			    GTK_RELIEF_NONE );
@@ -359,6 +344,20 @@ GtkWidget *creation_verification_ventilation_echeances ( void )
 			 0 );
     gtk_widget_show ( bouton );
 
+
+    bouton = gtk_button_new_from_stock (GTK_STOCK_OK);
+    gtk_button_set_relief ( GTK_BUTTON ( bouton ),
+			    GTK_RELIEF_NONE );
+    gtk_signal_connect ( GTK_OBJECT ( bouton ),
+			 "clicked",
+			 GTK_SIGNAL_FUNC ( valider_ventilation_echeances ),
+			 NULL );
+    gtk_box_pack_start ( GTK_BOX ( hbox ),
+			 bouton,
+			 TRUE,
+			 FALSE,
+			 0 );
+    gtk_widget_show ( bouton );
 
     separateur = gtk_hseparator_new ();
     gtk_box_pack_end ( GTK_BOX ( onglet ),
@@ -669,12 +668,13 @@ GtkWidget *creation_formulaire_ventilation_echeances ( void )
     if ( etat.affiche_boutons_valider_annuler )
 	gtk_widget_show ( hbox_valider_annuler_ventil_echeances );
 
-    bouton = gtk_button_new_from_stock (GTK_STOCK_CANCEL);
+
+    bouton = gtk_button_new_from_stock (GTK_STOCK_OK);
     gtk_button_set_relief ( GTK_BUTTON ( bouton ),
 			    GTK_RELIEF_NONE );
     gtk_signal_connect ( GTK_OBJECT ( bouton ),
 			 "clicked",
-			 GTK_SIGNAL_FUNC ( echap_formulaire_ventilation_echeances ),
+			 GTK_SIGNAL_FUNC ( fin_edition_ventilation_echeances ),
 			 NULL );
     gtk_box_pack_end ( GTK_BOX ( hbox_valider_annuler_ventil_echeances ),
 		       bouton,
@@ -683,12 +683,12 @@ GtkWidget *creation_formulaire_ventilation_echeances ( void )
 		       0 );
     gtk_widget_show ( bouton );
 
-    bouton = gtk_button_new_from_stock (GTK_STOCK_OK);
+    bouton = gtk_button_new_from_stock (GTK_STOCK_CANCEL);
     gtk_button_set_relief ( GTK_BUTTON ( bouton ),
 			    GTK_RELIEF_NONE );
     gtk_signal_connect ( GTK_OBJECT ( bouton ),
 			 "clicked",
-			 GTK_SIGNAL_FUNC ( fin_edition_ventilation_echeances ),
+			 GTK_SIGNAL_FUNC ( echap_formulaire_ventilation_echeances ),
 			 NULL );
     gtk_box_pack_end ( GTK_BOX ( hbox_valider_annuler_ventil_echeances ),
 		       bouton,
@@ -1051,7 +1051,7 @@ void ventiler_operation_echeances ( gdouble montant )
     else
     {
 	gtk_label_set_text ( GTK_LABEL ( label_non_affecte_echeances ),
-			     "" );
+			     "0.00" );
 	gtk_label_set_text ( GTK_LABEL ( label_montant_operation_ventilee_echeances_echeances ),
 			     g_strdup_printf ( "%4.2f",
 					       somme_ventilee_echeances ));
@@ -1096,6 +1096,8 @@ void ventiler_operation_echeances ( gdouble montant )
     gtk_window_set_focus ( GTK_WINDOW ( window ),
 			   GTK_COMBOFIX ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CATEGORY] ) -> entry );
 
+    /* FIXME: magic numbers sucks, enum rulez */
+    gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ), 2 );
 }
 /*******************************************************************************************/
 
@@ -2392,7 +2394,7 @@ void mise_a_jour_labels_ventilation_echeances ( void )
     else
     {
 	gtk_label_set_text ( GTK_LABEL ( label_non_affecte_echeances ),
-			     "" );
+			     "0.00" );
 	gtk_label_set_text ( GTK_LABEL ( label_montant_operation_ventilee_echeances_echeances ),
 			     g_strdup_printf ( "%4.2f",
 					       somme_ventilee_echeances ));
@@ -2734,6 +2736,8 @@ void validation_ope_de_ventilation_echeances ( struct operation_echeance *operat
 		    /* théoriquement, cette ligne n'est pas nécessaire vu que c'est une modif d'opé de ventil */
 
 		    ope_modifiee -> no_operation_ventilee_associee = operation -> no_operation;
+		    ope_modifiee -> operation_ventilee = 1;
+		
 
 		}
 	    }
@@ -2782,6 +2786,7 @@ void validation_ope_de_ventilation_echeances ( struct operation_echeance *operat
 		nouvelle_ope -> type_ope = operation -> type_ope;
 		nouvelle_ope -> auto_man = operation -> auto_man;
 		nouvelle_ope -> no_operation_ventilee_associee = operation -> no_operation;
+		nouvelle_ope -> operation_ventilee = 1;
 
 		/* on ajoute cette opé à la liste */
 
