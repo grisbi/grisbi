@@ -1033,7 +1033,8 @@ gboolean fin_equilibrage ( GtkWidget *bouton_ok,
 
 	operation = pointeur_liste_ope -> data;
 
-	if ( operation -> pointe == OPERATION_POINTEE )
+	if ( operation -> pointe == OPERATION_POINTEE ||
+	     operation -> pointe == OPERATION_TELERAPPROCHEE )
 	{
 	    operation -> pointe = OPERATION_RAPPROCHEE;
 	    operation -> no_rapprochement = DERNIER_NO_RAPPROCHEMENT;
@@ -1119,7 +1120,8 @@ void calcule_total_pointe_compte ( gint no_compte )
 
 	/* on ne prend en compte l'opé que si c'est pas une opé de ventil */
 
-	if ( operation -> pointe == OPERATION_POINTEE &&
+	if ( ( operation -> pointe == OPERATION_POINTEE ||
+	       operation -> pointe == OPERATION_TELERAPPROCHEE ) &&
 	     !operation -> no_operation_ventilee_associee )
 	{
 	    gdouble montant;
