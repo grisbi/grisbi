@@ -1044,7 +1044,7 @@ gboolean entree_perd_focus ( GtkWidget *entree,
 				    if ( !GTK_WIDGET_VISIBLE ( widget_formulaire_operations[TRANSACTION_FORM_CONTRA] )
 					 ||
 					 ( GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( widget_formulaire_operations[TRANSACTION_FORM_CONTRA] ),
-										   "no_compte" ))
+										   "compte_virement" ))
 					   !=
 					   compte_virement ))
 				    {
