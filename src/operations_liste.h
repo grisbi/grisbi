@@ -42,5 +42,6 @@ void update_titres_tree_view ( void );
 void verification_list_store_termine ( gint no_compte );
 void show_balance_labels ( void );
 void hide_balance_labels ( void );
+gint find_p_r_col ();
 /*END_DECLARATION*/
 
