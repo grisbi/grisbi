@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-05-15 12:21+0200\n"
+"POT-Creation-Date: 2004-05-16 13:49+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -527,7 +527,7 @@ msgstr ""
 #. le premier nom est Aucun
 #. on lui associe 0
 #: src/banque.c:252 src/echeancier_formulaire.c:1491 src/equilibrage.c:608
-#: src/exercice.c:559
+#: src/exercice.c:540
 msgid "None"
 msgstr ""
 
@@ -630,7 +630,7 @@ msgid "Mask reconciled transactions"
 msgstr ""
 
 #: src/barre_outils.c:373 src/barre_outils.c:374
-msgid "Display the grid"
+msgid "Display grid"
 msgstr ""
 
 #: src/barre_outils.c:396
@@ -707,7 +707,7 @@ msgstr ""
 
 #. ajoute le bouton annuler
 #. Add the "cancel" button
-#: src/calendar.c:111 src/equilibrage.c:453 src/utils.c:1407
+#: src/calendar.c:111 src/equilibrage.c:453 src/utils.c:1431
 msgid "Cancel"
 msgstr ""
 
@@ -3000,7 +3000,7 @@ msgid "Manual"
 msgstr ""
 
 #: src/echeancier_formulaire.c:554 src/echeancier_liste.c:821
-#: src/exercice.c:544
+#: src/exercice.c:525
 msgid "Automatic"
 msgstr ""
 
@@ -4680,25 +4680,25 @@ msgstr ""
 msgid "New financial year"
 msgstr ""
 
-#: src/exercice.c:451
+#: src/exercice.c:432
 msgid "The financial year must have a name."
 msgstr ""
 
 #. le second est non affiché
 #. on lui associe -1
-#: src/exercice.c:574
+#: src/exercice.c:555
 msgid "Not displayed"
 msgstr ""
 
-#: src/exercice.c:750
-msgid "Automatic association for the financial year"
+#: src/exercice.c:728
+msgid "Automatic association of financial years?"
 msgstr ""
 
-#: src/exercice.c:757
+#: src/exercice.c:729
 msgid ""
-"This function assigns each transaction without a financial year to the\n"
-"one related to its transaction date.  If no financial year matches,\n"
-"the transaction will not be changed."
+"This function assigns each transaction without a financial year to the one "
+"related to its transaction date.  If no financial year matches, the "
+"transaction will not be changed."
 msgstr ""
 
 #: src/fenetre_principale.c:74
@@ -4870,12 +4870,10 @@ msgstr ""
 
 #: src/fichiers_io.c:4872
 #, c-format
-msgid ""
-"Cannot open file to mark it as used\n"
-"'%s': %s"
+msgid "Cannot open file '%s' to mark it as used: %s"
 msgstr ""
 
-#. le fichier de swap existe
+#. le fichier de lock existe
 #: src/fichiers_io.c:4918
 #, c-format
 msgid "File \"%s\" is already opened"
@@ -4891,12 +4889,12 @@ msgstr ""
 
 #: src/fichiers_io.c:4936
 #, c-format
-msgid "Cannot write swap file :'%s': %s"
+msgid "Cannot write lock file :'%s': %s"
 msgstr ""
 
 #: src/fichiers_io.c:4967
 #, c-format
-msgid "Cannot erase swap file :'%s': %s"
+msgid "Cannot erase lock file :'%s': %s"
 msgstr ""
 
 #: src/fichiers_io.c:5125
@@ -6101,18 +6099,18 @@ msgstr ""
 msgid "Associate transactions with"
 msgstr ""
 
-#: src/utils.c:626
+#: src/utils.c:635
 #, c-format
 msgid ""
 "Grisbi was unable to execute a web browser to browse url <tt>%s</tt>.  "
 "Please adjust your settings to a valid executable."
 msgstr ""
 
-#: src/utils.c:627 src/utils.c:655
+#: src/utils.c:636 src/utils.c:670
 msgid "Cannot execute web browser"
 msgstr ""
 
-#: src/utils.c:654
+#: src/utils.c:669
 #, c-format
 msgid ""
 "Grisbi was unable to execute a web browser to browse url <tt>%s</tt>.\n"
@@ -6120,31 +6118,31 @@ msgid ""
 "Please adjust your settings to a valid executable."
 msgstr ""
 
-#: src/utils.c:1593
+#: src/utils.c:1617
 msgid "Browse"
 msgstr ""
 
-#: src/utils.c:1617
+#: src/utils.c:1641
 msgid "Print to file"
 msgstr ""
 
-#: src/utils.c:1808
+#: src/utils.c:1832
 msgid "I don't know !!!"
 msgstr ""
 
-#: src/utils.c:1812
+#: src/utils.c:1836
 msgid ""
 "There is no account in memory ! But if you see that error, it should...\n"
 "Please send a bug report to the grisbi team, this is a very big bug !\n"
 "Grisbi will probably crash after that message..."
 msgstr ""
 
-#: src/utils.c:1813
+#: src/utils.c:1837
 msgid "No account in memory"
 msgstr ""
 
 #. p_tab était mal placée
-#: src/utils.c:1823
+#: src/utils.c:1847
 msgid "Warning : variable p_tab_nom_de_compte_variable is abnormal."
 msgstr ""
 
