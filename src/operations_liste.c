@@ -4449,8 +4449,6 @@ void mise_a_jour_affichage_r ( gint affichage_r )
     /* 	pour mettre à jour les background et soldes en tache de fond */
 
     demarrage_idle ();
-
-    modification_fichier ( TRUE );
 }
 /******************************************************************************/
 
@@ -4843,7 +4841,6 @@ void mise_a_jour_affichage_lignes ( gint nb_lignes )
 
     demarrage_idle ();
 
-    modification_fichier ( TRUE );
 }
 /******************************************************************************/
 

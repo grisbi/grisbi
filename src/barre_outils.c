@@ -522,24 +522,28 @@ gboolean change_aspect_liste ( gint demande )
 						 menu_name(_("View"), _("Show one line per transaction"), NULL) );
 	    gtk_check_menu_item_set_active( GTK_CHECK_MENU_ITEM(widget), TRUE );
 	    mise_a_jour_affichage_lignes ( demande );
+	    modification_fichier ( TRUE );
 	    break;
 	case 2 :
 	    widget = gtk_item_factory_get_item ( item_factory_menu_general,
 						 menu_name(_("View"), _("Show two lines per transaction"), NULL) );
 	    gtk_check_menu_item_set_active( GTK_CHECK_MENU_ITEM(widget), TRUE );
 	    mise_a_jour_affichage_lignes ( demande );
+	    modification_fichier ( TRUE );
 	    break;
 	case 3 :
 	    widget = gtk_item_factory_get_item ( item_factory_menu_general,
 						 menu_name(_("View"), _("Show three lines per transaction"), NULL) );
 	    gtk_check_menu_item_set_active( GTK_CHECK_MENU_ITEM(widget), TRUE );
 	    mise_a_jour_affichage_lignes ( demande );
+	    modification_fichier ( TRUE );
 	    break;
 	case 4 :
 	    widget = gtk_item_factory_get_item ( item_factory_menu_general,
 						 menu_name(_("View"), _("Show four lines per transaction"), NULL) );
 	    gtk_check_menu_item_set_active( GTK_CHECK_MENU_ITEM(widget), TRUE );
 	    mise_a_jour_affichage_lignes ( demande );
+	    modification_fichier ( TRUE );
 	    break;
 
 	case 5 :
@@ -547,6 +551,7 @@ gboolean change_aspect_liste ( gint demande )
 	    /* ope avec r */
 
 	    mise_a_jour_affichage_r ( 1 );
+	    modification_fichier ( TRUE );
 
 	    block_menu_cb = TRUE;
 	    widget = gtk_item_factory_get_item ( item_factory_menu_general,
@@ -561,6 +566,7 @@ gboolean change_aspect_liste ( gint demande )
 	    /* ope sans r */
 
 	    mise_a_jour_affichage_r ( 0 );
+	    modification_fichier ( TRUE );
 
 	    block_menu_cb = TRUE;
 	    widget = gtk_item_factory_get_item ( item_factory_menu_general,

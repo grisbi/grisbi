@@ -103,9 +103,6 @@ gint ancien_retient_affichage_par_compte;
 
 
 /*START_EXTERN*/
-extern GtkWidget *bouton_affiche_r;
-extern GtkWidget *bouton_enleve_r;
-extern GtkWidget *bouton_ope_lignes[4];
 extern gint compte_courant;
 extern GtkWidget *label_proprietes_operations_compte;
 extern GtkWidget *label_releve;
@@ -672,14 +669,13 @@ void equilibrage ( void )
 
     ancien_r_modifiable = AFFICHAGE_R;
     AFFICHAGE_R = 0;
-    gtk_button_clicked ( GTK_BUTTON ( bouton_enleve_r ));
+    mise_a_jour_affichage_r ( 0 );
 
     /*     on affiche les opés sur 1 ligne */
 
     ancien_nb_lignes_ope = NB_LIGNES_OPE;
-    gtk_button_clicked ( GTK_BUTTON ( bouton_ope_lignes[0] ));
-
-
+    NB_LIGNES_OPE = 1;
+    mise_a_jour_affichage_lignes ( 1 );
 
     gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_comptes_equilibrage ),
 			    2 );
@@ -784,13 +780,10 @@ gboolean annuler_equilibrage ( void )
     /*     on restaure la config de l'utilisateur */
 
     NB_LIGNES_OPE = ancien_nb_lignes_ope;
-    gtk_button_clicked ( GTK_BUTTON ( bouton_ope_lignes[NB_LIGNES_OPE-1]));
+    mise_a_jour_affichage_lignes ( ancien_nb_lignes_ope );
 
     AFFICHAGE_R = ancien_r_modifiable;
-    if ( AFFICHAGE_R )
-	gtk_button_clicked ( GTK_BUTTON (bouton_affiche_r ));
-    else
-	gtk_button_clicked ( GTK_BUTTON ( bouton_enleve_r));
+    mise_a_jour_affichage_r ( ancien_r_modifiable );
 
     etat.retient_affichage_par_compte = ancien_retient_affichage_par_compte;
 
