@@ -1061,7 +1061,7 @@ void cree_liens_virements_ope_import ( void )
 
 		    if ( ( !g_strcasecmp ( g_strconcat ( "[", NOM_DU_COMPTE, "]", NULL ),
 					   g_strstrip ( g_strdup ( operation -> info_banque_guichet )))) ||
-			 ( !g_strcasecmp ( g_strconcat ( NOM_DU_COMPTE ),
+			 ( !g_strcasecmp ( NOM_DU_COMPTE ,
 					   g_strstrip ( g_strdup ( operation -> info_banque_guichet )))))
 			 
 			compte_trouve = j;
