@@ -45,7 +45,6 @@ gint preference_selected = -1;
 GtkTreeSelection * selection;
 GtkWidget * button_close, * button_help;
 GtkWidget *tree_view;
-GtkWidget * bouton_display_lock_active;
 
 extern gint decalage_echeance; 
 
@@ -382,28 +381,28 @@ GtkWidget *onglet_messages_and_warnings ( void )
 					    _("Warnings messages"));
 
     /* Display a warning message if minimum balances are under minimum level */
-    bouton_solde_mini = new_checkbox_with_title ( _("Do not Warn if balances are under minimum levels"),
-						  &(etat.display_message_minimum_alert), NULL );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), bouton_solde_mini, FALSE, FALSE, 0 );
+    pCheckBox = new_checkbox_with_title ( _("Do not Warn if balances are under minimum levels"),
+					  &(etat.display_message_minimum_alert), NULL );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), pCheckBox, FALSE, FALSE, 0 );
 
     /* Display a warning message if account file is readable by someone else */
     /* On Windows, the chmod feature does not work: FAT does not have right access permission notions , 
      * on NTFS it to complicated to implement => the feature is removed from the Windows version :
      * for that the corresponding parameter check box is not displayed and the paramater is forced to not display msg ( 1!!! ) */
 #ifndef _WIN32
-    bouton_affiche_permission = new_checkbox_with_title ( _("Do not warn if account file is readable by someone else"),
-							  &(etat.display_message_file_readable), NULL );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), bouton_affiche_permission, FALSE, FALSE, 0 );
+    pCheckBox = new_checkbox_with_title ( _("Do not warn if account file is readable by someone else"),
+					  &(etat.display_message_file_readable), NULL );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), pCheckBox, FALSE, FALSE, 0 );
 #endif
     /* Display a warning message if file is already opened */
-    bouton_display_lock_active = new_checkbox_with_title ( _("Do not warn about an already opened file"),
-							   &(etat.display_message_lock_active), NULL );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), bouton_display_lock_active, FALSE, FALSE, 0 );
+    pCheckBox = new_checkbox_with_title ( _("Do not warn about an already opened file"),
+					  &(etat.display_message_lock_active), NULL );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), pCheckBox, FALSE, FALSE, 0 );
 
     /* Display a warning message that QIF doesn't contain currencies */
-    bouton_display_lock_active = new_checkbox_with_title ( _("Do not warn about about QIF not containing currencies"),
-							   &(etat.display_message_qif_export_currency), NULL );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), bouton_display_lock_active, FALSE, FALSE, 0 );
+    pCheckBox = new_checkbox_with_title ( _("Do not warn about QIF not containing currencies"),
+					  &(etat.display_message_qif_export_currency), NULL );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), pCheckBox, FALSE, FALSE, 0 );
 
     /* Display a warning message that manually reconciliation isn't a good way */
     pCheckBox = new_checkbox_with_title ( _("Do not warn about manually reconciliation\n"

@@ -212,9 +212,6 @@ gchar *applet_dir;
 gchar *applet_bin_dir;
 
 GtkWidget *fenetre_preferences;
-GtkWidget *bouton_entree_enregistre, *bouton_entree_enregistre_pas;
-GtkWidget *bouton_solde_mini, *bouton_pas_solde_mini;
-GtkWidget *bouton_affiche_permission, *bouton_affiche_pas_permission;
 GtkWidget *entree_titre_fichier;
 GtkWidget *entree_adresse_commune;
 GtkWidget *entree_adresse_secondaire;

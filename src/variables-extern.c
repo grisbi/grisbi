@@ -225,9 +225,6 @@ extern gchar *applet_dir;
 extern gchar *applet_bin_dir;
 
 extern GtkWidget *fenetre_preferences;
-extern GtkWidget *bouton_entree_enregistre, *bouton_entree_enregistre_pas;
-extern GtkWidget *bouton_solde_mini, *bouton_pas_solde_mini;
-extern GtkWidget *bouton_affiche_permission, *bouton_affiche_pas_permission;
 extern GtkWidget *entree_titre_fichier;
 extern GtkWidget *entree_adresse_commune;
 extern GtkWidget *entree_adresse_secondaire;
