@@ -1,0 +1,91 @@
+; --------------------------------------------------------------------------
+;                            GRISBI for CYGWIN
+; --------------------------------------------------------------------------
+; $Id: config-nsh.in,v 1.1.2.1 2004/08/15 14:24:54 teilginn Exp $
+; --------------------------------------------------------------------------
+; Authors    : Francois Terrot (grisbi@terrot.net)
+;
+; Description: This file is a part of the GRISBI for Windows installer sources
+;              It is used to configure the installer package to build
+;              See comments for more informations
+;
+; --------------------------------------------------------------------------
+; Licence :
+; ---------
+;
+;  This program is free software; you can redistribute it and/or modify
+;  it under the terms of the GNU General Public License as published by
+;  the Free Software Foundation; either version 2 of the License, or
+;  (at your option) any later version.
+;
+;  This program is distributed in the hope that it will be useful,
+;  but WITHOUT ANY WARRANTY; without even the implied warranty of
+;  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;  GNU General Public License for more details.
+;
+;  You should have received a copy of the GNU General Public License
+;  along with this program; if not, write to the Free Software
+;  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307,
+;  USA.
+;
+; --------------------------------------------------------------------------
+
+; --------------------------------------------------------------------------
+; Installer mode defines which feature is included in the build package
+; *Unique*Required*
+; --------------------------------------------------------------------------
+!define INSTALL_FULL_MODE
+;!define INSTALL_BIN_MODE
+;!define INSTALL_LIB_MODE
+;!define INSTALL_APP_MODE
+;!define INSTALL_POST_INST_MODE 
+
+; --------------------------------------------------------------------------
+; Package version Information : give the "official" grisbi version number
+;   you build the package for. Version ID shall always start by x.y.z value
+;   for build installation check reason.
+; LONG_VERSION : the full version = grisbi package version (3 digits) + a
+;   comment to identify the package. LONG_VERSION is used for package name
+;   it MUST start by the 3 version digits for version check
+;   example : 0.4.1 or 0.4.1-pre1 or 0.4.4-corr-040322
+; SHORT_VERSION       : only the 3 first digits of the LONG_VERSION
+; SHORT_BUILD         : a number, what you want by a number.
+; PACKAGE_DOC_VERSION : the 3 digit of the version of the documentation
+;   example : "0.4.0"
+; --------------------------------------------------------------------------
+#!define GRISBIDIR "..\..\grisbi-0.5.0"
+
+!define BUILDDIR "${GRISBIDIR}\build"
+!define WIN32DIR "${GRISBIDIR}\win32"
+!define BUILDENV "gcc"
+!define VERSIONID "@CORE@"
+!define BUILDID  "@BUILD@"
+!define PATCHID  "@PATCH@"
+!define GTKVERS  "@GTKVER"
+!define REQUIRED_PATH "@BUILD@"
+
+;!define IS_TEST_VERSION
+
+!ifndef LONG_VERSION ; ex 0.4.2-pre4
+    !define VERSIONSTR "${VERSIONID}"
+!endif
+
+!ifndef PACKAGE_DOC_VERSION
+    !define PACKAGE_DOC_VERSION "0.4.0"
+!endif
+
+!define USE_ATK
+!define LIB_ATK         "atk-1.03-20020821"
+!define LIB_FONTCONFIG  "fontconfig-2.2.1"
+!define LIB_GLIB        "glib-2.2.4-3"
+!define LIB_GTK         "gtk+-2.2.4-3"
+!define LIB_LIBXML2     "libxml2-2.4.12"
+!define LIB_LIBICONV    "libiconv-1.9.1"
+!define LIB_LIBI18N     "libi18n"
+!define LIB_PANGO       "pango-1.2.1"
+!define LIB_GETTEXT     "gettext-0.13.1"
+!define LIB_IMGFMT      "Image format libs"
+!define LIB_ZLIB1       "zlib1-1.2.1.1"
+!define LIB_WINDOWS     "autres"
+
+;eof vim:ft=nsis
