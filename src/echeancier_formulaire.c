@@ -1494,6 +1494,28 @@ void fin_edition_echeance ( void )
     {
 	enregistre_ope_au_retour_echeances = 1;
 
+	/* We check if one of the subtransactions of the breakdown of
+	   transaction is a transfer on itself. */
+	pointeur_liste = gtk_object_get_data ( GTK_OBJECT ( formulaire_echeancier ),
+					       "liste_adr_ventilation" );
+	while ( pointeur_liste &&
+		pointeur_liste != GINT_TO_POINTER ( -1 ))
+	  {
+	    struct struct_ope_ventil *ope_ventil;
+
+	    ope_ventil = pointeur_liste -> data;
+
+	    if ( ope_ventil -> relation_no_compte != -1 &&
+		 ope_ventil -> relation_no_compte == 
+		 recupere_no_compte ( widget_formulaire_echeancier[SCHEDULER_FORM_ACCOUNT] ))
+	      {
+		dialogue_error ( _("This breakdown of transaction has a transfer on itself.  Either change the sub transaction to transfer on another account or change account of the transaction itself.") );
+		return;
+	      }
+
+	    pointeur_liste = pointeur_liste -> next;
+	  }
+
 	if ( gtk_widget_get_style ( widget_formulaire_echeancier[TRANSACTION_FORM_DEBIT] ) == style_entree_formulaire[ENCLAIR] )
 	    ventiler_operation_echeances ( -my_strtod ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_echeancier[SCHEDULER_FORM_DEBIT] ))),
 							NULL ));
