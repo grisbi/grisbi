@@ -41,6 +41,7 @@ gchar * get_currency ( xmlNodePtr currency_node );
 struct struct_compte_importation * find_imported_account_by_uid ( gchar * guid );
 struct gnucash_category * find_imported_categ_by_uid ( gchar * guid );
 gdouble gnucash_value ( gchar * value );
+xmlDocPtr parse_gnucash_file ( gchar * filename );
 
 
 struct gnucash_category {
@@ -58,7 +59,7 @@ gboolean recuperation_donnees_gnucash ( gchar * filename )
 {
   xmlDocPtr doc;
 
-  doc = xmlParseFile ( filename );
+  doc = parse_gnucash_file ( filename );
 
   if ( doc )
     {
@@ -71,6 +72,22 @@ gboolean recuperation_donnees_gnucash ( gchar * filename )
 	    {
 	      recuperation_donnees_gnucash_book ( root_node );
 	    }
+	  else if ( node_strcmp(root_node, "account") )
+	    {
+	      if ( !strcmp(child_content(root_node, "type"), "BANK") )
+		{
+		  recuperation_donnees_gnucash_compte ( root_node );
+		}
+	      else
+		{
+		  recuperation_donnees_gnucash_categorie ( root_node );
+		}
+	    }
+	  else if ( node_strcmp(root_node, "transaction") )
+	    {
+	      recuperation_donnees_gnucash_transaction ( root_node );
+	    }
+
 	  root_node = root_node -> next;
 	}
     }
@@ -143,7 +160,27 @@ void recuperation_donnees_gnucash_categorie ( xmlNodePtr categ_node )
 
   categ = calloc ( 1, sizeof ( struct gnucash_category ));
 
+  /* Find name, could be tricky if there is a parent. */
   categ -> name = child_content ( categ_node, "name" );
+  if ( child_content ( categ_node, "parent" ) )
+    {
+      gchar * parent_guid = child_content ( categ_node, "parent" );
+      GSList * liste_tmp = gnucash_categories;
+
+      while ( liste_tmp )
+	{
+	  struct gnucash_category * iter = liste_tmp -> data;
+
+	  if ( !strcmp ( iter -> guid, parent_guid ) )
+	    {
+	      categ -> name = g_strconcat ( iter -> name, " : ", categ -> name, NULL );
+	      break;
+	    }
+
+	  liste_tmp = liste_tmp -> next;
+	}
+    }
+
   categ -> guid = child_content ( categ_node, "id" );
   
   if ( !strcmp ( child_content ( categ_node, "type" ), "INCOME" ) )
@@ -325,4 +362,65 @@ gdouble gnucash_value ( gchar * value )
   mantisse = my_atoi ( tab_value[1] );
 
   return number / mantisse;
+}
+
+
+xmlDocPtr parse_gnucash_file ( gchar * filename )
+{
+  gchar buffer[1024], *tempname;
+  FILE * filein, * tempfile;
+  xmlDocPtr doc;
+
+  filein = fopen ( filename, "r" );
+  if ( ! filein )
+    {
+      fprintf (stderr, "ERROR");
+      return NULL;
+    }
+
+  tempname = g_strdup_printf ( "gsbgnc%05d", g_random_int_range (0,99999) );
+  tempfile = fopen ( tempname, "w+x" );
+  if ( ! tempfile )
+    {
+      fprintf (stderr, "ERROR");
+      return NULL;
+    }
+
+  while ( fgets ( buffer, 1024, filein ) )
+    {
+      gchar * tag;
+      tag = g_strrstr ( buffer, "<gnc-v2>" );
+      
+      if ( tag )
+	{
+	  gchar * ns[12] = { "gnc", "cd", "book", "act", "trn", "split", "cmdty", 
+			     "ts", "slots", "slot", "price", NULL };
+	  gchar ** iter;
+	  /* We need to fix the file */
+	  tag += 7;
+	  *tag = 0;
+	  tag++;
+
+	  fputs ( buffer, tempfile );
+	  for ( iter = ns ; *iter != NULL ; iter++ )
+	    {
+	      fputs ( g_strdup_printf ( "  xmlns:%s=\"http://www.gnucash.org/lxr/gnucash/source/src/doc/xml/%s-v1.dtd#%s\"\n", 
+					*iter, *iter, *iter ),
+		      tempfile );
+	    }
+	  fputs ( ">\n", tempfile );
+	}
+      else
+	{
+	  fputs ( buffer, tempfile );
+	}
+    }
+  fclose ( filein );
+  fclose ( tempfile );
+
+  doc = xmlParseFile ( tempname );
+
+  printf ("unlink ( tempname );\n");
+  
+  return doc;
 }
