@@ -117,6 +117,29 @@ fix_encoding ( xmlNodePtr droot )
 }
 
 
+void remove_file_from_last_opened_files_list ( gchar * nom_fichier )
+{
+  gint i, j;
+
+  for ( i = 0 ; i < nb_derniers_fichiers_ouverts ; i++ )
+    {
+      if ( ! strcmp (nom_fichier_comptes, tab_noms_derniers_fichiers_ouverts[i]) )
+	{
+	  for ( j = i; j < nb_derniers_fichiers_ouverts-1; j++ )
+	    {
+	      tab_noms_derniers_fichiers_ouverts[j] = tab_noms_derniers_fichiers_ouverts[j+1];
+
+	    }
+	  break;
+	}
+    }
+  nb_derniers_fichiers_ouverts--;
+  efface_derniers_fichiers_ouverts();
+  affiche_derniers_fichiers_ouverts();
+}
+
+
+
 /****************************************************************************/
 /** Procédure qui charge les opérations en mémoire sous forme de structures**/
 /** elle rend la main en ayant initialisée la variable p_tab_nom_de_compte,**/
@@ -196,10 +219,12 @@ gboolean charge_operations ( void )
 	}
 
       dialogue ( _("Invalid accounts file") );
+      remove_file_from_last_opened_files_list ( nom_fichier_comptes );
       return ( FALSE );
     }
   else
     {
+      remove_file_from_last_opened_files_list ( nom_fichier_comptes );
       dialogue (g_strdup_printf (_("Cannot open file %s: %s"), nom_fichier_comptes,
 				   latin2utf8 (strerror(errno))));
       return FALSE;
