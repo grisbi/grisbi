@@ -1,6 +1,29 @@
-2005-01-07  Alain Portal <dionysos@grisbi.org>
+2005-01-08  Alain Portal <dionysos@grisbi.org>
 
 	* ChangeLog: Update.
+
+2005-01-08  Alain Portal <dionysos@grisbi.org>
+
+	* src/operations_liste.c: If no appropriate financial year found,
+	set as none.
+
+2005-01-08  Alain Portal <dionysos@grisbi.org>
+
+	* src/operations_liste.c: If the template transaction have a
+	financial year, choose an appropriate financial year for the newly
+	created transaction.
+
+2005-01-08  Benjamin Drieu <bdrieu@april.org>
+
+	* src/type_operations.c: Fix compile time error with old gcc
+
+2005-01-08  Benjamin Drieu <bdrieu@april.org>
+
+	* src/equilibrage.c: Fix a syntax error that make old gcc fail
+
+2005-01-07  Francois Terrot <francois@terrot.net>
+
+	* src/ofx.h: fox #endif (_WIN32) bad position
 
 2005-01-07  Alain Portal <dionysos@grisbi.org>
 
@@ -283,7 +306,7 @@
 
 	* po/pt_BR.po: Translation to Brasilian portuguese - new release
 
-2004-12-24  teilginn
+2004-12-24  Francois Terrot <francois@terrot.net>
 
 	* src/ofx.c, src/ofx.h, win32/libofx/libofx.h, win32/win32libofx.c:
 	Add OFX support for Windows (libofx need to be dynamically loaded)
@@ -390,7 +413,7 @@
 	* src/check.c: Improve GUI. Allow user to abort test. Show test
 	result and give some tips.
 
-2004-12-20  teilginn
+2004-12-20  Francois Terrot <francois@terrot.net>
 
 	* src/main.c: Prepare Grisbi for Windows to use a common GTK libs
 	installation as The Gimp does.
@@ -565,7 +588,7 @@
 
 	* po/de.po: Update 10 fuzzy strings
 
-2004-12-12  teilginn
+2004-12-12  Francois Terrot <francois@terrot.net>
 
 	* win32/win32gtkutils.c, win32/win32gtkutils.h: Prepare Grisbi for
 	Windows to use a common GTK libs installation as The Gimp does.
