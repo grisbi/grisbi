@@ -94,7 +94,7 @@ void fichier_choisi_importation_qif ( GtkWidget *fenetre )
   struct donnees_compte *compte;
   GSList *liste_ope_brut;
   gint retour;
-  GList *selection;
+  gchar ** selection, **iter;
 
 
   /* on met le répertoire courant dans la variable correspondante */
@@ -106,33 +106,30 @@ void fichier_choisi_importation_qif ( GtkWidget *fenetre )
   /* on va récupérer tous les fichiers sélectionnés puis proposer d'en importer d'autres */
 
 
-  selection = GTK_CLIST ( GTK_FILE_SELECTION ( fenetre ) -> file_list ) -> selection;
+  selection = gtk_file_selection_get_selections ( GTK_FILE_SELECTION(fenetre) );
+  iter = selection;
 
-  while ( selection )
+  while ( iter && *iter )
     {
-      gchar *fichier[1];
-      gchar **separation;
+      gchar *fichier;
 
-      gtk_clist_get_text ( GTK_CLIST ( GTK_FILE_SELECTION ( fenetre ) -> file_list ),
-			   GPOINTER_TO_INT ( selection -> data ),
-			   0,
-			   fichier );
+/*       separation = g_strsplit ( GTK_LABEL ( GTK_FILE_SELECTION ( fenetre ) -> selection_text ) -> label, */
+/* 				":", */
+/* 				2 ); */
 
-      separation = g_strsplit ( GTK_LABEL ( GTK_FILE_SELECTION ( fenetre ) -> selection_text ) -> label,
-				":",
-				2 );
+/*       nom_fichier_qif = g_strconcat ( g_strstrip ( separation[1] ), */
+/* 				      "/", */
+/* 				      fichier[0], */
+/* 				      NULL ); */
+/*       g_strfreev ( separation ); */
 
-      nom_fichier_qif = g_strconcat ( g_strstrip ( separation[1] ),
-				      "/",
-				      fichier[0],
-				      NULL );
-      g_strfreev ( separation );
-
+      nom_fichier_qif = (char*) *iter;
 
       if ( !( fichier_qif = fopen ( nom_fichier_qif,
 				    "r" ) ))
 	{
-	  dialogue ( strerror ( errno ) );
+	  dialogue ( g_strconcat ("cannot open ", nom_fichier_qif, ": ",
+				  strerror ( errno ), NULL ));
 	  return;
 	}
 
@@ -574,8 +571,10 @@ void fichier_choisi_importation_qif ( GtkWidget *fenetre )
 
       compte -> gsliste_operations = liste_ope_brut;
 
-      selection = selection -> next;
+      iter++;
     }
+
+  g_strfreev(selection);
 
   gtk_widget_hide ( fenetre );
 
@@ -685,7 +684,7 @@ void traitement_donnees_brutes ( void )
       liste_tmp = liste_tmp -> next;
     }
 
-  label = gtk_label_new ( _("\nAny other account to import?") );
+  label = gtk_label_new ( _("Import another account?") );
   gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
 		       label,
 		       FALSE,
