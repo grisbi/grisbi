@@ -589,7 +589,6 @@ void remplissage_liste_operations ( gint compte )
   struct struct_devise *devise_compte;
   struct struct_devise *devise_operation;
 
-
   p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte;
 
 /* freeze la clist */
@@ -720,10 +719,10 @@ void remplissage_liste_operations ( gint compte )
     {
       struct structure_operation *operation;
 
-  /* rafraichit la fenetre d'attente */
+      /* rafraichit la fenetre d'attente */
 
-  if ( patience_en_cours )
-  while ( g_main_iteration ( FALSE ) );
+      if ( patience_en_cours )
+	while ( g_main_iteration ( FALSE ) );
 
       operation = liste_operations_tmp -> data;
 
@@ -1034,14 +1033,14 @@ void remplissage_liste_operations ( gint compte )
 
   /* 	  on va maintenant afficher la ou les lignes */
 
-      ligne = gtk_clist_append ( GTK_CLIST ( CLIST_OPERATIONS ),
-				 ligne1 );
+  ligne = gtk_clist_append ( GTK_CLIST ( CLIST_OPERATIONS ),
+			     ligne1 );
 
-      /* on associe à cette ligne à -1 */
+  /* on associe à cette ligne à -1 */
 
-      gtk_clist_set_row_data ( GTK_CLIST (CLIST_OPERATIONS),
-			       ligne,
-			       GINT_TO_POINTER ( -1 ));
+  gtk_clist_set_row_data ( GTK_CLIST (CLIST_OPERATIONS),
+			   ligne,
+			   GINT_TO_POINTER ( -1 ));
 
   if ( nb_lignes_ope != 1 )
     {
@@ -2543,7 +2542,7 @@ void verification_mise_a_jour_liste ( void )
   gfloat new_bas, new_value;
   gint compte;
 
-  compte = gtk_notebook_get_current_page ( GTK_NOTEBOOK ( notebook_listes_operations )) - 2;
+  compte = gtk_notebook_get_current_page ( GTK_NOTEBOOK ( notebook_listes_operations )) - 1;
 
   if ( compte < 0 )
     return;

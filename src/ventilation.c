@@ -2212,7 +2212,7 @@ void valider_ventilation ( void )
 
   gtk_widget_show ( barre_outils );
   gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_listes_operations ),
-			  compte_courant + 2 );
+			  compte_courant + 1 );
   gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_comptes_equilibrage ),
 			  0 );
   gtk_widget_show ( formulaire );

@@ -353,12 +353,12 @@ void change_aspect_liste ( GtkWidget *bouton,
 					 GTK_SIGNAL_FUNC ( change_aspect_liste ),
 					 GINT_TO_POINTER ( 4 ));
 
-      if ( nb_lignes_ope == 4 )
-	break;
+      if ( nb_lignes_ope != 4 )
+	{
+	  nb_lignes_ope = 4;
+	  demande_mise_a_jour_tous_comptes ();
+	}
 
-      nb_lignes_ope = 4;
-
-      demande_mise_a_jour_tous_comptes ();
       break;
 
     case 1 :
@@ -391,12 +391,12 @@ void change_aspect_liste ( GtkWidget *bouton,
 					 GTK_SIGNAL_FUNC ( change_aspect_liste ),
 					 GINT_TO_POINTER ( 4 ));
 
-      if ( nb_lignes_ope == 1 )
-	break;
-
+      if ( nb_lignes_ope != 1 )
+	{
       nb_lignes_ope = 1;
-
       demande_mise_a_jour_tous_comptes ();
+	}
+
       break;
 
     case 2 :
@@ -420,12 +420,13 @@ void change_aspect_liste ( GtkWidget *bouton,
 					 GTK_SIGNAL_FUNC ( change_aspect_liste ),
 					 GINT_TO_POINTER ( 2 ));
 
-      if (  etat.r_affiches == 1 )
-	break;
-      etat.r_affiches = 1;
+      if (  etat.r_affiches != 1 )
+	{
+	  etat.r_affiches = 1;
 
-      demande_mise_a_jour_tous_comptes ();
-      selectionne_ligne ( compte_courant );
+	  demande_mise_a_jour_tous_comptes ();
+	  selectionne_ligne ( compte_courant );
+	}
       break;
 
     case 3 :
@@ -449,12 +450,13 @@ void change_aspect_liste ( GtkWidget *bouton,
 					 GTK_SIGNAL_FUNC ( change_aspect_liste ),
 					 GINT_TO_POINTER ( 2 ));
 
-      if (  etat.r_affiches == 0 )
-	break;
-      etat.r_affiches = 0;
+      if (  etat.r_affiches )
+	{
+	  etat.r_affiches = 0;
 
-      demande_mise_a_jour_tous_comptes ();
-      selectionne_ligne ( compte_courant );
+	  demande_mise_a_jour_tous_comptes ();
+	  selectionne_ligne ( compte_courant );
+	}
       break;
 
 
@@ -489,12 +491,12 @@ void change_aspect_liste ( GtkWidget *bouton,
 					 GTK_SIGNAL_FUNC ( change_aspect_liste ),
 					 GINT_TO_POINTER ( 1 ));
 
-      if ( nb_lignes_ope == 3 )
-	break;
+      if ( nb_lignes_ope != 3 )
+	{
+	  nb_lignes_ope = 3;
 
-      nb_lignes_ope = 3;
-
-      demande_mise_a_jour_tous_comptes ();
+	  demande_mise_a_jour_tous_comptes ();
+	}
       break;
 
 

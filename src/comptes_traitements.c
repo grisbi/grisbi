@@ -237,7 +237,7 @@ void supprimer_compte ( void )
   /* supprime l'onglet du compte */
 
   gtk_notebook_remove_page ( GTK_NOTEBOOK ( notebook_listes_operations ),
-			     compte_modifie + 2 );
+			     compte_modifie + 1 );
 
   /*       suppression des échéances */
 
