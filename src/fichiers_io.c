@@ -4308,25 +4308,25 @@ gboolean enregistre_fichier ( gboolean force )
       xmlNewTextChild ( node_compte,
 			NULL,
 			"Solde_initial",
-			g_strdup_printf ( "%4.2f",
+			g_strdup_printf ( "%4.7f",
 					  SOLDE_INIT ));
 
       xmlNewTextChild ( node_compte,
 			NULL,
 			"Solde_mini_voulu",
-			g_strdup_printf ( "%4.2f",
+			g_strdup_printf ( "%4.7f",
 					  SOLDE_MINI_VOULU ));
 
       xmlNewTextChild ( node_compte,
 			NULL,
 			"Solde_mini_autorise",
-			g_strdup_printf ( "%4.2f",
+			g_strdup_printf ( "%4.7f",
 					  SOLDE_MINI ));
 
       xmlNewTextChild ( node_compte,
 			NULL,
 			"Solde_courant",
-			g_strdup_printf ( "%4.2f",
+			g_strdup_printf ( "%4.7f",
 					  SOLDE_COURANT ));
 
       xmlNewTextChild ( node_compte,
@@ -4337,7 +4337,7 @@ gboolean enregistre_fichier ( gboolean force )
       xmlNewTextChild ( node_compte,
 			NULL,
 			"Solde_dernier_releve",
-			g_strdup_printf ( "%4.2f",
+			g_strdup_printf ( "%4.7f",
 					  SOLDE_DERNIER_RELEVE ));
 
       xmlNewTextChild ( node_compte,
@@ -4512,7 +4512,7 @@ gboolean enregistre_fichier ( gboolean force )
 
 	  xmlSetProp ( node_ope,
 		       "M",
-		       g_strdup_printf ( "%4.2f",
+		       g_strdup_printf ( "%4.7f",
 					 operation -> montant ));
 
 	  xmlSetProp ( node_ope,
@@ -4525,12 +4525,12 @@ gboolean enregistre_fichier ( gboolean force )
 
 	  xmlSetProp ( node_ope,
 		       "Tc",
-		       g_strdup_printf ( "%4.2f",
+		       g_strdup_printf ( "%4.7f",
 					 operation -> taux_change ));
 
 	  xmlSetProp ( node_ope,
 		       "Fc",
-		       g_strdup_printf ( "%4.2f",
+		       g_strdup_printf ( "%4.7f",
 					 operation -> frais_change ));
 
 	  xmlSetProp ( node_ope,
@@ -4674,7 +4674,7 @@ gboolean enregistre_fichier ( gboolean force )
 
       xmlSetProp ( node_echeance,
 		   "Montant",
-		   g_strdup_printf ( "%4.2f",
+		   g_strdup_printf ( "%4.7f",
 				     echeance -> montant ));
 
       xmlSetProp ( node_echeance,
@@ -5978,11 +5978,11 @@ gboolean enregistre_fichier ( gboolean force )
 		       itoa ( montants_comp -> comparateur_2 ));
 	  xmlSetProp ( node_3,
 		       "Mont_1",
-		       g_strdup_printf ( "%4.2f",
+		       g_strdup_printf ( "%4.7f",
 					 montants_comp -> montant_1 ));
 	  xmlSetProp ( node_3,
 		       "Mont_2",
-		       g_strdup_printf ( "%4.2f",
+		       g_strdup_printf ( "%4.7f",
 					 montants_comp -> montant_2 ));
 	  pointeur_liste = pointeur_liste -> next;
 	}
