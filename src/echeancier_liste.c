@@ -636,9 +636,6 @@ gboolean traitement_clavier_liste_echeances ( GtkCList *liste_echeances,
       supprime_echeance ();
       break;
 
-
-
-    default :
     }
 
   return ( TRUE );    
@@ -1403,7 +1400,6 @@ void supprime_echeance ( void )
       remplissage_liste_echeance ();
       break;
 
-    default:
     }
 
   mise_a_jour_calendrier();
@@ -1994,7 +1990,7 @@ void modification_affichage_echeances ( gint *origine )
 
     case 5:
 
-      affichage_echeances_perso_nb_libre = atoi ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( entree_personnalisation_affichage_echeances ))));
+      affichage_echeances_perso_nb_libre = atoi ( g_strstrip ( (char *) gtk_entry_get_text ( GTK_ENTRY ( entree_personnalisation_affichage_echeances ))));
 
       break;
 
@@ -2032,7 +2028,6 @@ void modification_affichage_echeances ( gint *origine )
 
       break;
 
-    default :
     }
 
   remplissage_liste_echeance ();
