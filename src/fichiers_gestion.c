@@ -603,6 +603,9 @@ gboolean fermer_fichier ( void )
     if ( !nb_comptes )
 	return ( TRUE );
 
+/*     on enregistre la config */
+
+    sauve_configuration ();
 
     /* si l'enregistrement s'est mal passé, on se barre */
 

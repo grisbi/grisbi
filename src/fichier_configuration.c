@@ -669,14 +669,20 @@ void sauve_configuration(void)
     xmlNewChild ( node,NULL, "Fonte_des_listes",fonte_liste);
     xmlNewChild ( node,NULL, "Animation_attente",etat.fichier_animation_attente);
     xmlNewChild ( node,NULL, "Navigateur_web",etat.browser_command);
-    xmlNewChild ( node,NULL, "Largeur_colonne_comptes_operation",
-		  itoa(gtk_paned_get_position (GTK_PANED (paned_onglet_operations))));
-    xmlNewChild ( node,NULL, "Largeur_colonne_echeancier",
-		  itoa(gtk_paned_get_position (GTK_PANED (paned_onglet_echeancier))));
-    xmlNewChild ( node,NULL, "Largeur_colonne_comptes_comptes",
-		  itoa(gtk_paned_get_position (GTK_PANED (paned_onglet_comptes))));
-    xmlNewChild ( node,NULL, "Largeur_colonne_etats",
-		  itoa(gtk_paned_get_position (GTK_PANED (paned_onglet_etats))));
+
+/*     on ne fait la sauvegarde que si les colonnes existent (compte non fermé) */
+	
+    if ( nb_comptes )
+    {
+	xmlNewChild ( node,NULL, "Largeur_colonne_comptes_operation",
+		      itoa(gtk_paned_get_position (GTK_PANED (paned_onglet_operations))));
+	xmlNewChild ( node,NULL, "Largeur_colonne_echeancier",
+		      itoa(gtk_paned_get_position (GTK_PANED (paned_onglet_echeancier))));
+	xmlNewChild ( node,NULL, "Largeur_colonne_comptes_comptes",
+		      itoa(gtk_paned_get_position (GTK_PANED (paned_onglet_comptes))));
+	xmlNewChild ( node,NULL, "Largeur_colonne_etats",
+		      itoa(gtk_paned_get_position (GTK_PANED (paned_onglet_etats))));
+    }
 
     /* sauvegarde de l'onglet I/O */
     node = xmlNewChild ( doc->children,NULL, "IO",NULL );
