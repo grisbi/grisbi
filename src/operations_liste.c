@@ -1890,10 +1890,7 @@ void p_press (void)
 /*     si on a choisi de classer la liste avec les rp, on met à jour ici */
 
     if ( etat.classement_rp )
-    {
 	demande_mise_a_jour_tous_comptes ();
-	verification_mise_a_jour_liste ();
-    }
 
     /* ALAIN-FIXME : solution batarde me semble-t'il pour actualiser le solde pointé
        sur la fenêtre d'accueil après que l'on ait pointé l'opération */
@@ -2369,6 +2366,8 @@ void demande_mise_a_jour_tous_comptes ( void )
 	MISE_A_JOUR = 1;
 	p_tab_nom_de_compte_variable++;
     }
+
+    verification_mise_a_jour_liste();
 
     p_tab_nom_de_compte_variable = save_p_tab;
 }

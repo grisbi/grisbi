@@ -282,7 +282,6 @@ gboolean transactions_list_display_modes_menu_changed  ( GtkWidget * menu_shell,
 
 
     demande_mise_a_jour_tous_comptes ();
-    verification_mise_a_jour_liste ();
     modification_fichier ( TRUE );
 
     return ( FALSE );
@@ -433,10 +432,6 @@ GtkWidget *onglet_affichage_operations ( void )
     gtk_signal_connect ( GTK_OBJECT ( bouton),
 			 "clicked",
 			 GTK_SIGNAL_FUNC ( demande_mise_a_jour_tous_comptes ),
-			 NULL );
-    gtk_signal_connect ( GTK_OBJECT ( bouton),
-			 "clicked",
-			 GTK_SIGNAL_FUNC ( verification_mise_a_jour_liste ),
 			 NULL );
     gtk_box_pack_start ( GTK_BOX ( vbox_pref ), bouton,
 			 FALSE, FALSE, 0 );
@@ -687,6 +682,10 @@ gboolean lache_bouton_classement_liste ( GtkWidget *clist,
     buffer_int = tab_affichage_ope[ligne_depart_drag][col_depart_drag];
     tab_affichage_ope[ligne_depart_drag][col_depart_drag] = tab_affichage_ope[ligne_arrivee_drag][col_arrivee_drag];
     tab_affichage_ope[ligne_arrivee_drag][col_arrivee_drag] = buffer_int;
+
+/*     on réaffiche les listes d'opé */
+
+    demande_mise_a_jour_tous_comptes ();
 
     return ( TRUE );
 }
@@ -991,6 +990,10 @@ void toggled_bouton_affichage_liste ( GtkWidget *bouton,
     }
 
     remplissage_tab_affichage_ope ( clist_affichage_liste );
+
+/*     on réaffiche les listes */
+    
+    demande_mise_a_jour_tous_comptes ();
 }
 /* ************************************************************************************************************** */
 

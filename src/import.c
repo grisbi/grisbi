@@ -948,7 +948,6 @@ void traitement_operations_importees ( void )
 	/* on met à jour tous les comptes */
 
 	demande_mise_a_jour_tous_comptes ();
-	verification_mise_a_jour_liste ();
 
 	/* on recrée les combofix des tiers et des catégories */
 
@@ -2746,7 +2745,6 @@ gboolean click_dialog_ope_orphelines ( GtkWidget *dialog,
 	    /* on met à jour tous les comptes */
 
 	    demande_mise_a_jour_tous_comptes ();
-	    verification_mise_a_jour_liste ();
 
 	    /* on recrée les combofix des tiers et des catégories */
 
