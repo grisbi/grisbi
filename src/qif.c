@@ -1485,3 +1485,433 @@ void click_compte_export_qif ( GtkWidget *bouton,
 }
 /* *******************************************************************************/
 
+
+void export_qif (GSList* export_entries_list )
+{
+    gchar *nom_fichier_qif, *montant_tmp;
+    GSList *liste_tmp;
+    FILE *fichier_qif;
+    gint i, resultat;
+
+
+    liste_tmp = export_entries_list;
+
+    while ( liste_tmp )
+    {
+
+	/*       ouverture du fichier, si pb, on marque l'erreur et passe au fichier suivant */
+
+	nom_fichier_qif = g_strdup ( gtk_entry_get_text ( GTK_ENTRY ( liste_tmp -> data )));
+
+	if ( !( fichier_qif = utf8_fopen ( nom_fichier_qif,
+				      "w" ) ))
+	    dialogue ( g_strdup_printf ( _("Error for the file \"%s\" :\n%s"),
+					 nom_fichier_qif, strerror ( errno ) ));
+	else
+	{
+	    GSList *pointeur_tmp;
+	    struct structure_operation *operation;
+
+	    p_tab_nom_de_compte_variable = 
+		p_tab_nom_de_compte
+		+
+		GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( liste_tmp -> data ),
+							"no_compte" ));
+
+	    /* met le type de compte */
+
+	    if ( TYPE_DE_COMPTE == 1 )
+		fprintf ( fichier_qif,
+			  "!Type:Cash\n" );
+	    else
+		if ( TYPE_DE_COMPTE == 2
+		     ||
+		     TYPE_DE_COMPTE == 3 )
+		    fprintf ( fichier_qif,
+			      "!Type:Oth L\n" );
+		else
+		    fprintf ( fichier_qif,
+			      "!Type:Bank\n" );
+
+
+	    if ( LISTE_OPERATIONS )
+	    {
+		/* met la date de la 1ère opération comme dâte d'ouverture de compte */
+
+		operation = LISTE_OPERATIONS -> data;
+
+		fprintf ( fichier_qif,
+			  "D%d/%d/%d\n",
+			  operation -> jour,
+			  operation -> mois,
+			  operation -> annee );
+
+
+
+		/* met le solde initial */
+
+		montant_tmp = g_strdup_printf ( "%4.2f",
+						SOLDE_INIT );
+		montant_tmp = g_strdelimit ( montant_tmp,
+					     ",",
+					     '.' );
+
+		fprintf ( fichier_qif,
+			  "T%s\n",
+			  montant_tmp );
+
+
+		fprintf ( fichier_qif,
+			  "CX\nPOpening Balance\n" );
+
+		/* met le nom du compte */
+
+		fprintf ( fichier_qif,
+			  "L%s\n^\n",
+			  g_strconcat ( "[",
+					NOM_DU_COMPTE,
+					"]",
+					NULL ) );
+
+		/* on met toutes les opérations */
+
+		pointeur_tmp = LISTE_OPERATIONS;
+
+		while ( pointeur_tmp )
+		{
+		    GSList *pointeur;
+		    gdouble montant;
+		    struct struct_type_ope *type;
+
+		    operation = pointeur_tmp -> data;
+
+
+		    /* si c'est une opé de ventilation, on la saute pas elle sera recherchée quand */
+		    /* son opé ventilée sera exportée */
+
+		    if ( !operation -> no_operation_ventilee_associee )
+		    {
+			/* met la date */
+
+			fprintf ( fichier_qif,
+				  "D%d/%d/%d\n",
+				  operation -> jour,
+				  operation -> mois,
+				  operation -> annee );
+
+
+			/* met le pointage */
+
+			if ( operation -> pointe == 1
+			     ||
+			     operation -> pointe == 3 )
+			    fprintf ( fichier_qif,
+				      "C*\n" );
+			else
+			    if ( operation -> pointe == 2 )
+				fprintf ( fichier_qif,
+					  "CX\n" );
+
+
+			/* met les notes */
+
+			if ( operation -> notes )
+			    fprintf ( fichier_qif,
+				      "M%s\n",
+				      operation -> notes );
+
+
+			/* met le montant, transforme la devise si necessaire */
+
+			montant = calcule_montant_devise_renvoi ( operation -> montant,
+								  DEVISE,
+								  operation -> devise,
+								  operation -> une_devise_compte_egale_x_devise_ope,
+								  operation -> taux_change,
+								  operation -> frais_change );
+
+			montant_tmp = g_strdup_printf ( "%4.2f",
+							montant );
+			montant_tmp = g_strdelimit ( montant_tmp,
+						     ",",
+						     '.' );
+
+			fprintf ( fichier_qif,
+				  "T%s\n",
+				  montant_tmp );
+
+
+			/* met le chèque si c'est un type à numérotation automatique */
+
+			pointeur = g_slist_find_custom ( TYPES_OPES,
+							 GINT_TO_POINTER ( operation -> type_ope ),
+							 (GCompareFunc) recherche_type_ope_par_no );
+
+			if ( pointeur )
+			{
+			    type = pointeur -> data;
+
+			    if ( type -> numerotation_auto )
+				fprintf ( fichier_qif,
+					  "N%s\n",
+					  operation -> contenu_type );
+			}
+
+			/* met le tiers */
+
+			pointeur = g_slist_find_custom ( liste_struct_tiers,
+							 GINT_TO_POINTER ( operation -> tiers ),
+							 (GCompareFunc) recherche_tiers_par_no );
+
+			if ( pointeur )
+			    fprintf ( fichier_qif,
+				      "P%s\n",
+				      ((struct struct_tiers *)(pointeur -> data )) -> nom_tiers );
+
+
+
+			/*  on met soit un virement, soit une ventilation, soit les catégories */
+
+			/* si c'est une ventilation, on recherche toutes les opés de cette ventilation */
+			/* et les met à la suite */
+			/* la catégorie de l'opé sera celle de la première opé de ventilation */
+
+			if ( operation -> operation_ventilee )
+			{
+			    GSList *liste_ventil;
+			    gint categ_ope_mise;
+
+			    categ_ope_mise = 0;
+			    liste_ventil = LISTE_OPERATIONS;
+
+			    while ( liste_ventil )
+			    {
+				struct structure_operation *ope_test;
+
+				ope_test = liste_ventil -> data;
+
+				if ( ope_test -> no_operation_ventilee_associee == operation -> no_operation
+				     &&
+				     ( ope_test -> categorie
+				       ||
+				       ope_test -> relation_no_operation ))
+				{
+				    /* on commence par mettre la catég et sous categ de l'opé et de l'opé de ventilation */
+
+				    if ( ope_test -> relation_no_operation )
+				    {
+					/* c'est un virement */
+
+					gpointer **save_ptab;
+
+					save_ptab = p_tab_nom_de_compte_variable;
+
+					p_tab_nom_de_compte_variable = p_tab_nom_de_compte + ope_test -> relation_no_compte;
+
+					if ( !categ_ope_mise )
+					{
+					    fprintf ( fichier_qif,
+						      "L%s\n",
+						      g_strconcat ( "[",
+								    NOM_DU_COMPTE,
+								    "]",
+								    NULL ));
+					    categ_ope_mise = 1;
+					}
+
+					fprintf ( fichier_qif,
+						  "S%s\n",
+						  g_strconcat ( "[",
+								NOM_DU_COMPTE,
+								"]",
+								NULL ));
+
+					p_tab_nom_de_compte_variable = save_ptab;
+				    }
+				    else
+				    {
+					/* c'est du type categ : sous categ */
+
+					pointeur = g_slist_find_custom ( liste_struct_categories,
+									 GINT_TO_POINTER ( ope_test -> categorie ),
+									 (GCompareFunc) recherche_categorie_par_no );
+
+					if ( pointeur )
+					{
+					    GSList *pointeur_2;
+					    struct struct_categ *categorie;
+
+					    categorie = pointeur -> data;
+
+					    pointeur_2 = g_slist_find_custom ( categorie -> liste_sous_categ,
+									       GINT_TO_POINTER ( ope_test -> sous_categorie ),
+									       (GCompareFunc) recherche_sous_categorie_par_no );
+					    if ( pointeur_2 )
+					    {
+						if ( !categ_ope_mise )
+						{
+						    fprintf ( fichier_qif,
+							      "L%s\n",
+							      g_strconcat ( categorie -> nom_categ,
+									    ":",
+									    ((struct struct_sous_categ *)(pointeur_2->data)) -> nom_sous_categ,
+									    NULL ));
+						    categ_ope_mise = 1;
+						}
+
+						fprintf ( fichier_qif,
+							  "S%s\n",
+							  g_strconcat ( categorie -> nom_categ,
+									":",
+									((struct struct_sous_categ *)(pointeur_2->data)) -> nom_sous_categ,
+									NULL ));
+					    }
+					    else
+					    {
+						if ( !categ_ope_mise )
+						{
+						    fprintf ( fichier_qif,
+							      "L%s\n",
+							      categorie -> nom_categ );
+						    categ_ope_mise = 1;
+						}
+
+						fprintf ( fichier_qif,
+							  "S%s\n",
+							  categorie -> nom_categ );
+					    }
+					}
+				    }
+
+
+				    /* met les notes de la ventilation */
+
+				    if ( ope_test -> notes )
+					fprintf ( fichier_qif,
+						  "E%s\n",
+						  ope_test -> notes );
+
+				    /* met le montant de la ventilation */
+
+				    montant = calcule_montant_devise_renvoi ( ope_test -> montant,
+									      DEVISE,
+									      operation -> devise,
+									      operation -> une_devise_compte_egale_x_devise_ope,
+									      operation -> taux_change,
+									      operation -> frais_change );
+
+				    montant_tmp = g_strdup_printf ( "%4.2f",
+								    montant );
+				    montant_tmp = g_strdelimit ( montant_tmp,
+								 ",",
+								 '.' );
+
+				    fprintf ( fichier_qif,
+					      "$%s\n",
+					      montant_tmp );
+
+				}
+
+				liste_ventil = liste_ventil -> next;
+			    }
+			}
+			else
+			{
+			    /* si c'est un virement vers un compte supprimé, ça sera pris comme categ normale vide */
+
+			    if ( operation -> relation_no_operation
+				 &&
+				 operation -> relation_no_compte >= 0 )
+			    {
+				/* c'est un virement */
+
+				gpointer **save_ptab;
+
+				save_ptab = p_tab_nom_de_compte_variable;
+
+				p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> relation_no_compte;
+
+				fprintf ( fichier_qif,
+					  "L%s\n",
+					  g_strconcat ( "[",
+							NOM_DU_COMPTE,
+							"]",
+							NULL ));
+
+				p_tab_nom_de_compte_variable = save_ptab;
+			    }
+			    else
+			    {
+				/* c'est du type categ : sous-categ */
+
+				pointeur = g_slist_find_custom ( liste_struct_categories,
+								 GINT_TO_POINTER ( operation -> categorie ),
+								 (GCompareFunc) recherche_categorie_par_no );
+
+				if ( pointeur )
+				{
+				    GSList *pointeur_2;
+				    struct struct_categ *categorie;
+
+				    categorie = pointeur -> data;
+
+				    pointeur_2 = g_slist_find_custom ( categorie -> liste_sous_categ,
+								       GINT_TO_POINTER ( operation -> sous_categorie ),
+								       (GCompareFunc) recherche_sous_categorie_par_no );
+				    if ( pointeur_2 )
+					fprintf ( fichier_qif,
+						  "L%s\n",
+						  g_strconcat ( categorie -> nom_categ,
+								":",
+								((struct struct_sous_categ *)(pointeur_2->data)) -> nom_sous_categ,
+								NULL ));
+				    else
+					fprintf ( fichier_qif,
+						  "L%s\n",
+						  categorie -> nom_categ );
+				}
+			    }
+			}
+
+			fprintf ( fichier_qif,
+				  "^\n" );
+		    }
+
+		    pointeur_tmp = pointeur_tmp -> next;
+		}
+	    }
+	    else
+	    {
+		/* le compte n'a aucune opération enregistrée : on ne met pas de date, mais on fait l'ouverture du compte */
+
+		/* met le solde initial */
+
+		montant_tmp = g_strdup_printf ( "%4.2f",
+						SOLDE_INIT );
+		montant_tmp = g_strdelimit ( montant_tmp,
+					     ",",
+					     '.' );
+
+		fprintf ( fichier_qif,
+			  "T%s\n",
+			  montant_tmp );
+
+
+		fprintf ( fichier_qif,
+			  "CX\nPOpening Balance\n" );
+
+		/* met le nom du compte */
+
+		fprintf ( fichier_qif,
+			  "L%s\n^\n",
+			  g_strconcat ( "[",
+					NOM_DU_COMPTE,
+					"]",
+					NULL ) );
+	    }
+	    fclose ( fichier_qif );
+	}
+	liste_tmp = liste_tmp -> next;
+    }
+
+}
