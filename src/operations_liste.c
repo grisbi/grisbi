@@ -1317,9 +1317,10 @@ gboolean traitement_clavier_liste ( GtkCList *liste,
 
 	    if ( ( evenement -> state & GDK_CONTROL_MASK ) == GDK_CONTROL_MASK )
 	    {
-		if ( question_conditional_yes_no ( _("You are currently trying to reconcile or unreconcile "
-						     "manually a transaction which isn't a regular way to do.\n\n"
-						     "Are you really sure to know what you do?"),
+		if ( question_conditional_yes_no_hint ( _("Confirmation of manual (un)reconciliation"),
+							_("You are currently trying to reconcile or unreconcile "
+							  "manually a transaction which isn't a regular way to do.\n\n"
+							  "Are you really sure to know what you do?"),
 						   &etat.display_message_reconcile_transaction))
 		    r_press ();
 	    }
