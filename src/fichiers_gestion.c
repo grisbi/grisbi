@@ -58,6 +58,8 @@ extern gint mise_a_jour_liste_comptes_accueil;
 extern gint mise_a_jour_soldes_minimaux;
 extern gint mise_a_jour_fin_comptes_passifs;
 extern gint id_fonction_idle;
+extern gboolean block_menu_cb;
+extern GtkItemFactory *item_factory_menu_general;
 
 
 
@@ -230,6 +232,8 @@ void fichier_selectionne ( GtkWidget *selection_fichier)
 void ouverture_confirmee ( void )
 {
     gint i;
+    GtkWidget * widget;
+    gchar * item_name = NULL;
     
     if ( DEBUG )
 	printf ( "ouverture_confirmee\n" );
@@ -398,6 +402,33 @@ void ouverture_confirmee ( void )
     /*     on dégrise les menus */
 
     menus_sensitifs ( TRUE );
+
+    /* On met à jour l'affichage des opérations rapprochées */
+    block_menu_cb = TRUE;
+    widget = gtk_item_factory_get_item ( item_factory_menu_general,
+					 menu_name(_("View"), _("Show reconciled transactions"), NULL) );
+    gtk_check_menu_item_set_active( GTK_MENU_ITEM(widget), AFFICHAGE_R );
+
+    /* On met à jour le contrôle dans le menu du nombre de lignes affichées */
+    switch ( NB_LIGNES_OPE )
+      {
+      case 1 :
+	item_name = menu_name ( _("View"), _("Show one line per transaction"), NULL );
+	break;
+      case 2 :
+	item_name = menu_name ( _("View"), _("Show two lines per transaction"), NULL );
+	break;
+      case 3 :
+	item_name = menu_name ( _("View"), _("Show three lines per transaction"), NULL );
+	break;
+      case 4 :
+	item_name = menu_name ( _("View"), _("Show four lines per transaction"), NULL );
+	break;
+      }
+
+    widget = gtk_item_factory_get_item ( item_factory_menu_general, item_name );
+    gtk_check_menu_item_set_active( GTK_MENU_ITEM(widget), TRUE );
+    block_menu_cb = FALSE;
 
     /*     on ajoute la fentre principale à la window */
 
@@ -710,37 +741,29 @@ gboolean fermer_fichier ( void )
 void affiche_titre_fenetre ( void )
 {
     gchar **parametres;
-    gchar *titre;
+    gchar *titre = NULL;
     gint i=0;
 
     if ( DEBUG )
 	printf ( "affiche_titre_fenetre\n" );
 
-    if ( nom_fichier_comptes )
+    if ( titre_fichier && strlen(titre_fichier) )
+      titre = titre_fichier;
+    else if ( nom_fichier_comptes )
     {
-	parametres = g_strsplit ( nom_fichier_comptes,
-				  C_DIRECTORY_SEPARATOR,
-				  0);
-
+	parametres = g_strsplit ( nom_fichier_comptes, C_DIRECTORY_SEPARATOR, 0);
 	while ( parametres[i] )
-	    i++;
-
-	titre = g_strconcat ( SPACIFY(COLON(_("Grisbi"))),
-			      parametres [i-1],
-			      NULL );
-
+	  i++;
+	titre = parametres [i-1];
 	g_strfreev ( parametres );
     }
     else
     {
-	if ( nb_comptes )
-	    titre = _("Grisbi - No name");
-	else
-	    titre = _("Grisbi");
+      titre = g_strconcat ( "<", _("unnamed"), ">", NULL );
     }
 
-    gtk_window_set_title ( GTK_WINDOW ( window ),
-			   titre );
+    titre = g_strconcat ( titre, " - ", _("Grisbi"), NULL );
+    gtk_window_set_title ( GTK_WINDOW ( window ), titre );
 
 }
 /* ************************************************************************************************************ */
