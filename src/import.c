@@ -2760,11 +2760,6 @@ gboolean click_dialog_ope_orphelines ( GtkWidget *dialog,
 		}
 	    }
 
-	    /* s'il n'y a plus rien à enregistrer on vire la boite de dialog */
-
-	    if ( !g_slist_length ( liste_opes_import_celibataires ))
-		gtk_widget_destroy ( dialog );
-
 	    /* on enregistre la nouvelle liste d'opé pour la retrouver plus tard */
 
 	    g_object_set_data ( G_OBJECT ( liste_ope_celibataires ),
@@ -2794,7 +2789,10 @@ gboolean click_dialog_ope_orphelines ( GtkWidget *dialog,
 
 	    modification_fichier ( TRUE );
 
-	    if ( result != GTK_RESPONSE_OK )
+
+	    if ( result != GTK_RESPONSE_OK
+		 &&
+		 g_slist_length ( liste_opes_import_celibataires ))
 		break;
 
 	default:
