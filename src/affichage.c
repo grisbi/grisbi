@@ -840,5 +840,10 @@ update_homepage_title (GtkEntry *entry, gchar *value,
   gtk_label_set_text ( GTK_LABEL(label_titre_fichier), 
 		       (gchar *) gtk_entry_get_text (GTK_ENTRY (entry)) );
 
+  gtk_label_set_markup ( GTK_LABEL ( label_titre_fichier ), 
+			 g_strconcat ("<span size=\"x-large\">",
+				      (gchar *) gtk_entry_get_text (GTK_ENTRY (entry)),
+				      "</span>", NULL ) );
+  
   return FALSE;
 }
