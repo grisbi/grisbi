@@ -1598,7 +1598,8 @@ void fin_edition_ventilation_echeances ( void )
 			return;
 		    }
 
-		    if ( compte_vire == compte_courant )
+		    if ( compte_vire == GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_ACCOUNT] ) -> menu_item ),
+										"no_compte" )) )
 		    {
 			dialogue_error ( _("It's impossible to transfer an account to itself") );
 			return;
