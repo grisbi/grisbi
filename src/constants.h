@@ -63,7 +63,15 @@
 # define ENCLAIR 0
 # define ENGRIS 1
 
-/* Constantes pour la fonction gtk_tree_view_column_set_alignment() */
+/* Constantes pour la fonction gtk_misc_set_alignment() (GTK1) */
+#define MISC_TOP 0
+#define MISC_VERT_CENTER 0.5
+#define MISC_BOTTOM 1
+#define MISC_LEFT 0
+#define MISC_HORIZ_CENTER 0.5
+#define MISC_RIGHT 1
+
+/* Constantes pour la fonction gtk_tree_view_column_set_alignment() (GTK2) */
 #define COLUMN_LEFT 0.0
 #define COLUMN_CENTER 0.5
 #define COLUMN_RIGHT 1.0
