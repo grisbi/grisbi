@@ -638,7 +638,7 @@ changement_format_date:
 					   NULL );
 		    }
 
-		    if ( strlen ( tab_str[2] ) == 4 )
+		    if ( strlen ( tab_str[2] ) >= 4 )
 			annee = my_strtod ( tab_str[2],
 					    NULL );
 		    else
@@ -701,7 +701,7 @@ changement_format_date:
 					   NULL );
 			jour = my_strtod ( tab_str[2],
 					   NULL );
-			if ( strlen ( tab_str[0] ) == 4 )
+			if ( strlen ( tab_str[0] ) >= 4 )
 			    annee = my_strtod ( tab_str[0],
 						NULL );
 			else
