@@ -923,7 +923,7 @@ void modification_details_compte ( void )
 	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
 	if ( !strcmp ( g_strstrip ( (gchar*) gtk_entry_get_text ( GTK_ENTRY ( detail_nom_compte ))), NOM_DU_COMPTE ))
 	{
-	    dialogue_error_hint( _(""),
+	    dialogue_error_hint( _("Accounts names are used to distinguish accounts.  It is mandatory that names are both unique and not empty."),
 				 g_strdup_printf ( _("Account \"%s\" already exists!"), gtk_entry_get_text ( GTK_ENTRY ( detail_nom_compte ))));
 	    return;
 	}
