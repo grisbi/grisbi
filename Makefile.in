@@ -92,7 +92,7 @@ USE_NLS = @USE_NLS@
 VERSION = @VERSION@
 prefix = @prefix@
 
-SUBDIRS = macros src po intl #help
+SUBDIRS = macros src po intl pixmaps help
 
 EXTRA_DIST = 
 

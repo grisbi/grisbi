@@ -1,6 +1,6 @@
 ## Process this file with automake to produce Makefile.in
 
-SUBDIRS = macros src po intl #help
+SUBDIRS = macros src po intl pixmaps help
 
 EXTRA_DIST = 
 

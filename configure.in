@@ -38,8 +38,12 @@ dnl ******************************
 
 AC_OUTPUT([
 Makefile
-po/Makefile.in
+help/Makefile
+help/C/Makefile
+help/fr/Makefile
 intl/Makefile
-src/Makefile
 macros/Makefile
+pixmaps/Makefile
+po/Makefile.in
+src/Makefile
 ])
