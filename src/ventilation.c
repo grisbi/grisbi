@@ -324,7 +324,6 @@ GtkWidget *creation_verification_ventilation ( void )
     gtk_widget_show ( bouton );
 
     bouton = gtk_button_new_from_stock (GTK_STOCK_OK);
-
     gtk_button_set_relief ( GTK_BUTTON ( bouton ),
 			    GTK_RELIEF_NONE );
     gtk_signal_connect ( GTK_OBJECT ( bouton ),
@@ -2556,7 +2555,10 @@ void quitter_ventilation ( void )
     gtk_widget_show ( SCROLLED_WINDOW_LISTE_OPERATIONS );
 
     gtk_widget_show ( barre_outils );
-    gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_comptes_equilibrage ), 0 );
+    if ( etat.equilibrage )
+ 	gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_comptes_equilibrage ), 2 );
+    else
+ 	gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_comptes_equilibrage ), 0 );
     gtk_widget_show ( formulaire );
 
     gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_formulaire ), 0 );
