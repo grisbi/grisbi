@@ -122,7 +122,7 @@ onglet_display_transaction_form ( void )
 
   /* Displayed fields */
   paddingbox = paddingbox_new_with_title 
-    (vbox_pref, COLON(_("Fields displayed")));
+    (vbox_pref, COLON(_("Displayed fields")));
   
   table = gtk_table_new ( 0, 2, TRUE );
   gtk_table_set_col_spacings ( GTK_TABLE ( table ), 5 );
