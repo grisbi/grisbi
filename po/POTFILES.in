@@ -25,6 +25,7 @@ src/etats_latex.c
 src/etats_onglet.c
 src/etats_support.c
 src/exercice.c
+src/export.c
 src/fenetre_principale.c
 src/fichier_configuration.c
 src/fichiers_gestion.c
