@@ -84,7 +84,7 @@ GtkWidget *init_menus ( GtkWidget *vbox )
 	{menu_name(_("Edit"), "Detach", NULL),    NULL,  NULL, 0, "<Tearoff>", NULL },
 	{menu_name(_("Edit"), _("New transaction"), NULL),  "<CTRL>T", G_CALLBACK (new_transaction ), 0, "<StockItem>", GTK_STOCK_NEW },
 	{menu_name(_("Edit"), _("Remove transaction"), NULL),   NULL, G_CALLBACK (remove_transaction ), 0, "<StockItem>", GTK_STOCK_DELETE },
-	{menu_name(_("Edit"), _("Clone transaction"), NULL),   NULL, G_CALLBACK ( clone_selected_transaction), 0, "<StockItem>", GTK_STOCK_COPY },
+	{menu_name(_("Edit"), _("Clone transaction"), NULL), "<SHIFT><CTRL>C", G_CALLBACK ( clone_selected_transaction), 0, "<StockItem>", GTK_STOCK_COPY },
 	{menu_name(_("Edit"), _("Edit transaction"), NULL),   NULL, G_CALLBACK ( edition_operation), 0, "<StockItem>", GTK_STOCK_PROPERTIES },
 	{menu_name(_("Edit"), "Sep1", NULL),    NULL, NULL, 0, "<Separator>", NULL },
 	{menu_name(_("Edit"), _("Convert transaction to scheduled transaction"), NULL),   NULL, NULL, 0, "<StockItem>", GTK_STOCK_CONVERT },
