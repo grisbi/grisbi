@@ -2849,10 +2849,49 @@ void validation_ope_de_ventilation ( struct structure_operation *operation )
 										   operation -> mois_bancaire,
 										   operation -> annee_bancaire );
 
-			      ope_modifiee_2 -> devise = ope_modifiee -> devise;
-			      ope_modifiee_2 -> une_devise_compte_egale_x_devise_ope = ope_modifiee -> une_devise_compte_egale_x_devise_ope;
-			      ope_modifiee_2 -> taux_change = ope_modifiee -> taux_change;
-			      ope_modifiee_2 -> frais_change = ope_modifiee -> frais_change;
+			      if ( ope_modifiee_2 -> devise != ope_modifiee -> devise)
+				{
+				  struct struct_devise *devise_compte_1;
+				  struct struct_devise *devise_compte_2;
+
+				  ope_modifiee_2 -> devise = ope_modifiee -> devise;
+
+				  ope_modifiee_2 -> une_devise_compte_egale_x_devise_ope = ope_modifiee -> une_devise_compte_egale_x_devise_ope;
+
+				  devise_compte_1 = g_slist_find_custom ( liste_struct_devises,
+									  GINT_TO_POINTER ( ope_modifiee -> devise ),
+									  ( GCompareFunc ) recherche_devise_par_no ) -> data;
+				  devise_compte_2 = g_slist_find_custom ( liste_struct_devises,
+									  GINT_TO_POINTER ( DEVISE ),
+									  ( GCompareFunc ) recherche_devise_par_no ) -> data;
+
+				  if ( !( ope_modifiee -> devise == DEVISE
+					  ||
+					  ( devise_compte_2 -> passage_euro && !strcmp ( devise_compte_1 -> nom_devise, _("Euro") ))
+					  ||
+					  ( !strcmp ( devise_compte_2 -> nom_devise, _("Euro") ) && devise_compte_1 -> passage_euro )))
+				    {
+				      /* c'est une devise étrangère, on demande le taux de change et les frais de change */
+	  
+				      demande_taux_de_change ( devise_compte_2,
+							       devise_compte_1,
+							       1,
+							       (gdouble ) 0,
+							       (gdouble ) 0 );
+
+				      ope_modifiee_2 -> taux_change = taux_de_change[0];
+				      ope_modifiee_2 -> frais_change = taux_de_change[1];
+
+				      if ( ope_modifiee_2 -> taux_change < 0 )
+					{
+					  ope_modifiee_2 -> taux_change = -ope_modifiee_2 -> taux_change;
+					  ope_modifiee_2 -> une_devise_compte_egale_x_devise_ope = 1;
+					}
+				    }
+				}
+/* 			      ope_modifiee_2 -> une_devise_compte_egale_x_devise_ope = ope_modifiee -> une_devise_compte_egale_x_devise_ope; */
+/* 			      ope_modifiee_2 -> taux_change = ope_modifiee -> taux_change; */
+/* 			      ope_modifiee_2 -> frais_change = ope_modifiee -> frais_change; */
 			      ope_modifiee_2 -> tiers = ope_modifiee -> tiers;
 			      ope_modifiee_2 -> auto_man = ope_modifiee -> auto_man;
 			      ope_modifiee_2 -> no_exercice = ope_modifiee -> no_exercice;
@@ -2990,6 +3029,8 @@ void validation_ope_de_ventilation ( struct structure_operation *operation )
 	      if ( ope_ventil -> relation_no_operation )
 		{
 		  struct structure_operation *nouvelle_ope_2;
+		  struct struct_devise *devise_compte_1;
+		  struct struct_devise *devise_compte_2;
 
 		  nouvelle_ope_2 = calloc ( 1,
 					    sizeof ( struct structure_operation ));
@@ -3023,16 +3064,51 @@ void validation_ope_de_ventilation ( struct structure_operation *operation )
 		  nouvelle_ope_2 -> jour_bancaire = nouvelle_ope -> jour_bancaire;
 		  nouvelle_ope_2 -> mois_bancaire = nouvelle_ope -> mois_bancaire;
 		  nouvelle_ope_2 -> annee_bancaire = nouvelle_ope -> annee_bancaire;
+ 		  nouvelle_ope_2 -> devise = nouvelle_ope -> devise;
 
 		  if ( operation -> jour_bancaire )
 		    nouvelle_ope_2 -> date_bancaire = g_date_new_dmy ( operation -> jour_bancaire,
 								       operation -> mois_bancaire,
 								       operation -> annee_bancaire );
 
-		  nouvelle_ope_2 -> devise = nouvelle_ope -> devise;
+		  p_tab_nom_de_compte_variable = p_tab_nom_de_compte + nouvelle_ope_2 -> no_compte;
+		  
 		  nouvelle_ope_2 -> une_devise_compte_egale_x_devise_ope = nouvelle_ope -> une_devise_compte_egale_x_devise_ope;
-		  nouvelle_ope_2 -> taux_change = nouvelle_ope -> taux_change;
-		  nouvelle_ope_2 -> frais_change = nouvelle_ope -> frais_change;
+
+		  devise_compte_1 = g_slist_find_custom ( liste_struct_devises,
+							  GINT_TO_POINTER ( nouvelle_ope -> devise ),
+							  ( GCompareFunc ) recherche_devise_par_no ) -> data;
+		  devise_compte_2 = g_slist_find_custom ( liste_struct_devises,
+							  GINT_TO_POINTER ( DEVISE ),
+							  ( GCompareFunc ) recherche_devise_par_no ) -> data;
+
+		  if ( !( nouvelle_ope -> devise == DEVISE
+			  ||
+			  ( devise_compte_2 -> passage_euro && !strcmp ( devise_compte_1 -> nom_devise, _("Euro") ))
+			  ||
+			  ( !strcmp ( devise_compte_2 -> nom_devise, _("Euro") ) && devise_compte_1 -> passage_euro )))
+		    {
+		      /* c'est une devise étrangère, on demande le taux de change et les frais de change */
+	  
+		      demande_taux_de_change ( devise_compte_2,
+					       devise_compte_1,
+					       1,
+					       (gdouble ) 0,
+					       (gdouble ) 0 );
+
+		      nouvelle_ope_2 -> taux_change = taux_de_change[0];
+		      nouvelle_ope_2 -> frais_change = taux_de_change[1];
+
+		      if ( nouvelle_ope_2 -> taux_change < 0 )
+			{
+			  nouvelle_ope_2 -> taux_change = -nouvelle_ope_2 -> taux_change;
+			  nouvelle_ope_2 -> une_devise_compte_egale_x_devise_ope = 1;
+			}
+		    }
+
+/* 		  nouvelle_ope_2 -> taux_change = nouvelle_ope -> taux_change; */
+/* 		  nouvelle_ope_2 -> frais_change = nouvelle_ope -> frais_change; */
+
 		  nouvelle_ope_2 -> tiers = nouvelle_ope -> tiers;
 		  nouvelle_ope_2 -> auto_man = nouvelle_ope -> auto_man;
 		  nouvelle_ope_2 -> no_exercice = nouvelle_ope -> no_exercice;
