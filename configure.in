@@ -29,7 +29,7 @@ AM_CONDITIONAL(NOOFX, test x$noofx = xtrue)
 
 AC_SUBST(prefix)
 
-PKG_CHECK_MODULES(GRISBI, gtk+-2.0 glib-2.0 libxml-2.0)
+PKG_CHECK_MODULES(GRISBI, gtk+-2.0 >= 2.2.0 glib-2.0 libxml-2.0 >= 2.0)
 LDFLAGS="${LDFLAGS} ${GRISBI_LIBS}"
 CFLAGS="${CFLAGS} ${GRISBI_CFLAGS}"
 

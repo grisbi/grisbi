@@ -3,7 +3,7 @@ How to install Grisbi :
 
 Requirements:
 
- - GTK 2.x
+ - GTK 2.2
  - libxml2
 
 
