@@ -46,7 +46,6 @@ GtkWidget *creation_onglet_accueil ( void )
   gchar tampon_date [50];
   time_t date;
 
-
 /*  la première séparation : une hbox : à gauche, le logo, à droite le reste */
 
   fenetre_accueil = gtk_hbox_new ( FALSE,
@@ -135,20 +134,7 @@ GtkWidget *creation_onglet_accueil ( void )
   gtk_widget_show ( label );
 
 
-  /* met la date à coté */
-
-  time ( &date );
-  strftime ( (gchar *) tampon_date,
-	     (size_t) 50,
-	     "%A %d %B %Y",
-	     (const struct tm *) localtime ( &date ) );
-
-
-/* met la première lettre en majuscule */
-
-  tampon_date[0] = toupper ( tampon_date[0]);
-
-  label_jour = gtk_label_new ( tampon_date );
+  label_jour = gtk_label_new ( "" );
   gtk_misc_set_alignment ( GTK_MISC (label_jour ),
 			   1,
 			   1);
@@ -160,21 +146,16 @@ GtkWidget *creation_onglet_accueil ( void )
 		       5 );
   gtk_widget_show ( label_jour );
 
+  label_temps = gtk_label_new ( "" );
 
-  /*   crée le timer qui appelle la fonction change_temps toutes les secondes */
-
-  strftime ( (gchar *) tampon_date,
-	     (size_t) 50,
-	     "%X",
-	     (const struct tm *) localtime ( &date ) );
-
-  label_temps = gtk_label_new ( tampon_date );
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       label_temps,
 		       TRUE,
 		       FALSE,
 		       5 );
   gtk_widget_show ( label_temps );
+
+  change_temps(label_temps);
 
   id_temps = gtk_timeout_add ( 1000,
 			       (GtkFunction) change_temps,
@@ -387,26 +368,37 @@ GtkWidget *creation_onglet_accueil ( void )
 /* ************************************************************************* */
 void change_temps ( GtkWidget *label_temps )
 {
-  gchar tampon_date [50];
+  gchar tampon_date [50], * tampon;
   time_t date;
+  GError *error = NULL;
 
   time ( &date );
-  strftime ( (gchar *) tampon_date,
+  strftime ( tampon_date,
 	     (size_t) 50,
 	     "%X",
 	     (const struct tm *) localtime ( &date ) );
 
-/* met la première lettre en majuscule */
-  tampon_date[0] = toupper ( tampon_date[0]);
-  gtk_label_set_text ( GTK_LABEL (label_temps ),
-		       tampon_date );
+  /* Convert to UTF-8 */
+  tampon = g_convert (tampon_date, strlen(tampon_date), 
+		      "UTF-8", "ISO-8859-1", 
+		      NULL, NULL, &error);
 
-  strftime ( (gchar *) tampon_date,
+  gtk_label_set_text ( GTK_LABEL (label_temps ),
+		       tampon );
+
+  strftime ( tampon_date,
 	     (size_t) 50,
 	     "%A %d %B %Y",
 	     (const struct tm *) localtime ( &date ) );
+  /* Convert to UTF-8 */
+  tampon = g_convert (tampon_date, strlen(tampon_date), 
+		      "UTF-8", "ISO-8859-1", 
+		      NULL, NULL, &error);
+  /* Capitalize */
+  tampon_date[0] = toupper ( tampon_date[0]);
+
   gtk_label_set_text ( GTK_LABEL (label_jour ),
-		       tampon_date );
+		       tampon );
 
 }
 /* ************************************************************************* */
