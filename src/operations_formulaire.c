@@ -2116,7 +2116,6 @@ void recuperation_ope_filles_completion_tiers ( struct structure_operation *oper
     result = question_yes_no_hint ( _("This is a breakdown transaction"),
 				    _("Recover breakdown?"));
 
-
     if ( !result )
 	return;
 
@@ -2145,6 +2144,7 @@ void recuperation_ope_filles_completion_tiers ( struct structure_operation *oper
 	    if ( ope_test -> notes )
 		nouvelle_operation -> notes = g_strdup ( ope_test -> notes );
 
+	    nouvelle_operation -> no_exercice = ope_test -> no_exercice;
 	    nouvelle_operation -> imputation = ope_test -> imputation;
 	    nouvelle_operation -> sous_imputation = ope_test -> sous_imputation;
 
