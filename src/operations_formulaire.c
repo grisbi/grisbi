@@ -1273,9 +1273,7 @@ gboolean clique_champ_formulaire ( GtkWidget *entree,
 	  popup = gtk_window_new ( GTK_WINDOW_POPUP );
 	  gtk_window_set_modal ( GTK_WINDOW (popup),
 				 TRUE);
-	  gtk_widget_set_uposition ( GTK_WIDGET ( popup ),
-				     x,
-				     y );
+	  gtk_widget_set_uposition ( GTK_WIDGET ( popup ), x, y );
 
 
 	  /* création de l'intérieur de la popup */
@@ -1402,9 +1400,7 @@ gboolean clique_champ_formulaire ( GtkWidget *entree,
  	  popup = gtk_window_new ( GTK_WINDOW_POPUP );
  	  gtk_window_set_modal ( GTK_WINDOW (popup),
  				 TRUE);
- 	  gtk_widget_set_uposition ( GTK_WIDGET ( popup ),
- 				     x,
- 				     y );
+ 	  gtk_widget_set_uposition ( GTK_WIDGET ( popup ), x, y );
 
 
  	  /* création de l'intérieur de la popup */
@@ -1711,8 +1707,7 @@ void touche_calendrier ( GtkWidget *popup,
 			 gpointer null )
 {
   if ( ev->keyval == 65307 )
-    ferme_calendrier ( popup );
-
+    close_calendar_popup (popup);
 }
 /***********************************************************************************************************/
 

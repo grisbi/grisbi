@@ -2369,7 +2369,7 @@ gboolean popup_calendar ( GtkWidget * button, gpointer data )
 {
   GtkWidget *popup, *entree, *popup_boxv, *calendrier, *bouton, *frame;
   gint x, y, cal_jour, cal_mois, cal_annee;
-  GtkRequisition taille_entree;
+  GtkRequisition taille_entree, taille_popup;
 
   /* Find associated gtkentry */
   entree = g_object_get_data ( G_OBJECT(button), "entry" );
@@ -2382,7 +2382,6 @@ gboolean popup_calendar ( GtkWidget * button, gpointer data )
   /* Create popup */
   popup = gtk_window_new ( GTK_WINDOW_POPUP );
   gtk_window_set_modal ( GTK_WINDOW (popup), TRUE);
-  gtk_widget_set_uposition ( GTK_WIDGET ( popup ), x, y );
 
   /* Create popup widgets */
   frame = gtk_frame_new ( NULL );
@@ -2425,8 +2424,13 @@ gboolean popup_calendar ( GtkWidget * button, gpointer data )
   gtk_box_pack_start ( GTK_BOX ( popup_boxv ), bouton,
 		       TRUE, TRUE, 0 );
 
+
   /* Show everything */
   gtk_widget_show_all ( popup );
+  gtk_widget_set_uposition ( GTK_WIDGET ( popup ), x, y );
+  gtk_widget_size_request ( GTK_WIDGET ( popup ), &taille_popup );
+  gtk_widget_set_uposition ( GTK_WIDGET ( popup ), 
+			     x-taille_popup.width+taille_entree.width, y );
 
   /* Grab pointer */
   gdk_pointer_grab ( popup -> window, TRUE,
