@@ -175,9 +175,7 @@ new_currency_list ()
 				  GTK_POLICY_NEVER,
 				  GTK_POLICY_AUTOMATIC);
   /* create tree store */
-  model = gtk_tree_store_new (5,
-			      G_TYPE_STRING,
-			      G_TYPE_STRING,
+  model = gtk_tree_store_new (NUM_CURRENCIES_COLUMNS,
 			      G_TYPE_STRING,
 			      G_TYPE_STRING,
 			      G_TYPE_STRING);
@@ -186,11 +184,10 @@ new_currency_list ()
     {
       gtk_tree_store_append (model, &iter, NULL);
       gtk_tree_store_set (model, &iter,
-			  COUNTRY_CODE_COLUMN, *continent,
-			  CONTINENT_COLUMN, FALSE,
+			  COUNTRY_NAME_COLUMN, *continent,
 			  CURRENCY_NAME_COLUMN, FALSE,
-			  COUNTRY_NAME_COLUMN, FALSE,
 			  CURRENCY_ISO_CODE, FALSE,
+			  CURRENCY_NICKNAME, FALSE,
 			  -1);
 
       while (currency->country_code && 
@@ -198,11 +195,10 @@ new_currency_list ()
 	{
 	  gtk_tree_store_append (model, &child_iter, &iter);
 	  gtk_tree_store_set (model, &child_iter,
-			      COUNTRY_CODE_COLUMN, currency -> country_code,
-			      CONTINENT_COLUMN, currency -> continent,
-			      CURRENCY_NAME_COLUMN, currency -> currency_name,
 			      COUNTRY_NAME_COLUMN, currency -> country_name,
+			      CURRENCY_NAME_COLUMN, currency -> currency_name,
 			      CURRENCY_ISO_CODE, currency -> currency_code,
+			      CURRENCY_NICKNAME, currency -> currency_nickname,
 			      -1);
 	  currency++;
 	}
