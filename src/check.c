@@ -137,8 +137,8 @@ gboolean reconciliation_check ( void )
 						  "  Last reconciliation amount : %4.2f%s\n"
 						  "  Computed reconciliation amount : %4.2f%s\n\n"),
 						NOM_DU_COMPTE, 
-						reconcilied_amount, devise_name_by_no ( DEVISE ),
-						SOLDE_DERNIER_RELEVE, devise_name_by_no ( DEVISE ) ),
+						SOLDE_DERNIER_RELEVE, devise_name_by_no ( DEVISE ),
+						reconcilied_amount, devise_name_by_no ( DEVISE ) ),
 				    NULL );
       }
       tested_account++;
