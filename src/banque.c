@@ -739,9 +739,9 @@ void affiche_detail_banque ( GtkWidget *bouton,
  */
 GtkWidget *onglet_banques ( void )
 {
-  GtkWidget *vbox_pref, *separateur, *label, *frame;
+  GtkWidget *vbox_pref, *separateur, *label;
   GtkWidget *scrolled_window, *vbox, *vbox2, *hvbox;
-  GtkWidget *bouton, *hbox, *paddingbox;
+  GtkWidget *bouton, *hbox, *paddingbox, *table;
   GSList *liste_tmp;
   gchar *bank_cols_titles [2] = {_("Bank"),
 				 _("Contact name") };
@@ -751,7 +751,8 @@ GtkWidget *onglet_banques ( void )
 
 
   /* Create bank list */
-  paddingbox = paddingbox_new_with_title ( vbox_pref, _("Known banks") );
+  paddingbox = paddingbox_new_with_title ( vbox_pref, FALSE,
+					   _("Known banks") );
   scrolled_window = gtk_scrolled_window_new ( NULL, NULL );
   gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window ),
 				   GTK_POLICY_NEVER,
@@ -759,7 +760,7 @@ GtkWidget *onglet_banques ( void )
   clist_banques_parametres = gtk_clist_new_with_titles ( 2,
 							 bank_cols_titles);
   gtk_widget_set_usize ( clist_banques_parametres,
-			 FALSE, 120 );
+			 FALSE, 100 );
   gtk_clist_set_column_auto_resize ( GTK_CLIST ( clist_banques_parametres ) ,
 				      0, TRUE );
   gtk_clist_set_column_auto_resize ( GTK_CLIST ( clist_banques_parametres ) ,
@@ -771,7 +772,7 @@ GtkWidget *onglet_banques ( void )
   gtk_container_add ( GTK_CONTAINER ( scrolled_window ),
 		      clist_banques_parametres );
 
-  hbox = gtk_hbox_new ( 5, FALSE );
+  hbox = gtk_hbox_new ( FALSE, 10 );
   gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox,
 		       FALSE, FALSE, 0);
   gtk_box_pack_start ( GTK_BOX ( hbox ), scrolled_window,
@@ -865,134 +866,75 @@ GtkWidget *onglet_banques ( void )
 		       FALSE, FALSE, 5 );
 
 
-/* frame de droite qui contient les caractéristiques de la banque */
+  /* Bank details */
+  paddingbox = paddingbox_new_with_title ( vbox_pref, TRUE,
+					   _("Bank details") );
+  gtk_box_set_child_packing (vbox_pref, paddingbox, 
+			     TRUE, TRUE, 0, GTK_PACK_START);
 
-  frame = gtk_frame_new ( NULL );
-  gtk_container_set_border_width ( GTK_CONTAINER ( frame ),
-				   10 );
-  gtk_widget_set_sensitive ( frame,
-			     FALSE );
-  gtk_box_pack_start ( GTK_BOX ( vbox_pref ), frame,
-		       TRUE, TRUE, 0);
-  gtk_widget_show ( frame );
-
-  /* la sélection d'une banque dégrise la frame */
-
+  /* Active only if a bank is selected */
   gtk_signal_connect ( GTK_OBJECT ( clist_banques_parametres ),
 		       "select-row",
 		       GTK_SIGNAL_FUNC ( selection_ligne_banque ),
-		       frame );
+		       paddingbox );
   gtk_signal_connect ( GTK_OBJECT ( clist_banques_parametres ),
 		       "unselect-row",
 		       GTK_SIGNAL_FUNC ( deselection_ligne_banque ),
-		       frame );
+		       paddingbox );
 
-
-  vbox = gtk_vbox_new ( FALSE,
-			0 );
-  gtk_container_set_border_width ( GTK_CONTAINER ( vbox ),
-				   5 );
-  gtk_container_add ( GTK_CONTAINER ( frame ),
-		      vbox );
-  gtk_widget_show ( vbox );
-
-
-  scrolled_window = gtk_scrolled_window_new ( FALSE,
-					      FALSE );
+  /* Add a scroll because bank details are huge */
+  scrolled_window = gtk_scrolled_window_new ( FALSE, FALSE );
   gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window ),
 				   GTK_POLICY_NEVER,
 				   GTK_POLICY_AUTOMATIC );
-  gtk_box_pack_start ( GTK_BOX ( vbox ),
-		       scrolled_window,
-		       TRUE,
-		       TRUE,
-		       5 );
+  gtk_box_pack_start ( GTK_BOX ( paddingbox ), scrolled_window,
+		       TRUE, TRUE, 5 );
   gtk_widget_show ( scrolled_window );
-
-  vbox2 = gtk_vbox_new ( FALSE,
-			     0 );
+  vbox2 = gtk_vbox_new ( FALSE, 0 );
   gtk_scrolled_window_add_with_viewport ( GTK_SCROLLED_WINDOW ( scrolled_window ),
 					  vbox2 );
   gtk_viewport_set_shadow_type ( GTK_VIEWPORT ( GTK_BIN ( scrolled_window ) -> child ),
 				 GTK_SHADOW_NONE );
   gtk_widget_show ( vbox2 );
 
-  /* on met toutes les entry dans vbox2 */
+  /* Create a table to align things nicely */
+  table = gtk_table_new ( 0, 2, FALSE );
+  gtk_table_set_col_spacings ( GTK_TABLE ( table ), 5 );
+  gtk_table_set_row_spacings ( GTK_TABLE ( table ), 5 );
+  gtk_box_pack_start ( GTK_BOX ( vbox2 ), table,
+		       TRUE, TRUE, 0 );
 
-
-  /* fabrication de la partie banque */
-
-  hbox = gtk_hbox_new ( FALSE,
-			5 );
-  gtk_box_pack_start ( GTK_BOX ( vbox2 ),
-		       hbox,
-		       FALSE,
-		       FALSE,
-		       5 );
-  gtk_widget_show ( hbox );
-
-  label = gtk_label_new ( COLON(_("Bank")) );
-  gtk_box_pack_start ( GTK_BOX ( hbox ),
-		       label,
-		       FALSE,
-		       FALSE,
-		       5 );
-  gtk_widget_show ( label );
-
-
-  hbox = gtk_hbox_new ( FALSE,
-			5 );
-  gtk_box_pack_start ( GTK_BOX ( vbox2 ),
-		       hbox,
-		       FALSE,
-		       FALSE,
-		       5 );
-  gtk_widget_show ( hbox );
-
+  /* Bank name item */
   label = gtk_label_new ( COLON(_("Name")) );
-  gtk_box_pack_start ( GTK_BOX ( hbox ),
-		       label,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( label );
-
+  gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
+  gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
+  gtk_table_attach ( GTK_TABLE ( table ),
+		     label, 0, 1, 0, 1,
+		     GTK_SHRINK | GTK_FILL, 0,
+		     0, 0 );
   nom_banque = gtk_entry_new ();
-  gtk_box_pack_start ( GTK_BOX ( hbox ),
-		       nom_banque,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( nom_banque );
+  gtk_table_attach ( GTK_TABLE ( table ),
+		     nom_banque, 1, 2, 0, 1,
+		     GTK_EXPAND | GTK_FILL, 0,
+		     0, 0 );
 
-  separateur = gtk_vseparator_new ();
-  gtk_box_pack_start ( GTK_BOX ( hbox ),
-		       separateur,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( separateur );
-
-  label = gtk_label_new ( COLON(_("Bank sort code")) );
-  gtk_box_pack_start ( GTK_BOX ( hbox ),
-		       label,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( label );
-
+  /* Bank Sort code item */
+  label = gtk_label_new ( COLON(_("Sort code")) );
+  gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
+  gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
+  gtk_table_attach ( GTK_TABLE ( table ),
+		     label, 0, 1, 1, 2,
+		     GTK_SHRINK | GTK_FILL, 0,
+		     0, 0 );
   code_banque = gtk_entry_new ();
-  gtk_box_pack_start ( GTK_BOX ( hbox ),
-		       code_banque,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( code_banque );
+  gtk_table_attach ( GTK_TABLE ( table ),
+		     code_banque, 1, 2, 1, 2,
+		     GTK_EXPAND | GTK_FILL, 0,
+		     0, 0 );
 
 /* mise en forme de l'adr de la banque */
 
-  hbox = gtk_hbox_new ( FALSE,
-			5 );
+  hbox = gtk_hbox_new ( FALSE, 5 );
   gtk_box_pack_start ( GTK_BOX ( vbox2 ),
 		       hbox,
 		       FALSE,
@@ -1043,8 +985,7 @@ GtkWidget *onglet_banques ( void )
 
 /* mise en forme de l'email et l'adr web */
 
-  hbox = gtk_hbox_new ( FALSE,
-			5 );
+  hbox = gtk_hbox_new ( FALSE, 5 );
   gtk_box_pack_start ( GTK_BOX ( vbox2 ),
 		       hbox,
 		       FALSE,
@@ -1096,8 +1037,7 @@ GtkWidget *onglet_banques ( void )
 
   /* mise en place de l'adr internet de la banque */
 
-  hbox = gtk_hbox_new ( FALSE,
-			5 );
+  hbox = gtk_hbox_new ( FALSE, 5 );
   gtk_box_pack_start ( GTK_BOX ( vbox2 ),
 		       hbox,
 		       FALSE,
@@ -1134,8 +1074,7 @@ GtkWidget *onglet_banques ( void )
 		       5 );
   gtk_widget_show ( separateur );
 
-  hbox = gtk_hbox_new ( FALSE,
-			5 );
+  hbox = gtk_hbox_new ( FALSE, 5 );
   gtk_box_pack_start ( GTK_BOX ( vbox2 ),
 		       hbox,
 		       FALSE,
@@ -1152,8 +1091,7 @@ GtkWidget *onglet_banques ( void )
   gtk_widget_show ( label );
 
 
-  hbox = gtk_hbox_new ( FALSE,
-			5 );
+  hbox = gtk_hbox_new ( FALSE, 5 );
   gtk_box_pack_start ( GTK_BOX ( vbox2 ),
 		       hbox,
 		       FALSE,
@@ -1204,8 +1142,7 @@ GtkWidget *onglet_banques ( void )
 
 /* mise en forme de l'email et le fax */
 
-  hbox = gtk_hbox_new ( FALSE,
-			5 );
+  hbox = gtk_hbox_new ( FALSE, 5 );
   gtk_box_pack_start ( GTK_BOX ( vbox2 ),
 		       hbox,
 		       FALSE,
@@ -1264,8 +1201,7 @@ GtkWidget *onglet_banques ( void )
   gtk_widget_show ( separateur );
 
 
-  hbox = gtk_hbox_new ( FALSE,
-			5 );
+  hbox = gtk_hbox_new ( FALSE, 5 );
   gtk_box_pack_start ( GTK_BOX ( vbox2 ),
 		       hbox,
 		       FALSE,
@@ -1314,24 +1250,12 @@ GtkWidget *onglet_banques ( void )
   gtk_widget_show ( remarque_banque );
 
 
-
-/* séparation */
-
-  separateur = gtk_hseparator_new ();
-  gtk_box_pack_start ( GTK_BOX ( vbox ),
-		       separateur,
-		       FALSE,
-		       FALSE,
-		       5 );
-  gtk_widget_show ( separateur );
-
 /* ajout des bouton appliquer et annuler */
 
-  hbox_boutons_modif_banque = gtk_hbox_new ( FALSE,
-			0 );
+  hbox_boutons_modif_banque = gtk_hbox_new ( FALSE, 0 );
   gtk_widget_set_sensitive ( hbox_boutons_modif_banque,
 			     FALSE );
-  gtk_box_pack_start ( GTK_BOX ( vbox ),
+  gtk_box_pack_start ( GTK_BOX ( vbox_pref ),
 		       hbox_boutons_modif_banque,
 		       FALSE,
 		       FALSE,
@@ -1341,76 +1265,77 @@ GtkWidget *onglet_banques ( void )
 
 /*   on met ici toutes les connections qui, pour chaque changement, rendent sensitif les boutons */
 
-  gtk_signal_connect ( GTK_OBJECT ( nom_banque ),
-		       "changed",
-		       GTK_SIGNAL_FUNC ( modif_detail_banque ),
-		       NULL);
-  gtk_signal_connect ( GTK_OBJECT ( code_banque ),
-		       "changed",
-		       GTK_SIGNAL_FUNC ( modif_detail_banque ),
-		       NULL);
-  gtk_signal_connect ( GTK_OBJECT ( tel_banque ),
-		       "changed",
-		       GTK_SIGNAL_FUNC ( modif_detail_banque ),
-		       NULL);
-  gtk_signal_connect ( GTK_OBJECT ( adr_banque ),
-		       "changed",
-		       GTK_SIGNAL_FUNC ( modif_detail_banque ),
-		       NULL);
-   gtk_signal_connect ( GTK_OBJECT ( email_banque ),
-		       "changed",
-		       GTK_SIGNAL_FUNC ( modif_detail_banque ),
-		       NULL);
-  gtk_signal_connect ( GTK_OBJECT ( web_banque ),
-		       "changed",
-		       GTK_SIGNAL_FUNC ( modif_detail_banque ),
-		       NULL);
-  gtk_signal_connect ( GTK_OBJECT ( remarque_banque ),
-		       "changed",
-		       GTK_SIGNAL_FUNC ( modif_detail_banque ),
-		       NULL);
-  gtk_signal_connect ( GTK_OBJECT ( nom_correspondant ),
-		       "changed",
-		       GTK_SIGNAL_FUNC ( modif_detail_banque ),
-		       NULL);
-  gtk_signal_connect ( GTK_OBJECT ( fax_correspondant ),
-		       "changed",
-		       GTK_SIGNAL_FUNC ( modif_detail_banque ),
-		       NULL);
-  gtk_signal_connect ( GTK_OBJECT ( tel_correspondant ),
-		       "changed",
-		       GTK_SIGNAL_FUNC ( modif_detail_banque ),
-		       NULL);
-  gtk_signal_connect ( GTK_OBJECT ( email_correspondant ),
-		       "changed",
-		       GTK_SIGNAL_FUNC ( modif_detail_banque ),
-		       NULL);
+  /* FIXME: trap them to bank modification */
+/*   gtk_signal_connect ( GTK_OBJECT ( nom_banque ), */
+/* 		       "changed", */
+/* 		       GTK_SIGNAL_FUNC ( modif_detail_banque ), */
+/* 		       NULL); */
+/*   gtk_signal_connect ( GTK_OBJECT ( code_banque ), */
+/* 		       "changed", */
+/* 		       GTK_SIGNAL_FUNC ( modif_detail_banque ), */
+/* 		       NULL); */
+/*   gtk_signal_connect ( GTK_OBJECT ( tel_banque ), */
+/* 		       "changed", */
+/* 		       GTK_SIGNAL_FUNC ( modif_detail_banque ), */
+/* 		       NULL); */
+/*   gtk_signal_connect ( GTK_OBJECT ( adr_banque ), */
+/* 		       "changed", */
+/* 		       GTK_SIGNAL_FUNC ( modif_detail_banque ), */
+/* 		       NULL); */
+/*    gtk_signal_connect ( GTK_OBJECT ( email_banque ), */
+/* 		       "changed", */
+/* 		       GTK_SIGNAL_FUNC ( modif_detail_banque ), */
+/* 		       NULL); */
+/*   gtk_signal_connect ( GTK_OBJECT ( web_banque ), */
+/* 		       "changed", */
+/* 		       GTK_SIGNAL_FUNC ( modif_detail_banque ), */
+/* 		       NULL); */
+/*   gtk_signal_connect ( GTK_OBJECT ( remarque_banque ), */
+/* 		       "changed", */
+/* 		       GTK_SIGNAL_FUNC ( modif_detail_banque ), */
+/* 		       NULL); */
+/*   gtk_signal_connect ( GTK_OBJECT ( nom_correspondant ), */
+/* 		       "changed", */
+/* 		       GTK_SIGNAL_FUNC ( modif_detail_banque ), */
+/* 		       NULL); */
+/*   gtk_signal_connect ( GTK_OBJECT ( fax_correspondant ), */
+/* 		       "changed", */
+/* 		       GTK_SIGNAL_FUNC ( modif_detail_banque ), */
+/* 		       NULL); */
+/*   gtk_signal_connect ( GTK_OBJECT ( tel_correspondant ), */
+/* 		       "changed", */
+/* 		       GTK_SIGNAL_FUNC ( modif_detail_banque ), */
+/* 		       NULL); */
+/*   gtk_signal_connect ( GTK_OBJECT ( email_correspondant ), */
+/* 		       "changed", */
+/* 		       GTK_SIGNAL_FUNC ( modif_detail_banque ), */
+/* 		       NULL); */
   
-  bouton = gtk_button_new_from_stock (GTK_STOCK_CANCEL);
-  //bouton = gnome_stock_button ( GNOME_STOCK_BUTTON_CANCEL );
-  gtk_signal_connect ( GTK_OBJECT ( bouton ),
-		       "clicked",
-		       GTK_SIGNAL_FUNC ( annuler_modif_banque ),
-		       clist_banques_parametres );
-  gtk_box_pack_end ( GTK_BOX ( hbox_boutons_modif_banque ),
-		       bouton,
-		       FALSE,
-		       FALSE,
-		       5 );
-  gtk_widget_show ( bouton );
+/*   bouton = gtk_button_new_from_stock (GTK_STOCK_CANCEL); */
+/*   //bouton = gnome_stock_button ( GNOME_STOCK_BUTTON_CANCEL ); */
+/*   gtk_signal_connect ( GTK_OBJECT ( bouton ), */
+/* 		       "clicked", */
+/* 		       GTK_SIGNAL_FUNC ( annuler_modif_banque ), */
+/* 		       clist_banques_parametres ); */
+/*   gtk_box_pack_end ( GTK_BOX ( hbox_boutons_modif_banque ), */
+/* 		       bouton, */
+/* 		       FALSE, */
+/* 		       FALSE, */
+/* 		       5 ); */
+/*   gtk_widget_show ( bouton ); */
 
-  bouton = gtk_button_new_from_stock (GTK_STOCK_APPLY);
-  //bouton = gnome_stock_button ( GNOME_STOCK_BUTTON_APPLY );
-  gtk_signal_connect_object ( GTK_OBJECT ( bouton ),
-			      "clicked",
-			      GTK_SIGNAL_FUNC ( applique_modif_banque  ),
-			      GTK_OBJECT ( clist_banques_parametres ) );
-  gtk_box_pack_end ( GTK_BOX ( hbox_boutons_modif_banque ),
-		       bouton,
-		       FALSE,
-		       FALSE,
-		       5 );
-  gtk_widget_show ( bouton );
+/*   bouton = gtk_button_new_from_stock (GTK_STOCK_APPLY); */
+/*   //bouton = gnome_stock_button ( GNOME_STOCK_BUTTON_APPLY ); */
+/*   gtk_signal_connect_object ( GTK_OBJECT ( bouton ), */
+/* 			      "clicked", */
+/* 			      GTK_SIGNAL_FUNC ( applique_modif_banque  ), */
+/* 			      GTK_OBJECT ( clist_banques_parametres ) ); */
+/*   gtk_box_pack_end ( GTK_BOX ( hbox_boutons_modif_banque ), */
+/* 		       bouton, */
+/* 		       FALSE, */
+/* 		       FALSE, */
+/* 		       5 ); */
+/*   gtk_widget_show ( bouton ); */
 
 
   return ( vbox_pref );
