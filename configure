@@ -5571,7 +5571,6 @@ intl/Makefile
 src/Makefile
 applet/Makefile
 help/Makefile
-help/C/Makefile
 macros/Makefile
  config.h" | sed "s/:[^ ]*//g"` conftest*; exit 1' 1 2 15
 EOF
@@ -5733,7 +5732,6 @@ intl/Makefile
 src/Makefile
 applet/Makefile
 help/Makefile
-help/C/Makefile
 macros/Makefile
 "}
 EOF

@@ -65,6 +65,5 @@ intl/Makefile
 src/Makefile
 applet/Makefile
 help/Makefile
-help/C/Makefile
 macros/Makefile
 ])
