@@ -4792,7 +4792,7 @@ void remplit_liste_comparaisons_montants_etat ( void )
 
       /* on sensitive/désensitive la hbox_2 si nécessaire */
 
-      if ( comp_montants -> lien_1_2 == 2 )
+      if ( comp_montants -> lien_1_2 == 3 )
 	desensitive_widget ( comp_montants -> hbox_partie_2 );
       else
 	sensitive_widget ( comp_montants -> hbox_partie_2 );
@@ -5114,6 +5114,14 @@ GtkWidget *cree_bouton_comparateur ( void )
 			GINT_TO_POINTER ( 4 ));
   gtk_widget_show ( menu_item );
 
+  menu_item = gtk_menu_item_new_with_label ( _("différent de"));
+  gtk_menu_append ( GTK_MENU ( menu ),
+		    menu_item );
+  gtk_object_set_data ( GTK_OBJECT ( menu_item ),
+			"no_comparateur",
+			GINT_TO_POINTER ( 5 ));
+  gtk_widget_show ( menu_item );
+
   gtk_option_menu_set_menu ( GTK_OPTION_MENU ( bouton ),
 			     menu );
   gtk_widget_show ( menu );
@@ -5163,12 +5171,24 @@ GtkWidget *cree_bouton_lien_montant ( struct struct_comparaison_montants_etat *c
 			      GTK_OBJECT ( comp_montants -> hbox_partie_2 ));
   gtk_widget_show ( menu_item );
 
-  menu_item = gtk_menu_item_new_with_label ( _("stop"));
+  menu_item = gtk_menu_item_new_with_label ( _("sauf"));
   gtk_menu_append ( GTK_MENU ( menu ),
 		    menu_item );
   gtk_object_set_data ( GTK_OBJECT ( menu_item ),
 			"no_lien",
 			GINT_TO_POINTER ( 2 ));
+  gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
+			      "activate",
+			      GTK_SIGNAL_FUNC ( sensitive_widget ),
+			      GTK_OBJECT ( comp_montants -> hbox_partie_2 ));
+  gtk_widget_show ( menu_item );
+
+  menu_item = gtk_menu_item_new_with_label ( _("stop"));
+  gtk_menu_append ( GTK_MENU ( menu ),
+		    menu_item );
+  gtk_object_set_data ( GTK_OBJECT ( menu_item ),
+			"no_lien",
+			GINT_TO_POINTER ( 3 ));
   gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
 			      "activate",
 			      GTK_SIGNAL_FUNC ( desensitive_widget ),

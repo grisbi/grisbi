@@ -1595,15 +1595,6 @@ void exporter_fichier_qif ( void )
 
 	  if ( LISTE_OPERATIONS )
 	    {
-	      struct struct_devise *devise_compte;
-
-	      /* récupère la devise du compte */
-
-	      devise_compte = g_slist_find_custom ( liste_struct_devises,
-						    GINT_TO_POINTER ( DEVISE ),
-						    ( GCompareFunc ) recherche_devise_par_no ) -> data;
-
-
 	      /* met la date de la 1ère opération comme dâte d'ouverture de compte */
 
 	      operation = LISTE_OPERATIONS -> data;
@@ -1689,35 +1680,12 @@ void exporter_fichier_qif ( void )
 
 		      /* met le montant, transforme la devise si necessaire */
 
-		      if ( operation -> devise == DEVISE )
-			montant = operation -> montant;
-		      else
-			{
-			  /* ce n'est pas la devise du compte, si le compte passe à l'euro et que la devise est l'euro, */
-			  /* utilise la conversion du compte,  sinon utilise la conversion stockée dans l'opé */
-
-			  struct struct_devise *devise_operation;
-
-			  devise_operation = g_slist_find_custom ( liste_struct_devises,
-								   GINT_TO_POINTER ( operation -> devise ),
-								   ( GCompareFunc ) recherche_devise_par_no ) -> data;
-
-			  if ( devise_compte -> passage_euro
-			       &&
-			       !strcmp ( devise_operation -> nom_devise, _("Euro") ) )
-			    montant = operation -> montant * devise_compte -> change;
-			  else
-			    if ( devise_operation -> passage_euro
-				 &&
-				 !strcmp ( devise_compte -> nom_devise, _("Euro") ))
-			      montant = operation -> montant / devise_operation -> change;
-			    else
-			      if ( operation -> une_devise_compte_egale_x_devise_ope )
-				montant = operation -> montant / operation -> taux_change - operation -> frais_change;
-			      else
-				montant = operation -> montant * operation -> taux_change - operation -> frais_change;
-			  montant = ( rint (montant * 100 )) / 100;
-			}
+		      montant = calcule_montant_devise_renvoi ( operation -> montant,
+								DEVISE,
+								operation -> devise,
+								operation -> une_devise_compte_egale_x_devise_ope,
+								operation -> taux_change,
+								operation -> frais_change );
 
 		      montant_tmp = g_strdup_printf ( "%4.2f",
 						      montant );

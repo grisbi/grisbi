@@ -54,8 +54,6 @@ GtkWidget *fleche_haut;                        /* adr de l'icone de la flèche ve
 GtkWidget *fleche_bas;                        /* adr de l'icone de la flèche vers le bas  */
 GtkWidget *frame_droite_bas;                  /* adr de la frame contenant le formulaire */
 GtkWidget *barre_outils;                           /* adr de la barre d'outils */
-struct struct_devise *devise_compte_affichage_liste;  /* devise du compte en cours pendant l'affichage de la liste */
-struct struct_devise *devise_operation_affichage_liste;  /* devise de l'opé en cours pendant l'affichage de la liste */
 gdouble solde_courant_affichage_liste;   /* valable uniquement pendant l'affichage de la liste */
 gdouble solde_pointe_affichage_liste;   /* valable uniquement pendant l'affichage de la liste */
 gchar *tips_col_liste_operations[7];
@@ -407,7 +405,8 @@ GtkWidget *devise_1;                                      /* option menu qui con
 GtkWidget *devise_2;                                     /* option menu qui contient la devise 2 */
 GtkWidget *entree_conversion;                       /* entrée qui contient le change */
 gint ligne_selection_devise;               /* contient la ligne sélectionnée dans la liste des devises */
-
+struct struct_devise *devise_compte;
+struct struct_devise *devise_operation;
 
 
 /***********************************/ 

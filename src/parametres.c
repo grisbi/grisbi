@@ -1616,9 +1616,29 @@ void changement_preferences ( GtkWidget *fenetre_preferences,
 	      no_devise_totaux_tiers = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( bouton_choix_devise_totaux_tiers ) -> menu_item ),
 									       "no_devise" ));
 	  
-	      mise_a_jour_tiers ();
-	      mise_a_jour_categ ();
-	      mise_a_jour_imputation ();
+
+	      /* si on est sur une des onglets d'affichage des tiers, categ ou imput, on le réaffiche */
+
+	      switch ( gtk_notebook_get_current_page ( GTK_NOTEBOOK ( notebook_general )))
+		{
+		case 4:
+		  remplit_arbre_tiers ();
+		  modif_categ = 1;
+		  modif_imputation = 1;
+		  break;
+
+		case 5:
+		  remplit_arbre_categ ();
+		  modif_tiers = 1;
+		  modif_imputation = 1;
+		  break;
+
+		case 6:
+		  remplit_arbre_imputation ();
+		  modif_categ = 1;
+		  modif_tiers = 1;
+		  break;
+		}
 	    }
 	}
 

@@ -2922,7 +2922,6 @@ void recuperation_donnees_generales_formulaire ( struct structure_operation *ope
   GSList *pointeur_liste;
   gchar **tableau_char;
   struct struct_devise *devise;
-  struct struct_devise *devise_compte;
 
   p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
 
@@ -3022,9 +3021,12 @@ void recuperation_donnees_generales_formulaire ( struct structure_operation *ope
 
   p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
 
-  devise_compte = g_slist_find_custom ( liste_struct_devises,
-					GINT_TO_POINTER ( DEVISE ),
-					( GCompareFunc ) recherche_devise_par_no ) -> data;
+  if ( !devise_compte
+       ||
+       devise_compte -> no_devise != DEVISE )
+    devise_compte = g_slist_find_custom ( liste_struct_devises,
+					  GINT_TO_POINTER ( DEVISE ),
+					  ( GCompareFunc ) recherche_devise_par_no ) -> data;
 
   operation -> devise = devise -> no_devise;
 
@@ -3925,7 +3927,6 @@ void basculer_vers_ventilation ( GtkWidget *bouton,
 void click_sur_bouton_voir_change ( void )
 {
   struct structure_operation *operation;
-  struct struct_devise *devise_compte;
   struct struct_devise *devise;
 
   gtk_widget_grab_focus ( widget_formulaire_operations[1] );
@@ -3936,9 +3937,12 @@ void click_sur_bouton_voir_change ( void )
 
   p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
 
-  devise_compte = g_slist_find_custom ( liste_struct_devises,
-					GINT_TO_POINTER ( DEVISE ),
-					( GCompareFunc ) recherche_devise_par_no ) -> data;
+  if ( !devise_compte
+       ||
+       devise_compte -> no_devise != DEVISE )
+    devise_compte = g_slist_find_custom ( liste_struct_devises,
+					  GINT_TO_POINTER ( DEVISE ),
+					  ( GCompareFunc ) recherche_devise_par_no ) -> data;
   devise = g_slist_find_custom ( liste_struct_devises,
 				 GINT_TO_POINTER ( operation -> devise ),
 				 ( GCompareFunc ) recherche_devise_par_no ) -> data;
@@ -3962,7 +3966,6 @@ void click_sur_bouton_voir_change ( void )
       else
 	operation -> une_devise_compte_egale_x_devise_ope = 0;
     }
-
 }
 /***********************************************************************************************************/
 

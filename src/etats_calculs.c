@@ -77,8 +77,7 @@ GSList *recupere_opes_etat ( struct struct_etat *etat )
   GSList *liste_operations_etat;
   gint i;
   gint no_exercice_recherche;
-  struct struct_devise *devise_montant;
-  struct struct_devise *devise_operation;
+  GSList *liste_tmp;
 
   liste_operations_etat = NULL;
 
@@ -89,7 +88,6 @@ GSList *recupere_opes_etat ( struct struct_etat *etat )
 
   if ( etat -> exo_date )
     {
-      GSList *liste_tmp;
       GDate *date_jour;
       struct struct_exercice *exo;
       struct struct_exercice *exo_courant;
@@ -176,12 +174,6 @@ GSList *recupere_opes_etat ( struct struct_etat *etat )
 	}
     }
 
-  /* on récupère la devise des monants pour les tests de montants */
-
-  devise_montant = g_slist_find_custom ( liste_struct_devises,
-					GINT_TO_POINTER ( etat -> choix_devise_montant ),
-					( GCompareFunc ) recherche_devise_par_no) -> data;
-  devise_operation = NULL;
 
   for ( i=0 ; i<nb_comptes ; i++ )
     {
@@ -247,6 +239,118 @@ GSList *recupere_opes_etat ( struct struct_etat *etat )
 			 operation -> pointe != 2 ))
 		    goto operation_refusee;
 		}
+
+
+	      /* vérification des montants */
+
+	      if ( etat -> utilise_montant )
+		{
+		  gint garde_ope;
+		  
+		  liste_tmp = etat -> liste_struct_comparaison_montants;
+		  garde_ope = 0;
+
+		  while ( liste_tmp )
+		    {
+		      gdouble montant;
+		      gint ope_dans_premier_test;
+		      gint ope_dans_second_test;
+		      struct struct_comparaison_montants_etat *comp_montants;
+		      gint ope_dans_test;
+
+		      comp_montants = liste_tmp -> data;
+
+		      montant = calcule_montant_devise_renvoi ( operation -> montant,
+								etat -> choix_devise_montant,
+								operation -> devise,
+								operation -> une_devise_compte_egale_x_devise_ope,
+								operation -> taux_change,
+								operation -> frais_change );
+
+		      /* on vérifie maintenant en fonction de la ligne de test si on garde cette opé */
+
+		      ope_dans_premier_test = compare_montants_etat ( montant,
+								      comp_montants -> montant_1,
+								      comp_montants -> comparateur_1 );
+
+		      if ( comp_montants -> lien_1_2 != 3 )
+			   ope_dans_second_test = compare_montants_etat ( montant,
+									  comp_montants -> montant_2,
+									  comp_montants -> comparateur_2 );
+		      else
+			/* pour éviter les warning lors de la compil */
+			ope_dans_second_test = 0;
+			
+		      switch ( comp_montants -> lien_1_2 )
+			{
+			case 0:
+			  /* et  */
+
+			  ope_dans_test = ope_dans_premier_test && ope_dans_second_test;
+			  break;
+
+			case 1:
+			  /*  ou */
+
+			  ope_dans_test = ope_dans_premier_test || ope_dans_second_test;
+			  break;
+
+			case 2:
+			  /* sauf  */
+
+			  ope_dans_test = ope_dans_premier_test && (!ope_dans_second_test);
+			  break;
+
+			case 3:
+			  /* aucun  */
+			  ope_dans_test = ope_dans_premier_test;
+			  break;
+
+			default:
+			  ope_dans_test = 0;
+			}
+
+		      /* à ce niveau, ope_dans_test=1 si l'opé a passé ce test */
+		      /* il faut qu'on fasse le lien avec la ligne précédente */
+			   
+
+		      switch ( comp_montants -> lien_struct_precedente )
+			{
+			case -1:
+			  /* 1ère ligne  */
+
+			  garde_ope = ope_dans_test;
+			  break;
+
+			case 0:
+			  /* et  */
+
+			  garde_ope = garde_ope && ope_dans_test;
+			  break;
+
+			case 1:
+			  /* ou  */
+
+			  garde_ope = garde_ope || ope_dans_test;
+			  break;
+
+			case 2:
+			  /* sauf  */
+
+			  garde_ope = garde_ope && (!ope_dans_test);
+			  break;
+			}
+		      liste_tmp = liste_tmp -> next;
+		    }
+
+		  /* on ne garde l'opération que si garde_ope = 1 */
+
+		  if ( !garde_ope )
+		    goto operation_refusee;
+
+		}
+
+
 
 	      /* 	      on vérifie les virements */
 
@@ -557,6 +661,77 @@ GSList *recupere_opes_etat ( struct struct_etat *etat )
   return ( liste_operations_etat );
 }
 /*****************************************************************************************************/
+
+
+
+/*****************************************************************************************************/
+/* compare les 2 montants en fonction du comparateur donné en argument */
+/* renvoie 1 si l'opé passe le test, 0 sinon */
+/*****************************************************************************************************/
+
+gint compare_montants_etat ( gdouble montant_ope,
+			     gdouble montant_test,
+			     gint comparateur )
+{
+  gint retour;
+  gint montant_ope_int;
+  gint montant_test_int;
+  retour = 0;
+
+  /*   le plus simple est de comparer des integer sinon, le = n'a pas grande valeur en float */
+
+  montant_ope_int = rint ( montant_ope * 100 );
+  montant_test_int = rint ( montant_test * 100 );
+
+  switch ( comparateur )
+    {
+    case 0:
+      /* =  */
+
+      if ( montant_ope_int == montant_test_int )
+	retour = 1;
+      break;
+
+    case 1:
+      /* <  */
+
+      if ( montant_ope_int < montant_test_int )
+	retour = 1;
+      break;
+
+    case 2:
+      /* <=  */
+
+      if ( montant_ope_int <= montant_test_int )
+	retour = 1;
+      break;
+
+    case 3:
+      /* >  */
+
+      if ( montant_ope_int > montant_test_int )
+	retour = 1;
+      break;
+
+    case 4:
+      /* >=  */
+
+      if ( montant_ope_int >= montant_test_int )
+	retour = 1;
+      break;
+
+    case 5:
+      /* !=  */
+
+      if ( montant_ope_int != montant_test_int )
+	retour = 1;
+      break;
+    }
+
+  return ( retour );
+}
+/*****************************************************************************************************/
+
 
 
 

@@ -484,10 +484,10 @@ struct struct_etat
 struct struct_comparaison_montants_etat
 {
   gint lien_struct_precedente;    /* -1=1ère comparaison, 0=et, 1=ou, 2=sauf */
-  gint comparateur_1;            /* 0= =, 1= <, 2= <=, 3= >, 4= >= */
+  gint comparateur_1;            /* 0= =, 1= <, 2= <=, 3= >, 4= >=, 5= != */
   gdouble montant_1;
-  gint lien_1_2;                   /* 0=et, 1=ou, 2=aucun */
-  gint comparateur_2;            /* 0= =, 1= <, 2= <=, 3= >, 4= >= */
+  gint lien_1_2;                   /* 0=et, 1=ou, 2=sauf, 3=aucun */
+  gint comparateur_2;            /* 0= =, 1= <, 2= <=, 3= >, 4= >=, 5= != */
   gdouble montant_2;
 
   GtkWidget *hbox_ligne;

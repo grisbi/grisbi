@@ -2024,8 +2024,6 @@ void fin_edition_echeance ( void )
       struct structure_operation *operation;
       gint virement;
       struct struct_devise *devise;
-      struct struct_devise *devise_compte;
-
 
       /* crée l'opération */
 
@@ -2101,9 +2099,12 @@ void fin_edition_echeance ( void )
 
       p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> no_compte;
 
-      devise_compte = g_slist_find_custom ( liste_struct_devises,
-					    GINT_TO_POINTER ( DEVISE ),
-					    ( GCompareFunc ) recherche_devise_par_no ) -> data;
+      if ( !devise_compte
+	   ||
+	   devise_compte -> no_devise != DEVISE )
+	devise_compte = g_slist_find_custom ( liste_struct_devises,
+					      GINT_TO_POINTER ( DEVISE ),
+					      ( GCompareFunc ) recherche_devise_par_no ) -> data;
 
       operation -> devise = devise -> no_devise;
 
@@ -2404,13 +2405,6 @@ void fin_edition_echeance ( void )
 	  operation_2 -> no_exercice = operation -> no_exercice;
 	  operation_2 -> imputation = operation -> imputation;
 	  operation_2 -> sous_imputation = operation -> sous_imputation;
-
-/* 	  if ( operation -> no_piece_comptable ) */
-/* 	    operation_2 -> no_piece_comptable = g_strdup ( operation -> no_piece_comptable ); */
-
-/* 	  if ( operation -> info_banque_guichet ) */
-/* 	    operation_2 -> info_banque_guichet = g_strdup ( operation -> info_banque_guichet ); */
-
 
 	  /*   on a fini de remplir l'opé, on peut l'ajouter à la liste */
 

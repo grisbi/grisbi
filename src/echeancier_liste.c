@@ -1707,7 +1707,6 @@ void verification_echeances_a_terme ( void )
   GSList *pointeur_liste;
   GSList *ancien_pointeur;
   struct struct_devise *devise;
-  struct struct_devise *devise_compte;
 
 
   /*   les échéances à saisir sont revérifiées à chaque fois, par contre, les échéances saisies sont ajoutées à la liste */
@@ -1780,9 +1779,12 @@ void verification_echeances_a_terme ( void )
 					     GINT_TO_POINTER ( operation -> devise ),
 					     ( GCompareFunc ) recherche_devise_par_no ) -> data;
 
-	      devise_compte = g_slist_find_custom ( liste_struct_devises,
-						    GINT_TO_POINTER ( DEVISE ),
-						    ( GCompareFunc ) recherche_devise_par_no ) -> data;
+	      if ( !devise_compte
+		   ||
+		   devise_compte -> no_devise != DEVISE )
+		devise_compte = g_slist_find_custom ( liste_struct_devises,
+						      GINT_TO_POINTER ( DEVISE ),
+						      ( GCompareFunc ) recherche_devise_par_no ) -> data;
 
 	      if ( !( operation -> no_operation
 		      ||

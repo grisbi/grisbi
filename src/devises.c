@@ -2035,3 +2035,67 @@ void changement_code_entree_devise ( void )
 
 
 
+/* **************************************************************************************************************************** */
+/* cette fonction prend en argument un montant, la devise de renvoi (en général la devise du compte) */
+/*      et la devise du montant donné en argument */
+/* elle renvoie le montant de l'opération dans la devise de renvoi */
+/* **************************************************************************************************************************** */
+
+gdouble calcule_montant_devise_renvoi ( gdouble montant_init,
+					gint no_devise_renvoi,
+					gint no_devise_montant,
+					gint une_devise_compte_egale_x_devise_ope,
+					gdouble taux_change,
+					gdouble frais_change )
+{
+  gdouble montant;
+
+  /* tout d'abord, si les 2 devises sont les mêmes, on renvoie le montant directement */
+
+  if ( no_devise_renvoi == no_devise_montant )
+    return ( montant_init );
+
+  /*   il faut faire une transformation du montant */
+  /* on utilise les variables globales devise_compte et devise_operation pour */
+  /* gagner du temps */
+
+  /* récupère la devise du compte si nécessaire */
+
+  if ( !devise_compte
+       ||
+       devise_compte -> no_devise != no_devise_renvoi )
+    devise_compte = g_slist_find_custom ( liste_struct_devises,
+					  GINT_TO_POINTER ( no_devise_renvoi ),
+					  ( GCompareFunc ) recherche_devise_par_no) -> data;
+
+  /* récupère la devise de l'opération si nécessaire */
+
+  if ( !devise_operation
+       ||
+       devise_operation -> no_devise != no_devise_montant )
+    devise_operation = g_slist_find_custom ( liste_struct_devises,
+					     GINT_TO_POINTER ( no_devise_montant ),
+					     ( GCompareFunc ) recherche_devise_par_no) -> data;
+
+  /* on a maintenant les 2 devises, on peut faire les calculs */
+
+  if ( devise_compte -> passage_euro
+       &&
+       !strcmp ( devise_operation -> nom_devise, _("Euro") ) )
+    montant = montant_init * devise_compte -> change;
+  else
+    if ( devise_operation -> passage_euro
+	 &&
+	 !strcmp ( devise_compte -> nom_devise, _("Euro") ))
+      montant = montant_init / devise_operation -> change;
+    else
+      if ( une_devise_compte_egale_x_devise_ope )
+	montant = montant_init / taux_change - frais_change;
+      else
+	montant = montant_init * taux_change - frais_change;
+
+  montant = ( rint (montant * 100 )) / 100;
+
+  return ( montant);
+}
+/* **************************************************************************************************************************** */

@@ -542,6 +542,12 @@ void changement_devise_associee ( GtkWidget *menu_devises,
 				  GtkWidget *liste );
 void changement_nom_entree_devise ( void );
 void changement_code_entree_devise ( void );
+gdouble calcule_montant_devise_renvoi ( gdouble montant_init,
+					gint no_devise_renvoi,
+					gint no_devise_montant,
+					gint une_devise_compte_egale_x_devise_ope,
+					gdouble taux_change,
+					gdouble frais_change );
 
 
 
@@ -953,6 +959,9 @@ void retire_ligne_liste_comparaisons_montants_etat ( struct struct_comparaison_m
 void affichage_etat ( struct struct_etat *etat, 
 		      struct struct_etat_affichage *affichage );
 GSList *recupere_opes_etat ( struct struct_etat *etat );
+gint compare_montants_etat ( gdouble montant_ope,
+			     gdouble montant_test,
+			     gint comparateur );
 void impression_etat ( struct struct_etat *etat );
 void rafraichissement_etat ( struct struct_etat *etat );
 gint classement_liste_opes_etat ( struct structure_operation *operation_1,

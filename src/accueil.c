@@ -1071,7 +1071,18 @@ void mise_a_jour_soldes_minimaux ( void )
 
   for ( i = 0 ; i < nb_comptes ; i++ )
     {
-      if ( SOLDE_COURANT < SOLDE_MINI
+      gint solde_courant;
+      gint solde_mini;
+      gint solde_mini_voulu;
+
+      /* le plus simple est de faire les comparaisons de soldes sur des integer */
+
+      solde_courant = rint ( SOLDE_COURANT * 100 );
+      solde_mini = rint ( SOLDE_MINI * 100 );
+      solde_mini_voulu = rint ( SOLDE_MINI_VOULU * 100 );
+
+
+      if ( solde_courant < solde_mini
 	   &&
 	   TYPE_DE_COMPTE != 2 )
 	{
@@ -1133,7 +1144,7 @@ void mise_a_jour_soldes_minimaux ( void )
 
 	  if ( !MESSAGE_SOUS_MINI )
 	    {
-	      if ( SOLDE_COURANT < SOLDE_MINI_VOULU )
+	      if ( solde_courant < solde_mini_voulu )
 		{
 		  if ( !patience_en_cours )
 		    dialogue ( g_strconcat ( _("Attention, le compte "),
@@ -1152,7 +1163,7 @@ void mise_a_jour_soldes_minimaux ( void )
 	    }
 	}
 
-      if ( SOLDE_COURANT < SOLDE_MINI_VOULU && TYPE_DE_COMPTE != 2 )
+      if ( solde_courant < solde_mini_voulu && TYPE_DE_COMPTE != 2 )
 	{
 	  if ( vbox_2 )
 	    {
@@ -1215,7 +1226,7 @@ void mise_a_jour_soldes_minimaux ( void )
 
 	  if ( !MESSAGE_SOUS_MINI_VOULU )
 	    {
-	      if ( SOLDE_COURANT < SOLDE_MINI )
+	      if ( solde_courant < solde_mini )
 		{
 		  if ( !patience_en_cours )
 		    dialogue ( g_strconcat ( _("Attention, le compte "),
@@ -1234,9 +1245,9 @@ void mise_a_jour_soldes_minimaux ( void )
 	    }
 	}
 
-      if ( SOLDE_COURANT > SOLDE_MINI )
+      if ( solde_courant > solde_mini )
 	MESSAGE_SOUS_MINI = 0;
-      if ( SOLDE_COURANT > SOLDE_MINI_VOULU )
+      if ( solde_courant > solde_mini_voulu )
 	MESSAGE_SOUS_MINI_VOULU = 0;
 
 

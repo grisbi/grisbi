@@ -127,7 +127,8 @@ void init_variables ( gboolean ouverture )
       devise_nulle = calloc ( 1,
 			      sizeof ( struct struct_devise ));
       no_devise_totaux_tiers = 1;
-
+      devise_compte = NULL;
+      devise_operation = NULL;
 
       liste_struct_banques = NULL;
       nb_banques = 0;

@@ -1519,14 +1519,16 @@ void modification_details_compte ( void )
   if ( DEVISE != GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( detail_devise_compte ) -> menu_item ),
 							 "no_devise" )) )
     {
-      struct struct_devise *devise_compte;
       struct struct_devise *nouvelle_devise;
       GSList *pointeur_liste;
       gfloat value;
 
-      devise_compte = g_slist_find_custom ( liste_struct_devises,
-					    GINT_TO_POINTER ( DEVISE ),
-					    ( GCompareFunc ) recherche_devise_par_no ) -> data;
+      if ( !devise_compte
+	   ||
+	   devise_compte -> no_devise != DEVISE )
+	devise_compte = g_slist_find_custom ( liste_struct_devises,
+					      GINT_TO_POINTER ( DEVISE ),
+					      ( GCompareFunc ) recherche_devise_par_no ) -> data;
 
       nouvelle_devise = gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( detail_devise_compte ) -> menu_item ),
 					      "adr_devise" );

@@ -566,7 +566,6 @@ void remplit_arbre_categ ( void )
 {
   gchar *text[4];
   GSList *liste_categ_tmp;
-  struct struct_devise *devise_compte;
   gint place_categ;
   gint i;
 
@@ -583,9 +582,12 @@ void remplit_arbre_categ ( void )
 
   p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
 
-  devise_compte = g_slist_find_custom ( liste_struct_devises,
-					GINT_TO_POINTER ( no_devise_totaux_tiers ),
-					( GCompareFunc ) recherche_devise_par_no) -> data;
+  if ( !devise_compte
+       ||
+       devise_compte -> no_devise != no_devise_totaux_tiers )
+    devise_compte = g_slist_find_custom ( liste_struct_devises,
+					  GINT_TO_POINTER ( no_devise_totaux_tiers ),
+					  ( GCompareFunc ) recherche_devise_par_no) -> data;
 
   /* calcule les montants des catég et sous categ */
 
@@ -2641,7 +2643,6 @@ gint recherche_sous_categorie_par_no ( struct struct_sous_categ *sous_categorie,
 void calcule_total_montant_categ ( void )
 {
   gint i;
-  struct struct_devise *devise_compte;
 
   /* on crée les tableaux de montant */
 
@@ -2657,14 +2658,6 @@ void calcule_total_montant_categ ( void )
   nb_ecritures_par_sous_categ = calloc ( nb_enregistrements_categories,
 					 sizeof ( gpointer ));
 
-  /*   la devise par défaut a été choisie dans les paramètres */
-
-  p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
-
-  devise_compte = g_slist_find_custom ( liste_struct_devises,
-					GINT_TO_POINTER ( no_devise_totaux_tiers ),
-					( GCompareFunc ) recherche_devise_par_no) -> data;
-
   for ( i=0 ; i<nb_comptes ; i++ )
     {
       GSList *liste_tmp;
@@ -2676,45 +2669,20 @@ void calcule_total_montant_categ ( void )
       while ( liste_tmp )
 	{
 	  struct structure_operation *operation;
-	  struct struct_devise *devise_operation;
 	  gdouble montant;
 	  gint place_categ;
 
 
 	  operation = liste_tmp -> data;
 
-	  /* on commence par calculer le montant dans la devise demandée */
+	  /* on commence par calculer le montant dans la devise choisie dans les paramètres */
 
-	  if ( operation -> devise == devise_compte -> no_devise )
-	    montant = operation -> montant;
-	  else
-	    {
-	      /* ce n'est pas la devise par défaut */
-	      /* si le compte passe à l'euro et que la devise est l'euro, utilise la conversion du compte, */
-	      /* si c'est une devise qui passe à l'euro et que la devise du compte est l'euro, utilise la conversion du compte */
-	      /* sinon utilise la conversion stockée dans l'opé */
-
-	      devise_operation = g_slist_find_custom ( liste_struct_devises,
-						       GINT_TO_POINTER ( operation -> devise ),
-						       ( GCompareFunc ) recherche_devise_par_no ) -> data;
-
-	      if ( devise_compte -> passage_euro
-		   &&
-		   !strcmp ( devise_operation -> nom_devise, _("Euro") ) )
-		montant = operation -> montant * devise_compte -> change;
-	      else
-		if ( devise_operation -> passage_euro
-		     &&
-		     !strcmp ( devise_compte -> nom_devise, _("Euro") ))
-		  montant = operation -> montant / devise_operation -> change;
-		else
-		  if ( operation -> une_devise_compte_egale_x_devise_ope )
-		    montant = operation -> montant / operation -> taux_change - operation -> frais_change;
-		  else
-		    montant = operation -> montant * operation -> taux_change - operation -> frais_change;
-
-	      montant = ( rint (montant * 100 )) / 100;
-	    }
+	  montant = calcule_montant_devise_renvoi ( operation -> montant,
+						    no_devise_totaux_tiers,
+						    operation -> devise,
+						    operation -> une_devise_compte_egale_x_devise_ope,
+						    operation -> taux_change,
+						    operation -> frais_change );
 
 	  /* on traite ensuite l'opération */
 	
@@ -2799,17 +2767,12 @@ gchar *calcule_total_montant_categ_par_compte ( gint categ,
 						gint no_compte )
 {
   gdouble retour_int;
-  struct struct_devise *devise_compte;
   GSList *liste_tmp;
 
   retour_int = 0;
   nb_ecritures_par_comptes = 0;
 
   p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_compte;
-
-  devise_compte = g_slist_find_custom ( liste_struct_devises,
-					GINT_TO_POINTER ( no_devise_totaux_tiers ),
-					( GCompareFunc ) recherche_devise_par_no) -> data;
 
   liste_tmp = LISTE_OPERATIONS;
 
@@ -2827,38 +2790,14 @@ gchar *calcule_total_montant_categ_par_compte ( gint categ,
 	   &&
 	   !operation -> operation_ventilee   )
 	{
-	  struct struct_devise *devise_operation;
 	  gdouble montant;
 
-	  if ( operation -> devise == devise_compte -> no_devise )
-	    montant = operation -> montant;
-	  else
-	    {
-	      /* ce n'est pas la devise du compte, si le compte passe à l'euro et que la devise est l'euro, utilise la conversion du compte, */
-	      /* si c'est une devise qui passe à l'euro et que la devise du compte est l'euro, utilise la conversion du compte */
-	      /* sinon utilise la conversion stockée dans l'opé */
-
-	      devise_operation = g_slist_find_custom ( liste_struct_devises,
-						       GINT_TO_POINTER ( operation -> devise ),
-						       ( GCompareFunc ) recherche_devise_par_no ) -> data;
-
-	      if ( devise_compte -> passage_euro
-		   &&
-		   !strcmp ( devise_operation -> nom_devise, _("Euro") ) )
-		montant = operation -> montant * devise_compte -> change;
-	      else
-		if ( devise_operation -> passage_euro
-		     &&
-		     !strcmp ( devise_compte -> nom_devise, _("Euro") ))
-		  montant = operation -> montant / devise_operation -> change;
-		else
-		  if ( operation -> une_devise_compte_egale_x_devise_ope )
-		    montant = operation -> montant / operation -> taux_change - operation -> frais_change;
-		  else
-		    montant = operation -> montant * operation -> taux_change - operation -> frais_change;
-
-	      montant = ( rint (montant * 100 )) / 100;
-	    }
+	  montant = calcule_montant_devise_renvoi ( operation -> montant,
+						    no_devise_totaux_tiers,
+						    operation -> devise,
+						    operation -> une_devise_compte_egale_x_devise_ope,
+						    operation -> taux_change,
+						    operation -> frais_change );
 
 	  retour_int = retour_int + montant;
 	  nb_ecritures_par_comptes++;
