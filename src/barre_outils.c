@@ -27,15 +27,8 @@
 /* ************************************************************************** */
 
 
-
-
 #include "include.h"
 
-
-#include "./xpm/ope_1.xpm"
-#include "./xpm/ope_2.xpm"
-#include "./xpm/ope_3.xpm"
-#include "./xpm/ope_4.xpm"
 #include "./xpm/ope_sans_r.xpm"
 #include "./xpm/ope_avec_r.xpm"
 #include "./xpm/image_fleche_haut.xpm"
@@ -76,7 +69,6 @@ GtkWidget *bouton_affiche_r;
 GtkWidget *bouton_enleve_r;
 GtkWidget *bouton_grille;
 GtkWidget *bouton_grille_echeancier;
-GtkWidget *label_proprietes_operations_compte;
 
 /* widgets du bouton pour afficher/cacher le formulaire */
 
@@ -100,330 +92,92 @@ extern GtkWidget *tree_view_liste_echeances;
 /*******************************************************************************************/
 GtkWidget *creation_barre_outils ( void )
 {
-    GtkWidget *hbox;
-    GtkWidget *separateur;
-    GtkWidget *icone;
-    GtkWidget *hbox2;
+    GtkWidget *hbox, *separateur, *handlebox, *hbox2, *icone, *omenu, *menu, *menu_item;
 
-
-    /*     on utilise le tooltip général */
+    hbox = gtk_hbox_new ( FALSE, 5 );
 
     if ( !tooltips_general_grisbi )
 	tooltips_general_grisbi = gtk_tooltips_new ();
 
+    /* HandleBox */
+    handlebox = gtk_handle_box_new ();
+    gtk_box_pack_start ( GTK_BOX ( hbox ), handlebox, FALSE, FALSE, 0 );
+    /* Hbox2 */
+    hbox2 = gtk_hbox_new ( FALSE, 0 );
+    gtk_container_add ( GTK_CONTAINER(handlebox), hbox2 );
 
-    hbox = gtk_hbox_new ( FALSE,
-			  5 );
-
-
-    separateur = gtk_vseparator_new ();
-    gtk_box_pack_start ( GTK_BOX ( hbox ),
-			 separateur,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show_all ( separateur );
-
-
-
-    /* bouton affiche / cache le formulaire */
-
-    bouton_affiche_cache_formulaire = gtk_button_new ();
-    gtk_button_set_relief ( GTK_BUTTON ( bouton_affiche_cache_formulaire ),
-			    GTK_RELIEF_NONE );
-    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi  ),
-			   bouton_affiche_cache_formulaire,
-			   _("Display/Hide form"),
-			   _("Display/Hide form") );
-    gtk_widget_set_usize ( bouton_affiche_cache_formulaire,
-			   15,
-			   15 );
-
-    hbox2 = gtk_hbox_new ( TRUE,
-			   0 );
-    gtk_container_add ( GTK_CONTAINER ( bouton_affiche_cache_formulaire ),
-			hbox2 );
-    gtk_widget_show ( hbox2 );
-
-    fleche_haut = gtk_image_new_from_pixbuf ( gdk_pixbuf_new_from_xpm_data ( (const gchar **) image_fleche_haut_xpm ));
+    /* Add various icons */
     gtk_box_pack_start ( GTK_BOX ( hbox2 ),
-			 fleche_haut,
-			 FALSE,
-			 FALSE,
-			 0 );
+			 new_button_with_label_and_image ( _("Category"),
+							   "new-transaction.png",
+							   G_CALLBACK ( new_transaction ),
+							   NULL ),
+			 FALSE, FALSE, 0 );
+    gtk_box_pack_start ( GTK_BOX ( hbox2 ), 
+			 new_stock_button_with_label ( GTK_STOCK_DELETE, 
+						       _("Delete"),
+						       G_CALLBACK ( remove_transaction ),
+						       NULL ), 
+			 FALSE, FALSE, 0 );
+    gtk_box_pack_start ( GTK_BOX ( hbox2 ), 
+			 new_stock_button_with_label ( GTK_STOCK_PROPERTIES, 
+						       _("Edit"),
+						       G_CALLBACK ( gsb_transactions_list_edit_current_transaction ),
+						       NULL ), 
+			 FALSE, FALSE, 0 );
+    gtk_box_pack_start ( GTK_BOX ( hbox2 ), 
+			 new_stock_button_with_label ( GTK_STOCK_COPY, 
+						       _("Clone"),
+						       G_CALLBACK ( clone_selected_transaction ),
+						       NULL ), 
+			 FALSE, FALSE, 0 );
 
-    fleche_bas = gtk_image_new_from_pixbuf ( gdk_pixbuf_new_from_xpm_data ( (const gchar **) image_fleche_bas_xpm ));
-    gtk_box_pack_start ( GTK_BOX ( hbox2 ),
-			 fleche_bas,
-			 FALSE,
-			 FALSE,
-			 0 );
+/*     if ( etat.formulaire_toujours_affiche ) */
+/* 	gtk_widget_show ( fleche_bas ); */
+/*     else */
+/* 	gtk_widget_show ( fleche_haut ); */
+    
+    bouton_affiche_r = new_button_with_label_and_image ( _("Display reconciled transactions"),
+							 "r.png",
+							 G_CALLBACK ( change_aspect_liste ),
+							 5 ), 
+    gtk_box_pack_end ( GTK_BOX ( hbox2 ), bouton_affiche_r, FALSE, FALSE, 0 );
 
+    bouton_grille = new_button_with_label_and_image ( _("Display grid"),
+							 "grid.png",
+							 G_CALLBACK ( change_aspect_liste ),
+							 NULL ), 
+    gtk_box_pack_end ( GTK_BOX ( hbox2 ), bouton_grille, FALSE, FALSE, 0 );
 
-    if ( etat.formulaire_toujours_affiche )
-	gtk_widget_show ( fleche_bas );
-    else
-	gtk_widget_show ( fleche_haut );
+    /* Display mode menu */
+    menu = gtk_menu_new ();
 
-    gtk_signal_connect ( GTK_OBJECT ( bouton_affiche_cache_formulaire ),
-			 "clicked",
-			 GTK_SIGNAL_FUNC ( affiche_cache_le_formulaire ),
-			 NULL );
-    gtk_box_pack_start ( GTK_BOX ( hbox ),
-			 bouton_affiche_cache_formulaire,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show ( bouton_affiche_cache_formulaire );
+    menu_item = gtk_menu_item_new_with_label ( _("Simple view") );
+    gtk_menu_append ( GTK_MENU ( menu ), menu_item );
+    g_signal_connect_swapped ( G_OBJECT(menu_item), "activate", 
+			       G_CALLBACK (change_aspect_liste), 1 );
 
+    menu_item = gtk_menu_item_new_with_label ( _("Two lines view") );
+    gtk_menu_append ( GTK_MENU ( menu ), menu_item );
+    g_signal_connect_swapped ( G_OBJECT(menu_item), "activate", 
+			       G_CALLBACK (change_aspect_liste), 2 );
 
-    separateur = gtk_vseparator_new ();
-    gtk_box_pack_start ( GTK_BOX ( hbox ),
-			 separateur,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show_all ( separateur );
+    menu_item = gtk_menu_item_new_with_label ( _("Three lines view") );
+    gtk_menu_append ( GTK_MENU ( menu ), menu_item );
+    g_signal_connect_swapped ( G_OBJECT(menu_item), "activate", 
+			       G_CALLBACK (change_aspect_liste), 3 );
 
+    menu_item = gtk_menu_item_new_with_label ( _("Complete view") );
+    gtk_menu_append ( GTK_MENU ( menu ), menu_item );
+    g_signal_connect_swapped ( G_OBJECT(menu_item), "activate", 
+			       G_CALLBACK (change_aspect_liste), 4 );
 
-    /* bouton opérations 1 ligne */
-
-    bouton_ope_lignes[0] = gtk_radio_button_new ( FALSE );
-    gtk_toggle_button_set_mode ( GTK_TOGGLE_BUTTON ( bouton_ope_lignes[0]),
-				 FALSE );
-    gtk_button_set_relief ( GTK_BUTTON ( bouton_ope_lignes[0] ),
-			    GTK_RELIEF_NONE );
-    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi  ),
-			   bouton_ope_lignes[0],
-			   _("One line per transaction"),
-			   _("One line per transaction") );
-
-    icone = gtk_image_new_from_pixbuf ( gdk_pixbuf_new_from_xpm_data ( (const gchar **) ope_1_xpm ));
-    gtk_container_add ( GTK_CONTAINER ( bouton_ope_lignes[0] ),
-			icone );
-    gtk_widget_set_usize ( bouton_ope_lignes[0],
-			   15,
-			   15 );
-    g_signal_connect_swapped ( GTK_OBJECT ( bouton_ope_lignes[0] ),
-			       "toggled",
-			       GTK_SIGNAL_FUNC ( change_aspect_liste ),
-			       GINT_TO_POINTER ( 1 ) );
-    gtk_box_pack_start ( GTK_BOX ( hbox ),
-			 bouton_ope_lignes[0],
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show_all ( bouton_ope_lignes[0] );
-
-
-    /* bouton opérations 2 lignes */
-
-    bouton_ope_lignes[1] = gtk_radio_button_new_from_widget ( GTK_RADIO_BUTTON ( bouton_ope_lignes[0] ));
-    gtk_toggle_button_set_mode ( GTK_TOGGLE_BUTTON ( bouton_ope_lignes[1]),
-				 FALSE );
-    gtk_button_set_relief ( GTK_BUTTON ( bouton_ope_lignes[1] ),
-			    GTK_RELIEF_NONE );
-    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi  ),
-			   bouton_ope_lignes[1],
-			   _("Two lines per transaction"),
-			   _("Two lines per transaction") );
-
-    icone = gtk_image_new_from_pixbuf ( gdk_pixbuf_new_from_xpm_data ( (const gchar **) ope_2_xpm ));
-    gtk_container_add ( GTK_CONTAINER ( bouton_ope_lignes[1] ),
-			icone );
-    g_signal_connect_swapped ( GTK_OBJECT ( bouton_ope_lignes[1] ),
-			       "toggled",
-			       GTK_SIGNAL_FUNC ( change_aspect_liste ),
-			       GINT_TO_POINTER ( 2 ) );
-    gtk_widget_set_usize ( bouton_ope_lignes[1],
-			   15,
-			   15 );
-    gtk_box_pack_start ( GTK_BOX ( hbox ),
-			 bouton_ope_lignes[1],
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show_all ( bouton_ope_lignes[1] );
+    omenu = gtk_option_menu_new ();
+    gtk_option_menu_set_menu ( GTK_OPTION_MENU ( omenu ), menu );
+    gtk_box_pack_end ( GTK_BOX(hbox), omenu, FALSE, FALSE, 6 );
 
 
-
-
-    /* bouton opérations 3 lignes */
-
-    bouton_ope_lignes[2] = gtk_radio_button_new_from_widget ( GTK_RADIO_BUTTON ( bouton_ope_lignes[0] ));
-    gtk_toggle_button_set_mode ( GTK_TOGGLE_BUTTON ( bouton_ope_lignes[2]),
-				 FALSE );
-    gtk_button_set_relief ( GTK_BUTTON ( bouton_ope_lignes[2] ),
-			    GTK_RELIEF_NONE );
-    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi  ),
-			   bouton_ope_lignes[2],
-			   _("Three lines per transaction"),
-			   _("Three lines per transaction") );
-
-    icone = gtk_image_new_from_pixbuf ( gdk_pixbuf_new_from_xpm_data ( (const gchar **) ope_3_xpm ));
-    gtk_container_add ( GTK_CONTAINER ( bouton_ope_lignes[2] ),
-			icone );
-    g_signal_connect_swapped ( GTK_OBJECT ( bouton_ope_lignes[2] ),
-			       "toggled",
-			       GTK_SIGNAL_FUNC ( change_aspect_liste ),
-			       GINT_TO_POINTER ( 3 ) );
-    gtk_widget_set_usize ( bouton_ope_lignes[2],
-			   15,
-			   15 );
-    gtk_box_pack_start ( GTK_BOX ( hbox ),
-			 bouton_ope_lignes[2],
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show_all ( bouton_ope_lignes[2] );
-
-
-    /* bouton opérations 4 lignes */
-
-    bouton_ope_lignes[3] = gtk_radio_button_new_from_widget ( GTK_RADIO_BUTTON ( bouton_ope_lignes[0] ));
-    gtk_toggle_button_set_mode ( GTK_TOGGLE_BUTTON ( bouton_ope_lignes[3]),
-				 FALSE );
-    gtk_button_set_relief ( GTK_BUTTON ( bouton_ope_lignes[3] ),
-			    GTK_RELIEF_NONE );
-    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi  ),
-			   bouton_ope_lignes[3],
-			   _("Four lines per transaction"),
-			   _("Four lines per transaction") );
-
-    icone = gtk_image_new_from_pixbuf ( gdk_pixbuf_new_from_xpm_data ( (const gchar **) ope_4_xpm ));
-    gtk_container_add ( GTK_CONTAINER ( bouton_ope_lignes[3] ),
-			icone );
-    g_signal_connect_swapped ( GTK_OBJECT ( bouton_ope_lignes[3] ),
-			       "toggled",
-			       GTK_SIGNAL_FUNC ( change_aspect_liste ),
-			       GINT_TO_POINTER ( 4 ) );
-    gtk_widget_set_usize ( bouton_ope_lignes[3],
-			   15,
-			   15 );
-    gtk_box_pack_start ( GTK_BOX ( hbox ),
-			 bouton_ope_lignes[3],
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show_all ( bouton_ope_lignes[3] );
-
-
-    separateur = gtk_vseparator_new ();
-    gtk_box_pack_start ( GTK_BOX ( hbox ),
-			 separateur,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show_all ( separateur );
-
-
-    /* bouton affiche opérations relevées */
-
-    bouton_affiche_r = gtk_radio_button_new ( NULL);
-    gtk_toggle_button_set_mode ( GTK_TOGGLE_BUTTON ( bouton_affiche_r ),
-				 FALSE );
-    gtk_button_set_relief ( GTK_BUTTON ( bouton_affiche_r ),
-			    GTK_RELIEF_NONE );
-    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi  ),
-			   bouton_affiche_r,
-			   _("Display reconciled transactions"),
-			   _("Display reconciled transactions") );
-    gtk_widget_set_usize ( bouton_affiche_r,
-			   15,
-			   15 );
-    icone = gtk_image_new_from_pixbuf ( gdk_pixbuf_new_from_xpm_data ( (const gchar **) (const gchar **) ope_avec_r ));
-    gtk_container_add ( GTK_CONTAINER ( bouton_affiche_r ),
-			icone );
-    g_signal_connect_swapped ( GTK_OBJECT ( bouton_affiche_r ),
-			       "toggled",
-			       GTK_SIGNAL_FUNC ( change_aspect_liste ),
-			       GINT_TO_POINTER ( 5 ) );
-    gtk_box_pack_start ( GTK_BOX ( hbox ),
-			 bouton_affiche_r,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show_all ( bouton_affiche_r );
-
-
-    /* bouton efface opérations relevées */
-
-    bouton_enleve_r = gtk_radio_button_new_from_widget ( GTK_RADIO_BUTTON ( bouton_affiche_r ));
-    gtk_toggle_button_set_mode ( GTK_TOGGLE_BUTTON (bouton_enleve_r ),
-				 FALSE );
-    gtk_button_set_relief ( GTK_BUTTON ( bouton_enleve_r ),
-			    GTK_RELIEF_NONE );
-    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi  ),
-			   bouton_enleve_r,
-			   _("Mask reconciled transactions"),
-			   _("Mask reconciled transactions") );
-    icone = gtk_image_new_from_pixbuf ( gdk_pixbuf_new_from_xpm_data ( (const gchar **) ope_sans_r ));
-    gtk_container_add ( GTK_CONTAINER ( bouton_enleve_r ),
-			icone );
-    gtk_widget_set_usize ( bouton_enleve_r,
-			   15,
-			   15 );
-    g_signal_connect_swapped ( GTK_OBJECT ( bouton_enleve_r ),
-			       "toggled",
-			       GTK_SIGNAL_FUNC ( change_aspect_liste ),
-			       GINT_TO_POINTER ( 6 ) );
-    gtk_box_pack_start ( GTK_BOX ( hbox ),
-			 bouton_enleve_r,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show_all ( bouton_enleve_r );
-
-
-    separateur = gtk_vseparator_new ();
-    gtk_box_pack_start ( GTK_BOX ( hbox ),
-			 separateur,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show_all ( separateur );
-
-    /*     bouton affiche/masque la grille des opérations */
-
-    bouton_grille = gtk_check_button_new ();
-    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON (bouton_grille ),
-				   etat.affichage_grille );
-    gtk_toggle_button_set_mode ( GTK_TOGGLE_BUTTON (bouton_grille ),
-				 FALSE  );
-    gtk_button_set_relief ( GTK_BUTTON ( bouton_grille ),
-			    GTK_RELIEF_NONE );
-    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi  ),
-			   bouton_grille,
-			   _("Display grid"),
-			   _("Display grid") );
-    icone = gtk_image_new_from_pixbuf ( gdk_pixbuf_new_from_xpm_data ( (const gchar **) grille_xpm ));
-    gtk_container_add ( GTK_CONTAINER ( bouton_grille ),
-			icone );
-    gtk_widget_set_usize ( bouton_grille,
-			   15,
-			   15 );
-    g_signal_connect_swapped ( GTK_OBJECT ( bouton_grille ),
-			       "toggled",
-			       GTK_SIGNAL_FUNC ( change_aspect_liste ),
-			       NULL );
-    gtk_box_pack_start ( GTK_BOX ( hbox ),
-			 bouton_grille,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show_all ( bouton_grille );
-
-
-
-
-
-    label_proprietes_operations_compte = gtk_label_new (_("Account transactions"));
-    gtk_box_pack_end ( GTK_BOX ( hbox ),
-		       label_proprietes_operations_compte,
-		       FALSE,
-		       FALSE,
-		       0 );
-    gtk_widget_show ( label_proprietes_operations_compte );
+    gtk_widget_show_all ( hbox );
 
     return ( hbox );
 }
