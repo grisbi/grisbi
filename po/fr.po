@@ -5256,7 +5256,7 @@ msgstr "Paramètres"
 #: src/operations_comptes.c:411 src/operations_comptes.c:423
 #: src/traitement_variables.c:171
 msgid "Closed accounts"
-msgstr "Comptes cloturés"
+msgstr "Comptes clos"
 
 #: src/menu.c:113
 msgid "Import report"
