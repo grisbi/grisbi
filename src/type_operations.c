@@ -24,6 +24,7 @@
 #include "structures.h"
 #include "variables-extern.c"
 #include "type_operations.h"
+#include "constants.h"
 
 
 #include "dialog.h"

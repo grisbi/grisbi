@@ -25,8 +25,7 @@
 #include "structures.h"
 #include "variables-extern.c"
 #include "operations_comptes.h"
-
-
+#include "constants.h"
 
 
 #include "barre_outils.h"

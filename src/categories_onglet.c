@@ -23,6 +23,7 @@
 #include "structures.h"
 #include "variables-extern.c"
 #include "categories_onglet.h"
+#include "constants.h"
 
 
 

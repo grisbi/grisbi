@@ -29,6 +29,7 @@
 #include "structures.h"
 #include "variables-extern.c"
 #include "imputation_budgetaire.h"
+#include "constants.h"
 
 
 #include "barre_outils.h"

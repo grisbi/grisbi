@@ -25,6 +25,7 @@
 #include "structures.h"
 #include "variables-extern.c"
 #include "affichage.h"
+#include "constants.h"
 
 #include "banque.h"
 #include "operations_formulaire.h"

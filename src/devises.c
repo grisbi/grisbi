@@ -24,6 +24,7 @@
 #include "structures.h"
 #include "variables-extern.c"
 #include "devises.h"
+#include "constants.h"
 
 
 
