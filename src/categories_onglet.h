@@ -16,9 +16,6 @@ void creation_liste_categories ( void );
 void merge_liste_categories ( void );
 void creation_liste_categ_combofix ( void );
 void mise_a_jour_categ ( void );
-struct struct_categ *ajoute_nouvelle_categorie ( gchar *categorie );
-struct struct_sous_categ *ajoute_nouvelle_sous_categorie ( gchar *sous_categorie,
-							   struct struct_categ *categorie );
 void calcule_total_montant_categ ( void );
 gchar *calcule_total_montant_categ_par_compte ( gint categ,
 						gint sous_categ,
@@ -33,4 +30,11 @@ gchar *categorie_name_by_no ( gint no_categorie,
 			      gint no_sous_categorie );
 gchar *sous_categorie_name_by_no ( gint no_categorie,
 				   gint no_sous_categorie );
+struct struct_categ *categ_par_nom ( gchar *nom_categ,
+				     gboolean creer,
+				     gint type_categ,
+				     gint no_derniere_sous_categ );
+struct struct_sous_categ *sous_categ_par_nom ( struct struct_categ *categ,
+					       gchar *nom_sous_categ,
+					       gboolean creer );
 

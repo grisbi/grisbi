@@ -1485,6 +1485,9 @@ gboolean changement_taille_liste_tiers ( GtkWidget *clist,
 
 void mise_a_jour_tiers ( void )
 {
+    if ( DEBUG )
+	printf ( "mise_a_jour_tiers\n" );
+
     creation_liste_tiers_combofix ();
 
     gtk_combofix_set_list ( GTK_COMBOFIX ( widget_formulaire_operations[TRANSACTION_FORM_PARTY] ),

@@ -163,6 +163,8 @@ gchar *categories_de_base_credit [] = {
 };
 
 
+gint rafraichir_categ;
+
 
 extern GSList *gsliste_echeances;  
 extern GSList *liste_categories_ventilation_combofix; 
@@ -170,8 +172,6 @@ extern GtkWidget *widget_formulaire_echeancier[19];
 extern GSList *liste_categories_ventilation_combofix; 
 extern GtkWidget *widget_formulaire_ventilation_echeances[8];
 extern GtkWidget *widget_formulaire_ventilation[8];
-
-
 
 /* **************************************************************************************************** */
 /* Fonction onglet_categories : */
@@ -1845,6 +1845,9 @@ retour_dialogue:
 	}
 
 
+	nouveau_no_categ = 0;
+	nouveau_no_sous_categ = 0;
+
 	if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_transfert )) )
 	{
 
@@ -1860,29 +1863,25 @@ retour_dialogue:
 				       " : ",
 				       2 );
 
-	    nouvelle_categ = g_slist_find_custom ( liste_struct_categories,
-						   split_categ[0],
-						   (GCompareFunc) recherche_categorie_par_nom ) -> data;
-	    nouveau_no_categ = nouvelle_categ -> no_categ;
+	    nouvelle_categ = categ_par_nom ( split_categ[0],
+					     0,
+					     0,
+					     0 );
 
-	    if ( split_categ[1] )
+	    if ( nouvelle_categ )
 	    {
-		nouvelle_sous_categ = g_slist_find_custom ( nouvelle_categ -> liste_sous_categ,
+		nouveau_no_categ = nouvelle_categ -> no_categ;
+
+		nouvelle_sous_categ = sous_categ_par_nom ( nouvelle_categ,
 							    split_categ[1],
-							    (GCompareFunc) recherche_sous_categorie_par_nom ) -> data;
-		nouveau_no_sous_categ = nouvelle_sous_categ -> no_sous_categ;
+							    0 );
+
+		if ( nouvelle_sous_categ )
+		    nouveau_no_sous_categ = nouvelle_sous_categ -> no_sous_categ;
 	    }
-	    else
-		nouveau_no_sous_categ = 0;
 
 	    g_strfreev ( split_categ );
 	}
-	else
-	{
-	    nouveau_no_categ = 0;
-	    nouveau_no_sous_categ = 0;
-	}
-
 
 	/* on fait le tour des opés pour mettre le nouveau numéro de categ et sous_categ */
 
@@ -2211,6 +2210,8 @@ retour_dialogue:
 	    return;
 	}
 
+	nouveau_no_categ = 0;
+	nouveau_no_sous_categ = 0;
 
 	if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_transfert )) )
 	{
@@ -2227,20 +2228,22 @@ retour_dialogue:
 				       " : ",
 				       2 );
 
-	    nouvelle_categ = g_slist_find_custom ( liste_struct_categories,
-						   split_categ[0],
-						   (GCompareFunc) recherche_categorie_par_nom ) -> data;
-	    nouveau_no_categ = nouvelle_categ -> no_categ;
+	    nouvelle_categ = categ_par_nom ( split_categ[0],
+					     0,
+					     0,
+					     0 );
 
-	    if ( split_categ[1] )
+	    if ( nouvelle_categ )
 	    {
-		nouvelle_sous_categ = g_slist_find_custom ( nouvelle_categ -> liste_sous_categ,
+		nouveau_no_categ = nouvelle_categ -> no_categ;
+
+		nouvelle_sous_categ =  sous_categ_par_nom ( nouvelle_categ,
 							    split_categ[1],
-							    (GCompareFunc) recherche_sous_categorie_par_nom ) -> data;
-		nouveau_no_sous_categ = nouvelle_sous_categ -> no_sous_categ;
+							    0 );
+
+		if ( nouvelle_sous_categ )
+		    nouveau_no_sous_categ = nouvelle_sous_categ -> no_sous_categ;
 	    }
-	    else
-		nouveau_no_sous_categ = 0;
 
 	    g_strfreev ( split_categ );
 	}
@@ -2382,74 +2385,20 @@ retour_recuperation :
     while ( categ[i] )
     {
 	gchar **split_categ;
-	GSList *liste_tmp;
+	struct struct_sous_categ *sous_categ;
 
-	split_categ = g_strsplit ( _(categ[i]),
+	split_categ = g_strsplit ( categ[i],
 				   " : ",
 				   2 );
 
-	liste_tmp = g_slist_find_custom ( liste_struct_categories,
-					  split_categ[0],
-					  ( GCompareFunc ) recherche_categorie_par_nom );
+	categorie = categ_par_nom( split_categ[0],
+				   1,
+				   debit,
+				   0 );
 
-	if ( !liste_tmp )
-	{
-	    /* la catégorie n'existe pas, on la crée */
-
-	    struct struct_sous_categ *sous_categ;
-
-	    categorie = malloc ( sizeof ( struct struct_categ ));
-
-	    categorie -> no_categ = ++no_derniere_categorie;
-	    categorie -> nom_categ = g_strdup ( split_categ[0] );
-	    categorie -> type_categ = debit;
-	    categorie -> no_derniere_sous_categ = 0;
-	    categorie -> liste_sous_categ = NULL;
-
-	    liste_struct_categories = g_slist_append ( liste_struct_categories,
-						       categorie );
-	    nb_enregistrements_categories++;
-
-	    /* on crée la sous-catégorie si elle existe */
-
-	    if ( split_categ[1] )
-	    {
-		sous_categ = malloc ( sizeof ( struct struct_sous_categ ));
-
-		sous_categ -> no_sous_categ = ++(categorie -> no_derniere_sous_categ );
-		sous_categ -> nom_sous_categ = g_strdup ( split_categ[1] );
-
-		categorie -> liste_sous_categ = g_slist_append ( categorie -> liste_sous_categ,
-								 sous_categ );
-	    }
-	}
-	else
-	{
-	    /*  la catégorie existe, on vérifie si la sous-catég existe */
-
-	    GSList *sous_liste_tmp;
-
-	    categorie = liste_tmp -> data;
-
-	    sous_liste_tmp = g_slist_find_custom ( categorie -> liste_sous_categ,
-						   split_categ[1],
-						   ( GCompareFunc ) recherche_sous_categorie_par_nom );
-
-	    if ( !sous_liste_tmp )
-	    {
-		/* la sous catégorie n'existe pas, on la crée */
-
-		struct struct_sous_categ *sous_categ;
-
-		sous_categ = malloc ( sizeof ( struct struct_sous_categ ));
-
-		sous_categ -> no_sous_categ = ++(categorie -> no_derniere_sous_categ );
-		sous_categ -> nom_sous_categ = g_strdup ( split_categ[1] );
-
-		categorie -> liste_sous_categ = g_slist_append ( categorie -> liste_sous_categ,
-								 sous_categ );
-	    }
-	}
+	sous_categ = sous_categ_par_nom ( categorie,
+					  split_categ[1],
+					  1 );
 
 	/* libère le tableau créé */
 
@@ -2599,6 +2548,10 @@ void creation_liste_categ_combofix ( void )
 
 void mise_a_jour_categ ( void )
 {
+    if ( DEBUG )
+	printf ( "mise_a_jour_categ\n" );
+
+
     creation_liste_categ_combofix ();
 
     gtk_combofix_set_list ( GTK_COMBOFIX ( widget_formulaire_operations[TRANSACTION_FORM_CATEGORY] ),
@@ -2629,63 +2582,6 @@ void mise_a_jour_categ ( void )
 }
 /***********************************************************************************************************/
 
-
-
-
-
-/***********************************************************************************************************/
-/* Fonction ajoute_nouvelle_categorie */
-/* appelée pour ajouter une nouvelle catég à la liste des catég */
-/* entrée : la nouvelle catég */
-/* retour : l'adr de la struct */
-/***********************************************************************************************************/
-
-struct struct_categ *ajoute_nouvelle_categorie ( gchar *categorie )
-{
-    struct struct_categ *nouvelle_categorie;
-
-    nouvelle_categorie = calloc ( 1,
-				  sizeof ( struct struct_categ ));
-
-    nouvelle_categorie -> no_categ = ++no_derniere_categorie;
-    nouvelle_categorie -> nom_categ = g_strdup ( g_strstrip ( categorie ));
-    nouvelle_categorie -> no_derniere_sous_categ = 0;
-    nouvelle_categorie -> liste_sous_categ = NULL;
-
-    liste_struct_categories = g_slist_append ( liste_struct_categories,
-					       nouvelle_categorie );
-    nb_enregistrements_categories++;
-
-    return ( nouvelle_categorie );
-}
-/***********************************************************************************************************/
-
-
-
-
-/***********************************************************************************************************/
-/* Fonction ajoute_nouvelle_sous_categorie */
-/* appelée pour ajouter une nouvelle sous catég à une catég */
-/* entrée : la nouvelle sous catég et l'adr de la struct de la catég correspondante */
-/* retour : l'adr de la struct */
-/***********************************************************************************************************/
-
-struct struct_sous_categ *ajoute_nouvelle_sous_categorie ( gchar *sous_categorie,
-							   struct struct_categ *categorie )
-{
-    struct struct_sous_categ *nouvelle_sous_categorie;
-
-    nouvelle_sous_categorie = malloc ( sizeof ( struct struct_sous_categ ));
-
-    nouvelle_sous_categorie -> no_sous_categ = ++( categorie->no_derniere_sous_categ );
-    nouvelle_sous_categorie -> nom_sous_categ = g_strdup ( g_strstrip ( sous_categorie ));
-
-    categorie -> liste_sous_categ = g_slist_append ( categorie -> liste_sous_categ,
-						     nouvelle_sous_categorie );
-
-    return ( nouvelle_sous_categorie );
-}
-/***********************************************************************************************************/
 
 
 
@@ -2883,7 +2779,10 @@ void appui_sur_ajout_categorie ( void )
 
     /* on l'ajoute à la liste des opés */
 
-    nouvelle_categorie = ajoute_nouvelle_categorie ( nom_categorie );
+    nouvelle_categorie = categ_par_nom ( nom_categorie,
+					 1,
+					 0,
+					 0 );
 
 
     /* on l'ajoute directement au ctree et on fait le tri pour éviter de toute la réafficher */
@@ -2952,9 +2851,9 @@ void appui_sur_ajout_sous_categorie ( void )
 
     /* on l'ajoute à la liste des opés */
 
-    nouvelle_sous_categorie = ajoute_nouvelle_sous_categorie ( nom_sous_categorie,
-							       categorie );
-
+    nouvelle_sous_categorie = sous_categ_par_nom ( categorie,
+						   nom_sous_categorie,
+						   1 );
 
     /* on l'ajoute directement au ctree et on fait le tri pour éviter de toute la réafficher */
 
@@ -3305,9 +3204,116 @@ gchar *sous_categorie_name_by_no ( gint no_categorie,
     }
     else
 	retour = NULL;
-    
-
-    return retour;
+     return retour;
 }
 /* **************************************************************************************************** */
+
+
+
+/* **************************************************************************************************** */
+/* retourne l'adr de la categ dont le nom est donné en argument */
+/* si pas trouvée : */
+/* renvoie NULL si creer = 0*/
+/* la crée et renvoie son adr avec le type_categ et la derniere sous_categ donnés si creer = 1 */
+/* type_categ = 0=crédit ; 1 = débit ; 2 = spécial */
+/* si on ajoute une categ, on met rafraichir_categ à 1 */
+/* **************************************************************************************************** */
+
+struct struct_categ *categ_par_nom ( gchar *nom_categ,
+				     gboolean creer,
+				     gint type_categ,
+				     gint no_derniere_sous_categ )
+{
+    if ( nom_categ
+	 &&
+	 strlen (g_strstrip ( nom_categ )))
+    {
+	GSList *liste_tmp;
+
+	liste_tmp = g_slist_find_custom ( liste_struct_categories,
+					  g_strstrip (nom_categ),
+					  (GCompareFunc) recherche_categorie_par_nom );
+
+	if ( liste_tmp )
+	    return liste_tmp -> data;
+	else
+	{
+	    if ( creer )
+	    {
+		struct struct_categ *nouvelle_categorie;
+
+		nouvelle_categorie = calloc ( 1,
+					      sizeof ( struct struct_categ ));
+
+		nouvelle_categorie -> no_categ = ++no_derniere_categorie;
+		nouvelle_categorie -> nom_categ = g_strdup ( g_strstrip ( nom_categ ));
+		nouvelle_categorie -> type_categ = type_categ;
+		nouvelle_categorie -> no_derniere_sous_categ = no_derniere_sous_categ;
+
+		liste_struct_categories = g_slist_append ( liste_struct_categories,
+							   nouvelle_categorie );
+		nb_enregistrements_categories++;
+		rafraichir_categ = 1;
+
+		return ( nouvelle_categorie );
+	    }
+	}
+    }
+    return NULL;
+}
+/* **************************************************************************************************** */
+   
+
+
+
+/* **************************************************************************************************** */
+/* retourne l'adr de la sous categ dont le nom est donné en argument */
+/* si pas trouvée : */
+/* la crée et renvoie son adr si creer=1 */
+/* renvoie NULL si creer = 0 */
+/* si on ajoute une categ, on met rafraichir_categ à 1 */
+/* **************************************************************************************************** */
+
+struct struct_sous_categ *sous_categ_par_nom ( struct struct_categ *categ,
+					       gchar *nom_sous_categ,
+					       gboolean creer )
+{
+    if ( categ
+	 &&
+	 nom_sous_categ
+	 &&
+	 strlen ( g_strstrip ( nom_sous_categ )))
+    {
+	GSList *liste_tmp;
+
+	liste_tmp = g_slist_find_custom ( categ -> liste_sous_categ,
+					  g_strstrip (nom_sous_categ),
+					  (GCompareFunc) recherche_sous_categorie_par_nom );
+
+	if ( liste_tmp )
+	    return liste_tmp -> data;
+	else
+	{
+	    if ( creer )
+	    {
+		struct struct_sous_categ *nouvelle_sous_categorie;
+
+		nouvelle_sous_categorie = malloc ( sizeof ( struct struct_sous_categ ));
+
+		nouvelle_sous_categorie -> no_sous_categ = ++( categ -> no_derniere_sous_categ );
+		nouvelle_sous_categorie -> nom_sous_categ = g_strdup ( g_strstrip ( nom_sous_categ ));
+
+		categ -> liste_sous_categ = g_slist_append ( categ -> liste_sous_categ,
+							     nouvelle_sous_categorie );
+
+		rafraichir_categ = 1;
+		return ( nouvelle_sous_categorie );
+	    }
+	}
+    }
+
+    return NULL;
+}
+/* **************************************************************************************************** */
+
 

@@ -8971,101 +8971,39 @@ gboolean charge_categ_version_0_4_0 ( xmlDocPtr doc )
 
 	    while ( node_detail )
 	    {
-		GSList *liste_tmp;
 		struct struct_categ *categorie;
 
 		if ( node_detail -> type != XML_TEXT_NODE )
 		{
+		    /*    pour réaliser la fusion on recherche la categ, elle est automatiquement ajoutée si */
+		    /* 	elle n'existe pas ; idem pour les sous categ */
 
-		    /* 	      on doit réaliser une fusion, pour ça, soit la catég existe, et on fait le */
-		    /* tour des sous catég en ajoutant celles qui n'existent pas, soit elle n'existe pas et on */
-		    /* ajoute la catég et ses sous categ */
+		    categorie = categ_par_nom ( xmlGetProp ( node_detail,
+							     "Nom" ),
+						1,
+						my_atoi ( xmlGetProp ( node_detail,
+									 "Type" )),
+						my_atoi ( xmlGetProp ( node_detail,
+								       "No_derniere_sous_cagegorie" )));
 
-		    liste_tmp = g_slist_find_custom ( liste_struct_categories,
-						      xmlGetProp ( node_detail,
-								   "Nom" ),
-						      (GCompareFunc) recherche_categorie_par_nom );
-
-
-		    if ( liste_tmp )
+		    if ( categorie )
 		    {
-			/* 		  la catégorie existe, on fait le tour des sous catégories */
-
-			categorie = liste_tmp -> data;
+			/*   on fait le tour des sous catégories */
 
 			node_sous_categ = node_detail -> children;
 
 			while ( node_sous_categ )
 			{
 			    struct struct_sous_categ *sous_categ;
-			    GSList *liste_tmp_2;
 
-			    /* on ne prend la sous catég que si elle n'existe pas */
+			    /* on crée la sous catég que si elle n'existe pas */
 
-			    liste_tmp_2 = g_slist_find_custom ( categorie -> liste_sous_categ,
-								xmlGetProp ( node_sous_categ,
-									     "Nom" ),
-								(GCompareFunc) recherche_sous_categorie_par_nom );
-
-			    if ( !liste_tmp_2 )
-			    {
-
-				sous_categ = calloc ( 1,
-						      sizeof ( struct struct_sous_categ ) );
-
-				sous_categ -> no_sous_categ = ++categorie -> no_derniere_sous_categ;
-
-				sous_categ -> nom_sous_categ = xmlGetProp ( node_sous_categ,
-									    "Nom" );
-
-				categorie -> liste_sous_categ = g_slist_append ( categorie -> liste_sous_categ,
-										 sous_categ );
-			    }
+			    sous_categ = sous_categ_par_nom ( categorie,
+							      xmlGetProp ( node_sous_categ,
+									   "Nom" ),
+							      1 );
 			    node_sous_categ = node_sous_categ -> next;
 			}
-		    }
-		    else
-		    {
-			/* la catégorie n'existe pas, on l'ajoute */
-
-
-			categorie = calloc ( 1,
-					     sizeof ( struct struct_categ ) );
-
-			categorie -> no_categ = ++no_derniere_categorie;
-			nb_enregistrements_categories++;
-
-			categorie -> nom_categ = xmlGetProp ( node_detail,
-							      "Nom" );
-			categorie -> type_categ = my_atoi ( xmlGetProp ( node_detail,
-									 "Type" ));
-			categorie -> no_derniere_sous_categ = my_atoi ( xmlGetProp ( node_detail,
-										     "No_derniere_sous_cagegorie" ));
-
-			/*  pour chaque categorie, on recupère les sous-categories */
-
-			categorie -> liste_sous_categ = NULL;
-			node_sous_categ = node_detail -> children;
-
-			while ( node_sous_categ )
-			{
-			    struct struct_sous_categ *sous_categ;
-
-			    sous_categ = calloc ( 1,
-						  sizeof ( struct struct_sous_categ ) );
-
-			    sous_categ -> no_sous_categ = my_atoi ( xmlGetProp ( node_sous_categ,
-										 "No" ));
-			    sous_categ -> nom_sous_categ = xmlGetProp ( node_sous_categ,
-									"Nom" );
-
-			    categorie -> liste_sous_categ = g_slist_append ( categorie -> liste_sous_categ,
-									     sous_categ );
-			    node_sous_categ = node_sous_categ -> next;
-			}
-
-			liste_struct_categories = g_slist_append ( liste_struct_categories,
-								   categorie );
 		    }
 		}
 		node_detail = node_detail -> next;

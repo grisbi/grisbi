@@ -68,6 +68,7 @@ extern struct operation_echeance *echeance_selectionnnee;
 extern gint enregistre_ope_au_retour_echeances; 
 extern GtkWidget *fleche_bas_echeancier;
 extern GtkWidget *fleche_haut_echeancier;
+extern gint rafraichir_categ;
 
 
 
@@ -1463,7 +1464,6 @@ void fin_edition_echeance ( void )
     gchar **tableau_char;
     gchar *pointeur_char;
     GSList *pointeur_liste;
-    gint rafraichir_categ;
 
     gint compte_virement;
     compte_virement = 0;
@@ -1737,45 +1737,25 @@ void fin_edition_echeance ( void )
 		    }
 		    else
 		    {	
-			pointeur_liste = g_slist_find_custom ( liste_struct_categories,
-							       tableau_char[0],
-							       ( GCompareFunc ) recherche_categorie_par_nom );
+			struct struct_sous_categ *sous_categ;
 
-			if ( pointeur_liste )
+			categ = categ_par_nom ( tableau_char[0],
+						1,
+						0,
+						0 );
+
+			if ( categ )
 			{
-			    categ = pointeur_liste -> data;
-			    rafraichir_categ = 0;
+			    echeance -> categorie = categ -> no_categ;
+
+			    sous_categ = sous_categ_par_nom ( categ,
+							      tableau_char[1],
+							      1 );
+
+			    if ( sous_categ )
+				echeance -> sous_categorie = sous_categ -> no_sous_categ;
 			}
-			else
-			{
-			    categ = ajoute_nouvelle_categorie ( tableau_char[0] );
-			    rafraichir_categ = 1;
-			}
 
-			echeance -> categorie = categ -> no_categ;
-
-			if ( tableau_char[1] && strlen (tableau_char[1]) )
-			{
-			    struct struct_sous_categ *sous_categ;
-
-			    pointeur_liste = g_slist_find_custom ( categ -> liste_sous_categ,
-								   tableau_char[1],
-								   ( GCompareFunc ) recherche_sous_categorie_par_nom );
-
-			    if ( pointeur_liste )
-			    {
-				sous_categ = pointeur_liste -> data;
-				rafraichir_categ = 0;
-			    }
-			    else
-			    {
-				sous_categ = ajoute_nouvelle_sous_categorie ( tableau_char[1],
-									      categ );
-				rafraichir_categ = 1;
-			    }
-
-			    echeance -> sous_categorie = sous_categ -> no_sous_categ;
-			}
 			echeance -> compte_virement = 0;
 			echeance -> operation_ventilee = 0;
 		    }
@@ -2063,44 +2043,22 @@ void fin_edition_echeance ( void )
 		}
 		else
 		{
-		    pointeur_liste = g_slist_find_custom ( liste_struct_categories,
-							   tableau_char[0],
-							   ( GCompareFunc ) recherche_categorie_par_nom );
+		    categ = categ_par_nom ( tableau_char[0],
+					    1,
+					    0,
+					    0 );
 
-		    if ( pointeur_liste )
-		    {
-			categ = pointeur_liste -> data;
-			rafraichir_categ = 0;
-		    }
-		    else
-		    {
-			categ = ajoute_nouvelle_categorie ( tableau_char[0] );
-			rafraichir_categ = 1;
-		    }
-
-		    operation -> categorie = categ -> no_categ;
-
-		    if ( tableau_char[1] && strlen (tableau_char[1]) )
+		    if ( categ )
 		    {
 			struct struct_sous_categ *sous_categ;
 
-			pointeur_liste = g_slist_find_custom ( categ -> liste_sous_categ,
-							       tableau_char[1],
-							       ( GCompareFunc ) recherche_sous_categorie_par_nom );
+			operation -> categorie = categ -> no_categ;
 
-			if ( pointeur_liste )
-			{
-			    sous_categ = pointeur_liste -> data;
-			    rafraichir_categ = 0;
-			}
-			else
-			{
-			    sous_categ = ajoute_nouvelle_sous_categorie ( tableau_char[1],
-									  categ );
-			    rafraichir_categ = 1;
-			}
-
-			operation -> sous_categorie = sous_categ -> no_sous_categ;
+			sous_categ = sous_categ_par_nom ( categ,
+							  tableau_char[1],
+							  1 );
+			if ( sous_categ )
+			    operation -> sous_categorie = sous_categ -> no_sous_categ;
 		    }
 		}
 	    }

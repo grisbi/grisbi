@@ -1660,8 +1660,6 @@ void fin_edition_ventilation_echeances ( void )
 	    {
 		/* ce n'est pas un virement, recherche les catég */
 
-		GSList *pointeur_liste;
-
 		/* si c'est une modif d'opé et que l'ancienne opé était un virement */
 		/* on marque cette opé comme supprimée et on en fait une nouvelle */
 
@@ -1678,41 +1676,25 @@ void fin_edition_ventilation_echeances ( void )
 
 		/* recherche des catégories */
 
-		pointeur_liste = g_slist_find_custom ( liste_struct_categories,
-						       tableau_char[0],
-						       ( GCompareFunc ) recherche_categorie_par_nom );
+		categ = categ_par_nom ( tableau_char[0],
+					1,
+					operation -> montant < 0,
+					0 );
 
-		if ( pointeur_liste )
-		    categ = pointeur_liste -> data;
-		else
-		{
-		    categ = ajoute_nouvelle_categorie ( tableau_char[0] );
-		    if ( operation -> montant < 0 )
-			categ -> type_categ = 1;
-		    else
-			categ -> type_categ = 0;
-		}
 
-		operation -> categorie = categ -> no_categ;
-
-		if ( tableau_char[1] && strlen (tableau_char[1]) )
+		if ( categ )
 		{
 		    struct struct_sous_categ *sous_categ;
 
-		    pointeur_liste = g_slist_find_custom ( categ -> liste_sous_categ,
-							   tableau_char[1],
-							   ( GCompareFunc ) recherche_sous_categorie_par_nom );
+		    operation -> categorie = categ -> no_categ;
 
-		    if ( pointeur_liste )
-			sous_categ = pointeur_liste -> data;
-		    else
-			sous_categ = ajoute_nouvelle_sous_categorie ( tableau_char[1],
-								      categ );
+		    sous_categ = sous_categ_par_nom ( categ,
+						      tableau_char[1],
+						      1 );
 
-		    operation -> sous_categorie = sous_categ -> no_sous_categ;
+		    if ( sous_categ )
+			operation -> sous_categorie = sous_categ -> no_sous_categ;
 		}
-		else
-		    operation -> sous_categorie = 0;
 	    }
 	    else
 	    {

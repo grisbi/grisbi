@@ -879,19 +879,16 @@ gint recupere_compte_par_nom_etat ( gchar *nom )
 gint recupere_categ_par_nom_etat ( gchar *nom )
 {
     gint no_categ;
-    GSList *liste_tmp;
     struct struct_categ *categ;
 
 
-    liste_tmp = g_slist_find_custom ( liste_struct_categories,
-				      g_strstrip ( nom ),
-				      (GCompareFunc) recherche_categorie_par_nom  );
+    categ = categ_par_nom ( nom,
+			    0,
+			    0,
+			    0 );
 
-    if ( liste_tmp )
-    {
-	categ = liste_tmp -> data;
+    if ( categ )
 	no_categ = categ -> no_categ;
-    }
     else
     {
 	no_categ = 0;

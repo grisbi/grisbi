@@ -3052,6 +3052,9 @@ void remplissage_liste_categ_etats ( void )
     if ( !liste_categ_etat )
 	return;
 
+    if ( DEBUG )
+	printf ( "remplissage_liste_categ_etats\n" );
+
     gtk_clist_clear ( GTK_CLIST ( liste_categ_etat ) );
 
     pointeur_liste = liste_struct_categories;
@@ -3324,6 +3327,9 @@ void remplissage_liste_ib_etats ( void )
     if ( !onglet_config_etat )
 	return;
 
+    if ( DEBUG )
+	printf ( "remplissage_liste_ib_etats\n" );
+
     gtk_clist_clear ( GTK_CLIST ( liste_ib_etat ) );
 
     pointeur_liste = liste_struct_imputation;
@@ -3515,6 +3521,9 @@ void remplissage_liste_tiers_etats ( void )
 
     if ( !onglet_config_etat )
 	return;
+
+    if ( DEBUG)
+	printf ( "remplissage_liste_tiers_etats\n" );
 
     gtk_clist_clear ( GTK_CLIST ( liste_tiers_etat ) );
 

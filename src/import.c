@@ -1339,58 +1339,22 @@ void creation_compte_importe ( struct struct_compte_importation *compte_import,
 
 		    /* récupération ou création de la catégorie */
 
-		    if ( !g_slist_find_custom ( liste_struct_categories,
-						g_strstrip ( tab_str[0] ),
-						(GCompareFunc) recherche_categorie_par_nom ))
+		    categ = categ_par_nom ( tab_str[0],
+					    1,
+					    operation_import -> montant < 0,
+					    0 );
+
+		    if ( categ )
 		    {
-			categ = calloc ( 1,
-					 sizeof ( struct struct_categ ));
+			operation -> categorie = categ -> no_categ;
 
-			categ -> no_categ = ++no_derniere_categorie;
-			categ -> nom_categ = g_strdup ( g_strstrip ( tab_str[0] ) );
+			/* récupération ou création de la sous-catégorie */
 
-			if ( operation_import -> montant < 0 )
-			    categ -> type_categ = 1;
-			else
-			    categ -> type_categ = 0;
-
-			nb_enregistrements_categories++;
-
-			liste_struct_categories = g_slist_append ( liste_struct_categories,
-								   categ );
-		    }
-		    else
-			categ = g_slist_find_custom ( liste_struct_categories,
-						      g_strstrip ( tab_str[0] ),
-						      (GCompareFunc) recherche_categorie_par_nom ) -> data;
-
-
-		    operation -> categorie = categ -> no_categ;
-
-
-		    /* récupération ou création de la sous-catégorie */
-
-		    if ( tab_str[1] )
-		    {
-			if ( !g_slist_find_custom ( categ -> liste_sous_categ,
-						    g_strstrip ( tab_str[1] ),
-						    (GCompareFunc) recherche_sous_categorie_par_nom ))
-			{
-			    sous_categ = calloc ( 1,
-						  sizeof ( struct struct_sous_categ ));
-
-			    sous_categ -> no_sous_categ = ++( categ -> no_derniere_sous_categ );
-			    sous_categ -> nom_sous_categ = g_strdup ( g_strstrip ( tab_str[1] ));
-
-			    categ -> liste_sous_categ = g_slist_append ( categ -> liste_sous_categ,
-									 sous_categ );
-			}
-			else
-			    sous_categ = g_slist_find_custom ( categ -> liste_sous_categ,
-							       g_strstrip ( tab_str[1] ),
-							       (GCompareFunc) recherche_sous_categorie_par_nom ) -> data;
-
-			operation -> sous_categorie = sous_categ -> no_sous_categ;
+			sous_categ = sous_categ_par_nom ( categ,
+							  tab_str[1],
+							  1 );
+			if ( sous_categ )
+			    operation -> sous_categorie = sous_categ -> no_sous_categ;
 		    }
 		    g_strfreev ( tab_str );
 		}
@@ -2057,8 +2021,6 @@ struct structure_operation *enregistre_ope_importee ( struct struct_ope_importat
 	    else
 	    {
 		struct struct_categ *categ;
-		struct struct_sous_categ *sous_categ ;
-
 
 		tab_str = g_strsplit ( operation_import -> categ,
 				       ":",
@@ -2067,58 +2029,24 @@ struct structure_operation *enregistre_ope_importee ( struct struct_ope_importat
 
 		/* récupération ou création de la catégorie */
 
-		if ( !g_slist_find_custom ( liste_struct_categories,
-					    g_strstrip ( tab_str[0] ),
-					    (GCompareFunc) recherche_categorie_par_nom ))
+		categ = categ_par_nom ( tab_str[0],
+					1,
+					operation_import -> montant < 0,
+					0 );
+
+		if ( categ )
 		{
-		    categ = calloc ( 1,
-				     sizeof ( struct struct_categ ));
+		    struct struct_sous_categ *sous_categ ;
 
-		    categ -> no_categ = ++no_derniere_categorie;
-		    categ -> nom_categ = g_strdup ( g_strstrip ( tab_str[0] ) );
+		    operation -> categorie = categ -> no_categ;
 
-		    if ( operation_import -> montant < 0 )
-			categ -> type_categ = 1;
-		    else
-			categ -> type_categ = 0;
+		    /* récupération ou création de la sous-catégorie */
 
-		    nb_enregistrements_categories++;
-
-		    liste_struct_categories = g_slist_append ( liste_struct_categories,
-							       categ );
-		}
-		else
-		    categ = g_slist_find_custom ( liste_struct_categories,
-						  g_strstrip ( tab_str[0] ),
-						  (GCompareFunc) recherche_categorie_par_nom ) -> data;
-
-
-		operation -> categorie = categ -> no_categ;
-
-
-		/* récupération ou création de la sous-catégorie */
-
-		if ( tab_str[1] )
-		{
-		    if ( !g_slist_find_custom ( categ -> liste_sous_categ,
-						g_strstrip ( tab_str[1] ),
-						(GCompareFunc) recherche_sous_categorie_par_nom ))
-		    {
-			sous_categ = calloc ( 1,
-					      sizeof ( struct struct_sous_categ ));
-
-			sous_categ -> no_sous_categ = ++( categ -> no_derniere_sous_categ );
-			sous_categ -> nom_sous_categ = g_strdup ( g_strstrip ( tab_str[1] ));
-
-			categ -> liste_sous_categ = g_slist_append ( categ -> liste_sous_categ,
-								     sous_categ );
-		    }
-		    else
-			sous_categ = g_slist_find_custom ( categ -> liste_sous_categ,
-							   g_strstrip ( tab_str[1] ),
-							   (GCompareFunc) recherche_sous_categorie_par_nom ) -> data;
-
-		    operation -> sous_categorie = sous_categ -> no_sous_categ;
+		    sous_categ = sous_categ_par_nom ( categ,
+						      g_strstrip ( tab_str[1]),
+						      1 );
+		    if ( sous_categ )
+			operation -> sous_categorie = sous_categ -> no_sous_categ;
 		}
 		g_strfreev ( tab_str );
 	    }

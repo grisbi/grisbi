@@ -2799,7 +2799,6 @@ void recuperation_categorie_formulaire ( struct structure_operation *operation,
 					 gint modification )
 {
     gchar *pointeur_char;
-    GSList *pointeur_liste;
     gchar **tableau_char;
     struct structure_operation *operation_2;
 
@@ -2946,55 +2945,28 @@ void recuperation_categorie_formulaire ( struct structure_operation *operation,
 			operation -> relation_no_compte = 0;
 		    }
 
-		    pointeur_liste = g_slist_find_custom ( liste_struct_categories,
-							   tableau_char[0],
-							   ( GCompareFunc ) recherche_categorie_par_nom );
+		    categ = categ_par_nom ( tableau_char[0],
+					    1,
+					    operation -> montant < 0,
+					    0 );
 
-		    if ( pointeur_liste )
-			categ = pointeur_liste -> data;
-		    else
-		    {
-			categ = ajoute_nouvelle_categorie ( tableau_char[0] );
-			if ( operation -> montant < 0 )
-			    categ -> type_categ = 1;
-			else
-			    categ -> type_categ = 0;
-		    }
-
-		    operation -> categorie = categ -> no_categ;
-
-		    if ( tableau_char[1] && strlen ( tableau_char[1] ) )
+		    if ( !categ )
 		    {
 			struct struct_sous_categ *sous_categ;
 
-			pointeur_liste = g_slist_find_custom ( categ -> liste_sous_categ,
-							       tableau_char[1],
-							       ( GCompareFunc ) recherche_sous_categorie_par_nom );
+			operation -> categorie = categ -> no_categ;
 
-			if ( pointeur_liste )
-			    sous_categ = pointeur_liste -> data;
-			else
-			    sous_categ = ajoute_nouvelle_sous_categorie ( tableau_char[1],
-									  categ );
+			sous_categ = sous_categ_par_nom ( categ,
+							  tableau_char[1],
+							  1 );
 
-			operation -> sous_categorie = sous_categ -> no_sous_categ;
+			if ( !sous_categ )
+			    operation -> sous_categorie = sous_categ -> no_sous_categ;
 		    }
-		    else
-			operation -> sous_categorie = 0;
 		}
-	    }
-	    else
-	    {
-		operation -> categorie = 0;
-		operation -> sous_categorie = 0;
 	    }
 	    g_strfreev ( tableau_char );
 	}
-    }
-    else
-    {
-	operation -> categorie = 0;
-	operation -> sous_categorie = 0;
     }
 }
 /******************************************************************************/
