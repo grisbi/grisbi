@@ -3095,7 +3095,7 @@ GtkWidget *onglet_etat_categories ( void )
 		       0 );
   gtk_widget_show ( hbox );
 
-  bouton_exclure_ope_sans_categ = gtk_check_button_new_with_label ( _("Exclude transactions with no category") );
+  bouton_exclure_ope_sans_categ = gtk_check_button_new_with_label ( _("Exclude transactions without category") );
   gtk_signal_connect_object ( GTK_OBJECT ( bouton_exclure_ope_sans_categ ),
 			      "toggled",
 			      GTK_SIGNAL_FUNC ( stylise_tab_label_etat ),
