@@ -67,7 +67,7 @@ extern gchar*  win32_app_subdir_folder_path       (gchar*);
 #define PIXMAPS_DIR win32_app_subdir_folder_path("pixmaps")  /* pixmaps */
 #define HELP_PATH   win32_app_subdir_folder_path("help")     /* help */
 #define LOCALEDIR   win32_app_subdir_folder_path("lib/locale")   /* locale */
-#define LOGO_PATH   win32_app_subdir_folder_path("pixmaps/grisbi-logo.png");
+#define LOGO_PATH   win32_app_subdir_folder_path("pixmaps/grisbi-logo.png")
 #define ANIM_PATH   win32_app_subdir_folder_path("pixmaps/euro.gif")  /* pixmaps */
 
 // -------------------------------------------------------------------------
