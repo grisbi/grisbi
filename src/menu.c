@@ -55,71 +55,12 @@ void init_menus ( GtkWidget * win )
       GNOMEUIINFO_END
     };
 
-/*   static GnomeUIInfo tmp_menu_parametres [] =  */
-/*     { */
-/*       GNOMEUIINFO_ITEM_DATA  ( N_("Main"), */
-/* 			       N_("Main"), */
-/* 			       preferences, */
-/* 			       NULL, */
-/* 			       NULL ), */
-/*       GNOMEUIINFO_ITEM_DATA  ( N_("Files"), */
-/* 			       N_("Files"), */
-/* 			       preferences, */
-/* 			       GINT_TO_POINTER ( 1 ), */
-/* 			       NULL ), */
-/*       GNOMEUIINFO_ITEM_DATA  ( N_("Scheduler"), */
-/* 			       N_("Scheduler"), */
-/* 			       preferences, */
-/* 			       GINT_TO_POINTER ( 2 ), */
-/* 			       NULL ), */
-/*       GNOMEUIINFO_ITEM_DATA  ( N_("Display"), */
-/* 			       N_("Display"), */
-/* 			       preferences, */
-/* 			       GINT_TO_POINTER ( 3 ), */
-/* 			       NULL ), */
-/*       GNOMEUIINFO_ITEM_DATA  ( N_("Applet"), */
-/* 			       N_("Applet"), */
-/* 			       preferences, */
-/* 			       GINT_TO_POINTER ( 4 ), */
-/* 			       NULL ), */
-/*       GNOMEUIINFO_ITEM_DATA  ( N_("Currencies"), */
-/* 			       N_("Currencies"), */
-/* 			       preferences, */
-/* 			       GINT_TO_POINTER ( 5 ), */
-/* 			       NULL ), */
-/*       GNOMEUIINFO_ITEM_DATA  ( N_("Banks"), */
-/* 			       N_("Banks"), */
-/* 			       preferences, */
-/* 			       GINT_TO_POINTER ( 6 ), */
-/* 			       NULL ), */
-/*       GNOMEUIINFO_ITEM_DATA  ( N_("Financial years"), */
-/* 			       N_("Financial years"), */
-/* 			       preferences, */
-/* 			       GINT_TO_POINTER ( 7 ), */
-/* 			       NULL ), */
-/*       GNOMEUIINFO_ITEM_DATA  ( N_("Methods of payment"), */
-/* 			       N_("Methods of payment"), */
-/* 			       preferences, */
-/* 			       GINT_TO_POINTER ( 8 ), */
-/* 			       NULL ), */
-/*       GNOMEUIINFO_ITEM_DATA  ( N_("Informations"), */
-/* 			       N_("Informations"), */
-/* 			       preferences, */
-/* 			       GINT_TO_POINTER ( 9 ), */
-/* 			       NULL ), */
-/*       GNOMEUIINFO_END */
-/*     }; */
-
   static GnomeUIInfo tmp_menu_importer [] = 
     {
       GNOMEUIINFO_ITEM ( N_("QIF File"),
 			       N_("Import QIF file"),
 			       importer_fichier_qif,
 			       import_xpm ),
-/*       GNOMEUIINFO_ITEM_STOCK ( N_("Fichier QIF GD"), */
-/* 			       N_("Import QIF files"), */
-/* 			       iqc_fichier, */
-/* 			       GNOME_STOCK_PIXMAP_CONVERT ), */
       GNOMEUIINFO_END
     };
 
@@ -186,11 +127,6 @@ void init_menus ( GtkWidget * win )
   static GnomeUIInfo tmp_menu_editer [2] = 
     {
       GNOMEUIINFO_MENU_PREFERENCES_ITEM (preferences, NULL),
-/*       GNOMEUIINFO_ITEM_DATA  ( N_("Preferences"), */
-/* 			       N_("Preferences"), */
-/* 			       preferences, */
-/* 			       NULL, */
-/* 			       NULL ), */
       GNOMEUIINFO_END
     };
 

@@ -514,9 +514,9 @@ struct struct_tiers *ajoute_nouveau_tiers ( gchar *tiers );
 void supprimer_tiers ( GtkWidget *bouton,
 		       gpointer null );
 void creation_liste_tiers_combofix ( void );
-void changement_taille_liste_tiers ( GtkWidget *clist,
-					   GtkAllocation *allocation,
-					   gpointer null );
+gboolean changement_taille_liste_tiers ( GtkWidget *clist,
+					 GtkAllocation *allocation,
+					 gpointer null );
 void mise_a_jour_tiers ( void );
 gint recherche_tiers_par_no ( struct struct_tiers *tiers,
 			      gint *no_tiers );
@@ -723,17 +723,13 @@ gint classe_liste_alphabetique ( gchar *string_1,
 
 GtkWidget *onglet_categories ( void );
 void remplit_arbre_categ ( void );
-void ouverture_node_categ ( GtkWidget *arbre,
-			    GtkCTreeNode *node,
-			    gpointer null );
-void selection_ligne_categ ( GtkCTree *arbre_categ,
-			     GtkCTreeNode *noeud,
-			     gint colonne,
-			     gpointer null );
-void verifie_double_click_categ ( GtkWidget *liste,
-				  GdkEventButton *ev,
-				  gpointer null );
-void enleve_selection_ligne_categ ( void );
+gboolean ouverture_node_categ ( GtkWidget *arbre, GtkCTreeNode *node,
+				gpointer null );
+gboolean selection_ligne_categ ( GtkCTree *arbre_categ, GtkCTreeNode *noeud,
+				 gint colonne, gpointer null );
+gboolean verifie_double_click_categ ( GtkWidget *liste, GdkEventButton *ev, 
+				      gpointer null );
+gboolean enleve_selection_ligne_categ ( void );
 void modification_du_texte_categ ( void );
 void clique_sur_modifier_categ ( void );
 void clique_sur_annuler_categ ( void );

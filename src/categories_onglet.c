@@ -516,6 +516,10 @@ GtkWidget *onglet_categories ( void )
 				    3,
 				    FALSE );
 
+  gtk_signal_connect_after ( GTK_OBJECT ( arbre_categ ),
+			     "button-press-event",
+			     GTK_SIGNAL_FUNC ( verifie_double_click_categ ),
+			     NULL );
   gtk_signal_connect ( GTK_OBJECT ( arbre_categ ),
 		       "tree-select-row",
 		       GTK_SIGNAL_FUNC ( selection_ligne_categ ),
@@ -524,10 +528,6 @@ GtkWidget *onglet_categories ( void )
 		       "tree-unselect-row",
 		       GTK_SIGNAL_FUNC ( enleve_selection_ligne_categ ),
 		       NULL );
-  gtk_signal_connect_after ( GTK_OBJECT ( arbre_categ ),
-			     "button-press-event",
-			     GTK_SIGNAL_FUNC ( verifie_double_click_categ ),
-			     NULL );
   gtk_signal_connect ( GTK_OBJECT ( arbre_categ ),
 		       "size-allocate",
 		       GTK_SIGNAL_FUNC ( changement_taille_liste_tiers ),
@@ -908,9 +908,8 @@ void remplit_arbre_categ ( void )
 /* remplit ce qui doit être affiché */
 /* **************************************************************************************************** */
 
-void ouverture_node_categ ( GtkWidget *arbre,
-			    GtkCTreeNode *node,
-			    gpointer null )
+gboolean ouverture_node_categ ( GtkWidget *arbre, GtkCTreeNode *node, 
+				gpointer null )
 {			    
   GtkCTreeRow *row;
   gchar *text[4];
@@ -1181,6 +1180,7 @@ void ouverture_node_categ ( GtkWidget *arbre,
 
   gtk_clist_thaw ( GTK_CLIST ( arbre_categ ));
 
+  return FALSE;
 }
 /* **************************************************************************************************** */
 
@@ -1188,10 +1188,8 @@ void ouverture_node_categ ( GtkWidget *arbre,
 
 
 /* **************************************************************************************************** */
-void selection_ligne_categ ( GtkCTree *arbre_categ,
-			     GtkCTreeNode *noeud,
-			     gint colonne,
-			     gpointer null )
+gboolean selection_ligne_categ ( GtkCTree *arbre_categ, GtkCTreeNode *noeud,
+				 gint colonne, gpointer null )
 {
   GtkCTreeNode *node_tmp;
 
@@ -1296,14 +1294,15 @@ void selection_ligne_categ ( GtkCTree *arbre_categ,
       gtk_widget_set_sensitive ( entree_nom_categ,
 				 TRUE );
     }
+
+  return FALSE;
 }
 /* **************************************************************************************************** */
 
 
 /* **************************************************************************************************** */
-void verifie_double_click_categ ( GtkWidget *liste,
-				  GdkEventButton *ev,
-				  gpointer null )
+gboolean verifie_double_click_categ ( GtkWidget *liste, GdkEventButton *ev,
+				      gpointer null )
 {
   if ( ev -> type == GDK_2BUTTON_PRESS )
     {
@@ -1323,8 +1322,15 @@ void verifie_double_click_categ ( GtkWidget *liste,
 	  operation = gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_categ ),
 						    GTK_CTREE_NODE ( ( GTK_CLIST ( arbre_categ ) -> selection ) -> data ) );
 
-	  /* si c'est une opé de ventilation, on se place sur l'opé ventilée correspondante */
- 
+	  /* This is a kludge but I do not want to spend too much time
+	     on this nasty bug.  OK, we loose a very small feature,
+	     but we have far too much open bugs to fix such an
+	     unimportant bug. */
+	  if (!operation)
+	    return;
+
+	  /* si c'est une opé de ventilation, on se place sur l'opé
+	     ventilée correspondante */ 
 	  if ( operation -> no_operation_ventilee_associee )
 	    {
 	      p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> no_compte;
@@ -1354,7 +1360,7 @@ void verifie_double_click_categ ( GtkWidget *liste,
 
 
 /* **************************************************************************************************** */
-void enleve_selection_ligne_categ ( void )
+gboolean enleve_selection_ligne_categ ( void )
 {
   gtk_widget_set_sensitive ( bouton_supprimer_categ,
 			     FALSE );
@@ -1384,6 +1390,7 @@ void enleve_selection_ligne_categ ( void )
 				     GTK_SIGNAL_FUNC ( modification_du_texte_categ),
 				     NULL );
 
+  return FALSE;
 }
 /* **************************************************************************************************** */
 

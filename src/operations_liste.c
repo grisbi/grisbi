@@ -266,7 +266,7 @@ void creation_listes_operations ( void )
 			   GTK_SIGNAL_FUNC ( changement_taille_liste_ope ),
 			   GINT_TO_POINTER ( i ) );
       gtk_signal_connect ( GTK_OBJECT ( liste ),
-			   "draw",
+			   "map",
 			   GTK_SIGNAL_FUNC ( verification_mise_a_jour_liste ),
 			   NULL );
        gtk_signal_connect_after ( GTK_OBJECT ( onglet ),
@@ -439,7 +439,7 @@ void ajoute_nouvelle_liste_operation ( gint no_compte )
 		       GTK_SIGNAL_FUNC ( changement_taille_liste_ope ),
 		       GINT_TO_POINTER ( no_compte ) );
   gtk_signal_connect ( GTK_OBJECT ( liste ),
-		       "draw",
+		       "map",
 		       GTK_SIGNAL_FUNC ( verification_mise_a_jour_liste ),
 		       NULL );
   gtk_signal_connect_after ( GTK_OBJECT ( liste ),
@@ -1482,7 +1482,7 @@ void edition_operation ( void )
     {
       gtk_widget_show ( frame_droite_bas );
       gtk_signal_connect ( GTK_OBJECT ( frame_droite_bas ),
-			   "draw",
+			   "map",
 			   GTK_SIGNAL_FUNC ( verifie_ligne_selectionnee_visible ),
 			   NULL );
     }

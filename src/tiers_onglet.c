@@ -1456,9 +1456,9 @@ void creation_liste_tiers_combofix ( void )
 /* pour mettre la taille des différentes colonnes */
 /* ***************************************************************************************************** */
 
-void changement_taille_liste_tiers ( GtkWidget *clist,
-				     GtkAllocation *allocation,
-				     gpointer null )
+gboolean changement_taille_liste_tiers ( GtkWidget *clist,
+					 GtkAllocation *allocation,
+					 gpointer null )
 {
   gint tiers, date;
   gint largeur;
@@ -1482,6 +1482,7 @@ void changement_taille_liste_tiers ( GtkWidget *clist,
 			       3,
 			       date );
 
+  return FALSE;
 }
 /* ***************************************************************************************************** */
 
