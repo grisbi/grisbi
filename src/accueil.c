@@ -395,7 +395,7 @@ void change_temps ( GtkWidget *label_temps )
 		      "UTF-8", "ISO-8859-1", 
 		      NULL, NULL, &error);
   /* Capitalize */
-  tampon_date[0] = toupper ( tampon_date[0]);
+  tampon[0] = toupper ( tampon[0] );
 
   gtk_label_set_text ( GTK_LABEL (label_jour ),
 		       tampon );
