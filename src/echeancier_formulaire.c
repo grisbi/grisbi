@@ -1047,7 +1047,8 @@ gboolean entree_perd_focus_echeancier ( GtkWidget *entree,
 		if ( !strcmp ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree ))),
 			       _("Breakdown of transaction") ))
 		{
-		    gtk_widget_show ( widget_formulaire_echeancier[SCHEDULER_FORM_BREAKDOWN] );
+		    if ( !etat.formulaire_echeance_dans_fenetre )
+			gtk_widget_show ( widget_formulaire_echeancier[SCHEDULER_FORM_BREAKDOWN] );
 		    gtk_widget_set_sensitive ( widget_formulaire_echeancier[SCHEDULER_FORM_EXERCICE],
 					       FALSE );
 		    gtk_widget_set_sensitive ( widget_formulaire_echeancier[SCHEDULER_FORM_BUDGETARY],
