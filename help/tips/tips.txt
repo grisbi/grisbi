@@ -1,11 +1,11 @@
-1 - "That you can press <tt>Ctrl-R</tt> to reconcile a transaction in transactions list."
+1 - "You can press <tt>Ctrl-R</tt> to reconcile a transaction in transactions list."
 
-2 - "That Grisbi automatically save a copy of your work if it segfaults.
+2 - "Grisbi automatically save a copy of your work if it segfaults.
 
 Thus it is unlikely that you loose any data in case Grisbi encounters a segmentation error."
 
-3 - "That Grisbi can import Gnucash files natively, then you don't loose your work when you switch from Gnucash to Grisbi."
+3 - "Grisbi can import Gnucash files natively, then you don't loose your work when you switch from Gnucash to Grisbi."
 
-4 - "That you can create categories or budgetary lines directly by typing them in transaction form.
+4 - "You can create categories or budgetary lines directly by typing them in transaction form.
 
 If you write a category or a budgetary line which name contains a ':', a sub-category or sub-budgetary line will be created as well."

@@ -1,0 +1,46 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2004-07-03 17:29+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: tips.txt:3
+msgid ""
+"Grisbi automatically save a copy of your work if it segfaults.\n"
+"\n"
+"Thus it is unlikely that you loose any data in case Grisbi encounters a "
+"segmentation error."
+msgstr ""
+
+#: tips.txt:7
+msgid ""
+"Grisbi can import Gnucash files natively, then you don't loose your work "
+"when you switch from Gnucash to Grisbi."
+msgstr ""
+
+#: tips.txt:9
+msgid ""
+"You can create categories or budgetary lines directly by typing them in "
+"transaction form.\n"
+"\n"
+"If you write a category or a budgetary line which name contains a ':', a sub-"
+"category or sub-budgetary line will be created as well."
+msgstr ""
+
+#: tips.txt:1
+msgid ""
+"You can press <tt>Ctrl-R</tt> to reconcile a transaction in transactions "
+"list."
+msgstr ""
