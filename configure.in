@@ -1,11 +1,12 @@
 AC_INIT(src/main.c)
 AM_CONFIG_HEADER(config.h)
-AM_INIT_AUTOMAKE(grisbi,0.5.0)
+AM_INIT_AUTOMAKE(grisbi,0.4.1)
 AM_ACLOCAL_INCLUDE(macros)
-AM_MAINTAINER_MODE
+
+AM_MAINTAINER_MODE()
 
 PACKAGE=grisbi
-VERSION=0.5.0
+VERSION=0.4.1
 dnl MKINSTALLDIRS
 dnl AC_DEFINE_UNQUOTED(PACKAGE, "$PACKAGE")
 dnl AC_DEFINE_UNQUOTED(VERSION, "$VERSION")
@@ -22,15 +23,24 @@ ALL_LINGUAS="fr"
 AM_GNU_GETTEXT
 AC_CHECK_LIB(intl,main)
 
-AC_SUBST(prefix)
+GNOME_INIT
 
-PKG_CHECK_MODULES(GNOMELIBS, [ libgnome-2.0 libgnomeui-2.0 gtk+-2.0 glib-2.0 gdk-pixbuf-2.0 libxml ])
-CFLAGS="$CFLAGS $GNOMELIBS_CFLAGS"
-LDFLAGS="$LDFLAGS $GNOMELIBS_LIBS"
+GNOME_COMPILE_WARNINGS
+GNOME_X_CHECKS
+GNOME_XML_CHECK
 
+
+
+GNOME_CHECK_MODULES(GNOMELIBS, [ gnome gtk glib xml gdk_pixbuf print ])
+EXTRA_GNOME_CFLAGS="$EXTRA_GNOME_CFLAGS $GNOMELIBS_CFLAGS"
+EXTRA_GNOME_LIBS="$EXTRA_GNOME_LIBS $GNOMELIBS_LIBS"
+AC_SUBST(EXTRA_GNOME_LIBS)
+AC_SUBST(EXTRA_GNOME_CFLAGS)
 
 AC_SUBST(CFLAGS)
 AC_SUBST(LDFLAGS)
+
+AC_SUBST(prefix)
 
 dnl ******************************
 dnl Makefiles
@@ -38,12 +48,11 @@ dnl ******************************
 
 AC_OUTPUT([
 Makefile
+po/Makefile.in
+intl/Makefile
+src/Makefile
+macros/Makefile
 help/Makefile
 help/C/Makefile
 help/fr/Makefile
-intl/Makefile
-macros/Makefile
-pixmaps/Makefile
-po/Makefile.in
-src/Makefile
 ])
