@@ -156,7 +156,7 @@ void ecrire_texte(GnomePrintContext * pc, char * texte)
   point_y+=30;
 }
 
-
+/*
 gboolean impression_etat ( struct struct_etat *etat )
 {
   GnomePrintContext *pc = NULL;
@@ -203,7 +203,7 @@ gboolean impression_etat ( struct struct_etat *etat )
 
   gnome_print_master_close(gpm);
   if (do_preview)
-    {
+  {
       GnomePrintMasterPreview * pmp;
       pmp = gnome_print_master_preview_new(gpm, "Prévisualisation de l'impression de Grisbi");
       gtk_widget_show(GTK_WIDGET(pmp));
@@ -213,9 +213,11 @@ gboolean impression_etat ( struct struct_etat *etat )
       gnome_print_master_print(gpm);
     }
 
-  /* FIXME: quand est-ce qu'on le détruit ? */
-/*   gtk_object_unref (GTK_OBJECT (pc)); */
-
   return 1;
 
+  // FIXME: quand est-ce qu'on le détruit ?
+  //   gtk_object_unref (GTK_OBJECT (pc));
+
+
 }
+*/

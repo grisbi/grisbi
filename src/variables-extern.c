@@ -617,6 +617,7 @@ extern GtkWidget *bouton_etat_courant;          /* adr du bouton de l'état en co
 extern struct struct_etat *etat_courant;
 extern GtkWidget *bouton_effacer_etat;
 extern GtkWidget *bouton_personnaliser_etat;
+extern GtkWidget *bouton_imprimer_etat;
 extern GtkWidget *scrolled_window_etat;          /* contient l'état en cours */
 extern gint nb_colonnes;
 extern gint ligne_debut_partie;

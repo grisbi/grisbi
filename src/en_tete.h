@@ -862,69 +862,108 @@ void click_type_ib_etat ( gint type );
 GtkWidget *onglet_etat_tiers ( struct struct_etat *etat );
 GtkWidget *onglet_etat_texte ( struct struct_etat *etat );
 GtkWidget *onglet_etat_montant ( struct struct_etat *etat );
-void affichage_etat ( struct struct_etat *etat );
+void affichage_etat ( struct struct_etat *etat, 
+		      struct struct_etat_affichage *affichage );
+void impression_etat ( struct struct_etat *etat );
+void rafraichissement_etat ( struct struct_etat *etat );
 gint classement_liste_opes_etat ( struct structure_operation *operation_1,
 				  struct structure_operation *operation_2 );
-void etape_finale_affichage_etat ( GSList *ope_selectionnees );
-gint affiche_total_categories ( GtkWidget *table_etat,
-				gint ligne );
-gint affiche_total_sous_categ ( GtkWidget *table_etat,
-				gint ligne );
-gint affiche_total_ib ( GtkWidget *table_etat,
-			gint ligne );
-gint affiche_total_sous_ib ( GtkWidget *table_etat,
-			     gint ligne );
-gint affiche_total_compte ( GtkWidget *table_etat,
-			    gint ligne );
-gint affiche_total_tiers ( GtkWidget *table_etat,
-			   gint ligne );
-gint affichage_ligne_ope ( GtkWidget *table_etat,
-			   struct structure_operation *operation,
-			   gint ligne );
-gint affiche_total_partiel ( GtkWidget *table_etat,
-			     gdouble total_partie,
-			     gint ligne,
-			     gint type );
-gint affiche_total_general ( GtkWidget *table_etat,
-			     gdouble total_general,
-			     gint ligne );
-gint affiche_categ_etat ( struct structure_operation *operation,
-			  GtkWidget *table_etat,
-			  gchar *decalage_categ,
-			  gint ligne );
-gint affiche_sous_categ_etat ( struct structure_operation *operation,
-			       GtkWidget *table_etat,
-			       gchar *decalage_sous_categ,
-			       gint ligne );
-gint affiche_ib_etat ( struct structure_operation *operation,
-		       GtkWidget *table_etat,
-		       gchar *decalage_ib,
-		       gint ligne );
-gint affiche_sous_ib_etat ( struct structure_operation *operation,
-			    GtkWidget *table_etat,
-			    gchar *decalage_sous_ib,
-			    gint ligne );
-gint affiche_compte_etat ( struct structure_operation *operation,
-			   GtkWidget *table_etat,
-			   gchar *decalage_compte,
-			   gint ligne );
-gint affiche_tiers_etat ( struct structure_operation *operation,
-			  GtkWidget *table_etat,
-			  gchar *decalage_tiers,
-			  gint ligne );
-gint affiche_titre_revenus_etat ( GtkWidget *table_etat,
-				  gint ligne );
-gint affiche_titre_depenses_etat ( GtkWidget *table_etat,
-				   gint ligne );
-gint affiche_totaux_sous_jaccent ( GtkWidget *table_etat,
-				   gint origine,
-				   gint ligne );
+void etape_finale_affichage_etat ( GSList *ope_selectionnees, 
+				   struct struct_etat_affichage *affichage );
 void denote_struct_sous_jaccentes ( gint origine );
-gint affiche_titres_colonnes ( GtkWidget *table_etat,
-			       gint ligne );
+
 
 /***********************************/ 
 /* fichier impression.c */
 /***********************************/ 
 
-gboolean impression_etat ( struct struct_etat *etat );
+
+
+/***********************************/ 
+/* fichier etats_gtktable.c */
+/***********************************/ 
+
+gint gtktable_initialise ( );
+gint gtktable_affiche_titre ( gint ligne );
+gint gtktable_affiche_separateur ( gint ligne );
+gint gtktable_affiche_total_categories ( gint ligne );
+gint gtktable_affiche_total_sous_categ ( gint ligne );
+gint gtktable_affiche_total_ib ( gint ligne );
+gint gtktable_affiche_total_sous_ib ( gint ligne );
+gint gtktable_affiche_total_compte ( gint ligne );
+gint gtktable_affiche_total_tiers ( gint ligne );
+gint gtktable_affichage_ligne_ope ( struct structure_operation *operation,
+				    gint ligne );
+gint gtktable_affiche_total_partiel ( gdouble total_partie,
+				      gint ligne,
+				      gint type );
+gint gtktable_affiche_total_general ( gdouble total_general,
+				      gint ligne );
+gint gtktable_affiche_categ_etat ( struct structure_operation *operation,
+				   gchar *decalage_categ,
+				   gint ligne );
+gint gtktable_affiche_sous_categ_etat ( struct structure_operation *operation,
+					gchar *decalage_sous_categ,
+					gint ligne );
+gint gtktable_affiche_ib_etat ( struct structure_operation *operation,
+				gchar *decalage_ib,
+				gint ligne );
+gint gtktable_affiche_sous_ib_etat ( struct structure_operation *operation,
+				     gchar *decalage_sous_ib,
+				     gint ligne );
+gint gtktable_affiche_compte_etat ( struct structure_operation *operation,
+				    gchar *decalage_compte,
+				    gint ligne );
+gint gtktable_affiche_tiers_etat ( struct structure_operation *operation,
+				   gchar *decalage_tiers,
+				   gint ligne );
+gint gtktable_affiche_titre_revenus_etat ( gint ligne );
+gint gtktable_affiche_titre_depenses_etat ( gint ligne );
+gint gtktable_affiche_totaux_sous_jaccent ( gint origine,
+					    gint ligne );
+gint gtktable_affiche_titres_colonnes ( gint ligne );
+
+
+/***********************************/ 
+/* fichier etats_gnomeprint.c */
+/***********************************/ 
+
+gint gnomeprint_initialise ( );
+gint gnomeprint_affiche_titre ( gint ligne );
+gint gnomeprint_affiche_separateur ( gint ligne );
+gint gnomeprint_affiche_total_categories ( gint ligne );
+gint gnomeprint_affiche_total_sous_categ ( gint ligne );
+gint gnomeprint_affiche_total_ib ( gint ligne );
+gint gnomeprint_affiche_total_sous_ib ( gint ligne );
+gint gnomeprint_affiche_total_compte ( gint ligne );
+gint gnomeprint_affiche_total_tiers ( gint ligne );
+gint gnomeprint_affichage_ligne_ope ( struct structure_operation *operation,
+				      gint ligne );
+gint gnomeprint_affiche_total_partiel ( gdouble total_partie,
+					gint ligne,
+					gint type );
+gint gnomeprint_affiche_total_general ( gdouble total_general,
+					gint ligne );
+gint gnomeprint_affiche_categ_etat ( struct structure_operation *operation,
+				     gchar *decalage_categ,
+				     gint ligne );
+gint gnomeprint_affiche_sous_categ_etat ( struct structure_operation *operation,
+					  gchar *decalage_sous_categ,
+					  gint ligne );
+gint gnomeprint_affiche_ib_etat ( struct structure_operation *operation,
+				  gchar *decalage_ib,
+				  gint ligne );
+gint gnomeprint_affiche_sous_ib_etat ( struct structure_operation *operation,
+				       gchar *decalage_sous_ib,
+				       gint ligne );
+gint gnomeprint_affiche_compte_etat ( struct structure_operation *operation,
+				      gchar *decalage_compte,
+				      gint ligne );
+gint gnomeprint_affiche_tiers_etat ( struct structure_operation *operation,
+				     gchar *decalage_tiers,
+				     gint ligne );
+gint gnomeprint_affiche_titre_revenus_etat ( gint ligne );
+gint gnomeprint_affiche_titre_depenses_etat ( gint ligne );
+gint gnomeprint_affiche_totaux_sous_jaccent ( gint origine,
+					      gint ligne );
+gint gnomeprint_affiche_titres_colonnes ( gint ligne );

@@ -593,6 +593,7 @@ GtkWidget *bouton_etat_courant;          /* adr du bouton de l'état en cours, po
 struct struct_etat *etat_courant;
 GtkWidget *bouton_effacer_etat;
 GtkWidget *bouton_personnaliser_etat;
+GtkWidget *bouton_imprimer_etat;
 GtkWidget *scrolled_window_etat;          /* contient l'état en cours */
 gint nb_colonnes;
 gint ligne_debut_partie;
