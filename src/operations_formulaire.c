@@ -1849,7 +1849,8 @@ gboolean completion_operation_par_tiers ( GtkWidget *entree )
 
 			    entree_prend_focus ( widget );
 
-			    if ( operation -> relation_no_operation != -1 )
+			    if ( operation -> relation_no_operation != -1 &&
+				 operation -> relation_no_compte != -1 )
 			    {
 				p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> relation_no_compte;
 				gtk_combofix_set_text ( GTK_COMBOFIX ( widget ),
@@ -1956,7 +1957,8 @@ gboolean completion_operation_par_tiers ( GtkWidget *entree )
 
 		case TRANSACTION_FORM_CONTRA:
 
-		    if ( operation -> relation_no_operation )
+		    if ( operation -> relation_no_operation &&
+			 operation -> relation_no_compte != -1 )
 		    {
 			if ( operation -> montant < 0 )
 			    menu = creation_menu_types ( 2, operation -> relation_no_compte, 0  );
@@ -3119,8 +3121,7 @@ void recuperation_categorie_formulaire ( struct structure_operation *operation,
 	    /*  auparavant, si c'est une modif d'opé et que l'ancienne opé était un virement, on  */
 	    /* vire l'ancienne opé associée */
 
-	    if ( modification
-		 &&
+	    if ( modification &&
 		 operation -> relation_no_operation )
 	    {
 		/* c'était un virement, et ce ne l'est plus, donc on efface l'opé en relation */

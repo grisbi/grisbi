@@ -2857,7 +2857,8 @@ void completion_operation_par_tiers_echeancier ( void )
 
     /* vérifie si c'est un virement */
 
-    if ( operation -> relation_no_operation )
+    if ( operation -> relation_no_operation &&
+	 operation -> relation_no_compte != -1 )
     {
 	/* c'est un virement, on l'affiche */
 
