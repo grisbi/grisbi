@@ -1144,7 +1144,10 @@ gboolean selectionne_ligne_souris ( GtkCList *liste,
     if ( etat.equilibrage &&
 	 colonne == TRANSACTION_COL_NB_PR &&
 	 !(ligne % NB_LIGNES_OPE) )
+    {
 	pointe_equilibrage ( ligne );
+	p_tab_nom_de_compte_variable =  p_tab_nom_de_compte + compte_courant;
+    }
 
     /* Récupération de la 1ère ligne de l'opération cliquée */
 

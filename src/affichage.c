@@ -429,11 +429,11 @@ GtkWidget * onglet_display_fonts ( void )
 
     font_button = gtk_button_new ();
     hbox_font = gtk_hbox_new ( FALSE, 0 );
-    list_font_name_label = gtk_label_new (list_font_name);
+    list_font_name_label = gtk_label_new (latin2utf8 (list_font_name));
     if ( fonte_liste )
     {
 	gtk_widget_modify_font (list_font_name_label,
-				pango_font_description_from_string (fonte_liste));
+				pango_font_description_from_string (latin2utf8 (fonte_liste)));
     }
     gtk_box_pack_start ( GTK_BOX ( hbox_font ), 
 			 list_font_name_label,
@@ -458,7 +458,7 @@ GtkWidget * onglet_display_fonts ( void )
 
     update_font_button(list_font_name_label,
 		       list_font_size_label,
-		       fonte_liste);
+		       latin2utf8 (fonte_liste));
 
     /*     mise en place du raz de la fonte */
 
@@ -753,7 +753,7 @@ gboolean init_fonts ( GtkWidget * button,
     GdkFont *font;
     gint i, size;
 
-    fonte_liste = "Sans 10";
+    fonte_liste = g_strdup (_("Sans 10"));
     update_font_button (list_font_name_label, 
 			list_font_size_label, 
 			fonte_liste);
@@ -814,14 +814,14 @@ void choix_fonte ( GtkWidget *bouton,
 	    fontname = gtk_font_selection_dialog_get_font_name (GTK_FONT_SELECTION_DIALOG(dialog));
 	    gtk_widget_destroy (dialog);  
 	    update_font_button (list_font_name_label, list_font_size_label, 
-				fontname);
+				latin2utf8 (fontname));
 	    break;
 	default:
 	    gtk_widget_destroy (dialog);
 	    return;
     }
 
-    fonte_liste = fontname;
+    fonte_liste = latin2utf8 (fontname);
 
     if ( nb_comptes )
     {

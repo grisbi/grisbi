@@ -133,7 +133,7 @@ GtkWidget *creation_liste_comptes_onglet ( void )
 
     /*  création d'une vbox contenant la liste des comptes */
 
-    vbox_liste_comptes_onglet = gtk_vbox_new ( FALSE, 10);
+    vbox_liste_comptes_onglet = gtk_vbox_new ( FALSE, 0);
     gtk_scrolled_window_add_with_viewport ( GTK_SCROLLED_WINDOW (scrolled_window ),
 					    vbox_liste_comptes_onglet );
     gtk_viewport_set_shadow_type ( GTK_VIEWPORT ( GTK_BIN ( scrolled_window )  -> child ),

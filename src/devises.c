@@ -2129,7 +2129,7 @@ gchar * devise_name_by_no ( gint no_devise )
     GSList *liste_tmp;
 
     liste_tmp = g_slist_find_custom ( liste_struct_devises,
-				      GINT_TO_POINTER ( DEVISE ),
+				      GINT_TO_POINTER (no_devise),
 				      (GCompareFunc) recherche_devise_par_no );
 
     if ( liste_tmp )

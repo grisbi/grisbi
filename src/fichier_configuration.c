@@ -137,7 +137,7 @@ void charge_configuration ( void )
 		}
 
 		if ( !strcmp ( node_general -> name, "Fonte_des_listes" ) ) {
-		    fonte_liste = xmlNodeGetContent ( node_general);
+		    fonte_liste = latin2utf8 (xmlNodeGetContent ( node_general));
 		}
 
 		if ( !strcmp ( node_general -> name, "Navigateur_web" ) ) {
@@ -414,6 +414,7 @@ void charge_configuration_ancien ( void )
 	return;
     }
 
+    fonte_liste = NULL;
 
     /*     on lit ligne par ligne... */
 
@@ -535,6 +536,7 @@ void charge_configuration_ancien ( void )
 	dernier_chemin_de_travail = g_strconcat ( my_get_gsb_file_default_dir(),
 						  C_DIRECTORY_SEPARATOR,
 						  NULL );
+
     if ( fonte_liste && !strlen( fonte_liste ) )
 	fonte_liste = NULL;
 
