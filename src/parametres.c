@@ -1,7 +1,7 @@
 /* permet la configuration du logiciel */
 
-/*     Copyright (C) 2000-2003  Cédric Auger */
-/* 			cedric@grisbi.org */
+/*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org) */
+/*			2003 Benjamin Drieu (bdrieu@april.org) */
 /* 			http://www.grisbi.org */
 
 /*     This program is free software; you can redistribute it and/or modify */
@@ -24,110 +24,269 @@
 #include "variables-extern.c"
 #include "en_tete.h"
 
+GtkTreeStore *preference_tree_model;
+GtkWidget * hpaned;
+GtkWidget * preference_frame;
+GtkWidget * preference_selected = NULL;
+
+void fermeture_preferences ( GtkWidget *, gint, gpointer);
+     
+
+selection_cb(GtkTreeSelection *selection,
+	     GtkTreeModel     *model)
+{
+  GtkTreeIter iter;
+  GValue value = {0, };
+  GtkWidget widget;
+
+  if (! gtk_tree_selection_get_selected (selection, NULL, &iter))
+    return;
+
+  gtk_tree_model_get_value (model, &iter, 1, &value);
+
+  if (preference_selected)
+    {
+      gtk_widget_hide_all(preference_selected);
+      g_object_ref(preference_selected); /* GRUIK */
+      gtk_container_remove (GTK_CONTAINER (preference_frame), preference_selected);
+    }
+
+  preference_selected = g_value_get_pointer(&value);  
+  gtk_container_add (GTK_CONTAINER (preference_frame), preference_selected);
+  gtk_widget_show_all(preference_selected);
+
+  g_value_unset (&value);
+}
+
+
+/* ************************************************************************************************************** */
+GtkWidget * create_preferences_tree()
+{
+  GtkWidget *tree, *item;
+  GList *items = NULL;
+  GtkTreeIter iter;
+  GtkTreeViewColumn *column;
+  GtkCellRenderer *cell;
+  GtkTreeSelection *selection;
+
+  preference_tree_model = gtk_tree_store_new (2, 
+					      G_TYPE_STRING, 
+					      G_TYPE_POINTER);
+  tree = gtk_tree_view_new();
+  gtk_tree_view_set_model (GTK_TREE_VIEW (tree), GTK_TREE_MODEL (preference_tree_model));
+
+  selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (tree));
+
+/*   gtk_tree_store_append (GTK_TREE_STORE (model), &iter, NULL); */
+/*   gtk_tree_store_set (GTK_TREE_STORE (model), */
+/* 		      &iter, */
+/* 		      0, "Un", */
+/* 		      1, "plip", */
+/* 		      -1); */
+/*   gtk_tree_store_append (GTK_TREE_STORE (model), &iter, NULL); */
+/*   gtk_tree_store_set (GTK_TREE_STORE (model), */
+/* 		      &iter, */
+/* 		      0, "Deux", */
+/* 		      1, "plop", */
+/* 		      -1); */
+
+  cell = gtk_cell_renderer_text_new ();
+  column = 
+    gtk_tree_view_column_new_with_attributes ("Categories",
+					      cell,
+					      "text", 0,
+					      NULL);
+  gtk_tree_view_append_column (GTK_TREE_VIEW (tree),
+			       GTK_TREE_VIEW_COLUMN (column));
+  
+  g_signal_connect (selection, "changed", G_CALLBACK (selection_cb), preference_tree_model);
+
+  return tree;
+}
 
 
 /* ************************************************************************************************************** */
 void preferences ( GtkWidget *widget,
 		   gint page_demandee )
 {
+  GtkWidget *tree, *right, *w, *vbox, *hbox, *hbox2, *separator,
+    *button_ok, *button_cancel, *button_apply;
+  GtkTreeIter iter;
 
   /* création de la fenêtre */
 
-  fenetre_preferences = gnome_property_box_new ();
+  fenetre_preferences = gtk_window_new (GTK_WINDOW_TOPLEVEL);
   gtk_window_set_title ( GTK_WINDOW ( fenetre_preferences ),
 			 _("Grisbi setup") );
   gtk_window_set_transient_for ( GTK_WINDOW (fenetre_preferences),
 				 GTK_WINDOW (window));
   gtk_window_set_modal ( GTK_WINDOW (fenetre_preferences),
 			 TRUE);
-  gnome_dialog_set_parent( GNOME_DIALOG ( fenetre_preferences ),
-			   GTK_WINDOW ( window) );
+  gtk_container_set_border_width (fenetre_preferences, 10);
 
-  gtk_widget_hide ( GNOME_PROPERTY_BOX ( fenetre_preferences ) -> help_button );
+  tree = create_preferences_tree();  
+  hpaned = gtk_hpaned_new();
+  gtk_paned_add1(GTK_PANED(hpaned), tree);
+  preference_frame = gtk_hpaned_new ();
+  gtk_paned_add2(GTK_PANED(hpaned), preference_frame);
 
+  /* On arange le tout dans une vbox */
+  vbox = gtk_vbox_new ( FALSE, 10 );
+  gtk_box_pack_start ( GTK_BOX ( vbox ),
+		       hpaned,
+		       FALSE,
+		       FALSE,
+		       0);
 
-/*   on crée le premier onglet : Général */
-
-  gnome_property_box_append_page ( GNOME_PROPERTY_BOX ( fenetre_preferences ),
-				   onglet_general(),
-				   gtk_label_new ( _("Main") ) );
-
-
-/* création du 2ème onglet */
-
-  gnome_property_box_append_page ( GNOME_PROPERTY_BOX ( fenetre_preferences ),
-				   onglet_fichier(),
-				   gtk_label_new ( _("Files")  ));
-
-/* création du 3ème onglet */
-
-  gnome_property_box_append_page ( GNOME_PROPERTY_BOX ( fenetre_preferences ),
-				   onglet_echeances(),
-				   gtk_label_new ( _("Scheduler") ) );
-
-
-/* création du 4ème onglet */
-
-  gnome_property_box_append_page ( GNOME_PROPERTY_BOX ( fenetre_preferences ),
-				   onglet_affichage(),
-				   gtk_label_new ( _("Display") ) );
-
-
-/* création du 5ème onglet */
-
-  gnome_property_box_append_page ( GNOME_PROPERTY_BOX ( fenetre_preferences ),
-				   onglet_applet(),
-				   gtk_label_new ( _("Applet") ) );
+  /* Avec un sépareteur entre le haut et les boutons */
+  separator = gtk_hseparator_new ();
+  gtk_box_pack_start ( GTK_BOX ( vbox ),
+		       separator,
+		       FALSE,
+		       FALSE,
+		       0 );
+  
+  /* Création des boutons en bas */
+  hbox = gtk_hbox_new ( FALSE, 10 );
+/*   button_ok = gtk_button_new_with_label (_("OK")); */
+/*   button_cancel = gtk_button_new_from_stock (GTK_STOCK_CANCEL); */
+/*   button_apply = gtk_button_new_with_label (_("Apply")); */
+  button_ok = gtk_button_new_from_stock (GTK_STOCK_OK);
+  button_cancel = gtk_button_new_from_stock (GTK_STOCK_CANCEL);
+  button_apply = gtk_button_new_from_stock (GTK_STOCK_APPLY);
 
 
+  hbox2 = gtk_hbox_new ( TRUE, 5 );
+  gtk_box_pack_end ( GTK_BOX ( hbox2 ), button_ok,
+		     TRUE, TRUE, 0 );
+  gtk_box_pack_end ( GTK_BOX ( hbox2 ), button_cancel,
+		     TRUE, TRUE, 0 );
+  gtk_box_pack_end ( GTK_BOX ( hbox2 ), button_apply,
+		     TRUE, TRUE, 0 );
+  gtk_box_pack_end ( GTK_BOX ( hbox ), hbox2,
+		       FALSE, FALSE, 0 );
 
-/* création du 6ème onglet */
+  gtk_box_pack_start ( GTK_BOX ( vbox ),
+		       hbox,
+		       FALSE,
+		       FALSE,
+		       0 );
 
-  gnome_property_box_append_page ( GNOME_PROPERTY_BOX ( fenetre_preferences ),
-				   onglet_devises(),
-				   gtk_label_new ( _("Currencies") ) );
-
-
-/* création du 7ème onglet */
-
-  gnome_property_box_append_page ( GNOME_PROPERTY_BOX ( fenetre_preferences ),
-				   onglet_banques(),
-				   gtk_label_new ( _("Banks") ) );
-
-/* création du 9ème onglet */
-
-  gnome_property_box_append_page ( GNOME_PROPERTY_BOX ( fenetre_preferences ),
-				   onglet_exercices(),
-				   gtk_label_new ( _("Financial years") ) );
-
-/* création du 9ème onglet */
-
-  gnome_property_box_append_page ( GNOME_PROPERTY_BOX ( fenetre_preferences ),
-				   onglet_types_operations(),
-				   gtk_label_new ( _("Methods of payment") ) );
-
-/* création du 10ème onglet */
-
-  gnome_property_box_append_page ( GNOME_PROPERTY_BOX ( fenetre_preferences ),
-				   onglet_affichage_liste(),
-				   gtk_label_new ( _("Informations") ) );
-
-/* connection du bouton appliquer */
+  gtk_container_add (GTK_CONTAINER (fenetre_preferences), vbox);
 
 
-  gtk_signal_connect ( GTK_OBJECT ( fenetre_preferences ),
-		       "apply",
+  /* on crée le premier onglet : Général */
+  gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter, NULL);
+  w = onglet_general();
+  printf ("Main: %p\n", w);
+  gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
+		      &iter,
+		      0, _("Main"),
+		      1, w,
+		      -1);
+
+  /* création du 2ème onglet */
+  gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter, NULL);
+  w = onglet_fichier();
+  printf ("Files: %p\n", w);
+  gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
+		      &iter,
+		      0, _("Files"),
+		      1, w,
+		      -1);
+
+  /* création du 3ème onglet */
+  gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter, NULL);
+  gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
+		      &iter,
+		      0, _("Scheduler"),
+		      1, onglet_echeances(),
+		      -1);
+
+  /* création du 4ème onglet */
+  gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter, NULL);
+  gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
+		      &iter,
+		      0, _("Display"),
+		      1, onglet_affichage(),
+		      -1);
+
+
+  /* création du 5ème onglet */
+  gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter, NULL);
+  gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
+		      &iter,
+		      0, _("Applet"),
+		      1, onglet_applet(),
+		      -1);
+
+  /* création du 6ème onglet */
+  gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter, NULL);
+  gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
+		      &iter,
+		      0, _("Currencies"),
+		      1, onglet_devises(),
+		      -1);
+
+  /* création du 7ème onglet */
+  gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter, NULL);
+  gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
+		      &iter,
+		      0, _("Banks"),
+		      1, onglet_banques(),
+		      -1);
+
+  /* création du 9ème onglet */
+  gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter, NULL);
+  gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
+		      &iter,
+		      0, _("Financial years"),
+		      1, onglet_exercices(),
+		      -1);
+
+  /* création du 10ème onglet */
+  gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter, NULL);
+  gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
+		      &iter,
+		      0, _("Methods of payment"),
+		      1, onglet_types_operations(),
+		      -1);
+
+  /* création du 10ème onglet */
+  gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter, NULL);
+  gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
+		      &iter,
+		      0, _("Informations"),
+		      1, onglet_affichage_liste(),
+		      -1);
+
+  /* connection du bouton appliquer */
+
+
+  gtk_signal_connect ( GTK_OBJECT ( button_apply ),
+		       "clicked",
 		       (GtkSignalFunc) changement_preferences,
 		       NULL );
+  gtk_signal_connect ( GTK_OBJECT ( button_cancel ),
+		       "clicked",
+		       (GtkSignalFunc) fermeture_preferences,
+		       NULL );
+  gtk_signal_connect ( GTK_OBJECT ( button_ok ),
+		       "clicked",
+		       (GtkSignalFunc) changement_preferences,
+		       NULL );
+  gtk_signal_connect_after ( GTK_OBJECT ( button_ok ),
+		       "clicked",
+		       (GtkSignalFunc) fermeture_preferences,
+		       NULL );
+
 
 /* on se met sur la page demandée */
 
-  gtk_notebook_set_page ( GTK_NOTEBOOK ( GNOME_PROPERTY_BOX ( fenetre_preferences ) -> notebook ),
-			  page_demandee );
-  gtk_widget_show ( fenetre_preferences );
+/*   gtk_notebook_set_page ( GTK_NOTEBOOK ( GNOME_PROPERTY_BOX ( fenetre_preferences ) -> notebook ), */
+/* 			  page_demandee ); */
 
-  gnome_property_box_set_state ( GNOME_PROPERTY_BOX ( fenetre_preferences ),
-				 FALSE );
+  gtk_widget_show_all ( fenetre_preferences );
 
 }
 /* ************************************************************************************************************** */
@@ -1610,7 +1769,7 @@ void changement_preferences ( GtkWidget *fenetre_preferences,
 	  if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_demande_backup ) )
 	       &&
 	       strlen ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( GTK_COMBO ( gnome_file_entry_gtk_entry (entree_chemin_backup)) -> entry  ) ) )))
-/*** BENJ FIXME : heu .... c'est vraiment ça ? ***/
+	    /*** BENJ FIXME : heu .... c'est vraiment ça ? ***/
 	    nom_fichier_backup = g_strdup ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( GTK_COMBO (  gnome_file_entry_gtk_entry(entree_chemin_backup) ) -> entry  ) ) ));
 	  else
 	    nom_fichier_backup = NULL;
@@ -2479,12 +2638,34 @@ void changement_preferences ( GtkWidget *fenetre_preferences,
  
       break;
 
-    default :
-
     }
 
   sauve_configuration ();
 
+}
+/* **************************************************************************************************************************** */
+
+/* **************************************************************************************************************************** */
+/* fonction qui ferme la fenêtre préférences */
+/* **************************************************************************************************************************** */
+void fermeture_preferences ( GtkWidget *button,
+			     gint page,
+			     gpointer data )
+{
+  GtkTreeIter iter;
+  
+  gtk_tree_model_get_iter_first(preference_tree_model, &iter);
+  
+  do
+    {
+      GValue value = {0, };
+      gtk_tree_model_get_value (preference_tree_model, &iter, 1, &value);
+      gtk_widget_destroy(g_value_get_pointer(&value));
+    }
+  while (gtk_tree_model_iter_next (preference_tree_model, &iter));
+
+  preference_selected = NULL;
+  gtk_widget_destroy (fenetre_preferences);
 }
 /* **************************************************************************************************************************** */
 
@@ -2500,4 +2681,3 @@ gint verifie_affichage_applet ( void )
   return ( ( pid_applet = gnome_config_get_int ( "/Grisbi_applet/PID/PID" )) != 0 );
 }
 /* **************************************************************************************************************************** */
-
