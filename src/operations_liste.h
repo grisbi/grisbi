@@ -38,4 +38,7 @@ void changement_taille_colonne ( GtkWidget *clist,
 				 gint largeur );
 void new_transaction ( );
 void remove_transaction ( );
-void popup_menu ( );
+void clone_selected_transaction ( );
+struct structure_operation * clone_transaction ( struct structure_operation * operation );
+void move_operation_to_account ( );
+void popup_menu ( gboolean full );

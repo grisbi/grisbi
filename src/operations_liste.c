@@ -3,6 +3,7 @@
 /* 			liste_operations.c                                    */
 /*                                                                            */
 /*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org)	      */
+/*			2004      Benjamin Drieu (bdrieu@april.org) 	      */
 /*			2003-2004 Alain Portal (dionysos@grisbi.org) 	      */
 /*			http://www.grisbi.org   			      */
 /*                                                                            */
@@ -1154,9 +1155,12 @@ void selectionne_ligne_souris ( GtkCList *liste,
 				 &ligne,
 				 &colonne);
 
-  if ( !gtk_clist_get_row_data ( GTK_CLIST ( CLIST_OPERATIONS ),
-				 ligne ) )
-    return;
+  if ( !gtk_clist_get_row_data ( GTK_CLIST ( CLIST_OPERATIONS ), ligne ) )
+    {
+      if ( evenement -> button == 3 )
+	popup_menu ( FALSE );
+      return;
+    }
 
   if ( etat.equilibrage &&
        colonne == TRANSACTION_COL_NB_PR &&
@@ -1188,7 +1192,7 @@ void selectionne_ligne_souris ( GtkCList *liste,
   if ( evenement -> type == GDK_2BUTTON_PRESS )
     edition_operation ();
   else if ( evenement -> button == 3 )
-    popup_menu ();
+    popup_menu ( TRUE );
   else
     focus_a_la_liste ();
 
@@ -2071,7 +2075,7 @@ void supprime_operation ( struct structure_operation *operation )
 
 		  if ( contre_operation -> pointe == 2 )
 		    {
-		      dialogue ( _("One of the breakdown lines is a transfer whose contra-transaction is reconciled.\nDeletion canceled..."));
+		      dialogue_error ( _("One of the breakdown lines is a transfer whose contra-transaction is reconciled.  Deletion canceled."));
 		      return;
 		    }
 		}
@@ -2521,6 +2525,90 @@ void changement_taille_colonne ( GtkWidget *clist,
 
 
 /**
+ * Pop up a menu with several actions to apply to current transaction.
+ */
+void popup_menu ( gboolean full )
+{
+  GtkWidget *menu, *menu_item;
+
+  if ( p_tab_nom_de_compte_courant )
+    p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
+  else 
+    p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
+
+  if ( OPERATION_SELECTIONNEE == GINT_TO_POINTER(-1) )
+    full = FALSE;
+
+  menu = gtk_menu_new ();
+
+  /* New transaction */
+  menu_item = gtk_image_menu_item_new_with_label ( _("New transaction") );
+  gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM(menu_item),
+				  gtk_image_new_from_stock ( GTK_STOCK_NEW,
+							     GTK_ICON_SIZE_MENU ));
+  g_signal_connect ( G_OBJECT(menu_item), "activate", new_transaction, NULL );
+  gtk_menu_append ( menu, menu_item );
+
+  /* Delete transaction */
+  menu_item = gtk_image_menu_item_new_with_label ( _("Delete transaction") );
+  gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM(menu_item),
+				  gtk_image_new_from_stock ( GTK_STOCK_DELETE,
+							     GTK_ICON_SIZE_MENU ));
+  g_signal_connect ( G_OBJECT(menu_item), "activate", remove_transaction, NULL );
+  if ( !full )
+    gtk_widget_set_sensitive ( menu_item, FALSE );
+  gtk_menu_append ( menu, menu_item );
+
+  /* Clone transaction */
+  menu_item = gtk_image_menu_item_new_with_label ( _("Clone transaction") );
+  gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM(menu_item),
+				  gtk_image_new_from_stock ( GTK_STOCK_COPY,
+							     GTK_ICON_SIZE_MENU ));
+  g_signal_connect ( G_OBJECT(menu_item), "activate", clone_selected_transaction, NULL );
+  if ( !full )
+    gtk_widget_set_sensitive ( menu_item, FALSE );
+  gtk_menu_append ( menu, menu_item );
+
+  /* Edit transaction */
+  menu_item = gtk_image_menu_item_new_with_label ( _("Edit transaction") );
+  gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM(menu_item),
+				  gtk_image_new_from_stock ( GTK_STOCK_PROPERTIES,
+							     GTK_ICON_SIZE_MENU ));
+  g_signal_connect ( G_OBJECT(menu_item), "activate", edition_operation, NULL );
+  if ( !full )
+    gtk_widget_set_sensitive ( menu_item, FALSE );
+  gtk_menu_append ( menu, menu_item );
+
+  gtk_menu_append ( menu, gtk_separator_menu_item_new() );
+
+  /* Convert to scheduled transaction */
+  menu_item = gtk_image_menu_item_new_with_label ( _("Convert to scheduled transaction") );
+  gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM(menu_item),
+				  gtk_image_new_from_stock ( GTK_STOCK_CONVERT,
+							     GTK_ICON_SIZE_MENU ));
+  if ( !full )
+    gtk_widget_set_sensitive ( menu_item, FALSE );
+  gtk_menu_append ( menu, menu_item );
+
+  /* Move to another account */
+  menu_item = gtk_image_menu_item_new_with_label ( _("Move to another account") );
+  gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM(menu_item),
+				  gtk_image_new_from_stock ( GTK_STOCK_JUMP_TO,
+							     GTK_ICON_SIZE_MENU ));
+  if ( !full )
+    gtk_widget_set_sensitive ( menu_item, FALSE );
+  gtk_menu_append ( menu, menu_item );
+
+  /* Add accounts submenu */
+  gtk_menu_item_set_submenu ( GTK_MENU_ITEM(menu_item), 
+			      GTK_WIDGET(creation_option_menu_comptes(GTK_SIGNAL_FUNC(move_operation_to_account))) );
+
+  gtk_widget_show_all (menu);
+  gtk_menu_popup ( GTK_MENU(menu), NULL, NULL, NULL, NULL, 3, gtk_get_current_event_time());
+}
+
+
+/**
  *  Empty transaction form and select transactions tab.
  */
 void new_transaction () 
@@ -2559,20 +2647,10 @@ void remove_transaction ()
 
 
 /**
- * Move selected transaction to another account
+ * Clone selected transaction if any.  Update user interface as well.
  */
-void move_operation_to_account ()
+void clone_selected_transaction ()
 {
-}
-
-
-/**
- * Remove selected transaction if any.
- */
-void popup_menu ()
-{
-  GtkWidget *menu, *menu_item;
-
   if ( p_tab_nom_de_compte_courant )
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
   else 
@@ -2581,58 +2659,79 @@ void popup_menu ()
   if ( OPERATION_SELECTIONNEE == GINT_TO_POINTER(-1) )
     return;
 
-  menu = gtk_menu_new ();
+  clone_transaction ( OPERATION_SELECTIONNEE );
 
-  /* New transaction */
-  menu_item = gtk_image_menu_item_new_with_label ( _("New transaction") );
-  gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM(menu_item),
-				  gtk_image_new_from_stock ( GTK_STOCK_NEW,
-							     GTK_ICON_SIZE_MENU ));
-  g_signal_connect ( G_OBJECT(menu_item), "activate", new_transaction, NULL );
-  gtk_menu_append ( menu, menu_item );
+  MISE_A_JOUR = 1;
+  verification_mise_a_jour_liste ();
 
-  /* Delete transaction */
-  menu_item = gtk_image_menu_item_new_with_label ( _("Delete transaction") );
-  gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM(menu_item),
-				  gtk_image_new_from_stock ( GTK_STOCK_DELETE,
-							     GTK_ICON_SIZE_MENU ));
-  g_signal_connect ( G_OBJECT(menu_item), "activate", remove_transaction, NULL );
-  gtk_menu_append ( menu, menu_item );
+  mise_a_jour_tiers ();
+  mise_a_jour_categ ();
+  mise_a_jour_imputation ();
 
-  /* Clone transaction */
-  menu_item = gtk_image_menu_item_new_with_label ( _("Clone transaction") );
-  gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM(menu_item),
-				  gtk_image_new_from_stock ( GTK_STOCK_COPY,
-							     GTK_ICON_SIZE_MENU ));
-  gtk_menu_append ( menu, menu_item );
+  modification_fichier ( TRUE );
+}
 
-  /* Edit transaction */
-  menu_item = gtk_image_menu_item_new_with_label ( _("Edit transaction") );
-  gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM(menu_item),
-				  gtk_image_new_from_stock ( GTK_STOCK_PROPERTIES,
-							     GTK_ICON_SIZE_MENU ));
-  gtk_menu_append ( menu, menu_item );
 
-  gtk_menu_append ( menu, gtk_separator_menu_item_new() );
+/**
+ * Clone transaction.  If it is a breakdown or a transfer, perform all
+ * needed operations, like cloning associated transactions as well.
+ *
+ * \param operation Initial transaction to clone
+ *
+ * \return A newly created operation.
+ */
+struct structure_operation *  clone_transaction ( struct structure_operation * operation )
+{
+  struct structure_operation * new_transaction, * ope_ventilee;
 
-  /* Convert to scheduled transaction */
-  menu_item = gtk_image_menu_item_new_with_label ( _("Convert to scheduled transaction") );
-  gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM(menu_item),
-				  gtk_image_new_from_stock ( GTK_STOCK_CONVERT,
-							     GTK_ICON_SIZE_MENU ));
-  gtk_menu_append ( menu, menu_item );
+  printf (">>> cloning %d\n", operation -> no_operation );
 
-  /* Move to another account */
-  menu_item = gtk_image_menu_item_new_with_label ( _("Move to another account") );
-  gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM(menu_item),
-				  gtk_image_new_from_stock ( GTK_STOCK_JUMP_TO,
-							     GTK_ICON_SIZE_MENU ));
-  gtk_menu_append ( menu, menu_item );
+  new_transaction = (struct structure_operation *) malloc ( sizeof(struct structure_operation) );
+  if ( !new_transaction )
+    {
+      dialogue ( _("Cannot allocate memory, bad things will happen soon") );
+      return;
+    }
 
-  /* Add accounts submenu */
-  gtk_menu_item_set_submenu ( GTK_MENU_ITEM(menu_item), 
-			      GTK_WIDGET(creation_option_menu_comptes(move_operation_to_account)) );
+  bcopy ( operation, new_transaction, sizeof(struct structure_operation) );
+  new_transaction -> no_operation = 0;
+  ajout_operation ( new_transaction );
 
-  gtk_widget_show_all (menu);
-  gtk_menu_popup ( GTK_MENU(menu), NULL, NULL, NULL, NULL, 3, gtk_get_current_event_time());
+  if ( operation -> relation_no_compte )
+    {
+      p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> relation_no_compte;
+      validation_virement_operation ( operation, 0, NOM_DU_COMPTE );
+    }
+  if ( operation -> operation_ventilee )
+    {
+      GSList *liste_tmp;
+      
+      p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> no_compte;
+
+      liste_tmp = LISTE_OPERATIONS;
+
+      while ( liste_tmp )
+	{
+	  struct structure_operation *operation_2;
+
+	  operation_2 = liste_tmp -> data;
+
+	  if ( operation_2 -> no_operation_ventilee_associee == operation -> no_operation )
+	    {
+	      ope_ventilee = clone_transaction ( operation_2 );
+	      ope_ventilee -> no_operation_ventilee_associee = new_transaction -> no_operation;
+	    }
+	  
+	  liste_tmp = liste_tmp -> next;
+	}
+    }
+  return new_transaction;
+}
+
+
+/**
+ * Move selected transaction to another account
+ */
+void move_operation_to_account ()
+{
 }
