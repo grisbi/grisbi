@@ -2511,7 +2511,8 @@ void calcule_total_montant_imputation ( void )
 
 		/* crée la place pour les sous catég de cette imputation si ce n'est déjà fait */
 
-		if ( !tab_montant_sous_imputation[place_imputation] )
+		if ( place_imputation != -1 &&
+		     !tab_montant_sous_imputation[place_imputation] )
 		{
 		    gint nb_sous_imputation;
 
@@ -2530,7 +2531,8 @@ void calcule_total_montant_imputation ( void )
 
 		/* on ajoute maintenant le montant à la sous imputation si elle existe */
 
-		if ( operation -> sous_imputation )
+		if ( place_imputation != -1 && 
+		     operation -> sous_imputation )
 		{
 		    gint place_sous_imputation;
 
@@ -2543,7 +2545,8 @@ void calcule_total_montant_imputation ( void )
 		}
 		else
 		{
-		    if ( tab_montant_sous_imputation[place_imputation] )
+		    if ( place_imputation != -1 &&
+			 tab_montant_sous_imputation[place_imputation] )
 		    {
 			tab_montant_sous_imputation[place_imputation][0] = tab_montant_sous_imputation[place_imputation][0] + montant;
 			nb_ecritures_par_sous_imputation[place_imputation][0]++;
@@ -2559,8 +2562,8 @@ void calcule_total_montant_imputation ( void )
 		    nb_ecritures_par_imputation[0]++;
 		}
 	    liste_tmp = liste_tmp -> next;
+	}
     }
-}
 }
 /* **************************************************************************************************** */
 
