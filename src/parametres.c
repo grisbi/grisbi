@@ -146,7 +146,8 @@ void preferences ( gint page )
   /* Create dialog */
   fenetre_preferences = gtk_dialog_new ();
   gtk_dialog_add_buttons (GTK_DIALOG(fenetre_preferences), 
-			  GTK_STOCK_HELP,  GTK_RESPONSE_HELP,
+/* FIXME: untill we implement the help system, this is useless */
+/* 			  GTK_STOCK_HELP,  GTK_RESPONSE_HELP, */
 			  GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE,
 			  NULL);
   gtk_window_set_title ( GTK_WINDOW ( fenetre_preferences ),
@@ -178,6 +179,14 @@ void preferences ( gint page )
 		      1, FILES_PAGE,
 		      -1);
   gtk_notebook_append_page (preference_frame, onglet_fichier(), NULL);
+
+  gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter, NULL);
+  gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
+		      &iter,
+		      0, _("Import"),
+		      1, IMPORT_PAGE,
+		      -1);
+  gtk_notebook_append_page (preference_frame, onglet_importation(), NULL);
 
   /* Display subtree */
   gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter, NULL);
@@ -243,15 +252,6 @@ void preferences ( gint page )
 		      1, RECONCILIATION_PAGE,
 		      -1);
   gtk_notebook_append_page (preference_frame, tab_display_reconciliation(), NULL);
-
-  gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
-  gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
-		      &iter2,
-		      0, _("Import"),
-		      1, IMPORT_PAGE,
-		      -1);
-  gtk_notebook_append_page (preference_frame, onglet_importation(), NULL);
-
 
 
   /* Resources subtree */
