@@ -2,7 +2,7 @@ Source: grisbi
 Section: utils
 Priority: optional
 Maintainer: Benjamin Drieu <benj@debian.org>
-Build-Depends: debhelper (>> 3.0.0), libgnome-dev, libpanel-applet-dev, libgtk1.2-dev, libxml-dev
+Build-Depends: debhelper (>> 3.0.0), libgnome-dev, libgtk1.2-dev, libxml-dev
 Standards-Version: 3.5.8
 
 Package: grisbi
@@ -24,7 +24,6 @@ Description: Gnome-based personal financial management program
     currencies; 
   - bank reconciliation;
   - scheduled transactions;
-  - expiries monitoring with a Gnome applet;
   - automatic recall of last transaction for every third party;
   - nice and easy user interface;
   - user manual;
