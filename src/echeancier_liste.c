@@ -24,9 +24,30 @@
 #include "variables-extern.c"
 #include "en_tete.h"
 
-
-
-
+  
+  #define COL_NB_DATE 0
+  #define COL_NB_ACCOUNT 1
+  #define COL_NB_PARTY 2
+  #define COL_NB_FREQUENCY 3
+  #define COL_NB_MODE 4
+  #define COL_NB_NOTES 5
+  #define COL_NB_AMOUNT 6
+  #define NB_COLS_SCHEDULER 7
+  
+  gint scheduler_col_width[NB_COLS_SCHEDULER] = { 10,
+						  26,
+						  20,
+						  14,
+						  14,
+						  28,
+						  8};
+/*
+  gint start_rezise_x,
+       start_rezise_y ;
+  gboolean userresizing = FALSE ;
+  gint ancienne_largeur_echeances = 0 ;
+  gchar mes_tmp[100] ;
+*/         
 /* ****************************************************************************************************** */
 GtkWidget *creation_onglet_echeancier ( void )
 {
@@ -433,8 +454,23 @@ GtkWidget *creation_liste_echeances ( void )
 {
   GtkWidget *vbox;
   GtkWidget *win_echeances_scroll;
-  /* dOm : ajout de la colonne notes */
-  gchar *titres_echeance[] = { _("Date"), _("Frequency"), _("Account"), _("Third party"), _("Mode"), _("Notes"), _("Amount")};
+  gint i;
+  
+  gchar *titres_echeance[] = { _("Date"),
+			       _("Account"),
+			       _("Third party"),
+			       _("Frequency"),
+			       _("Mode"),
+			       _("Notes"),
+			       _("Amount")};
+
+  GtkJustification col_justs[] = { GTK_JUSTIFY_CENTER,
+				   GTK_JUSTIFY_LEFT,
+				   GTK_JUSTIFY_LEFT,
+				   GTK_JUSTIFY_CENTER,
+				   GTK_JUSTIFY_CENTER,
+				   GTK_JUSTIFY_LEFT,
+				   GTK_JUSTIFY_RIGHT };
 
 
   /*   à la base, on a une vbox */
@@ -454,6 +490,20 @@ GtkWidget *creation_liste_echeances ( void )
 		       FALSE,
 		       0 );
  
+       
+    /* création d'une autre scrolled window horizontale */
+    /* pour permettre le redimensionnement dynamique horizontal */
+   /* ALAIN-FIXME */
+    
+    
+    
+    
+    
+    
+    
+    
+       
+       
 
 
 /*   création de la scrolled window */
@@ -474,7 +524,7 @@ GtkWidget *creation_liste_echeances ( void )
 /* création de la liste des échéances */
 
   /* dOm : on passe de 6 a 7 colonnes */
-  liste_echeances = gtk_clist_new_with_titles( 7,
+  liste_echeances = gtk_clist_new_with_titles( NB_COLS_SCHEDULER,
 					       titres_echeance );
 
   gtk_clist_set_selection_mode ( GTK_CLIST ( liste_echeances ),
@@ -483,7 +533,7 @@ GtkWidget *creation_liste_echeances ( void )
 			       (GtkCListCompareFunc) classement_liste_echeances );
 
   gtk_signal_connect ( GTK_OBJECT (liste_echeances),
-		       "button_press_event",
+		       "button-press-event",
 		       GTK_SIGNAL_FUNC ( click_ligne_echeance ),
 		       NULL );
 
@@ -507,56 +557,29 @@ GtkWidget *creation_liste_echeances ( void )
 			      GTK_OBJECT (liste_echeances) );
 
 
-  gtk_clist_set_column_justification ( GTK_CLIST ( liste_echeances ),
-				       0,
-				       GTK_JUSTIFY_CENTER );
-  gtk_clist_set_column_justification ( GTK_CLIST ( liste_echeances ),
-				       1,
-				       GTK_JUSTIFY_CENTER );
-  gtk_clist_set_column_justification ( GTK_CLIST ( liste_echeances ),
-				       2,
-				       GTK_JUSTIFY_LEFT );
- gtk_clist_set_column_justification ( GTK_CLIST ( liste_echeances ),
-				       3,
-				       GTK_JUSTIFY_LEFT );
-  gtk_clist_set_column_justification ( GTK_CLIST ( liste_echeances ),
-				       4,
-				       GTK_JUSTIFY_CENTER );
-
-  /* dOm : fixer alignement colonne commentaire */
-  gtk_clist_set_column_justification ( GTK_CLIST ( liste_echeances ),
-				       5,
-				       GTK_JUSTIFY_LEFT);
-
-  gtk_clist_set_column_justification ( GTK_CLIST ( liste_echeances ),
-				       6,
-				       GTK_JUSTIFY_RIGHT );
-
-  gtk_clist_set_column_resizeable ( GTK_CLIST ( liste_echeances ),
-				    0,
-				    FALSE );
-  gtk_clist_set_column_resizeable ( GTK_CLIST ( liste_echeances ),
-				    1,
-				    FALSE );
-  gtk_clist_set_column_resizeable ( GTK_CLIST ( liste_echeances ),
-				    2,
-				    FALSE );
-  gtk_clist_set_column_resizeable ( GTK_CLIST ( liste_echeances ),
-				    3,
-				    FALSE );
-  gtk_clist_set_column_resizeable ( GTK_CLIST ( liste_echeances ),
-				    4,
-				    FALSE );
-  /* dOm : empecher redimensionnement colonne commentaire */
-  gtk_clist_set_column_resizeable ( GTK_CLIST ( liste_echeances ),
-				    5,
-				    FALSE );
-  gtk_clist_set_column_resizeable ( GTK_CLIST ( liste_echeances ),
-				    6,
-				    FALSE );
-
+  for ( i = 0 ; i < NB_COLS_SCHEDULER ; i++ )
+    {
+     gtk_clist_set_column_justification ( GTK_CLIST ( liste_echeances ),
+					  i,
+					  col_justs[i] );
+     
+     gtk_clist_set_column_auto_resize ( GTK_CLIST ( liste_echeances ),
+					i ,
+					TRUE );
+/*    
+     gtk_clist_set_column_resizeable ( GTK_CLIST ( liste_echeances ),
+				       i,
+				       TRUE );
+     
+     gtk_clist_column_title_active ( GTK_CLIST ( liste_echeances ),
+				       i );
+*/    
+    }
+    
   /* dOm : rendre invisible la colonne notes */
-gtk_clist_set_column_visibility(GTK_CLIST(liste_echeances),5,FALSE);
+  gtk_clist_set_column_visibility( GTK_CLIST ( liste_echeances ),
+  				   COL_NB_NOTES,
+				   FALSE);
 
   gtk_clist_set_selection_mode ( GTK_CLIST  ( liste_echeances ),
 				 GTK_SELECTION_SINGLE ) ;
@@ -587,7 +610,7 @@ gboolean traitement_clavier_liste_echeances ( GtkCList *liste_echeances,
   gint ligne;
 
   gtk_signal_emit_stop_by_name ( GTK_OBJECT ( liste_echeances ),
-				 "key_press_event");
+				 "key-press-event");
 
   switch ( evenement->keyval )
     {
@@ -658,19 +681,22 @@ gboolean traitement_clavier_liste_echeances ( GtkCList *liste_echeances,
 /* dOm fonction callback  */
 void affiche_cache_commentaire_echeancier( void )
 {
-	static gboolean visible = FALSE;
-	if (visible == FALSE){
-		visible = TRUE;
-		gtk_clist_set_column_visibility(GTK_CLIST(liste_echeances),3,FALSE);
-		gtk_clist_set_column_visibility(GTK_CLIST(liste_echeances),4,FALSE);
-		gtk_clist_set_column_visibility(GTK_CLIST(liste_echeances),5,TRUE);
-	} else {
-		visible = FALSE;
-		gtk_clist_set_column_visibility(GTK_CLIST(liste_echeances),3,TRUE);
-		gtk_clist_set_column_visibility(GTK_CLIST(liste_echeances),4,TRUE);
-		gtk_clist_set_column_visibility(GTK_CLIST(liste_echeances),5,FALSE);
-	}
-
+  static gboolean visible = FALSE;
+  
+  if ( visible == FALSE )
+    {
+     visible = TRUE;
+     gtk_clist_set_column_visibility( GTK_CLIST ( liste_echeances ), COL_NB_FREQUENCY, FALSE);
+     gtk_clist_set_column_visibility( GTK_CLIST ( liste_echeances ), COL_NB_MODE, FALSE);
+     gtk_clist_set_column_visibility( GTK_CLIST ( liste_echeances ), COL_NB_NOTES, TRUE);
+    }
+  else
+    {
+     visible = FALSE;
+     gtk_clist_set_column_visibility( GTK_CLIST ( liste_echeances ), COL_NB_FREQUENCY, TRUE);
+     gtk_clist_set_column_visibility( GTK_CLIST ( liste_echeances ), COL_NB_MODE, TRUE);
+     gtk_clist_set_column_visibility( GTK_CLIST ( liste_echeances ), COL_NB_NOTES, FALSE);
+     }
 }
 
 /* *************************************************************************************************************** */
@@ -701,7 +727,7 @@ void click_sur_saisir_echeance ( void )
 /* ************************************************************************************************************ */
 void remplissage_liste_echeance ( void )
 {
-  gchar *ligne[7];
+  gchar *ligne[NB_COLS_SCHEDULER];
   GSList *pointeur_liste;
   int ligne_clist;
   gint couleur_en_cours;
@@ -779,31 +805,31 @@ void remplissage_liste_echeance ( void )
 
       /* mise en forme de la date */
 
-      ligne[0] = g_strdup_printf ( "%02d/%02d/%d",
+      ligne[COL_NB_DATE] = g_strdup_printf ( "%02d/%02d/%d",
 				   ECHEANCE_COURANTE -> jour,
 				   ECHEANCE_COURANTE -> mois,
 				   ECHEANCE_COURANTE -> annee );
  
       switch ( ECHEANCE_COURANTE ->periodicite )
 	{
-	case 0 : ligne[1] = _("Once");
+	case 0 : ligne[COL_NB_FREQUENCY] = _("Once");
 	  break;
-	case 1 : ligne[1] = _("Weekly");
+	case 1 : ligne[COL_NB_FREQUENCY] = _("Weekly");
 	  break;
-	case 2 : ligne[1] = _("Monthly");
+	case 2 : ligne[COL_NB_FREQUENCY] = _("Monthly");
 	  break;
-	case 3 : ligne[1] = _("Yearly");
+	case 3 : ligne[COL_NB_FREQUENCY] = _("Yearly");
 	  break;
 	case 4 :
 	  if ( ECHEANCE_COURANTE -> intervalle_periodicite_personnalisee )
 	    if ( ECHEANCE_COURANTE -> intervalle_periodicite_personnalisee == 1 )
-	      ligne[1] = g_strdup_printf ( _("%d months"),
+	      ligne[COL_NB_FREQUENCY] = g_strdup_printf ( _("%d months"),
 					   ECHEANCE_COURANTE -> periodicite_personnalisee );
 	    else
-	      ligne[1] = g_strdup_printf ( _("%d years"),
+	      ligne[COL_NB_FREQUENCY] = g_strdup_printf ( _("%d years"),
 					   ECHEANCE_COURANTE -> periodicite_personnalisee );
 	  else
-	    ligne[1] = g_strdup_printf ( _("%d days"),
+	    ligne[COL_NB_FREQUENCY] = g_strdup_printf ( _("%d days"),
 					 ECHEANCE_COURANTE -> periodicite_personnalisee );
 	  break;
 	}
@@ -811,7 +837,7 @@ void remplissage_liste_echeance ( void )
       /* mise en forme du compte */
 
       p_tab_nom_de_compte_variable = p_tab_nom_de_compte + ECHEANCE_COURANTE -> compte;
-      ligne[2] = NOM_DU_COMPTE ;
+      ligne[COL_NB_ACCOUNT] = NOM_DU_COMPTE ;
 
       /* mise en forme du tiers */
 
@@ -819,25 +845,25 @@ void remplissage_liste_echeance ( void )
 					   GINT_TO_POINTER ( ECHEANCE_COURANTE -> tiers ),
 					   (GCompareFunc) recherche_tiers_par_no );
       if ( pointeur_tmp )
-	ligne[3] = ((struct struct_tiers *)( pointeur_tmp-> data )) -> nom_tiers;
+	ligne[COL_NB_PARTY] = ((struct struct_tiers *)( pointeur_tmp-> data )) -> nom_tiers;
       else
-	ligne[3] = NULL;
+	ligne[COL_NB_PARTY] = NULL;
 
       /* mise en forme de auto/man */
 
       if ( ECHEANCE_COURANTE -> auto_man )
-	ligne[4]=_("Automatic");
+	ligne[COL_NB_MODE]=_("Automatic");
       else
-	ligne[4] = _("Manual");
+	ligne[COL_NB_MODE] = _("Manual");
 
       /* dOm TODO remplir la colonne notes */
-      ligne[5] = g_strdup_printf ("%s", 
+      ligne[COL_NB_NOTES] = g_strdup_printf ("%s", 
 		      (ECHEANCE_COURANTE->notes == NULL) ? "":ECHEANCE_COURANTE->notes);
 
 
       /* mise en forme du montant */
 /* dOm la colonne 5 est devenue colonne 6 */
-      ligne[6] = g_strdup_printf ( "%4.2f",
+      ligne[COL_NB_AMOUNT] = g_strdup_printf ( "%4.2f",
 				   ECHEANCE_COURANTE -> montant );
 
       /* on va ajouter l'échéance une ou plusieurs fois en changeant juste sa date */
@@ -891,7 +917,7 @@ void remplissage_liste_echeance ( void )
 		   &&
 		   ECHEANCE_COURANTE -> periodicite )
 		{
-		  ligne[0] = g_strdup_printf ( "%02d/%02d/%d",
+		  ligne[COL_NB_DATE] = g_strdup_printf ( "%02d/%02d/%d",
 					       g_date_day ( date_courante ),
 					       g_date_month ( date_courante ),
 					       g_date_year ( date_courante ));
@@ -907,7 +933,7 @@ void remplissage_liste_echeance ( void )
 
   /* met la ligne blanche */
 
-  for ( i = 0 ; i<7 ; i++ )
+  for ( i = 0 ; i < NB_COLS_SCHEDULER ; i++ )
     ligne[i] = NULL;
 
   ligne_clist = gtk_clist_append ( GTK_CLIST ( liste_echeances ),
@@ -938,7 +964,7 @@ void remplissage_liste_echeance ( void )
 	      /* dOm : la colonne montant est maintenant la 6 */
 	gtk_clist_set_cell_style ( GTK_CLIST ( liste_echeances ),
 				   i,
-				   6,
+				   COL_NB_AMOUNT,
 				   style_rouge_couleur [ couleur_en_cours ] );
 
       /* on ne met le bleu ou blanc que si c'est pas gris */
@@ -966,11 +992,10 @@ void click_ligne_echeance ( GtkCList *liste,
 			    GdkEventButton *evenement,
 			    gpointer data )
 {
-  gint colonne, x, y;
-  gint ligne;
+  gint ligne, colonne, x, y;
 
   gtk_signal_emit_stop_by_name ( GTK_OBJECT ( liste ),
-				 "button_press_event");
+				 "button-press-event");
 
   /* Récupération des coordonnées de la souris */
 
@@ -1451,54 +1476,36 @@ void changement_taille_liste_echeances ( GtkWidget *clist,
 					 GtkAllocation *allocation,
 					 gpointer null )
 {
-  gint largeur;
+  gint largeur, tmp;
+  gint i;
   gint col1, col2, col3, col4, col5, col6, col7;
+//  gint ligne, colonne, x, y;
 
   /*   si la largeur de grisbi est < 700, on fait rien */
-
   if ( window -> allocation.width < 700 )
     return;
-
-  largeur = allocation->width;
-
+/*
+  largeur = window -> allocation.width ;
+  
+  if ( ancienne_largeur_echeances == 0 )
+    ancienne_largeur_echeances = clist -> allocation.width ;
+*/
+  largeur = clist -> allocation.width ;
+  
   if ( largeur == ancienne_largeur_echeances )
     return;
+  
+  for ( i = 0 ; i < NB_COLS_SCHEDULER ; i++ )
+    {
+//     tmp = ( scheduler_col_width[i] * largeur ) / ancienne_largeur_echeances ;
+     tmp = ( scheduler_col_width[i] * largeur ) / 100 ;
+     gtk_clist_set_column_width ( GTK_CLIST ( clist ),
+				  i,
+				  tmp );
+    }
 
   ancienne_largeur_echeances = largeur;
-
-  col1 = ( 15 * largeur ) / 100;
-  col2 = ( 15 * largeur ) / 100;
-  col3 = ( 15 * largeur ) / 100;
-  col4 = ( 20 * largeur ) / 100;
-  col5 = ( 15 * largeur ) / 100;
-  /* dOm : les colonnes 4 et 5 sont remplacées par la 6. 
-   * sa largeur est donc la somme des deux autres*/
-  col6 = col4 + col5; 
-  col7 = ( 5 * largeur ) / 100;
-
-  gtk_clist_set_column_width ( GTK_CLIST ( clist ),
-			       0,
-			       col1 );
-  gtk_clist_set_column_width ( GTK_CLIST ( clist ),
-			       1,
-			       col2 );
-  gtk_clist_set_column_width ( GTK_CLIST ( clist ),
-			       2,
-			       col3 );
-  gtk_clist_set_column_width ( GTK_CLIST ( clist ),
-			       3,
-			       col4 );
-  gtk_clist_set_column_width ( GTK_CLIST ( clist ),
-			       4,
-			       col5 );
-  /* dOm : changement de la largeur de la colonne note */
-  gtk_clist_set_column_width ( GTK_CLIST ( clist ),
-			       5,
-			       col6 );
-  gtk_clist_set_column_width ( GTK_CLIST ( clist ),
-			       6,
-			       col7 );
-
+  
 
 /* met les entrées du formulaire à la même taille */
 
