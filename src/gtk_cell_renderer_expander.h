@@ -61,16 +61,10 @@ struct _GtkCellRendererExpanderClass
   void (*_gtk_reserved4) (void);
 };
 
-GType            gtk_cell_renderer_expander_get_type  (void) G_GNUC_CONST;
-GtkCellRenderer *gtk_cell_renderer_expander_new       (void);
+/* START_DECLARATION */
+GtkCellRenderer * gtk_cell_renderer_expander_new (void);
+/* END_DECLARATION */
 
-gboolean         gtk_cell_renderer_expander_get_radio (GtkCellRendererExpander *expander);
-void             gtk_cell_renderer_expander_set_radio (GtkCellRendererExpander *expander,
-						     gboolean               radio);
-
-gboolean        gtk_cell_renderer_expander_get_active (GtkCellRendererExpander *expander);
-void            gtk_cell_renderer_expander_set_active (GtkCellRendererExpander *expander,
-                                                     gboolean               setting);
 
 #ifdef __cplusplus
 }

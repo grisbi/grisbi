@@ -30,6 +30,7 @@
 /*START_INCLUDE*/
 #include "traitement_variables.h"
 #include "gsb_account.h"
+#include "gsb_transaction_data.h"
 #include "menu.h"
 /*END_INCLUDE*/
 
@@ -163,6 +164,7 @@ void init_variables ( void )
 	printf ( "init_variables\n" );
 
     gsb_account_init_variables ();
+    gsb_transaction_data_init_variables ();
 
     mise_a_jour_liste_comptes_accueil = 0;
     mise_a_jour_liste_echeances_manuelles_accueil = 0;

@@ -19,54 +19,62 @@
 
 #include <config.h>
 #include <stdlib.h>
-//#include "gtkalias.h"
-//#include "gtkcellrendererexpander.h"
-//#include "gtkintl.h"
-//#include "gtkmarshalers.h"
-//#include "gtktreeprivate.h"
-
 #include <glib-object.h>
 #include <glib-object.h>
 
 #include "include.h"
-#include "gtk_cell_renderer_expander.h"
 
 
 #define _gtk_marshal_VOID__STRING	g_cclosure_marshal_VOID__STRING
 
 
+/*START_INCLUDE*/
+#include "gtk_cell_renderer_expander.h"
+/*END_INCLUDE*/
 
-static void gtk_cell_renderer_expander_get_property  (GObject                    *object,
-						      guint                       param_id,
-						      GValue                     *value,
-						      GParamSpec                 *pspec);
-static void gtk_cell_renderer_expander_set_property  (GObject                    *object,
-						    guint                       param_id,
-						    const GValue               *value,
-						    GParamSpec                 *pspec);
-static void gtk_cell_renderer_expander_init       (GtkCellRendererExpander      *celltext);
-static void gtk_cell_renderer_expander_class_init (GtkCellRendererExpanderClass *class);
-static void gtk_cell_renderer_expander_get_size   (GtkCellRenderer            *cell,
-						 GtkWidget                  *widget,
- 						 GdkRectangle               *cell_area,
-						 gint                       *x_offset,
-						 gint                       *y_offset,
-						 gint                       *width,
-						 gint                       *height);
-static void gtk_cell_renderer_expander_render     (GtkCellRenderer            *cell,
-						 GdkWindow                  *window,
-						 GtkWidget                  *widget,
-						 GdkRectangle               *background_area,
-						 GdkRectangle               *cell_area,
-						 GdkRectangle               *expose_area,
-						 GtkCellRendererState        flags);
-static gboolean gtk_cell_renderer_expander_activate  (GtkCellRenderer            *cell,
-						    GdkEvent                   *event,
-						    GtkWidget                  *widget,
-						    const gchar                *path,
-						    GdkRectangle               *background_area,
-						    GdkRectangle               *cell_area,
-						    GtkCellRendererState        flags);
+/*START_STATIC*/
+static  gint gtk_cell_renderer_expander_activate (GtkCellRenderer      *cell,
+				   GdkEvent             *event,
+				   GtkWidget            *widget,
+				   const gchar          *path,
+				   GdkRectangle         *background_area,
+				   GdkRectangle         *cell_area,
+				   GtkCellRendererState  flags);
+static  void gtk_cell_renderer_expander_class_init (GtkCellRendererExpanderClass *class);;
+static gboolean gtk_cell_renderer_expander_get_active (GtkCellRendererExpander *expander);
+static  void gtk_cell_renderer_expander_get_property (GObject     *object,
+				       guint        param_id,
+				       GValue      *value,
+				       GParamSpec  *pspec);
+static  void gtk_cell_renderer_expander_get_size (GtkCellRenderer *cell,
+				   GtkWidget       *widget,
+				   GdkRectangle    *cell_area,
+				   gint            *x_offset,
+				   gint            *y_offset,
+				   gint            *width,
+				   gint            *height);
+static GType gtk_cell_renderer_expander_get_type (void);
+static  void gtk_cell_renderer_expander_init (GtkCellRendererExpander *cellexpander);
+static  void gtk_cell_renderer_expander_render (GtkCellRenderer      *cell,
+				 GdkDrawable          *window,
+				 GtkWidget            *widget,
+				 GdkRectangle         *background_area,
+				 GdkRectangle         *cell_area,
+				 GdkRectangle         *expose_area,
+				 GtkCellRendererState  flags);
+static void gtk_cell_renderer_expander_set_active (GtkCellRendererExpander *expander,
+				     gboolean               setting);
+static  void gtk_cell_renderer_expander_set_property (GObject      *object,
+				       guint         param_id,
+				       const GValue *value,
+				       GParamSpec   *pspec);
+/*END_STATIC*/
+
+/*START_EXTERN*/
+extern GtkTreeStore *model;
+extern GtkWidget *window;
+/*END_EXTERN*/
+
 
 
 enum {
@@ -94,8 +102,7 @@ struct _GtkCellRendererExpanderPrivate
 };
 
 
-GType
-gtk_cell_renderer_expander_get_type (void)
+GType gtk_cell_renderer_expander_get_type (void)
 {
   static GType cell_expander_type = 0;
 
@@ -122,8 +129,7 @@ gtk_cell_renderer_expander_get_type (void)
   return cell_expander_type;
 }
 
-static void
-gtk_cell_renderer_expander_init (GtkCellRendererExpander *cellexpander)
+static void gtk_cell_renderer_expander_init (GtkCellRendererExpander *cellexpander)
 {
   cellexpander->activatable = TRUE;
   cellexpander->active = FALSE;
@@ -132,8 +138,7 @@ gtk_cell_renderer_expander_init (GtkCellRendererExpander *cellexpander)
   GTK_CELL_RENDERER (cellexpander)->ypad = 2;
 }
 
-static void
-gtk_cell_renderer_expander_class_init (GtkCellRendererExpanderClass *class)
+static void gtk_cell_renderer_expander_class_init (GtkCellRendererExpanderClass *class)
 {
   GObjectClass *object_class = G_OBJECT_CLASS (class);
   GtkCellRendererClass *cell_class = GTK_CELL_RENDERER_CLASS (class);
@@ -195,8 +200,7 @@ gtk_cell_renderer_expander_class_init (GtkCellRendererExpanderClass *class)
 }
 
 
-static void
-gtk_cell_renderer_expander_get_property (GObject     *object,
+static void gtk_cell_renderer_expander_get_property (GObject     *object,
 				       guint        param_id,
 				       GValue      *value,
 				       GParamSpec  *pspec)
@@ -224,8 +228,7 @@ gtk_cell_renderer_expander_get_property (GObject     *object,
 }
 
 
-static void
-gtk_cell_renderer_expander_set_property (GObject      *object,
+static void gtk_cell_renderer_expander_set_property (GObject      *object,
 				       guint         param_id,
 				       const GValue *value,
 				       GParamSpec   *pspec)
@@ -268,14 +271,12 @@ gtk_cell_renderer_expander_set_property (GObject      *object,
  * 
  * Return value: the new cell renderer
  **/
-GtkCellRenderer *
-gtk_cell_renderer_expander_new (void)
+GtkCellRenderer * gtk_cell_renderer_expander_new (void)
 {
   return g_object_new (GTK_TYPE_CELL_RENDERER_EXPANDER, NULL);
 }
 
-static void
-gtk_cell_renderer_expander_get_size (GtkCellRenderer *cell,
+static void gtk_cell_renderer_expander_get_size (GtkCellRenderer *cell,
 				   GtkWidget       *widget,
 				   GdkRectangle    *cell_area,
 				   gint            *x_offset,
@@ -311,8 +312,7 @@ gtk_cell_renderer_expander_get_size (GtkCellRenderer *cell,
     }
 }
 
-static void
-gtk_cell_renderer_expander_render (GtkCellRenderer      *cell,
+static void gtk_cell_renderer_expander_render (GtkCellRenderer      *cell,
 				 GdkDrawable          *window,
 				 GtkWidget            *widget,
 				 GdkRectangle         *background_area,
@@ -377,8 +377,7 @@ gtk_cell_renderer_expander_render (GtkCellRenderer      *cell,
 
 }
 
-static gint
-gtk_cell_renderer_expander_activate (GtkCellRenderer      *cell,
+static gint gtk_cell_renderer_expander_activate (GtkCellRenderer      *cell,
 				   GdkEvent             *event,
 				   GtkWidget            *widget,
 				   const gchar          *path,
@@ -408,8 +407,7 @@ gtk_cell_renderer_expander_activate (GtkCellRenderer      *cell,
  *
  * Return value: %TRUE if the cell renderer is active.
  **/
-gboolean
-gtk_cell_renderer_expander_get_active (GtkCellRendererExpander *expander)
+gboolean gtk_cell_renderer_expander_get_active (GtkCellRendererExpander *expander)
 {
   g_return_val_if_fail (GTK_IS_CELL_RENDERER_EXPANDER (expander), FALSE);
 
@@ -423,8 +421,7 @@ gtk_cell_renderer_expander_get_active (GtkCellRendererExpander *expander)
  *
  * Activates or deactivates a cell renderer.
  **/
-void
-gtk_cell_renderer_expander_set_active (GtkCellRendererExpander *expander,
+void gtk_cell_renderer_expander_set_active (GtkCellRendererExpander *expander,
 				     gboolean               setting)
 {
   g_return_if_fail (GTK_IS_CELL_RENDERER_EXPANDER (expander));

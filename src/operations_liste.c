@@ -50,6 +50,7 @@
 #include "gsb_account.h"
 #include "format.h"
 #include "classement_operations.h"
+#include "gtk_cell_renderer_expander.h"
 #include "gtk_combofix.h"
 #include "utils_str.h"
 #include "categories_onglet.h"
