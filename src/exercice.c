@@ -499,38 +499,6 @@ GtkWidget *onglet_exercices ( void )
 		      vbox2 );
   gtk_widget_show ( vbox2 );
 
-
-  bouton_affichage_auto_exercice = gtk_radio_button_new_with_label ( NULL,
-								     _("Automatic display according to the date") );
-  gtk_box_pack_start ( GTK_BOX ( vbox2 ),
-		       bouton_affichage_auto_exercice,
-		       FALSE,
-		       FALSE,
-		       0);
-  gtk_widget_show ( bouton_affichage_auto_exercice );
-
-  bouton = gtk_radio_button_new_with_label ( gtk_radio_button_group ( GTK_RADIO_BUTTON (bouton_affichage_auto_exercice)),
-					     _("Automatic display of last selected financial year") );
-  gtk_box_pack_start ( GTK_BOX ( vbox2 ),
-		       bouton,
-		       FALSE,
-		       FALSE,
-		       0);
-  gtk_widget_show ( bouton );
-
-  if ( etat.affichage_exercice_automatique )
-    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_affichage_auto_exercice ),
-				   TRUE );
-  else
-    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton ),
-				   TRUE );
-
-  gtk_signal_connect_object ( GTK_OBJECT ( bouton_affichage_auto_exercice ),
-			      "toggled",
-			      gnome_property_box_changed,
-			      GTK_OBJECT (fenetre_preferences));
-
-
   return ( vbox_pref );
 }
 /* ************************************************************************************************************** */

@@ -1369,7 +1369,7 @@ void exporter_etat ( void )
   switch ( resultat )
     {
     case 0 :
-      nom_etat = g_strdup ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( gnome_file_entry_gtk_entry ( GNOME_FILE_ENTRY ( fenetre_nom ))))));
+      nom_etat = g_strdup ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( gnome_file_entry_gtk_entry ( GNOME_FILE_ENTRY ( fenetre_nom ))))));
 
       gnome_dialog_close ( GNOME_DIALOG ( dialog ));
 
@@ -1490,7 +1490,7 @@ void importer_etat ( void )
   switch ( resultat )
     {
     case 0 :
-      nom_etat = g_strdup ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( gnome_file_entry_gtk_entry ( GNOME_FILE_ENTRY ( fenetre_nom ))))));
+      nom_etat = g_strdup ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( gnome_file_entry_gtk_entry ( GNOME_FILE_ENTRY ( fenetre_nom ))))));
 
       gnome_dialog_close ( GNOME_DIALOG ( dialog ));
 

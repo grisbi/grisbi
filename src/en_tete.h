@@ -353,7 +353,9 @@ void calcule_total_pointe_compte ( gint no_compte );
 
 void preferences ( GtkWidget *widget,
 		   gint page_demandee );
-GtkWidget *onglet_general ( void );
+GtkWidget *new_vbox_with_title_and_icon ( gchar * title,
+					  gchar * image_filename);
+GtkWidget *onglet_messages_and_warnings ( void );
 GtkWidget *onglet_fichier ( void );
 GtkWidget *onglet_echeances ( void );
 GtkWidget *onglet_applet ( void );
@@ -870,6 +872,8 @@ void importer_ib ( void );
 /* fichier affichage.c */
 /***********************************/ 
 
+GtkWidget *onglet_display_addresses ( void );
+GtkWidget * onglet_display_transaction_form ( void );
 GtkWidget *onglet_affichage ( void );
 void selection_choix_ordre_comptes ( GtkWidget *box );
 void deselection_choix_ordre_comptes ( GtkWidget *box );

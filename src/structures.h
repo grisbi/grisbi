@@ -2,10 +2,10 @@
 /* contient toutes les structures du prog */
 
 
-#define VERSION_FICHIER "0.4.0"
-#define VERSION_FICHIER_ETAT "0.4.0"
-#define VERSION_FICHIER_CATEG "0.4.0"
-#define VERSION_FICHIER_IB "0.4.0"
+#define VERSION_FICHIER "0.5.0"
+#define VERSION_FICHIER_ETAT "0.5.0"
+#define VERSION_FICHIER_CATEG "0.5.0"
+#define VERSION_FICHIER_IB "0.5.0"
 
 /* Chemin des fichiers */
 
@@ -40,38 +40,38 @@
 /* variables contenant juste 0 ou 1 */
 
 struct {
-  guint modification_fichier : 1;
-  guint ancienne_date : 1;
-  guint ctrl : 1;
-  guint equilibrage : 1;
-  guint valeur_r_avant_rapprochement : 1;
-  guint r_modifiable : 1;
-  guint dernier_fichier_auto : 1;
-  guint sauvegarde_auto : 1;             /* utilisé pour enregistrer le fichier automatiquementà la fermeture */
-  guint sauvegarde_demarrage : 1;        /* utilisé pour enregistrer le fichier s'il s'est bien ouvert */
-  guint entree : 1;
-  guint alerte_mini : 1;
-  guint formulaire_toujours_affiche : 1;
-  guint formulaire_echeancier_toujours_affiche : 1;
-  guint formulaire_echeance_dans_fenetre : 1;        /* à 1 lorsque le formulaire de l'échéancier est dans une fenetre à part */
-  guint alerte_permission : 1;   /* à un si le message d'alerte s'affiche */
-  guint fichier_deja_ouvert : 1;   /* à un si lors de l'ouverture, le fichier semblait déjà ouvert */
-  guint force_enregistrement : 1;    /* à un si on force l'enregistrement */
-  guint affichage_exercice_automatique : 1;   /* à 1 si exercice automatique selon la date, 0 si affiche le dernier choisi */
-  guint affiche_tous_les_types : 1;      /* à 1 si tous les types sont dans le check button et non pas juste les débits ou crédits */
-  guint affiche_no_operation :1;
-  guint affiche_date_bancaire :1; /* GDC : à 1 si on veut afficher la colonne et le champ de la date réelle */
-  guint utilise_exercice :1;
-  guint utilise_imputation_budgetaire :1;
-  guint utilise_piece_comptable :1;
-  guint utilise_info_banque_guichet :1;
-  guint affiche_boutons_valider_annuler :1;
-  guint affiche_nb_ecritures_listes :1;
-  guint classement_par_date :1;   /* à 1 si le classement de la liste d'opé se fait par date */
-  guint largeur_auto_colonnes :1;
-  guint retient_affichage_par_compte :1;   /* à 1 si les caractéristiques de l'affichage (R, non R ...) diffèrent par compte */
-  guint en_train_de_sauvegarder :1;
-  guint en_train_de_charger :1;
+  guint modification_fichier;
+  guint ancienne_date;
+  guint ctrl;
+  guint equilibrage;
+  guint valeur_r_avant_rapprochement;
+  guint r_modifiable;
+  guint dernier_fichier_auto;
+  guint sauvegarde_auto;             /* utilisé pour enregistrer le fichier automatiquementà la fermeture */
+  guint sauvegarde_demarrage;        /* utilisé pour enregistrer le fichier s'il s'est bien ouvert */
+  guint entree;
+  guint alerte_mini;
+  guint formulaire_toujours_affiche;
+  guint formulaire_echeancier_toujours_affiche;
+  guint formulaire_echeance_dans_fenetre;        /* à 1 lorsque le formulaire de l'échéancier est dans une fenetre à part */
+  guint alerte_permission;   /* à un si le message d'alerte s'affiche */
+  guint fichier_deja_ouvert;   /* à un si lors de l'ouverture, le fichier semblait déjà ouvert */
+  guint force_enregistrement;    /* à un si on force l'enregistrement */
+  guint affichage_exercice_automatique;   /* à 1 si exercice automatique selon la date, 0 si affiche le dernier choisi */
+  guint affiche_tous_les_types;      /* à 1 si tous les types sont dans le check button et non pas juste les débits ou crédits */
+  guint affiche_no_operation;
+  guint affiche_date_bancaire; /* GDC : à 1 si on veut afficher la colonne et le champ de la date réelle */
+  guint utilise_exercice;
+  guint utilise_imputation_budgetaire;
+  guint utilise_piece_comptable;
+  guint utilise_info_banque_guichet;
+  guint affiche_boutons_valider_annuler;
+  guint affiche_nb_ecritures_listes;
+  guint classement_par_date;   /* à 1 si le classement de la liste d'opé se fait par date */
+  guint largeur_auto_colonnes;
+  guint retient_affichage_par_compte;   /* à 1 si les caractéristiques de l'affichage (R, non R ...) diffèrent par compte */
+  guint en_train_de_sauvegarder;
+  guint en_train_de_charger;
 } etat;
 
 

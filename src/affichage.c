@@ -25,13 +25,370 @@
 #include "variables-extern.c"
 #include "en_tete.h"
 
+/**
+ * Set a boolean integer to the value of a checkbox.  Normally called
+ * via a GTK "toggled" signal handler.
+ * 
+ * \param checkbox a pointer to a checkbox widget.
+ * \param data a pointer to an integer that is to be modified.
+ */
+gboolean
+set_boolean ( GtkWidget * checkbox,
+	      guint * data)
+{
+  *data = gtk_toggle_button_get_active (checkbox);
+}
 
 
+/**
+ * Create a GtkCheckButton with a callback associated.  Initial value
+ * of this checkbox is set to the value of *data.  This checkbox calls
+ * set_boolean upon toggle, which in turn modifies *data.
+ *
+ * \param label The label for this checkbutton
+ * \param data A pointer to a boolean integer
+ */
+GtkWidget *
+new_checkbox_with_title ( gchar * label,
+			  guint * data )
+{
+  GtkWidget * checkbox;
+
+  checkbox = gtk_check_button_new_with_label ( label );
+  if (data && *data)
+    {
+      gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( checkbox ),
+				     TRUE );      
+    }
+
+  gtk_signal_connect ( GTK_OBJECT ( checkbox ), "toggled",
+		       set_boolean, data );
+
+  /* FIXME: deactivate when we will be full "implicit apply" */
+  gtk_signal_connect_object ( GTK_OBJECT ( checkbox ),
+			      "toggled",
+			      activer_bouton_appliquer,
+			      GTK_OBJECT (fenetre_preferences));
+  gtk_widget_show ( checkbox );
+  
+  return checkbox;
+}
 
 
-/* ************************************************************************************************************** */
-/* renvoie l'onglet de l'affichage des paramètres */
-/* ************************************************************************************************************** */
+GtkWidget *
+onglet_display_transaction_form ( void )
+{
+  GtkWidget *hbox, *vbox_pref;
+  GtkWidget *label, *paddingbox;
+  GtkWidget *table, *bouton;
+
+  vbox_pref = new_vbox_with_title_and_icon ( _("Transaction form"),
+					     "pixmaps/form.png" );
+
+  /* What to do if RETURN is pressed into transaction form */
+  paddingbox = paddingbox_new_with_title (vbox_pref, 
+					  _("Pressing RETURN in transaction form"));  bouton_entree_enregistre = 
+    gtk_radio_button_new_with_label ( NULL,
+				      SPACIFY(_("saves transaction")) );
+  gtk_box_pack_start ( GTK_BOX ( paddingbox ),
+		       bouton_entree_enregistre,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( bouton_entree_enregistre );
+
+  bouton_entree_enregistre_pas = 
+    gtk_radio_button_new_with_label 
+    ( gtk_radio_button_group ( GTK_RADIO_BUTTON ( bouton_entree_enregistre )),
+      SPACIFY(_("selects next field")) );
+  gtk_box_pack_start ( GTK_BOX ( paddingbox ),
+		       bouton_entree_enregistre_pas,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( bouton_entree_enregistre_pas );
+
+  if ( etat.entree == 1 )
+    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_entree_enregistre ),
+				   TRUE );
+  else
+    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_entree_enregistre_pas ),
+				   TRUE );
+  gtk_signal_connect_object ( GTK_OBJECT ( bouton_entree_enregistre ),
+			      "toggled",
+			      activer_bouton_appliquer,
+			      GTK_OBJECT (fenetre_preferences));
+
+
+  /* Displayed fields */
+  paddingbox = paddingbox_new_with_title 
+    (vbox_pref, COLON(_("Fields displayed")));
+  
+  table = gtk_table_new ( 0, 2, TRUE );
+  gtk_table_set_col_spacings ( GTK_TABLE ( table ), 5 );
+  gtk_box_pack_start ( GTK_BOX ( paddingbox ),
+		       table,
+		       FALSE, FALSE, 0 );
+
+  gtk_table_attach ( GTK_TABLE ( table ),
+		     new_checkbox_with_title (_("Transaction number"),
+					      &etat.affiche_no_operation),
+		     0, 1, 0, 1,
+		     GTK_SHRINK | GTK_FILL,
+		     GTK_SHRINK | GTK_FILL,
+		     0, 0 );
+
+  gtk_table_attach ( GTK_TABLE ( table ),
+		     new_checkbox_with_title (_("Value date"),
+					      &etat.affiche_date_bancaire),
+		     0, 1, 1, 2,
+		     GTK_SHRINK | GTK_FILL,
+		     GTK_SHRINK | GTK_FILL,
+		     0, 0 );
+
+  gtk_table_attach ( GTK_TABLE ( table ),
+		     new_checkbox_with_title (_("Financial year"),
+					      &etat.utilise_exercice),
+		     0, 1, 2, 3,
+		     GTK_SHRINK | GTK_FILL,
+		     GTK_SHRINK | GTK_FILL,
+		     0, 0 );
+
+  gtk_table_attach ( GTK_TABLE ( table ),
+		     new_checkbox_with_title (_("Budgetary information"),
+					      &etat.utilise_imputation_budgetaire),
+		     0, 1, 3, 4,
+		     GTK_SHRINK | GTK_FILL,
+		     GTK_SHRINK | GTK_FILL,
+		     0, 0 );
+
+  gtk_table_attach ( GTK_TABLE ( table ),
+		     new_checkbox_with_title (_("Voucher number"),
+					      &etat.utilise_piece_comptable),
+		     1, 2, 0, 1,
+		     GTK_SHRINK | GTK_FILL,
+		     GTK_SHRINK | GTK_FILL,
+		     0, 0 );
+
+  gtk_table_attach ( GTK_TABLE ( table ),
+		     new_checkbox_with_title (_("Bank reference"),
+					      &etat.utilise_info_banque_guichet),
+		     1, 2, 1, 2,
+		     GTK_SHRINK | GTK_FILL,
+		     GTK_SHRINK | GTK_FILL,
+		     0, 0 );
+
+  gtk_table_attach ( GTK_TABLE ( table ),
+		     new_checkbox_with_title (_("'Accept' and 'Cancel' buttons"),
+					      &etat.affiche_boutons_valider_annuler),
+		     1, 2, 2, 3,
+		     GTK_SHRINK | GTK_FILL,
+		     GTK_SHRINK | GTK_FILL,
+		     0, 0 );
+
+  /* How to display financial year */
+  paddingbox = paddingbox_new_with_title 
+    (vbox_pref, COLON(_("By default, use financial year:")));
+  
+  bouton_affichage_auto_exercice = gtk_radio_button_new_with_label ( NULL,
+								     _("according to transaction date") );
+  gtk_box_pack_start ( GTK_BOX ( paddingbox ),
+		       bouton_affichage_auto_exercice,
+		       FALSE,
+		       FALSE,
+		       0);
+  gtk_widget_show ( bouton_affichage_auto_exercice );
+
+  bouton = gtk_radio_button_new_with_label ( gtk_radio_button_group ( GTK_RADIO_BUTTON (bouton_affichage_auto_exercice)),
+					     _("last selected financial year") );
+  gtk_box_pack_start ( GTK_BOX ( paddingbox ),
+		       bouton,
+		       FALSE,
+		       FALSE,
+		       0);
+  gtk_widget_show ( bouton );
+
+  if ( etat.affichage_exercice_automatique )
+    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_affichage_auto_exercice ),
+				   TRUE );
+  else
+    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton ),
+				   TRUE );
+
+  gtk_signal_connect_object ( GTK_OBJECT ( bouton_affichage_auto_exercice ),
+			      "toggled",
+			      gnome_property_box_changed,
+			      GTK_OBJECT (fenetre_preferences));
+
+  return vbox_pref;
+}
+
+
+GtkWidget *onglet_display_addresses ( void )
+{
+  GtkWidget *hbox, *vbox_pref;
+  GtkWidget *separateur, *scrolled_window;
+  GtkWidget *label;
+  GtkWidget *frame;
+  GSList *liste_tmp;
+  GtkWidget *vbox2;
+  GtkWidget *fleche;
+  GtkWidget *hbox2;
+  GtkWidget *bouton;
+  GtkWidget *onglet;
+
+  vbox_pref = new_vbox_with_title_and_icon ( _("Addresses &amp; titles"),
+					     "pixmaps/addresses.png" );
+
+  /* mise en place du titre du fichier */
+
+  hbox = gtk_hbox_new ( FALSE, 5 );
+  gtk_box_pack_start ( GTK_BOX ( vbox_pref ),
+		       hbox,
+		       FALSE,
+		       FALSE,
+		       0);
+  gtk_widget_show ( hbox );
+
+  label = gtk_label_new ( COLON(_("Main title")) );
+  gtk_box_pack_start ( GTK_BOX ( hbox ),
+		       label,
+		       FALSE,
+		       FALSE,
+		       0);
+  gtk_widget_show ( label );
+
+  entree_titre_fichier = gtk_entry_new ();
+  if ( titre_fichier )
+    gtk_entry_set_text ( GTK_ENTRY ( entree_titre_fichier ),
+			 titre_fichier );
+  gtk_signal_connect_object ( GTK_OBJECT ( entree_titre_fichier ),
+			      "changed",
+			      activer_bouton_appliquer,
+			      GTK_OBJECT (fenetre_preferences));
+  gtk_box_pack_start ( GTK_BOX ( hbox ),
+		       entree_titre_fichier,
+		       TRUE,
+		       TRUE,
+		       0);
+  gtk_widget_show ( entree_titre_fichier );
+
+  if ( !nb_comptes )
+    gtk_widget_set_sensitive ( entree_titre_fichier,
+			       FALSE );
+
+  /* mise en place de l'adresse commune */
+
+  hbox = gtk_hbox_new ( FALSE,
+			5 );
+  gtk_box_pack_start ( GTK_BOX ( vbox_pref ),
+		       hbox,
+		       FALSE,
+		       FALSE,
+		       0);
+  gtk_widget_show ( hbox );
+
+  label = gtk_label_new ( COLON(_("Common address")) );
+  gtk_box_pack_start ( GTK_BOX ( hbox ),
+		       label,
+		       FALSE,
+		       FALSE,
+		       0);
+  gtk_widget_show ( label );
+
+  scrolled_window = gtk_scrolled_window_new ( NULL,
+					      NULL );
+  gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window ),
+				   GTK_POLICY_AUTOMATIC,
+				   GTK_POLICY_AUTOMATIC );
+  gtk_box_pack_start ( GTK_BOX ( vbox_pref ),
+		       scrolled_window,
+		       FALSE,
+		       FALSE,
+		       0);
+  gtk_widget_show ( scrolled_window );
+
+  entree_adresse_commune = gtk_text_new ( FALSE,
+					  FALSE );
+  gtk_text_set_editable ( GTK_TEXT ( entree_adresse_commune ),
+			  TRUE );
+  if ( adresse_commune )
+    gtk_text_insert ( GTK_TEXT (entree_adresse_commune  ),
+		      NULL,
+		      NULL,
+		      NULL,
+		      adresse_commune,
+		      -1 );
+  gtk_signal_connect_object ( GTK_OBJECT ( entree_adresse_commune ),
+			      "changed",
+			      activer_bouton_appliquer,
+			      GTK_OBJECT (fenetre_preferences));
+  gtk_container_add ( GTK_CONTAINER ( scrolled_window ),
+		      entree_adresse_commune );
+  gtk_widget_show ( entree_adresse_commune );
+
+  /* mise en place de la seconde adresse */
+
+  hbox = gtk_hbox_new ( FALSE,
+			5 );
+  gtk_box_pack_start ( GTK_BOX ( vbox_pref ),
+		       hbox,
+		       FALSE,
+		       FALSE,
+		       0);
+  gtk_widget_show ( hbox );
+
+  label = gtk_label_new ( COLON(_("Secondary address")) );
+  gtk_box_pack_start ( GTK_BOX ( hbox ),
+		       label,
+		       FALSE,
+		       FALSE,
+		       0);
+  gtk_widget_show ( label );
+
+  scrolled_window = gtk_scrolled_window_new ( NULL,
+					      NULL );
+  gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window ),
+				   GTK_POLICY_AUTOMATIC,
+				   GTK_POLICY_AUTOMATIC );
+  gtk_box_pack_start ( GTK_BOX ( vbox_pref ),
+		       scrolled_window,
+		       FALSE,
+		       FALSE,
+		       0);
+  gtk_widget_show ( scrolled_window );
+
+  entree_adresse_secondaire = gtk_text_new ( FALSE,
+					     FALSE );
+  gtk_text_set_editable ( GTK_TEXT ( entree_adresse_secondaire ),
+			  TRUE );
+  if ( adresse_secondaire )
+    gtk_text_insert ( GTK_TEXT ( entree_adresse_secondaire ),
+		      NULL,
+		      NULL,
+		      NULL,
+		      adresse_secondaire,
+		      -1 );
+  gtk_signal_connect_object ( GTK_OBJECT ( entree_adresse_secondaire ),
+			      "changed",
+			      activer_bouton_appliquer,
+			      GTK_OBJECT (fenetre_preferences));
+  gtk_container_add ( GTK_CONTAINER ( scrolled_window ),
+		      entree_adresse_secondaire );
+  gtk_widget_show ( entree_adresse_secondaire );
+
+  if ( !nb_comptes )
+    {
+      gtk_widget_set_sensitive ( entree_adresse_commune,
+				 FALSE );
+      gtk_widget_set_sensitive ( entree_adresse_secondaire,
+				 FALSE );
+    }
+
+  return ( vbox_pref );
+}
+
+
 
 GtkWidget *onglet_affichage ( void )
 {

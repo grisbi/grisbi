@@ -151,29 +151,27 @@ void preferences ( GtkWidget *widget,
 
   /* on crée le premier onglet : Général */
   gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter, NULL);
-  w = onglet_general();
   gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
 		      &iter,
-		      0, _("Main"),
-		      1, w,
+		      0, _("Messages & warnings"),
+		      1, onglet_messages_and_warnings(),
 		      -1);
 
   /* création du 2ème onglet */
   gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter, NULL);
-  w = onglet_fichier();
   gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
 		      &iter,
 		      0, _("Files"),
-		      1, w,
+		      1, onglet_fichier(),
 		      -1);
 
   /* création du 3ème onglet */
-  gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter, NULL);
-  gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
-		      &iter,
-		      0, _("Scheduler"),
-		      1, onglet_echeances(),
-		      -1);
+/*   gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter, NULL); */
+/*   gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model), */
+/* 		      &iter, */
+/* 		      0, _("Scheduler"), */
+/* 		      1, onglet_echeances(), */
+/* 		      -1); */
 
   /* création du 4ème onglet */
   gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter, NULL);
@@ -186,7 +184,19 @@ void preferences ( GtkWidget *widget,
   gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
   gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
 		      &iter2,
+		      0, _("Addresses & titles"),
+		      1, onglet_display_addresses(),
+		      -1);
+  gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
+  gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
+		      &iter2,
 		      0, _("Transaction form"),
+		      1, onglet_display_transaction_form(),
+		      -1);
+  gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
+  gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
+		      &iter2,
+		      0, _("Transaction list"),
 		      1, onglet_affichage(),
 		      -1);
   gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
@@ -320,46 +330,84 @@ void activer_bouton_appliquer ( )
 }
 
 
-/* ************************************************************************************************************** */
-/* page Général */
-/* ************************************************************************************************************** */
-
-GtkWidget *onglet_general ( void )
+/**
+ * Function that makes a nice title with an optional icon.  It is
+ * mainly used to automate preference tabs with titles.
+ * 
+ * \param title Title that will be displayed in window
+ * \param filename (relative or absolute) to an image in a file format
+ * recognized by gtk_image_new_from_file().  Use NULL if you don't
+ * want an image to be displayed
+ * 
+ * \returns A pointer to a vbox widget that will contain all created
+ * widgets and user defined widgets
+ */
+GtkWidget *new_vbox_with_title_and_icon ( gchar * title,
+					  gchar * image_filename)
 {
-  GtkWidget *hbox_pref;
-  GtkWidget *vbox_pref;
-  GtkWidget *separateur;
-  GtkWidget *vbox;
-  GtkWidget *hbox;
-  GtkWidget *label;
-  GtkWidget *scrolled_window;
-  GtkWidget *paddingbox;
+  GtkWidget *vbox_pref, *separator, *hbox, *label, *image;
 
-  vbox_pref = gtk_vbox_new ( FALSE,               /* fenetre de base verticale */
-			     5 );
+  vbox_pref = gtk_vbox_new ( FALSE, 5 );
   gtk_widget_show ( vbox_pref );
 
-  label = gtk_label_new ( "" );
-  gtk_misc_set_alignment ( label, 0, 1 );
-  gtk_label_set_markup ( label, 
+  /* Title hbox */
+  hbox = gtk_hbox_new ( FALSE, 5 );
+  gtk_box_pack_start ( GTK_BOX ( vbox_pref ),
+		       hbox,
+		       FALSE,
+		       FALSE,
+		       0);
+  gtk_widget_show ( hbox );
+
+  /* Icon */
+  if ( image_filename )
+    {
+      image = gtk_image_new_from_file ( image_filename );
+      gtk_box_pack_start ( GTK_BOX ( hbox ),
+			   image,
+			   FALSE,
+			   FALSE,
+			   0);
+      gtk_widget_show ( image );
+    }
+
+  /* Nice huge title */
+  label = gtk_label_new ( title );
+  gtk_misc_set_alignment ( GTK_LABEL(label), 0, 1 );
+  gtk_label_set_markup ( GTK_LABEL(label), 
 			 g_strconcat ("<span size=\"x-large\" weight=\"bold\">",
-				      _("General"),
+				      title,	/* FIXME: escape any "&" */
 				      "</span>",
 				      NULL ) );
-  gtk_box_pack_start ( GTK_BOX ( vbox_pref ),
+  gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       label,
 		       FALSE,
 		       FALSE,
 		       0);
   gtk_widget_show ( label );
 
-  separateur = gtk_hseparator_new ();
+  /* Separator */
+  separator = gtk_hseparator_new ();
   gtk_box_pack_start ( GTK_BOX ( vbox_pref ),
-		       separateur,
+		       separator,
 		       FALSE,
 		       FALSE,
 		       0);
-  gtk_widget_show ( label );
+  gtk_widget_show ( separator );
+
+  return vbox_pref;
+}
+
+
+
+GtkWidget *onglet_messages_and_warnings ( void )
+{
+  GtkWidget *vbox, *hbox, *hbox_pref, *vbox_pref;
+  GtkWidget *separateur;
+  GtkWidget *paddingbox, *label;
+
+  vbox_pref = new_vbox_with_title_and_icon ( _("Messages &amp; warnings"),
+					     "pixmaps/warnings.png" );
 
   hbox_pref = gtk_hbox_new ( FALSE,
 			     5 );
@@ -371,7 +419,6 @@ GtkWidget *onglet_general ( void )
   gtk_widget_show ( hbox_pref );
 
 
-
 /* création de la 1ère colonne */
 
   vbox = gtk_vbox_new ( FALSE, 6 );
@@ -381,39 +428,6 @@ GtkWidget *onglet_general ( void )
 		       FALSE,
 		       0);
   gtk_widget_show ( vbox );
-
-
-  /* action de la touche entree */
-  paddingbox = paddingbox_new_with_title (vbox, _("In transaction form"));
-
-  bouton_entree_enregistre = gtk_radio_button_new_with_label ( NULL,
-						       SPACIFY(_("RETURN saves transaction")) );
-  gtk_box_pack_start ( GTK_BOX ( paddingbox ),
-		       bouton_entree_enregistre,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( bouton_entree_enregistre );
-
-  bouton_entree_enregistre_pas = gtk_radio_button_new_with_label ( gtk_radio_button_group ( GTK_RADIO_BUTTON ( bouton_entree_enregistre )),
-								   SPACIFY(_("RETURN selects next field")) );
-  gtk_box_pack_start ( GTK_BOX ( paddingbox ),
-		       bouton_entree_enregistre_pas,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( bouton_entree_enregistre_pas );
-
-  if ( etat.entree == 1 )
-    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_entree_enregistre ),
-				   TRUE );
-  else
-    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_entree_enregistre_pas ),
-				   TRUE );
-   gtk_signal_connect_object ( GTK_OBJECT ( bouton_entree_enregistre ),
-			      "toggled",
-			      activer_bouton_appliquer,
-			      GTK_OBJECT (fenetre_preferences));
 
 
    /* Warnings */
@@ -460,177 +474,40 @@ GtkWidget *onglet_general ( void )
 			      GTK_OBJECT (fenetre_preferences));
      
 
-  /* Séparateur vertical entre les deux parties */
-  separateur = gtk_vseparator_new ();
-  gtk_box_pack_start ( GTK_BOX ( hbox_pref ),
-		       separateur,
+
+
+  /* Number of days before a warning message advertising a scheduled
+     transaction */
+  hbox = gtk_hbox_new ( FALSE, 6 );
+  gtk_box_pack_start ( GTK_BOX ( vbox ),
+		       hbox,
+		       FALSE,
+		       FALSE,
+		       0);
+  label = gtk_label_new ( SPACIFY(COLON(_("Number of days before a warning message advertising a scheduled transaction"))) );
+  gtk_box_pack_start ( GTK_BOX ( hbox ),
+		       label,
 		       FALSE,
 		       FALSE,
 		       0 );
-  gtk_widget_show ( separateur );
-
-
-
-/* création de la 2ème colonne */
-
-  vbox = gtk_vbox_new ( FALSE,
-			    5 );
-  gtk_container_set_border_width ( GTK_CONTAINER ( vbox ),
-				   5 );
-  gtk_box_pack_start ( GTK_BOX ( hbox_pref ),
-		       vbox,
-		       TRUE,
-		       TRUE,
-		       0);
-  gtk_widget_show ( vbox );
-
-  /* mise en place du titre du fichier */
-
-  hbox = gtk_hbox_new ( FALSE,
-			5 );
-  gtk_box_pack_start ( GTK_BOX ( vbox ),
-		       hbox,
-		       FALSE,
-		       FALSE,
-		       0);
-  gtk_widget_show ( hbox );
-
-  label = gtk_label_new ( COLON(_("Main title")) );
-  gtk_box_pack_start ( GTK_BOX ( hbox ),
-		       label,
-		       FALSE,
-		       FALSE,
-		       0);
   gtk_widget_show ( label );
-
-  entree_titre_fichier = gtk_entry_new ();
-  if ( titre_fichier )
-    gtk_entry_set_text ( GTK_ENTRY ( entree_titre_fichier ),
-			 titre_fichier );
-  gtk_signal_connect_object ( GTK_OBJECT ( entree_titre_fichier ),
+  entree_jours = gtk_entry_new_with_max_length (10);
+  gtk_widget_set_usize ( GTK_WIDGET ( entree_jours ),
+			 60,
+			 FALSE );
+  gtk_entry_set_text ( GTK_ENTRY ( entree_jours ),
+		       g_strdup_printf ( "%d",
+					 decalage_echeance ));
+  gtk_signal_connect_object ( GTK_OBJECT ( entree_jours ),
 			      "changed",
 			      activer_bouton_appliquer,
 			      GTK_OBJECT (fenetre_preferences));
-  gtk_box_pack_start ( GTK_BOX ( hbox ),
-		       entree_titre_fichier,
-		       TRUE,
-		       TRUE,
-		       0);
-  gtk_widget_show ( entree_titre_fichier );
-
-  if ( !nb_comptes )
-    gtk_widget_set_sensitive ( entree_titre_fichier,
-			       FALSE );
-
-  /* mise en place de l'adresse commune */
-
-  hbox = gtk_hbox_new ( FALSE,
-			5 );
-  gtk_box_pack_start ( GTK_BOX ( vbox ),
-		       hbox,
-		       FALSE,
-		       FALSE,
-		       0);
-  gtk_widget_show ( hbox );
-
-  label = gtk_label_new ( COLON(_("Common address")) );
-  gtk_box_pack_start ( GTK_BOX ( hbox ),
-		       label,
-		       FALSE,
-		       FALSE,
-		       0);
-  gtk_widget_show ( label );
-
-  scrolled_window = gtk_scrolled_window_new ( NULL,
-					      NULL );
-  gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window ),
-				   GTK_POLICY_AUTOMATIC,
-				   GTK_POLICY_AUTOMATIC );
-  gtk_box_pack_start ( GTK_BOX ( vbox ),
-		       scrolled_window,
-		       FALSE,
-		       FALSE,
-		       0);
-  gtk_widget_show ( scrolled_window );
-
-  entree_adresse_commune = gtk_text_new ( FALSE,
-					  FALSE );
-  gtk_text_set_editable ( GTK_TEXT ( entree_adresse_commune ),
-			  TRUE );
-  if ( adresse_commune )
-    gtk_text_insert ( GTK_TEXT (entree_adresse_commune  ),
-		      NULL,
-		      NULL,
-		      NULL,
-		      adresse_commune,
-		      -1 );
-  gtk_signal_connect_object ( GTK_OBJECT ( entree_adresse_commune ),
-			      "changed",
-			      activer_bouton_appliquer,
-			      GTK_OBJECT (fenetre_preferences));
-  gtk_container_add ( GTK_CONTAINER ( scrolled_window ),
-		      entree_adresse_commune );
-  gtk_widget_show ( entree_adresse_commune );
-
-  /* mise en place de la seconde adresse */
-
-  hbox = gtk_hbox_new ( FALSE,
-			5 );
-  gtk_box_pack_start ( GTK_BOX ( vbox ),
-		       hbox,
-		       FALSE,
-		       FALSE,
-		       0);
-  gtk_widget_show ( hbox );
-
-  label = gtk_label_new ( COLON(_("Secondary address")) );
-  gtk_box_pack_start ( GTK_BOX ( hbox ),
-		       label,
-		       FALSE,
-		       FALSE,
-		       0);
-  gtk_widget_show ( label );
-
-  scrolled_window = gtk_scrolled_window_new ( NULL,
-					      NULL );
-  gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window ),
-				   GTK_POLICY_AUTOMATIC,
-				   GTK_POLICY_AUTOMATIC );
-  gtk_box_pack_start ( GTK_BOX ( vbox ),
-		       scrolled_window,
-		       FALSE,
-		       FALSE,
-		       0);
-  gtk_widget_show ( scrolled_window );
-
-  entree_adresse_secondaire = gtk_text_new ( FALSE,
-					  FALSE );
-  gtk_text_set_editable ( GTK_TEXT ( entree_adresse_secondaire ),
-			  TRUE );
-  if ( adresse_secondaire )
-    gtk_text_insert ( GTK_TEXT ( entree_adresse_secondaire ),
-		      NULL,
-		      NULL,
-		      NULL,
-		      adresse_secondaire,
-		      -1 );
-  gtk_signal_connect_object ( GTK_OBJECT ( entree_adresse_secondaire ),
-			      "changed",
-			      activer_bouton_appliquer,
-			      GTK_OBJECT (fenetre_preferences));
-  gtk_container_add ( GTK_CONTAINER ( scrolled_window ),
-		      entree_adresse_secondaire );
-  gtk_widget_show ( entree_adresse_secondaire );
-
-
-
-  if ( !nb_comptes )
-    {
-      gtk_widget_set_sensitive ( entree_adresse_commune,
-				 FALSE );
-      gtk_widget_set_sensitive ( entree_adresse_secondaire,
-				 FALSE );
-    }
+  gtk_box_pack_end ( GTK_BOX ( hbox ),
+		     entree_jours,
+		     FALSE,
+		     FALSE,
+		     0 );
+  gtk_widget_show ( entree_jours );
 
   return ( vbox_pref );
 
@@ -648,188 +525,100 @@ GtkWidget *onglet_general ( void )
 
 GtkWidget *onglet_fichier ( void )
 {
-  GtkWidget *box_pref1, *hbox_pref, *vbox_pref;
+  GtkWidget *box_pref1, *vbox_pref, *paddingbox;
   GtkWidget *separateur;
   GtkWidget *vbox;
   GtkWidget *hbox;
   GtkWidget *label;
 
-  vbox_pref = gtk_vbox_new ( FALSE,               /* fenetre de base verticale */
-			     5 );
-  gtk_widget_show ( vbox_pref );
+  vbox_pref = new_vbox_with_title_and_icon ( _("Files"),
+					     "pixmaps/files.png" );
 
-  hbox_pref = gtk_hbox_new ( FALSE,
-			     5 );
-  gtk_box_pack_start ( GTK_BOX ( vbox_pref ),
-		       hbox_pref,
-		       FALSE,
-		       FALSE,
-		       0);
-  gtk_widget_show ( hbox_pref );
+  /* Account file handling */
+  paddingbox = paddingbox_new_with_title (vbox_pref, 
+					  _("Account file handling"));
 
-
-
-  box_pref1 = gtk_vbox_new ( FALSE,
-			    5 );
-  gtk_box_pack_start ( GTK_BOX ( hbox_pref ),
-		       box_pref1,
-		       FALSE,
-		       FALSE,
-		       0);
-  gtk_widget_show ( box_pref1 );
-
-
-/* configuration du démarrage automatique du dernier fichier ou non */
-
-  bouton_avec_demarrage = gtk_radio_button_new_with_label ( NULL,
-							    SPACIFY(_("Automatic loading of the last file used")) );
-  gtk_box_pack_start ( GTK_BOX ( box_pref1 ),
-		       bouton_avec_demarrage,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( bouton_avec_demarrage );
-
-  bouton_sans_demarrage = gtk_radio_button_new_with_label ( gtk_radio_button_group ( GTK_RADIO_BUTTON ( bouton_avec_demarrage )),
-						     SPACIFY(_("Start without automatic loading")) );
-  gtk_box_pack_start ( GTK_BOX ( box_pref1 ),
-		       bouton_sans_demarrage,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( bouton_sans_demarrage );
-
+  /* Automatically load last file on startup? */
+  bouton_avec_demarrage = 
+    gtk_check_button_new_with_label ( SPACIFY(_("Automatically load last file on startup")) );
+  gtk_box_pack_start ( GTK_BOX ( paddingbox ), 
+		       bouton_avec_demarrage, 
+		       FALSE, FALSE, 0 );
+/*   gtk_widget_show ( bouton_avec_demarrage ); */
   if ( etat.dernier_fichier_auto == 1 )
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_avec_demarrage ),
 				   TRUE );
-  else
-    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_sans_demarrage ),
-				   TRUE );
-
   gtk_signal_connect_object ( GTK_OBJECT ( bouton_avec_demarrage ),
 			      "toggled",
 			      activer_bouton_appliquer,
 			      GTK_OBJECT (fenetre_preferences));
-     
 
-  separateur = gtk_hseparator_new ();
-  gtk_box_pack_start ( GTK_BOX ( box_pref1 ),
-		       separateur,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( separateur );
-
-  /* configuration de la sauvegarde automatique */
-
-  bouton_save_auto = gtk_radio_button_new_with_label ( NULL,
-							    SPACIFY(_("Automatically save while closing")) );
-  gtk_box_pack_start ( GTK_BOX ( box_pref1 ),
+  /* Automatically save on exit? */
+  bouton_save_auto = 
+    gtk_check_button_new_with_label (SPACIFY(_("Automatically save on exit")) );
+  gtk_box_pack_start ( GTK_BOX ( paddingbox ),
 		       bouton_save_auto,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show (bouton_save_auto  );
-
-  bouton_save_non_auto = gtk_radio_button_new_with_label ( gtk_radio_button_group ( GTK_RADIO_BUTTON ( bouton_save_auto )),
-							   SPACIFY(_("Ask each time for saving")) );
-  gtk_box_pack_start ( GTK_BOX ( box_pref1 ),
-		       bouton_save_non_auto,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( bouton_save_non_auto );
-
+		       FALSE, FALSE, 0 );
+  gtk_widget_show (bouton_save_auto );
   if ( etat.sauvegarde_auto == 1 )
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_save_auto ),
 				   TRUE );
-  else
-    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_save_non_auto ),
-				   TRUE );
-    
   gtk_signal_connect_object ( GTK_OBJECT ( bouton_save_auto ),
 			      "toggled",
 			      activer_bouton_appliquer,
 			      GTK_OBJECT (fenetre_preferences));
 
-  separateur = gtk_hseparator_new ();
-  gtk_box_pack_start ( GTK_BOX ( box_pref1 ),
-		       separateur,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( separateur );
-
-
-/* configuration de l'enregistrement forcé */
-
-  bouton_force_enregistrement = gtk_radio_button_new_with_label ( NULL,
-							    SPACIFY(_("Force saving")) );
-  gtk_box_pack_start ( GTK_BOX ( box_pref1 ),
+  /* Warn if file is used by someone else? */
+  bouton_force_enregistrement =
+    gtk_check_button_new_with_label (SPACIFY(_("Warn if file is used by someone else")) );
+  gtk_box_pack_start ( GTK_BOX ( paddingbox ),
 		       bouton_force_enregistrement,
-		       FALSE,
-		       FALSE,
-		       0 );
+		       FALSE, FALSE, 0 );
   gtk_widget_show ( bouton_force_enregistrement );
-
-  bouton_force_pas_enregistrement = gtk_radio_button_new_with_label ( gtk_radio_button_group ( GTK_RADIO_BUTTON ( bouton_force_enregistrement )),
-							   SPACIFY(_("Save only if the file isn't open by another user")) );
-  gtk_box_pack_start ( GTK_BOX ( box_pref1 ),
-		       bouton_force_pas_enregistrement,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( bouton_force_pas_enregistrement );
-
   if ( etat.force_enregistrement )
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_force_enregistrement ),
 				   TRUE );
-  else
-    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_force_pas_enregistrement ),
-				   TRUE );
-    
   gtk_signal_connect_object ( GTK_OBJECT ( bouton_force_enregistrement ),
 			      "toggled",
 			      activer_bouton_appliquer,
 			      GTK_OBJECT (fenetre_preferences));
 
-  separateur = gtk_hseparator_new ();
-  gtk_box_pack_start ( GTK_BOX ( box_pref1 ),
-		       separateur,
+  /* Compression level of files */
+  hbox = gtk_hbox_new ( FALSE, 5 );
+  gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox,
+		       FALSE, FALSE, 0 );
+  gtk_widget_show ( hbox );
+
+  label = gtk_label_new ( COLON(_("File compression level")) );
+  gtk_box_pack_start ( GTK_BOX ( hbox ), label,
+		       FALSE, FALSE, 0 );
+  gtk_widget_show ( label );
+
+  spin_button_compression_fichier = 
+    gtk_spin_button_new ( GTK_ADJUSTMENT 
+			  ( gtk_adjustment_new ( compression_fichier,
+						 0, 9, 1, 5, 1 )),
+			  1, 0 );
+  gtk_spin_button_set_numeric ( GTK_SPIN_BUTTON ( spin_button_compression_fichier ),
+				TRUE );
+  gtk_signal_connect_object ( GTK_OBJECT ( spin_button_compression_fichier ),
+			      "changed",
+			      activer_bouton_appliquer,
+			      GTK_OBJECT (fenetre_preferences));
+  gtk_box_pack_end ( GTK_BOX ( hbox ),
+		       spin_button_compression_fichier,
 		       FALSE,
 		       FALSE,
 		       0 );
-  gtk_widget_show ( separateur );
+  gtk_widget_show ( spin_button_compression_fichier );
 
+  /* Backups */
+  paddingbox = paddingbox_new_with_title (vbox_pref, 
+					  _("Backups"));
 
-
-/* séparateur vertical entre les deux parties */
-
-  separateur = gtk_vseparator_new ();
-  gtk_box_pack_start ( GTK_BOX ( hbox_pref ),
-		       separateur,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( separateur );
-
-
-/* fenetre verticale à droite */
-
-  vbox = gtk_vbox_new ( FALSE,
-			    5 );
-  gtk_box_pack_start ( GTK_BOX ( hbox_pref ),
-		       vbox,
-		       FALSE,
-		       FALSE,
-		       0);
-  gtk_widget_show ( vbox );
-
-
-  /* mise en forme de la demande de backup */
-
+  /* Automatic backup ? */
   bouton_demande_backup = gtk_check_button_new_with_label ( _("Automatic backup") );
-  gtk_box_pack_start ( GTK_BOX ( vbox ),
+  gtk_box_pack_start ( GTK_BOX ( paddingbox ),
 		       bouton_demande_backup,
 		       FALSE,
 		       FALSE,
@@ -855,6 +644,14 @@ GtkWidget *onglet_fichier ( void )
 			   NULL );
 
       /* mise en forme de l'entrée du chemin de la backup */
+      hbox = gtk_hbox_new ( FALSE, 5 );
+      gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox,
+			   FALSE, FALSE, 0 );
+
+      label = gtk_label_new ( COLON(_("Backup file")) );
+      gtk_box_pack_start ( GTK_BOX ( hbox ), label,
+			   FALSE, FALSE, 0 );
+      gtk_widget_show ( label );
 
       entree_chemin_backup = gnome_file_entry_new ( "backup_grisbi",
 						    _("Grisbi backup") );
@@ -879,7 +676,7 @@ GtkWidget *onglet_fichier ( void )
 				  "changed",
 				  activer_bouton_appliquer,
 				  GTK_OBJECT (fenetre_preferences));
-      gtk_box_pack_start ( GTK_BOX ( vbox ),
+      gtk_box_pack_start ( GTK_BOX ( hbox ),
 			   entree_chemin_backup,
 			   FALSE,
 			   FALSE,
@@ -893,38 +690,53 @@ GtkWidget *onglet_fichier ( void )
 				 FALSE );
 
 
-  /* mise en forme de la demande de sauvegarde à l'ouverture */
-
+  /* Backup at each opening? */
   bouton_save_demarrage = gtk_check_button_new_with_label ( _("Backup at each opening (~/.filename.bak)") );
   gtk_signal_connect_object ( GTK_OBJECT ( bouton_save_demarrage ),
 			      "toggled",
 			      GTK_SIGNAL_FUNC ( activer_bouton_appliquer),
 			      GTK_OBJECT (fenetre_preferences));
-  gtk_box_pack_start ( GTK_BOX ( vbox ),
+  gtk_box_pack_start ( GTK_BOX ( paddingbox ),
 		       bouton_save_demarrage,
 		       FALSE,
 		       FALSE,
 		       0 );
   gtk_widget_show ( bouton_save_demarrage );
-
-
   gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_save_demarrage ),
 				 etat.sauvegarde_demarrage );
 
 
-  separateur = gtk_hseparator_new ();
-  gtk_box_pack_start ( GTK_BOX ( vbox ),
-		       separateur,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( separateur );
+  /* Compression level of backups */
+  hbox = gtk_hbox_new ( FALSE, 5 );
+  gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox,
+		       FALSE, FALSE, 0 );
+  gtk_widget_show ( hbox );
+
+  label = gtk_label_new ( COLON(_("Backup compression level")) );
+  gtk_box_pack_start ( GTK_BOX ( hbox ), label,
+		       FALSE, FALSE, 0 );
+  gtk_widget_show ( label );
+
+  spin_button_compression_backup = 
+    gtk_spin_button_new ( GTK_ADJUSTMENT ( gtk_adjustment_new ( compression_backup,
+								0, 9, 1, 5, 1 )),
+			  1, 0 );
+  gtk_spin_button_set_numeric ( GTK_SPIN_BUTTON ( spin_button_compression_backup ),
+				TRUE );
+  gtk_signal_connect_object ( GTK_OBJECT ( spin_button_compression_backup ),
+			      "changed",
+			      activer_bouton_appliquer,
+			      GTK_OBJECT (fenetre_preferences));
+  gtk_box_pack_end ( GTK_BOX ( hbox ), spin_button_compression_backup,
+		     FALSE, FALSE, 0 );
+  gtk_widget_show ( spin_button_compression_backup );
+
 
   /* mise en forme de la demande du nombre de derniers fichiers à garder en mémoire */
 
   hbox = gtk_hbox_new ( FALSE,
 			5 );
-  gtk_box_pack_start ( GTK_BOX ( vbox ),
+  gtk_box_pack_start ( GTK_BOX ( vbox_pref ),
 		       hbox,
 		       FALSE,
 		       FALSE,
@@ -939,14 +751,10 @@ GtkWidget *onglet_fichier ( void )
 		       0 );
   gtk_widget_show ( label );
 
-  spin_button_derniers_fichiers_ouverts = gtk_spin_button_new ( GTK_ADJUSTMENT ( gtk_adjustment_new ( nb_max_derniers_fichiers_ouverts,
-												      0,
-												      20,
-												      1,
-												      5,
-												      1 )),
-								1,
-								0 );
+  spin_button_derniers_fichiers_ouverts = 
+    gtk_spin_button_new ( GTK_ADJUSTMENT ( gtk_adjustment_new ( nb_max_derniers_fichiers_ouverts,
+								0, 20, 1, 5, 1 )),
+			  1, 0 );
   gtk_spin_button_set_numeric ( GTK_SPIN_BUTTON ( spin_button_derniers_fichiers_ouverts ),
 				TRUE );
   gtk_signal_connect_object ( GTK_OBJECT ( spin_button_derniers_fichiers_ouverts ),
@@ -960,87 +768,7 @@ GtkWidget *onglet_fichier ( void )
 		       0 );
   gtk_widget_show ( spin_button_derniers_fichiers_ouverts );
 
-  /* mise en forme de la compression de l'enregistrement */
-
-  hbox = gtk_hbox_new ( FALSE,
-			5 );
-  gtk_box_pack_start ( GTK_BOX ( vbox ),
-		       hbox,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( hbox );
-
-  label = gtk_label_new ( COLON(_("File compression level")) );
-  gtk_box_pack_start ( GTK_BOX ( hbox ),
-		       label,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( label );
-
-  spin_button_compression_fichier = gtk_spin_button_new ( GTK_ADJUSTMENT ( gtk_adjustment_new ( compression_fichier,
-												0,
-												9,
-												1,
-												5,
-												1 )),
-							  1,
-							  0 );
-  gtk_spin_button_set_numeric ( GTK_SPIN_BUTTON ( spin_button_compression_fichier ),
-				TRUE );
-  gtk_signal_connect_object ( GTK_OBJECT ( spin_button_compression_fichier ),
-			      "changed",
-			      activer_bouton_appliquer,
-			      GTK_OBJECT (fenetre_preferences));
-  gtk_box_pack_end ( GTK_BOX ( hbox ),
-		       spin_button_compression_fichier,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( spin_button_compression_fichier );
-
-  /* mise en forme de la compression de la backup */
-
-  hbox = gtk_hbox_new ( FALSE,
-			5 );
-  gtk_box_pack_start ( GTK_BOX ( vbox ),
-		       hbox,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( hbox );
-
-  label = gtk_label_new ( COLON(_("Backup compression level")) );
-  gtk_box_pack_start ( GTK_BOX ( hbox ),
-		       label,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( label );
-
-  spin_button_compression_backup = gtk_spin_button_new ( GTK_ADJUSTMENT ( gtk_adjustment_new ( compression_backup,
-												0,
-												9,
-												1,
-												5,
-												1 )),
-							  1,
-							  0 );
-  gtk_spin_button_set_numeric ( GTK_SPIN_BUTTON ( spin_button_compression_backup ),
-				TRUE );
-  gtk_signal_connect_object ( GTK_OBJECT ( spin_button_compression_backup ),
-			      "changed",
-			      activer_bouton_appliquer,
-			      GTK_OBJECT (fenetre_preferences));
-  gtk_box_pack_end ( GTK_BOX ( hbox ),
-		       spin_button_compression_backup,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( spin_button_compression_backup );
-
-
+  gtk_widget_show_all ( vbox_pref );
   return ( vbox_pref );
 
 }
@@ -2688,43 +2416,31 @@ paddingbox_new_with_title (GtkWidget * parent, gchar * title)
   gtk_misc_set_alignment ( label, 0, 1 );
   gtk_label_set_markup ( label, 
 			 g_strconcat ("<span weight=\"bold\">",
-				      _(title),
+				      title,
 				      "</span>",
 				      NULL ) );
-  gtk_box_pack_start ( GTK_BOX ( parent ),
-		       label,
-		       FALSE,
-		       FALSE,
-		       0);
+  gtk_box_pack_start ( GTK_BOX ( parent ), label,
+		       FALSE, FALSE, 0);
   gtk_widget_show ( label );
 
-  hbox = gtk_hbox_new ( FALSE, 6 );
-  gtk_box_pack_start ( GTK_BOX ( parent ),
-		       hbox,
-		       FALSE,
-		       FALSE,
-		       0);
+  hbox = gtk_hbox_new ( FALSE, 0 );
+  gtk_box_pack_start ( GTK_BOX ( parent ), hbox,
+		       FALSE, FALSE, 0);
 
+  /* Some padding.  ugly but the HiG advises this ;-) */
   label = gtk_label_new ( "    " );
-  gtk_box_pack_start ( GTK_BOX ( hbox ),
-		       label,
-		       FALSE,
-		       FALSE,
-		       0 );
+  gtk_box_pack_start ( GTK_BOX ( hbox ), label,
+		       FALSE, FALSE, 0 );
 
+  /* Then make the vbox itself */
   paddingbox = gtk_vbox_new ( FALSE, 6 );
-  gtk_box_pack_start ( GTK_BOX ( hbox ),
-		       paddingbox,
-		       FALSE,
-		       FALSE,
-		       0);
+  gtk_box_pack_start ( GTK_BOX ( hbox ), paddingbox,
+		       TRUE, TRUE, 0);
 
+  /* Put a label at the end to feed a new line */
   label = gtk_label_new ( "    " );
-  gtk_box_pack_end ( GTK_BOX ( paddingbox ),
-		     label,
-		     FALSE,
-		     FALSE,
-		     0 );
+  gtk_box_pack_end ( GTK_BOX ( paddingbox ), label,
+		     FALSE, FALSE, 0 );
 
   gtk_widget_show_all ( hbox );
 

@@ -476,7 +476,7 @@ gboolean enregistrement_fichier ( gint origine )
 	{
 	case 0 :
 	  ancien_nom_fichier_comptes = nom_fichier_comptes;
-	  nom_fichier_comptes = g_strdup ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( gnome_file_entry_gtk_entry ( GNOME_FILE_ENTRY ( fenetre_nom ))))));
+	  nom_fichier_comptes = g_strdup ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( gnome_file_entry_gtk_entry ( GNOME_FILE_ENTRY ( fenetre_nom ))))));
 
 	  gnome_dialog_close ( GNOME_DIALOG ( dialog ));
 
