@@ -4,6 +4,7 @@ Main Grisbi authors:
 Programming:
   Cédric Auger (cedric@grisbi.org)
   Benjamin Drieu (bdrieu@april.org)
+  Alain Portal (dionysos@grisbi.org)
 
 Graphics:
   André Pascual (andre@linuxgraphic.org)
@@ -13,8 +14,10 @@ Documentation:
 
 Translation:
   Daniel Cartron (doc@grisbi.org)
-  Alain Portal (aportal@univ-montp2.fr)
+  Alain Portal (dionysos@grisbi.org)
 
 Packaging:
   Gérald Niel (gerald.niel@grisbi.org)
   Benjamin Drieu (benj@debian.org)
+  Alain Portal (dionysos@grisbi.org)
+  Matthieu Pupat (mpupat@free.fr)

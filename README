@@ -1,4 +1,4 @@
-			     GRISBI 0.4.1
+			     GRISBI 0.4.2
 
 Grisbi is a personnal accounting application for Linux, written with
 Gnome and Gtk, and is released under the GPL licence.
@@ -34,9 +34,10 @@ Bug reports : http://www.grisbi.org/bugtracking
 
 Release history :
 		
+  Version 0.4.2 : ../12/2003
   Version 0.4.1 : 04/07/2003
   Version 0.4.0 : 15/02/2003
-  Version 0.3.2 : 15/11/2002
+  Version 0.3.3 : 15/11/2002
   Version 0.3.1 : 21/12/2001
   Version 0.3.0 : 10/12/2001
   Version 0.2.0 : 19/06/2000
