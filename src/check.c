@@ -177,8 +177,8 @@ gboolean reconciliation_check ( void )
 
     dialogue_warning_hint ( pText, pHint );
 
-    free ( pText );
-    free ( pHint );
+    g_free ( pText );
+    g_free ( pHint );
   }
   g_slist_free ( pUserAccountsList );
 
@@ -428,8 +428,8 @@ gboolean contra_transaction_check ( void )
 
     dialogue_warning_hint ( pText, pHint );
 
-    free ( pText );
-    free ( pHint );
+    g_free ( pText );
+    g_free ( pHint );
   }
   g_slist_free ( pUserAccountsList );
 
