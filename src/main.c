@@ -158,12 +158,15 @@ int main (int argc, char *argv[])
 
   affiche_derniers_fichiers_ouverts ();
 
-/*   si la taille avait déjà été sauvée, on remet l'ancienne taille à la fenetre */
-
-  if ( largeur_window + hauteur_window )
+/*   si la taille avait déjà été sauvée, on remet l'ancienne taille à
+     la fenetre */
+  if ( largeur_window && hauteur_window )
     gtk_window_set_default_size ( GTK_WINDOW ( window ),
 				  largeur_window,
 				  hauteur_window );
+  else
+    gtk_window_set_default_size ( GTK_WINDOW ( window ),
+				  640, 480 );
 
 
   gtk_widget_show ( window );
