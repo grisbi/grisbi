@@ -62,6 +62,16 @@ extern GSList *liste_comptes_importes;
 
 
 
+#ifdef OFX_0_7
+LibofxContextPtr ofx_context;
+int ofx_proc_status_cb(struct OfxStatusData data, void * status_data);
+/* void ofx_proc_security_cb ( LibofxContextPtr, LibofxProcSecurityCallback, void * ); */
+int ofx_proc_account_cb(struct OfxAccountData data, void * account_data);
+int ofx_proc_transaction_cb(struct OfxTransactionData data, void * security_data);
+int ofx_proc_statement_cb(struct OfxStatementData data, void * statement_data);
+#endif /* OFX_0_7 */
+
+
 /* *******************************************************************************/
 gboolean recuperation_donnees_ofx ( gchar *nom_fichier )
 {
@@ -76,13 +86,25 @@ gboolean recuperation_donnees_ofx ( gchar *nom_fichier )
     /* 	la lib ofx ne tient pas compte du 1er argument */
     argv[1] = nom_fichier;
 
-    ofx_proc_file ( 2,
-		    argv );
+#ifdef OFX_0_7
+    ofx_context = libofx_get_new_context();
+    ofx_set_status_cb ( ofx_context, ofx_proc_status_cb, NULL );
+    /*     ofx_set_security_cb ( ofx_context, sofx_proc_security_cb, NULL ); */
+    ofx_set_account_cb ( ofx_context, ofx_proc_account_cb, NULL );
+    ofx_set_transaction_cb ( ofx_context, ofx_proc_transaction_cb, NULL );
+    ofx_set_statement_cb ( ofx_context, ofx_proc_statement_cb, NULL );
+#endif /* OFX_0_7 */
+ 
+#ifdef OFX_0_7
+    libofx_proc_file ( ofx_context, nom_fichier, AUTODETECT );
+#else /* OFX_0_7 */
+    ofx_proc_file ( 2, argv );
+#endif /* OFX_0_7 */
 
     /*     le dernier compte n'a pas été ajouté à la liste */
 
     liste_comptes_importes_ofx = g_slist_append ( liste_comptes_importes_ofx,
-						  compte_ofx_importation_en_cours	);
+						  compte_ofx_importation_en_cours );
 
     if ( !compte_ofx_importation_en_cours )
     {
@@ -115,20 +137,24 @@ gboolean recuperation_donnees_ofx ( gchar *nom_fichier )
 
 
 
-/* *******************************************************************************/
+
+#ifdef OFX_0_7
+int ofx_proc_status_cb(struct OfxStatusData data, void * status_data)
+#else /* OFX_0_7 */
 int ofx_proc_status_cb(struct OfxStatusData data)
+#endif /* OFX_0_7 */
 {
-    /*     printf ( "ofx_proc_status_cb:\n" ); */
-    /*     printf ( "ofx_element_name_valid %d\n", data . ofx_element_name_valid); */
-    /*     printf ( "ofx_element_name %s\n", data . ofx_element_name ); */
-    /*     printf ( "code_valid %d\n", data . code_valid ); */
-    /*     printf ( "code %d\n", data . code); */
-    /*     printf ( "name %s\n", data . name); */
-    /*     printf ( "description %s\n", data . description); */
-    /*     printf ( "severity_valid %d\n", data . severity_valid ); */
-    /*     printf ( "severity %d\n", data . severity); */
-    /*     printf ( "server_message_valid %d\n", data.server_message_valid ); */
-    /*     printf ( "server_message %s\n\n", data . server_message ); */
+/*         printf ( "ofx_proc_status_cb:\n" ); */
+/*         printf ( "ofx_element_name_valid %d\n", data . ofx_element_name_valid); */
+/*         printf ( "ofx_element_name %s\n", data . ofx_element_name ); */
+/*         printf ( "code_valid %d\n", data . code_valid ); */
+/*         printf ( "code %d\n", data . code); */
+/*         printf ( "name %s\n", data . name); */
+/*         printf ( "description %s\n", data . description); */
+/*         printf ( "severity_valid %d\n", data . severity_valid ); */
+/*         printf ( "severity %d\n", data . severity); */
+/*         printf ( "server_message_valid %d\n", data.server_message_valid ); */
+/*         printf ( "server_message %s\n\n", data . server_message ); */
 
     /*     	on vérifie l'état, si c'est un warning, on l'affiche, si c'est une erreur, on vire */
 
@@ -192,16 +218,20 @@ int ofx_proc_security_cb(struct OfxSecurityData data)
 
 /* *******************************************************************************/
 
+#ifdef OFX_0_7
+int ofx_proc_account_cb(struct OfxAccountData data, void * account_data)
+#else /* OFX_0_7 */
 int ofx_proc_account_cb(struct OfxAccountData data)
+#endif /* OFX_0_7 */
 {
-    /*     printf ( "ofx_proc_account_cb\n" );  */
-    /*     printf ( "account_id_valid %d\n", data.account_id_valid ); */
-    /*     printf ( "account_id %s\n", data.account_id ); */
-    /*     printf ( "account_name %s\n", data.account_name ); */
-    /*     printf ( "account_type_valid %d\n", data.account_type_valid ); */
-    /*     printf ( "account_type %d\n", data.account_type ); */
-    /*     printf ( "currency_valid %d\n", data.currency_valid ); */
-    /*     printf ( "currency %s\n", data. currency); */
+/*         printf ( "ofx_proc_account_cb\n" ); */
+/*         printf ( "account_id_valid %d\n", data.account_id_valid ); */
+/*         printf ( "account_id %s\n", data.account_id ); */
+/*         printf ( "account_name %s\n", data.account_name ); */
+/*         printf ( "account_type_valid %d\n", data.account_type_valid ); */
+/*         printf ( "account_type %d\n", data.account_type ); */
+/*         printf ( "currency_valid %d\n", data.currency_valid ); */
+/*         printf ( "currency %s\n", data. currency); */
 
     /*     si on revient ici et qu'un compte était en cours, c'est qu'il est fini et qu'on passe au compte */
     /* 	suivant... */
@@ -236,57 +266,60 @@ int ofx_proc_account_cb(struct OfxAccountData data)
 
 
 /* *******************************************************************************/
+#ifdef OFX_0_7
+int ofx_proc_transaction_cb(struct OfxTransactionData data, void * security_data)
+#else /* OFX_0_7 */
 int ofx_proc_transaction_cb(struct OfxTransactionData data)
+#endif /* OFX_0_7 */
 {
     struct struct_ope_importation *ope_import;
     GDate *date;
 
-
-    /*     printf ( "ofx_proc_transaction_cb\n" );  */
-    /*     printf ( "account_id_valid : %d  \n", data.account_id_valid ); */
-    /*     printf ( "account_id : %s  \n", data.account_id ); */
-    /*     printf ( "transactiontype_valid : %d  \n", data.transactiontype_valid ); */
-    /*     printf ( "transactiontype : %d  \n", data.transactiontype ); */
-    /*     printf ( "invtransactiontype_valid : %d  \n", data.invtransactiontype_valid ); */
-    /*     printf ( "invtransactiontype : %d  \n", data.invtransactiontype ); */
-    /*     printf ( "units_valid : %d  \n", data. units_valid); */
-    /*     printf ( "units : %f  \n", data.units ); */
-    /*     printf ( "unitprice_valid : %d  \n", data.unitprice_valid ); */
-    /*     printf ( "unitprice : %f  \n", data.unitprice ); */
-    /*     printf ( "amount_valid : %d  \n", data.amount_valid ); */
-    /*     printf ( "amount : %f  \n", data.amount ); */
-    /*     printf ( "fi_id_valid : %d  \n", data.fi_id_valid ); */
-    /*     printf ( "fi_id : %s  \n", data.fi_id ); */
-    /*     printf ( "unique_id_valid : %d  \n", data.unique_id_valid ); */
-    /*     printf ( "unique_id : %s  \n", data.unique_id ); */
-    /*     printf ( "unique_id_type_valid : %d  \n", data.unique_id_type_valid ); */
-    /*     printf ( "unique_id_type : %s  \n", data.unique_id_type ); */
-    /*     printf ( "security_data_valid : %d  \n", data.security_data_valid ); */
-    /*     printf ( "security_data_ptr : %s  \n", data.security_data_ptr ); */
-    /*     printf ( "date_posted_valid : %d  \n", data.date_posted_valid ); */
-    /*     printf ( "date_posted : %s  \n", ctime ( &data.date_posted )); */
-    /*     printf ( "date_initiated_valid : %d  \n", data.date_initiated_valid ); */
-    /*     printf ( "date_initiated : %s  \n", ctime ( &data.date_initiated )); */
-    /*     printf ( "date_funds_available_valid : %d  \n", data.date_funds_available_valid ); */
-    /*     printf ( "date_funds_available : %s  \n", ctime ( &data.date_funds_available )); */
-    /*     printf ( "fi_id_corrected_valid : %d  \n", data.fi_id_corrected_valid ); */
-    /*     printf ( "fi_id_corrected : %s  \n", data.fi_id_corrected ); */
-    /*     printf ( "fi_id_correction_action_valid : %d  \n", data.fi_id_correction_action_valid ); */
-    /*     printf ( "fi_id_correction_action : %d  \n", data.fi_id_correction_action ); */
-    /*     printf ( "server_transaction_id_valid : %d  \n", data.server_transaction_id_valid ); */
-    /*     printf ( "server_transaction_id : %s  \n", data.server_transaction_id ); */
-    /*     printf ( "check_number_valid : %d  \n", data.check_number_valid ); */
-    /*     printf ( "check_number : %s  \n", data.check_number ); */
-    /*     printf ( "reference_number_valid : %d  \n", data.reference_number_valid ); */
-    /*     printf ( "reference_number : %s  \n", data.reference_number ); */
-    /*     printf ( "standard_industrial_code_valid : %d  \n", data.standard_industrial_code_valid ); */
-    /*     printf ( "standard_industrial_code : %s  \n", data.standard_industrial_code ); */
-    /*     printf ( "payee_id_valid : %d  \n", data.payee_id_valid ); */
-    /*     printf ( "payee_id : %s  \n", data.payee_id ); */
-    /*     printf ( "name_valid : %d  \n", data.name_valid ); */
-    /*     printf ( "name : %s  \n", data.name ); */
-    /*     printf ( "memo_valid : %d  \n", data.memo_valid ); */
-    /*     printf ( "memo : %s  \n\n\n\n", data.memo ); */
+/*         printf ( "ofx_proc_transaction_cb\n" ); */
+/*         printf ( "account_id_valid : %d  \n", data.account_id_valid ); */
+/*         printf ( "account_id : %s  \n", data.account_id ); */
+/*         printf ( "transactiontype_valid : %d  \n", data.transactiontype_valid ); */
+/*         printf ( "transactiontype : %d  \n", data.transactiontype ); */
+/*         printf ( "invtransactiontype_valid : %d  \n", data.invtransactiontype_valid ); */
+/*         printf ( "invtransactiontype : %d  \n", data.invtransactiontype ); */
+/*         printf ( "units_valid : %d  \n", data. units_valid); */
+/*         printf ( "units : %f  \n", data.units ); */
+/*         printf ( "unitprice_valid : %d  \n", data.unitprice_valid ); */
+/*         printf ( "unitprice : %f  \n", data.unitprice ); */
+/*         printf ( "amount_valid : %d  \n", data.amount_valid ); */
+/*         printf ( "amount : %f  \n", data.amount ); */
+/*         printf ( "fi_id_valid : %d  \n", data.fi_id_valid ); */
+/*         printf ( "fi_id : %s  \n", data.fi_id ); */
+/*         printf ( "unique_id_valid : %d  \n", data.unique_id_valid ); */
+/*         printf ( "unique_id : %s  \n", data.unique_id ); */
+/*         printf ( "unique_id_type_valid : %d  \n", data.unique_id_type_valid ); */
+/*         printf ( "unique_id_type : %s  \n", data.unique_id_type ); */
+/*         printf ( "security_data_valid : %d  \n", data.security_data_valid ); */
+/*         printf ( "security_data_ptr : %s  \n", data.security_data_ptr ); */
+/*         printf ( "date_posted_valid : %d  \n", data.date_posted_valid ); */
+/*         printf ( "date_posted : %s  \n", ctime ( &data.date_posted )); */
+/*         printf ( "date_initiated_valid : %d  \n", data.date_initiated_valid ); */
+/*         printf ( "date_initiated : %s  \n", ctime ( &data.date_initiated )); */
+/*         printf ( "date_funds_available_valid : %d  \n", data.date_funds_available_valid ); */
+/*         printf ( "date_funds_available : %s  \n", ctime ( &data.date_funds_available )); */
+/*         printf ( "fi_id_corrected_valid : %d  \n", data.fi_id_corrected_valid ); */
+/*         printf ( "fi_id_corrected : %s  \n", data.fi_id_corrected ); */
+/*         printf ( "fi_id_correction_action_valid : %d  \n", data.fi_id_correction_action_valid ); */
+/*         printf ( "fi_id_correction_action : %d  \n", data.fi_id_correction_action ); */
+/*         printf ( "server_transaction_id_valid : %d  \n", data.server_transaction_id_valid ); */
+/*         printf ( "server_transaction_id : %s  \n", data.server_transaction_id ); */
+/*         printf ( "check_number_valid : %d  \n", data.check_number_valid ); */
+/*         printf ( "check_number : %s  \n", data.check_number ); */
+/*         printf ( "reference_number_valid : %d  \n", data.reference_number_valid ); */
+/*         printf ( "reference_number : %s  \n", data.reference_number ); */
+/*         printf ( "standard_industrial_code_valid : %d  \n", data.standard_industrial_code_valid ); */
+/*         printf ( "standard_industrial_code : %s  \n", data.standard_industrial_code ); */
+/*         printf ( "payee_id_valid : %d  \n", data.payee_id_valid ); */
+/*         printf ( "payee_id : %s  \n", data.payee_id ); */
+/*         printf ( "name_valid : %d  \n", data.name_valid ); */
+/*         printf ( "name : %s  \n", data.name ); */
+/*         printf ( "memo_valid : %d  \n", data.memo_valid ); */
+/*         printf ( "memo : %s  \n\n\n\n", data.memo ); */
 
     /* si à ce niveau le comtpe n'est pas créé, c'est qu'il y a un pb... */
 
@@ -432,29 +465,33 @@ int ofx_proc_transaction_cb(struct OfxTransactionData data)
 
 
 /* *******************************************************************************/
+#ifdef OFX_0_7
+int ofx_proc_statement_cb(struct OfxStatementData data, void * statement_data)
+#else /* OFX_0_7 */
 int ofx_proc_statement_cb(struct OfxStatementData data)
+#endif /* OFX_0_7 */
 {
     GDate *date;
 
-    /*     printf ( "ofx_proc_statement_cb\n" ); */
-    /*     printf ( "currency_valid : %d\n", data.currency_valid ); */
-    /*     printf ( "currency : %s\n", data.currency ); */
-    /*     printf ( "account_id_valid : %d\n", data.account_id_valid ); */
-    /*     printf ( "account_id : %s\n", data.account_id ); */
-    /*     printf ( "ledger_balance_valid : %d\n", data.ledger_balance_valid ); */
-    /*     printf ( "ledger_balance : %f\n", data.ledger_balance ); */
-    /*     printf ( "ledger_balance_date_valid : %d\n", data.ledger_balance_date_valid ); */
-    /*     printf ( "ledger_balance_date : %s\n", ctime ( &data.ledger_balance_date)); */
-    /*     printf ( "available_balance_valid : %d\n", data.available_balance_valid ); */
-    /*     printf ( "available_balance : %f\n", data.available_balance ); */
-    /*     printf ( "available_balance_date_valid : %d\n", data.available_balance_date_valid ); */
-    /*     printf ( "available_balance_date : %s\n", ctime ( &data.available_balance_date )); */
-    /*     printf ( "date_start_valid : %d\n", data.date_start_valid ); */
-    /*     printf ( "date_start : %s\n", ctime ( &data.date_start )); */
-    /*     printf ( "date_end_valid : %d\n", data.date_end_valid ); */
-    /*     printf ( "date_end : %s\n", ctime ( &data.date_end )); */
-    /*     printf ( "marketing_info_valid : %d\n", data.marketing_info_valid ); */
-    /*     printf ( "marketing_info : %s\n", data.marketing_info ); */
+/*         printf ( "ofx_proc_statement_cb\n" ); */
+/*         printf ( "currency_valid : %d\n", data.currency_valid ); */
+/*         printf ( "currency : %s\n", data.currency ); */
+/*         printf ( "account_id_valid : %d\n", data.account_id_valid ); */
+/*         printf ( "account_id : %s\n", data.account_id ); */
+/*         printf ( "ledger_balance_valid : %d\n", data.ledger_balance_valid ); */
+/*         printf ( "ledger_balance : %f\n", data.ledger_balance ); */
+/*         printf ( "ledger_balance_date_valid : %d\n", data.ledger_balance_date_valid ); */
+/*         printf ( "ledger_balance_date : %s\n", ctime ( &data.ledger_balance_date)); */
+/*         printf ( "available_balance_valid : %d\n", data.available_balance_valid ); */
+/*         printf ( "available_balance : %f\n", data.available_balance ); */
+/*         printf ( "available_balance_date_valid : %d\n", data.available_balance_date_valid ); */
+/*         printf ( "available_balance_date : %s\n", ctime ( &data.available_balance_date )); */
+/*         printf ( "date_start_valid : %d\n", data.date_start_valid ); */
+/*         printf ( "date_start : %s\n", ctime ( &data.date_start )); */
+/*         printf ( "date_end_valid : %d\n", data.date_end_valid ); */
+/*         printf ( "date_end : %s\n", ctime ( &data.date_end )); */
+/*         printf ( "marketing_info_valid : %d\n", data.marketing_info_valid ); */
+/*         printf ( "marketing_info : %s\n", data.marketing_info ); */
 
     if ( data.date_start_valid )
     {
