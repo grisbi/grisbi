@@ -485,17 +485,11 @@ void remplissage_liste_etats ( void )
 	   &&
 	   etat -> no_etat == etat_courant -> no_etat )
 	{
-	  /* FIXME */
-	  icone = gtk_image_new_from_stock (GTK_STOCK_PRINT, GTK_ICON_SIZE_BUTTON);  
-/* 	  icone = gnome_stock_pixmap_widget ( GTK_WIDGET ( bouton ), */
-/* 					      GNOME_STOCK_PIXMAP_BOOK_OPEN); */
+	  icone = gtk_image_new_from_stock (GNOME_STOCK_BOOK_OPEN, GTK_ICON_SIZE_BUTTON);  
 	  bouton_etat_courant = bouton;
 	}
       else
-  /* FIXME */
-	icone = gtk_image_new_from_stock (GTK_STOCK_PRINT, GTK_ICON_SIZE_BUTTON);  
-/* 	icone = gnome_stock_pixmap_widget ( GTK_WIDGET ( bouton ), */
-/* 					    GNOME_STOCK_PIXMAP_BOOK_BLUE); */
+	icone = gtk_image_new_from_stock (GNOME_STOCK_BOOK_RED, GTK_ICON_SIZE_BUTTON);  
       gtk_container_add ( GTK_CONTAINER ( bouton ),
 			  icone );
       gtk_widget_show ( icone );
@@ -1280,10 +1274,7 @@ void changement_etat ( GtkWidget *bouton,
 
   if ( bouton_etat_courant )
     {
-  /* FIXME */
-      icone = gtk_image_new_from_stock (GTK_STOCK_PRINT, GTK_ICON_SIZE_BUTTON);  
-/*       icone = gnome_stock_pixmap_widget ( GTK_WIDGET ( bouton ), */
-/* 					  GNOME_STOCK_PIXMAP_BOOK_BLUE); */
+      icone = gtk_image_new_from_stock (GNOME_STOCK_BOOK_RED, GTK_ICON_SIZE_BUTTON);  
       gtk_container_remove ( GTK_CONTAINER ( bouton_etat_courant ),
 			     GTK_BIN ( bouton_etat_courant ) -> child );
       gtk_container_add ( GTK_CONTAINER ( bouton_etat_courant ),
@@ -1309,10 +1300,7 @@ void changement_etat ( GtkWidget *bouton,
   gtk_widget_set_sensitive ( bouton_effacer_etat,
 			     TRUE );
 
-  /* FIXME */
-  icone = gtk_image_new_from_stock (GTK_STOCK_PRINT, GTK_ICON_SIZE_BUTTON);
-/*   icone = gnome_stock_pixmap_widget ( GTK_WIDGET ( bouton ), */
-/* 				      GNOME_STOCK_PIXMAP_BOOK_OPEN); */
+  icone = gtk_image_new_from_stock (GNOME_STOCK_BOOK_OPEN, GTK_ICON_SIZE_BUTTON);
   gtk_container_remove ( GTK_CONTAINER ( bouton_etat_courant ),
 			 GTK_BIN ( bouton_etat_courant ) -> child );
   gtk_container_add ( GTK_CONTAINER ( bouton_etat_courant ),

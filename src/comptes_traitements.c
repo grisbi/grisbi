@@ -697,12 +697,12 @@ gint demande_type_nouveau_compte ( void )
   GtkWidget *separateur;
   gint type_compte;
 
-  dialog = gnome_dialog_new ( "Choix du type de compte",
+  dialog = gnome_dialog_new ( _("Choose account type"),
 			      GNOME_STOCK_BUTTON_OK,
 			      GNOME_STOCK_BUTTON_CANCEL,
 			      NULL );
 
-  label = gtk_label_new ( "Veuillez choisir le type du compte à créer\nCela permet de créer les moyens de paiement par défaut.\nVous pourrez changer ultérieurement le type de ce compte." );
+  label = gtk_label_new ( _("Please coose account type\nThis will create default payment methods.\nYou will eventually be able to change account type." ) );
   gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
 		       label,
 		       FALSE,
