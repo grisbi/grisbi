@@ -8,6 +8,9 @@
 # translation of pt_BR.po to
 # translation of pt_BR.po to
 # translation of pt_BR.po to
+# translation of pt_BR.po to
+# translation of pt_BR.po to
+# translation of pt_BR.po to
 # translation of pt_BR.po to Brazilian Portuguese
 # This file is distributed under the same license as the PACKAGE package.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER.
@@ -18,7 +21,7 @@ msgstr ""
 "Project-Id-Version: pt_BR\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-07-03 17:36+0200\n"
-"PO-Revision-Date: 2004-11-28 11:28-0200\n"
+"PO-Revision-Date: 2004-12-09 18:33-0200\n"
 "Last-Translator: \n"
 "Language-Team:  <pt@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -543,7 +546,7 @@ msgstr "Saldo"
 #: src/echeancier_ventilation.c:141 src/echeancier_ventilation.c:351
 #: src/import.c:2596 src/operations_liste.c:567 src/ventilation.c:272
 msgid "Amount"
-msgstr "Quantia"
+msgstr "Valor"
 
 #: src/affichage_liste.c:833 src/equilibrage.c:1547
 msgid "Payment method"
@@ -2105,11 +2108,11 @@ msgstr "Sem terceiros"
 
 #: src/etats_affiche.c:2030
 msgid "Incomes"
-msgstr "Rendas"
+msgstr "Receitas"
 
 #: src/etats_affiche.c:2050
 msgid "Outgoings"
-msgstr ""
+msgstr "Despesas"
 
 #: src/etats_affiche.c:2126
 msgid "Number"
@@ -2346,7 +2349,7 @@ msgstr "Selecione um orçamento para incluir no relatório"
 
 #: src/etats_config.c:3459
 msgid "Income budget lines"
-msgstr "Orçamento de rendas"
+msgstr "Orçamento de receitas"
 
 #: src/etats_config.c:3473
 msgid "Outgoing budget lines"
@@ -2583,7 +2586,7 @@ msgstr "Organização nivelada por grupo"
 
 #: src/etats_config.c:6031
 msgid "Split incomes and outgoings"
-msgstr "Dividir rendas e despesas"
+msgstr "Dividir receitas e despesas"
 
 #: src/etats_config.c:6051
 msgid "Split by financial year"
@@ -2906,7 +2909,7 @@ msgstr "Escolher modelo para novo relatório"
 msgid ""
 "You are about to create a new report.  For convenience, you can choose "
 "between the following templates.  Reports may be customized later."
-msgstr ""
+msgstr "Você está a ponto de criar um relatório novo. Para sua conveniência, você pode escolher entre os seguintes modelos. Os relatórios podem customizados mais tarde."
 
 #: src/etats_onglet.c:505
 msgid "Report type"
@@ -2918,17 +2921,17 @@ msgstr "Descrição"
 
 #: src/etats_onglet.c:537
 msgid "Last month incomes and outgoings"
-msgstr ""
+msgstr "Receitas e Despesas do último mês"
 
 #. revenus et dÃ©penses du mois courant
 #: src/etats_onglet.c:548 src/etats_onglet.c:674
 msgid "Current month incomes and outgoings"
-msgstr ""
+msgstr "Receitas e Despesas do mês atual"
 
 #. on ajoute le budget annuel
 #: src/etats_onglet.c:556 src/etats_onglet.c:718
 msgid "Annual budget"
-msgstr ""
+msgstr "Orçamento anual"
 
 #. remise de chÃ¨ques
 #: src/etats_onglet.c:564 src/etats_onglet.c:813
@@ -2938,7 +2941,7 @@ msgstr "Depósito em cheques"
 #. dÃ©penses mensuelles par tiers
 #: src/etats_onglet.c:572 src/etats_onglet.c:867
 msgid "Monthly outgoings by third party"
-msgstr ""
+msgstr "Despesas mensais por terceiros"
 
 #. recherche
 #: src/etats_onglet.c:580 src/etats_onglet.c:925
@@ -2952,7 +2955,7 @@ msgstr "Relatório em branco"
 #. revenus et dÃ©penses du mois prÃ©cÃ©dent
 #: src/etats_onglet.c:632
 msgid "Previous month incomes and outgoings"
-msgstr ""
+msgstr "Receitas e Despesas do mês anterior"
 
 #: src/etats_onglet.c:978
 msgid "Unknown report type, creation cancelled"
@@ -2964,7 +2967,7 @@ msgid ""
 "This report displays totals for last month's transactions sorted by "
 "categories and sub-categories. You just need to select the account(s). By "
 "default, all accounts are selected."
-msgstr ""
+msgstr "Este relatório indica totais para as transações dos últimos meses classificadas por categorias e por sub-categorias. Você necessita  selecionar uma conta. Pelo padrão, todos as contas estão selecionados."
 
 #. revenus et dÃ©penses du mois en cours
 #: src/etats_onglet.c:1026
@@ -2979,26 +2982,26 @@ msgstr ""
 msgid ""
 "This report displays annual budget. You just need to select the account(s). "
 "By default all accounts are selected."
-msgstr ""
+msgstr "Este relatório mostra o orçamento anual. Você precisa selecionar uma conta. Por padrão todas as contas estão selecionadas."
 
 #. etat vierge
 #: src/etats_onglet.c:1038
 msgid "This report is an empty one. You need to customise it entirely."
-msgstr ""
+msgstr "Este relatório está vazio. Você precisa customizá-lo inteiramente."
 
 #. remise de chÃ¨ques
 #: src/etats_onglet.c:1044
 msgid ""
 "This report displays the cheques deposit. You just need to select the account"
 "(s). By default all accounts are selected."
-msgstr ""
+msgstr "Este relatório mostra os depósitos em cheque. Você precisa selecionar uma conta(s). Por padrão todas as contas estão selecionadas."
 
 #. dÃ©penses mensuelles par tiers
 #: src/etats_onglet.c:1050
 msgid ""
 "This report displays current month's outgoings sorted by third parties. You "
 "just need to select the account(s). By default all accounts areselected."
-msgstr ""
+msgstr "Este relatório indica as saídas mensais  atuais  classificados por terceiros. Você necessidade selecionar uma conta. Por padrão todas as contas estão selecionadas."
 
 #. recherche
 #: src/etats_onglet.c:1056
@@ -3007,11 +3010,11 @@ msgid ""
 "accounts for the current year. You just have to add the amount, date, third "
 "parties etc. criteria thant you want. By default the transactions are "
 "clickables."
-msgstr ""
+msgstr "Este relatório mostra todas as informações de todas as transações de todas as contas no ano atual. Você tem que adicionar um critério tipo valor, data terceiro, etc. Por padrão as transações estão clicáveis. "
 
 #: src/etats_onglet.c:1061
 msgid "???? should not be displayed..."
-msgstr ""
+msgstr "???? não será exibido..."
 
 #: src/etats_onglet.c:1082
 #, c-format
@@ -3020,7 +3023,7 @@ msgstr "Apagar relatório \"%s\"?"
 
 #: src/etats_onglet.c:1084
 msgid "This will irreversibly remove this report.  There is no undo for this."
-msgstr ""
+msgstr "Isto irá remover definitivamente este relatório. Não será possível recuperá-lo."
 
 #: src/etats_onglet.c:1221 src/imputation_budgetaire.c:2792
 msgid "Cannot save file."
@@ -3040,7 +3043,7 @@ msgstr "ano contábil atual"
 
 #: src/etats_support.c:159 src/etats_support.c:165
 msgid "former financial year"
-msgstr ""
+msgstr "ano contábil anterior"
 
 #: src/etats_support.c:177
 msgid "financial years"
@@ -3104,12 +3107,12 @@ msgstr "Anos contábeis"
 
 #: src/exercice.c:170
 msgid "Known financial years"
-msgstr ""
+msgstr "Anos contábeis conhecidos"
 
 #. Associate operations
 #: src/exercice.c:246
 msgid "Associate operations without financial years"
-msgstr ""
+msgstr "Operações sem associação de anos contábeis"
 
 #: src/exercice.c:266
 msgid "Financial year details"
@@ -3128,7 +3131,7 @@ msgstr "Fim"
 #. Activate in transaction form?
 #: src/exercice.c:316
 msgid "Activate in transaction form"
-msgstr ""
+msgstr "Ativar formulário de transações"
 
 #: src/exercice.c:353
 msgid "New financial year"
@@ -3149,7 +3152,7 @@ msgid ""
 "This function assigns each transaction without a financial year to the one "
 "related to its transaction date.  If no financial year matches, the "
 "transaction will not be changed."
-msgstr ""
+msgstr "Esta função atribui cada transação sem um ano financeiro ao ano  relacionado a sesta data da transação. Se nenhum ano financeiro combinar, a transação não estará mudada."
 
 #: src/fenetre_principale.c:110
 msgid "Main page"
@@ -3161,7 +3164,7 @@ msgstr "Agenda"
 
 #: src/fenetre_principale.c:172
 msgid "Third parties list (transactions)"
-msgstr ""
+msgstr "Lista de terceiros (transações)"
 
 #: src/fenetre_principale.c:175
 msgid "Categories list (transactions)"
@@ -3169,7 +3172,7 @@ msgstr "Lista de categorias (transações)"
 
 #: src/fenetre_principale.c:178
 msgid "Budgetary lines list (transactions)"
-msgstr ""
+msgstr "Lista de orçamentos (transações)"
 
 #: src/fichier_configuration.c:427
 msgid "File : "
@@ -3207,12 +3210,14 @@ msgid ""
 "instead.\n"
 "However, all changes made since this backup were possibly lost."
 msgstr ""
+"Grisbi não pode carregar o arquivo. Entretanto o Grisbi carregará um. arquivo de backup .\n"
+"Entretanto, todas as mudanças feitas desde este backup possivelmente serão perdidas."
 
 #: src/fichiers_gestion.c:358
 msgid ""
 "Grisbi was unable to load file.  Additionnaly, Grisbi was unable to load a "
 "backup file instead."
-msgstr ""
+msgstr "Grisbi não pode carregar o arquivo. Grisbi também não poderá carregar um arquivo de backup."
 
 #: src/fichiers_gestion.c:378
 msgid "Autosave"
@@ -3233,7 +3238,7 @@ msgstr "Checando valores"
 #. on crÃ©e le notebook principal
 #: src/fichiers_gestion.c:471
 msgid "Making main window"
-msgstr ""
+msgstr "Construindo janela principal"
 
 #: src/fichiers_gestion.c:562
 #, c-format
@@ -3246,7 +3251,7 @@ msgid ""
 "Grisbi was unable to save this file because it is locked.  Please save it "
 "with another name or activate the \"%s\" option in setup.  Alternatively, "
 "choose the \"%s\" option below."
-msgstr ""
+msgstr "Grisbi não pode salvar o arquivo porque ele está sendo usado. Por favor, salve-o com outro nome ou ative a \"%s\"opção nas configurações. Posteriormente mude  \"%s\" opção abaixo."
 
 #: src/fichiers_gestion.c:564 src/fichiers_gestion.c:652 src/parametres.c:557
 msgid "Force saving of locked files"
@@ -3261,7 +3266,7 @@ msgstr "Salvar arquivos bloqueados ?"
 msgid ""
 "The document '%s' is locked but modified. If you want to save it, you must "
 "cancel and save it with another name or activate the \"%s\" option in setup."
-msgstr ""
+msgstr "O documento %s está bloqueado mas modificado. Se você quiser salvar ele, você deverá cancelar cancelar e salvar com outro nome ou ativar a opção \"%s\" nas configurações."
 
 #: src/fichiers_gestion.c:651 src/fichiers_gestion.c:661
 #: src/fichiers_gestion.c:883
@@ -3309,7 +3314,7 @@ msgstr "Salvando backup"
 
 #: src/fichiers_io.c:203
 msgid "Invalid accounts file"
-msgstr ""
+msgstr "Arquivo de contas inválido"
 
 #: src/fichiers_io.c:231 src/fichiers_io.c:238
 #, c-format
@@ -3335,7 +3340,7 @@ msgstr "Não posso salvar arquivo '%s': %s"
 #: src/fichiers_io.c:5092
 #, c-format
 msgid "Cannot open file '%s' to mark it as used: %s"
-msgstr ""
+msgstr "Não posso abrir o arquivo %s para marcá-lo como usado: %s"
 
 #. le fichier de lock existe
 #: src/fichiers_io.c:5135
@@ -3350,6 +3355,8 @@ msgid ""
 "Grisbi can't save the file unless you activate the \"Force saving locked "
 "files\" option in setup."
 msgstr ""
+"Este arquivo já está abertos por um outro usuário ou não foi fechado corretamente (talvez Grisbi falhou?).\n"
+"Grisbi não pode salvar o arquivo a não ser que você ative a opção \"Forçar salvar arquivo bloqueados\" nas configurações."
 
 #: src/fichiers_io.c:5153
 #, c-format
@@ -3363,14 +3370,14 @@ msgstr "Não posso apagar arquivo bloqueado :'%s': %s"
 
 #: src/fichiers_io.c:5347
 msgid "This file is not a Grisbi category list file"
-msgstr ""
+msgstr "Este arquivo não é um arquivo de categorias do Grisbi."
 
 #: src/fichiers_io.c:5355 src/fichiers_io.c:5738
 #, c-format
 msgid ""
 "This budgetary lines list has been produced with grisbi version %s, Grisbi "
 "will nevertheless try to import it."
-msgstr ""
+msgstr "Esta lista de orçamentos foi produzida com o GRISBI versão %s, Grisbi fará uma tentativa de importar ela."
 
 #. Ã  ce niveau, c'est que que la version n'est pas connue de grisbi, on donne alors
 #. la version nÃ©cessaire pour l'ouvrir
@@ -3385,11 +3392,11 @@ msgstr "Arquivo de categorias inválido"
 
 #: src/fichiers_io.c:5716
 msgid "This file is not a grisbi budgetary lines file"
-msgstr ""
+msgstr "Este não é um arquivo de orçamentos do Grisbi."
 
 #: src/fichiers_io.c:5746
 msgid "Invalid budgetary lines file"
-msgstr ""
+msgstr "Arquivo de orçamentos inválido."
 
 #: src/fichiers_io.c:5940
 msgid ""
@@ -3397,6 +3404,8 @@ msgid ""
 "should change its permissions.\n"
 "Should this be fixed now?"
 msgstr ""
+"Sua arquivo de contas não deve ser lido por qualquer pessoa, mas é. Você deve mudar suas permissões.\n"
+"Gostaria de corrigir isto agora ???"
 
 #: src/help.c:54
 msgid ""
@@ -3483,7 +3492,7 @@ msgstr "Relatório de erros"
 
 #: src/help.c:82
 msgid "Information list (new releases announces, ...) : "
-msgstr ""
+msgstr "Lista de informações (novas alterações implementadas,...) : "
 
 #: src/help.c:85
 msgid "Grisbi documentation"
@@ -3515,7 +3524,7 @@ msgstr "Licença"
 
 #: src/html.c:45
 msgid "This does not work at this moment"
-msgstr ""
+msgstr "Isto não funciona neste momento"
 
 #: src/import.c:158
 msgid "Select files to import"
@@ -3531,12 +3540,12 @@ msgstr ""
 
 #: src/import.c:304
 msgid "No account was imported"
-msgstr ""
+msgstr "Nenhuma conta foi importada"
 
 #. la boite n'a pas encore Ã©tÃ© crÃ©Ã©, on le fait
 #: src/import.c:372
 msgid "Actions on imported accounts:"
-msgstr ""
+msgstr "Ações na importação de contas:"
 
 #: src/import.c:375
 msgid "Add more accounts"
@@ -3544,7 +3553,7 @@ msgstr "Adicionar mais contas"
 
 #: src/import.c:394
 msgid "List of the selection of accounts :"
-msgstr ""
+msgstr "Lista de seleção de contas:"
 
 #: src/import.c:457
 msgid "Action"
@@ -3556,7 +3565,7 @@ msgstr "Tipo de conta"
 
 #: src/import.c:490
 msgid "Origine"
-msgstr ""
+msgstr "Origem"
 
 #: src/import.c:636
 msgid "none"
@@ -3590,7 +3599,7 @@ msgstr "Adicionar transações"
 
 #: src/import.c:757
 msgid "Mark transactions"
-msgstr ""
+msgstr "Marcar transações"
 
 #: src/import.c:884 src/import.c:2842
 msgid "QIF file"
@@ -3625,7 +3634,7 @@ msgstr "Importar conta"
 #. on propose encore d'arrÃªter...
 #: src/import.c:1581 src/import.c:2216
 msgid "The id of the imported and chosen accounts are different"
-msgstr ""
+msgstr "Os códigos da conta importada e da alterada são diferentes"
 
 #: src/import.c:1582 src/import.c:2217
 msgid ""
@@ -3668,7 +3677,7 @@ msgstr ""
 
 #: src/import.c:2573
 msgid "Mark"
-msgstr ""
+msgstr "Marcar"
 
 #: src/import.c:2780
 msgid "Search the transaction "
@@ -3688,24 +3697,24 @@ msgstr "Formato de arquivo"
 
 #: src/imputation_budgetaire.c:148
 msgid "Budgetary lines list"
-msgstr ""
+msgstr "Lista de orçamentos"
 
 #: src/imputation_budgetaire.c:149
 msgid "Amount per budget line"
-msgstr ""
+msgstr "Valores por orçamento"
 
 #: src/imputation_budgetaire.c:150
 msgid "Amount per sub-budget line"
-msgstr ""
+msgstr "Valores por sub-orçamentos"
 
 #. mise en place des boutons ajout d'1 imput / sous-imput
 #: src/imputation_budgetaire.c:352
 msgid "Add a budget line"
-msgstr ""
+msgstr "Adicionar um orçamento"
 
 #: src/imputation_budgetaire.c:366
 msgid "Add a sub-budget line"
-msgstr ""
+msgstr "Adicionar um sub-orçamento"
 
 #. mise en place du bouton fusionner avec les catÃ©gories
 #: src/imputation_budgetaire.c:394
@@ -3715,20 +3724,20 @@ msgstr "Mesclar categorias"
 #: src/imputation_budgetaire.c:761 src/imputation_budgetaire.c:851
 #, c-format
 msgid "No sub-budget line (%d)"
-msgstr ""
+msgstr "Nenhum sub-orçamento (%d)"
 
 #: src/imputation_budgetaire.c:764 src/imputation_budgetaire.c:854
 msgid "No sub-budget line"
-msgstr ""
+msgstr "Nenhum sub-orçamento"
 
 #: src/imputation_budgetaire.c:823
 #, c-format
 msgid "No budget line (%d)"
-msgstr ""
+msgstr "Nenhum orçamento (%d)"
 
 #: src/imputation_budgetaire.c:826
 msgid "No budget line"
-msgstr ""
+msgstr "Nenhum orçamento"
 
 #: src/imputation_budgetaire.c:1145
 #, c-format
@@ -3737,7 +3746,7 @@ msgstr "%d/%d/%d : %4.2f %s [ %s ]"
 
 #: src/imputation_budgetaire.c:1665
 msgid "Delete a budgetary line"
-msgstr ""
+msgstr "Apagar um orçamento"
 
 #: src/imputation_budgetaire.c:1672
 msgid ""
@@ -3745,6 +3754,9 @@ msgid ""
 "\n"
 "You can"
 msgstr ""
+"Algumas transações são atribuidas a este orçamento.\n"
+"\n"
+"Você pode "
 
 #: src/imputation_budgetaire.c:1697 src/imputation_budgetaire.c:2031
 msgid "Move the transactions to"
@@ -3752,15 +3764,15 @@ msgstr "Mover as transações para"
 
 #: src/imputation_budgetaire.c:1782
 msgid "Just delete the budgetary line."
-msgstr ""
+msgstr "Apagar este orçamento."
 
 #: src/imputation_budgetaire.c:1808 src/imputation_budgetaire.c:2141
 msgid "Please enter a budgetary line!"
-msgstr ""
+msgstr "Por favor, informe um orçamento!"
 
 #: src/imputation_budgetaire.c:1999
 msgid "Deleting a budgetaty line"
-msgstr ""
+msgstr "Apagando um orçamento"
 
 #: src/imputation_budgetaire.c:2006
 msgid ""
@@ -3768,10 +3780,13 @@ msgid ""
 "\n"
 "You can"
 msgstr ""
+"Algumas transações são atribuidas a este sub-orçamento.\n"
+"\n"
+"Você pode"
 
 #: src/imputation_budgetaire.c:2115
 msgid "Just delete the sub-budgetary line."
-msgstr ""
+msgstr "Apagar este suborçamento."
 
 #: src/imputation_budgetaire.c:2389
 msgid ""
@@ -3784,43 +3799,43 @@ msgstr ""
 
 #: src/imputation_budgetaire.c:2628
 msgid "New budgetary line"
-msgstr ""
+msgstr "Novo orçamento"
 
 #: src/imputation_budgetaire.c:2629
 msgid "Enter the name of the new budgetary line"
-msgstr ""
+msgstr "Informe o nome para o novo orçamento"
 
 #: src/imputation_budgetaire.c:2686
 msgid "New sub-budgetary line"
-msgstr ""
+msgstr "Novo sub-orçamento"
 
 #: src/imputation_budgetaire.c:2687
 msgid "Enter the name of the new sub-budgetary line"
-msgstr ""
+msgstr "Informe o nome para o novo sub-orçamento"
 
 #: src/imputation_budgetaire.c:2755
 msgid "Export the budgetary lines"
-msgstr ""
+msgstr "Exportar orçamento"
 
 #. on permet de remplacer/fusionner la liste
 #: src/imputation_budgetaire.c:2820 src/imputation_budgetaire.c:2845
 msgid "Import the budgetary lines"
-msgstr ""
+msgstr "Importar orçamento"
 
 #. il y a dÃ©jÃ  des opÃ©rations dans le fichier, on ne peut que fusionner
 #: src/imputation_budgetaire.c:2864
 msgid ""
 "File already contains transactions, the two budgetary lines lists will be "
 "merged."
-msgstr ""
+msgstr "Arquivo já contem transações, os dos orçamentos serão mesclados."
 
 #: src/imputation_budgetaire.c:2892
 msgid "Merge the two lists of budgetary lines"
-msgstr ""
+msgstr "Mesclar os dois orçamentos mostradados"
 
 #: src/imputation_budgetaire.c:2900
 msgid "Replace the old list of budgetary lines"
-msgstr ""
+msgstr "Sobrescrever a lista do orçamento anterior"
 
 #: src/main.c:172
 #, c-format
@@ -3980,12 +3995,12 @@ msgstr "C"
 msgid ""
 "This build of Grisbi does not support OFX, please recompile Grisbi with OFX "
 "support enabled"
-msgstr ""
+msgstr "Esta compilação do Grisbi não suporta OFX, por favor recompile o Grisbi com suporte a OFX"
 
 #: src/ofx.c:32
 #, c-format
 msgid "Cannot process OFX file '%s'"
-msgstr ""
+msgstr "Não posso processar arquivo OFX '%s '"
 
 #: src/ofx.c:93
 msgid "Warning"
@@ -4028,11 +4043,11 @@ msgstr "Dividendos"
 
 #: src/ofx.c:390
 msgid "Service charge"
-msgstr ""
+msgstr "Carregar serviço"
 
 #: src/ofx.c:394
 msgid "Fee"
-msgstr ""
+msgstr "Taxa"
 
 #: src/ofx.c:402
 msgid "Cash dispenser"
@@ -4040,7 +4055,7 @@ msgstr ""
 
 #: src/ofx.c:406
 msgid "Point of sale"
-msgstr ""
+msgstr "Ponto de venda"
 
 #: src/ofx.c:414
 msgid "Electronic payment"
@@ -4095,7 +4110,7 @@ msgstr "Nenhum terceiro selecionado para este relatório."
 
 #: src/operations_formulaire.c:2563
 msgid "You must enter a date."
-msgstr ""
+msgstr "Você deve informar uma data."
 
 #: src/operations_formulaire.c:2588
 msgid "Invalid value date."
@@ -4130,7 +4145,7 @@ msgstr "Vários terceiros inválido"
 
 #: src/operations_formulaire.c:2806
 msgid "The word \"Report\" is reserved. Please use another one."
-msgstr ""
+msgstr "A palavra \"Report\" está reservada. Por favor, use outra palavra."
 
 #: src/operations_liste.c:327
 msgid "Curent balance"
@@ -4138,11 +4153,11 @@ msgstr "Saldo atual"
 
 #: src/operations_liste.c:1333
 msgid "Transfer to a deleted account"
-msgstr ""
+msgstr "Transferir para uma conta apagada."
 
 #: src/operations_liste.c:1335
 msgid "Transfer from a deleted account"
-msgstr ""
+msgstr "Transferir a partir de uma conta deletada"
 
 #: src/operations_liste.c:1374
 msgid "T"
@@ -4154,15 +4169,15 @@ msgstr "R"
 
 #: src/operations_liste.c:2529
 msgid "Auto"
-msgstr ""
+msgstr "Auto"
 
 #: src/operations_liste.c:2778
 msgid "Imposible to delete a reconciled transaction."
-msgstr ""
+msgstr "Impossível apagar uma transação reconciliada"
 
 #: src/operations_liste.c:2795
 msgid "The contra-transaction of this transfer is reconciled, deletion impossible."
-msgstr ""
+msgstr "A contra transação para esta transferência está reconciliada, Não é possível apagá-la."
 
 #: src/operations_liste.c:2838
 msgid ""
@@ -4192,12 +4207,12 @@ msgstr "Saldo atual: %4.2f %s"
 #: src/operations_liste.c:3983
 #, c-format
 msgid "Checked balance: %4.2f %s"
-msgstr ""
+msgstr "Saldo verificado: %4.2f %s"
 
 #. Create dialog
 #: src/parametres.c:198
 msgid "Grisbi preferences"
-msgstr ""
+msgstr "Preferências do Grisbi"
 
 #: src/parametres.c:228 src/parametres.c:536
 msgid "Files"
@@ -4453,7 +4468,7 @@ msgstr ""
 
 #: src/qif.c:928
 msgid "All transactions will be converted into currency of their account."
-msgstr ""
+msgstr "Todas as transações serão convertidas para a moeda desta conta."
 
 #: src/qif.c:931
 msgid "Export QIF files"
@@ -4513,6 +4528,9 @@ msgid ""
 "\n"
 "You can"
 msgstr ""
+"Algumas transações estão atribuidas para este terceiro.\n"
+"\n"
+"Você pode"
 
 #: src/tiers_onglet.c:1301
 msgid "Transfer the transactions to"
@@ -4536,7 +4554,7 @@ msgstr "Informe um nome para o novo terceiro"
 
 #: src/tip.c:61 src/tip.c:89 src/tip.c:96
 msgid "Did you know that..."
-msgstr ""
+msgstr "Você sabia que ..."
 
 #. Should not happen theorically
 #. Should not happen!
