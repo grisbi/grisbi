@@ -44,8 +44,8 @@ void a_propos ( GtkWidget *bouton,
     const gchar *generalites = _("Grisbi is a personnal accounting application for Linux\nSuch a program allows you to sort your financial transactions, whatever they are, in a convenient and intuitive way.  Thus, you will be able to manage them as to fit your needs the more you can.\nGrisbi aims both at simplicty and efficiency for common use, and at a powerful use for power users.  We will always try to respect this as features will come.");
 
     const gchar *auteurs[] = { 
-      _("Alain Pichon (alain.pichon[at]grisbi.org): Fedora and RHEL packaging"),
-      _("Alain Portal <dionysos[at]grisbi.org>: Programming, manual, RedHat packaging"),
+      _("Alain Pichon (alain.pichon[at]grisbi.org): RHEL packaging"),
+      _("Alain Portal <dionysos[at]grisbi.org>: Programming, manual, Fedora and RedHat packaging"),
       _("Andre Pascual (andre[at]linuxgraphic.org) : Logo"),
       _("Axel Rousseau (axel584[at]axel584.org): contributor"),
       _("Benjamin Drieu (bdrieu[at]april.org) : Programming, Debian packaging"),
