@@ -6135,9 +6135,36 @@ void fichier_marque_ouvert ( gint ouvert )
   /*   s'il n'a rien trouve, c'est que c'etait la version 0.3.1 et on passe */
 
   if ( retour != EOF )
-    fprintf ( pointeur_fichier_comptes,
-	      itoa ( ouvert ));
+  {
+#ifdef CYGWIN
 
+      /* CYGWIN ne pouvant maitrise l'acces bufferise au fichier de
+       * Windows, il gere 2 curseurs de fichiers differents afin de
+       * maitriser la bufferisation en lecture des fichiers: le
+       * curseur reel au sein du fichier, et un curseur de lecture
+       * simule.  Lors d'un lecture, CYGWIN lit le fichier par
+       * morceaux (le curseur reel est place apres la fin du dernier
+       * morceau lu).  Les fonctions de lecture n'accedent pas en
+       * direct au fichier.Elles utilisent le curseur de lecture
+       * qu'elles deplacent au sein du buffer memorise. Par contre la
+       * position ce curseur en lecture represente bien la position
+       * reelle du caractere lu au sein du fichier.  (ftell renvoi
+       * cette position correctement) Les fonctions d'ecriture
+       * accedent en direct au fichier, donc elles n'utilisent que le
+       * curseur reel.
+       * 
+       * Pour ecrire apres le dernier caractere lu, il faut donc
+       * repositionne le curseur reel a la positon du curseur de
+       * lecture simule
+       *
+       * -- francois@terrot.net
+       */
+      fseek(pointeur_fichier_comptes,ftell(pointeur_fichier_comptes),SEEK_SET);
+
+#endif /* CYGWIN */
+       
+    fprintf ( pointeur_fichier_comptes, itoa ( ouvert ));
+  }
   fclose ( pointeur_fichier_comptes );
 
   return;
