@@ -290,7 +290,7 @@ void export_accounts_to_csv (GSList* export_entries_list )
 
                     if ( !operation -> no_operation_ventilee_associee )
                     {
-                        GList* pointer = NULL;
+                        GSList* pointer = NULL;
                         /* met la date */
                         csv_field_date = g_strdup_printf ("%d/%d/%d", operation -> jour, operation -> mois, operation -> annee );
 
