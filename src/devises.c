@@ -180,7 +180,6 @@ static struct iso_4217_currency iso_4217_currencies[] = {
   { "PYG", N_("Southern America"), N_("Paraguay Guarani"), N_("Paraguay"), "PYG", NULL, TRUE },
   { "SRG", N_("Southern America"), N_("Suriname Guilder"), N_("Suriname"), "SRG", NULL, TRUE },
   { "VEB", N_("Southern America"), N_("Venezuelan Bolivar"), N_("Venezuela"), "VEB", NULL, TRUE },
-  { "ETB", N_("Afrique"), N_("Ethiopian Birr"), N_("Ethiopia"), "ETB", NULL, TRUE },
   { NULL },
 };
 
@@ -545,6 +544,7 @@ void ajout_devise ( GtkWidget *bouton,
   /* Create table */
   table = gtk_table_new ( 2, 2, FALSE );
   gtk_table_set_col_spacings ( GTK_TABLE ( table ), 5 );
+  gtk_table_set_row_spacings ( GTK_TABLE ( table ), 5 );
   gtk_box_pack_start ( GTK_BOX ( paddingbox ),
 		       table,
 		       TRUE, TRUE, 0 );
@@ -1418,7 +1418,7 @@ gboolean devise_selectionnee ( GtkWidget *menu_shell,
 GtkWidget *onglet_devises ( void )
 {
   GtkWidget *hbox_pref, *vbox_pref, *separateur, *label, *frame, *paddingbox;
-  GtkWidget *scrolled_window, *vbox;
+  GtkWidget *scrolled_window, *vbox, *table;
   GSList *liste_tmp;
   gchar *titres_devise [3] = { _("Currency"),
 			       _("ISO Code"),
@@ -1471,7 +1471,7 @@ GtkWidget *onglet_devises ( void )
     gtk_widget_set_sensitive ( vbox_pref, FALSE );
   else
     {
-      /* on crée la liste_struct_devises_tmp qui est un copie de liste_struct_devises originale */
+      /* on crée la liste_struct_devises_tmp qui est un copie de liste_struct_devises oriignale */
       /* avec laquelle on travaillera dans les parametres */
 
       liste_struct_devises_tmp = NULL;
@@ -1586,14 +1586,22 @@ GtkWidget *onglet_devises ( void )
 		       GTK_SIGNAL_FUNC ( deselection_ligne_devise ),
 		       paddingbox );
 
+
+  /* Create table */
+  table = gtk_table_new ( 2, 2, FALSE );
+  gtk_table_set_col_spacings ( GTK_TABLE ( table ), 5 );
+  gtk_table_set_row_spacings ( GTK_TABLE ( table ), 5 );
+  gtk_box_pack_start ( GTK_BOX ( paddingbox ), table,
+		       TRUE, TRUE, 0 );
+
   /* Create currency name entry */
-  hbox = gtk_hbox_new ( FALSE, 5 );
-  gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox,
-		       FALSE, FALSE, 0);
-  label = gtk_label_new ( COLON(_("Name")) );
-  gtk_box_pack_start ( GTK_BOX ( hbox ), label,
-		       FALSE, FALSE, 0);
-  gtk_widget_show ( label );
+  label = gtk_label_new (COLON(_("Name")));
+  gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
+  gtk_label_set_justify ( label, GTK_JUSTIFY_RIGHT );
+  gtk_table_attach ( GTK_TABLE ( table ),
+		     label, 0, 1, 0, 1,
+		     GTK_SHRINK | GTK_FILL, 0,
+		     0, 0 );
   entree_nom_devise_parametres = gtk_entry_new ();
   gtk_signal_connect ( GTK_OBJECT ( entree_nom_devise_parametres ),
 		       "changed",
@@ -1603,18 +1611,21 @@ GtkWidget *onglet_devises ( void )
 		       "changed",
 		       activer_bouton_appliquer,
 		       NULL );
-  gtk_box_pack_start ( GTK_BOX ( hbox ), entree_nom_devise_parametres,
-		       FALSE, FALSE, 0);
-  gtk_widget_show ( entree_nom_devise_parametres );
+  gtk_table_attach ( GTK_TABLE ( table ),
+		     entree_nom_devise_parametres, 
+		     1, 2, 0, 1, 
+		     GTK_EXPAND | GTK_FILL, 0,
+		     0, 0 );
 
   /* Create code entry */
-  hbox = gtk_hbox_new ( FALSE, 5 );
-  gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox,
-		       FALSE, FALSE, 0);
-  label = gtk_label_new ( COLON(_("Sign")) );
-  gtk_box_pack_start ( GTK_BOX ( hbox ), label,
-		       FALSE, FALSE, 0);
-  gtk_widget_show ( label );
+  label = gtk_label_new (COLON(_("Sign")));
+  gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
+  gtk_label_set_justify ( label, GTK_JUSTIFY_RIGHT );
+  gtk_table_attach ( GTK_TABLE ( table ),
+		     label, 
+		     0, 1, 1, 2,
+		     GTK_SHRINK | GTK_FILL, 0,
+		     0, 0 );
   entree_code_devise_parametres = gtk_entry_new ();
   gtk_signal_connect ( GTK_OBJECT ( entree_code_devise_parametres ),
 		       "changed",
@@ -1624,18 +1635,21 @@ GtkWidget *onglet_devises ( void )
 			"changed",
 			activer_bouton_appliquer,
 			NULL );
-  gtk_box_pack_start ( GTK_BOX ( hbox ), entree_code_devise_parametres,
-		       FALSE, FALSE, 0);
-  gtk_widget_show ( entree_code_devise_parametres );
+  gtk_table_attach ( GTK_TABLE ( table ),
+		     entree_code_devise_parametres, 
+		     1, 2, 1, 2,
+		     GTK_EXPAND | GTK_FILL, 0,
+		     0, 0 );
 
   /* Create code entry */
-  hbox = gtk_hbox_new ( FALSE, 5 );
-  gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox,
-		       FALSE, FALSE, 0);
   label = gtk_label_new ( COLON(_("ISO code")) );
-  gtk_box_pack_start ( GTK_BOX ( hbox ), label,
-		       FALSE, FALSE, 0);
-  gtk_widget_show ( label );
+  gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
+  gtk_label_set_justify ( label, GTK_JUSTIFY_RIGHT );
+  gtk_table_attach ( GTK_TABLE ( table ),
+		     label,
+		     0, 1, 2, 3,
+		     GTK_SHRINK | GTK_FILL, 0,
+		     0, 0 );
   entree_iso_code_devise_parametres = gtk_entry_new ();
   gtk_signal_connect ( GTK_OBJECT ( entree_iso_code_devise_parametres ),
 		       "changed",
@@ -1645,9 +1659,11 @@ GtkWidget *onglet_devises ( void )
 			"changed",
 			activer_bouton_appliquer,
 			NULL );
-  gtk_box_pack_start ( GTK_BOX ( hbox ), entree_iso_code_devise_parametres,
-		       FALSE, FALSE, 0);
-  gtk_widget_show ( entree_iso_code_devise_parametres );
+  gtk_table_attach ( GTK_TABLE ( table ),
+		     entree_iso_code_devise_parametres, 
+		     1, 2, 2, 3,
+		     GTK_EXPAND | GTK_FILL, 0,
+		     0, 0 );
 
   /* Will switch to Euro? */
   check_button_euro = gtk_check_button_new_with_label ( _("Will switch to Euro") );
