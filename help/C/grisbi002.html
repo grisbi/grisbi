@@ -1,0 +1,314 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
+            "http://www.w3.org/TR/REC-html40/loose.dtd">
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<META name="GENERATOR" content="hevea 1.05">
+<TITLE>
+ Introduction
+</TITLE>
+</HEAD>
+<BODY BGCOLOR="#ffff99">
+
+<A HREF="grisbi001.html"><IMG SRC ="previous_motif.gif" ALT="Précédent"></A>
+<A HREF="index.html"><IMG SRC ="contents_motif.gif" ALT="Index"></A>
+<A HREF="grisbi003.html"><IMG SRC ="next_motif.gif" ALT="Suivant"></A>
+<HR>
+
+<H1>Chapitre&nbsp;1&nbsp;&nbsp; Introduction</H1><A NAME="introduction"></A><A NAME="toc4"></A>
+<H2>1.1&nbsp;&nbsp; Auteurs et contributions</H2><A NAME="introduction-authors"></A><A HREF="mailto:cedric@grisbi.org">Cédric <FONT COLOR=navy>Auger</FONT></A> est à la base du
+projet, et il continue à en être le principal développeur.<BR>
+<BR>
+<A HREF="mailto:daniel@cartron.org">Daniel <FONT COLOR=navy>Cartron</FONT></A> écrit la
+documentation, fournit des conseils en comptabilité, a créé et reste un des
+webmestres du site de Grisbi, et il passe son temps à inventer des nouvelles
+fonctionnalités tordues rien que pour embêter Cédric. Sa passion des fichiers de
+compte ultra-compliqués amène un plus indéniable à la découverte de bugs
+inédits.<BR>
+<BR>
+<A HREF="mailto:andre@linuxgraphic.org">André <FONT COLOR=navy>Pascual</FONT></A> de
+<A HREF="http://www.linuxgraphic.org"><EM>Linuxgraphic</EM></A> nous a fait notre chouette logo
+(comment, c'est pas une chouette, c'est un pingouin?).<BR>
+<BR>
+<A HREF="mailto:sbi@april.org">Sébastien <FONT COLOR=navy>Blondeel</FONT></A>
+ a écrit les scripts permettant de générer la documentation en plusieurs
+formats, de convertir les images aux formats adéquats, et a été l'artisan de 
+l'adoption de L<sup>A</sup>T<sub>E</sub>Xpour la rédaction de la documentation.<BR>
+<BR>
+<A HREF="mailto:bdrieu@april.org">Benjamin <FONT COLOR=navy>Drieu</FONT></A> s'occupe
+activement de l'impression et l'internationalisation (en cours de développement)
+et de l'empaquetage au format Debian.<BR>
+<BR>
+<A HREF="mailto:gerald@grisbi.org">Gérald <FONT COLOR=navy>Niel</FONT></A> prend progressivement
+les responsabilités de Webmestre du site de Grisbi et s'occupe des empaquetages
+RPM.<BR>
+<BR>
+<A NAME="toc5"></A>
+<H2>1.2&nbsp;&nbsp; Remerciements</H2><A NAME="introduction-thanks"></A>Merci à <A HREF="http://www.tuxfamily.org"><EM>TuxFamily</EM></A> pour l'hébergement du
+site Internet, le ftp, et le CVS.<BR>
+<BR>
+Un grand merci également à tous les autres participants de la liste de 
+développement.<BR>
+<BR>
+<A NAME="toc6"></A>
+<H2>1.3&nbsp;&nbsp; Licences</H2><A NAME="introduction-licenses"></A>Cette documentation est soumise aux termes de la Licence de Documentation Libre
+GNU (<EM>GNU Free Documentation License</EM>), que vous trouverez au chapitre
+<A HREF="grisbi019.html#gfdl">18</A>.<BR>
+<BR>
+Permission est accordée de copier, distribuer et/ou modifier ce document
+selon les termes de la Licence de Documentation Libre GNU (GNU Free
+Documentation License), version 1.1 ou toute version ultérieure publiée
+par la Free Software Foundation . Une copie de la présente Licence est
+incluse dans la section intitulée «Licence de Documentation Libre GNU »
+(voir le chapitre <A HREF="grisbi019.html#gfdl">18</A>).<BR>
+<BR>
+Le programme est soumis aux termes de la Licence Générale Publique GNU
+(<EM>GNU General Public License</EM>). Les corrections de bogues et mises à jour
+ne sont pas garanties.<BR>
+<BR>
+<A NAME="toc7"></A>
+<H2>1.4&nbsp;&nbsp; Généralités</H2><A NAME="general"></A>Grisbi est un logiciel vous permettant de gérer votre comptabilité
+personnelle sous Linux.<BR>
+<BR>
+Le principe de base d'un tel logiciel est de vous permettre de classer
+vos opérations financières, quelles qu'elles soient, de façon simple et
+intuitive, afin de pouvoir les exploiter au mieux en fonction de vos
+besoins.<BR>
+<BR>
+Grisbi a pris le parti de la simplicité et de l'efficacité pour un usage de
+ base, sans toutefois exclure la sophistication nécessaire à un usage
+avancé. Les fonctionnalités futures tenteront toujours de respecter 
+ces critères.<BR>
+<BR>
+<A NAME="toc8"></A>
+<H2>1.5&nbsp;&nbsp; Fonctionnalités</H2><A NAME="general-features"></A>Ce que Grisbi sait faire:<BR>
+<BR>
+<UL>
+<LI> la gestion de comptes bancaires, de caisse, d'actif et de passif ;<BR>
+<BR>
+
+<LI> la gestion simultanée de plusieurs comptes ;<BR>
+<BR>
+
+<LI> la gestion multi-devises, y compris bien sûr l'euro ;<BR>
+<BR>
+
+<LI> la gestion multi-utilisateurs ;<BR>
+<BR>
+
+<LI> la possibilité de saisir une opération dans quelque devise que ce
+soit ;<BR>
+<BR>
+
+<LI> la gestion des frais de change éventuels ;<BR>
+<BR>
+
+<LI> le passage à l'euro de votre comptabilité compte par compte ;<BR>
+<BR>
+
+<LI> la description des opérations avec date, tiers, catégories et
+ sous-catégories comptables, et notes ;<BR>
+<BR>
+
+<LI> en outre, des informations complémentaires sont activables à volonté :
+date de valeur, imputations et sous-imputations budgétaires, exercices, numéro
+ de pièce comptable, références bancaires et numéro de l'opération dans Grisbi ;<BR>
+<BR>
+
+<LI> les virements entre comptes, y compris entre comptes de devises
+différentes ;<BR>
+<BR>
+
+<LI> la création automatique de la contre-opération lors d'un virement
+de compte à compte ;<BR>
+<BR>
+
+<LI> le rapprochement bancaire avec possibilité de personnaliser les
+références des relevés de la banque ;<BR>
+<BR>
+
+<LI> les opérations planifiées automatiques et manuelles ;<BR>
+<BR>
+
+<LI> l'auto-complètement des tiers et des catégories ;<BR>
+<BR>
+
+<LI> le rappel automatique de la dernière opération pour un tiers donné ;<BR>
+<BR>
+
+<LI> l'import/export au format QIF ;<BR>
+<BR>
+
+<LI> la surveillance des échéances, avec visualisation grâce à une
+appelette (pour l'instant sous Gnome uniquement, contributeurs KDE bienvenus).</UL>Ce que Grisbi ne sait pas encore faire:<BR>
+<BR>
+<UL>
+<LI> la gestion des comptes d'emprunt ;<BR>
+<BR>
+
+<LI> le rapprochement par internet ou minitel ;<BR>
+<BR>
+
+<LI> l'impression des états (mais c'est pour la prochaine version, et il y en a 
+un avant-goût dans la version CVS instable) ;<BR>
+<BR>
+
+<LI> un certain nombre d'autres choses qui sont décrites dans le chapitre 
+<I><FONT COLOR=maroon>À faire</FONT></I> (voir le chapitre <A HREF="grisbi016.html#todo">15</A>).</UL><A NAME="toc9"></A>
+<H2>1.6&nbsp;&nbsp; Quoi de neuf?</H2>Si vous utilisez déjà Grisbi vous n'aurez probablement pas envie de relire
+tout le manuel pour trouver ce qui a changé et ce qui est nouveau, tant dans
+Grisbi que dans le manuel. Voici donc les nouveautés :<BR>
+<BR>
+<UL>
+<LI> la rubrique <I><FONT COLOR=maroon>Contacts</FONT></I> a été étoffée (voir le paragraphe
+<A HREF="#general-contacts">1.9</A>) ;<BR>
+<BR>
+
+<LI> l'installation a été également étoffée et on y trouve dorénavant les
+explications pour les installations avec les utilitaires graphiques fournis par
+de nombreuses distributions (voir le chapitre <A HREF="grisbi003.html#install">2</A>). On y trouve
+également les instructions pour récupérer les sources sur le CVS (voir le
+paragraphe <A HREF="grisbi003.html#install-cvs">2.10</A>) ;<BR>
+<BR>
+
+<LI> les comptes ont de nouvelles propriétés (voir le paragraphe
+<A HREF="grisbi004.html#start-newaccount-properties">3.3</A>) ;<BR>
+<BR>
+
+<LI> le formulaire de saisie des opérations a changé (voir le paragraphe
+<A HREF="grisbi007.html#transactions-form">6.3</A>) ainsi que l'affichage de celles-ci (voir le paragraphe
+<A HREF="grisbi007.html#transactions-list">6.2</A>) ;<BR>
+<BR>
+
+<LI> il y a de nouvelles fonctionnalités dans le rapprochement : un numéro
+personnalisable (voir le paragraphe <A HREF="grisbi008.html#reconciliation-number">7</A>) et une
+amélioration du tri des opérations (voir le paragraphe
+<A HREF="grisbi008.html#reconciliation-sort">7</A>) ;<BR>
+<BR>
+
+<LI> dans l'échéancier l'affichage des opérations est plus performant
+(voir le paragraphe <A HREF="grisbi009.html#plannedtransactions-display">8.1</A>) ;<BR>
+<BR>
+
+<LI> un nouvel onglet fait son apparition : les Imputations budgétaires
+(voir le chapitre <A HREF="grisbi012.html#budgetarylines">11</A>) ;<BR>
+<BR>
+
+<LI> la fenêtre de configuration a été profondément remaniée et intègre de
+nouvelles fonctionnalités très intéressantes (voir le chapitre <A HREF="grisbi014.html#setup">13</A>). Il
+faut vraiment lire tout ce chapitre ;<BR>
+<BR>
+
+<LI> le chapitre <I><FONT COLOR=maroon>À faire</FONT></I> (voir le chapitre <A HREF="grisbi016.html#todo">15</A>) a été amélioré ;<BR>
+<BR>
+
+<LI> le fichier de comptes est dorénavant enregistré en XML et vous trouverez
+les explications de toutes les balises contenues dans ce fichier (voir le
+chapitre <A HREF="grisbi017.html#xml">16</A>) ;<BR>
+<BR>
+
+<LI> les messages d'erreur de Grisbi sont recensés et expliqués dans un 
+chapitre dédié (voir le chapitre <A HREF="grisbi018.html#problems">17</A>) .</UL><A NAME="toc10"></A>
+<H2>1.7&nbsp;&nbsp; Caractéristiques techniques</H2><A NAME="general-technical"></A>Grisbi est développé en C avec Gtk et Gnome.<BR>
+<BR>
+Ceci veut dire qu'il devrait être possible moyennant quelques modifications de 
+code de le compiler pour Windows, mais ce n'est pas une priorité pour l'instant. 
+Par contre si quelqu'un a envie de le faire ce sera avec plaisir.<BR>
+<BR>
+La dernière version en date du 1 octobre 2002 est la 
+0.3.3. Elle peut être téléchargée sur le site de 
+<A HREF="http://www.grisbi.org">Grisbi</A>, ainsi que la dernière version de ce
+manuel.<BR>
+<BR>
+<A NAME="toc11"></A>
+<H2>1.8&nbsp;&nbsp; Évolution du code</H2><A NAME="general-code"></A>Grisbi étant un logiciel en plein développement, toute remarque (idée,
+bug, documentation ...) est la bienvenue.<BR>
+<BR>
+Vous pouvez envoyer vos suggestions à: <A HREF="mailto:cedric@grisbi.org">Cédric
+<FONT COLOR=navy>Auger</FONT></A>.<BR>
+<BR>
+Vous pouvez si vous avez le goût de l'aventure télécharger les versions en 
+cours de développement sur le CVS de Grisbi (voir le paragraphe 
+<A HREF="grisbi003.html#install-cvs">2.10</A>) .<BR>
+<BR>
+En effet le code des nouvelles versions de Grisbi est bien souvent figé 
+plusieurs semaines avant la distribution effective de celles-ci, le temps pour 
+l'équipe de développement de vérifier et d'éradiquer les ultimes bugs. Pendant 
+cette période le format d'enregistrement du fichier de compte ne bouge plus, et 
+vous pouvez donc avec un minimum de précautions (sauvegardes fréquentes etc.) 
+bénéficier des dernières améliorations avec plusieurs semaines d'avance, et 
+également participer au débugage.<BR>
+<BR>
+Vous pouvez enfin avoir accès à toutes les évolutions du code antérieures à
+la version 0.3.2 (version à partir de laquelle nous avons mis en place un
+CVS) sur le site de Grisbi.<BR>
+<BR>
+<A NAME="toc12"></A>
+<H2>1.9&nbsp;&nbsp; Contacts</H2><A NAME="general-contacts"></A>Outre les courriers aux auteurs vous disposez de plusieurs listes de diffusion 
+pour nous contacter ou obtenir des informations.<BR>
+<BR>
+Pour être tenu au courant des évolutions de Grisbi, vous pouvez vous inscrire 
+sur la <A HREF="mailto:infos@grisbi.org">liste d'information</A> prévue à cet effet. 
+Vous recevrez juste un mail à la sortie de chaque nouvelle version.<BR>
+<BR>
+Si vous souhaitez participer au développement de Grisbi, il existe une <A HREF="mailto:devel@grisbi.org">liste de
+ développement</A>.<BR>
+<BR>
+Si vous avez envie de compiler régulièrement les dernières évolutions du code de
+Grisbi à partir du CVS vous trouverez avantage à vous abonner à la <A HREF="mailto:cvs@grisbi.org">liste
+d'informations du CVS</A> afin d'être averti des
+<TT>commit</TT>.<BR>
+<BR>
+Par ailleurs nous avons décidé d'entreprendre l'internationalisation de Grisbi
+et si vous souhaitez nous aider vous pouvez dans un premier temps vous inscrire
+sur la <A HREF="mailto:traduction@grisbi.org">liste de traduction générale</A>.<BR>
+<BR>
+Des listes spécialisées seront crées pour chaque langue en tant que de besoin.
+Pour l'instant la <A HREF="mailto:english@grisbi.org">liste de traduction 
+anglaise</A> seule est créée.<BR>
+<BR>
+Pour vous abonner à l'une de ces listes envoyez juste un mail à 
+<TT><EM>liste</EM></TT><TT>-subscribe@grisbi.org</TT> en remplaçant <EM>liste</EM> par le nom de <BR>
+<BR>
+la liste qui vous intéresse. Ou bien allez sur le site de Grisbi dans la
+rubrique <TT>Contacts</TT>.<BR>
+<BR>
+N'hésitez pas de toutes façons à consulter régulièrement le <A HREF="http://www.grisbi.org">site officiel de
+Grisbi</A>.<BR>
+<BR>
+<A NAME="toc13"></A>
+<H2>1.10&nbsp;&nbsp; Conventions typographiques</H2><A NAME="general-conventions"></A>La liste suivante définit, (si nécessaire), et illustre les conventions 
+typographiques utilisées comme aides visuelles pour l'identification d'éléments 
+particuliers du texte dans ce document :<BR>
+<BR>
+<UL>
+<LI> Les composants d'interface sont des titres de fenêtre, des noms d'icône et 
+de bouton, des noms de menu et d'autres options qui apparaissent sur l'écran du 
+moniteur. Ils sont présentés comme suit : Cliquez sur <I><FONT COLOR=maroon>OK</FONT></I> ;<BR>
+<BR>
+
+<LI> Le libellé des touches du clavier représente ce qui est écrit sur les 
+touches du clavier. Il est présenté comme suit : <TT>&lt;Entrée&gt;</TT> ;<BR>
+<BR>
+
+<LI> Les combinaisons de touches sont une série de touches à enfoncer 
+simultanément (à moins d'indication contraire) pour réaliser une fonction unique 
+: <TT>&lt;Ctrl&gt;</TT><TT>&lt;R&gt;</TT> ;<BR>
+<BR>
+
+<LI> Les commandes qui font partie d'une instruction et doivent être tapées 
+sont représentées ainsi : «Tapez <TT>grisbi</TT> pour démarrer le programme» ;<BR>
+<BR>
+
+<LI> Les noms de fichiers et de répertoires sont présentés comme suit :
+<B>grisbi-n.n.n.rpm</B> et <B>/usr/local/bin</B> ;<BR>
+<BR>
+
+<LI> Les lignes de commande consistent en une commande et peuvent inclure un ou 
+plusieurs paramètres possibles de la commande. Les lignes de commande sont 
+présentées comme suit : <TT>rpm -Uvh grisbi-n.n.n.rpm</TT>.</UL><HR>
+<A HREF="grisbi001.html"><IMG SRC ="previous_motif.gif" ALT="Précédent"></A>
+<A HREF="index.html"><IMG SRC ="contents_motif.gif" ALT="Index"></A>
+<A HREF="grisbi003.html"><IMG SRC ="next_motif.gif" ALT="Suivant"></A>
+</BODY>
+</HTML>

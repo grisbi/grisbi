@@ -1,0 +1,218 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
+            "http://www.w3.org/TR/REC-html40/loose.dtd">
+<HTML>
+<HEAD><TITLE>Manuel de l'utilisateur de Grisbi</TITLE>
+<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<META name="GENERATOR" content="hevea 1.05">
+</HEAD>
+<BODY BGCOLOR="#ffff99">
+
+<!--HEVEA command line is: hevea -francais grisbi_hevea.tex -->
+<!--HACHA command line is: hacha grisbi.html -->
+
+<BR>
+<BR>
+
+<H1 ALIGN=center>Manuel de l'utilisateur de Grisbi</H1>
+
+<H3 ALIGN=center>Copyright © 2001-2002 Daniel <FONT COLOR=navy>Cartron</FONT></H3>
+
+<H3 ALIGN=center>Dernière mise à jour le 12 octobre 2002</H3><BR>
+<BR>
+<UL>
+<LI><A HREF="grisbi001.html"> Préambule</A>
+<UL>
+<LI><A HREF="grisbi001.html#toc1"> Éthymologie</A>
+<LI><A HREF="grisbi001.html#toc2"> Bibliographie</A>
+<LI><A HREF="grisbi001.html#toc3"> Filmographie</A>
+</UL>
+<LI><A HREF="grisbi002.html"> Introduction</A>
+<UL>
+<LI><A HREF="grisbi002.html#toc4"> Auteurs et contributions</A>
+<LI><A HREF="grisbi002.html#toc5"> Remerciements</A>
+<LI><A HREF="grisbi002.html#toc6"> Licences</A>
+<LI><A HREF="grisbi002.html#toc7"> Généralités</A>
+<LI><A HREF="grisbi002.html#toc8"> Fonctionnalités</A>
+<LI><A HREF="grisbi002.html#toc9"> Quoi de neuf?</A>
+<LI><A HREF="grisbi002.html#toc10"> Caractéristiques techniques</A>
+<LI><A HREF="grisbi002.html#toc11"> Évolution du code</A>
+<LI><A HREF="grisbi002.html#toc12"> Contacts</A>
+<LI><A HREF="grisbi002.html#toc13"> Conventions typographiques</A>
+</UL>
+<LI><A HREF="grisbi003.html"> Installation</A>
+<UL>
+<LI><A HREF="grisbi003.html#toc14"> Introduction</A>
+<LI><A HREF="grisbi003.html#toc15"> Pré-requis</A>
+<LI><A HREF="grisbi003.html#toc16"> Installation avec GnoRPM (Gnome)</A>
+<LI><A HREF="grisbi003.html#toc17"> Installation avec Kpackage (KDE)</A>
+<LI><A HREF="grisbi003.html#toc18"> Installation avec RPMInst (distribution Mandrake)</A>
+<LI><A HREF="grisbi003.html#toc19"> Installation en ligne de commande</A>
+<LI><A HREF="grisbi003.html#toc20"> Installation à partir d'un paquetage Debian </A>
+<LI><A HREF="grisbi003.html#toc21"> Installation avec APT-GET (distribution Debian)</A>
+<LI><A HREF="grisbi003.html#toc22"> Installation de Grisbi à partir des sources 
+(tar.gz)</A>
+<LI><A HREF="grisbi003.html#toc23"> Installation à partir des sources CVS</A>
+<LI><A HREF="grisbi003.html#toc24"> Installation de la documentation à partir des sources
+CVS</A>
+<LI><A HREF="grisbi003.html#toc25"> Démarrer Grisbi </A>
+</UL>
+<LI><A HREF="grisbi004.html"> Premier démarrage de Grisbi</A>
+<UL>
+<LI><A HREF="grisbi004.html#toc26"> Ouverture d'un fichier de comptes d'une version précédente de
+Grisbi</A>
+<LI><A HREF="grisbi004.html#toc27"> Fichier exemple</A>
+<LI><A HREF="grisbi004.html#toc28"> Création d'un nouveau fichier de comptes</A>
+<LI><A HREF="grisbi004.html#toc29"> Enregistrement de votre fichier de comptes </A>
+<LI><A HREF="grisbi004.html#toc30"> Basculer la tenue d'un compte en euro </A>
+</UL>
+<LI><A HREF="grisbi005.html"> Importer et exporter des comptes au format QIF</A>
+<UL>
+<LI><A HREF="grisbi005.html#toc31"> Importer </A>
+<LI><A HREF="grisbi005.html#toc32"> Exporter</A>
+</UL>
+<LI><A HREF="grisbi006.html"> Accueil </A>
+<UL>
+<LI><A HREF="grisbi006.html#toc33"> Informations générales</A>
+<LI><A HREF="grisbi006.html#toc34"> Solde des comptes</A>
+<LI><A HREF="grisbi006.html#toc35"> Opérations planifiées manuelles arrivées à échéance</A>
+<LI><A HREF="grisbi006.html#toc36"> Opérations planifiées automatiques arrivées à échéance</A>
+<LI><A HREF="grisbi006.html#toc37"> Alertes sur les soldes </A>
+<LI><A HREF="grisbi006.html#toc38"> Comptes de passif soldés</A>
+</UL>
+<LI><A HREF="grisbi007.html"> Opérations </A>
+<UL>
+<LI><A HREF="grisbi007.html#toc39"> La liste des comptes </A>
+<LI><A HREF="grisbi007.html#toc40"> Les opérations </A>
+<LI><A HREF="grisbi007.html#toc41"> Saisie d'une opération </A>
+<LI><A HREF="grisbi007.html#toc42"> Ventilation d'une opération </A>
+<LI><A HREF="grisbi007.html#toc43"> Modifier une opération </A>
+<LI><A HREF="grisbi007.html#toc44"> Supprimer une opération</A>
+<LI><A HREF="grisbi007.html#toc45"> Opération en devises</A>
+<LI><A HREF="grisbi007.html#toc46"> Nouveau tiers, nouvelle catégorie ou nouvelle imputation budgétaire
+</A>
+<LI><A HREF="grisbi007.html#toc47"> Format d'affichage des opérations</A>
+<LI><A HREF="grisbi007.html#toc48"> Quelques mots sur un anglicisme trop répandu</A>
+</UL>
+<LI><A HREF="grisbi008.html"> Rapprochement bancaire</A>
+<LI><A HREF="grisbi009.html"> Échéancier des opérations planifiées</A>
+<UL>
+<LI><A HREF="grisbi009.html#toc49"> Calendrier et affichage</A>
+<LI><A HREF="grisbi009.html#toc50"> Nouvelle opération planifiée</A>
+<LI><A HREF="grisbi009.html#toc51"> Modification ou suppression d'une opération planifiée</A>
+<LI><A HREF="grisbi009.html#toc52"> Appelette</A>
+</UL>
+<LI><A HREF="grisbi010.html"> Tiers</A>
+<UL>
+<LI><A HREF="grisbi010.html#toc53"> La liste des tiers</A>
+<LI><A HREF="grisbi010.html#toc54"> Création d'un tiers</A>
+<LI><A HREF="grisbi010.html#toc55"> Modification d'un tiers</A>
+<LI><A HREF="grisbi010.html#toc56"> Suppression d'un tiers</A>
+<LI><A HREF="grisbi010.html#toc57"> Les opérations d'un tiers</A>
+</UL>
+<LI><A HREF="grisbi011.html"> Catégories</A>
+<UL>
+<LI><A HREF="grisbi011.html#toc58"> La liste des catégories</A>
+<LI><A HREF="grisbi011.html#toc59"> Création d'une catégorie ou d'une sous-catégorie</A>
+<LI><A HREF="grisbi011.html#toc60"> Modification d'une catégorie</A>
+<LI><A HREF="grisbi011.html#toc61"> Suppression d'une catégorie ou d'une 
+sous-catégorie</A>
+<LI><A HREF="grisbi011.html#toc62"> Les opérations d'une catégorie</A>
+</UL>
+<LI><A HREF="grisbi012.html"> Imputations budgétaires</A>
+<UL>
+<LI><A HREF="grisbi012.html#toc63"> La liste des imputations budgétaires</A>
+<LI><A HREF="grisbi012.html#toc64"> Création d'une imputation ou sous-imputation
+budgétaire</A>
+<LI><A HREF="grisbi012.html#toc65"> Modification d'une imputation ou sous-imputation budgétaire</A>
+<LI><A HREF="grisbi012.html#toc66"> Suppression d'une imputation ou sous-imputation budgétaire</A>
+<LI><A HREF="grisbi012.html#toc67"> Les opérations d'une imputation 
+budgétaire</A>
+<LI><A HREF="grisbi012.html#toc68"> Etablissement d'un budget prévisionnel</A>
+</UL>
+<LI><A HREF="grisbi013.html"> Les menus</A>
+<UL>
+<LI><A HREF="grisbi013.html#toc69"> Menu <I><FONT COLOR=maroon>Fichier</FONT></I></A>
+<LI><A HREF="grisbi013.html#toc70"> Menu <I><FONT COLOR=maroon>Compte</FONT></I></A>
+<LI><A HREF="grisbi013.html#toc71"> Menu <I><FONT COLOR=maroon>Configuration</FONT></I></A>
+<LI><A HREF="grisbi013.html#toc72"> Menu <I><FONT COLOR=maroon>Aide</FONT></I></A>
+</UL>
+<LI><A HREF="grisbi014.html"> Configuration</A>
+<UL>
+<LI><A HREF="grisbi014.html#toc73"> Général</A>
+<LI><A HREF="grisbi014.html#toc74"> Fichiers</A>
+<LI><A HREF="grisbi014.html#toc75"> Échéances</A>
+<LI><A HREF="grisbi014.html#toc76"> Affichage</A>
+<LI><A HREF="grisbi014.html#toc77"> Appelette</A>
+<LI><A HREF="grisbi014.html#toc78"> Devises</A>
+<LI><A HREF="grisbi014.html#toc79"> Banques</A>
+<LI><A HREF="grisbi014.html#toc80"> Exercices</A>
+<LI><A HREF="grisbi014.html#toc81"> Types d'opérations</A>
+<LI><A HREF="grisbi014.html#toc82"> Les taux de conversion internes dans la zone Euro</A>
+</UL>
+<LI><A HREF="grisbi015.html"> Astuces</A>
+<UL>
+<LI><A HREF="grisbi015.html#toc83"> Les tiers et les catégories</A>
+<LI><A HREF="grisbi015.html#toc84"> Imputations comptables et budgétaires</A>
+<LI><A HREF="grisbi015.html#toc85"> Virements internes et externes</A>
+<LI><A HREF="grisbi015.html#toc86"> Les types de comptes de Grisbi</A>
+<LI><A HREF="grisbi015.html#toc87"> Les exercices</A>
+<LI><A HREF="grisbi015.html#toc88"> Les comptes d'attente ou d'avances</A>
+<LI><A HREF="grisbi015.html#toc89"> Remises de chèques ou d'espèces</A>
+<LI><A HREF="grisbi015.html#toc90"> Compte d'avance</A>
+<LI><A HREF="grisbi015.html#toc91"> Comptabilité d'association</A>
+</UL>
+<LI><A HREF="grisbi016.html"> A faire</A>
+<UL>
+<LI><A HREF="grisbi016.html#toc92"> Version 0.1</A>
+<LI><A HREF="grisbi016.html#toc93"> Version 0.2</A>
+<LI><A HREF="grisbi016.html#toc94"> Version 0.3 </A>
+<LI><A HREF="grisbi016.html#toc95"> Version 0.4 </A>
+<LI><A HREF="grisbi016.html#toc96"> Version 0.5</A>
+<LI><A HREF="grisbi016.html#toc97"> Version 0.6</A>
+<LI><A HREF="grisbi016.html#toc98"> Version 0.7</A>
+<LI><A HREF="grisbi016.html#toc99"> Version 0.8</A>
+<LI><A HREF="grisbi016.html#toc100"> Version 0.9</A>
+<LI><A HREF="grisbi016.html#toc101"> Version 1.0</A>
+<LI><A HREF="grisbi016.html#toc102"> Hors planning</A>
+</UL>
+<LI><A HREF="grisbi017.html"> Format d'enregistrement du fichier de comptes</A>
+<UL>
+<LI><A HREF="grisbi017.html#toc103"> Généralités</A>
+<LI><A HREF="grisbi017.html#toc104"> Vue d'ensemble</A>
+<LI><A HREF="grisbi017.html#toc105"> Organisation du fichier</A>
+<LI><A HREF="grisbi017.html#toc106"> Rapprochements</A>
+</UL>
+<LI><A HREF="grisbi018.html"> Problèmes, alertes et erreurs</A>
+<UL>
+<LI><A HREF="grisbi018.html#toc107"> Problèmes connus</A>
+<LI><A HREF="grisbi018.html#toc108"> Problèmes non connus</A>
+</UL>
+<LI><A HREF="grisbi019.html"> Licence de Documentation Libre GNU</A>
+<UL>
+<LI><A HREF="grisbi019.html#toc109"> Introduction</A>
+<LI><A HREF="grisbi019.html#toc110"> Licence de Documentation libre GNU Version 1.1, Mars 2000</A>
+<LI><A HREF="grisbi019.html#toc111"> Préambule</A>
+<LI><A HREF="grisbi019.html#toc112"> Domaine d'application et définitions</A>
+<LI><A HREF="grisbi019.html#toc113"> Copies VERBATIM</A>
+<LI><A HREF="grisbi019.html#toc114"> Copies en quantité</A>
+<LI><A HREF="grisbi019.html#toc115"> Modifications</A>
+<LI><A HREF="grisbi019.html#toc116"> Mélange de documents</A>
+<LI><A HREF="grisbi019.html#toc117"> Recueil de documents</A>
+<LI><A HREF="grisbi019.html#toc118"> Agrégation avec des travaux indépendants</A>
+<LI><A HREF="grisbi019.html#toc119"> Révocation</A>
+<LI><A HREF="grisbi019.html#toc120"> Révisions futures de la présente licence</A>
+<LI><A HREF="grisbi019.html#toc121"> ADDENDUM: Comment utiliser la présente licence dans vos documents</A>
+</UL>
+</UL>
+<!--FOOTER-->
+
+<BR>
+<BR>
+
+
+<HR SIZE=2>
+<BLOCKQUOTE><EM>Ce document a été traduit de L<sup>A</sup>T<sub>E</sub>X par
+</EM><A HREF="http://pauillac.inria.fr/~maranget/hevea/index.html"><EM>H</EM><EM><FONT SIZE=2><sup>E</sup></FONT></EM><EM>V</EM><EM><FONT SIZE=2><sup>E</sup></FONT></EM><EM>A et H</EM><EM><FONT SIZE=2><sup>A</sup></FONT></EM><EM>C</EM><EM><FONT SIZE=2><sup>H</sup></FONT></EM><EM>A</EM></A><EM>.
+</EM></BLOCKQUOTE></BODY>
+</HTML>
+

@@ -1,0 +1,97 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
+            "http://www.w3.org/TR/REC-html40/loose.dtd">
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<META name="GENERATOR" content="hevea 1.05">
+<TITLE>
+ Importer et exporter des comptes au format QIF
+</TITLE>
+</HEAD>
+<BODY BGCOLOR="#ffff99">
+
+<A HREF="grisbi004.html"><IMG SRC ="previous_motif.gif" ALT="Précédent"></A>
+<A HREF="index.html"><IMG SRC ="contents_motif.gif" ALT="Index"></A>
+<A HREF="grisbi006.html"><IMG SRC ="next_motif.gif" ALT="Suivant"></A>
+<HR>
+
+<H1>Chapitre&nbsp;4&nbsp;&nbsp; Importer et exporter des comptes au format QIF</H1><A NAME="QIF"></A><A NAME="toc31"></A>
+<H2>4.1&nbsp;&nbsp; Importer </H2><A NAME="QIF-import"></A>
+<H3>4.1.1&nbsp;&nbsp; Fichiers au format QIF</H3><A NAME="QIF-import-files"></A>Nous supposerons que vous avez réussi à exporter vos données du logiciel de
+comptabilité personnelle que vous utilisiez précédemment.<BR>
+<BR>
+Vous devez donc avoir un certain nombre de fichiers QIF, autant que vous aviez
+de comptes.<BR>
+<BR>
+Dans le menu <I><FONT COLOR=maroon>Fichier</FONT></I> choisissez l'option <I><FONT COLOR=maroon>Importer</FONT></I>, ce qui ouvre la
+fenêtre d'import
+.
+<BR>
+<BR>
+Déplacez-vous éventuellement dans le répertoire où se trouvent vos fichiers QIF
+et sélectionnez-les <B>tous</B>. La boite de dialogue permet les sélections
+multiples avec les touches <TT>&lt;Ctrl&gt;</TT> et <TT>&lt;Shift&gt;</TT>.<BR>
+<BR>
+<B>Attention</B> : il est important de bien importer tous les fichiers
+simultanément afin que Grisbi puisse recréer les liens entre les comptes,
+particulièrement en ce qui concerne les opérations de virement.<BR>
+<BR>
+Après validation, Grisbi vous demande de confirmer la liste des comptes que vous
+souhaitez importer 
+.
+<BR>
+<BR>
+Il vous est encore possible de la modifier en cliquant sur <I><FONT COLOR=maroon>Oui</FONT></I>, pour
+revenir à la fenêtre précédente.<BR>
+<BR>
+
+<H3>4.1.2&nbsp;&nbsp; Choix de la devise </H3><A NAME="QIF-import-currency"></A>Grisbi vous demandera ensuite la devise de chacun des comptes que vous importez.
+Par défaut il vous proposera Francs français ou Euros. En effet les fichiers QIF
+n'enregistrent pas la devise des opérations. Il est donc nécessaire de la
+préciser
+.
+<BR>
+<BR>
+Si vous avez un compte dans une autre devise que celles proposées il vous faudra
+la créer en cliquant sur le bouton <I><FONT COLOR=maroon>Ajouter une devise...</FONT></I><BR>
+<BR>
+
+<H3>4.1.3&nbsp;&nbsp; Création d'une devise </H3><A NAME="QIF-import-newcurrency"></A>Une boîte de dialogue s'ouvre dans laquelle vous devrez indiquer le nom et 
+le code de la devise, et préciser si son taux de change est fixe. Dans 
+l'affirmative, le champ de saisie du taux devient actif et vous pouvez saisir 
+celui-ci.<BR>
+<BR>
+Et ainsi de suite pour tous les comptes importés.<BR>
+<BR>
+Il vous faudra ensuite patienter quelques brefs instants, en fonction du nombre
+de comptes que vous importez et de la puissance de votre machine. Grisbi
+reconstitue en effet la liste de tous les tiers et toutes les catégories, ainsi
+que tous les liens entre comptes dans le cas de virement.<BR>
+<BR>
+Vous pouvez maintenant continuer votre comptabilité avec Grisbi.<BR>
+<BR>
+<A NAME="toc32"></A>
+<H2>4.2&nbsp;&nbsp; Exporter</H2><A NAME="QIF-export"></A>Dans le menu <I><FONT COLOR=maroon>Fichier</FONT></I> choisissez l'option <I><FONT COLOR=maroon>Exporter</FONT></I>,
+ce qui ouvre la fenêtre d'export
+.
+<BR>
+<BR>
+Grisbi vous propose la liste de tous les comptes existant dans votre fichier de
+comptes, ainsi qu'une proposition de nom et d'emplacement.<BR>
+<BR>
+Les noms de fichiers QIF sont du type 
+<B>nom_du_fichier-nom_du_compte.qif</B> et sont exportés par défaut dans le
+répertoire où se trouve votre fichier de comptes.<BR>
+<BR>
+Cliquez sur les cases à cocher pour (dé)sélectionner les comptes à exporter.
+Pour modifier le nom d'un fichier QIF et son emplacement cliquez sur le bouton
+<I><FONT COLOR=maroon>Parcourir...</FONT></I><BR>
+<BR>
+Validez, et c'est fini! On peut difficilement faire plus simple, non?<BR>
+<BR>
+<HR>
+<A HREF="grisbi004.html"><IMG SRC ="previous_motif.gif" ALT="Précédent"></A>
+<A HREF="index.html"><IMG SRC ="contents_motif.gif" ALT="Index"></A>
+<A HREF="grisbi006.html"><IMG SRC ="next_motif.gif" ALT="Suivant"></A>
+</BODY>
+</HTML>

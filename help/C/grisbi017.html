@@ -1,0 +1,748 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
+            "http://www.w3.org/TR/REC-html40/loose.dtd">
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<META name="GENERATOR" content="hevea 1.05">
+<TITLE>
+ Format d'enregistrement du fichier de comptes
+</TITLE>
+</HEAD>
+<BODY BGCOLOR="#ffff99">
+
+<A HREF="grisbi016.html"><IMG SRC ="previous_motif.gif" ALT="Précédent"></A>
+<A HREF="index.html"><IMG SRC ="contents_motif.gif" ALT="Index"></A>
+<A HREF="grisbi018.html"><IMG SRC ="next_motif.gif" ALT="Suivant"></A>
+<HR>
+
+<H1>Chapitre&nbsp;16&nbsp;&nbsp; Format d'enregistrement du fichier de comptes</H1><A NAME="xml"></A><A NAME="toc103"></A>
+<H2>16.1&nbsp;&nbsp; Généralités</H2><A NAME="xml-general"></A>Le fichier de comptes de Grisbi est enregistré au format XML. Il est 
+visualisable avec n'importe quel éditeur, mais il est très fortement recommandé
+de ne pas le modifier.<BR>
+<BR>
+Le format XML est un format universel, ce qui permet à n'importe quel autre 
+programme de pouvoir utiliser les données provenant de Grisbi, à condition qu'il 
+reprenne le formatage de Grisbi. C'est pourquoi nous allons détailler ce 
+formatage ci-après.<BR>
+<BR>
+Un fichier XML stocke des informations de maniere hiérarchique. On reconnait
+un fichier XML à son en-tête: <TT>&lt;?xml version="1.0"?&gt;</TT>.<BR>
+<BR>
+Les données étant organisées de manière arborescente, on distingue des noeuds de 
+l'arbre, se divisant en plusieurs branches, et des feuilles, qui sont des noeuds 
+finals contenant l'information recherchée.<BR>
+<BR>
+La manière dont ces noeuds se suivent et sont imbriqués est libre, mais on
+peut contraindre la grammaire d'un fichier XML en fonction d'une DTD
+(Document Type Definition, ou Définition de Type de Document), qui dictera
+les combinaisons autorisées.<BR>
+<BR>
+<A NAME="toc104"></A>
+<H2>16.2&nbsp;&nbsp; Vue d'ensemble</H2>Le principe du XML est l'utilisation de balises (un peu comme le HTML) sauf
+qu'en XML c'est le programmeur qui définit ses propres balises.<BR>
+<BR>
+Une information est entourée par deux balises, la balise entrante qui ressemble
+à <TT>&lt;balise&gt;</TT> et la balise sortant qui ressemble à <TT>&lt;/balise&gt;</TT>.<BR>
+<BR>
+Par exemple le numéro de version utilisé pour enregistrer votre fichier s'écrit
+ : <TT>&lt;Version&gt;0.3.2&lt;/Version&gt;</TT>.<BR>
+<BR>
+Les informations sont classées en sections. Les sections débutent et finissent 
+par des balises portant leur nom. Exemple : les informations de configuration 
+générale sont comprises entre les balises <TT>&lt;Généralités&gt;</TT> et 
+<TT>&lt;/Généralités&gt;</TT>.<BR>
+<BR>
+Si une balise ne contient aucune information le XML écrit une balise
+vide sous la forme <TT>&lt;balise/&gt;</TT>.<BR>
+<BR>
+Dans la présentation de la structure du fichier de compte de Grisbi nous 
+noterons "/" le fait qu'un élément est compris dans un autre.<BR>
+<BR>
+Certaines balises ont un nom tellement explicite que nous nous contenterons de 
+les citer sans autres explications.<BR>
+<BR>
+<A NAME="toc105"></A>
+<H2>16.3&nbsp;&nbsp; Organisation du fichier</H2>
+<H3>16.3.1&nbsp;&nbsp; Section de la configuration générale</H3><A NAME="xml-setup"></A>Contenu de cette section :<BR>
+<BR>
+<UL>
+<LI> <TT>&lt;Grisbi&gt;</TT> : c'est l'élément racine, ancêtre de tous les autres ;<BR>
+<BR>
+
+<LI> <TT>&lt;Grisbi&gt;/&lt;Généralités&gt;</TT> : le bloc d'informations générales
+relatives à la configuration de Grisbi (voir le paragraphe <A HREF="grisbi014.html#setup-general">13.1</A>) 
+;<BR>
+<BR>
+
+<LI> <TT>&lt;Grisbi&gt;/&lt;Généralités&gt;/&lt;Version&gt;</TT> : une feuille contenant
+le numéro de version de Grisbi ;<BR>
+<BR>
+
+<LI> <TT>&lt;Grisbi&gt;/&lt;Généralités&gt;/Fichier_ouvert</TT> : est utilisée pour le
+verrouillage dans le mode multi-utilisateurs. 1 = le fichier est ouvert, 
+0 = le fichier n'est pas ouvert ;<BR>
+<BR>
+
+<LI> <TT>&lt;Grisbi&gt;/&lt;Généralités&gt;/Backup</TT> : chemin et nom du fichier de 
+sauvegarde ;<BR>
+<BR>
+
+<LI> <TT>&lt;Grisbi&gt;/&lt;Généralités&gt;/Titre</TT> : le titre de votre fichier ;<BR>
+<BR>
+
+<LI> <TT>&lt;Grisbi&gt;/&lt;Généralités&gt;/Adresse_commune</TT> : l'adresse du titulaire du
+compte ;<BR>
+<BR>
+
+<LI> <TT>&lt;Grisbi&gt;/&lt;Généralités&gt;/Utilise_exercices</TT> : 1 = le fichier de compte
+utilise les exercices, 0 = il ne les utilise pas ;<BR>
+<BR>
+
+<LI> <TT>&lt;Grisbi&gt;/&lt;Généralités&gt;/Utilise_IB</TT> : 1 = le fichier de compte
+utilise les imputations budgétaires, 0 = il ne les utilise pas ;<BR>
+<BR>
+
+<LI> <TT>&lt;Grisbi&gt;/&lt;Généralités&gt;/Utilise_PC</TT> : 1 = le fichier de compte
+utilise
+le champ <TT>Pièces comptables</TT>, 0 = il ne l'utilise pas ;<BR>
+<BR>
+
+<LI> <TT>&lt;Grisbi&gt;/&lt;Généralités&gt;/Utilise_info_BG</TT> : 1 = le fichier de compte
+utilise le champ <I><FONT COLOR=maroon>Coordonnées bancaires</FONT></I>, 0 = il ne l'utilise pas ;<BR>
+<BR>
+
+<LI> <TT>&lt;Grisbi&gt;/&lt;Généralités&gt;/Numéro_devise_totaux_tiers</TT> : le numéro de
+la devise utilisée pour les totalisations dans les onglets <I><FONT COLOR=maroon>Tiers</FONT></I>
+<I><FONT COLOR=maroon>Catégories</FONT></I> et <I><FONT COLOR=maroon>Imputations budgétaires</FONT></I> ;<BR>
+<BR>
+
+<LI> <TT>&lt;Grisbi&gt;/&lt;Généralités&gt;/Type_affichage_des_échéances</TT> : 0 = mois,
+1 = 2 mois, 2 = année, 3 = toutes, 4 = personnalisée ;<BR>
+<BR>
+
+<LI> <TT>&lt;Grisbi&gt;/&lt;Généralités&gt;/Affichage_echeances_perso_nb_libre</TT> : 
+contenu 
+de l'entrée pour l'affichage personnalisé des échéances ;<BR>
+<BR>
+
+<LI> <TT>&lt;Grisbi&gt;/&lt;Généralités&gt;/Type_affichage_perso_echeances</TT> : 0 = 
+jours, 1 = mois, 2 = années ;<BR>
+<BR>
+
+<LI> <TT>&lt;Grisbi&gt;/&lt;Généralités&gt;/Numéro_derniere_operation</TT> : numéro de la 
+dernière opération du fichier ;</UL>
+<H3>16.3.2&nbsp;&nbsp; Section relative aux comptes</H3>Cette section est une branche de l'arbre Grisbi et devrait donc
+être notée <TT>&lt;Grisbi&gt;/&lt;Comptes&gt;</TT>.<BR>
+<BR>
+Afin de simplifier nous n'indiquerons pas l'élément racine <TT>&lt;Grisbi&gt;</TT>
+et nous commencerons à <TT>&lt;Comptes&gt;</TT>. Cette remarque est valable pour toutes 
+les sections qui suivront.<BR>
+<BR>
+Voici le contenu de cette section :<BR>
+<BR>
+<UL>
+<LI> <TT>&lt;Comptes&gt;/&lt;Generalites&gt;</TT> est une sous-section qui décrit les points 
+communs à tous les comptes du fichier ;<BR>
+<BR>
+
+<LI> <TT>&lt;Comptes&gt;/&lt;Generalites&gt;/&lt;Ordre_des_comptes&gt;</TT> est l'ordre dans
+lequel les comptes sont affichés dans l'onglet <I><FONT COLOR=maroon>Opérations</FONT></I> (configuré dans 
+<I><FONT COLOR=maroon>Configuration/Affichage</FONT></I> (voir le paragraphe <A HREF="grisbi014.html#setup-display">13.4</A>).
+Les comptes sont désignés par leur numéro (voir ci-après) et séparés par des
+tirets sans espace (exemple : 3-2-0-1) ;<BR>
+<BR>
+
+<LI> <TT>&lt;Comptes&gt;/&lt;Generalites&gt;/&lt;Compte_courant&gt;</TT> : c'est le compte qui 
+était affiché dans l'onglet <I><FONT COLOR=maroon>Opérations</FONT></I> lors de la fermeture du fichier et 
+qui le sera lors de sa ré-ouverture ;<BR>
+<BR>
+
+<LI> <TT>&lt;Comptes&gt;/&lt;Compte&gt;</TT> est un bloc d'informations renfermant tous les 
+détails d'un compte donné. L'élément père <TT>&lt;Comptes&gt;</TT> peut contenir 
+plusieurs fils <TT>&lt;Compte&gt;</TT> qui se suivent les uns les autres. Ils seront 
+identifiés par leur numéro interne. Nous allons décrire ici la syntaxe attendue 
+d'un tel compte.<BR>
+<BR>
+
+<LI> <TT>&lt;Comptes&gt;/&lt;Compte&gt;/&lt;Détails&gt;</TT> : il s'agit de toutes les informations 
+que vous avez saisies lors de la création du compte (ou peut-être après).<BR>
+<BR>
+
+<LI> <TT>&lt;Comptes&gt;/&lt;Compte&gt;/&lt;Détails&gt;/&lt;Nom&gt;</TT> : le nom que vous avez donné à 
+votre compte ;<BR>
+<BR>
+
+<LI> <TT>&lt;Comptes&gt;/&lt;Compte&gt;/&lt;Détails&gt;/&lt;No_de_compte &gt;</TT> : le numéro de votre 
+compte dans Grisbi ;<BR>
+<BR>
+
+<LI> <TT>&lt;Comptes&gt;/&lt;Compte&gt;/&lt;Détails&gt;/&lt;Titulaire&gt;</TT> : si le titulaire du 
+compte est différent du titulaire général ;<BR>
+<BR>
+
+<LI> <TT>&lt;Comptes&gt;/&lt;Compte&gt;/&lt;Détails&gt;/&lt;Type_de_compte&gt;</TT> : le type de compte 
+( 0 = bancaire, 1 = espèces, 2 = passif) ;<BR>
+<BR>
+
+<LI> <TT>&lt;Comptes&gt;/&lt;Compte&gt;/&lt;Détails&gt;/&lt;Nb_opérations&gt;</TT> : le nombre 
+d'opérations enregistrées dans ce compte ;<BR>
+<BR>
+
+<LI> <TT>&lt;Comptes&gt;/&lt;Compte&gt;/&lt;Détails&gt;/&lt;Devise&gt;</TT> : le numéro de la devise dans 
+laquelle est tenu le compte ;<BR>
+<BR>
+
+<LI> <TT>&lt;Comptes&gt;/&lt;Compte&gt;/&lt;Détails&gt;/&lt;Banque&gt;</TT> : le numéro de l'établisement 
+bancaire tenant le compte ;<BR>
+<BR>
+
+<LI> <TT>&lt;Comptes&gt;/&lt;Compte&gt;/&lt;Détails&gt;/&lt;Guichet&gt;</TT> : le code Guichet de 
+l'établisement bancaire ;<BR>
+<BR>
+
+<LI> <TT>&lt;Comptes&gt;/&lt;Compte&gt;/&lt;Détails&gt;/&lt;No_compte_banque&gt;</TT> : le numéro de 
+votre compte dans votre établissement bancaire ;<BR>
+<BR>
+
+<LI> <TT>&lt;Comptes&gt;/&lt;Compte&gt;/&lt;Détails&gt;/&lt;Clé_du_compte&gt;</TT> : la clé RIB ;<BR>
+<BR>
+
+<LI> <TT>&lt;Comptes&gt;/&lt;Compte&gt;/&lt;Détails&gt;/&lt;Solde_initial&gt;</TT> ;<BR>
+<BR>
+
+<LI> <TT>&lt;Comptes&gt;/&lt;Compte&gt;/&lt;Détails&gt;/&lt;Solde_mini_voulu&gt;</TT> ;<BR>
+<BR>
+
+<LI> <TT>&lt;Comptes&gt;/&lt;Compte&gt;/&lt;Détails&gt;/&lt;Solde_mini_autorisé&gt;</TT> ;<BR>
+<BR>
+
+<LI> <TT>&lt;Comptes&gt;/&lt;Compte&gt;/&lt;Détails&gt;/&lt;Solde_courant&gt;</TT> : pour accélérer les 
+traitements Grisbi enregistre le solde de votre compte dans cette balise ;<BR>
+<BR>
+
+<LI> <TT>&lt;Comptes&gt;/&lt;Compte&gt;/&lt;Détails&gt;/&lt;Date_dernier_relevé&gt;</TT> : concerne les 
+rapprochements ;<BR>
+<BR>
+
+<LI> <TT>&lt;Comptes&gt;/&lt;Compte&gt;/&lt;Détails&gt;/&lt;Solde_dernier_relevé&gt;</TT> : concerne les 
+rapprochements ;<BR>
+<BR>
+
+<LI> <TT>&lt;Comptes&gt;/&lt;Compte&gt;/&lt;Détails&gt;/&lt;Dernier_no_de_rapprochement&gt;</TT> : 
+concerne les rapprochements ;<BR>
+<BR>
+
+<LI> <TT>&lt;Comptes&gt;/&lt;Compte&gt;/&lt;Détails&gt;/&lt;Compte_cloturé&gt;</TT> : 0 = Non, 1 = Oui ;<BR>
+<BR>
+
+<LI> <TT>&lt;Comptes&gt;/&lt;Compte&gt;/&lt;Détails&gt;/&lt;Commentaires&gt;</TT> ;<BR>
+<BR>
+
+<LI> <TT>&lt;Comptes&gt;/&lt;Compte&gt;/&lt;Détails&gt;/&lt;Adresse_du_titulaire&gt;</TT> ;<BR>
+<BR>
+
+<LI> <TT>&lt;Comptes&gt;/&lt;Compte&gt;/&lt;Détails&gt;/&lt;Nombre_de_types&gt;</TT> : nombre de type 
+d'opérations définis pour ce compte ;<BR>
+<BR>
+
+<LI> <TT>&lt;Comptes&gt;/&lt;Compte&gt;/&lt;Détails&gt;/&lt;Type_défaut_débit&gt;</TT> : le numéro du 
+type d'opération par défaut en débit ;<BR>
+<BR>
+
+<LI> <TT>&lt;Comptes&gt;/&lt;Compte&gt;/&lt;Détails&gt;/&lt;Type_défaut_crédit&gt;</TT> : le numéro du 
+type d'opération par défaut en crédit ;<BR>
+<BR>
+
+<LI> <TT>&lt;Comptes&gt;/&lt;Compte&gt;/&lt;Détails&gt;/&lt;Tri_par_type&gt;</TT> : 0 = tri par date 
+lors du rapprochement, 1 = tri par type d'opération ;<BR>
+<BR>
+
+<LI> <TT>&lt;Comptes&gt;/&lt;Compte&gt;/&lt;Détails&gt;/&lt;Neutres_inclus&gt;</TT> : 1 = les types 
+neutres sont séparés en fonction du montant de l'opération (débit/crédit) ;<BR>
+<BR>
+
+<LI> <TT>&lt;Comptes&gt;/&lt;Compte&gt;/&lt;Détails&gt;/&lt;Ordre_du_tri&gt;</TT> : classement des types
+d'opération lors du rapprochement .</UL>
+<H4> Les types d'opérations du compte</H4>La balise suivante est une sous-sous-section qui se nomme 
+<TT>&lt;Comptes&gt;/&lt;Compte&gt;/&lt;Détail_de_Types&gt;</TT>. Elle décrit tous les types 
+d'opérations paramétrés pour le compte. Le format change, à savoir que chaque 
+type est contenu dans sa propre balise, incluant tous les paramètres le 
+distinguant. La valeur des paramètres leur est affectée de la façon suivante : 
+<TT>Nom="Virement"</TT> c'est à dire le nom du paramètre, le signe =, puis la 
+valeur du paramètre entre guillemets. Un type d'opération est décrit par la
+balise <TT>&lt;Type&gt;</TT> contenant les paramètres suivants, séparés par des espaces :<BR>
+<BR>
+<UL>
+<LI> <TT>&lt;No&gt;</TT> : numéro du type d'opération pour ce compte ;<BR>
+<BR>
+
+<LI> <TT>&lt;Nom&gt;</TT> : le nom que vous donnez à ce type d'opération ;<BR>
+<BR>
+
+<LI> <TT>&lt;Signe&gt;</TT> : 0=neutre, 1=débit, 2=crédit ;<BR>
+<BR>
+
+<LI> <TT>&lt;Affiche_entree&gt;</TT> : affiche l'entrée complémentaire (numéro de 
+chèque ou de virement) ;<BR>
+<BR>
+
+<LI> <TT>&lt;Numérotation_auto&gt;</TT> : 1 = incrémente le numéro en cours
+lors de l'affichage de l'entrée complémentaire, 0 = ne l'incrémente pas ;<BR>
+<BR>
+
+<LI> <TT>&lt;No_en_cours&gt;</TT> : numéro en cours pour l'entrée complémentaire.</UL>
+<H4> Détail des opérations du compte</H4>La balise suivante est une sous-sous-section qui se nomme
+<TT>&lt;Comptes&gt;/&lt;Compte&gt;/&lt;Détail_des_opérations&gt;</TT> et qui liste toutes les 
+opérations du compte, ainsi que leurs lignes de ventilation. De même que les 
+types, les opérations sont contenues dans une balise <TT>&lt;Opération&gt;</TT> avec les 
+paramètres suivants :<BR>
+<BR>
+<UL>
+<LI> <TT>&lt;No&gt;</TT> : c'est le numéro de l'opération dans le fichier, tous comptes
+confondus ;<BR>
+<BR>
+
+<LI> <TT>&lt;D&gt;</TT> : la date de l'opération ;<BR>
+<BR>
+
+<LI> <TT>&lt;Db&gt;</TT> : la date de valeur de l'opération ;<BR>
+<BR>
+
+<LI> <TT>&lt;M&gt;</TT> : le montant (signé) de l'opération. A noter que bien que le 
+formulaire de saisie présente deux zones, une pour les débits et une pour les 
+crédits, le montant est enregistré dans un seul paramètre ;<BR>
+<BR>
+
+<LI> <TT>&lt;De&gt;</TT> : le numéro de la devise utilisée ;<BR>
+<BR>
+
+<LI> <TT>&lt;Rdc&gt;</TT> : c'est le Rez-de-chaussée. Heu, non, c'est l'indication de la 
+devise à laquelle on applique le taux de change défini plus loin :<BR>
+<BR>
+<UL>
+<LI> 1 : devise du compte = devise étrangère x taux de change ;<BR>
+<BR>
+
+<LI> 0 : devise étrangère = devise du compte x taux de change.</UL><BR>
+
+<LI> <TT>&lt;Tc&gt;</TT> : le taux de change permettant de passer de la devise du compte 
+à la devise étrangère ou inversement ;<BR>
+<BR>
+
+<LI> <TT>&lt;Fc&gt;</TT> : les frais de change, s'il y en a ;<BR>
+<BR>
+
+<LI> <TT>&lt;T&gt;</TT> : le numéro du tiers ;<BR>
+<BR>
+
+<LI> <TT>&lt;C&gt;</TT> : le numéro de la catégorie ;<BR>
+<BR>
+
+<LI> <TT>&lt;Sc&gt;</TT> : le numéro de la sous-catégorie ;<BR>
+<BR>
+
+<LI> <TT>&lt;Ov&gt;</TT> : 0 = l'opération n'est pas ventilée, 1 = l'opération est
+ventilée ;<BR>
+<BR>
+
+<LI> <TT>&lt;N&gt;</TT> : les notes ;<BR>
+<BR>
+
+<LI> <TT>&lt;Ty&gt;</TT> : le numéro du type de l'opération tel que définit plus haut ;<BR>
+<BR>
+
+<LI> <TT>&lt;Ct&gt;</TT> : l'information liée au type d'opération (n° de chèque, de 
+virement,
+etc.) ;<BR>
+<BR>
+
+<LI> <TT>&lt;P&gt;</TT> : le statut de l'opération : 0 = non pointée, 1 = pointée mais 
+non 
+rapprochée, 2 = rapprochée ;<BR>
+<BR>
+
+<LI> <TT>&lt;A&gt;</TT> : si l'opération est planifiée, définit son statut : 1 = 
+automatique, 0
+= manuelle ;<BR>
+<BR>
+
+<LI> <TT>&lt;R&gt;</TT> : le numéro du rapprochement ;<BR>
+<BR>
+
+<LI> <TT>&lt;E&gt;</TT> : le numéro de l'exercice ;<BR>
+<BR>
+
+<LI> <TT>&lt;I&gt;</TT> : le numéro de l'imputation budgétaire ;<BR>
+<BR>
+
+<LI> <TT>&lt;Si&gt;</TT> : le numéro de la sous-imputation budgétaire ;<BR>
+<BR>
+
+<LI> <TT>&lt;Pc&gt;</TT> : les références de la pièce comptable ;<BR>
+<BR>
+
+<LI> <TT>&lt;Ibg&gt;</TT> : les informations Banque - Guichet ;<BR>
+<BR>
+
+<LI> <TT>&lt;Ro&gt;</TT> : pour les virements, le numéro de l'opération de contrepartie 
+;<BR>
+<BR>
+
+<LI> <TT>&lt;Rc&gt;</TT> : pour les virements, le numéro du compte de contrepartie ;<BR>
+<BR>
+
+<LI> <TT>&lt;Va&gt;</TT> : si l'opération est une ligne de ventilation, ce paramètre 
+contient le 
+numéro de l'opération-mère.</UL>
+<H3>16.3.3&nbsp;&nbsp; Échéances</H3>Cette section traite des opérations planifiées et comprend les informations
+suivantes :<BR>
+<BR>
+<UL>
+<LI> <TT>&lt;Échéances&gt;/&lt;Généralités&gt;</TT> : la sous-section des généralités 
+comprenant :<BR>
+<BR>
+
+<LI> <TT>&lt;Échéances&gt;/&lt;Généralités&gt;/&lt;Nb_échéances&gt;</TT> : le nombre d'opérations 
+planifiées ;<BR>
+<BR>
+
+<LI> <TT>&lt;Échéances&gt;/&lt;Généralités&gt;/&lt;No_dernière_échéance&gt;</TT> : le numéro de la 
+dernière opération planifiée ;<BR>
+<BR>
+
+<LI> <TT>&lt;Échéances&gt;/&lt;Détail_des_échéances&gt;</TT> : Cette balise ouvre la liste
+des opérations planifiées décrites dans une balise nommée 
+<TT>&lt;Échéances&gt;/&lt;Détail_des_échéances&gt;/&lt;Échéance&gt;</TT>. Les paramètres
+de cette balise correspondent aux champs à renseigner lors de la création de 
+l'opération planifiée :<BR>
+<BR>
+<UL>
+<LI> <TT>&lt;No&gt;</TT> : numéro d'ordre de l'opération planifiée ;<BR>
+<BR>
+
+<LI> <TT>&lt;Date&gt;</TT> : date de la première échéance de l'opération 
+planifiée ;<BR>
+<BR>
+
+<LI> <TT>&lt;Compte&gt;</TT> : compte concerné par l'opération planifiée ;<BR>
+<BR>
+
+<LI> <TT>&lt;Montant&gt;</TT> ;<BR>
+<BR>
+
+<LI> <TT>&lt;Devise&gt;</TT> ;<BR>
+<BR>
+
+<LI> <TT>&lt;Tiers&gt;</TT> ;<BR>
+<BR>
+
+<LI> <TT>&lt;Catégorie&gt;</TT> ;<BR>
+<BR>
+
+<LI> <TT>&lt;Sous-catégorie&gt;</TT> ;<BR>
+<BR>
+
+<LI> <TT>&lt;Virement_compte&gt;</TT> : numéro de compte vers lequel ou duquel le virement
+s'effectue ;<BR>
+<BR>
+
+<LI> <TT>&lt;Type&gt;</TT> ;<BR>
+<BR>
+
+<LI> <TT>&lt;Contenu_du_type&gt;</TT> : lorsqu'un type d'opération affiche une entrée
+complémentaire, mais non incrémentée automatiquement, le contenu de cette entrée 
+est enregistré ici ;<BR>
+<BR>
+
+<LI> <TT>&lt;Exercice&gt;</TT> ;<BR>
+<BR>
+
+<LI> <TT>&lt;Imputation&gt;</TT> : il s'agit de l'imputation budgétaire ;<BR>
+<BR>
+
+<LI> <TT>&lt;Sous-imputation&gt;</TT> : voir ligne précédente ;<BR>
+<BR>
+
+<LI> <TT>&lt;Pièce_comptable&gt;</TT> ;<BR>
+<BR>
+
+<LI> <TT>&lt;Info_banque_guichet&gt;</TT> ;<BR>
+<BR>
+
+<LI> <TT>&lt;Notes&gt;</TT> ;<BR>
+<BR>
+
+<LI> <TT>&lt;Automatique&gt;</TT> : 0 = manuelle, 1 = automatique ;<BR>
+<BR>
+
+<LI> <TT>&lt;Périodicité&gt;</TT> : 0=une fois, 1=hebdo, 2=mensuel, 3=annuel, 
+4=personnalisé ;<BR>
+<BR>
+
+<LI> <TT>&lt;Intervalle_périodicité&gt;</TT> : 0=jours, 1=mois, 2=années ;<BR>
+<BR>
+
+<LI> <TT>&lt;Périodicité_personnalisée&gt;</TT> : le nombre de jours/mois/années quand 
+la périodicité est personnalisée ;<BR>
+<BR>
+
+<LI> <TT>&lt;Date_limite&gt;</TT>.</UL></UL>
+<H3>16.3.4&nbsp;&nbsp; Tiers</H3>Cette section liste tous les tiers enregistrés dans le fichier de comptes :<BR>
+<BR>
+<UL>
+<LI> <TT>&lt;Tiers&gt;/&lt;Généralités&gt;</TT> : cette sous-section contient comme d'habitude
+le nombre de tiers et le numéro du dernier tiers enregistré ;<BR>
+<BR>
+
+<LI> <TT>&lt;Tiers&gt;/&lt;Généralités&gt;/&lt;Nb_tiers&gt;</TT> ;<BR>
+<BR>
+
+<LI> <TT>&lt;Tiers&gt;/&lt;Généralités&gt;/&lt;No_dernier_tiers&gt;</TT> ;<BR>
+<BR>
+
+<LI> <TT>&lt;Tiers&gt;/&lt;Détail_des_tiers&gt;</TT> : cette sous-section comprend autant de 
+balises <TT>&lt;Tiers&gt;</TT> que de tiers enregistrés. Chaque balise décrit un tiers 
+avec les paramètres suivants :<BR>
+<BR>
+<UL>
+<LI> <TT>&lt;No&gt;</TT> ;<BR>
+<BR>
+
+<LI> <TT>&lt;Nom&gt;</TT> ;<BR>
+<BR>
+
+<LI> <TT>&lt;Informations&gt;</TT> ;<BR>
+<BR>
+
+<LI> <TT>&lt;Liaison&gt;</TT> : 1 = le tiers est lié à un autre logiciel, 0 = le tiers 
+n'est pas lié (sans intérêt pour l'instant).</UL></UL>
+<H3>16.3.5&nbsp;&nbsp; Catégories</H3>Cette section est construite exactement sur le même principe que celle des tiers 
+et comprend :<BR>
+<BR>
+<UL>
+<LI> <TT>&lt;Catégories&gt;/&lt;Généralités&gt;</TT> ;<BR>
+<BR>
+
+<LI> <TT>&lt;Catégories&gt;/&lt;Généralités&gt;/&lt;Nb_Catégories&gt;</TT> ;<BR>
+<BR>
+
+<LI> <TT>&lt;Catégories&gt;/&lt;Généralités&gt;/&lt;No_dernière_catégorie&gt;</TT> ;<BR>
+<BR>
+
+<LI> <TT>&lt;Catégories&gt;/&lt;Détail_des_catégories&gt;</TT> : sous-section comportant les 
+balises <TT>&lt;Catégorie&gt;</TT> dont chacune décrit une catégorie :<BR>
+<BR>
+<UL>
+<LI> <TT>&lt;No&gt;</TT> ;<BR>
+<BR>
+
+<LI> <TT>&lt;Nom&gt;</TT> ;<BR>
+<BR>
+
+<LI> <TT>&lt;Type&gt;</TT> : 1 indique que cette catégorie est normalement au débit, 0 
+au crédit et 2 signifie spécial (concrètement, c'est une catégorie de virement 
+ou d'opération ventilée) ;<BR>
+<BR>
+
+<LI> <TT>&lt;No_dernière_sous_catégorie&gt;</TT>.</UL><BR>
+
+<LI> <TT>&lt;Catégories&gt;/&lt;Sous_catégorie&gt;</TT> : si la catégorie contient une ou 
+plusieurs sous-catégories la balise <TT>&lt;Catégorie&gt;</TT> est suivie par une ou
+plusieurs balises <TT>&lt;Sous_catégorie&gt;</TT> contenant les paramètres suivants :<BR>
+<BR>
+<UL>
+<LI> <TT>&lt;No&gt;</TT> : le numéro d'ordre de la sous-catégorie dans la catégorie (de
+1 à n, n étant normalement égal au contenu de la balise 
+<TT>&lt;No_dernière_sous_catégorie&gt;</TT>, sauf si la dernière sous-catégorie a été 
+supprimée;<BR>
+<BR>
+
+<LI> <TT>&lt;Nom&gt;</TT>.</UL></UL>
+<H3>16.3.6&nbsp;&nbsp; Imputations budgétaires</H3>Cette section est exactement identique à celle des catégories à ceci près que le 
+mot catégorie est remplacé par le mot imputation :<BR>
+<BR>
+<UL>
+<LI> <TT>&lt;Imputations&gt;/&lt;Généralités&gt;</TT> : cette sous-section contient le nombre 
+d'imputations et le numéro de la dernière imputation enregistrée ;<BR>
+<BR>
+
+<LI> <TT>&lt;Imputations&gt;/&lt;Généralités&gt;/&lt;Nb_imputations&gt;</TT> ;<BR>
+<BR>
+
+<LI> <TT>&lt;Imputations&gt;/&lt;Généralités&gt;/&lt;No_dernière_imputation&gt;</TT> ;<BR>
+<BR>
+
+<LI> <TT>&lt;Catégories&gt;/&lt;Détail_des_imputations&gt;</TT> : sous-section comportant 
+les balises <TT>&lt;Imputation&gt;</TT> dont chacune décrit une imputation :<BR>
+<BR>
+<UL>
+<LI> <TT>&lt;No&gt;</TT> : le numéro d'ordre de l'imputation ;<BR>
+<BR>
+
+<LI> <TT>&lt;Nom&gt;</TT> ;<BR>
+<BR>
+
+<LI> <TT>&lt;Type&gt;</TT> ;<BR>
+<BR>
+
+<LI> <TT>&lt;No_dernière_sous_imputation&gt;</TT>.</UL><BR>
+
+<LI> <TT>&lt;Catégories&gt;/&lt;Sous_imputation&gt;</TT> : si l'imputation contient une ou 
+plusieurs sous-imputations la balise <TT>&lt;Imputation&gt;</TT> est suivie par une ou
+plusieurs balises <TT>&lt;Sous_imputation&gt;</TT> contenant les paramètres suivants :
+<UL>
+<LI> <TT>&lt;No&gt;</TT> : le numéro d'ordre de la sous-imputation dans l'imputation (de
+1 à n, n étant normalement égal au contenu de la balise 
+<TT>&lt;No_dernière_sous_imputation&gt;</TT>, sauf si la dernière sous-imputation a 
+été supprimée ;<BR>
+<BR>
+
+<LI> <TT>&lt;Nom&gt;</TT>.</UL></UL>
+<H3>16.3.7&nbsp;&nbsp; Devises</H3>La gestion des devises est antérieure au passage à la monnaie unique, ce qui
+explique qu'il reste un certain nombre de paramètres liés au passage à l'euro. 
+Ces paramètres seront conservés encore quelque temps pour permettre l'import 
+d'anciens fichiers, puis disparaîtront.<BR>
+<BR>
+La section <TT>&lt;Devises&gt;</TT> utilise la structure désormais familière des autres
+sections du fichier :<BR>
+<BR>
+<UL>
+<LI> <TT>&lt;Devises&gt;/&lt;Généralités&gt;</TT> : la sous-section des généralités, à savoir
+:<BR>
+<BR>
+
+<LI> <TT>&lt;Devises&gt;/&lt;Généralités&gt;/&lt;Nb_devises&gt;</TT> ;<BR>
+<BR>
+
+<LI> <TT>&lt;Devises&gt;/&lt;Généralités&gt;/&lt;No_dernière_devise&gt;</TT>.<BR>
+<BR>
+
+<LI> <TT>&lt;Devises&gt;/&lt;Généralités&gt;/&lt;Détail_des_devises&gt;</TT> : la sous-section 
+des détails, comprenant des balises <TT>&lt;Devise&gt;</TT> et leurs paramètres :<BR>
+<BR>
+<UL>
+<LI> <TT>&lt;No&gt;</TT> ;<BR>
+<BR>
+
+<LI> <TT>&lt;Nom&gt;</TT> ;<BR>
+<BR>
+
+<LI> <TT>&lt;Code&gt;</TT> ;<BR>
+<BR>
+
+<LI> <TT>&lt;Passage_euro&gt;</TT> : 1 = la devise passera à l'euro, 0 = elle ne passera 
+pas à l'euro ;<BR>
+<BR>
+
+<LI> <TT>&lt;Date_dernier_change&gt;</TT> : la date du dernier taux de change saisi ;<BR>
+<BR>
+
+<LI> <TT>&lt;Rapport_entre_devises&gt;</TT> : 1 = le taux de la devise est égal à la 
+devise en 
+rapport multipliée par le taux de change, 0 = pas de conversion ;<BR>
+<BR>
+
+<LI> <TT>&lt;Devise_en_rapport&gt;</TT> : la devise en rapport avec la devise courante 
+(ex: liaison Franc-Euro) ;<BR>
+<BR>
+
+<LI> <TT>&lt;Change&gt;</TT>: taux de change entre les deux devises.</UL></UL>
+<H3>16.3.8&nbsp;&nbsp; Banques</H3>Nous retrouvons la structure habituelle :<BR>
+<BR>
+<UL>
+<LI> <TT>&lt;Banques&gt;</TT> ;<BR>
+<BR>
+
+<LI> <TT>&lt;Banques&gt;/&lt;Généralités&gt;</TT> ;<BR>
+<BR>
+
+<LI> <TT>&lt;Banques&gt;/&lt;Généralités&gt;/&lt;Nb_banques&gt;</TT> ;<BR>
+<BR>
+
+<LI> <TT>&lt;Banques&gt;/&lt;Généralités&gt;/&lt;No_dernière_banque&gt;</TT> ;<BR>
+<BR>
+
+<LI> <TT>&lt;Banques&gt;/&lt;Détail_des_banques&gt;</TT> ;<BR>
+<BR>
+<UL>
+<LI> <TT>&lt;No&gt;</TT> ;<BR>
+<BR>
+
+<LI> <TT>&lt;Nom&gt;</TT> ;<BR>
+<BR>
+
+<LI> <TT>&lt;Code&gt;</TT> : c'est le code banque de votre RIB ;<BR>
+<BR>
+
+<LI> <TT>&lt;Adresse&gt;</TT> ;<BR>
+<BR>
+
+<LI> <TT>&lt;Tél&gt;</TT> ;<BR>
+<BR>
+
+<LI> <TT>&lt;Mail&gt;</TT> ;<BR>
+<BR>
+
+<LI> <TT>&lt;Web&gt;</TT> ;<BR>
+<BR>
+
+<LI> <TT>&lt;Nom_correspondant&gt;</TT> ;<BR>
+<BR>
+
+<LI> <TT>&lt;Fax_correspondant&gt;</TT> ;<BR>
+<BR>
+
+<LI> <TT>&lt;Tél_correspondant&gt;</TT> ;<BR>
+<BR>
+
+<LI> <TT>&lt;Mail_correspondant&gt;</TT> ;<BR>
+<BR>
+
+<LI> <TT>&lt;Remarques&gt;</TT>.</UL></UL>
+<H3>16.3.9&nbsp;&nbsp; Exercices</H3>Cette section s'étoffera probablement lors de l'introduction des budgets. Pour 
+l'instant elle comporte :<BR>
+<BR>
+<UL>
+<LI> <TT>&lt;Exercices&gt;/&lt;Généralités&gt;</TT> ;<BR>
+<BR>
+
+<LI> <TT>&lt;Exercices&gt;/&lt;Nb_exercices&gt;</TT> ;<BR>
+<BR>
+
+<LI> <TT>&lt;Exercices&gt;/&lt;No_dernier_exercice&gt;</TT> ;<BR>
+<BR>
+
+<LI> <TT>&lt;Exercices&gt;/&lt;Détail_des_exercices&gt;</TT> :<BR>
+<BR>
+<UL>
+<LI> <TT>&lt;No&gt;</TT> ;<BR>
+<BR>
+
+<LI> <TT>&lt;Nom&gt;</TT> ;<BR>
+<BR>
+
+<LI> <TT>&lt;Date_début&gt;</TT> ;<BR>
+<BR>
+
+<LI> <TT>&lt;Date_fin&gt;</TT> ;<BR>
+<BR>
+
+<LI> <TT>&lt;Affiché&gt;</TT> : 1 = l'exercice est afffiché dans la liste déroulante du 
+formulaire des opérations, 0 = il n'est pas affiché.</UL></UL><A NAME="toc106"></A>
+<H2>16.4&nbsp;&nbsp; Rapprochements</H2>Grisbi permettant de personnaliser le numéro des rapprochements, cette section 
+enregistre simplement la liste des numéros personnalisés :<BR>
+<BR>
+<TT>&lt;Rapprochements&gt;</TT> ;<BR>
+<BR>
+<TT>&lt;Rapprochements&gt;/&lt;Détail_des_rapprochements&gt;</TT> ;<BR>
+<BR>
+<UL>
+<LI> <TT>&lt;No&gt;</TT> : ce numéro est repris dans la balise <TT>&lt;Opération&gt;/&lt;R&gt;</TT> ;<BR>
+<BR>
+
+<LI> <TT>&lt;Nom&gt;</TT> : le numéro (ou nom) personnalisé.</UL><HR>
+<A HREF="grisbi016.html"><IMG SRC ="previous_motif.gif" ALT="Précédent"></A>
+<A HREF="index.html"><IMG SRC ="contents_motif.gif" ALT="Index"></A>
+<A HREF="grisbi018.html"><IMG SRC ="next_motif.gif" ALT="Suivant"></A>
+</BODY>
+</HTML>

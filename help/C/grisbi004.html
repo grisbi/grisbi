@@ -1,0 +1,223 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
+            "http://www.w3.org/TR/REC-html40/loose.dtd">
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<META name="GENERATOR" content="hevea 1.05">
+<TITLE>
+ Premier démarrage de Grisbi
+</TITLE>
+</HEAD>
+<BODY BGCOLOR="#ffff99">
+
+<A HREF="grisbi003.html"><IMG SRC ="previous_motif.gif" ALT="Précédent"></A>
+<A HREF="index.html"><IMG SRC ="contents_motif.gif" ALT="Index"></A>
+<A HREF="grisbi005.html"><IMG SRC ="next_motif.gif" ALT="Suivant"></A>
+<HR>
+
+<H1>Chapitre&nbsp;3&nbsp;&nbsp; Premier démarrage de Grisbi</H1><A NAME="run"></A>Au premier démarrage de Grisbi vous verrez une fenêtre quasiment vide, avec
+juste une barre de menus.<BR>
+<BR>
+Ne vous inquiétez pas tout cela va rapidement changer!...<BR>
+<BR>
+<A NAME="toc26"></A>
+<H2>3.1&nbsp;&nbsp; Ouverture d'un fichier de comptes d'une version précédente de
+Grisbi</H2><A NAME="start-oldfile"></A>Les fichiers de Grisbi provenant d'une ancienne version de Grisbi ne peuvent
+être chargés que par la version suivante. En effet Grisbi évolue sans cesse et
+le format d'enregistrement des données doit tenir compte de cette évolution.
+Chaque version intègre un modèle de conversion des fichiers de la version
+précédente, mais seulement de celle-là. Si votre fichier date de plusieurs
+versions, vous devrez le transformer successivement en utilisant toutes les
+versions intermédiaires de Grisbi. Bien évidemment toutes ces versions sont
+téléchargeables sur le site de Grisbi.<BR>
+<BR>
+Si vous ne savez plus avec quelle version de Grisbi vous avez créé votre fichier
+de compte il vous suffit d'ouvrir ce fichier avec l'éditeur de votre choix.
+Cette information se trouve en début de fichier.<BR>
+<BR>
+C'est un peu compliqué mais écrire un module de conversion aurait été
+<B>très</B> compliqué ...<BR>
+<BR>
+<A NAME="toc27"></A>
+<H2>3.2&nbsp;&nbsp; Fichier exemple</H2>Si vous voulez utiliser Grisbi immédiatement sans être obligé de taper tout un
+tas d'opérations, vous pouvez télécharger le fichier <B>Exemple.gsb</B> sur le 
+site de Grisbi.<BR>
+<BR>
+<A NAME="toc28"></A>
+<H2>3.3&nbsp;&nbsp; Création d'un nouveau fichier de comptes</H2><A NAME="start-newfile"></A>Si vous n'avez pas de fichier de compte originaire d'un autre logiciel de
+comptabilité personnelle, il va vous falloir en créer un.<BR>
+<BR>
+Prenez la peine de vous munir de vos carnets de chèques, livrets d'épargne, etc.
+ainsi que de leurs derniers relevés respectifs et commençons. Il vous faudra
+créer autant de comptes que vous avez de comptes bancaires, d'épargne, de
+crédit, plus éventuellement un compte d'espèces et quelques comptes de
+transition (voir le paragraphe <A HREF="grisbi015.html#tips-accounts">14.4</A>). La procédure est la même
+pour chaque compte.<BR>
+<BR>
+Cliquez sur le menu <I><FONT COLOR=maroon>Comptes</FONT></I>, puis <I><FONT COLOR=maroon>Nouveau</FONT></I>.<A NAME="start-newaccount"></A>
+Vous ferez alors apparaître dans la partie gauche la fenêtre de la liste des 
+comptes affichant 
+un compte nommé <I><FONT COLOR=maroon>Sans nom</FONT></I>, et dans la partie droite la fenêtre des 
+propriétés du compte <I><FONT COLOR=maroon>Sans nom</FONT></I><A NAME="start-newaccount-properties"></A> 
+.<BR>
+<BR>
+Vous devez enregistrer un certain nombre d'informations pour le compte que vous 
+venez de créer :<BR>
+<BR>
+<UL>
+<LI> nom du compte : ce sera <EM>Compte courant</EM> ou <EM>Compte livret</EM>, ou 
+bien <EM>Compte banque 1</EM> et <EM>Compte banque 2</EM>, etc. l'important est que 
+vous vous y retrouviez, et de toutes façons vous pourrez modifier ce nom 
+ultérieurement sans aucun problème dans les propriétés du compte ;<BR>
+<BR>
+
+<LI> type du compte : grisbi sait gérer les comptes suivants:<BR>
+<BR>
+<UL>
+<LI> compte bancaire : on peut y faire tout type d'opération ;<BR>
+<BR>
+
+<LI> compte de caisse : ne permet de gérer que des espèces ;<BR>
+<BR>
+
+<LI> compte d'actif : c'est un compte qui représente un avoir que vous possédez 
+(un matériel acheté par exemple). Son solde initial est zéro, il augmente 
+brutalement lors de l'achat puis diminue régulièrement au fur et à mesure de 
+l'usure de votre bien (<EM>disponible dans la prochaine version</EM>);<BR>
+<BR>
+
+<LI> compte de passif : c'est un compte qui représente une dette que vous avez 
+(un emprunt à votre banque par exemple). Son solde initial est négatif et tend à 
+devenir nul. On ne peut y faire que des virements.</UL></UL>Nous reviendrons en détail sur ces notions de comptes dans le chapitre 
+<A HREF="grisbi015.html#tips-accounts">14.4</A> et sur les notions de type d'opérations dans le
+paragraphe <A HREF="grisbi014.html#setup-transactiontype">13.9.1</A>.<BR>
+<BR>
+Vous devez ensuite saisir :<BR>
+<BR>
+<UL>
+<LI> Devise du compte : par défaut en euros, mais vous pouvez choisir de le 
+tenir en francs français, ou bien toute autre devise que vous devrez 
+préalablement créer (voir le paragraphe <A HREF="grisbi014.html#setup-currencies">13.6</A>) ;<BR>
+<BR>
+
+<LI> Compte cloturé : cette case à cocher vous permet de masquer un compte dans
+ la partie gauche de la fenêtre sans pour autant le supprimer. Il pourra être 
+affiché ultérieurement avec le menu <I><FONT COLOR=maroon>Comptes/Comptes clôturés</FONT></I> ;<BR>
+<BR>
+
+<LI> Titulaire du compte : Grisbi vous permet d'enregistrer un titulaire 
+différent pour chaque compte. Si vous ouvrez un livret d'épargne pour vos 
+enfants ça peut être utile ;<BR>
+<BR>
+ 
+<LI> Adresse : le titulaire peut avoir la même adresse que le titulaire
+principal (voir le paragraphe <A HREF="grisbi014.html#setup-general">13.1</A>), ou bien une adresse
+différente qu'il faudra préciser ici ;<BR>
+<BR>
+
+<LI> Établissement financier : par défaut sur <EM>aucun</EM> mais il est
+conseillé d'en créer un (voir le paragraphe <A HREF="grisbi014.html#setup-bank">13.7</A>), mais vous pouvez
+revenir modifier ces informations à tout moment ;<BR>
+<BR>
+
+<LI> Code de la banque : il est enregistré dans les paramètres de la banque
+(voir le paragraphe <A HREF="grisbi014.html#setup-bank">13.7</A>). C'est le code banque que vous trouverez
+sur votre RIB ;<BR>
+<BR>
+
+<LI> Guichet/Agence : à relever également sur votre RIB ;<BR>
+<BR>
+
+<LI> Numéro du compte/Clé : également sur votre RIB ;<BR>
+<BR>
+
+<LI> Solde initial : prenez le solde de votre dernier relevé ;<BR>
+<BR>
+
+<LI> Solde minimal autorisé : c'est le solde que vous autorise votre
+établissement financier ;<BR>
+<BR>
+
+<LI> Solde minimal voulu : c'est le solde que vous aimeriez respecter. Si vous
+êtes sérieux il est supérieur au précédent ;-) ;<BR>
+<BR>
+
+<LI> Commentaires : Grisbi vous permet d'enregistrer ici des commentaires
+informels sur le compte (date d'ouverture, etc.).<BR>
+<BR>
+ </UL>Cliquez ensuite sur le bouton <I><FONT COLOR=maroon>Valider</FONT></I> et le compte sera créé. Il
+apparaîtra dorénavant sous ce nom dans la liste des comptes.<BR>
+<BR>
+Vous pourrez revenir à tout moment sur <EM>toutes</EM> ces informations, sauf sur 
+la devise si vous avez choisi l'euro (ou si vous avez basculé en euro un compte 
+existant comme indiqué ci-dessous).<BR>
+<BR>
+<A NAME="toc29"></A>
+<H2>3.4&nbsp;&nbsp; Enregistrement de votre fichier de comptes </H2><A NAME="start-save"></A>Grisbi n'utilise pas un moteur de base de données, et vos opérations ne sont pas
+écrites sur le disque au fur et à mesure de leur saisie comme elles peuvent
+l'être dans d'autres logiciels.<BR>
+<BR>
+Il est donc nécessaire d'enregistrer votre fichier en quittant. Par défaut
+Grisbi ne le fait pas automatiquement (voir le paragraphe <A HREF="grisbi014.html#setup-general">13.1</A>) 
+donc prenez vos précautions.<BR>
+<BR>
+<A NAME="toc30"></A>
+<H2>3.5&nbsp;&nbsp; Basculer la tenue d'un compte en euro </H2><A NAME="start-switcheuro"></A>Cette section devient de plus en plus obsolète que le temps passe, mais nous
+allons la garder encore un peu pour permettre l'éventuel import de vieux 
+fichiers de compte.<BR>
+<BR>
+Si votre compte a été ouvert dans une devise autre que l'euro mais qui a été
+déclarée comme devant passer à l'euro (voir le paragraphe
+<A HREF="grisbi014.html#setup-currencies">13.6</A>) il vous est possible à tout moment de basculer la tenue
+de ce compte en euro. Il vous suffit d'aller dans les propriétés du compte
+(cliquez sur l'icône <IMG SRC="grisbi_hevea001.gif"> pour afficher les
+propriétés) et de cliquer sur le bouton <I><FONT COLOR=maroon>Passer ce compte à l'euro</FONT></I>
+.<BR>
+<BR>
+Grisbi affiche alors une boîte de dialogue
+pour vous prévenir que cette opération est irréversible.<BR>
+<BR>
+Répondez <I><FONT COLOR=maroon>Oui</FONT></I> et c'est fini.<BR>
+<BR>
+La totalité de ce compte est maintenant affichée en euros, avec la contre-valeur
+en francs entre parenthèses. Par contre les soldes seront affichés uniquement en
+euros.<BR>
+<BR>
+Si vous créez un nouveau compte directement en euros il n'y aura bien sûr pas
+d'affichage entre parenthèses.<BR>
+<BR>
+Si vous souhaitez conserver l'affichage des soldes dans l'ancienne devise il va
+falloir faire un certain nombre de manipulations :<BR>
+<BR>
+<UL>
+<LI> tout d'abord essayez d'avoir le moins possible d'opérations non
+rapprochées ;<BR>
+<BR>
+
+<LI> renommez votre compte existant (<EM>Compte bancaire - ancienne
+devise</EM> par exemple) ;<BR>
+<BR>
+
+<LI> créez un nouveau compte (appelez-le <EM>Compte bancaire</EM>
+puisque le nom est maintenant libre) ;<BR>
+<BR>
+
+<LI> supprimez toutes les opérations non rapprochées de votre compte (en
+prenant soin de bien les noter, puisqu'il vous faudra les ressaisir dans le
+nouveau compte). Vous devez avoir un solde du compte égal à celui du dernier
+relevé ;<BR>
+<BR>
+
+<LI> faites un virement de ce montant du compte en devises vers le compte en
+euros ;<BR>
+<BR>
+
+<LI> saisissez les opérations supprimées précédemment dans ce compte, avec la
+devise d'origine. Grisbi fera la conversion.</UL>Vous avez maintenant un compte en euros, ainsi que l'ancien en devise.<BR>
+<BR>
+<HR>
+<A HREF="grisbi003.html"><IMG SRC ="previous_motif.gif" ALT="Précédent"></A>
+<A HREF="index.html"><IMG SRC ="contents_motif.gif" ALT="Index"></A>
+<A HREF="grisbi005.html"><IMG SRC ="next_motif.gif" ALT="Suivant"></A>
+</BODY>
+</HTML>
