@@ -19,5 +19,6 @@ void remove_transaction_from_budgetary_line ( struct structure_operation * trans
 void add_transaction_to_budgetary_line ( struct structure_operation * transaction,
 					 struct struct_imputation * budgetary_line,
 					 struct struct_sous_imputation * sub_budgetary_line );
+void calcule_total_montant_budgetary_line ( void );
 /*END_DECLARATION*/
 
