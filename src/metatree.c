@@ -306,6 +306,75 @@ void fill_transaction_row ( GtkTreeModel * model, GtkTreeIter * iter,
 
 
 /**
+ * FIXME: shouldn't this be partly done via metatree?  (at least the
+ * tree stuff).
+ */
+void appui_sur_ajout_categorie ( GtkWidget * button, GtkTreeModel * model )
+{
+    MetatreeInterface * iface;
+    GtkTreeIter iter, sub_iter;
+    gint div_id;
+
+    iface = g_object_get_data ( G_OBJECT(model), "metatree-interface" );   
+    if ( ! iface )
+	return;
+
+    div_id = iface -> add_div ();
+
+    gtk_tree_store_append ( GTK_TREE_STORE(model), &iter, NULL );
+    fill_categ_row ( model, iface, &iter, iface -> get_div_pointer ( div_id ) );
+    
+    gtk_tree_store_append (GTK_TREE_STORE (model), &sub_iter, &iter);
+    fill_sub_categ_row ( GTK_TREE_MODEL(model), iface, &sub_iter, 
+			 iface -> get_div_pointer ( div_id ), NULL );
+
+    modification_fichier ( TRUE );
+}
+
+
+
+/**
+ *
+ *
+ */
+void appui_sur_ajout_sous_categorie ( GtkWidget * button, GtkTreeModel * model )
+{
+    MetatreeInterface * iface;
+    GtkTreeIter iter, parent_iter;
+    GtkTreeView * tree_view;
+    GtkTreeSelection * selection;
+    gint div_id;
+
+    iface = g_object_get_data ( G_OBJECT(model), "metatree-interface" );   
+    tree_view = g_object_get_data ( G_OBJECT(model), "tree-view" );
+    if ( !iface || !tree_view )
+	return;
+
+    selection = gtk_tree_view_get_selection ( tree_view );
+    if ( selection && gtk_tree_selection_get_selected ( selection, &model, &parent_iter ) )
+    {
+	GtkTreePath * path = gtk_tree_model_get_path ( model, &parent_iter );
+	gint div_id, sub_div_id;
+
+	/* Get parent division id */
+	metatree_get_row_properties ( model, path, NULL, &div_id, NULL, NULL ) ;
+
+	sub_div_id = iface -> add_sub_div ( div_id );
+
+	gtk_tree_store_append ( GTK_TREE_STORE(model), &iter, &parent_iter );
+	fill_sub_categ_row ( model, iface, &iter, 
+			     iface -> get_div_pointer ( div_id ),
+			     iface -> get_sub_div_pointer ( div_id, sub_div_id ) );
+			     
+	modification_fichier ( TRUE );
+
+	gtk_tree_path_free ( path );
+    }
+}
+
+
+
+/**
  * 
  *
  */
@@ -316,7 +385,7 @@ gboolean supprimer_categ ( GtkWidget * button, GtkTreeView * tree_view )
     GtkTreeIter iter;
     GSList * liste_tmp;
     gint i, no_categ = 0, no_sub_categ = 0;
-    gpointer pointer;
+    gpointer pointer = NULL;
     MetatreeInterface * iface;
 
     selection = gtk_tree_view_get_selection ( tree_view );
@@ -328,15 +397,12 @@ gboolean supprimer_categ ( GtkWidget * button, GtkTreeView * tree_view )
 			     META_TREE_NO_SUB_DIV_COLUMN, &no_sub_categ,
 			     -1 );
     }
-    else 
-    {
-	dialogue_warning ( "Tamere" );
-	return FALSE;
-    }
 
     if ( pointer == NULL )
     {
-	dialogue_warning ( "Tamere" );
+	/* FIXME: tell the truth ;-) */
+	dialogue_warning_hint ( _("This should not theorically happen."),
+				_("Can't remove selected category."));
 	return FALSE;
     }
 
