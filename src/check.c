@@ -46,14 +46,16 @@ void reconciliation_check ( void )
   gint affected_account = 0;
   gint tested_account = 0;
   GSList *pUserAccountsList;
+  gchar *pHint, *pText;
 
   /* s'il n'y a pas de compte, on quitte */
   if ( !nb_comptes )
     return;
 
   /* si l'utilisateur n'abandonne pas, faire */
-  if ( question_yes_no ( g_strdup_printf ( _("This will check that the last reconciliation amounts matches with "
-					     "total amounts of reconcilied transactions (and initial balance).") )))
+  pText = g_strdup_printf ( _("This will check that the last reconciliation amounts matches with "
+			      "total amounts of reconcilied transactions (and initial balance).") );
+  if ( question_yes_no ( pText ))
   {
     /* On fera la vérification des comptes dans l'ordre préféré
        de l'utilisateur. On fait une copie de la liste car
@@ -90,7 +92,7 @@ void reconciliation_check ( void )
 
 	  /* On ne prend en compte que les opérations rapprochées.
 	     On ne prend pas en compte les opérations de ventilation. */
-	 if ( pTransaction -> pointe == OPERATION_RAPPROCHEE
+	  if ( pTransaction -> pointe == OPERATION_RAPPROCHEE
 	       &&
 	       !pTransaction -> no_operation_ventilee_associee )
 	  {
@@ -107,42 +109,49 @@ void reconciliation_check ( void )
 	  }
 
 	  pTransactionList = pTransactionList -> next;
+	  free ( pTransaction );
 	}
 
 	if ( fabs ( reconcilied_amount - SOLDE_DERNIER_RELEVE ) >= 0.01 )
 	{
 	  affected_account++;
 
-	  if ( !question_yes_no_hint ( g_strdup_printf ( _("Account name : %s\n"),
-							 NOM_DU_COMPTE),
-				       g_strdup_printf ( _("Last reconciliation amount : %f\n"
-							   "Computed reconciliation amount : %f\n\n"
-							   "Do you to continue test?"),
-							   reconcilied_amount,
-							   SOLDE_DERNIER_RELEVE ) ) )
+	  pText = g_strdup_printf ( _("Last reconciliation amount : %f\n"
+				      "Computed reconciliation amount : %f\n\n"
+				      "Do you to continue test?"),
+				    reconcilied_amount,
+				    SOLDE_DERNIER_RELEVE );
+	  pHint = g_strdup_printf ( _("Account name : %s\n"),
+				    NOM_DU_COMPTE);
+	  if ( !question_yes_no_hint ( pHint, pText ) )
 	  {
 	    pUserAccountsList -> next = NULL;
 	  }
 	}
 	tested_account++;
+	free ( pTransactionList );
       }
     }
     while ( (  pUserAccountsList = pUserAccountsList -> next ) );
 
     if ( !affected_account )
     {
-      dialogue ( g_strdup_printf ( _("About reconciliation, your accounting is sane.")));
+      pText =  g_strdup_printf ( _("About reconciliation, your accounting is sane."));
+      dialogue ( pText );
     }
     else
     {
-      dialogue ( g_strdup_printf ( _("There are %d accounts in your file.  %d were tested.\n"
-				     "In %d account(s), stored and computed reconciliation "
-				     "don't match.  You should correct this quickly.\n"
-				     "Generally, in affected accounts, there are too many reconciled transactions."),
-				   nb_comptes,
-				   tested_account,
-				   affected_account ));
+      pText = g_strdup_printf ( _("There are %d accounts in your file.  %d were tested.\n"
+				  "In %d account(s), stored and computed reconciliation "
+				  "don't match.  You should correct this quickly.\n"
+				  "Generally, in affected accounts, there are too many reconciled transactions."),
+				 nb_comptes,
+				 tested_account,
+				 affected_account );
+      dialogue ( pText );
     }
   }
+  free ( pText );
+  free ( pHint );
   g_slist_free ( pUserAccountsList );
 }
