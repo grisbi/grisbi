@@ -2836,6 +2836,7 @@ void new_transaction_from_selected ()
     mise_a_jour_imputation ();
 
     modification_fichier ( TRUE );
+    edition_operation ();
 }
 
 
