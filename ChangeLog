@@ -1,3 +1,43 @@
+2004-03-23  Alain Portal <dionysos@grisbi.org>
+
+	* po/grisbi.pot, po/fr.po: Update
+
+2004-03-23  Alain Portal <dionysos@grisbi.org>
+
+	* src/help.c: Update contribution
+
+2004-03-23  Alain Portal <dionysos@grisbi.org>
+
+	* AUTHORS, README: Update
+
+2004-03-22  Benjamin Drieu <bdrieu@april.org>
+
+	* src/categories_onglet.c, src/imputation_budgetaire.c,
+	src/tiers_onglet.c: Fix a weird side effect that caused totals to
+	be displayed wrongly
+
+2004-03-19  Alain Portal <dionysos@grisbi.org>
+
+	* po/fr.po: Fix translation.
+
+2004-03-19  Benjamin Drieu <bdrieu@april.org>
+
+	* src/echeancier_formulaire.c: Fix a bug that caused any scheduled
+	transaction modification to create a new transaction
+
+2004-03-18  Benjamin Drieu <bdrieu@april.org>
+
+	* src/comptes_gestion.c: Minor euro conversion visual glitch
+	(closes: #203)
+
+2004-03-13  Benjamin Drieu <bdrieu@april.org>
+
+	* src/operations_comptes.c: Fix the "duplicate closed accounts" bug
+
+2004-03-12  Alain Portal <dionysos@grisbi.org>
+
+	* ChangeLog: Update
+
 2004-03-12  Alain Portal <dionysos@grisbi.org>
 
 	* src/calendar.c, src/echeancier_liste.c, src/gtk_combofix.c,
@@ -33,19 +73,19 @@
 
 	* Makefile.am, Makefile.in, grisbi.1: Add man page
 
-2004-03-11  Benjamin Drieu <bdrieu@april.org>2
+2004-03-11  Benjamin Drieu <bdrieu@april.org>
 
 	* grisbi.1: Add man page
 
-2004-03-11  Benjamin Drieu <bdrieu@april.org>2
+2004-03-11  Benjamin Drieu <bdrieu@april.org>
 
 	* src/qif.c: Fix a segfault with QIF from the Crédit Lyonnais
 
-2004-03-11  Benjamin Drieu <bdrieu@april.org>2
+2004-03-11  Benjamin Drieu <bdrieu@april.org>
 
 	* NEWS: Minor typos
 
-2004-03-11  Benjamin Drieu <bdrieu@april.org>2
+2004-03-11  Benjamin Drieu <bdrieu@april.org>
 
 	* ChangeLog: Advertise 0.4.4
 
@@ -78,7 +118,7 @@
 	* src/echeancier_formulaire.c, src/operations_formulaire.c: Fix
 	#126.  po files coming soon.
 
-2004-03-07  Benjamin Drieu <bdrieu@april.org>2
+2004-03-07  Benjamin Drieu <bdrieu@april.org>
 
 	* src/gtk_combofix.c: Fix a crash introduced by my previous commits
 
@@ -86,7 +126,7 @@
 
 	* src/operations_comptes.c: Fix #176
 
-2004-03-05  Benjamin Drieu <bdrieu@april.org>2
+2004-03-05  Benjamin Drieu <bdrieu@april.org>
 
 	* src/gtk_combofix.c: Fix a bug wrt #144
 
@@ -122,7 +162,7 @@
 
 	* src/ventilation.c: Fix comment
 
-2004-03-04  Benjamin Drieu <bdrieu@april.org>2
+2004-03-04  Benjamin Drieu <bdrieu@april.org>
 
 	* src/gtk_combofix.c: Fix #144
 
@@ -142,7 +182,7 @@
 
 	* src/ventilation.c: Fix string
 
-2004-03-03  Benjamin Drieu <bdrieu@april.org>2
+2004-03-03  Benjamin Drieu <bdrieu@april.org>
 
 	* src/categories_onglet.c: ppily kludge #184
 
@@ -401,3 +441,49 @@
 
 	* src/echeancier_liste.c: Make columns in scheduler resizable.	Not
 	fully implemented
+
+2004-01-07  Benjamin Drieu <bdrieu@april.org>
+
+	* src/en_tete.h: Remove gnomeprint occurences
+
+2004-01-07  Benjamin Drieu <bdrieu@april.org>
+
+	* debian/changelog: Update to 0.4.3-3
+
+2004-01-07  Benjamin Drieu <bdrieu@april.org>
+
+	* src/include.h: Removed occurences of gnome-print
+
+2004-01-06  Benjamin Drieu <bdrieu@april.org>
+
+	* debian/changelog: Fix missing changelog + advertise #202361 close
+
+2004-01-06  Benjamin Drieu <bdrieu@april.org>
+
+	* debian/rules: Install changelog as needed
+
+2004-01-06  Benjamin Drieu <bdrieu@april.org>
+
+	* README: This is 0.4.3 !
+
+2004-01-06  Alain Portal <dionysos@grisbi.org>
+
+	* src/operations_liste.c: Fix #99 Cleanup code
+
+2004-01-05  Alain Portal <dionysos@grisbi.org>
+
+	* po/fr.po, src/imputation_budgetaire.c, po/grisbi.pot: Fix typo
+
+2004-01-05  Alain Portal <dionysos@grisbi.org>
+
+	* po/fr.po, po/grisbi.pot: News strings translated
+
+2004-01-05  Alain Portal <dionysos@grisbi.org>
+
+	* src/imputation_budgetaire.c: Fix a part of bug #171.	Find 2
+	french strings :-(
+
+2004-01-04  Benjamin Drieu <bdrieu@april.org>
+
+	* src/tiers_onglet.c: Fix crash
+
