@@ -1,15 +1,12 @@
 GtkWidget *onglet_imputations ( void );
 void remplit_arbre_imputation ( void );
-void ouverture_node_imputation ( GtkWidget *arbre,
-				 GtkCTreeNode *node,
+void ouverture_node_imputation ( GtkWidget *arbre, GtkCTreeNode *node,
 				 gpointer null );
-void selection_ligne_imputation ( GtkCTree *arbre,
-				  GtkCTreeNode *noeud,
-				  gint colonne,
-				  gpointer null );
-void verifie_double_click_imputation ( GtkWidget *liste,
-				       GdkEventButton *ev,
-				       gpointer null );
+void selection_ligne_imputation ( GtkCTree *arbre, GtkCTreeNode *noeud,
+				  gint colonne, gpointer null );
+gboolean verifie_double_click_imputation ( GtkWidget *liste, GdkEventButton *ev, gpointer null );
+gboolean keypress_ib ( GtkWidget *widget, GdkEventKey *ev, gint *no_origine );
+gboolean expand_selected_ib (  );
 void enleve_selection_ligne_imputation ( void );
 void modification_du_texte_imputation ( void );
 void clique_sur_modifier_imputation ( void );
