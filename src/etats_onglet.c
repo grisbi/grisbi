@@ -457,6 +457,10 @@ gboolean ajout_etat ( void )
     GtkWidget *scrolled_window;
 
 
+    if ( gtk_notebook_get_current_page ( GTK_NOTEBOOK ( notebook_general)) != 7 )
+	gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general),
+				7 );
+
     dialog = dialogue_special_no_run ( GTK_MESSAGE_QUESTION,
 				       GTK_BUTTONS_OK_CANCEL,
 				       make_hint ( _("Choose template for new report"),
@@ -1035,7 +1039,11 @@ void efface_etat ( void )
     if ( !liste_struct_etats || !etat_courant )
 	return;
 
-    if ( !question_yes_no_hint ( g_strdup_printf (_("Delete report \"%s\"?"),
+     if ( gtk_notebook_get_current_page ( GTK_NOTEBOOK ( notebook_general)) != 7 )
+	gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general),
+				7 );
+
+   if ( !question_yes_no_hint ( g_strdup_printf (_("Delete report \"%s\"?"),
 						  etat_courant -> nom_etat ),
 				 _("This will irreversibly remove this report.  There is no undo for this.") ))
 	return;
@@ -1130,6 +1138,10 @@ void exporter_etat ( void )
     struct stat test_fichier;
     gchar *nom_etat;
 
+    if ( gtk_notebook_get_current_page ( GTK_NOTEBOOK ( notebook_general)) != 7 )
+	gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general),
+				7 );
+
     fenetre_nom = gtk_file_selection_new (_("Export report") );
     gtk_file_selection_set_filename ( GTK_FILE_SELECTION ( fenetre_nom ),
 				      dernier_chemin_de_travail );
@@ -1191,6 +1203,10 @@ void importer_etat ( void )
     gint resultat;
     gchar *nom_etat;
 
+    if ( gtk_notebook_get_current_page ( GTK_NOTEBOOK ( notebook_general)) != 7 )
+	gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general),
+				7 );
+
     fenetre_nom = gtk_file_selection_new ( _("Import a report"));
     gtk_file_selection_set_filename ( GTK_FILE_SELECTION ( fenetre_nom ),
 				      dernier_chemin_de_travail );
@@ -1239,6 +1255,10 @@ void dupliquer_etat ( void )
 {
     struct struct_etat *etat;
     GSList *liste_tmp;
+
+    if ( gtk_notebook_get_current_page ( GTK_NOTEBOOK ( notebook_general)) != 7 )
+	gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general),
+				7 );
 
     etat = calloc ( 1,
 		    sizeof ( struct struct_etat ));
