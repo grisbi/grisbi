@@ -2504,7 +2504,8 @@ void pointe_opes_importees ( struct struct_compte_importation *compte_import )
 
 		if ( i ==  g_slist_length ( ope_trouvees ))
 		{
-		    /* on a trouvé autant d'opé d'import semblables que d'opés semblables dans la liste d'opés
+		    /* on a trouvé autant d'opé d'import semblables
+		     * que d'opés semblables dans la liste d'opés */
 		    /* donc on peut marquer les opés trouvées */
 		    /* pour celles qui sont déjà pointées, on ne fait rien */
 		    /* si l'opé importée à une id, on met cette id dans l'opération si elle n'en a pas */

@@ -1996,7 +1996,6 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 		if ( !strcmp ( node_generalites -> name,
 			       "Numero_devise_totaux_tiers" ))
 		    no_devise_totaux_tiers = my_atoi ( xmlNodeGetContent ( node_generalites ));
-
 		if ( !strcmp ( node_generalites -> name,
 			       "Type_affichage_des_echeances" ))
 		    affichage_echeances = my_atoi ( xmlNodeGetContent ( node_generalites ));
@@ -4237,7 +4236,12 @@ gboolean charge_operations_version_0_5_0 ( xmlDocPtr doc )
 		if ( !strcmp ( node_generalites -> name,
 			       "Numero_devise_totaux_tiers" ))
 		    no_devise_totaux_tiers = my_atoi ( xmlNodeGetContent ( node_generalites ));
-
+		if ( !strcmp ( node_generalites -> name,
+			       "Numero_devise_totaux_ib" ))
+		    no_devise_totaux_ib = my_atoi ( xmlNodeGetContent ( node_generalites ));
+		if ( !strcmp ( node_generalites -> name,
+			       "Numero_devise_totaux_categ" ))
+		    no_devise_totaux_categ = my_atoi ( xmlNodeGetContent ( node_generalites ));
 		if ( !strcmp ( node_generalites -> name,
 			       "Type_affichage_des_echeances" ))
 		    affichage_echeances = my_atoi ( xmlNodeGetContent ( node_generalites ));
@@ -6519,6 +6523,14 @@ gboolean enregistre_fichier ( gboolean force )
 		      NULL,
 		      "Numero_devise_totaux_tiers",
 		      itoa ( no_devise_totaux_tiers));
+    xmlNewTextChild ( node,
+		      NULL,
+		      "Numero_devise_totaux_categ",
+		      itoa ( no_devise_totaux_categ));
+    xmlNewTextChild ( node,
+		      NULL,
+		      "Numero_devise_totaux_ib",
+		      itoa ( no_devise_totaux_ib));
     xmlNewTextChild ( node,
 		      NULL,
 		      "Type_affichage_des_echeances",

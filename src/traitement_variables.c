@@ -191,6 +191,8 @@ void init_variables ( gboolean ouverture )
 	devise_nulle = calloc ( 1,
 				sizeof ( struct struct_devise ));
 	no_devise_totaux_tiers = 1;
+	no_devise_totaux_categ = 1;
+	no_devise_totaux_ib = 1;
 	devise_compte = NULL;
 	devise_operation = NULL;
 

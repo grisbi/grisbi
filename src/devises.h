@@ -20,6 +20,7 @@ void demande_taux_de_change ( struct struct_devise *devise_compte,
 gboolean devise_selectionnee ( GtkWidget *menu_shell,
 			       gint origine );
 GtkWidget *onglet_devises ( void );
+GtkWidget * tab_display_totals ( void );
 gboolean selection_ligne_devise ( GtkWidget *liste,
 				  gint ligne,
 				  gint colonne,

@@ -310,6 +310,8 @@ extern GSList *liste_tiers_combofix;            /* liste des tiers pour le combo
 extern GSList *liste_tiers_combofix_echeancier;            /* liste des tiers pour le combofix de l'échéancier */
 extern GDate **date_dernier_tiers;            /* contient la date du dernier tiers lors de l'affichage de chaque tiers */
 extern gint no_devise_totaux_tiers;
+extern gint no_devise_totaux_ib;
+extern gint no_devise_totaux_categ;
 extern gint *nb_ecritures_par_tiers;           /* variable tampon */
 extern gint nb_ecritures_par_comptes;
 

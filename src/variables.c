@@ -295,6 +295,8 @@ GSList *liste_tiers_combofix;            /* liste des tiers pour le combofix */
 GSList *liste_tiers_combofix_echeancier;            /* liste des tiers pour le combofix de l'échéancier */
 GDate **date_dernier_tiers;            /* contient la date du dernier tiers lors de l'affichage de chaque tiers */
 gint no_devise_totaux_tiers;
+gint no_devise_totaux_ib;
+gint no_devise_totaux_categ;
 gint *nb_ecritures_par_tiers;           /* variable tampon */
 gint nb_ecritures_par_comptes;
 

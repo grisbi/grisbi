@@ -260,6 +260,14 @@ void preferences ( gint page )
 			-1);
     gtk_notebook_append_page (preference_frame, tab_display_reconciliation(), NULL);
 
+    gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
+    gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
+			&iter2,
+			0, _("Totals currencies"),
+			1, TOTALS_PAGE,
+			-1);
+    gtk_notebook_append_page (preference_frame, tab_display_totals(), NULL);
+
 
     /* Resources subtree */
     gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter, NULL);

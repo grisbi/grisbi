@@ -611,9 +611,9 @@ void remplit_arbre_categ ( void )
 
     if ( !devise_compte
 	 ||
-	 devise_compte -> no_devise != no_devise_totaux_tiers )
+	 devise_compte -> no_devise != no_devise_totaux_categ )
 	devise_compte = g_slist_find_custom ( liste_struct_devises,
-					      GINT_TO_POINTER ( no_devise_totaux_tiers ),
+					      GINT_TO_POINTER ( no_devise_totaux_categ ),
 					      ( GCompareFunc ) recherche_devise_par_no) -> data;
 
     /* calcule les montants des catég et sous categ */
@@ -2737,7 +2737,7 @@ void calcule_total_montant_categ ( void )
 	    /* on commence par calculer le montant dans la devise choisie dans les paramètres */
 
 	    montant = calcule_montant_devise_renvoi ( operation -> montant,
-						      no_devise_totaux_tiers,
+						      no_devise_totaux_categ,
 						      operation -> devise,
 						      operation -> une_devise_compte_egale_x_devise_ope,
 						      operation -> taux_change,
@@ -2850,7 +2850,7 @@ gchar *calcule_total_montant_categ_par_compte ( gint categ, gint sous_categ, gin
 	    gdouble montant;
 
 	    montant = calcule_montant_devise_renvoi ( operation -> montant,
-						      no_devise_totaux_tiers,
+						      no_devise_totaux_categ,
 						      operation -> devise,
 						      operation -> une_devise_compte_egale_x_devise_ope,
 						      operation -> taux_change,
@@ -2865,7 +2865,7 @@ gchar *calcule_total_montant_categ_par_compte ( gint categ, gint sous_categ, gin
     if ( retour_int )
 	return ( g_strdup_printf ( _("%4.2f %s"),
 				   retour_int,
-				   devise_name_by_no ( no_devise_totaux_tiers ) ));
+				   devise_name_by_no ( no_devise_totaux_categ ) ));
     else
 	return ( NULL );
 }

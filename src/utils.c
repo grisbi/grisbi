@@ -1648,7 +1648,7 @@ void spin_button_set_value ( GtkWidget * spin, gdouble * value )
 
 
 /**
- * Set an integer to the value of a spin button.  Normally called via
+ * Set an double to the value of a spin button.  Normally called via
  * a GTK "changed" signal handler.
  * 
  * \param spin a pointer to a spinbutton widget.
@@ -1656,8 +1656,8 @@ void spin_button_set_value ( GtkWidget * spin, gdouble * value )
  */
 gboolean set_double ( GtkWidget * spin, gdouble * dummy)
 {
-   gint *data;
-
+    gdouble *data;
+    
     data = g_object_get_data ( G_OBJECT(spin), "pointer" );
 
     if ( data )
@@ -1671,9 +1671,28 @@ gboolean set_double ( GtkWidget * spin, gdouble * dummy)
 }
 
 
+/**
+ * Set an integer to the value of a spin button.  Normally called via
+ * a GTK "changed" signal handler.
+ * 
+ * \param menu a pointer to a menu widget.
+ * \param dummy unused
+ */
+gboolean set_int ( GtkWidget * menu, gint * dummy)
+{
+    gint *data;
+    
+    data = g_object_get_data ( G_OBJECT(menu), "pointer" );
 
+    if ( data )
+    {
+	*data = (gtk_option_menu_get_history ( GTK_OPTION_MENU ( menu )) + 1);
+    }
 
-
+    /* Mark file as modified */
+    modification_fichier ( TRUE );
+    return (FALSE);
+}
 
 
 

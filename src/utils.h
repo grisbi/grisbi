@@ -55,6 +55,7 @@ GtkWidget * new_spin_button ( gint * value,
 			      GCallback hook );
 void spin_button_set_value ( GtkWidget * spin, gdouble * value );
 gboolean set_double ( GtkWidget * spin, gdouble * dummy );
+gboolean set_int ( GtkWidget * menu, gint * dummy );
 gint my_strcasecmp ( gchar *chaine_1,
 		     gchar *chaine_2 );
 gint my_strncasecmp ( gchar *chaine_1,

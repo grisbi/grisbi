@@ -525,9 +525,9 @@ void remplit_arbre_imputation ( void )
 
     if ( !devise_compte
 	 ||
-	 devise_compte -> no_devise != no_devise_totaux_tiers )
+	 devise_compte -> no_devise != no_devise_totaux_ib )
 	devise_compte = g_slist_find_custom ( liste_struct_devises,
-					      GINT_TO_POINTER ( no_devise_totaux_tiers ),
+					      GINT_TO_POINTER ( no_devise_totaux_ib ),
 					      ( GCompareFunc ) recherche_devise_par_no) -> data;
 
     /* calcule les montants des imputations et sous imputations */
@@ -2492,7 +2492,7 @@ void calcule_total_montant_imputation ( void )
 	    /* on commence par calculer le montant dans la devise demandée */
 
 	    montant = calcule_montant_devise_renvoi ( operation -> montant,
-						      no_devise_totaux_tiers,
+						      no_devise_totaux_ib,
 						      operation -> devise,
 						      operation -> une_devise_compte_egale_x_devise_ope,
 						      operation -> taux_change,
@@ -2608,7 +2608,7 @@ gchar *calcule_total_montant_imputation_par_compte ( gint imputation, gint sous_
 	    gdouble montant;
 
 	    montant = calcule_montant_devise_renvoi ( operation -> montant,
-						      no_devise_totaux_tiers,
+						      no_devise_totaux_ib,
 						      operation -> devise,
 						      operation -> une_devise_compte_egale_x_devise_ope,
 						      operation -> taux_change,
@@ -2623,7 +2623,7 @@ gchar *calcule_total_montant_imputation_par_compte ( gint imputation, gint sous_
     if ( retour_int )
 	return ( g_strdup_printf ( _("%4.2f %s"),
 				   retour_int,
-				   devise_name_by_no ( no_devise_totaux_tiers ) ));
+				   devise_name_by_no ( no_devise_totaux_ib ) ));
     else
 	return ( NULL );
 }

@@ -594,8 +594,8 @@ void raz_configuration ( void )
     etat.retient_affichage_par_compte = 0;
     etat.fichier_animation_attente = g_strdup ( ANIM_PATH );
 
-	/* Messages */
-	etat.display_message_lock_active = 0;
+    /* Messages */
+    etat.display_message_lock_active = 0;
     /* On Windows, the chmod feature does not work: FAT does not have right access permission notions , 
      * on NTFS it to complicated to implement => the feature is removed from the Windows version :
      * for that the corresponding parameter check box is not displayed and the paramater is forced to not display msg */

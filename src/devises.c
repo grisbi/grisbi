@@ -1598,6 +1598,85 @@ GtkWidget *onglet_devises ( void )
 
 
 
+/**
+ * Creates a new GtkOptionMenu with a pointer to an integerthat will
+ * be modified according to the entry's value.
+ *
+ * \param value A pointer to a string
+ * \param hook An optional function to execute as a handler
+ *
+ * \return A newly allocated option menu.
+ */
+GtkWidget * new_currency_option_menu ( gint * value, GCallback hook )
+{
+    GtkWidget * currency_list, *currency_menu;
+
+    currency_list = gtk_option_menu_new ();
+    currency_menu = creation_option_menu_devises ( 0, liste_struct_devises );
+    gtk_option_menu_set_menu ( GTK_OPTION_MENU ( currency_list ), currency_menu );
+    if (value && *value)
+	gtk_option_menu_set_history ( GTK_OPTION_MENU(currency_list), *value - 1 );
+
+    g_signal_connect ( GTK_OBJECT (currency_list), "changed", (GCallback) set_int, value );
+    g_signal_connect ( GTK_OBJECT (currency_list), "changed", (GCallback) hook, value );
+    g_object_set_data ( G_OBJECT ( currency_list ), "pointer", value);
+
+    return currency_list;
+}
+
+
+
+/**
+ *
+ *
+ */
+GtkWidget *tab_display_totals ( void )
+{
+    GtkWidget *vbox_pref, *currency_list, *table, *label;
+
+    vbox_pref = new_vbox_with_title_and_icon ( _("Totals currencies"),
+					       "currencies.png" );
+
+    table = gtk_table_new ( 2, 2, FALSE );
+    gtk_table_set_col_spacings ( GTK_TABLE ( table ), 5 );
+    gtk_table_set_row_spacings ( GTK_TABLE ( table ), 5 );
+
+    label = COLON ( gtk_label_new ("Currency for third parties tree") );
+    gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
+    gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_LEFT );
+    gtk_table_attach ( GTK_TABLE ( table ), label, 
+		       0, 1, 0, 1, GTK_SHRINK | GTK_FILL, 0, 0, 0 );
+    currency_list = new_currency_option_menu ( &no_devise_totaux_tiers, 
+					       remplit_arbre_tiers );
+    gtk_table_attach ( GTK_TABLE ( table ), currency_list,
+		       1, 2, 0, 1, GTK_SHRINK | GTK_FILL, 0, 0, 0 );
+
+    label = COLON ( gtk_label_new ("Currency for categories tree") );
+    gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
+    gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_LEFT );
+    gtk_table_attach ( GTK_TABLE ( table ), label,
+		       0, 1, 1, 2, GTK_SHRINK | GTK_FILL, 0, 0, 0 );
+    currency_list = new_currency_option_menu ( &no_devise_totaux_categ, 
+					       remplit_arbre_categ );
+    gtk_table_attach ( GTK_TABLE ( table ), currency_list,
+		       1, 2, 1, 2, GTK_SHRINK | GTK_FILL, 0, 0, 0 );
+
+    label = COLON ( gtk_label_new ("Currency for budgetary lines tree") );
+    gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
+    gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_LEFT );
+    gtk_table_attach ( GTK_TABLE ( table ), label,
+		       0, 1, 2, 3, GTK_SHRINK | GTK_FILL, 0, 0, 0 );
+    currency_list = new_currency_option_menu ( &no_devise_totaux_ib, 
+					       remplit_arbre_imputation );
+    gtk_table_attach ( GTK_TABLE ( table ), currency_list,
+		       1, 2, 2, 3, GTK_SHRINK | GTK_FILL, 0, 0, 0 );
+
+    gtk_box_pack_start ( GTK_BOX ( vbox_pref ), table, TRUE, TRUE, 0);
+
+    return ( vbox_pref );
+}
+
+
 
 /* **************************************************************************************************************************** */
 /* Fonction selection_ligne_devise */
