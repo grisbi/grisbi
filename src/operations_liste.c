@@ -106,7 +106,7 @@ extern GdkColor couleur_fond[2];
 extern GdkColor couleur_selection;
 extern PangoFontDescription *pango_desc_fonte_liste;
 extern GSList *liste_labels_titres_colonnes_liste_ope;
-extern GtkWidget *widget_formulaire_ventilation[8];
+extern GtkWidget *widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_TOTAL_WIDGET];
 extern gint ligne_selectionnee_ventilation;
 extern GtkWidget *label_equilibrage_pointe;
 extern GtkWidget *label_equilibrage_ecart;
@@ -2045,11 +2045,11 @@ void edition_operation ( void )
 
     if ( operation == GINT_TO_POINTER ( -1 ) )
     {
-	if ( gtk_widget_get_style ( widget_formulaire_operations[TRANSACTION_FORM_DATE] ) == style_entree_formulaire[1] )
+	if ( gtk_widget_get_style ( widget_formulaire_operations[TRANSACTION_FORM_DATE] ) == style_entree_formulaire[ENGRIS] )
 	{
 	    entree_prend_focus ( widget_formulaire_operations[TRANSACTION_FORM_DATE] );
 
-	    if ( gtk_widget_get_style ( widget_formulaire_operations[TRANSACTION_FORM_VALUE_DATE] ) == style_entree_formulaire[1] )
+	    if ( gtk_widget_get_style ( widget_formulaire_operations[TRANSACTION_FORM_VALUE_DATE] ) == style_entree_formulaire[ENGRIS] )
 	    {
 		gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_operations[TRANSACTION_FORM_DATE] ),
 				     gsb_today() );

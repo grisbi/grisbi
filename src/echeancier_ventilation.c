@@ -39,6 +39,7 @@
 #include "echeancier_formulaire.h"
 #include "constants.h"
 #include "echeancier_onglet.h"
+#include "constants.h"
 
 
 
@@ -47,7 +48,7 @@
 GtkWidget *liste_echeances_ventilees;
 
 gint ancienne_largeur_ventilation_echeances;          /* magouille utilisée pour bloquer un signal size-allocate qui s'emballe */
-GtkWidget *widget_formulaire_ventilation_echeances[8];
+GtkWidget *widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_TOTAL_WIDGET];
 GtkWidget *separateur_formulaire_ventilations_echeances;
 GtkWidget *hbox_valider_annuler_ventil_echeances;
 GtkWidget *label_somme_ventilee_echeances_echeances;                       /*  label correspondant */
@@ -66,7 +67,7 @@ extern gint no_derniere_echeance;
 extern GtkWidget *notebook_calendrier_ventilations;
 extern GtkWidget *notebook_formulaire_echeances;
 extern GtkWidget *notebook_liste_ventil_echeances;
-extern GtkWidget *widget_formulaire_echeancier[19];
+extern GtkWidget *widget_formulaire_echeancier[SCHEDULER_FORM_TOTAL_WIDGET];
 extern GSList *liste_imputations_combofix;
 extern gint mise_a_jour_combofix_categ_necessaire;
 extern gint mise_a_jour_combofix_imputation_necessaire;
@@ -417,178 +418,178 @@ GtkWidget *creation_formulaire_ventilation_echeances ( void )
 
     /* mise en place des catégories */
 
-    widget_formulaire_ventilation_echeances[0] = gtk_combofix_new_complex ( liste_categories_ventilation_combofix,
+    widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CATEGORY] = gtk_combofix_new_complex ( liste_categories_ventilation_combofix,
 									    FALSE,
 									    TRUE,
 									    TRUE,
 									    0 );
-    gtk_signal_connect ( GTK_OBJECT ( GTK_COMBOFIX ( widget_formulaire_ventilation_echeances[0] ) -> entry ),
+    gtk_signal_connect ( GTK_OBJECT ( GTK_COMBOFIX ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CATEGORY] ) -> entry ),
 			 "key_press_event",
 			 GTK_SIGNAL_FUNC ( appui_touche_ventilation_echeances ),
-			 NULL );
-    gtk_signal_connect ( GTK_OBJECT (GTK_COMBOFIX (widget_formulaire_ventilation_echeances[0]) -> entry),
+			 GINT_TO_POINTER ( SCHEDULER_BREAKDOWN_FORM_CATEGORY ) );
+    gtk_signal_connect ( GTK_OBJECT (GTK_COMBOFIX (widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CATEGORY]) -> entry),
 			 "button_press_event",
 			 GTK_SIGNAL_FUNC (clique_champ_formulaire_ventilation_echeances),
 			 NULL );
-    gtk_signal_connect ( GTK_OBJECT (GTK_COMBOFIX (widget_formulaire_ventilation_echeances[0]) -> arrow),
+    gtk_signal_connect ( GTK_OBJECT (GTK_COMBOFIX (widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CATEGORY]) -> arrow),
 			 "button_press_event",
 			 GTK_SIGNAL_FUNC (clique_champ_formulaire_ventilation_echeances),
 			 NULL );
-    gtk_signal_connect_object ( GTK_OBJECT ( GTK_COMBOFIX (widget_formulaire_ventilation_echeances[0]) -> entry ),
+    gtk_signal_connect_object ( GTK_OBJECT ( GTK_COMBOFIX (widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CATEGORY]) -> entry ),
 				"focus_in_event",
 				GTK_SIGNAL_FUNC (entree_prend_focus),
-				GTK_OBJECT ( widget_formulaire_ventilation_echeances[0] ) );
-    gtk_signal_connect ( GTK_OBJECT (GTK_COMBOFIX (widget_formulaire_ventilation_echeances[0]) -> entry),
+				GTK_OBJECT ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CATEGORY] ) );
+    gtk_signal_connect ( GTK_OBJECT (GTK_COMBOFIX (widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CATEGORY]) -> entry),
 			 "focus_out_event",
 			 GTK_SIGNAL_FUNC (entree_ventilation_perd_focus_echeances),
-			 GINT_TO_POINTER (0) );
+			 GINT_TO_POINTER ( SCHEDULER_BREAKDOWN_FORM_CATEGORY ) );
     gtk_table_attach ( GTK_TABLE (table),
-		       widget_formulaire_ventilation_echeances[0],
+		       widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CATEGORY],
 		       0, 1, 0,1,
 		       GTK_SHRINK | GTK_FILL,
 		       GTK_SHRINK | GTK_FILL,
 		       0,0);
-    gtk_widget_show ( widget_formulaire_ventilation_echeances[0] );
+    gtk_widget_show ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CATEGORY] );
 
     /* mise en place des notes */
 
-    widget_formulaire_ventilation_echeances[1] = gtk_entry_new ();
-    gtk_signal_connect ( GTK_OBJECT ( widget_formulaire_ventilation_echeances[1] ),
+    widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_NOTES] = gtk_entry_new ();
+    gtk_signal_connect ( GTK_OBJECT ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_NOTES] ),
 			 "key_press_event",
 			 GTK_SIGNAL_FUNC ( appui_touche_ventilation_echeances ),
-			 GINT_TO_POINTER ( 1 ) );
-    gtk_signal_connect ( GTK_OBJECT (widget_formulaire_ventilation_echeances[1]),
+			 GINT_TO_POINTER ( SCHEDULER_BREAKDOWN_FORM_NOTES ) );
+    gtk_signal_connect ( GTK_OBJECT (widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_NOTES]),
 			 "button_press_event",
 			 GTK_SIGNAL_FUNC (clique_champ_formulaire_ventilation_echeances ),
 			 NULL );
-    gtk_signal_connect ( GTK_OBJECT (widget_formulaire_ventilation_echeances[1]),
+    gtk_signal_connect ( GTK_OBJECT (widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_NOTES]),
 			 "focus_in_event",
 			 GTK_SIGNAL_FUNC (entree_prend_focus),
 			 NULL );
-    gtk_signal_connect ( GTK_OBJECT (widget_formulaire_ventilation_echeances[1]),
+    gtk_signal_connect ( GTK_OBJECT (widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_NOTES]),
 			 "focus_out_event",
 			 GTK_SIGNAL_FUNC (entree_ventilation_perd_focus_echeances),
-			 GINT_TO_POINTER (1) );
+			 GINT_TO_POINTER ( SCHEDULER_BREAKDOWN_FORM_NOTES ) );
     gtk_table_attach ( GTK_TABLE (table),
-		       widget_formulaire_ventilation_echeances[1],
+		       widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_NOTES],
 		       1, 3, 0,1,
 		       GTK_SHRINK | GTK_FILL,
 		       GTK_SHRINK | GTK_FILL,
 		       0,0);
-    gtk_widget_show ( widget_formulaire_ventilation_echeances[1] );
+    gtk_widget_show ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_NOTES] );
 
 
 
     /* mise en place du débit */
 
-    widget_formulaire_ventilation_echeances[2] = gtk_entry_new ();
-    gtk_signal_connect ( GTK_OBJECT ( widget_formulaire_ventilation_echeances[2] ),
+    widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_DEBIT] = gtk_entry_new ();
+    gtk_signal_connect ( GTK_OBJECT ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_DEBIT] ),
 			 "key_press_event",
 			 GTK_SIGNAL_FUNC ( appui_touche_ventilation_echeances ),
-			 GINT_TO_POINTER ( 2 ) );
-    gtk_signal_connect ( GTK_OBJECT (widget_formulaire_ventilation_echeances[2]),
+			 GINT_TO_POINTER ( SCHEDULER_BREAKDOWN_FORM_DEBIT ) );
+    gtk_signal_connect ( GTK_OBJECT (widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_DEBIT]),
 			 "button_press_event",
 			 GTK_SIGNAL_FUNC (clique_champ_formulaire_ventilation_echeances ),
 			 NULL );
-    gtk_signal_connect ( GTK_OBJECT (widget_formulaire_ventilation_echeances[2]),
+    gtk_signal_connect ( GTK_OBJECT (widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_DEBIT]),
 			 "focus_in_event",
 			 GTK_SIGNAL_FUNC (entree_prend_focus),
 			 NULL );
-    gtk_signal_connect ( GTK_OBJECT (widget_formulaire_ventilation_echeances[2]),
+    gtk_signal_connect ( GTK_OBJECT (widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_DEBIT]),
 			 "focus_out_event",
 			 GTK_SIGNAL_FUNC (entree_ventilation_perd_focus_echeances),
-			 GINT_TO_POINTER (2) );
+			 GINT_TO_POINTER ( SCHEDULER_BREAKDOWN_FORM_DEBIT ) );
     gtk_table_attach ( GTK_TABLE (table),
-		       widget_formulaire_ventilation_echeances[2],
+		       widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_DEBIT],
 		       3, 4, 0,1,
 		       GTK_SHRINK | GTK_FILL,
 		       GTK_SHRINK | GTK_FILL,
 		       0,0);
-    gtk_widget_show ( widget_formulaire_ventilation_echeances[2] );
+    gtk_widget_show ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_DEBIT] );
 
 
     /* mise en place du crédit */
 
-    widget_formulaire_ventilation_echeances[3] = gtk_entry_new ();
-    gtk_signal_connect ( GTK_OBJECT ( widget_formulaire_ventilation_echeances[3] ),
+    widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CREDIT] = gtk_entry_new ();
+    gtk_signal_connect ( GTK_OBJECT ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CREDIT] ),
 			 "key_press_event",
 			 GTK_SIGNAL_FUNC ( appui_touche_ventilation_echeances ),
-			 GINT_TO_POINTER ( 3 ) );
-    gtk_signal_connect ( GTK_OBJECT (widget_formulaire_ventilation_echeances[3]),
+			 GINT_TO_POINTER ( SCHEDULER_BREAKDOWN_FORM_CREDIT ) );
+    gtk_signal_connect ( GTK_OBJECT (widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CREDIT]),
 			 "button_press_event",
 			 GTK_SIGNAL_FUNC (clique_champ_formulaire_ventilation_echeances ),
 			 NULL );
-    gtk_signal_connect ( GTK_OBJECT (widget_formulaire_ventilation_echeances[3]),
+    gtk_signal_connect ( GTK_OBJECT (widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CREDIT]),
 			 "focus_in_event",
 			 GTK_SIGNAL_FUNC (entree_prend_focus),
 			 NULL );
-    gtk_signal_connect ( GTK_OBJECT (widget_formulaire_ventilation_echeances[3]),
+    gtk_signal_connect ( GTK_OBJECT (widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CREDIT]),
 			 "focus_out_event",
 			 GTK_SIGNAL_FUNC (entree_ventilation_perd_focus_echeances),
-			 GINT_TO_POINTER (3) );
+			 GINT_TO_POINTER ( SCHEDULER_BREAKDOWN_FORM_CREDIT ) );
     gtk_table_attach ( GTK_TABLE (table),
-		       widget_formulaire_ventilation_echeances[3],
+		       widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CREDIT],
 		       4, 5, 0,1,
 		       GTK_SHRINK | GTK_FILL,
 		       GTK_SHRINK | GTK_FILL,
 		       0,0);
-    gtk_widget_show ( widget_formulaire_ventilation_echeances[3] );
+    gtk_widget_show ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CREDIT] );
 
 
     /*  Affiche l'imputation budgétaire */
 
-    widget_formulaire_ventilation_echeances[4] = gtk_combofix_new_complex ( liste_imputations_combofix,
+    widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_BUDGETARY] = gtk_combofix_new_complex ( liste_imputations_combofix,
 									    FALSE,
 									    TRUE,
 									    TRUE,
 									    0 );
     gtk_table_attach ( GTK_TABLE (table),
-		       widget_formulaire_ventilation_echeances[4],
+		       widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_BUDGETARY],
 		       0, 1, 1, 2,
 		       GTK_SHRINK | GTK_FILL,
 		       GTK_SHRINK | GTK_FILL,
 		       0,0);
-    gtk_signal_connect ( GTK_OBJECT (GTK_COMBOFIX (widget_formulaire_ventilation_echeances[4]) -> entry),
+    gtk_signal_connect ( GTK_OBJECT (GTK_COMBOFIX (widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_BUDGETARY]) -> entry),
 			 "button_press_event",
 			 GTK_SIGNAL_FUNC (clique_champ_formulaire_ventilation_echeances),
 			 NULL );
-    gtk_signal_connect ( GTK_OBJECT (GTK_COMBOFIX (widget_formulaire_ventilation_echeances[4]) -> arrow),
+    gtk_signal_connect ( GTK_OBJECT (GTK_COMBOFIX (widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_BUDGETARY]) -> arrow),
 			 "button_press_event",
 			 GTK_SIGNAL_FUNC (clique_champ_formulaire_ventilation_echeances),
 			 NULL );
-    gtk_signal_connect ( GTK_OBJECT (GTK_COMBOFIX (widget_formulaire_ventilation_echeances[4]) -> entry),
+    gtk_signal_connect ( GTK_OBJECT (GTK_COMBOFIX (widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_BUDGETARY]) -> entry),
 			 "key_press_event",
 			 GTK_SIGNAL_FUNC (appui_touche_ventilation_echeances),
-			 GINT_TO_POINTER(4) );
-    gtk_signal_connect_object ( GTK_OBJECT ( GTK_COMBOFIX (widget_formulaire_ventilation_echeances[4]) -> entry ),
+			 GINT_TO_POINTER( SCHEDULER_BREAKDOWN_FORM_BUDGETARY ) );
+    gtk_signal_connect_object ( GTK_OBJECT ( GTK_COMBOFIX (widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_BUDGETARY]) -> entry ),
 				"focus_in_event",
 				GTK_SIGNAL_FUNC (entree_prend_focus),
-				GTK_OBJECT ( widget_formulaire_ventilation_echeances[4] ) );
-    gtk_signal_connect ( GTK_OBJECT (GTK_COMBOFIX (widget_formulaire_ventilation_echeances[4]) -> entry),
+				GTK_OBJECT ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_BUDGETARY] ) );
+    gtk_signal_connect ( GTK_OBJECT (GTK_COMBOFIX (widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_BUDGETARY]) -> entry),
 			 "focus_out_event",
 			 GTK_SIGNAL_FUNC (entree_ventilation_perd_focus_echeances),
-			 GINT_TO_POINTER (4) );
+			 GINT_TO_POINTER ( SCHEDULER_BREAKDOWN_FORM_BUDGETARY ) );
 
-    gtk_widget_show (widget_formulaire_ventilation_echeances[4]);
+    gtk_widget_show (widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_BUDGETARY]);
 
-    gtk_widget_set_sensitive ( widget_formulaire_ventilation_echeances[4],
+    gtk_widget_set_sensitive ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_BUDGETARY],
 			       etat.utilise_imputation_budgetaire );
 
 
     /* mise en place du type de l'opé associée en cas de virement */
     /* non affiché au départ */
 
-    widget_formulaire_ventilation_echeances[5] = gtk_option_menu_new ();
+    widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CONTRA] = gtk_option_menu_new ();
     gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tips ),
-			   widget_formulaire_ventilation_echeances[5],
+			   widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CONTRA],
 			   _("Associated method of payment"),
 			   _("Associated method of payment") );
-    gtk_signal_connect ( GTK_OBJECT (widget_formulaire_ventilation_echeances[5]),
+    gtk_signal_connect ( GTK_OBJECT (widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CONTRA]),
 			 "key_press_event",
 			 GTK_SIGNAL_FUNC ( appui_touche_ventilation_echeances ),
-			 GINT_TO_POINTER(5) );
+			 GINT_TO_POINTER( SCHEDULER_BREAKDOWN_FORM_CONTRA ) );
     gtk_table_attach ( GTK_TABLE ( table ),
-		       widget_formulaire_ventilation_echeances[5],
+		       widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CONTRA],
 		       1, 2, 1, 2,
 		       GTK_SHRINK | GTK_FILL,
 		       GTK_SHRINK | GTK_FILL,
@@ -596,57 +597,57 @@ GtkWidget *creation_formulaire_ventilation_echeances ( void )
 
     /* création du bouton de l'exo */
 
-    widget_formulaire_ventilation_echeances[6] = gtk_option_menu_new ();
+    widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_EXERCICE] = gtk_option_menu_new ();
     gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tips ),
-			   widget_formulaire_ventilation_echeances[6],
+			   widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_EXERCICE],
 			   _("Choose the financial year"),
 			   _("Choose the financial year") );
     menu = gtk_menu_new ();
-    gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_ventilation_echeances[6] ),
+    gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_EXERCICE] ),
 			       creation_menu_exercices (0) );
-    gtk_signal_connect ( GTK_OBJECT (widget_formulaire_ventilation_echeances[6]),
+    gtk_signal_connect ( GTK_OBJECT (widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_EXERCICE]),
 			 "key_press_event",
 			 GTK_SIGNAL_FUNC (appui_touche_ventilation_echeances),
 			 GINT_TO_POINTER(6) );
     gtk_table_attach ( GTK_TABLE ( table ),
-		       widget_formulaire_ventilation_echeances[6],
+		       widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_EXERCICE],
 		       2, 3, 1, 2,
 		       GTK_SHRINK | GTK_FILL,
 		       GTK_SHRINK | GTK_FILL,
 		       0,0);
-    gtk_widget_show ( widget_formulaire_ventilation_echeances[6] );
+    gtk_widget_show ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_EXERCICE] );
 
-    gtk_widget_set_sensitive ( widget_formulaire_ventilation_echeances[6],
+    gtk_widget_set_sensitive ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_EXERCICE],
 			       etat.utilise_exercice );
 
     /*   création de l'entrée du no de pièce comptable */
 
-    widget_formulaire_ventilation_echeances[7] = gtk_entry_new();
+    widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_VOUCHER] = gtk_entry_new();
     gtk_table_attach ( GTK_TABLE (table),
-		       widget_formulaire_ventilation_echeances[7],
+		       widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_VOUCHER],
 		       3, 5, 1, 2,
 		       GTK_SHRINK | GTK_FILL,
 		       GTK_SHRINK | GTK_FILL,
 		       0,0);
-    gtk_signal_connect ( GTK_OBJECT (widget_formulaire_ventilation_echeances[7]),
+    gtk_signal_connect ( GTK_OBJECT (widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_VOUCHER]),
 			 "button_press_event",
 			 GTK_SIGNAL_FUNC (clique_champ_formulaire_ventilation_echeances ),
 			 NULL );
-    gtk_signal_connect ( GTK_OBJECT (widget_formulaire_ventilation_echeances[7]),
+    gtk_signal_connect ( GTK_OBJECT (widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_VOUCHER]),
 			 "key_press_event",
 			 GTK_SIGNAL_FUNC (appui_touche_ventilation_echeances),
-			 GINT_TO_POINTER(7) );
-    gtk_signal_connect ( GTK_OBJECT (widget_formulaire_ventilation_echeances[7]),
+			 GINT_TO_POINTER( SCHEDULER_BREAKDOWN_FORM_VOUCHER ) );
+    gtk_signal_connect ( GTK_OBJECT (widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_VOUCHER]),
 			 "focus_in_event",
 			 GTK_SIGNAL_FUNC (entree_prend_focus),
 			 NULL );
-    gtk_signal_connect ( GTK_OBJECT (widget_formulaire_ventilation_echeances[7]),
+    gtk_signal_connect ( GTK_OBJECT (widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_VOUCHER]),
 			 "focus_out_event",
 			 GTK_SIGNAL_FUNC (entree_ventilation_perd_focus_echeances),
-			 GINT_TO_POINTER (7) );
-    gtk_widget_show ( widget_formulaire_ventilation_echeances[7] );
+			 GINT_TO_POINTER ( SCHEDULER_BREAKDOWN_FORM_VOUCHER ) );
+    gtk_widget_show ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_VOUCHER] );
 
-    gtk_widget_set_sensitive ( widget_formulaire_ventilation_echeances[7],
+    gtk_widget_set_sensitive ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_VOUCHER],
 			       etat.utilise_piece_comptable );
 
     /* séparation d'avec les boutons */
@@ -703,7 +704,7 @@ GtkWidget *creation_formulaire_ventilation_echeances ( void )
 
     /*   met l'adr de l'opé dans le formulaire_echeancier à -1 */
 
-    gtk_object_set_data ( GTK_OBJECT ( widget_formulaire_ventilation_echeances[0] ),
+    gtk_object_set_data ( GTK_OBJECT ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CATEGORY] ),
 			  "adr_struct_ope",
 			  GINT_TO_POINTER ( -1 ) );
 
@@ -721,9 +722,9 @@ gboolean clique_champ_formulaire_ventilation_echeances ( void )
 
     /* on rend sensitif tout ce qui ne l'était pas sur le formulaire_echeancier */
 
-    gtk_widget_set_sensitive ( GTK_WIDGET ( widget_formulaire_ventilation_echeances[5] ),
+    gtk_widget_set_sensitive ( GTK_WIDGET ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CONTRA] ),
 			       TRUE );
-    gtk_widget_set_sensitive ( GTK_WIDGET ( widget_formulaire_ventilation_echeances[6] ),
+    gtk_widget_set_sensitive ( GTK_WIDGET ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_EXERCICE] ),
 			       TRUE );
     gtk_widget_set_sensitive ( GTK_WIDGET ( hbox_valider_annuler_ventil_echeances ),
 			       TRUE );
@@ -750,7 +751,7 @@ gboolean entree_ventilation_perd_focus_echeances ( GtkWidget *entree, GdkEventFo
     switch ( GPOINTER_TO_INT ( no_origine ))
     {
 	/* on sort des catégories */
-	case 0:
+	case SCHEDULER_BREAKDOWN_FORM_CATEGORY :
 	    if ( strlen ( g_strstrip ( (char *) gtk_entry_get_text ( GTK_ENTRY ( entree )))))
 	    {
 		/* si c'est un virement, on met le menu des types de l'autre compte */
@@ -807,9 +808,9 @@ gboolean entree_ventilation_perd_focus_echeances ( GtkWidget *entree, GdkEventFo
 			    {
 				/* si le menu affiché est déjà celui du compte de virement, on n'y touche pas */
 
-				if ( !GTK_WIDGET_VISIBLE ( widget_formulaire_ventilation_echeances[5] )
+				if ( !GTK_WIDGET_VISIBLE ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CONTRA] )
 				     ||
-				     ( GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_ventilation_echeances[5] ) -> menu ),
+				     ( GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CONTRA] ) -> menu ),
 									       "no_compte" ))
 				       !=
 				       compte_virement ))
@@ -818,7 +819,7 @@ gboolean entree_ventilation_perd_focus_echeances ( GtkWidget *entree, GdkEventFo
 
 				    GtkWidget *menu;
 
-				    if ( gtk_widget_get_style ( widget_formulaire_ventilation_echeances[4] ) == style_entree_formulaire[0] )
+				    if ( gtk_widget_get_style ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_BUDGETARY] ) == style_entree_formulaire[ENCLAIR] )
 					/* il y a un montant dans le crédit */
 					menu = creation_menu_types ( 1, compte_virement, 2  );
 				    else
@@ -829,30 +830,30 @@ gboolean entree_ventilation_perd_focus_echeances ( GtkWidget *entree, GdkEventFo
 
 				    if ( menu )
 				    {
-					gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_ventilation_echeances[5] ),
+					gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CONTRA] ),
 								   menu );
-					gtk_widget_show ( widget_formulaire_ventilation_echeances[5] );
+					gtk_widget_show ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CONTRA] );
 				    }
 
 				    /* on associe le no de compte de virement au formulaire_echeancier pour le retrouver */
 				    /* rapidement s'il y a un chgt débit/crédit */
 
-				    gtk_object_set_data ( GTK_OBJECT ( widget_formulaire_ventilation_echeances[5] ),
+				    gtk_object_set_data ( GTK_OBJECT ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CONTRA] ),
 							  "compte_virement",
 							  GINT_TO_POINTER ( compte_virement ));
 				}
 			    }
 			    else
-				gtk_widget_hide ( widget_formulaire_ventilation_echeances[5] );
+				gtk_widget_hide ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CONTRA] );
 			}
 			else
-			    gtk_widget_hide ( widget_formulaire_ventilation_echeances[5] );
+			    gtk_widget_hide ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CONTRA] );
 		    }
 		    else
-			gtk_widget_hide ( widget_formulaire_ventilation_echeances[5] );
+			gtk_widget_hide ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CONTRA] );
 		}
 		else
-		    gtk_widget_hide ( widget_formulaire_ventilation_echeances[5] );
+		    gtk_widget_hide ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CONTRA] );
 
 		g_strfreev ( tableau_char );
 	    }
@@ -862,7 +863,7 @@ gboolean entree_ventilation_perd_focus_echeances ( GtkWidget *entree, GdkEventFo
 
 	    /* sort des notes */
 
-	case 1:
+	case SCHEDULER_BREAKDOWN_FORM_NOTES :
 	    if ( !strlen ( g_strstrip ( (char *) gtk_entry_get_text ( GTK_ENTRY ( entree )))))
 		texte = _("Notes");
 	    break;
@@ -870,30 +871,30 @@ gboolean entree_ventilation_perd_focus_echeances ( GtkWidget *entree, GdkEventFo
 	    /* sort du débit */
 	    /*   soit vide, soit change le menu des types s'il ne correspond pas */
 
-	case 2:
+	case SCHEDULER_BREAKDOWN_FORM_DEBIT :
 
 	    if ( strlen ( g_strstrip ( (char *) gtk_entry_get_text ( GTK_ENTRY ( entree ))))
 		 &&
-		 gtk_widget_get_style ( widget_formulaire_ventilation_echeances[2] ) == style_entree_formulaire[0] )
+		 gtk_widget_get_style ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_DEBIT] ) == style_entree_formulaire[ENCLAIR] )
 	    {
 		/* on  commence par virer ce qu'il y avait dans les crédits */
 
-		if ( gtk_widget_get_style ( widget_formulaire_ventilation_echeances[3] ) == style_entree_formulaire[0] )
+		if ( gtk_widget_get_style ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CREDIT] ) == style_entree_formulaire[ENCLAIR] )
 		{
-		    gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_ventilation_echeances[3] ),
+		    gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CREDIT] ),
 					 "" );
-		    gtk_widget_set_style ( widget_formulaire_ventilation_echeances[3],
-					   style_entree_formulaire[1] );
-		    gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_ventilation_echeances[3]),
+		    gtk_widget_set_style ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CREDIT],
+					   style_entree_formulaire[ENGRIS] );
+		    gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CREDIT]),
 					 _("Credit") );
 		}
 
 		/* comme il y a eu un changement de signe, on change aussi le type de l'opé associée */
 		/* s'il est affiché */
 
-		if ( GTK_WIDGET_VISIBLE ( widget_formulaire_ventilation_echeances[5] )
+		if ( GTK_WIDGET_VISIBLE ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CONTRA] )
 		     &&
-		     GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_ventilation_echeances[5] ) -> menu ),
+		     GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CONTRA] ) -> menu ),
 							     "signe_menu" ))
 		     ==
 		     1 )
@@ -901,15 +902,15 @@ gboolean entree_ventilation_perd_focus_echeances ( GtkWidget *entree, GdkEventFo
 		    GtkWidget *menu;
 
 		    menu = creation_menu_types ( 2,
-						 GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( widget_formulaire_ventilation_echeances[5] ),
+						 GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CONTRA] ),
 											 "compte_virement" )),
 						 2  );
 
 		    if ( menu )
-			gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_ventilation_echeances[5] ),
+			gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CONTRA] ),
 						   menu );
 		    else
-			gtk_option_menu_remove_menu ( GTK_OPTION_MENU ( widget_formulaire_ventilation_echeances[5] ));
+			gtk_option_menu_remove_menu ( GTK_OPTION_MENU ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CONTRA] ));
 		}
 	    }
 	    else
@@ -918,29 +919,29 @@ gboolean entree_ventilation_perd_focus_echeances ( GtkWidget *entree, GdkEventFo
 
 	    /* sort du crédit */
 
-	case 3:
+	case SCHEDULER_BREAKDOWN_FORM_CREDIT :
 	    if ( strlen ( g_strstrip ( (char *) gtk_entry_get_text ( GTK_ENTRY ( entree ))))
 		 &&
-		 gtk_widget_get_style ( widget_formulaire_ventilation_echeances[3] ) == style_entree_formulaire[0])
+		 gtk_widget_get_style ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CREDIT] ) == style_entree_formulaire[ENCLAIR])
 	    {
 		/* on  commence par virer ce qu'il y avait dans les débits */
 
-		if ( gtk_widget_get_style ( widget_formulaire_ventilation_echeances[2] ) == style_entree_formulaire[0] )
+		if ( gtk_widget_get_style ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_DEBIT] ) == style_entree_formulaire[ENCLAIR] )
 		{
-		    gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_ventilation_echeances[2] ),
+		    gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_DEBIT] ),
 					 "" );
-		    gtk_widget_set_style ( widget_formulaire_ventilation_echeances[2],
-					   style_entree_formulaire[1] );
-		    gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_ventilation_echeances[2]),
+		    gtk_widget_set_style ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_DEBIT],
+					   style_entree_formulaire[ENGRIS] );
+		    gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_DEBIT]),
 					 _("Debit") );
 		}
 
 		/* comme il y a eu un changement de signe, on change aussi le type de l'opé associée */
 		/* s'il est affiché */
 
-		if ( GTK_WIDGET_VISIBLE ( widget_formulaire_ventilation_echeances[5] )
+		if ( GTK_WIDGET_VISIBLE ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CONTRA] )
 		     &&
-		     GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_ventilation_echeances[5] ) -> menu ),
+		     GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CONTRA] ) -> menu ),
 							     "signe_menu" ))
 		     ==
 		     2 )
@@ -948,15 +949,15 @@ gboolean entree_ventilation_perd_focus_echeances ( GtkWidget *entree, GdkEventFo
 		    GtkWidget *menu;
 
 		    menu = creation_menu_types ( 1,
-						 GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( widget_formulaire_ventilation_echeances[5] ),
+						 GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CONTRA] ),
 											 "compte_virement" )),
 						 2  );
 
 		    if ( menu )
-			gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_ventilation_echeances[5] ),
+			gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CONTRA] ),
 						   menu );
 		    else
-			gtk_option_menu_remove_menu ( GTK_OPTION_MENU ( widget_formulaire_ventilation_echeances[5] ));
+			gtk_option_menu_remove_menu ( GTK_OPTION_MENU ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CONTRA] ));
 		}
 	    }
 	    else
@@ -965,14 +966,14 @@ gboolean entree_ventilation_perd_focus_echeances ( GtkWidget *entree, GdkEventFo
 
 	    /* sort de l'ib */
 
-	case 4:
+	case SCHEDULER_BREAKDOWN_FORM_BUDGETARY :
 	    if ( !strlen ( g_strstrip ( (char *) gtk_entry_get_text ( GTK_ENTRY ( entree )))))
 		texte = _("Budgetary line");
 	    break;
 
 	    /* sort de la pièce comptable */
 
-	case 7:
+	case SCHEDULER_BREAKDOWN_FORM_VOUCHER :
 	    if ( !strlen ( g_strstrip ( (char *) gtk_entry_get_text ( GTK_ENTRY ( entree )))))
 		texte = _("Voucher");
 	    break;
@@ -985,7 +986,7 @@ gboolean entree_ventilation_perd_focus_echeances ( GtkWidget *entree, GdkEventFo
     if ( texte )
     {
 	gtk_widget_set_style ( entree,
-			       style_entree_formulaire[1] );
+			       style_entree_formulaire[ENGRIS] );
 	gtk_entry_set_text ( GTK_ENTRY ( entree ),
 			     texte );
     }
@@ -1097,7 +1098,7 @@ void ventiler_operation_echeances ( gdouble montant )
 
     clique_champ_formulaire_ventilation_echeances ();
     gtk_window_set_focus ( GTK_WINDOW ( window ),
-			   GTK_COMBOFIX ( widget_formulaire_ventilation_echeances[0] ) -> entry );
+			   GTK_COMBOFIX ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CATEGORY] ) -> entry );
 
 }
 /*******************************************************************************************/
@@ -1154,31 +1155,31 @@ void changement_taille_liste_ventilation_echeances  ( GtkWidget *clist,
 
     /* 1ère ligne */
 
-    gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_ventilation_echeances[0] ),
+    gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CATEGORY] ),
 			   col0,
 			   FALSE );
-    gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_ventilation_echeances[1] ),
+    gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_NOTES] ),
 			   col1,
 			   FALSE );
-    gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_ventilation_echeances[2] ),
+    gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_DEBIT] ),
 			   col2,
 			   FALSE );
-    gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_ventilation_echeances[3] ),
+    gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CREDIT] ),
 			   col2,
 			   FALSE );
 
     /* 2ème ligne */
 
-    gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_ventilation_echeances[4] ),
+    gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_BUDGETARY] ),
 			   col0,
 			   FALSE );
-    gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_ventilation_echeances[5] ),
+    gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CONTRA] ),
 			   col1 / 2,
 			   FALSE );
-    gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_ventilation_echeances[6] ),
+    gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_EXERCICE] ),
 			   col1/2,
 			   FALSE );
-    gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_ventilation_echeances[7] ),
+    gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_VOUCHER] ),
 			   col2,
 			   FALSE );
 
@@ -1354,13 +1355,8 @@ gboolean appui_touche_ventilation_echeances ( GtkWidget *entree, GdkEventKey *ev
     /*   si etat.entree = 1, la touche entrée finit l'opération (
 	 fonction par défaut ) sinon elle fait comme tab */
 
-    if ( !etat.entree
-	 &&
-	 ( evenement->keyval == 65293
-	   ||
-	   evenement->keyval == 65421 ))
-	evenement -> keyval = 65289;
-
+    if ( !etat.entree && ( evenement -> keyval == GDK_Return || evenement -> keyval == GDK_KP_Enter ))
+	ev->keyval = GDK_Tab ;
 
     switch (evenement->keyval)
     {
@@ -1391,7 +1387,7 @@ gboolean appui_touche_ventilation_echeances ( GtkWidget *entree, GdkEventKey *ev
 
 	    /* on donne le focus au widget suivant */
 
-	    origine = (origine + 1 ) % 8;
+	    origine = (origine + 1 ) % SCHEDULER_BREAKDOWN_FORM_TOTAL_WIDGET;
 
 	    while ( !(GTK_WIDGET_VISIBLE ( widget_formulaire_ventilation_echeances[origine] )
 		      &&
@@ -1402,7 +1398,7 @@ gboolean appui_touche_ventilation_echeances ( GtkWidget *entree, GdkEventKey *ev
 			GTK_IS_ENTRY ( widget_formulaire_ventilation_echeances[origine] )
 			||
 			GTK_IS_BUTTON ( widget_formulaire_ventilation_echeances[origine] ) )))
-		origine = (origine + 1 ) % 8;
+		origine = (origine + 1 ) % SCHEDULER_BREAKDOWN_FORM_TOTAL_WIDGET;
 
 	    /*       si on se retrouve sur les catég et que etat.entree = 0, on enregistre l'opérations */
 
@@ -1415,10 +1411,10 @@ gboolean appui_touche_ventilation_echeances ( GtkWidget *entree, GdkEventKey *ev
 	    /* si on se retrouve sur le crédit et qu'il y a qque chose dans le débit, on passe au suivant */
 	    /*       à ce niveau, il n'y a pas eu encore de focus out donc on peut tester par strlen */
 
-	    if ( origine == 3
+	    if ( origine == SCHEDULER_BREAKDOWN_FORM_CREDIT
 		 &&
-		 strlen ( (char *) gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_ventilation_echeances[2] ))))
-		origine = (origine + 1 ) % 8;
+		 strlen ( (char *) gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_DEBIT] ))))
+		origine = (origine + 1 ) % SCHEDULER_BREAKDOWN_FORM_TOTAL_WIDGET;
 
 	    /* on sélectionne le contenu de la nouvelle entrée */
 
@@ -1473,54 +1469,54 @@ void echap_formulaire_ventilation_echeances ( void )
 
     /* on met les styles des entrées au gris */
 
-    gtk_widget_set_style ( GTK_COMBOFIX ( widget_formulaire_ventilation_echeances[0] )->entry,
-			   style_entree_formulaire[1] );
-    gtk_widget_set_style ( widget_formulaire_ventilation_echeances[1],
-			   style_entree_formulaire[1] );
-    gtk_widget_set_style ( widget_formulaire_ventilation_echeances[2],
-			   style_entree_formulaire[1] );
-    gtk_widget_set_style ( widget_formulaire_ventilation_echeances[3],
-			   style_entree_formulaire[1] );
-    gtk_widget_set_style ( GTK_COMBOFIX ( widget_formulaire_ventilation_echeances[4] )->entry,
-			   style_entree_formulaire[1] );
-    gtk_widget_set_style ( widget_formulaire_ventilation_echeances[7],
-			   style_entree_formulaire[1] );
+    gtk_widget_set_style ( GTK_COMBOFIX ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CATEGORY] )->entry,
+			   style_entree_formulaire[ENGRIS] );
+    gtk_widget_set_style ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_NOTES],
+			   style_entree_formulaire[ENGRIS] );
+    gtk_widget_set_style ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_DEBIT],
+			   style_entree_formulaire[ENGRIS] );
+    gtk_widget_set_style ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CREDIT],
+			   style_entree_formulaire[ENGRIS] );
+    gtk_widget_set_style ( GTK_COMBOFIX ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_BUDGETARY] )->entry,
+			   style_entree_formulaire[ENGRIS] );
+    gtk_widget_set_style ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_VOUCHER],
+			   style_entree_formulaire[ENGRIS] );
 
 
-    gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_ventilation_echeances[0] ),
+    gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CATEGORY] ),
 			    _("Categories : Sub-categories") );
-    gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_ventilation_echeances[1]),
+    gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_NOTES]),
 			 _("Notes") );
-    gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_ventilation_echeances[2]),
+    gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_DEBIT]),
 			 _("Debit") );
-    gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_ventilation_echeances[3]),
+    gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CREDIT]),
 			 _("Credit") );
-    gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_ventilation_echeances[4] ),
+    gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_BUDGETARY] ),
 			    _("Budgetary line") );
-    gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_ventilation_echeances[7]),
+    gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_VOUCHER]),
 			 _("Voucher") );
 
-    gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_ventilation_echeances[5] ),
+    gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CONTRA] ),
 				  0 );
 
-    gtk_widget_set_sensitive ( GTK_WIDGET ( widget_formulaire_ventilation_echeances[5] ),
+    gtk_widget_set_sensitive ( GTK_WIDGET ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CONTRA] ),
 			       FALSE );
-    gtk_widget_set_sensitive ( GTK_WIDGET ( widget_formulaire_ventilation_echeances[6] ),
+    gtk_widget_set_sensitive ( GTK_WIDGET ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_EXERCICE] ),
 			       FALSE );
     gtk_widget_set_sensitive ( GTK_WIDGET ( hbox_valider_annuler_ventil_echeances ),
 			       FALSE );
-    gtk_widget_set_sensitive ( widget_formulaire_ventilation_echeances[0],
+    gtk_widget_set_sensitive ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CATEGORY],
 			       TRUE );
-    gtk_widget_set_sensitive ( widget_formulaire_ventilation_echeances[2],
+    gtk_widget_set_sensitive ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_DEBIT],
 			       TRUE );
-    gtk_widget_set_sensitive ( widget_formulaire_ventilation_echeances[3],
+    gtk_widget_set_sensitive ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CREDIT],
 			       TRUE );
 
-    gtk_widget_hide ( widget_formulaire_ventilation_echeances[5] );
+    gtk_widget_hide ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CONTRA] );
 
     /*   met l'adr de l'opé dans le formulaire_echeancier à -1 */
 
-    gtk_object_set_data ( GTK_OBJECT ( widget_formulaire_ventilation_echeances[0] ),
+    gtk_object_set_data ( GTK_OBJECT ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CATEGORY] ),
 			  "adr_struct_ope",
 			  GINT_TO_POINTER ( -1 ) );
 
@@ -1565,11 +1561,11 @@ void fin_edition_ventilation_echeances ( void )
     /* on vérifie si c'est un virement que le compte est valide et que ce n'est pas un virement sur lui-même */
 
 
-    if ( gtk_widget_get_style ( GTK_COMBOFIX ( widget_formulaire_ventilation_echeances[0] ) -> entry ) == style_entree_formulaire[0] )
+    if ( gtk_widget_get_style ( GTK_COMBOFIX ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CATEGORY] ) -> entry ) == style_entree_formulaire[ENCLAIR] )
     {
 	/*       on split déjà les catég, sans libérer la variable, pour la récupérer ensuite pour les categ */
 
-	tableau_char = g_strsplit ( g_strstrip ( gtk_combofix_get_text ( GTK_COMBOFIX ( widget_formulaire_ventilation_echeances[0] ))),
+	tableau_char = g_strsplit ( g_strstrip ( gtk_combofix_get_text ( GTK_COMBOFIX ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CATEGORY] ))),
 				    ":",
 				    2 );
 	if ( tableau_char[0]  )
@@ -1622,7 +1618,7 @@ void fin_edition_ventilation_echeances ( void )
 
     /*   on récupère l'adresse de l'opération, soit c'est une modif, soit c'est une nouvelle (-1) */
 
-    operation = gtk_object_get_data ( GTK_OBJECT ( widget_formulaire_ventilation_echeances[0] ),
+    operation = gtk_object_get_data ( GTK_OBJECT ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CATEGORY] ),
 				      "adr_struct_ope" );
 
 
@@ -1650,7 +1646,7 @@ void fin_edition_ventilation_echeances ( void )
     /* il faut donc mettre la récup des catég en premier car il peut y avoir un changement au niveau des */
     /* modif avec suppression de l'ancienne et création d'une nouvelle ope */
 
-    if ( gtk_widget_get_style ( GTK_COMBOFIX ( widget_formulaire_ventilation_echeances[0] ) -> entry ) == style_entree_formulaire[0] )
+    if ( gtk_widget_get_style ( GTK_COMBOFIX ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CATEGORY] ) -> entry ) == style_entree_formulaire[ENCLAIR] )
     {
 	struct struct_categ *categ;
 
@@ -1762,38 +1758,38 @@ void fin_edition_ventilation_echeances ( void )
 
     /* récupération du type d'opé associée s'il est affiché */
 
-    if ( GTK_WIDGET_VISIBLE ( widget_formulaire_ventilation_echeances[5] ))
-	operation -> no_type_associe = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_ventilation_echeances[5] ) -> menu_item ),
+    if ( GTK_WIDGET_VISIBLE ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CONTRA] ))
+	operation -> no_type_associe = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CONTRA] ) -> menu_item ),
 									       "no_type" ));
 
     /* récupération des notes */
 
-    if ( gtk_widget_get_style ( widget_formulaire_ventilation_echeances[1] ) == style_entree_formulaire[0] )
-	operation -> notes = g_strdup ( g_strstrip ( (char *) gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_ventilation_echeances[1] ))));
+    if ( gtk_widget_get_style ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_NOTES] ) == style_entree_formulaire[ENCLAIR] )
+	operation -> notes = g_strdup ( g_strstrip ( (char *) gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_NOTES] ))));
     else
 	operation -> notes = NULL;
 
 
     /* récupération du montant */
 
-    if ( gtk_widget_get_style ( widget_formulaire_ventilation_echeances[2] ) == style_entree_formulaire[0] )
+    if ( gtk_widget_get_style ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_DEBIT] ) == style_entree_formulaire[ENCLAIR] )
 	/* c'est un débit */
-	operation -> montant = -my_strtod ( g_strstrip ( (char *) gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_ventilation_echeances[2] ))),
+	operation -> montant = -my_strtod ( g_strstrip ( (char *) gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_DEBIT] ))),
 					    NULL );
     else
-	operation -> montant = my_strtod ( g_strstrip ( (char *) gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_ventilation_echeances[3] ))),
+	operation -> montant = my_strtod ( g_strstrip ( (char *) gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CREDIT] ))),
 					   NULL );
 
 
 
     /* récupération de l'imputation budgétaire */
 
-    if ( gtk_widget_get_style ( GTK_COMBOFIX ( widget_formulaire_ventilation_echeances[4] ) -> entry ) == style_entree_formulaire[0] )
+    if ( gtk_widget_get_style ( GTK_COMBOFIX ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_BUDGETARY] ) -> entry ) == style_entree_formulaire[ENCLAIR] )
     {
 	struct struct_imputation *imputation;
 	gchar **tableau_char;
 
-	tableau_char = g_strsplit ( gtk_combofix_get_text ( GTK_COMBOFIX ( widget_formulaire_ventilation_echeances[4] )),
+	tableau_char = g_strsplit ( gtk_combofix_get_text ( GTK_COMBOFIX ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_BUDGETARY] )),
 				    ":",
 				    2 );
 
@@ -1828,21 +1824,21 @@ void fin_edition_ventilation_echeances ( void )
     /* soit c'est une modif d'opé et on touche pas à l'exo */
     /* soit c'est une nouvelle opé et on met l'exo à 0 */
 
-    if ( GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_ventilation_echeances[6] ) -> menu_item ),
+    if ( GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_EXERCICE] ) -> menu_item ),
 						 "no_exercice" )) == -1 )
     {
 	if ( !operation -> no_operation )
 	    operation -> no_exercice = 0;
     }
     else
-	operation -> no_exercice = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_ventilation_echeances[6] ) -> menu_item ),
+	operation -> no_exercice = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_EXERCICE] ) -> menu_item ),
 									   "no_exercice" ));
 
 
     /* récupération du no de pièce comptable */
 
-    if ( gtk_widget_get_style ( widget_formulaire_ventilation_echeances[7] ) == style_entree_formulaire[0] )
-	operation -> no_piece_comptable = g_strdup ( g_strstrip ( (char *) gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_ventilation_echeances[7] ))));
+    if ( gtk_widget_get_style ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_VOUCHER] ) == style_entree_formulaire[ENCLAIR] )
+	operation -> no_piece_comptable = g_strdup ( g_strstrip ( (char *) gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_VOUCHER] ))));
     else
 	operation -> no_piece_comptable = NULL;
 
@@ -1903,7 +1899,7 @@ void fin_edition_ventilation_echeances ( void )
     else
     {
 	clique_champ_formulaire_ventilation_echeances ();
-	gtk_widget_grab_focus ( GTK_COMBOFIX ( widget_formulaire_ventilation_echeances[0] ) -> entry );
+	gtk_widget_grab_focus ( GTK_COMBOFIX ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CATEGORY] ) -> entry );
     }
 }
 /***********************************************************************************************************/
@@ -1932,7 +1928,7 @@ void edition_operation_ventilation_echeances ( void )
 
     clique_champ_formulaire_ventilation_echeances ();
 
-    gtk_object_set_data ( GTK_OBJECT ( widget_formulaire_ventilation_echeances[0] ),
+    gtk_object_set_data ( GTK_OBJECT ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CATEGORY] ),
 			  "adr_struct_ope",
 			  operation );
 
@@ -1940,14 +1936,14 @@ void edition_operation_ventilation_echeances ( void )
 
     if ( operation == GINT_TO_POINTER ( -1 ) )
     {
-	gtk_widget_grab_focus ( GTK_COMBOFIX ( widget_formulaire_ventilation_echeances[0] ) -> entry );
+	gtk_widget_grab_focus ( GTK_COMBOFIX ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CATEGORY] ) -> entry );
 	return;
     }
 
 
     /*   l'opé n'est pas -1, c'est une modif, on remplit les champs */
 
-    gtk_object_set_data ( GTK_OBJECT ( widget_formulaire_ventilation_echeances[0] ),
+    gtk_object_set_data ( GTK_OBJECT ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CATEGORY] ),
 			  "adr_struct_ope",
 			  operation );
 
@@ -1957,14 +1953,14 @@ void edition_operation_ventilation_echeances ( void )
 
     if ( operation -> montant < 0 )
     {
-	entree_prend_focus (widget_formulaire_ventilation_echeances[2] );
-	gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_ventilation_echeances[2] ),
+	entree_prend_focus (widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_DEBIT] );
+	gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_DEBIT] ),
 			     g_strdup_printf ( "%4.2f", -operation -> montant ));
     }
     else
     {
-	entree_prend_focus (widget_formulaire_ventilation_echeances[3] );
-	gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_ventilation_echeances[3] ),
+	entree_prend_focus (widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CREDIT] );
+	gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CREDIT] ),
 			     g_strdup_printf ( "%4.2f", operation -> montant ));
     }
 
@@ -1977,11 +1973,11 @@ void edition_operation_ventilation_echeances ( void )
 
 	GtkWidget *menu;
 
-	entree_prend_focus (widget_formulaire_ventilation_echeances[0] );
+	entree_prend_focus (widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CATEGORY] );
 
 	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> relation_no_compte;
 
-	gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_ventilation_echeances[0] ),
+	gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CATEGORY] ),
 				g_strconcat ( COLON(_("Transfer")),
 					      NOM_DU_COMPTE,
 					      NULL ));
@@ -1999,13 +1995,13 @@ void edition_operation_ventilation_echeances ( void )
 
 	if ( menu )
 	{
-	    gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_ventilation_echeances[5] ),
+	    gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CONTRA] ),
 				       menu );
 
-	    gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_ventilation_echeances[5] ),
+	    gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CONTRA] ),
 					  cherche_no_menu_type_associe ( operation -> no_type_associe,
 									 1 ));
-	    gtk_widget_show ( widget_formulaire_ventilation_echeances[5] );
+	    gtk_widget_show ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CONTRA] );
 
 	}
     }
@@ -2015,8 +2011,8 @@ void edition_operation_ventilation_echeances ( void )
 				      operation -> sous_categorie );
 	if ( char_tmp )
 	{
-	    entree_prend_focus (widget_formulaire_ventilation_echeances[0] );
-	    gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_ventilation_echeances[0] ),
+	    entree_prend_focus (widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CATEGORY] );
+	    gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CATEGORY] ),
 				    char_tmp );
 	}
     }
@@ -2026,8 +2022,8 @@ void edition_operation_ventilation_echeances ( void )
 
     if ( operation -> notes )
     {
-	entree_prend_focus (widget_formulaire_ventilation_echeances[1] );
-	gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_ventilation_echeances[1] ),
+	entree_prend_focus (widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_NOTES] );
+	gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_NOTES] ),
 			     operation -> notes );
     }
 
@@ -2038,43 +2034,43 @@ void edition_operation_ventilation_echeances ( void )
 					operation -> sous_imputation );
     if ( char_tmp )
     {
-	entree_prend_focus ( widget_formulaire_ventilation_echeances[4] );
-	gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_ventilation_echeances[4] ),
+	entree_prend_focus ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_BUDGETARY] );
+	gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_BUDGETARY] ),
 				char_tmp );
     }
 
 
     /* met en place l'exercice */
 
-    gtk_option_menu_set_history (  GTK_OPTION_MENU ( widget_formulaire_ventilation_echeances[6] ),
+    gtk_option_menu_set_history (  GTK_OPTION_MENU ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_EXERCICE] ),
 				   cherche_no_menu_exercice ( operation -> no_exercice,
-							      widget_formulaire_ventilation_echeances[6] ));
+							      widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_EXERCICE] ));
 
     /* mise en place de la pièce comptable */
 
     if ( operation -> no_piece_comptable )
     {
-	entree_prend_focus ( widget_formulaire_ventilation_echeances[7] );
-	gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_ventilation_echeances[7] ),
+	entree_prend_focus ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_VOUCHER] );
+	gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_VOUCHER] ),
 			     operation -> no_piece_comptable );
     }
 
 
     /*   on a fini de remplir le formulaire, on donne le focus à la date */
 
-    if ( GTK_WIDGET_SENSITIVE ( widget_formulaire_ventilation_echeances[0] ))
+    if ( GTK_WIDGET_SENSITIVE ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CATEGORY] ))
     {
-	gtk_entry_select_region ( GTK_ENTRY ( GTK_COMBOFIX ( widget_formulaire_ventilation_echeances[0] ) -> entry ),
+	gtk_entry_select_region ( GTK_ENTRY ( GTK_COMBOFIX ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CATEGORY] ) -> entry ),
 				  0,
 				  -1);
-	gtk_widget_grab_focus ( GTK_COMBOFIX ( widget_formulaire_ventilation_echeances[0] ) -> entry );
+	gtk_widget_grab_focus ( GTK_COMBOFIX ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CATEGORY] ) -> entry );
     }
     else
     {
-	gtk_entry_select_region ( GTK_ENTRY ( widget_formulaire_ventilation_echeances[1] ),
+	gtk_entry_select_region ( GTK_ENTRY ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_NOTES] ),
 				  0,
 				  -1);
-	gtk_widget_grab_focus ( widget_formulaire_ventilation_echeances[1] );
+	gtk_widget_grab_focus ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_NOTES] );
     }
     enregistre_ope_au_retour_echeances = 1 ;
 }

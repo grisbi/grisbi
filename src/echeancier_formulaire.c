@@ -52,7 +52,7 @@
 
 
 
-GtkWidget *widget_formulaire_echeancier[19];
+GtkWidget *widget_formulaire_echeancier[SCHEDULER_FORM_TOTAL_WIDGET];
 GtkWidget *label_saisie_modif;
 GSList *liste_categories_ventilation_combofix;        /*  liste des noms des categ et sous categ pour le combofix */
 GtkWidget *separateur_formulaire_echeancier;

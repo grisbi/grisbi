@@ -24,6 +24,7 @@
 #include "structures.h"
 #include "variables-extern.c"
 #include "type_operations.h"
+#include "constants.h"
 
 
 #include "dialog.h"
@@ -74,9 +75,9 @@ GtkWidget *vbox_fleches_tri;
 /** Global to handle sensitiveness */
 GtkWidget * details_paddingbox;
 
-extern GtkWidget *widget_formulaire_echeancier[19];
+extern GtkWidget *widget_formulaire_echeancier[SCHEDULER_FORM_TOTAL_WIDGET];
 extern GtkWidget *label_saisie_modif;
-extern GtkWidget *widget_formulaire_ventilation[8];
+extern GtkWidget *widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_TOTAL_WIDGET];
 
 
 
@@ -1371,7 +1372,7 @@ gint cherche_no_menu_type_associe ( gint demande,
 	return ( FALSE );
 
     if ( origine )
-	liste_tmp = GTK_MENU_SHELL ( GTK_OPTION_MENU ( widget_formulaire_ventilation[5] ) -> menu ) -> children;
+	liste_tmp = GTK_MENU_SHELL ( GTK_OPTION_MENU ( widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_CONTRA] ) -> menu ) -> children;
     else
 	liste_tmp = GTK_MENU_SHELL ( GTK_OPTION_MENU ( widget_formulaire_operations[TRANSACTION_FORM_CONTRA] ) -> menu ) -> children;
 
@@ -1414,7 +1415,7 @@ gint cherche_no_menu_type_echeancier ( gint demande )
     if ( !demande )
 	return ( FALSE );
 
-    liste_tmp = GTK_MENU_SHELL ( GTK_OPTION_MENU ( widget_formulaire_echeancier[7] ) -> menu ) -> children;
+    liste_tmp = GTK_MENU_SHELL ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] ) -> menu ) -> children;
     retour = -1;
     i = 0;
 
@@ -1444,14 +1445,14 @@ gint cherche_no_menu_type_echeancier ( gint demande )
 
 		if ( type -> numerotation_auto )
 		{
-		    entree_prend_focus ( widget_formulaire_echeancier[8] );
-		    gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_echeancier[8] ),
+		    entree_prend_focus ( widget_formulaire_echeancier[SCHEDULER_FORM_CHEQUE] );
+		    gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_echeancier[SCHEDULER_FORM_CHEQUE] ),
 					 itoa ( type -> no_en_cours + 1 ));
 		}
-		gtk_widget_show ( widget_formulaire_echeancier[8] );
+		gtk_widget_show ( widget_formulaire_echeancier[SCHEDULER_FORM_CHEQUE] );
 	    }
 	    else
-		gtk_widget_hide ( widget_formulaire_echeancier[8] );
+		gtk_widget_hide ( widget_formulaire_echeancier[SCHEDULER_FORM_CHEQUE] );
 	}
 	i++;
 	liste_tmp = liste_tmp -> next;
@@ -1490,7 +1491,7 @@ void changement_choix_type_formulaire ( struct struct_type_ope *type )
 				 "" );
 	    entree_perd_focus ( widget_formulaire_operations[TRANSACTION_FORM_CHEQUE],
 				FALSE,
-				GINT_TO_POINTER ( 10 ));
+				GINT_TO_POINTER ( TRANSACTION_FORM_CHEQUE ));
 	}
     }
     else
@@ -1515,14 +1516,14 @@ void changement_choix_type_echeancier ( struct struct_type_ope *type )
 
 	if ( type -> numerotation_auto )
 	{
-	    entree_prend_focus ( widget_formulaire_echeancier[8] );
-	    gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_echeancier[8] ),
+	    entree_prend_focus ( widget_formulaire_echeancier[SCHEDULER_FORM_CHEQUE] );
+	    gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_echeancier[SCHEDULER_FORM_CHEQUE] ),
 				 itoa ( type -> no_en_cours + 1 ));
 	}
-	gtk_widget_show ( widget_formulaire_echeancier[8] );
+	gtk_widget_show ( widget_formulaire_echeancier[SCHEDULER_FORM_CHEQUE] );
     }
     else
-	gtk_widget_hide ( widget_formulaire_echeancier[8] );
+	gtk_widget_hide ( widget_formulaire_echeancier[SCHEDULER_FORM_CHEQUE] );
 }
 /* ************************************************************************************************************** */
 

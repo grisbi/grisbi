@@ -24,6 +24,7 @@
 #include "structures.h"
 #include "variables-extern.c"
 #include "devises.h"
+#include "constants.h"
 
 
 
@@ -228,7 +229,7 @@ struct cached_exchange_rate {
 						  exchange rate */
 };
 
-extern GtkWidget *widget_formulaire_echeancier[19];
+extern GtkWidget *widget_formulaire_echeancier[SCHEDULER_FORM_TOTAL_WIDGET];
 extern GSList *liste_struct_echeances;
 extern gint mise_a_jour_liste_comptes_accueil;
 extern gint mise_a_jour_liste_echeances_manuelles_accueil;
@@ -309,8 +310,8 @@ void update_currency_widgets()
     gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_operations[TRANSACTION_FORM_DEVISE] ),
 			       creation_option_menu_devises ( -1,
 							      liste_struct_devises ));
-    gtk_widget_destroy ( GTK_OPTION_MENU ( widget_formulaire_echeancier[4] ) -> menu );
-    gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_echeancier[4] ),
+    gtk_widget_destroy ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_DEVISE] ) -> menu );
+    gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_DEVISE] ),
 			       creation_option_menu_devises ( -1,
 							      liste_struct_devises ));
 
@@ -839,7 +840,7 @@ gint bloque_echap_choix_devise ( GtkWidget *dialog,
 
     /* empèche la touche echap de fermer la fenetre */
 
-    if ( key -> keyval == 65307 )
+    if ( key -> keyval == GDK_Escape )
     {
 	gtk_signal_emit_stop_by_name ( GTK_OBJECT ( dialog ),
 				       "key-press-event" );

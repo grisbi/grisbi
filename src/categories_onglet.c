@@ -167,10 +167,10 @@ gint mise_a_jour_combofix_categ_necessaire;
 
 extern GSList *liste_struct_echeances;  
 extern GSList *liste_categories_ventilation_combofix; 
-extern GtkWidget *widget_formulaire_echeancier[19];
-extern GSList *liste_categories_ventilation_combofix; 
-extern GtkWidget *widget_formulaire_ventilation_echeances[8];
-extern GtkWidget *widget_formulaire_ventilation[8];
+extern GtkWidget *widget_formulaire_echeancier[SCHEDULER_FORM_TOTAL_WIDGET];
+extern GSList *liste_categories_ventilation_combofix;
+extern GtkWidget *widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_TOTAL_WIDGET];
+extern GtkWidget *widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_TOTAL_WIDGET];
 
 /* **************************************************************************************************** */
 /* Fonction onglet_categories : */
@@ -2554,17 +2554,17 @@ void mise_a_jour_combofix_categ ( void )
 			    TRUE );
 
 
-    gtk_combofix_set_list ( GTK_COMBOFIX ( widget_formulaire_echeancier[6] ),
+    gtk_combofix_set_list ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_CATEGORY] ),
 			    liste_categories_combofix,
 			    TRUE,
 			    TRUE );
 
-    gtk_combofix_set_list ( GTK_COMBOFIX ( widget_formulaire_ventilation[0] ),
+    gtk_combofix_set_list ( GTK_COMBOFIX ( widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_CATEGORY] ),
 			    liste_categories_ventilation_combofix,
 			    TRUE,
 			    TRUE );
 
-    gtk_combofix_set_list ( GTK_COMBOFIX ( widget_formulaire_ventilation_echeances[0] ),
+    gtk_combofix_set_list ( GTK_COMBOFIX ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CATEGORY] ),
 			    liste_categories_ventilation_combofix,
 			    TRUE,
 			    TRUE );

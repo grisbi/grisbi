@@ -25,6 +25,7 @@
 #include "structures.h"
 #include "variables-extern.c"
 #include "import.h"
+#include "constants.h"
 
 
 
@@ -58,7 +59,7 @@ gint derniere_operation_enregistrement_ope_import;
 gint valeur_echelle_recherche_date_import;
 extern GtkWidget *window_vbox_principale;
 
-extern GtkWidget *widget_formulaire_echeancier[19];
+extern GtkWidget *widget_formulaire_echeancier[SCHEDULER_FORM_TOTAL_WIDGET];
 extern gint mise_a_jour_liste_comptes_accueil;
 extern gint mise_a_jour_soldes_minimaux;
 extern gint mise_a_jour_combofix_tiers_necessaire;
@@ -960,7 +961,7 @@ void traitement_operations_importees ( void )
 
 	/* on met à jour l'option menu du formulaire des échéances */
 
-	gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_echeancier[5] ),
+	gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_ACCOUNT] ),
 				   creation_option_menu_comptes_nonclos ( NULL,
 									  FALSE ) );
 

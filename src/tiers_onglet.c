@@ -25,6 +25,7 @@
 #include "variables-extern.c"
 #include "structures.h"
 #include "tiers_onglet.h"
+#include "constants.h"
 
 
 
@@ -52,8 +53,8 @@ gint mise_a_jour_combofix_tiers_necessaire;
 
 
 
-extern GtkWidget *widget_formulaire_echeancier[19];
-extern GSList *liste_struct_echeances; 
+extern GtkWidget *widget_formulaire_echeancier[SCHEDULER_FORM_TOTAL_WIDGET];
+extern GSList *liste_struct_echeances;
 extern gint mise_a_jour_liste_echeances_manuelles_accueil;
 extern gint mise_a_jour_liste_echeances_auto_accueil;
 
@@ -1495,7 +1496,7 @@ void mise_a_jour_combofix_tiers ( void )
 			    liste_tiers_combofix,
 			    TRUE,
 			    TRUE );
-    gtk_combofix_set_list ( GTK_COMBOFIX ( widget_formulaire_echeancier[1] ),
+    gtk_combofix_set_list ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_PARTY] ),
 			    liste_tiers_combofix_echeancier,
 			    FALSE,
 			    TRUE );

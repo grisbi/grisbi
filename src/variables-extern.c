@@ -1,6 +1,7 @@
 /* Ce fichier contient toutes les variables globales définies */
 /* ainsi que toutes les définitions diverses */
 
+#include "constants.h"
 
 /* catégories présentes lors de la 1ère installation */
 
@@ -159,7 +160,7 @@ extern gint operations_affichees;       /* nb d'opé affichées ( variable en fonc
 /* fichier operations_formulaire.c */
 /************************/ 
 
-extern GtkWidget *widget_formulaire_operations[19];
+extern GtkWidget *widget_formulaire_operations[TRANSACTION_FORM_WIDGET_NB];
 extern GtkWidget *separateur_formulaire_operations;
 extern GtkWidget *hbox_valider_annuler_ope;
 extern gchar date_courante[11];             /* contient soit la date du jour, soit la derniere date entree */

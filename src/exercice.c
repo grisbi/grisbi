@@ -24,6 +24,7 @@
 #include "structures.h"
 #include "variables-extern.c"
 #include "exercice.h"
+#include "constants.h"
 
 
 
@@ -38,8 +39,8 @@
 
 GtkWidget *paddingbox_details;	/** Widget handling financial year details */
 
-extern GtkWidget *widget_formulaire_echeancier[19];
-extern GtkWidget *widget_formulaire_ventilation[8];
+extern GtkWidget *widget_formulaire_echeancier[SCHEDULER_FORM_TOTAL_WIDGET];
+extern GtkWidget *widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_TOTAL_WIDGET];
 
 
 /** 
@@ -87,16 +88,16 @@ gboolean update_financial_year_menus ()
     if ( widget_formulaire_operations[TRANSACTION_FORM_DEVISE] &&
 	 GTK_OPTION_MENU(widget_formulaire_operations[TRANSACTION_FORM_DEVISE]) -> menu )
     {
-	gtk_widget_destroy ( GTK_OPTION_MENU(widget_formulaire_ventilation[5]) -> menu );
-	gtk_option_menu_set_menu ( GTK_OPTION_MENU(widget_formulaire_ventilation[5]),
+	gtk_widget_destroy ( GTK_OPTION_MENU(widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_CONTRA]) -> menu );
+	gtk_option_menu_set_menu ( GTK_OPTION_MENU(widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_CONTRA]),
 				   creation_menu_exercices (0) );
     }
 
     if ( widget_formulaire_operations[TRANSACTION_FORM_TYPE] &&
 	 GTK_OPTION_MENU(widget_formulaire_operations[TRANSACTION_FORM_TYPE]) -> menu )
     {
-	gtk_widget_destroy ( GTK_OPTION_MENU(widget_formulaire_echeancier[9]) -> menu );
-	gtk_option_menu_set_menu ( GTK_OPTION_MENU(widget_formulaire_echeancier[9]),
+	gtk_widget_destroy ( GTK_OPTION_MENU(widget_formulaire_echeancier[SCHEDULER_FORM_EXERCICE]) -> menu );
+	gtk_option_menu_set_menu ( GTK_OPTION_MENU(widget_formulaire_echeancier[SCHEDULER_FORM_EXERCICE]),
 				   creation_menu_exercices (1) );
     }
 

@@ -28,6 +28,7 @@
 #include "structures.h"
 #include "variables-extern.c"
 #include "comptes_gestion.h"
+#include "constants.h"
 
 
 
@@ -48,7 +49,7 @@
 #include "utils.h"
 
 
-extern GtkWidget *widget_formulaire_echeancier[19];
+extern GtkWidget *widget_formulaire_echeancier[SCHEDULER_FORM_TOTAL_WIDGET];
 extern GSList *liste_struct_banques;
 extern gint mise_a_jour_liste_comptes_accueil;
 extern gint mise_a_jour_liste_echeances_manuelles_accueil;
@@ -1156,7 +1157,7 @@ void modification_details_compte ( void )
 	if ( mise_a_jour_combofix_categ_necessaire )
 	    mise_a_jour_combofix_categ();
 
-	gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_echeancier[5] ),
+	gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_ACCOUNT] ),
 				   creation_option_menu_comptes(GTK_SIGNAL_FUNC(changement_choix_compte_echeancier), TRUE) );
 
 	remplissage_liste_comptes_etats ();
