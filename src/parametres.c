@@ -1469,12 +1469,12 @@ void changement_preferences ( GtkWidget *fenetre_preferences,
 	    {
 	      titre_fichier = g_strdup ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( entree_titre_fichier ))));
 	      label_titre_fichier = gtk_label_new ( titre_fichier );
-	      gtk_box_pack_start ( GTK_BOX ( ((GtkBoxChild *)(GTK_BOX ( page_accueil )->children->next->next->data))->widget ),
+	      gtk_box_pack_start ( GTK_BOX ( ((GtkBoxChild *)(GTK_BOX ( page_accueil )->children->data))->widget ),
 				   label_titre_fichier,
 				   FALSE,
 				   FALSE,
 				   0 );
-	      gtk_box_reorder_child ( GTK_BOX ( ((GtkBoxChild *)(GTK_BOX ( page_accueil )->children->next->next->data))->widget ),
+	      gtk_box_reorder_child ( GTK_BOX ( ((GtkBoxChild *)(GTK_BOX ( page_accueil )->children->data))->widget ),
 				      label_titre_fichier,
 				      1 );
 	      gtk_widget_show ( label_titre_fichier );
