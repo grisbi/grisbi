@@ -2914,7 +2914,6 @@ gboolean move_operation_to_account ( struct structure_operation * transaction,
 		 transaction -> no_operation )
 	    {
 		move_operation_to_account ( transaction_2, account );
-		transaction_2 -> relation_no_compte = account;
 	    }
 
 	    liste_tmp = liste_tmp -> next;
