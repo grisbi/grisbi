@@ -126,6 +126,8 @@ void fill_tree ()
       gtk_tree_store_set (model, &account_iter,
 			  PAYMENT_METHODS_NAME_COLUMN, NOM_DU_COMPTE,
 			  PAYMENT_METHODS_NUMBERING_COLUMN, "",
+			  /* This is a hack: account number is put in 
+			     Debit/Credit nodes */
 			  PAYMENT_METHODS_TYPE_COLUMN, i,
 			  PAYMENT_METHODS_DEFAULT_COLUMN, FALSE,
 			  PAYMENT_METHODS_ACTIVABLE_COLUMN, FALSE, 
@@ -138,7 +140,9 @@ void fill_tree ()
       gtk_tree_store_set (model, &debit_iter,
 			  PAYMENT_METHODS_NAME_COLUMN, _("Debit"),
 			  PAYMENT_METHODS_NUMBERING_COLUMN, "",
-			  PAYMENT_METHODS_TYPE_COLUMN, FALSE,
+			  /* This is a hack: account number is put in 
+			     Debit/Credit nodes */
+			  PAYMENT_METHODS_TYPE_COLUMN, i,
 			  PAYMENT_METHODS_DEFAULT_COLUMN, FALSE,
 			  PAYMENT_METHODS_ACTIVABLE_COLUMN, FALSE, 
 			  PAYMENT_METHODS_VISIBLE_COLUMN, FALSE, 
@@ -150,7 +154,9 @@ void fill_tree ()
       gtk_tree_store_set (model, &credit_iter,
 			  PAYMENT_METHODS_NAME_COLUMN, _("Credit"),
 			  PAYMENT_METHODS_NUMBERING_COLUMN, "",
-			  PAYMENT_METHODS_TYPE_COLUMN, FALSE,
+			  /* This is a hack: account number is put in 
+			     Debit/Credit nodes */
+			  PAYMENT_METHODS_TYPE_COLUMN, i,
 			  PAYMENT_METHODS_DEFAULT_COLUMN, FALSE,
 			  PAYMENT_METHODS_ACTIVABLE_COLUMN, FALSE, 
 			  PAYMENT_METHODS_VISIBLE_COLUMN, FALSE, 
@@ -455,14 +461,18 @@ select_payment_method ( GtkTreeSelection *selection,
   if (! good ||
       ! g_value_get_boolean(&value_visible))
     {
+      /* Blanking entries */
       entry_set_value ( entree_type_nom, NULL );
       spin_button_set_value ( entree_type_dernier_no, NULL );
       gtk_entry_set_text ( GTK_ENTRY ( entree_type_dernier_no ), "" );
       checkbox_set_value ( entree_automatic_numbering, NULL, TRUE );
+      /* Some widgets are useless */
       gtk_widget_set_sensitive ( entree_type_dernier_no, FALSE );
+      gtk_widget_set_sensitive ( details_paddingbox, FALSE );
       /* We set menu to "Neutral" as a default*/
       gtk_option_menu_set_history ( GTK_OPTION_MENU ( bouton_signe_type ), 0);	
-      gtk_widget_set_sensitive ( details_paddingbox, FALSE );
+      /* Nothing to remove */
+      gtk_widget_set_sensitive ( bouton_retirer_type, TRUE );
     }
   else
     {
@@ -470,16 +480,20 @@ select_payment_method ( GtkTreeSelection *selection,
       gtk_tree_model_get (model, &iter, 
 			  PAYMENT_METHODS_POINTER_COLUMN, &type_ope,
 			  -1);
-      gtk_widget_set_sensitive ( details_paddingbox, TRUE );
+      /* Filling entries */
       entry_set_value ( entree_type_nom, &(type_ope -> nom_type) );
       spin_button_set_value ( entree_type_dernier_no, 
 			      (gdouble *) &(type_ope -> no_en_cours) );
       checkbox_set_value ( entree_automatic_numbering, 
 			   &(type_ope -> numerotation_auto), TRUE );
-      gtk_widget_set_sensitive ( entree_type_dernier_no, 
-				 type_ope -> numerotation_auto != 0 );
       gtk_option_menu_set_history ( GTK_OPTION_MENU ( bouton_signe_type ),
 				    type_ope -> signe_type );
+      /* Activating widgets */
+      gtk_widget_set_sensitive ( details_paddingbox, TRUE );
+      gtk_widget_set_sensitive ( entree_type_dernier_no, 
+				 type_ope -> numerotation_auto != 0 );
+      /* We can remove this entry */
+      gtk_widget_set_sensitive ( bouton_retirer_type, TRUE );
     }
 }
 
@@ -670,6 +684,58 @@ void modification_entree_type_dernier_no ( void )
 
 /**
  * TODO: document this
+ *
+ */
+select_type_ope (GtkTreeModel *model, GtkTreePath *path, 
+		 GtkTreeIter *iter, struct struct_type_ope * data)
+{
+  GtkTreeSelection *selection;
+  struct struct_type_ope *type_ope;
+  
+  gtk_tree_model_get ( GTK_TREE_MODEL(model), iter, 
+		       PAYMENT_METHODS_POINTER_COLUMN, &type_ope,
+		       -1 );
+
+  if (type_ope == data)
+    {
+      selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (treeview));
+      gtk_tree_selection_select_iter (selection, iter);
+      return TRUE;
+    }
+  
+  return FALSE;
+}
+
+
+
+/**
+ * TODO: document this
+ *
+ */
+gint find_operation_type_by_type ( gint no_compte, gint signe_type, gint exclude )
+{
+  GSList * pointer;
+
+  p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_compte;
+  
+  for ( pointer = TYPES_OPES; pointer; pointer = pointer -> next )
+    {
+      struct struct_type_ope * type_ope;
+      type_ope = (struct struct_type_ope *) pointer -> data;
+      
+      if ( type_ope -> signe_type == signe_type &&
+	   type_ope -> no_type != exclude )
+	return type_ope -> no_type;
+    }
+
+  /* Defaults to first type, whatever it may be */
+  return 0;
+}
+
+
+
+/**
+ * TODO: document this
  */
 void modification_type_signe ( gint *no_menu )
 {
@@ -689,128 +755,84 @@ void modification_type_signe ( gint *no_menu )
 
   if (good && visible)
     {
+
+      /* FIXME: Set default for account */
+
+      /* Call this callback so that we "unselect" things */
+      select_payment_method ( selection, GTK_TREE_MODEL(model) );
+
+      p_tab_nom_de_compte_variable = p_tab_nom_de_compte + type_ope -> no_compte;
+
+/*       /\* Operation will be of default type if target list is empty *\/ */
+/*       switch (GPOINTER_TO_INT ( no_menu )) */
+/* 	{ */
+/* 	case 1:			/\* Debit *\/ */
+/* 	  if ( ! TYPE_DEFAUT_DEBIT ) */
+/* 	    { */
+/* 	      printf(">>> empty debit\n"); */
+/* 	    TYPE_DEFAUT_DEBIT = type_ope -> no_type; */
+/* 	    } */
+/* 	  break; */
+
+/* 	case 2:			/\* Credit *\/ */
+/* 	      printf(">>> empty credit\n"); */
+/* 	  if ( ! TYPE_DEFAUT_CREDIT ) */
+/* 	    TYPE_DEFAUT_CREDIT = type_ope -> no_type; */
+/* 	  break; */
+
+/* 	default: */
+/* 	  break;		/\* Other *\/ */
+/* 	} */
+
+      switch (type_ope -> signe_type)
+	{
+	case 1:			/* Debit */
+	  if ( TYPE_DEFAUT_DEBIT == type_ope -> no_type)
+	    {
+	      TYPE_DEFAUT_DEBIT = find_operation_type_by_type (type_ope->no_compte,
+							       type_ope->signe_type,
+							       type_ope->no_type);
+	    }
+	  break;
+
+	case 2:			/* Credit */
+	  if ( TYPE_DEFAUT_CREDIT == type_ope -> no_type)
+	    {
+	      TYPE_DEFAUT_DEBIT = find_operation_type_by_type (type_ope->no_compte,
+							       type_ope->signe_type,
+							       type_ope->no_type);
+	    }
+	  break;
+
+	default:
+	  break;		/* Other */
+	}
+
       type_ope -> signe_type = GPOINTER_TO_INT ( no_menu );
+
+      /* Update tree */
       g_signal_handlers_block_by_func ( selection,
 					G_CALLBACK (select_payment_method),
 					model );
       gtk_tree_store_clear ( GTK_TREE_STORE (model) );
       fill_tree ();
       gtk_tree_view_expand_all ( GTK_TREE_VIEW(treeview) );
-      
       g_signal_handlers_unblock_by_func ( selection,
 					  G_CALLBACK (select_payment_method),
 					  model );
-      /* Call this callback so that we "unselect" things */
-      select_payment_method ( selection, GTK_TREE_MODEL(model) );
+      gtk_tree_model_foreach ( GTK_TREE_MODEL (model), 
+			       (GtkTreeModelForeachFunc) select_type_ope,
+			       (gpointer) type_ope );
     }
+
 }
 
 
 
-/* ************************************************************************************************************** */
+/** FIXME: remove */
 void modification_type_par_defaut ( void )
 {
-/*   struct struct_type_ope *type_ope; */
-/*   GtkCTreeNode *node; */
-
-/*   node = gtk_object_get_data ( GTK_OBJECT ( entree_type_nom ), */
-/* 			       "adr_node" ); */
-/*   type_ope = gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_types_operations ), */
-/* 					   node ); */
-
-
-/*   if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_type_choix_defaut ))) */
-/*     { */
-/*       /\* on vient de choisir ce type par défaut *\/ */
-
-/*       GSList *liste_tmp; */
-/*       struct struct_type_ope *type_ope_defaut; */
-/*       GtkCTreeNode *node_defaut; */
-
-      
-/*       liste_tmp = liste_tmp_types[type_ope->no_compte]; */
-
-
-/*       if ( type_ope->signe_type == 2 ) */
-/* 	{ */
-/* 	  /\* s'il y avait déjà un défaut, on vire la croix à côté de celui ci *\/ */
-
-/* 	  if ( type_defaut_credit[type_ope->no_compte] ) */
-/* 	    { */
-/* 	      type_ope_defaut = g_slist_find_custom ( liste_tmp, */
-/* 						      GINT_TO_POINTER (type_defaut_credit[type_ope->no_compte]), */
-/* 						      (GCompareFunc) recherche_type_ope_par_no ) -> data; */
-
-/* 	      node_defaut = gtk_ctree_find_by_row_data ( GTK_CTREE ( arbre_types_operations ), */
-/* 							 GTK_CTREE_ROW ( node ) -> parent, */
-/* 							 type_ope_defaut ); */
-/* 	      gtk_ctree_node_set_text ( GTK_CTREE ( arbre_types_operations ), */
-/* 					node_defaut, */
-/* 					1, */
-/* 					"" ); */
-
-
-/* 	    } */
-
-/* 	  type_defaut_credit[type_ope->no_compte] = type_ope->no_type; */
-/* 	  gtk_ctree_node_set_text ( GTK_CTREE ( arbre_types_operations ), */
-/* 				    node, */
-/* 				    1, */
-/* 				    "x" ); */
-/* 	} */
-/*       else */
-/* 	{ */
-/* 	  /\* s'il y avait déjà un défaut, on vire la croix à côté de celui ci *\/ */
-
-/* 	  if ( type_defaut_debit[type_ope->no_compte] ) */
-/* 	    { */
-/* 	      type_ope_defaut = g_slist_find_custom ( liste_tmp, */
-/* 						      GINT_TO_POINTER (type_defaut_debit[type_ope->no_compte]), */
-/* 						      (GCompareFunc) recherche_type_ope_par_no ) -> data; */
-
-/* 	      node_defaut = gtk_ctree_find_by_row_data ( GTK_CTREE ( arbre_types_operations ), */
-/* 							 GTK_CTREE_ROW ( node ) -> parent, */
-/* 							 type_ope_defaut ); */
-/* 	      gtk_ctree_node_set_text ( GTK_CTREE ( arbre_types_operations ), */
-/* 					node_defaut, */
-/* 					1, */
-/* 					"" ); */
-
-
-/* 	    } */
-
-/* 	  type_defaut_debit[type_ope->no_compte] = type_ope->no_type; */
-/* 	  gtk_ctree_node_set_text ( GTK_CTREE ( arbre_types_operations ), */
-/* 				    node, */
-/* 				      1, */
-/* 				    "x" ); */
-/* 	} */
-/*     } */
-/*   else */
-/*     { */
-/*       /\* on retire ce type du défaut *\/ */
-
-/*       if ( type_ope->signe_type == 2 ) */
-/* 	{ */
-/* 	  type_defaut_credit[type_ope->no_compte] = 0; */
-/* 	  gtk_ctree_node_set_text ( GTK_CTREE ( arbre_types_operations ), */
-/* 				    node, */
-/* 				    1, */
-/* 				    "" ); */
-/* 	} */
-/*       else */
-/* 	if ( type_ope->signe_type == 1 ) */
-/* 	  { */
-/* 	    type_defaut_debit[type_ope->no_compte] = 0; */
-/* 	    gtk_ctree_node_set_text ( GTK_CTREE ( arbre_types_operations ), */
-/* 				      node, */
-/* 				      1, */
-/* 				      "" ); */
-/* 	  } */
-/*     } */
 }
-/* ************************************************************************************************************** */
-
 
 
 
@@ -856,9 +878,6 @@ void ajouter_type_operation ( void )
 	  final = &parent;
 	  type_final = type_ope -> signe_type;
 	  gtk_tree_model_iter_parent (GTK_TREE_MODEL(model), &root, &parent);
-	  gtk_tree_model_get ( GTK_TREE_MODEL(model), &iter, 
-			       PAYMENT_METHODS_TYPE_COLUMN, &no_compte,
-			       -1 );
 	}
       else
 	{
@@ -882,9 +901,6 @@ void ajouter_type_operation ( void )
 		{
 		  type_final = 0;
 		}	      
-	      gtk_tree_model_get ( GTK_TREE_MODEL(model), &root, 
-				   PAYMENT_METHODS_TYPE_COLUMN, &no_compte,
-				   -1);
 	    }
 	  else
 	    {
@@ -898,7 +914,7 @@ void ajouter_type_operation ( void )
 	      final = &child;
 	      type_final = 1;	/* Debit */
 	      
-	      gtk_tree_model_get ( GTK_TREE_MODEL(model), &child, 
+	      gtk_tree_model_get ( GTK_TREE_MODEL(model), final, 
 				   PAYMENT_METHODS_TYPE_COLUMN, &no_compte,
 				   -1);
 	    }
@@ -914,13 +930,13 @@ void ajouter_type_operation ( void )
       final = &child;
       type_final = 1;		/* Debit */
 
-      gtk_tree_model_get ( GTK_TREE_MODEL(model), &child, 
-			   PAYMENT_METHODS_TYPE_COLUMN, &no_compte,
-			   -1);
     }
 
-  printf (">> %d, %d\n", type_final, no_compte);
-      
+  /* This is a hack: account number is put in Debit/Credit nodes */
+  gtk_tree_model_get ( GTK_TREE_MODEL(model), final, 
+		       PAYMENT_METHODS_TYPE_COLUMN, &no_compte,
+		       -1);
+
   type_ope = malloc ( sizeof ( struct struct_type_ope ));
 
   p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_compte;
@@ -970,7 +986,10 @@ void ajouter_type_operation ( void )
 }
 
 
-
+/**
+ * FIXME: document
+ *
+ **/
 void supprimer_type_operation ( void )
 {
   struct struct_type_ope *type_ope;
@@ -1034,7 +1053,7 @@ void supprimer_type_operation ( void )
 				  GNOME_STOCK_BUTTON_CANCEL,
 				  NULL );
 
-      label = gtk_label_new ( _("Some transactions are still registered with this method of payment,\nthough this deletion is irreversible. The changes about the method\nof payment will be registered."));
+      label = gtk_label_new ( _("Some transactions are still registered with this method of payment, though this deletion is irreversible. The changes about the method of payment will be registered."));
       gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
 			   label,
 			   FALSE,
