@@ -93,27 +93,27 @@ char * latin2utf8 (char * inchar)
 xmlNodePtr
 fix_encoding ( xmlNodePtr droot )
 {
-  xmlAttrPtr property;
-  xmlNodePtr node;
-  gsize bytes_written, bytes_read;
+/*   xmlAttrPtr property; */
+/*   xmlNodePtr node; */
+/*   gsize bytes_written, bytes_read; */
 
-  if (!droot)
-    return;
+/*   if (!droot) */
+/*     return; */
 
-  for (property = droot->properties; property; property = property->next)
-    {
-      gchar * string = xmlGetProp (droot, property->name);
-/*       xmlSetProp (droot,  */
-/* 		  property->name, */
-      property->node->content = latin2utf8(string);
-    }
+/*   for (property = droot->properties; property; property = property->next) */
+/*     { */
+/*       gchar * string = xmlGetProp (droot, property->name); */
+/* /\*       xmlSetProp (droot,  *\/ */
+/* /\* 		  property->name, *\/ */
+/* /\*       property->node->content = latin2utf8(string); *\/ */
+/*     } */
 
-  for (node = droot->childs; node; node = node->next)
-    {
-      fix_encoding(node);
-    }
+/*   for (node = droot->children; node; node = node->next) */
+/*     { */
+/*       fix_encoding(node); */
+/*     } */
 
-  return droot;
+/*   return droot; */
 }
 
 
@@ -164,22 +164,22 @@ gboolean charge_operations ( void )
 
 	  /* récupère la version de fichier */
 
-	  if (( !strcmp (  xmlNodeGetContent ( root->childs->childs ),
+	  if (( !strcmp (  xmlNodeGetContent ( root->children->next->children->next ),
 			   "0.3.2" )))
 	    return ( charge_operations_version_0_3_2 ( doc ));
 
-	  if (( !strcmp (  xmlNodeGetContent ( root->childs->childs ),
+	  if (( !strcmp (  xmlNodeGetContent ( root->children->next->children->next ),
 			   "0.3.3" )))
 	    return ( charge_operations_version_0_3_2 ( doc ));
 
-	  if (( !strcmp (  xmlNodeGetContent ( root->childs->childs ),
+	  if (( !strcmp (  xmlNodeGetContent ( root->children->next->children->next ),
 			   "0.4.0" )))
 	    return ( charge_operations_version_0_4_0 ( doc ));
 
-	  if (( !strcmp (  xmlNodeGetContent ( root->childs->childs ),
+	  if (( !strcmp (  xmlNodeGetContent ( root->children->next->children->next ),
 			   "0.4.1" )))
 	    return ( charge_operations_version_0_4_1 ( doc ));
-	  if (( !strcmp (  xmlNodeGetContent ( root->childs->childs ),
+	  if (( !strcmp (  xmlNodeGetContent ( root->children->next->children->next ),
 			   "0.5.0" )))
 	    return ( charge_operations_version_0_5_0 ( doc ));
 
@@ -188,7 +188,7 @@ gboolean charge_operations ( void )
 
 
 	  dialogue ( g_strdup_printf ( _("Grisbi version %s is needed to open this file"),
-				       xmlNodeGetContent ( root->childs->childs->next )));
+				       xmlNodeGetContent ( root->children->children->next )));
 
 	  xmlFreeDoc ( doc );
 
@@ -238,7 +238,7 @@ gboolean charge_operations_version_0_3_2 ( xmlDocPtr doc )
 
   /* on place node_1 sur les généralités */
 
-  node_1 = root -> childs;
+  node_1 = root -> children;
 
   /*   on met en place la boucle de node_1, qui va successivement passer */
   /*     par les généralités, les comptes, les échéances ... */
@@ -255,7 +255,7 @@ gboolean charge_operations_version_0_3_2 ( xmlDocPtr doc )
 
 	  /* node_generalites va faire le tour des généralités */
 
-	  node_generalites = node_1 -> childs;
+	  node_generalites = node_1 -> children;
 
 	  while ( node_generalites )
 	    {
@@ -335,7 +335,7 @@ gboolean charge_operations_version_0_3_2 ( xmlDocPtr doc )
 
 	  /* node_comptes va faire le tour de l'arborescence des comptes */
 
-	  node_comptes = node_1 -> childs;
+	  node_comptes = node_1 -> children;
 
 	  while ( node_comptes )
 	    {
@@ -347,7 +347,7 @@ gboolean charge_operations_version_0_3_2 ( xmlDocPtr doc )
 		{
 		  xmlNodePtr node_generalites;
 
-		  node_generalites = node_comptes -> childs;
+		  node_generalites = node_comptes -> children;
 
 		  while ( node_generalites )
 		    {
@@ -417,7 +417,7 @@ gboolean charge_operations_version_0_3_2 ( xmlDocPtr doc )
 
 		  /* on fait le tour dans l'arbre nom, cad : les détails, détails de type et détails des opérations */
 
-		  node_nom_comptes = node_comptes -> childs;
+		  node_nom_comptes = node_comptes -> children;
 
 		  while ( node_nom_comptes )
 		    {
@@ -428,7 +428,7 @@ gboolean charge_operations_version_0_3_2 ( xmlDocPtr doc )
 			{
 			  xmlNodePtr node_detail;
 
-			  node_detail = node_nom_comptes -> childs;
+			  node_detail = node_nom_comptes -> children;
 
 			  while ( node_detail )
 			    {
@@ -588,7 +588,7 @@ gboolean charge_operations_version_0_3_2 ( xmlDocPtr doc )
 			{
 			  xmlNodePtr node_type;
 
-			  node_type = node_nom_comptes -> childs;
+			  node_type = node_nom_comptes -> children;
 			  TYPES_OPES = NULL;
 
 			  while ( node_type )
@@ -597,24 +597,27 @@ gboolean charge_operations_version_0_3_2 ( xmlDocPtr doc )
 
 			      type = calloc ( 1,
 					      sizeof ( struct struct_type_ope ));
+			      
+			      if ( node_type -> type != XML_TEXT_NODE )
+				{
+				  type -> no_type = atoi ( latin2utf8(xmlGetProp ( node_type,
+										   "No" )));
+				  type -> nom_type = latin2utf8(xmlGetProp ( node_type,
+									     "Nom" ));
+				  type -> signe_type = atoi ( latin2utf8(xmlGetProp ( node_type,
+										      "Signe" )));
+				  type -> affiche_entree = atoi ( latin2utf8(xmlGetProp ( node_type,
+											  "Affiche_entree" )));
+				  type -> numerotation_auto = atoi ( latin2utf8(xmlGetProp ( node_type,
+											     "Numérotation_auto" )));
+				  type -> no_en_cours = atoi ( latin2utf8(xmlGetProp ( node_type,
+										       "No_en_cours" )));
 
-			      type -> no_type = atoi ( latin2utf8(xmlGetProp ( node_type,
-									       "No" )));
-			      type -> nom_type = latin2utf8(xmlGetProp ( node_type,
-									 "Nom" ));
-			      type -> signe_type = atoi ( latin2utf8(xmlGetProp ( node_type,
-										  "Signe" )));
-			      type -> affiche_entree = atoi ( latin2utf8(xmlGetProp ( node_type,
-										      "Affiche_entree" )));
-			      type -> numerotation_auto = atoi ( latin2utf8(xmlGetProp ( node_type,
-											 "Numérotation_auto" )));
-			      type -> no_en_cours = atoi ( latin2utf8(xmlGetProp ( node_type,
-										   "No_en_cours" )));
+				  type -> no_compte = NO_COMPTE;
 
-			      type -> no_compte = NO_COMPTE;
-
-			      TYPES_OPES = g_slist_append ( TYPES_OPES,
-							    type );
+				  TYPES_OPES = g_slist_append ( TYPES_OPES,
+								type );
+				}
 
 			      node_type = node_type -> next;
 			    }
@@ -628,7 +631,7 @@ gboolean charge_operations_version_0_3_2 ( xmlDocPtr doc )
 			{
 			  xmlNodePtr node_ope;
 
-			  node_ope = node_nom_comptes -> childs;
+			  node_ope = node_nom_comptes -> children;
 			  LISTE_OPERATIONS = NULL;
 
 			  while ( node_ope )
@@ -640,141 +643,144 @@ gboolean charge_operations_version_0_3_2 ( xmlDocPtr doc )
 			      operation = calloc ( 1,
 						   sizeof (struct structure_operation ));
 
-			      operation -> no_operation = atoi ( latin2utf8(xmlGetProp ( node_ope,
-											 "No" )));
-
-			      pointeur_char = g_strsplit ( latin2utf8(xmlGetProp ( node_ope ,
-										   "D" )),
-							   "/",
-							   3 );
-			      operation -> jour = atoi ( pointeur_char[0] );
-			      operation -> mois = atoi ( pointeur_char[1] );
-			      operation -> annee = atoi ( pointeur_char[2] );
-			      operation -> date = g_date_new_dmy ( operation -> jour,
-								   operation -> mois,
-								   operation -> annee );
-			      g_strfreev ( pointeur_char );
-
-			      /* GDC prise en compte de la lecture de la date bancaire */
-
-			      pointeur = latin2utf8(xmlGetProp ( node_ope,
-								 "Db" ));
-
-			      if ( pointeur )
+			      if ( node_ope -> type != XML_TEXT_NODE )
 				{
-				  pointeur_char = g_strsplit ( pointeur,
+				  operation -> no_operation = atoi ( latin2utf8(xmlGetProp ( node_ope,
+											     "No" )));
+
+				  pointeur_char = g_strsplit ( latin2utf8(xmlGetProp ( node_ope ,
+										       "D" )),
 							       "/",
 							       3 );
-				  operation -> jour_bancaire = atoi ( pointeur_char[0] );
-				  operation -> mois_bancaire = atoi ( pointeur_char[1] );
-				  operation -> annee_bancaire = atoi ( pointeur_char[2] );
-
-				  if ( operation -> jour_bancaire )
-				    operation -> date_bancaire = g_date_new_dmy ( operation -> jour_bancaire,
-										  operation -> mois_bancaire,
-										  operation -> annee_bancaire );
-				  else
-				    operation -> date_bancaire = NULL;
-
+				  operation -> jour = atoi ( pointeur_char[0] );
+				  operation -> mois = atoi ( pointeur_char[1] );
+				  operation -> annee = atoi ( pointeur_char[2] );
+				  operation -> date = g_date_new_dmy ( operation -> jour,
+								       operation -> mois,
+								       operation -> annee );
 				  g_strfreev ( pointeur_char );
-				}
-			      else
-				{
-				  operation -> jour_bancaire = 0;
-				  operation -> mois_bancaire = 0;
-				  operation -> annee_bancaire = 0;
-				  operation -> date_bancaire = NULL;
-				}
+
+				  /* GDC prise en compte de la lecture de la date bancaire */
+
+				  pointeur = latin2utf8(xmlGetProp ( node_ope,
+								     "Db" ));
+
+				  if ( pointeur )
+				    {
+				      pointeur_char = g_strsplit ( pointeur,
+								   "/",
+								   3 );
+				      operation -> jour_bancaire = atoi ( pointeur_char[0] );
+				      operation -> mois_bancaire = atoi ( pointeur_char[1] );
+				      operation -> annee_bancaire = atoi ( pointeur_char[2] );
+
+				      if ( operation -> jour_bancaire )
+					operation -> date_bancaire = g_date_new_dmy ( operation -> jour_bancaire,
+										      operation -> mois_bancaire,
+										      operation -> annee_bancaire );
+				      else
+					operation -> date_bancaire = NULL;
+
+				      g_strfreev ( pointeur_char );
+				    }
+				  else
+				    {
+				      operation -> jour_bancaire = 0;
+				      operation -> mois_bancaire = 0;
+				      operation -> annee_bancaire = 0;
+				      operation -> date_bancaire = NULL;
+				    }
 			  
-			      /* GDCFin */
+				  /* GDCFin */
 
-			      operation -> montant = g_strtod ( latin2utf8(xmlGetProp ( node_ope,
-											"M" )),
-								NULL );
-
-			      operation -> devise = atoi ( latin2utf8(xmlGetProp ( node_ope,
-										   "De" )));
-
-			      operation -> une_devise_compte_egale_x_devise_ope = atoi ( latin2utf8(xmlGetProp ( node_ope,
-														 "Rdc" )));
-
-			      operation -> taux_change = g_strtod ( latin2utf8(xmlGetProp ( node_ope,
-											    "Tc" )),
+				  operation -> montant = g_strtod ( latin2utf8(xmlGetProp ( node_ope,
+											    "M" )),
 								    NULL );
 
-			      operation -> frais_change = g_strtod ( latin2utf8(xmlGetProp ( node_ope,
-											     "Fc" )),
-								     NULL );
+				  operation -> devise = atoi ( latin2utf8(xmlGetProp ( node_ope,
+										       "De" )));
 
-			      operation -> tiers = atoi ( latin2utf8(xmlGetProp ( node_ope,
-										  "T" )));
+				  operation -> une_devise_compte_egale_x_devise_ope = atoi ( latin2utf8(xmlGetProp ( node_ope,
+														     "Rdc" )));
 
-			      operation -> categorie = atoi ( latin2utf8(xmlGetProp ( node_ope,
-										      "C" )));
+				  operation -> taux_change = g_strtod ( latin2utf8(xmlGetProp ( node_ope,
+												"Tc" )),
+									NULL );
 
-			      operation -> sous_categorie = atoi ( latin2utf8(xmlGetProp ( node_ope,
-											   "Sc" )));
+				  operation -> frais_change = g_strtod ( latin2utf8(xmlGetProp ( node_ope,
+												 "Fc" )),
+									 NULL );
 
-			      operation -> operation_ventilee = atoi ( latin2utf8(xmlGetProp ( node_ope,
-											       "Ov" )));
+				  operation -> tiers = atoi ( latin2utf8(xmlGetProp ( node_ope,
+										      "T" )));
 
-			      operation -> notes = latin2utf8(xmlGetProp ( node_ope,
-									   "N" ));
-			      if ( !strlen ( operation -> notes ))
-				operation -> notes = NULL;
+				  operation -> categorie = atoi ( latin2utf8(xmlGetProp ( node_ope,
+											  "C" )));
 
-			      operation -> type_ope = atoi ( latin2utf8(xmlGetProp ( node_ope,
-										     "Ty" )));
+				  operation -> sous_categorie = atoi ( latin2utf8(xmlGetProp ( node_ope,
+											       "Sc" )));
 
-			      operation -> contenu_type = latin2utf8(xmlGetProp ( node_ope,
-										  "Ct" ));
-			      if ( !strlen ( operation -> contenu_type ))
-				operation -> contenu_type = NULL;
+				  operation -> operation_ventilee = atoi ( latin2utf8(xmlGetProp ( node_ope,
+												   "Ov" )));
 
-			      operation -> pointe = atoi ( latin2utf8(xmlGetProp ( node_ope,
-										   "P" )));
+				  operation -> notes = latin2utf8(xmlGetProp ( node_ope,
+									       "N" ));
+				  if ( !strlen ( operation -> notes ))
+				    operation -> notes = NULL;
 
-			      operation -> auto_man = atoi ( latin2utf8(xmlGetProp ( node_ope,
-										     "A" )));
+				  operation -> type_ope = atoi ( latin2utf8(xmlGetProp ( node_ope,
+											 "Ty" )));
 
-			      operation -> no_rapprochement = atoi ( latin2utf8(xmlGetProp ( node_ope,
-											     "R" )));
+				  operation -> contenu_type = latin2utf8(xmlGetProp ( node_ope,
+										      "Ct" ));
+				  if ( !strlen ( operation -> contenu_type ))
+				    operation -> contenu_type = NULL;
 
-			      operation -> no_exercice = atoi ( latin2utf8(xmlGetProp ( node_ope,
-											"E" )));
+				  operation -> pointe = atoi ( latin2utf8(xmlGetProp ( node_ope,
+										       "P" )));
 
-			      operation -> imputation = atoi ( latin2utf8(xmlGetProp ( node_ope,
-										       "I" )));
+				  operation -> auto_man = atoi ( latin2utf8(xmlGetProp ( node_ope,
+											 "A" )));
 
-			      operation -> sous_imputation = atoi ( latin2utf8(xmlGetProp ( node_ope,
-											    "Si" )));
+				  operation -> no_rapprochement = atoi ( latin2utf8(xmlGetProp ( node_ope,
+												 "R" )));
 
-			      operation -> no_piece_comptable = latin2utf8(xmlGetProp ( node_ope,
-											"Pc" ));
-			      if ( !strlen ( operation -> no_piece_comptable ))
-				operation -> no_piece_comptable = NULL;
+				  operation -> no_exercice = atoi ( latin2utf8(xmlGetProp ( node_ope,
+											    "E" )));
 
-			      operation -> info_banque_guichet = latin2utf8(xmlGetProp ( node_ope,
-											 "Ibg" ));
-			      if ( !strlen ( operation -> info_banque_guichet ))
-				operation -> info_banque_guichet = NULL;
+				  operation -> imputation = atoi ( latin2utf8(xmlGetProp ( node_ope,
+											   "I" )));
 
-			      operation -> relation_no_operation = atoi ( latin2utf8(xmlGetProp ( node_ope,
-												  "Ro" )));
+				  operation -> sous_imputation = atoi ( latin2utf8(xmlGetProp ( node_ope,
+												"Si" )));
 
-			      operation -> relation_no_compte = atoi ( latin2utf8(xmlGetProp ( node_ope,
-											       "Rc" )));
+				  operation -> no_piece_comptable = latin2utf8(xmlGetProp ( node_ope,
+											    "Pc" ));
+				  if ( !strlen ( operation -> no_piece_comptable ))
+				    operation -> no_piece_comptable = NULL;
 
-			      operation -> no_operation_ventilee_associee = atoi ( latin2utf8(xmlGetProp ( node_ope,
-													   "Va" )));
+				  operation -> info_banque_guichet = latin2utf8(xmlGetProp ( node_ope,
+											     "Ibg" ));
+				  if ( !strlen ( operation -> info_banque_guichet ))
+				    operation -> info_banque_guichet = NULL;
+
+				  operation -> relation_no_operation = atoi ( latin2utf8(xmlGetProp ( node_ope,
+												      "Ro" )));
+
+				  operation -> relation_no_compte = atoi ( latin2utf8(xmlGetProp ( node_ope,
+												   "Rc" )));
+
+				  operation -> no_operation_ventilee_associee = atoi ( latin2utf8(xmlGetProp ( node_ope,
+													       "Va" )));
 
 
-			      /* on met le compte associé */
+				  /* on met le compte associé */
 			  
-			      operation -> no_compte = NO_COMPTE;
+				  operation -> no_compte = NO_COMPTE;
 
-			      LISTE_OPERATIONS = g_slist_append ( LISTE_OPERATIONS,
-								  operation);
+				  LISTE_OPERATIONS = g_slist_append ( LISTE_OPERATIONS,
+								      operation);
+				}
 
 			      node_ope = node_ope -> next;
 			    }
@@ -818,7 +824,7 @@ gboolean charge_operations_version_0_3_2 ( xmlDocPtr doc )
 
 	  /* node_echeances va faire le tour de l'arborescence des échéances */
 
-	  node_echeances = node_1 -> childs;
+	  node_echeances = node_1 -> children;
 
 	  while ( node_echeances )
 	    {
@@ -829,7 +835,7 @@ gboolean charge_operations_version_0_3_2 ( xmlDocPtr doc )
 		{
 		  xmlNodePtr node_generalites;
 
-		  node_generalites = node_echeances -> childs;
+		  node_generalites = node_echeances -> children;
 
 		  while ( node_generalites )
 		    {
@@ -855,7 +861,7 @@ gboolean charge_operations_version_0_3_2 ( xmlDocPtr doc )
 
 		  gsliste_echeances = NULL;
 
-		  node_detail = node_echeances -> childs;
+		  node_detail = node_echeances -> children;
 
 		  while ( node_detail )
 		    {
@@ -865,104 +871,107 @@ gboolean charge_operations_version_0_3_2 ( xmlDocPtr doc )
 		      operation_echeance = calloc ( 1,
 						    sizeof (struct operation_echeance ));
 
-		      operation_echeance -> no_operation = atoi ( latin2utf8(xmlGetProp ( node_detail,
-											  "No" )));
-
-		      pointeur_char = g_strsplit ( latin2utf8(xmlGetProp ( node_detail ,
-									   "Date" )),
-						   "/",
-						   3 );
-		      operation_echeance -> jour = atoi ( pointeur_char[0] );
-		      operation_echeance -> mois = atoi ( pointeur_char[1] );
-		      operation_echeance -> annee = atoi ( pointeur_char[2] );
-		      operation_echeance -> date = g_date_new_dmy ( operation_echeance -> jour,
-								    operation_echeance -> mois,
-								    operation_echeance -> annee );
-		      g_strfreev ( pointeur_char );
-
-		      operation_echeance -> compte = atoi ( latin2utf8(xmlGetProp ( node_detail,
-										    "Compte" )));
-
-		      operation_echeance -> montant = g_strtod ( latin2utf8(xmlGetProp ( node_detail,
-											 "Montant" )),
-								 NULL );
-
-		      operation_echeance -> devise = atoi ( latin2utf8(xmlGetProp ( node_detail,
-										    "Devise" )));
-
-		      operation_echeance -> tiers = atoi ( latin2utf8(xmlGetProp ( node_detail,
-										   "Tiers" )));
-
-		      operation_echeance -> categorie = atoi ( latin2utf8(xmlGetProp ( node_detail,
-										       "Catégorie" )));
-
-		      operation_echeance -> sous_categorie = atoi ( latin2utf8(xmlGetProp ( node_detail,
-											    "Sous-catégorie" )));
-
-		      operation_echeance -> compte_virement = atoi ( latin2utf8(xmlGetProp ( node_detail,
-											     "Virement_compte" )));
-
-		      operation_echeance -> type_ope = atoi ( latin2utf8(xmlGetProp ( node_detail,
-										      "Type" )));
-
-		      operation_echeance -> contenu_type = latin2utf8(xmlGetProp ( node_detail,
-										   "Contenu_du_type" ));
-		      if ( !strlen ( operation_echeance -> contenu_type ))
-			operation_echeance -> contenu_type = NULL;
-
-		      operation_echeance -> no_exercice = atoi ( latin2utf8(xmlGetProp ( node_detail,
-											 "Exercice" )));
-
-		      operation_echeance -> imputation = atoi ( latin2utf8(xmlGetProp ( node_detail,
-											"Imputation" )));
-
-		      operation_echeance -> sous_imputation = atoi ( latin2utf8(xmlGetProp ( node_detail,
-											     "Sous-imputation" )));
-
-		      operation_echeance -> notes = latin2utf8(xmlGetProp ( node_detail,
-									    "Notes" ));
-		      if ( !strlen ( operation_echeance -> notes ))
-			operation_echeance -> notes = NULL;
-
-		      operation_echeance -> auto_man = atoi ( latin2utf8(xmlGetProp ( node_detail,
-										      "Automatique" )));
-
-		      operation_echeance -> periodicite = atoi ( latin2utf8(xmlGetProp ( node_detail,
-											 "Périodicité" )));
-
-		      operation_echeance -> intervalle_periodicite_personnalisee = atoi ( latin2utf8(xmlGetProp ( node_detail,
-														  "Intervalle_périodicité" )));
-
-		      operation_echeance -> periodicite_personnalisee = atoi ( latin2utf8(xmlGetProp ( node_detail,
-												       "Périodicité_personnalisée" )));
-
-		      if ( strlen ( latin2utf8(xmlGetProp ( node_detail ,
-							    "Date_limite" ))))
+		      if ( node_detail -> type != XML_TEXT_NODE )
 			{
+			  operation_echeance -> no_operation = atoi ( latin2utf8(xmlGetProp ( node_detail,
+											      "No" )));
+
 			  pointeur_char = g_strsplit ( latin2utf8(xmlGetProp ( node_detail ,
-									       "Date_limite" )),
+									       "Date" )),
 						       "/",
 						       3 );
-
-			  operation_echeance -> jour_limite = atoi ( pointeur_char[0] );
-			  operation_echeance -> mois_limite = atoi ( pointeur_char[1] );
-			  operation_echeance -> annee_limite = atoi ( pointeur_char[2] );
-			  operation_echeance -> date_limite = g_date_new_dmy ( operation_echeance -> jour_limite,
-									       operation_echeance -> mois_limite,
-									       operation_echeance -> annee_limite );
+			  operation_echeance -> jour = atoi ( pointeur_char[0] );
+			  operation_echeance -> mois = atoi ( pointeur_char[1] );
+			  operation_echeance -> annee = atoi ( pointeur_char[2] );
+			  operation_echeance -> date = g_date_new_dmy ( operation_echeance -> jour,
+									operation_echeance -> mois,
+									operation_echeance -> annee );
 			  g_strfreev ( pointeur_char );
-			}
-		      else
-			{
-			  operation_echeance -> jour_limite = 0;
-			  operation_echeance -> mois_limite = 0;
-			  operation_echeance -> annee_limite = 0;
-			  operation_echeance -> date_limite = NULL;
-			}
+
+			  operation_echeance -> compte = atoi ( latin2utf8(xmlGetProp ( node_detail,
+											"Compte" )));
+
+			  operation_echeance -> montant = g_strtod ( latin2utf8(xmlGetProp ( node_detail,
+											     "Montant" )),
+								     NULL );
+
+			  operation_echeance -> devise = atoi ( latin2utf8(xmlGetProp ( node_detail,
+											"Devise" )));
+
+			  operation_echeance -> tiers = atoi ( latin2utf8(xmlGetProp ( node_detail,
+										       "Tiers" )));
+
+			  operation_echeance -> categorie = atoi ( latin2utf8(xmlGetProp ( node_detail,
+											   "Catégorie" )));
+
+			  operation_echeance -> sous_categorie = atoi ( latin2utf8(xmlGetProp ( node_detail,
+												"Sous-catégorie" )));
+
+			  operation_echeance -> compte_virement = atoi ( latin2utf8(xmlGetProp ( node_detail,
+												 "Virement_compte" )));
+
+			  operation_echeance -> type_ope = atoi ( latin2utf8(xmlGetProp ( node_detail,
+											  "Type" )));
+
+			  operation_echeance -> contenu_type = latin2utf8(xmlGetProp ( node_detail,
+										       "Contenu_du_type" ));
+			  if ( !strlen ( operation_echeance -> contenu_type ))
+			    operation_echeance -> contenu_type = NULL;
+
+			  operation_echeance -> no_exercice = atoi ( latin2utf8(xmlGetProp ( node_detail,
+											     "Exercice" )));
+
+			  operation_echeance -> imputation = atoi ( latin2utf8(xmlGetProp ( node_detail,
+											    "Imputation" )));
+
+			  operation_echeance -> sous_imputation = atoi ( latin2utf8(xmlGetProp ( node_detail,
+												 "Sous-imputation" )));
+
+			  operation_echeance -> notes = latin2utf8(xmlGetProp ( node_detail,
+										"Notes" ));
+			  if ( !strlen ( operation_echeance -> notes ))
+			    operation_echeance -> notes = NULL;
+
+			  operation_echeance -> auto_man = atoi ( latin2utf8(xmlGetProp ( node_detail,
+											  "Automatique" )));
+
+			  operation_echeance -> periodicite = atoi ( latin2utf8(xmlGetProp ( node_detail,
+											     "Périodicité" )));
+
+			  operation_echeance -> intervalle_periodicite_personnalisee = atoi ( latin2utf8(xmlGetProp ( node_detail,
+														      "Intervalle_périodicité" )));
+
+			  operation_echeance -> periodicite_personnalisee = atoi ( latin2utf8(xmlGetProp ( node_detail,
+													   "Périodicité_personnalisée" )));
+
+			  if ( strlen ( latin2utf8(xmlGetProp ( node_detail ,
+								"Date_limite" ))))
+			    {
+			      pointeur_char = g_strsplit ( latin2utf8(xmlGetProp ( node_detail ,
+										   "Date_limite" )),
+							   "/",
+							   3 );
+
+			      operation_echeance -> jour_limite = atoi ( pointeur_char[0] );
+			      operation_echeance -> mois_limite = atoi ( pointeur_char[1] );
+			      operation_echeance -> annee_limite = atoi ( pointeur_char[2] );
+			      operation_echeance -> date_limite = g_date_new_dmy ( operation_echeance -> jour_limite,
+										   operation_echeance -> mois_limite,
+										   operation_echeance -> annee_limite );
+			      g_strfreev ( pointeur_char );
+			    }
+			  else
+			    {
+			      operation_echeance -> jour_limite = 0;
+			      operation_echeance -> mois_limite = 0;
+			      operation_echeance -> annee_limite = 0;
+			      operation_echeance -> date_limite = NULL;
+			    }
 
 
-		      gsliste_echeances = g_slist_append ( gsliste_echeances,
-							   operation_echeance);
+			  gsliste_echeances = g_slist_append ( gsliste_echeances,
+							       operation_echeance);
+			}
 
 		      node_detail = node_detail -> next;
 		    }
@@ -980,7 +989,7 @@ gboolean charge_operations_version_0_3_2 ( xmlDocPtr doc )
 
 	  /* node_tiers va faire le tour de l'arborescence des tiers */
 
-	  node_tiers = node_1 -> childs;
+	  node_tiers = node_1 -> children;
 
 	  while ( node_tiers )
 	    {
@@ -991,7 +1000,7 @@ gboolean charge_operations_version_0_3_2 ( xmlDocPtr doc )
 		{
 		  xmlNodePtr node_generalites;
 
-		  node_generalites = node_tiers -> childs;
+		  node_generalites = node_tiers -> children;
 
 		  while ( node_generalites )
 		    {
@@ -1017,7 +1026,7 @@ gboolean charge_operations_version_0_3_2 ( xmlDocPtr doc )
 		  xmlNodePtr node_detail;
 
 		  liste_struct_tiers = NULL;
-		  node_detail = node_tiers -> childs;
+		  node_detail = node_tiers -> children;
 
 		  while ( node_detail )
 		    {
@@ -1026,21 +1035,23 @@ gboolean charge_operations_version_0_3_2 ( xmlDocPtr doc )
 		      tiers = calloc ( 1,
 				       sizeof ( struct struct_tiers ) );
 
-		      tiers -> no_tiers = atoi ( latin2utf8(xmlGetProp ( node_detail,
-									 "No" )));
-		      tiers -> nom_tiers = latin2utf8(xmlGetProp ( node_detail,
-								   "Nom" ));
-		      tiers -> texte = latin2utf8(xmlGetProp ( node_detail,
-							       "Informations" ));
-		      if ( !strlen ( tiers -> texte ))
-			tiers -> texte = NULL;
+		      if ( node_detail -> type != XML_TEXT_NODE )
+			{
+			  tiers -> no_tiers = atoi ( latin2utf8(xmlGetProp ( node_detail,
+									     "No" )));
+			  tiers -> nom_tiers = latin2utf8(xmlGetProp ( node_detail,
+								       "Nom" ));
+			  tiers -> texte = latin2utf8(xmlGetProp ( node_detail,
+								   "Informations" ));
+			  if ( !strlen ( tiers -> texte ))
+			    tiers -> texte = NULL;
 
-		      tiers -> liaison = atoi ( latin2utf8(xmlGetProp ( node_detail,
-									"Liaison" )));
+			  tiers -> liaison = atoi ( latin2utf8(xmlGetProp ( node_detail,
+									    "Liaison" )));
 		      
-		      liste_struct_tiers = g_slist_append ( liste_struct_tiers,
-							    tiers );
-
+			  liste_struct_tiers = g_slist_append ( liste_struct_tiers,
+								tiers );
+			}
 
 		      node_detail = node_detail -> next;
 		    }
@@ -1058,7 +1069,7 @@ gboolean charge_operations_version_0_3_2 ( xmlDocPtr doc )
 
 	  /* node_categories va faire le tour de l'arborescence des catégories */
 
-	  node_categories = node_1 -> childs;
+	  node_categories = node_1 -> children;
 
 	  while ( node_categories )
 	    {
@@ -1069,7 +1080,7 @@ gboolean charge_operations_version_0_3_2 ( xmlDocPtr doc )
 		{
 		  xmlNodePtr node_generalites;
 
-		  node_generalites = node_categories -> childs;
+		  node_generalites = node_categories -> children;
 
 		  while ( node_generalites )
 		    {
@@ -1094,7 +1105,7 @@ gboolean charge_operations_version_0_3_2 ( xmlDocPtr doc )
 		  xmlNodePtr node_detail;
 
 		  liste_struct_categories = NULL;
-		  node_detail = node_categories -> childs;
+		  node_detail = node_categories -> children;
 
 		  while ( node_detail )
 		    {
@@ -1104,39 +1115,42 @@ gboolean charge_operations_version_0_3_2 ( xmlDocPtr doc )
 		      categorie = calloc ( 1,
 					   sizeof ( struct struct_categ ) );
 
-		      categorie -> no_categ = atoi ( latin2utf8(xmlGetProp ( node_detail,
-									     "No" )));
-		      categorie -> nom_categ = latin2utf8(xmlGetProp ( node_detail,
-								       "Nom" ));
-		      categorie -> type_categ = atoi ( latin2utf8(xmlGetProp ( node_detail,
-									       "Type" )));
-		      categorie -> no_derniere_sous_categ = atoi ( latin2utf8(xmlGetProp ( node_detail,
-											   "No_dernière_sous_cagégorie" )));
-
-		      /*  pour chaque catégorie, on récupère les sous-catégories */
-
-		      categorie -> liste_sous_categ = NULL;
-		      node_sous_categ = node_detail -> childs;
-
-		      while ( node_sous_categ )
+		      if ( node_detail -> type != XML_TEXT_NODE )
 			{
-			  struct struct_sous_categ *sous_categ;
+			  categorie -> no_categ = atoi ( latin2utf8(xmlGetProp ( node_detail,
+										 "No" )));
+			  categorie -> nom_categ = latin2utf8(xmlGetProp ( node_detail,
+									   "Nom" ));
+			  categorie -> type_categ = atoi ( latin2utf8(xmlGetProp ( node_detail,
+										   "Type" )));
+			  categorie -> no_derniere_sous_categ = atoi ( latin2utf8(xmlGetProp ( node_detail,
+											       "No_dernière_sous_cagégorie" )));
 
-			  sous_categ = calloc ( 1,
-						sizeof ( struct struct_sous_categ ) );
+			  /*  pour chaque catégorie, on récupère les sous-catégories */
 
-			  sous_categ -> no_sous_categ = atoi ( latin2utf8(xmlGetProp ( node_sous_categ,
-										       "No" )));
-			  sous_categ -> nom_sous_categ = latin2utf8(xmlGetProp ( node_sous_categ,
-										 "Nom" ));
+			  categorie -> liste_sous_categ = NULL;
+			  node_sous_categ = node_detail -> children;
 
-			  categorie -> liste_sous_categ = g_slist_append ( categorie -> liste_sous_categ,
-									   sous_categ );
-			  node_sous_categ = node_sous_categ -> next;
+			  while ( node_sous_categ )
+			    {
+			      struct struct_sous_categ *sous_categ;
+
+			      sous_categ = calloc ( 1,
+						    sizeof ( struct struct_sous_categ ) );
+
+			      sous_categ -> no_sous_categ = atoi ( latin2utf8(xmlGetProp ( node_sous_categ,
+											   "No" )));
+			      sous_categ -> nom_sous_categ = latin2utf8(xmlGetProp ( node_sous_categ,
+										     "Nom" ));
+
+			      categorie -> liste_sous_categ = g_slist_append ( categorie -> liste_sous_categ,
+									       sous_categ );
+			      node_sous_categ = node_sous_categ -> next;
+			    }
+
+			  liste_struct_categories = g_slist_append ( liste_struct_categories,
+								     categorie );
 			}
-
-		      liste_struct_categories = g_slist_append ( liste_struct_categories,
-								 categorie );
 
 		      node_detail = node_detail -> next;
 		    }
@@ -1157,7 +1171,7 @@ gboolean charge_operations_version_0_3_2 ( xmlDocPtr doc )
 
 	  /* node_imputations va faire le tour de l'arborescence des imputations */
 
-	  node_imputations = node_1 -> childs;
+	  node_imputations = node_1 -> children;
 
 	  while ( node_imputations )
 	    {
@@ -1168,7 +1182,7 @@ gboolean charge_operations_version_0_3_2 ( xmlDocPtr doc )
 		{
 		  xmlNodePtr node_generalites;
 
-		  node_generalites = node_imputations -> childs;
+		  node_generalites = node_imputations -> children;
 
 		  while ( node_generalites )
 		    {
@@ -1193,7 +1207,7 @@ gboolean charge_operations_version_0_3_2 ( xmlDocPtr doc )
 		  xmlNodePtr node_detail;
 
 		  liste_struct_imputation = NULL;
-		  node_detail = node_imputations -> childs;
+		  node_detail = node_imputations -> children;
 
 		  while ( node_detail )
 		    {
@@ -1203,39 +1217,42 @@ gboolean charge_operations_version_0_3_2 ( xmlDocPtr doc )
 		      imputation = calloc ( 1,
 					    sizeof ( struct struct_imputation ) );
 
-		      imputation -> no_imputation = atoi ( latin2utf8(xmlGetProp ( node_detail,
-										   "No" )));
-		      imputation -> nom_imputation = latin2utf8(xmlGetProp ( node_detail,
-									     "Nom" ));
-		      imputation -> type_imputation = atoi ( latin2utf8(xmlGetProp ( node_detail,
-										     "Type" )));
-		      imputation -> no_derniere_sous_imputation = atoi ( latin2utf8(xmlGetProp ( node_detail,
-												 "No_dernière_sous_imputation" )));
-
-		      /*  pour chaque catégorie, on récupère les sous-catégories */
-
-		      imputation -> liste_sous_imputation = NULL;
-		      node_sous_imputation = node_detail -> childs;
-
-		      while ( node_sous_imputation )
+		      if ( node_detail -> type != XML_TEXT_NODE )
 			{
-			  struct struct_sous_imputation *sous_imputation;
+			  imputation -> no_imputation = atoi ( latin2utf8(xmlGetProp ( node_detail,
+										       "No" )));
+			  imputation -> nom_imputation = latin2utf8(xmlGetProp ( node_detail,
+										 "Nom" ));
+			  imputation -> type_imputation = atoi ( latin2utf8(xmlGetProp ( node_detail,
+											 "Type" )));
+			  imputation -> no_derniere_sous_imputation = atoi ( latin2utf8(xmlGetProp ( node_detail,
+												     "No_dernière_sous_imputation" )));
 
-			  sous_imputation = calloc ( 1,
-						     sizeof ( struct struct_sous_imputation ) );
+			  /*  pour chaque catégorie, on récupère les sous-catégories */
 
-			  sous_imputation -> no_sous_imputation = atoi ( latin2utf8(xmlGetProp ( node_sous_imputation,
-												 "No" )));
-			  sous_imputation -> nom_sous_imputation = latin2utf8(xmlGetProp ( node_sous_imputation,
-											   "Nom" ));
+			  imputation -> liste_sous_imputation = NULL;
+			  node_sous_imputation = node_detail -> children;
 
-			  imputation -> liste_sous_imputation = g_slist_append ( imputation -> liste_sous_imputation,
-										 sous_imputation );
-			  node_sous_imputation = node_sous_imputation -> next;
+			  while ( node_sous_imputation )
+			    {
+			      struct struct_sous_imputation *sous_imputation;
+
+			      sous_imputation = calloc ( 1,
+							 sizeof ( struct struct_sous_imputation ) );
+
+			      sous_imputation -> no_sous_imputation = atoi ( latin2utf8(xmlGetProp ( node_sous_imputation,
+												     "No" )));
+			      sous_imputation -> nom_sous_imputation = latin2utf8(xmlGetProp ( node_sous_imputation,
+											       "Nom" ));
+
+			      imputation -> liste_sous_imputation = g_slist_append ( imputation -> liste_sous_imputation,
+										     sous_imputation );
+			      node_sous_imputation = node_sous_imputation -> next;
+			    }
+
+			  liste_struct_imputation = g_slist_append ( liste_struct_imputation,
+								     imputation );
 			}
-
-		      liste_struct_imputation = g_slist_append ( liste_struct_imputation,
-								 imputation );
 
 		      node_detail = node_detail -> next;
 		    }
@@ -1257,7 +1274,7 @@ gboolean charge_operations_version_0_3_2 ( xmlDocPtr doc )
 
 	  /* node_devises va faire le tour de l'arborescence des devises */
 
-	  node_devises = node_1 -> childs;
+	  node_devises = node_1 -> children;
 
 	  while ( node_devises )
 	    {
@@ -1268,7 +1285,7 @@ gboolean charge_operations_version_0_3_2 ( xmlDocPtr doc )
 		{
 		  xmlNodePtr node_generalites;
 
-		  node_generalites = node_devises -> childs;
+		  node_generalites = node_devises -> children;
 
 		  while ( node_generalites )
 		    {
@@ -1293,7 +1310,7 @@ gboolean charge_operations_version_0_3_2 ( xmlDocPtr doc )
 		  xmlNodePtr node_detail;
 
 		  liste_struct_devises = NULL;
-		  node_detail = node_devises -> childs;
+		  node_detail = node_devises -> children;
 
 		  while ( node_detail )
 		    {
@@ -1303,51 +1320,54 @@ gboolean charge_operations_version_0_3_2 ( xmlDocPtr doc )
 					sizeof ( struct struct_devise ));
 
 
-		      devise -> no_devise = atoi ( latin2utf8(xmlGetProp ( node_detail,
-									   "No" )));
-		      devise -> nom_devise = latin2utf8(xmlGetProp ( node_detail,
-								     "Nom" ));
-		      devise -> code_devise = latin2utf8(xmlGetProp ( node_detail,
-								      "Code" ));
-		      if ( !strlen ( devise -> code_devise ))
-			devise -> code_devise = NULL;
-		      /* Handle Euro nicely */
-		      if (! strcmp (devise -> code_devise, "E"))
+		      if ( node_detail -> type != XML_TEXT_NODE )
 			{
-			  devise -> code_devise = "â‚¬";
+			  devise -> no_devise = atoi ( latin2utf8(xmlGetProp ( node_detail,
+									       "No" )));
+			  devise -> nom_devise = latin2utf8(xmlGetProp ( node_detail,
+									 "Nom" ));
+			  devise -> code_devise = latin2utf8(xmlGetProp ( node_detail,
+									  "Code" ));
+			  if ( !strlen ( devise -> code_devise ))
+			    devise -> code_devise = NULL;
+			  /* Handle Euro nicely */
+			  if (! strcmp (devise -> code_devise, "E"))
+			    {
+			      devise -> code_devise = "â‚¬";
+			    }
+
+			  devise -> passage_euro = atoi ( latin2utf8(xmlGetProp ( node_detail,
+										  "Passage_euro" )));
+
+			  if ( strlen ( latin2utf8(xmlGetProp ( node_detail,
+								"Date_dernier_change" ))))
+			    {
+			      gchar **pointeur_char;
+
+			      pointeur_char = g_strsplit ( latin2utf8(xmlGetProp ( node_detail,
+										   "Date_dernier_change" )),
+							   "/",
+							   3 );
+
+			      devise -> date_dernier_change = g_date_new_dmy ( atoi ( pointeur_char[0] ),
+									       atoi ( pointeur_char[1] ),
+									       atoi ( pointeur_char[2] ));
+			      g_strfreev ( pointeur_char );
+			    }
+			  else
+			    devise -> date_dernier_change = NULL;
+
+			  devise -> une_devise_1_egale_x_devise_2 = atoi ( latin2utf8(xmlGetProp ( node_detail,
+												   "Rapport_entre_devises" )));
+			  devise -> no_devise_en_rapport = atoi ( latin2utf8(xmlGetProp ( node_detail,
+											  "Devise_en_rapport" )));
+			  devise -> change = g_strtod ( latin2utf8(xmlGetProp ( node_detail,
+										"Change" )),
+							NULL );
+
+			  liste_struct_devises = g_slist_append ( liste_struct_devises,
+								  devise );
 			}
-
-		      devise -> passage_euro = atoi ( latin2utf8(xmlGetProp ( node_detail,
-									      "Passage_euro" )));
-
-		      if ( strlen ( latin2utf8(xmlGetProp ( node_detail,
-							    "Date_dernier_change" ))))
-			{
-			  gchar **pointeur_char;
-
-			  pointeur_char = g_strsplit ( latin2utf8(xmlGetProp ( node_detail,
-									       "Date_dernier_change" )),
-						       "/",
-						       3 );
-
-			  devise -> date_dernier_change = g_date_new_dmy ( atoi ( pointeur_char[0] ),
-									   atoi ( pointeur_char[1] ),
-									   atoi ( pointeur_char[2] ));
-			  g_strfreev ( pointeur_char );
-			}
-		      else
-			devise -> date_dernier_change = NULL;
-
-		      devise -> une_devise_1_egale_x_devise_2 = atoi ( latin2utf8(xmlGetProp ( node_detail,
-											       "Rapport_entre_devises" )));
-		      devise -> no_devise_en_rapport = atoi ( latin2utf8(xmlGetProp ( node_detail,
-										      "Devise_en_rapport" )));
-		      devise -> change = g_strtod ( latin2utf8(xmlGetProp ( node_detail,
-									    "Change" )),
-						    NULL );
-
-		      liste_struct_devises = g_slist_append ( liste_struct_devises,
-							      devise );
 
 		      node_detail = node_detail -> next;
 		    }
@@ -1365,7 +1385,7 @@ gboolean charge_operations_version_0_3_2 ( xmlDocPtr doc )
 
 	  /* node_banques va faire le tour de l'arborescence des banques */
 
-	  node_banques = node_1 -> childs;
+	  node_banques = node_1 -> children;
 
 	  while ( node_banques )
 	    {
@@ -1376,7 +1396,7 @@ gboolean charge_operations_version_0_3_2 ( xmlDocPtr doc )
 		{
 		  xmlNodePtr node_generalites;
 
-		  node_generalites = node_banques -> childs;
+		  node_generalites = node_banques -> children;
 
 		  while ( node_generalites )
 		    {
@@ -1402,7 +1422,7 @@ gboolean charge_operations_version_0_3_2 ( xmlDocPtr doc )
 		  xmlNodePtr node_detail;
 
 		  liste_struct_banques = NULL;
-		  node_detail = node_banques -> childs;
+		  node_detail = node_banques -> children;
 
 		  while ( node_detail )
 		    {
@@ -1411,53 +1431,56 @@ gboolean charge_operations_version_0_3_2 ( xmlDocPtr doc )
 		      banque = calloc ( 1,
 					sizeof ( struct struct_banque ));
 
-		      banque -> no_banque = atoi ( latin2utf8(xmlGetProp ( node_detail,
-									   "No" )));
-		      banque -> nom_banque = latin2utf8(xmlGetProp ( node_detail,
-								     "Nom" ));
-		      banque -> code_banque = latin2utf8(xmlGetProp ( node_detail,
-								      "Code" ));
-		      if ( !strlen ( banque -> code_banque ))
-			banque -> code_banque = NULL;
-		      banque -> adr_banque = latin2utf8(xmlGetProp ( node_detail,
-								     "Adresse" ));
-		      if ( !strlen ( banque -> adr_banque ))
-			banque -> adr_banque = NULL;
-		      banque -> tel_banque = latin2utf8(xmlGetProp ( node_detail,
-								     "Tél" ));
-		      if ( !strlen ( banque -> tel_banque ))
-			banque -> tel_banque = NULL;
-		      banque -> email_banque = latin2utf8(xmlGetProp ( node_detail,
-								       "Mail" ));
-		      if ( !strlen ( banque -> email_banque ))
-			banque -> email_banque = NULL;
-		      banque -> web_banque = latin2utf8(xmlGetProp ( node_detail,
-								     "Web" ));
-		      if ( !strlen ( banque -> web_banque ))
-			banque -> web_banque = NULL;
-		      banque -> nom_correspondant = latin2utf8(xmlGetProp ( node_detail,
-									    "Nom_correspondant" ));
-		      if ( !strlen ( banque -> nom_correspondant ))
-			banque -> nom_correspondant = NULL;
-		      banque -> fax_correspondant = latin2utf8(xmlGetProp ( node_detail,
-									    "Fax_correspondant" ));
-		      if ( !strlen ( banque -> fax_correspondant ))
-			banque -> fax_correspondant = NULL;
-		      banque -> tel_correspondant = latin2utf8(xmlGetProp ( node_detail,
-									    "Tél_correspondant" ));
-		      if ( !strlen ( banque -> tel_correspondant ))
-			banque -> tel_correspondant = NULL;
-		      banque -> email_correspondant = latin2utf8(xmlGetProp ( node_detail,
-									      "Mail_correspondant" ));
-		      if ( !strlen ( banque -> email_correspondant ))
-			banque -> email_correspondant = NULL;
-		      banque -> remarque_banque = latin2utf8(xmlGetProp ( node_detail,
-									  "Remarques" ));
-		      if ( !strlen ( banque -> remarque_banque ))
-			banque -> remarque_banque = NULL;
+		      if ( node_detail -> type != XML_TEXT_NODE )
+			{
+			  banque -> no_banque = atoi ( latin2utf8(xmlGetProp ( node_detail,
+									       "No" )));
+			  banque -> nom_banque = latin2utf8(xmlGetProp ( node_detail,
+									 "Nom" ));
+			  banque -> code_banque = latin2utf8(xmlGetProp ( node_detail,
+									  "Code" ));
+			  if ( !strlen ( banque -> code_banque ))
+			    banque -> code_banque = NULL;
+			  banque -> adr_banque = latin2utf8(xmlGetProp ( node_detail,
+									 "Adresse" ));
+			  if ( !strlen ( banque -> adr_banque ))
+			    banque -> adr_banque = NULL;
+			  banque -> tel_banque = latin2utf8(xmlGetProp ( node_detail,
+									 "Tél" ));
+			  if ( !strlen ( banque -> tel_banque ))
+			    banque -> tel_banque = NULL;
+			  banque -> email_banque = latin2utf8(xmlGetProp ( node_detail,
+									   "Mail" ));
+			  if ( !strlen ( banque -> email_banque ))
+			    banque -> email_banque = NULL;
+			  banque -> web_banque = latin2utf8(xmlGetProp ( node_detail,
+									 "Web" ));
+			  if ( !strlen ( banque -> web_banque ))
+			    banque -> web_banque = NULL;
+			  banque -> nom_correspondant = latin2utf8(xmlGetProp ( node_detail,
+										"Nom_correspondant" ));
+			  if ( !strlen ( banque -> nom_correspondant ))
+			    banque -> nom_correspondant = NULL;
+			  banque -> fax_correspondant = latin2utf8(xmlGetProp ( node_detail,
+										"Fax_correspondant" ));
+			  if ( !strlen ( banque -> fax_correspondant ))
+			    banque -> fax_correspondant = NULL;
+			  banque -> tel_correspondant = latin2utf8(xmlGetProp ( node_detail,
+										"Tél_correspondant" ));
+			  if ( !strlen ( banque -> tel_correspondant ))
+			    banque -> tel_correspondant = NULL;
+			  banque -> email_correspondant = latin2utf8(xmlGetProp ( node_detail,
+										  "Mail_correspondant" ));
+			  if ( !strlen ( banque -> email_correspondant ))
+			    banque -> email_correspondant = NULL;
+			  banque -> remarque_banque = latin2utf8(xmlGetProp ( node_detail,
+									      "Remarques" ));
+			  if ( !strlen ( banque -> remarque_banque ))
+			    banque -> remarque_banque = NULL;
 
-		      liste_struct_banques = g_slist_append ( liste_struct_banques,
-							      banque );
+			  liste_struct_banques = g_slist_append ( liste_struct_banques,
+								  banque );
+			}
 
 		      node_detail = node_detail -> next;
 		    }
@@ -1475,7 +1498,7 @@ gboolean charge_operations_version_0_3_2 ( xmlDocPtr doc )
 
 	  /* node_exercices va faire le tour de l'arborescence des exercices */
 
-	  node_exercices = node_1 -> childs;
+	  node_exercices = node_1 -> children;
 
 	  while ( node_exercices )
 	    {
@@ -1486,7 +1509,7 @@ gboolean charge_operations_version_0_3_2 ( xmlDocPtr doc )
 		{
 		  xmlNodePtr node_generalites;
 
-		  node_generalites = node_exercices -> childs;
+		  node_generalites = node_exercices -> children;
 
 		  while ( node_generalites )
 		    {
@@ -1511,7 +1534,7 @@ gboolean charge_operations_version_0_3_2 ( xmlDocPtr doc )
 		  xmlNodePtr node_detail;
 
 		  liste_struct_exercices = NULL;
-		  node_detail = node_exercices -> childs;
+		  node_detail = node_exercices -> children;
 
 		  while ( node_detail )
 		    {
@@ -1520,52 +1543,55 @@ gboolean charge_operations_version_0_3_2 ( xmlDocPtr doc )
 		      exercice = calloc ( 1,
 					  sizeof ( struct struct_exercice ));
 
-		      exercice -> no_exercice = atoi ( latin2utf8(xmlGetProp ( node_detail,
-									       "No" )));
-		      exercice -> nom_exercice = latin2utf8(xmlGetProp ( node_detail,
-									 "Nom" ));
-
-		      if ( strlen ( latin2utf8(xmlGetProp ( node_detail,
-							    "Date_début" ))))
+		      if ( node_detail -> type != XML_TEXT_NODE )
 			{
-			  gchar **pointeur_char;
+			  exercice -> no_exercice = atoi ( latin2utf8(xmlGetProp ( node_detail,
+										   "No" )));
+			  exercice -> nom_exercice = latin2utf8(xmlGetProp ( node_detail,
+									     "Nom" ));
 
-			  pointeur_char = g_strsplit ( latin2utf8(xmlGetProp ( node_detail,
-									       "Date_début" )),
-						       "/",
-						       3 );
+			  if ( strlen ( latin2utf8(xmlGetProp ( node_detail,
+								"Date_début" ))))
+			    {
+			      gchar **pointeur_char;
 
-			  exercice -> date_debut = g_date_new_dmy ( atoi ( pointeur_char[0] ),
-								    atoi ( pointeur_char[1] ),
-								    atoi ( pointeur_char[2] ));
-			  g_strfreev ( pointeur_char );
+			      pointeur_char = g_strsplit ( latin2utf8(xmlGetProp ( node_detail,
+										   "Date_début" )),
+							   "/",
+							   3 );
+
+			      exercice -> date_debut = g_date_new_dmy ( atoi ( pointeur_char[0] ),
+									atoi ( pointeur_char[1] ),
+									atoi ( pointeur_char[2] ));
+			      g_strfreev ( pointeur_char );
+			    }
+			  else
+			    exercice -> date_debut = NULL;
+
+			  if ( strlen ( latin2utf8(xmlGetProp ( node_detail,
+								"Date_fin" ))))
+			    {
+			      gchar **pointeur_char;
+
+			      pointeur_char = g_strsplit ( latin2utf8(xmlGetProp ( node_detail,
+										   "Date_fin" )),
+							   "/",
+							   3 );
+
+			      exercice -> date_fin = g_date_new_dmy ( atoi ( pointeur_char[0] ),
+								      atoi ( pointeur_char[1] ),
+								      atoi ( pointeur_char[2] ));
+			      g_strfreev ( pointeur_char );
+			    }
+			  else
+			    exercice -> date_fin = NULL;
+
+			  exercice -> affiche_dans_formulaire = atoi ( latin2utf8(xmlGetProp ( node_detail,
+											       "Affiché" )));
+
+			  liste_struct_exercices = g_slist_append ( liste_struct_exercices,
+								    exercice );
 			}
-		      else
-			exercice -> date_debut = NULL;
-
-		      if ( strlen ( latin2utf8(xmlGetProp ( node_detail,
-							    "Date_fin" ))))
-			{
-			  gchar **pointeur_char;
-
-			  pointeur_char = g_strsplit ( latin2utf8(xmlGetProp ( node_detail,
-									       "Date_fin" )),
-						       "/",
-						       3 );
-
-			  exercice -> date_fin = g_date_new_dmy ( atoi ( pointeur_char[0] ),
-								  atoi ( pointeur_char[1] ),
-								  atoi ( pointeur_char[2] ));
-			  g_strfreev ( pointeur_char );
-			}
-		      else
-			exercice -> date_fin = NULL;
-
-		      exercice -> affiche_dans_formulaire = atoi ( latin2utf8(xmlGetProp ( node_detail,
-											   "Affiché" )));
-
-		      liste_struct_exercices = g_slist_append ( liste_struct_exercices,
-								exercice );
 
 		      node_detail = node_detail -> next;
 		    }
@@ -1583,7 +1609,7 @@ gboolean charge_operations_version_0_3_2 ( xmlDocPtr doc )
 
 	  /* node_rapprochements va faire le tour de l'arborescence des rapprochements */
 
-	  node_rapprochements = node_1 -> childs;
+	  node_rapprochements = node_1 -> children;
 
 	  while ( node_rapprochements )
 	    {
@@ -1597,7 +1623,7 @@ gboolean charge_operations_version_0_3_2 ( xmlDocPtr doc )
 		  xmlNodePtr node_detail;
 
 		  liste_no_rapprochements = NULL;
-		  node_detail = node_rapprochements -> childs;
+		  node_detail = node_rapprochements -> children;
 
 		  while ( node_detail )
 		    {
@@ -1606,15 +1632,18 @@ gboolean charge_operations_version_0_3_2 ( xmlDocPtr doc )
 		      rapprochement = calloc ( 1,
 					       sizeof ( struct struct_no_rapprochement ));
 
-		      rapprochement -> no_rapprochement = atoi ( latin2utf8(xmlGetProp ( node_detail,
-											 "No" )));
-		      rapprochement -> nom_rapprochement = latin2utf8(xmlGetProp ( node_detail,
-										   "Nom" ));
+		      if ( node_detail -> type != XML_TEXT_NODE )
+			{
+			  rapprochement -> no_rapprochement = atoi ( latin2utf8(xmlGetProp ( node_detail,
+											     "No" )));
+			  rapprochement -> nom_rapprochement = latin2utf8(xmlGetProp ( node_detail,
+										       "Nom" ));
 		      
-		      rapprochement -> nom_rapprochement = g_strstrip ( rapprochement -> nom_rapprochement);
+			  rapprochement -> nom_rapprochement = g_strstrip ( rapprochement -> nom_rapprochement);
 
-		      liste_no_rapprochements = g_slist_append ( liste_no_rapprochements,
-								 rapprochement );
+			  liste_no_rapprochements = g_slist_append ( liste_no_rapprochements,
+								     rapprochement );
+			}
 
 		      node_detail = node_detail -> next;
 		    }
@@ -1940,7 +1969,7 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 
   /* on place node_1 sur les generalites */
 
-  node_1 = root -> childs;
+  node_1 = root -> children->next;
 
   /*   on met en place la boucle de node_1, qui va successivement passer */
   /*     par les generalites, les comptes, les echeances ... */
@@ -1957,7 +1986,7 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 
 	  /* node_generalites va faire le tour des generalites */
 
-	  node_generalites = node_1 -> childs;
+	  node_generalites = node_1 -> children->next;
 
 	  while ( node_generalites )
 	    {
@@ -2125,7 +2154,7 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 
 	  /* node_comptes va faire le tour de l'arborescence des comptes */
 
-	  node_comptes = node_1 -> childs;
+	  node_comptes = node_1 -> children->next;
 
 	  while ( node_comptes )
 	    {
@@ -2137,7 +2166,7 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 		{
 		xmlNodePtr node_generalites;
 
-		node_generalites = node_comptes -> childs;
+		node_generalites = node_comptes -> children->next;
 
 		while ( node_generalites )
 		  {
@@ -2203,7 +2232,7 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 
 		/* on fait le tour dans l'arbre nom, cad : les details, details de type et details des operations */
 
-		node_nom_comptes = node_comptes -> childs;
+		node_nom_comptes = node_comptes -> children->next;
 
 		while ( node_nom_comptes )
 		  {
@@ -2214,7 +2243,7 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 		    {
 		      xmlNodePtr node_detail;
 
-		      node_detail = node_nom_comptes -> childs;
+		      node_detail = node_nom_comptes -> children->next;
 
 		      while ( node_detail )
 			{
@@ -2284,11 +2313,11 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 			    {
 			      gchar **pointeur_char;
 
-			      if ( latin2utf8(xmlNodeGetContent ( node_detail )))
+			      if ( xmlNodeGetContent (node_detail) &&
+				   strlen (xmlNodeGetContent (node_detail)) > 0 )
 				{
 				  pointeur_char = g_strsplit ( latin2utf8(xmlNodeGetContent ( node_detail )),
-							       "/",
-							       3 );
+							       "/", 3 );
 				  DATE_DERNIER_RELEVE = g_date_new_dmy ( atoi ( pointeur_char [0] ),
 									 atoi ( pointeur_char [1] ),
 									 atoi ( pointeur_char [2] ));
@@ -2384,33 +2413,30 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 		    {
 		      xmlNodePtr node_type;
 
-		      node_type = node_nom_comptes -> childs;
+		      node_type = node_nom_comptes -> children;
 		      TYPES_OPES = NULL;
 
 		      while ( node_type )
 			{
 			  struct struct_type_ope *type;
+			  
+			  if ( node_type -> type != XML_TEXT_NODE )
+			    {
+			      type = calloc ( 1, sizeof ( struct struct_type_ope ));
 
-			  type = calloc ( 1,
-						     sizeof ( struct struct_type_ope ));
-
-			  type -> no_type = atoi ( latin2utf8(xmlGetProp ( node_type,
-								"No" )));
-			  type -> nom_type = latin2utf8(xmlGetProp ( node_type,
-							  "Nom" ));
-			  type -> signe_type = atoi ( latin2utf8(xmlGetProp ( node_type,
-								   "Signe" )));
-			  type -> affiche_entree = atoi ( latin2utf8(xmlGetProp ( node_type,
-								       "Affiche_entree" )));
-			  type -> numerotation_auto = atoi ( latin2utf8(xmlGetProp ( node_type,
-									  "Numerotation_auto" )));
-			  type -> no_en_cours = atoi ( latin2utf8(xmlGetProp ( node_type,
-								    "No_en_cours" )));
-
-			  type -> no_compte = NO_COMPTE;
-
-			  TYPES_OPES = g_slist_append ( TYPES_OPES,
-							type );
+			      type -> no_type = atoi ( latin2utf8(xmlGetProp ( node_type, "No" )));
+			      type -> nom_type = latin2utf8(xmlGetProp ( node_type, "Nom" ));
+			      type -> signe_type = atoi ( latin2utf8(xmlGetProp ( node_type,
+										  "Signe" )));
+			      type -> affiche_entree = atoi ( latin2utf8(xmlGetProp ( node_type,
+										      "Affiche_entree" )));
+			      type -> numerotation_auto = atoi ( latin2utf8(xmlGetProp ( node_type,
+											 "Numerotation_auto" )));
+			      type -> no_en_cours = atoi ( latin2utf8(xmlGetProp ( node_type,
+										   "No_en_cours" )));
+			      type -> no_compte = NO_COMPTE;
+			      TYPES_OPES = g_slist_append ( TYPES_OPES, type );
+			    }
 
 			  node_type = node_type -> next;
 			}
@@ -2424,7 +2450,7 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 		      {
 			xmlNodePtr node_ope;
 
-		      node_ope = node_nom_comptes -> childs;
+		      node_ope = node_nom_comptes -> children->next;
 		      LISTE_OPERATIONS = NULL;
 
 		      while ( node_ope )
@@ -2436,141 +2462,140 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 			  operation = calloc ( 1,
 					       sizeof (struct structure_operation ));
 
-			  operation -> no_operation = atoi ( latin2utf8(xmlGetProp ( node_ope,
-							      "No" )));
-
-			  pointeur_char = g_strsplit ( latin2utf8(xmlGetProp ( node_ope ,
-								    "D" )),
-						       "/",
-						       3 );
-			  operation -> jour = atoi ( pointeur_char[0] );
-			  operation -> mois = atoi ( pointeur_char[1] );
-			  operation -> annee = atoi ( pointeur_char[2] );
-			  operation -> date = g_date_new_dmy ( operation -> jour,
-							       operation -> mois,
-							       operation -> annee );
-			  g_strfreev ( pointeur_char );
-
-			  /* GDC prise en compte de la lecture de la date bancaire */
-
-			  pointeur = latin2utf8(xmlGetProp ( node_ope,
-						  "Db" ));
-
-			  if ( pointeur )
+			  if ( node_ope -> type != XML_TEXT_NODE )
 			    {
-			      pointeur_char = g_strsplit ( pointeur,
-							   "/",
-							   3 );
-			      operation -> jour_bancaire = atoi ( pointeur_char[0] );
-			      operation -> mois_bancaire = atoi ( pointeur_char[1] );
-			      operation -> annee_bancaire = atoi ( pointeur_char[2] );
+			      operation -> no_operation = atoi ( latin2utf8(xmlGetProp ( node_ope, "No" )));
 
-			      if ( operation -> jour_bancaire )
-				operation -> date_bancaire = g_date_new_dmy ( operation -> jour_bancaire,
-									      operation -> mois_bancaire,
-									      operation -> annee_bancaire );
-			      else
-				operation -> date_bancaire = NULL;
-
+			      pointeur_char = g_strsplit ( latin2utf8(xmlGetProp ( node_ope , "D" )), "/", 3 );
+			      operation -> jour = atoi ( pointeur_char[0] );
+			      operation -> mois = atoi ( pointeur_char[1] );
+			      operation -> annee = atoi ( pointeur_char[2] );
+			      operation -> date = g_date_new_dmy ( operation -> jour,
+								   operation -> mois,
+								   operation -> annee );
 			      g_strfreev ( pointeur_char );
-			    }
-			  else
-			    {
-			      operation -> jour_bancaire = 0;
-			      operation -> mois_bancaire = 0;
-			      operation -> annee_bancaire = 0;
-			      operation -> date_bancaire = NULL;
-			    }
+
+			      /* GDC prise en compte de la lecture de la date bancaire */
+
+			      pointeur = latin2utf8(xmlGetProp ( node_ope,
+								 "Db" ));
+
+			      if ( pointeur )
+				{
+				  pointeur_char = g_strsplit ( pointeur,
+							       "/",
+							       3 );
+				  operation -> jour_bancaire = atoi ( pointeur_char[0] );
+				  operation -> mois_bancaire = atoi ( pointeur_char[1] );
+				  operation -> annee_bancaire = atoi ( pointeur_char[2] );
+
+				  if ( operation -> jour_bancaire )
+				    operation -> date_bancaire = g_date_new_dmy ( operation -> jour_bancaire,
+										  operation -> mois_bancaire,
+										  operation -> annee_bancaire );
+				  else
+				    operation -> date_bancaire = NULL;
+
+				  g_strfreev ( pointeur_char );
+				}
+			      else
+				{
+				  operation -> jour_bancaire = 0;
+				  operation -> mois_bancaire = 0;
+				  operation -> annee_bancaire = 0;
+				  operation -> date_bancaire = NULL;
+				}
 			  
-			  /* GDCFin */
+			      /* GDCFin */
 
-			  operation -> montant = g_strtod ( latin2utf8(xmlGetProp ( node_ope,
-									 "M" )),
-							    NULL );
-
-			  operation -> devise = atoi ( latin2utf8(xmlGetProp ( node_ope,
-								    "De" )));
-
-			  operation -> une_devise_compte_egale_x_devise_ope = atoi ( latin2utf8(xmlGetProp ( node_ope,
-												  "Rdc" )));
-
-			  operation -> taux_change = g_strtod ( latin2utf8(xmlGetProp ( node_ope,
-									     "Tc" )),
+			      operation -> montant = g_strtod ( latin2utf8(xmlGetProp ( node_ope,
+											"M" )),
 								NULL );
 
-			  operation -> frais_change = g_strtod ( latin2utf8(xmlGetProp ( node_ope,
-									      "Fc" )),
-								 NULL );
+			      operation -> devise = atoi ( latin2utf8(xmlGetProp ( node_ope,
+										   "De" )));
 
-			  operation -> tiers = atoi ( latin2utf8(xmlGetProp ( node_ope,
-								   "T" )));
+			      operation -> une_devise_compte_egale_x_devise_ope = atoi ( latin2utf8(xmlGetProp ( node_ope,
+														 "Rdc" )));
 
-			  operation -> categorie = atoi ( latin2utf8(xmlGetProp ( node_ope,
-								       "C" )));
+			      operation -> taux_change = g_strtod ( latin2utf8(xmlGetProp ( node_ope,
+											    "Tc" )),
+								    NULL );
 
-			  operation -> sous_categorie = atoi ( latin2utf8(xmlGetProp ( node_ope,
-									    "Sc" )));
+			      operation -> frais_change = g_strtod ( latin2utf8(xmlGetProp ( node_ope,
+											     "Fc" )),
+								     NULL );
 
-			  operation -> operation_ventilee = atoi ( latin2utf8(xmlGetProp ( node_ope,
-										"Ov" )));
+			      operation -> tiers = atoi ( latin2utf8(xmlGetProp ( node_ope,
+										  "T" )));
 
-			  operation -> notes = latin2utf8(xmlGetProp ( node_ope,
-							    "N" ));
-			  if ( !strlen ( operation -> notes ))
-			    operation -> notes = NULL;
+			      operation -> categorie = atoi ( latin2utf8(xmlGetProp ( node_ope,
+										      "C" )));
 
-			  operation -> type_ope = atoi ( latin2utf8(xmlGetProp ( node_ope,
-								      "Ty" )));
+			      operation -> sous_categorie = atoi ( latin2utf8(xmlGetProp ( node_ope,
+											   "Sc" )));
 
-			  operation -> contenu_type = latin2utf8(xmlGetProp ( node_ope,
-								   "Ct" ));
-			  if ( !strlen ( operation -> contenu_type ))
-			    operation -> contenu_type = NULL;
+			      operation -> operation_ventilee = atoi ( latin2utf8(xmlGetProp ( node_ope,
+											       "Ov" )));
 
-			  operation -> pointe = atoi ( latin2utf8(xmlGetProp ( node_ope,
-								    "P" )));
+			      operation -> notes = latin2utf8(xmlGetProp ( node_ope,
+									   "N" ));
+			      if ( !strlen ( operation -> notes ))
+				operation -> notes = NULL;
 
-			  operation -> auto_man = atoi ( latin2utf8(xmlGetProp ( node_ope,
-								      "A" )));
+			      operation -> type_ope = atoi ( latin2utf8(xmlGetProp ( node_ope,
+										     "Ty" )));
 
-			  operation -> no_rapprochement = atoi ( latin2utf8(xmlGetProp ( node_ope,
-									      "R" )));
+			      operation -> contenu_type = latin2utf8(xmlGetProp ( node_ope,
+										  "Ct" ));
+			      if ( !strlen ( operation -> contenu_type ))
+				operation -> contenu_type = NULL;
 
-			  operation -> no_exercice = atoi ( latin2utf8(xmlGetProp ( node_ope,
-									 "E" )));
+			      operation -> pointe = atoi ( latin2utf8(xmlGetProp ( node_ope,
+										   "P" )));
 
-			  operation -> imputation = atoi ( latin2utf8(xmlGetProp ( node_ope,
-									"I" )));
+			      operation -> auto_man = atoi ( latin2utf8(xmlGetProp ( node_ope,
+										     "A" )));
 
-			  operation -> sous_imputation = atoi ( latin2utf8(xmlGetProp ( node_ope,
-									     "Si" )));
+			      operation -> no_rapprochement = atoi ( latin2utf8(xmlGetProp ( node_ope,
+											     "R" )));
 
-			  operation -> no_piece_comptable = latin2utf8(xmlGetProp ( node_ope,
-									 "Pc" ));
-			  if ( !strlen ( operation -> no_piece_comptable ))
-			    operation -> no_piece_comptable = NULL;
+			      operation -> no_exercice = atoi ( latin2utf8(xmlGetProp ( node_ope,
+											"E" )));
 
-			  operation -> info_banque_guichet = latin2utf8(xmlGetProp ( node_ope,
-									  "Ibg" ));
-			  if ( !strlen ( operation -> info_banque_guichet ))
-			    operation -> info_banque_guichet = NULL;
+			      operation -> imputation = atoi ( latin2utf8(xmlGetProp ( node_ope,
+										       "I" )));
 
-			  operation -> relation_no_operation = atoi ( latin2utf8(xmlGetProp ( node_ope,
-										   "Ro" )));
+			      operation -> sous_imputation = atoi ( latin2utf8(xmlGetProp ( node_ope,
+											    "Si" )));
 
-			  operation -> relation_no_compte = atoi ( latin2utf8(xmlGetProp ( node_ope,
-										"Rc" )));
+			      operation -> no_piece_comptable = latin2utf8(xmlGetProp ( node_ope,
+											"Pc" ));
+			      if ( !strlen ( operation -> no_piece_comptable ))
+				operation -> no_piece_comptable = NULL;
 
-			  operation -> no_operation_ventilee_associee = atoi ( latin2utf8(xmlGetProp ( node_ope,
-											    "Va" )));
+			      operation -> info_banque_guichet = latin2utf8(xmlGetProp ( node_ope,
+											 "Ibg" ));
+			      if ( !strlen ( operation -> info_banque_guichet ))
+				operation -> info_banque_guichet = NULL;
+
+			      operation -> relation_no_operation = atoi ( latin2utf8(xmlGetProp ( node_ope,
+												  "Ro" )));
+
+			      operation -> relation_no_compte = atoi ( latin2utf8(xmlGetProp ( node_ope,
+											       "Rc" )));
+
+			      operation -> no_operation_ventilee_associee = atoi ( latin2utf8(xmlGetProp ( node_ope,
+													   "Va" )));
 
 
-			  /* on met le compte associe */
+			      /* on met le compte associe */
 			  
-			  operation -> no_compte = NO_COMPTE;
+			      operation -> no_compte = NO_COMPTE;
 
-			  LISTE_OPERATIONS = g_slist_append ( LISTE_OPERATIONS,
-							      operation);
+			      LISTE_OPERATIONS = g_slist_append ( LISTE_OPERATIONS,
+								  operation);
+			    }
 
 			  node_ope = node_ope -> next;
 			}
@@ -2614,7 +2639,7 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 
 	  /* node_echeances va faire le tour de l'arborescence des echeances */
 
-	  node_echeances = node_1 -> childs;
+	  node_echeances = node_1 -> children->next;
 
 	  while ( node_echeances )
 	    {
@@ -2625,7 +2650,7 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 		{
 		  xmlNodePtr node_generalites;
 
-		  node_generalites = node_echeances -> childs;
+		  node_generalites = node_echeances -> children->next;
 
 		  while ( node_generalites )
 		    {
@@ -2651,7 +2676,7 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 
 		  gsliste_echeances = NULL;
 
-		  node_detail = node_echeances -> childs;
+		  node_detail = node_echeances -> children->next;
 
 		  while ( node_detail )
 		    {
@@ -2661,104 +2686,108 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 		      operation_echeance = calloc ( 1,
 						     sizeof (struct operation_echeance ));
 
-		      operation_echeance -> no_operation = atoi ( latin2utf8(xmlGetProp ( node_detail,
-								      "No" )));
-
-		      pointeur_char = g_strsplit ( latin2utf8(xmlGetProp ( node_detail ,
-								"Date" )),
-						   "/",
-						   3 );
-		      operation_echeance -> jour = atoi ( pointeur_char[0] );
-		      operation_echeance -> mois = atoi ( pointeur_char[1] );
-		      operation_echeance -> annee = atoi ( pointeur_char[2] );
-		      operation_echeance -> date = g_date_new_dmy ( operation_echeance -> jour,
-								    operation_echeance -> mois,
-								    operation_echeance -> annee );
-		      g_strfreev ( pointeur_char );
-
-		      operation_echeance -> compte = atoi ( latin2utf8(xmlGetProp ( node_detail,
-								      "Compte" )));
-
-		      operation_echeance -> montant = g_strtod ( latin2utf8(xmlGetProp ( node_detail,
-									      "Montant" )),
-								 NULL );
-
-		      operation_echeance -> devise = atoi ( latin2utf8(xmlGetProp ( node_detail,
-									 "Devise" )));
-
-		      operation_echeance -> tiers = atoi ( latin2utf8(xmlGetProp ( node_detail,
-									"Tiers" )));
-
-		      operation_echeance -> categorie = atoi ( latin2utf8(xmlGetProp ( node_detail,
-								      "Categorie" )));
-
-		      operation_echeance -> sous_categorie = atoi ( latin2utf8(xmlGetProp ( node_detail,
-								      "Sous-categorie" )));
-
-		      operation_echeance -> compte_virement = atoi ( latin2utf8(xmlGetProp ( node_detail,
-								      "Virement_compte" )));
-
-		      operation_echeance -> type_ope = atoi ( latin2utf8(xmlGetProp ( node_detail,
-								      "Type" )));
-
-		      operation_echeance -> contenu_type = latin2utf8(xmlGetProp ( node_detail,
-							    "Contenu_du_type" ));
-		      if ( !strlen ( operation_echeance -> contenu_type ))
-			operation_echeance -> contenu_type = NULL;
-
-		      operation_echeance -> no_exercice = atoi ( latin2utf8(xmlGetProp ( node_detail,
-								      "Exercice" )));
-
-		      operation_echeance -> imputation = atoi ( latin2utf8(xmlGetProp ( node_detail,
-								      "Imputation" )));
-
-		      operation_echeance -> sous_imputation = atoi ( latin2utf8(xmlGetProp ( node_detail,
-								      "Sous-imputation" )));
-
-		      operation_echeance -> notes = latin2utf8(xmlGetProp ( node_detail,
-								      "Notes" ));
-		      if ( !strlen ( operation_echeance -> notes ))
-			operation_echeance -> notes = NULL;
-
-		      operation_echeance -> auto_man = atoi ( latin2utf8(xmlGetProp ( node_detail,
-								      "Automatique" )));
-
-		      operation_echeance -> periodicite = atoi ( latin2utf8(xmlGetProp ( node_detail,
-								      "Periodicite" )));
-
-		      operation_echeance -> intervalle_periodicite_personnalisee = atoi ( latin2utf8(xmlGetProp ( node_detail,
-								      "Intervalle_periodicite" )));
-
-		      operation_echeance -> periodicite_personnalisee = atoi ( latin2utf8(xmlGetProp ( node_detail,
-								      "Periodicite_personnalisee" )));
-
-		      if ( strlen ( latin2utf8(xmlGetProp ( node_detail ,
-						 "Date_limite" ))))
+		      if ( node_detail -> type != XML_TEXT_NODE )
 			{
+			  operation_echeance -> no_operation = atoi ( latin2utf8(xmlGetProp ( node_detail,
+											      "No" )));
+
 			  pointeur_char = g_strsplit ( latin2utf8(xmlGetProp ( node_detail ,
-								    "Date_limite" )),
+									       "Date" )),
 						       "/",
 						       3 );
-
-			  operation_echeance -> jour_limite = atoi ( pointeur_char[0] );
-			  operation_echeance -> mois_limite = atoi ( pointeur_char[1] );
-			  operation_echeance -> annee_limite = atoi ( pointeur_char[2] );
-			  operation_echeance -> date_limite = g_date_new_dmy ( operation_echeance -> jour_limite,
-									       operation_echeance -> mois_limite,
-									       operation_echeance -> annee_limite );
+			  operation_echeance -> jour = atoi ( pointeur_char[0] );
+			  operation_echeance -> mois = atoi ( pointeur_char[1] );
+			  operation_echeance -> annee = atoi ( pointeur_char[2] );
+			  operation_echeance -> date = g_date_new_dmy ( operation_echeance -> jour,
+									operation_echeance -> mois,
+									operation_echeance -> annee );
 			  g_strfreev ( pointeur_char );
-			}
-		      else
-			{
-			  operation_echeance -> jour_limite = 0;
-			  operation_echeance -> mois_limite = 0;
-			  operation_echeance -> annee_limite = 0;
-			  operation_echeance -> date_limite = NULL;
-			}
+
+			  operation_echeance -> compte = atoi ( latin2utf8(xmlGetProp ( node_detail,
+											"Compte" )));
+
+			  operation_echeance -> montant = g_strtod ( latin2utf8(xmlGetProp ( node_detail,
+											     "Montant" )),
+								     NULL );
+
+			  operation_echeance -> devise = atoi ( latin2utf8(xmlGetProp ( node_detail,
+											"Devise" )));
+
+			  operation_echeance -> tiers = atoi ( latin2utf8(xmlGetProp ( node_detail,
+										       "Tiers" )));
+
+			  operation_echeance -> categorie = atoi ( latin2utf8(xmlGetProp ( node_detail,
+											   "Categorie" )));
+
+			  operation_echeance -> sous_categorie = atoi ( latin2utf8(xmlGetProp ( node_detail,
+												"Sous-categorie" )));
+
+			  operation_echeance -> compte_virement = atoi ( latin2utf8(xmlGetProp ( node_detail,
+												 "Virement_compte" )));
+
+			  operation_echeance -> type_ope = atoi ( latin2utf8(xmlGetProp ( node_detail,
+											  "Type" )));
+
+			  operation_echeance -> contenu_type = latin2utf8(xmlGetProp ( node_detail,
+										       "Contenu_du_type" ));
+			  if ( !strlen ( operation_echeance -> contenu_type ))
+			    operation_echeance -> contenu_type = NULL;
+
+			  operation_echeance -> no_exercice = atoi ( latin2utf8(xmlGetProp ( node_detail,
+											     "Exercice" )));
+
+			  operation_echeance -> imputation = atoi ( latin2utf8(xmlGetProp ( node_detail,
+											    "Imputation" )));
+
+			  operation_echeance -> sous_imputation = atoi ( latin2utf8(xmlGetProp ( node_detail,
+												 "Sous-imputation" )));
+
+			  operation_echeance -> notes = latin2utf8(xmlGetProp ( node_detail,
+										"Notes" ));
+			  if ( !strlen ( operation_echeance -> notes ))
+			    operation_echeance -> notes = NULL;
+
+			  operation_echeance -> auto_man = atoi ( latin2utf8(xmlGetProp ( node_detail,
+											  "Automatique" )));
+
+			  operation_echeance -> periodicite = atoi ( latin2utf8(xmlGetProp ( node_detail,
+											     "Periodicite" )));
+
+			  operation_echeance -> intervalle_periodicite_personnalisee = atoi ( latin2utf8(xmlGetProp ( node_detail,
+														      "Intervalle_periodicite" )));
+
+			  operation_echeance -> periodicite_personnalisee = atoi ( latin2utf8(xmlGetProp ( node_detail,
+													   "Periodicite_personnalisee" )));
+
+			  if ( strlen ( latin2utf8(xmlGetProp ( node_detail ,
+								"Date_limite" ))))
+			    {
+			      pointeur_char = g_strsplit ( latin2utf8(xmlGetProp ( node_detail ,
+										   "Date_limite" )),
+							   "/",
+							   3 );
+
+			      operation_echeance -> jour_limite = atoi ( pointeur_char[0] );
+			      operation_echeance -> mois_limite = atoi ( pointeur_char[1] );
+			      operation_echeance -> annee_limite = atoi ( pointeur_char[2] );
+			      operation_echeance -> date_limite = g_date_new_dmy ( operation_echeance -> jour_limite,
+										   operation_echeance -> mois_limite,
+										   operation_echeance -> annee_limite );
+			      g_strfreev ( pointeur_char );
+			    }
+			  else
+			    {
+			      operation_echeance -> jour_limite = 0;
+			      operation_echeance -> mois_limite = 0;
+			      operation_echeance -> annee_limite = 0;
+			      operation_echeance -> date_limite = NULL;
+			    }
 
 
-		      gsliste_echeances = g_slist_append ( gsliste_echeances,
-							   operation_echeance);
+			  gsliste_echeances = g_slist_append ( gsliste_echeances,
+							       operation_echeance);
+
+			}
 
 		      node_detail = node_detail -> next;
 		    }
@@ -2776,7 +2805,7 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 
 	  /* node_tiers va faire le tour de l'arborescence des tiers */
 
-	  node_tiers = node_1 -> childs;
+	  node_tiers = node_1 -> children->next;
 
 	  while ( node_tiers )
 	    {
@@ -2787,7 +2816,7 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 		{
 		  xmlNodePtr node_generalites;
 
-		  node_generalites = node_tiers -> childs;
+		  node_generalites = node_tiers -> children->next;
 
 		  while ( node_generalites )
 		    {
@@ -2813,7 +2842,7 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 		  xmlNodePtr node_detail;
 
 		  liste_struct_tiers = NULL;
-		  node_detail = node_tiers -> childs;
+		  node_detail = node_tiers -> children->next;
 
 		  while ( node_detail )
 		    {
@@ -2822,22 +2851,24 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 		      tiers = calloc ( 1,
 						     sizeof ( struct struct_tiers ) );
 
-		      tiers -> no_tiers = atoi ( latin2utf8(xmlGetProp ( node_detail,
-							      "No" )));
-		      tiers -> nom_tiers = latin2utf8(xmlGetProp ( node_detail,
-							"Nom" ));
-		      tiers -> texte = latin2utf8(xmlGetProp ( node_detail,
-						    "Informations" ));
-		      if ( !strlen ( tiers -> texte ))
-			tiers -> texte = NULL;
+		      if ( node_detail -> type != XML_TEXT_NODE )
+			{
+			  tiers -> no_tiers = atoi ( latin2utf8(xmlGetProp ( node_detail,
+									     "No" )));
+			  tiers -> nom_tiers = latin2utf8(xmlGetProp ( node_detail,
+								       "Nom" ));
+			  tiers -> texte = latin2utf8(xmlGetProp ( node_detail,
+								   "Informations" ));
+			  if ( !strlen ( tiers -> texte ))
+			    tiers -> texte = NULL;
 
-		      tiers -> liaison = atoi ( latin2utf8(xmlGetProp ( node_detail,
-							     "Liaison" )));
+			  tiers -> liaison = atoi ( latin2utf8(xmlGetProp ( node_detail,
+									    "Liaison" )));
 		      
-		      liste_struct_tiers = g_slist_append ( liste_struct_tiers,
-							    tiers );
+			  liste_struct_tiers = g_slist_append ( liste_struct_tiers,
+								tiers );
 
-
+			}
 		      node_detail = node_detail -> next;
 		    }
 		}
@@ -2854,7 +2885,7 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 
 	  /* node_categories va faire le tour de l'arborescence des categories */
 
-	  node_categories = node_1 -> childs;
+	  node_categories = node_1 -> children->next;
 
 	  while ( node_categories )
 	    {
@@ -2865,7 +2896,7 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 		{
 		  xmlNodePtr node_generalites;
 
-		  node_generalites = node_categories -> childs;
+		  node_generalites = node_categories -> children->next;
 
 		  while ( node_generalites )
 		    {
@@ -2890,7 +2921,7 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 		  xmlNodePtr node_detail;
 
 		  liste_struct_categories = NULL;
-		  node_detail = node_categories -> childs;
+		  node_detail = node_categories -> children->next;
 
 		  while ( node_detail )
 		    {
@@ -2900,40 +2931,46 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 		      categorie = calloc ( 1,
 						     sizeof ( struct struct_categ ) );
 
-		      categorie -> no_categ = atoi ( latin2utf8(xmlGetProp ( node_detail,
-								  "No" )));
-		      categorie -> nom_categ = latin2utf8(xmlGetProp ( node_detail,
-							    "Nom" ));
-		      categorie -> type_categ = atoi ( latin2utf8(xmlGetProp ( node_detail,
-								    "Type" )));
-		      categorie -> no_derniere_sous_categ = atoi ( latin2utf8(xmlGetProp ( node_detail,
-										"No_derniere_sous_cagegorie" )));
-
-		      /*  pour chaque categorie, on recupère les sous-categories */
-
-		      categorie -> liste_sous_categ = NULL;
-		      node_sous_categ = node_detail -> childs;
-
-		      while ( node_sous_categ )
+		      if ( node_detail -> type != XML_TEXT_NODE )
 			{
-			  struct struct_sous_categ *sous_categ;
+			  categorie -> no_categ = atoi ( latin2utf8(xmlGetProp ( node_detail,
+										 "No" )));
+			  categorie -> nom_categ = latin2utf8(xmlGetProp ( node_detail,
+									   "Nom" ));
+			  categorie -> type_categ = atoi ( latin2utf8(xmlGetProp ( node_detail,
+										   "Type" )));
+			  categorie -> no_derniere_sous_categ = atoi ( latin2utf8(xmlGetProp ( node_detail,
+											       "No_derniere_sous_cagegorie" )));
 
-			  sous_categ = calloc ( 1,
-						     sizeof ( struct struct_sous_categ ) );
+			  /*  pour chaque categorie, on recupère les sous-categories */
 
-			  sous_categ -> no_sous_categ = atoi ( latin2utf8(xmlGetProp ( node_sous_categ,
-									    "No" )));
-			  sous_categ -> nom_sous_categ = latin2utf8(xmlGetProp ( node_sous_categ,
-									     "Nom" ));
+			  categorie -> liste_sous_categ = NULL;
+			  node_sous_categ = node_detail -> children;
 
-			  categorie -> liste_sous_categ = g_slist_append ( categorie -> liste_sous_categ,
-									   sous_categ );
-			  node_sous_categ = node_sous_categ -> next;
+			  while ( node_sous_categ )
+			    {
+			      struct struct_sous_categ *sous_categ;
+
+			      if ( node_sous_categ -> type != XML_TEXT_NODE )
+				{
+				  sous_categ = calloc ( 1,
+							sizeof ( struct struct_sous_categ ) );
+
+				  sous_categ -> no_sous_categ = atoi ( latin2utf8(xmlGetProp ( node_sous_categ,
+											       "No" )));
+				  sous_categ -> nom_sous_categ = latin2utf8(xmlGetProp ( node_sous_categ,
+											 "Nom" ));
+
+				  categorie -> liste_sous_categ = g_slist_append ( categorie -> liste_sous_categ,
+										   sous_categ );
+				}
+			      node_sous_categ = node_sous_categ -> next;
+			    }
+
+			  liste_struct_categories = g_slist_append ( liste_struct_categories,
+								     categorie );
+
 			}
-
-		      liste_struct_categories = g_slist_append ( liste_struct_categories,
-								 categorie );
-
 		      node_detail = node_detail -> next;
 		    }
 		}
@@ -2953,7 +2990,7 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 
 	  /* node_imputations va faire le tour de l'arborescence des imputations */
 
-	  node_imputations = node_1 -> childs;
+	  node_imputations = node_1 -> children->next;
 
 	  while ( node_imputations )
 	    {
@@ -2964,7 +3001,7 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 		{
 		  xmlNodePtr node_generalites;
 
-		  node_generalites = node_imputations -> childs;
+		  node_generalites = node_imputations -> children->next;
 
 		  while ( node_generalites )
 		    {
@@ -2989,7 +3026,7 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 		  xmlNodePtr node_detail;
 
 		  liste_struct_imputation = NULL;
-		  node_detail = node_imputations -> childs;
+		  node_detail = node_imputations -> children;
 
 		  while ( node_detail )
 		    {
@@ -2999,39 +3036,42 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 		      imputation = calloc ( 1,
 						     sizeof ( struct struct_imputation ) );
 
-		      imputation -> no_imputation = atoi ( latin2utf8(xmlGetProp ( node_detail,
-								  "No" )));
-		      imputation -> nom_imputation = latin2utf8(xmlGetProp ( node_detail,
-							    "Nom" ));
-		      imputation -> type_imputation = atoi ( latin2utf8(xmlGetProp ( node_detail,
-								    "Type" )));
-		      imputation -> no_derniere_sous_imputation = atoi ( latin2utf8(xmlGetProp ( node_detail,
-										"No_derniere_sous_imputation" )));
-
-		      /*  pour chaque categorie, on recupère les sous-categories */
-
-		      imputation -> liste_sous_imputation = NULL;
-		      node_sous_imputation = node_detail -> childs;
-
-		      while ( node_sous_imputation )
+		      if ( node_detail -> type != XML_TEXT_NODE )
 			{
-			  struct struct_sous_imputation *sous_imputation;
+			  imputation -> no_imputation = atoi ( latin2utf8(xmlGetProp ( node_detail,
+										       "No" )));
+			  imputation -> nom_imputation = latin2utf8(xmlGetProp ( node_detail,
+										 "Nom" ));
+			  imputation -> type_imputation = atoi ( latin2utf8(xmlGetProp ( node_detail,
+											 "Type" )));
+			  imputation -> no_derniere_sous_imputation = atoi ( latin2utf8(xmlGetProp ( node_detail,
+												     "No_derniere_sous_imputation" )));
 
-			  sous_imputation = calloc ( 1,
-						     sizeof ( struct struct_sous_imputation ) );
+			  /*  pour chaque categorie, on recupère les sous-categories */
 
-			  sous_imputation -> no_sous_imputation = atoi ( latin2utf8(xmlGetProp ( node_sous_imputation,
-									    "No" )));
-			  sous_imputation -> nom_sous_imputation = latin2utf8(xmlGetProp ( node_sous_imputation,
-									     "Nom" ));
+			  imputation -> liste_sous_imputation = NULL;
+			  node_sous_imputation = node_detail -> children->next;
 
-			  imputation -> liste_sous_imputation = g_slist_append ( imputation -> liste_sous_imputation,
-									   sous_imputation );
-			  node_sous_imputation = node_sous_imputation -> next;
+			  while ( node_sous_imputation )
+			    {
+			      struct struct_sous_imputation *sous_imputation;
+
+			      sous_imputation = calloc ( 1,
+							 sizeof ( struct struct_sous_imputation ) );
+
+			      sous_imputation -> no_sous_imputation = atoi ( latin2utf8(xmlGetProp ( node_sous_imputation,
+												     "No" )));
+			      sous_imputation -> nom_sous_imputation = latin2utf8(xmlGetProp ( node_sous_imputation,
+											       "Nom" ));
+
+			      imputation -> liste_sous_imputation = g_slist_append ( imputation -> liste_sous_imputation,
+										     sous_imputation );
+			      node_sous_imputation = node_sous_imputation -> next;
+			    }
+
+			  liste_struct_imputation = g_slist_append ( liste_struct_imputation,
+								     imputation );
 			}
-
-		      liste_struct_imputation = g_slist_append ( liste_struct_imputation,
-								 imputation );
 
 		      node_detail = node_detail -> next;
 		    }
@@ -3053,7 +3093,7 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 
 	  /* node_devises va faire le tour de l'arborescence des devises */
 
-	  node_devises = node_1 -> childs;
+	  node_devises = node_1 -> children->next;
 
 	  while ( node_devises )
 	    {
@@ -3064,7 +3104,7 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 		{
 		  xmlNodePtr node_generalites;
 
-		  node_generalites = node_devises -> childs;
+		  node_generalites = node_devises -> children->next;
 
 		  while ( node_generalites )
 		    {
@@ -3089,7 +3129,7 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 		  xmlNodePtr node_detail;
 
 		  liste_struct_devises = NULL;
-		  node_detail = node_devises -> childs;
+		  node_detail = node_devises -> children->next;
 
 		  while ( node_detail )
 		    {
@@ -3098,57 +3138,59 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 		      devise = calloc ( 1,
 						     sizeof ( struct struct_devise ));
 
-
-		      devise -> no_devise = atoi ( latin2utf8(xmlGetProp ( node_detail,
-						 "No" )));
-		      devise -> nom_devise = latin2utf8(xmlGetProp ( node_detail,
-						 "Nom" ));
-		      devise -> code_iso4217_devise = latin2utf8(xmlGetProp ( node_detail,
-									      "IsoCode" ));
-		      devise -> code_devise = latin2utf8(xmlGetProp ( node_detail,
-						 "Code" ));
-		      if ( !strlen ( devise -> code_devise ))
-			devise -> code_devise = NULL;
-		      if (! devise -> code_iso4217_devise ||
-			  !strlen ( devise -> code_iso4217_devise ))
-			devise -> code_iso4217_devise = NULL;
-		      /* Handle Euro nicely */
-		      if (! strcmp (devise -> code_devise, "E"))
+		      if ( node_detail -> type != XML_TEXT_NODE )
 			{
-			  devise -> code_devise = "â‚¬";
+			  devise -> no_devise = atoi ( latin2utf8(xmlGetProp ( node_detail,
+									       "No" )));
+			  devise -> nom_devise = latin2utf8(xmlGetProp ( node_detail,
+									 "Nom" ));
+			  devise -> code_iso4217_devise = latin2utf8(xmlGetProp ( node_detail,
+										  "IsoCode" ));
+			  devise -> code_devise = latin2utf8(xmlGetProp ( node_detail,
+									  "Code" ));
+			  if ( !strlen ( devise -> code_devise ))
+			    devise -> code_devise = NULL;
+			  if (! devise -> code_iso4217_devise ||
+			      !strlen ( devise -> code_iso4217_devise ))
+			    devise -> code_iso4217_devise = NULL;
+			  /* Handle Euro nicely */
+			  if (! strcmp (devise -> code_devise, "E"))
+			    {
+			      devise -> code_devise = "â‚¬";
+			    }
+
+			  devise -> passage_euro = atoi ( latin2utf8(xmlGetProp ( node_detail,
+										  "Passage_euro" )));
+
+			  if ( strlen ( latin2utf8(xmlGetProp ( node_detail,
+								"Date_dernier_change" ))))
+			    {
+			      gchar **pointeur_char;
+
+			      pointeur_char = g_strsplit ( latin2utf8(xmlGetProp ( node_detail,
+										   "Date_dernier_change" )),
+							   "/",
+							   3 );
+
+			      devise -> date_dernier_change = g_date_new_dmy ( atoi ( pointeur_char[0] ),
+									       atoi ( pointeur_char[1] ),
+									       atoi ( pointeur_char[2] ));
+			      g_strfreev ( pointeur_char );
+			    }
+			  else
+			    devise -> date_dernier_change = NULL;
+
+			  devise -> une_devise_1_egale_x_devise_2 = atoi ( latin2utf8(xmlGetProp ( node_detail,
+												   "Rapport_entre_devises" )));
+			  devise -> no_devise_en_rapport = atoi ( latin2utf8(xmlGetProp ( node_detail,
+											  "Devise_en_rapport" )));
+			  devise -> change = g_strtod ( latin2utf8(xmlGetProp ( node_detail,
+										"Change" )),
+							NULL );
+
+			  liste_struct_devises = g_slist_append ( liste_struct_devises,
+								  devise );
 			}
-
-		      devise -> passage_euro = atoi ( latin2utf8(xmlGetProp ( node_detail,
-						 "Passage_euro" )));
-
-		      if ( strlen ( latin2utf8(xmlGetProp ( node_detail,
-						 "Date_dernier_change" ))))
-			{
-			  gchar **pointeur_char;
-
-			  pointeur_char = g_strsplit ( latin2utf8(xmlGetProp ( node_detail,
-								    "Date_dernier_change" )),
-						       "/",
-						       3 );
-
-			  devise -> date_dernier_change = g_date_new_dmy ( atoi ( pointeur_char[0] ),
-									   atoi ( pointeur_char[1] ),
-									   atoi ( pointeur_char[2] ));
-			  g_strfreev ( pointeur_char );
-			}
-		      else
-			devise -> date_dernier_change = NULL;
-
-		      devise -> une_devise_1_egale_x_devise_2 = atoi ( latin2utf8(xmlGetProp ( node_detail,
-						 "Rapport_entre_devises" )));
-		      devise -> no_devise_en_rapport = atoi ( latin2utf8(xmlGetProp ( node_detail,
-						 "Devise_en_rapport" )));
-		      devise -> change = g_strtod ( latin2utf8(xmlGetProp ( node_detail,
-								 "Change" )),
-						    NULL );
-
-		      liste_struct_devises = g_slist_append ( liste_struct_devises,
-							      devise );
 
 		      node_detail = node_detail -> next;
 		    }
@@ -3166,7 +3208,7 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 
 	  /* node_banques va faire le tour de l'arborescence des banques */
 
-	  node_banques = node_1 -> childs;
+	  node_banques = node_1 -> children->next;
 
 	  while ( node_banques )
 	    {
@@ -3177,7 +3219,7 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 		{
 		  xmlNodePtr node_generalites;
 
-		  node_generalites = node_banques -> childs;
+		  node_generalites = node_banques -> children;
 
 		  while ( node_generalites )
 		    {
@@ -3203,7 +3245,7 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 		  xmlNodePtr node_detail;
 
 		  liste_struct_banques = NULL;
-		  node_detail = node_banques -> childs;
+		  node_detail = node_banques -> children;
 
 		  while ( node_detail )
 		    {
@@ -3212,53 +3254,56 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 		      banque = calloc ( 1,
 						     sizeof ( struct struct_banque ));
 
-		      banque -> no_banque = atoi ( latin2utf8(xmlGetProp ( node_detail,
-						 "No" )));
-		      banque -> nom_banque = latin2utf8(xmlGetProp ( node_detail,
-						 "Nom" ));
-		      banque -> code_banque = latin2utf8(xmlGetProp ( node_detail,
-						 "Code" ));
-		      if ( !strlen ( banque -> code_banque ))
-			banque -> code_banque = NULL;
-		      banque -> adr_banque = latin2utf8(xmlGetProp ( node_detail,
-						 "Adresse" ));
-		      if ( !strlen ( banque -> adr_banque ))
-			banque -> adr_banque = NULL;
-		      banque -> tel_banque = latin2utf8(xmlGetProp ( node_detail,
-						 "Tel" ));
-		      if ( !strlen ( banque -> tel_banque ))
-			banque -> tel_banque = NULL;
-		      banque -> email_banque = latin2utf8(xmlGetProp ( node_detail,
-						 "Mail" ));
-		      if ( !strlen ( banque -> email_banque ))
-			banque -> email_banque = NULL;
-		      banque -> web_banque = latin2utf8(xmlGetProp ( node_detail,
-						 "Web" ));
-		      if ( !strlen ( banque -> web_banque ))
-			banque -> web_banque = NULL;
-		      banque -> nom_correspondant = latin2utf8(xmlGetProp ( node_detail,
-						 "Nom_correspondant" ));
-		      if ( !strlen ( banque -> nom_correspondant ))
-			banque -> nom_correspondant = NULL;
-		      banque -> fax_correspondant = latin2utf8(xmlGetProp ( node_detail,
-						 "Fax_correspondant" ));
-		      if ( !strlen ( banque -> fax_correspondant ))
-			banque -> fax_correspondant = NULL;
-		      banque -> tel_correspondant = latin2utf8(xmlGetProp ( node_detail,
-						 "Tel_correspondant" ));
-		      if ( !strlen ( banque -> tel_correspondant ))
-			banque -> tel_correspondant = NULL;
-		      banque -> email_correspondant = latin2utf8(xmlGetProp ( node_detail,
-						 "Mail_correspondant" ));
-		      if ( !strlen ( banque -> email_correspondant ))
-			banque -> email_correspondant = NULL;
-		      banque -> remarque_banque = latin2utf8(xmlGetProp ( node_detail,
-						 "Remarques" ));
-		      if ( !strlen ( banque -> remarque_banque ))
-			banque -> remarque_banque = NULL;
+		      if ( node_detail -> type != XML_TEXT_NODE )
+			{
+			  banque -> no_banque = atoi ( latin2utf8(xmlGetProp ( node_detail,
+									       "No" )));
+			  banque -> nom_banque = latin2utf8(xmlGetProp ( node_detail,
+									 "Nom" ));
+			  banque -> code_banque = latin2utf8(xmlGetProp ( node_detail,
+									  "Code" ));
+			  if ( !strlen ( banque -> code_banque ))
+			    banque -> code_banque = NULL;
+			  banque -> adr_banque = latin2utf8(xmlGetProp ( node_detail,
+									 "Adresse" ));
+			  if ( !strlen ( banque -> adr_banque ))
+			    banque -> adr_banque = NULL;
+			  banque -> tel_banque = latin2utf8(xmlGetProp ( node_detail,
+									 "Tel" ));
+			  if ( !strlen ( banque -> tel_banque ))
+			    banque -> tel_banque = NULL;
+			  banque -> email_banque = latin2utf8(xmlGetProp ( node_detail,
+									   "Mail" ));
+			  if ( !strlen ( banque -> email_banque ))
+			    banque -> email_banque = NULL;
+			  banque -> web_banque = latin2utf8(xmlGetProp ( node_detail,
+									 "Web" ));
+			  if ( !strlen ( banque -> web_banque ))
+			    banque -> web_banque = NULL;
+			  banque -> nom_correspondant = latin2utf8(xmlGetProp ( node_detail,
+										"Nom_correspondant" ));
+			  if ( !strlen ( banque -> nom_correspondant ))
+			    banque -> nom_correspondant = NULL;
+			  banque -> fax_correspondant = latin2utf8(xmlGetProp ( node_detail,
+										"Fax_correspondant" ));
+			  if ( !strlen ( banque -> fax_correspondant ))
+			    banque -> fax_correspondant = NULL;
+			  banque -> tel_correspondant = latin2utf8(xmlGetProp ( node_detail,
+										"Tel_correspondant" ));
+			  if ( !strlen ( banque -> tel_correspondant ))
+			    banque -> tel_correspondant = NULL;
+			  banque -> email_correspondant = latin2utf8(xmlGetProp ( node_detail,
+										  "Mail_correspondant" ));
+			  if ( !strlen ( banque -> email_correspondant ))
+			    banque -> email_correspondant = NULL;
+			  banque -> remarque_banque = latin2utf8(xmlGetProp ( node_detail,
+									      "Remarques" ));
+			  if ( !strlen ( banque -> remarque_banque ))
+			    banque -> remarque_banque = NULL;
 
-		      liste_struct_banques = g_slist_append ( liste_struct_banques,
-							      banque );
+			  liste_struct_banques = g_slist_append ( liste_struct_banques,
+								  banque );
+			}
 
 		      node_detail = node_detail -> next;
 		    }
@@ -3276,7 +3321,7 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 
 	  /* node_exercices va faire le tour de l'arborescence des exercices */
 
-	  node_exercices = node_1 -> childs;
+	  node_exercices = node_1 -> children;
 
 	  while ( node_exercices )
 	    {
@@ -3287,7 +3332,7 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 		{
 		  xmlNodePtr node_generalites;
 
-		  node_generalites = node_exercices -> childs;
+		  node_generalites = node_exercices -> children;
 
 		  while ( node_generalites )
 		    {
@@ -3312,62 +3357,63 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 		  xmlNodePtr node_detail;
 
 		  liste_struct_exercices = NULL;
-		  node_detail = node_exercices -> childs;
+		  node_detail = node_exercices -> children;
 
 		  while ( node_detail )
 		    {
 		      struct struct_exercice *exercice;
 		      
-		      exercice = calloc ( 1,
-						     sizeof ( struct struct_exercice ));
+		      exercice = calloc ( 1, sizeof ( struct struct_exercice ));
 
-		      exercice -> no_exercice = atoi ( latin2utf8(xmlGetProp ( node_detail,
-						 "No" )));
-		      exercice -> nom_exercice = latin2utf8(xmlGetProp ( node_detail,
-						 "Nom" ));
-
-		      if ( strlen ( latin2utf8(xmlGetProp ( node_detail,
-						 "Date_debut" ))))
+		      if ( node_detail -> type != XML_TEXT_NODE )
 			{
-			  gchar **pointeur_char;
+			  exercice -> no_exercice = atoi ( latin2utf8(xmlGetProp ( node_detail,
+										   "No" )));
+			  exercice -> nom_exercice = latin2utf8(xmlGetProp ( node_detail,
+									     "Nom" ));
 
-			  pointeur_char = g_strsplit ( latin2utf8(xmlGetProp ( node_detail,
-								    "Date_debut" )),
-						       "/",
-						       3 );
+			  if ( strlen ( latin2utf8(xmlGetProp ( node_detail,
+								"Date_debut" ))))
+			    {
+			      gchar **pointeur_char;
 
-			  exercice -> date_debut = g_date_new_dmy ( atoi ( pointeur_char[0] ),
-								    atoi ( pointeur_char[1] ),
-								    atoi ( pointeur_char[2] ));
-			  g_strfreev ( pointeur_char );
+			      pointeur_char = g_strsplit ( latin2utf8(xmlGetProp ( node_detail,
+										   "Date_debut" )),
+							   "/",
+							   3 );
+
+			      exercice -> date_debut = g_date_new_dmy ( atoi ( pointeur_char[0] ),
+									atoi ( pointeur_char[1] ),
+									atoi ( pointeur_char[2] ));
+			      g_strfreev ( pointeur_char );
+			    }
+			  else
+			    exercice -> date_debut = NULL;
+
+			  if ( strlen ( latin2utf8(xmlGetProp ( node_detail,
+								"Date_fin" ))))
+			    {
+			      gchar **pointeur_char;
+
+			      pointeur_char = g_strsplit ( latin2utf8(xmlGetProp ( node_detail,
+										   "Date_fin" )),
+							   "/",
+							   3 );
+
+			      exercice -> date_fin = g_date_new_dmy ( atoi ( pointeur_char[0] ),
+								      atoi ( pointeur_char[1] ),
+								      atoi ( pointeur_char[2] ));
+			      g_strfreev ( pointeur_char );
+			    }
+			  else
+			    exercice -> date_fin = NULL;
+
+			  exercice -> affiche_dans_formulaire = atoi ( latin2utf8(xmlGetProp ( node_detail,
+											       "Affiche" )));
+
+			  liste_struct_exercices = g_slist_append ( liste_struct_exercices,
+								    exercice );
 			}
-		      else
-			exercice -> date_debut = NULL;
-
-		      if ( strlen ( latin2utf8(xmlGetProp ( node_detail,
-						 "Date_fin" ))))
-			{
-			  gchar **pointeur_char;
-
-			  pointeur_char = g_strsplit ( latin2utf8(xmlGetProp ( node_detail,
-								    "Date_fin" )),
-						       "/",
-						       3 );
-
-			  exercice -> date_fin = g_date_new_dmy ( atoi ( pointeur_char[0] ),
-								  atoi ( pointeur_char[1] ),
-								  atoi ( pointeur_char[2] ));
-			  g_strfreev ( pointeur_char );
-			}
-		      else
-			exercice -> date_fin = NULL;
-
-		      exercice -> affiche_dans_formulaire = atoi ( latin2utf8(xmlGetProp ( node_detail,
-										"Affiche" )));
-
-		      liste_struct_exercices = g_slist_append ( liste_struct_exercices,
-								exercice );
-
 		      node_detail = node_detail -> next;
 		    }
 		}
@@ -3384,7 +3430,7 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 
 	  /* node_rapprochements va faire le tour de l'arborescence des rapprochements */
 
-	  node_rapprochements = node_1 -> childs;
+	  node_rapprochements = node_1 -> children;
 
 	  while ( node_rapprochements )
 	    {
@@ -3398,7 +3444,7 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 		  xmlNodePtr node_detail;
 
 		  liste_no_rapprochements = NULL;
-		  node_detail = node_rapprochements -> childs;
+		  node_detail = node_rapprochements -> children;
 
 		  while ( node_detail )
 		    {
@@ -3407,15 +3453,18 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 		      rapprochement = calloc ( 1,
 						     sizeof ( struct struct_no_rapprochement ));
 
-		      rapprochement -> no_rapprochement = atoi ( latin2utf8(xmlGetProp ( node_detail,
-						 "No" )));
-		      rapprochement -> nom_rapprochement = latin2utf8(xmlGetProp ( node_detail,
-									"Nom" ));
+		      if ( node_detail -> type != XML_TEXT_NODE )
+			{
+			  rapprochement -> no_rapprochement = atoi ( latin2utf8(xmlGetProp ( node_detail,
+											     "No" )));
+			  rapprochement -> nom_rapprochement = latin2utf8(xmlGetProp ( node_detail,
+										       "Nom" ));
 		      
-		      rapprochement -> nom_rapprochement = g_strstrip ( rapprochement -> nom_rapprochement);
+			  rapprochement -> nom_rapprochement = g_strstrip ( rapprochement -> nom_rapprochement);
 
-		      liste_no_rapprochements = g_slist_append ( liste_no_rapprochements,
-								 rapprochement );
+			  liste_no_rapprochements = g_slist_append ( liste_no_rapprochements,
+								     rapprochement );
+			}
 
 		      node_detail = node_detail -> next;
 		    }
@@ -3426,25 +3475,23 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 
       /* on recupère ici les etats */
 
-      if ( !strcmp ( node_1 -> name,
-		     "Etats" ))
+      if ( !strcmp ( node_1 -> name, "Etats" ))
 	{
 	  xmlNodePtr node_etats;
 
 	  /* node_etats va faire le tour de l'arborescence des etats */
 
-	  node_etats = node_1 -> childs;
+	  node_etats = node_1 -> children;
 
 	  while ( node_etats )
 	    {
 	      /* on va recuperer ici les generalites des etats */
 	      
-	      if ( !strcmp ( node_etats -> name,
-			     "Generalites" ))
+	      if ( !strcmp ( node_etats -> name, "Generalites" ))
 		{
 		  xmlNodePtr node_generalites;
 
-		  node_generalites = node_etats -> childs;
+		  node_generalites = node_etats -> children;
 
 		  while ( node_generalites )
 		    {
@@ -3465,7 +3512,7 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 		  xmlNodePtr node_detail;
 		  
 		  liste_struct_etats = NULL;
-		  node_detail = node_etats -> childs;
+		  node_detail = node_etats -> children;
 
 		  /* on fait maintenant le tour de tous les états */
 
@@ -3478,575 +3525,586 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 
 		      etat = calloc ( 1,
 				      sizeof ( struct struct_etat ));
-		      node_detail_etat = node_detail -> childs;
+		      node_detail_etat = node_detail -> children;
 
 		      /* on récupère les données de l'état */
 
 		      while ( node_detail_etat )
 			{
-			  if ( !strcmp ( node_detail_etat -> name,
-					 "No" ))
-			    etat -> no_etat = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
 
-
-			  if ( !strcmp ( node_detail_etat -> name,
-					 "Nom" ))
-			    etat -> nom_etat = latin2utf8(xmlNodeGetContent ( node_detail_etat ));
-
-
-			  if ( !strcmp ( node_detail_etat -> name,
-					 "Type_classement" )
-			       &&
-			       latin2utf8(xmlNodeGetContent ( node_detail_etat )))
+			  if ( node_detail_etat -> type != XML_TEXT_NODE )
 			    {
-			      gchar **pointeur_char;
-			      gint i;
 
-			      pointeur_char = g_strsplit ( latin2utf8(xmlNodeGetContent ( node_detail_etat )),
-							   "/",
-							   0 );
-			      i=0;
+			      if ( !strcmp ( node_detail_etat -> name,
+					     "No" ))
+				etat -> no_etat = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
 
-			      while ( pointeur_char[i] )
+
+			      if ( !strcmp ( node_detail_etat -> name,
+					     "Nom" ))
+				etat -> nom_etat = latin2utf8(xmlNodeGetContent ( node_detail_etat ));
+
+
+			      if ( !strcmp ( node_detail_etat -> name,
+					     "Type_classement" )
+				   &&
+				   latin2utf8(xmlNodeGetContent ( node_detail_etat )))
 				{
-				  etat -> type_classement = g_list_append ( etat -> type_classement,
-									    GINT_TO_POINTER ( atoi ( pointeur_char[i] )));
-				  i++;
+				  gchar **pointeur_char;
+				  gint i;
+
+				  pointeur_char = g_strsplit ( latin2utf8(xmlNodeGetContent ( node_detail_etat )),
+							       "/",
+							       0 );
+				  i=0;
+
+				  while ( pointeur_char[i] )
+				    {
+				      etat -> type_classement = g_list_append ( etat -> type_classement,
+										GINT_TO_POINTER ( atoi ( pointeur_char[i] )));
+				      i++;
+				    }
+				  g_strfreev ( pointeur_char );
 				}
-			      g_strfreev ( pointeur_char );
-			    }
 
 
-			  if ( !strcmp ( node_detail_etat -> name,
-					 "Aff_r" ))
-			    etat -> afficher_r = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
+			      if ( !strcmp ( node_detail_etat -> name,
+					     "Aff_r" ))
+				etat -> afficher_r = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
 
-			  if ( !strcmp ( node_detail_etat -> name,
-					 "Aff_ope" ))
-			    etat -> afficher_opes = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
+			      if ( !strcmp ( node_detail_etat -> name,
+					     "Aff_ope" ))
+				etat -> afficher_opes = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
 
-			  if ( !strcmp ( node_detail_etat -> name,
-					 "Aff_nb_ope" ))
-			    etat -> afficher_nb_opes = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
+			      if ( !strcmp ( node_detail_etat -> name,
+					     "Aff_nb_ope" ))
+				etat -> afficher_nb_opes = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
 
-			  if ( !strcmp ( node_detail_etat -> name,
-					 "Aff_no_ope" ))
-			    etat -> afficher_no_ope = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
+			      if ( !strcmp ( node_detail_etat -> name,
+					     "Aff_no_ope" ))
+				etat -> afficher_no_ope = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
 
-			  if ( !strcmp ( node_detail_etat -> name,
-					 "Aff_date_ope" ))
-			    etat -> afficher_date_ope = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
+			      if ( !strcmp ( node_detail_etat -> name,
+					     "Aff_date_ope" ))
+				etat -> afficher_date_ope = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
 
-			  if ( !strcmp ( node_detail_etat -> name,
-					 "Aff_tiers_ope" ))
-			    etat -> afficher_tiers_ope = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
+			      if ( !strcmp ( node_detail_etat -> name,
+					     "Aff_tiers_ope" ))
+				etat -> afficher_tiers_ope = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
 
-			  if ( !strcmp ( node_detail_etat -> name,
-					 "Aff_categ_ope" ))
-			    etat -> afficher_categ_ope = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
+			      if ( !strcmp ( node_detail_etat -> name,
+					     "Aff_categ_ope" ))
+				etat -> afficher_categ_ope = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
 
-			  if ( !strcmp ( node_detail_etat -> name,
-					 "Aff_ss_categ_ope" ))
-			    etat -> afficher_sous_categ_ope = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
+			      if ( !strcmp ( node_detail_etat -> name,
+					     "Aff_ss_categ_ope" ))
+				etat -> afficher_sous_categ_ope = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
 
-			  if ( !strcmp ( node_detail_etat -> name,
-					 "Aff_type_ope" ))
-			    etat -> afficher_type_ope = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
+			      if ( !strcmp ( node_detail_etat -> name,
+					     "Aff_type_ope" ))
+				etat -> afficher_type_ope = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
 
-			  if ( !strcmp ( node_detail_etat -> name,
-					 "Aff_ib_ope" ))
-			    etat -> afficher_ib_ope = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
+			      if ( !strcmp ( node_detail_etat -> name,
+					     "Aff_ib_ope" ))
+				etat -> afficher_ib_ope = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
 
-			  if ( !strcmp ( node_detail_etat -> name,
-					 "Aff_ss_ib_ope" ))
-			    etat ->afficher_sous_ib_ope  = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
+			      if ( !strcmp ( node_detail_etat -> name,
+					     "Aff_ss_ib_ope" ))
+				etat ->afficher_sous_ib_ope  = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
 
-			  if ( !strcmp ( node_detail_etat -> name,
-					 "Aff_cheque_ope" ))
-			    etat -> afficher_cheque_ope = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
+			      if ( !strcmp ( node_detail_etat -> name,
+					     "Aff_cheque_ope" ))
+				etat -> afficher_cheque_ope = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
 
-			  if ( !strcmp ( node_detail_etat -> name,
-					 "Aff_notes_ope" ))
-			    etat -> afficher_notes_ope = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
+			      if ( !strcmp ( node_detail_etat -> name,
+					     "Aff_notes_ope" ))
+				etat -> afficher_notes_ope = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
 
-			  if ( !strcmp ( node_detail_etat -> name,
-					 "Aff_pc_ope" ))
-			    etat -> afficher_pc_ope = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
+			      if ( !strcmp ( node_detail_etat -> name,
+					     "Aff_pc_ope" ))
+				etat -> afficher_pc_ope = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
 
-			  if ( !strcmp ( node_detail_etat -> name,
-					 "Aff_rappr_ope" ))
-			    etat -> afficher_rappr_ope = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
+			      if ( !strcmp ( node_detail_etat -> name,
+					     "Aff_rappr_ope" ))
+				etat -> afficher_rappr_ope = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
 
-			  if ( !strcmp ( node_detail_etat -> name,
-					 "Aff_infobd_ope" ))
-			    etat -> afficher_infobd_ope = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
+			      if ( !strcmp ( node_detail_etat -> name,
+					     "Aff_infobd_ope" ))
+				etat -> afficher_infobd_ope = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
 
-			  if ( !strcmp ( node_detail_etat -> name,
-					 "Aff_exo_ope" ))
-			    etat -> afficher_exo_ope = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
+			      if ( !strcmp ( node_detail_etat -> name,
+					     "Aff_exo_ope" ))
+				etat -> afficher_exo_ope = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
 
-			  if ( !strcmp ( node_detail_etat -> name,
-					 "Class_ope" ))
-			    etat -> type_classement_ope = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
+			      if ( !strcmp ( node_detail_etat -> name,
+					     "Class_ope" ))
+				etat -> type_classement_ope = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
 
-			  if ( !strcmp ( node_detail_etat -> name,
-					 "Aff_titres_col" ))
-			    etat -> afficher_titre_colonnes = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
+			      if ( !strcmp ( node_detail_etat -> name,
+					     "Aff_titres_col" ))
+				etat -> afficher_titre_colonnes = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
 
-			  if ( !strcmp ( node_detail_etat -> name,
-					 "Aff_titres_chgt" ))
-			    etat -> type_affichage_titres = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
+			      if ( !strcmp ( node_detail_etat -> name,
+					     "Aff_titres_chgt" ))
+				etat -> type_affichage_titres = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
 
-			  if ( !strcmp ( node_detail_etat -> name,
-					 "Pas_detail_ventil" ))
-			    etat -> pas_detailler_ventilation = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
+			      if ( !strcmp ( node_detail_etat -> name,
+					     "Pas_detail_ventil" ))
+				etat -> pas_detailler_ventilation = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
 
-			  if ( !strcmp ( node_detail_etat -> name,
-					 "Sep_rev_dep" ))
-			    etat -> separer_revenus_depenses = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
+			      if ( !strcmp ( node_detail_etat -> name,
+					     "Sep_rev_dep" ))
+				etat -> separer_revenus_depenses = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
 
-			  if ( !strcmp ( node_detail_etat -> name,
-					 "Devise_gen" ))
-			    etat -> devise_de_calcul_general = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
+			      if ( !strcmp ( node_detail_etat -> name,
+					     "Devise_gen" ))
+				etat -> devise_de_calcul_general = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
 
-			  if ( !strcmp ( node_detail_etat -> name,
-					 "Incl_tiers" ))
-			    etat -> inclure_dans_tiers = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
+			      if ( !strcmp ( node_detail_etat -> name,
+					     "Incl_tiers" ))
+				etat -> inclure_dans_tiers = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
 
-			  if ( !strcmp ( node_detail_etat -> name,
-					 "Ope_click" ))
-			    etat -> ope_clickables = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
+			      if ( !strcmp ( node_detail_etat -> name,
+					     "Ope_click" ))
+				etat -> ope_clickables = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
 
-			  if ( !strcmp ( node_detail_etat -> name,
-					 "Exo_date" ))
-			    etat -> exo_date = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
+			      if ( !strcmp ( node_detail_etat -> name,
+					     "Exo_date" ))
+				etat -> exo_date = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
 
-			  if ( !strcmp ( node_detail_etat -> name,
-					 "Detail_exo" ))
-			    etat -> utilise_detail_exo = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
+			      if ( !strcmp ( node_detail_etat -> name,
+					     "Detail_exo" ))
+				etat -> utilise_detail_exo = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
 
-			  if ( !strcmp ( node_detail_etat -> name,
-					 "No_exo" )
-			       &&
-			       latin2utf8(xmlNodeGetContent ( node_detail_etat )))
-			    {
-			      gchar **pointeur_char;
-			      gint i;
-
-			      pointeur_char = g_strsplit ( latin2utf8(xmlNodeGetContent ( node_detail_etat )),
-							   "/",
-							   0 );
-			      i=0;
-
-			      while ( pointeur_char[i] )
+			      if ( !strcmp ( node_detail_etat -> name,
+					     "No_exo" )
+				   &&
+				   latin2utf8(xmlNodeGetContent ( node_detail_etat )))
 				{
-				  etat -> no_exercices = g_slist_append ( etat -> no_exercices,
-									  GINT_TO_POINTER ( atoi ( pointeur_char[i] )));
-				  i++;
+				  gchar **pointeur_char;
+				  gint i;
+
+				  pointeur_char = g_strsplit ( latin2utf8(xmlNodeGetContent ( node_detail_etat )),
+							       "/",
+							       0 );
+				  i=0;
+
+				  while ( pointeur_char[i] )
+				    {
+				      etat -> no_exercices = g_slist_append ( etat -> no_exercices,
+									      GINT_TO_POINTER ( atoi ( pointeur_char[i] )));
+				      i++;
+				    }
+				  g_strfreev ( pointeur_char );
 				}
-			      g_strfreev ( pointeur_char );
-			    }
 							 
-			  if ( !strcmp ( node_detail_etat -> name,
-					 "Plage_date" ))
-			    etat -> no_plage_date = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
+			      if ( !strcmp ( node_detail_etat -> name,
+					     "Plage_date" ))
+				etat -> no_plage_date = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
 
-			  if ( !strcmp ( node_detail_etat -> name,
-					 "Date_debut" )
-			       &&
-			       latin2utf8(xmlNodeGetContent ( node_detail_etat )))
-			    {
-			      gchar **pointeur_char;
-
-			      pointeur_char = g_strsplit ( latin2utf8(xmlNodeGetContent ( node_detail_etat )),
-							   "/",
-							   3 );
-
-			      etat -> date_perso_debut = g_date_new_dmy ( atoi ( pointeur_char[0] ),
-									  atoi ( pointeur_char[1] ),
-									  atoi ( pointeur_char[2] ));
-			      g_strfreev ( pointeur_char );
-			    }
-
-			  if ( !strcmp ( node_detail_etat -> name,
-					 "Date_fin" )
-			       &&
-			       latin2utf8(xmlNodeGetContent ( node_detail_etat )))
-			    {
-			      gchar **pointeur_char;
-
-			      pointeur_char = g_strsplit ( latin2utf8(xmlNodeGetContent ( node_detail_etat )),
-							   "/",
-							   3 );
-
-			      etat -> date_perso_fin = g_date_new_dmy ( atoi ( pointeur_char[0] ),
-									atoi ( pointeur_char[1] ),
-									atoi ( pointeur_char[2] ));
-			      g_strfreev ( pointeur_char );
-			    }
-
-			  if ( !strcmp ( node_detail_etat -> name,
-					 "Utilise_plages" ))
-			    etat -> separation_par_plage = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
-
-			  if ( !strcmp ( node_detail_etat -> name,
-					 "Sep_plages" ))
-			    etat -> type_separation_plage = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
-
-			  if ( !strcmp ( node_detail_etat -> name,
-					 "Deb_sem_plages" ))
-			    etat -> jour_debut_semaine = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
-
-			  if ( !strcmp ( node_detail_etat -> name,
-					 "Detail_comptes" ))
-			    etat -> utilise_detail_comptes = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
-
-			  if ( !strcmp ( node_detail_etat -> name,
-					 "No_comptes" )
-			       &&
-			       latin2utf8(xmlNodeGetContent ( node_detail_etat )))
-			    {
-			      gchar **pointeur_char;
-			      gint i;
-
-			      pointeur_char = g_strsplit ( latin2utf8(xmlNodeGetContent ( node_detail_etat )),
-							   "/",
-							   0 );
-			      i=0;
-
-			      while ( pointeur_char[i] )
+			      if ( !strcmp (node_detail_etat -> name, "Date_debut") &&
+				   latin2utf8(xmlNodeGetContent (node_detail_etat)) &&
+				   strlen(latin2utf8(xmlNodeGetContent (node_detail_etat))) > 0 )
 				{
-				  etat ->no_comptes  = g_slist_append ( etat -> no_comptes,
-									GINT_TO_POINTER ( atoi ( pointeur_char[i] )));
-				  i++;
+				  gchar **pointeur_char;
+
+				  pointeur_char = g_strsplit ( latin2utf8(xmlNodeGetContent ( node_detail_etat )),
+							       "/",
+							       3 );
+
+				  etat -> date_perso_debut = g_date_new_dmy ( atoi ( pointeur_char[0] ),
+									      atoi ( pointeur_char[1] ),
+									      atoi ( pointeur_char[2] ));
+				  g_strfreev ( pointeur_char );
 				}
-			      g_strfreev ( pointeur_char );
-			    }
 
-
-			  if ( !strcmp ( node_detail_etat -> name,
-					 "Grp_ope_compte" ))
-			    etat -> regroupe_ope_par_compte = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
-
-			  if ( !strcmp ( node_detail_etat -> name,
-					 "Total_compte" ))
-			    etat -> affiche_sous_total_compte = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
-
-			  if ( !strcmp ( node_detail_etat -> name,
-					 "Aff_nom_compte" ))
-			    etat -> afficher_nom_compte = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
-
-			  if ( !strcmp ( node_detail_etat -> name,
-					 "Type_vir" ))
-			    etat -> type_virement = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
-
-			  if ( !strcmp ( node_detail_etat -> name,
-					 "No_comptes_virements" )
-			       &&
-			       latin2utf8(xmlNodeGetContent ( node_detail_etat )))
-			    {
-			      gchar **pointeur_char;
-			      gint i;
-
-			      pointeur_char = g_strsplit ( latin2utf8(xmlNodeGetContent ( node_detail_etat )),
-							   "/",
-							   0 );
-			      i=0;
-
-			      while ( pointeur_char[i] )
+			      if ( !strcmp ( node_detail_etat -> name, "Date_fin" ) &&
+				   latin2utf8(xmlNodeGetContent(node_detail_etat)) &&
+				   strlen(latin2utf8(xmlNodeGetContent(node_detail_etat))) > 0 )
 				{
-				  etat ->no_comptes_virements  = g_slist_append ( etat -> no_comptes_virements,
-										  GINT_TO_POINTER ( atoi ( pointeur_char[i] )));
-				  i++;
+				  gchar **pointeur_char;
+
+				  pointeur_char = g_strsplit ( latin2utf8(xmlNodeGetContent ( node_detail_etat )),
+							       "/",
+							       3 );
+
+				  etat -> date_perso_fin = g_date_new_dmy ( atoi ( pointeur_char[0] ),
+									    atoi ( pointeur_char[1] ),
+									    atoi ( pointeur_char[2] ));
+				  g_strfreev ( pointeur_char );
 				}
-			      g_strfreev ( pointeur_char );
-			    }
 
-			  if ( !strcmp ( node_detail_etat -> name,
-					 "Exclure_non_vir" ))
-			    etat -> exclure_ope_non_virement = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
+			      if ( !strcmp ( node_detail_etat -> name,
+					     "Utilise_plages" ))
+				etat -> separation_par_plage = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
 
-			  if ( !strcmp ( node_detail_etat -> name,
-					 "Categ" ))
-			    etat -> utilise_categ = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
+			      if ( !strcmp ( node_detail_etat -> name,
+					     "Sep_plages" ))
+				etat -> type_separation_plage = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
 
-			  if ( !strcmp ( node_detail_etat -> name,
-					 "Detail_categ" ))
-			    etat -> utilise_detail_categ = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
+			      if ( !strcmp ( node_detail_etat -> name,
+					     "Deb_sem_plages" ))
+				etat -> jour_debut_semaine = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
 
-			  if ( !strcmp ( node_detail_etat -> name,
-					 "No_categ" )
-			       &&
-			       latin2utf8(xmlNodeGetContent ( node_detail_etat )))
-			    {
-			      gchar **pointeur_char;
-			      gint i;
+			      if ( !strcmp ( node_detail_etat -> name,
+					     "Detail_comptes" ))
+				etat -> utilise_detail_comptes = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
 
-			      pointeur_char = g_strsplit ( latin2utf8(xmlNodeGetContent ( node_detail_etat )),
-							   "/",
-							   0 );
-			      i=0;
-
-			      while ( pointeur_char[i] )
+			      if ( !strcmp ( node_detail_etat -> name,
+					     "No_comptes" )
+				   &&
+				   latin2utf8(xmlNodeGetContent ( node_detail_etat )))
 				{
-				  etat -> no_categ = g_slist_append ( etat -> no_categ,
-								      GINT_TO_POINTER ( atoi ( pointeur_char[i] )));
-				  i++;
+				  gchar **pointeur_char;
+				  gint i;
+
+				  pointeur_char = g_strsplit ( latin2utf8(xmlNodeGetContent ( node_detail_etat )),
+							       "/",
+							       0 );
+				  i=0;
+
+				  while ( pointeur_char[i] )
+				    {
+				      etat ->no_comptes  = g_slist_append ( etat -> no_comptes,
+									    GINT_TO_POINTER ( atoi ( pointeur_char[i] )));
+				      i++;
+				    }
+				  g_strfreev ( pointeur_char );
 				}
-			      g_strfreev ( pointeur_char );
-			    }
 
-			  if ( !strcmp ( node_detail_etat -> name,
-					 "Exclut_categ" ))
-			    etat -> exclure_ope_sans_categ = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
 
-			  if ( !strcmp ( node_detail_etat -> name,
-					 "Total_categ" ))
-			    etat -> affiche_sous_total_categ = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
+			      if ( !strcmp ( node_detail_etat -> name,
+					     "Grp_ope_compte" ))
+				etat -> regroupe_ope_par_compte = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
 
-			  if ( !strcmp ( node_detail_etat -> name,
-					 "Aff_ss_categ" ))
-			    etat -> afficher_sous_categ = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
+			      if ( !strcmp ( node_detail_etat -> name,
+					     "Total_compte" ))
+				etat -> affiche_sous_total_compte = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
 
-			  if ( !strcmp ( node_detail_etat -> name,
-					 "Aff_pas_ss_categ" ))
-			    etat -> afficher_pas_de_sous_categ = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
+			      if ( !strcmp ( node_detail_etat -> name,
+					     "Aff_nom_compte" ))
+				etat -> afficher_nom_compte = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
 
-			  if ( !strcmp ( node_detail_etat -> name,
-					 "Total_ss_categ" ))
-			    etat -> affiche_sous_total_sous_categ = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
+			      if ( !strcmp ( node_detail_etat -> name,
+					     "Type_vir" ))
+				etat -> type_virement = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
 
-			  if ( !strcmp ( node_detail_etat -> name,
-					 "Devise_categ" ))
-			    etat -> devise_de_calcul_categ = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
-
-			  if ( !strcmp ( node_detail_etat -> name,
-					 "Aff_nom_categ" ))
-			    etat -> afficher_nom_categ = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
-
-			  if ( !strcmp ( node_detail_etat -> name,
-					 "IB" ))
-			    etat -> utilise_ib = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
-
-			  if ( !strcmp ( node_detail_etat -> name,
-					 "Detail_ib" ))
-			    etat -> utilise_detail_ib = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
-
-			  if ( !strcmp ( node_detail_etat -> name,
-					 "No_ib" )
-			       &&
-			       latin2utf8(xmlNodeGetContent ( node_detail_etat )))
-			    {
-			      gchar **pointeur_char;
-			      gint i;
-
-			      pointeur_char = g_strsplit ( latin2utf8(xmlNodeGetContent ( node_detail_etat )),
-							   "/",
-							   0 );
-			      i=0;
-
-			      while ( pointeur_char[i] )
+			      if ( !strcmp ( node_detail_etat -> name,
+					     "No_comptes_virements" )
+				   &&
+				   latin2utf8(xmlNodeGetContent ( node_detail_etat )))
 				{
-				  etat -> no_ib = g_slist_append ( etat -> no_ib,
-								   GINT_TO_POINTER ( atoi ( pointeur_char[i] )));
-				  i++;
+				  gchar **pointeur_char;
+				  gint i;
+
+				  pointeur_char = g_strsplit ( latin2utf8(xmlNodeGetContent ( node_detail_etat )),
+							       "/",
+							       0 );
+				  i=0;
+
+				  while ( pointeur_char[i] )
+				    {
+				      etat ->no_comptes_virements  = g_slist_append ( etat -> no_comptes_virements,
+										      GINT_TO_POINTER ( atoi ( pointeur_char[i] )));
+				      i++;
+				    }
+				  g_strfreev ( pointeur_char );
 				}
-			      g_strfreev ( pointeur_char );
-			    }
 
+			      if ( !strcmp ( node_detail_etat -> name,
+					     "Exclure_non_vir" ))
+				etat -> exclure_ope_non_virement = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
 
-			  if ( !strcmp ( node_detail_etat -> name,
-					 "Exclut_ib" ))
-			    etat -> exclure_ope_sans_ib = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
+			      if ( !strcmp ( node_detail_etat -> name,
+					     "Categ" ))
+				etat -> utilise_categ = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
 
-			  if ( !strcmp ( node_detail_etat -> name,
-					 "Total_ib" ))
-			    etat -> affiche_sous_total_ib = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
+			      if ( !strcmp ( node_detail_etat -> name,
+					     "Detail_categ" ))
+				etat -> utilise_detail_categ = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
 
-			  if ( !strcmp ( node_detail_etat -> name,
-					 "Aff_ss_ib" ))
-			    etat -> afficher_sous_ib = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
-
-			  if ( !strcmp ( node_detail_etat -> name,
-					 "Aff_pas_ss_ib" ))
-			    etat -> afficher_pas_de_sous_ib = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
-
-			  if ( !strcmp ( node_detail_etat -> name,
-					 "Total_ss_ib" ))
-			    etat -> affiche_sous_total_sous_ib = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
-
-			  if ( !strcmp ( node_detail_etat -> name,
-					 "Devise_ib" ))
-			    etat -> devise_de_calcul_ib = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
-
-			  if ( !strcmp ( node_detail_etat -> name,
-					 "Aff_nom_ib" ))
-			    etat -> afficher_nom_ib = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
-
-			  if ( !strcmp ( node_detail_etat -> name,
-					 "Tiers" ))
-			    etat -> utilise_tiers = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
-
-			  if ( !strcmp ( node_detail_etat -> name,
-					 "Detail_tiers" ))
-			    etat -> utilise_detail_tiers = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
-
-			  if ( !strcmp ( node_detail_etat -> name,
-					 "No_tiers" )
-			       &&
-			       latin2utf8(xmlNodeGetContent ( node_detail_etat )))
-			    {
-			      gchar **pointeur_char;
-			      gint i;
-
-			      pointeur_char = g_strsplit ( latin2utf8(xmlNodeGetContent ( node_detail_etat )),
-							   "/",
-							   0 );
-			      i=0;
-
-			      while ( pointeur_char[i] )
+			      if ( !strcmp ( node_detail_etat -> name,
+					     "No_categ" )
+				   &&
+				   latin2utf8(xmlNodeGetContent ( node_detail_etat )))
 				{
-				  etat -> no_tiers = g_slist_append ( etat -> no_tiers,
-								      GINT_TO_POINTER ( atoi ( pointeur_char[i] )));
-				  i++;
+				  gchar **pointeur_char;
+				  gint i;
+
+				  pointeur_char = g_strsplit ( latin2utf8(xmlNodeGetContent ( node_detail_etat )),
+							       "/",
+							       0 );
+				  i=0;
+
+				  while ( pointeur_char[i] )
+				    {
+				      etat -> no_categ = g_slist_append ( etat -> no_categ,
+									  GINT_TO_POINTER ( atoi ( pointeur_char[i] )));
+				      i++;
+				    }
+				  g_strfreev ( pointeur_char );
 				}
-			      g_strfreev ( pointeur_char );
-			    }
 
-			  if ( !strcmp ( node_detail_etat -> name,
-					 "Total_tiers" ))
-			    etat -> affiche_sous_total_tiers = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
+			      if ( !strcmp ( node_detail_etat -> name,
+					     "Exclut_categ" ))
+				etat -> exclure_ope_sans_categ = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
 
-			  if ( !strcmp ( node_detail_etat -> name,
-					 "Devise_tiers" ))
-			    etat -> devise_de_calcul_tiers = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
+			      if ( !strcmp ( node_detail_etat -> name,
+					     "Total_categ" ))
+				etat -> affiche_sous_total_categ = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
 
-			  if ( !strcmp ( node_detail_etat -> name,
-					 "Aff_nom_tiers" ))
-			    etat -> afficher_nom_tiers = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
+			      if ( !strcmp ( node_detail_etat -> name,
+					     "Aff_ss_categ" ))
+				etat -> afficher_sous_categ = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
 
-			  if ( !strcmp ( node_detail_etat -> name,
-					 "Texte" ))
-			    etat -> utilise_texte = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
+			      if ( !strcmp ( node_detail_etat -> name,
+					     "Aff_pas_ss_categ" ))
+				etat -> afficher_pas_de_sous_categ = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
 
-			  if ( !strcmp ( node_detail_etat -> name,
-					 "Texte_comp" ))
-			    {
-			      xmlNodePtr node_comp_textes;
+			      if ( !strcmp ( node_detail_etat -> name,
+					     "Total_ss_categ" ))
+				etat -> affiche_sous_total_sous_categ = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
 
-			      node_comp_textes = node_detail_etat -> childs;
+			      if ( !strcmp ( node_detail_etat -> name,
+					     "Devise_categ" ))
+				etat -> devise_de_calcul_categ = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
 
-			      /*  on fait le tour des comparaisons */
+			      if ( !strcmp ( node_detail_etat -> name,
+					     "Aff_nom_categ" ))
+				etat -> afficher_nom_categ = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
 
-			      while ( node_comp_textes )
+			      if ( !strcmp ( node_detail_etat -> name,
+					     "IB" ))
+				etat -> utilise_ib = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
+
+			      if ( !strcmp ( node_detail_etat -> name,
+					     "Detail_ib" ))
+				etat -> utilise_detail_ib = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
+
+			      if ( !strcmp ( node_detail_etat -> name,
+					     "No_ib" )
+				   &&
+				   latin2utf8(xmlNodeGetContent ( node_detail_etat )))
 				{
-				  struct struct_comparaison_textes_etat *comp_textes;
+				  gchar **pointeur_char;
+				  gint i;
 
-				  comp_textes = calloc ( 1,
-							   sizeof ( struct struct_comparaison_textes_etat ));
+				  pointeur_char = g_strsplit ( latin2utf8(xmlNodeGetContent ( node_detail_etat )),
+							       "/",
+							       0 );
+				  i=0;
 
-				  comp_textes -> lien_struct_precedente = atoi ( latin2utf8(xmlGetProp ( node_comp_textes,
-											      "Lien_struct" )));
-				  comp_textes -> champ = atoi ( latin2utf8(xmlGetProp ( node_comp_textes,
-									     "Champ" )));
-				  comp_textes -> operateur = atoi ( latin2utf8(xmlGetProp ( node_comp_textes,
-										 "Op" )));
-				  comp_textes -> texte = latin2utf8(xmlGetProp ( node_comp_textes,
-								      "Txt" ));
-				  comp_textes -> utilise_txt = atoi ( latin2utf8(xmlGetProp ( node_comp_textes,
-										   "Util_txt" )));
-				  comp_textes -> comparateur_1 = atoi ( latin2utf8(xmlGetProp ( node_comp_textes,
-										       "Comp_1" )));
-				  comp_textes -> lien_1_2 = atoi ( latin2utf8(xmlGetProp ( node_comp_textes,
-										  "Lien_1_2" )));
-				  comp_textes -> comparateur_2 = atoi ( latin2utf8(xmlGetProp ( node_comp_textes,
-										       "Comp_2" )));
-				  comp_textes -> montant_1 = atoi ( latin2utf8(xmlGetProp ( node_comp_textes,
-										 "Mont_1" )));
-				  comp_textes -> montant_2 = atoi ( latin2utf8(xmlGetProp ( node_comp_textes,
-										 "Mont_2" )));
-
-				  /* on a fini de remplir le détail de la comparaison, on l'ajoute à la liste */
-
-				  etat -> liste_struct_comparaison_textes = g_slist_append ( etat -> liste_struct_comparaison_textes,
-											     comp_textes );
-				  node_comp_textes = node_comp_textes -> next;
+				  while ( pointeur_char[i] )
+				    {
+				      etat -> no_ib = g_slist_append ( etat -> no_ib,
+								       GINT_TO_POINTER ( atoi ( pointeur_char[i] )));
+				      i++;
+				    }
+				  g_strfreev ( pointeur_char );
 				}
-			    }
-
-			  if ( !strcmp ( node_detail_etat -> name,
-					 "Montant" ))
-			    etat -> utilise_montant = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
-
-			  if ( !strcmp ( node_detail_etat -> name,
-					 "Montant_devise" ))
-			    etat -> choix_devise_montant = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
 
 
-			  if ( !strcmp ( node_detail_etat -> name,
-					 "Montant_comp" ))
-			    {
-			      xmlNodePtr node_comp_montants;
+			      if ( !strcmp ( node_detail_etat -> name,
+					     "Exclut_ib" ))
+				etat -> exclure_ope_sans_ib = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
 
-			      node_comp_montants = node_detail_etat -> childs;
+			      if ( !strcmp ( node_detail_etat -> name,
+					     "Total_ib" ))
+				etat -> affiche_sous_total_ib = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
 
-			      /*  on fait le tour des comparaisons */
+			      if ( !strcmp ( node_detail_etat -> name,
+					     "Aff_ss_ib" ))
+				etat -> afficher_sous_ib = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
 
-			      while ( node_comp_montants )
+			      if ( !strcmp ( node_detail_etat -> name,
+					     "Aff_pas_ss_ib" ))
+				etat -> afficher_pas_de_sous_ib = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
+
+			      if ( !strcmp ( node_detail_etat -> name,
+					     "Total_ss_ib" ))
+				etat -> affiche_sous_total_sous_ib = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
+
+			      if ( !strcmp ( node_detail_etat -> name,
+					     "Devise_ib" ))
+				etat -> devise_de_calcul_ib = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
+
+			      if ( !strcmp ( node_detail_etat -> name,
+					     "Aff_nom_ib" ))
+				etat -> afficher_nom_ib = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
+
+			      if ( !strcmp ( node_detail_etat -> name,
+					     "Tiers" ))
+				etat -> utilise_tiers = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
+
+			      if ( !strcmp ( node_detail_etat -> name,
+					     "Detail_tiers" ))
+				etat -> utilise_detail_tiers = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
+
+			      if ( !strcmp ( node_detail_etat -> name,
+					     "No_tiers" )
+				   &&
+				   latin2utf8(xmlNodeGetContent ( node_detail_etat )))
 				{
-				  struct struct_comparaison_montants_etat *comp_montants;
+				  gchar **pointeur_char;
+				  gint i;
 
-				  comp_montants = calloc ( 1,
-							   sizeof ( struct struct_comparaison_montants_etat ));
+				  pointeur_char = g_strsplit ( latin2utf8(xmlNodeGetContent ( node_detail_etat )),
+							       "/",
+							       0 );
+				  i=0;
 
-
-				  comp_montants -> lien_struct_precedente = atoi ( latin2utf8(xmlGetProp ( node_comp_montants,
-												"Lien_struct" )));
-				  comp_montants -> comparateur_1 = atoi ( latin2utf8(xmlGetProp ( node_comp_montants,
-										       "Comp_1" )));
-				  comp_montants -> lien_1_2 = atoi ( latin2utf8(xmlGetProp ( node_comp_montants,
-										  "Lien_1_2" )));
-				  comp_montants -> comparateur_2 = atoi ( latin2utf8(xmlGetProp ( node_comp_montants,
-										       "Comp_2" )));
-				  comp_montants -> montant_1 = g_strtod ( xmlGetProp ( node_comp_montants,
-										       "Mont_1" ),
-									  NULL );
-				  comp_montants -> montant_2 = g_strtod ( xmlGetProp ( node_comp_montants,
-										       "Mont_2" ),
-									  NULL );
-
-				  /* on a fini de remplir le détail de la comparaison, on l'ajoute à la liste */
-
-				  etat -> liste_struct_comparaison_montants = g_slist_append ( etat -> liste_struct_comparaison_montants,
-											       comp_montants );
-				  node_comp_montants = node_comp_montants -> next;
+				  while ( pointeur_char[i] )
+				    {
+				      etat -> no_tiers = g_slist_append ( etat -> no_tiers,
+									  GINT_TO_POINTER ( atoi ( pointeur_char[i] )));
+				      i++;
+				    }
+				  g_strfreev ( pointeur_char );
 				}
-			    }
 
+			      if ( !strcmp ( node_detail_etat -> name,
+					     "Total_tiers" ))
+				etat -> affiche_sous_total_tiers = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
 
-			  if ( !strcmp ( node_detail_etat -> name,
-					 "Excl_nul" ))
-			    etat -> exclure_montants_nuls = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
+			      if ( !strcmp ( node_detail_etat -> name,
+					     "Devise_tiers" ))
+				etat -> devise_de_calcul_tiers = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
 
-			  if ( !strcmp ( node_detail_etat -> name,
-					 "Detail_mod_paie" ))
-			    etat -> utilise_mode_paiement = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
+			      if ( !strcmp ( node_detail_etat -> name,
+					     "Aff_nom_tiers" ))
+				etat -> afficher_nom_tiers = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
 
-			  if ( !strcmp ( node_detail_etat -> name,
-					 "Liste_mod_paie" ))
-			    {
-			      xmlNodePtr node_mode_paiement;
+			      if ( !strcmp ( node_detail_etat -> name,
+					     "Texte" ))
+				etat -> utilise_texte = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
 
-			      node_mode_paiement = node_detail_etat -> childs;
-
-			      /*  on fait le tour des modes de paiement */
-
-			      while ( node_mode_paiement )
+			      if ( !strcmp ( node_detail_etat -> name,
+					     "Texte_comp" ))
 				{
-				  etat -> noms_modes_paiement = g_slist_append ( etat -> noms_modes_paiement,
-										 xmlGetProp ( node_mode_paiement,
-											      "Nom" ));
-				  node_mode_paiement = node_mode_paiement -> next;
+				  xmlNodePtr node_comp_textes;
+
+				  node_comp_textes = node_detail_etat -> children;
+
+				  /*  on fait le tour des comparaisons */
+
+				  while ( node_comp_textes )
+				    {
+				      struct struct_comparaison_textes_etat *comp_textes;
+
+				      comp_textes = calloc ( 1,
+							     sizeof ( struct struct_comparaison_textes_etat ));
+				  
+				      if ( node_comp_textes -> type != XML_TEXT_NODE )
+					{
+					  comp_textes -> lien_struct_precedente = atoi ( latin2utf8(xmlGetProp ( node_comp_textes,
+														 "Lien_struct" )));
+					  comp_textes -> champ = atoi ( latin2utf8(xmlGetProp ( node_comp_textes,
+												"Champ" )));
+					  comp_textes -> operateur = atoi ( latin2utf8(xmlGetProp ( node_comp_textes,
+												    "Op" )));
+					  comp_textes -> texte = latin2utf8(xmlGetProp ( node_comp_textes,
+											 "Txt" ));
+					  comp_textes -> utilise_txt = atoi ( latin2utf8(xmlGetProp ( node_comp_textes,
+												      "Util_txt" )));
+					  comp_textes -> comparateur_1 = atoi ( latin2utf8(xmlGetProp ( node_comp_textes,
+													"Comp_1" )));
+					  comp_textes -> lien_1_2 = atoi ( latin2utf8(xmlGetProp ( node_comp_textes,
+												   "Lien_1_2" )));
+					  comp_textes -> comparateur_2 = atoi ( latin2utf8(xmlGetProp ( node_comp_textes,
+													"Comp_2" )));
+					  comp_textes -> montant_1 = atoi ( latin2utf8(xmlGetProp ( node_comp_textes,
+												    "Mont_1" )));
+					  comp_textes -> montant_2 = atoi ( latin2utf8(xmlGetProp ( node_comp_textes,
+												    "Mont_2" )));
+
+					  /* on a fini de remplir le détail de la comparaison, on l'ajoute à la liste */
+
+					  etat -> liste_struct_comparaison_textes = g_slist_append ( etat -> liste_struct_comparaison_textes,
+												     comp_textes );
+					}
+				      node_comp_textes = node_comp_textes -> next;
+				    }
+				}
+
+			      if ( !strcmp ( node_detail_etat -> name,
+					     "Montant" ))
+				etat -> utilise_montant = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
+
+			      if ( !strcmp ( node_detail_etat -> name,
+					     "Montant_devise" ))
+				etat -> choix_devise_montant = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
+
+
+			      if ( !strcmp ( node_detail_etat -> name,
+					     "Montant_comp" ))
+				{
+				  xmlNodePtr node_comp_montants;
+
+				  node_comp_montants = node_detail_etat -> children;
+
+				  /*  on fait le tour des comparaisons */
+
+				  while ( node_comp_montants )
+				    {
+				      struct struct_comparaison_montants_etat *comp_montants;
+
+				      comp_montants = calloc ( 1,
+							       sizeof ( struct struct_comparaison_montants_etat ));
+
+
+				      if ( node_comp_montants -> type != XML_TEXT_NODE )
+					{
+					  comp_montants -> lien_struct_precedente = atoi ( latin2utf8(xmlGetProp ( node_comp_montants,
+														   "Lien_struct" )));
+					  comp_montants -> comparateur_1 = atoi ( latin2utf8(xmlGetProp ( node_comp_montants,
+													  "Comp_1" )));
+					  comp_montants -> lien_1_2 = atoi ( latin2utf8(xmlGetProp ( node_comp_montants,
+												     "Lien_1_2" )));
+					  comp_montants -> comparateur_2 = atoi ( latin2utf8(xmlGetProp ( node_comp_montants,
+													  "Comp_2" )));
+					  comp_montants -> montant_1 = g_strtod ( xmlGetProp ( node_comp_montants,
+											       "Mont_1" ),
+										  NULL );
+					  comp_montants -> montant_2 = g_strtod ( xmlGetProp ( node_comp_montants,
+											       "Mont_2" ),
+										  NULL );
+
+					  /* on a fini de remplir le détail de la comparaison, on l'ajoute à la liste */
+
+					  etat -> liste_struct_comparaison_montants = g_slist_append ( etat -> liste_struct_comparaison_montants,
+												       comp_montants );
+					}
+
+				      node_comp_montants = node_comp_montants -> next;
+				    }
+				}
+
+
+			      if ( !strcmp ( node_detail_etat -> name,
+					     "Excl_nul" ))
+				etat -> exclure_montants_nuls = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
+
+			      if ( !strcmp ( node_detail_etat -> name,
+					     "Detail_mod_paie" ))
+				etat -> utilise_mode_paiement = atoi ( latin2utf8(xmlNodeGetContent ( node_detail_etat )));
+
+			      if ( !strcmp ( node_detail_etat -> name,
+					     "Liste_mod_paie" ))
+				{
+				  xmlNodePtr node_mode_paiement;
+
+				  node_mode_paiement = node_detail_etat -> children;
+
+				  /*  on fait le tour des modes de paiement */
+
+				  while ( node_mode_paiement )
+				    {
+				      if ( node_mode_paiement -> type != XML_TEXT_NODE )
+					etat -> noms_modes_paiement = g_slist_append ( etat -> noms_modes_paiement,
+										       xmlGetProp ( node_mode_paiement,
+												    "Nom" ));
+				      node_mode_paiement = node_mode_paiement -> next;
+				    }
 				}
 			    }
 			  node_detail_etat = node_detail_etat -> next;
@@ -4094,7 +4152,7 @@ gboolean charge_operations_version_0_5_0 ( xmlDocPtr doc )
 
   /* on place node_1 sur les generalites */
 
-  node_1 = root -> childs;
+  node_1 = root -> children;
 
   /*   on met en place la boucle de node_1, qui va successivement passer */
   /*     par les generalites, les comptes, les echeances ... */
@@ -4111,7 +4169,7 @@ gboolean charge_operations_version_0_5_0 ( xmlDocPtr doc )
 
 	  /* node_generalites va faire le tour des generalites */
 
-	  node_generalites = node_1 -> childs;
+	  node_generalites = node_1 -> children;
 
 	  while ( node_generalites )
 	    {
@@ -4279,7 +4337,7 @@ gboolean charge_operations_version_0_5_0 ( xmlDocPtr doc )
 
 	  /* node_comptes va faire le tour de l'arborescence des comptes */
 
-	  node_comptes = node_1 -> childs;
+	  node_comptes = node_1 -> children;
 
 	  while ( node_comptes )
 	    {
@@ -4291,7 +4349,7 @@ gboolean charge_operations_version_0_5_0 ( xmlDocPtr doc )
 		{
 		xmlNodePtr node_generalites;
 
-		node_generalites = node_comptes -> childs;
+		node_generalites = node_comptes -> children;
 
 		while ( node_generalites )
 		  {
@@ -4357,7 +4415,7 @@ gboolean charge_operations_version_0_5_0 ( xmlDocPtr doc )
 
 		/* on fait le tour dans l'arbre nom, cad : les details, details de type et details des operations */
 
-		node_nom_comptes = node_comptes -> childs;
+		node_nom_comptes = node_comptes -> children;
 
 		while ( node_nom_comptes )
 		  {
@@ -4368,7 +4426,7 @@ gboolean charge_operations_version_0_5_0 ( xmlDocPtr doc )
 		    {
 		      xmlNodePtr node_detail;
 
-		      node_detail = node_nom_comptes -> childs;
+		      node_detail = node_nom_comptes -> children;
 
 		      while ( node_detail )
 			{
@@ -4538,7 +4596,7 @@ gboolean charge_operations_version_0_5_0 ( xmlDocPtr doc )
 		    {
 		      xmlNodePtr node_type;
 
-		      node_type = node_nom_comptes -> childs;
+		      node_type = node_nom_comptes -> children;
 		      TYPES_OPES = NULL;
 
 		      while ( node_type )
@@ -4547,24 +4605,27 @@ gboolean charge_operations_version_0_5_0 ( xmlDocPtr doc )
 
 			  type = calloc ( 1,
 						     sizeof ( struct struct_type_ope ));
+			  
+			  if ( node_type -> type != XML_TEXT_NODE )
+			    {
+			      type -> no_type = atoi ( xmlGetProp ( node_type,
+								    "No" ));
+			      type -> nom_type = xmlGetProp ( node_type,
+							      "Nom" );
+			      type -> signe_type = atoi ( xmlGetProp ( node_type,
+								       "Signe" ));
+			      type -> affiche_entree = atoi ( xmlGetProp ( node_type,
+									   "Affiche_entree" ));
+			      type -> numerotation_auto = atoi ( xmlGetProp ( node_type,
+									      "Numerotation_auto" ));
+			      type -> no_en_cours = atoi ( xmlGetProp ( node_type,
+									"No_en_cours" ));
 
-			  type -> no_type = atoi ( xmlGetProp ( node_type,
-								"No" ));
-			  type -> nom_type = xmlGetProp ( node_type,
-							  "Nom" );
-			  type -> signe_type = atoi ( xmlGetProp ( node_type,
-								   "Signe" ));
-			  type -> affiche_entree = atoi ( xmlGetProp ( node_type,
-								       "Affiche_entree" ));
-			  type -> numerotation_auto = atoi ( xmlGetProp ( node_type,
-									  "Numerotation_auto" ));
-			  type -> no_en_cours = atoi ( xmlGetProp ( node_type,
-								    "No_en_cours" ));
+			      type -> no_compte = NO_COMPTE;
 
-			  type -> no_compte = NO_COMPTE;
-
-			  TYPES_OPES = g_slist_append ( TYPES_OPES,
-							type );
+			      TYPES_OPES = g_slist_append ( TYPES_OPES,
+							    type );
+			    }
 
 			  node_type = node_type -> next;
 			}
@@ -4578,7 +4639,7 @@ gboolean charge_operations_version_0_5_0 ( xmlDocPtr doc )
 		      {
 			xmlNodePtr node_ope;
 
-		      node_ope = node_nom_comptes -> childs;
+		      node_ope = node_nom_comptes -> children;
 		      LISTE_OPERATIONS = NULL;
 
 		      while ( node_ope )
@@ -4590,141 +4651,140 @@ gboolean charge_operations_version_0_5_0 ( xmlDocPtr doc )
 			  operation = calloc ( 1,
 					       sizeof (struct structure_operation ));
 
-			  operation -> no_operation = atoi ( xmlGetProp ( node_ope,
-							      "No" ));
-
-			  pointeur_char = g_strsplit ( xmlGetProp ( node_ope ,
-								    "D" ),
-						       "/",
-						       3 );
-			  operation -> jour = atoi ( pointeur_char[0] );
-			  operation -> mois = atoi ( pointeur_char[1] );
-			  operation -> annee = atoi ( pointeur_char[2] );
-			  operation -> date = g_date_new_dmy ( operation -> jour,
-							       operation -> mois,
-							       operation -> annee );
-			  g_strfreev ( pointeur_char );
-
-			  /* GDC prise en compte de la lecture de la date bancaire */
-
-			  pointeur = xmlGetProp ( node_ope,
-						  "Db" );
-
-			  if ( pointeur )
+			  if ( node_ope -> type != XML_TEXT_NODE )
 			    {
-			      pointeur_char = g_strsplit ( pointeur,
-							   "/",
-							   3 );
-			      operation -> jour_bancaire = atoi ( pointeur_char[0] );
-			      operation -> mois_bancaire = atoi ( pointeur_char[1] );
-			      operation -> annee_bancaire = atoi ( pointeur_char[2] );
+			      operation -> no_operation = atoi ( xmlGetProp ( node_ope, "No" ));
 
-			      if ( operation -> jour_bancaire )
-				operation -> date_bancaire = g_date_new_dmy ( operation -> jour_bancaire,
-									      operation -> mois_bancaire,
-									      operation -> annee_bancaire );
-			      else
-				operation -> date_bancaire = NULL;
-
+			      pointeur_char = g_strsplit ( xmlGetProp ( node_ope , "D" ), "/", 3 );
+			      operation -> jour = atoi ( pointeur_char[0] );
+			      operation -> mois = atoi ( pointeur_char[1] );
+			      operation -> annee = atoi ( pointeur_char[2] );
+			      operation -> date = g_date_new_dmy ( operation -> jour,
+								   operation -> mois,
+								   operation -> annee );
 			      g_strfreev ( pointeur_char );
-			    }
-			  else
-			    {
-			      operation -> jour_bancaire = 0;
-			      operation -> mois_bancaire = 0;
-			      operation -> annee_bancaire = 0;
-			      operation -> date_bancaire = NULL;
-			    }
+
+			      /* GDC prise en compte de la lecture de la date bancaire */
+
+			      pointeur = xmlGetProp ( node_ope,
+						      "Db" );
+
+			      if ( pointeur )
+				{
+				  pointeur_char = g_strsplit ( pointeur,
+							       "/",
+							       3 );
+				  operation -> jour_bancaire = atoi ( pointeur_char[0] );
+				  operation -> mois_bancaire = atoi ( pointeur_char[1] );
+				  operation -> annee_bancaire = atoi ( pointeur_char[2] );
+
+				  if ( operation -> jour_bancaire )
+				    operation -> date_bancaire = g_date_new_dmy ( operation -> jour_bancaire,
+										  operation -> mois_bancaire,
+										  operation -> annee_bancaire );
+				  else
+				    operation -> date_bancaire = NULL;
+
+				  g_strfreev ( pointeur_char );
+				}
+			      else
+				{
+				  operation -> jour_bancaire = 0;
+				  operation -> mois_bancaire = 0;
+				  operation -> annee_bancaire = 0;
+				  operation -> date_bancaire = NULL;
+				}
 			  
-			  /* GDCFin */
+			      /* GDCFin */
 
-			  operation -> montant = g_strtod ( xmlGetProp ( node_ope,
-									 "M" ),
-							    NULL );
-
-			  operation -> devise = atoi ( xmlGetProp ( node_ope,
-								    "De" ));
-
-			  operation -> une_devise_compte_egale_x_devise_ope = atoi ( xmlGetProp ( node_ope,
-												  "Rdc" ));
-
-			  operation -> taux_change = g_strtod ( xmlGetProp ( node_ope,
-									     "Tc" ),
+			      operation -> montant = g_strtod ( xmlGetProp ( node_ope,
+									     "M" ),
 								NULL );
 
-			  operation -> frais_change = g_strtod ( xmlGetProp ( node_ope,
-									      "Fc" ),
-								 NULL );
+			      operation -> devise = atoi ( xmlGetProp ( node_ope,
+									"De" ));
 
-			  operation -> tiers = atoi ( xmlGetProp ( node_ope,
-								   "T" ));
+			      operation -> une_devise_compte_egale_x_devise_ope = atoi ( xmlGetProp ( node_ope,
+												      "Rdc" ));
 
-			  operation -> categorie = atoi ( xmlGetProp ( node_ope,
-								       "C" ));
+			      operation -> taux_change = g_strtod ( xmlGetProp ( node_ope,
+										 "Tc" ),
+								    NULL );
 
-			  operation -> sous_categorie = atoi ( xmlGetProp ( node_ope,
-									    "Sc" ));
+			      operation -> frais_change = g_strtod ( xmlGetProp ( node_ope,
+										  "Fc" ),
+								     NULL );
 
-			  operation -> operation_ventilee = atoi ( xmlGetProp ( node_ope,
-										"Ov" ));
+			      operation -> tiers = atoi ( xmlGetProp ( node_ope,
+								       "T" ));
 
-			  operation -> notes = xmlGetProp ( node_ope,
-							    "N" );
-			  if ( !strlen ( operation -> notes ))
-			    operation -> notes = NULL;
+			      operation -> categorie = atoi ( xmlGetProp ( node_ope,
+									   "C" ));
 
-			  operation -> type_ope = atoi ( xmlGetProp ( node_ope,
-								      "Ty" ));
+			      operation -> sous_categorie = atoi ( xmlGetProp ( node_ope,
+										"Sc" ));
 
-			  operation -> contenu_type = xmlGetProp ( node_ope,
-								   "Ct" );
-			  if ( !strlen ( operation -> contenu_type ))
-			    operation -> contenu_type = NULL;
+			      operation -> operation_ventilee = atoi ( xmlGetProp ( node_ope,
+										    "Ov" ));
 
-			  operation -> pointe = atoi ( xmlGetProp ( node_ope,
-								    "P" ));
+			      operation -> notes = xmlGetProp ( node_ope,
+								"N" );
+			      if ( !strlen ( operation -> notes ))
+				operation -> notes = NULL;
 
-			  operation -> auto_man = atoi ( xmlGetProp ( node_ope,
-								      "A" ));
+			      operation -> type_ope = atoi ( xmlGetProp ( node_ope,
+									  "Ty" ));
 
-			  operation -> no_rapprochement = atoi ( xmlGetProp ( node_ope,
-									      "R" ));
+			      operation -> contenu_type = xmlGetProp ( node_ope,
+								       "Ct" );
+			      if ( !strlen ( operation -> contenu_type ))
+				operation -> contenu_type = NULL;
 
-			  operation -> no_exercice = atoi ( xmlGetProp ( node_ope,
-									 "E" ));
+			      operation -> pointe = atoi ( xmlGetProp ( node_ope,
+									"P" ));
 
-			  operation -> imputation = atoi ( xmlGetProp ( node_ope,
-									"I" ));
+			      operation -> auto_man = atoi ( xmlGetProp ( node_ope,
+									  "A" ));
 
-			  operation -> sous_imputation = atoi ( xmlGetProp ( node_ope,
-									     "Si" ));
+			      operation -> no_rapprochement = atoi ( xmlGetProp ( node_ope,
+										  "R" ));
 
-			  operation -> no_piece_comptable = xmlGetProp ( node_ope,
-									 "Pc" );
-			  if ( !strlen ( operation -> no_piece_comptable ))
-			    operation -> no_piece_comptable = NULL;
+			      operation -> no_exercice = atoi ( xmlGetProp ( node_ope,
+									     "E" ));
 
-			  operation -> info_banque_guichet = xmlGetProp ( node_ope,
-									  "Ibg" );
-			  if ( !strlen ( operation -> info_banque_guichet ))
-			    operation -> info_banque_guichet = NULL;
+			      operation -> imputation = atoi ( xmlGetProp ( node_ope,
+									    "I" ));
 
-			  operation -> relation_no_operation = atoi ( xmlGetProp ( node_ope,
-										   "Ro" ));
+			      operation -> sous_imputation = atoi ( xmlGetProp ( node_ope,
+										 "Si" ));
 
-			  operation -> relation_no_compte = atoi ( xmlGetProp ( node_ope,
-										"Rc" ));
+			      operation -> no_piece_comptable = xmlGetProp ( node_ope,
+									     "Pc" );
+			      if ( !strlen ( operation -> no_piece_comptable ))
+				operation -> no_piece_comptable = NULL;
 
-			  operation -> no_operation_ventilee_associee = atoi ( xmlGetProp ( node_ope,
-											    "Va" ));
+			      operation -> info_banque_guichet = xmlGetProp ( node_ope,
+									      "Ibg" );
+			      if ( !strlen ( operation -> info_banque_guichet ))
+				operation -> info_banque_guichet = NULL;
+
+			      operation -> relation_no_operation = atoi ( xmlGetProp ( node_ope,
+										       "Ro" ));
+
+			      operation -> relation_no_compte = atoi ( xmlGetProp ( node_ope,
+										    "Rc" ));
+
+			      operation -> no_operation_ventilee_associee = atoi ( xmlGetProp ( node_ope,
+												"Va" ));
 
 
-			  /* on met le compte associe */
+			      /* on met le compte associe */
 			  
-			  operation -> no_compte = NO_COMPTE;
+			      operation -> no_compte = NO_COMPTE;
 
-			  LISTE_OPERATIONS = g_slist_append ( LISTE_OPERATIONS,
-							      operation);
+			      LISTE_OPERATIONS = g_slist_append ( LISTE_OPERATIONS,
+								  operation);
+			    }
 
 			  node_ope = node_ope -> next;
 			}
@@ -4768,7 +4828,7 @@ gboolean charge_operations_version_0_5_0 ( xmlDocPtr doc )
 
 	  /* node_echeances va faire le tour de l'arborescence des echeances */
 
-	  node_echeances = node_1 -> childs;
+	  node_echeances = node_1 -> children;
 
 	  while ( node_echeances )
 	    {
@@ -4779,7 +4839,7 @@ gboolean charge_operations_version_0_5_0 ( xmlDocPtr doc )
 		{
 		  xmlNodePtr node_generalites;
 
-		  node_generalites = node_echeances -> childs;
+		  node_generalites = node_echeances -> children;
 
 		  while ( node_generalites )
 		    {
@@ -4805,7 +4865,7 @@ gboolean charge_operations_version_0_5_0 ( xmlDocPtr doc )
 
 		  gsliste_echeances = NULL;
 
-		  node_detail = node_echeances -> childs;
+		  node_detail = node_echeances -> children;
 
 		  while ( node_detail )
 		    {
@@ -4815,104 +4875,107 @@ gboolean charge_operations_version_0_5_0 ( xmlDocPtr doc )
 		      operation_echeance = calloc ( 1,
 						     sizeof (struct operation_echeance ));
 
-		      operation_echeance -> no_operation = atoi ( xmlGetProp ( node_detail,
-								      "No" ));
-
-		      pointeur_char = g_strsplit ( xmlGetProp ( node_detail ,
-								"Date" ),
-						   "/",
-						   3 );
-		      operation_echeance -> jour = atoi ( pointeur_char[0] );
-		      operation_echeance -> mois = atoi ( pointeur_char[1] );
-		      operation_echeance -> annee = atoi ( pointeur_char[2] );
-		      operation_echeance -> date = g_date_new_dmy ( operation_echeance -> jour,
-								    operation_echeance -> mois,
-								    operation_echeance -> annee );
-		      g_strfreev ( pointeur_char );
-
-		      operation_echeance -> compte = atoi ( xmlGetProp ( node_detail,
-								      "Compte" ));
-
-		      operation_echeance -> montant = g_strtod ( xmlGetProp ( node_detail,
-									      "Montant" ),
-								 NULL );
-
-		      operation_echeance -> devise = atoi ( xmlGetProp ( node_detail,
-									 "Devise" ));
-
-		      operation_echeance -> tiers = atoi ( xmlGetProp ( node_detail,
-									"Tiers" ));
-
-		      operation_echeance -> categorie = atoi ( xmlGetProp ( node_detail,
-								      "Categorie" ));
-
-		      operation_echeance -> sous_categorie = atoi ( xmlGetProp ( node_detail,
-								      "Sous-categorie" ));
-
-		      operation_echeance -> compte_virement = atoi ( xmlGetProp ( node_detail,
-								      "Virement_compte" ));
-
-		      operation_echeance -> type_ope = atoi ( xmlGetProp ( node_detail,
-								      "Type" ));
-
-		      operation_echeance -> contenu_type = xmlGetProp ( node_detail,
-							    "Contenu_du_type" );
-		      if ( !strlen ( operation_echeance -> contenu_type ))
-			operation_echeance -> contenu_type = NULL;
-
-		      operation_echeance -> no_exercice = atoi ( xmlGetProp ( node_detail,
-								      "Exercice" ));
-
-		      operation_echeance -> imputation = atoi ( xmlGetProp ( node_detail,
-								      "Imputation" ));
-
-		      operation_echeance -> sous_imputation = atoi ( xmlGetProp ( node_detail,
-								      "Sous-imputation" ));
-
-		      operation_echeance -> notes = xmlGetProp ( node_detail,
-								      "Notes" );
-		      if ( !strlen ( operation_echeance -> notes ))
-			operation_echeance -> notes = NULL;
-
-		      operation_echeance -> auto_man = atoi ( xmlGetProp ( node_detail,
-								      "Automatique" ));
-
-		      operation_echeance -> periodicite = atoi ( xmlGetProp ( node_detail,
-								      "Periodicite" ));
-
-		      operation_echeance -> intervalle_periodicite_personnalisee = atoi ( xmlGetProp ( node_detail,
-								      "Intervalle_periodicite" ));
-
-		      operation_echeance -> periodicite_personnalisee = atoi ( xmlGetProp ( node_detail,
-								      "Periodicite_personnalisee" ));
-
-		      if ( strlen ( xmlGetProp ( node_detail ,
-						 "Date_limite" )))
+		      if ( node_detail -> type != XML_TEXT_NODE )
 			{
+			  operation_echeance -> no_operation = atoi ( xmlGetProp ( node_detail,
+										   "No" ));
+
 			  pointeur_char = g_strsplit ( xmlGetProp ( node_detail ,
-								    "Date_limite" ),
+								    "Date" ),
 						       "/",
 						       3 );
-
-			  operation_echeance -> jour_limite = atoi ( pointeur_char[0] );
-			  operation_echeance -> mois_limite = atoi ( pointeur_char[1] );
-			  operation_echeance -> annee_limite = atoi ( pointeur_char[2] );
-			  operation_echeance -> date_limite = g_date_new_dmy ( operation_echeance -> jour_limite,
-									       operation_echeance -> mois_limite,
-									       operation_echeance -> annee_limite );
+			  operation_echeance -> jour = atoi ( pointeur_char[0] );
+			  operation_echeance -> mois = atoi ( pointeur_char[1] );
+			  operation_echeance -> annee = atoi ( pointeur_char[2] );
+			  operation_echeance -> date = g_date_new_dmy ( operation_echeance -> jour,
+									operation_echeance -> mois,
+									operation_echeance -> annee );
 			  g_strfreev ( pointeur_char );
-			}
-		      else
-			{
-			  operation_echeance -> jour_limite = 0;
-			  operation_echeance -> mois_limite = 0;
-			  operation_echeance -> annee_limite = 0;
-			  operation_echeance -> date_limite = NULL;
-			}
+
+			  operation_echeance -> compte = atoi ( xmlGetProp ( node_detail,
+									     "Compte" ));
+
+			  operation_echeance -> montant = g_strtod ( xmlGetProp ( node_detail,
+										  "Montant" ),
+								     NULL );
+
+			  operation_echeance -> devise = atoi ( xmlGetProp ( node_detail,
+									     "Devise" ));
+
+			  operation_echeance -> tiers = atoi ( xmlGetProp ( node_detail,
+									    "Tiers" ));
+
+			  operation_echeance -> categorie = atoi ( xmlGetProp ( node_detail,
+										"Categorie" ));
+
+			  operation_echeance -> sous_categorie = atoi ( xmlGetProp ( node_detail,
+										     "Sous-categorie" ));
+
+			  operation_echeance -> compte_virement = atoi ( xmlGetProp ( node_detail,
+										      "Virement_compte" ));
+
+			  operation_echeance -> type_ope = atoi ( xmlGetProp ( node_detail,
+									       "Type" ));
+
+			  operation_echeance -> contenu_type = xmlGetProp ( node_detail,
+									    "Contenu_du_type" );
+			  if ( !strlen ( operation_echeance -> contenu_type ))
+			    operation_echeance -> contenu_type = NULL;
+
+			  operation_echeance -> no_exercice = atoi ( xmlGetProp ( node_detail,
+										  "Exercice" ));
+
+			  operation_echeance -> imputation = atoi ( xmlGetProp ( node_detail,
+										 "Imputation" ));
+
+			  operation_echeance -> sous_imputation = atoi ( xmlGetProp ( node_detail,
+										      "Sous-imputation" ));
+
+			  operation_echeance -> notes = xmlGetProp ( node_detail,
+								     "Notes" );
+			  if ( !strlen ( operation_echeance -> notes ))
+			    operation_echeance -> notes = NULL;
+
+			  operation_echeance -> auto_man = atoi ( xmlGetProp ( node_detail,
+									       "Automatique" ));
+
+			  operation_echeance -> periodicite = atoi ( xmlGetProp ( node_detail,
+										  "Periodicite" ));
+
+			  operation_echeance -> intervalle_periodicite_personnalisee = atoi ( xmlGetProp ( node_detail,
+													   "Intervalle_periodicite" ));
+
+			  operation_echeance -> periodicite_personnalisee = atoi ( xmlGetProp ( node_detail,
+												"Periodicite_personnalisee" ));
+
+			  if ( strlen ( xmlGetProp ( node_detail ,
+						     "Date_limite" )))
+			    {
+			      pointeur_char = g_strsplit ( xmlGetProp ( node_detail ,
+									"Date_limite" ),
+							   "/",
+							   3 );
+
+			      operation_echeance -> jour_limite = atoi ( pointeur_char[0] );
+			      operation_echeance -> mois_limite = atoi ( pointeur_char[1] );
+			      operation_echeance -> annee_limite = atoi ( pointeur_char[2] );
+			      operation_echeance -> date_limite = g_date_new_dmy ( operation_echeance -> jour_limite,
+										   operation_echeance -> mois_limite,
+										   operation_echeance -> annee_limite );
+			      g_strfreev ( pointeur_char );
+			    }
+			  else
+			    {
+			      operation_echeance -> jour_limite = 0;
+			      operation_echeance -> mois_limite = 0;
+			      operation_echeance -> annee_limite = 0;
+			      operation_echeance -> date_limite = NULL;
+			    }
 
 
-		      gsliste_echeances = g_slist_append ( gsliste_echeances,
-							   operation_echeance);
+			  gsliste_echeances = g_slist_append ( gsliste_echeances,
+							       operation_echeance);
+			}
 
 		      node_detail = node_detail -> next;
 		    }
@@ -4930,7 +4993,7 @@ gboolean charge_operations_version_0_5_0 ( xmlDocPtr doc )
 
 	  /* node_tiers va faire le tour de l'arborescence des tiers */
 
-	  node_tiers = node_1 -> childs;
+	  node_tiers = node_1 -> children;
 
 	  while ( node_tiers )
 	    {
@@ -4941,7 +5004,7 @@ gboolean charge_operations_version_0_5_0 ( xmlDocPtr doc )
 		{
 		  xmlNodePtr node_generalites;
 
-		  node_generalites = node_tiers -> childs;
+		  node_generalites = node_tiers -> children;
 
 		  while ( node_generalites )
 		    {
@@ -4967,7 +5030,7 @@ gboolean charge_operations_version_0_5_0 ( xmlDocPtr doc )
 		  xmlNodePtr node_detail;
 
 		  liste_struct_tiers = NULL;
-		  node_detail = node_tiers -> childs;
+		  node_detail = node_tiers -> children;
 
 		  while ( node_detail )
 		    {
@@ -4976,21 +5039,23 @@ gboolean charge_operations_version_0_5_0 ( xmlDocPtr doc )
 		      tiers = calloc ( 1,
 						     sizeof ( struct struct_tiers ) );
 
-		      tiers -> no_tiers = atoi ( xmlGetProp ( node_detail,
-							      "No" ));
-		      tiers -> nom_tiers = xmlGetProp ( node_detail,
-							"Nom" );
-		      tiers -> texte = xmlGetProp ( node_detail,
-						    "Informations" );
-		      if ( !strlen ( tiers -> texte ))
-			tiers -> texte = NULL;
+		      if ( node_detail -> type != XML_TEXT_NODE )
+			{
+			  tiers -> no_tiers = atoi ( xmlGetProp ( node_detail,
+								  "No" ));
+			  tiers -> nom_tiers = xmlGetProp ( node_detail,
+							    "Nom" );
+			  tiers -> texte = xmlGetProp ( node_detail,
+							"Informations" );
+			  if ( !strlen ( tiers -> texte ))
+			    tiers -> texte = NULL;
 
-		      tiers -> liaison = atoi ( xmlGetProp ( node_detail,
-							     "Liaison" ));
+			  tiers -> liaison = atoi ( xmlGetProp ( node_detail,
+								 "Liaison" ));
 		      
-		      liste_struct_tiers = g_slist_append ( liste_struct_tiers,
-							    tiers );
-
+			  liste_struct_tiers = g_slist_append ( liste_struct_tiers,
+								tiers );
+			}
 
 		      node_detail = node_detail -> next;
 		    }
@@ -5008,7 +5073,7 @@ gboolean charge_operations_version_0_5_0 ( xmlDocPtr doc )
 
 	  /* node_categories va faire le tour de l'arborescence des categories */
 
-	  node_categories = node_1 -> childs;
+	  node_categories = node_1 -> children;
 
 	  while ( node_categories )
 	    {
@@ -5019,7 +5084,7 @@ gboolean charge_operations_version_0_5_0 ( xmlDocPtr doc )
 		{
 		  xmlNodePtr node_generalites;
 
-		  node_generalites = node_categories -> childs;
+		  node_generalites = node_categories -> children;
 
 		  while ( node_generalites )
 		    {
@@ -5044,7 +5109,7 @@ gboolean charge_operations_version_0_5_0 ( xmlDocPtr doc )
 		  xmlNodePtr node_detail;
 
 		  liste_struct_categories = NULL;
-		  node_detail = node_categories -> childs;
+		  node_detail = node_categories -> children;
 
 		  while ( node_detail )
 		    {
@@ -5054,39 +5119,42 @@ gboolean charge_operations_version_0_5_0 ( xmlDocPtr doc )
 		      categorie = calloc ( 1,
 						     sizeof ( struct struct_categ ) );
 
-		      categorie -> no_categ = atoi ( xmlGetProp ( node_detail,
-								  "No" ));
-		      categorie -> nom_categ = xmlGetProp ( node_detail,
-							    "Nom" );
-		      categorie -> type_categ = atoi ( xmlGetProp ( node_detail,
-								    "Type" ));
-		      categorie -> no_derniere_sous_categ = atoi ( xmlGetProp ( node_detail,
-										"No_derniere_sous_cagegorie" ));
-
-		      /*  pour chaque categorie, on recupère les sous-categories */
-
-		      categorie -> liste_sous_categ = NULL;
-		      node_sous_categ = node_detail -> childs;
-
-		      while ( node_sous_categ )
+		      if ( node_detail -> type != XML_TEXT_NODE )
 			{
-			  struct struct_sous_categ *sous_categ;
+			  categorie -> no_categ = atoi ( xmlGetProp ( node_detail,
+								      "No" ));
+			  categorie -> nom_categ = xmlGetProp ( node_detail,
+								"Nom" );
+			  categorie -> type_categ = atoi ( xmlGetProp ( node_detail,
+									"Type" ));
+			  categorie -> no_derniere_sous_categ = atoi ( xmlGetProp ( node_detail,
+										    "No_derniere_sous_cagegorie" ));
 
-			  sous_categ = calloc ( 1,
-						     sizeof ( struct struct_sous_categ ) );
+			  /*  pour chaque categorie, on recupère les sous-categories */
 
-			  sous_categ -> no_sous_categ = atoi ( xmlGetProp ( node_sous_categ,
-									    "No" ));
-			  sous_categ -> nom_sous_categ = xmlGetProp ( node_sous_categ,
-									     "Nom" );
+			  categorie -> liste_sous_categ = NULL;
+			  node_sous_categ = node_detail -> children;
 
-			  categorie -> liste_sous_categ = g_slist_append ( categorie -> liste_sous_categ,
-									   sous_categ );
-			  node_sous_categ = node_sous_categ -> next;
+			  while ( node_sous_categ )
+			    {
+			      struct struct_sous_categ *sous_categ;
+
+			      sous_categ = calloc ( 1,
+						    sizeof ( struct struct_sous_categ ) );
+
+			      sous_categ -> no_sous_categ = atoi ( xmlGetProp ( node_sous_categ,
+										"No" ));
+			      sous_categ -> nom_sous_categ = xmlGetProp ( node_sous_categ,
+									  "Nom" );
+
+			      categorie -> liste_sous_categ = g_slist_append ( categorie -> liste_sous_categ,
+									       sous_categ );
+			      node_sous_categ = node_sous_categ -> next;
+			    }
+
+			  liste_struct_categories = g_slist_append ( liste_struct_categories,
+								     categorie );
 			}
-
-		      liste_struct_categories = g_slist_append ( liste_struct_categories,
-								 categorie );
 
 		      node_detail = node_detail -> next;
 		    }
@@ -5107,7 +5175,7 @@ gboolean charge_operations_version_0_5_0 ( xmlDocPtr doc )
 
 	  /* node_imputations va faire le tour de l'arborescence des imputations */
 
-	  node_imputations = node_1 -> childs;
+	  node_imputations = node_1 -> children;
 
 	  while ( node_imputations )
 	    {
@@ -5118,7 +5186,7 @@ gboolean charge_operations_version_0_5_0 ( xmlDocPtr doc )
 		{
 		  xmlNodePtr node_generalites;
 
-		  node_generalites = node_imputations -> childs;
+		  node_generalites = node_imputations -> children;
 
 		  while ( node_generalites )
 		    {
@@ -5143,7 +5211,7 @@ gboolean charge_operations_version_0_5_0 ( xmlDocPtr doc )
 		  xmlNodePtr node_detail;
 
 		  liste_struct_imputation = NULL;
-		  node_detail = node_imputations -> childs;
+		  node_detail = node_imputations -> children;
 
 		  while ( node_detail )
 		    {
@@ -5153,39 +5221,42 @@ gboolean charge_operations_version_0_5_0 ( xmlDocPtr doc )
 		      imputation = calloc ( 1,
 						     sizeof ( struct struct_imputation ) );
 
-		      imputation -> no_imputation = atoi ( xmlGetProp ( node_detail,
-								  "No" ));
-		      imputation -> nom_imputation = xmlGetProp ( node_detail,
-							    "Nom" );
-		      imputation -> type_imputation = atoi ( xmlGetProp ( node_detail,
-								    "Type" ));
-		      imputation -> no_derniere_sous_imputation = atoi ( xmlGetProp ( node_detail,
-										"No_derniere_sous_imputation" ));
-
-		      /*  pour chaque categorie, on recupère les sous-categories */
-
-		      imputation -> liste_sous_imputation = NULL;
-		      node_sous_imputation = node_detail -> childs;
-
-		      while ( node_sous_imputation )
+		      if ( node_detail -> type != XML_TEXT_NODE )
 			{
-			  struct struct_sous_imputation *sous_imputation;
-
-			  sous_imputation = calloc ( 1,
-						     sizeof ( struct struct_sous_imputation ) );
-
-			  sous_imputation -> no_sous_imputation = atoi ( xmlGetProp ( node_sous_imputation,
+			  imputation -> no_imputation = atoi ( xmlGetProp ( node_detail,
 									    "No" ));
-			  sous_imputation -> nom_sous_imputation = xmlGetProp ( node_sous_imputation,
-									     "Nom" );
+			  imputation -> nom_imputation = xmlGetProp ( node_detail,
+								      "Nom" );
+			  imputation -> type_imputation = atoi ( xmlGetProp ( node_detail,
+									      "Type" ));
+			  imputation -> no_derniere_sous_imputation = atoi ( xmlGetProp ( node_detail,
+											  "No_derniere_sous_imputation" ));
 
-			  imputation -> liste_sous_imputation = g_slist_append ( imputation -> liste_sous_imputation,
-									   sous_imputation );
-			  node_sous_imputation = node_sous_imputation -> next;
+			  /*  pour chaque categorie, on recupère les sous-categories */
+
+			  imputation -> liste_sous_imputation = NULL;
+			  node_sous_imputation = node_detail -> children;
+
+			  while ( node_sous_imputation )
+			    {
+			      struct struct_sous_imputation *sous_imputation;
+
+			      sous_imputation = calloc ( 1,
+							 sizeof ( struct struct_sous_imputation ) );
+
+			      sous_imputation -> no_sous_imputation = atoi ( xmlGetProp ( node_sous_imputation,
+											  "No" ));
+			      sous_imputation -> nom_sous_imputation = xmlGetProp ( node_sous_imputation,
+										    "Nom" );
+
+			      imputation -> liste_sous_imputation = g_slist_append ( imputation -> liste_sous_imputation,
+										     sous_imputation );
+			      node_sous_imputation = node_sous_imputation -> next;
+			    }
+
+			  liste_struct_imputation = g_slist_append ( liste_struct_imputation,
+								     imputation );
 			}
-
-		      liste_struct_imputation = g_slist_append ( liste_struct_imputation,
-								 imputation );
 
 		      node_detail = node_detail -> next;
 		    }
@@ -5207,7 +5278,7 @@ gboolean charge_operations_version_0_5_0 ( xmlDocPtr doc )
 
 	  /* node_devises va faire le tour de l'arborescence des devises */
 
-	  node_devises = node_1 -> childs;
+	  node_devises = node_1 -> children;
 
 	  while ( node_devises )
 	    {
@@ -5218,7 +5289,7 @@ gboolean charge_operations_version_0_5_0 ( xmlDocPtr doc )
 		{
 		  xmlNodePtr node_generalites;
 
-		  node_generalites = node_devises -> childs;
+		  node_generalites = node_devises -> children;
 
 		  while ( node_generalites )
 		    {
@@ -5243,7 +5314,7 @@ gboolean charge_operations_version_0_5_0 ( xmlDocPtr doc )
 		  xmlNodePtr node_detail;
 
 		  liste_struct_devises = NULL;
-		  node_detail = node_devises -> childs;
+		  node_detail = node_devises -> children;
 
 		  while ( node_detail )
 		    {
@@ -5252,58 +5323,61 @@ gboolean charge_operations_version_0_5_0 ( xmlDocPtr doc )
 		      devise = calloc ( 1,
 						     sizeof ( struct struct_devise ));
 
-
-		      devise -> no_devise = atoi ( xmlGetProp ( node_detail,
-						 "No" ));
-		      devise -> nom_devise = xmlGetProp ( node_detail,
-						 "Nom" );
-		      devise -> code_iso4217_devise = xmlGetProp ( node_detail,
-									      "IsoCode" );
-		      devise -> code_devise = xmlGetProp ( node_detail,
-						 "Code" );
-		      if ( !strlen ( devise -> code_devise ))
-			devise -> code_devise = NULL;
-		      if (! devise -> code_iso4217_devise ||
-			  !strlen ( devise -> code_iso4217_devise ))
-			devise -> code_iso4217_devise = NULL;
-		      /* Handle Euro nicely */
-		      if (devise -> code_devise && 
-			  ! strcmp (devise -> code_devise, "E"))
+		      if ( node_detail -> type != XML_TEXT_NODE )
 			{
-			  devise -> code_devise = "â‚¬";
+
+			  devise -> no_devise = atoi ( xmlGetProp ( node_detail,
+								    "No" ));
+			  devise -> nom_devise = xmlGetProp ( node_detail,
+							      "Nom" );
+			  devise -> code_iso4217_devise = xmlGetProp ( node_detail,
+								       "IsoCode" );
+			  devise -> code_devise = xmlGetProp ( node_detail,
+							       "Code" );
+			  if ( !strlen ( devise -> code_devise ))
+			    devise -> code_devise = NULL;
+			  if (! devise -> code_iso4217_devise ||
+			      !strlen ( devise -> code_iso4217_devise ))
+			    devise -> code_iso4217_devise = NULL;
+			  /* Handle Euro nicely */
+			  if (devise -> code_devise && 
+			      ! strcmp (devise -> code_devise, "E"))
+			    {
+			      devise -> code_devise = "â‚¬";
+			    }
+
+			  devise -> passage_euro = atoi ( xmlGetProp ( node_detail,
+								       "Passage_euro" ));
+
+			  if ( strlen ( xmlGetProp ( node_detail,
+						     "Date_dernier_change" )))
+			    {
+			      gchar **pointeur_char;
+
+			      pointeur_char = g_strsplit ( xmlGetProp ( node_detail,
+									"Date_dernier_change" ),
+							   "/",
+							   3 );
+
+			      devise -> date_dernier_change = g_date_new_dmy ( atoi ( pointeur_char[0] ),
+									       atoi ( pointeur_char[1] ),
+									       atoi ( pointeur_char[2] ));
+			      g_strfreev ( pointeur_char );
+			    }
+			  else
+			    devise -> date_dernier_change = NULL;
+
+			  devise -> une_devise_1_egale_x_devise_2 = atoi ( xmlGetProp ( node_detail,
+											"Rapport_entre_devises" ));
+			  devise -> no_devise_en_rapport = atoi ( xmlGetProp ( node_detail,
+									       "Devise_en_rapport" ));
+			  devise -> change = g_strtod ( xmlGetProp ( node_detail,
+								     "Change" ),
+							NULL );
+
+			  liste_struct_devises = g_slist_append ( liste_struct_devises,
+								  devise );
 			}
-
-		      devise -> passage_euro = atoi ( xmlGetProp ( node_detail,
-						 "Passage_euro" ));
-
-		      if ( strlen ( xmlGetProp ( node_detail,
-						 "Date_dernier_change" )))
-			{
-			  gchar **pointeur_char;
-
-			  pointeur_char = g_strsplit ( xmlGetProp ( node_detail,
-								    "Date_dernier_change" ),
-						       "/",
-						       3 );
-
-			  devise -> date_dernier_change = g_date_new_dmy ( atoi ( pointeur_char[0] ),
-									   atoi ( pointeur_char[1] ),
-									   atoi ( pointeur_char[2] ));
-			  g_strfreev ( pointeur_char );
-			}
-		      else
-			devise -> date_dernier_change = NULL;
-
-		      devise -> une_devise_1_egale_x_devise_2 = atoi ( xmlGetProp ( node_detail,
-						 "Rapport_entre_devises" ));
-		      devise -> no_devise_en_rapport = atoi ( xmlGetProp ( node_detail,
-						 "Devise_en_rapport" ));
-		      devise -> change = g_strtod ( xmlGetProp ( node_detail,
-								 "Change" ),
-						    NULL );
-
-		      liste_struct_devises = g_slist_append ( liste_struct_devises,
-							      devise );
 
 		      node_detail = node_detail -> next;
 		    }
@@ -5321,7 +5395,7 @@ gboolean charge_operations_version_0_5_0 ( xmlDocPtr doc )
 
 	  /* node_banques va faire le tour de l'arborescence des banques */
 
-	  node_banques = node_1 -> childs;
+	  node_banques = node_1 -> children;
 
 	  while ( node_banques )
 	    {
@@ -5332,7 +5406,7 @@ gboolean charge_operations_version_0_5_0 ( xmlDocPtr doc )
 		{
 		  xmlNodePtr node_generalites;
 
-		  node_generalites = node_banques -> childs;
+		  node_generalites = node_banques -> children;
 
 		  while ( node_generalites )
 		    {
@@ -5358,7 +5432,7 @@ gboolean charge_operations_version_0_5_0 ( xmlDocPtr doc )
 		  xmlNodePtr node_detail;
 
 		  liste_struct_banques = NULL;
-		  node_detail = node_banques -> childs;
+		  node_detail = node_banques -> children;
 
 		  while ( node_detail )
 		    {
@@ -5367,53 +5441,56 @@ gboolean charge_operations_version_0_5_0 ( xmlDocPtr doc )
 		      banque = calloc ( 1,
 						     sizeof ( struct struct_banque ));
 
-		      banque -> no_banque = atoi ( xmlGetProp ( node_detail,
-						 "No" ));
-		      banque -> nom_banque = xmlGetProp ( node_detail,
-						 "Nom" );
-		      banque -> code_banque = xmlGetProp ( node_detail,
-						 "Code" );
-		      if ( !strlen ( banque -> code_banque ))
-			banque -> code_banque = NULL;
-		      banque -> adr_banque = xmlGetProp ( node_detail,
-						 "Adresse" );
-		      if ( !strlen ( banque -> adr_banque ))
-			banque -> adr_banque = NULL;
-		      banque -> tel_banque = xmlGetProp ( node_detail,
-						 "Tel" );
-		      if ( !strlen ( banque -> tel_banque ))
-			banque -> tel_banque = NULL;
-		      banque -> email_banque = xmlGetProp ( node_detail,
-						 "Mail" );
-		      if ( !strlen ( banque -> email_banque ))
-			banque -> email_banque = NULL;
-		      banque -> web_banque = xmlGetProp ( node_detail,
-						 "Web" );
-		      if ( !strlen ( banque -> web_banque ))
-			banque -> web_banque = NULL;
-		      banque -> nom_correspondant = xmlGetProp ( node_detail,
-						 "Nom_correspondant" );
-		      if ( !strlen ( banque -> nom_correspondant ))
-			banque -> nom_correspondant = NULL;
-		      banque -> fax_correspondant = xmlGetProp ( node_detail,
-						 "Fax_correspondant" );
-		      if ( !strlen ( banque -> fax_correspondant ))
-			banque -> fax_correspondant = NULL;
-		      banque -> tel_correspondant = xmlGetProp ( node_detail,
-						 "Tel_correspondant" );
-		      if ( !strlen ( banque -> tel_correspondant ))
-			banque -> tel_correspondant = NULL;
-		      banque -> email_correspondant = xmlGetProp ( node_detail,
-						 "Mail_correspondant" );
-		      if ( !strlen ( banque -> email_correspondant ))
-			banque -> email_correspondant = NULL;
-		      banque -> remarque_banque = xmlGetProp ( node_detail,
-						 "Remarques" );
-		      if ( !strlen ( banque -> remarque_banque ))
-			banque -> remarque_banque = NULL;
+		      if ( node_detail -> type != XML_TEXT_NODE )
+			{
+			  banque -> no_banque = atoi ( xmlGetProp ( node_detail,
+								    "No" ));
+			  banque -> nom_banque = xmlGetProp ( node_detail,
+							      "Nom" );
+			  banque -> code_banque = xmlGetProp ( node_detail,
+							       "Code" );
+			  if ( !strlen ( banque -> code_banque ))
+			    banque -> code_banque = NULL;
+			  banque -> adr_banque = xmlGetProp ( node_detail,
+							      "Adresse" );
+			  if ( !strlen ( banque -> adr_banque ))
+			    banque -> adr_banque = NULL;
+			  banque -> tel_banque = xmlGetProp ( node_detail,
+							      "Tel" );
+			  if ( !strlen ( banque -> tel_banque ))
+			    banque -> tel_banque = NULL;
+			  banque -> email_banque = xmlGetProp ( node_detail,
+								"Mail" );
+			  if ( !strlen ( banque -> email_banque ))
+			    banque -> email_banque = NULL;
+			  banque -> web_banque = xmlGetProp ( node_detail,
+							      "Web" );
+			  if ( !strlen ( banque -> web_banque ))
+			    banque -> web_banque = NULL;
+			  banque -> nom_correspondant = xmlGetProp ( node_detail,
+								     "Nom_correspondant" );
+			  if ( !strlen ( banque -> nom_correspondant ))
+			    banque -> nom_correspondant = NULL;
+			  banque -> fax_correspondant = xmlGetProp ( node_detail,
+								     "Fax_correspondant" );
+			  if ( !strlen ( banque -> fax_correspondant ))
+			    banque -> fax_correspondant = NULL;
+			  banque -> tel_correspondant = xmlGetProp ( node_detail,
+								     "Tel_correspondant" );
+			  if ( !strlen ( banque -> tel_correspondant ))
+			    banque -> tel_correspondant = NULL;
+			  banque -> email_correspondant = xmlGetProp ( node_detail,
+								       "Mail_correspondant" );
+			  if ( !strlen ( banque -> email_correspondant ))
+			    banque -> email_correspondant = NULL;
+			  banque -> remarque_banque = xmlGetProp ( node_detail,
+								   "Remarques" );
+			  if ( !strlen ( banque -> remarque_banque ))
+			    banque -> remarque_banque = NULL;
 
-		      liste_struct_banques = g_slist_append ( liste_struct_banques,
-							      banque );
+			  liste_struct_banques = g_slist_append ( liste_struct_banques,
+								  banque );
+			}
 
 		      node_detail = node_detail -> next;
 		    }
@@ -5431,7 +5508,7 @@ gboolean charge_operations_version_0_5_0 ( xmlDocPtr doc )
 
 	  /* node_exercices va faire le tour de l'arborescence des exercices */
 
-	  node_exercices = node_1 -> childs;
+	  node_exercices = node_1 -> children;
 
 	  while ( node_exercices )
 	    {
@@ -5442,7 +5519,7 @@ gboolean charge_operations_version_0_5_0 ( xmlDocPtr doc )
 		{
 		  xmlNodePtr node_generalites;
 
-		  node_generalites = node_exercices -> childs;
+		  node_generalites = node_exercices -> children;
 
 		  while ( node_generalites )
 		    {
@@ -5467,7 +5544,7 @@ gboolean charge_operations_version_0_5_0 ( xmlDocPtr doc )
 		  xmlNodePtr node_detail;
 
 		  liste_struct_exercices = NULL;
-		  node_detail = node_exercices -> childs;
+		  node_detail = node_exercices -> children;
 
 		  while ( node_detail )
 		    {
@@ -5476,52 +5553,55 @@ gboolean charge_operations_version_0_5_0 ( xmlDocPtr doc )
 		      exercice = calloc ( 1,
 						     sizeof ( struct struct_exercice ));
 
-		      exercice -> no_exercice = atoi ( xmlGetProp ( node_detail,
-						 "No" ));
-		      exercice -> nom_exercice = xmlGetProp ( node_detail,
-						 "Nom" );
-
-		      if ( strlen ( xmlGetProp ( node_detail,
-						 "Date_debut" )))
+		      if ( node_detail -> type != XML_TEXT_NODE )
 			{
-			  gchar **pointeur_char;
+			  exercice -> no_exercice = atoi ( xmlGetProp ( node_detail,
+									"No" ));
+			  exercice -> nom_exercice = xmlGetProp ( node_detail,
+								  "Nom" );
 
-			  pointeur_char = g_strsplit ( xmlGetProp ( node_detail,
-								    "Date_debut" ),
-						       "/",
-						       3 );
+			  if ( strlen ( xmlGetProp ( node_detail,
+						     "Date_debut" )))
+			    {
+			      gchar **pointeur_char;
 
-			  exercice -> date_debut = g_date_new_dmy ( atoi ( pointeur_char[0] ),
-								    atoi ( pointeur_char[1] ),
-								    atoi ( pointeur_char[2] ));
-			  g_strfreev ( pointeur_char );
+			      pointeur_char = g_strsplit ( xmlGetProp ( node_detail,
+									"Date_debut" ),
+							   "/",
+							   3 );
+
+			      exercice -> date_debut = g_date_new_dmy ( atoi ( pointeur_char[0] ),
+									atoi ( pointeur_char[1] ),
+									atoi ( pointeur_char[2] ));
+			      g_strfreev ( pointeur_char );
+			    }
+			  else
+			    exercice -> date_debut = NULL;
+
+			  if ( strlen ( xmlGetProp ( node_detail,
+						     "Date_fin" )))
+			    {
+			      gchar **pointeur_char;
+
+			      pointeur_char = g_strsplit ( xmlGetProp ( node_detail,
+									"Date_fin" ),
+							   "/",
+							   3 );
+
+			      exercice -> date_fin = g_date_new_dmy ( atoi ( pointeur_char[0] ),
+								      atoi ( pointeur_char[1] ),
+								      atoi ( pointeur_char[2] ));
+			      g_strfreev ( pointeur_char );
+			    }
+			  else
+			    exercice -> date_fin = NULL;
+
+			  exercice -> affiche_dans_formulaire = atoi ( xmlGetProp ( node_detail,
+										    "Affiche" ));
+
+			  liste_struct_exercices = g_slist_append ( liste_struct_exercices,
+								    exercice );
 			}
-		      else
-			exercice -> date_debut = NULL;
-
-		      if ( strlen ( xmlGetProp ( node_detail,
-						 "Date_fin" )))
-			{
-			  gchar **pointeur_char;
-
-			  pointeur_char = g_strsplit ( xmlGetProp ( node_detail,
-								    "Date_fin" ),
-						       "/",
-						       3 );
-
-			  exercice -> date_fin = g_date_new_dmy ( atoi ( pointeur_char[0] ),
-								  atoi ( pointeur_char[1] ),
-								  atoi ( pointeur_char[2] ));
-			  g_strfreev ( pointeur_char );
-			}
-		      else
-			exercice -> date_fin = NULL;
-
-		      exercice -> affiche_dans_formulaire = atoi ( xmlGetProp ( node_detail,
-										"Affiche" ));
-
-		      liste_struct_exercices = g_slist_append ( liste_struct_exercices,
-								exercice );
 
 		      node_detail = node_detail -> next;
 		    }
@@ -5539,7 +5619,7 @@ gboolean charge_operations_version_0_5_0 ( xmlDocPtr doc )
 
 	  /* node_rapprochements va faire le tour de l'arborescence des rapprochements */
 
-	  node_rapprochements = node_1 -> childs;
+	  node_rapprochements = node_1 -> children;
 
 	  while ( node_rapprochements )
 	    {
@@ -5553,7 +5633,7 @@ gboolean charge_operations_version_0_5_0 ( xmlDocPtr doc )
 		  xmlNodePtr node_detail;
 
 		  liste_no_rapprochements = NULL;
-		  node_detail = node_rapprochements -> childs;
+		  node_detail = node_rapprochements -> children;
 
 		  while ( node_detail )
 		    {
@@ -5562,16 +5642,18 @@ gboolean charge_operations_version_0_5_0 ( xmlDocPtr doc )
 		      rapprochement = calloc ( 1,
 						     sizeof ( struct struct_no_rapprochement ));
 
-		      rapprochement -> no_rapprochement = atoi ( xmlGetProp ( node_detail,
-						 "No" ));
-		      rapprochement -> nom_rapprochement = xmlGetProp ( node_detail,
-									"Nom" );
+		      if ( node_detail -> type != XML_TEXT_NODE )
+			{
+			  rapprochement -> no_rapprochement = atoi ( xmlGetProp ( node_detail,
+										  "No" ));
+			  rapprochement -> nom_rapprochement = xmlGetProp ( node_detail,
+									    "Nom" );
 		      
-		      rapprochement -> nom_rapprochement = g_strstrip ( rapprochement -> nom_rapprochement);
+			  rapprochement -> nom_rapprochement = g_strstrip ( rapprochement -> nom_rapprochement);
 
-		      liste_no_rapprochements = g_slist_append ( liste_no_rapprochements,
-								 rapprochement );
-
+			  liste_no_rapprochements = g_slist_append ( liste_no_rapprochements,
+								     rapprochement );
+			}
 		      node_detail = node_detail -> next;
 		    }
 		}
@@ -5588,7 +5670,7 @@ gboolean charge_operations_version_0_5_0 ( xmlDocPtr doc )
 
 	  /* node_etats va faire le tour de l'arborescence des etats */
 
-	  node_etats = node_1 -> childs;
+	  node_etats = node_1 -> children;
 
 	  while ( node_etats )
 	    {
@@ -5599,7 +5681,7 @@ gboolean charge_operations_version_0_5_0 ( xmlDocPtr doc )
 		{
 		  xmlNodePtr node_generalites;
 
-		  node_generalites = node_etats -> childs;
+		  node_generalites = node_etats -> children;
 
 		  while ( node_generalites )
 		    {
@@ -5620,7 +5702,7 @@ gboolean charge_operations_version_0_5_0 ( xmlDocPtr doc )
 		  xmlNodePtr node_detail;
 		  
 		  liste_struct_etats = NULL;
-		  node_detail = node_etats -> childs;
+		  node_detail = node_etats -> children;
 
 		  /* on fait maintenant le tour de tous les états */
 
@@ -5633,7 +5715,7 @@ gboolean charge_operations_version_0_5_0 ( xmlDocPtr doc )
 
 		      etat = calloc ( 1,
 				      sizeof ( struct struct_etat ));
-		      node_detail_etat = node_detail -> childs;
+		      node_detail_etat = node_detail -> children;
 
 		      /* on récupère les données de l'état */
 
@@ -6089,7 +6171,7 @@ gboolean charge_operations_version_0_5_0 ( xmlDocPtr doc )
 			    {
 			      xmlNodePtr node_comp_textes;
 
-			      node_comp_textes = node_detail_etat -> childs;
+			      node_comp_textes = node_detail_etat -> children;
 
 			      /*  on fait le tour des comparaisons */
 
@@ -6099,32 +6181,35 @@ gboolean charge_operations_version_0_5_0 ( xmlDocPtr doc )
 
 				  comp_textes = calloc ( 1,
 							   sizeof ( struct struct_comparaison_textes_etat ));
+				  
+				  if ( node_comp_textes -> type != XML_TEXT_NODE )
+				    {
+				      comp_textes -> lien_struct_precedente = atoi ( xmlGetProp ( node_comp_textes,
+												  "Lien_struct" ));
+				      comp_textes -> champ = atoi ( xmlGetProp ( node_comp_textes,
+										 "Champ" ));
+				      comp_textes -> operateur = atoi ( xmlGetProp ( node_comp_textes,
+										     "Op" ));
+				      comp_textes -> texte = xmlGetProp ( node_comp_textes,
+									  "Txt" );
+				      comp_textes -> utilise_txt = atoi ( xmlGetProp ( node_comp_textes,
+										       "Util_txt" ));
+				      comp_textes -> comparateur_1 = atoi ( xmlGetProp ( node_comp_textes,
+											 "Comp_1" ));
+				      comp_textes -> lien_1_2 = atoi ( xmlGetProp ( node_comp_textes,
+										    "Lien_1_2" ));
+				      comp_textes -> comparateur_2 = atoi ( xmlGetProp ( node_comp_textes,
+											 "Comp_2" ));
+				      comp_textes -> montant_1 = atoi ( xmlGetProp ( node_comp_textes,
+										     "Mont_1" ));
+				      comp_textes -> montant_2 = atoi ( xmlGetProp ( node_comp_textes,
+										     "Mont_2" ));
 
-				  comp_textes -> lien_struct_precedente = atoi ( xmlGetProp ( node_comp_textes,
-											      "Lien_struct" ));
-				  comp_textes -> champ = atoi ( xmlGetProp ( node_comp_textes,
-									     "Champ" ));
-				  comp_textes -> operateur = atoi ( xmlGetProp ( node_comp_textes,
-										 "Op" ));
-				  comp_textes -> texte = xmlGetProp ( node_comp_textes,
-								      "Txt" );
-				  comp_textes -> utilise_txt = atoi ( xmlGetProp ( node_comp_textes,
-										   "Util_txt" ));
-				  comp_textes -> comparateur_1 = atoi ( xmlGetProp ( node_comp_textes,
-										       "Comp_1" ));
-				  comp_textes -> lien_1_2 = atoi ( xmlGetProp ( node_comp_textes,
-										  "Lien_1_2" ));
-				  comp_textes -> comparateur_2 = atoi ( xmlGetProp ( node_comp_textes,
-										       "Comp_2" ));
-				  comp_textes -> montant_1 = atoi ( xmlGetProp ( node_comp_textes,
-										 "Mont_1" ));
-				  comp_textes -> montant_2 = atoi ( xmlGetProp ( node_comp_textes,
-										 "Mont_2" ));
+				      /* on a fini de remplir le détail de la comparaison, on l'ajoute à la liste */
 
-				  /* on a fini de remplir le détail de la comparaison, on l'ajoute à la liste */
-
-				  etat -> liste_struct_comparaison_textes = g_slist_append ( etat -> liste_struct_comparaison_textes,
-											     comp_textes );
+				      etat -> liste_struct_comparaison_textes = g_slist_append ( etat -> liste_struct_comparaison_textes,
+												 comp_textes );
+				    }
 				  node_comp_textes = node_comp_textes -> next;
 				}
 			    }
@@ -6143,7 +6228,7 @@ gboolean charge_operations_version_0_5_0 ( xmlDocPtr doc )
 			    {
 			      xmlNodePtr node_comp_montants;
 
-			      node_comp_montants = node_detail_etat -> childs;
+			      node_comp_montants = node_detail_etat -> children;
 
 			      /*  on fait le tour des comparaisons */
 
@@ -6154,26 +6239,29 @@ gboolean charge_operations_version_0_5_0 ( xmlDocPtr doc )
 				  comp_montants = calloc ( 1,
 							   sizeof ( struct struct_comparaison_montants_etat ));
 
+				  
+				  if ( node_comp_montants -> type != XML_TEXT_NODE )
+				    {
+				      comp_montants -> lien_struct_precedente = atoi ( xmlGetProp ( node_comp_montants,
+												    "Lien_struct" ));
+				      comp_montants -> comparateur_1 = atoi ( xmlGetProp ( node_comp_montants,
+											   "Comp_1" ));
+				      comp_montants -> lien_1_2 = atoi ( xmlGetProp ( node_comp_montants,
+										      "Lien_1_2" ));
+				      comp_montants -> comparateur_2 = atoi ( xmlGetProp ( node_comp_montants,
+											   "Comp_2" ));
+				      comp_montants -> montant_1 = g_strtod ( xmlGetProp ( node_comp_montants,
+											   "Mont_1" ),
+									      NULL );
+				      comp_montants -> montant_2 = g_strtod ( xmlGetProp ( node_comp_montants,
+											   "Mont_2" ),
+									      NULL );
 
-				  comp_montants -> lien_struct_precedente = atoi ( xmlGetProp ( node_comp_montants,
-												"Lien_struct" ));
-				  comp_montants -> comparateur_1 = atoi ( xmlGetProp ( node_comp_montants,
-										       "Comp_1" ));
-				  comp_montants -> lien_1_2 = atoi ( xmlGetProp ( node_comp_montants,
-										  "Lien_1_2" ));
-				  comp_montants -> comparateur_2 = atoi ( xmlGetProp ( node_comp_montants,
-										       "Comp_2" ));
-				  comp_montants -> montant_1 = g_strtod ( xmlGetProp ( node_comp_montants,
-										       "Mont_1" ),
-									  NULL );
-				  comp_montants -> montant_2 = g_strtod ( xmlGetProp ( node_comp_montants,
-										       "Mont_2" ),
-									  NULL );
+				      /* on a fini de remplir le détail de la comparaison, on l'ajoute à la liste */
 
-				  /* on a fini de remplir le détail de la comparaison, on l'ajoute à la liste */
-
-				  etat -> liste_struct_comparaison_montants = g_slist_append ( etat -> liste_struct_comparaison_montants,
-											       comp_montants );
+				      etat -> liste_struct_comparaison_montants = g_slist_append ( etat -> liste_struct_comparaison_montants,
+												   comp_montants );
+				    }
 				  node_comp_montants = node_comp_montants -> next;
 				}
 			    }
@@ -6192,15 +6280,16 @@ gboolean charge_operations_version_0_5_0 ( xmlDocPtr doc )
 			    {
 			      xmlNodePtr node_mode_paiement;
 
-			      node_mode_paiement = node_detail_etat -> childs;
+			      node_mode_paiement = node_detail_etat -> children;
 
 			      /*  on fait le tour des modes de paiement */
 
 			      while ( node_mode_paiement )
 				{
-				  etat -> noms_modes_paiement = g_slist_append ( etat -> noms_modes_paiement,
-										 xmlGetProp ( node_mode_paiement,
-											      "Nom" ));
+				  if ( node_mode_paiement -> type != XML_TEXT_NODE )
+				    etat -> noms_modes_paiement = g_slist_append ( etat -> noms_modes_paiement,
+										   xmlGetProp ( node_mode_paiement,
+												"Nom" ));
 				  node_mode_paiement = node_mode_paiement -> next;
 				}
 			    }
@@ -6291,14 +6380,14 @@ gboolean enregistre_fichier ( gboolean force )
 
   /* la racine est grisbi */
 
-  doc->root = xmlNewDocNode ( doc,
+  doc->children = xmlNewDocNode ( doc,
 			      NULL,
 			      "Grisbi",
 			      NULL );
 
   /* on commence à ajouter les generalites */
 
-  node = xmlNewChild ( doc->root,
+  node = xmlNewChild ( doc->children,
 		       NULL,
 		       "Generalites",
 		       NULL );
@@ -6452,7 +6541,7 @@ gboolean enregistre_fichier ( gboolean force )
   /*   on commence la sauvegarde des comptes : 2 parties, les generalites */
   /* puis les comptes 1 par 1 */
 
-  node = xmlNewChild ( doc->root,
+  node = xmlNewChild ( doc->children,
 		       NULL,
 		       "Comptes",
 		       NULL );
@@ -6885,7 +6974,7 @@ gboolean enregistre_fichier ( gboolean force )
   /* on sauvegarde maintenant les echeances : generalites puis liste des echeances */
 
 
-  node = xmlNewChild ( doc->root,
+  node = xmlNewChild ( doc->children,
 		       NULL,
 		       "Echeances",
 		       NULL );
@@ -7028,7 +7117,7 @@ gboolean enregistre_fichier ( gboolean force )
   /* mise en place des tiers : generalites puis liste */
 
 
-  node = xmlNewChild ( doc->root,
+  node = xmlNewChild ( doc->children,
 		       NULL,
 		       "Tiers",
 		       NULL );
@@ -7095,7 +7184,7 @@ gboolean enregistre_fichier ( gboolean force )
   /* mise en place des categories : generalites puis liste */
 
 
-  node = xmlNewChild ( doc->root,
+  node = xmlNewChild ( doc->children,
 		       NULL,
 		       "Categories",
 		       NULL );
@@ -7190,7 +7279,7 @@ gboolean enregistre_fichier ( gboolean force )
   /* mise en place des imputations budgetaires : generalites puis liste */
 
 
-  node = xmlNewChild ( doc->root,
+  node = xmlNewChild ( doc->children,
 		       NULL,
 		       "Imputations",
 		       NULL );
@@ -7284,7 +7373,7 @@ gboolean enregistre_fichier ( gboolean force )
   /* mise en place des devises : generalites puis liste */
 
 
-  node = xmlNewChild ( doc->root,
+  node = xmlNewChild ( doc->children,
 		       NULL,
 		       "Devises",
 		       NULL );
@@ -7380,7 +7469,7 @@ gboolean enregistre_fichier ( gboolean force )
   /* mise en place des banques : generalites puis liste */
 
 
-  node = xmlNewChild ( doc->root,
+  node = xmlNewChild ( doc->children,
 		       NULL,
 		       "Banques",
 		       NULL );
@@ -7478,7 +7567,7 @@ gboolean enregistre_fichier ( gboolean force )
   /* mise en place des exercices : generalites puis liste */
 
 
-  node = xmlNewChild ( doc->root,
+  node = xmlNewChild ( doc->children,
 		       NULL,
 		       "Exercices",
 		       NULL );
@@ -7565,7 +7654,7 @@ gboolean enregistre_fichier ( gboolean force )
   /* mise en place des no de rapprochement : generalites puis liste */
 
 
-  node = xmlNewChild ( doc->root,
+  node = xmlNewChild ( doc->children,
 		       NULL,
 		       "Rapprochements",
 		       NULL );
@@ -7620,7 +7709,7 @@ gboolean enregistre_fichier ( gboolean force )
 
   /* sauvegarde des etats */
 
-  node = xmlNewChild ( doc->root,
+  node = xmlNewChild ( doc->children,
 		       NULL,
 		       "Etats",
 		       NULL );
@@ -8316,7 +8405,7 @@ gboolean enregistre_fichier ( gboolean force )
   if ( resultat == -1 )
     {
       dialogue ( g_strdup_printf ( _("Error saving file '%s'\n\nError:\n%s"),
-				   nom_fichier_comptes, strerror ( errno ) ));
+				   nom_fichier_comptes, latin2utf8(strerror(errno)) ));
       return ( FALSE );
     }
 
@@ -8437,14 +8526,14 @@ gboolean enregistre_categ ( gchar *nom_categ )
 
   /* la racine est grisbi */
 
-  doc->root = xmlNewDocNode ( doc,
+  doc->children = xmlNewDocNode ( doc,
 			      NULL,
 			      "Grisbi_categ",
 			      NULL );
 
   /* on commence à ajouter les generalites */
 
-  node = xmlNewChild ( doc->root,
+  node = xmlNewChild ( doc->children,
 		       NULL,
 		       "Generalites",
 		       NULL );
@@ -8459,7 +8548,7 @@ gboolean enregistre_categ ( gchar *nom_categ )
 		    VERSION );
 
 
-  node = xmlNewChild ( doc->root,
+  node = xmlNewChild ( doc->children,
 		       NULL,
 		       "Details_des_categories",
 		       NULL );
@@ -8561,11 +8650,11 @@ gboolean charge_categ ( gchar *nom_categ )
     {
       /* vérifications d'usage */
 
-      if ( !doc->root
+      if ( !doc->children
 	   ||
-	   !doc->root->name
+	   !doc->children->name
 	   ||
-	   g_strcasecmp ( doc->root->name,
+	   g_strcasecmp ( doc->children->name,
 			  "Grisbi_categ" ))
 	{
 	  dialogue ( _("This file is not a Grisbi category list file") );
@@ -8575,7 +8664,7 @@ gboolean charge_categ ( gchar *nom_categ )
 
       /* récupère la version de fichier */
 
-      if (( !strcmp (  xmlNodeGetContent ( doc->root->childs->childs ),
+      if (( !strcmp (  xmlNodeGetContent ( doc->children->children->children ),
 		       "0.4.0" )))
 	return ( charge_categ_version_0_4_0 ( doc ));
 
@@ -8583,7 +8672,7 @@ gboolean charge_categ ( gchar *nom_categ )
       /* la version nécessaire pour l'ouvrir */
 
       dialogue ( g_strdup_printf ( _("Grisbi version %s is needed to open this file"),
-				   xmlNodeGetContent ( doc->root->childs->childs->next )));
+				   xmlNodeGetContent ( doc->children->children->children->next )));
 
       xmlFreeDoc ( doc );
 
@@ -8611,7 +8700,7 @@ gboolean charge_categ_version_0_4_0 ( xmlDocPtr doc )
 
   /* on place node sur les generalites */
 
-  node = doc -> root -> childs;
+  node = xmlDocGetRootElement(doc) -> children;
 
 
   while ( node )
@@ -8623,7 +8712,7 @@ gboolean charge_categ_version_0_4_0 ( xmlDocPtr doc )
 
 	  /* node_generalites va faire le tour des generalites */
 
-	  node_generalites = node -> childs;
+	  node_generalites = node -> children;
 
 	  while ( node_generalites )
 	    {
@@ -8642,102 +8731,106 @@ gboolean charge_categ_version_0_4_0 ( xmlDocPtr doc )
 	  xmlNodePtr node_detail;
 	  xmlNodePtr node_sous_categ;
 
-	  node_detail = node -> childs;
+	  node_detail = node -> children;
 
 	  while ( node_detail )
 	    {
 	      GSList *liste_tmp;
 	      struct struct_categ *categorie;
 
-	      /* 	      on doit réaliser une fusion, pour ça, soit la catég existe, et on fait le */
-	      /* tour des sous catég en ajoutant celles qui n'existent pas, soit elle n'existe pas et on */
-	      /* ajoute la catég et ses sous categ */
-
-	      liste_tmp = g_slist_find_custom ( liste_struct_categories,
-						xmlGetProp ( node_detail,
-							     "Nom" ),
-						(GCompareFunc) recherche_categorie_par_nom );
-
-
-	      if ( liste_tmp )
+	      if ( node_detail -> type != XML_TEXT_NODE )
 		{
-		  /* 		  la catégorie existe, on fait le tour des sous catégories */
 
-		  categorie = liste_tmp -> data;
+		  /* 	      on doit réaliser une fusion, pour ça, soit la catég existe, et on fait le */
+		  /* tour des sous catég en ajoutant celles qui n'existent pas, soit elle n'existe pas et on */
+		  /* ajoute la catég et ses sous categ */
 
-		  node_sous_categ = node_detail -> childs;
+		  liste_tmp = g_slist_find_custom ( liste_struct_categories,
+						    xmlGetProp ( node_detail,
+								 "Nom" ),
+						    (GCompareFunc) recherche_categorie_par_nom );
 
-		  while ( node_sous_categ )
+
+		  if ( liste_tmp )
 		    {
-		      struct struct_sous_categ *sous_categ;
-		      GSList *liste_tmp_2;
+		      /* 		  la catégorie existe, on fait le tour des sous catégories */
 
-		      /* on ne prend la sous catég que si elle n'existe pas */
+		      categorie = liste_tmp -> data;
 
-		      liste_tmp_2 = g_slist_find_custom ( categorie -> liste_sous_categ,
-							  xmlGetProp ( node_sous_categ,
-								       "Nom" ),
-							  (GCompareFunc) recherche_sous_categorie_par_nom );
+		      node_sous_categ = node_detail -> children;
 
-		      if ( !liste_tmp_2 )
+		      while ( node_sous_categ )
 			{
+			  struct struct_sous_categ *sous_categ;
+			  GSList *liste_tmp_2;
+
+			  /* on ne prend la sous catég que si elle n'existe pas */
+
+			  liste_tmp_2 = g_slist_find_custom ( categorie -> liste_sous_categ,
+							      xmlGetProp ( node_sous_categ,
+									   "Nom" ),
+							      (GCompareFunc) recherche_sous_categorie_par_nom );
+
+			  if ( !liste_tmp_2 )
+			    {
+
+			      sous_categ = calloc ( 1,
+						    sizeof ( struct struct_sous_categ ) );
+
+			      sous_categ -> no_sous_categ = ++categorie -> no_derniere_sous_categ;
+
+			      sous_categ -> nom_sous_categ = xmlGetProp ( node_sous_categ,
+									  "Nom" );
+
+			      categorie -> liste_sous_categ = g_slist_append ( categorie -> liste_sous_categ,
+									       sous_categ );
+			    }
+			  node_sous_categ = node_sous_categ -> next;
+			}
+		    }
+		  else
+		    {
+		      /* la catégorie n'existe pas, on l'ajoute */
+
+		      
+		      categorie = calloc ( 1,
+					   sizeof ( struct struct_categ ) );
+
+		      categorie -> no_categ = ++no_derniere_categorie;
+		      nb_enregistrements_categories++;
+
+		      categorie -> nom_categ = xmlGetProp ( node_detail,
+							    "Nom" );
+		      categorie -> type_categ = atoi ( xmlGetProp ( node_detail,
+								    "Type" ));
+		      categorie -> no_derniere_sous_categ = atoi ( xmlGetProp ( node_detail,
+										"No_derniere_sous_cagegorie" ));
+
+		      /*  pour chaque categorie, on recupère les sous-categories */
+
+		      categorie -> liste_sous_categ = NULL;
+		      node_sous_categ = node_detail -> children;
+
+		      while ( node_sous_categ )
+			{
+			  struct struct_sous_categ *sous_categ;
 
 			  sous_categ = calloc ( 1,
-						     sizeof ( struct struct_sous_categ ) );
+						sizeof ( struct struct_sous_categ ) );
 
-			  sous_categ -> no_sous_categ = ++categorie -> no_derniere_sous_categ;
-
+			  sous_categ -> no_sous_categ = atoi ( xmlGetProp ( node_sous_categ,
+									    "No" ));
 			  sous_categ -> nom_sous_categ = xmlGetProp ( node_sous_categ,
 								      "Nom" );
 
 			  categorie -> liste_sous_categ = g_slist_append ( categorie -> liste_sous_categ,
 									   sous_categ );
+			  node_sous_categ = node_sous_categ -> next;
 			}
-		      node_sous_categ = node_sous_categ -> next;
+
+		      liste_struct_categories = g_slist_append ( liste_struct_categories,
+								 categorie );
 		    }
-		}
-	      else
-		{
-		  /* la catégorie n'existe pas, on l'ajoute */
-
-		      
-		  categorie = calloc ( 1,
-						     sizeof ( struct struct_categ ) );
-
-		  categorie -> no_categ = ++no_derniere_categorie;
-		  nb_enregistrements_categories++;
-
-		  categorie -> nom_categ = xmlGetProp ( node_detail,
-							"Nom" );
-		  categorie -> type_categ = atoi ( xmlGetProp ( node_detail,
-								"Type" ));
-		  categorie -> no_derniere_sous_categ = atoi ( xmlGetProp ( node_detail,
-									    "No_derniere_sous_cagegorie" ));
-
-		  /*  pour chaque categorie, on recupère les sous-categories */
-
-		  categorie -> liste_sous_categ = NULL;
-		  node_sous_categ = node_detail -> childs;
-
-		  while ( node_sous_categ )
-		    {
-		      struct struct_sous_categ *sous_categ;
-
-		      sous_categ = calloc ( 1,
-						     sizeof ( struct struct_sous_categ ) );
-
-		      sous_categ -> no_sous_categ = atoi ( xmlGetProp ( node_sous_categ,
-									"No" ));
-		      sous_categ -> nom_sous_categ = xmlGetProp ( node_sous_categ,
-								  "Nom" );
-
-		      categorie -> liste_sous_categ = g_slist_append ( categorie -> liste_sous_categ,
-								       sous_categ );
-		      node_sous_categ = node_sous_categ -> next;
-		    }
-
-		  liste_struct_categories = g_slist_append ( liste_struct_categories,
-							     categorie );
 		}
 	      node_detail = node_detail -> next;
 	    }
@@ -8785,14 +8878,14 @@ gboolean enregistre_ib ( gchar *nom_ib )
 
   /* la racine est grisbi */
 
-  doc->root = xmlNewDocNode ( doc,
+  doc->children = xmlNewDocNode ( doc,
 			      NULL,
 			      "Grisbi_ib",
 			      NULL );
 
   /* on commence à ajouter les generalites */
 
-  node = xmlNewChild ( doc->root,
+  node = xmlNewChild ( doc->children,
 		       NULL,
 		       "Generalites",
 		       NULL );
@@ -8807,7 +8900,7 @@ gboolean enregistre_ib ( gchar *nom_ib )
 		    VERSION );
 
 
-  node = xmlNewChild ( doc->root,
+  node = xmlNewChild ( doc->children,
 		       NULL,
 		       "Details_des_ib",
 		       NULL );
@@ -8909,11 +9002,11 @@ gboolean charge_ib ( gchar *nom_ib )
     {
       /* vérifications d'usage */
 
-      if ( !doc->root
+      if ( !doc->children
 	   ||
-	   !doc->root->name
+	   !doc->children->name
 	   ||
-	   g_strcasecmp ( doc->root->name,
+	   g_strcasecmp ( doc->children->name,
 			  "Grisbi_ib" ))
 	{
 	  dialogue ( _("This file is not a grisbi budgetary lines file") );
@@ -8923,7 +9016,7 @@ gboolean charge_ib ( gchar *nom_ib )
 
       /* récupère la version de fichier */
 
-      if (( !strcmp (  xmlNodeGetContent ( doc->root->childs->childs ),
+      if (( !strcmp (  xmlNodeGetContent ( doc->children->children->children ),
 		       "0.4.0" )))
 	return ( charge_ib_version_0_4_0 ( doc ));
 
@@ -8931,7 +9024,7 @@ gboolean charge_ib ( gchar *nom_ib )
       /* la version nécessaire pour l'ouvrir */
 
       dialogue ( g_strdup_printf ( _("Grisbi version %s is needed to open this file"),
-				   xmlNodeGetContent ( doc->root->childs->childs->next )));
+				   xmlNodeGetContent ( doc->children->children->children->next )));
 
       xmlFreeDoc ( doc );
 
@@ -8960,7 +9053,7 @@ gboolean charge_ib_version_0_4_0 ( xmlDocPtr doc )
 
   /* on place node sur les generalites */
 
-  node = root -> childs;
+  node = root -> children;
 
 
   while ( node )
@@ -8972,7 +9065,7 @@ gboolean charge_ib_version_0_4_0 ( xmlDocPtr doc )
 
 	  /* node_generalites va faire le tour des generalites */
 
-	  node_generalites = node -> childs;
+	  node_generalites = node -> children;
 
 	  while ( node_generalites )
 	    {
@@ -8991,102 +9084,106 @@ gboolean charge_ib_version_0_4_0 ( xmlDocPtr doc )
 	  xmlNodePtr node_detail;
 	  xmlNodePtr node_sous_ib;
 
-	  node_detail = node -> childs;
+	  node_detail = node -> children;
 
 	  while ( node_detail )
 	    {
 	      GSList *liste_tmp;
 	      struct struct_imputation *ib;
 
+	      if ( node_detail -> type != XML_TEXT_NODE )
+		{
+
 	      /* 	      on doit réaliser une fusion, pour ça, soit l'ib existe, et on fait le */
 	      /* tour des sous ib en ajoutant celles qui n'existent pas, soit elle n'existe pas et on */
 	      /* ajoute l'ib et ses sous ib */
 
-	      liste_tmp = g_slist_find_custom ( liste_struct_imputation,
-						latin2utf8(xmlGetProp ( node_detail,
-							     "Nom" )),
-						(GCompareFunc) recherche_imputation_par_nom );
+		  liste_tmp = g_slist_find_custom ( liste_struct_imputation,
+						    latin2utf8(xmlGetProp ( node_detail,
+									    "Nom" )),
+						    (GCompareFunc) recherche_imputation_par_nom );
 
 
-	      if ( liste_tmp )
-		{
-		  /* 		  la catégorie existe, on fait le tour des sous catégories */
-
-		  ib = liste_tmp -> data;
-
-		  node_sous_ib = node_detail -> childs;
-
-		  while ( node_sous_ib )
+		  if ( liste_tmp )
 		    {
-		      struct struct_sous_imputation *sous_ib;
-		      GSList *liste_tmp_2;
+		      /* 		  la catégorie existe, on fait le tour des sous catégories */
 
-		      /* on ne prend la sous catég que si elle n'existe pas */
+		      ib = liste_tmp -> data;
 
-		      liste_tmp_2 = g_slist_find_custom ( ib -> liste_sous_imputation,
-							  latin2utf8(xmlGetProp ( node_sous_ib,
-								       "Nom" )),
-							  (GCompareFunc) recherche_sous_imputation_par_nom );
+		      node_sous_ib = node_detail -> children;
 
-		      if ( !liste_tmp_2 )
+		      while ( node_sous_ib )
 			{
+			  struct struct_sous_imputation *sous_ib;
+			  GSList *liste_tmp_2;
 
-			  sous_ib = calloc ( 1,
-						     sizeof ( struct struct_sous_imputation ) );
+			  /* on ne prend la sous catég que si elle n'existe pas */
 
-			  sous_ib -> no_sous_imputation = ++ib -> no_derniere_sous_imputation;
+			  liste_tmp_2 = g_slist_find_custom ( ib -> liste_sous_imputation,
+							      latin2utf8(xmlGetProp ( node_sous_ib,
+										      "Nom" )),
+							      (GCompareFunc) recherche_sous_imputation_par_nom );
 
-			  sous_ib -> nom_sous_imputation = latin2utf8(xmlGetProp ( node_sous_ib,
-									"Nom" ));
+			  if ( !liste_tmp_2 )
+			    {
 
-			  ib -> liste_sous_imputation = g_slist_append ( ib -> liste_sous_imputation,
+			      sous_ib = calloc ( 1,
+						 sizeof ( struct struct_sous_imputation ) );
+
+			      sous_ib -> no_sous_imputation = ++ib -> no_derniere_sous_imputation;
+
+			      sous_ib -> nom_sous_imputation = latin2utf8(xmlGetProp ( node_sous_ib,
+										       "Nom" ));
+
+			      ib -> liste_sous_imputation = g_slist_append ( ib -> liste_sous_imputation,
 									     sous_ib );
+			    }
+			  node_sous_ib = node_sous_ib -> next;
 			}
-		      node_sous_ib = node_sous_ib -> next;
 		    }
-		}
-	      else
-		{
-		  /* l'ib n'existe pas, on l'ajoute */
+		  else
+		    {
+		      /* l'ib n'existe pas, on l'ajoute */
 
 		      
-		  ib = calloc ( 1,
-						     sizeof ( struct struct_imputation ) );
+		      ib = calloc ( 1,
+				    sizeof ( struct struct_imputation ) );
 
-		  ib -> no_imputation = ++no_derniere_imputation;
-		  nb_enregistrements_imputations++;
+		      ib -> no_imputation = ++no_derniere_imputation;
+		      nb_enregistrements_imputations++;
 
-		  ib -> nom_imputation = latin2utf8(xmlGetProp ( node_detail,
-						      "Nom" ));
-		  ib -> type_imputation = atoi ( latin2utf8(xmlGetProp ( node_detail,
-							      "Type" )));
-		  ib -> no_derniere_sous_imputation = atoi ( latin2utf8(xmlGetProp ( node_detail,
-								  "No_derniere_sous_imputation" )));
+		      ib -> nom_imputation = latin2utf8(xmlGetProp ( node_detail,
+								     "Nom" ));
+		      ib -> type_imputation = atoi ( latin2utf8(xmlGetProp ( node_detail,
+									     "Type" )));
+		      ib -> no_derniere_sous_imputation = atoi ( latin2utf8(xmlGetProp ( node_detail,
+											 "No_derniere_sous_imputation" )));
 
-		  /*  pour chaque ib, on recupère les sous-ib */
+		      /*  pour chaque ib, on recupère les sous-ib */
 
-		  ib -> liste_sous_imputation = NULL;
-		  node_sous_ib = node_detail -> childs;
+		      ib -> liste_sous_imputation = NULL;
+		      node_sous_ib = node_detail -> children;
 
-		  while ( node_sous_ib )
-		    {
-		      struct struct_sous_imputation *sous_ib;
+		      while ( node_sous_ib )
+			{
+			  struct struct_sous_imputation *sous_ib;
 
-		      sous_ib = calloc ( 1,
-					 sizeof ( struct struct_sous_imputation ) );
+			  sous_ib = calloc ( 1,
+					     sizeof ( struct struct_sous_imputation ) );
 
-		      sous_ib -> no_sous_imputation = atoi ( latin2utf8(xmlGetProp ( node_sous_ib,
-									  "No" )));
-		      sous_ib -> nom_sous_imputation = latin2utf8(xmlGetProp ( node_sous_ib,
-								    "Nom" ));
+			  sous_ib -> no_sous_imputation = atoi ( latin2utf8(xmlGetProp ( node_sous_ib,
+											 "No" )));
+			  sous_ib -> nom_sous_imputation = latin2utf8(xmlGetProp ( node_sous_ib,
+										   "Nom" ));
 
-		      ib -> liste_sous_imputation = g_slist_append ( ib -> liste_sous_imputation,
-								     sous_ib );
-		      node_sous_ib = node_sous_ib -> next;
+			  ib -> liste_sous_imputation = g_slist_append ( ib -> liste_sous_imputation,
+									 sous_ib );
+			  node_sous_ib = node_sous_ib -> next;
+			}
+
+		      liste_struct_imputation = g_slist_append ( liste_struct_imputation,
+								 ib );
 		    }
-
-		  liste_struct_imputation = g_slist_append ( liste_struct_imputation,
-							  ib );
 		}
 	      node_detail = node_detail -> next;
 	    }
