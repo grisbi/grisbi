@@ -741,10 +741,8 @@ struct struct_ope_importation * new_transaction_from_split ( struct gnucash_spli
       contra_transaction -> date = date;
       contra_transaction -> p_r = split -> p_r;
 
-      transaction -> categ = g_strconcat ( _("Transfer"), " : ",
-					   split -> contra_account, NULL);
-      contra_transaction -> categ = g_strconcat ( _("Transfer"), " : ",
-						  split -> account, NULL);
+      transaction -> categ = g_strconcat ( "[", split -> contra_account, "]", NULL );
+      contra_transaction -> categ = g_strconcat ( "[", split -> account, "]", NULL );
 
       contra_account = find_imported_account_by_name ( split -> contra_account );
       if ( contra_account )
