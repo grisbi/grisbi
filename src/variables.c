@@ -722,18 +722,9 @@ GtkWidget *bouton_afficher_noms_tiers;
 
 GtkWidget *entree_texte_etat;
 
-GtkWidget *bouton_inclut_choix_positif_negatif_etat;
-GtkWidget *bouton_choix_positif_negatif_etat;
-GtkWidget *bouton_inclut_choix_valeur_etat;
-GtkWidget *hbox_choix_valeur_etat;
-GtkWidget *bouton_choix_operateur_valeur_etat;
-GtkWidget *entree_choix_valeur_etat;
-GtkWidget *bouton_inclut_choix_inclusion_valeur_etat;
-GtkWidget *hbox_choix_inclut_etat;
-GtkWidget *entree_choix_inclut_inf_etat;
-GtkWidget *bouton_choix_operateur_inclut_inf_etat;
-GtkWidget *bouton_choix_operateur_inclut_sup_etat;
-GtkWidget *entree_choix_inclut_sup_etat;
+GtkWidget *bouton_utilise_montant;
+GtkWidget *vbox_generale_montants_etat;
+GtkWidget *liste_montants_etat;
 GtkWidget *bouton_choix_montant_nul;
 GtkWidget *bouton_devise_montant_etat;
 

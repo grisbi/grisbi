@@ -611,37 +611,8 @@ void personnalisation_etat (void)
 
   /* onglet montant */
 
-  gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_inclut_choix_positif_negatif_etat ),
-				 etat_courant -> utilise_montant_neg_pos );
-  sens_desensitive_pointeur ( bouton_inclut_choix_positif_negatif_etat,
-			      bouton_choix_positif_negatif_etat );
-  gtk_option_menu_set_history ( GTK_OPTION_MENU ( bouton_choix_positif_negatif_etat ),
-				etat_courant -> type_neg_pos );
-
-  gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_inclut_choix_valeur_etat ),
-				 etat_courant -> utilise_valeur );
-  sens_desensitive_pointeur ( bouton_inclut_choix_valeur_etat,
-			      hbox_choix_valeur_etat );
-  gtk_option_menu_set_history ( GTK_OPTION_MENU ( bouton_choix_operateur_valeur_etat ),
-				etat_courant -> type_operateur_valeur );
-  gtk_entry_set_text ( GTK_ENTRY ( entree_choix_valeur_etat ),
-		       g_strdup_printf ( "%4.2f",
-					 etat_courant -> montant_valeur ));
-
-  gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_inclut_choix_inclusion_valeur_etat ),
-				 etat_courant -> utilise_inclusion );
-  sens_desensitive_pointeur ( bouton_inclut_choix_inclusion_valeur_etat,
-			      hbox_choix_inclut_etat );
-  gtk_entry_set_text ( GTK_ENTRY ( entree_choix_inclut_inf_etat ),
-		       g_strdup_printf ( "%4.2f",
-					 etat_courant -> montant_inclusion_inf ));
-  gtk_option_menu_set_history ( GTK_OPTION_MENU ( bouton_choix_operateur_inclut_inf_etat ),
-				etat_courant -> type_operateur_inf_inclusion );
-  gtk_option_menu_set_history ( GTK_OPTION_MENU ( bouton_choix_operateur_inclut_sup_etat ),
-				etat_courant -> type_operateur_sup_inclusion );
-  gtk_entry_set_text ( GTK_ENTRY ( entree_choix_inclut_sup_etat ),
-		       g_strdup_printf ( "%4.2f",
-					 etat_courant -> montant_inclusion_sup ));
+  gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_utilise_montant ),
+				 etat_courant -> utilise_montant );
   gtk_option_menu_set_history ( GTK_OPTION_MENU ( bouton_choix_montant_nul ),
 				etat_courant -> choix_montant_nul );
   gtk_option_menu_set_history ( GTK_OPTION_MENU ( bouton_devise_montant_etat ),
@@ -649,7 +620,12 @@ void personnalisation_etat (void)
 						   g_slist_find_custom ( liste_struct_devises,
 									 GINT_TO_POINTER ( etat_courant -> choix_devise_montant ),
 									 ( GCompareFunc ) recherche_devise_par_no )));
+  sens_desensitive_pointeur ( bouton_utilise_montant,
+			      vbox_generale_montants_etat );
 
+  /* on remplit la liste des comparaison ou met une ligne vide */
+
+  remplit_liste_comparaisons_montants_etat ();
 
   /* on se met sur la bonne page */
 
@@ -902,6 +878,7 @@ void recuperation_info_perso_etat ( void )
   GList *pointeur_liste;
   gchar *pointeur_char;
   gint i;
+  struct struct_comparaison_montants_etat *comp_montants;
 
 
   /* vérification que les dates init et finales sont correctes */
@@ -1316,28 +1293,61 @@ void recuperation_info_perso_etat ( void )
 
   /* récupération du montant */
 
-  etat_courant -> utilise_montant_neg_pos = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_inclut_choix_positif_negatif_etat ));
-  etat_courant -> type_neg_pos = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( bouton_choix_positif_negatif_etat ) -> menu_item ),
-									 "no_item" ));
-  etat_courant -> utilise_valeur = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_inclut_choix_valeur_etat ));
-  etat_courant -> type_operateur_valeur = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( bouton_choix_operateur_valeur_etat ) -> menu_item ),
-										  "no_item" ));
-  etat_courant -> montant_valeur = g_strtod ( gtk_entry_get_text ( GTK_ENTRY ( entree_choix_valeur_etat )),
-					      NULL );
-  etat_courant -> utilise_inclusion = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_inclut_choix_inclusion_valeur_etat ));
-  etat_courant -> montant_inclusion_inf = g_strtod ( gtk_entry_get_text ( GTK_ENTRY ( entree_choix_inclut_inf_etat )),
-						     NULL );
-  etat_courant -> type_operateur_inf_inclusion = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( bouton_choix_operateur_inclut_inf_etat ) -> menu_item ),
-											 "no_item" ));
-  etat_courant -> type_operateur_sup_inclusion = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( bouton_choix_operateur_inclut_sup_etat ) -> menu_item ),
-											 "no_item" ));
-  etat_courant -> montant_inclusion_sup = g_strtod ( gtk_entry_get_text ( GTK_ENTRY ( entree_choix_inclut_sup_etat )),
-						     NULL );
-
+  etat_courant -> utilise_montant = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_utilise_montant ));
   etat_courant -> choix_montant_nul = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( bouton_choix_montant_nul ) -> menu_item ),
 									      "no_montant_nul" ));
   etat_courant -> choix_devise_montant = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( bouton_devise_montant_etat ) -> menu_item ),
 									      "no_devise" ));
+
+  /* récupération de la liste des comparaisons de montant */
+  /*   il y a au moins une structure de créée, si celle si a les 2 montants vides, */
+  /* c'est qu'il n'y a aucune liste */
+
+  comp_montants = etat_courant -> liste_struct_comparaison_montants -> data;
+
+  if ( g_slist_length ( etat_courant -> liste_struct_comparaison_montants ) == 1
+       &&
+       !strlen ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( comp_montants -> entree_montant_1 ))))
+       &&
+       !strlen ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( comp_montants -> entree_montant_2 )))))
+	{
+	  g_slist_free ( etat_courant -> liste_struct_comparaison_montants );
+	  etat_courant -> liste_struct_comparaison_montants = NULL;
+	}
+  else
+    {
+      /* on a rentré au moins une comparaison */
+      /* on rempli les champs de la structure */
+
+      GSList *liste_tmp;
+
+      liste_tmp = etat_courant -> liste_struct_comparaison_montants;
+
+      while ( liste_tmp )
+	{
+	  comp_montants = liste_tmp -> data;
+
+	  if ( comp_montants -> bouton_lien )
+	    comp_montants -> lien_struct_precedente = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( comp_montants -> bouton_lien ) -> menu_item ),
+											      "no_lien" ));
+	  else
+	    comp_montants -> lien_struct_precedente = -1;
+
+	  comp_montants -> comparateur_1 = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( comp_montants -> bouton_comparateur_1 ) -> menu_item ),
+										   "no_comparateur" ));
+	  comp_montants -> lien_1_2 = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( comp_montants -> bouton_lien_1_2 ) -> menu_item ),
+									      "no_lien" ));
+	  comp_montants -> comparateur_2 = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( comp_montants -> bouton_comparateur_2 ) -> menu_item ),
+										   "no_comparateur" ));
+	  comp_montants -> montant_1 = g_strtod ( gtk_entry_get_text ( GTK_ENTRY ( comp_montants -> entree_montant_1 )),
+						  NULL );
+	  comp_montants -> montant_2 = g_strtod ( gtk_entry_get_text ( GTK_ENTRY ( comp_montants -> entree_montant_2 )),
+						  NULL );
+
+	  liste_tmp = liste_tmp -> next;
+	}
+    }
+
 
 
   modification_fichier ( TRUE );
@@ -4531,7 +4541,7 @@ GtkWidget *onglet_etat_montant ( void )
   GtkWidget *vbox_onglet;
   GtkWidget *menu;
   GtkWidget *menu_item;
-
+  GtkWidget *scrolled_window;
 
   widget_retour = gtk_scrolled_window_new ( FALSE,
 					    FALSE );
@@ -4551,6 +4561,8 @@ GtkWidget *onglet_etat_montant ( void )
 
 
 
+  /* on commence par créer le choix d'utiliser le montant */
+
   hbox = gtk_hbox_new ( FALSE,
 			5 );
   gtk_box_pack_start ( GTK_BOX ( vbox_onglet ),
@@ -4560,7 +4572,65 @@ GtkWidget *onglet_etat_montant ( void )
 		       0 );
   gtk_widget_show ( hbox );
 
-  label = gtk_label_new ( _("Réduire la recherche aux opérations :") );
+  bouton_utilise_montant = gtk_check_button_new_with_label ( _("Utiliser les montants dans l'état") );
+  gtk_box_pack_start ( GTK_BOX ( hbox ),
+		       bouton_utilise_montant,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( bouton_utilise_montant );
+
+  vbox_generale_montants_etat = gtk_vbox_new ( FALSE,
+					    5 );
+  gtk_box_pack_start ( GTK_BOX ( vbox_onglet ),
+		       vbox_generale_montants_etat,
+		       TRUE,
+		       TRUE,
+		       0 );
+  gtk_widget_show ( vbox_generale_montants_etat );
+
+  gtk_signal_connect ( GTK_OBJECT ( bouton_utilise_montant ),
+		       "toggled",
+		       GTK_SIGNAL_FUNC ( sens_desensitive_pointeur ),
+		       vbox_generale_montants_etat );
+
+
+
+  /* on va ensuite créer la liste qui contiendra les critères */
+  /* le remplissage ou la ligne vide se mettent plus tard */
+
+  scrolled_window = gtk_scrolled_window_new ( FALSE,
+					      FALSE );
+  gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window ),
+				   GTK_POLICY_AUTOMATIC,
+				   GTK_POLICY_AUTOMATIC );
+  gtk_box_pack_start ( GTK_BOX ( vbox_generale_montants_etat ),
+		       scrolled_window,
+		       TRUE,
+		       TRUE,
+		       0 );
+  gtk_widget_show ( scrolled_window );
+
+  liste_montants_etat = gtk_vbox_new ( FALSE,
+				       5 );
+  gtk_scrolled_window_add_with_viewport ( GTK_SCROLLED_WINDOW ( scrolled_window ),
+					  liste_montants_etat );
+  gtk_widget_show ( liste_montants_etat );
+
+
+  /* choix pour la devise de calcul */
+
+
+  hbox = gtk_hbox_new ( FALSE,
+			5 );
+  gtk_box_pack_start ( GTK_BOX ( vbox_generale_montants_etat ),
+		       hbox,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( hbox );
+
+  label = gtk_label_new ( _( "Devise utilisée pour les comparaisons de montant " ));
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       label,
 		       FALSE,
@@ -4568,284 +4638,16 @@ GtkWidget *onglet_etat_montant ( void )
 		       0 );
   gtk_widget_show ( label );
 
-  /* mise en place du choix montant positif ou négatif */
-
-
-  hbox = gtk_hbox_new ( FALSE,
-			5 );
-  gtk_box_pack_start ( GTK_BOX ( vbox_onglet ),
-		       hbox,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( hbox );
-
-  bouton_inclut_choix_positif_negatif_etat = gtk_check_button_new_with_label ( _("dont le montant est " ));
+  bouton_devise_montant_etat = gtk_option_menu_new ();
+  gtk_option_menu_set_menu ( GTK_OPTION_MENU ( bouton_devise_montant_etat ),
+			     creation_option_menu_devises ( 0,
+							    liste_struct_devises ));
   gtk_box_pack_start ( GTK_BOX ( hbox ),
-		       bouton_inclut_choix_positif_negatif_etat,
+		       bouton_devise_montant_etat,
 		       FALSE,
 		       FALSE,
 		       0 );
-  gtk_widget_show ( bouton_inclut_choix_positif_negatif_etat );
-
-  bouton_choix_positif_negatif_etat = gtk_option_menu_new ();
-  gtk_box_pack_start ( GTK_BOX ( hbox ),
-		       bouton_choix_positif_negatif_etat,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( bouton_choix_positif_negatif_etat );
-
-  menu = gtk_menu_new ();
-
-  menu_item = gtk_menu_item_new_with_label ( _( "négatif" ));
-  gtk_object_set_data ( GTK_OBJECT ( menu_item ),
-			"no_item",
-			NULL );
-  gtk_menu_append ( GTK_MENU ( menu ),
-		    menu_item );
-  gtk_widget_show ( menu_item );
-
-  menu_item = gtk_menu_item_new_with_label ( _( "positif" ));
-  gtk_object_set_data ( GTK_OBJECT ( menu_item ),
-			"no_item",
-			GINT_TO_POINTER (1) );
-  gtk_menu_append ( GTK_MENU ( menu ),
-		    menu_item );
-  gtk_widget_show ( menu_item );
-
-  gtk_option_menu_set_menu ( GTK_OPTION_MENU ( bouton_choix_positif_negatif_etat ),
-			     menu );
-  gtk_widget_show ( menu );
-
-
-  gtk_signal_connect ( GTK_OBJECT ( bouton_inclut_choix_positif_negatif_etat ),
-		       "toggled",
-		       GTK_SIGNAL_FUNC ( sens_desensitive_pointeur ),
-		       bouton_choix_positif_negatif_etat );
-
-  /* mise en place du choix montant = < > ... à une valeur */
-
-
-  hbox = gtk_hbox_new ( FALSE,
-			5 );
-  gtk_box_pack_start ( GTK_BOX ( vbox_onglet ),
-		       hbox,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( hbox );
-
-  bouton_inclut_choix_valeur_etat = gtk_check_button_new_with_label ( _("dont le montant est " ));
-  gtk_box_pack_start ( GTK_BOX ( hbox ),
-		       bouton_inclut_choix_valeur_etat,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( bouton_inclut_choix_valeur_etat );
-
-  hbox_choix_valeur_etat = gtk_hbox_new ( FALSE,
-					  5 );
-  gtk_box_pack_start ( GTK_BOX ( hbox ),
-		       hbox_choix_valeur_etat,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( hbox_choix_valeur_etat );
-
-  gtk_signal_connect ( GTK_OBJECT ( bouton_inclut_choix_valeur_etat ),
-		       "toggled",
-		       GTK_SIGNAL_FUNC ( sens_desensitive_pointeur ),
-		       hbox_choix_valeur_etat );
-
-
-  bouton_choix_operateur_valeur_etat = gtk_option_menu_new ();
-  gtk_box_pack_start ( GTK_BOX ( hbox_choix_valeur_etat ),
-		       bouton_choix_operateur_valeur_etat,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( bouton_choix_operateur_valeur_etat );
-
-  menu = gtk_menu_new ();
-
-  menu_item = gtk_menu_item_new_with_label ( _( "=" ));
-  gtk_object_set_data ( GTK_OBJECT ( menu_item ),
-			"no_item",
-			NULL );
-  gtk_menu_append ( GTK_MENU ( menu ),
-		    menu_item );
-  gtk_widget_show ( menu_item );
-
-  menu_item = gtk_menu_item_new_with_label ( _( "<" ));
-  gtk_object_set_data ( GTK_OBJECT ( menu_item ),
-			"no_item",
-			GINT_TO_POINTER (1) );
-  gtk_menu_append ( GTK_MENU ( menu ),
-		    menu_item );
-  gtk_widget_show ( menu_item );
-
-  menu_item = gtk_menu_item_new_with_label ( _( "<=" ));
-  gtk_object_set_data ( GTK_OBJECT ( menu_item ),
-			"no_item",
-			GINT_TO_POINTER (2) );
-  gtk_menu_append ( GTK_MENU ( menu ),
-		    menu_item );
-  gtk_widget_show ( menu_item );
-
-  menu_item = gtk_menu_item_new_with_label ( _( ">" ));
-  gtk_object_set_data ( GTK_OBJECT ( menu_item ),
-			"no_item",
-			GINT_TO_POINTER (3) );
-  gtk_menu_append ( GTK_MENU ( menu ),
-		    menu_item );
-  gtk_widget_show ( menu_item );
-
-  menu_item = gtk_menu_item_new_with_label ( _( ">=" ));
-  gtk_object_set_data ( GTK_OBJECT ( menu_item ),
-			"no_item",
-			GINT_TO_POINTER (4) );
-  gtk_menu_append ( GTK_MENU ( menu ),
-		    menu_item );
-  gtk_widget_show ( menu_item );
-
-  gtk_option_menu_set_menu ( GTK_OPTION_MENU ( bouton_choix_operateur_valeur_etat ),
-			     menu );
-  gtk_widget_show ( menu );
-
-
-  entree_choix_valeur_etat = gtk_entry_new ();
-  gtk_box_pack_start ( GTK_BOX ( hbox_choix_valeur_etat ),
-		       entree_choix_valeur_etat,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( entree_choix_valeur_etat );
-
-
-
-  /* mise en place du choix montant inclut  */
-
-
-  hbox = gtk_hbox_new ( FALSE,
-			5 );
-  gtk_box_pack_start ( GTK_BOX ( vbox_onglet ),
-		       hbox,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( hbox );
-
-  bouton_inclut_choix_inclusion_valeur_etat = gtk_check_button_new_with_label ( _("dans lesquelles " ));
-  gtk_box_pack_start ( GTK_BOX ( hbox ),
-		       bouton_inclut_choix_inclusion_valeur_etat,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( bouton_inclut_choix_inclusion_valeur_etat );
-
-  hbox_choix_inclut_etat = gtk_hbox_new ( FALSE,
-					  5 );
-  gtk_box_pack_start ( GTK_BOX ( hbox ),
-		       hbox_choix_inclut_etat,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( hbox_choix_inclut_etat );
-
-  gtk_signal_connect ( GTK_OBJECT ( bouton_inclut_choix_inclusion_valeur_etat ),
-		       "toggled",
-		       GTK_SIGNAL_FUNC ( sens_desensitive_pointeur ),
-		       hbox_choix_inclut_etat );
-
-  entree_choix_inclut_inf_etat = gtk_entry_new ();
-  gtk_box_pack_start ( GTK_BOX ( hbox_choix_inclut_etat ),
-		       entree_choix_inclut_inf_etat,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( entree_choix_inclut_inf_etat );
-
-
-  bouton_choix_operateur_inclut_inf_etat = gtk_option_menu_new ();
-  gtk_box_pack_start ( GTK_BOX ( hbox_choix_inclut_etat ),
-		       bouton_choix_operateur_inclut_inf_etat,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( bouton_choix_operateur_inclut_inf_etat );
-
-  menu = gtk_menu_new ();
-
-  menu_item = gtk_menu_item_new_with_label ( _( "<" ));
-  gtk_object_set_data ( GTK_OBJECT ( menu_item ),
-			"no_item",
-			NULL );
-  gtk_menu_append ( GTK_MENU ( menu ),
-		    menu_item );
-  gtk_widget_show ( menu_item );
-
-  menu_item = gtk_menu_item_new_with_label ( _( "<=" ));
-  gtk_object_set_data ( GTK_OBJECT ( menu_item ),
-			"no_item",
-			GINT_TO_POINTER (1) );
-  gtk_menu_append ( GTK_MENU ( menu ),
-		    menu_item );
-  gtk_widget_show ( menu_item );
-
-
-  gtk_option_menu_set_menu ( GTK_OPTION_MENU ( bouton_choix_operateur_inclut_inf_etat ),
-			     menu );
-  gtk_widget_show ( menu );
-
-
-  label = gtk_label_new ( _( " montant " ));
-  gtk_box_pack_start ( GTK_BOX ( hbox_choix_inclut_etat ),
-		       label,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( label );
-
-
-  bouton_choix_operateur_inclut_sup_etat = gtk_option_menu_new ();
-  gtk_box_pack_start ( GTK_BOX ( hbox_choix_inclut_etat ),
-		       bouton_choix_operateur_inclut_sup_etat,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( bouton_choix_operateur_inclut_sup_etat );
-
-  menu = gtk_menu_new ();
-
-  menu_item = gtk_menu_item_new_with_label ( _( "<" ));
-  gtk_object_set_data ( GTK_OBJECT ( menu_item ),
-			"no_item",
-			NULL );
-  gtk_menu_append ( GTK_MENU ( menu ),
-		    menu_item );
-  gtk_widget_show ( menu_item );
-
-  menu_item = gtk_menu_item_new_with_label ( _( "<=" ));
-  gtk_object_set_data ( GTK_OBJECT ( menu_item ),
-			"no_item",
-			GINT_TO_POINTER (1) );
-  gtk_menu_append ( GTK_MENU ( menu ),
-		    menu_item );
-  gtk_widget_show ( menu_item );
-
-
-  gtk_option_menu_set_menu ( GTK_OPTION_MENU ( bouton_choix_operateur_inclut_sup_etat ),
-			     menu );
-  gtk_widget_show ( menu );
-
-  entree_choix_inclut_sup_etat = gtk_entry_new ();
-  gtk_box_pack_start ( GTK_BOX ( hbox_choix_inclut_etat ),
-		       entree_choix_inclut_sup_etat,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( entree_choix_inclut_sup_etat );
+  gtk_widget_show ( bouton_devise_montant_etat );
 
   /* choix pour le montant nul */
 
@@ -4914,19 +4716,178 @@ GtkWidget *onglet_etat_montant ( void )
   gtk_widget_show ( menu );
 
 
-  /* choix pour le montant nul */
+
+  return ( widget_retour );
+}
+/*****************************************************************************************************/
 
 
-  hbox = gtk_hbox_new ( FALSE,
-			5 );
-  gtk_box_pack_start ( GTK_BOX ( vbox_onglet ),
-		       hbox,
+/*****************************************************************************************************/
+void remplit_liste_comparaisons_montants_etat ( void )
+{
+  GSList *liste_tmp;
+
+  liste_tmp = etat_courant -> liste_struct_comparaison_montants;
+
+  /*   s'il n'y a rien dans la liste, on met juste une ligne vide */
+
+  if ( !liste_tmp )
+    {
+      ajoute_ligne_liste_comparaisons_montants_etat ( NULL );
+      return;
+    }
+
+  /* commence par effacer l'ancienne liste */
+
+  while ( GTK_BOX ( liste_montants_etat ) -> children )
+    gtk_container_remove ( GTK_CONTAINER ( liste_montants_etat ),
+			   (( GtkBoxChild *) ( GTK_BOX ( liste_montants_etat ) -> children -> data )) -> widget );
+
+
+  /*   on fait le tour de la liste des comparaisons de montant, ajoute une ligne */
+  /* et la remplit à chaque fois */
+
+  while ( liste_tmp )
+    {
+      struct struct_comparaison_montants_etat *comp_montants;
+
+      comp_montants = liste_tmp -> data;
+
+      /* on crée la ligne et remplit les widget de la structure */
+
+      comp_montants -> hbox_ligne = cree_ligne_comparaison_montant ( comp_montants );
+      gtk_box_pack_start ( GTK_BOX ( liste_montants_etat ),
+			   comp_montants -> hbox_ligne,
+			   FALSE,
+			   FALSE,
+			   0 );
+      gtk_widget_show ( comp_montants -> hbox_ligne );
+
+      /* on remplit maintenant les widget avec les valeurs de la stucture */
+
+      /*       s'il n'y a pas de lien avec la struct précédente, on le vire */
+
+      if ( comp_montants -> lien_struct_precedente != -1 )
+	gtk_option_menu_set_history ( GTK_OPTION_MENU ( comp_montants -> bouton_lien ),
+				      comp_montants -> lien_struct_precedente );
+      else
+	{
+	  gtk_widget_destroy ( comp_montants -> bouton_lien );
+	  comp_montants -> bouton_lien = NULL;
+	}
+
+
+      gtk_option_menu_set_history ( GTK_OPTION_MENU ( comp_montants -> bouton_comparateur_1 ),
+				    comp_montants -> comparateur_1 );
+      gtk_option_menu_set_history ( GTK_OPTION_MENU ( comp_montants -> bouton_lien_1_2 ),
+				    comp_montants -> lien_1_2 );
+      gtk_option_menu_set_history ( GTK_OPTION_MENU ( comp_montants -> bouton_comparateur_2 ),
+				    comp_montants -> comparateur_2 );
+      gtk_entry_set_text ( GTK_ENTRY ( comp_montants -> entree_montant_1 ),
+			   g_strdup_printf ( "%4.2f",
+					     comp_montants -> montant_1 ));
+      gtk_entry_set_text ( GTK_ENTRY ( comp_montants -> entree_montant_2 ),
+			   g_strdup_printf ( "%4.2f",
+					     comp_montants -> montant_2 ));
+
+      /* on sensitive/désensitive la hbox_2 si nécessaire */
+
+      if ( comp_montants -> lien_1_2 == 2 )
+	desensitive_widget ( comp_montants -> hbox_partie_2 );
+      else
+	sensitive_widget ( comp_montants -> hbox_partie_2 );
+
+      liste_tmp = liste_tmp -> next;
+    }
+}
+/*****************************************************************************************************/
+
+
+/*****************************************************************************************************/
+/* cette fonction ajoute une ligne vierge */
+/* si ancien_comp_montants n'est pas nul, la ligne est insérée juste après celle de l'argument */
+/*****************************************************************************************************/
+
+void ajoute_ligne_liste_comparaisons_montants_etat ( struct struct_comparaison_montants_etat *ancien_comp_montants )
+{
+  struct struct_comparaison_montants_etat *comp_montants;
+  gint position;
+
+  /* on récupère tout de suite la position à laquelle il faut insérer la ligne */
+
+  if ( ancien_comp_montants )
+    position = g_slist_index ( etat_courant -> liste_struct_comparaison_montants,
+			       ancien_comp_montants ) + 1;
+  else
+    position = 0;
+
+  /* on commence par créer une structure vide */
+
+  comp_montants = calloc ( 1,
+			   sizeof ( struct struct_comparaison_montants_etat ));
+
+
+  /* on crée la ligne et remplit les widget de la structure */
+
+  comp_montants -> hbox_ligne = cree_ligne_comparaison_montant ( comp_montants );
+  gtk_box_pack_start ( GTK_BOX ( liste_montants_etat ),
+		       comp_montants -> hbox_ligne,
 		       FALSE,
 		       FALSE,
 		       0 );
-  gtk_widget_show ( hbox );
+  gtk_widget_show ( comp_montants -> hbox_ligne );
 
-  label = gtk_label_new ( _( "Devise utilisée pour les comparaisons de montant " ));
+  /* on vire le lien de la ligne s'il n'y a pas encore de liste */
+  /*   (cad si c'est la 1ère ligne) */
+
+  if ( !etat_courant -> liste_struct_comparaison_montants )
+    {
+      gtk_widget_destroy ( comp_montants -> bouton_lien );
+      comp_montants -> bouton_lien = NULL;
+    }
+
+  /* on met la structure dans la liste à la position demandée */
+
+  etat_courant -> liste_struct_comparaison_montants = g_slist_insert ( etat_courant -> liste_struct_comparaison_montants,
+								       comp_montants,
+								       position );
+
+
+  /* on met la ligne à sa place dans la liste */
+
+  gtk_box_reorder_child ( GTK_BOX ( liste_montants_etat ),
+			  comp_montants -> hbox_ligne,
+			  position );
+}
+/*****************************************************************************************************/
+
+
+
+
+/*****************************************************************************************************/
+/* crée la hbox de la ligne et la renvoie */
+/* remplie en même temps les widget de la struct envoyée en argument, sauf hbox_ligne */
+/*****************************************************************************************************/
+
+GtkWidget *cree_ligne_comparaison_montant ( struct struct_comparaison_montants_etat *comp_montants )
+{
+  GtkWidget *hbox;
+  GtkWidget *label;
+  GtkWidget *bouton;
+
+  /*   on laisse les infos vides, on met juste les boutons et les labels */
+
+  hbox = gtk_hbox_new ( FALSE,
+			5 );
+
+  comp_montants -> bouton_lien = cree_bouton_lien_lignes_comparaison ();
+  gtk_box_pack_start ( GTK_BOX ( hbox ),
+		       comp_montants -> bouton_lien,
+		       FALSE,
+		       FALSE,
+		       0 );
+
+  label = gtk_label_new ( _("Opérations dans lesquelles le montant est "));
   gtk_box_pack_start ( GTK_BOX ( hbox ),
 		       label,
 		       FALSE,
@@ -4934,21 +4895,340 @@ GtkWidget *onglet_etat_montant ( void )
 		       0 );
   gtk_widget_show ( label );
 
-  bouton_devise_montant_etat = gtk_option_menu_new ();
-  gtk_option_menu_set_menu ( GTK_OPTION_MENU ( bouton_devise_montant_etat ),
-			     creation_option_menu_devises ( 0,
-							    liste_struct_devises ));
+  comp_montants -> bouton_comparateur_1 = cree_bouton_comparateur ();
   gtk_box_pack_start ( GTK_BOX ( hbox ),
-		       bouton_devise_montant_etat,
+		       comp_montants -> bouton_comparateur_1,
 		       FALSE,
 		       FALSE,
 		       0 );
-  gtk_widget_show ( bouton_devise_montant_etat );
+
+  label = gtk_label_new ( _(" à "));
+  gtk_box_pack_start ( GTK_BOX ( hbox ),
+		       label,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( label );
+
+  comp_montants -> entree_montant_1 = gtk_entry_new ();
+  gtk_widget_set_usize ( comp_montants -> entree_montant_1,
+			 50,
+			 FALSE );
+  gtk_box_pack_start ( GTK_BOX ( hbox ),
+		       comp_montants -> entree_montant_1,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( comp_montants -> entree_montant_1 );
 
 
+  /* la fonction cree_bouton_lien_montant va se servir de comp_montants -> hbox_partie_2 */
+  /* il faut donc créer celle ci avant l'appel de la fonction */
 
-  return ( widget_retour );
+  comp_montants -> hbox_partie_2 = gtk_hbox_new ( FALSE,
+			 5 );
+
+  /* on crée alors le bouton de lien */
+
+  comp_montants -> bouton_lien_1_2 = cree_bouton_lien_montant ( comp_montants );
+  gtk_box_pack_start ( GTK_BOX ( hbox ),
+		       comp_montants -> bouton_lien_1_2,
+		       FALSE,
+		       FALSE,
+		       0 );
+
+  /* on ajoute la hbox2 */
+
+  gtk_box_pack_start ( GTK_BOX ( hbox ),
+		       comp_montants -> hbox_partie_2,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( comp_montants -> hbox_partie_2 );
+
+  /* on peut maintenant ajouter dans comp_montants -> hbox_partie_2 */
+
+  comp_montants -> bouton_comparateur_2 = cree_bouton_comparateur ();
+  gtk_box_pack_start ( GTK_BOX ( comp_montants -> hbox_partie_2 ),
+		       comp_montants -> bouton_comparateur_2,
+		       FALSE,
+		       FALSE,
+		       0 );
+
+  label = gtk_label_new ( _(" à "));
+  gtk_box_pack_start ( GTK_BOX ( comp_montants -> hbox_partie_2 ),
+		       label,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( label );
+
+  comp_montants -> entree_montant_2 = gtk_entry_new ();
+  gtk_widget_set_usize ( comp_montants -> entree_montant_2,
+			 50,
+			 FALSE );
+  gtk_box_pack_start ( GTK_BOX ( comp_montants -> hbox_partie_2 ),
+		       comp_montants -> entree_montant_2,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( comp_montants -> entree_montant_2 );
+
+  /* on met les bouton ajouter et supprimer */
+
+  bouton = gtk_button_new_with_label ( _("Ajouter"));
+  gtk_button_set_relief ( GTK_BUTTON ( bouton ),
+			  GTK_RELIEF_NONE );
+  gtk_signal_connect_object ( GTK_OBJECT ( bouton ),
+			      "clicked",
+			      GTK_SIGNAL_FUNC ( ajoute_ligne_liste_comparaisons_montants_etat ),
+			      (GtkObject *) comp_montants );
+  gtk_box_pack_start ( GTK_BOX ( hbox ),
+		       bouton,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( bouton );
+
+  bouton = gtk_button_new_with_label ( _("Retirer"));
+  gtk_button_set_relief ( GTK_BUTTON ( bouton ),
+			  GTK_RELIEF_NONE );
+  gtk_signal_connect_object ( GTK_OBJECT ( bouton ),
+			      "clicked",
+			      GTK_SIGNAL_FUNC ( retire_ligne_liste_comparaisons_montants_etat ),
+			      (GtkObject *) comp_montants );
+  gtk_box_pack_start ( GTK_BOX ( hbox ),
+		       bouton,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( bouton );
+
+  return ( hbox );
 }
 /*****************************************************************************************************/
 
 
+
+/*****************************************************************************************************/
+/* cette fonction crée un option_menu avec et/ou/sauf */
+/*****************************************************************************************************/
+
+GtkWidget *cree_bouton_lien_lignes_comparaison ( void )
+{
+  GtkWidget *bouton;
+  GtkWidget *menu;
+  GtkWidget *menu_item;
+
+  bouton = gtk_option_menu_new ();
+  gtk_widget_show ( bouton );
+
+  menu = gtk_menu_new ();
+
+  menu_item = gtk_menu_item_new_with_label ( _("et"));
+  gtk_menu_append ( GTK_MENU ( menu ),
+		    menu_item );
+  gtk_object_set_data ( GTK_OBJECT ( menu_item ),
+			"no_lien",
+			GINT_TO_POINTER ( 0 ));
+  gtk_widget_show ( menu_item );
+
+  menu_item = gtk_menu_item_new_with_label ( _("ou"));
+  gtk_menu_append ( GTK_MENU ( menu ),
+		    menu_item );
+  gtk_object_set_data ( GTK_OBJECT ( menu_item ),
+			"no_lien",
+			GINT_TO_POINTER ( 1 ));
+  gtk_widget_show ( menu_item );
+
+  menu_item = gtk_menu_item_new_with_label ( _("sauf"));
+  gtk_menu_append ( GTK_MENU ( menu ),
+		    menu_item );
+  gtk_object_set_data ( GTK_OBJECT ( menu_item ),
+			"no_lien",
+			GINT_TO_POINTER ( 2 ));
+  gtk_widget_show ( menu_item );
+
+  gtk_option_menu_set_menu ( GTK_OPTION_MENU ( bouton ),
+			     menu );
+  gtk_widget_show ( menu );
+
+  return ( bouton );
+}
+/*****************************************************************************************************/
+
+
+
+/*****************************************************************************************************/
+/* cette fonction crée un option_menu avec =,<,<=,>,>= */
+/*****************************************************************************************************/
+
+GtkWidget *cree_bouton_comparateur ( void )
+{
+  GtkWidget *bouton;
+  GtkWidget *menu;
+  GtkWidget *menu_item;
+
+  bouton = gtk_option_menu_new ();
+  gtk_widget_show ( bouton );
+
+  menu = gtk_menu_new ();
+
+  menu_item = gtk_menu_item_new_with_label ( _("égal"));
+  gtk_menu_append ( GTK_MENU ( menu ),
+		    menu_item );
+  gtk_object_set_data ( GTK_OBJECT ( menu_item ),
+			"no_comparateur",
+			GINT_TO_POINTER ( 0 ));
+  gtk_widget_show ( menu_item );
+
+  menu_item = gtk_menu_item_new_with_label ( _("inférieur"));
+  gtk_menu_append ( GTK_MENU ( menu ),
+		    menu_item );
+  gtk_object_set_data ( GTK_OBJECT ( menu_item ),
+			"no_comparateur",
+			GINT_TO_POINTER ( 1 ));
+  gtk_widget_show ( menu_item );
+
+  menu_item = gtk_menu_item_new_with_label ( _("inférieur ou égal"));
+  gtk_menu_append ( GTK_MENU ( menu ),
+		    menu_item );
+  gtk_object_set_data ( GTK_OBJECT ( menu_item ),
+			"no_comparateur",
+			GINT_TO_POINTER ( 2 ));
+  gtk_widget_show ( menu_item );
+
+  menu_item = gtk_menu_item_new_with_label ( _("supérieur"));
+  gtk_menu_append ( GTK_MENU ( menu ),
+		    menu_item );
+  gtk_object_set_data ( GTK_OBJECT ( menu_item ),
+			"no_comparateur",
+			GINT_TO_POINTER ( 3 ));
+  gtk_widget_show ( menu_item );
+
+  menu_item = gtk_menu_item_new_with_label ( _("supérieur ou égal"));
+  gtk_menu_append ( GTK_MENU ( menu ),
+		    menu_item );
+  gtk_object_set_data ( GTK_OBJECT ( menu_item ),
+			"no_comparateur",
+			GINT_TO_POINTER ( 4 ));
+  gtk_widget_show ( menu_item );
+
+  gtk_option_menu_set_menu ( GTK_OPTION_MENU ( bouton ),
+			     menu );
+  gtk_widget_show ( menu );
+
+  return ( bouton );
+}
+/*****************************************************************************************************/
+
+
+
+/*****************************************************************************************************/
+/* cette fonction crée un option_menu avec et/ou/aucun */
+/*****************************************************************************************************/
+
+GtkWidget *cree_bouton_lien_montant ( struct struct_comparaison_montants_etat *comp_montants )
+{
+  GtkWidget *bouton;
+  GtkWidget *menu;
+  GtkWidget *menu_item;
+
+  bouton = gtk_option_menu_new ();
+  gtk_widget_show ( bouton );
+
+  menu = gtk_menu_new ();
+
+  menu_item = gtk_menu_item_new_with_label ( _("et"));
+  gtk_menu_append ( GTK_MENU ( menu ),
+		    menu_item );
+  gtk_object_set_data ( GTK_OBJECT ( menu_item ),
+			"no_lien",
+			GINT_TO_POINTER ( 0 ));
+  gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
+			      "activate",
+			      GTK_SIGNAL_FUNC ( sensitive_widget ),
+			      GTK_OBJECT ( comp_montants -> hbox_partie_2 ));
+  gtk_widget_show ( menu_item );
+
+  menu_item = gtk_menu_item_new_with_label ( _("ou"));
+  gtk_menu_append ( GTK_MENU ( menu ),
+		    menu_item );
+  gtk_object_set_data ( GTK_OBJECT ( menu_item ),
+			"no_lien",
+			GINT_TO_POINTER ( 1 ));
+  gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
+			      "activate",
+			      GTK_SIGNAL_FUNC ( sensitive_widget ),
+			      GTK_OBJECT ( comp_montants -> hbox_partie_2 ));
+  gtk_widget_show ( menu_item );
+
+  menu_item = gtk_menu_item_new_with_label ( _("stop"));
+  gtk_menu_append ( GTK_MENU ( menu ),
+		    menu_item );
+  gtk_object_set_data ( GTK_OBJECT ( menu_item ),
+			"no_lien",
+			GINT_TO_POINTER ( 2 ));
+  gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
+			      "activate",
+			      GTK_SIGNAL_FUNC ( desensitive_widget ),
+			      GTK_OBJECT ( comp_montants -> hbox_partie_2 ));
+  gtk_widget_show ( menu_item );
+
+  gtk_option_menu_set_menu ( GTK_OPTION_MENU ( bouton ),
+			     menu );
+  gtk_widget_show ( menu );
+
+  return ( bouton );
+}
+/*****************************************************************************************************/
+
+
+/*****************************************************************************************************/
+void sensitive_widget ( GtkWidget *widget )
+{
+  gtk_widget_set_sensitive ( widget,
+			     TRUE );
+}
+/*****************************************************************************************************/
+
+
+/*****************************************************************************************************/
+void desensitive_widget ( GtkWidget *widget )
+{
+  gtk_widget_set_sensitive ( widget,
+			     FALSE );
+}
+/*****************************************************************************************************/
+
+
+/*****************************************************************************************************/
+void retire_ligne_liste_comparaisons_montants_etat ( struct struct_comparaison_montants_etat *ancien_comp_montants )
+{
+  /* il faut qu'il y ai plus d'une ligne affichée */
+
+  if ( g_slist_length ( etat_courant -> liste_struct_comparaison_montants ) < 2 )
+    return;
+
+  /* on commence par supprimer la ligne dans la liste */
+
+  gtk_widget_destroy ( ancien_comp_montants -> hbox_ligne );
+
+  /* si la structure qu'on retire est la 1ère, on vire le widget de lient */
+
+  if ( !g_slist_index ( etat_courant -> liste_struct_comparaison_montants,
+			ancien_comp_montants ))
+    {
+      struct struct_comparaison_montants_etat *comp_montants;
+
+      comp_montants = etat_courant -> liste_struct_comparaison_montants -> next -> data;
+      gtk_widget_destroy ( comp_montants -> bouton_lien );
+      comp_montants -> bouton_lien = NULL;
+    }
+
+  /* et on retire la struct de la sliste */
+
+  etat_courant -> liste_struct_comparaison_montants = g_slist_remove ( etat_courant -> liste_struct_comparaison_montants,
+								       ancien_comp_montants );
+}
+/*****************************************************************************************************/

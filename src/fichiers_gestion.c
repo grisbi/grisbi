@@ -650,6 +650,7 @@ gboolean fermer_fichier ( void )
   g_slist_free ( echeances_a_saisir );
   g_slist_free ( echeances_saisies );
   g_slist_free ( ordre_comptes );
+  g_slist_free ( liste_struct_etats );
 
   gtk_signal_disconnect_by_func ( GTK_OBJECT ( notebook_general ),
 				  GTK_SIGNAL_FUNC ( change_page_notebook),

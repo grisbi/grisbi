@@ -936,6 +936,15 @@ GtkWidget *onglet_etat_tiers ( void );
 void remplissage_liste_tiers_etats ( void );
 GtkWidget *onglet_etat_texte ( void );
 GtkWidget *onglet_etat_montant ( void );
+void remplit_liste_comparaisons_montants_etat ( void );
+void ajoute_ligne_liste_comparaisons_montants_etat ( struct struct_comparaison_montants_etat *ancien_comp_montants );
+GtkWidget *cree_ligne_comparaison_montant ( struct struct_comparaison_montants_etat *comp_montants );
+GtkWidget *cree_bouton_lien_lignes_comparaison ( void );
+GtkWidget *cree_bouton_comparateur ( void );
+GtkWidget *cree_bouton_lien_montant ( struct struct_comparaison_montants_etat *comp_montants );
+void sensitive_widget ( GtkWidget *widget );
+void desensitive_widget ( GtkWidget *widget );
+void retire_ligne_liste_comparaisons_montants_etat ( struct struct_comparaison_montants_etat *ancien_comp_montants );
 
 /***********************************/ 
 /* fichier etats_calculs.c */

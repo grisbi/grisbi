@@ -2516,19 +2516,26 @@ void fin_edition ( void )
 
 	  if ( operation )
 	    {
-	      struct struct_type_ope *type;
+	      GSList *pointeur_tmp;
 
 	      p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
 
-	      type = g_slist_find_custom ( TYPES_OPES,
-					   GINT_TO_POINTER ( operation -> type_ope ),
-					   (GCompareFunc) recherche_type_ope_par_no ) -> data;
+	      pointeur_tmp = g_slist_find_custom ( TYPES_OPES,
+						   GINT_TO_POINTER ( operation -> type_ope ),
+						   (GCompareFunc) recherche_type_ope_par_no );
 
-	      if ( type -> affiche_entree
-		   &&
-		   type -> numerotation_auto )
-		gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_operations[10] ),
-				     itoa ( type -> no_en_cours + 1 ));
+	      if ( pointeur_tmp )
+		{
+		  struct struct_type_ope *type;
+
+		  type = pointeur_tmp -> data;
+
+		  if ( type -> affiche_entree
+		       &&
+		       type -> numerotation_auto )
+		    gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_operations[10] ),
+					 itoa ( type -> no_en_cours + 1 ));
+		}
 	    }
 
 

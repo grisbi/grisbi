@@ -474,20 +474,31 @@ struct struct_etat
 
   gchar *texte;
 
-  gint utilise_montant_neg_pos;
-  gint type_neg_pos;               /* 1=positif, 0=négatif */
-  gint utilise_valeur;
-  gint type_operateur_valeur;     /* 0=, 1<, 2<=, 3>, 4>= */
-  gfloat montant_valeur;
-  gint utilise_inclusion;
-  gfloat montant_inclusion_inf;
-  gint type_operateur_inf_inclusion;   /* 0<, 1<= */
-  gint type_operateur_sup_inclusion;    /* 0<, 1<= */
-  gfloat montant_inclusion_sup;
+  gint utilise_montant;
   gint choix_montant_nul;     /* 1=exclu, 0=pos et neg, 2=neg, 3=pos */
   gint choix_devise_montant;
+  GSList *liste_struct_comparaison_montants;
 };
 
+
+struct struct_comparaison_montants_etat
+{
+  gint lien_struct_precedente;    /* -1=1ère comparaison, 0=et, 1=ou, 2=sauf */
+  gint comparateur_1;            /* 0= =, 1= <, 2= <=, 3= >, 4= >= */
+  gdouble montant_1;
+  gint lien_1_2;                   /* 0=et, 1=ou, 2=aucun */
+  gint comparateur_2;            /* 0= =, 1= <, 2= <=, 3= >, 4= >= */
+  gdouble montant_2;
+
+  GtkWidget *hbox_ligne;
+  GtkWidget *bouton_lien;
+  GtkWidget *bouton_comparateur_1;
+  GtkWidget *entree_montant_1;
+  GtkWidget *bouton_lien_1_2;
+  GtkWidget *hbox_partie_2;
+  GtkWidget *bouton_comparateur_2;
+  GtkWidget *entree_montant_2;
+};
 
 struct struct_etat_affichage
 {

@@ -161,6 +161,7 @@ void init_variables ( gboolean ouverture )
       liste_struct_etats = NULL;
       no_dernier_etat = 0;
       etat_courant = NULL;
+      liste_categ_etat = NULL;
 
       initialise_tab_affichage_ope();
     }

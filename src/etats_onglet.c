@@ -257,9 +257,9 @@ GtkWidget *creation_liste_etats ( void )
 		       NULL );
   gtk_widget_show ( bouton );
 
-  /* on met le bouton duppliquer */
+  /* on met le bouton dupliquer */
 
-  bouton_duppliquer_etat = gtk_button_new_with_label ( _("Duppliquer un état ...") );
+  bouton_duppliquer_etat = gtk_button_new_with_label ( _("Dupliquer un état ...") );
   gtk_button_set_relief ( GTK_BUTTON ( bouton_duppliquer_etat ),
 			  GTK_RELIEF_NONE );
   gtk_signal_connect ( GTK_OBJECT ( bouton_duppliquer_etat ),
