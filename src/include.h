@@ -24,3 +24,4 @@
 #define G_BROKEN_FILENAMES 1
 #include <gtk/gtktext.h>
 #include <gdk/gdkkeysyms.h>
+#include <popt.h>
