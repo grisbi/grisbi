@@ -185,7 +185,7 @@ gint latex_initialise (GSList * opes_selectionnees)
   gfloat colwidth;
 
   if (! print_config ( ) )
-    return;
+    return FALSE;
 
   out = fopen ("toto.tex", "w");
   if (! out)
@@ -232,7 +232,7 @@ gint latex_initialise (GSList * opes_selectionnees)
       fprintf (out, "p{1pt}}\n", colwidth);
     }
 
-  return 1;
+  return TRUE;
 }
 
 
