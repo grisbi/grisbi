@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2004-03-04 09:18+0100\n"
+"POT-Creation-Date: 2004-03-05 15:54+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -438,7 +438,7 @@ msgstr ""
 
 #. le premier nom est Aucune
 #: src/banque.c:401 src/devises.c:92 src/echeancier_formulaire.c:1338
-#: src/equilibrage.c:521 src/exercice.c:949
+#: src/equilibrage.c:523 src/exercice.c:949
 msgid "None"
 msgstr ""
 
@@ -1136,10 +1136,10 @@ msgstr ""
 #: src/echeancier_formulaire.c:1360 src/echeancier_formulaire.c:1487
 #: src/echeancier_formulaire.c:1791 src/echeancier_formulaire.c:2498
 #: src/echeancier_liste.c:988 src/operations_formulaire.c:982
-#: src/operations_formulaire.c:1926 src/operations_formulaire.c:2357
-#: src/operations_formulaire.c:2891 src/operations_liste.c:1577
-#: src/ventilation.c:561 src/ventilation.c:1225 src/ventilation.c:1297
-#: src/ventilation.c:1643 src/ventilation.c:1933
+#: src/operations_formulaire.c:1926 src/operations_formulaire.c:1931
+#: src/operations_formulaire.c:2357 src/operations_formulaire.c:2891
+#: src/operations_liste.c:1577 src/ventilation.c:561 src/ventilation.c:1225
+#: src/ventilation.c:1297 src/ventilation.c:1643 src/ventilation.c:1933
 msgid "Transfer"
 msgstr ""
 
@@ -1578,8 +1578,8 @@ msgstr ""
 msgid "Limit date"
 msgstr ""
 
-#: src/echeancier_formulaire.c:1330 src/equilibrage.c:835
-#: src/equilibrage.c:853 src/operations_formulaire.c:2318
+#: src/echeancier_formulaire.c:1330 src/equilibrage.c:834
+#: src/equilibrage.c:852 src/operations_formulaire.c:2318
 msgid "Error: invalid date"
 msgstr ""
 
@@ -1723,24 +1723,24 @@ msgstr ""
 msgid "This account does not contain any transaction"
 msgstr ""
 
-#: src/equilibrage.c:742 src/operations_liste.c:1069
+#: src/equilibrage.c:741 src/operations_liste.c:1069
 #: src/operations_liste.c:1822
 msgid "P"
 msgstr ""
 
-#: src/equilibrage.c:792 src/operations_comptes.c:405
+#: src/equilibrage.c:791 src/operations_comptes.c:321
 #: src/operations_liste.c:734 src/operations_liste.c:1885
 #, c-format
 msgid "Checked balance: %4.2f %s"
 msgstr ""
 
-#: src/equilibrage.c:816
+#: src/equilibrage.c:815
 msgid "There is a variance"
 msgstr ""
 
-#: src/equilibrage.c:862 src/operations_comptes.c:392
+#: src/equilibrage.c:861
 #, c-format
-msgid "Last statement: %02d/%02d/%d"
+msgid "Last statement: %02d/%02d/%04d"
 msgstr ""
 
 #: src/erreur.c:95 src/erreur.c:130
@@ -1972,7 +1972,7 @@ msgstr ""
 
 #. mise en place de la frame des comptes
 #: src/etats_config.c:123 src/etats_config.c:7097 src/fenetre_principale.c:80
-#: src/menu.c:189 src/operations_onglet.c:72 src/type_operations.c:39
+#: src/menu.c:189 src/operations_onglet.c:73 src/type_operations.c:39
 msgid "Accounts"
 msgstr ""
 
@@ -3643,25 +3643,30 @@ msgstr ""
 msgid "File/Recently opened files/"
 msgstr ""
 
-#: src/operations_comptes.c:147 src/operations_comptes.c:464
-#: src/operations_comptes.c:509
+#: src/operations_comptes.c:117 src/operations_comptes.c:374
+#: src/operations_comptes.c:411
 msgid "Accounts/Closed accounts/"
 msgstr ""
 
-#: src/operations_comptes.c:188 src/operations_comptes.c:192
+#: src/operations_comptes.c:145 src/operations_comptes.c:149
 msgid "Last statement"
 msgstr ""
 
 #. mise en place du bouton équilibrage
-#: src/operations_comptes.c:204
+#: src/operations_comptes.c:156
 msgid "Reconcile"
 msgstr ""
 
-#: src/operations_comptes.c:399
+#: src/operations_comptes.c:309
+#, c-format
+msgid "Last statement: %02d/%02d/%d"
+msgstr ""
+
+#: src/operations_comptes.c:316
 msgid "Last statement: none"
 msgstr ""
 
-#: src/operations_comptes.c:411 src/operations_liste.c:740
+#: src/operations_comptes.c:327 src/operations_liste.c:740
 #, c-format
 msgid "Current balance: %4.2f %s"
 msgstr ""
@@ -3676,8 +3681,8 @@ msgid "Contra-transaction method of payment"
 msgstr ""
 
 #. mise en forme du bouton ventilation
-#: src/operations_formulaire.c:506 src/operations_onglet.c:79
-#: src/operations_onglet.c:169
+#: src/operations_formulaire.c:506 src/operations_onglet.c:80
+#: src/operations_onglet.c:173
 msgid "Breakdown"
 msgstr ""
 
@@ -3788,11 +3793,11 @@ msgid ""
 "Deletion canceled..."
 msgstr ""
 
-#: src/operations_onglet.c:85
+#: src/operations_onglet.c:86
 msgid "Reconciliation"
 msgstr ""
 
-#: src/operations_onglet.c:161
+#: src/operations_onglet.c:162
 msgid "Form"
 msgstr ""
 

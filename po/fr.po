@@ -8,8 +8,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: fr\n"
-"POT-Creation-Date: 2004-03-04 09:18+0100\n"
-"PO-Revision-Date: 2004-03-04 09:21GMT\n"
+"POT-Creation-Date: 2004-03-05 15:54+0100\n"
+"PO-Revision-Date: 2004-03-05 15:54GMT\n"
 "Last-Translator: Alain PORTAL <aportal@univ-montp2.fr>\n"
 "Language-Team:  <traduction@grisbi.org>\n"
 "MIME-Version: 1.0\n"
@@ -443,7 +443,7 @@ msgstr "Êtes-vous sûr de vouloir supprimer la banque %s ?\n"
 
 #. le premier nom est Aucune
 #: src/banque.c:401 src/devises.c:92 src/echeancier_formulaire.c:1338
-#: src/equilibrage.c:521 src/exercice.c:949
+#: src/equilibrage.c:523 src/exercice.c:949
 msgid "None"
 msgstr "Aucun"
 
@@ -1150,10 +1150,10 @@ msgstr "Opération ventilée"
 #: src/echeancier_formulaire.c:1360 src/echeancier_formulaire.c:1487
 #: src/echeancier_formulaire.c:1791 src/echeancier_formulaire.c:2498
 #: src/echeancier_liste.c:988 src/operations_formulaire.c:982
-#: src/operations_formulaire.c:1926 src/operations_formulaire.c:2357
-#: src/operations_formulaire.c:2891 src/operations_liste.c:1577
-#: src/ventilation.c:561 src/ventilation.c:1225 src/ventilation.c:1297
-#: src/ventilation.c:1643 src/ventilation.c:1933
+#: src/operations_formulaire.c:1926 src/operations_formulaire.c:1931
+#: src/operations_formulaire.c:2357 src/operations_formulaire.c:2891
+#: src/operations_liste.c:1577 src/ventilation.c:561 src/ventilation.c:1225
+#: src/ventilation.c:1297 src/ventilation.c:1643 src/ventilation.c:1933
 msgid "Transfer"
 msgstr "Virement"
 
@@ -1612,8 +1612,8 @@ msgstr "N° Virement"
 msgid "Limit date"
 msgstr "Date limite"
 
-#: src/echeancier_formulaire.c:1330 src/equilibrage.c:835
-#: src/equilibrage.c:853 src/operations_formulaire.c:2318
+#: src/echeancier_formulaire.c:1330 src/equilibrage.c:834
+#: src/equilibrage.c:852 src/operations_formulaire.c:2318
 msgid "Error: invalid date"
 msgstr "Erreur : la date est invalide"
 
@@ -1760,25 +1760,25 @@ msgstr "Annuler"
 msgid "This account does not contain any transaction"
 msgstr "Il n'y a aucune opération dans ce compte"
 
-#: src/equilibrage.c:742 src/operations_liste.c:1069
+#: src/equilibrage.c:741 src/operations_liste.c:1069
 #: src/operations_liste.c:1822
 msgid "P"
 msgstr "P"
 
-#: src/equilibrage.c:792 src/operations_comptes.c:405
+#: src/equilibrage.c:791 src/operations_comptes.c:321
 #: src/operations_liste.c:734 src/operations_liste.c:1885
 #, c-format
 msgid "Checked balance: %4.2f %s"
 msgstr "Solde pointé : %4.2f %s"
 
-#: src/equilibrage.c:816
+#: src/equilibrage.c:815
 msgid "There is a variance"
 msgstr "L'écart n'est pas de zéro"
 
-#: src/equilibrage.c:862 src/operations_comptes.c:392
+#: src/equilibrage.c:861
 #, c-format
-msgid "Last statement: %02d/%02d/%d"
-msgstr "Dernier relevé : %02d/%02d/%d"
+msgid "Last statement: %02d/%02d/%04d"
+msgstr "Dernier relevé : %02d/%02d/%04d"
 
 #: src/erreur.c:95 src/erreur.c:130
 msgid "Warning"
@@ -2041,7 +2041,7 @@ msgstr "Virements"
 
 #. mise en place de la frame des comptes
 #: src/etats_config.c:123 src/etats_config.c:7097 src/fenetre_principale.c:80
-#: src/menu.c:189 src/operations_onglet.c:72 src/type_operations.c:39
+#: src/menu.c:189 src/operations_onglet.c:73 src/type_operations.c:39
 msgid "Accounts"
 msgstr "Comptes"
 
@@ -3816,25 +3816,30 @@ msgstr "Aide"
 msgid "File/Recently opened files/"
 msgstr "Fichier/Derniers fichiers/"
 
-#: src/operations_comptes.c:147 src/operations_comptes.c:464
-#: src/operations_comptes.c:509
+#: src/operations_comptes.c:117 src/operations_comptes.c:374
+#: src/operations_comptes.c:411
 msgid "Accounts/Closed accounts/"
 msgstr "Comptes/Comptes clos/"
 
-#: src/operations_comptes.c:188 src/operations_comptes.c:192
+#: src/operations_comptes.c:145 src/operations_comptes.c:149
 msgid "Last statement"
 msgstr "Dernier relevé"
 
 #. mise en place du bouton �uilibrage
-#: src/operations_comptes.c:204
+#: src/operations_comptes.c:156
 msgid "Reconcile"
 msgstr "Rapprocher"
 
-#: src/operations_comptes.c:399
+#: src/operations_comptes.c:309
+#, c-format
+msgid "Last statement: %02d/%02d/%d"
+msgstr "Dernier relevé : %02d/%02d/%d"
+
+#: src/operations_comptes.c:316
 msgid "Last statement: none"
 msgstr "Dernier relevé : Aucun"
 
-#: src/operations_comptes.c:411 src/operations_liste.c:740
+#: src/operations_comptes.c:327 src/operations_liste.c:740
 #, c-format
 msgid "Current balance: %4.2f %s"
 msgstr "Solde courant : %4.2f %s"
@@ -3849,8 +3854,8 @@ msgid "Contra-transaction method of payment"
 msgstr "Mode de règlement de la contre-opération"
 
 #. mise en forme du bouton ventilation
-#: src/operations_formulaire.c:506 src/operations_onglet.c:79
-#: src/operations_onglet.c:169
+#: src/operations_formulaire.c:506 src/operations_onglet.c:80
+#: src/operations_onglet.c:173
 msgid "Breakdown"
 msgstr "Ventilation"
 
@@ -3973,11 +3978,11 @@ msgstr ""
 "opération est relevée.\n"
 "La suppression est annulée..."
 
-#: src/operations_onglet.c:85
+#: src/operations_onglet.c:86
 msgid "Reconciliation"
 msgstr "Équilibrage"
 
-#: src/operations_onglet.c:161
+#: src/operations_onglet.c:162
 msgid "Form"
 msgstr "Formulaire"
 
@@ -4347,7 +4352,8 @@ msgid ""
 "\n"
 "Process anyway?"
 msgstr ""
-"Le montant de l'opération n'a pas été entièrement ventilé.\n\n"
+"Le montant de l'opération n'a pas été entièrement ventilé.\n"
+"\n"
 "Valider quand même ?"
 
 #: src/ventilation.c:2320
