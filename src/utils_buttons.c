@@ -404,6 +404,46 @@ GtkWidget * new_stock_image_label ( gchar * stock_id )
     return vbox;
 }
 
+
+
+/**
+ * TODO: document
+ * Borrowed from the Gimp Toolkit and modified.
+ *
+ */
+void set_popup_position (GtkMenu *menu, gint *x, gint *y, gboolean *push_in, gpointer user_data)
+{
+  GtkWidget *widget;
+  GtkRequisition requisition;
+  gint screen_width, menu_xpos, menu_ypos, menu_width;
+
+  widget = GTK_WIDGET (user_data);
+
+  gtk_widget_get_child_requisition (GTK_WIDGET (menu), &requisition);
+  menu_width = requisition.width;
+
+  gdk_window_get_origin (widget->window, &menu_xpos, &menu_ypos);
+
+  menu_xpos += widget->allocation.x;
+  menu_ypos += widget->allocation.y + widget->allocation.height - 2;
+
+  if (gtk_widget_get_direction (widget) == GTK_TEXT_DIR_RTL)
+    menu_xpos = menu_xpos + widget->allocation.width - menu_width;
+
+  /* Clamp the position on screen */
+  screen_width = gdk_screen_get_width (gtk_widget_get_screen (widget));
+  
+  if (menu_xpos < 0)
+    menu_xpos = 0;
+  else if ((menu_xpos + menu_width) > screen_width)
+    menu_xpos -= ((menu_xpos + menu_width) - screen_width);
+
+  *x = menu_xpos;
+  *y = menu_ypos;
+  *push_in = TRUE;
+}
+
+
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */
