@@ -1,11 +1,11 @@
 AC_INIT(src/main.c)
 AM_CONFIG_HEADER(config.h)
-AM_INIT_AUTOMAKE(grisbi,0.5.2)
+AM_INIT_AUTOMAKE(grisbi,0.5.3)
 AM_ACLOCAL_INCLUDE(macros)
 AM_MAINTAINER_MODE
 
 PACKAGE=grisbi
-VERSION=0.5.2
+VERSION=0.5.3
 dnl MKINSTALLDIRS
 dnl AC_DEFINE_UNQUOTED(PACKAGE, "$PACKAGE")
 dnl AC_DEFINE_UNQUOTED(VERSION, "$VERSION")
@@ -18,7 +18,7 @@ AC_STDC_HEADERS
 AC_PROG_RANLIB
 
 dnl Check for NLS support.                                                      
-ALL_LINGUAS="fr it de es"
+ALL_LINGUAS="fr it de es pt"
 AM_GNU_GETTEXT
 AC_CHECK_LIB(intl,main)
 
