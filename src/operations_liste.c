@@ -2609,7 +2609,7 @@ void p_press (void)
 						  operation -> taux_change,
 						  operation -> frais_change );
 
-	IF ( etat.equilibrage )
+	if ( etat.equilibrage )
 	    operations_pointees = operations_pointees - montant;
 
 	SOLDE_POINTE = SOLDE_POINTE - montant;
