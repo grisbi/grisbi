@@ -173,6 +173,24 @@ void dialogue_conditional_hint ( gchar *hint, gchar * text, int * var )
 
 
 /**
+ * This function pop ups a dialog with a hint (first sentence, in
+ * bold), an informal text and a checkbox that allow this message not
+ * to be displayed again thanks to preferences.  It calls
+ * dialogue_conditional to achieve display.
+ *
+ * \param text text to be displayed
+ * \param hint hint to be displayed
+ * \param var variable that both controls whether the dialog will
+ * appear or not and that indicates which variable could be modified
+ * so that this message won't appear again.
+ */
+void dialogue_conditional_info_hint ( gchar *hint, gchar * text, int * var )
+{
+  dialogue_conditional_special ( make_hint(hint, text), var, GTK_MESSAGE_INFO );
+}
+
+
+/**
  * This function pop ups a dialog with an informal text and a checkbox
  * that allow this message not to be displayed again thanks to
  * preferences.
@@ -184,6 +202,22 @@ void dialogue_conditional_hint ( gchar *hint, gchar * text, int * var )
  */
 void dialogue_conditional ( gchar *text, int * var )
 {
+  dialogue_conditional_special ( text, var, GTK_MESSAGE_WARNING );
+}
+
+
+/**
+ * This function pop ups a dialog with an informal text and a checkbox
+ * that allow this message not to be displayed again thanks to
+ * preferences.
+ *
+ * \param text text to be displayed
+ * \param var variable that both controls whether the dialog will
+ * appear or not and that indicates which variable could be modified
+ * so that this message won't appear again.
+ */
+void dialogue_conditional_special ( gchar *text, int * var, GtkMessageType type )
+{
   GtkWidget * vbox, * checkbox, *dialog;
 
   if ( !var || *var)
@@ -191,7 +225,7 @@ void dialogue_conditional ( gchar *text, int * var )
 
   dialog = gtk_message_dialog_new ( GTK_WINDOW (window),
 				    GTK_DIALOG_DESTROY_WITH_PARENT,
-				    GTK_MESSAGE_WARNING,
+				    type,
 				    GTK_BUTTONS_CLOSE,
 				    text );
   gtk_label_set_markup ( GTK_LABEL ( GTK_MESSAGE_DIALOG(dialog)->label ), text );
