@@ -752,6 +752,7 @@ GtkWidget *creation_menu_exercices ( void );
 gint cherche_no_menu_exercice ( gint no_demande );
 void affiche_exercice_par_date ( GtkWidget *entree_date,
 				 GtkWidget *option_menu_exercice );
+void association_automatique ( void );
 
 
 

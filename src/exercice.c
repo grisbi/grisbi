@@ -237,6 +237,22 @@ GtkWidget *onglet_exercices ( void )
 		       5 );
   gtk_widget_show ( separateur );
 
+  /* création du bouton association automatique */
+
+  bouton = gtk_button_new_with_label ( "Association automatique ..." );
+  gtk_button_set_relief ( GTK_BUTTON ( bouton ),
+			  GTK_RELIEF_NONE );
+  gtk_signal_connect ( GTK_OBJECT ( bouton ),
+		       "clicked",
+		       GTK_SIGNAL_FUNC ( association_automatique ),
+		       NULL );
+  gtk_box_pack_start ( GTK_BOX ( vbox ),
+		       bouton,
+		       FALSE,
+		       FALSE,
+		       5 );
+  gtk_widget_show ( bouton );
+
 
 
   /* création de la 2ème colonne */
@@ -967,6 +983,19 @@ GtkWidget *creation_menu_exercices ( void )
 			NULL );
   gtk_widget_show ( menu_item );
 
+  /* le second est non affiché */
+
+  menu_item = gtk_menu_item_new_with_label ( "Non affiché" );
+  gtk_menu_append ( GTK_MENU ( menu ),
+		    menu_item );
+  gtk_object_set_data ( GTK_OBJECT ( menu_item ),
+			"adr_exercice",
+			GINT_TO_POINTER (-1) );
+  gtk_object_set_data ( GTK_OBJECT ( menu_item ),
+			"no_exercice",
+			GINT_TO_POINTER (-1) );
+  gtk_widget_show ( menu_item );
+
 
   pointeur = liste_struct_exercices;
 
@@ -1025,7 +1054,9 @@ gint cherche_no_menu_exercice ( gint no_demande )
       liste_tmp = liste_tmp -> next;
     }
 
-  return ( FALSE );
+  /*   l'exo n'est pas affiché, on retourne 1 */
+
+  return ( 1 );
 }
 /* ************************************************************************************************************** */
 
@@ -1099,5 +1130,84 @@ void affiche_exercice_par_date ( GtkWidget *entree_date,
   if ( !trouve )
     gtk_option_menu_set_history ( GTK_OPTION_MENU ( option_menu_exercice ),
 				  0 );
+}
+/* ************************************************************************************************************** */
+
+
+
+/* ************************************************************************************************************** */
+/* fonction association_automatique */
+/* recherche les opés sans exercice, et les associe si possible avec un des exercice créé */
+/* ************************************************************************************************************** */
+
+void association_automatique ( void )
+{
+  GtkWidget *dialog;
+  GtkWidget *label;
+  gint resultat;
+  gint i;
+
+  dialog = gnome_dialog_new ( "Association automatique d'exercice",
+			      GNOME_STOCK_BUTTON_APPLY,
+			      GNOME_STOCK_BUTTON_CANCEL,
+			      NULL );
+  gtk_window_set_transient_for ( GTK_WINDOW ( dialog ),
+				 GTK_WINDOW ( fenetre_preferences ));
+
+  label = gtk_label_new ( "Cette fonction associe chaque opération sans exercice avec l'exercice lui correspondant.\nSi aucun exercice ne correspond, l'opération sera inchangée." );
+  gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
+		       label,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( label );
+
+  resultat = gnome_dialog_run_and_close ( GNOME_DIALOG ( dialog ));
+
+  if ( resultat )
+    return;
+  
+  p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
+
+  for ( i=0 ; i<nb_comptes ; i++ )
+    {
+      GSList *pointeur_tmp;
+
+      pointeur_tmp = LISTE_OPERATIONS;
+
+      while ( pointeur_tmp )
+	{
+	  struct structure_operation *operation;
+
+	  operation = pointeur_tmp -> data;
+
+	  if ( !operation -> no_exercice )
+	    {
+	      GSList *pointeur_exo;
+
+	      pointeur_exo = liste_struct_exercices;
+
+	      while ( pointeur_exo )
+		{
+		  struct struct_exercice *exo;
+
+		  exo = pointeur_exo -> data;
+
+		  if ( g_date_compare ( exo -> date_debut,
+					operation -> date ) <= 0
+		       &&
+		       g_date_compare ( exo -> date_fin,
+					operation -> date ) >= 0 )
+		    operation -> no_exercice = exo -> no_exercice;
+
+		  pointeur_exo = pointeur_exo -> next;
+		}
+	    }
+	  pointeur_tmp = pointeur_tmp -> next;
+	}
+      p_tab_nom_de_compte_variable++;
+    }
+
+  modification_fichier ( TRUE );
 }
 /* ************************************************************************************************************** */

@@ -2524,9 +2524,19 @@ gboolean modifie_date ( GtkWidget *entree )
 
 
   /* récupération du no d'exercice */
+  /* si l'exo est à -1, c'est que c'est sur non affiché */
+  /* soit c'est une modif d'opé et on touche pas à l'exo */
+  /* soit c'est une nouvelle opé et on met l'exo à 0 */
 
-  operation -> no_exercice = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_operations[11] ) -> menu_item ),
-								     "no_exercice" ));
+  if ( GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_operations[11] ) -> menu_item ),
+					       "no_exercice" )) == -1 )
+    {
+      if ( !operation -> no_operation )
+	operation -> no_exercice = 0;
+    }
+  else
+    operation -> no_exercice = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_operations[11] ) -> menu_item ),
+								       "no_exercice" ));
 
 
   /* récupération de l'imputation budgétaire */
