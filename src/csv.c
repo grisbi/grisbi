@@ -297,7 +297,7 @@ void export_accounts_to_csv (GSList* export_entries_list )
 	      csv_field_date_val = "";
 
 	    /* met le pointage */
-	    if      ( operation -> pointe == 1 ) csv_field_pointage = g_strdup(_("P"));
+	    if      ( operation -> pointe == 1 ) csv_field_pointage = g_strdup(_("C"));
 	    else if ( operation -> pointe == 2 ) csv_field_pointage = g_strdup(_("R"));
 	    else if ( operation -> pointe == 3 ) csv_field_pointage = g_strdup(_("T"));
 
@@ -426,7 +426,7 @@ void export_accounts_to_csv (GSList* export_entries_list )
 		       ope_test -> relation_no_operation ))
 		{
 		  /* on commence par mettre la catég et sous categ de l'opé et de l'opé de ventilation */
-		  csv_field_ventil = g_strdup("V"); // -> mark 
+		  csv_field_ventil = g_strdup(_("B")); // -> mark 
 
 		  csv_field_operation = g_strdup_printf("%d",ope_test -> no_operation);
 
