@@ -42,7 +42,7 @@ msgstr ""
 "Project-Id-Version: pt_BR\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-02-15 10:39+0100\n"
-"PO-Revision-Date: 2005-02-17 08:17-0200\n"
+"PO-Revision-Date: 2005-02-17 13:31-0200\n"
 "Last-Translator: \n"
 "Language-Team:  <pt@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -168,7 +168,7 @@ msgstr "vai para o próximo campo"
 
 #: src/affichage.c:138
 msgid "terminates transaction"
-msgstr "encerra a lançamento"
+msgstr "encerra o lançamento"
 
 #: src/affichage.c:143
 msgid "Displayed fields"
@@ -244,7 +244,7 @@ msgstr "Fontes"
 
 #: src/affichage.c:394
 msgid "Use a custom font for the transactions"
-msgstr "Usar uma fonte específica para as lançamentos"
+msgstr "Usar uma fonte específica para os lançamentos"
 
 #: src/affichage.c:475
 msgid "Revert to default font"
@@ -501,7 +501,7 @@ msgstr "por data"
 #. on permet de regrouper les opÃ©rations pointÃ©es
 #: src/affichage_liste.c:427
 msgid "Bring together marked transactions"
-msgstr "Selecionar as lançamentos marcados"
+msgstr "Selecionar os lançamentos marcados"
 
 #: src/affichage_liste.c:459
 msgid "first line"
@@ -1464,7 +1464,7 @@ msgid ""
 "\n"
 msgstr ""
 "Grisbi encontrou contas onde o total da reconciliação está inconsistente com "
-"a soma das lançamentos reconciliados.  Geralmente, a causa disso são muitas "
+"a soma dos lançamentos reconciliados.  Geralmente, a causa disso são muitas "
 "transferências para outras contas reconciliadas.  Você tem que "
 "desreconciliar manualmente algumas transferências das contas "
 "inconsistentes.\n"
@@ -3390,7 +3390,7 @@ msgid ""
 "Fall due selected\n"
 "scheduled transaction"
 msgstr ""
-"Apagar lançamento\n"
+"Efetuar baixa do lançamento\n"
 "selecionado da agenda"
 
 #: src/echeancier_liste.c:372
@@ -3399,7 +3399,7 @@ msgid ""
 "scheduled transaction"
 msgstr ""
 "Apagar lançamento\n"
-"selecionada da agenda"
+"selecionado da agenda"
 
 #: src/echeancier_liste.c:401 src/etats_config.c:266 src/import.c:394
 #: src/type_operations.c:299
@@ -3950,7 +3950,7 @@ msgstr "Resultado sem ano contábil (%d lançamentos)"
 
 #: src/etats_affiche.c:1012
 msgid "Result without financial year"
-msgstr "Resultado sem ano financeiro"
+msgstr "Resultado sem ano contábil"
 
 #: src/etats_affiche.c:1192 src/operations_liste.c:1071
 #, c-format
@@ -4649,7 +4649,7 @@ msgstr "a data"
 
 #: src/etats_config.c:6444
 msgid "the financial year"
-msgstr "o ano financeiro"
+msgstr "o ano contábil"
 
 #: src/etats_config.c:6541
 msgid "the notes"
@@ -5122,7 +5122,7 @@ msgstr "anos contábil"
 
 #: src/etats_support.c:168
 msgid "financial year"
-msgstr "ano financeiro"
+msgstr "ano contábil"
 
 #: src/etats_support.c:209
 msgid "all dates"
@@ -5206,11 +5206,11 @@ msgstr "Ativar formulário de lançamentos"
 
 #: src/exercice.c:317
 msgid "New financial year"
-msgstr "Novo ano financeiro"
+msgstr "Novo ano contábil"
 
 #: src/exercice.c:460
 msgid "The financial year must have a name."
-msgstr "O ano financeiro deve ter um nome."
+msgstr "O ano contábil deve ter um nome."
 
 #. le second est non affichÃ©
 #. on lui associe -1
@@ -5228,7 +5228,7 @@ msgid ""
 "one related to its transaction date.  If no financial year matches,\n"
 "the transaction will not be changed."
 msgstr ""
-"Esta função atribui cada lançamento sem um ano financeiro ao\n"
+"Esta função atribui cada lançamento sem um ano contábil ao\n"
 " ano  relacionado a sesta data do lançamento. Se nenhum ano contábil\n"
 " combinar,o lançamento não será mudada."
 
@@ -6181,7 +6181,7 @@ msgstr "Editar lançamento"
 #: src/menu.c:94 src/operations_liste.c:2727 src/traitement_variables.c:117
 #: src/traitement_variables.c:243
 msgid "Convert transaction to scheduled transaction"
-msgstr "Converter lançamento para lançamentos agendadas"
+msgstr "Converter lançamento para lançamentos agendados"
 
 #. Move to another account
 #: src/menu.c:95 src/operations_comptes.c:403 src/operations_comptes.c:408
@@ -6584,7 +6584,7 @@ msgstr "Não avisar ao remover lançamentos"
 #. Display a warning message when trying to remove a scheduled transaction
 #: src/parametres.c:423
 msgid "Do not warn about removal scheduled transaction"
-msgstr "Não avisar ao remover lançamentos agendadas"
+msgstr "Não avisar ao remover lançamentos agendados"
 
 #. Display a warning message when a breakdown is incomplete
 #: src/parametres.c:428
