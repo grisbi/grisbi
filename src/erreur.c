@@ -445,13 +445,11 @@ void traitement_sigsegv ( gint signal_nb )
       annulation_attente();
 
   
-      errmsg = g_strdup_printf ( _("%sGrisbi made a backup file at '%s'."),
+      errmsg = g_strdup_printf ( _("%s\n\nGrisbi made a backup file at '%s'."),
 				 errmsg, nom_fichier_comptes, NULL );
     }
 
-  dialog = gnome_error_dialog ( errmsg );
-  gnome_dialog_run_and_close ( GNOME_DIALOG ( dialog ));
-  gtk_main_quit();
+  dialogue_error ( errmsg );
   exit(1);
 }
 
