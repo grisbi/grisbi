@@ -38,7 +38,7 @@ dnl ALL_LINGUAS=""
 dnl AM_GNU_GETTEXT
 
 dnl Subst prefix
-prefix=`gnome-config gnomeui --prefix 2>/dev/null`
+dnl prefix=`gnome-config gnomeui --prefix 2>/dev/null`
 AC_SUBST(prefix)
 
 EXTRA_GNOME_LIBS=``
