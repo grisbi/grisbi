@@ -1682,7 +1682,7 @@ void browse_file ( GtkButton *button, gpointer data )
 gchar* my_get_grisbirc_dir(void)
 {
 #ifndef _WIN32
-    return g_get_home_dir();
+    return (gchar *) g_get_home_dir();
 #else
     return win32_get_grisbirc_folder_path();
 #endif
@@ -1698,7 +1698,7 @@ gchar* my_get_grisbirc_dir(void)
 gchar* my_get_gsb_file_default_dir(void)
 {
 #ifndef _WIN32
-    return g_get_home_dir();
+    return (gchar *) g_get_home_dir();
 #else
     return win32_get_my_documents_folder_path();
 #endif

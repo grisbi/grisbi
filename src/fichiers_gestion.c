@@ -43,7 +43,7 @@
 #include "patienter.h"
 #include "traitement_variables.h"
 #include "fichier_configuration.h"
-
+#include "utils.h"
 
 
 extern GtkWidget *window_vbox_principale;

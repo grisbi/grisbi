@@ -58,8 +58,6 @@ gint affichage_realise;
 
 extern gint allocation_precedente;
 
-/* FIXME : !!!!!!!!!! DES QUE UPDATE DANS L'INSTABLE, REPRENDRE LE FICHIER SAUVÉ ET EFFACER CELUI LA !!!!!!!!!!!!!!!!!!!!!!!!!! */
-
 
 /** FIXME: document this */
 GtkWidget *onglet_affichage_liste ( void )
@@ -1156,6 +1154,8 @@ void raz_affichage_ope ( void )
 	/* on met à jour la liste et les boutons */
 
 	remplissage_tab_affichage_ope ( clist_affichage_liste );
+	demande_mise_a_jour_tous_comptes ();
+	verification_mise_a_jour_liste ();
 
 }
 /* ************************************************************************************************************** */
