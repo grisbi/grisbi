@@ -1995,7 +1995,9 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 
   /* on place node_1 sur les generalites */
 
-  node_1 = root -> children->next;
+  node_1 = root -> children;
+  if ( node_1 )
+    node_1 = node_1 -> next;
 
   /*   on met en place la boucle de node_1, qui va successivement passer */
   /*     par les generalites, les comptes, les echeances ... */
@@ -2012,7 +2014,9 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 
 	  /* node_generalites va faire le tour des generalites */
 
-	  node_generalites = node_1 -> children->next;
+	  node_generalites = node_1 -> children;
+	  if ( node_generalites )
+	    node_generalites = node_generalites -> next;
 
 	  while ( node_generalites )
 	    {
@@ -2180,7 +2184,9 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 
 	  /* node_comptes va faire le tour de l'arborescence des comptes */
 
-	  node_comptes = node_1 -> children->next;
+	  node_comptes = node_1 -> children;
+	  if ( node_comptes )
+	    node_comptes = node_comptes -> next;
 
 	  while ( node_comptes )
 	    {
@@ -2192,7 +2198,9 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 		{
 		xmlNodePtr node_generalites;
 
-		node_generalites = node_comptes -> children->next;
+		node_generalites = node_comptes -> children;
+		if ( node_generalites )
+		  node_generalites = node_generalites -> next;
 
 		while ( node_generalites )
 		  {
@@ -2258,7 +2266,9 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 
 		/* on fait le tour dans l'arbre nom, cad : les details, details de type et details des operations */
 
-		node_nom_comptes = node_comptes -> children->next;
+		node_nom_comptes = node_comptes -> children;
+		if ( node_nom_comptes )
+		  node_nom_comptes = node_nom_comptes -> next;
 
 		while ( node_nom_comptes )
 		  {
@@ -2269,7 +2279,9 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 		    {
 		      xmlNodePtr node_detail;
 
-		      node_detail = node_nom_comptes -> children->next;
+		      node_detail = node_nom_comptes -> children;
+		      if ( node_detail )
+			node_detail = node_detail -> next;
 
 		      while ( node_detail )
 			{
@@ -2476,8 +2488,11 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 		      {
 			xmlNodePtr node_ope;
 
-		      node_ope = node_nom_comptes -> children->next;
+		      node_ope = node_nom_comptes -> children;
 		      LISTE_OPERATIONS = NULL;
+
+		      if (node_ope)
+			node_ope = node_ope -> next;
 
 		      while ( node_ope )
 			{
@@ -2655,7 +2670,9 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 
 	  /* node_echeances va faire le tour de l'arborescence des echeances */
 
-	  node_echeances = node_1 -> children->next;
+	  node_echeances = node_1 -> children;
+	  if ( node_echeances )
+	    node_echeances = node_echeances -> next;
 
 	  while ( node_echeances )
 	    {
@@ -2666,7 +2683,9 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 		{
 		  xmlNodePtr node_generalites;
 
-		  node_generalites = node_echeances -> children->next;
+		  node_generalites = node_echeances -> children;
+		  if ( node_generalites )
+		    node_generalites = node_generalites -> next;
 
 		  while ( node_generalites )
 		    {
@@ -2692,7 +2711,9 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 
 		  gsliste_echeances = NULL;
 
-		  node_detail = node_echeances -> children->next;
+		  node_detail = node_echeances -> children;
+		  if ( node_detail )
+		    node_detail = node_detail -> next;
 
 		  while ( node_detail )
 		    {
@@ -2821,7 +2842,9 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 
 	  /* node_tiers va faire le tour de l'arborescence des tiers */
 
-	  node_tiers = node_1 -> children->next;
+	  node_tiers = node_1 -> children;
+	  if ( node_tiers )
+	    node_tiers = node_tiers -> next;
 
 	  while ( node_tiers )
 	    {
@@ -2832,7 +2855,9 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 		{
 		  xmlNodePtr node_generalites;
 
-		  node_generalites = node_tiers -> children->next;
+		  node_generalites = node_tiers -> children;
+		  if ( node_generalites )
+		    node_generalites = node_generalites -> next;
 
 		  while ( node_generalites )
 		    {
@@ -2858,7 +2883,9 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 		  xmlNodePtr node_detail;
 
 		  liste_struct_tiers = NULL;
-		  node_detail = node_tiers -> children->next;
+		  node_detail = node_tiers -> children;
+		  if ( node_detail )
+		    node_detail = node_detail -> next;
 
 		  while ( node_detail )
 		    {
@@ -2901,7 +2928,9 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 
 	  /* node_categories va faire le tour de l'arborescence des categories */
 
-	  node_categories = node_1 -> children->next;
+	  node_categories = node_1 -> children;
+	  if ( node_categories )
+	    node_categories = node_categories -> next;
 
 	  while ( node_categories )
 	    {
@@ -2912,7 +2941,9 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 		{
 		  xmlNodePtr node_generalites;
 
-		  node_generalites = node_categories -> children->next;
+		  node_generalites = node_categories -> children;
+		  if ( node_generalites )
+		    node_generalites = node_generalites -> next;
 
 		  while ( node_generalites )
 		    {
@@ -2937,7 +2968,9 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 		  xmlNodePtr node_detail;
 
 		  liste_struct_categories = NULL;
-		  node_detail = node_categories -> children->next;
+		  node_detail = node_categories -> children;
+		  if ( node_detail )
+		    node_detail = node_detail -> next;
 
 		  while ( node_detail )
 		    {
@@ -3006,7 +3039,9 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 
 	  /* node_imputations va faire le tour de l'arborescence des imputations */
 
-	  node_imputations = node_1 -> children->next;
+	  node_imputations = node_1 -> children;
+	  if ( node_imputations )
+	    node_imputations = node_imputations -> next;
 
 	  while ( node_imputations )
 	    {
@@ -3017,7 +3052,9 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 		{
 		  xmlNodePtr node_generalites;
 
-		  node_generalites = node_imputations -> children->next;
+		  node_generalites = node_imputations -> children;
+		  if ( node_generalites )
+		    node_generalites = node_generalites -> next;
 
 		  while ( node_generalites )
 		    {
@@ -3111,7 +3148,9 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 
 	  /* node_devises va faire le tour de l'arborescence des devises */
 
-	  node_devises = node_1 -> children->next;
+	  node_devises = node_1 -> children;
+	  if ( node_devises )
+	    node_devises = node_devises -> next;
 
 	  while ( node_devises )
 	    {
@@ -3122,7 +3161,9 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 		{
 		  xmlNodePtr node_generalites;
 
-		  node_generalites = node_devises -> children->next;
+		  node_generalites = node_devises -> children;
+		  if ( node_generalites )
+		    node_generalites = node_generalites -> next;
 
 		  while ( node_generalites )
 		    {
@@ -3150,7 +3191,9 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 		  xmlNodePtr node_detail;
 
 		  liste_struct_devises = NULL;
-		  node_detail = node_devises -> children->next;
+		  node_detail = node_devises -> children;
+		  if ( node_detail )
+		    node_detail = node_detail -> next;
 
 		  while ( node_detail )
 		    {
@@ -3228,7 +3271,9 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 
 	  /* node_banques va faire le tour de l'arborescence des banques */
 
-	  node_banques = node_1 -> children->next;
+	  node_banques = node_1 -> children;
+	  if ( node_banques )
+	    node_banques = node_banques -> next;
 
 	  while ( node_banques )
 	    {
@@ -9319,7 +9364,7 @@ void propose_changement_permissions ( void )
 /***********************************************************************************************************/
 
 
-double my_strtod ( const char *nptr, char **endptr )
+double my_strtod ( char *nptr, char **endptr )
 {
   double entier=0, mantisse=0, resultat=0;
   int invert = 0;
