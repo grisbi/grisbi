@@ -52,6 +52,7 @@ extern GtkWidget *separateur_formulaire_echeancier;
 extern GtkWidget *hbox_valider_annuler_echeance;
 extern GtkWidget *liste_echeances;
 
+
 /**
  * Updates transaction form according to state "etat"
  *
@@ -557,11 +558,13 @@ gboolean change_choix_utilise_fonte_liste ( GtkWidget *check_button,
     style_couleur[1] -> font_desc =  fonte_desc;
     style_rouge_couleur[0] -> font_desc = fonte_desc;
     style_rouge_couleur[1] -> font_desc = fonte_desc;
+    style_gris -> font_desc = fonte_desc;
 
     gtk_style_set_font (style_couleur [0], NULL);
     gtk_style_set_font (style_couleur [1], NULL);
     gtk_style_set_font (style_rouge_couleur [0], NULL);
     gtk_style_set_font (style_rouge_couleur [1], NULL);
+    gtk_style_set_font (style_gris, NULL);
 
     /* Find font size */
 
@@ -740,7 +743,7 @@ void update_font_button(GtkWidget * name_label,
 }
 
 
-/* **************************************************************************************************************************** */
+
 /**
  * Reset fonts to their initial value, that is "Sans 10".  Update
  * fonts buttons as well.
@@ -767,10 +770,13 @@ gboolean init_fonts ( GtkWidget * button,
 	style_couleur[1] -> font_desc = pango_font_description_from_string(fonte_liste);
 	style_rouge_couleur[0] -> font_desc = pango_font_description_from_string(fonte_liste);
 	style_rouge_couleur[1] -> font_desc = pango_font_description_from_string(fonte_liste);
+	style_gris -> font_desc = pango_font_description_from_string(fonte_liste);
+
 	gtk_style_set_font (style_couleur [0], NULL);
 	gtk_style_set_font (style_couleur [1], NULL);
 	gtk_style_set_font (style_rouge_couleur [0], NULL);
 	gtk_style_set_font (style_rouge_couleur [1], NULL);
+	gtk_style_set_font (style_gris, NULL);
 
 	/* Find font size */
 	p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
@@ -833,10 +839,12 @@ void choix_fonte ( GtkWidget *bouton,
 	style_couleur[1] -> font_desc = pango_font_description_from_string(fontname);
 	style_rouge_couleur[0] -> font_desc = pango_font_description_from_string(fontname);
 	style_rouge_couleur[1] -> font_desc = pango_font_description_from_string(fontname);
+	style_gris -> font_desc = pango_font_description_from_string(fontname);
 	gtk_style_set_font (style_couleur [0], NULL);
 	gtk_style_set_font (style_couleur [1], NULL);
 	gtk_style_set_font (style_rouge_couleur [0], NULL);
 	gtk_style_set_font (style_rouge_couleur [1], NULL);
+	gtk_style_set_font (style_gris, NULL);
 
 	/* Find font size */
 	p_tab_nom_de_compte_variable = p_tab_nom_de_compte;

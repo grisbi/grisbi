@@ -215,10 +215,12 @@ int main (int argc, char *argv[])
 	    style_couleur[1] -> font_desc = pango_font_description_from_string(fonte_liste);
 	    style_rouge_couleur[0] -> font_desc = pango_font_description_from_string(fonte_liste);
 	    style_rouge_couleur[1] -> font_desc = pango_font_description_from_string(fonte_liste);
+	    style_gris -> font_desc = pango_font_description_from_string(fonte_liste);
 	    gtk_style_set_font (style_couleur [0], NULL);
 	    gtk_style_set_font (style_couleur [1], NULL);
 	    gtk_style_set_font (style_rouge_couleur [0], NULL);
 	    gtk_style_set_font (style_rouge_couleur [1], NULL);
+	    gtk_style_set_font (style_gris, NULL);
 	}
 
 	/* on vérifie les arguments de ligne de commande */
