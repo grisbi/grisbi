@@ -1,0 +1,174 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
+            "http://www.w3.org/TR/REC-html40/loose.dtd">
+<HTML>
+<HEAD>
+
+<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-15">
+<META name="GENERATOR" content="hevea 1.06">
+<TITLE>
+ Les comptes
+</TITLE>
+</HEAD>
+<BODY BGCOLOR="#ffff99">
+
+<A HREF="grisbi-manuel008.html"><IMG SRC ="previous_motif.gif" ALT="Précédent"></A>
+<A HREF="index.html"><IMG SRC ="contents_motif.gif" ALT="Remonter"></A>
+<A HREF="grisbi-manuel010.html"><IMG SRC ="next_motif.gif" ALT="Suivant"></A>
+<HR>
+
+<H1><A NAME="htoc62">Chapitre&nbsp;7</A>&nbsp;&nbsp;Les comptes</H1><A NAME="accounts"></A> 
+Cet onglet se présente de la même façon que l'onglet <I><FONT COLOR=maroon>Opérations</FONT></I>, avec la liste des comptes à gauche, et les propriétés du compte sélectionné à droite.<BR>
+<BR>
+<A NAME="toc47"></A>
+<H2><A NAME="htoc63">7.1</A>&nbsp;&nbsp;Créer un compte</H2><A NAME="accounts-new"></A>
+Pour créer un nouveau compte dans votre fichier, vous pouvez :
+<UL><LI>cliquer sur le menu <I><FONT COLOR=maroon>Comptes</FONT></I>, puis <I><FONT COLOR=maroon>Nouveau</FONT></I> ;<BR>
+<BR>
+<LI>cliquer sur le bouton <I><FONT COLOR=maroon>Nouveau compte</FONT></I> en bas de la partie gauche.</UL>
+ 
+Une boîte de dialogue s'ouvrira dans laquelle vous devrez indiquer le type du compte. Grisbi sait gérer les comptes suivants :<A NAME="accounts-type"></A> 
+<UL><LI>compte bancaire : on peut y faire tout type d'opération ;<BR>
+<BR>
+<LI>compte de caisse : ne permet de gérer que des espèces ;<BR>
+<BR>
+<LI>compte d'actif : c'est un compte qui représente un avoir que vous possédez 
+(un matériel acheté par exemple). Son solde initial est zéro, il augmente 
+brutalement lors de l'achat puis diminue régulièrement au fur et à mesure de 
+l'usure de votre bien ;<BR>
+<BR>
+<LI>compte de passif : c'est un compte qui représente une dette que vous avez 
+(un emprunt à votre banque par exemple). Son solde initial est négatif et tend à 
+devenir nul. On ne peut y faire que des virements.</UL>
+Nous reviendrons en détail sur ces notions de comptes dans le chapitre 
+<A HREF="grisbi-manuel021.html#tips-accounts">19.4</A> et sur les notions de type d'opérations dans le
+paragraphe <A HREF="grisbi-manuel020.html#setup-modes">18.9</A>.<BR>
+<BR>
+Validez et vous ferez alors apparaître dans la partie gauche de la fenêtre 
+un compte nommé <I><FONT COLOR=maroon>Sans nom</FONT></I>, et dans la partie droite la fenêtre les 
+propriétés du compte 
+<I><FONT COLOR=maroon>Sans nom</FONT></I><A NAME="account-new-properties"></A>.
+<BR>
+<BR>
+Vous devez enregistrer un certain nombre d'informations pour le compte que vous 
+venez de créer :<A NAME="accounts-properties"></A> 
+<UL><LI>nom du compte : ce sera <EM>Compte courant</EM> ou <EM>Compte livret</EM>, ou 
+bien <EM>Compte banque 1</EM> et <EM>Compte banque 2</EM>, etc. l'important est que 
+vous vous y retrouviez, et de toutes façons vous pourrez modifier ce nom 
+ultérieurement sans aucun problème dans les propriétés du compte ;<BR>
+<BR>
+<LI>type du compte : cette zone est initialisée en fonction de votre choix dans la boîte de dialogue précédente, mais vous pouvez encore changer ;<BR>
+<BR>
+<LI>Devise du compte : par défaut en euros, mais vous pouvez choisir de le 
+tenir en francs français, ou bien toute autre devise que vous devrez 
+préalablement créer (voir le paragraphe <A HREF="grisbi-manuel020.html#setup-currencies">18.6</A>) ;<BR>
+<BR>
+<LI>Compte cloturé : cette case à cocher vous permet de masquer un compte dans
+ la partie gauche de la fenêtre sans pour autant le supprimer. Il pourra être 
+affiché ultérieurement avec le menu <I><FONT COLOR=maroon>Comptes/Comptes clôturés</FONT></I> ;<BR>
+<BR>
+<LI>Titulaire du compte : Grisbi vous permet d'enregistrer un titulaire 
+différent pour chaque compte. Si vous ouvrez un livret d'épargne pour vos 
+enfants ça peut être utile ;<BR>
+<BR>
+<LI>Adresse : le titulaire peut avoir la même adresse que le titulaire
+principal (voir le paragraphe <A HREF="grisbi-manuel020.html#setup-general">18.1</A>), ou bien une adresse
+différente qu'il faudra préciser ici ;<BR>
+<BR>
+<LI>Établissement financier : par défaut sur <EM>aucun</EM> mais il est
+conseillé d'en créer un (voir le paragraphe <A HREF="grisbi-manuel020.html#setup-bank">18.7</A>), mais vous pouvez
+revenir modifier ces informations à tout moment ;<BR>
+<BR>
+<LI>Code de la banque : il est enregistré dans les paramètres de la banque
+(voir le paragraphe <A HREF="grisbi-manuel020.html#setup-bank">18.7</A>). C'est le code banque que vous trouverez
+sur votre RIB ;<BR>
+<BR>
+<LI>Guichet/Agence : à relever également sur votre RIB ;<BR>
+<BR>
+<LI>Numéro du compte/Clé : également sur votre RIB ;<BR>
+<BR>
+<LI>Solde initial : prenez le solde de votre dernier relevé ;<BR>
+<BR>
+<LI>Solde minimal autorisé : c'est le solde que vous autorise votre
+établissement financier ;<BR>
+<BR>
+<LI>Solde minimal voulu : c'est le solde que vous aimeriez respecter. Si vous
+êtes sérieux il est supérieur au précédent ;-) ;<BR>
+<BR>
+<LI>Commentaires : Grisbi vous permet d'enregistrer ici des commentaires
+informels sur le compte (date d'ouverture, etc.).</UL>
+Cliquez ensuite sur le bouton <I><FONT COLOR=maroon>Valider</FONT></I> et le compte sera créé. Il
+apparaîtra dorénavant sous ce nom dans la liste des comptes.<BR>
+<BR>
+<A NAME="toc48"></A>
+<H2><A NAME="htoc64">7.2</A>&nbsp;&nbsp;Modifier un compte</H2><A NAME="account-modify"></A> 
+Vous pourrez revenir à tout moment sur <EM>toutes</EM> ces informations, sauf sur 
+la devise si vous avez choisi l'euro (ou si vous avez basculé en euro un compte 
+existant comme indiqué ci-dessous).<BR>
+<BR>
+Il vous suffit de sélectionner le compte que vous souhaitez modifier dans la liste de gauche, et d'effectuer vos modifications dans la partie droite. N'oubliez pas de valider.<BR>
+<BR>
+<A NAME="toc49"></A>
+<H2><A NAME="htoc65">7.3</A>&nbsp;&nbsp;Supprimer un compte</H2><A NAME="account-delete"></A> 
+Comme pour la création vous pouvez :
+<UL><LI>cliquer sur le menu <I><FONT COLOR=maroon>Comptes</FONT></I>, puis <I><FONT COLOR=maroon>Supprimer</FONT></I> ;<BR>
+<BR>
+<LI>cliquer sur le bouton <I><FONT COLOR=maroon>Supprimer un compte</FONT></I> en bas de la partie gauche.</UL>
+ 
+Une boîte de dialogue de confirmation s'ouvrira vous proposant par défaut de supprimer le compte sur lequel vous êtes positionné, mais vous pouvez sélectionner n'importe quel autre compte. Attention, il n'y aura pas d'autre avertissement et les informations effacées sont irrécupérables.<BR>
+<BR>
+<A NAME="toc50"></A>
+<H2><A NAME="htoc66">7.4</A>&nbsp;&nbsp;Basculer la tenue d'un compte en euro </H2><A NAME="start-switcheuro"></A>
+Cette section devient de plus en plus obsolète au fur et à mesure que le 
+temps passe, mais nous allons la garder encore un peu pour permettre l'éventuel 
+import de vieux fichiers de compte.<BR>
+<BR>
+Si votre compte a été ouvert dans une devise autre que l'euro mais qui a été
+déclarée comme devant passer à l'euro (voir le paragraphe
+<A HREF="grisbi-manuel020.html#setup-currencies">18.6</A>) il vous est possible à tout moment de basculer la tenue
+de ce compte en euro. Il vous suffit de cliquer sur le bouton 
+<I><FONT COLOR=maroon>Passer ce compte à l'euro</FONT></I>.
+<BR>
+<BR>
+Grisbi affiche alors une boîte de dialogue
+ 
+pour vous prévenir que cette opération est irréversible.<BR>
+<BR>
+Répondez <I><FONT COLOR=maroon>Oui</FONT></I> et c'est fini.<BR>
+<BR>
+La totalité de ce compte est maintenant affichée en euros, avec la contre-valeur
+en francs entre parenthèses. Par contre les soldes seront affichés uniquement en
+euros.<BR>
+<BR>
+Si vous créez un nouveau compte directement en euros il n'y aura bien sûr pas
+d'affichage entre parenthèses.<BR>
+<BR>
+Si vous souhaitez conserver l'affichage des soldes dans l'ancienne devise il va
+falloir faire un certain nombre de manipulations :
+<UL><LI>tout d'abord essayez d'avoir le moins possible d'opérations non
+rapprochées ;<BR>
+<BR>
+<LI>renommez votre compte existant (<EM>Compte bancaire - ancienne
+devise</EM> par exemple) ;<BR>
+<BR>
+<LI>créez un nouveau compte (appelez-le <EM>Compte bancaire</EM>
+puisque le nom est maintenant libre) ;<BR>
+<BR>
+<LI>supprimez toutes les opérations non rapprochées de votre compte (en
+prenant soin de bien les noter, puisqu'il vous faudra les ressaisir dans le
+nouveau compte). Vous devez avoir un solde du compte égal à celui du dernier
+relevé ;<BR>
+<BR>
+<LI>faites un virement de ce montant du compte en devises vers le compte en
+euros ;<BR>
+<BR>
+<LI>saisissez les opérations supprimées précédemment dans ce compte, avec la
+devise d'origine. Grisbi fera la conversion.</UL>
+Vous avez maintenant un compte en euros, ainsi que l'ancien en devise.
+<BR>
+<BR>
+<HR>
+<A HREF="grisbi-manuel008.html"><IMG SRC ="previous_motif.gif" ALT="Précédent"></A>
+<A HREF="index.html"><IMG SRC ="contents_motif.gif" ALT="Remonter"></A>
+<A HREF="grisbi-manuel010.html"><IMG SRC ="next_motif.gif" ALT="Suivant"></A>
+</BODY>
+</HTML>

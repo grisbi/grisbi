@@ -1,0 +1,597 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
+            "http://www.w3.org/TR/REC-html40/loose.dtd">
+<HTML>
+<HEAD>
+
+<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-15">
+<META name="GENERATOR" content="hevea 1.06">
+<TITLE>
+ Astuces
+</TITLE>
+</HEAD>
+<BODY BGCOLOR="#ffff99">
+
+<A HREF="grisbi-manuel020.html"><IMG SRC ="previous_motif.gif" ALT="Précédent"></A>
+<A HREF="index.html"><IMG SRC ="contents_motif.gif" ALT="Remonter"></A>
+<A HREF="grisbi-manuel022.html"><IMG SRC ="next_motif.gif" ALT="Suivant"></A>
+<HR>
+
+<H1><A NAME="htoc168">Chapitre&nbsp;19</A>&nbsp;&nbsp;Astuces</H1><A NAME="tips"></A>
+Ce chapitre regroupe un certain nombre d'astuces pouvant vous permettre 
+d'utiliser Grisbi de façon encore plus efficace.<BR>
+<BR>
+<A NAME="toc99"></A>
+<H2><A NAME="htoc169">19.1</A>&nbsp;&nbsp;Les tiers et les catégories</H2> <A NAME="tips-thirdparties"></A>
+Les utilisateurs de logiciels de comptabilité personnelle font parfois 
+l'amalgame entre tiers et catégorie.<BR>
+<BR>
+La distinction de base est simple :
+<UL><LI>le tiers est celui avec qui on a la relation financière (un fournisseur ou un client) ; <BR>
+<BR>
+<LI>la catégorie définit les raisons de cette relation. </UL>
+En gros, <EM>qui</EM> et <EM>pourquoi</EM>... <BR>
+<BR>
+Bien sûr si vous changez de fournisseur sans cesse, vous pouvez créer un 
+fournisseur générique (ex: <EM>Station-service</EM>) mais votre comptabilité sera 
+moins précise. <BR>
+<BR>
+Outre ces tiers peuvent aussi exister ceux que l'on pourrait appeler des 
+<EM>tiers financiers</EM>. <BR>
+<BR>
+Exemple : vous faites un virement de compte à compte. Dans ce cas il est 
+intéressant de créer un tiers spécifique pour ce genre d'opération, par exemple 
+<EM>Alimentation des comptes d'épargne</EM>, ou bien <EM>Remise de chèques</EM> 
+(voir ci-après) ou encore <EM>Régularisation d'avances</EM>. <BR>
+<BR>
+Ceci vous permettra ultérieurement une analyse plus fine de vos finances. <BR>
+<BR>
+De plus l'auto-complètement vous permet de saisir ultérieurement une opération 
+du même type beaucoup plus facilement. <BR>
+<BR>
+<A NAME="toc100"></A>
+<H2><A NAME="htoc170">19.2</A>&nbsp;&nbsp;Imputations comptables et budgétaires</H2><A NAME="tips-charges"></A>
+Grisbi, contrairement aux autres logiciels du même type, vous permet de faire la
+distinction entre les imputations comptables et budgétaires. Mais uniquement si
+vous le souhaitez.<BR>
+<BR>
+Pour que vous puissiez décider en connaissance de cause si vous voulez ou non
+utiliser cette fonctionnalité, définissons ces deux termes.<BR>
+<BR>
+Une imputation comptable (nommée <I><FONT COLOR=maroon>Catégorie</FONT></I> dans Grisbi) définit la nature
+de l'opération : frais de transport, d'alimentation, ...<BR>
+<BR>
+Une imputation budgétaire définit la fonction de l'opération : il s'agit du 
+travail, de la vie courante, des vacances, d'un projet d'aménagement...<BR>
+<BR>
+En gros, <EM>quoi</EM> et <EM>pourquoi</EM>...<BR>
+<BR>
+Cette information complémentaire à celle de l'imputation comptable vous permet
+ de mieux appréhender vos flux financiers, sans pour autant vous surcharger en
+ catégories et sous-catégories. Prenons un exemple : vous voulez savoir combien 
+ vous ont coûté vos vacances.<BR>
+<BR>
+Avec un autre logiciel vous devriez créer une sous catégorie dans
+<I><FONT COLOR=maroon>Alimentation</FONT></I> qui s'appelerait <I><FONT COLOR=maroon>Vacances</FONT></I>. Idem dans
+<I><FONT COLOR=maroon>Transports</FONT></I>, dans <I><FONT COLOR=maroon>Logement</FONT></I>, etc.<BR>
+<BR>
+Dans Grisbi vous allez simplement créer une imputation budgétaire
+<I><FONT COLOR=maroon>Vacances</FONT></I> et chacune de vos dépenses sera enregistrée dans sa catégorie
+normale (<I><FONT COLOR=maroon>Alimentation : Epicerie</FONT></I> ou <I><FONT COLOR=maroon>Transport : Péage</FONT></I>) avec en
+plus l'imputation budgétaire <I><FONT COLOR=maroon>Vacances</FONT></I>. Vous pouvez même aller plus loin
+et créer des sous-imputations budgétaires <I><FONT COLOR=maroon>Vacances : d'été</FONT></I> et
+ <I><FONT COLOR=maroon>Vacances : d'hiver</FONT></I>. Dans l'onglet des Imputations budgétaires vous 
+verez d'un seul coup d'oeil combien vous ont coûté vos vacances, et 
+éventuellement avec un sous-total par vacances d'été et d'hiver. Et bientôt 
+vous pourrez utiliser ces informations pour votre budget.<BR>
+<BR>
+Si vous trouvez tout ça trop compliqué et préférez faire comme avant, ne vous
+ affolez pas! Vous avez juste à désactiver l'affichage des imputations
+ budgétaires dans le menu configuration/Affichage et vous n'entendrez plus
+ parler des imputations budgétaires...<BR>
+<BR>
+Et la liste des catégories intégrée par défaut dans Grisbi contient de toutes
+façons les sous-catégories <I><FONT COLOR=maroon>Vacances</FONT></I> ;-).<BR>
+<BR>
+<A NAME="toc101"></A>
+<H2><A NAME="htoc171">19.3</A>&nbsp;&nbsp;Virements internes et externes</H2>
+Le mot <I><FONT COLOR=maroon>virement</FONT></I> recouvre deux notions fort différentes et il est sans 
+doute nécessaire de faire une petite mise au point. Nous distinguerons les 
+virements externes et les virements internes.<BR>
+<BR>
+
+<H5>Les virements externes</H5> Ce sont les virements que votre banque 
+effectue vers ou de votre compte. Ils peuvent être entrants (exemple : votre 
+employeur donne l'ordre à votre banque de vous virer le montant de votre 
+salaire) ou sortants (exemple : vous donnez l'ordre à votre banque de faire un 
+virement Swift pour payer une facture à l'étranger).<BR>
+<BR>
+Il s'agit d'un type d'opération assimilable à un chèque. <BR>
+<BR>
+
+<H5>Les virements internes</H5> Ce sont des transferts entre vos différents 
+comptes de Grisbi, et qui n'ont pas forcément d'équivalent en banque. Prenons 
+quelques exemples :
+<UL><LI>si vous avez décidé d'utiliser un compte de caisse, lorsque vous faites un 
+retrait d'espèces à la banque, vous saisissez dans Grisbi un virement vers le 
+compte de caisse, mais le type d'opération est <I><FONT COLOR=maroon>Retrait</FONT></I> ;<BR>
+<BR>
+<LI>si vous utilisez un compte d'avances, lorsque vous établissez ou recevez 
+un chèque de remboursement vous enregistrez un virement interne bien que le type 
+d'opération soit <I><FONT COLOR=maroon>Chèque</FONT></I> ;<BR>
+<BR>
+<LI>si vous utilisez un compte de passif pour gérer un emprunt, le prélèvement 
+mensuel effectué par votre banque est enregistré en tant que virement interne de 
+votre compte bancaire vers votre compte de passif, mais en tant que type 
+<I><FONT COLOR=maroon>Prélèvement</FONT></I>.</UL>
+Par contre, si vous n'utilisez aucun de ces comptes et que votre fichier 
+comporte uniquement un compte courant et un compte d'épargne, alors les 
+virements internes et externes ont toutes les chances de correspondre aux mêmes 
+opérations, à savoir un virement de l'un des comptes vers l'autre. Ce sera bien 
+une opération du type <I><FONT COLOR=maroon>Virement</FONT></I>, et vous l'enregistrerez dans la catégorie 
+<I><FONT COLOR=maroon>Virement : Compte d'épargne</FONT></I>. <BR>
+<BR>
+<A NAME="toc102"></A>
+<H2><A NAME="htoc172">19.4</A>&nbsp;&nbsp;Les types de comptes de Grisbi</H2><A NAME="tips-accounts"></A>
+Nous avons vu sommairement ces notions dans le paragraphe
+<A HREF="grisbi-manuel009.html#accounts-properties">7.1</A> mais nous allons y revenir plus en détail.<BR>
+<BR>
+
+<H3><A NAME="htoc173">19.4.1</A>&nbsp;&nbsp;Les comptes de banque</H3><A NAME="tips-accounts-bank"></A>
+Ils servent à enregistrer toutes les opérations que vous pouvez faire avec votre 
+banque et admettent donc tous les types d'opération. Vous pouvez créer un ou 
+plusieurs comptes bancaires, comptes d'épargne, etc.<BR>
+<BR>
+
+<H3><A NAME="htoc174">19.4.2</A>&nbsp;&nbsp;Les comptes de caisse</H3><A NAME="tips-accounts-cash"></A>
+Ils sont destinés aux opérations en espèces uniquement, et vous ne pouvez pas y 
+sélectionner de mode de paiement.<BR>
+<BR>
+Par contre ils acceptent les virements en provenance d'autres comptes.<BR>
+<BR>
+Quel est leur intérêt? Tout simplement de pouvoir, si vous le souhaitez, 
+enregistrer dans votre comptabilité une (ou des) opération(s) en espèces dont 
+vous aimeriez conserver la trace.<BR>
+<BR>
+Dans ce cas lorsque vous faites un retrait en espèces sur votre compte de 
+banque, enregistrez-le en tant que virement vers le compte de caisse. 
+Enregistrez les opérations en espèces sur le compte de caisse, et à la fin du 
+mois (ou de la semaine) enregistrez une opération dans la catégorie 
+<EM>Divers</EM> (ou une autre que vous créerez pour l'occasion) pour vider ce 
+compte de caisse qui sinon va atteindre des sommets...<BR>
+<BR>
+
+<H3><A NAME="htoc175">19.4.3</A>&nbsp;&nbsp;Les comptes de passif</H3><A NAME="tips-accounts-liabilities"></A>
+Grisbi ne gère pas encore les comptes d'emprunt. Donc, pour l'instant vous devez
+utiliser les comptes de passif. Ce sont des comptes qui ont un solde initial 
+négatif, puisqu'ils représentent le montant de votre dette, et qui ont vocation 
+à arriver à un solde nul.<BR>
+<BR>
+En réalité, le solde initial de ces comptes est nul, mais devient (fortement)
+négatif dès la première opération, à savoir le versement du montant de l'emprunt
+par votre banque sur votre compte courant. Vous enregistrerez à ce moment-là un
+virement du compte de passif vers le compte courant, ce qui vous permettra de
+procéder à votre achat.<BR>
+<BR>
+A chaque fois que vous remboursez une mensualité de votre emprunt, enregistrez 
+un virement du compte de banque vers le compte de passif du montant du capital 
+remboursé, et une dépense en catégorie <EM>Frais financiers : Charges 
+d'emprunts</EM> pour les intérêts. Éventuellement rajoutez une dépense pour 
+l'assurance dans la catégorie <EM>Assurances</EM>.<BR>
+<BR>
+De cette façon vous saurez en permanence le montant du capital qu'il vous reste 
+à rembourser, mais aussi le coût de l'emprunt.<BR>
+<BR>
+
+<H3><A NAME="htoc176">19.4.4</A>&nbsp;&nbsp;Les comptes d'actif</H3><A NAME="tips-accounts-assets"></A>
+Ces comptes ne sont pas encore disponibles dans Grisbi mais c'est imminent. Vous 
+pouvez en attendant utiliser le type de compte de passif, en sachant que vous 
+risquez d'avoir des messages erronnés (Grisbi s'attend à ce que ces comptes 
+soient négatifs).<BR>
+<BR>
+Un compte d'actif, vous vous en doutez un peu, est le contraire d'un compte de 
+passif. Pour reprendre l'exemple précédent de l'emprunt, imaginons que vous avez 
+fait cet emprunt pour acheter une voiture.<BR>
+<BR>
+Le solde initial de ce compte d'actif sera égal au prix d'achat de la voiture 
+(et non au montant de la somme empruntée). De même que pour les comptes de
+passif, ce solde sera obtenu grâce à un virement du compte courant vers le
+compte d'actif représentant l'achat du véhicule.<BR>
+<BR>
+La comparaison entre les comptes d'actif et de passif vous donne le montant 
+que vous possédez réellement. Lors de l'achat, c'est votre apport personnel.<BR>
+<BR>
+Au bout d'un an votre voiture a perdu une certaine somme à l'argus. Vous 
+passez dans votre compte d'actif une écriture pour <EM>dépréciation d'actif</EM>.<BR>
+<BR>
+Pendant ce temps vous avez remboursé des mensualités de votre emprunt. La
+comparaison des comptes d'actif et de passif aura évolué et vous donnera la 
+valeur que vous possédez réellement sur votre voiture à ce moment-là.<BR>
+<BR>
+<A NAME="toc103"></A>
+<H2><A NAME="htoc177">19.5</A>&nbsp;&nbsp;Les comptes d'attente ou d'avances</H2><A NAME="tips-accounts-suspense"></A>
+Ces deux types de compte ont un fonctionnement un peu particulier.<BR>
+<BR>
+Ce sont des comptes de transition et qui par essence doivent avoir un solde nul. 
+Leur fonctionnement n'est cependant pas tout à fait identique.<BR>
+<BR>
+
+<H3><A NAME="htoc178">19.5.1</A>&nbsp;&nbsp;Les comptes d'attente</H3>
+Ils servent à enregistrer des opérations (normalement des recettes) en attendant 
+de les virer vers un compte de banque ou de caisse. L'exemple type est le compte 
+<EM>Chèques à l'encaissement</EM> que nous verrons en détail un peu plus loin.<BR>
+<BR>
+Ils sont normalement créditeurs jusqu'au moment du virement vers le compte de 
+banque ou de caisse, qui les ramène à un solde nul. Vous ferez alors un pseudo-
+rapprochement de solde final nul. Donnez à ce rapprochement un nom comme REM-01
+ce qui vous permettra ultérieurement de retrouver quel chèque faisait partie de
+quelle remise, par exemple. Ce pseudo-rapprochement est appelé <EM>lettrage</EM>.<BR>
+<BR>
+
+<H3><A NAME="htoc179">19.5.2</A>&nbsp;&nbsp;Les comptes d'avances</H3>
+Ils servent à enregistrer à la fois les avances que vous percevez et celles que 
+vous consentez.<BR>
+<BR>
+Le compte d'avance peut être déroutant pour le novice, puisqu'il fonctionne à
+l'envers, ainsi que vous le découvrirez plus loin. Pour vous faciliter les
+choses vous pouvez considérer que le compte d'avance est un tiers qui vous donne
+ou à qui vous donnez de l'argent.<BR>
+<BR>
+Si vous recevez une avance vous l'enregistrez par un virement du compte 
+d'avances vers un compte de banque ou de caisse. <BR>
+<BR>
+Le compte d'avances est donc débiteur quand vous devez de l'argent. Pour 
+régulariser cette dette vous aurez à faire un virement d'un compte de banque ou 
+de caisse vers le compte d'avance.<BR>
+<BR>
+Si vous consentez une avance vous l'enregistrez par un virement du compte de 
+banque ou de caisse vers un compte d'avances.<BR>
+<BR>
+Le compte d'avances est donc créditeur quand on vous doit de l'argent. Pour 
+régulariser cette créance vous aurez à faire un virement du compte d'avances 
+vers un compte de banque ou de caisse.<BR>
+<BR>
+
+<H3><A NAME="htoc180">19.5.3</A>&nbsp;&nbsp;Création d'un compte d'attente ou d'avances</H3>
+Étant donné que ces comptes peuvent enregistrer des opérations tant en espèces 
+que par chèque ou virement, nous utiliserons le type de compte de banque pour 
+les créer.<BR>
+<BR>
+<A NAME="toc104"></A>
+<H2><A NAME="htoc181">19.6</A>&nbsp;&nbsp;Remises de chèques ou d'espèces</H2><A NAME="tips-remittance"></A>
+Si vous recevez beaucoup de chèques, par exemple parce que vous gérez une 
+association et que vos adhérents payent leur cotisation par chèque, vous les 
+groupez pour les déposer à la banque. Et quand vient le moment du rapprochement, 
+votre relevé bancaire ne contient qu'un montant global, et non le montant de 
+chaque chèque que vous avez saisi dans votre compte de banque. On ne peut pas 
+dire que ce soit simple à pointer.<BR>
+<BR>
+Et si vous essayez de grouper tous vos chèques dans une même opération, vous ne 
+pourrez plus enregistrer le nom de chaque tiers dans la bonne zone, ce qui aura 
+pour conséquence que cette information n'apparaîtra pas dans l'onglet Tiers. Et 
+ce même si vous essayiez de ventiler cette opération.<BR>
+<BR>
+Dans ce cas de figure la solution consiste à créer un compte d'attente 
+<EM>Chèques à encaisser</EM> (ou <EM>Chèques reçus</EM> c'est comme vous voulez).<BR>
+<BR>
+Au fur et à mesure de la réception des chèques, vous les enregistrez dans ce 
+compte. Vous pouvez donc utiliser le champ <EM>Tiers</EM> de façon correcte. <BR>
+<BR>
+Quand vous décidez de remettre les chèques à la banque, vous faites un virement 
+de votre compte <EM>Chèques à encaisser</EM> vers votre compte de banque, du 
+montant du solde du compte <EM>Chèques à encaisser</EM>. Créez un tiers 
+<EM>Remise de chèques</EM> pour l'occasion, et en <EM>Notes</EM> vous pouvez mettre 
+le numéro de votre bordereau de remise. Lequel bordereau sera prochainement 
+généré directement par Grisbi.<BR>
+<BR>
+Le solde du compte <EM>Chèques à encaisser</EM> revient à zéro et le compte de 
+banque est crédité du montant de la remise, exactement comme le sera votre 
+relevé bancaire.<BR>
+<BR>
+Il vous faudra penser à rapprocher le compte <EM>Chèques à encaisser</EM>
+en simulant un relevé de solde nul avant chaque nouvelle remise, l'édition du 
+bordereau de remise comportant <B>toutes</B> les opérations non-rapprochées 
+(<EM>non fonctionnel pour l'instant, vous devrez créer ce bordereau à la main 
+ou avec un logiciel de traitement de texte</EM>).<BR>
+<BR>
+Bien entendu, si une partie de vos adhérents vous paye en espèces, vous pouvez 
+utiliser de la même façon un compte <EM>Espèces</EM> ou tout autre nom qui vous plaira).<BR>
+<BR>
+<A NAME="toc105"></A>
+<H2><A NAME="htoc182">19.7</A>&nbsp;&nbsp;Compte d'avance</H2>
+Il peut s'agir soit d'une avance que vous percevez sur votre salaire, soit d'un 
+achat que vous faites pour un de vos amis.<BR>
+<BR>
+Il importe que ces opérations soient <EM>transparentes</EM> : elles ne doivent pas 
+apparaître sur le récapitulatif de vos opérations.<BR>
+<BR>
+Et si vous êtes trésorier d'une association vous aurez à gérer un autre type 
+d'avances, celles que certains de vos adhérents auront à faire pour certains 
+achats. Il importe dans ce cas de pouvoir enregistrer les opérations avec le bon 
+tiers d'une part, et d'autre part de pouvoir vérifier que les remboursements 
+sont bien faits.<BR>
+<BR>
+Il faut donc là aussi créer un compte qui enregistrera ces opérations en-dehors 
+du compte bancaire. Appelons ce compte <EM>Compte d'avances</EM>.<BR>
+<BR>
+Lorsque vous faites une avance pour quelqu'un, que ce soit une opération à part 
+entière ou la partie ventilée d'une opération, le tiers sera le commerçant (ou 
+autre) concerné, mais la catégorie sera <EM>Virement : Compte d'avances</EM>. En 
+<EM>Notes</EM> vous indiquez le motif de l'achat, et/ou la personne à qui 
+vous faites l'avance. Ceci débitera bien votre compte bancaire de la somme 
+dépensée, et créditera le compte d'avances d'autant.<BR>
+<BR>
+Nous l'avons déjà vu, un compte d'avance créditeur signifie qu'on vous doit de 
+l'argent.<BR>
+<BR>
+Lorsque vous serez remboursé (imaginons que ce soit par chèque) vous 
+enregistrerez ce chèque sur le compte d'avances. Le tiers sera 
+<EM>Régularisation d'avances</EM> ou bien si vous le préférez la personne qui vous 
+a remis ce chèque (ça marche aussi avec des espèces, il suffit d'adapter les 
+comptes). La catégorie sera <EM>Virement : compte bancaire</EM> et en <EM>Notes</EM> 
+vous indiquerez <EM>Remboursement de ........</EM> ainsi qu'éventuellement le nom 
+du tiers. Votre <EM>Compte d'avances</EM> revient à zéro, votre compte bancaire 
+enregistre bien l'opération, et lors de l'édition de l'état des recettes et 
+dépenses (<EM>non encore opérationnel</EM>) qui ne tient pas compte des virements 
+entre comptes, cette opération sera totalement invisible. Bien sûr si vous avez 
+créé un compte <EM>Chèques à encaisser</EM> vous devrez faire le virement vers ce 
+compte d'abord puis ensuite l'intégrer dans votre remise de chèques (voir 
+paragraphe précédent).<BR>
+<BR>
+Il vous suffira ensuite de créer un rapprochement dans le compte d'avances pour 
+faire disparaître ces opérations.<BR>
+<BR>
+De plus ceci vous permet de vérifier facilement si vos créances ou vos dettes 
+sont éteintes. Sans cette astuce la vérification est impossible.<BR>
+<BR>
+<A NAME="toc106"></A>
+<H2><A NAME="htoc183">19.8</A>&nbsp;&nbsp;Les exercices</H2><A NAME="tips-financialyear"></A>
+
+<H3><A NAME="htoc184">19.8.1</A>&nbsp;&nbsp;Définition comptable</H3>
+Période d'une durée d'un an pour laquelle sont établies des prévisions financières
+ou sont dégagés des résultats financiers, dans une unité de gestion, une entreprise ou
+un organisme public. <BR>
+<BR>
+Cette période ne correspond pas toujours à l'année civile. Le découpage du temps
+en exercices financiers implique, en matière de calcul des résultats, un certain 
+nombre de régularisations avant de procéder à la clôture des comptes. Il arrive en
+effet que certains produits et charges enregistrés au cours de l'exercice concernent 
+effectivement les exercices suivants et, réciproquement, que des produits et des
+charges relatifs à l'exercice en cours n'aient pas encore été enregistrés.<BR>
+<BR>
+
+<H3><A NAME="htoc185">19.8.2</A>&nbsp;&nbsp;Utilisation dans Grisbi</H3>
+Comme vous n'êtes pas expert comptable, il est bien évident que vous n'allez
+pas utiliser les exercices de cette façon. Il n'en demeure pas moins que
+certaines notions sont à retenir :
+<UL><LI>un exercice est une période d'un an ;<BR>
+<BR>
+<LI>on établit des prévisions et on dégage des résultats pour cette période ;<BR>
+<BR>
+<LI>certaines dépenses et recettes doivent être régularisées pour être
+affectées à l'exercice adéquat.</UL>
+
+<H3><A NAME="htoc186">19.8.3</A>&nbsp;&nbsp;Exemple</H3>
+Prenons l'exemple de votre facture téléphonique (bimestrielle comme chacun sait)
+couvrant la période du 11 décembre au 10 février. Si vous enregistrez cette
+facture telle quelle, la totalité de son montant sera affectée à l'année en
+cours. Vous pouvez considérer que cela compense le déséquilibre induit par la
+facture de l'année précédente à la même époque, et que bon an mal an vos
+comptes sont bons.<BR>
+<BR>
+On pourrait aussi prendre l'exemple d'un remboursement de Sécurité Sociale (qui
+a toujours trois mois de retard sur la dépense...). Si vous voulez faire un
+bilan objectif de vos dépenses de santé il vous faudra le prendre en compte
+pendant la même année que la dépense, même s'il intervient l'année suivante.<BR>
+<BR>
+La seule façon de procéder est d'utiliser les exercices. La période courante
+d'un exercice est l'année civile, mais l'année scolaire peut être plus
+intéressante si vous êtes le trésorier d'une association. Vous pouvez même
+faire des exercices mensuels, si ça vous amuse, bien que comptablement ce soit
+une <EM>bizarrerie</EM>.<BR>
+<BR>
+Vous enregistrerez alors votre remboursement de Sécurité Sociale avec l'exercice
+adéquat, et votre budget prendra en compte cette recette comme il le faut.<BR>
+<BR>
+Pour la facture téléphonique, c'est un peu plus compliqué, puisqu'il va falloir
+ventiler celle-ci <EM>prorata temporis</EM> (même si vous n'êtes pas latiniste
+vous aurez compris que celà signifie : au prorata du temps). Pour simplifier il
+est communément admis qu'une année se compose de 12 mois de 30 jours chacun.<BR>
+<BR>
+Votre facture sera donc ventilée en 20 soixantièmes sur l'exercice courant, et
+40 soixantièmes sur l'exercice suivant.<BR>
+<BR>
+<A NAME="toc107"></A>
+<H2><A NAME="htoc187">19.9</A>&nbsp;&nbsp;Comptabilité d'association</H2>
+Nous considérerons pour cet exemple que les exercices et imputations budgétaires
+ne sont pas renseignés. Des exemples plus complets seront donnés dans <EM>Le
+guide de la comptabilité des associations</EM> (à paraître aux éditions Grisbi).<BR>
+<BR>
+Si vous gérez les comptes d'une association, vous avez déjà constaté que les 
+opérations enregistrées sur votre compte bancaire ne reflètent aucunement la 
+réalité de vos mouvements financiers. En effet la majorité de vos opérations 
+consiste souvent en remises de chèques ou d'espèces, et vos dépenses en 
+remboursement de frais engagés par vos adhérents.<BR>
+<BR>
+Grisbi vous offre la possibilité d'avoir une comptabilité claire et précise. 
+Utilisez les comptes de <I><FONT COLOR=maroon>Chèques à l'encaissement</FONT></I>, d'<I><FONT COLOR=maroon>Espèces</FONT></I> et 
+d'<I><FONT COLOR=maroon>Avances</FONT></I> tel qu'expliqué plus haut et vous verrez que tout sera 
+lumineux...<BR>
+<BR>
+Vous pouvez même aller plus loin dans la précision. L'exemple qui suit va sans 
+doute vous paraître compliqué mais c'est la bonne façon d'avoir une comptabilité 
+d'association rigoureuse. Et avec un peu d'habitude vous verrez qu'on s'y fait 
+très bien...<BR>
+<BR>
+Imaginons que vous soyez le trésorier de l'A.P.P.P.P., l'<EM>Amicale
+des Pauvres Poivrots Privés de Pinard</EM>.<BR>
+<BR>
+
+<H4>Premier cas de figure:</H4>
+Votre adhérent Hector Boyau achète un Tire bouchon atomique pour le compte de 
+l'association. Cette dépense est réellement à imputer dans la comptabilité de 
+l'association. Il importe donc de l'enregistrer <B>avec les tiers et 
+catégories réels</B>.<BR>
+<BR>
+Enregistrez les opérations suivantes :<BR>
+<BR>
+
+<H5>Achat du tire-bouchon atomique</H5>
+<UL><LI>Sur le compte d'avances 
+<LI>20 Euros en débit 
+<LI>Tiers <EM>Les cavistes du Commerce et de la Gare réunis</EM>
+<LI>Catégorie : <EM>Investissement : matériel</EM> 
+<LI>Notes : <EM>Achat d'un tire-bouchon atomique par Hector
+Boyau</EM>. </UL>
+
+<H5>L'achat est passé avec le tiers réel et la catégorie réelle.</H5> 
+Le compte d'avances est débiteur donc vous devez de l'argent à quelqu'un. <BR>
+<BR>
+
+<H5>Remboursement à Hector Boyau par chèque</H5> 
+<UL><LI>
+Sur le compte bancaire 
+<LI>20 Euros en débit 
+<LI>Tiers : <EM>Régularisation d'avance</EM>
+<LI>Catégorie : <EM>Virement : Compte d'avances</EM> 
+<LI>Notes : <EM>Remboursement du tire-bouchon atomique à Hector
+Boyau</EM>. 
+</UL>
+Le tiers Hector Boyau n'a fait que servir d'intermédiaire et aucune opération ne 
+doit lui être affectée dans cette transaction.<BR>
+<BR>
+Le compte d'avance revient à zéro donc vous n'avez plus de dette. <BR>
+<BR>
+Créez un rapprochement dans le compte d'avances, dont le solde sera égal au 
+solde du compte (le total des sorties étant égal à celui des entrées, le solde 
+reste identique). <BR>
+<BR>
+
+<H4>Deuxième cas de figure:</H4> 
+Vous achetez pour vos adhérents du pinard en bouteilles et en cubi que vous leur 
+revendez à prix coûtant. Ces achats ne concernent pas l'association mais 
+constituent plutôt un service rendu aux membres. Vous allez les enregistrer avec 
+le tiers réel mais surtout pas avec la catégorie. <BR>
+<BR>
+Vous pouvez bien entendu utiliser le compte d'avances pour enregistrer ces 
+achats et ventes. Mais ça va se mélanger avec les autres avances et vous aurez 
+de la peine à distinguer où en sont vos stocks. Surtout si vous êtes un membre 
+très actif de l'association :-)8. <BR>
+<BR>
+Créez donc deux comptes d'avances spécialisés, un compte <EM>Pinard en 
+bouteilles</EM> et un autre <EM>Pinard en cubi</EM> et procédez de la façon suivante. <BR>
+<BR>
+Soixante bouteilles ont été achetés 180 Euros par votre adhérent Hector Boyau à 
+la Coopérative du Père Jutard. <BR>
+<BR>
+
+<H5>Achat des bouteilles</H5> 
+<UL><LI>
+Sur le compte d'avances 
+<LI>180 Euros en débit 
+<LI>Tiers <EM>Coopérative du Père Jutard</EM> 
+<LI>Catégorie : <EM>Virement :Pinard en bouteilles</EM> 
+<LI>Notes : <EM>Achat de 60 bouteilles par Hector Boyau</EM>
+</UL>
+
+<H5>L'achat est passé avec le tiers réel mais avec une catégorie
+ virement.</H5> 
+Le compte d'avances est débiteur donc vous devez de l'argent à quelqu'un. <BR>
+<BR>
+Le compte <EM>Pinard en bouteilles</EM> est créditeur de 60 bouteilles. <BR>
+<BR>
+
+<H5>Remboursement à Hector Boyau</H5> 
+<UL><LI>
+Sur le compte bancaire 
+<LI>180 Euros en débit 
+<LI>Tiers : <EM>Régularisation d'avance</EM> 
+<LI>Catégorie : <EM>Virement : Compte d'avances</EM> 
+<LI>Notes : <EM>Remboursement des 60 bouteilles à Hector Boyau</EM> 
+</UL>
+Le tiers Hector Boyau n'a fait que servir d'intermédiaire et aucune opération ne 
+doit lui être affectée dans cette transaction. <BR>
+<BR>
+Le compte d'avance revient à zéro donc vous n'avez plus de dette. <BR>
+<BR>
+Le compte bancaire a bien enregistré la dépense des 180 Euros. <BR>
+<BR>
+
+<H5>Vente de 5 Bouteilles à Yves Remord réglées en chèques</H5> 
+<UL><LI>
+Sur le compte <EM>Chèques à encaisser</EM> 
+<LI>15 Euros en crédit 
+<LI>Tiers : <EM>Yves Remord</EM> 
+<LI>Catégorie : <EM>Virement : Pinard en bouteilles</EM> 
+<LI>Chèque, n<SUP><FONT SIZE=2><I>o</I></FONT></SUP> de chèque = 123456 
+<LI>Notes : <EM>5 bouteilles</EM> 
+</UL>
+L'achat est passé avec le tiers réel mais avec une catégorie virement. <BR>
+<BR>
+Le compte <EM>Chèques à encaisser</EM> est créditeur, le chèque fera partie de la 
+prochaine remise de chèques. <BR>
+<BR>
+Le compte <EM>Pinard en bouteilles</EM> est débité de 15 Euros, il ne reste plus 
+que 165 Euros soit 55 bouteilles. <BR>
+<BR>
+Vous n'aurez plus qu'à rapprocher les opérations de cette vente pour les faire 
+disparaître. <BR>
+<BR>
+
+<H5>Remise de chèques à la banque</H5> 
+<UL><LI>
+Sur le compte <EM>Chèques à encaisser</EM> 
+<LI>15 Euros en débit (en réalité plus, à savoir la totalité
+des chèques à remettre) 
+<LI>Tiers : <EM>Remise de chèques</EM> 
+<LI>Catégorie : <EM>irement : Compte bancaire</EM> 
+<LI>Notes : <EM>Bordereau de remise n</EM><SUP><EM><FONT SIZE=2><I>o</I></FONT></EM></SUP><EM> 17</EM> 
+</UL>
+Vous n'aurez plus qu'à rapprocher les opérations de cette remise pour les faire 
+disparaître. <BR>
+<BR>
+Si Yves Remord vous avait payé en espèces la démarche aurait été la même mais 
+avec le compte d'espèces et une remise en espèces. <BR>
+<BR>
+Si Hector Boyau avait acheté 60 bouteilles et 10 cubis pour 280 Euros, 
+l'opération d'achat aurait été passée ainsi : <BR>
+<BR>
+
+<H5>Achat des bouteilles</H5> 
+<UL><LI>
+Sur le compte d'avances 
+<LI>180 Euros en débit 
+<LI>Tiers <EM>Coopérative du Père Jutard</EM> 
+<LI>Catégorie : <EM>Opération ventilée</EM> 
+<LI>Notes : <EM>Achat de 60 bouteilles et 10 cubis par Hector
+Boyau</EM>
+</UL>
+
+<H5>Détail de la ventilation</H5> 
+<UL><LI>
+Catégorie : <EM>Virement : Pinard en bouteilles</EM> 
+<LI>Notes : <EM>Achat de 60 bouteilles par Hector Boyau</EM> 
+<LI>Montant 180 Euros 
+</UL>
+puis 
+<UL><LI>
+Catégorie : <EM>Virement : Pinard en cubis</EM> 
+<LI>Notes : <EM>Achat de 10 cubis par Hector Boyau</EM> 
+<LI>Montant 100 Euros 
+</UL>
+Les comptes <EM>Pinard en bouteilles</EM> et <EM>Pinard en cubi</EM> ont chacun été 
+crédités du montant des achats leur revenant. <BR>
+<BR>
+Le reste des opérations est identique à la première version. <BR>
+<BR>
+Maintenant nous vous proposons un petit exercice, pour vous permettre de voir si 
+vous avez compris le principe. <BR>
+<BR>
+<EM>Hector Boyau a pris 10 bouteilles pour lui et demande donc qu'on ne lui
+ rembourse que 150 Euros. Comment enregistrez-vous cela?</EM> <BR>
+<BR>
+<HR>
+<A HREF="grisbi-manuel020.html"><IMG SRC ="previous_motif.gif" ALT="Précédent"></A>
+<A HREF="index.html"><IMG SRC ="contents_motif.gif" ALT="Remonter"></A>
+<A HREF="grisbi-manuel022.html"><IMG SRC ="next_motif.gif" ALT="Suivant"></A>
+</BODY>
+</HTML>

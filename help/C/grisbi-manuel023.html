@@ -1,0 +1,1032 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
+            "http://www.w3.org/TR/REC-html40/loose.dtd">
+<HTML>
+<HEAD>
+
+<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-15">
+<META name="GENERATOR" content="hevea 1.06">
+<TITLE>
+ Format d'enregistrement du fichier de comptes
+</TITLE>
+</HEAD>
+<BODY BGCOLOR="#ffff99">
+
+<A HREF="grisbi-manuel022.html"><IMG SRC ="previous_motif.gif" ALT="Précédent"></A>
+<A HREF="index.html"><IMG SRC ="contents_motif.gif" ALT="Remonter"></A>
+<A HREF="grisbi-manuel024.html"><IMG SRC ="next_motif.gif" ALT="Suivant"></A>
+<HR>
+
+<H1><A NAME="htoc200">Annexe&nbsp;B</A>&nbsp;&nbsp;Format d'enregistrement du fichier de comptes</H1><A NAME="xml"></A>
+<A NAME="toc119"></A>
+<H2><A NAME="htoc201">B.1</A>&nbsp;&nbsp;Généralités</H2><A NAME="xml-general"></A>
+Le fichier de comptes de Grisbi est enregistré au format XML. Il est 
+visualisable avec n'importe quel éditeur, mais il est très fortement recommandé
+de ne pas le modifier.<BR>
+<BR>
+Le format XML est un format universel, ce qui permet à n'importe quel autre 
+programme de pouvoir utiliser les données provenant de Grisbi, à condition qu'il 
+reprenne le formatage de Grisbi. C'est pourquoi nous allons détailler ce 
+formatage ci-après.<BR>
+<BR>
+Un fichier XML stocke des informations de maniere hiérarchique. On reconnait
+un fichier XML à son en-tête: <TT>&lt;?xml version="1.0"?&gt;</TT>.<BR>
+<BR>
+Les données étant organisées de manière arborescente, on distingue des noeuds de 
+l'arbre, se divisant en plusieurs branches, et des feuilles, qui sont des noeuds 
+finals contenant l'information recherchée.<BR>
+<BR>
+La manière dont ces noeuds se suivent et sont imbriqués est libre, mais on
+peut contraindre la grammaire d'un fichier XML en fonction d'une DTD
+(Document Type Definition, ou Définition de Type de Document), qui dictera
+les combinaisons autorisées.<BR>
+<BR>
+<A NAME="toc120"></A>
+<H2><A NAME="htoc202">B.2</A>&nbsp;&nbsp;Vue d'ensemble</H2>
+Le principe du XML est l'utilisation de balises, un peu comme le HTML, sauf
+qu'en XML c'est le programmeur qui définit ses propres balises.<BR>
+<BR>
+Une information est entourée par deux balises, la balise entrante qui ressemble
+à <TT>&lt;balise&gt;</TT> et la balise sortant qui ressemble à <TT>/&lt;balise&gt;</TT>.<BR>
+<BR>
+Par exemple le numéro de version utilisé pour enregistrer votre fichier s'écrit :<BR>
+<BR>
+<TT>&lt;Version&gt;0.3.2/&lt;Version&gt;</TT>.<BR>
+<BR>
+Les informations sont classées en sections. Les sections débutent et finissent 
+par des balises portant leur nom. Exemple : les informations de configuration 
+générale sont comprises entre les balises <TT>&lt;Generalites&gt;</TT> et 
+<TT>/&lt;Generalites&gt;</TT>.<BR>
+<BR>
+Si une balise ne contient aucune information le XML écrit une balise
+vide sous la forme <TT>&lt;balise/&gt;</TT>.<BR>
+<BR>
+Dans la présentation de la structure du fichier de compte de Grisbi nous 
+noterons "/" le fait qu'un élément est compris dans un autre.<BR>
+<BR>
+Certaines balises ont un nom tellement explicite que nous nous contenterons de 
+les citer sans autres explications.<BR>
+<BR>
+<A NAME="toc121"></A>
+<H2><A NAME="htoc203">B.3</A>&nbsp;&nbsp;Organisation du fichier</H2>
+
+<H3><A NAME="htoc204">B.3.1</A>&nbsp;&nbsp;Section de la configuration générale</H3><A NAME="xml-setup"></A>
+Contenu de cette section :
+<UL><LI><TT>&lt;Grisbi&gt;</TT> : c'est l'élément racine, ancêtre de tous les autres ;<BR>
+<BR>
+<LI><TT>&lt;Grisbi&gt;/&lt;Generalites&gt;</TT> : le bloc d'informations générales
+relatives à la configuration de Grisbi (voir le paragraphe <A HREF="grisbi-manuel020.html#setup-general">18.1</A>);<BR>
+<BR>
+<LI><TT>&lt;Grisbi&gt;/&lt;Generalites&gt;/&lt;Version_fichier&gt;</TT> : le numéro de version 
+du format de fichier. Ce numéro peut être différent du numéro de version de Grisbi ;<BR>
+<BR>
+<LI><TT>&lt;Grisbi&gt;/&lt;Generalites&gt;/&lt;Version_Grisbi&gt;</TT> : le numéro de version de Grisbi ;<BR>
+<BR>
+<LI><TT>&lt;Grisbi&gt;/&lt;Generalites&gt;/&lt;Fichier_ouvert&gt;</TT> : est utilisée pour le
+verrouillage dans le mode multi-utilisateurs. 1 = le fichier est ouvert, 
+0 = le fichier n'est pas ouvert ;<BR>
+<BR>
+<LI><TT>&lt;Grisbi&gt;/&lt;Generalites&gt;/&lt;Backup&gt;</TT> : chemin et nom du fichier de 
+sauvegarde ;<BR>
+<BR>
+<LI><TT>&lt;Grisbi&gt;/&lt;Generalites&gt;/&lt;Titre&gt;</TT> : le titre de votre fichier ;<BR>
+<BR>
+<LI><TT>&lt;Grisbi&gt;/&lt;Generalites&gt;/&lt;Adresse_commune&gt;</TT> : l'adresse du titulaire du
+compte ;<BR>
+<BR>
+<LI><TT>&lt;Grisbi&gt;/&lt;Generalites&gt;/&lt;Adresse_secondaire&gt;</TT> : une deuxième zone 
+adresse pour enregistrer par exemple l'adresse du trésorier de l'association;<BR>
+<BR>
+<LI><TT>&lt;Grisbi&gt;/&lt;Generalites&gt;/&lt;Utilise_exercices&gt;</TT> : 1 = le fichier de compte
+utilise les exercices, 0 = il ne les utilise pas ;<BR>
+<BR>
+<LI><TT>&lt;Grisbi&gt;/&lt;Generalites&gt;/&lt;Utilise_IB&gt;</TT> : 1 = le fichier de compte
+utilise les imputations budgétaires, 0 = il ne les utilise pas ;<BR>
+<BR>
+<LI><TT>&lt;Grisbi&gt;/&lt;Generalites&gt;/&lt;Utilise_PC&gt;</TT> : 1 = le fichier de compte
+utilise le champ <TT>Pièces comptables</TT>, 0 = il ne l'utilise pas ;<BR>
+<BR>
+<LI><TT>&lt;Grisbi&gt;/&lt;Generalites&gt;/&lt;Utilise_info_BG&gt;</TT> : 1 = le fichier de compte
+utilise le champ <I><FONT COLOR=maroon>Coordonnées bancaires</FONT></I>, 0 = il ne l'utilise pas ;<BR>
+<BR>
+<LI><TT>&lt;Grisbi&gt;/&lt;Generalites&gt;/&lt;Numero_devise_totaux_tiers&gt;</TT> : le numéro de
+la devise utilisée pour les totalisations dans les onglets <I><FONT COLOR=maroon>Tiers</FONT></I>
+<I><FONT COLOR=maroon>Catégories</FONT></I> et <I><FONT COLOR=maroon>Imputations budgétaires</FONT></I> ;<BR>
+<BR>
+<LI><TT>&lt;Grisbi&gt;/&lt;Generalites&gt;/&lt;Type_affichage_des_echeances&gt;</TT> : 0 = mois,
+1 = 2 mois, 2 = année, 3 = toutes, 4 = personnalisée ;<BR>
+<BR>
+<LI><TT>&lt;Grisbi&gt;/&lt;Generalites&gt;/&lt;Affichage_echeances_perso_nb_libre&gt;</TT> : 
+contenu de l'entrée pour l'affichage personnalisé des échéances ;<BR>
+<BR>
+<LI><TT>&lt;Grisbi&gt;/&lt;Generalites&gt;/&lt;Type_affichage_perso_echeances&gt;</TT> : 0 = 
+jours, 1 = mois, 2 = années ;<BR>
+<BR>
+<LI><TT>&lt;Grisbi&gt;/&lt;Generalites&gt;/&lt;Numero_derniere_operation&gt;</TT> : numéro de la 
+dernière opération du fichier;<BR>
+<BR>
+<LI><TT>&lt;Grisbi&gt;/&lt;Generalites&gt;/&lt;Chemin_logo&gt;</TT>: le chemin d'accès au logo utilisé dans le fichier;<BR>
+<BR>
+<LI><TT>&lt;Grisbi&gt;/&lt;Generalites&gt;/&lt;Affichage_opes&gt;</TT>: suite de 28 numéros séparés par des tirets déterminant l'affichage des informations dans l'onglet <I><FONT COLOR=maroon>Opérations</FONT></I>. Les 28 numéros représentent les quatre lignes de 7 colonnes chacunes. Les numéros des informations sont :<BR>
+<BR>
+	<UL><LI>1 = Date de l'opération;<BR>
+<BR>
+	<LI>2 = Date de valeur;<BR>
+<BR>
+	<LI>3 = Tiers;<BR>
+<BR>
+	<LI>4 = Imputation budgétaire;<BR>
+<BR>
+	<LI>5 = Débit;<BR>
+<BR>
+	<LI>6 = Crédit;<BR>
+<BR>
+	<LI>7 = Solde;<BR>
+<BR>
+	<LI>8 = Montant en divise;<BR>
+<BR>
+	<LI>9 = Moyen de paiement;<BR>
+<BR>
+	<LI>10 = Numéro de rapprochement;<BR>
+<BR>
+	<LI>11 = Exercice;<BR>
+<BR>
+	<LI>12 = Catégorie;<BR>
+<BR>
+	<LI>13 = P/R (opération pointée ou rapprochée);<BR>
+<BR>
+	<LI>14 = Pièce comptable;<BR>
+<BR>
+	<LI>15 = Notes;<BR>
+<BR>
+	<LI>16 = Informations bancaires;<BR>
+<BR>
+	<LI>17 = Numéro de l'opération;<BR>
+<BR>
+	<LI>18 = Numéro de chèque.<BR>
+<BR>
+	</UL> <BR>
+Un zéro signifie qu'aucune information n'est affichée dans la cellule. Le paramétrage par défaut est :
+18-1-3-13-5-6-7-0-0-12-0-9-8-0-0-11-15-0-0-0-0-0-0-0-0-0-0-0<BR>
+<BR>
+<LI><TT>&lt;Grisbi&gt;/&lt;Generalites&gt;/&lt;Rapport_largeur_col&gt;</TT>: suite de 7 nombres séparés par des tirêts, représentant la variation de la taille des 7 colonnes de l'onglet <I><FONT COLOR=maroon>Opérations</FONT></I> en pourcentage (par défaut 11-13-30-3-11-11-11);<BR>
+<BR>
+<LI><TT>&lt;Grisbi&gt;/&lt;Generalites&gt;/&lt;Ligne_aff_une_ligne&gt;</TT> : le numéro (de 0 à 3) de la ligne affichée lors de l'affichage des opérations sur une seule ligne dans l'onglet <I><FONT COLOR=maroon>Opérations</FONT></I> (par défaut 0);<BR>
+<BR>
+<LI><TT>&lt;Grisbi&gt;/&lt;Generalites&gt;/&lt;Lignes_aff_deux_lignes&gt;</TT> : les deux numéros (de 0 à 3), séparés par un tiret, des lignes affichées lors de l'affichage des opérations sur deux lignes dans l'onglet <I><FONT COLOR=maroon>Opérations</FONT></I> (par défaut 0-1);<BR>
+<BR>
+<LI><TT>&lt;Grisbi&gt;/&lt;Generalites&gt;/&lt;Lignes_aff_trois_lignes&gt;</TT> : les trois numéros (de 0 à 3), séparés par des tirets, des lignes affichées lors de l'affichage des opérations sur trois lignes dans l'onglet <I><FONT COLOR=maroon>Opérations</FONT></I> (par défaut 0-1-3).</UL>
+
+<H3><A NAME="htoc205">B.3.2</A>&nbsp;&nbsp;Section relative aux comptes</H3>
+Cette section est une branche de l'arbre Grisbi et devrait donc
+être notée<BR>
+<BR>
+<TT>&lt;Grisbi&gt;/&lt;Comptes&gt;</TT>.<BR>
+<BR>
+Afin de simplifier nous n'indiquerons pas l'élément racine <TT>&lt;Grisbi&gt;</TT>
+et nous commencerons à <TT>&lt;Comptes&gt;</TT>. Cette remarque est valable pour toutes 
+les sections qui suivront.<BR>
+<BR>
+Voici le contenu de cette section :
+<UL><LI><TT>&lt;Comptes&gt;/&lt;Generalites&gt;</TT> est une sous-section qui décrit les points 
+communs à tous les comptes du fichier ;<BR>
+<BR>
+<LI><TT>&lt;Comptes&gt;/&lt;Generalites&gt;/&lt;Ordre_des_comptes&gt;</TT> est l'ordre dans
+lequel les comptes sont affichés dans l'onglet <I><FONT COLOR=maroon>Opérations</FONT></I> (configuré dans 
+<I><FONT COLOR=maroon>Configuration/Affichage</FONT></I>, voir le paragraphe <A HREF="grisbi-manuel020.html#setup-display">18.4</A>).
+Les comptes sont désignés par leur numéro (voir ci-après) et séparés par des
+tirets sans espace (exemple : 3-2-0-1) ;<BR>
+<BR>
+<LI><TT>&lt;Comptes&gt;/&lt;Generalites&gt;/&lt;Compte_courant&gt;</TT> : c'est le compte qui 
+était affiché dans l'onglet <I><FONT COLOR=maroon>Opérations</FONT></I> lors de la fermeture du fichier et 
+qui le sera lors de sa ré-ouverture ;<BR>
+<BR>
+<LI><TT>&lt;Comptes&gt;/&lt;Compte&gt;</TT> est un bloc d'informations renfermant tous les 
+détails d'un compte donné. L'élément père <TT>&lt;Comptes&gt;</TT> peut contenir 
+plusieurs fils <TT>&lt;Compte&gt;</TT> qui se suivent les uns les autres. Ils seront 
+identifiés par leur numéro interne. Nous allons décrire ici la syntaxe attendue 
+d'un tel compte.<BR>
+<BR>
+<LI><TT>&lt;Comptes&gt;/&lt;Compte&gt;/&lt;Details&gt;</TT> : il s'agit de toutes les informations 
+que vous avez saisies lors de la création du compte (ou peut-être après) :<BR>
+<BR>
+<LI><TT>&lt;Comptes&gt;/&lt;Compte&gt;/&lt;Details&gt;/&lt;Nom&gt;</TT> : le nom que vous avez donné à 
+votre compte ;<BR>
+<BR>
+<LI><TT>&lt;Comptes&gt;/&lt;Compte&gt;/&lt;Details&gt;/&lt;No_de_compte &gt;</TT> : le numéro de votre 
+compte dans Grisbi ;<BR>
+<BR>
+<LI><TT>&lt;Comptes&gt;/&lt;Compte&gt;/&lt;Details&gt;/&lt;Titulaire&gt;</TT> : si le titulaire du 
+compte est différent du titulaire général ;<BR>
+<BR>
+<LI><TT>&lt;Comptes&gt;/&lt;Compte&gt;/&lt;Details&gt;/&lt;Type_de_compte&gt;</TT> : le type de compte 
+( 0 = bancaire, 1 = espèces, 2 = passif, 3 = actif ) ;<BR>
+<BR>
+<LI><TT>&lt;Comptes&gt;/&lt;Compte&gt;/&lt;Details&gt;/&lt;Nb_operations&gt;</TT> : le nombre 
+d'opérations enregistrées dans ce compte ;<BR>
+<BR>
+<LI><TT>&lt;Comptes&gt;/&lt;Compte&gt;/&lt;Details&gt;/&lt;Devise&gt;</TT> : le numéro de la devise dans 
+laquelle est tenu le compte ;<BR>
+<BR>
+<LI><TT>&lt;Comptes&gt;/&lt;Compte&gt;/&lt;Details&gt;/&lt;Banque&gt;</TT> : le numéro de l'établisement 
+bancaire tenant le compte ;<BR>
+<BR>
+<LI><TT>&lt;Comptes&gt;/&lt;Compte&gt;/&lt;Details&gt;/&lt;Guichet&gt;</TT> : le code Guichet de 
+l'établisement bancaire ;<BR>
+<BR>
+<LI><TT>&lt;Comptes&gt;/&lt;Compte&gt;/&lt;Details&gt;/&lt;No_compte_banque&gt;</TT> : le numéro de 
+votre compte dans votre établissement bancaire ;<BR>
+<BR>
+<LI><TT>&lt;Comptes&gt;/&lt;Compte&gt;/&lt;Details&gt;/&lt;Cle_du_compte&gt;</TT> : la clé RIB ;<BR>
+<BR>
+<LI><TT>&lt;Comptes&gt;/&lt;Compte&gt;/&lt;Details&gt;/&lt;Solde_initial&gt;</TT> ;<BR>
+<BR>
+<LI><TT>&lt;Comptes&gt;/&lt;Compte&gt;/&lt;Details&gt;/&lt;Solde_mini_voulu&gt;</TT> ;<BR>
+<BR>
+<LI><TT>&lt;Comptes&gt;/&lt;Compte&gt;/&lt;Details&gt;/&lt;Solde_mini_autorise&gt;</TT> ;<BR>
+<BR>
+<LI><TT>&lt;Comptes&gt;/&lt;Compte&gt;/&lt;Details&gt;/&lt;Solde_courant&gt;</TT> : pour accélérer les 
+traitements Grisbi enregistre le solde de votre compte dans cette balise ;<BR>
+<BR>
+<LI><TT>&lt;Comptes&gt;/&lt;Compte&gt;/&lt;Details&gt;/&lt;Date_dernier_releve&gt;</TT> : concerne les 
+rapprochements ;<BR>
+<BR>
+<LI><TT>&lt;Comptes&gt;/&lt;Compte&gt;/&lt;Details&gt;/&lt;Solde_dernier_releve&gt;</TT> : concerne les 
+rapprochements ;<BR>
+<BR>
+<LI><TT>&lt;Comptes&gt;/&lt;Compte&gt;/&lt;Details&gt;/&lt;Dernier_no_de_rapprochement&gt;</TT> : 
+concerne les rapprochements ;<BR>
+<BR>
+<LI><TT>&lt;Comptes&gt;/&lt;Compte&gt;/&lt;Details&gt;/&lt;Compte_cloture&gt;</TT> : 0 = Non, 1 = Oui ;<BR>
+<BR>
+<LI><TT>&lt;Comptes&gt;/&lt;Compte&gt;/&lt;Details&gt;/&lt;Affichage_r&gt;</TT>: si vous avez d'avoir des caractéristiques d'affichage propres à chaque compte, cette balise détermine l'affichage des opérations rapprochées. 0 = les opérations ne sont pas afichées, 1 = elles le sont;<BR>
+<BR>
+<LI><TT>&lt;Comptes&gt;/&lt;Compte&gt;/&lt;Details&gt;/&lt;Nb_lignes_ope&gt;</TT>: si vous avez d'avoir des caractéristiques d'affichage propres à chaque compte, cette balise détermine le nombre de lignes affichées pour les opérations;<BR>
+<BR>
+<LI><TT>&lt;Comptes&gt;/&lt;Compte&gt;/&lt;Details&gt;/&lt;Commentaires&gt;</TT> ;<BR>
+<BR>
+<LI><TT>&lt;Comptes&gt;/&lt;Compte&gt;/&lt;Details&gt;/&lt;Adresse_du_titulaire&gt;</TT> ;<BR>
+<BR>
+<LI><TT>&lt;Comptes&gt;/&lt;Compte&gt;/&lt;Details&gt;/&lt;Nombre_de_types&gt;</TT> : nombre de type 
+d'opérations définis pour ce compte ;<BR>
+<BR>
+<LI><TT>&lt;Comptes&gt;/&lt;Compte&gt;/&lt;Details&gt;/&lt;Type_defaut_debit&gt;</TT> : le numéro du 
+type d'opération par défaut en débit ;<BR>
+<BR>
+<LI><TT>&lt;Comptes&gt;/&lt;Compte&gt;/&lt;Details&gt;/&lt;Type_defaut_credit&gt;</TT> : le numéro du 
+type d'opération par défaut en crédit ;<BR>
+<BR>
+<LI><TT>&lt;Comptes&gt;/&lt;Compte&gt;/&lt;Details&gt;/&lt;Tri_par_type&gt;</TT> : 0 = tri par date 
+lors du rapprochement, 1 = tri par type d'opération ;<BR>
+<BR>
+<LI><TT>&lt;Comptes&gt;/&lt;Compte&gt;/&lt;Details&gt;/&lt;Neutres_inclus&gt;</TT> : 1 = les types 
+neutres sont séparés en fonction du montant de l'opération (débit/crédit) ;<BR>
+<BR>
+<LI><TT>&lt;Comptes&gt;/&lt;Compte&gt;/&lt;Details&gt;/&lt;Ordre_du_tri&gt;</TT> : classement des types
+d'opération lors du rapprochement .</UL>
+
+<H4>Les types d'opérations du compte</H4>
+La balise suivante est une sous-sous-section qui se nomme <BR>
+<BR>
+<TT>&lt;Comptes&gt;/&lt;Compte&gt;/&lt;Detail_de_Types&gt;</TT>. <BR>
+<BR>
+Elle décrit tous les types 
+d'opérations paramétrés pour le compte. Le format change, à savoir que chaque 
+type est contenu dans sa propre balise, incluant tous les paramètres le 
+distinguant. La valeur des paramètres leur est affectée de la façon suivante : 
+<TT>Nom="Virement"</TT> c'est à dire le nom du paramètre, le signe =, puis la 
+valeur du paramètre entre guillemets. Un type d'opération est décrit par la
+balise <TT>&lt;Type&gt;</TT> contenant les paramètres suivants, séparés par des espaces :
+<UL><LI><TT>&lt;No&gt;</TT> : numéro du type d'opération pour ce compte ;<BR>
+<BR>
+<LI><TT>&lt;Nom&gt;</TT> : le nom que vous donnez à ce type d'opération ;<BR>
+<BR>
+<LI><TT>&lt;Signe&gt;</TT> : 0=neutre, 1=débit, 2=crédit ;<BR>
+<BR>
+<LI><TT>&lt;Affiche_entree&gt;</TT> : affiche l'entrée complémentaire (numéro de 
+chèque ou de virement) ;<BR>
+<BR>
+<LI><TT>&lt;Numerotation_auto&gt;</TT> : 1 = incrémente le numéro en cours
+lors de l'affichage de l'entrée complémentaire, 0 = ne l'incrémente pas ;<BR>
+<BR>
+<LI><TT>&lt;No_en_cours&gt;</TT> : numéro en cours pour l'entrée complémentaire.</UL>
+
+<H4>Détail des opérations du compte</H4>
+La balise suivante est une sous-sous-section qui se nomme
+<TT>&lt;Comptes&gt;/&lt;Compte&gt;/&lt;Detail_des_operations&gt;</TT> et qui liste toutes les 
+opérations du compte, ainsi que leurs lignes de ventilation. De même que les 
+types, les opérations sont contenues dans une balise <TT>&lt;Operation&gt;</TT> avec les 
+paramètres suivants :
+<UL><LI><TT>&lt;No&gt;</TT> : c'est le numéro de l'opération dans le fichier, tous comptes
+confondus ;<BR>
+<BR>
+<LI><TT>&lt;D&gt;</TT> : la date de l'opération ;<BR>
+<BR>
+<LI><TT>&lt;Db&gt;</TT> : la date de valeur de l'opération ;<BR>
+<BR>
+<LI><TT>&lt;M&gt;</TT> : le montant (signé) de l'opération. A noter que bien que le 
+formulaire de saisie présente deux zones, une pour les débits et une pour les 
+crédits, le montant est enregistré dans un seul paramètre ;<BR>
+<BR>
+<LI><TT>&lt;De&gt;</TT> : le numéro de la devise utilisée ;<BR>
+<BR>
+<LI><TT>&lt;Rdc&gt;</TT> : c'est le Rez-de-chaussée. Heu, non, c'est l'indication de la 
+devise à laquelle on applique le taux de change défini plus loin :
+<UL><LI>1 : devise du compte = devise étrangère x taux de change ;<BR>
+<BR>
+<LI>0 : devise étrangère = devise du compte x taux de change.</UL><BR>
+<BR>
+<LI><TT>&lt;Tc&gt;</TT> : le taux de change permettant de passer de la devise du compte 
+à la devise étrangère ou inversement ;<BR>
+<BR>
+<LI><TT>&lt;Fc&gt;</TT> : les frais de change, s'il y en a ;<BR>
+<BR>
+<LI><TT>&lt;T&gt;</TT> : le numéro du tiers ;<BR>
+<BR>
+<LI><TT>&lt;C&gt;</TT> : le numéro de la catégorie ;<BR>
+<BR>
+<LI><TT>&lt;Sc&gt;</TT> : le numéro de la sous-catégorie ;<BR>
+<BR>
+<LI><TT>&lt;Ov&gt;</TT> : 0 = l'opération n'est pas ventilée, 1 = l'opération est
+ventilée ;<BR>
+<BR>
+<LI><TT>&lt;N&gt;</TT> : les notes ;<BR>
+<BR>
+<LI><TT>&lt;Ty&gt;</TT> : le numéro du type de l'opération tel que définit plus haut ;<BR>
+<BR>
+<LI><TT>&lt;Ct&gt;</TT> : l'information liée au type d'opération (n° de chèque, de 
+virement,
+etc.) ;<BR>
+<BR>
+<LI><TT>&lt;P&gt;</TT> : le statut de l'opération : 0 = non pointée, 1 = pointée mais 
+non 
+rapprochée, 2 = rapprochée ;<BR>
+<BR>
+<LI><TT>&lt;A&gt;</TT> : si l'opération est planifiée, définit son statut : 1 = 
+automatique, 0
+= manuelle ;<BR>
+<BR>
+<LI><TT>&lt;R&gt;</TT> : le numéro du rapprochement ;<BR>
+<BR>
+<LI><TT>&lt;E&gt;</TT> : le numéro de l'exercice ;<BR>
+<BR>
+<LI><TT>&lt;I&gt;</TT> : le numéro de l'imputation budgétaire ;<BR>
+<BR>
+<LI><TT>&lt;Si&gt;</TT> : le numéro de la sous-imputation budgétaire ;<BR>
+<BR>
+<LI><TT>&lt;Pc&gt;</TT> : les références de la pièce comptable ;<BR>
+<BR>
+<LI><TT>&lt;Ibg&gt;</TT> : les informations Banque - Guichet ;<BR>
+<BR>
+<LI><TT>&lt;Ro&gt;</TT> : pour les virements, le numéro de l'opération de contrepartie 
+;<BR>
+<BR>
+<LI><TT>&lt;Rc&gt;</TT> : pour les virements, le numéro du compte de contrepartie ;<BR>
+<BR>
+<LI><TT>&lt;Va&gt;</TT> : si l'opération est une ligne de ventilation, ce paramètre 
+contient le 
+numéro de l'opération-mère.</UL>
+
+<H3><A NAME="htoc206">B.3.3</A>&nbsp;&nbsp;Échéances</H3>
+Cette section traite des opérations planifiées et comprend les informations
+suivantes :
+<UL><LI><TT>&lt;Echeances&gt;/&lt;Generalites&gt;</TT> : la sous-section des généralités 
+comprenant :<BR>
+<BR>
+<LI><TT>&lt;Echeances&gt;/&lt;Generalites&gt;/&lt;Nb_echeances&gt;</TT> : le nombre d'opérations 
+planifiées ;<BR>
+<BR>
+<LI><TT>&lt;Echeances&gt;/&lt;Generalites&gt;/&lt;No_derniere_echeance&gt;</TT> : le numéro de la 
+dernière opération planifiée ;<BR>
+<BR>
+<LI><TT>&lt;Echeances&gt;/&lt;Detail_des_echeances&gt;</TT> : Cette balise ouvre la liste
+des opérations planifiées décrites dans une balise nommée 
+<TT>&lt;Echeances&gt;/&lt;Detail_des_echeances&gt;/&lt;echeance&gt;</TT>. Les paramètres
+de cette balise correspondent aux champs à renseigner lors de la création de 
+l'opération planifiée :
+<UL><LI><TT>&lt;No&gt;</TT> : numéro d'ordre de l'opération planifiée ;<BR>
+<BR>
+<LI><TT>&lt;Date&gt;</TT> : date de la première échéance de l'opération 
+planifiée ;<BR>
+<BR>
+<LI><TT>&lt;Compte&gt;</TT> : compte concerné par l'opération planifiée ;<BR>
+<BR>
+<LI><TT>&lt;Montant&gt;</TT> ;<BR>
+<BR>
+<LI><TT>&lt;Devise&gt;</TT> ;<BR>
+<BR>
+<LI><TT>&lt;Tiers&gt;</TT> ;<BR>
+<BR>
+<LI><TT>&lt;Categorie&gt;</TT> ;<BR>
+<BR>
+<LI><TT>&lt;Sous-categorie&gt;</TT> ;<BR>
+<BR>
+<LI><TT>&lt;Virement_compte&gt;</TT> : numéro de compte vers lequel ou duquel le virement
+s'effectue ;<BR>
+<BR>
+<LI><TT>&lt;Type&gt;</TT> ;<BR>
+<BR>
+<LI><TT>&lt;Contenu_du_type&gt;</TT> : lorsqu'un type d'opération affiche une entrée
+complémentaire, mais non incrémentée automatiquement, le contenu de cette entrée 
+est enregistré ici ;<BR>
+<BR>
+<LI><TT>&lt;Exercice&gt;</TT> ;<BR>
+<BR>
+<LI><TT>&lt;Imputation&gt;</TT> : il s'agit de l'imputation budgétaire ;<BR>
+<BR>
+<LI><TT>&lt;Sous-imputation&gt;</TT> : voir ligne précédente ;<BR>
+<BR>
+<LI><TT>&lt;Piece_comptable&gt;</TT> ;<BR>
+<BR>
+<LI><TT>&lt;Info_banque_guichet&gt;</TT> ;<BR>
+<BR>
+<LI><TT>&lt;Notes&gt;</TT> ;<BR>
+<BR>
+<LI><TT>&lt;Automatique&gt;</TT> : 0 = manuelle, 1 = automatique ;<BR>
+<BR>
+<LI><TT>&lt;Periodicite&gt;</TT> : 0=une fois, 1=hebdo, 2=mensuel, 3=annuel, 
+4=personnalisé ;<BR>
+<BR>
+<LI><TT>&lt;Intervalle_periodicite&gt;</TT> : 0=jours, 1=mois, 2=années ;<BR>
+<BR>
+<LI><TT>&lt;Periodicite_personnalisee&gt;</TT> : le nombre de jours/mois/années quand 
+la périodicité est personnalisée ;<BR>
+<BR>
+<LI><TT>&lt;Date_limite&gt;</TT>.</UL></UL>
+
+<H3><A NAME="htoc207">B.3.4</A>&nbsp;&nbsp;Tiers</H3>
+Cette section liste tous les tiers enregistrés dans le fichier de comptes :
+<UL><LI><TT>&lt;Tiers&gt;/&lt;Generalites&gt;</TT> : cette sous-section contient comme d'habitude
+le nombre de tiers et le numéro du dernier tiers enregistré ;<BR>
+<BR>
+<LI><TT>&lt;Tiers&gt;/&lt;Generalites&gt;/&lt;Nb_tiers&gt;</TT> ;<BR>
+<BR>
+<LI><TT>&lt;Tiers&gt;/&lt;Generalites&gt;/&lt;No_dernier_tiers&gt;</TT> ;<BR>
+<BR>
+<LI><TT>&lt;Tiers&gt;/&lt;Detail_des_tiers&gt;</TT> : cette sous-section comprend autant de 
+balises <TT>&lt;Tiers&gt;</TT> que de tiers enregistrés. Chaque balise décrit un tiers 
+avec les paramètres suivants :
+<UL><LI><TT>&lt;No&gt;</TT> ;<BR>
+<BR>
+<LI><TT>&lt;Nom&gt;</TT> ;<BR>
+<BR>
+<LI><TT>&lt;Informations&gt;</TT> ;<BR>
+<BR>
+<LI><TT>&lt;Liaison&gt;</TT> : 1 = le tiers est lié à un autre logiciel, 0 = le tiers 
+n'est pas lié (sans intérêt pour l'instant).</UL></UL>
+
+<H3><A NAME="htoc208">B.3.5</A>&nbsp;&nbsp;Catégories</H3><A NAME="xml-categories"></A> 
+Cette section est construite exactement sur le même principe que celle des tiers 
+et comprend :
+<UL><LI><TT>&lt;Categories&gt;/&lt;Generalites&gt;</TT> ;<BR>
+<BR>
+<LI><TT>&lt;Categories&gt;/&lt;Generalites&gt;/&lt;Nb_Categories&gt;</TT> ;<BR>
+<BR>
+<LI><TT>&lt;Categories&gt;/&lt;Generalites&gt;/&lt;No_derniere_categorie&gt;</TT> ;<BR>
+<BR>
+<LI><TT>&lt;Categories&gt;/&lt;Detail_des_categories&gt;</TT> : sous-section comportant les 
+balises <TT>&lt;Categorie&gt;</TT> dont chacune décrit une catégorie :
+<UL><LI><TT>&lt;No&gt;</TT> ;<BR>
+<BR>
+<LI><TT>&lt;Nom&gt;</TT> ;<BR>
+<BR>
+<LI><TT>&lt;Type&gt;</TT> : 1 indique que cette catégorie est normalement au débit, 0 
+au crédit et 2 signifie spécial (concrètement, c'est une catégorie de virement 
+ou d'opération ventilée) ;<BR>
+<BR>
+<LI><TT>&lt;No_derniere_sous_categorie&gt;</TT>.</UL><BR>
+<BR>
+<LI><TT>&lt;Categories&gt;/&lt;Sous_categorie&gt;</TT> : si la catégorie contient une ou 
+plusieurs sous-catégories la balise <TT>&lt;Categorie&gt;</TT> est suivie par une ou
+plusieurs balises <TT>&lt;Sous_categorie&gt;</TT> contenant les paramètres suivants :
+<UL><LI><TT>&lt;No&gt;</TT> : le numéro d'ordre de la sous-catégorie dans la catégorie (de
+1 à n, n étant normalement égal au contenu de la balise 
+<TT>&lt;No_derniere_sous_categorie&gt;</TT>, sauf si la dernière sous-catégorie a été 
+supprimée;<BR>
+<BR>
+<LI><TT>&lt;Nom&gt;</TT>.</UL></UL>
+
+<H3><A NAME="htoc209">B.3.6</A>&nbsp;&nbsp;Imputations budgétaires</H3><A NAME="xml-budgetlines"></A> 
+Cette section est exactement identique à celle des catégories à ceci près que le 
+mot catégorie est remplacé par le mot imputation :
+<UL><LI><TT>&lt;Imputations&gt;/&lt;Generalites&gt;</TT> : cette sous-section contient le nombre 
+d'imputations et le numéro de la dernière imputation enregistrée ;<BR>
+<BR>
+<LI><TT>&lt;Imputations&gt;/&lt;Generalites&gt;/&lt;Nb_imputations&gt;</TT> ;<BR>
+<BR>
+<LI><TT>&lt;Imputations&gt;/&lt;Generalites&gt;/&lt;No_derniere_imputation&gt;</TT> ;<BR>
+<BR>
+<LI><TT>&lt;Categories&gt;/&lt;Detail_des_imputations&gt;</TT> : sous-section comportant 
+les balises <TT>&lt;Imputation&gt;</TT> dont chacune décrit une imputation :
+<UL><LI><TT>&lt;No&gt;</TT> : le numéro d'ordre de l'imputation ;<BR>
+<BR>
+<LI><TT>&lt;Nom&gt;</TT> ;<BR>
+<BR>
+<LI><TT>&lt;Type&gt;</TT> ;<BR>
+<BR>
+<LI><TT>&lt;No_derniere_sous_imputation&gt;</TT>.</UL><BR>
+<BR>
+<LI><TT>&lt;Categories&gt;/&lt;Sous_imputation&gt;</TT> : si l'imputation contient une ou 
+plusieurs sous-imputations la balise <TT>&lt;Imputation&gt;</TT> est suivie par une ou
+plusieurs balises <TT>&lt;Sous_imputation&gt;</TT> contenant les paramètres suivants :
+<UL><LI><TT>&lt;No&gt;</TT> : le numéro d'ordre de la sous-imputation dans l'imputation (de
+1 à n, n étant normalement égal au contenu de la balise 
+<TT>&lt;No_derniere_sous_imputation&gt;</TT>, sauf si la dernière sous-imputation a 
+été supprimée ;<BR>
+<BR>
+<LI><TT>&lt;Nom&gt;</TT>.</UL></UL>
+
+<H3><A NAME="htoc210">B.3.7</A>&nbsp;&nbsp;Devises</H3><A NAME="xml-currencies"></A> 
+La gestion des devises est antérieure au passage à la monnaie unique, ce qui
+explique qu'il reste un certain nombre de paramètres liés au passage à l'euro. 
+Ces paramètres seront conservés encore quelque temps pour permettre l'import 
+d'anciens fichiers, puis disparaîtront.<BR>
+<BR>
+La section <TT>&lt;Devises&gt;</TT> utilise la structure désormais familière des autres
+sections du fichier :
+<UL><LI><TT>&lt;Devises&gt;/&lt;Generalites&gt;</TT> : la sous-section des généralités, à savoir
+:<BR>
+<BR>
+<LI><TT>&lt;Devises&gt;/&lt;Generalites&gt;/&lt;Nb_devises&gt;</TT> ;<BR>
+<BR>
+<LI><TT>&lt;Devises&gt;/&lt;Generalites&gt;/&lt;No_derniere_devise&gt;</TT>.<BR>
+<BR>
+<LI><TT>&lt;Devises&gt;/&lt;Generalites&gt;/&lt;Detail_des_devises&gt;</TT> : la sous-section 
+des détails, comprenant des balises <TT>&lt;Devise&gt;</TT> et leurs paramètres :
+<UL><LI><TT>&lt;No&gt;</TT> ;<BR>
+<BR>
+<LI><TT>&lt;Nom&gt;</TT> ;<BR>
+<BR>
+<LI><TT>&lt;Code&gt;</TT> ;<BR>
+<BR>
+<LI><TT>&lt;Passage_euro&gt;</TT> : 1 = la devise fait partie de la zone euro, 0 = elle ne fait
+pas partie de la zone euro ;<BR>
+<BR>
+<LI><TT>&lt;Date_dernier_change&gt;</TT> : la date du dernier taux de change saisi ;<BR>
+<BR>
+<LI><TT>&lt;Rapport_entre_devises&gt;</TT> : 1 = le taux de la devise est égal à la 
+devise en 
+rapport multipliée par le taux de change, 0 = pas de conversion ;<BR>
+<BR>
+<LI><TT>&lt;Devise_en_rapport&gt;</TT> : la devise en rapport avec la devise courante 
+(ex: liaison Franc-Euro) ;<BR>
+<BR>
+<LI><TT>&lt;Change&gt;</TT>: taux de change entre les deux devises.</UL></UL>
+
+<H3><A NAME="htoc211">B.3.8</A>&nbsp;&nbsp;Banques</H3><A NAME="xml-bank"></A> 
+Nous retrouvons la structure habituelle :
+<UL><LI><TT>&lt;Banques&gt;</TT> ;<BR>
+<BR>
+<LI><TT>&lt;Banques&gt;/&lt;Generalites&gt;</TT> ;<BR>
+<BR>
+<LI><TT>&lt;Banques&gt;/&lt;Generalites&gt;/&lt;Nb_banques&gt;</TT> ;<BR>
+<BR>
+<LI><TT>&lt;Banques&gt;/&lt;Generalites&gt;/&lt;No_derniere_banque&gt;</TT> ;<BR>
+<BR>
+<LI><TT>&lt;Banques&gt;/&lt;Detail_des_banques&gt;</TT> ;
+<UL><LI><TT>&lt;No&gt;</TT> ;<BR>
+<BR>
+<LI><TT>&lt;Nom&gt;</TT> ;<BR>
+<BR>
+<LI><TT>&lt;Code&gt;</TT> : c'est le code banque de votre RIB ;<BR>
+<BR>
+<LI><TT>&lt;Adresse&gt;</TT> ;<BR>
+<BR>
+<LI><TT>&lt;Tel&gt;</TT> ;<BR>
+<BR>
+<LI><TT>&lt;Mail&gt;</TT> ;<BR>
+<BR>
+<LI><TT>&lt;Web&gt;</TT> ;<BR>
+<BR>
+<LI><TT>&lt;Nom_correspondant&gt;</TT> ;<BR>
+<BR>
+<LI><TT>&lt;Fax_correspondant&gt;</TT> ;<BR>
+<BR>
+<LI><TT>&lt;Tel_correspondant&gt;</TT> ;<BR>
+<BR>
+<LI><TT>&lt;Mail_correspondant&gt;</TT> ;<BR>
+<BR>
+<LI><TT>&lt;Remarques&gt;</TT>.</UL></UL>
+
+<H3><A NAME="htoc212">B.3.9</A>&nbsp;&nbsp;Exercices</H3><A NAME="xml-financialyear"></A> 
+Cette section s'étoffera probablement lors de l'introduction des budgets. Pour 
+l'instant elle comporte :
+<UL><LI><TT>&lt;Exercices&gt;/&lt;Generalites&gt;</TT> ;<BR>
+<BR>
+<LI><TT>&lt;Exercices&gt;/&lt;Nb_exercices&gt;</TT> ;<BR>
+<BR>
+<LI><TT>&lt;Exercices&gt;/&lt;No_dernier_exercice&gt;</TT> ;<BR>
+<BR>
+<LI><TT>&lt;Exercices&gt;/&lt;Detail_des_exercices&gt;</TT> :
+<UL><LI><TT>&lt;No&gt;</TT> ;<BR>
+<BR>
+<LI><TT>&lt;Nom&gt;</TT> ;<BR>
+<BR>
+<LI><TT>&lt;Date_debut&gt;</TT> ;<BR>
+<BR>
+<LI><TT>&lt;Date_fin&gt;</TT> ;<BR>
+<BR>
+<LI><TT>&lt;Affiche&gt;</TT> : 1 = l'exercice est afffiché dans la liste déroulante du 
+formulaire des opérations, 0 = il n'est pas affiché.</UL></UL>
+<A NAME="toc122"></A>
+<H2><A NAME="htoc213">B.4</A>&nbsp;&nbsp;Rapprochements</H2><A NAME="xml-reconciliatiion"></A> 
+Grisbi permettant de personnaliser le numéro des rapprochements, cette section 
+enregistre simplement la liste des numéros personnalisés :<BR>
+<BR>
+<TT>&lt;Rapprochements&gt;</TT> ;<BR>
+<BR>
+<TT>&lt;Rapprochements&gt;/&lt;Detail_des_rapprochements&gt;</TT> ;
+<UL><LI><TT>&lt;No&gt;</TT> : ce numéro est repris dans la balise <TT>&lt;Operation&gt;/&lt;R&gt;</TT> ;<BR>
+<BR>
+<LI><TT>&lt;Nom&gt;</TT> : le numéro (ou nom) personnalisé.</UL>
+<A NAME="toc123"></A>
+<H2><A NAME="htoc214">B.5</A>&nbsp;&nbsp;États</H2><A NAME="xml-reports"></A> 
+Cette section enregistre le paramétrage de tous vos états.
+Nous retrouvons ici aussi la structure familière des autres sections. 
+<UL><LI><TT>&lt;Etats&gt;/&lt;Generalites&gt;</TT> est une sous -section commune à tous les états, et qui ne comporte pour l'instant qu'une seule information;<BR>
+<BR>
+<LI><TT>&lt;Etats&gt;/&lt;Generalites&gt;/&lt;No_dernier_etat&gt;</TT> indique le numéro du dernier état;<BR>
+<BR>
+<LI><TT>&lt;Etats&gt;/&lt;Detail_des_etats&gt;</TT> est une sous-section enregistrant le détail de tous les états créés;<BR>
+<BR>
+<LI><TT>&lt;Etats&gt;/&lt;Detail_des_etats&gt;/&lt;Etat&gt;</TT> marque le début d'un état;<BR>
+<BR>
+<LI><TT>&lt;Etats&gt;/&lt;Detail_des_etats&gt;/&lt;Etat&gt;/&lt;No&gt;</TT> : c'est le numéro d'ordre de l'état dans votre fichier;<BR>
+<BR>
+<LI><TT>&lt;Etats&gt;/&lt;Detail_des_etats&gt;/&lt;Etat&gt;/&lt;Nom&gt;</TT> le nom que vous avez donné à votre état;<BR>
+<BR>
+<LI><TT>&lt;Etats&gt;/&lt;Detail_des_etats&gt;/&lt;Etat&gt;/&lt;Type_classement&gt;</TT> : organisation des niveaux de regroupement (par défaut 1/2/3/4/5/6) :<BR>
+<BR>
+		<UL><LI>1 = catégorie;<BR>
+<BR>
+		<LI>2 = sous-catégorie;<BR>
+<BR>
+		<LI>3 = imputation budgétaire;<BR>
+<BR>
+		<LI>4 = sous-imputation budgétaire;<BR>
+<BR>
+		<LI>5 = compte;<BR>
+<BR>
+		<LI>6 = tiers.<BR>
+<BR>
+		</UL> <BR>
+<BR>
+<LI>suivent 17 balises déterminant l'affichage des opérations. Une valeur 0 indique que l'information n'est pas affichée, une valeur 1 que l'information est affichée :<BR>
+<BR>
+		<UL><LI>
+		
+		<TT>&lt;Etats&gt;/&lt;Detail_des_etats&gt;/&lt;Etat&gt;/&lt;Aff_r&gt;</TT><BR>
+<BR>
+		<LI><TT>&lt;Etats&gt;/&lt;Detail_des_etats&gt;/&lt;Etat&gt;/&lt;Aff_ope&gt;</TT><BR>
+<BR>
+		<LI><TT>&lt;Etats&gt;/&lt;Detail_des_etats&gt;/&lt;Etat&gt;/&lt;Aff_nb_ope&gt;</TT><BR>
+<BR>
+		<LI><TT>&lt;Etats&gt;/&lt;Detail_des_etats&gt;/&lt;Etat&gt;/&lt;Aff_no_ope&gt;</TT><BR>
+<BR>
+		<LI><TT>&lt;Etats&gt;/&lt;Detail_des_etats&gt;/&lt;Etat&gt;/&lt;Aff_date_ope&gt;</TT><BR>
+<BR>
+		<LI><TT>&lt;Etats&gt;/&lt;Detail_des_etats&gt;/&lt;Etat&gt;/&lt;Aff_tiers_ope&gt;</TT><BR>
+<BR>
+		<LI><TT>&lt;Etats&gt;/&lt;Detail_des_etats&gt;/&lt;Etat&gt;/&lt;Aff_categ_ope&gt;</TT><BR>
+<BR>
+		<LI><TT>&lt;Etats&gt;/&lt;Detail_des_etats&gt;/&lt;Etat&gt;/&lt;Aff_ss_categ_ope&gt;</TT><BR>
+<BR>
+		<LI><TT>&lt;Etats&gt;/&lt;Detail_des_etats&gt;/&lt;Etat&gt;/&lt;Aff_type_ope&gt;</TT><BR>
+<BR>
+		<LI><TT>&lt;Etats&gt;/&lt;Detail_des_etats&gt;/&lt;Etat&gt;/&lt;Aff_ib_ope&gt;</TT><BR>
+<BR>
+		<LI><TT>&lt;Etats&gt;/&lt;Detail_des_etats&gt;/&lt;Etat&gt;/&lt;Aff_ss_ib_ope&gt;</TT><BR>
+<BR>
+		<LI><TT>&lt;Etats&gt;/&lt;Detail_des_etats&gt;/&lt;Etat&gt;/&lt;Aff_cheque_ope&gt;</TT><BR>
+<BR>
+		<LI><TT>&lt;Etats&gt;/&lt;Detail_des_etats&gt;/&lt;Etat&gt;/&lt;Aff_notes_ope&gt;</TT><BR>
+<BR>
+		<LI><TT>&lt;Etats&gt;/&lt;Detail_des_etats&gt;/&lt;Etat&gt;/&lt;Aff_pc_ope&gt;</TT><BR>
+<BR>
+		<LI><TT>&lt;Etats&gt;/&lt;Detail_des_etats&gt;/&lt;Etat&gt;/&lt;Aff_rappr_ope&gt;</TT><BR>
+<BR>
+		<LI><TT>&lt;Etats&gt;/&lt;Detail_des_etats&gt;/&lt;Etat&gt;/&lt;Aff_infobd_ope&gt;</TT><BR>
+<BR>
+		<LI><TT>&lt;Etats&gt;/&lt;Detail_des_etats&gt;/&lt;Etat&gt;/&lt;Aff_exo_ope&gt;</TT><BR>
+<BR>
+		</UL> <BR>
+<BR>
+<LI><TT>&lt;Etats&gt;/&lt;Detail_des_etats&gt;/&lt;Etat&gt;/&lt;Class_ope&gt;</TT> indique comment seront triées les opérations à l'intérieur de chaque niveau de regroupement :<BR>
+<BR>
+		<UL><LI>0 = classement par date;<BR>
+<BR>
+		<LI>1 = classement par numéro d'opération; <BR>
+<BR>
+		<LI>2 = classement par tiers;<BR>
+<BR>
+		<LI>3 = classement par catégorie;<BR>
+<BR>
+		<LI>4 = classement par imputation budgétaire;<BR>
+<BR>
+		<LI>5 = classement par notes;<BR>
+<BR>
+		<LI>6 = classement par mode de paiement;<BR>
+<BR>
+		<LI>7 = classement par numéro de chèque;<BR>
+<BR>
+		<LI>8 = classement par pièce comptable;<BR>
+<BR>
+		<LI>9 = classement par références bancaires;<BR>
+<BR>
+		<LI>10 = classement par numéro de rapprochement.
+		
+		</UL> <BR>
+<BR>
+<LI><TT>&lt;Etats&gt;/&lt;Detail_des_etats&gt;/&lt;Etat&gt;/&lt;Aff_titres_col&gt;</TT> : 0 = n'affiche pas les titres des colonnes, 1 = les affiche;<BR>
+<BR>
+<LI><TT>&lt;Etats&gt;/&lt;Detail_des_etats&gt;/&lt;Etat&gt;/&lt;Aff_titres_chgt&gt;</TT> : 0 = n'affiche pas les titres à chaque changement de section, 1 = les affiche;<BR>
+<BR>
+<LI><TT>&lt;Etats&gt;/&lt;Detail_des_etats&gt;/&lt;Etat&gt;/&lt;Pas_detail_ventil&gt;</TT> : 0 = affiche le détaiol des opérations ventilées, 1 = ne l'affiche pas;<BR>
+<BR>
+<LI><TT>&lt;Etats&gt;/&lt;Detail_des_etats&gt;/&lt;Etat&gt;/&lt;Sep_rev_dep&gt;</TT> : 0 = ne sépare pas les opérations de recette et de dépense, 1 = les sépare;<BR>
+<BR>
+<LI><TT>&lt;Etats&gt;/&lt;Detail_des_etats&gt;/&lt;Etat&gt;/&lt;Devise_gen&gt;</TT> : numéro de la devise générale de l'état;<BR>
+<BR>
+<LI><TT>&lt;Etats&gt;/&lt;Detail_des_etats&gt;/&lt;Etat&gt;/&lt;Incl_tiers&gt;</TT> : 0 = la liste des tiers de cet état n'apparaît pas dans la liste déroulante des tiers du formulaire de saisie des opérations, 1 = elle apparaît;<BR>
+<BR>
+<LI><TT>&lt;Etats&gt;/&lt;Detail_des_etats&gt;/&lt;Etat&gt;/&lt;Ope_click&gt;</TT> : 0 = les opérations ne sont pas interactives, 1 = elles le sont;<BR>
+<BR>
+<LI><TT>&lt;Etats&gt;/&lt;Detail_des_etats&gt;/&lt;Etat&gt;/&lt;Exo_date&gt;</TT> : 0 = utilise une plage de dates, 1 = utilise les exercices;<BR>
+<BR>
+<LI><TT>&lt;Etats&gt;/&lt;Detail_des_etats&gt;/&lt;Etat&gt;/&lt;Detail_exo&gt;</TT> : indique quel exercice est utilisé :<BR>
+<BR>
+	<UL><LI>0 = tous les exercices;<BR>
+<BR>
+	<LI>1 = l'exercice courant;<BR>
+<BR>
+	<LI>2 = l'exercice précédent;<BR>
+<BR>
+	<LI>3 = exercices personnalisés.<BR>
+<BR>
+	</UL> <BR>
+<BR>
+<LI><TT>&lt;Etats&gt;/&lt;Detail_des_etats&gt;/&lt;Etat&gt;/&lt;No_exo&gt;</TT> : si les exercices sont personnalisés indique la liste des exercices utilisés dans l'état sous forme de suite de nombres séparés par des tirets;<BR>
+<BR>
+<LI><TT>&lt;Etats&gt;/&lt;Detail_des_etats&gt;/&lt;Etat&gt;/&lt;Plage_date&gt;</TT> : indique quelle plage de dates est utilisée :<BR>
+<BR>
+	<UL><LI>0 = toutes les dates;<BR>
+<BR>
+	<LI>1 = dates personnalisées;<BR>
+<BR>
+	<LI>2 = cumul à ce jour;<BR>
+<BR>
+	<LI>3 = mois en cours;<BR>
+<BR>
+	<LI>4 = année en cours;<BR>
+<BR>
+	<LI>5 = cumul mensuel;<BR>
+<BR>
+	<LI>6 = cumul annuel;<BR>
+<BR>
+	<LI>7 = mois précédent;<BR>
+<BR>
+	<LI>8 = année précedente ;<BR>
+<BR>
+	<LI>9 = 30 derniers jours;<BR>
+<BR>
+	<LI>10 = 3 derniers mois;<BR>
+<BR>
+	<LI>11 = 6 derniers mois;<BR>
+<BR>
+	<LI>12 = 12 derniers mois.<BR>
+<BR>
+	</UL> <BR>
+<BR>
+<LI><TT>&lt;Etats&gt;/&lt;Detail_des_etats&gt;/&lt;Etat&gt;/&lt;Date_debut&gt;</TT> : date de début pour les dates personnalisées;<BR>
+<BR>
+<LI><TT>&lt;Etats&gt;/&lt;Detail_des_etats&gt;/&lt;Etat&gt;/&lt;Date_fin&gt;</TT> : date de fin pour les dates personnalisées;<BR>
+<BR>
+<LI><TT>&lt;Etats&gt;/&lt;Detail_des_etats&gt;/&lt;Etat&gt;/&lt;Utilise_plages&gt;</TT> : 0 = ne sépare pas les résultats par période, 1 = les sépare;<BR>
+<BR>
+<LI><TT>&lt;Etats&gt;/&lt;Detail_des_etats&gt;/&lt;Etat&gt;/&lt;Sep_plages&gt;</TT> : 0 = résultats séparés par semaines, 1 = résultats séparés par mois, 2 =résultats séparés par année;<BR>
+<BR>
+<LI><TT>&lt;Etats&gt;/&lt;Detail_des_etats&gt;/&lt;Etat&gt;/&lt;Deb_sem_plages&gt;</TT> : jour où la semaine commence : 0=lundi, etc.<BR>
+<BR>
+<LI><TT>&lt;Etats&gt;/&lt;Detail_des_etats&gt;/&lt;Etat&gt;/&lt;Detail_comptes&gt;</TT> : 0 = ne sélectionne pas les opérations en fonction du compte, 1 = sélectionne en fonction du compte;<BR>
+<BR>
+<LI><TT>&lt;Etats&gt;/&lt;Detail_des_etats&gt;/&lt;Etat&gt;/&lt;No_comptes&gt;</TT> : liste des comptes utilisés séparés par des /; <BR>
+<BR>
+<LI><TT>&lt;Etats&gt;/&lt;Detail_des_etats&gt;/&lt;Etat&gt;/&lt;Grp_ope_compte&gt;</TT> : 0 = ne regroupe pas les opérations par comptes, 1 = les regroupe;<BR>
+<BR>
+<LI><TT>&lt;Etats&gt;/&lt;Detail_des_etats&gt;/&lt;Etat&gt;/&lt;Total_compte&gt;</TT> : 0 = n'affiche pas de total lors d'un changement de compte, 1 = affiche un total;<BR>
+<BR>
+<LI><TT>&lt;Etats&gt;/&lt;Detail_des_etats&gt;/&lt;Etat&gt;/&lt;Aff_nom_compte&gt;</TT> : 0 = n'affiche pas le nom du compte, 1 = l'affiche;<BR>
+<BR>
+<LI><TT>&lt;Etats&gt;/&lt;Detail_des_etats&gt;/&lt;Etat&gt;/&lt;Type_vir&gt;</TT> : détermine si les opérations de virement sont sélectionnées pour l'état ou non :<BR>
+<BR>
+	<UL><LI>0 = les virements ne sont pas inclus;<BR>
+<BR>
+	<LI>1 = seuls les virements vers les comptes d'actif ou de passif sont inclus;<BR>
+<BR>
+	<LI>2 = seuls les virements de ou vers les comptes ne figurant pas dans l'état sont inclus;<BR>
+<BR>
+	<LI>3 = les comptes dont les virements sont inclus sont sélectionnés manuellement.<BR>
+<BR>
+	</UL> <BR>
+<BR>
+<LI><TT>&lt;Etats&gt;/&lt;Detail_des_etats&gt;/&lt;Etat&gt;/&lt;No_comptes_virements&gt;</TT> : suite de nombres séparés par des / représentant les numéros des comptes sont les virements sont inclus;<BR>
+<BR>
+<LI><TT>&lt;Etats&gt;/&lt;Detail_des_etats&gt;/&lt;Etat&gt;/&lt;Exclure_non_vir&gt;</TT> : 0 = les opérations qui ne sont pas des virements ne sont pas exclues de l'état, 1 = elles le sont;<BR>
+<BR>
+<LI><TT>&lt;Etats&gt;/&lt;Detail_des_etats&gt;/&lt;Etat&gt;/&lt;Categ&gt;</TT> : 0 = les opérations ne sont pas sélectionnées en fonction de la catégorie, 1 = elles le sont;<BR>
+<BR>
+<LI><TT>&lt;Etats&gt;/&lt;Detail_des_etats&gt;/&lt;Etat&gt;/&lt;Detail_categ&gt;</TT> : 0 = les catégories ne sont pas sélectionnées manuellement, 1 = elles le sont;<BR>
+<BR>
+<LI><TT>&lt;Etats&gt;/&lt;Detail_des_etats&gt;/&lt;Etat&gt;/&lt;No_categ&gt;</TT> : liste des numéros de catégories utilisées pour la sélection séparés par des /;<BR>
+<BR>
+<LI><TT>&lt;Etats&gt;/&lt;Detail_des_etats&gt;/&lt;Etat&gt;/&lt;Exclut_categ&gt;</TT> : 0 = les opérations sans catégorie ne sont pas exclues de l'état, 1 = elles le sont;<BR>
+<BR>
+<LI><TT>&lt;Etats&gt;/&lt;Detail_des_etats&gt;/&lt;Etat&gt;/&lt;Total_categ&gt;</TT> : 0 = il n'y a pas de sous-total affiché à chaque changement de catégorie, 1 = il y en a;<BR>
+<BR>
+<LI><TT>&lt;Etats&gt;/&lt;Detail_des_etats&gt;/&lt;Etat&gt;/&lt;Aff_ss_categ&gt;</TT> : 0 = le nom des (sous-)catégories n'est pas affiché dans l'état, 1 = il l'est;<BR>
+<BR>
+<LI><TT>&lt;Etats&gt;/&lt;Detail_des_etats&gt;/&lt;Etat&gt;/&lt;Aff_pas_ss_categ&gt;</TT> : 0 = n'affiche pas "Pas de sous-catégorie" dans le cas où il n'y en a pas, 1 = l'affiche;<BR>
+<BR>
+<LI><TT>&lt;Etats&gt;/&lt;Detail_des_etats&gt;/&lt;Etat&gt;/&lt;Total_ss_categ&gt;</TT> : 0 = il n'y a pas de sous-total affiché à chaque changement de sous-catégorie, 1 = il y en a;<BR>
+<BR>
+<LI><TT>&lt;Etats&gt;/&lt;Detail_des_etats&gt;/&lt;Etat&gt;/&lt;Devise_categ&gt;</TT> : numéro dxe la devise utilisée pour l'affichage des montants;<BR>
+<BR>
+<LI><TT>&lt;Etats&gt;/&lt;Detail_des_etats&gt;/&lt;Etat&gt;/&lt;Aff_nom_categ&gt;</TT> : 0 = le nom de la catégorie n'est pas affiché dans l'état, 1 = il l'est;<BR>
+<BR>
+<LI><TT>&lt;Etats&gt;/&lt;Detail_des_etats&gt;/&lt;Etat&gt;/&lt;IB&gt;</TT> : concerne les imputations budgétaires, avec les mêmes balises que pour les catégories;<BR>
+<BR>
+<LI><TT>&lt;Etats&gt;/&lt;Detail_des_etats&gt;/&lt;Etat&gt;/&lt;Detail_ib&gt;</TT><BR>
+<BR>
+<LI><TT>&lt;Etats&gt;/&lt;Detail_des_etats&gt;/&lt;Etat&gt;/&lt;No_ib&gt;</TT><BR>
+<BR>
+<LI><TT>&lt;Etats&gt;/&lt;Detail_des_etats&gt;/&lt;Etat&gt;/&lt;Exclut_ib&gt;</TT><BR>
+<BR>
+<LI><TT>&lt;Etats&gt;/&lt;Detail_des_etats&gt;/&lt;Etat&gt;/&lt;Total_ib&gt;</TT><BR>
+<BR>
+<LI><TT>&lt;Etats&gt;/&lt;Detail_des_etats&gt;/&lt;Etat&gt;/&lt;Aff_ss_ib&gt;</TT><BR>
+<BR>
+<LI><TT>&lt;Etats&gt;/&lt;Detail_des_etats&gt;/&lt;Etat&gt;/&lt;Aff_pas_ss_ib&gt;</TT><BR>
+<BR>
+<LI><TT>&lt;Etats&gt;/&lt;Detail_des_etats&gt;/&lt;Etat&gt;/&lt;Total_ss_ib&gt;</TT><BR>
+<BR>
+<LI><TT>&lt;Etats&gt;/&lt;Detail_des_etats&gt;/&lt;Etat&gt;/&lt;Devise_ib&gt;</TT><BR>
+<BR>
+<LI><TT>&lt;Etats&gt;/&lt;Detail_des_etats&gt;/&lt;Etat&gt;/&lt;Aff_nom_ib&gt;</TT><BR>
+<BR>
+<LI><TT>&lt;Etats&gt;/&lt;Detail_des_etats&gt;/&lt;Etat&gt;/&lt;Tiers&gt;</TT> : concerne les tiers, avec les mêmes balises que pour les catégories;<BR>
+<BR>
+<LI><TT>&lt;Etats&gt;/&lt;Detail_des_etats&gt;/&lt;Etat&gt;/&lt;Detail_tiers&gt;</TT><BR>
+<BR>
+<LI><TT>&lt;Etats&gt;/&lt;Detail_des_etats&gt;/&lt;Etat&gt;/&lt;No_tiers&gt;</TT><BR>
+<BR>
+<LI><TT>&lt;Etats&gt;/&lt;Detail_des_etats&gt;/&lt;Etat&gt;/&lt;Total_tiers&gt;</TT><BR>
+<BR>
+<LI><TT>&lt;Etats&gt;/&lt;Detail_des_etats&gt;/&lt;Etat&gt;/&lt;Devise_tiers&gt;</TT><BR>
+<BR>
+<LI><TT>&lt;Etats&gt;/&lt;Detail_des_etats&gt;/&lt;Etat&gt;/&lt;Aff_nom_tiers&gt;</TT><BR>
+<BR>
+<LI><TT>&lt;Etats&gt;/&lt;Detail_des_etats&gt;/&lt;Etat&gt;/&lt;Texte&gt;</TT> : 0 = les opérations ne sont pas sélectionnées en fonction d'un texte, 1 = elles le sont;<BR>
+<BR>
+<LI><TT>&lt;Etats&gt;/&lt;Detail_des_etats&gt;/&lt;Etat&gt;/&lt;Texte_comp&gt;</TT> : cette balise est une sous-sous-section comportant autant de balises que de critères (de lignes) de comparaison pour les sélections alphabétiques-numériques sur les zones de texte;<BR>
+<BR>
+<LI><TT>&lt;Etats&gt;/&lt;Detail_des_etats&gt;/&lt;Etat&gt;/&lt;Texte_comp&gt;/&lt;Comp&gt;</TT> : la balise définissant un critère comporte 10 paramètres. La syntaxe est la suifante : <TT>Parametre="valeur"</TT> :<BR>
+<BR>
+	<UL><LI><TT>Lien_struct</TT> : opérateur booléen déterlminant les relations entre les diférentes lignes de critères : -1 = xxxxxxxxxxx 0 = xxxxxxxxxxxxxxxx ;<BR>
+<BR>
+	<LI><TT>Champ</TT> : numéro dans la liste déroulante du champ sur lequel le critère est appliqué :<BR>
+<BR>
+		<UL><LI>0 = le tiers ;<BR>
+<BR>
+		<LI>1 = l'information du tiers ;<BR>
+<BR>
+		<LI>2 = la catégorie;<BR>
+<BR>
+		<LI>3 = la sous-catégorie :<BR>
+<BR>
+		<LI>4 = l'imputation budgétaire ;<BR>
+<BR>
+		<LI>5 = la sous-imputation budgétaire ;<BR>
+<BR>
+		<LI>6 = la note ;<BR>
+<BR>
+		<LI>7 = la référence bancaire ;<BR>
+<BR>
+		<LI>8 = la pièce comptable ;<BR>
+<BR>
+		<LI>9 = le numéro de chèque ;<BR>
+<BR>
+		<LI>10 = le numéro de rapprochement.<BR>
+<BR>
+		</UL> <BR>
+	<LI><TT>Op</TT> : représente l'opérateur de comparaison alphabétique :<BR>
+<BR>
+		<UL><LI>0 = contient ;<BR>
+<BR>
+		<LI>1 = ne contient pas ;<BR>
+<BR>
+		<LI>2 = comence par; <BR>
+<BR>
+		<LI>3 = se termine par ;<BR>
+<BR>
+		<LI>4 = est vide ;<BR>
+<BR>
+		<LI>5 = est non vide.<BR>
+<BR>
+		</UL> <BR>
+	<LI><TT>Txt</TT> : la chaine de caractères à comparer avec le champ précédemment défini;<BR>
+<BR>
+	<LI><TT>Util_txt</TT> : <BR>
+<BR>
+	<LI><TT>Comp_1</TT> : opérateur de comparaison numérique appliqué à la premiere valeur :<BR>
+<BR>
+		<UL><LI>0 = est égal à ;<BR>
+<BR>
+		<LI>1 = est inférieur à ;<BR>
+<BR>
+		<LI>2 = est inférieur ou égal à ;<BR>
+<BR>
+		<LI>3 = supérieur à ;<BR>
+<BR>
+		<LI>4 = supérieur ou égal à ;<BR>
+<BR>
+		<LI>5 = différent de ;<BR>
+<BR>
+		<LI>6 = le plus grand.<BR>
+<BR>
+		</UL> <BR>
+	<LI><TT>Lien_1_2</TT> : opérateur de concaténation entre les deux valeurs des critères numériques :<BR>
+<BR>
+		<UL><LI>0 = et;<BR>
+<BR>
+		<LI>1 = ou;<BR>
+<BR>
+		<LI>2 = sauf;<BR>
+<BR>
+		<LI>3 = stop.<BR>
+<BR>
+		</UL> <BR>
+	<LI><TT>Comp_2</TT> : opérateur de comparaison numérique appliqué à la deuxième valeur, avec la même codification que pour la première valeur;<BR>
+<BR>
+	<LI><TT>Mont_1</TT> : première valeur de comparaison;<BR>
+<BR>
+	<LI><TT>Mont_2</TT> : deuxième valeur de comparaison;<BR>
+<BR>
+	</UL> <BR>
+<BR>
+<LI><TT>&lt;Etats&gt;/&lt;Detail_des_etats&gt;/&lt;Etat&gt;/&lt;Montant&gt;</TT> : 0 = on ne sélectionne pas d'après les montants, 1 = on sélectionne d'après les montants;<BR>
+<BR>
+<LI><TT>&lt;Etats&gt;/&lt;Detail_des_etats&gt;/&lt;Etat&gt;/&lt;Montant_devise&gt;</TT> : numéro de la devise utilisée pour les comparaisons de montants ;<BR>
+<BR>
+<LI><TT>&lt;Etats&gt;/&lt;Detail_des_etats&gt;/&lt;Etat&gt;/&lt;Montant_comp&gt;</TT> : : cette balise est une sous-sous-section comportant autant de balises que de critères (de lignes) de comparaison pour les sélections sur les montants ;<BR>
+<BR>
+<LI><TT>&lt;Etats&gt;/&lt;Detail_des_etats&gt;/&lt;Etat&gt;/&lt;Montant_comp&gt;/&lt;Comp&gt;</TT> : la balise définissant un critère comporte 6 paramètres. La syntaxe est la suifante : <TT>Parametre="valeur"</TT> :<BR>
+<BR>
+	<UL><LI><TT>Lien_struct</TT> : opérateur booléen déterlminant les relations entre les diférentes lignes de critères : -1 = xxxxxxxxxxx 0 = xxxxxxxxxxxxxxxx ;<BR>
+<BR>
+	<LI><TT>Comp_1</TT> : opérateur de comparaison numérique appliqué à la premiere valeur :<BR>
+<BR>
+		<UL><LI>0 = est égal à ;<BR>
+<BR>
+		<LI>1 = est inférieur à ;<BR>
+<BR>
+		<LI>2 = est inférieur ou égal à ;<BR>
+<BR>
+		<LI>3 = supérieur à ;<BR>
+<BR>
+		<LI>4 = supérieur ou égal à ;<BR>
+<BR>
+		<LI>5 = différent de ;<BR>
+<BR>
+		<LI>6 = le plus grand.<BR>
+<BR>
+		</UL> <BR>
+	<LI><TT>Lien_1_2</TT> : opérateur de concaténation entre les deux valeurs des critères numériques :<BR>
+<BR>
+		<UL><LI>0 = et;<BR>
+<BR>
+		<LI>1 = ou;<BR>
+<BR>
+		<LI>2 = sauf;<BR>
+<BR>
+		<LI>3 = stop.<BR>
+<BR>
+		</UL> <BR>
+	<LI><TT>Comp_2</TT> : opérateur de comparaison numérique appliqué à la deuxième valeur, avec la même codification que pour la première valeur;<BR>
+<BR>
+	<LI><TT>Mont_1</TT> : première valeur de comparaison;<BR>
+<BR>
+	<LI><TT>Mont_2</TT> : deuxième valeur de comparaison;<BR>
+<BR>
+	</UL> <BR>
+<BR>
+<LI><TT>&lt;Etats&gt;/&lt;Detail_des_etats&gt;/&lt;Etat&gt;/&lt;Excl_nul&gt;</TT> : 0 = les montants nuls ne sont pas exclus de l'état, 1 = ils le sont;<BR>
+<BR>
+<LI><TT>&lt;Etats&gt;/&lt;Detail_des_etats&gt;/&lt;Etat&gt;/&lt;Detail_mod_paie&gt;</TT> : 0 = les opérations ne sont pas sélectionnées en fonction du mode de paiement, 1 = elles le sont;<BR>
+<BR>
+<LI><TT>&lt;Etats&gt;/&lt;Detail_des_etats&gt;/&lt;Etat&gt;/&lt;Liste_mod_paie&gt;</TT> : liste des numéros des modes de paiement utilisés, séparés par des /.</UL>
+ 
+<HR>
+<A HREF="grisbi-manuel022.html"><IMG SRC ="previous_motif.gif" ALT="Précédent"></A>
+<A HREF="index.html"><IMG SRC ="contents_motif.gif" ALT="Remonter"></A>
+<A HREF="grisbi-manuel024.html"><IMG SRC ="next_motif.gif" ALT="Suivant"></A>
+</BODY>
+</HTML>

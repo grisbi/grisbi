@@ -1,0 +1,348 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
+            "http://www.w3.org/TR/REC-html40/loose.dtd">
+<HTML>
+<HEAD>
+
+<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-15">
+<META name="GENERATOR" content="hevea 1.06">
+<TITLE>
+ Installation
+</TITLE>
+</HEAD>
+<BODY BGCOLOR="#ffff99">
+
+<A HREF="grisbi-manuel003.html"><IMG SRC ="previous_motif.gif" ALT="Précédent"></A>
+<A HREF="index.html"><IMG SRC ="contents_motif.gif" ALT="Remonter"></A>
+<A HREF="grisbi-manuel005.html"><IMG SRC ="next_motif.gif" ALT="Suivant"></A>
+<HR>
+
+<H1><A NAME="htoc12">Chapitre&nbsp;2</A>&nbsp;&nbsp;Installation</H1><A NAME="install"></A>
+Pour installer Grisbi, vous devez disposer d'une machine fonctionnant sous 
+Linux. <BR>
+<BR>
+Seules les versions stables sont proposées sous la forme de paquets RPM et DEB
+(à l'exception des versions antérieures à la 2.2 pour lesquelles il n'y avait
+pas de paquetages).<BR>
+<BR>
+<A NAME="toc14"></A>
+<H2><A NAME="htoc13">2.1</A>&nbsp;&nbsp;Introduction</H2><A NAME="install-intro"></A>
+Pour rompre un peu avec l'habitude qui consiste à présenter l'installation
+uniquement en ligne de commande (mais celui qui sait se servir de la ligne de
+commande n'a normalement pas besoin qu'on lui explique comment taper <TT>rpm</TT>
+;-) nous allons surtout vous expliquer comment installer Grisbi à l'aide des
+nombreux outils graphiques que proposent à l'heure actuelle toutes les
+distributions. Il en manquera sans doute, dans ce cas merci de nous contacter et
+nous aider à compléter ce chapitre. Et afin d'éviter toute polémique ne voyez
+surtout pas une quelconque indication sur nos préférences dans l'ordre des
+différentes procédures. Hormis les procédures en ligne de commande et la 
+compilation à partir du CVS qui sont reléguées à la fin, les procédures sont
+classées par ordre alphabétique de l'utilitaire décrit.<BR>
+<BR>
+<A NAME="toc15"></A>
+<H2><A NAME="htoc14">2.2</A>&nbsp;&nbsp;Pré-requis</H2><A NAME="install-requisites"></A>
+Les librairies suivantes doivent être disponibles sur votre machine :
+<UL><LI><B>gtk 1.2.x</B> ;<BR>
+<BR>
+<LI><B>gnome 1.0.x</B> ;<BR>
+<BR>
+<LI><B>libxml</B>.</UL>
+<A NAME="toc16"></A>
+<H2><A NAME="htoc15">2.3</A>&nbsp;&nbsp;Installation avec GnoRPM (Gnome)</H2><A NAME="install-gnome"></A>
+<UL><LI>ouvrez gnorpm en root (le mieux étant de le faire dans une console en
+tapant <TT>su</TT> puis votre mot de passe, et enfin <TT>gnorpm</TT>) ;<BR>
+<BR>
+<LI>cliquez sur le bouton <I><FONT COLOR=maroon>Installer</FONT></I> ;<BR>
+<BR>
+<LI>cliquez sur <I><FONT COLOR=maroon>Ajouter</FONT></I> ;<BR>
+<BR>
+<LI>naviguez dans l'arborescence et sélectionnez le paquetage ;<BR>
+<BR>
+<LI>cliquez sur le bouton <I><FONT COLOR=maroon>Ajouter</FONT></I> ;<BR>
+<BR>
+<LI>cliquez sur <I><FONT COLOR=maroon>Installer</FONT></I> pour installer un paquetage inexistant sur
+le système. Et <B>imperativement</B> sur <I><FONT COLOR=maroon>Mise à jour</FONT></I> pour la mise à
+jour d'un paquetage existant.</UL>
+<A NAME="toc17"></A>
+<H2><A NAME="htoc16">2.4</A>&nbsp;&nbsp;Installation avec Kpackage (KDE)</H2><A NAME="install-kde"></A>
+<UL><LI>téléchargez le RPM et copiez-le où vous voulez sur votre disque dur ;<BR>
+<BR>
+<LI>ouvrez ensuite le gestionnaire de fichiers en mode super utilisateur et
+<LI>allez dans le répertoire où vous avez enregistré le RPM ;<BR>
+<BR>
+<LI>cliquez (gauche ou droit selon votre configuration) sur le RPM ce qui 
+ouvre Kpackage avec les prérogatives de root, le seul habilité à installer un 
+logiciel ;<BR>
+<BR>
+<LI>choisissez <TT>Installer</TT> et c'est fini.</UL>
+<A NAME="toc18"></A>
+<H2><A NAME="htoc17">2.5</A>&nbsp;&nbsp;Installation avec RPMInst (distribution Mandrake)</H2><A NAME="install-mdk"></A>
+À noter que cette installation ne nécéssite pas de téléchargement préalable du 
+RPM :
+<UL><LI>cliquez sur le lien du RPM qui vous intéresse, une boîte de dialogue vous
+demande si vous voulez enregistrer le fichier sur le disque ou l'ouvrir ;<BR>
+<BR>
+<LI>choisissez <TT>Ouvrir</TT> ;<BR>
+<BR>
+<LI>une autre boîte vous demande ensuite votre mot de passe root, pendant que
+le contenu du RPM se charge dans un répertoire temporaire sur votre disque ;<BR>
+<BR>
+<LI>RPMinst démarre à la fin du téléchargement, et l'installation se fait
+toute seule :-).</UL>
+Si certaines dépendances ne sont pas satisfaites RPMinst vous demandera
+d'insérer l'un ou l'autre de vos CD Mandrake, à moins que vous n'ayez configuré
+une source ftp ou http.<BR>
+<BR>
+<A NAME="toc19"></A>
+<H2><A NAME="htoc18">2.6</A>&nbsp;&nbsp;Installation en ligne de commande</H2><A NAME="install-cmd"></A>
+On va quand même sacrifier à la tradition et garder aussi ce passage.<BR>
+<BR>
+Pour vérifier la présence des pré-requis sur votre machine, tapez dans une
+console :
+<UL><LI><TT>rpm -qa | grep gtk</TT><BR>
+<BR>
+<LI><TT>rpm -qa | grep gnome</TT><BR>
+<BR>
+<LI><TT>rpm -qa | grep libxml</TT></UL>
+Pour installer Grisbi, ouvrez une console en mode super utilisateur, et tapez :<BR>
+<BR>
+<TT>rpm -Uvh grisbi-n.n.n.rpm</TT> où vous remplacez n.n.n par le numéro de la
+version que vous venez de télécharger.<BR>
+<BR>
+<A NAME="toc20"></A>
+<H2><A NAME="htoc19">2.7</A>&nbsp;&nbsp;Installation à partir d'un paquetage Debian </H2><A NAME="install-deb"></A>
+Pour installer Grisbi sur une Debian, téléchargez le fichier .deb sur votre
+disque dur. Ouvrez une console en mode super utilisateur, et tapez :<BR>
+<BR>
+<TT>dpkg -i grisbi-0.x.x.deb</TT><BR>
+<BR>
+Les pré-requis et commentaires sont les mêmes que pour les RPM.<BR>
+<BR>
+<A NAME="toc21"></A>
+<H2><A NAME="htoc20">2.8</A>&nbsp;&nbsp;Installation avec APT-GET (distribution Debian)</H2><A NAME="install-apt-get"></A>
+Si vous avez installé une Debian sur votre machine, sous vouloir vous flatter,
+vous savez utiliser apt-get. Nous allons néanmoins rappeler les commandes que
+vous aurez à taper :
+<UL><LI>dans <B>/etc/apt/sources.list</B> ajoutez :<BR>
+<BR>
+<TT>deb http://www.grisbi.org/telechargement apt/</TT><BR>
+<BR>
+<LI>dans un terminal, tapez en tant que root : <TT>apt-get install grisbi</TT></UL>
+et c'est tout. Les éventuelles dépendances seront gérées par <TT>apt-get</TT>. Mais
+ça vous le saviez déjà...<BR>
+<BR>
+<A NAME="toc22"></A>
+<H2><A NAME="htoc21">2.9</A>&nbsp;&nbsp;Installation de Grisbi à partir des sources 
+(tar.gz)</H2><A NAME="install-tar-gz"></A>
+Si vous préférez compiler vous même Grisbi, téléchargez les sources 
+(grisbi-n.n.n.tar.gz).<BR>
+<BR>
+Pour installer et compiler les sources, les librairies suivantes (au moins ;-)
+sont requises :
+<UL><LI><B>gcc</B> ;<BR>
+<BR>
+<LI><B>make</B> ;<BR>
+<BR>
+<LI><B>gtk</B> ;<BR>
+<BR>
+<LI><B>gnome</B> ;<BR>
+<BR>
+<LI><B>gnome32-devel</B> ;<BR>
+<BR>
+<LI><B>libxml</B> ;<BR>
+<BR>
+<LI><B>libxml-devel</B> ;<BR>
+<BR>
+<LI><B>libgnomeprint15-devel</B> ;<BR>
+<BR>
+<LI><B>libgdk-pixbuf2-devel</B>.</UL>
+
+<H3><A NAME="htoc22">2.9.1</A>&nbsp;&nbsp;Mode graphique</H3>
+Nous donnerons les explications pour KDE dans un premier temps:
+<UL><LI>ouvrez Konqueror et allez dans le répertoire où vous avez téléchargé
+grisbi-n.n.n.tar.gz ;<BR>
+<BR>
+<LI>faîtes un clic droit dessus et choisissez <TT>Extraire ici...</TT> ;<BR>
+<BR>
+<LI>allez dans le répertoire <B>/grisbi-n.n.n</B> ainsi créé ;<BR>
+<BR>
+<LI>ouvrez un terminal (menu <I><FONT COLOR=maroon>Fenêtre/Afficher terminal</FONT></I>) ;<BR>
+<BR>
+<LI>tapez :
+<UL><LI><TT>./configure</TT> ;<BR>
+<BR>
+<LI><TT>make</TT> ;<BR>
+<BR>
+<LI><TT>su</TT> ;<BR>
+<BR>
+<LI>saisissez votre mot de passe root ;<BR>
+<BR>
+<LI><TT>make install</TT> ;</UL><BR>
+<BR>
+<LI>c'est terminé.</UL>
+Si vous avez des messages d'erreur c'est que des dépendances ne sont pas
+satisfaites, et il vous appartient de corriger celà.<BR>
+<BR>
+Si tout s'est bien passé, Grisbi est installé et vous devriez avoir une entrée
+dans le menu <I><FONT COLOR=maroon>Applications/Finances</FONT></I>.<BR>
+<BR>
+
+<H3><A NAME="htoc23">2.9.2</A>&nbsp;&nbsp;Ligne de commande</H3>
+<UL><LI>décompressez les sources en tapant :<BR>
+<BR>
+<LI><TT>tar-zxvf grisbi-n.n.n.tar.gz</TT> où vous remplacez n.n.n par le numéro
+de la version que vous venez de télécharger ;<BR>
+<BR>
+<LI>allez dans le répertoire ainsi créé : <TT>cd grisbi-n.n.n</TT> ;<BR>
+<BR>
+<LI>lancez la compilation en utilisant les mêmes commandes que ci-dessus
+(configure, etc.).</UL>
+<A NAME="toc23"></A>
+<H2><A NAME="htoc24">2.10</A>&nbsp;&nbsp;Installation à partir des sources CVS</H2><A NAME="install-cvs"></A>
+
+<H3><A NAME="htoc25">2.10.1</A>&nbsp;&nbsp;Avertissement</H3>
+Vous ne devez en aucun cas utiliser votre fichier de compte avec ces versions de
+Grisbi! Travaillez uniquement avec une copie! Le format du fichier de comptes
+est susceptible de changer d'un instant à l'autre et vous ne pourriez plus
+ouvrir votre fichier. Si la conversion vers le nouveau format se fait 
+automatiquement le retour en arrière lui n'est pas possible.<BR>
+<BR>
+Les messages d'alerte de Grisbi sont sufisamment explicites. Nous déclinons 
+toute responsabilité et ne répondrons à aucun mail en cas de plantage de
+fichier.<BR>
+<BR>
+
+<H3><A NAME="htoc26">2.10.2</A>&nbsp;&nbsp;Connexion au CVS</H3><A NAME="install-cvs-connexion"></A>
+Comment faire? C'est plus simple qu'on ne pourrait le croire...<BR>
+<BR>
+Dans une console tapez (sur une seule ligne) :<BR>
+<BR>
+<TT>export CVSROOT=:pserver:anonymous@cvs.tuxfamily.org</TT><BR>
+<BR>
+<TT>:/cvsroot/grisbi</TT><BR>
+<BR>
+Vous n'aurez pas besoin de retaper cette commande tant que le terminal reste
+ ouvert.<BR>
+<BR>
+
+<H3><A NAME="htoc27">2.10.3</A>&nbsp;&nbsp;Version stable</H3><A NAME="install-cvs-stable"></A>
+Abonnez-vous à la liste CVS ou consultez ses archives (l'adresse se trouve sur
+le site de Grisbi) pour connaître la version stable à télécharger.<BR>
+<BR>
+Créez quelque part un répertoire Grisbi-stable ou un autre nom du même genre.
+Placez-vous dans ce répertoire et tapez :<BR>
+<BR>
+<TT>cvs -z3 checkout -r upstream_version_n.n.n grisbi</TT><BR>
+<BR>
+Bien évidemment vous remplacerez les n.n.n par ce que vous trouverez sur la
+liste CVS.<BR>
+<BR>
+Ensuite allez dans le sous-répertoire grisbi qui est apparu, et ensuite
+utilisez la procédure de compilation habituelle :
+<UL><LI><TT>./configure</TT><BR>
+<BR>
+<LI><TT>make</TT><BR>
+<BR>
+<LI><TT>su</TT> (puis entrez votre mot de passe root)<BR>
+<BR>
+<LI><TT>make install</TT></UL>
+
+<H3><A NAME="htoc28">2.10.4</A>&nbsp;&nbsp;Version instable</H3><A NAME="install-cvs-unstable"></A>
+C'est une version qui intègre les futures fonctionnalités de Grisbi en cours de 
+développement.<BR>
+<BR>
+Pour la tester c'est en gros la même chose sauf que vous nommez votre répertoire
+ Grisbi-instable, et que vous tapez juste :<BR>
+<BR>
+<TT>cvs -z3 co grisbi</TT><BR>
+<BR>
+puis vous compilez en ne faisant <B>surtout</B> pas la dernière étape
+(<TT>make install</TT>). A la place cliquez sur l'exécutable qui est apparu dans
+le sous-répertoire grisbi/src.<BR>
+<BR>
+<A NAME="toc24"></A>
+<H2><A NAME="htoc29">2.11</A>&nbsp;&nbsp;Installation de la documentation à partir des sources
+CVS</H2><A NAME="install-cvsdoc"></A>
+De même que le code, la documentation est sur le CVS de Grisbi. Vous pouvez
+ainsi récupérer une documentation stable et une instable de la même façon que le
+code. En effet la récupération des sources du code sur le CVS ne récupère pas
+celles de la documentation. Elle n'est intégrée au code que lors de la création
+des archives tar.gz et des paquetages.<BR>
+<BR>
+La récupération de la documentation est très semblable à celle du code.<BR>
+<BR>
+
+<H3><A NAME="htoc30">2.11.1</A>&nbsp;&nbsp;Connexion au CVS</H3><A NAME="install-cvsdoc-connexion"></A>
+Dans une console tapez (sur une seule ligne) :<BR>
+<BR>
+<TT>export CVSROOT=:pserver:anonymous@cvs.tuxfamily.org:</TT><BR>
+<BR>
+<TT>/cvsroot/grisbi</TT><BR>
+<BR>
+Vous n'aurez pas besoin de retaper cette commande tant que le terminal reste
+ ouvert.<BR>
+<BR>
+
+<H3><A NAME="htoc31">2.11.2</A>&nbsp;&nbsp;Version stable</H3><A NAME="install-cvsdoc-stable"></A>
+Abonnez-vous à la liste CVS ou consultez ses archives pour connaître la version
+stable à télécharger.<BR>
+<BR>
+Créez quelque part un répertoire Grisbi/Documentation-stable ou un autre nom du
+même genre. Placez-vous dans ce répertoire et tapez :<BR>
+<BR>
+<TT>cvs -z3 checkout -r upstream_version_n.n.n doc</TT><BR>
+<BR>
+Bien évidemment vous remplacerez les n.n.n par ce que vous trouverez sur la
+liste CVS. C'est normalement le même numéro que pour le code.<BR>
+<BR>
+Ensuite allez dans le sous-répertoire /doc qui est apparu.<BR>
+<BR>
+Les différentes versions peuvent être compilées soit avec soit sans les 
+illustrations (pour des raisons de taille de fichier). Le choix se fait en 
+commentant ou en décommentant les lignes 105 et 106 du fichier 
+<B>grisbi.tex</B>. Lorsque votre choix est fait, utilisez l'une des procédures 
+de compilation suivante :
+<UL><LI><TT>make html</TT> pour une documentation au format HTML. Attention, le
+premier fichier (la table des matières) se nomme <B>index.html</B>, et le
+fichier <B>grisbi.html</B> est la version mono-fichier ;<BR>
+<BR>
+<LI><TT>make pdf</TT> pour une documentation au format PDF ;<BR>
+<BR>
+<LI><TT>make ps</TT> pour une documentation au format PS ;<BR>
+<BR>
+<LI><TT>make dvi</TT> pour une documentation au format DVI ;<BR>
+<BR>
+<LI><TT>make all</TT> pour tous les formats d'un seul coup.</UL>
+Copiez la documentation dans le répertoire qui adéquat et tapez
+<TT>make distclean</TT> pour nettoyer les fichiers générés par la compilation.<BR>
+<BR>
+Pour tout effacer (pour recommencer une nouvelle compilation) tapez <TT>make 
+mrproper</TT>.<BR>
+<BR>
+
+<H3><A NAME="htoc32">2.11.3</A>&nbsp;&nbsp;Version instable</H3><A NAME="install-cvsdoc-unstable"></A>
+C'est la version qui documente les fonctionnalités de Grisbi contenues dans le
+code instable.<BR>
+<BR>
+Pour la tester c'est en gros la même chose sauf que vous nommez votre répertoire
+ Grisbi/Documentation-instable, et que vous tapez juste :<BR>
+<BR>
+<TT>cvs -z3 co doc</TT><BR>
+<BR>
+puis vous compilez comme précédemment.<BR>
+<BR>
+<A NAME="toc25"></A>
+<H2><A NAME="htoc33">2.12</A>&nbsp;&nbsp;Démarrer Grisbi </H2><A NAME="install-start"></A>
+Normalement la procédure d'installation a rajouté une entrée dans votre menu
+<I><FONT COLOR=maroon>K</FONT></I> ou <I><FONT COLOR=maroon>Gnome</FONT></I> dans la section <I><FONT COLOR=maroon>Bureautique/Finances</FONT></I>.<BR>
+<BR>
+Vous pouvez bien sûr placer un raccourci sur votre bureau. L'icône se
+trouve dans <B>/usr/share/pixmaps</B>.<BR>
+<BR>
+Vous pouvez également taper <TT>grisbi</TT> dans une ligne de commande.<BR>
+<BR>
+<HR>
+<A HREF="grisbi-manuel003.html"><IMG SRC ="previous_motif.gif" ALT="Précédent"></A>
+<A HREF="index.html"><IMG SRC ="contents_motif.gif" ALT="Remonter"></A>
+<A HREF="grisbi-manuel005.html"><IMG SRC ="next_motif.gif" ALT="Suivant"></A>
+</BODY>
+</HTML>

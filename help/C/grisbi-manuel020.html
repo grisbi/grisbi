@@ -1,0 +1,556 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
+            "http://www.w3.org/TR/REC-html40/loose.dtd">
+<HTML>
+<HEAD>
+
+<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-15">
+<META name="GENERATOR" content="hevea 1.06">
+<TITLE>
+ Configuration
+</TITLE>
+</HEAD>
+<BODY BGCOLOR="#ffff99">
+
+<A HREF="grisbi-manuel019.html"><IMG SRC ="previous_motif.gif" ALT="Précédent"></A>
+<A HREF="index.html"><IMG SRC ="contents_motif.gif" ALT="Remonter"></A>
+<A HREF="grisbi-manuel021.html"><IMG SRC ="next_motif.gif" ALT="Suivant"></A>
+<HR>
+
+<H1><A NAME="htoc142">Chapitre&nbsp;18</A>&nbsp;&nbsp;Configuration</H1><A NAME="setup"></A>
+Toutes les options qui suivent sont accessibles par le menu
+<I><FONT COLOR=maroon>Configuration</FONT></I>.<BR>
+<BR>
+<A NAME="toc88"></A>
+<H2><A NAME="htoc143">18.1</A>&nbsp;&nbsp;Général</H2><A NAME="setup-general"></A>
+Cet onglet permet de configurer le comportement général de 
+Grisbi.
+<BR>
+<BR>
+On peut y configurer :
+<UL><LI>la fonction de la touche <TT>&lt;Entrée&gt;</TT> dans le formulaire (déplacement 
+entre les champs ou validation de l'opération) ;<BR>
+<BR>
+<LI>l'affichage ou non des messages d'alerte sur l'onglet <I><FONT COLOR=maroon>Accueil</FONT></I> pour
+les dépassements des seuils mini des comptes ;<BR>
+<BR>
+<LI>l'affichage ou non des messages d'alerte lorsque les permissions du
+fichier ne sont pas égales à 600 (au sujet des permissions voir le paragraphe <A HREF="grisbi-manuel024.html#problems-rights">C.1.1</A>);<BR>
+<BR>
+<LI>le titre du fichier (qui sera repris dans les états) et l'adresse commune.
+Cette adresse est l'adresse par défaut de tous les comptes, sauf mention
+contraire dans la configuration du compte (voir le paragraphe
+<A HREF="grisbi-manuel009.html#accounts-properties">7.1</A>).</UL>
+<A NAME="toc89"></A>
+<H2><A NAME="htoc144">18.2</A>&nbsp;&nbsp;Fichiers</H2><A NAME="setup-files"></A>
+Cet onglet permet de définir la façon dont Grisbi utilise vos fichiers de
+comptes.
+<BR>
+<BR>
+On peut y configurer :
+<UL><LI>le chargement automatique ou non du dernier fichier Grisbi utilisé (par
+défaut Grisbi est configuré sans chargement automatique) ;<BR>
+<BR>
+<LI>l'enregistrement automatique ou non lors de la fermeture du fichier ou du
+programme (par défaut Grisbi est configuré pour ne pas enregistrer
+automatiquement) ;<BR>
+<BR>
+<LI>Grisbi permettant à plusieurs utilisateurs d'avoir accès au même fichier
+(non pas simultanément mais successivement) il vous est possible de décider si
+vous voulez forcer l'enregistrement ou si vous voulez ne pouvoir enregistrer que
+si le fichier n'est pas utilisé par un autre utilisateur ;<BR>
+<BR>
+<LI>la possibilité de faire une sauvegarde (au cas où ...)
+automatiquement ;<BR>
+<BR>
+<LI>lorsque cette possibilité est activée, l'indication du chemin d'accès de
+la sauvegarde ;<BR>
+<BR>
+<LI>Grisbi mémorise les derniers fichiers ouverts et les affiche dans le menu
+<I><FONT COLOR=maroon>Fichier/Derniers fichiers</FONT></I>. Vous pouvez définir le nombre de fichiers
+mémorisés ;<BR>
+<BR>
+<LI>le fichier de comptes de Grisbi est en XML et vous pouvez choisir le taux
+de compression du fichier ;<BR>
+<BR>
+<LI>vous pouvez aussi choisir ce taux pour la sauvegarde.<BR>
+<BR>
+Il faut savoir que la compression permet d'avoir un fichier moins volumineux 
+mais qu'il n'est plus lisible avec un éditeur de texte.</UL>
+<A NAME="toc90"></A>
+<H2><A NAME="htoc145">18.3</A>&nbsp;&nbsp;Échéances</H2><A NAME="setup-planedtransactions"></A>
+On peut configurer dans cet onglet le nombre de jours de rappels avant l'échéance 
+d'une opération planifiée manuelle. Par défaut cette valeur est fixée à 
+zéro.
+<BR>
+<BR>
+<A NAME="toc91"></A>
+<H2><A NAME="htoc146">18.4</A>&nbsp;&nbsp;Affichage</H2><A NAME="setup-display"></A>
+Cet onglet 
+est très important puisqu'il permet de définir toutes les préférences 
+d'affichage dans Grisbi.<BR>
+<BR>
+
+<H3><A NAME="htoc147">18.4.1</A>&nbsp;&nbsp;Choix des polices</H3><A NAME="setup-fonts"></A>
+Les deux boutons situés en haut de la partie gauche de la fenêtre ont des 
+fonctions similaires. Le premier ouvre une boîte de dialogue  permettant de modifier la fonte des 
+listes déroulantes et le deuxième ouvre la même boîte de dialogue mais cette 
+fois-ci pour la modification de toutes les autres polices. Gtk ne gère en effet 
+pas de la même façon les listes déroulantes et les autres éléments graphiques.<BR>
+<BR>
+
+<H3><A NAME="htoc148">18.4.2</A>&nbsp;&nbsp;Choix du logo</H3><A NAME="setup-logo"></A>
+Ensuite on trouve un bouton ouvrant une fenêtre  permettant de changer le logo affiché dans la page
+d'accueil de Grisbi (et de le rétablir avec le bouton <I><FONT COLOR=maroon>Remise à zéro</FONT></I> quand
+on en a marre de faire joujou avec ça...). Cette option est surtout intéressante
+pour les trésoriers d'associations (ou assimilés) qui pourront ainsi imprimer
+des états avec le logo de leur association au lieu de celui de Grisbi. <BR>
+<BR>
+De plus il vous est possible d'associer un logo différent à chaque
+fichier de compte.<BR>
+<BR>
+
+<H3><A NAME="htoc149">18.4.3</A>&nbsp;&nbsp;Ordre d'affichage des comptes</H3>
+En dessous se trouve la zone où on peut définir l'ordre d'affichage des comptes
+dans la liste des comptes. Il faut sélectionner un compte et le déplacer avec
+les flèches <I><FONT COLOR=maroon>Haut</FONT></I> et <I><FONT COLOR=maroon>Bas</FONT></I>, ou juste le déplacer avec la souris.<BR>
+<BR>
+
+<H3><A NAME="htoc150">18.4.4</A>&nbsp;&nbsp;Configuration de l'affichage des informations d'une
+opération</H3><A NAME="setup-form"></A>
+Dans la partie centrale on trouve sous forme de cases à cocher la liste des
+champs relatifs aux opérations qui seront affichés dans le formulaire de 
+saisie, selon le mode d'affichage sélectionné avec la barre d'icônes de 
+l'onglet <I><FONT COLOR=maroon>Opérations</FONT></I> :
+<UL><LI><I><FONT COLOR=maroon>Afficher le numéro de l'opération éditée</FONT></I> : le numéro de l'opération
+est un numéro du mode compteur généré par Grisbi. Pour vous permettre de
+retrouver instantanément la pièce comptable correspondant à une opération donnée
+vous pouvez afficher cette information et la reporter sur votre pièce comptable
+(et bien évidemment la classer ensuite selon ce numéro) ;<BR>
+<BR>
+<LI><I><FONT COLOR=maroon>Afficher la date de valeur des opérations</FONT></I> : les banques ont la
+détestable habitude de faire traîner plusieurs jours l'encaissement des 
+chèques que vous déposez<SUP><A NAME="text3" HREF="#note3"><FONT SIZE=2>1</FONT></A></SUP> . Et elles trient parfois les opérations de vos relevés par rapport à cette 
+date de valeur. Grisbi vous permet de la saisir dans un champ spécifique et de 
+l'utiliser pour le tri des opérations (voir ci-après) ;<BR>
+<BR>
+<LI><I><FONT COLOR=maroon>Utiliser les exercices</FONT></I> : si vous voulez distinguer vos opérations
+dans vos états non par rapport à la date sous laquelle vous les enregistrez mais
+par rapport à la période comptable à laquelle elles appartiennent réellement,
+utilisez les exercices (voir le paragraphe <A HREF="#setup-financialyear">18.8</A> pour la 
+configuration et le paragraphe <A HREF="grisbi-manuel021.html#tips-financialyear">19.8</A> pour l'intérêt 
+d'utiliser les exercices) ;<BR>
+<BR>
+<LI><I><FONT COLOR=maroon>Utiliser les imputations budgétaires</FONT></I> : si vous voulez faire une
+comptabilité précise vous avez intérêt à utiliser les imputations budgétaires.
+Si ce que vous faisiez jusqu'à maintenant vous convient et que vous n'avez pas
+envie de vous casser la tête ne cochez pas cette case. En tout état de cause
+prenez la peine de lire le paragraphe consacré à ce sujet
+(voir le chapitre <A HREF="grisbi-manuel014.html#budgetarylines">12</A>) ;<BR>
+<BR>
+<LI><I><FONT COLOR=maroon>Utiliser l'entrée des pièces comptables</FONT></I> : vous permet de saisir
+un numéro de pièce comptable (numéro de votre facture de téléphone, ou
+autre). Il s'agit d'enregistrer dans Grisbi le numéro qui est sur votre facture,
+et non l'inverse comme dans le premier cas ;<BR>
+<BR>
+<LI><I><FONT COLOR=maroon>Utiliser l'entrée des informations Banque/Guichet</FONT></I> : si vous recevez
+beaucoup de chèques Grisbi vous permet (moyennant la création d'un compte
+<I><FONT COLOR=maroon>Chèques à l'encaissement</FONT></I> (voir le paragraphe <A HREF="grisbi-manuel021.html#tips-remittance">19.6</A>) de 
+pouvoir imprimer directement votre bordereau de remise de chèques (<EM>prévu 
+pour la prochaine version</EM>). Il vous faudra indiquer dans cette zone du 
+formulaire de saisie le nom de la banque et du guichet du chèque que vous 
+encaissez afin que le bordereau soit correctement créé. Vous pouvez ausi 
+utiliser ces informations même si vous ne comptez pas imprimer de bordereau de 
+remise ;<BR>
+<BR>
+<LI><I><FONT COLOR=maroon>Afficher les boutons Valider et Annuler l'opération</FONT></I> : si vous êtes
+un adepte du cliquodrome cochez cette case. Si vous voulez gagner une ligne à
+l'affichage décochez-la.</UL>
+
+<H3><A NAME="htoc151">18.4.5</A>&nbsp;&nbsp;Affichage dans les onglets <I><FONT COLOR=maroon>Tiers</FONT></I>, <I><FONT COLOR=maroon>Catégories</FONT></I> ou
+<I><FONT COLOR=maroon>Imputations budgétaires</FONT></I></H3>
+<UL><LI><I><FONT COLOR=maroon>Devise</FONT></I> : la devise utilisée pour afficher les montants dans ces
+différents onglets peut être différente de celle utilisée dans les comptes ;<BR>
+<BR>
+<LI><I><FONT COLOR=maroon>Afficher le nombre d'écritures</FONT></I> : si cette case est cochée le nombre
+d'écritures s'affiche entre parenthèses après chaque libellé dans ces onglets.</UL>
+
+<H3><A NAME="htoc152">18.4.6</A>&nbsp;&nbsp;Tri de la liste d'opérations</H3>
+Les deux boutons radio vous permettent de choisir un affichage soit par date de
+valeur (si vous avez décidé d'utiliser cette information) soit par date 
+d'opération.<BR>
+<BR>
+<A NAME="toc92"></A>
+<H2><A NAME="htoc153">18.5</A>&nbsp;&nbsp;Appelette</H2><A NAME="setup-applet"></A>
+On choisit dans cet onglet  d'utiliser ou non l'appelette (on peut la démarrer 
+directement dans le menu de <I><FONT COLOR=maroon>Gnome</FONT></I> : <I><FONT COLOR=maroon>Ajouter applet/Utilitaires du 
+panel</FONT></I>). Il faut ensuite indiquer le ou les fichiers de comptes à vérifier au 
+démarrage d'une session en cliquant sur le bouton <I><FONT COLOR=maroon>Ajouter</FONT></I>.<BR>
+<BR>
+<A NAME="toc93"></A>
+<H2><A NAME="htoc154">18.6</A>&nbsp;&nbsp;Devises</H2><A NAME="setup-currencies"></A>
+Vous pouvez dans cet onglet ajouter ou supprimer des devises, et leur 
+attribuer le symbole que vous souhaitez. Par exemple si votre système le permet 
+vous pouvez saisir <TT>&lt;AltGr&gt;</TT><TT>&lt;e&gt;</TT> pour l'euro. Vous pouvez aussi indiquer si 
+les devises passeront à l'Euro lorsque vous choisirez de basculer la tenue d'un 
+compte dans cette monnaie.<BR>
+<BR>
+Vous pouvez également enregistrer le taux de change de cette devise.<BR>
+<BR>
+Si vous essayez de supprimer une devise utilisée dans un compte, Grisbi
+refusera.<BR>
+<BR>
+Si la devise que vous créez n'est pas dans la zone Euro, il vous suffit de
+décocher l'option, et Grisbi ne vous permettra pas de saisir un taux de change
+fixe. Ce taux vous sera demandé à chaque opération enregistrée dans cette
+devise.<BR>
+<BR>
+
+<H3><A NAME="htoc155">18.6.1</A>&nbsp;&nbsp;Les taux de conversion internes dans la zone Euro</H3><A NAME="setup-exchangerates"></A>
+Pour information, le tableau ci-dessous reprend les taux de conversion en Euro 
+des monnaies participantes. Depuis le 1er janvier 1999, ces taux sont fixés de 
+manière définitive et irrévocable. Le tableau exprime la valeur de 1 Euro dans 
+chaque monnaie. Cette valeur se compose d'une séquence de six chiffres 
+significatifs (par exemple : 1 EUR = xx,xxxx BEF). <BR>
+<TABLE BORDER=1 CELLSPACING=0 CELLPADDING=1>
+<TR><TD ALIGN=left NOWRAP>Devise</TD>
+<TD ALIGN=center NOWRAP>Abréviation</TD>
+<TD ALIGN=right NOWRAP>Taux</TD>
+</TR>
+<TR><TD ALIGN=left NOWRAP>Franc belge</TD>
+<TD ALIGN=center NOWRAP>BEF</TD>
+<TD ALIGN=right NOWRAP>40,3400</TD>
+</TR>
+<TR><TD ALIGN=left NOWRAP>Schilling autrichien</TD>
+<TD ALIGN=center NOWRAP>ATS</TD>
+<TD ALIGN=right NOWRAP>13,7603</TD>
+</TR>
+<TR><TD ALIGN=left NOWRAP>Mark allemand</TD>
+<TD ALIGN=center NOWRAP>DEM</TD>
+<TD ALIGN=right NOWRAP>1,95583</TD>
+</TR>
+<TR><TD ALIGN=left NOWRAP>Peseta espagnole</TD>
+<TD ALIGN=center NOWRAP>ESP</TD>
+<TD ALIGN=right NOWRAP>166,386</TD>
+</TR>
+<TR><TD ALIGN=left NOWRAP>Mark finlandais</TD>
+<TD ALIGN=center NOWRAP>FIM</TD>
+<TD ALIGN=right NOWRAP>5,94573</TD>
+</TR>
+<TR><TD ALIGN=left NOWRAP>Franc français</TD>
+<TD ALIGN=center NOWRAP>FRF</TD>
+<TD ALIGN=right NOWRAP>6,55957</TD>
+</TR>
+<TR><TD ALIGN=left NOWRAP>Livre irlandaise</TD>
+<TD ALIGN=center NOWRAP>IEP</TD>
+<TD ALIGN=right NOWRAP>0,78756</TD>
+</TR>
+<TR><TD ALIGN=left NOWRAP>Lire italienne</TD>
+<TD ALIGN=center NOWRAP>ITL</TD>
+<TD ALIGN=right NOWRAP>1936,27</TD>
+</TR>
+<TR><TD ALIGN=left NOWRAP>Franc luxembourgeois</TD>
+<TD ALIGN=center NOWRAP>LUF</TD>
+<TD ALIGN=right NOWRAP>40,3399</TD>
+</TR>
+<TR><TD ALIGN=left NOWRAP>Florin néerlandais</TD>
+<TD ALIGN=center NOWRAP>NLG</TD>
+<TD ALIGN=right NOWRAP>2,20371</TD>
+</TR>
+<TR><TD ALIGN=left NOWRAP>Escudo portugais</TD>
+<TD ALIGN=center NOWRAP>PTE</TD>
+<TD ALIGN=right NOWRAP>200,482</TD>
+</TR>
+<TR><TD ALIGN=left NOWRAP>Drachme grecque</TD>
+<TD ALIGN=center NOWRAP>GRD</TD>
+<TD ALIGN=right NOWRAP>340,750</TD>
+</TR></TABLE><BR>
+<A NAME="toc94"></A>
+<H2><A NAME="htoc156">18.7</A>&nbsp;&nbsp;Banques</H2><A NAME="setup-bank"></A>
+Vous pouvez ici ajouter ou supprimer des établissements bancaires et saisir un certain nombre 
+d'informations (nom, adresse, etc.) et également le code banque (c'est celui qui 
+sera affiché dans les propriétés du compte).<BR>
+<BR>
+<A NAME="toc95"></A>
+<H2><A NAME="htoc157">18.8</A>&nbsp;&nbsp;Exercices</H2><A NAME="setup-financialyear"></A>
+Cet onglet se 
+divise en trois parties :
+<UL><LI>à gauche :
+<UL><LI>la liste des exercices ;<BR>
+<BR>
+<LI>un bouton pour ajouter un exercice ;<BR>
+<BR>
+<LI>un bouton pour supprimer l'exercice sélectionné dans la liste ;<BR>
+<BR>
+<LI>un bouton pour attribuer automatiquement un exercice à toutes les 
+opérations qui en sont dépourvues en fonction de la date de l'opération. C'est
+le bouton <EM>magique</EM> pour un fichier importé d'une ancienne version (ou au
+format QIF) ;</UL><BR>
+<BR>
+<LI>à droite en haut la zone de modification de l'exercice sélectionné dans la
+liste. Vous pouvez y saisir :
+<UL><LI>le nom de l'exercice (aucune contrainte, vous pouvez inventer ce que
+vous voulez : par exemple 2002, 2003, mais aussi 2002-2003 ou encore 2002-07) ;<BR>
+<BR>
+<LI>les dates de début et de fin de l'exercice. Attention à ne pas faire
+chevaucher les exercices ;<BR>
+<BR>
+<LI>une case à cocher pour afficher l'exercice dans la liste du formulaire de
+saisie des opérations. Vous pouvez ainsi désactiver l'affichage des anciens
+exercices. Si vous rappelez dans le formulaire de saisie des opérations une
+opération dont l'exercice n'est plus affiché la mention <I><FONT COLOR=maroon>Non affiché</FONT></I>
+apparaîtra à la place du libellé de l'exercice ;<BR>
+<BR>
+<LI>deux boutons <I><FONT COLOR=maroon>Appliquer</FONT></I> et <I><FONT COLOR=maroon>Annuler</FONT></I>. N'oubliez pas de valider
+ici les modifications apportées à un exercice sinon vous les perdriez même si
+vous validez avec le bouton général ;</UL><BR>
+<BR>
+<LI>à droite en bas la configuration de la saisie automatique des exercices
+(ces choix sont bien sûr modifiables manuellement pendant la saisie) comportant
+deux cases à cocher :
+<UL><LI><I><FONT COLOR=maroon>Affichage automatique selon la date</FONT></I> signifie que l'exercice sera
+celui correspondant à la date de l'opération. C'est le cas le plus courant et
+c'est le choix par défaut ;<BR>
+<BR>
+<LI><I><FONT COLOR=maroon>Affichage du dernier exercice choisi</FONT></I> : option très utile
+pendant la période suivant la fin d'un exercice, où vous êtes susceptible
+d'enregistrer souvent des opérations concernant l'exercice précédent. Dans ce
+cas Grisbi vous proposera par défaut l'exercice saisi pour l'opération
+précédente.</UL></UL>
+<A NAME="toc96"></A>
+<H2><A NAME="htoc158">18.9</A>&nbsp;&nbsp;Modes de paiement</H2><A NAME="setup-modes"></A>
+Cet onglet  vous permet 
+de configurer les différents modes de paiement disponibles dans Grisbi compte 
+par compte, et donc apparaissant dans la liste déroulante du formulaire de 
+saisie des opérations. Il permet également de définir leur ordre d'affichage 
+pendant les opérations de rapprochement.<BR>
+<BR>
+
+<H3><A NAME="htoc159">18.9.1</A>&nbsp;&nbsp;Modes de paiement disponibles dans les 
+comptes</H3><A NAME="setup-transactionmode"></A>
+C'est la partie gauche de l'onglet. Vous voyez ici la liste de tous vos comptes
+(dans l'ordre où ils ont été créés et non celui où ils sont affichés) précédés
+d'un (+). Un clic sur ce (+) ou un double clic sur le nom du compte ouvre ou
+referme la liste des catégories d'opérations disponibles :
+<UL><LI>débit : précédé de (+) ;<BR>
+<BR>
+<LI>crédit : précédé de (+) ;<BR>
+<BR>
+<LI>virement : un virement bancaire peut être entrant ou sortant. Ce mode doit
+donc être proposé tant au débit qu'au crédit. Grisbi considère qu'il est neutre.</UL>
+Par ailleurs le bouton <I><FONT COLOR=maroon>Ajouter</FONT></I> est devenu actif (en fait il le devient 
+dès qu'un compte est sélectionné) ce qui vous permet d'ajouter un
+nouveau mode de paiement. Nous allons voir plus loin les détails de cet ajout.<BR>
+<BR>
+Si vous cliquez sur le signe (+) placé devant <I><FONT COLOR=maroon>débit</FONT></I> ou <I><FONT COLOR=maroon>crédit</FONT></I> (ou 
+si vous double-cliquez sur ces mots) vous déroulerez la liste des modes
+de paiement disponibles pour ces comptes. Vous constaterez que l'un d'eux
+est suivi d'une croix dans la colonne <I><FONT COLOR=maroon>Défaut</FONT></I>, ce qui veut logiquement
+dire qu'à chaque nouvelle opération dans ce compte la liste des modes
+de paiement sera positionnée par défaut sur ce mode.<BR>
+<BR>
+Si vous cliquez maintenant sur un des modes de paiement vous constatez que
+la partie centrale de l'onglet affiche un certain nombre de renseignements sur
+ce mode:
+<UL><LI>Nom : C'est le nom du mode de paiement, que vous pouvez modifier à
+volonté. Attention cependant à la longueur ;<BR>
+<BR>
+<LI>une case à cocher <I><FONT COLOR=maroon>Peut entrer des données supplémentaires</FONT></I> : Si
+vous cochez cette case (elle l'est d'ailleurs par défaut pour le mode
+<I><FONT COLOR=maroon>Chèques</FONT></I>) une zone de saisie nommée <I><FONT COLOR=maroon>n° chèque/virement</FONT></I> apparaîtra à
+la suite de la liste déroulante des modes de paiement dans le formulaire de
+saisie des opérations. Vous pourrez saisir dans cette zone toute indication
+relative à ce mode de paiement (numéro de chèque bien sûr mais aussi toute
+autre information comme par exemple, pour une opération par carte bancaire, le
+titulaire de la carte si vous êtes plusieurs à utiliser une carte sur ce
+compte) ;<BR>
+<BR>
+<LI>une case à cocher <I><FONT COLOR=maroon>Numérotation automatique</FONT></I> suivie d'une zone de
+saisie. Si vous cochez cette case Grisbi incrémentera automatiquement la
+numérotation du contenu de la zone de saisie nommée <I><FONT COLOR=maroon>n° chèque/virement</FONT></I>
+du formulaire de saisie des opérations. L'application évidente de cette
+fonctionnalité est la numérotation automatique des chèques, mais tous les modes
+de paiement peuvent bénéficier de cette option. À vous d'imaginer ce que vous
+pouvez en faire (vous pouvez numéroter automatiquement vos remises de chèques, 
+par exemple) ;<BR>
+<BR>
+<LI>la zone de saisie qui suit vous permet d'initialiser la numérotation
+automatique. Grisbi vous permet même de codifier votre numérotation en
+alpha-numérique, seul le suffixe numérique sera alors incrémenté ;<BR>
+<BR>
+<LI>une liste déroulante vous permettant de définir le classement de ce mode
+de paiement : débit, crédit ou neutre (en général les virements sont neutres 
+mais vous pouvez en inventer d'autres) ;<BR>
+<BR>
+<LI>une case à cocher <I><FONT COLOR=maroon>Par défaut</FONT></I> vous permet de décider que ce mode
+sera proposé par défaut pour ce compte dans le formulaire de saisie. La croix
+dans la colonne <I><FONT COLOR=maroon>Défaut</FONT></I> change alors de place pour s'afficher à la suite
+du nouveau mode par défaut. Les débits et les crédits ont chacun un mode par
+défaut. Si vous ne cochez aucun mode le choix par défaut sera le virement.</UL>
+Par ailleurs le bouton <I><FONT COLOR=maroon>Supprimer</FONT></I> est lui aussi devenu actif.
+Attention, Grisbi ne vous demandera pas de confirmation et il n'est pas possible
+de revenir en arrière! La seule solution est de cliquer sur le bouton
+<I><FONT COLOR=maroon>Fermer</FONT></I> de la fenêtre de configuration et donc vous perdrez toutes les
+autres modifications que vous auriez éventuellement faites. N'hésitez donc pas à 
+utiliser le bouton <I><FONT COLOR=maroon>Appliquer</FONT></I> dès que vous êtes sûr de ce que vous avez 
+fait.<BR>
+<BR>
+La dernière case à cocher <I><FONT COLOR=maroon>Afficher toujours tous les modes dans le
+formulaire</FONT></I> permet de forcer l'affichage dans la liste déroulante de tous les 
+modes de paiement du compte sélectionné. Si elle n'est pas cochée la liste
+déroulante du formulaire de saisie des opérations n'affichera que les modes de
+débit ou de crédit en fonction de la zone où le montant a été saisi. Bien
+évidemment les modes neutres seront affichés dans tous les cas.<BR>
+<BR>
+
+<H3><A NAME="htoc160">18.9.2</A>&nbsp;&nbsp;Création d'un nouveau mode de paiement</H3>
+Sélectionnez le compte pour lequel vous voulez créer un nouveau mode 
+de paiement. Le bouton <I><FONT COLOR=maroon>Ajouter</FONT></I> devient actif. Cliquez dessus.<BR>
+<BR>
+Un nouveau mode (appelé <I><FONT COLOR=maroon>Nouveau</FONT></I>) apparaît à la fin de la liste des modes 
+(après <I><FONT COLOR=maroon>Virement</FONT></I>). Cliquez sur ce mode et la partie centrale devient 
+active. Il vous suffit de paramétrer ce nouveau mode (à commencer par son 
+classement) tel qu'expliqué ci-dessus.<BR>
+<BR>
+
+<H3><A NAME="htoc161">18.9.3</A>&nbsp;&nbsp;Ordre d'affichage des modes de paiement pendant les rapprochements</H3>
+<A NAME="setup-reconciliationsort"></A>
+La partie droite vous permet de configurer compte par compte l'ordre d'affichage
+des opérations pendant un rapprochement. En effet, chaque banque a des habitudes
+différentes. Sur vos relevés bancaires, les opérations peuvent être classées
+par ordre chronologique croissant ou par mode de paiement : les virements en
+premier, ou bien les chèques, etc. Pour que vos opérations soient classées
+exactement dans le même ordre que sur vos relevés, Grisbi vous propose de
+configurer cet affichage.<BR>
+<BR>
+Sélectionnez un compte dans la liste de gauche. Les boutons radio deviennent
+actifs et vous voyez apparaître une liste de modes de paiement (grisée). C'est
+la liste des modes de paiement que vous avez définis pour le compte.<BR>
+<BR>
+Vous pouvez modifier l'ordre dans lequel Grisbi va afficher les opérations
+pendant les rapprochements de la façon suivante:
+<UL><LI>les boutons radio permettent de laisser Grisbi trier les opérations
+selon leur date, ou bien d'utiliser un ordre personnalisé des modes de paiement 
+;<BR>
+<BR>
+<LI>si vous avez choisi le tri par mode de paiement la liste devient active.
+Pour modifier l'ordre dans cette liste, sélectionnez un mode, et utilisez les
+boutons <I><FONT COLOR=maroon>Haut</FONT></I> et <I><FONT COLOR=maroon>Bas</FONT></I> pour le déplacer, ou tirez-le avec la souris ;<BR>
+<BR>
+<LI>la dernière case à cocher concerne le traitement des modes neutres
+(virements). Vous pouvez décider qu'ils seront soit regroupés, soit séparés
+ en débit et en crédit.</UL>
+<A NAME="toc97"></A>
+<H2><A NAME="htoc162">18.10</A>&nbsp;&nbsp;Informations affichées</H2><A NAME="setup-transactionsdisplay"></A>
+Cet onglet 
+vous permet de personnaliser totalement l'affichage des
+opérations dans leur onglet.<BR>
+<BR>
+Vous pouvez définir :
+<UL><LI>les informations qui seront affichées ou non dans la fenêtre (et
+non dans le formulaire comme pour l'onglet <I><FONT COLOR=maroon>Affichage</FONT></I>) ;<BR>
+<BR>
+<LI>l'emplacement (ligne et colonne) où elles seront affichées ;<BR>
+<BR>
+<LI>la largeur des colonnes ;<BR>
+<BR>
+<LI>la portée (locale ou globale) des icônes d'affichage ;<BR>
+<BR>
+<LI>les lignes qui s'affichent quand vous cliquez sur
+les icônes situées en haut de l'onglet <I><FONT COLOR=maroon>Opérations</FONT></I>.</UL>
+
+<H3><A NAME="htoc163">18.10.1</A>&nbsp;&nbsp;Informations afichées</H3>
+La partie supérieure de l'onglet représente l'affichage d'une opération,
+avec les titres des colonnes et leur contenu. La partie médiane comporte
+autant de boutons que d'informations disponibles pour une opération. Les
+boutons enfoncés correspondent aux informations affichées.<BR>
+<BR>
+Si vous cliquez sur un bouton enfoncé l'information correspondante
+disparait de la zône d'affichage, et le bouton redevient "non enfoncé".<BR>
+<BR>
+Si vous cliquez sur un bouton non enfoncé l'information correspondante
+va s'afficher dans la première cellule disponible du tableau (en commençant
+en haut et à gauche) et le bouton reste enfoncé.<BR>
+<BR>
+Si l'emplacement d'une information ne vous convient pas, il vous suffit
+de la sélectionner avec un clic gauche (le curseur se transforme en une
+très jolie croix rose), puis sans la relacher vous la tirez jusqu'à la
+nouvelle cellule.<BR>
+<BR>
+À noter que le titre d'une colonne reprend le libellé de l'information
+située sur la première ligne, bien que cela n'apparaisse pas dans le
+tableau.<BR>
+<BR>
+
+<H3><A NAME="htoc164">18.10.2</A>&nbsp;&nbsp;Largeur des colonnes</H3>
+Si vous positionnez le curseur de votre souris sur le séparateur de colonnes 
+dans la barre de titre du tableau, il se transforme en double flèche, et vous
+pouvez, avec un clic gauche maintenu, déplacer ce séparateur. Vous
+pouvez ainsi redimmensionner toutes les colonnes.<BR>
+<BR>
+Si vous cochez la case <I><FONT COLOR=maroon>Ajuster la taille de colonnes selon le
+tableau ci-dessus</FONT></I>, ce redimmensionnement sera appliqué à l'onglet
+opérations. En prenant la précaution de vous positionner dans cet onglet
+avant de commencer la configuration, et en cliquant sur le bouton
+<I><FONT COLOR=maroon>Appliquer</FONT></I>, vous pourrez constater les effets de vos
+modifications.<BR>
+<BR>
+
+<H3><A NAME="htoc165">18.10.3</A>&nbsp;&nbsp;La portée des icônes</H3>
+Les icônes 
+<IMG SRC="grisbi-manuel021.png">
+<IMG SRC="grisbi-manuel022.png">
+<IMG SRC="grisbi-manuel023.png">
+<IMG SRC="grisbi-manuel024.png">
+permettant d'afficher les opérations sur une ou plusieurs lignes, 
+et les icônes
+<IMG SRC="grisbi-manuel025.png"> et 
+<IMG SRC="grisbi-manuel026.png">
+permettant respectivement d'afficher toutes les opérations ou seulement les
+opérations non rapprochées,
+affectent normalement globalement tous les comptes de votre fichier.
+Vous pouvez cependant vouloir qu'un compte soit toujours affiché sur une ligne
+avec les opérations rapprochées visibles, alors qu'un autre sera affiché
+sur 3 lignes sans les opérations rapprochées. C'est possible en cochant
+la case <I><FONT COLOR=maroon>Retenir les caractéristiques de l'affichage séparément
+pour chaque compte</FONT></I>.<BR>
+<BR>
+
+<H3><A NAME="htoc166">18.10.4</A>&nbsp;&nbsp;Affichage des lignes</H3>
+Les opérations peuvent s'afficher au choix sur une, deux, trois ou
+quatre lignes. De plus,vous pouvez choisir sur quelle ligne se trouvent
+les informations relatives à une opération. Il est donc logique que vous
+puissiez définir également comment les lignes s'affichent quand vous
+sélectionnez un mode d'affichage sur une ou plusieurs lignes.<BR>
+<BR>
+Bien évidemment l'affichage pour quatre lignes n'est pas
+configurable...<BR>
+<BR>
+À noter que vous pouvez décider qu'un affichage sur une ligne affichera
+la troisième ligne, l'affichage sur deux lignes la quatrième et la 
+deuxième, etc. Vous pourriez avoir besoin d'un affichage de ce genre
+pour une recherche précise, par exemple, donc c'est faisable. <BR>
+<BR>
+Et si au bout d'un moment vous en avez assez de faire joujou avec les
+possibilités infinies de la configuration de l'affichage des opérations,
+cliquez sur le bouton <I><FONT COLOR=maroon>Rétablir les réglages par défaut</FONT></I>...<BR>
+<BR>
+<A NAME="toc98"></A>
+<H2><A NAME="htoc167">18.11</A>&nbsp;&nbsp;Configuration de gnome</H2><A NAME="setup-gnome"></A> 
+Grisbi utilise la configuration de Gnome notamment pour ouvrir un navigateur ou un gestionnaire de courrier électronique. Si vous utilisez Gnome comme environnement graphique aucun problème, mais si vous utilisez un autre environnement vous voudrez peut-être modifier ces paramètres.<BR>
+<BR>
+La marche à suivre est la suivante :
+<UL><LI>ouvrez le <I><FONT COLOR=maroon>Centre de Contrôle de Gnome</FONT></I> (ou tapez la commande <TT>gnomecc</TT>);<BR>
+<BR>
+<LI>allez dans l'onglet <I><FONT COLOR=maroon>Default applications/Web browser</FONT></I> et indiquez la commande servant à lancer votre navigateur préféré dans le champ du navigateur par défaut.</UL>
+ 
+<HR WIDTH="50%" SIZE=1><DL><DT><A NAME="note3" HREF="#text3"><FONT SIZE=5>1</FONT></A><DD>pratique totalement injustifiée depuis la disparition des 
+chambres de compensation due à l'informatisation totale de cette activité, mais 
+c'est une autre histoire... Et puis ça peut tout simplement être vous (ou vos 
+créanciers) qui tardez à déposer un chèque
+</DL>
+<HR>
+<A HREF="grisbi-manuel019.html"><IMG SRC ="previous_motif.gif" ALT="Précédent"></A>
+<A HREF="index.html"><IMG SRC ="contents_motif.gif" ALT="Remonter"></A>
+<A HREF="grisbi-manuel021.html"><IMG SRC ="next_motif.gif" ALT="Suivant"></A>
+</BODY>
+</HTML>

@@ -1,0 +1,115 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
+            "http://www.w3.org/TR/REC-html40/loose.dtd">
+<HTML>
+<HEAD>
+
+<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-15">
+<META name="GENERATOR" content="hevea 1.06">
+<TITLE>
+ Les états
+</TITLE>
+</HEAD>
+<BODY BGCOLOR="#ffff99">
+
+<A HREF="grisbi-manuel016.html"><IMG SRC ="previous_motif.gif" ALT="Précédent"></A>
+<A HREF="index.html"><IMG SRC ="contents_motif.gif" ALT="Remonter"></A>
+<A HREF="grisbi-manuel018.html"><IMG SRC ="next_motif.gif" ALT="Suivant"></A>
+<HR>
+
+<H1><A NAME="htoc105">Chapitre&nbsp;15</A>&nbsp;&nbsp;Les états</H1><A NAME="reports"></A>
+Cet onglet se présente de la façon usuelle, avec une liste à gauche et une 
+zone d'affichage à droite. Bien sûr la liste est vide tant que vous n'avez pas créé d'état.<BR>
+<BR>
+Une fois que vous aurez créé ou importé des états, il vous suffira de cliquer sur l'icône précédent l'état qui vous intéresse pour faire apparaître celui-ci dans la partie droite.<BR>
+<BR>
+<A NAME="toc76"></A>
+<H2><A NAME="htoc106">15.1</A>&nbsp;&nbsp;Introduction</H2><A NAME="reports-intro"></A>
+Un état représente l'état de vos comptes formaté selon certains critères.
+Vous pouvez par exemple afficher la liste de toutes les dépenses d'un mois
+tous comptes confondus, ou toutes les opérations d'une catégorie sur une année, 
+etc. Vous pouvez ajouter et enchaîner pratiquement autant de critères 
+qu'il y a d'informations décrivant une opération, de façon à obtenir tous les 
+types de documents imaginables .<BR>
+<BR>
+Bien entendu Grisbi intègre déjà un certain nombre d'états pré-formatés que 
+vous pouvez utiliser tels quels ou bien comme base pour faire les vôtres.<BR>
+<BR>
+Dans les deux cas l'opération commence de la même façon. Cliquez sur
+le bouton
+<I><FONT COLOR=maroon>Ajouter un état</FONT></I> situé dans la partie inférieure de la zone de liste.<BR>
+<BR>
+Ceci a pour effet d'ouvrir une boîte de dialogue vous proposant :
+<UL><LI>la liste des états pré-formatés (ainsi qu'éventuellement une liste déroulante 
+de sélection des comptes concernés). En fin de liste le choix <I><FONT COLOR=maroon>État vierge</FONT></I>
+vous permet de créer un état où vous devrez tout paramétrer vous-même ;<BR>
+<BR>
+<LI>un court texte expliquant le contenu de l'état..</UL>
+Sélectionnez le modèle d'état qui vous intéresse, le ou les comptes 
+concernés et validez. Votre nouvel état est créé, ajouté dans la liste 
+de gauche, et affiché dans la partie droite.<BR>
+<BR>
+Vous pouvez éventuellement le personnaliser, ne serait-ce que pour lui 
+donner un nom qui vous convienne mieux.<BR>
+<BR>
+La création d'états et la personnalisation sont expliquées au chapitre 
+<A HREF="grisbi-manuel018.html#reportscreation">16</A>.<BR>
+<BR>
+<A NAME="toc77"></A>
+<H2><A NAME="htoc107">15.2</A>&nbsp;&nbsp;Les états pré-formatés</H2>
+Nous allons détailler brièvement les caractéristiques de chacun de ces états.<BR>
+<BR>
+
+<H3><A NAME="htoc108">15.2.1</A>&nbsp;&nbsp;La liste des opérations d'un compte</H3>
+Cet état affiche la liste de toutes les opérations d'un compte, classées par date, recettes et dépenses mélangées.
+La période concernée est par défaut le mois précédent.<BR>
+<BR>
+
+<H3><A NAME="htoc109">15.2.2</A>&nbsp;&nbsp;La liste des recettes et dépenses mensuelles</H3>
+Cet état affiche la liste de vos recettes et dépenses classées par catégories et imputations budgétaires, recettes et dépenses séparées. La période concernée est par défaut le mois précédent.<BR>
+<BR>
+
+<H3><A NAME="htoc110">15.2.3</A>&nbsp;&nbsp;Le budget annuel par imputation comptable</H3>
+Cet état affiche la liste de vos imputations comptables (catégories) séparées par recettes et dépenses, avec pour chacune d'elles le montant annuel correspondant. La période concernée est par défaut l'année précédente.<BR>
+<BR>
+
+<H3><A NAME="htoc111">15.2.4</A>&nbsp;&nbsp;Le budget annuel par imputation budgétaire</H3>
+Cet état affiche la liste de vos imputations budgétaires séparées par recettes et dépenses, avec pour chacune d'elles le montant annuel correspondant. La période concernée est par défaut l'année précédente.<BR>
+<BR>
+<A NAME="toc78"></A>
+<H2><A NAME="htoc112">15.3</A>&nbsp;&nbsp;Duplication d'état</H2>
+Imaginons que vous ayez créé un état qui vous convienne bien, et que vouliez maintenant faire le même pour un autre compte. Plutôt que de tout recommencer, cliquez sur le bouton <I><FONT COLOR=maroon>Dupliquer l'état</FONT></I> et Grisbi dupliquera votre état (y compris le nom de celui-ci) et ouvrira celui-ci en modification. La première chose que vous devrez faire sera de lui donner un nouveau nom (voir le paragraphe <A HREF="grisbi-manuel018.html#reportscreation-name">16.3.1</A>).<BR>
+<BR>
+<A NAME="toc79"></A>
+<H2><A NAME="htoc113">15.4</A>&nbsp;&nbsp;Import et export</H2><A NAME="reports-importexport"></A> 
+Outre les états pré-formatés et ceux que vous pouvez créer vous-même, Grisbi vous permet d'exporter ou d'importer des états créés dans un autre fichier de comptes. Une bibliothèque d'états sera disponible sous peu sur le site de Grisbi.<BR>
+<BR>
+
+<H3><A NAME="htoc114">15.4.1</A>&nbsp;&nbsp;Exporter vos états</H3><A NAME="reports-export"></A> 
+Pour exporter un état, il vous suffit de le sélectionner, puis de cliquer sur le bouton <I><FONT COLOR=maroon>Exporter</FONT></I> et une boîte de dialogue vous propose de saisir le nom du fichier ainsi créé et dont l'extension sera <B>.egsb</B>. Par défaut le nom du fichier est celui de l'état mais vous pouvez modifier ceci.<BR>
+<BR>
+
+<H3><A NAME="htoc115">15.4.2</A>&nbsp;&nbsp;Importer un état</H3><A NAME="reports-import"></A> 
+Il vous suffit de cliquer sur le bouton <I><FONT COLOR=maroon>Importer</FONT></I> et une boite de dialogue vous demande de saisir le nom du fichier que vous souhaitez importer.<BR>
+<BR>
+Validez et le nouvel état est ajouté à votre liste. Il ne vous reste plus qu'à le personnaliser si besoin. Il est probable que vous ayez au moins à vérifier si le nom des comptes sélectionnés est correct.<BR>
+<BR>
+<A NAME="toc80"></A>
+<H2><A NAME="htoc116">15.5</A>&nbsp;&nbsp;Modification d'un état</H2>
+Pour modifier un état ouvert, il suffit de cliquer sur le bouton <I><FONT COLOR=maroon>Personnaliser l'état</FONT></I>, ce qui remplace son affichage par les onglets de paramètrages.<BR>
+<BR>
+La modification peut se ramener à changer le compte pour lequel vous voulez établir cet état, mais il peut aussi représenter quelque chose de beaucoup plus complexe. Pour plus de précisions il est conseillé de lire le chapitre <A HREF="grisbi-manuel018.html#reportscreation">16</A>.<BR>
+<BR>
+<A NAME="toc81"></A>
+<H2><A NAME="htoc117">15.6</A>&nbsp;&nbsp;Suppression d'un état</H2>
+Si un état ne vous convient plus, cliquez simplement sur le bouton <I><FONT COLOR=maroon>Effacer l'état</FONT></I>. Grisbi vous demandera confirmation, et si vous persistez, l'état disparaîtra.<BR>
+<BR>
+<A NAME="toc82"></A>
+<H2><A NAME="htoc118">15.7</A>&nbsp;&nbsp;Impression d'un état</H2>
+Cette fonction est pour l'instant non opérationnelle. Elle sera pleinement utilisable dès la version 0.4.1, soit la prochaine. N'oubliez pas de vous inscrire sur la <A HREF="mailto:infos@grisbi.org">liste d'information</A> pour être prévenu de sa sortie.<BR>
+<BR>
+<HR>
+<A HREF="grisbi-manuel016.html"><IMG SRC ="previous_motif.gif" ALT="Précédent"></A>
+<A HREF="index.html"><IMG SRC ="contents_motif.gif" ALT="Remonter"></A>
+<A HREF="grisbi-manuel018.html"><IMG SRC ="next_motif.gif" ALT="Suivant"></A>
+</BODY>
+</HTML>

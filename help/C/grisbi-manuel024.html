@@ -1,0 +1,137 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
+            "http://www.w3.org/TR/REC-html40/loose.dtd">
+<HTML>
+<HEAD>
+
+<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-15">
+<META name="GENERATOR" content="hevea 1.06">
+<TITLE>
+ Problèmes, alertes et erreurs
+</TITLE>
+</HEAD>
+<BODY BGCOLOR="#ffff99">
+
+<A HREF="grisbi-manuel023.html"><IMG SRC ="previous_motif.gif" ALT="Précédent"></A>
+<A HREF="index.html"><IMG SRC ="contents_motif.gif" ALT="Remonter"></A>
+<HR>
+
+<H1><A NAME="htoc215">Annexe&nbsp;C</A>&nbsp;&nbsp;Problèmes, alertes et erreurs</H1><A NAME="problems"></A>
+Un certain nombre de problèmes et erreurs prévisibles sont gérés directement par
+Grisbi qui vous indique alors la nature du problème ou de l'erreur et vous
+demande éventuellement d'intervenir. Certains messages sont aussi tout
+simplement informatifs et ne seront pas traités ici.<BR>
+<BR>
+<A NAME="toc124"></A>
+<H2><A NAME="htoc216">C.1</A>&nbsp;&nbsp;Problèmes connus</H2>
+
+<H3><A NAME="htoc217">C.1.1</A>&nbsp;&nbsp;Permissions</H3><A NAME="problems-rights"></A> 
+Si vous êtes seul à utiiliser votre fichier de comptes, l'idéal est que les permissions de votre fichier de compte soient à 600<SUP><A NAME="text4" HREF="#note4"><FONT SIZE=2>1</FONT></A></SUP>,
+c'est-à-dire que vous êtes le seul à pouvoir le lire et y écrire. Si vous êtes plusieurs à utiliser le fichier, l'idéal est alors de créer un groupe <B>grisbi</B>, de mettre les permissions du fichier de comptes à 660<SUP><A NAME="text5" HREF="#note5"><FONT SIZE=2>2</FONT></A></SUP>, et d'ajouter tous les utilisateurs autorisés dans ce groupe. Le fichier de comptes doit bien évidemment appartenir au groupe <B>grisbi</B>.
+Grisbi vérifie à l'ouverture du fichier quelles sont les permissions et si elles ne sont pas égales à 600 il vous en avertit en affichant
+le message suivant : <BR>
+<DIV ALIGN=center>
+<I><FONT COLOR=maroon>Attention les permissions du fichier ne sont pas à 600.</FONT></I><BR>
+<BR>
+<I><FONT COLOR=maroon>(Ce message peut être désactivé dans le menu Configuration/Général.)</FONT></I> 
+</DIV>
+<BR>
+Cependant dans le cadre d'une utilisation multi-utilisateurs, les permissions du
+ficher doivent être à 660.<BR>
+<BR>
+Si vous souhaitez avoir un fichier accessible à plusieurs utilisateurs vous
+aurez avantage à désactiver l'affichage de ce mesage avec le menu
+<I><FONT COLOR=maroon>Configuration/Général</FONT></I> (voir le paragraphe <A HREF="grisbi-manuel020.html#setup-general">18.1</A>).<BR>
+<BR>
+
+<H3><A NAME="htoc218">C.1.2</A>&nbsp;&nbsp;Fichier de compte invalide</H3>
+Si Grisbi affiche 
+le message suivant : <BR>
+<DIV ALIGN=center>
+<I><FONT COLOR=maroon>Fichier de compte invalide</FONT></I>
+</DIV>
+<BR>
+c'est que le fichier que vous essayez d'ouvrir n'a pas été créé par Grisbi.<BR>
+<BR>
+
+<H3><A NAME="htoc219">C.1.3</A>&nbsp;&nbsp;Version inconnue</H3>
+Si Grisbi affiche 
+le message suivant : <BR>
+<DIV ALIGN=center>
+<I><FONT COLOR=maroon>Version inconnue</FONT></I>
+</DIV>
+<BR>
+c'est que le fichier que vous essayez d'ouvrir est bien un fichier Grisbi, mais d'une
+version non compatible avec la version de Grisbi que vous utilisez. En général 
+la version du fichier est supérieure à celle de Grisbi, sinon vous aurez plutôt 
+le message ci-après.<BR>
+<BR>
+
+<H3><A NAME="htoc220">C.1.4</A>&nbsp;&nbsp;Fichier inférieur à la version 0.n.n</H3>
+Si la version de votre fichier de compte est trop ancienne, Grisbi affiche 
+le message suivant : <BR>
+<DIV ALIGN=center>
+<I><FONT COLOR=maroon>Problème dans la récupération des opérations!</FONT></I>
+</DIV>
+<BR>
+En effet Grisbi ne peut importer que les fichiers de la version précédente. Ce message
+signifie que le fichier est trop vieux et qu'il vous faut passer par toutes les 
+versions intermédiaires pour le transformer.<BR>
+<BR>
+
+<H3><A NAME="htoc221">C.1.5</A>&nbsp;&nbsp;Forcer l'enregistrement</H3>
+Le mode multi-utilisateurs de Grisbi permet uniquement une utilisation
+successive et non simultanée du fichier de comptes. Pour indiquer que le fichier
+est déjà ouvert par un utilisateur Grisbi positionne un drapeau à 1 dans
+le fichier.<BR>
+<BR>
+Si vous voulez ouvrir un fichier dans ce cas, Grisbi affiche
+le message suivant : <BR>
+<DIV ALIGN=center>
+<I><FONT COLOR=maroon>Attention le fichier semble déjà ouvert par un autre utilisateur ou n'a
+pas été fermé correctement (plantage?).</FONT></I><BR>
+<BR>
+<I><FONT COLOR=maroon>Vous ne pourrez enregistrer vos modifications qu'en activant l'option "Forcer
+l'enregistrement" dans le menu Configuration/Fichiers.</FONT></I> 
+</DIV><BR>
+Vous pourrez ouvrir le fichier en consultation mais il est très fortement
+déconseillé d'y faire quelque modification que ce soit.<BR>
+<BR>
+Si vous avez activé l'option <I><FONT COLOR=maroon>Forcer l'enregistrement</FONT></I>, à chaque fois que
+vous ouvrirez le fichier Grisbi affichera 
+le message suivant : <BR>
+<DIV ALIGN=center>
+<I><FONT COLOR=maroon>Attention le fichier semble déjà ouvert par un autre utilisateur ou n'a
+pas été fermé correctement (plantage?).</FONT></I><BR>
+<BR>
+<I><FONT COLOR=maroon>Cependant Grisbi va forcer l'enregistrement ; cette option est déconseillée</FONT></I><BR>
+<BR>
+<I><FONT COLOR=maroon>sauf si vous êtes sûr que personne d'autre n'utilise le fichier pour le
+moment.</FONT></I><BR>
+<BR>
+<I><FONT COLOR=maroon>La désactivation de cette option s'effectue dans le menu Configuration/Fichiers.</FONT></I> 
+</DIV><BR>
+Si l'option n'est pas activée le menu <I><FONT COLOR=maroon>Fichier/Enregistrer</FONT></I> ne sera pas
+actif et vous ne pourrez pas enregistrer.<BR>
+<BR>
+Il peut aussi se produire que Grisbi se plante et dans ce cas le drapeau n'a pas
+pu se repositionner à 0. Dans ce cas même si vous êtes le seul utilisateur
+vous pouvez forcer l'enregistrement sans crainte, c'est la seule façon de
+rétablir le drapeau dans un état correct. N'oubliez pas de revenir désactiver
+l'option ensuite si vous n'utilisez pas Grisbi en mode multi-utilisateurs.<BR>
+<BR>
+<A NAME="toc125"></A>
+<H2><A NAME="htoc222">C.2</A>&nbsp;&nbsp;Problèmes non connus</H2>
+Soit ces problèmes sont déjà connus et vous consulterez avec profit la F.A.Q.
+sur le site de Grisbi, soit ils ne le sont pas encore et dans ce cas nous vous
+remercions de nous transmettre un rapport de bug sur la <A HREF="mailto:devel@grisbi.org">liste de 
+développement</A> ou mieux sur le <A HREF="http://www.grisbi.org/bugtracking">gestionnaire de
+ bugs</A> du site de grisbi.<BR>
+<BR>
+<HR WIDTH="50%" SIZE=1><DL><DT><A NAME="note4" HREF="#text4"><FONT SIZE=5>1</FONT></A><DD>ou encore -rw- --- ---
+<DT><A NAME="note5" HREF="#text5"><FONT SIZE=5>2</FONT></A><DD>ou encore -rw- rw- ---
+</DL>
+<HR>
+<A HREF="grisbi-manuel023.html"><IMG SRC ="previous_motif.gif" ALT="Précédent"></A>
+<A HREF="index.html"><IMG SRC ="contents_motif.gif" ALT="Remonter"></A>
+</BODY>
+</HTML>

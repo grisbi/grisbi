@@ -1,0 +1,368 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
+            "http://www.w3.org/TR/REC-html40/loose.dtd">
+<HTML>
+<HEAD>
+
+<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-15">
+<META name="GENERATOR" content="hevea 1.06">
+<TITLE>
+ Opérations 
+</TITLE>
+</HEAD>
+<BODY BGCOLOR="#ffff99">
+
+<A HREF="grisbi-manuel007.html"><IMG SRC ="previous_motif.gif" ALT="Précédent"></A>
+<A HREF="index.html"><IMG SRC ="contents_motif.gif" ALT="Remonter"></A>
+<A HREF="grisbi-manuel009.html"><IMG SRC ="next_motif.gif" ALT="Suivant"></A>
+<HR>
+
+<H1><A NAME="htoc52">Chapitre&nbsp;6</A>&nbsp;&nbsp;Opérations </H1><A NAME="transactions"></A>
+C'est la fenêtre principale du programme. Elle est divisée en deux parties : la
+liste des comptes à gauche et les opérations du compte en cours (ou bien ses
+propriétés) à droite. <BR>
+<BR>
+<A NAME="toc38"></A>
+<H2><A NAME="htoc53">6.1</A>&nbsp;&nbsp;La liste des comptes </H2><A NAME="transactions-accounts"></A>
+Le nom du compte en cours est affiché en haut à l'intérieur d'un cadre. Pour
+changer de compte, il faut cliquer sur l'icône en face du compte voulu dans la
+liste située en 
+dessous.
+<BR>
+<BR>
+L'ordre d'affichage des comptes est personnalisable dans le menu
+<I><FONT COLOR=maroon>Configuration/Affichage</FONT></I>.<BR>
+<BR>
+<A NAME="toc39"></A>
+<H2><A NAME="htoc54">6.2</A>&nbsp;&nbsp;Les opérations </H2><A NAME="transactions-list"></A>
+Cette fenêtre affiche la liste des opérations du compte sélectionné dans la
+liste des comptes. On peut s'y déplacer avec les flèches <TT>&lt;Haut&gt;</TT> et 
+<TT>&lt;Bas&gt;</TT>.<BR>
+<BR>
+Juste en dessous de cette liste sont indiqués les soldes. Le solde pointé est
+celui qui correspond à votre dernier rapprochement, et le solde courant est le
+solde réel du compte.<BR>
+<BR>
+Il est possible de modifier l'affichage avec la barre d'icônes située en haut et
+à gauche de la fenêtre des opérations.<BR>
+<BR>
+Les icônes ont les fonctions suivantes :
+<UL><LI><IMG SRC="grisbi-manuel001.png">
+<IMG SRC="grisbi-manuel002.png"> 
+permettent respectivement d'afficher ou de masquer la fenêtre de
+saisie/modi-fi-cation d'une opération ;<BR>
+<BR>
+<LI><IMG SRC="grisbi-manuel003.png">
+<IMG SRC="grisbi-manuel004.png">
+<IMG SRC="grisbi-manuel005.png">
+<IMG SRC="grisbi-manuel006.png">
+permettent respectivement d'afficher les opérations sur une, deux, trois
+ou quatre lignes ;<BR>
+<BR>
+<LI><IMG SRC="grisbi-manuel007.png">
+<IMG SRC="grisbi-manuel008.png">
+permettent respectivement d'afficher toutes les opérations ou seulement les
+opérations non rapprochées. </UL>
+Ces options d'affichage influent par défaut sur l'affichage de tous les comptes. Vous pouvez modifier ceci et préférer un affichage différent pour chaque compte (voir le paragraphe <A HREF="grisbi-manuel020.html#setup-transactionsdisplay">18.10</A>).<BR>
+<BR>
+La touche <TT>&lt;Entrée&gt;</TT> ou le double clic sur une opération sélectionnée éditent
+celle-ci ou en créent une nouvelle si la sélection est sur une ligne vide en bas
+de la liste. Si la fenêtre de saisie/modification n'est pas affichée elle 
+s'affichera automatiquement.<BR>
+<BR>
+La touche &lt;Suppr&gt; supprime l'opération sélectionnée sauf si elle est en mode
+édition.<BR>
+<BR>
+La combinaison de touches <TT>&lt;Ctrl&gt;</TT><TT>&lt;P&gt;</TT> permet de donner/retirer à une
+opération le statut d'opération pointée et <TT>&lt;Ctrl&gt;</TT><TT>&lt;R&gt;</TT> celui d'opération
+rapprochée (voir le chapitre <A HREF="grisbi-manuel010.html#reconciliation">8</A>).<BR>
+<BR>
+<A NAME="toc40"></A>
+<H2><A NAME="htoc55">6.3</A>&nbsp;&nbsp;Saisie d'une opération </H2><A NAME="transactions-form"></A>
+La saisie d'une opération se fait dans le formulaire situé dans le bas de la
+fenêtre des 
+opérations.
+<BR>
+<BR>
+Le déplacement dans le formulaire s'effectue par la touche tabulation. La touche
+ <TT>&lt;Entrée&gt;</TT> est configurable : elle permet soit de se déplacer dans le
+ formulaire soit de valider l'entrée (voir le paragraphe <A HREF="grisbi-manuel020.html#setup-general">18.1</A>). 
+Cette configuration affecte à la fois la touche <TT>&lt;Entrée&gt;</TT> du pavé
+alphabétique et celle du pavé numérique.<BR>
+<BR>
+La touche &lt;Échap&gt; permet d'annuler la saisie en cours.<BR>
+<BR>
+Les informations disponibles pour une opération sont les suivantes :
+<UL><LI>le numéro de l'opération : il s'agit d'un numéro d'ordre attribué par Grisbi ;<BR>
+<BR>
+<LI>la date de l'opération ; <BR>
+<BR>
+<LI>le tiers ;<BR>
+<BR>
+<LI>le montant : les débits et les crédits sont saisis et affichés dans deux colonnes différentes ;<BR>
+<BR>
+<LI>la devise de l'opération : on la sélectionne dans une liste déroulante qui s'ouvre avec la barre d'espace ;<BR>
+<BR>
+<LI>la date de valeur : c'est la date à laquelle la banque enregistre l'opération ;<BR>
+<BR>
+<LI>la catégorie ;<BR>
+<BR>
+<LI>le mode de règlement :<BR>
+<BR>
+<LI>le numéro du chèque (si le mode de règlement sélectionné permet cette saisie) ;<BR>
+<BR>
+<LI>l'exercice ;<BR>
+<BR>
+<LI>l'imputation budgétaire ;<BR>
+<BR>
+<LI>la référence de la pièce comptable (votre numéro de facture par exemple) ;<BR>
+<BR>
+<LI>les notes ;<BR>
+<BR>
+<LI>les références bancaires (utile uniquement si vous enregistrez un chèque reçu).</UL>
+Toutes ces informations ne sont pas affichées par défaut. Vous pouvez choisir de les afficher ou non avec le menu <I><FONT COLOR=maroon>Configuration/Affichage</FONT></I> (voir le paragraphe <A HREF="grisbi-manuel020.html#setup-form">18.4.4</A>). Vous pouvez également modifier l'ordre d'affichage de ces informations dans la liste des opérations avec le menu <I><FONT COLOR=maroon>Configuration/Informations affichées</FONT></I> (voir le paragraphe <A HREF="grisbi-manuel020.html#setup-transactionsdisplay">18.10</A>).<BR>
+<BR>
+Outre la souris il est possible d'utiliser le clavier pour faire des sélections dans les listes déroulantes.<BR>
+<BR>
+Les listes déroulantes des tiers, catégories et imputations budgétaires s'ouvrent avec la touche <TT>&lt;Bas&gt;</TT> et on peut s'y déplacer avec les touches <TT>&lt;Haut&gt;</TT> et <TT>&lt;Bas&gt;</TT> puis valider avec la touche <TT>&lt;Entrée&gt;</TT>. On peut aussi commencer à saisir les premières lettres et Grisbi complète la saisie dès qu'il connait assez de lettres.<BR>
+<BR>
+Les listes déroulantes des devises, exercices et modes de règlement s'ouvrent avec la touche <TT>&lt;Espace&gt;</TT>, on s'y déplace avec les touches <TT>&lt;Haut&gt;</TT> et <TT>&lt;Bas&gt;</TT> et on valide avec la touche <TT>&lt;Espace&gt;</TT>.<BR>
+<BR>
+La date du jour ou la dernière date entrée s'affiche automatiquement. Un double
+clic sur la date affiche un calendrier permettant de sélectionner la
+date.
+<A NAME="transactions-calendar"></A><BR>
+<BR>
+Vous pouvez aussi saisir la date au clavier au format j/m/a. Il n'est pas
+nécessaire de taper deux chiffres si le jour, le mois ou l'année n'en comportent
+qu'un (exemple : 1/1/1 pour le premier janvier 2001). De plus il n'est pas
+nécessaire de taper l'année si celle-ci est identique à l'année en cours. Grisbi
+l'ajoutera automatiquement. Il est également possible de taper la date au format
+jjmmaa ou jjmm (sans délimiteur) et Grisbi traduira. Par contre dans ce cas vous
+devez utiliser deux chiffres pour les jours, mois et année.<BR>
+<BR>
+Enfin vous pouvez incrémenter ou décrémenter cette date jour par jour avec les
+touches <TT>&lt;+&gt;</TT> et <TT>&lt;-&gt;</TT>. C'est très pratique si vous saisissez plusieurs opérations dont les dates se suivent.<BR>
+<BR>
+Lors de la saisie dans l'une des trois listes déroulantes (tiers, catégorie et
+imputation budgétaire), Grisbi vous proposera de compléter automatiquement son
+nom dès qu'il aura reconnu suffisamment de lettres pour cela. Pour accepter
+l'auto-complètement, il suffit d'appuyer sur la touche tabulation ou la touche
+<TT>&lt;Entrée&gt;</TT> (selon votre choix de configuration).<BR>
+<BR>
+Lors de la saisie du tiers, dès que vous sortez de la zone de saisie, les autres
+champs du formulaire seront automatiquement complétés à l'identique de la 
+dernière opération saisie pour ce tiers.<BR>
+<BR>
+On peut réaliser des virements entre comptes en sélectionnant dans les
+catégories : <EM>Virement : nom du compte</EM>. La contre-opération sera
+automatiquement créée dans l'autre compte. Si les deux comptes ne sont pas
+dans la même devise Grisbi effectuera automatiquement la conversion.<BR>
+<BR>
+<A NAME="toc41"></A>
+<H2><A NAME="htoc56">6.4</A>&nbsp;&nbsp;Ventilation d'une opération </H2><A NAME="transactions-breakdown"></A>
+Ventiler une opération signifie répartir son montant entre plusieurs lignes
+(par exemple, vos achats au super-marché peuvent se répartir entre les 
+catégories
+<EM>Alimentation</EM> et <EM>Soins : Habillement</EM>). On peut aussi répartir une
+somme sur la même catégorie mais avec des informations différentes dans le
+champ Notes (si on désire par exemple mémoriser le détail d'une transaction).<BR>
+<BR>
+Pour ce faire vous devez choisir la catégorie <EM>Opération ventilée</EM> puis
+ensuite cliquer sur le bouton <I><FONT COLOR=maroon>Ventilation</FONT></I> qui apparaît lorsque l'on
+quitte la zone de saisie de la 
+<I><FONT COLOR=maroon>Catégorie</FONT></I>.
+<BR>
+<BR>
+Si vous validez votre opération avec la touche <TT>&lt;Entrée&gt;</TT> sans cliquer sur ce
+bouton, Grisbi ouvrira de lui-même la fenêtre de 
+ventilation<A NAME="transactions-breakdown-form"></A> à la place de la fenêtre des
+opérations. <BR>
+<BR>
+La saisie ligne par ligne des catégories, notes, montant, imputation budgétaire
+et exercice des sommes à répartir se fait dans un formulaire situé dans la
+partie inférieure de la 
+fenêtre.
+<BR>
+<BR>
+<A NAME="transactions-breakdown-list"></A><BR>
+<BR>
+Les sommes déjà saisies seront affichées dans la partie supérieure de la 
+fenêtre.
+<BR>
+<BR>
+<A NAME="transactions-breakdown-balance"></A>
+La liste des comptes quant à elle est remplacée par une fenêtre indiquant le
+montant déjà ventilé, le montant <I><FONT COLOR=maroon>Non affecté</FONT></I> restant à ventiler et en dessous le total de l'opération que vous ventilez.
+Il est possible d'inverser le sens (débit ou crédit) des sommes ventilées, mais
+vous pouvez aussi tout simplement mettre un signe moins devant la somme si
+celle-ci est en sens inverse du montant total.<BR>
+<BR>
+Exemple : vous désirez ventiler votre salaire net entre le brut et les charges.
+Celles-ci seront en négatif. <BR>
+<BR>
+Lorsque le montant non affecté est égal à zéro vous pouvez valider en cliquant
+sur <I><FONT COLOR=maroon>Fermer</FONT></I>, vous revenez alors à la fenêtre des opérations. Si ce montant
+n'est pas égal à zéro, Grisbi le mémorise comme étant non affecté.<BR>
+<BR>
+Une fois la fenêtre de ventilation fermée vous devez valider normalement
+l'opération. Il est particulièrement important de penser à valider si vous
+revenez modifier la ventilation d'une opération déjà enregistrée auparavant. A
+l'inverse si votre ventilation ne vous plaît pas il vous suffit de ne pas
+valider l'opération pour qu'elle ne soit pas enregistrée. <BR>
+<BR>
+<A NAME="toc42"></A>
+<H2><A NAME="htoc57">6.5</A>&nbsp;&nbsp;Modifier une opération </H2><A NAME="transactions-modify"></A>
+Pour modifier une opération il suffit de la sélectionner (avec un double clic ou
+la touche <TT>&lt;Entrée&gt;</TT>) et elle s'affiche dans le formulaire de 
+saisie/modification. Il est alors possible de modifier toutes les informations
+désirées.<BR>
+<BR>
+Si l'opération a été rapprochée (voir chapitre <A HREF="grisbi-manuel010.html#reconciliation">8</A>), il est par contre impossible de modifier son
+montant. Les autres champs restent modifiables. <BR>
+<BR>
+Si vous avez réellement besoin de modifier le montant (mais si vous avez
+rapproché ce ne devrait pas être le cas) il faut annuler le statut
+<EM>Rapproché</EM> de l'opération en la sélectionnant à la souris ou avec les
+flèches <TT>&lt;Haut&gt;</TT> et <TT>&lt;Bas&gt;</TT>, puis en appuyant sur la combinaison de touches
+<TT>&lt;Ctrl&gt;</TT><TT>&lt;R&gt;</TT>.<BR>
+<BR>
+Modifiez votre opération puis appuyez à nouveau sur les touches
+<TT>&lt;Ctrl&gt;</TT><TT>&lt;R&gt;</TT>, sinon votre rapprochement deviendrait faux du montant
+de cette opération. <BR>
+<BR>
+Il va sans dire que cette opération est hautement déconseillée (elle sera
+d'ailleurs probablement automatiquement désactivée dans une future version de
+Grisbi si vous choisissez de faire une comptabilité du type association).<BR>
+<BR>
+<A NAME="toc43"></A>
+<H2><A NAME="htoc58">6.6</A>&nbsp;&nbsp;Supprimer une opération</H2><A NAME="transactions-delete"></A>
+C'est très simple : sélectionnez l'opération à la souris ou avec les flèches
+<TT>&lt;Haut&gt;</TT> et <TT>&lt;Bas&gt;</TT>, puis appuyez sur la touche <TT>&lt;Suppr&gt;</TT>.<BR>
+<BR>
+La suppression ne fonctionnera pas si :
+<UL><LI>l'opération est rapprochée (il faut préalablement lui retirer le statut 
+<EM>Rapproché</EM> comme décrit dans le paragraphe <I><FONT COLOR=maroon>Modification</FONT></I> ci-dessus) 
+;<BR>
+<BR>
+<LI>l'opération est ouverte en modification. Il faut sortir du mode 
+modification au préalable. Utilisez la touche <TT>&lt;Esc&gt;</TT> pour ce faire.</UL>
+Il vous est aussi possible de supprimer une ligne de ventilation de la même 
+façon et avec les mêmes restrictions.<BR>
+<BR>
+<A NAME="toc44"></A>
+<H2><A NAME="htoc59">6.7</A>&nbsp;&nbsp;Opération en devises</H2><A NAME="transactions-currencies"></A>
+Grisbi est capable de gérer des opérations en devises, avec ou sans frais de
+change.<BR>
+<BR>
+Vous devez tout d'abord avoir créé la devise (voir le paragraphe
+<A HREF="grisbi-manuel020.html#setup-currencies">18.6</A>).<BR>
+<BR>
+Lors de la saisie de l'opération vous choisissez la devise dans laquelle
+l'opération doit être enregistrée. Il y a deux cas de figure possibles.<BR>
+<BR>
+Si la devise a été déclarée comme faisant partie de la zone Euro, Grisbi fait
+automatiquement la conversion et ne vous demande pas s'il y a des frais de
+change. <BR>
+<BR>
+Si la devise n'est pas dans la zone Euro, son taux de change n'a pas été
+enregistré et Grisbi vous le demande à ce 
+moment ,
+ainsi que les frais 
+de change éventuels. Ils n'apparaîtront pas dans le montant converti mais seront 
+débités de votre compte. Vous pouvez aussi bien sûr les saisir en tant 
+qu'opération indépendante dans la catégorie <EM>Frais financiers : Frais 
+bancaires</EM>.<BR>
+<BR>
+Si vous désirez entrer des frais de change pour une devise de la zone Euro, il
+vous faut revenir sur cette opération en modification, cliquer sur le bouton
+<I><FONT COLOR=maroon>Change</FONT></I> et saisir dans la fenêtre le montant des frais.<BR>
+<BR>
+A noter que vous pouvez inverser le sens de la conversion (un euro vaut X
+devises, ou bien une devise vaut X euros) en cliquant sur les flèches à droite
+du nom de la devise. Vous pouvez ainsi entrer exactement le taux tel qu'il vous
+est communiqué. <BR>
+<BR>
+Si vous faites un virement entre comptes de devises différentes, Grisbi créera
+la contre-opération dans la devise du compte de destination de façon automatique
+si le taux de la devise est fixe, et sinon il vous demandera le taux avant de
+passer l'écriture. <BR>
+<BR>
+<A NAME="toc45"></A>
+<H2><A NAME="htoc60">6.8</A>&nbsp;&nbsp;Nouveau tiers, nouvelle catégorie ou nouvelle imputation budgétaire
+</H2><A NAME="transactions-fillcombo"></A>
+Pour créer un nouveau tiers, une nouvelle catégorie ou une nouvelle imputation
+budgétaire pendant la saisie de l'opération, c'est très simple : il vous suffit
+de saisir son nom dans la zone de liste déroulante, et Grisbi l'ajoutera 
+automatiquement à la liste. Vous pourrez ultérieurement faire toutes les 
+modifications nécessaires dans les onglets <I><FONT COLOR=maroon>Tiers</FONT></I>, <I><FONT COLOR=maroon>Catégories</FONT></I> et
+<I><FONT COLOR=maroon>Imputations budgétaires</FONT></I>.<BR>
+<BR>
+<B>Attention</B> : pour saisir une catégorie (ou une imputation budgétaire)
+avec une sous-catégorie (ou sous-imputation), il faut respecter la syntaxe
+<EM>catégorie : sous-catégorie</EM> (avec les deux points comme séparateur) sinon
+Grisbi ne comprendra pas. De même si vous ajoutez une nouvelle sous-catégorie
+(ou sous-imputation budgétaire) à une catégorie (ou imputation) existante.<BR>
+<BR>
+Vous pouvez également créer un tiers, une catégorie ou une imputation budgétaire
+directement dans leurs onglets respectifs.<BR>
+<BR>
+<A NAME="toc46"></A>
+<H2><A NAME="htoc61">6.9</A>&nbsp;&nbsp;Quelques mots sur un anglicisme trop répandu</H2>
+On voit régulièrement dans les documentations, livres et autres articles,
+publiés sur l'Internet et ailleurs, le mot <EM>complétion</EM>. Ceci est un
+horrible anglicisme. <BR>
+<BR>
+Que l'on assimile un mot anglais lorsque le mot français équivalent n'existe pas
+peut se comprendre, encore que le néologisme intelligent me semble préférable.
+Il ne s'agit bien sûr pas de tomber dans le ridicule de nos académiciens qui
+traduisent mail par mèl et CD-Rom par cédérom. Passons sur leur manque
+d'imagination alors qu'ils ont su par autrefois créer des mots comme disquette,
+informatique et ordinateur, qui n'existent nulle part ailleurs!<BR>
+<BR>
+Dans le cas précis du mot <EM>complétion</EM> un traducteur du <EM>Guide de
+l'administration réseau sous linux,</EM> Editions O'Reilly, avait cru bien faire en
+essayant de créer le mot <EM>complétement</EM> (avec un accent aigu) qui voulait
+signifier <EM>action de compléter</EM>. L'initiative était louable mais ô combien
+risquée... En effet lorsque l'on s'essaye à ce genre d'exercice de style, il est
+prudent de maîtriser tous les rouages de la langue. Et en l'occurrence il existe
+une règle dite la <EM>règle de l'alternance</EM> (page 56 du <EM>Bescherelle
+Orthographe</EM>) <SUP><A NAME="text1" HREF="#note1"><FONT SIZE=2>1</FONT></A></SUP> qui explique parfaitement le mécanisme de
+changement d'accent entre un verbe et le substantif dérivé
+<SUP><A NAME="text2" HREF="#note2"><FONT SIZE=2>2</FONT></A></SUP>. Si ce malheureux
+traducteur l'avait connue il n'aurait pas commis cet affreux barbarisme...<BR>
+<BR>
+Et si avant toute chose ce traducteur avait eu l'idée de vérifier dans son
+dictionnaire que le mot n'existait pas déjà...il aurait trouvé :
+<DL COMPACT=compact><DT><B>complètement</B><DD>n.m. Action de compléter : <EM>le complètement
+d'un livre</EM>. </DL>
+Et j'ai bien pris soin de chercher ce mot dans le plus vieil exemplaire du
+<EM>Larousse universel</EM> en ma possession, soit l'édition de 1949!<BR>
+<BR>
+Donc adoptons sans aucun remords le mot complètement, et, puisque cette action
+est automatique, allons sans crainte jusqu'à écrire auto-complètement, ce qui
+est parfaitement compréhensible, intuitif et 100% français!<BR>
+<BR>
+Cocorico! <BR>
+<BR>
+Et puissent ces quelques lignes tordre définitivement le cou au mot complétion,
+cette <EM>affreuseté non-permissable</EM>! ;-)8<BR>
+<BR>
+<HR WIDTH="50%" SIZE=1><DL><DT><A NAME="note1" HREF="#text1"><FONT SIZE=5>1</FONT></A><DD>Si quelqu'un possède ce livre je serais très heureux
+qu'il me fasse parvenir le texte exact de cette règle. Je ne l'ai 
+malheureusement plus...
+<DT><A NAME="note2" HREF="#text2"><FONT SIZE=5>2</FONT></A><DD>André Cianfarini, qui se définit lui-même comme <EM>un développeur autodidacte qui n'a jamais fini sa thèse de grammaire pour cause de relations passionnelles avec l'informatique</EM> me communique les précisions suivantes : 
+<BLOCKQUOTE>
+C'est un processus phonologique qui est à l'origine de ces
+transformations ; pour simplifier, on pourrait le résumer ainsi :
+un "e" fermé (l'avant-dernier "e" de "préférer" par exemple) devient un
+"e" ouvert (l'avant-dernier "e" de "je préfère" par exemple) lorsque la
+syllabe qui le suit est atone.
+</BLOCKQUOTE> 
+
+</DL>
+<HR>
+<A HREF="grisbi-manuel007.html"><IMG SRC ="previous_motif.gif" ALT="Précédent"></A>
+<A HREF="index.html"><IMG SRC ="contents_motif.gif" ALT="Remonter"></A>
+<A HREF="grisbi-manuel009.html"><IMG SRC ="next_motif.gif" ALT="Suivant"></A>
+</BODY>
+</HTML>

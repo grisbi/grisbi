@@ -1,0 +1,108 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
+            "http://www.w3.org/TR/REC-html40/loose.dtd">
+<HTML>
+<HEAD>
+
+<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-15">
+<META name="GENERATOR" content="hevea 1.06">
+<TITLE>
+ Échéancier des opérations planifiées
+</TITLE>
+</HEAD>
+<BODY BGCOLOR="#ffff99">
+
+<A HREF="grisbi-manuel010.html"><IMG SRC ="previous_motif.gif" ALT="Précédent"></A>
+<A HREF="index.html"><IMG SRC ="contents_motif.gif" ALT="Remonter"></A>
+<A HREF="grisbi-manuel012.html"><IMG SRC ="next_motif.gif" ALT="Suivant"></A>
+<HR>
+
+<H1><A NAME="htoc68">Chapitre&nbsp;9</A>&nbsp;&nbsp;Échéancier des opérations planifiées</H1><A NAME="planedtransactions"></A>
+<A NAME="planedtransactions-list"></A>L'onglet Échéancier affiche la liste des 
+opérations planifiées, qu'elles soient automatiques ou 
+manuelles.
+<BR>
+<BR>
+<A NAME="toc51"></A>
+<H2><A NAME="htoc69">9.1</A>&nbsp;&nbsp;Calendrier et affichage</H2>
+<A NAME="plannedtransactions-calendar"></A>Le calendrier situé dans la partie gauche
+
+indique en gras les jours où des échéances sont prévues.<BR>
+<BR>
+<A NAME="plannedtransactions-display"></A>
+La liste déroulante vous permet d'afficher sélectivement toutes les occurences
+des opérations planifiées à venir, et éventuellement de modifier la prochaine
+occurence (et seulement celle-ci) de l'une 
+d'elles.
+<BR>
+<BR>
+<A NAME="toc52"></A>
+<H2><A NAME="htoc70">9.2</A>&nbsp;&nbsp;Nouvelle opération planifiée</H2><A NAME="planedtransactions-new"></A>
+Pour saisir une nouvelle opération planifiée, il suffit comme pour la saisie
+d'une opération de double-cliquer sur la ligne vide en bas de la liste des
+opérations, ou bien de la sélectionner et d'appuyer sur la touche <TT>&lt;Entrée&gt;</TT>.
+Vous pouvez aussi utiliser l'icône d'affichage/masquage du formulaire de saisie
+des opérations.<BR>
+<BR>
+Le formulaire de saisie  s'affiche dans la partie inférieure de la
+fenêtre.<BR>
+<BR>
+Ce formulaire est très proche de celui de la saisie d'une opération, il
+contient juste quelques champs supplémentaires :
+<A NAME="planedtransactions-frequency"></A>
+<UL><LI>le compte concerné. S'il s'agit d'un virement entre deux comptes, la 
+contre-opération sera aussi automatiquement saisie. Il est donc possible de
+sélectionner l'un des deux comptes pour la saisie de l'opération, mais il faut
+que la somme soit indiquée dans le bon champ (débit ou crédit) ;<BR>
+<BR>
+<LI>le mode de validation ;
+<UL><LI>manuel : il sera nécessaire de valider la saisie manuellement dans
+l'onglet accueil en cliquant dessus (voir le paragraphe 
+<A HREF="grisbi-manuel007.html#home-planedtransactions">5.3</A>) ;<BR>
+<BR>
+<LI>automatique : l'opération sera automatiquement saisie à la date
+programmée.</UL><BR>
+<BR>
+<LI>la périodicité ;
+<UL><LI>une fois ;<BR>
+<BR>
+<LI>hebdomadaire ;<BR>
+<BR>
+<LI>mensuel ;<BR>
+<BR>
+<LI>annuel ;<BR>
+<BR>
+<LI>personnalisé ;</UL><BR>
+<BR>
+<LI>la date limite de l'échéance. Le choix par défaut est <I><FONT COLOR=maroon>Aucune</FONT></I>.
+Un double clic dans cette zone ouvre un calendrier, mais il est aussi
+possible de saisir la date manuellement et de l'incrémenter/décrémenter
+avec les touches <TT>&lt;+&gt;</TT> et <TT>&lt;-&gt;</TT> (voir le paragraphe <A HREF="grisbi-manuel008.html#transactions-form">6.3</A>) ;<BR>
+<BR>
+<LI>dans le cas d'une périodicité personnalisée vous devez ensuite préciser le
+nombre de jours, mois ou années entre chaque saisie ou demande de validation de
+l'opération.
+</UL>
+À noter que le choix des types d'opérations est celui du compte sélectionné.<BR>
+<BR>
+<A NAME="toc53"></A>
+<H2><A NAME="htoc71">9.3</A>&nbsp;&nbsp;Modification ou suppression d'une opération planifiée</H2>
+<A NAME="planedtransactions-modify"></A>
+<A NAME="planedtransactions-delete"></A>
+La modification ou la suppression d'une opération planifiée obéit aux 
+mêmes règles que celle des autres opérations (voir les paragraphes 
+<A HREF="grisbi-manuel008.html#transactions-modify">6.5</A> ou <A HREF="grisbi-manuel008.html#transactions-delete">6.6</A>). La suppression peut
+se faire soit uniquement sur l'échéance en cours, soit sur celle-ci et ses
+occurrences futures.<BR>
+<BR>
+<A NAME="toc54"></A>
+<H2><A NAME="htoc72">9.4</A>&nbsp;&nbsp;Appelette</H2>
+Si l'appelette est utilisée (voir le paragraphe <A HREF="grisbi-manuel020.html#setup-applet">18.5</A>), celle-ci
+prévient au démarrage de la session par une animation lorsque des échéances 
+arrivent à terme (sous <I><FONT COLOR=maroon>Gnome</FONT></I> uniquement).<BR>
+<BR>
+<HR>
+<A HREF="grisbi-manuel010.html"><IMG SRC ="previous_motif.gif" ALT="Précédent"></A>
+<A HREF="index.html"><IMG SRC ="contents_motif.gif" ALT="Remonter"></A>
+<A HREF="grisbi-manuel012.html"><IMG SRC ="next_motif.gif" ALT="Suivant"></A>
+</BODY>
+</HTML>
