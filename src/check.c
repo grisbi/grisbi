@@ -1,12 +1,12 @@
 /* ************************************************************************** */
-/* Ce fichier s'occupe de la vérification des montants rapprochés.            */
-/* Il est introduit dans la version 0.5.4 suite à la découverte d'un bogue    */
-/* qui provoquait les rapprochements des contre-opérations lors du            */
+/* Ce fichier s'occupe de la vérification de l'intégrité de certaines données */
+/* comptables. Il est introduit dans la version 0.5.5, suite à la découverte  */
+/* d'un bogue qui provoquait les rapprochements des contre-opérations lors du */
 /* rapprochement d'opérations (qui étaient donc des virements)                */
 /*                                                                            */
 /* 				check.c                                       */
 /*                                                                            */
-/*     Copyright (C)	2004 Alain Portal (aportal@univ-montp2.fr)	      */
+/*     Copyright (C)	2004-2005 Alain Portal (aportal@univ-montp2.fr)	      */
 /*			http://www.grisbi.org   			      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
