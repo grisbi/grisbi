@@ -201,7 +201,7 @@ GtkWidget *creation_onglet_comptes (void)
 
   /* mise en place du bouton équilibrage */
 
-  bouton = gtk_button_new_with_label ( "Rapprochements ..." );
+  bouton = gtk_button_new_with_label ( "Rapprocher" );
   gtk_button_set_relief ( GTK_BUTTON ( bouton ),
 			  GTK_RELIEF_NONE);
   gtk_box_pack_start ( GTK_BOX ( vbox_frame_equilibrage ),

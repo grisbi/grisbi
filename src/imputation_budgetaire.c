@@ -1,5 +1,5 @@
-/* fichier qui s'occupe de l'onglet de gestion des catégories */
-/*           categories_onglet.c */
+/* fichier qui s'occupe de l'onglet de gestion des impputations */
+/*           imputation_budgetaire.c */
 
 /*     Copyright (C) 2000-2001  Cédric Auger */
 /* 			grisbi@tuxfamily.org */
@@ -782,7 +782,7 @@ void ouverture_node_imputation ( GtkWidget *arbre,
 	  no_sous_imputation = 0;
 	}
 
-      /* on va scanner tous les comptes, dès qu'un tiers correspondant au tiers sélectionné est trouvé */
+      /* on va scanner tous les comptes, dès qu'une imputation correspondant à l'imput sélectionnée est trouvé */
       /* on affiche le nom du compte */
 
       p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
@@ -803,15 +803,13 @@ void ouverture_node_imputation ( GtkWidget *arbre,
 		   &&
 		   operation -> sous_imputation == no_sous_imputation
 		   &&
-		   !operation -> relation_no_operation
-		   &&
 		   !operation -> operation_ventilee )
 		{
 		  /* affiche le compte courant */
 
 		  text[3] = calcule_total_montant_imputation_par_compte ( operation -> imputation,
-								     operation -> sous_imputation,
-								     operation -> no_compte );
+									  operation -> sous_imputation,
+									  operation -> no_compte );
 
 		  if ( etat.affiche_nb_ecritures_listes
 		       &&
@@ -914,8 +912,6 @@ void ouverture_node_imputation ( GtkWidget *arbre,
 	       &&
 	       operation -> sous_imputation == no_sous_imputation
 	       &&
-	       !operation -> relation_no_operation
-	       &&
 	       !operation -> operation_ventilee  )
 	    {
 		      if ( operation -> notes )
@@ -1006,7 +1002,10 @@ void fermeture_node_imputation ( GtkWidget *arbre,
 
   /*   si on ferme une imputation, on fait rien */
 
-  if ( GTK_CTREE_ROW ( node )->level == 1 )
+  if ( GTK_CTREE_ROW ( node )->level == 1 
+       &&
+       gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_imputation ),
+				     node ))
     return;
 
   /* freeze le ctree */
@@ -2499,11 +2498,9 @@ void calcule_total_montant_imputation ( void )
 		}
 	    }
 	  else
-	      /* il n'y a pas de catégorie */
-	      /* on met le montant dans tab_montant_imputation[0} si e n'est ni un virement ni une ventil */
-	    if ( !operation -> relation_no_operation
-		 &&
-		 !operation -> operation_ventilee )
+	      /* il n'y a pas d'imputation */
+	      /* on met le montant dans tab_montant_imputation[0} si ce n'est une ventil */
+	    if ( !operation -> operation_ventilee )
 	      {
 		tab_montant_imputation[0] = tab_montant_imputation[0] + montant;
 		nb_ecritures_par_imputation[0]++;
@@ -2519,8 +2516,8 @@ void calcule_total_montant_imputation ( void )
 
 /* **************************************************************************************************** */
 gchar *calcule_total_montant_imputation_par_compte ( gint imputation,
-						gint sous_imputation,
-						gint no_compte )
+						     gint sous_imputation,
+						     gint no_compte )
 {
   gdouble retour_int;
   struct struct_devise *devise_compte;
@@ -2537,6 +2534,7 @@ gchar *calcule_total_montant_imputation_par_compte ( gint imputation,
 
   liste_tmp = LISTE_OPERATIONS;
 
+
   while ( liste_tmp )
     {
       struct structure_operation *operation;
@@ -2546,8 +2544,6 @@ gchar *calcule_total_montant_imputation_par_compte ( gint imputation,
       if ( operation -> imputation == imputation
 	   &&
 	   operation -> sous_imputation == sous_imputation
-	   &&
-	   !operation -> relation_no_operation
 	   &&
 	   !operation -> operation_ventilee   )
 	{

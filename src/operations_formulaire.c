@@ -925,9 +925,17 @@
 	{
 	  if ( strcmp ( g_strstrip ( gtk_combofix_get_text ( GTK_COMBOFIX ( widget_formulaire_operations[8]))),
 			"Opération ventilée" ))
-	    gtk_widget_hide ( widget_formulaire_operations[14] );
+	    {
+	      gtk_widget_hide ( widget_formulaire_operations[14] );
+	      gtk_widget_set_sensitive ( widget_formulaire_operations[12],
+					 TRUE );
+	    }
 	  else
-	    gtk_widget_show ( widget_formulaire_operations[14] );
+	    {
+	      gtk_widget_show ( widget_formulaire_operations[14] );
+	      gtk_widget_set_sensitive ( widget_formulaire_operations[12],
+					 FALSE );
+	    }
 	}
       else
 	texte = "Catégories : Sous-catégories";
@@ -963,11 +971,11 @@
        /* on sort de la date réelle , soit c'est vide, soit on la vérifie et la complète si nécessaire  */
 	case 18:
 		if ( strlen ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( entree )))))
-		{
-			modifie_date ( entree );
-		}
+		  {
+		    modifie_date ( entree );
+		  }
 		else
-		 	texte = "Date de valeur";
+		  texte = "Date de valeur";
 	break;
 
     default :
@@ -975,13 +983,27 @@
 
 
   /* l'entrée était vide, on remet le défaut */
+  /* si l'origine était un combofix, il faut remettre le texte */
+  /* avec le gtk_combofix (sinon risque de complétion), donc utiliser l'origine */
 
   if ( texte )
     {
+      switch ( GPOINTER_TO_INT ( no_origine ))
+	{
+	case 2:
+	case 8:
+	case 12:
+	  gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_operations[GPOINTER_TO_INT ( no_origine )] ),
+				  texte );
+	  break;
+
+	default:
+
+	  gtk_entry_set_text ( GTK_ENTRY ( entree ),
+			       texte );
+	}
       gtk_widget_set_style ( entree,
 			     style_entree_formulaire[1] );
-      gtk_entry_set_text ( GTK_ENTRY ( entree ),
-			   texte );
     }
 
  }
@@ -2540,8 +2562,11 @@ gboolean modifie_date ( GtkWidget *entree )
 
 
   /* récupération de l'imputation budgétaire */
+  /* si c'est une opé ventilée, on ne récupère pas l'ib */
 
-  if ( gtk_widget_get_style ( GTK_COMBOFIX ( widget_formulaire_operations[12] ) -> entry ) == style_entree_formulaire[0] )
+  if ( gtk_widget_get_style ( GTK_COMBOFIX ( widget_formulaire_operations[12] ) -> entry ) == style_entree_formulaire[0]
+       &&
+       !GTK_WIDGET_VISIBLE ( widget_formulaire_operations[14] ))
     {
       struct struct_imputation *imputation;
       
@@ -3337,6 +3362,8 @@ gboolean modifie_date ( GtkWidget *entree )
 			     FALSE );
   gtk_widget_set_sensitive ( GTK_WIDGET ( widget_formulaire_operations[11] ),
 			     FALSE );
+  gtk_widget_set_sensitive ( widget_formulaire_operations[12],
+			     TRUE );
   gtk_widget_set_sensitive ( GTK_WIDGET ( hbox_valider_annuler_ope ),
 			     FALSE );
 

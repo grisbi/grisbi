@@ -63,7 +63,7 @@ void init_variables ( gboolean ouverture );
 
 gboolean charge_operations ( void );
 gboolean charge_operations_version_0_3_2 ( xmlDocPtr doc );
-gboolean charge_operations_version_0_3_3 ( xmlDocPtr doc );
+gboolean charge_operations_version_0_4_0 ( xmlDocPtr doc );
 gboolean enregistre_fichier ( void );
 gchar *itoa ( gint integer );
 gchar *vire_les_points_virgules ( gchar *origine );

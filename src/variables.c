@@ -607,6 +607,11 @@ GtkWidget *bouton_afficher_sous_ib_opes;
 GtkWidget *bouton_afficher_notes_opes;
 GtkWidget *bouton_afficher_pc_opes;
 GtkWidget *bouton_afficher_infobd_opes;
+GtkWidget *bouton_afficher_no_ope;
+GtkWidget *bouton_afficher_type_ope;
+GtkWidget *bouton_afficher_no_rappr;
+GtkWidget *bouton_afficher_no_cheque;
+GtkWidget *bouton_pas_detailler_ventilation;
 
 GtkWidget *radio_button_utilise_exo;
 GtkWidget *radio_button_utilise_dates;
@@ -642,6 +647,7 @@ GtkWidget *bouton_non_inclusion_virements;
 GtkWidget *liste_categ_etat;
 GtkWidget *bouton_affiche_sous_total_categ;
 GtkWidget *bouton_affiche_sous_total_sous_categ;
+GtkWidget *bouton_exclure_ope_sans_categ;
 
 GtkWidget *bouton_utilise_ib_etat;
 GtkWidget *vbox_generale_ib_etat;
@@ -651,6 +657,7 @@ GtkWidget *liste_ib_etat;
 GtkWidget *bouton_afficher_sous_ib;
 GtkWidget *bouton_affiche_sous_total_ib;
 GtkWidget *bouton_affiche_sous_total_sous_ib;
+GtkWidget *bouton_exclure_ope_sans_ib;
 
 GtkWidget *bouton_utilise_tiers_etat;
 GtkWidget *vbox_generale_tiers_etat;

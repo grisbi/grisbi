@@ -773,7 +773,7 @@ void modification_logo_accueil ( void )
 		       0 );
   gtk_widget_show ( choix );
 
-  bouton = gtk_button_new_with_label ( "Remise à zéro" );
+  bouton = gtk_button_new_with_label ( "Rétablir le logo de Grisbi" );
   gtk_button_set_relief ( GTK_BUTTON ( bouton ),
 			  GTK_RELIEF_NONE );
   gtk_signal_connect ( GTK_OBJECT ( bouton ),

@@ -2,7 +2,7 @@
 /* contient toutes les structures du prog */
 
 
-#define VERSION "0.3.3"
+#define VERSION "0.4.0"
 
 /* Chemin des fichiers */
 
@@ -228,8 +228,6 @@ struct operation_echeance
   guint no_exercice;             /* exercice de l'opé */
   guint imputation;
   guint sous_imputation;
-  gchar *no_piece_comptable;
-  gchar *info_banque_guichet;
 
   gshort periodicite;             /*  0=une fois, 1=hebdo, 2=mensuel, 3=annuel, 4=perso */
   gshort intervalle_periodicite_personnalisee;   /* 0=jours, 1=mois, 2=annees */
@@ -404,6 +402,11 @@ struct struct_etat
   gint afficher_notes_ope;
   gint afficher_pc_ope;
   gint afficher_infobd_ope;
+  gint afficher_no_ope;
+  gint afficher_type_ope;
+  gint afficher_cheque_ope;
+  gint afficher_rappr_ope;
+  gint pas_detailler_ventilation;
 
   gint exo_date;         /* 1-> utilise l'exo / 0 -> utilise une plage de date */
   gint utilise_detail_exo;
@@ -432,6 +435,7 @@ struct struct_etat
   gint type_virement;   /* 0: pas de virements / 1:seulement les virements vers comptes actifs-passifs/2:virements hors état */
   gint affiche_sous_total_categ;
   gint affiche_sous_total_sous_categ;
+  gint exclure_ope_sans_categ;
 
   gint utilise_ib;
   gint utilise_detail_ib;
@@ -439,6 +443,7 @@ struct struct_etat
   gint afficher_sous_ib;
   gint affiche_sous_total_ib;
   gint affiche_sous_total_sous_ib;
+  gint exclure_ope_sans_ib;
 
   gint utilise_tiers;
   gint utilise_detail_tiers;

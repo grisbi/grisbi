@@ -37,7 +37,7 @@ GtkWidget *creation_fenetre_ventilation ( void )
 {
   GtkWidget *onglet;
   gchar *titres[] ={ "Catégorie",
-		     "Description",
+		     "Notes",
 		     "Montant" };
 
   /* création de la scrolled window  */
@@ -677,7 +677,7 @@ void entree_ventilation_perd_focus ( GtkWidget *entree,
 
     case 1:
       if ( !strlen ( g_strstrip ( gtk_entry_get_text ( GTK_ENTRY ( entree )))))
-	texte = "Description";
+	texte = "Notes";
       break;
 
       /* sort du montant */
@@ -1218,7 +1218,7 @@ void echap_formulaire_ventilation ( void )
   gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_ventilation[0] ),
 			  "Catégories : Sous-catégories" );
   gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_ventilation[1]),
-		       "Description" );
+		       "Notes" );
   gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_ventilation[2]),
 		       "Montant" );
   gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_ventilation[3] ),

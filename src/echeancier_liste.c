@@ -823,7 +823,7 @@ void remplissage_liste_echeance ( void )
 				       ligne_clist,
 				       echeance );
 
-/* si c'est un doublon, on met le style en gris */
+	      /* si c'est un doublon, on met le style en gris */
 
 	      if ( !echeance )
 		gtk_clist_set_row_style ( GTK_CLIST ( liste_echeances ),
@@ -840,7 +840,9 @@ void remplissage_liste_echeance ( void )
 		   g_date_compare ( date_fin,
 				    date_courante ) > 0
 		   &&
-		   affichage_echeances != 3 )
+		   affichage_echeances != 3
+		   &&
+		   ECHEANCE_COURANTE -> periodicite )
 		{
 		  ligne[0] = g_strdup_printf ( "%02d/%02d/%d",
 					       g_date_day ( date_courante ),
@@ -1227,21 +1229,21 @@ void edition_echeance ( void )
 
   /*   remplit les infos guichet / banque */
 
-  if ( echeance_selectionnnee -> info_banque_guichet )
-    {
-      entree_prend_focus ( widget_formulaire_echeancier[11] );
-      gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_echeancier[11] ),
-			   echeance_selectionnnee -> info_banque_guichet );
-    }
+/*   if ( echeance_selectionnnee -> info_banque_guichet ) */
+/*     { */
+/*       entree_prend_focus ( widget_formulaire_echeancier[11] ); */
+/*       gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_echeancier[11] ), */
+/* 			   echeance_selectionnnee -> info_banque_guichet ); */
+/*     } */
 
   /* mise en place de la pièce comptable */
 
-  if ( echeance_selectionnnee -> no_piece_comptable )
-    {
-      entree_prend_focus ( widget_formulaire_echeancier[12] );
-      gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_echeancier[12] ),
-			   echeance_selectionnnee -> no_piece_comptable );
-    }
+/*   if ( echeance_selectionnnee -> no_piece_comptable ) */
+/*     { */
+/*       entree_prend_focus ( widget_formulaire_echeancier[12] ); */
+/*       gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_echeancier[12] ), */
+/* 			   echeance_selectionnnee -> no_piece_comptable ); */
+/*     } */
 
 
   /* mise en place de l'automatisme */
@@ -1832,6 +1834,9 @@ void verification_echeances_a_terme ( void )
 		operation -> contenu_type = ECHEANCE_COURANTE -> contenu_type;
 
 	      operation -> auto_man = ECHEANCE_COURANTE -> auto_man;
+	      operation -> imputation = ECHEANCE_COURANTE -> imputation;
+	      operation -> sous_imputation = ECHEANCE_COURANTE -> sous_imputation;
+	      operation -> no_exercice = ECHEANCE_COURANTE -> no_exercice;
 
 
 	      /*   on a fini de remplir l'opé, on peut l'ajouter à la liste */

@@ -74,8 +74,8 @@ gboolean charge_operations ( void )
 	  return ( charge_operations_version_0_3_2 ( doc ));
 
         if (( !strcmp (  xmlNodeGetContent ( doc->root->childs->childs ),
-			 "0.3.3" )))
-	  return ( charge_operations_version_0_3_3 ( doc ));
+			 "0.4.0" )))
+	  return ( charge_operations_version_0_4_0 ( doc ));
 
 
       dialogue ( " Version inconnue ");
@@ -782,15 +782,15 @@ des paramètres." );
 		      operation_echeance -> sous_imputation = atoi ( xmlGetProp ( node_detail,
 								      "Sous-imputation" ));
 
-		      operation_echeance -> no_piece_comptable = xmlGetProp ( node_detail,
-								      "Pièce_comptable" );
-		      if ( !strlen ( operation_echeance -> no_piece_comptable ))
-			operation_echeance -> no_piece_comptable = NULL;
+/* 		      operation_echeance -> no_piece_comptable = xmlGetProp ( node_detail, */
+/* 								      "Pièce_comptable" ); */
+/* 		      if ( !strlen ( operation_echeance -> no_piece_comptable )) */
+/* 			operation_echeance -> no_piece_comptable = NULL; */
 
-		      operation_echeance -> info_banque_guichet = xmlGetProp ( node_detail,
-								      "Info_baque_guichet" );
-		      if ( !strlen ( operation_echeance -> info_banque_guichet ))
-			operation_echeance -> info_banque_guichet = NULL;
+/* 		      operation_echeance -> info_banque_guichet = xmlGetProp ( node_detail, */
+/* 								      "Info_baque_guichet" ); */
+/* 		      if ( !strlen ( operation_echeance -> info_banque_guichet )) */
+/* 			operation_echeance -> info_banque_guichet = NULL; */
 
 		      operation_echeance -> notes = xmlGetProp ( node_detail,
 								      "Notes" );
@@ -1506,7 +1506,7 @@ des paramètres." );
 /* version 0.3.3 */
 /*****************************************************************************/
 
-gboolean charge_operations_version_0_3_3 ( xmlDocPtr doc )
+gboolean charge_operations_version_0_4_0 ( xmlDocPtr doc )
 {
   xmlNodePtr node_1;
 
@@ -2184,15 +2184,15 @@ des paramètres." );
 		      operation_echeance -> sous_imputation = atoi ( xmlGetProp ( node_detail,
 								      "Sous-imputation" ));
 
-		      operation_echeance -> no_piece_comptable = xmlGetProp ( node_detail,
-								      "Piece_comptable" );
-		      if ( !strlen ( operation_echeance -> no_piece_comptable ))
-			operation_echeance -> no_piece_comptable = NULL;
+/* 		      operation_echeance -> no_piece_comptable = xmlGetProp ( node_detail, */
+/* 								      "Piece_comptable" ); */
+/* 		      if ( !strlen ( operation_echeance -> no_piece_comptable )) */
+/* 			operation_echeance -> no_piece_comptable = NULL; */
 
-		      operation_echeance -> info_banque_guichet = xmlGetProp ( node_detail,
-								      "Info_baque_guichet" );
-		      if ( !strlen ( operation_echeance -> info_banque_guichet ))
-			operation_echeance -> info_banque_guichet = NULL;
+/* 		      operation_echeance -> info_banque_guichet = xmlGetProp ( node_detail, */
+/* 								      "Info_baque_guichet" ); */
+/* 		      if ( !strlen ( operation_echeance -> info_banque_guichet )) */
+/* 			operation_echeance -> info_banque_guichet = NULL; */
 
 		      operation_echeance -> notes = xmlGetProp ( node_detail,
 								      "Notes" );
@@ -2941,6 +2941,9 @@ des paramètres." );
 		      etat -> afficher_opes = atoi ( xmlGetProp ( node_detail,
 								  "Aff_ope" ));
 
+		      etat -> afficher_no_ope = atoi ( xmlGetProp ( node_detail,
+								    "Aff_no_ope" ));
+
 		      etat -> afficher_date_ope = atoi ( xmlGetProp ( node_detail,
 								      "Aff_date_ope" ));
 
@@ -2953,11 +2956,17 @@ des paramètres." );
 		      etat -> afficher_sous_categ_ope = atoi ( xmlGetProp ( node_detail,
 									    "Aff_ss_categ_ope" ));
 
+		      etat -> afficher_type_ope = atoi ( xmlGetProp ( node_detail,
+								      "Aff_type_ope" ));
+
 		      etat -> afficher_ib_ope = atoi ( xmlGetProp ( node_detail,
 								    "Aff_ib_ope" ));
 
 		      etat -> afficher_sous_ib_ope = atoi ( xmlGetProp ( node_detail,
 									 "Aff_ss_ib_ope" ));
+
+		      etat -> afficher_cheque_ope = atoi ( xmlGetProp ( node_detail,
+									"Aff_cheque_ope" ));
 
 		      etat -> afficher_notes_ope = atoi ( xmlGetProp ( node_detail,
 								       "Aff_notes_ope" ));
@@ -2965,8 +2974,14 @@ des paramètres." );
 		      etat -> afficher_pc_ope = atoi ( xmlGetProp ( node_detail,
 								    "Aff_pc_ope" ));
 
+		      etat -> afficher_rappr_ope = atoi ( xmlGetProp ( node_detail,
+								       "Aff_rappr_ope" ));
+
 		      etat -> afficher_infobd_ope = atoi ( xmlGetProp ( node_detail,
 									"Aff_infobd_ope" ));
+
+		      etat -> pas_detailler_ventilation = atoi ( xmlGetProp ( node_detail,
+									"Pas_detail_ventil" ));
 
 		      etat -> exo_date = atoi ( xmlGetProp ( node_detail,
 							     "Exo_date" ));
@@ -3101,6 +3116,9 @@ des paramètres." );
 			  g_strfreev ( pointeur_char );
 			}
 
+		      etat -> exclure_ope_sans_categ = atoi ( xmlGetProp ( node_detail,
+									"Exclut_categ" ));
+
 		      etat -> affiche_sous_total_categ = atoi ( xmlGetProp ( node_detail,
 									"Total_categ" ));
 
@@ -3140,6 +3158,9 @@ des paramètres." );
 			  g_strfreev ( pointeur_char );
 			}
 
+
+		      etat -> exclure_ope_sans_ib = atoi ( xmlGetProp ( node_detail,
+									"Exclut_ib" ));
 
 		      etat -> affiche_sous_total_ib = atoi ( xmlGetProp ( node_detail,
 									"Total_ib" ));
@@ -3866,13 +3887,13 @@ gboolean enregistre_fichier ( void )
 		   "Sous-imputation",
 		   itoa ( echeance -> sous_imputation ));
 
-      xmlSetProp ( node_echeance,
-		   "Piece_comptable",
-		   echeance -> no_piece_comptable );
+/*       xmlSetProp ( node_echeance, */
+/* 		   "Piece_comptable", */
+/* 		   echeance -> no_piece_comptable ); */
 
-      xmlSetProp ( node_echeance,
-		   "Info_baque_guichet",
-		   echeance -> info_banque_guichet );
+/*       xmlSetProp ( node_echeance, */
+/* 		   "Info_baque_guichet", */
+/* 		   echeance -> info_banque_guichet ); */
 
       xmlSetProp ( node_echeance,
 		   "Notes",
@@ -4553,6 +4574,10 @@ gboolean enregistre_fichier ( void )
 		   itoa ( etat -> afficher_opes ));
 
       xmlSetProp ( node_etat,
+		   "Aff_no_ope",
+		   itoa ( etat -> afficher_no_ope ));
+
+      xmlSetProp ( node_etat,
 		   "Aff_date_ope",
 		   itoa ( etat -> afficher_date_ope ));
 
@@ -4569,12 +4594,20 @@ gboolean enregistre_fichier ( void )
 		   itoa ( etat -> afficher_sous_categ_ope ));
 
       xmlSetProp ( node_etat,
+		   "Aff_type_ope",
+		   itoa ( etat -> afficher_type_ope ));
+
+      xmlSetProp ( node_etat,
 		   "Aff_ib_ope",
 		   itoa ( etat -> afficher_ib_ope ));
 
       xmlSetProp ( node_etat,
 		   "Aff_ss_ib_ope",
 		   itoa ( etat -> afficher_sous_ib_ope ));
+
+      xmlSetProp ( node_etat,
+		   "Aff_cheque_ope",
+		   itoa ( etat -> afficher_cheque_ope ));
 
       xmlSetProp ( node_etat,
 		   "Aff_notes_ope",
@@ -4585,8 +4618,16 @@ gboolean enregistre_fichier ( void )
 		   itoa ( etat -> afficher_pc_ope ));
 
       xmlSetProp ( node_etat,
+		   "Aff_rappr_ope",
+		   itoa ( etat -> afficher_rappr_ope ));
+
+      xmlSetProp ( node_etat,
 		   "Aff_infobd_ope",
 		   itoa ( etat -> afficher_infobd_ope ));
+
+      xmlSetProp ( node_etat,
+		   "Pas_detail_ventil",
+		   itoa ( etat -> pas_detailler_ventilation ));
 
 
       xmlSetProp ( node_etat,
@@ -4711,6 +4752,10 @@ gboolean enregistre_fichier ( void )
 			pointeur_char );
 
       xmlSetProp ( node_etat,
+		   "Exclut_categ",
+		   itoa ( etat -> exclure_ope_sans_categ ));
+
+      xmlSetProp ( node_etat,
 		   "Total_categ",
 		   itoa ( etat -> affiche_sous_total_categ ));
 
@@ -4753,6 +4798,10 @@ gboolean enregistre_fichier ( void )
       xmlSetProp ( node_etat,
 			"No_ib",
 			pointeur_char );
+
+      xmlSetProp ( node_etat,
+		   "Exclut_ib",
+		   itoa ( etat -> exclure_ope_sans_ib ));
 
       xmlSetProp ( node_etat,
 		   "Total_ib",

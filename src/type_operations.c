@@ -749,7 +749,7 @@ GtkWidget *onglet_types_operations ( void )
 
   /* la partie du bas contient des check buttons */
 
-  bouton_type_neutre_inclut = gtk_check_button_new_with_label ( "Inclure les types neutres dans les Crédits / Débits" );
+  bouton_type_neutre_inclut = gtk_check_button_new_with_label ( "Inclure les types mixtes dans les Crédits / Débits" );
   gtk_widget_set_sensitive ( bouton_type_neutre_inclut,
 			     FALSE );
   gtk_signal_connect ( GTK_OBJECT ( bouton_type_neutre_inclut ),
