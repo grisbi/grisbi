@@ -105,6 +105,7 @@ struct {
     guint display_message_incomplete_breakdown;
     guint display_message_no_reconciliation_ref;
     guint display_message_reconciliation_ref_exist;
+    guint display_message_aborting_reconciliation;
 
     /* Various commands */
     gchar * browser_command;

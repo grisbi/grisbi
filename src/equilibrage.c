@@ -1036,6 +1036,13 @@ gboolean fin_equilibrage ( GtkWidget *bouton_ok,
 	DERNIER_NO_RAPPROCHEMENT = 0;
     }
 
+    if ( !question_conditional_yes_no_hint ( _("Last chance to abort reconciliation!"),
+					     _("You are reconciling the account.  Pass this step, "
+					       "you won't able to undo unless not save the file and "
+					       "reload it.  Be sure you want to do.\nProceed anyway?"),
+					     &etat.display_message_aborting_reconciliation)) {
+	return FALSE;
+    }
 
 
     /* met tous les P à R */

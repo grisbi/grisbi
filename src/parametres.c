@@ -439,6 +439,11 @@ GtkWidget *onglet_messages_and_warnings ( void )
 					  &(etat.display_message_reconciliation_ref_exist), NULL );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), pCheckBox, FALSE, FALSE, 0 );
 
+    /* Display a warning message when last chance to abort reconciliation */
+    pCheckBox = new_checkbox_with_title ( _("Do not warn about last chance to abort reconciliation"),
+					  &(etat.display_message_aborting_reconciliation), NULL );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), pCheckBox, FALSE, FALSE, 0 );
+
 
     /* Number of days before a warning message advertising a scheduled
        transaction */
