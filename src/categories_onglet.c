@@ -182,7 +182,7 @@ GtkWidget *onglet_categories ( void )
   GtkWidget *bouton;
 
 
-/* création de la fenêtre qui sera renvoyée */
+  /* création de la fenêtre qui sera renvoyée */
 
   onglet = gtk_hbox_new ( FALSE,
 			  5 );
@@ -518,10 +518,10 @@ GtkWidget *onglet_categories ( void )
 				    3,
 				    FALSE );
 
-  gtk_signal_connect_after ( GTK_OBJECT ( arbre_categ ),
-			     "button-press-event",
-			     GTK_SIGNAL_FUNC ( verifie_double_click_categ ),
-			     NULL );
+  gtk_signal_connect ( GTK_OBJECT ( arbre_categ ),
+		       "button-press-event",
+		       GTK_SIGNAL_FUNC ( verifie_double_click_categ ),
+		       NULL );
   gtk_signal_connect ( GTK_OBJECT ( arbre_categ ),
 		       "tree-select-row",
 		       GTK_SIGNAL_FUNC ( selection_ligne_categ ),

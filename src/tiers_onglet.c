@@ -29,7 +29,7 @@
 #include "barre_outils.h"
 #include "devises.h"
 #include "echeancier_liste.h"
-#include "erreur.h"
+#include "dialog.h"
 #include "etats_config.h"
 #include "fichiers_io.h"
 #include "gtkcombofix.h"
@@ -329,10 +329,10 @@ GtkWidget *onglet_tiers ( void )
 		       "tree-unselect-row",
 		       GTK_SIGNAL_FUNC ( enleve_selection_ligne_tiers ),
 		       NULL );
-  gtk_signal_connect_after ( GTK_OBJECT ( arbre_tiers ),
-			     "button-press-event",
-			     GTK_SIGNAL_FUNC ( verifie_double_click ),
-			     NULL );
+  gtk_signal_connect ( GTK_OBJECT ( arbre_tiers ),
+		       "button-press-event",
+		       GTK_SIGNAL_FUNC ( verifie_double_click ),
+		       NULL );
   gtk_signal_connect ( GTK_OBJECT ( arbre_tiers ),
 		       "size-allocate",
 		       GTK_SIGNAL_FUNC ( changement_taille_liste_tiers ),
@@ -782,10 +782,8 @@ void ouverture_node_tiers ( GtkWidget *arbre,
 
 
 /* **************************************************************************************************** */
-void selection_ligne_tiers ( GtkCTree *arbre_tiers,
-			     GtkCTreeNode *noeud,
-			     gint colonne,
-			     gpointer null )
+gboolean selection_ligne_tiers ( GtkCTree *arbre_tiers, GtkCTreeNode *noeud,
+				 gint colonne, gpointer null )
 {
   struct struct_tiers *tiers;
 
@@ -848,17 +846,15 @@ void selection_ligne_tiers ( GtkCTree *arbre_tiers,
 			"adr_struct_tiers",
 			tiers );
 
-
-
+  return FALSE;
 }
 /* **************************************************************************************************** */
 
 
 /* **************************************************************************************************** */
-void verifie_double_click ( GtkWidget *liste,
-			    GdkEventButton *ev,
-			    gpointer null )
+gboolean verifie_double_click ( GtkWidget *liste, GdkEventButton *ev, gpointer null )
 {
+
   if ( ev -> type == GDK_2BUTTON_PRESS )
     {
       struct structure_operation *operation;
@@ -867,7 +863,7 @@ void verifie_double_click ( GtkWidget *liste,
       if ( !GTK_CLIST ( arbre_tiers ) -> selection
 	   ||
 	   GTK_CTREE_ROW ( ( GTK_CLIST ( arbre_tiers ) -> selection ) -> data ) -> level != 3 )
-	return;
+	return FALSE;
 
       /* passage sur le compte concerné */
 
@@ -890,12 +886,13 @@ void verifie_double_click ( GtkWidget *liste,
       selectionne_ligne ( compte_courant );
     }
 
+  return FALSE;
 }
 /* **************************************************************************************************** */
 
 
 /* **************************************************************************************************** */
-void enleve_selection_ligne_tiers ( void )
+gboolean enleve_selection_ligne_tiers ( void )
 {
   gtk_widget_set_sensitive ( bouton_supprimer_tiers,
 			     FALSE );
@@ -935,6 +932,8 @@ void enleve_selection_ligne_tiers ( void )
 
   gtk_editable_set_editable ( GTK_EDITABLE ( text_box ),
 			      FALSE );
+
+  return FALSE;
 }
 /* **************************************************************************************************** */
 

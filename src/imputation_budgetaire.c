@@ -448,10 +448,10 @@ GtkWidget *onglet_imputations ( void )
 		       "tree-unselect-row",
 		       GTK_SIGNAL_FUNC ( enleve_selection_ligne_imputation ),
 		       NULL );
-  gtk_signal_connect_after ( GTK_OBJECT ( arbre_imputation ),
-			     "button-press-event",
-			     GTK_SIGNAL_FUNC ( verifie_double_click_imputation ),
-			     NULL );
+  gtk_signal_connect ( GTK_OBJECT ( arbre_imputation ),
+		       "button-press-event",
+		       GTK_SIGNAL_FUNC ( verifie_double_click_imputation ),
+		       NULL );
   gtk_signal_connect ( GTK_OBJECT ( arbre_imputation ),
 		       "size-allocate",
 		       GTK_SIGNAL_FUNC ( changement_taille_liste_tiers ),

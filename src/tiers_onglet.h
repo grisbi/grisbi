@@ -6,14 +6,11 @@ gint classement_alphabetique_tree ( GtkWidget *tree,
 void ouverture_node_tiers ( GtkWidget *arbre,
 			    GtkCTreeNode *node,
 			    gpointer null );
-void selection_ligne_tiers ( GtkCTree *arbre_tiers,
-			     GtkCTreeNode *noeud,
-			     gint colonne,
-			     gpointer null );
-void verifie_double_click ( GtkWidget *liste,
-			    GdkEventButton *ev,
-			    gpointer null );
-void enleve_selection_ligne_tiers ( void );
+gboolean selection_ligne_tiers ( GtkCTree *arbre_tiers, GtkCTreeNode *noeud,
+				 gint colonne, gpointer null );
+gboolean verifie_double_click ( GtkWidget *liste, GdkEventButton *ev, 
+				gpointer null );
+gboolean enleve_selection_ligne_tiers ( void );
 void modification_du_texte_tiers ( GtkText *texte,
 				   gpointer null );
 void clique_sur_modifier_tiers ( GtkWidget *bouton_modifier,
