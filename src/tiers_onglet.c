@@ -47,7 +47,7 @@
 #include "xpm/book-closed.xpm"
 #include "xpm/book-open.xpm"
 
-extern GtkWidget *widget_formulaire_echeancier[19];
+extern GtkWidget *widget_formulaire_echeancier[SCHEDULER_FORM_TOTAL_WIDGET];
 extern GSList *gsliste_echeances; 
 
 
@@ -1493,7 +1493,7 @@ void mise_a_jour_tiers ( void )
 			    liste_tiers_combofix,
 			    TRUE,
 			    TRUE );
-    gtk_combofix_set_list ( GTK_COMBOFIX ( widget_formulaire_echeancier[1] ),
+    gtk_combofix_set_list ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_PARTY] ),
 			    liste_tiers_combofix_echeancier,
 			    FALSE,
 			    TRUE );

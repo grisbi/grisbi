@@ -90,7 +90,7 @@ gint affichage_echeances_perso_nb_libre;     /* contient le contenu de l'entrée 
 gint affichage_echeances_perso_j_m_a;        /* contient 0 (jours), 1 (mois), 2 (années) */
 
 extern GtkWidget *label_saisie_modif;
-extern GtkWidget *widget_formulaire_echeancier[19];
+extern GtkWidget *widget_formulaire_echeancier[SCHEDULER_FORM_TOTAL_WIDGET];
 
 /*****************************************************************************/
 GtkWidget *creation_partie_gauche_echeancier ( void )
@@ -672,12 +672,12 @@ void click_sur_saisir_echeance ( void )
 			 _("Input") );
     edition_echeance ();
 
-    gtk_widget_hide ( widget_formulaire_echeancier[16] );
-    gtk_widget_hide ( widget_formulaire_echeancier[15] );
-    gtk_widget_hide ( widget_formulaire_echeancier[17] );
-    gtk_widget_hide ( widget_formulaire_echeancier[18] );
-    gtk_widget_hide ( widget_formulaire_echeancier[5] );
-    gtk_widget_hide ( widget_formulaire_echeancier[13] );
+    gtk_widget_hide ( widget_formulaire_echeancier[SCHEDULER_FORM_FINAL_DATE] );
+    gtk_widget_hide ( widget_formulaire_echeancier[SCHEDULER_FORM_FREQUENCY] );
+    gtk_widget_hide ( widget_formulaire_echeancier[SCHEDULER_FORM_FREQ_CUSTOM_NB] );
+    gtk_widget_hide ( widget_formulaire_echeancier[SCHEDULER_FORM_FREQ_CUSTOM_MENU] );
+    gtk_widget_hide ( widget_formulaire_echeancier[SCHEDULER_FORM_ACCOUNT] );
+    gtk_widget_hide ( widget_formulaire_echeancier[SCHEDULER_FORM_MODE] );
 
 }
 /*****************************************************************************/
@@ -1620,70 +1620,70 @@ void changement_taille_liste_echeances ( GtkWidget *clist,
     gtk_widget_set_usize ( GTK_WIDGET ( label_saisie_modif ),
 			   col1,
 			   FALSE );
-    gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_echeancier[0] ),
+    gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_echeancier[SCHEDULER_FORM_DATE] ),
 			   col2,
 			   FALSE );
-    gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_echeancier[1] ),
+    gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_echeancier[SCHEDULER_FORM_PARTY] ),
 			   col3,
 			   FALSE );
-    gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_echeancier[2] ),
+    gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_echeancier[SCHEDULER_FORM_DEBIT] ),
 			   col4,
 			   FALSE );
-    gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_echeancier[3] ),
+    gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_echeancier[SCHEDULER_FORM_CREDIT] ),
 			   col5,
 			   FALSE );
-    gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_echeancier[4] ),
+    gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_echeancier[SCHEDULER_FORM_DEVISE] ),
 			   col6 + col7,
 			   FALSE );
 
     /* 2ème ligne */
 
-    gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_echeancier[5] ),
+    gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_echeancier[SCHEDULER_FORM_ACCOUNT] ),
 			   col1 + col2,
 			   FALSE );
-    gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_echeancier[6] ),
+    gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_echeancier[SCHEDULER_FORM_CATEGORY] ),
 			   col3,
 			   FALSE );
-    gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_echeancier[7] ),
+    gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] ),
 			   col4 + col5,
 			   FALSE );
-    gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_echeancier[8] ),
+    gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_echeancier[SCHEDULER_FORM_CHEQUE] ),
 			   col6 + col7,
 			   FALSE );
 
     /* 3ème ligne */
 
-    gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_echeancier[9] ),
+    gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_echeancier[SCHEDULER_FORM_EXERCICE] ),
 			   col1 + col2,
 			   FALSE );
-    gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_echeancier[10] ),
+    gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_echeancier[SCHEDULER_FORM_BUDGETARY] ),
 			   col3,
 			   FALSE );
-    gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_echeancier[11] ),
+    gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_echeancier[SCHEDULER_FORM_BREAKDOWN] ),
 			   col4 + col5,
 			   FALSE );
-    gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_echeancier[12] ),
+    gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_echeancier[SCHEDULER_FORM_VOUCHER] ),
 			   col6 + col7,
 			   FALSE );
 
     /* 4ème ligne */
 
-    gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_echeancier[13] ),
+    gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_echeancier[SCHEDULER_FORM_MODE] ),
 			   col1 + col2,
 			   FALSE );
-    gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_echeancier[14] ),
+    gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_echeancier[SCHEDULER_FORM_NOTES] ),
 			   col3,
 			   FALSE );
-    gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_echeancier[15] ),
+    gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_echeancier[SCHEDULER_FORM_FREQUENCY] ),
 			   col4,
 			   FALSE );
-    gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_echeancier[16] ),
+    gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_echeancier[SCHEDULER_FORM_FINAL_DATE] ),
 			   col5,
 			   FALSE );
-    gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_echeancier[17] ),
+    gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_echeancier[SCHEDULER_FORM_FREQ_CUSTOM_NB] ),
 			   col6,
 			   FALSE );
-    gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_echeancier[18] ),
+    gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_echeancier[SCHEDULER_FORM_FREQ_CUSTOM_MENU] ),
 			   col7,
 			   FALSE );
 }
