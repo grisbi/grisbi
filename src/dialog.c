@@ -155,7 +155,7 @@ void dialogue_conditional ( gchar *text, int * var )
 
   dialog = gtk_message_dialog_new ( GTK_WINDOW (window),
 				    GTK_DIALOG_DESTROY_WITH_PARENT,
-				    GTK_MESSAGE_ERROR,
+				    GTK_MESSAGE_WARNING,
 				    GTK_BUTTONS_CLOSE,
 				    text );
   gtk_label_set_markup ( GTK_LABEL ( GTK_MESSAGE_DIALOG(dialog)->label ), text );
