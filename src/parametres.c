@@ -377,10 +377,14 @@ GtkWidget *onglet_messages_and_warnings ( void )
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), bouton_solde_mini, FALSE, FALSE, 0 );
 
     /* Display a warning message if account file is readable by someone else */
+    /* On Windows, the chmod feature does not work: FAT does not have right access permission notions , 
+     * on NTFS it to complicated to implement => the feature is removed from the Windows version :
+     * for that the corresponding parameter check box is not displayed and the paramater is forced to not display msg ( 1!!! ) */
+#ifndef _WIN32
     bouton_affiche_permission = new_checkbox_with_title ( _("Do not warn if account file is readable by someone else"),
 							  &(etat.display_message_file_readable), NULL );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), bouton_affiche_permission, FALSE, FALSE, 0 );
-
+#endif
     /* Display a warning message if file is already opened */
     bouton_display_lock_active = new_checkbox_with_title ( _("Do not warn about an already opened file"),
 							   &(etat.display_message_lock_active), NULL );
