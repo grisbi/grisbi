@@ -81,6 +81,7 @@ gboolean charge_categ_version_0_4_0 ( xmlDocPtr doc );
 gboolean enregistre_ib ( gchar *nom_ib );
 gboolean charge_ib ( gchar *nom_ib );
 gboolean charge_ib_version_0_4_0 ( xmlDocPtr doc );
+void propose_changement_permissions ( void );
 
 
 

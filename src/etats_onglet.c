@@ -680,6 +680,19 @@ void ajout_etat ( void )
   gtk_widget_show ( menu_item );
 
 
+  menu_item = gtk_menu_item_new_with_label ( _("Recherche"));
+  gtk_menu_append ( GTK_MENU ( menu ),
+		    menu_item );
+  gtk_object_set_data ( GTK_OBJECT ( menu_item ),
+			"no_etat",
+			GINT_TO_POINTER ( 6 ));
+  gtk_signal_connect ( GTK_OBJECT ( menu_item ),
+			      "activate",
+			      GTK_SIGNAL_FUNC ( change_choix_nouvel_etat ),
+			      GTK_OBJECT ( label_description ));
+  gtk_widget_show ( menu_item );
+
+
   menu_item = gtk_menu_item_new_with_label ( _("État vierge"));
   gtk_menu_append ( GTK_MENU ( menu ),
 		    menu_item );
@@ -1019,6 +1032,61 @@ void ajout_etat ( void )
 
       break;
 
+    case 6:
+
+      /* dépenses mensuelles par tiers */
+
+      etat -> nom_etat = g_strdup ( _("Recherche") );
+
+      /*   le classement de base est 1-2-3-4-5-6 (cf structure.h) */
+
+      etat -> type_classement = g_list_append ( etat -> type_classement,
+						GINT_TO_POINTER ( 1 ));
+      etat -> type_classement = g_list_append ( etat -> type_classement,
+						GINT_TO_POINTER ( 2 ));
+      etat -> type_classement = g_list_append ( etat -> type_classement,
+						GINT_TO_POINTER ( 3 ));
+      etat -> type_classement = g_list_append ( etat -> type_classement,
+						GINT_TO_POINTER ( 4 ));
+      etat -> type_classement = g_list_append ( etat -> type_classement,
+						GINT_TO_POINTER ( 5 ));
+      etat -> type_classement = g_list_append ( etat -> type_classement,
+						GINT_TO_POINTER ( 6 ));
+
+      /*   les devises sont à 1 (euro) */
+
+      etat -> devise_de_calcul_general = 1;
+      etat -> devise_de_calcul_categ = 1;
+      etat -> devise_de_calcul_ib = 1;
+      etat -> devise_de_calcul_tiers = 1;
+      etat -> choix_devise_montant = 1;
+
+
+      etat -> afficher_opes = 1;
+      etat -> afficher_date_ope = 1;
+      etat -> afficher_tiers_ope = 1;
+      etat -> afficher_categ_ope = 1;
+      etat -> afficher_sous_categ_ope = 1;
+      etat -> afficher_type_ope = 1;
+      etat -> afficher_ib_ope = 1;
+      etat -> afficher_sous_ib_ope = 1;
+      etat -> afficher_cheque_ope = 1;
+      etat -> afficher_notes_ope = 1;
+      etat -> afficher_pc_ope = 1;
+      etat -> afficher_rappr_ope = 1;
+      etat -> afficher_infobd_ope = 1;
+      etat -> afficher_exo_ope = 1;
+
+      etat -> ope_clickables = 1;
+      etat -> no_plage_date = 4;
+      etat -> separation_par_plage = 1;
+      etat -> type_separation_plage = 2;
+      etat -> type_virement = 2;
+ 
+     /*   tout le reste est à NULL, ce qui est très bien */
+
+      break;
+
 
     default :
       dialogue ( _( "Type d'état inconnu, création abandonnée" ));
@@ -1102,6 +1170,12 @@ void change_choix_nouvel_etat ( GtkWidget *menu_item,
       /* dépenses mensuelles par tiers  */
 
       description = _("Cet état affiche les dépenses du mois classées par tiers. Il suffira de choisir le ou les comptes et de valider (par-défaut, tous les comptes sont utilisés).");
+      break;
+ 
+    case 6:
+      /* recherche  */
+
+      description = _("Cet état affiche toutes les informations de toutes les opérations de tous les comptes pour l'année courante. Il vous suffit de rajouter les critères de recherche (par montant, tiers, date, etc.) qui vous intéressent. Les opérations sont interactives par défaut.");
       break;
  
     default:

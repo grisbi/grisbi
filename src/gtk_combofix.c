@@ -1719,6 +1719,7 @@ static void touche_pressee ( GtkWidget *entry,
 
       /*       touche entrée : prend le label sélectionné puis vire la popup */
     case 65293 :
+    case 65421 :
       if ( GTK_WIDGET_VISIBLE ( combofix -> popup ) &&   combofix -> label_selectionne != -1 )
       {
 	gtk_combofix_set_text ( combofix,

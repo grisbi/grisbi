@@ -102,31 +102,42 @@ GSList *recupere_opes_etat ( struct struct_etat *etat )
       exo_courant = NULL;
       exo_precedent = NULL;
 
+      /*  dans tous les cas, on recherche l'exo courant */
+
+
+      while ( liste_tmp )
+	{
+	  exo = liste_tmp -> data;
+	  
+	  if ( g_date_compare ( date_jour,
+				exo -> date_debut ) >= 0
+	       &&
+	       g_date_compare ( date_jour,
+				exo -> date_fin ) <= 0 )
+	    {
+	      exo_courant = exo;
+	      liste_tmp = NULL;
+	    }
+	  else
+	    liste_tmp = liste_tmp -> next;
+	}
+
+
+      /* si on veut l'exo précédent, c'est ici */
+
       switch ( etat -> utilise_detail_exo )
 	{
 	case 1:
 	  /* on recherche l'exo courant */
 
-	  while ( liste_tmp )
-	    {
-	      exo = liste_tmp -> data;
-
-	      if ( g_date_compare ( date_jour,
-				    exo -> date_debut ) >= 0
-		   &&
-		   g_date_compare ( date_jour,
-				    exo -> date_fin ) <= 0 )
-		{
-		  no_exercice_recherche = exo -> no_exercice;
-		  liste_tmp = NULL;
-		}
-	      else
-		liste_tmp = liste_tmp -> next;
-	    }
+	  if ( exo_courant )
+	    no_exercice_recherche = exo_courant -> no_exercice;
 	  break;
 
 	case 2:
 	  /* on recherche l'exo précédent */
+
+	  liste_tmp = liste_struct_exercices;
 
 	  while ( liste_tmp )
 	    {
@@ -136,31 +147,40 @@ GSList *recupere_opes_etat ( struct struct_etat *etat )
 
 	      if ( exo_courant )
 		{
-		  /* exo_courant est forcemment après exo_precedent */
-		  /* si l'exo en court est après exo_courant, on met exo_courant */
-		  /* dans exo_precedent, et l'exo en court dans exo_courant */
-		  /*   sinon, on compare avec exo_precedent */
+		  /* si l'exo est avant exo_courant et après exo_precedent, c'est le nouvel exo_precedent */
 
-		  if ( g_date_compare ( exo -> date_debut,
-					exo_courant -> date_fin ) >= 0 )
+		  if ( g_date_compare ( exo -> date_fin,
+					exo_courant -> date_debut ) <= 0 )
 		    {
-		      exo_precedent = exo_courant;
-		      exo_courant = exo;
-		    }
-		  else
-		    {
-		      /* l'exo en cours est avant exo_courant, on le compare à exo_precedent */
-
-		      if ( !exo_precedent
-			   ||
-			   g_date_compare ( exo -> date_debut,
-					    exo_precedent -> date_fin ) >= 0 )
+		      if ( exo_precedent )
+			{
+			  if ( g_date_compare ( exo -> date_debut,
+						exo_precedent -> date_fin ) >= 0 )
+			    exo_precedent = exo;
+			}
+		      else
 			exo_precedent = exo;
 		    }
 		}
 	      else
-		exo_courant = exo;
+		{
+		  /* 		      il n'y a pas d'exo courant, donc si l'exo est en date inférieur à la date du jour, */
+		  /* et après l'exo_precedent, c'est le nouvel exo précédent */
 
+		  if ( g_date_compare ( exo -> date_fin,
+					date_jour ) <= 0 )
+		    {
+		      if ( exo_precedent )
+			{
+			  if ( g_date_compare ( exo -> date_debut,
+						exo_precedent -> date_fin ) >= 0 )
+			    exo_precedent = exo;
+			}
+		      else
+			exo_precedent = exo;
+		    }
+
+		}
 
 	      liste_tmp = liste_tmp -> next;
 	    }
@@ -624,12 +644,18 @@ GSList *recupere_opes_etat ( struct struct_etat *etat )
 	      if ( etat -> utilise_mode_paiement )
 		{
 		  struct struct_type_ope *type_ope;
+		  GSList *liste_tmp;
 
 		  /* normalement p_tab... est sur le compte en cours */
 
-		  type_ope = g_slist_find_custom ( TYPES_OPES,
-						   GINT_TO_POINTER ( operation -> type_ope ),
-						   (GCompareFunc) recherche_type_ope_par_no ) -> data;
+		  liste_tmp = g_slist_find_custom ( TYPES_OPES,
+						    GINT_TO_POINTER ( operation -> type_ope ),
+						    (GCompareFunc) recherche_type_ope_par_no );
+
+		  if ( liste_tmp )
+		    type_ope = liste_tmp -> data;
+		  else
+		    goto operation_refusee;
 
 		  if ( !g_slist_find_custom ( etat -> noms_modes_paiement,
 					      type_ope -> nom_type,

@@ -1030,14 +1030,6 @@ GtkWidget *creation_barre_outils_categ ( void )
 		       0 );
   gtk_widget_show_all ( bouton );
 
-  separateur = gtk_vseparator_new ();
-  gtk_box_pack_start ( GTK_BOX ( hbox ),
-		       separateur,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( separateur );
-
   /* bouton ouverture de l'arbre niveau 3 */
 
   bouton = gtk_button_new ();
@@ -1192,14 +1184,6 @@ GtkWidget *creation_barre_outils_imputation ( void )
 		       FALSE,
 		       0 );
   gtk_widget_show_all ( bouton );
-
-  separateur = gtk_vseparator_new ();
-  gtk_box_pack_start ( GTK_BOX ( hbox ),
-		       separateur,
-		       FALSE,
-		       FALSE,
-		       0 );
-  gtk_widget_show ( separateur );
 
   /* bouton ouverture de l'arbre niveau 3 */
 

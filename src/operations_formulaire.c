@@ -51,12 +51,6 @@ GtkWidget *creation_formulaire ( void )
   couleur_grise.green = COULEUR_GRISE_GREEN;
   couleur_grise.blue = COULEUR_GRISE_BLUE;
 
-  style_entree_formulaire [0] = gtk_style_copy ( gtk_widget_get_style (GTK_WIDGET (window)) );
-  style_entree_formulaire [0]->fg[GTK_STATE_NORMAL] = couleur_normale;
-
-  style_entree_formulaire [1] = gtk_style_copy ( gtk_widget_get_style (GTK_WIDGET (window)) );
-  style_entree_formulaire [1]->fg[GTK_STATE_NORMAL] = couleur_grise;
-
 
   /* on crée le tooltips */
 
@@ -67,6 +61,13 @@ GtkWidget *creation_formulaire ( void )
 
   formulaire = gtk_vbox_new ( FALSE,
 			      5 );
+
+  style_entree_formulaire [0] = gtk_style_copy ( gtk_widget_get_style (GTK_WIDGET (formulaire)) );
+  style_entree_formulaire [0]->fg[GTK_STATE_NORMAL] = couleur_normale;
+
+  style_entree_formulaire [1] = gtk_style_copy ( gtk_widget_get_style (GTK_WIDGET (formulaire)) );
+  style_entree_formulaire [1]->fg[GTK_STATE_NORMAL] = couleur_grise;
+
 
   /* le formulaire est une table de 7 colonnes  sur 4 */
 

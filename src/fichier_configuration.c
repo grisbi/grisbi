@@ -170,7 +170,6 @@ void raz_configuration ( void )
   etat.force_enregistrement = 0;     /* par défaut, on ne force pas l'enregistrement */
   etat.affiche_tous_les_types = 0;   /* par défaut, on n'affiche ds le formulaire que les types du débit ou crédit */
   etat.classement_par_date = 1;  /* par défaut, on tri la liste des opés par les dates */
-  etat.utilise_exercice = 1;
   etat.affiche_boutons_valider_annuler = 1;
   etat.classement_par_date = 1;
   dernier_chemin_de_travail = g_strconcat ( getenv ("HOME"),

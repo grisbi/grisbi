@@ -109,6 +109,7 @@ void init_variables ( gboolean ouverture )
       affichage_echeances = 3;
       affichage_echeances_perso_nb_libre = 0;
       affichage_echeances_perso_j_m_a = 0;
+      echeances_saisies = NULL;
 
       liste_struct_tiers = NULL;
       nb_enregistrements_tiers = 0;
@@ -175,9 +176,9 @@ void init_variables ( gboolean ouverture )
 void initialise_tab_affichage_ope ( void )
 {
   gint tab[4][7] = { { 18, 1, 3, 13, 5, 6, 7 },
-		   {0, 0, 12, 0, 9, 8, 0 },
-		   {0, 11, 15, 0, 0, 0, 0 },
-		   {0, 0, 0, 0, 0, 0, 0 }};
+		     {0, 0, 12, 0, 9, 8, 0 },
+		     {0, 11, 15, 0, 0, 0, 0 },
+		     {0, 0, 0, 0, 0, 0, 0 }};
   gint i, j;
 
   for ( i = 0 ; i<4 ; i++ )
@@ -186,6 +187,11 @@ void initialise_tab_affichage_ope ( void )
 
 
   ligne_affichage_une_ligne = 0;
+
+  if ( lignes_affichage_deux_lignes )
+    g_slist_free ( lignes_affichage_deux_lignes );
+  if ( lignes_affichage_trois_lignes )
+    g_slist_free ( lignes_affichage_trois_lignes );
 
   lignes_affichage_deux_lignes = NULL;
   lignes_affichage_deux_lignes = g_slist_append ( lignes_affichage_deux_lignes,
@@ -199,7 +205,7 @@ void initialise_tab_affichage_ope ( void )
   lignes_affichage_trois_lignes = g_slist_append ( lignes_affichage_trois_lignes,
 						  GINT_TO_POINTER (1));
   lignes_affichage_trois_lignes = g_slist_append ( lignes_affichage_trois_lignes,
-						  GINT_TO_POINTER (3));
+						  GINT_TO_POINTER (2));
 
 }
 /*****************************************************************************************************/

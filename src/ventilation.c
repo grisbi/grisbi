@@ -2630,7 +2630,7 @@ GSList *creation_liste_ope_de_ventil ( struct structure_operation *operation )
 	  ope_ventil -> categorie = operation_2 -> categorie;
 	  ope_ventil -> sous_categorie = operation_2 -> sous_categorie;
 
-	  if ( ope_ventil -> notes )
+	  if ( operation_2 -> notes )
 	    ope_ventil -> notes = g_strdup ( operation_2 -> notes );
 
 	  ope_ventil -> imputation = operation_2 -> imputation;

@@ -84,6 +84,7 @@ gint gtktable_affiche_titre ( gint ligne )
   GtkWidget *label;
   gchar *titre;
   GDate *date_jour;
+  GSList *liste_tmp;
 
   date_jour = g_date_new ();
   g_date_set_time ( date_jour,
@@ -91,20 +92,43 @@ gint gtktable_affiche_titre ( gint ligne )
 
   titre = etat_courant -> nom_etat;
 
+
   if ( etat_courant -> exo_date )
     {
-      GSList *liste_tmp;
+      GDate *date_jour;
       struct struct_exercice *exo;
       struct struct_exercice *exo_courant;
       struct struct_exercice *exo_precedent;
 
-      /* initialise les variables pour la recherche d'exo */
-
       liste_tmp = liste_struct_exercices;
+      date_jour = g_date_new ();
+      g_date_set_time ( date_jour,
+			time ( NULL ));
+
 
       exo_courant = NULL;
       exo_precedent = NULL;
-      exo = NULL;
+
+      /*  dans tous les cas, on recherche l'exo courant */
+
+
+      while ( liste_tmp )
+	{
+	  exo = liste_tmp -> data;
+	  
+	  if ( g_date_compare ( date_jour,
+				exo -> date_debut ) >= 0
+	       &&
+	       g_date_compare ( date_jour,
+				exo -> date_fin ) <= 0 )
+	    {
+	      exo_courant = exo;
+	      liste_tmp = NULL;
+	    }
+	  else
+	    liste_tmp = liste_tmp -> next;
+	}
+
 
       switch ( etat_courant -> utilise_detail_exo )
 	{
@@ -119,28 +143,10 @@ gint gtktable_affiche_titre ( gint ligne )
 	case 1:
 	  /* exercice courant */
 
-	  /* on recherche l'exo courant */
-
-	  while ( liste_tmp )
-	    {
-	      exo = liste_tmp -> data;
-
-	      if ( g_date_compare ( date_jour,
-				    exo -> date_debut ) >= 0
-		   &&
-		   g_date_compare ( date_jour,
-				    exo -> date_fin ) <= 0 )
-		liste_tmp = NULL;
-	      else
-		liste_tmp = liste_tmp -> next;
-	    }
-
-	  /* 	  à ce niveau, exo contient l'exercice courant ou NULL */
-
-	  if ( exo )
+	  if ( exo_courant )
 	    titre = g_strconcat ( titre,
 				  ", exercice courant (",
-				  exo -> nom_exercice,
+				  exo_courant -> nom_exercice,
 				  ")",
 				  NULL );
 	  else
@@ -151,7 +157,8 @@ gint gtktable_affiche_titre ( gint ligne )
 
 	case 2:
 	  /* exo précédent */
-	  /* on recherche l'exo précédent */
+
+	  liste_tmp = liste_struct_exercices;
 
 	  while ( liste_tmp )
 	    {
@@ -161,32 +168,39 @@ gint gtktable_affiche_titre ( gint ligne )
 
 	      if ( exo_courant )
 		{
-		  /* exo_courant est forcemment après exo_precedent */
-		  /* si l'exo en court est après exo_courant, on met exo_courant */
-		  /* dans exo_precedent, et l'exo en court dans exo_courant */
-		  /*   sinon, on compare avec exo_precedent */
+		  /* si l'exo est avant exo_courant et après exo_precedent, c'est le nouvel exo_precedent */
 
-		  if ( g_date_compare ( exo -> date_debut,
-					exo_courant -> date_fin ) >= 0 )
+		  if ( g_date_compare ( exo -> date_fin,
+					exo_courant -> date_debut ) <= 0 )
 		    {
-		      exo_precedent = exo_courant;
-		      exo_courant = exo;
-		    }
-		  else
-		    {
-		      /* l'exo en cours est avant exo_courant, on le compare à exo_precedent */
-
-		      if ( !exo_precedent
-			   ||
-			   g_date_compare ( exo -> date_debut,
-					    exo_precedent -> date_fin ) >= 0 )
+		      if ( exo_precedent )
+			{
+			  if ( g_date_compare ( exo -> date_debut,
+						exo_precedent -> date_fin ) >= 0 )
+			    exo_precedent = exo;
+			}
+		      else
 			exo_precedent = exo;
 		    }
 		}
 	      else
-		exo_courant = exo;
+		{
+		  /* 		      il n'y a pas d'exo courant, donc si l'exo est en date inférieur à la date du jour, */
+		  /* et après l'exo_precedent, c'est le nouvel exo précédent */
 
-
+		  if ( g_date_compare ( exo -> date_fin,
+					date_jour ) <= 0 )
+		    {
+		      if ( exo_precedent )
+			{
+			  if ( g_date_compare ( exo -> date_debut,
+						exo_precedent -> date_fin ) >= 0 )
+			    exo_precedent = exo;
+			}
+		      else
+			exo_precedent = exo;
+		    }
+		}
 	      liste_tmp = liste_tmp -> next;
 	    }
 
@@ -203,7 +217,7 @@ gint gtktable_affiche_titre ( gint ligne )
 				  ", exercice précédent",
 				  NULL );
 	  break;
-
+	
 	case 3:
 	  /* exos perso */
 	  /* 	  un ou plusieurs exos ont été sélectionnés, on récupère le nom de chacuns */
@@ -241,7 +255,7 @@ gint gtktable_affiche_titre ( gint ligne )
 
 	  break;
 	}
-    }     
+    }
   else
     {
       /* c'est une plage de dates qui a été entrée */

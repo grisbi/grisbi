@@ -43,8 +43,8 @@ gboolean charge_operations ( void )
   stat ( nom_fichier_comptes,
 	 &buffer_stat);
   if ( buffer_stat.st_mode != 33152 && etat.alerte_permission )
-    dialogue ( _("Attention, les permissions du fichier ne sont pas à \
-600\n(Ce message peut être désactivé dans les paramètres)") );
+    propose_changement_permissions();
+
  
   /* on commence par ouvrir le fichier en xml */
   /*   si marche pas, essaye d'ouvrir la version 0.3.1 */
@@ -125,10 +125,10 @@ gboolean charge_operations_version_0_3_2 ( xmlDocPtr doc )
 
   etat.en_train_de_charger = 1;
 
-  /* on copie le fichier en ajoutant l'extension 0_3_2 et on met message d'avertissement */
+  /* on copie le fichier en ajoutant l'extension 0_3_3 et on met message d'avertissement */
 
   nom_sauvegarde = g_strconcat ( nom_fichier_comptes,
-				 "_version_0_3_2",
+				 "_version_0_3_3",
 				 NULL );
 
   system ( g_strdup_printf ( "cp %s %s",
@@ -1850,8 +1850,8 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 		    if ( etat.force_enregistrement )
 		      dialogue ( _("Attention, le fichier semble dejà ouvert pas un autre \
 utilisateur.\nCependant Grisbi va \
-forcer l'enregistrement ; cette option est deconseillee\n sauf si vous êtes sûr \
-que personne d'autre n'utilise le fichier pour le moment.\nLa desactivation de \
+forcer l'enregistrement ; cette option est déconseillée\n sauf si vous êtes sûr \
+que personne d'autre n'utilise le fichier pour le moment.\nLa désactivation de \
 cette option s'effectue dans le menu de configuration") );
 		    else
 		      dialogue ( _("Attention, le fichier semble dejà ouvert pas un autre \
@@ -6827,5 +6827,40 @@ gboolean charge_ib_version_0_4_0 ( xmlDocPtr doc )
   modification_fichier ( TRUE );
 
   return ( TRUE );
+}
+/***********************************************************************************************************/
+
+
+
+/***********************************************************************************************************/
+void propose_changement_permissions ( void )
+{
+  GtkWidget *dialog;
+  GtkWidget *label;
+  gint resultat;
+
+  dialog = gnome_dialog_new ( _("Modification de permission"),
+			      GNOME_STOCK_BUTTON_OK,
+			      GNOME_STOCK_BUTTON_NO,
+			      NULL );
+  gtk_window_set_transient_for ( GTK_WINDOW ( dialog ),
+				GTK_WINDOW ( window ));
+
+
+  label = gtk_label_new ( _("Votre fichier de compte ne devrait pas être lisible par qui que ce soit\nd'autre que vous ; or, il l'est.\nVoulez-vous que je me charge de changer ses permissions ?\n(Ce message est désactivable dans les paramètres)"));
+  gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
+		       label,
+		       FALSE,
+		       FALSE,
+		       0 );
+  gtk_widget_show ( label );
+
+  resultat = gnome_dialog_run_and_close ( GNOME_DIALOG ( dialog ));
+
+  if ( !resultat )
+    chmod ( nom_fichier_comptes,
+	    S_IRUSR | S_IWUSR );
+
+
 }
 /***********************************************************************************************************/

@@ -2548,12 +2548,18 @@ void verification_mise_a_jour_liste ( void )
   if ( !MISE_A_JOUR )
     return;
 
+
   ajustement = gtk_clist_get_vadjustment ( GTK_CLIST ( CLIST_OPERATIONS ));
 
   haut = ajustement -> upper;
   bas = ajustement -> lower + ajustement -> page_size;
   value = ajustement -> value;
   page_size = ajustement -> page_size;
+
+  /* on classe la liste en fonction de la date ou date de valeur */
+
+  LISTE_OPERATIONS = g_slist_sort ( LISTE_OPERATIONS,
+				    (GCompareFunc) classement_sliste_par_date );
 
   remplissage_liste_operations ( GPOINTER_TO_INT ( compte ) );
 

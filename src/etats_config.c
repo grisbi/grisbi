@@ -574,10 +574,7 @@ void personnalisation_etat (void)
 				 etat_courant -> affiche_sous_total_sous_categ );
   gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_pas_de_sous_categ ),
 				 etat_courant -> afficher_pas_de_sous_categ );
-  sens_desensitive_pointeur ( bouton_afficher_sous_categ,
-			      bouton_affiche_sous_total_sous_categ );
-  sens_desensitive_pointeur ( bouton_afficher_sous_categ,
-			      bouton_afficher_pas_de_sous_categ );
+
 
   /* mise en forme de la devise */
 
@@ -624,10 +621,6 @@ void personnalisation_etat (void)
 				 etat_courant -> affiche_sous_total_sous_ib );
   gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_pas_de_sous_ib ),
 				 etat_courant -> afficher_pas_de_sous_ib );
-  sens_desensitive_pointeur ( bouton_afficher_sous_ib,
-			      bouton_affiche_sous_total_sous_ib );
-  sens_desensitive_pointeur ( bouton_afficher_sous_ib,
-			      bouton_afficher_pas_de_sous_ib );
 
   /* mise en forme de la devise */
 
