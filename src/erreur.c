@@ -61,11 +61,6 @@ gboolean fermeture_grisbi ( void )
 	id_temps = 0;
     }
 
-/*     la sauvegarde des largeurs de colonnes nécessite qu'on soit sur la liste des opés */
-
-    if ( etat.ventilation_en_cours )
-	quitter_ventilation();
-
     sauve_configuration ();
 
     /*   si le fichier est modifié, propose l'enregistrement */

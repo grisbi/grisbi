@@ -909,7 +909,6 @@ void traitement_operations_importees ( void )
     if ( nouveau_fichier )
     {
 	creation_fenetre_principale();
-	creation_listes_operations ();
 	changement_compte ( GINT_TO_POINTER ( compte_courant ) );
 	gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ),
 				0 );

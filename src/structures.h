@@ -6,6 +6,7 @@
 
 #include "print_config.h"
 
+
 #define VERSION_FICHIER "0.5.1"
 #define VERSION_FICHIER_ETAT "0.5.0"
 #define VERSION_FICHIER_CATEG "0.5.0"
@@ -95,7 +96,6 @@ struct {
     guint en_train_de_charger;
     guint utilise_logo;
     guint utilise_fonte_listes;
-    gint ventilation_en_cours;        /*utilisé pour afficher les lignes sur la liste d'opé */
 
     /* Various display message stuff  */
     guint display_message_lock_active;
@@ -177,7 +177,7 @@ struct structure_operation
 };
 
 
-
+#define TRANSACTION_LIST_COL_NB 7
 
 struct donnees_compte
 {
@@ -193,7 +193,6 @@ struct donnees_compte
     gdouble solde_pointe;
     GSList *gsliste_operations;
     gint ligne_selectionnee;      /*contient le no de ligne en cours dans la liste des opés (!! ligne brute, dépend du nb de lignes par ope)*/
-    gint value_ajustement;          /* contient la value de l'ajustement du compte, avant d'avoir changé de compte */
     gint message_sous_mini;
     gint message_sous_mini_voulu;
     GDate *date_releve;
@@ -223,6 +222,14 @@ struct donnees_compte
     GtkTreeViewColumn *colonne_classement;         /* contient le no de colonne qui a été clické pour le classement */
     gint classement_croissant;          /*à 1 si on utilise le classement croissant, du haut de la liste vers le bas*/
     gint no_classement;                    /*contient le no du classement*/
+
+/*     données de la tree_view */
+
+    GtkWidget *tree_view_liste_operations;
+    GtkWidget *scrolled_window_liste_operations;
+    GtkListStore *store_liste_operations;
+    gdouble value_ajustement_liste_operations; 
+    GtkTreeViewColumn *colonne_liste_operations[TRANSACTION_LIST_COL_NB];
 };
 
 
@@ -241,7 +248,6 @@ struct donnees_compte
 #define SOLDE_POINTE ((struct donnees_compte *) (*p_tab_nom_de_compte_variable)) -> solde_pointe
 #define LISTE_OPERATIONS ((struct donnees_compte *) (*p_tab_nom_de_compte_variable)) -> gsliste_operations
 #define LIGNE_SELECTIONNEE ((struct donnees_compte *) (*p_tab_nom_de_compte_variable)) -> ligne_selectionnee
-#define VALUE_AJUSTEMENT ((struct donnees_compte *) (*p_tab_nom_de_compte_variable)) -> value_ajustement
 #define MESSAGE_SOUS_MINI ((struct donnees_compte *) (*p_tab_nom_de_compte_variable)) ->  message_sous_mini
 #define MESSAGE_SOUS_MINI_VOULU ((struct donnees_compte *) (*p_tab_nom_de_compte_variable)) ->  message_sous_mini_voulu
 #define DATE_DERNIER_RELEVE ((struct donnees_compte *) (*p_tab_nom_de_compte_variable)) ->  date_releve
@@ -272,6 +278,11 @@ struct donnees_compte
 #define CLASSEMENT_CROISSANT ((struct donnees_compte *) (*p_tab_nom_de_compte_variable)) -> classement_croissant
 #define NO_CLASSEMENT ((struct donnees_compte *) (*p_tab_nom_de_compte_variable)) -> no_classement
 
+#define TREE_VIEW_LISTE_OPERATIONS ((struct donnees_compte *) (*p_tab_nom_de_compte_variable)) -> tree_view_liste_operations
+#define SCROLLED_WINDOW_LISTE_OPERATIONS ((struct donnees_compte *) (*p_tab_nom_de_compte_variable)) -> scrolled_window_liste_operations
+#define STORE_LISTE_OPERATIONS ((struct donnees_compte *) (*p_tab_nom_de_compte_variable)) -> store_liste_operations
+#define VALUE_AJUSTEMENT_LISTE_OPERATIONS ((struct donnees_compte *) (*p_tab_nom_de_compte_variable)) -> value_ajustement_liste_operations
+#define COLONNE_LISTE_OPERATIONS(s) ((struct donnees_compte *) (*p_tab_nom_de_compte_variable)) -> colonne_liste_operations[s]
 
 struct operation_echeance
 {

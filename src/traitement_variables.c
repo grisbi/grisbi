@@ -66,7 +66,6 @@ extern gint affichage_echeances_perso_j_m_a;
 extern GSList *echeances_saisies;
 
 extern GtkTooltips *tooltips_general_grisbi;
-extern GtkTreeViewColumn *colonnes_liste_opes[7];
 extern GtkTreeViewColumn *colonnes_liste_ventils[3];
 extern GSList *liste_struct_banques;
 extern gint nb_banques;
@@ -235,8 +234,6 @@ void init_variables ( gboolean ouverture )
 
 	tooltips_general_grisbi = NULL;
 
-	for ( i=0 ; i<7 ; i++ )
-	    colonnes_liste_opes[i] = NULL;
 	for ( i=0 ; i<3 ; i++ )
 	    colonnes_liste_ventils[i] = NULL;
 

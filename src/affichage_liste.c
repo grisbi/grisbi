@@ -56,8 +56,6 @@ gchar *labels_boutons [] = { N_("Date"),
 gint ancienne_allocation_liste;
 gint affichage_realise;
 
-extern GtkTreeViewColumn *colonnes_liste_opes[7];
-extern GtkWidget *tree_view_listes_operations;
 extern gint allocation_precedente;
 extern GSList *liste_labels_titres_colonnes_liste_ope;
 
@@ -187,20 +185,24 @@ gboolean change_choix_ajustement_auto_colonnes ( GtkWidget *bouton )
 
     if ( etat.largeur_auto_colonnes )
     {
+	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
+
 	allocation_precedente = 0;
+
 	for ( i = 0 ; i < TRANSACTION_LIST_COL_NB ; i++ )
-	    gtk_tree_view_column_set_resizable ( colonnes_liste_opes[i],
+	    gtk_tree_view_column_set_resizable ( COLONNE_LISTE_OPERATIONS(i),
 						 FALSE );
-	changement_taille_liste_ope ( tree_view_listes_operations,
-				      &(tree_view_listes_operations -> allocation ));
+
+	changement_taille_liste_ope ( TREE_VIEW_LISTE_OPERATIONS,
+				      &( TREE_VIEW_LISTE_OPERATIONS-> allocation ));
     }
     else
     {
 	for ( i = 0 ; i < TRANSACTION_LIST_COL_NB ; i++ )
 	{
-	    gtk_tree_view_column_set_resizable ( colonnes_liste_opes[i],
+	    gtk_tree_view_column_set_resizable ( COLONNE_LISTE_OPERATIONS(i),
 						 TRUE );
-	    taille_largeur_colonnes[i] = gtk_tree_view_column_get_fixed_width ( colonnes_liste_opes[i] );
+	    taille_largeur_colonnes[i] = gtk_tree_view_column_get_fixed_width ( COLONNE_LISTE_OPERATIONS(i) );
 	}
    }
     return ( FALSE );
@@ -214,9 +216,14 @@ gboolean change_largeur_colonne ( GtkWidget *clist,
 				  gint largeur )
 {
     rapport_largeur_colonnes[colonne] = largeur*100/clist->allocation.width;
+
     if ( etat.largeur_auto_colonnes )
-	gtk_tree_view_column_set_fixed_width ( colonnes_liste_opes[colonne],
-					       rapport_largeur_colonnes[colonne] * tree_view_listes_operations -> allocation.width / 100 );
+    {
+	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
+
+	gtk_tree_view_column_set_fixed_width ( COLONNE_LISTE_OPERATIONS(colonne),
+					       rapport_largeur_colonnes[colonne] * TREE_VIEW_LISTE_OPERATIONS -> allocation.width / 100 );
+    }
 
     return FALSE;
 }

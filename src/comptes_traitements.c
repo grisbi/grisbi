@@ -50,7 +50,6 @@ extern GtkWidget *widget_formulaire_echeancier[19];
 extern GSList *liste_struct_echeances;
 extern struct operation_echeance *echeance_selectionnnee;
 extern gint nb_echeances;
-extern GSList *list_store_comptes;
 
 
 /* *********************************************************************************************************** */
@@ -80,10 +79,6 @@ void  nouveau_compte ( void )
     if ( no_compte == -1 )
 	return;
 
-    /* on crée la liste des opés : on met juste une place en plus à null dans le store_comptes */
-
-    list_store_comptes = g_slist_append ( list_store_comptes,
-					  NULL );
     /* on recrée les combofix des catégories */
 
     mise_a_jour_categ();

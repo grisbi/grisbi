@@ -2,7 +2,6 @@ GtkWidget *creation_fenetre_operations ( void );
 GtkWidget *creation_tree_view_operations ( void );
 void creation_titres_tree_view ( void );
 void update_titres_tree_view ( void );
-void creation_listes_operations ( void );
 void remplissage_liste_operations ( gint compte );
 gchar *recherche_contenu_cellule ( struct structure_operation *operation,
 				   gint no_affichage );
@@ -37,7 +36,7 @@ void move_operation_to_account ( struct structure_operation * transaction,
 void schedule_selected_transaction ( );
 struct operation_echeance * schedule_transaction ( struct structure_operation * transaction );
 void popup_transaction_context_menu ( gboolean full );
-void affichage_traits_liste_operation ( void );
+gboolean affichage_traits_liste_operation ( void );
 gboolean click_sur_titre_colonne_operations ( GtkTreeViewColumn *colonne,
 					      gint *no_colonne );
 void changement_choix_tri_liste_operations ( gchar *nom_tri );

@@ -4,7 +4,8 @@ gboolean clique_champ_formulaire_ventilation ( void );
 gboolean entree_ventilation_perd_focus ( GtkWidget *entree, GdkEventFocus *ev,
 					 gint *no_origine );
 void ventiler_operation ( gdouble montant );
-gboolean traitement_clavier_liste_ventilation ( GdkEventKey *evenement );
+gboolean traitement_clavier_liste_ventilation ( GtkWidget *widget_variable,
+						GdkEventKey *evenement );
 gboolean selectionne_ligne_souris_ventilation ( GtkWidget *tree_view,
 						GdkEventButton *evenement );
 gboolean appui_touche_ventilation ( GtkWidget *entree,
@@ -27,3 +28,8 @@ void annuler_ventilation ( void );
 void quitter_ventilation ( void );
 GSList *creation_liste_ope_de_ventil ( struct structure_operation *operation );
 void validation_ope_de_ventilation ( struct structure_operation *operation );
+gboolean changement_taille_liste_ope_ventilation ( GtkWidget *tree_view,
+						   GtkAllocation *allocation );
+void affichage_traits_liste_ventilation ( void );
+void ajuste_scrolling_liste_ventilations_a_selection ( void );
+

@@ -9,7 +9,7 @@
 #define TRANSACTION_COL_NB_DEBIT 4
 #define TRANSACTION_COL_NB_CREDIT 5
 #define TRANSACTION_COL_NB_BALANCE 6
-#define TRANSACTION_LIST_COL_NB 7	 /* must be the last of the list */
+#define TRANSACTION_LIST_COL_NB 7	 /* must be the last of the list, defini aussi dans structures.h */
 
 #define TRANSACTION_LIST_ROWS_NB 4
 

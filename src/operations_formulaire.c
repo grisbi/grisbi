@@ -53,9 +53,7 @@
 
 
 
-extern GtkWidget *tree_view_listes_operations;
 extern gint hauteur_ligne_liste_opes;
-extern GSList *list_store_comptes;
 extern gint enregistre_ope_au_retour;
 extern gint ligne_selectionnee_ventilation;
 extern gdouble solde_initial;
@@ -728,7 +726,7 @@ void echap_formulaire ( void )
     if ( !etat.formulaire_toujours_affiche )
 	gtk_widget_hide ( frame_droite_bas );
 
-    gtk_widget_grab_focus ( tree_view_listes_operations );
+    gtk_widget_grab_focus ( TREE_VIEW_LISTE_OPERATIONS );
 
 }
 /******************************************************************************/
@@ -2918,7 +2916,7 @@ void recuperation_categorie_formulaire ( struct structure_operation *operation,
 					    operation -> montant < 0,
 					    0 );
 
-		    if ( !categ )
+		    if ( categ )
 		    {
 			struct struct_sous_categ *sous_categ;
 
@@ -2928,7 +2926,7 @@ void recuperation_categorie_formulaire ( struct structure_operation *operation,
 							  tableau_char[1],
 							  1 );
 
-			if ( !sous_categ )
+			if ( sous_categ )
 			    operation -> sous_categorie = sous_categ -> no_sous_categ;
 		    }
 		}
@@ -3312,7 +3310,7 @@ void affiche_cache_le_formulaire ( void )
 	/* 	on la remonte pour la mettre juste au dessus du formulaire */
 
 	while ( g_main_iteration ( FALSE ));
-	ajustement = gtk_tree_view_get_vadjustment ( GTK_TREE_VIEW ( tree_view_listes_operations ));
+	ajustement = gtk_tree_view_get_vadjustment ( GTK_TREE_VIEW ( TREE_VIEW_LISTE_OPERATIONS ));
 
 	if ( (LIGNE_SELECTIONNEE+NB_LIGNES_OPE)*hauteur_ligne_liste_opes > (ajustement->value + ajustement->page_size))
 	    gtk_adjustment_set_value ( ajustement,

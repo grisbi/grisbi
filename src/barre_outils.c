@@ -61,7 +61,6 @@ GtkWidget *label_proprietes_operations_compte;
 
 
 extern GtkTooltips *tooltips_general_grisbi;
-extern GtkWidget *tree_view_listes_operations;
 extern GtkWidget *arbre_imputation;
 
 /*******************************************************************************************/

@@ -82,7 +82,6 @@ GSList *liste_struct_rapprochements;            /* contient la liste des structu
 gint ancien_nb_lignes_ope;              /* contient l'ancien nb_lignes_ope */
 
 
-extern GtkWidget *tree_view_listes_operations;
 extern GtkWidget *bouton_ope_lignes[4];
 extern GtkWidget *label_proprietes_operations_compte;
 extern GtkWidget *bouton_affiche_r;
@@ -107,6 +106,10 @@ GtkWidget *creation_fenetre_equilibrage ( void )
     fenetre_equilibrage = gtk_vbox_new ( FALSE, 5 );
     gtk_container_set_border_width ( GTK_CONTAINER ( fenetre_equilibrage ),
 				     10 );
+    gtk_signal_connect ( GTK_OBJECT ( fenetre_equilibrage ),
+			 "key_press_event",
+			 GTK_SIGNAL_FUNC ( traitement_clavier_liste ),
+			 NULL );
     gtk_widget_show ( fenetre_equilibrage );
 
 
@@ -799,7 +802,7 @@ void pointe_equilibrage ( int p_ligne )
 					      operation -> taux_change,
 					      operation -> frais_change );
 
-    gtk_tree_model_get_iter_from_string ( GTK_TREE_MODEL ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view_listes_operations ))),
+    gtk_tree_model_get_iter_from_string ( GTK_TREE_MODEL ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( TREE_VIEW_LISTE_OPERATIONS ))),
 					  &iter,
 					  itoa ( p_ligne ));
 
@@ -810,7 +813,7 @@ void pointe_equilibrage ( int p_ligne )
 
 	operation -> pointe = 0;
 
-	gtk_list_store_set ( GTK_LIST_STORE ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view_listes_operations ))),
+	gtk_list_store_set ( GTK_LIST_STORE ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( TREE_VIEW_LISTE_OPERATIONS ))),
 			     &iter,
 			     3, NULL,
 			     -1 );
@@ -822,7 +825,7 @@ void pointe_equilibrage ( int p_ligne )
 
 	operation -> pointe = 1;
 	
-	gtk_list_store_set ( GTK_LIST_STORE ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view_listes_operations ))),
+	gtk_list_store_set ( GTK_LIST_STORE ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( TREE_VIEW_LISTE_OPERATIONS ))),
 			     &iter,
 			     3, _("P"),
 			     -1 );

@@ -110,10 +110,6 @@ void nouveau_fichier ( void )
 			 TRUE,
 			 0 );
 
-    /* remplit les listes des opés */
-
-    creation_listes_operations ();
-
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
 
     changement_compte ( GINT_TO_POINTER ( compte_courant ) );
@@ -356,9 +352,6 @@ void ouverture_confirmee ( void )
 
     creation_fenetre_principale();
 
-    /* remplit les listes des opés */
-
-    creation_listes_operations ();
 
     changement_compte ( GINT_TO_POINTER ( compte_courant ) );
 

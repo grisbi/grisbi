@@ -51,9 +51,7 @@ extern GtkWidget *separateur_formulaire_echeancier;
 extern GtkWidget *hbox_valider_annuler_echeance;
 extern GtkWidget *liste_echeances;
 extern PangoFontDescription *pango_desc_fonte_liste;
-extern GSList *list_store_comptes;
 extern gint hauteur_ligne_liste_opes;
-extern GtkWidget *tree_view_listes_operations;
 extern GtkWidget *widget_formulaire_ventilation[8];
 
 
@@ -744,7 +742,7 @@ void update_fonte_listes ( void )
     /*     on va faire le tour de toutes les listes pour rajouter à la position 11 la fonte ou null  */
 
     PangoFontDescription *fonte_desc;
-    GSList *liste_tmp;
+    gint i;
 
     /*     pour reprendre la fonte de base, on récupère celle de la liste des tiers, qui n'est pas modifiée */
 
@@ -754,30 +752,25 @@ void update_fonte_listes ( void )
 	/* 	fonte_desc = pango_font_description_copy ( arbre_tiers -> style -> font_desc ); */
 	fonte_desc = NULL;
 
-    liste_tmp = list_store_comptes;
-
-    while ( liste_tmp )
+    for ( i=0 ; i<nb_comptes ; i++ )
     {
-	GtkTreeModel *model;
 	GtkTreeIter iter;
 
-	model = liste_tmp -> data;
+	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
 
-	if ( model
+	if ( STORE_LISTE_OPERATIONS
 	     &&
-	     gtk_tree_model_get_iter_first ( GTK_TREE_MODEL ( model ),
+	     gtk_tree_model_get_iter_first ( GTK_TREE_MODEL ( STORE_LISTE_OPERATIONS ),
 					     &iter ))
 	    do
 	    {
-		gtk_list_store_set ( GTK_LIST_STORE (model),
+		gtk_list_store_set ( GTK_LIST_STORE (STORE_LISTE_OPERATIONS),
 				     &iter,
 				     11, fonte_desc,
 				     -1 );
 	    }
-	    while ( gtk_tree_model_iter_next ( model,
+	    while ( gtk_tree_model_iter_next ( GTK_TREE_MODEL (STORE_LISTE_OPERATIONS),
 					       &iter ));
-
-	    liste_tmp = liste_tmp -> next;
     }
 
     /*     on affiche la liste puis change la hauteur des lignes */

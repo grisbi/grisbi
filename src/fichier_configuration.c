@@ -55,7 +55,6 @@
 PangoFontDescription *pango_desc_fonte_liste;
 
 extern gint decalage_echeance;  
-extern GtkTreeViewColumn *colonnes_liste_opes[7];
 extern GtkWidget *paned_onglet_operations;
 extern GtkWidget *paned_onglet_echeancier;
 extern GtkWidget *paned_onglet_comptes;
@@ -628,8 +627,12 @@ void sauve_configuration(void)
     /*     seulement si un fichier est encore en mémoire */
 
     if ( nb_comptes )
+    {
+	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
+
 	for ( i=0 ; i<TRANSACTION_LIST_COL_NB ; i++ )
-	    taille_largeur_colonnes[i] = gtk_tree_view_column_get_width ( colonnes_liste_opes[i] );
+	    taille_largeur_colonnes[i] = gtk_tree_view_column_get_width ( COLONNE_LISTE_OPERATIONS(i) );
+    }
 
     /* creation de l'arbre xml en memoire */
 

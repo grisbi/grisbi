@@ -37,9 +37,6 @@
 #include "operations_comptes.h"
 #include "operations_liste.h"
 
-extern GtkWidget *tree_view_listes_operations;
-extern GSList *list_store_comptes;
-extern GtkTreeViewColumn *colonnes_liste_opes[7];
 extern GtkTooltips *tooltips_general_grisbi;
 extern GtkWidget *arbre_imputation;
 
@@ -195,20 +192,20 @@ gboolean change_page_notebook ( GtkNotebook *notebook,
 	    /* 	    si on va sur l'onglet opérations et que la liste n'est pas déjà remplis, on la rempli */
 	    /* 		et on met la value à -2 pour dire à la fonction que c'est la 1-re fois */
 	    /* et dans ce cas, aussi, on remplit les tips de la liste maintenant qu'elle est créé */
+	    /* 	    on appelle changement_compte avec -1 pour qu'il se mette sur compte_courant et qu'il */
+	    /* 		l'affiche (sinon il ne fait rien car déjà sur compte_courant */
 
 	    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
 
-	    if ( !g_slist_nth_data ( list_store_comptes,
-				     compte_courant ))
+	    if ( !STORE_LISTE_OPERATIONS )
 	    {
 		gint i;
 
-		VALUE_AJUSTEMENT = -2; 
-		changement_compte ( GINT_TO_POINTER (compte_courant ));
+		changement_compte ( GINT_TO_POINTER ( -1 ));
 
 		for ( i=0 ; i<7 ; i++ )
 		    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi ),
-					   GTK_TREE_VIEW_COLUMN ( colonnes_liste_opes[i] )->button,
+					   GTK_TREE_VIEW_COLUMN ( COLONNE_LISTE_OPERATIONS(i) )->button,
 					   tips_col_liste_operations[i],
 					   tips_col_liste_operations[i] ); 
 	    }

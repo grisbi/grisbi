@@ -45,7 +45,6 @@ extern gint affichage_echeances_perso_j_m_a;
 extern gint nb_echeances;
 extern gint no_derniere_echeance;
 extern GSList *liste_struct_echeances; 
-extern GtkWidget *tree_view_listes_operations;
 extern gint nb_banques;
 extern gint no_derniere_banque;
 extern GSList *liste_struct_banques;
@@ -779,7 +778,7 @@ gboolean charge_operations_version_0_3_2 ( xmlDocPtr doc )
 
 		    /*       la sélection au départ est en bas de la liste */
 
-		    VALUE_AJUSTEMENT = -1;
+		    VALUE_AJUSTEMENT_LISTE_OPERATIONS = -1;
 		    LIGNE_SELECTIONNEE = -1;
 
 
@@ -2589,7 +2588,7 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 
 		    /*       la selection au depart est en bas de la liste */
 
-		    VALUE_AJUSTEMENT = -1;
+		    VALUE_AJUSTEMENT_LISTE_OPERATIONS = -1;
 		    LIGNE_SELECTIONNEE = -1;
 
 
@@ -4948,7 +4947,7 @@ gboolean charge_operations_version_0_5_1 ( xmlDocPtr doc )
 
 		    /*       la selection au depart est en bas de la liste */
 
-		    VALUE_AJUSTEMENT = -1;
+		    VALUE_AJUSTEMENT_LISTE_OPERATIONS = -1;
 		    LIGNE_SELECTIONNEE = -1;
 
 
@@ -6972,11 +6971,11 @@ gboolean enregistre_fichier ( gboolean force )
 	/* 	si on effectue la copie de sauvegarde lors de l'ouverture, tree_view_listes_operations */
 	/* 	    n'est pas encore défini... */
 	    
-	if ( GTK_TREE_VIEW ( tree_view_listes_operations ))
+	if ( GTK_TREE_VIEW ( TREE_VIEW_LISTE_OPERATIONS ))
 	    xmlNewTextChild ( node_compte,
 			      NULL,
 			      "Colonne_classement",
-			      itoa ( g_list_index ( gtk_tree_view_get_columns ( GTK_TREE_VIEW (tree_view_listes_operations )),
+			      itoa ( g_list_index ( gtk_tree_view_get_columns ( GTK_TREE_VIEW ( TREE_VIEW_LISTE_OPERATIONS )),
 						    COLONNE_CLASSEMENT )));
 
 	xmlNewTextChild ( node_compte,
@@ -8840,7 +8839,7 @@ gboolean enregistre_categ ( gchar *nom_categ )
     resultat = xmlSaveFile ( nom_categ,
 			     doc );
 
-    /* on libère la memoire */
+    /* on libÃ¨re la memoire */
 
     xmlFreeDoc ( doc );
 
