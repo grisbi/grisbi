@@ -386,14 +386,17 @@ void ouverture_confirmee ( void )
 	    /* 	      on récupère uniquement le nom du fichier, pas le chemin */
 
 	    parametres = g_strsplit ( nom,
-				      "/",
+				      C_DIRECTORY_SEPARATOR,
 				      0);
 
 	    while ( parametres[i] )
 		i++;
 
 	    nom = g_strconcat ( my_get_gsb_file_default_dir(),
-				"/.",
+				C_DIRECTORY_SEPARATOR,
+#ifndef _WIN32
+                                ".",
+#endif
 				parametres [i-1],
 				".bak",
 				NULL );
