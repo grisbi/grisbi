@@ -493,7 +493,8 @@ void equilibrage ( void )
     gtk_entry_set_text ( GTK_ENTRY ( entree_no_rapprochement ),
 			 "" );
 
-  /* récupère l'ancienne date et l'augmente d'1 mois et le met dans entree_nouvelle_date_equilibrage */
+  /* récupère l'ancienne date, l'augmente d'1 mois et la met dans
+     entree_nouvelle_date_equilibrage */
 
   if ( DATE_DERNIER_RELEVE )
     {
@@ -502,11 +503,14 @@ void equilibrage ( void )
 			      g_date_year ( DATE_DERNIER_RELEVE ));
 
       gtk_label_set_text ( GTK_LABEL ( label_ancienne_date_equilibrage ),
-			   g_strdup_printf ( "%02d/%02d/%d",
+			   g_strdup_printf ( "%02d/%02d/%04d",
 					     g_date_day ( date ),
 					     g_date_month ( date ),
 					     g_date_year ( date ) ));
       g_date_add_months ( date, 1 );
+
+      if ( g_date_compare ( date, gdate_today()) > 0 )
+	 date = gdate_today();
 
       gtk_entry_set_text ( GTK_ENTRY ( entree_ancien_solde_equilibrage ),
 			   g_strdup_printf ("%4.2f", SOLDE_DERNIER_RELEVE ));
@@ -515,15 +519,10 @@ void equilibrage ( void )
     }
   else
     {
-      time_t today;
-
       gtk_label_set_text ( GTK_LABEL ( label_ancienne_date_equilibrage ),
 			   _("None") );
 
-      time ( &today );
-      date = g_date_new_dmy ( gmtime ( &today ) -> tm_mday,
-			      gmtime ( &today ) -> tm_mon + 1,
-			      gmtime ( &today ) -> tm_year + 1900 );
+      date = gdate_today();
 
       gtk_entry_set_text ( GTK_ENTRY ( entree_ancien_solde_equilibrage ),
 			   g_strdup_printf ("%4.2f", SOLDE_INIT ));
@@ -532,7 +531,7 @@ void equilibrage ( void )
     }
 
   gtk_entry_set_text ( GTK_ENTRY ( entree_nouvelle_date_equilibrage ),
-		       g_strdup_printf ( "%02d/%02d/%d",
+		       g_strdup_printf ( "%02d/%02d/%04d",
 					 g_date_day ( date ),
 					 g_date_month ( date ),
 					 g_date_year ( date ) ));
@@ -859,7 +858,7 @@ void fin_equilibrage ( GtkWidget *bouton_ok,
 					 date_releve_annee );
 
   gtk_label_set_text ( GTK_LABEL ( label_releve ),
-		       g_strdup_printf ( _("Last statement: %02d/%02d/%d"), 
+		       g_strdup_printf ( _("Last statement: %02d/%02d/%04d"),
 					 date_releve_jour,
 					 date_releve_mois,
 					 date_releve_annee ));
