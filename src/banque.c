@@ -228,43 +228,77 @@ void annuler_modif_banque ( GtkWidget *bouton,
   if ( banque -> code_banque )
     gtk_entry_set_text ( GTK_ENTRY ( code_banque ),
 			 banque -> code_banque );
-
+  else
+    gtk_entry_set_text ( GTK_ENTRY ( code_banque ),
+			 "" );
+  
   if ( banque -> tel_banque )
     gtk_entry_set_text ( GTK_ENTRY ( tel_banque ),
 			 banque -> tel_banque );
+  else
+    gtk_entry_set_text ( GTK_ENTRY ( tel_banque ),
+			 "" );
 
   if ( banque -> email_banque )
     gtk_entry_set_text ( GTK_ENTRY ( email_banque ),
 			 banque -> email_banque  );
+  else
+    gtk_entry_set_text ( GTK_ENTRY ( email_banque ),
+			 "" );
 
   if ( banque -> web_banque )
     gtk_entry_set_text ( GTK_ENTRY ( web_banque ),
 			 banque -> web_banque );
+  else
+    gtk_entry_set_text ( GTK_ENTRY ( web_banque ),
+			 "" );
 
   if ( banque -> nom_correspondant )
     gtk_entry_set_text ( GTK_ENTRY ( nom_correspondant ),
 			 banque -> nom_correspondant );
+  else
+    gtk_entry_set_text ( GTK_ENTRY ( nom_correspondant ),
+			 "" );
 
   if ( banque -> tel_correspondant )
     gtk_entry_set_text ( GTK_ENTRY ( tel_correspondant ),
 			 banque -> tel_correspondant );
+  else
+    gtk_entry_set_text ( GTK_ENTRY ( tel_correspondant ),
+			 "" );
 
   if ( banque -> email_correspondant )
     gtk_entry_set_text ( GTK_ENTRY ( email_correspondant ),
 			 banque -> email_correspondant );
+  else
+    gtk_entry_set_text ( GTK_ENTRY ( email_correspondant ),
+			 "" );
 
   if ( banque -> fax_correspondant )
     gtk_entry_set_text ( GTK_ENTRY ( fax_correspondant ),
 			 banque -> fax_correspondant );
+  else
+    gtk_entry_set_text ( GTK_ENTRY ( fax_correspondant ),
+			 "" );
 
+  gtk_text_set_point ( GTK_TEXT ( adr_banque ),
+		       0 );
+  gtk_text_forward_delete ( GTK_TEXT ( adr_banque ),
+			    gtk_text_get_length ( GTK_TEXT ( adr_banque ) ) );
   if ( banque -> adr_banque )
-    gtk_text_insert ( GTK_TEXT ( adr_banque ),
-		      NULL,
-		      NULL,
-		      NULL,
-		      banque -> adr_banque,
-		      -1 );
+    {
+      gtk_text_insert ( GTK_TEXT ( adr_banque ),
+			NULL,
+			NULL,
+			NULL,
+			banque -> adr_banque,
+			-1 );
+    }
 
+  gtk_text_set_point ( GTK_TEXT ( remarque_banque ),
+		       0 );
+  gtk_text_forward_delete ( GTK_TEXT ( remarque_banque ),
+			    gtk_text_get_length ( GTK_TEXT ( remarque_banque ) ) );
   if ( banque -> remarque_banque )
     gtk_text_insert ( GTK_TEXT ( remarque_banque ),
 		      NULL,
@@ -272,11 +306,12 @@ void annuler_modif_banque ( GtkWidget *bouton,
 		      NULL,
 		      banque -> remarque_banque,
 		      -1 );
+  else
+    gtk_entry_set_text ( GTK_ENTRY ( remarque_banque ),
+			 "" );
 
   gtk_widget_set_sensitive ( hbox_boutons_modif_banque,
 			     FALSE );
-
-
 
 }
 /* **************************************************************************************************************************** */
@@ -1409,6 +1444,23 @@ GtkWidget *onglet_banques ( void )
 		       "changed",
 		       GTK_SIGNAL_FUNC ( modif_detail_banque ),
 		       NULL);
+  gtk_signal_connect ( GTK_OBJECT ( nom_correspondant ),
+		       "changed",
+		       GTK_SIGNAL_FUNC ( modif_detail_banque ),
+		       NULL);
+  gtk_signal_connect ( GTK_OBJECT ( fax_correspondant ),
+		       "changed",
+		       GTK_SIGNAL_FUNC ( modif_detail_banque ),
+		       NULL);
+  gtk_signal_connect ( GTK_OBJECT ( tel_correspondant ),
+		       "changed",
+		       GTK_SIGNAL_FUNC ( modif_detail_banque ),
+		       NULL);
+  gtk_signal_connect ( GTK_OBJECT ( email_correspondant ),
+		       "changed",
+		       GTK_SIGNAL_FUNC ( modif_detail_banque ),
+		       NULL);
+  
 
   bouton = gnome_stock_button ( GNOME_STOCK_BUTTON_CANCEL );
   gtk_signal_connect ( GTK_OBJECT ( bouton ),
@@ -1593,6 +1645,8 @@ void deselection_ligne_banque ( GtkWidget *liste,
   gtk_entry_set_text ( GTK_ENTRY ( nom_banque ),
 		       "" );
   gtk_entry_set_text ( GTK_ENTRY ( code_banque ),
+		       "" );
+  gtk_entry_set_text ( GTK_ENTRY ( adr_banque ),
 		       "" );
   gtk_entry_set_text ( GTK_ENTRY ( tel_banque ),
 		       "" );

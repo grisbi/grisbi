@@ -1859,10 +1859,13 @@ void changement_de_banque ( void )
   banque = gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( detail_option_menu_banque ) -> menu_item ),
 				 "adr_banque" );
 
-  if ( banque && banque->code_banque )
+  if ( banque )
     {
-      gtk_label_set_text ( GTK_LABEL ( label_code_banque ),
-			   banque->code_banque );
+      if ( banque->code_banque )
+	{
+	  gtk_label_set_text ( GTK_LABEL ( label_code_banque ),
+			       banque->code_banque );
+	}
       gtk_widget_set_sensitive ( bouton_detail,
 				 TRUE );
     }
