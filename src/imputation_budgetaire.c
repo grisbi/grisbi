@@ -453,6 +453,10 @@ GtkWidget *onglet_imputations ( void )
 		       GTK_SIGNAL_FUNC ( verifie_double_click_imputation ),
 		       NULL );
   gtk_signal_connect ( GTK_OBJECT ( arbre_imputation ),
+		       "key-press-event",
+		       GTK_SIGNAL_FUNC ( keypress_ib ),
+		       NULL );
+  gtk_signal_connect ( GTK_OBJECT ( arbre_imputation ),
 		       "size-allocate",
 		       GTK_SIGNAL_FUNC ( changement_taille_liste_tiers ),
 		       NULL );
@@ -1225,55 +1229,84 @@ void selection_ligne_imputation ( GtkCTree *arbre,
 /* **************************************************************************************************** */
 
 
-/* **************************************************************************************************** */
-void verifie_double_click_imputation ( GtkWidget *liste,
-				       GdkEventButton *ev,
-				       gpointer null )
+gboolean verifie_double_click_imputation ( GtkWidget *liste, GdkEventButton *ev,
+					   gpointer null )
 {
   if ( ev -> type == GDK_2BUTTON_PRESS )
     {
-      struct structure_operation *operation;
-
-      if ( GTK_CLIST ( arbre_imputation ) -> selection
-	   &&
-	   ( GTK_CTREE_ROW ( ( GTK_CLIST ( arbre_imputation ) -> selection ) -> data ) -> level == 4
-	     ||
-	     ( GTK_CTREE_ROW ( ( GTK_CLIST ( arbre_imputation ) -> selection ) -> data ) -> level == 3
-	       &&
-	       !gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_imputation ),
-					      GTK_CTREE_ROW ( GTK_CTREE_ROW (( GTK_CLIST ( arbre_imputation ) -> selection ) -> data ) -> parent ) -> parent ))))
-	{
-	  /* passage sur le compte concerné */
-
-	  operation = gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_imputation ),
-						    GTK_CTREE_NODE ( ( GTK_CLIST ( arbre_imputation ) -> selection ) -> data ) );
-
-	  /* si c'est une opé de ventilation, on se place sur l'opé ventilée correspondante */
- 
-	  if ( operation -> no_operation_ventilee_associee )
-	    {
-	      p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> no_compte;
-
-	      operation = g_slist_find_custom ( LISTE_OPERATIONS,
-						GINT_TO_POINTER ( operation -> no_operation_ventilee_associee ),
-						(GCompareFunc) recherche_operation_par_no ) -> data;
-	    }
-
-	  changement_compte ( GINT_TO_POINTER ( operation -> no_compte ));
-
-	  p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
-
-	  if ( operation -> pointe == 2 && !AFFICHAGE_R )
-	    {
-	      AFFICHAGE_R = 1;
-	      remplissage_liste_operations ( compte_courant );
-	    }
-
-	  OPERATION_SELECTIONNEE = operation;
-
-	  selectionne_ligne ( compte_courant );
-	}
+      expand_selected_ib();
     }
+
+  return FALSE;
+}
+
+
+
+gboolean keypress_ib ( GtkWidget *widget, GdkEventKey *ev, gint *no_origine )
+{
+  GtkCTreeNode *node;
+
+  if ( ev->keyval == GDK_Return || 
+       ev->keyval == GDK_KP_Enter )
+    { 
+      node = gtk_ctree_node_nth ( GTK_CTREE(arbre_imputation), 
+				  GTK_CLIST(arbre_imputation) -> focus_row );
+      gtk_ctree_select ( GTK_CTREE(arbre_imputation), node );
+      gtk_ctree_expand ( GTK_CTREE(arbre_imputation), node );
+ 
+      expand_selected_ib ();
+    }
+
+  return FALSE;
+}
+
+
+
+gboolean expand_selected_ib (  )
+{
+  struct structure_operation *operation;
+
+  if ( GTK_CLIST ( arbre_imputation ) -> selection
+       &&
+       ( GTK_CTREE_ROW ( ( GTK_CLIST ( arbre_imputation ) -> selection ) -> data ) -> level == 4
+	 ||
+	 ( GTK_CTREE_ROW ( ( GTK_CLIST ( arbre_imputation ) -> selection ) -> data ) -> level == 3
+	   &&
+	   !gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_imputation ),
+					  GTK_CTREE_ROW ( GTK_CTREE_ROW (( GTK_CLIST ( arbre_imputation ) -> selection ) -> data ) -> parent ) -> parent ))))
+    {
+      /* passage sur le compte concerné */
+
+      operation = gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_imputation ),
+						GTK_CTREE_NODE ( ( GTK_CLIST ( arbre_imputation ) -> selection ) -> data ) );
+
+      /* si c'est une opé de ventilation, on se place sur l'opé ventilée correspondante */
+ 
+      if ( operation -> no_operation_ventilee_associee )
+	{
+	  p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> no_compte;
+
+	  operation = g_slist_find_custom ( LISTE_OPERATIONS,
+					    GINT_TO_POINTER ( operation -> no_operation_ventilee_associee ),
+					    (GCompareFunc) recherche_operation_par_no ) -> data;
+	}
+
+      changement_compte ( GINT_TO_POINTER ( operation -> no_compte ));
+
+      p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
+
+      if ( operation -> pointe == 2 && !AFFICHAGE_R )
+	{
+	  AFFICHAGE_R = 1;
+	  remplissage_liste_operations ( compte_courant );
+	}
+
+      OPERATION_SELECTIONNEE = operation;
+
+      selectionne_ligne ( compte_courant );
+    }
+
+  return FALSE;
 }
 /* **************************************************************************************************** */
 
