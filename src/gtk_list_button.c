@@ -90,6 +90,7 @@ static void gtk_list_button_init ( GtkListButton *list_button )
     list_button -> hbox = gtk_hbox_new ( FALSE, 6 );
 
     list_button -> closed_icon = gtk_image_new_from_pixbuf ( gdk_pixbuf_new_from_xpm_data ( (const gchar **) book_closed_xpm ) );
+    gtk_widget_set_usize ( list_button -> closed_icon, 24, 24 );
 
     list_button -> box = gtk_vbox_new ( FALSE, 0 );
     gtk_box_pack_start ( GTK_BOX ( list_button -> hbox ), list_button -> box,
@@ -98,6 +99,7 @@ static void gtk_list_button_init ( GtkListButton *list_button )
     gtk_container_add ( GTK_CONTAINER(list_button -> box), list_button->closed_icon);
 
     list_button -> open_icon = gtk_image_new_from_pixbuf ( gdk_pixbuf_new_from_xpm_data ( (const gchar **) book_open_xpm ));
+    gtk_widget_set_usize ( list_button -> open_icon, 24, 24 );
 
     list_button -> label = gtk_label_new ("") ;
     gtk_label_set_line_wrap ( GTK_LABEL(list_button->label), TRUE );
