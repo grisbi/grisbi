@@ -375,7 +375,7 @@ gboolean mise_a_jour_versions_anterieures ( gint no_version,
 
 	    if ( devise )
 	    {
-		devise -> code_devise = "â¬";
+		devise -> code_devise = "€";
 		devise -> code_iso4217_devise = g_strdup ("EUR");
 	    }
 
