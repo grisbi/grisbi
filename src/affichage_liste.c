@@ -122,7 +122,7 @@ GtkWidget *onglet_affichage_liste ( void )
 
 	/*   à la base, on met une vbox */
 
-	onglet = new_vbox_with_title_and_icon ( _("Transactions list cells"),
+	onglet = new_vbox_with_title_and_icon ( _("Information shown in transaction list"),
 						"transaction-list.png" );
 
 	paddingbox = new_paddingbox_with_title (onglet, FALSE,
@@ -387,7 +387,7 @@ GtkWidget *onglet_affichage_operations ( void )
 {
     GtkWidget * vbox_pref, *table, *label, *paddingbox;
 
-    vbox_pref = new_vbox_with_title_and_icon ( _("Transactions list"),
+    vbox_pref = new_vbox_with_title_and_icon ( _("Transaction list behavior"),
 					       "transaction-list.png" );
 
     /* on permet de choisir quelle ligne seront affichées en fonction des caractéristiques de l'affichage */
