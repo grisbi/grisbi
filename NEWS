@@ -16,10 +16,12 @@ New in version 0.5.0 :
    + OFX & QIF support
    + incremental import
    + automatic reconciliation
+ - begining of Italian translation by Giorgio Mandolfo
  - exchange rates are cached for a session so that users don't need to
    type them repeatedly
  - reports now support text faces (bold, slant, large, huge, small)
  - new logo with our mascot over an euro sign
+ - animated idle logo can now be changed
  - combofix completion (i.e. in transaction form) can now be either
    case sensitive or insensitive according to input upper/lower case
  - improve bank details and new bank dialogs
