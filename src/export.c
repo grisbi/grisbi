@@ -165,7 +165,7 @@ static GtkWidget* export_accounts_selection_dialog_new(GSList* format_list, gint
 					     _("Select accounts to export") );
     gtk_box_set_spacing ( GTK_BOX(GTK_DIALOG(dialog)->vbox), 6 );
 
-    table = gtk_table_new ( 2, nb_comptes, FALSE );
+    table = gtk_table_new ( nb_comptes, 2, FALSE );
     gtk_table_set_col_spacings ( GTK_TABLE ( table ), 12 );
     gtk_box_pack_start ( GTK_BOX(paddingbox), table, TRUE, TRUE, 0 );
     gtk_widget_show ( table );
