@@ -2583,7 +2583,7 @@ gchar *calcule_total_montant_imputation_par_compte ( gint imputation,
 	  gdouble montant;
 
 	  montant = calcule_montant_devise_renvoi ( operation -> montant,
-						    no_devise_totaux_tiers,
+						    DEVISE,
 						    operation -> devise,
 						    operation -> une_devise_compte_egale_x_devise_ope,
 						    operation -> taux_change,
