@@ -33,7 +33,9 @@ if test x$build_ofx != xno
 then
     if test x$noofx != xtrue
     then
+        AC_CHECK_LIB(ofx, ofx_set_status_cb, OFX_0_7="-DOFX_0_7")
         LDFLAGS="${LDFLAGS} -lofx"
+        CFLAGS="${CFLAGS} $OFX_0_7"
     else
         noofx=true
         AC_MSG_RESULT([Libofx header missing. Check your libofx installation])
