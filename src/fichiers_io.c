@@ -8767,25 +8767,13 @@ gboolean charge_categ ( gchar *nom_categ )
 
 	/* récupère la version de fichier */
 
-	if (( !strcmp (  xmlNodeGetContent ( root->children->next->children->next ),
-			 "0.4.0" )))
-	    return ( charge_categ_version_0_4_0 ( doc ));
-	if (( !strcmp (  xmlNodeGetContent ( root->children->next->children->next ),
-			 "0.4.1" )))
-	    return ( charge_categ_version_0_4_0 ( doc ));
-	if (( !strcmp (  xmlNodeGetContent ( root->children->next->children->next ),
-			 "0.5.0" )))
-	    return ( charge_categ_version_0_4_0 ( doc ));
+	if (( strcmp (  xmlNodeGetContent ( root->children->next->children->next ), VERSION )))
+	  {
+	    dialogue_warning_hint ( g_strdup_printf (_("This categories list has been produced with grisbi version %s, Grisbi will nevertheless try to import it."), xmlNodeGetContent ( root->children->next->children->next )),
+				    _("Version mismatch") );
+	  }
 
-	/* 	à ce niveau, c'est que que la version n'est pas connue de grisbi, on donne alors */
-	/* la version nécessaire pour l'ouvrir */
-
-	dialogue_error ( g_strdup_printf ( _("Grisbi version %s is needed to open this file"),
-					   xmlNodeGetContent ( doc->children->children->children->next )));
-
-	xmlFreeDoc ( doc );
-
-	return ( FALSE );
+	return ( charge_categ_version_0_4_0 ( doc ));
     }
     else
     {
@@ -9132,25 +9120,13 @@ gboolean charge_ib ( gchar *nom_ib )
 
 	/* récupère la version de fichier */
 
-	if (( !strcmp (  xmlNodeGetContent ( root->children->next->children->next ),
-			 "0.4.0" )))
-	    return ( charge_ib_version_0_4_0 ( doc ));
-	if (( !strcmp (  xmlNodeGetContent ( root->children->next->children->next ),
-			 "0.4.1" )))
-	    return ( charge_ib_version_0_4_0 ( doc ));
-	if (( !strcmp (  xmlNodeGetContent ( root->children->next->children->next ),
-			 "0.5.0" )))
-	    return ( charge_ib_version_0_4_0 ( doc ));
+	if (( strcmp (  xmlNodeGetContent ( root->children->next->children->next ), VERSION )))
+	  {
+	    dialogue_warning_hint ( g_strdup_printf (_("This budgetary lines list has been produced with grisbi version %s, Grisbi will nevertheless try to import it."), xmlNodeGetContent ( root->children->next->children->next )),
+				    _("Version mismatch") );
+	  }
 
-	/* 	à ce niveau, c'est que que la version n'est pas connue de grisbi, on donne alors */
-	/* la version nécessaire pour l'ouvrir */
-
-	dialogue_error ( g_strdup_printf ( _("Grisbi version %s is needed to open this file"),
-					   xmlNodeGetContent ( doc->children->children->children->next )));
-
-	xmlFreeDoc ( doc );
-
-	return ( FALSE );
+	return ( charge_ib_version_0_4_0 ( doc ));
     }
     else
     {
