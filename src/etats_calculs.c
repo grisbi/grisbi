@@ -2162,7 +2162,7 @@ void etape_finale_affichage_etat ( GSList *ope_selectionnees,
 
       /* on ajoute les séparations */
 
-      nb_colonnes = 2 * nb_colonnes;
+      nb_colonnes = 2 * nb_colonnes - 1;
     }
 
   nb_colonnes = nb_colonnes + 3;
