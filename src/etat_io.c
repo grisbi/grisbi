@@ -208,6 +208,10 @@ gboolean charge_etat_version_0_4_0 ( xmlDocPtr doc )
 		    etat -> afficher_pc_ope = my_atoi ( xmlNodeGetContent ( node_detail_etat ));
 
 		if ( !strcmp ( node_detail_etat -> name,
+			       "Aff_verif_ope" ))
+		    etat -> afficher_verif_ope = my_atoi ( xmlNodeGetContent ( node_detail_etat ));
+
+		if ( !strcmp ( node_detail_etat -> name,
 			       "Aff_rappr_ope" ))
 		    etat -> afficher_rappr_ope = my_atoi ( xmlNodeGetContent ( node_detail_etat ));
 
@@ -1133,6 +1137,11 @@ gboolean enregistre_etat ( gchar *nom_etat )
 		      NULL,
 		      "Aff_pc_ope",
 		      itoa ( etat_courant -> afficher_pc_ope ));
+
+    xmlNewTextChild ( node,
+		      NULL,
+		      "Aff_verif_ope",
+		      itoa ( etat_courant -> afficher_verif_ope ));
 
     xmlNewTextChild ( node,
 		      NULL,

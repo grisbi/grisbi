@@ -932,6 +932,7 @@ gboolean ajout_etat ( void )
 	    etat -> afficher_notes_ope = 1;
 	    etat -> afficher_pc_ope = 1;
 	    etat -> afficher_rappr_ope = 1;
+	    etat -> afficher_verif_ope = 1;
 	    etat -> afficher_infobd_ope = 1;
 	    etat -> afficher_exo_ope = 1;
 

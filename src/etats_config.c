@@ -340,6 +340,8 @@ void personnalisation_etat (void)
 				   etat_courant -> afficher_pc_ope );
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_no_rappr ),
 				   etat_courant -> afficher_rappr_ope );
+    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_verif ),
+				   etat_courant -> afficher_verif_ope );
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_infobd_opes ),
 				   etat_courant -> afficher_infobd_ope );
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_pas_detailler_ventilation ),
@@ -1024,6 +1026,7 @@ void recuperation_info_perso_etat ( void )
     etat_courant -> afficher_notes_ope = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_notes_opes ));
     etat_courant -> afficher_pc_ope = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_pc_opes ));
     etat_courant -> afficher_rappr_ope = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_no_rappr ));
+    etat_courant -> afficher_verif_ope = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_verif ));
     etat_courant -> afficher_infobd_ope = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_infobd_opes ));
     etat_courant -> pas_detailler_ventilation = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_pas_detailler_ventilation ));
     etat_courant -> separer_revenus_depenses = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_separer_revenus_depenses ));
@@ -6579,6 +6582,22 @@ GtkWidget *onglet_affichage_etat_operations ( void )
 			 FALSE,
 			 0 );
     gtk_widget_show ( bouton_afficher_no_rappr );
+
+    hbox = gtk_hbox_new ( FALSE,
+			  0 );
+    gtk_table_attach_defaults ( GTK_TABLE ( table ),
+				hbox,
+				2, 3,
+				4, 5  );
+    gtk_widget_show ( hbox );
+
+    bouton_afficher_verif = gtk_check_button_new_with_label ( _("the check") );
+    gtk_box_pack_start ( GTK_BOX ( hbox ),
+			 bouton_afficher_verif,
+			 FALSE,
+			 FALSE,
+			 0 );
+    gtk_widget_show ( bouton_afficher_verif );
 
 
     /* on propose d'afficher le titre des colonnes */

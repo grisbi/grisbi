@@ -595,6 +595,7 @@ GtkWidget *bouton_afficher_infobd_opes;
 GtkWidget *bouton_afficher_no_ope;
 GtkWidget *bouton_afficher_type_ope;
 GtkWidget *bouton_afficher_no_rappr;
+GtkWidget *bouton_afficher_verif;
 GtkWidget *bouton_afficher_no_cheque;
 GtkWidget *bouton_afficher_exo_opes;
 GtkWidget *bouton_pas_detailler_ventilation;

@@ -605,6 +605,7 @@ extern GtkWidget *bouton_afficher_infobd_opes;
 extern GtkWidget *bouton_afficher_no_ope;
 extern GtkWidget *bouton_afficher_type_ope;
 extern GtkWidget *bouton_afficher_no_rappr;
+extern GtkWidget *bouton_afficher_verif;
 extern GtkWidget *bouton_afficher_no_cheque;
 extern GtkWidget *bouton_afficher_exo_opes;
 extern GtkWidget *bouton_pas_detailler_ventilation;

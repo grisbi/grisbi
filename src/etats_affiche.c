@@ -1400,6 +1400,47 @@ gint etat_affiche_affichage_ligne_ope ( struct structure_operation *operation,
 	    colonne = colonne + 2;
 	}
 
+	if ( etat_courant -> afficher_verif_ope )
+	{
+	    
+	    switch ( operation -> pointe )
+	    {
+		case CHECKED_TRANSACTION :
+		
+		    text = g_strdup ( _("C") );
+		    break;
+
+		case RECONCILED_TRANSACTION :
+		
+		    text = g_strdup ( _("R") );
+		    break;
+
+		case TELECHECKED_TRANSACTION :
+		
+		    text = g_strdup ( _("C") );
+		    break;
+
+		case UNCHECKED_TRANSACTION :
+		default :
+		
+		    text = "";
+		    break;
+
+	    }
+
+	    if ( etat_courant -> ope_clickables )
+	    {
+		etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, operation );
+	    }
+	    else
+	    {
+		etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, NULL );
+	    }
+
+	    etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
+	    colonne = colonne + 2;
+	}
+
 	if ( etat_courant -> afficher_rappr_ope )
 	{
 	    GSList *pointeur;
@@ -2243,6 +2284,13 @@ gint etat_affiche_affiche_titres_colonnes ( gint ligne )
     if ( etat_courant -> afficher_infobd_ope )
     {
 	etat_affiche_attach_label ( _("Bank references"), TEXT_BOLD, colonne, colonne + 1, ligne, ligne + 1, CENTER, NULL );
+	etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
+	colonne = colonne + 2;
+    }
+
+    if ( etat_courant -> afficher_verif_ope )
+    {
+	etat_affiche_attach_label ( _("Check"), TEXT_BOLD, colonne, colonne + 1, ligne, ligne + 1, CENTER, NULL );
 	etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
 	colonne = colonne + 2;
     }

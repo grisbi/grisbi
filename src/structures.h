@@ -470,6 +470,7 @@ struct struct_etat
     gint afficher_no_ope;
     gint afficher_type_ope;
     gint afficher_cheque_ope;
+    gint afficher_verif_ope;
     gint afficher_rappr_ope;
     gint afficher_exo_ope;
     gint type_classement_ope;     /* 0=date, 1=no opé, 2=tiers, 3=categ, 4=ib, 5=notes, 6=type ope, 7=no chq, 8=pc, 9=ibg, 10=no rappr */

@@ -2186,6 +2186,7 @@ pas_decalage:
 	nb_colonnes = nb_colonnes + etat_courant -> afficher_type_ope;
 	nb_colonnes = nb_colonnes + etat_courant -> afficher_cheque_ope;
 	nb_colonnes = nb_colonnes + etat_courant -> afficher_rappr_ope;
+	nb_colonnes = nb_colonnes + etat_courant -> afficher_verif_ope;
 	nb_colonnes = nb_colonnes + etat_courant -> afficher_exo_ope;
 
 	/* on ajoute les séparations */
