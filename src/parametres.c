@@ -33,6 +33,12 @@ GtkWidget * button_close, * button_help;
 
 /** FIXME move it */
 gboolean set_text_from_area ( GtkTextBuffer *buffer, gpointer dummy );
+GtkWidget * new_spin_button ( gint * value, 
+			      gdouble lower, gdouble upper, 
+			      gdouble step_increment, gdouble page_increment, 
+			      gdouble page_size, 
+			      gdouble climb_rate, guint digits,
+			      GCallback hook );
 
 
 /**
@@ -339,13 +345,10 @@ GtkWidget *onglet_messages_and_warnings ( void )
   label = gtk_label_new ( SPACIFY(COLON(_("Number of days before a warning message advertising a scheduled transaction"))) );
   gtk_box_pack_start ( GTK_BOX ( hbox ), label,
 		       FALSE, FALSE, 0 );
-  entree_jours = gtk_entry_new_with_max_length (10);
-  gtk_widget_set_usize ( GTK_WIDGET ( entree_jours ), 60, FALSE );
-  gtk_entry_set_text ( GTK_ENTRY ( entree_jours ),
-		       g_strdup_printf ( "%d", decalage_echeance ));
-  gtk_signal_connect_object ( GTK_OBJECT ( entree_jours ), "changed",
-			      activer_bouton_appliquer,
-			      GTK_OBJECT (fenetre_preferences));
+
+  entree_jours = new_spin_button ( (gint *) &(decalage_echeance),
+				   /* Limit to one year */
+				   0, 365, 1, 5, 1, 1, 0, NULL ); 
   gtk_box_pack_end ( GTK_BOX ( hbox ), entree_jours,
 		     FALSE, FALSE, 0 );
 
@@ -404,16 +407,9 @@ GtkWidget *onglet_fichier ( void )
   gtk_box_pack_start ( GTK_BOX ( hbox ), label,
 		       FALSE, FALSE, 0 );
   spin_button_compression_fichier = 
-    gtk_spin_button_new ( GTK_ADJUSTMENT 
-			  ( gtk_adjustment_new ( compression_fichier,
-						 0, 9, 1, 5, 1 )),
-			  1, 0 );
-  gtk_spin_button_set_numeric ( GTK_SPIN_BUTTON ( spin_button_compression_fichier ),
-				TRUE );
-  gtk_signal_connect_object ( GTK_OBJECT ( spin_button_compression_fichier ),
-			      "changed",
-			      activer_bouton_appliquer,
-			      GTK_OBJECT (fenetre_preferences));
+    new_spin_button ( (gint *) &(compression_fichier),
+		      0, 9, 1, 5, 1, 1, 0, NULL );
+  
   gtk_box_pack_start ( GTK_BOX ( hbox ), spin_button_compression_fichier,
 		       FALSE, FALSE, 0 );
 
@@ -425,20 +421,10 @@ GtkWidget *onglet_fichier ( void )
   gtk_box_pack_start ( GTK_BOX ( hbox ), label,
 		       FALSE, FALSE, 0 );
   spin_button_derniers_fichiers_ouverts = 
-    gtk_spin_button_new ( GTK_ADJUSTMENT ( gtk_adjustment_new ( nb_max_derniers_fichiers_ouverts,
-								0, 20, 1, 5, 1 )),
-			  1, 0 );
-  gtk_spin_button_set_numeric ( GTK_SPIN_BUTTON ( spin_button_derniers_fichiers_ouverts ),
-				TRUE );
-  gtk_signal_connect_object ( GTK_OBJECT ( spin_button_derniers_fichiers_ouverts ),
-			      "changed",
-			      activer_bouton_appliquer,
-			      GTK_OBJECT (fenetre_preferences));
+    new_spin_button ( (gint *) &(nb_max_derniers_fichiers_ouverts),
+		      0, 20, 1, 5, 1, 1, 0, NULL );
   gtk_box_pack_start ( GTK_BOX ( hbox ), spin_button_derniers_fichiers_ouverts,
 		       FALSE, FALSE, 0 );
-
-
-
 
   /* Backups */
   paddingbox = new_paddingbox_with_title (vbox_pref, FALSE,
@@ -474,7 +460,6 @@ GtkWidget *onglet_fichier ( void )
       label = gtk_label_new ( COLON(_("Backup file")) );
       gtk_box_pack_start ( GTK_BOX ( hbox ), label,
 			   FALSE, FALSE, 0 );
-      gtk_widget_show ( label );
 
       entree_chemin_backup = gnome_file_entry_new ( "backup_grisbi",
 						    _("Grisbi backup") );
@@ -501,7 +486,6 @@ GtkWidget *onglet_fichier ( void )
 				  GTK_OBJECT (fenetre_preferences));
       gtk_box_pack_start ( GTK_BOX ( hbox ), entree_chemin_backup,
 			   FALSE, FALSE, 0 );
-      gtk_widget_show ( entree_chemin_backup );
     }
   else
     {
@@ -513,30 +497,18 @@ GtkWidget *onglet_fichier ( void )
   hbox = gtk_hbox_new ( FALSE, 5 );
   gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox,
 		       FALSE, FALSE, 0 );
-  gtk_widget_show ( hbox );
 
   label = gtk_label_new ( COLON(_("Backup compression level")) );
   gtk_box_pack_start ( GTK_BOX ( hbox ), label,
 		       FALSE, FALSE, 0 );
-  gtk_widget_show ( label );
 
-  spin_button_compression_backup = 
-    gtk_spin_button_new ( GTK_ADJUSTMENT ( gtk_adjustment_new ( compression_backup,
-								0, 9, 1, 5, 1 )),
-			  1, 0 );
-  gtk_spin_button_set_numeric ( GTK_SPIN_BUTTON ( spin_button_compression_backup ),
-				TRUE );
-  gtk_signal_connect_object ( GTK_OBJECT ( spin_button_compression_backup ),
-			      "changed",
-			      activer_bouton_appliquer,
-			      GTK_OBJECT (fenetre_preferences));
+  spin_button_compression_backup = new_spin_button ( (gint *) &(compression_backup),
+						     0, 9, 1, 5, 1, 1, 0, NULL );
   gtk_box_pack_start ( GTK_BOX ( hbox ), spin_button_compression_backup,
 		       FALSE, FALSE, 0 );
-  gtk_widget_show ( spin_button_compression_backup );
 
   gtk_widget_show_all ( vbox_pref );
   return ( vbox_pref );
-
 }
 
 
@@ -2093,6 +2065,7 @@ void checkbox_set_value ( GtkWidget * checkbox, guint * data, gboolean update )
 }
 
 
+
 /**
  * Set a boolean integer to the value of a checkbox.  Normally called
  * via a GTK "toggled" signal handler.
@@ -2111,6 +2084,7 @@ set_boolean ( GtkWidget * checkbox, guint * dummy)
 
   return FALSE;
 }
+
 
 
 /**
@@ -2174,6 +2148,7 @@ GtkWidget * new_text_entry ( gchar ** value, GCallback hook )
 
   return entry;
 }
+
 
 
 /**
@@ -2255,6 +2230,7 @@ set_date (GtkEntry *entry, gchar *value, gint length, gint * position)
 }
 
 
+
 /**
  * Creates a new GtkHBox with an entry to type in a date.
  *
@@ -2279,18 +2255,24 @@ GtkWidget * new_date_entry ( gchar ** value, GCallback hook )
       g_object_set_data ( G_OBJECT (entry), "insert-hook", 
 			  (gpointer) g_signal_connect_after (GTK_OBJECT(entry), 
 							     "insert-text",
-							     ((GCallback) hook), NULL));
+							     ((GCallback) hook), 
+							     NULL));
       g_object_set_data ( G_OBJECT (entry), "delete-hook", 
 			  (gpointer) g_signal_connect_after (GTK_OBJECT(entry), 
 							     "delete-text",
-							     ((GCallback) hook), NULL));
+							     ((GCallback) hook), 
+							     NULL));
     }
   g_object_set_data ( G_OBJECT (entry), "insert-text", 
-		      (gpointer) g_signal_connect_after (GTK_OBJECT(entry), "insert-text",
-							 ((GCallback) set_date), NULL));
+		      (gpointer) g_signal_connect_after (GTK_OBJECT(entry), 
+							 "insert-text",
+							 ((GCallback) set_date), 
+							 NULL));
   g_object_set_data ( G_OBJECT (entry), "delete-text", 
-		      (gpointer) g_signal_connect_after (GTK_OBJECT(entry), "delete-text",
-							 ((GCallback) set_date), NULL));
+		      (gpointer) g_signal_connect_after (GTK_OBJECT(entry), 
+							 "delete-text",
+							 ((GCallback) set_date), 
+							 NULL));
 
   date_entry = gtk_button_new_with_label ("...");
   gtk_box_pack_start ( GTK_BOX(hbox), date_entry,
@@ -2326,16 +2308,20 @@ void date_set_value ( GtkWidget * hbox, GDate ** value, gboolean update )
     {
       if (g_object_get_data ((GObject*) entry, "insert-hook") > 0)
 	g_signal_handler_block ( entry,
-				 (gulong) g_object_get_data ((GObject*) entry, "insert-hook"));
+				 (gulong) g_object_get_data ((GObject*) entry, 
+							     "insert-hook"));
       if (g_object_get_data ((GObject*) entry, "insert-text") > 0)
 	g_signal_handler_block ( entry,
-				 (gulong) g_object_get_data ((GObject*) entry, "insert-text"));
+				 (gulong) g_object_get_data ((GObject*) entry, 
+							     "insert-text"));
       if (g_object_get_data ((GObject*) entry, "delete-hook") > 0)
 	g_signal_handler_block ( entry,
-				 (gulong) g_object_get_data ((GObject*) entry, "delete-hook"));
+				 (gulong) g_object_get_data ((GObject*) entry, 
+							     "delete-hook"));
       if (g_object_get_data ((GObject*) entry, "delete-text") > 0)
 	g_signal_handler_block ( entry,
-				 (gulong) g_object_get_data ((GObject*) entry, "delete-text"));
+				 (gulong) g_object_get_data ((GObject*) entry, 
+							     "delete-text"));
 
       if ( value && *value )
 	{
@@ -2348,16 +2334,20 @@ void date_set_value ( GtkWidget * hbox, GDate ** value, gboolean update )
 
       if (g_object_get_data ((GObject*) entry, "insert-hook") > 0)
 	g_signal_handler_unblock ( entry,
-				   (gulong) g_object_get_data ((GObject*) entry, "insert-hook"));
+				   (gulong) g_object_get_data ((GObject*) entry, 
+							       "insert-hook"));
       if (g_object_get_data ((GObject*) entry, "insert-text") > 0)
 	g_signal_handler_unblock ( entry,
-				   (gulong) g_object_get_data ((GObject*) entry, "insert-text"));
+				   (gulong) g_object_get_data ((GObject*) entry, 
+							       "insert-text"));
       if (g_object_get_data ((GObject*) entry, "delete-hook") > 0)
 	g_signal_handler_unblock ( entry,
-				   (gulong) g_object_get_data ((GObject*) entry, "delete-hook"));
+				   (gulong) g_object_get_data ((GObject*) entry, 
+							       "delete-hook"));
       if (g_object_get_data ((GObject*) entry, "delete-text") > 0)
 	g_signal_handler_unblock ( entry,
-				   (gulong) g_object_get_data ((GObject*) entry, "delete-text"));
+				   (gulong) g_object_get_data ((GObject*) entry, 
+							       "delete-text"));
     }
 }
 
@@ -2402,7 +2392,7 @@ gboolean popup_calendar ( GtkWidget * button, gpointer data )
   gtk_container_add ( GTK_CONTAINER ( frame ), popup_boxv);
 
   /* Set initial date according to entry */
-  if ( !( strlen ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree ))))
+  if ( !( strlen ( g_strstrip ( (gchar *) gtk_entry_get_text (GTK_ENTRY(entree))))
 	  &&
 	  sscanf ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree )),
 		   "%02d/%02d/%04d", &cal_jour, &cal_mois, &cal_annee)))
@@ -2488,16 +2478,20 @@ void entry_set_value ( GtkWidget * entry, gchar ** value )
   /* Block everything */
   if ( g_object_get_data ((GObject*) entry, "insert-hook") > 0 )
     g_signal_handler_block ( GTK_OBJECT(entry),
-			     (gulong) g_object_get_data ((GObject*) entry, "insert-hook"));
+			     (gulong) g_object_get_data ((GObject*) entry, 
+							 "insert-hook"));
   if ( g_object_get_data ((GObject*) entry, "insert-text") > 0 )
     g_signal_handler_block ( GTK_OBJECT(entry),
-			     (gulong) g_object_get_data ((GObject*) entry, "insert-text"));
+			     (gulong) g_object_get_data ((GObject*) entry, 
+							 "insert-text"));
   if ( g_object_get_data ((GObject*) entry, "delete-hook") > 0 )
     g_signal_handler_block ( GTK_OBJECT(entry),
-			     (gulong) g_object_get_data ((GObject*) entry, "delete-hook"));
+			     (gulong) g_object_get_data ((GObject*) entry, 
+							 "delete-hook"));
   if ( g_object_get_data ((GObject*) entry, "delete-text") > 0 )
     g_signal_handler_block ( GTK_OBJECT(entry),
-			     (gulong) g_object_get_data ((GObject*) entry, "delete-text"));
+			     (gulong) g_object_get_data ((GObject*) entry, 
+							 "delete-text"));
 
   /* Fill in value */
   if (value && *value)
@@ -2510,17 +2504,22 @@ void entry_set_value ( GtkWidget * entry, gchar ** value )
   /* Unblock everything */
   if ( g_object_get_data ((GObject*) entry, "insert-hook") > 0 )
     g_signal_handler_unblock ( GTK_OBJECT(entry),
-			       (gulong) g_object_get_data ((GObject*) entry, "insert-hook"));
+			       (gulong) g_object_get_data ((GObject*) entry, 
+							   "insert-hook"));
   if ( g_object_get_data ((GObject*) entry, "insert-text") > 0 )
     g_signal_handler_unblock ( GTK_OBJECT(entry),
-			       (gulong) g_object_get_data ((GObject*) entry, "insert-text"));
+			       (gulong) g_object_get_data ((GObject*) entry, 
+							   "insert-text"));
   if ( g_object_get_data ((GObject*) entry, "delete-hook") > 0 )
     g_signal_handler_unblock ( GTK_OBJECT(entry),
-			       (gulong) g_object_get_data ((GObject*) entry, "delete-hook"));
+			       (gulong) g_object_get_data ((GObject*) entry, 
+							   "delete-hook"));
   if ( g_object_get_data ((GObject*) entry, "delete-text") > 0 )
     g_signal_handler_unblock ( GTK_OBJECT(entry),
-			       (gulong) g_object_get_data ((GObject*) entry, "delete-text"));
+			       (gulong) g_object_get_data ((GObject*) entry, 
+							   "delete-text"));
 }
+
 
 
 /**
@@ -2578,7 +2577,8 @@ void text_area_set_value ( GtkWidget * text_view, gchar ** value )
 			     (gulong) g_object_get_data ( G_OBJECT(buffer), "change-hook" ));
   if ( g_object_get_data (G_OBJECT(buffer), "change-text") > 0 )
     g_signal_handler_block ( G_OBJECT(buffer),
-			     (gulong) g_object_get_data ( G_OBJECT(buffer), "change-text" ));
+			     (gulong) g_object_get_data ( G_OBJECT(buffer), 
+							  "change-text" ));
 
   /* Fill in value */
   if (value && *value)
@@ -2592,10 +2592,12 @@ void text_area_set_value ( GtkWidget * text_view, gchar ** value )
   /* Unblock everything */
   if ( g_object_get_data ((GObject*) buffer, "change-hook") > 0 )
     g_signal_handler_unblock ( G_OBJECT(buffer),
-			       (gulong) g_object_get_data ((GObject*) buffer, "change-hook" ));
+			       (gulong) g_object_get_data ((GObject*) buffer, 
+							   "change-hook" ));
   if ( g_object_get_data ((GObject*) buffer, "change-text") > 0 )
     g_signal_handler_unblock ( G_OBJECT(buffer),
-			       (gulong) g_object_get_data ((GObject*) buffer, "change-text" ));
+			       (gulong) g_object_get_data ((GObject*) buffer, 
+							   "change-text" ));
 }
 
 
@@ -2620,4 +2622,60 @@ gboolean set_text_from_area ( GtkTextBuffer *buffer, gpointer dummy )
     *data = g_strdup ( gtk_text_buffer_get_text (buffer, &start, &end, 0) );
 
   return FALSE;
+}
+
+
+
+/**
+ * Set an integer to the value of a spin button.  Normally called via
+ * a GTK "changed" signal handler.
+ * 
+ * \param spin a pointer to a spinbutton widget.
+ * \param dummy unused
+ */
+gboolean
+set_integer ( GtkWidget * spin, guint * dummy)
+{
+  gint *data;
+  
+  data = g_object_get_data ( G_OBJECT(spin), "pointer" );
+  
+  if ( data )
+    *data = gtk_spin_button_get_value_as_int ( GTK_SPIN_BUTTON(spin) );
+}
+
+
+
+/**
+ * Creates a new GtkSpinButton with a pointer to a string that will be
+ * modified according to the spin's value.
+ *
+ * \param value A pointer to a string
+ * \param hook An optional function to execute as a handler if the
+ * textview's contents are modified.
+ */
+GtkWidget * new_spin_button ( gint * value, 
+			      gdouble lower, gdouble upper, 
+			      gdouble step_increment, gdouble page_increment, 
+			      gdouble page_size, 
+			      gdouble climb_rate, guint digits,
+			      GCallback hook )
+{
+  GtkWidget * spin;
+  GtkAdjustment * adjustment;
+  gint initial = 0;
+
+  if ( value )  /* Sanity check */
+    initial = *value;
+
+  adjustment = GTK_ADJUSTMENT( gtk_adjustment_new ( initial, lower, upper, 
+						    step_increment, page_increment, 
+						    page_size ));
+  spin = gtk_spin_button_new ( adjustment, climb_rate, digits );
+  gtk_spin_button_set_numeric ( GTK_SPIN_BUTTON (spin), TRUE );
+  g_object_set_data ( G_OBJECT (spin), "pointer", value);
+  g_signal_connect ( GTK_OBJECT (spin), "changed", (GCallback) set_integer, NULL );
+
+  return spin;
+
 }
