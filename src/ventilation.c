@@ -1730,7 +1730,7 @@ void fin_edition_ventilation ( void )
     }
     else
     {
-	/* il n'y a aucune catég, si c'est une modif d'opé et que cette opé était un virement, */
+	/* il n'y a aucune catég, si c'est une modif d'opé et que cette opÃ© était un virement, */
 	/* on marque cette opé comme supprimée et on en recrée une nouvelle */
 
 	if ( modification
@@ -2561,21 +2561,26 @@ void annuler_ventilation ( void )
     nouvelle_liste = creation_liste_ope_de_ventil ( gtk_object_get_data ( GTK_OBJECT ( formulaire ),
 									       "adr_struct_ope" ));
 
-    liste_tmp = ancienne_liste;
-
-    while ( liste_tmp )
+    if ( ancienne_liste != GINT_TO_POINTER (-1))
     {
-	struct struct_ope_ventil *ventil;
+	liste_tmp = ancienne_liste;
 
-	ventil = liste_tmp -> data;
+	while ( liste_tmp )
+	{
+	    struct struct_ope_ventil *ventil;
 
-	if ( ventil -> par_completion )
-	    nouvelle_liste = g_slist_append ( nouvelle_liste,
-					      ventil );
-	liste_tmp = liste_tmp -> next;
+	    ventil = liste_tmp -> data;
+
+	    if ( ventil -> par_completion )
+		nouvelle_liste = g_slist_append ( nouvelle_liste,
+						  ventil );
+	    liste_tmp = liste_tmp -> next;
+	}
+
+	g_slist_free ( ancienne_liste );
     }
-
-    g_slist_free ( ancienne_liste );
+    else
+	nouvelle_liste = GINT_TO_POINTER (-1);
 
     gtk_object_set_data ( GTK_OBJECT ( formulaire ),
 			  "liste_adr_ventilation",
