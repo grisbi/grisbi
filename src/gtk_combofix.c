@@ -627,7 +627,7 @@ static gboolean affiche_proposition ( GtkWidget *entree,
 
  recherche_completion:
 
-  for ( i=0; texte && i < strlen(texte); i++)
+  for ( i=0; texte && longueur && i < strlen(texte); i++)
     {
       if ( isupper(texte[i]) )
 	{
