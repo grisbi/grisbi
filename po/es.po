@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-12-10 10:43+0100\n"
+"POT-Creation-Date: 2004-12-14 15:36+0100\n"
 "PO-Revision-Date: 2004-11-19 14:07+0100\n"
 "Last-Translator: Carlos M. Cámara Mora <carcam_moceu@yahoo.es>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -48,7 +48,7 @@ msgstr "Cuentas por debajo del balance autorizado"
 msgid "Accounts under wanted balance"
 msgstr "Cuentas por debajo del balance deseado"
 
-#. crée la boite de dialogue
+#. crï¿½ la boite de dialogue
 #: src/accueil.c:318
 msgid "Enter a scheduled transaction"
 msgstr "Introduzca una transacción programada"
@@ -62,7 +62,7 @@ msgstr "Formulario"
 msgid "Account balances in %s"
 msgstr "Balance de cuentas en %s"
 
-#. Création et remplissage de la première ligne du tableau
+#. Crï¿½tion et remplissage de la premiï¿½e ligne du tableau
 #: src/accueil.c:527 src/accueil.c:849 src/accueil.c:1170
 #: src/operations_liste.c:150
 msgid "Reconciled balance"
@@ -72,9 +72,9 @@ msgstr "Balance reconciliado"
 msgid "Current balance"
 msgstr "Balance actual"
 
-#. Création et remplissage de la (nb_comptes + 3)ième ligne du tableau :
+#. Crï¿½tion et remplissage de la (nb_comptes + 3)iï¿½e ligne du tableau :
 #. elle contient la somme des soldes de chaque compte
-#. Deuxième colonne
+#. Deuxiï¿½e colonne
 #: src/accueil.c:769 src/accueil.c:1090 src/accueil.c:1411
 msgid "Global balances"
 msgstr "Balances globales"
@@ -1568,7 +1568,7 @@ msgstr "La tasa de cambio entre las dos monedas es 0."
 
 #: src/comptes_gestion.c:1240 src/devises.c:380 src/devises.c:956
 #: src/devises.c:1649 src/devises.c:1731 src/devises.c:2074 src/devises.c:2079
-#: src/devises.c:2189 src/echeancier_formulaire.c:2046
+#: src/devises.c:2204 src/echeancier_formulaire.c:2046
 #: src/echeancier_formulaire.c:2048 src/echeancier_formulaire.c:2423
 #: src/echeancier_formulaire.c:2425 src/echeancier_liste.c:1966
 #: src/echeancier_liste.c:1968 src/etats_calculs.c:2443
@@ -5726,7 +5726,9 @@ msgstr ""
 msgid "New transaction"
 msgstr ""
 
-#: src/menu.c:86
+#. New transaction from
+#: src/menu.c:86 src/operations_liste.c:2662 src/traitement_variables.c:102
+#: src/traitement_variables.c:223
 #, fuzzy
 msgid "Use selected transaction as a template"
 msgstr "Transacciones programadas cerradas"
@@ -6023,12 +6025,6 @@ msgid ""
 "One of the breakdown lines is a transfer whose contra-transaction is "
 "reconciled.  Deletion canceled."
 msgstr ""
-
-#. New transaction from
-#: src/operations_liste.c:2662
-#, fuzzy
-msgid "New transaction from"
-msgstr "Formulario de transacción"
 
 #. Delete transaction
 #: src/operations_liste.c:2670
@@ -6358,11 +6354,6 @@ msgstr ""
 msgid "Third party '%s' already exists."
 msgstr ""
 
-#: src/traitement_variables.c:102 src/traitement_variables.c:223
-#, fuzzy
-msgid "New transaction from selected"
-msgstr "Formulario de transacción"
-
 #. Should not happen theorically
 #. Should not happen!
 #: src/type_operations.c:106 src/type_operations.c:873
@@ -6461,3 +6452,11 @@ msgstr ""
 #: src/ventilation.c:2225
 msgid "This transfer has a reconciled contra-transaction, deletion canceled."
 msgstr ""
+
+#, fuzzy
+#~ msgid "New transaction from"
+#~ msgstr "Formulario de transacción"
+
+#, fuzzy
+#~ msgid "New transaction from selected"
+#~ msgstr "Formulario de transacción"

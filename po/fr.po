@@ -1,24 +1,19 @@
-# translation of fr.po to
-# translation of fr.po to
-# translation of fr.po to
-# translation of fr.po to
-# translation of fr.po to
-# translation of fr.po to
-# translation of fr.po to Francais
+# translation of fr.po to français
 # Grisbi translation into French
 # Copyright (C) 2003	Daniel Cartron <daniel@cartron.org>, 2003.
 # 			Benjamin Drieu <bdrieu@april.org>, 2003,2004.
 # 			Alain Portal <aportal@univ-montp2.fr>, 2003.
 # Alain PORTAL <alain.portal@free.fr>, 2004.
+# Alain PORTAL <aportal@univ-montp2.fr>, 2004.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-12-10 10:43+0100\n"
-"PO-Revision-Date: 2004-12-14 14:10+0100\n"
-"Last-Translator: Benjamin Drieu <bdrieu@april.org>\n"
-"Language-Team: Francais <traduction@grisbi.org>\n"
+"POT-Creation-Date: 2004-12-14 15:36+0100\n"
+"PO-Revision-Date: 2004-12-14 15:12+0100\n"
+"Last-Translator: Alain PORTAL <aportal@univ-montp2.fr>\n"
+"Language-Team: français <traduc@traduc.org>\n"
 "MIME-Version: (null)\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -56,7 +51,7 @@ msgstr "Comptes sous le solde autorisé"
 msgid "Accounts under wanted balance"
 msgstr "Comptes sous le solde minimum voulu"
 
-#. crée la boite de dialogue
+#. crï¿½ la boite de dialogue
 #: src/accueil.c:318
 msgid "Enter a scheduled transaction"
 msgstr "Saisie d'une échéance"
@@ -70,7 +65,7 @@ msgstr "Formulaire"
 msgid "Account balances in %s"
 msgstr "Solde des comptes en %s"
 
-#. Création et remplissage de la première ligne du tableau
+#. Crï¿½tion et remplissage de la premiï¿½e ligne du tableau
 #: src/accueil.c:527 src/accueil.c:849 src/accueil.c:1170
 #: src/operations_liste.c:150
 msgid "Reconciled balance"
@@ -80,9 +75,9 @@ msgstr "Solde pointé"
 msgid "Current balance"
 msgstr "Solde courant"
 
-#. Création et remplissage de la (nb_comptes + 3)ième ligne du tableau :
+#. Crï¿½tion et remplissage de la (nb_comptes + 3)iï¿½e ligne du tableau :
 #. elle contient la somme des soldes de chaque compte
-#. Deuxième colonne
+#. Deuxiï¿½e colonne
 #: src/accueil.c:769 src/accueil.c:1090 src/accueil.c:1411
 msgid "Global balances"
 msgstr "Soldes finaux"
@@ -1570,7 +1565,7 @@ msgstr "Le taux de change entre les deux monnaies est nul."
 
 #: src/comptes_gestion.c:1240 src/devises.c:380 src/devises.c:956
 #: src/devises.c:1649 src/devises.c:1731 src/devises.c:2074 src/devises.c:2079
-#: src/devises.c:2189 src/echeancier_formulaire.c:2046
+#: src/devises.c:2204 src/echeancier_formulaire.c:2046
 #: src/echeancier_formulaire.c:2048 src/echeancier_formulaire.c:2423
 #: src/echeancier_formulaire.c:2425 src/echeancier_liste.c:1966
 #: src/echeancier_liste.c:1968 src/etats_calculs.c:2443
@@ -3254,7 +3249,7 @@ msgstr "Liste des échéances"
 
 #: src/echeancier_onglet.c:135
 msgid "Scheduler broken down transactions"
-msgstr "Echéances ventilées"
+msgstr "Échéances ventilées"
 
 #: src/echeancier_ventilation.c:227 src/ventilation.c:230
 msgid "Break down amount"
@@ -4665,8 +4660,8 @@ msgid ""
 "You are about to create a new report.  For convenience, you can choose "
 "between the following templates.  Reports may be customized later."
 msgstr ""
-"Vous êtes sur le point de créer un nouvel état. Vous pouvez choisir parmis "
-"les modèles suivants.  Les états peuvent être paramétrés plus tard."
+"Vous êtes sur le point de créer un nouvel état. Vous pouvez choisir parmi "
+"les modèles suivants. Les états peuvent être paramétrés plus tard."
 
 #: src/etats_onglet.c:477
 msgid "Report type"
@@ -4753,7 +4748,7 @@ msgstr ""
 #: src/etats_onglet.c:1010
 msgid "This report is an empty one. You need to customise it entirely."
 msgstr ""
-"Cette option crée un état vierge dans lequel vous devez tous configurer."
+"Cette option crée un état vierge dans lequel vous devez tout configurer."
 
 #. remise de chèques
 #: src/etats_onglet.c:1016
@@ -5865,7 +5860,9 @@ msgstr "Édition"
 msgid "New transaction"
 msgstr "Nouvelle opération"
 
-#: src/menu.c:86
+#. New transaction from
+#: src/menu.c:86 src/operations_liste.c:2662 src/traitement_variables.c:102
+#: src/traitement_variables.c:223
 msgid "Use selected transaction as a template"
 msgstr "Utiliser l'opération sélectionnée comme modèle"
 
@@ -5995,7 +5992,7 @@ msgstr ""
 #: src/ofx.c:304
 msgid "A transaction try to be saved but no account was created...\n"
 msgstr ""
-"Tentative d'enregistrement d'un opération sans compte créé précedemment...\n"
+"Tentative d'enregistrement d'une opération sans compte créé précédemment...\n"
 
 #: src/ofx.c:368
 msgid "Check"
@@ -6181,11 +6178,6 @@ msgid ""
 msgstr ""
 "Une des opérations de la ventilation est un virement dont la contre-"
 "opération est relevée.  La suppression est annulée."
-
-#. New transaction from
-#: src/operations_liste.c:2662
-msgid "New transaction from"
-msgstr "Nouveau formulaire d'opération"
 
 #. Delete transaction
 #: src/operations_liste.c:2670
@@ -6531,10 +6523,6 @@ msgstr ""
 msgid "Third party '%s' already exists."
 msgstr "Le tiers « '%s » existe déjà."
 
-#: src/traitement_variables.c:102 src/traitement_variables.c:223
-msgid "New transaction from selected"
-msgstr "Nouvelle opération a partir de l'opération sélectionnée"
-
 #. Should not happen theorically
 #. Should not happen!
 #: src/type_operations.c:106 src/type_operations.c:873
@@ -6645,17 +6633,8 @@ msgstr ""
 "La contre-opération de ce virement est relevée, on ne peut donc les "
 "supprimer."
 
-#~ msgid "This account does not contain any transaction"
-#~ msgstr "Il n'y a aucune opérations dans ce compte"
+#~ msgid "New transaction from"
+#~ msgstr "Nouveau formulaire d'opération"
 
-#~ msgid "Valid"
-#~ msgstr "Valider"
-
-#~ msgid "Matthieu Puppat (tieum.tieum@free.fr): Mandrake packaging"
-#~ msgstr "Matthieu Pupat (tieum.tieum@free.fr) : paquets Mandrake"
-
-#~ msgid "Delete a scheduled transaction maturity"
-#~ msgstr "Effacer une échéance"
-
-#~ msgid "%02d/%02d/%d : [No third party] [%4.2f]"
-#~ msgstr "%02d/%02d/%d : [Aucun Tiers] [%4.2f]"
+#~ msgid "New transaction from selected"
+#~ msgstr "Nouvelle opération a partir de l'opération sélectionnée"
