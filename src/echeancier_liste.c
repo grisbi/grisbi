@@ -271,6 +271,17 @@ GtkWidget *creation_partie_gauche_echeancier ( void )
 		       0 );
   gtk_widget_show ( hbox );
 
+  /* met un bouton valider qui est juste utilisé pour faire sortir le focus de l'entrée */
+
+  bouton_valider_echeance_perso = gtk_button_new_with_label ( _("Afficher" ));
+  gtk_button_set_relief ( GTK_BUTTON ( bouton_valider_echeance_perso ),
+				GTK_RELIEF_NONE );
+  gtk_box_pack_end ( GTK_BOX ( hbox ),
+		       bouton_valider_echeance_perso,
+		       FALSE,
+		       FALSE,
+		       0 );
+
   /* le menu jour / mois / année */
 
   bouton_personnalisation_affichage_echeances = gtk_option_menu_new ();
@@ -316,6 +327,9 @@ GtkWidget *creation_partie_gauche_echeancier ( void )
   /* la gtk entry de personnalisation */
 
   entree_personnalisation_affichage_echeances = gtk_entry_new ();
+  gtk_widget_set_usize ( entree_personnalisation_affichage_echeances,
+			 30,
+			 FALSE );
   gtk_signal_connect_object ( GTK_OBJECT ( entree_personnalisation_affichage_echeances ),
 			      "focus_out_event",
 			      GTK_SIGNAL_FUNC ( modification_affichage_echeances ),
@@ -337,6 +351,7 @@ GtkWidget *creation_partie_gauche_echeancier ( void )
 				    affichage_echeances_perso_j_m_a );
       gtk_widget_show ( entree_personnalisation_affichage_echeances );
       gtk_widget_show ( bouton_personnalisation_affichage_echeances );
+      gtk_widget_show ( bouton_valider_echeance_perso );
     }
 
 
@@ -2001,6 +2016,7 @@ void modification_affichage_echeances ( gint *origine )
 				    affichage_echeances_perso_j_m_a );
       gtk_widget_show ( entree_personnalisation_affichage_echeances );
       gtk_widget_show ( bouton_personnalisation_affichage_echeances );
+      gtk_widget_show ( bouton_valider_echeance_perso );
       break;
 
     case 0:
@@ -2010,6 +2026,7 @@ void modification_affichage_echeances ( gint *origine )
       affichage_echeances = GPOINTER_TO_INT ( origine );
       gtk_widget_hide ( entree_personnalisation_affichage_echeances );
       gtk_widget_hide ( bouton_personnalisation_affichage_echeances );
+      gtk_widget_hide ( bouton_valider_echeance_perso );
 
       break;
 
