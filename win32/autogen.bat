@@ -15,7 +15,7 @@ goto endofperl
 #  -------------------------------------------------------------------------
 #                               GRISBI for Windows
 #  -------------------------------------------------------------------------
-# $Id: autogen.bat,v 1.3 2004/08/22 20:17:13 teilginn Exp $
+# $Id: autogen.bat,v 1.4 2004/09/02 19:43:47 teilginn Exp $
 #  -------------------------------------------------------------------------
 # 
 #  Copyleft 2004 (c) François Terrot
@@ -38,6 +38,9 @@ goto endofperl
 #  History:
 #
 #  $Log: autogen.bat,v $
+#  Revision 1.4  2004/09/02 19:43:47  teilginn
+#  get version number from configure.in if not in the directory name
+#
 #  Revision 1.3  2004/08/22 20:17:13  teilginn
 #  add support for current gtk-2.2.4-3
 #
@@ -367,6 +370,19 @@ sub _configuration_autodetect # {{{
 
     # Extract version number from pwd
     (my $core = basename dirname getcwd() ) =~ s/^grisbi-//;
+    # if version can not be found from directory name grisbi-unstable ....
+    my ($major,$minor,$release ) = (undef,undef,undef);
+    ($major,$minor,$release ) = split /\./,$core if ($core);
+    if (not (defined($major) and defined($minor) and defined($release)))
+    {
+        my $l;
+        open CONFIGURE_IN,"../configure.in" or die "Unable to open configure.in to get version number";
+        while ($l = <CONFIGURE_IN>) { last if ($l =~ m/AM_INIT_AUTOMAKE/);}
+        close CONFIGURE_IN;
+        chomp $l;
+        $l =~ s/.*(\d\.\d\.\d).*/$1/ if (defined($l));
+        $core = $l."-$core";
+    }
     $config{'grisbi'}{'core'} = $core unless ($config{'grisbi'}{'core'});
 
     my ($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) = localtime(time);
