@@ -93,9 +93,7 @@ extern gboolean block_menu_cb ;
 extern gint compte_courant;
 extern GtkWidget *formulaire;
 extern GtkItemFactory *item_factory_menu_general;
-extern gint nb_comptes;
-extern gpointer **p_tab_nom_de_compte;
-extern gpointer **p_tab_nom_de_compte_variable;
+extern GSList *list_struct_accounts;
 extern GtkTooltips *tooltips_general_grisbi;
 extern GtkWidget *tree_view_liste_echeances;
 extern GtkWidget *tree_view_liste_ventilations;
@@ -440,12 +438,8 @@ GtkWidget *creation_barre_outils ( void )
 /****************************************************************************************************/
 gboolean change_aspect_liste ( gint demande )
 {
-    gint i;
     GtkWidget * widget;
-
-    p_tab_nom_de_compte_variable=p_tab_nom_de_compte + compte_courant;
-
-/* FIXME : dès que gtk 2.4 à la maison, utiliser le gtk_tree_model_filter */
+    GSList *list_tmp;
 
     block_menu_cb = TRUE;
 
@@ -469,13 +463,20 @@ gboolean change_aspect_liste ( gint demande )
 					 G_CALLBACK ( affichage_traits_liste_echeances ),
 					 NULL );
 
-		for ( i=0 ; i<nb_comptes ; i++ )
+		list_tmp = list_struct_accounts;
+
+		while ( list_tmp )
 		{
-		    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
+		    gint i;
+
+		    i = gsb_account_get_no_account ( list_tmp -> data );
+
 		    g_signal_connect_after ( G_OBJECT ( gsb_account_get_tree_view (i) ),
 					     "expose-event",
 					     G_CALLBACK ( affichage_traits_liste_operation ),
 					     NULL );
+
+		    list_tmp = list_tmp -> next;
 		}
 	    }
 	    else
@@ -486,15 +487,23 @@ gboolean change_aspect_liste ( gint demande )
 		g_signal_handlers_disconnect_by_func ( G_OBJECT ( tree_view_liste_echeances ),
 						       G_CALLBACK ( affichage_traits_liste_echeances ),
 						       NULL );
-	for ( i=0 ; i<nb_comptes ; i++ )
+		GSList *list_tmp;
+
+		list_tmp = list_struct_accounts;
+
+		while ( list_tmp )
 		{
-		    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
+		    gint i;
+
+		    i = gsb_account_get_no_account ( list_tmp -> data );
+
 		    g_signal_handlers_disconnect_by_func ( G_OBJECT ( gsb_account_get_tree_view (i) ),
 							   G_CALLBACK ( affichage_traits_liste_operation ),
 							   NULL );
+
+		    list_tmp = list_tmp -> next;
 		}
 	    }
-	    p_tab_nom_de_compte_variable=p_tab_nom_de_compte + compte_courant;
 	    gtk_widget_queue_draw ( gsb_account_get_tree_view (compte_courant) );
 	    gtk_widget_queue_draw ( tree_view_liste_echeances );
 
@@ -732,8 +741,6 @@ GtkWidget *creation_barre_outils_echeancier ( void )
 
 void mise_a_jour_boutons_caract_liste ( gint no_compte )
 {
-    p_tab_nom_de_compte_variable=p_tab_nom_de_compte + no_compte;
-
     /*     on veut juste mettre les boutons à jour, sans redessiner la liste */
     /*     on bloque donc les appels aux fonctions */
 

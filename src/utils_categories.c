@@ -43,14 +43,12 @@ static void update_category_in_trees ( struct struct_categ * category,
 /*START_EXTERN*/
 extern GtkTreeStore * categ_tree_model;
 extern MetatreeInterface * category_interface ;
+extern GSList *list_struct_accounts;
 extern GSList *liste_struct_categories;
 extern gint mise_a_jour_combofix_categ_necessaire;
-extern gint nb_comptes;
 extern gint nb_enregistrements_categories, no_derniere_categorie;
 extern gint nb_enregistrements_categories, no_derniere_categorie;
 extern int no_devise_totaux_categ;
-extern gpointer **p_tab_nom_de_compte;
-extern gpointer **p_tab_nom_de_compte_variable;
 extern struct struct_categ * without_category;
 /*END_EXTERN*/
 
@@ -102,7 +100,7 @@ struct struct_categ *categ_par_nom ( gchar *nom_categ,
 		nb_enregistrements_categories++;
 		mise_a_jour_combofix_categ_necessaire = 1;
 
-		update_category_in_trees ( nouvelle_categorie, NULL );
+/* 		update_category_in_trees ( nouvelle_categorie, NULL ); */
 
 		return ( nouvelle_categorie );
 	    }
@@ -157,7 +155,7 @@ struct struct_sous_categ *sous_categ_par_nom ( struct struct_categ *categ,
 
 		mise_a_jour_combofix_categ_necessaire = 1;
 
-		update_category_in_trees ( categ, nouvelle_sous_categorie );
+/* 		update_category_in_trees ( categ, nouvelle_sous_categorie ); */
 
 		return ( nouvelle_sous_categorie );
 	    }
@@ -290,7 +288,7 @@ gchar *nom_sous_categ_par_no ( gint no_categorie,
  */
 void calcule_total_montant_categ ( void )
 {
-    gint i;
+    GSList *list_tmp;
 
     reset_category_counters();
 
@@ -300,11 +298,14 @@ void calcule_total_montant_categ ( void )
     without_category -> type_categ = 0;
     without_category -> no_derniere_sous_categ = 0;
 
-    for ( i=0 ; i<nb_comptes ; i++ )
+    list_tmp = list_struct_accounts;
+
+    while ( list_tmp )
     {
+	gint i;
 	GSList *liste_tmp;
 
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
+	i = gsb_account_get_no_account ( list_tmp -> data );
 
 	liste_tmp = gsb_account_get_transactions_list (i);
 	while ( liste_tmp )
@@ -336,7 +337,9 @@ void calcule_total_montant_categ ( void )
 
 	    liste_tmp = liste_tmp -> next;
 	}
+	list_tmp = list_tmp -> next;
     }
+
 }
 
 
@@ -463,18 +466,18 @@ void update_category_in_trees ( struct struct_categ * category,
     GtkTreeIter * categ_iter, * sub_categ_iter, iter;
 
     if ( category &&
-	 gtk_tree_model_get_iter_first ( categ_tree_model, &iter ) )
+	 gtk_tree_model_get_iter_first ( GTK_TREE_MODEL (categ_tree_model), &iter ) )
     {
 
-	categ_iter = get_iter_from_pointer ( categ_tree_model, category );
+	categ_iter = get_iter_from_pointer ( GTK_TREE_MODEL (categ_tree_model), category );
 	if ( ! categ_iter )
 	{
 	    gtk_tree_store_append ( GTK_TREE_STORE(categ_tree_model), &iter, NULL );
 	    categ_iter = &iter;
 	}
-	fill_division_row ( categ_tree_model, category_interface, categ_iter, category );
+	fill_division_row ( GTK_TREE_MODEL (categ_tree_model), category_interface, categ_iter, category );
 
-	sub_categ_iter = get_iter_from_div ( categ_tree_model, category -> no_categ,
+	sub_categ_iter = get_iter_from_div ( GTK_TREE_MODEL (categ_tree_model), category -> no_categ,
 					     ( sub_category ? 
 					       sub_category -> no_sous_categ : 0 ) );
 	if ( ! sub_categ_iter )
@@ -483,7 +486,7 @@ void update_category_in_trees ( struct struct_categ * category,
 				    categ_iter );
 	    sub_categ_iter = &iter;
 	}
-	fill_sub_division_row ( categ_tree_model, category_interface, sub_categ_iter, 
+	fill_sub_division_row ( GTK_TREE_MODEL (categ_tree_model), category_interface, sub_categ_iter, 
 				category, sub_category );
     }
 }

@@ -1,44 +1,32 @@
 /* ************************************************************************** */
-/*  Fichier qui gère la liste des opérations                                  */
+/*  fichier qui gère la liste des opérations                                  */
 /* 			liste_operations.c                                    */
 /*                                                                            */
-/*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org)	      */
-/*			2004      Benjamin Drieu (bdrieu@april.org) 	      */
-/*			2003-2004 Alain Portal (aportal@univ-montp2.fr)	      */
+/*     copyright (c)	2000-2003 cédric auger (cedric@grisbi.org)	      */
+/*			2004      benjamin drieu (bdrieu@april.org) 	      */
+/*			2003-2004 alain portal (aportal@univ-montp2.fr)	      */
 /*			http://www.grisbi.org   			      */
 /*                                                                            */
-/*  This program is free software; you can redistribute it and/or modify      */
-/*  it under the terms of the GNU General Public License as published by      */
-/*  the Free Software Foundation; either version 2 of the License, or         */
+/*  this program is free software; you can redistribute it and/or modify      */
+/*  it under the terms of the gnu general public license as published by      */
+/*  the free software foundation; either version 2 of the license, or         */
 /*  (at your option) any later version.                                       */
 /*                                                                            */
-/*  This program is distributed in the hope that it will be useful,           */
-/*  but WITHOUT ANY WARRANTY; without even the implied warranty of            */
-/*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             */
-/*  GNU General Public License for more details.                              */
+/*  this program is distributed in the hope that it will be useful,           */
+/*  but without any warranty; without even the implied warranty of            */
+/*  merchantability or fitness for a particular purpose.  see the             */
+/*  gnu general public license for more details.                              */
 /*                                                                            */
-/*  You should have received a copy of the GNU General Public License         */
-/*  along with this program; if not, write to the Free Software               */
-/*  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
+/*  you should have received a copy of the gnu general public license         */
+/*  along with this program; if not, write to the free software               */
+/*  foundation, inc., 59 temple place, suite 330, boston, ma  02111-1307  usa */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "include.h"
 #include "mouse.h"
 #include "operations_formulaire_constants.h"
-#include "format.h"
 #include "utils_c.h"
-#include "configuration.h"
-
-/* cette structure est utilisée pour retrouver la position de la cellule solde sur une opération */
-
-struct structure_position_solde
-{
-    gint ligne;
-    gint colonne;
-};
-
-
 
 
 
@@ -50,8 +38,6 @@ struct structure_position_solde
 #include "utils_devises.h"
 #include "utils_montants.h"
 #include "utils_exercices.h"
-#include "search_glist.h"
-#include "classement_operations.h"
 #include "echeancier_formulaire.h"
 #include "barre_outils.h"
 #include "type_operations.h"
@@ -63,6 +49,7 @@ struct structure_position_solde
 #include "configuration.h"
 #include "data_account.h"
 #include "format.h"
+#include "classement_operations.h"
 #include "gtk_combofix.h"
 #include "utils_str.h"
 #include "main.h"
@@ -86,27 +73,39 @@ static void affiche_ligne_ope ( struct structure_operation *operation,
 			 GtkTreeIter *iter,
 			 gint ligne );
 static gboolean assert_selected_transaction ();
-static gboolean changement_choix_classement_liste_operations ( gchar *nom_classement );
-static gboolean click_sur_titre_colonne_operations ( GtkTreeViewColumn *colonne,
-					      gint *no_colonne );
+static struct structure_operation *cherche_operation_from_ligne ( gint ligne,
+							   gint no_account );
 static struct structure_operation *  clone_transaction ( struct structure_operation * operation );
 static void creation_titres_tree_view ( void );
 static GtkWidget *creation_tree_view_operations ( void );
-static GSList *cree_slist_affichee ( gint no_compte );
+static gint find_balance_col ( void );
+static gint find_balance_line ( void );
+static gint find_p_r_line ();
+static gboolean gsb_transactions_list_change_sort_type ( GtkWidget *menu_item,
+						  gint *no_column );
+static gboolean gsb_transactions_list_current_transaction_down ( gint no_account );
+static gboolean gsb_transactions_list_current_transaction_up ( gint no_account );
+static GtkTreePath *gsb_transactions_list_get_list_path_from_sorted_path ( GtkTreePath *path_sorted,
+								    gint no_account );
+static GtkTreePath *gsb_transactions_list_get_path_from_transaction ( struct structure_operation *transaction,
+							       gint no_account );
+static GtkTreePath *gsb_transactions_list_get_sorted_path_from_list_path ( GtkTreePath *path,
+								    gint no_account );
+static struct structure_operation *gsb_transactions_list_get_transaction_from_path ( GtkTreePath *path,
+									      gint no_account );
+static gboolean gsb_transactions_list_sort_column_changed ( GtkTreeSortable *sortable,
+						     gint *no_account );
+static gboolean gsb_transactions_list_title_column_button_press ( GtkWidget *button,
+							   GdkEventButton *ev,
+							   gint *no_column );
 static gboolean move_operation_to_account ( struct structure_operation * transaction,
 				     gint account );
 static void move_selected_operation_to_account ( GtkMenuItem * menu_item );
-static void my_list_store_sort ( gint no_compte,
-			  GSList *liste_avant_classement,
-			  GSList *liste_apres_classement );
-static struct structure_operation *operation_from_iter ( GtkTreeIter *iter,
-						  gint no_compte );
 static void p_press (void);
 static void popup_transaction_context_menu ( gboolean full );
 static void r_press (void);
 static gchar *recherche_contenu_cellule ( struct structure_operation *operation,
 				   gint no_affichage );
-static struct structure_position_solde *recherche_position_solde ( void );
 static void schedule_selected_transaction ();
 static struct operation_echeance *schedule_transaction ( struct structure_operation * transaction );
 static gdouble solde_debut_affichage ( gint no_compte );
@@ -156,11 +155,11 @@ GtkTreeViewColumn *colonnes_liste_ventils[3];
 gint hauteur_ligne_liste_opes;
 
 /* on va essayer de créer un object tooltip général pour grisbi */
-/* donc associer tous les autres tooltips à ce tooltip (FIXME) */
+/* donc associer tous les autres tooltips à ce tooltip (fixme) */
 
 GtkTooltips *tooltips_general_grisbi;
 
-/* le GdkGC correspondant aux lignes, créés au début une fois pour toute */
+/* le GdkGc correspondant aux lignes, créés au début une fois pour toute */
 
 GdkGC *gc_separateur_operation;
 
@@ -177,8 +176,6 @@ GtkTreeIter iter_liste_operations;
 
 gchar *derniere_date;
 
-gint colonne_classement_tmp;
-
 /*  pointeur vers le label qui contient le solde sous la liste des opé */
 
 GtkWidget *solde_label;
@@ -188,7 +185,7 @@ GtkWidget *solde_label;
 GtkWidget *solde_label_pointe;
 
 
-/*START_EXTERN*/
+/*start_extern*/
 extern GtkWidget *bouton_affiche_cache_formulaire;
 extern GtkWidget *bouton_ok_equilibrage;
 extern gint compte_courant;
@@ -203,6 +200,7 @@ extern GtkWidget *label_equilibrage_pointe;
 extern gint ligne_affichage_une_ligne;
 extern GSList *lignes_affichage_deux_lignes;
 extern GSList *lignes_affichage_trois_lignes;
+extern GSList *list_struct_accounts;
 extern GSList *liste_labels_titres_colonnes_liste_ope ;
 extern GSList *liste_struct_devises;
 extern GSList *liste_struct_echeances;
@@ -212,14 +210,12 @@ extern gint mise_a_jour_combofix_tiers_necessaire;
 extern gint mise_a_jour_liste_comptes_accueil;
 extern gint mise_a_jour_liste_echeances_auto_accueil;
 extern gint mise_a_jour_soldes_minimaux;
+extern GtkTreeStore *model;
 extern gint nb_colonnes;
-extern gint nb_comptes;
 extern gint nb_echeances;
 extern gint no_derniere_echeance;
 extern GtkWidget *notebook_general;
 extern gdouble operations_pointees;
-extern gpointer **p_tab_nom_de_compte;
-extern gpointer **p_tab_nom_de_compte_variable;
 extern PangoFontDescription *pango_desc_fonte_liste;
 extern gint rapport_largeur_colonnes[7];
 extern gdouble solde_final;
@@ -230,14 +226,14 @@ extern gint taille_largeur_colonnes[7];
 extern GtkWidget *tree_view;
 extern GtkWidget *treeview;
 extern GtkWidget *window;
-/*END_EXTERN*/
+/*end_extern*/
 
 
 
 
 
 /******************************************************************************/
-/*  Routine qui crée la fenêtre de la liste des opé  */
+/*  routine qui crée la fenêtre de la liste des opé  */
 /******************************************************************************/
 GtkWidget *creation_fenetre_operations ( void )
 {
@@ -301,7 +297,7 @@ GtkWidget *creation_fenetre_operations ( void )
     gtk_widget_show ( frame );
 
 
-    solde_label_pointe = gtk_label_new ( SPACIFY(COLON(_("Reconciled balance"))) );
+    solde_label_pointe = gtk_label_new ( SPACIFY(COLON(_("reconciled balance"))) );
     gtk_label_set_justify ( GTK_LABEL ( solde_label_pointe ),
 			    GTK_JUSTIFY_LEFT);
     gtk_container_add ( GTK_CONTAINER ( frame ),
@@ -324,7 +320,7 @@ GtkWidget *creation_fenetre_operations ( void )
     gtk_widget_show ( frame );
 
 
-    solde_label = gtk_label_new ( SPACIFY(COLON(_("Curent balance"))) );
+    solde_label = gtk_label_new ( SPACIFY(COLON(_("curent balance"))) );
     gtk_label_set_justify ( GTK_LABEL ( solde_label ),
 			    GTK_JUSTIFY_RIGHT);
     gtk_container_add ( GTK_CONTAINER ( frame ),
@@ -336,7 +332,7 @@ GtkWidget *creation_fenetre_operations ( void )
 /******************************************************************************/
 
 /******************************************************************************/
-/* Création des treeview des opérations					      */
+/* création des treeview des opérations					      */
 /* y ajoute les colonnes de la liste des opés */
 /* retour le treeviw */
 /******************************************************************************/
@@ -344,24 +340,33 @@ GtkWidget *creation_tree_view_operations ( void )
 {
     GtkWidget *hbox;
     gint i;
-    
+    GSList *list_tmp;
+
     if ( DEBUG )
 	printf ( "creation_tree_view_operations\n" );
 
     hbox = gtk_hbox_new ( FALSE,
 			  0 );
 
-/*     1 tree view avec plusieurs list_store est trop lent */
-/* 	on crée donc une hbox contenant tous les tree_view (1 par compte) */
-/* 	les tree_view seront remplis petit à petit */
+    /*     1 tree view avec plusieurs list_store est trop lent */
+    /* 	on crée donc une hbox contenant tous les tree_view (1 par compte) */
+    /* 	les tree_view seront remplis petit à petit */
 
-    for ( i=0 ; i<nb_comptes ; i++ )
+    list_tmp = list_struct_accounts;
+
+    while ( list_tmp )
     {
+	gint i;
+
+	i = gsb_account_get_no_account ( list_tmp -> data );
+
 	gtk_box_pack_start ( GTK_BOX ( hbox ),
 			     creation_tree_view_operations_par_compte (i),
 			     TRUE,
 			     TRUE,
 			     0 );
+
+	list_tmp = list_tmp -> next;
     }
 
     /*     on crée maintenant la liste de ventilation */
@@ -443,54 +448,61 @@ GtkWidget *creation_tree_view_operations ( void )
 /******************************************************************************/
 GtkWidget *creation_tree_view_operations_par_compte ( gint no_compte )
 {
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_compte;
-    
+    GtkListStore *store;
+    GtkTreeModel *sortable;
+    GtkTreeModel *filter;
+    GtkWidget *tree_view;
+    GtkWidget *scrolled_window;
+
+    scrolled_window = gtk_scrolled_window_new ( NULL,
+						NULL );
     gsb_account_set_scrolled_window ( no_compte,
-				      gtk_scrolled_window_new ( NULL,
-								NULL ));
-    gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( gsb_account_get_scrolled_window (no_compte) ),
+				      scrolled_window );
+    gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window ),
 				     GTK_POLICY_AUTOMATIC,
 				     GTK_POLICY_AUTOMATIC );
-    
+
 
     /*     création proprement dite du treeview */
 
+    tree_view = gtk_tree_view_new ();
+    gtk_container_add ( GTK_CONTAINER ( scrolled_window ),
+			tree_view );
+    gtk_widget_show ( tree_view );
+
     gsb_account_set_tree_view ( no_compte,  
-				gtk_tree_view_new ());
-    gtk_container_add ( GTK_CONTAINER ( gsb_account_get_scrolled_window (no_compte) ),
-			gsb_account_get_tree_view (no_compte) );
-    gtk_widget_show ( gsb_account_get_tree_view (no_compte) );
+				tree_view );
 
     /*     on peut sélectionner plusieurs lignes */
 
-    gtk_tree_selection_set_mode ( GTK_TREE_SELECTION ( gtk_tree_view_get_selection ( GTK_TREE_VIEW( gsb_account_get_tree_view (no_compte) ))),
-				  GTK_SELECTION_MULTIPLE );
+    gtk_tree_selection_set_mode ( GTK_TREE_SELECTION ( gtk_tree_view_get_selection ( GTK_TREE_VIEW( tree_view ))),
+				  GTK_SELECTION_NONE );
 
     /* 	met en place la grille */
 
     if ( etat.affichage_grille )
-	g_signal_connect_after ( G_OBJECT ( gsb_account_get_tree_view (no_compte) ),
+	g_signal_connect_after ( G_OBJECT ( tree_view ),
 				 "expose-event",
 				 G_CALLBACK ( affichage_traits_liste_operation ),
 				 NULL );
 
     /* vérifie le simple ou double click */
 
-    g_signal_connect ( G_OBJECT ( gsb_account_get_tree_view (no_compte) ),
+    g_signal_connect ( G_OBJECT ( tree_view ),
 		       "button_press_event",
-		       G_CALLBACK ( selectionne_ligne_souris ),
+		       G_CALLBACK ( gsb_transactions_list_button_press ),
 		       NULL );
 
     /* vérifie la touche entrée, haut et bas */
 
-    g_signal_connect ( G_OBJECT ( gsb_account_get_tree_view (no_compte) ),
+    g_signal_connect ( G_OBJECT ( tree_view ),
 		       "key_press_event",
-		       G_CALLBACK ( traitement_clavier_liste ),
+		       G_CALLBACK ( gsb_transactions_list_key_press ),
 		       NULL );
 
     /*     ajuste les colonnes si modification de la taille */
 
-    g_signal_connect ( G_OBJECT ( gsb_account_get_tree_view (no_compte) ),
+    g_signal_connect ( G_OBJECT ( tree_view ),
 		       "size-allocate",
 		       G_CALLBACK ( changement_taille_liste_ope ),
 		       NULL );
@@ -504,15 +516,21 @@ GtkWidget *creation_tree_view_operations_par_compte ( gint no_compte )
 
 	for ( j = 0 ; j < TRANSACTION_LIST_COL_NB ; j++ )
 	{
-	    gtk_tree_view_append_column ( GTK_TREE_VIEW ( gsb_account_get_tree_view (no_compte) ),
+	    gtk_tree_view_append_column ( GTK_TREE_VIEW ( tree_view ),
 					  GTK_TREE_VIEW_COLUMN ( gsb_account_get_column ( no_compte, j)));
-	    gtk_tree_view_column_set_clickable ( GTK_TREE_VIEW_COLUMN ( gsb_account_get_column ( no_compte, j)),
-						 TRUE );
-	    /* FIXME : autre moyen de faire ça qui parrait bcp mieux (cf tutoriel de gtkfr (cédric) */
-	    g_signal_connect ( G_OBJECT ( gsb_account_get_column ( no_compte, j)),
-			       "clicked",
-			       G_CALLBACK ( click_sur_titre_colonne_operations ),
+
+	    g_signal_connect ( G_OBJECT ( GTK_TREE_VIEW_COLUMN ( gsb_account_get_column ( no_compte, j))-> button),
+			       "button-press-event",
+			       G_CALLBACK ( gsb_transactions_list_title_column_button_press ),
 			       GINT_TO_POINTER (j));
+
+	    /* 	    after changing the sort of the list, we update the background color */
+
+	    g_signal_connect_after ( G_OBJECT ( GTK_TREE_VIEW_COLUMN ( gsb_account_get_column ( no_compte, j))-> button),
+				     "clicked",
+				     G_CALLBACK ( gsb_transactions_list_sort_column_changed ),
+				     GINT_TO_POINTER ( no_compte ));
+
 	}
     }
     else
@@ -526,37 +544,112 @@ GtkWidget *creation_tree_view_operations_par_compte ( gint no_compte )
     /* 	    col 8 -> la couleur du solde */
     /*	    col 9 -> adr de l'opération */
     /*	    col 10 -> sauvegarde background quand ligne sélectionnée */
-    /*	    col 11 -> contient NULL ou l'adr de la pangofontdescription utilisée */
+    /*	    col 11 -> contient NULL ou l'adr de la PangoFontDescription utilisée */
     /* 	    col 12 -> contient le no de ligne affichée (par le choix de l'ordre d'affichage des lignes) */
+    /*      col 13 -> TRUE/FALSE the row is or not visible */
+
+    store = gtk_list_store_new ( 14,
+				 G_TYPE_STRING,
+				 G_TYPE_STRING,
+				 G_TYPE_STRING,
+				 G_TYPE_STRING,
+				 G_TYPE_STRING,
+				 G_TYPE_STRING,
+				 G_TYPE_STRING,
+				 GDK_TYPE_COLOR,
+				 G_TYPE_STRING,
+				 G_TYPE_POINTER,
+				 GDK_TYPE_COLOR,
+				 PANGO_TYPE_FONT_DESCRIPTION,
+				 G_TYPE_INT,
+				 G_TYPE_BOOLEAN );
+
+    /*     save the store */
+
     gsb_account_set_store ( no_compte,
-			    gtk_list_store_new ( 13,
-						 G_TYPE_STRING,
-						 G_TYPE_STRING,
-						 G_TYPE_STRING,
-						 G_TYPE_STRING,
-						 G_TYPE_STRING,
-						 G_TYPE_STRING,
-						 G_TYPE_STRING,
-						 GDK_TYPE_COLOR,
-						 G_TYPE_STRING,
-						 G_TYPE_POINTER,
-						 GDK_TYPE_COLOR,
-						 PANGO_TYPE_FONT_DESCRIPTION,
-						 G_TYPE_INT ));
-    gtk_tree_view_set_model ( GTK_TREE_VIEW (gsb_account_get_tree_view (no_compte)),
-			      GTK_TREE_MODEL ( gsb_account_get_store (no_compte) ));
+			    store );
+
+    /*     make the model_filter, on the store */
+
+    filter = gtk_tree_model_filter_new ( GTK_TREE_MODEL ( store ),
+					 NULL );
+    gtk_tree_model_filter_set_visible_column ( GTK_TREE_MODEL_FILTER ( filter ),
+					       13 );
+
+    /* make the model_sort, on the model_filter */
+
+    sortable = gtk_tree_model_sort_new_with_model ( filter );
+    gtk_tree_sortable_set_sort_column_id ( GTK_TREE_SORTABLE ( sortable ),
+					   1,
+					   GTK_SORT_ASCENDING );
+
+    /*     set the compare functions by click on the column */
+
+    gtk_tree_sortable_set_sort_func ( GTK_TREE_SORTABLE ( sortable ),
+				      0,
+				      (GtkTreeIterCompareFunc) gsb_transactions_list_sort_column_0,
+				      GINT_TO_POINTER ( no_compte ),
+				      NULL );
+    gtk_tree_sortable_set_sort_func ( GTK_TREE_SORTABLE ( sortable ),
+				      1,
+				      (GtkTreeIterCompareFunc) gsb_transactions_list_sort_column_1,
+				      GINT_TO_POINTER ( no_compte ),
+				      NULL );
+    gtk_tree_sortable_set_sort_func ( GTK_TREE_SORTABLE ( sortable ),
+				      2,
+				      (GtkTreeIterCompareFunc) gsb_transactions_list_sort_column_2,
+				      GINT_TO_POINTER ( no_compte ),
+				      NULL );
+    gtk_tree_sortable_set_sort_func ( GTK_TREE_SORTABLE ( sortable ),
+				      3,
+				      (GtkTreeIterCompareFunc) gsb_transactions_list_sort_column_3,
+				      GINT_TO_POINTER ( no_compte ),
+				      NULL );
+    gtk_tree_sortable_set_sort_func ( GTK_TREE_SORTABLE ( sortable ),
+				      4,
+				      (GtkTreeIterCompareFunc) gsb_transactions_list_sort_column_4,
+				      GINT_TO_POINTER ( no_compte ),
+				      NULL );
+    gtk_tree_sortable_set_sort_func ( GTK_TREE_SORTABLE ( sortable ),
+				      5,
+				      (GtkTreeIterCompareFunc) gsb_transactions_list_sort_column_5,
+				      GINT_TO_POINTER ( no_compte ),
+				      NULL );
+    gtk_tree_sortable_set_sort_func ( GTK_TREE_SORTABLE ( sortable ),
+				      6,
+				      (GtkTreeIterCompareFunc) gsb_transactions_list_sort_column_6,
+				      GINT_TO_POINTER ( no_compte ),
+				      NULL );
+
+    /*     put the top in the tree_view */
+
+    gtk_tree_view_set_model ( GTK_TREE_VIEW (tree_view),
+			      GTK_TREE_MODEL ( sortable ));
+
+
     gsb_account_set_last_transaction ( no_compte,
 				       NULL );
 
-    update_fleches_classement_tree_view ( no_compte );
-
-    return gsb_account_get_scrolled_window (no_compte);
+    return scrolled_window;
 }
 /******************************************************************************/
 
 
+/** called after a click on a column title ; the sort of the list is automatic,
+ * that function make the background color and the rest to be updated
+ * to make sure that we don't forget anything, call demarrage_idle
+ * \param sortable the tree_sortable of the list
+ * \param no_account a pointer which contains the number of account
+ * */
+gboolean gsb_transactions_list_sort_column_changed ( GtkTreeSortable *sortable,
+						     gint *no_account )
+{
 
-
+    gsb_account_set_finished_background_color ( GPOINTER_TO_INT ( no_account ),
+						0 );
+    demarrage_idle ();
+    return FALSE;
+}
 
 /******************************************************************************/
 /* cette fonction est appelée pour créer les tree_view_column des listes d'opé et */
@@ -564,11 +657,11 @@ GtkWidget *creation_tree_view_operations_par_compte ( gint no_compte )
 /******************************************************************************/
 void creation_titres_tree_view ( void )
 {
-    gint i, j;
+    gint i;
     gchar *titres_liste_ventil[] = { 
-	_("Category"),
-	_("Notes"),
-	_("Amount")
+	_("category"),
+	_("notes"),
+	_("amount")
     };
     gfloat alignement_ventil[] = {
 	COLUMN_LEFT,
@@ -576,6 +669,7 @@ void creation_titres_tree_view ( void )
 	COLUMN_RIGHT
     };
     GtkCellRenderer *cell_renderer;
+    GSList *list_tmp;
 
 
     if ( !titres_colonnes_liste_operations )
@@ -587,10 +681,19 @@ void creation_titres_tree_view ( void )
 
     /*     on commence par s'occuper des listes d'opérations */
 
-    for ( j=0 ; j<nb_comptes ; j++ )
+    list_tmp = list_struct_accounts;
+
+    while ( list_tmp )
     {
-	creation_colonnes_tree_view_par_compte (j);
+	gint i;
+
+	i = gsb_account_get_no_account ( list_tmp -> data );
+
+	creation_colonnes_tree_view_par_compte (i);
+
+	list_tmp = list_tmp -> next;
     }
+
 
     /*    on crée les titres de la liste de ventilation  */
 
@@ -635,17 +738,17 @@ void creation_colonnes_tree_view_par_compte ( gint no_compte )
 	COLUMN_RIGHT,
 	COLUMN_RIGHT
     };
-    GtkCellRenderer *cell_renderer;
-    struct structure_position_solde *position_solde;
+    gint column_balance;
 
     /*     on récupère la position de cellule du solde pour pouvoir le mettre en rouge */
 
-    position_solde = recherche_position_solde ();
-
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_compte;
+    column_balance = find_balance_col ();
 
     for ( i = 0 ; i < TRANSACTION_LIST_COL_NB ; i++ )
     {
+	GtkTreeViewColumn *column;
+	GtkCellRenderer *cell_renderer;
+
 	cell_renderer = gtk_cell_renderer_text_new ();
 
 	g_object_set ( G_OBJECT ( GTK_CELL_RENDERER (cell_renderer )),
@@ -653,33 +756,37 @@ void creation_colonnes_tree_view_par_compte ( gint no_compte )
 		       alignement[i],
 		       NULL );
 
-	gsb_account_set_column ( no_compte,
-				 i,
-				 gtk_tree_view_column_new_with_attributes ( titres_colonnes_liste_operations[i],
-									    cell_renderer,
-									    "text", i,
-									    "background-gdk", 7,
-									    "font-desc", 11,
-									    NULL ));
-	gtk_tree_view_column_set_alignment ( GTK_TREE_VIEW_COLUMN ( gsb_account_get_column ( no_compte, i)),
+	column = gtk_tree_view_column_new_with_attributes ( titres_colonnes_liste_operations[i],
+							    cell_renderer,
+							    "text", i,
+							    "background-gdk", 7,
+							    "font-desc", 11,
+							    NULL );
+
+	gtk_tree_view_column_set_alignment ( column,
 					     alignement[i] );
-	gtk_tree_view_column_set_sizing ( GTK_TREE_VIEW_COLUMN ( gsb_account_get_column ( no_compte, i) ),
+	gtk_tree_view_column_set_sizing ( column,
 					  GTK_TREE_VIEW_COLUMN_FIXED );
+	gtk_tree_view_column_set_sort_column_id ( column,
+						  i );
 
 	if ( etat.largeur_auto_colonnes )
-	    gtk_tree_view_column_set_resizable ( gsb_account_get_column ( no_compte, i),
+	    gtk_tree_view_column_set_resizable ( column,
 						 FALSE );
 	else
-	    gtk_tree_view_column_set_resizable ( gsb_account_get_column ( no_compte, i),
+	    gtk_tree_view_column_set_resizable ( column,
 						 TRUE );
 
+	gsb_account_set_column ( no_compte,
+				 i,
+				 column);
     }
 
     /*     pour la colonne du solde, on rajoute le foreground */
 
-    if ( position_solde -> colonne != -1 )
-	gtk_tree_view_column_add_attribute ( gsb_account_get_column ( no_compte, position_solde -> colonne),
-					     gtk_tree_view_column_get_cell_renderers ( gsb_account_get_column ( no_compte, position_solde -> colonne)) -> data,
+    if ( column_balance != -1 )
+	gtk_tree_view_column_add_attribute ( gsb_account_get_column ( no_compte, column_balance),
+					     gtk_tree_view_column_get_cell_renderers ( gsb_account_get_column ( no_compte, column_balance)) -> data,
 					     "foreground", 8 );
 }
 /******************************************************************************/
@@ -694,12 +801,10 @@ void creation_colonnes_tree_view_par_compte ( gint no_compte )
 void update_titres_tree_view ( void )
 {
     gint i;
-    gint j;
+    GSList *list_tmp;
 
     if ( !titres_colonnes_liste_operations )
 	return;
-
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
 
     if ( !gsb_account_get_column ( compte_courant, TRANSACTION_COL_NB_CHECK))
 	creation_titres_tree_view ();
@@ -707,9 +812,13 @@ void update_titres_tree_view ( void )
 
     /*     on s'occupe des listes d'opérations */
 
-    for ( j=0 ; j<nb_comptes ; j++ )
+    list_tmp = list_struct_accounts;
+
+    while ( list_tmp )
     {
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + j;
+	gint j;
+
+	j = gsb_account_get_no_account ( list_tmp -> data );
 
 	for ( i = 0 ; i < TRANSACTION_LIST_COL_NB ; i++ )
 	{
@@ -724,56 +833,12 @@ void update_titres_tree_view ( void )
 				       tips_col_liste_operations[i] ); 
 	    }
 	}
+
+	list_tmp = list_tmp -> next;
     }
 }
 /******************************************************************************/
 
-
-
-/******************************************************************************/
-/* cette fonction est appelée pour mettre la flèche du classement sur la bonne */
-/* colonne et dans le bon sens */
-/* \param no_compte le compte qu'on désire mettre à jour ou -1 pour tous les comptes */
-/******************************************************************************/
-void update_fleches_classement_tree_view ( gint no_compte )
-{
-    gint compte;
-
-    for ( compte = 0 ; compte < nb_comptes ; compte++ )
-    {
-	gint i, j;
-	gint colonne_classement;
-
-	if ( no_compte == -1
-	     ||
-	     compte == no_compte )
-	{
-	    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte;
-
-	    colonne_classement = 0;
-
-	    for ( i=0 ; i<4 ; i++ )
-		for ( j=0 ; j<7 ; j++ )
-		{
-		    if (  tab_affichage_ope[i][j] == gsb_account_get_sort_number (compte) )
-			colonne_classement = j;
-		}
-
-	    /*     on met la flèche sur le classement courant */
-
-	    gtk_tree_view_column_set_sort_indicator ( gsb_account_get_column ( compte, gsb_account_get_sort_column (compte)),
-						      FALSE );
-	    gtk_tree_view_column_set_sort_indicator ( gsb_account_get_column ( compte, colonne_classement),
-						      TRUE );
-	    gsb_account_set_sort_column ( compte,
-					  colonne_classement );
-
-	    gtk_tree_view_column_set_sort_order ( gsb_account_get_column ( compte, colonne_classement),
-						  !gsb_account_get_ascending_sort (compte) );
-	}
-    }
-}
-/******************************************************************************/
 
 
 
@@ -784,22 +849,19 @@ void update_fleches_classement_tree_view ( gint no_compte )
 /******************************************************************************/
 void verification_list_store_termine ( gint no_compte )
 {
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_compte;
-
     if ( gsb_account_get_last_transaction (no_compte) != GINT_TO_POINTER (-1))
 	ajoute_operations_compte_dans_list_store ( no_compte,
 						   0 );
 
     if ( !gsb_account_get_finished_background_color (no_compte) )
-	update_couleurs_background ( no_compte,
-				     NULL  );
+	gsb_transactions_list_set_background_color ( no_compte );
 
     if ( !gsb_account_get_finished_balance_showed (no_compte) )
-	update_soldes_list_store ( no_compte,
-				   NULL );
+	gsb_transactions_list_set_transactions_balances ( no_compte);
 
     if ( !gsb_account_get_finished_selection_transaction (no_compte) )
-	selectionne_ligne ( gsb_account_get_current_transaction (no_compte) );
+	gsb_transactions_list_set_current_transaction ( gsb_account_get_current_transaction (no_compte),
+							no_compte );
 
     return;
 }
@@ -820,19 +882,17 @@ void remplissage_liste_operations ( gint compte )
     if ( DEBUG )
 	printf ( "remplissage_liste_operations compte %d\n", compte );
 
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte;
-
     /*     on efface la liste */
-	
+
     gtk_list_store_clear ( gsb_account_get_store (compte) );
-    
+
     /*     plus rien n'est affiché */
 
     gsb_account_set_last_transaction ( compte,
 				       NULL );
     gsb_account_set_finished_background_color ( compte,
 						0 );
-/*     AFFICHAGE_SOLDE_FINI = 0; */
+    /*     affichage_solde_fini = 0; */
     gsb_account_set_finished_selection_transaction ( compte,
 						     0 );
 
@@ -843,24 +903,23 @@ void remplissage_liste_operations ( gint compte )
 
     /*     on met les couleurs du fond */
 
-    update_couleurs_background ( compte,
-				 NULL  );
+    gsb_transactions_list_set_background_color ( compte );
 
     /*     on met les soldes */
-	
-    update_soldes_list_store ( compte,
-			       NULL );
+
+    gsb_transactions_list_set_transactions_balances ( compte );
 
     /*     on sélectionne la ligne blanche */
 
-    selectionne_ligne ( GINT_TO_POINTER(-1) );
+    gsb_transactions_list_set_current_transaction ( GINT_TO_POINTER(-1),
+						    compte );
 }
 /******************************************************************************/
 
 
 /******************************************************************************/
 /* cette fonction ajoute les opés du compte donné en argument dans son list_store */
-/* si OPE_EN_COURS != 0, on commence à cette opé */
+/* si ope_en_cours != 0, on commence à cette opé */
 /* si par_partie = 1, on renvoie la main après n opérations */
 /******************************************************************************/
 void ajoute_operations_compte_dans_list_store ( gint compte,
@@ -880,8 +939,6 @@ void ajoute_operations_compte_dans_list_store ( gint compte,
 	nb_max_ope_a_ajouter = -1;
 
     nb_ope_ajoutees = 0;
-
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte;
 
     /*     si gsb_account_get_last_transaction () n'est pas nul, on se place sur l'opé suivante */
 
@@ -910,15 +967,11 @@ void ajoute_operations_compte_dans_list_store ( gint compte,
 
 	gsb_account_set_last_transaction ( compte,
 					   liste_operations_tmp );
-		    
-	/* si c'est une opé de ventilation, ou si elle est relevée mais que l'on ne veut pas les afficher */
+
+	/* si c'est une opé de ventilation */
 	/* 	on saute l'opé */
 
-	if ( !(operation -> no_operation_ventilee_associee
-	       ||
-	       ( !gsb_account_get_r (compte)
-		 &&
-		 operation -> pointe == 3 )))
+	if ( !operation -> no_operation_ventilee_associee )
 	{
 	    /* 	    on a décidé d'afficher cette opé */
 
@@ -932,7 +985,7 @@ void ajoute_operations_compte_dans_list_store ( gint compte,
 	liste_operations_tmp = liste_operations_tmp -> next;
     }
 
-    /*     si liste_operations_tmp n'est pas null, c'est qu'on n'est pas allé jusqu'au bout */
+    /*     si liste_operations_tmp n'est pas NULL, c'est qu'on n'est pas allé jusqu'au bout */
     /* 	des opés du comptes, donc on s'en va maintenant */
 
     if ( liste_operations_tmp )
@@ -940,7 +993,7 @@ void ajoute_operations_compte_dans_list_store ( gint compte,
 
     /* affiche la ligne blanche du bas */
 
-    for ( j = 0 ; j < gsb_account_get_nb_rows ( compte ) ; j++ )
+    for ( j = 0 ; j < TRANSACTION_LIST_ROWS_NB ; j++ )
     {
 	/* on met à NULL tout les pointeurs */
 
@@ -952,6 +1005,7 @@ void ajoute_operations_compte_dans_list_store ( gint compte,
 	gtk_list_store_set ( gsb_account_get_store (compte),
 			     &iter_liste_operations,
 			     9, GINT_TO_POINTER (-1),
+			     12, j,
 			     -1 );
     }
 
@@ -959,12 +1013,9 @@ void ajoute_operations_compte_dans_list_store ( gint compte,
 
     gsb_account_set_last_transaction ( compte,
 				       GINT_TO_POINTER ( -1 ));
-    gsb_account_set_finished_background_color ( compte,
-						0 );
-    gsb_account_set_finished_balance_showed ( compte,
-					      0 );
-    gsb_account_set_finished_selection_transaction ( compte,
-						     0 );
+    gsb_account_set_finished_visible_rows ( compte,
+					    0 );
+ 
 }
 /******************************************************************************/
 
@@ -975,128 +1026,74 @@ void ajoute_operations_compte_dans_list_store ( gint compte,
 /******************************************************************************/
 /* cette fonction affiche l'opération donnée en argument à la position iter */
 /* dans le store du compte de l'opération */
-/* elle ajoute de 1 à 4 lignes mais ne se préocupe pas du solde en cours*/
+/* elle ajoute les 4 lignes mais ne se préocupe pas du solde en cours*/
 /* si iter = -1, on en crée un avec un append (dans le cas de remplissage complet de la liste) */
 /* si iter = NULL, on remplace l'affichage de l'opé donnée (et si l'opé n'est pas déjà affichée, on ne fait rien ) */
-/* si iter=adr d'iter, on insÃšre l'opération devant l'iter donné */
+/* si iter=adr d'iter, on insere l'opération devant l'iter donné */
 /******************************************************************************/
 void remplit_ligne_operation ( struct structure_operation *operation,
 			       GtkTreeIter *iter )
 {
     gint i;
-    GtkTreeIter iter_liste;
-    
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> no_compte;
 
     /* on fait le tour de tab_affichage_ope pour remplir les lignes du tableau */
 
     for ( i = 0 ; i < TRANSACTION_LIST_ROWS_NB ; i++ )
     {
-	/* on ne passe que si la ligne doit être affichée */
+	gint ligne_affichee;
+	GtkTreeIter iter_liste;
+	GtkListStore *store;
 
-	if ( !i 
-	     ||
-	     gsb_account_get_nb_rows ( operation -> no_compte ) == 4
-	     ||
-	     ( ( i == 1 || i == 2 )
-	       &&
-	       gsb_account_get_nb_rows ( operation -> no_compte ) == 3 )
-	     ||
-	     ( i == 1 && gsb_account_get_nb_rows ( operation -> no_compte ) == 2 ))
+	store = gsb_account_get_store (operation -> no_compte);
+
+	/* 	    en fonction de la demande, soit on ajoute la ligne à la fin du list_store, */
+	/* 	    soit on l'ajoute devant l'iter de l'opé donné en arg */
+	/* 	    soit on remplace l'opé donnée en argument */
+
+	if ( iter == GINT_TO_POINTER (-1))
+	    gtk_list_store_append ( store,
+				    &iter_liste );
+	else
 	{
-	    gint ligne_affichee;
-
-
-	    /* 	    en fonction de la demande, soit on ajoute la ligne à la fin du list_store, */
-	    /* 	    soit on l'ajoute devant l'iter de l'opé donné en arg */
-	    /* 	    soit on remplace l'opé donnée en argument */
-
-	    if ( iter == GINT_TO_POINTER (-1))
-		gtk_list_store_append ( gsb_account_get_store (operation -> no_compte),
-					&iter_liste );
+	    if ( iter )
+		gtk_list_store_insert_before ( store,
+					       &iter_liste,
+					       iter );
 	    else
 	    {
-		if ( iter )
-		    gtk_list_store_insert_before ( gsb_account_get_store (operation -> no_compte),
-						   &iter_liste,
-						   iter );
+		/*    on va remplacer l'opé à l'iter courant */
+		/*donc si on est sur la première ligne, on change pas l'iter */
+		/* sinon c'est un iter next */
+
+		if ( i )
+		    gtk_tree_model_iter_next ( GTK_TREE_MODEL (store),
+					       &iter_liste );
 		else
 		{
-		    /*    on va remplacer l'opé à l'iter courant */
-		    /*donc si on est sur la première ligne, on change pas l'iter */
-		    /* sinon c'est un iter next */
+		    GtkTreeIter *iter_ope;
 
-		    if ( i )
-			gtk_tree_model_iter_next ( GTK_TREE_MODEL (gsb_account_get_store (operation -> no_compte)),
-						   &iter_liste );
+		    iter_ope = cherche_iter_operation (operation,
+						       operation -> no_compte);
+
+		    if ( iter_ope )
+			memcpy  ( &iter_liste,
+				  iter_ope,
+				  sizeof ( GtkTreeIter ));
 		    else
-		    {
-			GtkTreeIter *iter_ope;
-
-			iter_ope = cherche_iter_operation (operation);
-
-			if ( iter_ope )
-			    memcpy  ( &iter_liste,
-				      iter_ope,
-				      sizeof ( GtkTreeIter ));
-			else
-			    /*   l'opération n'est pas affichée sur cette liste... on fait rien */
-			    return;
-		    }
+			/*   l'opération n'est pas affichée sur cette liste... on fait rien */
+			return;
 		}
 	    }
-
-	    /*  en fonction de i (la ligne en cours) et du nb de lignes par opé, on retrouve la ligne qu'il faut */
-	    /* afficher selon les configurations */
-
-	    switch ( gsb_account_get_nb_rows ( operation -> no_compte ))
-	    {
-		case 1:
-		    ligne_affichee = ligne_affichage_une_ligne;
-		    break;
-
-		case 2:
-		    if ( i )
-			ligne_affichee = GPOINTER_TO_INT ( lignes_affichage_deux_lignes -> next -> data );
-		    else
-			ligne_affichee = GPOINTER_TO_INT ( lignes_affichage_deux_lignes -> data );
-		    break;
-
-		case 3:
-		    switch ( i )
-		    {
-			case 0:
-			    ligne_affichee = GPOINTER_TO_INT ( lignes_affichage_trois_lignes -> data );
-			    break;
-
-			case 1:
-			    ligne_affichee = GPOINTER_TO_INT ( lignes_affichage_trois_lignes -> next -> data );
-			    break;
-
-			case 2:
-			    ligne_affichee = GPOINTER_TO_INT ( lignes_affichage_trois_lignes -> next -> next -> data );
-			    break;
-
-			default:
-			    ligne_affichee = 0;
-		    }
-		    break;
-
-		case 4:
-		    ligne_affichee = i;
-		    break;
-
-		default:
-		    ligne_affichee = 0;
-	    }
-
-	    /* 	    on a positionné l'iter où on voulait mettre l'opé ainsi que la ligne à afficher */
-	    /* 		on peut afficher les infos */
-
-	    affiche_ligne_ope ( operation,
-				&iter_liste,
-				ligne_affichee );
 	}
+
+	ligne_affichee = i;
+
+	/* 	    on a positionné l'iter où on voulait mettre l'opé ainsi que la ligne à afficher */
+	/* 		on peut afficher les infos */
+
+	affiche_ligne_ope ( operation,
+			    &iter_liste,
+			    ligne_affichee );
     }
 }
 /******************************************************************************/
@@ -1117,10 +1114,12 @@ void affiche_ligne_ope ( struct structure_operation *operation,
 {
     gint i;
     gchar *ligne_list[TRANSACTION_LIST_ROWS_NB][TRANSACTION_LIST_COL_NB];
+    GtkListStore *store;
 
+    store = gsb_account_get_store (operation -> no_compte);
 
     /*  on remplit la ligne de str avec les données ou NULL */
-	
+
     for ( i = 0 ; i < TRANSACTION_LIST_COL_NB ; i++ )
 	ligne_list[ligne][i] = recherche_contenu_cellule ( operation,
 							   tab_affichage_ope[ligne][i]  );
@@ -1132,32 +1131,33 @@ void affiche_ligne_ope ( struct structure_operation *operation,
 
     for ( i=0 ; i<TRANSACTION_LIST_COL_NB ; i++ )
 	if ( ligne_list[ligne][i] != GINT_TO_POINTER (-1))
-	    gtk_list_store_set ( gsb_account_get_store (operation -> no_compte),
+	    gtk_list_store_set ( store,
 				 iter,
 				 i, ligne_list[ligne][i],
 				 -1 );
 
-    /* on associe à cette ligne l'adr de la struct de l'opé */
-
-    gtk_list_store_set ( gsb_account_get_store (operation -> no_compte),
-			 iter,
-			 9, operation,
-			 -1 );
-
     /* 		    si on utilise une fonte perso, c'est ici */
 
     if ( etat.utilise_fonte_listes )
-	gtk_list_store_set ( gsb_account_get_store (operation -> no_compte),
+	gtk_list_store_set ( store,
 			     iter,
 			     11, pango_desc_fonte_liste,
 			     -1 );
 
     /*     on y ajoute le no de ligne */
 
-    gtk_list_store_set ( gsb_account_get_store (operation -> no_compte),
+    gtk_list_store_set ( store,
 			 iter,
 			 12, ligne,
 			 -1 );
+
+    /* on associe à cette ligne l'adr de la struct de l'opé */
+
+    gtk_list_store_set ( store,
+			 iter,
+			 9, operation,
+			 -1 );
+
 }
 /******************************************************************************/
 
@@ -1174,54 +1174,38 @@ gchar *recherche_contenu_cellule ( struct structure_operation *operation,
 {
     gchar *temp;
     gdouble montant;
+    gchar date[32];
 
     switch ( no_affichage )
     {
-	case 0:
-	    return ( NULL );
-	    break;
+	/* mise en forme de la date */
 
-	    /* mise en forme de la date */
-
-	case 1:
-	{
-#if 1
-		gchar date[32];
-		return g_strndup(gsb_format_gdate(operation->date, 
-							get_config_format()->format_date_liste_ope, 
-						 	date, SIZEOF(date)), SIZEOF(date));
-#else
-	    /* FIXME: should use locale + strftime for that */
- 	    return ( g_strdup_printf ("%02d/%02d/%04d", 
-				      operation -> jour,
-				      operation -> mois,
-				      operation -> annee ));
-#endif
-	}
+	case TRANSACTION_LIST_DATE:
+	    return g_strndup(gsb_format_gdate(operation->date, 
+					      get_config_format()->format_date_liste_ope, 
+					      date, SIZEOF(date)), SIZEOF(date));
 	    break;
 
 	    /* mise en forme de la date de valeur */
 
-	case 2:
+	case TRANSACTION_LIST_VALUE_DATE:
 	    if ( operation -> jour_bancaire )
-		/* FIXME: should use locale + strftime for that */
-		return ( g_strdup_printf ("%02d/%02d/%04d",
-					  operation -> jour_bancaire,
-					  operation -> mois_bancaire,
-					  operation -> annee_bancaire ));
+		return g_strndup(gsb_format_gdate(operation->date_bancaire, 
+						  get_config_format()->format_date_liste_ope, 
+						  date, SIZEOF(date)), SIZEOF(date));
 	    else
 		return ( NULL );
 	    break;
 
 	    /* mise en forme du tiers */
 
-	case 3:
+	case TRANSACTION_LIST_PARTY:
 	    return ( tiers_name_by_no ( operation -> tiers, TRUE ));
 	    break;
 
 	    /* mise en forme de l'ib */
 
-	case 4:
+	case TRANSACTION_LIST_BUDGET:
 
 	    temp = nom_imputation_par_no ( operation -> imputation,
 					   operation -> sous_imputation );
@@ -1229,9 +1213,9 @@ gchar *recherche_contenu_cellule ( struct structure_operation *operation,
 
 
 	    /* mise en forme du débit */
-	case 5:
+	case TRANSACTION_LIST_DEBIT:
 	    if ( operation -> montant < -0.001 ) 
-	      /* -0.001 is to handle float approximations */
+		/* -0.001 is to handle float approximations */
 	    {
 		temp = g_strdup_printf ( "%4.2f", -operation -> montant );
 
@@ -1257,7 +1241,7 @@ gchar *recherche_contenu_cellule ( struct structure_operation *operation,
 	    break;
 
 	    /* mise en forme du crédit */
-	case 6:
+	case TRANSACTION_LIST_CREDIT:
 
 	    if ( operation -> montant >= 0 )
 	    {
@@ -1284,13 +1268,13 @@ gchar *recherche_contenu_cellule ( struct structure_operation *operation,
 
 	    break;
 
-	case 7:
+	case TRANSACTION_LIST_BALANCE:
 	    /* mise en forme du solde */
 	    /* 	     on renvoie -1 car le solde sera affiché plus tard */
 	    /* 	    et le -1 permet de ne pas effacer la cellule qui contient le */
 	    /* 		solde (utile en cas de modif d'opé) */
 	    /* 	    de plus, on met gsb_account_get_finished_balance_showed () à 0 comme ça il sera affiché plus tard */
-	    
+
 	    gsb_account_set_finished_balance_showed ( operation -> no_compte,
 						      0 );
 	    return GINT_TO_POINTER (-1);
@@ -1298,10 +1282,10 @@ gchar *recherche_contenu_cellule ( struct structure_operation *operation,
 
 	    /* mise en forme du montant dans la devise du compte */
 
-	case 8:
+	case TRANSACTION_LIST_AMOUNT:
 	    if ( operation -> devise != gsb_account_get_currency (operation -> no_compte) )
 	    {
-		/* on doit calculer et afficher le montant de l'opÃ© */
+		/* on doit calculer et afficher le montant de l'ope */
 
 		montant = calcule_montant_devise_renvoi ( operation -> montant,
 							  gsb_account_get_currency (operation -> no_compte),
@@ -1321,77 +1305,33 @@ gchar *recherche_contenu_cellule ( struct structure_operation *operation,
 
 	    /* mise en forme du moyen de paiement */
 
-	case 9:
+	case TRANSACTION_LIST_TYPE:
 	    return ( type_ope_name_by_no ( operation -> type_ope,
 					   operation -> no_compte ));
 	    break;
 
 	    /* mise en forme du no de rapprochement */
 
-	case 10:
+	case TRANSACTION_LIST_RECONCILE_NB:
 	    return ( rapprochement_name_by_no ( operation -> no_rapprochement ));
 	    break;
 
 	    /* mise en place de l'exo */
 
-	case 11:
+	case TRANSACTION_LIST_EXERCICE:
 	    return ( exercice_name_by_no (  operation -> no_exercice ));
 	    break;
 
 	    /* mise en place des catégories */
 
-	case 12:
-	    temp = NULL;
+	case TRANSACTION_LIST_CATEGORY:
 
-	    if ( operation -> categorie )
-		/* c'est une categ : ss categ */
-		temp = nom_categ_par_no ( operation -> categorie,
-					  operation -> sous_categorie );
-	    else
-	    {
-		if ( operation -> relation_no_operation )
-		{
-		    /* c'est un virement */
-
-		    if ( operation -> relation_no_compte == -1 )
-		    {
-			if ( operation -> montant < 0 )
-			    temp = _("Transfer to a deleted account");
-			else
-			    temp = _("Transfer from a deleted account");
-		    }
-		    else
-		    {
-			gpointer **save_ptab;
-
-			save_ptab = p_tab_nom_de_compte_variable;
-			p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> relation_no_compte;
-
-			if ( operation -> montant < 0 )
-			    temp = g_strdup_printf ( _("Transfer to %s"),
-						     gsb_account_get_name (operation -> relation_no_compte) );
-			else
-			    temp = g_strdup_printf ( _("Transfer from %s"),
-						     gsb_account_get_name (operation -> relation_no_compte) );
-
-			p_tab_nom_de_compte_variable = save_ptab;
-		    }
-		}
-		else
-		{
-		    /* vérification si l'opération est ventilée */
-
-		    if ( operation -> operation_ventilee )
-			temp = _("Breakdown of transaction");
-		}
-	    }
-	    return ( temp );
-
+	    return ( gsb_transactions_get_category_real_name ( operation ));
 	    break;
 
 	    /* mise en forme R/P */
 
-	case 13:
+	case TRANSACTION_LIST_MARK:
 	    if ( operation -> pointe == 1 )
 		return ( _("P") );
 	    else
@@ -1411,31 +1351,31 @@ gchar *recherche_contenu_cellule ( struct structure_operation *operation,
 
 	    /* mise en place de la pièce comptable */
 
-	case 14:
+	case TRANSACTION_LIST_VOUCHER:
 	    return ( operation -> no_piece_comptable );
 	    break;
 
 	    /* mise en forme des notes */
 
-	case 15:
+	case TRANSACTION_LIST_NOTES:
 	    return ( operation -> notes );
 	    break;
 
 	    /* mise en place de l'info banque/guichet */
 
-	case 16:
+	case TRANSACTION_LIST_BANK:
 	    return ( operation -> info_banque_guichet );
 	    break;
 
 	    /* mise en place du no d'opé */
 
-	case 17:
+	case TRANSACTION_LIST_NO:
 	    return ( itoa ( operation -> no_operation ));
 	    break;
 
 	    /* mise en place du no de chèque/virement */
 
-	case 18:
+	case TRANSACTION_LIST_CHQ:
 
 	    if ( operation -> contenu_type )
 		return ( g_strconcat ( "(",
@@ -1445,6 +1385,7 @@ gchar *recherche_contenu_cellule ( struct structure_operation *operation,
 	    else
 		return ( NULL );
 	    break;
+
     }
     return ( NULL );
 }
@@ -1456,258 +1397,226 @@ gchar *recherche_contenu_cellule ( struct structure_operation *operation,
 /* list_store déjà remplie */
 /* si iter n'est pas nul, on commence la mise à jour à partir de cet iter */
 /******************************************************************************/
-
-void update_couleurs_background ( gint compte,
-				  GtkTreeIter *iter_debut )
+/** set the alterance color of the background or the transactions list
+ * for the given account
+ * \param no_account account
+ * \return FALSE
+ * */
+gboolean gsb_transactions_list_set_background_color ( gint no_account )
 {
-    GtkTreeIter *iter;
-    gboolean result_iter;
     gint couleur_en_cours;
-
+    GtkTreeModel *model;
+    GtkTreeModelSort *model_sort;
+    GtkTreeModelFilter *model_filter;
+    GtkTreePath *path_filter;
+    GtkTreePath *path_sort;
+    gint i;
+    gint nb_rows_by_transaction;
 
     if ( DEBUG )
-	printf ( "update_couleurs_background compte %d\n", compte );
+	printf ( "gsb_transactions_list_set_background_color :  no_account %d\n", no_account );
 
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte;
-    
-    if ( iter_debut )
+    model = GTK_TREE_MODEL (gsb_account_get_store (no_account));
+    model_sort = GTK_TREE_MODEL_SORT (gtk_tree_view_get_model ( GTK_TREE_VIEW ( gsb_account_get_tree_view ( no_account ))));
+    model_filter = GTK_TREE_MODEL_FILTER ( gtk_tree_model_sort_get_model ( GTK_TREE_MODEL_SORT ( model_sort )));
+    nb_rows_by_transaction = gsb_account_get_nb_rows ( no_account );
+
+    couleur_en_cours = 0;
+    i = 0;
+
+    path_sort = gtk_tree_path_new_first ();
+
+    while ( (path_filter = gtk_tree_model_sort_convert_path_to_child_path ( GTK_TREE_MODEL_SORT ( model_sort ),
+									    path_sort )))
     {
-	result_iter = 1;
-	iter = iter_debut;
-	couleur_en_cours =( my_atoi ( gtk_tree_model_get_string_from_iter ( GTK_TREE_MODEL ( gsb_account_get_store (compte) ),
-									   iter )) / gsb_account_get_nb_rows ( compte ) ) % 2;
-    }
-    else
-    {
-	result_iter = gtk_tree_model_get_iter_first ( GTK_TREE_MODEL ( gsb_account_get_store (compte) ),
-						      &iter_liste_operations );
-	iter = &iter_liste_operations;
-	couleur_en_cours = 0;
-    }
+	GtkTreePath *path;
+	GtkTreeIter iter;
+	gchar *str;
 
+	/* 	now, normally we needn't to verify something, they must exit */
 
-    while ( result_iter )
-    {
-	gint i;
+	path = gtk_tree_model_filter_convert_path_to_child_path ( GTK_TREE_MODEL_FILTER ( model_filter ),
+								  path_filter );
+	gtk_tree_model_get_iter ( GTK_TREE_MODEL ( model ),
+				  &iter,
+				  path );
+	gtk_list_store_set ( GTK_LIST_STORE ( model ),
+			     &iter,
+			     7, &couleur_fond[couleur_en_cours],
+			     -1 );
+	gtk_tree_model_get ( model,
+			     &iter,
+			     2, &str,
+			     -1 );
 
-	for ( i=0 ; i<gsb_account_get_nb_rows ( compte ) ; i++ )
+	if ( ++i == nb_rows_by_transaction )
 	{
-	    if ( result_iter )
-	    {
-		gtk_list_store_set ( gsb_account_get_store (compte),
-				     iter,
-				     7, &couleur_fond[couleur_en_cours],
-				     -1 );
-		result_iter = gtk_tree_model_iter_next ( GTK_TREE_MODEL ( gsb_account_get_store (compte) ),
-							 iter );
-	    }
+	    i = 0;
+	    couleur_en_cours = 1 - couleur_en_cours;
 	}
-	couleur_en_cours = 1 - couleur_en_cours;
-   }
 
-    gsb_account_set_finished_background_color ( compte,
+	gtk_tree_path_next ( path_sort );
+    }
+
+    gsb_account_set_finished_background_color ( no_account,
 						1 );
 
     /*     on a viré la sélection en remettant la couleur de fond */
 
-    gsb_account_set_finished_selection_transaction ( compte,
+    gsb_account_set_finished_balance_showed ( no_account,
+					      0 );
+    gsb_account_set_finished_selection_transaction ( no_account,
 						     0 );
+
+    return FALSE;
 }
 /******************************************************************************/
 
 
 
-/******************************************************************************/
-/* cette fonction affiche dans le list_store le solde courant à chaque opé */
-/* et mes ce solde en rouge s'il est négatif */
-/* si iter n'est pas nul, on commence la mise à jour à partir de cet iter */
-/******************************************************************************/
-
-void update_soldes_list_store ( gint compte,
-				GtkTreeIter *iter_debut )
+/** put the balance for each transaction showed in the tree_view
+ * \param no_account
+ * \return FALSE
+ * */
+gboolean gsb_transactions_list_set_transactions_balances ( gint no_account )
 {
-    GtkTreeIter *iter;
-    gboolean result_iter;
     gdouble solde_courant;
-    struct structure_position_solde *position_solde;
+    gint column_balance;
+    gint line_balance;
+    GtkTreePath *path_sorted;
+    GtkTreePath *path;
+    GtkTreeModel *model;
 
     if ( DEBUG )
-	printf ( "update_soldes_list_store compte %d\n", compte );
-
-
-
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte;
+	printf ( "gsb_transactions_list_set_transactions_balances, no_account : %d\n", no_account );
 
     /*     on commence par retrouver la colonne et la ligne pour afficher le solde de l'opé */
-    
-    position_solde = recherche_position_solde ();
-    
-    if ( position_solde -> ligne == -1 
+
+    column_balance = find_balance_col ();
+    line_balance = find_balance_line ();
+
+    if ( line_balance == -1 
 	 ||
-	 position_solde -> ligne >= gsb_account_get_nb_rows ( compte ))
+	 line_balance >= gsb_account_get_nb_rows ( no_account ))
     {
 	/* 	le solde n'est pas affiché, on peut repartir */
-	gsb_account_set_finished_balance_showed ( compte,
+	gsb_account_set_finished_balance_showed ( no_account,
 						  1 );
-	return;
+	return FALSE;
     }
 
-    /*     on a maintenant la position du solde, et on est sûr qu'il sera affiché */
+    model = GTK_TREE_MODEL (gsb_account_get_store ( no_account ));
 
-    /*     on peut commencer à faire le tour du list_store */
+    path_sorted = gtk_tree_path_new_first ();
+    path = gsb_transactions_list_get_list_path_from_sorted_path ( path_sorted,
+								  no_account );
 
+    /*     on calcule le solde de démarrage */
 
-    if ( iter_debut )
+    solde_courant = solde_debut_affichage ( no_account );
+
+    while ( path )
     {
-	gint ligne_solde_precedent;
-	GtkTreeIter iter_ligne_solde_precedent;
-	gchar *str_tmp = NULL;
-
-	result_iter = 1;
-	iter = iter_debut;
-	
-	/* 	on reprend le solde au niveau de l'opé précédente */
-
-	ligne_solde_precedent = my_atoi ( gtk_tree_model_get_string_from_iter ( GTK_TREE_MODEL ( gsb_account_get_store (compte) ),
-										iter )) - gsb_account_get_nb_rows ( compte ) + position_solde -> ligne;
-
-	/* 	si on est sur la première ligne, on reprend le solde du début */
-
-	if ( ligne_solde_precedent < 0 )
-	    solde_courant = solde_debut_affichage ( compte );
-	else
-	{
-	    if ( gtk_tree_model_get_iter_from_string ( GTK_TREE_MODEL ( gsb_account_get_store (compte) ),
-						       &iter_ligne_solde_precedent,
-						       itoa ( ligne_solde_precedent )))
-		gtk_tree_model_get ( GTK_TREE_MODEL ( gsb_account_get_store (compte) ),
-				     &iter_ligne_solde_precedent,
-				     position_solde -> colonne, &str_tmp,
-				     -1 );
-
-	    solde_courant = my_strtod ( str_tmp,
-					NULL );
-	}
-    }
-    else
-    {
-	result_iter = gtk_tree_model_get_iter_first ( GTK_TREE_MODEL ( gsb_account_get_store (compte) ),
-						      &iter_liste_operations );
-	iter = &iter_liste_operations;
-
-	/*     on calcule le solde de démarrage */
-
-	solde_courant = solde_debut_affichage ( compte );
-    }
-
-    while ( result_iter )
-    {
+	struct structure_operation *transaction;
+	GtkTreeIter iter;
 	gint i;
-	struct structure_operation *operation;
 
-	/* 	on se place sur la bonne ligne */
-	
-	for ( i=0 ; i<position_solde -> ligne ; i++ )
-	    result_iter = gtk_tree_model_iter_next ( GTK_TREE_MODEL ( gsb_account_get_store (compte) ),
-						     iter );
+	transaction = gsb_transactions_list_get_transaction_from_path ( path,
+									no_account );
 
-
-	gtk_tree_model_get ( GTK_TREE_MODEL ( gsb_account_get_store (compte) ),
-			     iter,
-			     9, &operation,
-			     -1 );
-
-	if ( operation != GINT_TO_POINTER (-1))
+	if ( transaction != GINT_TO_POINTER (-1))
 	{
-	    solde_courant = solde_courant + calcule_montant_devise_renvoi ( operation -> montant,
-									    gsb_account_get_currency (compte),
-									    operation -> devise,
-									    operation -> une_devise_compte_egale_x_devise_ope,
-									    operation -> taux_change,
-									    operation -> frais_change );
+	    solde_courant = solde_courant + calcule_montant_devise_renvoi ( transaction -> montant,
+									    gsb_account_get_currency (no_account),
+									    transaction -> devise,
+									    transaction -> une_devise_compte_egale_x_devise_ope,
+									    transaction -> taux_change,
+									    transaction -> frais_change );
 
-	    gtk_list_store_set ( gsb_account_get_store (compte),
-				 iter,
-				 position_solde -> colonne, g_strdup_printf ( "%4.2f",
-							    solde_courant ),
+	    gtk_tree_model_get_iter ( model,
+				      &iter,
+				      path );
+
+	    gtk_list_store_set ( GTK_LIST_STORE ( model ),
+				 &iter,
+				 column_balance, g_strdup_printf ( "%4.2f",
+								   solde_courant ),
 				 -1 );
 
 	    /* 	on met la couleur du solde */
 
 	    if ( solde_courant > -0.01 )
-		gtk_list_store_set ( gsb_account_get_store (compte),
-				     iter,
+		gtk_list_store_set ( GTK_LIST_STORE ( model ),
+				     &iter,
 				     8, NULL,
 				     -1 );
 
 	    else
-		gtk_list_store_set ( gsb_account_get_store (compte),
-				     iter,
+		gtk_list_store_set ( GTK_LIST_STORE ( model ),
+				     &iter,
 				     8, "red",
 				     -1 );
 	}
 
+	for ( i=0 ; i<gsb_account_get_nb_rows ( no_account ) ; i++ )
+	    gtk_tree_path_next ( path_sorted );
+
+	path = gsb_transactions_list_get_list_path_from_sorted_path ( path_sorted,
+								      no_account );
+
 
 	/* 	on se place sur la prochaine opé */
 
-	for ( i=0 ; i<(gsb_account_get_nb_rows ( compte ) - position_solde -> ligne ) ; i++ )
-	    result_iter = gtk_tree_model_iter_next ( GTK_TREE_MODEL ( gsb_account_get_store (compte) ),
-						     iter );
-   }
-    gsb_account_set_finished_balance_showed ( compte,
+/* 	for ( i=0 ; i<(gsb_account_get_nb_rows ( no_account ) - line_balance ) ; i++ ) */
+/* 	    result_iter = gtk_tree_model_iter_next ( GTK_TREE_MODEL ( gsb_account_get_store (no_account) ), */
+/* 						     iter ); */
+    }
+
+    gsb_account_set_finished_balance_showed ( no_account,
 					      1 );
+    return FALSE;
 }
 /******************************************************************************/
 
 
-/******************************************************************************/
-/* cette fonction recherche la place du solde sur une ligne d'opé selon les préférences */
-/* de l'utilisateur. elle renvoie une structure contenant la ligne et la colonne. */
-/* ces valeurs sont mises à -1 si non trouvées */
-/******************************************************************************/
-struct structure_position_solde *recherche_position_solde ( void )
+/** find column number for the transaction balance
+ * \return column number
+ * */
+gint find_balance_col ( void )
 {
-    gint ligne;
-    gint colonne;
-    gint trouve = 0;
-    struct structure_position_solde *position_solde;
+   gint i, j;
 
-    position_solde = malloc ( sizeof ( struct structure_position_solde ));
-
-
-    ligne = -1;
-    do
+    for ( i=0 ; i<4 ; i++ )
     {
-	ligne++;
-	colonne = -1;
-	do
+	for ( j=0 ; j<7 ; j++ )
 	{
-	    colonne++;
-	    if ( tab_affichage_ope[ligne][colonne] == 7 )
-		trouve = 1;
+	    if ( tab_affichage_ope[i][j] == TRANSACTION_LIST_BALANCE )
+		return j;
 	}
-	while ( colonne < 7
-		&&
-		!trouve );
-    }
-    while ( ligne < 4
-	    &&
-	    !trouve );
-
-    if ( trouve )
-    {
-	position_solde -> ligne = ligne;
-	position_solde -> colonne = colonne;
-    }
-    else
-    {
-	position_solde -> ligne = -1;
-	position_solde -> colonne = -1;
     }
 
-    return position_solde;
+    return -1;
 }
-/******************************************************************************/
+
+/** find line number for the transaction balance
+ * \return line number
+ * */
+gint find_balance_line ( void )
+{
+   gint i, j;
+
+    for ( i=0 ; i<4 ; i++ )
+    {
+	for ( j=0 ; j<7 ; j++ )
+	{
+	    if ( tab_affichage_ope[i][j] == TRANSACTION_LIST_BALANCE )
+		return i;
+	}
+    }
+
+    return -1;
+}
+
 
 
 
@@ -1722,8 +1631,6 @@ gdouble solde_debut_affichage ( gint no_compte )
 {
     gdouble solde;
     GSList *liste_tmp;
-
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_compte;
 
     solde = gsb_account_get_init_balance (no_compte);
 
@@ -1745,12 +1652,12 @@ gdouble solde_debut_affichage ( gint no_compte )
 	if ( !(operation -> no_operation_ventilee_associee
 	       ||
 	       operation -> pointe != 3 ))
-	solde = solde + calcule_montant_devise_renvoi ( operation -> montant,
-							gsb_account_get_currency (no_compte),
-							operation -> devise,
-							operation -> une_devise_compte_egale_x_devise_ope,
-							operation -> taux_change,
-							operation -> frais_change );
+	    solde = solde + calcule_montant_devise_renvoi ( operation -> montant,
+							    gsb_account_get_currency (no_compte),
+							    operation -> devise,
+							    operation -> une_devise_compte_egale_x_devise_ope,
+							    operation -> taux_change,
+							    operation -> frais_change );
 	liste_tmp = liste_tmp -> next;
     }
 
@@ -1760,125 +1667,134 @@ gdouble solde_debut_affichage ( gint no_compte )
 
 
 
-/******************************************************************************/
-/* Fonction selectionne_ligne_souris */
-/* place la sélection sur l'opé clickée */
-/******************************************************************************/
-gboolean selectionne_ligne_souris ( GtkWidget *tree_view,
-				    GdkEventButton *evenement )
+/** called when press a mouse button on the transactions list
+ * \param tree_view
+ * \param ev a GdkEventButton
+ * \return FALSE or TRUE
+ * */
+gboolean gsb_transactions_list_button_press ( GtkWidget *tree_view,
+					      GdkEventButton *ev )
 {
-    gint x, y;
-    gint ligne, colonne;
+    GtkTreeIter iter;
+    GtkTreeModel *model;
+    GtkTreePath *path_sorted;
     GtkTreePath *path;
-    GtkTreeViewColumn *tree_colonne;
+    GtkTreeViewColumn *tree_column;
+    struct structure_operation *transaction;
 
-    /* si le click se situe dans les menus, c'est qu'on redimensionne, on fait rien */
+    /*     if we are not in the list, go away */
 
-    if ( evenement -> window != gtk_tree_view_get_bin_window ( GTK_TREE_VIEW ( tree_view )) )
+    if ( ev -> window != gtk_tree_view_get_bin_window ( GTK_TREE_VIEW ( tree_view )) )
 	return(FALSE);
 
-    /* Récupération des coordonnées de la souris */
-
-
-    gdk_window_get_pointer ( gtk_tree_view_get_bin_window ( GTK_TREE_VIEW ( tree_view )),
-			     &x,
-			     &y,
-			     FALSE );
-
-    /*     on récupère le path aux coordonnées */
-    /* 	si ce n'est pas une ligne de la liste, on se barre */
+    /* get the path, 
+     * if it's a right button and we are not in the list, show the partial popup
+     * else go away */
 
     if ( !gtk_tree_view_get_path_at_pos ( GTK_TREE_VIEW ( tree_view ),
-					  x,
-					  y,
-					  &path,
-					  &tree_colonne,
+					  ev -> x,
+					  ev -> y,
+					  &path_sorted,
+					  &tree_column,
 					  NULL,
 					  NULL ))
     {
 	/* 	éventuellement, si c'est un clic du bouton droit, on affiche la popup partielle */
-	if ( evenement -> button == RIGHT_BUTTON )
+
+	if ( ev -> button == RIGHT_BUTTON )
 	    popup_transaction_context_menu ( FALSE );
 
 	return (TRUE);
     }
 
-    /*     si on est en train d'équilibrer, on fait le boulot */
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
+    path = gsb_transactions_list_get_list_path_from_sorted_path ( path_sorted,
+								  compte_courant );
 
-    /* Récupération de la 1ère ligne de l'opération cliquée */
+    /*     normally path cannot be NULL, in doubt, if it is, we select the white line
+     *     we begin to get the selected transaction */
 
-    ligne = my_atoi ( gtk_tree_path_to_string ( path ));
-    ligne = ligne / gsb_account_get_nb_rows ( compte_courant ) * gsb_account_get_nb_rows ( compte_courant );
-
-    selectionne_ligne( cherche_operation_from_ligne ( ligne,
-						      compte_courant ));
-
-    /*     si on est sur la ligne blanche et qu'on a fait un clic droit, on met le menu contextuel adapté */
-
-    if ( evenement -> button == RIGHT_BUTTON )
+    if ( path )
     {
-	struct structure_operation *operation = NULL;
-	GtkTreeIter iter;
+	model = GTK_TREE_MODEL ( gsb_account_get_store ( compte_courant ));
 
-	gtk_tree_model_get_iter ( GTK_TREE_MODEL ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view ))),
+	gtk_tree_model_get_iter ( model,
 				  &iter,
 				  path );
-
-	gtk_tree_model_get ( GTK_TREE_MODEL ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view ))),
+	gtk_tree_model_get ( model,
 			     &iter,
-			     9, &operation,
+			     9, &transaction,
 			     -1 );
+    }
+    else
+	transaction = GINT_TO_POINTER (-1);
 
-	if ( operation == GINT_TO_POINTER (-1))
-	{
+    gsb_transactions_list_set_current_transaction ( transaction,
+						    compte_courant );
+
+    /*     if it's the right click, put the good popup */
+
+    if ( ev -> button == RIGHT_BUTTON
+	 &&
+	 transaction )
+    {
+	if ( transaction == GINT_TO_POINTER (-1))
 	    popup_transaction_context_menu ( FALSE );
-	    return(TRUE);
+	else
+	    popup_transaction_context_menu ( TRUE );
+	return(TRUE);
+    }
+
+    /*     check if we press on the mark */
+
+    if ( transaction != GINT_TO_POINTER ( -1 ))
+    {
+	gint column;
+
+	column = g_list_index ( gtk_tree_view_get_columns ( GTK_TREE_VIEW ( tree_view )),
+				tree_column );
+
+	if ( column == find_p_r_col() )
+	{
+	    gint line_in_transaction;
+
+	    gtk_tree_model_get ( model,
+				 &iter,
+				 12, &line_in_transaction,
+				 -1 );
+
+	    if ( etat.equilibrage
+		 &&
+		 line_in_transaction == find_p_r_line())
+	    {
+		gsb_reconcile_mark_transaction (transaction);
+		return TRUE;
+	    }
+
+	    if ( ( ( ev -> state & GDK_CONTROL_MASK ) == GDK_CONTROL_MASK ))
+	    {
+		p_press ();
+		return TRUE;
+	    }
 	}
     }
 
-    /*     on récupère la colonne cliquée au cas où on clique sur les P */
+    /*  if double - click */
 
-    colonne = g_list_index ( gtk_tree_view_get_columns ( GTK_TREE_VIEW ( tree_view )),
-			     tree_colonne );
-
-    if ( etat.equilibrage &&
-	 colonne == find_p_r_col() &&
-	 !(ligne % gsb_account_get_nb_rows ( compte_courant )) )
-	pointe_equilibrage ( ligne );
-
-    /* si on a cliqué sur la colonne P/R alors que la touche CTRL
-       est enfoncée, alors on (dé)pointe l'opération */
-
-    if ( ( ( evenement -> state & GDK_CONTROL_MASK ) == GDK_CONTROL_MASK )
-	 &&
-	 colonne == find_p_r_col() )
-	p_press ();
-
-    /*  si on a double-cliqué ou bouton droit sur une opération, c'est ici */
-
-    if ( evenement -> type == GDK_2BUTTON_PRESS )
+    if ( ev -> type == GDK_2BUTTON_PRESS )
 	edition_operation ();
-    else
-	if ( evenement -> button == RIGHT_BUTTON )
-	    popup_transaction_context_menu ( TRUE );
 
     return ( TRUE );
 }
 /******************************************************************************/
 
 /******************************************************************************/
-/* Fonction traitement_clavier_liste */
+/* Fonction gsb_transactions_list_key_press */
 /* gère le clavier sur la liste des opés */
 /******************************************************************************/
-gboolean traitement_clavier_liste ( GtkWidget *widget_variable,
-				    GdkEventKey *evenement )
+gboolean gsb_transactions_list_key_press ( GtkWidget *widget,
+					   GdkEventKey *ev )
 {
-    gint ligne_selectionnee;
-
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
-
-    switch ( evenement -> keyval )
+    switch ( ev -> keyval )
     {
 	case GDK_Return :		/* entrée */
 	case GDK_KP_Enter :
@@ -1889,23 +1805,13 @@ gboolean traitement_clavier_liste ( GtkWidget *widget_variable,
 	case GDK_Up :		/* touches flèche haut */
 	case GDK_KP_Up :
 
-	    ligne_selectionnee = cherche_ligne_operation ( gsb_account_get_current_transaction (compte_courant) );
-
-	    if ( ligne_selectionnee )
-		selectionne_ligne ( cherche_operation_from_ligne ( ligne_selectionnee - gsb_account_get_nb_rows ( compte_courant ),
-								   compte_courant ));
+	    gsb_transactions_list_current_transaction_up ( compte_courant );
 	    break;
 
 	case GDK_Down :		/* touches flèche bas */
 	case GDK_KP_Down :
 
-	    ligne_selectionnee = cherche_ligne_operation ( gsb_account_get_current_transaction (compte_courant) );
-
-	    if ( ligne_selectionnee
-		 !=
-		 (GTK_LIST_STORE ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( gsb_account_get_tree_view (compte_courant) )))->length - gsb_account_get_nb_rows ( compte_courant )))
-		selectionne_ligne ( cherche_operation_from_ligne ( ligne_selectionnee + gsb_account_get_nb_rows ( compte_courant ),
-								   compte_courant ));
+	    gsb_transactions_list_current_transaction_down ( compte_courant );
 	    break;
 
 	case GDK_Delete:		/*  del  */
@@ -1915,14 +1821,14 @@ gboolean traitement_clavier_liste ( GtkWidget *widget_variable,
 	case GDK_P:			/* touche P */
 	case GDK_p:			/* touche p */
 
-	    if ( ( evenement -> state & GDK_CONTROL_MASK ) == GDK_CONTROL_MASK )
+	    if ( ( ev -> state & GDK_CONTROL_MASK ) == GDK_CONTROL_MASK )
 		p_press ();
 	    break;
 
 	case GDK_r:			/* touche r */
 	case GDK_R:			/* touche R */
 
-	    if ( ( evenement -> state & GDK_CONTROL_MASK ) == GDK_CONTROL_MASK )
+	    if ( ( ev -> state & GDK_CONTROL_MASK ) == GDK_CONTROL_MASK )
 		r_press ();
 	    break;
     }
@@ -1931,145 +1837,272 @@ gboolean traitement_clavier_liste ( GtkWidget *widget_variable,
 }
 /******************************************************************************/
 
-/******************************************************************************/
-/* Routine qui sélectionne l'opération de la ligne envoyée en argument */
-/******************************************************************************/
-void selectionne_ligne ( struct structure_operation *nouvelle_operation_selectionnee )
+
+/** change the selection to the transaction above
+ * \param no_account
+ * \return FALSE
+ * */
+gboolean gsb_transactions_list_current_transaction_up ( gint no_account )
+{
+    struct structure_operation *transaction;
+    GtkTreePath *path;
+    GtkTreePath *path_sorted;
+    gint i;
+
+    path_sorted = gsb_transactions_list_get_sorted_path_from_list_path ( path,
+									 no_account );
+    for ( i=0 ; i<gsb_account_get_nb_rows ( no_account ) ; i++ )
+	gtk_tree_path_prev ( path_sorted );
+
+    path = gsb_transactions_list_get_list_path_from_sorted_path ( path_sorted,
+								  no_account );
+
+    transaction = gsb_transactions_list_get_transaction_from_path ( path,
+								    no_account );
+
+    gsb_transactions_list_set_current_transaction ( transaction,
+						    no_account );
+    return FALSE;
+}
+
+
+
+
+/** change the selection to the transaction below
+ * \param no_account
+ * \return FALSE
+ * */
+gboolean gsb_transactions_list_current_transaction_down ( gint no_account )
+{
+    struct structure_operation *transaction;
+    GtkTreePath *path;
+    GtkTreePath *path_sorted;
+    gint i;
+
+    transaction = gsb_account_get_current_transaction ( no_account );
+
+    path = gsb_transactions_list_get_path_from_transaction ( transaction,
+							     no_account );
+    path_sorted = gsb_transactions_list_get_sorted_path_from_list_path ( path,
+									 no_account );
+    for ( i=0 ; i<gsb_account_get_nb_rows ( no_account ) ; i++ )
+	gtk_tree_path_next ( path_sorted );
+
+    path = gsb_transactions_list_get_list_path_from_sorted_path ( path_sorted,
+								  no_account );
+    if ( path )
+	gsb_transactions_list_set_current_transaction ( gsb_transactions_list_get_transaction_from_path ( path,
+													  no_account ),
+							no_account );
+    return FALSE;
+}
+
+
+
+
+
+/** change the selection to the transaction
+ * \param new_transaction
+ * \param no_account
+ * \return FALSE
+ * */
+gboolean gsb_transactions_list_set_current_transaction ( struct structure_operation *new_transaction,
+							 gint no_account )
 {
     GtkTreeIter *iter;
     gint i;
     GdkColor *couleur;
+    GtkTreeModel *model;
 
-    if ( ! gsb_account_get_tree_view (compte_courant) )
-      return;
+    if ( ! gsb_account_get_tree_view (no_account))
+	return FALSE;
 
     if ( DEBUG )
     {
-	if ( nouvelle_operation_selectionnee == GINT_TO_POINTER (-1))
-	    printf ( "selectionne_ligne blanche\n");
+	if ( new_transaction == GINT_TO_POINTER (-1))
+	    printf ( "gsb_transactions_list_set_current_transaction white\n");
 	else
-	    printf ( "selectionne_ligne %d\n", nouvelle_operation_selectionnee->no_operation );
+	    printf ( "gsb_transactions_list_set_current_transaction %d\n", new_transaction->no_operation );
     }
 
-
-    /*     on ne place p_tab_nom_de_compte_variable que si la nouvelle opé est != -1 */
-    /* 	sinon, normalement p_tab a été placé avant */
-    /* 	donc si plante ici, voir la fonction qui a appelé selectionne_ligne */
-
-    if ( nouvelle_operation_selectionnee != GINT_TO_POINTER (-1))
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + nouvelle_operation_selectionnee -> no_compte;
-    else
-	verification_p_tab ("selectionne_ligne");
-
-
     /*     si gsb_account_get_finished_selection_transaction ()=0, c'est qu'il n'y a encore aucune sélection sur la liste */
-    /*     donc nouvelle_operation_selectionnee = gsb_account_get_current_transaction () = -1, mais on ne se barre pas */
+    /*     donc new_transaction = gsb_account_get_current_transaction () = -1, mais on ne se barre pas */
     /*     sinon si on est déjà dessus, on se barre */
 
-    if ( nouvelle_operation_selectionnee == gsb_account_get_current_transaction (compte_courant)
+    if ( new_transaction == gsb_account_get_current_transaction (no_account)
 	 &&
-	 gsb_account_get_finished_selection_transaction (compte_courant) )
-	return;
+	 gsb_account_get_finished_selection_transaction (no_account))
+	return FALSE;
+
+    model = gsb_account_get_store ( no_account );
 
     /*   vire l'ancienne sélection : consiste à remettre la couleur d'origine du background */
 
-    if ( gsb_account_get_finished_selection_transaction (compte_courant) )
+    if ( gsb_account_get_finished_selection_transaction (no_account) )
     {
-	iter = cherche_iter_operation ( gsb_account_get_current_transaction (compte_courant) );
+	iter = cherche_iter_operation ( gsb_account_get_current_transaction (no_account),
+					no_account );
 
 	/* 	iter est maintenant positionné sur la 1ère ligne de l'opé à désélectionner */
 
-	for ( i=0 ; i<gsb_account_get_nb_rows ( nouvelle_operation_selectionnee -> no_compte ) ; i++ )
+	for ( i=0 ; i<gsb_account_get_nb_rows ( no_account ) ; i++ )
 	{
-	    gtk_tree_model_get ( GTK_TREE_MODEL ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( gsb_account_get_tree_view (nouvelle_operation_selectionnee -> no_compte) ))),
+	    gtk_tree_model_get ( GTK_TREE_MODEL ( model ),
 				 iter,
 				 10, &couleur,
 				 -1 );
-	    gtk_list_store_set ( GTK_LIST_STORE ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( gsb_account_get_tree_view (nouvelle_operation_selectionnee -> no_compte) ))),
+	    gtk_list_store_set ( GTK_LIST_STORE ( model ),
 				 iter,
 				 7,couleur,
 				 -1 );
-	    gtk_list_store_set ( GTK_LIST_STORE ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( gsb_account_get_tree_view (nouvelle_operation_selectionnee -> no_compte) ))),
+	    gtk_list_store_set ( GTK_LIST_STORE ( model ),
 				 iter,
 				 10, NULL,
 				 -1 );
 
-	    gtk_tree_model_iter_next ( GTK_TREE_MODEL ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( gsb_account_get_tree_view (nouvelle_operation_selectionnee -> no_compte) ))),
+	    gtk_tree_model_iter_next ( GTK_TREE_MODEL ( model ),
 				       iter );
 	}
     }
 
-    gsb_account_set_current_transaction ( compte_courant,
-					  nouvelle_operation_selectionnee );
+    gsb_account_set_current_transaction ( no_account,
+					  new_transaction );
 
-    iter = cherche_iter_operation ( gsb_account_get_current_transaction (compte_courant) );
+    iter = cherche_iter_operation ( new_transaction,
+				    no_account );
 
-    /* 	iter est maintenant positionnÃ© sur la 1ère ligne de l'opÃ© à sélectionner */
+    /* 	iter est maintenant positionne sur la 1ère ligne de l'ope à sélectionner */
 
-    for ( i=0 ; i<gsb_account_get_nb_rows ( nouvelle_operation_selectionnee -> no_compte ) ; i++ )
+    for ( i=0 ; i<gsb_account_get_nb_rows ( no_account ) ; i++ )
     {
-	gtk_tree_model_get ( GTK_TREE_MODEL ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( gsb_account_get_tree_view (nouvelle_operation_selectionnee -> no_compte) ))),
+	gtk_tree_model_get ( GTK_TREE_MODEL ( model ),
 			     iter,
 			     7, &couleur,
 			     -1 );
-	gtk_list_store_set ( GTK_LIST_STORE ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( gsb_account_get_tree_view (nouvelle_operation_selectionnee -> no_compte) ))),
+	gtk_list_store_set ( GTK_LIST_STORE ( model ),
 			     iter,
 			     7, &couleur_selection,
 			     -1 );
-	gtk_list_store_set ( GTK_LIST_STORE ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( gsb_account_get_tree_view (nouvelle_operation_selectionnee -> no_compte) ))),
+	gtk_list_store_set ( GTK_LIST_STORE ( model ),
 			     iter,
 			     10, couleur,
 			     -1 );
 
-	gtk_tree_model_iter_next ( GTK_TREE_MODEL ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( gsb_account_get_tree_view (nouvelle_operation_selectionnee -> no_compte) ))),
+	gtk_tree_model_iter_next ( GTK_TREE_MODEL ( model ),
 				   iter );
     }
 
     /*     on déplace le scrolling de la liste si nécessaire pour afficher la sélection */
-    /*     on prend le no compte à partir de p_tab_nom_de_compte_variable au cas où l'opé */
-    /* 	sélectionnée est -1 */
 
-    ajuste_scrolling_liste_operations_a_selection ( p_tab_nom_de_compte_variable - p_tab_nom_de_compte );
+    gsb_transactions_list_move_to_current_transaction ( no_account );
 
-    gsb_account_set_finished_selection_transaction ( compte_courant,
+    gsb_account_set_finished_selection_transaction ( no_account,
 						     1 );
+    return FALSE;
 }
 /******************************************************************************/
 
 
-/******************************************************************************/
-void ajuste_scrolling_liste_operations_a_selection ( gint compte )
+/** put the tree view on the current transaction
+ * \param no_account
+ * \return FALSE
+ * */
+gboolean gsb_transactions_list_move_to_current_transaction ( gint no_account )
 {
-    GtkAdjustment *v_adjustment;
-    gint y_ligne;
+    GtkTreePath *path;
+    GtkTreePath *path_sorted;
 
     if ( DEBUG )
-      printf ( "ajuste_scrolling_liste_operations_a_selection\n" );
+	printf ( "gsb_transactions_list_move_to_current_transaction, compte %d\n", no_account );
 
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte;
-    
-    /*     si on n'a pas encore récupéré la hauteur des lignes, on va le faire ici */
+    path = gsb_transactions_list_get_path_from_transaction ( gsb_account_get_current_transaction (no_account),
+							     no_account );
+    path_sorted = gsb_transactions_list_get_sorted_path_from_list_path ( path,
+									 no_account );
 
-    if ( !hauteur_ligne_liste_opes )
-	hauteur_ligne_liste_opes = recupere_hauteur_ligne_tree_view ( gsb_account_get_tree_view (compte) );
+    /*     sometimes, the current transaction can be hidden, so we have to check for each path if it's valid */
+    /* 	if it's not, we make a selection on the white line */
 
-    v_adjustment = gtk_tree_view_get_vadjustment ( GTK_TREE_VIEW ( gsb_account_get_tree_view (compte) ));
+    if ( !path_sorted )
+    {
+	gsb_transactions_list_set_current_transaction ( GINT_TO_POINTER (-1),
+							no_account );
+	return FALSE;
+    }
 
-    y_ligne = cherche_ligne_operation ( gsb_account_get_current_transaction (compte) ) * hauteur_ligne_liste_opes;
+    gtk_tree_view_scroll_to_cell ( gsb_account_get_tree_view ( no_account ),
+				   path_sorted,
+				   NULL,
+				   FALSE,
+				   0,
+				   0 );
 
-    /*     si l'opé est trop haute, on la rentre et la met en haut */
 
-    if ( y_ligne < v_adjustment -> value )
-	gtk_adjustment_set_value ( GTK_ADJUSTMENT ( v_adjustment ),
-				   y_ligne );
-    else
-	if ( (y_ligne + hauteur_ligne_liste_opes*gsb_account_get_nb_rows ( compte ) ) > ( v_adjustment -> value + v_adjustment -> page_size ))
-	    gtk_adjustment_set_value ( GTK_ADJUSTMENT ( v_adjustment ),
-				       y_ligne + hauteur_ligne_liste_opes*gsb_account_get_nb_rows ( compte ) - v_adjustment -> page_size );
-
+    return FALSE;
 }
 /******************************************************************************/
 
+
+/** give back the path in the sorted tree_view from the path in the general transaction store
+ * \param no_account
+ * \return GtkTreePath or NULL if path is not in the sorted tree_view
+ * */
+GtkTreePath *gsb_transactions_list_get_sorted_path_from_list_path ( GtkTreePath *path,
+								    gint no_account )
+{
+    GtkTreeModelFilter *model_filter;
+    GtkTreeModelSort *model_sort;
+    GtkTreePath *path_filter;
+    GtkTreePath *path_sorted;
+
+    if ( !path )
+	return NULL;
+
+    model_sort = GTK_TREE_MODEL_SORT ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( gsb_account_get_tree_view ( no_account ))));
+    model_filter = GTK_TREE_MODEL_FILTER (  gtk_tree_model_sort_get_model( model_sort ));
+
+    path_filter = gtk_tree_model_filter_convert_child_path_to_path ( model_filter,
+								     path );
+
+    if ( path_filter )
+	path_sorted = gtk_tree_model_sort_convert_child_path_to_path ( model_sort,
+								       path_filter );
+    else
+	path_sorted = NULL;
+
+    return path_sorted;
+}
+
+
+/** give back the path in the general transaction store from the path in the sorted tree_view
+ * \param no_account
+ * \return GtkTreePath or NULL if path is not in the sorted tree_view (normally, cannot happen)
+ * */
+GtkTreePath *gsb_transactions_list_get_list_path_from_sorted_path ( GtkTreePath *path_sorted,
+								    gint no_account )
+{
+    GtkTreeModelFilter *model_filter;
+    GtkTreeModelSort *model_sort;
+    GtkTreePath *path_filter;
+    GtkTreePath *path;
+
+    if ( !path_sorted )
+	return NULL;
+
+    model_sort = GTK_TREE_MODEL_SORT ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( gsb_account_get_tree_view ( no_account ))));
+    model_filter = GTK_TREE_MODEL_FILTER (  gtk_tree_model_sort_get_model( model_sort ));
+
+    path_filter = gtk_tree_model_sort_convert_path_to_child_path ( model_sort,
+								   path_sorted );
+
+    if ( path_filter )
+	path = gtk_tree_model_filter_convert_path_to_child_path ( model_filter,
+								  path_filter );
+    else
+	path = NULL;
+
+    return path;
+}
 
 
 /******************************************************************************/
@@ -2093,19 +2126,20 @@ gint recupere_hauteur_ligne_tree_view ( GtkWidget *tree_view )
 /* en argument */
 /******************************************************************************/
 struct structure_operation *cherche_operation_from_ligne ( gint ligne,
-							   gint no_compte )
+							   gint no_account )
 {
     GtkTreeIter iter;
     struct structure_operation *operation;
+    GtkTreeModel *model;
 
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_compte;
+    model = gsb_account_get_store ( no_account );
 
-    if ( !gtk_tree_model_get_iter_from_string (GTK_TREE_MODEL ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( gsb_account_get_tree_view (no_compte) ))),
+    if ( !gtk_tree_model_get_iter_from_string (GTK_TREE_MODEL ( model ),
 					       &iter,
 					       itoa (ligne)))
 	return NULL;
 
-    gtk_tree_model_get ( GTK_TREE_MODEL ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( gsb_account_get_tree_view (no_compte) ))),
+    gtk_tree_model_get ( GTK_TREE_MODEL ( model ),
 			 &iter,
 			 9, &operation,
 			 -1 );
@@ -2117,95 +2151,116 @@ struct structure_operation *cherche_operation_from_ligne ( gint ligne,
 
 
 /******************************************************************************/
-/* cette fonction renvoie l'adr de l'opération correspondant à l'iter donné en argument */
-/******************************************************************************/
-struct structure_operation *operation_from_iter ( GtkTreeIter *iter,
-						  gint no_compte )
-{
-    struct structure_operation *operation = NULL;
-
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_compte;
-
-    if ( gtk_list_store_iter_is_valid ( gsb_account_get_store (no_compte),
-					iter ))
-	gtk_tree_model_get ( GTK_TREE_MODEL (gsb_account_get_store (no_compte)),
-			     iter,
-			     9, &operation,
-			     -1 );
-
-    return ( operation );
-}
-/******************************************************************************/
-
-
-/******************************************************************************/
 /* fonction cherche_iter_operation */
 /* retrouve l'iter correspondant à l'opération donnée en argument dans la tree_view des opérations */
-/* renvoie null si pas trouvé */
+/* renvoie NULL si pas trouvé */
 /******************************************************************************/
-GtkTreeIter *cherche_iter_operation ( struct structure_operation *operation )
+GtkTreeIter *cherche_iter_operation ( struct structure_operation *operation,
+				      gint no_account )
 {
     struct structure_operation *operation_tmp;
     GtkTreeIter iter;
+    GtkTreeModel *model;
 
-    if ( !operation || ! gsb_account_get_tree_view (operation -> no_compte))
+    if ( !operation || ! gsb_account_get_tree_view (no_account))
 	return NULL;
 
-    /*     si l'est la ligne blanche qui est demandée (ope=-1), p_tab doit être fixé avant... */
-
-    if ( operation != GINT_TO_POINTER (-1))
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> no_compte;
-    else
-	verification_p_tab ("cherche_iter_operation");
-
+    model = gsb_account_get_store ( no_account );
 
     /*     on va faire le tour de la liste, et dès qu'une opé = operation */
     /* 	on retourne son iter */
 
-    gtk_tree_model_get_iter_first ( GTK_TREE_MODEL ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( gsb_account_get_tree_view (operation -> no_compte) ))),
-				    &iter );
     operation_tmp = NULL;
 
-    do
+    if ( gtk_tree_model_get_iter_first ( GTK_TREE_MODEL ( model ),
+					 &iter ))
     {
-	gtk_tree_model_get ( GTK_TREE_MODEL ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( gsb_account_get_tree_view (operation -> no_compte) ))),
-			     &iter,
-			     9, &operation_tmp,
-			     -1 );
+	do
+	{
+	    gtk_tree_model_get ( GTK_TREE_MODEL ( model ),
+				 &iter,
+				 9, &operation_tmp,
+				 -1 );
+	}
+	while ( operation_tmp != operation
+		&&
+		gtk_tree_model_iter_next ( GTK_TREE_MODEL ( model ),
+					   &iter ));
     }
-    while ( operation_tmp != operation
-	    &&
-	    gtk_tree_model_iter_next ( GTK_TREE_MODEL ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( gsb_account_get_tree_view (operation -> no_compte) ))),
-				       &iter ));
 
     if ( operation_tmp == operation )
 	return ( gtk_tree_iter_copy ( &iter ));
     else
 	return NULL;
-
 }
 /******************************************************************************/
 
+
+/** give back the path of the transaction given
+ * \param transaction the transaction we want to find the path
+ * \param no_account
+ * \return the GtkTreePath
+ * */
+GtkTreePath *gsb_transactions_list_get_path_from_transaction ( struct structure_operation *transaction,
+							       gint no_account )
+{
+    GtkTreePath *path;
+    GtkTreeIter *iter;
+
+    if ( !transaction || ! gsb_account_get_tree_view (no_account ))
+	return NULL;
+
+    iter = cherche_iter_operation ( transaction,
+				    no_account );
+    path = gtk_tree_model_get_path ( GTK_TREE_MODEL (gsb_account_get_store ( no_account )),
+				     iter );
+    return path;
+}
+
+
+
+/** give back the transaction on the path
+ * \param path the path in the normal list
+ * \param no_account
+ * \return the transaction
+ * */
+struct structure_operation *gsb_transactions_list_get_transaction_from_path ( GtkTreePath *path,
+									      gint no_account )
+{
+    struct structure_operation *transaction;
+    GtkTreeIter iter;
+    GtkTreeModel *model;
+
+    if ( ! gsb_account_get_tree_view (no_account ))
+	return NULL;
+
+    model = GTK_TREE_MODEL ( gsb_account_get_store ( no_account ));
+
+    gtk_tree_model_get_iter ( model,
+			      &iter,
+			      path );
+    gtk_tree_model_get ( model,
+			 &iter,
+			 9, &transaction,
+			 -1 );
+
+    return transaction;
+}
 
 
 
 /******************************************************************************/
 /* cette fonction renvoie le no de ligne de l'opération en argument */
 /******************************************************************************/
-gint cherche_ligne_operation ( struct structure_operation *operation )
+gint cherche_ligne_operation ( struct structure_operation *operation,
+			       gint no_account )
 {
     GtkTreeIter *iter;
 
-    /*     si c'est la ligne blanche qui est demandée, p_tab a dû être placé sur le compte avant */
+    iter = cherche_iter_operation ( operation,
+				    no_account );
 
-    if ( operation != GINT_TO_POINTER (-1))
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> no_compte;
-    else
-	verification_p_tab ("cherche_ligne_operation");
-
-    iter = cherche_iter_operation ( operation );
-
-    return ( my_atoi ( gtk_tree_model_get_string_from_iter (  GTK_TREE_MODEL ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( gsb_account_get_tree_view (operation -> no_compte) ))),
+    return ( my_atoi ( gtk_tree_model_get_string_from_iter (  GTK_TREE_MODEL ( gsb_account_get_store ( no_account )),
 							      iter )));
 }
 /******************************************************************************/
@@ -2227,13 +2282,38 @@ gint find_p_r_col ()
     {
 	for ( j=0 ; j<7 ; j++ )
 	{
-	    if ( tab_affichage_ope[i][j] == 13 )
+	    if ( tab_affichage_ope[i][j] == TRANSACTION_LIST_MARK )
 		return j;
 	}
     }
-    
+
     return -1;
 }
+
+
+/**
+ * Find line number in a transaction for the P_R cell.  Usefull because in some
+ * occasions, we need to know where is this column and it can be
+ * changed in preferences.
+ *
+ * \return column line for the P_R cell.
+ */
+gint find_p_r_line ()
+{
+    gint i, j;
+
+    for ( i=0 ; i<4 ; i++ )
+    {
+	for ( j=0 ; j<7 ; j++ )
+	{
+	    if ( tab_affichage_ope[i][j] == 13 )
+		return i;
+	}
+    }
+
+    return -1;
+}
+
 
 
 
@@ -2249,8 +2329,6 @@ void edition_operation ( void )
     gint i, j;
     struct organisation_formulaire *organisation_formulaire;
     GtkWidget *menu;
-
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
 
     operation = gsb_account_get_current_transaction (compte_courant);
 
@@ -2414,8 +2492,6 @@ void edition_operation ( void )
 			    if ( operation -> relation_no_operation != -1 )
 			    {
 				struct structure_operation *contre_operation;
-
-				p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> relation_no_compte;
 
 				gtk_combofix_set_text ( GTK_COMBOFIX ( widget ),
 							g_strconcat ( COLON(_("Transfer")),
@@ -2614,14 +2690,17 @@ void p_press (void)
     struct structure_operation *operation;
     GtkTreeIter *iter;
     gint col;
+    GtkTreeModel *model;
 
     col = find_p_r_col ();
     if ( col == -1 )
 	return;
 
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
-
     operation = gsb_account_get_current_transaction (compte_courant);
+
+    /*     take the model of the account */
+
+    model = gsb_account_get_store ( compte_courant );
 
     /* si on est sur l'opération vide -> on se barre */
 
@@ -2629,8 +2708,9 @@ void p_press (void)
 	||
 	operation -> pointe == 3 )
 	return;
-    
-    iter = cherche_iter_operation ( gsb_account_get_current_transaction (compte_courant) );
+
+    iter = cherche_iter_operation ( gsb_account_get_current_transaction (compte_courant),
+				    compte_courant );
 
     if ( operation -> pointe )
     {
@@ -2648,7 +2728,7 @@ void p_press (void)
 					 gsb_account_get_marked_balance (compte_courant) - montant );
 	operation -> pointe = 0;
 
-	gtk_list_store_set ( GTK_LIST_STORE ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( gsb_account_get_tree_view (compte_courant) ))),
+	gtk_list_store_set ( GTK_LIST_STORE ( model ),
 			     iter,
 			     col, NULL,
 			     -1 );
@@ -2669,7 +2749,7 @@ void p_press (void)
 					 gsb_account_get_marked_balance (compte_courant) + montant );
 	operation -> pointe = 1;
 
-	gtk_list_store_set ( GTK_LIST_STORE ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( gsb_account_get_tree_view (compte_courant) ))),
+	gtk_list_store_set ( GTK_LIST_STORE ( model ),
 			     iter,
 			     col, _("P"),
 			     -1 );
@@ -2723,12 +2803,12 @@ void p_press (void)
     }
 
 
-/*     met à jour les labels des soldes  */
+    /*     met à jour les labels des soldes  */
 
     mise_a_jour_labels_soldes ();
 
     modification_fichier( TRUE );
-/* ALAIN-FIXME : solution batarde me semble-t'il pour actualiser le solde pointé
+    /* ALAIN-FIXME : solution batarde me semble-t'il pour actualiser le solde pointé
        sur la fenêtre d'accueil après que l'on ait pointé l'opération */
 
     mise_a_jour_liste_comptes_accueil = 1;
@@ -2745,12 +2825,11 @@ void r_press (void)
     struct structure_operation *operation;
     GtkTreeIter *iter;
     gint col;
+    GtkTreeModel *model;
 
     col = find_p_r_col ();
     if ( col == -1 )
 	return;
-
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
 
     operation = gsb_account_get_current_transaction (compte_courant);
 
@@ -2760,7 +2839,11 @@ void r_press (void)
     if ( operation == GINT_TO_POINTER ( -1 ))
 	return;
 
-    iter = cherche_iter_operation ( gsb_account_get_current_transaction (compte_courant) );
+    model = gsb_account_get_store ( compte_courant );
+
+
+    iter = cherche_iter_operation ( gsb_account_get_current_transaction (compte_courant),
+				    compte_courant );
 
     if ( !operation -> pointe )
     {
@@ -2771,7 +2854,7 @@ void r_press (void)
 	/* on met soit le R, soit on change la sélection vers l'opé suivante */
 
 	if ( gsb_account_get_r (compte_courant) )
-	    gtk_list_store_set ( GTK_LIST_STORE ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( gsb_account_get_tree_view (compte_courant) ))),
+	    gtk_list_store_set ( GTK_LIST_STORE ( model ),
 				 iter,
 				 col, _("R"),
 				 -1 );
@@ -2780,10 +2863,13 @@ void r_press (void)
 	    /*  l'opération va disparaitre, on met donc la sélection sur l'opé suivante */
 
 	    gsb_account_set_current_transaction ( compte_courant,
-						  cherche_operation_from_ligne ( cherche_ligne_operation ( gsb_account_get_current_transaction (compte_courant)) + gsb_account_get_nb_rows ( compte_courant ),
+						  cherche_operation_from_ligne ( cherche_ligne_operation ( gsb_account_get_current_transaction (compte_courant),
+													   compte_courant )
+										 +
+										 gsb_account_get_nb_rows ( compte_courant ),
 										 compte_courant ) );
- 	    remplissage_liste_operations ( compte_courant );
- 	}
+	    remplissage_liste_operations ( compte_courant );
+	}
 
 	modification_fichier( TRUE );
     }
@@ -2792,7 +2878,7 @@ void r_press (void)
 	{
 	    /* dé-relève l'opération */
 
-	    gtk_list_store_set ( GTK_LIST_STORE ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( gsb_account_get_tree_view (compte_courant) ))),
+	    gtk_list_store_set ( GTK_LIST_STORE ( model ),
 				 iter,
 				 col, NULL,
 				 -1 );
@@ -2881,8 +2967,6 @@ void supprime_operation ( struct structure_operation *operation )
 
     if ( operation -> operation_ventilee )
     {
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> no_compte;
-
 	pointeur_tmp = gsb_account_get_transactions_list (operation -> no_compte);
 
 	while ( pointeur_tmp )
@@ -2919,8 +3003,6 @@ void supprime_operation ( struct structure_operation *operation )
     /* les tests sont passés, si c'est une ventilation, */
     /* on vire toutes les opérations associées */
 
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> no_compte;
-
     if ( operation -> operation_ventilee )
     {
 	pointeur_tmp = gsb_account_get_transactions_list (operation -> no_compte);
@@ -2945,8 +3027,8 @@ void supprime_operation ( struct structure_operation *operation )
 
     /*     on se met sur l'iter de l'opé et on retir l'opé de la liste */
 
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> no_compte;
-    iter = cherche_iter_operation ( operation );
+    iter = cherche_iter_operation ( operation,
+				    operation -> no_compte );
 
     if ( iter )
     {
@@ -2955,7 +3037,8 @@ void supprime_operation ( struct structure_operation *operation )
 
 	if ( gsb_account_get_current_transaction (operation -> no_compte) == operation )
 	    gsb_account_set_current_transaction ( operation -> no_compte,
-						  cherche_operation_from_ligne ( cherche_ligne_operation ( gsb_account_get_current_transaction (operation -> no_compte)) + gsb_account_get_nb_rows ( operation -> no_compte ),
+						  cherche_operation_from_ligne ( cherche_ligne_operation ( gsb_account_get_current_transaction (operation -> no_compte),
+													   operation -> no_compte ) + gsb_account_get_nb_rows ( operation -> no_compte ),
 										 operation -> no_compte ) );
 
 	for ( i=0 ; i<gsb_account_get_nb_rows ( operation -> no_compte ) ; i++ )
@@ -2964,11 +3047,10 @@ void supprime_operation ( struct structure_operation *operation )
 
 	/*     on met à jour les couleurs et les soldes */
 
-	update_couleurs_background ( operation -> no_compte,
-				     gtk_tree_iter_copy (iter));
-	update_soldes_list_store ( operation -> no_compte,
-				   iter );
-	selectionne_ligne ( gsb_account_get_current_transaction (operation -> no_compte) );
+	gsb_transactions_list_set_background_color ( operation -> no_compte );
+	gsb_transactions_list_set_transactions_balances ( operation -> no_compte );
+	gsb_transactions_list_set_current_transaction ( gsb_account_get_current_transaction (operation -> no_compte),
+							operation -> no_compte );
     }
 
     /*     calcul des nouveaux soldes */
@@ -3024,7 +3106,8 @@ void supprime_operation ( struct structure_operation *operation )
 gboolean changement_taille_liste_ope ( GtkWidget *tree_view,
 				       GtkAllocation *allocation )
 {
-    gint i, j;
+    gint i;
+    GSList *list_tmp;
 
     /*     pour éviter que le système ne s'emballe... */
 
@@ -3038,9 +3121,13 @@ gboolean changement_taille_liste_ope ( GtkWidget *tree_view,
     /* si la largeur est automatique, on change la largeur des colonnes */
     /* sinon, on y met les valeurs fixes */
 
-    for ( j=0 ; j<nb_comptes ; j++ )
+    list_tmp = list_struct_accounts;
+
+    while ( list_tmp )
     {
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + j;
+	gint j;
+
+	j = gsb_account_get_no_account ( list_tmp -> data );
 
 	if ( etat.largeur_auto_colonnes )
 	    for ( i = 0 ; i < TRANSACTION_LIST_COL_NB ; i++ )
@@ -3051,6 +3138,8 @@ gboolean changement_taille_liste_ope ( GtkWidget *tree_view,
 		if ( taille_largeur_colonnes[i] )
 		    gtk_tree_view_column_set_fixed_width ( gsb_account_get_column ( j, i),
 							   taille_largeur_colonnes[i]  );
+
+	list_tmp = list_tmp -> next;
     }
 
     /* met les entrées du formulaire selon une taille proportionnelle */
@@ -3072,23 +3161,24 @@ gboolean changement_taille_liste_ope ( GtkWidget *tree_view,
 /******************************************************************************/
 void demande_mise_a_jour_tous_comptes ( void )
 {
-    gint i;
-    gpointer **save_p_tab;
+    GSList *list_tmp;
 
-    save_p_tab = p_tab_nom_de_compte_variable;
+    list_tmp = list_struct_accounts;
 
-    for ( i = 0 ; i < nb_comptes ; i++ )
+    while ( list_tmp )
     {
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
-	
+	gint i;
+
+	i = gsb_account_get_no_account ( list_tmp -> data );
+
 	gtk_list_store_clear ( GTK_LIST_STORE ( gsb_account_get_store (i) ));
 	gsb_account_set_last_transaction ( i,
 					   NULL );
+
+	list_tmp = list_tmp -> next;
     }
 
     demarrage_idle ();
-
-    p_tab_nom_de_compte_variable = save_p_tab;
 }
 /******************************************************************************/
 
@@ -3100,8 +3190,6 @@ void popup_transaction_context_menu ( gboolean full )
 {
     GtkWidget *menu, *menu_item;
 
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
-	
     if ( gsb_account_get_current_transaction (compte_courant) == GINT_TO_POINTER(-1) )
 	full = FALSE;
 
@@ -3184,15 +3272,12 @@ void popup_transaction_context_menu ( gboolean full )
 
 
 /**
- *  Check that a transaction is selected and sets the
- *  p_tab_nom_de_compte_variable pointer accordingly.
+ *  Check that a transaction is selected 
  *
  * \return TRUE on success, FALSE otherwise.
  */
 gboolean assert_selected_transaction ()
 {
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
-
     if ( gsb_account_get_current_transaction (compte_courant) == GINT_TO_POINTER(-1) )
 	return FALSE;
 
@@ -3277,23 +3362,20 @@ struct structure_operation *  clone_transaction ( struct structure_operation * o
 
     if ( operation -> pointe == OPERATION_RAPPROCHEE ||
 	 operation -> pointe == OPERATION_TELERAPPROCHEE )
-      {
+    {
 	new_transaction -> pointe = OPERATION_NORMALE;
-      }
+    }
 
     ajout_operation ( new_transaction );
 
     if ( new_transaction -> relation_no_operation )
     {
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + new_transaction -> relation_no_compte;
 	validation_virement_operation ( new_transaction, 0, gsb_account_get_name (new_transaction -> relation_no_compte) );
     }
 
     if ( operation -> operation_ventilee )
     {
 	GSList *liste_tmp;
-
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> no_compte;
 
 	liste_tmp = gsb_account_get_transactions_list (operation -> no_compte);
 
@@ -3327,11 +3409,10 @@ struct structure_operation *  clone_transaction ( struct structure_operation * o
 void move_selected_operation_to_account ( GtkMenuItem * menu_item )
 {
     gint target_account, source_account;
-    gpointer ** tmp = p_tab_nom_de_compte_variable;
 
     if (! assert_selected_transaction()) return;
 
-    source_account = NO_COMPTE;
+    source_account = compte_courant;
     target_account = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT(menu_item), 
 							     "no_compte" ) );  
 
@@ -3348,8 +3429,6 @@ void move_selected_operation_to_account ( GtkMenuItem * menu_item )
 	if ( mise_a_jour_combofix_imputation_necessaire )
 	    mise_a_jour_combofix_imputation ();
 
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + source_account;
-
 	gsb_account_set_current_balance ( source_account, 
 					  calcule_solde_compte ( source_account ));
 	gsb_account_set_marked_balance ( source_account, 
@@ -3357,7 +3436,6 @@ void move_selected_operation_to_account ( GtkMenuItem * menu_item )
 
 	mise_a_jour_labels_soldes ();
 
-	p_tab_nom_de_compte_variable = tmp;
 	modification_fichier ( TRUE );
     }
 }
@@ -3373,11 +3451,10 @@ void move_selected_operation_to_account ( GtkMenuItem * menu_item )
 void move_selected_operation_to_account_nb ( gint *account )
 {
     gint target_account, source_account;
-    gpointer ** tmp = p_tab_nom_de_compte_variable;
 
     if (! assert_selected_transaction()) return;
 
-    source_account = NO_COMPTE;
+    source_account = compte_courant;
     target_account = GPOINTER_TO_INT ( account );  
 
     if ( move_operation_to_account ( gsb_account_get_current_transaction (source_account), target_account ))
@@ -3393,8 +3470,6 @@ void move_selected_operation_to_account_nb ( gint *account )
 
 	update_transaction_in_trees ( gsb_account_get_current_transaction (source_account) );
 
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + source_account;
-
 	gsb_account_set_current_balance ( source_account, 
 					  calcule_solde_compte ( source_account ));
 	gsb_account_set_marked_balance ( source_account, 
@@ -3402,7 +3477,6 @@ void move_selected_operation_to_account_nb ( gint *account )
 
 	mise_a_jour_labels_soldes ();
 
-	p_tab_nom_de_compte_variable = tmp;
 	modification_fichier ( TRUE );
     }
 }
@@ -3420,7 +3494,6 @@ gboolean move_operation_to_account ( struct structure_operation * transaction,
 				     gint account )
 {
     GtkTreeIter *iter;
-    gpointer ** tmp = p_tab_nom_de_compte_variable;
 
     if ( transaction -> relation_no_operation )
     {
@@ -3443,7 +3516,7 @@ gboolean move_operation_to_account ( struct structure_operation * transaction,
 
 	    /* 	    p_tab est placé par la fonction suivante, et on remet gsb_account_get_finished_balance_showed () à 1 */
 	    /* 		car est remis à 0 mais on ne change pas le solde */
-	    
+
 	    remplit_ligne_operation ( contra_transaction,
 				      NULL );
 	    gsb_account_set_finished_balance_showed ( transaction -> no_compte,
@@ -3455,7 +3528,6 @@ gboolean move_operation_to_account ( struct structure_operation * transaction,
     {
 	GSList *liste_tmp;
 
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + transaction -> no_compte;
 	liste_tmp = g_slist_copy ( gsb_account_get_transactions_list (transaction -> no_compte) );
 
 	while ( liste_tmp )
@@ -3477,15 +3549,14 @@ gboolean move_operation_to_account ( struct structure_operation * transaction,
 	g_slist_free ( liste_tmp );
     }
 
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + transaction -> no_compte;
-
     gsb_account_set_transactions_list ( transaction -> no_compte,
 					g_slist_remove ( gsb_account_get_transactions_list (transaction -> no_compte),
 							 transaction ));
 
     /*     si l'opération était affichée, on la retire du list_store */
 
-    iter = cherche_iter_operation ( transaction );
+    iter = cherche_iter_operation ( transaction,
+				    transaction -> no_compte);
 
     if ( iter )
     {
@@ -3496,7 +3567,8 @@ gboolean move_operation_to_account ( struct structure_operation * transaction,
 
 	if ( gsb_account_get_current_transaction (transaction -> no_compte) == transaction )
 	    gsb_account_set_current_transaction ( transaction -> no_compte,
-						  cherche_operation_from_ligne ( cherche_ligne_operation ( gsb_account_get_current_transaction (transaction -> no_compte) ) + gsb_account_get_nb_rows ( transaction -> no_compte ),
+						  cherche_operation_from_ligne ( cherche_ligne_operation ( gsb_account_get_current_transaction (transaction -> no_compte),
+													   transaction -> no_compte ) + gsb_account_get_nb_rows ( transaction -> no_compte ),
 										 transaction -> no_compte ) );
 
 	for ( i=0 ; i<gsb_account_get_nb_rows ( transaction -> no_compte ) ; i++ )
@@ -3505,27 +3577,21 @@ gboolean move_operation_to_account ( struct structure_operation * transaction,
 
 	/*     on met à jour les couleurs et les soldes */
 
-	update_couleurs_background ( transaction -> no_compte,
-				     gtk_tree_iter_copy (iter));
-	update_soldes_list_store ( transaction -> no_compte,
-				   iter );
-	selectionne_ligne ( gsb_account_get_current_transaction (transaction -> no_compte) );
+	gsb_transactions_list_set_background_color ( transaction -> no_compte );
+	gsb_transactions_list_set_transactions_balances ( transaction -> no_compte );
+	gsb_transactions_list_set_current_transaction ( gsb_account_get_current_transaction (transaction -> no_compte),
+							transaction -> no_compte );
     }
 
-
-    
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + account;
     transaction -> no_compte = account;
 
     /*     comme l'opé contient déjà un no d'opération, on doit d'abord l'ajouter manuellement */
     /* 	à la liste avant d'appeler ajout_operation */
 
     gsb_account_set_transactions_list ( account,
-					g_slist_insert_sorted ( gsb_account_get_transactions_list (account),
-								transaction,
-								(GCompareFunc) gsb_account_get_current_sort (account) ));
+					g_slist_append ( gsb_account_get_transactions_list (account),
+							 transaction ));
     ajout_operation ( transaction );
-    p_tab_nom_de_compte_variable = tmp;
     return TRUE;
 }
 
@@ -3591,26 +3657,22 @@ struct operation_echeance *schedule_transaction ( struct structure_operation * t
     echeance -> categorie = transaction -> categorie;
     echeance -> sous_categorie = transaction -> sous_categorie;
 
-/*     pour 1 virement, categ et sous categ sont à 0, et compte_virement contient le no de compte */
-/* 	mais si categ et sous categ sont à 0 et que ce n'est pas un virement ni une ventil, compte_virement = -1 */
-/*     on va changer ça la prochaine version, dès que c'est pas un virement -> -1 */
+    /*     pour 1 virement, categ et sous categ sont à 0, et compte_virement contient le no de compte */
+    /* 	mais si categ et sous categ sont à 0 et que ce n'est pas un virement ni une ventil, compte_virement = -1 */
+    /*     on va changer ça la prochaine version, dès que c'est pas un virement -> -1 */
 
     if ( transaction -> relation_no_operation )
     {
 	/* 	c'est un virement, on met la relation et on recherche le type de la contre opération */
-	
-	gpointer **save_ptab;
-	struct structure_operation *contre_operation;
-	
-	echeance -> compte_virement = transaction -> relation_no_compte;
 
-	save_ptab = p_tab_nom_de_compte_variable;
+	struct structure_operation *contre_operation;
+
+	echeance -> compte_virement = transaction -> relation_no_compte;
 
 	contre_operation = operation_par_no ( transaction -> relation_no_operation,
 					      echeance -> compte_virement );
 	if ( contre_operation )
 	    echeance -> type_contre_ope = contre_operation -> type_ope;
-	p_tab_nom_de_compte_variable = save_ptab;
     }
     else
 	if ( !echeance -> categorie
@@ -3629,20 +3691,20 @@ struct operation_echeance *schedule_transaction ( struct structure_operation * t
 
     echeance -> operation_ventilee = transaction -> operation_ventilee;
 
-/*     par défaut, on met en manuel, pour éviter si l'utilisateur se gourre dans la date, */
-/*     (c'est le cas, à 0 avec calloc) */
-/*     que l'opé soit enregistrée immédiatement ; de même on le met en mensuel par défaut */
-/* 	pour la même raison */
+    /*     par défaut, on met en manuel, pour éviter si l'utilisateur se gourre dans la date, */
+    /*     (c'est le cas, à 0 avec calloc) */
+    /*     que l'opé soit enregistrée immédiatement ; de même on le met en mensuel par défaut */
+    /* 	pour la même raison */
 
     echeance -> periodicite = 2;
-    
+
     echeance -> no_operation = ++no_derniere_echeance;
     nb_echeances++;
     liste_struct_echeances = g_slist_insert_sorted ( liste_struct_echeances,
 						     echeance,
 						     (GCompareFunc) comparaison_date_echeance );
 
-/*     on récupère les opés de ventil si c'était une opé ventilée */
+    /*     on récupère les opés de ventil si c'était une opé ventilée */
 
     if ( echeance -> operation_ventilee )
     {
@@ -3674,8 +3736,8 @@ struct operation_echeance *schedule_transaction ( struct structure_operation * t
 		echeance_de_ventil -> mois = transaction_de_ventil -> mois;
 		echeance_de_ventil -> annee = transaction_de_ventil -> annee;
 		echeance_de_ventil -> date = g_date_new_dmy ( transaction_de_ventil -> jour,
-						    transaction_de_ventil -> mois,
-						    transaction_de_ventil -> annee );
+							      transaction_de_ventil -> mois,
+							      transaction_de_ventil -> annee );
 
 		echeance_de_ventil -> montant = transaction_de_ventil -> montant;
 		echeance_de_ventil -> devise = transaction_de_ventil -> devise;
@@ -3692,19 +3754,15 @@ struct operation_echeance *schedule_transaction ( struct structure_operation * t
 		{
 		    /* 	c'est un virement, on met la relation et on recherche le type de la contre opération */
 
-		    gpointer **save_ptab;
 		    struct structure_operation *contre_operation;
 
 		    echeance_de_ventil -> compte_virement = transaction_de_ventil -> relation_no_compte;
-
-		    save_ptab = p_tab_nom_de_compte_variable;
 
 		    contre_operation = operation_par_no ( transaction_de_ventil -> relation_no_operation,
 							  echeance_de_ventil -> compte_virement );
 
 		    if ( contre_operation )
 			echeance_de_ventil -> type_contre_ope = contre_operation -> type_ope;
-		    p_tab_nom_de_compte_variable = save_ptab;
 		}
 		else
 		    if ( !echeance_de_ventil -> categorie )
@@ -3754,8 +3812,6 @@ gboolean affichage_traits_liste_operation ( void )
     GtkAdjustment *adjustment;
     gint derniere_ligne;
 
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
-
     /*  FIXME   sachant qu'on appelle ça à chaque expose-event, cad très souvent ( dès que la souris passe dessus ), */
     /*     ça peut ralentir bcp... à vérifier  */
 
@@ -3775,7 +3831,7 @@ gboolean affichage_traits_liste_operation ( void )
     /*     on commence par calculer la dernière ligne en pixel correspondant à la dernière opé de la liste */
     /* 	pour éviter de dessiner les traits en dessous */
 
-    derniere_ligne = hauteur_ligne_liste_opes * GTK_LIST_STORE ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( gsb_account_get_tree_view (compte_courant) ))) -> length;
+    derniere_ligne = hauteur_ligne_liste_opes * GTK_LIST_STORE ( gsb_account_get_store ( compte_courant )) -> length;
     hauteur = MIN ( derniere_ligne,
 		    hauteur );
 
@@ -3822,57 +3878,29 @@ gboolean affichage_traits_liste_operation ( void )
 
 
 
-
-
-
-/******************************************************************************/
-gboolean click_sur_titre_colonne_operations ( GtkTreeViewColumn *colonne,
-					      gint *no_colonne )
+/** called when press a button on the title column
+ * if it's a right click, we show a menu to choose with what
+ * we will sort
+ * */
+gboolean gsb_transactions_list_title_column_button_press ( GtkWidget *button,
+							   GdkEventButton *ev,
+							   gint *no_column )
 {
     GtkWidget *menu, *menu_item;
-    gchar **tab_char;
     gint i;
+    gint active_sort;
 
-
-/*     on récupère les popups du titre de la colonne */
-/* 	s'il n'y a rien dans la colonne, on se barre */
-/* 	celà veut dire aussi que pour trier en fonction d'un paramètre, */
-/*     ce paramètre doit être affiché dans la liste */
-
-    tab_char = g_strsplit ( tips_col_liste_operations[GPOINTER_TO_INT(no_colonne)],
-			    ", ",
-			    0 );
-    if ( !tab_char[0] )
+    if ( ev -> button != 3 )
 	return FALSE;
 
-    /*     on met la de colonne en tmp */
-
-    colonne_classement_tmp = GPOINTER_TO_INT ( no_colonne );
-
-	/*     s'il n'y a qu'un choix possible, on n'affiche pas la popup, on trie */
-    /* 	directement */
-
-    if ( !tab_char[1] )
-    {
-	if ( strcmp ( tab_char[0],
-		      N_("Balance")))
-	{
-	    changement_choix_classement_liste_operations ( tab_char[0] );
-	    g_strfreev ( tab_char );
-	    return FALSE;
-	}
-	else
-	    return FALSE;
-    }
-
-     menu = gtk_menu_new ();
+    menu = gtk_menu_new ();
 
     /*  ligne trier par */
 
     menu_item = gtk_menu_item_new_with_label ( _("Sort list by :") );
 
-/*     les 2 signaux sont bloqués pour éviter que la ligne s'affiche comme un bouton */
-/* pas réussi à faire autrement... */
+    /*     les 2 signaux sont bloqués pour éviter que la ligne s'affiche comme un bouton */
+    /* pas réussi à faire autrement... */
 
     g_signal_connect ( G_OBJECT ( menu_item),
 		       "enter-notify-event",
@@ -3882,7 +3910,7 @@ gboolean click_sur_titre_colonne_operations ( GtkTreeViewColumn *colonne,
 		       "motion-notify-event",
 		       G_CALLBACK ( gtk_true ),
 		       NULL );
-  
+
     gtk_menu_append ( menu,
 		      menu_item );
     gtk_widget_show_all ( menu_item );
@@ -3893,25 +3921,55 @@ gboolean click_sur_titre_colonne_operations ( GtkTreeViewColumn *colonne,
     gtk_widget_show ( menu_item );
 
 
-    i = 0;
+    active_sort = gsb_account_get_column_sort ( compte_courant,
+						GPOINTER_TO_INT ( no_column ));
 
-    while ( tab_char[i] )
+    /*     get the name of the labels of the columns and put them in a menu */
+
+    for ( i=0 ; i<4 ; i++ )
     {
-	if ( strcmp ( tab_char[i],
+	gchar *temp;
+
+	switch ( tab_affichage_ope[i][GPOINTER_TO_INT (no_column)] )
+	{
+	    case 0:
+		temp = NULL;
+		break;
+
+	    default:
+		temp = g_slist_nth_data ( liste_labels_titres_colonnes_liste_ope,
+					  tab_affichage_ope[i][GPOINTER_TO_INT (no_column)] - 1 );
+	}
+
+	if ( temp
+	     &&
+	     strcmp ( temp,
 		      N_("Balance")))
 	{
-	    menu_item = gtk_menu_item_new_with_label ( tab_char[i] );
-	    g_signal_connect_swapped ( G_OBJECT(menu_item),
-				       "activate",
-				       G_CALLBACK ( changement_choix_classement_liste_operations ),
-				       tab_char[i] );
+	    if ( i )
+		menu_item = gtk_radio_menu_item_new_with_label_from_widget ( GTK_RADIO_MENU_ITEM ( menu_item ),
+									     temp );
+	    else
+		menu_item = gtk_radio_menu_item_new_with_label ( NULL,
+								 temp );
+
+	    if ( tab_affichage_ope[i][GPOINTER_TO_INT (no_column)] == active_sort )
+		gtk_check_menu_item_set_active ( GTK_CHECK_MENU_ITEM ( menu_item ),
+						 TRUE );
+
+	    g_object_set_data ( G_OBJECT ( menu_item ),
+				"no_sort",
+				GINT_TO_POINTER (tab_affichage_ope[i][GPOINTER_TO_INT (no_column)]));
+	    g_signal_connect ( G_OBJECT(menu_item),
+			       "activate",
+			       G_CALLBACK ( gsb_transactions_list_change_sort_type ),
+			       no_column );
 	    gtk_menu_append ( menu,
 			      menu_item );
 	    gtk_widget_show ( menu_item );
 	}
-	i++;
-    }
 
+    }
 
     gtk_menu_popup ( GTK_MENU(menu),
 		     NULL,
@@ -3921,135 +3979,60 @@ gboolean click_sur_titre_colonne_operations ( GtkTreeViewColumn *colonne,
 		     3,
 		     gtk_get_current_event_time());
     gtk_widget_show (menu);
-    
-    return FALSE;
-}					      
-/******************************************************************************/
 
-
-/*****************************************************************************/
-gboolean changement_choix_classement_liste_operations ( gchar *nom_classement )
-{
-/*  cette fonction est appelée quand on a cliqué sur un titre de colonne pour changer */
-    /*      le tri de la liste d'opé */
-
-    gint no_classement;
-    GSList *liste_tmp_avant_classement;
-    GSList *liste_tmp_apres_classement;
-
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
-
-    no_classement = g_slist_position ( liste_labels_titres_colonnes_liste_ope,
-				       g_slist_find_custom ( liste_labels_titres_colonnes_liste_ope,
-							     nom_classement,
-							     (GCompareFunc) cherche_string_equivalente_dans_slist ));
-
-    /*     les constantes de classement commencent à 1 */
-
-    no_classement++;
-
-    /*     si on utilisait déjà ce classement, on inverse le sens du tri */
-
-    if ( gsb_account_get_sort_number (compte_courant) == no_classement)
-    {
-	gsb_account_set_ascending_sort ( compte_courant,
-					 !gsb_account_get_ascending_sort (compte_courant) );
-    }
-    else
-    {
-	gsb_account_set_sort_number ( compte_courant,
-				      no_classement );
-	gsb_account_set_current_sort ( compte_courant,
-				       recupere_classement_par_no ( gsb_account_get_sort_number (compte_courant) ) );
-	gsb_account_set_ascending_sort ( compte_courant,
-					 GTK_SORT_DESCENDING );
-    }
-
-    update_fleches_classement_tree_view (compte_courant);
-
-    /*     on va créer des slists des opés affichées avant et après le tri pour pouvoir */
-    /* 	mettre à jour la list_store des opés */
-
-    liste_tmp_avant_classement = cree_slist_affichee ( compte_courant );
-
-    classe_liste_operations ( compte_courant );
-
-    liste_tmp_apres_classement = cree_slist_affichee ( compte_courant );
-
-    my_list_store_sort ( compte_courant,
-			 liste_tmp_avant_classement,
-			 liste_tmp_apres_classement );
-
-    modification_fichier ( TRUE );
     return FALSE;
 }
 /******************************************************************************/
 
-/******************************************************************************/
-gpointer recupere_classement_par_no ( gint no_classement )
-{
 
-    switch ( no_classement )
+/** called when we click on the new sort type
+ * \param menu_item The GtkMenuItem
+ * \param no_column
+ * \return FALSE
+ * */
+gboolean gsb_transactions_list_change_sort_type ( GtkWidget *menu_item,
+						  gint *no_column )
+{
+    gint sort_column_id;
+    GtkSortType order;
+    GtkTreeSortable *sortable;
+    
+    if ( !gtk_check_menu_item_get_active ( GTK_CHECK_MENU_ITEM ( menu_item )))
+	return FALSE;
+
+    gsb_account_set_column_sort ( compte_courant,
+				  GPOINTER_TO_INT ( no_column ),
+				  GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT ( menu_item),
+									"no_sort" )));
+
+    sortable = GTK_TREE_SORTABLE ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( gsb_account_get_tree_view ( compte_courant ))));
+
+
+    gtk_tree_sortable_get_sort_column_id ( sortable,
+					   &sort_column_id,
+					   &order );
+
+    gtk_tree_sortable_set_sort_column_id ( sortable,
+					   GPOINTER_TO_INT ( no_column ),
+					   GTK_SORT_ASCENDING );
+
+    /* we have to check because if we ask for a sort on another line but same column,
+     * the tree will not update ; so in that case, we have to invert 2 times the order
+     * */
+
+    if ( sort_column_id == GPOINTER_TO_INT ( no_column )
+	 &&
+	 order == GTK_SORT_ASCENDING )
     {
-	case TRANSACTION_LIST_DATE:
-	    etat.classement_par_date = 1;
-	    return ( classement_sliste_par_date);
-	    break;
-	case TRANSACTION_LIST_VALUE_DATE:
-	    etat.classement_par_date = 0;
-	    return ( classement_sliste_par_date);
-	    break;
-	case TRANSACTION_LIST_PARTY:
-	    return ( classement_sliste_par_tiers);
-	    break;
-	case TRANSACTION_LIST_BUDGET:
-	    return ( classement_sliste_par_imputation);
-	    break;
-	case TRANSACTION_LIST_CREDIT:
-	    return ( classement_sliste_par_credit);
-	    break;
-	case TRANSACTION_LIST_DEBIT:
-	    return ( classement_sliste_par_debit);
-	    break;
-	case TRANSACTION_LIST_BALANCE:
-	    /* 	    balance, normalement ne devrait pas venir ici, dans le doute renvoie par date */
-	    return ( classement_sliste_par_date );
-	    break;
-	case TRANSACTION_LIST_AMOUNT:
-	    return ( classement_sliste_par_montant);
-	    break;
-	case TRANSACTION_LIST_TYPE:
-	    return ( classement_sliste_par_type_ope);
-	    break;
-	case TRANSACTION_LIST_RECONCILE_NB:
-	    return ( classement_sliste_par_no_rapprochement);
-	    break;
-	case TRANSACTION_LIST_EXERCICE:
-	    return ( classement_sliste_par_exercice);
-	    break;
-	case TRANSACTION_LIST_CATEGORY:
-	    return ( classement_sliste_par_categories);
-	    break;
-	case TRANSACTION_LIST_MARK:
-	    return ( classement_sliste_par_pointage);
-	    break;
-	case TRANSACTION_LIST_VOUCHER:
-	    return ( classement_sliste_par_pc);
-	    break;
-	case TRANSACTION_LIST_NOTES:
-	    return ( classement_sliste_par_notes);
-	    break;
-	case TRANSACTION_LIST_BANK:
-	    return ( classement_sliste_par_ibg);
-	    break;
-	case TRANSACTION_LIST_NO:
-	    return ( classement_sliste_par_no);
-	    break;
-	default :
-	    printf ( "Bug : demande le no de classement %d qui n'existe pas, renvoie par date\n",
-		     no_classement );
-	    return ( classement_sliste_par_date);
+	gtk_tree_sortable_set_sort_column_id ( sortable,
+					       GPOINTER_TO_INT ( no_column ),
+					       GTK_SORT_DESCENDING );
+	gtk_tree_sortable_set_sort_column_id ( sortable,
+					       GPOINTER_TO_INT ( no_column ),
+					       GTK_SORT_ASCENDING );
     }
+
+    return FALSE;
 }
 /******************************************************************************/
 
@@ -4061,8 +4044,6 @@ gpointer recupere_classement_par_no ( gint no_classement )
 /******************************************************************************/
 void mise_a_jour_labels_soldes ( void )
 {
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
-
     /*     met le solde */
 
     gtk_label_set_text ( GTK_LABEL ( solde_label ),
@@ -4099,98 +4080,6 @@ void show_balance_labels ( void )
 
 
 
-/******************************************************************************/
-/* cette fonction classe la list_store du compte donné en argument */
-/* par le classement courant de ce compte */
-/******************************************************************************/
-void my_list_store_sort ( gint no_compte,
-			  GSList *liste_avant_classement,
-			  GSList *liste_apres_classement )
-{
-    gint longueur;
-    gint *pos;
-    gint i;
-
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_compte;
-
-    longueur = GTK_LIST_STORE (gsb_account_get_store (no_compte)) -> length;
-
-    pos = malloc ( longueur * sizeof ( gint ));
-
-    /*     on réalise le lien pos[nouvelle_ligne] = ancienne_ligne */
-
-    for ( i=0 ; i<(longueur-gsb_account_get_nb_rows ( no_compte )) ; i++ )
-	pos[i]= g_slist_index ( liste_avant_classement,
-				g_slist_nth_data ( liste_apres_classement,
-						   i/gsb_account_get_nb_rows ( no_compte ) ))
-	    * gsb_account_get_nb_rows ( no_compte ) + (i%gsb_account_get_nb_rows ( no_compte ));
-    
-
-    /*     ajout de la ligne blanche à la fin */
-
-    for ( i= longueur-gsb_account_get_nb_rows ( no_compte ) ; i<longueur ; i++ )
-	pos[i] = i;
-
-
-    /* FIXME : bug dans cette fonction avant GTK 2.4 */
-
-    gtk_list_store_reorder ( gsb_account_get_store (no_compte),
-			     pos );
-
-    g_slist_free ( liste_avant_classement );
-    g_slist_free ( liste_apres_classement );
-    free ( pos );
-
-    /*     on remet les soldes et la couleur du fond */
-
-    update_couleurs_background( no_compte,
-				NULL );
-    update_soldes_list_store ( no_compte,
-			       NULL );
-    selectionne_ligne ( gsb_account_get_current_transaction (no_compte) );
-}
-/******************************************************************************/
-
-
-
-
-/******************************************************************************/
-/* cette fonction renvoie une slist contenant uniquement les adr des opés affichées, */
-/*     c'est donc la LISTE_OPERATIONS sans les opés de ventils et plus ou moins les R */
-/*     selon la conf */
-/*     l'ordre de cette liste est l'ordre courant de la liste des opés */
-/******************************************************************************/
-
-GSList *cree_slist_affichee ( gint no_compte )
-{
-    GSList *liste_tmp;
-    GSList *nouvelle_liste;
-
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_compte;
-
-    nouvelle_liste = NULL;
-
-    liste_tmp = gsb_account_get_transactions_list (no_compte);
-
-    while ( liste_tmp )
-    {
-	struct structure_operation *operation;
-
-	operation = liste_tmp -> data;
-
-	if ( !(operation -> no_operation_ventilee_associee
-	       ||
-	       ( operation -> pointe == 3
-		 &&
-		 !gsb_account_get_r (no_compte) )))
-	    nouvelle_liste = g_slist_append ( nouvelle_liste,
-					      operation );
-		     
-	liste_tmp = liste_tmp -> next;
-    }
-    return nouvelle_liste;
-}
-/******************************************************************************/
 
 
 
@@ -4203,15 +4092,11 @@ GSList *cree_slist_affichee ( gint no_compte )
 /******************************************************************************/
 void mise_a_jour_affichage_r ( gint affichage_r )
 {
-    gint i;
-    GtkTreeIter *iter;
-    struct structure_operation *operation;
+    GSList *list_tmp;
 
-    /*     si affichage_r est déjà correct on ne change rien */
-    /* 	on vérifie sur le compte courant car soit c'est sur ce compte */
-    /* 	qu'on travaille, soit tous les autres comptes ont la même valeur */
-
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
+    /*     we check all the accounts */
+    /* 	if etat.retient_affichage_par_compte is set, only compte_courant will change */
+    /* 	else, all the accounts change */
 
     if ( affichage_r == gsb_account_get_r (compte_courant) )
 	return;
@@ -4221,189 +4106,29 @@ void mise_a_jour_affichage_r ( gint affichage_r )
 
     gsb_account_set_r (compte_courant,
 		       affichage_r );
-    iter = &iter_liste_operations;
+    gsb_account_set_finished_visible_rows ( compte_courant,
+					    0 );
 
-    if ( gsb_account_get_r (compte_courant) )
+    list_tmp = list_struct_accounts;
+
+    while ( list_tmp )
     {
-	/* 	on a demandé d'afficher les R */
-	for ( i=0 ; i<nb_comptes ; i++ )
-	{
-	    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
+	gint i;
 
-	    /* 	    on ne touche à la liste que s'il le faut en fonction de retient_affichage_par_compte */
-	    /* 		et du compte en cours */
+	i = gsb_account_get_no_account ( list_tmp -> data );
 
-	    if ( !( etat.retient_affichage_par_compte
-		    &&
-		    i != compte_courant ))
-	    {
-		/* 	on va repérer la ligne dans la liste des opés de la 1ère opé affichée */
-		/* 		ensuite,  */
-		/* 		soit l'opé que l'on veut afficher se situe avant, donc insertion devant la 1ère ligne */
-		/* 		    soit elle se situe après, donc insertion devant la 1ère ligne non R suivante */
+	if ( !etat.retient_affichage_par_compte )
+	    gsb_account_set_r ( i,
+				affichage_r );
 
-		gint ligne_ope_pour_insertion;
-		GSList *liste_tmp;
-
-		/* 		si le store du compte n'est pas fini, il faut le finir avant de faire joujou */
-
-		if ( gsb_account_get_last_transaction (i) != GINT_TO_POINTER (-1))
-		    ajoute_operations_compte_dans_list_store ( i,
-							       0 );
-
-		ligne_ope_pour_insertion = g_slist_index ( gsb_account_get_transactions_list (i),
-							   cherche_operation_from_ligne ( 0,
-											  i ));
-		gtk_tree_model_get_iter_first ( GTK_TREE_MODEL ( gsb_account_get_store (i) ),
-						iter );
-
-		liste_tmp = gsb_account_get_transactions_list (i);
-
-		while ( liste_tmp )
-		{
-		    operation = liste_tmp -> data;
-
-		    if ( operation -> pointe == 3
-			 &&
-			 !operation -> no_operation_ventilee_associee )
-		    {
-			/* 	c'est une opé relevée, on l'ajoute à la liste */
-
-			gint place_ope_r;
-
-			place_ope_r = g_slist_position ( gsb_account_get_transactions_list (i),
-							 liste_tmp );
-
-			/* si cette opé r est avant la ligne d'insertion en cours,
-			 * l'iter d'insertion est celui déjà en mémoire 
-			 * donc on fait rien ; sinon, on trouve le prochain iter
-			 * après cette opé */
-
-			if ( place_ope_r > ligne_ope_pour_insertion )
-			{
-			    /* on doit trouver la prochaine opé non R après l'opé R en cours */
-
-			    ligne_ope_pour_insertion = place_ope_r + 1;
-			    struct structure_operation *operation_recherche;
-			    GSList *liste_recherche;
-
-			    liste_recherche = g_slist_nth ( gsb_account_get_transactions_list (i),
-							    ligne_ope_pour_insertion );
-
-			    if ( liste_recherche )
-			    {
-				do
-				{
-				    operation_recherche = liste_recherche -> data;
-				    liste_recherche = liste_recherche -> next;
-				}
-				while ( operation_recherche -> pointe == 3
-					&&
-					liste_recherche );
-
-				/*   à ce niveau, soit operation_recherche pointe sur la 1ere opé non R */
-				/*après l'opé R en cours */
-				/*	soit liste_recherche = NULL, et donc on a atteind la fin de la liste */
-
-				ligne_ope_pour_insertion = g_slist_position ( gsb_account_get_transactions_list (i),
-									      liste_recherche );
-				iter = cherche_iter_operation ( operation_recherche );
-			    }
-			    else
-				iter = cherche_iter_operation ( GINT_TO_POINTER (-1));
-			}
-
-			/* iter pointe maintenant sur la 1ère opé non R après l'opé R en cours */
-
-			remplit_ligne_operation ( operation,
-						  iter );
-		    }
-		    liste_tmp = liste_tmp -> next;
-		}
-		gsb_account_set_finished_background_color ( i,
-							    0 );
-		gsb_account_set_finished_selection_transaction ( i,
-								 0 );
-
-		/* 	    il faut afficher le compte courant tout de suite sinon il ne sera pas freezé */
-		/* 		lors du remplissage... */
-
-		if ( i == compte_courant )
-		{
-		    verification_list_store_termine ( i );
-		    update_ecran ();
-		    ajuste_scrolling_liste_operations_a_selection ( i );
-		}
-	    }
-	}
-    }
-    else
-    {
-
-	for ( i=0 ; i<nb_comptes ; i++ )
-	{
-	    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
-
-	    /* 	    on ne touche à la liste que s'il le faut en fonction de retient_affichage_par_compte */
-	    /* 		et du compte en cours */
-
-	    if ( !( etat.retient_affichage_par_compte
-		    &&
-		    i != compte_courant ))
-	    {
-		/* 	on fait le tour du list_store, et toute opé relevée est supprimée */
-
-		gint iter_valide;
-
-		/* 		si le store du compte n'est pas fini, il faut le finir avant de faire joujou */
-
-		if ( gsb_account_get_last_transaction (i) != GINT_TO_POINTER (-1))
-		    ajoute_operations_compte_dans_list_store ( i,
-							       0 );
-
-		iter_valide = gtk_tree_model_get_iter_first ( GTK_TREE_MODEL ( gsb_account_get_store (i) ),
-							      iter );
-
-		while ( iter_valide )
-		{
-		    gint j;
-
-		    operation = operation_from_iter ( iter,
-						      i );
-
-		    if ( operation != GINT_TO_POINTER (-1)
-			 &&
-			 operation -> pointe == 3 )
-			for ( j=0 ; j<gsb_account_get_nb_rows ( i ) ; j++ )
-			    gtk_list_store_remove ( GTK_LIST_STORE ( gsb_account_get_store (i) ),
-						    iter );
-		    else
-			for ( j=0 ; j<gsb_account_get_nb_rows ( i ) ; j++ )
-			    iter_valide = gtk_tree_model_iter_next ( GTK_TREE_MODEL ( gsb_account_get_store (i) ),
-								     iter );
-		}
-		gsb_account_set_finished_background_color ( i,
-							    0 );
-		gsb_account_set_finished_selection_transaction ( i,
-								 0 );
-
-		/* 	    il faut afficher le compte courant tout de suite sinon il ne sera pas freezé */
-		/* 		lors du remplissage... */
-
-		if ( i == compte_courant )
-		{
-		    verification_list_store_termine ( i );
-		    update_ecran ();
-		    ajuste_scrolling_liste_operations_a_selection ( i );
-		}
-	    }
-	}
+	list_tmp = list_tmp -> next;
     }
 
-    /*     ici, les listes ont été remplies, on met en marche l'idle s'il ne l'est pas */
-    /* 	pour mettre à jour les background et soldes en tache de fond */
+    /*     and we apply the changes now */
 
     demarrage_idle ();
+
+    return;
 }
 /******************************************************************************/
 
@@ -4415,21 +4140,12 @@ void mise_a_jour_affichage_r ( gint affichage_r )
 /******************************************************************************/
 void mise_a_jour_affichage_lignes ( gint nb_lignes )
 {
-    gint i;
-    GSList *liste_lignes_affichees;
-    GSList *liste_lignes_a_afficher;
-    GSList *liste_lignes_en_trop;
-    GSList *liste_tmp;
-    GtkTreeIter *iter;
-    GSList *liste_lignes_a_afficher_pour_classement;
-    GSList *ordre_lignes_nouvelle_liste_pour_classement;
+    GSList *list_tmp;
 
+    /*     we check all the accounts */
+    /* 	if etat.retient_affichage_par_compte is set, only compte_courant will change */
+    /* 	else, all the accounts change */
 
-    /*     si nb_lignes = le nb de lignes par opé du compte courant on ne change rien */
-    /* 	on vérifie sur le compte courant car soit c'est sur ce compte */
-    /* 	qu'on travaille, soit tous les autres comptes ont la mÃªme valeur */
-
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
 
     if ( nb_lignes == gsb_account_get_nb_rows ( compte_courant ) )
 	return;
@@ -4437,388 +4153,199 @@ void mise_a_jour_affichage_lignes ( gint nb_lignes )
     if ( DEBUG )
 	printf ( "mise_a_jour_affichage_lignes %d lignes\n", nb_lignes );
 
+    list_tmp = list_struct_accounts;
 
-    /*     on va créer de suite 2 liste par défaut : la liste des lignes affichées et la liste */
-    /* 	des lignes à afficher */
-
-    switch ( gsb_account_get_nb_rows ( compte_courant ) )
+    while ( list_tmp )
     {
-	case 1:
-	    liste_lignes_affichees = g_slist_append ( NULL,
-						      GINT_TO_POINTER ( ligne_affichage_une_ligne ));
-	    break;
+	gint i;
 
-	case 2:
-	    liste_lignes_affichees = g_slist_copy ( lignes_affichage_deux_lignes );
-	    break;
+	i = gsb_account_get_no_account ( list_tmp -> data );
 
-	case 3:
-	    liste_lignes_affichees = g_slist_copy ( lignes_affichage_trois_lignes );
-	    break;
-
-	case 4:
-	    liste_lignes_affichees = g_slist_append ( NULL,
-						      NULL);
-	    liste_lignes_affichees = g_slist_append ( liste_lignes_affichees,
-						      GINT_TO_POINTER (1));
-	    liste_lignes_affichees = g_slist_append ( liste_lignes_affichees,
-						      GINT_TO_POINTER (2));
-	    liste_lignes_affichees = g_slist_append ( liste_lignes_affichees,
-						      GINT_TO_POINTER (3));
-	    break;
-
-	default:
-	    /* 	 normalement, pas de défaut possible */
-	    return; 
-    }
-
-
-    switch ( nb_lignes )
-    {
-	case 1:
-	    liste_lignes_a_afficher = g_slist_append ( NULL,
-							     GINT_TO_POINTER ( ligne_affichage_une_ligne ));
-	    break;
-
-	case 2:
-	    liste_lignes_a_afficher = g_slist_copy ( lignes_affichage_deux_lignes );
-	    break;
-
-	case 3:
-	    liste_lignes_a_afficher = g_slist_copy ( lignes_affichage_trois_lignes );
-	    break;
-
-	case 4:
-	    liste_lignes_a_afficher = g_slist_append ( NULL,
-							     NULL);
-	    liste_lignes_a_afficher = g_slist_append ( liste_lignes_a_afficher,
-							     GINT_TO_POINTER (1));
-	    liste_lignes_a_afficher = g_slist_append ( liste_lignes_a_afficher,
-							     GINT_TO_POINTER (2));
-	    liste_lignes_a_afficher = g_slist_append ( liste_lignes_a_afficher,
-							     GINT_TO_POINTER (3));
-	    break;
-
-	default:
-	    /* 	 normalement, pas de défaut possible */
-	    return; 
-    }
-
-    /*     on utilisera liste_lignes_a_afficher pour classer les lignes de chaque opés, mais */
-    /* 	cette liste sera modifiée, on en fait une copie */
-
-    liste_lignes_a_afficher_pour_classement = g_slist_copy ( liste_lignes_a_afficher );
-
-    /* ordre_lignes_nouvelle_liste_pour_classement contiendra les no de lignes après modification */
-    /*     dans l'ordre où elles apparaitront avant classement */
-
-    ordre_lignes_nouvelle_liste_pour_classement = NULL;
-
-
-    /*  on commence par faire le tour des lignes affichées */
-    /* 	si la ligne affichée fait partie des lignes à afficher, on retire la ligne à afficher de sa liste */
-    /* 	si elle n'en fait pas partie, on ajoute son no aux lignes en trop */
-
-    liste_tmp = liste_lignes_affichees;
-    liste_lignes_en_trop = NULL;
-
-    while ( liste_tmp )
-    {
-	gint position;
-
-	position = g_slist_index ( liste_lignes_a_afficher,
-				   liste_tmp -> data );
-
-	if ( position == -1 )
+	if ( !etat.retient_affichage_par_compte
+	     ||
+	     i == compte_courant )
 	{
-	    /*  la ligne affichée n'est plus à afficher ensuite ; on l'ajoute à */
-	    /* 	liste_lignes_en_trop */
-
-	    liste_lignes_en_trop = g_slist_append ( liste_lignes_en_trop,
-						    liste_tmp -> data );
-	}
-	else
-	{
-	    /* 	  la ligne affichée sera gardée dans le prochain classement, on retire donc ce no */
-	    /* 	de ligne de liste_lignes_a_afficher */
-
-	    liste_lignes_a_afficher = g_slist_remove ( liste_lignes_a_afficher,
-						       liste_tmp -> data );
-
-	    /* 	    on ajoute cette ligne dans l'ordre affiché après modifs */
-
-	    ordre_lignes_nouvelle_liste_pour_classement = g_slist_append ( ordre_lignes_nouvelle_liste_pour_classement,
-									   liste_tmp -> data );
-	}
-	liste_tmp = liste_tmp -> next;
-    }
-
-    /*     s'il reste des lignes à afficher dans la liste liste_lignes_a_afficher, elles seront ajoutées dans */
-    /* 	le même ordre avant classement, donc on fait de même pour ordre_lignes_nouvelle_liste_pour_classement */
-
-    liste_tmp = liste_lignes_a_afficher;
-
-    while ( liste_tmp )
-    {
-	ordre_lignes_nouvelle_liste_pour_classement = g_slist_append ( ordre_lignes_nouvelle_liste_pour_classement,
-								       liste_tmp -> data );
-	liste_tmp = liste_tmp -> next;
-    }
-
-
-
-    /* on a donc maintenant : */
-    /*    liste_lignes_en_trop contient les lignes à retirer du store actuel (pour chaque opération)*/
-    /*	  liste_lignes_a_afficher contient les lignes à rajouter au store actuel (pour chaque opération)*/
-
-    /*     on peut commencer à faire le tour des opés */
-
-    /*     iter pointe sur une place réservée en global */
-
-    iter = &iter_liste_operations;
-
-    /* 	on fait le tour des comptes, mais on ne fait des changements que s'il le faut, */
-    /* 	en fonction de retient_affichage_par_compte et cu compte_courant */
-
-    for ( i=0 ; i<nb_comptes ; i++ )
-    {
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
-
-	if ( !( etat.retient_affichage_par_compte
-		&&
-		i != compte_courant ))
-	{
-
-	    /* on va faire le tour du list_store et traiter chaque opé */
-	    /*     pour chaque opé : */
-	    /*     on met/retire les lignes à mettre/en trop */
-	    /*     en utilisant les iter déjà créés si possible */
-	    /*     on classe les lignes de l'opé pour mettre dans l'ordre voulu */
-
-	    gint iter_valide;
-	    gint nb_reste_lignes_blanches;
-	    gint j;
-	    gint ligne_en_cours;
-	    gint *pos;
-	    gint ligne_ope_en_cours;
-
-	    /* 		si le store du compte n'est pas fini, il faut le finir avant de faire joujou */
-
-	    if ( gsb_account_get_last_transaction (i) != GINT_TO_POINTER (-1))
-		ajoute_operations_compte_dans_list_store ( i,
-							   0 );
-
-	    nb_reste_lignes_blanches = nb_lignes;
-	    ligne_en_cours = 0;
-
-	    pos = malloc ( (GTK_LIST_STORE ( gsb_account_get_store (i) ) -> length) / gsb_account_get_nb_rows ( i ) * nb_lignes * sizeof (gint));
-
-	    iter_valide = gtk_tree_model_get_iter_first ( GTK_TREE_MODEL ( gsb_account_get_store (i) ),
-							  iter );
-
-	    while ( iter_valide )
-	    {
-		struct structure_operation *operation;
-
-		operation = operation_from_iter ( iter,
-						  i );
-
-		if ( operation != GINT_TO_POINTER (-1))
-		{
-		    GSList *liste_lignes_a_afficher_tmp;
-
-		    liste_lignes_a_afficher_tmp = g_slist_copy ( liste_lignes_a_afficher );
-
-		    /* 	on a donc : */
-		    /* 	liste_lignes_en_trop contient les lignes à retirer du store actuel (pour chaque opé) */
-		    /* 	liste_lignes_a_afficher_tmp contient les lignes à rajouter au store actuel (pour chaque opé) */
-
-		    /* pour chaque ligne en trop (à virer), on va récupérer son iter et l'écraser par une ligne */
-		    /* restant à afficher */
-
-		    /*   on va faire le tour de chaque iter de l'opé affichée en cours et */
-		    /* vérifier si la ligne qu'il contient est à virer/écraser ou */
-		    /* à garder */
-
-		    for ( j=0 ; j<gsb_account_get_nb_rows ( i ) ; j++ )
-		    {
-			gint no_ligne_affichee;
-
-			gtk_tree_model_get ( GTK_TREE_MODEL ( gsb_account_get_store (i) ),
-					     iter,
-					     12, &no_ligne_affichee,
-					     -1 );
-
-			if ( g_slist_index ( liste_lignes_en_trop,
-					     GINT_TO_POINTER ( no_ligne_affichee )) != -1 )
-			{
-			    /* 	ce no de ligne a étÃ© retrouvé dans liste_lignes_en_trop, c'est qu'il faut le remplacer */
-			    /* 	ou le virer */
-
-			    if ( liste_lignes_a_afficher_tmp )
-			    {
-				/* il reste des lignes à afficher, on affiche en utilisant l'iter de la ligne en cours */
-
-				affiche_ligne_ope ( operation,
-						    iter,
-						    GPOINTER_TO_INT ( liste_lignes_a_afficher_tmp -> data ));
-				liste_lignes_a_afficher_tmp = g_slist_delete_link ( liste_lignes_a_afficher_tmp,
-										    liste_lignes_a_afficher_tmp );
-				iter_valide = gtk_tree_model_iter_next ( GTK_TREE_MODEL ( gsb_account_get_store (i) ),
-									 iter );
-			    }
-			    else
-			    {
-				/*il n'y a plus de lignes à afficher, on supprime la ligne correspondant à l'iter */
-				/* cette fonction incrÃ©mente en même temps iter */
-
-				iter_valide = gtk_list_store_remove ( GTK_LIST_STORE ( gsb_account_get_store (i) ),
-								      iter );
-			    }
-			}
-			else
-			    iter_valide = gtk_tree_model_iter_next ( GTK_TREE_MODEL ( gsb_account_get_store (i) ),
-								     iter );
-		    }
-
-		    /* à ce niveau on a fait le tour des lignes de l'ancienne opé affichée */
-		    /*     dans tous les cas, iter pointe sur l'opé suivante */
-		    /*     s'il reste des lignes à afficher, on les insère ici devant l'iter en cours */
-
-		    liste_tmp = liste_lignes_a_afficher_tmp;
-
-		    while ( liste_tmp )
-		    {
-			GtkTreeIter new_iter;
-
-			gtk_list_store_insert_before ( GTK_LIST_STORE ( gsb_account_get_store (i) ),
-						       &new_iter,
-						       iter );
-			affiche_ligne_ope ( operation,
-					    &new_iter,
-					    GPOINTER_TO_INT ( liste_tmp -> data ));
-			liste_tmp = liste_tmp -> next;
-		    }
-
-		    /*    maintenant, les lignes correctes sont affichées sur les lignes de l'opé */
-		    /*en cours, il ne reste plus qu'à les classer */
-
-		    /* on va utiliser le gtk_list_store_reorder ensuite */
-
-		    ligne_ope_en_cours = ligne_en_cours;
-
-		    for ( j=0 ; j<nb_lignes ; j++ )
-		    {
-			pos[ligne_en_cours] = ligne_ope_en_cours + g_slist_index ( ordre_lignes_nouvelle_liste_pour_classement,
-										   g_slist_nth_data ( liste_lignes_a_afficher_pour_classement,
-												      j ));
-			ligne_en_cours++;
-		    }
-		}
-		else
-		{
-		    /*  on est sur la ligne blanche */
-		    /* 		    soit on la laisse, soit on la vire */
-
-		    if ( nb_reste_lignes_blanches )
-		    {
-			iter_valide = gtk_tree_model_iter_next ( GTK_TREE_MODEL ( gsb_account_get_store (i) ),
-								 iter );
-			nb_reste_lignes_blanches--;
-			pos[ligne_en_cours] = ligne_en_cours;
-			ligne_en_cours++;
-		    }
-		    else
-			iter_valide = gtk_list_store_remove ( GTK_LIST_STORE ( gsb_account_get_store (i) ),
-							      iter );
-		}
-	    }
-	    
-	    /* 	    on est arrivé au bout de la list_store  */
-	    /* 		s'il reste des lignes blanches à ajouter, on le fait ici */
-
-	    for ( j=0 ; j<nb_reste_lignes_blanches ; j++)
-	    {
-		gint k;
-
-		/* on met à NULL tout les pointeurs */
-
-		gtk_list_store_append ( gsb_account_get_store (i),
-					iter );
-
-		for ( k=0 ; k<TRANSACTION_LIST_COL_NB ; k++ )
-		    gtk_list_store_set ( gsb_account_get_store (i),
-					 iter,
-					 k, NULL,
-					 -1 );
-
-		/* on met le no d'opération de cette ligne à -1 */
-
-		gtk_list_store_set ( gsb_account_get_store (i),
-				     iter,
-				     9, GINT_TO_POINTER (-1),
-				     -1 );
-
-		pos[ligne_en_cours] = ligne_en_cours;
-		ligne_en_cours++;
-	    }
-
-	    /* 	    il reste à classer les lignes dans leurs opés */
-
-	    /* FIXME : bug dans cette fonction avant GTK 2.4 */
-
-	    gtk_list_store_reorder ( gsb_account_get_store (i),
-				     pos );
-
-	    free (pos);
-
-	    /* 	    on a fini ce compte, on peut y mettre le nb de lignes par opé */
-	    /* 		et remettre les couleurs du fond */
-	    /* 	    pour les soldes, si on a voulu afficher la cellule de solde,  */
-	    /* 	    gsb_account_get_finished_balance_showed () s'est déjà mis à 0 tout seul */
-
 	    gsb_account_set_nb_rows ( i, 
 				      nb_lignes );
-	    gsb_account_set_finished_background_color ( i,
-							0 );
-
-	    if ( i == compte_courant )
-	    {
-		verification_list_store_termine ( i );
-	    }
+	    gsb_account_set_finished_visible_rows ( i,
+						    0 );
 	}
+	list_tmp = list_tmp -> next;
     }
 
-    update_ecran ();
-    ajuste_scrolling_liste_operations_a_selection ( compte_courant );
-
-    /*     ici, les listes ont été remplies, on met en marche l'idle s'il ne l'est pas */
-    /* 	pour mettre à jour les background et soldes en tache de fond */
+    /*     and we apply the changes now */
 
     demarrage_idle ();
-
 }
 /******************************************************************************/
 
 
 
-/******************************************************************************/
-/* cette fonction classe la sliste des opés du compte donné en argument */
-/* en fonction du classement courant de ce compte */
-/******************************************************************************/
-void classe_liste_operations ( gint no_compte )
+/** check all the lines of the account and set if they are shown or not
+ * \param no_account the account we want to set
+ * \return FALSE
+ * */
+gboolean set_visibles_rows_on_account ( gint no_account )
 {
+    GtkListStore *model;
+    GtkTreeIter iter;
+
     if ( DEBUG )
-	printf ( "classe_liste_operations compte n %d\n", no_compte );
+	printf ( "set_visibles_rows_on_account %d\n", no_account );
 
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_compte;
+    model = gsb_account_get_store (no_account);
 
-    gsb_account_set_transactions_list ( no_compte,
-					g_slist_sort ( gsb_account_get_transactions_list (no_compte),
-						       (GCompareFunc) gsb_account_get_current_sort (no_compte) ));
+    if ( gtk_tree_model_get_iter_first ( GTK_TREE_MODEL ( model ),
+					 &iter ))
+    {
+	gint r_shown;
+	gint nb_rows;
+
+	r_shown = gsb_account_get_r ( no_account );
+	nb_rows = gsb_account_get_nb_rows ( no_account );
+
+	do
+	{
+	    struct structure_operation *transaction;
+	    gint current_line;
+	    gint show;
+
+	    /* 	    the current_line will contain 0, 1, 2 or 3 ; the line on the transaction */
+	    /* 		we are on */
+
+	    gtk_tree_model_get ( GTK_TREE_MODEL ( model ),
+				 &iter,
+				 9, &transaction,
+				 12, &current_line,
+				 -1 );
+
+	    /* 	    do with the white line */
+
+	    if ( transaction == GINT_TO_POINTER (-1))
+	    {
+		if ( current_line < nb_rows )
+		    show = TRUE;
+		else
+		    show = FALSE;
+
+		gtk_list_store_set ( GTK_LIST_STORE ( model ),
+				     &iter,
+				     13, show,
+				     -1 );
+		continue;
+	    }
+
+	    /* 	    check first if it's R and if r is shown */
+
+	    if ( transaction -> pointe == 3
+		 &&
+		 !r_shown )
+	    {
+		gtk_list_store_set ( GTK_LIST_STORE ( model ),
+				     &iter,
+				     13, FALSE,
+				     -1 );
+		continue;
+	    }
+
+	    /* 	    now we check if we show 1, 2, 3 or 4 lines */
+
+	    /* FIXME: lors de l'affichage de plusieurs lignes, les lignes du dessous doivent forcemment être
+	     * plus bas que celles du desssus, par ex
+	     * sur 3 lignes, ligne 1 -> 1, ligne 2-> 2, ligne 3-> 4   => ok
+	     * mais ligne 1 -> 2 et ligne 2 -> 1  => pas bon ;
+	     * if faut l'interdire dans les paramètres */
+
+	    show = FALSE;
+
+	    switch ( nb_rows )
+	    {
+		case 1:
+		    if ( current_line == ligne_affichage_une_ligne )
+			show = TRUE;
+		    break;
+
+		case 2:
+		    if ( current_line == GPOINTER_TO_INT ( lignes_affichage_deux_lignes -> next -> data )
+			 ||
+			 current_line == GPOINTER_TO_INT ( lignes_affichage_deux_lignes -> data ))
+			show = TRUE;
+		    break;
+
+		case 3:
+		    if ( current_line == GPOINTER_TO_INT ( lignes_affichage_trois_lignes -> data )
+			 ||
+			 current_line == GPOINTER_TO_INT ( lignes_affichage_trois_lignes -> next -> data )
+			 ||
+			 current_line == GPOINTER_TO_INT ( lignes_affichage_trois_lignes -> next -> next -> data ))
+			show = TRUE;
+		    break;
+
+		default:
+		    show = TRUE;
+
+	    }
+	    gtk_list_store_set ( GTK_LIST_STORE ( model ),
+				 &iter,
+				 13, show,
+				 -1 );
+	}
+	while ( gtk_tree_model_iter_next ( GTK_TREE_MODEL ( model ),
+					   &iter ));
+    }
+
+    gsb_account_set_finished_visible_rows ( no_account,
+					    1 );
+    gsb_account_set_finished_selection_transaction ( no_account,
+						     0 );
+    gsb_account_set_finished_background_color ( no_account,
+						0 );
+    return FALSE;
 }
-/******************************************************************************/
 
+
+/* get the real name of the category of the transaction
+ * so return breakdown of transaction, transfer : ..., categ : under_categ
+ * \param transaction the adr of the transaction
+ * \return the real name
+ * */
+gchar *gsb_transactions_get_category_real_name ( struct structure_operation *transaction )
+{
+    gchar *temp;
+
+    if ( transaction -> operation_ventilee )
+	temp = _("Breakdown of transaction");
+    else
+    {
+	if ( transaction -> relation_no_operation )
+	{
+	    /** it's a transfer */
+
+	    if ( transaction -> relation_no_compte == -1 )
+	    {
+		if ( transaction -> montant < 0 )
+		    temp = _("Transfer to a deleted account");
+		else
+		    temp = _("Transfer from a deleted account");
+	    }
+	    else
+	    {
+		if ( transaction -> montant < 0 )
+		    temp = g_strdup_printf ( _("Transfer to %s"),
+					     gsb_account_get_name ( transaction -> relation_no_compte) );
+		else
+		    temp = g_strdup_printf ( _("Transfer from %s"),
+					     gsb_account_get_name ( transaction -> relation_no_compte) );
+	    }
+	}
+	else
+	    /* it's a normal category */
+	    temp = nom_categ_par_no ( transaction -> categorie,
+				      transaction -> sous_categorie );
+    }
+
+    return temp;
+}
 
 /* Local Variables: */
 /* c-basic-offset: 4 */

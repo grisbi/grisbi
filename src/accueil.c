@@ -101,12 +101,10 @@ extern GtkWidget *formulaire_echeancier;
 extern GtkWidget *formulaire_echeancier;
 extern GtkWidget *frame_formulaire_echeancier;
 extern GtkWidget *hbox_valider_annuler_echeance;
+extern GSList *list_struct_accounts;
 extern GSList *liste_struct_devises;
-extern gint nb_comptes;
 extern GtkWidget *notebook_formulaire_echeances;
 extern GSList *ordre_comptes;
-extern gpointer **p_tab_nom_de_compte;
-extern gpointer **p_tab_nom_de_compte_variable;
 extern gint patience_en_cours;
 extern GtkWidget *separateur_formulaire_echeancier;
 extern gchar *titre_fichier;
@@ -490,11 +488,12 @@ void update_liste_comptes_accueil ( void )
     gint i;
     gint nb_comptes_bancaires=0, nb_comptes_passif=0, nb_comptes_actif=0;
     gdouble solde_pointe_affichage_liste;
+    GSList *list_tmp;
 
 
     if ( !mise_a_jour_liste_comptes_accueil
 	 ||
-	 !nb_comptes )
+	 !gsb_account_get_accounts_amount () )
 	return;
 
     if ( DEBUG )
@@ -557,10 +556,14 @@ void update_liste_comptes_accueil ( void )
     /* Préparation de la séparation de l'affichage des comptes en fonction
        de leur type */
 
-    p_tab_nom_de_compte_variable=p_tab_nom_de_compte;
+    list_tmp = list_struct_accounts;
 
-    for ( i = 0 ; i < nb_comptes ; i++ )
+    while ( list_tmp )
     {
+	gint i;
+
+	i = gsb_account_get_no_account ( list_tmp -> data );
+
 	if ( !gsb_account_get_closed_account (i) )
 	{
 	    if ( gsb_account_get_kind (i) == GSB_TYPE_ASSET )
@@ -579,7 +582,8 @@ void update_liste_comptes_accueil ( void )
 		}
 	    }
 	}
-	p_tab_nom_de_compte_variable++;	  
+
+	list_tmp = list_tmp -> next;
     }
 
     /* Affichage des comptes bancaires et de caisse */
@@ -588,16 +592,21 @@ void update_liste_comptes_accueil ( void )
     {
 	int devise_is_used = 0;
 
-	p_tab_nom_de_compte_variable=p_tab_nom_de_compte;
+	list_tmp = list_struct_accounts;
 
-	for ( i = 0 ; i < nb_comptes ; i++ )
+	while ( list_tmp )
 	{
+	    gint i;
+
+	    i = gsb_account_get_no_account ( list_tmp -> data );
+
 	    if ( gsb_account_get_currency (i) == ((struct struct_devise *) devise -> data) -> no_devise
 		 && ! gsb_account_get_closed_account (i)
 		 && ( gsb_account_get_kind (i) == GSB_TYPE_BANK
 		      || gsb_account_get_kind (i) == GSB_TYPE_CASH ))
 		devise_is_used = 1;
-	    p_tab_nom_de_compte_variable++;	  
+
+	    list_tmp = list_tmp -> next;
 	}
 
 	if ( !devise_is_used )
@@ -635,8 +644,6 @@ void update_liste_comptes_accueil ( void )
 	    gint no_compte;
 
 	    no_compte = GPOINTER_TO_INT ( ordre_comptes_variable -> data );
-
-	    p_tab_nom_de_compte_variable=p_tab_nom_de_compte + no_compte;
 
 	    if ( !gsb_account_get_closed_account (no_compte) &&
 		 gsb_account_get_currency (no_compte) == ((struct struct_devise *) devise -> data) -> no_devise
@@ -877,16 +884,22 @@ void update_liste_comptes_accueil ( void )
     for ( devise = liste_struct_devises; devise ; devise = devise->next )
     {
 	int devise_is_used = 0;
+	GSList *list_tmp;
 
-	p_tab_nom_de_compte_variable=p_tab_nom_de_compte;
+	list_tmp = list_struct_accounts;
 
-	for ( i = 0 ; i < nb_comptes ; i++ )
+	while ( list_tmp )
 	{
+	    gint i;
+
+	    i = gsb_account_get_no_account ( list_tmp -> data );
+
 	    if ( gsb_account_get_currency (i) == ((struct struct_devise *) devise -> data) -> no_devise
 		 && ! gsb_account_get_closed_account (i)
 		 && gsb_account_get_kind (i) == GSB_TYPE_LIABILITIES )
 		devise_is_used = 1;
-	    p_tab_nom_de_compte_variable++;	  
+
+	    list_tmp = list_tmp -> next;
 	}
 
 	if ( !devise_is_used )
@@ -924,8 +937,6 @@ void update_liste_comptes_accueil ( void )
 	    gint no_compte;
 
 	    no_compte = GPOINTER_TO_INT ( ordre_comptes_variable -> data );
-
-	    p_tab_nom_de_compte_variable=p_tab_nom_de_compte + no_compte;
 
 	    if ( !gsb_account_get_closed_account (no_compte) &&
 		 gsb_account_get_currency (no_compte) == ((struct struct_devise *) devise -> data) -> no_devise &&
@@ -1203,17 +1214,24 @@ void update_liste_comptes_accueil ( void )
     for ( devise = liste_struct_devises; devise ; devise = devise->next )
     {
 	int devise_is_used = 0;
+	GSList *list_tmp;
 
-	p_tab_nom_de_compte_variable=p_tab_nom_de_compte;
+	list_tmp = list_struct_accounts;
 
-	for ( i = 0 ; i < nb_comptes ; i++ )
+	while ( list_tmp )
 	{
+	    gint i;
+
+	    i = gsb_account_get_no_account ( list_tmp -> data );
+
 	    if ( gsb_account_get_currency (i) == ((struct struct_devise *) devise -> data) -> no_devise &&
 		 !gsb_account_get_closed_account (i) &&
 		 gsb_account_get_kind (i) == GSB_TYPE_ASSET )
 		devise_is_used = 1;
-	    p_tab_nom_de_compte_variable++;	  
+
+	    list_tmp = list_tmp -> next;
 	}
+
 
 	if ( !devise_is_used )
 	    continue;
@@ -1250,8 +1268,6 @@ void update_liste_comptes_accueil ( void )
 	    gint no_compte;
 
 	    no_compte = GPOINTER_TO_INT ( ordre_comptes_variable -> data );
-
-	    p_tab_nom_de_compte_variable=p_tab_nom_de_compte + no_compte;
 
 	    if ( !gsb_account_get_closed_account (no_compte) &&
 		 gsb_account_get_currency (no_compte) == ((struct struct_devise *) devise -> data) -> no_devise &&
@@ -1659,8 +1675,6 @@ void update_liste_echeances_manuelles_accueil ( void )
 
 	    /* label à droite */
 
-	    p_tab_nom_de_compte_variable=p_tab_nom_de_compte + ECHEANCE_COURANTE->compte;
-
 	    if ( ECHEANCE_COURANTE -> montant >= 0 )
 		label = gtk_label_new ( g_strdup_printf (_("%4.2f %s credit on %s"),
 							 ECHEANCE_COURANTE->montant,
@@ -1771,8 +1785,6 @@ void update_liste_echeances_auto_accueil ( void )
 
 	    /* label à droite */
 
-	    p_tab_nom_de_compte_variable=p_tab_nom_de_compte + operation->no_compte;
-
 	    if ( operation -> montant >= 0 )
 		label = gtk_label_new ( g_strdup_printf (_("%4.2f %s credit on %s"),
 							 operation->montant,
@@ -1809,10 +1821,10 @@ void update_soldes_minimaux ( void )
     GtkWidget *vbox_1;
     GtkWidget *vbox_2;
     GtkWidget *label;
-    gint i;
     GSList *liste_autorise;
     GSList *liste_voulu;
     GSList *liste_autorise_et_voulu;
+    GSList *list_tmp;
 
 
     if ( !mise_a_jour_soldes_minimaux  )
@@ -1838,15 +1850,17 @@ void update_soldes_minimaux ( void )
     vbox_1 = NULL;
     vbox_2 = NULL;
 
+    list_tmp = list_struct_accounts;
 
-
-    for ( i = 0 ; i < nb_comptes ; i++ )
+    while ( list_tmp )
     {
+	gint i;
 	gint solde_courant;
 	gint solde_mini;
 	gint solde_mini_voulu;
 
-	p_tab_nom_de_compte_variable=p_tab_nom_de_compte + i;
+
+	i = gsb_account_get_no_account ( list_tmp -> data );
 
 	/* le plus simple est de faire les comparaisons de soldes sur des integer */
 
@@ -1890,7 +1904,10 @@ void update_soldes_minimaux ( void )
 
 	    show_paddingbox ( frame_etat_soldes_minimaux_voulus );
 	}
+
+	list_tmp = list_tmp -> next;
     }
+
     
     /*     on affiche une boite d'avertissement si nécessaire */
 
@@ -1908,13 +1925,12 @@ void update_soldes_minimaux ( void )
 
 void affiche_dialogue_soldes_minimaux ( void )
 {
-    gint i;
     GSList *liste_autorise;
     GSList *liste_voulu;
     GSList *liste_autorise_et_voulu;
     GSList *liste_tmp;
     gchar *texte_affiche;
-
+    GSList *list_tmp;
 
     if ( !mise_a_jour_soldes_minimaux  )
 	return;
@@ -1926,14 +1942,16 @@ void affiche_dialogue_soldes_minimaux ( void )
     liste_voulu = NULL;
     liste_autorise_et_voulu = NULL;
 
+    list_tmp = list_struct_accounts;
 
-    for ( i = 0 ; i < nb_comptes ; i++ )
+    while ( list_tmp )
     {
+	gint i;
 	gint solde_courant;
 	gint solde_mini;
 	gint solde_mini_voulu;
 
-	p_tab_nom_de_compte_variable=p_tab_nom_de_compte + i;
+	i = gsb_account_get_no_account ( list_tmp -> data );
 
 	/* le plus simple est de faire les comparaisons de soldes sur des integer */
 
@@ -1975,12 +1993,12 @@ void affiche_dialogue_soldes_minimaux ( void )
 	     !gsb_account_get_mini_balance_wanted_message (i)
 	     &&
 	     !patience_en_cours )
-	    {
-		liste_voulu = g_slist_append ( liste_voulu,
-					       gsb_account_get_name (i) );
-		gsb_account_set_mini_balance_wanted_message ( i,
-							      1 );
-	    }
+	{
+	    liste_voulu = g_slist_append ( liste_voulu,
+					   gsb_account_get_name (i) );
+	    gsb_account_set_mini_balance_wanted_message ( i,
+							  1 );
+	}
 
 	/* 	si on repasse au dessus des seuils, c'est comme si on n'avait rien affiché */
 
@@ -1989,7 +2007,9 @@ void affiche_dialogue_soldes_minimaux ( void )
 							      0 );
 	if ( solde_courant > solde_mini_voulu )
 	    gsb_account_set_mini_balance_wanted_message ( i,
-							  0 );
+					  0 );
+
+	list_tmp = list_tmp -> next;
     }
 
     /*     on crée le texte récapilutatif */
@@ -2087,11 +2107,11 @@ void affiche_dialogue_soldes_minimaux ( void )
 /* ************************************************************************* */
 void update_fin_comptes_passifs ( void )
 {
-    gint i;
     GtkWidget *vbox;
     GtkWidget *label;
     GSList *liste_tmp;
     GSList *pointeur;
+    GSList *list_tmp;
 
     if ( !mise_a_jour_fin_comptes_passifs  )
 	return;
@@ -2104,19 +2124,22 @@ void update_fin_comptes_passifs ( void )
     gtk_notebook_remove_page ( GTK_NOTEBOOK(frame_etat_fin_compte_passif), 0 );
     hide_paddingbox ( frame_etat_fin_compte_passif );
 
-    p_tab_nom_de_compte_variable=p_tab_nom_de_compte;
+    list_tmp = list_struct_accounts;
     liste_tmp = NULL;
 
-    for ( i = 0 ; i < nb_comptes ; i++ )
+    while ( list_tmp )
     {
+	gint i;
+
+	i = gsb_account_get_no_account ( list_tmp -> data );
+
 	if ( gsb_account_get_kind (i) == GSB_TYPE_LIABILITIES
 	     &&
 	     gsb_account_get_current_balance (i) >= 0 )
 	    liste_tmp = g_slist_append ( liste_tmp, gsb_account_get_name (i) );
 
-	p_tab_nom_de_compte_variable++;
+	list_tmp = list_tmp -> next;
     }
-
 
     if ( g_slist_length ( liste_tmp ) )
     {

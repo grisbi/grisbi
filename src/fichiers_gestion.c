@@ -48,14 +48,13 @@
 #include "main.h"
 #include "utils_files.h"
 #include "affichage_liste.h"
-#include "operations_liste.h"
 #include "fichier_configuration.h"
 #include "utils.h"
 #include "echeancier_liste.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static void ajoute_nouveau_fichier_liste_ouverture ( gchar *path_fichier );
+static void ajoute_new_file_liste_ouverture ( gchar *path_fichier );
 static gchar *demande_nom_enregistrement ( void );
 static gboolean enregistrement_backup ( void );
 static void fichier_selectionne ( GtkWidget *selection_fichier);
@@ -78,20 +77,18 @@ extern GSList *echeances_a_saisir;
 extern GSList *echeances_saisies;
 extern gint id_temps;
 extern GtkItemFactory *item_factory_menu_general;
+extern GSList *list_struct_accounts;
 extern GSList *liste_struct_echeances;
 extern GSList *liste_struct_etats;
 extern gint max;
 extern gint mise_a_jour_fin_comptes_passifs;
 extern gint mise_a_jour_liste_comptes_accueil;
 extern gint mise_a_jour_soldes_minimaux;
-extern gint nb_comptes;
 extern gint nb_derniers_fichiers_ouverts;
 extern gint nb_max_derniers_fichiers_ouverts;
 extern gchar *nom_fichier_comptes;
 extern GtkWidget *notebook_general;
 extern GSList *ordre_comptes;
-extern gpointer **p_tab_nom_de_compte;
-extern gpointer **p_tab_nom_de_compte_variable;
 extern gint rapport_largeur_colonnes[7];
 extern gchar **tab_noms_derniers_fichiers_ouverts;
 extern gchar *titre_fichier;
@@ -101,40 +98,39 @@ extern GtkWidget *window_vbox_principale;
 
 
 
-/* ************************************************************************************************************ */
-/* cette fonction est appelée par les menus */
-/* elle ferme l'ancien fichier, crée un compte vierge */
-/* et initialise l'affichage */
-/* ************************************************************************************************************ */
-void nouveau_fichier ( void )
+/** called by menu, close the last file and open a new one
+ * \param none
+ * \return FALSE
+ * */
+gboolean new_file ( void )
 {
     kind_account type_de_compte;
-    gint no_compte;
 
     /*   si la fermeture du fichier en cours se passe mal, on se barre */
 
     if ( !fermer_fichier () )
-	return;
+	return FALSE;
 
     init_variables ();
 
     type_de_compte = demande_type_nouveau_compte ();
+
     if ( type_de_compte == -1 )
-	return;
+	return FALSE;
 
     /*     création de la 1ère devise */
 
     ajout_devise ( NULL );
 
-    no_compte = initialisation_nouveau_compte ( type_de_compte );
+    compte_courant = gsb_account_new( type_de_compte );
 
     /* si la création s'est mal passée, on se barre */
 
-    if ( no_compte == -1 )
-	return;
+    if ( compte_courant == -1 )
+	return FALSE;
 
-    initialisation_variables_nouveau_fichier ();
-    initialisation_graphiques_nouveau_fichier ();
+    init_variables_new_file ();
+    init_gui_new_file ();
 
     /* on se met sur l'onglet de propriétés du compte */
 
@@ -142,14 +138,14 @@ void nouveau_fichier ( void )
 			    3 );
 
     modification_fichier ( TRUE );
+    return FALSE;
 }
 /* ************************************************************************************************************ */
 
 
-/* ************************************************************************************************************ */
-/* cette fonction initialise les variables pour faire un nouveau fichier */
-/* ************************************************************************************************************ */
-void initialisation_variables_nouveau_fichier ( void )
+/* init the variables when begin a new
+ * */
+void init_variables_new_file ( void )
 {
     /*   la taille des colonnes est automatique au départ, on y met les rapports de base */
 
@@ -174,10 +170,10 @@ void initialisation_variables_nouveau_fichier ( void )
 /* cette fonction est appelée lors de la création d'un nouveau fichier, elle s'occupe */
 /* de l'initialisation de la partie graphique */
 /* ************************************************************************************************************ */
-void initialisation_graphiques_nouveau_fichier ( void )
+void init_gui_new_file ( void )
 {
     /* dégrise les menus nécessaire */
-
+    
     menus_sensitifs ( TRUE );
 
     creation_liste_categ_combofix ();
@@ -189,12 +185,10 @@ void initialisation_graphiques_nouveau_fichier ( void )
     /* on crée le notebook principal */
 
     gtk_box_pack_start ( GTK_BOX ( window_vbox_principale),
-			 creation_fenetre_principale(),
+			 create_main_notebook(),
 			 TRUE,
 			 TRUE,
 			 0 );
-
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
 
     changement_compte ( GINT_TO_POINTER ( compte_courant ) );
 
@@ -303,7 +297,8 @@ void ouverture_confirmee ( void )
     gint i;
     GtkWidget * widget;
     gchar * item_name = NULL;
-    
+    GSList *list_tmp;
+
     if ( DEBUG )
 	printf ( "ouverture_confirmee\n" );
 
@@ -425,7 +420,7 @@ void ouverture_confirmee ( void )
     /* on save le nom du fichier dans les derniers ouverts */
 
     if (nom_fichier_comptes)
-	ajoute_nouveau_fichier_liste_ouverture ( nom_fichier_comptes );
+	ajoute_new_file_liste_ouverture ( nom_fichier_comptes );
 
     /*     récupère l'organisation des colonnes  */
 
@@ -438,9 +433,13 @@ void ouverture_confirmee ( void )
     
     update_attente ( _("Checking amounts"));
 
-    for ( i=0 ; i<nb_comptes ; i++ )
+    list_tmp = list_struct_accounts;
+
+    while ( list_tmp )
     {
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
+	gint i;
+
+	i = gsb_account_get_no_account ( list_tmp -> data );
 
 	gsb_account_set_current_balance ( i, 
 					  calcule_solde_compte ( i ));
@@ -454,10 +453,7 @@ void ouverture_confirmee ( void )
 	gsb_account_set_mini_balance_wanted_message ( i,
 						      gsb_account_get_current_balance (i) < gsb_account_get_mini_balance_wanted (i) );
 
-	/*     on initialise la fonction de classement  */
-
-	gsb_account_set_current_sort ( i,
-				       recupere_classement_par_no (gsb_account_get_sort_number (i)));
+	list_tmp = list_tmp -> next;
     }
 
     /*     on va afficher la page d'accueil */
@@ -483,7 +479,7 @@ void ouverture_confirmee ( void )
 
     update_attente ( _("Making main window"));
 
-    creation_fenetre_principale();
+    create_main_notebook();
     
     /*     on dégrise les menus */
 
@@ -554,7 +550,7 @@ gboolean enregistrement_fichier ( gint origine )
     etat_force = 0;
 
     if ( ( ! etat.modification_fichier && origine != -2 ) ||
-	 ! nb_comptes )
+	 ! gsb_account_get_accounts_amount () )
 	return ( TRUE );
 
     /* si le fichier de comptes n'a pas de nom ou si on enregistre sous un nouveau nom */
@@ -609,7 +605,7 @@ gboolean enregistrement_fichier ( gint origine )
 	etat.fichier_deja_ouvert = 0;
 	modification_fichier ( FALSE );
 	affiche_titre_fenetre ();
-	ajoute_nouveau_fichier_liste_ouverture ( nom_fichier_comptes );
+	ajoute_new_file_liste_ouverture ( nom_fichier_comptes );
     }
 
     /*     on enregistre la backup si nécessaire */
@@ -756,15 +752,15 @@ gchar *demande_nom_enregistrement ( void )
 /* ************************************************************************************************************ */
 gboolean fermer_fichier ( void )
 {
-    int i;
     gint result;
+    GSList *list_tmp;
 
 
     if ( DEBUG)
 	printf ( "fermer_fichier\n" );
 
 
-    if ( !nb_comptes )
+    if ( !gsb_account_get_accounts_amount () )
 	return ( TRUE );
 
 
@@ -797,7 +793,7 @@ gboolean fermer_fichier ( void )
 
 	    if ( !etat.fichier_deja_ouvert
 		 &&
-		 nb_comptes
+		 gsb_account_get_accounts_amount ()
 		 &&
 		 nom_fichier_comptes )
 		modification_etat_ouverture_fichier ( FALSE );
@@ -812,19 +808,21 @@ gboolean fermer_fichier ( void )
 
 	    /* libère les opérations de tous les comptes */
 
-	    p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
+	    list_tmp = list_struct_accounts;
 
-	    for ( i=0 ; i< nb_comptes ; i++ )
+	    while ( list_tmp )
 	    {
+		gint i;
+
+		i = gsb_account_get_no_account ( list_tmp -> data );
+
 		if ( gsb_account_get_transactions_list (i) )
 		    g_slist_free ( gsb_account_get_transactions_list (i) );
 
-		free ( *p_tab_nom_de_compte_variable );
-		p_tab_nom_de_compte_variable++;
-	    };
+		list_tmp = list_tmp -> next;
+	    }
 
-
-	    free ( p_tab_nom_de_compte );
+	    g_slist_free ( list_struct_accounts );
 
 	    /* libère les échéances */
 
@@ -924,14 +922,14 @@ gboolean enregistrement_backup ( void )
 
 
 /* ************************************************************************************************************ */
-void ajoute_nouveau_fichier_liste_ouverture ( gchar *path_fichier )
+void ajoute_new_file_liste_ouverture ( gchar *path_fichier )
 {
     gint i;
     gint position;
     gchar *dernier;
 
     if ( DEBUG )
-	printf ( "ajoute_nouveau_fichier_liste_ouverture : %s\n", path_fichier );
+	printf ( "ajoute_new_file_liste_ouverture : %s\n", path_fichier );
 
     if ( !nb_max_derniers_fichiers_ouverts ||
 	 ! path_fichier)

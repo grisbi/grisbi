@@ -38,14 +38,12 @@ static void reset_budgetary_line_counters ();
 
 
 /*START_EXTERN*/
+extern GSList *list_struct_accounts;
 extern GSList *liste_struct_imputation;
 extern gint mise_a_jour_combofix_imputation_necessaire;
-extern gint nb_comptes;
 extern gint nb_enregistrements_imputations;
 extern gint no_derniere_imputation;
 extern gint no_devise_totaux_ib;
-extern gpointer **p_tab_nom_de_compte;
-extern gpointer **p_tab_nom_de_compte_variable;
 extern struct struct_imputation * without_budgetary_line;
 /*END_EXTERN*/
 
@@ -285,7 +283,7 @@ gchar *nom_sous_imputation_par_no ( gint no_imputation,
  */
 void calcule_total_montant_budgetary_line ( void )
 {
-    gint i;
+    GSList *list_tmp;
 
     reset_budgetary_line_counters();
 
@@ -295,11 +293,14 @@ void calcule_total_montant_budgetary_line ( void )
     without_budgetary_line -> type_imputation = 0;
     without_budgetary_line -> no_derniere_sous_imputation = 0;
 
-    for ( i=0 ; i<nb_comptes ; i++ )
+    list_tmp = list_struct_accounts;
+
+    while ( list_tmp )
     {
+	gint i;
 	GSList *liste_tmp;
 
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
+	i = gsb_account_get_no_account ( list_tmp -> data );
 
 	liste_tmp = gsb_account_get_transactions_list (i);
 	while ( liste_tmp )
@@ -333,6 +334,8 @@ void calcule_total_montant_budgetary_line ( void )
 
 	    liste_tmp = liste_tmp -> next;
 	}
+
+	list_tmp = list_tmp -> next;
     }
 }
 

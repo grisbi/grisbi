@@ -1,38 +1,36 @@
 /*START_DECLARATION*/
-gint classe_liste_alphabetique ( gchar *string_1,
-				 gchar *string_2 );
 gint classement_liste_par_no_ope_ventil ( GtkWidget *liste,
 					  GtkCListRow *ligne_1,
 					  GtkCListRow *ligne_2 );
-gint classement_sliste_par_categories ( struct structure_operation *operation_1,
-					struct structure_operation *operation_2 );
-gint classement_sliste_par_credit ( struct structure_operation *operation_1,
-				    struct structure_operation *operation_2 );
-gint classement_sliste_par_date ( struct structure_operation *operation_1,
-				  struct structure_operation *operation_2 );
-gint classement_sliste_par_debit ( struct structure_operation *operation_1,
-				   struct structure_operation *operation_2 );
-gint classement_sliste_par_exercice ( struct structure_operation *operation_1,
-				      struct structure_operation *operation_2 );
-gint classement_sliste_par_ibg ( struct structure_operation *operation_1,
-				 struct structure_operation *operation_2 );
-gint classement_sliste_par_imputation ( struct structure_operation *operation_1,
-					struct structure_operation *operation_2 );
-gint classement_sliste_par_montant ( struct structure_operation *operation_1,
-				     struct structure_operation *operation_2 );
-gint classement_sliste_par_no ( struct structure_operation *operation_1,
-				struct structure_operation *operation_2 );
-gint classement_sliste_par_no_rapprochement ( struct structure_operation *operation_1,
-					      struct structure_operation *operation_2 );
-gint classement_sliste_par_notes ( struct structure_operation *operation_1,
-				   struct structure_operation *operation_2 );
-gint classement_sliste_par_pc ( struct structure_operation *operation_1,
-				struct structure_operation *operation_2 );
-gint classement_sliste_par_pointage ( struct structure_operation *operation_1,
-				     struct structure_operation *operation_2 );
-gint classement_sliste_par_tiers ( struct structure_operation *operation_1,
-				     struct structure_operation *operation_2 );
-gint classement_sliste_par_type_ope ( struct structure_operation *operation_1,
-				      struct structure_operation *operation_2 );
+gint gsb_strcasecmp ( gchar *string_1,
+		      gchar *string_2 );
+gint gsb_transactions_list_sort_column_0 ( GtkTreeModel *model,
+					   GtkTreeIter *iter_1,
+					   GtkTreeIter *iter_2,
+					   gint *no_account );
+gint gsb_transactions_list_sort_column_1 ( GtkTreeModel *model,
+					   GtkTreeIter *iter_1,
+					   GtkTreeIter *iter_2,
+					   gint *no_account );
+gint gsb_transactions_list_sort_column_2 ( GtkTreeModel *model,
+					   GtkTreeIter *iter_1,
+					   GtkTreeIter *iter_2,
+					   gint *no_account );
+gint gsb_transactions_list_sort_column_3 ( GtkTreeModel *model,
+					   GtkTreeIter *iter_1,
+					   GtkTreeIter *iter_2,
+					   gint *no_account );
+gint gsb_transactions_list_sort_column_4 ( GtkTreeModel *model,
+					   GtkTreeIter *iter_1,
+					   GtkTreeIter *iter_2,
+					   gint *no_account );
+gint gsb_transactions_list_sort_column_5 ( GtkTreeModel *model,
+					   GtkTreeIter *iter_1,
+					   GtkTreeIter *iter_2,
+					   gint *no_account );
+gint gsb_transactions_list_sort_column_6 ( GtkTreeModel *model,
+					   GtkTreeIter *iter_1,
+					   GtkTreeIter *iter_2,
+					   gint *no_account );
 /*END_DECLARATION*/
 

@@ -31,6 +31,8 @@
 
 
 #include "include.h"
+#include "operations_formulaire_constants.h"
+
 
 
 /*START_INCLUDE*/
@@ -41,7 +43,11 @@
 /*END_STATIC*/
 
 /*START_EXTERN*/
+extern gint nb_colonnes;
 /*END_EXTERN*/
+
+
+
 
 
 /** create a new form organization
@@ -50,9 +56,29 @@
  * */
 struct organisation_formulaire *gsb_form_new_organization ( void )
 {
-    printf ( "to do : create new form organization\n" );
-    /*     FIXME */
-    return NULL;
+    struct organisation_formulaire *new_form;
+    gint tab[4][6] = { 
+	{ TRANSACTION_FORM_DATE, TRANSACTION_FORM_PARTY, TRANSACTION_FORM_CREDIT, TRANSACTION_FORM_DEBIT, 0, 0 },
+	{ 0, TRANSACTION_FORM_CATEGORY, TRANSACTION_FORM_TYPE, TRANSACTION_FORM_CHEQUE, 0, 0 },
+	{ TRANSACTION_FORM_BREAKDOWN, TRANSACTION_FORM_NOTES, TRANSACTION_FORM_CONTRA, 0, 0, 0 },
+	{ 0, 0, 0, 0, 0, 0 }
+    };
+    gint i, j;
+    gint taille[6] = { 15, 50, 15, 15, 0, 0 };
+
+    new_form = malloc ( sizeof ( struct organisation_formulaire ));
+    
+    new_form -> nb_colonnes = 4;
+    new_form -> nb_lignes = 3;
+
+    for ( i = 0 ; i<4 ; i++ )
+	for ( j = 0 ; j<6 ; j++ )
+	    new_form -> tab_remplissage_formulaire[i][j] = tab[i][j];
+
+    for ( i = 0 ; i<6 ; i++ )
+	new_form -> taille_colonne_pourcent[i] = taille[i];
+
+    return new_form;
 }
 
 
@@ -62,9 +88,18 @@ struct organisation_formulaire *gsb_form_new_organization ( void )
  * */
 struct organisation_formulaire *gsb_form_dup_organization ( struct organisation_formulaire *form_organisation )
 {
-    printf ( "to do : create new form organization\n" );
-    /*     FIXME */
-    return NULL;
+    struct organisation_formulaire *new_form;
+
+    if ( !form_organisation )
+	return NULL;
+
+    new_form = malloc ( sizeof ( struct organisation_formulaire ));
+    
+    memcpy ( new_form,
+	     form_organisation,
+	     sizeof ( struct organisation_formulaire ));
+ 
+    return new_form;
 }
 
 

@@ -100,8 +100,6 @@ extern gchar *nom_ib_en_cours;
 extern gchar *nom_ss_categ_en_cours;
 extern gchar *nom_ss_ib_en_cours;
 extern gchar *nom_tiers_en_cours;
-extern gpointer **p_tab_nom_de_compte;
-extern gpointer **p_tab_nom_de_compte_variable;
 extern gint titres_affiches;
 /*END_EXTERN*/
 
@@ -1232,8 +1230,6 @@ gint etat_affiche_affichage_ligne_ope ( struct structure_operation *operation,
 		{
 		    /* c'est un virement */
 
-		    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> relation_no_compte;
-
 		    if ( operation -> montant < 0 )
 			pointeur = g_strdup_printf ( _("Transfer to %s"), gsb_account_get_name (operation -> relation_no_compte) );
 		    else
@@ -1333,14 +1329,12 @@ gint etat_affiche_affichage_ligne_ope ( struct structure_operation *operation,
 	       l'opération mère pour pouvoir récupérer le n° du chèque */
 	    if ( operation -> no_operation_ventilee_associee )
 	    {
-		gpointer **save_ptab;
 		GSList *pTransactionList;
 		gboolean found = FALSE;
 
 		/* On récupère donc la liste des opérations du compte et on en fait
 		   le tour jusqu'à ce qu'on trouve l'opération mère */
-		save_ptab = p_tab_nom_de_compte_variable;
-		p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> no_compte;
+
 		pTransactionList = gsb_account_get_transactions_list (operation -> no_compte);
 		while ( pTransactionList && !found )
 		{
@@ -1357,7 +1351,6 @@ gint etat_affiche_affichage_ligne_ope ( struct structure_operation *operation,
 		    }
 		    pTransactionList = pTransactionList -> next;
 		}
-		p_tab_nom_de_compte_variable = save_ptab;
 	    }
 	    
 	    if ( operation -> contenu_type )
@@ -1956,8 +1949,6 @@ gint etat_affiche_affiche_compte_etat ( struct structure_operation *operation,
 
 	if ( etat_courant -> afficher_nom_compte )
 	{
-	    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> no_compte;
-
 	    pointeur_char = g_strconcat ( decalage_compte,
 					  gsb_account_get_name (operation -> no_compte),
 					  NULL );

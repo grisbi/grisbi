@@ -32,12 +32,12 @@
 #include "operations_formulaire.h"
 #include "accueil.h"
 #include "exercice.h"
-#include "operations_liste.h"
 #include "type_operations.h"
 #include "utils_devises.h"
 #include "utils_montants.h"
 #include "utils_editables.h"
 #include "utils_categories.h"
+#include "operations_liste.h"
 #include "devises.h"
 #include "dialog.h"
 #include "equilibrage.h"
@@ -125,6 +125,7 @@ extern GtkWidget *formulaire;
 extern GtkWidget *frame_droite_bas;
 extern gint hauteur_ligne_liste_opes;
 extern GtkItemFactory *item_factory_menu_general;
+extern GSList *list_struct_accounts;
 extern GSList *liste_categories_combofix;
 extern GSList *liste_imputations_combofix;
 extern GSList *liste_struct_devises;
@@ -137,11 +138,8 @@ extern gint mise_a_jour_fin_comptes_passifs;
 extern gint mise_a_jour_liste_comptes_accueil;
 extern gint mise_a_jour_soldes_minimaux;
 extern gint nb_colonnes;
-extern gint nb_comptes;
 extern gint no_derniere_operation;
 extern FILE * out;
-extern gpointer **p_tab_nom_de_compte;
-extern gpointer **p_tab_nom_de_compte_variable;
 extern gdouble taux_de_change[2];
 extern GtkTooltips *tooltips_general_grisbi;
 /*END_EXTERN*/
@@ -277,8 +275,6 @@ void remplissage_formulaire ( gint no_compte )
 			       0, 0);
 	}
 
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
-
     /*     on met le type courant */
 
     if ( verifie_element_formulaire_existe ( TRANSACTION_FORM_TYPE )
@@ -410,8 +406,6 @@ GtkWidget *cree_element_formulaire_par_no ( gint no_element )
 
 	case TRANSACTION_FORM_DEVISE:
 	    /* met l'option menu des devises */
-
-	    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
 
 	    widget = gtk_option_menu_new ();
 	    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi ),
@@ -600,8 +594,6 @@ void echap_formulaire ( void )
     /* 	dans tous les cas, toutes les modifs apportées ne l'étaient que */
     /* 	dans cette liste */
 
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
-
     liste_tmp = gtk_object_get_data ( GTK_OBJECT ( formulaire ),
 				      "liste_adr_ventilation" );
 
@@ -748,8 +740,6 @@ gboolean entree_perd_focus ( GtkWidget *entree,
 
 		if ( verifie_element_formulaire_existe ( TRANSACTION_FORM_TYPE ))
 		{
-		    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
-
 		    if ( ( GTK_WIDGET_VISIBLE ( widget_formulaire_par_element (TRANSACTION_FORM_TYPE) )
 			   &&
 			   GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_par_element (TRANSACTION_FORM_TYPE) ) -> menu ),
@@ -846,8 +836,6 @@ gboolean entree_perd_focus ( GtkWidget *entree,
 
 		if ( verifie_element_formulaire_existe ( TRANSACTION_FORM_TYPE ))
 		{
-		    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
-
 		    if ( ( GTK_WIDGET_VISIBLE ( widget_formulaire_par_element (TRANSACTION_FORM_TYPE) )
 			   &&
 			   GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_par_element (TRANSACTION_FORM_TYPE) ) -> menu ),
@@ -965,25 +953,28 @@ gboolean entree_perd_focus ( GtkWidget *entree,
 			{
 			    /* c'est un virement : on recherche le compte associé et on affiche les types de paiement */
 
-			    gint i;
-
 			    if ( strcmp ( tableau_char[1],
 					  _("Deleted account") ) )
 			    {
 				/* recherche le no de compte du virement */
 
 				gint compte_virement;
-
-				p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
+				GSList *list_tmp;
 
 				compte_virement = -1;
+				list_tmp = list_struct_accounts;
 
-				for ( i = 0 ; i < nb_comptes ; i++ )
+				while ( list_tmp )
 				{
+				    gint i;
+
+				    i = gsb_account_get_no_account ( list_tmp -> data );
+
 				    if ( !g_strcasecmp ( gsb_account_get_name (i),
 							 tableau_char[1] ) )
 					compte_virement = i;
-				    p_tab_nom_de_compte_variable++;
+
+				    list_tmp = list_tmp -> next;
 				}
 
 				/* si on a touvé un compte de virement, que celui ci n'est pas le compte */
@@ -1853,7 +1844,6 @@ gboolean completion_operation_par_tiers ( GtkWidget *entree )
 			    if ( operation -> relation_no_operation != -1 &&
 				 operation -> relation_no_compte != -1 )
 			    {
-				p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> relation_no_compte;
 				gtk_combofix_set_text ( GTK_COMBOFIX ( widget ),
 							g_strconcat ( COLON(_("Transfer")),
 								      gsb_account_get_name (operation -> relation_no_compte),
@@ -2034,12 +2024,9 @@ struct structure_operation *recherche_derniere_occurence_tiers ( gint no_tiers )
     struct structure_operation *operation;
     GSList *pointeur_ope;
     struct structure_operation *ope_test;
-    gint i;
 
     /* on fait d'abord le tour du compte courant pour recherche une opé avec ce tiers */
     /* s'il n'y a aucune opé correspondante, on fait le tour de tous les comptes */
-
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
 
     operation = NULL;
     pointeur_ope = gsb_account_get_transactions_list (compte_courant);
@@ -2070,10 +2057,16 @@ struct structure_operation *recherche_derniere_occurence_tiers ( gint no_tiers )
 	/* on recherche dans les autres comptes, la première trouvée fera l'affaire */
 	/* FIXME : tester si c'est beaucoup plus long sur un gros fichier de récupérer la dernière opé entrée... */
 
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
+	GSList *list_tmp;
 
-	for ( i = 0 ; i < nb_comptes ; i++ )
+	list_tmp = list_struct_accounts;
+
+	while ( list_tmp )
 	{
+	    gint i;
+
+	    i = gsb_account_get_no_account ( list_tmp -> data );
+
 	    if ( i != compte_courant )
 	    {
 		pointeur_ope = gsb_account_get_transactions_list (i);
@@ -2086,13 +2079,13 @@ struct structure_operation *recherche_derniere_occurence_tiers ( gint no_tiers )
 		    {
 			operation = ope_test;
 			pointeur_ope = NULL;
-			i = nb_comptes;
+			i = gsb_account_get_accounts_amount ();
 		    }
 		    else
 			pointeur_ope = pointeur_ope -> next;
 		}
 	    }
-	    p_tab_nom_de_compte_variable++;
+	    list_tmp = list_tmp -> next;
 	}
     }
 
@@ -2228,8 +2221,6 @@ void place_type_formulaire ( gint no_type,
 	signe = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( option_menu ) -> menu ),
 							    "signe_menu"));
 
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_compte;
-
 	if ( signe == 1 )
 	    place_type = cherche_no_menu_type ( gsb_account_get_default_debit (no_compte) );
 	else
@@ -2305,8 +2296,6 @@ gboolean fin_edition ( void )
 
     /*     on donne le focus à la liste, pour que le widget en cours perde le focus */
     /* 	et applique les modifs nécessaires */
-
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
 
     gtk_widget_grab_focus ( gsb_account_get_tree_view (compte_courant) );
     
@@ -2464,8 +2453,6 @@ gboolean fin_edition ( void )
 	    operation -> no_compte = compte_courant;
 
 	    /* 	    la devise par défaut est celle du compte, elle sera modifiée si nécessaire plus tard */
-
-	    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
 
 	    operation -> devise = gsb_account_get_currency (compte_courant);
 	}
@@ -2633,18 +2620,22 @@ gint verification_validation_operation ( struct structure_operation *operation )
 		/* recherche le no de compte du virement */
 
 		gint compte_virement;
-		gint i;
-
-		p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
+		GSList *list_tmp;
 
 		compte_virement = -1;
+		list_tmp = list_struct_accounts;
 
-		for ( i = 0 ; i < nb_comptes ; i++ )
+		while ( list_tmp )
 		{
+		    gint i;
+
+		    i = gsb_account_get_no_account ( list_tmp -> data );
+
 		    if ( !g_strcasecmp ( gsb_account_get_name (i),
 					 tableau_char[1] ) )
 			compte_virement = i;
-		    p_tab_nom_de_compte_variable++;
+
+		    list_tmp = list_tmp -> next;
 		}
 
 
@@ -2661,8 +2652,6 @@ gint verification_validation_operation ( struct structure_operation *operation )
 		}
 
 		/* 		    vérifie si le compte n'est pas clos */
-
-		p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_virement;
 
 		if ( gsb_account_get_closed_account (compte_virement) )
 		{
@@ -3029,8 +3018,6 @@ void recuperation_donnees_generales_formulaire ( struct structure_operation *ope
 		    /* si c'est un compte qui doit passer à l'euro ( la transfo se fait au niveau de l'affichage de la liste ) */
 		    /* ou si c'est un compte en euro et l'opé est dans une devise qui doit passer à l'euro -> pas de change à demander */
 
-		    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
-
 		    if ( !devise_compte
 			 ||
 			 devise_compte -> no_devise != gsb_account_get_currency (compte_courant) )
@@ -3157,8 +3144,6 @@ void recuperation_categorie_formulaire ( struct structure_operation *operation,
 	    {
 		GSList *liste_tmp;
 
-		p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
-
 		liste_tmp = gsb_account_get_transactions_list (compte_courant);
 
 		while ( liste_tmp )
@@ -3281,27 +3266,29 @@ void validation_virement_operation ( struct structure_operation *operation,
 {
     struct struct_devise *devise, *devise_compte_2;
     struct structure_operation *contre_operation;
-    gpointer **save_ptab;
-    gint compte_virement, i;
-
-    save_ptab = p_tab_nom_de_compte_variable;
+    gint compte_virement;
+    GSList *list_tmp;
 
     /* on n'a plus besoin de faire de tests, ceux ci ont été fait dans verification_validation_operation */
 
     /* récupère le no du compte de la contre opération */
 
     compte_virement = -1;
+    list_tmp = list_struct_accounts;
 
-    for ( i = 0 ; i < nb_comptes ; i++ )
+    while ( list_tmp )
     {
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
+	gint i;
+
+	i = gsb_account_get_no_account ( list_tmp -> data );
 
 	if ( !g_strcasecmp ( gsb_account_get_name (i),
 			     nom_compte_vire ))
 	{
 	    compte_virement = i;
-	    i = nb_comptes;
+	    i = gsb_account_get_accounts_amount ();
 	}
+	list_tmp = list_tmp -> next;
     }
 
     /*   2 possibilités, soit c'est un nouveau virement ou une modif qui n'était pas un virement, */
@@ -3345,8 +3332,6 @@ void validation_virement_operation ( struct structure_operation *operation,
     }
 
     /*   on en est maintenant à soit nouveau virement, soit modif de virement sans chgt de compte */
-
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_virement;
 
     if ( modification
 	 &&
@@ -3465,7 +3450,6 @@ void validation_virement_operation ( struct structure_operation *operation,
     remplit_ligne_operation ( contre_operation,
 			      NULL );
 	
-    p_tab_nom_de_compte_variable = save_ptab;
 }
 /******************************************************************************/
 
@@ -3481,7 +3465,6 @@ void validation_virement_operation ( struct structure_operation *operation,
 /******************************************************************************/
 void ajout_operation ( struct structure_operation *operation )
 {
-    gpointer **save_ptab;
     GtkTreeIter *iter;
     struct structure_operation *operation_suivante;
     GSList *liste_tmp;
@@ -3490,10 +3473,7 @@ void ajout_operation ( struct structure_operation *operation )
 	printf ( "ajout_operation\n" );
 
 
-    save_ptab = p_tab_nom_de_compte_variable;
-
     /* on met l'opé dant la liste en la classant */
-    /*     cette fonction place en même temps p_tab_nom_de_compte_variable */
 
     insere_operation_dans_liste ( operation );
 
@@ -3542,7 +3522,8 @@ void ajout_operation ( struct structure_operation *operation )
 
 	/*     on recherche l'iter de l'opé suivant pour insérer l'opé juste avant */
 
-	iter = cherche_iter_operation ( operation_suivante );
+	iter = cherche_iter_operation ( operation_suivante,
+					operation -> no_compte );
 
 	/*     on insère l'iter de l'opération qu'on ajoute */
 
@@ -3554,14 +3535,14 @@ void ajout_operation ( struct structure_operation *operation )
 	/*     il est nécessaire de faire une copie d'iter, car chaque fonction va */
 	/* 	le modifier */
 
-	iter = cherche_iter_operation ( operation );
+	iter = cherche_iter_operation ( operation,
+					operation -> no_compte);
 
-	update_couleurs_background ( operation -> no_compte,
-				     gtk_tree_iter_copy (iter));
-	update_soldes_list_store ( operation -> no_compte,
-				   gtk_tree_iter_copy (iter));
-	selectionne_ligne ( gsb_account_get_current_transaction (operation -> no_compte) );
-	ajuste_scrolling_liste_operations_a_selection ( operation -> no_compte );
+	gsb_transactions_list_set_background_color ( operation -> no_compte );
+	gsb_transactions_list_set_transactions_balances ( operation -> no_compte);
+	gsb_transactions_list_set_current_transaction ( gsb_account_get_current_transaction (operation -> no_compte),
+							operation -> no_compte );
+	gsb_transactions_list_move_to_current_transaction ( operation -> no_compte );
     }
 
     /*     calcul du solde courant */
@@ -3586,7 +3567,6 @@ void ajout_operation ( struct structure_operation *operation )
     mise_a_jour_soldes_minimaux = 1;
     mise_a_jour_fin_comptes_passifs = 1;
 
-    p_tab_nom_de_compte_variable = save_ptab;
 }
 /******************************************************************************/
 
@@ -3601,16 +3581,14 @@ void insere_operation_dans_liste ( struct structure_operation *operation )
 {
     if ( !operation -> no_operation )
     {
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> no_compte;
-
 	operation -> no_operation = ++no_derniere_operation;
 
 	gsb_account_set_transactions_list ( operation -> no_compte,
-					    g_slist_insert_sorted ( gsb_account_get_transactions_list (operation -> no_compte),
-								    operation,
-								    (GCompareFunc) gsb_account_get_current_sort (operation -> no_compte) ));
-	
-	selectionne_ligne ( operation );
+					    g_slist_append ( gsb_account_get_transactions_list (operation -> no_compte),
+							     operation ));
+
+	gsb_transactions_list_set_current_transaction ( operation,
+							operation -> no_compte );
     }
 }
 /******************************************************************************/
@@ -3623,12 +3601,8 @@ void insere_operation_dans_liste ( struct structure_operation *operation )
 /******************************************************************************/
 void modifie_operation ( struct structure_operation *operation )
 {
-    gpointer **save_ptab;
-
     if ( DEBUG )
 	printf ( "modifie_operation\n" );
-
-    save_ptab = p_tab_nom_de_compte_variable;
 
     /*     si la liste n'est pas finie, on la finie avant */
     /*     théoriquement elle est finie à ce niveau car soit on modifie une opé */
@@ -3645,8 +3619,7 @@ void modifie_operation ( struct structure_operation *operation )
     /*     on recherche l'iter de l'opération qu'on vient d'ajouter */
     /* 	pour mettre à jour les soldes */
 
-    update_soldes_list_store ( operation -> no_compte,
-			       cherche_iter_operation ( operation ));
+    gsb_transactions_list_set_transactions_balances ( operation -> no_compte);
 
     /*     on recalcule les soldes pointés ou totaux */
     /* 	ya plus rapide mais j'ai la flemme */
@@ -3666,9 +3639,6 @@ void modifie_operation ( struct structure_operation *operation )
     mise_a_jour_liste_comptes_accueil = 1;
     mise_a_jour_soldes_minimaux = 1;
     mise_a_jour_fin_comptes_passifs = 1;
-
-
-    p_tab_nom_de_compte_variable = save_ptab;
 }
 /******************************************************************************/
 
@@ -3680,8 +3650,6 @@ void formulaire_a_zero (void)
 {
     gint i, j;
     struct organisation_formulaire *organisation_formulaire;
-
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
 
     /*     on fait le tour du formulaire en ne récupérant que ce qui est nécessaire */
 
@@ -3867,11 +3835,7 @@ void formulaire_a_zero (void)
 
 void affiche_cache_le_formulaire ( void )
 {
-    gpointer **save_ptab;
     GtkWidget * widget;
-
-    save_ptab = p_tab_nom_de_compte_variable;
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
 
     if ( etat.formulaire_toujours_affiche )
     {
@@ -3898,7 +3862,8 @@ void affiche_cache_le_formulaire ( void )
 	update_ecran ();
 	ajustement = gtk_tree_view_get_vadjustment ( GTK_TREE_VIEW ( gsb_account_get_tree_view (compte_courant) ));
 	
-	position_ligne_selectionnee = ( cherche_ligne_operation ( gsb_account_get_current_transaction (compte_courant) )
+	position_ligne_selectionnee = ( cherche_ligne_operation ( gsb_account_get_current_transaction (compte_courant),
+								  compte_courant )
 					+ gsb_account_get_nb_rows ( compte_courant ) ) * hauteur_ligne_liste_opes;
 
 	if ( position_ligne_selectionnee  > (ajustement->value + ajustement->page_size))
@@ -3912,7 +3877,6 @@ void affiche_cache_le_formulaire ( void )
     gtk_check_menu_item_set_active( GTK_CHECK_MENU_ITEM (widget), etat.formulaire_toujours_affiche );
     block_menu_cb = FALSE;
 
-    p_tab_nom_de_compte_variable = save_ptab;
 }
 /******************************************************************************/
 
@@ -3950,8 +3914,6 @@ void click_sur_bouton_voir_change ( void )
 
     operation = gtk_object_get_data ( GTK_OBJECT ( formulaire ),
 				      "adr_struct_ope" );
-
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
 
     if ( !devise_compte ||
 	 devise_compte -> no_devise != gsb_account_get_currency (compte_courant) )
@@ -4008,18 +3970,8 @@ void degrise_formulaire_operations ( void )
 struct organisation_formulaire *renvoie_organisation_formulaire ( void )
 {
     struct organisation_formulaire *retour;
-    gpointer **save_ptab;
-
-    save_ptab = p_tab_nom_de_compte_variable;
-
-    if ( etat.formulaire_distinct_par_compte )
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
-    else
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
 
     retour = gsb_account_get_form_organization (compte_courant);
-
-    p_tab_nom_de_compte_variable = save_ptab;
 
     return retour;
 }

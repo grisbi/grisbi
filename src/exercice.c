@@ -78,9 +78,7 @@ gint ligne_selection_exercice;
 /*START_EXTERN*/
 extern GtkWidget *fenetre_preferences;
 extern GtkWidget *formulaire;
-extern gint nb_comptes;
-extern gpointer **p_tab_nom_de_compte;
-extern gpointer **p_tab_nom_de_compte_variable;
+extern GSList *list_struct_accounts;
 extern GtkWidget *widget_formulaire_echeancier[SCHEDULER_FORM_TOTAL_WIDGET];
 extern GtkWidget *widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_TOTAL_WIDGET];
 extern GtkWidget *widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_TOTAL_WIDGET];
@@ -204,7 +202,7 @@ GtkWidget *onglet_exercices ( void )
 
 
     /* Do not activate unless an account is opened */
-    if ( !nb_comptes )
+    if ( !gsb_account_get_accounts_amount () )
     {
 	gtk_widget_set_sensitive ( vbox_pref, FALSE );
     }
@@ -651,7 +649,8 @@ void affiche_exercice_par_date ( GtkWidget *entree_date,
 
 void association_automatique ( void )
 {
-    gint resultat, i;
+    GSList *list_tmp;
+    gint resultat;
 
     resultat = question_yes_no_hint ( _("Automatic association of financial years?"),
 				      _("This function assigns each transaction without a financial year to the one related to its transaction date.  If no financial year matches, the transaction will not be changed.") );
@@ -659,11 +658,14 @@ void association_automatique ( void )
     if ( resultat )
 	return;
 
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
+    list_tmp = list_struct_accounts;
 
-    for ( i=0 ; i<nb_comptes ; i++ )
+    while ( list_tmp )
     {
+	gint i;
 	GSList *pointeur_tmp;
+
+	i = gsb_account_get_no_account ( list_tmp -> data );
 
 	pointeur_tmp = gsb_account_get_transactions_list (i);
 
@@ -699,7 +701,8 @@ void association_automatique ( void )
 	    }
 	    pointeur_tmp = pointeur_tmp -> next;
 	}
-	p_tab_nom_de_compte_variable++;
+
+	list_tmp = list_tmp -> next;
     }
 
     demande_mise_a_jour_tous_comptes ();

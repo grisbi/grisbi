@@ -21,10 +21,10 @@
 
 
 /*START_DECLARATION*/
+void init_default_sort_column ( gint no_account );
 void init_variables ( void );
 void initialisation_couleurs_listes ( void );
 void menus_sensitifs ( gboolean sensitif );
-struct organisation_formulaire *mise_a_zero_organisation_formulaire ( void );
 void modification_fichier ( gboolean modif );
 /*END_DECLARATION*/
 

@@ -29,10 +29,10 @@
 #include "ventilation.h"
 #include "equilibrage.h"
 #include "data_account.h"
+#include "operations_liste.h"
 #include "gtk_list_button.h"
 #include "menu.h"
 #include "barre_outils.h"
-#include "operations_liste.h"
 #include "traitement_variables.h"
 #include "utils_str.h"
 #include "comptes_onglet.h"
@@ -72,13 +72,11 @@ GSList *ordre_comptes;
 extern gchar *derniere_date;
 extern GtkWidget *formulaire;
 extern GtkItemFactory *item_factory_menu_general;
+extern GSList *list_struct_accounts;
 extern gint mise_a_jour_liste_comptes_accueil;
 extern gint nb_colonnes;
-extern gint nb_comptes;
 extern GtkWidget *notebook_comptes_equilibrage;
 extern GtkWidget *notebook_general;
-extern gpointer **p_tab_nom_de_compte;
-extern gpointer **p_tab_nom_de_compte_variable;
 extern GtkWidget *tree_view;
 /*END_EXTERN*/
 
@@ -106,7 +104,7 @@ GtkWidget *creation_liste_comptes (void)
 				     10 );
     gtk_signal_connect ( GTK_OBJECT ( onglet ),
 			 "key_press_event",
-			 GTK_SIGNAL_FUNC ( traitement_clavier_liste ),
+			 GTK_SIGNAL_FUNC ( gsb_transactions_list_key_press ),
 			 NULL );
     gtk_widget_show ( onglet );
 
@@ -167,7 +165,7 @@ GtkWidget *creation_liste_comptes (void)
 
     /*  Création d'une icone et du nom par compte, et placement dans la
 	liste selon l'ordre désiré  */
-    if ( nb_comptes )
+    if ( gsb_account_get_accounts_amount () )
     {
 	reaffiche_liste_comptes ();
     }
@@ -195,9 +193,7 @@ GtkWidget *creation_liste_comptes (void)
 
     /* mise en place du label */
 
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
-
-    if ( nb_comptes )
+    if ( gsb_account_get_accounts_amount () )
 	label_releve = gtk_label_new ( g_strconcat ( COLON(_("Last statement")),
 						     gsb_account_get_current_reconcile_date (compte_courant),
 						     NULL ) );
@@ -246,8 +242,6 @@ GtkWidget *comptes_appel ( gint no_de_compte )
 {
     GtkWidget *bouton;
 
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_de_compte;
-
     bouton = gtk_list_button_new ( gsb_account_get_name (no_de_compte), 2, TRUE, GINT_TO_POINTER (no_de_compte));
     gsb_account_set_account_button( no_de_compte,
 				    bouton );
@@ -283,6 +277,9 @@ void changement_compte_par_menu ( gpointer null,
 
 gboolean changement_compte ( gint *compte)
 {
+    if ( DEBUG )
+	printf ( "changement_compte : %d\n", GPOINTER_TO_INT ( compte ) );
+
     /*   si on n'est pas sur l'onglet comptes du notebook, on y passe */
 
     if ( gtk_notebook_get_current_page ( GTK_NOTEBOOK ( notebook_general ) ) != 1 )
@@ -307,7 +304,6 @@ gboolean changement_compte ( gint *compte)
 
 	verifie_compte_clos ( GPOINTER_TO_INT ( compte ));
 
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
 	gsb_account_set_adjustment_value ( compte_courant,
 					   gtk_tree_view_get_vadjustment ( GTK_TREE_VIEW ( gsb_account_get_tree_view (compte_courant) )) -> value );
 
@@ -322,8 +318,6 @@ gboolean changement_compte ( gint *compte)
 
     /*     si compte=-1, compte_courant était déjà réglé */
     /* 	sinon on vient juste de le régler */
-
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
 
     /* change le nom du compte courant */
 
@@ -407,25 +401,15 @@ gboolean changement_compte ( gint *compte)
 /* ********************************************************************************************************** */
 void verifie_compte_clos ( gint no_nouveau_compte )
 {
-    gpointer **save_ptab;
-
     /*     si le compte courant est déjà cloturé, on fait rien */
 
     if ( gsb_account_get_closed_account (compte_courant) )
 	return;
 
-    save_ptab = p_tab_nom_de_compte_variable;
-    
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_nouveau_compte;
-
     if ( gsb_account_get_closed_account (no_nouveau_compte) )
     {
-	p_tab_nom_de_compte_variable = save_ptab;
-
-	gtk_list_button_close ( GTK_BUTTON ( gsb_account_get_account_button (no_nouveau_compte) ));
+	gtk_list_button_close ( GTK_BUTTON ( gsb_account_get_account_button (compte_courant) ));
     }
-    else
-	p_tab_nom_de_compte_variable = save_ptab;
 }
 /* ********************************************************************************************************** */
 
@@ -440,7 +424,7 @@ void reaffiche_liste_comptes ( void )
 {
     GSList *ordre_comptes_variable;
     GtkWidget *bouton;
-    gint i;
+    GSList *list_tmp;
 
     /* commence par effacer tous les comptes */
 
@@ -450,11 +434,14 @@ void reaffiche_liste_comptes ( void )
 
     /* on efface les menus des comptes cloturés */
 
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
+    list_tmp = list_struct_accounts;
 
-    for ( i=0 ; i<nb_comptes ; i++ )
+    while ( list_tmp )
     {
+	gint i;
 	gchar *tmp;
+
+	i = gsb_account_get_no_account ( list_tmp -> data );
 
 	tmp = my_strdelimit ( gsb_account_get_name (i),
 			      "/",
@@ -462,7 +449,8 @@ void reaffiche_liste_comptes ( void )
 
 	gtk_item_factory_delete_item ( item_factory_menu_general,
 				       menu_name(_("Accounts"), _("Closed accounts"), tmp ));
-	p_tab_nom_de_compte_variable++;
+
+	list_tmp = list_tmp -> next;
     }
 
     gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
@@ -472,11 +460,14 @@ void reaffiche_liste_comptes ( void )
     /* on efface dans le menu Édition la liste des comptes vers lesquels on peut
        déplacer les opérations */
 
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
+    list_tmp = list_struct_accounts;
 
-    for ( i=0 ; i<nb_comptes ; i++ )
+    while ( list_tmp )
     {
 	gchar *tmp;
+	gint i;
+
+	i = gsb_account_get_no_account ( list_tmp -> data );
 
 	tmp = my_strdelimit ( gsb_account_get_name (i),
 			      "/",
@@ -484,7 +475,8 @@ void reaffiche_liste_comptes ( void )
 
 	gtk_item_factory_delete_item ( item_factory_menu_general,
 				       menu_name(_("Edit"), _("Move transaction to another account"), tmp ));
-	p_tab_nom_de_compte_variable++;
+
+	list_tmp = list_tmp -> next;
     }
 
     gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
@@ -497,8 +489,6 @@ void reaffiche_liste_comptes ( void )
     ordre_comptes_variable = ordre_comptes;
     do
     {
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + GPOINTER_TO_INT ( ordre_comptes_variable->data );
-
 	if ( ! gsb_account_get_closed_account (GPOINTER_TO_INT ( ordre_comptes_variable->data )) )
 	{
 	    bouton = comptes_appel( GPOINTER_TO_INT ( ordre_comptes_variable->data ));
@@ -507,7 +497,7 @@ void reaffiche_liste_comptes ( void )
 
 	    /* 	    si c'est le compte courant, on ouvre le livre */
 
-	    if ( p_tab_nom_de_compte_variable == p_tab_nom_de_compte + compte_courant )
+	    if ( GPOINTER_TO_INT ( ordre_comptes_variable->data ) == compte_courant )
 		gtk_list_button_clicked ( GTK_BUTTON ( bouton ));
 	}
 	else
@@ -553,8 +543,6 @@ void reaffiche_liste_comptes ( void )
     ordre_comptes_variable = ordre_comptes;
     do
     {
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + GPOINTER_TO_INT ( ordre_comptes_variable->data );
-
 	if ( ! gsb_account_get_closed_account (GPOINTER_TO_INT ( ordre_comptes_variable->data )) )
 	{
 	    GtkItemFactoryEntry *item_factory_entry;
@@ -587,7 +575,7 @@ void reaffiche_liste_comptes ( void )
 
 	    /* si c'est le compte courant, on grise l'entrée menu */
 
-	    if ( p_tab_nom_de_compte_variable == p_tab_nom_de_compte + compte_courant )
+	    if ( GPOINTER_TO_INT ( ordre_comptes_variable->data ) == compte_courant )
 	    gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
 								   menu_name(_("Edit"), _("Move transaction to another account"), tmp)),
 				       FALSE );

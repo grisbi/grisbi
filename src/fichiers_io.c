@@ -41,13 +41,13 @@ struct recuperation_version
 #include "utils_devises.h"
 #include "dialog.h"
 #include "data_account.h"
+#include "data_form.h"
+#include "traitement_variables.h"
 #include "utils_str.h"
 #include "main.h"
-#include "traitement_variables.h"
 #include "utils_buttons.h"
 #include "fichiers_gestion.h"
 #include "search_glist.h"
-#include "operations_liste.h"
 #include "utils_files.h"
 /*END_INCLUDE*/
 
@@ -79,15 +79,6 @@ static void switch_t_r ( void );
 
 gchar *nom_fichier_comptes;
 
-/* pointe vers un tableau de pointeurs vers les comptes en mémoire*/
-
-gpointer **p_tab_nom_de_compte;
-
-/* idem, mais utilisé pour se déplacer */
-
-gpointer **p_tab_nom_de_compte_variable;
-
-
 gchar *titre_fichier;
 gchar *adresse_commune;
 gchar *adresse_secondaire;
@@ -95,7 +86,6 @@ gchar *adresse_secondaire;
 /* contient le dernier numéro d'opération de tous les comptes réunis */
 
 gint no_derniere_operation;
-gint nb_comptes;
 
 
 
@@ -114,6 +104,7 @@ extern GtkWidget *formulaire;
 extern gint ligne_affichage_une_ligne;
 extern GSList *lignes_affichage_deux_lignes;
 extern GSList *lignes_affichage_trois_lignes;
+extern GSList *list_struct_accounts;
 extern GSList *liste_struct_banques;
 extern GSList *liste_struct_categories;
 extern GSList *liste_struct_devises;
@@ -304,9 +295,9 @@ struct recuperation_version *recupere_version_fichier ( xmlDocPtr doc )
 gboolean mise_a_jour_versions_anterieures ( gint no_version,
 					    struct recuperation_version *version )
 {
-    gint i;
     struct struct_devise *devise;
     struct stat buffer_stat;
+    GSList *list_tmp;
 
     /*     par défaut le fichier n'est pas modifié sauf si on charge une version précédente */
 
@@ -324,11 +315,14 @@ gboolean mise_a_jour_versions_anterieures ( gint no_version,
 	    /* sauf que la 0.4.0 n'attribuait pas le no de relevé aux opés filles */
 	    /* d'une ventilation */
 
-	    for ( i = 0 ; i < nb_comptes ; i++ )
+	    list_tmp = list_struct_accounts;
+
+	    while ( list_tmp )
 	    {
+		gint i;
 		GSList *liste_tmp;
 
-		p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
+		i = gsb_account_get_no_account ( list_tmp -> data );
 
 		liste_tmp = gsb_account_get_transactions_list (i);
 
@@ -360,6 +354,8 @@ gboolean mise_a_jour_versions_anterieures ( gint no_version,
 		    }
 		    liste_tmp = liste_tmp -> next;
 		}
+
+		list_tmp = list_tmp -> next;
 	    }
 
 
@@ -397,15 +393,6 @@ gboolean mise_a_jour_versions_anterieures ( gint no_version,
 
 	    switch_t_r ();
 
-	    /* 	    on met l'organisation des formulaires de tous les comptes à 0 */
-
-	    for ( i=0 ; i<nb_comptes ; i++ )
-	    {
-		p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
-		gsb_account_set_form_organization ( i,
-						    mise_a_zero_organisation_formulaire());
-	    }
-
 	    /* 	    un bug dans la 0.5.0 permettait à des comptes d'avoir un affichage différent, */
 	    /* 	    même si celui ci devait être identique pour tous, on vérifie ici */
 
@@ -413,43 +400,30 @@ gboolean mise_a_jour_versions_anterieures ( gint no_version,
 	    {
 		gint affichage_r;
 		gint nb_lignes_ope;
-		gint i;
-
-		p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
+		GSList *list_tmp;
 
 		affichage_r = gsb_account_get_r (compte_courant);
 		nb_lignes_ope = gsb_account_get_nb_rows ( compte_courant );
 
-		for ( i=0 ; i<nb_comptes ; i++ )
+		list_tmp = list_struct_accounts;
+
+		while ( list_tmp )
 		{
+		    gint i;
+
+		    i = gsb_account_get_no_account ( list_tmp -> data );
+
 		    gsb_account_set_r ( i,
 					affichage_r );
 		    gsb_account_set_nb_rows ( i, 
 					      nb_lignes_ope );
+
+		    list_tmp = list_tmp -> next;
 		}
 	    } 
 
-	    /* 	    on met le classement courant par date et ordre croissant */
 
-	    for ( i=0 ; i<nb_comptes ; i++ )
-	    {
-		p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
-		gsb_account_set_sort_number ( i,
-					      TRANSACTION_LIST_DATE );
-		gsb_account_set_ascending_sort ( i,
-						 GTK_SORT_DESCENDING );
-		gsb_account_set_current_sort ( i,
-					       recupere_classement_par_no ( gsb_account_get_sort_number (i) ));
-	    }
-
-
-
-	    /* ********************************************************* */
-	    /* 	    à mettre à chaque fois juste avant la version stable */
-	    /* ********************************************************* */
-
-	    modification_fichier ( TRUE );
-	    
+    
 
 	    /* ************************************* */
 	    /* 	    ouverture d'un fichier 0.5.1     */
@@ -457,8 +431,52 @@ gboolean mise_a_jour_versions_anterieures ( gint no_version,
 
 	case 51:
 
+	    /* ************************************* */
+	    /* 	    ouverture d'un fichier 0.5.5     */
+	    /* ************************************* */
+
+	case 55:
+
+	    /* 	    on met le classement courant par date et ordre croissant */
+
+	    list_tmp = list_struct_accounts;
+
+	    while ( list_tmp )
+	    {
+		gint i;
+
+		i = gsb_account_get_no_account ( list_tmp -> data );
+
+		init_default_sort_column (i);
+
+		list_tmp = list_tmp -> next;
+	    }
+
+
+	    /* 	    on met l'organisation des formulaires de tous les comptes à 0 */
+
+	    list_tmp = list_struct_accounts;
+
+	    while ( list_tmp )
+	    {
+		gint i;
+
+		i = gsb_account_get_no_account ( list_tmp -> data );
+
+		gsb_account_set_form_organization ( i,
+						    gsb_form_new_organization ());
+
+		list_tmp = list_tmp -> next;
+	    }
+
 
 	    break;
+
+	    /* ********************************************************* */
+	    /* 	    à mettre à chaque fois juste avant la version stable */
+	    /* ********************************************************* */
+
+	    modification_fichier ( TRUE );
 
 	    /* ************************************* */
 	    /* 	    ouverture d'un fichier 0.6.0     */
@@ -620,19 +638,22 @@ void switch_t_r ( void )
 
 /*     à n'appeler que pour une version antérieure à 0.5.1 */
 
-    gint i;
+    GSList *list_tmp;
 
-    if ( !nb_comptes )
+    if ( !gsb_account_get_accounts_amount () )
 	return;
     
     if ( DEBUG )
 	printf ( "switch_t_r\n");
 
-    for ( i=0 ; i<nb_comptes ; i++ )
-    {	
+    list_tmp = list_struct_accounts;
+
+    while ( list_tmp )
+    {
+	gint i;
 	GSList *liste_tmp;
-	
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
+
+	i = gsb_account_get_no_account ( list_tmp -> data );
 
 	liste_tmp = gsb_account_get_transactions_list (i);
 
@@ -653,6 +674,8 @@ void switch_t_r ( void )
 	    }
 	    liste_tmp = liste_tmp -> next;
 	}
+
+	list_tmp = list_tmp -> next;
     }
 }
 /***********************************************************************************************************/
@@ -868,15 +891,6 @@ gboolean recuperation_comptes_xml ( xmlNodePtr node_comptes )
 			i++;
 		    }
 		    g_strfreev ( pointeur_char );
-
-		    /* calcule le nb de comptes */
-
-		    nb_comptes = g_slist_length ( ordre_comptes );
-
-		    /* Creation du tableau de pointeur vers les structures de comptes */
-
-		    p_tab_nom_de_compte = malloc ( nb_comptes * sizeof ( gpointer ));
-		    p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
 		}
 
 		/* recupère le compte courant */
@@ -899,17 +913,9 @@ gboolean recuperation_comptes_xml ( xmlNodePtr node_comptes )
 	    xmlNodePtr node_nom_comptes;
 	    gint no_compte;
 
-	    /* normalement p_tab_nom_de_compte_variable est dejà place */
+	    /* 	    we create the account with the bank default, it will be changed later */
 
-	    /* on cree la structure du compte */
-
-	    *p_tab_nom_de_compte_variable = calloc ( 1,
-						     sizeof (struct donnees_compte));
-	    /* FIXME : il faut mettre le no compte
-	     * peut le mettre à -1 en attendant le numéro réel ? à vooir */
-	    printf ( "fixme : il faut mettre le no compte lors du chargement\n" );
-
-	    no_compte = 0;
+	    no_compte = gsb_account_new ( GSB_TYPE_BANK );
 
 	    /* on fait le tour dans l'arbre nom, cad : les details, details de type et details des operations */
 
@@ -945,9 +951,13 @@ gboolean recuperation_comptes_xml ( xmlNodePtr node_comptes )
 				    gsb_account_set_id (no_compte,
 							NULL );
 			    }
+
+			    /* 			    we change here the default number of the account */
+
 			    if ( !strcmp ( node_detail -> name,
 					   "No_de_compte" ))
-				NO_COMPTE = my_atoi ( xmlNodeGetContent ( node_detail ));
+				no_compte = gsb_account_set_account_number ( no_compte,
+									     my_atoi ( xmlNodeGetContent ( node_detail )));
 
 			    if ( !strcmp ( node_detail -> name,
 					   "Titulaire" ))
@@ -1067,8 +1077,8 @@ gboolean recuperation_comptes_xml ( xmlNodePtr node_comptes )
 
 			    if ( !strcmp ( node_detail -> name,
 					   "Tri_par_type" ))
-				gsb_account_set_sort_type ( no_compte,
-							    my_atoi ( xmlNodeGetContent ( node_detail )));
+				gsb_account_set_reconcile_sort_type ( no_compte,
+								      my_atoi ( xmlNodeGetContent ( node_detail )));
 
 			    if ( !strcmp ( node_detail -> name,
 					   "Neutres_inclus" ))
@@ -1105,13 +1115,8 @@ gboolean recuperation_comptes_xml ( xmlNodePtr node_comptes )
 
 			    if ( !strcmp ( node_detail -> name,
 					   "Classement_croissant" ))
-				gsb_account_set_ascending_sort ( no_compte,
-								 my_atoi ( xmlNodeGetContent ( node_detail )));
-
-			    if ( !strcmp ( node_detail -> name,
-					   "No_classement" ))
-				gsb_account_set_sort_number ( no_compte,
-							      my_atoi ( xmlNodeGetContent ( node_detail )) );
+				gsb_account_set_sort_type ( no_compte,
+							    my_atoi ( xmlNodeGetContent ( node_detail )));
 
 			    /* récupération de l'agencement du formulaire */
 
@@ -1225,7 +1230,7 @@ gboolean recuperation_comptes_xml ( xmlNodePtr node_comptes )
 			    type -> no_en_cours = my_atoi ( xmlGetProp ( node_type,
 									 "No_en_cours" ));
 
-			    type -> no_compte = NO_COMPTE;
+			    type -> no_compte = no_compte;
 
 			    gsb_account_set_method_payment_list ( no_compte,
 								  g_slist_append ( gsb_account_get_method_payment_list (no_compte),
@@ -1392,9 +1397,9 @@ gboolean recuperation_comptes_xml ( xmlNodePtr node_comptes )
 
 			    /* on met le compte associe */
 
-			    operation -> no_compte = NO_COMPTE;
+			    operation -> no_compte = no_compte;
 
-			    gsb_account_set_transactions_list ( operation -> no_compte,
+			    gsb_account_set_transactions_list ( no_compte,
 								g_slist_append ( gsb_account_get_transactions_list (operation -> no_compte),
 										 operation) );
 			}
@@ -1427,11 +1432,6 @@ gboolean recuperation_comptes_xml ( xmlNodePtr node_comptes )
 					       -1 );
 	    gsb_account_set_current_transaction ( no_compte,
 						  GINT_TO_POINTER (-1) );
-
-
-	    /* on incremente p_tab_nom_de_compte_variable pour le compte suivant */
-
-	    p_tab_nom_de_compte_variable++;
 	}
 
 	node_comptes = node_comptes -> next;
@@ -2972,7 +2972,7 @@ gboolean recuperation_etats_xml ( xmlNodePtr node_etats )
 /* retourne FALSE : pas de nom => gtkfileselection a pris la main ou erreur */
 /***********************************************************************************************************/
 
-gboolean enregistre_fichier ( gchar *nouveau_fichier )
+gboolean enregistre_fichier ( gchar *new_file )
 {
     xmlDocPtr doc;
     xmlNodePtr node;
@@ -2985,10 +2985,11 @@ gboolean enregistre_fichier ( gchar *nouveau_fichier )
     GSList *pointeur_liste_2;
     struct stat buffer_stat;
     gint mettre_permission;
+    GSList *list_tmp;
 
 
     if ( DEBUG )
-	printf ( "enregistre_fichier : %s\n", nouveau_fichier );
+	printf ( "enregistre_fichier : %s\n", new_file );
 
     /*     on ne se préocupe plus des ouvertures et autre à ce niveau */
     /*     cette fonction enregistre le fichier sans avertissement(écrasement, fichier déjà ouvert...) */
@@ -2998,7 +2999,7 @@ gboolean enregistre_fichier ( gchar *nouveau_fichier )
     /* on regarde ici si le fichier existe */
     /*   s'il n'existe pas on mettre ses permissions à 600, sinon on les laisse comme ça */
 
-    if ( utf8_stat ( nouveau_fichier,
+    if ( utf8_stat ( new_file,
 		&buffer_stat ) == -1 )
 	mettre_permission = 1;
     else
@@ -3240,12 +3241,15 @@ gboolean enregistre_fichier ( gchar *nouveau_fichier )
 
     /* mise en place des comptes 1 par 1 */
 
-    for ( i=0 ; i < nb_comptes ; i++)
+    list_tmp = list_struct_accounts;
+
+    while ( list_tmp )
     {
+	gint i;
 	xmlNodePtr node_compte;
 	gint k;
 
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
+	i = gsb_account_get_no_account ( list_tmp -> data );
 
 	node_1 = xmlNewChild ( node,
 			       NULL,
@@ -3285,7 +3289,7 @@ gboolean enregistre_fichier ( gchar *nouveau_fichier )
 	xmlNewTextChild ( node_compte,
 			  NULL,
 			  "No_de_compte",
-			  itoa ( NO_COMPTE ));
+			  itoa ( i ));
 
 	xmlNewTextChild ( node_compte,
 			  NULL,
@@ -3399,7 +3403,7 @@ gboolean enregistre_fichier ( gchar *nouveau_fichier )
 	xmlNewTextChild ( node_compte,
 			  NULL,
 			  "Tri_par_type",
-			  itoa ( gsb_account_get_sort_type (i) ));
+			  itoa ( gsb_account_get_reconcile_sort_type (i) ));
 
 	xmlNewTextChild ( node_compte,
 			  NULL,
@@ -3433,12 +3437,7 @@ gboolean enregistre_fichier ( gchar *nouveau_fichier )
 	xmlNewTextChild ( node_compte,
 			  NULL,
 			  "Classement_croissant",
-			  itoa ( gsb_account_get_ascending_sort (i) ));
-
-	xmlNewTextChild ( node_compte,
-			  NULL,
-			  "No_classement",
-			  itoa ( gsb_account_get_sort_number (i) ));
+			  itoa ( gsb_account_get_sort_type (i) ));
 
 	/* 	on sauvegarde l'agencement du formulaire */
 
@@ -3536,7 +3535,6 @@ gboolean enregistre_fichier ( gchar *nouveau_fichier )
 
 	    pointeur_liste = pointeur_liste -> next;
 	}
-
 
 	/* mise en place des operations */
 
@@ -3680,6 +3678,8 @@ gboolean enregistre_fichier ( gchar *nouveau_fichier )
 
 	    pointeur_liste = pointeur_liste -> next;
 	}
+
+	list_tmp = list_tmp -> next;
     }
 
 
@@ -5126,7 +5126,7 @@ gboolean enregistre_fichier ( gchar *nouveau_fichier )
 #ifndef _WIN32
     xmlIndentTreeOutput = 1;
 #endif
-    resultat = utf8_xmlSaveFormatFile ( nouveau_fichier, doc, 1 );
+    resultat = utf8_xmlSaveFormatFile ( new_file, doc, 1 );
 
     /* on libère la memoire */
 
@@ -5135,7 +5135,7 @@ gboolean enregistre_fichier ( gchar *nouveau_fichier )
     if ( resultat == -1 )
     {
 	dialogue_error ( g_strdup_printf ( _("Cannot save file '%s': %s"),
-					   nouveau_fichier, latin2utf8(strerror(errno)) ));
+					   new_file, latin2utf8(strerror(errno)) ));
 	return ( FALSE );
     }
 
@@ -5143,7 +5143,7 @@ gboolean enregistre_fichier ( gchar *nouveau_fichier )
     /* si c'est un nouveau fichier, on met à 600 ses permissions */
 
     if ( mettre_permission )
-	chmod ( nouveau_fichier,
+	chmod ( new_file,
 		S_IRUSR | S_IWUSR );
 
 

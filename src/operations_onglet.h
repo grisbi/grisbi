@@ -1,4 +1,4 @@
 /*START_DECLARATION*/
-GtkWidget *creation_onglet_operations ( void );
+GtkWidget *create_transaction_page ( void );
 /*END_DECLARATION*/
 

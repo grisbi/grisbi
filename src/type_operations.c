@@ -87,10 +87,7 @@ extern GtkWidget *fenetre_preferences;
 extern GtkWidget *formulaire;
 extern GtkWidget *label_saisie_modif;
 extern gint max;
-extern gint nb_comptes;
 extern GSList *ordre_comptes;
-extern gpointer **p_tab_nom_de_compte;
-extern gpointer **p_tab_nom_de_compte_variable;
 extern GtkTreeSelection * selection;
 extern GtkWidget *widget_formulaire_echeancier[SCHEDULER_FORM_TOTAL_WIDGET];
 /*END_EXTERN*/
@@ -115,8 +112,6 @@ void payment_method_toggled ( GtkCellRendererToggle *cell, gchar *path_str,
 			PAYMENT_METHODS_DEFAULT_COLUMN, &toggle_item, 
 			PAYMENT_METHODS_POINTER_COLUMN, &type_ope,
 			-1);
-
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + type_ope -> no_compte;
 
     if (type_ope -> signe_type == 1) /* Débit */
 	gsb_account_set_default_debit ( type_ope -> no_compte,
@@ -172,8 +167,6 @@ void fill_payment_method_tree ()
     /* Fill tree, iter over with accounts */
     do
     {
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + GPOINTER_TO_INT ( pUserAccountsList -> data );
-
 	GSList *liste_tmp;
 
 	gtk_tree_store_append (model, &account_iter, NULL);
@@ -490,7 +483,7 @@ GtkWidget *onglet_types_operations ( void )
 		       0, 0 );
 
     /** Do not set this tab sensitive is no account file is opened. */
-    if ( !nb_comptes )
+    if ( !gsb_account_get_accounts_amount () )
     {
 	gtk_widget_set_sensitive ( vbox_pref, FALSE );
     }
@@ -538,8 +531,8 @@ gboolean select_payment_method ( GtkTreeSelection *selection, GtkTreeModel *mode
 			    -1);
 	/* Filling entries */
 	entry_set_value ( entree_type_nom, &(type_ope -> nom_type) );
-	spin_button_set_value ( entree_type_dernier_no, 
-				&(type_ope -> no_en_cours) );
+	spin_button_set_value_double ( entree_type_dernier_no, 
+				       &(type_ope -> no_en_cours) );
 	checkbox_set_value ( entree_automatic_numbering, 
 			     &(type_ope -> numerotation_auto), TRUE );
 	gtk_option_menu_set_history ( GTK_OPTION_MENU ( bouton_signe_type ),
@@ -589,8 +582,6 @@ void modification_entree_nom_type ( void )
 	    if ( (menu = creation_menu_types ( 1, compte_courant , 0 )))
 	    {
 		gint pos_type;
-
-		p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
 
 		gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_par_element (TRANSACTION_FORM_TYPE) ),
 					   menu );
@@ -761,8 +752,6 @@ gint find_operation_type_by_type ( gint no_compte, gint signe_type, gint exclude
 {
     GSList * pointer;
 
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_compte;
-
     for ( pointer = gsb_account_get_method_payment_list (no_compte); pointer; pointer = pointer -> next )
     {
 	struct struct_type_ope * type_ope;
@@ -805,8 +794,6 @@ void modification_type_signe ( gint *no_menu )
 
 	/* Call this callback so that we "unselect" things */
 	select_payment_method ( selection, GTK_TREE_MODEL(model) );
-
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + type_ope -> no_compte;
 
 	switch (type_ope -> signe_type)
 	{
@@ -947,7 +934,6 @@ void ajouter_type_operation ( void )
 
     type_ope = malloc ( sizeof ( struct struct_type_ope ));
 
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_compte;
     if ( gsb_account_get_method_payment_list (no_compte) )
 	type_ope -> no_type = ((struct struct_type_ope *)
 			       (g_slist_last ( gsb_account_get_method_payment_list (no_compte) )->data))->no_type + 1;
@@ -1032,7 +1018,6 @@ void supprimer_type_operation ( void )
 	    return;
 
 	/** We then put related operations in a temporary list */
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + type_ope -> no_compte;
 	pointeur_tmp = gsb_account_get_transactions_list (type_ope -> no_compte);
 	ope_a_changer = NULL;
 
@@ -1216,17 +1201,11 @@ GtkWidget *creation_menu_types ( gint demande,
 {
     GtkWidget *menu;
     GSList *liste_tmp;
-    gpointer **save_ptab;
-
-    save_ptab = p_tab_nom_de_compte_variable;
-
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte;
 
     /*   s'il n'y a pas de menu, on se barre */
 
     if ( !(liste_tmp = gsb_account_get_method_payment_list (compte) ))
     {
-	p_tab_nom_de_compte_variable = save_ptab;
 	return ( NULL );
     }
 
@@ -1296,7 +1275,6 @@ GtkWidget *creation_menu_types ( gint demande,
 	liste_tmp = liste_tmp -> next;
     }
 
-    p_tab_nom_de_compte_variable = save_ptab;
     return ( menu );
 }
 /* ************************************************************************************************************** */

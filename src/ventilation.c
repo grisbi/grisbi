@@ -122,16 +122,14 @@ extern GtkWidget *formulaire;
 extern GtkWidget *frame_droite_bas;
 extern GdkGC *gc_separateur_operation;
 extern gint hauteur_ligne_liste_opes;
+extern GSList *list_struct_accounts;
 extern GSList *liste_categories_ventilation_combofix;
 extern GSList *liste_imputations_combofix;
 extern gint mise_a_jour_combofix_categ_necessaire;
 extern gint mise_a_jour_combofix_imputation_necessaire;
-extern gint nb_comptes;
 extern GtkWidget *notebook_comptes_equilibrage;
 extern GtkWidget *notebook_formulaire;
 extern FILE * out;
-extern gpointer **p_tab_nom_de_compte;
-extern gpointer **p_tab_nom_de_compte_variable;
 extern PangoFontDescription *pango_desc_fonte_liste;
 extern GtkWidget *scrolled_window_liste_ventilations;
 extern GtkTreeSelection * selection;
@@ -745,26 +743,30 @@ gboolean entree_ventilation_perd_focus ( GtkWidget *entree, GdkEventFocus *ev,
 		    {
 			/* c'est un virement : on recherche le compte associé et on affiche les types de paiement */
 
-			gint i;
-
 			if ( strcmp ( tableau_char[1],
 				      _("Deleted account") ) )
 			{
 			    /* recherche le no de compte du virement */
 
 			    gint compte_virement;
+			    GSList *list_tmp;
 
-			    p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
-
+			    list_tmp = list_struct_accounts;
 			    compte_virement = -1;
 
-			    for ( i = 0 ; i < nb_comptes ; i++ )
+			    while ( list_tmp )
 			    {
+				gint i;
+
+				i = gsb_account_get_no_account ( list_tmp -> data );
+
 				if ( !g_strcasecmp ( gsb_account_get_name (i),
 						     tableau_char[1] ) )
 				    compte_virement = i;
-				p_tab_nom_de_compte_variable++;
+
+				list_tmp = list_tmp -> next;
 			    }
+
 
 			    /* si on a touvé un compte de virement, que celui ci n'est pas le compte */
 			    /* courant et que son menu des types n'est pas encore affiché, on crée le menu */
@@ -975,8 +977,6 @@ void ventiler_operation ( gdouble montant )
 {
     /*     on affiche la tree_view des ventilations */
 
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
-
     gtk_widget_hide ( gsb_account_get_scrolled_window (compte_courant) );
 
     gtk_widget_show ( scrolled_window_liste_ventilations );
@@ -1052,7 +1052,7 @@ void ventiler_operation ( gdouble montant )
 
 
 /***************************************************************************************************/
-/* Fonction traitement_clavier_liste */
+/* Fonction gsb_transactions_list_key_press */
 /* gère le clavier sur la clist */
 /***************************************************************************************************/
 
@@ -1107,7 +1107,7 @@ gboolean traitement_clavier_liste_ventilation ( GtkWidget *widget_variable,
 
 
 /***************************************************************************************************/
-/* Fonction selectionne_ligne_souris */
+/* Fonction gsb_transactions_list_button_press */
 /* place la sélection sur l'opé clickée */
 /***************************************************************************************************/
 
@@ -1119,7 +1119,7 @@ gboolean selectionne_ligne_souris_ventilation ( GtkWidget *tree_view,
     GtkTreePath *path;
     GtkTreeViewColumn *tree_colonne;
 
-/*     on n'accède pas à cette fonction par un signal, mais par selectionne_ligne_souris */
+/*     on n'accède pas à cette fonction par un signal, mais par gsb_transactions_list_button_press */
 /* 	qui provient de la liste d'opé */
 
     /* Récupération des coordonnées de la souris */
@@ -1398,15 +1398,19 @@ void fin_edition_ventilation ( void )
 	    if ( !strcmp ( tableau_char[0],
 			   _("Transfer")))
 	    {
-		gint i;
-
 		if ( tableau_char[1] )
 		{
+		    GSList *list_tmp;
+
 		    compte_vire = -1;
 
-		    for ( i = 0 ; i < nb_comptes ; i++ )
+		    list_tmp = list_struct_accounts;
+
+		    while ( list_tmp )
 		    {
-			p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
+			gint i;
+
+			i = gsb_account_get_no_account ( list_tmp -> data );
 
 			if ( !strcmp ( gsb_account_get_name (i),
 				       tableau_char[1] ) )
@@ -1416,6 +1420,7 @@ void fin_edition_ventilation ( void )
 			    else
 				compte_vire = i;
 			}
+			list_tmp = list_tmp -> next;
 		    }
 
 		    if ( compte_vire == -1 )
@@ -1879,8 +1884,6 @@ void edition_operation_ventilation ( void )
 
 	entree_prend_focus (widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_CATEGORY] );
 
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> relation_no_compte;
-
 	gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_CATEGORY] ),
 				g_strconcat ( COLON(_("Transfer")),
 					      gsb_account_get_name (operation -> relation_no_compte),
@@ -2212,12 +2215,9 @@ void ajoute_ope_sur_liste_ventilation ( struct struct_ope_ventil *operation )
     {
 	/* c'est un virement */
 
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> relation_no_compte;
-
 	ligne [0] = g_strconcat ( COLON(_("Transfer")),
 				  gsb_account_get_name (operation -> relation_no_compte),
 				  NULL );
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
     }
     else
 	/* c'est des categ : sous categ */
@@ -2381,7 +2381,7 @@ void selectionne_ligne_ventilation ( gint nouvelle_ligne )
     GdkColor *couleur;
 
     if ( DEBUG )
-	printf ( "selectionne_ligne ventilation\n" );
+	printf ( "gsb_transactions_list_set_current_transaction ventilation\n" );
 
     /*     si on est déjà dessus, on se barre */
 
@@ -2551,8 +2551,6 @@ void quitter_ventilation ( void )
 
     /*     on réaffiche la tree_view de la liste d'opés en cours */
 
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
-
     gtk_widget_hide ( scrolled_window_liste_ventilations );
     gtk_widget_show ( gsb_account_get_scrolled_window (compte_courant) );
 
@@ -2604,8 +2602,6 @@ GSList *creation_liste_ope_de_ventil ( struct structure_operation *operation )
 
     if ( !operation )
 	return ( NULL );
-
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> no_compte;
 
     liste_tmp = gsb_account_get_transactions_list (operation -> no_compte);
 
@@ -2785,8 +2781,6 @@ void validation_ope_de_ventilation ( struct structure_operation *operation )
 		    {
 			/*  soit c'était un virement, et on modifie l'opé associée */
 			/* soit c'est un nouveau virement, et on crée l'opé associée */
-
-			p_tab_nom_de_compte_variable = p_tab_nom_de_compte + ope_ventil -> relation_no_compte;
 
 			gsb_account_set_update_list ( ope_ventil -> relation_no_compte,
 						      1 );
@@ -3060,8 +3054,6 @@ void validation_ope_de_ventilation ( struct structure_operation *operation )
 			nouvelle_ope_2 -> date_bancaire = g_date_new_dmy ( operation -> jour_bancaire,
 									   operation -> mois_bancaire,
 									   operation -> annee_bancaire );
-
-		    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + nouvelle_ope_2 -> no_compte;
 
 		    nouvelle_ope_2 -> une_devise_compte_egale_x_devise_ope = nouvelle_ope -> une_devise_compte_egale_x_devise_ope;
 

@@ -142,6 +142,7 @@ extern GtkWidget *bouton_devise_tiers_etat;
 extern gint compte_courant;
 extern GtkWidget *detail_devise_compte;
 extern GtkWidget *hbox_boutons_modif;
+extern GSList *list_struct_accounts;
 extern GSList *liste_struct_echeances;
 extern gint mise_a_jour_combofix_categ_necessaire;
 extern gint mise_a_jour_combofix_imputation_necessaire;
@@ -150,13 +151,10 @@ extern gint mise_a_jour_liste_comptes_accueil;
 extern gint mise_a_jour_liste_echeances_auto_accueil;
 extern gint mise_a_jour_liste_echeances_manuelles_accueil;
 extern GtkTreeStore *model;
-extern gint nb_comptes;
 extern int no_devise_totaux_categ;
 extern gint no_devise_totaux_ib;
 extern gint no_devise_totaux_tiers;
 extern GtkWidget *onglet_config_etat;
-extern gpointer **p_tab_nom_de_compte;
-extern gpointer **p_tab_nom_de_compte_variable;
 extern GtkTreeSelection * selection;
 extern GtkWidget *treeview;
 extern GtkWidget *widget_formulaire_echeancier[SCHEDULER_FORM_TOTAL_WIDGET];
@@ -265,7 +263,6 @@ void update_currency_widgets()
 				"changed",
 				GTK_SIGNAL_FUNC ( modif_detail_compte ),
 				GTK_OBJECT ( hbox_boutons_modif ) );
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
     gtk_option_menu_set_history ( GTK_OPTION_MENU (  detail_devise_compte),
 				  g_slist_index ( liste_struct_devises,
 						  devise_par_no ( gsb_account_get_currency (compte_courant) ))); 
@@ -780,8 +777,9 @@ void retrait_devise ( GtkWidget *bouton,
 		      GtkWidget *liste )
 {
     gint devise_trouvee;
-    gint i;
     struct struct_devise *devise;
+    GSList *list_tmp;
+
 
     if ( ligne_selection_devise == -1 )
 	return;
@@ -795,14 +793,18 @@ void retrait_devise ( GtkWidget *bouton,
 
     devise_trouvee = 0;
 
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
+    list_tmp = list_struct_accounts;
 
-    for ( i=0 ; i<nb_comptes ; i++ )
+    while ( list_tmp )
     {
+	gint i;
+
+	i = gsb_account_get_no_account ( list_tmp -> data );
+
 	if ( gsb_account_get_currency (i) == devise -> no_devise )
 	{
 	    devise_trouvee = 1;
-	    i = nb_comptes;
+	    i = gsb_account_get_accounts_amount ();
 	}
 	else
 	{
@@ -815,7 +817,7 @@ void retrait_devise ( GtkWidget *bouton,
 		if ( ((struct structure_operation *)(liste_tmp -> data )) -> devise == devise -> no_devise )
 		{
 		    devise_trouvee = 1;
-		    i = nb_comptes;
+		    i = gsb_account_get_accounts_amount ();
 		    liste_tmp = NULL;
 		}
 		else
@@ -831,7 +833,7 @@ void retrait_devise ( GtkWidget *bouton,
 		    if ( ((struct operation_echeance *)(liste_tmp -> data )) -> devise == devise -> no_devise )
 		    {
 			devise_trouvee = 1;
-			i = nb_comptes;
+			i = gsb_account_get_accounts_amount ();
 			liste_tmp = NULL;
 		    }
 		    else
@@ -839,9 +841,9 @@ void retrait_devise ( GtkWidget *bouton,
 		}
 	    }
 	}
-	p_tab_nom_de_compte_variable++;
-    }
 
+	list_tmp = list_tmp -> next;
+    }
 
     if ( devise_trouvee )
     {
@@ -1189,7 +1191,7 @@ GtkWidget *onglet_devises ( void )
 			     TRUE, TRUE, 0);
 
 	/*   s'il n'y a pas de fichier ouvert, on grise */
-	if ( !nb_comptes )
+	if ( !gsb_account_get_accounts_amount () )
 	    gtk_widget_set_sensitive ( vbox_pref, FALSE );
 	else
 	{

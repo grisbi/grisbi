@@ -99,8 +99,6 @@ extern GtkWidget *formulaire;
 extern GSList *liste_struct_etats;
 extern GtkTreeStore *model;
 extern gint modif_tiers;
-extern gpointer **p_tab_nom_de_compte;
-extern gpointer **p_tab_nom_de_compte_variable;
 extern MetatreeInterface * payee_interface ;
 extern GtkTreeSelection * selection;
 extern GtkWidget *widget_formulaire_echeancier[SCHEDULER_FORM_TOTAL_WIDGET];
@@ -525,8 +523,6 @@ void remplit_arbre_tiers ( void )
 
     /** First, remove previous tree */
     gtk_tree_store_clear ( GTK_TREE_STORE (payee_tree_model) );
-
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
 
     /* Compute payee balances. */
     calcule_total_montant_payee ();

@@ -94,10 +94,8 @@ extern gint col_depart_drag;
 extern gint compte_courant;
 extern GtkWidget *formulaire;
 extern gint ligne_depart_drag;
+extern GSList *list_struct_accounts;
 extern GSList *liste_labels_titres_colonnes_liste_ope ;
-extern gint nb_comptes;
-extern gpointer **p_tab_nom_de_compte;
-extern gpointer **p_tab_nom_de_compte_variable;
 extern GtkWidget *preview;
 extern gchar *tips_col_liste_operations[7];
 extern gchar *titres_colonnes_liste_operations[7];
@@ -215,12 +213,12 @@ GtkWidget *onglet_affichage_liste ( void )
 	gtk_box_pack_end ( GTK_BOX(onglet), bouton,
 			   TRUE, FALSE, 0 );
 
-	if ( !nb_comptes )
+	if ( !gsb_account_get_accounts_amount () )
 	{
 	    gtk_widget_set_sensitive ( onglet, FALSE );
 	}
 
-	if ( nb_comptes )
+	if ( gsb_account_get_accounts_amount () )
 	{
 	    /* on remplit le tableau */
 
@@ -254,21 +252,24 @@ gboolean modification_retient_affichage_par_compte ( void )
 {
     gint nb_lignes;
     gint affichage_r;
-    gint i;
 
     if ( etat.retient_affichage_par_compte )
 	return FALSE;
-
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
 
     nb_lignes = gsb_account_get_nb_rows ( compte_courant );
     affichage_r = gsb_account_get_r (compte_courant);
 
     /*     on doit réafficher tous les comptes qui ne correspondent pas */
 
-    for ( i=0 ; i<nb_comptes ; i++ )
+    GSList *list_tmp;
+
+    list_tmp = list_struct_accounts;
+
+    while ( list_tmp )
     {
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
+	gint i;
+
+	i = gsb_account_get_no_account ( list_tmp -> data );
 
 	if (  gsb_account_get_nb_rows ( i ) != nb_lignes
 	      ||
@@ -288,8 +289,10 @@ gboolean modification_retient_affichage_par_compte ( void )
 							      0);
 	    gtk_list_store_clear ( gsb_account_get_store (i) );
 	}
+
+	list_tmp = list_tmp -> next;
     }
-	
+
     /* 	on met en place l'idle */
 
     demarrage_idle ();
@@ -309,8 +312,6 @@ gboolean change_choix_ajustement_auto_colonnes ( GtkWidget *bouton )
 
     if ( etat.largeur_auto_colonnes )
     {
-	p_tab_nom_de_compte_variable=p_tab_nom_de_compte + compte_courant;
-
 	allocation_precedente = 0;
 
 	for ( i = 0 ; i < TRANSACTION_LIST_COL_NB ; i++ )
@@ -343,8 +344,6 @@ gboolean change_largeur_colonne ( GtkWidget *clist,
 
     if ( etat.largeur_auto_colonnes )
     {
-	p_tab_nom_de_compte_variable=p_tab_nom_de_compte + compte_courant;
-
 	if ( rapport_largeur_colonnes[colonne] * GTK_WIDGET (gsb_account_get_tree_view (compte_courant)) -> allocation.width / 100 )
 	    gtk_tree_view_column_set_fixed_width ( gsb_account_get_column ( compte_courant, colonne),
 						   rapport_largeur_colonnes[colonne] * GTK_WIDGET (gsb_account_get_tree_view (compte_courant)) -> allocation.width / 100 );
@@ -467,7 +466,7 @@ GtkWidget *onglet_affichage_operations ( void )
 				3, 4, 2, 3 );
 
 
-    if ( nb_comptes )
+    if ( gsb_account_get_accounts_amount () )
     {
 	/* on place les lignes à afficher */
 
@@ -524,7 +523,7 @@ GtkWidget *onglet_affichage_operations ( void )
 					    _("by date"),
 					    &etat.classement_par_date, NULL);
 
-    if ( !nb_comptes )
+    if ( !gsb_account_get_accounts_amount () )
     {
 	gtk_widget_set_sensitive ( vbox_pref, FALSE );
     }
@@ -770,7 +769,6 @@ gboolean lache_bouton_classement_liste ( GtkWidget *clist,
 
     recuperation_noms_colonnes_et_tips ();
     update_titres_tree_view ();
-    update_fleches_classement_tree_view (-1);
 
     /*     on réaffiche les listes d'opé */
 
@@ -800,81 +798,82 @@ void remplissage_tab_affichage_ope ( GtkWidget *clist )
 	{
 	    switch ( tab_affichage_ope[i][j] )
 	    {
-		case 0:
-		    ligne[j] = "";
-		    break;
-
-		case 1:
+		case TRANSACTION_LIST_DATE:
 		    ligne[j] = _("Date");
 		    break;
 
-		case 2:
+		case TRANSACTION_LIST_VALUE_DATE:
 		    ligne[j] = _("Value date");
 		    break;
 
-		case 3:
+		case TRANSACTION_LIST_PARTY:
 		    ligne[j] = _("Payer/payee");
 		    break;
 
-		case 4:
+		case TRANSACTION_LIST_BUDGET:
 		    ligne[j] = _("Budgetary information");
 		    break;
 
-		case 5:
+		case TRANSACTION_LIST_DEBIT:
 		    ligne[j] = _("Debit");
 		    break;
 
-		case 6:
+		case TRANSACTION_LIST_CREDIT:
 		    ligne[j] = _("Credit");
 		    break;
 
-		case 7:
+		case TRANSACTION_LIST_BALANCE:
 		    ligne[j] = _("Balance");
 		    break;
 
-		case 8:
+		case TRANSACTION_LIST_AMOUNT:
 		    ligne[j] = _("Amount");
 		    break;
 
-		case 9:
+		case TRANSACTION_LIST_TYPE:
 		    ligne[j] = _("Payment method");
 		    break;
 
-		case 10:
+		case TRANSACTION_LIST_RECONCILE_NB:
 		    ligne[j] = _("Reconciliation ref.");
 		    break;
 
-		case 11:
+		case TRANSACTION_LIST_EXERCICE:
 		    ligne[j] = _("Financial year");
 		    break;
 
-		case 12:
+		case TRANSACTION_LIST_CATEGORY:
 		    ligne[j] = _("Categories");
 		    break;
 
-		case 13:
+		case TRANSACTION_LIST_MARK:
 		    ligne[j] = _("C/R");
 		    break;
 
-		case 14:
+		case TRANSACTION_LIST_VOUCHER:
 		    ligne[j] = _("Voucher");
 		    break;
 
-		case 15:
+		case TRANSACTION_LIST_NOTES:
 		    ligne[j] = _("Notes");
 		    break;
 
-		case 16:
+		case TRANSACTION_LIST_BANK:
 		    ligne[j] = _("Bank references");
 		    break;
 
-		case 17:
+		case TRANSACTION_LIST_NO:
 		    ligne[j] = _("Transaction number");
 		    break;
 
-		case 18:
+		case TRANSACTION_LIST_CHQ:
 		    ligne[j] = _("Cheque/Transfer number");
 		    break;
+
+		default:	
+		    ligne[j] = "";
+		    break;
+
 	    }
 
 	    if ( tab_affichage_ope[i][j]
@@ -1102,7 +1101,7 @@ GtkWidget *onglet_diverse_form_and_lists ( void )
 					    &etat.affichage_exercice_automatique, 
 					    NULL);
 
-    if ( !nb_comptes )
+    if ( !gsb_account_get_accounts_amount () )
     {
 	gtk_widget_set_sensitive ( vbox_pref, FALSE );
     }

@@ -126,8 +126,6 @@ extern GtkWidget *label_saisie_modif;
 extern gint mise_a_jour_liste_echeances_auto_accueil;
 extern gint mise_a_jour_liste_echeances_manuelles_accueil;
 extern GtkTreeStore *model;
-extern gpointer **p_tab_nom_de_compte;
-extern gpointer **p_tab_nom_de_compte_variable;
 extern gdouble taux_de_change[2];
 extern GtkWidget *tree_view;
 extern GtkWidget *widget_formulaire_echeancier[SCHEDULER_FORM_TOTAL_WIDGET];
@@ -1143,8 +1141,6 @@ void edition_echeance ( void )
 
 	    if ( echeance_selectionnnee -> compte_virement )
 	    {
-		p_tab_nom_de_compte_variable = p_tab_nom_de_compte + echeance_selectionnnee -> compte_virement;
-
 		texte = g_strconcat ( COLON(_("Transfer")),
 				      gsb_account_get_name (echeance_selectionnnee -> compte_virement),
 				      NULL );
@@ -1653,9 +1649,6 @@ void verification_echeances_a_terme ( void )
 
 
 		/* demande si nécessaire la valeur de la devise et du change */
-
-		p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> no_compte;
-
 		/* récupération des devises de l'opé et du compte */
 
 		devise = devise_par_no ( operation -> devise );

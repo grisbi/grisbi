@@ -30,7 +30,6 @@
 #include "etats_config.h"
 #include "utils_categories.h"
 #include "search_glist.h"
-#include "classement_operations.h"
 #include "tiers_onglet.h"
 #include "devises.h"
 #include "utils.h"
@@ -40,6 +39,7 @@
 #include "utils_dates.h"
 #include "data_account.h"
 #include "calendar.h"
+#include "classement_operations.h"
 #include "utils_ib.h"
 #include "utils_str.h"
 #include "traitement_variables.h"
@@ -277,13 +277,13 @@ GtkWidget *liste_mode_paiement_etat;
 extern struct struct_etat *etat_courant;
 extern GtkWidget *frame_liste_etats;
 extern GtkWidget *label_etat_courant;
+extern GSList *list_struct_accounts;
 extern GSList *liste_struct_categories;
 extern GSList *liste_struct_devises;
 extern GSList *liste_struct_exercices;
 extern GSList *liste_struct_imputation;
 extern GSList *liste_struct_tiers;
 extern gint mise_a_jour_combofix_tiers_necessaire;
-extern gint nb_comptes;
 extern GtkWidget *nom_exercice;
 extern GtkWidget *notebook_aff_donnees;
 extern GtkWidget *notebook_config_etat;
@@ -292,8 +292,6 @@ extern GtkWidget *notebook_general;
 extern GtkWidget *notebook_selection;
 extern GtkWidget *onglet_config_etat;
 extern GSList *ordre_comptes;
-extern gpointer **p_tab_nom_de_compte;
-extern gpointer **p_tab_nom_de_compte_variable;
 extern GtkTreeSelection * selection;
 extern GtkStyle *style_label;
 extern GtkStyle *style_label_nom_compte;
@@ -2709,7 +2707,6 @@ void remplissage_liste_comptes_etats ( void )
 	gchar *nom[1];
 	gint ligne;
 
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + GPOINTER_TO_INT ( pUserAccountsList -> data );
 	nom[0] = gsb_account_get_name (GPOINTER_TO_INT ( pUserAccountsList -> data ));
 
 	ligne = gtk_clist_append ( GTK_CLIST ( liste_comptes_etat ),
@@ -2731,14 +2728,12 @@ void selectionne_partie_liste_compte_etat ( gint *type_compte )
 
     gtk_clist_unselect_all ( GTK_CLIST ( liste_comptes_etat ));
 
-    for ( i=0 ; i<nb_comptes ; i++ )
+    for ( i=0 ; i<gsb_account_get_accounts_amount () ; i++ )
     {
 	gint no_compte;
 
 	no_compte = GPOINTER_TO_INT ( gtk_clist_get_row_data ( GTK_CLIST ( liste_comptes_etat ),
 							       i ));
-
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_compte;
 
 	if ( gsb_account_get_kind (no_compte) == GPOINTER_TO_INT ( type_compte ))
 	    gtk_clist_select_row ( GTK_CLIST ( liste_comptes_etat ),
@@ -3009,7 +3004,6 @@ void remplissage_liste_comptes_virements ( void )
 	gchar *nom[1];
 	gint ligne;
 
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + GPOINTER_TO_INT ( pUserAccountsList -> data );
 	nom[0] = gsb_account_get_name (GPOINTER_TO_INT ( pUserAccountsList -> data ));
 
 	ligne = gtk_clist_append ( GTK_CLIST ( liste_comptes_virements ),
@@ -3031,14 +3025,12 @@ void selectionne_partie_liste_compte_vir_etat ( gint *type_compte )
 
     gtk_clist_unselect_all ( GTK_CLIST ( liste_comptes_virements ));
 
-    for ( i=0 ; i<nb_comptes ; i++ )
+    for ( i=0 ; i<gsb_account_get_accounts_amount () ; i++ )
     {
 	gint no_compte;
 
 	no_compte = GPOINTER_TO_INT ( gtk_clist_get_row_data ( GTK_CLIST ( liste_comptes_virements ),
 							       i ));
-
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_compte;
 
 	if ( gsb_account_get_kind (no_compte) == GPOINTER_TO_INT ( type_compte ))
 	    gtk_clist_select_row ( GTK_CLIST ( liste_comptes_virements ),
@@ -7812,9 +7804,9 @@ GtkWidget *onglet_etat_mode_paiement ( void )
 /******************************************************************************/
 void remplissage_liste_modes_paiement_etats ( void )
 {
-    gint i;
     GSList *liste_nom_types;
     GSList *liste_tmp;
+    GSList *list_tmp;
 
 
     if ( !liste_comptes_etat )
@@ -7825,11 +7817,15 @@ void remplissage_liste_modes_paiement_etats ( void )
     /* on va commencer par créer une liste de textes contenant les noms */
     /* des modes de paiement sans doublon */
 
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
+    list_tmp = list_struct_accounts;
     liste_nom_types = NULL;
 
-    for ( i=0 ; i<nb_comptes ; i++ )
+    while ( list_tmp )
     {
+	gint i;
+
+	i = gsb_account_get_no_account ( list_tmp -> data );
+
 	liste_tmp = gsb_account_get_method_payment_list (i);
 
 	while ( liste_tmp )
@@ -7846,14 +7842,15 @@ void remplissage_liste_modes_paiement_etats ( void )
 
 	    liste_tmp = liste_tmp -> next;
 	}
-	p_tab_nom_de_compte_variable++;
+
+	list_tmp = list_tmp -> next;
     }
 
     /* on a donc une liste de noms de types d'opé non redondant, on classe */
     /* par ordre alphabétique et on affiche */
 
     liste_nom_types = g_slist_sort ( liste_nom_types,
-				     (GCompareFunc) classe_liste_alphabetique );
+				     (GCompareFunc) gsb_strcasecmp );
 
     liste_tmp = liste_nom_types;
 

@@ -39,11 +39,9 @@ static void reset_payee_counters ();
 
 
 /*START_EXTERN*/
+extern GSList *list_struct_accounts;
 extern GSList *liste_struct_tiers;
-extern gint nb_comptes;
 extern gint no_devise_totaux_tiers;
-extern gpointer **p_tab_nom_de_compte;
-extern gpointer **p_tab_nom_de_compte_variable;
 extern struct struct_tiers * without_payee;
 /*END_EXTERN*/
 
@@ -137,7 +135,7 @@ gchar *tiers_name_by_no ( gint no_tiers,
  */
 void calcule_total_montant_payee ( void )
 {
-    gint i;
+    GSList *list_tmp;
 
     reset_payee_counters();
 
@@ -145,11 +143,14 @@ void calcule_total_montant_payee ( void )
     without_payee -> no_tiers = 0;
     without_payee -> nom_tiers = _("No payee");
 
-    for ( i=0 ; i<nb_comptes ; i++ )
+    list_tmp = list_struct_accounts;
+
+    while ( list_tmp )
     {
+	gint i;
 	GSList *liste_tmp;
 
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
+	i = gsb_account_get_no_account ( list_tmp -> data );
 
 	liste_tmp = gsb_account_get_transactions_list (i);
 	while ( liste_tmp )
@@ -175,6 +176,8 @@ void calcule_total_montant_payee ( void )
 
 	    liste_tmp = liste_tmp -> next;
 	}
+
+	list_tmp = list_tmp -> next;
     }
 }
 

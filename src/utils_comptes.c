@@ -37,9 +37,7 @@
 
 
 /*START_EXTERN*/
-extern gint nb_comptes;
-extern gpointer **p_tab_nom_de_compte;
-extern gpointer **p_tab_nom_de_compte_variable;
+extern GSList *list_struct_accounts;
 extern GtkWidget *widget_formulaire_echeancier[SCHEDULER_FORM_TOTAL_WIDGET];
 /*END_EXTERN*/
 
@@ -127,9 +125,8 @@ gchar *compte_name_by_no ( gint no_compte )
 
     if ( no_compte >= 0
 	 &&
-	 no_compte <= nb_comptes )
+	 no_compte <= gsb_account_get_accounts_amount () )
     {
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_compte;
 	return ( g_strdup ( gsb_account_get_name (no_compte) ));
     }
     else
@@ -145,20 +142,26 @@ gchar *compte_name_by_no ( gint no_compte )
 gint no_compte_by_name ( gchar *name )
 {
     gint no_compte;
-    gint i;
+    GSList *list_tmp;
 
     no_compte = -1;
 
-    for ( i=0 ; i<nb_comptes ; i++ )
+    list_tmp = list_struct_accounts;
+
+    while ( list_tmp )
     {
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
+	gint i;
+
+	i = gsb_account_get_no_account ( list_tmp -> data );
 
 	if ( !g_strcasecmp ( gsb_account_get_name (i),
 			     name ))
 	{
 	    no_compte = i;
-	    i=nb_comptes;
+	    i=gsb_account_get_accounts_amount ();
 	}
+
+	list_tmp = list_tmp -> next;
     }
 
     return no_compte;

@@ -106,7 +106,7 @@ void load_config_format(xmlNodePtr node_format);
 /*                                                                          */
 /*--------------------------------------------------------------------------*/
 
-#define   DEFAULT_DATE_FORMAT_LISTE_OP  "%d/%M/%Y"
+#define   DEFAULT_DATE_FORMAT_LISTE_OP  "%d/%m/%Y"
 
 void save_config_format(xmlNodePtr parent_node);
 

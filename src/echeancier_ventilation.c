@@ -42,12 +42,12 @@
 #include "utils_echeances.h"
 #include "operations_formulaire.h"
 #include "data_account.h"
+#include "operations_liste.h"
 #include "gtk_combofix.h"
 #include "utils_ib.h"
 #include "categories_onglet.h"
 #include "imputation_budgetaire.h"
 #include "utils_comptes.h"
-#include "operations_liste.h"
 #include "echeancier_liste.h"
 /*END_INCLUDE*/
 
@@ -106,20 +106,18 @@ extern GtkWidget *formulaire;
 extern GtkWidget *formulaire_echeancier;
 extern GtkWidget *formulaire_echeancier;
 extern GtkWidget *frame_droite_bas;
+extern GSList *list_struct_accounts;
 extern GSList *liste_categories_ventilation_combofix;
 extern GSList *liste_imputations_combofix;
 extern GSList *liste_struct_echeances;
 extern gint mise_a_jour_combofix_categ_necessaire;
 extern gint mise_a_jour_combofix_imputation_necessaire;
-extern gint nb_comptes;
 extern gint nb_echeances;
 extern gint no_derniere_echeance;
 extern GtkWidget *notebook_calendrier_ventilations;
 extern GtkWidget *notebook_formulaire_echeances;
 extern GtkWidget *notebook_liste_ventil_echeances;
 extern FILE * out;
-extern gpointer **p_tab_nom_de_compte;
-extern gpointer **p_tab_nom_de_compte_variable;
 extern GtkTreeSelection * selection;
 extern GtkStyle *style_couleur [2];
 extern GtkStyle *style_entree_formulaire[2];
@@ -824,25 +822,28 @@ gboolean entree_ventilation_perd_focus_echeances ( GtkWidget *entree, GdkEventFo
 		    {
 			/* c'est un virement : on recherche le compte associé et on affiche les types de paiement */
 
-			gint i;
-
 			if ( strcmp ( tableau_char[1],
 				      _("Deleted account") ) )
 			{
 			    /* recherche le no de compte du virement */
 
 			    gint compte_virement;
-
-			    p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
+			    GSList *list_tmp;
 
 			    compte_virement = -1;
+			    list_tmp = list_struct_accounts;
 
-			    for ( i = 0 ; i < nb_comptes ; i++ )
+			    while ( list_tmp )
 			    {
+				gint i;
+
+				i = gsb_account_get_no_account ( list_tmp -> data );
+
 				if ( !g_strcasecmp ( gsb_account_get_name (i),
 						     tableau_char[1] ) )
 				    compte_virement = i;
-				p_tab_nom_de_compte_variable++;
+
+				list_tmp = list_tmp -> next;
 			    }
 
 			    /* si on a touvé un compte de virement, que celui ci n'est pas le compte */
@@ -1245,9 +1246,6 @@ gboolean traitement_clavier_liste_ventilation_echeances ( GtkCList *liste,
 {
     gint ligne;
 
-
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
-
     gtk_signal_emit_stop_by_name ( GTK_OBJECT ( liste ),
 				   "key_press_event");
 
@@ -1333,7 +1331,7 @@ gboolean traitement_clavier_liste_ventilation_echeances ( GtkCList *liste,
 
 
 /***************************************************************************************************/
-/* Fonction selectionne_ligne_souris */
+/* Fonction gsb_transactions_list_button_press */
 /* place la sélection sur l'opé clickée */
 /***************************************************************************************************/
 
@@ -1624,17 +1622,24 @@ void fin_edition_ventilation_echeances ( void )
 	    if ( !strcmp ( tableau_char[0],
 			   _("Transfer")))
 	    {
-		gint i;
-
 		if ( tableau_char[1] )
 		{
-		    compte_vire = -1;
+		    GSList *list_tmp;
 
-		    for ( i = 0 ; i < nb_comptes ; i++ )
+		    compte_vire = -1;
+		    list_tmp = list_struct_accounts;
+
+		    while ( list_tmp )
 		    {
+			gint i;
+
+			i = gsb_account_get_no_account ( list_tmp -> data );
+
 			if ( !strcmp ( gsb_account_get_name (i),
 				       tableau_char[1] ) )
 			    compte_vire = i;
+
+			list_tmp = list_tmp -> next;
 		    }
 
 		    if ( compte_vire == -1 )
@@ -2014,8 +2019,6 @@ void edition_operation_ventilation_echeances ( void )
 	GtkWidget *menu;
 
 	entree_prend_focus (widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CATEGORY] );
-
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> relation_no_compte;
 
 	gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CATEGORY] ),
 				g_strconcat ( COLON(_("Transfer")),

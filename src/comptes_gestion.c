@@ -82,6 +82,7 @@ extern GtkWidget *adr_banque;
 extern GtkWidget *code_banque;
 extern gint compte_courant_onglet;
 extern struct struct_devise *devise_compte;
+extern GSList *list_struct_accounts;
 extern GSList *liste_struct_banques;
 extern GSList *liste_struct_devises;
 extern gint mise_a_jour_combofix_categ_necessaire;
@@ -89,9 +90,6 @@ extern gint mise_a_jour_fin_comptes_passifs;
 extern gint mise_a_jour_liste_comptes_accueil;
 extern gint mise_a_jour_liste_echeances_manuelles_accueil;
 extern gint mise_a_jour_soldes_minimaux;
-extern gint nb_comptes;
-extern gpointer **p_tab_nom_de_compte;
-extern gpointer **p_tab_nom_de_compte_variable;
 extern GtkTreeSelection * selection;
 /*END_EXTERN*/
 
@@ -775,9 +773,6 @@ void remplissage_details_compte ( void )
     struct struct_banque *banque;
     struct struct_devise *devise;
 
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant_onglet;
-
-
     gtk_entry_set_text ( GTK_ENTRY ( detail_nom_compte ),
 			 gsb_account_get_name (compte_courant_onglet) );
 
@@ -892,7 +887,6 @@ void modification_details_compte ( void )
 {
     GtkTextIter start, end;
     GtkTextBuffer *buffer;
-    gint i; 
 
     /* vérification que le compte a un nom */
 
@@ -903,25 +897,28 @@ void modification_details_compte ( void )
 	return;
     }
 
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
+    GSList *list_tmp;
 
-    /* vérification que ce nom ne soit pas déjà utilisé */
+    list_tmp = list_struct_accounts;
 
-    for ( i = 0; i < nb_comptes; i++)
+    while ( list_tmp )
     {
+	gint i;
+
+	i = gsb_account_get_no_account ( list_tmp -> data );
+
 	if ( i == compte_courant_onglet )
 	    continue;
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
+
 	if ( !strcmp ( g_strstrip ( (gchar*) gtk_entry_get_text ( GTK_ENTRY ( detail_nom_compte ))), gsb_account_get_name (i) ))
 	{
 	    dialogue_error_hint( _("Accounts names are used to distinguish accounts.  It is mandatory that names are both unique and not empty."),
 				 g_strdup_printf ( _("Account \"%s\" already exists!"), gtk_entry_get_text ( GTK_ENTRY ( detail_nom_compte ))));
 	    return;
 	}
+
+	list_tmp = list_tmp -> next;
     }
-
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant_onglet;
-
 
     /* récupération du titulaire */
 
@@ -946,8 +943,6 @@ void modification_details_compte ( void )
 	mise_a_jour_fin_comptes_passifs = 1;
 	mise_a_jour_soldes_minimaux = 1;
 	formulaire_a_zero();
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant_onglet;
-
     }
 
 
@@ -1007,9 +1002,6 @@ void modification_details_compte ( void )
 
 	mise_a_jour_liste_comptes_accueil = 1;
 	mise_a_jour_liste_echeances_manuelles_accueil = 1;
-
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant_onglet;
-
     }
 
 
@@ -1085,7 +1077,6 @@ void modification_details_compte ( void )
 	    mise_a_jour_combofix_categ();
 	reaffiche_liste_comptes ();
 	mise_a_jour_liste_comptes_accueil = 1;
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant_onglet;
 
 	/* Replace trees contents. */
 	remplit_arbre_categ ();
@@ -1113,9 +1104,6 @@ void modification_details_compte ( void )
 	mise_a_jour_liste_comptes_accueil = 1;
 	mise_a_jour_soldes_minimaux = 1;
 	mise_a_jour_fin_comptes_passifs = 1;
-
-
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant_onglet;
     }
 
     /* vérification du solde mini autorisé */
@@ -1131,7 +1119,6 @@ void modification_details_compte ( void )
 
 	mise_a_jour_liste_comptes_accueil = 1;
 	mise_a_jour_soldes_minimaux = 1;
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant_onglet;
     }
 
 
@@ -1148,7 +1135,6 @@ void modification_details_compte ( void )
 						      0 );
 
 	mise_a_jour_soldes_minimaux = 1;
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant_onglet;
     }
 
 
@@ -1206,8 +1192,6 @@ void modification_details_compte ( void )
 	update_options_menus_comptes ();
 	remplissage_liste_comptes_etats ();
 	selectionne_liste_comptes_etat_courant ();
-
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant_onglet;
     }
 
 
@@ -1233,10 +1217,6 @@ void sort_du_detail_compte ( void )
     if ( GTK_WIDGET_SENSITIVE ( hbox_boutons_modif ) )
     {
 	gint resultat;
-	gpointer **save;
-
-	save = p_tab_nom_de_compte_variable;
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant_onglet;
 
 	resultat = question_yes_no_hint ( _("Apply changes to account?"),
 					  g_strdup_printf ( _("Account \"%s\" has been modified.\nDo you want to save changes?"),
@@ -1249,8 +1229,6 @@ void sort_du_detail_compte ( void )
 	    modification_details_compte ();
 	    mise_a_jour_liste_comptes_accueil = 1;
 	}
-
-	p_tab_nom_de_compte_variable = save;
     }
 }
 /* ************************************************************************************************************ */

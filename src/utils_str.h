@@ -6,10 +6,6 @@ gchar * latin2utf8 (char * inchar);
 gchar *limit_string ( gchar *string,
 		      gint length );
 gint my_atoi ( gchar *chaine );
-gint my_strcasecmp ( gchar *chaine_1,
-		     gchar *chaine_2 );
-gint my_strcmp ( gchar *chaine_1,
-		 gchar *chaine_2 );
 gchar *my_strdelimit ( gchar *string,
 		       gchar *delimiters,
 		       gchar *new_delimiters );

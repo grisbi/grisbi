@@ -90,13 +90,11 @@ extern MetatreeInterface * category_interface ;
 extern gchar *dernier_chemin_de_travail;
 extern struct struct_etat *etat_courant;
 extern GtkWidget *formulaire;
+extern GSList *list_struct_accounts;
 extern GSList *liste_categories_ventilation_combofix;
 extern GtkTreeStore *model;
 extern gint modif_categ;
-extern gint nb_comptes;
 extern gint no_derniere_operation;
-extern gpointer **p_tab_nom_de_compte;
-extern gpointer **p_tab_nom_de_compte_variable;
 extern GtkTreeSelection * selection;
 extern GtkWidget *widget_formulaire_echeancier[SCHEDULER_FORM_TOTAL_WIDGET];
 extern GtkWidget *widget_formulaire_ventilation[TRANSACTION_BREAKDOWN_FORM_TOTAL_WIDGET];
@@ -374,8 +372,6 @@ void remplit_arbre_categ ( void )
     /** First, remove previous tree */
     gtk_tree_store_clear ( GTK_TREE_STORE (categ_tree_model) );
 
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
-
     /* Compute category balances. */
     calcule_total_montant_categ ();
 
@@ -584,7 +580,8 @@ void merge_liste_categories ( void )
 void creation_liste_categ_combofix ( void )
 {
     GSList *pointeur, *liste_categ_credit, *liste_categ_debit, *liste_categ_special;
-    gint i;
+    GSList *list_tmp;
+
 
     if ( DEBUG )
 	printf ( "creation_liste_categ_combofix\n" );
@@ -658,16 +655,19 @@ void creation_liste_categ_combofix ( void )
     liste_categ_special = g_slist_append ( liste_categ_special,
 					   _("Transfer") );
 
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
+    list_tmp = list_struct_accounts;
 
-    for ( i = 0 ; i < nb_comptes ; i++ )
+    while ( list_tmp )
     {
+	gint i;
+
+	i = gsb_account_get_no_account ( list_tmp -> data );
 	if ( ! gsb_account_get_closed_account (i) )
 	    liste_categ_special = g_slist_append ( liste_categ_special,
 						   g_strconcat ( "\t",
 								 gsb_account_get_name (i),
 								 NULL ));
-	p_tab_nom_de_compte_variable++;
+	list_tmp = list_tmp -> next;
     }
 
     liste_categories_combofix = g_slist_append ( liste_categories_combofix,

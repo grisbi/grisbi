@@ -29,6 +29,7 @@
 
 /*START_INCLUDE*/
 #include "traitement_variables.h"
+#include "data_account.h"
 #include "menu.h"
 /*END_INCLUDE*/
 
@@ -64,7 +65,6 @@ extern struct struct_devise *devise_nulle;
 extern struct struct_devise *devise_operation;
 extern GSList *echeances_saisies;
 extern struct struct_etat *etat_courant;
-extern GtkWidget *formulaire;
 extern GtkItemFactory *item_factory_menu_general;
 extern gint ligne_affichage_une_ligne;
 extern GSList *lignes_affichage_deux_lignes;
@@ -89,8 +89,6 @@ extern gint mise_a_jour_liste_echeances_auto_accueil;
 extern gint mise_a_jour_liste_echeances_manuelles_accueil;
 extern gint mise_a_jour_soldes_minimaux;
 extern gint nb_banques;
-extern gint nb_colonnes;
-extern gint nb_comptes;
 extern gint nb_devises;
 extern gint nb_echeances;
 extern gint nb_enregistrements_categories, no_derniere_categorie;
@@ -110,7 +108,6 @@ extern gint no_devise_totaux_tiers;
 extern gchar *nom_fichier_backup;
 extern gchar *nom_fichier_comptes;
 extern GSList *ordre_comptes;
-extern gpointer **p_tab_nom_de_compte;
 extern gint scheduler_col_width[NB_COLS_SCHEDULER] ;
 extern GtkWidget *solde_label;
 extern GtkWidget *solde_label_pointe;
@@ -182,14 +179,11 @@ void init_variables ( void )
 
     nom_fichier_comptes = NULL;
 
-    nb_comptes = 0;
     no_derniere_operation = 0;
-    p_tab_nom_de_compte = NULL;
     ordre_comptes = NULL;
     compte_courant = 0;
     solde_label = NULL;
     solde_label_pointe = NULL;
-    p_tab_nom_de_compte = NULL;
 
     nom_fichier_backup = NULL;
     chemin_logo = NULL;
@@ -398,9 +392,11 @@ void menus_sensitifs ( gboolean sensitif )
 
     while ( *tmp )
       {
-	gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
-							       *tmp ),
-				   sensitif );
+	  if ( gtk_item_factory_get_item ( item_factory_menu_general,
+					   *tmp ))
+	      gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
+								     *tmp ),
+					 sensitif );
 	tmp++;
       }
 }
@@ -413,7 +409,7 @@ void menus_sensitifs ( gboolean sensitif )
 void initialise_tab_affichage_ope ( void )
 {
     gint tab[4][7] = {
-	{ TRANSACTION_LIST_CHQ, TRANSACTION_LIST_DATE, TRANSACTION_LIST_PARTY, TRANSACTION_LIST_MARK, TRANSACTION_LIST_CREDIT, TRANSACTION_LIST_DEBIT, TRANSACTION_LIST_BALANCE },
+	{ TRANSACTION_LIST_CHQ, TRANSACTION_LIST_DATE, TRANSACTION_LIST_PARTY, TRANSACTION_LIST_MARK, TRANSACTION_LIST_DEBIT, TRANSACTION_LIST_CREDIT, TRANSACTION_LIST_BALANCE },
 	{0, 0, TRANSACTION_LIST_CATEGORY, 0, TRANSACTION_LIST_TYPE, TRANSACTION_LIST_AMOUNT, 0 },
 	{0, 0, TRANSACTION_LIST_NOTES, 0, 0, 0, 0 },
 	{0, 0, 0, 0, 0, 0, 0 }
@@ -421,7 +417,7 @@ void initialise_tab_affichage_ope ( void )
     gint i, j;
 
     for ( i = 0 ; i<4 ; i++ )
-	for ( j = 0 ; j<7 ; j++ )
+	for ( j = 0 ; j<TRANSACTION_LIST_COL_NB ; j++ )
 	    tab_affichage_ope[i][j] = tab[i][j];
 
 
@@ -449,43 +445,33 @@ void initialise_tab_affichage_ope ( void )
 }
 /*****************************************************************************************************/
 
-
-/*****************************************************************************************************/
-/* cette fonction, appelée par l'initialisation des variables globales remet l'organisation de */
-/* formulaire à zéro : */
-/* date		tiers	débit		crédit 	*/
-/* 		catég	mode paiement	chq 	*/
-/* ventil	notes	mode contre op		*/
-/*****************************************************************************************************/
-struct organisation_formulaire *mise_a_zero_organisation_formulaire ( void )
+/** set the default column_sort for each account when loading a file before 0.6.0
+ * or make a new file
+ * \param no_account
+ * \return
+ * */
+void init_default_sort_column ( gint no_account )
 {
-    struct organisation_formulaire *struct_formulaire;
-    gint tab[4][6] = { 
-	{ TRANSACTION_FORM_DATE, TRANSACTION_FORM_PARTY, TRANSACTION_FORM_DEBIT, TRANSACTION_FORM_CREDIT, 0, 0 },
-	{ 0, TRANSACTION_FORM_CATEGORY, TRANSACTION_FORM_TYPE, TRANSACTION_FORM_CHEQUE, 0, 0 },
-	{ TRANSACTION_FORM_BREAKDOWN, TRANSACTION_FORM_NOTES, TRANSACTION_FORM_CONTRA, 0, 0, 0 },
-	{ 0, 0, 0, 0, 0, 0 }
-    };
     gint i, j;
-    gint taille[6] = { 15, 50, 15, 15, 0, 0 };
-
-    struct_formulaire = malloc ( sizeof ( struct organisation_formulaire ));
-    
-    struct_formulaire -> nb_colonnes = 4;
-    struct_formulaire -> nb_lignes = 3;
 
     for ( i = 0 ; i<4 ; i++ )
-	for ( j = 0 ; j<6 ; j++ )
-	    struct_formulaire -> tab_remplissage_formulaire[i][j] = tab[i][j];
+	for ( j = 0 ; j<TRANSACTION_LIST_COL_NB ; j++ )
+	{
+	    if ( !gsb_account_get_column_sort ( no_account,
+						j )
+		 &&
+		 tab_affichage_ope[i][j]
+		 &&
+		 tab_affichage_ope[i][j] != TRANSACTION_LIST_BALANCE )
 
-    for ( i = 0 ; i<6 ; i++ )
-	struct_formulaire -> taille_colonne_pourcent[i] = taille[i];
-
-    return struct_formulaire;
+		gsb_account_set_column_sort ( no_account,
+					      j,
+					      tab_affichage_ope[i][j] );
+	}
 }
-/*****************************************************************************************************/
 
 
+  
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

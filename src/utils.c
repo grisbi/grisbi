@@ -33,6 +33,7 @@
 /*START_INCLUDE*/
 #include "utils.h"
 #include "dialog.h"
+#include "data_account.h"
 #include "main.h"
 /*END_INCLUDE*/
 
@@ -44,11 +45,7 @@
 
 
 /*START_EXTERN*/
-extern gint compte_courant;
 extern gint id_fonction_idle;
-extern gint nb_comptes;
-extern gpointer **p_tab_nom_de_compte;
-extern gpointer **p_tab_nom_de_compte_variable;
 extern GtkWidget *window;
 /*END_EXTERN*/
 
@@ -301,67 +298,6 @@ GtkWidget *new_vbox_with_title_and_icon ( gchar * title,
 
 
 
-/* ******************************************************************************* */
-/* fonction qui vérifie la validité de la variable p_tab_nom_de_compte_variable */
-/* si elle n'est pas valide, la place sur le compte courant, et si pas encore nécessaire, */
-/*     la place sur le 1er compte. dans ce cas, si nb_comptes = 0 on met un message  */
-/* comme quoi ça va sûrement crasher derrière */
-/*     si p_tab_nom_de_compte_variable n'est pas valide, affiche un message d'erreur */
-/* return le p_tab_nom_de_compte_variable ou NULL si pas de comptes */
-/* ******************************************************************************* */
-
-gpointer **verification_p_tab ( gchar *fonction_appelante )
-{
-    gchar *message=NULL;
-
-    if ( !fonction_appelante )
-	fonction_appelante = _("I don't know !!!");
-
-    if ( !assert_account_loaded() )
-    {
-	dialogue_error_hint ( _("There is no account in memory ! But if you see that error, it should...\nPlease send a bug report to the grisbi team, this is a very big bug !\nGrisbi will probably crash after that message..."),
-			      _("No account in memory"));
-	return NULL;
-    }
-
-    if ( p_tab_nom_de_compte_variable > (p_tab_nom_de_compte + nb_comptes )
-	 ||
-	 p_tab_nom_de_compte_variable < p_tab_nom_de_compte )
-    {
-	/* 	p_tab était mal placée */
-
-	message = _( "Warning : variable p_tab_nom_de_compte_variable is abnormal.");
-
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
-
-	if ( p_tab_nom_de_compte_variable > (p_tab_nom_de_compte + nb_comptes )
-	     ||
-	     p_tab_nom_de_compte_variable < p_tab_nom_de_compte )
-	{
-	    /* 	    cette fois le compte_courant aussi c'est n'importe quoi... */
-
-	    message = g_strconcat ( message,
-				    "\nAnd so the variable compte_courant...\nThis is a bug, please contact the grisbi team to fix it.\nWhat you wanted to do will be done on the first account, so normally you can correct it.\nThe problem comes from the function :\n",
-				    fonction_appelante,
-				    NULL );
-
-	    p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
-	}
-	else
-	{
-	    /* 	    bon, au moins compte_courant est valide... */
-	     
-		    message = g_strconcat ( message,
-				    "\nThis is a bug, please contact the grisbi team to fix it.\nWhat you wanted to do will be done on the current account, so normally you can correct it.\nThe problem comes from the function :\n",
-				    fonction_appelante,
-				    NULL );
-	}
-    }
-    return (p_tab_nom_de_compte_variable);
-}
-/* ******************************************************************************* */
-
-
 
 /**
  * Returns TRUE if an account is loaded in memory.  Usefull to be sure
@@ -371,7 +307,7 @@ gpointer **verification_p_tab ( gchar *fonction_appelante )
  */
 gboolean assert_account_loaded ()
 {
-  return nb_comptes != 0;
+  return gsb_account_get_accounts_amount () != 0;
 }
 
 

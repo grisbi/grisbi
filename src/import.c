@@ -44,9 +44,8 @@
 #include "utils_file_selection.h"
 #include "utils_files.h"
 #include "data_account.h"
-#include "traitement_variables.h"
 #include "fichiers_gestion.h"
-#include "comptes_traitements.h"
+#include "traitement_variables.h"
 #include "utils_str.h"
 #include "accueil.h"
 #include "categories_onglet.h"
@@ -113,18 +112,16 @@ enum import_type file_type;
 extern gchar *dernier_chemin_de_travail;
 extern gchar *derniere_date;
 extern GtkWidget *formulaire;
+extern GSList *list_struct_accounts;
 extern GSList *liste_struct_devises;
 extern gint mise_a_jour_combofix_categ_necessaire;
 extern gint mise_a_jour_combofix_tiers_necessaire;
 extern gint mise_a_jour_liste_comptes_accueil;
 extern gint mise_a_jour_soldes_minimaux;
 extern GtkTreeStore *model;
-extern gint nb_comptes;
 extern gint no_derniere_operation;
 extern GtkWidget *notebook_listes_operations;
 extern GSList *ordre_comptes;
-extern gpointer **p_tab_nom_de_compte;
-extern gpointer **p_tab_nom_de_compte_variable;
 extern GtkTreeSelection * selection;
 extern GtkWidget *tree_view;
 extern GtkWidget *window;
@@ -316,7 +313,7 @@ gboolean affichage_recapitulatif_importation ( void )
       }
 
     /* We have to do that as soon as possible since this would reset currencies */
-    if ( !nb_comptes )
+    if ( !gsb_account_get_accounts_amount () )
       {
 	init_variables ();
       }
@@ -391,7 +388,7 @@ gboolean affichage_recapitulatif_importation ( void )
 				TRUE,
 				FALSE );
 
-	if ( nb_comptes )
+	if ( gsb_account_get_accounts_amount () )
 	    gtk_widget_set_usize ( dialog_recapitulatif,
 				   900,
 				   400 );
@@ -474,7 +471,7 @@ gboolean affichage_recapitulatif_importation ( void )
 			   0, 0 );
 	gtk_widget_show ( label );
 
-	if ( nb_comptes )
+	if ( gsb_account_get_accounts_amount () )
 	{
 	    label = gtk_label_new ( _( "Account" ));
 	    gtk_table_attach ( GTK_TABLE ( table_recapitulatif ),
@@ -511,7 +508,7 @@ gboolean affichage_recapitulatif_importation ( void )
 
 	/* si aucun compte n'est ouvert, on crée les devises de base */
 
-	if ( !nb_comptes )
+	if ( !gsb_account_get_accounts_amount () )
 	{
 	    menus_sensitifs ( FALSE );
 	    ajout_devise (NULL);
@@ -734,7 +731,7 @@ void cree_ligne_recapitulatif ( struct struct_compte_importation *compte,
     gtk_object_set_data ( GTK_OBJECT ( menu_item ),
 			  "no_action",
 			  GINT_TO_POINTER ( 0 ) );
-    if ( nb_comptes )
+    if ( gsb_account_get_accounts_amount () )
 	gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
 				    "activate",
 				    GTK_SIGNAL_FUNC ( desensitive_widget ),
@@ -747,7 +744,7 @@ void cree_ligne_recapitulatif ( struct struct_compte_importation *compte,
 		      menu_item );
     gtk_widget_show ( menu_item );
 
-    if ( nb_comptes )
+    if ( gsb_account_get_accounts_amount () )
     {
 	menu_item = gtk_menu_item_new_with_label ( _("Add the transactions"));
 	gtk_object_set_data ( GTK_OBJECT ( menu_item ),
@@ -800,7 +797,7 @@ void cree_ligne_recapitulatif ( struct struct_compte_importation *compte,
 
     no_compte_trouve = -1;
 
-    if ( nb_comptes )
+    if ( gsb_account_get_accounts_amount () )
     {
 	menu = gtk_menu_new ();
 
@@ -808,14 +805,12 @@ void cree_ligne_recapitulatif ( struct struct_compte_importation *compte,
 
 	do
 	{
-	    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + GPOINTER_TO_INT ( ordre_comptes_variable -> data );
-	
 	    if ( !gsb_account_get_closed_account (GPOINTER_TO_INT ( ordre_comptes_variable -> data )) )
 	    {
 		menu_item = gtk_menu_item_new_with_label ( gsb_account_get_name (GPOINTER_TO_INT ( ordre_comptes_variable -> data )) );
 		gtk_object_set_data ( GTK_OBJECT ( menu_item ),
 				      "no_compte",
-				      GINT_TO_POINTER ( p_tab_nom_de_compte_variable - p_tab_nom_de_compte ));
+				      ordre_comptes_variable -> data );
 
 		/* on recherche quel compte était noté dans le fichier  */
 		/* s'il y a une id, on la prend en priorité sur le nom */
@@ -826,7 +821,7 @@ void cree_ligne_recapitulatif ( struct struct_compte_importation *compte,
 		     &&
 		     !g_strcasecmp ( compte -> id_compte,
 				     gsb_account_get_id (GPOINTER_TO_INT ( ordre_comptes_variable -> data ))))
-		    no_compte_trouve = p_tab_nom_de_compte_variable - p_tab_nom_de_compte;
+		    no_compte_trouve = GPOINTER_TO_INT ( ordre_comptes_variable -> data );
 
 		/* on ne passe par cette étape que si le compte n'a pas déjà été trouvé avec l'id */
 
@@ -836,7 +831,7 @@ void cree_ligne_recapitulatif ( struct struct_compte_importation *compte,
 		     &&
 		     !g_strcasecmp ( compte -> nom_de_compte,
 				     gsb_account_get_name (GPOINTER_TO_INT ( ordre_comptes_variable -> data )) ))
-		    no_compte_trouve = p_tab_nom_de_compte_variable - p_tab_nom_de_compte;
+		    no_compte_trouve = GPOINTER_TO_INT ( ordre_comptes_variable -> data );
 
 
 		gtk_menu_append ( GTK_MENU ( menu ),
@@ -952,17 +947,17 @@ void traitement_operations_importees ( void )
     /* et faire l'action demandée pour chaque compte importé */
 
     GSList *liste_tmp;
-    gint nouveau_fichier;
+    gint new_file;
 
     /* fait le nécessaire si aucun compte n'est ouvert */
 
-    if ( nb_comptes )
-	nouveau_fichier = 0;
+    if ( gsb_account_get_accounts_amount () )
+	new_file = 0;
     else
     {
 /* 	init_variables (); */
-	initialisation_variables_nouveau_fichier ();
-	nouveau_fichier = 1;
+	init_variables_new_file ();
+	new_file = 1;
     }
 
 
@@ -1003,7 +998,7 @@ void traitement_operations_importees ( void )
     /*     à ce niveau, il y a forcemment des comptes de créés donc si rien */
     /* 	c'est que pb, on se barre */
 
-    if (!nb_comptes)
+    if (!gsb_account_get_accounts_amount ())
 	return;
 
     /* les différentes liste d'opérations ont été créés, on va faire le tour des opés */
@@ -1020,20 +1015,24 @@ void traitement_operations_importees ( void )
 
     mise_en_route_attente ( _("Please wait") );
 
-    if ( nouveau_fichier )
+    if ( new_file )
     {
-	initialisation_graphiques_nouveau_fichier ();
+	init_gui_new_file ();
     }
     else
     {
 	/* on fait le tour des comptes ajoutés pour leur créer une liste d'opé */
 	/* 	et mettre à jour ceux qui le doivent */
 
-	gint i;
+	GSList *list_tmp;
 
-	for ( i=0 ; i<nb_comptes ; i++ )
+	list_tmp = list_struct_accounts;
+
+	while ( list_tmp )
 	{
-	    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
+	    gint i;
+
+	    i = gsb_account_get_no_account ( list_tmp -> data );
 
 	    if ( !gsb_account_get_tree_view (i) )
 	    {
@@ -1071,6 +1070,8 @@ void traitement_operations_importees ( void )
 		gsb_account_set_update_list ( i,
 					      0 );
 	    }
+
+	    list_tmp = list_tmp -> next;
 	}
 
 	/* 	mise à jour de l'accueil */
@@ -1113,15 +1114,18 @@ void cree_liens_virements_ope_import ( void )
     /*   et une opé ayant une relation_no_compte à -2, le nom du compte dans info_banque_guichet */
     /* le même montant, le même jour avec le même tiers */
 
-    gint i;
+    GSList *list_tmp;
 
-    for ( i=0 ; i<nb_comptes ; i++ )
+    list_tmp = list_struct_accounts;
+
+    while ( list_tmp )
     {
+	gint i;
 	gchar *nom_compte_courant;
 	GSList *liste_tmp;
 	gint currency;
 
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
+	i = gsb_account_get_no_account ( list_tmp -> data );
 
 	nom_compte_courant = gsb_account_get_name (i);
 	liste_tmp = gsb_account_get_transactions_list (i);
@@ -1139,13 +1143,18 @@ void cree_liens_virements_ope_import ( void )
 	    {
 		/* recherche du compte associé */
 
-		gint j, compte_trouve;
+		gint compte_trouve;
+		GSList *list_tmp2;
 
 		compte_trouve = -1;
 
-		for ( j=0 ; j<nb_comptes ; j++ )
+		list_tmp2 = list_struct_accounts;
+
+		while ( list_tmp2 )
 		{
-		    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + j;
+		    gint j;
+
+		    j = gsb_account_get_no_account ( list_tmp2 -> data );
 
 		    if ( !g_strcasecmp ( g_strconcat ( "[",
 						       gsb_account_get_name (j),
@@ -1153,7 +1162,10 @@ void cree_liens_virements_ope_import ( void )
 						       NULL ),
 					 g_strstrip ( operation -> info_banque_guichet )))
 			compte_trouve = j;
+
+		    list_tmp2 = list_tmp2 -> next;
 		}
+
 
 		/* 		  si on n'a pas trouvé de relation avec l'autre compte, on vire les liaisons */
 		/* et ça devient une opé normale sans catégorie */
@@ -1171,7 +1183,6 @@ void cree_liens_virements_ope_import ( void )
 		    GSList *pointeur_tmp;
 		    gboolean same_currency = FALSE;
 
-		    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_trouve;
 		    if ( currency == gsb_account_get_currency (compte_trouve) )
 		      same_currency = TRUE;
 
@@ -1225,6 +1236,8 @@ void cree_liens_virements_ope_import ( void )
 	    }
 	    liste_tmp = liste_tmp -> next;
 	}
+
+	list_tmp = list_tmp -> next;
     }
 }
 /* *******************************************************************************/
@@ -1246,14 +1259,12 @@ void creation_compte_importe ( struct struct_compte_importation *compte_import )
     /*     on crée et initialise le nouveau compte  */
     /*     le type par défaut est 0 (compte bancaire) */
 
-    no_compte = initialisation_nouveau_compte ( GSB_TYPE_BANK );
+    no_compte = gsb_account_new( GSB_TYPE_BANK );
 
     /*     si ça c'est mal passé, on se barre */
 
     if ( no_compte == -1 )
 	return;
-
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_compte;
 
     /*     met l'id du compte s'il existe (import ofx) */
 
@@ -1386,7 +1397,7 @@ void creation_compte_importe ( struct struct_compte_importation *compte_import )
 
 	/* récupération du no de compte */
 
-	operation -> no_compte = NO_COMPTE;
+	operation -> no_compte = no_compte;
 
 
 	/* récupération du montant */
@@ -1578,11 +1589,6 @@ void creation_compte_importe ( struct struct_compte_importation *compte_import )
 
 	liste_tmp = liste_tmp -> next;
     }
-
-    /* on classe la liste */
-
-    classe_liste_operations ( no_compte );
-
 }
 
 
@@ -1598,8 +1604,6 @@ void ajout_opes_importees ( struct struct_compte_importation *compte_import )
     /* on se place sur le compte dans lequel on va importer les opés */
 
     no_compte = recupere_no_compte ( compte_import -> bouton_compte );
-
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_compte;
 
     /* si le compte importé a une id, on la vérifie ici */
     /*     si elle est absente, on met celle importée */
@@ -1782,7 +1786,7 @@ void ajout_opes_importees ( struct struct_compte_importation *compte_import )
 	    operation_import -> devise = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( compte_import -> bouton_devise ) -> menu_item ),
 										 "no_devise" ));
 	    enregistre_ope_importee ( operation_import,
-				      NO_COMPTE );
+				      no_compte );
 	} 
 	liste_tmp = liste_tmp -> next;
     }
@@ -1790,8 +1794,8 @@ void ajout_opes_importees ( struct struct_compte_importation *compte_import )
 
     gsb_account_set_update_list ( no_compte,
 				  1 );
-/*     calcule_solde_compte ( NO_COMPTE ); */
-/*     calcule_solde_pointe_compte ( NO_COMPTE ); */
+/*     calcule_solde_compte ( no_compte ); */
+/*     calcule_solde_pointe_compte ( no_compte ); */
 
 }
 /* *******************************************************************************/
@@ -2003,9 +2007,6 @@ struct structure_operation *enregistre_ope_importee ( struct struct_ope_importat
     struct structure_operation *operation;
     gchar **tab_str;
 
-
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_compte;
-
     operation = calloc ( 1,
 			 sizeof ( struct structure_operation ));
 
@@ -2043,7 +2044,7 @@ struct structure_operation *enregistre_ope_importee ( struct struct_ope_importat
 
     /* récupération du no de compte */
 
-    operation -> no_compte = NO_COMPTE;
+    operation -> no_compte = no_compte;
 
 
     /* récupération du montant */
@@ -2214,9 +2215,8 @@ struct structure_operation *enregistre_ope_importee ( struct struct_ope_importat
     /* ajoute l'opération dans la liste des opés du compte */
 
     gsb_account_set_transactions_list ( no_compte,
-					g_slist_insert_sorted ( gsb_account_get_transactions_list (no_compte),
-								operation,
-								(GCompareFunc) gsb_account_get_current_sort (no_compte) ));
+					g_slist_append ( gsb_account_get_transactions_list (no_compte),
+							 operation ));
 
     gsb_account_set_update_list ( no_compte,
 				  1 );
@@ -2238,8 +2238,6 @@ void pointe_opes_importees ( struct struct_compte_importation *compte_import )
     /* on se place sur le compte dans lequel on va pointer les opés */
 
     no_compte = recupere_no_compte ( compte_import -> bouton_compte );
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_compte;
-
 
     /* si le compte importé a une id, on la vérifie ici */
     /*     si elle est absente, on met celle importée */

@@ -47,13 +47,11 @@ GSList *liste_entrees_exportation;
 
 
 /*START_EXTERN*/
+extern GSList *list_struct_accounts;
 extern GSList *liste_comptes_importes;
 extern GSList *liste_struct_categories;
 extern GSList *liste_struct_tiers;
-extern gint nb_comptes;
 extern gchar *nom_fichier_comptes;
-extern gpointer **p_tab_nom_de_compte;
-extern gpointer **p_tab_nom_de_compte_variable;
 extern GtkWidget *window;
 /*END_EXTERN*/
 
@@ -916,7 +914,8 @@ void exporter_fichier_qif ( void )
     gchar *nom_fichier_qif, *montant_tmp;
     GSList *liste_tmp;
     FILE *fichier_qif;
-    gint i, resultat;
+    gint resultat;
+    GSList *list_tmp;
 
 
     if ( !nom_fichier_comptes )
@@ -944,16 +943,20 @@ void exporter_fichier_qif ( void )
 					     _("Select accounts to export") );
     gtk_box_set_spacing ( GTK_BOX(GTK_DIALOG(dialog)->vbox), 6 );
 
-    table = gtk_table_new ( 2, nb_comptes, FALSE );
+    table = gtk_table_new ( 2, gsb_account_get_accounts_amount (), FALSE );
     gtk_table_set_col_spacings ( GTK_TABLE ( table ), 12 );
     gtk_box_pack_start ( GTK_BOX(paddingbox), table, TRUE, TRUE, 0 );
     gtk_widget_show ( table );
 
     /* on met chaque compte dans la table */
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
 
-    for ( i = 0 ; i < nb_comptes ; i++ )
+    list_tmp = list_struct_accounts;
+
+    while ( list_tmp )
     {
+	gint i;
+
+	i = gsb_account_get_no_account ( list_tmp -> data );
 
 	check_button = gtk_check_button_new_with_label ( gsb_account_get_name (i) );
 	gtk_table_attach ( GTK_TABLE ( table ),
@@ -994,8 +997,10 @@ void exporter_fichier_qif ( void )
 			     GTK_SIGNAL_FUNC ( click_compte_export_qif ),
 			     entree );
 
-	p_tab_nom_de_compte_variable++;
+
+	list_tmp = list_tmp -> next;
     }
+
 
     liste_entrees_exportation = NULL;
     gtk_widget_show_all ( dialog );
@@ -1074,10 +1079,6 @@ choix_liste_fichier:
 
 	    no_compte = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( liste_tmp -> data ),
 								"no_compte" ));
-	    p_tab_nom_de_compte_variable = 
-		p_tab_nom_de_compte
-		+
-		no_compte;
 
 	    /* met le type de compte */
 
@@ -1263,12 +1264,6 @@ choix_liste_fichier:
 				    {
 					/* c'est un virement */
 
-					gpointer **save_ptab;
-
-					save_ptab = p_tab_nom_de_compte_variable;
-
-					p_tab_nom_de_compte_variable = p_tab_nom_de_compte + ope_test -> relation_no_compte;
-
 					if ( !categ_ope_mise )
 					{
 					    fprintf ( fichier_qif,
@@ -1287,7 +1282,6 @@ choix_liste_fichier:
 								"]",
 								NULL ));
 
-					p_tab_nom_de_compte_variable = save_ptab;
 				    }
 				    else
 				    {
@@ -1386,12 +1380,6 @@ choix_liste_fichier:
 			    {
 				/* c'est un virement */
 
-				gpointer **save_ptab;
-
-				save_ptab = p_tab_nom_de_compte_variable;
-
-				p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> relation_no_compte;
-
 				fprintf ( fichier_qif,
 					  "L%s\n",
 					  g_strconcat ( "[",
@@ -1399,7 +1387,6 @@ choix_liste_fichier:
 							"]",
 							NULL ));
 
-				p_tab_nom_de_compte_variable = save_ptab;
 			    }
 			    else
 			    {

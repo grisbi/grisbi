@@ -100,17 +100,15 @@ extern gchar *dernier_chemin_de_travail;
 extern struct struct_devise *devise_compte;
 extern struct struct_etat *etat_courant;
 extern GtkWidget *formulaire;
+extern GSList *list_struct_accounts;
 extern GSList *liste_struct_categories;
 extern GSList *liste_struct_echeances;
 extern GdkBitmap *masque_ferme;
 extern GdkBitmap *masque_ouvre;
 extern GtkTreeStore *model;
 extern gint modif_imputation;
-extern gint nb_comptes;
 extern gint no_derniere_operation;
 extern gint no_devise_totaux_tiers;
-extern gpointer **p_tab_nom_de_compte;
-extern gpointer **p_tab_nom_de_compte_variable;
 extern GdkPixmap *pixmap_ferme;
 extern GdkPixmap *pixmap_ouvre;
 extern GtkTreeSelection * selection;
@@ -511,8 +509,6 @@ void remplit_arbre_imputation ( void )
     /** First, remove previous tree */
     gtk_tree_store_clear ( GTK_TREE_STORE (budgetary_line_tree_model) );
 
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
-
     /** Currency used for totals is then chosen from preferences.  */
     if ( !devise_compte
 	 ||
@@ -789,8 +785,8 @@ void supprimer_imputation ( void )
 {
     struct struct_imputation *imputation;
     GtkCTreeNode *node;
-    gint i;
     gint ope_trouvee;
+    GSList *list_tmp;
 
 
     if ( !gtk_object_get_data ( GTK_OBJECT (  entree_nom_imputation ),
@@ -807,12 +803,16 @@ void supprimer_imputation ( void )
 
     /* fait le tour des opés pour en trouver une qui a cette catégorie */
 
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
     ope_trouvee = 0;
 
-    for ( i=0 ; i<nb_comptes ; i++ )
+    list_tmp = list_struct_accounts;
+
+    while ( list_tmp )
     {
+	gint i;
 	GSList *liste_tmp;
+
+	i = gsb_account_get_no_account ( list_tmp -> data );
 
 	liste_tmp = gsb_account_get_transactions_list (i);
 
@@ -826,12 +826,13 @@ void supprimer_imputation ( void )
 	    {
 		ope_trouvee = 1;
 		liste_tmp = NULL;
-		i = nb_comptes;
+		i = gsb_account_get_accounts_amount ();
 	    }
 	    else
 		liste_tmp = liste_tmp -> next;
 	}
-	p_tab_nom_de_compte_variable++;
+
+	list_tmp = list_tmp -> next;
     }
 
 
@@ -848,7 +849,6 @@ void supprimer_imputation ( void )
 	GSList *pointeur;
 	GSList *liste_tmp;
 	GtkWidget *bouton_transfert;
-	gint i;
 	struct struct_imputation *nouvelle_imputation;
 	struct struct_sous_imputation *nouvelle_sous_imputation;
 	GSList *liste_imputation_credit;
@@ -1039,10 +1039,14 @@ retour_dialogue:
 
 	/* on fait le tour des opés pour mettre le nouveau numéro de imputation et sous_imputation */
 
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
+	list_tmp = list_struct_accounts;
 
-	for ( i = 0 ; i < nb_comptes ; i++ )
+	while ( list_tmp )
 	{
+	    gint i;
+
+	    i = gsb_account_get_no_account ( list_tmp -> data );
+
 	    liste_tmp = gsb_account_get_transactions_list (i);
 
 	    while ( liste_tmp )
@@ -1060,7 +1064,7 @@ retour_dialogue:
 		liste_tmp = liste_tmp -> next;
 	    }
 
-	    p_tab_nom_de_compte_variable++;
+	    list_tmp = list_tmp -> next;
 	}
 
 	/* fait le tour des échéances pour mettre le nouveau numéro de imputation et sous_imputation  */
@@ -1122,10 +1126,8 @@ void supprimer_sous_imputation ( void )
     struct struct_imputation *imputation;
     struct struct_sous_imputation *sous_imputation;
     GtkCTreeNode *node;
-    gint i;
     gint ope_trouvee;
-
-
+    GSList *list_tmp;
 
     node = GTK_CTREE_NODE ( ( GTK_CLIST ( arbre_imputation ) -> selection ) -> data );
 
@@ -1139,12 +1141,16 @@ void supprimer_sous_imputation ( void )
 
     /* fait le tour des opés pour en trouver une qui a cette sous-catégorie */
 
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
     ope_trouvee = 0;
 
-    for ( i=0 ; i<nb_comptes ; i++ )
+    list_tmp = list_struct_accounts;
+
+    while ( list_tmp )
     {
+	gint i;
 	GSList *liste_tmp;
+
+	i = gsb_account_get_no_account ( list_tmp -> data );
 
 	liste_tmp = gsb_account_get_transactions_list (i);
 
@@ -1160,12 +1166,13 @@ void supprimer_sous_imputation ( void )
 	    {
 		ope_trouvee = 1;
 		liste_tmp = NULL;
-		i = nb_comptes;
+		i = gsb_account_get_accounts_amount ();
 	    }
 	    else
 		liste_tmp = liste_tmp -> next;
 	}
-	p_tab_nom_de_compte_variable++;
+
+	list_tmp = list_tmp -> next;
     }
 
 
@@ -1182,7 +1189,6 @@ void supprimer_sous_imputation ( void )
 	GSList *pointeur;
 	GSList *liste_tmp;
 	GtkWidget *bouton_transfert;
-	gint i;
 	struct struct_imputation *nouvelle_imputation;
 	struct struct_sous_imputation *nouvelle_sous_imputation;
 	GSList *liste_imputation_credit;
@@ -1375,10 +1381,14 @@ retour_dialogue:
 
 	/* on fait le tour des opés pour mettre le nouveau numéro de imputation et sous_imputation */
 
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
+	list_tmp = list_struct_accounts;
 
-	for ( i = 0 ; i < nb_comptes ; i++ )
+	while ( list_tmp )
 	{
+	    gint i;
+
+	    i = gsb_account_get_no_account ( list_tmp -> data );
+
 	    liste_tmp = gsb_account_get_transactions_list (i);
 
 	    while ( liste_tmp )
@@ -1397,8 +1407,7 @@ retour_dialogue:
 
 		liste_tmp = liste_tmp -> next;
 	    }
-
-	    p_tab_nom_de_compte_variable++;
+	    list_tmp = list_tmp -> next;
 	}
 
 	/* fait le tour des échéances pour mettre le nouveau numéro de imputation et sous_imputation  */

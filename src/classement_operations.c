@@ -28,10 +28,10 @@
 /*START_INCLUDE*/
 #include "classement_operations.h"
 #include "utils_devises.h"
-#include "utils_exercices.h"
+#include "erreur.h"
 #include "data_account.h"
-#include "utils_str.h"
-#include "utils_categories.h"
+#include "utils_exercices.h"
+#include "operations_liste.h"
 #include "utils_ib.h"
 #include "utils_rapprochements.h"
 #include "utils_tiers.h"
@@ -39,14 +39,1325 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
+static gint gsb_transactions_list_general_test ( GtkTreeModel *model,
+					  GtkTreeIter *iter_1,
+					  GtkTreeIter *iter_2,
+					  GtkSortType sort_type );
+static gint gsb_transactions_list_sort_by_amount ( GtkTreeModel *model,
+					    GtkTreeIter *iter_1,
+					    GtkTreeIter *iter_2,
+					    GtkSortType sort_type );
+static gint gsb_transactions_list_sort_by_bank ( GtkTreeModel *model,
+					  GtkTreeIter *iter_1,
+					  GtkTreeIter *iter_2,
+					  GtkSortType sort_type );
+static gint gsb_transactions_list_sort_by_budget ( GtkTreeModel *model,
+					    GtkTreeIter *iter_1,
+					    GtkTreeIter *iter_2,
+					    GtkSortType sort_type );
+static gint gsb_transactions_list_sort_by_category ( GtkTreeModel *model,
+					      GtkTreeIter *iter_1,
+					      GtkTreeIter *iter_2,
+					      GtkSortType sort_type );
+static gint gsb_transactions_list_sort_by_chq ( GtkTreeModel *model,
+					 GtkTreeIter *iter_1,
+					 GtkTreeIter *iter_2,
+					 GtkSortType sort_type );
+static gint gsb_transactions_list_sort_by_credit ( GtkTreeModel *model,
+					    GtkTreeIter *iter_1,
+					    GtkTreeIter *iter_2,
+					    GtkSortType sort_type );
+static gint gsb_transactions_list_sort_by_date ( GtkTreeModel *model,
+					  GtkTreeIter *iter_1,
+					  GtkTreeIter *iter_2,
+					  GtkSortType sort_type );
+static gint gsb_transactions_list_sort_by_debit ( GtkTreeModel *model,
+					   GtkTreeIter *iter_1,
+					   GtkTreeIter *iter_2,
+					   GtkSortType sort_type );
+static gint gsb_transactions_list_sort_by_financial_year ( GtkTreeModel *model,
+						    GtkTreeIter *iter_1,
+						    GtkTreeIter *iter_2,
+						    GtkSortType sort_type );
+static gint gsb_transactions_list_sort_by_mark ( GtkTreeModel *model,
+					  GtkTreeIter *iter_1,
+					  GtkTreeIter *iter_2,
+					  GtkSortType sort_type );
+static gint gsb_transactions_list_sort_by_no ( GtkTreeModel *model,
+					GtkTreeIter *iter_1,
+					GtkTreeIter *iter_2,
+					GtkSortType sort_type );
+static gint gsb_transactions_list_sort_by_no_sort (  GtkTreeModel *model,
+					      GtkTreeIter *iter_1,
+					      GtkTreeIter *iter_2,
+					      GtkSortType sort_type,
+					      gint no_sort );
+static gint gsb_transactions_list_sort_by_notes ( GtkTreeModel *model,
+					   GtkTreeIter *iter_1,
+					   GtkTreeIter *iter_2,
+					   GtkSortType sort_type );
+static gint gsb_transactions_list_sort_by_party ( GtkTreeModel *model,
+					   GtkTreeIter *iter_1,
+					   GtkTreeIter *iter_2,
+					   GtkSortType sort_type );
+static gint gsb_transactions_list_sort_by_reconcile_nb ( GtkTreeModel *model,
+						  GtkTreeIter *iter_1,
+						  GtkTreeIter *iter_2,
+						  GtkSortType sort_type );
+static gint gsb_transactions_list_sort_by_transaction_date_and_no ( void );
+static gint gsb_transactions_list_sort_by_type ( GtkTreeModel *model,
+					  GtkTreeIter *iter_1,
+					  GtkTreeIter *iter_2,
+					  GtkSortType sort_type );
+static gint gsb_transactions_list_sort_by_value_date ( GtkTreeModel *model,
+						GtkTreeIter *iter_1,
+						GtkTreeIter *iter_2,
+						GtkSortType sort_type );
+static gint gsb_transactions_list_sort_by_voucher ( GtkTreeModel *model,
+					     GtkTreeIter *iter_1,
+					     GtkTreeIter *iter_2,
+					     GtkSortType sort_type );
 /*END_STATIC*/
 
 
 
 /*START_EXTERN*/
-extern gpointer **p_tab_nom_de_compte;
-extern gpointer **p_tab_nom_de_compte_variable;
+extern GtkTreeStore *model;
 /*END_EXTERN*/
+
+static struct structure_operation *transaction_1;
+static struct structure_operation *transaction_2;
+static gint line_1;
+static gint line_2;
+
+
+/** called by a click on the column
+ * find the right parameter to sort
+ * \param model
+ * \param iter_1
+ * \param iter_2
+ * \param no_account
+ * \return -1 if iter_1 is above iter_2
+ * */
+gint gsb_transactions_list_sort_column_0 ( GtkTreeModel *model,
+					   GtkTreeIter *iter_1,
+					   GtkTreeIter *iter_2,
+					   gint *no_account )
+{
+    return gsb_transactions_list_sort_by_no_sort ( model,
+						   iter_1,
+						   iter_2,
+						   gtk_tree_view_column_get_sort_order ( GTK_TREE_VIEW_COLUMN ( gsb_account_get_column ( GPOINTER_TO_INT ( no_account ),
+																	 0 ))),
+						   gsb_account_get_column_sort ( GPOINTER_TO_INT ( no_account ),
+										 0 ));
+}
+
+/** called by a click on the column
+ * find the right parameter to sort
+ * \param model
+ * \param iter_1
+ * \param iter_2
+ * \param no_account
+ * \return -1 if iter_1 is above iter_2
+ * */
+gint gsb_transactions_list_sort_column_1 ( GtkTreeModel *model,
+					   GtkTreeIter *iter_1,
+					   GtkTreeIter *iter_2,
+					   gint *no_account )
+{
+    return gsb_transactions_list_sort_by_no_sort ( model,
+						   iter_1,
+						   iter_2,
+						   gtk_tree_view_column_get_sort_order ( GTK_TREE_VIEW_COLUMN ( gsb_account_get_column ( GPOINTER_TO_INT ( no_account ),
+																	 1 ))),
+						   gsb_account_get_column_sort ( GPOINTER_TO_INT ( no_account ),
+										 1 ));
+}
+
+
+/** called by a click on the column
+ * find the right parameter to sort
+ * \param model
+ * \param iter_1
+ * \param iter_2
+ * \param no_account
+ * \return -1 if iter_1 is above iter_2
+ * */
+gint gsb_transactions_list_sort_column_2 ( GtkTreeModel *model,
+					   GtkTreeIter *iter_1,
+					   GtkTreeIter *iter_2,
+					   gint *no_account )
+{
+    return gsb_transactions_list_sort_by_no_sort ( model,
+						   iter_1,
+						   iter_2,
+						   gtk_tree_view_column_get_sort_order ( GTK_TREE_VIEW_COLUMN ( gsb_account_get_column ( GPOINTER_TO_INT ( no_account ),
+																	 2 ))),
+						   gsb_account_get_column_sort ( GPOINTER_TO_INT ( no_account ),
+										 2 ));
+}
+
+
+/** called by a click on the column
+ * find the right parameter to sort
+ * \param model
+ * \param iter_1
+ * \param iter_2
+ * \param no_account
+ * \return -1 if iter_1 is above iter_2
+ * */
+gint gsb_transactions_list_sort_column_3 ( GtkTreeModel *model,
+					   GtkTreeIter *iter_1,
+					   GtkTreeIter *iter_2,
+					   gint *no_account )
+{
+    return gsb_transactions_list_sort_by_no_sort ( model,
+						   iter_1,
+						   iter_2,
+						   gtk_tree_view_column_get_sort_order ( GTK_TREE_VIEW_COLUMN ( gsb_account_get_column ( GPOINTER_TO_INT ( no_account ),
+																	 3 ))),
+						   gsb_account_get_column_sort ( GPOINTER_TO_INT ( no_account ),
+										 3 ));
+}
+
+
+/** called by a click on the column
+ * find the right parameter to sort
+ * \param model
+ * \param iter_1
+ * \param iter_2
+ * \param no_account
+ * \return -1 if iter_1 is above iter_2
+ * */
+gint gsb_transactions_list_sort_column_4 ( GtkTreeModel *model,
+					   GtkTreeIter *iter_1,
+					   GtkTreeIter *iter_2,
+					   gint *no_account )
+{
+    return gsb_transactions_list_sort_by_no_sort ( model,
+						   iter_1,
+						   iter_2,
+						   gtk_tree_view_column_get_sort_order ( GTK_TREE_VIEW_COLUMN ( gsb_account_get_column ( GPOINTER_TO_INT ( no_account ),
+																	 4 ))),
+						   gsb_account_get_column_sort ( GPOINTER_TO_INT ( no_account ),
+										 4 ));
+}
+
+
+/** called by a click on the column
+ * find the right parameter to sort
+ * \param model
+ * \param iter_1
+ * \param iter_2
+ * \param no_account
+ * \return -1 if iter_1 is above iter_2
+ * */
+gint gsb_transactions_list_sort_column_5 ( GtkTreeModel *model,
+					   GtkTreeIter *iter_1,
+					   GtkTreeIter *iter_2,
+					   gint *no_account )
+{
+    return gsb_transactions_list_sort_by_no_sort ( model,
+						   iter_1,
+						   iter_2,
+						   gtk_tree_view_column_get_sort_order ( GTK_TREE_VIEW_COLUMN ( gsb_account_get_column ( GPOINTER_TO_INT ( no_account ),
+																	 5 ))),
+						   gsb_account_get_column_sort ( GPOINTER_TO_INT ( no_account ),
+										 5 ));
+}
+
+
+/** called by a click on the column
+ * find the right parameter to sort
+ * \param model
+ * \param iter_1
+ * \param iter_2
+ * \param no_account
+ * \return -1 if iter_1 is above iter_2
+ * */
+gint gsb_transactions_list_sort_column_6 ( GtkTreeModel *model,
+					   GtkTreeIter *iter_1,
+					   GtkTreeIter *iter_2,
+					   gint *no_account )
+{
+    return gsb_transactions_list_sort_by_no_sort ( model,
+						   iter_1,
+						   iter_2,
+						   gtk_tree_view_column_get_sort_order ( GTK_TREE_VIEW_COLUMN ( gsb_account_get_column ( GPOINTER_TO_INT ( no_account ),
+																	 6 ))),
+						   gsb_account_get_column_sort ( GPOINTER_TO_INT ( no_account ),
+										 6 ));
+}
+
+
+/** find the right function to sort the list and sort the 2 iters given
+ * \param model
+ * \param iter_1
+ * \param iter_2
+ * \param sort_type GTK_SORT_ASCENDING or GTK_SORT_DESCENDING
+ * \param no_sort permit to find the right function
+ * \return -1 if iter_1 is above iter_2
+ * */
+gint gsb_transactions_list_sort_by_no_sort (  GtkTreeModel *model,
+					      GtkTreeIter *iter_1,
+					      GtkTreeIter *iter_2,
+					      GtkSortType sort_type,
+					      gint no_sort )
+
+{
+    switch ( no_sort )
+    {
+	case TRANSACTION_LIST_DATE:
+	    return ( gsb_transactions_list_sort_by_date ( model,
+							  iter_1,
+							  iter_2,
+							  sort_type ));
+	    break;
+	case TRANSACTION_LIST_VALUE_DATE:
+	    return ( gsb_transactions_list_sort_by_value_date ( model,
+								iter_1,
+								iter_2,
+								sort_type ));
+	    break;
+	case TRANSACTION_LIST_PARTY:
+	    return ( gsb_transactions_list_sort_by_party ( model,
+							   iter_1,
+							   iter_2,
+							   sort_type ));
+	    break;
+	case TRANSACTION_LIST_BUDGET:
+	    return ( gsb_transactions_list_sort_by_budget ( model,
+							    iter_1,
+							    iter_2,
+							    sort_type ));
+	    break;
+	case TRANSACTION_LIST_CREDIT:
+	    return ( gsb_transactions_list_sort_by_credit ( model,
+							    iter_1,
+							    iter_2,
+							    sort_type ));
+	    break;
+	case TRANSACTION_LIST_DEBIT:
+	    return ( gsb_transactions_list_sort_by_debit ( model,
+							   iter_1,
+							   iter_2,
+							   sort_type ));
+	    break;
+	case TRANSACTION_LIST_BALANCE:
+	    /* 	    balance, normally, shouldn't be here... in case, give back the date */
+	    return ( gsb_transactions_list_sort_by_date ( model,
+							  iter_1,
+							  iter_2,
+							  sort_type ));
+	    break;
+	case TRANSACTION_LIST_AMOUNT:
+	    return ( gsb_transactions_list_sort_by_amount ( model,
+							    iter_1,
+							    iter_2,
+							    sort_type ));
+	    break;
+	case TRANSACTION_LIST_TYPE:
+	    return ( gsb_transactions_list_sort_by_type ( model,
+							  iter_1,
+							  iter_2,
+							  sort_type ));
+	    break;
+	case TRANSACTION_LIST_RECONCILE_NB:
+	    return ( gsb_transactions_list_sort_by_reconcile_nb ( model,
+								  iter_1,
+								  iter_2,
+								  sort_type ));
+	    break;
+	case TRANSACTION_LIST_EXERCICE:
+	    return ( gsb_transactions_list_sort_by_financial_year ( model,
+								    iter_1,
+								    iter_2,
+								    sort_type ));
+	    break;
+	case TRANSACTION_LIST_CATEGORY:
+	    return ( gsb_transactions_list_sort_by_category ( model,
+							      iter_1,
+							      iter_2,
+							      sort_type ));
+	    break;
+	case TRANSACTION_LIST_MARK:
+	    return ( gsb_transactions_list_sort_by_mark ( model,
+							  iter_1,
+							  iter_2,
+							  sort_type ));
+	    break;
+	case TRANSACTION_LIST_VOUCHER:
+	    return ( gsb_transactions_list_sort_by_voucher ( model,
+							     iter_1,
+							     iter_2,
+							     sort_type ));
+	    break;
+	case TRANSACTION_LIST_NOTES:
+	    return ( gsb_transactions_list_sort_by_notes ( model,
+							   iter_1,
+							   iter_2,
+							   sort_type ));
+	    break;
+	case TRANSACTION_LIST_BANK:
+	    return ( gsb_transactions_list_sort_by_bank ( model,
+							  iter_1,
+							  iter_2,
+							  sort_type ));
+	    break;
+	case TRANSACTION_LIST_NO:
+	    return ( gsb_transactions_list_sort_by_no ( model,
+							iter_1,
+							iter_2,
+							sort_type ));
+	    break;
+	case TRANSACTION_LIST_CHQ:
+	    return ( gsb_transactions_list_sort_by_chq ( model,
+							 iter_1,
+							 iter_2,
+							 sort_type ));
+	    break;
+	default :
+	    printf ( "Bug : ask for the sort number %d which doesn't exist... return by date\n",
+		     no_sort );
+	    return ( gsb_transactions_list_sort_by_date ( model,
+							  iter_1,
+							  iter_2,
+							  sort_type ));
+    }
+}
+/******************************************************************************/
+
+
+/** used by all the sort functions for the transaction list,
+ * get the 2 transactions and the 2 lines, and do the minimun
+ * check, for white line and for the other lines shown of the
+ * transaction
+ * check also with sort_type (ascending or descending)
+ * \param model
+ * \param iter_1
+ * \param iter_2
+ * \param sort_type
+ * \return 0 if that test cannot say the return_value between the 2 lines,
+ * or the return_value if it's possible here
+ * */
+gint gsb_transactions_list_general_test ( GtkTreeModel *model,
+					  GtkTreeIter *iter_1,
+					  GtkTreeIter *iter_2,
+					  GtkSortType sort_type )
+{
+    gint return_value = 0;
+
+    gtk_tree_model_get ( model,
+			 iter_1,
+			 9, &transaction_1,
+			 12, &line_1,
+			 -1 );
+    gtk_tree_model_get ( model,
+			 iter_2,
+			 9, &transaction_2,
+			 12, &line_2,
+			 -1 );
+
+    if ( transaction_1 == GINT_TO_POINTER (-1))
+	return_value = 1;
+    if ( transaction_2 == GINT_TO_POINTER (-1))
+	return_value = -1;
+    if ( transaction_1 == transaction_2 )
+	return_value = line_1 - line_2;
+
+    if ( sort_type == GTK_SORT_ASCENDING )
+	return return_value;
+    else
+	return -return_value;
+}
+
+
+/** used to compare the 2 dates first, and if they are the same
+ * the 2 no of transactions to find the good return for sort
+ * called at the end of each sort test, if they are equal
+ * \param none but the local variables transaction_1 an transaction_2 MUST be set
+ * \return -1 if transaction_1 is above transaction_2
+ * */
+gint gsb_transactions_list_sort_by_transaction_date_and_no ( void )
+{
+    gint return_value;
+
+    if ( !transaction_1
+	 ||
+	 !transaction_2 )
+    {
+	debug_message ( _( "Local variable value NULL" ),
+			_( "in the function gsb_transactions_list_sort_by_transaction_date_and_no, transaction_1 or transaction_2 is NULL ; it souldn't happen, it's seems that the function is called by a bad way" ),
+			DEBUG_LEVEL_ALERT,
+			FALSE );
+	return 0;
+    }
+
+    return_value = g_date_compare ( transaction_1 -> date,
+				    transaction_2 -> date );
+
+    if ( return_value )
+	return return_value;
+    else
+	return transaction_1 -> no_operation - transaction_2 -> no_operation;
+}
+
+/** used to compare 2 iters and sort the by no of transaction
+ * always put the white line below
+ * \param model the GtkTreeModel
+ * \param iter_1
+ * \param iter_2
+ * \param sort_type GTK_SORT_ASCENDING or GTK_SORT_DESCENDING
+ * \return -1 if iter_1 is above iter_2
+ * */
+gint gsb_transactions_list_sort_by_no ( GtkTreeModel *model,
+					GtkTreeIter *iter_1,
+					GtkTreeIter *iter_2,
+					GtkSortType sort_type )
+{
+    gint return_value;
+
+    /*     general test first (white line, other rows of the transaction */
+
+    return_value = gsb_transactions_list_general_test ( model,
+							iter_1,
+							iter_2,
+							sort_type );
+    if ( return_value )
+	return return_value;
+
+    return transaction_1 -> no_operation - transaction_2 -> no_operation;
+}
+
+
+
+/** used to compare 2 iters and sort the by date first, and no
+ * transaction after
+ * always put the white line below
+ * \param model the GtkTreeModel
+ * \param iter_1
+ * \param iter_2
+ * \param sort_type GTK_SORT_ASCENDING or GTK_SORT_DESCENDING
+ * \return -1 if iter_1 is above iter_2
+ * */
+gint gsb_transactions_list_sort_by_date ( GtkTreeModel *model,
+					  GtkTreeIter *iter_1,
+					  GtkTreeIter *iter_2,
+					  GtkSortType sort_type )
+{
+    gint return_value;
+
+    /*     general test first (white line, other rows of the transaction */
+
+    return_value = gsb_transactions_list_general_test ( model,
+							iter_1,
+							iter_2,
+							sort_type );
+    if ( return_value )
+	return return_value;
+
+    return gsb_transactions_list_sort_by_transaction_date_and_no();
+}
+
+
+
+/** used to compare 2 iters and sort the by value date first, and date 
+ * and no transaction after
+ * always put the white line below
+ * \param model the GtkTreeModel
+ * \param iter_1
+ * \param iter_2
+ * \param sort_type GTK_SORT_ASCENDING or GTK_SORT_DESCENDING
+ * \return -1 if iter_1 is above iter_2
+ * */
+gint gsb_transactions_list_sort_by_value_date ( GtkTreeModel *model,
+						GtkTreeIter *iter_1,
+						GtkTreeIter *iter_2,
+						GtkSortType sort_type )
+{
+    gint return_value;
+
+    /*     general test first (white line, other rows of the transaction */
+
+    return_value = gsb_transactions_list_general_test ( model,
+							iter_1,
+							iter_2,
+							sort_type );
+    if ( return_value )
+	return return_value;
+
+    return_value = g_date_compare ( transaction_1 -> date_bancaire,
+				    transaction_2 -> date_bancaire );
+
+    if ( return_value )
+	return return_value;
+    else
+	return gsb_transactions_list_sort_by_transaction_date_and_no();
+
+}
+
+
+
+/** used to compare 2 iters and sort the by party first, and 
+ * by date and no transaction after
+ * always put the white line below
+ * \param model the GtkTreeModel
+ * \param iter_1
+ * \param iter_2
+ * \param sort_type GTK_SORT_ASCENDING or GTK_SORT_DESCENDING
+ * \return -1 if iter_1 is above iter_2
+ * */
+gint gsb_transactions_list_sort_by_party ( GtkTreeModel *model,
+					   GtkTreeIter *iter_1,
+					   GtkTreeIter *iter_2,
+					   GtkSortType sort_type )
+{
+    gint return_value;
+
+    /*     general test first (white line, other rows of the transaction */
+
+    return_value = gsb_transactions_list_general_test ( model,
+							iter_1,
+							iter_2,
+							sort_type );
+    if ( return_value )
+	return return_value;
+
+    if ( transaction_1 -> tiers == transaction_2 -> tiers )
+	return_value = gsb_transactions_list_sort_by_transaction_date_and_no();
+    else
+    {
+	gchar *temp_1;
+	gchar *temp_2;
+
+	temp_1 = tiers_name_by_no ( transaction_1 -> tiers,
+				    TRUE );
+	temp_2 = tiers_name_by_no ( transaction_2 -> tiers,
+				    TRUE );
+
+	/* g_utf8_collate is said not very fast, must try with big big account to check
+	 * if it's enough, for me it's ok (cedric), eventually, change with gsb_strcasecmp */
+	return_value = g_utf8_collate ( g_utf8_casefold ( temp_1 ? temp_1 : "",
+							  -1 ),
+					g_utf8_casefold ( temp_2 ? temp_2 : "",
+							  -1 ));
+    }
+
+    if ( return_value )
+	return return_value;
+    else
+	return gsb_transactions_list_sort_by_transaction_date_and_no ();
+}
+ 
+
+
+
+/** used to compare 2 iters and sort the by budgetary first, and 
+ * by date and no transaction after
+ * always put the white line below
+ * \param model the GtkTreeModel
+ * \param iter_1
+ * \param iter_2
+ * \param sort_type GTK_SORT_ASCENDING or GTK_SORT_DESCENDING
+ * \return -1 if iter_1 is above iter_2
+ * */
+gint gsb_transactions_list_sort_by_budget ( GtkTreeModel *model,
+					    GtkTreeIter *iter_1,
+					    GtkTreeIter *iter_2,
+					    GtkSortType sort_type )
+{
+    gint return_value;
+
+    /*     general test first (white line, other rows of the transaction */
+
+    return_value = gsb_transactions_list_general_test ( model,
+							iter_1,
+							iter_2,
+							sort_type );
+    if ( return_value )
+	return return_value;
+
+    if ( transaction_1 -> imputation == transaction_2 -> imputation
+	 &&
+	 transaction_1 -> sous_imputation == transaction_2 -> sous_imputation )
+	return_value = gsb_transactions_list_sort_by_transaction_date_and_no();
+    else
+    {
+	gchar *temp_1;
+	gchar *temp_2;
+
+	temp_1 = nom_imputation_par_no ( transaction_1 -> imputation,
+					 transaction_1 -> sous_imputation );
+	temp_2 = nom_imputation_par_no ( transaction_2 -> imputation,
+					 transaction_2 -> sous_imputation );
+
+	/* g_utf8_collate is said not very fast, must try with big big account to check
+	 * if it's enough, for me it's ok (cedric), eventually, change with gsb_strcasecmp */
+	return_value = g_utf8_collate ( g_utf8_casefold ( temp_1 ? temp_1 : "",
+							  -1 ),
+					g_utf8_casefold ( temp_2 ? temp_2 : "",
+							  -1 ));
+    }
+
+    if ( return_value )
+	return return_value;
+    else
+	return gsb_transactions_list_sort_by_transaction_date_and_no();
+}
+
+
+
+
+/** used to compare 2 iters and sort the by credit amount first, and 
+ * by date and no transaction after
+ * always put the white line below
+ * \param model the GtkTreeModel
+ * \param iter_1
+ * \param iter_2
+ * \param sort_type GTK_SORT_ASCENDING or GTK_SORT_DESCENDING
+ * \return -1 if iter_1 is above iter_2
+ * */
+gint gsb_transactions_list_sort_by_credit ( GtkTreeModel *model,
+					    GtkTreeIter *iter_1,
+					    GtkTreeIter *iter_2,
+					    GtkSortType sort_type )
+{
+    gint return_value;
+
+    /*     general test first (white line, other rows of the transaction */
+
+    return_value = gsb_transactions_list_general_test ( model,
+							iter_1,
+							iter_2,
+							sort_type );
+    if ( return_value )
+	return return_value;
+
+    /* for the amounts, we have to check also the currency */
+
+    if ( fabs (transaction_1 -> montant - transaction_2 -> montant) < 0.01
+	 &&
+	 transaction_1 -> devise == transaction_2 -> devise )
+	return_value = gsb_transactions_list_sort_by_transaction_date_and_no();
+    else
+    {
+	if ( transaction_1 -> devise == transaction_2 -> devise )
+	    return_value = transaction_1 -> montant - transaction_2 -> montant;
+	else
+	{
+	    gdouble amount_1, amount_2;
+
+	    amount_1 = calcule_montant_devise_renvoi ( transaction_1 -> montant,
+						       gsb_account_get_currency (transaction_1 -> no_compte),
+						       transaction_1 -> devise,
+						       transaction_1 -> une_devise_compte_egale_x_devise_ope,
+						       transaction_1 -> taux_change,
+						       transaction_1 -> frais_change );
+	    amount_2 = calcule_montant_devise_renvoi ( transaction_2 -> montant,
+						       gsb_account_get_currency (transaction_1 -> no_compte),
+						       transaction_2 -> devise,
+						       transaction_2 -> une_devise_compte_egale_x_devise_ope,
+						       transaction_2 -> taux_change,
+						       transaction_2 -> frais_change );
+	    return_value = amount_1 - amount_2;
+
+	}
+    }
+
+
+    if ( return_value )
+	return return_value;
+    else
+	return gsb_transactions_list_sort_by_transaction_date_and_no();
+}
+
+
+
+
+
+/** used to compare 2 iters and sort the by debit amount first, and 
+ * by date and no transaction after
+ * always put the white line below
+ * \param model the GtkTreeModel
+ * \param iter_1
+ * \param iter_2
+ * \param sort_type GTK_SORT_ASCENDING or GTK_SORT_DESCENDING
+ * \return -1 if iter_1 is above iter_2
+ * */
+gint gsb_transactions_list_sort_by_debit ( GtkTreeModel *model,
+					   GtkTreeIter *iter_1,
+					   GtkTreeIter *iter_2,
+					   GtkSortType sort_type )
+{
+    gint return_value;
+
+    /*     general test first (white line, other rows of the transaction */
+
+    return_value = gsb_transactions_list_general_test ( model,
+							iter_1,
+							iter_2,
+							sort_type );
+    if ( return_value )
+	return return_value;
+
+    /* for the amounts, we have to check also the currency */
+
+    if ( fabs (transaction_1 -> montant - transaction_2 -> montant) < 0.01
+	 &&
+	 transaction_1 -> devise == transaction_2 -> devise )
+	return_value = gsb_transactions_list_sort_by_transaction_date_and_no();
+    else
+    {
+	if ( transaction_1 -> devise == transaction_2 -> devise )
+	    return_value = transaction_2 -> montant - transaction_1 -> montant;
+	else
+	{
+	    gdouble amount_1, amount_2;
+
+	    amount_1 = calcule_montant_devise_renvoi ( transaction_1 -> montant,
+						       gsb_account_get_currency (transaction_1 -> no_compte),
+						       transaction_1 -> devise,
+						       transaction_1 -> une_devise_compte_egale_x_devise_ope,
+						       transaction_1 -> taux_change,
+						       transaction_1 -> frais_change );
+	    amount_2 = calcule_montant_devise_renvoi ( transaction_2 -> montant,
+						       gsb_account_get_currency (transaction_1 -> no_compte),
+						       transaction_2 -> devise,
+						       transaction_2 -> une_devise_compte_egale_x_devise_ope,
+						       transaction_2 -> taux_change,
+						       transaction_2 -> frais_change );
+	    return_value = amount_2 - amount_1;
+
+	}
+    }
+
+    if ( return_value )
+	return return_value;
+    else
+	return gsb_transactions_list_sort_by_transaction_date_and_no();
+}
+
+
+
+/** used to compare 2 iters and sort the by amount first, and 
+ * by date and no transaction after
+ * always put the white line below
+ * \param model the GtkTreeModel
+ * \param iter_1
+ * \param iter_2
+ * \param sort_type GTK_SORT_ASCENDING or GTK_SORT_DESCENDING
+ * \return -1 if iter_1 is above iter_2
+ * */
+gint gsb_transactions_list_sort_by_amount ( GtkTreeModel *model,
+					    GtkTreeIter *iter_1,
+					    GtkTreeIter *iter_2,
+					    GtkSortType sort_type )
+{
+    gint return_value;
+
+    /*     general test first (white line, other rows of the transaction */
+
+    return_value = gsb_transactions_list_general_test ( model,
+							iter_1,
+							iter_2,
+							sort_type );
+    if ( return_value )
+	return return_value;
+
+    /* for the amounts, we have to check also the currency */
+
+    if ( fabs (transaction_1 -> montant - transaction_2 -> montant) < 0.01
+	 &&
+	 transaction_1 -> devise == transaction_2 -> devise )
+	return_value = gsb_transactions_list_sort_by_transaction_date_and_no();
+    else
+    {
+	if ( transaction_1 -> devise == transaction_2 -> devise )
+	    return_value = fabs(transaction_1 -> montant) - fabs (transaction_2 -> montant);
+	else
+	{
+	    gdouble amount_1, amount_2;
+
+	    amount_1 = calcule_montant_devise_renvoi ( transaction_1 -> montant,
+						       gsb_account_get_currency (transaction_1 -> no_compte),
+						       transaction_1 -> devise,
+						       transaction_1 -> une_devise_compte_egale_x_devise_ope,
+						       transaction_1 -> taux_change,
+						       transaction_1 -> frais_change );
+	    amount_2 = calcule_montant_devise_renvoi ( transaction_2 -> montant,
+						       gsb_account_get_currency (transaction_1 -> no_compte),
+						       transaction_2 -> devise,
+						       transaction_2 -> une_devise_compte_egale_x_devise_ope,
+						       transaction_2 -> taux_change,
+						       transaction_2 -> frais_change );
+	    return_value = fabs(amount_1) - fabs(amount_2);
+
+	}
+    }
+
+    if ( return_value )
+	return return_value;
+    else
+	return gsb_transactions_list_sort_by_transaction_date_and_no();
+}
+
+
+
+/** used to compare 2 iters and sort the by type first, and 
+ * by date and no transaction after
+ * always put the white line below
+ * \param model the GtkTreeModel
+ * \param iter_1
+ * \param iter_2
+ * \param sort_type GTK_SORT_ASCENDING or GTK_SORT_DESCENDING
+ * \return -1 if iter_1 is above iter_2
+ * */
+gint gsb_transactions_list_sort_by_type ( GtkTreeModel *model,
+					  GtkTreeIter *iter_1,
+					  GtkTreeIter *iter_2,
+					  GtkSortType sort_type )
+{
+    gint return_value;
+
+    /*     general test first (white line, other rows of the transaction */
+
+    return_value = gsb_transactions_list_general_test ( model,
+							iter_1,
+							iter_2,
+							sort_type );
+    if ( return_value )
+	return return_value;
+
+    /* if it's the same type, we sort by the content of the types */
+
+    if ( transaction_1 -> type_ope == transaction_2 -> type_ope )
+    {
+	return_value = g_utf8_collate ( g_utf8_casefold ( transaction_1 -> contenu_type ? transaction_1 -> contenu_type : "",
+							  -1 ),
+					g_utf8_casefold ( transaction_2 -> contenu_type ? transaction_2 -> contenu_type : "",
+							  -1 ));
+
+	if ( !return_value )
+	    return_value = gsb_transactions_list_sort_by_transaction_date_and_no();
+    }
+    else
+    {
+	gchar *temp_1;
+	gchar *temp_2;
+
+	temp_1 = type_ope_name_by_no ( transaction_1 -> type_ope,
+				       transaction_1 -> no_compte );
+	temp_2 = type_ope_name_by_no ( transaction_2 -> type_ope,
+				       transaction_2 -> no_compte );
+
+	/* g_utf8_collate is said not very fast, must try with big big account to check
+	 * if it's enough, for me it's ok (cedric), eventually, change with gsb_strcasecmp */
+	return_value = g_utf8_collate ( g_utf8_casefold ( temp_1 ? temp_1 : "",
+							  -1 ),
+					g_utf8_casefold ( temp_2 ? temp_2 : "",
+							  -1 ));
+    }
+
+    if ( return_value )
+	return return_value;
+    else
+    {
+	/* 	it seems that the 2 types are different no but same spell... */
+
+	return_value = g_utf8_collate ( g_utf8_casefold ( transaction_1 -> contenu_type ? transaction_1 -> contenu_type : "",
+							  -1 ),
+					g_utf8_casefold ( transaction_2 -> contenu_type ? transaction_2 -> contenu_type : "",
+							  -1 ));
+
+	if ( !return_value )
+	    return_value = gsb_transactions_list_sort_by_transaction_date_and_no();
+    }
+    return return_value;
+}
+
+
+
+/** used to compare 2 iters and sort the by reconcile number first, and 
+ * by date and no transaction after
+ * always put the white line below
+ * \param model the GtkTreeModel
+ * \param iter_1
+ * \param iter_2
+ * \param sort_type GTK_SORT_ASCENDING or GTK_SORT_DESCENDING
+ * \return -1 if iter_1 is above iter_2
+ * */
+gint gsb_transactions_list_sort_by_reconcile_nb ( GtkTreeModel *model,
+						  GtkTreeIter *iter_1,
+						  GtkTreeIter *iter_2,
+						  GtkSortType sort_type )
+{
+    gint return_value;
+
+    /*     general test first (white line, other rows of the transaction */
+
+    return_value = gsb_transactions_list_general_test ( model,
+							iter_1,
+							iter_2,
+							sort_type );
+    if ( return_value )
+	return return_value;
+
+    if ( transaction_1 -> no_rapprochement == transaction_2 -> no_rapprochement )
+	return_value = gsb_transactions_list_sort_by_transaction_date_and_no();
+    else
+    {
+	gchar *temp_1;
+	gchar *temp_2;
+
+	temp_1 = rapprochement_name_by_no ( transaction_1 -> no_rapprochement );
+	temp_2 = rapprochement_name_by_no ( transaction_2 -> no_rapprochement );
+
+	/* g_utf8_collate is said not very fast, must try with big big account to check
+	 * if it's enough, for me it's ok (cedric), eventually, change with gsb_strcasecmp */
+	return_value = g_utf8_collate ( g_utf8_casefold ( temp_1 ? temp_1 : "",
+							  -1 ),
+					g_utf8_casefold ( temp_2 ? temp_2 : "",
+							  -1 ));
+    }
+
+    if ( return_value )
+	return return_value;
+    else
+	return gsb_transactions_list_sort_by_transaction_date_and_no();
+}
+
+
+
+/** used to compare 2 iters and sort the by financial_year first, and no
+ * transaction after
+ * always put the white line below
+ * \param model the GtkTreeModel
+ * \param iter_1
+ * \param iter_2
+ * \param sort_type GTK_SORT_ASCENDING or GTK_SORT_DESCENDING
+ * \return -1 if iter_1 is above iter_2
+ * */
+gint gsb_transactions_list_sort_by_financial_year ( GtkTreeModel *model,
+						    GtkTreeIter *iter_1,
+						    GtkTreeIter *iter_2,
+						    GtkSortType sort_type )
+{
+    gint return_value;
+
+    /*     general test first (white line, other rows of the transaction */
+
+    return_value = gsb_transactions_list_general_test ( model,
+							iter_1,
+							iter_2,
+							sort_type );
+    if ( return_value )
+	return return_value;
+
+    if ( transaction_1 -> no_exercice == transaction_2 -> no_exercice )
+	return_value = gsb_transactions_list_sort_by_transaction_date_and_no();
+    else
+    {
+	GDate *date_1;
+	GDate *date_2;
+
+	date_1 = gsb_financial_year_get_begining_date (transaction_1 -> no_exercice);
+	date_2 = gsb_financial_year_get_begining_date (transaction_2 -> no_exercice);
+
+	if ( date_1 )
+	{
+	    if ( date_2 )
+		return_value = g_date_compare ( date_1,
+						date_2 );
+	    else
+		return_value = 1;
+	}
+	else
+	{
+	    if ( date_2 )
+		return_value = -1;
+	    else
+		return_value = 0;
+	}
+    }
+
+    if ( return_value )
+	return return_value;
+    else
+	return gsb_transactions_list_sort_by_transaction_date_and_no();
+
+}
+
+
+
+/** used to compare 2 iters and sort the by category first, and 
+ * by date and no transaction after
+ * always put the white line below
+ * \param model the GtkTreeModel
+ * \param iter_1
+ * \param iter_2
+ * \param sort_type GTK_SORT_ASCENDING or GTK_SORT_DESCENDING
+ * \return -1 if iter_1 is above iter_2
+ * */
+gint gsb_transactions_list_sort_by_category ( GtkTreeModel *model,
+					      GtkTreeIter *iter_1,
+					      GtkTreeIter *iter_2,
+					      GtkSortType sort_type )
+{
+    gint return_value;
+    gchar *temp_1;
+    gchar *temp_2;
+
+    /*     general test first (white line, other rows of the transaction */
+
+    return_value = gsb_transactions_list_general_test ( model,
+							iter_1,
+							iter_2,
+							sort_type );
+    if ( return_value )
+	return return_value;
+
+    /** we want to take the name of the categ, so, either
+     * breakdown of transaction
+     * transfer : ...
+     * categ : under-categ
+     * and after, we sort by str
+     * */
+
+    temp_1 = gsb_transactions_get_category_real_name ( transaction_1 );
+    temp_2 = gsb_transactions_get_category_real_name ( transaction_2 );
+
+    /* g_utf8_collate is said not very fast, must try with big big account to check
+     * if it's enough, for me it's ok (cedric), eventually, change with gsb_strcasecmp */
+    return_value = g_utf8_collate ( g_utf8_casefold ( temp_1 ? temp_1 : "",
+						      -1 ),
+				    g_utf8_casefold ( temp_2 ? temp_2 : "",
+						      -1 ));
+
+    if ( return_value )
+	return return_value;
+    else
+	return gsb_transactions_list_sort_by_transaction_date_and_no();
+}
+
+
+/** used to compare 2 iters and sort the by mark first, and 
+ * by date and no transaction after
+ * always put the white line below
+ * \param model the GtkTreeModel
+ * \param iter_1
+ * \param iter_2
+ * \param sort_type GTK_SORT_ASCENDING or GTK_SORT_DESCENDING
+ * \return -1 if iter_1 is above iter_2
+ * */
+gint gsb_transactions_list_sort_by_mark ( GtkTreeModel *model,
+					  GtkTreeIter *iter_1,
+					  GtkTreeIter *iter_2,
+					  GtkSortType sort_type )
+{
+    gint return_value;
+
+    /*     general test first (white line, other rows of the transaction */
+
+    return_value = gsb_transactions_list_general_test ( model,
+							iter_1,
+							iter_2,
+							sort_type );
+    if ( return_value )
+	return return_value;
+
+    return_value = transaction_1 -> pointe - transaction_2 -> pointe;
+
+
+    if ( return_value )
+	return return_value;
+    else
+	return gsb_transactions_list_sort_by_transaction_date_and_no();
+}
+
+
+
+/** used to compare 2 iters and sort the by voucher first, and 
+ * by date and no transaction after
+ * always put the white line below
+ * \param model the GtkTreeModel
+ * \param iter_1
+ * \param iter_2
+ * \param sort_type GTK_SORT_ASCENDING or GTK_SORT_DESCENDING
+ * \return -1 if iter_1 is above iter_2
+ * */
+gint gsb_transactions_list_sort_by_voucher ( GtkTreeModel *model,
+					     GtkTreeIter *iter_1,
+					     GtkTreeIter *iter_2,
+					     GtkSortType sort_type )
+{
+    gint return_value;
+    gchar *temp_1;
+    gchar *temp_2;
+
+
+    /*     general test first (white line, other rows of the transaction */
+
+    return_value = gsb_transactions_list_general_test ( model,
+							iter_1,
+							iter_2,
+							sort_type );
+    if ( return_value )
+	return return_value;
+
+    temp_1 = transaction_1 -> no_piece_comptable;
+    temp_2 = transaction_2 -> no_piece_comptable;
+
+    /* g_utf8_collate is said not very fast, must try with big big account to check
+     * if it's enough, for me it's ok (cedric), eventually, change with gsb_strcasecmp */
+    return_value = g_utf8_collate ( g_utf8_casefold ( temp_1 ? temp_1 : "",
+						      -1 ),
+				    g_utf8_casefold ( temp_2 ? temp_2 : "",
+						      -1 ));
+
+    if ( return_value )
+	return return_value;
+    else
+	return gsb_transactions_list_sort_by_transaction_date_and_no();
+}
+
+
+/** used to compare 2 iters and sort the by notes first, and 
+ * by date and no transaction after
+ * always put the white line below
+ * \param model the GtkTreeModel
+ * \param iter_1
+ * \param iter_2
+ * \param sort_type GTK_SORT_ASCENDING or GTK_SORT_DESCENDING
+ * \return -1 if iter_1 is above iter_2
+ * */
+gint gsb_transactions_list_sort_by_notes ( GtkTreeModel *model,
+					   GtkTreeIter *iter_1,
+					   GtkTreeIter *iter_2,
+					   GtkSortType sort_type )
+{
+    gint return_value;
+    gchar *temp_1;
+    gchar *temp_2;
+
+
+    /*     general test first (white line, other rows of the transaction */
+
+    return_value = gsb_transactions_list_general_test ( model,
+							iter_1,
+							iter_2,
+							sort_type );
+    if ( return_value )
+	return return_value;
+
+    temp_1 = transaction_1 -> notes;
+    temp_2 = transaction_2 -> notes;
+
+    /* g_utf8_collate is said not very fast, must try with big big account to check
+     * if it's enough, for me it's ok (cedric), eventually, change with gsb_strcasecmp */
+    return_value = g_utf8_collate ( g_utf8_casefold ( temp_1 ? temp_1 : "",
+						      -1 ),
+				    g_utf8_casefold ( temp_2 ? temp_2 : "",
+						      -1 ));
+
+    if ( return_value )
+	return return_value;
+    else
+	return gsb_transactions_list_sort_by_transaction_date_and_no();
+}
+
+
+
+/** used to compare 2 iters and sort the by bank first, and 
+ * by date and no transaction after
+ * always put the white line below
+ * \param model the GtkTreeModel
+ * \param iter_1
+ * \param iter_2
+ * \param sort_type GTK_SORT_ASCENDING or GTK_SORT_DESCENDING
+ * \return -1 if iter_1 is above iter_2
+ * */
+gint gsb_transactions_list_sort_by_bank ( GtkTreeModel *model,
+					  GtkTreeIter *iter_1,
+					  GtkTreeIter *iter_2,
+					  GtkSortType sort_type )
+{
+    gint return_value;
+    gchar *temp_1;
+    gchar *temp_2;
+
+
+    /*     general test first (white line, other rows of the transaction */
+
+    return_value = gsb_transactions_list_general_test ( model,
+							iter_1,
+							iter_2,
+							sort_type );
+    if ( return_value )
+	return return_value;
+
+    temp_1 = transaction_1 -> info_banque_guichet;
+    temp_2 = transaction_2 -> info_banque_guichet;
+
+    /* g_utf8_collate is said not very fast, must try with big big account to check
+     * if it's enough, for me it's ok (cedric), eventually, change with gsb_strcasecmp */
+    return_value = g_utf8_collate ( g_utf8_casefold ( temp_1 ? temp_1 : "",
+						      -1 ),
+				    g_utf8_casefold ( temp_2 ? temp_2 : "",
+						      -1 ));
+
+    if ( return_value )
+	return return_value;
+    else
+	return gsb_transactions_list_sort_by_transaction_date_and_no();
+}
+
+
+
+/** used to compare 2 iters and sort the by cheque or no of transfer first, and 
+ * by date and no transaction after
+ * always put the white line below
+ * \param model the GtkTreeModel
+ * \param iter_1
+ * \param iter_2
+ * \param sort_type GTK_SORT_ASCENDING or GTK_SORT_DESCENDING
+ * \return -1 if iter_1 is above iter_2
+ * */
+gint gsb_transactions_list_sort_by_chq ( GtkTreeModel *model,
+					 GtkTreeIter *iter_1,
+					 GtkTreeIter *iter_2,
+					 GtkSortType sort_type )
+{
+    gint return_value;
+    gchar *temp_1;
+    gchar *temp_2;
+
+
+    /*     general test first (white line, other rows of the transaction */
+
+    return_value = gsb_transactions_list_general_test ( model,
+							iter_1,
+							iter_2,
+							sort_type );
+    if ( return_value )
+	return return_value;
+
+    temp_1 = transaction_1 -> contenu_type;
+    temp_2 = transaction_2 -> contenu_type;
+
+    /* g_utf8_collate is said not very fast, must try with big big account to check
+     * if it's enough, for me it's ok (cedric), eventually, change with gsb_strcasecmp */
+    return_value = g_utf8_collate ( g_utf8_casefold ( temp_1 ? temp_1 : "",
+						      -1 ),
+				    g_utf8_casefold ( temp_2 ? temp_2 : "",
+						      -1 ));
+
+    if ( return_value )
+	return return_value;
+    else
+	return gsb_transactions_list_sort_by_transaction_date_and_no();
+}
+
 
 
 
@@ -81,761 +1392,15 @@ gint classement_liste_par_no_ope_ventil ( GtkWidget *liste,
 /* ************************************************************************** */
 
 
-/* ************************************************************************** */
-/* Fonction par défaut : par ordre de date                                    */
-/* appelée aussi en fin de classement pour tout classement */
-/* classe par date ou date de valeur suivant la conf, puis par no d'opé */
-/* retour = -1 si operation_1 doit être placée en 1er */
-/* et classe en fonction de r/p si demandé (FIXME : virer dans l'instable) */
-/* ************************************************************************** */
-gint classement_sliste_par_date ( struct structure_operation *operation_1,
-				  struct structure_operation *operation_2 )
+
+/** do the same as g_strcasecmp but works alse with the accents on the words
+ * \param string_1 the first string to cmp
+ * \param string_2 the second string to cmp
+ * \return -1 if string_1 berfore string_2
+ * */
+gint gsb_strcasecmp ( gchar *string_1,
+		      gchar *string_2 )
 {
-    gint retour;
-
-    if ( etat.classement_par_date )
-	/* on classe par dates normales */
-	retour = g_date_compare ( operation_1 -> date, operation_2 -> date );
-    else
-    {
-	/* on classe par date de valeur, si elle existe */
-
-	if ( operation_1 -> date_bancaire )
-	{
-	    if ( operation_2 -> date_bancaire )
-		retour = g_date_compare ( operation_1 -> date_bancaire, operation_2 -> date_bancaire );
-	    else
-		retour = g_date_compare ( operation_1 -> date_bancaire, operation_2 -> date );
-	}
-	else
-	{
-	    if ( operation_2 -> date_bancaire )
-		retour = g_date_compare ( operation_1 -> date, operation_2 -> date_bancaire );
-	    else
-		retour = g_date_compare ( operation_1 -> date, operation_2 -> date );
-	}
-
-	/* on a classé par date de valeur, si c'est la même date,
-	   alors on classe par date d'opération */
-
-	if ( !retour )
-	    retour = g_date_compare ( operation_1 -> date, operation_2 -> date );
-    }
-
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation_1->no_compte;
-    if ( gsb_account_get_ascending_sort (operation_1->no_compte) )
-	retour = retour;
-    else
-	retour = -retour;
-
-    if ( retour )
-	return ( retour );
-    else
-	return ( classement_sliste_par_no ( operation_1,
-					    operation_2 ));
-}
-/* ************************************************************************** */
-
-/* ************************************************************************** */
-/* classement opérations par no */
-/* retour = -1 si operation_1 doit être placée en 1er */
-/* ************************************************************************** */
-gint classement_sliste_par_no ( struct structure_operation *operation_1,
-				struct structure_operation *operation_2 )
-{
-    gint retour;
-
-    retour = operation_1 -> no_operation - operation_2 -> no_operation;
-
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation_1->no_compte;
-    if ( gsb_account_get_ascending_sort (operation_1->no_compte) )
-	retour = retour;
-    else
-	retour = -retour;
-
-    return ( retour );
-}
-/* ************************************************************************** */
-
-
-
-/* ************************************************************************** */
-/* classement opérations R -> T -> P */
-/* retour = -1 si operation_1 doit être placée en 1er */
-/* ************************************************************************** */
-gint classement_sliste_par_pointage ( struct structure_operation *operation_1,
-				     struct structure_operation *operation_2 )
-{
-    gint retour;
-
-    retour = operation_2 -> pointe - operation_1 -> pointe;
-
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation_1->no_compte;
-    if ( gsb_account_get_ascending_sort (operation_1->no_compte) )
-	retour = retour;
-    else
-	retour = -retour;
-
-    if ( retour )
-	return ( retour );
-    else
-	return ( classement_sliste_par_date ( operation_1, operation_2 ));
-	    
-}
-/* ************************************************************************** */
-
-
-/* ************************************************************************** */
-/* classement opérations par debit */
-/* retour = -1 si operation_1 doit être placée en 1er */
-/* ************************************************************************** */
-gint classement_sliste_par_debit ( struct structure_operation *operation_1,
-				   struct structure_operation *operation_2 )
-{
-    gint retour;
-
-/*     on place les débits en premier, et par ordre croissant */
-/*     si la devise est identique, easy c'est direct, sinon on doit transformer les montant */
-/*     dans la devise du compte */
-
-    if ( operation_1 -> devise == operation_2 -> devise )
-	retour = operation_1 -> montant - operation_2 -> montant;
-    else
-    {
-	gdouble montant_1, montant_2;
-
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation_1 -> no_compte;
-
-	montant_1 = calcule_montant_devise_renvoi ( operation_1 -> montant,
-						    gsb_account_get_currency (operation_1 -> no_compte),
-						    operation_1 -> devise,
-						    operation_1 -> une_devise_compte_egale_x_devise_ope,
-						    operation_1 -> taux_change,
-						    operation_1 -> frais_change );
-	montant_2 = calcule_montant_devise_renvoi ( operation_2 -> montant,
-						    gsb_account_get_currency (operation_1 -> no_compte),
-						    operation_2 -> devise,
-						    operation_2 -> une_devise_compte_egale_x_devise_ope,
-						    operation_2 -> taux_change,
-						    operation_2 -> frais_change );
-	retour = montant_1 - montant_2;
-    }
-
-     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation_1->no_compte;
-    if ( gsb_account_get_ascending_sort (operation_1->no_compte) )
-	retour = retour;
-    else
-	retour = -retour;
-
-   if ( retour )
-	return ( retour );
-    else
-	return ( classement_sliste_par_date ( operation_1, operation_2 ));
-	    
-}
-/* ************************************************************************** */
-
-
-
-/* ************************************************************************** */
-/* classement opérations par credit */
-/* retour = -1 si operation_1 doit être placée en 1er */
-/* ************************************************************************** */
-gint classement_sliste_par_credit ( struct structure_operation *operation_1,
-				    struct structure_operation *operation_2 )
-{
-    gint retour;
-
-/*     on place les crédits en premier et par ordre croissant */
-/*     si la devise est identique, easy c'est direct, sinon on doit transformer les montant */
-/*     dans la devise du compte */
-
-    if ( operation_2 -> devise == operation_1 -> devise )
-	retour = operation_1 -> montant - operation_2 -> montant;
-    else
-    {
-	gdouble montant_1, montant_2;
-
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation_1 -> no_compte;
-
-	montant_1 = calcule_montant_devise_renvoi ( operation_1 -> montant,
-						    gsb_account_get_currency (operation_1 -> no_compte),
-						    operation_1 -> devise,
-						    operation_1 -> une_devise_compte_egale_x_devise_ope,
-						    operation_1 -> taux_change,
-						    operation_1 -> frais_change );
-	montant_2 = calcule_montant_devise_renvoi ( operation_2 -> montant,
-						    gsb_account_get_currency (operation_1 -> no_compte),
-						    operation_2 -> devise,
-						    operation_2 -> une_devise_compte_egale_x_devise_ope,
-						    operation_2 -> taux_change,
-						    operation_2 -> frais_change );
-	retour = montant_1 - montant_2;
-    }
-
-     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation_1->no_compte;
-    if ( gsb_account_get_ascending_sort (operation_1->no_compte) )
-	retour = retour;
-    else
-	retour = -retour;
-
-   if ( retour )
-	return ( retour );
-    else
-	return ( classement_sliste_par_date ( operation_1, operation_2 ));
-	    
-}
-/* ************************************************************************** */
-
-
-
-
-
-/* ************************************************************************** */
-/* classement opérations par montant */
-/* retour = -1 si operation_1 doit être placée en 1er */
-/* ************************************************************************** */
-gint classement_sliste_par_montant ( struct structure_operation *operation_1,
-				     struct structure_operation *operation_2 )
-{
-    gint retour;
-
-/*     on classe cette fois par valeur absolue, du plus petit au plus grand */
-/*     si la devise est identique, easy c'est direct, sinon on doit transformer les montant */
-/*     dans la devise du compte */
-
-    if ( operation_1 -> devise == operation_2 -> devise )
-	retour = fabs(operation_1 -> montant) - fabs(operation_2 -> montant);
-    else
-    {
-	gdouble montant_1, montant_2;
-
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation_1 -> no_compte;
-
-	montant_1 = calcule_montant_devise_renvoi ( operation_1 -> montant,
-						    gsb_account_get_currency (operation_1 -> no_compte),
-						    operation_1 -> devise,
-						    operation_1 -> une_devise_compte_egale_x_devise_ope,
-						    operation_1 -> taux_change,
-						    operation_1 -> frais_change );
-	montant_2 = calcule_montant_devise_renvoi ( operation_2 -> montant,
-						    gsb_account_get_currency (operation_1 -> no_compte),
-						    operation_2 -> devise,
-						    operation_2 -> une_devise_compte_egale_x_devise_ope,
-						    operation_2 -> taux_change,
-						    operation_2 -> frais_change );
-	retour = fabs (montant_1) - fabs(montant_2);
-    }
-
-     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation_1->no_compte;
-    if ( gsb_account_get_ascending_sort (operation_1->no_compte) )
-	retour = retour;
-    else
-	retour = -retour;
-
-   if ( retour )
-	return ( retour );
-    else
-	return ( classement_sliste_par_date ( operation_1, operation_2 ));
-	    
-}
-/* ************************************************************************** */
-
-
-
-
-/* ************************************************************************** */
-/* classement opérations par tiers */
-/* retour = -1 si operation_1 doit être placée en 1er */
-/* ************************************************************************** */
-gint classement_sliste_par_tiers ( struct structure_operation *operation_1,
-				     struct structure_operation *operation_2 )
-{
-    gint retour;
-    gchar *tiers_1, *tiers_2;
-
-    tiers_1 = tiers_name_by_no ( operation_1 -> tiers, TRUE );
-    tiers_2 = tiers_name_by_no ( operation_2 -> tiers, TRUE );
-
-    if ( tiers_1 )
-    {
-	if ( tiers_2 )
-	    retour = my_strcmp ( tiers_1,
-				 tiers_2 );
-	else
-	    retour = -1;
-    }
-    else
-    {
-	if ( tiers_2 )
-	    retour = 1;
-	else
-	    retour = 0;
-    }
-
-     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation_1->no_compte;
-    if ( gsb_account_get_ascending_sort (operation_1->no_compte) )
-	retour = retour;
-    else
-	retour = -retour;
-
-   if ( retour )
-	return ( retour );
-    else
-	return ( classement_sliste_par_date ( operation_1, operation_2 ));
-	    
-}
-/* ************************************************************************** */
-
-
-
-/* ************************************************************************** */
-/* classement opérations par catégories  */
-/* categ -> ventil -> virements -> pas de categ */
-/* retour = -1 si operation_1 doit être placée en 1er */
-/* ************************************************************************** */
-gint classement_sliste_par_categories ( struct structure_operation *operation_1,
-					struct structure_operation *operation_2 )
-{
-    gint retour;
-    gchar *categ_1, *categ_2;
-
-    categ_1 = nom_categ_par_no ( operation_1 -> categorie,
-				 operation_1 -> sous_categorie );
-    categ_2 = nom_categ_par_no ( operation_2 -> categorie,
-				 operation_2 -> sous_categorie );
-
-    if ( categ_1 )
-    {
-	if ( categ_2 )
-	    /* 	    cas le plus simple : ce sont 2 categ normales */
-	    retour = my_strcmp ( categ_1,
-			      categ_2 );
-	else
-	    retour = -1;
-    }
-    else
-    {
-	if ( categ_2 )
-	    retour = 1;
-	else
-	{
-	    /* 	    cas le plus compliqé : les opés sont soit virement, soit ventil */
-	    /* 	    on va placer les ventils avant les virements */
-	    if ( operation_1 -> operation_ventilee )
-	    {
-		if ( operation_2 -> operation_ventilee )
-		    /* 		    les 2 opés sont des ventils */
-		    retour = 0;
-		else
-		    retour = -1;
-	    }
-	    else
-	    {
-		if ( operation_2 -> operation_ventilee )
-		    retour = 1;
-		else
-		{
-		    /* 		    aucune des 2 ne sont des ventils */
-
-		    if ( operation_1 -> relation_no_operation )
-		    {
-			if ( operation_2 -> relation_no_operation )
-			    /* 			    toutes les 2 sont des virements */
-			    retour = 0;
-			else
-			    retour = -1;
-		    }
-		    else
-			if ( operation_2 -> relation_no_operation )
-			    retour = 1;
-			else
-			    /* 			    ce sont 2 opés sans categ */
-			    retour = 0;
-		}
-	    }
-	}
-    }
-	    
-     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation_1->no_compte;
-    if ( gsb_account_get_ascending_sort (operation_1->no_compte) )
-	retour = retour;
-    else
-	retour = -retour;
-
-   if ( retour )
-	return ( retour );
-    else
-	return ( classement_sliste_par_date ( operation_1, operation_2 ));
-	    
-}
-/* ************************************************************************** */
-
-
-
-/* ************************************************************************** */
-/* classement opérations par imputation  */
-/* retour = -1 si operation_1 doit être placée en 1er */
-/* ************************************************************************** */
-gint classement_sliste_par_imputation ( struct structure_operation *operation_1,
-					struct structure_operation *operation_2 )
-{
-    gint retour;
-    gchar *ib_1, *ib_2;
-
-    ib_1 = nom_imputation_par_no ( operation_1 -> imputation,
-				   operation_1 -> sous_imputation );
-    ib_2 = nom_imputation_par_no ( operation_2 -> imputation,
-				   operation_2 -> sous_imputation );
-
-    if ( ib_1 )
-    {
-	if ( ib_2 )
-	    retour = my_strcmp ( ib_1,
-			      ib_2 );
-	else
-	    retour = -1;
-    }
-    else
-    {
-	if ( ib_2 )
-	    retour = 1;
-	else
-	    retour = 0;
-    }
-
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation_1->no_compte;
-    if ( gsb_account_get_ascending_sort (operation_1->no_compte) )
-	retour = retour;
-    else
-	retour = -retour;
-
-
-    if ( retour )
-	return ( retour );
-    else
-	return ( classement_sliste_par_date ( operation_1, operation_2 ));
-	    
-}
-/* ************************************************************************** */
-
-
-
-/* ************************************************************************** */
-/* classement opérations par notes */
-/* retour = -1 si operation_1 doit être placée en 1er */
-/* ************************************************************************** */
-gint classement_sliste_par_notes ( struct structure_operation *operation_1,
-				   struct structure_operation *operation_2 )
-{
-    gint retour;
-
-    if ( operation_1 -> notes )
-    {
-	if ( operation_2 -> notes )
-	    retour = my_strcasecmp ( operation_1 -> notes,
-				    operation_2 -> notes );
-	else
-	    retour = -1;
-    }
-    else
-    {
-	if ( operation_2 -> notes )
-	    retour = 1;
-	else
-	    retour = 0;
-    }
-    
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation_1->no_compte;
-    if ( gsb_account_get_ascending_sort (operation_1->no_compte) )
-	retour = retour;
-    else
-	retour = -retour;
-
-
-    if ( retour )
-	return ( retour );
-    else
-	return ( classement_sliste_par_date ( operation_1, operation_2 ));
-	    
-}
-/* ************************************************************************** */
-
-
-
-
-/* ************************************************************************** */
-/* classement opérations par no de rapprochement */
-/* retour = -1 si operation_1 doit être placée en 1er */
-/* ************************************************************************** */
-gint classement_sliste_par_no_rapprochement ( struct structure_operation *operation_1,
-					      struct structure_operation *operation_2 )
-{
-    gint retour;
-    gchar *rapr_1, *rapr_2;
-
-    rapr_1 = rapprochement_name_by_no ( operation_1 -> no_rapprochement );
-    rapr_2 = rapprochement_name_by_no ( operation_2 -> no_rapprochement );
-
-    if ( rapr_1 )
-    {
-	if ( rapr_2 )
-	    retour = my_strcmp ( rapr_1, 
-			      rapr_2 );
-	else
-	    retour = -1;
-    }
-    else
-    {
-	if ( rapr_2 )
-	    retour = 1;
-	else
-	    retour = 0;
-    }
-
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation_1->no_compte;
-    if ( gsb_account_get_ascending_sort (operation_1->no_compte) )
-	retour = retour;
-    else
-	retour = -retour;
-
-
-    if ( retour )
-	return ( retour );
-    else
-	return ( classement_sliste_par_date ( operation_1, operation_2 ));
-	    
-}
-/* ************************************************************************** */
-
-
-
-/* ************************************************************************** */
-/* classement opérations par exercice */
-/* retour = -1 si operation_1 doit être placée en 1er */
-/* ************************************************************************** */
-gint classement_sliste_par_exercice ( struct structure_operation *operation_1,
-				      struct structure_operation *operation_2 )
-{
-    gint retour;
-
-    if ( operation_1 -> no_exercice == operation_2 -> no_exercice )
-	retour = 0;
-    else
-    {
-	if ( operation_1 -> no_exercice )
-	{
-	    if ( operation_2 -> no_exercice )
-	    {
-		struct struct_exercice *exo_1, *exo_2;
-
-		exo_1 = exercice_par_no ( operation_1 -> no_exercice );
-		exo_2 = exercice_par_no ( operation_2 -> no_exercice );
-
-		if ( exo_1 )
-		{
-		    if ( exo_2 )
-			retour = g_date_compare ( exo_1 -> date_debut,
-						  exo_2 -> date_debut );
-		    else
-			retour = -1;
-		}
-		else
-		{
-		    if ( exo_2 )
-			retour = 1;
-		    else
-			retour = 0;
-		}
-	    }
-	    else
-		retour = -1;
-	}
-	else
-	{
-	    if ( operation_2 -> no_exercice )
-		retour = 1;
-	    else
-		retour = 0;
-	}
-    }
-
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation_1->no_compte;
-    if ( gsb_account_get_ascending_sort (operation_1->no_compte) )
-	retour = retour;
-    else
-	retour = -retour;
-
-
-    if ( retour )
-	return ( retour );
-    else
-	return ( classement_sliste_par_date ( operation_1, operation_2 ));
-	    
-}
-/* ************************************************************************** */
-
-
-
-/* ************************************************************************** */
-/* classement opérations par piece comptable  */
-/* retour = -1 si operation_1 doit être placée en 1er */
-/* ************************************************************************** */
-gint classement_sliste_par_pc ( struct structure_operation *operation_1,
-				struct structure_operation *operation_2 )
-{
-    gint retour;
-
-    if ( operation_1 -> no_piece_comptable )
-    {
-	if ( operation_2 -> no_piece_comptable )
-	    retour = my_strcasecmp ( operation_1 -> no_piece_comptable,
-				    operation_2 -> no_piece_comptable );
-	else
-	    retour = -1;
-    }
-    else
-    {
-	if ( operation_2 -> no_piece_comptable )
-	    retour = 1;
-	else
-	    retour = 0;
-    }
-    
-   p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation_1->no_compte;
-    if ( gsb_account_get_ascending_sort (operation_1->no_compte) )
-	retour = retour;
-    else
-	retour = -retour;
-
-
-    if ( retour )
-	return ( retour );
-    else
-	return ( classement_sliste_par_date ( operation_1, operation_2 ));
-    
-}
-/* ************************************************************************** */
-
-
-
-/* ************************************************************************** */
-/* classement opérations par info banque_guichet */
-/* retour = -1 si operation_1 doit être placée en 1er */
-/* ************************************************************************** */
-gint classement_sliste_par_ibg ( struct structure_operation *operation_1,
-				 struct structure_operation *operation_2 )
-{
-    gint retour;
-
-    if ( operation_1 -> info_banque_guichet )
-    {
-	if ( operation_2 -> info_banque_guichet )
-	    retour = my_strcasecmp ( operation_1 -> info_banque_guichet,
-				    operation_2 -> info_banque_guichet );
-	else
-	    retour = -1;
-    }
-    else
-    {
-	if ( operation_2 -> info_banque_guichet )
-	    retour = 1;
-	else
-	    retour = 0;
-    }
-    
-
-   p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation_1->no_compte;
-    if ( gsb_account_get_ascending_sort (operation_1->no_compte) )
-	retour = retour;
-    else
-	retour = -retour;
-
-    if ( retour )
-	return ( retour );
-    else
-	return ( classement_sliste_par_date ( operation_1, operation_2 ));
-      
-}
-/* ************************************************************************** */
-
-
-
-/* ************************************************************************** */
-/* classement opérations par type d'opé */
-/* retour = -1 si operation_1 doit être placée en 1er */
-/* ************************************************************************** */
-gint classement_sliste_par_type_ope ( struct structure_operation *operation_1,
-				      struct structure_operation *operation_2 )
-{
-    gint retour;
-    gchar *type_1, *type_2;
-
-    if ( operation_1 -> type_ope )
-    {
-	if ( operation_2 -> type_ope )
-	{
-	    type_1 = type_ope_name_by_no ( operation_1 -> type_ope,
-					   operation_1 -> no_compte );
-	    type_2 = type_ope_name_by_no ( operation_2 -> type_ope,
-					   operation_2 -> no_compte );
-
-	    retour = my_strcmp ( type_1,
-			      type_2 );
-
-	    if ( !retour )
-	    {
-		if ( operation_1 -> contenu_type )
-		{
-		    if ( operation_2 -> contenu_type )
-			retour = my_strcmp ( operation_1 -> contenu_type,
-					  operation_2 -> contenu_type );
-		    else
-			retour = -1;
-		}
-		else
-		    if ( operation_2 -> contenu_type )
-			retour = 1;
-	    }
-	}
-	else
-	    retour = -1;
-    }
-    else
-    {
-	if ( operation_2 -> type_ope )
-	    retour = 1;
-	else
-	    retour = 0;
-    }
-
-   p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation_1->no_compte;
-    if ( gsb_account_get_ascending_sort (operation_1->no_compte) )
-	retour = retour;
-    else
-	retour = -retour;
-
-    if ( retour )
-	return ( retour );
-    else
-	return ( classement_sliste_par_date ( operation_1, operation_2 ));
-	    
-}
-/* ************************************************************************** */
-
-
-
-
-/* ************************************************************************** */
-/* classement d'une liste composée de chaines par ordre alphabétique          */
-/* en prenant en compte les accents                                           */
-/* ************************************************************************** */
-gint classe_liste_alphabetique ( gchar *string_1,
-				 gchar *string_2 )
-{
-    /* comme la fonction g_strcasecmp met les accents derrière,
-       on magouille pour les prendre en compte */
-
     string_1 = g_strdup ( string_1 );
     string_1 = g_strdelimit ( string_1, "éÉèÈêÊ", 'e' );
     string_1 = g_strdelimit ( string_1, "çÇ", 'c' );

@@ -47,8 +47,6 @@ extern MetatreeInterface * budgetary_interface ;
 extern GtkTreeStore *budgetary_line_tree_model;
 extern GtkTreeStore * categ_tree_model;
 extern MetatreeInterface * category_interface ;
-extern gpointer **p_tab_nom_de_compte;
-extern gpointer **p_tab_nom_de_compte_variable;
 extern MetatreeInterface * payee_interface ;
 extern GtkTreeStore *payee_tree_model;
 /*END_EXTERN*/
@@ -67,8 +65,6 @@ struct structure_operation *operation_par_no ( gint no_operation,
 {
     GSList *liste_tmp;
 
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_compte;
-    
     liste_tmp = g_slist_find_custom ( gsb_account_get_transactions_list (no_compte),
 				      GINT_TO_POINTER ( no_operation ),
 				      (GCompareFunc) recherche_operation_par_no );
@@ -91,8 +87,6 @@ struct structure_operation *operation_par_cheque ( gint no_cheque,
 {
     GSList *liste_tmp;
 
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_compte;
-    
     liste_tmp = g_slist_find_custom ( gsb_account_get_transactions_list (no_compte),
 				      GINT_TO_POINTER ( no_cheque ),
 				      (GCompareFunc) recherche_operation_par_cheque );
@@ -115,8 +109,6 @@ struct structure_operation *operation_par_id ( gchar *no_id,
 {
     GSList *liste_tmp;
 
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_compte;
-    
     liste_tmp = g_slist_find_custom ( gsb_account_get_transactions_list (no_compte),
 				      g_strstrip ( no_id ),
 				      (GCompareFunc) recherche_operation_par_id );
@@ -137,7 +129,7 @@ void update_transaction_in_categ_tree ( struct structure_operation * transaction
 {
     /* FIXME: Kludgeish, we should maintain a state. */
     calcule_total_montant_categ();
-    update_transaction_in_tree ( category_interface, categ_tree_model, transaction );
+    update_transaction_in_tree ( category_interface, GTK_TREE_MODEL (categ_tree_model), transaction );
 }
 
 
@@ -150,7 +142,7 @@ void update_transaction_in_budgetary_line_tree ( struct structure_operation * tr
 {
     /* FIXME: Kludgeish, we should maintain a state. */
     calcule_total_montant_budgetary_line();
-    update_transaction_in_tree ( budgetary_interface, budgetary_line_tree_model, 
+    update_transaction_in_tree ( budgetary_interface, GTK_TREE_MODEL (budgetary_line_tree_model), 
 				 transaction );
 }
 
@@ -164,7 +156,7 @@ void update_transaction_in_payee_tree ( struct structure_operation * transaction
 {
     /* FIXME: Kludgeish, we should maintain a state. */
     calcule_total_montant_payee();
-    update_transaction_in_tree ( payee_interface, payee_tree_model, transaction );
+    update_transaction_in_tree ( payee_interface, GTK_TREE_MODEL (payee_tree_model), transaction );
 }
 
 

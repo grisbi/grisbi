@@ -40,6 +40,7 @@
 #include "utils_echeances.h"
 #include "fichiers_gestion.h"
 #include "data_account.h"
+#include "main.h"
 #include "categories_onglet.h"
 #include "imputation_budgetaire.h"
 #include "tiers_onglet.h"
@@ -62,7 +63,7 @@ extern GtkWidget *bouton_supprimer_compte;
 extern gint compte_courant;
 extern gint compte_courant_onglet;
 extern struct operation_echeance *echeance_selectionnnee;
-extern GtkWidget *formulaire;
+extern GSList *list_struct_accounts;
 extern GSList *liste_struct_echeances;
 extern gint mise_a_jour_combofix_categ_necessaire;
 extern gint mise_a_jour_combofix_imputation_necessaire;
@@ -71,58 +72,61 @@ extern gint mise_a_jour_fin_comptes_passifs;
 extern gint mise_a_jour_liste_comptes_accueil;
 extern gint mise_a_jour_liste_echeances_manuelles_accueil;
 extern gint mise_a_jour_soldes_minimaux;
-extern gint nb_colonnes;
-extern gint nb_comptes;
 extern gint nb_echeances;
 extern GtkWidget *notebook_general;
 extern GtkWidget *notebook_listes_operations;
 extern GSList *ordre_comptes;
-extern gpointer **p_tab_nom_de_compte;
-extern gpointer **p_tab_nom_de_compte_variable;
 extern GtkStyle *style_entree_formulaire[2];
 extern GtkWidget *tree_view;
-extern GtkWidget *vbox_liste_comptes;
 extern GtkWidget *widget_formulaire_echeancier[SCHEDULER_FORM_TOTAL_WIDGET];
 /*END_EXTERN*/
 
-gint noname_account_number = 0;
 
 
-/* ************************************************************************** */
-/* Routine appelï¿œ lorsque l'on crï¿œ un nouveau compte                        */
-/* ************************************************************************** */
-void  nouveau_compte ( void )
+/** called to create a new account
+ * \param none
+ * \return FALSE FALSE
+ */
+
+gboolean new_account ( void )
 {
     kind_account type_de_compte;
     gint no_compte;
 
-    if ( !nb_comptes )
+    /*     if no accounts, it's a new file */
+
+    if ( !gsb_account_get_accounts_amount () )
     {
-	nouveau_fichier ();
-	return;
+	new_file ();
+	return FALSE;
     }
+
+    /*     ask for the kind_account */
 
     type_de_compte = demande_type_nouveau_compte ();
 
     if ( type_de_compte == -1 )
-	return;
+	return FALSE;
 
-    no_compte = initialisation_nouveau_compte ( type_de_compte );
+    /*     create the new account */
 
-    /* si la crï¿œtion s'est mal placï¿œ, on se barre */
+    no_compte = gsb_account_new ( type_de_compte );
 
     if ( no_compte == -1 )
-	return;
+    {
+	dialogue_error_memory ();
+	return FALSE;
+    }
 
-    /* on recrï¿œ les combofix des catï¿œories */
+    /* update the combofix for categ */
 
     mise_a_jour_combofix_categ();
 
-    /* on met ï¿œjour l'option menu des formulaires des ï¿œhï¿œnces et des opï¿œ */
+    /* update options menus of accounts */
 
     update_options_menus_comptes ();
 
-    /* mise ï¿œjour de l'accueil */
+    /* update the main page */
 
     mise_a_jour_liste_comptes_accueil = 1;
 
@@ -132,16 +136,14 @@ void  nouveau_compte ( void )
     gtk_widget_set_sensitive ( bouton_supprimer_compte,
 			       TRUE );
 
-    /* crï¿œ le nouveau bouton du compte et l'ajoute ï¿œla liste des comptes */
+    /* update the accounts lists */
 
     reaffiche_liste_comptes ();
-
-    /* on crï¿œ le nouveau compte dans les propriï¿œï¿œ des comptes */
-
-    compte_courant_onglet = nb_comptes - 1;
     reaffiche_liste_comptes_onglet ();
 
-   /* on se met sur l'onglet de propriï¿œï¿œ du compte */
+    compte_courant_onglet = no_compte;
+
+   /* go to accounts property */
 
     gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ),
 			    3 );
@@ -161,174 +163,48 @@ void  nouveau_compte ( void )
     demarrage_idle ();
 
     modification_fichier ( TRUE );
+    return FALSE;
 }
 /* ************************************************************************** */
 
-/* ************************************************************************** */
-/* Cette fonction crï¿œ un nouveau compte, l'initialise, l'ajoute aux comptes  */
-/* et renvoie le no du compte crï¿œ                                            */
-/* renvoie -1 s'il y a un pb                                                  */
-/* ************************************************************************** */
-gint initialisation_nouveau_compte ( kind_account type_de_compte )
+
+
+/** that function delete the current account selected in the account properties
+ * \param none
+ * \return FALSE FALSE
+ * */
+
+gboolean delete_account ( void )
 {
-    gint no_compte;
-
-    if  (!(p_tab_nom_de_compte = realloc ( p_tab_nom_de_compte, ( nb_comptes + 1 )* sizeof ( gpointer ) )))
-    {
-	dialogue_error_memory ();
-	return (-1);
-    };
-
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + nb_comptes;
-
-    if  (!(*p_tab_nom_de_compte_variable = calloc ( 1,
-						    sizeof (struct donnees_compte) )) )
-    {
-	dialogue_error_memory ();
-	return (-1);
-    };
-
-    /*     il faut incrï¿œenter nb_comptes tout de suite pour ï¿œiter la protection */
-    /* 	des p_tab_nom_de_compte_variable */
-
-    no_compte = nb_comptes;
-    nb_comptes++;
-    noname_account_number++;
-
-    /* insï¿œe ses paramï¿œres ( comme c'est un appel ï¿œcalloc, tout ce qui est ï¿œ0 est dï¿œï¿œinitialisï¿œ)*/
-
-/*     NOM_DU_COMPTE = g_strdup_printf ( _("No name %d"), noname_account_number ); */
-/*     DEVISE = 1; */
-/*     MISE_A_JOUR = 1; */
-/*     NO_COMPTE = no_compte; */
-/*     OPERATION_SELECTIONNEE = GINT_TO_POINTER (-1); */
-
-    /*     par dï¿œaut on n'affiche pas les R et le nb de lignes par opï¿œest de 3 */
-    /* 	sauf si l'affichage n'est pas sï¿œarï¿œpar compte */
-    /* 	dans ce cas, on reprend ceux du 1er compte */
-
-    if ( !etat.retient_affichage_par_compte
-	 &&
-	 no_compte )
-    {
-
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
-/* 	affichage_r = AFFICHAGE_R; */
-/* 	nb_lignes_ope = NB_LIGNES_OPE; */
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_compte;
-
-/* 	AFFICHAGE_R = affichage_r; */
-/* 	NB_LIGNES_OPE = nb_lignes_ope; */
-    }
-    else
-    {
-/* 	AFFICHAGE_R = 0; */
-/* 	NB_LIGNES_OPE = 3; */
-    }
-
-/*     TYPE_DE_COMPTE = type_de_compte; */
-
-
-    /* on crï¿œ les types par dï¿œaut */
-
-/*     creation_types_par_defaut ( NO_COMPTE, */
-/* 				0); */
-
-    /* on met le compte ï¿œla fin dans le classement des comptes */
-
-/*     ordre_comptes = g_slist_append ( ordre_comptes, */
-/* 				     GINT_TO_POINTER ( NO_COMPTE ) ); */
-
-    /*     on crï¿œ l'organisation du formulaire */
-    /* 	si c'est une organisation gï¿œï¿œale, on recopie l'organisation du premier compte */
-    /* 	si c'est une organisation sï¿œarï¿œ, on rï¿œupï¿œe l'organisation par dï¿œaut */
-
-    if ( etat.formulaire_distinct_par_compte
-	 &&
-	 no_compte )
-    {
-	struct organisation_formulaire *struct_formulaire;
-	gint i, j;
-
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
-
-	struct_formulaire = gsb_account_get_form_organization (gsb_account_first_number ());
-	
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_compte;
-
-	gsb_account_set_form_organization ( no_compte,
-					    malloc ( sizeof ( struct organisation_formulaire )) );
-
-	gsb_account_get_form_organization (no_compte) -> nb_colonnes = struct_formulaire -> nb_colonnes;
-	gsb_account_get_form_organization (no_compte) -> nb_lignes = struct_formulaire -> nb_lignes;
-
-	for ( i = 0 ; i<4 ; i++ )
-	    for ( j = 0 ; j<6 ; j++ )
-		gsb_account_get_form_organization (no_compte) -> tab_remplissage_formulaire[i][j] = struct_formulaire -> tab_remplissage_formulaire[i][j];
-
-	for ( i = 0 ; i<6 ; i++ )
-	    gsb_account_get_form_organization (no_compte) -> taille_colonne_pourcent[i] = struct_formulaire -> taille_colonne_pourcent[i];
-    }
-    else
-	gsb_account_set_form_organization ( no_compte,
-					    mise_a_zero_organisation_formulaire ());
-
-
-    /*     on met en place le classement de la liste */
-
-    gsb_account_set_sort_number ( no_compte,
-				  TRANSACTION_LIST_DATE );
-    gsb_account_set_current_sort ( no_compte,
-				   recupere_classement_par_no (gsb_account_get_sort_number (no_compte)));
-    gsb_account_set_ascending_sort ( no_compte,
-				     GTK_SORT_DESCENDING );
-
-/*     return (NO_COMPTE); */
-    return 0;
-}
-/* ************************************************************************** */
-
-/* ************************************************************************** */
-/* Fonction affichant une boite de dialogue contenant une liste des comptes   */
-/* pour en supprimer un                                                       */
-/* ************************************************************************** */
-void supprimer_compte ( void )
-{
-    short actualise = 0, i;
-    GSList *pointeur_liste;
-    gint compte_modifie;
-    gchar *nom_compte_supprime;
-    gint page_en_cours;
+    gint deleted_account;
+    gint page_number;
     struct operation_echeance *echeance;
+    GSList *list_tmp;
 
-/* FIXME : à modifier une fois que fini le chgt de structure de compte */
-    printf ( "FIXME : à modifier une fois que fini le chgt de structure de compte\n" );
-
-    compte_modifie = compte_courant_onglet;
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_modifie;
+    deleted_account = compte_courant_onglet;
 
     if ( !question_yes_no_hint ( g_strdup_printf (_("Delete account \"%s\"?"),
-						  gsb_account_get_name (compte_modifie)),
-				 _("This will irreversibly remove this account and all operations that were previously contained.  There is no undo for this.") ))
-	return;
+						  gsb_account_get_name (deleted_account)),
+				 _("This will irreversibly remove this account and all operations that were previously contained.  There is no undo for this. Usually it's a better way to close an account.") ))
+	return FALSE;
 
-    /* on commence ici la suppression du compte */
+    /* if the las account, close the file */
 
-    /* si qu'un compte, on fermer le fichier */
-
-    if ( nb_comptes == 1 )
+    if ( gsb_account_get_accounts_amount () == 1 )
     {
 	etat.modification_fichier = 0;
 	fermer_fichier ();
-	return;
+	return FALSE;
     }
 
-    /* supprime l'onglet du compte */
-    gtk_notebook_remove_page ( GTK_NOTEBOOK ( notebook_listes_operations ),
-			       compte_modifie + 1 );
+    /* delete the transactions list page */
 
-    /*       suppression des ï¿œhï¿œnces */
-    while ( (echeance = echeance_par_no_compte ( compte_modifie )))
+    gtk_notebook_remove_page ( GTK_NOTEBOOK ( notebook_listes_operations ),
+			       deleted_account + 1 );
+
+    /* delete the schedules transactions on that account */
+
+    while ( (echeance = echeance_par_no_compte ( deleted_account )))
     {
 	if ( echeance_selectionnnee == echeance )
 	    echeance_selectionnnee = GINT_TO_POINTER (-1);
@@ -339,76 +215,25 @@ void supprimer_compte ( void )
     }
 
 
-    /* supprime le compte de la liste de l'ordre des comptes */
+    /* delete the account in the accounts order */
+
     ordre_comptes = g_slist_remove ( ordre_comptes,
-				     GINT_TO_POINTER ( compte_modifie ));
+				     GINT_TO_POINTER ( deleted_account ));
 
+    /*     delete the account */
 
-    /* modifie les numï¿œos des comptes supï¿œieurs au compte supprimï¿œ       dans l'ordre des comptes */
-    pointeur_liste = ordre_comptes;
+    gsb_account_delete ( deleted_account );
 
-    do
+    /*     check all the transactions, and put -1 if it's a transfer to the deleted account */
+
+    list_tmp = list_struct_accounts;
+
+    while ( list_tmp )
     {
-	if ( GPOINTER_TO_INT ( pointeur_liste -> data ) > compte_modifie )
-	    pointeur_liste -> data--;
-    }
-    while ( ( pointeur_liste = pointeur_liste -> next ) );
-
-
-    if ( compte_courant == compte_modifie )
-    {
-	actualise = 1;
-	compte_courant = 0;
-    }
-    else
-	if ( compte_courant > compte_modifie )
-	{
-	    compte_courant--;
-	    actualise = 0;
-	}
-
-
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_modifie;
-    //  nb_comptes--;
-
-    g_slist_free ( gsb_account_get_transactions_list (compte_modifie) );
-    nom_compte_supprime = g_strdup ( gsb_account_get_name (compte_modifie) );
-
-    /* on dï¿œale en mï¿œoire les comptes situï¿œ aprï¿œ */
-    for ( i = compte_modifie ; i < nb_comptes ; i++ )
-    {
-/* 	NO_COMPTE = NO_COMPTE -1; */
-	*p_tab_nom_de_compte_variable = *(p_tab_nom_de_compte_variable + 1);
-	p_tab_nom_de_compte_variable++;
-    }
-
-    nb_comptes--;
-
-    /* recherche les ï¿œhï¿œnces pour les comptes plaï¿œs aprï¿œ le compe supprimï¿œ*/
-    /* pour leur diminuer leur numï¿œo de compte de 1 */
-    pointeur_liste = liste_struct_echeances;
-
-    while ( pointeur_liste )
-    {
-	if ( ECHEANCE_COURANTE -> compte > compte_modifie )
-	    ECHEANCE_COURANTE -> compte--;
-	if ( ECHEANCE_COURANTE -> compte_virement > compte_modifie )
-	    ECHEANCE_COURANTE -> compte_virement--;
-
-	pointeur_liste = pointeur_liste -> next;
-    }
-
-    /*   fait le tour des opï¿œ de tous les comptes, */
-    /*     pour les opï¿œ des comptes > ï¿œcelui supprimï¿œ on descend le
-	   no de compte */
-    /*     pour les virements vers le compte supprimï¿œ met
-	   relation_no_compte ï¿œ-1 */
-
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
-
-    for ( i=0 ; i < nb_comptes ; i++ )
-    {
+	gint i;
 	GSList *pointeur_tmp;
+
+	i = gsb_account_get_no_account ( list_tmp -> data );
 
 	pointeur_tmp = gsb_account_get_transactions_list (i);
 
@@ -418,64 +243,58 @@ void supprimer_compte ( void )
 
 	    operation = pointeur_tmp -> data;
 
-	    if ( operation -> no_compte > compte_modifie )
-		operation -> no_compte--;
-
-	    if ( operation -> relation_no_operation )
+	    if ( operation -> relation_no_compte == deleted_account )
 	    {
-		if ( operation -> relation_no_compte == compte_modifie )
-		{
-		    operation -> relation_no_compte = -1;
-		    gsb_account_set_update_list ( i,
-						  1 );
-		}
-		else
-		    if ( operation -> relation_no_compte > compte_modifie )
-			operation -> relation_no_compte--;
+		operation -> relation_no_compte = -1;
+		gsb_account_set_update_list ( i,
+					      1 );
 	    }
 	    pointeur_tmp = pointeur_tmp -> next;
 	}
-	p_tab_nom_de_compte_variable++;
+	list_tmp = list_tmp -> next;
     }
 
-    /* le compte courant de l'onglet de comptes est diminuï¿œde 1 ou reste */
-    /* ï¿œ0 s'il l'ï¿œait */
+    /* check compte_courant and compte_courant_onglet and put them
+     * on the first account if they are on the deleted account */
 
-    if ( compte_courant_onglet )
-	compte_courant_onglet--;
 
-    /* retire le bouton du compte dans la liste des comptes */
-    /*   pour cela, on efface vbox_liste_comptes et on le recrï¿œ */
+    if ( compte_courant == deleted_account )
+    {
+	/* update the transaction list */
+
+	page_number = gtk_notebook_get_current_page (GTK_NOTEBOOK(notebook_general));
+
+	changement_compte ( GINT_TO_POINTER ( gsb_account_first_number () ));
+
+	gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ), page_number );
+    }
+
+    if ( compte_courant_onglet == deleted_account )
+	compte_courant_onglet = gsb_account_first_number ();
+
+    /* update the buttons lists */
 
     reaffiche_liste_comptes();
     reaffiche_liste_comptes_onglet ();
 
-    /* on recrï¿œ les combofix des tiers et des catï¿œories si nï¿œessaire */
+    /* update the combofixes if needed */
 
     if ( mise_a_jour_combofix_tiers_necessaire )
 	mise_a_jour_combofix_tiers();
-
     if ( mise_a_jour_combofix_categ_necessaire )
 	mise_a_jour_combofix_categ();
     if ( mise_a_jour_combofix_imputation_necessaire )
 	mise_a_jour_combofix_imputation();
 
     /* Replace trees contents. */
+
     remplit_arbre_categ ();
     remplit_arbre_imputation ();
     remplit_arbre_tiers ();
 
-    /* on met ï¿œjour l'option menu du formulaire des ï¿œhï¿œnces */
+    /* update options menus of accounts */
 
-	update_options_menus_comptes ();
-
-    /* rï¿œffiche la liste si necessaire */
-
-    page_en_cours = gtk_notebook_get_current_page (GTK_NOTEBOOK(notebook_general));
-
-    changement_compte ( GINT_TO_POINTER ( compte_courant ));
-
-    gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ), page_en_cours );
+    update_options_menus_comptes ();
 
     remplissage_liste_echeance ();
     mise_a_jour_liste_echeances_manuelles_accueil = 1;
@@ -487,6 +306,7 @@ void supprimer_compte ( void )
     selectionne_liste_comptes_etat_courant ();
 
     modification_fichier( TRUE ); 
+    return FALSE;
 }
 /* ************************************************************************** */
 
@@ -511,15 +331,10 @@ GtkWidget * creation_option_menu_comptes ( GtkSignalFunc func,
 
     menu = gtk_menu_new ();
 
-    if ( ! p_tab_nom_de_compte )
-      return menu;
-
     ordre_comptes_variable = ordre_comptes;
 
     do
     {
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + GPOINTER_TO_INT ( ordre_comptes_variable -> data );
-
 	if ( !gsb_account_get_closed_account (GPOINTER_TO_INT ( ordre_comptes_variable -> data ))
 	     ||
 	     include_closed )
@@ -558,7 +373,6 @@ void changement_choix_compte_echeancier ( void )
     gint no_compte;
 
     no_compte = recupere_no_compte ( widget_formulaire_echeancier[SCHEDULER_FORM_ACCOUNT] );
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_compte;
 
     if ( gtk_widget_get_style ( widget_formulaire_echeancier[SCHEDULER_FORM_CREDIT] ) == style_entree_formulaire[ENCLAIR] )
     {
@@ -601,13 +415,6 @@ void changement_choix_compte_echeancier ( void )
 void creation_types_par_defaut ( gint no_compte,
 				 gulong dernier_cheque )
 {
-    gpointer **save_p_tab;
-
-    save_p_tab = p_tab_nom_de_compte_variable;
-
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_compte;
-
-
     /* si des types d'opï¿œexistaient dï¿œï¿œ on les vire */
 
     if ( gsb_account_get_method_payment_list (no_compte) )
@@ -750,8 +557,6 @@ void creation_types_par_defaut ( gint no_compte,
 							 GINT_TO_POINTER ( 1 )) );
 	}
     }
-
-    p_tab_nom_de_compte_variable = save_p_tab;
 }
 /* ************************************************************************** */
 

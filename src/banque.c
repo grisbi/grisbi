@@ -87,9 +87,7 @@ extern gint compte_courant_onglet;
 extern GtkWidget *detail_option_menu_banque;
 extern GtkWidget *fenetre_preferences;
 extern GtkWidget *hbox_boutons_modif;
-extern gint nb_comptes;
-extern gpointer **p_tab_nom_de_compte;
-extern gpointer **p_tab_nom_de_compte_variable;
+extern GSList *list_struct_accounts;
 extern GtkTreeSelection * selection;
 extern GtkWidget *window;
 /*END_EXTERN*/
@@ -219,24 +217,28 @@ void supprime_banque ( GtkWidget *bouton,
 {
     struct struct_banque *banque;
     gboolean resultat;
-    gpointer **save;
     gint i;
     gboolean bank_is_used=FALSE;
     gint bank_nb_to_remove;
+    GSList *list_tmp;
 
     banque = gtk_clist_get_row_data ( GTK_CLIST ( liste ),
 				      ligne_selection_banque );
 
     bank_nb_to_remove = banque -> no_banque;
 
-    save = p_tab_nom_de_compte_variable;
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
+    list_tmp = list_struct_accounts;
 
-    for ( i=0 ; i < nb_comptes ; i++ )
+    while ( list_tmp )
     {
+	gint i;
+
+	i = gsb_account_get_no_account ( list_tmp -> data );
+
 	if ( gsb_account_get_bank (i) == bank_nb_to_remove )
 	    bank_is_used = TRUE;
-	p_tab_nom_de_compte_variable++;
+
+	list_tmp = list_tmp -> next;
     }
 
     if ( bank_is_used )
@@ -252,19 +254,25 @@ void supprime_banque ( GtkWidget *bouton,
     {
 	/* La suppression de la banque est confirmée, On fait le tour des
 	   comptes pour en modifier le numéro de banque associée */
-	
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
 
-	for ( i=0 ; i < nb_comptes ; i++ )
+	list_tmp = list_struct_accounts;
+
+	while ( list_tmp )
 	{
+	    gint i;
+
+	    i = gsb_account_get_no_account ( list_tmp -> data );
+
 	    if ( gsb_account_get_bank (i) == bank_nb_to_remove )
 		gsb_account_set_bank ( i,
 				       0 );
 	    if ( gsb_account_get_bank (i) > bank_nb_to_remove )
 		gsb_account_set_bank ( i,
 				       gsb_account_get_bank (i));
-	    p_tab_nom_de_compte_variable++;
+
+	    list_tmp = list_tmp -> next;
 	}
+
 
 	/* On retire la banque de la liste */
 
@@ -297,7 +305,6 @@ void supprime_banque ( GtkWidget *bouton,
 	modification_fichier ( TRUE );
     }
 
-    p_tab_nom_de_compte_variable = save;
     update_bank_menu ();
 }
 
@@ -412,7 +419,7 @@ GtkWidget *onglet_banques ( void )
 			     TRUE, TRUE, 0);
 
 	/* Do not activate unless an account is opened */
-	if ( !nb_comptes )
+	if ( !gsb_account_get_accounts_amount () )
 	    gtk_widget_set_sensitive ( vbox_pref, FALSE );
 	else
 	{

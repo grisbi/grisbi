@@ -188,6 +188,25 @@ gchar *exercice_name_by_no ( gint no_exo )
 /* ************************************************************************************************************** */
 
 
+/** get the begining date of the exercice
+ * \param no_fin number of financial year
+ * \return NULL if financial year doesn't exist or the begining date (GDate *)
+ * */
+GDate *gsb_financial_year_get_begining_date ( gint no_exo )
+{
+    struct struct_exercice *financial_year;
+
+    financial_year = exercice_par_no ( no_exo );
+
+    if ( !financial_year )
+	return NULL;
+
+    return financial_year -> date_debut;
+}
+/* ************************************************************************************************************** */
+
+
+
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

@@ -36,20 +36,21 @@
 
 /*START_INCLUDE*/
 #include "data_account.h"
-#include "dialog.h"
 #include "data_currency.h"
 #include "data_form.h"
 #include "data_payment.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static gpointer gsb_account_find_sort_by_no ( gint sort_number );
+static gint gsb_account_get_sort_column ( gint no_account );
 static struct_account *gsb_account_get_structure ( gint no );
-static gint gsb_account_last_number ( void );
-static gint gsb_account_new ( kind_account account_kind );
+static gint gsb_account_max_number ( void );
+static gboolean gsb_account_set_sort_column ( gint no_account,
+				       gint sort_column );
 /*END_STATIC*/
 
 /*START_EXTERN*/
+extern GSList *ordre_comptes;
 /*END_EXTERN*/
 
 
@@ -70,12 +71,9 @@ gint gsb_account_new ( kind_account account_kind )
 		       sizeof ( struct_account ));
 
     if ( !account )
-    {
-	dialogue_error_memory ();
-	return 0;
-    }
+	return -1;
 
-    account -> account_number = gsb_account_last_number () + 1;
+    account -> account_number = gsb_account_max_number () + 1;
     account -> account_name = g_strdup_printf ( _("No name %d"),
 						account -> account_number );
     account -> currency = gsb_currency_default_currency ();
@@ -83,10 +81,10 @@ gint gsb_account_new ( kind_account account_kind )
     account -> current_transaction = GINT_TO_POINTER (-1);
     account -> account_kind = account_kind;
     account -> method_payment_list = gsb_payment_default_payment_list ();
-    account -> sort_number = TRANSACTION_LIST_DATE;
-    account -> current_sort = gsb_account_find_sort_by_no ( account -> sort_number );
-    account -> ascending_sort = GTK_SORT_DESCENDING;
+    account -> sort_type = GTK_SORT_DESCENDING;
     
+    account -> transactions_adjustment_value = -1;
+
     /*     if it's the first account, we put default conf (R not displayed and 3 lines per transaction) */
     /*     else we keep the conf of the last account */
     /*     same for the form organization */
@@ -98,17 +96,62 @@ gint gsb_account_new ( kind_account account_kind )
     }
     else
     {
-	account -> show_r = gsb_account_get_r ( gsb_account_last_number ());
-	account -> nb_rows_by_transaction = gsb_account_get_nb_rows ( gsb_account_last_number ());
-	account -> form_organization = gsb_form_dup_organization ( gsb_account_get_structure (gsb_account_last_number ()) -> form_organization );
+	account -> show_r = gsb_account_get_r ( gsb_account_max_number ());
+	account -> nb_rows_by_transaction = gsb_account_get_nb_rows ( gsb_account_max_number ());
+	account -> form_organization = gsb_form_dup_organization ( gsb_account_get_structure (gsb_account_max_number ()) -> form_organization );
     }
 
     list_struct_accounts = g_slist_append ( list_struct_accounts,
 					    account );
 
+    /* FIXME : à virer les ordre_comptes */
+
+    ordre_comptes = g_slist_append ( ordre_comptes,
+				     GINT_TO_POINTER (account -> account_number ));
+
     return account -> account_number;
 }
 
+
+
+/** delete and free the account given
+ * \param no_account the no of account
+ * \return TRUE if ok
+ * */
+gboolean gsb_account_delete ( gint no_account )
+{
+    struct_account *account;
+
+    account = gsb_account_get_structure ( no_account );
+
+    if (!account )
+	return FALSE;
+
+    g_slist_free ( account -> method_payment_list );
+/* FIXME : faire une fonction pour mieux faire ça quand la struct liste opé sera faite */
+    g_slist_free ( account -> transactions_list );
+    g_slist_free ( account -> sort_list );
+    
+    list_struct_accounts = g_slist_remove ( list_struct_accounts,
+					    account );
+    free ( account );
+
+    return TRUE;
+}
+
+
+
+/** return the amount of accounts
+ * \param none
+ * \return amount of accounts
+ * */
+gint gsb_account_get_accounts_amount ( void )
+{
+    if ( !list_struct_accounts )
+	return 0;
+
+    return g_slist_length ( list_struct_accounts );
+}
 
 
 
@@ -116,7 +159,7 @@ gint gsb_account_new ( kind_account account_kind )
  * \param none
  * \return last number of account
  * */
-gint gsb_account_last_number ( void )
+gint gsb_account_max_number ( void )
 {
     GSList *tmp;
     gint number_tmp = 0;
@@ -155,6 +198,48 @@ gint gsb_account_first_number ( void )
 }
 
 
+/** find and return the number of the account which the struct is the param 
+ * \param the struct of the account
+ * \return the number of account, -1 if pb
+ * */
+gint gsb_account_get_no_account ( gpointer account_ptr )
+{
+    struct_account *account;
+
+    if ( !account_ptr )
+	return -1;
+
+    account = account_ptr;
+
+    return  account -> account_number;
+}
+
+
+/** change the number of the account given in param
+ * it returns the new number (given in param also)
+ * it is called ONLY when loading a file to change the default
+ * number, given when we create the account
+ * \param no_account no of the account to change
+ * \param new_no new number to the account
+ * \return the new number, or -1 if failed
+ * */
+gint gsb_account_set_account_number ( gint no_account,
+				      gint new_no )
+{
+    struct_account *account;
+
+    account = gsb_account_get_structure ( no_account );
+
+    if (!account )
+	return -1;
+
+    account -> account_number = new_no;
+
+    return new_no;
+}
+
+
+
 
 /** find and return the structure of the account asked
  * \param no number of account
@@ -180,17 +265,6 @@ struct_account *gsb_account_get_structure ( gint no )
     return NULL;
 }
 
-/** return the adr of the sort function given by the number
- * \param sort_number the number of sort for the transactions list
- * \return the function
- * */
-gpointer gsb_account_find_sort_by_no ( gint sort_number )
-{
-    printf ( "faire le gsb_account_find_sort_by_no\n" );
-    /*     FIXME */
-
-    return NULL;
-}
 
 
 /** get the nb of rows displayed on the account given
@@ -738,6 +812,8 @@ gboolean gsb_account_set_adjustment_value ( gint no_account,
     return TRUE;
 }
 
+/* FIXME  : to remove and use gtk_tree_view_get_column instead */
+
 /** get the column of the account
  * \param no_account no of the account
  * \param no_column no of the column
@@ -799,6 +875,66 @@ gboolean gsb_account_set_column ( gint no_account,
 
 
 
+/** get the column_sort of the account
+ * \param no_account no of the account
+ * \param no_column no of the column
+ * \return  or NULL if the account doesn't exist
+ * */
+gint gsb_account_get_column_sort ( gint no_account,
+				   gint no_column )
+{
+    struct_account *account;
+
+    if ( no_column < 0
+	 ||
+	 no_column > TRANSACTION_LIST_COL_NB )
+    {
+	g_strdup_printf ( _("Bad no column to gsb_account_get_column_sort () in data_account.c\nno_column = %d\n" ),
+			  no_column );
+	return FALSE;
+    }
+
+    account = gsb_account_get_structure ( no_account );
+
+    if (!account )
+	return 0;
+
+    return account -> transactions_column_sort[no_column];
+}
+
+
+/** set the column_sort of the account
+ * \param no_account no of the account
+ * \param no_column no of the column
+ * \param column_sort  column_sort to set
+ * \return TRUE, ok ; FALSE, problem
+ * */
+gboolean gsb_account_set_column_sort ( gint no_account,
+				       gint no_column,
+				       gint column_sort )
+{
+    struct_account *account;
+
+    account = gsb_account_get_structure ( no_account );
+
+    if ( no_column < 0
+	 ||
+	 no_column > TRANSACTION_LIST_COL_NB )
+    {
+	g_strdup_printf ( _("Bad no column to gsb_account_set_column_sort () in data_account.c\nno_column = %d\n" ),
+			  no_column );
+	return FALSE;
+    }
+
+    if (!account )
+	return FALSE;
+
+    account -> transactions_column_sort[no_column] = column_sort;
+
+    return TRUE;
+}
+
+
 /** get the transactions list of the account
  * \param no_account no of the account
  * \return the g_slist or NULL if the account doesn't exist
@@ -839,8 +975,9 @@ gboolean gsb_account_set_transactions_list ( gint no_account,
 
 
 /** get the current transaction of the account
+ * if no current transaction, return -1 for the white line transaction
  * \param no_account no of the account
- * \return pointer to the transaction or NULL if the account doesn't exist
+ * \return pointer to the transaction, -1 if none selected or NULL if the account doesn't exist
  * */
 gpointer gsb_account_get_current_transaction ( gint no_account )
 {
@@ -851,7 +988,10 @@ gpointer gsb_account_get_current_transaction ( gint no_account )
     if (!account )
 	return NULL;
 
-    return account -> current_transaction;
+    if ( account -> current_transaction )
+	return account -> current_transaction;
+    else
+	return GINT_TO_POINTER (-1);
 }
 
 
@@ -1377,11 +1517,11 @@ gboolean gsb_account_set_comment ( gint no_account,
 
 
 
-/** get sort_type on the account given
+/** get reconcile_sort_type on the account given
  * \param no_account no of the account
  * \return sort_type or 0 if the account doesn't exist
  * */
-gint gsb_account_get_sort_type ( gint no_account )
+gint gsb_account_get_reconcile_sort_type ( gint no_account )
 {
     struct_account *account;
 
@@ -1390,17 +1530,17 @@ gint gsb_account_get_sort_type ( gint no_account )
     if (!account )
 	return 0;
 
-    return account -> sort_type;
+    return account -> reconcile_sort_type;
 }
 
 
-/** set sort_type in the account given
+/** set reconcile_sort_type in the account given
  * \param no_account no of the account
  * \param sort_type sort_type to set
  * \return TRUE, ok ; FALSE, problem
  * */
-gboolean gsb_account_set_sort_type ( gint no_account,
-				     gint sort_type )
+gboolean gsb_account_set_reconcile_sort_type ( gint no_account,
+					       gint sort_type )
 {
     struct_account *account;
 
@@ -1409,7 +1549,7 @@ gboolean gsb_account_set_sort_type ( gint no_account,
     if (!account )
 	return FALSE;
 
-    account -> sort_type = sort_type;
+    account -> reconcile_sort_type = sort_type;
 
     return TRUE;
 }
@@ -1720,49 +1860,12 @@ gboolean gsb_account_set_account_button ( gint no_account,
 }
 
 
-/** get the current_sort of the account
+
+/** get sort_type on the account given
  * \param no_account no of the account
- * \return current_sort or NULL if the account doesn't exist
+ * \return sort_type or 0 if the account doesn't exist
  * */
-gint *gsb_account_get_current_sort ( gint no_account )
-{
-    struct_account *account;
-
-    account = gsb_account_get_structure ( no_account );
-
-    if (!account )
-	return NULL;
-
-    return account -> current_sort;
-}
-
-
-/** set the current_sort of the account
- * \param no_account no of the account
- * \param current_sort current_sort to set
- * \return TRUE, ok ; FALSE, problem
- * */
-gboolean gsb_account_set_current_sort ( gint no_account,
-					gint *current_sort  )
-{
-    struct_account *account;
-
-    account = gsb_account_get_structure ( no_account );
-
-    if (!account )
-	return FALSE;
-
-    account -> current_sort = current_sort;
-
-    return TRUE;
-}
-
-
-/** get ascending_sort on the account given
- * \param no_account no of the account
- * \return ascending_sort or 0 if the account doesn't exist
- * */
-gint gsb_account_get_ascending_sort ( gint no_account )
+gint gsb_account_get_sort_type ( gint no_account )
 {
     struct_account *account;
 
@@ -1771,17 +1874,17 @@ gint gsb_account_get_ascending_sort ( gint no_account )
     if (!account )
 	return 0;
 
-    return account -> ascending_sort;
+    return account -> sort_type;
 }
 
 
-/** set ascending_sort in the account given
+/** set sort_type in the account given
  * \param no_account no of the account
- * \param ascending_sort ascending_sort to set
+ * \param sort_type sort_type to set
  * \return TRUE, ok ; FALSE, problem
  * */
-gboolean gsb_account_set_ascending_sort ( gint no_account,
-					  gint ascending_sort )
+gboolean gsb_account_set_sort_type ( gint no_account,
+					  gint sort_type )
 {
     struct_account *account;
 
@@ -1790,49 +1893,11 @@ gboolean gsb_account_set_ascending_sort ( gint no_account,
     if (!account )
 	return FALSE;
 
-    account -> ascending_sort = ascending_sort;
+    account -> sort_type = sort_type;
 
     return TRUE;
 }
 
-
-
-/** getsort_number  on the account given
- * \param no_account no of the account
- * \return sort_number or 0 if the account doesn't exist
- * */
-gint gsb_account_get_sort_number ( gint no_account )
-{
-    struct_account *account;
-
-    account = gsb_account_get_structure ( no_account );
-
-    if (!account )
-	return 0;
-
-    return account -> sort_number;
-}
-
-
-/** set sort_number in the account given
- * \param no_account no of the account
- * \param sort_number sort_number to set
- * \return TRUE, ok ; FALSE, problem
- * */
-gboolean gsb_account_set_sort_number ( gint no_account,
-				       gint sort_number )
-{
-    struct_account *account;
-
-    account = gsb_account_get_structure ( no_account );
-
-    if (!account )
-	return FALSE;
-
-    account -> sort_number = sort_number;
-
-    return TRUE;
-}
 
 
 
@@ -1912,6 +1977,44 @@ gboolean gsb_account_set_last_transaction ( gint no_account,
     return TRUE;
 }
 
+
+
+/** get finished_visible_rows on the account given
+ * \param no_account no of the account
+ * \return finished_visible_rows or 0 if the account doesn't exist
+ * */
+gint gsb_account_get_finished_visible_rows ( gint no_account )
+{
+    struct_account *account;
+
+    account = gsb_account_get_structure ( no_account );
+
+    if (!account )
+	return 0;
+
+    return account -> finished_visible_rows;
+}
+
+
+/** set finished_visible_rows in the account given
+ * \param no_account no of the account
+ * \param finished_visible_rows finished_visible_rows to set
+ * \return TRUE, ok ; FALSE, problem
+ * */
+gboolean gsb_account_set_finished_visible_rows ( gint no_account,
+						 gint finished_visible_rows )
+{
+    struct_account *account;
+
+    account = gsb_account_get_structure ( no_account );
+
+    if (!account )
+	return FALSE;
+
+    account -> finished_visible_rows = finished_visible_rows;
+
+    return TRUE;
+}
 
 
 /** get finished_background_color on the account given
@@ -2064,12 +2167,4 @@ gboolean gsb_account_set_form_organization ( gint no_account,
 
     return TRUE;
 }
-
-
-
-
-
-
-
-
 

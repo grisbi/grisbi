@@ -17,6 +17,5 @@ void sens_desensitive_pointeur ( GtkWidget *bouton,
 void sensitive_widget ( GtkWidget *widget );
 gboolean termine_idle ( void );
 void update_ecran ( void );
-gpointer **verification_p_tab ( gchar *fonction_appelante );
 /*END_DECLARATION*/
 

@@ -40,8 +40,6 @@ extern GtkWidget *bouton_ok_equilibrage;
 extern GtkWidget *label_equilibrage_ecart;
 extern GtkWidget *label_equilibrage_pointe;
 extern gdouble operations_pointees;
-extern gpointer **p_tab_nom_de_compte;
-extern gpointer **p_tab_nom_de_compte_variable;
 extern gdouble solde_final;
 extern gdouble solde_initial;
 /*END_EXTERN*/
@@ -59,8 +57,6 @@ extern gdouble solde_initial;
 void calcule_total_pointe_compte ( gint no_compte )
 {
     GSList *pointeur_liste_ope;
-
-    p_tab_nom_de_compte_variable =  p_tab_nom_de_compte + no_compte;
 
     pointeur_liste_ope = gsb_account_get_transactions_list (no_compte);
     operations_pointees = 0;
@@ -127,8 +123,6 @@ gdouble calcule_solde_compte ( gint no_compte )
     if ( DEBUG )
 	printf ( "calcule_solde_compte %d\n", no_compte );
 
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_compte;
-
     solde = gsb_account_get_init_balance (no_compte);
 
     liste_tmp = gsb_account_get_transactions_list (no_compte);
@@ -167,8 +161,6 @@ gdouble calcule_solde_pointe_compte ( gint no_compte )
 
     if ( DEBUG )
 	printf ( "calcule_solde_pointe_compte %d\n", no_compte );
-
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_compte;
 
     solde = gsb_account_get_init_balance (no_compte);
 

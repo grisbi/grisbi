@@ -27,9 +27,9 @@
 #include "comptes_onglet.h"
 #include "operations_comptes.h"
 #include "comptes_gestion.h"
+#include "comptes_traitements.h"
 #include "data_account.h"
 #include "gtk_list_button.h"
-#include "comptes_traitements.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -49,10 +49,7 @@ GtkWidget *vbox_liste_comptes_onglet;
 
 
 /*START_EXTERN*/
-extern gint nb_comptes;
 extern GSList *ordre_comptes;
-extern gpointer **p_tab_nom_de_compte;
-extern gpointer **p_tab_nom_de_compte_variable;
 /*END_EXTERN*/
 
 
@@ -182,7 +179,7 @@ GtkWidget *creation_liste_comptes_onglet ( void )
     gtk_button_set_relief ( GTK_BUTTON ( bouton ), GTK_RELIEF_NONE);
     gtk_box_pack_start ( GTK_BOX ( vbox_frame ), bouton, FALSE, TRUE, 0);
     gtk_signal_connect ( GTK_OBJECT (bouton), "clicked",
-			 GTK_SIGNAL_FUNC ( nouveau_compte ), NULL );
+			 GTK_SIGNAL_FUNC ( new_account ), NULL );
     gtk_widget_show ( bouton );
 
 
@@ -193,10 +190,10 @@ GtkWidget *creation_liste_comptes_onglet ( void )
     gtk_box_pack_start ( GTK_BOX ( vbox_frame ), bouton_supprimer_compte,
 			 FALSE, TRUE, 0);
     gtk_signal_connect ( GTK_OBJECT (bouton_supprimer_compte), "clicked",
-			 GTK_SIGNAL_FUNC ( supprimer_compte ), NULL );
+			 GTK_SIGNAL_FUNC ( delete_account ), NULL );
     gtk_widget_show ( bouton_supprimer_compte );
 
-    if ( !nb_comptes )
+    if ( !gsb_account_get_accounts_amount () )
 	gtk_widget_set_sensitive ( bouton_supprimer_compte, FALSE );
 
     return ( onglet );
@@ -213,8 +210,6 @@ GtkWidget *creation_liste_comptes_onglet ( void )
 GtkWidget *comptes_appel_onglet ( gint no_de_compte )
 {
     GtkWidget *bouton;
-
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_de_compte;
 
     bouton = gtk_list_button_new ( gsb_account_get_name (no_de_compte), 1, TRUE, GINT_TO_POINTER (no_de_compte));
     gtk_signal_connect ( GTK_OBJECT (bouton),
@@ -238,8 +233,6 @@ void changement_compte_onglet ( GtkWidget *bouton,
 {
     /* demande si nécessaire si on enregistre */
     sort_du_detail_compte ();
-
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte;
 
     /* change le nom du compte courant */
     gtk_label_set_text ( GTK_LABEL ( label_compte_courant_onglet),
@@ -271,21 +264,19 @@ void reaffiche_liste_comptes_onglet ( void )
 
     /*  Création d'une icone et du nom par compte, et placement dans la liste selon l'ordre désiré  */
 
-    if ( nb_comptes )
+    if ( gsb_account_get_accounts_amount () )
     {
 	ordre_comptes_variable = ordre_comptes;
 
 	do
 	{
-	    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + GPOINTER_TO_INT ( ordre_comptes_variable->data );
-
 	    bouton = comptes_appel_onglet ( GPOINTER_TO_INT ( ordre_comptes_variable->data ));
 	    gtk_box_pack_start (GTK_BOX (vbox_liste_comptes_onglet), bouton, FALSE, FALSE, 0);
 	    gtk_widget_show_all (bouton);
 
 	    /* 	    si c'est le compte courant, on ouvre le livre */
 
-	    if (  p_tab_nom_de_compte_variable == p_tab_nom_de_compte + compte_courant_onglet )
+	    if (  GPOINTER_TO_INT ( ordre_comptes_variable->data ) == compte_courant_onglet )
 	    {
 		gtk_list_button_clicked ( GTK_BUTTON ( bouton ));
 

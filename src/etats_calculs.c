@@ -93,6 +93,7 @@ extern struct struct_etat_affichage gtktable_affichage ;
 extern struct struct_etat_affichage gtktable_affichage;
 extern struct struct_etat_affichage latex_affichage ;
 extern gint ligne_debut_partie;
+extern GSList *list_struct_accounts;
 extern GSList *liste_struct_exercices;
 extern gdouble montant_categ_etat;
 extern gdouble montant_compte_etat;
@@ -103,7 +104,6 @@ extern gdouble montant_sous_categ_etat;
 extern gdouble montant_sous_ib_etat;
 extern gdouble montant_tiers_etat;
 extern gint nb_colonnes;
-extern gint nb_comptes;
 extern gint nb_ope_categ_etat;
 extern gint nb_ope_compte_etat;
 extern gint nb_ope_exo_etat;
@@ -121,8 +121,6 @@ extern gchar *nom_ss_categ_en_cours;
 extern gchar *nom_ss_ib_en_cours;
 extern gchar *nom_tiers_en_cours;
 extern GtkWidget *notebook_general;
-extern gpointer **p_tab_nom_de_compte;
-extern gpointer **p_tab_nom_de_compte_variable;
 extern GtkTreeSelection * selection;
 /*END_EXTERN*/
 
@@ -173,9 +171,9 @@ void affichage_etat ( struct struct_etat *etat,
 GSList *recupere_opes_etat ( struct struct_etat *etat )
 {
     GSList *liste_operations_etat;
-    gint i;
     gint no_exercice_recherche;
     GSList *liste_tmp;
+    GSList *list_tmp;
 
     liste_operations_etat = NULL;
 
@@ -314,11 +312,15 @@ GSList *recupere_opes_etat ( struct struct_etat *etat )
 	    dernier_pc = 0;
 	    dernier_no_rappr = 0;
 
-	    for ( i=0 ; i<nb_comptes ; i++ )
-	    {
-		/* on commence par vérifier que le compte fait partie de l'état */
+	    list_tmp = list_struct_accounts;
 
-		p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
+	    while ( list_tmp )
+	    {
+		gint i;
+
+		i = gsb_account_get_no_account ( list_tmp -> data );
+
+		/* on commence par vérifier que le compte fait partie de l'état */
 
 		if ( !etat -> utilise_detail_comptes
 		     ||
@@ -378,6 +380,7 @@ GSList *recupere_opes_etat ( struct struct_etat *etat )
 			pointeur_tmp = pointeur_tmp -> next;
 		    }
 		}
+		list_tmp = list_tmp -> next;
 	    }
 	    liste_tmp = NULL;
 	}
@@ -386,11 +389,13 @@ GSList *recupere_opes_etat ( struct struct_etat *etat )
     }
 
 
-    for ( i=0 ; i<nb_comptes ; i++ )
-    {
-	/* on commence par vérifier que le compte fait partie de l'état */
+    list_tmp = list_struct_accounts;
 
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
+    while ( list_tmp )
+    {
+	gint i;
+
+	i = gsb_account_get_no_account ( list_tmp -> data );
 
 	if ( !etat -> utilise_detail_comptes
 	     ||
@@ -654,14 +659,11 @@ GSList *recupere_opes_etat ( struct struct_etat *etat )
 			/* on inclue l'opé que si le compte de virement */
 			/* est un compte de passif ou d'actif */
 
-			p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> relation_no_compte;
-
 			if ( gsb_account_get_kind (operation -> relation_no_compte) != GSB_TYPE_LIABILITIES
 			     &&
 			     gsb_account_get_kind (operation -> relation_no_compte) != GSB_TYPE_ASSET )
 			    goto operation_refusee;
 
-			p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i; 
 		    }
 		    else
 		    {
@@ -961,8 +963,8 @@ operation_refusee:
 		pointeur_tmp = pointeur_tmp -> next;
 	    }
 	}
+	list_tmp = list_tmp -> next;
     }
-
 
     return ( liste_operations_etat );
 }
@@ -2414,8 +2416,6 @@ pas_decalage:
 	    if ( etat_courant -> affiche_sous_total_compte )
 	    {
 		/* on modifie le montant s'il n'est pas de la devise du compte en cours */
-
-		p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> no_compte;
 
 		if ( !devise_compte_en_cours_etat
 		     ||

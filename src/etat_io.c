@@ -59,8 +59,6 @@ extern struct struct_etat *etat_courant;
 extern GSList *liste_struct_devises;
 extern GSList *liste_struct_etats;
 extern GtkWidget *nom_exercice;
-extern gpointer **p_tab_nom_de_compte;
-extern gpointer **p_tab_nom_de_compte_variable;
 /*END_EXTERN*/
 
 
@@ -1285,7 +1283,6 @@ gboolean enregistre_etat ( gchar *nom_etat )
     while ( pointeur_liste )
     {
 	xmlNodePtr node_3;
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + GPOINTER_TO_INT ( pointeur_liste -> data );
 
 	node_3 = xmlNewChild ( node_2,
 			       NULL,
@@ -1332,7 +1329,6 @@ gboolean enregistre_etat ( gchar *nom_etat )
     while ( pointeur_liste )
     {
 	xmlNodePtr node_3;
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + GPOINTER_TO_INT ( pointeur_liste -> data );
 
 	node_3 = xmlNewChild ( node_2,
 			       NULL,

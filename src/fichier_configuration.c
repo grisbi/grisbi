@@ -71,10 +71,7 @@ extern gint compte_courant;
 extern gint decalage_echeance;
 extern GtkWidget *formulaire;
 extern gint max;
-extern gint nb_comptes;
 extern gchar *nom_fichier_comptes;
-extern gpointer **p_tab_nom_de_compte;
-extern gpointer **p_tab_nom_de_compte_variable;
 extern GtkWidget *paned_onglet_comptes;
 extern GtkWidget *paned_onglet_echeancier;
 extern GtkWidget *paned_onglet_etats;
@@ -678,10 +675,8 @@ void sauve_configuration(void)
     /*     on récupère les largeurs des colonnes de la liste d'opés */
     /*     seulement si un fichier est encore en mémoire */
 
-    if ( nb_comptes )
+    if ( gsb_account_get_accounts_amount () )
     {
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
-
     for ( i=0 ; i<TRANSACTION_LIST_COL_NB ; i++ )
         if ( GTK_IS_TREE_VIEW_COLUMN ( gsb_account_get_column ( compte_courant, i)))
          taille_largeur_colonnes[i] = gtk_tree_view_column_get_width ( gsb_account_get_column ( compte_courant, i));
@@ -748,7 +743,7 @@ void sauve_configuration(void)
 
 /*     on ne fait la sauvegarde que si les colonnes existent (compte non fermé) */
     
-    if ( nb_comptes )
+    if ( gsb_account_get_accounts_amount () )
     {
     xmlNewChild ( node,NULL, "Largeur_colonne_comptes_operation",
               itoa(gtk_paned_get_position (GTK_PANED (paned_onglet_operations))));
@@ -762,7 +757,7 @@ void sauve_configuration(void)
 
 /*     on ne fait la sauvegarde que si les colonnes existent (compte non fermé) */
     
-    if ( nb_comptes )
+    if ( gsb_account_get_accounts_amount () )
     {
     xmlNewChild ( node,NULL, "Largeur_colonne_comptes_operation",
               itoa(gtk_paned_get_position (GTK_PANED (paned_onglet_operations))));

@@ -35,6 +35,7 @@
 #include "etats_onglet.h"
 #include "barre_outils.h"
 #include "operations_liste.h"
+#include "comptes_traitements.h"
 #include "fichiers_gestion.h"
 #include "qif.h"
 #include "erreur.h"
@@ -45,7 +46,6 @@
 #include "utils.h"
 #include "main.h"
 #include "utils_str.h"
-#include "comptes_traitements.h"
 #include "etats_config.h"
 #include "parametres.h"
 /*END_INCLUDE*/
@@ -88,7 +88,7 @@ GtkWidget *init_menus ( GtkWidget *vbox )
         /* File menu */
 	{menu_name(_("File"), NULL, NULL),    NULL,  NULL, 0, "<Branch>", NULL },
 	{menu_name(_("File"), "Detach", NULL),    NULL,  NULL, 0, "<Tearoff>", NULL },
-	{menu_name(_("File"), _("New account file"), NULL),  NULL,  G_CALLBACK ( nouveau_fichier), 0, "<StockItem>", GTK_STOCK_NEW },
+	{menu_name(_("File"), _("New account file"), NULL),  NULL,  G_CALLBACK ( new_file), 0, "<StockItem>", GTK_STOCK_NEW },
 	{menu_name(_("File"), _("Open"), NULL),   "<CTRL>O", G_CALLBACK ( ouvrir_fichier ), 0, "<StockItem>", GTK_STOCK_OPEN },
 	{menu_name(_("File"), "Sep1", NULL),    NULL,  NULL, 0, "<Separator>", NULL },
 	{menu_name(_("File"), _("Save"), NULL),   NULL,  G_CALLBACK ( enregistrement_fichier ) , 1, "<StockItem>", GTK_STOCK_SAVE },
@@ -130,8 +130,8 @@ GtkWidget *init_menus ( GtkWidget *vbox )
 	/* Accounts menu */
 	{menu_name(_("Accounts"), NULL, NULL), NULL, NULL, 0, "<Branch>", NULL },
 	{menu_name(_("Accounts"), "Detach", NULL),    NULL,  NULL, 0, "<Tearoff>", NULL },
-	{menu_name(_("Accounts"), _("New account"), NULL),   NULL, G_CALLBACK (nouveau_compte ), 0, "<StockItem>", GTK_STOCK_NEW },
-	{menu_name(_("Accounts"), _("Remove an account"), NULL),   NULL, G_CALLBACK ( supprimer_compte), 0, "<StockItem>", GTK_STOCK_DELETE },
+	{menu_name(_("Accounts"), _("New account"), NULL),   NULL, G_CALLBACK (new_account ), 0, "<StockItem>", GTK_STOCK_NEW },
+	{menu_name(_("Accounts"), _("Remove an account"), NULL),   NULL, G_CALLBACK ( delete_account), 0, "<StockItem>", GTK_STOCK_DELETE },
 	{menu_name(_("Accounts"), "Sep1", NULL),    NULL, NULL, 0, "<Separator>", NULL },
 	{menu_name(_("Accounts"), _("Closed accounts"), NULL),   NULL, NULL , 0, "<Branch>", NULL },
 

@@ -107,8 +107,6 @@ extern gint col_depart_drag;
 extern gint compte_courant;
 extern gint ligne_depart_drag;
 extern gint nb_colonnes;
-extern gpointer **p_tab_nom_de_compte;
-extern gpointer **p_tab_nom_de_compte_variable;
 extern GtkWidget *preview;
 extern GtkTooltips *tooltips_general_grisbi;
 extern GtkWidget *tree_view;
@@ -456,11 +454,6 @@ void mise_a_jour_organisation_formulaire ( gint no_compte )
     gint j;
     gint no_element_en_cours;
     
-    if ( ! p_tab_nom_de_compte )
-      return;
-
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_compte;
-
     /*     on commence par remplir le store */
 
     remplissage_liste_organisation_formulaire ( GTK_LIST_STORE ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view_organisation_formulaire ))),
@@ -653,7 +646,6 @@ gboolean toggled_signal_configuration_formulaire ( GtkWidget *toggle_button )
     }
 
     no_compte = recupere_no_compte ( option_menu_comptes_choix_formulaire );
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_compte;
 
     /*     on met Ã  jour le tableau */
 
@@ -937,7 +929,6 @@ gboolean allocation_liste_organisation_formulaire ( GtkWidget *tree_view,
     allocation_precedente_organisation_formulaire= allocation -> width;
 
     no_compte = recupere_no_compte ( option_menu_comptes_choix_formulaire );
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_compte;
 
     for ( i=0 ; i < gsb_account_get_form_organization (no_compte) -> nb_colonnes - 1 ; i++ )
 	gtk_tree_view_column_set_fixed_width ( gtk_tree_view_get_column ( GTK_TREE_VIEW ( tree_view ),
@@ -967,7 +958,6 @@ gboolean change_taille_colonne_organisation_formulaire ( GtkWidget *tree_view,
 	return FALSE;
     
     no_compte = recupere_no_compte ( option_menu_comptes_choix_formulaire );
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_compte;
 
     /*     on rÃ©cupÃšre la taille des colonnes et vÃ©rifie avec la derniÃšre s'il y a eu modification */
     /* 	ou non  */
@@ -1013,7 +1003,6 @@ gboolean ajoute_ligne_organisation_formulaire ( void )
     gint no_compte;
 
     no_compte = recupere_no_compte ( option_menu_comptes_choix_formulaire );
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_compte;
 
     if ( gsb_account_get_form_organization (no_compte) -> nb_lignes == 4 )
 	return FALSE;
@@ -1046,7 +1035,6 @@ gboolean retire_ligne_organisation_formulaire ( void )
     gint no_compte;
 
     no_compte = recupere_no_compte ( option_menu_comptes_choix_formulaire );
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_compte;
 
     if ( gsb_account_get_form_organization (no_compte) -> nb_lignes == 1 )
 	return FALSE;
@@ -1114,7 +1102,6 @@ gboolean ajoute_colonne_organisation_formulaire ( void )
     gint no_compte;
 
     no_compte = recupere_no_compte ( option_menu_comptes_choix_formulaire );
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_compte;
 
     if ( gsb_account_get_form_organization (no_compte) -> nb_colonnes == 6 )
 	return FALSE;
@@ -1160,7 +1147,6 @@ gboolean retire_colonne_organisation_formulaire ( void )
     gint no_compte;
 
     no_compte = recupere_no_compte ( option_menu_comptes_choix_formulaire );
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_compte;
 
     if ( gsb_account_get_form_organization (no_compte) -> nb_colonnes == 1 )
 	return FALSE;
@@ -1409,7 +1395,6 @@ gboolean button_release_classement_formulaire ( GtkWidget *tree_view,
     /*     on Ã©change dans le tableau */
 
     no_compte = recupere_no_compte ( option_menu_comptes_choix_formulaire );
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_compte;
 
     buffer = gsb_account_get_form_organization (no_compte) -> tab_remplissage_formulaire[ligne_depart_drag][col_depart_drag];
     gsb_account_get_form_organization (no_compte) -> tab_remplissage_formulaire[ligne_depart_drag][col_depart_drag] = gsb_account_get_form_organization (no_compte) -> tab_remplissage_formulaire[ligne_arrivee_drag][col_arrivee_drag];

@@ -30,9 +30,9 @@
 #include "barre_outils.h"
 #include "operations_comptes.h"
 #include "data_account.h"
+#include "operations_liste.h"
 #include "utils.h"
 #include "utils_operations.h"
-#include "operations_liste.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -71,8 +71,6 @@ struct struct_etat_affichage gtktable_affichage = {
 /*START_EXTERN*/
 extern gint compte_courant;
 extern gint nb_colonnes;
-extern gpointer **p_tab_nom_de_compte;
-extern gpointer **p_tab_nom_de_compte_variable;
 extern GtkWidget *scrolled_window_etat;
 /*END_EXTERN*/
 
@@ -271,12 +269,11 @@ void gtktable_click_sur_ope_etat ( struct structure_operation *operation )
 
 	/* récupération de la ligne de l'opé dans la liste ; affichage de toutes les opé si nécessaire */
 
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
-
 	if ( operation -> pointe == 3 && !gsb_account_get_r (compte_courant) )
 	    change_aspect_liste ( 5 );
 
-	selectionne_ligne ( gsb_account_get_current_transaction (compte_courant) );
+	gsb_transactions_list_set_current_transaction ( gsb_account_get_current_transaction (compte_courant),
+							compte_courant );
     }
 }
 /*****************************************************************************************************/

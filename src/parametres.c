@@ -25,6 +25,7 @@
 #include "parametres.h"
 #include "utils.h"
 #include "utils_buttons.h"
+#include "data_account.h"
 #include "traitement_variables.h"
 #include "utils_editables.h"
 #include "affichage_liste.h"
@@ -91,7 +92,6 @@ extern gint compression_backup;
 extern gint compression_fichier;
 extern gint decalage_echeance;
 extern GtkTreeStore *model;
-extern gint nb_comptes;
 extern gint nb_max_derniers_fichiers_ouverts;
 extern gchar *nom_fichier_backup;
 extern GtkWidget *treeview;
@@ -500,7 +500,7 @@ GtkWidget *onglet_messages_and_warnings ( void )
     /* Show everything */
     gtk_widget_show_all ( vbox_pref );
 
-    if ( !nb_comptes )
+    if ( !gsb_account_get_accounts_amount () )
     {
       gtk_widget_set_sensitive ( vbox_pref, FALSE );
     }
@@ -617,7 +617,7 @@ GtkWidget *onglet_fichier ( void )
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), bouton_demande_backup,
 			 FALSE, FALSE, 0 );
 
-    if ( nb_comptes )
+    if ( gsb_account_get_accounts_amount () )
     {
 	gboolean dummy = (nom_fichier_backup != NULL &&
 			  strlen(nom_fichier_backup) > 0);
@@ -679,7 +679,7 @@ GtkWidget *onglet_fichier ( void )
 
     gtk_widget_show_all ( vbox_pref );
 
-    if ( !nb_comptes )
+    if ( !gsb_account_get_accounts_amount () )
     {
 	gtk_widget_set_sensitive ( vbox_pref, FALSE );
     }

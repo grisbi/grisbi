@@ -26,11 +26,12 @@
 #include "fenetre_principale.h"
 #include "accueil.h"
 #include "operations_comptes.h"
+#include "operations_onglet.h"
 #include "comptes_onglet.h"
 #include "echeancier_onglet.h"
 #include "etats_onglet.h"
-#include "operations_onglet.h"
 #include "data_account.h"
+#include "main.h"
 #include "categories_onglet.h"
 #include "imputation_budgetaire.h"
 #include "tiers_onglet.h"
@@ -64,8 +65,6 @@ extern gint compte_courant;
 extern AB_BANKING *gbanking;
 extern gint id_temps;
 extern GtkWidget *label_temps;
-extern gpointer **p_tab_nom_de_compte;
-extern gpointer **p_tab_nom_de_compte_variable;
 extern GtkTreeStore *payee_tree_model;
 extern gchar *tips_col_liste_operations[7];
 extern GtkTooltips *tooltips_general_grisbi;
@@ -78,13 +77,11 @@ extern AB_BANKING *gbanking;
 
 
 
-
-/**********************************************************************************************************
- ** Création de la fenêtre du gestionnaire de comptes **
- ** Renvoie le notebook **
- ***********************************************************************************************************/
-
-GtkWidget *creation_fenetre_principale (void )
+/** create the main notebook
+ * \param none
+ * \return the notebook
+ * */
+GtkWidget *create_main_notebook (void )
 {
     GtkWidget *page_operations;
     GtkWidget *page_echeancier;
@@ -98,17 +95,11 @@ GtkWidget *creation_fenetre_principale (void )
 #endif
 
     if ( DEBUG )
-	printf ( "creation_fenetre_principale\n" );
+	printf ( "create_main_notebook\n" );
 
     /* création du notebook de base */
 
     notebook_general = gtk_notebook_new();
-
-    gtk_signal_connect_after ( GTK_OBJECT ( notebook_general ),
-			       "switch_page",
-			       GTK_SIGNAL_FUNC ( change_page_notebook),
-			       NULL );
-
 
     /* Création de la page d'accueil */
 
@@ -121,7 +112,7 @@ GtkWidget *creation_fenetre_principale (void )
     /*  Céation de la fenêtre principale qui contient d'un côté */
     /*  les comptes, et de l'autre les opérations */
 
-    page_operations = creation_onglet_operations ();
+    page_operations = create_transaction_page ();
 
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_general ),
 			       page_operations,
@@ -177,6 +168,11 @@ GtkWidget *creation_fenetre_principale (void )
                               gtk_label_new (SPACIFY(_("Outbox"))) );
     fprintf(stderr, "Ping2...\n");
 #endif
+
+    gtk_signal_connect_after ( GTK_OBJECT ( notebook_general ),
+			       "switch_page",
+			       GTK_SIGNAL_FUNC ( change_page_notebook),
+			       NULL );
 
     return ( notebook_general );
 }
@@ -237,8 +233,6 @@ gboolean change_page_notebook ( GtkNotebook *notebook,
 	    /* et dans ce cas, aussi, on remplit les tips de la liste maintenant qu'elle est créé */
 	    /* 	    on appelle changement_compte avec -1 pour qu'il se mette sur compte_courant et qu'il */
 	    /* 		l'affiche (sinon il ne fait rien car déjà sur compte_courant */
-
-	    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
 
 	    if ( gsb_account_get_adjustment_value (compte_courant) == -1 )
 	    {

@@ -97,6 +97,7 @@ extern GtkWidget *formulaire_echeancier;
 extern GtkWidget *formulaire_echeancier;
 extern GtkWidget *frame_etat_echeances_finies;
 extern GtkWidget *frame_formulaire_echeancier;
+extern GSList *list_struct_accounts;
 extern GSList *liste_categories_combofix;
 extern GSList *liste_imputations_combofix;
 extern GSList *liste_struct_devises;
@@ -105,12 +106,9 @@ extern GSList *liste_tiers_combofix_echeancier;
 extern gint mise_a_jour_combofix_categ_necessaire;
 extern gint mise_a_jour_liste_echeances_auto_accueil;
 extern gint mise_a_jour_liste_echeances_manuelles_accueil;
-extern gint nb_comptes;
 extern gint nb_echeances;
 extern gint no_derniere_echeance;
 extern FILE * out;
-extern gpointer **p_tab_nom_de_compte;
-extern gpointer **p_tab_nom_de_compte_variable;
 extern GtkStyle *style_entree_formulaire[2];
 extern gdouble taux_de_change[2];
 extern GtkWidget *tree_view_liste_echeances;
@@ -438,8 +436,6 @@ GtkWidget *creation_formulaire_echeancier ( void )
 					no_compte,
 					1 )))
     {
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_compte;
-
 	gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] ),
 				   menu );
 	gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] ),
@@ -987,8 +983,6 @@ gboolean entree_perd_focus_echeancier ( GtkWidget *entree,
 							no_compte,
 							1 )))
 		    {
-			p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_compte;
-
 			gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] ),
 						   menu );
 			gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] ),
@@ -1034,8 +1028,6 @@ gboolean entree_perd_focus_echeancier ( GtkWidget *entree,
 							no_compte,
 							1  )))
 		    {
-			p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_compte;
-
 			gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] ),
 						   menu );
 			gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] ),
@@ -1562,8 +1554,6 @@ void fin_edition_echeance ( void )
 
     if ( !g_strncasecmp ( pointeur_char, _("Transfer"), 8 ))
     {
-	gint i;
-
 	tableau_char = g_strsplit ( pointeur_char, ":", 2 );
 
 	/* S'il n'y a rien après "Transfer", alors : */
@@ -1578,17 +1568,23 @@ void fin_edition_echeance ( void )
 	if ( tableau_char[1] )
 	{
 	    tableau_char[1] = g_strstrip ( tableau_char[1] );
-
-	    p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
+	    GSList *list_tmp;
 
 	    compte_virement = -1;
 
-	    for ( i = 0 ; i < nb_comptes ; i++ )
+	    list_tmp = list_struct_accounts;
+
+	    while ( list_tmp )
 	    {
+		gint i;
+
+		i = gsb_account_get_no_account ( list_tmp -> data );
+
 		if ( !g_strcasecmp ( gsb_account_get_name (i),
 				     tableau_char[1] ) )
 		    compte_virement = i;
-		p_tab_nom_de_compte_variable++;
+
+		list_tmp = list_tmp -> next;
 	    }
 
 	    if ( compte_virement == -1 )
@@ -1715,28 +1711,32 @@ void fin_edition_echeance ( void )
 		{
 		    /* c'est un virement, il n'y a donc aucune catégorie */
 
-		    gint i;
+		    GSList *list_tmp;
+
 		    echeance -> categorie = 0;
 		    echeance -> sous_categorie = 0;
 		    echeance -> operation_ventilee = 0;
 
 		    /* recherche le no de compte du virement */
 
-		    p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
+		    list_tmp = list_struct_accounts;
 
-		    for ( i = 0 ; i < nb_comptes ; i++ )
+		    while ( list_tmp )
 		    {
+			gint i;
+
+			i = gsb_account_get_no_account ( list_tmp -> data );
+
 			if ( !g_strcasecmp ( gsb_account_get_name (i),
 					     tableau_char[1] ) )
 			    echeance -> compte_virement = i;
 
-			p_tab_nom_de_compte_variable++;
+			list_tmp = list_tmp -> next;
 		    }
 		}
 		else
 		{
 		    /* 		    si c'est une opération ventilée, c'est ici que ça se passe ! */
-
 
 		    if ( !strcmp ( tableau_char[0],
 				   _("Breakdown of transaction") ))
@@ -1960,8 +1960,6 @@ void fin_edition_echeance ( void )
 
 	/* si c'est la devise du compte ou si c'est un compte qui doit passer à l'euro ( la transfo se fait au niveau de l'affichage de la liste ) */
 	/* ou si c'est un compte en euro et l'opé est dans une devise qui doit passer à l'euro -> ok */
-
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> no_compte;
 
 	if ( !devise_compte
 	     ||
@@ -2323,8 +2321,6 @@ struct structure_operation *ajoute_contre_operation_echeance_dans_liste ( struct
     /* si c'est la devise du compte ou si c'est un compte qui doit passer à l'euro ( la transfo se fait au niveau */
     /* de l'affichage de la liste ) ou si c'est un compte en euro et l'opé est dans une devise qui doit passer à l'euro -> ok */
 
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_virement;
-
     contre_devise = devise_par_no ( gsb_account_get_currency (compte_virement) );
 
     contre_operation -> devise = operation -> devise;
@@ -2616,8 +2612,6 @@ void incrementation_echeance ( struct operation_echeance *echeance )
 
 	if ( GTK_BIN ( frame_etat_echeances_finies ) -> child )
 	{
-	    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + echeance ->compte;
-
 	    if ( echeance -> montant >= 0 )
 		label = gtk_label_new ( g_strdup_printf (PRESPACIFY(_("%4.2f %s credit on %s")),
 							 echeance ->montant,
@@ -2659,8 +2653,6 @@ void incrementation_echeance ( struct operation_echeance *echeance )
 				 FALSE,
 				 0 );
 	    gtk_widget_show ( label );
-
-	    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + echeance ->compte;
 
 	    if ( echeance -> montant >= 0 )
 		label = gtk_label_new ( g_strdup_printf (PRESPACIFY(_("%4.2f %s credit on %s")),
@@ -2747,7 +2739,6 @@ void completion_operation_par_tiers_echeancier ( void )
     /* s'il n'y a aucune opé correspondante, on fait le tour de tous les comptes */
 
     no_compte = recupere_no_compte ( widget_formulaire_echeancier[SCHEDULER_FORM_ACCOUNT] );
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_compte;
 
     operation = NULL;
     pointeur_ope = gsb_account_get_transactions_list (no_compte);
@@ -2778,12 +2769,16 @@ void completion_operation_par_tiers_echeancier ( void )
 	/* aucune opération correspondant à ce tiers n'a été trouvée dans le compte courant */
 	/*       on recherche dans les autres comptes, la première trouvée fera l'affaire */
 
-	gint i;
+	GSList *list_tmp;
 
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
+	list_tmp = list_struct_accounts;
 
-	for ( i = 0 ; i < nb_comptes ; i++ )
+	while ( list_tmp )
 	{
+	    gint i;
+
+	    i = gsb_account_get_no_account ( list_tmp -> data );
+
 	    if ( i != no_compte )
 	    {
 		pointeur_ope = gsb_account_get_transactions_list (i);
@@ -2798,13 +2793,14 @@ void completion_operation_par_tiers_echeancier ( void )
 		    {
 			operation = ope_test;
 			pointeur_ope = NULL;
-			i = nb_comptes;
+			i = gsb_account_get_accounts_amount ();
 		    }
 		    else
 			pointeur_ope = pointeur_ope -> next;
 		}
 	    }
-	    p_tab_nom_de_compte_variable++;
+
+	    list_tmp = list_tmp -> next;
 	}
     }
 
@@ -2879,8 +2875,6 @@ void completion_operation_par_tiers_echeancier ( void )
 
 	entree_prend_focus ( widget_formulaire_echeancier[SCHEDULER_FORM_CATEGORY]);
 
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> relation_no_compte;
-
 	gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_CATEGORY] ),
 				g_strconcat ( COLON(_("Transfer")),
 					      gsb_account_get_name (operation -> relation_no_compte),
@@ -2914,8 +2908,6 @@ void completion_operation_par_tiers_echeancier ( void )
 					  place_type );
 	else
 	{
-	    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> no_compte;
-
 	    if ( operation -> montant < 0 )
 		place_type = cherche_no_menu_type_echeancier ( gsb_account_get_default_debit (no_compte) );
 	    else

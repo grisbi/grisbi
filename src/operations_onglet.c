@@ -52,8 +52,11 @@ extern GtkWidget *notebook_formulaire;
 
 
 
-/*****************************************************************************************************/
-GtkWidget *creation_onglet_operations ( void )
+/** Create the page with the transactions list and accounts list
+ * \param none
+ * \return the page (GtkWidget)
+ * */
+GtkWidget *create_transaction_page ( void )
 {
     GtkWidget *frame_gauche;
     GtkWidget *vbox;

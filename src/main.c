@@ -93,15 +93,13 @@ extern struct struct_etat *etat_courant;
 extern gint hauteur_window;
 extern GtkWidget *label_etat_courant;
 extern gint largeur_window;
+extern GSList *list_struct_accounts;
 extern GSList *liste_struct_etats;
-extern gint nb_comptes;
 extern gchar *nom_fichier_comptes;
 extern GtkWidget *notebook_aff_donnees;
 extern GtkWidget *notebook_config_etat;
 extern GtkWidget *notebook_general;
 extern GtkWidget *notebook_selection;
-extern gpointer **p_tab_nom_de_compte;
-extern gpointer **p_tab_nom_de_compte_variable;
 extern GtkTreeSelection * selection;
 extern GtkStyle *style_label_nom_compte;
 extern GtkWidget *tree_view;
@@ -307,7 +305,7 @@ int main (int argc, char *argv[])
 	
 	/*   à ce niveau, le fichier doit être chargé, on met sur l'onglet demandé si nécessaire */
 
-	if ( nb_comptes
+	if ( gsb_account_get_accounts_amount ()
 	     &&
 	     opt.demande_page )
 	{
@@ -421,13 +419,14 @@ int main (int argc, char *argv[])
 /************************************************************************************************/
 gboolean utilisation_temps_idle ( gpointer null )
 {
-    gint i;
-    gpointer **save_ptab;
+    GSList *list_tmp;
 
-    if ( !nb_comptes )
+    if ( !gsb_account_get_accounts_amount () )
+    {
+	if ( DEBUG )
+	    printf ( "termine_idle\n" );
 	return FALSE;
-
-    save_ptab = p_tab_nom_de_compte_variable;
+    }
 
 /*     dans l'ordre, on va créer et remplir la liste d'opé du compte courant, */
 /*     le 1er à être ouvert, puis les autres comptes */
@@ -436,9 +435,13 @@ gboolean utilisation_temps_idle ( gpointer null )
 /* 	de cette manière, lors du remplissage, les opé seront ajoutées */
 /* 	directement au tree view */
 
-    for ( i=0 ; i<nb_comptes ; i++ )
+    list_tmp = list_struct_accounts;
+
+    while ( list_tmp )
     {
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
+	gint i;
+
+	i = gsb_account_get_no_account ( list_tmp -> data );
 
 	if ( !GTK_WIDGET_REALIZED ( gsb_account_get_tree_view (i) ))
 	{
@@ -446,9 +449,10 @@ gboolean utilisation_temps_idle ( gpointer null )
 		printf ( "realize tree_view compte %d\n", i );
 
 	    gtk_widget_realize ( gsb_account_get_tree_view (i) );
-	    p_tab_nom_de_compte_variable =save_ptab;
 	    return TRUE;
 	}
+
+	list_tmp = list_tmp -> next;
     }
 
  
@@ -456,8 +460,6 @@ gboolean utilisation_temps_idle ( gpointer null )
 /*     on remplit par parties de x opés, invisible ici */
 /* 	une fois que tout le compte a été remplit, OPE_EN_COURS = -1 */
 
-
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
 
     if ( gsb_account_get_last_transaction (compte_courant) != GINT_TO_POINTER (-1))
     {
@@ -468,9 +470,21 @@ gboolean utilisation_temps_idle ( gpointer null )
 
 	ajoute_operations_compte_dans_list_store ( compte_courant,
 						   1 );
-	p_tab_nom_de_compte_variable =save_ptab;
 	return TRUE;
     }
+
+/*     update visibles rows for current account */
+
+    if ( !gsb_account_get_finished_visible_rows (compte_courant) )
+    {
+	if ( DEBUG )
+	    printf ( "show or hide the rows for the current account no %d by idle\n", compte_courant );
+
+	 set_visibles_rows_on_account ( compte_courant );
+
+	return TRUE;
+    }
+
 
 /*     mise à jour de la couleur du fond du compte courant */
 
@@ -479,10 +493,8 @@ gboolean utilisation_temps_idle ( gpointer null )
 	if ( DEBUG )
 	    printf ( "mise en place couleur du fond de liste compte courant no %d par idle\n", compte_courant );
 
-	update_couleurs_background ( compte_courant,
-				     NULL );
+	gsb_transactions_list_set_background_color ( compte_courant );
 
-	p_tab_nom_de_compte_variable =save_ptab;
 	return TRUE;
     }
 
@@ -493,10 +505,8 @@ gboolean utilisation_temps_idle ( gpointer null )
 	if ( DEBUG )
 	    printf ( "mise en place des soldes de liste compte courant no %d par idle\n", compte_courant );
 
-	update_soldes_list_store ( compte_courant,
-				   NULL );
+	gsb_transactions_list_set_transactions_balances ( compte_courant );
 
-	p_tab_nom_de_compte_variable =save_ptab;
 	return TRUE;
     }
  
@@ -508,18 +518,22 @@ gboolean utilisation_temps_idle ( gpointer null )
 	if ( DEBUG )
 	    printf ( "mise en place de la selection du compte courant no %d par idle\n", compte_courant );
 
-	selectionne_ligne ( GINT_TO_POINTER(-1) );
+	gsb_transactions_list_set_current_transaction ( gsb_account_get_current_transaction (compte_courant),
+							compte_courant );
 
-	p_tab_nom_de_compte_variable =save_ptab;
 	return TRUE;
     }
- 
+ 	
 
 /*     création du list_store des différents comptes */
-	
-    for ( i=0 ; i<nb_comptes ; i++ )
+
+    list_tmp = list_struct_accounts;
+
+    while ( list_tmp )
     {
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
+	gint i;
+
+	i = gsb_account_get_no_account ( list_tmp -> data );
 
 	if ( gsb_account_get_last_transaction (i) != GINT_TO_POINTER (-1))
 	{
@@ -530,74 +544,113 @@ gboolean utilisation_temps_idle ( gpointer null )
 
 	    ajoute_operations_compte_dans_list_store ( i,
 						       1 );
-	    p_tab_nom_de_compte_variable =save_ptab;
 	    return TRUE;
 	}
+
+	list_tmp = list_tmp -> next;
     }
-    
+
+
+ /*     update visibles rows for current account */
+
+    list_tmp = list_struct_accounts;
+
+    while ( list_tmp )
+    {
+	gint i;
+
+	i = gsb_account_get_no_account ( list_tmp -> data );
+
+	if ( !gsb_account_get_finished_visible_rows (i) )
+	{
+	    if ( DEBUG )
+		printf ( "show or hide the rows for the account no %d by idle\n", i );
+
+	    set_visibles_rows_on_account ( i );
+
+	    return TRUE;
+	}
+
+	list_tmp = list_tmp -> next;
+    }
+
+
 /*     mise à jour de la couleur du fond des différents comptes */
 
-    for ( i=0 ; i<nb_comptes ; i++ )
+    list_tmp = list_struct_accounts;
+
+    while ( list_tmp )
     {
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
+	gint i;
+
+	i = gsb_account_get_no_account ( list_tmp -> data );
 
 	if ( !gsb_account_get_finished_background_color (i) )
 	{
 	    if ( DEBUG )
 		printf ( "mise en place couleur du fond de liste compte no %d par idle\n", i );
 
-	    update_couleurs_background ( i,
-					 NULL  );
+	    gsb_transactions_list_set_background_color ( i );
 
-	    p_tab_nom_de_compte_variable =save_ptab;
 	    return TRUE;
 	}
+
+	list_tmp = list_tmp -> next;
     }
- 
+
 /*     mise à jour des soldes des différents comptes */
 
-    for ( i=0 ; i<nb_comptes ; i++ )
+    list_tmp = list_struct_accounts;
+
+    while ( list_tmp )
     {
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
+	gint i;
+
+	i = gsb_account_get_no_account ( list_tmp -> data );
 
 	if ( !gsb_account_get_finished_balance_showed (i) )
 	{
 	    if ( DEBUG )
 		printf ( "mise en place des soldes de liste compte no %d par idle\n", i );
 
-	    update_soldes_list_store ( i,
-				       NULL );
+	    gsb_transactions_list_set_transactions_balances ( i );
 
-	    p_tab_nom_de_compte_variable =save_ptab;
 	    return TRUE;
 	}
+
+	list_tmp = list_tmp -> next;
     }
- 
 
-/*     mise en place de la sélection du compte courant */
 
-    for ( i=0 ; i<nb_comptes ; i++ )
+    /*     mise en place de la sélection du compte courant */
+
+    list_tmp = list_struct_accounts;
+
+    while ( list_tmp )
     {
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
+	gint i;
+
+	i = gsb_account_get_no_account ( list_tmp -> data );
 
 	if ( !gsb_account_get_finished_selection_transaction (i) )
 	{
 	    if ( DEBUG )
 		printf ( "mise en place de la selection du compte courant no %d par idle\n", i );
 
-	    selectionne_ligne ( GINT_TO_POINTER(-1) );
-	    p_tab_nom_de_compte_variable =save_ptab;
+	    gsb_transactions_list_set_current_transaction ( gsb_account_get_current_transaction (i),
+							    i );
 	    return TRUE;
 	}
+
+	list_tmp = list_tmp -> next;
     }
- 
-
-
 
 	
 
     id_fonction_idle = 0; 
-    p_tab_nom_de_compte_variable =save_ptab;
+    if ( DEBUG )
+	printf ( "termine_idle\n" );
+
     return FALSE;
 }
 /************************************************************************************************/

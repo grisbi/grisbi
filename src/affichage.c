@@ -27,10 +27,10 @@
 #include "affichage.h"
 #include "operations_formulaire.h"
 #include "fichiers_gestion.h"
-#include "operations_liste.h"
 #include "affichage_formulaire.h"
 #include "utils_file_selection.h"
 #include "data_account.h"
+#include "operations_liste.h"
 #include "main.h"
 #include "traitement_variables.h"
 #include "utils.h"
@@ -88,10 +88,8 @@ extern GtkWidget *formulaire;
 extern gint hauteur_ligne_liste_opes;
 extern GtkWidget *hbox_valider_annuler_echeance;
 extern GtkWidget *label_titre_fichier;
+extern GSList *list_struct_accounts;
 extern GtkWidget *logo_accueil;
-extern gint nb_comptes;
-extern gpointer **p_tab_nom_de_compte;
-extern gpointer **p_tab_nom_de_compte_variable;
 extern GtkWidget *page_accueil;
 extern PangoFontDescription *pango_desc_fonte_liste;
 extern GtkWidget *separateur_formulaire_echeancier;
@@ -149,7 +147,7 @@ GtkWidget *onglet_display_transaction_form ( void )
 
     
 
-    if ( !nb_comptes )
+    if ( !gsb_account_get_accounts_amount () )
     {
 	gtk_widget_set_sensitive ( vbox_pref, FALSE );
     }
@@ -415,7 +413,7 @@ GtkWidget * onglet_display_fonts ( void )
     g_signal_connect (init_button, "clicked", 
 		      G_CALLBACK (init_fonts), NULL);
 
-    if ( !nb_comptes )
+    if ( !gsb_account_get_accounts_amount () )
     {
 	gtk_widget_set_sensitive ( vbox_pref, FALSE );
     }
@@ -557,7 +555,7 @@ GtkWidget *onglet_display_addresses ( void )
     gtk_container_add ( GTK_CONTAINER ( scrolled_window ),
 			entree_adresse_secondaire );
 
-    if ( !nb_comptes )
+    if ( !gsb_account_get_accounts_amount () )
 	gtk_widget_set_sensitive ( vbox_pref, FALSE );
 
     return ( vbox_pref );
@@ -647,7 +645,7 @@ void update_fonte_listes ( void )
     /*     on va faire le tour de toutes les listes pour rajouter à la position 11 la fonte ou null  */
 
     PangoFontDescription *fonte_desc;
-    gint i;
+    GSList *list_tmp;
 
     /*     pour reprendre la fonte de base, on récupère celle de la liste des tiers, qui n'est pas modifiée */
 
@@ -657,11 +655,14 @@ void update_fonte_listes ( void )
 	/* 	fonte_desc = pango_font_description_copy ( arbre_tiers -> style -> font_desc ); */
 	fonte_desc = NULL;
 
-    for ( i=0 ; i<nb_comptes ; i++ )
+    list_tmp = list_struct_accounts;
+
+    while ( list_tmp )
     {
+	gint i;
 	GtkTreeIter iter;
 
-	p_tab_nom_de_compte_variable=p_tab_nom_de_compte + i;
+	i = gsb_account_get_no_account ( list_tmp -> data );
 
 	if ( gsb_account_get_store (i)
 	     &&
@@ -676,13 +677,15 @@ void update_fonte_listes ( void )
 	    }
 	    while ( gtk_tree_model_iter_next ( GTK_TREE_MODEL (gsb_account_get_store (i)),
 					       &iter ));
+
+	list_tmp = list_tmp -> next;
     }
 
     /*     on affiche la liste puis change la hauteur des lignes */
 
     update_ecran ();
     hauteur_ligne_liste_opes = 0;
-    ajuste_scrolling_liste_operations_a_selection ( compte_courant );
+    gsb_transactions_list_move_to_current_transaction ( compte_courant );
 
 }
 /* **************************************************************************************************************************** */
@@ -735,7 +738,7 @@ void change_logo_accueil ( GtkWidget *widget, gpointer user_data )
 
     selected_filename = file_selection_get_filename (GTK_FILE_SELECTION (file_selector));
 
-    if ( nb_comptes )
+    if ( gsb_account_get_accounts_amount () )
     {
 	/* on change le logo */
 	chemin_logo = g_strdup ( (gchar *) selected_filename );

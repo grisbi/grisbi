@@ -3,9 +3,9 @@ void affiche_titre_fenetre ( void );
 gboolean enregistrement_fichier ( gint origine );
 gboolean enregistrer_fichier_sous ( void );
 gboolean fermer_fichier ( void );
-void initialisation_graphiques_nouveau_fichier ( void );
-void initialisation_variables_nouveau_fichier ( void );
-void nouveau_fichier ( void );
+void init_gui_new_file ( void );
+void init_variables_new_file ( void );
+gboolean new_file ( void );
 void ouverture_confirmee ( void );
 void ouverture_fichier_par_menu ( gpointer null,
 				  gint no_fichier );

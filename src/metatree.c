@@ -72,11 +72,9 @@ static void supprimer_sub_division ( GtkTreeView * tree_view, GtkTreeModel * mod
 /*START_EXTERN*/
 extern gint compte_courant;
 extern GtkWidget *formulaire;
+extern GSList *list_struct_accounts;
 extern GSList *liste_struct_echeances;
 extern GtkTreeStore *model;
-extern gint nb_comptes;
-extern gpointer **p_tab_nom_de_compte;
-extern gpointer **p_tab_nom_de_compte_variable;
 extern GtkTreeSelection * selection;
 extern GtkWidget *tree_view;
 extern GtkWidget *treeview;
@@ -434,9 +432,10 @@ gboolean supprimer_division ( GtkWidget * button, GtkTreeView * tree_view )
     GtkTreeModel * model;
     GtkTreeIter iter, * it;
     GSList * liste_tmp;
-    gint i, no_division = 0, no_sub_division = 0;
+    gint no_division = 0, no_sub_division = 0;
     gpointer pointer = NULL;
     MetatreeInterface * iface;
+    GSList *list_tmp;
 
     selection = gtk_tree_view_get_selection ( tree_view );
     if ( selection && gtk_tree_selection_get_selected(selection, &model, &iter))
@@ -474,10 +473,15 @@ gboolean supprimer_division ( GtkWidget * button, GtkTreeView * tree_view )
 
 	/* on fait le tour des opés pour mettre le nouveau numéro de
 	 * division et sub_division */
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
 
-	for ( i = 0 ; i < nb_comptes ; i++ )
+	list_tmp = list_struct_accounts;
+
+	while ( list_tmp )
 	{
+	    gint i;
+
+	    i = gsb_account_get_no_account ( list_tmp -> data );
+
 	    liste_tmp = gsb_account_get_transactions_list (i);
 
 	    while ( liste_tmp )
@@ -497,8 +501,9 @@ gboolean supprimer_division ( GtkWidget * button, GtkTreeView * tree_view )
 		liste_tmp = liste_tmp -> next;
 	    }
 
-	    p_tab_nom_de_compte_variable++;
+	    list_tmp = list_tmp -> next;
 	}
+
 
 	/* fait le tour des échéances pour mettre le nouveau numéro
 	 * de division et sub_division  */
@@ -564,7 +569,7 @@ void supprimer_sub_division ( GtkTreeView * tree_view, GtkTreeModel * model,
     gpointer division;
     GtkTreeSelection * selection;
     GtkTreeIter iter, * it;
-    gint i;
+    GSList *list_tmp;
 
     division = iface -> get_div_pointer ( no_division );
 
@@ -581,10 +586,13 @@ void supprimer_sub_division ( GtkTreeView * tree_view, GtkTreeModel * model,
 	/* on fait le tour des opés pour mettre le nouveau numéro de
 	 * division et sub_division */
 
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
+	list_tmp = list_struct_accounts;
 
-	for ( i = 0 ; i < nb_comptes ; i++ )
+	while ( list_tmp )
 	{
+	    gint i;
+
+	    i = gsb_account_get_no_account ( list_tmp -> data );
 
 	    liste_tmp = gsb_account_get_transactions_list (i);
 
@@ -608,8 +616,9 @@ void supprimer_sub_division ( GtkTreeView * tree_view, GtkTreeModel * model,
 		liste_tmp = liste_tmp -> next;
 	    }
 
-	    p_tab_nom_de_compte_variable++;
+	    list_tmp = list_tmp -> next;
 	}
+
 
 	/* fait le tour des échéances pour mettre le nouveau numéro
 	 * de division et sub_division  */
@@ -692,27 +701,30 @@ gboolean division_column_expanded  ( GtkTreeView * treeview, GtkTreeIter * iter,
     if ( !name )
     {
 	gboolean first = TRUE;
-	gint account;
+	GSList *list_tmp;
 
 	gtk_tree_model_get ( model, iter,
 			     META_TREE_NO_DIV_COLUMN, &no_division,
 			     META_TREE_NO_SUB_DIV_COLUMN, &no_sub_division,
 			     -1 );
 
-	for ( account = 0; account < nb_comptes; account ++ )
+	list_tmp = list_struct_accounts;
+
+	while ( list_tmp )
 	{
+	    gint account;
 	    GSList *pointeur_ope;
 
-	    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + GPOINTER_TO_INT(account);
-	    
+	    account = gsb_account_get_no_account ( list_tmp -> data );
+
 	    pointeur_ope = gsb_account_get_transactions_list (GPOINTER_TO_INT(account));
-	    
+
 	    while ( pointeur_ope )
 	    {
 		struct structure_operation *operation;
-		
+
 		operation = pointeur_ope -> data;
-		
+
 		if ( operation &&
 		     iface -> transaction_div_id ( operation ) == no_division &&
 		     iface -> transaction_sub_div_id ( operation ) == no_sub_division/*  && */
@@ -727,15 +739,16 @@ gboolean division_column_expanded  ( GtkTreeView * treeview, GtkTreeIter * iter,
 		    {
 			first = FALSE;
 		    }
-		
+
 		    fill_transaction_row ( model, &child_iter, operation );
 		}
 
 		pointeur_ope = pointeur_ope -> next;
 	    }
+
+	    list_tmp = list_tmp -> next;
 	}
     }
-
     return FALSE;
 }
 
@@ -767,10 +780,10 @@ gboolean division_activated ( GtkTreeView * treeview, GtkTreePath * path,
 	if ( operation && no_division == -1 && no_sub_division == -1 )
 	{
 	    changement_compte ( GINT_TO_POINTER ( operation -> no_compte ));
-	    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
 	    if ( operation -> pointe == 3 && !gsb_account_get_r (compte_courant) )
 		change_aspect_liste ( 5 );
-	    selectionne_ligne ( operation );
+	    gsb_transactions_list_set_current_transaction ( operation,
+							    compte_courant );
 	}
     }
 
@@ -848,11 +861,12 @@ gboolean division_drag_data_received ( GtkTreeDragDest * drag_dest, GtkTreePath 
 	GtkTreePath * orig_path;
 	GtkTreeIter iter, iter_parent, orig_iter;
 	gchar * name;
-	gint no_dest_division, no_dest_sub_division, no_orig_division, no_orig_sub_division, account;
+	gint no_dest_division, no_dest_sub_division, no_orig_division, no_orig_sub_division;
 	gpointer sub_division, dest_sub_division, orig_division, dest_division, pointer;
 	enum meta_tree_row_type orig_type;
 	struct structure_operation * transaction = NULL;
 	MetatreeInterface * iface;
+	GSList *list_tmp;
 
 	gtk_tree_get_row_drag_data (selection_data, &model, &orig_path);
 	iface = g_object_get_data ( G_OBJECT(model), "metatree-interface" );
@@ -904,13 +918,15 @@ gboolean division_drag_data_received ( GtkTreeDragDest * drag_dest, GtkTreePath 
 		fill_sub_division_row ( model, iface, &iter, 
 					dest_division, dest_sub_division );
 
-		for ( account = 0; account < nb_comptes; account ++ )
+		list_tmp = list_struct_accounts;
+
+		while ( list_tmp )
 		{
+		    gint account;
 		    GSList *pointeur_ope;
 
-		    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + 
-			GPOINTER_TO_INT ( account );
-	    
+		    account = gsb_account_get_no_account ( list_tmp -> data );
+
 		    pointeur_ope = gsb_account_get_transactions_list (account);
 	    
 		    while ( pointeur_ope )
@@ -930,9 +946,9 @@ gboolean division_drag_data_received ( GtkTreeDragDest * drag_dest, GtkTreePath 
 							       no_dest_division, 
 							       no_dest_sub_division );
 			}
-
 			pointeur_ope = pointeur_ope -> next;
 		    }
+		    list_tmp = list_tmp -> next;
 		}
 
 		gtk_tree_model_get_iter ( model, &orig_iter, orig_path );
@@ -1287,13 +1303,16 @@ gboolean find_associated_transactions ( MetatreeInterface * iface,
 					gint no_division, gint no_sub_division )
 {
     GSList *liste_tmp;
-    gint i;
+    GSList *list_tmp;
 
-    p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
+    list_tmp = list_struct_accounts;
 
-    /* fait le tour des opés pour en trouver une qui a cette sous-catégorie */
-    for ( i=0 ; i<nb_comptes ; i++ )
+    while ( list_tmp )
     {
+	gint i;
+
+	i = gsb_account_get_no_account ( list_tmp -> data );
+
 	liste_tmp = gsb_account_get_transactions_list (i);
 
 	while ( liste_tmp )
@@ -1311,7 +1330,8 @@ gboolean find_associated_transactions ( MetatreeInterface * iface,
 	    else
 		liste_tmp = liste_tmp -> next;
 	}
-	p_tab_nom_de_compte_variable++;
+
+	list_tmp = list_tmp -> next;
     }
 
     liste_tmp = liste_struct_echeances;

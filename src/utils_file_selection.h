@@ -34,9 +34,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef _H_UTILS_FILE_SELECTION_
-#define _H_UTILS_FILE_SELECTION_ "$Id: utils_file_selection.h,v 1.4 2004/09/15 20:32:24 teilginn Exp $"
+#define _H_UTILS_FILE_SELECTION_ "$Id: utils_file_selection.h,v 1.5 2005/03/15 16:56:58 cedric_grisbi Exp $"
 
-#include <gtk/gtk.h>
 
 /*! File selection dialog behaviour properties */
 #define FILE_SELECTION_DEFAULT          0x0000  /**< No particular behaviour (open file dialog)*/
@@ -46,17 +45,13 @@
 #define FILE_SELECTION_MUST_EXIST       0x0002  /**< The selected file name must exists - only for open operation*/
 #define FILE_SELECTION_MULTISELECTION   0x0004  /**< \todo allow the multi selection behaviour */
 
-
-GtkWidget* file_selection_new(const gchar* title,const gint properties);
-void   file_selection_set_entry(GtkFileSelection* filesel,const gchar* utf8string);
-gchar* file_selection_get_entry(GtkFileSelection* filesel);
-void   file_selection_set_filename(GtkFileSelection* filsel,const gchar* utf8filename);
+/*START_DECLARATION*/
 gchar* file_selection_get_filename(GtkFileSelection* filesel);
+gchar* file_selection_get_last_directory(GtkFileSelection* filesel,gboolean ended) ;
 gchar** file_selection_get_selections(GtkFileSelection* filesel);
-gchar* file_selection_get_last_directory(GtkFileSelection* filesel,gboolean ended);
-
-// signal function - must not be used directly in the code
-void file_selection_check_filename_signal ( GtkWidget *selection_fichier);
-void file_selection_overwrite_file_check_signal( GtkWidget *selection_fichier);
+GtkWidget* file_selection_new(const gchar      *title,const  gint properties);
+void file_selection_set_entry(GtkFileSelection* filesel,const gchar* utf8string);
+void file_selection_set_filename(GtkFileSelection* filesel,const gchar* utf8filename);
+/*END_DECLARATION*/
 
 #endif

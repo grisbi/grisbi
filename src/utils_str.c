@@ -30,6 +30,10 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
+static gint my_strcasecmp ( gchar *chaine_1,
+		     gchar *chaine_2 );
+static gint my_strcmp ( gchar *chaine_1,
+		 gchar *chaine_2 );
 static int myisolat1ToUTF8(unsigned char* out, int *outlen,
 		    const unsigned char* in, int *inlen);
 /*END_STATIC*/
