@@ -930,26 +930,25 @@ new_paddingbox_with_title (GtkWidget * parent, gboolean fill, gchar * title)
 GtkWidget *new_vbox_with_title_and_icon ( gchar * title,
 					  gchar * image_filename)
 {
-  GtkWidget *vbox_pref, *separator, *hbox, *label, *image;
+  GtkWidget *vbox_title, *vbox_pref, *separator, *hbox, *label, *image;
 
   vbox_pref = gtk_vbox_new ( FALSE, 5 );
   gtk_widget_show ( vbox_pref );
 
+  vbox_title = gtk_vbox_new ( FALSE, 5 );
+  gtk_box_pack_start ( GTK_BOX ( vbox_pref ), vbox_title, FALSE, FALSE, 0);
+
   /* Title hbox */
   hbox = gtk_hbox_new ( FALSE, 5 );
-  gtk_box_pack_start ( GTK_BOX ( vbox_pref ), hbox,
-		       FALSE, FALSE, 0);
+  gtk_box_pack_start ( GTK_BOX ( vbox_title ), hbox, FALSE, FALSE, 0);
   gtk_widget_show ( hbox );
 
   /* Icon */
   if ( image_filename )
     {
-      image = gtk_image_new_from_file (g_strconcat(PIXMAPS_DIR,
-						   "/",
-						   image_filename,
-						   NULL));
-      gtk_box_pack_start ( GTK_BOX ( hbox ), image,
-			   FALSE, FALSE, 0);
+      image = gtk_image_new_from_file (g_strconcat(PIXMAPS_DIR, "/",
+						   image_filename, NULL));
+      gtk_box_pack_start ( GTK_BOX ( hbox ), image, FALSE, FALSE, 0);
       gtk_widget_show ( image );
     }
 
@@ -961,20 +960,12 @@ GtkWidget *new_vbox_with_title_and_icon ( gchar * title,
 							    strlen(title)),
 				      "</span>",
 				      NULL ) );
-  gtk_box_pack_start ( GTK_BOX ( hbox ),
-		       label,
-		       FALSE,
-		       FALSE,
-		       0);
+  gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 0);
   gtk_widget_show ( label );
 
   /* Separator */
   separator = gtk_hseparator_new ();
-  gtk_box_pack_start ( GTK_BOX ( vbox_pref ),
-		       separator,
-		       FALSE,
-		       FALSE,
-		       0);
+  gtk_box_pack_start ( GTK_BOX ( vbox_title ), separator, FALSE, FALSE, 0);
   gtk_widget_show ( separator );
 
   return vbox_pref;
