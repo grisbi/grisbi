@@ -81,7 +81,7 @@ int main (int argc, char *argv[])
 
 
  struct poptOption options[] = {
-      {"onglet", '\0', POPT_ARG_STRING, NULL, 0, texte, short_texte },
+      {_("tab"), '\0', POPT_ARG_STRING, NULL, 0, texte, short_texte },
       {NULL, '\0', 0, NULL, 0}};
 
 
