@@ -24,6 +24,7 @@
 #include "include.h"
 
 #ifdef NOOFX
+#include "dialog.h"
 /* dummy recuperation_donnees_ofx function implementation for system with no LIBOFX */
 gboolean recuperation_donnees_ofx ( gchar *nom_fichier )
 {

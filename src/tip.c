@@ -26,6 +26,7 @@
 
 #define START_INCLUDE
 #include "dialog.h"
+#include "utils_buttons.h"
 #define END_INCLUDE
 
 #define START_STATIC
