@@ -214,14 +214,14 @@ void changement_taille_colonne ( GtkWidget *clist,
 
 GtkWidget *creation_formulaire ( void );
 void echap_formulaire ( void );
-void entree_prend_focus ( GtkWidget *entree );
-void entree_perd_focus ( GtkWidget *entree,
+gboolean entree_prend_focus ( GtkWidget *entree );
+gboolean entree_perd_focus ( GtkWidget *entree,
 			 GdkEventFocus *ev,
 			 gint *no_origine );
 void clique_champ_formulaire ( GtkWidget *entree,
 			       GdkEventButton *ev,
 			       gint *no_origine );
-void touches_champ_formulaire ( GtkWidget *widget,
+gboolean touches_champ_formulaire ( GtkWidget *widget,
 				GdkEventKey *ev,
 				gint *no_origine );
 void ferme_calendrier ( GtkWidget *popup );

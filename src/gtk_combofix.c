@@ -18,7 +18,7 @@
  */
 
 #include "gtkcombofix.h"
-
+#include <gdk/gdkkeysyms.h>
 
 
 /* Liste des fonctions statiques */
@@ -218,11 +218,11 @@ static void gtk_combofix_init ( GtkComboFix *combofix )
 			  FALSE,
 			  TRUE );
   gtk_signal_connect ( GTK_OBJECT ( combofix->popup ),
-		       "button_press_event",
+		       "button-press-event",
 		       GTK_SIGNAL_FUNC ( gtk_combofix_button_press ),
 		       combofix );
   gtk_signal_connect ( GTK_OBJECT ( combofix -> popup ),
-		       "key_press_event", 
+		       "key-press-event", 
 		       GTK_SIGNAL_FUNC ( touche_pressee_dans_popup ),
 		       combofix );
 
@@ -984,11 +984,11 @@ static void affiche_proposition ( GtkWidget *entree,
 				      "texte",
 				      string );
 		gtk_signal_connect ( GTK_OBJECT ( event_box ),
-				     "enter_notify_event",
+				     "enter-notify-event",
 				     GTK_SIGNAL_FUNC ( met_en_prelight ),
 				     combofix );
 		gtk_signal_connect ( GTK_OBJECT ( event_box ),
-				     "button_press_event",
+				     "button-press-event",
 				     GTK_SIGNAL_FUNC ( click_sur_label ),
 				     combofix );
 
@@ -1029,11 +1029,11 @@ static void affiche_proposition ( GtkWidget *entree,
 						    string + 1,
 						    NULL ));
 		gtk_signal_connect ( GTK_OBJECT ( event_box ),
-				     "enter_notify_event",
+				     "enter-notify-event",
 				     GTK_SIGNAL_FUNC ( met_en_prelight ),
 				     combofix );
 		gtk_signal_connect ( GTK_OBJECT ( event_box ),
-				     "button_press_event",
+				     "button-press-event",
 				     GTK_SIGNAL_FUNC ( click_sur_label ),
 				     combofix );
 
@@ -1097,11 +1097,11 @@ static void affiche_proposition ( GtkWidget *entree,
 				  "texte",
 				  string );
 	    gtk_signal_connect ( GTK_OBJECT ( event_box ),
-				 "enter_notify_event",
+				 "enter-notify-event",
 				 GTK_SIGNAL_FUNC ( met_en_prelight ),
 				 combofix );
 	    gtk_signal_connect ( GTK_OBJECT ( event_box ),
-				 "button_press_event",
+				 "button-press-event",
 				 GTK_SIGNAL_FUNC ( click_sur_label ),
 				 combofix );
 
@@ -1142,11 +1142,11 @@ static void affiche_proposition ( GtkWidget *entree,
 						string + 1,
 						NULL ));
 	    gtk_signal_connect ( GTK_OBJECT ( event_box ),
-				 "enter_notify_event",
+				 "enter-notify-event",
 				 GTK_SIGNAL_FUNC ( met_en_prelight ),
 				 combofix );
 	    gtk_signal_connect ( GTK_OBJECT ( event_box ),
-				 "button_press_event",
+				 "button-press-event",
 				 GTK_SIGNAL_FUNC ( click_sur_label ),
 				 combofix );
 
@@ -1705,8 +1705,8 @@ static void touche_pressee ( GtkWidget *entry,
     {
 
       /* touche gauche ou droite pressée s'il y a une sélection, vire la sélection et place le curseur à la fin de cette sélection */
-    case 65361 :
-    case 65363 :
+    case GDK_Left :
+    case GDK_Right :
       if ( ( GTK_OLD_EDITABLE ( combofix -> entry ) -> selection_end_pos - GTK_OLD_EDITABLE ( combofix -> entry ) -> selection_start_pos ) != 0 )
 	gtk_editable_set_position ( GTK_OLD_EDITABLE ( combofix -> entry ),
 				    MAX ( GTK_OLD_EDITABLE ( combofix -> entry ) -> selection_start_pos,
@@ -1718,8 +1718,8 @@ static void touche_pressee ( GtkWidget *entry,
       break;
 
       /*       touche entrée : prend le label sélectionné puis vire la popup */
-    case 65293 :
-    case 65421 :
+    case GDK_KP_Enter :
+    case GDK_Return :
       if ( GTK_WIDGET_VISIBLE ( combofix -> popup ) &&   combofix -> label_selectionne != -1 )
       {
 	gtk_combofix_set_text ( combofix,
@@ -1730,7 +1730,7 @@ static void touche_pressee ( GtkWidget *entry,
 
 
       /*       touches échap  : vire la popup et  la sélection */
-    case 65307:
+    case GDK_Escape:
       if ( GTK_WIDGET_VISIBLE ( combofix -> popup ))
 	{
 	  gtk_grab_remove ( combofix -> popup );
@@ -1747,7 +1747,7 @@ static void touche_pressee ( GtkWidget *entry,
      
       /* flèche bas */
 
-    case 65364:
+    case GDK_Down:
       gtk_signal_emit_stop_by_name ( GTK_OBJECT ( combofix -> entry ),
 				     "key-press-event" );
       /*     si la popup n'est pas affichée à cause de l'arrow, descend l'arrow, affiche la liste */
@@ -1789,7 +1789,7 @@ static void touche_pressee ( GtkWidget *entry,
  
       /* flèche haut */
 
-    case 65362:
+    case GDK_Up:
       gtk_signal_emit_stop_by_name ( GTK_OBJECT ( combofix -> entry ),
 				     "key-press-event" );
 
@@ -1819,7 +1819,7 @@ static void touche_pressee ( GtkWidget *entry,
 
       /* page up */
 
-    case 65365:
+    case GDK_Page_Up:
       gtk_signal_emit_stop_by_name ( GTK_OBJECT ( combofix -> entry ),
 				     "key-press-event" );
 
@@ -1860,7 +1860,7 @@ static void touche_pressee ( GtkWidget *entry,
 
       /* page down */
 
-    case 65366:
+    case GDK_Page_Down:
       gtk_signal_emit_stop_by_name ( GTK_OBJECT ( combofix -> entry ),
 				     "key-press-event" );
       /*     si la popup n'est pas affichée à cause de l'arrow, descend l'arrow, affiche la liste */
@@ -2173,7 +2173,7 @@ static void touche_pressee_dans_popup ( GtkWidget *popup,
 					GtkComboFix *combofix )
 {
   gtk_signal_emit_by_name ( GTK_OBJECT ( combofix -> entry ),
-			    "key_press_event",
+			    "key-press-event",
 			    event,
 			    malloc ( sizeof ( gboolean )) );
 }
