@@ -130,6 +130,7 @@ gboolean fichier_choisi_importation ( GtkWidget *fenetre )
 
     gchar **liste_selection;
     gint i;	
+    gboolean result = TRUE;
 
     /* on sauve le répertoire courant  */
 
@@ -143,10 +144,10 @@ gboolean fichier_choisi_importation ( GtkWidget *fenetre )
     liste_selection = gtk_file_selection_get_selections ( GTK_FILE_SELECTION ( fenetre ));
     i=0;
 
-    while ( liste_selection[i] )
+    while ((result == TRUE)&&( liste_selection[i]))
     {
 	FILE *fichier;
-	gchar *pointeur_char;
+	gchar *pointeur_char = NULL;
 
 
 	/* on ouvre maintenant le fichier pour tester sa structure */
@@ -157,7 +158,7 @@ gboolean fichier_choisi_importation ( GtkWidget *fenetre )
 	    /* on n'a pas réussi à ouvrir le fichier, on affiche l'erreur et on retourne sur la sélection des fichiers */
 
 	    dialogue ( latin2utf8 ( strerror ( errno ) ) );
-	    return FALSE;
+            return FALSE;
 	}
 
 
@@ -169,22 +170,33 @@ gboolean fichier_choisi_importation ( GtkWidget *fenetre )
 	/* on fait comme si c'était du html */
 	/*       chacune des fonctions récupèrent les infos du compte et les opés, et ajoutent la struct_compte_importation */
 	/* 	à liste_comptes_importes */
-
+#ifdef _WIN32
+        { /* fscanf %a format has a very strange behaviour under WIN32 ...so we simulate it ... */
+            gchar c = 0;
+            gint j  = 0;
+            pointeur_char = (gchar*)realloc(pointeur_char,256*sizeof(gchar));
+            while ( (j<254) && ( c != '\n' ) && (c != '\r'))
+            {
+                c =(gchar)fgetc(fichier);
+                if (feof(fichier)) break;
+                pointeur_char[j++] = c;
+            }
+            pointeur_char[j] = 0;
+        }
+#else
 	fscanf ( fichier,
 		 "%a[^\n]\n",
 		 &pointeur_char );
-
+#endif
 	if ( g_strrstr ( pointeur_char,
 			 "ofx" )
 	     ||
 	     g_strrstr ( pointeur_char,
 			 "OFX" ))
         {
-	    recuperation_donnees_ofx ( liste_selection[i]);
+	    result = recuperation_donnees_ofx ( liste_selection[i]);
         }
-	else
-	{
-	    if ( !strncmp ( pointeur_char,
+	else if ( !strncmp ( pointeur_char,
 			    "!Type",
 			    5 )
 		 ||
@@ -199,31 +211,38 @@ gboolean fichier_choisi_importation ( GtkWidget *fenetre )
 		 !strncmp ( pointeur_char,
 			    "!Option",
 			    7 ))
-		recuperation_donnees_qif ( fichier );
-	    else
-	    {
+        {
+		result = recuperation_donnees_qif ( fichier );
+        }
+	else
+	{
 		/* 		pour l'instant html non implémenté */
 		if ( pointeur_char[0] == '<' )
-		    recuperation_donnees_html ( fichier );
+                {
+		    result = recuperation_donnees_html ( fichier );
+                }
 		else
 		{
 		    dialogue_error_hint ( _("Grisbi is unable to determine type of this file.  If it is a QIF, an OFX file or a HTML page from a online bank service, please contact the grisbi team to resolve this problem."),
 					  g_strdup_printf ( _("File \"%s\" cannot be imported."), liste_selection[i]) );
-		    free ( pointeur_char );
-		    return(FALSE);
+		    result = FALSE;
 		}
-	    }
 	}
-
+        /* clean up */
 	fclose ( fichier );
-
-	i++;
+        if (pointeur_char) free ( pointeur_char );
+        pointeur_char = NULL;
+        
+        /* In case of error, return to file selection dialog, else import next selected file */
+        if (!result) return result;
+	
+        i++;
     }
 
     /* le fait de détruire la fenetre va envoyer directement sur l'affichage des infos */
 
     gtk_widget_destroy ( fenetre );
-    return ( FALSE );
+    return ( result );
 }
 /* *******************************************************************************/
 
