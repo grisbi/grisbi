@@ -2,11 +2,10 @@
 /* fichier qui s'occupe de la page d'accueil ( de démarrage lors de           */
 /* l'ouverture d'un fichier de comptes                                        */
 /*                                                                            */
-/*                                  accueil.c                                 */
-/*                                                                            */
-/*     Copyright (C) 2000-2003  Cédric Auger                                  */
-/*                              cedric@grisbi.org                             */
-/*                              http://www.grisbi.org                         */
+/*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org)	      */
+/*			2003 Benjamin Drieu (bdrieu@april.org)		      */
+/*			2003 Alain Portal (dionysos@grisbi.org)		      */
+/* 			http://www.grisbi.org				      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */
@@ -497,9 +496,7 @@ void met_en_normal ( GtkWidget *event_box,
 
 void update_liste_comptes_accueil ( void )
 {
-  GtkWidget *pTable,
-	    *pEventBox,
-	    *pLabel;
+  GtkWidget *pTable, *pEventBox, *pLabel, *vbox;
   
   GdkColor CouleurSoldeAlarmeVerteNormal,
 	   CouleurSoldeAlarmeVertePrelight,
@@ -516,6 +513,7 @@ void update_liste_comptes_accueil ( void )
   
   GSList *ordre_comptes_variable,
 	 *liste_operations_tmp;
+  GSList *devise;
   
   gdouble montant,
 	  solde_global_courant,
@@ -570,22 +568,41 @@ void update_liste_comptes_accueil ( void )
   if ( GTK_BIN ( frame_etat_comptes_accueil ) -> child )
     gtk_widget_destroy ( GTK_BIN ( frame_etat_comptes_accueil ) -> child );
 
-  /* Création du tableau dans lequel seront stockés les comptes avec leur     */
-  /* solde.                                                                   */
-  /* ATTENTION : ce tableau est créé de façon à pouvoir afficher la somme des */
-  /* soldes de tous les comptes.                                              */
-  /* Il faut donc TOUS les comptes soient dans la MÊME DEVISE !!!!!!!         */
-  /* Il serait donc utile d'effectuer un test sur les devises utilisées,      */
-  /* et si les comptes utilisaient des devises différentes, il faudrait alors */
-  /* soit renoncer à afficher le solde global ;                               */
-  /* soit effectuer une conversion des soldes des tous les comptes vers une   */
-  /* même devise qu'il faudrait également définir.                            */
-  /* Bref, pas simple.                                                        */
+  /* Create the handle vbox  */
+  vbox = gtk_vbox_new ( FALSE, 6 );
+  gtk_container_add ( GTK_CONTAINER ( frame_etat_comptes_accueil ), vbox );
+
+  for ( devise = liste_struct_devises; devise ; devise = devise->next )
+    {
+      int devise_is_used = 0;
+
+      p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
+
+      for ( i = 0 ; i < nb_comptes ; i++ )
+	{
+	  if ( DEVISE == ((struct struct_devise *) devise -> data) -> no_devise
+	       && ! COMPTE_CLOTURE )
+	    devise_is_used = 1;
+	  p_tab_nom_de_compte_variable++;	  
+	}
+
+      if (!devise_is_used)
+	continue;
+
+      pLabel = gtk_label_new (g_strconcat( "   ",
+					   g_strdup_printf (_("Account balances in %s"),
+							    ((struct struct_devise *) devise -> data) -> nom_devise ), NULL));
+			      gtk_misc_set_alignment (GTK_MISC (pLabel), 0, 1);
+      gtk_label_set_justify ( GTK_LABEL (pLabel), GTK_JUSTIFY_LEFT );
+
+      gtk_box_pack_start ( GTK_BOX ( vbox ), pLabel,
+			   FALSE, FALSE, 0 );
+      
   pTable = gtk_table_new ( nb_comptes + 4,
 			   8,
 			   FALSE );
-  gtk_container_add ( GTK_CONTAINER ( frame_etat_comptes_accueil ),
-		      pTable );
+  gtk_box_pack_start ( GTK_BOX ( vbox ), pTable,
+		       FALSE, FALSE, 0 );
   gtk_widget_show ( pTable );
 
   /* Création et remplissage de la première ligne du tableau */
@@ -620,7 +637,8 @@ void update_liste_comptes_accueil ( void )
     {
       p_tab_nom_de_compte_variable = p_tab_nom_de_compte + GPOINTER_TO_INT ( ordre_comptes_variable->data );
 
-      if ( !COMPTE_CLOTURE )
+      if ( !COMPTE_CLOTURE &&
+	   DEVISE == ((struct struct_devise *) devise -> data) -> no_devise )
 	{
 	  /* Première colonne : vide */
 	  pLabel = gtk_label_new ( g_strconcat ( (gchar *) NOM_DU_COMPTE, " : ", NULL ));
@@ -880,6 +898,7 @@ void update_liste_comptes_accueil ( void )
 	}
 
       i++;
+      
     }
   while ( ( ordre_comptes_variable = ordre_comptes_variable->next ) );
 
@@ -924,7 +943,7 @@ void update_liste_comptes_accueil ( void )
 
   /* Quatrième colonne : elle contient le symbole de la devise du compte */
   pLabel = gtk_label_new ( ((struct struct_devise *)(g_slist_find_custom ( liste_struct_devises,
-									  GINT_TO_POINTER ( DEVISE ),
+									  GINT_TO_POINTER ( (gpointer) ((struct struct_devise *) devise -> data) -> no_devise ),
 									  (GCompareFunc) recherche_devise_par_no )-> data )) -> code_devise);
   gtk_misc_set_alignment ( GTK_MISC ( pLabel ),
 			   0,
@@ -955,7 +974,7 @@ void update_liste_comptes_accueil ( void )
 
   /* Septième colonne : elle contient le symbole de la devise du compte */
   pLabel = gtk_label_new ( ((struct struct_devise *)(g_slist_find_custom ( liste_struct_devises,
-									  GINT_TO_POINTER ( DEVISE ),
+									  GINT_TO_POINTER ( (gpointer) ((struct struct_devise *) devise -> data) -> no_devise ),
 									  (GCompareFunc) recherche_devise_par_no )-> data )) -> code_devise);
   gtk_misc_set_alignment ( GTK_MISC ( pLabel ),
 			   0,
@@ -968,6 +987,10 @@ void update_liste_comptes_accueil ( void )
 		     GTK_FILL | GTK_SHRINK,
 		     5, 0 );
   gtk_widget_show ( pLabel );
+
+    }
+
+  gtk_widget_show_all (vbox);
 
   /* Création de la (nb_comptes + 4)ième (et dernière) ligne du tableau : vide */
   pLabel = gtk_label_new ( "" );
