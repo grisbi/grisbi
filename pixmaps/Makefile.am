@@ -17,4 +17,9 @@ grisbi_pixmaps_DATA = \
 	transaction-list.png \
 	warnings.png \
 	grisbi-logo.png \
-	grisbi.png
+	grisbi.png \
+	new-categ.png \
+	new-sub-categ.png \
+	new-ib.png \
+	new-sub-ib.png \
+	new-payee.png
