@@ -3136,7 +3136,9 @@ void popup_transaction_context_menu ( gboolean full )
 				    gtk_image_new_from_stock ( GTK_STOCK_DELETE,
 							       GTK_ICON_SIZE_MENU ));
     g_signal_connect ( G_OBJECT(menu_item), "activate", remove_transaction, NULL );
-    if ( !full )
+    if ( !full || 
+	 OPERATION_SELECTIONNEE -> pointe == OPERATION_RAPPROCHEE ||
+	 OPERATION_SELECTIONNEE -> pointe == OPERATION_TELERAPPROCHEE )
 	gtk_widget_set_sensitive ( menu_item, FALSE );
     gtk_menu_append ( menu, menu_item );
 
@@ -3168,7 +3170,9 @@ void popup_transaction_context_menu ( gboolean full )
     gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM(menu_item),
 				    gtk_image_new_from_stock ( GTK_STOCK_JUMP_TO,
 							       GTK_ICON_SIZE_MENU ));
-    if ( !full )
+    if ( !full || 
+	 OPERATION_SELECTIONNEE -> pointe == OPERATION_RAPPROCHEE ||
+	 OPERATION_SELECTIONNEE -> pointe == OPERATION_TELERAPPROCHEE )
 	gtk_widget_set_sensitive ( menu_item, FALSE );
     gtk_menu_append ( menu, menu_item );
 
@@ -3304,6 +3308,12 @@ struct structure_operation *  clone_transaction ( struct structure_operation * o
 	    liste_tmp = liste_tmp -> next;
 	}
     }
+
+    if ( operation -> pointe == OPERATION_RAPPROCHEE ||
+	 operation -> pointe == OPERATION_TELERAPPROCHEE )
+      {
+	new_transaction -> pointe = OPERATION_NORMALE;
+      }
 
     return new_transaction;
 }
