@@ -641,7 +641,8 @@ GSList *recupere_opes_etat ( struct struct_etat *etat )
 
 	      /* vérification du type d'opé */
 
-	      if ( etat -> utilise_mode_paiement )
+	      if ( etat -> utilise_mode_paiement &&
+		   operation -> type_ope)
 		{
 		  struct struct_type_ope *type_ope;
 		  GSList *liste_tmp;

@@ -45,6 +45,7 @@ grisbi_SOURCES = 		\
 	etats_onglet.c		\
 	etats_config.c		\
 	etats_calculs.c		\
+	etats_support.c		\
 	etats_gtktable.c	\
 	etats_gnomeprint.c	\
 	impression.c		\

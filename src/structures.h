@@ -576,6 +576,9 @@ struct struct_etat_affichage
 				   gint type );
   gint (* affiche_total_general) ( gdouble total_general,
 				   gint ligne );
+  gint (* affiche_total_periode) ( struct structure_operation *operation,
+				   gint ligne,
+				   gint force );
   gint (* affiche_categ_etat) ( struct structure_operation *operation,
 				gchar *decalage_categ,
 				gint ligne );

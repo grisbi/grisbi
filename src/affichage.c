@@ -856,7 +856,6 @@ void modification_logo_accueil ( void )
       if (chemin_logo)
 	{
 	  gtk_widget_destroy ( ((GtkBoxChild *)(GTK_BOX ( page_accueil ) -> children -> data )) -> widget );
-	  gtk_widget_destroy ( ((GtkBoxChild *)(GTK_BOX ( page_accueil ) -> children -> data )) -> widget );
 	}
 
       /* on change le logo */
