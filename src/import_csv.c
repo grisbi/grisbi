@@ -42,8 +42,8 @@ extern gpointer **p_tab_nom_de_compte;
 extern gpointer **p_tab_nom_de_compte_variable;
 /*END_EXTERN*/
 
-/* definition temporaire pour indiquer ou l'on est dans grisbi */
-#define WHERE_AM_I "Import CSV"
+/* definition temporaire pour indiquer l'en tete du debug CSV, qui */
+#define WHERE_AM_I g_strdup_printf("Import CSV (%s)",DEBUG_WHERE_AM_I)
 
 /* *******************************************************************************/
 gboolean recuperation_donnees_csv ( FILE *fichier )
@@ -63,15 +63,6 @@ gboolean recuperation_donnees_csv ( FILE *fichier )
 	gint nb_lignes_entete = 0; 
 	gint nb_lignes_lues = 0;
 	gint nb_operations_trouvees = 0;
-
-		/* TODO : choix du typ de fichier csv */
-	
-	/*gint type_fichier_csv = 0; */ /* type de fichier csv choisi */
-
-	/* popup pour connaitre le type de fichier csv suivant une banque ou une autre */
-	/* debug_message(WHERE_AM_I,_("Popup Start"),DEBUG_LEVEL_DEBUG,FALSE); */
-	/* type_fichier_csv = choix_type_fichier_csv(); */
-	/* debug_message(WHERE_AM_I,_("Popup Stop"),DEBUG_LEVEL_DEBUG,FALSE); */
 
 	/* fichier pointe sur le fichier qui a été reconnu comme csv */
 	rewind ( fichier );
@@ -122,7 +113,10 @@ gboolean recuperation_donnees_csv ( FILE *fichier )
 			gint erreur_date = 0, erreur_montant = 0;
 			
 			retour = get_line_from_file ( fichier,&pointeur_char );
-
+			
+			/* on supprime le retour a la ligne */
+			pointeur_char[strlen(pointeur_char) - 1] = '\0';
+			
 			debug_message(WHERE_AM_I,_("Find a new line"),DEBUG_LEVEL_INFO,FALSE);
 			debug_message(WHERE_AM_I,g_strdup_printf(_("Line is %s"),pointeur_char),DEBUG_LEVEL_INFO,FALSE);
 			

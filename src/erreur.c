@@ -37,6 +37,12 @@
 #include "traitement_variables.h"
 #include "utils_files.h"
 #include "fichier_configuration.h"
+#if __GLIBC__ == 2 && __GLIBC_MINOR__ >= 1
+#define HAVE_BACKTRACE
+#endif
+#ifdef HAVE_BACKTRACE
+# include <execinfo.h> /* pour le backtrace, linux uniquement pour l'instant */
+#endif
 #ifdef HAVE_G2BANKING
 # include <g2banking/gbanking.h>
 #endif
@@ -214,6 +220,8 @@ void traitement_sigsegv ( gint signal_nb )
 
     errmsg = _("Grisbi triggered a segmentation fault and cannot continue its execution.\n\n");
 
+		print_backtrace();
+	
     /*   il y a 3 possibilités : */
     /*     soit on était en train de charger un fichier, c'est que celui-ci est corrompu */
     /* soit on était en train de sauver un fichier, et là on peut rien faire */
@@ -327,11 +335,31 @@ void initialize_debugging ( void )
 		{
 			/* on affiche un message de debug pour indiquer que le debug est actif */
 			debug_message(g_strdup_printf(_("GRISBI %s Debug"),VERSION) , 
-										g_strdup_printf(_("Wrong debug level, please check DEBUG_GRISBI environnement variable"),debug_level),
+										_("Wrong debug level, please check DEBUG_GRISBI environnement variable"),
 										DEBUG_LEVEL_INFO, TRUE);
 		}
 	}
 }
+
+/*************************************************************************************************************/
+/* renvoit une chaine avec le temps de debug																																 */
+/*************************************************************************************************************/
+gchar *get_debug_time ( void )
+{
+	/* le temps courant et une chaine dans laquelle on stocke le temps courant */
+	time_t debug_time;
+	gchar *str_debug_time;
+	
+	/* on choppe le temps courant et on va le mettre dans une chaine */
+	time(&debug_time);
+	str_debug_time=ctime(&debug_time);
+	
+	/* on fait sauter le retour a la ligne */
+	str_debug_time[strlen(str_debug_time) - 1] = '\0';
+	
+	/* on renvoit le temps */
+	return str_debug_time;
+}	
 
 /*************************************************************************************************************/
 /* affiche de message de debug dans la console (uniquement si show_grisbi_debug est a TRUE)									 */
@@ -341,22 +369,36 @@ void debug_message ( gchar *prefixe, gchar *message, gint level, gboolean force_
 	/* il faut bien entendu que le mode debug soit actif ou que l'on force l'affichage */
   if ( ( debugging_grisbi && level>=debugging_grisbi) || force_debug_display) 
 	{
-		/* le temps courant et une chaine dans laquelle on stocke le temps courant */
-	 	time_t debug_time;
-		gchar *str_debug_time;
-		
-		/* on choppe le temps courant et on va le mettre dans une chaine */
-	  time(&debug_time);
-		str_debug_time=ctime(&debug_time);
-		
-		/* on fait sauter le retour a la ligne */
-		str_debug_time[strlen(str_debug_time) - 1] = '\0';
-		
 		/* on affiche dans la console le message */
-		printf(g_strdup_printf(_("%s : %s - %s\n"),str_debug_time,prefixe,message));
+		printf(g_strdup_printf(_("%s : %s - %s\n"),get_debug_time(),prefixe,message));
 	}
 }
 
+/*************************************************************************************************************/
+/* affiche les derniers appels de grisbi																																		 */
+/*************************************************************************************************************/
+void print_backtrace ( void )
+{
+	#ifdef HAVE_BACKTRACE
+		void *backtrace_content[15];
+		size_t backtrace_size;
+		gchar **backtrace_strings;
+		size_t i;
+		
+		backtrace_size = backtrace (backtrace_content, 15);
+		backtrace_strings = backtrace_symbols (backtrace_content, backtrace_size);
+		
+		printf ("%s : %d element in stack.\n", get_debug_time(), backtrace_size);
+		
+		for (i = 0; i < backtrace_size; i++) printf ("\t%s\n", backtrace_strings[i]);
+
+	#endif
+		
+	#ifndef HAVE_BACKTRACE
+		printf("%s : Backtrace unavailable on your system !", get_debug_time());
+	#endif			 
+		
+}
 /*************************************************************************************************************/
 
 /*************************************************************************************************************/
