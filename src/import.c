@@ -218,7 +218,9 @@ gboolean fichier_choisi_importation ( GtkWidget *fenetre )
 	    /* on n'a pas réussi à ouvrir le fichier, on affiche
 	       l'erreur et on retourne sur la sélection des
 	       fichiers */
-	    dialogue ( latin2utf8 ( strerror ( errno ) ) );
+	    dialogue_error_hint ( latin2utf8 ( strerror(errno) ),
+				  g_strdup_printf ( _("Error opening file '%s'"),
+						    liste_selection[i] ) );
             return FALSE;
 	}
 
@@ -242,10 +244,10 @@ gboolean fichier_choisi_importation ( GtkWidget *fenetre )
 	    result = recuperation_donnees_qif ( fichier );
 	    break;
 
-	  case TYPE_HTML:
+/* 	  case TYPE_HTML: */
 	    /* Pour l'instant html non implémenté */
-	    result = recuperation_donnees_html ( fichier );
-	    break;
+/* 	    result = recuperation_donnees_html ( fichier ); */
+/* 	    break; */
 
 	  case TYPE_GNUCASH:
 	    result = recuperation_donnees_gnucash ( liste_selection[i] );
@@ -887,9 +889,9 @@ void cree_ligne_recapitulatif ( struct struct_compte_importation *compte,
 	    label = gtk_label_new ( _( "OFX file"));
 	    break;
 
-	case HTML_IMPORT:
-	    label = gtk_label_new ( _( "HTML file"));
-	    break;
+/* 	case HTML_IMPORT: */
+/* 	    label = gtk_label_new ( _( "HTML file")); */
+/* 	    break; */
 
 	case GNUCASH_IMPORT:
 	    label = gtk_label_new ( _( "Gnucash file"));
@@ -2936,16 +2938,21 @@ enum import_type autodetect_file_type ( FILE * fichier, gchar * pointeur_char )
 	    }
 	}
       else {
-	if ( pointeur_char[0] == '<' )
-	  {
-	    type = TYPE_HTML;
-	  }
-	else
-	  {
+	  /* Do not implement HTML at the moment */
+/* 	if ( pointeur_char[0] == '<' ) */
+/* 	  { */
+/* 	    type = TYPE_HTML; */
+/* 	  } */
+/* 	else */
+/* 	  { */
 	    type = TYPE_UNKNOWN;
-	  }
+/* 	  } */
       }
     }
 
   return type;
 }
+
+/* Local Variables: */
+/* c-basic-offset: 4 */
+/* End: */
