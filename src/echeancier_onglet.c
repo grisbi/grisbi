@@ -121,12 +121,12 @@ GtkWidget *creation_onglet_echeancier ( void )
     /*  Création de la fenêtre de la liste des échéances */
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_liste_ventil_echeances ),
 			       creation_liste_echeances(),
-			       gtk_label_new ( _("Scheduller list") ) );
+			       gtk_label_new ( _("Scheduler list") ) );
 
     /*  Création de la fenêtre de la liste des ventils des échéances */
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_liste_ventil_echeances ),
 			       creation_fenetre_ventilation_echeances(),
-			       gtk_label_new ( _("Scheduller ventil") ) );
+			       gtk_label_new ( _("Scheduler broken down transactions") ) );
 
 
 

@@ -150,7 +150,7 @@ gboolean recuperation_donnees_qif ( FILE *fichier )
 /* 		on considère le compte d'investissement comme un compte bancaire mais met un */
 /* 		    warning car pas implémenté ; aucune idée si ça passe ou pas... */
 		compte -> type_de_compte = 0;
-		dialogue_warning ( _("There is an investment account. That kind of account is not yet\nimplemented in grisbi. We will try to import it as a bank account.\nIf there is a problem, please contact the grisbi team to see what we can do." ));
+		dialogue_warning ( _("Grisbi found an investment account, which is not implemented yet.  Nevertheless, Grisbi will try to import it as a bank account." ));
 	    }
 	    else
 	    {
