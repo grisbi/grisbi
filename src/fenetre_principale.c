@@ -142,27 +142,23 @@ void change_page_notebook ( GtkNotebook *notebook,
 			    gpointer null )
 {
 
-/* retire l'horloge si part de l'accueil */
-/* ALAIN-FIXME : est-ce bien nécessaire
-      if ( id_temps )
-	{
-	  gtk_timeout_remove ( id_temps );
-	  id_temps = 0;
-	}
-*/
+  /* retire l'horloge si part de l'accueil */
+  if ( id_temps )
+    {
+      gtk_timeout_remove ( id_temps );
+      id_temps = 0;
+    }
+
   switch ( numero_page )
     {
-/* remet l'horloge si revient à l'accueil */
+      /* remet l'horloge si revient à l'accueil */
 
-/* ALAIN-FIXME : semble être à l'origine du bug 150 */
-/*
     case 0:
-	  id_temps = gtk_timeout_add ( 1000,
+      id_temps = gtk_timeout_add ( 1000,
 				   (GtkFunction) change_temps,
 				   GTK_WIDGET ( label_temps ));
-    break;
-*/
-	  /* si on va sur la fenêtre des comptes => focus à la liste */
+      break;
+      /* si on va sur la fenêtre des comptes => focus à la liste */
 
     case 1:
       p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
