@@ -269,7 +269,7 @@ void reaffiche_liste_comptes_onglet ( void )
 	    {
 		gtk_list_button_clicked ( GTK_BUTTON ( bouton ));
 
-		/* change le nom de l'emprunt courant */
+		/* change le nom du compte courant */
 		gtk_label_set_text ( GTK_LABEL ( label_compte_courant_onglet ), NOM_DU_COMPTE);
 	    }
 	}
