@@ -62,6 +62,7 @@ void a_propos ( GtkWidget *bouton,
     const gchar *traducteurs[] = { 
       _("Alain Portal (dionysos[at]grisbi.org) : English"),
       _("Benjamin Drieu (bdrieu[at]april.org) : English"),
+      _("Carlos M. Cámara Mora (carcam_moceu[at]yahoo.es) : Spanish"),
       _("Daniel Cartron (cartron[at]grisbi.org) : English"),
       _("Flavio Henrique Somensi (flavio[at]opens.com.br): Brazilian Portuguese"),
       _("Giorgio Mandolfo (giorgio[at]pollycoke.org) : Italian"),
