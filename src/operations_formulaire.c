@@ -581,7 +581,7 @@ GtkWidget *creation_formulaire ( void )
     widget_formulaire_operations[TRANSACTION_FORM_BANK] = gtk_entry_new ();
     gtk_table_attach ( GTK_TABLE ( table ),
 		       widget_formulaire_operations[TRANSACTION_FORM_BANK],
-		       3, 6, 3, 4,
+		       3, 5, 3, 4,
 		       GTK_SHRINK | GTK_FILL,
 		       GTK_SHRINK | GTK_FILL,
 		       0, 0);
@@ -605,6 +605,17 @@ GtkWidget *creation_formulaire ( void )
 
     gtk_widget_set_sensitive ( widget_formulaire_operations[TRANSACTION_FORM_BANK],
 			       etat.utilise_info_banque_guichet );
+
+    /*  Affiche le numéro de rapprochement */
+
+    widget_formulaire_operations[TRANSACTION_FORM_RECONCILIATION] = gtk_label_new ( "" );
+    gtk_table_attach ( GTK_TABLE ( table ),
+		       widget_formulaire_operations[TRANSACTION_FORM_RECONCILIATION],
+		       5, 6, 3, 4,
+		       GTK_SHRINK | GTK_FILL,
+		       GTK_SHRINK | GTK_FILL,
+		       0, 0);
+    gtk_widget_show ( widget_formulaire_operations[TRANSACTION_FORM_RECONCILIATION] );
 
     /*  Affiche le mode automatique / manuel  */
 
@@ -3344,6 +3355,9 @@ void formulaire_a_zero (void)
     gtk_widget_hide ( widget_formulaire_operations[TRANSACTION_FORM_BREAKDOWN] );
 
     gtk_label_set_text ( GTK_LABEL ( widget_formulaire_operations[TRANSACTION_FORM_MODE] ),
+			 "" );
+
+    gtk_label_set_text ( GTK_LABEL ( widget_formulaire_operations[TRANSACTION_FORM_RECONCILIATION] ),
 			 "" );
 
     gtk_widget_set_sensitive ( widget_formulaire_operations[TRANSACTION_FORM_CREDIT],

@@ -1815,6 +1815,19 @@ void edition_operation ( void )
 	gtk_label_set_text ( GTK_LABEL ( widget_formulaire_operations[TRANSACTION_FORM_MODE]),
 			     _("Manual"));
 
+    /* numéro de rapprochement */
+
+    if ( operation -> no_rapprochement )
+    {
+	gtk_label_set_text ( GTK_LABEL ( widget_formulaire_operations[TRANSACTION_FORM_RECONCILIATION]),
+			     ((gchar *) ((struct struct_no_rapprochement *) g_slist_find_custom ( liste_no_rapprochements,
+					     GINT_TO_POINTER ( operation -> no_rapprochement ),
+					     (GCompareFunc) recherche_no_rapprochement_par_no ) -> data) -> nom_rapprochement));
+    }
+    else
+	gtk_label_set_text ( GTK_LABEL ( widget_formulaire_operations[TRANSACTION_FORM_RECONCILIATION]),
+			     _("No reconciliation number"));
+
     /*   on a fini de remplir le formulaire, on donne le focus à la date */
 
     gtk_entry_select_region ( GTK_ENTRY ( widget_formulaire_operations[TRANSACTION_FORM_DATE] ),

@@ -36,7 +36,8 @@
 # define TRANSACTION_FORM_NOTES 16
 # define TRANSACTION_FORM_BANK 17
 # define TRANSACTION_FORM_MODE 18
-# define TRANSACTION_FORM_WIDGET_NB 19	 /* must be the last of the list */
+# define TRANSACTION_FORM_RECONCILIATION 19
+# define TRANSACTION_FORM_WIDGET_NB 20	 /* must be the last of the list */
 
 /* Constantes qui définisent le numéro de widget dans le formulaire
    de ventilation des opérations */
