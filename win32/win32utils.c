@@ -95,7 +95,57 @@ static gchar my_documents_path [MAX_PATH+1];
 static gchar windows_path      [MAX_PATH+1]; 
 static gchar grisbirc_path     [MAX_PATH+1];
 static gchar grisbi_exe_path   [MAX_PATH+1];
+static HMODULE            hSHFolder        = NULL;
+static PFNSHGETFOLDERPATH pSHGetFolderPath = NULL;
+/**
+ * Retrieve the SHGetFolder function pointer from the good dll depending
+ *   of the OS
+ *   W2K/XP => Shell32
+ *  older   => SHFolder.dll
+ */
+static PFNSHGETFOLDERPATH _win32_getfolderpath() /* {{{ */
+{
+    if (pSHGetFolderPath == NULL) 
+    {
+        // First try fom shell32.dll
+        if (!hSHFolder)
+        {
+            hSHFolder = LoadLibrary("Shell32.dll");
+            if (hSHFolder)
+            {
+                pSHGetFolderPath = 
+                    (PFNSHGETFOLDERPATH)GetProcAddress(hSHFolder,
+#ifdef UNICODE
+                                                       "SHGetFolderPathW"
+#else
+                                                       "SHGetFolderPathA"
+#endif
+                                                      );
+            }
+        }
+    }
+    if (pSHGetFolderPath == NULL) 
+    {
+        // First try fom shell32.dll
+        if (!hSHFolder)
+        {
+            hSHFolder = LoadLibrary("ShFolder.dll");
+            if (hSHFolder)
+            {
+                pSHGetFolderPath = 
+                    (PFNSHGETFOLDERPATH)GetProcAddress(hSHFolder,
+#ifdef UNICODE
+                                                       "SHGetFolderPathW"
+#else
+                                                       "SHGetFolderPathA"
+#endif
+                                                      );
+            }
+        }
+    }
 
+    return pSHGetFolderPath;
+} /* }}} */
 /** 
  * Retrieve the absolute path of a CSIDL directory named
  *
@@ -105,15 +155,25 @@ static gchar grisbi_exe_path   [MAX_PATH+1];
  * \return error status of the operations 
  *
  */
+
 HRESULT win32_get_folder_path(gchar* folder_path,const int csidl)        /* {{{ */
 {   
+
     HRESULT hr             = NO_ERROR;
     int      folder_csidl  = csidl & CSIDL_FOLDER_MASK;
     gboolean create_folder = csidl & CSIDL_FLAG_CREATE;
+    PFNSHGETFOLDERPATH  pSHGetFolderPath = _win32_getfolderpath();
+
     *folder_path           = 0;
-    if (!SHGetSpecialFolderPath(NULL,folder_path,folder_csidl,create_folder))
+
+    if ((pSHGetFolderPath)&&(!(pSHGetFolderPath)(NULL,csidl,NULL,0,folder_path)))
     {
         hr = GetLastError();
+    }
+    else
+    {
+        folder_path = g_strconcat("C:\\",NULL);
+        hr = 0;
     }
     return hr;
 } /* }}}  */
@@ -165,18 +225,18 @@ gchar* win32_get_windows_folder_path(void)                  /* {{{ */
 gchar* win32_get_grisbirc_folder_path()  /* {{{ */
 {
     /* special cases : APP_DATA & WIN95/NT4) */
-    win_version current_version = win32_get_windows_version();    
-    if ((current_version == WIN95)||(current_version == WINNT4))
-    {
-        g_strlcpy(grisbirc_path,win32_get_windows_folder_path(),MAX_PATH+1);
-        g_strlcat (grisbirc_path,"\\",MAX_PATH+1);        
-    } 
-    else
-    {
+    //win_version current_version = win32_get_windows_version();    
+    //if ((current_version == WIN95)||(current_version == WINNT4))
+    //{
+    //    g_strlcpy(grisbirc_path,win32_get_windows_folder_path(),MAX_PATH+1);
+    //    g_strlcat (grisbirc_path,"\\",MAX_PATH+1);        
+    //} 
+    //else
+    //{
         SetLastError(win32_get_folder_path(grisbirc_path,CSIDL_APPDATA|CSIDL_FLAG_CREATE));
         g_strlcat(grisbirc_path,"\\Grisbi\\",MAX_PATH+1);
-        CreateDirectory(grisbirc_path,NULL);
-    }
+    //    CreateDirectory(grisbirc_path,NULL);
+    //}
     return grisbirc_path;
 } /* }}} */
 
@@ -287,3 +347,6 @@ win_technology win32_get_windows_technology(win_version version) /* {{{ */
 // -------------------------------------------------------------------------
 // End of WinUtils
 // -------------------------------------------------------------------------
+
+
+

@@ -43,6 +43,18 @@ extern guint  win32_get_last_error();
 #define CSIDL_FLAG_CREATE 0x8000
 #define CSIDL_FOLDER_MASK 0x7FFF
 #endif
+
+typedef HRESULT (__stdcall * PFNSHGETFOLDERPATHA)(HWND, int, HANDLE, DWORD, LPSTR);  // "SHGetFolderPathA"
+typedef HRESULT (__stdcall * PFNSHGETFOLDERPATHW)(HWND, int, HANDLE, DWORD, LPWSTR); // "SHGetFolderPathW"
+
+#ifdef UNICODE
+#define SHGetFolderPath     SHGetFolderPathW
+#define PFNSHGETFOLDERPATH  PFNSHGETFOLDERPATHW
+#else
+#define SHGetFolderPath     SHGetFolderPathA
+#define PFNSHGETFOLDERPATH  PFNSHGETFOLDERPATHA
+#endif
+
 extern HRESULT win32_get_app_data_folder_path     (gchar*, int);
 extern gchar*  win32_get_my_documents_folder_path (void);
 extern gchar*  win32_get_windows_folder_path      (void);
