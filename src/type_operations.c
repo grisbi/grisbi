@@ -1536,11 +1536,188 @@ void supprimer_type_operation ( void )
 {
   struct struct_type_ope *type_ope;
   GtkCTreeNode *node;
+  GSList *pointeur_tmp;
+  GSList *ope_a_changer;
+  gint save_pref;
+
+
+  /* sera mis à 1 s'il faut sauver les préférences des types */
+
+  save_pref = 0;
+
+  /* récupère le type concerné */
 
   node = gtk_object_get_data ( GTK_OBJECT ( entree_type_nom ),
 			       "adr_node" );
   type_ope = gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_types_operations ),
 					   node );
+
+
+  /*   on fait le tour du compte concerné pour voir si des opés avaient ce type, */
+  /*     si oui, on les met dans une liste */
+
+  p_tab_nom_de_compte_variable = p_tab_nom_de_compte + type_ope -> no_compte;
+  pointeur_tmp = LISTE_OPERATIONS;
+  ope_a_changer = NULL;
+
+  while ( pointeur_tmp )
+    {
+      struct structure_operation *operation;
+
+      operation = pointeur_tmp -> data;
+
+      if ( operation -> type_ope == type_ope -> no_type )
+	ope_a_changer = g_slist_append ( ope_a_changer,
+					 operation );
+      pointeur_tmp = pointeur_tmp -> next;
+    }
+
+  /*   à ce niveau, soit ope_a_changer est null, et on supprime le type dans la liste_tmp */
+  /* donc possibiliter d'annuler */
+  /* soit c'est pas nul, et on présente un dialogue qui permet de rappatrier les opés */
+  /*     sur cet autre type ; par contre là on ne peut annuler la suppression */
+
+  if ( ope_a_changer )
+    {
+      /* des opés sont à changer */
+
+      GtkWidget *dialog;
+      GtkWidget *label;
+      gint resultat;
+      GtkWidget * option_menu;
+      GtkWidget *separateur;
+      GtkWidget *hbox;
+      GtkWidget *menu;
+      gint nouveau_type;
+
+      dialog = gnome_dialog_new ( _( "Suppression d'un type d'opération" ),
+				  GNOME_STOCK_BUTTON_OK,
+				  GNOME_STOCK_BUTTON_CANCEL,
+				  NULL );
+
+      label = gtk_label_new ( _( "Des opérations sont encore affectées au type sélectionné,\ncette suppression sera donc irréversible et les modifications concernant\nles types d'opérations seront enregistrées." ));
+      gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
+			   label,
+			   FALSE,
+			   FALSE,
+			   0 );
+      gtk_widget_show ( label );
+
+      separateur = gtk_hseparator_new ();
+      gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
+			   separateur,
+			   FALSE,
+			   FALSE,
+			   0 );
+      gtk_widget_show ( separateur );
+
+      hbox = gtk_hbox_new ( FALSE,
+			    5 );
+      gtk_box_pack_start ( GTK_BOX ( GNOME_DIALOG ( dialog ) -> vbox ),
+			   hbox,
+			   FALSE,
+			   FALSE,
+			   0 );
+      gtk_widget_show ( hbox );
+
+
+
+      label = gtk_label_new ( _( "Transférer les opérations sur " ));
+      gtk_box_pack_start ( GTK_BOX ( hbox ),
+			   label,
+			   FALSE,
+			   FALSE,
+			   0 );
+      gtk_widget_show ( label );
+
+      /* on va mettre ici le bouton des type de la liste tmp car on peut déjà avoir */
+      /* ajouté ou retiré des types */
+
+      option_menu = gtk_option_menu_new ();
+      menu = gtk_menu_new ();
+
+
+      pointeur_tmp = liste_tmp_types[type_ope->no_compte];
+
+      while ( pointeur_tmp )
+	{
+	  struct struct_type_ope *type;
+	  GtkWidget *menu_item;
+
+	  type = pointeur_tmp -> data;
+
+	  if ( type -> no_type != type_ope -> no_type
+	       &&
+	       ( type -> signe_type == type_ope -> signe_type
+		 ||
+		 !type -> signe_type ))
+	    {
+	      menu_item = gtk_menu_item_new_with_label ( type -> nom_type );
+	      gtk_object_set_data ( GTK_OBJECT ( menu_item ),
+				    "no_type",
+				    GINT_TO_POINTER ( type -> no_type ));
+	      gtk_menu_append ( GTK_MENU ( menu ),
+				menu_item );
+	      gtk_widget_show ( menu_item );
+	    }
+	  pointeur_tmp = pointeur_tmp -> next;
+	}
+
+      gtk_option_menu_set_menu ( GTK_OPTION_MENU ( option_menu ),
+				 menu );
+      gtk_widget_show ( menu );
+
+      gtk_box_pack_start ( GTK_BOX ( hbox ),
+			   option_menu,
+			   FALSE,
+			   FALSE,
+			   0 );
+      gtk_widget_show ( option_menu );
+
+      /*       s'il n'y a aucun autre types, on grise le choix de transfert */
+
+      if ( !GTK_MENU_SHELL ( menu ) -> children )
+	gtk_widget_set_sensitive ( hbox,
+				   FALSE );
+
+      resultat = gnome_dialog_run ( GNOME_DIALOG ( dialog ));
+
+      if ( resultat )
+	{
+	  if ( GNOME_IS_DIALOG ( dialog ))
+	    gnome_dialog_close ( GNOME_DIALOG ( dialog ));
+	  return;
+	}
+
+      /* récupération du nouveau type d'opé */
+
+      if ( GTK_MENU_SHELL ( menu ) -> children )
+	nouveau_type = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( option_menu ) -> menu_item ),
+							       "no_type" ));
+      else
+	nouveau_type = 0;
+
+      /* on change le type des opés concernées */
+
+      pointeur_tmp = ope_a_changer;
+
+      while ( pointeur_tmp )
+	{
+	  struct structure_operation *operation;
+
+	  operation = pointeur_tmp -> data;
+
+	  operation -> type_ope = nouveau_type;
+	  pointeur_tmp = pointeur_tmp -> next;
+	}
+
+      /* on sauvegarde les préf des types */
+
+      save_pref = 1;
+
+      gnome_dialog_close ( GNOME_DIALOG ( dialog ));
+    }
+
 
   /* on vire le type de l'arbre */
 
@@ -1572,6 +1749,12 @@ void supprimer_type_operation ( void )
 
   liste_tmp_types[type_ope->no_compte] = g_slist_remove ( liste_tmp_types[type_ope->no_compte],
 							  type_ope );
+    
+
+  if ( save_pref )
+    changement_preferences ( fenetre_preferences,
+			     8,
+			     NULL );
 }
 /* ************************************************************************************************************** */
 
@@ -1846,13 +2029,7 @@ GtkWidget *creation_menu_types ( gint demande,
       return ( NULL );
     }
 
-  menu = gtk_menu_new();
-
-  /* on associe au menu la valeur 1 pour menu de débit et 2 pour menu de crédit */
-
-  gtk_object_set_data ( GTK_OBJECT ( menu ),
-			"signe_menu",
-			GINT_TO_POINTER ( demande ) );
+  menu = NULL;
 
   while ( liste_tmp )
     {
@@ -1867,6 +2044,24 @@ GtkWidget *creation_menu_types ( gint demande,
 	   etat.affiche_tous_les_types )
 	{
 	  GtkWidget *item;
+
+	  /* avant de mettre l'item, on crée le menu si nécessaire */
+	  /* le faire ici permet de retourner null si il n'y a rien */
+	  /*   dans le menu (sinon, si rien dans les crédits, mais qque */
+	  /* chose dans les débits, renvoie un menu vide qui sera affiché */
+
+	  if ( !menu )
+	    {
+	      menu = gtk_menu_new();
+	      
+	      /* on associe au menu la valeur 1 pour menu de débit et 2 pour menu de crédit */
+
+	      gtk_object_set_data ( GTK_OBJECT ( menu ),
+				    "signe_menu",
+				    GINT_TO_POINTER ( demande ) );
+	      gtk_widget_show ( menu );
+	    }
+
 
 	  item = gtk_menu_item_new_with_label ( type -> nom_type );
 
@@ -1894,7 +2089,6 @@ GtkWidget *creation_menu_types ( gint demande,
       liste_tmp = liste_tmp -> next;
     }
 
-  gtk_widget_show ( menu );
   p_tab_nom_de_compte_variable = save_ptab;
   return ( menu );
 }

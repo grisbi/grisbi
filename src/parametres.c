@@ -120,6 +120,8 @@ void preferences ( GtkWidget *widget,
 		       (GtkSignalFunc) changement_preferences,
 		       NULL );
 
+  gnome_property_box_set_state ( GNOME_PROPERTY_BOX ( fenetre_preferences ),
+				 FALSE );
 
 /* on se met sur la page demandée */
 

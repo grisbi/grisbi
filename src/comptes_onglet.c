@@ -385,5 +385,8 @@ void reaffiche_liste_comptes_onglet ( void )
 	}
       while ( (  ordre_comptes_variable = ordre_comptes_variable->next ) );
     }
+
+  remplissage_details_compte ();
+
 }
 /* *********************************************************************************************************** */

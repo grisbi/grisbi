@@ -297,6 +297,7 @@ void supprimer_compte ( void )
 
   for ( i = compte_modifie ; i < nb_comptes ; i++ )
     {
+      NO_COMPTE = NO_COMPTE -1;
       *p_tab_nom_de_compte_variable = *(p_tab_nom_de_compte_variable + 1);
       p_tab_nom_de_compte_variable++;
     }
@@ -359,7 +360,7 @@ void supprimer_compte ( void )
   /*   pour cela, on efface vbox_liste_comptes et on le recrée */
 
   reaffiche_liste_comptes();
-
+  reaffiche_liste_comptes_onglet ();
 
   /* on recrée les combofix des tiers et des catégories */
 
