@@ -866,7 +866,8 @@ gchar *recherche_contenu_cellule ( struct structure_operation *operation,
 
 	    /* mise en forme du débit */
 	case 5:
-	    if ( operation -> montant < 0 )
+	    if ( operation -> montant < -0.001 ) 
+	      /* -0.001 is to handle float approximations */
 	    {
 		temp = g_strdup_printf ( "%4.2f", -operation -> montant );
 
