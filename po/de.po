@@ -37,7 +37,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "POT-Creation-Date: 2004-12-30 00:29+0100\n"
-"PO-Revision-Date: 2004-12-29 22:42+0100\n"
+"PO-Revision-Date: 2004-12-31 21:04+0100\n"
 "Last-Translator: Martin Stromberger <fabiolla@aon.at>\n"
 "Language-Team: Deutsch <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -96,11 +96,11 @@ msgstr "Konto Salden in %s"
 #: src/accueil.c:524 src/accueil.c:846 src/accueil.c:1167
 #: src/operations_liste.c:150
 msgid "Reconciled balance"
-msgstr "Abgestimmter Saldo"
+msgstr "abgestimmter Saldo"
 
 #: src/accueil.c:528 src/accueil.c:850 src/accueil.c:1171
 msgid "Current balance"
-msgstr "Aktueller Saldo"
+msgstr "aktueller Saldo"
 
 #. Création et remplissage de la (nb_comptes + 3)ième ligne du tableau :
 #. elle contient la somme des soldes de chaque compte
@@ -138,8 +138,7 @@ msgstr "%4.2f %s Soll in %s"
 #: src/accueil.c:1794 src/accueil.c:1829
 #, c-format
 msgid "Balance of account %s is under wanted and authorised minima!"
-msgstr ""
-"Der Saldo des Kontos %s ist unter dem festgelegtem und zulässigen Minimum!"
+msgstr "Der Saldo des Kontos %s ist unter dem festgelegtem und zulässigen Minimum!"
 
 #: src/accueil.c:1800
 #, c-format
@@ -839,7 +838,7 @@ msgstr "Verschiedenes : Geschenke"
 
 #: src/categories_onglet.c:80
 msgid "Financial expenses : Miscellaneous"
-msgstr "Finanzausgaben : Verschiedens"
+msgstr "Finanzausgaben : Verschiedenes"
 
 #: src/categories_onglet.c:81
 msgid "Financial expenses : Bank charges"
@@ -1015,7 +1014,7 @@ msgstr "Gesundheit : Krankenhaus"
 
 #: src/categories_onglet.c:124
 msgid "Health : Kinesitherapist"
-msgstr "Gesundheit : Allgeinmedizin"
+msgstr "Gesundheit : Allgemeinmedizin"
 
 #: src/categories_onglet.c:125
 msgid "Health : Doctor"
@@ -1201,7 +1200,7 @@ msgstr "Unterkategorie hinzufügen"
 #: src/imputation_budgetaire.c:340 src/menu.c:77 src/traitement_variables.c:90
 #: src/traitement_variables.c:213
 msgid "Export"
-msgstr "Exportiern"
+msgstr "Exportieren"
 
 #. on met le bouton importer
 #: src/categories_onglet.c:444 src/etats_onglet.c:376 src/import.c:2860
@@ -1400,10 +1399,8 @@ msgstr "Kategorien importieren - Grisbi"
 
 #. il y a déjà des opérations dans le fichier, on ne peut que fusionner
 #: src/categories_onglet.c:3139
-msgid ""
-"File already contains transactions, the two categories lists will be merged."
-msgstr ""
-"Die Datei enhält bereis Buchungen, die Kategorien werden zusammengeführt."
+msgid "File already contains transactions, the two categories lists will be merged."
+msgstr "Die Datei enthält bereits Buchungen, die Kategorien werden zusammengeführt."
 
 #: src/categories_onglet.c:3149 src/imputation_budgetaire.c:2887
 msgid "Do you want"
@@ -1437,15 +1434,13 @@ msgstr ""
 
 #: src/check.c:121
 msgid "Grisbi found no known inconsistency in accounts processed."
-msgstr ""
-"Grisbi hat keine bekannte Inkonsistenz in den bearbeiteten Konten gefunden."
+msgstr "Grisbi hat keine bekannte Inkonsistenz in den bearbeiteten Konten gefunden."
 
 #: src/check.c:122
 msgid "No inconsistency found."
 msgstr "Keine Inkonsistenz gefunden."
 
 #: src/check.c:126
-#, fuzzy
 msgid ""
 "Grisbi found accounts where reconciliation totals are inconsistent with the "
 "sum of reconcilied transactions.  Generally, the cause is too many transfers "
@@ -1455,7 +1450,7 @@ msgid ""
 "\n"
 msgstr ""
 "Grisbi hat Konten gefunden, deren Abstimmungsbeträge inkonsistent mit den "
-"abgestimmten Buchungen sind. Generell ensteht dieser Fehler, wenn zuviele "
+"abgestimmten Buchungen sind. Generell entsteht dieser Fehler, wenn zu viele "
 "Buchungen zu anderen Konten abgestimmt sind. Sie müssen diese Inkonsistenz "
 "bei den Buchungen manuell beheben.\n"
 "Folgende Konten sind inkonsistent:\n"
@@ -2589,7 +2584,7 @@ msgstr "Englisches Pfund"
 
 #: src/devises.c:159
 msgid "United Kingdom"
-msgstr "Großbritanien"
+msgstr "Großbritannien"
 
 #: src/devises.c:160
 msgid "Romanian Leu"
@@ -2601,7 +2596,7 @@ msgstr "Rumänien"
 
 #: src/devises.c:161
 msgid "Slovak Koruna"
-msgstr "Slovakische Krone"
+msgstr "Slowakische Krone"
 
 #: src/devises.c:161
 msgid "Slovakia"
@@ -3292,8 +3287,7 @@ msgstr "Eine geplante Buchung löschen"
 msgid ""
 "Do you want to delete just this occurrence or the whole scheduled "
 "transaction?"
-msgstr ""
-"Wollen Sie nur dieses Vorkommen, oder die gesamte geplante Buchung löschen?"
+msgstr "Wollen Sie nur dieses Vorkommen, oder die gesamte geplante Buchung löschen?"
 
 #: src/echeancier_liste.c:1405
 msgid "All the occurences"
@@ -3369,7 +3363,7 @@ msgid ""
 "Transaction amount isn't fully broken down.\n"
 "Proceed anyway?"
 msgstr ""
-"Die Buchung ist nicht vollständung gesplittet worden.\n"
+"Die Buchung ist nicht vollständig gesplittet worden.\n"
 "Trotzdem fortfahren?"
 
 #: src/echeancier_ventilation.c:2673 src/ventilation.c:2805
@@ -3411,7 +3405,7 @@ msgstr "V"
 #: src/operations_liste.c:765 src/operations_liste.c:1941
 #, c-format
 msgid "Checked balance: %4.2f %s"
-msgstr "Abgestimmer Saldo: %4.2f %s"
+msgstr "Abgestimmter Saldo: %4.2f %s"
 
 #: src/equilibrage.c:919
 msgid "There is a variance"
@@ -3470,7 +3464,7 @@ msgstr "Grisbi hat ein Backup im Verzeichnis %s erstellt."
 
 #: src/erreur.c:233
 msgid "Please report this problem to http://www.grisbi.org/bugtracking/"
-msgstr "Bite den Fehler unter http://www.grisbi.org/bugtracking/ melden"
+msgstr "Bitte den Fehler unter http://www.grisbi.org/bugtracking/ melden"
 
 #: src/erreur.c:237
 msgid "Grisbi terminated due to a segmentation fault."
@@ -3705,12 +3699,12 @@ msgstr "Empfänger gesamt"
 #: src/etats_affiche.c:786
 #, c-format
 msgid "Result from %d/%d/%d to %d/%d/%d (%d transaction):"
-msgstr "Ergebnis von %d/%d/%d to %d/%d/%d (%d Buchung):"
+msgstr "Ergebnis von %d/%d/%d nach %d/%d/%d (%d Buchung):"
 
 #: src/etats_affiche.c:795
 #, c-format
 msgid "Result from %d/%d/%d to %d/%d/%d (%d transactions):"
-msgstr "Ergebnis von %d/%d/%d to %d/%d/%d (%d Buchungen):"
+msgstr "Ergebnis von %d/%d/%d nach %d/%d/%d (%d Buchungen):"
 
 #: src/etats_affiche.c:805
 #, c-format
@@ -3885,19 +3879,19 @@ msgstr "letztes Jahr"
 
 #: src/etats_config.c:52
 msgid "Last 30 days"
-msgstr "die letzen 30 Tage"
+msgstr "die letzten 30 Tage"
 
 #: src/etats_config.c:53
 msgid "Last 3 months"
-msgstr "die letzen 3 Monate"
+msgstr "die letzten 3 Monate"
 
 #: src/etats_config.c:54
 msgid "Last 6 months"
-msgstr "die letzen 6 Monate"
+msgstr "die letzten 6 Monate"
 
 #: src/etats_config.c:55
 msgid "Last 12 months"
-msgstr "die letzen 12 Monate"
+msgstr "die letzten 12 Monate"
 
 #: src/etats_config.c:59
 msgid "Monday"
@@ -3968,59 +3962,59 @@ msgstr "Daten Anzeige"
 
 #: src/etats_config.c:939
 msgid "Invalid custom initial date"
-msgstr "Ungültiges benutzerdefinierts Startdatum"
+msgstr "Ungültiges benutzerdefiniertes Startdatum"
 
 #: src/etats_config.c:946
 msgid "Invalid custom final date"
-msgstr "Ungültiges benutzerdefinierts Enddatum"
+msgstr "Ungültiges benutzerdefiniertes Enddatum"
 
 #: src/etats_config.c:1087
 msgid ""
 "All the financial years have been selected. Grisbi will run faster\n"
 "without the \"Detail financial years\" option"
 msgstr ""
-"Es wurden alle Geschäftsjahre ausgewählt.Grisbi wird schneller sein\n"
-"ohne der \"Details Geschäftsjahre\" Einstellung"
+"Es wurden alle Geschäftsjahre ausgewählt. Die Reporterstellung dauert länger\n"
+"mit der \"Geschäftsjahre Details\" Einstellung"
 
 #: src/etats_config.c:1164
 msgid ""
 "All the accounts have been selected. Grisbi will run faster\n"
 "without the \"Detail accounts used\" option"
 msgstr ""
-"Es wurden alle Konten ausgewählt. Grisbi wird schneller sein\n"
-"ohne der \"Details Konto\" Einstellung"
+"Es wurden alle Konten ausgewählt. Die Reporterstellung dauert länger\n"
+"mit der \"Konten Details\" Einstellung"
 
 #: src/etats_config.c:1238
 msgid ""
 "All the categories have been selected. Grisbi will run faster\n"
 "without  the \"Detail categories used \" option"
 msgstr ""
-"Es wurden alle Kategorien ausgewählt. Grisbi wird schneller sein\n"
-"ohne der \"Details Kategorien \" Einstellung"
+"Es wurden alle Kategorien ausgewählt.  Die Reporterstellung dauert länger\n"
+"mit der \"Kategorien Details\" Einstellung"
 
 #: src/etats_config.c:1285
 msgid ""
 "All budgetary lines have been selected.  Grisbi will run faster\n"
 "without \"Detail the budgetary lines used\" option"
 msgstr ""
-"Es wurden alle Buchungszeilen ausgewählt. Grisbi wird schneller sein\n"
-"ohne der \"Details Buchungszeilen \" Einstellung"
+"Es wurden alle Buchungszeilen ausgewählt.  Die Reporterstellung dauert länger\n"
+"mit der \"Buchungszeilen Details\" Einstellung"
 
 #: src/etats_config.c:1330
 msgid ""
 "All the third parts have been selected. Grisbi will run faster\n"
 "without the \"Detail the third parties\" option"
 msgstr ""
-"Es wurden alle Empfänger ausgewählt. Grisbi wird schneller sein\n"
-"ohne der \"Details Empfänger \" Einstellung"
+"Es wurden alle Empfänger ausgewählt.  Die Reporterstellung dauert länger\n"
+"mit der \"Empfänger Details\" Einstellung"
 
 #: src/etats_config.c:1500
 msgid ""
 "All methods of payment have been selected. Grisbi will run faster without "
 "the \"Select the transactions based on payment method\" option"
 msgstr ""
-"Es wurden alle Zahlungsweisen ausgewählt. Grisbi wird schneller sein ohne "
-"der \"Details Zahlungsweisen \" Einstellung"
+"Es wurden alle Zahlungsweisen ausgewählt.  Die Reporterstellung dauert länger mit "
+"der \"Zahlungsweisen Details\" Einstellung"
 
 #: src/etats_config.c:1669
 msgid "Use dates ranges"
@@ -4044,7 +4038,7 @@ msgstr "Abgelaufenes Geschäftsjahr"
 
 #: src/etats_config.c:1833
 msgid "Detail financial years"
-msgstr "Detailiertes Geschäftsjahr"
+msgstr "Details Geschäftsjahr"
 
 #: src/etats_config.c:1893
 msgid "Initial date"
@@ -4100,11 +4094,11 @@ msgstr "Buchungen von oder nach Anlage oder Kreditkonten berücksichtigen"
 
 #: src/etats_config.c:2572
 msgid "Include transfers from or to accounts not in this report"
-msgstr "Buchungen von oder nach diesem Konto nicht berücksichtigen"
+msgstr "Buchungen von oder nach Konten nicht berücksichtigen"
 
 #: src/etats_config.c:2585
 msgid "Include transfers from or to these accounts"
-msgstr "Buchungen von oder nach diesem Konto berücksichtigen"
+msgstr "Buchungen von oder nach diesen Konten berücksichtigen"
 
 #. on rajoute le bouton exclure les opé non virement
 #: src/etats_config.c:2739
@@ -4187,7 +4181,7 @@ msgstr "entfernen"
 
 #: src/etats_config.c:4204 src/etats_config.c:6410
 msgid "the third party"
-msgstr "die Empfänger"
+msgstr "den Empfänger"
 
 #: src/etats_config.c:4232
 msgid "the third party information"
@@ -4219,7 +4213,7 @@ msgstr "die Bankreferenz"
 
 #: src/etats_config.c:4428 src/etats_config.c:6539
 msgid "the voucher"
-msgstr "der Beleg"
+msgstr "den Beleg"
 
 #: src/etats_config.c:4449
 msgid "the cheque number"
@@ -4227,7 +4221,7 @@ msgstr "die Schecknummer"
 
 #: src/etats_config.c:4469 src/etats_config.c:6571
 msgid "the reconciliation reference"
-msgstr "die Abstimmungsreferenz"
+msgstr "den Kontoauszug"
 
 #: src/etats_config.c:4524
 msgid "contains"
@@ -4398,7 +4392,7 @@ msgstr "Jahr"
 
 #: src/etats_config.c:6009
 msgid "The week begins on"
-msgstr "Die Woche beginnt mit"
+msgstr "Die Woche beginnt am"
 
 #: src/etats_config.c:6028
 msgid "day"
@@ -4418,8 +4412,7 @@ msgstr "Name des Berichts"
 
 #: src/etats_config.c:6239
 msgid "Diplay the number of transactions with the totals"
-msgstr ""
-"Die Anzahl der Buchungen in einem Verhältnis zu allen Buchungen anzeigen"
+msgstr "Die Anzahl der Buchungen in einem Verhältnis zu allen Buchungen anzeigen"
 
 #: src/etats_config.c:6258
 msgid "Consider the third parties of this report as a multiple third party."
@@ -4793,7 +4786,7 @@ msgid ""
 msgstr ""
 "Dieser Bericht zeigt die Einnahmen und Ausgaben des letzten Monats an. Die "
 "Sortierung erfolgt nach Kategorien und Unterkategorien. Es müssen nur die "
-"Konten ausgwählt werden, in der Vorlage sind alle Konten ausgewählt."
+"Konten ausgewählt werden, in der Vorlage sind alle Konten ausgewählt."
 
 #. revenus et dépenses du mois en cours
 #: src/etats_onglet.c:998
@@ -4804,7 +4797,7 @@ msgid ""
 msgstr ""
 "Dieser Bericht zeigt die Einnahmen und Ausgaben des aktuellen Monats an. Die "
 "Sortierung erfolgt nach Kategorien und Unterkategorien. Es müssen nur die "
-"Konten ausgwählt werden, in der Vorlage sind alle Konten ausgewählt."
+"Konten ausgewählt werden, in der Vorlage sind alle Konten ausgewählt."
 
 #. budget annuel
 #: src/etats_onglet.c:1004
@@ -4814,7 +4807,7 @@ msgid ""
 msgstr ""
 "Dieser Bericht zeigt die Einnahmen und Ausgaben des aktuellen Jahres an. Die "
 "Sortierung erfolgt nach Kategorien und Unterkategorien. Es müssen nur die "
-"Konten ausgwählt werden, in der Vorlage sind alle Konten ausgewählt."
+"Konten ausgewählt werden, in der Vorlage sind alle Konten ausgewählt."
 
 #. etat vierge
 #: src/etats_onglet.c:1010
@@ -4830,7 +4823,7 @@ msgid ""
 "(s). By default all accounts are selected."
 msgstr ""
 "Dieser Bericht zeigt die Einreichung von Schecks an. Es müssen nur die "
-"Konten ausgwählt werden, in der Vorlage sind alle Konten ausgewählt."
+"Konten ausgewählt werden, in der Vorlage sind alle Konten ausgewählt."
 
 #. dépenses mensuelles par tiers
 #: src/etats_onglet.c:1022
@@ -4839,7 +4832,7 @@ msgid ""
 "just need to select the account(s). By default all accounts areselected."
 msgstr ""
 "Dieser Bericht zeigt Ausgaben des aktuellen Monats an. Die Sortierung "
-"erfolgt nach Empfänger. Es müssen nur die Konten ausgwählt werden, in der "
+"erfolgt nach Empfänger. Es müssen nur die Konten ausgewählt werden, in der "
 "Vorlage sind alle Konten ausgewählt."
 
 #. recherche
@@ -5017,8 +5010,7 @@ msgid "Select accounts to export"
 msgstr "Die zu exportierenden Konten auswählen"
 
 #: src/export.c:258 src/qif.c:1018
-msgid ""
-"This will irreversibly overwrite previous file.  There is no undo for this."
+msgid "This will irreversibly overwrite previous file.  There is no undo for this."
 msgstr "Dieser Vorgang wird die bestehende Datei überschreiben."
 
 #: src/export.c:266 src/qif.c:1023
@@ -5126,7 +5118,7 @@ msgid ""
 msgstr ""
 "Grisbi konnte die Datei nicht öffnen. Grisbi hat stattdessen eine "
 "Backupdatei geöffnet .\n"
-"Alle Änderungen seit dem letzen Backup sind nicht mehr vorhanden."
+"Alle Änderungen seit dem letzten Backup sind nicht mehr vorhanden."
 
 #: src/fichiers_gestion.c:285
 msgid ""
@@ -5145,7 +5137,7 @@ msgstr "Die Datei '%s' vor dem Beenden speichern?"
 
 #: src/fichiers_gestion.c:433
 msgid "unnamed"
-msgstr "Unbennant"
+msgstr "Unbenannt"
 
 #: src/fichiers_gestion.c:441
 msgid "Close without saving"
@@ -5179,7 +5171,7 @@ msgstr "Grisbi"
 
 #: src/fichiers_gestion.c:707
 msgid "Grisbi - No name"
-msgstr "Unbennant - Grisbi"
+msgstr "Unbenannt - Grisbi"
 
 #: src/fichiers_gestion.c:738
 msgid "Saving backup"
@@ -5204,8 +5196,7 @@ msgstr "Die Datei '%s' kann nicht geöffnet werden: %s"
 #: src/fichiers_io.c:155
 #, c-format
 msgid "Cannot open file '%s' : this is not a grisbi file"
-msgstr ""
-"Die Datei %s kann nicht geöffnet werden. Diese Datei ist keine Grisbi Datei"
+msgstr "Die Datei %s kann nicht geöffnet werden. Diese Datei ist keine Grisbi Datei"
 
 #: src/fichiers_io.c:197
 #, c-format
@@ -5263,7 +5254,7 @@ msgid ""
 "accounts balances."
 msgstr ""
 "Diese Änderungen sollten weder das Verhalten von Grisbi noch die Salden der "
-"Konten beinflussen."
+"Konten beeinflussen."
 
 #: src/fichiers_io.c:6428
 #, c-format
@@ -5336,7 +5327,7 @@ msgid ""
 "should change its permissions.\n"
 "Should this be fixed now?"
 msgstr ""
-"Ihre Grisbi Datei kann von jedem gelsen werden, die Berechtigungen sollten "
+"Ihre Grisbi Datei kann von jedem gelesen werden, die Berechtigungen sollten "
 "geändert werden.\n"
 "Soll dies nun durchgeführt werden?"
 
@@ -5357,7 +5348,7 @@ msgid ""
 "Grisbi needs to open a temporary file in order to import Gnucash data but "
 "file can't be created.  Check that you have permission to do that."
 msgstr ""
-"Für den Guncash Datenimport muss Grisbi eine temporäre Datei anlegen, diese "
+"Für den Gnucash Datenimport muss Grisbi eine temporäre Datei anlegen, diese "
 "Datei kann jedoch nicht erzeugt werden. Bitte überprüfen Sie, ob die "
 "notwendigen Berechtigungen vorhanden sind."
 
@@ -5385,8 +5376,7 @@ msgid "Alain Pichon (alain.pichon[at]grisbi.org): Fedora and RHEL packaging"
 msgstr "Alain Pichon (alain.pichon[at]grisbi.org): Fedora Paketverwaltung"
 
 #: src/help.c:48
-msgid ""
-"Alain Portal <dionysos[at]grisbi.org>: Programming, manual, RedHat packaging"
+msgid "Alain Portal <dionysos[at]grisbi.org>: Programming, manual, RedHat packaging"
 msgstr ""
 "Alain Portal (dionysos[at]grisbi.org): Programmierung, Handbuch, RedHat "
 "Paketverwaltung"
@@ -5401,8 +5391,7 @@ msgstr "Axel Rousseau (axel584[at]axel584.org): Mitarbeiter"
 
 #: src/help.c:51
 msgid "Benjamin Drieu (bdrieu[at]april.org) : Programming, Debian packaging"
-msgstr ""
-"Benjamin Drieu (bdrieu[at]april.org) : Programmierung, Debian Paketverwaltung"
+msgstr "Benjamin Drieu (bdrieu[at]april.org) : Programmierung, Debian Paketverwaltung"
 
 #: src/help.c:52
 msgid "Cedric Auger (cedric[at]grisbi.org) : Programming"
@@ -5426,8 +5415,7 @@ msgstr ""
 
 #: src/help.c:56
 msgid "Gerald Niel (gerald.niel[at]grisbi.org): Slackware packaging, website"
-msgstr ""
-"Gerald Niel (gerald.niel[at]grisbi.org): Slackware Paketverwaltung, Webseite"
+msgstr "Gerald Niel (gerald.niel[at]grisbi.org): Slackware Paketverwaltung, Webseite"
 
 #: src/help.c:57
 msgid "PMF (ugly.duck[at]gmx.de): Zaurus packaging"
@@ -5519,7 +5507,7 @@ msgid ""
 "file or a gnucash file, please contact the grisbi team to resolve this "
 "problem."
 msgstr ""
-"Grisbi kann die Datei nicht erkennen.Wenn es sich um eine .qif, eine .ofx "
+"Grisbi kann die Datei nicht erkennen.Wenn es sich um eine .Qif, eine .Ofx "
 "oder eine Gnucash Datei handelt kontaktieren Sie bitte das Grisbi Team um "
 "dieses Problem zu lösen."
 
@@ -5632,7 +5620,7 @@ msgstr ""
 
 #: src/import.c:1808
 msgid "Confirmation of importation of transactions"
-msgstr "Buchungen auwählen - Grisbi"
+msgstr "Buchungen auswählen - Grisbi"
 
 #: src/import.c:1818
 msgid ""
@@ -5667,7 +5655,7 @@ msgstr "Verwaiste Buchungen - Grisbi"
 
 #: src/import.c:2592
 msgid "Mark transactions you want to add to the list and click the add button"
-msgstr "Die Buchungen auwählen, welche berücksichtigt werden sollen"
+msgstr "Die Buchungen auswählen, welche berücksichtigt werden sollen"
 
 #: src/import.c:2662
 msgid "Mark"
@@ -5948,7 +5936,7 @@ msgstr "Buchung bearbeiten"
 #: src/menu.c:94 src/operations_liste.c:2696 src/traitement_variables.c:117
 #: src/traitement_variables.c:243
 msgid "Convert transaction to scheduled transaction"
-msgstr "Buchung regelmäßg ausführen"
+msgstr "Buchung regelmäßig ausführen"
 
 #. Move to another account
 #: src/menu.c:95 src/operations_comptes.c:405 src/operations_comptes.c:410
@@ -6161,8 +6149,7 @@ msgstr "Splittbuchung wiederherstellen?"
 
 #: src/operations_formulaire.c:1820
 msgid "Do you want to recover all the lines of the last breakdown?"
-msgstr ""
-"Sollen alle Buchungszeilen der letzten Aufsplittung wiederhergestellt werden?"
+msgstr "Sollen alle Buchungszeilen der letzten Aufsplittung wiederhergestellt werden?"
 
 #: src/operations_formulaire.c:2072 src/operations_formulaire.c:2524
 #: src/tiers_onglet.c:1429
@@ -6206,16 +6193,15 @@ msgstr ""
 
 #: src/operations_formulaire.c:2533
 msgid "A transaction with a multiple third party must be a new one."
-msgstr ""
-"Es kann nur eine neue Buchung an mehrere Empfänger durchgeführt werden."
+msgstr "Es kann nur eine neue Buchung an mehrere Empfänger durchgeführt werden."
 
 #: src/operations_formulaire.c:2567
 msgid "Invalid multiple third party."
-msgstr "Unültige Gruppe von Empfänger."
+msgstr "Ungültige Gruppe von Empfänger."
 
 #: src/operations_liste.c:173
 msgid "Curent balance"
-msgstr "Aktuller Saldo"
+msgstr "Aktueller Saldo"
 
 #: src/operations_liste.c:203
 msgid "Account breakdown"
@@ -6250,10 +6236,8 @@ msgid "Imposible to delete a reconciled transaction."
 msgstr "Eine abgestimmte Buchung kann nicht gelöscht werden."
 
 #: src/operations_liste.c:2103
-msgid ""
-"The contra-transaction of this transfer is reconciled, deletion impossible."
-msgstr ""
-"Die Gegenbuchung ist bereits abgestimmt, eine Löschung ist nicht möglich."
+msgid "The contra-transaction of this transfer is reconciled, deletion impossible."
+msgstr "Die Gegenbuchung ist bereits abgestimmt, eine Löschung ist nicht möglich."
 
 #: src/operations_liste.c:2151
 msgid ""
@@ -6270,7 +6254,7 @@ msgstr "Buchung löschen"
 
 #: src/operations_liste.c:3070
 msgid "Cannot move a transfer on his contra-account"
-msgstr "Eingen Gegenbuchung kann nicht auf sich selbst verschoben werden"
+msgstr "Eine Gegenbuchung kann nicht auf sich selbst verschoben werden"
 
 #. Create dialog
 #: src/parametres.c:147
@@ -6329,8 +6313,7 @@ msgid "Scheduler warnings"
 msgstr "Planer Meldungen"
 
 #: src/parametres.c:415
-msgid ""
-"Number of days before a warning message advertising a scheduled transaction"
+msgid "Number of days before a warning message advertising a scheduled transaction"
 msgstr "Hinweis für eine geplante Buchung (Tage davor) anzeigen"
 
 #: src/parametres.c:479
@@ -6397,7 +6380,7 @@ msgstr "Verschiedenes"
 
 #: src/parametres.c:708
 msgid "Web browser"
-msgstr "Webbrowser"
+msgstr "Browser"
 
 #: src/patienter.c:78
 msgid "Wait please..."
@@ -6574,10 +6557,7 @@ msgstr "Bitte einen Empfänger eingeben."
 msgid ""
 "Grisbi is unable to find this third party.  Be sure entered name is valid "
 "and that this third party exists."
-msgstr ""
-"Grisbi ist nicht in der Lage, diesen dritten Empfänger zu finden. "
-"Vergewissere dich, dass der Name gueltig ist und der dritte Empfänger "
-"existiert."
+msgstr "Grisbi kann diesen Empfänger nicht finden. Bitte überprüfen Sie, ob der Name gültig ist und ob der Empfänger vorhanden ist."
 
 #: src/tiers_onglet.c:1296
 #, c-format
@@ -6620,7 +6600,7 @@ msgstr "Standard"
 
 #: src/type_operations.c:320
 msgid "Numbering"
-msgstr "Numerierung"
+msgstr "Nummerierung"
 
 #: src/type_operations.c:364
 msgid "Payment method details"
@@ -6633,7 +6613,7 @@ msgstr "Automatische Nr"
 
 #: src/type_operations.c:404
 msgid "Activate"
-msgstr "Aktiviern"
+msgstr "Aktivieren"
 
 #. Payment method type
 #: src/type_operations.c:412
@@ -6674,7 +6654,7 @@ msgid ""
 "Please adjust your settings to a valid executable."
 msgstr ""
 "Grisbi konnte den Browser für die Url<tt>%s</tt>.  nicht öffnen. Bitte "
-"korriegieren Sie die Einstellungen für den Browser."
+"korrigieren Sie die Einstellungen für den Browser."
 
 #: src/utils.c:711 src/utils.c:745
 msgid "Cannot run web browser"
@@ -6687,7 +6667,7 @@ msgid ""
 "Please adjust your settings to a valid executable."
 msgstr ""
 "Grisbi konnte das Programm %s nicht ausführen.\n"
-"Bitte überpürfen Sie die Einstellungen."
+"Bitte überprüfen Sie die Einstellungen."
 
 #: src/utils_files.c:61
 msgid "Print to file"
@@ -6713,3 +6693,4 @@ msgid "This transfer has a reconciled contra-transaction, deletion canceled."
 msgstr ""
 "Diese Buchung hat eine abgestimmte Gegenbuchung, die Löschung wurde "
 "abgebrochen."
+
