@@ -1341,7 +1341,7 @@ gint etat_affiche_affichage_ligne_ope ( struct structure_operation *operation,
 		   le tour jusqu'à ce qu'on trouve l'opération mère */
 		save_ptab = p_tab_nom_de_compte_variable;
 		p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> no_compte;
-		pTransactionList = LISTE_OPERATIONS;
+		pTransactionList = gsb_account_get_transactions_list (operation -> no_compte);
 		while ( pTransactionList && !found )
 		{
 		    struct structure_operation *pTransaction;

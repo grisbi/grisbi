@@ -2741,7 +2741,7 @@ void completion_operation_par_tiers_echeancier ( void )
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_compte;
 
     operation = NULL;
-    pointeur_ope = LISTE_OPERATIONS;
+    pointeur_ope = gsb_account_get_transactions_list (no_compte);
 
     while ( pointeur_ope )
     {
@@ -2777,7 +2777,7 @@ void completion_operation_par_tiers_echeancier ( void )
 	{
 	    if ( i != no_compte )
 	    {
-		pointeur_ope = LISTE_OPERATIONS;
+		pointeur_ope = gsb_account_get_transactions_list (i);
 
 		while ( pointeur_ope )
 		{

@@ -781,3 +781,41 @@ gboolean gsb_account_set_column ( gint no_account,
 
 
 
+/** get the transactions list of the account
+ * \param no_account no of the account
+ * \return the g_slist or NULL if the account doesn't exist
+ * */
+GSList *gsb_account_get_transactions_list ( gint no_account )
+{
+    struct struct_account *account;
+
+    account = gsb_account_get_structure ( no_account );
+
+    if (!account )
+	return NULL;
+
+    return account -> transactions_list;
+}
+
+
+/** set the transactions list of the account
+ * \param no_account no of the account
+ * \param list g_slist to set
+ * \return TRUE, ok ; FALSE, problem
+ * */
+gboolean gsb_account_set_transactions_list ( gint no_account,
+					     GSList *list )
+{
+    struct struct_account *account;
+
+    account = gsb_account_get_structure ( no_account );
+
+    if (!account )
+	return FALSE;
+
+    account -> transactions_list = list;
+
+    return TRUE;
+}
+
+

@@ -886,7 +886,7 @@ void ajoute_operations_compte_dans_list_store ( gint compte,
 	liste_operations_tmp = liste_operations_tmp -> next;
     }
     else
-	liste_operations_tmp = LISTE_OPERATIONS;
+	liste_operations_tmp = gsb_account_get_transactions_list (compte);
 
     /*     on commence la boucle  */
 
@@ -1717,7 +1717,7 @@ gdouble solde_debut_affichage ( gint no_compte )
 
     /*     les R ne sont pas affichés, on les déduit du solde initial */
 
-    liste_tmp = LISTE_OPERATIONS;
+    liste_tmp = gsb_account_get_transactions_list (no_compte);
 
     while ( liste_tmp )
     {
@@ -2666,7 +2666,7 @@ void p_press (void)
 
 	GSList *liste_tmp;
 
-	liste_tmp = LISTE_OPERATIONS;
+	liste_tmp = gsb_account_get_transactions_list (compte_courant);
 
 	while ( liste_tmp )
 	{
@@ -2789,7 +2789,7 @@ void r_press (void)
     {
 	GSList *liste_tmp;
 
-	liste_tmp = LISTE_OPERATIONS;
+	liste_tmp = gsb_account_get_transactions_list (compte_courant);
 
 	while ( liste_tmp )
 	{
@@ -2865,7 +2865,7 @@ void supprime_operation ( struct structure_operation *operation )
     {
 	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> no_compte;
 
-	pointeur_tmp = LISTE_OPERATIONS;
+	pointeur_tmp = gsb_account_get_transactions_list (operation -> no_compte);
 
 	while ( pointeur_tmp )
 	{
@@ -2905,7 +2905,7 @@ void supprime_operation ( struct structure_operation *operation )
 
     if ( operation -> operation_ventilee )
     {
-	pointeur_tmp = LISTE_OPERATIONS;
+	pointeur_tmp = gsb_account_get_transactions_list (operation -> no_compte);
 
 	while ( pointeur_tmp )
 	{
@@ -2979,8 +2979,9 @@ void supprime_operation ( struct structure_operation *operation )
 
     /* supprime l'opération dans la liste des opés */
 
-    LISTE_OPERATIONS = g_slist_remove ( LISTE_OPERATIONS,
-					operation );
+    gsb_account_set_transactions_list ( operation -> no_compte,
+					g_slist_remove ( gsb_account_get_transactions_list (operation -> no_compte),
+							 operation ));
 
     /* on réaffiche la liste de l'état des comptes de l'accueil */
 
@@ -3273,7 +3274,7 @@ struct structure_operation *  clone_transaction ( struct structure_operation * o
 
 	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> no_compte;
 
-	liste_tmp = LISTE_OPERATIONS;
+	liste_tmp = gsb_account_get_transactions_list (operation -> no_compte);
 
 	while ( liste_tmp )
 	{
@@ -3433,7 +3434,7 @@ gboolean move_operation_to_account ( struct structure_operation * transaction,
 	GSList *liste_tmp;
 
 	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + transaction -> no_compte;
-	liste_tmp = g_slist_copy ( LISTE_OPERATIONS );
+	liste_tmp = g_slist_copy ( gsb_account_get_transactions_list (transaction -> no_compte) );
 
 	while ( liste_tmp )
 	{
@@ -3456,7 +3457,9 @@ gboolean move_operation_to_account ( struct structure_operation * transaction,
 
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + transaction -> no_compte;
 
-    LISTE_OPERATIONS = g_slist_remove ( LISTE_OPERATIONS, transaction );
+    gsb_account_set_transactions_list ( transaction -> no_compte,
+					g_slist_remove ( gsb_account_get_transactions_list (transaction -> no_compte),
+							 transaction ));
 
     /*     si l'opération était affichée, on la retire du list_store */
 
@@ -3494,9 +3497,10 @@ gboolean move_operation_to_account ( struct structure_operation * transaction,
     /*     comme l'opé contient déjà un no d'opération, on doit d'abord l'ajouter manuellement */
     /* 	à la liste avant d'appeler ajout_operation */
 
-    LISTE_OPERATIONS = g_slist_insert_sorted ( LISTE_OPERATIONS,
-					       transaction,
-					       (GCompareFunc) CLASSEMENT_COURANT );
+    gsb_account_set_transactions_list ( account,
+					g_slist_insert_sorted ( gsb_account_get_transactions_list (account),
+								transaction,
+								(GCompareFunc) CLASSEMENT_COURANT ));
     ajout_operation ( transaction );
     p_tab_nom_de_compte_variable = tmp;
     return TRUE;
@@ -3621,7 +3625,7 @@ struct operation_echeance *schedule_transaction ( struct structure_operation * t
     {
 	GSList *liste_tmp;
 
-	liste_tmp = LISTE_OPERATIONS;
+	liste_tmp = gsb_account_get_transactions_list (transaction -> no_compte);
 
 	while ( liste_tmp )
 	{
@@ -4139,7 +4143,7 @@ GSList *cree_slist_affichee ( gint no_compte )
 
     nouvelle_liste = NULL;
 
-    liste_tmp = LISTE_OPERATIONS;
+    liste_tmp = gsb_account_get_transactions_list (no_compte);
 
     while ( liste_tmp )
     {
@@ -4220,13 +4224,13 @@ void mise_a_jour_affichage_r ( gint affichage_r )
 		    ajoute_operations_compte_dans_list_store ( i,
 							       0 );
 
-		ligne_ope_pour_insertion = g_slist_index ( LISTE_OPERATIONS,
+		ligne_ope_pour_insertion = g_slist_index ( gsb_account_get_transactions_list (i),
 							   cherche_operation_from_ligne ( 0,
 											  i ));
 		gtk_tree_model_get_iter_first ( GTK_TREE_MODEL ( gsb_account_get_store (i) ),
 						iter );
 
-		liste_tmp = LISTE_OPERATIONS;
+		liste_tmp = gsb_account_get_transactions_list (i);
 
 		while ( liste_tmp )
 		{
@@ -4240,7 +4244,7 @@ void mise_a_jour_affichage_r ( gint affichage_r )
 
 			gint place_ope_r;
 
-			place_ope_r = g_slist_position ( LISTE_OPERATIONS,
+			place_ope_r = g_slist_position ( gsb_account_get_transactions_list (i),
 							 liste_tmp );
 
 			/* si cette opé r est avant la ligne d'insertion en cours,
@@ -4256,7 +4260,7 @@ void mise_a_jour_affichage_r ( gint affichage_r )
 			    struct structure_operation *operation_recherche;
 			    GSList *liste_recherche;
 
-			    liste_recherche = g_slist_nth ( LISTE_OPERATIONS,
+			    liste_recherche = g_slist_nth ( gsb_account_get_transactions_list (i),
 							    ligne_ope_pour_insertion );
 
 			    if ( liste_recherche )
@@ -4274,7 +4278,7 @@ void mise_a_jour_affichage_r ( gint affichage_r )
 				/*après l'opé R en cours */
 				/*	soit liste_recherche = NULL, et donc on a atteind la fin de la liste */
 
-				ligne_ope_pour_insertion = g_slist_position ( LISTE_OPERATIONS,
+				ligne_ope_pour_insertion = g_slist_position ( gsb_account_get_transactions_list (i),
 									      liste_recherche );
 				iter = cherche_iter_operation ( operation_recherche );
 			    }
@@ -4777,8 +4781,9 @@ void classe_liste_operations ( gint no_compte )
 
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_compte;
 
-    LISTE_OPERATIONS = g_slist_sort ( LISTE_OPERATIONS,
-				      (GCompareFunc) CLASSEMENT_COURANT );
+    gsb_account_set_transactions_list ( no_compte,
+					g_slist_sort ( gsb_account_get_transactions_list (no_compte),
+						       (GCompareFunc) CLASSEMENT_COURANT ));
 }
 /******************************************************************************/
 

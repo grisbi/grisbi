@@ -41,6 +41,7 @@
 #include "dialog.h"
 #include "utils_devises.h"
 #include "utils_file_selection.h"
+#include "data_account.h"
 #include "gtk_combofix.h"
 #include "traitement_variables.h"
 #include "utils_buttons.h"
@@ -813,7 +814,7 @@ void supprimer_imputation ( void )
     {
 	GSList *liste_tmp;
 
-	liste_tmp = LISTE_OPERATIONS;
+	liste_tmp = gsb_account_get_transactions_list (i);
 
 	while ( liste_tmp )
 	{
@@ -1042,7 +1043,7 @@ retour_dialogue:
 
 	for ( i = 0 ; i < nb_comptes ; i++ )
 	{
-	    liste_tmp = LISTE_OPERATIONS;
+	    liste_tmp = gsb_account_get_transactions_list (i);
 
 	    while ( liste_tmp )
 	    {
@@ -1145,7 +1146,7 @@ void supprimer_sous_imputation ( void )
     {
 	GSList *liste_tmp;
 
-	liste_tmp = LISTE_OPERATIONS;
+	liste_tmp = gsb_account_get_transactions_list (i);
 
 	while ( liste_tmp )
 	{
@@ -1378,7 +1379,7 @@ retour_dialogue:
 
 	for ( i = 0 ; i < nb_comptes ; i++ )
 	{
-	    liste_tmp = LISTE_OPERATIONS;
+	    liste_tmp = gsb_account_get_transactions_list (i);
 
 	    while ( liste_tmp )
 	    {

@@ -478,7 +478,7 @@ gboolean supprimer_division ( GtkWidget * button, GtkTreeView * tree_view )
 
 	for ( i = 0 ; i < nb_comptes ; i++ )
 	{
-	    liste_tmp = LISTE_OPERATIONS;
+	    liste_tmp = gsb_account_get_transactions_list (i);
 
 	    while ( liste_tmp )
 	    {
@@ -586,7 +586,7 @@ void supprimer_sub_division ( GtkTreeView * tree_view, GtkTreeModel * model,
 	for ( i = 0 ; i < nb_comptes ; i++ )
 	{
 
-	    liste_tmp = LISTE_OPERATIONS;
+	    liste_tmp = gsb_account_get_transactions_list (i);
 
 	    while ( liste_tmp )
 	    {
@@ -705,7 +705,7 @@ gboolean division_column_expanded  ( GtkTreeView * treeview, GtkTreeIter * iter,
 
 	    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + GPOINTER_TO_INT(account);
 	    
-	    pointeur_ope = LISTE_OPERATIONS;
+	    pointeur_ope = gsb_account_get_transactions_list (GPOINTER_TO_INT(account));
 	    
 	    while ( pointeur_ope )
 	    {
@@ -911,7 +911,7 @@ gboolean division_drag_data_received ( GtkTreeDragDest * drag_dest, GtkTreePath 
 		    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + 
 			GPOINTER_TO_INT ( account );
 	    
-		    pointeur_ope = LISTE_OPERATIONS;
+		    pointeur_ope = gsb_account_get_transactions_list (account);
 	    
 		    while ( pointeur_ope )
 		    {
@@ -1294,7 +1294,7 @@ gboolean find_associated_transactions ( MetatreeInterface * iface,
     /* fait le tour des opés pour en trouver une qui a cette sous-catégorie */
     for ( i=0 ; i<nb_comptes ; i++ )
     {
-	liste_tmp = LISTE_OPERATIONS;
+	liste_tmp = gsb_account_get_transactions_list (i);
 
 	while ( liste_tmp )
 	{

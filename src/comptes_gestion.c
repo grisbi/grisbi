@@ -990,7 +990,7 @@ void modification_details_compte ( void )
 		return;
 	}
 
-	pointeur_liste = LISTE_OPERATIONS;
+	pointeur_liste = gsb_account_get_transactions_list (compte_courant_onglet);
 
 	while ( pointeur_liste )
 	{

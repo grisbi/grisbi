@@ -813,8 +813,8 @@ gboolean fermer_fichier ( void )
 
 	    for ( i=0 ; i< nb_comptes ; i++ )
 	    {
-		if ( LISTE_OPERATIONS )
-		    g_slist_free ( LISTE_OPERATIONS );
+		if ( gsb_account_get_transactions_list (i) )
+		    g_slist_free ( gsb_account_get_transactions_list (i) );
 
 		free ( *p_tab_nom_de_compte_variable );
 		p_tab_nom_de_compte_variable++;

@@ -34,6 +34,7 @@
 #include "utils_dates.h"
 #include "operations_liste.h"
 #include "utils_editables.h"
+#include "data_account.h"
 #include "traitement_variables.h"
 #include "utils.h"
 #include "dialog.h"
@@ -664,7 +665,7 @@ void association_automatique ( void )
     {
 	GSList *pointeur_tmp;
 
-	pointeur_tmp = LISTE_OPERATIONS;
+	pointeur_tmp = gsb_account_get_transactions_list (i);
 
 	while ( pointeur_tmp )
 	{

@@ -366,7 +366,7 @@ void supprimer_compte ( void )
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_modifie;
     //  nb_comptes--;
 
-    g_slist_free ( LISTE_OPERATIONS );
+    g_slist_free ( gsb_account_get_transactions_list (compte_modifie) );
     nom_compte_supprime = g_strdup ( gsb_account_get_name (compte_modifie) );
 
     /* on dï¿œale en mï¿œoire les comptes situï¿œ aprï¿œ */
@@ -405,7 +405,7 @@ void supprimer_compte ( void )
     {
 	GSList *pointeur_tmp;
 
-	pointeur_tmp = LISTE_OPERATIONS;
+	pointeur_tmp = gsb_account_get_transactions_list (i);
 
 	while ( pointeur_tmp )
 	{

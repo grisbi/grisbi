@@ -977,7 +977,7 @@ void update_liste_comptes_accueil ( void )
 		/* on commence la boucle : fait le tour de toutes les opérations */
 		/* met à jour les solde_courant_affichage_liste et solde_pointe_affichage_liste */
 		/* affiche l'opération à l'écran en fonction de l'affichage de R */
-		liste_operations_tmp = LISTE_OPERATIONS;
+		liste_operations_tmp = gsb_account_get_transactions_list (no_compte);
 
 		while ( liste_operations_tmp )
 		{
@@ -1303,7 +1303,7 @@ void update_liste_comptes_accueil ( void )
 		/* on commence la boucle : fait le tour de toutes les opérations */
 		/* met à jour les solde_courant_affichage_liste et solde_pointe_affichage_liste */
 		/* affiche l'opération à l'écran en fonction de l'affichage de R */
-		liste_operations_tmp = LISTE_OPERATIONS;
+		liste_operations_tmp = gsb_account_get_transactions_list (no_compte);
 
 		while ( liste_operations_tmp )
 		{

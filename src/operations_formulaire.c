@@ -2042,7 +2042,7 @@ struct structure_operation *recherche_derniere_occurence_tiers ( gint no_tiers )
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
 
     operation = NULL;
-    pointeur_ope = LISTE_OPERATIONS;
+    pointeur_ope = gsb_account_get_transactions_list (compte_courant);
 
     while ( pointeur_ope )
     {
@@ -2076,7 +2076,7 @@ struct structure_operation *recherche_derniere_occurence_tiers ( gint no_tiers )
 	{
 	    if ( i != compte_courant )
 	    {
-		pointeur_ope = LISTE_OPERATIONS;
+		pointeur_ope = gsb_account_get_transactions_list (i);
 
 		while ( pointeur_ope )
 		{
@@ -2123,7 +2123,7 @@ void recuperation_ope_filles_completion_tiers ( struct structure_operation *oper
     /* récupération des anciennes opés filles de la ventilation */
 
     liste_des_opes_de_ventilation = NULL;
-    pointeur_ope = LISTE_OPERATIONS;
+    pointeur_ope = gsb_account_get_transactions_list (operation -> no_compte);
 
     while ( pointeur_ope )
     {
@@ -3159,7 +3159,7 @@ void recuperation_categorie_formulaire ( struct structure_operation *operation,
 
 		p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
 
-		liste_tmp = LISTE_OPERATIONS;
+		liste_tmp = gsb_account_get_transactions_list (compte_courant);
 
 		while ( liste_tmp )
 		{
@@ -3512,7 +3512,7 @@ void ajout_operation ( struct structure_operation *operation )
 	/* on recherche l'iter de l'opé suivante */
 	/*     on est sûr que l'opé va être trouvée vu qu'on vient de l'ajouter */
 
-	liste_tmp = g_slist_find ( LISTE_OPERATIONS,
+	liste_tmp = g_slist_find ( gsb_account_get_transactions_list (operation -> no_compte),
 				   operation ) -> next;
 
 	if ( liste_tmp )
@@ -3604,9 +3604,10 @@ void insere_operation_dans_liste ( struct structure_operation *operation )
 
 	operation -> no_operation = ++no_derniere_operation;
 
-	LISTE_OPERATIONS = g_slist_insert_sorted ( LISTE_OPERATIONS,
-						   operation,
-						   (GCompareFunc) CLASSEMENT_COURANT );
+	gsb_account_set_transactions_list ( operation -> no_compte,
+					    g_slist_insert_sorted ( gsb_account_get_transactions_list (operation -> no_compte),
+								    operation,
+								    (GCompareFunc) CLASSEMENT_COURANT ));
 	
 	selectionne_ligne ( operation );
     }

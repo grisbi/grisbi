@@ -28,6 +28,7 @@
 /*START_INCLUDE*/
 #include "utils_ib.h"
 #include "utils_devises.h"
+#include "data_account.h"
 #include "search_glist.h"
 /*END_INCLUDE*/
 
@@ -300,7 +301,7 @@ void calcule_total_montant_budgetary_line ( void )
 
 	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
 
-	liste_tmp = LISTE_OPERATIONS;
+	liste_tmp = gsb_account_get_transactions_list (i);
 	while ( liste_tmp )
 	{
 	    struct structure_operation *operation;

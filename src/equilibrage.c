@@ -871,7 +871,7 @@ void pointe_equilibrage ( int p_ligne )
 
 	GSList *liste_tmp;
 
-	liste_tmp = LISTE_OPERATIONS;
+	liste_tmp = gsb_account_get_transactions_list (compte_courant);
 
 	while ( liste_tmp )
 	{
@@ -1028,7 +1028,7 @@ gboolean fin_equilibrage ( GtkWidget *bouton_ok,
 
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_courant;
 
-    pointeur_liste_ope = LISTE_OPERATIONS;
+    pointeur_liste_ope = gsb_account_get_transactions_list (compte_courant);
 
     while ( pointeur_liste_ope )
     {

@@ -1027,7 +1027,7 @@ void supprimer_type_operation ( void )
 
 	/** We then put related operations in a temporary list */
 	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + type_ope -> no_compte;
-	pointeur_tmp = LISTE_OPERATIONS;
+	pointeur_tmp = gsb_account_get_transactions_list (type_ope -> no_compte);
 	ope_a_changer = NULL;
 
 	while ( pointeur_tmp )

@@ -30,6 +30,7 @@
 #include "utils_ib.h"
 #include "utils_categories.h"
 #include "utils_tiers.h"
+#include "data_account.h"
 #include "search_glist.h"
 #include "metatree.h"
 /*END_INCLUDE*/
@@ -68,7 +69,7 @@ struct structure_operation *operation_par_no ( gint no_operation,
 
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_compte;
     
-    liste_tmp = g_slist_find_custom ( LISTE_OPERATIONS,
+    liste_tmp = g_slist_find_custom ( gsb_account_get_transactions_list (no_compte),
 				      GINT_TO_POINTER ( no_operation ),
 				      (GCompareFunc) recherche_operation_par_no );
 
@@ -92,7 +93,7 @@ struct structure_operation *operation_par_cheque ( gint no_cheque,
 
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_compte;
     
-    liste_tmp = g_slist_find_custom ( LISTE_OPERATIONS,
+    liste_tmp = g_slist_find_custom ( gsb_account_get_transactions_list (no_compte),
 				      GINT_TO_POINTER ( no_cheque ),
 				      (GCompareFunc) recherche_operation_par_cheque );
 
@@ -116,7 +117,7 @@ struct structure_operation *operation_par_id ( gchar *no_id,
 
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + no_compte;
     
-    liste_tmp = g_slist_find_custom ( LISTE_OPERATIONS,
+    liste_tmp = g_slist_find_custom ( gsb_account_get_transactions_list (no_compte),
 				      g_strstrip ( no_id ),
 				      (GCompareFunc) recherche_operation_par_id );
 

@@ -62,7 +62,7 @@ void calcule_total_pointe_compte ( gint no_compte )
 
     p_tab_nom_de_compte_variable =  p_tab_nom_de_compte + no_compte;
 
-    pointeur_liste_ope = LISTE_OPERATIONS;
+    pointeur_liste_ope = gsb_account_get_transactions_list (no_compte);
     operations_pointees = 0;
 
     while ( pointeur_liste_ope )
@@ -131,7 +131,7 @@ gdouble calcule_solde_compte ( gint no_compte )
 
     solde = gsb_account_get_init_balance (no_compte);
 
-    liste_tmp = LISTE_OPERATIONS;
+    liste_tmp = gsb_account_get_transactions_list (no_compte);
 
     while ( liste_tmp )
     {
@@ -172,7 +172,7 @@ gdouble calcule_solde_pointe_compte ( gint no_compte )
 
     solde = gsb_account_get_init_balance (no_compte);
 
-    liste_tmp = LISTE_OPERATIONS;
+    liste_tmp = gsb_account_get_transactions_list (no_compte);
 
     while ( liste_tmp )
     {

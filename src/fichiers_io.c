@@ -330,7 +330,7 @@ gboolean mise_a_jour_versions_anterieures ( gint no_version,
 
 		p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
 
-		liste_tmp = LISTE_OPERATIONS;
+		liste_tmp = gsb_account_get_transactions_list (i);
 
 		while ( liste_tmp )
 		{
@@ -344,7 +344,7 @@ gboolean mise_a_jour_versions_anterieures ( gint no_version,
 		    {
 			GSList *liste_tmp_2;
 
-			liste_tmp_2 = LISTE_OPERATIONS;
+			liste_tmp_2 = gsb_account_get_transactions_list (i);
 
 			while ( liste_tmp_2 )
 			{
@@ -630,7 +630,7 @@ void switch_t_r ( void )
 	
 	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
 
-	liste_tmp = LISTE_OPERATIONS;
+	liste_tmp = gsb_account_get_transactions_list (i);
 
 	while ( liste_tmp )
 	{ 
@@ -1215,7 +1215,8 @@ gboolean recuperation_comptes_xml ( xmlNodePtr node_comptes )
 		    xmlNodePtr node_ope;
 
 		    node_ope = node_nom_comptes -> children;
-		    LISTE_OPERATIONS = NULL;
+		    gsb_account_set_transactions_list ( no_compte,
+							NULL );
 
 		    while ( node_ope )
 		    {
@@ -1363,8 +1364,9 @@ gboolean recuperation_comptes_xml ( xmlNodePtr node_comptes )
 
 			    operation -> no_compte = NO_COMPTE;
 
-			    LISTE_OPERATIONS = g_slist_append ( LISTE_OPERATIONS,
-								operation);
+			    gsb_account_set_transactions_list ( operation -> no_compte,
+								g_slist_append ( gsb_account_get_transactions_list (operation -> no_compte),
+										 operation) );
 			}
 
 			node_ope = node_ope -> next;
@@ -3508,7 +3510,7 @@ gboolean enregistre_fichier ( gchar *nouveau_fichier )
 				    "Detail_des_operations",
 				    NULL );
 
-	pointeur_liste = LISTE_OPERATIONS;
+	pointeur_liste = gsb_account_get_transactions_list (i);
 
 	while ( pointeur_liste )
 	{

@@ -2607,7 +2607,7 @@ GSList *creation_liste_ope_de_ventil ( struct structure_operation *operation )
 
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> no_compte;
 
-    liste_tmp = LISTE_OPERATIONS;
+    liste_tmp = gsb_account_get_transactions_list (operation -> no_compte);
 
     while ( liste_tmp )
     {

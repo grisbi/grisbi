@@ -1119,7 +1119,7 @@ void cree_liens_virements_ope_import ( void )
 	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
 
 	nom_compte_courant = gsb_account_get_name (i);
-	liste_tmp = LISTE_OPERATIONS;
+	liste_tmp = gsb_account_get_transactions_list (i);
 	currency = DEVISE;
 
 	while ( liste_tmp )
@@ -1170,7 +1170,7 @@ void cree_liens_virements_ope_import ( void )
 		    if ( currency == DEVISE )
 		      same_currency = TRUE;
 
-		    pointeur_tmp = LISTE_OPERATIONS;
+		    pointeur_tmp = gsb_account_get_transactions_list (compte_trouve);
 
 		    while ( pointeur_tmp )
 		    {
@@ -1549,8 +1549,9 @@ void creation_compte_importe ( struct struct_compte_importation *compte_import )
 
 	/* ajoute l'opération dans la liste des opés du compte */
 
-	LISTE_OPERATIONS = g_slist_append ( LISTE_OPERATIONS,
-					    operation );
+	gsb_account_set_transactions_list ( no_compte,
+					    g_slist_append ( gsb_account_get_transactions_list (no_compte),
+							     operation ));
 
 	/* 	mise à jour des montants */
 
@@ -1634,7 +1635,7 @@ void ajout_opes_importees ( struct struct_compte_importation *compte_import )
     /* qui ont une date supérieure sont automatiquement acceptées */
 
 
-    liste_tmp = LISTE_OPERATIONS;
+    liste_tmp = gsb_account_get_transactions_list (no_compte);
     derniere_date = NULL;
 
     while ( liste_tmp )
@@ -1710,7 +1711,7 @@ void ajout_opes_importees ( struct struct_compte_importation *compte_import )
 		g_date_add_days ( date_fin_comparaison,
 				  valeur_echelle_recherche_date_import );
 
-		liste_ope = LISTE_OPERATIONS;
+		liste_ope = gsb_account_get_transactions_list (no_compte);
 
 		while ( liste_ope )
 		{
@@ -2202,9 +2203,10 @@ struct structure_operation *enregistre_ope_importee ( struct struct_ope_importat
 
     /* ajoute l'opération dans la liste des opés du compte */
 
-    LISTE_OPERATIONS = g_slist_insert_sorted ( LISTE_OPERATIONS,
-					       operation,
-					       (GCompareFunc) CLASSEMENT_COURANT );
+    gsb_account_set_transactions_list ( no_compte,
+					g_slist_insert_sorted ( gsb_account_get_transactions_list (no_compte),
+								operation,
+								(GCompareFunc) CLASSEMENT_COURANT ));
 
     MISE_A_JOUR = 1;
 
@@ -2315,7 +2317,7 @@ void pointe_opes_importees ( struct struct_compte_importation *compte_import )
 
 
 
-	    liste_ope = LISTE_OPERATIONS;
+	    liste_ope = gsb_account_get_transactions_list (no_compte);
 
 	    while ( liste_ope )
 	    {
@@ -2385,7 +2387,7 @@ void pointe_opes_importees ( struct struct_compte_importation *compte_import )
 		    if ( operation -> operation_ventilee )
 		    {
 
-			liste_ope = LISTE_OPERATIONS;
+			liste_ope = gsb_account_get_transactions_list (no_compte);
 
 			while ( liste_ope )
 			{
@@ -2477,7 +2479,7 @@ void pointe_opes_importees ( struct struct_compte_importation *compte_import )
 
 			    if ( operation -> operation_ventilee )
 			    {
-				liste_ope = LISTE_OPERATIONS;
+				liste_ope = gsb_account_get_transactions_list (no_compte);
 
 				while ( liste_ope )
 				{

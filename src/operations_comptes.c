@@ -363,7 +363,7 @@ gboolean changement_compte ( gint *compte)
 
 
      /*     on restore ou initialise la value du tree_view */
-     /* 	si VALUE_AJUSTEMENT_LISTE_OPERATIONS = -1, c'est que c'est la première ouverture, on se met tout en bas */
+     /* 	si VALUE = -1, c'est que c'est la première ouverture, on se met tout en bas */
      /* 	sinon on restore l'ancienne value */
 
 

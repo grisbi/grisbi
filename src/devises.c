@@ -34,6 +34,7 @@
 #include "dialog.h"
 #include "utils_devises.h"
 #include "utils_editables.h"
+#include "data_account.h"
 #include "categories_onglet.h"
 #include "imputation_budgetaire.h"
 #include "tiers_onglet.h"
@@ -807,7 +808,7 @@ void retrait_devise ( GtkWidget *bouton,
 	{
 	    GSList *liste_tmp;
 
-	    liste_tmp = LISTE_OPERATIONS;
+	    liste_tmp = gsb_account_get_transactions_list (i);
 
 	    while ( liste_tmp )
 	    {

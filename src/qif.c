@@ -1095,11 +1095,11 @@ choix_liste_fichier:
 			      "!Type:Bank\n" );
 
 
-	    if ( LISTE_OPERATIONS )
+	    if ( gsb_account_get_transactions_list (no_compte) )
 	    {
 		/* met la date de la 1ère opération comme dâte d'ouverture de compte */
 
-		operation = LISTE_OPERATIONS -> data;
+		operation = gsb_account_get_transactions_list (no_compte) -> data;
 
 		fprintf ( fichier_qif,
 			  "D%d/%d/%d\n",
@@ -1136,7 +1136,7 @@ choix_liste_fichier:
 
 		/* on met toutes les opérations */
 
-		pointeur_tmp = LISTE_OPERATIONS;
+		pointeur_tmp = gsb_account_get_transactions_list (no_compte);
 
 		while ( pointeur_tmp )
 		{
@@ -1243,7 +1243,7 @@ choix_liste_fichier:
 			    gint categ_ope_mise;
 
 			    categ_ope_mise = 0;
-			    liste_ventil = LISTE_OPERATIONS;
+			    liste_ventil = gsb_account_get_transactions_list (no_compte);
 
 			    while ( liste_ventil )
 			    {

@@ -299,7 +299,7 @@ struct donnees_compte
 /* #define SOLDE_MINI ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> solde_mini_autorise */
 /* #define SOLDE_COURANT ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> solde_courant */
 /* #define SOLDE_POINTE ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> solde_pointe */
-#define LISTE_OPERATIONS ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> gsliste_operations
+/* #define LISTE_OPERATIONS ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> gsliste_operations */
 #define OPERATION_SELECTIONNEE ((struct donnees_compte *) (*verification_p_tab("define_compte"))) -> operation_selectionnee
 #define MESSAGE_SOUS_MINI ((struct donnees_compte *) (*verification_p_tab("define_compte"))) ->  message_sous_mini
 #define MESSAGE_SOUS_MINI_VOULU ((struct donnees_compte *) (*verification_p_tab("define_compte"))) ->  message_sous_mini_voulu

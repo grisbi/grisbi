@@ -329,7 +329,7 @@ GSList *recupere_opes_etat ( struct struct_etat *etat )
 
 		    /* on fait le tour de la liste des opés en recherchant le plus grand ds les 3 variables */
 
-		    pointeur_tmp = LISTE_OPERATIONS;
+		    pointeur_tmp = gsb_account_get_transactions_list (i);
 
 		    while ( pointeur_tmp )
 		    {
@@ -404,7 +404,7 @@ GSList *recupere_opes_etat ( struct struct_etat *etat )
 
 	    GSList *pointeur_tmp;
 
-	    pointeur_tmp = LISTE_OPERATIONS;
+	    pointeur_tmp = gsb_account_get_transactions_list (i);
 
 	    while ( pointeur_tmp )
 	    {
