@@ -71,7 +71,7 @@ void charge_configuration ( void )
     if ( stat ( g_strconcat ( my_get_grisbirc_dir(), C_GRISBIRC, NULL ),&buffer_stat ) == -1 )
     {
 #ifndef _WIN32 /* No old configuration under Windows */
-	if (  stat ( my_strconcat ( my_get_grisbirc_dir(), "/.gnome/Grisbi", NULL ),&buffer_stat ) != -1 )
+	if (  stat ( g_strconcat ( my_get_grisbirc_dir(), "/.gnome/Grisbi", NULL ),&buffer_stat ) != -1 )
 	    charge_configuration_ancien();
 #endif
 	return;
