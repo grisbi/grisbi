@@ -28,8 +28,8 @@ gettextsrcdir = $(datadir)/gettext/po
 
 INSTALL = /usr/bin/install -c
 INSTALL_DATA = ${INSTALL} -m 644
-MKINSTALLDIRS = ./mkinstalldirs
-mkinstalldirs = $(SHELL) `case "$(MKINSTALLDIRS)" in /*) echo "$(MKINSTALLDIRS)" ;; *) echo "$(top_builddir)/$(MKINSTALLDIRS)" ;; esac`
+MKINSTALLDIRS = $(top_builddir)/./mkinstalldirs
+mkinstalldirs = $(MKINSTALLDIRS)
 
 CC = gcc
 GMSGFMT = /usr/bin/msgfmt
