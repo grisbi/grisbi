@@ -6,6 +6,7 @@ New in version 0.5.0 :
  - totally redesigned preference windows
  - improved user interface
  - improved segfault handling
+ - improved warning messages so that users can ignore types of warnings
 
 New in version 0.4.3 : 
  - Bug fixes
