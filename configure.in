@@ -21,6 +21,7 @@ dnl Check for NLS support.
 ALL_LINGUAS="fr"
 AM_GNU_GETTEXT
 AC_CHECK_LIB(intl,main)
+AC_CHECK_HEADER(libofx/libofx.h,LDFLAGS="${LDFLAGS} -lofx",AC_MSG_ERROR(cannot find libofx header needed for OFX support.))
 
 AC_SUBST(prefix)
 

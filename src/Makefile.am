@@ -114,8 +114,6 @@ grisbi_INCLUDES =		\
 	ventilation.h
 
 
-grisbi_LDADD = -lofx
-
 EXTRA_DIST = grisbi.desktop grisbi.keys grisbi.mime $(grisbi_INCLUDES)
 
 Applicationsdir = $(datadir)/gnome/apps/Applications

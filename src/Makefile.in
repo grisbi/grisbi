@@ -108,8 +108,6 @@ grisbi_SOURCES =  	accueil.c			affichage.c			affichage_liste.c		banque.c			barre
 grisbi_INCLUDES =  	accueil.h			affichage.h			affichage_liste.h		banque.h			barre_outils.h			calendar.h			categories_onglet.h		comptes_gestion.h		comptes_onglet.h		comptes_traitements.h		constants.h			devises.h			dialog.h			echeancier_formulaire.h		echeancier_liste.h		equilibrage.h			erreur.h			etat_io.h			etats_calculs.h			etats_config.h			etats_gtktable.h		etats.h				etats_latex.h			etats_onglet.h			etats_support.h			exercice.h			fenetre_principale.h		fichier_configuration.h		fichiers_gestion.h		fichiers_io.h			gtkcombofix.h			gtk_list_button.h		help.h				imputation_budgetaire.h		include.h			main.h				menu.h				operations_classement.h		operations_comptes.h		operations_formulaire.h		operations_liste.h		operations_onglet.h		parametres.h			patienter.h			print_config.h			qif.h				import.h			ofx.h				html.h				structures.h			tiers_onglet.h			traitement_variables.h		type_operations.h		ventilation.h
 
 
-grisbi_LDADD = -lofx
-
 EXTRA_DIST = grisbi.desktop grisbi.keys grisbi.mime $(grisbi_INCLUDES)
 
 Applicationsdir = $(datadir)/gnome/apps/Applications
@@ -139,6 +137,7 @@ operations_comptes.o operations_formulaire.o operations_liste.o \
 operations_onglet.o parametres.o patienter.o print_config.o qif.o \
 import.o ofx.o html.o tiers_onglet.o traitement_variables.o \
 type_operations.o ventilation.o
+grisbi_LDADD = $(LDADD)
 grisbi_DEPENDENCIES = 
 grisbi_LDFLAGS = 
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
