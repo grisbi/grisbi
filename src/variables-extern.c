@@ -557,6 +557,7 @@ extern GtkWidget *entree_type_dernier_no;
 extern GtkWidget *bouton_signe_type;
 extern GtkWidget *bouton_type_choix_defaut;
 extern GtkWidget *bouton_type_choix_affichage_formulaire;
+extern GtkWidget *entree_automatic_numbering;
 
 extern GtkWidget *bouton_type_tri_date;
 extern GtkWidget *bouton_type_tri_type;

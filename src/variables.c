@@ -524,6 +524,7 @@ GtkWidget *entree_type_dernier_no;
 GtkWidget *bouton_signe_type;
 GtkWidget *bouton_type_choix_defaut;
 GtkWidget *bouton_type_choix_affichage_formulaire;
+GtkWidget *entree_automatic_numbering;
 
 GtkWidget *bouton_type_tri_date;
 GtkWidget *bouton_type_tri_type;
