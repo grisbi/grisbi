@@ -309,7 +309,7 @@ void lien_web ( GtkWidget *widget,
 	    break;
 
 	case 3:
-	    lance_navigateur_web ( "http://www.grisbi.org/modules.php?name=Documentation");
+	    lance_navigateur_web ( "http://www.grisbi.org/manuel.html");
 	    break;
     }
 }
