@@ -523,7 +523,7 @@ GtkWidget *onglet_imputations ( void )
 
     /* Make category column */
     cell = gtk_cell_renderer_text_new ();
-    column = gtk_tree_view_column_new_with_attributes ("Category", cell, 
+    column = gtk_tree_view_column_new_with_attributes (_("Budgetary lines"), cell, 
 						       "text", META_TREE_TEXT_COLUMN, 
 						       "weight", META_TREE_FONT_COLUMN,
 						       NULL);
