@@ -59,6 +59,7 @@ void a_propos ( GtkWidget *bouton,
 	const gchar *traducteurs[] = { _("Daniel Cartron (cartron@grisbi.org) : English"),
 	    _("Benjamin Drieu (bdrieu@april.org) : English"),
 	    _("Alain Portal (dionysos@grisbi.org) : English"),
+	    _("Giorgio Mandolfo (giorgio@pollycoke.org) : Italian"),
 	    NULL };
 	    const gchar *liens[] = { COLON(_("Website")),
 		"http://www.grisbi.org/",
