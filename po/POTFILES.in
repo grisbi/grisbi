@@ -8,6 +8,7 @@ src/comptes_gestion.c
 src/comptes_onglet.c
 src/comptes_traitements.c
 src/devises.c
+src/dialog.c
 src/echeancier_formulaire.c
 src/echeancier_liste.c
 src/equilibrage.c
