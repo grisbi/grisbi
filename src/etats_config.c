@@ -1235,7 +1235,7 @@ void recuperation_info_perso_etat ( void )
 	 &&
 	 etat_courant -> utilise_detail_categ )
     {
-	dialogue ( _("All the categories have been selected. Grisbi will run faster\nwithout  the \"Detail categories used \" option") );
+	dialogue ( _("All the categories have been selected. Grisbi will run faster\nwithout the \"Detail categories used\" option") );
 	etat_courant -> utilise_detail_categ = FALSE;
     }
 
