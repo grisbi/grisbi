@@ -33,6 +33,7 @@
 #include "categories_onglet.h"
 #include "imputation_budgetaire.h"
 #include "tiers_onglet.h"
+#include "utils_buttons.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -40,15 +41,15 @@
 
 
 /* adr du notebook de base */
-
 GtkWidget *notebook_general;
+GtkWidget *main_hpaned, *main_vbox;
 
 /* adr de l'onglet accueil */
-
 GtkWidget *page_accueil;
 
 
 GtkWidget *notebook_comptes_equilibrage;
+
 
 gint modif_tiers;
 gint modif_categ;
@@ -69,12 +70,126 @@ extern AB_BANKING *gbanking;
 #endif
 
 
+GtkWidget * create_main_widget ( void )
+{
+    GtkWidget *label, *hbox;
+    GdkColor bg = { 0, 0, 0, 0 };
+
+    main_vbox = gtk_vbox_new ( FALSE, 0 );
+
+    hbox = gtk_hbox_new ( FALSE, 0 );
+    gtk_widget_modify_bg ( hbox, 0, &bg );
+    gtk_widget_modify_fg ( hbox, 0, &bg );
+
+    gtk_box_pack_start ( GTK_BOX(hbox), gtk_arrow_new ( GTK_ARROW_LEFT,GTK_SHADOW_OUT ), 
+			 FALSE, FALSE, 3 );
+    gtk_box_pack_start ( GTK_BOX(hbox), gtk_arrow_new ( GTK_ARROW_RIGHT,GTK_SHADOW_OUT ), 
+			 FALSE, FALSE, 0 );
+
+    label = gtk_label_new ( "" );
+    gtk_label_set_markup ( GTK_LABEL(label), 
+			   g_strconcat ( "<span weight=\"bold\">",
+					 "Opérations du compte : compte courant",
+					 "</span>", NULL ) );
+    gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_LEFT );
+    gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
+    gtk_box_pack_start ( GTK_BOX(hbox), label, TRUE, TRUE, 3 );
+
+    label = gtk_label_new ("");
+    gtk_label_set_markup ( GTK_LABEL(label), g_strconcat ( "<span weight=\"bold\">",
+							   "Solde: 1000 €",
+							   "</span>", NULL ) );
+    gtk_box_pack_start ( GTK_BOX(hbox), label, FALSE, FALSE, 6 );
+
+    gtk_box_pack_start ( GTK_BOX(main_vbox), hbox, FALSE, FALSE, 6 );
+    gtk_widget_show_all ( hbox );
+    gtk_widget_modify_bg ( hbox, 0, &bg );
+    gtk_widget_modify_fg ( hbox, 0, &bg );
+
+    main_hpaned = gtk_hpaned_new ();
+    gtk_box_pack_start ( GTK_VBOX(main_vbox), main_hpaned, TRUE, TRUE, 0 );
+    gtk_widget_show ( main_vbox );
+
+    gtk_paned_add1 ( GTK_PANED( main_hpaned ), create_navigation_pane ( ) );
+    gtk_paned_add2 ( GTK_PANED( main_hpaned ), create_main_notebook ( ) );
+    gtk_widget_show ( main_hpaned );
+    gtk_widget_show ( notebook_general );
+
+    return main_vbox;
+}
 
 
-/** create the main notebook
- * \param none
+
+/**
+ * Create the navigation pane on the left of the GUI.  It contains
+ * account list as well as shortcuts.
+ *
+ * \return The newly allocated pane.
+ */
+GtkWidget * create_navigation_pane ( void )
+{
+    GtkWidget * notebook;
+
+    notebook = gtk_notebook_new ();
+    gtk_notebook_set_tab_pos ( GTK_NOTEBOOK ( notebook ), GTK_POS_BOTTOM );
+
+    gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ), create_account_list (),
+			       gtk_label_new (_("Accounts")) );
+
+    gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
+			       gtk_label_new ("Toto"),
+			       gtk_label_new (_("Manage")) );
+
+    gtk_widget_show_all ( notebook );
+    return notebook;
+}
+
+
+
+/**
+ * Create a list of buttons that are shortcuts to accounts.
+ *
+ * \return A newly allocated vbox containing buttons.
+ */
+GtkWidget * create_account_list ( void )
+{
+    GtkWidget * vbox;
+    GSList *list_tmp;
+
+    vbox = gtk_vbox_new ( FALSE, 0 );
+    gtk_container_set_border_width ( vbox, 3 );
+
+    gtk_box_pack_start ( GTK_VBOX ( vbox ), 
+			 new_button_with_label_and_image ( GSB_BUTTON_BOTH,
+							   _("Resume"), "resume.png",
+							   NULL, NULL ),
+			 FALSE, FALSE, 0 );
+
+    list_tmp = gsb_account_get_list_accounts ();
+    while ( list_tmp )
+    {
+	gint i = gsb_account_get_no_account ( list_tmp -> data );
+
+	gtk_box_pack_start ( GTK_VBOX ( vbox ), 
+			     new_button_with_label_and_image ( GSB_BUTTON_BOTH,
+							       gsb_account_get_name(i),
+							       "money.png",
+							       NULL, NULL ),
+			     FALSE, FALSE, 0 );
+
+	list_tmp = list_tmp -> next;
+    }
+
+    return vbox;
+}
+
+
+
+/**
+ * Create the main notebook.
+ *
  * \return the notebook
- * */
+ */
 GtkWidget *create_main_notebook (void )
 {
     GtkWidget *page_operations;

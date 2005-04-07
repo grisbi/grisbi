@@ -87,6 +87,8 @@ extern gint nb_derniers_fichiers_ouverts;
 extern gint nb_max_derniers_fichiers_ouverts;
 extern gchar *nom_fichier_comptes;
 extern GtkWidget *notebook_general;
+extern GtkWidget *main_hpaned;
+extern GtkWidget *main_vbox;
 extern gint rapport_largeur_colonnes[TRANSACTION_LIST_COL_NB];
 extern gchar **tab_noms_derniers_fichiers_ouverts;
 extern gchar *titre_fichier;
@@ -180,10 +182,9 @@ void init_gui_new_file ( void )
     
     recuperation_noms_colonnes_et_tips ();
 
-    /* on crée le notebook principal */
-
+    /* Create main widget. */
     gtk_box_pack_start ( GTK_BOX ( window_vbox_principale),
-			 create_main_notebook(),
+			 create_main_widget(),
 			 TRUE,
 			 TRUE,
 			 0 );
@@ -477,7 +478,7 @@ void ouverture_confirmee ( void )
 
     update_attente ( _("Making main window"));
 
-    create_main_notebook();
+    create_main_widget();
     
     /*     on dégrise les menus */
 
@@ -516,11 +517,11 @@ void ouverture_confirmee ( void )
     /*     on ajoute la fentre principale à la window */
 
     gtk_box_pack_start ( GTK_BOX ( window_vbox_principale),
-			 notebook_general,
+			 main_vbox,
 			 TRUE,
 			 TRUE,
 			 0 );
-    gtk_widget_show ( notebook_general );
+    gtk_widget_show ( main_vbox );
 
     mise_a_jour_accueil ();
     annulation_attente ();
@@ -840,7 +841,7 @@ gboolean fermer_fichier ( void )
 					    GTK_SIGNAL_FUNC ( change_page_notebook),
 					    NULL );
 
-	    gtk_widget_destroy ( notebook_general );
+	    gtk_widget_destroy ( main_vbox );
 
 	    init_variables ();
 
