@@ -72,19 +72,19 @@ extern AB_BANKING *gbanking;
 
 GtkWidget * create_main_widget ( void )
 {
-    GtkWidget *label, *hbox;
-    GdkColor bg = { 0, 0, 0, 0 };
+    GtkWidget *label, *hbox, *eb;
+    GdkColor bg = { 0, 40092, 39578, 38936 };
 
     main_vbox = gtk_vbox_new ( FALSE, 0 );
 
+    eb = gtk_event_box_new ();
+
     hbox = gtk_hbox_new ( FALSE, 0 );
-    gtk_widget_modify_bg ( hbox, 0, &bg );
-    gtk_widget_modify_fg ( hbox, 0, &bg );
 
     gtk_box_pack_start ( GTK_BOX(hbox), gtk_arrow_new ( GTK_ARROW_LEFT,GTK_SHADOW_OUT ), 
-			 FALSE, FALSE, 3 );
-    gtk_box_pack_start ( GTK_BOX(hbox), gtk_arrow_new ( GTK_ARROW_RIGHT,GTK_SHADOW_OUT ), 
 			 FALSE, FALSE, 0 );
+    gtk_box_pack_start ( GTK_BOX(hbox), gtk_arrow_new ( GTK_ARROW_RIGHT,GTK_SHADOW_OUT ), 
+			 FALSE, FALSE, 3 );
 
     label = gtk_label_new ( "" );
     gtk_label_set_markup ( GTK_LABEL(label), 
@@ -93,18 +93,23 @@ GtkWidget * create_main_widget ( void )
 					 "</span>", NULL ) );
     gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_LEFT );
     gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
+
     gtk_box_pack_start ( GTK_BOX(hbox), label, TRUE, TRUE, 3 );
 
     label = gtk_label_new ("");
     gtk_label_set_markup ( GTK_LABEL(label), g_strconcat ( "<span weight=\"bold\">",
 							   "Solde: 1000 €",
 							   "</span>", NULL ) );
-    gtk_box_pack_start ( GTK_BOX(hbox), label, FALSE, FALSE, 6 );
+    gtk_box_pack_start ( GTK_BOX(hbox), label, FALSE, FALSE, 0 );
 
-    gtk_box_pack_start ( GTK_BOX(main_vbox), hbox, FALSE, FALSE, 6 );
     gtk_widget_show_all ( hbox );
-    gtk_widget_modify_bg ( hbox, 0, &bg );
-    gtk_widget_modify_fg ( hbox, 0, &bg );
+    gtk_widget_modify_bg ( eb, 0, &bg );
+
+    gtk_container_add ( eb, hbox );
+    gtk_container_set_border_width ( hbox, 6 );
+    gtk_widget_show ( eb );
+
+    gtk_box_pack_start ( GTK_BOX(main_vbox), eb, FALSE, FALSE, 0 );
 
     main_hpaned = gtk_hpaned_new ();
     gtk_box_pack_start ( GTK_VBOX(main_vbox), main_hpaned, TRUE, TRUE, 0 );
