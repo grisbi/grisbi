@@ -28,6 +28,7 @@
 #include "etat_io.h"
 #include "dialog.h"
 #include "utils_file_selection.h"
+#include "utils_buttons.h"
 #include "gtk_list_button.h"
 #include "menu.h"
 #include "traitement_variables.h"
@@ -41,29 +42,23 @@ static void change_choix_nouvel_etat ( GtkWidget *menu_item,
 				GtkWidget *label_description );
 static void changement_etat ( GtkWidget *bouton,
 		       struct struct_etat *etat );
-static GtkWidget *creation_barre_boutons_etats ( void );
-static GtkWidget *creation_liste_etats ( void );
 static void export_etat_vers_html ( struct struct_etat *etat );
 /*END_STATIC*/
 
 
 
-
-GtkWidget *paned_onglet_etats;
-
 GSList *liste_struct_etats;
 gint no_dernier_etat;
 GtkWidget *frame_liste_etats;
-GtkWidget *label_etat_courant;        /* label en haut de la liste des états */
+/** TODO put that in the state frame above  */
+/* GtkWidget *label_etat_courant;        /\* label en haut de la liste des états *\/ */
 GtkWidget *vbox_liste_etats;          /* vbox contenant la liste des états */
 GtkWidget *bouton_etat_courant;          /* adr du bouton de l'état en cours, pour le refermer qd change */
 struct struct_etat *etat_courant;
 GtkWidget *bouton_effacer_etat;
 GtkWidget *bouton_personnaliser_etat;
-GtkWidget *bouton_raffraichir_etat;
 GtkWidget *bouton_imprimer_etat;
 GtkWidget *bouton_exporter_etat;
-GtkWidget *bouton_importer_etat;
 GtkWidget *bouton_dupliquer_etat;
 GtkWidget *scrolled_window_etat;          /* contient l'état en cours */
 gint nb_colonnes;
@@ -73,7 +68,7 @@ GtkWidget *notebook_config_etat;
 GtkWidget *notebook_selection;
 GtkWidget *notebook_aff_donnees;
 GtkWidget *onglet_config_etat;
-
+GtkWidget *reports_option_menu;
 
 
 /*START_EXTERN*/
@@ -87,347 +82,134 @@ extern GtkWidget *window;
 
 
 
-/*****************************************************************************************************/
+/**
+ *
+ *
+ */
+GtkWidget *gsb_gui_create_report_toolbar ( void )
+{
+    GtkWidget *hbox, *handlebox, *hbox2;
+
+    hbox = gtk_hbox_new ( FALSE, 5 );
+
+    /* HandleBox */
+    handlebox = gtk_handle_box_new ();
+    gtk_box_pack_start ( GTK_BOX ( hbox ), handlebox, FALSE, FALSE, 0 );
+    /* Hbox2 */
+    hbox2 = gtk_hbox_new ( FALSE, 0 );
+    gtk_container_add ( GTK_CONTAINER(handlebox), hbox2 );
+
+    /* Add various icons */
+    gtk_box_pack_start ( GTK_BOX ( hbox2 ),
+			 new_button_with_label_and_image ( GSB_BUTTON_ICON,
+							   _("Category"),
+							   "new-transaction.png",
+							   G_CALLBACK ( ajout_etat ),
+							   NULL ),
+			 FALSE, FALSE, 0 );
+
+    gtk_box_pack_start ( GTK_BOX ( hbox2 ), 
+			 new_stock_button_with_label ( GSB_BUTTON_ICON,
+						       GTK_STOCK_OPEN, 
+						       _("Import"),
+						       G_CALLBACK (importer_etat),
+						       NULL ), 
+			 FALSE, FALSE, 0 );
+
+    bouton_exporter_etat = new_stock_button_with_label ( GSB_BUTTON_ICON,
+							 GTK_STOCK_SAVE, 
+							 _("Export"),
+							 G_CALLBACK (exporter_etat),
+							 NULL );
+    gtk_box_pack_start ( GTK_BOX ( hbox2 ), bouton_exporter_etat, FALSE, FALSE, 0 );
+
+    bouton_imprimer_etat = new_stock_button_with_label ( GSB_BUTTON_ICON,
+							 GTK_STOCK_PRINT, 
+							 _("Print"),
+							 G_CALLBACK (impression_etat),
+							 NULL );
+    gtk_box_pack_start ( GTK_BOX ( hbox2 ), bouton_imprimer_etat, FALSE, FALSE, 0 );
+
+    bouton_effacer_etat = new_stock_button_with_label ( GSB_BUTTON_ICON,
+							GTK_STOCK_DELETE, 
+							_("Delete"),
+							G_CALLBACK ( efface_etat ),
+							NULL );
+    gtk_box_pack_start ( GTK_BOX ( hbox2 ), bouton_effacer_etat, FALSE, FALSE, 0 );
+
+    bouton_dupliquer_etat = new_stock_button_with_label ( GSB_BUTTON_ICON,
+							  GTK_STOCK_COPY, 
+							  _("Clone"),
+							  G_CALLBACK (dupliquer_etat),
+							  NULL ), 
+    gtk_box_pack_start ( GTK_BOX ( hbox2 ), bouton_dupliquer_etat, FALSE, FALSE, 0 );
+
+    bouton_personnaliser_etat = new_stock_button_with_label ( GSB_BUTTON_ICON,
+							      GTK_STOCK_PROPERTIES, 
+							      _("Edit"),
+							      G_CALLBACK (personnalisation_etat),
+							      NULL ), 
+    gtk_box_pack_start ( GTK_BOX ( hbox2 ), bouton_personnaliser_etat, FALSE, FALSE, 0 );
+
+
+    /* Add the report menu list. */
+    reports_option_menu = gtk_option_menu_new ();
+    gtk_box_pack_end ( GTK_BOX ( hbox ), reports_option_menu, FALSE, FALSE, 0 );
+    remplissage_liste_etats ( );
+   
+    gtk_widget_show_all ( hbox );
+
+    return ( hbox );
+}
+
+
+
+/**
+ *
+ *
+ */
 GtkWidget *creation_onglet_etats ( void )
 {
-    GtkWidget *frame;
-    GtkWidget *vbox;
+    GtkWidget *tab, *vbox;
 
     /*   au départ, aucun état n'est ouvert */
-
     bouton_etat_courant = NULL;
     etat_courant = NULL;
 
-
-    paned_onglet_etats = gtk_hpaned_new ();
-    if ( !etat.largeur_colonne_etat )
-	etat.largeur_colonne_etat = 200;
-
-    gtk_paned_set_position ( GTK_PANED(paned_onglet_etats),etat.largeur_colonne_etat  );
-    gtk_container_set_border_width ( GTK_CONTAINER ( paned_onglet_etats ), 10 );
-    gtk_widget_show ( paned_onglet_etats );
-
-    /*   création de la fenetre des noms des états */
-    /* on reprend le principe des comptes dans la fenetre des opés */
-    frame_liste_etats = gtk_frame_new ( NULL );
-    gtk_frame_set_shadow_type ( GTK_FRAME ( frame_liste_etats ),
-				GTK_SHADOW_IN );
-    gtk_paned_pack1 ( GTK_PANED(paned_onglet_etats), frame_liste_etats, TRUE, TRUE );
-    gtk_widget_show (frame_liste_etats);
-
-    /* on y met les rapports et les boutons */
-    gtk_container_add ( GTK_CONTAINER ( frame_liste_etats ),
-			creation_liste_etats ());
-
-    /* Frame de droite */
-    frame = gtk_frame_new ( NULL );
-    gtk_frame_set_shadow_type ( GTK_FRAME ( frame ), GTK_SHADOW_IN );
-    gtk_paned_add2 ( GTK_PANED(paned_onglet_etats), frame );
-    gtk_widget_show (frame);
+    tab = gtk_vbox_new ( FALSE, 6 );
+    gtk_box_pack_start ( GTK_BOX ( tab ), gsb_gui_create_report_toolbar(), 
+			 FALSE, FALSE, 0 );
+    gtk_container_set_border_width ( GTK_CONTAINER ( tab ), 6 );
 
     /* création du notebook contenant l'état et la config */
     notebook_etats = gtk_notebook_new ();
     gtk_notebook_set_show_tabs ( GTK_NOTEBOOK ( notebook_etats ), FALSE );
     gtk_notebook_set_show_border ( GTK_NOTEBOOK(notebook_etats), FALSE );
-    gtk_container_add ( GTK_CONTAINER(frame), notebook_etats);
-    gtk_widget_show ( notebook_etats );
-
+    gtk_box_pack_start ( GTK_BOX ( tab ), notebook_etats, TRUE, TRUE, 0 );
 
     /* création de la partie droite */
 
-    vbox = gtk_vbox_new ( FALSE, 10 );
+    vbox = gtk_vbox_new ( FALSE, 6 );
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_etats ), vbox, gtk_label_new ( _("Reports")));
-    gtk_widget_show ( vbox );
 
-
-    /*  Création de la partie contenant l'état */
-
-    frame = gtk_frame_new ( NULL );
-    gtk_box_pack_start ( GTK_BOX ( vbox ), frame, TRUE, TRUE, 0 );
-    gtk_frame_set_shadow_type ( GTK_FRAME ( frame ), GTK_SHADOW_NONE );
-    gtk_widget_show (frame);
-
-    /* on y met une scrolled window qui sera remplit par l'état */
-
+    /* On met une scrolled window qui sera remplit par l'état */
     scrolled_window_etat = gtk_scrolled_window_new ( FALSE, FALSE );
-    gtk_scrolled_window_set_shadow_type ( GTK_SCROLLED_WINDOW(scrolled_window_etat), GTK_SHADOW_NONE );
+    gtk_scrolled_window_set_shadow_type ( GTK_SCROLLED_WINDOW(scrolled_window_etat), 
+					  GTK_SHADOW_NONE );
     gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window_etat ),
 				     GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC );
-    gtk_container_add ( GTK_CONTAINER ( frame ), scrolled_window_etat );
-    gtk_widget_show ( scrolled_window_etat );
+    gtk_box_pack_start ( GTK_BOX ( vbox ), scrolled_window_etat, TRUE, TRUE, 0 );
 
-    /* création de la partie contenant les boutons (personnaliser ...) */
-
-    frame = gtk_frame_new ( NULL );
-    gtk_frame_set_shadow_type ( GTK_FRAME ( frame ), GTK_SHADOW_NONE );
-    gtk_box_pack_start ( GTK_BOX ( vbox ), frame,
-			 FALSE, FALSE, 0 );
-    gtk_widget_show (frame);
-
-    /* on y met les boutons */
-
-    gtk_container_add ( GTK_CONTAINER ( frame ),
-			creation_barre_boutons_etats ());
-
-
-    /*   g_signal_connect ( GTK_PANED(onglet), "move-handle", gtk_container_resize_children, NULL); */
-
-    /* l'onglet de config sera créé que si nécessaire */
-
+    /* L'onglet de config sera créé que si nécessaire */
     onglet_config_etat = NULL;
 
+    gtk_widget_show_all ( tab );
 
-    return ( paned_onglet_etats );
+    return ( tab );
 }
 /*****************************************************************************************************/
 
 
-
-
-/*****************************************************************************************************/
-/* vontion creation_liste_etats */
-/* renvoie la partie gauche de l'onglet rapports financiers */
-/*****************************************************************************************************/
-
-GtkWidget *creation_liste_etats ( void )
-{
-    GtkWidget *onglet;
-    GtkWidget *frame;
-    GtkWidget *bouton;
-    GtkWidget *vbox;
-    GtkWidget *scrolled_window;
-
-
-    /*  Création d'une fenêtre générale*/
-
-    onglet = gtk_vbox_new ( FALSE,
-			    10);
-    gtk_container_set_border_width ( GTK_CONTAINER ( onglet ), 10 );
-    gtk_widget_show ( onglet );
-
-
-    /*  Création du label contenant le rapport courant en haut */
-    /*   on place le label dans une frame */
-
-    frame = gtk_frame_new ( NULL );
-    gtk_frame_set_shadow_type ( GTK_FRAME ( frame ), GTK_SHADOW_IN );
-    gtk_box_pack_start ( GTK_BOX (onglet), frame,
-			 FALSE, TRUE, 0);
-    gtk_widget_show (frame);
-
-
-    /*   on ne met rien dans le label, il sera rempli ensuite */
-
-    label_etat_courant = gtk_label_new ( "" );
-    gtk_label_set_line_wrap ( GTK_LABEL(label_etat_courant), TRUE );
-    gtk_misc_set_alignment ( GTK_MISC (label_etat_courant  ),
-			     0.5,
-			     0.5);
-    gtk_container_add ( GTK_CONTAINER ( frame ), label_etat_courant );
-
-    gtk_widget_show (label_etat_courant);
-    gtk_label_set_line_wrap ( GTK_LABEL ( label_etat_courant ), TRUE );
-
-
-    /*  Création de la fenêtre des etats */
-    /*  qui peut contenir des barres de défilement si */
-    /*  nécessaire */
-
-    scrolled_window = gtk_scrolled_window_new ( NULL,
-						NULL);
-    gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window ),
-				     GTK_POLICY_NEVER,
-				     GTK_POLICY_AUTOMATIC);
-    gtk_box_pack_start ( GTK_BOX ( onglet ),
-			 scrolled_window,
-			 TRUE,
-			 TRUE,
-			 0);
-    gtk_widget_show ( scrolled_window );
-
-
-    /*  création de la vbox qui contient la liste des états */
-
-    vbox_liste_etats = gtk_vbox_new ( FALSE, 0);
-    gtk_scrolled_window_add_with_viewport ( GTK_SCROLLED_WINDOW (scrolled_window ),
-					    vbox_liste_etats);
-    gtk_viewport_set_shadow_type ( GTK_VIEWPORT ( GTK_BIN ( scrolled_window )  -> child ),
-				   GTK_SHADOW_NONE );
-    gtk_widget_show (vbox_liste_etats);
-
-    /*  ajout des différents états */
-
-    remplissage_liste_etats ();
-
-    /* ajout des boutons pour supprimer / ajouter un état */
-
-    frame = gtk_frame_new ( NULL );
-    gtk_frame_set_shadow_type ( GTK_FRAME ( frame ), GTK_SHADOW_ETCHED_IN );
-    gtk_box_pack_start ( GTK_BOX ( onglet ), frame,
-			 FALSE, TRUE, 0);
-    gtk_widget_show ( frame );
-
-
-    vbox = gtk_vbox_new ( FALSE,
-			  5 );
-    gtk_container_add ( GTK_CONTAINER  ( frame ),
-			vbox );
-    gtk_widget_show ( vbox );
-
-
-    /* mise en place du bouton ajouter */
-
-    bouton = gtk_button_new_with_label ( _("New report") );
-    gtk_label_set_line_wrap ( GTK_LABEL(GTK_BIN(bouton)->child), TRUE );
-    gtk_button_set_relief ( GTK_BUTTON ( bouton ),
-			    GTK_RELIEF_NONE);
-    gtk_box_pack_start ( GTK_BOX ( vbox ),
-			 bouton,
-			 FALSE,
-			 TRUE,
-			 0);
-    gtk_signal_connect ( GTK_OBJECT (bouton),
-			 "clicked",
-			 GTK_SIGNAL_FUNC ( ajout_etat ),
-			 NULL );
-    gtk_widget_show ( bouton );
-
-    /* on met le bouton personnaliser */
-
-    bouton_personnaliser_etat = gtk_button_new_with_label ( _("Customize report") );
-    gtk_button_set_relief ( GTK_BUTTON ( bouton_personnaliser_etat ),
-			    GTK_RELIEF_NONE );
-    gtk_widget_set_sensitive ( bouton_personnaliser_etat,
-			       FALSE );
-    gtk_signal_connect ( GTK_OBJECT ( bouton_personnaliser_etat ),
-			 "clicked",
-			 GTK_SIGNAL_FUNC ( personnalisation_etat ),
-			 NULL );
-    gtk_box_pack_start ( GTK_BOX ( vbox ),
-			 bouton_personnaliser_etat,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show ( bouton_personnaliser_etat );
-
-    /* on met le bouton dupliquer */
-
-    bouton_dupliquer_etat = gtk_button_new_with_label ( _("Clone report") );
-    gtk_button_set_relief ( GTK_BUTTON ( bouton_dupliquer_etat ),
-			    GTK_RELIEF_NONE );
-    gtk_signal_connect ( GTK_OBJECT ( bouton_dupliquer_etat ),
-			 "clicked",
-			 GTK_SIGNAL_FUNC ( dupliquer_etat ),
-			 NULL );
-    gtk_box_pack_start ( GTK_BOX ( vbox ),
-			 bouton_dupliquer_etat,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show ( bouton_dupliquer_etat );
-
-    /* mise en place du bouton effacer état */
-    bouton_effacer_etat = gtk_button_new_with_label ( _("Delete report") );
-    gtk_button_set_relief ( GTK_BUTTON ( bouton_effacer_etat ), GTK_RELIEF_NONE);
-    gtk_box_pack_start ( GTK_BOX ( vbox ), bouton_effacer_etat, FALSE, TRUE, 0);
-    gtk_signal_connect ( GTK_OBJECT (bouton_effacer_etat), "clicked",
-			 GTK_SIGNAL_FUNC ( efface_etat ), NULL );
-    gtk_widget_show ( bouton_effacer_etat );
-
-    if ( !etat_courant )
-    {
-	gtk_widget_set_sensitive ( bouton_effacer_etat, FALSE );
-	gtk_widget_set_sensitive ( bouton_dupliquer_etat, FALSE );
-    }
-
-    gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
-							   menu_name(_("Reports"), _("Clone report"), NULL)),
-			       FALSE );
-    gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
-							   menu_name(_("Reports"), _("Print report..."), NULL)),
-			       FALSE );
-    gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
-							   menu_name(_("Reports"), _("Export report..."), NULL)),
-			       FALSE );
-    gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
-							   menu_name(_("Reports"), _("Export report as HTML..."), NULL)),
-			       FALSE );
-    gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
-							   menu_name(_("Reports"), _("Remove report"), NULL)),
-			       FALSE );
-    gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
-							   menu_name(_("Reports"), _("Edit report..."), NULL)),
-			       FALSE );
-
-    return ( onglet );
-
-}
-/*****************************************************************************************************/
-
-
-/*****************************************************************************************************/
-/* Fonction creation_barre_boutons_etats */
-/* renvoie la barre des boutons de la partie droite-bas des rapports financiers */
-/*****************************************************************************************************/
-
-GtkWidget *creation_barre_boutons_etats ( void )
-{
-    GtkWidget *widget_retour;
-
-    widget_retour = gtk_hbox_new ( FALSE, 5 );
-    gtk_widget_show ( widget_retour );
-
-    /* Print report */
-    bouton_imprimer_etat = gtk_button_new_with_label ( _("Print") );
-    gtk_button_set_relief ( GTK_BUTTON ( bouton_imprimer_etat ),
-			    GTK_RELIEF_NONE );
-    gtk_signal_connect_object ( GTK_OBJECT ( bouton_imprimer_etat ),
-				"clicked",
-				GTK_SIGNAL_FUNC ( impression_etat ),
-				NULL );
-    gtk_box_pack_start ( GTK_BOX ( widget_retour ), bouton_imprimer_etat,
-			 FALSE, FALSE, 0 );
-    gtk_widget_set_sensitive ( bouton_imprimer_etat, FALSE );
-    gtk_widget_show ( bouton_imprimer_etat );
-
-    /* on met le bouton rafraichir */
-
-    bouton_raffraichir_etat = gtk_button_new_with_label ( _("Refresh") );
-    gtk_button_set_relief ( GTK_BUTTON ( bouton_raffraichir_etat ),
-			    GTK_RELIEF_NONE );
-    gtk_signal_connect_object ( GTK_OBJECT ( bouton_raffraichir_etat ),
-				"clicked",
-				GTK_SIGNAL_FUNC ( rafraichissement_etat ),
-				NULL );
-    gtk_box_pack_start ( GTK_BOX ( widget_retour ), bouton_raffraichir_etat,
-			 FALSE, FALSE, 0 );
-    gtk_widget_set_sensitive ( bouton_raffraichir_etat, FALSE );
-    gtk_widget_show ( bouton_raffraichir_etat );
-
-    /* on met le bouton exporter */
-
-    bouton_exporter_etat = gtk_button_new_with_label ( _("Export") );
-    gtk_button_set_relief ( GTK_BUTTON ( bouton_exporter_etat ), GTK_RELIEF_NONE );
-    gtk_widget_set_sensitive ( bouton_exporter_etat, FALSE );
-    gtk_signal_connect ( GTK_OBJECT ( bouton_exporter_etat ), "clicked",
-			 GTK_SIGNAL_FUNC ( exporter_etat ), NULL );
-    gtk_box_pack_start ( GTK_BOX ( widget_retour ), bouton_exporter_etat,
-			 FALSE, FALSE, 0 );
-    gtk_widget_show ( bouton_exporter_etat );
-
-    /* on met le bouton importer */
-
-    bouton_importer_etat = gtk_button_new_with_label ( _("Import") );
-    gtk_button_set_relief ( GTK_BUTTON ( bouton_importer_etat ), GTK_RELIEF_NONE );
-    gtk_signal_connect ( GTK_OBJECT ( bouton_importer_etat ), "clicked",
-			 GTK_SIGNAL_FUNC ( importer_etat ), NULL );
-    gtk_box_pack_start ( GTK_BOX ( widget_retour ), bouton_importer_etat,
-			 FALSE, FALSE, 0 );
-    gtk_widget_show ( bouton_importer_etat );
-
-    return ( widget_retour );
-}
-/*****************************************************************************************************/
 
 
 /*****************************************************************************************************/
@@ -437,46 +219,29 @@ GtkWidget *creation_barre_boutons_etats ( void )
 
 void remplissage_liste_etats ( void )
 {
-    GList *pointeur;
+    GtkWidget *menu = gtk_menu_new ();
     GSList *liste_tmp;
-
-
-    /* on commence par détruire tous les enfants de la vbox */
-
-    pointeur = GTK_BOX ( vbox_liste_etats ) -> children;
-
-    while ( pointeur )
-    {
-	GtkBoxChild *child;
-
-	child = pointeur -> data;
-
-	pointeur = pointeur -> next;
-
-	gtk_container_remove ( GTK_CONTAINER ( vbox_liste_etats ),
-			       child -> widget );
-    }
-
+    
     /* on remplit maintenant avec tous les états */
-
     liste_tmp = liste_struct_etats;
 
     while ( liste_tmp )
     {
 	struct struct_etat *etat;
-	GtkWidget *bouton;
+	GtkWidget * item;
 
 	etat = liste_tmp -> data;
 
-	bouton = gtk_list_button_new ( etat -> nom_etat, 0, TRUE, GINT_TO_POINTER (etat->no_etat) );
-	gtk_widget_show_all (bouton) ;
-	gtk_box_pack_start ( GTK_BOX ( vbox_liste_etats ), bouton,
-			     FALSE, FALSE, 0 );
+	item = gtk_menu_item_new_with_label ( etat -> nom_etat );
+	gtk_menu_append ( GTK_MENU ( menu ), item );
 
-	gtk_signal_connect ( GTK_OBJECT(bouton), "clicked",
+	gtk_signal_connect ( GTK_OBJECT(item), "activate",
 			     GTK_SIGNAL_FUNC ( changement_etat ), etat );
 	liste_tmp = liste_tmp -> next;
     }
+    
+    gtk_option_menu_set_menu ( GTK_OPTION_MENU ( reports_option_menu ), menu );
+
 }
 /*****************************************************************************************************/
 
@@ -996,14 +761,13 @@ gboolean ajout_etat ( void )
     remplissage_liste_etats ();
 
     gtk_widget_set_sensitive ( bouton_personnaliser_etat, TRUE );
-    gtk_widget_set_sensitive ( bouton_raffraichir_etat, TRUE );
     gtk_widget_set_sensitive ( bouton_imprimer_etat, TRUE );
     gtk_widget_set_sensitive ( bouton_exporter_etat, TRUE );
     gtk_widget_set_sensitive ( bouton_dupliquer_etat, TRUE );
     gtk_widget_set_sensitive ( bouton_effacer_etat, TRUE );
 
-    gtk_label_set_text ( GTK_LABEL ( label_etat_courant ),
-			 etat_courant -> nom_etat );
+/*     gtk_label_set_text ( GTK_LABEL ( label_etat_courant ), */
+/* 			 etat_courant -> nom_etat ); */
 
     personnalisation_etat ();
     modification_fichier ( TRUE );
@@ -1098,9 +862,8 @@ void efface_etat ( void )
 
     etat_courant = NULL;
     bouton_etat_courant = NULL;
-    gtk_label_set_text ( GTK_LABEL ( label_etat_courant ), "" );
+/*     gtk_label_set_text ( GTK_LABEL ( label_etat_courant ), "" ); */
     gtk_widget_set_sensitive ( bouton_personnaliser_etat, FALSE );
-    gtk_widget_set_sensitive ( bouton_raffraichir_etat, FALSE );
     gtk_widget_set_sensitive ( bouton_imprimer_etat, FALSE );
     gtk_widget_set_sensitive ( bouton_exporter_etat, FALSE );
     gtk_widget_set_sensitive ( bouton_dupliquer_etat, FALSE );
@@ -1144,7 +907,6 @@ void changement_etat ( GtkWidget *bouton,
     bouton_etat_courant = bouton;
     etat_courant = etat;
     gtk_widget_set_sensitive ( bouton_personnaliser_etat, TRUE );
-    gtk_widget_set_sensitive ( bouton_raffraichir_etat, TRUE );
     gtk_widget_set_sensitive ( bouton_imprimer_etat, TRUE );
     gtk_widget_set_sensitive ( bouton_exporter_etat, TRUE );
     gtk_widget_set_sensitive ( bouton_dupliquer_etat, TRUE );
@@ -1169,8 +931,8 @@ void changement_etat ( GtkWidget *bouton,
 							   menu_name(_("Reports"), _("Edit report..."), NULL)),
 			       TRUE );
 
-    gtk_label_set_text ( GTK_LABEL ( label_etat_courant ), etat -> nom_etat );
-    gtk_label_set_line_wrap ( GTK_LABEL ( label_etat_courant ), TRUE );
+/*     gtk_label_set_text ( GTK_LABEL ( label_etat_courant ), etat -> nom_etat ); */
+/*     gtk_label_set_line_wrap ( GTK_LABEL ( label_etat_courant ), TRUE ); */
 
     /* on affiche l'état */
     rafraichissement_etat ( etat );
@@ -1414,13 +1176,12 @@ void dupliquer_etat ( void )
     remplissage_liste_etats ();
 
     gtk_widget_set_sensitive ( bouton_personnaliser_etat, TRUE );
-    gtk_widget_set_sensitive ( bouton_raffraichir_etat, TRUE );
     gtk_widget_set_sensitive ( bouton_imprimer_etat, TRUE );
     gtk_widget_set_sensitive ( bouton_exporter_etat, TRUE );
     gtk_widget_set_sensitive ( bouton_dupliquer_etat, TRUE );
     gtk_widget_set_sensitive ( bouton_effacer_etat, TRUE );
 
-    gtk_label_set_text ( GTK_LABEL ( label_etat_courant ), etat_courant -> nom_etat );
+/*     gtk_label_set_text ( GTK_LABEL ( label_etat_courant ), etat_courant -> nom_etat ); */
 
     gtk_widget_set_sensitive ( bouton_effacer_etat, TRUE );
 

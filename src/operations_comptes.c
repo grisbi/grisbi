@@ -56,7 +56,6 @@ GtkWidget *vbox_liste_comptes;
 
 GtkWidget *label_last_statement;
 
-GtkWidget *label_name_current_account;
 
 /*START_EXTERN*/
 extern GtkWidget *formulaire;
@@ -67,150 +66,6 @@ extern gint nb_colonnes;
 extern GtkWidget *notebook_general;
 extern GtkWidget *tree_view;
 /*END_EXTERN*/
-
-
-
-
-/* ********************************************************************************************************** */
-/*** Création de la fenêtre de no_accounts ***/
-/* **************************************************************************************************** */
-
-GtkWidget *creation_liste_comptes (void)
-{
-    GtkWidget *onglet;
-    GtkWidget *frame_label_name_current_account;
-    GtkWidget *button;
-    GtkWidget *frame_equilibrage;
-    GtkWidget *vbox_frame_equilibrage;
-    GtkWidget *scrolled_window;
-
-    /*  Création d'une fenêtre générale*/
-
-    onglet = gtk_vbox_new ( FALSE,
-			    10);
-    gtk_container_set_border_width ( GTK_CONTAINER ( onglet ),
-				     10 );
-    gtk_signal_connect ( GTK_OBJECT ( onglet ),
-			 "key_press_event",
-			 GTK_SIGNAL_FUNC ( gsb_transactions_list_key_press ),
-			 NULL );
-    gtk_widget_show ( onglet );
-
-    /*  Création du label Comptes en haut */
-
-
-    /*   on place le label dans une frame */
-
-    frame_label_name_current_account = gtk_frame_new ( NULL );
-    gtk_frame_set_shadow_type ( GTK_FRAME ( frame_label_name_current_account ),
-				GTK_SHADOW_ETCHED_OUT );
-    gtk_box_pack_start ( GTK_BOX (onglet),
-			 frame_label_name_current_account,
-			 FALSE,
-			 TRUE,
-			 0);
-    gtk_widget_show (frame_label_name_current_account);
-
-
-    /*   on ne met rien dans le label, il sera rempli ensuite */
-
-    label_name_current_account = gtk_label_new ( "" );
-    gtk_misc_set_alignment ( GTK_MISC (label_name_current_account  ),
-			     0.5,
-			     0.5);
-    gtk_container_add ( GTK_CONTAINER ( frame_label_name_current_account ),
-			label_name_current_account );
-    gtk_widget_show (label_name_current_account);
-
-
-    /*  Création de la fenêtre des no_accounts */
-    /*  qui peut contenir des barres de défilement si */
-    /*  nécessaire */
-
-    scrolled_window = gtk_scrolled_window_new ( NULL,
-						NULL);
-    gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window ),
-				     GTK_POLICY_NEVER,
-				     GTK_POLICY_AUTOMATIC);
-    gtk_box_pack_start ( GTK_BOX ( onglet ),
-			 scrolled_window,
-			 TRUE,
-			 TRUE,
-			 0);
-    gtk_widget_show ( scrolled_window );
-
-
-    /*  création d'une vbox contenant la liste des no_accounts */
-
-    vbox_liste_comptes = gtk_vbox_new ( FALSE,
-					0);
-    gtk_scrolled_window_add_with_viewport ( GTK_SCROLLED_WINDOW (scrolled_window ),
-					    vbox_liste_comptes);
-    gtk_viewport_set_shadow_type ( GTK_VIEWPORT ( GTK_BIN ( scrolled_window )  -> child ),
-				   GTK_SHADOW_NONE );
-    gtk_widget_show (vbox_liste_comptes);
-
-
-    /*  Création d'une icone et du nom par no_account, et placement dans la
-	liste selon l'ordre désiré  */
-    if ( gsb_account_get_accounts_amount () )
-    {
-	gsb_account_list_gui_create_list ();
-    }
-
-    /* ajoute le button et le label pour l'équilibrage de no_account */
-    /* les 2 seront intégrés dans une frame */
-
-    frame_equilibrage = gtk_frame_new ( NULL );
-    gtk_frame_set_shadow_type ( GTK_FRAME ( frame_equilibrage ),
-				GTK_SHADOW_ETCHED_IN );
-    gtk_box_pack_start ( GTK_BOX ( onglet ),
-			 frame_equilibrage,
-			 FALSE,
-			 TRUE,
-			 0);
-    gtk_widget_show ( frame_equilibrage );
-
-
-    vbox_frame_equilibrage = gtk_vbox_new ( FALSE,
-					    5 );
-    gtk_container_add ( GTK_CONTAINER  ( frame_equilibrage ),
-			vbox_frame_equilibrage );
-    gtk_widget_show ( vbox_frame_equilibrage );
-
-
-    /* mise en place du label */
-
-    if ( gsb_account_get_accounts_amount ())
-    {
-	gint current_account;
-	GDate *reconcile_date;
-
-	current_account = gsb_account_get_current_account ();
-	reconcile_date = gsb_account_get_current_reconcile_date (current_account);
-    }
-
-    /* mise en place du button équilibrage */
-
-    button = gtk_button_new_with_label ( _("Reconcile") );
-    gtk_button_set_relief ( GTK_BUTTON ( button ),
-			    GTK_RELIEF_NONE);
-    gtk_box_pack_start ( GTK_BOX ( vbox_frame_equilibrage ),
-			 button,
-			 FALSE,
-			 TRUE,
-			 0);
-    gtk_signal_connect ( GTK_OBJECT (button),
-			 "clicked",
-			 GTK_SIGNAL_FUNC ( equilibrage ),
-			 NULL );
-    gtk_widget_show ( button );
-
-
-    return ( onglet );
-
-}
-/* ********************************************************************************************************** */
 
 
 
@@ -306,8 +161,7 @@ gboolean gsb_account_list_gui_change_current_account ( gint *no_account )
     gsb_account_set_current_account ( new_account);
 
     /* change le nom du no_account courant */
-
-    gtk_label_set_text ( GTK_LABEL ( label_name_current_account), gsb_account_get_name (new_account));
+/*     gtk_label_set_text ( GTK_LABEL ( label_name_current_account), gsb_account_get_name (new_account)); */
 
     /*     affiche le nouveau formulaire  */
     /*     il met aussi à jour la devise courante et les types */
@@ -383,9 +237,10 @@ void verifie_no_account_clos ( gint no_nouveau_no_account )
 
 
 
-/** erase and create the clickable list of accounts, on the left of the transactions list
- * \param none
- * \return FALSE;
+/** 
+ * Erase and create the clickable list of closed accounts, in menu.
+ *
+ * \return FALSE
  * */
 gboolean gsb_account_list_gui_create_list ( void )
 {
@@ -394,14 +249,7 @@ gboolean gsb_account_list_gui_create_list ( void )
     if ( DEBUG )
 	printf ( "gsb_account_list_gui_create_list\n" );
 
-    /*     erase the normal accounts */
-
-    while ( GTK_BOX ( vbox_liste_comptes ) -> children )
-	gtk_container_remove ( GTK_CONTAINER ( vbox_liste_comptes ),
-			       (( GtkBoxChild *) ( GTK_BOX ( vbox_liste_comptes ) -> children -> data )) -> widget );
-
     /* erase the closed accounts and accounts in the menu to move a transaction */
-
     list_tmp = gsb_account_get_list_accounts ();
 
     while ( list_tmp )
@@ -475,16 +323,7 @@ gboolean gsb_account_list_gui_create_list ( void )
 	}
 	else
 	{
-	    GtkWidget *button;
-
-	    button = gsb_account_list_gui_create_account_button (i,
-								 1,
-								 G_CALLBACK ( gsb_account_list_gui_change_current_account ));
-	    gtk_box_pack_start (GTK_BOX (vbox_liste_comptes), button, FALSE, FALSE, 0);
-	    gtk_widget_show (button);
-
 	    /* 	we put all the accounts in the edition menu */
-
 	    item_factory_entry = calloc ( 1, sizeof ( GtkItemFactoryEntry ));
 
 	    tmp = my_strdelimit ( gsb_account_get_name (i), "/", "\\/" );
@@ -496,7 +335,6 @@ gboolean gsb_account_list_gui_create_list ( void )
 	    item_factory_entry -> callback = G_CALLBACK ( move_selected_operation_to_account_nb );
 
 	    /* 	    on rajoute 1 car sinon pour le no_account 0 ça passerait pas... */
-
 	    item_factory_entry -> callback_action = i + 1;
 
 	    gtk_item_factory_create_item ( item_factory_menu_general,
@@ -508,21 +346,9 @@ gboolean gsb_account_list_gui_create_list ( void )
 								   menu_name(_("Edit"), _("Move transaction to another account"), NULL)),
 				       TRUE );
 
-	    /* 	    if it's the current account, we open the book and non-sensitive the menu entry */
-
 	    if ( i == gsb_account_get_current_account () )
 	    {
-		/* open the book */
-
-		gtk_list_button_clicked ( GTK_BUTTON ( button ));
-
-		/* set the name of the account */
-
-		gtk_label_set_text ( GTK_LABEL ( label_name_current_account),
-				     gsb_account_get_name (i));
-
 		/* un-sensitive the name of account in the menu */
-
 		gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
 								       menu_name(_("Edit"), _("Move transaction to another account"), tmp)),
 					   FALSE );
@@ -532,11 +358,12 @@ gboolean gsb_account_list_gui_create_list ( void )
     }
     return FALSE;
 }
-/* *********************************************************************************************************** */
 
 
 
-/** called when the order of accounts changed
+/** 
+ * Called when the order of accounts changed
+ *
  * \param button
  * \return FALSE
  * */
@@ -564,10 +391,7 @@ gboolean gsb_account_list_gui_change_order ( GtkWidget *button )
 
     /* we remake the other accounts list */
 
-    if ( gtk_notebook_get_current_page ( GTK_NOTEBOOK ( notebook_general )) == 1 ) 
-	gsb_account_page_create_accounts_list ();
-    else
-	gsb_account_list_gui_create_list ();
+    gsb_account_list_gui_create_list ();
 
     mise_a_jour_liste_comptes_accueil = 1;
 

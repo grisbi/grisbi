@@ -2010,8 +2010,8 @@ gboolean gsb_transactions_list_move_to_current_transaction ( gint no_account )
 
     if ( !path_sorted )
     {
-	gsb_transactions_list_set_current_transaction ( GINT_TO_POINTER (-1),
-							no_account );
+/* 	gsb_transactions_list_set_current_transaction ( GINT_TO_POINTER (-1), */
+/* 							no_account ); */
 	return FALSE;
     }
 

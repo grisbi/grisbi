@@ -73,7 +73,6 @@ extern gint max;
 extern gchar *nom_fichier_comptes;
 extern GtkWidget *main_hpaned;
 extern GtkWidget *paned_onglet_echeancier;
-extern GtkWidget *paned_onglet_etats;
 extern GtkWidget *paned_onglet_operations;
 extern gint taille_largeur_colonnes[TRANSACTION_LIST_COL_NB];
 extern GtkWidget *window;
@@ -750,8 +749,6 @@ void sauve_configuration(void)
               itoa(gtk_paned_get_position (GTK_PANED (paned_onglet_echeancier))));
     xmlNewChild ( node,NULL, "Largeur_colonne_comptes_comptes",
               itoa(gtk_paned_get_position (GTK_PANED (main_hpaned))));
-    xmlNewChild ( node,NULL, "Largeur_colonne_etats",
-              itoa(gtk_paned_get_position (GTK_PANED (paned_onglet_etats))));
     }
 
     /* sauvegarde de l'onglet I/O */

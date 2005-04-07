@@ -127,7 +127,7 @@ GtkWidget *onglet_categories ( void )
 
     /* We create the main vbox */
     vbox = gtk_vbox_new ( FALSE, 5 );
-    gtk_container_set_border_width ( GTK_CONTAINER ( vbox ), 10 );
+    gtk_container_set_border_width ( GTK_CONTAINER ( vbox ), 6 );
     gtk_widget_show ( vbox );
 
     /* on y ajoute la barre d'outils */

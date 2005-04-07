@@ -127,6 +127,8 @@ GtkWidget *creation_onglet_accueil ( void )
     base = gtk_vbox_new ( FALSE, 15 );
     gtk_container_set_border_width ( GTK_CONTAINER ( base ), 12 );
     gtk_scrolled_window_add_with_viewport ( GTK_SCROLLED_WINDOW ( base_scroll ), base );
+    gtk_scrolled_window_set_shadow_type ( GTK_SCROLLED_WINDOW ( base_scroll ), 
+					  GTK_SHADOW_NONE );
     gtk_widget_show ( base );
 
     if ( !chemin_logo || !strlen ( chemin_logo ))
@@ -268,39 +270,8 @@ void mise_a_jour_accueil ( void )
     update_soldes_minimaux ();
     update_fin_comptes_passifs ();
 }
-/* ************************************************************************* */
 
 
-/* ************************************************************************* */
-void change_temps ( GtkWidget *label_temps )
-{
-    gchar tampon_date [50], * tampon;
-    time_t date;
-
-    time ( &date );
-    strftime ( tampon_date,
-	       (size_t) 50,
-	       "%X",
-	       (const struct tm *) localtime ( &date ) );
-
-    /* Convert to UTF-8 */
-    tampon = g_locale_to_utf8 ( tampon_date, -1, NULL, NULL, NULL);
-
-    gtk_label_set_text ( GTK_LABEL ( label_temps ), tampon );
-
-    strftime ( tampon_date,
-	       (size_t) 50,
-	       "%A %d %B %Y",
-	       (const struct tm *) localtime ( &date ) );
-    /* Convert to UTF-8 */
-    tampon = g_locale_to_utf8 ( tampon_date, -1, NULL, NULL, NULL);
-
-    /* Capitalize */
-    tampon[0] = toupper ( tampon[0] );
-
-    gtk_label_set_text ( GTK_LABEL ( label_jour ), tampon );
-}
-/* ************************************************************************* */
 
 /* ************************************************************************* */
 /*        Fonction appelée lorsqu'on clicke sur une échéance à saisir        */

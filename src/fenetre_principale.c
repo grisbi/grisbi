@@ -38,6 +38,8 @@
 #include "imputation_budgetaire.h"
 #include "tiers_onglet.h"
 #include "utils_buttons.h"
+#include "operations_comptes.h"
+#include "comptes_gestion.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -190,6 +192,8 @@ static GtkWidget * create_account_list ( void )
 		       G_CALLBACK ( gsb_gui_select_page ), GSB_HOME_PAGE );
     gtk_box_pack_start ( GTK_BOX ( vbox ), button, FALSE, FALSE, 0 );
 
+    gtk_box_pack_start ( GTK_BOX ( vbox ), gtk_hseparator_new(), FALSE, FALSE, 6 );
+
     /* Fill in with accounts. */
     list_tmp = gsb_account_get_list_accounts ();
     while ( list_tmp )
@@ -286,8 +290,8 @@ static GtkWidget * create_management_list ( void )
  */
 GtkWidget *create_main_notebook (void )
 {
-    GtkWidget *page_operations, *page_echeancier, *page_comptes, *page_tiers;
-    GtkWidget *page_categories, *page_imputations, *page_etats;
+    GtkWidget *page_operations, *page_echeancier, *page_prop, *page_tiers;
+    GtkWidget *page_categories, *page_imputations, *page_etats, *page_compte;
 #ifdef HAVE_G2BANKING
     GtkWidget *page_queue;
 #endif
@@ -301,59 +305,55 @@ GtkWidget *create_main_notebook (void )
     gtk_notebook_set_show_tabs ( GTK_NOTEBOOK(notebook_general), FALSE );
 
     /* Création de la page d'accueil */
-
     page_accueil = creation_onglet_accueil();
-
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_general ),
 			       page_accueil,
 			       gtk_label_new (SPACIFY(_("Main page"))) );
 
     /*  Céation de la fenêtre principale qui contient d'un côté */
     /*  les comptes, et de l'autre les opérations */
+    page_compte = gtk_notebook_new ();
+    gtk_widget_show ( page_compte );
+
+    gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_general ), page_compte,
+			       gtk_label_new (SPACIFY(_("Accounts"))) );
 
     page_operations = create_transaction_page ();
-
-    gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_general ),
-			       page_operations,
+    gtk_notebook_append_page ( GTK_NOTEBOOK ( page_compte ), page_operations,
 			       gtk_label_new (SPACIFY(_("Transactions"))) );
 
     /*   création de la fenetre des echéances */
-
     page_echeancier = creation_onglet_echeancier();
-/*     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_general ), */
-/* 			       page_echeancier, */
-/* 			       gtk_label_new (SPACIFY(_("Scheduler"))) ); */
+    gtk_notebook_append_page ( GTK_NOTEBOOK ( page_compte ), page_echeancier,
+			       gtk_label_new (SPACIFY(_("Scheduler"))) );
 
     /*   création de la fenetre des comptes */
+    page_prop = creation_onglet_comptes ();
+    gtk_widget_show_all ( page_prop );
+    gtk_notebook_append_page ( GTK_NOTEBOOK ( page_compte ), page_prop,
+			       gtk_label_new (SPACIFY(_("Properties"))) );
 
-    page_comptes = creation_onglet_comptes ();
-/*     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_general ), */
-/* 			       page_comptes, */
-/* 			       gtk_label_new (SPACIFY(_("Accounts"))) ); */
+/*     gtk_widget_show_all ( page_compte ); */
 
     /* Création de la fenetre des tiers */
-
     page_tiers = onglet_tiers();
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_general ),
 			       page_tiers,
 			       gtk_label_new (SPACIFY(_("Third party"))) );
 
     /* création de la fenetre des categories */
-
     page_categories = onglet_categories();
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_general ),
 			       page_categories,
 			       gtk_label_new (SPACIFY(_("Categories"))) );
 
     /* création de la fenetre des imputations budgétaires */
-
     page_imputations = onglet_imputations();
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_general ),
 			       page_imputations,
 			       gtk_label_new (SPACIFY(_("Budgetary lines"))) );
 
     /* création de la fenetre des états */
-
     page_etats = creation_onglet_etats ();
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_general ),
 			       page_etats,
@@ -393,29 +393,6 @@ gboolean change_page_notebook ( GtkNotebook *notebook,
 	gtk_timeout_remove ( id_temps );
 	id_temps = 0;
     }
-
-
-    /* remet l'horloge si revient à l'accueil */
-
-
-    if ( !numero_page )
-    {
-	gchar tampon_date[50];
-	time_t date;
-
-	time ( &date );
-	strftime ( (gchar *) tampon_date,
-		   (size_t) 50,
-		   "%X",
-		   (const struct tm *) localtime ( &date ) );
-
-	gtk_label_set_text ( GTK_LABEL (label_temps ),
-			     tampon_date );
-	id_temps = gtk_timeout_add ( 1000,
-				     (GtkFunction) change_temps,
-				     GTK_WIDGET ( label_temps ));
-
-    }    
 
     switch ( numero_page )
     {
@@ -473,8 +450,13 @@ static gboolean gsb_gui_select_page ( GtkWidget * button, gpointer page )
  */
 static gboolean gsb_gui_select_account_page ( GtkWidget * button, gpointer account )
 {
+    extern gint compte_courant_onglet;
+
     gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ), GSB_ACCOUNT_PAGE );
     gsb_account_list_gui_change_current_account ( account );
+
+    compte_courant_onglet = GPOINTER_TO_INT ( account );
+    remplissage_details_compte ();
 
     return FALSE;
 }

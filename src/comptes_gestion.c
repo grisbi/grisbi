@@ -1174,7 +1174,6 @@ void modification_details_compte ( void )
 			       g_strdup ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( detail_nom_compte )))) );
 
 	gsb_account_list_gui_create_list ();
-	gsb_account_page_create_accounts_list ();
 	mise_a_jour_liste_comptes_accueil = 1;
 	remplissage_liste_echeance ();
 	mise_a_jour_liste_echeances_manuelles_accueil = 1;

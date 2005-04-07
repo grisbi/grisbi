@@ -50,50 +50,20 @@ GtkWidget *vbox_liste_comptes_onglet;
 
 
 /**
+ * Create all user interface elements that displays the details of an
+ * account and fill them with current account.
  *
- *
+ * \return A newly-allocated vbox.
  */
 GtkWidget *creation_onglet_comptes ( void )
 {
-    GtkWidget *frame;
-
-    paned_onglet_comptes = gtk_hpaned_new ( );
-    if ( !etat.largeur_colonne_comptes_comptes )
-	etat.largeur_colonne_comptes_comptes = 200;
-
-    gtk_paned_set_position ( GTK_PANED(paned_onglet_comptes), etat.largeur_colonne_comptes_comptes );
-    gtk_container_set_border_width ( GTK_CONTAINER ( paned_onglet_comptes ), 10 );
-    gtk_widget_show ( paned_onglet_comptes );
-
-
-    /*   création de la fenetre des comptes / ventilation / équilibrage à gauche */
-
-    frame = gtk_frame_new ( NULL );
-    gtk_frame_set_shadow_type ( GTK_FRAME ( frame ), GTK_SHADOW_IN );
-    gtk_paned_pack1 ( GTK_PANED(paned_onglet_comptes), frame, TRUE, TRUE );
-    gtk_widget_show (frame);
-
-    gtk_container_add ( GTK_CONTAINER ( frame ), creation_liste_comptes_onglet ());
-
-
-    /* création de la partie droite */
-
-    frame = gtk_frame_new ( NULL );
-    gtk_frame_set_shadow_type ( GTK_FRAME ( frame ), GTK_SHADOW_IN );
-    gtk_paned_pack2 ( GTK_PANED(paned_onglet_comptes), frame, TRUE, TRUE );
-    gtk_widget_show (frame);
-
-    gtk_container_add ( GTK_CONTAINER ( frame ), creation_details_compte ());
-
-    /*  Création d'une icone et du nom par compte, et placement dans la
-	liste selon l'ordre désiré et met le livre ouvert pour le compte
-	0 */
+    GtkWidget * box;
 
     compte_courant_onglet = 0;
-    gsb_account_page_create_accounts_list ();
+    box = creation_details_compte ();
     remplissage_details_compte ();
 
-    return ( paned_onglet_comptes );
+    return ( box );
 }
 
 
@@ -218,59 +188,6 @@ void changement_compte_onglet ( gint *compte )
 
     remplissage_details_compte ();
 }
-/* ********************************************************************************************************** */
-
-
-
-/** erase and create the clickable list of accounts, on the left of the accounts page
- * \param none
- * \return FALSE;
- * */
-
-gboolean gsb_account_page_create_accounts_list ( void )
-{
-    GSList *list_tmp;
-
-    if ( DEBUG )
-	printf ( "gsb_account_page_create_accounts_list\n" );
-
-    /*     erase the normal accounts */
-
-    while ( GTK_BOX ( vbox_liste_comptes_onglet ) -> children )
-	gtk_container_remove ( GTK_CONTAINER ( vbox_liste_comptes_onglet ),
-			       (( GtkBoxChild *) ( GTK_BOX ( vbox_liste_comptes_onglet ) -> children -> data )) -> widget );
-
-    /* create the list : a button and an icon for each account */
-
-    list_tmp = gsb_account_get_list_accounts ();
-
-    while ( list_tmp )
-    {
-	GtkWidget *button;
-	gint i;
-
-	i = gsb_account_get_no_account ( list_tmp -> data );
-
-	button = gsb_account_list_gui_create_account_button (i,
-							     2,
-							     G_CALLBACK ( changement_compte_onglet ));
-	gtk_box_pack_start (GTK_BOX (vbox_liste_comptes_onglet), button, FALSE, FALSE, 0);
-	gtk_widget_show (button);
-
-	/* 	    si c'est le compte courant, on ouvre le livre */
-
-	if ( i == compte_courant_onglet )
-	{
-	    gtk_list_button_clicked ( GTK_BUTTON ( button ));
-	    gtk_label_set_text ( GTK_LABEL ( label_compte_courant_onglet),
-				 gsb_account_get_name (i));
-	}
-
-	list_tmp = list_tmp -> next;
-    }
-    return FALSE;
-}
-
 
     
 /* Local Variables: */

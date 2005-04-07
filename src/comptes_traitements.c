@@ -136,7 +136,6 @@ gboolean new_account ( void )
     /* update the accounts lists */
 
     gsb_account_list_gui_create_list ();
-    gsb_account_page_create_accounts_list ();
 
     compte_courant_onglet = no_compte;
 
@@ -267,7 +266,6 @@ gboolean delete_account ( void )
     /* update the buttons lists */
 
     gsb_account_list_gui_create_list();
-    gsb_account_page_create_accounts_list ();
 
     /* update the combofixes if needed */
 

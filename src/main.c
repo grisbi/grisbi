@@ -345,8 +345,8 @@ int main (int argc, char *argv[])
 			    gtk_widget_set_sensitive ( bouton_dupliquer_etat, TRUE );
 			    gtk_widget_set_sensitive ( bouton_effacer_etat, TRUE );
 
-			    gtk_label_set_text ( GTK_LABEL ( label_etat_courant ),
-						 etat_courant -> nom_etat );
+/* 			    gtk_label_set_text ( GTK_LABEL ( label_etat_courant ), */
+/* 						 etat_courant -> nom_etat ); */
 
 			    rafraichissement_etat ( etat_courant );
 

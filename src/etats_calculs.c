@@ -1479,7 +1479,7 @@ gint compare_montants_etat ( gdouble montant_ope,
 /*****************************************************************************************************/
 void rafraichissement_etat ( struct struct_etat *etat )
 {
-    affichage_etat ( etat, &gtktable_affichage );
+    affichage_etat ( ( etat ? etat : etat_courant ), &gtktable_affichage );
 }
 
 

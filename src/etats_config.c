@@ -1184,8 +1184,8 @@ void recuperation_info_perso_etat ( void )
     {
 	etat_courant -> nom_etat = g_strdup ( pointeur_char );
 
-	gtk_label_set_text ( GTK_LABEL ( label_etat_courant ),
-			     etat_courant -> nom_etat );
+/* 	gtk_label_set_text ( GTK_LABEL ( label_etat_courant ), */
+/* 			     etat_courant -> nom_etat ); */
 
 	/* on réaffiche la liste des états */
 

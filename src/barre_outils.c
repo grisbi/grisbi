@@ -46,7 +46,6 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static void mise_a_jour_boutons_grille ( void );
 /*END_STATIC*/
 
 
@@ -69,6 +68,7 @@ GtkWidget *bouton_grille_echeancier;
 GtkWidget *bouton_affiche_cache_formulaire;
 GtkWidget *fleche_haut;
 GtkWidget *fleche_bas;
+GtkWidget *display_lines_option_menu;
 
 
 
@@ -86,7 +86,7 @@ extern GtkWidget *tree_view_liste_echeances;
 /*******************************************************************************************/
 GtkWidget *creation_barre_outils ( void )
 {
-    GtkWidget *hbox, *handlebox, *hbox2, *omenu, *menu, *menu_item;
+    GtkWidget *hbox, *handlebox, *hbox2, *menu, *menu_item;
 
     hbox = gtk_hbox_new ( FALSE, 5 );
 
@@ -172,10 +172,9 @@ GtkWidget *creation_barre_outils ( void )
     g_signal_connect_swapped ( G_OBJECT(menu_item), "activate", 
 			       G_CALLBACK (change_aspect_liste), GINT_TO_POINTER (4) );
 
-    omenu = gtk_option_menu_new ();
-    gtk_option_menu_set_menu ( GTK_OPTION_MENU ( omenu ), menu );
-    gtk_box_pack_end ( GTK_BOX(hbox), omenu, FALSE, FALSE, 6 );
-
+    display_lines_option_menu = gtk_option_menu_new ();
+    gtk_option_menu_set_menu ( GTK_OPTION_MENU ( display_lines_option_menu ), menu );
+    gtk_box_pack_end ( GTK_BOX(hbox), display_lines_option_menu, FALSE, FALSE, 6 );
 
     gtk_widget_show_all ( hbox );
 
@@ -258,7 +257,6 @@ gboolean change_aspect_liste ( gint demande )
 					    etat.affichage_grille );
 	    block_menu_cb = FALSE;
 
-	    mise_a_jour_boutons_grille ();
 	    break;
 
 	/* 	1, 2, 3 et 4 sont les nb de lignes qu'on demande à afficher */
@@ -488,106 +486,9 @@ void mise_a_jour_boutons_caract_liste ( gint no_compte )
     /*     on veut juste mettre les boutons à jour, sans redessiner la liste */
     /*     on bloque donc les appels aux fonctions */
 
-    g_signal_handlers_block_by_func ( G_OBJECT ( bouton_ope_lignes[0] ),
-				      G_CALLBACK ( change_aspect_liste ),
-				      GINT_TO_POINTER (1));
-    g_signal_handlers_block_by_func ( G_OBJECT ( bouton_ope_lignes[1] ),
-				      G_CALLBACK ( change_aspect_liste ),
-				      GINT_TO_POINTER (2));
-    g_signal_handlers_block_by_func ( G_OBJECT ( bouton_ope_lignes[2] ),
-				      G_CALLBACK ( change_aspect_liste ),
-				      GINT_TO_POINTER (3));
-    g_signal_handlers_block_by_func ( G_OBJECT ( bouton_ope_lignes[3] ),
-				      G_CALLBACK ( change_aspect_liste ),
-				      GINT_TO_POINTER (4));
-    switch ( gsb_account_get_nb_rows ( no_compte ) )
-    {
-	case 1:
-	    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_ope_lignes[0] ),
-					   TRUE );
-	    break;
-	case 2:
-	    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_ope_lignes[1] ),
-					   TRUE );
-	    break;
-	case 3:
-	    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_ope_lignes[2] ),
-					   TRUE );
-	    break;
-	case 4:
-	    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_ope_lignes[3] ),
-					   TRUE );
-	    break;
-    }
-    g_signal_handlers_unblock_by_func ( G_OBJECT ( bouton_ope_lignes[0] ),
-					G_CALLBACK ( change_aspect_liste ),
-					GINT_TO_POINTER (1));
-    g_signal_handlers_unblock_by_func ( G_OBJECT ( bouton_ope_lignes[1] ),
-					G_CALLBACK ( change_aspect_liste ),
-					GINT_TO_POINTER (2));
-    g_signal_handlers_unblock_by_func ( G_OBJECT ( bouton_ope_lignes[2] ),
-					G_CALLBACK ( change_aspect_liste ),
-					GINT_TO_POINTER (3));
-    g_signal_handlers_unblock_by_func ( G_OBJECT ( bouton_ope_lignes[3] ),
-					G_CALLBACK ( change_aspect_liste ),
-					GINT_TO_POINTER (4));
-
-
-    /* on met maintenant le bouton r ou pas r */
-
-    g_signal_handlers_block_by_func ( G_OBJECT ( bouton_affiche_r ),
-				      G_CALLBACK ( change_aspect_liste ),
-				      GINT_TO_POINTER (5));
-    g_signal_handlers_block_by_func ( G_OBJECT ( bouton_enleve_r ),
-				      G_CALLBACK ( change_aspect_liste ),
-				      GINT_TO_POINTER (6));
-    if ( gsb_account_get_r (no_compte) )
-	gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_affiche_r ),
-				       TRUE );
-    else
-	gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_enleve_r ),
-				       TRUE );
-
-    g_signal_handlers_unblock_by_func ( G_OBJECT ( bouton_affiche_r ),
-					G_CALLBACK ( change_aspect_liste ),
-					GINT_TO_POINTER (5));
-    g_signal_handlers_unblock_by_func ( G_OBJECT ( bouton_enleve_r ),
-					G_CALLBACK ( change_aspect_liste ),
-					GINT_TO_POINTER (6));
-
-    mise_a_jour_boutons_grille ();
+    gtk_option_menu_set_history ( display_lines_option_menu,
+				  gsb_account_get_nb_rows ( no_compte ) );
 }
-/*******************************************************************************************/
-
-
-/*******************************************************************************************/
-/* cette fonction met les boutons d'affichage de la grille en fonction de la conf */
-/* mais sans appeler de connection */
-/*******************************************************************************************/
-
-void mise_a_jour_boutons_grille ( void )
-{
-    /* On met maintenant le bouton grille ou pas */
-    g_signal_handlers_block_by_func ( G_OBJECT ( bouton_grille ),
-				      G_CALLBACK ( change_aspect_liste ),
-				      GINT_TO_POINTER (0));
-    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_grille ), 
-				   etat.affichage_grille );
-    g_signal_handlers_unblock_by_func ( G_OBJECT ( bouton_grille ),
-					G_CALLBACK ( change_aspect_liste ),
-					GINT_TO_POINTER (0));
-    
-    /* On met maintenant le bouton grille de l'échéancier ou pas */
-    g_signal_handlers_block_by_func ( G_OBJECT ( bouton_grille_echeancier ),
-				      G_CALLBACK ( change_aspect_liste ),
-				      GINT_TO_POINTER (0));
-    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_grille_echeancier ), 
-				   etat.affichage_grille );
-    g_signal_handlers_unblock_by_func ( G_OBJECT ( bouton_grille_echeancier ),
-					G_CALLBACK ( change_aspect_liste ),
-					GINT_TO_POINTER (0));
-}
-/*******************************************************************************************/
 
 
 /* Local Variables: */

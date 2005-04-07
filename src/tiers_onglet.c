@@ -138,8 +138,7 @@ GtkWidget *onglet_tiers ( void )
 
     onglet = gtk_vbox_new ( FALSE,
 			  5 );
-    gtk_container_set_border_width ( GTK_CONTAINER ( onglet ),
-				     10 );
+    gtk_container_set_border_width ( GTK_CONTAINER ( onglet ), 6 );
     gtk_widget_show ( onglet );
 
     /* We create the gtktreeview and model early so that they can be referenced. */

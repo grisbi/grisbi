@@ -34,6 +34,7 @@
 #include "patienter.h"
 #include "utils_montants.h"
 #include "fenetre_principale.h"
+#include "fenetre_principale_constants.h"
 #include "fichiers_io.h"
 #include "categories_onglet.h"
 #include "imputation_budgetaire.h"
@@ -166,10 +167,9 @@ void init_variables_new_file ( void )
 
 
 
-/* ************************************************************************************************************ */
-/* cette fonction est appelée lors de la création d'un nouveau fichier, elle s'occupe */
-/* de l'initialisation de la partie graphique */
-/* ************************************************************************************************************ */
+/**
+ * Initialize user interface part when a new accounts file is created.
+ */
 void init_gui_new_file ( void )
 {
     /* dégrise les menus nécessaire */
@@ -179,33 +179,27 @@ void init_gui_new_file ( void )
     creation_liste_categ_combofix ();
 
     /*     récupère l'organisation des colonnes  */
-    
     recuperation_noms_colonnes_et_tips ();
 
     /* Create main widget. */
-    gtk_box_pack_start ( GTK_BOX ( window_vbox_principale),
-			 create_main_widget(),
-			 TRUE,
-			 TRUE,
-			 0 );
+    gtk_box_pack_start ( GTK_BOX ( window_vbox_principale), create_main_widget(),
+			 TRUE, TRUE, 0 );
 
     gsb_account_list_gui_change_current_account ( GINT_TO_POINTER ( gsb_account_get_current_account () ) );
 
-    /* affiche le nom du fichier de comptes dans le titre de la fenetre */
+    /* Display accounts in menus */
+    gsb_account_list_gui_create_list ();
 
+    /* Affiche le nom du fichier de comptes dans le titre de la fenetre */
     affiche_titre_fenetre();
 
-    gtk_notebook_set_page ( GTK_NOTEBOOK( notebook_general ),
-			    0 );
-
-    /*     on se met sur la page d'accueil */
+    gtk_notebook_set_page ( GTK_NOTEBOOK( notebook_general ), GSB_HOME_PAGE );
 
     gtk_widget_show ( notebook_general );
 }
-/* ************************************************************************************************************ */
 
 
-/* ************************************************************************************************************ */
+
 void ouvrir_fichier ( void )
 {
     GtkWidget *selection_fichier;
@@ -514,13 +508,11 @@ void ouverture_confirmee ( void )
     gtk_check_menu_item_set_active( GTK_CHECK_MENU_ITEM(widget), TRUE );
     block_menu_cb = FALSE;
 
-    /*     on ajoute la fentre principale à la window */
+    /* Fill menus with list of accounts. */
+    gsb_account_list_gui_create_list ();
 
-    gtk_box_pack_start ( GTK_BOX ( window_vbox_principale),
-			 main_vbox,
-			 TRUE,
-			 TRUE,
-			 0 );
+    /*     on ajoute la fentre principale à la window */
+    gtk_box_pack_start ( GTK_BOX ( window_vbox_principale), main_vbox, TRUE, TRUE, 0 );
     gtk_widget_show ( main_vbox );
 
     mise_a_jour_accueil ();

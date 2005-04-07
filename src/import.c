@@ -1056,7 +1056,6 @@ void traitement_operations_importees ( void )
 		/* 	on réaffiche la liste des comptes */
 
 		gsb_account_list_gui_create_list();
-		gsb_account_page_create_accounts_list ();
 	    }
 	    
 	    if ( gsb_account_get_update_list(i) )
@@ -2753,8 +2752,6 @@ gboolean click_dialog_ope_orphelines ( GtkWidget *dialog,
 
 	    mise_a_jour_liste_comptes_accueil = 1;
 	    mise_a_jour_soldes_minimaux = 1;
-
-	    gsb_account_page_create_accounts_list ();
 
 	    modification_fichier ( TRUE );
 
