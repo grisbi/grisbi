@@ -1,23 +1,25 @@
-/*  Fichier qui s'occupe de former les différentes fenêtres de travail */
-/*      fenetre_principale.c */
-
-/*     Copyright (C) 2000-2003  Cédric Auger */
-/* 			cedric@grisbi.org */
-/* 			http://www.grisbi.org */
-
-/*     This program is free software; you can redistribute it and/or modify */
-/*     it under the terms of the GNU General Public License as published by */
-/*     the Free Software Foundation; either version 2 of the License, or */
-/*     (at your option) any later version. */
-
-/*     This program is distributed in the hope that it will be useful, */
-/*     but WITHOUT ANY WARRANTY; without even the implied warranty of */
-/*     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the */
-/*     GNU General Public License for more details. */
-
-/*     You should have received a copy of the GNU General Public License */
-/*     along with this program; if not, write to the Free Software */
-/*     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
+/* ************************************************************************** */
+/*  Fichier qui s'occupe de former les différentes fenêtres de travail      */
+/*                                                                            */
+/*     Copyright (C)	2000-2005 CÃ©dric Auger (cedric@grisbi.org)      */
+/*			     2005 Benjamin Drieu (bdrieu@april.org)	      */
+/* 			http://www.grisbi.org				      */
+/*                                                                            */
+/*  This program is free software; you can redistribute it and/or modify      */
+/*  it under the terms of the GNU General Public License as published by      */
+/*  the Free Software Foundation; either version 2 of the License, or         */
+/*  (at your option) any later version.                                       */
+/*                                                                            */
+/*  This program is distributed in the hope that it will be useful,           */
+/*  but WITHOUT ANY WARRANTY; without even the implied warranty of            */
+/*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             */
+/*  GNU General Public License for more details.                              */
+/*                                                                            */
+/*  You should have received a copy of the GNU General Public License         */
+/*  along with this program; if not, write to the Free Software               */
+/*  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "include.h"
 
@@ -70,22 +72,31 @@ extern AB_BANKING *gbanking;
 #endif
 
 
+
+/**
+ * Create the main widget that holds all the user interface save the
+ * menus.
+ *
+ * \return A newly-allocated vbox holding all elements.
+ */
 GtkWidget * create_main_widget ( void )
 {
     GtkWidget *label, *hbox, *eb;
-    GdkColor bg = { 0, 40092, 39578, 38936 };
+    GdkColor bg = { 0, 54016, 54016, 54016 };
 
+    /* All stuff will be put in a huge vbox, with an hbox containing
+     * quick summary. */
     main_vbox = gtk_vbox_new ( FALSE, 0 );
-
     eb = gtk_event_box_new ();
-
     hbox = gtk_hbox_new ( FALSE, 0 );
 
+    /* Create two arrows (dummy atm). */
     gtk_box_pack_start ( GTK_BOX(hbox), gtk_arrow_new ( GTK_ARROW_LEFT,GTK_SHADOW_OUT ), 
 			 FALSE, FALSE, 0 );
     gtk_box_pack_start ( GTK_BOX(hbox), gtk_arrow_new ( GTK_ARROW_RIGHT,GTK_SHADOW_OUT ), 
 			 FALSE, FALSE, 3 );
 
+    /* Define labels (dummy atm). */
     label = gtk_label_new ( "" );
     gtk_label_set_markup ( GTK_LABEL(label), 
 			   g_strconcat ( "<span weight=\"bold\">",
@@ -93,7 +104,6 @@ GtkWidget * create_main_widget ( void )
 					 "</span>", NULL ) );
     gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_LEFT );
     gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
-
     gtk_box_pack_start ( GTK_BOX(hbox), label, TRUE, TRUE, 3 );
 
     label = gtk_label_new ("");
@@ -102,21 +112,21 @@ GtkWidget * create_main_widget ( void )
 							   "</span>", NULL ) );
     gtk_box_pack_start ( GTK_BOX(hbox), label, FALSE, FALSE, 0 );
 
-    gtk_widget_show_all ( hbox );
+    /* Change color with an event box trick. */
     gtk_widget_modify_bg ( eb, 0, &bg );
-
     gtk_container_add ( eb, hbox );
     gtk_container_set_border_width ( hbox, 6 );
-    gtk_widget_show ( eb );
 
     gtk_box_pack_start ( GTK_BOX(main_vbox), eb, FALSE, FALSE, 0 );
+    gtk_widget_show_all ( eb );
 
+    /* Then create and fill the main hpaned. */
     main_hpaned = gtk_hpaned_new ();
     gtk_box_pack_start ( GTK_VBOX(main_vbox), main_hpaned, TRUE, TRUE, 0 );
-    gtk_widget_show ( main_vbox );
-
     gtk_paned_add1 ( GTK_PANED( main_hpaned ), create_navigation_pane ( ) );
     gtk_paned_add2 ( GTK_PANED( main_hpaned ), create_main_notebook ( ) );
+
+    gtk_widget_show ( main_vbox );
     gtk_widget_show ( main_hpaned );
     gtk_widget_show ( notebook_general );
 
