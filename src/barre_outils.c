@@ -29,14 +29,8 @@
 
 #include "include.h"
 
-#include "./xpm/ope_sans_r.xpm"
-#include "./xpm/ope_avec_r.xpm"
 #include "./xpm/image_fleche_haut.xpm"
 #include "./xpm/image_fleche_bas.xpm"
-/* #include "./xpm/liste_0.xpm" */
-/* #include "./xpm/liste_1.xpm" */
-/* #include "./xpm/liste_2.xpm" */
-/* #include "./xpm/liste_3.xpm" */
 #include "./xpm/comments.xpm"
 #include "./xpm/grille.xpm"
 
@@ -108,25 +102,29 @@ GtkWidget *creation_barre_outils ( void )
 
     /* Add various icons */
     gtk_box_pack_start ( GTK_BOX ( hbox2 ),
-			 new_button_with_label_and_image ( _("Category"),
+			 new_button_with_label_and_image ( GSB_BUTTON_ICON,
+							   _("Category"),
 							   "new-transaction.png",
 							   G_CALLBACK ( new_transaction ),
 							   NULL ),
 			 FALSE, FALSE, 0 );
     gtk_box_pack_start ( GTK_BOX ( hbox2 ), 
-			 new_stock_button_with_label ( GTK_STOCK_DELETE, 
+			 new_stock_button_with_label ( GSB_BUTTON_ICON,
+						       GTK_STOCK_DELETE, 
 						       _("Delete"),
 						       G_CALLBACK ( remove_transaction ),
 						       NULL ), 
 			 FALSE, FALSE, 0 );
     gtk_box_pack_start ( GTK_BOX ( hbox2 ), 
-			 new_stock_button_with_label ( GTK_STOCK_PROPERTIES, 
+			 new_stock_button_with_label ( GSB_BUTTON_ICON,
+						       GTK_STOCK_PROPERTIES, 
 						       _("Edit"),
 						       G_CALLBACK ( gsb_transactions_list_edit_current_transaction ),
 						       NULL ), 
 			 FALSE, FALSE, 0 );
     gtk_box_pack_start ( GTK_BOX ( hbox2 ), 
-			 new_stock_button_with_label ( GTK_STOCK_COPY, 
+			 new_stock_button_with_label ( GSB_BUTTON_ICON,
+						       GTK_STOCK_COPY, 
 						       _("Clone"),
 						       G_CALLBACK ( clone_selected_transaction ),
 						       NULL ), 
@@ -137,16 +135,18 @@ GtkWidget *creation_barre_outils ( void )
 /*     else */
 /* 	gtk_widget_show ( fleche_haut ); */
     
-    bouton_affiche_r = new_button_with_label_and_image ( _("Display reconciled transactions"),
+    bouton_affiche_r = new_button_with_label_and_image ( GSB_BUTTON_ICON,
+							 _("Display reconciled transactions"),
 							 "r.png",
 							 G_CALLBACK ( change_aspect_liste ),
 							 GINT_TO_POINTER (5)), 
     gtk_box_pack_end ( GTK_BOX ( hbox2 ), bouton_affiche_r, FALSE, FALSE, 0 );
 
-    bouton_grille = new_button_with_label_and_image ( _("Display grid"),
-							 "grid.png",
-							 G_CALLBACK ( change_aspect_liste ),
-							 NULL ), 
+    bouton_grille = new_button_with_label_and_image ( GSB_BUTTON_ICON,
+						      _("Display grid"),
+						      "grid.png",
+						      G_CALLBACK ( change_aspect_liste ),
+						      NULL ), 
     gtk_box_pack_end ( GTK_BOX ( hbox2 ), bouton_grille, FALSE, FALSE, 0 );
 
     /* Display mode menu */

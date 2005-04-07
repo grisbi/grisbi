@@ -32,8 +32,10 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static GtkWidget * new_image_label ( gchar * image_name, gchar * name );
-static GtkWidget * new_stock_image_label ( gchar * stock_id, gchar * name );
+static GtkWidget * new_image_label ( GsbButtonStyle style,
+				     gchar * image_name, gchar * name );
+static GtkWidget * new_stock_image_label ( GsbButtonStyle style,
+					   gchar * stock_id, gchar * name );
 static gboolean set_boolean ( GtkWidget * checkbox, guint * dummy);
 static gboolean set_double_from_spin ( GtkWidget * spin, gdouble * dummy);
 static gboolean set_int_from_spin ( GtkWidget * spin, gint * dummy);
@@ -491,12 +493,13 @@ GtkWidget *cree_bouton_url ( const gchar *adr,
  * TODO : document
  *
  */
-GtkWidget * new_stock_button_with_label ( gchar * stock_id, gchar * name, 
+GtkWidget * new_stock_button_with_label ( GsbButtonStyle style,
+					  gchar * stock_id, gchar * name, 
 					  GCallback callback, gpointer data )
 {
     GtkWidget * button, *vbox;
 
-    vbox = new_stock_image_label ( stock_id, name );
+    vbox = new_stock_image_label ( style, stock_id, name );
 
     button = gtk_button_new ();
     gtk_button_set_relief ( GTK_BUTTON(button), GTK_RELIEF_NONE );
@@ -517,13 +520,13 @@ GtkWidget * new_stock_button_with_label ( gchar * stock_id, gchar * name,
  *
  *
  */
-
-GtkWidget * new_button_with_label_and_image ( gchar * name, gchar * filename,
+GtkWidget * new_button_with_label_and_image ( GsbButtonStyle style,
+					      gchar * name, gchar * filename,
 					      GCallback callback, gpointer data )
 {
     GtkWidget * button, *vbox;
 
-    vbox = new_image_label ( filename, name );
+    vbox = new_image_label ( style, filename, name );
 
     button = gtk_button_new ();
     gtk_button_set_relief ( GTK_BUTTON(button), GTK_RELIEF_NONE );
@@ -545,12 +548,13 @@ GtkWidget * new_button_with_label_and_image ( gchar * name, gchar * filename,
  *
  *
  */
-GtkWidget * new_stock_button_with_label_menu ( gchar * stock_id, gchar * name, 
+GtkWidget * new_stock_button_with_label_menu ( GsbButtonStyle style,
+					       gchar * stock_id, gchar * name, 
 					       GCallback callback, gpointer data )
 {
     GtkWidget * button, * vbox, * hbox, * arrow;
 
-    vbox = new_stock_image_label ( stock_id, name );
+    vbox = new_stock_image_label ( style, stock_id, name );
 
     hbox = gtk_hbox_new ( FALSE, 0 );
     gtk_box_pack_start ( GTK_BOX(hbox), vbox, FALSE, FALSE, 0 );
@@ -575,43 +579,56 @@ GtkWidget * new_stock_button_with_label_menu ( gchar * stock_id, gchar * name,
 
 
 
-GtkWidget * new_stock_image_label ( gchar * stock_id, gchar * name )
+GtkWidget * new_stock_image_label ( GsbButtonStyle style, gchar * stock_id, gchar * name )
 {
     GtkWidget * vbox, * label, * image;
 
-    /* Define label */
-    label = gtk_label_new ( name );
-    gtk_label_set_text_with_mnemonic ( GTK_LABEL(label), name );
-    gtk_label_set_line_wrap ( GTK_LABEL(label), TRUE );
-    
-    /* define image */
-    image = gtk_image_new_from_stock ( stock_id, GTK_ICON_SIZE_LARGE_TOOLBAR );
     vbox = gtk_vbox_new ( FALSE, 0 );
-    gtk_box_pack_start ( GTK_BOX(vbox), image, FALSE, FALSE, 0 );
-/*     gtk_box_pack_start ( GTK_BOX(vbox), label, FALSE, FALSE, 0 ); */
 
+    /* Define image */
+    if ( style == GSB_BUTTON_ICON || style == GSB_BUTTON_BOTH )
+    {
+	image = gtk_image_new_from_stock ( stock_id, GTK_ICON_SIZE_LARGE_TOOLBAR );
+	gtk_box_pack_start ( GTK_BOX(vbox), image, FALSE, FALSE, 0 );
+    }
+
+    /* Define label */
+    if ( style == GSB_BUTTON_TEXT || style == GSB_BUTTON_BOTH )
+    {
+	label = gtk_label_new ( name );
+	gtk_label_set_text_with_mnemonic ( GTK_LABEL(label), name );
+	gtk_label_set_line_wrap ( GTK_LABEL(label), TRUE );
+	gtk_box_pack_start ( GTK_BOX(vbox), label, FALSE, FALSE, 0 );
+    }
+    
     return vbox;
 }
 
 
 
 
-GtkWidget * new_image_label ( gchar * image_name, gchar * name )
+GtkWidget * new_image_label ( GsbButtonStyle style, gchar * image_name, gchar * name )
 {
     GtkWidget * vbox, * label, * image;
 
-    /* Define image */
-    image = gtk_image_new_from_file (g_strconcat(PIXMAPS_DIR, C_DIRECTORY_SEPARATOR,
-						 image_name, NULL));
-    
-    /* Define label */
-    label = gtk_label_new ( name );
-    gtk_label_set_text_with_mnemonic ( GTK_LABEL(label), name );
-    gtk_label_set_line_wrap ( GTK_LABEL(label), TRUE );
-    
     vbox = gtk_vbox_new ( FALSE, 0 );
-    gtk_box_pack_start ( GTK_BOX(vbox), image, FALSE, FALSE, 0 );
-/*     gtk_box_pack_start ( GTK_BOX(vbox), label, FALSE, FALSE, 0 ); */
+
+    /* Define image */
+    if ( style == GSB_BUTTON_ICON || style == GSB_BUTTON_BOTH )
+    {
+	image = gtk_image_new_from_file (g_strconcat(PIXMAPS_DIR, C_DIRECTORY_SEPARATOR,
+						     image_name, NULL));
+	gtk_box_pack_start ( GTK_BOX(vbox), image, FALSE, FALSE, 0 );
+    }
+
+    /* Define label */
+    if ( style == GSB_BUTTON_TEXT || style == GSB_BUTTON_BOTH )
+    {
+	label = gtk_label_new ( name );
+	gtk_label_set_text_with_mnemonic ( GTK_LABEL(label), name );
+	gtk_label_set_line_wrap ( GTK_LABEL(label), TRUE );
+	gtk_box_pack_start ( GTK_BOX(vbox), label, FALSE, FALSE, 0 );
+    }
 
     gtk_widget_show_all ( vbox );
 
