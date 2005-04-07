@@ -445,24 +445,28 @@ GtkWidget *creation_barre_outils_tiers ( void )
 
     /* Add various icons */
     gtk_box_pack_start ( GTK_BOX ( hbox2 ), 
-			 new_button_with_label_and_image ( _("New payee"), "new-payee.png",
+			 new_button_with_label_and_image ( GSB_BUTTON_ICON,
+							   _("New payee"), "new-payee.png",
 							   G_CALLBACK(appui_sur_ajout_division),
 							   payee_tree_model ), 
 			 FALSE, TRUE, 0 );
     gtk_box_pack_start ( GTK_BOX ( hbox2 ), 
-			 new_stock_button_with_label ( GTK_STOCK_DELETE, 
+			 new_stock_button_with_label ( GSB_BUTTON_ICON,
+						       GTK_STOCK_DELETE, 
 						       _("Delete"),
 						       G_CALLBACK(supprimer_division),
 						       payee_tree ), 
 			 FALSE, TRUE, 0 );
     gtk_box_pack_start ( GTK_BOX ( hbox2 ), /* FIXME: write the property dialog */
-			 new_stock_button_with_label (GTK_STOCK_PROPERTIES, 
-						      _("Properties"),
-						      G_CALLBACK(edit_payee), 
-						      payee_tree ), 
+			 new_stock_button_with_label ( GSB_BUTTON_ICON,
+						       GTK_STOCK_PROPERTIES, 
+						       _("Properties"),
+						       G_CALLBACK(edit_payee), 
+						       payee_tree ), 
 			 FALSE, TRUE, 0 );
     gtk_box_pack_start ( GTK_BOX ( hbox2 ), 
-			 new_stock_button_with_label_menu ( GTK_STOCK_SELECT_COLOR, 
+			 new_stock_button_with_label_menu ( GSB_BUTTON_ICON,
+							    GTK_STOCK_SELECT_COLOR, 
 							    _("View"),
 							    G_CALLBACK(popup_payee_view_mode_menu),
 							    NULL ),
