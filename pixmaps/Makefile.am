@@ -27,6 +27,10 @@ grisbi_pixmaps_DATA = \
 	r.png \
 	grid.png \
 	resume.png \
-	money.png
-
-
+	money.png \
+	budgetary_lines.png \
+	categories.png \
+	payees.png \
+	scheduler.png \
+	hbci.png \
+	reports.png
