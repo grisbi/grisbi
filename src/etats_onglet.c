@@ -1154,7 +1154,7 @@ void changement_etat ( GtkWidget *bouton,
 							   menu_name(_("Reports"), _("Clone report"), NULL)),
 			       TRUE );
     gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
-							   menu_name(_("Reports"), _("Print report"), NULL)),
+							   menu_name(_("Reports"), _("Print report..."), NULL)),
 			       TRUE );
     gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
 							   menu_name(_("Reports"), _("Export report..."), NULL)),
