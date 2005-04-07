@@ -188,21 +188,7 @@ GtkWidget *creation_liste_comptes (void)
 
 	current_account = gsb_account_get_current_account ();
 	reconcile_date = gsb_account_get_current_reconcile_date (current_account);
-/* 	label_last_statement = gtk_label_new ( g_strdup_printf ( _("Last statement: %02d/%02d/%d"),  */
-/* 							 g_date_day (reconcile_date), */
-/* 							 g_date_month (reconcile_date), */
-/* 							 g_date_year (reconcile_date))); */
     }
-/*     else */
-/* 	label_last_statement = gtk_label_new ( COLON(_("Last statement")) ); */
-
-/*     gtk_box_pack_start ( GTK_BOX ( vbox_frame_equilibrage ), */
-/* 			 label_last_statement, */
-/* 			 FALSE, */
-/* 			 TRUE, */
-/* 			 0); */
-/*     gtk_widget_show ( label_last_statement ); */
-
 
     /* mise en place du button équilibrage */
 
@@ -293,8 +279,10 @@ gboolean gsb_account_list_gui_change_current_account ( gint *no_account )
 	gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ),
 				1 );
 
-    if ( new_account == gsb_account_get_current_account () )
-	return FALSE;
+    /* Removed because it prevents updating tab at first selection,
+     * because saved account is ALWAYS the same as the current one. */
+/*     if ( new_account == gsb_account_get_current_account () ) */
+/* 	return FALSE; */
 
     /* 	on va sur un no_account, on vérifie que ce n'est pas un no_account clos */
     /* 	    si c'est le cas, on ferme l'icone */
