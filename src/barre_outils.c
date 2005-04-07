@@ -136,7 +136,7 @@ GtkWidget *creation_barre_outils ( void )
 /* 	gtk_widget_show ( fleche_haut ); */
     
     bouton_affiche_r = new_button_with_label_and_image ( GSB_BUTTON_ICON,
-							 _("Display reconciled transactions"),
+							 _("Reconciled transactions"),
 							 "r.png",
 							 G_CALLBACK ( change_aspect_liste ),
 							 GINT_TO_POINTER (5)), 
