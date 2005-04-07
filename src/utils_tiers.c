@@ -42,6 +42,9 @@ static void reset_payee_counters ();
 extern GSList *liste_struct_tiers;
 extern gint no_devise_totaux_tiers;
 extern struct struct_tiers * without_payee;
+extern gint no_dernier_tiers;
+extern gint mise_a_jour_combofix_tiers_necessaire;
+extern gint nb_enregistrements_tiers;
 /*END_EXTERN*/
 
 
@@ -100,6 +103,34 @@ struct struct_tiers *tiers_par_nom ( gchar *nom_tiers,
     return NULL;
 }
 /* **************************************************************************************************** */
+
+
+
+/***********************************************************************************************************/
+/* Fonction ajoute_nouveau_tiers */
+/* appelée pour ajouter un nouveau tiers à la liste des tiers */
+/* entrée : le nouveau tiers */
+/* retour : le no de tiers */
+/***********************************************************************************************************/
+struct struct_tiers *ajoute_nouveau_tiers ( gchar *tiers )
+{
+    struct struct_tiers *nouveau_tiers;
+
+    if ( !strlen ( g_strstrip ( tiers )))
+	return NULL;
+
+    nouveau_tiers = calloc ( 1, sizeof ( struct struct_tiers ));
+
+    nouveau_tiers -> no_tiers = ++no_dernier_tiers;
+    nouveau_tiers -> nom_tiers = g_strdup ( g_strstrip ( tiers ));
+
+    liste_struct_tiers = g_slist_append ( liste_struct_tiers, nouveau_tiers );
+    nb_enregistrements_tiers++;
+    mise_a_jour_combofix_tiers_necessaire = 1;
+    mise_a_jour_combofix_tiers ();
+
+    return ( nouveau_tiers );
+}
 
 
 

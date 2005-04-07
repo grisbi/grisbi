@@ -570,8 +570,8 @@ GtkWidget * new_stock_button_with_label_menu ( GsbButtonStyle style,
 
     if ( callback )
     {
-	g_signal_connect_swapped ( G_OBJECT(button), "clicked", 
-				   G_CALLBACK(callback), data );
+	g_signal_connect ( G_OBJECT(button), "clicked", 
+			   G_CALLBACK(callback), data );
     }
 
     return button;

@@ -33,7 +33,6 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static void changement_compte_onglet ( gint *compte );
 static GtkWidget *creation_liste_comptes_onglet ( void );
 /*END_STATIC*/
 
@@ -50,8 +49,10 @@ GtkWidget *vbox_liste_comptes_onglet;
 /*END_EXTERN*/
 
 
-
-/*****************************************************************************************************/
+/**
+ *
+ *
+ */
 GtkWidget *creation_onglet_comptes ( void )
 {
     GtkWidget *frame;
@@ -94,10 +95,13 @@ GtkWidget *creation_onglet_comptes ( void )
 
     return ( paned_onglet_comptes );
 }
-/*****************************************************************************************************/
 
 
-/*****************************************************************************************************/
+
+/**
+ *
+ *
+ */
 GtkWidget *creation_liste_comptes_onglet ( void )
 {
     GtkWidget *onglet;

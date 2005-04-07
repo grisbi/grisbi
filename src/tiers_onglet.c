@@ -116,7 +116,7 @@ extern GtkWidget *window;
 GtkWidget *onglet_tiers ( void )
 {
     GtkWidget *onglet, *scroll_window, *scrolled_window_text;
-    GtkWidget *vbox, *frame, *vbox_frame, *hbox;
+    GtkWidget *vbox, *vbox_frame, *hbox;
     GtkTreeViewColumn *column;
     GtkCellRenderer *cell;
     GtkTreeDragDestIface * dst_iface;
@@ -136,189 +136,11 @@ GtkWidget *onglet_tiers ( void )
 
     /* création de la fenêtre qui sera renvoyée */
 
-    onglet = gtk_hbox_new ( FALSE,
-			    5 );
+    onglet = gtk_vbox_new ( FALSE,
+			  5 );
     gtk_container_set_border_width ( GTK_CONTAINER ( onglet ),
 				     10 );
     gtk_widget_show ( onglet );
-
-
-    /*   création de la frame de gauche */
-
-    frame = gtk_frame_new ( NULL );
-    gtk_frame_set_shadow_type ( GTK_FRAME ( frame ),
-				GTK_SHADOW_IN );
-    gtk_box_pack_start ( GTK_BOX ( onglet ),
-			 frame,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show (frame );
-
-    /* mise en place du gtk_text */
-
-    vbox = gtk_vbox_new ( FALSE,
-			  5 );
-    gtk_container_set_border_width ( GTK_CONTAINER ( vbox ),
-				     15 );
-    gtk_container_add ( GTK_CONTAINER ( frame ),
-			vbox );
-    gtk_widget_show ( vbox );
-
-
-
-
-    frame = gtk_frame_new ( SPACIFY(COLON(_("Information"))) );
-    gtk_box_pack_start ( GTK_BOX ( vbox ),
-			 frame,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show ( frame );
-
-    vbox_frame = gtk_vbox_new ( FALSE,
-				5 );
-    gtk_container_set_border_width ( GTK_CONTAINER ( vbox_frame ),
-				     5 );
-    gtk_container_add ( GTK_CONTAINER ( frame ),
-			vbox_frame );
-    gtk_widget_show ( vbox_frame );
-
-    entree_nom_tiers = gtk_entry_new ();
-    gtk_widget_set_sensitive ( entree_nom_tiers,
-			       FALSE );
-/*     gtk_signal_connect ( GTK_OBJECT ( entree_nom_tiers ), */
-/* 			 "changed", */
-/* 			 GTK_SIGNAL_FUNC ( modification_du_texte_tiers), */
-/* 			 NULL ); */
-    gtk_box_pack_start ( GTK_BOX ( vbox_frame ),
-			 entree_nom_tiers,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show ( entree_nom_tiers );
-
-
-    scrolled_window_text = gtk_scrolled_window_new ( FALSE, FALSE );
-    gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window_text ),
-				     GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC );
-    gtk_scrolled_window_set_shadow_type ( GTK_SCROLLED_WINDOW(scrolled_window_text), 
-					  GTK_SHADOW_IN );
-    gtk_box_pack_start ( GTK_BOX ( vbox_frame ), scrolled_window_text, FALSE, FALSE, 0 );
-
-    text_box = gtk_text_view_new ();
-    gtk_text_view_set_pixels_above_lines (GTK_TEXT_VIEW (text_box), 3);
-    gtk_text_view_set_pixels_below_lines (GTK_TEXT_VIEW (text_box), 3);
-    gtk_text_view_set_left_margin (GTK_TEXT_VIEW (text_box), 3);
-    gtk_text_view_set_right_margin (GTK_TEXT_VIEW (text_box), 3);
-    gtk_text_view_set_wrap_mode ( GTK_TEXT_VIEW (text_box), GTK_WRAP_WORD );
-    gtk_container_add ( GTK_CONTAINER(scrolled_window_text), text_box );
-
-    gtk_widget_set_sensitive ( text_box, FALSE );
-
-/*     g_signal_connect ( G_OBJECT(gtk_text_view_get_buffer(GTK_TEXT_VIEW(text_box))), */
-/* 		       "changed", ((GCallback) modification_du_texte_tiers), NULL ); */
-
-    gtk_widget_show_all ( scrolled_window_text );
-
-    /*   création des boutons modifier et annuler */
-
-    hbox = gtk_hbox_new ( TRUE,
-			  5 );
-    gtk_box_pack_start ( GTK_BOX ( vbox_frame ),
-			 hbox,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show ( hbox );
-
-    /* Button panel */
-
-
-    bouton_modif_tiers_modifier = gtk_button_new_from_stock (GTK_STOCK_APPLY);
-    gtk_button_set_relief ( GTK_BUTTON ( bouton_modif_tiers_modifier ),
-			    GTK_RELIEF_NONE );
-    gtk_widget_set_sensitive ( bouton_modif_tiers_modifier,
-			       FALSE );
-/*     gtk_signal_connect ( GTK_OBJECT ( bouton_modif_tiers_modifier ), */
-/* 			 "clicked", */
-/* 			 GTK_SIGNAL_FUNC ( clique_sur_modifier_tiers ), */
-/* 			 NULL ); */
-    gtk_box_pack_start ( GTK_BOX ( hbox ),
-			 bouton_modif_tiers_modifier,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show ( bouton_modif_tiers_modifier );
-
-    bouton_modif_tiers_annuler = gtk_button_new_from_stock (GTK_STOCK_CANCEL);
-    gtk_button_set_relief ( GTK_BUTTON ( bouton_modif_tiers_annuler ),
-			    GTK_RELIEF_NONE );
-/*     gtk_signal_connect ( GTK_OBJECT ( bouton_modif_tiers_annuler ), */
-/* 			 "clicked", */
-/* 			 GTK_SIGNAL_FUNC ( clique_sur_annuler_tiers ), */
-/* 			 NULL ); */
-    gtk_widget_set_sensitive ( bouton_modif_tiers_annuler,
-			       FALSE );
-    gtk_box_pack_start ( GTK_BOX ( hbox ),
-			 bouton_modif_tiers_annuler,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show ( bouton_modif_tiers_annuler);
-
-    bouton_supprimer_tiers = gtk_button_new_from_stock (GTK_STOCK_REMOVE);
-    gtk_button_set_relief ( GTK_BUTTON ( bouton_supprimer_tiers ),
-			    GTK_RELIEF_NONE );
-    gtk_widget_set_sensitive ( bouton_supprimer_tiers,
-			       FALSE );
-    gtk_signal_connect ( GTK_OBJECT ( bouton_supprimer_tiers ),
-			 "clicked",
-			 GTK_SIGNAL_FUNC ( supprimer_division ),
-			 NULL );
-    gtk_box_pack_start ( GTK_BOX ( vbox_frame ),
-			 bouton_supprimer_tiers,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show ( bouton_supprimer_tiers );
-
-    /* mise en place du bouton ajout d'1 tiers */
-
-    bouton_ajouter_tiers = gtk_button_new_with_label ( _("Add a third party") );
-    gtk_button_set_relief ( GTK_BUTTON ( bouton_ajouter_tiers ),
-			    GTK_RELIEF_NONE );
-/*     gtk_signal_connect ( GTK_OBJECT ( bouton_ajouter_tiers ), */
-/* 			 "clicked", */
-/* 			 GTK_SIGNAL_FUNC ( appui_sur_ajout_tiers ), */
-/* 			 NULL ); */
-    gtk_box_pack_start ( GTK_BOX ( vbox ),
-			 bouton_ajouter_tiers,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show ( bouton_ajouter_tiers );
-
-
-    /*   création de la frame de droite */
-
-    frame = gtk_frame_new ( NULL );
-    gtk_frame_set_shadow_type ( GTK_FRAME ( frame ),
-				GTK_SHADOW_IN );
-    gtk_box_pack_start ( GTK_BOX ( onglet ),
-			 frame,
-			 TRUE,
-			 TRUE,
-			 5 );
-    gtk_widget_show (frame );
-
-    vbox = gtk_vbox_new ( FALSE,
-			  5 );
-    gtk_container_set_border_width ( GTK_CONTAINER ( vbox ),
-				     10 );
-    gtk_container_add ( GTK_CONTAINER ( frame ),
-			vbox );
-    gtk_widget_show ( vbox );
 
     /* We create the gtktreeview and model early so that they can be referenced. */
     payee_tree = gtk_tree_view_new();
@@ -328,7 +150,7 @@ GtkWidget *onglet_tiers ( void )
 					    G_TYPE_INT, G_TYPE_FLOAT );
 
     /* on y ajoute la barre d'outils */
-    gtk_box_pack_start ( GTK_BOX ( vbox ),
+    gtk_box_pack_start ( GTK_BOX ( onglet ),
 			 creation_barre_outils_tiers(),
 			 FALSE,
 			 FALSE,
@@ -340,7 +162,7 @@ GtkWidget *onglet_tiers ( void )
 				     GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC );
     gtk_scrolled_window_set_shadow_type ( GTK_SCROLLED_WINDOW(scroll_window), 
 					  GTK_SHADOW_IN );
-    gtk_box_pack_start ( GTK_BOX ( vbox ), scroll_window, TRUE, TRUE, 0 );
+    gtk_box_pack_start ( GTK_BOX ( onglet ), scroll_window, TRUE, TRUE, 0 );
     gtk_widget_show ( scroll_window );
 
     /* Create model */
@@ -425,7 +247,6 @@ GtkWidget *onglet_tiers ( void )
     modif_tiers = 1;
 
     return ( onglet );
-
 }
 
 
@@ -581,33 +402,6 @@ gint classement_alphabetique_tree ( GtkWidget *tree,
     return g_utf8_collate ( ligne_1->cell->u.text, ligne_2->cell->u.text );
 }
 
-
-
-/***********************************************************************************************************/
-/* Fonction ajoute_nouveau_tiers */
-/* appelée pour ajouter un nouveau tiers à la liste des tiers */
-/* entrée : le nouveau tiers */
-/* retour : le no de tiers */
-/***********************************************************************************************************/
-struct struct_tiers *ajoute_nouveau_tiers ( gchar *tiers )
-{
-    struct struct_tiers *nouveau_tiers;
-
-    if ( !strlen ( g_strstrip ( tiers )))
-	return NULL;
-
-    nouveau_tiers = calloc ( 1, sizeof ( struct struct_tiers ));
-
-    nouveau_tiers -> no_tiers = ++no_dernier_tiers;
-    nouveau_tiers -> nom_tiers = g_strdup ( g_strstrip ( tiers ));
-
-    liste_struct_tiers = g_slist_append ( liste_struct_tiers, nouveau_tiers );
-    nb_enregistrements_tiers++;
-    mise_a_jour_combofix_tiers_necessaire = 1;
-    mise_a_jour_combofix_tiers ();
-
-    return ( nouveau_tiers );
-}
 
 
 

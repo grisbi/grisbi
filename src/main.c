@@ -62,6 +62,7 @@
 #include "etats_calculs.h"
 #include "etats_onglet.h"
 #include "utils_files.h"
+#include "fenetre_principale_constants.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -309,35 +310,20 @@ int main (int argc, char *argv[])
 		{
 		    case -1:
 			/* on demande l'onglet de configuration */
-
-			/* on affiche l'onglet du 2ème argument s'il existe */
-
-		    preferences ( NOT_A_PAGE );
+			/* on affiche l'onglet du 2ème argument s'il
+			 * existe */
+			preferences ( NOT_A_PAGE );
 
 			break;
 
-		    case 0:
-		    case 1:
-		    case 2:
-		    case 3:
-		    case 4:
-		    case 5:
-		    case 6:
-
-			gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ),
-						opt.page_w);
-			break;
-
-		    case 7:
+		    case GSB_REPORTS_PAGE:
 			/* on demande l'onglet des états  */
-
 			gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ),
 						opt.page_w);
 
-			/* s'il y a un chiffre ensuite, on ouvre l'état correspondant à ce chiffre */
-
-			if ( (opt.report_no != -1)
-			     &&
+			/* s'il y a un chiffre ensuite, on ouvre
+			 * l'état correspondant à ce chiffre */
+			if ( (opt.report_no != -1) &&
 			     liste_struct_etats )
 			{
 			    GSList *liste_tmp;
@@ -345,8 +331,8 @@ int main (int argc, char *argv[])
 			    liste_tmp = g_slist_nth ( liste_struct_etats,
 						      opt.report_no);
 
-			    /* si on a sélectionné un état qui n'existait pas, on ouvre le 1er */
-
+			    /* si on a sélectionné un état qui
+			     * n'existait pas, on ouvre le 1er */
 			    if ( !liste_tmp )
 				liste_tmp = liste_struct_etats;
 
@@ -354,22 +340,19 @@ int main (int argc, char *argv[])
 
 			    remplissage_liste_etats ();
 
-			    gtk_widget_set_sensitive ( bouton_personnaliser_etat,
-						       TRUE );
-			    gtk_widget_set_sensitive ( bouton_exporter_etat,
-						       TRUE );
-			    gtk_widget_set_sensitive ( bouton_dupliquer_etat,
-						       TRUE );
-			    gtk_widget_set_sensitive ( bouton_effacer_etat,
-						       TRUE );
+			    gtk_widget_set_sensitive ( bouton_personnaliser_etat, TRUE );
+			    gtk_widget_set_sensitive ( bouton_exporter_etat, TRUE );
+			    gtk_widget_set_sensitive ( bouton_dupliquer_etat, TRUE );
+			    gtk_widget_set_sensitive ( bouton_effacer_etat, TRUE );
 
 			    gtk_label_set_text ( GTK_LABEL ( label_etat_courant ),
 						 etat_courant -> nom_etat );
 
-
 			    rafraichissement_etat ( etat_courant );
 
-			    /* s'il y a une suite dans la demande en ligne de commande, on ouvre la personnalisation */
+			    /* s'il y a une suite dans la demande en
+			     * ligne de commande, on ouvre la
+			     * personnalisation */
 
 			    if ( opt.customization_tab_no != -1 )
 			    {
@@ -399,6 +382,11 @@ int main (int argc, char *argv[])
 				}
 			    }
 			}
+			break;
+
+		    default:
+			gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ),
+						opt.page_w);
 			break;
 		}
 	}

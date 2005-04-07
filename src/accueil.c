@@ -114,132 +114,64 @@ extern GtkWidget *window;
 /* ************************************************************************* */
 GtkWidget *creation_onglet_accueil ( void )
 {
-    GtkWidget *fenetre_accueil, *paddingbox, *base, *base_scroll, *base_box_scroll;
-    GtkWidget *hbox, *label;
-    gchar *nom_utilisateur;
-    struct passwd *utilisateur;
-
-    /*  la première séparation : une hbox : à gauche, le logo, à droite le reste */
-
-    fenetre_accueil = gtk_hbox_new ( FALSE, 15 );
-    gtk_widget_show ( fenetre_accueil );
-
-    /* création du logo */
-
-    if ( !chemin_logo || !strlen ( chemin_logo ))
-	chemin_logo = g_strdup ( LOGO_PATH );
-
-    if ( etat.utilise_logo )
-    {
-	if ( chemin_logo )
-	{
-	    logo_accueil =  gtk_image_new_from_file ( chemin_logo );
-	    gtk_box_pack_start ( GTK_BOX ( fenetre_accueil ), logo_accueil, FALSE, FALSE, 20 );
-	    gtk_widget_show ( logo_accueil );
-	}
-	else
-	    logo_accueil = NULL;
-    }
-
-    /* création de la partie droite */
-
-    base = gtk_vbox_new ( FALSE, 15 );
-    gtk_box_pack_end ( GTK_BOX ( fenetre_accueil ), base, TRUE, TRUE, 0 );
-    gtk_widget_show ( base );
-
-
-    /* la partie tout en haut affiche la date, le nom et l'heure */
-
-    hbox = gtk_hbox_new ( FALSE, 5 );
-    gtk_box_pack_start ( GTK_BOX ( base ), hbox, FALSE, FALSE, 10 );
-    gtk_widget_show ( hbox );
-
-
-    /* récupère le nom de l'utilisateur, si nul, met le login */
-
-    utilisateur = getpwuid ( getuid () );
-
-    if ( ! utilisateur )
-    {
-	utilisateur = getpwuid ( 65534 );
-    }
-
-    if ( utilisateur )
-    {
-	if ( !strlen ( nom_utilisateur = g_strdelimit ( utilisateur->pw_gecos, ",", 0 ) ) )
-	    nom_utilisateur = utilisateur->pw_name;
-    }
-    else
-    {
-	nom_utilisateur = _("No user");
-    }
-
-    label = gtk_label_new ( g_strconcat ( COLON(_("User")), latin2utf8 (nom_utilisateur), NULL) );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), label, TRUE, FALSE, 5 );
-    gtk_widget_show ( label );
-
-    label_jour = gtk_label_new ( "" );
-    gtk_misc_set_alignment ( GTK_MISC ( label_jour ), MISC_RIGHT, MISC_RIGHT );
-
-    gtk_box_pack_start ( GTK_BOX ( hbox ), label_jour, TRUE, TRUE, 5 );
-    gtk_widget_show ( label_jour );
-
-    label_temps = gtk_label_new ( "" );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), label_temps, TRUE, FALSE, 5 );
-    gtk_widget_show ( label_temps );
-
-    change_temps ( label_temps );
-
-    id_temps = gtk_timeout_add ( 1000,
-				 (GtkFunction) change_temps,
-				 GTK_WIDGET ( label_temps ));
-
-
-    /* en dessous, on met le titre du fichier s'il existe */
-
-    if ( titre_fichier )
-    {
-	label_titre_fichier = gtk_label_new ( titre_fichier );
-	gtk_label_set_markup ( GTK_LABEL ( label_titre_fichier ), 
-			       g_strconcat ("<span size=\"x-large\">",
-					    titre_fichier, "</span>", NULL ) );
-    }
-    else
-    {
-	label_titre_fichier = gtk_label_new ( "" );
-    }
-
-    gtk_box_pack_start ( GTK_BOX ( base ), label_titre_fichier, FALSE, FALSE, 0 );
-    gtk_widget_show ( label_titre_fichier );
-
+    GtkWidget *paddingbox, *base, *base_scroll;
 
     /* on crée à ce niveau base_scroll qui est aussi une vbox mais qui peut
        scroller verticalement */
 
     base_scroll = gtk_scrolled_window_new ( NULL, NULL);
-    gtk_container_set_border_width ( GTK_CONTAINER ( base_scroll ), 5 );
     gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( base_scroll ),
-				     GTK_POLICY_NEVER,
-				     GTK_POLICY_AUTOMATIC);
-    gtk_box_pack_start ( GTK_BOX ( base ), base_scroll, TRUE, TRUE, 0);
+				     GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
     gtk_widget_show ( base_scroll );
 
+    base = gtk_vbox_new ( FALSE, 15 );
+    gtk_container_set_border_width ( GTK_CONTAINER ( base ), 12 );
+    gtk_scrolled_window_add_with_viewport ( GTK_SCROLLED_WINDOW ( base_scroll ), base );
+    gtk_widget_show ( base );
 
-    /* on met la nouvelle vbox dans le fenetre scrollable */
+    if ( !chemin_logo || !strlen ( chemin_logo ))
+	chemin_logo = g_strdup ( LOGO_PATH );
 
-    base_box_scroll = gtk_vbox_new ( FALSE, 0 );
-    gtk_scrolled_window_add_with_viewport ( GTK_SCROLLED_WINDOW ( base_scroll ), base_box_scroll);
-    gtk_viewport_set_shadow_type ( GTK_VIEWPORT ( GTK_BIN ( base_scroll )  -> child ), GTK_SHADOW_NONE );
-    gtk_container_set_border_width ( GTK_CONTAINER ( base_box_scroll ), 10 );
-    gtk_widget_show (base_box_scroll);
+    /* en dessous, on met le titre du fichier s'il existe */
+    if ( titre_fichier )
+    {
+	GtkWidget * hbox, * eb;
+	GdkColor gray = { 0, 54016, 54016, 54016 };
 
+	hbox = gtk_hbox_new ( FALSE, 0 );
 
+	eb = gtk_event_box_new ();
+	gtk_widget_modify_bg ( eb, 0, &gray );
+
+	label_titre_fichier = gtk_label_new ( titre_fichier );
+	gtk_label_set_markup ( GTK_LABEL ( label_titre_fichier ), 
+			       g_strconcat ("<span size=\"x-large\">",
+					    titre_fichier, "</span>", NULL ) );
+
+	if ( etat.utilise_logo && chemin_logo )
+	{
+	    logo_accueil =  gtk_image_new_from_file ( chemin_logo );
+	    gtk_box_pack_start ( GTK_BOX ( hbox ), logo_accueil, FALSE, FALSE, 20 );
+	}
+	
+	gtk_box_pack_start ( GTK_BOX ( hbox ), label_titre_fichier, TRUE, TRUE, 20 );
+	gtk_container_set_border_width ( GTK_CONTAINER ( hbox ), 6 );
+	gtk_container_add ( GTK_CONTAINER(eb), hbox );
+	gtk_box_pack_start ( GTK_BOX ( base ), eb, FALSE, FALSE, 0 );
+	gtk_widget_show_all ( eb );
+    }
+    else
+    {
+	label_titre_fichier = gtk_label_new ( "" );
+	gtk_box_pack_start ( GTK_BOX ( base ), label_titre_fichier, FALSE, FALSE, 0 );
+    }
+    
     /* on crée la première frame dans laquelle on met les états des comptes */
     frame_etat_comptes_accueil = gtk_notebook_new ();
     gtk_notebook_set_show_tabs ( GTK_NOTEBOOK(frame_etat_comptes_accueil), FALSE );
     gtk_notebook_set_show_border ( GTK_NOTEBOOK(frame_etat_comptes_accueil), FALSE );
     gtk_container_set_border_width ( GTK_CONTAINER(frame_etat_comptes_accueil), 0 );
-    gtk_box_pack_start ( GTK_BOX(base_box_scroll), frame_etat_comptes_accueil, FALSE, FALSE, 0 );
+    gtk_box_pack_start ( GTK_BOX(base), frame_etat_comptes_accueil, FALSE, FALSE, 0 );
 
     /* on met la liste des comptes et leur état dans la frame */
     mise_a_jour_liste_comptes_accueil = 1;
@@ -247,7 +179,7 @@ GtkWidget *creation_onglet_accueil ( void )
 
 
     /* mise en place de la partie fin des comptes passif */
-    paddingbox = new_paddingbox_with_title ( base_box_scroll, FALSE,
+    paddingbox = new_paddingbox_with_title ( base, FALSE,
 					     _("Closed liabilities accounts") );
     frame_etat_fin_compte_passif = gtk_notebook_new ();
     gtk_notebook_set_show_tabs ( GTK_NOTEBOOK(frame_etat_fin_compte_passif), FALSE );
@@ -258,7 +190,7 @@ GtkWidget *creation_onglet_accueil ( void )
 
     /* mise en place de la partie des échéances manuelles ( non affiché ) */
     /*     sera mis à jour automatiquement si nécessaire */
-    paddingbox = new_paddingbox_with_title ( base_box_scroll, FALSE,
+    paddingbox = new_paddingbox_with_title ( base, FALSE,
 					     _("Manual scheduled transactions at maturity date") );
     frame_etat_echeances_manuelles_accueil = gtk_notebook_new ();
     gtk_notebook_set_show_tabs ( GTK_NOTEBOOK(frame_etat_echeances_manuelles_accueil), FALSE );
@@ -270,7 +202,7 @@ GtkWidget *creation_onglet_accueil ( void )
 
     /* mise en place de la partie des échéances auto  ( non affiché )*/
     /*     sera mis à jour automatiquement si nécessaire */
-    paddingbox = new_paddingbox_with_title ( base_box_scroll, FALSE,
+    paddingbox = new_paddingbox_with_title ( base, FALSE,
 					     _("Automatic scheduled transactions entered") );
     frame_etat_echeances_auto_accueil = gtk_notebook_new ();
     gtk_notebook_set_show_tabs ( GTK_NOTEBOOK(frame_etat_echeances_auto_accueil), FALSE );
@@ -281,7 +213,7 @@ GtkWidget *creation_onglet_accueil ( void )
 
 
     /* partie des fin d'échéances */
-    paddingbox = new_paddingbox_with_title ( base_box_scroll, FALSE,
+    paddingbox = new_paddingbox_with_title ( base, FALSE,
 					     _("Closed scheduled transactions") );
     frame_etat_echeances_finies = gtk_notebook_new ();
     gtk_notebook_set_show_tabs ( GTK_NOTEBOOK(frame_etat_echeances_finies), FALSE );
@@ -292,7 +224,7 @@ GtkWidget *creation_onglet_accueil ( void )
 
 
     /* partie des soldes minimaux autorisés */
-    paddingbox = new_paddingbox_with_title ( base_box_scroll, FALSE,
+    paddingbox = new_paddingbox_with_title ( base, FALSE,
 					     _("Accounts under authorized balance") );
     frame_etat_soldes_minimaux_autorises = gtk_notebook_new ();
     gtk_notebook_set_show_tabs ( GTK_NOTEBOOK(frame_etat_soldes_minimaux_autorises), FALSE );
@@ -303,7 +235,7 @@ GtkWidget *creation_onglet_accueil ( void )
 
 
     /* partie des soldes minimaux voulus */
-    paddingbox = new_paddingbox_with_title ( base_box_scroll, FALSE,
+    paddingbox = new_paddingbox_with_title ( base, FALSE,
 					     _("Accounts under wanted balance") );
     frame_etat_soldes_minimaux_voulus = gtk_notebook_new ();
     gtk_notebook_set_show_tabs ( GTK_NOTEBOOK(frame_etat_soldes_minimaux_voulus), FALSE );
@@ -314,7 +246,7 @@ GtkWidget *creation_onglet_accueil ( void )
 
     mise_a_jour_soldes_minimaux = 1;
 
-    return ( fenetre_accueil );
+    return ( base_scroll );
 }
 /* ************************************************************************* */
 

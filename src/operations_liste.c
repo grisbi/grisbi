@@ -214,99 +214,37 @@ extern GtkWidget *window;
 
 GtkWidget *creation_fenetre_operations ( void )
 {
-    GtkWidget *win_operations;
-    GtkWidget *solde_box;
-    GtkWidget *frame;
+    GtkWidget *win_operations, *solde_box;
 
     /*   la fenetre des opé est une vbox : la liste en haut, le solde et  */
     /*     des boutons de conf au milieu, le formulaire en bas */
-
     allocation_precedente = 0;
 
-    win_operations = gtk_vbox_new ( FALSE,
-				    5 );
-    /* création de la barre d'outils */
+    win_operations = gtk_vbox_new ( FALSE, 6 );
 
+    /* création de la barre d'outils */
     barre_outils = creation_barre_outils ();
-    gtk_box_pack_start ( GTK_BOX ( win_operations ),
-			 barre_outils,
-			 FALSE,
-			 FALSE,
-			 0);
+    gtk_box_pack_start ( GTK_BOX ( win_operations ), barre_outils, FALSE, FALSE, 0);
     gtk_widget_show ( barre_outils );
 
     /* création du notebook des opé */
 
     notebook_listes_operations = creation_tree_view_operations ();
-    gtk_box_pack_start ( GTK_BOX ( win_operations ),
-			 notebook_listes_operations,
-			 TRUE,
-			 TRUE,
-			 0);
+    gtk_box_pack_start ( GTK_BOX ( win_operations ), notebook_listes_operations,
+			 TRUE, TRUE, 0);
     gtk_widget_show ( notebook_listes_operations );
 
-    /*   création de la ligne contenant le solde ( sous la liste des opérations ) et les boutons */
+    /*   création de la ligne contenant le solde ( sous la liste des
+     *   opérations ) et les boutons */
+    solde_box = gtk_table_new ( 1, 3, TRUE);
 
-    solde_box = gtk_table_new ( 1,
-				3,
-				TRUE);
-
-    gtk_box_pack_start ( GTK_BOX ( win_operations ),
-			 solde_box,
-			 FALSE,
-			 FALSE,
-			 0 );
+    gtk_box_pack_start ( GTK_BOX ( win_operations ), solde_box, FALSE, FALSE, 0 );
     gtk_widget_show ( solde_box );
-
-
-    /* mise en forme du solde pointé */
-
-/*     frame = gtk_frame_new ( NULL ); */
-/*     gtk_frame_set_shadow_type ( GTK_FRAME ( frame ), */
-/* 				GTK_SHADOW_ETCHED_OUT ); */
-/*     gtk_table_attach ( GTK_TABLE ( solde_box ), */
-/* 		       frame, */
-/* 		       0, 1, */
-/* 		       0, 1, */
-/* 		       GTK_EXPAND | GTK_SHRINK, */
-/* 		       FALSE, */
-/* 		       0, 0); */
-/*     gtk_widget_show ( frame ); */
-
-
-/*     solde_label_pointe = gtk_label_new ( SPACIFY(COLON(_("reconciled balance"))) ); */
-/*     gtk_label_set_justify ( GTK_LABEL ( solde_label_pointe ), */
-/* 			    GTK_JUSTIFY_LEFT); */
-/*     gtk_container_add ( GTK_CONTAINER ( frame ), */
-/* 			solde_label_pointe ); */
-/*     gtk_widget_show ( solde_label_pointe ); */
-
-
-    /* mise en forme du solde courant */
-
-/*     frame = gtk_frame_new ( NULL ); */
-/*     gtk_frame_set_shadow_type ( GTK_FRAME ( frame ), */
-/* 				GTK_SHADOW_ETCHED_OUT ); */
-/*     gtk_table_attach ( GTK_TABLE ( solde_box ), */
-/* 		       frame, */
-/* 		       2, 3, */
-/* 		       0, 1, */
-/* 		       GTK_EXPAND | GTK_SHRINK, */
-/* 		       FALSE, */
-/* 		       0, 0); */
-/*     gtk_widget_show ( frame ); */
-
-
-/*     solde_label = gtk_label_new ( SPACIFY(COLON(_("curent balance"))) ); */
-/*     gtk_label_set_justify ( GTK_LABEL ( solde_label ), */
-/* 			    GTK_JUSTIFY_RIGHT); */
-/*     gtk_container_add ( GTK_CONTAINER ( frame ), */
-/* 			solde_label ); */
-/*     gtk_widget_show ( solde_label ); */
 
     return ( win_operations );
 }
 /******************************************************************************/
+
 
 /******************************************************************************/
 /* création des treeview des opérations					      */
@@ -383,12 +321,14 @@ GtkWidget *creation_tree_view_operations_par_compte ( gint no_account )
     gsb_account_set_scrolled_window ( no_account,
 				      scrolled_window );
     gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window ),
-				     GTK_POLICY_AUTOMATIC,
-				     GTK_POLICY_AUTOMATIC );
+				     GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC );
+    gtk_scrolled_window_set_shadow_type ( GTK_SCROLLED_WINDOW ( scrolled_window ),
+					  GTK_SHADOW_IN );
 
     /*     création proprement dite du treeview */
 
     tree_view = gtk_tree_view_new ();
+
     gtk_container_add ( GTK_CONTAINER ( scrolled_window ),
 			tree_view );
     gtk_widget_show ( tree_view );

@@ -39,9 +39,6 @@
 
 
 
-GtkWidget *paned_onglet_operations;
-
-
 
 /*START_EXTERN*/
 extern GtkWidget *formulaire;
@@ -60,54 +57,18 @@ GtkWidget *create_transaction_page ( void )
 {
     GtkWidget *frame_gauche, *vbox, *frame_droite_haut, *fenetre_operations, *hbox, *label;
 
-    paned_onglet_operations = gtk_hpaned_new ( );
-
     if ( !etat.largeur_colonne_comptes_operation )
 	etat.largeur_colonne_comptes_operation = 200;
 
-    gtk_paned_set_position ( GTK_PANED(paned_onglet_operations), etat.largeur_colonne_comptes_operation );
-    gtk_container_set_border_width ( GTK_CONTAINER ( paned_onglet_operations ), 10 );
-    gtk_widget_show ( paned_onglet_operations );
-
-    /*   création de la fenetre des comptes / ventilation / équilibrage
-	 à gauche */
-    frame_gauche = gtk_frame_new ( NULL );
-    gtk_frame_set_shadow_type ( GTK_FRAME ( frame_gauche ), GTK_SHADOW_IN );
-    gtk_paned_pack1 ( GTK_PANED(paned_onglet_operations), frame_gauche, TRUE, TRUE );
-    gtk_widget_show (frame_gauche);
-
-    notebook_comptes_equilibrage = gtk_notebook_new ();
-    gtk_notebook_set_show_tabs ( GTK_NOTEBOOK( notebook_comptes_equilibrage ),
-				 FALSE );
-    gtk_container_add ( GTK_CONTAINER ( frame_gauche ),
-			notebook_comptes_equilibrage );
-    gtk_widget_show ( notebook_comptes_equilibrage );
-
-    /*  Création de la fenêtre des comptes */
-    gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_comptes_equilibrage ),
-			       creation_liste_comptes (),
-			       gtk_label_new ( _("Accounts") ) );
-
-
-    /* création de la fenetre de l'équilibrage */
-    gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_comptes_equilibrage ),
-			       creation_fenetre_equilibrage (),
-			       gtk_label_new ( _("Reconciliation") ) );
-
     /* création de la partie droite */
-    vbox = gtk_vbox_new ( FALSE, 10 );
-    gtk_paned_pack2 ( GTK_PANED(paned_onglet_operations), vbox, TRUE, TRUE );
+    vbox = gtk_vbox_new ( FALSE, 6 );
     gtk_widget_show ( vbox );
 
     /*  Création de la liste des opérations */
-    frame_droite_haut = gtk_frame_new ( NULL );
-    gtk_box_pack_start ( GTK_BOX ( vbox ), frame_droite_haut, TRUE, TRUE, 0 );
-    gtk_frame_set_shadow_type ( GTK_FRAME ( frame_droite_haut ), GTK_SHADOW_IN );
-    gtk_widget_show (frame_droite_haut);
 
     fenetre_operations = creation_fenetre_operations();
-    gtk_container_set_border_width ( GTK_CONTAINER ( fenetre_operations ), 10);
-    gtk_container_add ( GTK_CONTAINER ( frame_droite_haut ), fenetre_operations );
+    gtk_container_set_border_width ( GTK_CONTAINER ( fenetre_operations ), 6);
+    gtk_box_pack_start ( GTK_BOX ( vbox ), fenetre_operations, TRUE, TRUE, 0 );
     gtk_widget_show ( fenetre_operations ); 
 
     /* We then create the edit form, inside a gtkexpander  */
@@ -152,7 +113,7 @@ GtkWidget *create_transaction_page ( void )
 
     mise_a_jour_labels_soldes ();
 
-    return ( paned_onglet_operations );
+    return ( vbox );
 }
 /*****************************************************************************************************/
 

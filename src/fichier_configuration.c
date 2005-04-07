@@ -71,7 +71,7 @@ extern gint decalage_echeance;
 extern GtkWidget *formulaire;
 extern gint max;
 extern gchar *nom_fichier_comptes;
-extern GtkWidget *paned_onglet_comptes;
+extern GtkWidget *main_hpaned;
 extern GtkWidget *paned_onglet_echeancier;
 extern GtkWidget *paned_onglet_etats;
 extern GtkWidget *paned_onglet_operations;
@@ -745,25 +745,11 @@ void sauve_configuration(void)
     if ( gsb_account_get_accounts_amount () )
     {
     xmlNewChild ( node,NULL, "Largeur_colonne_comptes_operation",
-              itoa(gtk_paned_get_position (GTK_PANED (paned_onglet_operations))));
+              itoa(gtk_paned_get_position (GTK_PANED (main_hpaned))));
     xmlNewChild ( node,NULL, "Largeur_colonne_echeancier",
               itoa(gtk_paned_get_position (GTK_PANED (paned_onglet_echeancier))));
     xmlNewChild ( node,NULL, "Largeur_colonne_comptes_comptes",
-              itoa(gtk_paned_get_position (GTK_PANED (paned_onglet_comptes))));
-    xmlNewChild ( node,NULL, "Largeur_colonne_etats",
-              itoa(gtk_paned_get_position (GTK_PANED (paned_onglet_etats))));
-    }
-
-/*     on ne fait la sauvegarde que si les colonnes existent (compte non fermé) */
-    
-    if ( gsb_account_get_accounts_amount () )
-    {
-    xmlNewChild ( node,NULL, "Largeur_colonne_comptes_operation",
-              itoa(gtk_paned_get_position (GTK_PANED (paned_onglet_operations))));
-    xmlNewChild ( node,NULL, "Largeur_colonne_echeancier",
-              itoa(gtk_paned_get_position (GTK_PANED (paned_onglet_echeancier))));
-    xmlNewChild ( node,NULL, "Largeur_colonne_comptes_comptes",
-              itoa(gtk_paned_get_position (GTK_PANED (paned_onglet_comptes))));
+              itoa(gtk_paned_get_position (GTK_PANED (main_hpaned))));
     xmlNewChild ( node,NULL, "Largeur_colonne_etats",
               itoa(gtk_paned_get_position (GTK_PANED (paned_onglet_etats))));
     }
