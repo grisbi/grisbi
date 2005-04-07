@@ -25,5 +25,8 @@ grisbi_pixmaps_DATA = \
 	new-payee.png \
 	new-transaction.png \
 	r.png \
-	grid.png
+	grid.png \
+	resume.png \
+	money.png
+
 
