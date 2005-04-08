@@ -83,7 +83,41 @@ gboolean print_config ( )
 
     /* Finish dialog */
     gtk_widget_show_all ( dialog );
-    response = gtk_dialog_run ( GTK_DIALOG (dialog) );
+
+    do {
+	response = gtk_dialog_run ( GTK_DIALOG (dialog) );
+	if ( response == GTK_RESPONSE_OK )
+	{
+	    FILE * test;
+	    gchar * filename;
+
+
+	    filename = g_strdup ( gtk_entry_get_text ( GTK_ENTRY (g_object_get_data(G_OBJECT(dialog), 
+										    "printer_filename") ) ) );
+
+	    test = utf8_fopen ( filename, "r" );
+	    if ( test )
+	    {
+		fclose ( test );
+		if ( question_yes_no_hint ( g_strdup_printf ( _("File %s already exists."), 
+							      filename ),
+					    _("Do you want to overwrite it?  There is no undo for this.") ) )
+		{
+		    break;
+		}
+	    }
+	    else
+	    {
+		break;
+	    }
+	}
+	else
+	{
+	    break;
+	}
+    }
+    while ( 1 );
+
 
     if ( response == GTK_RESPONSE_OK )
     {
