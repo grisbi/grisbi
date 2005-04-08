@@ -1076,6 +1076,8 @@ gboolean charge_operations_version_0_3_2 ( xmlDocPtr doc )
 
 			if ( node_detail -> type != XML_TEXT_NODE )
 			{
+			    gint sous_categ_max = 0;
+			    
 			    categorie -> no_categ = my_atoi ( xmlGetProp ( node_detail,
 									"No" ));
 			    categorie -> nom_categ = xmlGetProp ( node_detail,
@@ -1104,7 +1106,22 @@ gboolean charge_operations_version_0_3_2 ( xmlDocPtr doc )
 
 				categorie -> liste_sous_categ = g_slist_append ( categorie -> liste_sous_categ,
 										 sous_categ );
+ 
+				/* Guard against false values due to a bug
+				 * in previous versions of Grisbi. */
+				if ( sous_categ -> no_sous_categ > sous_categ_max )
+				{
+				    sous_categ_max = sous_categ -> no_sous_categ;
+				}
+				
 				node_sous_categ = node_sous_categ -> next;
+			    }
+
+			    /* Guard against false values due to a bug
+			     * in previous versions of Grisbi. */
+			    if ( categorie -> no_derniere_sous_categ != sous_categ_max )
+			    {
+				categorie -> no_derniere_sous_categ = sous_categ_max;
 			    }
 
 			    liste_struct_categories = g_slist_append ( liste_struct_categories,
@@ -1114,6 +1131,7 @@ gboolean charge_operations_version_0_3_2 ( xmlDocPtr doc )
 			node_detail = node_detail -> next;
 		    }
 		}
+
 		node_categories = node_categories -> next;
 	    }
 	    /* création de la liste des catég pour le combofix */
@@ -3031,6 +3049,8 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 
 			if ( node_detail -> type != XML_TEXT_NODE )
 			{
+			    gint sous_ib_max = 0;
+
 			    imputation -> no_imputation = my_atoi ( xmlGetProp ( node_detail,
 									      "No" ));
 			    imputation -> nom_imputation = xmlGetProp ( node_detail,
@@ -3060,9 +3080,20 @@ gboolean charge_operations_version_0_4_1 ( xmlDocPtr doc )
 
 				    imputation -> liste_sous_imputation = g_slist_append ( imputation -> liste_sous_imputation,
 											   sous_imputation );
+				    /* Guard against false values due to a bug
+				     * in previous versions of Grisbi. */
+				    if ( sous_imputation -> no_sous_imputation > sous_ib_max )
+					sous_ib_max = sous_imputation -> no_sous_imputation;
+
 				}
+ 			    
 				node_sous_imputation = node_sous_imputation -> next;
 			    }
+
+			    /* Guard against false values due to a bug
+			     * in previous versions of Grisbi. */
+			    if ( imputation -> no_derniere_sous_imputation != sous_ib_max )
+				imputation -> no_derniere_sous_imputation = sous_ib_max;
 
 			    liste_struct_imputation = g_slist_append ( liste_struct_imputation,
 								       imputation );
