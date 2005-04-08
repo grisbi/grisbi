@@ -126,7 +126,7 @@ GtkWidget *gsb_gui_create_report_toolbar ( void )
     bouton_imprimer_etat = new_stock_button_with_label ( GSB_BUTTON_ICON,
 							 GTK_STOCK_PRINT, 
 							 _("Print"),
-							 G_CALLBACK (impression_etat),
+							 G_CALLBACK (impression_etat_courant),
 							 NULL );
     gtk_box_pack_start ( GTK_BOX ( hbox2 ), bouton_imprimer_etat, FALSE, FALSE, 0 );
 
@@ -239,7 +239,8 @@ void remplissage_liste_etats ( void )
 			     GTK_SIGNAL_FUNC ( changement_etat ), etat );
 	liste_tmp = liste_tmp -> next;
     }
-    
+
+    gtk_widget_show_all ( menu );
     gtk_option_menu_set_menu ( GTK_OPTION_MENU ( reports_option_menu ), menu );
 
 }
@@ -923,7 +924,7 @@ void changement_etat ( GtkWidget *bouton,
 			       TRUE );
     gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
 							   menu_name(_("Reports"), _("Export report as HTML..."), NULL)),
-			       FALSE );
+			       TRUE );
     gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
 							   menu_name(_("Reports"), _("Remove report"), NULL)),
 			       TRUE );
