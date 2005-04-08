@@ -303,6 +303,7 @@ GtkWidget *create_main_notebook (void )
 
     notebook_general = gtk_notebook_new();
     gtk_notebook_set_show_tabs ( GTK_NOTEBOOK(notebook_general), FALSE );
+    gtk_notebook_set_show_border ( GTK_NOTEBOOK(notebook_general), FALSE );
 
     /* Création de la page d'accueil */
     page_accueil = creation_onglet_accueil();
@@ -313,6 +314,7 @@ GtkWidget *create_main_notebook (void )
     /*  Céation de la fenêtre principale qui contient d'un côté */
     /*  les comptes, et de l'autre les opérations */
     page_compte = gtk_notebook_new ();
+    gtk_notebook_set_show_border ( GTK_NOTEBOOK(page_compte), FALSE );
     gtk_widget_show ( page_compte );
 
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_general ), page_compte,
