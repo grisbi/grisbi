@@ -134,7 +134,7 @@ gint recherche_devise_par_nom ( struct struct_devise *devise,
 				gchar *nom )
 {
 
-    return ( g_strcasecmp ( g_strstrip ( devise_name(devise) ), nom ) );
+    return ( g_strcasecmp ( devise -> nom_devise, nom ) );
 
 }
 /* ************************************************************************************************************ */
