@@ -1644,7 +1644,7 @@ GtkWidget * new_currency_option_menu ( gint * value, GCallback hook )
  */
 GtkWidget *tab_display_totals ( void )
 {
-    GtkWidget *vbox_pref, *currency_list, *table, *label;
+    GtkWidget *vbox_pref, *currency_list, *table, *label, *label2, *label3;
 
     vbox_pref = new_vbox_with_title_and_icon ( _("Totals currencies"),
 					       "currencies.png" );
@@ -1663,20 +1663,20 @@ GtkWidget *tab_display_totals ( void )
     gtk_table_attach ( GTK_TABLE ( table ), currency_list,
 		       1, 2, 0, 1, GTK_SHRINK | GTK_FILL, 0, 0, 0 );
 
-    label = gtk_label_new ( COLON ( _("Currency for categories tree") ) );
-    gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
-    gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_LEFT );
-    gtk_table_attach ( GTK_TABLE ( table ), label,
+    label2 = gtk_label_new ( COLON ( _("Currency for categories tree") ) );
+    gtk_misc_set_alignment (GTK_MISC (label2), 0, 1);
+    gtk_label_set_justify ( GTK_LABEL (label2), GTK_JUSTIFY_LEFT );
+    gtk_table_attach ( GTK_TABLE ( table ), label2,
 		       0, 1, 1, 2, GTK_SHRINK | GTK_FILL, 0, 0, 0 );
     currency_list = new_currency_option_menu ( &no_devise_totaux_categ, 
 					       remplit_arbre_categ );
     gtk_table_attach ( GTK_TABLE ( table ), currency_list,
 		       1, 2, 1, 2, GTK_SHRINK | GTK_FILL, 0, 0, 0 );
 
-    label = gtk_label_new ( COLON ( _("Currency for budgetary lines tree") ) );
-    gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
-    gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_LEFT );
-    gtk_table_attach ( GTK_TABLE ( table ), label,
+    label3 = gtk_label_new ( COLON ( _("Currency for budgetary lines tree") ) );
+    gtk_misc_set_alignment (GTK_MISC (label3), 0, 1);
+    gtk_label_set_justify ( GTK_LABEL (label3), GTK_JUSTIFY_LEFT );
+    gtk_table_attach ( GTK_TABLE ( table ), label3,
 		       0, 1, 2, 3, GTK_SHRINK | GTK_FILL, 0, 0, 0 );
     currency_list = new_currency_option_menu ( &no_devise_totaux_ib, 
 					       remplit_arbre_imputation );
@@ -1684,6 +1684,11 @@ GtkWidget *tab_display_totals ( void )
 		       1, 2, 2, 3, GTK_SHRINK | GTK_FILL, 0, 0, 0 );
 
     gtk_box_pack_start ( GTK_BOX ( vbox_pref ), table, TRUE, TRUE, 0);
+
+    gtk_widget_show_all ( vbox_pref );
+
+    if ( !nb_comptes )
+	gtk_widget_set_sensitive ( vbox_pref, FALSE );
 
     return ( vbox_pref );
 }
