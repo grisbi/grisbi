@@ -267,7 +267,39 @@ gint html_initialise (GSList * opes_selectionnees)
     file_selection_set_entry ( GTK_FILE_SELECTION ( file_selector ), 
 			       safe_file_name ( g_strconcat (etats_titre(), ".html", NULL)));
 
-    resultat = gtk_dialog_run ( GTK_DIALOG ( file_selector ));
+    do 
+    {
+	resultat = gtk_dialog_run ( GTK_DIALOG (file_selector) );
+	if ( resultat == GTK_RESPONSE_OK )
+	{
+	    FILE * test;
+	    gchar * filename;
+
+	    file_selection_get_filename ( GTK_FILE_SELECTION ( file_selector ));
+
+	    test = utf8_fopen ( filename, "r" );
+	    if ( test )
+	    {
+		fclose ( test );
+		if ( question_yes_no_hint ( g_strdup_printf ( _("File %s already exists."), 
+							      filename ),
+					    _("Do you want to overwrite it?  There is no undo for this.") ) )
+		{
+		    break;
+		}
+	    }
+	    else
+	    {
+		break;
+	    }
+	}
+	else
+	{
+	    break;
+	}
+    }
+    while ( 1 );
+
     switch ( resultat )
       {
       case GTK_RESPONSE_OK :
