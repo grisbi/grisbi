@@ -122,13 +122,13 @@ GtkWidget *creation_onglet_accueil ( void )
     base_scroll = gtk_scrolled_window_new ( NULL, NULL);
     gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( base_scroll ),
 				     GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
-    gtk_widget_show ( base_scroll );
+    gtk_scrolled_window_set_shadow_type ( GTK_SCROLLED_WINDOW ( base_scroll ), 
+					  GTK_SHADOW_NONE );
 
     base = gtk_vbox_new ( FALSE, 15 );
     gtk_container_set_border_width ( GTK_CONTAINER ( base ), 12 );
     gtk_scrolled_window_add_with_viewport ( GTK_SCROLLED_WINDOW ( base_scroll ), base );
-    gtk_scrolled_window_set_shadow_type ( GTK_SCROLLED_WINDOW ( base_scroll ), 
-					  GTK_SHADOW_NONE );
+    gtk_widget_show ( base_scroll );
     gtk_widget_show ( base );
 
     if ( !chemin_logo || !strlen ( chemin_logo ))
@@ -195,11 +195,15 @@ GtkWidget *creation_onglet_accueil ( void )
     paddingbox = new_paddingbox_with_title ( base, FALSE,
 					     _("Manual scheduled transactions at maturity date") );
     frame_etat_echeances_manuelles_accueil = gtk_notebook_new ();
-    gtk_notebook_set_show_tabs ( GTK_NOTEBOOK(frame_etat_echeances_manuelles_accueil), FALSE );
-    gtk_notebook_set_show_border ( GTK_NOTEBOOK(frame_etat_echeances_manuelles_accueil), FALSE );
-    gtk_container_set_border_width ( GTK_CONTAINER(frame_etat_echeances_manuelles_accueil), 0 );
+    gtk_notebook_set_show_tabs ( GTK_NOTEBOOK(frame_etat_echeances_manuelles_accueil), 
+				 FALSE );
+    gtk_notebook_set_show_border ( GTK_NOTEBOOK(frame_etat_echeances_manuelles_accueil), 
+				   FALSE );
+    gtk_container_set_border_width ( GTK_CONTAINER(frame_etat_echeances_manuelles_accueil),
+				     0 );
     gtk_box_set_spacing ( GTK_BOX(paddingbox), 6 );
-    gtk_box_pack_start ( GTK_BOX(paddingbox), frame_etat_echeances_manuelles_accueil, FALSE, FALSE, 6 );
+    gtk_box_pack_start ( GTK_BOX(paddingbox), frame_etat_echeances_manuelles_accueil, 
+			 FALSE, FALSE, 6 );
 
 
     /* mise en place de la partie des échéances auto  ( non affiché )*/
