@@ -3,8 +3,8 @@
 /*			gestion_comptes.c				      */
 /*                                                                            */
 /*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org)	      */
-/*			2004      Benjamin Drieu (bdrieu@april.org) 	      */
-/*			2003-2004 Alain Portal (aportal@univ-montp2.fr)	      */
+/*			2004-2005 Benjamin Drieu (bdrieu@april.org) 	      */
+/*			2003-2004 Alain Portal (dionysos@grisbi.org) 	      */
 /*			http://www.grisbi.org   			      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -1219,7 +1219,7 @@ void passage_a_l_euro ( GtkWidget *bouton, gpointer null )
 	gdouble change;
 	gfloat value;
 
-	p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
+/* 	p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant; */
 
 	/* recherche de la devise du compte pour le change */
 
