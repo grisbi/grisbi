@@ -234,6 +234,7 @@ gint latex_initialise (GSList * opes_selectionnees)
 	filename = etat.print_config.printer_filename;
     }
 
+    unlink ( filename );
     latex_out = utf8_fopen ( filename, "w+x" );
     if ( ! latex_out )
     {
