@@ -878,7 +878,7 @@ void selectionne_liste_ib_etat_courant ( void )
 /******************************************************************************/
 void selectionne_devise_ib_etat_courant ( void )
 {
-    if ( !etat_courant )
+    if ( !etat_courant || !bouton_devise_ib_etat )
 	return;
 
     gtk_option_menu_set_history ( GTK_OPTION_MENU ( bouton_devise_ib_etat ),
