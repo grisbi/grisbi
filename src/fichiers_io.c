@@ -2858,6 +2858,7 @@ gboolean recuperation_etats_xml ( xmlNodePtr node_etats )
 					       "Texte_comp" ))
 				{
 				    xmlNodePtr node_comp_textes;
+				    etat -> liste_struct_comparaison_textes = NULL;
 
 				    node_comp_textes = node_detail_etat -> children;
 
