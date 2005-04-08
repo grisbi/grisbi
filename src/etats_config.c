@@ -1143,7 +1143,7 @@ void selectionne_devise_tiers_etat_courant ( void )
 /******************************************************************************/
 void recuperation_info_perso_etat ( void )
 {
-    GList *pointeur_liste;
+    GSList *liste_tmp, *pointeur_liste;
     gchar *pointeur_char;
     gint i;
     struct struct_comparaison_montants_etat *comp_montants;
@@ -1583,64 +1583,42 @@ void recuperation_info_perso_etat ( void )
 
     comp_textes = etat_courant -> liste_struct_comparaison_textes -> data;
 
-    if ( g_slist_length ( etat_courant -> liste_struct_comparaison_textes ) == 1
-	 &&
-	 !strlen ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( comp_textes -> entree_txt ))))
-	 &&
-	 !strlen ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( comp_textes -> entree_montant_1 ))))
-	 &&
-	 !strlen ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( comp_textes -> entree_montant_2 ))))
-	 &&
-	 GTK_WIDGET_SENSITIVE ( comp_textes -> entree_montant_1 )
-	 &&
-	 GTK_WIDGET_SENSITIVE ( comp_textes -> entree_montant_2 ))
+    /* on a rentré au moins une comparaison */
+    /* on rempli les champs de la structure */
+
+    liste_tmp = etat_courant -> liste_struct_comparaison_textes;
+
+    while ( liste_tmp )
     {
-	g_slist_free ( etat_courant -> liste_struct_comparaison_textes );
-	etat_courant -> liste_struct_comparaison_textes = NULL;
+	comp_textes = liste_tmp -> data;
+
+	if ( comp_textes -> bouton_lien )
+	    comp_textes -> lien_struct_precedente = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( comp_textes -> bouton_lien ) -> menu_item ),
+											    "no_lien" ));
+	else
+	    comp_textes -> lien_struct_precedente = -1;
+
+
+	comp_textes -> champ = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( comp_textes -> bouton_champ ) -> menu_item ),
+								       "no_champ" ));
+	comp_textes -> utilise_txt = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( comp_textes -> bouton_utilise_txt ));
+	comp_textes -> operateur = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( comp_textes -> bouton_operateur ) -> menu_item ),
+									   "no_operateur" ));
+	comp_textes -> texte = g_strstrip ( g_strdup ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( comp_textes -> entree_txt ))));
+	if ( !strlen ( comp_textes -> texte ))
+	    comp_textes -> texte = NULL;
+
+	comp_textes -> comparateur_1 = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( comp_textes -> bouton_comparateur_1 ) -> menu_item ),
+									       "no_comparateur" ));
+	comp_textes -> lien_1_2 = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( comp_textes -> bouton_lien_1_2 ) -> menu_item ),
+									  "no_lien" ));
+	comp_textes -> comparateur_2 = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( comp_textes -> bouton_comparateur_2 ) -> menu_item ),
+									       "no_comparateur" ));
+	comp_textes -> montant_1 = my_atoi ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( comp_textes -> entree_montant_1 )));
+	comp_textes -> montant_2 = my_atoi ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( comp_textes -> entree_montant_2 )));
+
+	liste_tmp = liste_tmp -> next;
     }
-    else
-    {
-	/* on a rentré au moins une comparaison */
-	/* on rempli les champs de la structure */
-
-	GSList *liste_tmp;
-
-	liste_tmp = etat_courant -> liste_struct_comparaison_textes;
-
-	while ( liste_tmp )
-	{
-	    comp_textes = liste_tmp -> data;
-
-	    if ( comp_textes -> bouton_lien )
-		comp_textes -> lien_struct_precedente = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( comp_textes -> bouton_lien ) -> menu_item ),
-												"no_lien" ));
-	    else
-		comp_textes -> lien_struct_precedente = -1;
-
-
-	    comp_textes -> champ = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( comp_textes -> bouton_champ ) -> menu_item ),
-									   "no_champ" ));
-	    comp_textes -> utilise_txt = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( comp_textes -> bouton_utilise_txt ));
-	    comp_textes -> operateur = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( comp_textes -> bouton_operateur ) -> menu_item ),
-									       "no_operateur" ));
-	    comp_textes -> texte = g_strstrip ( g_strdup ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( comp_textes -> entree_txt ))));
-	    if ( !strlen ( comp_textes -> texte ))
-		comp_textes -> texte = NULL;
-
-	    comp_textes -> comparateur_1 = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( comp_textes -> bouton_comparateur_1 ) -> menu_item ),
-										   "no_comparateur" ));
-	    comp_textes -> lien_1_2 = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( comp_textes -> bouton_lien_1_2 ) -> menu_item ),
-									      "no_lien" ));
-	    comp_textes -> comparateur_2 = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( comp_textes -> bouton_comparateur_2 ) -> menu_item ),
-										   "no_comparateur" ));
-	    comp_textes -> montant_1 = my_atoi ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( comp_textes -> entree_montant_1 )));
-	    comp_textes -> montant_2 = my_atoi ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( comp_textes -> entree_montant_2 )));
-
-	    liste_tmp = liste_tmp -> next;
-	}
-    }
-
-
 
     /* récupération du montant */
 
