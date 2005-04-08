@@ -1138,7 +1138,7 @@ gint verifie_texte_test_etat ( struct struct_comparaison_textes_etat *comp_texte
 	case 4:
 	    /* vide  */
 
-	    if ( !texte_ope )
+	    if ( !texte_ope || !strlen(texte_ope) )
 		ope_dans_test = 1;
 	    break;
 
