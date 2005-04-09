@@ -1349,9 +1349,9 @@ gboolean gsb_transactions_list_set_background_color ( gint no_account )
 						     0 );
 
     /* show the selected transaction */
-    /* FIXME benj: is it useful, it forces a scroll when we expand a breakdown ? */
-/*     gsb_transactions_list_set_current_transaction ( gsb_account_get_current_transaction ( no_account ), */
-/* 						    no_account ); */
+
+    gsb_transactions_list_set_current_transaction ( gsb_account_get_current_transaction ( no_account ),
+						    no_account );
 
     return FALSE;
 }
@@ -1976,10 +1976,6 @@ gboolean gsb_transactions_list_set_current_transaction ( struct structure_operat
 				       iter );
 	}
     }
-
-    /*     on déplace le scrolling de la liste si nécessaire pour afficher la sélection */
-
-    gsb_transactions_list_move_to_current_transaction ( no_account );
 
     gsb_account_set_finished_selection_transaction ( no_account,
 						     1 );

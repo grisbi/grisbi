@@ -493,7 +493,11 @@ gboolean utilisation_temps_idle ( gpointer null )
 
 	return TRUE;
     }
- 
+
+    /*     on déplace le scrolling de la liste si nécessaire pour afficher la sélection */
+
+    gsb_transactions_list_move_to_current_transaction ( gsb_account_get_current_account ());
+
 
 
 /*     uncomment that to make only the first account, to make it faster while programming */
@@ -592,6 +596,11 @@ gboolean utilisation_temps_idle ( gpointer null )
 		printf ( "mise en place des soldes de liste compte no %d par idle\n", i );
 
 	    gsb_transactions_list_set_transactions_balances ( i );
+
+	    /*     on déplace le scrolling de la liste si nécessaire pour afficher la sélection */
+
+	    gsb_transactions_list_move_to_current_transaction ( i );
+
 
 	    return TRUE;
 	}
