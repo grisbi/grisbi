@@ -1349,9 +1349,9 @@ gboolean gsb_transactions_list_set_background_color ( gint no_account )
 						     0 );
 
     /* show the selected transaction */
-
-    gsb_transactions_list_set_current_transaction ( gsb_account_get_current_transaction ( no_account ),
-						    no_account );
+    /* FIXME benj: is it useful, it forces a scroll when we expand a breakdown ? */
+/*     gsb_transactions_list_set_current_transaction ( gsb_account_get_current_transaction ( no_account ), */
+/* 						    no_account ); */
 
     return FALSE;
 }
@@ -1652,9 +1652,9 @@ gboolean gsb_transactions_list_button_press ( GtkWidget *tree_view,
 
 	return TRUE;
     }
-	
-    gsb_transactions_list_set_current_transaction ( transaction,
-						    gsb_account_get_current_account () );
+    else
+	gsb_transactions_list_set_current_transaction ( transaction,
+							gsb_account_get_current_account () );
 
     /*     if it's the right click, put the good popup */
 
