@@ -40,7 +40,6 @@
 #include "fichiers_gestion.h"
 #include "gsb_account.h"
 #include "operations_comptes.h"
-#include "comptes_onglet.h"
 #include "main.h"
 #include "categories_onglet.h"
 #include "imputation_budgetaire.h"

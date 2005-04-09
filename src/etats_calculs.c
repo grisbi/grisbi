@@ -30,6 +30,7 @@
 #include "search_glist.h"
 #include "etats_affiche.h"
 #include "gsb_account.h"
+#include "gsb_transaction_data.h"
 #include "utils_str.h"
 #include "utils_ib.h"
 #include "utils_rapprochements.h"
@@ -50,6 +51,7 @@ static gint compare_montants_etat ( gdouble montant_ope,
 			     gint comparateur );
 static void etape_finale_affichage_etat ( GSList *ope_selectionnees,
 				   struct struct_etat_affichage *affichage);
+static void impression_etat ( struct struct_etat *etat );
 static gchar *recupere_texte_test_etat ( struct structure_operation *operation,
 				  gint champ );
 static gint verifie_chq_test_etat ( struct struct_comparaison_textes_etat *comp_textes,
@@ -1692,7 +1694,7 @@ gint classement_ope_perso_etat ( struct structure_operation *operation_1,
 	case 1:
 	    /* no opé  */
 
-	    retour = operation_1 -> no_operation - operation_2 -> no_operation;
+	    retour = gsb_transaction_data_get_transaction_number (operation_1) - gsb_transaction_data_get_transaction_number (operation_2);
 	    break;
 
 	case 2:
@@ -1834,7 +1836,7 @@ gint classement_ope_perso_etat ( struct structure_operation *operation_1,
 
 
     if ( !retour )
-	retour = operation_1 -> no_operation - operation_2 -> no_operation;
+	    retour = gsb_transaction_data_get_transaction_number (operation_1) - gsb_transaction_data_get_transaction_number (operation_2);
 
     return ( retour );
 }

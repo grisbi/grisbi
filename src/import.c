@@ -45,7 +45,6 @@
 #include "utils_files.h"
 #include "gsb_account.h"
 #include "operations_comptes.h"
-#include "comptes_onglet.h"
 #include "gsb_transaction_data.h"
 #include "fichiers_gestion.h"
 #include "traitement_variables.h"
@@ -1213,10 +1212,10 @@ void cree_liens_virements_ope_import ( void )
 			{
 			    /* la 2ème opération correspond en tout point à la 1ère, on met les relations */
 
-			    operation -> relation_no_operation = operation_2 -> no_operation;
+			    operation -> relation_no_operation = gsb_transaction_data_get_transaction_number (operation_2);
 			    operation -> relation_no_compte = operation_2 -> no_compte;
 
-			    operation_2 -> relation_no_operation = operation -> no_operation;
+			    operation_2 -> relation_no_operation = gsb_transaction_data_get_transaction_number (operation);
 			    operation_2 -> relation_no_compte = operation -> no_compte;
 
 			    operation -> info_banque_guichet = NULL;
@@ -1367,7 +1366,10 @@ void creation_compte_importe ( struct struct_compte_importation *compte_import )
 
 	/* récupération du no de l'opé */
 
-	operation -> no_operation = gsb_transaction_data_get_last_number () + 1;
+	/* FIXME il faut passer par gsb_transaction_data, on s'arrête */
+	exit (0);
+	gsb_transaction_data_set_transaction_number (operation,
+						     gsb_transaction_data_get_last_number () + 1 );
 
 	/* 	récupéération de l'id si elle existe */
 
@@ -1566,7 +1568,7 @@ void creation_compte_importe ( struct struct_compte_importation *compte_import )
 	if ( operation_import -> ope_de_ventilation )
 	    operation -> no_operation_ventilee_associee = derniere_operation;
 	else
-	    derniere_operation = operation -> no_operation;
+	    derniere_operation = gsb_transaction_data_get_transaction_number (operation);
 
 
 	/* ajoute l'opération dans la liste des opés du compte */
@@ -2014,7 +2016,11 @@ struct structure_operation *enregistre_ope_importee ( struct struct_ope_importat
 
     /* récupération du no de l'opé */
 
-    operation -> no_operation = gsb_transaction_data_get_last_number () + 1;
+    /* FIXME : doit passer par gsb_transaction_data, on s'arrête */
+    exit (0);
+
+    gsb_transaction_data_set_transaction_number ( operation,
+						  gsb_transaction_data_get_last_number () + 1 );
 
     /* récupération de l'id de l'opé s'il existe */
 
@@ -2211,7 +2217,7 @@ struct structure_operation *enregistre_ope_importee ( struct struct_ope_importat
     if ( operation_import -> ope_de_ventilation )
 	operation -> no_operation_ventilee_associee = derniere_operation_enregistrement_ope_import ;
     else
-	derniere_operation_enregistrement_ope_import  = operation -> no_operation;
+	derniere_operation_enregistrement_ope_import  = gsb_transaction_data_get_transaction_number (operation);
 
 
     /* ajoute l'opération dans la liste des opés du compte */
@@ -2407,7 +2413,7 @@ void pointe_opes_importees ( struct struct_compte_importation *compte_import )
 
 			    ope_fille = liste_ope -> data;
 
-			    if ( ope_fille -> no_operation_ventilee_associee == operation -> no_operation )
+			    if ( ope_fille -> no_operation_ventilee_associee == gsb_transaction_data_get_transaction_number (operation))
 				ope_fille -> pointe = 2;
 
 			    liste_ope = liste_ope -> next;
@@ -2500,7 +2506,7 @@ void pointe_opes_importees ( struct struct_compte_importation *compte_import )
 
 				    ope_fille = liste_ope -> data;
 
-				    if ( ope_fille -> no_operation_ventilee_associee == operation -> no_operation )
+				    if ( ope_fille -> no_operation_ventilee_associee == gsb_transaction_data_get_transaction_number (operation))
 					ope_fille -> pointe = 2;
 
 				    liste_ope = liste_ope -> next;

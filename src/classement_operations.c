@@ -31,6 +31,7 @@
 #include "erreur.h"
 #include "gsb_account.h"
 #include "utils_exercices.h"
+#include "gsb_transaction_data.h"
 #include "operations_liste.h"
 #include "utils_ib.h"
 #include "utils_operations.h"
@@ -500,7 +501,7 @@ gint gsb_transactions_list_breakdown_test ( GtkSortType sort_type )
 
     if ( transaction_1 -> no_operation_ventilee_associee )
     {
-	if ( transaction_2 -> no_operation == transaction_1 -> no_operation_ventilee_associee )
+	if ( gsb_transaction_data_get_transaction_number (transaction_2) == transaction_1 -> no_operation_ventilee_associee )
 	    return_value = 1;
 	else
 	{
@@ -508,11 +509,11 @@ gint gsb_transactions_list_breakdown_test ( GtkSortType sort_type )
 	    {
 		if ( transaction_2 -> no_operation_ventilee_associee == transaction_1 -> no_operation_ventilee_associee )
 		{
-		    if ( transaction_1 -> no_operation == -2 )
+		    if ( gsb_transaction_data_get_transaction_number (transaction_1) == -2 )
 			return_value = 1;
 		    else
 		    {
-			if ( transaction_2 -> no_operation == -2 )
+			if ( gsb_transaction_data_get_transaction_number (transaction_2) == -2 )
 			    return_value = -1;
 		    }
 		}
@@ -533,7 +534,7 @@ gint gsb_transactions_list_breakdown_test ( GtkSortType sort_type )
     {
 	if ( transaction_2 -> no_operation_ventilee_associee )
 	{
-	    if ( transaction_1 -> no_operation == transaction_2 -> no_operation_ventilee_associee )
+	    if ( gsb_transaction_data_get_transaction_number (transaction_1) == transaction_2 -> no_operation_ventilee_associee )
 		return_value = -1;
 	    else
 		transaction_2 = operation_par_no ( transaction_2 -> no_operation_ventilee_associee,
@@ -564,7 +565,7 @@ gint gsb_transactions_list_sort_by_transaction_date_and_no ( void )
     if ( return_value )
 	return return_value;
     else
-	return transaction_1 -> no_operation - transaction_2 -> no_operation;
+	return gsb_transaction_data_get_transaction_number (transaction_1) - gsb_transaction_data_get_transaction_number (transaction_2);
 }
 
 /** used to compare 2 iters and sort the by no of transaction
@@ -596,7 +597,7 @@ gint gsb_transactions_list_sort_by_no ( GtkTreeModel *model,
     if ( return_value )
 	return return_value;
 
-    return transaction_1 -> no_operation - transaction_2 -> no_operation;
+    return gsb_transaction_data_get_transaction_number (transaction_1) - gsb_transaction_data_get_transaction_number (transaction_2);
 }
 
 

@@ -37,7 +37,6 @@
 #include "operations_formulaire.h"
 #include "gsb_account.h"
 #include "operations_comptes.h"
-#include "comptes_onglet.h"
 #include "categories_onglet.h"
 #include "traitement_variables.h"
 #include "utils_str.h"

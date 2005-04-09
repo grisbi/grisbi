@@ -41,6 +41,7 @@
 #include "operations_formulaire.h"
 #include "utils_dates.h"
 #include "gsb_account.h"
+#include "gsb_transaction_data.h"
 #include "gtk_combofix.h"
 #include "utils_str.h"
 #include "echeancier_infos.h"
@@ -1649,7 +1650,7 @@ void verification_echeances_a_terme ( void )
 		     devise_compte -> no_devise != gsb_account_get_currency (operation -> no_compte) )
 		    devise_compte = devise_par_no ( gsb_account_get_currency (operation -> no_compte) );
 
-		if ( !( operation -> no_operation
+		if ( !( gsb_transaction_data_get_transaction_number (operation)
 			||
 			devise -> no_devise == gsb_account_get_currency (operation -> no_compte)
 			||
@@ -1784,7 +1785,7 @@ void verification_echeances_a_terme ( void )
 		    operation_fille -> tiers = operation -> tiers;
 		    operation_fille -> pointe = operation -> pointe;
 		    operation_fille -> auto_man = operation -> auto_man;
-		    operation_fille -> no_operation_ventilee_associee = operation -> no_operation;
+		    operation_fille -> no_operation_ventilee_associee = gsb_transaction_data_get_transaction_number (operation);
 
 
 		    /*   on a fini de remplir l'opé, on peut l'ajouter à la liste */

@@ -25,6 +25,8 @@
 
 #include "include.h"
 #include "fichier_configuration_constants.h"
+#include "fenetre_principale_constants.h"
+
 
 
 /*START_INCLUDE*/
@@ -34,7 +36,6 @@
 #include "patienter.h"
 #include "utils_montants.h"
 #include "fenetre_principale.h"
-#include "fenetre_principale_constants.h"
 #include "fichiers_io.h"
 #include "categories_onglet.h"
 #include "imputation_budgetaire.h"
@@ -80,6 +81,7 @@ extern gint id_temps;
 extern GtkItemFactory *item_factory_menu_general;
 extern GSList *liste_struct_echeances;
 extern GSList *liste_struct_etats;
+extern GtkWidget *main_hpaned, *main_vbox, *main_statusbar;
 extern gint max;
 extern gint mise_a_jour_fin_comptes_passifs;
 extern gint mise_a_jour_liste_comptes_accueil;
@@ -88,8 +90,6 @@ extern gint nb_derniers_fichiers_ouverts;
 extern gint nb_max_derniers_fichiers_ouverts;
 extern gchar *nom_fichier_comptes;
 extern GtkWidget *notebook_general;
-extern GtkWidget *main_hpaned;
-extern GtkWidget *main_vbox;
 extern gint rapport_largeur_colonnes[TRANSACTION_LIST_COL_NB];
 extern gchar **tab_noms_derniers_fichiers_ouverts;
 extern gchar *titre_fichier;

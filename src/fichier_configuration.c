@@ -69,11 +69,10 @@ PangoFontDescription *pango_desc_fonte_liste;
 /*START_EXTERN*/
 extern gint decalage_echeance;
 extern GtkWidget *formulaire;
+extern GtkWidget *main_hpaned, *main_vbox, *main_statusbar;
 extern gint max;
 extern gchar *nom_fichier_comptes;
-extern GtkWidget *main_hpaned;
 extern GtkWidget *paned_onglet_echeancier;
-extern GtkWidget *paned_onglet_operations;
 extern gint taille_largeur_colonnes[TRANSACTION_LIST_COL_NB];
 extern GtkWidget *window;
 /*END_EXTERN*/

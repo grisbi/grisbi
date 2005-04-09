@@ -22,31 +22,33 @@
 /* ************************************************************************** */
 
 #include "include.h"
+#include "fenetre_principale_constants.h"
 
 
 /*START_INCLUDE*/
 #include "fenetre_principale.h"
-#include "fenetre_principale_constants.h"
-#include "accueil.h"
 #include "operations_onglet.h"
+#include "accueil.h"
 #include "comptes_onglet.h"
 #include "echeancier_onglet.h"
 #include "etats_onglet.h"
 #include "gsb_account.h"
+#include "operations_comptes.h"
 #include "main.h"
+#include "utils_buttons.h"
 #include "categories_onglet.h"
 #include "imputation_budgetaire.h"
 #include "tiers_onglet.h"
-#include "utils_buttons.h"
-#include "operations_comptes.h"
 #include "comptes_gestion.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static gboolean gsb_gui_select_page ( GtkWidget * button, gpointer page );
-static gboolean gsb_gui_select_account_page ( GtkWidget * button, gpointer account );
-static GtkWidget * create_account_list ( void );
-static GtkWidget * create_management_list ( void );
+static  GtkWidget * create_account_list ( void );
+static GtkWidget *create_main_notebook (void );
+static  GtkWidget * create_management_list ( void );
+static GtkWidget * create_navigation_pane ( void );
+static  gboolean gsb_gui_select_account_page ( GtkWidget * button, gpointer account );
+static  gboolean gsb_gui_select_page ( GtkWidget * button, gpointer page );
 /*END_STATIC*/
 
 
@@ -69,9 +71,10 @@ gint modif_imputation;
 /*START_EXTERN*/
 extern GtkTreeStore *budgetary_line_tree_model;
 extern GtkTreeStore * categ_tree_model;
+extern gint compte_courant_onglet;
 extern AB_BANKING *gbanking;
+extern GtkWidget * hpaned;
 extern gint id_temps;
-extern GtkWidget *label_temps;
 extern GtkTreeStore *payee_tree_model;
 /*END_EXTERN*/
 

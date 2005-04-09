@@ -27,9 +27,9 @@
 
 /*START_INCLUDE*/
 #include "utils_tiers.h"
-#include "tiers_onglet.h"
 #include "utils_devises.h"
 #include "gsb_account.h"
+#include "tiers_onglet.h"
 #include "search_glist.h"
 /*END_INCLUDE*/
 
@@ -40,11 +40,11 @@ static void reset_payee_counters ();
 
 /*START_EXTERN*/
 extern GSList *liste_struct_tiers;
-extern gint no_devise_totaux_tiers;
-extern struct struct_tiers * without_payee;
-extern gint no_dernier_tiers;
 extern gint mise_a_jour_combofix_tiers_necessaire;
 extern gint nb_enregistrements_tiers;
+extern gint no_dernier_tiers;
+extern gint no_devise_totaux_tiers;
+extern struct struct_tiers * without_payee;
 /*END_EXTERN*/
 
 

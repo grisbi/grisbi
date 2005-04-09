@@ -34,6 +34,8 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
+static gchar *demande_texte ( gchar *titre_fenetre,
+		       gchar *question );
 static void dialogue_conditional_special ( gchar *text, int * var, GtkMessageType type );
 static gboolean question_yes_no ( gchar *texte );
 /*END_STATIC*/

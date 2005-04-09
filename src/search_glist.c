@@ -32,12 +32,11 @@
 /*START_INCLUDE*/
 #include "search_glist.h"
 #include "utils_devises.h"
+#include "gsb_transaction_data.h"
 #include "utils_str.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static gint recherche_devise_par_code ( struct struct_devise *devise,
-				gchar *code );
 /*END_STATIC*/
 
 
@@ -130,16 +129,6 @@ gint recherche_devise_par_nom ( struct struct_devise *devise,
     
   if ( ! devise ) return FALSE;
   return ( g_strcasecmp ( devise_name(devise), nom ) );
-}
-/* ************************************************************************************************************ */
-
-
-/* ************************************************************************************************************ */
-gint recherche_devise_par_code ( struct struct_devise *devise,
-				gchar *code )
-{
-  if ( ! devise ) return FALSE;
-  return ( g_strcasecmp ( g_strstrip ( devise_code(devise) ), code ) );
 }
 /* ************************************************************************************************************ */
 
@@ -310,7 +299,7 @@ gint recherche_sous_imputation_par_no ( struct struct_sous_imputation *sous_impu
 gint recherche_operation_par_no ( struct structure_operation *operation,
 				  gint *no_ope )
 {
-    return ( ! ( operation -> no_operation == GPOINTER_TO_INT ( no_ope ) ));
+    return ( ! ( gsb_transaction_data_get_transaction_number (operation) == GPOINTER_TO_INT ( no_ope ) ));
 }
 /******************************************************************************/
 

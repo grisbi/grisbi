@@ -41,7 +41,6 @@
 #include "operations_comptes.h"
 #include "operations_liste.h"
 #include "gtk_list_button.h"
-#include "utils_str.h"
 #include "utils.h"
 #include "utils_tiers.h"
 /*END_INCLUDE*/

@@ -32,10 +32,8 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static GtkWidget * new_image_label ( GsbButtonStyle style,
-				     gchar * image_name, gchar * name );
-static GtkWidget * new_stock_image_label ( GsbButtonStyle style,
-					   gchar * stock_id, gchar * name );
+static GtkWidget * new_image_label ( GsbButtonStyle style, gchar * image_name, gchar * name );
+static GtkWidget * new_stock_image_label ( GsbButtonStyle style, gchar * stock_id, gchar * name );
 static gboolean set_boolean ( GtkWidget * checkbox, guint * dummy);
 static gboolean set_double_from_spin ( GtkWidget * spin, gdouble * dummy);
 static gboolean set_int_from_spin ( GtkWidget * spin, gint * dummy);

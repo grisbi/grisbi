@@ -42,6 +42,7 @@ struct recuperation_version
 #include "dialog.h"
 #include "gsb_account.h"
 #include "data_form.h"
+#include "gsb_transaction_data.h"
 #include "traitement_variables.h"
 #include "utils_str.h"
 #include "main.h"
@@ -339,7 +340,7 @@ gboolean mise_a_jour_versions_anterieures ( gint no_version,
 
 			    operation_2 = liste_tmp_2 -> data;
 
-			    if ( operation_2 -> no_operation_ventilee_associee == operation -> no_operation )
+			    if ( operation_2 -> no_operation_ventilee_associee == gsb_transaction_data_get_transaction_number (operation))
 				operation_2 -> no_rapprochement = operation -> no_rapprochement;
 
 			    liste_tmp_2 = liste_tmp_2 -> next;
@@ -1296,12 +1297,16 @@ gboolean recuperation_comptes_xml ( xmlNodePtr node_comptes )
 			gchar **pointeur_char;
 			gchar *pointeur;
 
+			/* FIXME faire une nouvelle opé comme pour les comptes, on s'arrête là en attendant pour
+			 * pas oublier */
+			exit (0);
 			operation = calloc ( 1,
 					     sizeof (struct structure_operation ));
 
 			if ( node_ope -> type != XML_TEXT_NODE )
 			{
-			    operation -> no_operation = my_atoi ( xmlGetProp ( node_ope, "No" ));
+			    gsb_transaction_data_set_transaction_number ( operation,
+									  my_atoi ( xmlGetProp ( node_ope, "No" )));
 
 			    operation -> id_operation = xmlGetProp ( node_ope,
 								     "Id" );
@@ -3598,7 +3603,7 @@ gboolean enregistre_fichier ( gchar *new_file )
 
 	    xmlSetProp ( node_ope,
 			 "No",
-			 itoa ( operation -> no_operation ));
+			 itoa ( gsb_transaction_data_get_transaction_number (operation)));
 
 	    xmlSetProp ( node_ope,
 			 "Id",

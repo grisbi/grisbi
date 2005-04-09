@@ -36,13 +36,13 @@
 #include "gsb_account.h"
 #include "gsb_transaction_data.h"
 #include "gtk_combofix.h"
+#include "main.h"
 #include "utils_buttons.h"
 #include "utils.h"
 #include "utils_editables.h"
 #include "etats_config.h"
 #include "affichage_formulaire.h"
 #include "operations_formulaire.h"
-#include "gsb_transaction_data.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

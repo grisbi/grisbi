@@ -42,6 +42,7 @@
 #include "gsb_account.h"
 #include "calendar.h"
 #include "utils_dates.h"
+#include "gsb_transaction_data.h"
 #include "gtk_combofix.h"
 #include "utils_ib.h"
 #include "categories_onglet.h"
@@ -1933,7 +1934,7 @@ void fin_edition_echeance ( void )
 
 	operation -> devise = devise -> no_devise;
 
-	if ( !( operation -> no_operation
+	if ( !( gsb_transaction_data_get_transaction_number(operation)
 		||
 		devise -> no_devise == gsb_account_get_currency (operation -> no_compte)
 		||
@@ -2168,7 +2169,7 @@ void fin_edition_echeance ( void )
 	    operation_fille -> tiers = operation -> tiers;
 	    operation_fille -> pointe = operation -> pointe;
 	    operation_fille -> auto_man = operation -> auto_man;
-	    operation_fille -> no_operation_ventilee_associee = operation -> no_operation;
+	    operation_fille -> no_operation_ventilee_associee = gsb_transaction_data_get_transaction_number (operation);
 
 
 	    /*   on a fini de remplir l'opé, on peut l'ajouter à la liste */
@@ -2296,7 +2297,7 @@ struct structure_operation *ajoute_contre_operation_echeance_dans_liste ( struct
 
     devise = devise_par_no ( operation -> devise );
 
-    if ( !( contre_operation-> no_operation
+    if ( !( gsb_transaction_data_get_transaction_number (contre_operation)
 	    ||
 	    devise -> no_devise == gsb_account_get_currency (compte_virement)
 	    ||
@@ -2347,9 +2348,9 @@ struct structure_operation *ajoute_contre_operation_echeance_dans_liste ( struct
 
     /* on met maintenant les relations entre les différentes opé */
 
-    operation -> relation_no_operation = contre_operation -> no_operation;
+    operation -> relation_no_operation = gsb_transaction_data_get_transaction_number (contre_operation);
     operation -> relation_no_compte = contre_operation -> no_compte;
-    contre_operation -> relation_no_operation = operation -> no_operation;
+    contre_operation -> relation_no_operation = gsb_transaction_data_get_transaction_number (operation);
     contre_operation -> relation_no_compte = operation -> no_compte;
 
     return ( contre_operation );

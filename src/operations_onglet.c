@@ -26,10 +26,8 @@
 
 /*START_INCLUDE*/
 #include "operations_onglet.h"
-#include "equilibrage.h"
 #include "operations_liste.h"
 #include "operations_formulaire.h"
-#include "operations_comptes.h"
 #include "gsb_account.h"
 /*END_INCLUDE*/
 
@@ -44,7 +42,6 @@
 extern GtkWidget *formulaire;
 extern GtkWidget *frame_droite_bas;
 extern GtkWidget *label_last_statement;
-extern GtkWidget *notebook_comptes_equilibrage;
 /*END_EXTERN*/
 
 

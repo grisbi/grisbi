@@ -36,13 +36,12 @@
 #include "metatree.h"
 #include "utils_ib.h"
 #include "fichiers_io.h"
-#include "operations_liste.h"
-#include "dialog.h"
 #include "utils_devises.h"
+#include "dialog.h"
 #include "utils_file_selection.h"
-#include "gsb_account.h"
 #include "gsb_transaction_data.h"
 #include "gtk_combofix.h"
+#include "main.h"
 #include "traitement_variables.h"
 #include "utils_buttons.h"
 #include "utils.h"
@@ -93,14 +92,9 @@ extern struct struct_devise *devise_compte;
 extern struct struct_etat *etat_courant;
 extern GtkWidget *formulaire;
 extern GSList *liste_struct_categories;
-extern GSList *liste_struct_echeances;
-extern GdkBitmap *masque_ferme;
-extern GdkBitmap *masque_ouvre;
 extern GtkTreeStore *model;
 extern gint modif_imputation;
 extern gint no_devise_totaux_tiers;
-extern GdkPixmap *pixmap_ferme;
-extern GdkPixmap *pixmap_ouvre;
 extern GtkTreeSelection * selection;
 extern GtkWidget *widget_formulaire_echeancier[SCHEDULER_FORM_TOTAL_WIDGET];
 extern GtkWidget *window;

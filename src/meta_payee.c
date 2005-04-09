@@ -25,8 +25,8 @@
 /*START_INCLUDE*/
 #include "meta_payee.h"
 #include "utils_tiers.h"
-#include "tiers_onglet.h"
 #include "utils_devises.h"
+#include "tiers_onglet.h"
 #include "traitement_variables.h"
 /*END_INCLUDE*/
 

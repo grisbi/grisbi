@@ -49,6 +49,7 @@
 #include "configuration.h"
 #include "gsb_account.h"
 #include "format.h"
+#include "gsb_transaction_data.h"
 #include "classement_operations.h"
 #include "gtk_cell_renderer_expander.h"
 #include "gtk_combofix.h"
@@ -895,16 +896,18 @@ gboolean gsb_transactions_list_fill_store ( gint no_account,
 struct structure_operation *gsb_transactions_list_append_white_breakdown ( struct structure_operation *transaction )
 {
     struct structure_operation *breakdown_transaction;
-
+    /* FIXME : doit passer pas la création d'une opé, donc s'arrête là pour le moment */
+exit (0);
     breakdown_transaction = calloc ( 1,
 				     sizeof ( struct structure_operation ));
-    breakdown_transaction -> no_operation = -2;
+    gsb_transaction_data_set_transaction_number ( breakdown_transaction,
+						  -2 );
     breakdown_transaction -> date = g_date_new_dmy ( g_date_get_day ( transaction -> date ),
 						     g_date_get_month ( transaction -> date ),
 						     g_date_get_year ( transaction -> date ));
     breakdown_transaction -> no_compte = transaction -> no_compte;
     breakdown_transaction -> tiers = transaction -> tiers;
-    breakdown_transaction -> no_operation_ventilee_associee = transaction -> no_operation;
+    breakdown_transaction -> no_operation_ventilee_associee = gsb_transaction_data_get_transaction_number (transaction);
     gsb_transactions_list_append_transaction ( breakdown_transaction,
 					       transaction -> no_compte );
 
@@ -969,7 +972,7 @@ gboolean gsb_transactions_list_fill_row ( struct structure_operation *transactio
 
     if ( transaction != GINT_TO_POINTER (-1)
 	 &&
-	 transaction -> no_operation != -2 )
+	 gsb_transaction_data_get_transaction_number (transaction) != -2 )
     {
 	for ( i = 1 ; i < TRANSACTION_LIST_COL_NB ; i++ )
 	{
@@ -1239,7 +1242,7 @@ gchar *recherche_contenu_cellule ( struct structure_operation *transaction,
 	    /* mise en place du no d'opé */
 
 	case TRANSACTION_LIST_NO:
-	    return ( itoa ( transaction -> no_operation ));
+	    return ( itoa ( gsb_transaction_data_get_transaction_number (transaction) ));
 	    break;
 
 	    /* mise en place du no de chèque/virement */
@@ -1885,7 +1888,7 @@ gboolean gsb_transactions_list_set_current_transaction ( struct structure_operat
 	if ( new_transaction == GINT_TO_POINTER (-1))
 	    printf ( "gsb_transactions_list_set_current_transaction white\n");
 	else
-	    printf ( "gsb_transactions_list_set_current_transaction %d\n", new_transaction->no_operation );
+	    printf ( "gsb_transactions_list_set_current_transaction %d\n", gsb_transaction_data_get_transaction_number (new_transaction));
     }
 
     current_transaction =  gsb_account_get_current_transaction (no_account);
@@ -2208,17 +2211,17 @@ struct structure_operation *gsb_transactions_list_find_white_breakdown ( struct 
 				 TRANSACTION_COL_NB_TRANSACTION_ADDRESS, &transaction_pointer,
 				 -1 );
 	}
-	while ( transaction_pointer -> no_operation != -2
+	while ( gsb_transaction_data_get_transaction_number (transaction_pointer) != -2
 		&&
-		transaction_pointer -> no_operation_ventilee_associee != breakdown_mother -> no_operation
+		transaction_pointer -> no_operation_ventilee_associee != gsb_transaction_data_get_transaction_number (breakdown_mother)
 		&&
 		gtk_tree_model_iter_next ( GTK_TREE_MODEL ( model ),
 					   &iter ));
     }
 
-    if ( transaction_pointer -> no_operation == -2
+    if ( gsb_transaction_data_get_transaction_number (transaction_pointer) == -2
 	 &&
-	 transaction_pointer -> no_operation_ventilee_associee == breakdown_mother -> no_operation )
+	 transaction_pointer -> no_operation_ventilee_associee == gsb_transaction_data_get_transaction_number (breakdown_mother))
 	return ( transaction_pointer );
     else
 	return NULL;
@@ -2421,7 +2424,7 @@ gboolean gsb_transactions_list_edit_current_transaction ( void )
 		case TRANSACTION_FORM_OP_NB:
 
 		    gtk_label_set_text ( GTK_LABEL ( widget ),
-					 itoa ( transaction -> no_operation ));
+					 itoa ( gsb_transaction_data_get_transaction_number (transaction) ));
 		    break;
 
 		case TRANSACTION_FORM_DATE:
@@ -2808,7 +2811,7 @@ void p_press (void)
 
 	    ope_fille = liste_tmp -> data;
 
-	    if ( ope_fille -> no_operation_ventilee_associee == transaction -> no_operation )
+	    if ( ope_fille -> no_operation_ventilee_associee == gsb_transaction_data_get_transaction_number (transaction) )
 		ope_fille -> pointe = transaction -> pointe;
 
 	    liste_tmp = liste_tmp -> next;
@@ -2942,7 +2945,7 @@ void r_press (void)
 
 	    transaction = liste_tmp -> data;
 
-	    if ( transaction -> no_operation_ventilee_associee == transaction -> no_operation )
+	    if ( transaction -> no_operation_ventilee_associee == gsb_transaction_data_get_transaction_number (transaction))
 		transaction -> pointe = transaction -> pointe;
 
 	    liste_tmp = liste_tmp -> next;
@@ -2975,7 +2978,7 @@ gboolean gsb_transactions_list_delete_transaction ( struct structure_operation *
 
     if ( DEBUG )
 	printf ( "gsb_transactions_list_delete_transaction no %d\n",
-		 transaction -> no_operation );
+		 gsb_transaction_data_get_transaction_number (transaction) );
 
     /* check if the transaction is not reconciled */
 
@@ -3003,7 +3006,7 @@ gboolean gsb_transactions_list_delete_transaction ( struct structure_operation *
 		&&
 		( next_transaction == transaction 
 		  ||
-		  next_transaction -> no_operation_ventilee_associee == transaction -> no_operation ))
+		  next_transaction -> no_operation_ventilee_associee == gsb_transaction_data_get_transaction_number (transaction)))
 	    next_transaction = gsb_transactions_list_get_transaction_next ( next_transaction );
 
 	gsb_account_set_current_transaction ( transaction -> no_compte,
@@ -3033,7 +3036,7 @@ gboolean gsb_transactions_list_delete_transaction ( struct structure_operation *
 	{
 	    transactions_tmp = transactions_list -> data;
 
-	    if ( transactions_tmp -> no_operation_ventilee_associee == transaction -> no_operation )
+	    if ( transactions_tmp -> no_operation_ventilee_associee == gsb_transaction_data_get_transaction_number (transaction) )
 	    {
 		/* on se place tout de suite sur l'opé suivante */
 
@@ -3159,7 +3162,7 @@ gboolean gsb_transactions_list_check_mark ( struct structure_operation *transact
 	{
 	    transactions_tmp = transactions_list -> data;
 
-	    if ( transactions_tmp -> no_operation_ventilee_associee == transaction -> no_operation )
+	    if ( transactions_tmp -> no_operation_ventilee_associee == gsb_transaction_data_get_transaction_number (transaction) )
 	    {
 		/* transactions_tmp is a child of transaction */
 
@@ -3205,7 +3208,7 @@ gboolean gsb_transactions_list_delete_transaction_from_tree_view ( struct struct
 
     if ( DEBUG )
 	printf ( "gsb_transactions_list_delete_transaction_from_tree_view no %d\n",
-		 transaction -> no_operation );
+		 gsb_transaction_data_get_transaction_number (transaction) );
 
     iter = cherche_iter_operation ( transaction,
 				    transaction -> no_compte );
@@ -3515,7 +3518,8 @@ struct structure_operation *gsb_transactions_list_clone_transaction ( struct str
 
     memcpy(new_transaction, transaction, sizeof(struct structure_operation) );
 
-    new_transaction -> no_operation = 0;
+    gsb_transaction_data_set_transaction_number  (new_transaction,
+						  0);
     new_transaction -> no_rapprochement = 0;
 
     if ( transaction -> pointe == OPERATION_RAPPROCHEE ||
@@ -3545,10 +3549,10 @@ struct structure_operation *gsb_transactions_list_clone_transaction ( struct str
 
 	    operation_2 = liste_tmp -> data;
 
-	    if ( operation_2 -> no_operation_ventilee_associee == transaction -> no_operation )
+	    if ( operation_2 -> no_operation_ventilee_associee == gsb_transaction_data_get_transaction_number (transaction) )
 	    {
 		ope_ventilee = gsb_transactions_list_clone_transaction ( operation_2 );
-		ope_ventilee -> no_operation_ventilee_associee = new_transaction -> no_operation;
+		ope_ventilee -> no_operation_ventilee_associee = gsb_transaction_data_get_transaction_number (new_transaction);
 	    }
 
 	    liste_tmp = liste_tmp -> next;
@@ -3697,7 +3701,7 @@ gboolean move_operation_to_account ( struct structure_operation * transaction,
 	    transaction_2 = liste_tmp -> data;
 
 	    if ( transaction_2 -> no_operation_ventilee_associee == 
-		 transaction -> no_operation )
+		 gsb_transaction_data_get_transaction_number (transaction) )
 	    {
 		move_operation_to_account ( transaction_2, account );
 		transaction_2 -> relation_no_compte = account;
@@ -3877,7 +3881,7 @@ struct operation_echeance *schedule_transaction ( struct structure_operation * t
 
 	    transaction_de_ventil = liste_tmp -> data;
 
-	    if ( transaction_de_ventil -> no_operation_ventilee_associee == transaction -> no_operation )
+	    if ( transaction_de_ventil -> no_operation_ventilee_associee == gsb_transaction_data_get_transaction_number (transaction) )
 	    {
 		struct operation_echeance *echeance_de_ventil;
 
@@ -4652,7 +4656,7 @@ gboolean gsb_account_list_set_breakdowns_visible ( gint no_account,
 
 	if ( child_transaction != GINT_TO_POINTER (-1)
 	     &&
-	     child_transaction -> no_operation_ventilee_associee == transaction -> no_operation )
+	     child_transaction -> no_operation_ventilee_associee == gsb_transaction_data_get_transaction_number (transaction))
 	    gtk_list_store_set ( GTK_LIST_STORE ( model ),
 				 &iter,
 				 TRANSACTION_COL_NB_VISIBLE, visible,

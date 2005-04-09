@@ -26,6 +26,7 @@
 
 #include "include.h"
 #include "equilibrage_constants.h"
+#include "fenetre_principale_constants.h"
 
 
 
@@ -40,6 +41,7 @@
 #include "utils_dates.h"
 #include "gsb_account.h"
 #include "calendar.h"
+#include "gsb_transaction_data.h"
 #include "utils_str.h"
 #include "traitement_variables.h"
 #include "utils.h"
@@ -51,8 +53,8 @@
 static gboolean annuler_equilibrage ( void );
 static gboolean clavier_equilibrage ( GtkWidget *widget,
 			       GdkEventKey *event );
+static GtkWidget *creation_fenetre_equilibrage ( void );
 static void deplacement_type_tri_bas ( void );
-static void deplacement_type_tri_haut ( GtkWidget * button, gpointer data );
 static void fill_reconciliation_tree ();
 static gboolean fin_equilibrage ( GtkWidget *bouton_ok,
 		       gpointer data );
@@ -862,7 +864,7 @@ gboolean gsb_reconcile_mark_transaction ( struct structure_operation *transactio
 
 	    ope_fille = liste_tmp -> data;
 
-	    if ( ope_fille -> no_operation_ventilee_associee == transaction -> no_operation )
+	    if ( ope_fille -> no_operation_ventilee_associee == gsb_transaction_data_get_transaction_number (transaction))
 		ope_fille -> pointe = transaction -> pointe;
 
 	    liste_tmp = liste_tmp -> next;

@@ -33,6 +33,7 @@
 #include "utils_files.h"
 #include "utils_str.h"
 #include "gsb_account.h"
+#include "gsb_transaction_data.h"
 #include "utils.h"
 #include "search_glist.h"
 /*END_INCLUDE*/
@@ -1251,7 +1252,7 @@ choix_liste_fichier:
 
 				ope_test = liste_ventil -> data;
 
-				if ( ope_test -> no_operation_ventilee_associee == operation -> no_operation
+				if ( ope_test -> no_operation_ventilee_associee == gsb_transaction_data_get_transaction_number (operation)
 				     &&
 				     ( ope_test -> categorie
 				       ||

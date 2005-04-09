@@ -34,6 +34,7 @@
 #include "etats_support.h"
 #include "utils_exercices.h"
 #include "gsb_account.h"
+#include "gsb_transaction_data.h"
 #include "utils_str.h"
 #include "utils_categories.h"
 #include "utils_ib.h"
@@ -1141,7 +1142,7 @@ gint etat_affiche_affichage_ligne_ope ( struct structure_operation *operation,
 
 	if ( etat_courant -> afficher_no_ope )
 	{
-	    text = itoa ( operation -> no_operation );
+	    text = itoa ( gsb_transaction_data_get_transaction_number (operation));
 
 	    if ( etat_courant -> ope_clickables )
 	    {
@@ -1343,7 +1344,7 @@ gint etat_affiche_affichage_ligne_ope ( struct structure_operation *operation,
 		    pTransaction = pTransactionList -> data;
 		    
 		    if ( pTransaction -> operation_ventilee &&
-			 pTransaction -> no_operation == operation -> no_operation_ventilee_associee &&
+			 gsb_transaction_data_get_transaction_number (pTransaction) == operation -> no_operation_ventilee_associee &&
 			 pTransaction -> contenu_type )
 		    {
 			operation -> contenu_type = pTransaction -> contenu_type;

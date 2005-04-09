@@ -276,7 +276,6 @@ GtkWidget *liste_mode_paiement_etat;
 /*START_EXTERN*/
 extern struct struct_etat *etat_courant;
 extern GtkWidget *frame_liste_etats;
-extern GtkWidget *label_etat_courant;
 extern GSList *liste_struct_categories;
 extern GSList *liste_struct_devises;
 extern GSList *liste_struct_exercices;
@@ -1143,7 +1142,8 @@ void selectionne_devise_tiers_etat_courant ( void )
 /******************************************************************************/
 void recuperation_info_perso_etat ( void )
 {
-    GSList *liste_tmp, *pointeur_liste;
+    GSList *liste_tmp;
+    GList *pointeur_liste;
     gchar *pointeur_char;
     gint i;
     struct struct_comparaison_montants_etat *comp_montants;

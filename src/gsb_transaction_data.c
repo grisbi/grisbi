@@ -102,3 +102,42 @@ gint gsb_transaction_data_get_last_number (void)
     return last_number;
 }
 
+/** get the number of the transaction
+ * \param transaction a pointer to a transaction
+ * \return the number of the transaction
+ * */
+gint gsb_transaction_data_get_transaction_number ( gpointer transaction_pointer )
+{
+    struct_transaction *transaction;
+
+    transaction = transaction_pointer;
+
+    if ( !transaction )
+	return 0;
+
+    return transaction -> transaction_number;
+}
+
+
+/** get the number of the transaction
+ * \param transaction a pointer to a transaction
+ * \param no_transaction the new no
+ * \return TRUE if ok
+ * */
+gboolean gsb_transaction_data_set_transaction_number ( gpointer transaction_pointer,
+						       gint no_transaction )
+{
+    struct_transaction *transaction;
+
+    transaction = transaction_pointer;
+
+    if ( !transaction
+	 ||
+	 !no_transaction )
+	return FALSE;
+    
+    transaction -> transaction_number = no_transaction;
+    
+    return TRUE;
+}
+

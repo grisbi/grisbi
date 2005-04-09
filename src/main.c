@@ -43,6 +43,8 @@
 
 #include "include.h"
 #include "fichier_configuration_constants.h"
+#include "fenetre_principale_constants.h"
+
 
 
 /*START_INCLUDE*/
@@ -62,7 +64,6 @@
 #include "etats_calculs.h"
 #include "etats_onglet.h"
 #include "utils_files.h"
-#include "fenetre_principale_constants.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -91,7 +92,6 @@ extern GtkWidget *bouton_exporter_etat;
 extern GtkWidget *bouton_personnaliser_etat;
 extern struct struct_etat *etat_courant;
 extern gint hauteur_window;
-extern GtkWidget *label_etat_courant;
 extern gint largeur_window;
 extern GSList *liste_struct_etats;
 extern gchar *nom_fichier_comptes;

@@ -28,11 +28,10 @@
 #include "comptes_gestion.h"
 #include "comptes_traitements.h"
 #include "gsb_account.h"
-#include "operations_comptes.h"
-#include "gtk_list_button.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
+static void changement_compte_onglet ( gint *compte );
 static GtkWidget *creation_liste_comptes_onglet ( void );
 /*END_STATIC*/
 

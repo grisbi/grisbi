@@ -27,6 +27,7 @@
 #include "utils_file_selection.h"
 #include "utils_files.h"
 #include "utils.h"
+#include "dialog.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

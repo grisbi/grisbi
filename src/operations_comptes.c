@@ -26,13 +26,11 @@
 
 /*START_INCLUDE*/
 #include "operations_comptes.h"
-#include "equilibrage.h"
 #include "gsb_account.h"
-#include "comptes_onglet.h"
-#include "operations_liste.h"
 #include "gtk_list_button.h"
 #include "menu.h"
 #include "barre_outils.h"
+#include "operations_liste.h"
 #include "traitement_variables.h"
 #include "utils_str.h"
 #include "comptes_traitements.h"
@@ -44,6 +42,9 @@
 static void changement_no_compte_par_menu ( gpointer null,
 				     gint no_account_plus_un );
 static gboolean gsb_account_list_gui_change_order ( GtkWidget *button );
+static GtkWidget *gsb_account_list_gui_create_account_button ( gint no_account,
+							gint group,
+							gpointer callback );
 static void verifie_no_account_clos ( gint no_nouveau_no_account );
 /*END_STATIC*/
 
@@ -64,6 +65,7 @@ extern gchar *last_date;
 extern gint mise_a_jour_liste_comptes_accueil;
 extern gint nb_colonnes;
 extern GtkWidget *notebook_general;
+extern GtkTreeSelection * selection;
 extern GtkWidget *tree_view;
 /*END_EXTERN*/
 

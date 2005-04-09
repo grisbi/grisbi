@@ -486,7 +486,7 @@ void mise_a_jour_boutons_caract_liste ( gint no_compte )
     /*     on veut juste mettre les boutons à jour, sans redessiner la liste */
     /*     on bloque donc les appels aux fonctions */
 
-    gtk_option_menu_set_history ( display_lines_option_menu,
+    gtk_option_menu_set_history ( GTK_OPTION_MENU (display_lines_option_menu),
 				  gsb_account_get_nb_rows ( no_compte ) );
 }
 

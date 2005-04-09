@@ -1,8 +1,6 @@
 /*START_DECLARATION*/
 gboolean blocage_boites_dialogues ( GtkWidget *dialog,
 				    gpointer null );
-gchar *demande_texte ( gchar *titre_fenetre,
-		       gchar *question );
 void dialogue ( gchar *texte_dialogue );
 void dialogue_conditional ( gchar *text, int * var );
 void dialogue_conditional_hint ( gchar *hint, gchar * text, int * var );

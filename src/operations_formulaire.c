@@ -2017,13 +2017,13 @@ struct structure_operation *gsb_transactions_look_for_last_party ( gint no_party
 
 	    if ( transaction -> tiers == no_party
 		 &&
-		 transaction -> no_operation != no_new_transaction
+		 gsb_transaction_data_get_transaction_number (transaction) != no_new_transaction
 		 &&
 		 !transaction -> no_operation_ventilee_associee )
 	    {
 		if ( last_transaction_found )
 		{
-		    if ( last_transaction_found -> no_operation > transaction -> no_operation )
+		    if ( gsb_transaction_data_get_transaction_number (last_transaction_found) > gsb_transaction_data_get_transaction_number (transaction))
 			last_transaction_found = transaction;
 		}
 		else
@@ -2079,7 +2079,7 @@ gboolean gsb_transactions_list_get_breakdowns_of_transaction ( struct structure_
 	    struct structure_operation *breakdown_transaction;
 
 	    breakdown_transaction = gsb_transactions_list_clone_transaction ( transaction );
-	    breakdown_transaction -> no_operation_ventilee_associee = new_transaction -> no_operation;
+	    breakdown_transaction -> no_operation_ventilee_associee = gsb_transaction_data_get_transaction_number (new_transaction);
 	}
 	transactions_list = transactions_list -> next;
     }
@@ -2197,7 +2197,7 @@ gboolean gsb_form_finish_edition ( void )
 
     if ( transaction
 	 &&
-	 transaction -> no_operation != -2 )
+	 gsb_transaction_data_get_transaction_number (transaction) != -2 )
 	new_transaction = 0;
     else
 	new_transaction = 1;
@@ -2641,7 +2641,7 @@ gboolean gsb_form_validate_form_transaction ( struct structure_operation *transa
 		 &&
 		 (!transaction
 		  ||
-		  operation_tmp -> no_operation != transaction -> no_operation ))
+		  gsb_transaction_data_get_transaction_number (operation_tmp) != gsb_transaction_data_get_transaction_number (transaction)))
 	    {
 		if ( question ( _("Warning: this cheque number is already used.\nContinue anyway?") ))
 		    goto sort_test_cheques;
@@ -2803,7 +2803,7 @@ void recuperation_donnees_generales_formulaire ( struct structure_operation *tra
 		    if ( GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget ) -> menu_item ),
 								 "no_exercice" )) == -1 )
 		    {
-			if ( !transaction -> no_operation )
+			if ( !gsb_transaction_data_get_transaction_number (transaction))
 			    transaction -> no_exercice = 0;
 		    }
 		    else
@@ -2925,7 +2925,7 @@ void recuperation_donnees_generales_formulaire ( struct structure_operation *tra
 
 		    transaction -> devise = devise -> no_devise;
 
-		    if ( !( transaction -> no_operation
+		    if ( !( gsb_transaction_data_get_transaction_number (transaction)
 			    ||
 			    devise -> no_devise == gsb_account_get_currency (gsb_account_get_current_account ())
 			    ||
@@ -3036,11 +3036,11 @@ gboolean gsb_form_get_categories ( struct structure_operation *transaction,
 		struct structure_operation *breakdown_transaction;
 
 		breakdown_transaction = gsb_transactions_look_for_last_party ( transaction -> tiers,
-									       transaction -> no_operation );
+									       gsb_transaction_data_get_transaction_number (transaction));
 
 		if ( breakdown_transaction )
 		    gsb_transactions_list_get_breakdowns_of_transaction ( transaction,
-									  breakdown_transaction -> no_operation,
+									  gsb_transaction_data_get_transaction_number (breakdown_transaction),
 									  breakdown_transaction -> no_compte );
 	    }
 	}
@@ -3063,7 +3063,7 @@ gboolean gsb_form_get_categories ( struct structure_operation *transaction,
 
 		    transaction_tmp = list_tmp -> data;
 
-		    if ( transaction_tmp -> no_operation_ventilee_associee == transaction -> no_operation )
+		    if ( transaction_tmp -> no_operation_ventilee_associee == gsb_transaction_data_get_transaction_number (transaction))
 		    {
 			list_tmp = list_tmp -> next;
 			gsb_transactions_list_delete_transaction ( transaction_tmp );
@@ -3251,7 +3251,7 @@ printf ( "ça passe\n" );
 
     contra_transaction -> devise = transaction -> devise;
 
-    if ( !( contra_transaction-> no_operation
+    if ( !( gsb_transaction_data_get_transaction_number (contra_transaction)
 	    ||
 	    transaction_currency -> no_devise == gsb_account_get_currency (account_transfer)
 	    ||
@@ -3313,9 +3313,9 @@ printf ( "ça passe\n" );
 
     /* set the link between the transactions */
 
-    transaction -> relation_no_operation = contra_transaction -> no_operation;
+    transaction -> relation_no_operation = gsb_transaction_data_get_transaction_number (contra_transaction);
     transaction -> relation_no_compte = contra_transaction -> no_compte;
-    contra_transaction -> relation_no_operation = transaction -> no_operation;
+    contra_transaction -> relation_no_operation = gsb_transaction_data_get_transaction_number (transaction);
     contra_transaction -> relation_no_compte = transaction -> no_compte;
 
     /* show the contra_transaction */
@@ -3344,7 +3344,7 @@ gboolean gsb_transactions_list_append_new_transaction ( struct structure_operati
 {
     if ( DEBUG )
 	printf ( "gsb_transactions_list_append_new_transaction %d\n",
-		 transaction -> no_operation );
+		gsb_transaction_data_get_transaction_number (transaction));
 
 
     /*     update the tree_view */
@@ -3417,9 +3417,12 @@ gboolean gsb_transactions_list_append_new_transaction ( struct structure_operati
  * */
 gboolean gsb_transactions_append_transaction ( struct structure_operation *transaction )
 {
-    if ( !transaction -> no_operation )
+    /* FIXME : ça ça doit être fait dans gsb_transaction_data maintenant, on s'arrête ici pour pas oublier de le faire */
+    exit (0);
+    if ( !gsb_transaction_data_get_transaction_number (transaction))
     {
-	transaction -> no_operation = gsb_transaction_data_get_last_number () + 1;
+	gsb_transaction_data_set_transaction_number ( transaction,
+						      gsb_transaction_data_get_last_number () + 1);
 
 	gsb_account_set_transactions_list ( transaction -> no_compte,
 					    g_slist_append ( gsb_account_get_transactions_list (transaction -> no_compte),
@@ -3443,7 +3446,7 @@ gboolean gsb_transactions_list_update_transaction ( struct structure_operation *
 
     if ( DEBUG )
 	printf ( "gsb_transactions_list_update_transaction no %d\n",
-		 transaction -> no_operation );
+		 gsb_transaction_data_get_transaction_number (transaction));
 
     store = gsb_account_get_store (transaction -> no_compte);
     iter = cherche_iter_operation ( transaction,

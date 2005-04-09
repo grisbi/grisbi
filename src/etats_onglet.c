@@ -28,10 +28,9 @@
 #include "etat_io.h"
 #include "dialog.h"
 #include "utils_file_selection.h"
-#include "utils_buttons.h"
-#include "gtk_list_button.h"
 #include "menu.h"
 #include "traitement_variables.h"
+#include "utils_buttons.h"
 #include "utils.h"
 #include "etats_config.h"
 #include "utils_files.h"
@@ -43,6 +42,7 @@ static void change_choix_nouvel_etat ( GtkWidget *menu_item,
 static void changement_etat ( GtkWidget *bouton,
 		       struct struct_etat *etat );
 static void export_etat_vers_html ( struct struct_etat *etat );
+static GtkWidget *gsb_gui_create_report_toolbar ( void );
 /*END_STATIC*/
 
 
