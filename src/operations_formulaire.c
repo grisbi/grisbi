@@ -1825,8 +1825,13 @@ void completion_operation_par_tiers ( void )
 
 	/* affiche la question de récupération */
 
+	/* Happily kludge a solution to bug #420 to prevent a segfault.*/
+#ifdef _WIN32
+	result = TRUE;
+#else
 	result = question_yes_no_hint ( _("Recover breakdown?"),
 					_("Do you want to recover all the lines of the last breakdown?") );
+#endif
 
 
 	if ( result )
