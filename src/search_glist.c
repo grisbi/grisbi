@@ -325,11 +325,19 @@ gint recherche_operation_par_cheque ( struct structure_operation *operation,
 
 /* *******************************************************************************/
 gint recherche_operation_par_id ( struct structure_operation *operation,
-				      gchar *id_recherchee )
+				  gchar *id_recherchee )
 {
-    if ( operation -> id_operation )
+    gint transaction_number;
+    
+    /* FIXME : à mettre dans gsb_transaction_data.c */
+    
+    transaction_number = gsb_transaction_data_get_transaction_number (operation);
+
+    if ( gsb_transaction_data_get_transaction_id ( transaction_number,
+						   gsb_transaction_data_get_account_number (transaction_number ) ))
 	return ( strcmp ( id_recherchee,
-			  operation -> id_operation ));
+			  gsb_transaction_data_get_transaction_id ( transaction_number,
+								    gsb_transaction_data_get_account_number (transaction_number ))));
     else
 	return -1;
 }

@@ -28,7 +28,7 @@ gint recherche_imputation_par_nom ( struct struct_imputation *imputation,
 gint recherche_operation_par_cheque ( struct structure_operation *operation,
 				      gint *no_chq );
 gint recherche_operation_par_id ( struct structure_operation *operation,
-				      gchar *id_recherchee );
+				  gchar *id_recherchee );
 gint recherche_operation_par_no ( struct structure_operation *operation,
 				  gint *no_ope );
 gint recherche_rapprochement_par_no ( struct struct_no_rapprochement *rapprochement,

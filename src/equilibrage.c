@@ -55,6 +55,7 @@ static gboolean clavier_equilibrage ( GtkWidget *widget,
 			       GdkEventKey *event );
 static GtkWidget *creation_fenetre_equilibrage ( void );
 static void deplacement_type_tri_bas ( void );
+static void deplacement_type_tri_haut ( GtkWidget * button, gpointer data );
 static void fill_reconciliation_tree ();
 static gboolean fin_equilibrage ( GtkWidget *bouton_ok,
 		       gpointer data );

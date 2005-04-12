@@ -1358,6 +1358,7 @@ void creation_compte_importe ( struct struct_compte_importation *compte_import )
     {
 	struct struct_ope_importation *operation_import;
 	gchar **tab_str;
+	gint transaction_number;
 
 	operation_import = liste_tmp -> data;
 
@@ -1368,13 +1369,18 @@ void creation_compte_importe ( struct struct_compte_importation *compte_import )
 
 	/* FIXME il faut passer par gsb_transaction_data, on s'arrête */
 	exit (0);
-	gsb_transaction_data_set_transaction_number (operation,
-						     gsb_transaction_data_get_last_number () + 1 );
 
-	/* 	récupéération de l'id si elle existe */
+	transaction_number = gsb_transaction_data_get_last_number () + 1;
+
+	gsb_transaction_data_set_transaction_number ( operation,
+						      transaction_number );
+
+	/* get the transaction_id */
 
 	if ( operation_import -> id_operation )
-	    operation -> id_operation = g_strdup ( operation_import -> id_operation );
+	    gsb_transaction_data_set_transaction_id ( transaction_number,
+						      no_compte,
+						      g_strdup ( operation_import -> id_operation ));
 
 	/* récupération de la date */
 
@@ -2010,6 +2016,7 @@ struct structure_operation *enregistre_ope_importee ( struct struct_ope_importat
 {
     struct structure_operation *operation;
     gchar **tab_str;
+    gint transaction_number;
 
     operation = calloc ( 1,
 			 sizeof ( struct structure_operation ));
@@ -2019,13 +2026,17 @@ struct structure_operation *enregistre_ope_importee ( struct struct_ope_importat
     /* FIXME : doit passer par gsb_transaction_data, on s'arrête */
     exit (0);
 
+    transaction_number = gsb_transaction_data_get_last_number () + 1;
+    
     gsb_transaction_data_set_transaction_number ( operation,
-						  gsb_transaction_data_get_last_number () + 1 );
+						  transaction_number );
 
     /* récupération de l'id de l'opé s'il existe */
 
     if ( operation_import -> id_operation )
-	operation -> id_operation = g_strdup ( operation_import -> id_operation );
+	gsb_transaction_data_set_transaction_id ( transaction_number,
+						  no_compte,
+						  g_strdup ( operation_import -> id_operation ));
 
     /* récupération de la date */
 
@@ -2389,10 +2400,13 @@ void pointe_opes_importees ( struct struct_compte_importation *compte_import )
 
 		operation = ope_trouvees -> data;
 
-		if ( !operation -> id_operation
+		if ( !gsb_transaction_data_get_transaction_id ( gsb_transaction_data_get_transaction_number (operation),
+								no_compte )
 		     &&
 		     ope_import -> id_operation )
-		    operation -> id_operation = ope_import -> id_operation;
+		    gsb_transaction_data_set_transaction_id ( gsb_transaction_data_get_transaction_number (operation),
+							      no_compte,
+							      ope_import -> id_operation );
 
 		if ( !operation -> pointe )
 		{
@@ -2483,10 +2497,13 @@ void pointe_opes_importees ( struct struct_compte_importation *compte_import )
 		    {
 			operation = liste_tmp_2 -> data;
 
-			if ( !operation -> id_operation
+			if ( !gsb_transaction_data_get_transaction_id ( gsb_transaction_data_get_transaction_number (operation),
+									no_compte )
 			     &&
 			     ope_import -> id_operation )
-			    operation -> id_operation = ope_import -> id_operation;
+			    gsb_transaction_data_set_transaction_id ( gsb_transaction_data_get_transaction_number (operation),
+								      no_compte,
+								      ope_import -> id_operation );
 
 			if ( !operation -> pointe )
 			{

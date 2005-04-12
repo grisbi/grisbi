@@ -160,7 +160,7 @@ struct structure_operation
 {
 /*     guint no_operation; */
 
-    gchar *id_operation;   /* utilisé lors d'import ofx pour éviter les doublons */
+/*     gchar *id_operation; */
 
     GDate *date;
     guint jour;

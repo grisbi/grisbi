@@ -1305,14 +1305,25 @@ gboolean recuperation_comptes_xml ( xmlNodePtr node_comptes )
 
 			if ( node_ope -> type != XML_TEXT_NODE )
 			{
-			    gsb_transaction_data_set_transaction_number ( operation,
-									  my_atoi ( xmlGetProp ( node_ope, "No" )));
+			    gint transaction_number;
+			    gchar *char_tmp;
 
-			    operation -> id_operation = xmlGetProp ( node_ope,
-								     "Id" );
-			    if ( operation -> id_operation &&
-				 !strlen ( operation -> id_operation ))
-				operation -> id_operation = NULL;
+			    transaction_number = my_atoi ( xmlGetProp ( node_ope, "No" ));
+
+			    gsb_transaction_data_set_transaction_number ( operation,
+									  transaction_number );
+
+			    char_tmp = xmlGetProp ( node_ope,
+						    "Id" );
+			    if ( char_tmp
+				 &&
+				 !strlen ( char_tmp ))
+				char_tmp = NULL;
+
+			    gsb_transaction_data_set_transaction_id ( transaction_number,
+								      no_compte,
+								      char_tmp );
+
 
 			    pointeur_char = g_strsplit ( xmlGetProp ( node_ope , "D" ), "/", 0 );
 			    operation -> jour = my_atoi ( pointeur_char[0] );
@@ -3593,8 +3604,11 @@ gboolean enregistre_fichier ( gchar *new_file )
 	{
 	    struct structure_operation *operation;
 	    xmlNodePtr node_ope;
+	    gint transaction_number;
 
 	    operation = pointeur_liste -> data;
+
+	    transaction_number = gsb_transaction_data_get_transaction_number (operation);
 
 	    node_ope = xmlNewChild ( node_compte,
 				     NULL,
@@ -3603,11 +3617,12 @@ gboolean enregistre_fichier ( gchar *new_file )
 
 	    xmlSetProp ( node_ope,
 			 "No",
-			 itoa ( gsb_transaction_data_get_transaction_number (operation)));
+			 itoa ( transaction_number ));
 
 	    xmlSetProp ( node_ope,
 			 "Id",
-			 operation -> id_operation );
+			 gsb_transaction_data_get_transaction_id ( transaction_number,
+								   i ));
 
 	    xmlSetProp ( node_ope,
 			 "D",
