@@ -39,7 +39,8 @@
 
 /*START_STATIC*/
 gboolean reconciliation_check ( void );
-gboolean duplicate_div_check ( void );
+gboolean duplicate_categ_check ( void );
+gboolean duplicate_budgetary_line_check ( void );
 gboolean contra_transaction_check ( void );
 gboolean financial_years_check ( void );
 /*END_STATIC*/
@@ -57,9 +58,10 @@ gboolean financial_years_check ( void );
 gboolean debug_check ( void )
 {
     gboolean inconsistency = FALSE;
-    
+
     inconsistency = reconciliation_check();
-    inconsistency |= duplicate_div_check();
+    inconsistency |= duplicate_categ_check();
+    inconsistency |= duplicate_budgetary_line_check();
     inconsistency |= contra_transaction_check();
     inconsistency |= financial_years_check();
 
@@ -145,7 +147,7 @@ gboolean reconciliation_check ( void )
 	pText = g_strconcat ( pText,
 			      g_strdup_printf ( _("<span weight=\"bold\">%s</span>\n"
 						  "  Last reconciliation amount : %4.2f%s\n"
-						  "  Computed reconciliation amount : %4.2f%s\n\n"),
+						  "  Computed reconciliation amount : %4.2f%s\n"),
 						NOM_DU_COMPTE, 
 						SOLDE_DERNIER_RELEVE, devise_name_by_no ( DEVISE ),
 						reconcilied_amount, devise_name_by_no ( DEVISE ) ),
@@ -206,11 +208,11 @@ gint find_duplicate_categ ( struct struct_sous_categ * a, struct struct_sous_cat
  *
  *
  */
-gboolean duplicate_div_check ()
+gboolean duplicate_categ_check ()
 {
     GSList * tmp;
     gint num_duplicate = 0;
-    gchar * output = "";
+    gchar * output = _("Some sub-categories are duplicates:\n\n");
 
     tmp = liste_struct_categories;
     while ( tmp )
@@ -228,10 +230,9 @@ gboolean duplicate_div_check ()
 	    if ( duplicate && duplicate > tmp_sous_categ )
 	    {
 		output = g_strconcat ( output, 
-				       g_strdup_printf ( _("Sub-category <i>'%s : %s'</i> is a duplicate of <i>'%s : %s'</i>\n"), 
+				       g_strdup_printf ( _("In <i>%s</i>, <i>%s</i> is a duplicate of <i>%s</i>.\n"), 
 							 categ -> nom_categ,
 							 ((struct struct_sous_categ *) tmp_sous_categ -> data) -> nom_sous_categ,
-							 categ -> nom_categ,
 							 ((struct struct_sous_categ *) duplicate -> data) -> nom_sous_categ ),
 				       NULL );
 		num_duplicate ++;
@@ -249,7 +250,7 @@ gboolean duplicate_div_check ()
 				 "sub-categories may share the same numeric id in some "
 				 "cases, resulting in transactions having two sub-categories.  "
 				 "If you choose to continue, Grisbi will "
-				 "remove one of each sub-categories duplicate and "
+				 "remove one of each duplicates and "
 				 "recreate it with a new id.\n\n"
 				 "No transactions will be lost, but in some cases, you "
 				 "will have to manually move transactions to this new "
@@ -269,12 +270,12 @@ gboolean duplicate_div_check ()
 		    duplicate = g_slist_find_custom ( categ -> liste_sous_categ, 
 						      tmp_sous_categ -> data,
 						      (GCompareFunc) find_duplicate_categ );
-		    /* Second comparison is just there to find only one of them. */
-		    if ( duplicate && duplicate > tmp_sous_categ )
+		    if ( duplicate )
 		    {
 			struct struct_sous_categ * duplicate_categ = duplicate -> data;
 
-			duplicate_categ -> no_sous_categ = ++(categ -> no_derniere_sous_categ);
+			categ -> no_derniere_sous_categ++;
+			duplicate_categ -> no_sous_categ = categ -> no_derniere_sous_categ;
 		    }
 		    tmp_sous_categ = tmp_sous_categ -> next;
 		}
@@ -285,6 +286,110 @@ gboolean duplicate_div_check ()
 	    mise_a_jour_categ();
 	}
 	g_free ( output );
+    }
+
+    return num_duplicate;
+}
+
+
+
+/**
+ * Find if two sub budgetary lines are the same
+ *
+ */
+gint find_duplicate_budgetary_line ( struct struct_sous_imputation * a, 
+				     struct struct_sous_imputation * b )
+{
+    if ( a != b && a -> no_sous_imputation == b -> no_sous_imputation )
+    {
+	return 0;
+    }
+    return 1;
+}
+
+
+
+/**
+ *
+ *
+ */
+gboolean duplicate_budgetary_line_check ()
+{
+    GSList * tmp;
+    gint num_duplicate = 0;
+    gchar * output = "";
+
+    tmp = liste_struct_imputation;
+    while ( tmp )
+    {
+	struct struct_imputation * budgetary_line = tmp -> data;
+	GSList * tmp_sous_budgetary_line = budgetary_line -> liste_sous_imputation;
+
+	while ( tmp_sous_budgetary_line )
+	{
+	    GSList * duplicate;
+	    duplicate = g_slist_find_custom ( budgetary_line -> liste_sous_imputation, 
+					      tmp_sous_budgetary_line -> data,
+					      (GCompareFunc) find_duplicate_budgetary_line );
+	    /* Second comparison is just there to find only one of them. */
+	    if ( duplicate && duplicate > tmp_sous_budgetary_line )
+	    {
+		output = g_strconcat ( output, 
+				       g_strdup_printf ( _("Sub-budgetary line <i>'%s : %s'</i> is a duplicate of <i>'%s : %s'</i>\n"), 
+							 budgetary_line -> nom_imputation,
+							 ((struct struct_sous_imputation *) tmp_sous_budgetary_line -> data) -> nom_sous_imputation,
+							 budgetary_line -> nom_imputation,
+							 ((struct struct_sous_imputation *) duplicate -> data) -> nom_sous_imputation ),
+				       NULL );
+		num_duplicate ++;
+	    }
+	    tmp_sous_budgetary_line = tmp_sous_budgetary_line -> next;
+	}
+	
+	tmp = tmp -> next;
+    }
+
+    if ( num_duplicate )
+    {
+	output = g_strconcat ( output, "\n",
+			       _("Due to a bug in previous versions of Grisbi, "
+				 "sub-budgetary lines may share the same numeric id in some "
+				 "cases, resulting in transactions having two sub-budgetary lines.  "
+				 "If you choose to continue, Grisbi will "
+				 "remove one of each duplicates and "
+				 "recreate it with a new id.\n\n"
+				 "No transactions will be lost, but in some cases, you "
+				 "will have to manually move transactions to this new "
+				 "sub-budgetary line."),
+			       NULL );
+	if ( question_yes_no_hint ( _("Fix inconsistencies in sub-budgetary lines?"), output ) )
+	{
+	    tmp = liste_struct_imputation;
+	    while ( tmp )
+	    {
+		struct struct_imputation * budgetary_line = tmp -> data;
+		GSList * tmp_sous_budgetary_line = budgetary_line -> liste_sous_imputation;
+
+		while ( tmp_sous_budgetary_line )
+		{
+		    GSList * duplicate;
+		    duplicate = g_slist_find_custom ( budgetary_line -> liste_sous_imputation, 
+						      tmp_sous_budgetary_line -> data,
+						      (GCompareFunc) find_duplicate_budgetary_line );
+		    if ( duplicate )
+		    {
+			struct struct_sous_imputation * duplicate_budgetary_line = duplicate -> data;
+
+			duplicate_budgetary_line -> no_sous_imputation = ++(budgetary_line -> no_derniere_sous_imputation);
+		    }
+		    tmp_sous_budgetary_line = tmp_sous_budgetary_line -> next;
+		}
+	
+		tmp = tmp -> next;
+	    }
+
+	    mise_a_jour_imputation();
+	}
     }
 
     return num_duplicate;
@@ -437,6 +542,7 @@ gboolean contra_transaction_check ( void )
   return corrupted_file;
 }
 
+
 /******************************************************************************/
 /* financial_years_check.                                                     */
 /* Cette fonction est appelée après la création de toutes les listes          */
@@ -573,3 +679,4 @@ gboolean financial_years_check ( void )
 
   return corrupted_file;
 }
+
