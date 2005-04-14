@@ -310,6 +310,8 @@ gboolean gsb_transaction_data_set_transaction_id ( gint no_transaction,
 }
 
 
+/* xxx */
+/* remplacer les -> no_comptes */
 
 /** get the account_number
  * \param no_transaction the number of the transaction

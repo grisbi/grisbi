@@ -621,7 +621,10 @@ recherche_completion:
 	    }
 	    else
 	    {
-		if ( !g_utf8_collate ( chaine, liste_tmp->data ) )
+		if ( !strcmp ( g_utf8_collate_key ( chaine, 
+						    strlen (chaine )),
+			       g_utf8_collate_key ( liste_tmp->data,
+						    strlen (chaine ))))
 		    completion = liste_tmp -> data;
 	    }
 
