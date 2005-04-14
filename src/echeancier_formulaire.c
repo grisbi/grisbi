@@ -159,18 +159,10 @@ GtkWidget *creation_formulaire_echeancier ( void )
 									     FALSE,
 									     TRUE,
 									     TRUE,
-									     50 );
+									     0 );
     gtk_signal_connect ( GTK_OBJECT ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_PARTY] ) -> entry ),
 			 "key-press-event",
 			 GTK_SIGNAL_FUNC ( pression_touche_formulaire_echeancier ),
-			 GINT_TO_POINTER ( SCHEDULER_FORM_PARTY ) );
-    gtk_signal_connect_object ( GTK_OBJECT ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_PARTY]) -> entry),
-				"focus-in-event",
-				GTK_SIGNAL_FUNC ( entree_prend_focus ),
-				GTK_WIDGET ( widget_formulaire_echeancier[SCHEDULER_FORM_PARTY] ) );
-    gtk_signal_connect ( GTK_OBJECT ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_PARTY] ) -> entry ),
-			 "focus-out-event",
-			 GTK_SIGNAL_FUNC ( entree_perd_focus_echeancier ),
 			 GINT_TO_POINTER ( SCHEDULER_FORM_PARTY ) );
     gtk_signal_connect ( GTK_OBJECT ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_PARTY] ) -> entry ),
 			 "button-press-event",
@@ -179,6 +171,14 @@ GtkWidget *creation_formulaire_echeancier ( void )
     gtk_signal_connect ( GTK_OBJECT ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_PARTY] ) -> arrow ),
 			 "button-press-event",
 			 GTK_SIGNAL_FUNC ( clique_champ_formulaire_echeancier ),
+			 GINT_TO_POINTER ( SCHEDULER_FORM_PARTY ) );
+    gtk_signal_connect_object ( GTK_OBJECT ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_PARTY]) -> entry),
+				"focus-in-event",
+				GTK_SIGNAL_FUNC ( entree_prend_focus ),
+				GTK_WIDGET ( widget_formulaire_echeancier[SCHEDULER_FORM_PARTY] ) );
+    gtk_signal_connect ( GTK_OBJECT ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_PARTY] ) -> entry ),
+			 "focus-out-event",
+			 GTK_SIGNAL_FUNC ( entree_perd_focus_echeancier ),
 			 GINT_TO_POINTER ( SCHEDULER_FORM_PARTY ) );
     gtk_table_attach ( GTK_TABLE ( table ),
 		       widget_formulaire_echeancier[SCHEDULER_FORM_PARTY],
@@ -304,7 +304,7 @@ GtkWidget *creation_formulaire_echeancier ( void )
 										       FALSE,
 										       TRUE,
 										       TRUE,
-										       0 );
+										       30 );
     gtk_signal_connect ( GTK_OBJECT ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_CATEGORY] ) -> entry ),
 			 "key-press-event",
 			 GTK_SIGNAL_FUNC ( pression_touche_formulaire_echeancier ),
@@ -1219,7 +1219,7 @@ gboolean pression_touche_formulaire_echeancier ( GtkWidget *widget,
 	case GDK_Escape :		/* échap */
 
 	    echap_formulaire_echeancier();
-	    return FALSE;
+	    break;
 
 	case GDK_Tab :
 
@@ -1291,7 +1291,7 @@ gboolean pression_touche_formulaire_echeancier ( GtkWidget *widget,
 		    gtk_entry_select_region ( GTK_ENTRY ( widget_formulaire_echeancier[no_widget] ), 0, -1 );
 		gtk_widget_grab_focus ( widget_formulaire_echeancier[no_widget]  );
 	    }
-	    return TRUE;
+	    break;
 
 	case GDK_Return :		/* touches entrée */
 	case GDK_KP_Enter :
@@ -1334,7 +1334,6 @@ gboolean pression_touche_formulaire_echeancier ( GtkWidget *widget,
 		    fin_edition_echeance ();
 		}
 	    }
-	    return FALSE;
 	    break;
 
 	case GDK_plus :		/* touches + */
@@ -1355,6 +1354,7 @@ gboolean pression_touche_formulaire_echeancier ( GtkWidget *widget,
 		return TRUE;
 	    }
 	    return FALSE;
+	    break;
 
 	case GDK_minus :		/* touches - */
 	case GDK_KP_Subtract :
@@ -1374,6 +1374,7 @@ gboolean pression_touche_formulaire_echeancier ( GtkWidget *widget,
 		return TRUE;
 	    }
 	    return FALSE;
+	    break;
 
 	case GDK_Page_Up :		/* touche PgUp */
 	case GDK_KP_Page_Up :
@@ -1393,6 +1394,7 @@ gboolean pression_touche_formulaire_echeancier ( GtkWidget *widget,
 		return TRUE;
 	    }
 	    return FALSE;
+	    break;
 
 	case GDK_Page_Down :		/* touche PgDown */
 	case GDK_KP_Page_Down :
@@ -1412,6 +1414,7 @@ gboolean pression_touche_formulaire_echeancier ( GtkWidget *widget,
 		return TRUE;
 	    }
 	    return FALSE;
+	    break;
 
 	default:
 	    /* Reverting to default handler */

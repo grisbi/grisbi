@@ -617,6 +617,7 @@ recherche_completion:
     else
 	completion = "";
 
+
     /* commence par vérifier l'entrée si force_text = 1 */
     /* si le mot n'existe pas dans la liste autorisée, efface ce qui a été ajouté */
 
@@ -668,8 +669,9 @@ recherche_completion:
 
 
     /* on commence à récupérer toutes les lignes qu'on va inclure dans la box */
-    /* si le nb de lignes est > à lignes_max, on n'affiche pas */
-
+    
+    /* si on a tapé du texte et que si le nb de lignes est > à lignes_max, on n'affiche pas */
+    /* si on a cliqué sur le bouton( dans ce cas, entree=-1), on affiche toutes les lignes */
 
     /* si on a clické sur l'arrow, on affiche toute la liste */
 
@@ -744,7 +746,9 @@ recherche_completion:
 		    }
 		}
 
-		if ( combofix -> lignes_max
+		if ( entree != GINT_TO_POINTER (-1)
+		     &&
+		     combofix -> lignes_max
 		     &&
 		     ligne_en_cours > combofix -> lignes_max )
 		{
@@ -816,7 +820,9 @@ recherche_completion:
 		}
 	    }
 
-	    if ( combofix -> lignes_max
+	    if ( entree != GINT_TO_POINTER (-1)
+		 &&
+		 combofix -> lignes_max
 		 &&
 		 ligne_en_cours > combofix -> lignes_max )
 	    {
@@ -884,9 +890,6 @@ recherche_completion:
     style_label = gtk_style_copy ( gtk_widget_get_style (  combofix -> arrow ));
 
     style_label->bg[GTK_STATE_PRELIGHT] = couleur_bleue;
-
-
-
 
     liste_tmp = liste_affichee;
 
@@ -1133,8 +1136,6 @@ recherche_completion:
 	    }
 	    liste_tmp = liste_tmp -> next;
 	}
-
-
 
 
     if ( entree && completion )
