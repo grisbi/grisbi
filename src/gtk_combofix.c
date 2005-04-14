@@ -685,7 +685,10 @@ recherche_completion:
 
 
     /* on commence à récupérer toutes les lignes qu'on va inclure dans la box */
-    /* si le nb de lignes est > à lignes_max, on n'affiche pas */
+
+    /* si on a tapé du texte et que si le nb de lignes est > à lignes_max, on n'affiche pas */
+    /* si on a cliqué sur le bouton( dans ce cas, entree=-1), on affiche toutes les lignes */
+
 
 
     /* si on a clické sur l'arrow, on affiche toute la liste */
@@ -761,7 +764,9 @@ recherche_completion:
 		    }
 		}
 
-		if ( combofix -> lignes_max
+		if ( entree != GINT_TO_POINTER (-1)
+		     &&
+		     combofix -> lignes_max
 		     &&
 		     ligne_en_cours > combofix -> lignes_max )
 		{
@@ -832,7 +837,9 @@ recherche_completion:
 		}
 	    }
 
-	    if ( combofix -> lignes_max
+	    if ( entree != GINT_TO_POINTER (-1)
+		 &&
+		 combofix -> lignes_max
 		 &&
 		 ligne_en_cours > combofix -> lignes_max )
 	    {

@@ -340,7 +340,7 @@ GtkWidget *cree_element_formulaire_par_no ( gint no_element )
 						FALSE,
 						TRUE,
 						TRUE,
-						0 );
+						30 );
 	    gtk_widget_show ( widget );
 	    break;
 
@@ -351,7 +351,7 @@ GtkWidget *cree_element_formulaire_par_no ( gint no_element )
 						FALSE,
 						TRUE,
 						TRUE,
-						0 );
+						30 );
 	    gtk_widget_show ( widget );
 	    break;
 
