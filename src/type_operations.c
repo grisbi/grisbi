@@ -1431,6 +1431,9 @@ gint cherche_no_menu_type ( gint demande )
     if ( !demande )
 	return ( FALSE );
 
+    if ( !GTK_MENU_SHELL ( GTK_OPTION_MENU ( widget_formulaire_operations[TRANSACTION_FORM_TYPE] ) -> menu ))
+	return -1;
+
     liste_tmp = GTK_MENU_SHELL ( GTK_OPTION_MENU ( widget_formulaire_operations[TRANSACTION_FORM_TYPE] ) -> menu ) -> children;
     retour = -1;
     i=0;
@@ -1537,6 +1540,9 @@ gint cherche_no_menu_type_echeancier ( gint demande )
 
     if ( !demande )
 	return ( FALSE );
+
+    if ( !GTK_MENU_SHELL ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] ) -> menu ))
+	return -1;
 
     liste_tmp = GTK_MENU_SHELL ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] ) -> menu ) -> children;
     retour = -1;
