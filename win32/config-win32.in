@@ -61,24 +61,14 @@
 /* Define to 1 if you have the `setlocale' function. */
 #define HAVE_SETLOCALE 1
 
-#define NOOFX 1
+/* Define to 1 to have OFX support disabled */
+#undef NOOFX
+
+/* Define to 1 if you want to have OFX support using libofx 0.7.0 */
+#define OFX_0_7 1
+
 
 #include "win32utils.h"
-
-#ifdef _NO_OLDNAMES
-// from sys/stat.h 
-// for fichier_gestion.c
-#define	S_IRUSR		_S_IRUSR
-// for fichier_gestion.c
-#define	S_IWUSR		_S_IWUSR
-
-// for ...
-#define S_ISREG     _S_ISREG
-
-// from fnctl.h
-// for fichier_gestion.c
-#define	O_RDONLY	_O_RDONLY
-#endif // _NO_OLDNAMES
 
 #endif //  _WIN32
 #endif // !_WIN32_CONFIG_H

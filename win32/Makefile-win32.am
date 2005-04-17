@@ -5,13 +5,14 @@
 # --------------------------------------------------------------------------
 # Installation Directories
 # --------------------------------------------------------------------------
-GRISBIDIR   = @WINGRISBIDIR@
+WINGRISBIDIR   = @WINGRISBIDIR@
 BUILDDIR    = @BUILDDIR@ 
 INSTSRCDIR  = @INSTSRCDIR@
 GTKDEVDIR   = @GTKDEVDIR@
 GCCBASEDIR  = @GCCBASEDIR@
 PERLBASEDIR = @PERLBASEDIR@
 NSISBINDIR  = @NSISBINDIR@
+GETTEXTDIR  = @GETTEXTDIR@
 
 # --------------------------------------------------------------------------
 # Applications ...
@@ -19,7 +20,7 @@ NSISBINDIR  = @NSISBINDIR@
 CPP       = g++.exe
 CC        = gcc.exe
 GDB       = $(GCCBASEDIR)/bin/gdb.exe
-MSGFMT    = $(GTKDEVDIR)/bin/msgfmt.exe
+MSGFMT    = $(GETTEXTDIR)/msgfmt.exe
 WINDRES   = $(GCCBASEDIR)/bin/windres.exe
 PERL      = $(PERLBASEDIR)/bin/perl.exe
 MAKENSIS  = $(NSISBINDIR)/makensis.exe
@@ -54,22 +55,18 @@ EXE       = $(BUILDDIR)/grisbi.exe
 # Commands parameters
 # --------------------------------------------------------------------------
 INCS      = -I"../win32"  -I"../src"  -I"$(GCCBASEDIR)/include" -I"$(GTKDEVDIR)/include"  -I"$(GTKDEVDIR)/include/atk-1.0"  -I"$(GTKDEVDIR)/lib/glib-2.0/include"  -I"$(GTKDEVDIR)/include/glib-2.0"  -I"$(GTKDEVDIR)/lib/gtk-2.0/include"  -I"$(GTKDEVDIR)/include/gtk-2.0"  -I"$(GTKDEVDIR)/include/libiconv-1.9.1"  -I"$(GTKDEVDIR)/include/pango-1.0"  -I"$(GTKDEVDIR)/include/libxml2-2.4.12" 
-CFLAGS    = $(INCS) -D _WIN32 -D _NO_OLDNAMES -mms-bitfields -g -D _WIN32_IE=0x0400 -D NOOFX 
+CFLAGS    = -Wall $(INCS) -D _WIN32 -mms-bitfields -g -D _WIN32_IE=0x0400  
 
-LIBS      =  $(GTKDEVDIR)/lib/asprintf.lib \
-	     $(GTKDEVDIR)/lib/atk-1.0.lib \
-	     $(GTKDEVDIR)/lib/fontconfig.lib \
+LIBS      =  $(GTKDEVDIR)/lib/atk-1.0.lib \
 	     $(GTKDEVDIR)/lib/gdk_pixbuf-2.0.lib \
 	     $(GTKDEVDIR)/lib/gdk-win32-2.0.lib \
-	     $(GTKDEVDIR)/lib/gettextpo.lib \
 	     $(GTKDEVDIR)/lib/glib-2.0.lib \
 	     $(GTKDEVDIR)/lib/gmodule-2.0.lib \
 	     $(GTKDEVDIR)/lib/gobject-2.0.lib \
 	     $(GTKDEVDIR)/lib/gthread-2.0.lib \
 	     $(GTKDEVDIR)/lib/gtk-win32-2.0.lib \
-	     $(GTKDEVDIR)/lib/intl.lib \
+	     $(GTKDEVDIR)/lib/libintl.lib \
 	     $(GTKDEVDIR)/lib/libatk-1.0.dll.a \
-	     $(GTKDEVDIR)/lib/libfontconfig.dll.a \
 	     $(GTKDEVDIR)/lib/libgdk_pixbuf-2.0.dll.a \
 	     $(GTKDEVDIR)/lib/libgdk-win32-2.0.dll.a \
 	     $(GTKDEVDIR)/lib/libglib-2.0.dll.a \
@@ -83,101 +80,131 @@ LIBS      =  $(GTKDEVDIR)/lib/asprintf.lib \
 	     $(GTKDEVDIR)/lib/pango-1.0.lib \
 	     $(GTKDEVDIR)/lib/pangoft2-1.0.lib \
 	     $(GTKDEVDIR)/lib/pangowin32-1.0.lib \
-	     $(GTKDEVDIR)/lib/iconv.lib \
-	     $(GTKDEVDIR)/lib/libxml2.lib
+	     $(GTKDEVDIR)/lib/libiconv.lib \
+	     $(GTKDEVDIR)/lib/libxml2.lib \
+	     $(GTKDEVDIR)/lib/libofx.lib
 
 LDFLAGS   = -L"$(GCCBASEDIR)/lib" -L"$(GTKDEVDIR)/lib/" $(LIBS) -mwindows 
-
 
 # ==========================================================================
 # TARGETS
 # ==========================================================================
 # command lines target
 # --------------------------------------------------------------------------
+#! Build all application and languages files.
 all   : exe lang
+
+#! Only build application related files
 exe   : $(EXE)
 
-lang  : fr it
-fr    : $(BUILDDIR)/lib/locale/fr/LC_MESSAGES/grisbi.mo 
-it    : $(BUILDDIR)/lib/locale/it/LC_MESSAGES/grisbi.mo
+lang = @LANGS@
 	
-clean    : clean-exe clean-obj clean-mo
-clean-all: clean-exe clean-obj clean-mo clean-runtime
+#! Delete the builded files (.exe, .o, .mo) - does not affect files copied by the 'runtime' command
+clean    : _clean-exe _clean-obj _clean-mo
+
+#! Delete the builded files (.exe, .o, .mo) AND the files copied by the 'runtime' command
+clean-all: _clean-exe _clean-obj _clean-mo _clean-runtime
 
 # change target to set the default debugger
 # debug : gdb to use console based gdb version
 # debug : insight to use insight gui gdb interface
+#! run the builded application in debug mode
 debug : insight
 
-gdb   : exe
-	$(GDB) -d ../src -d ../win32 $(EXE) 
-insight:exe
-	$(GCCBASEDIR)/bin/Insight/bin/usr/bin/insight.exe -d ../src -d ../win32 $(EXE)
-run   : exe
+#! run the builded application from the build directory
+run   : exe 
 	$(EXE)
+
+gdb   : exe 
+	$(GDB) -d ../src -d ../win32 $(EXE) 
+insight:exe runtimes
+	$(GCCBASEDIR)/bin/Insight/bin/usr/bin/insight.exe -d ../src -d ../win32 $(EXE)
+
 	
 
 # Usage targets
 # --------------------------------------------------------------------------
 usage :
-	@echo "Usage: make all|exe|lang|fr|it|clean|depend|configure"
-	@echo " use make --help for more information about targets"
+	@echo "Usage: mingw32-make <target>"
+	@echo "where <target> is one (more) of the following items"
+	@$(PERL) -w -ne 'BEGIN{$$l=undef;} (/^\#\!/ )&& do {s/^\#\!\s*//;$$l=$$_ ;next;}; next unless($$l); m/^(.+)\s*:/; print "    $$1:\n        $$l"; $$l=undef;' Makefile
 
 # configuration targets
 # --------------------------------------------------------------------------
+#! update the list of source files (.c) to build and link together (from src and win32 directories).
+update:
+	autogen --force Makefile
+
+#! update the dependency rules of the Makefile.
 depend: 
 	makedepend -o.c -f../win32/Makefile -- $(CFLAGS) -- $(SRCS:%.c=../src/%.c) $(WIN32:%.c=../win32/%.c) 
 	
-runtime :   
-	autogen --runtime
-	
-# Clean targets
-# --------------------------------------------------------------------------
-clean-exe:
-	rm -f $(EXE) $(RES)
-
-clean-obj:
-	rm -f $(OBJDIR)/*.o
-	
-clean-mo:
-	rm -f ../build/locale/fr/LC_MESSAGES/grisbi.mo
-	rm -f ../build/locale/it/LC_MESSAGES/grisbi.mo
-
-clean-runtime:
-	autogen -f -runtime clean
 
 # Build installer package
 # --------------------------------------------------------------------------
 check-installer:
-	$(MAKENSIS) /DCHECK_SYNTAX=1 /DGRISBIDIR=$(GRISBIDIR) $(INSTSRCDIR)/grisbi-win32.nsi
+	$(MAKENSIS) /DCHECK_SYNTAX=1 /DGRISBIDIR=$(WINGRISBIDIR) $(INSTSRCDIR)/grisbi-win32.nsi
 
-win32-installer:
-	$(MAKENSIS) /DGRISBIDIR=$(GRISBIDIR) $(INSTSRCDIR)/grisbi-win32.nsi
+#! build all packages
+all-packages : full-package no-gtk-package no-doc-package app-only-package doc-only-package
 	
-doc-installer:
-	$(MAKENSIS) /DGRISBIDIR=$(GRISBIDIR) $(INSTSRCDIR)/grisbi-doc.nsi
+full-package:
+	$(MAKENSIS) /DGRISBIDIR=$(WINGRISBIDIR) /DINSTALL_FULL_MODE $(INSTSRCDIR)/grisbi-win32.nsi 
 	
+no-gtk-package:
+	$(MAKENSIS) /DGRISBIDIR=$(WINGRISBIDIR) /DINSTALL_NO_GTK $(INSTSRCDIR)/grisbi-win32.nsi 
+
+no-doc-package:
+	$(MAKENSIS) /DGRISBIDIR=$(WINGRISBIDIR) /DINSTALL_NO_DOC $(INSTSRCDIR)/grisbi-win32.nsi 
+
+app-only-package:
+	$(MAKENSIS) /DGRISBIDIR=$(WINGRISBIDIR) /DINSTALL_APP_ONLY $(INSTSRCDIR)/grisbi-win32.nsi 
+
+doc-only-package:
+	$(MAKENSIS) /DGRISBIDIR=$(WINGRISBIDIR) /DINSTALL_DOC_ONLY $(INSTSRCDIR)/grisbi-win32.nsi 
+
+patch-package:
+	$(MAKENSIS) /DGRISBIDIR=$(WINGRISBIDIR) /DINSTALL_PATCH_MODE $(INSTSRCDIR)/grisbi-doc.nsi
+	
+# Clean targets
+# --------------------------------------------------------------------------
+_clean-exe:
+	rm -f $(EXE) $(RES)
+
+_clean-obj:
+	rm -f $(OBJDIR)/*.o
+	
+_clean-mo:
+	rm -f ../build/locale/*/LC_MESSAGES/grisbi.mo
+
+_clean-runtime:
+	autogen -f -runtime clean
 # Build items targets
 # --------------------------------------------------------------------------
-$(EXE) : $(LINKOBJS)
+$(EXE) : $(LINKOBJS) 
 	@echo "Linking $@"
+	@mkdir -p $(@D)
 	+$(CC) -o $@ $(LINKOBJS) $(LDFLAGS)
 
 $(OBJDIR)/%.o : %.c
 	@echo "Compiling $<"
+	@mkdir -p $(@D)
 	+$(CC) -o $@ -c $< $(CFLAGS)
 
 $(LOCALE)/%/LC_MESSAGES/grisbi.mo : ../po/%.po
 	@echo "Compiling $<"
+	@mkdir -p $(@D)
 	+$(MSGFMT) -o $@ $< 
 	
 $(OBJDIR)/%.res : %.rc
 	@echo "Compiling $<"
-	+$(WINDRES) -i $< -I rc -o $@ -O coff
-	
+	@mkdir -p $(@D)
+	+$(WINDRES) --input-format=rc --output-format=coff --output=$@ --input=$< 
+
+
 #
 # DEPENDENCIES
 # 
 $(RES) : Grisbi_private.rc Grisbi.ico
 
-# vim:ft=make
+# :vim:ft=make:
