@@ -1451,7 +1451,7 @@ void creation_compte_importe ( struct struct_compte_importation *compte_import,
 	    else
 		operation -> type_ope = TYPE_DEFAUT_CREDIT;
 
-	    operation -> contenu_type = itoa ( operation_import -> cheque );
+	    operation -> contenu_type = utils_itoa ( operation_import -> cheque );
 
 	    liste_tmp = TYPES_OPES;
 	    type_choisi = NULL;
@@ -2178,7 +2178,7 @@ struct structure_operation *enregistre_ope_importee ( struct struct_ope_importat
 	else
 	    operation -> type_ope = TYPE_DEFAUT_CREDIT;
 
-	operation -> contenu_type = itoa ( operation_import -> cheque );
+	operation -> contenu_type = utils_itoa ( operation_import -> cheque );
 
 	liste_tmp = TYPES_OPES;
 	type_choisi = NULL;

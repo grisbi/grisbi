@@ -1078,7 +1078,7 @@ gint etat_affiche_affichage_ligne_ope ( struct structure_operation *operation,
 
 	if ( etat_courant -> afficher_no_ope )
 	{
-	    text = itoa ( operation -> no_operation );
+	    text = utils_itoa ( operation -> no_operation );
 
 	    if ( etat_courant -> ope_clickables )
 	    {

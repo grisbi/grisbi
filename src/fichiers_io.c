@@ -1840,14 +1840,14 @@ void supprime_operations_orphelines ( void )
 
 	if ( nb_ventil )
 	    message = g_strconcat ( message,
-				    itoa ( nb_ventil ),
+				    utils_itoa ( nb_ventil ),
 				    " ",
 				    _("breakdown transactions, all of them were deleted.\n"),
 				    NULL );
 
 	if ( nb_vir )
 	    message = g_strconcat ( message,
-				    itoa ( nb_vir ),
+				    utils_itoa ( nb_vir ),
 				    " ",
 				    _("transfers without contra-transaction, which categories were deleted.\n"),
 				    NULL );
@@ -6547,57 +6547,57 @@ gboolean enregistre_fichier ( gboolean force )
     xmlNewTextChild ( node,
 		      NULL,
 		      "Utilise_exercices",
-		      itoa (etat.utilise_exercice));
+		      utils_itoa (etat.utilise_exercice));
     xmlNewTextChild ( node,
 		      NULL,
 		      "Utilise_IB",
-		      itoa (etat.utilise_imputation_budgetaire));
+		      utils_itoa (etat.utilise_imputation_budgetaire));
     xmlNewTextChild ( node,
 		      NULL,
 		      "Utilise_PC",
-		      itoa (etat.utilise_piece_comptable));
+		      utils_itoa (etat.utilise_piece_comptable));
     xmlNewTextChild ( node,
 		      NULL,
 		      "Utilise_info_BG",
-		      itoa (etat.utilise_info_banque_guichet));
+		      utils_itoa (etat.utilise_info_banque_guichet));
     xmlNewTextChild ( node,
 		      NULL,
 		      "Numero_devise_totaux_tiers",
-		      itoa ( no_devise_totaux_tiers));
+		      utils_itoa ( no_devise_totaux_tiers));
     xmlNewTextChild ( node,
 		      NULL,
 		      "Numero_devise_totaux_categ",
-		      itoa ( no_devise_totaux_categ));
+		      utils_itoa ( no_devise_totaux_categ));
     xmlNewTextChild ( node,
 		      NULL,
 		      "Numero_devise_totaux_ib",
-		      itoa ( no_devise_totaux_ib));
+		      utils_itoa ( no_devise_totaux_ib));
     xmlNewTextChild ( node,
 		      NULL,
 		      "Type_affichage_des_echeances",
-		      itoa (affichage_echeances));
+		      utils_itoa (affichage_echeances));
     xmlNewTextChild ( node,
 		      NULL,
 		      "Affichage_echeances_perso_nb_libre",
-		      itoa (affichage_echeances_perso_nb_libre));
+		      utils_itoa (affichage_echeances_perso_nb_libre));
     xmlNewTextChild ( node,
 		      NULL,
 		      "Type_affichage_perso_echeances",
-		      itoa (affichage_echeances_perso_j_m_a));
+		      utils_itoa (affichage_echeances_perso_j_m_a));
     xmlNewTextChild ( node,
 		      NULL,
 		      "Numero_derniere_operation",
-		      itoa ( no_derniere_operation));
+		      utils_itoa ( no_derniere_operation));
 
     xmlNewTextChild ( node,
 		      NULL,
 		      "Echelle_date_import",
-		      itoa (valeur_echelle_recherche_date_import ));
+		      utils_itoa (valeur_echelle_recherche_date_import ));
 
     xmlNewTextChild ( node,
 		      NULL,
 		      "Utilise_logo",
-		      itoa (etat.utilise_logo ));
+		      utils_itoa (etat.utilise_logo ));
 
     xmlNewTextChild ( node,
 		      NULL,
@@ -6613,10 +6613,10 @@ gboolean enregistre_fichier ( gboolean force )
 	    if ( pointeur_char )
 		pointeur_char = g_strconcat ( pointeur_char,
 					      "-",
-					      itoa ( tab_affichage_ope[i][j] ),
+					      utils_itoa ( tab_affichage_ope[i][j] ),
 					      NULL );
 	    else
-		pointeur_char = itoa ( tab_affichage_ope[i][j] );
+		pointeur_char = utils_itoa ( tab_affichage_ope[i][j] );
 
 
     xmlNewTextChild ( node,
@@ -6632,10 +6632,10 @@ gboolean enregistre_fichier ( gboolean force )
 	if ( pointeur_char )
 	    pointeur_char = g_strconcat ( pointeur_char,
 					  "-",
-					  itoa ( rapport_largeur_colonnes[i] ),
+					  utils_itoa ( rapport_largeur_colonnes[i] ),
 					  NULL );
 	else
-	    pointeur_char = itoa ( rapport_largeur_colonnes[i] );
+	    pointeur_char = utils_itoa ( rapport_largeur_colonnes[i] );
 
 
     xmlNewTextChild ( node,
@@ -6648,23 +6648,23 @@ gboolean enregistre_fichier ( gboolean force )
     xmlNewTextChild ( node,
 		      NULL,
 		      "Ligne_aff_une_ligne",
-		      itoa ( ligne_affichage_une_ligne ));
+		      utils_itoa ( ligne_affichage_une_ligne ));
 
 
-    pointeur_char = g_strconcat ( itoa ( GPOINTER_TO_INT ( lignes_affichage_deux_lignes -> data )),
+    pointeur_char = g_strconcat ( utils_itoa ( GPOINTER_TO_INT ( lignes_affichage_deux_lignes -> data )),
 				  "-",
-				  itoa ( GPOINTER_TO_INT ( lignes_affichage_deux_lignes -> next -> data )),
+				  utils_itoa ( GPOINTER_TO_INT ( lignes_affichage_deux_lignes -> next -> data )),
 				  NULL );
     xmlNewTextChild ( node,
 		      NULL,
 		      "Lignes_aff_deux_lignes",
 		      pointeur_char );
 
-    pointeur_char = g_strconcat ( itoa ( GPOINTER_TO_INT ( lignes_affichage_trois_lignes -> data )),
+    pointeur_char = g_strconcat ( utils_itoa ( GPOINTER_TO_INT ( lignes_affichage_trois_lignes -> data )),
 				  "-",
-				  itoa ( GPOINTER_TO_INT ( lignes_affichage_trois_lignes -> next -> data )),
+				  utils_itoa ( GPOINTER_TO_INT ( lignes_affichage_trois_lignes -> next -> data )),
 				  "-",
-				  itoa ( GPOINTER_TO_INT ( lignes_affichage_trois_lignes -> next -> next -> data )),
+				  utils_itoa ( GPOINTER_TO_INT ( lignes_affichage_trois_lignes -> next -> next -> data )),
 				  NULL );
     xmlNewTextChild ( node,
 		      NULL,
@@ -6698,10 +6698,10 @@ gboolean enregistre_fichier ( gboolean force )
 	if ( pointeur_char )
 	    pointeur_char = g_strconcat ( pointeur_char,
 					  "-",
-					  itoa ( GPOINTER_TO_INT ( pointeur_liste -> data )),
+					  utils_itoa ( GPOINTER_TO_INT ( pointeur_liste -> data )),
 					  NULL );
 	else
-	    pointeur_char = itoa ( GPOINTER_TO_INT ( pointeur_liste -> data ));
+	    pointeur_char = utils_itoa ( GPOINTER_TO_INT ( pointeur_liste -> data ));
 
 	pointeur_liste = pointeur_liste -> next;
     }
@@ -6715,7 +6715,7 @@ gboolean enregistre_fichier ( gboolean force )
     xmlNewTextChild ( node_1,
 		      NULL,
 		      "Compte_courant",
-		      itoa ( compte_courant ) );
+		      utils_itoa ( compte_courant ) );
 
 
     /* mise en place des comptes 1 par 1 */
@@ -6736,11 +6736,11 @@ gboolean enregistre_fichier ( gboolean force )
 	/* mise en forme de la date du dernier releve */
 
 	if ( DATE_DERNIER_RELEVE )
-	    pointeur_char = g_strconcat ( itoa ( g_date_day ( DATE_DERNIER_RELEVE ) ),
+	    pointeur_char = g_strconcat ( utils_itoa ( g_date_day ( DATE_DERNIER_RELEVE ) ),
 					  "/",
-					  itoa ( g_date_month ( DATE_DERNIER_RELEVE ) ),
+					  utils_itoa ( g_date_month ( DATE_DERNIER_RELEVE ) ),
 					  "/",
-					  itoa ( g_date_year ( DATE_DERNIER_RELEVE ) ),
+					  utils_itoa ( g_date_year ( DATE_DERNIER_RELEVE ) ),
 					  NULL );
 	else
 	    pointeur_char = NULL;
@@ -6764,7 +6764,7 @@ gboolean enregistre_fichier ( gboolean force )
 	xmlNewTextChild ( node_compte,
 			  NULL,
 			  "No_de_compte",
-			  itoa ( NO_COMPTE ));
+			  utils_itoa ( NO_COMPTE ));
 
 	xmlNewTextChild ( node_compte,
 			  NULL,
@@ -6774,22 +6774,22 @@ gboolean enregistre_fichier ( gboolean force )
 	xmlNewTextChild ( node_compte,
 			  NULL,
 			  "Type_de_compte",
-			  itoa ( TYPE_DE_COMPTE ));
+			  utils_itoa ( TYPE_DE_COMPTE ));
 
 	xmlNewTextChild ( node_compte,
 			  NULL,
 			  "Nb_operations",
-			  itoa ( NB_OPE_COMPTE ));
+			  utils_itoa ( NB_OPE_COMPTE ));
 
 	xmlNewTextChild ( node_compte,
 			  NULL,
 			  "Devise",
-			  itoa ( DEVISE ));
+			  utils_itoa ( DEVISE ));
 
 	xmlNewTextChild ( node_compte,
 			  NULL,
 			  "Banque",
-			  itoa ( BANQUE ));
+			  utils_itoa ( BANQUE ));
 
 	xmlNewTextChild ( node_compte,
 			  NULL,
@@ -6844,22 +6844,22 @@ gboolean enregistre_fichier ( gboolean force )
 	xmlNewTextChild ( node_compte,
 			  NULL,
 			  "Dernier_no_de_rapprochement",
-			  itoa ( DERNIER_NO_RAPPROCHEMENT ));
+			  utils_itoa ( DERNIER_NO_RAPPROCHEMENT ));
 
 	xmlNewTextChild ( node_compte,
 			  NULL,
 			  "Compte_cloture",
-			  itoa ( COMPTE_CLOTURE ));
+			  utils_itoa ( COMPTE_CLOTURE ));
 
 	xmlNewTextChild ( node_compte,
 			  NULL,
 			  "Affichage_r",
-			  itoa ( AFFICHAGE_R ));
+			  utils_itoa ( AFFICHAGE_R ));
 
 	xmlNewTextChild ( node_compte,
 			  NULL,
 			  "Nb_lignes_ope",
-			  itoa ( NB_LIGNES_OPE ));
+			  utils_itoa ( NB_LIGNES_OPE ));
 
 	xmlNewTextChild ( node_compte,
 			  NULL,
@@ -6874,27 +6874,27 @@ gboolean enregistre_fichier ( gboolean force )
 	xmlNewTextChild ( node_compte,
 			  NULL,
 			  "Nombre_de_types",
-			  itoa ( g_slist_length ( TYPES_OPES ) ));
+			  utils_itoa ( g_slist_length ( TYPES_OPES ) ));
 
 	xmlNewTextChild ( node_compte,
 			  NULL,
 			  "Type_defaut_debit",
-			  itoa ( TYPE_DEFAUT_DEBIT ));
+			  utils_itoa ( TYPE_DEFAUT_DEBIT ));
 
 	xmlNewTextChild ( node_compte,
 			  NULL,
 			  "Type_defaut_credit",
-			  itoa ( TYPE_DEFAUT_CREDIT ));
+			  utils_itoa ( TYPE_DEFAUT_CREDIT ));
 
 	xmlNewTextChild ( node_compte,
 			  NULL,
 			  "Tri_par_type",
-			  itoa ( TRI ));
+			  utils_itoa ( TRI ));
 
 	xmlNewTextChild ( node_compte,
 			  NULL,
 			  "Neutres_inclus",
-			  itoa ( NEUTRES_INCLUS ));
+			  utils_itoa ( NEUTRES_INCLUS ));
 
 	/* mise en place de l'ordre du tri */
 
@@ -6907,10 +6907,10 @@ gboolean enregistre_fichier ( gboolean force )
 	    if ( pointeur_char )
 		pointeur_char = g_strconcat ( pointeur_char,
 					      "/",
-					      itoa ( GPOINTER_TO_INT ( pointeur_liste -> data )),
+					      utils_itoa ( GPOINTER_TO_INT ( pointeur_liste -> data )),
 					      NULL );
 	    else
-		pointeur_char = itoa ( GPOINTER_TO_INT ( pointeur_liste -> data ));
+		pointeur_char = utils_itoa ( GPOINTER_TO_INT ( pointeur_liste -> data ));
 
 	    pointeur_liste = pointeur_liste -> next;
 	}
@@ -6944,7 +6944,7 @@ gboolean enregistre_fichier ( gboolean force )
 
 	    xmlSetProp ( node_type,
 			 "No",
-			 itoa ( type -> no_type ));
+			 utils_itoa ( type -> no_type ));
 
 	    xmlSetProp ( node_type,
 			 "Nom",
@@ -6952,19 +6952,19 @@ gboolean enregistre_fichier ( gboolean force )
 
 	    xmlSetProp ( node_type,
 			 "Signe",
-			 itoa ( type -> signe_type ));
+			 utils_itoa ( type -> signe_type ));
 
 	    xmlSetProp ( node_type,
 			 "Affiche_entree",
-			 itoa ( type -> affiche_entree ));
+			 utils_itoa ( type -> affiche_entree ));
 
 	    xmlSetProp ( node_type,
 			 "Numerotation_auto",
-			 itoa ( type -> numerotation_auto ));
+			 utils_itoa ( type -> numerotation_auto ));
 
 	    xmlSetProp ( node_type,
 			 "No_en_cours",
-			 itoa ( type -> no_en_cours ));
+			 utils_itoa ( type -> no_en_cours ));
 
 	    pointeur_liste = pointeur_liste -> next;
 	}
@@ -6993,7 +6993,7 @@ gboolean enregistre_fichier ( gboolean force )
 
 	    xmlSetProp ( node_ope,
 			 "No",
-			 itoa ( operation -> no_operation ));
+			 utils_itoa ( operation -> no_operation ));
 
 	    xmlSetProp ( node_ope,
 			 "Id",
@@ -7022,11 +7022,11 @@ gboolean enregistre_fichier ( gboolean force )
 
 	    xmlSetProp ( node_ope,
 			 "De",
-			 itoa ( operation -> devise ));
+			 utils_itoa ( operation -> devise ));
 
 	    xmlSetProp ( node_ope,
 			 "Rdc",
-			 itoa ( operation -> une_devise_compte_egale_x_devise_ope ));
+			 utils_itoa ( operation -> une_devise_compte_egale_x_devise_ope ));
 
 	    xmlSetProp ( node_ope,
 			 "Tc",
@@ -7040,19 +7040,19 @@ gboolean enregistre_fichier ( gboolean force )
 
 	    xmlSetProp ( node_ope,
 			 "T",
-			 itoa ( operation -> tiers ));
+			 utils_itoa ( operation -> tiers ));
 
 	    xmlSetProp ( node_ope,
 			 "C",
-			 itoa ( operation -> categorie ));
+			 utils_itoa ( operation -> categorie ));
 
 	    xmlSetProp ( node_ope,
 			 "Sc",
-			 itoa ( operation -> sous_categorie ));
+			 utils_itoa ( operation -> sous_categorie ));
 
 	    xmlSetProp ( node_ope,
 			 "Ov",
-			 itoa ( operation -> operation_ventilee ));
+			 utils_itoa ( operation -> operation_ventilee ));
 
 	    xmlSetProp ( node_ope,
 			 "N",
@@ -7060,7 +7060,7 @@ gboolean enregistre_fichier ( gboolean force )
 
 	    xmlSetProp ( node_ope,
 			 "Ty",
-			 itoa ( operation -> type_ope ));
+			 utils_itoa ( operation -> type_ope ));
 
 	    xmlSetProp ( node_ope,
 			 "Ct",
@@ -7068,27 +7068,27 @@ gboolean enregistre_fichier ( gboolean force )
 
 	    xmlSetProp ( node_ope,
 			 "P",
-			 itoa ( operation -> pointe ));
+			 utils_itoa ( operation -> pointe ));
 
 	    xmlSetProp ( node_ope,
 			 "A",
-			 itoa ( operation -> auto_man ));
+			 utils_itoa ( operation -> auto_man ));
 
 	    xmlSetProp ( node_ope,
 			 "R",
-			 itoa ( operation -> no_rapprochement ));
+			 utils_itoa ( operation -> no_rapprochement ));
 
 	    xmlSetProp ( node_ope,
 			 "E",
-			 itoa ( operation -> no_exercice ));
+			 utils_itoa ( operation -> no_exercice ));
 
 	    xmlSetProp ( node_ope,
 			 "I",
-			 itoa ( operation -> imputation ));
+			 utils_itoa ( operation -> imputation ));
 
 	    xmlSetProp ( node_ope,
 			 "Si",
-			 itoa ( operation -> sous_imputation ));
+			 utils_itoa ( operation -> sous_imputation ));
 
 	    xmlSetProp ( node_ope,
 			 "Pc",
@@ -7100,15 +7100,15 @@ gboolean enregistre_fichier ( gboolean force )
 
 	    xmlSetProp ( node_ope,
 			 "Ro",
-			 itoa ( operation -> relation_no_operation ));
+			 utils_itoa ( operation -> relation_no_operation ));
 
 	    xmlSetProp ( node_ope,
 			 "Rc",
-			 itoa ( operation -> relation_no_compte ));
+			 utils_itoa ( operation -> relation_no_compte ));
 
 	    xmlSetProp ( node_ope,
 			 "Va",
-			 itoa ( operation -> no_operation_ventilee_associee ));
+			 utils_itoa ( operation -> no_operation_ventilee_associee ));
 
 	    pointeur_liste = pointeur_liste -> next;
 	}
@@ -7133,12 +7133,12 @@ gboolean enregistre_fichier ( gboolean force )
     xmlNewTextChild ( node_1,
 		      NULL,
 		      "Nb_echeances",
-		      itoa ( nb_echeances ));
+		      utils_itoa ( nb_echeances ));
 
     xmlNewTextChild ( node_1,
 		      NULL,
 		      "No_derniere_echeance",
-		      itoa ( no_derniere_echeance ));
+		      utils_itoa ( no_derniere_echeance ));
 
     /* on met les echeances */
 
@@ -7164,7 +7164,7 @@ gboolean enregistre_fichier ( gboolean force )
 
 	xmlSetProp ( node_echeance,
 		     "No",
-		     itoa ( echeance -> no_operation ));
+		     utils_itoa ( echeance -> no_operation ));
 
 	xmlSetProp ( node_echeance,
 		     "Date",
@@ -7175,7 +7175,7 @@ gboolean enregistre_fichier ( gboolean force )
 
 	xmlSetProp ( node_echeance,
 		     "Compte",
-		     itoa ( echeance -> compte ));
+		     utils_itoa ( echeance -> compte ));
 
 	xmlSetProp ( node_echeance,
 		     "Montant",
@@ -7184,31 +7184,31 @@ gboolean enregistre_fichier ( gboolean force )
 
 	xmlSetProp ( node_echeance,
 		     "Devise",
-		     itoa ( echeance -> devise ));
+		     utils_itoa ( echeance -> devise ));
 
 	xmlSetProp ( node_echeance,
 		     "Tiers",
-		     itoa ( echeance -> tiers ));
+		     utils_itoa ( echeance -> tiers ));
 
 	xmlSetProp ( node_echeance,
 		     "Categorie",
-		     itoa ( echeance -> categorie ));
+		     utils_itoa ( echeance -> categorie ));
 
 	xmlSetProp ( node_echeance,
 		     "Sous-categorie",
-		     itoa ( echeance -> sous_categorie ));
+		     utils_itoa ( echeance -> sous_categorie ));
 
 	xmlSetProp ( node_echeance,
 		     "Virement_compte",
-		     itoa ( echeance -> compte_virement ));
+		     utils_itoa ( echeance -> compte_virement ));
 
 	xmlSetProp ( node_echeance,
 		     "Type",
-		     itoa ( echeance -> type_ope ));
+		     utils_itoa ( echeance -> type_ope ));
 
 	xmlSetProp ( node_echeance,
 		     "Type_contre_ope",
-		     itoa ( echeance -> type_contre_ope ));
+		     utils_itoa ( echeance -> type_contre_ope ));
 
 	xmlSetProp ( node_echeance,
 		     "Contenu_du_type",
@@ -7216,15 +7216,15 @@ gboolean enregistre_fichier ( gboolean force )
 
 	xmlSetProp ( node_echeance,
 		     "Exercice",
-		     itoa ( echeance -> no_exercice ));
+		     utils_itoa ( echeance -> no_exercice ));
 
 	xmlSetProp ( node_echeance,
 		     "Imputation",
-		     itoa ( echeance -> imputation ));
+		     utils_itoa ( echeance -> imputation ));
 
 	xmlSetProp ( node_echeance,
 		     "Sous-imputation",
-		     itoa ( echeance -> sous_imputation ));
+		     utils_itoa ( echeance -> sous_imputation ));
 
 	xmlSetProp ( node_echeance,
 		     "Notes",
@@ -7232,19 +7232,19 @@ gboolean enregistre_fichier ( gboolean force )
 
 	xmlSetProp ( node_echeance,
 		     "Automatique",
-		     itoa ( echeance -> auto_man ));
+		     utils_itoa ( echeance -> auto_man ));
 
 	xmlSetProp ( node_echeance,
 		     "Periodicite",
-		     itoa ( echeance -> periodicite ));
+		     utils_itoa ( echeance -> periodicite ));
 
 	xmlSetProp ( node_echeance,
 		     "Intervalle_periodicite",
-		     itoa ( echeance -> intervalle_periodicite_personnalisee ));
+		     utils_itoa ( echeance -> intervalle_periodicite_personnalisee ));
 
 	xmlSetProp ( node_echeance,
 		     "Periodicite_personnalisee",
-		     itoa ( echeance -> periodicite_personnalisee ));
+		     utils_itoa ( echeance -> periodicite_personnalisee ));
 
 	if ( echeance -> jour_limite )
 	    xmlSetProp ( node_echeance,
@@ -7260,11 +7260,11 @@ gboolean enregistre_fichier ( gboolean force )
 
 	xmlSetProp ( node_echeance,
 		     "Ech_ventilee",
-		     itoa ( echeance -> operation_ventilee ));
+		     utils_itoa ( echeance -> operation_ventilee ));
 
 	xmlSetProp ( node_echeance,
 		     "No_ech_associee",
-		     itoa ( echeance -> no_operation_ventilee_associee ));
+		     utils_itoa ( echeance -> no_operation_ventilee_associee ));
 
 
 	pointeur_liste = pointeur_liste -> next;
@@ -7289,12 +7289,12 @@ gboolean enregistre_fichier ( gboolean force )
     xmlNewTextChild ( node_1,
 		      NULL,
 		      "Nb_tiers",
-		      itoa ( nb_enregistrements_tiers ));
+		      utils_itoa ( nb_enregistrements_tiers ));
 
     xmlNewTextChild ( node_1,
 		      NULL,
 		      "No_dernier_tiers",
-		      itoa ( no_dernier_tiers ));
+		      utils_itoa ( no_dernier_tiers ));
 
     /* on met les tiers */
 
@@ -7320,7 +7320,7 @@ gboolean enregistre_fichier ( gboolean force )
 
 	xmlSetProp ( node_tiers,
 		     "No",
-		     itoa ( tiers -> no_tiers ));
+		     utils_itoa ( tiers -> no_tiers ));
 
 	xmlSetProp ( node_tiers,
 		     "Nom",
@@ -7332,7 +7332,7 @@ gboolean enregistre_fichier ( gboolean force )
 
 	xmlSetProp ( node_tiers,
 		     "Liaison",
-		     itoa ( tiers -> liaison ));
+		     utils_itoa ( tiers -> liaison ));
 
 	pointeur_liste = pointeur_liste -> next;
     }
@@ -7356,12 +7356,12 @@ gboolean enregistre_fichier ( gboolean force )
     xmlNewTextChild ( node_1,
 		      NULL,
 		      "Nb_categories",
-		      itoa ( nb_enregistrements_categories ));
+		      utils_itoa ( nb_enregistrements_categories ));
 
     xmlNewTextChild ( node_1,
 		      NULL,
 		      "No_derniere_categorie",
-		      itoa ( no_derniere_categorie ));
+		      utils_itoa ( no_derniere_categorie ));
 
     /* on met les categories */
 
@@ -7388,7 +7388,7 @@ gboolean enregistre_fichier ( gboolean force )
 
 	xmlSetProp ( node_categ,
 		     "No",
-		     itoa ( categ -> no_categ ));
+		     utils_itoa ( categ -> no_categ ));
 
 	xmlSetProp ( node_categ,
 		     "Nom",
@@ -7396,11 +7396,11 @@ gboolean enregistre_fichier ( gboolean force )
 
 	xmlSetProp ( node_categ,
 		     "Type",
-		     itoa ( categ -> type_categ ));
+		     utils_itoa ( categ -> type_categ ));
 
 	xmlSetProp ( node_categ,
 		     "No_derniere_sous_cagegorie",
-		     itoa ( categ -> no_derniere_sous_categ ));
+		     utils_itoa ( categ -> no_derniere_sous_categ ));
 
 
 	/* on ajoute les sous categories */
@@ -7421,7 +7421,7 @@ gboolean enregistre_fichier ( gboolean force )
 
 	    xmlSetProp ( node_sous_categ,
 			 "No",
-			 itoa ( sous_categ -> no_sous_categ ));
+			 utils_itoa ( sous_categ -> no_sous_categ ));
 
 	    xmlSetProp ( node_sous_categ,
 			 "Nom",
@@ -7451,12 +7451,12 @@ gboolean enregistre_fichier ( gboolean force )
     xmlNewTextChild ( node_1,
 		      NULL,
 		      "Nb_imputations",
-		      itoa ( nb_enregistrements_imputations ));
+		      utils_itoa ( nb_enregistrements_imputations ));
 
     xmlNewTextChild ( node_1,
 		      NULL,
 		      "No_derniere_imputation",
-		      itoa ( no_derniere_imputation ));
+		      utils_itoa ( no_derniere_imputation ));
 
     /* on met les categories */
 
@@ -7483,7 +7483,7 @@ gboolean enregistre_fichier ( gboolean force )
 
 	xmlSetProp ( node_imputation,
 		     "No",
-		     itoa ( imputation -> no_imputation ));
+		     utils_itoa ( imputation -> no_imputation ));
 
 	xmlSetProp ( node_imputation,
 		     "Nom",
@@ -7491,11 +7491,11 @@ gboolean enregistre_fichier ( gboolean force )
 
 	xmlSetProp ( node_imputation,
 		     "Type",
-		     itoa ( imputation -> type_imputation ));
+		     utils_itoa ( imputation -> type_imputation ));
 
 	xmlSetProp ( node_imputation,
 		     "No_derniere_sous_imputation",
-		     itoa ( imputation -> no_derniere_sous_imputation ));
+		     utils_itoa ( imputation -> no_derniere_sous_imputation ));
 
 	/* on ajoute les sous ib */
 
@@ -7515,7 +7515,7 @@ gboolean enregistre_fichier ( gboolean force )
 
 	    xmlSetProp ( node_sous_imputation,
 			 "No",
-			 itoa ( sous_imputation -> no_sous_imputation ));
+			 utils_itoa ( sous_imputation -> no_sous_imputation ));
 
 	    xmlSetProp ( node_sous_imputation,
 			 "Nom",
@@ -7545,12 +7545,12 @@ gboolean enregistre_fichier ( gboolean force )
     xmlNewTextChild ( node_1,
 		      NULL,
 		      "Nb_devises",
-		      itoa ( nb_devises ));
+		      utils_itoa ( nb_devises ));
 
     xmlNewTextChild ( node_1,
 		      NULL,
 		      "No_derniere_devise",
-		      itoa ( no_derniere_devise ));
+		      utils_itoa ( no_derniere_devise ));
 
     /* on met les devises */
 
@@ -7576,7 +7576,7 @@ gboolean enregistre_fichier ( gboolean force )
 
 	xmlSetProp ( node_devise,
 		     "No",
-		     itoa ( devise -> no_devise ));
+		     utils_itoa ( devise -> no_devise ));
 
 	xmlSetProp ( node_devise,
 		     "Nom",
@@ -7592,7 +7592,7 @@ gboolean enregistre_fichier ( gboolean force )
 
 	xmlSetProp ( node_devise,
 		     "Passage_euro",
-		     itoa ( devise -> passage_euro ));
+		     utils_itoa ( devise -> passage_euro ));
 
 	if ( devise -> date_dernier_change )
 	    xmlSetProp ( node_devise,
@@ -7608,11 +7608,11 @@ gboolean enregistre_fichier ( gboolean force )
 
 	xmlSetProp ( node_devise,
 		     "Rapport_entre_devises",
-		     itoa ( devise -> une_devise_1_egale_x_devise_2 ));
+		     utils_itoa ( devise -> une_devise_1_egale_x_devise_2 ));
 
 	xmlSetProp ( node_devise,
 		     "Devise_en_rapport",
-		     itoa ( devise -> no_devise_en_rapport ));
+		     utils_itoa ( devise -> no_devise_en_rapport ));
 
 	xmlSetProp ( node_devise,
 		     "Change",
@@ -7641,12 +7641,12 @@ gboolean enregistre_fichier ( gboolean force )
     xmlNewTextChild ( node_1,
 		      NULL,
 		      "Nb_banques",
-		      itoa ( nb_banques ));
+		      utils_itoa ( nb_banques ));
 
     xmlNewTextChild ( node_1,
 		      NULL,
 		      "No_derniere_banque",
-		      itoa ( no_derniere_banque ));
+		      utils_itoa ( no_derniere_banque ));
 
     /* on met les banques */
 
@@ -7672,7 +7672,7 @@ gboolean enregistre_fichier ( gboolean force )
 
 	xmlSetProp ( node_banque,
 		     "No",
-		     itoa ( banque -> no_banque ));
+		     utils_itoa ( banque -> no_banque ));
 
 	xmlSetProp ( node_banque,
 		     "Nom",
@@ -7739,12 +7739,12 @@ gboolean enregistre_fichier ( gboolean force )
     xmlNewTextChild ( node_1,
 		      NULL,
 		      "Nb_exercices",
-		      itoa ( nb_exercices ));
+		      utils_itoa ( nb_exercices ));
 
     xmlNewTextChild ( node_1,
 		      NULL,
 		      "No_dernier_exercice",
-		      itoa ( no_derniere_exercice ));
+		      utils_itoa ( no_derniere_exercice ));
 
     /* on met les exercices */
 
@@ -7770,7 +7770,7 @@ gboolean enregistre_fichier ( gboolean force )
 
 	xmlSetProp ( node_exercice,
 		     "No",
-		     itoa ( exercice -> no_exercice ));
+		     utils_itoa ( exercice -> no_exercice ));
 
 	xmlSetProp ( node_exercice,
 		     "Nom",
@@ -7802,7 +7802,7 @@ gboolean enregistre_fichier ( gboolean force )
 
 	xmlSetProp ( node_exercice,
 		     "Affiche",
-		     itoa ( exercice -> affiche_dans_formulaire ));
+		     utils_itoa ( exercice -> affiche_dans_formulaire ));
 
 	pointeur_liste = pointeur_liste -> next;
     }
@@ -7828,7 +7828,7 @@ gboolean enregistre_fichier ( gboolean force )
     /*   xmlNewTextChild ( node_1, */
     /* 		    NULL, */
     /* 		    "Nb_rapprochements", */
-    /* 		    itoa ( g_slist_length ( liste_no_rapprochements ))); */
+    /* 		    utils_itoa ( g_slist_length ( liste_no_rapprochements ))); */
 
     /* on met les rapprochements */
 
@@ -7854,7 +7854,7 @@ gboolean enregistre_fichier ( gboolean force )
 
 	xmlSetProp ( node_rapprochement,
 		     "No",
-		     itoa ( rapprochement -> no_rapprochement ));
+		     utils_itoa ( rapprochement -> no_rapprochement ));
 
 	xmlSetProp ( node_rapprochement,
 		     "Nom",
@@ -7881,7 +7881,7 @@ gboolean enregistre_fichier ( gboolean force )
     xmlNewTextChild ( node_1,
 		      NULL,
 		      "No_dernier_etat",
-		      itoa ( no_dernier_etat ));
+		      utils_itoa ( no_dernier_etat ));
 
     /* on met les etats */
 
@@ -7909,7 +7909,7 @@ gboolean enregistre_fichier ( gboolean force )
 	xmlNewTextChild ( node_etat,
 			  NULL,
 			  "No",
-			  itoa ( etat -> no_etat ));
+			  utils_itoa ( etat -> no_etat ));
 
 	xmlNewTextChild ( node_etat,
 			  NULL,
@@ -7924,10 +7924,10 @@ gboolean enregistre_fichier ( gboolean force )
 	    if ( pointeur_char )
 		pointeur_char = g_strconcat ( pointeur_char,
 					      "/",
-					      itoa ( GPOINTER_TO_INT ( pointeur_list -> data )),
+					      utils_itoa ( GPOINTER_TO_INT ( pointeur_list -> data )),
 					      NULL );
 	    else
-		pointeur_char = itoa ( GPOINTER_TO_INT ( pointeur_list -> data ));
+		pointeur_char = utils_itoa ( GPOINTER_TO_INT ( pointeur_list -> data ));
 
 	    pointeur_list = pointeur_list -> next;
 	}
@@ -7941,143 +7941,143 @@ gboolean enregistre_fichier ( gboolean force )
 	xmlNewTextChild ( node_etat,
 			  NULL,
 			  "Aff_r",
-			  itoa ( etat -> afficher_r ));
+			  utils_itoa ( etat -> afficher_r ));
 
 	xmlNewTextChild ( node_etat,
 			  NULL,
 			  "Aff_ope",
-			  itoa ( etat -> afficher_opes ));
+			  utils_itoa ( etat -> afficher_opes ));
 
 	xmlNewTextChild ( node_etat,
 			  NULL,
 			  "Aff_nb_ope",
-			  itoa ( etat -> afficher_nb_opes ));
+			  utils_itoa ( etat -> afficher_nb_opes ));
 
 	xmlNewTextChild ( node_etat,
 			  NULL,
 			  "Aff_no_ope",
-			  itoa ( etat -> afficher_no_ope ));
+			  utils_itoa ( etat -> afficher_no_ope ));
 
 	xmlNewTextChild ( node_etat,
 			  NULL,
 			  "Aff_date_ope",
-			  itoa ( etat -> afficher_date_ope ));
+			  utils_itoa ( etat -> afficher_date_ope ));
 
 	xmlNewTextChild ( node_etat,
 			  NULL,
 			  "Aff_tiers_ope",
-			  itoa ( etat -> afficher_tiers_ope ));
+			  utils_itoa ( etat -> afficher_tiers_ope ));
 
 	xmlNewTextChild ( node_etat,
 			  NULL,
 			  "Aff_categ_ope",
-			  itoa ( etat -> afficher_categ_ope ));
+			  utils_itoa ( etat -> afficher_categ_ope ));
 
 	xmlNewTextChild ( node_etat,
 			  NULL,
 			  "Aff_ss_categ_ope",
-			  itoa ( etat -> afficher_sous_categ_ope ));
+			  utils_itoa ( etat -> afficher_sous_categ_ope ));
 
 	xmlNewTextChild ( node_etat,
 			  NULL,
 			  "Aff_type_ope",
-			  itoa ( etat -> afficher_type_ope ));
+			  utils_itoa ( etat -> afficher_type_ope ));
 
 	xmlNewTextChild ( node_etat,
 			  NULL,
 			  "Aff_ib_ope",
-			  itoa ( etat -> afficher_ib_ope ));
+			  utils_itoa ( etat -> afficher_ib_ope ));
 
 	xmlNewTextChild ( node_etat,
 			  NULL,
 			  "Aff_ss_ib_ope",
-			  itoa ( etat -> afficher_sous_ib_ope ));
+			  utils_itoa ( etat -> afficher_sous_ib_ope ));
 
 	xmlNewTextChild ( node_etat,
 			  NULL,
 			  "Aff_cheque_ope",
-			  itoa ( etat -> afficher_cheque_ope ));
+			  utils_itoa ( etat -> afficher_cheque_ope ));
 
 	xmlNewTextChild ( node_etat,
 			  NULL,
 			  "Aff_notes_ope",
-			  itoa ( etat -> afficher_notes_ope ));
+			  utils_itoa ( etat -> afficher_notes_ope ));
 
 	xmlNewTextChild ( node_etat,
 			  NULL,
 			  "Aff_pc_ope",
-			  itoa ( etat -> afficher_pc_ope ));
+			  utils_itoa ( etat -> afficher_pc_ope ));
 
 	xmlNewTextChild ( node_etat,
 			  NULL,
 			  "Aff_verif_ope",
-			  itoa ( etat -> afficher_verif_ope ));
+			  utils_itoa ( etat -> afficher_verif_ope ));
 
 	xmlNewTextChild ( node_etat,
 			  NULL,
 			  "Aff_rappr_ope",
-			  itoa ( etat -> afficher_rappr_ope ));
+			  utils_itoa ( etat -> afficher_rappr_ope ));
 
 	xmlNewTextChild ( node_etat,
 			  NULL,
 			  "Aff_infobd_ope",
-			  itoa ( etat -> afficher_infobd_ope ));
+			  utils_itoa ( etat -> afficher_infobd_ope ));
 
 	xmlNewTextChild ( node_etat,
 			  NULL,
 			  "Aff_exo_ope",
-			  itoa ( etat -> afficher_exo_ope ));
+			  utils_itoa ( etat -> afficher_exo_ope ));
 
 	xmlNewTextChild ( node_etat,
 			  NULL,
 			  "Class_ope",
-			  itoa ( etat -> type_classement_ope ));
+			  utils_itoa ( etat -> type_classement_ope ));
 
 	xmlNewTextChild ( node_etat,
 			  NULL,
 			  "Aff_titres_col",
-			  itoa ( etat -> afficher_titre_colonnes ));
+			  utils_itoa ( etat -> afficher_titre_colonnes ));
 
 	xmlNewTextChild ( node_etat,
 			  NULL,
 			  "Aff_titres_chgt",
-			  itoa ( etat -> type_affichage_titres ));
+			  utils_itoa ( etat -> type_affichage_titres ));
 
 	xmlNewTextChild ( node_etat,
 			  NULL,
 			  "Pas_detail_ventil",
-			  itoa ( etat -> pas_detailler_ventilation ));
+			  utils_itoa ( etat -> pas_detailler_ventilation ));
 
 	xmlNewTextChild ( node_etat,
 			  NULL,
 			  "Sep_rev_dep",
-			  itoa ( etat -> separer_revenus_depenses ));
+			  utils_itoa ( etat -> separer_revenus_depenses ));
 
 	xmlNewTextChild ( node_etat,
 			  NULL,
 			  "Devise_gen",
-			  itoa ( etat -> devise_de_calcul_general ));
+			  utils_itoa ( etat -> devise_de_calcul_general ));
 
 	xmlNewTextChild ( node_etat,
 			  NULL,
 			  "Incl_tiers",
-			  itoa ( etat -> inclure_dans_tiers ));
+			  utils_itoa ( etat -> inclure_dans_tiers ));
 
 	xmlNewTextChild ( node_etat,
 			  NULL,
 			  "Ope_click",
-			  itoa ( etat -> ope_clickables ));
+			  utils_itoa ( etat -> ope_clickables ));
 
 
 	xmlNewTextChild ( node_etat,
 			  NULL,
 			  "Exo_date",
-			  itoa ( etat -> exo_date ));
+			  utils_itoa ( etat -> exo_date ));
 
 	xmlNewTextChild ( node_etat,
 			  NULL,
 			  "Detail_exo",
-			  itoa ( etat -> utilise_detail_exo ));
+			  utils_itoa ( etat -> utilise_detail_exo ));
 
 	pointeur_liste = etat -> no_exercices;
 	pointeur_char = NULL;
@@ -8087,10 +8087,10 @@ gboolean enregistre_fichier ( gboolean force )
 	    if ( pointeur_char )
 		pointeur_char = g_strconcat ( pointeur_char,
 					      "/",
-					      itoa ( GPOINTER_TO_INT ( pointeur_liste -> data )),
+					      utils_itoa ( GPOINTER_TO_INT ( pointeur_liste -> data )),
 					      NULL );
 	    else
-		pointeur_char = itoa ( GPOINTER_TO_INT ( pointeur_liste -> data ));
+		pointeur_char = utils_itoa ( GPOINTER_TO_INT ( pointeur_liste -> data ));
 
 	    pointeur_liste = pointeur_liste -> next;
 	}
@@ -8103,7 +8103,7 @@ gboolean enregistre_fichier ( gboolean force )
 	xmlNewTextChild ( node_etat,
 			  NULL,
 			  "Plage_date",
-			  itoa ( etat -> no_plage_date ));
+			  utils_itoa ( etat -> no_plage_date ));
 
 
 	if ( etat->date_perso_debut )
@@ -8138,28 +8138,28 @@ gboolean enregistre_fichier ( gboolean force )
 	xmlNewTextChild ( node_etat,
 			  NULL,
 			  "Utilise_plages",
-			  itoa ( etat -> separation_par_plage ));
+			  utils_itoa ( etat -> separation_par_plage ));
 
 	xmlNewTextChild ( node_etat,
 			  NULL,
 			  "Sep_plages",
-			  itoa ( etat -> type_separation_plage ));
+			  utils_itoa ( etat -> type_separation_plage ));
 
 	xmlNewTextChild ( node_etat,
 			  NULL,
 			  "Sep_exo",
-			  itoa ( etat -> separation_par_exo ));
+			  utils_itoa ( etat -> separation_par_exo ));
 
 	xmlNewTextChild ( node_etat,
 			  NULL,
 			  "Deb_sem_plages",
-			  itoa ( etat -> jour_debut_semaine ));
+			  utils_itoa ( etat -> jour_debut_semaine ));
 
 
 	xmlNewTextChild ( node_etat,
 			  NULL,
 			  "Detail_comptes",
-			  itoa ( etat -> utilise_detail_comptes ));
+			  utils_itoa ( etat -> utilise_detail_comptes ));
 
 	pointeur_liste = etat -> no_comptes;
 	pointeur_char = NULL;
@@ -8169,10 +8169,10 @@ gboolean enregistre_fichier ( gboolean force )
 	    if ( pointeur_char )
 		pointeur_char = g_strconcat ( pointeur_char,
 					      "/",
-					      itoa ( GPOINTER_TO_INT ( pointeur_liste -> data )),
+					      utils_itoa ( GPOINTER_TO_INT ( pointeur_liste -> data )),
 					      NULL );
 	    else
-		pointeur_char = itoa ( GPOINTER_TO_INT ( pointeur_liste -> data ));
+		pointeur_char = utils_itoa ( GPOINTER_TO_INT ( pointeur_liste -> data ));
 
 	    pointeur_liste = pointeur_liste -> next;
 	}
@@ -8185,22 +8185,22 @@ gboolean enregistre_fichier ( gboolean force )
 	xmlNewTextChild ( node_etat,
 			  NULL,
 			  "Grp_ope_compte",
-			  itoa ( etat -> regroupe_ope_par_compte ));
+			  utils_itoa ( etat -> regroupe_ope_par_compte ));
 
 	xmlNewTextChild ( node_etat,
 			  NULL,
 			  "Total_compte",
-			  itoa ( etat -> affiche_sous_total_compte ));
+			  utils_itoa ( etat -> affiche_sous_total_compte ));
 
 	xmlNewTextChild ( node_etat,
 			  NULL,
 			  "Aff_nom_compte",
-			  itoa ( etat -> afficher_nom_compte ));
+			  utils_itoa ( etat -> afficher_nom_compte ));
 
 	xmlNewTextChild ( node_etat,
 			  NULL,
 			  "Type_vir",
-			  itoa ( etat -> type_virement ));
+			  utils_itoa ( etat -> type_virement ));
 
 	pointeur_liste = etat -> no_comptes_virements;
 	pointeur_char = NULL;
@@ -8210,10 +8210,10 @@ gboolean enregistre_fichier ( gboolean force )
 	    if ( pointeur_char )
 		pointeur_char = g_strconcat ( pointeur_char,
 					      "/",
-					      itoa ( GPOINTER_TO_INT ( pointeur_liste -> data )),
+					      utils_itoa ( GPOINTER_TO_INT ( pointeur_liste -> data )),
 					      NULL );
 	    else
-		pointeur_char = itoa ( GPOINTER_TO_INT ( pointeur_liste -> data ));
+		pointeur_char = utils_itoa ( GPOINTER_TO_INT ( pointeur_liste -> data ));
 
 	    pointeur_liste = pointeur_liste -> next;
 	}
@@ -8226,19 +8226,19 @@ gboolean enregistre_fichier ( gboolean force )
 	xmlNewTextChild ( node_etat,
 			  NULL,
 			  "Exclure_non_vir",
-			  itoa ( etat -> exclure_ope_non_virement ));
+			  utils_itoa ( etat -> exclure_ope_non_virement ));
 
 
 
 	xmlNewTextChild ( node_etat,
 			  NULL,
 			  "Categ",
-			  itoa ( etat -> utilise_categ ));
+			  utils_itoa ( etat -> utilise_categ ));
 
 	xmlNewTextChild ( node_etat,
 			  NULL,
 			  "Detail_categ",
-			  itoa ( etat -> utilise_detail_categ ));
+			  utils_itoa ( etat -> utilise_detail_categ ));
 
 	pointeur_liste = etat -> no_categ;
 	pointeur_char = NULL;
@@ -8248,10 +8248,10 @@ gboolean enregistre_fichier ( gboolean force )
 	    if ( pointeur_char )
 		pointeur_char = g_strconcat ( pointeur_char,
 					      "/",
-					      itoa ( GPOINTER_TO_INT ( pointeur_liste -> data )),
+					      utils_itoa ( GPOINTER_TO_INT ( pointeur_liste -> data )),
 					      NULL );
 	    else
-		pointeur_char = itoa ( GPOINTER_TO_INT ( pointeur_liste -> data ));
+		pointeur_char = utils_itoa ( GPOINTER_TO_INT ( pointeur_liste -> data ));
 
 	    pointeur_liste = pointeur_liste -> next;
 	}
@@ -8264,47 +8264,47 @@ gboolean enregistre_fichier ( gboolean force )
 	xmlNewTextChild ( node_etat,
 			  NULL,
 			  "Exclut_categ",
-			  itoa ( etat -> exclure_ope_sans_categ ));
+			  utils_itoa ( etat -> exclure_ope_sans_categ ));
 
 	xmlNewTextChild ( node_etat,
 			  NULL,
 			  "Total_categ",
-			  itoa ( etat -> affiche_sous_total_categ ));
+			  utils_itoa ( etat -> affiche_sous_total_categ ));
 
 	xmlNewTextChild ( node_etat,
 			  NULL,
 			  "Aff_ss_categ",
-			  itoa ( etat -> afficher_sous_categ ));
+			  utils_itoa ( etat -> afficher_sous_categ ));
 
 	xmlNewTextChild ( node_etat,
 			  NULL,
 			  "Aff_pas_ss_categ",
-			  itoa ( etat -> afficher_pas_de_sous_categ ));
+			  utils_itoa ( etat -> afficher_pas_de_sous_categ ));
 
 	xmlNewTextChild ( node_etat,
 			  NULL,
 			  "Total_ss_categ",
-			  itoa ( etat -> affiche_sous_total_sous_categ ));
+			  utils_itoa ( etat -> affiche_sous_total_sous_categ ));
 
 	xmlNewTextChild ( node_etat,
 			  NULL,
 			  "Devise_categ",
-			  itoa ( etat -> devise_de_calcul_categ ));
+			  utils_itoa ( etat -> devise_de_calcul_categ ));
 
 	xmlNewTextChild ( node_etat,
 			  NULL,
 			  "Aff_nom_categ",
-			  itoa ( etat -> afficher_nom_categ ));
+			  utils_itoa ( etat -> afficher_nom_categ ));
 
 	xmlNewTextChild ( node_etat,
 			  NULL,
 			  "IB",
-			  itoa ( etat -> utilise_ib ));
+			  utils_itoa ( etat -> utilise_ib ));
 
 	xmlNewTextChild ( node_etat,
 			  NULL,
 			  "Detail_ib",
-			  itoa ( etat -> utilise_detail_ib ));
+			  utils_itoa ( etat -> utilise_detail_ib ));
 
 	pointeur_liste = etat -> no_ib;
 	pointeur_char = NULL;
@@ -8314,10 +8314,10 @@ gboolean enregistre_fichier ( gboolean force )
 	    if ( pointeur_char )
 		pointeur_char = g_strconcat ( pointeur_char,
 					      "/",
-					      itoa ( GPOINTER_TO_INT ( pointeur_liste -> data )),
+					      utils_itoa ( GPOINTER_TO_INT ( pointeur_liste -> data )),
 					      NULL );
 	    else
-		pointeur_char = itoa ( GPOINTER_TO_INT ( pointeur_liste -> data ));
+		pointeur_char = utils_itoa ( GPOINTER_TO_INT ( pointeur_liste -> data ));
 
 	    pointeur_liste = pointeur_liste -> next;
 	}
@@ -8330,47 +8330,47 @@ gboolean enregistre_fichier ( gboolean force )
 	xmlNewTextChild ( node_etat,
 			  NULL,
 			  "Exclut_ib",
-			  itoa ( etat -> exclure_ope_sans_ib ));
+			  utils_itoa ( etat -> exclure_ope_sans_ib ));
 
 	xmlNewTextChild ( node_etat,
 			  NULL,
 			  "Total_ib",
-			  itoa ( etat -> affiche_sous_total_ib ));
+			  utils_itoa ( etat -> affiche_sous_total_ib ));
 
 	xmlNewTextChild ( node_etat,
 			  NULL,
 			  "Aff_ss_ib",
-			  itoa ( etat -> afficher_sous_ib ));
+			  utils_itoa ( etat -> afficher_sous_ib ));
 
 	xmlNewTextChild ( node_etat,
 			  NULL,
 			  "Aff_pas_ss_ib",
-			  itoa ( etat -> afficher_pas_de_sous_ib ));
+			  utils_itoa ( etat -> afficher_pas_de_sous_ib ));
 
 	xmlNewTextChild ( node_etat,
 			  NULL,
 			  "Total_ss_ib",
-			  itoa ( etat -> affiche_sous_total_sous_ib ));
+			  utils_itoa ( etat -> affiche_sous_total_sous_ib ));
 
 	xmlNewTextChild ( node_etat,
 			  NULL,
 			  "Devise_ib",
-			  itoa ( etat -> devise_de_calcul_ib ));
+			  utils_itoa ( etat -> devise_de_calcul_ib ));
 
 	xmlNewTextChild ( node_etat,
 			  NULL,
 			  "Aff_nom_ib",
-			  itoa ( etat -> afficher_nom_ib ));
+			  utils_itoa ( etat -> afficher_nom_ib ));
 
 	xmlNewTextChild ( node_etat,
 			  NULL,
 			  "Tiers",
-			  itoa ( etat -> utilise_tiers ));
+			  utils_itoa ( etat -> utilise_tiers ));
 
 	xmlNewTextChild ( node_etat,
 			  NULL,
 			  "Detail_tiers",
-			  itoa ( etat -> utilise_detail_tiers ));
+			  utils_itoa ( etat -> utilise_detail_tiers ));
 
 	pointeur_liste = etat -> no_tiers;
 	pointeur_char = NULL;
@@ -8380,10 +8380,10 @@ gboolean enregistre_fichier ( gboolean force )
 	    if ( pointeur_char )
 		pointeur_char = g_strconcat ( pointeur_char,
 					      "/",
-					      itoa ( GPOINTER_TO_INT ( pointeur_liste -> data )),
+					      utils_itoa ( GPOINTER_TO_INT ( pointeur_liste -> data )),
 					      NULL );
 	    else
-		pointeur_char = itoa ( GPOINTER_TO_INT ( pointeur_liste -> data ));
+		pointeur_char = utils_itoa ( GPOINTER_TO_INT ( pointeur_liste -> data ));
 
 	    pointeur_liste = pointeur_liste -> next;
 	}
@@ -8396,23 +8396,23 @@ gboolean enregistre_fichier ( gboolean force )
 	xmlNewTextChild ( node_etat,
 			  NULL,
 			  "Total_tiers",
-			  itoa ( etat -> affiche_sous_total_tiers ));
+			  utils_itoa ( etat -> affiche_sous_total_tiers ));
 
 	xmlNewTextChild ( node_etat,
 			  NULL,
 			  "Devise_tiers",
-			  itoa ( etat -> devise_de_calcul_tiers ));
+			  utils_itoa ( etat -> devise_de_calcul_tiers ));
 
 	xmlNewTextChild ( node_etat,
 			  NULL,
 			  "Aff_nom_tiers",
-			  itoa ( etat -> afficher_nom_tiers ));
+			  utils_itoa ( etat -> afficher_nom_tiers ));
 
 
 	xmlNewTextChild ( node_etat,
 			  NULL,
 			  "Texte",
-			  itoa ( etat -> utilise_texte ));
+			  utils_itoa ( etat -> utilise_texte ));
 
 	node_2 = xmlNewChild ( node_etat,
 			       NULL,
@@ -8434,34 +8434,34 @@ gboolean enregistre_fichier ( gboolean force )
 				   NULL );
 	    xmlSetProp ( node_3,
 			 "Lien_struct",
-			 itoa ( textes_comp -> lien_struct_precedente ));
+			 utils_itoa ( textes_comp -> lien_struct_precedente ));
 	    xmlSetProp ( node_3,
 			 "Champ",
-			 itoa ( textes_comp -> champ ));
+			 utils_itoa ( textes_comp -> champ ));
 	    xmlSetProp ( node_3,
 			 "Op",
-			 itoa ( textes_comp -> operateur ));
+			 utils_itoa ( textes_comp -> operateur ));
 	    xmlSetProp ( node_3,
 			 "Txt",
 			 textes_comp -> texte );
 	    xmlSetProp ( node_3,
 			 "Util_txt",
-			 itoa ( textes_comp -> utilise_txt ));
+			 utils_itoa ( textes_comp -> utilise_txt ));
 	    xmlSetProp ( node_3,
 			 "Comp_1",
-			 itoa ( textes_comp -> comparateur_1 ));
+			 utils_itoa ( textes_comp -> comparateur_1 ));
 	    xmlSetProp ( node_3,
 			 "Lien_1_2",
-			 itoa ( textes_comp -> lien_1_2 ));
+			 utils_itoa ( textes_comp -> lien_1_2 ));
 	    xmlSetProp ( node_3,
 			 "Comp_2",
-			 itoa ( textes_comp -> comparateur_2 ));
+			 utils_itoa ( textes_comp -> comparateur_2 ));
 	    xmlSetProp ( node_3,
 			 "Mont_1",
-			 itoa ( textes_comp -> montant_1 ));
+			 utils_itoa ( textes_comp -> montant_1 ));
 	    xmlSetProp ( node_3,
 			 "Mont_2",
-			 itoa ( textes_comp -> montant_2 ));
+			 utils_itoa ( textes_comp -> montant_2 ));
 	    pointeur_liste = pointeur_liste -> next;
 	}
 
@@ -8470,12 +8470,12 @@ gboolean enregistre_fichier ( gboolean force )
 	xmlNewTextChild ( node_etat,
 			  NULL,
 			  "Montant",
-			  itoa ( etat -> utilise_montant ));
+			  utils_itoa ( etat -> utilise_montant ));
 
 	xmlNewTextChild ( node_etat,
 			  NULL,
 			  "Montant_devise",
-			  itoa ( etat -> choix_devise_montant ));
+			  utils_itoa ( etat -> choix_devise_montant ));
 
 	node_2 = xmlNewChild ( node_etat,
 			       NULL,
@@ -8498,16 +8498,16 @@ gboolean enregistre_fichier ( gboolean force )
 
 	    xmlSetProp ( node_3,
 			 "Lien_struct",
-			 itoa ( montants_comp -> lien_struct_precedente ));
+			 utils_itoa ( montants_comp -> lien_struct_precedente ));
 	    xmlSetProp ( node_3,
 			 "Comp_1",
-			 itoa ( montants_comp -> comparateur_1 ));
+			 utils_itoa ( montants_comp -> comparateur_1 ));
 	    xmlSetProp ( node_3,
 			 "Lien_1_2",
-			 itoa ( montants_comp -> lien_1_2 ));
+			 utils_itoa ( montants_comp -> lien_1_2 ));
 	    xmlSetProp ( node_3,
 			 "Comp_2",
-			 itoa ( montants_comp -> comparateur_2 ));
+			 utils_itoa ( montants_comp -> comparateur_2 ));
 	    xmlSetProp ( node_3,
 			 "Mont_1",
 			 g_strdup_printf ( "%4.7f",
@@ -8522,12 +8522,12 @@ gboolean enregistre_fichier ( gboolean force )
 	xmlNewTextChild ( node_etat,
 			  NULL,
 			  "Excl_nul",
-			  itoa ( etat -> exclure_montants_nuls ));
+			  utils_itoa ( etat -> exclure_montants_nuls ));
 
 	xmlNewTextChild ( node_etat,
 			  NULL,
 			  "Detail_mod_paie",
-			  itoa ( etat -> utilise_mode_paiement ));
+			  utils_itoa ( etat -> utilise_mode_paiement ));
 
 	node_2 = xmlNewChild ( node_etat,
 			       NULL,
@@ -8659,7 +8659,7 @@ void fichier_marque_ouvert ( gint ouvert )
 	{
 	    fseek ( pointeur_fichier_comptes, position, SEEK_SET );
 	}
-	fprintf ( pointeur_fichier_comptes, itoa ( ouvert ));
+	fprintf ( pointeur_fichier_comptes, utils_itoa ( ouvert ));
     }
 
     fclose ( pointeur_fichier_comptes );
@@ -8735,11 +8735,11 @@ gboolean enregistre_categ ( gchar *nom_categ )
 
 	xmlSetProp ( node_categ,
 		     "Type",
-		     itoa ( categ -> type_categ ));
+		     utils_itoa ( categ -> type_categ ));
 
 	xmlSetProp ( node_categ,
 		     "No_derniere_sous_cagegorie",
-		     itoa ( categ -> no_derniere_sous_categ ));
+		     utils_itoa ( categ -> no_derniere_sous_categ ));
 
 
 	/* on ajoute les sous categories */
@@ -8760,7 +8760,7 @@ gboolean enregistre_categ ( gchar *nom_categ )
 
 	    xmlSetProp ( node_sous_categ,
 			 "No",
-			 itoa ( sous_categ -> no_sous_categ ));
+			 utils_itoa ( sous_categ -> no_sous_categ ));
 
 	    xmlSetProp ( node_sous_categ,
 			 "Nom",
@@ -9089,11 +9089,11 @@ gboolean enregistre_ib ( gchar *nom_ib )
 
 	xmlSetProp ( node_ib,
 		     "Type",
-		     itoa ( ib -> type_imputation ));
+		     utils_itoa ( ib -> type_imputation ));
 
 	xmlSetProp ( node_ib,
 		     "No_derniere_sous_imputation",
-		     itoa ( ib -> no_derniere_sous_imputation ));
+		     utils_itoa ( ib -> no_derniere_sous_imputation ));
 
 
 	/* on ajoute les sous ib */
@@ -9114,7 +9114,7 @@ gboolean enregistre_ib ( gchar *nom_ib )
 
 	    xmlSetProp ( node_sous_ib,
 			 "No",
-			 itoa ( sous_ib -> no_sous_imputation ));
+			 utils_itoa ( sous_ib -> no_sous_imputation ));
 
 	    xmlSetProp ( node_sous_ib,
 			 "Nom",

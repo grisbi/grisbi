@@ -494,11 +494,19 @@ void desensitive_widget ( GtkWidget *widget )
 
 
 
-/* ************************************************************************************************** */
-/* itoa : transforme un integer en chaine ascii */
-/* ************************************************************************************************** */
 
-gchar *itoa ( gint integer )
+/*!
+ * @brief convert an integer into a gchar based string
+ * 
+ * @param integer   integer to convert
+ * 
+ * @return  a newly allocated string
+ * 
+ * @caveats You have to unallocate the returned string when you no more use it to save memory
+ *
+ * @todo: this function is a cause of memory leak
+ */
+gchar *utils_itoa ( gint integer )
 {
     div_t result_div;
     gchar *chaine;

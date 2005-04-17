@@ -3714,9 +3714,9 @@ void remplit_liste_comparaisons_textes_etat ( void )
 	gtk_option_menu_set_history ( GTK_OPTION_MENU ( comp_textes -> bouton_comparateur_2 ),
 				      comp_textes -> comparateur_2 );
 	gtk_entry_set_text ( GTK_ENTRY ( comp_textes -> entree_montant_1 ),
-			     itoa ( comp_textes -> montant_1 ));
+			     utils_itoa ( comp_textes -> montant_1 ));
 	gtk_entry_set_text ( GTK_ENTRY ( comp_textes -> entree_montant_2 ),
-			     itoa ( comp_textes -> montant_2 ));
+			     utils_itoa ( comp_textes -> montant_2 ));
 
 	if ( comp_textes -> utilise_txt )
 	    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( comp_textes -> bouton_utilise_txt ),

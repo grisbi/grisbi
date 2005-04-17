@@ -640,7 +640,7 @@ void remplit_arbre_categ ( void )
 	     nb_ecritures_par_categ[place_categ+1] )
 	    text[0] = g_strconcat ( categ -> nom_categ,
 				    " (",
-				    itoa ( nb_ecritures_par_categ[place_categ+1] ),
+				    utils_itoa ( nb_ecritures_par_categ[place_categ+1] ),
 				    ")",
 				    NULL );
 	else
@@ -693,7 +693,7 @@ void remplit_arbre_categ ( void )
 		 nb_ecritures_par_sous_categ[place_categ][place_sous_categ+1] )
 		text[0] = g_strconcat ( sous_categ -> nom_sous_categ,
 					" (",
-					itoa ( nb_ecritures_par_sous_categ[place_categ][place_sous_categ+1] ),
+					utils_itoa ( nb_ecritures_par_sous_categ[place_categ][place_sous_categ+1] ),
 					")",
 					NULL );
 	    else
@@ -1029,7 +1029,7 @@ gboolean ouverture_node_categ ( GtkWidget *arbre, GtkCTreeNode *node,
 			 nb_ecritures_par_comptes )
 			text[0] = g_strconcat ( NOM_DU_COMPTE,
 						" (",
-						itoa ( nb_ecritures_par_comptes ),
+						utils_itoa ( nb_ecritures_par_comptes ),
 						")",
 						NULL );
 		    else

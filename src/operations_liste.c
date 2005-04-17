@@ -1130,7 +1130,7 @@ gchar *recherche_contenu_cellule ( struct structure_operation *operation,
 	    /* mise en place du no d'opé */
 
 	case 17:
-	    return ( itoa ( operation -> no_operation ));
+	    return ( utils_itoa ( operation -> no_operation ));
 	    break;
 
 	    /* mise en place du no de chèque/virement */
@@ -1467,7 +1467,7 @@ void edition_operation ( void )
     /* on met le no de l'opé */
 
     gtk_label_set_text ( GTK_LABEL ( widget_formulaire_operations[TRANSACTION_FORM_OP_NB] ),
-			 itoa ( operation -> no_operation ));
+			 utils_itoa ( operation -> no_operation ));
 
     /* mise en forme de la date */
 

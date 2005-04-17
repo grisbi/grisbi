@@ -444,7 +444,7 @@ void remplit_arbre_tiers ( void )
 	     nb_ecritures_par_tiers[place_tiers] )
 	    text[0] = g_strconcat ( tiers -> nom_tiers,
 				    " (",
-				    itoa ( nb_ecritures_par_tiers[place_tiers] ),
+				    utils_itoa ( nb_ecritures_par_tiers[place_tiers] ),
 				    ")",
 				    NULL );
 	else
@@ -453,11 +453,11 @@ void remplit_arbre_tiers ( void )
 	text[2] = NULL;
 
 	if ( date_dernier_tiers[place_tiers] )
-	    text[3] = g_strconcat ( itoa ( g_date_day ( date_dernier_tiers[place_tiers] )),
+	    text[3] = g_strconcat ( utils_itoa ( g_date_day ( date_dernier_tiers[place_tiers] )),
 				    "/",
-				    itoa ( g_date_month ( date_dernier_tiers[place_tiers] )),
+				    utils_itoa ( g_date_month ( date_dernier_tiers[place_tiers] )),
 				    "/",
-				    itoa ( g_date_year ( date_dernier_tiers[place_tiers] )),
+				    utils_itoa ( g_date_year ( date_dernier_tiers[place_tiers] )),
 				    NULL );
 	else
 	    text[3] = NULL;
@@ -618,7 +618,7 @@ void ouverture_node_tiers ( GtkWidget *arbre,
 			 nb_ecritures_par_comptes )
 			text[0] = g_strconcat ( NOM_DU_COMPTE,
 						" (",
-						itoa ( nb_ecritures_par_comptes ),
+						utils_itoa ( nb_ecritures_par_comptes ),
 						")",
 						NULL );
 		    else

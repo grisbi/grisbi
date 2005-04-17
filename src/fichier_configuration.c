@@ -726,24 +726,24 @@ void sauve_configuration(void)
 
     node = xmlNewChild ( doc->children,NULL, "Geometry",NULL );
     xmlNewChild ( node,NULL, "Width",
-		  itoa(largeur_window));
+		  utils_itoa(largeur_window));
     xmlNewChild ( node,NULL, "Height",
-		  itoa(hauteur_window));
+		  utils_itoa(hauteur_window));
 
     /* sauvegarde de l'onglet général */
     node = xmlNewChild ( doc->children,NULL, "General",NULL );
     xmlNewChild ( node,NULL, "Modification_operations_rapprochees",
-		  itoa(etat.r_modifiable));
+		  utils_itoa(etat.r_modifiable));
     xmlNewChild ( node,NULL, "Dernier_chemin_de_travail",dernier_chemin_de_travail);
     xmlNewChild ( node,NULL, "Affichage_alerte_permission",
-		  itoa(etat.alerte_permission));
+		  utils_itoa(etat.alerte_permission));
     xmlNewChild ( node,NULL, "Force_enregistrement",
-		  itoa(etat.force_enregistrement));
+		  utils_itoa(etat.force_enregistrement));
     xmlNewChild ( node,NULL, "Fonction_touche_entree",
-		  itoa(etat.entree));
+		  utils_itoa(etat.entree));
     xmlNewChild ( node,NULL, "Affichage_messages_alertes",
-		  itoa(etat.alerte_mini));
-    xmlNewChild ( node,NULL, "Utilise_fonte_des_listes",itoa (etat.utilise_fonte_listes));
+		  utils_itoa(etat.alerte_mini));
+    xmlNewChild ( node,NULL, "Utilise_fonte_des_listes",utils_itoa (etat.utilise_fonte_listes));
 
     xmlNewChild ( node,NULL, "Fonte_des_listes",fonte_liste);
     xmlNewChild ( node,NULL, "Animation_attente",etat.fichier_animation_attente);
@@ -759,74 +759,74 @@ void sauve_configuration(void)
     if ( nb_comptes )
     {
 	xmlNewChild ( node,NULL, "Largeur_colonne_comptes_operation",
-		      itoa(gtk_paned_get_position (GTK_PANED (paned_onglet_operations))));
+		      utils_itoa(gtk_paned_get_position (GTK_PANED (paned_onglet_operations))));
 	xmlNewChild ( node,NULL, "Largeur_colonne_echeancier",
-		      itoa(gtk_paned_get_position (GTK_PANED (paned_onglet_echeancier))));
+		      utils_itoa(gtk_paned_get_position (GTK_PANED (paned_onglet_echeancier))));
 	xmlNewChild ( node,NULL, "Largeur_colonne_comptes_comptes",
-		      itoa(gtk_paned_get_position (GTK_PANED (paned_onglet_comptes))));
+		      utils_itoa(gtk_paned_get_position (GTK_PANED (paned_onglet_comptes))));
 	xmlNewChild ( node,NULL, "Largeur_colonne_etats",
-		      itoa(gtk_paned_get_position (GTK_PANED (paned_onglet_etats))));
+		      utils_itoa(gtk_paned_get_position (GTK_PANED (paned_onglet_etats))));
     }
 
     /* sauvegarde de l'onglet I/O */
     node = xmlNewChild ( doc->children,NULL, "IO",NULL );
     xmlNewChild ( node,NULL, "Chargement_auto_dernier_fichier",
-		  itoa(etat.dernier_fichier_auto));
+		  utils_itoa(etat.dernier_fichier_auto));
     xmlNewChild ( node,NULL, "Nom_dernier_fichier",nom_fichier_comptes);
     xmlNewChild ( node,NULL, "Enregistrement_automatique",
-		  itoa(etat.sauvegarde_auto));
+		  utils_itoa(etat.sauvegarde_auto));
     xmlNewChild ( node,NULL, "Enregistrement_au_demarrage",
-		  itoa(etat.sauvegarde_demarrage));
+		  utils_itoa(etat.sauvegarde_demarrage));
     xmlNewChild ( node,NULL, "Nb_max_derniers_fichiers_ouverts",
-		  itoa(nb_max_derniers_fichiers_ouverts));
+		  utils_itoa(nb_max_derniers_fichiers_ouverts));
     xmlNewChild ( node,NULL, "Compression_fichier",
-		  itoa(compression_fichier));
+		  utils_itoa(compression_fichier));
     xmlNewChild ( node,NULL, "Compression_backup",
-		  itoa(compression_backup));
+		  utils_itoa(compression_backup));
     node_1 = xmlNewChild ( node,NULL, "Liste_noms_derniers_fichiers_ouverts",NULL);
     for (i=0;i<nb_derniers_fichiers_ouverts;i++) {
 	// ajout des noeuds de la forme fichier1,fichier2,fichier3...
 	//sprintf(buff, "fichier%i",i);
 	node_2 = xmlNewChild ( node_1,NULL, "fichier",tab_noms_derniers_fichiers_ouverts[i]);
-	xmlSetProp ( node_2, "No", itoa (i));
+	xmlSetProp ( node_2, "No", utils_itoa (i));
     }
 
     /* sauvegarde de l'onglet échéances */
     node = xmlNewChild ( doc->children,NULL, "Echeances",NULL );
     xmlNewChild ( node,NULL, "Delai_rappel_echeances",
-		  itoa(decalage_echeance));
+		  utils_itoa(decalage_echeance));
 
     /* sauvegarde de l'onglet affichage */
     node = xmlNewChild ( doc->children,NULL, "Affichage",NULL );
     xmlNewChild ( node,NULL, "Affichage_formulaire",
-		  itoa(etat.formulaire_toujours_affiche));
+		  utils_itoa(etat.formulaire_toujours_affiche));
     xmlNewChild ( node,NULL, "Affichage_formulaire_echeancier",
-		  itoa(etat.formulaire_echeancier_toujours_affiche));
+		  utils_itoa(etat.formulaire_echeancier_toujours_affiche));
     xmlNewChild ( node,NULL, "Affichage_tous_types",
-		  itoa(etat.affiche_tous_les_types));
+		  utils_itoa(etat.affiche_tous_les_types));
     xmlNewChild ( node,NULL, "Affiche_no_operation",
-		  itoa(etat.affiche_no_operation));
+		  utils_itoa(etat.affiche_no_operation));
     xmlNewChild ( node,NULL, "Affiche_date_bancaire",
-		  itoa(etat.affiche_date_bancaire));
+		  utils_itoa(etat.affiche_date_bancaire));
     xmlNewChild ( node,NULL, "Tri_par_date",
-		  itoa(etat.classement_par_date));
+		  utils_itoa(etat.classement_par_date));
     xmlNewChild ( node,NULL, "Regrouper_rp",
-		  itoa(etat.classement_rp));
+		  utils_itoa(etat.classement_rp));
     xmlNewChild ( node,NULL, "Affiche_boutons_valider_annuler",
-		  itoa(etat.affiche_boutons_valider_annuler));
+		  utils_itoa(etat.affiche_boutons_valider_annuler));
     xmlNewChild ( node,NULL, "Largeur_auto_colonnes",
-		  itoa(etat.largeur_auto_colonnes));
+		  utils_itoa(etat.largeur_auto_colonnes));
     xmlNewChild ( node,NULL, "Caracteristiques_par_compte",
-		  itoa(etat.retient_affichage_par_compte));
+		  utils_itoa(etat.retient_affichage_par_compte));
     for ( i=0 ; i<7 ; i++ ) {
 	node_2 = xmlNewChild ( node,NULL, "taille_largeur_colonne",
-			       itoa(taille_largeur_colonnes[i]));
-	xmlSetProp ( node_2, "No", itoa (i));
+			       utils_itoa(taille_largeur_colonnes[i]));
+	xmlSetProp ( node_2, "No", utils_itoa (i));
     }
     xmlNewChild ( node,NULL, "Affichage_nb_ecritures",
-		  itoa(etat.affichage_exercice_automatique));
+		  utils_itoa(etat.affichage_exercice_automatique));
     xmlNewChild ( node,NULL, "Affichage_exercice_automatique",
-		  itoa(etat.affichage_exercice_automatique));
+		  utils_itoa(etat.affichage_exercice_automatique));
 
     /*   sauvegarde de l'onglet d'exercice */
     node = xmlNewChild ( doc->children,NULL, "Exercice",NULL );
@@ -834,39 +834,39 @@ void sauve_configuration(void)
     /* sauvegarde des messages */
     node = xmlNewChild ( doc->children,NULL, "Messages",NULL );
     xmlNewChild ( node,NULL, "display_message_lock_active",
-		  itoa(etat.display_message_lock_active));
+		  utils_itoa(etat.display_message_lock_active));
     xmlNewChild ( node,NULL, "display_message_file_readable",
-		  itoa(etat.display_message_file_readable));
+		  utils_itoa(etat.display_message_file_readable));
     xmlNewChild ( node,NULL, "display_message_minimum_alert",
-		  itoa(etat.display_message_minimum_alert));
+		  utils_itoa(etat.display_message_minimum_alert));
     xmlNewChild ( node,NULL, "display_message_qif_export_currency",
-		  itoa(etat.display_message_qif_export_currency));
+		  utils_itoa(etat.display_message_qif_export_currency));
     xmlNewChild ( node,NULL, "display_message_reconcile_transaction",
-		  itoa(etat.display_message_reconcile_transaction));
+		  utils_itoa(etat.display_message_reconcile_transaction));
     xmlNewChild ( node,NULL, "display_message_remove_transaction",
-		  itoa(etat.display_message_remove_transaction));
+		  utils_itoa(etat.display_message_remove_transaction));
     xmlNewChild ( node,NULL, "display_message_remove_scheduled_transaction",
-		  itoa(etat.display_message_remove_scheduled_transaction));
+		  utils_itoa(etat.display_message_remove_scheduled_transaction));
     xmlNewChild ( node,NULL, "display_message_incomplete_breakdown",
-		  itoa(etat.display_message_incomplete_breakdown));
+		  utils_itoa(etat.display_message_incomplete_breakdown));
     xmlNewChild ( node,NULL, "display_message_no_reconciliation_ref",
-		  itoa(etat.display_message_no_reconciliation_ref));
+		  utils_itoa(etat.display_message_no_reconciliation_ref));
     xmlNewChild ( node,NULL, "display_message_reconciliation_ref_exist",
-		  itoa(etat.display_message_reconciliation_ref_exist));
+		  utils_itoa(etat.display_message_reconciliation_ref_exist));
     xmlNewChild ( node,NULL, "display_message_aborting_reconciliation",
-		  itoa(etat.display_message_aborting_reconciliation));
+		  utils_itoa(etat.display_message_aborting_reconciliation));
 
     /* sauvegarde des messages */
     node = xmlNewChild ( doc->children, NULL, "Print_config", NULL );
-    xmlNewChild ( node, NULL, "printer", itoa(etat.print_config.printer));
+    xmlNewChild ( node, NULL, "printer", utils_itoa(etat.print_config.printer));
     xmlNewChild ( node, NULL, "printer_name", etat.print_config.printer_name);
     xmlNewChild ( node, NULL, "printer_filename", etat.print_config.printer_filename);
-    xmlNewChild ( node, NULL, "filetype", itoa(etat.print_config.filetype));
-    xmlNewChild ( node, NULL, "orientation", itoa(etat.print_config.orientation));
+    xmlNewChild ( node, NULL, "filetype", utils_itoa(etat.print_config.filetype));
+    xmlNewChild ( node, NULL, "orientation", utils_itoa(etat.print_config.orientation));
     node = xmlNewChild ( node, NULL, "paper_config", NULL);
     xmlSetProp ( node, "name", etat.print_config.paper_config.name);
-    xmlSetProp ( node, "width", itoa(etat.print_config.paper_config.width));
-    xmlSetProp ( node, "height", itoa(etat.print_config.paper_config.height));
+    xmlSetProp ( node, "width", utils_itoa(etat.print_config.paper_config.width));
+    xmlSetProp ( node, "height", utils_itoa(etat.print_config.paper_config.height));
 
 
     /* Enregistre dans le ~/.grisbirc */

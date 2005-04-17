@@ -212,7 +212,7 @@ void fill_payment_method_tree ()
 
 	    if ( type_ope -> numerotation_auto )
 	    {
-		number = itoa ( type_ope -> no_en_cours );
+		number = utils_itoa ( type_ope -> no_en_cours );
 	    }
 	    else
 	    {
@@ -622,7 +622,7 @@ void modification_type_numerotation_auto (void)
 	type_ope -> numerotation_auto = 1;
 	gtk_widget_set_sensitive ( entree_type_dernier_no, TRUE );
 	gtk_tree_store_set (GTK_TREE_STORE (model), &iter, 
-			    PAYMENT_METHODS_NUMBERING_COLUMN, itoa(type_ope->no_en_cours), 
+			    PAYMENT_METHODS_NUMBERING_COLUMN, utils_itoa(type_ope->no_en_cours), 
 			    -1);
     }
     else
@@ -661,7 +661,7 @@ void modification_entree_type_dernier_no ( void )
     {
 	gtk_tree_store_set (GTK_TREE_STORE (model), &iter, 
 			    PAYMENT_METHODS_NUMBERING_COLUMN, 
-			    itoa(type_ope -> no_en_cours), 
+			    utils_itoa(type_ope -> no_en_cours), 
 			    -1);
     }
 }
@@ -1576,7 +1576,7 @@ gint cherche_no_menu_type_echeancier ( gint demande )
 		{
 		    entree_prend_focus ( widget_formulaire_echeancier[SCHEDULER_FORM_CHEQUE] );
 		    gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_echeancier[SCHEDULER_FORM_CHEQUE] ),
-					 itoa ( type -> no_en_cours + 1 ));
+					 utils_itoa ( type -> no_en_cours + 1 ));
 		}
 		gtk_widget_show ( widget_formulaire_echeancier[SCHEDULER_FORM_CHEQUE] );
 	    }
@@ -1647,7 +1647,7 @@ void changement_choix_type_echeancier ( struct struct_type_ope *type )
 	{
 	    entree_prend_focus ( widget_formulaire_echeancier[SCHEDULER_FORM_CHEQUE] );
 	    gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_echeancier[SCHEDULER_FORM_CHEQUE] ),
-				 itoa ( type -> no_en_cours + 1 ));
+				 utils_itoa ( type -> no_en_cours + 1 ));
 	}
 	gtk_widget_show ( widget_formulaire_echeancier[SCHEDULER_FORM_CHEQUE] );
     }
@@ -1670,7 +1670,7 @@ gchar * automatic_numbering_get_new_number ( struct struct_type_ope * type )
 {
     if ( type )
     {
-	return itoa ( type -> no_en_cours  + 1 );
+	return utils_itoa ( type -> no_en_cours  + 1 );
     }
 
     return "1";

@@ -13,7 +13,7 @@ void sens_desensitive_pointeur ( GtkWidget *boutton,
 				 GtkWidget *widget );
 void sensitive_widget ( GtkWidget *widget );
 void desensitive_widget ( GtkWidget *widget );
-gchar *itoa ( gint integer );
+gchar *utils_itoa ( gint integer );
 gint my_atoi ( gchar *chaine );
 double my_strtod ( char *nptr, char **endptr );
 gchar * latin2utf8 (char * inchar);

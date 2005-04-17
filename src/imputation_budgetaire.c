@@ -554,7 +554,7 @@ void remplit_arbre_imputation ( void )
 	     nb_ecritures_par_imputation[place_imputation+1] )
 	    text[0] = g_strconcat ( imputation -> nom_imputation,
 				    " (",
-				    itoa ( nb_ecritures_par_imputation[place_imputation+1] ),
+				    utils_itoa ( nb_ecritures_par_imputation[place_imputation+1] ),
 				    ")",
 				    NULL );
 	else
@@ -610,7 +610,7 @@ void remplit_arbre_imputation ( void )
 		 nb_ecritures_par_sous_imputation[place_imputation][place_sous_imputation+1] )
 		text[0] = g_strconcat ( sous_imputation -> nom_sous_imputation,
 					" (",
-					itoa ( nb_ecritures_par_sous_imputation[place_imputation][place_sous_imputation+1] ),
+					utils_itoa ( nb_ecritures_par_sous_imputation[place_imputation][place_sous_imputation+1] ),
 					")",
 					NULL );
 	    else
@@ -945,7 +945,7 @@ void ouverture_node_imputation ( GtkWidget *arbre,
 			 nb_ecritures_par_comptes )
 			text[0] = g_strconcat ( NOM_DU_COMPTE,
 						" (",
-						itoa ( nb_ecritures_par_comptes ),
+						utils_itoa ( nb_ecritures_par_comptes ),
 						")",
 						NULL );
 		    else
