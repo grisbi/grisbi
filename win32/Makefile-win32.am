@@ -199,7 +199,7 @@ $(LOCALE)/%/LC_MESSAGES/grisbi.mo : ../po/%.po
 $(OBJDIR)/%.res : %.rc
 	@echo "Compiling $<"
 	@mkdir -p $(@D)
-	+$(WINDRES) --input-format=rc -output-format=coff -output=$@ -input=$< 
+	+$(WINDRES) --input-format=rc --output-format=coff --output=$@ --input=$< 
 
 
 #
