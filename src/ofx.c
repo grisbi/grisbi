@@ -162,11 +162,11 @@ int ofx_proc_status_cb(struct OfxStatusData data)
     {
 	switch ( data.severity )
 	{
-	    case INFO :
+	    case OFX_INFO :
 		/* 		pas de pb, on fait rien */
 		break;
 
-	    case WARN :
+	    case OFX_WARN :
 		if ( data.code_valid )
 		    dialogue_warning ( g_strconcat ( _("The file has returned the next message :\n"),
 						     data.name,
@@ -178,7 +178,7 @@ int ofx_proc_status_cb(struct OfxStatusData data)
 		erreur_import_ofx = 1;
 		break;
 
-	    case ERROR:
+	    case OFX_ERROR:
 		if ( data.code_valid )
 		    dialogue_error ( g_strconcat ( _("The file has returned the next message :\n"),
 						   data.name,
