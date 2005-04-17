@@ -1329,9 +1329,10 @@ gboolean recuperation_comptes_xml ( xmlNodePtr node_comptes )
 			    operation -> jour = my_atoi ( pointeur_char[0] );
 			    operation -> mois = my_atoi ( pointeur_char[1] );
 			    operation -> annee = my_atoi ( pointeur_char[2] );
-			    operation -> date = g_date_new_dmy ( operation -> jour,
+			    gsb_transaction_data_set_date ( transaction_number,
+							    g_date_new_dmy ( operation -> jour,
 								 operation -> mois,
-								 operation -> annee );
+								 operation -> annee ));
 			    g_strfreev ( pointeur_char );
 
 			    /* GDC prise en compte de la lecture de la date bancaire */
@@ -1349,11 +1350,13 @@ gboolean recuperation_comptes_xml ( xmlNodePtr node_comptes )
 				operation -> annee_bancaire = my_atoi ( pointeur_char[2] );
 
 				if ( operation -> jour_bancaire )
-				    operation -> date_bancaire = g_date_new_dmy ( operation -> jour_bancaire,
-										  operation -> mois_bancaire,
-										  operation -> annee_bancaire );
+				    gsb_transaction_data_set_value_date ( transaction_number,
+									  g_date_new_dmy ( operation -> jour_bancaire,
+											   operation -> mois_bancaire,
+											   operation -> annee_bancaire ));
 				else
-				    operation -> date_bancaire = NULL;
+				    gsb_transaction_data_set_value_date ( transaction_number,
+									  NULL );
 
 				g_strfreev ( pointeur_char );
 			    }
@@ -1362,7 +1365,8 @@ gboolean recuperation_comptes_xml ( xmlNodePtr node_comptes )
 				operation -> jour_bancaire = 0;
 				operation -> mois_bancaire = 0;
 				operation -> annee_bancaire = 0;
-				operation -> date_bancaire = NULL;
+				gsb_transaction_data_set_value_date ( transaction_number,
+								      NULL );
 			    }
 
 			    /* GDCFin */

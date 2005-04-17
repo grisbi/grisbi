@@ -1888,9 +1888,10 @@ void fin_edition_echeance ( void )
 	operation -> annee = my_strtod (tableau_char[2],
 					NULL );
 
-	operation ->date = g_date_new_dmy ( operation ->jour,
-					    operation ->mois,
-					    operation ->annee);
+	gsb_transaction_data_set_date ( gsb_transaction_data_get_transaction_number ( operation ),
+					g_date_new_dmy ( operation ->jour,
+							 operation ->mois,
+							 operation ->annee));
 
 
 	/* récupération du no de compte */
@@ -2041,7 +2042,7 @@ void fin_edition_echeance ( void )
 
 	if ( GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_EXERCICE] ) -> menu_item ),
 						     "no_exercice" )) == -2 )
-	    operation -> no_exercice = recherche_exo_correspondant ( operation -> date );
+	    operation -> no_exercice = recherche_exo_correspondant ( gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation)));
 	else
 	    operation -> no_exercice = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_EXERCICE] ) -> menu_item ),
 									       "no_exercice" ));
@@ -2155,18 +2156,20 @@ void fin_edition_echeance ( void )
 	    operation_fille -> jour = operation -> jour;
 	    operation_fille -> mois = operation -> mois;
 	    operation_fille -> annee = operation -> annee;
-	    operation_fille -> date = g_date_new_dmy ( operation_fille -> jour,
-						       operation_fille -> mois,
-						       operation_fille -> annee );
+	    gsb_transaction_data_set_date ( gsb_transaction_data_get_transaction_number ( operation_fille),
+					    g_date_new_dmy ( operation_fille -> jour,
+							     operation_fille -> mois,
+							     operation_fille -> annee ) );
 
 	    if ( operation -> jour_bancaire )
 	    {
 		operation_fille -> jour_bancaire = operation -> jour_bancaire;
 		operation_fille -> mois_bancaire = operation -> mois_bancaire;
 		operation_fille -> annee_bancaire = operation -> annee_bancaire;
-		operation_fille -> date_bancaire = g_date_new_dmy ( operation_fille -> jour_bancaire,
-								    operation_fille -> mois_bancaire,
-								    operation_fille -> annee_bancaire );
+		gsb_transaction_data_set_value_date ( gsb_transaction_data_get_transaction_number ( operation_fille ),
+						      g_date_new_dmy ( operation_fille -> jour_bancaire,
+								       operation_fille -> mois_bancaire,
+								       operation_fille -> annee_bancaire ));
 	    }
 
 	    operation_fille -> devise = operation -> devise;
@@ -2285,9 +2288,10 @@ struct structure_operation *ajoute_contre_operation_echeance_dans_liste ( struct
     contre_operation -> jour = operation -> jour;
     contre_operation -> mois = operation -> mois;
     contre_operation -> annee = operation -> annee;
-    contre_operation ->date = g_date_new_dmy ( contre_operation->jour,
-					       contre_operation->mois,
-					       contre_operation->annee);
+    gsb_transaction_data_set_date ( gsb_transaction_data_get_transaction_number ( operation ),
+				    g_date_new_dmy ( contre_operation->jour,
+						     contre_operation->mois,
+						     contre_operation->annee));
     contre_operation -> montant = -operation -> montant;
 
     /* si c'est la devise du compte ou si c'est un compte qui doit passer à l'euro ( la transfo se fait au niveau */
@@ -2721,8 +2725,8 @@ void completion_operation_par_tiers_echeancier ( void )
 	{
 	    if ( operation )
 	    {
-		if ( g_date_compare ( ope_test -> date,
-				      operation -> date ) >= 0 )
+		if ( g_date_compare ( gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (ope_test)),
+				      gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation))) >= 0 )
 		    operation = ope_test;
 	    }
 	    else

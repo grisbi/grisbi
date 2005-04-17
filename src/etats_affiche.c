@@ -757,9 +757,9 @@ gint etat_affiche_affiche_total_periode ( struct structure_operation *operation,
 		    case 0:
 			/* séparation par semaine : on recherche le début de la semaine qui contient l'opé */
 
-			date_debut_periode = g_date_new_dmy ( g_date_day ( operation -> date ),
-							      g_date_month ( operation -> date ),
-							      g_date_year ( operation -> date ));
+			date_debut_periode = g_date_new_dmy ( g_date_day ( gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation))),
+							      g_date_month ( gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation))),
+							      g_date_year ( gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation))));
 
 			if ( g_date_weekday ( date_debut_periode )  != (etat_courant -> jour_debut_semaine + 1 ))
 			{
@@ -776,8 +776,8 @@ gint etat_affiche_affiche_total_periode ( struct structure_operation *operation,
 			/* séparation par mois */
 
 			date_debut_periode = g_date_new_dmy ( 1,
-							      g_date_month ( operation -> date ),
-							      g_date_year ( operation -> date ));
+							      g_date_month ( gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation))),
+							      g_date_year ( gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation))));
 			break;
 
 		    case 2:
@@ -785,7 +785,7 @@ gint etat_affiche_affiche_total_periode ( struct structure_operation *operation,
 
 			date_debut_periode = g_date_new_dmy ( 1,
 							      1,
-							      g_date_year ( operation -> date ));
+							      g_date_year ( gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation))));
 			break;
 		}
 	    }
@@ -808,7 +808,7 @@ gint etat_affiche_affiche_total_periode ( struct structure_operation *operation,
 
 	    if ( !force
 		 &&
-		 !g_date_compare ( operation -> date,
+		 !g_date_compare ( gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation)),
 				   date_debut_periode ))
 		return ( ligne );
 
@@ -822,9 +822,9 @@ gint etat_affiche_affiche_total_periode ( struct structure_operation *operation,
 
 	    if ( !force
 		 &&
-		 ( g_date_weekday ( operation -> date )  != (etat_courant -> jour_debut_semaine + 1 )
+		 ( g_date_weekday ( gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation)))  != (etat_courant -> jour_debut_semaine + 1 )
 		   &&
-		   g_date_compare ( operation -> date,
+		   g_date_compare ( gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation)),
 				    date_tmp ) < 0 ))
 		return ( ligne );
 
@@ -969,9 +969,9 @@ gint etat_affiche_affiche_total_periode ( struct structure_operation *operation,
 		case 0:
 		    /* séparation par semaine : on recherche le début de la semaine qui contient l'opé */
 
-		    date_debut_periode = g_date_new_dmy ( g_date_day ( operation -> date ),
-							  g_date_month ( operation -> date ),
-							  g_date_year ( operation -> date ));
+		    date_debut_periode = g_date_new_dmy ( g_date_day ( gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation))),
+							  g_date_month ( gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation))),
+							  g_date_year ( gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation))));
 
 		    if ( g_date_weekday ( date_debut_periode )  != (etat_courant -> jour_debut_semaine + 1 ))
 		    {
@@ -988,8 +988,8 @@ gint etat_affiche_affiche_total_periode ( struct structure_operation *operation,
 		    /* séparation par mois */
 
 		    date_debut_periode = g_date_new_dmy ( 1,
-							  g_date_month ( operation -> date ),
-							  g_date_year ( operation -> date ));
+							  g_date_month ( gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation))),
+							  g_date_year ( gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation))));
 		    break;
 
 		case 2:
@@ -997,7 +997,7 @@ gint etat_affiche_affiche_total_periode ( struct structure_operation *operation,
 
 		    date_debut_periode = g_date_new_dmy ( 1,
 							  1,
-							  g_date_year ( operation -> date ));
+							  g_date_year ( gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation))));
 		    break;
 	    }
 	}

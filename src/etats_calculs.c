@@ -815,10 +815,10 @@ GSList *recupere_opes_etat ( struct struct_etat *etat )
 				 !etat -> date_perso_fin
 				 ||
 				 g_date_compare ( etat -> date_perso_debut,
-						  operation -> date ) > 0
+						  gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation))) > 0
 				 ||
 				 g_date_compare ( etat -> date_perso_fin,
-						  operation -> date ) < 0 )
+						  gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation))) < 0 )
 				goto operation_refusee;
 			    break;
 
@@ -826,45 +826,45 @@ GSList *recupere_opes_etat ( struct struct_etat *etat )
 			    /* cumul à ce jour */
 
 			    if ( g_date_compare ( date_jour,
-						  operation -> date ) < 0 )
+						  gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation))) < 0 )
 				goto operation_refusee;
 			    break;
 
 			case 3:
 			    /* mois en cours */
 
-			    if ( g_date_month ( date_jour ) != g_date_month ( operation -> date )
+			    if ( g_date_month ( date_jour ) != g_date_month ( gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation)))
 				 ||
-				 g_date_year ( date_jour ) != g_date_year ( operation -> date ))
+				 g_date_year ( date_jour ) != g_date_year ( gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation))))
 				goto operation_refusee;
 			    break;
 
 			case 4:
 			    /* année en cours */
 
-			    if ( g_date_year ( date_jour ) != g_date_year ( operation -> date ))
+			    if ( g_date_year ( date_jour ) != g_date_year ( gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation))))
 				goto operation_refusee;
 			    break;
 
 			case 5:
 			    /* cumul mensuel */
 
-			    if ( g_date_month ( date_jour ) != g_date_month ( operation -> date )
+			    if ( g_date_month ( date_jour ) != g_date_month ( gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation)))
 				 ||
-				 g_date_year ( date_jour ) != g_date_year ( operation -> date )
+				 g_date_year ( date_jour ) != g_date_year ( gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation)))
 				 ||
 				 g_date_compare ( date_jour,
-						  operation -> date ) < 0 )
+						  gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation))) < 0 )
 				goto operation_refusee;
 			    break;
 
 			case 6:
 			    /* cumul annuel */
 
-			    if ( g_date_year ( date_jour ) != g_date_year ( operation -> date )
+			    if ( g_date_year ( date_jour ) != g_date_year ( gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation)))
 				 ||
 				 g_date_compare ( date_jour,
-						  operation -> date ) < 0 )
+						  gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation))) < 0 )
 				goto operation_refusee;
 			    break;
 
@@ -874,9 +874,9 @@ GSList *recupere_opes_etat ( struct struct_etat *etat )
 			    g_date_subtract_months ( date_jour,
 						     1 );
 
-			    if ( g_date_month ( date_jour ) != g_date_month ( operation -> date )
+			    if ( g_date_month ( date_jour ) != g_date_month ( gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation)))
 				 ||
-				 g_date_year ( date_jour ) != g_date_year ( operation -> date ))
+				 g_date_year ( date_jour ) != g_date_year ( gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation))))
 				goto operation_refusee;
 			    break;
 
@@ -886,7 +886,7 @@ GSList *recupere_opes_etat ( struct struct_etat *etat )
 			    g_date_subtract_years ( date_jour,
 						    1 );
 
-			    if ( g_date_year ( date_jour ) != g_date_year ( operation -> date ))
+			    if ( g_date_year ( date_jour ) != g_date_year ( gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation))))
 				goto operation_refusee;
 			    break;
 
@@ -899,10 +899,10 @@ GSList *recupere_opes_etat ( struct struct_etat *etat )
 			    g_date_subtract_days ( date_tmp,
 						   30 );
 			    if ( g_date_compare ( date_tmp,
-						  operation -> date ) > 0
+						  gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation))) > 0
 				 ||
 				 g_date_compare ( date_jour,
-						  operation -> date ) < 0 )
+						  gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation))) < 0 )
 				goto operation_refusee;
 			    break;
 
@@ -915,10 +915,10 @@ GSList *recupere_opes_etat ( struct struct_etat *etat )
 			    g_date_subtract_months ( date_tmp,
 						     3 );
 			    if ( g_date_compare ( date_tmp,
-						  operation -> date ) > 0
+						  gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation))) > 0
 				 ||
 				 g_date_compare ( date_jour,
-						  operation -> date ) < 0 )
+						  gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation))) < 0 )
 				goto operation_refusee;
 			    break;
 
@@ -931,10 +931,10 @@ GSList *recupere_opes_etat ( struct struct_etat *etat )
 			    g_date_subtract_months ( date_tmp,
 						     6 );
 			    if ( g_date_compare ( date_tmp,
-						  operation -> date ) > 0
+						  gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation))) > 0
 				 ||
 				 g_date_compare ( date_jour,
-						  operation -> date ) < 0 )
+						  gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation))) < 0 )
 				goto operation_refusee;
 			    break;
 
@@ -947,10 +947,10 @@ GSList *recupere_opes_etat ( struct struct_etat *etat )
 			    g_date_subtract_months ( date_tmp,
 						     12 );
 			    if ( g_date_compare ( date_tmp,
-						  operation -> date ) > 0
+						  gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation))) > 0
 				 ||
 				 g_date_compare ( date_jour,
-						  operation -> date ) < 0 )
+						  gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation))) < 0 )
 				goto operation_refusee;
 			    break;
 		    }
@@ -1687,8 +1687,8 @@ gint classement_ope_perso_etat ( struct structure_operation *operation_1,
 	case 0:
 	    /* date  */
 
-	    retour = g_date_compare ( operation_1 -> date,
-				      operation_2 -> date );
+	    retour = g_date_compare ( gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation_1)),
+				      gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation_2)));
 	    break;
 
 	case 1:

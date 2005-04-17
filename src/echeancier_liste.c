@@ -1629,9 +1629,10 @@ void verification_echeances_a_terme ( void )
 		operation -> mois = ECHEANCE_COURANTE -> mois;
 		operation -> annee = ECHEANCE_COURANTE -> annee;
 
-		operation ->date = g_date_new_dmy ( operation ->jour,
-						    operation ->mois,
-						    operation ->annee);
+		gsb_transaction_data_set_date ( gsb_transaction_data_get_transaction_number ( operation ),
+						g_date_new_dmy ( operation ->jour,
+								 operation ->mois,
+								 operation ->annee));
 
 
 		gsb_transaction_data_set_account_number ( gsb_transaction_data_get_transaction_number ( operation ),
@@ -1706,7 +1707,7 @@ void verification_echeances_a_terme ( void )
 		/* si l'exo est automatique (-2), c'est ici qu'on va le chercher */
 
 		if ( ECHEANCE_COURANTE -> no_exercice == -2 )
-		    operation -> no_exercice = recherche_exo_correspondant ( operation -> date );
+		    operation -> no_exercice = recherche_exo_correspondant ( gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation)));
 		else
 		    operation -> no_exercice = ECHEANCE_COURANTE -> no_exercice;
 
@@ -1771,18 +1772,20 @@ void verification_echeances_a_terme ( void )
 		    operation_fille -> jour = operation -> jour;
 		    operation_fille -> mois = operation -> mois;
 		    operation_fille -> annee = operation -> annee;
-		    operation_fille -> date = g_date_new_dmy ( operation_fille -> jour,
-							       operation_fille -> mois,
-							       operation_fille -> annee );
+		    gsb_transaction_data_set_date ( gsb_transaction_data_get_transaction_number ( operation_fille ),
+						    g_date_new_dmy ( operation_fille -> jour,
+								     operation_fille -> mois,
+								     operation_fille -> annee ));
 
 		    if ( operation -> jour_bancaire )
 		    {
 			operation_fille -> jour_bancaire = operation -> jour_bancaire;
 			operation_fille -> mois_bancaire = operation -> mois_bancaire;
 			operation_fille -> annee_bancaire = operation -> annee_bancaire;
-			operation_fille -> date_bancaire = g_date_new_dmy ( operation_fille -> jour_bancaire,
-									    operation_fille -> mois_bancaire,
-									    operation_fille -> annee_bancaire );
+			gsb_transaction_data_set_value_date ( gsb_transaction_data_get_transaction_number ( operation_fille ),
+							      g_date_new_dmy ( operation_fille -> jour_bancaire,
+									       operation_fille -> mois_bancaire,
+									       operation_fille -> annee_bancaire ));
 		    }
 
 		    operation_fille -> devise = operation -> devise;

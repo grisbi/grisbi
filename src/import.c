@@ -1208,7 +1208,7 @@ void cree_liens_virements_ope_import ( void )
 			     &&
 			     ( operation -> tiers == operation_2 -> tiers )
 			     &&
-			     !g_date_compare ( operation -> date, operation_2 -> date ))
+			     !g_date_compare ( gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation)), gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation_2))))
 			{
 			    /* la 2ème opération correspond en tout point à la 1ère, on met les relations */
 
@@ -1388,9 +1388,10 @@ void creation_compte_importe ( struct struct_compte_importation *compte_import )
 	operation -> mois = g_date_month ( operation_import -> date );
 	operation -> annee = g_date_year ( operation_import -> date );
 
-	operation -> date = g_date_new_dmy ( operation -> jour,
-					     operation -> mois,
-					     operation -> annee );
+	gsb_transaction_data_set_date ( transaction_number,
+					g_date_new_dmy ( operation -> jour,
+							 operation -> mois,
+							 operation -> annee ));
 
 	/* récupération de la date de valeur */
 
@@ -1400,9 +1401,10 @@ void creation_compte_importe ( struct struct_compte_importation *compte_import )
 	    operation -> mois_bancaire = g_date_month ( operation_import -> date_de_valeur );
 	    operation -> annee_bancaire = g_date_year ( operation_import -> date_de_valeur );
 
-	    operation -> date_bancaire = g_date_new_dmy ( operation -> jour_bancaire,
-							  operation -> mois_bancaire,
-							  operation -> annee_bancaire );
+	    gsb_transaction_data_set_value_date ( transaction_number,
+						  g_date_new_dmy ( operation -> jour_bancaire,
+								   operation -> mois_bancaire,
+								   operation -> annee_bancaire ));
 	}
 
 	/* récupération du no de compte */
@@ -1669,9 +1671,9 @@ void ajout_opes_importees ( struct struct_compte_importation *compte_import )
 
 	if ( !last_date
 	     ||
-	     g_date_compare ( operation -> date,
+	     g_date_compare ( gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation)),
 			      last_date ) > 0 )
-	    last_date = operation -> date;
+	    last_date = gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation));
 
 	liste_tmp = liste_tmp -> next;
     }
@@ -1744,10 +1746,10 @@ void ajout_opes_importees ( struct struct_compte_importation *compte_import )
 
 		    if ( fabs ( operation -> montant - operation_import -> montant ) < 0.01
 			 &&
-			 ( g_date_compare ( operation -> date,
+			 ( g_date_compare ( gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation)),
 					    date_debut_comparaison ) >= 0 )
 			 &&
-			 ( g_date_compare ( operation -> date,
+			 ( g_date_compare ( gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation)),
 					    date_fin_comparaison ) <= 0 )
 
 			 &&
@@ -1940,17 +1942,17 @@ void confirmation_enregistrement_ope_import ( struct struct_compte_importation *
 
 	    if ( operation -> notes )
 		label = gtk_label_new ( g_strdup_printf ( _("Transaction found : %02d/%02d/%04d ; %s ; %4.2f ; %s"),
-							  g_date_day ( operation -> date ),
-							  g_date_month ( operation -> date ),
-							  g_date_year ( operation -> date ),
+							  g_date_day ( gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation))),
+							  g_date_month ( gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation))),
+							  g_date_year ( gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation))),
 							  tiers,
 							  operation -> montant,
 							  operation -> notes ));
 	    else
 		label = gtk_label_new ( g_strdup_printf ( _("Transaction found : %02d/%02d/%04d ; %s ; %4.2f"),
-							  g_date_day ( operation -> date ),
-							  g_date_month ( operation -> date ),
-							  g_date_year ( operation -> date ),
+							  g_date_day ( gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation))),
+							  g_date_month ( gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation))),
+							  g_date_year ( gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation))),
 							  tiers,
 							  operation -> montant ));
 
@@ -2044,9 +2046,10 @@ struct structure_operation *enregistre_ope_importee ( struct struct_ope_importat
     operation -> mois = g_date_month ( operation_import -> date );
     operation -> annee = g_date_year ( operation_import -> date );
 
-    operation -> date = g_date_new_dmy ( operation -> jour,
-					 operation -> mois,
-					 operation -> annee );
+    gsb_transaction_data_set_date ( transaction_number,
+				    g_date_new_dmy ( operation -> jour,
+						     operation -> mois,
+						     operation -> annee ));
 
     /* récupération de la date de valeur */
 
@@ -2056,9 +2059,10 @@ struct structure_operation *enregistre_ope_importee ( struct struct_ope_importat
 	operation -> mois_bancaire = g_date_month ( operation_import -> date_de_valeur );
 	operation -> annee_bancaire = g_date_year ( operation_import -> date_de_valeur );
 
-	operation -> date_bancaire = g_date_new_dmy ( operation -> jour,
-						      operation -> mois,
-						      operation -> annee );
+	gsb_transaction_data_set_value_date ( transaction_number,
+					      g_date_new_dmy ( operation -> jour,
+							       operation -> mois,
+							       operation -> annee ));
     }
 
     /* récupération du no de compte */
@@ -2353,10 +2357,10 @@ void pointe_opes_importees ( struct struct_compte_importation *compte_import )
 
 		if ( fabs ( operation -> montant - ope_import -> montant ) < 0.01
 		     &&
-		     ( g_date_compare ( operation -> date,
+		     ( g_date_compare ( gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation)),
 					date_debut_comparaison ) >= 0 )
 		     &&
-		     ( g_date_compare ( operation -> date,
+		     ( g_date_compare ( gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation)),
 					date_fin_comparaison ) <= 0 )
 
 		     &&
@@ -2468,10 +2472,10 @@ void pointe_opes_importees ( struct struct_compte_importation *compte_import )
 
 		    if ( fabs ( autre_ope_import -> montant - ope_import -> montant ) < 0.01
 			 &&
-			 ( g_date_compare ( operation -> date,
+			 ( g_date_compare ( gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation)),
 					    date_debut_comparaison ) >= 0 )
 			 &&
-			 ( g_date_compare ( operation -> date,
+			 ( g_date_compare ( gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation)),
 					    date_fin_comparaison ) <= 0 )
 
 			 &&

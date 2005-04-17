@@ -34,6 +34,7 @@
 #include "operations_liste.h"
 #include "utils_editables.h"
 #include "gsb_account.h"
+#include "gsb_transaction_data.h"
 #include "traitement_variables.h"
 #include "utils.h"
 #include "dialog.h"
@@ -677,10 +678,10 @@ void association_automatique ( void )
 		    exo = pointeur_exo -> data;
 
 		    if ( g_date_compare ( exo -> date_debut,
-					  operation -> date ) <= 0
+					  gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation))) <= 0
 			 &&
 			 g_date_compare ( exo -> date_fin,
-					  operation -> date ) >= 0 )
+					  gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation))) >= 0 )
 		    {
 			operation -> no_exercice = exo -> no_exercice;
 		    }

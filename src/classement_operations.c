@@ -559,8 +559,8 @@ gint gsb_transactions_list_sort_by_transaction_date_and_no ( void )
 {
     gint return_value;
 
-    return_value = g_date_compare ( transaction_1 -> date,
-				    transaction_2 -> date );
+    return_value = g_date_compare ( gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (transaction_1)),
+				    gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (transaction_2)));
 
     if ( return_value )
 	return return_value;
@@ -667,8 +667,8 @@ gint gsb_transactions_list_sort_by_value_date ( GtkTreeModel *model,
     if ( return_value )
 	return return_value;
 
-    return_value = g_date_compare ( transaction_1 -> date_bancaire,
-				    transaction_2 -> date_bancaire );
+    return_value = g_date_compare ( gsb_transaction_data_get_value_date (gsb_transaction_data_get_transaction_number (transaction_1)),
+				    gsb_transaction_data_get_value_date (gsb_transaction_data_get_transaction_number (transaction_2)));
 
     if ( return_value )
 	return return_value;

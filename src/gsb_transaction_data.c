@@ -347,3 +347,86 @@ gboolean gsb_transaction_data_set_account_number ( gint no_transaction,
     return TRUE;
 }
 
+
+
+/** get the GDate of the transaction 
+ * \param no_transaction the number of the transaction
+ * \return the GDate of the transaction
+ * */
+GDate *gsb_transaction_data_get_date ( gint no_transaction )
+{
+    struct_transaction *transaction;
+
+    transaction = gsb_transaction_data_get_transaction_by_no ( no_transaction,
+							       -1 );
+
+    if ( !transaction )
+	return NULL;
+
+    return transaction -> date;
+}
+
+
+/** set the GDate of the transaction
+ * \param no_transaction
+ * \param no_account
+ * \return TRUE if ok
+ * */
+gboolean gsb_transaction_data_set_date ( gint no_transaction,
+					 GDate *date )
+{
+    struct_transaction *transaction;
+
+    transaction = gsb_transaction_data_get_transaction_by_no ( no_transaction,
+							       -1 );
+
+    if ( !transaction )
+	return FALSE;
+
+    transaction -> date = date;
+    
+    return TRUE;
+}
+
+
+
+
+/** get the value GDate of the transaction 
+ * \param no_transaction the number of the transaction
+ * \return the GDate of the transaction
+ * */
+GDate *gsb_transaction_data_get_value_date ( gint no_transaction )
+{
+    struct_transaction *transaction;
+
+    transaction = gsb_transaction_data_get_transaction_by_no ( no_transaction,
+							       -1 );
+
+    if ( !transaction )
+	return NULL;
+
+    return transaction -> value_date;
+}
+
+
+/** set the value GDate of the transaction
+ * \param no_transaction
+ * \param no_account
+ * \return TRUE if ok
+ * */
+gboolean gsb_transaction_data_set_value_date ( gint no_transaction,
+					       GDate *date )
+{
+    struct_transaction *transaction;
+
+    transaction = gsb_transaction_data_get_transaction_by_no ( no_transaction,
+							       -1 );
+
+    if ( !transaction )
+	return FALSE;
+
+    transaction -> value_date = date;
+    
+    return TRUE;
+}
+

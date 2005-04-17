@@ -162,12 +162,12 @@ struct structure_operation
 
 /*     gchar *id_operation; */
 
-    GDate *date;
+/*     GDate *date; */
     guint jour;
     guint mois;
     guint annee;
 
-    GDate *date_bancaire;
+/*     GDate *date_bancaire; */
     guint jour_bancaire;
     guint mois_bancaire;
     guint annee_bancaire;

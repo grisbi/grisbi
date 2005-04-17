@@ -902,12 +902,12 @@ exit (0);
 				     sizeof ( struct structure_operation ));
     gsb_transaction_data_set_transaction_number ( breakdown_transaction,
 						  -2 );
-    breakdown_transaction -> date = g_date_new_dmy ( g_date_get_day ( transaction -> date ),
-						     g_date_get_month ( transaction -> date ),
-						     g_date_get_year ( transaction -> date ));
+/*     breakdown_transaction -> date = g_date_new_dmy ( g_date_get_day ( transaction -> date ), */
+/* 						     g_date_get_month ( transaction -> date ), */
+/* 						     g_date_get_year ( transaction -> date )); */
 /*     breakdown_transaction -> no_compte = transaction -> no_compte; */
-    breakdown_transaction -> tiers = transaction -> tiers;
-    breakdown_transaction -> no_operation_ventilee_associee = gsb_transaction_data_get_transaction_number (transaction);
+/*     breakdown_transaction -> tiers = transaction -> tiers; */
+/*     breakdown_transaction -> no_operation_ventilee_associee = gsb_transaction_data_get_transaction_number (transaction); */
 /*     gsb_transactions_list_append_transaction ( breakdown_transaction, */
 /* 					       transaction -> no_compte ); */
 
@@ -1061,7 +1061,7 @@ gchar *recherche_contenu_cellule ( struct structure_operation *transaction,
 	    if ( transaction -> no_operation_ventilee_associee )
 		return NULL;
 	    
-	    return g_strndup(gsb_format_gdate(transaction->date, 
+	    return g_strndup(gsb_format_gdate(gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (transaction)), 
 					      get_config_format()->format_date_liste_ope, 
 					      date, SIZEOF(date)), SIZEOF(date));
 	    break;
@@ -1070,7 +1070,7 @@ gchar *recherche_contenu_cellule ( struct structure_operation *transaction,
 
 	case TRANSACTION_LIST_VALUE_DATE:
 	    if ( transaction -> jour_bancaire )
-		return g_strndup(gsb_format_gdate(transaction->date_bancaire, 
+		return g_strndup(gsb_format_gdate(gsb_transaction_data_get_value_date (gsb_transaction_data_get_transaction_number (transaction)), 
 						  get_config_format()->format_date_liste_ope, 
 						  date, SIZEOF(date)), SIZEOF(date));
 	    else
@@ -2431,16 +2431,16 @@ gboolean gsb_transactions_list_edit_current_transaction ( void )
 
 		    entree_prend_focus ( widget );
 		    gtk_entry_set_text ( GTK_ENTRY ( widget ),
-					 renvoie_date_formatee ( transaction -> date ) );
+					 renvoie_date_formatee ( gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (transaction))) );
 		    break;
 
 		case TRANSACTION_FORM_VALUE_DATE:
 
-		    if ( transaction -> date_bancaire )
+		    if ( gsb_transaction_data_get_value_date (gsb_transaction_data_get_transaction_number (transaction)))
 		    {
 			entree_prend_focus ( widget );
 			gtk_entry_set_text ( GTK_ENTRY ( widget ),
-					     renvoie_date_formatee ( transaction -> date_bancaire ) );
+					     renvoie_date_formatee ( gsb_transaction_data_get_value_date (gsb_transaction_data_get_transaction_number (transaction))) );
 		    }
 		    break;
 

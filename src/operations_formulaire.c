@@ -2764,9 +2764,10 @@ void recuperation_donnees_generales_formulaire ( struct structure_operation *tra
 			     &transaction -> mois,
 			     &transaction -> annee );
 
-		    transaction -> date = g_date_new_dmy ( transaction -> jour,
-							 transaction -> mois,
-							 transaction -> annee );
+		    gsb_transaction_data_set_date ( gsb_transaction_data_get_transaction_number ( transaction ),
+						    g_date_new_dmy ( transaction -> jour,
+								     transaction -> mois,
+								     transaction -> annee ));
 
 		    break;
 
@@ -2780,9 +2781,10 @@ void recuperation_donnees_generales_formulaire ( struct structure_operation *tra
 				 &transaction -> mois_bancaire,
 				 &transaction -> annee_bancaire );
 
-			transaction -> date_bancaire = g_date_new_dmy ( transaction -> jour_bancaire,
-								      transaction -> mois_bancaire,
-								      transaction -> annee_bancaire );
+			gsb_transaction_data_set_value_date ( gsb_transaction_data_get_transaction_number ( transaction ),
+							      g_date_new_dmy ( transaction -> jour_bancaire,
+									       transaction -> mois_bancaire,
+									       transaction -> annee_bancaire ));
 		    }
 		    else
 		    {
@@ -2790,7 +2792,8 @@ void recuperation_donnees_generales_formulaire ( struct structure_operation *tra
 			transaction -> mois_bancaire = 0;
 			transaction -> annee_bancaire = 0;
 
-			transaction->date_bancaire = NULL;
+			gsb_transaction_data_set_value_date ( gsb_transaction_data_get_transaction_number ( transaction ),
+							      NULL );
 		    }
 		    break;
 
@@ -3238,9 +3241,10 @@ printf ( "ça passe\n" );
     contra_transaction -> jour = transaction -> jour;
     contra_transaction -> mois = transaction -> mois;
     contra_transaction -> annee = transaction -> annee;
-    contra_transaction -> date = g_date_new_dmy ( contra_transaction->jour,
-						  contra_transaction->mois,
-						  contra_transaction->annee);
+    gsb_transaction_data_set_date ( gsb_transaction_data_get_transaction_number ( contra_transaction ),
+				    g_date_new_dmy ( contra_transaction->jour,
+						     contra_transaction->mois,
+						     contra_transaction->annee));
     contra_transaction -> montant = -transaction -> montant;
 
     /* check if we have to ask to convert a currency */
