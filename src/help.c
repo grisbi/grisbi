@@ -54,11 +54,12 @@ void a_propos ( GtkWidget *bouton,
       _("Daniel Cartron (doc[at]grisbi.org): Manual, website, consultancy"),
       _("Dominique Parisot (parisot[at]villey-le-sec.com): contributor"),
       _("Francois Terrot (grisbi[at]terrot.net): Windows packaging and port, programming"),
-      _("Gerald Niel (gerald.niel[at]grisbi.org): website, general administration"),
+      _("Gerald Niel (gerald.niel[at]grisbi.org): Darwin packaging, administration"),
       _("PMF (ugly.duck[at]gmx.de): Zaurus packaging"),
       _("Pascal Bleser (guru[at]linuxbe.org): SuSE packaging"),
       _("Sylvain Glaize (mokona[at]puupuu.org): Mandrake packaging"),
       _("Thierry Thomas (thierry[at]pompo.net): FreeBSD packaging"),
+      _("Vincent Marqueton (vincent[at]marqueton.org): Fink packaging"),
       NULL };
     const gchar *traducteurs[] = { 
       _("Alain Portal (dionysos[at]grisbi.org): English"),
