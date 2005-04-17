@@ -30,6 +30,7 @@
 #include "barre_outils.h"
 #include "gsb_account.h"
 #include "operations_comptes.h"
+#include "gsb_transaction_data.h"
 #include "operations_liste.h"
 #include "utils.h"
 #include "utils_operations.h"
@@ -258,13 +259,13 @@ void gtktable_click_sur_ope_etat ( struct structure_operation *operation )
     /* si c'est une opé de ventilation, on affiche l'opération mère */
 
     operation = operation_par_no ( operation -> no_operation_ventilee_associee,
-				   operation -> no_compte );
+				   gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (operation)));
 
     if ( operation )
     {
 	/* passage sur le compte concerné */
 
-	gsb_account_list_gui_change_current_account ( GINT_TO_POINTER ( operation -> no_compte ));
+	gsb_account_list_gui_change_current_account ( GINT_TO_POINTER ( gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (operation))));
 
 	/* récupération de la ligne de l'opé dans la liste ; affichage de toutes les opé si nécessaire */
 

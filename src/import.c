@@ -1213,10 +1213,10 @@ void cree_liens_virements_ope_import ( void )
 			    /* la 2ème opération correspond en tout point à la 1ère, on met les relations */
 
 			    operation -> relation_no_operation = gsb_transaction_data_get_transaction_number (operation_2);
-			    operation -> relation_no_compte = operation_2 -> no_compte;
+			    operation -> relation_no_compte = gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (operation_2));
 
 			    operation_2 -> relation_no_operation = gsb_transaction_data_get_transaction_number (operation);
-			    operation_2 -> relation_no_compte = operation -> no_compte;
+			    operation_2 -> relation_no_compte = gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (operation));
 
 			    operation -> info_banque_guichet = NULL;
 			    operation_2 -> info_banque_guichet = NULL;
@@ -1407,8 +1407,8 @@ void creation_compte_importe ( struct struct_compte_importation *compte_import )
 
 	/* récupération du no de compte */
 
-	operation -> no_compte = no_compte;
-
+	gsb_transaction_data_set_account_number ( transaction_number,
+						  no_compte );
 
 	/* récupération du montant */
 
@@ -2063,8 +2063,8 @@ struct structure_operation *enregistre_ope_importee ( struct struct_ope_importat
 
     /* récupération du no de compte */
 
-    operation -> no_compte = no_compte;
-
+    gsb_transaction_data_set_account_number ( transaction_number,
+					      no_compte );
 
     /* récupération du montant */
 

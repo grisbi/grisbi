@@ -30,6 +30,7 @@
 #include "dialog.h"
 #include "gsb_account.h"
 #include "operations_comptes.h"
+#include "gsb_transaction_data.h"
 #include "gtk_combofix.h"
 #include "utils_str.h"
 #include "traitement_variables.h"
@@ -336,7 +337,7 @@ void fill_transaction_row ( GtkTreeModel * model, GtkTreeIter * iter,
     gtk_tree_store_set ( GTK_TREE_STORE(model), iter, 
 			 META_TREE_POINTER_COLUMN, operation,
 			 META_TREE_TEXT_COLUMN, label,
-			 META_TREE_ACCOUNT_COLUMN, gsb_account_get_name(operation->no_compte),
+			 META_TREE_ACCOUNT_COLUMN, gsb_account_get_name(gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (operation))),
 			 META_TREE_BALANCE_COLUMN, montant,
 			 META_TREE_NO_DIV_COLUMN, -1,
 			 META_TREE_NO_SUB_DIV_COLUMN, -1,
@@ -776,7 +777,7 @@ gboolean division_activated ( GtkTreeView * treeview, GtkTreePath * path,
 	/* We do not jump to a transaction if a division is specified */
 	if ( operation && no_division == -1 && no_sub_division == -1 )
 	{
-	    gsb_account_list_gui_change_current_account ( GINT_TO_POINTER ( operation -> no_compte ));
+	    gsb_account_list_gui_change_current_account ( GINT_TO_POINTER ( gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (operation))));
 	    if ( operation -> pointe == 3 && !gsb_account_get_r (gsb_account_get_current_account ()) )
 		change_aspect_liste ( 5 );
 	    gsb_transactions_list_set_current_transaction ( operation,

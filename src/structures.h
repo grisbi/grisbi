@@ -172,7 +172,7 @@ struct structure_operation
     guint mois_bancaire;
     guint annee_bancaire;
 
-    guint no_compte;
+/*     guint no_compte; */
 
     gdouble montant;
     guint devise;

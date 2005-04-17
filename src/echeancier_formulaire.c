@@ -1895,8 +1895,8 @@ void fin_edition_echeance ( void )
 
 	/* récupération du no de compte */
 
-	operation -> no_compte = recupere_no_compte ( widget_formulaire_echeancier[SCHEDULER_FORM_ACCOUNT] );
-
+	gsb_transaction_data_set_account_number ( gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (operation)),
+						  recupere_no_compte ( widget_formulaire_echeancier[SCHEDULER_FORM_ACCOUNT] ));
 
 	/* récupération du tiers, s'il n'existe pas, on le crée */
 
@@ -1929,14 +1929,14 @@ void fin_edition_echeance ( void )
 
 	if ( !devise_compte
 	     ||
-	     devise_compte -> no_devise != gsb_account_get_currency (operation -> no_compte) )
-	    devise_compte = devise_par_no ( gsb_account_get_currency (operation -> no_compte) );
+	     devise_compte -> no_devise != gsb_account_get_currency (gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (operation))) )
+	    devise_compte = devise_par_no ( gsb_account_get_currency (gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (operation))) );
 
 	operation -> devise = devise -> no_devise;
 
 	if ( !( gsb_transaction_data_get_transaction_number(operation)
 		||
-		devise -> no_devise == gsb_account_get_currency (operation -> no_compte)
+		devise -> no_devise == gsb_account_get_currency (gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (operation)))
 		||
 		( devise_compte -> passage_euro && !strcmp ( devise -> nom_devise, _("Euro") ))
 		||
@@ -2097,8 +2097,9 @@ void fin_edition_echeance ( void )
 	/*   on a fini de remplir l'opé, on peut l'ajouter à la liste */
 	/* 	c'est forcemment une nouvelle opé, donc on utilise gsb_transactions_list_append_new_transaction */
 
-	gsb_transactions_append_transaction ( operation );
-	gsb_transactions_list_append_new_transaction ( operation );
+	gsb_transactions_append_transaction ( operation,
+					      gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (operation)));
+	gsb_transactions_list_append_new_transaction ( operation);
 
 	/* si c'est un virement, on crée la contre opération et met les relations */
 	/* FIXME : ça serait bien de faire apparaitre un bouton de contre type ope dans le formulaire qd virement */
@@ -2126,6 +2127,13 @@ void fin_edition_echeance ( void )
 	    ope_ventil = pointeur_liste -> data;
 	    operation_fille = calloc ( 1,
 				       sizeof ( struct structure_operation ));
+
+		    /*   on a fini de remplir l'opé, on peut l'ajouter à la liste */
+	    /* 	    comme c'est une opé de ventilation, elle ne sera pas affiché et ne changera */
+	    /* 		rien au solde, donc on l'ajoute juste à la sliste */
+
+	    gsb_transactions_append_transaction ( operation_fille,
+						  gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (operation)));
 
 	    operation_fille -> montant = ope_ventil -> montant;
 	    operation_fille -> categorie = ope_ventil -> categorie;
@@ -2161,7 +2169,6 @@ void fin_edition_echeance ( void )
 								    operation_fille -> annee_bancaire );
 	    }
 
-	    operation_fille -> no_compte = operation -> no_compte;
 	    operation_fille -> devise = operation -> devise;
 	    operation_fille -> une_devise_compte_egale_x_devise_ope = operation -> une_devise_compte_egale_x_devise_ope;
 	    operation_fille -> taux_change = operation -> taux_change;
@@ -2171,12 +2178,6 @@ void fin_edition_echeance ( void )
 	    operation_fille -> auto_man = operation -> auto_man;
 	    operation_fille -> no_operation_ventilee_associee = gsb_transaction_data_get_transaction_number (operation);
 
-
-	    /*   on a fini de remplir l'opé, on peut l'ajouter à la liste */
-	    /* 	    comme c'est une opé de ventilation, elle ne sera pas affiché et ne changera */
-	    /* 		rien au solde, donc on l'ajoute juste à la sliste */
-
-	    gsb_transactions_append_transaction ( operation_fille );
 
 	    /* 	    on vérifie maintenant si c'est un virement */
 
@@ -2246,8 +2247,9 @@ void cree_contre_operation_echeance ( struct structure_operation *operation,
     /*     on ajoute maintenant cette opé dans la list_store des opés */
     /* 	comme cette opé a déjà un no, elle ne va pas être réajoutée à la sliste */
 
-    gsb_transactions_append_transaction ( contre_operation );
-    gsb_transactions_list_append_new_transaction ( contre_operation );
+    gsb_transactions_append_transaction ( contre_operation,
+					  gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (contre_operation)));
+    gsb_transactions_list_append_new_transaction ( contre_operation);
 
 }
 /******************************************************************************/
@@ -2273,8 +2275,10 @@ struct structure_operation *ajoute_contre_operation_echeance_dans_liste ( struct
     contre_operation = calloc ( 1,
 				sizeof ( struct structure_operation ) );
 
-    contre_operation -> no_compte = compte_virement;
+    /*   on a fini de remplir l'opé, on peut l'ajouter à la liste */
 
+    gsb_transactions_append_transaction ( contre_operation,
+					  compte_virement );
 
     /* remplit la nouvelle opé */
 
@@ -2342,16 +2346,12 @@ struct structure_operation *ajoute_contre_operation_echeance_dans_liste ( struct
     contre_operation -> imputation = operation -> imputation;
     contre_operation -> sous_imputation = operation -> sous_imputation;
 
-    /*   on a fini de remplir l'opé, on peut l'ajouter à la liste */
-
-    gsb_transactions_append_transaction ( contre_operation );
-
     /* on met maintenant les relations entre les différentes opé */
 
     operation -> relation_no_operation = gsb_transaction_data_get_transaction_number (contre_operation);
-    operation -> relation_no_compte = contre_operation -> no_compte;
+    operation -> relation_no_compte = compte_virement;
     contre_operation -> relation_no_operation = gsb_transaction_data_get_transaction_number (operation);
-    contre_operation -> relation_no_compte = operation -> no_compte;
+    contre_operation -> relation_no_compte = gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (operation));
 
     return ( contre_operation );
 }

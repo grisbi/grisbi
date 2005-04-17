@@ -1634,7 +1634,8 @@ void verification_echeances_a_terme ( void )
 						    operation ->annee);
 
 
-		operation -> no_compte = ECHEANCE_COURANTE -> compte;
+		gsb_transaction_data_set_account_number ( gsb_transaction_data_get_transaction_number ( operation ),
+							  ECHEANCE_COURANTE -> compte );
 		operation -> tiers = ECHEANCE_COURANTE -> tiers;
 		operation -> montant = ECHEANCE_COURANTE -> montant;
 		operation -> devise = ECHEANCE_COURANTE -> devise;
@@ -1647,12 +1648,12 @@ void verification_echeances_a_terme ( void )
 
 		if ( !devise_compte
 		     ||
-		     devise_compte -> no_devise != gsb_account_get_currency (operation -> no_compte) )
-		    devise_compte = devise_par_no ( gsb_account_get_currency (operation -> no_compte) );
+		     devise_compte -> no_devise != gsb_account_get_currency (gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (operation))) )
+		    devise_compte = devise_par_no ( gsb_account_get_currency (gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (operation))) );
 
 		if ( !( gsb_transaction_data_get_transaction_number (operation)
 			||
-			devise -> no_devise == gsb_account_get_currency (operation -> no_compte)
+			devise -> no_devise == gsb_account_get_currency (gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (operation)))
 			||
 			( devise_compte -> passage_euro && !strcmp ( devise -> nom_devise, _("Euro") ))
 			||
@@ -1712,7 +1713,8 @@ void verification_echeances_a_terme ( void )
 
 		/*   on a fini de remplir l'opé, on peut l'ajouter à la liste */
 
-		gsb_transactions_append_transaction ( operation );
+		gsb_transactions_append_transaction ( operation,
+						      gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (operation)));
 
 		/*   si c'était un virement, on crée une copie de l'opé, on l'ajoute à la liste puis on remplit les relations */
 
@@ -1742,6 +1744,12 @@ void verification_echeances_a_terme ( void )
 		    ope_ventil = pointeur_liste_ventil -> data;
 		    operation_fille = calloc ( 1,
 					       sizeof ( struct structure_operation ));
+
+		    /*   on a fini de remplir l'opé, on peut l'ajouter à la liste */
+
+		    gsb_transactions_append_transaction ( operation_fille,
+							  gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (operation)));
+
 
 		    operation_fille -> montant = ope_ventil -> montant;
 		    operation_fille -> categorie = ope_ventil -> categorie;
@@ -1777,7 +1785,6 @@ void verification_echeances_a_terme ( void )
 									    operation_fille -> annee_bancaire );
 		    }
 
-		    operation_fille -> no_compte = operation -> no_compte;
 		    operation_fille -> devise = operation -> devise;
 		    operation_fille -> une_devise_compte_egale_x_devise_ope = operation -> une_devise_compte_egale_x_devise_ope;
 		    operation_fille -> taux_change = operation -> taux_change;
@@ -1787,10 +1794,6 @@ void verification_echeances_a_terme ( void )
 		    operation_fille -> auto_man = operation -> auto_man;
 		    operation_fille -> no_operation_ventilee_associee = gsb_transaction_data_get_transaction_number (operation);
 
-
-		    /*   on a fini de remplir l'opé, on peut l'ajouter à la liste */
-
-		    gsb_transactions_append_transaction ( operation_fille );
 
 
 		    /* 	    on vérifie maintenant si c'est un virement */

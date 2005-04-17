@@ -1306,7 +1306,7 @@ gint etat_affiche_affichage_ligne_ope ( struct structure_operation *operation,
 	if ( etat_courant -> afficher_type_ope )
 	{
 	    text = type_ope_name_by_no ( operation -> type_ope,
-					 operation -> no_compte );
+					 gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (operation)));
 	    if ( text )
 	    {
 		if ( etat_courant -> ope_clickables )
@@ -1336,7 +1336,7 @@ gint etat_affiche_affichage_ligne_ope ( struct structure_operation *operation,
 		/* On récupère donc la liste des opérations du compte et on en fait
 		   le tour jusqu'à ce qu'on trouve l'opération mère */
 
-		pTransactionList = gsb_account_get_transactions_list (operation -> no_compte);
+		pTransactionList = gsb_account_get_transactions_list (gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (operation)));
 		while ( pTransactionList && !found )
 		{
 		    struct structure_operation *pTransaction;
@@ -1922,7 +1922,7 @@ gint etat_affiche_affiche_compte_etat ( struct structure_operation *operation,
 
     if ( etat_courant -> regroupe_ope_par_compte
 	 &&
-	 operation -> no_compte != ancien_compte_etat )
+	 gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (operation)) != ancien_compte_etat )
     {
 	/* lorsqu'on est au début de l'affichage de l'état, on n'affiche pas de totaux */
 
@@ -1951,9 +1951,9 @@ gint etat_affiche_affiche_compte_etat ( struct structure_operation *operation,
 	if ( etat_courant -> afficher_nom_compte )
 	{
 	    pointeur_char = g_strconcat ( decalage_compte,
-					  gsb_account_get_name (operation -> no_compte),
+					  gsb_account_get_name (gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (operation))),
 					  NULL );
-	    nom_compte_en_cours = gsb_account_get_name (operation -> no_compte);
+	    nom_compte_en_cours = gsb_account_get_name (gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (operation)));
 
 	    etat_affiche_attach_label ( pointeur_char, TEXT_NORMAL, 0, nb_colonnes-1, 
 					ligne, ligne + 1, LEFT, NULL );
@@ -1963,7 +1963,7 @@ gint etat_affiche_affiche_compte_etat ( struct structure_operation *operation,
 	ligne_debut_partie = ligne;
 	denote_struct_sous_jaccentes ( 5 );
 
-	ancien_compte_etat = operation -> no_compte;
+	ancien_compte_etat = gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (operation));
 
 	debut_affichage_etat = 0;
 	changement_de_groupe_etat = 1;

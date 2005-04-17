@@ -818,7 +818,7 @@ gboolean gsb_reconcile_mark_transaction ( struct structure_operation *transactio
 					      transaction -> frais_change );
 
     iter = cherche_iter_operation ( transaction,
-				    transaction -> no_compte );
+				    gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (transaction)));
 
     if ( transaction -> pointe )
     {

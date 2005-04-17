@@ -1638,8 +1638,8 @@ classement_suivant:
 
 	    if ( etat_courant -> regroupe_ope_par_compte )
 	    {
-		if ( operation_1 -> no_compte != operation_2 -> no_compte )
-		    return ( operation_1 ->no_compte  - operation_2 -> no_compte );
+		if ( gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (operation_1)) != gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (operation_2)))
+		    return ( gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (operation_1)) - gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (operation_2)));
 	    }
 
 	    /*       les comptes sont identiques, passe au classement suivant */
@@ -1776,9 +1776,9 @@ gint classement_ope_perso_etat ( struct structure_operation *operation_1,
 		/* listes différentes */
 
 		retour = g_strcasecmp ( type_ope_name_by_no ( operation_1 -> type_ope,
-							      operation_1 -> no_compte ),
+							      gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (operation_1))),
 					type_ope_name_by_no ( operation_2 -> type_ope,
-							      operation_2 -> no_compte ));
+							      gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (operation_2))));
 	    }
 	    break;
 
@@ -2420,10 +2420,10 @@ pas_decalage:
 
 		if ( !devise_compte_en_cours_etat
 		     ||
-		     gsb_account_get_currency (operation -> no_compte) != devise_compte_en_cours_etat -> no_devise )
-		    devise_compte_en_cours_etat = devise_par_no ( gsb_account_get_currency (operation -> no_compte) );
+		     gsb_account_get_currency (gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (operation))) != devise_compte_en_cours_etat -> no_devise )
+		    devise_compte_en_cours_etat = devise_par_no ( gsb_account_get_currency (gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (operation))) );
 
-		if ( operation -> devise == gsb_account_get_currency (operation -> no_compte) )
+		if ( operation -> devise == gsb_account_get_currency (gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (operation))) )
 		    montant = operation -> montant;
 		else
 		{

@@ -29,7 +29,6 @@
 #include "accueil_constants.h"
 #include "gsb_account.h"
 
-
 /*START_INCLUDE*/
 #include "accueil.h"
 #include "utils_devises.h"
@@ -39,6 +38,7 @@
 #include "echeancier_formulaire.h"
 #include "gsb_account.h"
 #include "operations_comptes.h"
+#include "gsb_transaction_data.h"
 #include "operations_liste.h"
 #include "gtk_list_button.h"
 #include "utils.h"
@@ -59,38 +59,6 @@ static void update_liste_echeances_manuelles_accueil ( void );
 static void update_soldes_minimaux ( void );
 /*END_STATIC*/
 
-
-
-#define show_paddingbox(child) gtk_widget_show_all (gtk_widget_get_parent(gtk_widget_get_parent(gtk_widget_get_parent(GTK_WIDGET(child)))))
-#define hide_paddingbox(child) gtk_widget_hide_all (gtk_widget_get_parent(gtk_widget_get_parent(gtk_widget_get_parent(GTK_WIDGET(child)))))
-
-
-gint id_temps;
-gchar *chemin_logo;
-GtkWidget *logo_accueil;
-GtkWidget *label_temps;
-GtkWidget *label_titre_fichier;
-GtkWidget *frame_etat_comptes_accueil;
-GtkWidget *frame_etat_fin_compte_passif;
-GtkWidget *frame_etat_echeances_manuelles_accueil;
-GtkWidget *frame_etat_echeances_auto_accueil;
-GtkWidget *frame_etat_echeances_finies;
-GtkWidget *frame_etat_soldes_minimaux_autorises;
-GtkWidget *frame_etat_soldes_minimaux_voulus;
-GtkStyle *style_label_nom_compte;
-GtkStyle *style_label;
-GtkWidget * label_jour;
-
-/* ces 5 variables sont mises à 1 lorsqu'il est nécessaire de rafraichir cette */
-/* partie la prochaine fois qu'on va sur l'accueil */
-
-gint mise_a_jour_liste_comptes_accueil;
-gint mise_a_jour_liste_echeances_manuelles_accueil;
-gint mise_a_jour_liste_echeances_auto_accueil;
-gint mise_a_jour_soldes_minimaux;
-gint mise_a_jour_fin_comptes_passifs;
-
-
 /*START_EXTERN*/
 extern struct operation_echeance *echeance_selectionnnee;
 extern GSList *echeances_a_saisir;
@@ -108,6 +76,36 @@ extern gchar *titre_fichier;
 extern GtkWidget *vbox_liste_comptes;
 extern GtkWidget *window;
 /*END_EXTERN*/
+
+gint id_temps;
+gchar *chemin_logo;
+GtkWidget *logo_accueil;
+GtkWidget *label_temps;
+GtkWidget *label_titre_fichier;
+GtkWidget *frame_etat_comptes_accueil;
+GtkWidget *frame_etat_fin_compte_passif;
+GtkWidget *frame_etat_echeances_manuelles_accueil;
+GtkWidget *frame_etat_echeances_auto_accueil;
+GtkWidget *frame_etat_echeances_finies;
+GtkWidget *frame_etat_soldes_minimaux_autorises;
+GtkWidget *frame_etat_soldes_minimaux_voulus;
+GtkStyle *style_label_nom_compte;
+GtkStyle *style_label;
+GtkWidget * label_jour;
+
+#define show_paddingbox(child) gtk_widget_show_all (gtk_widget_get_parent(gtk_widget_get_parent(gtk_widget_get_parent(GTK_WIDGET(child)))))
+#define hide_paddingbox(child) gtk_widget_hide_all (gtk_widget_get_parent(gtk_widget_get_parent(gtk_widget_get_parent(GTK_WIDGET(child)))))
+
+
+/* ces 5 variables sont mises à 1 lorsqu'il est nécessaire de rafraichir cette */
+/* partie la prochaine fois qu'on va sur l'accueil */
+
+gint mise_a_jour_liste_comptes_accueil;
+gint mise_a_jour_liste_echeances_manuelles_accueil;
+gint mise_a_jour_liste_echeances_auto_accueil;
+gint mise_a_jour_soldes_minimaux;
+gint mise_a_jour_fin_comptes_passifs;
+
 
 
 /* ************************************************************************* */
@@ -1699,12 +1697,12 @@ void update_liste_echeances_auto_accueil ( void )
 		label = gtk_label_new ( g_strdup_printf (_("%4.2f %s credit on %s"),
 							 operation->montant,
 							 devise_code_by_no( operation -> devise ),
-							 gsb_account_get_name (operation->no_compte) ));
+							 gsb_account_get_name (gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (operation))) ));
 	    else
 		label = gtk_label_new ( g_strdup_printf (_("%4.2f %s debit on %s"),
 							 -operation->montant,
 							 devise_code_by_no( operation -> devise ),
-							 gsb_account_get_name (operation->no_compte) ));
+							 gsb_account_get_name (gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (operation))) ));
 
 	    gtk_misc_set_alignment ( GTK_MISC ( label ), MISC_LEFT, MISC_VERT_CENTER );
 	    gtk_box_pack_start ( GTK_BOX ( hbox ), label, TRUE, TRUE, 5 );
@@ -2079,7 +2077,7 @@ void update_fin_comptes_passifs ( void )
 gboolean select_expired_scheduled_transaction ( GtkWidget * event_box, GdkEventButton *event,
 						struct structure_operation * operation )
 {
-    gsb_account_list_gui_change_current_account ( GINT_TO_POINTER ( operation -> no_compte ));
+    gsb_account_list_gui_change_current_account ( GINT_TO_POINTER (gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (operation))));
     gsb_transactions_list_edit_current_transaction ();
     return ( FALSE );
 }

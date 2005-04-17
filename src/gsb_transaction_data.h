@@ -64,6 +64,8 @@ gchar *gsb_transaction_data_get_transaction_id ( gint no_transaction,
 						 gint no_account );
 gint gsb_transaction_data_get_transaction_number ( gpointer transaction_pointer );
 gboolean gsb_transaction_data_init_variables ( void );
+gboolean gsb_transaction_data_set_account_number ( gint no_transaction,
+						   gint no_account );
 gboolean gsb_transaction_data_set_transaction_id ( gint no_transaction,
 						   gint no_account,
 						   gchar *transaction_id );

@@ -42,8 +42,6 @@
 static struct_transaction *gsb_transaction_data_get_transaction_by_no ( gint no_transaction,
 								 gint no_account );
 static gboolean gsb_transaction_data_save_transaction_pointer ( gpointer transaction );
-static gboolean gsb_transaction_data_set_account_number ( gint no_transaction,
-						   gint no_account );
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -309,9 +307,6 @@ gboolean gsb_transaction_data_set_transaction_id ( gint no_transaction,
     return TRUE;
 }
 
-
-/* xxx */
-/* remplacer les -> no_comptes */
 
 /** get the account_number
  * \param no_transaction the number of the transaction

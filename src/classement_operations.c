@@ -520,14 +520,14 @@ gint gsb_transactions_list_breakdown_test ( GtkSortType sort_type )
 		else
 		{
 		    transaction_1 = operation_par_no ( transaction_1 -> no_operation_ventilee_associee,
-						       transaction_1 -> no_compte );
+						       gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (transaction_1)));
 		    transaction_2 = operation_par_no ( transaction_2 -> no_operation_ventilee_associee,
-						       transaction_2 -> no_compte );
+						       gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (transaction_2)));
 		}
 	    }
 	    else
 		transaction_1 = operation_par_no ( transaction_1 -> no_operation_ventilee_associee,
-						   transaction_1 -> no_compte );
+						   gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (transaction_1)));
 	}
     }
     else
@@ -538,7 +538,7 @@ gint gsb_transactions_list_breakdown_test ( GtkSortType sort_type )
 		return_value = -1;
 	    else
 		transaction_2 = operation_par_no ( transaction_2 -> no_operation_ventilee_associee,
-						   transaction_2 -> no_compte );
+						   gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (transaction_2)));
 	}
     }
 
@@ -844,13 +844,13 @@ gint gsb_transactions_list_sort_by_credit ( GtkTreeModel *model,
 	    gdouble amount_1, amount_2;
 
 	    amount_1 = calcule_montant_devise_renvoi ( transaction_1 -> montant,
-						       gsb_account_get_currency (transaction_1 -> no_compte),
+						       gsb_account_get_currency (gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (transaction_1))),
 						       transaction_1 -> devise,
 						       transaction_1 -> une_devise_compte_egale_x_devise_ope,
 						       transaction_1 -> taux_change,
 						       transaction_1 -> frais_change );
 	    amount_2 = calcule_montant_devise_renvoi ( transaction_2 -> montant,
-						       gsb_account_get_currency (transaction_1 -> no_compte),
+						       gsb_account_get_currency (gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (transaction_1 ))),
 						       transaction_2 -> devise,
 						       transaction_2 -> une_devise_compte_egale_x_devise_ope,
 						       transaction_2 -> taux_change,
@@ -916,13 +916,13 @@ gint gsb_transactions_list_sort_by_debit ( GtkTreeModel *model,
 	    gdouble amount_1, amount_2;
 
 	    amount_1 = calcule_montant_devise_renvoi ( transaction_1 -> montant,
-						       gsb_account_get_currency (transaction_1 -> no_compte),
+						       gsb_account_get_currency (gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (transaction_1 ))),
 						       transaction_1 -> devise,
 						       transaction_1 -> une_devise_compte_egale_x_devise_ope,
 						       transaction_1 -> taux_change,
 						       transaction_1 -> frais_change );
 	    amount_2 = calcule_montant_devise_renvoi ( transaction_2 -> montant,
-						       gsb_account_get_currency (transaction_1 -> no_compte),
+						       gsb_account_get_currency (gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (transaction_1))),
 						       transaction_2 -> devise,
 						       transaction_2 -> une_devise_compte_egale_x_devise_ope,
 						       transaction_2 -> taux_change,
@@ -985,13 +985,13 @@ gint gsb_transactions_list_sort_by_amount ( GtkTreeModel *model,
 	    gdouble amount_1, amount_2;
 
 	    amount_1 = calcule_montant_devise_renvoi ( transaction_1 -> montant,
-						       gsb_account_get_currency (transaction_1 -> no_compte),
+						       gsb_account_get_currency (gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (transaction_1))),
 						       transaction_1 -> devise,
 						       transaction_1 -> une_devise_compte_egale_x_devise_ope,
 						       transaction_1 -> taux_change,
 						       transaction_1 -> frais_change );
 	    amount_2 = calcule_montant_devise_renvoi ( transaction_2 -> montant,
-						       gsb_account_get_currency (transaction_1 -> no_compte),
+						       gsb_account_get_currency (gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (transaction_1))),
 						       transaction_2 -> devise,
 						       transaction_2 -> une_devise_compte_egale_x_devise_ope,
 						       transaction_2 -> taux_change,
@@ -1057,9 +1057,9 @@ gint gsb_transactions_list_sort_by_type ( GtkTreeModel *model,
 	gchar *temp_2;
 
 	temp_1 = type_ope_name_by_no ( transaction_1 -> type_ope,
-				       transaction_1 -> no_compte );
+				       gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (transaction_1)));
 	temp_2 = type_ope_name_by_no ( transaction_2 -> type_ope,
-				       transaction_2 -> no_compte );
+				       gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (transaction_2)));
 
 	/* g_utf8_collate is said not very fast, must try with big big account to check
 	 * if it's enough, for me it's ok (cedric), eventually, change with gsb_strcasecmp */

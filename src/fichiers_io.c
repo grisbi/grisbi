@@ -1449,11 +1449,11 @@ gboolean recuperation_comptes_xml ( xmlNodePtr node_comptes )
 
 
 			    /* on met le compte associe */
-
-			    operation -> no_compte = no_compte;
+			    gsb_transaction_data_set_account_number ( transaction_number,
+								      no_compte );
 
 			    gsb_account_set_transactions_list ( no_compte,
-								g_slist_append ( gsb_account_get_transactions_list (operation -> no_compte),
+								g_slist_append ( gsb_account_get_transactions_list (gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (operation))),
 										 operation) );
 			}
 

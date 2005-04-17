@@ -905,11 +905,11 @@ exit (0);
     breakdown_transaction -> date = g_date_new_dmy ( g_date_get_day ( transaction -> date ),
 						     g_date_get_month ( transaction -> date ),
 						     g_date_get_year ( transaction -> date ));
-    breakdown_transaction -> no_compte = transaction -> no_compte;
+/*     breakdown_transaction -> no_compte = transaction -> no_compte; */
     breakdown_transaction -> tiers = transaction -> tiers;
     breakdown_transaction -> no_operation_ventilee_associee = gsb_transaction_data_get_transaction_number (transaction);
-    gsb_transactions_list_append_transaction ( breakdown_transaction,
-					       transaction -> no_compte );
+/*     gsb_transactions_list_append_transaction ( breakdown_transaction, */
+/* 					       transaction -> no_compte ); */
 
     return breakdown_transaction;
 }
@@ -1106,7 +1106,7 @@ gchar *recherche_contenu_cellule ( struct structure_operation *transaction,
 		     devise_operation -> no_devise != transaction -> devise )
 		    devise_operation = devise_par_no ( transaction -> devise );
 
-		if ( devise_operation -> no_devise != gsb_account_get_currency (transaction -> no_compte) )
+		if ( devise_operation -> no_devise != gsb_account_get_currency (gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (transaction))) )
 		    temp = g_strconcat ( temp,
 					 "(",
 					 devise_code ( devise_operation ),
@@ -1134,7 +1134,7 @@ gchar *recherche_contenu_cellule ( struct structure_operation *transaction,
 		     devise_operation -> no_devise != transaction -> devise )
 		    devise_operation = devise_par_no ( transaction -> devise );
 
-		if ( devise_operation -> no_devise != gsb_account_get_currency (transaction -> no_compte) )
+		if ( devise_operation -> no_devise != gsb_account_get_currency (gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (transaction))) )
 		    temp = g_strconcat ( temp,
 					 "(",
 					 devise_code ( devise_operation ),
@@ -1155,12 +1155,12 @@ gchar *recherche_contenu_cellule ( struct structure_operation *transaction,
 	    /* mise en forme du montant dans la devise du compte */
 
 	case TRANSACTION_LIST_AMOUNT:
-	    if ( transaction -> devise != gsb_account_get_currency (transaction -> no_compte) )
+	    if ( transaction -> devise != gsb_account_get_currency (gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (transaction))) )
 	    {
 		/* on doit calculer et afficher le montant de l'ope */
 
 		montant = calcule_montant_devise_renvoi ( transaction -> montant,
-							  gsb_account_get_currency (transaction -> no_compte),
+							  gsb_account_get_currency (gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (transaction))),
 							  transaction -> devise,
 							  transaction -> une_devise_compte_egale_x_devise_ope,
 							  transaction -> taux_change,
@@ -1179,7 +1179,7 @@ gchar *recherche_contenu_cellule ( struct structure_operation *transaction,
 
 	case TRANSACTION_LIST_TYPE:
 	    return ( type_ope_name_by_no ( transaction -> type_ope,
-					   transaction -> no_compte ));
+					   gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (transaction))));
 	    break;
 
 	    /* mise en forme du no de rapprochement */
@@ -1839,9 +1839,9 @@ struct structure_operation *gsb_transactions_list_get_transaction_next ( struct 
 	return NULL;
 
     path = gsb_transactions_list_get_path_from_transaction ( transaction,
-							     transaction -> no_compte );
+							     gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (transaction)));
     path_sorted = gsb_transactions_list_get_sorted_path_from_list_path ( path,
-									 transaction -> no_compte );
+									 gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (transaction)));
     /* if the transaction is a breakdown, the line is only 1 line */
 
     if ( transaction != GINT_TO_POINTER (-1)
@@ -1849,14 +1849,14 @@ struct structure_operation *gsb_transactions_list_get_transaction_next ( struct 
 	 transaction -> no_operation_ventilee_associee )
 	gtk_tree_path_next ( path_sorted );
     else
-	for ( i=0 ; i<gsb_account_get_nb_rows ( transaction -> no_compte ) ; i++ )
+	for ( i=0 ; i<gsb_account_get_nb_rows ( gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (transaction))) ; i++ )
 	    gtk_tree_path_next ( path_sorted );
 
     path = gsb_transactions_list_get_list_path_from_sorted_path ( path_sorted,
-								  transaction -> no_compte );
+								  gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (transaction)));
     if ( path )
 	transaction = gsb_transactions_list_get_transaction_from_path ( path,
-									transaction -> no_compte );
+									gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (transaction)));
     else
 	transaction = NULL;
 
@@ -2197,7 +2197,7 @@ struct structure_operation *gsb_transactions_list_find_white_breakdown ( struct 
     if ( !breakdown_mother)
 	return NULL;
 
-    model = gsb_account_get_store ( breakdown_mother -> no_compte );
+    model = gsb_account_get_store ( gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (breakdown_mother)));
 
     transaction_pointer = NULL;
 
@@ -2996,7 +2996,7 @@ gboolean gsb_transactions_list_delete_transaction ( struct structure_operation *
 
     /* find the next transaction to be selected */
 
-    if ( gsb_account_get_current_transaction (transaction -> no_compte) == transaction )
+    if ( gsb_account_get_current_transaction (gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (transaction))) == transaction )
     {
 	struct structure_operation *next_transaction;
 
@@ -3009,7 +3009,7 @@ gboolean gsb_transactions_list_delete_transaction ( struct structure_operation *
 		  next_transaction -> no_operation_ventilee_associee == gsb_transaction_data_get_transaction_number (transaction)))
 	    next_transaction = gsb_transactions_list_get_transaction_next ( next_transaction );
 
-	gsb_account_set_current_transaction ( transaction -> no_compte,
+	gsb_account_set_current_transaction ( gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (transaction)),
 					      next_transaction );
     }
 
@@ -3030,7 +3030,7 @@ gboolean gsb_transactions_list_delete_transaction ( struct structure_operation *
 
     if ( transaction -> operation_ventilee )
     {
-	transactions_list = gsb_account_get_transactions_list (transaction -> no_compte);
+	transactions_list = gsb_account_get_transactions_list (gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (transaction)));
 
 	while ( transactions_list )
 	{
@@ -3072,24 +3072,24 @@ gboolean gsb_transactions_list_delete_transaction ( struct structure_operation *
     gsb_transactions_list_delete_transaction_from_tree_view ( transaction );
     gsb_transactions_list_delete_transaction_from_slist ( transaction );
 
-    gsb_transactions_list_set_background_color (transaction -> no_compte);
-    gsb_transactions_list_set_transactions_balances (transaction -> no_compte);
+    gsb_transactions_list_set_background_color (gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (transaction)));
+    gsb_transactions_list_set_transactions_balances (gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (transaction)));
 
     /*     calcul des nouveaux soldes */
 
     montant = calcule_montant_devise_renvoi ( transaction -> montant,
-					      gsb_account_get_currency (transaction -> no_compte),
+					      gsb_account_get_currency (gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (transaction))),
 					      transaction -> devise,
 					      transaction -> une_devise_compte_egale_x_devise_ope,
 					      transaction -> taux_change,
 					      transaction -> frais_change );
 
-    gsb_account_set_current_balance ( transaction -> no_compte,
-				      gsb_account_get_current_balance (transaction -> no_compte) - montant );
+    gsb_account_set_current_balance ( gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (transaction)),
+				      gsb_account_get_current_balance (gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (transaction))) - montant );
 
     if ( transaction -> pointe )
-	gsb_account_set_marked_balance ( transaction -> no_compte,
-					 gsb_account_get_marked_balance (transaction -> no_compte) - montant );
+	gsb_account_set_marked_balance ( gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (transaction)),
+					 gsb_account_get_marked_balance (gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (transaction))) - montant );
 
     /*     on met à jour les labels de solde */
 
@@ -3098,7 +3098,7 @@ gboolean gsb_transactions_list_delete_transaction ( struct structure_operation *
     /* si on est en train d'équilibrer => recalcule le total pointé */
 
     if ( etat.equilibrage )
-	calcule_total_pointe_compte ( transaction -> no_compte );
+	calcule_total_pointe_compte ( gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (transaction)));
 
     /* on réaffiche la liste de l'état des comptes de l'accueil */
 
@@ -3156,7 +3156,7 @@ gboolean gsb_transactions_list_check_mark ( struct structure_operation *transact
 
     if ( transaction -> operation_ventilee )
     {
-	transactions_list = gsb_account_get_transactions_list (transaction -> no_compte);
+	transactions_list = gsb_account_get_transactions_list (gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (transaction)));
 
 	while ( transactions_list )
 	{
@@ -3211,14 +3211,14 @@ gboolean gsb_transactions_list_delete_transaction_from_tree_view ( struct struct
 		 gsb_transaction_data_get_transaction_number (transaction) );
 
     iter = cherche_iter_operation ( transaction,
-				    transaction -> no_compte );
+				    gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (transaction)));
 
    if ( iter )
     {
 	GtkTreeModel *model;
 	gint i;
 
-	model = gsb_account_get_store ( transaction -> no_compte );
+	model = gsb_account_get_store ( gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (transaction)));
 
 	for ( i=0 ; i<TRANSACTION_LIST_ROWS_NB ; i++ )
 	{
@@ -3248,8 +3248,8 @@ gboolean gsb_transactions_list_delete_transaction_from_tree_view ( struct struct
 gboolean gsb_transactions_list_delete_transaction_from_slist ( struct structure_operation *transaction )
 {
     if ( transaction )
-	gsb_account_set_transactions_list ( transaction -> no_compte,
-					    g_slist_remove ( gsb_account_get_transactions_list (transaction -> no_compte),
+	gsb_account_set_transactions_list ( gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (transaction)),
+					    g_slist_remove ( gsb_account_get_transactions_list (gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (transaction))),
 							     transaction ));
 
     return FALSE;
@@ -3528,7 +3528,8 @@ struct structure_operation *gsb_transactions_list_clone_transaction ( struct str
 	new_transaction -> pointe = OPERATION_NORMALE;
     }
 
-    gsb_transactions_append_transaction ( new_transaction );
+    gsb_transactions_append_transaction ( new_transaction,
+					  gsb_transaction_data_get_transaction_number (new_transaction));
 
     if ( new_transaction -> relation_no_operation )
     {
@@ -3541,7 +3542,7 @@ struct structure_operation *gsb_transactions_list_clone_transaction ( struct str
     {
 	GSList *liste_tmp;
 
-	liste_tmp = gsb_account_get_transactions_list (transaction -> no_compte);
+	liste_tmp = gsb_account_get_transactions_list (gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (transaction)));
 
 	while ( liste_tmp )
 	{
@@ -3658,7 +3659,9 @@ gboolean move_operation_to_account ( struct structure_operation * transaction,
 				     gint account )
 {
     GtkTreeIter *iter;
+    gint no_transaction;
 
+    no_transaction = gsb_transaction_data_get_transaction_number (transaction);
     if ( transaction -> relation_no_operation )
     {
 	struct structure_operation * contra_transaction;
@@ -3682,8 +3685,8 @@ gboolean move_operation_to_account ( struct structure_operation * transaction,
 	    /* 		car est remis à 0 mais on ne change pas le solde */
 
 	    gsb_transactions_list_append_transaction ( contra_transaction,
-						       contra_transaction -> no_compte );
-	    gsb_account_set_finished_balance_showed ( transaction -> no_compte,
+						       gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (contra_transaction)));
+	    gsb_account_set_finished_balance_showed ( gsb_transaction_data_get_account_number (no_transaction),
 						      1 );
 	}
     }
@@ -3692,7 +3695,7 @@ gboolean move_operation_to_account ( struct structure_operation * transaction,
     {
 	GSList *liste_tmp;
 
-	liste_tmp = g_slist_copy ( gsb_account_get_transactions_list (transaction -> no_compte) );
+	liste_tmp = g_slist_copy ( gsb_account_get_transactions_list (gsb_transaction_data_get_account_number (no_transaction)) );
 
 	while ( liste_tmp )
 	{
@@ -3701,7 +3704,7 @@ gboolean move_operation_to_account ( struct structure_operation * transaction,
 	    transaction_2 = liste_tmp -> data;
 
 	    if ( transaction_2 -> no_operation_ventilee_associee == 
-		 gsb_transaction_data_get_transaction_number (transaction) )
+		 no_transaction )
 	    {
 		move_operation_to_account ( transaction_2, account );
 		transaction_2 -> relation_no_compte = account;
@@ -3713,14 +3716,14 @@ gboolean move_operation_to_account ( struct structure_operation * transaction,
 	g_slist_free ( liste_tmp );
     }
 
-    gsb_account_set_transactions_list ( transaction -> no_compte,
-					g_slist_remove ( gsb_account_get_transactions_list (transaction -> no_compte),
+    gsb_account_set_transactions_list ( gsb_transaction_data_get_account_number (no_transaction),
+					g_slist_remove ( gsb_account_get_transactions_list (gsb_transaction_data_get_account_number (no_transaction)),
 							 transaction ));
 
     /*     si l'opération était affichée, on la retire du list_store */
 
     iter = cherche_iter_operation ( transaction,
-				    transaction -> no_compte);
+				    gsb_transaction_data_get_account_number (no_transaction));
 
     if ( iter )
     {
@@ -3729,23 +3732,24 @@ gboolean move_operation_to_account ( struct structure_operation * transaction,
 	/* si la sélection est sur l'opération qu'on supprime, */
 	/* on met la sélection sur celle du dessous */
 
-	if ( gsb_account_get_current_transaction (transaction -> no_compte) == transaction )
-	    gsb_account_set_current_transaction ( transaction -> no_compte,
-						  cherche_operation_from_ligne ( cherche_ligne_operation ( gsb_account_get_current_transaction (transaction -> no_compte),
-													   transaction -> no_compte ) + gsb_account_get_nb_rows ( transaction -> no_compte ),
-										 transaction -> no_compte ) );
+	if ( gsb_account_get_current_transaction (gsb_transaction_data_get_account_number (no_transaction)) == transaction )
+	    gsb_account_set_current_transaction ( gsb_transaction_data_get_account_number (no_transaction),
+						  cherche_operation_from_ligne ( cherche_ligne_operation ( gsb_account_get_current_transaction (gsb_transaction_data_get_account_number (no_transaction)),
+													   gsb_transaction_data_get_account_number (no_transaction)) + gsb_account_get_nb_rows ( gsb_transaction_data_get_account_number (no_transaction)),
+										 gsb_transaction_data_get_account_number (no_transaction)) );
 
-	for ( i=0 ; i<gsb_account_get_nb_rows ( transaction -> no_compte ) ; i++ )
-	    gtk_list_store_remove ( GTK_LIST_STORE ( gsb_account_get_store (transaction -> no_compte) ),
+	for ( i=0 ; i<gsb_account_get_nb_rows ( gsb_transaction_data_get_account_number (no_transaction)) ; i++ )
+	    gtk_list_store_remove ( GTK_LIST_STORE ( gsb_account_get_store (gsb_transaction_data_get_account_number (no_transaction)) ),
 				    iter );
 
 	/*     on met à jour les couleurs et les soldes */
 
-	gsb_transactions_list_set_background_color ( transaction -> no_compte );
-	gsb_transactions_list_set_transactions_balances ( transaction -> no_compte );
+	gsb_transactions_list_set_background_color ( gsb_transaction_data_get_account_number (no_transaction));
+	gsb_transactions_list_set_transactions_balances ( gsb_transaction_data_get_account_number (no_transaction));
     }
 
-    transaction -> no_compte = account;
+    gsb_transaction_data_set_account_number ( no_transaction,
+					      account );
 
     /*     comme l'opé contient déjà un no d'opération, on doit d'abord l'ajouter manuellement */
     /* 	à la liste avant d'appeler gsb_transactions_list_append_transaction */
@@ -3753,7 +3757,8 @@ gboolean move_operation_to_account ( struct structure_operation * transaction,
     gsb_account_set_transactions_list ( account,
 					g_slist_append ( gsb_account_get_transactions_list (account),
 							 transaction ));
-    gsb_transactions_append_transaction ( transaction );
+    gsb_transactions_append_transaction ( transaction,
+					  gsb_transaction_data_get_transaction_number (transaction) );
     gsb_transactions_list_append_new_transaction ( transaction );
     return TRUE;
 }
@@ -3805,7 +3810,7 @@ struct operation_echeance *schedule_transaction ( struct structure_operation * t
 	return(FALSE);
     }
 
-    echeance -> compte = transaction -> no_compte;
+    echeance -> compte = gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (transaction));
     echeance -> jour = transaction -> jour;
     echeance -> mois = transaction -> mois;
     echeance -> annee = transaction -> annee;
@@ -3873,7 +3878,7 @@ struct operation_echeance *schedule_transaction ( struct structure_operation * t
     {
 	GSList *liste_tmp;
 
-	liste_tmp = gsb_account_get_transactions_list (transaction -> no_compte);
+	liste_tmp = gsb_account_get_transactions_list (gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (transaction)));
 
 	while ( liste_tmp )
 	{
@@ -3894,7 +3899,7 @@ struct operation_echeance *schedule_transaction ( struct structure_operation * t
 		    return(FALSE);
 		}
 
-		echeance_de_ventil -> compte = transaction_de_ventil -> no_compte;
+		echeance_de_ventil -> compte = gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (transaction_de_ventil));
 		echeance_de_ventil -> jour = transaction_de_ventil -> jour;
 		echeance_de_ventil -> mois = transaction_de_ventil -> mois;
 		echeance_de_ventil -> annee = transaction_de_ventil -> annee;
@@ -4476,16 +4481,16 @@ gboolean gsb_transactions_list_set_visibles_rows_on_transaction ( struct structu
     if ( transaction == GINT_TO_POINTER (-1))
 	return FALSE;
 
-    model = gsb_account_get_store (transaction -> no_compte);
+    model = gsb_account_get_store (gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (transaction)));
     iter = cherche_iter_operation ( transaction,
-				    transaction -> no_compte);
+				    gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (transaction)));
 
     if (!iter)
 	return FALSE;
     
     /* begin to check with R */
     
-    r_shown = gsb_account_get_r ( transaction -> no_compte );
+    r_shown = gsb_account_get_r ( gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (transaction)));
 
     if ( !r_shown
 	 &&
@@ -4508,8 +4513,8 @@ gboolean gsb_transactions_list_set_visibles_rows_on_transaction ( struct structu
 	gboolean mother_is_expanded;
 
 	iter_2 = cherche_iter_operation ( operation_par_no ( transaction -> no_operation_ventilee_associee,
-							     transaction -> no_compte ),
-					  transaction -> no_compte);
+							     gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (transaction))),
+					  gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (transaction)));
 
 	gtk_tree_model_get ( GTK_TREE_MODEL ( model ),
 			     iter_2,
@@ -4528,7 +4533,7 @@ gboolean gsb_transactions_list_set_visibles_rows_on_transaction ( struct structu
     /* now the transaction have to be shown completely or some
      * lines */
 
-    nb_rows = gsb_account_get_nb_rows ( transaction -> no_compte );
+    nb_rows = gsb_account_get_nb_rows ( gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (transaction)));
 
     for ( i=0 ; i< TRANSACTION_LIST_ROWS_NB; i++ )
     {
