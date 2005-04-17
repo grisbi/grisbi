@@ -81,7 +81,7 @@ LIBS      =  $(GTKDEVDIR)/lib/atk-1.0.lib \
 	     $(GTKDEVDIR)/lib/pangoft2-1.0.lib \
 	     $(GTKDEVDIR)/lib/pangowin32-1.0.lib \
 	     $(GTKDEVDIR)/lib/libiconv.lib \
-	     $(GTKDEVDIR)/lib/libxml2.lib
+	     $(GTKDEVDIR)/lib/libxml2.lib \
 	     $(GTKDEVDIR)/lib/libofx.lib
 
 LDFLAGS   = -L"$(GCCBASEDIR)/lib" -L"$(GTKDEVDIR)/lib/" $(LIBS) -mwindows 

@@ -68,7 +68,6 @@
 #define OFX_0_7 1
 
 
-/* Define to 1 if 
 #include "win32utils.h"
 
 #endif //  _WIN32
