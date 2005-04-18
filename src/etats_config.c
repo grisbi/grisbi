@@ -1086,7 +1086,7 @@ void recuperation_info_perso_etat ( void )
 	etat_courant -> no_exercices = NULL;
     }
 
-    pointeur_liste = GTK_CLIST ( liste_exo_etat ) -> selection;
+    pointeur_liste = ( (GSList *) GTK_CLIST ( liste_exo_etat ) -> selection );
 
     while ( pointeur_liste )
     {
@@ -1163,7 +1163,7 @@ void recuperation_info_perso_etat ( void )
 	etat_courant -> no_comptes = NULL;
     }
 
-    pointeur_liste = GTK_CLIST ( liste_comptes_etat ) -> selection;
+    pointeur_liste = ( (GSList *) GTK_CLIST ( liste_comptes_etat ) -> selection );
 
     while ( pointeur_liste )
     {
@@ -1211,7 +1211,7 @@ void recuperation_info_perso_etat ( void )
 	etat_courant -> no_comptes_virements = NULL;
     }
 
-    pointeur_liste = GTK_CLIST ( liste_comptes_virements ) -> selection;
+    pointeur_liste = ( (GSList *) GTK_CLIST ( liste_comptes_virements ) -> selection );
 
     while ( pointeur_liste )
     {
@@ -1237,7 +1237,7 @@ void recuperation_info_perso_etat ( void )
 	etat_courant -> no_categ = NULL;
     }
 
-    pointeur_liste = GTK_CLIST ( liste_categ_etat ) -> selection;
+    pointeur_liste = ( (GSList *) GTK_CLIST ( liste_categ_etat ) -> selection );
 
     while ( pointeur_liste )
     {
@@ -1282,7 +1282,7 @@ void recuperation_info_perso_etat ( void )
 	etat_courant -> no_ib = NULL;
     }
 
-    pointeur_liste = GTK_CLIST ( liste_ib_etat ) -> selection;
+    pointeur_liste = ( (GSList *) GTK_CLIST ( liste_ib_etat ) -> selection );
 
     while ( pointeur_liste )
     {
@@ -1329,7 +1329,7 @@ void recuperation_info_perso_etat ( void )
 	etat_courant -> no_tiers = NULL;
     }
 
-    pointeur_liste = GTK_CLIST ( liste_tiers_etat ) -> selection;
+    pointeur_liste = ( (GSList *) GTK_CLIST ( liste_tiers_etat ) -> selection );
 
     while ( pointeur_liste )
     {
@@ -1475,7 +1475,7 @@ void recuperation_info_perso_etat ( void )
 	etat_courant -> noms_modes_paiement = NULL;
     }
 
-    pointeur_liste = GTK_CLIST ( liste_mode_paiement_etat ) -> selection;
+    pointeur_liste = ( (GSList *) GTK_CLIST ( liste_mode_paiement_etat ) -> selection );
 
     while ( pointeur_liste )
     {

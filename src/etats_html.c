@@ -275,7 +275,7 @@ gint html_initialise (GSList * opes_selectionnees)
 	    FILE * test;
 	    gchar * filename;
 
-	    file_selection_get_filename ( GTK_FILE_SELECTION ( file_selector ));
+	    filename = file_selection_get_filename ( GTK_FILE_SELECTION ( file_selector ));
 
 	    test = utf8_fopen ( filename, "r" );
 	    if ( test )

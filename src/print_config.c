@@ -27,6 +27,8 @@
 #include "utils.h"
 #include "utils_files.h"
 
+#include "dialog.h"
+
 
 /* Prototypes */
 gboolean print_config_radio_toggled ( GtkToggleButton * togglebutton, gpointer user_data );

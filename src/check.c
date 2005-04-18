@@ -31,6 +31,7 @@
 #include "check.h"
 
 #include "categories_onglet.h"
+#include "imputation_budgetaire.h"
 #include "devises.h"
 #include "dialog.h"
 #include "exercice.h"
