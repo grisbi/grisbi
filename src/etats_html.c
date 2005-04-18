@@ -278,8 +278,8 @@ gint html_initialise (GSList * opes_selectionnees)
     html_first_line = TRUE;
 
     file_selector = gtk_file_selection_new ( _("Export report to HTML file."));
-    file_selection_set_filename ( GTK_FILE_SELECTION ( file_selector ),
-				  dernier_chemin_de_travail );
+    filename = file_selection_set_filename ( GTK_FILE_SELECTION ( file_selector ),
+					     dernier_chemin_de_travail );
 
     file_selection_set_entry ( GTK_FILE_SELECTION ( file_selector ), 
 			       safe_file_name ( g_strconcat (etats_titre(), ".html", NULL)));
@@ -292,7 +292,7 @@ gint html_initialise (GSList * opes_selectionnees)
 	    FILE * test;
 	    gchar * filename;
 
-	    file_selection_get_filename ( GTK_FILE_SELECTION ( file_selector ));
+	    filename = file_selection_get_filename ( GTK_FILE_SELECTION ( file_selector ));
 
 	    test = utf8_fopen ( filename, "r" );
 	    if ( test )
