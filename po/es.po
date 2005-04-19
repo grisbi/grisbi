@@ -9,12 +9,12 @@ msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-04-18 22:34+0200\n"
-"PO-Revision-Date: 2005-02-17 15:51+0100\n"
+"PO-Revision-Date: 2005-04-19 14:59+0200\n"
 "Last-Translator: Carlos M. Cámara Mora <carcam_moceu@yahoo.es>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
+"Content-Transfer-Encoding: 8bit"
 
 #: src/accueil.c:120
 msgid "No user"
@@ -1455,11 +1455,13 @@ msgid ""
 "Some sub-categories are duplicates:\n"
 "\n"
 msgstr ""
+"Algunas subcategorías están duplicadas:\n"
+"\n"
 
 #: src/check.c:233
-#, fuzzy, c-format
+#, c-format
 msgid "In <i>%s</i>, <i>%s</i> is a duplicate of <i>%s</i>.\n"
-msgstr "La subcategoría <i>'%s : %s'</i> es una duplicado de'%s·:·%s'</i>\n"
+msgstr "ln <i>%s</i>, <i> es una duplicado de <i>%s</i>.\n"
 
 #: src/check.c:249
 #, fuzzy
@@ -1486,10 +1488,10 @@ msgid "Fix inconsistencies in sub-categories?"
 msgstr "¿Corregir inconsistencias en las subcategorías?"
 
 #: src/check.c:338
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Sub-budgetary line <i>'%s : %s'</i> is a duplicate of <i>'%s : %s'</i>\n"
-msgstr "La subcategoría <i>'%s : %s'</i> es una duplicado de'%s·:·%s'</i>\n"
+msgstr "La línea subpresupuestaria <i>'%s : %s'</i> es una duplicado de <i>'%s·:·%s'</i>\n"
 
 #: src/check.c:355
 #, fuzzy
@@ -1512,9 +1514,8 @@ msgstr ""
 "mover las transacciones manualmente a su nueva subcategoría."
 
 #: src/check.c:365
-#, fuzzy
 msgid "Fix inconsistencies in sub-budgetary lines?"
-msgstr "¿Corregir inconsistencias en las subcategorías?"
+msgstr "¿Corregir las inconsistencias en las líneas subpresupuestarias?"
 
 #: src/check.c:468
 #, c-format
@@ -4857,16 +4858,14 @@ msgid "Export report to HTML file."
 msgstr "Exportar el informe a un fichero HTML."
 
 #: src/etats_html.c:284 src/print_config.c:102
-#, fuzzy, c-format
+#, c-format
 msgid "File %s already exists."
-msgstr "El fichero '%s' ya existe"
+msgstr "El fichero %s ya existe."
 
 #: src/etats_html.c:286 src/print_config.c:104
-#, fuzzy
 msgid "Do you want to overwrite it?  There is no undo for this."
 msgstr ""
-"Esto sobreescribirá de manera irreversible el archivo previo. No hay "
-"deshacer para esto."
+"¿Quiere sobreescribirlo?. No hay deshacer para esto."
 
 #: src/etats_html.c:318
 msgid "Make sure file exists and is writable."
@@ -5656,21 +5655,17 @@ msgstr ""
 "desarrollo de nuevas características."
 
 #: src/help.c:47
-#, fuzzy
 msgid "Alain Pichon (aph[at]grisbi.org): RHEL and Fedora packaging"
-msgstr "Alain Pichon (alain.pichon[at]grisbi.org): Empaquetamiento para RHEL"
+msgstr "Alain Pichon (aph[at]grisbi.org): Empaquetamiento para RHEL y Fedora"
 
 #: src/help.c:48
-#, fuzzy
 msgid "Alain Portal <aportal AT univ-monpt2 DOT fr>: Programming, manual"
 msgstr ""
-"Alain Portal <dionysos[at]grisbi.org>: Programación, manual y "
-"empaquetamiento para RedHat y Fedora"
+"Alain Portal <aportal AT univ-monpt2 DOT fr>: Programación, manual"
 
 #: src/help.c:49
-#, fuzzy
 msgid "Andre Pascual (andre[at]linuxgraphic.org): Logo"
-msgstr "Andre Pascual (andre[at]linuxgraphic.org) : Logotipo"
+msgstr "Andre Pascual (andre[at]linuxgraphic.org): Logotipo"
 
 #: src/help.c:50
 msgid "Axel Rousseau (axel584[at]axel584.org): contributor"
@@ -5678,24 +5673,20 @@ msgstr "Axel Rousseau (axel584[at]axel584.org): contribuyente"
 
 #: src/help.c:51
 msgid "Baluchiterium  (baluchiterium[at]users.sf.net): Slackware packaging"
-msgstr ""
+msgstr "Baluchiterium  (baluchiterium[at]users.sf.net): Empaquetado para Slackware"
 
 #: src/help.c:52
-#, fuzzy
 msgid "Benjamin Drieu (bdrieu[at]april.org): Programming, Debian packaging"
 msgstr ""
-"Benjamin Drieu (bdrieu[at]april.org) : Programación, empaquetamiento para "
-"Debian"
+"Benjamin Drieu (bdrieu[at]april.org) : Programación, empaquetamiento para Debian"
 
 #: src/help.c:53
-#, fuzzy
 msgid "Cedric Auger (cedric[at]grisbi.org): Programming"
 msgstr "Cedric Auger (cedric[at]grisbi.org) : Programación"
 
 #: src/help.c:54
-#, fuzzy
 msgid "Daniel Cartron (doc[at]grisbi.org): Manual, website, consultancy"
-msgstr "Daniel Cartron (doc[at]grisbi.org) : Manual, sitio web, consultoría"
+msgstr "Daniel Cartron (doc[at]grisbi.org): Manual, sitio web, consultoría"
 
 #: src/help.c:55
 msgid "Dominique Parisot (parisot[at]villey-le-sec.com): contributor"
@@ -5710,12 +5701,10 @@ msgstr ""
 "programación"
 
 #: src/help.c:57
-#, fuzzy
 msgid ""
 "Gerald Niel (gerald.niel[at]grisbi.org): Darwin packaging, administration"
 msgstr ""
-"Gerald Niel (gerald.niel[at]grisbi.org): Empaquetamiento para Slackware, "
-"website"
+"Gerald Niel (gerald.niel[at]grisbi.org): Empaquetamiento para Darwin, administración"
 
 #: src/help.c:58
 msgid "PMF (ugly.duck[at]gmx.de): Zaurus packaging"
@@ -5735,44 +5724,39 @@ msgstr "Thierry Thomas (thierry[at]pompo.net): Empaquetamiento para FreeBSD"
 
 #: src/help.c:62
 msgid "Vincent Marqueton (vincent[at]marqueton.org): Fink packaging"
-msgstr ""
+msgstr "Vincent Marqueton (vincent[at]marqueton.org): Empaquetado para Fink"
 
 #: src/help.c:65
-#, fuzzy
 msgid "Alain Portal (dionysos[at]grisbi.org): English"
 msgstr "Alain Portal (dionysos[at]grisbi.org) : Inglés"
 
 #: src/help.c:66
-#, fuzzy
 msgid "Benjamin Drieu (bdrieu[at]april.org): English"
-msgstr "Benjamin Drieu (bdrieu[at]april.org) : Inglés"
+msgstr "Benjamin Drieu (bdrieu[at]april.org): Inglés"
 
 #: src/help.c:67
-#, fuzzy
 msgid "Carlos M. CÃ¡mara Mora (carcam_moceu[at]yahoo.es): Spanish"
-msgstr "Carlos M. Cámara Mora (carcam_moceu[at]yahoo.es) : Español"
+msgstr "Carlos M. Cámara Mora (carcam_moceu[at]yahoo.es): Español"
 
 #: src/help.c:68
-#, fuzzy
 msgid "Daniel Cartron (cartron[at]grisbi.org): English"
-msgstr "Daniel Cartron (cartron[at]grisbi.org) : Inglés"
+msgstr "Daniel Cartron (cartron[at]grisbi.org): Inglés"
 
 #: src/help.c:69
 msgid "Edwin Huijsing (e.huijsing[at]fiberworld.nl): Dutch"
-msgstr ""
+msgstr "Edwin Huijsing (e.huijsing[at]fiberworld.nl): Alemán"
 
 #: src/help.c:70
 msgid "Fabio Erculiani (fabio.erculiani[at]tiscali.it): Italian"
-msgstr ""
+msgstr "Fabio Erculiani (fabio.erculiani[at]tiscali.it): Italiano"
 
 #: src/help.c:71
 msgid "Flavio Henrique Somensi (flavio[at]opens.com.br): Brazilian Portuguese"
 msgstr "Flavio Henrique Somensi (flavio[at]opens.com.br): Brasileño Portugués"
 
 #: src/help.c:72
-#, fuzzy
 msgid "Giorgio Mandolfo (giorgio[at]pollycoke.org): Italian"
-msgstr "Giorgio Mandolfo (giorgio[at]pollycoke.org) : Italiano"
+msgstr "Giorgio Mandolfo (giorgio[at]pollycoke.org): Italiano"
 
 #: src/help.c:73
 msgid "Martin Stromberger (Fabiolla[at]aon.at): German"
@@ -5780,12 +5764,11 @@ msgstr "Martin Stromberger (Fabiolla[at]aon.at): Alemán"
 
 #: src/help.c:74
 msgid "Ryszard Jeziorski (rjeziorski[at]eagle): Polish"
-msgstr ""
+msgstr "Ryszard Jeziorski (rjeziorski[at]eagle): Polaco"
 
 #: src/help.c:80
-#, fuzzy
 msgid "Development list (discuss, participate, criticize, ...): "
-msgstr "Lista de desarrollo (discusión, participación, críticas, ...) : "
+msgstr "Lista de desarrollo (discusión, participación, críticas, ...): "
 
 #: src/help.c:82 src/help.c:88
 msgid "subscribe"
@@ -5796,9 +5779,8 @@ msgid "Bug report"
 msgstr "Informe de fallos"
 
 #: src/help.c:86
-#, fuzzy
 msgid "Information list (new releases announces, ...): "
-msgstr "Lista de información (anuncio de nuevas versiones, ...) : "
+msgstr "Lista de información (anuncio de nuevas versiones, ...): "
 
 #: src/help.c:89
 msgid "Grisbi documentation"
