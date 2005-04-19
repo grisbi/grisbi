@@ -1,3 +1,3 @@
 ## Process this file with automake to produce Makefile.in.
 
-SUBDIRS = C de fr
+SUBDIRS = en de fr
