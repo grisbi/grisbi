@@ -5518,7 +5518,7 @@ msgstr ""
 "fermé correctement (Grisbi a peut-être planté).\n"
 "Vous ne pourrez enregistrer vos modifications qu'en activant l'option « "
 "Forcer l'enregistrement des fichiers verrouillés » de la boîte de dialogue « "
-"Préférences. »"
+"Paramètres. »"
 
 #. FIXME
 #: src/fichiers_io.c:1839
