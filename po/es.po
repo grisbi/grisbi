@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-04-18 22:34+0200\n"
-"PO-Revision-Date: 2005-04-19 14:59+0200\n"
+"PO-Revision-Date: 2005-04-19 16:21+0200\n"
 "Last-Translator: Carlos M. Cámara Mora <carcam_moceu@yahoo.es>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1413,7 +1413,7 @@ msgid "No inconsistency found."
 msgstr "No se han encontrado inconsistencias"
 
 #: src/check.c:148
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "<span weight=\"bold\">%s</span>\n"
 "  Last reconciliation amount : %4.2f%s\n"
@@ -1422,7 +1422,6 @@ msgstr ""
 "<span weight=\"bold\">%s</span>\n"
 "  Cantidad de la última reconciliación : %4.2f%s\n"
 "  Cantidad calculada de la reconciliación : %4.2f%s\n"
-"\n"
 
 #: src/check.c:163
 msgid ""
@@ -1464,7 +1463,6 @@ msgid "In <i>%s</i>, <i>%s</i> is a duplicate of <i>%s</i>.\n"
 msgstr "ln <i>%s</i>, <i> es una duplicado de <i>%s</i>.\n"
 
 #: src/check.c:249
-#, fuzzy
 msgid ""
 "Due to a bug in previous versions of Grisbi, sub-categories may share the "
 "same numeric id in some cases, resulting in transactions having two sub-"
@@ -1474,7 +1472,7 @@ msgid ""
 "No transactions will be lost, but in some cases, you will have to manually "
 "move transactions to this new sub-category."
 msgstr ""
-"Relacionado con un fallo en versiones anteriores de Grisbi, las "
+"Debido a un fallo en versiones anteriores de Grisbi, las "
 "subcategorías pueden compartir el mismo identificador numérico en algunos "
 "casos, lo que da lugar a transacciones que tienen dos subcategorías.  Si "
 "elige continuar, Grisbi borrará una de cada subcategoría duplicada y la "
@@ -1494,7 +1492,6 @@ msgid ""
 msgstr "La línea subpresupuestaria <i>'%s : %s'</i> es una duplicado de <i>'%s·:·%s'</i>\n"
 
 #: src/check.c:355
-#, fuzzy
 msgid ""
 "Due to a bug in previous versions of Grisbi, sub-budgetary lines may share "
 "the same numeric id in some cases, resulting in transactions having two sub-"
@@ -1504,14 +1501,14 @@ msgid ""
 "No transactions will be lost, but in some cases, you will have to manually "
 "move transactions to this new sub-budgetary line."
 msgstr ""
-"Relacionado con un fallo en versiones anteriores de Grisbi, las "
-"subcategorías pueden compartir el mismo identificador numérico en algunos "
-"casos, lo que da lugar a transacciones que tienen dos subcategorías.  Si "
-"elige continuar, Grisbi borrará una de cada subcategoría duplicada y la "
+"Debido a un fallo en versiones anteriores de Grisbi, las líneas"
+"subpresupuestarias pueden compartir en algunos casos el mismo identificador numérico, "
+"lo que da lugar a transacciones que tienen dos líneas subpresupuestarias.  Si "
+"elige continuar, Grisbi borrará una de cada línea subpresupuestaria duplicada y la "
 "creará de nuevo con otro identificador.\n"
 "\n"
 "No se perderá ninguna transacción, pero en algunos casos usted tendrá que "
-"mover las transacciones manualmente a su nueva subcategoría."
+"mover las transacciones manualmente a la nueva línea subpresupuestaria."
 
 #: src/check.c:365
 msgid "Fix inconsistencies in sub-budgetary lines?"
