@@ -30,6 +30,7 @@
 #include "dialog.h"
 #include "gsb_account.h"
 #include "operations_comptes.h"
+#include "format.h"
 #include "gsb_transaction_data.h"
 #include "gtk_combofix.h"
 #include "utils_str.h"
@@ -317,10 +318,7 @@ void fill_transaction_row ( GtkTreeModel * model, GtkTreeIter * iter,
 	}
     }
 
-    label = g_strdup_printf ( _("%02d/%02d/%04d"),
-			      operation -> jour,
-			      operation -> mois,
-			      operation -> annee );
+    label = gsb_format_gdate ( gsb_transaction_data_get_date ( gsb_transaction_data_get_transaction_number ( operation )));
  
     if ( notes )
     {

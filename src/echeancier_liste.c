@@ -1625,14 +1625,10 @@ void verification_echeances_a_terme ( void )
 
 		/* remplit l'opération */
 
-		operation -> jour = ECHEANCE_COURANTE -> jour;
-		operation -> mois = ECHEANCE_COURANTE -> mois;
-		operation -> annee = ECHEANCE_COURANTE -> annee;
-
 		gsb_transaction_data_set_date ( gsb_transaction_data_get_transaction_number ( operation ),
-						g_date_new_dmy ( operation ->jour,
-								 operation ->mois,
-								 operation ->annee));
+						g_date_new_dmy ( ECHEANCE_COURANTE ->jour,
+								 ECHEANCE_COURANTE ->mois,
+								 ECHEANCE_COURANTE ->annee));
 
 
 		gsb_transaction_data_set_account_number ( gsb_transaction_data_get_transaction_number ( operation ),
@@ -1769,24 +1765,10 @@ void verification_echeances_a_terme ( void )
 
 		    /* 	    le reste est identique à la mère */
 
-		    operation_fille -> jour = operation -> jour;
-		    operation_fille -> mois = operation -> mois;
-		    operation_fille -> annee = operation -> annee;
-		    gsb_transaction_data_set_date ( gsb_transaction_data_get_transaction_number ( operation_fille ),
-						    g_date_new_dmy ( operation_fille -> jour,
-								     operation_fille -> mois,
-								     operation_fille -> annee ));
-
-		    if ( operation -> jour_bancaire )
-		    {
-			operation_fille -> jour_bancaire = operation -> jour_bancaire;
-			operation_fille -> mois_bancaire = operation -> mois_bancaire;
-			operation_fille -> annee_bancaire = operation -> annee_bancaire;
-			gsb_transaction_data_set_value_date ( gsb_transaction_data_get_transaction_number ( operation_fille ),
-							      g_date_new_dmy ( operation_fille -> jour_bancaire,
-									       operation_fille -> mois_bancaire,
-									       operation_fille -> annee_bancaire ));
-		    }
+		    gsb_transaction_data_set_date ( gsb_transaction_data_get_transaction_number (operation_fille),
+						    gsb_date_copy ( gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation))));
+		    gsb_transaction_data_set_value_date ( gsb_transaction_data_get_transaction_number ( operation_fille ),
+							  gsb_date_copy ( gsb_transaction_data_get_value_date (gsb_transaction_data_get_transaction_number (operation))));
 
 		    operation_fille -> devise = operation -> devise;
 		    operation_fille -> une_devise_compte_egale_x_devise_ope = operation -> une_devise_compte_egale_x_devise_ope;

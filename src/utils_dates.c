@@ -88,6 +88,28 @@ GDate *gdate_today ( void )
 /******************************************************************************/
 
 
+
+/** copy the date given in param
+ * \param date a GDate to copy
+ * \return a copy or NULL if no date
+ * */
+GDate *gsb_date_copy ( GDate *date )
+{
+    GDate *new_date;
+
+    if ( !date )
+	return NULL;
+
+    new_date = g_date_new_dmy ( g_date_get_day ( date ),
+				g_date_get_month ( date ),
+				g_date_get_year ( date ));
+
+    return new_date;
+}
+
+
+
+    
 /******************************************************************************/
 /* Fonction modifie_date                                                      */
 /* prend en argument une entrÃ©e contenant une date                            */

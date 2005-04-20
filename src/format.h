@@ -41,7 +41,7 @@ extern "C" {
 /* (to be used to provide the user with a list of choices for date format)  */
 /*--------------------------------------------------------------------------*/
 
-extern gchar *g_predefined_formats[];
+/* extern gchar *g_predefined_formats[]; */
 
 /*--------------------------------------------------------------------------*/
 /*                                                                          */
@@ -75,6 +75,9 @@ extern gchar *g_predefined_formats[];
 /*                                                                          */
 /*--------------------------------------------------------------------------*/
 
-gchar *gsb_format_gdate(GDate *gdate, gchar *fmt, gchar *buf, int lenbuf);
+/*START_DECLARATION*/
+gchar *gsb_format_gdate(GDate *gdate);
+/*END_DECLARATION*/
+
 
 #endif /* ifndef __GRISBI_FORMAT_H */

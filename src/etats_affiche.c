@@ -34,6 +34,7 @@
 #include "etats_support.h"
 #include "utils_exercices.h"
 #include "gsb_account.h"
+#include "format.h"
 #include "gsb_transaction_data.h"
 #include "utils_str.h"
 #include "utils_categories.h"
@@ -885,7 +886,7 @@ gint etat_affiche_affiche_total_periode ( struct structure_operation *operation,
 
 	    if ( !force
 		 &&
-		 operation -> mois == g_date_month ( date_debut_periode ) )
+		 g_date_month ( gsb_transaction_data_get_date ( gsb_transaction_data_get_transaction_number (operation))) == g_date_month ( date_debut_periode ) )
 		return ( ligne );
 
 	    g_date_strftime ( buffer,
@@ -913,7 +914,7 @@ gint etat_affiche_affiche_total_periode ( struct structure_operation *operation,
 
 	    if ( !force
 		 &&
-		 operation -> annee == g_date_year ( date_debut_periode ) )
+		 g_date_year ( gsb_transaction_data_get_date ( gsb_transaction_data_get_transaction_number (operation))) == g_date_year ( date_debut_periode ) )
 		return ( ligne );
 
 	    g_date_strftime ( buffer,
@@ -1159,7 +1160,8 @@ gint etat_affiche_affichage_ligne_ope ( struct structure_operation *operation,
 
 	if ( etat_courant -> afficher_date_ope )
 	{
-	    text = g_strdup_printf  ( "%.2d/%.2d/%d", operation -> jour, operation -> mois, operation -> annee );
+	    text = gsb_format_gdate ( gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation)));
+
 	    if ( etat_courant -> ope_clickables )
 	    {
 		etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, operation );

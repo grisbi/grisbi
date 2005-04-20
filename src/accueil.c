@@ -38,6 +38,7 @@
 #include "echeancier_formulaire.h"
 #include "gsb_account.h"
 #include "operations_comptes.h"
+#include "format.h"
 #include "gsb_transaction_data.h"
 #include "operations_liste.h"
 #include "gtk_list_button.h"
@@ -1679,10 +1680,8 @@ void update_liste_echeances_auto_accueil ( void )
 
 	    /* label à gauche */
 
-	    label = gtk_label_new ( g_strdup_printf ( "%02d/%02d/%d : %s",
-						      operation -> jour,
-						      operation -> mois,
-						      operation -> annee,
+	    label = gtk_label_new ( g_strdup_printf ( "%s : %s",
+						      gsb_format_gdate ( gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation))),
 						      tiers_name_by_no (operation->tiers, FALSE)));
 
 	    gtk_misc_set_alignment ( GTK_MISC ( label ), MISC_LEFT, MISC_VERT_CENTER );

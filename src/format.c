@@ -21,11 +21,10 @@
 
 
 #include "include.h"
-#include <assert.h>
-
 
 /*START_INCLUDE*/
 #include "format.h"
+#include "configuration.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -58,11 +57,16 @@ gchar *g_predefined_formats[] =
 	NULL
 };
 
-gchar *gsb_format_gdate(GDate *gdate, gchar *fmt, gchar *buf, int lenbuf)
+gchar *gsb_format_gdate(GDate *gdate)
 {
-	assert(buf != NULL); /* Param. buffer should not be NULL */
-	g_date_strftime(buf, lenbuf - 1, fmt, gdate);
-	buf[lenbuf-1] = 0; /* to be sure that the buffer ends with '\0' */
-	return buf;
+    gchar buf[32];
+
+    if ( !g_date_strftime( buf,
+			   31,
+			   get_config_format()->format_date_liste_ope,
+			   gdate ))
+	return NULL;
+
+    return g_strdup (buf);
 }
 

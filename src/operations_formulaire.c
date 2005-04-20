@@ -2751,6 +2751,7 @@ void recuperation_donnees_generales_formulaire ( struct structure_operation *tra
 	for ( j=0 ; j <  organisation_formulaire -> nb_colonnes ; j++ )
 	{
 	    GtkWidget *widget;
+	    gint day, month, year;
 
 	    widget =  widget_formulaire_par_element ( organisation_formulaire -> tab_remplissage_formulaire[i][j] );
 
@@ -2760,14 +2761,14 @@ void recuperation_donnees_generales_formulaire ( struct structure_operation *tra
 
 		    sscanf ( gtk_entry_get_text ( GTK_ENTRY ( widget )),
 			     "%d/%d/%d",
-			     &transaction -> jour,
-			     &transaction -> mois,
-			     &transaction -> annee );
+			     &day,
+			     &month,
+			     &year );
 
 		    gsb_transaction_data_set_date ( gsb_transaction_data_get_transaction_number ( transaction ),
-						    g_date_new_dmy ( transaction -> jour,
-								     transaction -> mois,
-								     transaction -> annee ));
+						    g_date_new_dmy ( day,
+								     month,
+								     year  ));
 
 		    break;
 
@@ -2777,24 +2778,18 @@ void recuperation_donnees_generales_formulaire ( struct structure_operation *tra
 		    {
 			sscanf ( gtk_entry_get_text ( GTK_ENTRY ( widget )),
 				 "%d/%d/%d",
-				 &transaction -> jour_bancaire,
-				 &transaction -> mois_bancaire,
-				 &transaction -> annee_bancaire );
+				 &day,
+				 &month,
+				 &year );
 
 			gsb_transaction_data_set_value_date ( gsb_transaction_data_get_transaction_number ( transaction ),
-							      g_date_new_dmy ( transaction -> jour_bancaire,
-									       transaction -> mois_bancaire,
-									       transaction -> annee_bancaire ));
+							      g_date_new_dmy ( day,
+									       month,
+									       year ));
 		    }
 		    else
-		    {
-			transaction -> jour_bancaire = 0;
-			transaction -> mois_bancaire = 0;
-			transaction -> annee_bancaire = 0;
-
 			gsb_transaction_data_set_value_date ( gsb_transaction_data_get_transaction_number ( transaction ),
 							      NULL );
-		    }
 		    break;
 
 		case TRANSACTION_FORM_EXERCICE:
@@ -3238,13 +3233,8 @@ printf ( "ça passe\n" );
 
     /* fill the contra-transaction */
 
-    contra_transaction -> jour = transaction -> jour;
-    contra_transaction -> mois = transaction -> mois;
-    contra_transaction -> annee = transaction -> annee;
     gsb_transaction_data_set_date ( gsb_transaction_data_get_transaction_number ( contra_transaction ),
-				    g_date_new_dmy ( contra_transaction->jour,
-						     contra_transaction->mois,
-						     contra_transaction->annee));
+				    gsb_date_copy ( gsb_transaction_data_get_date ( gsb_transaction_data_get_transaction_number ( transaction ))));
     contra_transaction -> montant = -transaction -> montant;
 
     /* check if we have to ask to convert a currency */

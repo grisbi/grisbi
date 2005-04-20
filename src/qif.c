@@ -1104,11 +1104,9 @@ choix_liste_fichier:
 
 		fprintf ( fichier_qif,
 			  "D%d/%d/%d\n",
-			  operation -> jour,
-			  operation -> mois,
-			  operation -> annee );
-
-
+			  g_date_day (gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation))),
+			  g_date_month (gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation))),
+			  g_date_year (gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation))));
 
 		/* met le solde initial */
 
@@ -1157,10 +1155,9 @@ choix_liste_fichier:
 
 			fprintf ( fichier_qif,
 				  "D%d/%d/%d\n",
-				  operation -> jour,
-				  operation -> mois,
-				  operation -> annee );
-
+				  g_date_day (gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation))),
+				  g_date_month (gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation))),
+				  g_date_year (gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation))));
 
 			/* met le pointage */
 

@@ -1880,18 +1880,10 @@ void fin_edition_echeance ( void )
 				    "/",
 				    3 );
 
-
-	operation -> jour = my_strtod ( tableau_char[0],
-					NULL );
-	operation -> mois = my_strtod ( tableau_char[1],
-					NULL );
-	operation -> annee = my_strtod (tableau_char[2],
-					NULL );
-
 	gsb_transaction_data_set_date ( gsb_transaction_data_get_transaction_number ( operation ),
-					g_date_new_dmy ( operation ->jour,
-							 operation ->mois,
-							 operation ->annee));
+					g_date_new_dmy ( my_atoi (tableau_char[0]),
+							 my_atoi (tableau_char[1]),
+							 my_atoi (tableau_char[2])));
 
 
 	/* récupération du no de compte */
@@ -2153,24 +2145,10 @@ void fin_edition_echeance ( void )
 
 	    /* 	    le reste est identique à la mère */
 
-	    operation_fille -> jour = operation -> jour;
-	    operation_fille -> mois = operation -> mois;
-	    operation_fille -> annee = operation -> annee;
-	    gsb_transaction_data_set_date ( gsb_transaction_data_get_transaction_number ( operation_fille),
-					    g_date_new_dmy ( operation_fille -> jour,
-							     operation_fille -> mois,
-							     operation_fille -> annee ) );
-
-	    if ( operation -> jour_bancaire )
-	    {
-		operation_fille -> jour_bancaire = operation -> jour_bancaire;
-		operation_fille -> mois_bancaire = operation -> mois_bancaire;
-		operation_fille -> annee_bancaire = operation -> annee_bancaire;
-		gsb_transaction_data_set_value_date ( gsb_transaction_data_get_transaction_number ( operation_fille ),
-						      g_date_new_dmy ( operation_fille -> jour_bancaire,
-								       operation_fille -> mois_bancaire,
-								       operation_fille -> annee_bancaire ));
-	    }
+	    gsb_transaction_data_set_date ( gsb_transaction_data_get_transaction_number (operation_fille),
+					    gsb_date_copy ( gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation))));
+	    gsb_transaction_data_set_value_date ( gsb_transaction_data_get_transaction_number ( operation_fille ),
+						  gsb_date_copy ( gsb_transaction_data_get_value_date (gsb_transaction_data_get_transaction_number (operation))));
 
 	    operation_fille -> devise = operation -> devise;
 	    operation_fille -> une_devise_compte_egale_x_devise_ope = operation -> une_devise_compte_egale_x_devise_ope;
@@ -2285,13 +2263,8 @@ struct structure_operation *ajoute_contre_operation_echeance_dans_liste ( struct
 
     /* remplit la nouvelle opé */
 
-    contre_operation -> jour = operation -> jour;
-    contre_operation -> mois = operation -> mois;
-    contre_operation -> annee = operation -> annee;
-    gsb_transaction_data_set_date ( gsb_transaction_data_get_transaction_number ( operation ),
-				    g_date_new_dmy ( contre_operation->jour,
-						     contre_operation->mois,
-						     contre_operation->annee));
+    gsb_transaction_data_set_date ( gsb_transaction_data_get_transaction_number ( contre_operation ),
+				    gsb_date_copy ( gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number ( operation ))));
     contre_operation -> montant = -operation -> montant;
 
     /* si c'est la devise du compte ou si c'est un compte qui doit passer à l'euro ( la transfo se fait au niveau */

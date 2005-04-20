@@ -45,6 +45,7 @@
 #include "utils_files.h"
 #include "gsb_account.h"
 #include "operations_comptes.h"
+#include "utils_dates.h"
 #include "gsb_transaction_data.h"
 #include "fichiers_gestion.h"
 #include "traitement_variables.h"
@@ -1384,28 +1385,13 @@ void creation_compte_importe ( struct struct_compte_importation *compte_import )
 
 	/* récupération de la date */
 
-	operation -> jour = g_date_day ( operation_import -> date );
-	operation -> mois = g_date_month ( operation_import -> date );
-	operation -> annee = g_date_year ( operation_import -> date );
-
 	gsb_transaction_data_set_date ( transaction_number,
-					g_date_new_dmy ( operation -> jour,
-							 operation -> mois,
-							 operation -> annee ));
+					gsb_date_copy ( operation_import -> date ));
 
 	/* récupération de la date de valeur */
 
-	if ( operation_import -> date_de_valeur )
-	{
-	    operation -> jour_bancaire = g_date_day ( operation_import -> date_de_valeur );
-	    operation -> mois_bancaire = g_date_month ( operation_import -> date_de_valeur );
-	    operation -> annee_bancaire = g_date_year ( operation_import -> date_de_valeur );
-
-	    gsb_transaction_data_set_value_date ( transaction_number,
-						  g_date_new_dmy ( operation -> jour_bancaire,
-								   operation -> mois_bancaire,
-								   operation -> annee_bancaire ));
-	}
+	gsb_transaction_data_set_value_date ( transaction_number,
+					      gsb_date_copy ( operation_import -> date_de_valeur ));
 
 	/* récupération du no de compte */
 
@@ -2042,28 +2028,13 @@ struct structure_operation *enregistre_ope_importee ( struct struct_ope_importat
 
     /* récupération de la date */
 
-    operation -> jour = g_date_day ( operation_import -> date );
-    operation -> mois = g_date_month ( operation_import -> date );
-    operation -> annee = g_date_year ( operation_import -> date );
-
     gsb_transaction_data_set_date ( transaction_number,
-				    g_date_new_dmy ( operation -> jour,
-						     operation -> mois,
-						     operation -> annee ));
+				    gsb_date_copy ( operation_import -> date ));
 
     /* récupération de la date de valeur */
 
-    if ( operation_import -> date_de_valeur )
-    {
-	operation -> jour_bancaire = g_date_day ( operation_import -> date_de_valeur );
-	operation -> mois_bancaire = g_date_month ( operation_import -> date_de_valeur );
-	operation -> annee_bancaire = g_date_year ( operation_import -> date_de_valeur );
-
-	gsb_transaction_data_set_value_date ( transaction_number,
-					      g_date_new_dmy ( operation -> jour,
-							       operation -> mois,
-							       operation -> annee ));
-    }
+    gsb_transaction_data_set_value_date ( transaction_number,
+					  gsb_date_copy ( operation_import -> date_de_valeur ));
 
     /* récupération du no de compte */
 

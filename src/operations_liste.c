@@ -46,8 +46,8 @@
 #include "dialog.h"
 #include "echeancier_liste.h"
 #include "equilibrage.h"
-#include "configuration.h"
 #include "gsb_account.h"
+#include "utils_dates.h"
 #include "format.h"
 #include "gsb_transaction_data.h"
 #include "classement_operations.h"
@@ -64,7 +64,6 @@
 #include "utils_operations.h"
 #include "parametres.h"
 #include "utils_rapprochements.h"
-#include "utils_dates.h"
 #include "utils_tiers.h"
 #include "utils_types.h"
 /*END_INCLUDE*/
@@ -1040,7 +1039,6 @@ gchar *recherche_contenu_cellule ( struct structure_operation *transaction,
 {
     gchar *temp;
     gdouble montant;
-    gchar date[32];
 
     /* if it's a breakdown and we want to see the party,
      * we show the category */
@@ -1055,26 +1053,13 @@ gchar *recherche_contenu_cellule ( struct structure_operation *transaction,
 	/* mise en forme de la date */
 
 	case TRANSACTION_LIST_DATE:
-
-	    /* if it's a breakdown of transaction, we don't show the date */
-
-	    if ( transaction -> no_operation_ventilee_associee )
-		return NULL;
-	    
-	    return g_strndup(gsb_format_gdate(gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (transaction)), 
-					      get_config_format()->format_date_liste_ope, 
-					      date, SIZEOF(date)), SIZEOF(date));
+	    return gsb_format_gdate(gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (transaction)));
 	    break;
 
 	    /* mise en forme de la date de valeur */
 
 	case TRANSACTION_LIST_VALUE_DATE:
-	    if ( transaction -> jour_bancaire )
-		return g_strndup(gsb_format_gdate(gsb_transaction_data_get_value_date (gsb_transaction_data_get_transaction_number (transaction)), 
-						  get_config_format()->format_date_liste_ope, 
-						  date, SIZEOF(date)), SIZEOF(date));
-	    else
-		return ( NULL );
+	    return gsb_format_gdate(gsb_transaction_data_get_value_date (gsb_transaction_data_get_transaction_number (transaction)));
 	    break;
 
 	    /* mise en forme du tiers */
@@ -3811,12 +3796,7 @@ struct operation_echeance *schedule_transaction ( struct structure_operation * t
     }
 
     echeance -> compte = gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (transaction));
-    echeance -> jour = transaction -> jour;
-    echeance -> mois = transaction -> mois;
-    echeance -> annee = transaction -> annee;
-    echeance -> date = g_date_new_dmy ( transaction -> jour,
-					transaction -> mois,
-					transaction -> annee );
+    echeance -> date = gsb_date_copy (gsb_transaction_data_get_date ( gsb_transaction_data_get_transaction_number ( transaction )));
 
     echeance -> montant = transaction -> montant;
     echeance -> devise = transaction -> devise;
@@ -3900,12 +3880,7 @@ struct operation_echeance *schedule_transaction ( struct structure_operation * t
 		}
 
 		echeance_de_ventil -> compte = gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (transaction_de_ventil));
-		echeance_de_ventil -> jour = transaction_de_ventil -> jour;
-		echeance_de_ventil -> mois = transaction_de_ventil -> mois;
-		echeance_de_ventil -> annee = transaction_de_ventil -> annee;
-		echeance_de_ventil -> date = g_date_new_dmy ( transaction_de_ventil -> jour,
-							      transaction_de_ventil -> mois,
-							      transaction_de_ventil -> annee );
+		echeance_de_ventil -> date = gsb_date_copy (gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (transaction_de_ventil)));
 
 		echeance_de_ventil -> montant = transaction_de_ventil -> montant;
 		echeance_de_ventil -> devise = transaction_de_ventil -> devise;

@@ -163,14 +163,14 @@ struct structure_operation
 /*     gchar *id_operation; */
 
 /*     GDate *date; */
-    guint jour;
-    guint mois;
-    guint annee;
+/*     guint jour; */
+/*     guint mois; */
+/*     guint annee; */
 
 /*     GDate *date_bancaire; */
-    guint jour_bancaire;
-    guint mois_bancaire;
-    guint annee_bancaire;
+/*     guint jour_bancaire; */
+/*     guint mois_bancaire; */
+/*     guint annee_bancaire; */
 
 /*     guint no_compte; */
 

@@ -42,6 +42,8 @@
 #include "utils_echeances.h"
 #include "operations_formulaire.h"
 #include "gsb_account.h"
+#include "utils_dates.h"
+#include "gsb_transaction_data.h"
 #include "operations_liste.h"
 #include "gtk_combofix.h"
 #include "utils_ib.h"
@@ -2618,13 +2620,7 @@ void validation_ope_de_ventilation_echeances ( struct operation_echeance *operat
 
 		    /* on récupère ensuite les modifs de la ventilation */
 
-		    ope_modifiee -> jour = operation -> jour;
-		    ope_modifiee -> mois = operation -> mois;
-		    ope_modifiee -> annee = operation -> annee;
-
-		    ope_modifiee -> date = g_date_new_dmy ( operation -> jour,
-							    operation -> mois,
-							    operation -> annee );
+		    ope_modifiee -> date = gsb_date_copy ( gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number ( operation )));
 
 		    ope_modifiee -> compte = operation -> compte;
 		    ope_modifiee -> devise = operation -> devise;
@@ -2668,13 +2664,7 @@ void validation_ope_de_ventilation_echeances ( struct operation_echeance *operat
 
 		/* on récupère ensuite les modifs de la ventilation */
 
-		nouvelle_ope -> jour = operation -> jour;
-		nouvelle_ope -> mois = operation -> mois;
-		nouvelle_ope -> annee = operation -> annee;
-
-		nouvelle_ope -> date = g_date_new_dmy ( operation -> jour,
-							operation -> mois,
-							operation -> annee );
+		nouvelle_ope -> date = gsb_date_copy ( gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number ( operation )));
 
 		nouvelle_ope -> compte = operation -> compte;
 		nouvelle_ope -> devise = operation -> devise;
@@ -2700,3 +2690,4 @@ void validation_ope_de_ventilation_echeances ( struct operation_echeance *operat
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */
+

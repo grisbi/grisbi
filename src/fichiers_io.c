@@ -1324,15 +1324,12 @@ gboolean recuperation_comptes_xml ( xmlNodePtr node_comptes )
 								      no_compte,
 								      char_tmp );
 
-
 			    pointeur_char = g_strsplit ( xmlGetProp ( node_ope , "D" ), "/", 0 );
-			    operation -> jour = my_atoi ( pointeur_char[0] );
-			    operation -> mois = my_atoi ( pointeur_char[1] );
-			    operation -> annee = my_atoi ( pointeur_char[2] );
+
 			    gsb_transaction_data_set_date ( transaction_number,
-							    g_date_new_dmy ( operation -> jour,
-								 operation -> mois,
-								 operation -> annee ));
+							    g_date_new_dmy ( my_atoi ( pointeur_char[0] ),
+									     my_atoi ( pointeur_char[1] ),
+									     my_atoi ( pointeur_char[2] )));
 			    g_strfreev ( pointeur_char );
 
 			    /* GDC prise en compte de la lecture de la date bancaire */
@@ -1345,28 +1342,14 @@ gboolean recuperation_comptes_xml ( xmlNodePtr node_comptes )
 				pointeur_char = g_strsplit ( pointeur,
 							     "/",
 							     0 );
-				operation -> jour_bancaire = my_atoi ( pointeur_char[0] );
-				operation -> mois_bancaire = my_atoi ( pointeur_char[1] );
-				operation -> annee_bancaire = my_atoi ( pointeur_char[2] );
 
-				if ( operation -> jour_bancaire )
+				if ( my_atoi ( pointeur_char[0] ))
 				    gsb_transaction_data_set_value_date ( transaction_number,
-									  g_date_new_dmy ( operation -> jour_bancaire,
-											   operation -> mois_bancaire,
-											   operation -> annee_bancaire ));
-				else
-				    gsb_transaction_data_set_value_date ( transaction_number,
-									  NULL );
+									  g_date_new_dmy ( my_atoi ( pointeur_char[0] ),
+											   my_atoi ( pointeur_char[1] ),
+											   my_atoi ( pointeur_char[2] )));
 
 				g_strfreev ( pointeur_char );
-			    }
-			    else
-			    {
-				operation -> jour_bancaire = 0;
-				operation -> mois_bancaire = 0;
-				operation -> annee_bancaire = 0;
-				gsb_transaction_data_set_value_date ( transaction_number,
-								      NULL );
 			    }
 
 			    /* GDCFin */
@@ -3631,17 +3614,18 @@ gboolean enregistre_fichier ( gchar *new_file )
 	    xmlSetProp ( node_ope,
 			 "D",
 			 g_strdup_printf ( "%d/%d/%d",
-					   operation -> jour,
-					   operation -> mois,
-					   operation -> annee ));
+					   g_date_day ( gsb_transaction_data_get_date ( transaction_number )),
+					   g_date_month ( gsb_transaction_data_get_date ( transaction_number )),
+					   g_date_year ( gsb_transaction_data_get_date ( transaction_number ))));
 
 	    /* GDC : Ecriture de la date bancaire */
+
 	    xmlSetProp ( node_ope,
 			 "Db",
 			 g_strdup_printf ( "%d/%d/%d",
-					   operation -> jour_bancaire,
-					   operation -> mois_bancaire,
-					   operation -> annee_bancaire ));
+					   g_date_day ( gsb_transaction_data_get_value_date ( transaction_number )),
+					   g_date_month ( gsb_transaction_data_get_value_date ( transaction_number )),
+					   g_date_year ( gsb_transaction_data_get_value_date ( transaction_number ))));
 	    /* GDCFin */
 
 	    xmlSetProp ( node_ope,
