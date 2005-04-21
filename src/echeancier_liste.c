@@ -1665,7 +1665,8 @@ void verification_echeances_a_terme ( void )
 
 		    gsb_transaction_data_set_exchange_rate ( gsb_transaction_data_get_transaction_number (operation ),
 							     fabs (taux_de_change[0] ));
-		    operation -> frais_change = taux_de_change[1];
+		    gsb_transaction_data_set_exchange_fees ( gsb_transaction_data_get_transaction_number (operation ),
+							     taux_de_change[1] );
 
 		    if ( taux_de_change[0] < 0 )
 			gsb_transaction_data_set_change_between ( gsb_transaction_data_get_transaction_number (operation ),
@@ -1675,7 +1676,8 @@ void verification_echeances_a_terme ( void )
 		{
 		    gsb_transaction_data_set_exchange_rate ( gsb_transaction_data_get_transaction_number (operation ),
 							     0 );
-		    operation -> frais_change = 0;
+		    gsb_transaction_data_set_exchange_fees ( gsb_transaction_data_get_transaction_number (operation ),
+							     0 );
 		}
 
 		operation -> categorie = ECHEANCE_COURANTE -> categorie;
@@ -1779,7 +1781,8 @@ void verification_echeances_a_terme ( void )
 							      gsb_transaction_data_get_change_between ( gsb_transaction_data_get_transaction_number (operation )));
 		    gsb_transaction_data_set_exchange_rate ( gsb_transaction_data_get_transaction_number (operation_fille),
 							     gsb_transaction_data_get_exchange_rate ( gsb_transaction_data_get_transaction_number (operation )));
-		    operation_fille -> frais_change = operation -> frais_change;
+		    gsb_transaction_data_set_exchange_fees ( gsb_transaction_data_get_transaction_number (operation_fille ),
+							     gsb_transaction_data_get_exchange_fees ( gsb_transaction_data_get_transaction_number (operation )));
 		    operation_fille -> tiers = operation -> tiers;
 		    operation_fille -> pointe = operation -> pointe;
 		    operation_fille -> auto_man = operation -> auto_man;

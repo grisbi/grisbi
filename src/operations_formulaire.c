@@ -2946,7 +2946,8 @@ void recuperation_donnees_generales_formulaire ( struct structure_operation *tra
 
 			gsb_transaction_data_set_exchange_rate ( gsb_transaction_data_get_transaction_number (transaction),
 								 fabs (taux_de_change[0] ));
-			transaction -> frais_change = taux_de_change[1];
+			gsb_transaction_data_set_exchange_fees ( gsb_transaction_data_get_transaction_number (transaction),
+								 taux_de_change[1] );
 
 			if ( taux_de_change[0] < 0 )
 			    gsb_transaction_data_set_change_between ( gsb_transaction_data_get_transaction_number (transaction),
@@ -3264,7 +3265,8 @@ printf ( "ça passe\n" );
 
 	gsb_transaction_data_set_exchange_rate ( gsb_transaction_data_get_transaction_number (contra_transaction),
 						 fabs (taux_de_change[0] ));
-	contra_transaction -> frais_change = taux_de_change[1];
+	gsb_transaction_data_set_exchange_fees ( gsb_transaction_data_get_transaction_number (contra_transaction),
+						 taux_de_change[1] );
 
 	if ( taux_de_change[0] < 0 )
 	    gsb_transaction_data_set_change_between ( gsb_transaction_data_get_transaction_number (contra_transaction),
@@ -3744,14 +3746,15 @@ void click_sur_bouton_voir_change ( void )
     demande_taux_de_change ( devise_compte, devise,
 			     gsb_transaction_data_get_change_between ( gsb_transaction_data_get_transaction_number (transaction )),
 			     gsb_transaction_data_get_exchange_rate ( gsb_transaction_data_get_transaction_number (transaction )),
-			     transaction -> frais_change, 
+			     gsb_transaction_data_get_exchange_fees ( gsb_transaction_data_get_transaction_number (transaction )), 
 			     TRUE );
 
     if ( taux_de_change[0] ||  taux_de_change[1] )
     {
 	gsb_transaction_data_set_exchange_rate ( gsb_transaction_data_get_transaction_number (transaction),
 						 fabs (taux_de_change[0] ));
-	transaction -> frais_change = taux_de_change[1];
+	gsb_transaction_data_set_exchange_fees ( gsb_transaction_data_get_transaction_number (transaction),
+						 taux_de_change[1] );
 
 	if ( taux_de_change[0] < 0 )
 	    gsb_transaction_data_set_change_between ( gsb_transaction_data_get_transaction_number (transaction ),

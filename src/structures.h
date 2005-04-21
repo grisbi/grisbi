@@ -178,7 +178,7 @@ struct structure_operation
 /*     guint devise; */
 /*     guint une_devise_compte_egale_x_devise_ope; */
 /*     gdouble taux_change; */
-    gdouble frais_change;
+/*     gdouble frais_change; */
 
     guint tiers;        /*  no du tiers */
     guint categorie;
