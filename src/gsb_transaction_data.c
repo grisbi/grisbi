@@ -667,4 +667,46 @@ gboolean gsb_transaction_data_set_change_between ( gint no_transaction,
 
 
 
+/** get the exchange_rate of the transaction
+ * \param no_transaction the number of the transaction
+ * \return the exchange_rate of the transaction
+ * */
+gdouble gsb_transaction_data_get_exchange_rate ( gint no_transaction )
+{
+    struct_transaction *transaction;
+
+    transaction = gsb_transaction_data_get_transaction_by_no ( no_transaction,
+							       -1 );
+
+    if ( !transaction )
+	return 0;
+
+    return transaction -> exchange_rate;
+}
+
+
+/** set the exchange_rate of the transaction
+ * \param no_transaction
+ * \param rate
+ * \return TRUE if ok
+ * */
+gboolean gsb_transaction_data_set_exchange_rate ( gint no_transaction,
+						  gdouble rate )
+{
+    struct_transaction *transaction;
+
+    transaction = gsb_transaction_data_get_transaction_by_no ( no_transaction,
+							       -1 );
+
+    if ( !transaction )
+	return FALSE;
+
+    transaction -> exchange_rate = rate;
+    
+    return TRUE;
+}
+
+
+
+
 

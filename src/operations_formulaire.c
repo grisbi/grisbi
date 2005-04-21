@@ -2944,15 +2944,13 @@ void recuperation_donnees_generales_formulaire ( struct structure_operation *tra
 			demande_taux_de_change ( devise_compte, devise, 1,
 						 ( gdouble ) 0, ( gdouble ) 0, FALSE );
 
-			transaction -> taux_change = taux_de_change[0];
+			gsb_transaction_data_set_exchange_rate ( gsb_transaction_data_get_transaction_number (transaction),
+								 fabs (taux_de_change[0] ));
 			transaction -> frais_change = taux_de_change[1];
 
-			if ( transaction -> taux_change < 0 )
-			{
-			    transaction -> taux_change = -transaction -> taux_change;
+			if ( taux_de_change[0] < 0 )
 			    gsb_transaction_data_set_change_between ( gsb_transaction_data_get_transaction_number (transaction),
 								      1 );
-			}
 		    }
 
 		    break;
@@ -3264,15 +3262,13 @@ printf ( "ça passe\n" );
 	demande_taux_de_change ( account_currency, transaction_currency, 1,
 				 (gdouble ) 0, (gdouble ) 0, FALSE );
 
-	contra_transaction -> taux_change = taux_de_change[0];
+	gsb_transaction_data_set_exchange_rate ( gsb_transaction_data_get_transaction_number (contra_transaction),
+						 fabs (taux_de_change[0] ));
 	contra_transaction -> frais_change = taux_de_change[1];
 
-	if ( contra_transaction -> taux_change < 0 )
-	{
-	    contra_transaction -> taux_change = -contra_transaction -> taux_change;
+	if ( taux_de_change[0] < 0 )
 	    gsb_transaction_data_set_change_between ( gsb_transaction_data_get_transaction_number (contra_transaction),
 						      1 );
-	}
     }
 
     contra_transaction -> tiers = transaction -> tiers;
@@ -3747,20 +3743,19 @@ void click_sur_bouton_voir_change ( void )
 
     demande_taux_de_change ( devise_compte, devise,
 			     gsb_transaction_data_get_change_between ( gsb_transaction_data_get_transaction_number (transaction )),
-			     transaction -> taux_change, transaction -> frais_change, 
+			     gsb_transaction_data_get_exchange_rate ( gsb_transaction_data_get_transaction_number (transaction )),
+			     transaction -> frais_change, 
 			     TRUE );
 
     if ( taux_de_change[0] ||  taux_de_change[1] )
     {
-	transaction -> taux_change = taux_de_change[0];
+	gsb_transaction_data_set_exchange_rate ( gsb_transaction_data_get_transaction_number (transaction),
+						 fabs (taux_de_change[0] ));
 	transaction -> frais_change = taux_de_change[1];
 
-	if ( transaction -> taux_change < 0 )
-	{
-	    transaction -> taux_change = -transaction -> taux_change;
+	if ( taux_de_change[0] < 0 )
 	    gsb_transaction_data_set_change_between ( gsb_transaction_data_get_transaction_number (transaction ),
 						      1 );
-	}
 	else
 	    gsb_transaction_data_set_change_between ( gsb_transaction_data_get_transaction_number (transaction ),
 						      0 );

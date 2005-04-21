@@ -1367,9 +1367,10 @@ gboolean recuperation_comptes_xml ( xmlNodePtr node_comptes )
 								      my_atoi ( xmlGetProp ( node_ope,
 												       "Rdc" )));
 
-			    operation -> taux_change = my_strtod ( xmlGetProp ( node_ope,
-										"Tc" ),
-								   NULL );
+			    gsb_transaction_data_set_exchange_rate ( transaction_number,
+								     my_strtod ( xmlGetProp ( node_ope,
+											      "Tc" ),
+										 NULL ) );
 
 			    operation -> frais_change = my_strtod ( xmlGetProp ( node_ope,
 										 "Fc" ),
@@ -3647,7 +3648,7 @@ gboolean enregistre_fichier ( gchar *new_file )
 	    xmlSetProp ( node_ope,
 			 "Tc",
 			 g_strdup_printf ( "%4.7f",
-					   operation -> taux_change ));
+					   gsb_transaction_data_get_exchange_rate ( gsb_transaction_data_get_transaction_number (operation ))));
 
 	    xmlSetProp ( node_ope,
 			 "Fc",

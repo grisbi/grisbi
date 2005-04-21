@@ -1663,19 +1663,18 @@ void verification_echeances_a_terme ( void )
 		    demande_taux_de_change ( devise_compte, devise, 1,
 					     (gdouble ) 0, (gdouble ) 0, FALSE );
 
-		    operation -> taux_change = taux_de_change[0];
+		    gsb_transaction_data_set_exchange_rate ( gsb_transaction_data_get_transaction_number (operation ),
+							     fabs (taux_de_change[0] ));
 		    operation -> frais_change = taux_de_change[1];
 
-		    if ( operation -> taux_change < 0 )
-		    {
-			operation -> taux_change = -operation -> taux_change;
+		    if ( taux_de_change[0] < 0 )
 			gsb_transaction_data_set_change_between ( gsb_transaction_data_get_transaction_number (operation ),
 								  1 );
-		    }
 		}
 		else
 		{
-		    operation -> taux_change = 0;
+		    gsb_transaction_data_set_exchange_rate ( gsb_transaction_data_get_transaction_number (operation ),
+							     0 );
 		    operation -> frais_change = 0;
 		}
 
@@ -1778,7 +1777,8 @@ void verification_echeances_a_terme ( void )
 							       gsb_transaction_data_get_currency_number ( gsb_transaction_data_get_transaction_number (operation )));
 		    gsb_transaction_data_set_change_between ( gsb_transaction_data_get_transaction_number (operation_fille),
 							      gsb_transaction_data_get_change_between ( gsb_transaction_data_get_transaction_number (operation )));
-		    operation_fille -> taux_change = operation -> taux_change;
+		    gsb_transaction_data_set_exchange_rate ( gsb_transaction_data_get_transaction_number (operation_fille),
+							     gsb_transaction_data_get_exchange_rate ( gsb_transaction_data_get_transaction_number (operation )));
 		    operation_fille -> frais_change = operation -> frais_change;
 		    operation_fille -> tiers = operation -> tiers;
 		    operation_fille -> pointe = operation -> pointe;
