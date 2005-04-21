@@ -1669,7 +1669,8 @@ void verification_echeances_a_terme ( void )
 		    if ( operation -> taux_change < 0 )
 		    {
 			operation -> taux_change = -operation -> taux_change;
-			operation -> une_devise_compte_egale_x_devise_ope = 1;
+			gsb_transaction_data_set_change_between ( gsb_transaction_data_get_transaction_number (operation ),
+								  1 );
 		    }
 		}
 		else
@@ -1775,7 +1776,8 @@ void verification_echeances_a_terme ( void )
 
 		    gsb_transaction_data_set_currency_number ( gsb_transaction_data_get_transaction_number (operation_fille ),
 							       gsb_transaction_data_get_currency_number ( gsb_transaction_data_get_transaction_number (operation )));
-		    operation_fille -> une_devise_compte_egale_x_devise_ope = operation -> une_devise_compte_egale_x_devise_ope;
+		    gsb_transaction_data_set_change_between ( gsb_transaction_data_get_transaction_number (operation_fille),
+							      gsb_transaction_data_get_change_between ( gsb_transaction_data_get_transaction_number (operation )));
 		    operation_fille -> taux_change = operation -> taux_change;
 		    operation_fille -> frais_change = operation -> frais_change;
 		    operation_fille -> tiers = operation -> tiers;

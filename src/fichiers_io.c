@@ -1363,8 +1363,9 @@ gboolean recuperation_comptes_xml ( xmlNodePtr node_comptes )
 								       my_atoi ( xmlGetProp ( node_ope,
 											      "De" )));
 
-			    operation -> une_devise_compte_egale_x_devise_ope = my_atoi ( xmlGetProp ( node_ope,
-												       "Rdc" ));
+			    gsb_transaction_data_set_change_between ( transaction_number,
+								      my_atoi ( xmlGetProp ( node_ope,
+												       "Rdc" )));
 
 			    operation -> taux_change = my_strtod ( xmlGetProp ( node_ope,
 										"Tc" ),
@@ -3641,7 +3642,7 @@ gboolean enregistre_fichier ( gchar *new_file )
 
 	    xmlSetProp ( node_ope,
 			 "Rdc",
-			 itoa ( operation -> une_devise_compte_egale_x_devise_ope ));
+			 itoa ( gsb_transaction_data_get_change_between ( gsb_transaction_data_get_transaction_number (operation ))));
 
 	    xmlSetProp ( node_ope,
 			 "Tc",

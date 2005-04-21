@@ -176,7 +176,7 @@ struct structure_operation
 
 /*     gdouble montant; */
 /*     guint devise; */
-    guint une_devise_compte_egale_x_devise_ope;       /* si = 1 : 1 devise_compte = "taux_change * montant" devise_en_rapport */
+/*     guint une_devise_compte_egale_x_devise_ope; */
     gdouble taux_change;
     gdouble frais_change;
 

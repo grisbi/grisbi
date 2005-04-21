@@ -2950,7 +2950,8 @@ void recuperation_donnees_generales_formulaire ( struct structure_operation *tra
 			if ( transaction -> taux_change < 0 )
 			{
 			    transaction -> taux_change = -transaction -> taux_change;
-			    transaction -> une_devise_compte_egale_x_devise_ope = 1;
+			    gsb_transaction_data_set_change_between ( gsb_transaction_data_get_transaction_number (transaction),
+								      1 );
 			}
 		    }
 
@@ -3269,7 +3270,8 @@ printf ( "ça passe\n" );
 	if ( contra_transaction -> taux_change < 0 )
 	{
 	    contra_transaction -> taux_change = -contra_transaction -> taux_change;
-	    contra_transaction -> une_devise_compte_egale_x_devise_ope = 1;
+	    gsb_transaction_data_set_change_between ( gsb_transaction_data_get_transaction_number (contra_transaction),
+						      1 );
 	}
     }
 
@@ -3744,7 +3746,7 @@ void click_sur_bouton_voir_change ( void )
     devise = devise_par_no ( gsb_transaction_data_get_currency_number ( gsb_transaction_data_get_transaction_number (transaction )));
 
     demande_taux_de_change ( devise_compte, devise,
-			     transaction -> une_devise_compte_egale_x_devise_ope,
+			     gsb_transaction_data_get_change_between ( gsb_transaction_data_get_transaction_number (transaction )),
 			     transaction -> taux_change, transaction -> frais_change, 
 			     TRUE );
 
@@ -3756,10 +3758,12 @@ void click_sur_bouton_voir_change ( void )
 	if ( transaction -> taux_change < 0 )
 	{
 	    transaction -> taux_change = -transaction -> taux_change;
-	    transaction -> une_devise_compte_egale_x_devise_ope = 1;
+	    gsb_transaction_data_set_change_between ( gsb_transaction_data_get_transaction_number (transaction ),
+						      1 );
 	}
 	else
-	    transaction -> une_devise_compte_egale_x_devise_ope = 0;
+	    gsb_transaction_data_set_change_between ( gsb_transaction_data_get_transaction_number (transaction ),
+						      0 );
     }
 }
 /******************************************************************************/

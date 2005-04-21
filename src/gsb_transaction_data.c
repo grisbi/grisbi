@@ -621,3 +621,50 @@ gboolean gsb_transaction_data_set_currency_number ( gint no_transaction,
 
 
 
+/** get the change_between_account_and_transaction 
+ * if the value is 1, we have : 1 account_currency = (exchange_rate * amount) transaction_currency
+ * else we have : 1 transaction_currency = (exchange_rate * amount) account_currency
+ * \param no_transaction the number of the transaction
+ * \return the currency number of the transaction
+ * */
+gint gsb_transaction_data_get_change_between ( gint no_transaction )
+{
+    struct_transaction *transaction;
+
+    transaction = gsb_transaction_data_get_transaction_by_no ( no_transaction,
+							       -1 );
+
+    if ( !transaction )
+	return -1;
+
+    return transaction -> change_between_account_and_transaction;
+}
+
+
+/** set the change_between_account_and_transaction
+ * if the value is 1, we have : 1 account_currency = (exchange_rate * amount) transaction_currency
+ * else we have : 1 transaction_currency = (exchange_rate * amount) account_currency
+ * \param no_transaction
+ * \param value
+ * \return TRUE if ok
+ * */
+gboolean gsb_transaction_data_set_change_between ( gint no_transaction,
+						   gint value )
+{
+    struct_transaction *transaction;
+
+    transaction = gsb_transaction_data_get_transaction_by_no ( no_transaction,
+							       -1 );
+
+    if ( !transaction )
+	return FALSE;
+
+    transaction -> change_between_account_and_transaction = value;
+    
+    return TRUE;
+}
+
+
+
+
+
