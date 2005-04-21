@@ -1233,7 +1233,7 @@ gint etat_affiche_affichage_ligne_ope ( struct structure_operation *operation,
 		{
 		    /* c'est un virement */
 
-		    if ( operation -> montant < 0 )
+		    if ( gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (operation ))< 0 )
 			pointeur = g_strdup_printf ( _("Transfer to %s"), gsb_account_get_name (operation -> relation_no_compte) );
 		    else
 			pointeur = g_strdup_printf ( _("Transfer from %s"), gsb_account_get_name (operation -> relation_no_compte) );
@@ -1443,9 +1443,9 @@ gint etat_affiche_affichage_ligne_ope ( struct structure_operation *operation,
 	if ( devise_compte_en_cours_etat
 	     &&
 	     operation -> devise == devise_compte_en_cours_etat -> no_devise )
-	    text = g_strdup_printf  ( _("%4.2f %s"), operation -> montant, devise_code ( devise_compte_en_cours_etat ) );
+	    text = g_strdup_printf  ( _("%4.2f %s"), gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (operation )), devise_code ( devise_compte_en_cours_etat ) );
 	else
-	    text = g_strdup_printf  ( _("%4.2f %s"), operation -> montant, devise_code_by_no ( operation -> devise ) );
+	    text = g_strdup_printf  ( _("%4.2f %s"), gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (operation )), devise_code_by_no ( operation -> devise ) );
 
 	if ( etat_courant -> ope_clickables )
 	{

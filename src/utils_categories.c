@@ -27,9 +27,9 @@
 
 /*START_INCLUDE*/
 #include "utils_categories.h"
-#include "utils_devises.h"
 #include "metatree.h"
 #include "gsb_account.h"
+#include "gsb_transaction_data.h"
 #include "search_glist.h"
 /*END_INCLUDE*/
 
@@ -47,7 +47,6 @@ extern GSList *liste_struct_categories;
 extern gint mise_a_jour_combofix_categ_necessaire;
 extern gint nb_enregistrements_categories, no_derniere_categorie;
 extern gint nb_enregistrements_categories, no_derniere_categorie;
-extern int no_devise_totaux_categ;
 extern struct struct_categ * without_category;
 /*END_EXTERN*/
 
@@ -352,11 +351,7 @@ void remove_transaction_from_category ( struct structure_operation * transaction
 					struct struct_sous_categ * sub_category )
 {
     gdouble amount = 
-	calcule_montant_devise_renvoi ( transaction -> montant, no_devise_totaux_categ,
-					transaction -> devise,
-					transaction -> une_devise_compte_egale_x_devise_ope,
-					transaction -> taux_change,
-					transaction -> frais_change );
+	gsb_transaction_data_get_adjusted_amount ( gsb_transaction_data_get_transaction_number (transaction));
 
     if ( category )
     {
@@ -391,11 +386,7 @@ void add_transaction_to_category ( struct structure_operation * transaction,
 				   struct struct_sous_categ * sub_category )
 {
     gdouble amount = 
-	calcule_montant_devise_renvoi ( transaction -> montant, no_devise_totaux_categ,
-					transaction -> devise,
-					transaction -> une_devise_compte_egale_x_devise_ope,
-					transaction -> taux_change,
-					transaction -> frais_change );
+	gsb_transaction_data_get_adjusted_amount ( gsb_transaction_data_get_transaction_number (transaction));
 
     if ( category )
     {

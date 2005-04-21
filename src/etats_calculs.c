@@ -25,9 +25,9 @@
 
 /*START_INCLUDE*/
 #include "etats_calculs.h"
-#include "utils_devises.h"
 #include "utils_categories.h"
 #include "search_glist.h"
+#include "utils_devises.h"
 #include "etats_affiche.h"
 #include "gsb_account.h"
 #include "gsb_transaction_data.h"
@@ -87,7 +87,6 @@ extern struct struct_devise *devise_categ_etat;
 extern struct struct_devise *devise_compte_en_cours_etat;
 extern struct struct_devise *devise_generale_etat;
 extern struct struct_devise *devise_ib_etat;
-extern struct struct_devise *devise_operation;
 extern struct struct_devise *devise_tiers_etat;
 extern struct struct_etat *etat_courant;
 extern gint exo_en_cours_etat;
@@ -533,7 +532,7 @@ GSList *recupere_opes_etat ( struct struct_etat *etat )
 
 		if ( etat -> exclure_montants_nuls
 		     &&
-		     fabs ( operation -> montant ) < 0.01 )
+		     fabs ( gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (operation ))) < 0.01 )
 		    goto operation_refusee;
 
 
@@ -556,12 +555,7 @@ GSList *recupere_opes_etat ( struct struct_etat *etat )
 
 			comp_montants = liste_tmp -> data;
 
-			montant = calcule_montant_devise_renvoi ( operation -> montant,
-								  etat -> choix_devise_montant,
-								  operation -> devise,
-								  operation -> une_devise_compte_egale_x_devise_ope,
-								  operation -> taux_change,
-								  operation -> frais_change );
+			montant = gsb_transaction_data_get_adjusted_amount ( gsb_transaction_data_get_transaction_number (operation));
 
 			/* on vérifie maintenant en fonction de la ligne de test si on garde cette opé */
 
@@ -1908,7 +1902,7 @@ void etape_finale_affichage_etat ( GSList *ope_selectionnees,
 		}
 		else
 		{
-		    if ( operation -> montant < 0 )
+		    if ( gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (operation ))< 0 )
 			liste_ope_depenses = g_slist_append ( liste_ope_depenses,
 							      operation );
 		    else
@@ -1920,7 +1914,7 @@ void etape_finale_affichage_etat ( GSList *ope_selectionnees,
 	    {
 		/* le classement racine n'est pas la catég, on sépare en fonction du montant */
 
-		if ( operation -> montant < 0 )
+		if ( gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (operation ))< 0 )
 		    liste_ope_depenses = g_slist_append ( liste_ope_depenses,
 							  operation );
 		else
@@ -2241,7 +2235,6 @@ pas_decalage:
 	while ( pointeur_tmp )
 	{
 	    struct structure_operation *operation;
-	    struct struct_devise *devise_operation;
 	    gdouble montant;
 
 	    operation = pointeur_tmp -> data;
@@ -2319,29 +2312,9 @@ pas_decalage:
 
 	    if ( etat_courant -> utilise_categ )
 	    {
-		if ( operation -> devise == devise_categ_etat -> no_devise )
-		    montant = operation -> montant;
-		else
-		{
-		    devise_operation = devise_par_no ( operation -> devise );
+		montant = gsb_transaction_data_get_adjusted_amount_for_currency ( gsb_transaction_data_get_transaction_number (operation),
+										  devise_categ_etat -> no_devise );
 
-		    if ( devise_categ_etat -> passage_euro
-			 &&
-			 !strcmp ( devise_operation -> nom_devise, _("Euro") ) )
-			montant = operation -> montant * devise_categ_etat -> change;
-		    else
-			if ( devise_operation -> passage_euro
-			     &&
-			     !strcmp ( devise_categ_etat -> nom_devise, _("Euro") ))
-			    montant = operation -> montant / devise_operation -> change;
-			else
-			    if ( operation -> une_devise_compte_egale_x_devise_ope )
-				montant = operation -> montant / operation -> taux_change - operation -> frais_change;
-			    else
-				montant = operation -> montant * operation -> taux_change - operation -> frais_change;
-
-		    montant = ( rint (montant * 100 )) / 100;
-		}
 		montant_categ_etat = montant_categ_etat + montant;
 		montant_sous_categ_etat = montant_sous_categ_etat + montant;
 		nb_ope_categ_etat++;
@@ -2352,29 +2325,8 @@ pas_decalage:
 
 	    if ( etat_courant -> utilise_ib )
 	    {
-		if ( operation -> devise == devise_ib_etat -> no_devise )
-		    montant = operation -> montant;
-		else
-		{
-		    devise_operation = devise_par_no ( operation -> devise );
-
-		    if ( devise_ib_etat -> passage_euro
-			 &&
-			 !strcmp ( devise_operation -> nom_devise, _("Euro") ) )
-			montant = operation -> montant * devise_ib_etat -> change;
-		    else
-			if ( devise_operation -> passage_euro
-			     &&
-			     !strcmp ( devise_ib_etat -> nom_devise, _("Euro") ))
-			    montant = operation -> montant / devise_operation -> change;
-			else
-			    if ( operation -> une_devise_compte_egale_x_devise_ope )
-				montant = operation -> montant / operation -> taux_change - operation -> frais_change;
-			    else
-				montant = operation -> montant * operation -> taux_change - operation -> frais_change;
-
-		    montant = ( rint (montant * 100 )) / 100;
-		}
+		montant = gsb_transaction_data_get_adjusted_amount_for_currency ( gsb_transaction_data_get_transaction_number (operation),
+										  devise_ib_etat -> no_devise );
 		montant_ib_etat = montant_ib_etat + montant;
 		montant_sous_ib_etat = montant_sous_ib_etat + montant;
 		nb_ope_ib_etat++;
@@ -2385,29 +2337,8 @@ pas_decalage:
 
 	    if ( etat_courant -> utilise_tiers )
 	    {
-		if ( operation -> devise == devise_tiers_etat -> no_devise )
-		    montant = operation -> montant;
-		else
-		{
-		    devise_operation = devise_par_no ( operation -> devise );
-
-		    if ( devise_tiers_etat -> passage_euro
-			 &&
-			 !strcmp ( devise_operation -> nom_devise, _("Euro") ) )
-			montant = operation -> montant * devise_tiers_etat -> change;
-		    else
-			if ( devise_operation -> passage_euro
-			     &&
-			     !strcmp ( devise_tiers_etat -> nom_devise, _("Euro") ))
-			    montant = operation -> montant / devise_operation -> change;
-			else
-			    if ( operation -> une_devise_compte_egale_x_devise_ope )
-				montant = operation -> montant / operation -> taux_change - operation -> frais_change;
-			    else
-				montant = operation -> montant * operation -> taux_change - operation -> frais_change;
-
-		    montant = ( rint (montant * 100 )) / 100;
-		}
+		montant = gsb_transaction_data_get_adjusted_amount_for_currency ( gsb_transaction_data_get_transaction_number (operation),
+										  devise_tiers_etat -> no_devise );
 		montant_tiers_etat = montant_tiers_etat + montant;
 		nb_ope_tiers_etat++;
 	    }
@@ -2423,63 +2354,16 @@ pas_decalage:
 		     gsb_account_get_currency (gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (operation))) != devise_compte_en_cours_etat -> no_devise )
 		    devise_compte_en_cours_etat = devise_par_no ( gsb_account_get_currency (gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (operation))) );
 
-		if ( operation -> devise == gsb_account_get_currency (gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (operation))) )
-		    montant = operation -> montant;
-		else
-		{
-		    /* ce n'est pas la devise du compte, si le compte passe à l'euro et que la devise est l'euro, */
-		    /* utilise la conversion du compte, */
-		    /* si c'est une devise qui passe à l'euro et que la devise du compte est l'euro, utilise la conversion du compte */
-		    /* sinon utilise la conversion stockée dans l'opé */
+		montant = gsb_transaction_data_get_adjusted_amount ( gsb_transaction_data_get_transaction_number (operation));
 
-		    devise_operation = devise_par_no ( operation -> devise );
-
-		    if ( devise_compte_en_cours_etat -> passage_euro
-			 &&
-			 !strcmp ( devise_operation -> nom_devise, _("Euro") ) )
-			montant = operation -> montant * devise_compte_en_cours_etat -> change;
-		    else
-			if ( devise_operation -> passage_euro
-			     &&
-			     !strcmp ( devise_compte_en_cours_etat -> nom_devise, _("Euro") ))
-			    montant = operation -> montant / devise_operation -> change;
-			else
-			    if ( operation -> une_devise_compte_egale_x_devise_ope )
-				montant = operation -> montant / operation -> taux_change - operation -> frais_change;
-			    else
-				montant = operation -> montant * operation -> taux_change - operation -> frais_change;
-
-		    montant = ( rint (montant * 100 )) / 100;
-		}
 		montant_compte_etat = montant_compte_etat + montant;
 		nb_ope_compte_etat++;
 	    }
 
 	    /* calcule les montants totaux */
 
-	    if ( operation -> devise == devise_generale_etat -> no_devise )
-		montant = operation -> montant;
-	    else
-	    {
-		devise_operation = devise_par_no ( operation -> devise );
-
-		if ( devise_generale_etat -> passage_euro
-		     &&
-		     !strcmp ( devise_operation -> nom_devise, _("Euro") ) )
-		    montant = operation -> montant * devise_generale_etat -> change;
-		else
-		    if ( devise_operation -> passage_euro
-			 &&
-			 !strcmp ( devise_generale_etat -> nom_devise, _("Euro") ))
-			montant = operation -> montant / devise_operation -> change;
-		    else
-			if ( operation -> une_devise_compte_egale_x_devise_ope )
-			    montant = operation -> montant / operation -> taux_change - operation -> frais_change;
-			else
-			    montant = operation -> montant * operation -> taux_change - operation -> frais_change;
-
-		montant = ( rint (montant * 100 )) / 100;
-	    }
+	    montant = gsb_transaction_data_get_adjusted_amount_for_currency ( gsb_transaction_data_get_transaction_number (operation),
+									      devise_generale_etat -> no_devise );
 
 	    total_general = total_general + montant;
 	    nb_ope_general_etat++;
@@ -2488,29 +2372,9 @@ pas_decalage:
 
 	    if ( etat_courant -> separation_par_plage )
 	    {
-		if ( operation -> devise == devise_categ_etat -> no_devise )
-		    montant = operation -> montant;
-		else
-		{
-		    devise_operation = devise_par_no ( operation -> devise );
+		montant = gsb_transaction_data_get_adjusted_amount_for_currency ( gsb_transaction_data_get_transaction_number (operation),
+										  devise_categ_etat -> no_devise );
 
-		    if ( devise_categ_etat -> passage_euro
-			 &&
-			 !strcmp ( devise_operation -> nom_devise, _("Euro") ) )
-			montant = operation -> montant * devise_categ_etat -> change;
-		    else
-			if ( devise_operation -> passage_euro
-			     &&
-			     !strcmp ( devise_categ_etat -> nom_devise, _("Euro") ))
-			    montant = operation -> montant / devise_operation -> change;
-			else
-			    if ( operation -> une_devise_compte_egale_x_devise_ope )
-				montant = operation -> montant / operation -> taux_change - operation -> frais_change;
-			    else
-				montant = operation -> montant * operation -> taux_change - operation -> frais_change;
-
-		    montant = ( rint (montant * 100 )) / 100;
-		}
 		montant_periode_etat = montant_periode_etat + montant;
 		nb_ope_periode_etat++;
 	    }
@@ -2519,36 +2383,14 @@ pas_decalage:
 
 	    if ( etat_courant -> separation_par_exo )
 	    {
-		if ( operation -> devise == devise_categ_etat -> no_devise )
-		    montant = operation -> montant;
-		else
-		{
-		    devise_operation = devise_par_no ( operation -> devise );
-
-		    if ( devise_categ_etat -> passage_euro
-			 &&
-			 !strcmp ( devise_operation -> nom_devise, _("Euro") ) )
-			montant = operation -> montant * devise_categ_etat -> change;
-		    else
-			if ( devise_operation -> passage_euro
-			     &&
-			     !strcmp ( devise_categ_etat -> nom_devise, _("Euro") ))
-			    montant = operation -> montant / devise_operation -> change;
-			else
-			    if ( operation -> une_devise_compte_egale_x_devise_ope )
-				montant = operation -> montant / operation -> taux_change - operation -> frais_change;
-			    else
-				montant = operation -> montant * operation -> taux_change - operation -> frais_change;
-
-		    montant = ( rint (montant * 100 )) / 100;
-		}
+		montant = gsb_transaction_data_get_adjusted_amount_for_currency ( gsb_transaction_data_get_transaction_number (operation),
+										  devise_categ_etat -> no_devise );
 		montant_exo_etat = montant_exo_etat + montant;
 		nb_ope_exo_etat++;
 	    }
 
 	    total_partie = total_partie + montant;
 	    nb_ope_partie_etat++;
-
 
 	    changement_de_groupe_etat = 0;
 

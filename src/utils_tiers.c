@@ -27,8 +27,8 @@
 
 /*START_INCLUDE*/
 #include "utils_tiers.h"
-#include "utils_devises.h"
 #include "gsb_account.h"
+#include "gsb_transaction_data.h"
 #include "tiers_onglet.h"
 #include "search_glist.h"
 /*END_INCLUDE*/
@@ -43,7 +43,6 @@ extern GSList *liste_struct_tiers;
 extern gint mise_a_jour_combofix_tiers_necessaire;
 extern gint nb_enregistrements_tiers;
 extern gint no_dernier_tiers;
-extern gint no_devise_totaux_tiers;
 extern struct struct_tiers * without_payee;
 /*END_EXTERN*/
 
@@ -221,11 +220,7 @@ void add_transaction_to_payee ( struct structure_operation * transaction,
 				struct struct_tiers * payee )
 {
     gdouble amount = 
-	calcule_montant_devise_renvoi ( transaction -> montant, no_devise_totaux_tiers,
-					transaction -> devise,
-					transaction -> une_devise_compte_egale_x_devise_ope,
-					transaction -> taux_change,
-					transaction -> frais_change );
+	gsb_transaction_data_get_adjusted_amount ( gsb_transaction_data_get_transaction_number (transaction));
 
     if ( payee )
     {
@@ -249,11 +244,7 @@ void remove_transaction_from_payee ( struct structure_operation * transaction,
 				     struct struct_tiers * payee )
 {
     gdouble amount = 
-	calcule_montant_devise_renvoi ( transaction -> montant, no_devise_totaux_tiers,
-					transaction -> devise,
-					transaction -> une_devise_compte_egale_x_devise_ope,
-					transaction -> taux_change,
-					transaction -> frais_change );
+	gsb_transaction_data_get_adjusted_amount ( gsb_transaction_data_get_transaction_number (transaction));
 
     if ( payee )
     {

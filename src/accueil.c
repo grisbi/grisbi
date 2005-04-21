@@ -31,9 +31,9 @@
 
 /*START_INCLUDE*/
 #include "accueil.h"
-#include "utils_devises.h"
 #include "classement_echeances.h"
 #include "echeancier_liste.h"
+#include "utils_devises.h"
 #include "dialog.h"
 #include "echeancier_formulaire.h"
 #include "gsb_account.h"
@@ -907,12 +907,7 @@ void update_liste_comptes_accueil ( void )
 		    if ( !operation -> no_operation_ventilee_associee )
 		    {
 			/* quelle que soit l'opération (relevée ou non), on calcule les soldes courant */
-			montant = calcule_montant_devise_renvoi ( operation -> montant,
-								  gsb_account_get_currency (no_compte),
-								  operation -> devise,
-								  operation -> une_devise_compte_egale_x_devise_ope,
-								  operation -> taux_change,
-								  operation -> frais_change );
+			montant = gsb_transaction_data_get_adjusted_amount ( gsb_transaction_data_get_transaction_number (operation));
 
 			/* si l'opé est pointée ou relevée, on ajoute ce montant au solde pointé */
 			if ( operation -> pointe )
@@ -1240,12 +1235,7 @@ void update_liste_comptes_accueil ( void )
 		    if ( !operation -> no_operation_ventilee_associee )
 		    {
 			/* quelle que soit l'opération (relevée ou non), on calcule les soldes courant */
-			montant = calcule_montant_devise_renvoi ( operation -> montant,
-								  gsb_account_get_currency (no_compte),
-								  operation -> devise,
-								  operation -> une_devise_compte_egale_x_devise_ope,
-								  operation -> taux_change,
-								  operation -> frais_change );
+			montant = gsb_transaction_data_get_adjusted_amount ( gsb_transaction_data_get_transaction_number (operation));
 
 			/* si l'opé est pointée ou relevée, on ajoute ce montant au solde pointé */
 			if ( operation -> pointe )
@@ -1692,14 +1682,14 @@ void update_liste_echeances_auto_accueil ( void )
 
 	    /* label à droite */
 
-	    if ( operation -> montant >= 0 )
+	    if ( gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (operation )) >= 0 )
 		label = gtk_label_new ( g_strdup_printf (_("%4.2f %s credit on %s"),
-							 operation->montant,
+							 gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (operation)),
 							 devise_code_by_no( operation -> devise ),
 							 gsb_account_get_name (gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (operation))) ));
 	    else
 		label = gtk_label_new ( g_strdup_printf (_("%4.2f %s debit on %s"),
-							 -operation->montant,
+							 -gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (operation)),
 							 devise_code_by_no( operation -> devise ),
 							 gsb_account_get_name (gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (operation))) ));
 

@@ -35,91 +35,11 @@
 
 
 /*START_EXTERN*/
-extern struct struct_devise *devise_compte;
-extern struct struct_devise *devise_operation;
 extern GSList *liste_struct_devises;
 /*END_EXTERN*/
 
 
 
-
-
-
-/* **************************************************************************************************************************** */
-/* cette fonction prend en argument un montant, la devise de renvoi (en gÃ©nÃ©ral la devise du compte) */
-/*      et la devise du montant donnÃ© en argument */
-/* elle renvoie le montant de l'opÃ©ration dans la devise de renvoi */
-/* **************************************************************************************************************************** */
-
-gdouble calcule_montant_devise_renvoi ( gdouble montant_init,
-					gint no_devise_renvoi,
-					gint no_devise_montant,
-					gint une_devise_compte_egale_x_devise_ope,
-					gdouble taux_change,
-					gdouble frais_change )
-{
-    gdouble montant = 0;
-
-    /* tout d'abord, si les 2 devises sont les mÃÂªmes, on renvoie le montant directement */
-
-    if ( no_devise_renvoi == no_devise_montant )
-	return ( montant_init );
-
-    /*   il faut faire une transformation du montant */
-    /* on utilise les variables globales devise_compte et devise_operation pour */
-    /* gagner du temps */
-
-    /* rÃÂ©cupÃÂšre la devise du compte si nÃÂ©cessaire */
-
-    if ( !devise_compte
-	 ||
-	 devise_compte -> no_devise != no_devise_renvoi )
-	devise_compte = devise_par_no ( no_devise_renvoi );
-
-    /* rÃÂ©cupÃÂšre la devise de l'opÃÂ©ration si nÃÂ©cessaire */
-
-    if ( !devise_operation
-	 ||
-	 devise_operation -> no_devise != no_devise_montant )
-	devise_operation = devise_par_no ( no_devise_montant );
-
-    /* on a maintenant les 2 devises, on peut faire les calculs */
-
-    if ( devise_compte && devise_compte -> passage_euro
-	 &&
-	 !strcmp ( devise_operation -> nom_devise, _("Euro") ) )
-	montant = montant_init * devise_compte -> change;
-    else
-	if ( devise_operation && devise_operation -> passage_euro
-	     &&
-	     !strcmp ( devise_compte -> nom_devise, _("Euro") ))
-	    montant = montant_init / devise_operation -> change;
-	else
-	    if ( taux_change )
-	    {
-		if ( une_devise_compte_egale_x_devise_ope )
-		    montant = montant_init / taux_change - frais_change;
-		else
-		    montant = montant_init * taux_change - frais_change;
-	    }
-	    else
-	    {
-		if ( devise_operation &&
-		     devise_operation -> no_devise_en_rapport == no_devise_renvoi &&
-		     devise_operation -> change )
-		{
-		    if ( devise_operation -> une_devise_1_egale_x_devise_2 )
-			montant = montant_init * devise_operation -> change - frais_change;
-		    else
-			montant = montant_init / devise_operation -> change - frais_change;
-		} 
-	    }
-
-    montant = ( rint (montant * 100 )) / 100;
-
-    return ( montant);
-}
-/* ***************************************************************************************** */
 
 
 

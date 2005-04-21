@@ -34,7 +34,6 @@
 
 /*START_INCLUDE*/
 #include "equilibrage.h"
-#include "utils_devises.h"
 #include "utils_montants.h"
 #include "operations_liste.h"
 #include "dialog.h"
@@ -810,12 +809,7 @@ gboolean gsb_reconcile_mark_transaction ( struct structure_operation *transactio
 
     model = gsb_account_get_store ( gsb_account_get_current_account () );
 
-    montant = calcule_montant_devise_renvoi ( transaction -> montant,
-					      gsb_account_get_currency (gsb_account_get_current_account ()),
-					      transaction -> devise,
-					      transaction -> une_devise_compte_egale_x_devise_ope,
-					      transaction -> taux_change,
-					      transaction -> frais_change );
+    montant = gsb_transaction_data_get_adjusted_amount ( gsb_transaction_data_get_transaction_number (transaction));
 
     iter = cherche_iter_operation ( transaction,
 				    gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (transaction)));

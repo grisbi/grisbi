@@ -330,7 +330,7 @@ void fill_transaction_row ( GtkTreeModel * model, GtkTreeIter * iter,
 	label = g_strconcat ( label, " (", _("breakdown"), ")", NULL );
     }
 
-    montant = g_strdup_printf ( "%4.2f %s", operation -> montant,
+    montant = g_strdup_printf ( "%4.2f %s", gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (operation )),
 				devise_code ( devise_par_no ( operation -> devise ) ) );
     gtk_tree_store_set ( GTK_TREE_STORE(model), iter, 
 			 META_TREE_POINTER_COLUMN, operation,

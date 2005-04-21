@@ -27,8 +27,8 @@
 
 /*START_INCLUDE*/
 #include "utils_montants.h"
-#include "utils_devises.h"
 #include "gsb_account.h"
+#include "gsb_transaction_data.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -75,12 +75,7 @@ void calcule_total_pointe_compte ( gint no_compte )
 	{
 	    gdouble montant;
 
-	    montant = calcule_montant_devise_renvoi ( operation -> montant,
-						      gsb_account_get_currency (no_compte),
-						      operation -> devise,
-						      operation -> une_devise_compte_egale_x_devise_ope,
-						      operation -> taux_change,
-						      operation -> frais_change );
+	    montant = gsb_transaction_data_get_adjusted_amount ( gsb_transaction_data_get_transaction_number (operation));
 
 	    operations_pointees = operations_pointees + montant;
 	}
@@ -136,12 +131,8 @@ gdouble calcule_solde_compte ( gint no_compte )
 	/* 	si l'opÃ© est ventilÃ©e, on saute */
 
 	if ( !operation -> no_operation_ventilee_associee )
-	solde = solde + calcule_montant_devise_renvoi ( operation -> montant,
-							gsb_account_get_currency (no_compte),
-							operation -> devise,
-							operation -> une_devise_compte_egale_x_devise_ope,
-							operation -> taux_change,
-							operation -> frais_change );
+	solde = solde + gsb_transaction_data_get_adjusted_amount ( gsb_transaction_data_get_transaction_number (operation));
+
 	liste_tmp = liste_tmp -> next;
     }
 
@@ -177,12 +168,7 @@ gdouble calcule_solde_pointe_compte ( gint no_compte )
 	if ( operation -> pointe
 	     &&
 	     !operation -> no_operation_ventilee_associee )
-	solde = solde + calcule_montant_devise_renvoi ( operation -> montant,
-							gsb_account_get_currency (no_compte),
-							operation -> devise,
-							operation -> une_devise_compte_egale_x_devise_ope,
-							operation -> taux_change,
-							operation -> frais_change );
+	solde = solde + gsb_transaction_data_get_adjusted_amount ( gsb_transaction_data_get_transaction_number (operation));
 	liste_tmp = liste_tmp -> next;
     }
 

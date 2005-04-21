@@ -27,8 +27,8 @@
 
 /*START_INCLUDE*/
 #include "utils_ib.h"
-#include "utils_devises.h"
 #include "gsb_account.h"
+#include "gsb_transaction_data.h"
 #include "search_glist.h"
 /*END_INCLUDE*/
 
@@ -42,7 +42,6 @@ extern GSList *liste_struct_imputation;
 extern gint mise_a_jour_combofix_imputation_necessaire;
 extern gint nb_enregistrements_imputations;
 extern gint no_derniere_imputation;
-extern gint no_devise_totaux_ib;
 extern struct struct_imputation * without_budgetary_line;
 /*END_EXTERN*/
 
@@ -349,11 +348,7 @@ void remove_transaction_from_budgetary_line ( struct structure_operation * trans
 					      struct struct_sous_imputation * sub_budgetary_line )
 {
     gdouble amount = 
-	calcule_montant_devise_renvoi ( transaction -> montant, no_devise_totaux_ib,
-					transaction -> devise,
-					transaction -> une_devise_compte_egale_x_devise_ope,
-					transaction -> taux_change,
-					transaction -> frais_change );
+	gsb_transaction_data_get_adjusted_amount ( gsb_transaction_data_get_transaction_number (transaction));
 
     if ( budgetary_line )
     {
@@ -403,11 +398,7 @@ void add_transaction_to_budgetary_line ( struct structure_operation * transactio
 					 struct struct_sous_imputation * sub_budgetary_line )
 {
     gdouble amount = 
-	calcule_montant_devise_renvoi ( transaction -> montant, no_devise_totaux_ib,
-					transaction -> devise,
-					transaction -> une_devise_compte_egale_x_devise_ope,
-					transaction -> taux_change,
-					transaction -> frais_change );
+	gsb_transaction_data_get_adjusted_amount ( gsb_transaction_data_get_transaction_number (transaction));
 
     if ( budgetary_line )
     {

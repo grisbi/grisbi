@@ -1205,7 +1205,7 @@ void cree_liens_virements_ope_import ( void )
 			      || g_strcasecmp ( nom_compte_courant,
 						g_strstrip ( operation_2 -> info_banque_guichet ))) 
 			     &&
-			     ( !same_currency || fabs ( operation -> montant ) == fabs ( operation_2 -> montant ))
+			     ( !same_currency || fabs ( gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (operation ))) == fabs ( gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (operation_2 ))))
 			     &&
 			     ( operation -> tiers == operation_2 -> tiers )
 			     &&
@@ -1400,7 +1400,8 @@ void creation_compte_importe ( struct struct_compte_importation *compte_import )
 
 	/* récupération du montant */
 
-	operation -> montant = operation_import -> montant;
+	gsb_transaction_data_set_amount ( gsb_transaction_data_get_transaction_number ( operation ),
+					  operation_import -> montant );
 
 	/* 	  récupération de la devise, sur la popup affichée */
 
@@ -1493,7 +1494,7 @@ void creation_compte_importe ( struct struct_compte_importation *compte_import )
 	    struct struct_type_ope *type_choisi;
 	    GSList *liste_tmp;
 
-	    if ( operation -> montant < 0 )
+	    if ( gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (operation ))< 0 )
 		operation -> type_ope = gsb_account_get_default_debit (no_compte);
 	    else
 		operation -> type_ope = gsb_account_get_default_credit (no_compte);
@@ -1517,9 +1518,9 @@ void creation_compte_importe ( struct struct_compte_importation *compte_import )
 		{
 		    if ( !type -> signe_type
 			 ||
-			 ( type -> signe_type == 1 && operation -> montant < 0 )
+			 ( type -> signe_type == 1 && gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (operation ))< 0 )
 			 ||
-			 ( type -> signe_type == 2 && operation -> montant > 0 ))
+			 ( type -> signe_type == 2 && gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (operation ))> 0 ))
 		    {
 			operation -> type_ope = type -> no_type;
 			type_choisi = type;
@@ -1546,7 +1547,7 @@ void creation_compte_importe ( struct struct_compte_importation *compte_import )
 	{
 	    /* comme ce n'est pas un chèque, on met sur le type par défaut */
 
-	    if ( operation -> montant < 0 )
+	    if ( gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (operation ))< 0 )
 		operation -> type_ope = gsb_account_get_default_debit (no_compte);
 	    else
 		operation -> type_ope = gsb_account_get_default_credit (no_compte);
@@ -1576,11 +1577,11 @@ void creation_compte_importe ( struct struct_compte_importation *compte_import )
 	if ( !operation -> operation_ventilee )
 	{
 	    gsb_account_set_current_balance ( no_compte,
-					      gsb_account_get_current_balance (no_compte) + operation -> montant );
+					      gsb_account_get_current_balance (no_compte) + gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (operation )));
 
 	    if ( operation -> pointe )
 		gsb_account_set_marked_balance ( no_compte,
-						 gsb_account_get_marked_balance (no_compte) + operation -> montant );
+						 gsb_account_get_marked_balance (no_compte) + gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (operation )));
 	}
 
 
@@ -1730,7 +1731,7 @@ void ajout_opes_importees ( struct struct_compte_importation *compte_import )
 
 		    operation = liste_ope -> data;
 
-		    if ( fabs ( operation -> montant - operation_import -> montant ) < 0.01
+		    if ( fabs ( gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (operation ))- operation_import -> montant ) < 0.01
 			 &&
 			 ( g_date_compare ( gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation)),
 					    date_debut_comparaison ) >= 0 )
@@ -1932,7 +1933,7 @@ void confirmation_enregistrement_ope_import ( struct struct_compte_importation *
 							  g_date_month ( gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation))),
 							  g_date_year ( gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation))),
 							  tiers,
-							  operation -> montant,
+							  gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (operation )),
 							  operation -> notes ));
 	    else
 		label = gtk_label_new ( g_strdup_printf ( _("Transaction found : %02d/%02d/%04d ; %s ; %4.2f"),
@@ -1940,7 +1941,7 @@ void confirmation_enregistrement_ope_import ( struct struct_compte_importation *
 							  g_date_month ( gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation))),
 							  g_date_year ( gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation))),
 							  tiers,
-							  operation -> montant ));
+							  gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (operation ))));
 
 	    gtk_box_pack_start ( GTK_BOX ( hbox ),
 				 label,
@@ -2043,7 +2044,8 @@ struct structure_operation *enregistre_ope_importee ( struct struct_ope_importat
 
     /* récupération du montant */
 
-    operation -> montant = operation_import -> montant;
+    gsb_transaction_data_set_amount ( gsb_transaction_data_get_transaction_number ( operation ),
+				      operation_import -> montant );
 
     /* 	  récupération de la devise, sur la popup affichée */
 
@@ -2133,7 +2135,7 @@ struct structure_operation *enregistre_ope_importee ( struct struct_ope_importat
 	struct struct_type_ope *type_choisi;
 	GSList *liste_tmp;
 
-	if ( operation -> montant < 0 )
+	if ( gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (operation ))< 0 )
 	    operation -> type_ope = gsb_account_get_default_debit (no_compte);
 	else
 	    operation -> type_ope = gsb_account_get_default_credit (no_compte);
@@ -2157,9 +2159,9 @@ struct structure_operation *enregistre_ope_importee ( struct struct_ope_importat
 	    {
 		if ( !type -> signe_type
 		     ||
-		     ( type -> signe_type == 1 && operation -> montant < 0 )
+		     ( type -> signe_type == 1 && gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (operation ))< 0 )
 		     ||
-		     ( type -> signe_type == 2 && operation -> montant > 0 ))
+		     ( type -> signe_type == 2 && gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (operation ))> 0 ))
 		{
 		    operation -> type_ope = type -> no_type;
 		    type_choisi = type;
@@ -2186,7 +2188,7 @@ struct structure_operation *enregistre_ope_importee ( struct struct_ope_importat
     {
 	/* comme ce n'est pas un chèque, on met sur le type par défaut */
 
-	if ( operation -> montant < 0 )
+	if ( gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (operation ))< 0 )
 	    operation -> type_ope = gsb_account_get_default_debit (no_compte);
 	else
 	    operation -> type_ope = gsb_account_get_default_credit (no_compte);
@@ -2326,7 +2328,7 @@ void pointe_opes_importees ( struct struct_compte_importation *compte_import )
 	    {
 		operation = liste_ope -> data;
 
-		if ( fabs ( operation -> montant - ope_import -> montant ) < 0.01
+		if ( fabs ( gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (operation ))- ope_import -> montant ) < 0.01
 		     &&
 		     ( g_date_compare ( gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation)),
 					date_debut_comparaison ) >= 0 )

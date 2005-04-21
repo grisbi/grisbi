@@ -35,6 +35,7 @@
 
 /*START_INCLUDE*/
 #include "gsb_transaction_data.h"
+#include "utils_devises.h"
 #include "gsb_account.h"
 /*END_INCLUDE*/
 
@@ -105,7 +106,8 @@ gint gsb_transaction_data_get_last_number (void)
     return last_number;
 }
 
-/** get the number of the transaction
+/** get the number of the transaction and save the pointer in the buffer
+ * which will increase the speed later
  * \param transaction a pointer to a transaction
  * \return the number of the transaction
  * */
@@ -411,7 +413,7 @@ GDate *gsb_transaction_data_get_value_date ( gint no_transaction )
 
 /** set the value GDate of the transaction
  * \param no_transaction
- * \param no_account
+ * \param date the value date
  * \return TRUE if ok
  * */
 gboolean gsb_transaction_data_set_value_date ( gint no_transaction,
@@ -429,4 +431,150 @@ gboolean gsb_transaction_data_set_value_date ( gint no_transaction,
     
     return TRUE;
 }
+
+
+
+
+
+/** get the amount of the transaction without any currency change
+ * (so just get the given amout)
+ * \param no_transaction the number of the transaction
+ * \return the amount of the transaction
+ * */
+gdouble gsb_transaction_data_get_amount ( gint no_transaction )
+{
+    struct_transaction *transaction;
+
+    transaction = gsb_transaction_data_get_transaction_by_no ( no_transaction,
+							       -1 );
+
+    if ( !transaction )
+	return 0;
+
+    return transaction -> transaction_amount;
+}
+
+
+/** set the amount of the transaction
+ * \param no_transaction
+ * \param amount
+ * \return TRUE if ok
+ * */
+gboolean gsb_transaction_data_set_amount ( gint no_transaction,
+					   gdouble amount )
+{
+    struct_transaction *transaction;
+
+    transaction = gsb_transaction_data_get_transaction_by_no ( no_transaction,
+							       -1 );
+
+    if ( !transaction )
+	return FALSE;
+
+    transaction -> transaction_amount = amount;
+    
+    return TRUE;
+}
+
+
+
+/** get the amount of the transaction, modified to be ok with the currency
+ * of the account
+ * \param no_transaction the number of the transaction
+ * \return the amount of the transaction
+ * */
+gdouble gsb_transaction_data_get_adjusted_amount ( gint no_transaction )
+{
+    struct_transaction *transaction;
+
+    transaction = gsb_transaction_data_get_transaction_by_no ( no_transaction,
+							       -1 );
+
+    if ( !transaction )
+	return 0;
+
+    return gsb_transaction_data_get_adjusted_amount_for_currency ( no_transaction,
+								   gsb_account_get_currency ( transaction -> account_number ));
+}
+
+
+
+
+/** get the amount of the transaction, modified to be ok with the currency
+ * given in param 
+ * \param no_transaction the number of the transaction
+ * \param no_currency_for_return the currency we want to adjust the transaction's amount
+ * \return the amount of the transaction
+ * */
+gdouble gsb_transaction_data_get_adjusted_amount_for_currency ( gint no_transaction,
+								gint no_currency_for_return )
+{
+    struct_transaction *transaction;
+    struct struct_devise *return_currency;
+    struct struct_devise *transaction_currency;
+    gdouble amount = 0;
+
+    transaction = gsb_transaction_data_get_transaction_by_no ( no_transaction,
+							       -1 );
+
+    if ( ! (transaction
+	    &&
+	    no_currency_for_return ))
+	return 0;
+
+    /* if the transaction currency is the same of the account's one,
+     * we just return the transaction's amount */
+
+    if ( transaction -> currency_number == no_currency_for_return )
+	return transaction -> transaction_amount;
+
+    /* get the currencies and check if they exist */
+    
+    return_currency = devise_par_no ( no_currency_for_return );
+    transaction_currency = devise_par_no ( transaction -> currency_number );
+
+    if ( !(return_currency
+	   &&
+	   transaction_currency ))
+	return 0;
+
+    /* now we can adjust the amount */
+
+    if ( return_currency -> passage_euro
+	 &&
+	 !strcmp ( transaction_currency -> nom_devise,
+		   _("Euro")))
+    	amount = transaction -> transaction_amount * return_currency -> change;
+    else
+	if ( transaction_currency -> passage_euro
+	     &&
+	     !strcmp ( return_currency -> nom_devise, _("Euro") ))
+	    amount = transaction -> transaction_amount / transaction_currency -> change;
+	else
+	    if ( transaction -> exchange_rate )
+	    {
+		if ( transaction -> change_between_account_and_transaction )
+		    amount = transaction -> transaction_amount / transaction -> exchange_rate - transaction -> exchange_fees;
+		else
+		    amount = transaction -> transaction_amount * transaction -> exchange_rate - transaction -> exchange_fees;
+	    }
+	    else
+	    {
+		if ( transaction_currency -> no_devise_en_rapport == return_currency -> no_devise
+		     &&
+		     transaction_currency -> change )
+		{
+		    if ( transaction -> change_between_account_and_transaction )
+			amount = transaction -> transaction_amount * transaction_currency -> change - transaction -> exchange_fees;
+		    else
+			amount = transaction -> transaction_amount / transaction_currency -> change - transaction -> exchange_fees;
+		} 
+	    }
+
+    amount = ( rint (amount * 100 )) / 100;
+	
+    return amount;
+}
+
+
 

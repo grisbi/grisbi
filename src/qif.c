@@ -27,7 +27,6 @@
 
 /*START_INCLUDE*/
 #include "qif.h"
-#include "utils_devises.h"
 #include "dialog.h"
 #include "utils_dates.h"
 #include "utils_files.h"
@@ -1182,12 +1181,7 @@ choix_liste_fichier:
 
 			/* met le montant, transforme la devise si necessaire */
 
-			montant = calcule_montant_devise_renvoi ( operation -> montant,
-								  gsb_account_get_currency (no_compte),
-								  operation -> devise,
-								  operation -> une_devise_compte_egale_x_devise_ope,
-								  operation -> taux_change,
-								  operation -> frais_change );
+			montant = gsb_transaction_data_get_adjusted_amount ( gsb_transaction_data_get_transaction_number (operation));
 
 			montant_tmp = g_strdup_printf ( "%4.2f",
 							montant );
@@ -1345,12 +1339,7 @@ choix_liste_fichier:
 
 				    /* met le montant de la ventilation */
 
-				    montant = calcule_montant_devise_renvoi ( ope_test -> montant,
-									      gsb_account_get_currency (no_compte),
-									      operation -> devise,
-									      operation -> une_devise_compte_egale_x_devise_ope,
-									      operation -> taux_change,
-									      operation -> frais_change );
+				    montant = gsb_transaction_data_get_adjusted_amount ( gsb_transaction_data_get_transaction_number (ope_test));
 
 				    montant_tmp = g_strdup_printf ( "%4.2f",
 								    montant );

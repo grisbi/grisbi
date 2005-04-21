@@ -33,12 +33,12 @@
 #include "accueil.h"
 #include "exercice.h"
 #include "type_operations.h"
-#include "utils_devises.h"
 #include "utils_editables.h"
 #include "utils_montants.h"
 #include "utils_categories.h"
 #include "operations_liste.h"
 #include "devises.h"
+#include "utils_devises.h"
 #include "dialog.h"
 #include "equilibrage.h"
 #include "gsb_account.h"
@@ -1763,23 +1763,23 @@ gboolean completion_operation_par_tiers ( GtkWidget *entree )
 	    {
 		case TRANSACTION_FORM_DEBIT:
 
-		    if ( transaction -> montant < 0 )
+		    if ( gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (transaction ))< 0 )
 		    {
 			entree_prend_focus ( widget );
 			gtk_entry_set_text ( GTK_ENTRY ( widget ),
 					     g_strdup_printf ( "%4.2f",
-							       -transaction -> montant ));
+							       -gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (transaction ))));
 		    }
 		    break;
 
 		case TRANSACTION_FORM_CREDIT:
 
-		    if ( transaction -> montant >= 0 )
+		    if ( gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (transaction ))>= 0 )
 		    {
 			entree_prend_focus ( widget );
 			gtk_entry_set_text ( GTK_ENTRY ( widget ),
 					     g_strdup_printf ( "%4.2f",
-							       transaction -> montant ));
+							       gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (transaction ))));
 		    }
 		    break;
 
@@ -1853,7 +1853,7 @@ gboolean completion_operation_par_tiers ( GtkWidget *entree )
 
 		case TRANSACTION_FORM_TYPE:
 
-		    if ( transaction -> montant < 0 )
+		    if ( gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (transaction ))< 0 )
 			menu = creation_menu_types ( 1, gsb_account_get_current_account (), 0  );
 		    else
 			menu = creation_menu_types ( 2, gsb_account_get_current_account (), 0  );
@@ -1911,7 +1911,7 @@ gboolean completion_operation_par_tiers ( GtkWidget *entree )
 		    if ( transaction -> relation_no_operation &&
 			 transaction -> relation_no_compte != -1 )
 		    {
-			if ( transaction -> montant < 0 )
+			if ( gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (transaction ))< 0 )
 			    menu = creation_menu_types ( 2, transaction -> relation_no_compte, 0  );
 			else
 			    menu = creation_menu_types ( 1, transaction -> relation_no_compte, 0  );
@@ -2825,13 +2825,15 @@ void recuperation_donnees_generales_formulaire ( struct structure_operation *tra
 		case TRANSACTION_FORM_DEBIT:
 
 		    if ( gtk_widget_get_style ( widget ) == style_entree_formulaire[ENCLAIR] )
-			transaction -> montant = -calcule_total_entree ( widget );
+			gsb_transaction_data_set_amount ( gsb_transaction_data_get_transaction_number ( transaction ),
+							  -calcule_total_entree ( widget ));
 		    break;
 
 		case TRANSACTION_FORM_CREDIT:
 
 		    if ( gtk_widget_get_style ( widget ) == style_entree_formulaire[ENCLAIR] )
-			transaction -> montant = calcule_total_entree ( widget );
+			gsb_transaction_data_set_amount ( gsb_transaction_data_get_transaction_number ( transaction ),
+							  calcule_total_entree ( widget ));
 		    break;
 
 		case TRANSACTION_FORM_BUDGET:
@@ -2842,7 +2844,7 @@ void recuperation_donnees_generales_formulaire ( struct structure_operation *tra
 
 			imputation = imputation_par_nom ( tab_char[0],
 							  1,
-							  transaction -> montant < 0,
+							  gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (transaction ))< 0,
 							  0 );
 
 			if ( imputation )
@@ -3137,7 +3139,7 @@ gboolean gsb_form_get_categories ( struct structure_operation *transaction,
 
 		    categ = categ_par_nom ( tab_char[0],
 					    1,
-					    transaction -> montant < 0,
+					    gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (transaction ))< 0,
 					    0 );
 
 		    if ( categ )
@@ -3235,7 +3237,8 @@ printf ( "ça passe\n" );
 
     gsb_transaction_data_set_date ( gsb_transaction_data_get_transaction_number ( contra_transaction ),
 				    gsb_date_copy ( gsb_transaction_data_get_date ( gsb_transaction_data_get_transaction_number ( transaction ))));
-    contra_transaction -> montant = -transaction -> montant;
+    gsb_transaction_data_set_amount ( gsb_transaction_data_get_transaction_number ( contra_transaction ),
+				      -gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (transaction )));
 
     /* check if we have to ask to convert a currency */
 
@@ -3385,12 +3388,8 @@ gboolean gsb_transactions_list_append_new_transaction ( struct structure_operati
     gsb_account_set_current_balance ( gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (transaction)),
 				      gsb_account_get_current_balance ( gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (transaction)))
 				      +
-				      calcule_montant_devise_renvoi ( transaction -> montant,
-								      gsb_account_get_currency (gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (transaction))),
-								      transaction -> devise,
-								      transaction -> une_devise_compte_egale_x_devise_ope,
-								      transaction -> taux_change,
-								      transaction -> frais_change ));
+				      gsb_transaction_data_get_adjusted_amount ( gsb_transaction_data_get_transaction_number (transaction)));
+
     /* on met à jour les labels des soldes */
 
     mise_a_jour_labels_soldes ();
@@ -3474,12 +3473,8 @@ gboolean gsb_transactions_list_update_transaction ( struct structure_operation *
     gsb_account_set_current_balance ( gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (transaction)),
 				      gsb_account_get_current_balance ( gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (transaction)))
 				      +
-				      calcule_montant_devise_renvoi ( transaction -> montant,
-								      gsb_account_get_currency (gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (transaction))),
-								      transaction -> devise,
-								      transaction -> une_devise_compte_egale_x_devise_ope,
-								      transaction -> taux_change,
-								      transaction -> frais_change ));
+				      gsb_transaction_data_get_adjusted_amount ( gsb_transaction_data_get_transaction_number (transaction)));
+
     /* on met à jour les labels des soldes */
 
     mise_a_jour_labels_soldes ();

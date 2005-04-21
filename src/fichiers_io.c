@@ -1354,9 +1354,10 @@ gboolean recuperation_comptes_xml ( xmlNodePtr node_comptes )
 
 			    /* GDCFin */
 
-			    operation -> montant = my_strtod ( xmlGetProp ( node_ope,
-									    "M" ),
-							       NULL );
+			    gsb_transaction_data_set_amount ( transaction_number,
+							      my_strtod ( xmlGetProp ( node_ope,
+										       "M" ),
+									  NULL ));
 
 			    operation -> devise = my_atoi ( xmlGetProp ( node_ope,
 									 "De" ));
@@ -3631,7 +3632,7 @@ gboolean enregistre_fichier ( gchar *new_file )
 	    xmlSetProp ( node_ope,
 			 "M",
 			 g_strdup_printf ( "%4.7f",
-					   operation -> montant ));
+					   gsb_transaction_data_get_amount ( transaction_number )));
 
 	    xmlSetProp ( node_ope,
 			 "De",

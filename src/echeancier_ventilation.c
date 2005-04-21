@@ -1703,7 +1703,7 @@ void fin_edition_ventilation_echeances ( void )
 
 		categ = categ_par_nom ( tableau_char[0],
 					1,
-					operation -> montant < 0,
+					gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (operation ))< 0,
 					0 );
 
 
@@ -1790,9 +1790,11 @@ void fin_edition_ventilation_echeances ( void )
 
     if ( gtk_widget_get_style ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_DEBIT] ) == style_entree_formulaire[ENCLAIR] )
 	/* c'est un débit */
-	operation -> montant = -calcule_total_entree ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_DEBIT] );
+	gsb_transaction_data_set_amount ( gsb_transaction_data_get_transaction_number ( operation ),
+					  -calcule_total_entree ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_DEBIT] ));
     else
-	operation -> montant = calcule_total_entree ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CREDIT] );
+	gsb_transaction_data_set_amount ( gsb_transaction_data_get_transaction_number ( operation ),
+					  calcule_total_entree ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CREDIT] ) );
 
 
 
@@ -1809,7 +1811,7 @@ void fin_edition_ventilation_echeances ( void )
 
 	imputation = imputation_par_nom ( tableau_char[0],
 					  1,
-					  operation -> montant < 0,
+					  gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (operation ))< 0,
 					  0 );
 
 	if ( imputation )

@@ -27,7 +27,6 @@
 
 /*START_INCLUDE*/
 #include "classement_operations.h"
-#include "utils_devises.h"
 #include "erreur.h"
 #include "gsb_account.h"
 #include "utils_exercices.h"
@@ -831,30 +830,20 @@ gint gsb_transactions_list_sort_by_credit ( GtkTreeModel *model,
 
     /* for the amounts, we have to check also the currency */
 
-    if ( fabs (transaction_1 -> montant - transaction_2 -> montant) < 0.01
+    if ( fabs (gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (transaction_1 )) - gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (transaction_2 ))) < 0.01
 	 &&
 	 transaction_1 -> devise == transaction_2 -> devise )
 	return_value = gsb_transactions_list_sort_by_transaction_date_and_no();
     else
     {
 	if ( transaction_1 -> devise == transaction_2 -> devise )
-	    return_value = transaction_1 -> montant - transaction_2 -> montant;
+	    return_value = gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (transaction_1 ))- gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (transaction_2 ));
 	else
 	{
 	    gdouble amount_1, amount_2;
 
-	    amount_1 = calcule_montant_devise_renvoi ( transaction_1 -> montant,
-						       gsb_account_get_currency (gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (transaction_1))),
-						       transaction_1 -> devise,
-						       transaction_1 -> une_devise_compte_egale_x_devise_ope,
-						       transaction_1 -> taux_change,
-						       transaction_1 -> frais_change );
-	    amount_2 = calcule_montant_devise_renvoi ( transaction_2 -> montant,
-						       gsb_account_get_currency (gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (transaction_1 ))),
-						       transaction_2 -> devise,
-						       transaction_2 -> une_devise_compte_egale_x_devise_ope,
-						       transaction_2 -> taux_change,
-						       transaction_2 -> frais_change );
+	    amount_1 = gsb_transaction_data_get_adjusted_amount ( gsb_transaction_data_get_transaction_number (transaction_1));
+	    amount_2 = gsb_transaction_data_get_adjusted_amount ( gsb_transaction_data_get_transaction_number (transaction_2));
 	    return_value = amount_1 - amount_2;
 
 	}
@@ -903,30 +892,20 @@ gint gsb_transactions_list_sort_by_debit ( GtkTreeModel *model,
 
     /* for the amounts, we have to check also the currency */
 
-    if ( fabs (transaction_1 -> montant - transaction_2 -> montant) < 0.01
+    if ( fabs (gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (transaction_1 ))- gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (transaction_2 ))) < 0.01
 	 &&
 	 transaction_1 -> devise == transaction_2 -> devise )
 	return_value = gsb_transactions_list_sort_by_transaction_date_and_no();
     else
     {
 	if ( transaction_1 -> devise == transaction_2 -> devise )
-	    return_value = transaction_2 -> montant - transaction_1 -> montant;
+	    return_value = gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (transaction_2 ))- gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (transaction_1 ));
 	else
 	{
 	    gdouble amount_1, amount_2;
 
-	    amount_1 = calcule_montant_devise_renvoi ( transaction_1 -> montant,
-						       gsb_account_get_currency (gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (transaction_1 ))),
-						       transaction_1 -> devise,
-						       transaction_1 -> une_devise_compte_egale_x_devise_ope,
-						       transaction_1 -> taux_change,
-						       transaction_1 -> frais_change );
-	    amount_2 = calcule_montant_devise_renvoi ( transaction_2 -> montant,
-						       gsb_account_get_currency (gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (transaction_1))),
-						       transaction_2 -> devise,
-						       transaction_2 -> une_devise_compte_egale_x_devise_ope,
-						       transaction_2 -> taux_change,
-						       transaction_2 -> frais_change );
+	    amount_1 = gsb_transaction_data_get_adjusted_amount ( gsb_transaction_data_get_transaction_number (transaction_1));
+	    amount_2 = gsb_transaction_data_get_adjusted_amount ( gsb_transaction_data_get_transaction_number (transaction_2));
 	    return_value = amount_2 - amount_1;
 
 	}
@@ -972,30 +951,20 @@ gint gsb_transactions_list_sort_by_amount ( GtkTreeModel *model,
 
     /* for the amounts, we have to check also the currency */
 
-    if ( fabs (transaction_1 -> montant - transaction_2 -> montant) < 0.01
+    if ( fabs (gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (transaction_1 ))- gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (transaction_2 ))) < 0.01
 	 &&
 	 transaction_1 -> devise == transaction_2 -> devise )
 	return_value = gsb_transactions_list_sort_by_transaction_date_and_no();
     else
     {
 	if ( transaction_1 -> devise == transaction_2 -> devise )
-	    return_value = fabs(transaction_1 -> montant) - fabs (transaction_2 -> montant);
+	    return_value = fabs(gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (transaction_1 ))) - fabs (gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (transaction_2 )));
 	else
 	{
 	    gdouble amount_1, amount_2;
 
-	    amount_1 = calcule_montant_devise_renvoi ( transaction_1 -> montant,
-						       gsb_account_get_currency (gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (transaction_1))),
-						       transaction_1 -> devise,
-						       transaction_1 -> une_devise_compte_egale_x_devise_ope,
-						       transaction_1 -> taux_change,
-						       transaction_1 -> frais_change );
-	    amount_2 = calcule_montant_devise_renvoi ( transaction_2 -> montant,
-						       gsb_account_get_currency (gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (transaction_1))),
-						       transaction_2 -> devise,
-						       transaction_2 -> une_devise_compte_egale_x_devise_ope,
-						       transaction_2 -> taux_change,
-						       transaction_2 -> frais_change );
+	    amount_1 = gsb_transaction_data_get_adjusted_amount ( gsb_transaction_data_get_transaction_number (transaction_1));
+	    amount_2 = gsb_transaction_data_get_adjusted_amount ( gsb_transaction_data_get_transaction_number (transaction_2));
 	    return_value = fabs(amount_1) - fabs(amount_2);
 
 	}

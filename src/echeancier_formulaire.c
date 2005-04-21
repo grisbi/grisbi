@@ -1905,11 +1905,13 @@ void fin_edition_echeance ( void )
 	/* récupération du montant */
 
 	if ( gtk_widget_get_style ( widget_formulaire_echeancier[SCHEDULER_FORM_DEBIT] ) == style_entree_formulaire[ENCLAIR] )
-	    operation -> montant = -my_strtod ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_echeancier[SCHEDULER_FORM_DEBIT] ))),
-						NULL );
+	    gsb_transaction_data_set_amount ( gsb_transaction_data_get_transaction_number ( operation ),
+					      -my_strtod ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_echeancier[SCHEDULER_FORM_DEBIT] ))),
+							   NULL ) );
 	else
-	    operation -> montant = my_strtod ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_echeancier[SCHEDULER_FORM_CREDIT] ))),
-					       NULL );
+	    gsb_transaction_data_set_amount ( gsb_transaction_data_get_transaction_number ( operation ),
+					      my_strtod ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_echeancier[SCHEDULER_FORM_CREDIT] ))),
+							  NULL ) );
 
 	/* récupération de la devise */
 
@@ -2054,7 +2056,7 @@ void fin_edition_echeance ( void )
 
 	    imputation = imputation_par_nom ( tableau_char[0],
 					      1,
-					      operation -> montant < 0,
+					      gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (operation ))< 0,
 					      0 );
 
 	    if ( imputation )
@@ -2121,14 +2123,15 @@ void fin_edition_echeance ( void )
 	    operation_fille = calloc ( 1,
 				       sizeof ( struct structure_operation ));
 
-		    /*   on a fini de remplir l'opé, on peut l'ajouter à la liste */
+	    /*   on a fini de remplir l'opé, on peut l'ajouter à la liste */
 	    /* 	    comme c'est une opé de ventilation, elle ne sera pas affiché et ne changera */
 	    /* 		rien au solde, donc on l'ajoute juste à la sliste */
 
 	    gsb_transactions_append_transaction ( operation_fille,
 						  gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (operation)));
 
-	    operation_fille -> montant = ope_ventil -> montant;
+	    gsb_transaction_data_set_amount ( gsb_transaction_data_get_transaction_number ( operation_fille ),
+					      gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (ope_ventil )));
 	    operation_fille -> categorie = ope_ventil -> categorie;
 	    operation_fille -> sous_categorie = ope_ventil -> sous_categorie;
 
@@ -2265,7 +2268,8 @@ struct structure_operation *ajoute_contre_operation_echeance_dans_liste ( struct
 
     gsb_transaction_data_set_date ( gsb_transaction_data_get_transaction_number ( contre_operation ),
 				    gsb_date_copy ( gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number ( operation ))));
-    contre_operation -> montant = -operation -> montant;
+    gsb_transaction_data_set_amount ( gsb_transaction_data_get_transaction_number ( operation ),
+				      -gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (operation )));
 
     /* si c'est la devise du compte ou si c'est un compte qui doit passer à l'euro ( la transfo se fait au niveau */
     /* de l'affichage de la liste ) ou si c'est un compte en euro et l'opé est dans une devise qui doit passer à l'euro -> ok */
@@ -2758,14 +2762,14 @@ void completion_operation_par_tiers_echeancier ( void )
 
     /* remplit les montant */
 
-    if ( operation -> montant < 0 )
+    if ( gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (operation ))< 0 )
     {
 	GtkWidget *menu;
 
 	entree_prend_focus ( widget_formulaire_echeancier[SCHEDULER_FORM_DEBIT] );
 	gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_echeancier[SCHEDULER_FORM_DEBIT] ),
 			     g_strdup_printf ( "%4.2f",
-					       -operation -> montant ));
+					       -gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (operation ))));
 	/* met le menu des types débits */
 
 
@@ -2786,7 +2790,7 @@ void completion_operation_par_tiers_echeancier ( void )
 	entree_prend_focus ( widget_formulaire_echeancier[SCHEDULER_FORM_CREDIT] );
 	gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_echeancier[SCHEDULER_FORM_CREDIT] ),
 			     g_strdup_printf ( "%4.2f",
-					       operation -> montant ));
+					       gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (operation ))));
 	/* met le menu des types crédits */
 
 
@@ -2853,7 +2857,7 @@ void completion_operation_par_tiers_echeancier ( void )
 					  place_type );
 	else
 	{
-	    if ( operation -> montant < 0 )
+	    if ( gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (operation ))< 0 )
 		place_type = cherche_no_menu_type_echeancier ( gsb_account_get_default_debit (no_compte) );
 	    else
 		place_type = cherche_no_menu_type_echeancier ( gsb_account_get_default_credit (no_compte) );
@@ -2870,7 +2874,7 @@ void completion_operation_par_tiers_echeancier ( void )
 
 		/*  on met ce type par défaut, vu que celui par défaut marche plus ... */
 
-		if ( operation -> montant < 0 )
+		if ( gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (operation ))< 0 )
 		    gsb_account_set_default_debit ( no_compte,
 						    GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] ) -> menu_item ),
 											    "no_type" )) );
