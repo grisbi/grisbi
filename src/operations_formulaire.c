@@ -2015,7 +2015,7 @@ struct structure_operation *gsb_transactions_look_for_last_party ( gint no_party
 
 	    transaction = transactions_list -> data;
 
-	    if ( transaction -> tiers == no_party
+	    if ( gsb_transaction_data_get_party_number ( gsb_transaction_data_get_transaction_number (transaction ))== no_party
 		 &&
 		 gsb_transaction_data_get_transaction_number (transaction) != no_new_transaction
 		 &&
@@ -2452,9 +2452,9 @@ GSList *gsb_form_get_parties_list_from_report ( void )
 		    transaction = list_tmp -> data;
 
 		    if ( !g_slist_find ( list_nb_parties,
-					 GINT_TO_POINTER ( transaction -> tiers )))
+					 GINT_TO_POINTER ( gsb_transaction_data_get_party_number ( gsb_transaction_data_get_transaction_number (transaction )))))
 			list_nb_parties = g_slist_append ( list_nb_parties,
-							  GINT_TO_POINTER ( transaction -> tiers ));
+							  GINT_TO_POINTER ( gsb_transaction_data_get_party_number ( gsb_transaction_data_get_transaction_number (transaction ))));
 
 		    list_tmp = list_tmp -> next;
 		}
@@ -2814,12 +2814,12 @@ void recuperation_donnees_generales_formulaire ( struct structure_operation *tra
 		case TRANSACTION_FORM_PARTY:
 
 		    if ( gtk_widget_get_style ( GTK_COMBOFIX ( widget ) -> entry ) == style_entree_formulaire[ENCLAIR] )
-		    {
-			transaction -> tiers = tiers_par_nom ( gtk_combofix_get_text ( GTK_COMBOFIX ( widget )),
-							     1 ) -> no_tiers;
-		    }
+			gsb_transaction_data_set_party_number ( gsb_transaction_data_get_transaction_number (transaction),
+								tiers_par_nom ( gtk_combofix_get_text ( GTK_COMBOFIX ( widget )),
+										1 ) -> no_tiers );
 		    else
-			transaction -> tiers = 0;
+			gsb_transaction_data_set_party_number ( gsb_transaction_data_get_transaction_number (transaction),
+								0 );
 
 		    break;
 
@@ -3037,7 +3037,7 @@ gboolean gsb_form_get_categories ( struct structure_operation *transaction,
 	    {
 		struct structure_operation *breakdown_transaction;
 
-		breakdown_transaction = gsb_transactions_look_for_last_party ( transaction -> tiers,
+		breakdown_transaction = gsb_transactions_look_for_last_party ( gsb_transaction_data_get_party_number ( gsb_transaction_data_get_transaction_number (transaction )),
 									       gsb_transaction_data_get_transaction_number (transaction));
 
 		if ( breakdown_transaction )
@@ -3273,7 +3273,8 @@ printf ( "ça passe\n" );
 						      1 );
     }
 
-    contra_transaction -> tiers = transaction -> tiers;
+    gsb_transaction_data_set_party_number ( gsb_transaction_data_get_transaction_number (contra_transaction),
+					    gsb_transaction_data_get_party_number ( gsb_transaction_data_get_transaction_number (transaction)));
     contra_transaction -> categorie = transaction -> categorie;
     contra_transaction -> sous_categorie = transaction -> sous_categorie;
 

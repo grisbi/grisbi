@@ -750,5 +750,46 @@ gboolean gsb_transaction_data_set_exchange_fees ( gint no_transaction,
 
 
 
+/** get the party_number 
+ * \param no_transaction the number of the transaction
+ * \return the currency number of the transaction
+ * */
+gint gsb_transaction_data_get_party_number ( gint no_transaction )
+{
+    struct_transaction *transaction;
+
+    transaction = gsb_transaction_data_get_transaction_by_no ( no_transaction,
+							       -1 );
+
+    if ( !transaction )
+	return -1;
+
+    return transaction -> party_number;
+}
+
+
+/** set the party_number
+ * \param no_transaction
+ * \param value
+ * \return TRUE if ok
+ * */
+gboolean gsb_transaction_data_set_party_number ( gint no_transaction,
+						 gint no_party )
+{
+    struct_transaction *transaction;
+
+    transaction = gsb_transaction_data_get_transaction_by_no ( no_transaction,
+							       -1 );
+
+    if ( !transaction )
+	return FALSE;
+
+    transaction -> party_number = no_party;
+
+    return TRUE;
+}
+
+
+
 
 

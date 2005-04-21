@@ -188,12 +188,12 @@ void calcule_total_montant_payee ( void )
 
 	    operation = liste_tmp -> data;
 
-	    if ( operation -> tiers )
+	    if ( gsb_transaction_data_get_party_number ( gsb_transaction_data_get_transaction_number (operation )))
 	    {
 		struct struct_tiers * payee = NULL;
 
 		/* il y a une catégorie */
-		payee = tiers_par_no ( operation -> tiers );
+		payee = tiers_par_no ( gsb_transaction_data_get_party_number ( gsb_transaction_data_get_transaction_number (operation )));
 
 		add_transaction_to_payee ( operation, payee );
 	    }

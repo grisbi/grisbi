@@ -1207,7 +1207,7 @@ void cree_liens_virements_ope_import ( void )
 			     &&
 			     ( !same_currency || fabs ( gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (operation ))) == fabs ( gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (operation_2 ))))
 			     &&
-			     ( operation -> tiers == operation_2 -> tiers )
+			     ( gsb_transaction_data_get_party_number ( gsb_transaction_data_get_transaction_number (operation ))== gsb_transaction_data_get_party_number ( gsb_transaction_data_get_transaction_number (operation_2 )))
 			     &&
 			     !g_date_compare ( gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation)), gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation_2))))
 			{
@@ -1414,8 +1414,9 @@ void creation_compte_importe ( struct struct_compte_importation *compte_import )
 	if ( operation_import -> tiers
 	     &&
 	     strlen ( g_strstrip ( operation_import -> tiers )))
-	    operation -> tiers = tiers_par_nom ( operation_import -> tiers,
-						 1 ) -> no_tiers;
+	    gsb_transaction_data_set_party_number ( gsb_transaction_data_get_transaction_number (operation ),
+						    tiers_par_nom ( operation_import -> tiers,
+								    1 ) -> no_tiers );
 
 	/* vérification si c'est ventilé, sinon récupération des catégories */
 
@@ -1926,7 +1927,7 @@ void confirmation_enregistrement_ope_import ( struct struct_compte_importation *
 				 0 );
 	    gtk_widget_show ( label );
 
-	    tiers = tiers_name_by_no ( operation -> tiers, FALSE );
+	    tiers = tiers_name_by_no ( gsb_transaction_data_get_party_number ( gsb_transaction_data_get_transaction_number (operation )), FALSE );
 
 	    if ( operation -> notes )
 		label = gtk_label_new ( g_strdup_printf ( _("Transaction found : %02d/%02d/%04d ; %s ; %4.2f ; %s"),
@@ -2045,19 +2046,20 @@ struct structure_operation *enregistre_ope_importee ( struct struct_ope_importat
 
     /* récupération du montant */
 
-    gsb_transaction_data_set_amount ( gsb_transaction_data_get_transaction_number ( operation ),
+    gsb_transaction_data_set_amount ( transaction_number,
 				      operation_import -> montant );
 
     /* 	  récupération de la devise, sur la popup affichée */
 
-    gsb_transaction_data_set_currency_number ( gsb_transaction_data_get_transaction_number (operation ),
+    gsb_transaction_data_set_currency_number ( transaction_number,
 					       operation_import -> devise );
 
     /* rÃ©cupération du tiers */
 
     if ( operation_import -> tiers )
-	operation -> tiers = tiers_par_nom ( operation_import -> tiers,
-					     1 ) -> no_tiers;
+	gsb_transaction_data_set_party_number ( transaction_number,
+						tiers_par_nom ( operation_import -> tiers,
+								1 ) -> no_tiers );
 
     /* vérification si c'est ventilé, sinon récupération des catégories */
 

@@ -26,6 +26,7 @@
 #include "meta_payee.h"
 #include "utils_tiers.h"
 #include "utils_devises.h"
+#include "gsb_transaction_data.h"
 #include "tiers_onglet.h"
 #include "traitement_variables.h"
 /*END_INCLUDE*/
@@ -328,7 +329,7 @@ gint payee_div_type ( gpointer div )
  */
 gint payee_transaction_div_id ( struct structure_operation * transaction )
 {
-    return transaction -> tiers;
+    return gsb_transaction_data_get_party_number ( gsb_transaction_data_get_transaction_number (transaction ));
 }
 
 
@@ -351,7 +352,8 @@ gint payee_transaction_sub_div_id ( struct structure_operation * transaction )
 void payee_transaction_set_div_id ( struct structure_operation * transaction, 
 				    int no_div )
 {
-    transaction -> tiers = no_div;
+    gsb_transaction_data_set_party_number ( gsb_transaction_data_get_transaction_number (transaction),
+					    no_div );
 }
 
 

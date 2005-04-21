@@ -1633,7 +1633,8 @@ void verification_echeances_a_terme ( void )
 
 		gsb_transaction_data_set_account_number ( gsb_transaction_data_get_transaction_number ( operation ),
 							  ECHEANCE_COURANTE -> compte );
-		operation -> tiers = ECHEANCE_COURANTE -> tiers;
+		gsb_transaction_data_set_party_number ( gsb_transaction_data_get_transaction_number (operation ),
+							ECHEANCE_COURANTE -> tiers );
 		gsb_transaction_data_set_amount ( gsb_transaction_data_get_transaction_number ( operation ),
 						  ECHEANCE_COURANTE -> montant );
 		gsb_transaction_data_set_currency_number ( gsb_transaction_data_get_transaction_number (operation ),
@@ -1783,7 +1784,8 @@ void verification_echeances_a_terme ( void )
 							     gsb_transaction_data_get_exchange_rate ( gsb_transaction_data_get_transaction_number (operation )));
 		    gsb_transaction_data_set_exchange_fees ( gsb_transaction_data_get_transaction_number (operation_fille ),
 							     gsb_transaction_data_get_exchange_fees ( gsb_transaction_data_get_transaction_number (operation )));
-		    operation_fille -> tiers = operation -> tiers;
+		    gsb_transaction_data_set_party_number ( gsb_transaction_data_get_transaction_number (operation_fille),
+							    gsb_transaction_data_get_party_number ( gsb_transaction_data_get_transaction_number (operation)));
 		    operation_fille -> pointe = operation -> pointe;
 		    operation_fille -> auto_man = operation -> auto_man;
 		    operation_fille -> no_operation_ventilee_associee = gsb_transaction_data_get_transaction_number (operation);

@@ -734,7 +734,7 @@ GSList *recupere_opes_etat ( struct struct_etat *etat )
 		if ( etat -> utilise_detail_tiers
 		     &&
 		     g_slist_index ( etat -> no_tiers,
-				     GINT_TO_POINTER ( operation -> tiers )) == -1 )
+				     GINT_TO_POINTER ( gsb_transaction_data_get_party_number ( gsb_transaction_data_get_transaction_number (operation )))) == -1 )
 		    goto operation_refusee;
 
 		/* vérification du type d'opération */
@@ -981,13 +981,13 @@ gchar *recupere_texte_test_etat ( struct structure_operation *operation,
 	case 0:
 	    /* tiers  */
 
-	    texte = tiers_name_by_no ( operation -> tiers, TRUE );
+	    texte = tiers_name_by_no ( gsb_transaction_data_get_party_number ( gsb_transaction_data_get_transaction_number (operation )), TRUE );
 	    break;
 
 	case 1:
 	    /* info du tiers */
 	    
-	    tiers = tiers_par_no ( operation -> tiers );
+	    tiers = tiers_par_no ( gsb_transaction_data_get_party_number ( gsb_transaction_data_get_transaction_number (operation )));
 
 	    if ( tiers )
 		texte = tiers -> texte;
@@ -1649,8 +1649,8 @@ classement_suivant:
 
 	    if ( etat_courant -> utilise_tiers )
 	    {
-		if ( operation_1 -> tiers != operation_2 -> tiers )
-		    return ( operation_1 ->tiers  - operation_2 -> tiers );
+		if ( gsb_transaction_data_get_party_number ( gsb_transaction_data_get_transaction_number (operation_1 ))!= gsb_transaction_data_get_party_number ( gsb_transaction_data_get_transaction_number (operation_2 )))
+		    return ( gsb_transaction_data_get_party_number ( gsb_transaction_data_get_transaction_number (operation_1 ))- gsb_transaction_data_get_party_number ( gsb_transaction_data_get_transaction_number (operation_2 )));
 	    }
 
 	    /*       les tiers sont identiques, passe au classement suivant */
@@ -1694,13 +1694,13 @@ gint classement_ope_perso_etat ( struct structure_operation *operation_1,
 	case 2:
 	    /* tiers  */
 
-	    if ( !operation_1 -> tiers
+	    if ( !gsb_transaction_data_get_party_number ( gsb_transaction_data_get_transaction_number (operation_1 ))
 		 ||
-		 !operation_2 -> tiers )
-		retour = operation_2 -> tiers - operation_1 -> tiers;
+		 !gsb_transaction_data_get_party_number ( gsb_transaction_data_get_transaction_number (operation_2 )))
+		retour = gsb_transaction_data_get_party_number ( gsb_transaction_data_get_transaction_number (operation_2 ))- gsb_transaction_data_get_party_number ( gsb_transaction_data_get_transaction_number (operation_1 ));
 	    else
-		retour = g_strcasecmp ( tiers_name_by_no ( operation_1 -> tiers, TRUE ),
-					tiers_name_by_no ( operation_2 -> tiers, TRUE ));
+		retour = g_strcasecmp ( tiers_name_by_no ( gsb_transaction_data_get_party_number ( gsb_transaction_data_get_transaction_number (operation_1 )), TRUE ),
+					tiers_name_by_no ( gsb_transaction_data_get_party_number ( gsb_transaction_data_get_transaction_number (operation_2 )), TRUE ));
 	    break;
 
 	case 3:

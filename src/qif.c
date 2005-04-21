@@ -1213,7 +1213,7 @@ choix_liste_fichier:
 			/* met le tiers */
 
 			pointeur = g_slist_find_custom ( liste_struct_tiers,
-							 GINT_TO_POINTER ( operation -> tiers ),
+							 GINT_TO_POINTER ( gsb_transaction_data_get_party_number ( gsb_transaction_data_get_transaction_number (operation ))),
 							 (GCompareFunc) recherche_tiers_par_no );
 
 			if ( pointeur )

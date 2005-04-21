@@ -1197,9 +1197,9 @@ gint etat_affiche_affichage_ligne_ope ( struct structure_operation *operation,
 
 	if ( etat_courant -> afficher_tiers_ope )
 	{
-	    if ( operation -> tiers )
+	    if ( gsb_transaction_data_get_party_number ( gsb_transaction_data_get_transaction_number (operation )))
 	    {
-		text = tiers_name_by_no ( operation -> tiers, TRUE );
+		text = tiers_name_by_no ( gsb_transaction_data_get_party_number ( gsb_transaction_data_get_transaction_number (operation )), TRUE );
 
 		if ( etat_courant -> ope_clickables )
 		{
@@ -1989,7 +1989,7 @@ gint etat_affiche_affiche_tiers_etat ( struct structure_operation *operation,
 
     if ( etat_courant -> utilise_tiers
 	 &&
-	 operation -> tiers != ancien_tiers_etat )
+	 gsb_transaction_data_get_party_number ( gsb_transaction_data_get_transaction_number (operation )) != ancien_tiers_etat )
     {
 	/* lorsqu'on est au début de l'affichage de l'état, on n'affiche pas de totaux */
 
@@ -2017,9 +2017,9 @@ gint etat_affiche_affiche_tiers_etat ( struct structure_operation *operation,
 
 	if ( etat_courant -> afficher_nom_tiers )
 	{
-	    if ( operation -> tiers )
+	    if ( gsb_transaction_data_get_party_number ( gsb_transaction_data_get_transaction_number (operation )))
 	    {
-		nom_tiers_en_cours = tiers_name_by_no ( operation -> tiers, TRUE );
+		nom_tiers_en_cours = tiers_name_by_no ( gsb_transaction_data_get_party_number ( gsb_transaction_data_get_transaction_number (operation )), TRUE );
 
 		pointeur_char = g_strconcat ( decalage_tiers,
 					      nom_tiers_en_cours,
@@ -2038,7 +2038,7 @@ gint etat_affiche_affiche_tiers_etat ( struct structure_operation *operation,
 	ligne_debut_partie = ligne;
 	denote_struct_sous_jaccentes ( 6 );
 
-	ancien_tiers_etat = operation -> tiers;
+	ancien_tiers_etat = gsb_transaction_data_get_party_number ( gsb_transaction_data_get_transaction_number (operation ));
 
 	debut_affichage_etat = 0;
 	changement_de_groupe_etat = 1;

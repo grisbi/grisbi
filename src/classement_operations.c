@@ -708,16 +708,16 @@ gint gsb_transactions_list_sort_by_party ( GtkTreeModel *model,
     if ( return_value )
 	return return_value;
 
-    if ( transaction_1 -> tiers == transaction_2 -> tiers )
+    if ( gsb_transaction_data_get_party_number ( gsb_transaction_data_get_transaction_number (transaction_1 ))== gsb_transaction_data_get_party_number ( gsb_transaction_data_get_transaction_number (transaction_2 )))
 	return_value = gsb_transactions_list_sort_by_transaction_date_and_no();
     else
     {
 	gchar *temp_1;
 	gchar *temp_2;
 
-	temp_1 = tiers_name_by_no ( transaction_1 -> tiers,
+	temp_1 = tiers_name_by_no ( gsb_transaction_data_get_party_number ( gsb_transaction_data_get_transaction_number (transaction_1 )),
 				    TRUE );
-	temp_2 = tiers_name_by_no ( transaction_2 -> tiers,
+	temp_2 = tiers_name_by_no ( gsb_transaction_data_get_party_number ( gsb_transaction_data_get_transaction_number (transaction_2 )),
 				    TRUE );
 
 	/* g_utf8_collate is said not very fast, must try with big big account to check

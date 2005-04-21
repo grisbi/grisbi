@@ -1377,8 +1377,9 @@ gboolean recuperation_comptes_xml ( xmlNodePtr node_comptes )
 											      "Fc" ),
 										 NULL ) );
 
-			    operation -> tiers = my_atoi ( xmlGetProp ( node_ope,
-									"T" ));
+			    gsb_transaction_data_set_party_number ( transaction_number,
+								    my_atoi ( xmlGetProp ( node_ope,
+											   "T" ))  );
 
 			    operation -> categorie = my_atoi ( xmlGetProp ( node_ope,
 									    "C" ));
@@ -3658,7 +3659,7 @@ gboolean enregistre_fichier ( gchar *new_file )
 
 	    xmlSetProp ( node_ope,
 			 "T",
-			 itoa ( operation -> tiers ));
+			 itoa ( gsb_transaction_data_get_party_number ( gsb_transaction_data_get_transaction_number (operation ))));
 
 	    xmlSetProp ( node_ope,
 			 "C",

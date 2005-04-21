@@ -1897,8 +1897,9 @@ void fin_edition_echeance ( void )
 	{
 	    pointeur_char = gtk_combofix_get_text ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_PARTY] ));
 
-	    operation -> tiers = tiers_par_nom ( pointeur_char,
-						 1 ) -> no_tiers;
+	    gsb_transaction_data_set_party_number ( gsb_transaction_data_get_transaction_number (operation ),
+						    tiers_par_nom ( pointeur_char,
+								    1 ) -> no_tiers );
 	}
 
 
@@ -2162,7 +2163,8 @@ void fin_edition_echeance ( void )
 						     gsb_transaction_data_get_exchange_rate ( gsb_transaction_data_get_transaction_number (operation )));
 	    gsb_transaction_data_set_exchange_fees ( gsb_transaction_data_get_transaction_number (operation_fille),
 						     gsb_transaction_data_get_exchange_fees ( gsb_transaction_data_get_transaction_number (operation )));
-	    operation_fille -> tiers = operation -> tiers;
+	    gsb_transaction_data_set_party_number ( gsb_transaction_data_get_transaction_number (operation_fille),
+						    gsb_transaction_data_get_party_number ( gsb_transaction_data_get_transaction_number (operation )));
 	    operation_fille -> pointe = operation -> pointe;
 	    operation_fille -> auto_man = operation -> auto_man;
 	    operation_fille -> no_operation_ventilee_associee = gsb_transaction_data_get_transaction_number (operation);
@@ -2318,7 +2320,8 @@ struct structure_operation *ajoute_contre_operation_echeance_dans_liste ( struct
 						 0 );
     }
 
-    contre_operation -> tiers = operation -> tiers;
+    gsb_transaction_data_set_party_number ( gsb_transaction_data_get_transaction_number (contre_operation),
+					    gsb_transaction_data_get_party_number ( gsb_transaction_data_get_transaction_number (operation)));
     contre_operation -> categorie = 0;
     contre_operation -> sous_categorie = 0;
 
@@ -2706,7 +2709,7 @@ void completion_operation_par_tiers_echeancier ( void )
 
 	ope_test = pointeur_ope -> data;
 
-	if ( ope_test -> tiers == tiers -> no_tiers )
+	if ( gsb_transaction_data_get_party_number ( gsb_transaction_data_get_transaction_number (ope_test ))== tiers -> no_tiers )
 	{
 	    if ( operation )
 	    {
@@ -2746,7 +2749,7 @@ void completion_operation_par_tiers_echeancier ( void )
 
 		    ope_test = pointeur_ope -> data;
 
-		    if ( ope_test -> tiers == tiers -> no_tiers )
+		    if ( gsb_transaction_data_get_party_number ( gsb_transaction_data_get_transaction_number (ope_test ))== tiers -> no_tiers )
 		    {
 			operation = ope_test;
 			pointeur_ope = NULL;

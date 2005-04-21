@@ -311,7 +311,7 @@ void fill_transaction_row ( GtkTreeModel * model, GtkTreeIter * iter,
     }
     else
     {
-	struct struct_tiers * tiers = tiers_par_no ( operation -> tiers );
+	struct struct_tiers * tiers = tiers_par_no ( gsb_transaction_data_get_party_number ( gsb_transaction_data_get_transaction_number (operation )));
 	if ( tiers )
 	{
 	    notes = tiers -> nom_tiers;

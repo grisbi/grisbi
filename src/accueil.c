@@ -1672,7 +1672,7 @@ void update_liste_echeances_auto_accueil ( void )
 
 	    label = gtk_label_new ( g_strdup_printf ( "%s : %s",
 						      gsb_format_gdate ( gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation))),
-						      tiers_name_by_no (operation->tiers, FALSE)));
+						      tiers_name_by_no (gsb_transaction_data_get_party_number ( gsb_transaction_data_get_transaction_number (operation)), FALSE)));
 
 	    gtk_misc_set_alignment ( GTK_MISC ( label ), MISC_LEFT, MISC_VERT_CENTER );
 	    gtk_widget_set_style ( label, style_selectable );

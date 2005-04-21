@@ -1065,7 +1065,7 @@ gchar *recherche_contenu_cellule ( struct structure_operation *transaction,
 	    /* mise en forme du tiers */
 
 	case TRANSACTION_LIST_PARTY:
-	    return ( tiers_name_by_no ( transaction -> tiers, TRUE ));
+	    return ( tiers_name_by_no ( gsb_transaction_data_get_party_number ( gsb_transaction_data_get_transaction_number (transaction )), TRUE ));
 	    break;
 
 	    /* mise en forme de l'ib */
@@ -2431,11 +2431,11 @@ gboolean gsb_transactions_list_edit_current_transaction ( void )
 
 		case TRANSACTION_FORM_PARTY:
 
-		    if ( transaction -> tiers )
+		    if ( gsb_transaction_data_get_party_number ( gsb_transaction_data_get_transaction_number (transaction )))
 		    {
 			entree_prend_focus ( widget );
 			gtk_combofix_set_text ( GTK_COMBOFIX ( widget ),
-						tiers_name_by_no ( transaction -> tiers, TRUE ));
+						tiers_name_by_no ( gsb_transaction_data_get_party_number ( gsb_transaction_data_get_transaction_number (transaction )), TRUE ));
 		    }
 		    break;
 
@@ -2951,7 +2951,7 @@ gboolean gsb_transactions_list_delete_transaction ( struct structure_operation *
 
     if ( !question_yes_no_hint ( _("Delete a transaction"),
 				 g_strdup_printf ( _("Do you really want to delete the transaction whith the party '%s' ?"),
-						  tiers_name_by_no ( transaction -> tiers,
+						  tiers_name_by_no ( gsb_transaction_data_get_party_number ( gsb_transaction_data_get_transaction_number (transaction )),
 								     FALSE ))))
 	return FALSE;
 
@@ -3772,7 +3772,7 @@ struct operation_echeance *schedule_transaction ( struct structure_operation * t
     echeance -> montant = gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (transaction ));
     echeance -> devise = gsb_transaction_data_get_currency_number ( gsb_transaction_data_get_transaction_number (transaction ));
 
-    echeance -> tiers = transaction -> tiers;
+    echeance -> tiers = gsb_transaction_data_get_party_number ( gsb_transaction_data_get_transaction_number (transaction ));
     echeance -> categorie = transaction -> categorie;
     echeance -> sous_categorie = transaction -> sous_categorie;
 
@@ -3856,7 +3856,7 @@ struct operation_echeance *schedule_transaction ( struct structure_operation * t
 		echeance_de_ventil -> montant = gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (transaction_de_ventil ));
 		echeance_de_ventil -> devise = gsb_transaction_data_get_currency_number ( gsb_transaction_data_get_transaction_number (transaction_de_ventil ));
 
-		echeance_de_ventil -> tiers = transaction_de_ventil -> tiers;
+		echeance_de_ventil -> tiers = gsb_transaction_data_get_party_number ( gsb_transaction_data_get_transaction_number (transaction_de_ventil ));
 		echeance_de_ventil -> categorie = transaction_de_ventil -> categorie;
 		echeance_de_ventil -> sous_categorie = transaction_de_ventil -> sous_categorie;
 

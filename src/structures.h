@@ -180,7 +180,7 @@ struct structure_operation
 /*     gdouble taux_change; */
 /*     gdouble frais_change; */
 
-    guint tiers;        /*  no du tiers */
+/*     guint tiers; */
     guint categorie;
     guint sous_categorie;
     gint operation_ventilee;        /* à 1 si c'est une opé ventilée */
