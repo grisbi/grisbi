@@ -1882,7 +1882,7 @@ gboolean completion_operation_par_tiers ( GtkWidget *entree )
 
 		    gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget ),
 						  g_slist_index ( liste_struct_devises,
-								  devise_par_no ( transaction -> devise )));
+								  devise_par_no ( gsb_transaction_data_get_currency_number ( gsb_transaction_data_get_transaction_number (transaction )))));
 		    verification_bouton_change_devise ();
 		    break;
 
@@ -2297,7 +2297,8 @@ gboolean gsb_form_finish_edition ( void )
 
 	    /* 	    la devise par défaut est celle du compte, elle sera modifiée si nécessaire plus tard */
 
-	    transaction -> devise = gsb_account_get_currency (gsb_account_get_current_account ());
+	    gsb_transaction_data_set_currency_number ( gsb_transaction_data_get_transaction_number (transaction ),
+						       gsb_account_get_currency (gsb_account_get_current_account ()));
 	    transaction -> no_operation_ventilee_associee = mother_transaction;
 	}
 
@@ -2923,7 +2924,8 @@ void recuperation_donnees_generales_formulaire ( struct structure_operation *tra
 			 devise_compte -> no_devise != gsb_account_get_currency (gsb_account_get_current_account ()) )
 			devise_compte = devise_par_no ( gsb_account_get_currency (gsb_account_get_current_account ()) );
 
-		    transaction -> devise = devise -> no_devise;
+		    gsb_transaction_data_set_currency_number ( gsb_transaction_data_get_transaction_number (transaction ),
+							       devise -> no_devise );
 
 		    if ( !( gsb_transaction_data_get_transaction_number (transaction)
 			    ||
@@ -3243,9 +3245,10 @@ printf ( "ça passe\n" );
     /* check if we have to ask to convert a currency */
 
     account_currency = devise_par_no ( gsb_account_get_currency (account_transfer) );
-    transaction_currency = devise_par_no ( transaction -> devise );
+    transaction_currency = devise_par_no ( gsb_transaction_data_get_currency_number ( gsb_transaction_data_get_transaction_number (transaction )));
 
-    contra_transaction -> devise = transaction -> devise;
+    gsb_transaction_data_set_currency_number ( gsb_transaction_data_get_transaction_number (contra_transaction),
+					       gsb_transaction_data_get_currency_number ( gsb_transaction_data_get_transaction_number (transaction )));
 
     if ( !( gsb_transaction_data_get_transaction_number (contra_transaction)
 	    ||
@@ -3738,7 +3741,7 @@ void click_sur_bouton_voir_change ( void )
 	 devise_compte -> no_devise != gsb_account_get_currency (gsb_account_get_current_account ()) )
 	devise_compte = devise_par_no ( gsb_account_get_currency (gsb_account_get_current_account ()) );
 
-    devise = devise_par_no ( transaction -> devise );
+    devise = devise_par_no ( gsb_transaction_data_get_currency_number ( gsb_transaction_data_get_transaction_number (transaction )));
 
     demande_taux_de_change ( devise_compte, devise,
 			     transaction -> une_devise_compte_egale_x_devise_ope,

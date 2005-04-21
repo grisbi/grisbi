@@ -1405,8 +1405,9 @@ void creation_compte_importe ( struct struct_compte_importation *compte_import )
 
 	/* 	  récupération de la devise, sur la popup affichée */
 
-	operation -> devise = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( compte_import -> bouton_devise ) -> menu_item ),
-								      "no_devise" ));
+	gsb_transaction_data_set_currency_number ( gsb_transaction_data_get_transaction_number (operation ),
+						   GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( compte_import -> bouton_devise ) -> menu_item ),
+											   "no_devise" )) );
 
 	/* récupération du tiers */
 
@@ -2049,7 +2050,8 @@ struct structure_operation *enregistre_ope_importee ( struct struct_ope_importat
 
     /* 	  récupération de la devise, sur la popup affichée */
 
-    operation -> devise = operation_import -> devise;
+    gsb_transaction_data_set_currency_number ( gsb_transaction_data_get_transaction_number (operation ),
+					       operation_import -> devise );
 
     /* rÃ©cupération du tiers */
 

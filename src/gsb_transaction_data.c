@@ -578,3 +578,46 @@ gdouble gsb_transaction_data_get_adjusted_amount_for_currency ( gint no_transact
 
 
 
+
+/** get the currency_number 
+ * \param no_transaction the number of the transaction
+ * \return the currency number of the transaction
+ * */
+gint gsb_transaction_data_get_currency_number ( gint no_transaction )
+{
+    struct_transaction *transaction;
+
+    transaction = gsb_transaction_data_get_transaction_by_no ( no_transaction,
+							       -1 );
+
+    if ( !transaction )
+	return -1;
+
+    return transaction -> currency_number;
+}
+
+
+/** set the currency_number
+ * \param no_transaction
+ * \param no_currency
+ * \return TRUE if ok
+ * */
+gboolean gsb_transaction_data_set_currency_number ( gint no_transaction,
+						    gint no_currency )
+{
+    struct_transaction *transaction;
+
+    transaction = gsb_transaction_data_get_transaction_by_no ( no_transaction,
+							       -1 );
+
+    if ( !transaction )
+	return FALSE;
+
+    transaction -> currency_number = no_currency;
+    
+    return TRUE;
+}
+
+
+
+

@@ -2622,7 +2622,7 @@ void validation_ope_de_ventilation_echeances ( struct operation_echeance *operat
 
 		    /* on récupère ensuite les modifs de la ventilation */
 
-		    ope_modifiee -> date = gsb_date_copy ( gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number ( operation )));
+		    ope_modifiee -> date = gsb_date_copy ( operation -> date );
 
 		    ope_modifiee -> compte = operation -> compte;
 		    ope_modifiee -> devise = operation -> devise;
@@ -2666,7 +2666,7 @@ void validation_ope_de_ventilation_echeances ( struct operation_echeance *operat
 
 		/* on récupère ensuite les modifs de la ventilation */
 
-		nouvelle_ope -> date = gsb_date_copy ( gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number ( operation )));
+		nouvelle_ope -> date = gsb_date_copy ( operation -> date );
 
 		nouvelle_ope -> compte = operation -> compte;
 		nouvelle_ope -> devise = operation -> devise;

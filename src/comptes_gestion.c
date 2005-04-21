@@ -37,6 +37,7 @@
 #include "operations_formulaire.h"
 #include "gsb_account.h"
 #include "operations_comptes.h"
+#include "gsb_transaction_data.h"
 #include "categories_onglet.h"
 #include "traitement_variables.h"
 #include "utils_str.h"
@@ -981,11 +982,13 @@ void modification_details_compte ( void )
 
 	    operation = pointeur_liste -> data;
 
-	    if ( operation -> devise == gsb_account_get_currency (compte_courant_onglet) )
-		operation -> devise = nouvelle_devise -> no_devise;
+	    if ( gsb_transaction_data_get_currency_number ( gsb_transaction_data_get_transaction_number (operation ))== gsb_account_get_currency (compte_courant_onglet) )
+		gsb_transaction_data_set_currency_number ( gsb_transaction_data_get_transaction_number (operation ),
+							   nouvelle_devise -> no_devise );
 	    else
 		if ( !nouvelle_devise -> passage_euro )
-		    operation -> devise = nouvelle_devise -> no_devise;
+		    gsb_transaction_data_set_currency_number ( gsb_transaction_data_get_transaction_number (operation ),
+							       nouvelle_devise -> no_devise );
 
 	    pointeur_liste = pointeur_liste -> next;
 	}

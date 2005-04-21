@@ -35,6 +35,7 @@
 #include "utils_devises.h"
 #include "utils_editables.h"
 #include "gsb_account.h"
+#include "gsb_transaction_data.h"
 #include "categories_onglet.h"
 #include "imputation_budgetaire.h"
 #include "tiers_onglet.h"
@@ -812,7 +813,7 @@ void retrait_devise ( GtkWidget *bouton,
 
 	    while ( liste_tmp )
 	    {
-		if ( ((struct structure_operation *)(liste_tmp -> data )) -> devise == devise -> no_devise )
+		if ( gsb_transaction_data_get_currency_number ( gsb_transaction_data_get_transaction_number (liste_tmp -> data)) == devise -> no_devise )
 		{
 		    devise_trouvee = 1;
 		    i = gsb_account_get_accounts_amount ();

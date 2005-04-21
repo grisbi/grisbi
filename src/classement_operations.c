@@ -832,11 +832,11 @@ gint gsb_transactions_list_sort_by_credit ( GtkTreeModel *model,
 
     if ( fabs (gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (transaction_1 )) - gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (transaction_2 ))) < 0.01
 	 &&
-	 transaction_1 -> devise == transaction_2 -> devise )
+	 gsb_transaction_data_get_currency_number ( gsb_transaction_data_get_transaction_number (transaction_1 ))== gsb_transaction_data_get_currency_number ( gsb_transaction_data_get_transaction_number (transaction_2 )))
 	return_value = gsb_transactions_list_sort_by_transaction_date_and_no();
     else
     {
-	if ( transaction_1 -> devise == transaction_2 -> devise )
+	if ( gsb_transaction_data_get_currency_number ( gsb_transaction_data_get_transaction_number (transaction_1 ))== gsb_transaction_data_get_currency_number ( gsb_transaction_data_get_transaction_number (transaction_2 )))
 	    return_value = gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (transaction_1 ))- gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (transaction_2 ));
 	else
 	{
@@ -894,11 +894,11 @@ gint gsb_transactions_list_sort_by_debit ( GtkTreeModel *model,
 
     if ( fabs (gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (transaction_1 ))- gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (transaction_2 ))) < 0.01
 	 &&
-	 transaction_1 -> devise == transaction_2 -> devise )
+	 gsb_transaction_data_get_currency_number ( gsb_transaction_data_get_transaction_number (transaction_1 ))== gsb_transaction_data_get_currency_number ( gsb_transaction_data_get_transaction_number (transaction_2 )))
 	return_value = gsb_transactions_list_sort_by_transaction_date_and_no();
     else
     {
-	if ( transaction_1 -> devise == transaction_2 -> devise )
+	if ( gsb_transaction_data_get_currency_number ( gsb_transaction_data_get_transaction_number (transaction_1 ))== gsb_transaction_data_get_currency_number ( gsb_transaction_data_get_transaction_number (transaction_2 )))
 	    return_value = gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (transaction_2 ))- gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (transaction_1 ));
 	else
 	{
@@ -953,11 +953,11 @@ gint gsb_transactions_list_sort_by_amount ( GtkTreeModel *model,
 
     if ( fabs (gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (transaction_1 ))- gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (transaction_2 ))) < 0.01
 	 &&
-	 transaction_1 -> devise == transaction_2 -> devise )
+	 gsb_transaction_data_get_currency_number ( gsb_transaction_data_get_transaction_number (transaction_1 ))== gsb_transaction_data_get_currency_number ( gsb_transaction_data_get_transaction_number (transaction_2 )))
 	return_value = gsb_transactions_list_sort_by_transaction_date_and_no();
     else
     {
-	if ( transaction_1 -> devise == transaction_2 -> devise )
+	if ( gsb_transaction_data_get_currency_number ( gsb_transaction_data_get_transaction_number (transaction_1 ))== gsb_transaction_data_get_currency_number ( gsb_transaction_data_get_transaction_number (transaction_2 )))
 	    return_value = fabs(gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (transaction_1 ))) - fabs (gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (transaction_2 )));
 	else
 	{

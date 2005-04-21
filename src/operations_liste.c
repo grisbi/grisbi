@@ -1088,8 +1088,8 @@ gchar *recherche_contenu_cellule ( struct structure_operation *transaction,
 
 		if ( !devise_operation
 		     ||
-		     devise_operation -> no_devise != transaction -> devise )
-		    devise_operation = devise_par_no ( transaction -> devise );
+		     devise_operation -> no_devise != gsb_transaction_data_get_currency_number ( gsb_transaction_data_get_transaction_number (transaction )))
+		    devise_operation = devise_par_no ( gsb_transaction_data_get_currency_number ( gsb_transaction_data_get_transaction_number (transaction )));
 
 		if ( devise_operation -> no_devise != gsb_account_get_currency (gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (transaction))) )
 		    temp = g_strconcat ( temp,
@@ -1116,8 +1116,8 @@ gchar *recherche_contenu_cellule ( struct structure_operation *transaction,
 
 		if ( !devise_operation
 		     ||
-		     devise_operation -> no_devise != transaction -> devise )
-		    devise_operation = devise_par_no ( transaction -> devise );
+		     devise_operation -> no_devise != gsb_transaction_data_get_currency_number ( gsb_transaction_data_get_transaction_number (transaction )))
+		    devise_operation = devise_par_no ( gsb_transaction_data_get_currency_number ( gsb_transaction_data_get_transaction_number (transaction )));
 
 		if ( devise_operation -> no_devise != gsb_account_get_currency (gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (transaction))) )
 		    temp = g_strconcat ( temp,
@@ -1140,7 +1140,7 @@ gchar *recherche_contenu_cellule ( struct structure_operation *transaction,
 	    /* mise en forme du montant dans la devise du compte */
 
 	case TRANSACTION_LIST_AMOUNT:
-	    if ( transaction -> devise != gsb_account_get_currency (gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (transaction))) )
+	    if ( gsb_transaction_data_get_currency_number ( gsb_transaction_data_get_transaction_number (transaction ))!= gsb_account_get_currency (gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (transaction))) )
 	    {
 		/* on doit calculer et afficher le montant de l'ope */
 
@@ -2604,7 +2604,7 @@ gboolean gsb_transactions_list_edit_current_transaction ( void )
 
 		    gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget ),
 						  g_slist_index ( liste_struct_devises,
-								  devise_par_no ( transaction -> devise )));
+								  devise_par_no ( gsb_transaction_data_get_currency_number ( gsb_transaction_data_get_transaction_number (transaction )))));
 		    verification_bouton_change_devise ();
 		    break;
 
@@ -3770,7 +3770,7 @@ struct operation_echeance *schedule_transaction ( struct structure_operation * t
     echeance -> date = gsb_date_copy (gsb_transaction_data_get_date ( gsb_transaction_data_get_transaction_number ( transaction )));
 
     echeance -> montant = gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (transaction ));
-    echeance -> devise = transaction -> devise;
+    echeance -> devise = gsb_transaction_data_get_currency_number ( gsb_transaction_data_get_transaction_number (transaction ));
 
     echeance -> tiers = transaction -> tiers;
     echeance -> categorie = transaction -> categorie;
@@ -3854,7 +3854,7 @@ struct operation_echeance *schedule_transaction ( struct structure_operation * t
 		echeance_de_ventil -> date = gsb_date_copy (gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (transaction_de_ventil)));
 
 		echeance_de_ventil -> montant = gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (transaction_de_ventil ));
-		echeance_de_ventil -> devise = transaction_de_ventil -> devise;
+		echeance_de_ventil -> devise = gsb_transaction_data_get_currency_number ( gsb_transaction_data_get_transaction_number (transaction_de_ventil ));
 
 		echeance_de_ventil -> tiers = transaction_de_ventil -> tiers;
 		echeance_de_ventil -> categorie = transaction_de_ventil -> categorie;

@@ -56,6 +56,7 @@ gdouble gsb_transaction_data_get_adjusted_amount ( gint no_transaction );
 gdouble gsb_transaction_data_get_adjusted_amount_for_currency ( gint no_transaction,
 								gint no_currency_for_return );
 gdouble gsb_transaction_data_get_amount ( gint no_transaction );
+gint gsb_transaction_data_get_currency_number ( gint no_transaction );
 GDate *gsb_transaction_data_get_date ( gint no_transaction );
 gint gsb_transaction_data_get_last_number (void);
 gchar *gsb_transaction_data_get_transaction_id ( gint no_transaction,
@@ -67,6 +68,8 @@ gboolean gsb_transaction_data_set_account_number ( gint no_transaction,
 						   gint no_account );
 gboolean gsb_transaction_data_set_amount ( gint no_transaction,
 					   gdouble amount );
+gboolean gsb_transaction_data_set_currency_number ( gint no_transaction,
+						    gint no_currency );
 gboolean gsb_transaction_data_set_date ( gint no_transaction,
 					 GDate *date );
 gboolean gsb_transaction_data_set_transaction_id ( gint no_transaction,

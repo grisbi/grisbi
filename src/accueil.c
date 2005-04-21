@@ -1685,12 +1685,12 @@ void update_liste_echeances_auto_accueil ( void )
 	    if ( gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (operation )) >= 0 )
 		label = gtk_label_new ( g_strdup_printf (_("%4.2f %s credit on %s"),
 							 gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (operation)),
-							 devise_code_by_no( operation -> devise ),
+							 devise_code_by_no( gsb_transaction_data_get_currency_number ( gsb_transaction_data_get_transaction_number (operation ))),
 							 gsb_account_get_name (gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (operation))) ));
 	    else
 		label = gtk_label_new ( g_strdup_printf (_("%4.2f %s debit on %s"),
 							 -gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (operation)),
-							 devise_code_by_no( operation -> devise ),
+							 devise_code_by_no( gsb_transaction_data_get_currency_number ( gsb_transaction_data_get_transaction_number (operation ))),
 							 gsb_account_get_name (gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (operation))) ));
 
 	    gtk_misc_set_alignment ( GTK_MISC ( label ), MISC_LEFT, MISC_VERT_CENTER );

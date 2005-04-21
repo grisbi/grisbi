@@ -1636,13 +1636,14 @@ void verification_echeances_a_terme ( void )
 		operation -> tiers = ECHEANCE_COURANTE -> tiers;
 		gsb_transaction_data_set_amount ( gsb_transaction_data_get_transaction_number ( operation ),
 						  ECHEANCE_COURANTE -> montant );
-		operation -> devise = ECHEANCE_COURANTE -> devise;
+		gsb_transaction_data_set_currency_number ( gsb_transaction_data_get_transaction_number (operation ),
+							   ECHEANCE_COURANTE -> devise );
 
 
 		/* demande si nécessaire la valeur de la devise et du change */
 		/* récupération des devises de l'opé et du compte */
 
-		devise = devise_par_no ( operation -> devise );
+		devise = devise_par_no ( gsb_transaction_data_get_currency_number ( gsb_transaction_data_get_transaction_number (operation )));
 
 		if ( !devise_compte
 		     ||
@@ -1772,7 +1773,8 @@ void verification_echeances_a_terme ( void )
 		    gsb_transaction_data_set_value_date ( gsb_transaction_data_get_transaction_number ( operation_fille ),
 							  gsb_date_copy ( gsb_transaction_data_get_value_date (gsb_transaction_data_get_transaction_number (operation))));
 
-		    operation_fille -> devise = operation -> devise;
+		    gsb_transaction_data_set_currency_number ( gsb_transaction_data_get_transaction_number (operation_fille ),
+							       gsb_transaction_data_get_currency_number ( gsb_transaction_data_get_transaction_number (operation )));
 		    operation_fille -> une_devise_compte_egale_x_devise_ope = operation -> une_devise_compte_egale_x_devise_ope;
 		    operation_fille -> taux_change = operation -> taux_change;
 		    operation_fille -> frais_change = operation -> frais_change;

@@ -1927,7 +1927,8 @@ void fin_edition_echeance ( void )
 	     devise_compte -> no_devise != gsb_account_get_currency (gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (operation))) )
 	    devise_compte = devise_par_no ( gsb_account_get_currency (gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (operation))) );
 
-	operation -> devise = devise -> no_devise;
+	gsb_transaction_data_set_currency_number ( gsb_transaction_data_get_transaction_number (operation ),
+						    devise -> no_devise);
 
 	if ( !( gsb_transaction_data_get_transaction_number(operation)
 		||
@@ -2153,7 +2154,8 @@ void fin_edition_echeance ( void )
 	    gsb_transaction_data_set_value_date ( gsb_transaction_data_get_transaction_number ( operation_fille ),
 						  gsb_date_copy ( gsb_transaction_data_get_value_date (gsb_transaction_data_get_transaction_number (operation))));
 
-	    operation_fille -> devise = operation -> devise;
+	    gsb_transaction_data_set_currency_number ( gsb_transaction_data_get_transaction_number (operation_fille),
+						       gsb_transaction_data_get_currency_number ( gsb_transaction_data_get_transaction_number (operation )));
 	    operation_fille -> une_devise_compte_egale_x_devise_ope = operation -> une_devise_compte_egale_x_devise_ope;
 	    operation_fille -> taux_change = operation -> taux_change;
 	    operation_fille -> frais_change = operation -> frais_change;
@@ -2276,11 +2278,12 @@ struct structure_operation *ajoute_contre_operation_echeance_dans_liste ( struct
 
     contre_devise = devise_par_no ( gsb_account_get_currency (compte_virement) );
 
-    contre_operation -> devise = operation -> devise;
+    gsb_transaction_data_set_currency_number ( gsb_transaction_data_get_transaction_number (contre_operation ),
+					       gsb_transaction_data_get_currency_number ( gsb_transaction_data_get_transaction_number (operation )));
 
     /* récupération de la devise */
 
-    devise = devise_par_no ( operation -> devise );
+    devise = devise_par_no ( gsb_transaction_data_get_currency_number ( gsb_transaction_data_get_transaction_number (operation )));
 
     if ( !( gsb_transaction_data_get_transaction_number (contre_operation)
 	    ||
@@ -2811,7 +2814,7 @@ void completion_operation_par_tiers_echeancier ( void )
 
     gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_DEVISE] ),
 				  g_slist_index ( liste_struct_devises,
-						  devise_par_no ( operation -> devise )));
+						  devise_par_no ( gsb_transaction_data_get_currency_number ( gsb_transaction_data_get_transaction_number (operation )))));
 
     /* mise en forme des catégories */
 

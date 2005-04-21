@@ -1442,10 +1442,10 @@ gint etat_affiche_affichage_ligne_ope ( struct structure_operation *operation,
 
 	if ( devise_compte_en_cours_etat
 	     &&
-	     operation -> devise == devise_compte_en_cours_etat -> no_devise )
+	     gsb_transaction_data_get_currency_number ( gsb_transaction_data_get_transaction_number (operation ))== devise_compte_en_cours_etat -> no_devise )
 	    text = g_strdup_printf  ( _("%4.2f %s"), gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (operation )), devise_code ( devise_compte_en_cours_etat ) );
 	else
-	    text = g_strdup_printf  ( _("%4.2f %s"), gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (operation )), devise_code_by_no ( operation -> devise ) );
+	    text = g_strdup_printf  ( _("%4.2f %s"), gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (operation )), devise_code_by_no ( gsb_transaction_data_get_currency_number ( gsb_transaction_data_get_transaction_number (operation ))) );
 
 	if ( etat_courant -> ope_clickables )
 	{
