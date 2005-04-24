@@ -26,6 +26,7 @@
 #include "meta_categories.h"
 #include "utils_categories.h"
 #include "utils_devises.h"
+#include "gsb_transaction_data.h"
 #include "categories_onglet.h"
 /*END_INCLUDE*/
 
@@ -362,7 +363,7 @@ gint category_transaction_div_id ( struct structure_operation * transaction )
 	     transaction -> operation_ventilee )
 	    return -1;
 	else
-	    return transaction -> categorie;
+	    return gsb_transaction_data_get_category_number ( gsb_transaction_data_get_transaction_number (transaction ));
     }
     return 0;
 }
@@ -390,7 +391,8 @@ void category_transaction_set_div_id ( struct structure_operation * transaction,
 				       int no_div )
 {
     if ( transaction )
-	transaction -> categorie = no_div;
+	gsb_transaction_data_set_category_number ( gsb_transaction_data_get_transaction_number (transaction ),
+						   no_div );
 }
 
 

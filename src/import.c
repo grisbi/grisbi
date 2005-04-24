@@ -1466,7 +1466,8 @@ void creation_compte_importe ( struct struct_compte_importation *compte_import )
 
 		    if ( categ )
 		    {
-			operation -> categorie = categ -> no_categ;
+			gsb_transaction_data_set_category_number ( gsb_transaction_data_get_transaction_number (operation ),
+								   categ -> no_categ );
 
 			/* récupération ou création de la sous-catégorie */
 
@@ -2109,7 +2110,8 @@ struct structure_operation *enregistre_ope_importee ( struct struct_ope_importat
 		{
 		    struct struct_sous_categ *sous_categ ;
 
-		    operation -> categorie = categ -> no_categ;
+		    gsb_transaction_data_set_category_number ( gsb_transaction_data_get_transaction_number (operation ),
+							       categ -> no_categ );
 
 		    /* récupération ou création de la sous-catégorie */
 

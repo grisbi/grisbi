@@ -1982,7 +1982,8 @@ void fin_edition_echeance ( void )
 		{
 		    /* c'est un virement, il n'y a donc aucune catétorie */
 
-		    operation -> categorie = 0;
+		    gsb_transaction_data_set_category_number ( gsb_transaction_data_get_transaction_number (operation ),
+							       0 );
 		    operation -> sous_categorie = 0;
 		    virement = 1;
 		}
@@ -1997,7 +1998,8 @@ void fin_edition_echeance ( void )
 		    {
 			struct struct_sous_categ *sous_categ;
 
-			operation -> categorie = categ -> no_categ;
+			gsb_transaction_data_set_category_number ( gsb_transaction_data_get_transaction_number (operation ),
+								   categ -> no_categ );
 
 			sous_categ = sous_categ_par_nom ( categ,
 							  tableau_char[1],
@@ -2134,7 +2136,8 @@ void fin_edition_echeance ( void )
 
 	    gsb_transaction_data_set_amount ( gsb_transaction_data_get_transaction_number ( operation_fille ),
 					      gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (ope_ventil )));
-	    operation_fille -> categorie = ope_ventil -> categorie;
+	    gsb_transaction_data_set_category_number ( gsb_transaction_data_get_transaction_number (operation_fille),
+						       ope_ventil -> categorie );
 	    operation_fille -> sous_categorie = ope_ventil -> sous_categorie;
 
 	    if ( ope_ventil -> notes )
@@ -2322,7 +2325,8 @@ struct structure_operation *ajoute_contre_operation_echeance_dans_liste ( struct
 
     gsb_transaction_data_set_party_number ( gsb_transaction_data_get_transaction_number (contre_operation),
 					    gsb_transaction_data_get_party_number ( gsb_transaction_data_get_transaction_number (operation)));
-    contre_operation -> categorie = 0;
+    gsb_transaction_data_set_category_number ( gsb_transaction_data_get_transaction_number (contre_operation),
+					       0 );
     contre_operation -> sous_categorie = 0;
 
     if ( operation -> notes )
@@ -2842,7 +2846,7 @@ void completion_operation_par_tiers_echeancier ( void )
     }
     else
     {
-	char_tmp = nom_categ_par_no ( operation -> categorie,
+	char_tmp = nom_categ_par_no ( gsb_transaction_data_get_category_number ( gsb_transaction_data_get_transaction_number (operation)),
 				      operation -> sous_categorie );
 	
 	if ( char_tmp )

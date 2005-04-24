@@ -1711,7 +1711,8 @@ void fin_edition_ventilation_echeances ( void )
 		{
 		    struct struct_sous_categ *sous_categ;
 
-		    operation -> categorie = categ -> no_categ;
+		    gsb_transaction_data_set_category_number ( gsb_transaction_data_get_transaction_number (operation ),
+							       categ -> no_categ );
 
 		    sous_categ = sous_categ_par_nom ( categ,
 						      tableau_char[1],

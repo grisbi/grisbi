@@ -1817,7 +1817,7 @@ gboolean completion_operation_par_tiers ( GtkWidget *entree )
 			{
 			    /* c'est des catégories normales */
 
-			    char_tmp = nom_categ_par_no ( transaction -> categorie,
+			    char_tmp = nom_categ_par_no ( gsb_transaction_data_get_category_number ( gsb_transaction_data_get_transaction_number (transaction )),
 							  transaction -> sous_categorie );
 			    if ( char_tmp )
 			    {
@@ -3027,7 +3027,8 @@ gboolean gsb_form_get_categories ( struct structure_operation *transaction,
 	    }
 
 	    transaction -> operation_ventilee = 1;
-	    transaction -> categorie = 0;
+	    gsb_transaction_data_set_category_number ( gsb_transaction_data_get_transaction_number (transaction),
+						       0 );
 	    transaction -> sous_categorie = 0;
 
 	    /*we will check here if there is another breakdown with the same party,
@@ -3096,7 +3097,8 @@ gboolean gsb_form_get_categories ( struct structure_operation *transaction,
 		{
 		    /* it's a transfert */
 
-		    transaction -> categorie = 0;
+		    gsb_transaction_data_set_category_number ( gsb_transaction_data_get_transaction_number (transaction),
+							       0 );
 		    transaction -> sous_categorie = 0;
 
 		    /* sépare entre virement vers un compte et virement vers un compte supprimé */
@@ -3148,7 +3150,8 @@ gboolean gsb_form_get_categories ( struct structure_operation *transaction,
 		    {
 			struct struct_sous_categ *sous_categ;
 
-			transaction -> categorie = categ -> no_categ;
+			gsb_transaction_data_set_category_number ( gsb_transaction_data_get_transaction_number (transaction),
+								   categ -> no_categ );
 
 			sous_categ = sous_categ_par_nom ( categ,
 							  tab_char[1],
@@ -3275,7 +3278,8 @@ printf ( "ça passe\n" );
 
     gsb_transaction_data_set_party_number ( gsb_transaction_data_get_transaction_number (contra_transaction),
 					    gsb_transaction_data_get_party_number ( gsb_transaction_data_get_transaction_number (transaction)));
-    contra_transaction -> categorie = transaction -> categorie;
+    gsb_transaction_data_set_category_number ( gsb_transaction_data_get_transaction_number (contra_transaction),
+					       gsb_transaction_data_get_category_number ( gsb_transaction_data_get_transaction_number (transaction )));
     contra_transaction -> sous_categorie = transaction -> sous_categorie;
 
     if ( transaction -> notes )

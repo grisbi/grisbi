@@ -1681,7 +1681,8 @@ void verification_echeances_a_terme ( void )
 							     0 );
 		}
 
-		operation -> categorie = ECHEANCE_COURANTE -> categorie;
+		gsb_transaction_data_set_category_number ( gsb_transaction_data_get_transaction_number (operation),
+							   ECHEANCE_COURANTE -> categorie );
 		operation -> sous_categorie = ECHEANCE_COURANTE -> sous_categorie;
 
 		if ( !ECHEANCE_COURANTE -> categorie
@@ -1755,7 +1756,8 @@ void verification_echeances_a_terme ( void )
 
 		    gsb_transaction_data_set_amount ( gsb_transaction_data_get_transaction_number ( operation_fille ),
 						      gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (ope_ventil )));
-		    operation_fille -> categorie = ope_ventil -> categorie;
+		    gsb_transaction_data_set_category_number ( gsb_transaction_data_get_transaction_number (operation_fille ),
+							       ope_ventil -> categorie );
 		    operation_fille -> sous_categorie = ope_ventil -> sous_categorie;
 
 		    if ( ope_ventil -> notes )

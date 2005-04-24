@@ -1221,8 +1221,8 @@ gint etat_affiche_affichage_ligne_ope ( struct structure_operation *operation,
 
 	    pointeur = NULL;
 
-	    if ( operation -> categorie )
-		pointeur = nom_categ_par_no ( operation -> categorie,
+	    if ( gsb_transaction_data_get_category_number ( gsb_transaction_data_get_transaction_number (operation )))
+		pointeur = nom_categ_par_no ( gsb_transaction_data_get_category_number ( gsb_transaction_data_get_transaction_number (operation )),
 					      operation -> sous_categorie );
 	    else
 	    {
@@ -1581,7 +1581,7 @@ gint etat_affiche_affiche_categ_etat ( struct structure_operation *operation,
 
     if ( etat_courant -> utilise_categ
 	 &&
-	 ( operation -> categorie != ancienne_categ_etat
+	 ( gsb_transaction_data_get_category_number ( gsb_transaction_data_get_transaction_number (operation ))!= ancienne_categ_etat
 	   ||
 	   ( ancienne_categ_speciale_etat == 1
 	     &&
@@ -1624,9 +1624,9 @@ gint etat_affiche_affiche_categ_etat ( struct structure_operation *operation,
 
 	if ( etat_courant -> afficher_nom_categ )
 	{
-	    if ( operation -> categorie )
+	    if ( gsb_transaction_data_get_category_number ( gsb_transaction_data_get_transaction_number (operation )))
 	    {
-		nom_categ_en_cours = nom_categ_par_no ( operation -> categorie,
+		nom_categ_en_cours = nom_categ_par_no ( gsb_transaction_data_get_category_number ( gsb_transaction_data_get_transaction_number (operation )),
 							0 );
 		pointeur_char = g_strconcat ( decalage_categ,
 					      nom_categ_en_cours,
@@ -1669,7 +1669,7 @@ gint etat_affiche_affiche_categ_etat ( struct structure_operation *operation,
 	ligne_debut_partie = ligne;
 	denote_struct_sous_jaccentes ( 1 );
 
-	ancienne_categ_etat = operation -> categorie;
+	ancienne_categ_etat = gsb_transaction_data_get_category_number ( gsb_transaction_data_get_transaction_number (operation ));
 
 	debut_affichage_etat = 0;
 	changement_de_groupe_etat = 1;
@@ -1692,7 +1692,7 @@ gint etat_affiche_affiche_sous_categ_etat ( struct structure_operation *operatio
 	 &&
 	 etat_courant -> afficher_sous_categ
 	 &&
-	 operation -> categorie
+	 gsb_transaction_data_get_category_number ( gsb_transaction_data_get_transaction_number (operation ))
 	 &&
 	 operation -> sous_categorie != ancienne_sous_categ_etat )
     {
@@ -1722,7 +1722,7 @@ gint etat_affiche_affiche_sous_categ_etat ( struct structure_operation *operatio
 
 	if ( etat_courant -> afficher_nom_categ )
 	{
-	    pointeur_char = nom_sous_categ_par_no ( operation -> categorie,
+	    pointeur_char = nom_sous_categ_par_no ( gsb_transaction_data_get_category_number ( gsb_transaction_data_get_transaction_number (operation )),
 						    operation -> sous_categorie );
 
 	    if ( !pointeur_char )

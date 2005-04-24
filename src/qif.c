@@ -1245,7 +1245,7 @@ choix_liste_fichier:
 
 				if ( ope_test -> no_operation_ventilee_associee == gsb_transaction_data_get_transaction_number (operation)
 				     &&
-				     ( ope_test -> categorie
+				     ( gsb_transaction_data_get_category_number ( gsb_transaction_data_get_transaction_number (ope_test ))
 				       ||
 				       ope_test -> relation_no_operation ))
 				{
@@ -1279,7 +1279,7 @@ choix_liste_fichier:
 					/* c'est du type categ : sous categ */
 
 					pointeur = g_slist_find_custom ( liste_struct_categories,
-									 GINT_TO_POINTER ( ope_test -> categorie ),
+									 GINT_TO_POINTER ( gsb_transaction_data_get_category_number ( gsb_transaction_data_get_transaction_number (ope_test ))),
 									 (GCompareFunc) recherche_categorie_par_no );
 
 					if ( pointeur )
@@ -1379,7 +1379,7 @@ choix_liste_fichier:
 				/* c'est du type categ : sous-categ */
 
 				pointeur = g_slist_find_custom ( liste_struct_categories,
-								 GINT_TO_POINTER ( operation -> categorie ),
+								 GINT_TO_POINTER ( gsb_transaction_data_get_category_number ( gsb_transaction_data_get_transaction_number (operation ))),
 								 (GCompareFunc) recherche_categorie_par_no );
 
 				if ( pointeur )

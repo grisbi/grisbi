@@ -278,7 +278,7 @@ gint html_initialise (GSList * opes_selectionnees)
     html_first_line = TRUE;
 
     file_selector = gtk_file_selection_new ( _("Export report to HTML file."));
-    filename = file_selection_set_filename ( GTK_FILE_SELECTION ( file_selector ),
+    file_selection_set_filename ( GTK_FILE_SELECTION ( file_selector ),
 					     dernier_chemin_de_travail );
 
     file_selection_set_entry ( GTK_FILE_SELECTION ( file_selector ), 

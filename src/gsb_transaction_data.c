@@ -793,3 +793,46 @@ gboolean gsb_transaction_data_set_party_number ( gint no_transaction,
 
 
 
+
+/** get the category_number 
+ * \param no_transaction the number of the transaction
+ * \return the category number of the transaction
+ * */
+gint gsb_transaction_data_get_category_number ( gint no_transaction )
+{
+    struct_transaction *transaction;
+
+    transaction = gsb_transaction_data_get_transaction_by_no ( no_transaction,
+							       -1 );
+
+    if ( !transaction )
+	return -1;
+
+    return transaction -> category_number;
+}
+
+
+/** set the category_number
+ * \param no_transaction
+ * \param value
+ * \return TRUE if ok
+ * */
+gboolean gsb_transaction_data_set_category_number ( gint no_transaction,
+						    gint no_category )
+{
+    struct_transaction *transaction;
+
+    transaction = gsb_transaction_data_get_transaction_by_no ( no_transaction,
+							       -1 );
+
+    if ( !transaction )
+	return FALSE;
+
+    transaction -> category_number = no_category;
+
+    return TRUE;
+}
+
+
+
+

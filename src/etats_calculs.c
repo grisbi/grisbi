@@ -705,11 +705,11 @@ GSList *recupere_opes_etat ( struct struct_etat *etat )
 		if ((( etat -> utilise_detail_categ
 		       &&
 		       g_slist_index ( etat -> no_categ,
-				       GINT_TO_POINTER ( operation -> categorie )) == -1 )
+				       GINT_TO_POINTER ( gsb_transaction_data_get_category_number ( gsb_transaction_data_get_transaction_number (operation )))) == -1 )
 		     ||
 		     ( etat -> exclure_ope_sans_categ
 		       &&
-		       !operation -> categorie ))
+		       !gsb_transaction_data_get_category_number ( gsb_transaction_data_get_transaction_number (operation ))))
 		    &&
 		    !operation -> operation_ventilee
 		    &&
@@ -998,14 +998,14 @@ gchar *recupere_texte_test_etat ( struct structure_operation *operation,
 	case 2:
 	    /* categ */
 
-	    texte = nom_categ_par_no ( operation -> categorie,
+	    texte = nom_categ_par_no ( gsb_transaction_data_get_category_number ( gsb_transaction_data_get_transaction_number (operation )),
 				       0 );
 	    break;
 
 	case 3:
 	    /* ss-categ */
 
-	    texte = nom_sous_categ_par_no ( operation -> categorie,
+	    texte = nom_sous_categ_par_no ( gsb_transaction_data_get_category_number ( gsb_transaction_data_get_transaction_number (operation )),
 					    operation -> sous_categorie );
 	    break;
 
@@ -1530,14 +1530,14 @@ classement_suivant:
 
 	    if ( etat_courant -> utilise_categ )
 	    {
-		if ( operation_1 -> categorie != operation_2 -> categorie )
-		    return ( operation_1 -> categorie - operation_2 -> categorie );
+		if ( gsb_transaction_data_get_category_number ( gsb_transaction_data_get_transaction_number (operation_1 ))!= gsb_transaction_data_get_category_number ( gsb_transaction_data_get_transaction_number (operation_2 )))
+		    return ( gsb_transaction_data_get_category_number ( gsb_transaction_data_get_transaction_number (operation_1 ))- gsb_transaction_data_get_category_number ( gsb_transaction_data_get_transaction_number (operation_2 )));
 
 		/*     si  les catégories sont nulles, on doit départager entre virements, pas */
 		/* de categ ou opé ventilée */
 		/* on met en 1er les opés sans categ, ensuite les ventilations et enfin les virements */
 
-		if ( !operation_1 -> categorie )
+		if ( !gsb_transaction_data_get_category_number ( gsb_transaction_data_get_transaction_number (operation_1 )))
 		{
 		    if ( operation_1 -> operation_ventilee )
 		    {
@@ -1706,21 +1706,21 @@ gint classement_ope_perso_etat ( struct structure_operation *operation_1,
 	case 3:
 	    /* categ  */
 
-	    if ( !operation_1 -> categorie
+	    if ( !gsb_transaction_data_get_category_number ( gsb_transaction_data_get_transaction_number (operation_1 ))
 		 ||
-		 !operation_2 -> categorie )
-		retour = operation_2 -> categorie - operation_1 -> categorie;
+		 !gsb_transaction_data_get_category_number ( gsb_transaction_data_get_transaction_number (operation_2 )))
+		retour = gsb_transaction_data_get_category_number ( gsb_transaction_data_get_transaction_number (operation_2 ))- gsb_transaction_data_get_category_number ( gsb_transaction_data_get_transaction_number (operation_1 ));
 	    else
 	    {
-		if ( operation_1 -> categorie == operation_2 -> categorie
+		if ( gsb_transaction_data_get_category_number ( gsb_transaction_data_get_transaction_number (operation_1 ))== gsb_transaction_data_get_category_number ( gsb_transaction_data_get_transaction_number (operation_2 ))
 		     &&
 		     ( !operation_1 -> sous_categorie
 		       ||
 		       !operation_2 -> sous_categorie ))
 		    retour = operation_2 -> sous_categorie - operation_1 -> sous_categorie;
 		else
-		    retour = g_strcasecmp ( nom_categ_par_no ( operation_1 -> categorie, operation_1 -> sous_categorie ),
-					    nom_categ_par_no ( operation_2 -> categorie, operation_2 -> sous_categorie ));
+		    retour = g_strcasecmp ( nom_categ_par_no ( gsb_transaction_data_get_category_number ( gsb_transaction_data_get_transaction_number (operation_1 )), operation_1 -> sous_categorie ),
+					    nom_categ_par_no ( gsb_transaction_data_get_category_number ( gsb_transaction_data_get_transaction_number (operation_2 )), operation_2 -> sous_categorie ));
 	    }
 	    break;
 
@@ -1887,11 +1887,11 @@ void etape_finale_affichage_etat ( GSList *ope_selectionnees,
 		/* s'il n'y a pas de catég, c'est un virement ou une ventilation */
 		/*       dans ce cas, on classe en fonction du montant */
 
-		if ( operation -> categorie )
+		if ( gsb_transaction_data_get_category_number ( gsb_transaction_data_get_transaction_number (operation )))
 		{
 		    struct struct_categ *categ;
 
-		    categ = categ_par_no ( operation -> categorie );
+		    categ = categ_par_no ( gsb_transaction_data_get_category_number ( gsb_transaction_data_get_transaction_number (operation )));
 
 		    if ( categ -> type_categ )
 			liste_ope_depenses = g_slist_append ( liste_ope_depenses,

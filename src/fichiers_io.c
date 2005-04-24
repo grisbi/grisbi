@@ -1381,8 +1381,9 @@ gboolean recuperation_comptes_xml ( xmlNodePtr node_comptes )
 								    my_atoi ( xmlGetProp ( node_ope,
 											   "T" ))  );
 
-			    operation -> categorie = my_atoi ( xmlGetProp ( node_ope,
-									    "C" ));
+			    gsb_transaction_data_set_category_number ( transaction_number,
+								       my_atoi ( xmlGetProp ( node_ope,
+									    "C" )));
 
 			    operation -> sous_categorie = my_atoi ( xmlGetProp ( node_ope,
 										 "Sc" ));
@@ -3645,25 +3646,25 @@ gboolean enregistre_fichier ( gchar *new_file )
 
 	    xmlSetProp ( node_ope,
 			 "Rdc",
-			 itoa ( gsb_transaction_data_get_change_between ( gsb_transaction_data_get_transaction_number (operation ))));
+			 itoa ( gsb_transaction_data_get_change_between (transaction_number )));
 
 	    xmlSetProp ( node_ope,
 			 "Tc",
 			 g_strdup_printf ( "%4.7f",
-					   gsb_transaction_data_get_exchange_rate ( gsb_transaction_data_get_transaction_number (operation ))));
+					   gsb_transaction_data_get_exchange_rate (transaction_number )));
 
 	    xmlSetProp ( node_ope,
 			 "Fc",
 			 g_strdup_printf ( "%4.7f",
-					   gsb_transaction_data_get_exchange_fees ( gsb_transaction_data_get_transaction_number (operation ))));
+					   gsb_transaction_data_get_exchange_fees ( transaction_number)));
 
 	    xmlSetProp ( node_ope,
 			 "T",
-			 itoa ( gsb_transaction_data_get_party_number ( gsb_transaction_data_get_transaction_number (operation ))));
+			 itoa ( gsb_transaction_data_get_party_number ( transaction_number)));
 
 	    xmlSetProp ( node_ope,
 			 "C",
-			 itoa ( operation -> categorie ));
+			 itoa ( gsb_transaction_data_get_category_number ( transaction_number)));
 
 	    xmlSetProp ( node_ope,
 			 "Sc",
