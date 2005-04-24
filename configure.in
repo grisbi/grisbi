@@ -65,7 +65,7 @@ dnl ******************************
 AC_OUTPUT([
 Makefile
 help/Makefile
-help/C/Makefile
+help/en/Makefile
 help/fr/Makefile
 help/de/Makefile
 intl/Makefile
