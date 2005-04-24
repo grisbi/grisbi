@@ -14,13 +14,12 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-04-18 22:34+0200\n"
-"PO-Revision-Date: 2005-02-15 11:01+0100\n"
+"PO-Revision-Date: 2005-04-24 19:57+0200\n"
 "Last-Translator: Alain PORTAL <aportal@univ-montp2.fr>\n"
 "Language-Team: français <traduc@traduc.org>\n"
 "MIME-Version: (null)\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.3.1\n"
+"Content-Transfer-Encoding: 8bit"
 
 #: src/accueil.c:120
 msgid "No user"
@@ -1419,7 +1418,7 @@ msgid "No inconsistency found."
 msgstr "Pas d'incohérence."
 
 #: src/check.c:148
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "<span weight=\"bold\">%s</span>\n"
 "  Last reconciliation amount : %4.2f%s\n"
@@ -1428,7 +1427,7 @@ msgstr ""
 "<span weight=\"bold\">%s</span>\n"
 "  Montant du dernier rapprochement : %4.2f%s\n"
 "  Montant du rapprochement recalculé : %4.2f%s\n"
-"\n"
+""
 
 #: src/check.c:163
 msgid ""
@@ -1460,16 +1459,15 @@ msgstr "Un compte comporte des incohérences."
 msgid ""
 "Some sub-categories are duplicates:\n"
 "\n"
-msgstr ""
+msgstr "Des sous-catégories sont en double:\n"
+"\n"
 
 #: src/check.c:233
-#, fuzzy, c-format
+#, c-format
 msgid "In <i>%s</i>, <i>%s</i> is a duplicate of <i>%s</i>.\n"
-msgstr ""
-"La sous-catégorie <i>« %s : %s »</i> est un doublon de <i>« %s : %s »</i>\n"
+msgstr "Dans <i>%s</i>,·<i>%s</i> est un doublon de <i>%s</i>.\n"
 
 #: src/check.c:249
-#, fuzzy
 msgid ""
 "Due to a bug in previous versions of Grisbi, sub-categories may share the "
 "same numeric id in some cases, resulting in transactions having two sub-"
@@ -1493,14 +1491,13 @@ msgid "Fix inconsistencies in sub-categories?"
 msgstr "Corriger les incohérences dans les sous-catégories ?"
 
 #: src/check.c:338
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Sub-budgetary line <i>'%s : %s'</i> is a duplicate of <i>'%s : %s'</i>\n"
 msgstr ""
-"La sous-catégorie <i>« %s : %s »</i> est un doublon de <i>« %s : %s »</i>\n"
+"La sous-catégorie <i>'%s : %s '</i> est un doublon de <i>'%s : %s'</i>\n"
 
 #: src/check.c:355
-#, fuzzy
 msgid ""
 "Due to a bug in previous versions of Grisbi, sub-budgetary lines may share "
 "the same numeric id in some cases, resulting in transactions having two sub-"
@@ -1520,7 +1517,6 @@ msgstr ""
 "déplacer des opérations vers cette nouvelle sous-catégorie."
 
 #: src/check.c:365
-#, fuzzy
 msgid "Fix inconsistencies in sub-budgetary lines?"
 msgstr "Corriger les incohérences dans les sous-catégories ?"
 
@@ -4869,16 +4865,14 @@ msgid "Export report to HTML file."
 msgstr "Exporter l'état vers un fichier HTML."
 
 #: src/etats_html.c:284 src/print_config.c:102
-#, fuzzy, c-format
+#, c-format
 msgid "File %s already exists."
 msgstr "Le fichier '%s' existe déjà"
 
 #: src/etats_html.c:286 src/print_config.c:104
-#, fuzzy
 msgid "Do you want to overwrite it?  There is no undo for this."
 msgstr ""
-"Cela détruira irrémédiablement le fichier précédent. Il n'y a pas "
-"d'annulation possible."
+"Voulez vous l'écraser ?. Il n'y a pas d'annulation possible."
 
 #: src/etats_html.c:318
 msgid "Make sure file exists and is writable."
@@ -5674,19 +5668,15 @@ msgstr ""
 "Les fonctionnalités futures tenteront toujours de respecter ces critères."
 
 #: src/help.c:47
-#, fuzzy
 msgid "Alain Pichon (aph[at]grisbi.org): RHEL and Fedora packaging"
-msgstr "Alain Pichon (alain.pichon[at]grisbi.org) : paquets RHEL."
+msgstr "Alain Pichon (aph[at]grisbi.org) : paquets RHEL et Fedora"
 
 #: src/help.c:48
-#, fuzzy
 msgid "Alain Portal <aportal AT univ-monpt2 DOT fr>: Programming, manual"
 msgstr ""
-"Alain Portal <aportal AT univ-monpt2 DOT fr> : programmation, manuel, "
-"paquets RedHat et Fedora"
+"Alain Portal <aportal AT univ-monpt2 DOT fr> : programmation, manuel"
 
 #: src/help.c:49
-#, fuzzy
 msgid "Andre Pascual (andre[at]linuxgraphic.org): Logo"
 msgstr "André Pascual (andre[at]linuxgraphic.org) : Logo"
 
@@ -5696,20 +5686,17 @@ msgstr "Axel Rousseau (axel584[at]axel584.org): contributeur"
 
 #: src/help.c:51
 msgid "Baluchiterium  (baluchiterium[at]users.sf.net): Slackware packaging"
-msgstr ""
+msgstr "Baluchiterium··(baluchiterium[at]users.sf.net):·Paquets Slackware"
 
 #: src/help.c:52
-#, fuzzy
 msgid "Benjamin Drieu (bdrieu[at]april.org): Programming, Debian packaging"
 msgstr "Benjamin Drieu (bdrieu[at]april.org) : programmation, paquets Debian"
 
 #: src/help.c:53
-#, fuzzy
 msgid "Cedric Auger (cedric[at]grisbi.org): Programming"
 msgstr "Cédric Auger (cedric[at]grisbi.org) : programmation"
 
 #: src/help.c:54
-#, fuzzy
 msgid "Daniel Cartron (doc[at]grisbi.org): Manual, website, consultancy"
 msgstr "Daniel Cartron (doc[at]grisbi.org) : manuel, site web, conseils"
 
@@ -5724,10 +5711,9 @@ msgid ""
 msgstr "Francois Terrot (grisbi[at]terrot.net) : portage et paquets Windows"
 
 #: src/help.c:57
-#, fuzzy
 msgid ""
 "Gerald Niel (gerald.niel[at]grisbi.org): Darwin packaging, administration"
-msgstr "Gérald Niel (gerald.niel[at]grisbi.org) : paquets Slackware, site web"
+msgstr "Gérald Niel (gerald.niel[at]grisbi.org) : paquets Darwin, site web"
 
 #: src/help.c:58
 msgid "PMF (ugly.duck[at]gmx.de): Zaurus packaging"
@@ -5747,35 +5733,31 @@ msgstr "Thierry Thomas (thierry[at]pompo.net) : paquets FreeBSD"
 
 #: src/help.c:62
 msgid "Vincent Marqueton (vincent[at]marqueton.org): Fink packaging"
-msgstr ""
+msgstr "Vincent·Marqueton·(vincent[at]marqueton.org):·Paquets Fink"
 
 #: src/help.c:65
-#, fuzzy
 msgid "Alain Portal (dionysos[at]grisbi.org): English"
 msgstr "Alain Portal (dionysos[at]grisbi.org) : Anglais"
 
 #: src/help.c:66
-#, fuzzy
 msgid "Benjamin Drieu (bdrieu[at]april.org): English"
 msgstr "Benjamin Drieu (bdrieu[at]april.org) : Anglais"
 
 #: src/help.c:67
-#, fuzzy
 msgid "Carlos M. CÃ¡mara Mora (carcam_moceu[at]yahoo.es): Spanish"
 msgstr "Carlos M. Cmaára Mora (carcam_moceu[at]yahoo.es) : Espagnol"
 
 #: src/help.c:68
-#, fuzzy
 msgid "Daniel Cartron (cartron[at]grisbi.org): English"
 msgstr "Daniel Cartron (cartron[at]grisbi.org) : Anglais"
 
 #: src/help.c:69
 msgid "Edwin Huijsing (e.huijsing[at]fiberworld.nl): Dutch"
-msgstr ""
+msgstr "Edwin·Huijsing·(e.huijsing[at]fiberworld.nl):·Allemand"
 
 #: src/help.c:70
 msgid "Fabio Erculiani (fabio.erculiani[at]tiscali.it): Italian"
-msgstr ""
+msgstr "Fabio·Erculiani·(fabio.erculiani[at]tiscali.it):·Italien"
 
 #: src/help.c:71
 msgid "Flavio Henrique Somensi (flavio[at]opens.com.br): Brazilian Portuguese"
@@ -5783,7 +5765,6 @@ msgstr ""
 "Flavio Henrique Somensi (flavio[at]opens.com.br) : Portugais pour brésiliens"
 
 #: src/help.c:72
-#, fuzzy
 msgid "Giorgio Mandolfo (giorgio[at]pollycoke.org): Italian"
 msgstr "Giorgio Mandolfo (giorgio[at]pollycoke.org) : Italien"
 
@@ -5793,10 +5774,9 @@ msgstr "Martin Stromberger (Fabiolla[at]aon.at): Allemand"
 
 #: src/help.c:74
 msgid "Ryszard Jeziorski (rjeziorski[at]eagle): Polish"
-msgstr ""
+msgstr "Ryszard·Jeziorski·(rjeziorski[at]eagle):·Polonais"
 
 #: src/help.c:80
-#, fuzzy
 msgid "Development list (discuss, participate, criticize, ...): "
 msgstr "Liste de développement (discussion, participation, critiques, ...) : "
 
@@ -5809,7 +5789,6 @@ msgid "Bug report"
 msgstr "Rapport de bogue"
 
 #: src/help.c:86
-#, fuzzy
 msgid "Information list (new releases announces, ...): "
 msgstr "Liste d'informations (annonce de nouvelles versions, ...) : "
 
@@ -7100,3 +7079,4 @@ msgid "This transfer has a reconciled contra-transaction, deletion canceled."
 msgstr ""
 "La contre-opération de ce virement est relevée, on ne peut donc les "
 "supprimer."
+
