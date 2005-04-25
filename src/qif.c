@@ -1229,7 +1229,7 @@ choix_liste_fichier:
 			/* et les met à la suite */
 			/* la catégorie de l'opé sera celle de la première opé de ventilation */
 
-			if ( operation -> operation_ventilee )
+			if ( gsb_transaction_data_get_breakdown_of_transaction ( gsb_transaction_data_get_transaction_number (operation )))
 			{
 			    GSList *liste_ventil;
 			    gint categ_ope_mise;

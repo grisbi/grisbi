@@ -419,7 +419,7 @@ GSList *recupere_opes_etat ( struct struct_etat *etat )
 
 		/* si c'est une opé ventilée, dépend de la conf */
 
-		if ( operation -> operation_ventilee
+		if ( gsb_transaction_data_get_breakdown_of_transaction ( gsb_transaction_data_get_transaction_number (operation ))
 		     &&
 		     !etat -> pas_detailler_ventilation )
 		    goto operation_refusee;
@@ -711,7 +711,7 @@ GSList *recupere_opes_etat ( struct struct_etat *etat )
 		       &&
 		       !gsb_transaction_data_get_category_number ( gsb_transaction_data_get_transaction_number (operation ))))
 		    &&
-		    !operation -> operation_ventilee
+		    !gsb_transaction_data_get_breakdown_of_transaction ( gsb_transaction_data_get_transaction_number (operation ))
 		    &&
 		    !operation -> relation_no_operation )
 		    goto operation_refusee;
@@ -1539,12 +1539,12 @@ classement_suivant:
 
 		if ( !gsb_transaction_data_get_category_number ( gsb_transaction_data_get_transaction_number (operation_1 )))
 		{
-		    if ( operation_1 -> operation_ventilee )
+		    if ( gsb_transaction_data_get_breakdown_of_transaction ( gsb_transaction_data_get_transaction_number (operation_1 )))
 		    {
 			if ( operation_2 -> relation_no_operation )
 			    return ( -1 );
 			else
-			    if ( !operation_2 -> operation_ventilee )
+			    if ( !gsb_transaction_data_get_breakdown_of_transaction ( gsb_transaction_data_get_transaction_number (operation_2 )))
 				return ( 1 );
 		    }
 		    else
@@ -1557,7 +1557,7 @@ classement_suivant:
 			else
 			    if ( operation_2 -> relation_no_operation
 				 ||
-				 operation_2 -> operation_ventilee )
+				 gsb_transaction_data_get_breakdown_of_transaction ( gsb_transaction_data_get_transaction_number (operation_2 )))
 				return ( -1 );
 		    }
 		}

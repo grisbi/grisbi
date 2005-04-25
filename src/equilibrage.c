@@ -845,7 +845,7 @@ gboolean gsb_reconcile_mark_transaction ( struct structure_operation *transactio
     /* si c'est une opération ventilée, on recherche les opérations filles
        pour leur mettre le même pointage que la mère */
 
-    if ( transaction -> operation_ventilee )
+    if ( gsb_transaction_data_get_breakdown_of_transaction ( gsb_transaction_data_get_transaction_number (transaction )))
     {
 	/* p_tab est déjà pointé sur le compte courant */
 

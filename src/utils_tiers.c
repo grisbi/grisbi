@@ -197,7 +197,8 @@ void calcule_total_montant_payee ( void )
 
 		add_transaction_to_payee ( operation, payee );
 	    }
-	    else if ( ! operation -> operation_ventilee && 
+	    else if ( ! gsb_transaction_data_get_breakdown_of_transaction ( gsb_transaction_data_get_transaction_number (operation ))
+		      && 
 		      ! operation -> relation_no_operation )
 	    {
 		add_transaction_to_payee ( operation, without_payee );

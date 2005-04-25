@@ -1345,7 +1345,8 @@ gint etat_affiche_affichage_ligne_ope ( struct structure_operation *operation,
 
 		    pTransaction = pTransactionList -> data;
 		    
-		    if ( pTransaction -> operation_ventilee &&
+		    if ( gsb_transaction_data_get_breakdown_of_transaction ( gsb_transaction_data_get_transaction_number (pTransaction ))
+			 &&
 			 gsb_transaction_data_get_transaction_number (pTransaction) == operation -> no_operation_ventilee_associee &&
 			 pTransaction -> contenu_type )
 		    {
@@ -1589,11 +1590,11 @@ gint etat_affiche_affiche_categ_etat ( struct structure_operation *operation,
 	   ||
 	   ( ancienne_categ_speciale_etat == 2
 	     &&
-	     !operation -> operation_ventilee )
+	     !gsb_transaction_data_get_breakdown_of_transaction ( gsb_transaction_data_get_transaction_number (operation )))
 	   ||
 	   ( ancienne_categ_speciale_etat == 3
 	     &&
-	     ( operation -> operation_ventilee
+	     ( gsb_transaction_data_get_breakdown_of_transaction ( gsb_transaction_data_get_transaction_number (operation ))
 	       ||
 	       operation -> relation_no_operation ))))
     {
@@ -1644,7 +1645,7 @@ gint etat_affiche_affiche_categ_etat ( struct structure_operation *operation,
 		}
 		else
 		{
-		    if ( operation -> operation_ventilee )
+		    if ( gsb_transaction_data_get_breakdown_of_transaction ( gsb_transaction_data_get_transaction_number (operation )))
 		    {
 			pointeur_char = g_strconcat ( decalage_categ,
 						      _("Breakdown of transaction"),

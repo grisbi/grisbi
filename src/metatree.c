@@ -725,7 +725,7 @@ gboolean division_column_expanded  ( GtkTreeView * treeview, GtkTreeIter * iter,
 		     iface -> transaction_div_id ( operation ) == no_division &&
 		     iface -> transaction_sub_div_id ( operation ) == no_sub_division/*  && */
 /* 		     !operation -> relation_no_operation && */
-/* 		     !operation -> operation_ventilee */ )
+/* 		     !gsb_transaction_data_get_breakdown_of_transaction ( gsb_transaction_data_get_transaction_number (operation ))*/ )
 		{
 		    if ( !first )
 		    {
@@ -933,7 +933,7 @@ gboolean division_drag_data_received ( GtkTreeDragDest * drag_dest, GtkTreePath 
 			     iface -> transaction_div_id (transaction) == no_orig_division &&
 			     iface -> transaction_sub_div_id (transaction) == no_orig_sub_division /* && */
 /* 			     !transaction -> relation_no_operation && */
-/* 			     !transaction -> operation_ventilee  */)
+/* 			     !gsb_transaction_data_get_breakdown_of_transaction ( gsb_transaction_data_get_transaction_number (transaction ))*/)
 			{
 			    GtkTreePath * path;
 			    path = gtk_tree_model_get_path ( model, &iter );

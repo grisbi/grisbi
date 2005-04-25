@@ -1785,7 +1785,7 @@ gboolean completion_operation_par_tiers ( GtkWidget *entree )
 
 		case TRANSACTION_FORM_CATEGORY:
 
-		    if ( transaction -> operation_ventilee )
+		    if ( gsb_transaction_data_get_breakdown_of_transaction ( gsb_transaction_data_get_transaction_number (transaction )))
 		    {
 			/* it's a breakdown of transaction */
 
@@ -3026,7 +3026,8 @@ gboolean gsb_form_get_categories ( struct structure_operation *transaction,
 		transaction -> relation_no_compte = 0;
 	    }
 
-	    transaction -> operation_ventilee = 1;
+	    gsb_transaction_data_set_breakdown_of_transaction ( gsb_transaction_data_get_transaction_number (transaction),
+								1 );
 	    gsb_transaction_data_set_category_number ( gsb_transaction_data_get_transaction_number (transaction),
 						       0 );
 	    gsb_transaction_data_set_sub_category_number ( gsb_transaction_data_get_transaction_number (transaction),
@@ -3055,7 +3056,7 @@ gboolean gsb_form_get_categories ( struct structure_operation *transaction,
 
 	    if ( !new_transaction
 		 &&
-		 transaction -> operation_ventilee )
+		 gsb_transaction_data_get_breakdown_of_transaction ( gsb_transaction_data_get_transaction_number (transaction )))
 	    {
 		GSList *list_tmp;
 
@@ -3075,7 +3076,8 @@ gboolean gsb_form_get_categories ( struct structure_operation *transaction,
 		    else
 			list_tmp = list_tmp -> next;
 		}
-		transaction -> operation_ventilee = 0;
+		gsb_transaction_data_set_breakdown_of_transaction ( gsb_transaction_data_get_transaction_number (transaction),
+								    0 );
 	    }
 
 	    /* now, check if it's a transfer or a normal category */
@@ -3365,7 +3367,7 @@ gboolean gsb_transactions_list_append_new_transaction ( struct structure_operati
      * which is a normal transaction but with nothing and with the breakdown
      * relation to the last transaction */
 
-    if ( transaction -> operation_ventilee )
+    if ( gsb_transaction_data_get_breakdown_of_transaction ( gsb_transaction_data_get_transaction_number (transaction )))
     {
 	struct structure_operation *breakdown_transaction;
 	GtkTreeIter *iter;

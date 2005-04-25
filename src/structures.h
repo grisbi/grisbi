@@ -183,7 +183,7 @@ struct structure_operation
 /*     guint tiers; */
 /*     guint categorie; */
 /*     guint sous_categorie; */
-    gint operation_ventilee;        /* à 1 si c'est une opé ventilée */
+/*     gint operation_ventilee; */
 
     gchar *notes;
 

@@ -847,7 +847,7 @@ gboolean gsb_transactions_list_fill_store ( gint no_account,
 	 * which is a normal transaction but with nothing and with the breakdown
 	 * relation to the last transaction */
 
-	if ( transaction -> operation_ventilee )
+	if ( gsb_transaction_data_get_breakdown_of_transaction ( gsb_transaction_data_get_transaction_number (transaction )))
 	    gsb_transactions_list_append_white_breakdown ( transaction );
 
 	liste_transactions_tmp = liste_transactions_tmp -> next;
@@ -982,7 +982,9 @@ gboolean gsb_transactions_list_fill_row ( struct structure_operation *transactio
 			     TRANSACTION_COL_NB_IS_NOT_BREAKDOWN, TRUE,
 			     -1 );
 
-	if ( transaction -> operation_ventilee && !line_in_transaction )
+	if ( gsb_transaction_data_get_breakdown_of_transaction ( gsb_transaction_data_get_transaction_number (transaction ))
+	     &&
+	     !line_in_transaction )
 	{
 		gtk_list_store_set ( store,
 				     iter,
@@ -1589,7 +1591,7 @@ gboolean gsb_transactions_list_button_press ( GtkWidget *tree_view,
     if ( tree_column == gsb_account_get_column ( gsb_account_get_current_account (),
 						 0 )
 	 &&
-	 transaction -> operation_ventilee )
+	 gsb_transaction_data_get_breakdown_of_transaction ( gsb_transaction_data_get_transaction_number (transaction )))
     {
 	gboolean breakdown_shown;
 
@@ -2416,7 +2418,7 @@ gboolean gsb_transactions_list_edit_current_transaction ( void )
 
 		    /* 		    si l'opé est ventilée, on désensitive l'exo */
 
-		    if ( transaction -> operation_ventilee )
+		    if ( gsb_transaction_data_get_breakdown_of_transaction ( gsb_transaction_data_get_transaction_number (transaction )))
 			gtk_widget_set_sensitive ( widget,
 						   FALSE );
 
@@ -2470,7 +2472,7 @@ gboolean gsb_transactions_list_edit_current_transaction ( void )
 
 		case TRANSACTION_FORM_CATEGORY:
 
-		    if ( transaction -> operation_ventilee )
+		    if ( gsb_transaction_data_get_breakdown_of_transaction ( gsb_transaction_data_get_transaction_number (transaction )))
 		    {
 			entree_prend_focus ( widget );
 			gtk_combofix_set_text ( GTK_COMBOFIX ( widget ),
@@ -2551,7 +2553,7 @@ gboolean gsb_transactions_list_edit_current_transaction ( void )
 
 		    /* 		    si l'opé est ventilée, on dÃ©sensitive l'ib */
 
-		    if ( transaction -> operation_ventilee )
+		    if ( gsb_transaction_data_get_breakdown_of_transaction ( gsb_transaction_data_get_transaction_number (transaction )))
 			gtk_widget_set_sensitive ( widget,
 						   FALSE );
 		    break;
@@ -2751,7 +2753,7 @@ void p_press (void)
 
     /* si c'est une opé ventilée, on recherche les opé filles pour leur mettre le même pointage que la mère */
 
-    if ( transaction -> operation_ventilee )
+    if ( gsb_transaction_data_get_breakdown_of_transaction ( gsb_transaction_data_get_transaction_number (transaction )))
     {
 	/* p_tab est déjà pointé sur le compte courant */
 
@@ -2887,7 +2889,7 @@ void r_press (void)
     /* si c'est une ventilation, on fait le tour des opérations du compte pour */
     /* rechercher les opérations de ventilation associées à cette ventilation */
 
-    if ( transaction -> operation_ventilee )
+    if ( gsb_transaction_data_get_breakdown_of_transaction ( gsb_transaction_data_get_transaction_number (transaction )))
     {
 	GSList *liste_tmp;
 
@@ -2982,7 +2984,7 @@ gboolean gsb_transactions_list_delete_transaction ( struct structure_operation *
 
     /* if it's a breakdown, delete all the childs */
 
-    if ( transaction -> operation_ventilee )
+    if ( gsb_transaction_data_get_breakdown_of_transaction ( gsb_transaction_data_get_transaction_number (transaction )))
     {
 	transactions_list = gsb_account_get_transactions_list (gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (transaction)));
 
@@ -3103,7 +3105,7 @@ gboolean gsb_transactions_list_check_mark ( struct structure_operation *transact
     /* if it's a breakdown of transaction, check all the children
      * if there is not a transfer which is marked */
 
-    if ( transaction -> operation_ventilee )
+    if ( gsb_transaction_data_get_breakdown_of_transaction ( gsb_transaction_data_get_transaction_number (transaction )))
     {
 	transactions_list = gsb_account_get_transactions_list (gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (transaction)));
 
@@ -3487,7 +3489,7 @@ struct structure_operation *gsb_transactions_list_clone_transaction ( struct str
 
     gsb_transactions_list_append_new_transaction ( new_transaction );
 
-    if ( transaction -> operation_ventilee )
+    if ( gsb_transaction_data_get_breakdown_of_transaction ( gsb_transaction_data_get_transaction_number (transaction )))
     {
 	GSList *liste_tmp;
 
@@ -3640,7 +3642,7 @@ gboolean move_operation_to_account ( struct structure_operation * transaction,
 	}
     }
 
-    if ( transaction -> operation_ventilee )
+    if ( gsb_transaction_data_get_breakdown_of_transaction ( gsb_transaction_data_get_transaction_number (transaction )))
     {
 	GSList *liste_tmp;
 
@@ -3789,7 +3791,7 @@ struct operation_echeance *schedule_transaction ( struct structure_operation * t
     else
 	if ( !echeance -> categorie
 	     &&
-	     !transaction -> operation_ventilee )
+	     !gsb_transaction_data_get_breakdown_of_transaction ( gsb_transaction_data_get_transaction_number (transaction )))
 	    echeance -> compte_virement = -1;
 
     echeance -> notes = g_strdup ( transaction -> notes );
@@ -3801,7 +3803,7 @@ struct operation_echeance *schedule_transaction ( struct structure_operation * t
     echeance -> imputation = transaction -> imputation;
     echeance -> sous_imputation = transaction -> sous_imputation;
 
-    echeance -> operation_ventilee = transaction -> operation_ventilee;
+    echeance -> operation_ventilee = gsb_transaction_data_get_breakdown_of_transaction ( gsb_transaction_data_get_transaction_number (transaction ));
 
     /*     par défaut, on met en manuel, pour éviter si l'utilisateur se gourre dans la date, */
     /*     (c'est le cas, à 0 avec calloc) */
@@ -4537,7 +4539,7 @@ gchar *gsb_transactions_get_category_real_name ( struct structure_operation *tra
 {
     gchar *temp;
 
-    if ( transaction -> operation_ventilee )
+    if ( gsb_transaction_data_get_breakdown_of_transaction ( gsb_transaction_data_get_transaction_number (transaction )))
 	temp = _("Breakdown of transaction");
     else
     {

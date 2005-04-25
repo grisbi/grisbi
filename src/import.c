@@ -1425,7 +1425,8 @@ void creation_compte_importe ( struct struct_compte_importation *compte_import )
 	{
 	    /* l'opération est ventilée */
 
-	    operation -> operation_ventilee = 1;
+	    gsb_transaction_data_set_breakdown_of_transaction ( gsb_transaction_data_get_transaction_number (operation ),
+								1 );
 	}
 	else
 	{
@@ -1578,7 +1579,7 @@ void creation_compte_importe ( struct struct_compte_importation *compte_import )
 
 	/* 	mise à jour des montants */
 
-	if ( !operation -> operation_ventilee )
+	if ( !gsb_transaction_data_get_breakdown_of_transaction ( gsb_transaction_data_get_transaction_number (operation )))
 	{
 	    gsb_account_set_current_balance ( no_compte,
 					      gsb_account_get_current_balance (no_compte) + gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (operation )));
@@ -2070,7 +2071,8 @@ struct structure_operation *enregistre_ope_importee ( struct struct_ope_importat
     {
 	/* l'opération est ventilée */
 
-	operation -> operation_ventilee = 1;
+	gsb_transaction_data_set_breakdown_of_transaction ( transaction_number,
+							    1 );
     }
     else
     {
@@ -2401,7 +2403,7 @@ void pointe_opes_importees ( struct struct_compte_importation *compte_import )
 
 		    /* si c'est une opé ventilée, on recherche les opé filles pour leur mettre le même pointage que la mère */
 
-		    if ( operation -> operation_ventilee )
+		    if ( gsb_transaction_data_get_breakdown_of_transaction ( gsb_transaction_data_get_transaction_number (operation )))
 		    {
 
 			liste_ope = gsb_account_get_transactions_list (no_compte);
@@ -2498,7 +2500,7 @@ void pointe_opes_importees ( struct struct_compte_importation *compte_import )
 
 			    /* si c'est une opé ventilée, on recherche les opé filles pour leur mettre le même pointage que la mère */
 
-			    if ( operation -> operation_ventilee )
+			    if ( gsb_transaction_data_get_breakdown_of_transaction ( gsb_transaction_data_get_transaction_number (operation )))
 			    {
 				liste_ope = gsb_account_get_transactions_list (no_compte);
 

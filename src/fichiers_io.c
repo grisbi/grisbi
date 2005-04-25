@@ -328,7 +328,7 @@ gboolean mise_a_jour_versions_anterieures ( gint no_version,
 
 		    /*  si l'opération est une ventil, on refait le tour de la liste pour trouver ses filles */
 
-		    if ( operation -> operation_ventilee )
+		    if ( gsb_transaction_data_get_breakdown_of_transaction ( gsb_transaction_data_get_transaction_number (operation )))
 		    {
 			GSList *liste_tmp_2;
 
@@ -1389,8 +1389,9 @@ gboolean recuperation_comptes_xml ( xmlNodePtr node_comptes )
 									   my_atoi ( xmlGetProp ( node_ope,
 										 "Sc" )));
 
-			    operation -> operation_ventilee = my_atoi ( xmlGetProp ( node_ope,
-										     "Ov" ));
+			    gsb_transaction_data_set_breakdown_of_transaction ( transaction_number,
+										my_atoi ( xmlGetProp ( node_ope,
+												       "Ov" )) );
 
 			    operation -> notes = xmlGetProp ( node_ope,
 							      "N" );
@@ -3673,7 +3674,7 @@ gboolean enregistre_fichier ( gchar *new_file )
 
 	    xmlSetProp ( node_ope,
 			 "Ov",
-			 itoa ( operation -> operation_ventilee ));
+			 itoa ( gsb_transaction_data_get_breakdown_of_transaction ( gsb_transaction_data_get_transaction_number (operation ))));
 
 	    xmlSetProp ( node_ope,
 			 "N",

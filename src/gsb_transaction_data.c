@@ -871,6 +871,46 @@ gboolean gsb_transaction_data_set_sub_category_number ( gint no_transaction,
 }
 
 
+/** get if the transaction is a breakdown_of_transaction
+ * \param no_transaction the number of the transaction
+ * \return TRUE if the transaction is a breakdown of transaction
+ * */
+gint gsb_transaction_data_get_breakdown_of_transaction ( gint no_transaction )
+{
+    struct_transaction *transaction;
+
+    transaction = gsb_transaction_data_get_transaction_by_no ( no_transaction,
+							       -1 );
+
+    if ( !transaction )
+	return -1;
+
+    return transaction -> breakdown_of_transaction;
+}
+
+
+/** set if the transaction is a breakdown_of_transaction
+ * \param no_transaction
+ * \param is_breakdown
+ * \return TRUE if ok
+ * */
+gboolean gsb_transaction_data_set_breakdown_of_transaction ( gint no_transaction,
+							     gint is_breakdown )
+{
+    struct_transaction *transaction;
+
+    transaction = gsb_transaction_data_get_transaction_by_no ( no_transaction,
+							       -1 );
+
+    if ( !transaction )
+	return FALSE;
+
+    transaction -> breakdown_of_transaction = is_breakdown;
+
+    return TRUE;
+}
+
+
 
 
 

@@ -2123,7 +2123,8 @@ void fin_edition_echeance ( void )
 
 	    /* 	    la mère est donc une ventil */
 
-	    operation -> operation_ventilee = 1;
+	    gsb_transaction_data_set_breakdown_of_transaction ( gsb_transaction_data_get_transaction_number (operation ),
+								1 );
 
 	    ope_ventil = pointeur_liste -> data;
 	    operation_fille = calloc ( 1,
