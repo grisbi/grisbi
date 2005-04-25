@@ -116,6 +116,7 @@ static struct iso_4217_currency iso_4217_currencies[] = {
     { N_("Europe"), N_("Swedish Krona"), N_("Sweden"), "SEK", NULL, TRUE },
     { N_("Europe"), N_("Swiss Franc"), N_("Liechtenstein"), "CHF", NULL, TRUE },
     { N_("Europe"), N_("Swiss Franc"), N_("Switzerland"), "CHF", NULL, TRUE },
+    { N_("Europe"), N_("Hryvnia"), N_("Ukraine"), "UAH", NULL, TRUE },
     { N_("Northern America"), N_("Bahamian Dollar"), N_("Bahamas"), "BSD", NULL, TRUE },
     { N_("Northern America"), N_("Barbados Dollar"), N_("Barbados"), "BBD", NULL, TRUE },
     { N_("Northern America"), N_("Bermuda Dollar"), N_("Bermuda"), "BMD", NULL, TRUE },
