@@ -45,11 +45,10 @@
 
 /*START_STATIC*/
 static void create_account_list ( GtkTreeModel * model, GtkTreeIter * account_iter );
-static GtkWidget *create_main_notebook (void );
-static  GtkWidget * create_management_list ( void );
-static GtkWidget * create_navigation_pane ( void );
-static  gboolean gsb_gui_select_account_page ( GtkWidget * button, gpointer account );
-static  gboolean gsb_gui_select_page ( GtkWidget * button, gpointer page );
+static gboolean gsb_gui_select_account_page ( GtkWidget * button, gpointer account );
+static gboolean gsb_gui_select_page ( GtkWidget * button, gpointer page );
+static gboolean gsb_gui_select_navigation_link ( GtkTreeSelection * selection,
+						 GtkTreeModel * model );
 /*END_STATIC*/
 
 
@@ -84,9 +83,11 @@ extern AB_BANKING *gbanking;
 #endif
 
 
+/** Holds data for the navigation tree.  */
 enum navigation_cols { 
     NAVIGATION_PIX, NAVIGATION_PIX_VISIBLE,
     NAVIGATION_TEXT, NAVIGATION_FONT,
+    NAVIGATION_PAGE, NAVIGATION_ACCOUNT,
     NAVIGATION_TOTAL,
 };
 
@@ -144,6 +145,7 @@ GtkWidget * create_main_widget ( void )
     gtk_box_pack_start ( GTK_BOX(main_vbox), main_hpaned, TRUE, TRUE, 0 );
     gtk_paned_add1 ( GTK_PANED( main_hpaned ), create_navigation_pane ( ) );
     gtk_paned_add2 ( GTK_PANED( main_hpaned ), create_main_notebook ( ) );
+    gtk_container_set_border_width ( GTK_CONTAINER ( main_hpaned ), 6 );
 
     main_statusbar = gtk_statusbar_new ();
     gtk_box_pack_start ( GTK_BOX(main_vbox), main_statusbar, FALSE, FALSE, 0 );
@@ -166,24 +168,31 @@ GtkWidget * create_main_widget ( void )
  */
 GtkWidget * create_navigation_pane ( void )
 {
-    GtkTreeView * treeview;
+    GtkWidget * sw, * tree_view, *column, *vbox;
     GtkTreeModel * model;
     GdkPixbuf * pixbuf;
     GtkTreeIter iter, account_iter;
-    GtkTreeViewColumn *column;
     GtkCellRenderer * renderer;
 
-    model = gtk_tree_store_new (NAVIGATION_TOTAL, 
-				GDK_TYPE_PIXBUF,
-				G_TYPE_BOOLEAN, 
-				G_TYPE_STRING, 
-				G_TYPE_INT );
-    treeview = gtk_tree_view_new_with_model (GTK_TREE_MODEL(model));
-    gtk_tree_view_set_headers_visible ( GTK_TREE_VIEW(treeview), FALSE );
+    vbox = gtk_vbox_new ( FALSE, 6 );
+
+    sw = gtk_scrolled_window_new (NULL, NULL);
+    gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (sw), GTK_SHADOW_ETCHED_IN);
+    gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw), GTK_POLICY_NEVER,
+				    GTK_POLICY_AUTOMATIC);
+
+    model = GTK_TREE_MODEL ( gtk_tree_store_new (NAVIGATION_TOTAL, GDK_TYPE_PIXBUF,
+						 G_TYPE_BOOLEAN, G_TYPE_STRING, 
+						 G_TYPE_INT, G_TYPE_INT, G_TYPE_INT ) );
+    tree_view = gtk_tree_view_new_with_model (GTK_TREE_MODEL(model));
+    gtk_tree_view_set_headers_visible ( GTK_TREE_VIEW(tree_view), FALSE );
+    gtk_container_add ( GTK_CONTAINER(sw), tree_view );
+
+    g_signal_connect (gtk_tree_view_get_selection (GTK_TREE_VIEW (tree_view)), "changed", 
+		      ((GCallback) gsb_gui_select_navigation_link), model );
 
     renderer = gtk_cell_renderer_pixbuf_new ();
-    g_object_set_property ( renderer, "xpad", 0 );
-    column = gtk_tree_view_column_new_with_attributes (GTK_TREE_VIEW (treeview), renderer,
+    column = gtk_tree_view_column_new_with_attributes (GTK_TREE_VIEW (tree_view), renderer,
 						       "visible", NAVIGATION_PIX_VISIBLE, 
 						       "pixbuf", NAVIGATION_PIX, NULL);
     renderer = gtk_cell_renderer_text_new();
@@ -193,7 +202,7 @@ GtkWidget * create_navigation_pane ( void )
 
     gtk_tree_view_column_pack_start(column, renderer, FALSE);
 
-    gtk_tree_view_append_column ( GTK_TREE_VIEW ( treeview ), 
+    gtk_tree_view_append_column ( GTK_TREE_VIEW ( tree_view ), 
 				  GTK_TREE_VIEW_COLUMN ( column ) );
     /* Account list */
     pixbuf = gdk_pixbuf_new_from_file ( g_strconcat( PIXMAPS_DIR, C_DIRECTORY_SEPARATOR,
@@ -204,6 +213,8 @@ GtkWidget * create_navigation_pane ( void )
 		       NAVIGATION_TEXT, _("Accounts"), 
 		       NAVIGATION_PIX_VISIBLE, TRUE, 
 		       NAVIGATION_FONT, 800,
+		       NAVIGATION_PAGE, GSB_HOME_PAGE,
+		       NAVIGATION_ACCOUNT, -1,
 		       -1);
     create_account_list ( model, &account_iter );
 
@@ -216,6 +227,8 @@ GtkWidget * create_navigation_pane ( void )
 		       NAVIGATION_TEXT, _("Scheduler"), 
 		       NAVIGATION_PIX_VISIBLE, TRUE, 
 		       NAVIGATION_FONT, 800,
+		       NAVIGATION_PAGE, GSB_SCHEDULER_PAGE,
+		       NAVIGATION_ACCOUNT, -1,
 		       -1 );
 
     /* Payees */
@@ -227,6 +240,8 @@ GtkWidget * create_navigation_pane ( void )
 		       NAVIGATION_TEXT, _("Payees"), 
 		       NAVIGATION_PIX_VISIBLE, TRUE, 
 		       NAVIGATION_FONT, 800,
+		       NAVIGATION_PAGE, GSB_PAYEES_PAGE,
+		       NAVIGATION_ACCOUNT, -1,
 		       -1 );
 
     /* Categories */
@@ -238,6 +253,8 @@ GtkWidget * create_navigation_pane ( void )
 		       NAVIGATION_TEXT, _("Categories"), 
 		       NAVIGATION_PIX_VISIBLE, TRUE, 
 		       NAVIGATION_FONT, 800,
+		       NAVIGATION_PAGE, GSB_CATEGORIES_PAGE,
+		       NAVIGATION_ACCOUNT, -1,
 		       -1 );
 
     /* Budgetary lines */
@@ -249,6 +266,8 @@ GtkWidget * create_navigation_pane ( void )
 		       NAVIGATION_TEXT, _("Budgetary lines"), 
 		       NAVIGATION_PIX_VISIBLE, TRUE, 
 		       NAVIGATION_FONT, 800,
+		       NAVIGATION_PAGE, GSB_BUDGETARY_LINES_PAGE,
+		       NAVIGATION_ACCOUNT, -1,
 		       -1 );
 
     /* Reports */
@@ -260,11 +279,19 @@ GtkWidget * create_navigation_pane ( void )
 		       NAVIGATION_TEXT, _("Reports"), 
 		       NAVIGATION_PIX_VISIBLE, TRUE, 
 		       NAVIGATION_FONT, 800,
+		       NAVIGATION_PAGE, GSB_REPORTS_PAGE,
+		       NAVIGATION_ACCOUNT, -1,
 		       -1 );
 
-    gtk_widget_show_all(treeview);
+    gtk_tree_view_expand_all ( tree_view );
 
-    return treeview;
+    gtk_box_pack_start ( GTK_BOX(vbox), sw, TRUE, TRUE, 0 );
+    gtk_box_pack_end ( GTK_BOX(vbox), creation_partie_gauche_echeancier(),
+		       FALSE, FALSE, 0 );
+
+    gtk_widget_show_all ( vbox );
+
+    return vbox;
 }
 
 
@@ -299,9 +326,14 @@ void create_account_list ( GtkTreeModel * model, GtkTreeIter * account_iter )
 		case GSB_TYPE_CASH:
 		    account_icon = "money";
 		    break;
-		    
+
+		case GSB_TYPE_ASSET:
+		case GSB_TYPE_LIABILITIES:
+		    account_icon = "asset";
+		    break;
+
 		default:
-		    account_icon = "payees";
+		    account_icon = "warnings";
 		    break;
 		}
 
@@ -315,9 +347,9 @@ void create_account_list ( GtkTreeModel * model, GtkTreeIter * account_iter )
 			       NAVIGATION_PIX_VISIBLE, TRUE, 
 			       NAVIGATION_TEXT, gsb_account_get_name(i), 
 			       NAVIGATION_FONT, 400,
+			       NAVIGATION_PAGE, GSB_ACCOUNT_PAGE,
+			       NAVIGATION_ACCOUNT, i,
 			       -1 );
-/* 	    g_signal_connect ( G_OBJECT(button), "clicked",  */
-/* 			       G_CALLBACK ( gsb_gui_select_account_page ), (gpointer) i ); */
 	}
 
 	list_tmp = list_tmp -> next;
@@ -327,75 +359,11 @@ void create_account_list ( GtkTreeModel * model, GtkTreeIter * account_iter )
 
 
 /**
- * Create a list of buttons that are shortcuts to accounts.
- *
- * \return A newly allocated vbox containing buttons.
- */
-static GtkWidget * create_management_list ( void )
-{
-    GtkWidget * vbox, *button;
-
-    vbox = gtk_vbox_new ( FALSE, 0 );
-    gtk_container_set_border_width ( GTK_CONTAINER ( vbox ), 3 );
-
-    /* Create payees shortcut. */
-    button = new_button_with_label_and_image ( GSB_BUTTON_BOTH,
-					       _("Payees"), "payees.png",
-					       NULL, NULL );
-    g_signal_connect ( G_OBJECT(button), "clicked", 
-		       G_CALLBACK ( gsb_gui_select_page ), 
-		       (gpointer) GSB_PAYEES_PAGE );
-    gtk_box_pack_start ( GTK_BOX ( vbox ), button, FALSE, FALSE, 0 );
-
-    /* Create categories shortcut. */
-    button = new_button_with_label_and_image ( GSB_BUTTON_BOTH,
-					       _("Categories"), "categories.png",
-					       NULL, NULL );
-    g_signal_connect ( G_OBJECT(button), "clicked", 
-		       G_CALLBACK ( gsb_gui_select_page ), 
-		       (gpointer) GSB_CATEGORIES_PAGE );
-    gtk_box_pack_start ( GTK_BOX ( vbox ), button, FALSE, FALSE, 0 );
-
-    /* Create budgetary lines shortcut. */
-    button = new_button_with_label_and_image ( GSB_BUTTON_BOTH,
-					       _("Budgetary lines"), "budgetary_lines.png",
-					       NULL, NULL );
-    g_signal_connect ( G_OBJECT(button), "clicked", 
-		       G_CALLBACK ( gsb_gui_select_page ), 
-		       (gpointer) GSB_BUDGETARY_LINES_PAGE );
-    gtk_box_pack_start ( GTK_BOX ( vbox ), button, FALSE, FALSE, 0 );
-
-    /* Create reports shortcut. */
-    button = new_button_with_label_and_image ( GSB_BUTTON_BOTH,
-					       _("Reports"), "reports.png",
-					       NULL, NULL );
-    g_signal_connect ( G_OBJECT(button), "clicked", 
-		       G_CALLBACK ( gsb_gui_select_page ), 
-		       (gpointer) GSB_REPORTS_PAGE );
-    gtk_box_pack_start ( GTK_BOX ( vbox ), button, FALSE, FALSE, 0 );
-
-#ifdef HAVE_G2BANKING
-    /* Create aqbanking shortcut. */
-    button = new_button_with_label_and_image ( GSB_BUTTON_BOTH,
-					       _("AQ Banking"), "hbci.png",
-					       NULL, NULL );
-    g_signal_connect ( G_OBJECT(button), "clicked", 
-		       G_CALLBACK ( gsb_gui_select_page ), 
-		       (gpointer) GSB_AQBANKING_PAGE );
-    gtk_box_pack_start ( GTK_BOX ( vbox ), button, FALSE, FALSE, 0 );
-#endif
-
-    return vbox;
-}
-
-
-
-/**
  * Create the main notebook.
  *
  * \return the notebook
  */
-GtkWidget *create_main_notebook (void )
+static GtkWidget *create_main_notebook (void )
 {
     GtkWidget *page_operations, *page_echeancier, *page_prop, *page_tiers;
     GtkWidget *page_categories, *page_imputations, *page_etats, *page_compte;
@@ -431,11 +399,6 @@ GtkWidget *create_main_notebook (void )
     gtk_notebook_append_page ( GTK_NOTEBOOK ( page_compte ), page_operations,
 			       gtk_label_new (SPACIFY(_("Transactions"))) );
 
-    /*   création de la fenetre des echéances */
-    page_echeancier = creation_onglet_echeancier();
-    gtk_notebook_append_page ( GTK_NOTEBOOK ( page_compte ), page_echeancier,
-			       gtk_label_new (SPACIFY(_("Scheduler"))) );
-
     /*   création de la fenetre des comptes */
     page_prop = creation_onglet_comptes ();
     gtk_widget_show_all ( page_prop );
@@ -444,41 +407,39 @@ GtkWidget *create_main_notebook (void )
 
 /*     gtk_widget_show_all ( page_compte ); */
 
+    /*   création de la fenetre des echéances */
+    page_echeancier = creation_onglet_echeancier();
+    gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_general ), page_echeancier,
+			       gtk_label_new (SPACIFY(_("Scheduler"))) );
+
     /* Création de la fenetre des tiers */
     page_tiers = onglet_tiers();
-    gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_general ),
-			       page_tiers,
+    gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_general ), page_tiers,
 			       gtk_label_new (SPACIFY(_("Third party"))) );
 
     /* création de la fenetre des categories */
     page_categories = onglet_categories();
-    gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_general ),
-			       page_categories,
+    gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_general ), page_categories,
 			       gtk_label_new (SPACIFY(_("Categories"))) );
 
     /* création de la fenetre des imputations budgétaires */
     page_imputations = onglet_imputations();
-    gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_general ),
-			       page_imputations,
+    gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_general ), page_imputations,
 			       gtk_label_new (SPACIFY(_("Budgetary lines"))) );
 
     /* création de la fenetre des états */
     page_etats = creation_onglet_etats ();
-    gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_general ),
-			       page_etats,
+    gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_general ), page_etats,
 			       gtk_label_new (SPACIFY(_("Reports"))) );
 
 #ifdef HAVE_G2BANKING
     page_queue = GBanking_JobView_new(gbanking, 0);
-    gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_general ),
-                              page_queue,
+    gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_general ), page_queue,
                               gtk_label_new (SPACIFY(_("Outbox"))) );
 #endif
 
-    gtk_signal_connect_after ( GTK_OBJECT ( notebook_general ),
-			       "switch_page",
-			       GTK_SIGNAL_FUNC ( change_page_notebook),
-			       NULL );
+    gtk_signal_connect_after ( GTK_OBJECT ( notebook_general ), "switch_page",
+			       GTK_SIGNAL_FUNC ( change_page_notebook), NULL );
 
     return ( notebook_general );
 }
@@ -550,22 +511,34 @@ static gboolean gsb_gui_select_page ( GtkWidget * button, gpointer page )
 
 
 /**
- * Selects the account page with an account selected in general
- * notebook.
+ * Selects the account or management page with an optional account
+ * selected in general notebook.
  *
- * \param button	Widget that triggered event.
- * \param account	Account number to display.
+ * \param selection	Selection of tree that triggered event.
+ * \param selection	Model of tree that triggered event.
+ *
  * \return		FALSE
  */
-static gboolean gsb_gui_select_account_page ( GtkWidget * button, gpointer account )
+static gboolean gsb_gui_select_navigation_link ( GtkTreeSelection * selection,
+						 GtkTreeModel * model )
 {
-    extern gint compte_courant_onglet;
+    GtkTreeIter iter;
+    GValue value = {0, };
 
-    gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ), GSB_ACCOUNT_PAGE );
-    gsb_account_list_gui_change_current_account ( account );
+    if (! gtk_tree_selection_get_selected (selection, NULL, &iter))
+	return(FALSE);
 
-    compte_courant_onglet = GPOINTER_TO_INT ( account );
-    remplissage_details_compte ();
+    gtk_tree_model_get_value (model, &iter, NAVIGATION_PAGE, &value);
+    gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ), g_value_get_int(&value) );
+    g_value_unset (&value);
+
+    gtk_tree_model_get_value (model, &iter, NAVIGATION_ACCOUNT, &value);
+    if ( g_value_get_int(&value) >= 0 )
+    {
+	gsb_account_list_gui_change_current_account ( g_value_get_int(&value) );
+	compte_courant_onglet = g_value_get_int(&value);
+	remplissage_details_compte ();
+    }
 
     return FALSE;
 }
