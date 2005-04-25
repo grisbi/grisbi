@@ -507,7 +507,16 @@ GtkWidget * new_stock_button_with_label ( GsbButtonStyle style,
 
     if ( callback )
     {
-	g_signal_connect ( G_OBJECT(button), "clicked", G_CALLBACK(callback), data );
+	if ( data >= 0 )
+	{
+	    g_signal_connect_swapped ( G_OBJECT(button), "clicked", 
+				       G_CALLBACK(callback), data );
+	}
+	else
+	{
+	    g_signal_connect ( G_OBJECT(button), "clicked", 
+			       G_CALLBACK(callback), data );
+	}
     }
     return button;
 }
@@ -534,8 +543,16 @@ GtkWidget * new_button_with_label_and_image ( GsbButtonStyle style,
 
     if ( callback )
     {
-	g_signal_connect_swapped ( G_OBJECT(button), "clicked", 
-				   G_CALLBACK(callback), data );
+	if ( data >= 0 )
+	{
+	    g_signal_connect_swapped ( G_OBJECT(button), "clicked", 
+				       G_CALLBACK(callback), data );
+	}
+	else
+	{
+	    g_signal_connect ( G_OBJECT(button), "clicked", 
+			       G_CALLBACK(callback), data );
+	}
     }
     return button;
 }
