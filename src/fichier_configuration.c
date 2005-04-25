@@ -69,10 +69,9 @@ PangoFontDescription *pango_desc_fonte_liste;
 /*START_EXTERN*/
 extern gint decalage_echeance;
 extern GtkWidget *formulaire;
-extern GtkWidget *main_hpaned, *main_vbox, *main_statusbar;
+extern GtkWidget *main_vbox, *main_statusbar;
 extern gint max;
 extern gchar *nom_fichier_comptes;
-extern GtkWidget *paned_onglet_echeancier;
 extern gint taille_largeur_colonnes[TRANSACTION_LIST_COL_NB];
 extern GtkWidget *window;
 /*END_EXTERN*/
@@ -737,18 +736,6 @@ void sauve_configuration(void)
     xmlNewChild ( node,NULL, "Navigateur_web",my_strdelimit ( etat.browser_command,
                                   "&",
                                   "\\e" ));
-
-/*     on ne fait la sauvegarde que si les colonnes existent (compte non fermé) */
-    
-    if ( gsb_account_get_accounts_amount () )
-    {
-    xmlNewChild ( node,NULL, "Largeur_colonne_comptes_operation",
-              itoa(gtk_paned_get_position (GTK_PANED (main_hpaned))));
-    xmlNewChild ( node,NULL, "Largeur_colonne_echeancier",
-              itoa(gtk_paned_get_position (GTK_PANED (paned_onglet_echeancier))));
-    xmlNewChild ( node,NULL, "Largeur_colonne_comptes_comptes",
-              itoa(gtk_paned_get_position (GTK_PANED (main_hpaned))));
-    }
 
     /* sauvegarde de l'onglet I/O */
     node = xmlNewChild ( doc->children,NULL, "IO",NULL );
