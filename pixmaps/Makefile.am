@@ -33,4 +33,6 @@ grisbi_pixmaps_DATA = \
 	payees.png \
 	scheduler.png \
 	hbci.png \
-	reports.png
+	reports.png \
+	bank-account.png
+
