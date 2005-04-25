@@ -1385,8 +1385,9 @@ gboolean recuperation_comptes_xml ( xmlNodePtr node_comptes )
 								       my_atoi ( xmlGetProp ( node_ope,
 									    "C" )));
 
-			    operation -> sous_categorie = my_atoi ( xmlGetProp ( node_ope,
-										 "Sc" ));
+			    gsb_transaction_data_set_sub_category_number ( transaction_number,
+									   my_atoi ( xmlGetProp ( node_ope,
+										 "Sc" )));
 
 			    operation -> operation_ventilee = my_atoi ( xmlGetProp ( node_ope,
 										     "Ov" ));
@@ -3668,7 +3669,7 @@ gboolean enregistre_fichier ( gchar *new_file )
 
 	    xmlSetProp ( node_ope,
 			 "Sc",
-			 itoa ( operation -> sous_categorie ));
+			 itoa ( gsb_transaction_data_get_sub_category_number ( gsb_transaction_data_get_transaction_number (operation ))));
 
 	    xmlSetProp ( node_ope,
 			 "Ov",

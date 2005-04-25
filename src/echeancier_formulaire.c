@@ -1984,7 +1984,8 @@ void fin_edition_echeance ( void )
 
 		    gsb_transaction_data_set_category_number ( gsb_transaction_data_get_transaction_number (operation ),
 							       0 );
-		    operation -> sous_categorie = 0;
+		    gsb_transaction_data_set_sub_category_number ( gsb_transaction_data_get_transaction_number (operation ),
+								   0 );
 		    virement = 1;
 		}
 		else
@@ -2005,7 +2006,8 @@ void fin_edition_echeance ( void )
 							  tableau_char[1],
 							  1 );
 			if ( sous_categ )
-			    operation -> sous_categorie = sous_categ -> no_sous_categ;
+			    gsb_transaction_data_set_sub_category_number ( gsb_transaction_data_get_transaction_number (operation ),
+									   sous_categ -> no_sous_categ );
 		    }
 		}
 	    }
@@ -2138,7 +2140,8 @@ void fin_edition_echeance ( void )
 					      gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (ope_ventil )));
 	    gsb_transaction_data_set_category_number ( gsb_transaction_data_get_transaction_number (operation_fille),
 						       ope_ventil -> categorie );
-	    operation_fille -> sous_categorie = ope_ventil -> sous_categorie;
+	    gsb_transaction_data_set_sub_category_number ( gsb_transaction_data_get_transaction_number (operation_fille ),
+							   ope_ventil -> sous_categorie );
 
 	    if ( ope_ventil -> notes )
 		operation_fille -> notes = g_strdup ( ope_ventil -> notes );
@@ -2327,7 +2330,8 @@ struct structure_operation *ajoute_contre_operation_echeance_dans_liste ( struct
 					    gsb_transaction_data_get_party_number ( gsb_transaction_data_get_transaction_number (operation)));
     gsb_transaction_data_set_category_number ( gsb_transaction_data_get_transaction_number (contre_operation),
 					       0 );
-    contre_operation -> sous_categorie = 0;
+    gsb_transaction_data_set_sub_category_number ( gsb_transaction_data_get_transaction_number (contre_operation ),
+						   0 );
 
     if ( operation -> notes )
 	contre_operation -> notes = g_strdup ( operation -> notes);
@@ -2847,7 +2851,7 @@ void completion_operation_par_tiers_echeancier ( void )
     else
     {
 	char_tmp = nom_categ_par_no ( gsb_transaction_data_get_category_number ( gsb_transaction_data_get_transaction_number (operation)),
-				      operation -> sous_categorie );
+				      gsb_transaction_data_get_sub_category_number ( gsb_transaction_data_get_transaction_number (operation)));
 	
 	if ( char_tmp )
 	{

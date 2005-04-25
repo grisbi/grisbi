@@ -791,9 +791,6 @@ gboolean gsb_transaction_data_set_party_number ( gint no_transaction,
 
 
 
-
-
-
 /** get the category_number 
  * \param no_transaction the number of the transaction
  * \return the category number of the transaction
@@ -832,6 +829,47 @@ gboolean gsb_transaction_data_set_category_number ( gint no_transaction,
 
     return TRUE;
 }
+
+
+/** get the sub_category_number 
+ * \param no_transaction the number of the transaction
+ * \return the sub_category number of the transaction
+ * */
+gint gsb_transaction_data_get_sub_category_number ( gint no_transaction )
+{
+    struct_transaction *transaction;
+
+    transaction = gsb_transaction_data_get_transaction_by_no ( no_transaction,
+							       -1 );
+
+    if ( !transaction )
+	return -1;
+
+    return transaction -> sub_category_number;
+}
+
+
+/** set the sub_category_number
+ * \param no_transaction
+ * \param value
+ * \return TRUE if ok
+ * */
+gboolean gsb_transaction_data_set_sub_category_number ( gint no_transaction,
+							gint no_sub_category )
+{
+    struct_transaction *transaction;
+
+    transaction = gsb_transaction_data_get_transaction_by_no ( no_transaction,
+							       -1 );
+
+    if ( !transaction )
+	return FALSE;
+
+    transaction -> sub_category_number = no_sub_category;
+
+    return TRUE;
+}
+
 
 
 

@@ -1719,7 +1719,8 @@ void fin_edition_ventilation_echeances ( void )
 						      1 );
 
 		    if ( sous_categ )
-			operation -> sous_categorie = sous_categ -> no_sous_categ;
+			gsb_transaction_data_set_sub_category_number ( gsb_transaction_data_get_transaction_number (operation ),
+								       sous_categ -> no_sous_categ );
 		}
 	    }
 	    else

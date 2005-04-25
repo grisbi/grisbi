@@ -2534,7 +2534,7 @@ gboolean gsb_transactions_list_edit_current_transaction ( void )
 			    /* c'est des catégories normales */
 
 			    char_tmp = nom_categ_par_no ( gsb_transaction_data_get_category_number ( gsb_transaction_data_get_transaction_number (transaction )),
-							  transaction -> sous_categorie );
+							  gsb_transaction_data_get_sub_category_number ( gsb_transaction_data_get_transaction_number (transaction )));
 			    if ( char_tmp )
 			    {
 				entree_prend_focus ( widget );
@@ -3774,7 +3774,7 @@ struct operation_echeance *schedule_transaction ( struct structure_operation * t
 
     echeance -> tiers = gsb_transaction_data_get_party_number ( gsb_transaction_data_get_transaction_number (transaction ));
     echeance -> categorie = gsb_transaction_data_get_category_number ( gsb_transaction_data_get_transaction_number (transaction ));
-    echeance -> sous_categorie = transaction -> sous_categorie;
+    echeance -> sous_categorie = gsb_transaction_data_get_sub_category_number ( gsb_transaction_data_get_transaction_number (transaction ));
 
     /*     pour 1 virement, categ et sous categ sont à 0, et compte_virement contient le no de compte */
     /* 	mais si categ et sous categ sont à 0 et que ce n'est pas un virement ni une ventil, compte_virement = -1 */
@@ -3858,7 +3858,7 @@ struct operation_echeance *schedule_transaction ( struct structure_operation * t
 
 		echeance_de_ventil -> tiers = gsb_transaction_data_get_party_number ( gsb_transaction_data_get_transaction_number (transaction_de_ventil ));
 		echeance_de_ventil -> categorie = gsb_transaction_data_get_category_number ( gsb_transaction_data_get_transaction_number (transaction_de_ventil ));
-		echeance_de_ventil -> sous_categorie = transaction_de_ventil -> sous_categorie;
+		echeance_de_ventil -> sous_categorie = gsb_transaction_data_get_sub_category_number ( gsb_transaction_data_get_transaction_number (transaction_de_ventil ));
 
 		/*     pour 1 virement, categ et sous categ sont à 0, et compte_virement contient le no de compte */
 		/* 	mais si categ et sous categ sont à 0 et que ce n'est pas un virement, compte_virement = -1 */
@@ -4572,7 +4572,7 @@ gchar *gsb_transactions_get_category_real_name ( struct structure_operation *tra
 	else
 	    /* it's a normal category */
 	    temp = nom_categ_par_no ( gsb_transaction_data_get_category_number ( gsb_transaction_data_get_transaction_number (transaction )),
-				      transaction -> sous_categorie );
+				      gsb_transaction_data_get_sub_category_number ( gsb_transaction_data_get_transaction_number (transaction )));
     }
 
     return temp;

@@ -1475,7 +1475,8 @@ void creation_compte_importe ( struct struct_compte_importation *compte_import )
 							  tab_str[1],
 							  1 );
 			if ( sous_categ )
-			    operation -> sous_categorie = sous_categ -> no_sous_categ;
+			    gsb_transaction_data_set_sub_category_number ( gsb_transaction_data_get_transaction_number (operation ),
+									   sous_categ -> no_sous_categ);
 		    }
 		    g_strfreev ( tab_str );
 		}
@@ -2119,7 +2120,8 @@ struct structure_operation *enregistre_ope_importee ( struct struct_ope_importat
 						      g_strstrip ( tab_str[1]),
 						      1 );
 		    if ( sous_categ )
-			operation -> sous_categorie = sous_categ -> no_sous_categ;
+			gsb_transaction_data_set_sub_category_number ( gsb_transaction_data_get_transaction_number (operation ),
+								       sous_categ -> no_sous_categ);
 		}
 		g_strfreev ( tab_str );
 	    }

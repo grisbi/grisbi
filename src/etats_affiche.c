@@ -1223,7 +1223,7 @@ gint etat_affiche_affichage_ligne_ope ( struct structure_operation *operation,
 
 	    if ( gsb_transaction_data_get_category_number ( gsb_transaction_data_get_transaction_number (operation )))
 		pointeur = nom_categ_par_no ( gsb_transaction_data_get_category_number ( gsb_transaction_data_get_transaction_number (operation )),
-					      operation -> sous_categorie );
+					      gsb_transaction_data_get_sub_category_number ( gsb_transaction_data_get_transaction_number (operation )));
 	    else
 	    {
 		/* si c'est un virement, on le marque, sinon c'est qu'il n'y a pas de categ */
@@ -1694,7 +1694,7 @@ gint etat_affiche_affiche_sous_categ_etat ( struct structure_operation *operatio
 	 &&
 	 gsb_transaction_data_get_category_number ( gsb_transaction_data_get_transaction_number (operation ))
 	 &&
-	 operation -> sous_categorie != ancienne_sous_categ_etat )
+	 gsb_transaction_data_get_sub_category_number ( gsb_transaction_data_get_transaction_number (operation)) != ancienne_sous_categ_etat )
     {
 	/* lorsqu'on est au début de l'affichage de l'état, on n'affiche pas de totaux */
 
@@ -1723,7 +1723,7 @@ gint etat_affiche_affiche_sous_categ_etat ( struct structure_operation *operatio
 	if ( etat_courant -> afficher_nom_categ )
 	{
 	    pointeur_char = nom_sous_categ_par_no ( gsb_transaction_data_get_category_number ( gsb_transaction_data_get_transaction_number (operation )),
-						    operation -> sous_categorie );
+						    gsb_transaction_data_get_sub_category_number ( gsb_transaction_data_get_transaction_number (operation )));
 
 	    if ( !pointeur_char )
 	    {
@@ -1743,7 +1743,7 @@ gint etat_affiche_affiche_sous_categ_etat ( struct structure_operation *operatio
 	ligne_debut_partie = ligne;
 	denote_struct_sous_jaccentes ( 2 );
 
-	ancienne_sous_categ_etat = operation -> sous_categorie;
+	ancienne_sous_categ_etat = gsb_transaction_data_get_sub_category_number ( gsb_transaction_data_get_transaction_number (operation ));
 
 	debut_affichage_etat = 0;
 	changement_de_groupe_etat = 1;

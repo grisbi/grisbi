@@ -1006,7 +1006,7 @@ gchar *recupere_texte_test_etat ( struct structure_operation *operation,
 	    /* ss-categ */
 
 	    texte = nom_sous_categ_par_no ( gsb_transaction_data_get_category_number ( gsb_transaction_data_get_transaction_number (operation )),
-					    operation -> sous_categorie );
+					    gsb_transaction_data_get_sub_category_number ( gsb_transaction_data_get_transaction_number (operation )));
 	    break;
 
 	case 4:
@@ -1578,8 +1578,8 @@ classement_suivant:
 		 &&
 		 etat_courant -> afficher_sous_categ )
 	    {
-		if ( operation_1 -> sous_categorie != operation_2 -> sous_categorie )
-		    return ( operation_1 -> sous_categorie - operation_2 -> sous_categorie );
+		if ( gsb_transaction_data_get_sub_category_number ( gsb_transaction_data_get_transaction_number (operation_1 ))!= gsb_transaction_data_get_sub_category_number ( gsb_transaction_data_get_transaction_number (operation_2 )))
+		    return ( gsb_transaction_data_get_sub_category_number ( gsb_transaction_data_get_transaction_number (operation_1 ))- gsb_transaction_data_get_sub_category_number ( gsb_transaction_data_get_transaction_number (operation_2 )));
 	    }
 
 	    /*       les ss-catégories sont identiques, passe au classement suivant */
@@ -1714,13 +1714,13 @@ gint classement_ope_perso_etat ( struct structure_operation *operation_1,
 	    {
 		if ( gsb_transaction_data_get_category_number ( gsb_transaction_data_get_transaction_number (operation_1 ))== gsb_transaction_data_get_category_number ( gsb_transaction_data_get_transaction_number (operation_2 ))
 		     &&
-		     ( !operation_1 -> sous_categorie
+		     ( !gsb_transaction_data_get_sub_category_number ( gsb_transaction_data_get_transaction_number (operation_1 ))
 		       ||
-		       !operation_2 -> sous_categorie ))
-		    retour = operation_2 -> sous_categorie - operation_1 -> sous_categorie;
+		       !gsb_transaction_data_get_sub_category_number ( gsb_transaction_data_get_transaction_number (operation_2 ))))
+		    retour = gsb_transaction_data_get_sub_category_number ( gsb_transaction_data_get_transaction_number (operation_2 ))- gsb_transaction_data_get_sub_category_number ( gsb_transaction_data_get_transaction_number (operation_1 ));
 		else
-		    retour = g_strcasecmp ( nom_categ_par_no ( gsb_transaction_data_get_category_number ( gsb_transaction_data_get_transaction_number (operation_1 )), operation_1 -> sous_categorie ),
-					    nom_categ_par_no ( gsb_transaction_data_get_category_number ( gsb_transaction_data_get_transaction_number (operation_2 )), operation_2 -> sous_categorie ));
+		    retour = g_strcasecmp ( nom_categ_par_no ( gsb_transaction_data_get_category_number ( gsb_transaction_data_get_transaction_number (operation_1 )), gsb_transaction_data_get_sub_category_number ( gsb_transaction_data_get_transaction_number (operation_1 ))),
+					    nom_categ_par_no ( gsb_transaction_data_get_category_number ( gsb_transaction_data_get_transaction_number (operation_2 )), gsb_transaction_data_get_sub_category_number ( gsb_transaction_data_get_transaction_number (operation_2 ))));
 	    }
 	    break;
 

@@ -1290,7 +1290,7 @@ choix_liste_fichier:
 					    categorie = pointeur -> data;
 
 					    pointeur_2 = g_slist_find_custom ( categorie -> liste_sous_categ,
-									       GINT_TO_POINTER ( ope_test -> sous_categorie ),
+									       GINT_TO_POINTER ( gsb_transaction_data_get_sub_category_number ( gsb_transaction_data_get_transaction_number (ope_test ))),
 									       (GCompareFunc) recherche_sous_categorie_par_no );
 					    if ( pointeur_2 )
 					    {
@@ -1390,7 +1390,7 @@ choix_liste_fichier:
 				    categorie = pointeur -> data;
 
 				    pointeur_2 = g_slist_find_custom ( categorie -> liste_sous_categ,
-								       GINT_TO_POINTER ( operation -> sous_categorie ),
+								       GINT_TO_POINTER ( gsb_transaction_data_get_sub_category_number ( gsb_transaction_data_get_transaction_number (operation ))),
 								       (GCompareFunc) recherche_sous_categorie_par_no );
 				    if ( pointeur_2 )
 					fprintf ( fichier_qif,

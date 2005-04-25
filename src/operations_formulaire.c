@@ -1818,7 +1818,7 @@ gboolean completion_operation_par_tiers ( GtkWidget *entree )
 			    /* c'est des catégories normales */
 
 			    char_tmp = nom_categ_par_no ( gsb_transaction_data_get_category_number ( gsb_transaction_data_get_transaction_number (transaction )),
-							  transaction -> sous_categorie );
+							  gsb_transaction_data_get_sub_category_number ( gsb_transaction_data_get_transaction_number (transaction )));
 			    if ( char_tmp )
 			    {
 				entree_prend_focus ( widget );
@@ -3029,7 +3029,8 @@ gboolean gsb_form_get_categories ( struct structure_operation *transaction,
 	    transaction -> operation_ventilee = 1;
 	    gsb_transaction_data_set_category_number ( gsb_transaction_data_get_transaction_number (transaction),
 						       0 );
-	    transaction -> sous_categorie = 0;
+	    gsb_transaction_data_set_sub_category_number ( gsb_transaction_data_get_transaction_number (transaction),
+							   0 );
 
 	    /*we will check here if there is another breakdown with the same party,
 	     * if yes, we propose to copy the daughters transactions */
@@ -3099,7 +3100,8 @@ gboolean gsb_form_get_categories ( struct structure_operation *transaction,
 
 		    gsb_transaction_data_set_category_number ( gsb_transaction_data_get_transaction_number (transaction),
 							       0 );
-		    transaction -> sous_categorie = 0;
+		    gsb_transaction_data_set_sub_category_number ( gsb_transaction_data_get_transaction_number (transaction),
+								   0 );
 
 		    /* sépare entre virement vers un compte et virement vers un compte supprimé */
 
@@ -3158,7 +3160,8 @@ gboolean gsb_form_get_categories ( struct structure_operation *transaction,
 							  1 );
 
 			if ( sous_categ )
-			    transaction -> sous_categorie = sous_categ -> no_sous_categ;
+			    gsb_transaction_data_set_sub_category_number ( gsb_transaction_data_get_transaction_number (transaction),
+									   sous_categ -> no_sous_categ );
 		    }
 		}
 	    }
@@ -3280,7 +3283,8 @@ printf ( "ça passe\n" );
 					    gsb_transaction_data_get_party_number ( gsb_transaction_data_get_transaction_number (transaction)));
     gsb_transaction_data_set_category_number ( gsb_transaction_data_get_transaction_number (contra_transaction),
 					       gsb_transaction_data_get_category_number ( gsb_transaction_data_get_transaction_number (transaction )));
-    contra_transaction -> sous_categorie = transaction -> sous_categorie;
+    gsb_transaction_data_set_sub_category_number ( gsb_transaction_data_get_transaction_number (contra_transaction),
+						   gsb_transaction_data_get_sub_category_number ( gsb_transaction_data_get_transaction_number (transaction )));
 
     if ( transaction -> notes )
 	contra_transaction -> notes = g_strdup ( transaction -> notes);

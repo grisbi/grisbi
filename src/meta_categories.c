@@ -377,7 +377,7 @@ gint category_transaction_div_id ( struct structure_operation * transaction )
 gint category_transaction_sub_div_id ( struct structure_operation * transaction )
 {
     if ( transaction )
-	return transaction -> sous_categorie;
+	return gsb_transaction_data_get_sub_category_number ( gsb_transaction_data_get_transaction_number (transaction ));
     return 0;
 }
 
@@ -405,7 +405,8 @@ void category_transaction_set_sub_div_id ( struct structure_operation * transact
 					   int no_sub_div )
 {
     if ( transaction )
-	transaction -> sous_categorie = no_sub_div;
+	gsb_transaction_data_set_sub_category_number ( gsb_transaction_data_get_transaction_number (transaction ),
+						       no_sub_div );
 }
 
 

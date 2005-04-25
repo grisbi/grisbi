@@ -321,9 +321,9 @@ void calcule_total_montant_categ ( void )
 		categorie = categ_par_no ( gsb_transaction_data_get_category_number ( gsb_transaction_data_get_transaction_number (operation )));
 
 		/* on ajoute maintenant le montant à la sous categ si elle existe */
-		if ( operation -> sous_categorie )
+		if ( gsb_transaction_data_get_sub_category_number ( gsb_transaction_data_get_transaction_number (operation )))
 		    sous_categorie = sous_categ_par_no ( gsb_transaction_data_get_category_number ( gsb_transaction_data_get_transaction_number (operation )), 
-							 operation -> sous_categorie );
+							 gsb_transaction_data_get_sub_category_number ( gsb_transaction_data_get_transaction_number (operation )));
 
 		add_transaction_to_category ( operation, categorie, sous_categorie );
 	    }
