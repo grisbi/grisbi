@@ -214,7 +214,7 @@ extern GtkWidget *window;
 
 GtkWidget *creation_fenetre_operations ( void )
 {
-    GtkWidget *win_operations, *solde_box;
+    GtkWidget *win_operations;
 
     /*   la fenetre des opé est une vbox : la liste en haut, le solde et  */
     /*     des boutons de conf au milieu, le formulaire en bas */
@@ -233,13 +233,6 @@ GtkWidget *creation_fenetre_operations ( void )
     gtk_box_pack_start ( GTK_BOX ( win_operations ), notebook_listes_operations,
 			 TRUE, TRUE, 0);
     gtk_widget_show ( notebook_listes_operations );
-
-    /*   création de la ligne contenant le solde ( sous la liste des
-     *   opérations ) et les boutons */
-    solde_box = gtk_table_new ( 1, 3, TRUE);
-
-    gtk_box_pack_start ( GTK_BOX ( win_operations ), solde_box, FALSE, FALSE, 0 );
-    gtk_widget_show ( solde_box );
 
     return ( win_operations );
 }

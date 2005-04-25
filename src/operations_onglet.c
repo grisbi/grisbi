@@ -52,7 +52,7 @@ extern GtkWidget *label_last_statement;
  * */
 GtkWidget *create_transaction_page ( void )
 {
-    GtkWidget *frame_gauche, *vbox, *frame_droite_haut, *fenetre_operations, *hbox, *label;
+    GtkWidget *vbox, *fenetre_operations, *hbox, *label;
 
     if ( !etat.largeur_colonne_comptes_operation )
 	etat.largeur_colonne_comptes_operation = 200;
@@ -62,7 +62,6 @@ GtkWidget *create_transaction_page ( void )
     gtk_widget_show ( vbox );
 
     /*  Création de la liste des opérations */
-
     fenetre_operations = creation_fenetre_operations();
     gtk_container_set_border_width ( GTK_CONTAINER ( fenetre_operations ), 6);
     gtk_box_pack_start ( GTK_BOX ( vbox ), fenetre_operations, TRUE, TRUE, 0 );
@@ -71,7 +70,7 @@ GtkWidget *create_transaction_page ( void )
     /* We then create the edit form, inside a gtkexpander  */
 
     /* Expander has a composite label */
-    hbox = gtk_hbox_new ( FALSE, 6 );
+    hbox = gtk_hbox_new ( FALSE, 0 );
     label = gtk_label_new ( "" );
     gtk_label_set_markup_with_mnemonic ( GTK_LABEL ( label ), 
 					 g_strconcat ( "<span weight=\"bold\">", 
@@ -97,7 +96,6 @@ GtkWidget *create_transaction_page ( void )
 
     /* Create form */
     formulaire = creation_formulaire ();
-    gtk_container_set_border_width ( GTK_CONTAINER ( formulaire ), 10);
     gtk_container_add ( GTK_CONTAINER ( frame_droite_bas ), formulaire );
     gtk_widget_show (formulaire);
 

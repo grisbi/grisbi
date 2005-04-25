@@ -179,7 +179,6 @@ GtkWidget *creation_onglet_etats ( void )
     tab = gtk_vbox_new ( FALSE, 6 );
     gtk_box_pack_start ( GTK_BOX ( tab ), gsb_gui_create_report_toolbar(), 
 			 FALSE, FALSE, 0 );
-    gtk_container_set_border_width ( GTK_CONTAINER ( tab ), 6 );
 
     /* création du notebook contenant l'état et la config */
     notebook_etats = gtk_notebook_new ();

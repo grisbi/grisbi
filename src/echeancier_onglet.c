@@ -37,12 +37,10 @@ GtkWidget *notebook_calendrier_ventilations;
 GtkWidget *formulaire_echeancier;
 GtkWidget *notebook_formulaire_echeances;
 GtkWidget *notebook_liste_ventil_echeances;
-GtkWidget *paned_onglet_echeancier;
 
 /*START_EXTERN*/
 extern GtkWidget *formulaire;
 extern GtkWidget *frame_formulaire_echeancier;
-extern GtkWidget * hpaned;
 /*END_EXTERN*/
 
 /*****************************************************************************************************/
@@ -51,63 +49,10 @@ GtkWidget *creation_onglet_echeancier ( void )
     GtkWidget *frame;
     GtkWidget *vbox;
 
-    /*     l'onglet échéancire est un hpaned, bloqué vers la gauche */
-    /* 	mais agrandissables vers la droite */
+    /* création de la partie droite : les listes échéances/ventil
+     * en haut, formulaires en bas */
 
-    paned_onglet_echeancier = gtk_hpaned_new ( );
-
-    if ( !etat.largeur_colonne_echeancier )
-	etat.largeur_colonne_echeancier = 200;
-
-    gtk_paned_set_position ( GTK_PANED(paned_onglet_echeancier),
-			     etat.largeur_colonne_echeancier );
-    gtk_container_set_border_width ( GTK_CONTAINER ( paned_onglet_echeancier ),
-				     10 );
-    gtk_widget_show ( paned_onglet_echeancier );
-
-
-    /*   création de la fenetre des calendrier / ventilation à gauche */
-
-    frame = gtk_frame_new ( NULL );
-    gtk_frame_set_shadow_type ( GTK_FRAME ( frame ),
-				GTK_SHADOW_IN );
-    /* Ne pas permettre un redimensionnement de la partie gauche inférieur
-       à la taille nécessaire à l'affichage du calendrier */
-
-    gtk_paned_pack1 ( GTK_PANED(paned_onglet_echeancier),
-		      frame,
-		      FALSE,
-		      FALSE );
-    gtk_widget_show (frame);
-
-    notebook_calendrier_ventilations = gtk_notebook_new ();
-    gtk_notebook_set_show_tabs ( GTK_NOTEBOOK( notebook_calendrier_ventilations ),
-				 FALSE );
-    gtk_container_add ( GTK_CONTAINER ( frame ),
-			notebook_calendrier_ventilations );
-    gtk_widget_show ( notebook_calendrier_ventilations );
-
-    /*  Création de la fenêtre du calendrier */
-    gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_calendrier_ventilations ),
-			       creation_partie_gauche_echeancier(),
-			       gtk_label_new ( _("Calendar") ) );
-
-
-   /* création de la fenetre de ventilation */
-    gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_calendrier_ventilations ),
-			       creation_verification_ventilation_echeances (),
-			       gtk_label_new ( _("Breakdown") ) );
-
-
-
-    /* création de la partie droite : les listes échéances/ventil en haut, formulaires en bas */
-
-    vbox = gtk_vbox_new ( FALSE,
-			  10 );
-    gtk_paned_pack2 ( GTK_PANED(paned_onglet_echeancier),
-		      vbox,
-		      TRUE,
-		      TRUE );
+    vbox = gtk_vbox_new ( FALSE, 10 );
     gtk_widget_show ( vbox );
 
     /*  Création de la liste des opérations */
@@ -174,7 +119,7 @@ GtkWidget *creation_onglet_echeancier ( void )
 			       creation_formulaire_ventilation_echeances  (),
 			       gtk_label_new ( _("Breakdown") ) );
 
-    return ( paned_onglet_echeancier );
+    return ( vbox );
 }
 /*****************************************************************************************************/
 
