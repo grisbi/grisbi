@@ -1,5 +1,4 @@
 /*START_DECLARATION*/
-void affiche_cache_le_formulaire_echeancier ( void );
 struct structure_operation *ajoute_contre_operation_echeance_dans_liste ( struct structure_operation *operation,
 									  gint compte_virement,
 									  gint contre_type_ope );

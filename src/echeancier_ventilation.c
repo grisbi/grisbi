@@ -64,6 +64,7 @@ static void changement_taille_liste_ventilation_echeances  ( GtkWidget *clist,
 						      GtkAllocation *allocation,
 						      gpointer null );
 static gboolean clique_champ_formulaire_ventilation_echeances ( void );
+static GtkWidget *creation_verification_ventilation_echeances ( void );
 static void echap_formulaire_ventilation_echeances ( void );
 static void edition_operation_ventilation_echeances ( void );
 static gboolean entree_ventilation_perd_focus_echeances ( GtkWidget *entree, GdkEventFocus *ev,

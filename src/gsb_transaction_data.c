@@ -271,13 +271,12 @@ struct_transaction *gsb_transaction_data_get_transaction_by_no ( gint no_transac
  * \param no_account the number of account, may be -1, in that case we will look for the transaction in all accounts
  * \return the id of the transaction
  * */
-gchar *gsb_transaction_data_get_transaction_id ( gint no_transaction,
-						 gint no_account )
+gchar *gsb_transaction_data_get_transaction_id ( gint no_transaction )
 {
     struct_transaction *transaction;
 
     transaction = gsb_transaction_data_get_transaction_by_no ( no_transaction,
-							       no_account );
+							       -1 );
 
     if ( !transaction )
 	return NULL;
@@ -293,13 +292,12 @@ gchar *gsb_transaction_data_get_transaction_id ( gint no_transaction,
  * \return TRUE if ok
  * */
 gboolean gsb_transaction_data_set_transaction_id ( gint no_transaction,
-						   gint no_account,
 						   gchar *transaction_id )
 {
     struct_transaction *transaction;
 
     transaction = gsb_transaction_data_get_transaction_by_no ( no_transaction,
-							       no_account );
+							       -1 );
 
     if ( !transaction )
 	return FALSE;
@@ -907,6 +905,47 @@ gboolean gsb_transaction_data_set_breakdown_of_transaction ( gint no_transaction
 
     transaction -> breakdown_of_transaction = is_breakdown;
 
+    return TRUE;
+}
+
+
+/** get the notes
+ * \param no_transaction the number of the transaction
+ * \return the notes of the transaction
+ * */
+gchar *gsb_transaction_data_get_notes ( gint no_transaction )
+{
+    struct_transaction *transaction;
+
+    transaction = gsb_transaction_data_get_transaction_by_no ( no_transaction,
+							       -1 );
+
+    if ( !transaction )
+	return NULL;
+
+    return transaction -> notes;
+}
+
+
+/** set the transaction_id 
+ * \param no_transaction
+ * \param no_account
+ * \param transaction_id a gchar with the new transaction_id
+ * \return TRUE if ok
+ * */
+gboolean gsb_transaction_data_set_notes ( gint no_transaction,
+					  gchar *notes )
+{
+    struct_transaction *transaction;
+
+    transaction = gsb_transaction_data_get_transaction_by_no ( no_transaction,
+							       -1 );
+
+    if ( !transaction )
+	return FALSE;
+
+    transaction -> notes = notes;
+    
     return TRUE;
 }
 

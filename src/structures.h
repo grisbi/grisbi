@@ -185,7 +185,7 @@ struct structure_operation
 /*     guint sous_categorie; */
 /*     gint operation_ventilee; */
 
-    gchar *notes;
+/*     gchar *notes; */
 
     guint type_ope;               /* variable suivant le type de compte */
     gchar *contenu_type;          /* ce peut être un no de chèque, de virement ou tout ce qu'on veut */

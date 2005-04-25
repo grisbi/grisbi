@@ -1205,7 +1205,7 @@ gchar *recherche_contenu_cellule ( struct structure_operation *transaction,
 	    /* mise en forme des notes */
 
 	case TRANSACTION_LIST_NOTES:
-	    return ( transaction -> notes );
+	    return ( gsb_transaction_data_get_notes ( gsb_transaction_data_get_transaction_number (transaction )));
 	    break;
 
 	    /* mise en place de l'info banque/guichet */
@@ -2560,11 +2560,11 @@ gboolean gsb_transactions_list_edit_current_transaction ( void )
 
 		case TRANSACTION_FORM_NOTES:
 
-		    if ( transaction -> notes )
+		    if ( gsb_transaction_data_get_notes ( gsb_transaction_data_get_transaction_number (transaction )))
 		    {
 			entree_prend_focus ( widget );
 			gtk_entry_set_text ( GTK_ENTRY ( widget ),
-					     transaction -> notes );
+					     gsb_transaction_data_get_notes ( gsb_transaction_data_get_transaction_number (transaction )));
 		    }
 		    break;
 
@@ -3794,7 +3794,7 @@ struct operation_echeance *schedule_transaction ( struct structure_operation * t
 	     !gsb_transaction_data_get_breakdown_of_transaction ( gsb_transaction_data_get_transaction_number (transaction )))
 	    echeance -> compte_virement = -1;
 
-    echeance -> notes = g_strdup ( transaction -> notes );
+    echeance -> notes = g_strdup ( gsb_transaction_data_get_notes ( gsb_transaction_data_get_transaction_number (transaction )));
     echeance -> type_ope = transaction -> type_ope;
     echeance -> contenu_type = g_strdup ( transaction -> contenu_type );
 
@@ -3877,7 +3877,7 @@ struct operation_echeance *schedule_transaction ( struct structure_operation * t
 		    if ( !echeance_de_ventil -> categorie )
 			echeance_de_ventil -> compte_virement = -1;
 
-		echeance_de_ventil -> notes = g_strdup ( transaction_de_ventil -> notes );
+		echeance_de_ventil -> notes = g_strdup ( gsb_transaction_data_get_notes ( gsb_transaction_data_get_transaction_number (transaction_de_ventil )));
 		echeance_de_ventil -> type_ope = transaction_de_ventil -> type_ope;
 		echeance_de_ventil -> contenu_type = g_strdup ( transaction_de_ventil -> contenu_type );
 

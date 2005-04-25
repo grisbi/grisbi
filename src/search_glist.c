@@ -333,11 +333,9 @@ gint recherche_operation_par_id ( struct structure_operation *operation,
     
     transaction_number = gsb_transaction_data_get_transaction_number (operation);
 
-    if ( gsb_transaction_data_get_transaction_id ( transaction_number,
-						   gsb_transaction_data_get_account_number (transaction_number ) ))
+    if ( gsb_transaction_data_get_transaction_id ( transaction_number ))
 	return ( strcmp ( id_recherchee,
-			  gsb_transaction_data_get_transaction_id ( transaction_number,
-								    gsb_transaction_data_get_account_number (transaction_number ))));
+			  gsb_transaction_data_get_transaction_id ( transaction_number)));
     else
 	return -1;
 }

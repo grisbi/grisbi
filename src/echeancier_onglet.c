@@ -25,7 +25,6 @@
 #include "echeancier_ventilation.h"
 #include "echeancier_formulaire.h"
 #include "echeancier_liste.h"
-#include "echeancier_infos.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

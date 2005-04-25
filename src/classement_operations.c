@@ -1359,8 +1359,8 @@ gint gsb_transactions_list_sort_by_notes ( GtkTreeModel *model,
     if ( return_value )
 	return return_value;
 
-    temp_1 = transaction_1 -> notes;
-    temp_2 = transaction_2 -> notes;
+    temp_1 = gsb_transaction_data_get_notes ( gsb_transaction_data_get_transaction_number (transaction_1 ));
+    temp_2 = gsb_transaction_data_get_notes ( gsb_transaction_data_get_transaction_number (transaction_2 ));
 
     /* g_utf8_collate is said not very fast, must try with big big account to check
      * if it's enough, for me it's ok (cedric), eventually, change with gsb_strcasecmp */

@@ -35,11 +35,9 @@
 #include "barre_outils.h"
 #include "echeancier_liste.h"
 #include "operations_liste.h"
-#include "echeancier_formulaire.h"
 #include "gsb_account.h"
 #include "menu.h"
 #include "traitement_variables.h"
-#include "echeancier_infos.h"
 #include "utils_buttons.h"
 /*END_INCLUDE*/
 
@@ -72,12 +70,12 @@ GtkWidget *display_lines_option_menu;
 
 
 /*START_EXTERN*/
+extern gint affichage_echeances;
 extern gboolean block_menu_cb ;
 extern GtkWidget *formulaire;
 extern GtkItemFactory *item_factory_menu_general;
 extern GtkTooltips *tooltips_general_grisbi;
 extern GtkWidget *tree_view_liste_echeances;
-extern int affichage_echeances;
 /*END_EXTERN*/
 
 

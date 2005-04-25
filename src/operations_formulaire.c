@@ -1843,11 +1843,11 @@ gboolean completion_operation_par_tiers ( GtkWidget *entree )
 
 		case TRANSACTION_FORM_NOTES:
 
-		    if ( transaction -> notes )
+		    if ( gsb_transaction_data_get_notes ( gsb_transaction_data_get_transaction_number (transaction )))
 		    {
 			entree_prend_focus ( widget );
 			gtk_entry_set_text ( GTK_ENTRY ( widget ),
-					     transaction -> notes );
+					     gsb_transaction_data_get_notes ( gsb_transaction_data_get_transaction_number (transaction )));
 		    }
 		    break;
 
@@ -2872,9 +2872,11 @@ void recuperation_donnees_generales_formulaire ( struct structure_operation *tra
 		case TRANSACTION_FORM_NOTES:
 
 		    if ( gtk_widget_get_style ( widget ) == style_entree_formulaire[ENCLAIR] )
-			transaction -> notes = g_strstrip ( g_strdup ( gtk_entry_get_text ( GTK_ENTRY ( widget ))));
+			gsb_transaction_data_set_notes ( gsb_transaction_data_get_transaction_number (transaction),
+							 g_strstrip ( g_strdup ( gtk_entry_get_text ( GTK_ENTRY ( widget )))));
 		    else
-			transaction -> notes = NULL;
+			gsb_transaction_data_set_notes ( gsb_transaction_data_get_transaction_number (transaction),
+							 NULL );
 		    break;
 
 		case TRANSACTION_FORM_TYPE:
@@ -3288,8 +3290,9 @@ printf ( "ça passe\n" );
     gsb_transaction_data_set_sub_category_number ( gsb_transaction_data_get_transaction_number (contra_transaction),
 						   gsb_transaction_data_get_sub_category_number ( gsb_transaction_data_get_transaction_number (transaction )));
 
-    if ( transaction -> notes )
-	contra_transaction -> notes = g_strdup ( transaction -> notes);
+    if ( gsb_transaction_data_get_notes ( gsb_transaction_data_get_transaction_number (transaction)))
+	gsb_transaction_data_set_notes ( gsb_transaction_data_get_transaction_number (contra_transaction),
+					 g_strdup ( gsb_transaction_data_get_notes ( gsb_transaction_data_get_transaction_number (transaction ))));
 
     contra_transaction -> auto_man = transaction -> auto_man;
 

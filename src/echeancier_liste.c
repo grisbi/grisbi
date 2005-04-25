@@ -1696,8 +1696,8 @@ void verification_echeances_a_terme ( void )
 		    virement = 0;
 
 		if ( ECHEANCE_COURANTE -> notes )
-		    operation -> notes = g_strdup ( ECHEANCE_COURANTE -> notes );
-
+		    gsb_transaction_data_set_notes ( gsb_transaction_data_get_transaction_number (operation ),
+						     g_strdup ( ECHEANCE_COURANTE -> notes ));
 
 		operation -> type_ope = ECHEANCE_COURANTE -> type_ope;
 		if ( ECHEANCE_COURANTE -> contenu_type )
@@ -1764,7 +1764,8 @@ void verification_echeances_a_terme ( void )
 								   ope_ventil -> sous_categorie );
 
 		    if ( ope_ventil -> notes )
-			operation_fille -> notes = g_strdup ( ope_ventil -> notes );
+			gsb_transaction_data_set_notes ( gsb_transaction_data_get_transaction_number (operation_fille),
+							 g_strdup ( ope_ventil -> notes ));
 
 		    operation_fille -> imputation = ope_ventil -> imputation;
 		    operation_fille -> sous_imputation = ope_ventil -> sous_imputation;

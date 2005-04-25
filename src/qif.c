@@ -1173,10 +1173,10 @@ choix_liste_fichier:
 
 			/* met les notes */
 
-			if ( operation -> notes )
+			if ( gsb_transaction_data_get_notes ( gsb_transaction_data_get_transaction_number (operation )))
 			    fprintf ( fichier_qif,
 				      "M%s\n",
-				      operation -> notes );
+				      gsb_transaction_data_get_notes ( gsb_transaction_data_get_transaction_number (operation )));
 
 
 			/* met le montant, transforme la devise si necessaire */
@@ -1332,10 +1332,10 @@ choix_liste_fichier:
 
 				    /* met les notes de la ventilation */
 
-				    if ( ope_test -> notes )
+				    if ( gsb_transaction_data_get_notes ( gsb_transaction_data_get_transaction_number (ope_test )))
 					fprintf ( fichier_qif,
 						  "E%s\n",
-						  ope_test -> notes );
+						  gsb_transaction_data_get_notes ( gsb_transaction_data_get_transaction_number (ope_test )));
 
 				    /* met le montant de la ventilation */
 

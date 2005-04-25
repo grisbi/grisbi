@@ -1026,7 +1026,7 @@ gchar *recupere_texte_test_etat ( struct structure_operation *operation,
 	case 6:
 	    /* notes  */
 
-	    texte = operation -> notes;
+	    texte = gsb_transaction_data_get_notes ( gsb_transaction_data_get_transaction_number (operation ));
 	    break;
 
 	case 7:
@@ -1748,13 +1748,13 @@ gint classement_ope_perso_etat ( struct structure_operation *operation_1,
 	case 5:
 	    /* note si une des 2 opés n'a pas de notes, elle va en 2ème */
 
-	    if ( operation_1 -> notes
+	    if ( gsb_transaction_data_get_notes ( gsb_transaction_data_get_transaction_number (operation_1 ))
 		 &&
-		 operation_2 -> notes )
-		retour = g_strcasecmp ( operation_1 -> notes,
-					operation_2 -> notes );
+		 gsb_transaction_data_get_notes ( gsb_transaction_data_get_transaction_number (operation_2 )))
+		retour = g_strcasecmp ( gsb_transaction_data_get_notes ( gsb_transaction_data_get_transaction_number (operation_1 )),
+					gsb_transaction_data_get_notes ( gsb_transaction_data_get_transaction_number (operation_2 )));
 	    else
-		retour = GPOINTER_TO_INT ( operation_2 -> notes ) - GPOINTER_TO_INT ( operation_1 -> notes );
+		retour = GPOINTER_TO_INT ( gsb_transaction_data_get_notes ( gsb_transaction_data_get_transaction_number (operation_2 ))) - GPOINTER_TO_INT ( gsb_transaction_data_get_notes ( gsb_transaction_data_get_transaction_number (operation_1 )));
 	    break;
 
 	case 6:

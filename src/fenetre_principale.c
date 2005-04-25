@@ -23,7 +23,7 @@
 
 #include "include.h"
 #include "fenetre_principale_constants.h"
-
+#include "fichier_configuration_constants.h"
 
 /*START_INCLUDE*/
 #include "fenetre_principale.h"
@@ -32,23 +32,23 @@
 #include "comptes_onglet.h"
 #include "echeancier_onglet.h"
 #include "etats_onglet.h"
+#include "echeancier_infos.h"
 #include "gsb_account.h"
 #include "operations_comptes.h"
 #include "main.h"
-#include "utils_buttons.h"
 #include "categories_onglet.h"
 #include "imputation_budgetaire.h"
 #include "tiers_onglet.h"
-#include "fichier_configuration_constants.h"
 #include "comptes_gestion.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
 static void create_account_list ( GtkTreeModel * model, GtkTreeIter * account_iter );
-static gboolean gsb_gui_select_account_page ( GtkWidget * button, gpointer account );
-static gboolean gsb_gui_select_page ( GtkWidget * button, gpointer page );
-static gboolean gsb_gui_select_navigation_link ( GtkTreeSelection * selection,
+static  GtkWidget *create_main_notebook (void );
+static GtkWidget * create_navigation_pane ( void );
+static  gboolean gsb_gui_select_navigation_link ( GtkTreeSelection * selection,
 						 GtkTreeModel * model );
+static  gboolean gsb_gui_select_page ( GtkWidget * button, gpointer page );
 /*END_STATIC*/
 
 
@@ -75,7 +75,10 @@ extern gint compte_courant_onglet;
 extern AB_BANKING *gbanking;
 extern GtkWidget * hpaned;
 extern gint id_temps;
+extern GtkTreeStore *model;
 extern GtkTreeStore *payee_tree_model;
+extern GtkTreeSelection * selection;
+extern GtkWidget *tree_view;
 /*END_EXTERN*/
 
 #ifdef HAVE_G2BANKING

@@ -56,6 +56,7 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
+static void affiche_cache_le_formulaire_echeancier ( void );
 static void affiche_date_limite_echeancier ( void );
 static void affiche_personnalisation_echeancier ( void );
 static void basculer_vers_ventilation_echeances ( void );
@@ -2092,7 +2093,8 @@ void fin_edition_echeance ( void )
 	/* récupération des notes */
 
 	if ( gtk_widget_get_style ( widget_formulaire_echeancier[SCHEDULER_FORM_NOTES] ) == style_entree_formulaire[ENCLAIR] )
-	    operation -> notes = g_strdup ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_echeancier[SCHEDULER_FORM_NOTES] ))));
+	    gsb_transaction_data_set_notes ( gsb_transaction_data_get_transaction_number (operation),
+					     g_strdup ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_echeancier[SCHEDULER_FORM_NOTES] )))));
 
 
 	/*   on a fini de remplir l'opé, on peut l'ajouter à la liste */
@@ -2145,7 +2147,8 @@ void fin_edition_echeance ( void )
 							   ope_ventil -> sous_categorie );
 
 	    if ( ope_ventil -> notes )
-		operation_fille -> notes = g_strdup ( ope_ventil -> notes );
+		gsb_transaction_data_set_notes ( gsb_transaction_data_get_transaction_number (operation_fille),
+						 g_strdup ( ope_ventil -> notes ));
 
 	    operation_fille -> imputation = ope_ventil -> imputation;
 	    operation_fille -> sous_imputation = ope_ventil -> sous_imputation;
@@ -2334,8 +2337,9 @@ struct structure_operation *ajoute_contre_operation_echeance_dans_liste ( struct
     gsb_transaction_data_set_sub_category_number ( gsb_transaction_data_get_transaction_number (contre_operation ),
 						   0 );
 
-    if ( operation -> notes )
-	contre_operation -> notes = g_strdup ( operation -> notes);
+    if ( gsb_transaction_data_get_notes ( gsb_transaction_data_get_transaction_number (operation )))
+	gsb_transaction_data_set_notes ( gsb_transaction_data_get_transaction_number (contre_operation),
+					 g_strdup ( gsb_transaction_data_get_notes ( gsb_transaction_data_get_transaction_number (operation ))));
 
     contre_operation -> auto_man = operation -> auto_man;
     contre_operation -> type_ope = contre_type_ope;
@@ -2936,11 +2940,11 @@ void completion_operation_par_tiers_echeancier ( void )
 
     /*   remplit les notes */
 
-    if ( operation -> notes )
+    if ( gsb_transaction_data_get_notes ( gsb_transaction_data_get_transaction_number (operation )))
     {
 	entree_prend_focus ( widget_formulaire_echeancier[SCHEDULER_FORM_NOTES] );
 	gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_echeancier[SCHEDULER_FORM_NOTES] ),
-			     operation -> notes );
+			     gsb_transaction_data_get_notes ( gsb_transaction_data_get_transaction_number (operation )));
     }
 }
 /******************************************************************************/

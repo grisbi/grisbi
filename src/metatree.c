@@ -282,11 +282,11 @@ void fill_transaction_row ( GtkTreeModel * model, GtkTreeIter * iter,
 {
     gchar *montant, * label, * notes = NULL; /* free */
 
-    if ( operation -> notes )
+    if ( gsb_transaction_data_get_notes ( gsb_transaction_data_get_transaction_number (operation )))
     {
-	if ( strlen ( operation -> notes ) > 30 )
+	if ( strlen ( gsb_transaction_data_get_notes ( gsb_transaction_data_get_transaction_number (operation ))) > 30 )
 	{
-	    gchar * tmp = (operation -> notes) + 30;
+	    gchar * tmp = (gsb_transaction_data_get_notes ( gsb_transaction_data_get_transaction_number (operation ))) + 30;
 
 	    tmp = strchr ( tmp, ' ' );
 	    if ( !tmp )
@@ -294,19 +294,19 @@ void fill_transaction_row ( GtkTreeModel * model, GtkTreeIter * iter,
 		/* We do not risk splitting the string
 		   in the middle of a UTF-8 accent
 		   ... the end is probably near btw. */
-		notes = operation -> notes;
+		notes = gsb_transaction_data_get_notes ( gsb_transaction_data_get_transaction_number (operation ));
 	    }
 	    else 
 	    {
-		gchar * trunc = g_strndup ( operation -> notes, 
-					    ( tmp - operation -> notes ) );
+		gchar * trunc = g_strndup ( gsb_transaction_data_get_notes ( gsb_transaction_data_get_transaction_number (operation )), 
+					    ( tmp - gsb_transaction_data_get_notes ( gsb_transaction_data_get_transaction_number (operation ))) );
 		notes = g_strconcat ( trunc, " ...", NULL );
 		free ( trunc );
 	    }
 	}
 	else 
 	{
-	    notes = operation -> notes;
+	    notes = gsb_transaction_data_get_notes ( gsb_transaction_data_get_transaction_number (operation ));
 	}
     }
     else

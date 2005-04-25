@@ -1380,7 +1380,6 @@ void creation_compte_importe ( struct struct_compte_importation *compte_import )
 
 	if ( operation_import -> id_operation )
 	    gsb_transaction_data_set_transaction_id ( transaction_number,
-						      no_compte,
 						      g_strdup ( operation_import -> id_operation ));
 
 	/* récupération de la date */
@@ -1486,8 +1485,8 @@ void creation_compte_importe ( struct struct_compte_importation *compte_import )
 
 	/* récupération des notes */
 
-	operation -> notes = g_strdup ( operation_import -> notes );
-
+	gsb_transaction_data_set_notes ( gsb_transaction_data_get_transaction_number (operation ),
+					 g_strdup ( operation_import -> notes ));
 
 	/* récupération du chèque et mise en forme du type d'opération */
 
@@ -1932,14 +1931,14 @@ void confirmation_enregistrement_ope_import ( struct struct_compte_importation *
 
 	    tiers = tiers_name_by_no ( gsb_transaction_data_get_party_number ( gsb_transaction_data_get_transaction_number (operation )), FALSE );
 
-	    if ( operation -> notes )
+	    if ( gsb_transaction_data_get_notes ( gsb_transaction_data_get_transaction_number (operation)))
 		label = gtk_label_new ( g_strdup_printf ( _("Transaction found : %02d/%02d/%04d ; %s ; %4.2f ; %s"),
 							  g_date_day ( gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation))),
 							  g_date_month ( gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation))),
 							  g_date_year ( gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation))),
 							  tiers,
 							  gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (operation )),
-							  operation -> notes ));
+							  gsb_transaction_data_get_notes ( gsb_transaction_data_get_transaction_number (operation ))));
 	    else
 		label = gtk_label_new ( g_strdup_printf ( _("Transaction found : %02d/%02d/%04d ; %s ; %4.2f"),
 							  g_date_day ( gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation))),
@@ -2029,7 +2028,6 @@ struct structure_operation *enregistre_ope_importee ( struct struct_ope_importat
 
     if ( operation_import -> id_operation )
 	gsb_transaction_data_set_transaction_id ( transaction_number,
-						  no_compte,
 						  g_strdup ( operation_import -> id_operation ));
 
     /* récupération de la date */
@@ -2132,8 +2130,8 @@ struct structure_operation *enregistre_ope_importee ( struct struct_ope_importat
 
     /* récupÃ©ration des notes */
 
-    operation -> notes = operation_import -> notes;
-
+    gsb_transaction_data_set_notes ( gsb_transaction_data_get_transaction_number (operation ),
+				     operation_import -> notes );
 
     /* récupÃ©ration du chèque et mise en forme du type d'opération */
 
@@ -2387,12 +2385,10 @@ void pointe_opes_importees ( struct struct_compte_importation *compte_import )
 
 		operation = ope_trouvees -> data;
 
-		if ( !gsb_transaction_data_get_transaction_id ( gsb_transaction_data_get_transaction_number (operation),
-								no_compte )
+		if ( !gsb_transaction_data_get_transaction_id ( gsb_transaction_data_get_transaction_number (operation))
 		     &&
 		     ope_import -> id_operation )
 		    gsb_transaction_data_set_transaction_id ( gsb_transaction_data_get_transaction_number (operation),
-							      no_compte,
 							      ope_import -> id_operation );
 
 		if ( !operation -> pointe )
@@ -2484,12 +2480,10 @@ void pointe_opes_importees ( struct struct_compte_importation *compte_import )
 		    {
 			operation = liste_tmp_2 -> data;
 
-			if ( !gsb_transaction_data_get_transaction_id ( gsb_transaction_data_get_transaction_number (operation),
-									no_compte )
+			if ( !gsb_transaction_data_get_transaction_id ( gsb_transaction_data_get_transaction_number (operation))
 			     &&
 			     ope_import -> id_operation )
 			    gsb_transaction_data_set_transaction_id ( gsb_transaction_data_get_transaction_number (operation),
-								      no_compte,
 								      ope_import -> id_operation );
 
 			if ( !operation -> pointe )

@@ -1283,9 +1283,9 @@ gint etat_affiche_affichage_ligne_ope ( struct structure_operation *operation,
 
 	if ( etat_courant -> afficher_notes_ope )
 	{
-	    if ( operation -> notes )
+	    if ( gsb_transaction_data_get_notes ( gsb_transaction_data_get_transaction_number (operation )))
 	    {
-		text =  operation -> notes;
+		text =  gsb_transaction_data_get_notes ( gsb_transaction_data_get_transaction_number (operation ));
 
 		if ( etat_courant -> ope_clickables )
 		{

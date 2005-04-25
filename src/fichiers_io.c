@@ -1321,7 +1321,6 @@ gboolean recuperation_comptes_xml ( xmlNodePtr node_comptes )
 				char_tmp = NULL;
 
 			    gsb_transaction_data_set_transaction_id ( transaction_number,
-								      no_compte,
 								      char_tmp );
 
 			    pointeur_char = g_strsplit ( xmlGetProp ( node_ope , "D" ), "/", 0 );
@@ -1393,10 +1392,12 @@ gboolean recuperation_comptes_xml ( xmlNodePtr node_comptes )
 										my_atoi ( xmlGetProp ( node_ope,
 												       "Ov" )) );
 
-			    operation -> notes = xmlGetProp ( node_ope,
-							      "N" );
-			    if ( !strlen ( operation -> notes ))
-				operation -> notes = NULL;
+			    gsb_transaction_data_set_notes ( transaction_number,
+							     xmlGetProp ( node_ope,
+							      "N" ));
+			    if ( !strlen ( gsb_transaction_data_get_notes ( gsb_transaction_data_get_transaction_number (operation ))))
+				gsb_transaction_data_set_notes ( gsb_transaction_data_get_transaction_number (operation ),
+								 NULL );
 
 			    operation -> type_ope = my_atoi ( xmlGetProp ( node_ope,
 									   "Ty" ));
@@ -3617,8 +3618,7 @@ gboolean enregistre_fichier ( gchar *new_file )
 
 	    xmlSetProp ( node_ope,
 			 "Id",
-			 gsb_transaction_data_get_transaction_id ( transaction_number,
-								   i ));
+			 gsb_transaction_data_get_transaction_id ( transaction_number));
 
 	    xmlSetProp ( node_ope,
 			 "D",
@@ -3670,15 +3670,15 @@ gboolean enregistre_fichier ( gchar *new_file )
 
 	    xmlSetProp ( node_ope,
 			 "Sc",
-			 itoa ( gsb_transaction_data_get_sub_category_number ( gsb_transaction_data_get_transaction_number (operation ))));
+			 itoa ( gsb_transaction_data_get_sub_category_number (transaction_number)));
 
 	    xmlSetProp ( node_ope,
 			 "Ov",
-			 itoa ( gsb_transaction_data_get_breakdown_of_transaction ( gsb_transaction_data_get_transaction_number (operation ))));
+			 itoa ( gsb_transaction_data_get_breakdown_of_transaction (transaction_number)));
 
 	    xmlSetProp ( node_ope,
 			 "N",
-			 operation -> notes );
+			 gsb_transaction_data_get_notes (transaction_number));
 
 	    xmlSetProp ( node_ope,
 			 "Ty",
