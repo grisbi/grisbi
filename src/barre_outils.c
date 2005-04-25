@@ -29,10 +29,7 @@
 
 #include "include.h"
 
-#include "./xpm/image_fleche_haut.xpm"
-#include "./xpm/image_fleche_bas.xpm"
 #include "./xpm/comments.xpm"
-#include "./xpm/grille.xpm"
 
 /*START_INCLUDE*/
 #include "barre_outils.h"
@@ -42,6 +39,7 @@
 #include "gsb_account.h"
 #include "menu.h"
 #include "traitement_variables.h"
+#include "echeancier_infos.h"
 #include "utils_buttons.h"
 /*END_INCLUDE*/
 
@@ -79,6 +77,7 @@ extern GtkWidget *formulaire;
 extern GtkItemFactory *item_factory_menu_general;
 extern GtkTooltips *tooltips_general_grisbi;
 extern GtkWidget *tree_view_liste_echeances;
+extern int affichage_echeances;
 /*END_EXTERN*/
 
 
@@ -106,7 +105,7 @@ GtkWidget *creation_barre_outils ( void )
 							   _("Category"),
 							   "new-transaction.png",
 							   G_CALLBACK ( new_transaction ),
-							   NULL ),
+							   GINT_TO_POINTER(-1) ),
 			 FALSE, FALSE, 0 );
     gtk_box_pack_start ( GTK_BOX ( hbox2 ), 
 			 new_stock_button_with_label ( GSB_BUTTON_ICON,
@@ -146,7 +145,7 @@ GtkWidget *creation_barre_outils ( void )
 						      _("Display grid"),
 						      "grid.png",
 						      G_CALLBACK ( change_aspect_liste ),
-						      NULL ), 
+						      0 ), 
     gtk_box_pack_end ( GTK_BOX ( hbox2 ), bouton_grille, FALSE, FALSE, 0 );
 
     /* Display mode menu */
@@ -333,145 +332,118 @@ gboolean change_aspect_liste ( gint demande )
 /*******************************************************************************************/
 GtkWidget *creation_barre_outils_echeancier ( void )
 {
-    GtkWidget *hbox;
-    GtkWidget *separateur;
-    GtkWidget *hbox2;
-    GtkWidget *icone;
+    GtkWidget *label, *bouton, *hbox, *handlebox, *menu, *item;
 
+    /* HandleBox */
+    handlebox = gtk_handle_box_new ();
 
-    hbox = gtk_hbox_new ( FALSE,
-			  5 );
-    gtk_widget_show ( hbox );
+    /* Hbox */
+    hbox = gtk_hbox_new ( FALSE, 0 );
+    gtk_container_add ( GTK_CONTAINER(handlebox), hbox );
 
-    separateur = gtk_vseparator_new ();
     gtk_box_pack_start ( GTK_BOX ( hbox ),
-			 separateur,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show ( separateur );
-
-
-
-    /* bouton affiche / cache le formulaire */
-
-    bouton_affiche_cache_formulaire_echeancier = gtk_button_new ();
-    gtk_button_set_relief ( GTK_BUTTON ( bouton_affiche_cache_formulaire_echeancier ),
-			    GTK_RELIEF_NONE );
-    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi  ),
-			   bouton_affiche_cache_formulaire_echeancier,
-			   _("Display/hide form"),
-			   _("Display/hide form") );
-    gtk_widget_set_usize ( bouton_affiche_cache_formulaire_echeancier,
-			   15,
-			   15 );
-
-    hbox2 = gtk_hbox_new ( TRUE,
-			   0 );
-    gtk_container_add ( GTK_CONTAINER ( bouton_affiche_cache_formulaire_echeancier ),
-			hbox2 );
-    gtk_widget_show ( hbox2 );
-
-    fleche_haut_echeancier = gtk_image_new_from_pixbuf ( gdk_pixbuf_new_from_xpm_data ( (const gchar **) image_fleche_haut_xpm ));
-    gtk_box_pack_start ( GTK_BOX ( hbox2 ),
-			 fleche_haut_echeancier,
-			 FALSE,
-			 FALSE,
-			 0 );
-
-    fleche_bas_echeancier = gtk_image_new_from_pixbuf ( gdk_pixbuf_new_from_xpm_data ( (const gchar **) image_fleche_bas_xpm ));
-    gtk_box_pack_start ( GTK_BOX ( hbox2 ),
-			 fleche_bas_echeancier,
-			 FALSE,
-			 FALSE,
-			 0 );
-
-
-    if ( etat.formulaire_echeancier_toujours_affiche )
-	gtk_widget_show ( fleche_bas_echeancier );
-    else
-	gtk_widget_show ( fleche_haut_echeancier );
-
-    gtk_signal_connect ( GTK_OBJECT ( bouton_affiche_cache_formulaire_echeancier ),
-			 "clicked",
-			 GTK_SIGNAL_FUNC ( affiche_cache_le_formulaire_echeancier ),
-			 NULL );
-    gtk_box_pack_start ( GTK_BOX ( hbox ),
-			 bouton_affiche_cache_formulaire_echeancier,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show ( bouton_affiche_cache_formulaire_echeancier );
-
-
-    separateur = gtk_vseparator_new ();
-    gtk_box_pack_start ( GTK_BOX ( hbox ),
-			 separateur,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show ( separateur );
+			 new_button_with_label_and_image ( GSB_BUTTON_ICON,
+							   _("Category"),
+							   "new-transaction.png",
+							   G_CALLBACK ( edition_echeance ),
+							   GINT_TO_POINTER(-1) ),
+			 FALSE, FALSE, 0 );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), 
+			 new_stock_button_with_label ( GSB_BUTTON_ICON,
+						       GTK_STOCK_PROPERTIES, 
+						       _("Edit"),
+						       G_CALLBACK ( edition_echeance ),
+						       NULL ), 
+			 FALSE, FALSE, 0 );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), 
+			 new_stock_button_with_label ( GSB_BUTTON_ICON,
+						       GTK_STOCK_DELETE, 
+						       _("Delete"),
+						       G_CALLBACK ( supprime_echeance ),
+						       NULL ), 
+			 FALSE, FALSE, 0 );
 
     /* dOm : ajout commutateur d'affichage de commentaires */
     /* bouton affiche / cache le commentaire dans la liste de l'echeancier */
     scheduler_display_hide_comments = gtk_image_new_from_pixbuf ( gdk_pixbuf_new_from_xpm_data ( (const gchar **) comments_xpm ));
     bouton_affiche_commentaire_echeancier = gtk_button_new ();
-    gtk_widget_show ( scheduler_display_hide_comments );
     gtk_container_add ( GTK_CONTAINER ( bouton_affiche_commentaire_echeancier ),
 			scheduler_display_hide_comments );
     gtk_button_set_relief ( GTK_BUTTON ( bouton_affiche_commentaire_echeancier ),
 			    GTK_RELIEF_NONE );
     gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi ),
 			   bouton_affiche_commentaire_echeancier ,
-			   _("Display/hide comments"),
-			   _("Display/hide comments") );
-    gtk_widget_set_usize ( bouton_affiche_commentaire_echeancier ,
-			   16, 16 );
-    gtk_signal_connect ( GTK_OBJECT ( bouton_affiche_commentaire_echeancier ),
-			 "clicked",
-			 GTK_SIGNAL_FUNC ( affiche_cache_commentaire_echeancier ),
-			 NULL );
-    gtk_box_pack_start ( GTK_BOX ( hbox ),
-			 bouton_affiche_commentaire_echeancier,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show ( bouton_affiche_commentaire_echeancier );
-
+			   _("Display/hide comments"), _("Display/hide comments") );
+    gtk_widget_set_usize ( bouton_affiche_commentaire_echeancier , 16, 16 );
+    gtk_signal_connect ( GTK_OBJECT ( bouton_affiche_commentaire_echeancier ), "clicked",
+			 GTK_SIGNAL_FUNC ( affiche_cache_commentaire_echeancier ), NULL );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), bouton_affiche_commentaire_echeancier,
+			 FALSE, FALSE, 0 );
 
     /*     bouton affiche/masque la grille des opérations */
 
-    bouton_grille_echeancier = gtk_check_button_new ();
-    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON (bouton_grille_echeancier ),
-				   etat.affichage_grille );
-    gtk_toggle_button_set_mode ( GTK_TOGGLE_BUTTON (bouton_grille_echeancier ),
-				 FALSE  );
-    gtk_button_set_relief ( GTK_BUTTON ( bouton_grille_echeancier ),
-			    GTK_RELIEF_NONE );
-    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi  ),
-			   bouton_grille_echeancier,
-			   _("Display grid"),
-			   _("Display grid") );
-    icone = gtk_image_new_from_pixbuf ( gdk_pixbuf_new_from_xpm_data ( (const gchar **) grille_xpm ));
-    gtk_container_add ( GTK_CONTAINER ( bouton_grille_echeancier ),
-			icone );
-    gtk_widget_set_usize ( bouton_grille_echeancier,
-			   15,
-			   15 );
-    g_signal_connect_swapped ( GTK_OBJECT ( bouton_grille_echeancier ),
-			       "toggled",
-			       GTK_SIGNAL_FUNC ( change_aspect_liste ),
-			       NULL );
-    gtk_box_pack_start ( GTK_BOX ( hbox ),
-			 bouton_grille_echeancier,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show_all ( bouton_grille_echeancier );
+    bouton_grille_echeancier = new_button_with_label_and_image ( GSB_BUTTON_ICON,
+								 _("Display grid"),
+								 "grid.png",
+								 G_CALLBACK ( change_aspect_liste ),
+								 0 ), 
+    gtk_box_pack_start ( GTK_BOX ( hbox ), bouton_grille_echeancier, FALSE, FALSE, 0 );
+
+    gtk_box_pack_start ( GTK_BOX ( hbox ), 
+			 new_stock_button_with_label ( GSB_BUTTON_ICON,
+						       GTK_STOCK_EXECUTE, 
+						       _("Execute transaction"),
+						       G_CALLBACK ( click_sur_saisir_echeance ),
+						       NULL ), 
+			 FALSE, FALSE, 0 );
 
 
 
-    return ( hbox );
+    bouton = gtk_option_menu_new ();
+    menu = gtk_menu_new();
+
+    item = gtk_menu_item_new_with_label ( _("Of month") );
+    gtk_signal_connect_object ( GTK_OBJECT ( item ), "activate",
+				GTK_SIGNAL_FUNC ( modification_affichage_echeances ), 
+				NULL );
+    gtk_menu_append ( GTK_MENU ( menu ), item );
+
+    item = gtk_menu_item_new_with_label ( _("Of next two months") );
+    gtk_signal_connect_object ( GTK_OBJECT ( item ), "activate",
+				GTK_SIGNAL_FUNC ( modification_affichage_echeances ),
+				GINT_TO_POINTER (1) );
+    gtk_menu_append ( GTK_MENU ( menu ), item );
+
+    item = gtk_menu_item_new_with_label ( _("Of year") );
+    gtk_signal_connect_object ( GTK_OBJECT ( item ), "activate",
+				GTK_SIGNAL_FUNC ( modification_affichage_echeances ),
+				GINT_TO_POINTER (2) );
+    gtk_menu_append ( GTK_MENU ( menu ), item );
+
+    item = gtk_menu_item_new_with_label ( _("Once") );
+    gtk_signal_connect_object ( GTK_OBJECT ( item ), "activate",
+				GTK_SIGNAL_FUNC ( modification_affichage_echeances ),
+				GINT_TO_POINTER (3) );
+    gtk_menu_append ( GTK_MENU ( menu ), item );
+
+    item = gtk_menu_item_new_with_label ( _("Custom") );
+    gtk_signal_connect_object ( GTK_OBJECT ( item ), "activate",
+				GTK_SIGNAL_FUNC ( modification_affichage_echeances ),
+				GINT_TO_POINTER (4) );
+    gtk_menu_append ( GTK_MENU ( menu ), item );
+
+    gtk_option_menu_set_menu ( GTK_OPTION_MENU ( bouton ), menu );
+    gtk_option_menu_set_history ( GTK_OPTION_MENU ( bouton ), affichage_echeances );
+
+    gtk_box_pack_end ( GTK_BOX ( hbox ), bouton, FALSE, FALSE, 0 );
+
+    label = gtk_label_new ( COLON(_("Display mode:")) );
+    gtk_box_pack_end ( GTK_BOX ( hbox ), label, FALSE, FALSE, 5 );
+
+
+    gtk_widget_show_all ( handlebox );
+
+    return ( handlebox );
 }
 /*******************************************************************************************/
 
