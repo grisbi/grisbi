@@ -216,7 +216,7 @@ void traitement_sigsegv ( gint signal_nb )
 
     errmsg = _("Grisbi triggered a segmentation fault and cannot continue its execution.\n\n");
 
-		print_backtrace();
+    print_backtrace();
 	
     /*   il y a 3 possibilités : */
     /*     soit on était en train de charger un fichier, c'est que celui-ci est corrompu */
@@ -375,25 +375,26 @@ void debug_message ( gchar *prefixe, gchar *message, gint level, gboolean force_
 /*************************************************************************************************************/
 void print_backtrace ( void )
 {
-	#ifdef HAVE_BACKTRACE
-		void *backtrace_content[15];
-		size_t backtrace_size;
-		gchar **backtrace_strings;
-		size_t i;
-		
-		backtrace_size = backtrace (backtrace_content, 15);
-		backtrace_strings = backtrace_symbols (backtrace_content, backtrace_size);
-		
-		printf ("%s : %d element in stack.\n", get_debug_time(), backtrace_size);
-		
-		for (i = 0; i < backtrace_size; i++) printf ("\t%s\n", backtrace_strings[i]);
 
-	#endif
+#ifdef HAVE_BACKTRACE
+    void *backtrace_content[15];
+    size_t backtrace_size;
+    gchar **backtrace_strings;
+    size_t i;
 		
-	#ifndef HAVE_BACKTRACE
-		printf("%s : Backtrace unavailable on your system !", get_debug_time());
-	#endif			 
+    backtrace_size = backtrace (backtrace_content, 15);
+    backtrace_strings = backtrace_symbols (backtrace_content, backtrace_size);
 		
+    printf ("%s : %d element in stack.\n", get_debug_time(), backtrace_size);
+		
+    for (i = 0; i < backtrace_size; i++) printf ("\t%s\n", backtrace_strings[i]);
+
+#endif
+		
+#ifndef HAVE_BACKTRACE
+    printf("%s : Backtrace unavailable on your system !\n", get_debug_time());
+#endif			 
+
 }
 /*************************************************************************************************************/
 
