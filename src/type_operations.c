@@ -35,6 +35,7 @@
 #include "operations_formulaire.h"
 #include "utils_editables.h"
 #include "gsb_account.h"
+#include "gsb_transaction_data.h"
 #include "utils_str.h"
 #include "traitement_variables.h"
 #include "utils.h"
@@ -1026,7 +1027,7 @@ void supprimer_type_operation ( void )
 	{
 	    struct structure_operation *operation;
 	    operation = pointeur_tmp -> data;
-	    if ( operation -> type_ope == type_ope -> no_type )
+	    if ( gsb_transaction_data_get_method_of_payment_number ( gsb_transaction_data_get_transaction_number (operation ))== type_ope -> no_type )
 		ope_a_changer = g_slist_append ( ope_a_changer,
 						 operation );
 	    pointeur_tmp = pointeur_tmp -> next;
@@ -1127,7 +1128,8 @@ void supprimer_type_operation ( void )
 
 		operation = pointeur_tmp -> data;
 
-		operation -> type_ope = nouveau_type;
+		gsb_transaction_data_set_method_of_payment_number ( gsb_transaction_data_get_transaction_number (operation ),
+								    nouveau_type );
 		pointeur_tmp = pointeur_tmp -> next;
 	    }
 

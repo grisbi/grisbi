@@ -1197,7 +1197,7 @@ choix_liste_fichier:
 			/* met le chèque si c'est un type à numérotation automatique */
 
 			pointeur = g_slist_find_custom ( gsb_account_get_method_payment_list (no_compte),
-							 GINT_TO_POINTER ( operation -> type_ope ),
+							 GINT_TO_POINTER ( gsb_transaction_data_get_method_of_payment_number ( gsb_transaction_data_get_transaction_number (operation ))),
 							 (GCompareFunc) recherche_type_ope_par_no );
 
 			if ( pointeur )

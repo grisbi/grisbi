@@ -952,7 +952,6 @@ gboolean fin_equilibrage ( GtkWidget *bouton_ok,
 	dialogue_error_hint ( _("Date format looks valid but date is valid according to calendar."),
 			      g_strdup_printf ( _("Invalid date '%s'"), text ) );
 	return FALSE;
-	return FALSE;
     }
     gsb_account_set_current_reconcile_date ( gsb_account_get_current_account (),
 					     g_date_new_dmy ( date_releve_jour,

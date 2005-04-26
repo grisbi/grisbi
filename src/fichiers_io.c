@@ -1395,12 +1395,14 @@ gboolean recuperation_comptes_xml ( xmlNodePtr node_comptes )
 			    gsb_transaction_data_set_notes ( transaction_number,
 							     xmlGetProp ( node_ope,
 							      "N" ));
-/* 			    if ( !strlen ( gsb_transaction_data_get_notes ( gsb_transaction_data_get_transaction_number (operation )))) */
-/* 				gsb_transaction_data_set_notes ( gsb_transaction_data_get_transaction_number (operation ), */
-/* 								 NULL ); */
 
-			    operation -> type_ope = my_atoi ( xmlGetProp ( node_ope,
-									   "Ty" ));
+			    if ( !strlen ( gsb_transaction_data_get_notes ( transaction_number)))
+				gsb_transaction_data_set_notes ( transaction_number,
+								 NULL );
+
+			    gsb_transaction_data_set_method_of_payment_number ( transaction_number,
+										my_atoi ( xmlGetProp ( node_ope,
+												       "Ty" )) );
 
 			    operation -> contenu_type = xmlGetProp ( node_ope,
 								     "Ct" );
@@ -3682,7 +3684,7 @@ gboolean enregistre_fichier ( gchar *new_file )
 
 	    xmlSetProp ( node_ope,
 			 "Ty",
-			 itoa ( operation -> type_ope ));
+			 itoa ( gsb_transaction_data_get_method_of_payment_number (transaction_number)));
 
 	    xmlSetProp ( node_ope,
 			 "Ct",

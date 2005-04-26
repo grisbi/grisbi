@@ -951,5 +951,45 @@ gboolean gsb_transaction_data_set_notes ( gint no_transaction,
 
 
 
+/** get the method_of_payment_number
+ * \param no_transaction the number of the transaction
+ * \return the method_of_payment_number
+ * */
+gint gsb_transaction_data_get_method_of_payment_number ( gint no_transaction )
+{
+    struct_transaction *transaction;
+
+    transaction = gsb_transaction_data_get_transaction_by_no ( no_transaction,
+							       -1 );
+
+    if ( !transaction )
+	return -1;
+
+    return transaction -> method_of_payment_number;
+}
+
+
+/** set the method_of_payment_number
+ * \param no_transaction
+ * \param 
+ * \return TRUE if ok
+ * */
+gboolean gsb_transaction_data_set_method_of_payment_number ( gint no_transaction,
+							     gint number )
+{
+    struct_transaction *transaction;
+
+    transaction = gsb_transaction_data_get_transaction_by_no ( no_transaction,
+							       -1 );
+
+    if ( !transaction )
+	return FALSE;
+
+    transaction -> method_of_payment_number = number;
+
+    return TRUE;
+}
+
+
 
 

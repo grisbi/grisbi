@@ -189,7 +189,7 @@ struct structure_operation
 
 /*     gchar *notes; */
 
-    guint type_ope;               /* variable suivant le type de compte */
+/*     guint type_ope; */
     gchar *contenu_type;          /* ce peut être un no de chèque, de virement ou tout ce qu'on veut */
 
     gshort pointe;            /*  0=rien, 1=P, 2=T, 3=R */

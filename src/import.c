@@ -1499,9 +1499,11 @@ void creation_compte_importe ( struct struct_compte_importation *compte_import )
 	    GSList *liste_tmp;
 
 	    if ( gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (operation ))< 0 )
-		operation -> type_ope = gsb_account_get_default_debit (no_compte);
+		gsb_transaction_data_set_method_of_payment_number ( gsb_transaction_data_get_transaction_number (operation ),
+								    gsb_account_get_default_debit (no_compte));
 	    else
-		operation -> type_ope = gsb_account_get_default_credit (no_compte);
+		gsb_transaction_data_set_method_of_payment_number ( gsb_transaction_data_get_transaction_number (operation ),
+								    gsb_account_get_default_credit (no_compte));
 
 	    operation -> contenu_type = itoa ( operation_import -> cheque );
 
@@ -1526,13 +1528,15 @@ void creation_compte_importe ( struct struct_compte_importation *compte_import )
 			 ||
 			 ( type -> signe_type == 2 && gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (operation ))> 0 ))
 		    {
-			operation -> type_ope = type -> no_type;
+			gsb_transaction_data_set_method_of_payment_number ( gsb_transaction_data_get_transaction_number (operation ),
+									    type -> no_type );
 			type_choisi = type;
 			liste_tmp = NULL;
 		    }
 		    else
 		    {
-			operation -> type_ope = type -> no_type;
+			gsb_transaction_data_set_method_of_payment_number ( gsb_transaction_data_get_transaction_number (operation),
+									    type -> no_type );
 			type_choisi = type;
 			liste_tmp = liste_tmp -> next;
 		    }
@@ -1552,9 +1556,11 @@ void creation_compte_importe ( struct struct_compte_importation *compte_import )
 	    /* comme ce n'est pas un chèque, on met sur le type par défaut */
 
 	    if ( gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (operation ))< 0 )
-		operation -> type_ope = gsb_account_get_default_debit (no_compte);
+		gsb_transaction_data_set_method_of_payment_number ( gsb_transaction_data_get_transaction_number (operation ),
+								    gsb_account_get_default_debit (no_compte));
 	    else
-		operation -> type_ope = gsb_account_get_default_credit (no_compte);
+		gsb_transaction_data_set_method_of_payment_number ( gsb_transaction_data_get_transaction_number (operation ),
+								    gsb_account_get_default_credit (no_compte));
 
 	}
 
@@ -2144,9 +2150,11 @@ struct structure_operation *enregistre_ope_importee ( struct struct_ope_importat
 	GSList *liste_tmp;
 
 	if ( gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (operation ))< 0 )
-	    operation -> type_ope = gsb_account_get_default_debit (no_compte);
+	    gsb_transaction_data_set_method_of_payment_number ( gsb_transaction_data_get_transaction_number (operation ),
+								gsb_account_get_default_debit (no_compte));
 	else
-	    operation -> type_ope = gsb_account_get_default_credit (no_compte);
+	    gsb_transaction_data_set_method_of_payment_number ( gsb_transaction_data_get_transaction_number (operation ),
+								gsb_account_get_default_credit (no_compte));
 
 	operation -> contenu_type = itoa ( operation_import -> cheque );
 
@@ -2171,13 +2179,15 @@ struct structure_operation *enregistre_ope_importee ( struct struct_ope_importat
 		     ||
 		     ( type -> signe_type == 2 && gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (operation ))> 0 ))
 		{
-		    operation -> type_ope = type -> no_type;
+		    gsb_transaction_data_set_method_of_payment_number ( gsb_transaction_data_get_transaction_number (operation ),
+									type -> no_type );
 		    type_choisi = type;
 		    liste_tmp = NULL;
 		}
 		else
 		{
-		    operation -> type_ope = type -> no_type;
+		    gsb_transaction_data_set_method_of_payment_number ( gsb_transaction_data_get_transaction_number (operation ),
+									type -> no_type );
 		    type_choisi = type;
 		    liste_tmp = liste_tmp -> next;
 		}
@@ -2197,9 +2207,11 @@ struct structure_operation *enregistre_ope_importee ( struct struct_ope_importat
 	/* comme ce n'est pas un chèque, on met sur le type par défaut */
 
 	if ( gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (operation ))< 0 )
-	    operation -> type_ope = gsb_account_get_default_debit (no_compte);
+	    gsb_transaction_data_set_method_of_payment_number ( gsb_transaction_data_get_transaction_number (operation ),
+								gsb_account_get_default_debit (no_compte));
 	else
-	    operation -> type_ope = gsb_account_get_default_credit (no_compte);
+	    gsb_transaction_data_set_method_of_payment_number ( gsb_transaction_data_get_transaction_number (operation ),
+								gsb_account_get_default_credit (no_compte));
 
     }
 

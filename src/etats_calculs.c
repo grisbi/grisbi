@@ -348,11 +348,11 @@ GSList *recupere_opes_etat ( struct struct_etat *etat )
 			     &&
 			     my_atoi ( operation -> contenu_type ) > dernier_chq
 			     &&
-			     operation -> type_ope )
+			     gsb_transaction_data_get_method_of_payment_number ( gsb_transaction_data_get_transaction_number (operation )))
 			{
 			    struct struct_type_ope *type_ope;
 
-			    type_ope = type_ope_par_no ( operation -> type_ope,
+			    type_ope = type_ope_par_no ( gsb_transaction_data_get_method_of_payment_number ( gsb_transaction_data_get_transaction_number (operation )),
 							 i );
 
 			    if ( type_ope
@@ -743,12 +743,12 @@ GSList *recupere_opes_etat ( struct struct_etat *etat )
 		{
 		    struct struct_type_ope *type_ope;
 
-		    if ( ! operation -> type_ope )
+		    if ( ! gsb_transaction_data_get_method_of_payment_number ( gsb_transaction_data_get_transaction_number (operation )))
 			goto operation_refusee;
 
 		    /* normalement p_tab... est sur le compte en cours */
 
-		    type_ope = type_ope_par_no ( operation -> type_ope,
+		    type_ope = type_ope_par_no ( gsb_transaction_data_get_method_of_payment_number ( gsb_transaction_data_get_transaction_number (operation )),
 						 i );
 
 		    if ( !type_ope )
@@ -1760,18 +1760,18 @@ gint classement_ope_perso_etat ( struct structure_operation *operation_1,
 	case 6:
 	    /* type ope  */
 
-	    if ( !operation_1 -> type_ope
+	    if ( !gsb_transaction_data_get_method_of_payment_number ( gsb_transaction_data_get_transaction_number (operation_1 ))
 		 ||
-		 !operation_2 -> type_ope )
-		retour = operation_2 -> type_ope - operation_1 -> type_ope;
+		 !gsb_transaction_data_get_method_of_payment_number ( gsb_transaction_data_get_transaction_number (operation_2 )))
+		retour = gsb_transaction_data_get_method_of_payment_number ( gsb_transaction_data_get_transaction_number (operation_2 ))- gsb_transaction_data_get_method_of_payment_number ( gsb_transaction_data_get_transaction_number (operation_1 ));
 	    else
 	    {
 		/* les opés peuvent provenir de 2 comptes différents, il faut donc trouver les 2 types dans les */
 		/* listes différentes */
 
-		retour = g_strcasecmp ( type_ope_name_by_no ( operation_1 -> type_ope,
+		retour = g_strcasecmp ( type_ope_name_by_no ( gsb_transaction_data_get_method_of_payment_number ( gsb_transaction_data_get_transaction_number (operation_1 )),
 							      gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (operation_1))),
-					type_ope_name_by_no ( operation_2 -> type_ope,
+					type_ope_name_by_no ( gsb_transaction_data_get_method_of_payment_number ( gsb_transaction_data_get_transaction_number (operation_2 )),
 							      gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (operation_2))));
 	    }
 	    break;

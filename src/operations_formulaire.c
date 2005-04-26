@@ -1866,7 +1866,7 @@ gboolean completion_operation_par_tiers ( GtkWidget *entree )
 						   menu );
 			gtk_widget_show ( widget );
 
-			place_type_formulaire ( transaction -> type_ope,
+			place_type_formulaire ( gsb_transaction_data_get_method_of_payment_number ( gsb_transaction_data_get_transaction_number (transaction )),
 						TRANSACTION_FORM_TYPE,
 						NULL );
 		    }
@@ -1929,7 +1929,7 @@ gboolean completion_operation_par_tiers ( GtkWidget *entree )
 			    contra_transaction = operation_par_no ( transaction -> relation_no_operation,
 								  transaction -> relation_no_compte );
 			    if ( contra_transaction )
-				place_type_formulaire ( contra_transaction -> type_ope,
+				place_type_formulaire ( gsb_transaction_data_get_method_of_payment_number ( gsb_transaction_data_get_transaction_number (contra_transaction )),
 							TRANSACTION_FORM_CONTRA,
 							NULL );
 			}
@@ -2257,7 +2257,7 @@ gboolean gsb_form_finish_edition ( void )
 		{
 		    struct struct_type_ope *type;
 
-		    type = type_ope_par_no ( transaction -> type_ope,
+		    type = type_ope_par_no ( gsb_transaction_data_get_method_of_payment_number ( gsb_transaction_data_get_transaction_number (transaction )),
 					     gsb_account_get_current_account () );
 
 		    if ( type
@@ -2883,8 +2883,9 @@ void recuperation_donnees_generales_formulaire ( struct structure_operation *tra
 
 		    if ( GTK_WIDGET_VISIBLE ( widget_formulaire_par_element (TRANSACTION_FORM_TYPE) ))
 		    {
-			transaction -> type_ope = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget ) -> menu_item ),
-											"no_type" ));
+			gsb_transaction_data_set_method_of_payment_number ( gsb_transaction_data_get_transaction_number (transaction),
+									    GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget ) -> menu_item ),
+														    "no_type" )));
 
 			if ( GTK_WIDGET_VISIBLE ( widget_formulaire_par_element (TRANSACTION_FORM_CHEQUE) )
 			     &&
@@ -2905,7 +2906,8 @@ void recuperation_donnees_generales_formulaire ( struct structure_operation *tra
 		    }
 		    else
 		    {
-			transaction -> type_ope = 0;
+			gsb_transaction_data_set_method_of_payment_number ( gsb_transaction_data_get_transaction_number (transaction),
+									    0 );
 			transaction -> contenu_type = NULL;
 		    }
 		    break;
@@ -3301,10 +3303,11 @@ printf ( "ça passe\n" );
     if ( verifie_element_formulaire_existe ( TRANSACTION_FORM_CONTRA )
 	 &&
 	 GTK_WIDGET_VISIBLE ( widget_formulaire_par_element (TRANSACTION_FORM_CONTRA) ))
-	contra_transaction -> type_ope = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_par_element (TRANSACTION_FORM_CONTRA) ) -> menu_item ),
-									       "no_type" ));
+	gsb_transaction_data_set_method_of_payment_number ( gsb_transaction_data_get_transaction_number (contra_transaction),
+							    GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_par_element (TRANSACTION_FORM_CONTRA) ) -> menu_item ),
+												    "no_type" )));
 
-    if ( contra_transaction -> type_ope
+    if ( gsb_transaction_data_get_method_of_payment_number ( gsb_transaction_data_get_transaction_number (contra_transaction ))
 	 &&
 	 transaction -> contenu_type )
 	contra_transaction -> contenu_type = g_strdup ( transaction -> contenu_type );

@@ -1011,7 +1011,7 @@ gint gsb_transactions_list_sort_by_type ( GtkTreeModel *model,
 
     /* if it's the same type, we sort by the content of the types */
 
-    if ( transaction_1 -> type_ope == transaction_2 -> type_ope )
+    if ( gsb_transaction_data_get_method_of_payment_number ( gsb_transaction_data_get_transaction_number (transaction_1 ))== gsb_transaction_data_get_method_of_payment_number ( gsb_transaction_data_get_transaction_number (transaction_2 )))
     {
 	return_value = g_utf8_collate ( g_utf8_casefold ( transaction_1 -> contenu_type ? transaction_1 -> contenu_type : "",
 							  -1 ),
@@ -1026,9 +1026,9 @@ gint gsb_transactions_list_sort_by_type ( GtkTreeModel *model,
 	gchar *temp_1;
 	gchar *temp_2;
 
-	temp_1 = type_ope_name_by_no ( transaction_1 -> type_ope,
+	temp_1 = type_ope_name_by_no ( gsb_transaction_data_get_method_of_payment_number ( gsb_transaction_data_get_transaction_number (transaction_1 )),
 				       gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (transaction_1)));
-	temp_2 = type_ope_name_by_no ( transaction_2 -> type_ope,
+	temp_2 = type_ope_name_by_no ( gsb_transaction_data_get_method_of_payment_number ( gsb_transaction_data_get_transaction_number (transaction_2 )),
 				       gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (transaction_2)));
 
 	/* g_utf8_collate is said not very fast, must try with big big account to check

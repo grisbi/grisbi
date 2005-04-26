@@ -1307,7 +1307,7 @@ gint etat_affiche_affichage_ligne_ope ( struct structure_operation *operation,
 
 	if ( etat_courant -> afficher_type_ope )
 	{
-	    text = type_ope_name_by_no ( operation -> type_ope,
+	    text = type_ope_name_by_no ( gsb_transaction_data_get_method_of_payment_number ( gsb_transaction_data_get_transaction_number (operation )),
 					 gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (operation)));
 	    if ( text )
 	    {

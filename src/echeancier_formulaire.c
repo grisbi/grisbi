@@ -2019,8 +2019,9 @@ void fin_edition_echeance ( void )
 
 	if ( GTK_WIDGET_VISIBLE ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] ))
 	{
-	    operation -> type_ope = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] ) -> menu_item ),
-									    "no_type" ));
+	    gsb_transaction_data_set_method_of_payment_number ( gsb_transaction_data_get_transaction_number (operation ),
+								GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] ) -> menu_item ),
+													"no_type" )) );
 
 	    if ( GTK_WIDGET_VISIBLE ( widget_formulaire_echeancier[SCHEDULER_FORM_CHEQUE] )
 		 &&
@@ -2110,7 +2111,7 @@ void fin_edition_echeance ( void )
 	if ( virement )
 	    cree_contre_operation_echeance ( operation,
 					     compte_virement,
-					     operation -> type_ope );
+					     gsb_transaction_data_get_method_of_payment_number ( gsb_transaction_data_get_transaction_number (operation )));
 
 	/* 	si c'était une échéance ventilée, c'est ici qu'on fait joujou */
 
@@ -2342,7 +2343,8 @@ struct structure_operation *ajoute_contre_operation_echeance_dans_liste ( struct
 					 g_strdup ( gsb_transaction_data_get_notes ( gsb_transaction_data_get_transaction_number (operation ))));
 
     contre_operation -> auto_man = operation -> auto_man;
-    contre_operation -> type_ope = contre_type_ope;
+    gsb_transaction_data_set_method_of_payment_number ( gsb_transaction_data_get_transaction_number (contre_operation ),
+							contre_type_ope );
 
     if ( operation -> contenu_type )
 	contre_operation -> contenu_type = g_strdup ( operation -> contenu_type );
@@ -2872,7 +2874,7 @@ void completion_operation_par_tiers_echeancier ( void )
     {
 	gint place_type;
 
-	place_type = cherche_no_menu_type_echeancier ( operation -> type_ope );
+	place_type = cherche_no_menu_type_echeancier ( gsb_transaction_data_get_method_of_payment_number ( gsb_transaction_data_get_transaction_number (operation )));
 
 	/*       si la place est trouvée, on la met, sinon on met à la place par défaut */
 

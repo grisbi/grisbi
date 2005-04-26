@@ -1155,7 +1155,7 @@ gchar *recherche_contenu_cellule ( struct structure_operation *transaction,
 	    /* mise en forme du moyen de paiement */
 
 	case TRANSACTION_LIST_TYPE:
-	    return ( type_ope_name_by_no ( transaction -> type_ope,
+	    return ( type_ope_name_by_no ( gsb_transaction_data_get_method_of_payment_number ( gsb_transaction_data_get_transaction_number (transaction )),
 					   gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (transaction))));
 	    break;
 
@@ -2585,7 +2585,7 @@ gboolean gsb_transactions_list_edit_current_transaction ( void )
 						   menu );
 			gtk_widget_show ( widget );
 
-			place_type_formulaire ( transaction -> type_ope,
+			place_type_formulaire ( gsb_transaction_data_get_method_of_payment_number ( gsb_transaction_data_get_transaction_number (transaction )),
 						TRANSACTION_FORM_TYPE,
 						transaction -> contenu_type );
 		    }
@@ -2647,7 +2647,7 @@ gboolean gsb_transactions_list_edit_current_transaction ( void )
 			    contra_transaction = operation_par_no ( transaction -> relation_no_operation,
 								  transaction -> relation_no_compte );
 			    if ( contra_transaction )
-				place_type_formulaire ( contra_transaction -> type_ope,
+				place_type_formulaire ( gsb_transaction_data_get_method_of_payment_number ( gsb_transaction_data_get_transaction_number (contra_transaction )),
 							TRANSACTION_FORM_CONTRA,
 							NULL );
 			}
@@ -3788,7 +3788,7 @@ struct operation_echeance *schedule_transaction ( struct structure_operation * t
 	contra_transaction = operation_par_no ( transaction -> relation_no_operation,
 					      echeance -> compte_virement );
 	if ( contra_transaction )
-	    echeance -> type_contre_ope = contra_transaction -> type_ope;
+	    echeance -> type_contre_ope = gsb_transaction_data_get_method_of_payment_number ( gsb_transaction_data_get_transaction_number (contra_transaction ));
     }
     else
 	if ( !echeance -> categorie
@@ -3797,7 +3797,7 @@ struct operation_echeance *schedule_transaction ( struct structure_operation * t
 	    echeance -> compte_virement = -1;
 
     echeance -> notes = g_strdup ( gsb_transaction_data_get_notes ( gsb_transaction_data_get_transaction_number (transaction )));
-    echeance -> type_ope = transaction -> type_ope;
+    echeance -> type_ope = gsb_transaction_data_get_method_of_payment_number ( gsb_transaction_data_get_transaction_number (transaction ));
     echeance -> contenu_type = g_strdup ( transaction -> contenu_type );
 
 
@@ -3873,14 +3873,14 @@ struct operation_echeance *schedule_transaction ( struct structure_operation * t
 							  echeance_de_ventil -> compte_virement );
 
 		    if ( contra_transaction )
-			echeance_de_ventil -> type_contre_ope = contra_transaction -> type_ope;
+			echeance_de_ventil -> type_contre_ope = gsb_transaction_data_get_method_of_payment_number ( gsb_transaction_data_get_transaction_number (contra_transaction ));
 		}
 		else
 		    if ( !echeance_de_ventil -> categorie )
 			echeance_de_ventil -> compte_virement = -1;
 
 		echeance_de_ventil -> notes = g_strdup ( gsb_transaction_data_get_notes ( gsb_transaction_data_get_transaction_number (transaction_de_ventil )));
-		echeance_de_ventil -> type_ope = transaction_de_ventil -> type_ope;
+		echeance_de_ventil -> type_ope = gsb_transaction_data_get_method_of_payment_number ( gsb_transaction_data_get_transaction_number (transaction_de_ventil ));
 		echeance_de_ventil -> contenu_type = g_strdup ( transaction_de_ventil -> contenu_type );
 
 

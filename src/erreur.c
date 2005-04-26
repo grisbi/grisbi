@@ -42,7 +42,7 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static gchar * get_debug_time ( void );
+static gchar *get_debug_time ( void );
 static GtkWidget * print_backtrace ( void );
 /*END_STATIC*/
 
