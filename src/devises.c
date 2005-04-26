@@ -201,7 +201,7 @@ static struct iso_4217_currency iso_4217_currencies[] = {
     { N_("Southern America"), N_("Ecuador Sucre"), N_("Ecuador"), "ECS", NULL, FALSE },
     { N_("Southern America"), N_("Guyana Dollar"), N_("Guyana"), "GYD", NULL, TRUE },
     { N_("Southern America"), N_("Paraguay Guarani"), N_("Paraguay"), "PYG", NULL, TRUE },
-    { N_("Southern America"), N_("Real"), N_("Brazil"), "R$", NULL, TRUE },
+    { N_("Southern America"), N_("Real"), N_("Brazil"), "BRL", "R$", TRUE },
     { N_("Southern America"), N_("Suriname Guilder"), N_("Suriname"), "SRG", NULL, TRUE },
     { N_("Southern America"), N_("Venezuelan Bolivar"), N_("Venezuela"), "VEB", NULL, TRUE },
     { NULL },
