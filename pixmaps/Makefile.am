@@ -2,37 +2,37 @@ grisbi_pixmapsdir = $(datadir)/pixmaps/grisbi
 
 grisbi_pixmaps_DATA = \
 	addresses.png \
+	bank-account.png \
 	banks.png \
+	budgetary_lines.png \
+	categories.png \
+	comments.png \
 	currencies.png \
 	dollar.gif \
-	exec.png \
 	euro.gif \
+	exec.png \
 	files.png \
 	financial-years.png \
 	fonts.png \
 	form.png \
-	import.png \
-	payment-methods.png \
-	reconciliation.png \
-	transaction-list.png \
-	warnings.png \
+	grid.png \
 	grisbi-logo.png \
 	grisbi.png \
-	new-categ.png \
-	new-sub-categ.png \
-	new-ib.png \
-	new-sub-ib.png \
-	new-payee.png \
-	new-transaction.png \
-	r.png \
-	grid.png \
-	resume.png \
-	money.png \
-	budgetary_lines.png \
-	categories.png \
-	payees.png \
-	scheduler.png \
 	hbci.png \
+	import.png \
+	money.png \
+	new-categ.png \
+	new-ib.png \
+	new-payee.png \
+	new-sub-categ.png \
+	new-sub-ib.png \
+	new-transaction.png \
+	payees.png \
+	payment-methods.png \
+	r.png \
+	reconciliation.png \
 	reports.png \
-	bank-account.png
-
+	resume.png \
+	scheduler.png \
+	transaction-list.png \
+	warnings.png
