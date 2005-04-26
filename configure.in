@@ -6,23 +6,26 @@ AM_MAINTAINER_MODE
 
 PACKAGE=grisbi
 VERSION=0.6.0
-dnl MKINSTALLDIRS
-dnl AC_DEFINE_UNQUOTED(PACKAGE, "$PACKAGE")
-dnl AC_DEFINE_UNQUOTED(VERSION, "$VERSION")
 AC_SUBST(PACKAGE)
 AC_SUBST(VERSION)
 
+dnl Standard checks
 AC_ISC_POSIX
 AC_PROG_CC
 AC_STDC_HEADERS
 AC_PROG_RANLIB
+
+dnl Check if we have backtrace support
+AC_CHECK_FUNCS(backtrace)
 
 dnl Check for NLS support.                                                      
 ALL_LINGUAS="fr de"
 AM_GNU_GETTEXT
 AC_CHECK_LIB(intl,main)
 
+dnl
 dnl Check for libofx
+dnl
 AC_CHECK_HEADER(libofx/libofx.h,,noofx=true)
 AC_ARG_WITH(ofx,
     [  --without-ofx           build grisbi without ofx support [default=with]],
@@ -48,14 +51,8 @@ fi
 AM_CONDITIONAL(NOOFX, test x$noofx = xtrue)
 
 
-AC_SUBST(prefix)
-
-PKG_CHECK_MODULES(GRISBI, gtk+-2.0 >= 2.2.0 glib-2.0 >= 2.2 libxml-2.0 >= 2.0)
-LDFLAGS="${LDFLAGS} ${GRISBI_LIBS}"
-CFLAGS="${CFLAGS} ${GRISBI_CFLAGS}"
-
 dnl
-dnl check for g2banking
+dnl Check for g2banking
 dnl
 AC_G2BANKING()
 if test "$have_g2banking" = "yes"; then
@@ -63,6 +60,16 @@ if test "$have_g2banking" = "yes"; then
   LDFLAGS="$LDFLAGS $g2banking_libs"
 fi
 
+
+dnl
+dnl Standard GTK checks
+dnl
+PKG_CHECK_MODULES(GRISBI, gtk+-2.0 >= 2.2.0 glib-2.0 >= 2.2 libxml-2.0 >= 2.0)
+LDFLAGS="${LDFLAGS} ${GRISBI_LIBS}"
+CFLAGS="${CFLAGS} ${GRISBI_CFLAGS}"
+
+
+AC_SUBST(prefix)
 AC_SUBST(CFLAGS)
 AC_SUBST(LDFLAGS)
 
