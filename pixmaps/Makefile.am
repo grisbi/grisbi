@@ -24,6 +24,7 @@ grisbi_pixmaps_DATA = \
 	new-categ.png \
 	new-ib.png \
 	new-payee.png \
+	new-report.png \
 	new-sub-categ.png \
 	new-sub-ib.png \
 	new-transaction.png \
@@ -34,5 +35,6 @@ grisbi_pixmaps_DATA = \
 	reports.png \
 	resume.png \
 	scheduler.png \
+	toolbar.png \
 	transaction-list.png \
 	warnings.png
