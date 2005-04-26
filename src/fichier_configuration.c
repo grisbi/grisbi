@@ -35,6 +35,7 @@
 #include "main.h"
 #include "utils_files.h"
 #include "print_config.h"
+#include "utils_buttons.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -310,6 +311,9 @@ void charge_configuration ( void )
 			}
 			if ( !strcmp ( node_affichage -> name, "Affichage_exercice_automatique" ) ) {
 			    etat.affichage_exercice_automatique = my_atoi(xmlNodeGetContent ( node_affichage));
+			}
+			if ( !strcmp ( node_affichage -> name, "display_toolbar" ) ) {
+			    etat.display_toolbar = my_atoi(xmlNodeGetContent ( node_affichage));
 			}
 			if ( !strcmp ( node_affichage -> name, "Affichage_nb_ecritures" ) ) {
 			    etat.affiche_nb_ecritures_listes = my_atoi(xmlNodeGetContent ( node_affichage));
@@ -592,6 +596,7 @@ void raz_configuration ( void )
     etat.formulaire_toujours_affiche = 0;       /* le formulaire ne s'affiche que lors de l'edition d'1 opé */
     etat.formulaire_echeancier_toujours_affiche = 0;       /* le formulaire ne s'affiche que lors de l'edition d'1 opé */
     etat.affichage_exercice_automatique = 1;        /* l'exercice est choisi en fonction de la date */
+    etat.display_toolbar = GSB_BUTTON_BOTH;        /* How to display toolbar icons. */
     pango_desc_fonte_liste = NULL;
     etat.force_enregistrement = 0;     /* par défaut, on ne force pas l'enregistrement */
     etat.classement_par_date = 1;  /* par défaut, on tri la liste des opés par les dates */
@@ -767,27 +772,30 @@ void sauve_configuration(void)
     /* sauvegarde de l'onglet affichage */
     node = xmlNewChild ( doc->children,NULL, "Affichage",NULL );
     xmlNewChild ( node,NULL, "Affichage_formulaire",
-          itoa(etat.formulaire_toujours_affiche));
+		  itoa(etat.formulaire_toujours_affiche));
     xmlNewChild ( node,NULL, "Affichage_formulaire_echeancier",
-          itoa(etat.formulaire_echeancier_toujours_affiche));
+		  itoa(etat.formulaire_echeancier_toujours_affiche));
     xmlNewChild ( node,NULL, "Tri_par_date",
-          itoa(etat.classement_par_date));
+		  itoa(etat.classement_par_date));
     xmlNewChild ( node,NULL, "Affiche_boutons_valider_annuler",
-          itoa(etat.affiche_boutons_valider_annuler));
+		  itoa(etat.affiche_boutons_valider_annuler));
     xmlNewChild ( node,NULL, "Largeur_auto_colonnes",
-          itoa(etat.largeur_auto_colonnes));
+		  itoa(etat.largeur_auto_colonnes));
     for ( i=0 ; i<7 ; i++ ) {
-    node_2 = xmlNewChild ( node,NULL, "taille_largeur_colonne",
-                   itoa(taille_largeur_colonnes[i]));
-    xmlSetProp ( node_2, "No", itoa (i));
+	node_2 = xmlNewChild ( node,NULL, "taille_largeur_colonne",
+			       itoa(taille_largeur_colonnes[i]));
+	xmlSetProp ( node_2, "No", itoa (i));
     }
     xmlNewChild ( node,NULL, "Affichage_nb_ecritures",
-          itoa(etat.affichage_exercice_automatique));
-     xmlNewChild ( node,NULL, "Affichage_grille",
-          itoa(etat.affichage_grille));
-   xmlNewChild ( node,NULL, "Affichage_exercice_automatique",
-          itoa(etat.affichage_exercice_automatique));
+		  itoa(etat.affichage_exercice_automatique));
+    xmlNewChild ( node,NULL, "Affichage_grille",
+		  itoa(etat.affichage_grille));
+    xmlNewChild ( node,NULL, "Affichage_exercice_automatique",
+		  itoa(etat.affichage_exercice_automatique));
+    xmlNewChild ( node,NULL, "display_toolbar", itoa(etat.display_toolbar));
     save_config_format(node);
+
+    
 
     /*   sauvegarde de l'onglet d'exercice */
     node = xmlNewChild ( doc->children,NULL, "Exercice",NULL );

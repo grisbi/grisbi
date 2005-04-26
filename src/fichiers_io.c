@@ -1299,7 +1299,7 @@ gboolean recuperation_comptes_xml ( xmlNodePtr node_comptes )
 
 			/* FIXME faire une nouvelle opé comme pour les comptes, on s'arrête là en attendant pour
 			 * pas oublier */
-			exit (0);
+/* 			exit (0); */
 			operation = calloc ( 1,
 					     sizeof (struct structure_operation ));
 
@@ -1395,9 +1395,9 @@ gboolean recuperation_comptes_xml ( xmlNodePtr node_comptes )
 			    gsb_transaction_data_set_notes ( transaction_number,
 							     xmlGetProp ( node_ope,
 							      "N" ));
-			    if ( !strlen ( gsb_transaction_data_get_notes ( gsb_transaction_data_get_transaction_number (operation ))))
-				gsb_transaction_data_set_notes ( gsb_transaction_data_get_transaction_number (operation ),
-								 NULL );
+/* 			    if ( !strlen ( gsb_transaction_data_get_notes ( gsb_transaction_data_get_transaction_number (operation )))) */
+/* 				gsb_transaction_data_set_notes ( gsb_transaction_data_get_transaction_number (operation ), */
+/* 								 NULL ); */
 
 			    operation -> type_ope = my_atoi ( xmlGetProp ( node_ope,
 									   "Ty" ));

@@ -1005,6 +1005,18 @@ gboolean click_ligne_echeance ( GtkWidget *tree_view,
 /*****************************************************************************/
 
 
+
+/**
+ * Ready the form to create a new scheduled transaction
+ */
+void new_scheduled_transaction ( void )
+{
+    selectionne_echeance ( GINT_TO_POINTER (-1));
+    echeance_selectionnnee = -1;
+    edition_echeance ();
+}
+
+
 /*****************************************************************************/
 /* Fonction edition_echeance						     */
 /* appelée par double click ou entrée sur une échéance. Elle recopie	     */
@@ -1573,6 +1585,8 @@ void verification_echeances_a_terme ( void )
     GSList *pointeur_liste;
     GSList *ancien_pointeur;
     struct struct_devise *devise;
+
+    return;
 
     if ( DEBUG )
 	printf ( "verification_echeances_a_terme\n" );

@@ -194,7 +194,7 @@ int main (int argc, char *argv[])
 	if (parse_options(argc, argv, &opt)) 
 	{
 		/* en cas d'erreur dans les options ou si on a passé --version ou --help */
-		exit(0);
+/* 		exit(0); */
 	}
 	
 #ifdef HAVE_G2BANKING
@@ -338,7 +338,8 @@ int main (int argc, char *argv[])
 
 			    etat_courant = liste_tmp -> data;
 
-			    remplissage_liste_etats ();
+			    /* TODO, update with navigation list */
+/* 			    remplissage_liste_etats (); */
 
 			    gtk_widget_set_sensitive ( bouton_personnaliser_etat, TRUE );
 			    gtk_widget_set_sensitive ( bouton_exporter_etat, TRUE );

@@ -3431,6 +3431,8 @@ gboolean gsb_transactions_append_transaction ( struct structure_operation *trans
 {
     /* FIXME : ça ça doit être fait dans gsb_transaction_data maintenant, on s'arrête ici pour pas oublier de le faire */
     exit (0);
+    return;
+
     if ( !gsb_transaction_data_get_transaction_number (transaction))
     {
 	gsb_transaction_data_set_transaction_number ( transaction,

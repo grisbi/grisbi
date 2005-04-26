@@ -1189,7 +1189,8 @@ void recuperation_info_perso_etat ( void )
 
 	/* on réaffiche la liste des états */
 
-	remplissage_liste_etats ();
+    /* TODO, update with navigation list */
+/* 	remplissage_liste_etats (); */
     }
 
     /* récupération du type de classement */

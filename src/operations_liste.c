@@ -890,6 +890,8 @@ struct structure_operation *gsb_transactions_list_append_white_breakdown ( struc
     struct structure_operation *breakdown_transaction;
     /* FIXME : doit passer pas la création d'une opé, donc s'arrête là pour le moment */
 exit (0);
+    return NULL;
+
     breakdown_transaction = calloc ( 1,
 				     sizeof ( struct structure_operation ));
     gsb_transaction_data_set_transaction_number ( breakdown_transaction,

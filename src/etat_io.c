@@ -744,7 +744,8 @@ gboolean charge_etat_version_0_4_0 ( xmlDocPtr doc )
 
     /* on rafraichit la liste des états */
 
-    remplissage_liste_etats ();
+    /* TODO, update with navigation list */
+/*     remplissage_liste_etats (); */
 
     gtk_widget_set_sensitive ( bouton_effacer_etat,
 			       TRUE );

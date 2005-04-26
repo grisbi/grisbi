@@ -109,6 +109,8 @@ struct {
     guint utilise_fonte_listes;
     guint affichage_grille;         /* à 1 si la grille est affichée */
 
+    guint display_toolbar;
+
     /* Various display message stuff  */
     guint display_message_lock_active;
     guint display_message_file_readable;

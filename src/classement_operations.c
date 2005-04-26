@@ -168,6 +168,7 @@ gint gsb_transactions_list_sort_column_1 ( GtkTreeModel *model,
 					   GtkTreeIter *iter_2,
 					   gint *no_account )
 {
+    return 1;
     return gsb_transactions_list_sort_by_no_sort ( model,
 						   iter_1,
 						   iter_2,

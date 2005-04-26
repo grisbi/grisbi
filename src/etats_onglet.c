@@ -39,8 +39,6 @@
 /*START_STATIC*/
 static void change_choix_nouvel_etat ( GtkWidget *menu_item,
 				GtkWidget *label_description );
-static void changement_etat ( GtkWidget *bouton,
-		       struct struct_etat *etat );
 static void export_etat_vers_html ( struct struct_etat *etat );
 static GtkWidget *gsb_gui_create_report_toolbar ( void );
 /*END_STATIC*/
@@ -53,7 +51,6 @@ GtkWidget *frame_liste_etats;
 /** TODO put that in the state frame above  */
 /* GtkWidget *label_etat_courant;        /\* label en haut de la liste des états *\/ */
 GtkWidget *vbox_liste_etats;          /* vbox contenant la liste des états */
-GtkWidget *bouton_etat_courant;          /* adr du bouton de l'état en cours, pour le refermer qd change */
 struct struct_etat *etat_courant;
 GtkWidget *bouton_effacer_etat;
 GtkWidget *bouton_personnaliser_etat;
@@ -68,7 +65,6 @@ GtkWidget *notebook_config_etat;
 GtkWidget *notebook_selection;
 GtkWidget *notebook_aff_donnees;
 GtkWidget *onglet_config_etat;
-GtkWidget *reports_option_menu;
 
 
 /*START_EXTERN*/
@@ -101,62 +97,56 @@ GtkWidget *gsb_gui_create_report_toolbar ( void )
 
     /* Add various icons */
     gtk_box_pack_start ( GTK_BOX ( hbox2 ),
-			 new_button_with_label_and_image ( GSB_BUTTON_ICON,
-							   _("Category"),
-							   "new-transaction.png",
+			 new_button_with_label_and_image ( etat.display_toolbar,
+							   _("New report"),
+							   "new-report.png",
 							   G_CALLBACK ( ajout_etat ),
 							   NULL ),
 			 FALSE, FALSE, 0 );
 
     gtk_box_pack_start ( GTK_BOX ( hbox2 ), 
-			 new_stock_button_with_label ( GSB_BUTTON_ICON,
+			 new_stock_button_with_label ( etat.display_toolbar,
 						       GTK_STOCK_OPEN, 
 						       _("Import"),
 						       G_CALLBACK (importer_etat),
 						       NULL ), 
 			 FALSE, FALSE, 0 );
 
-    bouton_exporter_etat = new_stock_button_with_label ( GSB_BUTTON_ICON,
+    bouton_exporter_etat = new_stock_button_with_label ( etat.display_toolbar,
 							 GTK_STOCK_SAVE, 
 							 _("Export"),
 							 G_CALLBACK (exporter_etat),
 							 NULL );
     gtk_box_pack_start ( GTK_BOX ( hbox2 ), bouton_exporter_etat, FALSE, FALSE, 0 );
 
-    bouton_imprimer_etat = new_stock_button_with_label ( GSB_BUTTON_ICON,
+    bouton_imprimer_etat = new_stock_button_with_label ( etat.display_toolbar,
 							 GTK_STOCK_PRINT, 
 							 _("Print"),
 							 G_CALLBACK (impression_etat_courant),
 							 NULL );
     gtk_box_pack_start ( GTK_BOX ( hbox2 ), bouton_imprimer_etat, FALSE, FALSE, 0 );
 
-    bouton_effacer_etat = new_stock_button_with_label ( GSB_BUTTON_ICON,
+    bouton_effacer_etat = new_stock_button_with_label ( etat.display_toolbar,
 							GTK_STOCK_DELETE, 
 							_("Delete"),
 							G_CALLBACK ( efface_etat ),
 							NULL );
     gtk_box_pack_start ( GTK_BOX ( hbox2 ), bouton_effacer_etat, FALSE, FALSE, 0 );
 
-    bouton_dupliquer_etat = new_stock_button_with_label ( GSB_BUTTON_ICON,
+    bouton_dupliquer_etat = new_stock_button_with_label ( etat.display_toolbar,
 							  GTK_STOCK_COPY, 
-							  _("Clone"),
+							  _("Cloner"),
 							  G_CALLBACK (dupliquer_etat),
 							  NULL ), 
     gtk_box_pack_start ( GTK_BOX ( hbox2 ), bouton_dupliquer_etat, FALSE, FALSE, 0 );
 
-    bouton_personnaliser_etat = new_stock_button_with_label ( GSB_BUTTON_ICON,
+    bouton_personnaliser_etat = new_stock_button_with_label ( etat.display_toolbar,
 							      GTK_STOCK_PROPERTIES, 
-							      _("Edit"),
+							      _("Properties"),
 							      G_CALLBACK (personnalisation_etat),
 							      NULL ), 
     gtk_box_pack_start ( GTK_BOX ( hbox2 ), bouton_personnaliser_etat, FALSE, FALSE, 0 );
 
-
-    /* Add the report menu list. */
-    reports_option_menu = gtk_option_menu_new ();
-    gtk_box_pack_end ( GTK_BOX ( hbox ), reports_option_menu, FALSE, FALSE, 0 );
-    remplissage_liste_etats ( );
-   
     gtk_widget_show_all ( hbox );
 
     return ( hbox );
@@ -173,7 +163,6 @@ GtkWidget *creation_onglet_etats ( void )
     GtkWidget *tab, *vbox;
 
     /*   au départ, aucun état n'est ouvert */
-    bouton_etat_courant = NULL;
     etat_courant = NULL;
 
     tab = gtk_vbox_new ( FALSE, 6 );
@@ -208,42 +197,6 @@ GtkWidget *creation_onglet_etats ( void )
 }
 /*****************************************************************************************************/
 
-
-
-
-/*****************************************************************************************************/
-/* Fontion remplissage_liste_etats */
-/* vide et remplit la liste des états */
-/*****************************************************************************************************/
-
-void remplissage_liste_etats ( void )
-{
-    GtkWidget *menu = gtk_menu_new ();
-    GSList *liste_tmp;
-    
-    /* on remplit maintenant avec tous les états */
-    liste_tmp = liste_struct_etats;
-
-    while ( liste_tmp )
-    {
-	struct struct_etat *etat;
-	GtkWidget * item;
-
-	etat = liste_tmp -> data;
-
-	item = gtk_menu_item_new_with_label ( etat -> nom_etat );
-	gtk_menu_append ( GTK_MENU ( menu ), item );
-
-	gtk_signal_connect ( GTK_OBJECT(item), "activate",
-			     GTK_SIGNAL_FUNC ( changement_etat ), etat );
-	liste_tmp = liste_tmp -> next;
-    }
-
-    gtk_widget_show_all ( menu );
-    gtk_option_menu_set_menu ( GTK_OPTION_MENU ( reports_option_menu ), menu );
-
-}
-/*****************************************************************************************************/
 
 
 /*****************************************************************************************************/
@@ -758,7 +711,8 @@ gboolean ajout_etat ( void )
     /* on réaffiche la liste des états */
     etat_courant = etat;
 
-    remplissage_liste_etats ();
+    /* TODO, update with navigation list */
+/*     remplissage_liste_etats (); */
 
     gtk_widget_set_sensitive ( bouton_personnaliser_etat, TRUE );
     gtk_widget_set_sensitive ( bouton_imprimer_etat, TRUE );
@@ -861,7 +815,6 @@ void efface_etat ( void )
     liste_struct_etats = g_slist_remove ( liste_struct_etats, etat_courant );
 
     etat_courant = NULL;
-    bouton_etat_courant = NULL;
 /*     gtk_label_set_text ( GTK_LABEL ( label_etat_courant ), "" ); */
     gtk_widget_set_sensitive ( bouton_personnaliser_etat, FALSE );
     gtk_widget_set_sensitive ( bouton_imprimer_etat, FALSE );
@@ -893,7 +846,8 @@ void efface_etat ( void )
 
     /* on réaffiche la liste des états */
 
-    remplissage_liste_etats ();
+    /* TODO, update with navigation list */
+/*     remplissage_liste_etats (); */
     modification_fichier ( TRUE );
 
 }
@@ -901,10 +855,8 @@ void efface_etat ( void )
 
 
 /*****************************************************************************************************/
-void changement_etat ( GtkWidget *bouton,
-		       struct struct_etat *etat )
+void changement_etat ( struct struct_etat *etat )
 {
-    bouton_etat_courant = bouton;
     etat_courant = etat;
     gtk_widget_set_sensitive ( bouton_personnaliser_etat, TRUE );
     gtk_widget_set_sensitive ( bouton_imprimer_etat, TRUE );
@@ -1173,7 +1125,8 @@ void dupliquer_etat ( void )
 
     etat_courant = etat;
 
-    remplissage_liste_etats ();
+    /* TODO, update with navigation list */
+/*     remplissage_liste_etats (); */
 
     gtk_widget_set_sensitive ( bouton_personnaliser_etat, TRUE );
     gtk_widget_set_sensitive ( bouton_imprimer_etat, TRUE );

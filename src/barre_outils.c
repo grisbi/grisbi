@@ -29,11 +29,10 @@
 
 #include "include.h"
 
-#include "./xpm/comments.xpm"
-
 /*START_INCLUDE*/
 #include "barre_outils.h"
 #include "echeancier_liste.h"
+#include "equilibrage.h"
 #include "operations_liste.h"
 #include "gsb_account.h"
 #include "menu.h"
@@ -99,52 +98,35 @@ GtkWidget *creation_barre_outils ( void )
 
     /* Add various icons */
     gtk_box_pack_start ( GTK_BOX ( hbox2 ),
-			 new_button_with_label_and_image ( GSB_BUTTON_ICON,
-							   _("Category"),
+			 new_button_with_label_and_image ( etat.display_toolbar,
+							   _("Transaction"),
 							   "new-transaction.png",
 							   G_CALLBACK ( new_transaction ),
 							   GINT_TO_POINTER(-1) ),
 			 FALSE, FALSE, 0 );
     gtk_box_pack_start ( GTK_BOX ( hbox2 ), 
-			 new_stock_button_with_label ( GSB_BUTTON_ICON,
+			 new_stock_button_with_label ( etat.display_toolbar,
 						       GTK_STOCK_DELETE, 
 						       _("Delete"),
 						       G_CALLBACK ( remove_transaction ),
 						       NULL ), 
 			 FALSE, FALSE, 0 );
     gtk_box_pack_start ( GTK_BOX ( hbox2 ), 
-			 new_stock_button_with_label ( GSB_BUTTON_ICON,
+			 new_stock_button_with_label ( etat.display_toolbar,
 						       GTK_STOCK_PROPERTIES, 
 						       _("Edit"),
 						       G_CALLBACK ( gsb_transactions_list_edit_current_transaction ),
 						       NULL ), 
 			 FALSE, FALSE, 0 );
-    gtk_box_pack_start ( GTK_BOX ( hbox2 ), 
-			 new_stock_button_with_label ( GSB_BUTTON_ICON,
-						       GTK_STOCK_COPY, 
-						       _("Clone"),
-						       G_CALLBACK ( clone_selected_transaction ),
-						       NULL ), 
+    gtk_box_pack_start ( GTK_BOX ( hbox2 ),
+			 new_button_with_label_and_image ( etat.display_toolbar,
+							   _("Reconcile"),
+							   "reconciliation.png",
+							   G_CALLBACK ( equilibrage ),
+							   GINT_TO_POINTER(-1) ),
 			 FALSE, FALSE, 0 );
 
-/*     if ( etat.formulaire_toujours_affiche ) */
-/* 	gtk_widget_show ( fleche_bas ); */
-/*     else */
-/* 	gtk_widget_show ( fleche_haut ); */
-    
-    bouton_affiche_r = new_button_with_label_and_image ( GSB_BUTTON_ICON,
-							 _("Reconciled transactions"),
-							 "r.png",
-							 G_CALLBACK ( change_aspect_liste ),
-							 GINT_TO_POINTER (5)), 
-    gtk_box_pack_end ( GTK_BOX ( hbox2 ), bouton_affiche_r, FALSE, FALSE, 0 );
-
-    bouton_grille = new_button_with_label_and_image ( GSB_BUTTON_ICON,
-						      _("Display grid"),
-						      "grid.png",
-						      G_CALLBACK ( change_aspect_liste ),
-						      0 ), 
-    gtk_box_pack_end ( GTK_BOX ( hbox2 ), bouton_grille, FALSE, FALSE, 0 );
+    gtk_box_pack_start ( GTK_BOX ( hbox2 ), gtk_vseparator_new(), FALSE, FALSE, 0 );
 
     /* Display mode menu */
     menu = gtk_menu_new ();
@@ -327,104 +309,96 @@ gboolean change_aspect_liste ( gint demande )
 
 
 
-/*******************************************************************************************/
+/**
+ * Create the toolbar that contains all elements needed to manipulate
+ * the scheduler.
+ *
+ * \return A newly created hbox.
+ */
 GtkWidget *creation_barre_outils_echeancier ( void )
 {
-    GtkWidget *label, *bouton, *hbox, *handlebox, *menu, *item;
+    GtkWidget *bouton, *hbox, *hbox2, *handlebox, *menu, *item;
 
-    /* HandleBox */
+    /* Main hbox */
+    hbox2 = gtk_hbox_new ( FALSE, 6 );
+
+    /* HandleBox + inner hbox */
     handlebox = gtk_handle_box_new ();
-
-    /* Hbox */
+    gtk_box_pack_start ( GTK_BOX ( hbox2 ), handlebox, FALSE, FALSE, 0 );
     hbox = gtk_hbox_new ( FALSE, 0 );
     gtk_container_add ( GTK_CONTAINER(handlebox), hbox );
 
+    /* Common actions */
     gtk_box_pack_start ( GTK_BOX ( hbox ),
-			 new_button_with_label_and_image ( GSB_BUTTON_ICON,
+			 new_button_with_label_and_image ( etat.display_toolbar,
 							   _("Category"),
 							   "new-transaction.png",
-							   G_CALLBACK ( edition_echeance ),
+							   G_CALLBACK ( new_scheduled_transaction ),
 							   GINT_TO_POINTER(-1) ),
 			 FALSE, FALSE, 0 );
     gtk_box_pack_start ( GTK_BOX ( hbox ), 
-			 new_stock_button_with_label ( GSB_BUTTON_ICON,
+			 new_stock_button_with_label ( etat.display_toolbar,
 						       GTK_STOCK_PROPERTIES, 
 						       _("Edit"),
 						       G_CALLBACK ( edition_echeance ),
 						       NULL ), 
 			 FALSE, FALSE, 0 );
     gtk_box_pack_start ( GTK_BOX ( hbox ), 
-			 new_stock_button_with_label ( GSB_BUTTON_ICON,
+			 new_stock_button_with_label ( etat.display_toolbar,
 						       GTK_STOCK_DELETE, 
 						       _("Delete"),
 						       G_CALLBACK ( supprime_echeance ),
 						       NULL ), 
 			 FALSE, FALSE, 0 );
 
-    /* dOm : ajout commutateur d'affichage de commentaires */
-    /* bouton affiche / cache le commentaire dans la liste de l'echeancier */
-    scheduler_display_hide_comments = gtk_image_new_from_pixbuf ( gdk_pixbuf_new_from_xpm_data ( (const gchar **) comments_xpm ));
-    bouton_affiche_commentaire_echeancier = gtk_button_new ();
-    gtk_container_add ( GTK_CONTAINER ( bouton_affiche_commentaire_echeancier ),
-			scheduler_display_hide_comments );
-    gtk_button_set_relief ( GTK_BUTTON ( bouton_affiche_commentaire_echeancier ),
-			    GTK_RELIEF_NONE );
-    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi ),
-			   bouton_affiche_commentaire_echeancier ,
-			   _("Display/hide comments"), _("Display/hide comments") );
-    gtk_widget_set_usize ( bouton_affiche_commentaire_echeancier , 16, 16 );
-    gtk_signal_connect ( GTK_OBJECT ( bouton_affiche_commentaire_echeancier ), "clicked",
-			 GTK_SIGNAL_FUNC ( affiche_cache_commentaire_echeancier ), NULL );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), bouton_affiche_commentaire_echeancier,
+    /* Display/hide comments */
+    scheduler_display_hide_comments = new_button_with_label_and_image ( etat.display_toolbar,
+									_("Display comments"),
+									"comments.png",
+									G_CALLBACK ( affiche_cache_commentaire_echeancier ),
+									0 );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), scheduler_display_hide_comments, 
 			 FALSE, FALSE, 0 );
 
-    /*     bouton affiche/masque la grille des opérations */
-
-    bouton_grille_echeancier = new_button_with_label_and_image ( GSB_BUTTON_ICON,
-								 _("Display grid"),
-								 "grid.png",
-								 G_CALLBACK ( change_aspect_liste ),
-								 0 ), 
-    gtk_box_pack_start ( GTK_BOX ( hbox ), bouton_grille_echeancier, FALSE, FALSE, 0 );
-
+    /* Execute transaction */
     gtk_box_pack_start ( GTK_BOX ( hbox ), 
-			 new_stock_button_with_label ( GSB_BUTTON_ICON,
+			 new_stock_button_with_label ( etat.display_toolbar,
 						       GTK_STOCK_EXECUTE, 
 						       _("Execute transaction"),
 						       G_CALLBACK ( click_sur_saisir_echeance ),
 						       NULL ), 
 			 FALSE, FALSE, 0 );
 
-
-
+    /* Create the menu */
     bouton = gtk_option_menu_new ();
     menu = gtk_menu_new();
 
-    item = gtk_menu_item_new_with_label ( _("Of month") );
+    /* Populate menu. */
+    item = gtk_menu_item_new_with_label ( _("Month view") );
     gtk_signal_connect_object ( GTK_OBJECT ( item ), "activate",
 				GTK_SIGNAL_FUNC ( modification_affichage_echeances ), 
 				NULL );
     gtk_menu_append ( GTK_MENU ( menu ), item );
 
-    item = gtk_menu_item_new_with_label ( _("Of next two months") );
+    item = gtk_menu_item_new_with_label ( _("Two months view") );
     gtk_signal_connect_object ( GTK_OBJECT ( item ), "activate",
 				GTK_SIGNAL_FUNC ( modification_affichage_echeances ),
 				GINT_TO_POINTER (1) );
     gtk_menu_append ( GTK_MENU ( menu ), item );
 
-    item = gtk_menu_item_new_with_label ( _("Of year") );
+    item = gtk_menu_item_new_with_label ( _("Year view") );
     gtk_signal_connect_object ( GTK_OBJECT ( item ), "activate",
 				GTK_SIGNAL_FUNC ( modification_affichage_echeances ),
 				GINT_TO_POINTER (2) );
     gtk_menu_append ( GTK_MENU ( menu ), item );
 
-    item = gtk_menu_item_new_with_label ( _("Once") );
+    item = gtk_menu_item_new_with_label ( _("Unique view") );
     gtk_signal_connect_object ( GTK_OBJECT ( item ), "activate",
 				GTK_SIGNAL_FUNC ( modification_affichage_echeances ),
 				GINT_TO_POINTER (3) );
     gtk_menu_append ( GTK_MENU ( menu ), item );
 
-    item = gtk_menu_item_new_with_label ( _("Custom") );
+    item = gtk_menu_item_new_with_label ( _("Custom view") );
     gtk_signal_connect_object ( GTK_OBJECT ( item ), "activate",
 				GTK_SIGNAL_FUNC ( modification_affichage_echeances ),
 				GINT_TO_POINTER (4) );
@@ -433,15 +407,11 @@ GtkWidget *creation_barre_outils_echeancier ( void )
     gtk_option_menu_set_menu ( GTK_OPTION_MENU ( bouton ), menu );
     gtk_option_menu_set_history ( GTK_OPTION_MENU ( bouton ), affichage_echeances );
 
-    gtk_box_pack_end ( GTK_BOX ( hbox ), bouton, FALSE, FALSE, 0 );
+    gtk_box_pack_end ( GTK_BOX ( hbox2 ), bouton, FALSE, FALSE, 0 );
 
-    label = gtk_label_new ( COLON(_("Display mode:")) );
-    gtk_box_pack_end ( GTK_BOX ( hbox ), label, FALSE, FALSE, 5 );
+    gtk_widget_show_all ( hbox2 );
 
-
-    gtk_widget_show_all ( handlebox );
-
-    return ( handlebox );
+    return ( hbox2 );
 }
 /*******************************************************************************************/
 

@@ -34,6 +34,7 @@
 #include "traitement_variables.h"
 #include "utils.h"
 #include "utils_editables.h"
+#include "utils_buttons.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -918,6 +919,73 @@ gboolean update_homepage_title (GtkEntry *entry, gchar *value,
     affiche_titre_fenetre();
 
     return FALSE;
+}
+
+
+
+/**
+ * Signal triggered when user configure display mode of toolbar
+ * buttons.
+ *
+ * \param button	Radio button that triggered event.
+ * 
+ * \return FALSE
+ */
+gboolean change_toolbar_display_mode ( GtkRadioButton * button )
+{
+    if ( gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(button)) )
+	{
+	    etat.display_toolbar = g_object_get_data ( G_OBJECT(button), "display" );
+	    
+	}
+
+    return FALSE;
+}
+
+
+
+/**
+ * Create a vbox containing widgets allowing to change aspects of
+ * toolbar buttons.
+ *
+ * \return A newly created vbox.
+ */
+GtkWidget *tab_display_toolbar ( void )
+{
+    GtkWidget *vbox_pref, *paddingbox, *radio, * radiogroup;
+
+    vbox_pref = new_vbox_with_title_and_icon ( _("Toolbars"), "toolbar.png" );
+
+    paddingbox = new_paddingbox_with_title ( vbox_pref, FALSE, 
+					     _("Display toolbar buttons as") );
+
+    radiogroup = radio = gtk_radio_button_new_with_label ( NULL, _("Text") );
+    g_object_set_data ( G_OBJECT(radio), "display", GINT_TO_POINTER(GSB_BUTTON_TEXT) );
+    gtk_box_pack_start ( GTK_BOX(paddingbox), radio, FALSE, FALSE, 0 );
+    g_signal_connect ( G_OBJECT(radio), "toggled", 
+		       G_CALLBACK(change_toolbar_display_mode), NULL );
+
+    radio = gtk_radio_button_new_with_label_from_widget ( GTK_RADIO_BUTTON(radiogroup), 
+							  _("Icons") );
+    g_object_set_data ( G_OBJECT(radio), "display", GINT_TO_POINTER(GSB_BUTTON_ICON) );
+    gtk_box_pack_start ( GTK_BOX(paddingbox), radio, FALSE, FALSE, 0 );
+    g_signal_connect ( G_OBJECT(radio), "toggled", 
+		       G_CALLBACK(change_toolbar_display_mode), NULL );
+
+    radio = gtk_radio_button_new_with_label_from_widget ( GTK_RADIO_BUTTON(radiogroup), 
+							  _("Both") );
+    g_object_set_data ( G_OBJECT(radio), "display", GINT_TO_POINTER(GSB_BUTTON_BOTH) );
+    gtk_box_pack_start ( GTK_BOX(paddingbox), radio, FALSE, FALSE, 0 );    
+    g_signal_connect ( G_OBJECT(radio), "toggled", 
+		       G_CALLBACK(change_toolbar_display_mode), NULL );
+
+    gtk_widget_show_all ( vbox_pref );
+
+    if ( !gsb_account_get_accounts_amount () )
+	gtk_widget_set_sensitive ( vbox_pref, FALSE );
+
+    return ( vbox_pref );
+
 }
 
 /* Local Variables: */

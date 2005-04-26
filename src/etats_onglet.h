@@ -7,4 +7,5 @@ void export_etat_courant_vers_html ( );
 void exporter_etat ( void );
 void importer_etat ( void );
 void remplissage_liste_etats ( void );
+void changement_etat ( struct struct_etat *etat );
 /*END_DECLARATION*/
