@@ -42,8 +42,8 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static gchar *get_debug_time ( void );
-static void print_backtrace ( void );
+static gchar * get_debug_time ( void );
+static GtkWidget * print_backtrace ( void );
 /*END_STATIC*/
 
 gint debugging_grisbi;
@@ -213,11 +213,10 @@ void affiche_log_message ( void )
 void traitement_sigsegv ( gint signal_nb )
 {
     gchar *gsb_file_default_dir, *errmsg;
+    GtkWidget * dialog, *expander;
 
     errmsg = _("Grisbi triggered a segmentation fault and cannot continue its execution.\n\n");
 
-    print_backtrace();
-	
     /*   il y a 3 possibilités : */
     /*     soit on était en train de charger un fichier, c'est que celui-ci est corrompu */
     /* soit on était en train de sauver un fichier, et là on peut rien faire */
@@ -282,11 +281,26 @@ void traitement_sigsegv ( gint signal_nb )
     }
 
     errmsg = g_strconcat ( errmsg, 
-			   _("Please report this problem to http://www.grisbi.org/bugtracking/"),
+			   _("Please report this problem to <tt>http://www.grisbi.org/bugtracking/</tt>.  "),
 			   NULL );
 
-    dialogue_error_hint ( errmsg, 
-			  _("Grisbi terminated due to a segmentation fault.") );
+#ifdef HAVE_BACKTRACE
+    errmsg = g_strconcat ( errmsg, _("Copy and paste the following backtrace with your bug report."),
+			   NULL );
+#endif
+
+    dialog = dialogue_special_no_run ( GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE,
+				       make_hint ( _("Grisbi terminated due to a segmentation fault."),
+						   errmsg ));
+#ifdef HAVE_BACKTRACE
+    expander = gtk_expander_new ( g_strconcat ( "<b>", _("Backtrace"), "</b>", NULL ) );
+    gtk_expander_set_use_markup ( GTK_EXPANDER ( expander ), TRUE );
+    gtk_container_add ( GTK_CONTAINER ( expander ), print_backtrace() );
+    gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG(dialog)->vbox ), expander, FALSE, FALSE, 6
+ );
+    gtk_widget_show_all ( dialog );
+#endif
+    gtk_dialog_run ( GTK_DIALOG ( dialog ) );
 
     /*     on évite le message du fichier ouvert à la prochaine ouverture */
 
@@ -370,35 +384,37 @@ void debug_message ( gchar *prefixe, gchar *message, gint level, gboolean force_
 	}
 }
 
-/*************************************************************************************************************/
-/* affiche les derniers appels de grisbi																																		 */
-/*************************************************************************************************************/
-void print_backtrace ( void )
-{
 
+
+/**
+ * Print the backtrace upon segfault.
+ */
+GtkWidget * print_backtrace ( void )
+{
 #ifdef HAVE_BACKTRACE
     void *backtrace_content[15];
-    size_t backtrace_size;
-    gchar **backtrace_strings;
-    size_t i;
+    size_t backtrace_size, i;
+    gchar **backtrace_strings, *text = "";
+    GtkWidget * label;
 		
     backtrace_size = backtrace (backtrace_content, 15);
     backtrace_strings = backtrace_symbols (backtrace_content, backtrace_size);
 		
-    printf ("%s : %d element in stack.\n", get_debug_time(), backtrace_size);
+    printf ("%s : %d elements in stack.\n", get_debug_time(), backtrace_size);
 		
-    for (i = 0; i < backtrace_size; i++) printf ("\t%s\n", backtrace_strings[i]);
+    for (i = 0; i < backtrace_size; i++) 
+    {
+	printf ("\t%s\n", backtrace_strings[i]);
+	text = g_strconcat ( text, g_strconcat ( "\t", backtrace_strings[i], "\n", NULL ), 
+			     NULL );
+    }
 
+    label = gtk_label_new ( text );
+    gtk_label_set_selectable ( GTK_LABEL ( label ), TRUE );
+    return label;
 #endif
-		
-#ifndef HAVE_BACKTRACE
-    printf("%s : Backtrace unavailable on your system !\n", get_debug_time());
-#endif			 
-
 }
-/*************************************************************************************************************/
 
-/*************************************************************************************************************/
 
 /* Local Variables: */
 /* c-basic-offset: 4 */
