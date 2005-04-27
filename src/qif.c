@@ -1207,7 +1207,7 @@ choix_liste_fichier:
 			    if ( type -> numerotation_auto )
 				fprintf ( fichier_qif,
 					  "N%s\n",
-					  operation -> contenu_type );
+					  gsb_transaction_data_get_method_of_payment_content ( gsb_transaction_data_get_transaction_number (operation )));
 			}
 
 			/* met le tiers */

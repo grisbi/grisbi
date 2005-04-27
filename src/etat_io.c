@@ -33,7 +33,6 @@
 #include "utils_ib.h"
 #include "utils_str.h"
 #include "traitement_variables.h"
-#include "etats_onglet.h"
 #include "utils_tiers.h"
 #include "utils_files.h"
 /*END_INCLUDE*/

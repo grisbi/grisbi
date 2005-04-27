@@ -1347,19 +1347,21 @@ gint etat_affiche_affichage_ligne_ope ( struct structure_operation *operation,
 		    
 		    if ( gsb_transaction_data_get_breakdown_of_transaction ( gsb_transaction_data_get_transaction_number (pTransaction ))
 			 &&
-			 gsb_transaction_data_get_transaction_number (pTransaction) == operation -> no_operation_ventilee_associee &&
-			 pTransaction -> contenu_type )
+			 gsb_transaction_data_get_transaction_number (pTransaction) == operation -> no_operation_ventilee_associee
+			 &&
+			 gsb_transaction_data_get_method_of_payment_content ( gsb_transaction_data_get_transaction_number (pTransaction )))
 		    {
-			operation -> contenu_type = pTransaction -> contenu_type;
+			gsb_transaction_data_set_method_of_payment_content ( gsb_transaction_data_get_transaction_number (operation ),
+									     gsb_transaction_data_get_method_of_payment_content ( gsb_transaction_data_get_transaction_number (pTransaction )));
 			found = TRUE;
 		    }
 		    pTransactionList = pTransactionList -> next;
 		}
 	    }
 	    
-	    if ( operation -> contenu_type )
+	    if ( gsb_transaction_data_get_method_of_payment_content ( gsb_transaction_data_get_transaction_number (operation )))
 	    {
-		text = operation -> contenu_type;
+		text = gsb_transaction_data_get_method_of_payment_content ( gsb_transaction_data_get_transaction_number (operation ));
 
 		if ( etat_courant -> ope_clickables )
 		{

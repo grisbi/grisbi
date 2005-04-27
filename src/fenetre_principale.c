@@ -27,11 +27,11 @@
 
 /*START_INCLUDE*/
 #include "fenetre_principale.h"
+#include "etats_onglet.h"
 #include "operations_onglet.h"
 #include "accueil.h"
 #include "comptes_onglet.h"
 #include "echeancier_onglet.h"
-#include "etats_onglet.h"
 #include "echeancier_infos.h"
 #include "gsb_account.h"
 #include "operations_comptes.h"
@@ -44,9 +44,9 @@
 
 /*START_STATIC*/
 static void create_account_list ( GtkTreeModel * model, GtkTreeIter * account_iter );
-static void create_report_list ( GtkTreeModel * model, GtkTreeIter * reports_iter );
 static  GtkWidget *create_main_notebook (void );
 static GtkWidget * create_navigation_pane ( void );
+static void create_report_list ( GtkTreeModel * model, GtkTreeIter * reports_iter );
 static  gboolean gsb_gui_select_navigation_link ( GtkTreeSelection * selection,
 						 GtkTreeModel * model );
 /*END_STATIC*/
@@ -76,11 +76,11 @@ extern gint compte_courant_onglet;
 extern AB_BANKING *gbanking;
 extern GtkWidget * hpaned;
 extern gint id_temps;
+extern GSList *liste_struct_etats;
 extern GtkTreeStore *model;
 extern GtkTreeStore *payee_tree_model;
 extern GtkTreeSelection * selection;
 extern GtkWidget *tree_view;
-extern GSList *liste_struct_etats;
 /*END_EXTERN*/
 
 #ifdef HAVE_G2BANKING

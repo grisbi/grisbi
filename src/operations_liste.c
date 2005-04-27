@@ -1225,9 +1225,9 @@ gchar *recherche_contenu_cellule ( struct structure_operation *transaction,
 	    /* mise en place du no de chèque/virement */
 
 	case TRANSACTION_LIST_CHQ:
-	    if ( transaction -> contenu_type )
+	    if ( gsb_transaction_data_get_method_of_payment_content ( gsb_transaction_data_get_transaction_number (transaction)))
 		return ( g_strconcat ( "(",
-				       transaction -> contenu_type,
+				       gsb_transaction_data_get_method_of_payment_content ( gsb_transaction_data_get_transaction_number (transaction)),
 				       ")",
 				       NULL ));
 	    else
@@ -2587,7 +2587,7 @@ gboolean gsb_transactions_list_edit_current_transaction ( void )
 
 			place_type_formulaire ( gsb_transaction_data_get_method_of_payment_number ( gsb_transaction_data_get_transaction_number (transaction )),
 						TRANSACTION_FORM_TYPE,
-						transaction -> contenu_type );
+						gsb_transaction_data_get_method_of_payment_content ( gsb_transaction_data_get_transaction_number (transaction )));
 		    }
 		    else
 		    {
@@ -3798,7 +3798,7 @@ struct operation_echeance *schedule_transaction ( struct structure_operation * t
 
     echeance -> notes = g_strdup ( gsb_transaction_data_get_notes ( gsb_transaction_data_get_transaction_number (transaction )));
     echeance -> type_ope = gsb_transaction_data_get_method_of_payment_number ( gsb_transaction_data_get_transaction_number (transaction ));
-    echeance -> contenu_type = g_strdup ( transaction -> contenu_type );
+    echeance -> contenu_type = g_strdup ( gsb_transaction_data_get_method_of_payment_content ( gsb_transaction_data_get_transaction_number (transaction )));
 
 
     echeance -> no_exercice = transaction -> no_exercice;
@@ -3881,7 +3881,7 @@ struct operation_echeance *schedule_transaction ( struct structure_operation * t
 
 		echeance_de_ventil -> notes = g_strdup ( gsb_transaction_data_get_notes ( gsb_transaction_data_get_transaction_number (transaction_de_ventil )));
 		echeance_de_ventil -> type_ope = gsb_transaction_data_get_method_of_payment_number ( gsb_transaction_data_get_transaction_number (transaction_de_ventil ));
-		echeance_de_ventil -> contenu_type = g_strdup ( transaction_de_ventil -> contenu_type );
+		echeance_de_ventil -> contenu_type = g_strdup ( gsb_transaction_data_get_method_of_payment_content ( gsb_transaction_data_get_transaction_number (transaction_de_ventil )));
 
 
 		echeance_de_ventil -> no_exercice = transaction_de_ventil -> no_exercice;

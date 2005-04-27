@@ -62,7 +62,6 @@
 #include "etats_config.h"
 #include "parametres.h"
 #include "etats_calculs.h"
-#include "etats_onglet.h"
 #include "utils_files.h"
 /*END_INCLUDE*/
 

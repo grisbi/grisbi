@@ -344,9 +344,9 @@ GSList *recupere_opes_etat ( struct struct_etat *etat )
 			/* on ne recherche le type d'opé que si l'opé a un contenu du type et que celui ci */
 			/* est > que dernier_chq */
 
-			if ( operation -> contenu_type 
+			if ( gsb_transaction_data_get_method_of_payment_content ( gsb_transaction_data_get_transaction_number (operation ))
 			     &&
-			     my_atoi ( operation -> contenu_type ) > dernier_chq
+			     my_atoi ( gsb_transaction_data_get_method_of_payment_content ( gsb_transaction_data_get_transaction_number (operation ))) > dernier_chq
 			     &&
 			     gsb_transaction_data_get_method_of_payment_number ( gsb_transaction_data_get_transaction_number (operation )))
 			{
@@ -360,7 +360,7 @@ GSList *recupere_opes_etat ( struct struct_etat *etat )
 				 type_ope -> affiche_entree
 				 &&
 				 type_ope -> numerotation_auto )
-				dernier_chq = my_atoi ( operation -> contenu_type );
+				dernier_chq = my_atoi ( gsb_transaction_data_get_method_of_payment_content ( gsb_transaction_data_get_transaction_number (operation )));
 			}
 
 
@@ -1045,7 +1045,7 @@ gchar *recupere_texte_test_etat ( struct structure_operation *operation,
 	case 9:
 	    /* chq  */
 
-	    texte = operation -> contenu_type;
+	    texte = gsb_transaction_data_get_method_of_payment_content ( gsb_transaction_data_get_transaction_number (operation ));
 	    break;
 
 	case 10:
@@ -1779,13 +1779,13 @@ gint classement_ope_perso_etat ( struct structure_operation *operation_1,
 	case 7:
 	    /* no chq  */
 
-	    if ( operation_1 -> contenu_type
+	    if ( gsb_transaction_data_get_method_of_payment_content ( gsb_transaction_data_get_transaction_number (operation_1 ))
 		 &&
-		 operation_2 -> contenu_type )
-		retour = g_strcasecmp ( operation_1 -> contenu_type,
-					operation_2 -> contenu_type );
+		 gsb_transaction_data_get_method_of_payment_content ( gsb_transaction_data_get_transaction_number (operation_2 )))
+		retour = g_strcasecmp ( gsb_transaction_data_get_method_of_payment_content ( gsb_transaction_data_get_transaction_number (operation_1 )),
+					gsb_transaction_data_get_method_of_payment_content ( gsb_transaction_data_get_transaction_number (operation_2 )));
 	    else
-		retour = GPOINTER_TO_INT ( operation_2 -> contenu_type ) - GPOINTER_TO_INT ( operation_1 -> contenu_type );
+		retour = GPOINTER_TO_INT ( gsb_transaction_data_get_method_of_payment_content ( gsb_transaction_data_get_transaction_number (operation_2 ))) - GPOINTER_TO_INT ( gsb_transaction_data_get_method_of_payment_content ( gsb_transaction_data_get_transaction_number (operation_1 )));
 	    break;
 
 	case 8:

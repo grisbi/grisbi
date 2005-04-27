@@ -22,6 +22,7 @@
 
 
 #include "include.h"
+#include "utils_buttons.h"
 
 /*START_INCLUDE*/
 #include "affichage.h"
@@ -34,7 +35,6 @@
 #include "traitement_variables.h"
 #include "utils.h"
 #include "utils_editables.h"
-#include "utils_buttons.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -45,6 +45,7 @@ static gboolean change_choix_utilise_fonte_liste ( GtkWidget *check_button,
 static gboolean change_choix_utilise_logo ( GtkWidget *check_button,
 				     GtkWidget *hbox );
 static void change_logo_accueil ( GtkWidget *widget, gpointer user_data );
+static gboolean change_toolbar_display_mode ( GtkRadioButton * button );
 static void choix_fonte ( GtkWidget *bouton,
 		   gchar *fonte,
 		   gpointer null );

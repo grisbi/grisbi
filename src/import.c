@@ -1505,7 +1505,8 @@ void creation_compte_importe ( struct struct_compte_importation *compte_import )
 		gsb_transaction_data_set_method_of_payment_number ( gsb_transaction_data_get_transaction_number (operation ),
 								    gsb_account_get_default_credit (no_compte));
 
-	    operation -> contenu_type = itoa ( operation_import -> cheque );
+	    gsb_transaction_data_set_method_of_payment_content ( gsb_transaction_data_get_transaction_number (operation ),
+								 itoa ( operation_import -> cheque ) );
 
 	    liste_tmp = gsb_account_get_method_payment_list (no_compte);
 	    type_choisi = NULL;
@@ -2156,7 +2157,8 @@ struct structure_operation *enregistre_ope_importee ( struct struct_ope_importat
 	    gsb_transaction_data_set_method_of_payment_number ( gsb_transaction_data_get_transaction_number (operation ),
 								gsb_account_get_default_credit (no_compte));
 
-	operation -> contenu_type = itoa ( operation_import -> cheque );
+	gsb_transaction_data_set_method_of_payment_content ( gsb_transaction_data_get_transaction_number (operation ),
+							     itoa ( operation_import -> cheque ) );
 
 	liste_tmp = gsb_account_get_method_payment_list (no_compte);
 	type_choisi = NULL;

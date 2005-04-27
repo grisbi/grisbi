@@ -32,8 +32,8 @@
 /*START_INCLUDE*/
 #include "barre_outils.h"
 #include "echeancier_liste.h"
-#include "equilibrage.h"
 #include "operations_liste.h"
+#include "equilibrage.h"
 #include "gsb_account.h"
 #include "menu.h"
 #include "traitement_variables.h"

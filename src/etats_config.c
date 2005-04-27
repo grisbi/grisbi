@@ -44,7 +44,6 @@
 #include "utils_str.h"
 #include "traitement_variables.h"
 #include "etats_calculs.h"
-#include "etats_onglet.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

@@ -2896,19 +2896,22 @@ void recuperation_donnees_generales_formulaire ( struct structure_operation *tra
 			    type = gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget ) -> menu_item ),
 							 "adr_type" );
 
-			    transaction -> contenu_type = g_strstrip ( g_strdup ( gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_par_element (TRANSACTION_FORM_CHEQUE) ))));
+			    gsb_transaction_data_set_method_of_payment_content ( gsb_transaction_data_get_transaction_number (transaction),
+										 g_strstrip ( g_strdup ( gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_par_element (TRANSACTION_FORM_CHEQUE) )))));
 
 			    if ( type -> numerotation_auto )
-				type -> no_en_cours = ( my_atoi ( transaction -> contenu_type ));
+				type -> no_en_cours = ( my_atoi ( gsb_transaction_data_get_method_of_payment_content ( gsb_transaction_data_get_transaction_number (transaction ))));
 			}
 			else
-			    transaction -> contenu_type = NULL;
+			    gsb_transaction_data_set_method_of_payment_content ( gsb_transaction_data_get_transaction_number (transaction),
+										  NULL);
 		    }
 		    else
 		    {
 			gsb_transaction_data_set_method_of_payment_number ( gsb_transaction_data_get_transaction_number (transaction),
 									    0 );
-			transaction -> contenu_type = NULL;
+			gsb_transaction_data_set_method_of_payment_content ( gsb_transaction_data_get_transaction_number (transaction),
+									     NULL);
 		    }
 		    break;
 
@@ -3309,8 +3312,9 @@ printf ( "ça passe\n" );
 
     if ( gsb_transaction_data_get_method_of_payment_number ( gsb_transaction_data_get_transaction_number (contra_transaction ))
 	 &&
-	 transaction -> contenu_type )
-	contra_transaction -> contenu_type = g_strdup ( transaction -> contenu_type );
+	 gsb_transaction_data_get_method_of_payment_content ( gsb_transaction_data_get_transaction_number (transaction )))
+	gsb_transaction_data_set_method_of_payment_content ( gsb_transaction_data_get_transaction_number (contra_transaction),
+							     g_strdup ( gsb_transaction_data_get_method_of_payment_content ( gsb_transaction_data_get_transaction_number (transaction ))));
 
     contra_transaction -> no_exercice = transaction -> no_exercice;
     contra_transaction -> imputation = transaction -> imputation;

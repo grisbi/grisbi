@@ -927,10 +927,10 @@ gchar *gsb_transaction_data_get_notes ( gint no_transaction )
 }
 
 
-/** set the transaction_id 
+/** set the  notes
  * \param no_transaction
  * \param no_account
- * \param transaction_id a gchar with the new transaction_id
+ * \param notes a gchar with the new notes
  * \return TRUE if ok
  * */
 gboolean gsb_transaction_data_set_notes ( gint no_transaction,
@@ -987,6 +987,47 @@ gboolean gsb_transaction_data_set_method_of_payment_number ( gint no_transaction
 
     transaction -> method_of_payment_number = number;
 
+    return TRUE;
+}
+
+
+/** get the method_of_payment_content
+ * \param no_transaction the number of the transaction
+ * \return the method_of_payment_content of the transaction
+ * */
+gchar *gsb_transaction_data_get_method_of_payment_content ( gint no_transaction )
+{
+    struct_transaction *transaction;
+
+    transaction = gsb_transaction_data_get_transaction_by_no ( no_transaction,
+							       -1 );
+
+    if ( !transaction )
+	return NULL;
+
+    return transaction -> method_of_payment_content;
+}
+
+
+/** set the method_of_payment_content
+ * \param no_transaction
+ * \param no_account
+ * \param method_of_payment_content a gchar with the new method_of_payment_content
+ * \return TRUE if ok
+ * */
+gboolean gsb_transaction_data_set_method_of_payment_content ( gint no_transaction,
+							      gchar *method_of_payment_content )
+{
+    struct_transaction *transaction;
+
+    transaction = gsb_transaction_data_get_transaction_by_no ( no_transaction,
+							       -1 );
+
+    if ( !transaction )
+	return FALSE;
+
+    transaction -> method_of_payment_content = method_of_payment_content;
+    
     return TRUE;
 }
 

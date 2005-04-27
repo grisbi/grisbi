@@ -24,6 +24,7 @@
 #include "include.h"
 #include "fichier_configuration_constants.h"
 #include "xmlnames.h"
+#include "utils_buttons.h"
 
 
 /*START_INCLUDE*/
@@ -35,7 +36,6 @@
 #include "main.h"
 #include "utils_files.h"
 #include "print_config.h"
-#include "utils_buttons.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

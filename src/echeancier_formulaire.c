@@ -2032,10 +2032,11 @@ void fin_edition_echeance ( void )
 		type = gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] ) -> menu_item ),
 					     "adr_type" );
 
-		operation -> contenu_type = g_strdup ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_echeancier[SCHEDULER_FORM_CHEQUE] ))));
+		gsb_transaction_data_set_method_of_payment_content ( gsb_transaction_data_get_transaction_number (operation ),
+								     g_strdup ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_echeancier[SCHEDULER_FORM_CHEQUE] )))) );
 
 		if ( type -> numerotation_auto )
-		    type -> no_en_cours = ( my_atoi ( operation -> contenu_type ));
+		    type -> no_en_cours = my_atoi ( gsb_transaction_data_get_method_of_payment_content ( gsb_transaction_data_get_transaction_number (operation )));
 	    }
 	}
 
@@ -2346,8 +2347,9 @@ struct structure_operation *ajoute_contre_operation_echeance_dans_liste ( struct
     gsb_transaction_data_set_method_of_payment_number ( gsb_transaction_data_get_transaction_number (contre_operation ),
 							contre_type_ope );
 
-    if ( operation -> contenu_type )
-	contre_operation -> contenu_type = g_strdup ( operation -> contenu_type );
+    if ( gsb_transaction_data_get_method_of_payment_content ( gsb_transaction_data_get_transaction_number (operation )))
+	gsb_transaction_data_set_method_of_payment_content ( gsb_transaction_data_get_transaction_number (contre_operation ),
+							     g_strdup ( gsb_transaction_data_get_method_of_payment_content ( gsb_transaction_data_get_transaction_number (operation ))) );
 
     contre_operation -> no_exercice = operation -> no_exercice;
     contre_operation -> imputation = operation -> imputation;

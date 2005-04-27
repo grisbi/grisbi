@@ -1013,9 +1013,9 @@ gint gsb_transactions_list_sort_by_type ( GtkTreeModel *model,
 
     if ( gsb_transaction_data_get_method_of_payment_number ( gsb_transaction_data_get_transaction_number (transaction_1 ))== gsb_transaction_data_get_method_of_payment_number ( gsb_transaction_data_get_transaction_number (transaction_2 )))
     {
-	return_value = g_utf8_collate ( g_utf8_casefold ( transaction_1 -> contenu_type ? transaction_1 -> contenu_type : "",
+	return_value = g_utf8_collate ( g_utf8_casefold ( gsb_transaction_data_get_method_of_payment_content ( gsb_transaction_data_get_transaction_number (transaction_1 )) ? gsb_transaction_data_get_method_of_payment_content ( gsb_transaction_data_get_transaction_number (transaction_1 )) : "",
 							  -1 ),
-					g_utf8_casefold ( transaction_2 -> contenu_type ? transaction_2 -> contenu_type : "",
+					g_utf8_casefold ( gsb_transaction_data_get_method_of_payment_content ( gsb_transaction_data_get_transaction_number (transaction_2 )) ? gsb_transaction_data_get_method_of_payment_content ( gsb_transaction_data_get_transaction_number (transaction_2 )) : "",
 							  -1 ));
 
 	if ( !return_value )
@@ -1045,9 +1045,9 @@ gint gsb_transactions_list_sort_by_type ( GtkTreeModel *model,
     {
 	/* 	it seems that the 2 types are different no but same spell... */
 
-	return_value = g_utf8_collate ( g_utf8_casefold ( transaction_1 -> contenu_type ? transaction_1 -> contenu_type : "",
+	return_value = g_utf8_collate ( g_utf8_casefold ( gsb_transaction_data_get_method_of_payment_content ( gsb_transaction_data_get_transaction_number (transaction_1 ))? gsb_transaction_data_get_method_of_payment_content ( gsb_transaction_data_get_transaction_number (transaction_1 )): "",
 							  -1 ),
-					g_utf8_casefold ( transaction_2 -> contenu_type ? transaction_2 -> contenu_type : "",
+					g_utf8_casefold ( gsb_transaction_data_get_method_of_payment_content ( gsb_transaction_data_get_transaction_number (transaction_2 ))? gsb_transaction_data_get_method_of_payment_content ( gsb_transaction_data_get_transaction_number (transaction_2 )): "",
 							  -1 ));
 
 	if ( !return_value )
@@ -1462,8 +1462,8 @@ gint gsb_transactions_list_sort_by_chq ( GtkTreeModel *model,
     if ( return_value )
 	return return_value;
 
-    temp_1 = transaction_1 -> contenu_type;
-    temp_2 = transaction_2 -> contenu_type;
+    temp_1 = gsb_transaction_data_get_method_of_payment_content ( gsb_transaction_data_get_transaction_number (transaction_1 ));
+    temp_2 = gsb_transaction_data_get_method_of_payment_content ( gsb_transaction_data_get_transaction_number (transaction_2 ));
 
     /* g_utf8_collate is said not very fast, must try with big big account to check
      * if it's enough, for me it's ok (cedric), eventually, change with gsb_strcasecmp */

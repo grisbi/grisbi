@@ -1716,7 +1716,8 @@ void verification_echeances_a_terme ( void )
 		gsb_transaction_data_set_method_of_payment_number ( gsb_transaction_data_get_transaction_number (operation ),
 								    ECHEANCE_COURANTE -> type_ope );
 		if ( ECHEANCE_COURANTE -> contenu_type )
-		    operation -> contenu_type = ECHEANCE_COURANTE -> contenu_type;
+		    gsb_transaction_data_set_method_of_payment_content ( gsb_transaction_data_get_transaction_number (operation ),
+									 ECHEANCE_COURANTE -> contenu_type );
 
 		operation -> auto_man = ECHEANCE_COURANTE -> auto_man;
 		operation -> imputation = ECHEANCE_COURANTE -> imputation;

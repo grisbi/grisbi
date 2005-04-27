@@ -2,6 +2,7 @@
 GtkWidget *onglet_display_addresses ( void );
 GtkWidget * onglet_display_fonts ( void );
 GtkWidget *onglet_display_transaction_form ( void );
+GtkWidget *tab_display_toolbar ( void );
 gboolean update_transaction_form ( GtkWidget * checkbox, gpointer data );
 /*END_DECLARATION*/
 
