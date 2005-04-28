@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-07-03 17:36+0200\n"
-"PO-Revision-Date: 2005-04-28 17:04+0100\n"
+"PO-Revision-Date: 2005-04-28 19:40+0100\n"
 "Last-Translator: Dmitri Popov <lazylegs@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -254,7 +254,7 @@ msgstr "Vis formularstruktur"
 #. mise en place du bouton de choix
 #: src/affichage_formulaire.c:168
 msgid "Each account has his own form"
-msgstr ""
+msgstr "Hver konto har sin formular"
 
 #: src/affichage_formulaire.c:307
 msgid "rows"
@@ -478,7 +478,7 @@ msgstr ""
 #: src/affichage_formulaire.c:905
 #: src/affichage_liste.c:865
 msgid "Transaction number"
-msgstr ""
+msgstr "Transaktionsnummer"
 
 #: src/affichage_formulaire.c:909
 msgid "Automatic/Manual"
@@ -562,7 +562,7 @@ msgstr ""
 
 #: src/affichage_liste.c:515
 msgid "Sort transaction list"
-msgstr ""
+msgstr "Sorter transaktionsliste"
 
 #: src/affichage_liste.c:516
 msgid "by value date"
@@ -570,7 +570,7 @@ msgstr ""
 
 #: src/affichage_liste.c:517
 msgid "by date"
-msgstr ""
+msgstr "efter dato"
 
 #: src/affichage_liste.c:541
 msgid "first line"
@@ -612,7 +612,7 @@ msgstr "Balance"
 #: src/operations_liste.c:567
 #: src/ventilation.c:272
 msgid "Amount"
-msgstr ""
+msgstr "Beløb"
 
 #: src/affichage_liste.c:833
 #: src/equilibrage.c:1547
@@ -719,7 +719,7 @@ msgstr ""
 #: src/banque.c:389
 #: src/parametres.c:349
 msgid "Banks"
-msgstr ""
+msgstr "Banker"
 
 #: src/banque.c:393
 msgid "Known banks"
@@ -785,32 +785,32 @@ msgstr "Fax"
 
 #: src/banque.c:810
 msgid "Edit bank"
-msgstr ""
+msgstr "Redigér bank"
 
 #: src/barre_outils.c:138
 #: src/barre_outils.c:139
 msgid "Display/Hide form"
-msgstr ""
+msgstr "Vis/Skjul formular"
 
 #: src/barre_outils.c:200
 #: src/barre_outils.c:201
 msgid "One line per transaction"
-msgstr ""
+msgstr "1 linje per transaktion"
 
 #: src/barre_outils.c:230
 #: src/barre_outils.c:231
 msgid "Two lines per transaction"
-msgstr ""
+msgstr "2 linjer per transaktion"
 
 #: src/barre_outils.c:262
 #: src/barre_outils.c:263
 msgid "Three lines per transaction"
-msgstr ""
+msgstr "3 linjer per transaktion"
 
 #: src/barre_outils.c:292
 #: src/barre_outils.c:293
 msgid "Four lines per transaction"
-msgstr ""
+msgstr "4 linjer per transaktion"
 
 #: src/barre_outils.c:331
 #: src/barre_outils.c:332
@@ -860,7 +860,7 @@ msgstr ""
 #: src/menu.c:203
 #: src/operations_formulaire.c:3890
 msgid "View"
-msgstr ""
+msgstr "Gennemse"
 
 #: src/barre_outils.c:499
 #: src/menu.c:121
@@ -875,25 +875,25 @@ msgstr ""
 #: src/menu.c:126
 #: src/menu.c:127
 msgid "Show one line per transaction"
-msgstr ""
+msgstr "Vis 1 linje per transaktion"
 
 #: src/barre_outils.c:517
 #: src/fichiers_gestion.c:492
 #: src/menu.c:125
 msgid "Show two lines per transaction"
-msgstr ""
+msgstr "Vis 2 linjer per transaktion"
 
 #: src/barre_outils.c:523
 #: src/fichiers_gestion.c:495
 #: src/menu.c:126
 msgid "Show three lines per transaction"
-msgstr ""
+msgstr "Vis 3 linjer per transaktion"
 
 #: src/barre_outils.c:529
 #: src/fichiers_gestion.c:498
 #: src/menu.c:127
 msgid "Show four lines per transaction"
-msgstr ""
+msgstr "Vis 4 linjer per transaktion"
 
 #: src/barre_outils.c:542
 #: src/barre_outils.c:556
@@ -905,12 +905,12 @@ msgstr ""
 #: src/barre_outils.c:602
 #: src/barre_outils.c:603
 msgid "Display/hide form"
-msgstr ""
+msgstr "Vis/Skjul formular"
 
 #: src/barre_outils.c:665
 #: src/barre_outils.c:666
 msgid "Display/hide comments"
-msgstr ""
+msgstr "Vis/Skjul kommentarer"
 
 #: src/barre_outils.c:751
 #: src/barre_outils.c:752
@@ -928,7 +928,7 @@ msgstr ""
 #: src/barre_outils.c:1089
 #: src/barre_outils.c:1090
 msgid "Display accounts"
-msgstr ""
+msgstr "Vis konti"
 
 #. afficher ou non les opÃ©s
 #: src/barre_outils.c:809
@@ -939,7 +939,7 @@ msgstr ""
 #: src/barre_outils.c:1119
 #: src/etats_config.c:6496
 msgid "Display transactions"
-msgstr ""
+msgstr "Vis transaktioner"
 
 #: src/barre_outils.c:905
 #: src/barre_outils.c:906
@@ -958,21 +958,21 @@ msgstr "Annulér"
 
 #: src/categories_onglet.c:163
 msgid "Categories list"
-msgstr ""
+msgstr "Kategoriliste"
 
 #: src/categories_onglet.c:164
 msgid "Amount per category"
-msgstr ""
+msgstr "Beløb per kategori"
 
 #: src/categories_onglet.c:165
 msgid "Amount per subcategory"
-msgstr ""
+msgstr "Beløb per underkategori"
 
 #: src/categories_onglet.c:166
 #: src/imputation_budgetaire.c:151
 #: src/tiers_onglet.c:157
 msgid "Amount per account"
-msgstr ""
+msgstr "Beløb per konto"
 
 #: src/categories_onglet.c:211
 #: src/imputation_budgetaire.c:195
@@ -1052,22 +1052,22 @@ msgstr ""
 #: src/categories_onglet.c:829
 #, c-format
 msgid "No sub-category (%d)"
-msgstr ""
+msgstr "Ingen underkategori (%d)"
 
 #: src/categories_onglet.c:740
 #: src/categories_onglet.c:832
 msgid "No sub-category"
-msgstr ""
+msgstr "Ingen underkategori"
 
 #: src/categories_onglet.c:800
 #, c-format
 msgid "No category (%d)"
-msgstr ""
+msgstr "Ingen kategori  (%d)"
 
 #: src/categories_onglet.c:803
 #: src/etats_affiche.c:1627
 msgid "No category"
-msgstr ""
+msgstr "Ingen kategori"
 
 #: src/categories_onglet.c:1114
 #: src/imputation_budgetaire.c:1137
@@ -1083,7 +1083,7 @@ msgstr ""
 
 #: src/categories_onglet.c:1676
 msgid "Remove a category"
-msgstr ""
+msgstr "Fjern en kategori"
 
 #: src/categories_onglet.c:1683
 msgid ""
@@ -1095,7 +1095,7 @@ msgstr ""
 #: src/categories_onglet.c:1708
 #: src/categories_onglet.c:2072
 msgid "Transfer transactions to category"
-msgstr ""
+msgstr "Fly transaktioner til kategori"
 
 #: src/categories_onglet.c:1796
 msgid "Just remove this category."
@@ -1108,7 +1108,7 @@ msgstr ""
 
 #: src/categories_onglet.c:2040
 msgid "Remove category"
-msgstr ""
+msgstr "Fjern kategori"
 
 #: src/categories_onglet.c:2047
 msgid ""
@@ -1245,33 +1245,33 @@ msgstr ""
 #: src/etats_onglet.c:1271
 #: src/imputation_budgetaire.c:2934
 msgid "Cannot import file."
-msgstr ""
+msgstr "Kan ikke importerer fil."
 
 #: src/comptes_gestion.c:132
 msgid "Account details"
-msgstr ""
+msgstr "Kontooplysninger"
 
 #: src/comptes_gestion.c:144
 msgid "Account name"
-msgstr ""
+msgstr "Kontonavn"
 
 #: src/comptes_gestion.c:166
 #: src/comptes_traitements.c:749
 msgid "Account type"
-msgstr ""
+msgstr "Kontotype"
 
 #: src/comptes_gestion.c:191
 msgid "Account currency"
-msgstr ""
+msgstr "Valuta"
 
 #: src/comptes_gestion.c:226
 msgid "Closed account"
-msgstr ""
+msgstr "Lukket konto"
 
 #. crÃ©ation de la ligne du titulaire du compte
 #: src/comptes_gestion.c:232
 msgid "Account holder"
-msgstr ""
+msgstr "Kontoejer"
 
 #: src/comptes_gestion.c:243
 msgid "Holder name"
