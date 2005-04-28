@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-07-03 17:36+0200\n"
-"PO-Revision-Date: 2005-04-28 13:29+0100\n"
+"PO-Revision-Date: 2005-04-28 13:51+0100\n"
 "Last-Translator: Dmitri Popov <lazylegs@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -482,35 +482,35 @@ msgstr ""
 
 #: src/affichage_formulaire.c:909
 msgid "Automatic/Manual"
-msgstr ""
+msgstr "Automatisk/Manuelt"
 
 #: src/affichage_liste.c:115
 msgid "Col1"
-msgstr ""
+msgstr "Kol1"
 
 #: src/affichage_liste.c:115
 msgid "Col2"
-msgstr ""
+msgstr "Kol2"
 
 #: src/affichage_liste.c:115
 msgid "Col3"
-msgstr ""
+msgstr "Kol3"
 
 #: src/affichage_liste.c:115
 msgid "Col4"
-msgstr ""
+msgstr "Kol4"
 
 #: src/affichage_liste.c:116
 msgid "Col5"
-msgstr ""
+msgstr "Kol5"
 
 #: src/affichage_liste.c:116
 msgid "Col6"
-msgstr ""
+msgstr "Kol6"
 
 #: src/affichage_liste.c:116
 msgid "Col7"
-msgstr ""
+msgstr "Kol7"
 
 #. Ã  la base, on met une vbox
 #: src/affichage_liste.c:125
@@ -4619,12 +4619,12 @@ msgstr ""
 #: src/parametres.c:228
 #: src/parametres.c:536
 msgid "Files"
-msgstr ""
+msgstr "Filer"
 
 #: src/parametres.c:244
 #: src/parametres.c:713
 msgid "Programs"
-msgstr ""
+msgstr "Programmer"
 
 #: src/parametres.c:253
 msgid "Display"
@@ -4633,7 +4633,7 @@ msgstr ""
 #: src/parametres.c:268
 #: src/parametres.c:433
 msgid "Messages & warnings"
-msgstr ""
+msgstr "Beskeder og advarsler"
 
 #: src/parametres.c:292
 msgid "Informations shown"
@@ -4649,11 +4649,11 @@ msgstr ""
 
 #: src/parametres.c:334
 msgid "Resources"
-msgstr ""
+msgstr "Ressourcer"
 
 #: src/parametres.c:438
 msgid "Warnings messages"
-msgstr ""
+msgstr "Advarsler"
 
 #. Display a warning message if minimum balances are under minimum level
 #: src/parametres.c:441
