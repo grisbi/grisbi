@@ -1160,13 +1160,13 @@ choix_liste_fichier:
 
 			/* met le pointage */
 
-			if ( operation -> pointe == 1
+			if ( gsb_transaction_data_get_marked_transaction ( gsb_transaction_data_get_transaction_number (operation ))== 1
 			     ||
-			     operation -> pointe == 3 )
+			     gsb_transaction_data_get_marked_transaction ( gsb_transaction_data_get_transaction_number (operation ))== 3 )
 			    fprintf ( fichier_qif,
 				      "C*\n" );
 			else
-			    if ( operation -> pointe == 2 )
+			    if ( gsb_transaction_data_get_marked_transaction ( gsb_transaction_data_get_transaction_number (operation ))== 2 )
 				fprintf ( fichier_qif,
 					  "CX\n" );
 

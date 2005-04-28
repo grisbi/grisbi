@@ -1567,7 +1567,8 @@ void creation_compte_importe ( struct struct_compte_importation *compte_import )
 
 	/* récupération du pointé */
 
-	operation -> pointe = operation_import -> p_r;
+	gsb_transaction_data_set_marked_transaction ( gsb_transaction_data_get_transaction_number (operation ),
+						      operation_import -> p_r );
 
 	/* si c'est une ope de ventilation, lui ajoute le no de l'opération précÃ©dente */
 
@@ -1590,7 +1591,7 @@ void creation_compte_importe ( struct struct_compte_importation *compte_import )
 	    gsb_account_set_current_balance ( no_compte,
 					      gsb_account_get_current_balance (no_compte) + gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (operation )));
 
-	    if ( operation -> pointe )
+	    if ( gsb_transaction_data_get_marked_transaction ( gsb_transaction_data_get_transaction_number (operation )))
 		gsb_account_set_marked_balance ( no_compte,
 						 gsb_account_get_marked_balance (no_compte) + gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (operation )));
 	}
@@ -2220,7 +2221,8 @@ struct structure_operation *enregistre_ope_importee ( struct struct_ope_importat
 
     /* récupération du pointé */
 
-    operation -> pointe = operation_import -> p_r;
+    gsb_transaction_data_set_marked_transaction ( gsb_transaction_data_get_transaction_number (operation ),
+						  operation_import -> p_r );
 
     /* si c'est une ope de ventilation, lui ajoute le no de l'opération précédente */
 
@@ -2405,9 +2407,10 @@ void pointe_opes_importees ( struct struct_compte_importation *compte_import )
 		    gsb_transaction_data_set_transaction_id ( gsb_transaction_data_get_transaction_number (operation),
 							      ope_import -> id_operation );
 
-		if ( !operation -> pointe )
+		if ( !gsb_transaction_data_get_marked_transaction ( gsb_transaction_data_get_transaction_number (operation )))
 		{
-		    operation -> pointe = 2;
+		    gsb_transaction_data_set_marked_transaction ( gsb_transaction_data_get_transaction_number (operation ),
+								  2 );
 		    gsb_account_set_update_list ( no_compte,
 						  1 );
 
@@ -2425,7 +2428,8 @@ void pointe_opes_importees ( struct struct_compte_importation *compte_import )
 			    ope_fille = liste_ope -> data;
 
 			    if ( ope_fille -> no_operation_ventilee_associee == gsb_transaction_data_get_transaction_number (operation))
-				ope_fille -> pointe = 2;
+				gsb_transaction_data_set_marked_transaction ( gsb_transaction_data_get_transaction_number (ope_fille),
+									      2 );
 
 			    liste_ope = liste_ope -> next;
 			}
@@ -2500,9 +2504,10 @@ void pointe_opes_importees ( struct struct_compte_importation *compte_import )
 			    gsb_transaction_data_set_transaction_id ( gsb_transaction_data_get_transaction_number (operation),
 								      ope_import -> id_operation );
 
-			if ( !operation -> pointe )
+			if ( !gsb_transaction_data_get_marked_transaction ( gsb_transaction_data_get_transaction_number (operation )))
 			{
-			    operation -> pointe = 2;
+			    gsb_transaction_data_set_marked_transaction ( gsb_transaction_data_get_transaction_number (operation ),
+									  2 );
 			    gsb_account_set_update_list ( no_compte,
 							  1 );
 
@@ -2519,7 +2524,8 @@ void pointe_opes_importees ( struct struct_compte_importation *compte_import )
 				    ope_fille = liste_ope -> data;
 
 				    if ( ope_fille -> no_operation_ventilee_associee == gsb_transaction_data_get_transaction_number (operation))
-					ope_fille -> pointe = 2;
+					gsb_transaction_data_set_marked_transaction ( gsb_transaction_data_get_transaction_number (ope_fille),
+										      2 );
 
 				    liste_ope = liste_ope -> next;
 				}
@@ -2726,7 +2732,8 @@ gboolean click_dialog_ope_orphelines ( GtkWidget *dialog,
 
 		    operation = enregistre_ope_importee ( ope_import,
 							  ope_import -> no_compte );
-		    operation -> pointe = 2;
+		    gsb_transaction_data_set_marked_transaction ( gsb_transaction_data_get_transaction_number (operation ),
+								  2 );
 
 		    /* on a enregistré l'opé, on la retire maintenant de la liste et de la sliste */
 

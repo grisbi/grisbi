@@ -519,11 +519,11 @@ GSList *recupere_opes_etat ( struct struct_etat *etat )
 		{
 		    if ( ( etat -> afficher_r == 1
 			   &&
-			   operation -> pointe == 3 )
+			   gsb_transaction_data_get_marked_transaction ( gsb_transaction_data_get_transaction_number (operation ))== 3 )
 			 ||
 			 ( etat -> afficher_r == 2
 			   &&
-			   operation -> pointe != 3 ))
+			   gsb_transaction_data_get_marked_transaction ( gsb_transaction_data_get_transaction_number (operation ))!= 3 ))
 			goto operation_refusee;
 		}
 

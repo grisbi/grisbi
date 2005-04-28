@@ -804,7 +804,7 @@ gboolean gsb_reconcile_mark_transaction ( struct structure_operation *transactio
 
     if ( transaction == GINT_TO_POINTER ( -1 )
 	 ||
-	 transaction -> pointe == 3 )
+	 gsb_transaction_data_get_marked_transaction ( gsb_transaction_data_get_transaction_number (transaction ))== 3 )
 	return FALSE;
 
     model = gsb_account_get_store ( gsb_account_get_current_account () );
@@ -814,13 +814,14 @@ gboolean gsb_reconcile_mark_transaction ( struct structure_operation *transactio
     iter = cherche_iter_operation ( transaction,
 				    gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (transaction)));
 
-    if ( transaction -> pointe )
+    if ( gsb_transaction_data_get_marked_transaction ( gsb_transaction_data_get_transaction_number (transaction )))
     {
 	operations_pointees = operations_pointees - montant;
 	gsb_account_set_marked_balance ( gsb_account_get_current_account (),
 					 gsb_account_get_marked_balance (gsb_account_get_current_account ()) - montant );
 
-	transaction -> pointe = 0;
+	gsb_transaction_data_set_marked_transaction ( gsb_transaction_data_get_transaction_number (transaction),
+						      0 );
 
 	gtk_list_store_set ( GTK_LIST_STORE ( model ),
 			     iter,
@@ -833,7 +834,8 @@ gboolean gsb_reconcile_mark_transaction ( struct structure_operation *transactio
 	gsb_account_set_marked_balance ( gsb_account_get_current_account (),
 					 gsb_account_get_marked_balance (gsb_account_get_current_account ()) + montant );
 
-	transaction -> pointe = 1;
+	gsb_transaction_data_set_marked_transaction ( gsb_transaction_data_get_transaction_number (transaction),
+						      1 );
 	
 	gtk_list_store_set ( GTK_LIST_STORE ( model ),
 			     iter,
@@ -860,7 +862,8 @@ gboolean gsb_reconcile_mark_transaction ( struct structure_operation *transactio
 	    ope_fille = liste_tmp -> data;
 
 	    if ( ope_fille -> no_operation_ventilee_associee == gsb_transaction_data_get_transaction_number (transaction))
-		ope_fille -> pointe = transaction -> pointe;
+		gsb_transaction_data_set_marked_transaction ( gsb_transaction_data_get_transaction_number (ope_fille),
+							      gsb_transaction_data_get_marked_transaction ( gsb_transaction_data_get_transaction_number (transaction )));
 
 	    liste_tmp = liste_tmp -> next;
 	}
@@ -1013,10 +1016,12 @@ gboolean fin_equilibrage ( GtkWidget *bouton_ok,
 
 	operation = pointeur_liste_ope -> data;
 
-	if ( operation -> pointe == OPERATION_POINTEE ||
-	     operation -> pointe == OPERATION_TELERAPPROCHEE )
+	if ( gsb_transaction_data_get_marked_transaction ( gsb_transaction_data_get_transaction_number (operation )) == OPERATION_POINTEE
+	     ||
+	     gsb_transaction_data_get_marked_transaction ( gsb_transaction_data_get_transaction_number (operation )) == OPERATION_TELERAPPROCHEE )
 	{
-	    operation -> pointe = OPERATION_RAPPROCHEE;
+	    gsb_transaction_data_set_marked_transaction ( gsb_transaction_data_get_transaction_number (operation ),
+							  OPERATION_RAPPROCHEE );
 	    operation -> no_rapprochement = gsb_account_get_reconcile_last_number (gsb_account_get_current_account ());
 	}
 

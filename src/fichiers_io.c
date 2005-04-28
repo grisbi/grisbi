@@ -658,13 +658,15 @@ void switch_t_r ( void )
 
 	    operation = liste_tmp -> data;
 
-	    switch ( operation -> pointe )
+	    switch ( gsb_transaction_data_get_marked_transaction ( gsb_transaction_data_get_transaction_number (operation )))
 	    {
 		case 2 :
-		    operation -> pointe = 3;
+		    gsb_transaction_data_set_marked_transaction ( gsb_transaction_data_get_transaction_number (operation ),
+								  3 );
 		    break;
 		case 3:
-		    operation -> pointe = 2;
+		    gsb_transaction_data_set_marked_transaction ( gsb_transaction_data_get_transaction_number (operation ),
+								  2 );
 		    break;
 	    }
 	    liste_tmp = liste_tmp -> next;
@@ -1407,13 +1409,13 @@ gboolean recuperation_comptes_xml ( xmlNodePtr node_comptes )
 			    gsb_transaction_data_set_method_of_payment_content ( transaction_number,
 										 xmlGetProp ( node_ope,
 											      "Ct" ) );
-			    if ( !strlen ( gsb_transaction_data_get_method_of_payment_content ( gsb_transaction_data_get_transaction_number (operation ))))
-				gsb_transaction_data_set_method_of_payment_content ( gsb_transaction_data_get_transaction_number (operation ),
+			    if ( !strlen ( gsb_transaction_data_get_method_of_payment_content (transaction_number)))
+				gsb_transaction_data_set_method_of_payment_content ( transaction_number,
 										     NULL );
 
-			    operation -> pointe = my_atoi ( xmlGetProp ( node_ope,
-									 "P" ));
-
+			    gsb_transaction_data_set_marked_transaction ( transaction_number,
+									  my_atoi ( xmlGetProp ( node_ope,
+												 "P" )));
 			    operation -> auto_man = my_atoi ( xmlGetProp ( node_ope,
 									   "A" ));
 
@@ -3694,7 +3696,7 @@ gboolean enregistre_fichier ( gchar *new_file )
 
 	    xmlSetProp ( node_ope,
 			 "P",
-			 itoa ( operation -> pointe ));
+			 itoa ( gsb_transaction_data_get_marked_transaction (transaction_number)));
 
 	    xmlSetProp ( node_ope,
 			 "A",

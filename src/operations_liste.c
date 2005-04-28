@@ -1181,15 +1181,15 @@ gchar *recherche_contenu_cellule ( struct structure_operation *transaction,
 	    /* mise en forme R/P */
 
 	case TRANSACTION_LIST_MARK:
-	    if ( transaction -> pointe == 1 )
+	    if ( gsb_transaction_data_get_marked_transaction ( gsb_transaction_data_get_transaction_number (transaction ))== 1 )
 		return ( _("P") );
 	    else
 	    {
-		if ( transaction -> pointe == 2 )
+		if ( gsb_transaction_data_get_marked_transaction ( gsb_transaction_data_get_transaction_number (transaction ))== 2 )
 		    return ( _("T") );
 		else
 		{
-		    if ( transaction -> pointe == 3 )
+		    if ( gsb_transaction_data_get_marked_transaction ( gsb_transaction_data_get_transaction_number (transaction ))== 3 )
 			return ( _("R"));
 		    else
 			return ( NULL );
@@ -1514,7 +1514,7 @@ gdouble solde_debut_affichage ( gint no_account )
 
 	if ( !(transaction -> no_operation_ventilee_associee
 	       ||
-	       transaction -> pointe != 3 ))
+	       gsb_transaction_data_get_marked_transaction ( gsb_transaction_data_get_transaction_number (transaction ))!= 3 ))
 	    solde = solde + gsb_transaction_data_get_adjusted_amount ( gsb_transaction_data_get_transaction_number (transaction));
 
 	liste_tmp = liste_tmp -> next;
@@ -2448,7 +2448,7 @@ gboolean gsb_transactions_list_edit_current_transaction ( void )
 
 		    /* 		    si l'opé est relevée, on ne peut modifier le montant */
 
-		    if ( transaction -> pointe == 3 )
+		    if ( gsb_transaction_data_get_marked_transaction ( gsb_transaction_data_get_transaction_number (transaction ))== 3 )
 			gtk_widget_set_sensitive ( widget,
 						   FALSE );
 
@@ -2466,7 +2466,7 @@ gboolean gsb_transactions_list_edit_current_transaction ( void )
 
 		    /* 		    si l'opé est relevée, on ne peut modifier le montant */
 
-		    if ( transaction -> pointe == 3 )
+		    if ( gsb_transaction_data_get_marked_transaction ( gsb_transaction_data_get_transaction_number (transaction ))== 3 )
 			gtk_widget_set_sensitive ( widget,
 						   FALSE );
 
@@ -2506,7 +2506,7 @@ gboolean gsb_transactions_list_edit_current_transaction ( void )
 
 				if ( contra_transaction
 				     &&
-				     contra_transaction -> pointe == 3 )
+				     gsb_transaction_data_get_marked_transaction ( gsb_transaction_data_get_transaction_number (contra_transaction ))== 3 )
 				{
 				    gtk_widget_set_sensitive ( widget_formulaire_par_element (TRANSACTION_FORM_CREDIT),
 							       FALSE );
@@ -2522,7 +2522,7 @@ gboolean gsb_transactions_list_edit_current_transaction ( void )
 
 			    /* si l'opération est relevée, on empêche le changement de virement */
 
-			    if ( transaction -> pointe == 3 )
+			    if ( gsb_transaction_data_get_marked_transaction ( gsb_transaction_data_get_transaction_number (transaction ))== 3 )
 				gtk_widget_set_sensitive ( widget,
 							   FALSE );
 			}
@@ -2714,13 +2714,13 @@ void p_press (void)
 
     if (transaction  == GINT_TO_POINTER ( -1 )
 	||
-	transaction -> pointe == 3 )
+	gsb_transaction_data_get_marked_transaction ( gsb_transaction_data_get_transaction_number (transaction ))== 3 )
 	return;
 
     iter = cherche_iter_operation ( gsb_account_get_current_transaction (gsb_account_get_current_account ()),
 				    gsb_account_get_current_account () );
 
-    if ( transaction -> pointe )
+    if ( gsb_transaction_data_get_marked_transaction ( gsb_transaction_data_get_transaction_number (transaction )))
     {
 	montant = gsb_transaction_data_get_adjusted_amount ( gsb_transaction_data_get_transaction_number (transaction));
 
@@ -2729,7 +2729,8 @@ void p_press (void)
 
 	gsb_account_set_marked_balance ( gsb_account_get_current_account (),
 					 gsb_account_get_marked_balance (gsb_account_get_current_account ()) - montant );
-	transaction -> pointe = 0;
+	gsb_transaction_data_set_marked_transaction ( gsb_transaction_data_get_transaction_number (transaction),
+						      0 );
 
 	gtk_list_store_set ( GTK_LIST_STORE ( model ),
 			     iter,
@@ -2745,7 +2746,8 @@ void p_press (void)
 
 	gsb_account_set_marked_balance ( gsb_account_get_current_account (),
 					 gsb_account_get_marked_balance (gsb_account_get_current_account ()) + montant );
-	transaction -> pointe = 1;
+	gsb_transaction_data_set_marked_transaction ( gsb_transaction_data_get_transaction_number (transaction),
+						      1 );
 
 	gtk_list_store_set ( GTK_LIST_STORE ( model ),
 			     iter,
@@ -2770,7 +2772,8 @@ void p_press (void)
 	    ope_fille = liste_tmp -> data;
 
 	    if ( ope_fille -> no_operation_ventilee_associee == gsb_transaction_data_get_transaction_number (transaction) )
-		ope_fille -> pointe = transaction -> pointe;
+		gsb_transaction_data_set_marked_transaction ( gsb_transaction_data_get_transaction_number (ope_fille),
+							      gsb_transaction_data_get_marked_transaction ( gsb_transaction_data_get_transaction_number (transaction )));
 
 	    liste_tmp = liste_tmp -> next;
 	}
@@ -2842,11 +2845,12 @@ void r_press (void)
     iter = cherche_iter_operation ( gsb_account_get_current_transaction (gsb_account_get_current_account ()),
 				    gsb_account_get_current_account () );
 
-    if ( !transaction -> pointe )
+    if ( !gsb_transaction_data_get_marked_transaction ( gsb_transaction_data_get_transaction_number (transaction )))
     {
 	/* on relève l'opération */
 
-	transaction -> pointe = 3;
+	gsb_transaction_data_set_marked_transaction ( gsb_transaction_data_get_transaction_number (transaction),
+												   3);
 
 	/* on met soit le R, soit on change la sélection vers l'opé suivante */
 
@@ -2876,7 +2880,7 @@ void r_press (void)
 	modification_fichier( TRUE );
     }
     else
-	if ( transaction -> pointe == 3 )
+	if ( gsb_transaction_data_get_marked_transaction ( gsb_transaction_data_get_transaction_number (transaction ))== 3 )
 	{
 	    /* dé-relève l'opération */
 
@@ -2899,12 +2903,13 @@ void r_press (void)
 
 	while ( liste_tmp )
 	{
-	    struct structure_operation *transaction;
+	    struct structure_operation *transaction_child;
 
-	    transaction = liste_tmp -> data;
+	    transaction_child = liste_tmp -> data;
 
-	    if ( transaction -> no_operation_ventilee_associee == gsb_transaction_data_get_transaction_number (transaction))
-		transaction -> pointe = transaction -> pointe;
+	    if ( transaction_child -> no_operation_ventilee_associee == gsb_transaction_data_get_transaction_number (transaction))
+		gsb_transaction_data_set_marked_transaction ( gsb_transaction_data_get_transaction_number (transaction_child),
+													   gsb_transaction_data_get_marked_transaction ( gsb_transaction_data_get_transaction_number (transaction )));
 
 	    liste_tmp = liste_tmp -> next;
 	}
@@ -3040,7 +3045,7 @@ gboolean gsb_transactions_list_delete_transaction ( struct structure_operation *
     gsb_account_set_current_balance ( gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (transaction)),
 				      gsb_account_get_current_balance (gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (transaction))) - montant );
 
-    if ( transaction -> pointe )
+    if ( gsb_transaction_data_get_marked_transaction ( gsb_transaction_data_get_transaction_number (transaction )))
 	gsb_account_set_marked_balance ( gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (transaction)),
 					 gsb_account_get_marked_balance (gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (transaction))) - montant );
 
@@ -3086,7 +3091,7 @@ gboolean gsb_transactions_list_check_mark ( struct structure_operation *transact
     if ( !transaction )
 	return FALSE;
 
-    if ( transaction -> pointe == OPERATION_RAPPROCHEE )
+    if ( gsb_transaction_data_get_marked_transaction ( gsb_transaction_data_get_transaction_number (transaction ))== OPERATION_RAPPROCHEE )
 	return TRUE;
 
     /* if it's a transfer, check the contra-transaction */
@@ -3100,7 +3105,7 @@ gboolean gsb_transactions_list_check_mark ( struct structure_operation *transact
 
 	if ( transactions_tmp
 	     &&
-	     transactions_tmp -> pointe == OPERATION_RAPPROCHEE )
+	     gsb_transaction_data_get_marked_transaction ( gsb_transaction_data_get_transaction_number (transactions_tmp ))== OPERATION_RAPPROCHEE )
 	    return TRUE;
     }
 
@@ -3119,7 +3124,7 @@ gboolean gsb_transactions_list_check_mark ( struct structure_operation *transact
 	    {
 		/* transactions_tmp is a child of transaction */
 
-		if ( transactions_tmp -> pointe == OPERATION_RAPPROCHEE )
+		if ( gsb_transaction_data_get_marked_transaction ( gsb_transaction_data_get_transaction_number (transactions_tmp ))== OPERATION_RAPPROCHEE )
 		    return TRUE;
 
 		if (  transactions_tmp -> relation_no_operation )
@@ -3133,7 +3138,7 @@ gboolean gsb_transactions_list_check_mark ( struct structure_operation *transact
 
 		    if ( contra_transaction
 			 &&
-			 contra_transaction -> pointe == OPERATION_RAPPROCHEE )
+			 gsb_transaction_data_get_marked_transaction ( gsb_transaction_data_get_transaction_number (contra_transaction ))== OPERATION_RAPPROCHEE )
 			return TRUE;
 		}
 	    }
@@ -3336,9 +3341,11 @@ void popup_transaction_context_menu ( gboolean full )
 				    gtk_image_new_from_stock ( GTK_STOCK_DELETE,
 							       GTK_ICON_SIZE_MENU ));
     g_signal_connect ( G_OBJECT(menu_item), "activate", remove_transaction, NULL );
-    if ( !full || 
-	 ((struct structure_operation *) gsb_account_get_current_transaction (gsb_account_get_current_account ())) -> pointe == OPERATION_RAPPROCHEE ||
-	 ((struct structure_operation *) gsb_account_get_current_transaction (gsb_account_get_current_account ())) -> pointe == OPERATION_TELERAPPROCHEE )
+    if ( !full
+	 || 
+	 gsb_transaction_data_get_marked_transaction ( gsb_transaction_data_get_transaction_number (gsb_account_get_current_transaction (gsb_account_get_current_account ()))) == OPERATION_RAPPROCHEE
+	 ||
+	 gsb_transaction_data_get_marked_transaction ( gsb_transaction_data_get_transaction_number (gsb_account_get_current_transaction (gsb_account_get_current_account ()))) == OPERATION_TELERAPPROCHEE )
 	gtk_widget_set_sensitive ( menu_item, FALSE );
     gtk_menu_append ( menu, menu_item );
 
@@ -3371,8 +3378,9 @@ void popup_transaction_context_menu ( gboolean full )
 				    gtk_image_new_from_stock ( GTK_STOCK_JUMP_TO,
 							       GTK_ICON_SIZE_MENU ));
     if ( !full || 
-	 ((struct structure_operation *) gsb_account_get_current_transaction (gsb_account_get_current_account ())) -> pointe == OPERATION_RAPPROCHEE ||
-	 ((struct structure_operation *) gsb_account_get_current_transaction (gsb_account_get_current_account ())) -> pointe == OPERATION_TELERAPPROCHEE )
+	 gsb_transaction_data_get_marked_transaction ( gsb_transaction_data_get_transaction_number (gsb_account_get_current_transaction (gsb_account_get_current_account ()))) == OPERATION_RAPPROCHEE
+	 ||
+	 gsb_transaction_data_get_marked_transaction ( gsb_transaction_data_get_transaction_number (gsb_account_get_current_transaction (gsb_account_get_current_account ()))) == OPERATION_TELERAPPROCHEE )
 	gtk_widget_set_sensitive ( menu_item, FALSE );
     gtk_menu_append ( menu, menu_item );
 
@@ -3475,10 +3483,11 @@ struct structure_operation *gsb_transactions_list_clone_transaction ( struct str
 						  0);
     new_transaction -> no_rapprochement = 0;
 
-    if ( transaction -> pointe == OPERATION_RAPPROCHEE ||
-	 transaction -> pointe == OPERATION_TELERAPPROCHEE )
+    if ( gsb_transaction_data_get_marked_transaction ( gsb_transaction_data_get_transaction_number (transaction ))== OPERATION_RAPPROCHEE ||
+	 gsb_transaction_data_get_marked_transaction ( gsb_transaction_data_get_transaction_number (transaction ))== OPERATION_TELERAPPROCHEE )
     {
-	new_transaction -> pointe = OPERATION_NORMALE;
+	gsb_transaction_data_set_marked_transaction ( gsb_transaction_data_get_transaction_number (new_transaction),
+												   OPERATION_NORMALE);
     }
 
     gsb_transactions_append_transaction ( new_transaction,
@@ -4334,7 +4343,7 @@ gboolean gsb_transactions_list_set_visibles_rows_on_account ( gint no_account )
 
 	    /* 	    check first if it's R and if r is shown */
 
-	    if ( transaction -> pointe == OPERATION_RAPPROCHEE
+	    if ( gsb_transaction_data_get_marked_transaction ( gsb_transaction_data_get_transaction_number (transaction ))== OPERATION_RAPPROCHEE
 		 &&
 		 !r_shown )
 	    {
@@ -4437,7 +4446,7 @@ gboolean gsb_transactions_list_set_visibles_rows_on_transaction ( struct structu
 
     if ( !r_shown
 	 &&
-	 transaction -> pointe == OPERATION_RAPPROCHEE )
+	 gsb_transaction_data_get_marked_transaction ( gsb_transaction_data_get_transaction_number (transaction ))== OPERATION_RAPPROCHEE )
     {
 	gtk_list_store_set ( GTK_LIST_STORE ( model ),
 			     iter,

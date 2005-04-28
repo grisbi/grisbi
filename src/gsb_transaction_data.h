@@ -64,6 +64,7 @@ GDate *gsb_transaction_data_get_date ( gint no_transaction );
 gdouble gsb_transaction_data_get_exchange_fees ( gint no_transaction );
 gdouble gsb_transaction_data_get_exchange_rate ( gint no_transaction );
 gint gsb_transaction_data_get_last_number (void);
+gint gsb_transaction_data_get_marked_transaction ( gint no_transaction );
 gchar *gsb_transaction_data_get_method_of_payment_content ( gint no_transaction );
 gint gsb_transaction_data_get_method_of_payment_number ( gint no_transaction );
 gchar *gsb_transaction_data_get_notes ( gint no_transaction );
@@ -91,6 +92,8 @@ gboolean gsb_transaction_data_set_exchange_fees ( gint no_transaction,
 						  gdouble rate );
 gboolean gsb_transaction_data_set_exchange_rate ( gint no_transaction,
 						  gdouble rate );
+gboolean gsb_transaction_data_set_marked_transaction ( gint no_transaction,
+						       gint marked_transaction );
 gboolean gsb_transaction_data_set_method_of_payment_content ( gint no_transaction,
 							      gchar *method_of_payment_content );
 gboolean gsb_transaction_data_set_method_of_payment_number ( gint no_transaction,

@@ -69,7 +69,7 @@ void calcule_total_pointe_compte ( gint no_compte )
 
 	/* on ne prend en compte l'opÃ© que si c'est pas une opÃ© de ventil */
 
-	if ( operation -> pointe == 1
+	if ( gsb_transaction_data_get_marked_transaction ( gsb_transaction_data_get_transaction_number (operation ))== 1
 	     &&
 	     !operation -> no_operation_ventilee_associee )
 	{
@@ -165,7 +165,7 @@ gdouble calcule_solde_pointe_compte ( gint no_compte )
 
 	/* 	si l'opÃ© est ventilÃÂ©e ou non pointÃ©e, on saute */
 
-	if ( operation -> pointe
+	if ( gsb_transaction_data_get_marked_transaction ( gsb_transaction_data_get_transaction_number (operation ))
 	     &&
 	     !operation -> no_operation_ventilee_associee )
 	solde = solde + gsb_transaction_data_get_adjusted_amount ( gsb_transaction_data_get_transaction_number (operation));

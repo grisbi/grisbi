@@ -910,7 +910,7 @@ void update_liste_comptes_accueil ( void )
 			montant = gsb_transaction_data_get_adjusted_amount ( gsb_transaction_data_get_transaction_number (operation));
 
 			/* si l'opé est pointée ou relevée, on ajoute ce montant au solde pointé */
-			if ( operation -> pointe )
+			if ( gsb_transaction_data_get_marked_transaction ( gsb_transaction_data_get_transaction_number (operation )))
 			    solde_pointe_affichage_liste = solde_pointe_affichage_liste + montant;
 		    }
 		    liste_operations_tmp = liste_operations_tmp -> next;
@@ -1238,7 +1238,7 @@ void update_liste_comptes_accueil ( void )
 			montant = gsb_transaction_data_get_adjusted_amount ( gsb_transaction_data_get_transaction_number (operation));
 
 			/* si l'opé est pointée ou relevée, on ajoute ce montant au solde pointé */
-			if ( operation -> pointe )
+			if ( gsb_transaction_data_get_marked_transaction ( gsb_transaction_data_get_transaction_number (operation )))
 			    solde_pointe_affichage_liste = solde_pointe_affichage_liste + montant;
 		    }
 		    liste_operations_tmp = liste_operations_tmp -> next;

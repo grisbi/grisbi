@@ -776,7 +776,9 @@ gboolean division_activated ( GtkTreeView * treeview, GtkTreePath * path,
 	if ( operation && no_division == -1 && no_sub_division == -1 )
 	{
 	    gsb_account_list_gui_change_current_account ( GINT_TO_POINTER ( gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (operation))));
-	    if ( operation -> pointe == 3 && !gsb_account_get_r (gsb_account_get_current_account ()) )
+	    if ( gsb_transaction_data_get_marked_transaction ( gsb_transaction_data_get_transaction_number (operation )) == 3
+		 &&
+		 !gsb_account_get_r (gsb_account_get_current_account ()) )
 		change_aspect_liste ( 5 );
 	    gsb_transactions_list_set_current_transaction ( operation,
 							    gsb_account_get_current_account () );

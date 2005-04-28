@@ -1033,4 +1033,44 @@ gboolean gsb_transaction_data_set_method_of_payment_content ( gint no_transactio
 
 
 
+/** get the marked_transaction
+ * \param no_transaction the number of the transaction
+ * \return the marked_transaction : 0=nothing, 1=P, 2=T, 3=R
+ * */
+gint gsb_transaction_data_get_marked_transaction ( gint no_transaction )
+{
+    struct_transaction *transaction;
+
+    transaction = gsb_transaction_data_get_transaction_by_no ( no_transaction,
+							       -1 );
+
+    if ( !transaction )
+	return -1;
+
+    return transaction -> marked_transaction;
+}
+
+
+/** set the marked_transaction
+ * \param no_transaction
+ * \param marked_transaction : 0=nothing, 1=P, 2=T, 3=R
+ * \return TRUE if ok
+ * */
+gboolean gsb_transaction_data_set_marked_transaction ( gint no_transaction,
+						       gint marked_transaction )
+{
+    struct_transaction *transaction;
+
+    transaction = gsb_transaction_data_get_transaction_by_no ( no_transaction,
+							       -1 );
+
+    if ( !transaction )
+	return FALSE;
+
+    transaction -> marked_transaction = marked_transaction;
+
+    return TRUE;
+}
+
+
 
