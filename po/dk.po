@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-07-03 17:36+0200\n"
-"PO-Revision-Date: 2005-04-28 13:51+0100\n"
+"PO-Revision-Date: 2005-04-28 16:04+0100\n"
 "Last-Translator: Dmitri Popov <lazylegs@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -160,7 +160,7 @@ msgstr "Grisbi logo"
 
 #: src/affichage.c:191
 msgid "Use the logo"
-msgstr "Brug logo'en"
+msgstr "Brug logoet"
 
 #: src/affichage.c:252
 msgid "Click on preview to change homepage logo"
@@ -185,7 +185,7 @@ msgstr ""
 #: src/affichage.c:498
 #: src/parametres.c:276
 msgid "Addresses & titles"
-msgstr ""
+msgstr "Adresser og overskrifter"
 
 #: src/affichage.c:503
 #: src/etats_config.c:6349
@@ -194,7 +194,7 @@ msgstr "Overskrifter"
 
 #: src/affichage.c:508
 msgid "Accounts file title"
-msgstr ""
+msgstr "Kontooverskrift"
 
 #: src/affichage.c:519
 msgid "Addresses"
@@ -209,7 +209,7 @@ msgstr "Fælles adresse"
 #. * \note This is not implemented yet
 #: src/affichage.c:541
 msgid "Secondary address"
-msgstr ""
+msgstr "Sekundær adresse"
 
 #: src/affichage.c:697
 msgid "Transaction list font"
@@ -217,39 +217,39 @@ msgstr ""
 
 #: src/affichage.c:856
 msgid "Select a new animation"
-msgstr ""
+msgstr "Vælg ny animation"
 
 #: src/affichage.c:864
 msgid "Select a new logo"
-msgstr ""
+msgstr "Væl nyt logo"
 
 #: src/affichage_formulaire.c:73
 msgid "Col 1"
-msgstr ""
+msgstr "Kol 1"
 
 #: src/affichage_formulaire.c:74
 msgid "Col 2"
-msgstr ""
+msgstr "Kol 2"
 
 #: src/affichage_formulaire.c:75
 msgid "Col 3"
-msgstr ""
+msgstr "Kol 3"
 
 #: src/affichage_formulaire.c:76
 msgid "Col 4"
-msgstr ""
+msgstr "Kol 4"
 
 #: src/affichage_formulaire.c:77
 msgid "Col 5"
-msgstr ""
+msgstr "Kol 5"
 
 #: src/affichage_formulaire.c:78
 msgid "Col 6"
-msgstr ""
+msgstr "Kol 6"
 
 #: src/affichage_formulaire.c:151
 msgid "Form structure preview"
-msgstr ""
+msgstr "Vis formularstruktur"
 
 #. mise en place du bouton de choix
 #: src/affichage_formulaire.c:168
@@ -258,11 +258,11 @@ msgstr ""
 
 #: src/affichage_formulaire.c:307
 msgid "rows"
-msgstr ""
+msgstr "rækker"
 
 #: src/affichage_formulaire.c:354
 msgid "columns"
-msgstr ""
+msgstr "kolonner"
 
 #: src/affichage_formulaire.c:381
 msgid "Form structure content"
@@ -294,7 +294,7 @@ msgstr ""
 #: src/operations_formulaire.c:718
 #: src/operations_formulaire.c:3683
 msgid "Date"
-msgstr ""
+msgstr "Dato"
 
 #. Debit type
 #: src/affichage_formulaire.c:841
@@ -316,7 +316,7 @@ msgstr ""
 #: src/ventilation.c:901
 #: src/ventilation.c:1301
 msgid "Debit"
-msgstr ""
+msgstr "Debit"
 
 #. Credit type
 #: src/affichage_formulaire.c:845
@@ -339,20 +339,20 @@ msgstr ""
 #: src/ventilation.c:929
 #: src/ventilation.c:1303
 msgid "Credit"
-msgstr ""
+msgstr "Kredit"
 
 #: src/affichage_formulaire.c:849
 #: src/affichage_liste.c:805
 #: src/operations_formulaire.c:923
 #: src/operations_formulaire.c:3691
 msgid "Value date"
-msgstr ""
+msgstr "Valørdato"
 
 #: src/affichage_formulaire.c:853
 #: src/affichage_liste.c:841
 #: src/etats_affiche.c:2140
 msgid "Financial year"
-msgstr ""
+msgstr "Regnskabsår"
 
 #. mise en place de la frame des tiers
 #: src/affichage_formulaire.c:857
@@ -377,7 +377,7 @@ msgstr ""
 #: src/etats_config.c:7422
 #: src/fenetre_principale.c:147
 msgid "Categories"
-msgstr ""
+msgstr "Kategorier"
 
 #. bouton ventilation, pour accÃ©der Ã  la fenetre de ventil de l'Ã©chÃ©ance
 #. mise en forme du bouton ventilation
@@ -422,11 +422,11 @@ msgstr ""
 #: src/ventilation.c:833
 #: src/ventilation.c:1299
 msgid "Notes"
-msgstr ""
+msgstr "Noter"
 
 #: src/affichage_formulaire.c:877
 msgid "Method of payment"
-msgstr ""
+msgstr "Betalingstype"
 
 #: src/affichage_formulaire.c:881
 #: src/affichage_liste.c:869
@@ -439,7 +439,7 @@ msgstr ""
 #: src/devises.c:1142
 #: src/import.c:447
 msgid "Currency"
-msgstr ""
+msgstr "Valuta"
 
 #. mise en forme du bouton change
 #: src/affichage_formulaire.c:889
@@ -617,7 +617,7 @@ msgstr ""
 #: src/affichage_liste.c:833
 #: src/equilibrage.c:1547
 msgid "Payment method"
-msgstr ""
+msgstr "Betalingsmåde"
 
 #: src/affichage_liste.c:837
 msgid "Reconciliation ref."
@@ -646,7 +646,7 @@ msgstr ""
 
 #: src/affichage_liste.c:1082
 msgid "Displayed fields"
-msgstr ""
+msgstr "Synlige felter"
 
 #: src/affichage_liste.c:1085
 msgid "'Accept' and 'Cancel' buttons"
@@ -677,7 +677,7 @@ msgstr ""
 #: src/banque.c:185
 #: src/comptes_gestion.c:371
 msgid "New bank"
-msgstr ""
+msgstr "Ny bank"
 
 #: src/banque.c:244
 #: src/banque.c:248
@@ -704,13 +704,13 @@ msgstr ""
 #: src/equilibrage.c:628
 #: src/exercice.c:500
 msgid "None"
-msgstr ""
+msgstr "Ingen"
 
 #. ligne de l'Ã©tablissement financier
 #: src/banque.c:386
 #: src/comptes_gestion.c:320
 msgid "Bank"
-msgstr ""
+msgstr "Bank"
 
 #: src/banque.c:387
 msgid "Contact name"
@@ -727,7 +727,7 @@ msgstr ""
 
 #: src/banque.c:573
 msgid "Bank details"
-msgstr ""
+msgstr "Bankoplysninger"
 
 #. Bank name item
 #. Name
@@ -741,7 +741,7 @@ msgstr ""
 #: src/import.c:437
 #: src/type_operations.c:409
 msgid "Name"
-msgstr ""
+msgstr "Navn"
 
 #. Bank Sort code item
 #: src/banque.c:599
@@ -752,36 +752,36 @@ msgstr ""
 #: src/banque.c:614
 #: src/comptes_gestion.c:277
 msgid "Address"
-msgstr ""
+msgstr "Adresse"
 
 #. Phone number
 #: src/banque.c:637
 #: src/banque.c:705
 msgid "Phone"
-msgstr ""
+msgstr "Tlf."
 
 #. E-mail
 #. E-Mail
 #: src/banque.c:652
 #: src/banque.c:735
 msgid "E-Mail"
-msgstr ""
+msgstr "E-mail"
 
 #. Website
 #: src/banque.c:667
 #: src/help.c:73
 msgid "Website"
-msgstr ""
+msgstr "Website"
 
 #. Contact
 #: src/banque.c:682
 msgid "Contact"
-msgstr ""
+msgstr "Kontaktperson"
 
 #. Fax
 #: src/banque.c:720
 msgid "Fax"
-msgstr ""
+msgstr "Fax"
 
 #: src/banque.c:810
 msgid "Edit bank"
@@ -1331,7 +1331,7 @@ msgstr ""
 #. crÃ©ation de l'item compte bancaire
 #: src/comptes_gestion.c:694
 msgid "Bank account"
-msgstr ""
+msgstr "Bankkonto"
 
 #. crÃ©ation de l'item compte de caisse
 #: src/comptes_gestion.c:705
@@ -1383,7 +1383,7 @@ msgstr ""
 #: src/comptes_onglet.c:180
 #: src/menu.c:132
 msgid "New account"
-msgstr ""
+msgstr "Ny konto"
 
 #. mise en place du bouton "supprimer un compte"
 #: src/comptes_onglet.c:190
@@ -1416,7 +1416,7 @@ msgstr ""
 #: src/comptes_traitements.c:640
 #: src/qif.c:299
 msgid "Credit card"
-msgstr ""
+msgstr "Kreditkort"
 
 #: src/comptes_traitements.c:652
 msgid "Direct debit"
@@ -1425,7 +1425,7 @@ msgstr ""
 #: src/comptes_traitements.c:664
 #: src/etats_affiche.c:2182
 msgid "Cheque"
-msgstr ""
+msgstr "Check"
 
 #: src/comptes_traitements.c:740
 msgid "Choose account type"
@@ -1456,7 +1456,7 @@ msgstr ""
 
 #: src/devises.c:395
 msgid "Europe"
-msgstr ""
+msgstr "Europa"
 
 #: src/devises.c:396
 msgid "Northern America"
@@ -1483,14 +1483,14 @@ msgstr ""
 #: src/devises.c:509
 #: src/devises.c:1143
 msgid "ISO Code"
-msgstr ""
+msgstr "ISO-kode"
 
 #. Create code entry
 #: src/devises.c:520
 #: src/devises.c:1144
 #: src/devises.c:1277
 msgid "Sign"
-msgstr ""
+msgstr "Symbol"
 
 #: src/devises.c:551
 msgid "Include obsolete currencies"
@@ -1500,7 +1500,7 @@ msgstr ""
 #: src/devises.c:588
 #: src/import.c:531
 msgid "Add a currency"
-msgstr ""
+msgstr "Tilføj valuta"
 
 #: src/devises.c:606
 msgid "ISO 4217 currencies"
@@ -1518,7 +1518,7 @@ msgstr ""
 #. Currency usual sign
 #: src/devises.c:656
 msgid "Currency sign"
-msgstr ""
+msgstr "Valutasymbol"
 
 #: src/devises.c:692
 msgid "Currency already exists."
@@ -1564,11 +1564,11 @@ msgstr ""
 #: src/etats_config.c:6357
 #: src/parametres.c:341
 msgid "Currencies"
-msgstr ""
+msgstr "Valutaer"
 
 #: src/devises.c:1152
 msgid "Known currencies"
-msgstr ""
+msgstr "Kendte valutaer"
 
 #: src/devises.c:1241
 msgid "Currency properties"
@@ -1577,7 +1577,7 @@ msgstr ""
 #. Create code entry
 #: src/devises.c:1293
 msgid "ISO code"
-msgstr ""
+msgstr "ISO-kode"
 
 #: src/dialog.c:250
 #: src/fichiers_gestion.c:565
@@ -1591,19 +1591,19 @@ msgstr ""
 #: src/operations_formulaire.c:418
 #: src/operations_formulaire.c:419
 msgid "Choose currency"
-msgstr ""
+msgstr "Vælg valuta"
 
 #: src/echeancier_formulaire.c:324
 #: src/echeancier_formulaire.c:325
 msgid "Choose the account"
-msgstr ""
+msgstr "Vælg konto"
 
 #: src/echeancier_formulaire.c:416
 #: src/echeancier_formulaire.c:417
 #: src/operations_formulaire.c:396
 #: src/operations_formulaire.c:397
 msgid "Choose the method of payment"
-msgstr ""
+msgstr "Væl betaligsmåde"
 
 #: src/echeancier_formulaire.c:450
 #: src/echeancier_formulaire.c:451
@@ -1614,7 +1614,7 @@ msgstr ""
 #: src/ventilation.c:575
 #: src/ventilation.c:576
 msgid "Choose the financial year"
-msgstr ""
+msgstr "Vælg regnskabsår"
 
 #: src/echeancier_formulaire.c:566
 #: src/echeancier_formulaire.c:567
@@ -1626,13 +1626,13 @@ msgstr ""
 #: src/menu.c:155
 #: src/operations_liste.c:2532
 msgid "Manual"
-msgstr ""
+msgstr "Manuel"
 
 #: src/echeancier_formulaire.c:583
 #: src/echeancier_liste.c:549
 #: src/exercice.c:485
 msgid "Automatic"
-msgstr ""
+msgstr "Automatisk"
 
 #: src/echeancier_formulaire.c:638
 #: src/echeancier_formulaire.c:639
@@ -1644,27 +1644,27 @@ msgstr ""
 #: src/echeancier_infos.c:178
 #: src/echeancier_liste.c:513
 msgid "Once"
-msgstr ""
+msgstr "En gang"
 
 #: src/echeancier_formulaire.c:663
 #: src/echeancier_liste.c:516
 msgid "Weekly"
-msgstr ""
+msgstr "Hver uge"
 
 #: src/echeancier_formulaire.c:679
 #: src/echeancier_liste.c:519
 msgid "Monthly"
-msgstr ""
+msgstr "Hver måned"
 
 #: src/echeancier_formulaire.c:695
 #: src/echeancier_liste.c:522
 msgid "Yearly"
-msgstr ""
+msgstr "Hvert år"
 
 #: src/echeancier_formulaire.c:711
 #: src/echeancier_infos.c:188
 msgid "Custom"
-msgstr ""
+msgstr "Brugerdefineret"
 
 #: src/echeancier_formulaire.c:775
 #: src/echeancier_formulaire.c:776
@@ -1676,18 +1676,18 @@ msgstr ""
 #: src/echeancier_formulaire.c:804
 #: src/echeancier_infos.c:238
 msgid "Days"
-msgstr ""
+msgstr "Dage"
 
 #: src/echeancier_formulaire.c:812
 #: src/echeancier_infos.c:246
 #: src/etats_config.c:6150
 msgid "Months"
-msgstr ""
+msgstr "Måneder"
 
 #: src/echeancier_formulaire.c:820
 #: src/echeancier_infos.c:254
 msgid "Years"
-msgstr ""
+msgstr "År"
 
 #: src/echeancier_formulaire.c:1046
 #: src/echeancier_formulaire.c:2402
@@ -1698,7 +1698,7 @@ msgstr ""
 #: src/ventilation.c:826
 #: src/ventilation.c:1297
 msgid "Categories : Sub-categories"
-msgstr ""
+msgstr "Kategorier: Underkategorier"
 
 #: src/echeancier_formulaire.c:1064
 #: src/echeancier_formulaire.c:2404
@@ -1715,7 +1715,7 @@ msgstr ""
 #: src/equilibrage.c:968
 #: src/operations_formulaire.c:2571
 msgid "Invalid date"
-msgstr ""
+msgstr "Forkert dato"
 
 #: src/echeancier_formulaire.c:1477
 msgid "Invalid limit date"
@@ -1781,7 +1781,7 @@ msgstr ""
 #: src/ventilation.c:3049
 #: src/ventilation.c:3051
 msgid "Euro"
-msgstr ""
+msgstr "Euro"
 
 #: src/echeancier_formulaire.c:2452
 msgid "Modification"
@@ -3485,12 +3485,12 @@ msgstr ""
 #. Start
 #: src/exercice.c:288
 msgid "Start"
-msgstr ""
+msgstr "Start"
 
 #. End
 #: src/exercice.c:302
 msgid "End"
-msgstr ""
+msgstr "Slut"
 
 #. Activate in transaction form?
 #: src/exercice.c:316
@@ -3537,7 +3537,7 @@ msgstr ""
 
 #: src/fichier_configuration.c:427
 msgid "File : "
-msgstr ""
+msgstr "Fil :"
 
 #: src/fichier_configuration.c:430
 msgid "Error opening config"
@@ -3546,7 +3546,7 @@ msgstr ""
 #: src/fichier_configuration.c:629
 #: src/print_config.c:45
 msgid "A4"
-msgstr ""
+msgstr "A4"
 
 #: src/fichier_configuration.c:834
 #, c-format
@@ -3831,7 +3831,7 @@ msgstr ""
 #: src/help.c:78
 #: src/help.c:84
 msgid "subscribe"
-msgstr ""
+msgstr "abonnér"
 
 #: src/help.c:79
 msgid "Bug report"
@@ -3947,30 +3947,30 @@ msgstr ""
 #: src/import.c:884
 #: src/import.c:2842
 msgid "QIF file"
-msgstr ""
+msgstr "QIF-fil"
 
 #: src/import.c:888
 #: src/import.c:2846
 msgid "OFX file"
-msgstr ""
+msgstr "OFX-fil"
 
 #: src/import.c:892
 msgid "HTML file"
-msgstr ""
+msgstr "HTML-fil"
 
 #: src/import.c:896
 #: src/import.c:2850
 msgid "Gnucash file"
-msgstr ""
+msgstr "Gnucash-fil"
 
 #: src/import.c:900
 msgid "Unknown"
-msgstr ""
+msgstr "Ukendt"
 
 #. crÃ©ation des listes d'opÃ©
 #: src/import.c:1005
 msgid "Please wait"
-msgstr ""
+msgstr "Vent et øjeblik"
 
 #: src/import.c:1270
 msgid "Imported account"
@@ -4212,27 +4212,27 @@ msgstr ""
 #: src/traitement_variables.c:369
 #: src/traitement_variables.c:372
 msgid "File"
-msgstr ""
+msgstr "Fil"
 
 #: src/menu.c:90
 msgid "New account file"
-msgstr ""
+msgstr "Ny kontofil"
 
 #: src/menu.c:91
 msgid "Open"
-msgstr ""
+msgstr "Åbn"
 
 #: src/menu.c:93
 #: src/traitement_variables.c:139
 #: src/traitement_variables.c:148
 #: src/traitement_variables.c:363
 msgid "Save"
-msgstr ""
+msgstr "Gem"
 
 #: src/menu.c:94
 #: src/traitement_variables.c:366
 msgid "Save as"
-msgstr ""
+msgstr "Gem som"
 
 #: src/menu.c:96
 #: src/menu.c:237
@@ -4245,17 +4245,17 @@ msgstr ""
 
 #: src/menu.c:98
 msgid "Import QIF\\/OFX\\/CSV\\/Gnucash file ..."
-msgstr ""
+msgstr "Importér QIF\\/OFX\\/CSV\\/Gnucash fil..."
 
 #: src/menu.c:99
 #: src/traitement_variables.c:369
 msgid "Export QIF file ..."
-msgstr ""
+msgstr "Eksportér QIF-fil"
 
 #: src/menu.c:101
 #: src/traitement_variables.c:372
 msgid "Close"
-msgstr ""
+msgstr "Luk"
 
 #: src/menu.c:102
 msgid "Exit"
@@ -4279,7 +4279,7 @@ msgstr ""
 #: src/operations_comptes.c:581
 #: src/operations_comptes.c:588
 msgid "Edit"
-msgstr ""
+msgstr "Redigér"
 
 #. New transaction
 #: src/menu.c:107
@@ -4322,7 +4322,7 @@ msgstr ""
 
 #: src/menu.c:115
 msgid "Preferences"
-msgstr ""
+msgstr "Indstillinger"
 
 #: src/menu.c:120
 #: src/menu.c:198
@@ -4357,7 +4357,7 @@ msgstr ""
 #: src/menu.c:163
 #: src/menu.c:164
 msgid "Help"
-msgstr ""
+msgstr "Hjælp"
 
 #: src/menu.c:156
 msgid "Quickstart"
@@ -4507,7 +4507,7 @@ msgstr ""
 #: src/operations_formulaire.c:2755
 #: src/tiers_onglet.c:1505
 msgid "Report"
-msgstr ""
+msgstr "Rapport"
 
 #: src/operations_formulaire.c:2415
 msgid "No third party selected for this report."
@@ -4716,7 +4716,7 @@ msgstr ""
 
 #: src/parametres.c:591
 msgid "Backups"
-msgstr ""
+msgstr "Backup"
 
 #: src/parametres.c:595
 msgid "Make a backup copy after opening files"
@@ -4729,7 +4729,7 @@ msgstr ""
 
 #: src/parametres.c:618
 msgid "Backup file"
-msgstr ""
+msgstr "Backup-fil"
 
 #: src/parametres.c:657
 msgid "Backup compression level"
@@ -4737,7 +4737,7 @@ msgstr ""
 
 #: src/parametres.c:689
 msgid "backup.gsb"
-msgstr ""
+msgstr "backup.gsb"
 
 #: src/parametres.c:715
 msgid "Print support"
@@ -4755,15 +4755,15 @@ msgstr ""
 #: src/parametres.c:739
 #: src/print_config.c:277
 msgid "Misc"
-msgstr ""
+msgstr "Andet"
 
 #: src/parametres.c:746
 msgid "Web browser"
-msgstr ""
+msgstr "Webbrowser"
 
 #: src/patienter.c:107
 msgid "Wait please..."
-msgstr ""
+msgstr "Vent et øjeblik..."
 
 #: src/print_config.c:44
 msgid "A3"
@@ -4791,31 +4791,31 @@ msgstr ""
 
 #: src/print_config.c:86
 msgid "General"
-msgstr ""
+msgstr "Generelt"
 
 #: src/print_config.c:89
 msgid "Paper"
-msgstr ""
+msgstr "Papir"
 
 #. Printer paddingbox
 #. Print to printer
 #: src/print_config.c:153
 #: src/print_config.c:161
 msgid "Printer"
-msgstr ""
+msgstr "Printer"
 
 #: src/print_config.c:190
 msgid "Postscript file"
-msgstr ""
+msgstr "Postscript-fil"
 
 #: src/print_config.c:192
 msgid "LaTeX file"
-msgstr ""
+msgstr "LaTeX-fil"
 
 #. Paper size
 #: src/print_config.c:218
 msgid "Size"
-msgstr ""
+msgstr "Størrelse"
 
 #. Paper orientation
 #: src/print_config.c:242
@@ -4912,7 +4912,7 @@ msgstr ""
 
 #: src/tiers_onglet.c:158
 msgid "Last date"
-msgstr ""
+msgstr "Sidste dato"
 
 #. mise en place du bouton ajout d'1 tiers
 #: src/tiers_onglet.c:314
