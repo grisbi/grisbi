@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-07-03 17:36+0200\n"
-"PO-Revision-Date: 2005-04-28 16:04+0100\n"
+"PO-Revision-Date: 2005-04-28 17:04+0100\n"
 "Last-Translator: Dmitri Popov <lazylegs@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -75,7 +75,7 @@ msgstr ""
 #: src/accueil.c:907
 #: src/accueil.c:1228
 msgid "Current balance"
-msgstr ""
+msgstr "Betalingsbalance"
 
 #. CrÃ©ation et remplissage de la (nb_comptes + 3)iÃ¨me ligne du tableau :
 #. elle contient la somme des soldes de chaque compte
@@ -602,7 +602,7 @@ msgstr ""
 #: src/operations_liste.c:3768
 #: src/operations_liste.c:3811
 msgid "Balance"
-msgstr ""
+msgstr "Balance"
 
 #: src/affichage_liste.c:829
 #: src/echeancier_liste.c:153
@@ -954,7 +954,7 @@ msgstr ""
 #: src/equilibrage.c:480
 #: src/utils_dates.c:589
 msgid "Cancel"
-msgstr ""
+msgstr "Annulér"
 
 #: src/categories_onglet.c:163
 msgid "Categories list"
@@ -978,21 +978,21 @@ msgstr ""
 #: src/imputation_budgetaire.c:195
 #: src/tiers_onglet.c:207
 msgid "Information"
-msgstr ""
+msgstr "Information"
 
 #: src/categories_onglet.c:253
 #: src/imputation_budgetaire.c:237
 msgid "Sorting"
-msgstr ""
+msgstr "Sortering"
 
 #. mise en place des boutons ajout d'1 categ / sous-categ
 #: src/categories_onglet.c:362
 msgid "Add a category"
-msgstr ""
+msgstr "Tilføj kategori"
 
 #: src/categories_onglet.c:376
 msgid "Add a subcategory"
-msgstr ""
+msgstr "Tilføj underkategori"
 
 #. on met le bouton exporter
 #. mise en place du bouton exporter
@@ -1000,7 +1000,7 @@ msgstr ""
 #: src/etats_onglet.c:401
 #: src/imputation_budgetaire.c:421
 msgid "Export"
-msgstr ""
+msgstr "Eksportér"
 
 #. on met le bouton importer
 #. mise en place du bouton importer
@@ -1010,7 +1010,7 @@ msgstr ""
 #: src/imputation_budgetaire.c:437
 #: src/parametres.c:236
 msgid "Import"
-msgstr ""
+msgstr "Importér"
 
 #: src/categories_onglet.c:622
 #: src/categories_onglet.c:679
@@ -1172,7 +1172,7 @@ msgstr ""
 
 #: src/categories_onglet.c:2759
 msgid "New category"
-msgstr ""
+msgstr "Ny kategori"
 
 #: src/categories_onglet.c:2760
 msgid "Enter name for new category"
@@ -1180,7 +1180,7 @@ msgstr ""
 
 #: src/categories_onglet.c:2818
 msgid "New sub-category"
-msgstr ""
+msgstr "Ny underkategori"
 
 #: src/categories_onglet.c:2819
 msgid "Enter name for new sub-category"
@@ -1188,7 +1188,7 @@ msgstr ""
 
 #: src/categories_onglet.c:2888
 msgid "Export categories"
-msgstr ""
+msgstr "Eksportér kategorier"
 
 #. on a maintenant un nom de fichier
 #. et on sait qu'on peut sauvegarder
@@ -1198,7 +1198,7 @@ msgstr ""
 #: src/fichiers_gestion.c:573
 #: src/imputation_budgetaire.c:2779
 msgid "Save file"
-msgstr ""
+msgstr "Gem fil"
 
 #: src/categories_onglet.c:2914
 #: src/etats_onglet.c:1208
@@ -1326,7 +1326,7 @@ msgstr ""
 #. crÃ©ation de la ligne du commentaire
 #: src/comptes_gestion.c:527
 msgid "Comments"
-msgstr ""
+msgstr "Kommentarer"
 
 #. crÃ©ation de l'item compte bancaire
 #: src/comptes_gestion.c:694
@@ -1444,11 +1444,11 @@ msgstr ""
 
 #: src/devises.c:392
 msgid "Africa"
-msgstr ""
+msgstr "Africa"
 
 #: src/devises.c:393
 msgid "Asia"
-msgstr ""
+msgstr "Asien"
 
 #: src/devises.c:394
 msgid "Central America"
@@ -1478,7 +1478,7 @@ msgstr ""
 #: src/devises.c:499
 #: src/devises.c:624
 msgid "Currency name"
-msgstr ""
+msgstr "Valutanavn"
 
 #: src/devises.c:509
 #: src/devises.c:1143
