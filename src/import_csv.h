@@ -1,3 +1,10 @@
-/*START_DECLARATION*/
+#ifndef _IMPORT_CSV_H
+#define _IMPORT_CSV_H (1)
+/* START_INCLUDE_H */
+/* END_INCLUDE_H */
+
+
+/* START_DECLARATION */
 gboolean recuperation_donnees_csv ( FILE *fichier );
-/*END_DECLARATION*/
+/* END_DECLARATION */
+#endif

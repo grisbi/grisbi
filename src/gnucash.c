@@ -30,6 +30,7 @@
 #include "dialog.h"
 #include "utils_str.h"
 #include "utils_files.h"
+#include "structures.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

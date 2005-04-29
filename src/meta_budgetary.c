@@ -21,12 +21,14 @@
 
 
 #include "include.h"
+#include "metatree.h"
 
 /*START_INCLUDE*/
 #include "meta_budgetary.h"
 #include "utils_ib.h"
 #include "utils_devises.h"
 #include "imputation_budgetaire.h"
+#include "structures.h"
 /*END_INCLUDE*/
 
 

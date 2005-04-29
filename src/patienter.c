@@ -27,6 +27,7 @@
 /*START_INCLUDE*/
 #include "patienter.h"
 #include "utils.h"
+#include "structures.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

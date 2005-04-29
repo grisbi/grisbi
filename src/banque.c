@@ -35,6 +35,7 @@
 #include "traitement_variables.h"
 #include "utils.h"
 #include "search_glist.h"
+#include "structures.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

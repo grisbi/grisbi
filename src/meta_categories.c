@@ -21,6 +21,7 @@
 
 
 #include "include.h"
+#include "metatree.h"
 
 /*START_INCLUDE*/
 #include "meta_categories.h"
@@ -28,6 +29,7 @@
 #include "utils_devises.h"
 #include "gsb_transaction_data.h"
 #include "categories_onglet.h"
+#include "structures.h"
 /*END_INCLUDE*/
 
 
@@ -83,7 +85,6 @@ extern gint nb_enregistrements_categories, no_derniere_categorie;
 extern int no_devise_totaux_categ;
 extern struct struct_categ * without_category;
 /*END_EXTERN*/
-
 
 static MetatreeInterface _category_interface = {
     2,

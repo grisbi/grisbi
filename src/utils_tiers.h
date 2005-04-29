@@ -1,4 +1,11 @@
-/*START_DECLARATION*/
+#ifndef _UTILS_TIERS_H
+#define _UTILS_TIERS_H (1)
+/* START_INCLUDE_H */
+#include "structures.h"
+/* END_INCLUDE_H */
+
+
+/* START_DECLARATION */
 void add_transaction_to_payee ( struct structure_operation * transaction,
 				struct struct_tiers * payee );
 struct struct_tiers *ajoute_nouveau_tiers ( gchar *tiers );
@@ -10,5 +17,5 @@ gchar *tiers_name_by_no ( gint no_tiers,
 struct struct_tiers *tiers_par_no ( gint no_tiers );
 struct struct_tiers *tiers_par_nom ( gchar *nom_tiers,
 				     gboolean creer );
-/*END_DECLARATION*/
-
+/* END_DECLARATION */
+#endif

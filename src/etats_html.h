@@ -1,6 +1,9 @@
-/* fichier d'en tête etats_html.h */
+#ifndef _ETATS_HTML_H
+#define _ETATS_HTML_H (1)
+/* START_INCLUDE_H */
+/* END_INCLUDE_H */
 
-struct struct_etat_affichage html_affichage;
 
-/*START_DECLARATION*/
-/*END_DECLARATION*/
+/* START_DECLARATION */
+/* END_DECLARATION */
+#endif

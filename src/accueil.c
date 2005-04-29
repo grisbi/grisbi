@@ -26,8 +26,6 @@
 /* ************************************************************************** */
 
 #include "include.h"
-#include "accueil_constants.h"
-#include "gsb_account.h"
 
 /*START_INCLUDE*/
 #include "accueil.h"
@@ -44,6 +42,7 @@
 #include "gtk_list_button.h"
 #include "utils.h"
 #include "utils_tiers.h"
+#include "structures.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

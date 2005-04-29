@@ -23,7 +23,6 @@
 /* ************************************************************************** */
 
 #include "include.h"
-#include "operations_formulaire_constants.h"
 
 
 /*START_INCLUDE*/
@@ -31,6 +30,8 @@
 #include "calendar.h"
 #include "traitement_variables.h"
 #include "utils_str.h"
+#include "operations_formulaire.h"
+#include "structures.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

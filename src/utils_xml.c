@@ -21,6 +21,7 @@
 /* ************************************************************************** */
 
 #include "include.h"
+#include <libxml/parser.h>
 
 
 /*START_INCLUDE*/

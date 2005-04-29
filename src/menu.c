@@ -24,8 +24,6 @@
 /* ************************************************************************** */
 
 #include "include.h"
-#include "fichier_configuration_constants.h"
-#include "menu_constants.h"
 
 
 /*START_INCLUDE*/
@@ -48,6 +46,8 @@
 #include "utils_str.h"
 #include "etats_config.h"
 #include "parametres.h"
+#include "fichier_configuration.h"
+#include "structures.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

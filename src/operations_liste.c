@@ -24,11 +24,6 @@
 /* ************************************************************************** */
 
 #include "include.h"
-#include "mouse.h"
-#include "operations_formulaire_constants.h"
-#include "utils_c.h"
-
-#include "gtk_cell_renderer_expander.h"
 
 
 /*START_INCLUDE*/
@@ -66,6 +61,8 @@
 #include "utils_rapprochements.h"
 #include "utils_tiers.h"
 #include "utils_types.h"
+#include "structures.h"
+#include "mouse.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

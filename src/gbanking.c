@@ -26,16 +26,22 @@
 #ifdef HAVE_G2BANKING
 
 #include "include.h"
-#include "structures.h"
-#include "import.h"
-#include "gbanking.h"
 
 #include <g2banking/gbanking.h>
 #include <aqbanking/imexporter.h>
 #include <gwenhywfar/debug.h>
 
+/*START_INCLUDE*/
+#include "gbanking.h"
+#include "import.h"
 #include "dialog.h"
-#include "utils.h"
+#include "include.h"
+#include "structures.h"
+/*END_INCLUDE*/
+
+/*START_STATIC*/
+/*END_STATIC*/
+
 
 /*START_EXTERN*/
 extern AB_BANKING *gbanking;

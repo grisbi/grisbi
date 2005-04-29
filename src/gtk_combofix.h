@@ -38,7 +38,7 @@ extern "C" {
 #define GTK_COMBOFIX_CLASS(klass) GTK_CHECK_CLASS_CAST( klass, gtk_combofix_get_type(), GtkComboFixClass )
 #define GTK_IS_COMBOFIX(obj) GTK_CHECK_TYPE ( obj, gtk_combofix_get_type() )
   
-  
+
   typedef struct _GtkComboFix GtkComboFix;
   typedef struct _GtkComboFixClass GtkComboFixClass;
 

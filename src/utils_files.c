@@ -30,6 +30,7 @@
 #include "print_config.h"
 #include "dialog.h"
 #include "utils_file_selection.h"
+#include "structures.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

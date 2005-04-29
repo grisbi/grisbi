@@ -1,4 +1,10 @@
-/*START_DECLARATION*/
+#ifndef _DIALOG_H
+#define _DIALOG_H (1)
+/* START_INCLUDE_H */
+/* END_INCLUDE_H */
+
+
+/* START_DECLARATION */
 gboolean blocage_boites_dialogues ( GtkWidget *dialog,
 				    gpointer null );
 void dialogue ( gchar *texte_dialogue );
@@ -18,5 +24,5 @@ void dialogue_warning_hint ( gchar *text, gchar * hint );
 gchar * make_hint ( gchar * hint, gchar * text );
 gboolean question ( gchar *texte );
 gboolean question_yes_no_hint ( gchar * hint, gchar *texte );
-/*END_DECLARATION*/
-
+/* END_DECLARATION */
+#endif

@@ -22,8 +22,6 @@
 #ifndef __CONFIGURATION_H
 #define __CONFIGURATION_H
 
-#include "include.h"
-
 
 /*--------------------------------------------------------------------------*/
 /*                                                                          */
@@ -38,8 +36,20 @@
 /*--------------------------------------------------------------------------*/
 
 typedef struct _ConfigFormat {
-	gchar  format_date_liste_ope[16]; /* date format in transaction list    */
+    gchar  format_date_liste_ope[16];   /*  date format in transaction list    */
 } ConfigFormat;
+
+
+/* START_INCLUDE_H */
+/* END_INCLUDE_H */
+
+
+/* START_DECLARATION */
+ConfigFormat *get_config_format();
+void load_config_format(xmlNodePtr node_format);
+void save_config_format(xmlNodePtr parent_node);
+void set_default_config_format();
+/* END_DECLARATION */
 
 
 /*--------------------------------------------------------------------------*/
@@ -73,7 +83,7 @@ typedef struct _ConfigFormat {
 /*                                                                          */
 /*--------------------------------------------------------------------------*/
 
-void load_config_format(xmlNodePtr node_format);
+/* void load_config_format(xmlNodePtr node_format); */
 
 
 /*--------------------------------------------------------------------------*/
@@ -108,7 +118,7 @@ void load_config_format(xmlNodePtr node_format);
 
 #define   DEFAULT_DATE_FORMAT_LISTE_OP  "%d/%m/%Y"
 
-void save_config_format(xmlNodePtr parent_node);
+/* void save_config_format(xmlNodePtr parent_node); */
 
 
 /*--------------------------------------------------------------------------*/
@@ -144,7 +154,7 @@ void save_config_format(xmlNodePtr parent_node);
 /*                                                                          */
 /*--------------------------------------------------------------------------*/
 
-void set_default_config_format();
+/* void set_default_config_format(); */
 
 
 /*--------------------------------------------------------------------------*/
@@ -177,6 +187,6 @@ void set_default_config_format();
 /*                                                                          */
 /*--------------------------------------------------------------------------*/
 
-ConfigFormat *get_config_format();
+/* ConfigFormat *get_config_format(); */
 
 #endif /* ifndef  __CONFIGURATION_H */

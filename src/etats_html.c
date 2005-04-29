@@ -19,7 +19,6 @@
 /*     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 
 #include "include.h"
-#include "etats_constants.h"
 
 /*START_INCLUDE*/
 #include "etats_html.h"
@@ -27,6 +26,8 @@
 #include "etats_support.h"
 #include "utils_file_selection.h"
 #include "utils_files.h"
+#include "structures.h"
+#include "etats_config.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

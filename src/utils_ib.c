@@ -30,6 +30,7 @@
 #include "gsb_account.h"
 #include "gsb_transaction_data.h"
 #include "search_glist.h"
+#include "structures.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

@@ -35,6 +35,7 @@
 #include "traitement_variables.h"
 #include "utils_tiers.h"
 #include "utils_files.h"
+#include "structures.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

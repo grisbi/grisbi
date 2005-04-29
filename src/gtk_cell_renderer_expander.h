@@ -18,7 +18,7 @@
  */
 
 #ifndef __GTK_CELL_RENDERER_EXPANDER_H__
-#define __GTK_CELL_RENDERER_EXPANDER_H__
+#define __GTK_CELL_RENDERER_EXPANDER_H__ (1)
 
 #include <gtk/gtkcellrenderer.h>
 
@@ -60,6 +60,11 @@ struct _GtkCellRendererExpanderClass
   void (*_gtk_reserved3) (void);
   void (*_gtk_reserved4) (void);
 };
+
+/* START_INCLUDE_H */
+#include "structures.h"
+/* END_INCLUDE_H */
+
 
 /* START_DECLARATION */
 GtkCellRenderer * gtk_cell_renderer_expander_new (void);

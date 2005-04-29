@@ -1,4 +1,11 @@
-/*START_DECLARATION*/
+#ifndef _UTILS_CATEGORIES_H
+#define _UTILS_CATEGORIES_H (1)
+/* START_INCLUDE_H */
+#include "structures.h"
+/* END_INCLUDE_H */
+
+
+/* START_DECLARATION */
 void add_transaction_to_category ( struct structure_operation * transaction,
 				   struct struct_categ * category,
 				   struct struct_sous_categ * sub_category );
@@ -20,5 +27,5 @@ struct struct_sous_categ *sous_categ_par_no ( gint no_categorie,
 struct struct_sous_categ *sous_categ_par_nom ( struct struct_categ *categ,
 					       gchar *nom_sous_categ,
 					       gboolean creer );
-/*END_DECLARATION*/
-
+/* END_DECLARATION */
+#endif

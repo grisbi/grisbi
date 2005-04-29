@@ -16,7 +16,7 @@
 /*                                                                               */
 /* *******************************************************************************/
 #ifndef   __PARSE_CMDLINE_H
-#define   __PARSE_CMDLINE_H
+#define   __PARSE_CMDLINE_H (1)
 
 struct _cmdline_options 
 {
@@ -39,10 +39,17 @@ typedef struct _cmdline_options cmdline_options;
 /* (affichage numéro de version ou erreur de paramètres par exemple), false si     */
 /* on continue                                                                     */
 
-gboolean  parse_options(int argc, char **argv, cmdline_options *pOpt);
+/* gboolean  parse_options(int argc, char **argv, cmdline_options *pOpt); */
+/* START_INCLUDE_H */
+#include "structures.h"
+/* END_INCLUDE_H */
 
-#endif  /* ifndef __PARSE_CMDLINE_H */
 
 /*START_DECLARATION*/
 gboolean  parse_options(int argc, char **argv, cmdline_options *pOpt);
 /*END_DECLARATION*/
+
+
+#endif  /* ifndef __PARSE_CMDLINE_H */
+
+

@@ -34,6 +34,7 @@
 #include "utils_devises.h"
 #include "gsb_transaction_data.h"
 #include "utils_str.h"
+#include "structures.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

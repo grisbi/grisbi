@@ -37,6 +37,7 @@
 #include "gsb_transaction_data.h"
 #include "utils_devises.h"
 #include "gsb_account.h"
+#include "structures.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

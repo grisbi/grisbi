@@ -23,12 +23,13 @@
 /* ************************************************************************** */
 
 #include "include.h"
-#include "fichier_configuration_constants.h"
 
 /*START_INCLUDE*/
 #include "utils_buttons.h"
 #include "utils.h"
 #include "traitement_variables.h"
+#include "structures.h"
+#include "fichier_configuration.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

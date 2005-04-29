@@ -1,4 +1,10 @@
-/*START_DECLARATION*/
+#ifndef _UTILS_H
+#define _UTILS_H (1)
+/* START_INCLUDE_H */
+/* END_INCLUDE_H */
+
+
+/* START_DECLARATION */
 gboolean assert_account_loaded ();
 void demarrage_idle ( void );
 void desensitive_widget ( GtkWidget *widget );
@@ -17,5 +23,5 @@ void sens_desensitive_pointeur ( GtkWidget *bouton,
 void sensitive_widget ( GtkWidget *widget );
 gboolean termine_idle ( void );
 void update_ecran ( void );
-/*END_DECLARATION*/
-
+/* END_DECLARATION */
+#endif

@@ -1,4 +1,11 @@
-/*START_DECLARATION*/
+#ifndef _ETATS_AFFICHE_H
+#define _ETATS_AFFICHE_H (1)
+/* START_INCLUDE_H */
+#include "structures.h"
+/* END_INCLUDE_H */
+
+
+/* START_DECLARATION */
 gint etat_affiche_affichage_ligne_ope ( struct structure_operation *operation,
 					gint ligne );
 gint etat_affiche_affiche_categ_etat ( struct structure_operation *operation,
@@ -41,5 +48,5 @@ gint etat_affiche_affiche_totaux_sous_jaccent ( gint origine,
 						gint ligne );
 gint etat_affiche_finish ();
 gint etat_affiche_initialise (GSList * opes_selectionnees);
-/*END_DECLARATION*/
-
+/* END_DECLARATION */
+#endif

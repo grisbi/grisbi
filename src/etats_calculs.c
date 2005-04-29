@@ -20,7 +20,6 @@
 /*     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 
 #include "include.h"
-#include "gsb_account.h"
 
 
 /*START_INCLUDE*/
@@ -36,6 +35,7 @@
 #include "utils_rapprochements.h"
 #include "utils_tiers.h"
 #include "utils_types.h"
+#include "structures.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

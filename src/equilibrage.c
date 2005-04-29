@@ -25,8 +25,6 @@
 
 
 #include "include.h"
-#include "equilibrage_constants.h"
-#include "fenetre_principale_constants.h"
 
 
 
@@ -46,6 +44,7 @@
 #include "utils.h"
 #include "utils_rapprochements.h"
 #include "utils_types.h"
+#include "structures.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

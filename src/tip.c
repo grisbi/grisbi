@@ -22,12 +22,13 @@
 
 
 #include "include.h"
-#include "fichier_configuration_constants.h"
 
 #define START_INCLUDE
 #include "tip.h"
 #include "dialog.h"
 #include "utils_buttons.h"
+#include "fichier_configuration.h"
+#include "structures.h"
 #define END_INCLUDE
 
 #define START_STATIC

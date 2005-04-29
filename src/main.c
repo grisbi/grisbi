@@ -42,10 +42,6 @@
 
 
 #include "include.h"
-#include "fichier_configuration_constants.h"
-#include "fenetre_principale_constants.h"
-
-
 
 /*START_INCLUDE*/
 #include "main.h"
@@ -63,6 +59,9 @@
 #include "parametres.h"
 #include "etats_calculs.h"
 #include "utils_files.h"
+#include "include.h"
+#include "structures.h"
+#include "fenetre_principale.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

@@ -36,6 +36,7 @@
 #include "utils_str.h"
 #include "traitement_variables.h"
 #include "utils_tiers.h"
+#include "structures.h"
 /*END_INCLUDE*/
 
 

@@ -2,6 +2,12 @@
 #define _GSB_ACCOUNT_H (1)
 
 
+/* START_INCLUDE_H */
+#include "operations_liste.h"
+#include "structures.h"
+/* END_INCLUDE_H */
+
+
 /** \struct
  * kind of the account
  * */

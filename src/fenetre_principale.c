@@ -22,8 +22,6 @@
 /* ************************************************************************** */
 
 #include "include.h"
-#include "fenetre_principale_constants.h"
-#include "fichier_configuration_constants.h"
 
 /*START_INCLUDE*/
 #include "fenetre_principale.h"
@@ -40,6 +38,9 @@
 #include "imputation_budgetaire.h"
 #include "tiers_onglet.h"
 #include "comptes_gestion.h"
+#include "include.h"
+#include "fichier_configuration.h"
+#include "structures.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

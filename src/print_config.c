@@ -28,6 +28,7 @@
 #include "utils_files.h"
 #include "utils.h"
 #include "dialog.h"
+#include "structures.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

@@ -21,11 +21,6 @@
 
 
 #include "include.h"
-#include "type_operations_constants.h"
-#include "echeancier_formulaire_constants.h"
-#include "operations_formulaire_constants.h"
-
-
 
 
 /*START_INCLUDE*/
@@ -40,6 +35,8 @@
 #include "traitement_variables.h"
 #include "utils.h"
 #include "affichage_formulaire.h"
+#include "structures.h"
+#include "echeancier_formulaire.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

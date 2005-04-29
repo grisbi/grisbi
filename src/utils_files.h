@@ -5,6 +5,10 @@
 #include <sys/stat.h>
 #include <libxml/parser.h>
 
+/* START_INCLUDE_H */
+/* END_INCLUDE_H */
+
+
 /*START_DECLARATION*/
 gint get_line_from_file ( FILE *fichier,
 			  gchar **string );

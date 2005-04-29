@@ -20,10 +20,10 @@
 /* ************************************************************************** */
 
 #include "include.h"
-#include "xmlnames.h"
 
 /*START_INCLUDE*/
 #include "configuration.h"
+#include "xmlnames.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

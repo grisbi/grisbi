@@ -25,7 +25,6 @@
 
 
 #include "include.h"
-#include "fichier_configuration_constants.h"
 
 
 /*START_INCLUDE*/
@@ -39,6 +38,8 @@
 #include "utils_str.h"
 #include "utils_files.h"
 #include "fichier_configuration.h"
+#include "include.h"
+#include "structures.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

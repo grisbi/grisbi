@@ -19,7 +19,6 @@
 /*     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 
 #include "include.h"
-#include "affichage_liste_constants.h"
 
 
 /*START_INCLUDE*/
@@ -30,6 +29,7 @@
 #include "traitement_variables.h"
 #include "utils_buttons.h"
 #include "affichage.h"
+#include "structures.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -54,6 +54,26 @@ static gboolean transactions_list_display_modes_menu_changed  ( GtkWidget * menu
 /*END_STATIC*/
 
 
+
+gchar *labels_boutons [] = {
+    N_("Date"),
+    N_("Value date"),
+    N_("Third party"),
+    N_("Budgetary line"),
+    N_("Debit"),
+    N_("Credit"),
+    N_("Balance"),
+    N_("Amount"),
+    N_("Method of payment"),
+    N_("Reconciliation ref."),
+    N_("Financial year"),
+    N_("Category"),
+    N_("C/R"),
+    N_("Voucher"),
+    N_("Notes"),
+    N_("Bank references"),
+    N_("Transaction number"),
+    NULL };
 
 
 /* utilisée pour éviter l'emballement de la connection allocation */

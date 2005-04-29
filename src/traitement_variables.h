@@ -1,3 +1,6 @@
+#ifndef _TRAITEMENT_VARIABLES_H
+#define _TRAITEMENT_VARIABLES_H (1)
+
 /* initialisation des couleurs */
 
 #define COULEUR1_RED  55000
@@ -20,6 +23,11 @@
 #define COULEUR_GRISE_BLUE 50000
 
 
+/* START_INCLUDE_H */
+#include "structures.h"
+/* END_INCLUDE_H */
+
+
 /*START_DECLARATION*/
 void init_default_sort_column ( gint no_account );
 void init_variables ( void );
@@ -27,4 +35,7 @@ void initialisation_couleurs_listes ( void );
 void menus_sensitifs ( gboolean sensitif );
 void modification_fichier ( gboolean modif );
 /*END_DECLARATION*/
+
+
+#endif
 

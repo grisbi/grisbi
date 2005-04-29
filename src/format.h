@@ -30,8 +30,7 @@ extern "C" {
 #endif
 
 #include  <glib.h>
-#include  "include.h"
-#include  "structures.h"
+/* #include  "include.h" */
 
   	
 	/* Date formatting */
@@ -74,6 +73,10 @@ extern "C" {
 /*    - the formatted string (buf)                                          */
 /*                                                                          */
 /*--------------------------------------------------------------------------*/
+
+    /* START_INCLUDE_H */
+    /* END_INCLUDE_H */
+
 
 /*START_DECLARATION*/
 gchar *gsb_format_gdate(GDate *gdate);

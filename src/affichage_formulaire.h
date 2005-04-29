@@ -1,9 +1,16 @@
-/*START_DECLARATION*/
+#ifndef _AFFICHAGE_FORMULAIRE_H
+#define _AFFICHAGE_FORMULAIRE_H (1)
+/* START_INCLUDE_H */
+#include "structures.h"
+/* END_INCLUDE_H */
+
+
+/* START_DECLARATION */
 GtkWidget *creation_liste_organisation_formulaire ( void );
 gboolean recherche_place_element_formulaire ( struct organisation_formulaire *structure_formulaire,
 					      gint no_element,
 					      gint *ligne,
 					      gint *colonne );
 gboolean verifie_element_formulaire_existe ( gint no_element );
-/*END_DECLARATION*/
-
+/* END_DECLARATION */
+#endif

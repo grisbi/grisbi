@@ -36,6 +36,7 @@
 #include "import.h"
 #include "type_operations.h"
 #include "equilibrage.h"
+#include "structures.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

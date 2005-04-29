@@ -28,6 +28,7 @@
 /*START_INCLUDE*/
 #include "utils_echeances.h"
 #include "search_glist.h"
+#include "structures.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

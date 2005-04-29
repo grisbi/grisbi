@@ -21,7 +21,6 @@
 
 
 #include "include.h"
-#include "echeancier_liste_constants.h"
 
 /* structure utilisée pour récupérer les nos de versions */
 
@@ -50,6 +49,9 @@ struct recuperation_version
 #include "fichiers_gestion.h"
 #include "search_glist.h"
 #include "utils_files.h"
+#include "structures.h"
+#include "echeancier_liste.h"
+#include "operations_liste.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

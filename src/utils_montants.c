@@ -29,6 +29,7 @@
 #include "utils_montants.h"
 #include "gsb_account.h"
 #include "gsb_transaction_data.h"
+#include "structures.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

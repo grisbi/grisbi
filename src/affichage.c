@@ -22,7 +22,6 @@
 
 
 #include "include.h"
-#include "utils_buttons.h"
 
 /*START_INCLUDE*/
 #include "affichage.h"
@@ -35,6 +34,8 @@
 #include "traitement_variables.h"
 #include "utils.h"
 #include "utils_editables.h"
+#include "structures.h"
+#include "utils_buttons.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

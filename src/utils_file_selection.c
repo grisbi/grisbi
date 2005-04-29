@@ -43,6 +43,7 @@ extern "C" {
 #include "utils_file_selection.h"
 #include "dialog.h"
 #include "utils_files.h"
+#include "structures.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -57,11 +58,6 @@ static void file_selection_overwrite_file_check_signal(GtkWidget *selection_fich
 extern GtkTreeSelection * selection;
 /*END_EXTERN*/
 
-
-/* #include "dialog.h" */
-/* #include "utils_files.h" */
-/* #include "utils_file_selection.h" */
-/* #include <gtk/gtk.h> */
 
 #ifdef _WIN32_USE_FILE_DIALOG
 #include "win32_file_selection.h"

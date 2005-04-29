@@ -1,6 +1,10 @@
-#include "gsb_account.h"
+#ifndef _COMPTES_TRAITEMENTS_H
+#define _COMPTES_TRAITEMENTS_H (1)
+/* START_INCLUDE_H */
+/* END_INCLUDE_H */
 
-/*START_DECLARATION*/
+
+/* START_DECLARATION */
 void changement_choix_compte_echeancier ( void );
 GtkWidget * creation_option_menu_comptes ( GtkSignalFunc func, 
 					   gboolean activate_currrent,
@@ -8,7 +12,7 @@ GtkWidget * creation_option_menu_comptes ( GtkSignalFunc func,
 void creation_types_par_defaut ( gint no_compte,
 				 gulong dernier_cheque );
 gboolean delete_account ( void );
-kind_account demande_type_nouveau_compte ( void );
+gint demande_type_nouveau_compte ( void );
 gboolean new_account ( void );
-/*END_DECLARATION*/
-
+/* END_DECLARATION */
+#endif

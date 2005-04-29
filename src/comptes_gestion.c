@@ -48,6 +48,7 @@
 #include "imputation_budgetaire.h"
 #include "tiers_onglet.h"
 #include "utils_comptes.h"
+#include "structures.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

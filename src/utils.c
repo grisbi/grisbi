@@ -27,7 +27,6 @@
 /* ************************************************************************** */
 
 #include "include.h"
-#include "fichier_configuration_constants.h"
 
 
 /*START_INCLUDE*/
@@ -35,6 +34,8 @@
 #include "dialog.h"
 #include "gsb_account.h"
 #include "main.h"
+#include "fichier_configuration.h"
+#include "structures.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

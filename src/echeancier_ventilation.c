@@ -23,9 +23,6 @@
 
 
 #include "include.h"
-#include "echeancier_ventilation_constants.h"
-#include "echeancier_formulaire_constants.h"
-#include "operations_formulaire_constants.h"
 
 
 
@@ -51,6 +48,7 @@
 #include "imputation_budgetaire.h"
 #include "utils_comptes.h"
 #include "echeancier_liste.h"
+#include "structures.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

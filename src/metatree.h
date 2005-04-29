@@ -1,6 +1,12 @@
 #ifndef METATREE_H
 #define METATREE_H
 
+
+/* START_INCLUDE_H */
+#include "structures.h"
+/* END_INCLUDE_H */
+
+
 /** Interface between various tree data and metatree */
 typedef struct metatree_interface {
     gint depth;
@@ -65,7 +71,6 @@ enum meta_tree_row_type {
     META_TREE_TRANSACTION,
     META_TREE_INVALID,
 };
-
 
 
 /*START_DECLARATION*/

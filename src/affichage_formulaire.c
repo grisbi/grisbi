@@ -21,7 +21,6 @@
 
 
 #include "include.h"
-#include "operations_formulaire_constants.h"
 
 
 /*START_INCLUDE*/
@@ -36,6 +35,7 @@
 #include "utils_buttons.h"
 #include "utils_comptes.h"
 #include "operations_formulaire.h"
+#include "structures.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

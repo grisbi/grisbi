@@ -22,7 +22,6 @@
 
 
 #include "include.h"
-#include "etats_constants.h"
 
 
 /*START_INCLUDE*/
@@ -34,6 +33,8 @@
 #include "operations_liste.h"
 #include "utils.h"
 #include "utils_operations.h"
+#include "structures.h"
+#include "etats_config.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

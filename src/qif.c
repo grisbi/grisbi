@@ -22,7 +22,6 @@
 
 
 #include "include.h"
-#include "gsb_account.h"
 
 
 /*START_INCLUDE*/
@@ -35,6 +34,7 @@
 #include "gsb_transaction_data.h"
 #include "utils.h"
 #include "search_glist.h"
+#include "structures.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

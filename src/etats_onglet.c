@@ -34,6 +34,7 @@
 #include "utils.h"
 #include "etats_config.h"
 #include "utils_files.h"
+#include "structures.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

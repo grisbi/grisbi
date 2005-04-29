@@ -38,6 +38,7 @@
 #include "menu.h"
 #include "traitement_variables.h"
 #include "utils_buttons.h"
+#include "structures.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

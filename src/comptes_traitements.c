@@ -25,9 +25,6 @@
 /* ************************************************************************** */
 
 #include "include.h"
-#include "echeancier_formulaire_constants.h"
-#include "operations_formulaire_constants.h"
-#include "gsb_account.h"
 
 /*START_INCLUDE*/
 #include "comptes_traitements.h"
@@ -48,6 +45,9 @@
 #include "utils_comptes.h"
 #include "etats_config.h"
 #include "echeancier_liste.h"
+#include "structures.h"
+#include "operations_formulaire.h"
+#include "echeancier_formulaire.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -558,7 +558,7 @@ void creation_types_par_defaut ( gint no_compte,
 /* elle renvoie le type demandï¿œpour pouvoir mettre ensuite les types par     */
 /* dï¿œaut.                                                                    */
 /* ************************************************************************** */
-kind_account demande_type_nouveau_compte ( void )
+gint demande_type_nouveau_compte ( void )
 {
     GtkWidget *dialog;
     gint resultat;

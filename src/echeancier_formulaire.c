@@ -24,8 +24,6 @@
 
 
 #include "include.h"
-#include "echeancier_formulaire_constants.h"
-#include "operations_formulaire_constants.h"
 
 /*START_INCLUDE*/
 #include "echeancier_formulaire.h"
@@ -53,6 +51,7 @@
 #include "utils_tiers.h"
 #include "utils_operations.h"
 #include "echeancier_ventilation.h"
+#include "structures.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

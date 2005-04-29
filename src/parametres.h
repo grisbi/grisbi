@@ -1,7 +1,5 @@
-/*START_DECLARATION*/
-void preferences ( gint page );
-/*END_DECLARATION*/
-
+#ifndef _PARAMETRES_H
+#define _PARAMETRES_H (1)
 
 /* Preference pages */
 enum preference_page  {
@@ -25,4 +23,13 @@ enum preference_page  {
     METHODS_OF_PAYMENT_PAGE,
     NUM_PREFERENCES_PAGES
 };
+/* START_INCLUDE_H */
+/* END_INCLUDE_H */
+
+
+/*START_DECLARATION*/
+void preferences ( gint page );
+/*END_DECLARATION*/
+
+#endif
 

@@ -30,6 +30,7 @@
 #include "calendar.h"
 #include "utils_dates.h"
 #include "utils_str.h"
+#include "structures.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

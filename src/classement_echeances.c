@@ -27,6 +27,7 @@
 
 /*START_INCLUDE*/
 #include "classement_echeances.h"
+#include "structures.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

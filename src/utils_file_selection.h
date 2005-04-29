@@ -34,7 +34,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef _H_UTILS_FILE_SELECTION_
-#define _H_UTILS_FILE_SELECTION_ "$Id: utils_file_selection.h,v 1.5 2005/03/15 16:56:58 cedric_grisbi Exp $"
+#define _H_UTILS_FILE_SELECTION_ (1)
 
 
 /*! File selection dialog behaviour properties */
@@ -44,6 +44,10 @@
 #define FILE_SELECTION_NOOVERWRITECHECK 0x0002  /**< No existance check and overwrite confirmation done - used only for save operations */
 #define FILE_SELECTION_MUST_EXIST       0x0002  /**< The selected file name must exists - only for open operation*/
 #define FILE_SELECTION_MULTISELECTION   0x0004  /**< \todo allow the multi selection behaviour */
+
+/* START_INCLUDE_H */
+/* END_INCLUDE_H */
+
 
 /*START_DECLARATION*/
 gchar* file_selection_get_filename(GtkFileSelection* filesel);

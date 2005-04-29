@@ -29,6 +29,7 @@
 
 /*START_INCLUDE*/
 #include "echeancier_infos.h"
+#include "structures.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

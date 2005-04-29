@@ -23,12 +23,11 @@
 /* ************************************************************************** */
 
 #include "include.h"
-#include "echeancier_formulaire_constants.h"
-
 
 /*START_INCLUDE*/
 #include "utils_comptes.h"
 #include "comptes_traitements.h"
+#include "echeancier_formulaire.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

@@ -29,6 +29,7 @@
 #include "operations_liste.h"
 #include "operations_formulaire.h"
 #include "gsb_account.h"
+#include "structures.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

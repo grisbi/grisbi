@@ -24,8 +24,6 @@
 
 
 #include "include.h"
-#include "fichier_configuration_constants.h"
-#include "fenetre_principale_constants.h"
 
 
 
@@ -54,6 +52,7 @@
 #include "fichier_configuration.h"
 #include "utils.h"
 #include "echeancier_liste.h"
+#include "structures.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

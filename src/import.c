@@ -25,8 +25,6 @@
 
 
 #include "include.h"
-#include "fichier_configuration_constants.h"
-#include "gsb_account.h"
 
 
 
@@ -62,6 +60,7 @@
 #include "utils_comptes.h"
 #include "imputation_budgetaire.h"
 #include "utils_tiers.h"
+#include "structures.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

@@ -54,6 +54,10 @@ struct print_config
   struct paper_config paper_config;
   enum orientation orientation;
 };
+/* START_INCLUDE_H */
+/* END_INCLUDE_H */
+
+
 /*START_DECLARATION*/
 gboolean change_print_to_file ( GtkButton *button, gpointer data );
 gboolean print_config ( );

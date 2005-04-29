@@ -1,9 +1,15 @@
 #ifndef OFX_H
 #define OFX_H 1
 
+/* START_INCLUDE_H */
+/* END_INCLUDE_H */
+
+
 /*START_DECLARATION*/
 gboolean recuperation_donnees_ofx ( gchar *nom_fichier );
 /*END_DECLARATION*/
+
+
 #ifndef _WIN32
 /* On Windows, the Ofx Severity enumerate values are already used in wingdi.h, DELETE is used in winnt.h
  * This is a work around to this issues :

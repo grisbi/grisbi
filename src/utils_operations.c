@@ -33,6 +33,7 @@
 #include "gsb_account.h"
 #include "search_glist.h"
 #include "metatree.h"
+#include "structures.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

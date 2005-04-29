@@ -1,18 +1,15 @@
 #ifndef STRUCTURES_H
-#define STRUCTURES_H
+#define STRUCTURES_H (1)
 
 /* fichier d'en tête structures.h */
 /* contient toutes les structures du prog */
 
 #include "print_config.h"
 
-#include "operations_liste_constants.h"
-
 /* ces 2 fonctions sont utilisées dans ce fichier, donc définies */
 /* ici et dans leur fichier h respectif */
 
 gint my_atoi ( gchar *chaine );
-gpointer **verification_p_tab ( gchar *fonction_appelante );
 
 #define VERSION_FICHIER "0.6.0"
 #define VERSION_FICHIER_ETAT "0.5.0"

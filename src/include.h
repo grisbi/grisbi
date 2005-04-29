@@ -30,10 +30,8 @@
 #define G_BROKEN_FILENAMES 1
 #include <gtk/gtktext.h>
 #include <gdk/gdkkeysyms.h>
+#include <gtk/gtk.h>
 
-#include "gtk_combofix.h"
-#include "structures.h"
-#include "utils_file_selection.h"
 
 
 /* to avoid an error because of mk_include and g2banking */

@@ -8,6 +8,10 @@ typedef enum GSB_BUTTON_STYLE {
 } GsbButtonStyle;
 
 
+/* START_INCLUDE_H */
+/* END_INCLUDE_H */
+
+
 /*START_DECLARATION*/
 void checkbox_set_value ( GtkWidget * checkbox, guint * data, gboolean update );
 GtkWidget *cree_bouton_url ( const gchar *adr,

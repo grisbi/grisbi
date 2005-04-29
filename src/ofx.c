@@ -41,6 +41,7 @@ gboolean recuperation_donnees_ofx ( gchar *nom_fichier )
 #include "ofx.h"
 #include "dialog.h"
 #include "utils_str.h"
+#include "structures.h"
 /*END_INCLUDE*/
 
 

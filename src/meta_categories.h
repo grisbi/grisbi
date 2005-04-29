@@ -1,8 +1,9 @@
-#ifndef META_CATEGORIES_H
-#define META_CATEGORIES_H
+#ifndef _META_CATEGORIES_H
+#define _META_CATEGORIES_H (1)
+/* START_INCLUDE_H */
+/* END_INCLUDE_H */
 
-#include "metatree.h"
 
-extern MetatreeInterface * category_interface;
-
+/* START_DECLARATION */
+/* END_DECLARATION */
 #endif

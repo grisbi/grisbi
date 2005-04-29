@@ -26,8 +26,6 @@
 
 
 #include "include.h"
-#include "echeancier_formulaire_constants.h"
-#include "operations_formulaire_constants.h"
 
 
 
@@ -50,6 +48,8 @@
 #include "etats_config.h"
 #include "affichage_formulaire.h"
 #include "operations_formulaire.h"
+#include "structures.h"
+#include "echeancier_formulaire.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

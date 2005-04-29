@@ -30,6 +30,7 @@
 
 /*START_INCLUDE*/
 #include "gtk_cell_renderer_expander.h"
+#include "structures.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

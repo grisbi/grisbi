@@ -1,8 +1,9 @@
-#ifndef META_PAYEE_H
-#define META_PAYEE_H
+#ifndef _META_PAYEE_H
+#define _META_PAYEE_H (1)
+/* START_INCLUDE_H */
+/* END_INCLUDE_H */
 
-#include "metatree.h"
 
-extern MetatreeInterface * payee_interface;
-
+/* START_DECLARATION */
+/* END_DECLARATION */
 #endif

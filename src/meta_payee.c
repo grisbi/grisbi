@@ -21,6 +21,7 @@
 
 
 #include "include.h"
+#include "metatree.h"
 
 /*START_INCLUDE*/
 #include "meta_payee.h"
@@ -29,6 +30,7 @@
 #include "gsb_transaction_data.h"
 #include "tiers_onglet.h"
 #include "traitement_variables.h"
+#include "structures.h"
 /*END_INCLUDE*/
 
 

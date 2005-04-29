@@ -50,6 +50,10 @@ typedef struct
 } struct_transaction;
 
 
+/* START_INCLUDE_H */
+/* END_INCLUDE_H */
+
+
 /* START_DECLARATION */
 gint gsb_transaction_data_get_account_number ( gint no_transaction );
 gdouble gsb_transaction_data_get_adjusted_amount ( gint no_transaction );

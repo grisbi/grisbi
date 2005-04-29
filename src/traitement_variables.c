@@ -21,9 +21,6 @@
 
 
 #include "include.h"
-#include "echeancier_liste_constants.h"
-#include "operations_formulaire_constants.h"
-#include "traitement_variables_constants.h"
 
 
 
@@ -32,11 +29,36 @@
 #include "gsb_account.h"
 #include "gsb_transaction_data.h"
 #include "menu.h"
+#include "structures.h"
+#include "echeancier_liste.h"
+#include "operations_liste.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
 static void initialise_tab_affichage_ope ( void );
 /*END_STATIC*/
+
+gchar *labels_titres_colonnes_liste_ope[] = {
+    N_("Date"),
+    N_("Value date"),
+    N_("Third party"),
+    N_("Budgetary lines"),
+    N_("Credit"),
+    N_("Debit"),
+    N_("Balance"),
+    N_("Amount"),
+    N_("Method of payment"),
+    N_("Reconciliation ref."),
+    N_("Financial year"),
+    N_("Category"),
+    N_("C/R"),
+    N_("Voucher"),
+    N_("Notes"),
+    N_("Bank references"),
+    N_("Transaction number"),
+    N_("Cheque/Transfer number"),
+    NULL };
+
 
 
 /* les styles de couleur */

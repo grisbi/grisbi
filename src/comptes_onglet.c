@@ -28,6 +28,7 @@
 #include "comptes_gestion.h"
 #include "comptes_traitements.h"
 #include "gsb_account.h"
+#include "structures.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
