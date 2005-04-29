@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-07-03 17:36+0200\n"
-"PO-Revision-Date: 2005-04-28 19:40+0100\n"
+"PO-Revision-Date: 2005-04-29 14:45+0100\n"
 "Last-Translator: Dmitri Popov <lazylegs@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -403,7 +403,7 @@ msgstr ""
 #: src/ventilation.c:936
 #: src/ventilation.c:1305
 msgid "Budgetary line"
-msgstr ""
+msgstr "Budgetlinje"
 
 #. Notes
 #: src/affichage_formulaire.c:873
@@ -650,7 +650,7 @@ msgstr "Synlige felter"
 
 #: src/affichage_liste.c:1085
 msgid "'Accept' and 'Cancel' buttons"
-msgstr ""
+msgstr "\"Acceptér\" og \"Annullér\" knapperne"
 
 #: src/affichage_liste.c:1092
 msgid "By default, use financial year"
@@ -714,7 +714,7 @@ msgstr "Bank"
 
 #: src/banque.c:387
 msgid "Contact name"
-msgstr ""
+msgstr "Kontaktpersonens navn"
 
 #: src/banque.c:389
 #: src/parametres.c:349
@@ -1168,7 +1168,7 @@ msgstr ""
 #: src/ventilation.c:1870
 #: src/ventilation.c:2201
 msgid "Transfer"
-msgstr ""
+msgstr "Overførsel"
 
 #: src/categories_onglet.c:2759
 msgid "New category"
@@ -1336,21 +1336,21 @@ msgstr "Bankkonto"
 #. crÃ©ation de l'item compte de caisse
 #: src/comptes_gestion.c:705
 msgid "Cash account"
-msgstr ""
+msgstr "Kontanter"
 
 #. crÃ©ation de l'item compte passif
 #: src/comptes_gestion.c:716
 msgid "Liabilities account"
-msgstr ""
+msgstr "Passiver"
 
 #. crÃ©ation de l'item compte actif
 #: src/comptes_gestion.c:726
 msgid "Assets account"
-msgstr ""
+msgstr "Aktiver"
 
 #: src/comptes_gestion.c:903
 msgid "Account has no name!"
-msgstr ""
+msgstr "Kontoen har ingen navn!"
 
 #: src/comptes_gestion.c:918
 #, c-format
@@ -1359,7 +1359,7 @@ msgstr ""
 
 #: src/comptes_gestion.c:971
 msgid "Confirm currency change"
-msgstr ""
+msgstr "Bekræft ændring af valuta"
 
 #: src/comptes_gestion.c:972
 #, c-format
@@ -1504,7 +1504,7 @@ msgstr "Tilføj valuta"
 
 #: src/devises.c:606
 msgid "ISO 4217 currencies"
-msgstr ""
+msgstr "ISO 4217 valutaer"
 
 #: src/devises.c:613
 msgid "Currency details"
@@ -1806,7 +1806,7 @@ msgstr ""
 #. met un bouton valider qui est juste utilisÃÂ© pour faire sortir le focus de l'entrÃÂ©e
 #: src/echeancier_infos.c:223
 msgid "Show"
-msgstr ""
+msgstr "Vis"
 
 #: src/echeancier_infos.c:346
 msgid "Validate"
@@ -1817,7 +1817,7 @@ msgstr ""
 #: src/import.c:469
 #: src/type_operations.c:329
 msgid "Account"
-msgstr ""
+msgstr "Konto"
 
 #: src/echeancier_liste.c:151
 msgid "Mode"
@@ -3505,7 +3505,7 @@ msgstr ""
 #. on lui associe -1
 #: src/exercice.c:515
 msgid "Not displayed"
-msgstr ""
+msgstr "Ikke vist"
 
 #: src/exercice.c:645
 msgid "Automatic association of financial years?"
@@ -3517,7 +3517,7 @@ msgstr ""
 
 #: src/fenetre_principale.c:110
 msgid "Main page"
-msgstr ""
+msgstr "Hovedside"
 
 #: src/fenetre_principale.c:126
 msgid "Scheduler"
@@ -3578,7 +3578,7 @@ msgstr ""
 
 #: src/fichiers_gestion.c:378
 msgid "Autosave"
-msgstr ""
+msgstr "Autogem"
 
 #: src/fichiers_gestion.c:407
 msgid "Checking schedulers"
@@ -3615,7 +3615,7 @@ msgstr ""
 
 #: src/fichiers_gestion.c:649
 msgid "Save locked files?"
-msgstr ""
+msgstr "Gem låste filer?"
 
 #: src/fichiers_gestion.c:650
 #, c-format
@@ -3626,7 +3626,7 @@ msgstr ""
 #: src/fichiers_gestion.c:661
 #: src/fichiers_gestion.c:883
 msgid "unnamed"
-msgstr ""
+msgstr "unavngivet"
 
 #: src/fichiers_gestion.c:654
 #: src/fichiers_gestion.c:663
@@ -3662,7 +3662,7 @@ msgstr ""
 
 #: src/fichiers_gestion.c:886
 msgid "Grisbi"
-msgstr ""
+msgstr "Grisbi"
 
 #: src/fichiers_gestion.c:906
 #: src/fichiers_gestion.c:908
