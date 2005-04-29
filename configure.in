@@ -19,7 +19,7 @@ dnl Check if we have backtrace support
 AC_CHECK_FUNCS(backtrace)
 
 dnl Check for NLS support.                                                      
-ALL_LINGUAS="fr de dk"
+ALL_LINGUAS="fr de da"
 AM_GNU_GETTEXT
 AC_CHECK_LIB(intl,main)
 
