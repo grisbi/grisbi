@@ -343,7 +343,8 @@ gboolean mise_a_jour_versions_anterieures ( gint no_version,
 			    operation_2 = liste_tmp_2 -> data;
 
 			    if ( operation_2 -> no_operation_ventilee_associee == gsb_transaction_data_get_transaction_number (operation))
-				operation_2 -> no_rapprochement = operation -> no_rapprochement;
+				gsb_transaction_data_set_reconcile_number ( gsb_transaction_data_get_transaction_number (operation_2),
+									    gsb_transaction_data_get_reconcile_number ( gsb_transaction_data_get_transaction_number (operation )));
 
 			    liste_tmp_2 = liste_tmp_2 -> next;
 			}
@@ -1422,8 +1423,9 @@ gboolean recuperation_comptes_xml ( xmlNodePtr node_comptes )
 									     my_atoi ( xmlGetProp ( node_ope,
 												    "A" )));
 
-			    operation -> no_rapprochement = my_atoi ( xmlGetProp ( node_ope,
-										   "R" ));
+			    gsb_transaction_data_set_reconcile_number ( gsb_transaction_data_get_transaction_number (operation ),
+									my_atoi ( xmlGetProp ( node_ope,
+										   "R" )));
 
 			    operation -> no_exercice = my_atoi ( xmlGetProp ( node_ope,
 									      "E" ));
@@ -3707,7 +3709,7 @@ gboolean enregistre_fichier ( gchar *new_file )
 
 	    xmlSetProp ( node_ope,
 			 "R",
-			 itoa ( operation -> no_rapprochement ));
+			 itoa ( gsb_transaction_data_get_reconcile_number (transaction_number)));
 
 	    xmlSetProp ( node_ope,
 			 "E",

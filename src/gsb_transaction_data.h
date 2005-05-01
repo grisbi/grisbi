@@ -74,6 +74,7 @@ gchar *gsb_transaction_data_get_method_of_payment_content ( gint no_transaction 
 gint gsb_transaction_data_get_method_of_payment_number ( gint no_transaction );
 gchar *gsb_transaction_data_get_notes ( gint no_transaction );
 gint gsb_transaction_data_get_party_number ( gint no_transaction );
+gint gsb_transaction_data_get_reconcile_number ( gint no_transaction );
 gint gsb_transaction_data_get_sub_category_number ( gint no_transaction );
 gchar *gsb_transaction_data_get_transaction_id ( gint no_transaction );
 gint gsb_transaction_data_get_transaction_number ( gpointer transaction_pointer );
@@ -109,6 +110,8 @@ gboolean gsb_transaction_data_set_notes ( gint no_transaction,
 					  gchar *notes );
 gboolean gsb_transaction_data_set_party_number ( gint no_transaction,
 						 gint no_party );
+gboolean gsb_transaction_data_set_reconcile_number ( gint no_transaction,
+						     gint reconcile_number );
 gboolean gsb_transaction_data_set_sub_category_number ( gint no_transaction,
 							gint no_sub_category );
 gboolean gsb_transaction_data_set_transaction_id ( gint no_transaction,

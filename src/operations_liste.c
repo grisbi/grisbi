@@ -1159,7 +1159,7 @@ gchar *recherche_contenu_cellule ( struct structure_operation *transaction,
 	    /* mise en forme du no de rapprochement */
 
 	case TRANSACTION_LIST_RECONCILE_NB:
-	    return ( rapprochement_name_by_no ( transaction -> no_rapprochement ));
+	    return ( rapprochement_name_by_no ( gsb_transaction_data_get_reconcile_number ( gsb_transaction_data_get_transaction_number (transaction ))));
 	    break;
 
 	    /* mise en place de l'exo */
@@ -3478,7 +3478,8 @@ struct structure_operation *gsb_transactions_list_clone_transaction ( struct str
 
     gsb_transaction_data_set_transaction_number  (new_transaction,
 						  0);
-    new_transaction -> no_rapprochement = 0;
+    gsb_transaction_data_set_reconcile_number ( gsb_transaction_data_get_transaction_number (new_transaction),
+						0 );
 
     if ( gsb_transaction_data_get_marked_transaction ( gsb_transaction_data_get_transaction_number (transaction ))== OPERATION_RAPPROCHEE ||
 	 gsb_transaction_data_get_marked_transaction ( gsb_transaction_data_get_transaction_number (transaction ))== OPERATION_TELERAPPROCHEE )

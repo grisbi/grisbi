@@ -1089,15 +1089,15 @@ gint gsb_transactions_list_sort_by_reconcile_nb ( GtkTreeModel *model,
     if ( return_value )
 	return return_value;
 
-    if ( transaction_1 -> no_rapprochement == transaction_2 -> no_rapprochement )
+    if ( gsb_transaction_data_get_reconcile_number ( gsb_transaction_data_get_transaction_number (transaction_1 ))== gsb_transaction_data_get_reconcile_number ( gsb_transaction_data_get_transaction_number (transaction_2 )))
 	return_value = gsb_transactions_list_sort_by_transaction_date_and_no();
     else
     {
 	gchar *temp_1;
 	gchar *temp_2;
 
-	temp_1 = rapprochement_name_by_no ( transaction_1 -> no_rapprochement );
-	temp_2 = rapprochement_name_by_no ( transaction_2 -> no_rapprochement );
+	temp_1 = rapprochement_name_by_no ( gsb_transaction_data_get_reconcile_number ( gsb_transaction_data_get_transaction_number (transaction_1 )));
+	temp_2 = rapprochement_name_by_no ( gsb_transaction_data_get_reconcile_number ( gsb_transaction_data_get_transaction_number (transaction_2 )));
 
 	/* g_utf8_collate is said not very fast, must try with big big account to check
 	 * if it's enough, for me it's ok (cedric), eventually, change with gsb_strcasecmp */

@@ -1021,7 +1021,8 @@ gboolean fin_equilibrage ( GtkWidget *bouton_ok,
 	{
 	    gsb_transaction_data_set_marked_transaction ( gsb_transaction_data_get_transaction_number (operation ),
 							  OPERATION_RAPPROCHEE );
-	    operation -> no_rapprochement = gsb_account_get_reconcile_last_number (gsb_account_get_current_account ());
+	    gsb_transaction_data_set_reconcile_number ( gsb_transaction_data_get_transaction_number (operation ),
+							gsb_account_get_reconcile_last_number (gsb_account_get_current_account ()));
 	}
 
 	pointeur_liste_ope = pointeur_liste_ope -> next;

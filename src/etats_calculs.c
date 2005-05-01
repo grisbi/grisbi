@@ -374,8 +374,8 @@ GSList *recupere_opes_etat ( struct struct_etat *etat )
 
 			/* on récupère maintenant le dernier relevé */
 
-			if ( operation -> no_rapprochement > dernier_no_rappr )
-			    dernier_no_rappr = operation -> no_rapprochement;
+			if ( gsb_transaction_data_get_reconcile_number ( gsb_transaction_data_get_transaction_number (operation ))> dernier_no_rappr )
+			    dernier_no_rappr = gsb_transaction_data_get_reconcile_number ( gsb_transaction_data_get_transaction_number (operation ));
 
 			pointeur_tmp = pointeur_tmp -> next;
 		    }
@@ -1051,7 +1051,7 @@ gchar *recupere_texte_test_etat ( struct structure_operation *operation,
 	case 10:
 	    /* no rappr */
 
-	    texte = rapprochement_name_by_no ( operation -> no_rapprochement );
+	    texte = rapprochement_name_by_no ( gsb_transaction_data_get_reconcile_number ( gsb_transaction_data_get_transaction_number (operation )));
 	    break;
 
 	default:
@@ -1815,13 +1815,13 @@ gint classement_ope_perso_etat ( struct structure_operation *operation_1,
 	case 10:
 	    /* no rappr  */
 
-	    if ( !operation_1 -> no_rapprochement
+	    if ( !gsb_transaction_data_get_reconcile_number ( gsb_transaction_data_get_transaction_number (operation_1 ))
 		 ||
-		 !operation_2 -> no_rapprochement )
-		retour = operation_2 -> no_rapprochement - operation_1 -> no_rapprochement;
+		 !gsb_transaction_data_get_reconcile_number ( gsb_transaction_data_get_transaction_number (operation_2 )))
+		retour = gsb_transaction_data_get_reconcile_number ( gsb_transaction_data_get_transaction_number (operation_2 ))- gsb_transaction_data_get_reconcile_number ( gsb_transaction_data_get_transaction_number (operation_1 ));
 	    else
-		retour = g_strcasecmp ( rapprochement_name_by_no( operation_1 -> no_rapprochement ),
-					rapprochement_name_by_no ( operation_2 -> no_rapprochement ));
+		retour = g_strcasecmp ( rapprochement_name_by_no( gsb_transaction_data_get_reconcile_number ( gsb_transaction_data_get_transaction_number (operation_1 ))),
+					rapprochement_name_by_no ( gsb_transaction_data_get_reconcile_number ( gsb_transaction_data_get_transaction_number (operation_2 ))));
 	    break;
 
 	default :

@@ -1115,5 +1115,46 @@ gboolean gsb_transaction_data_set_automatic_transaction ( gint no_transaction,
 }
 
 
+/** get the reconcile_number
+ * \param no_transaction the number of the transaction
+ * \return the reconcile_number
+ * */
+gint gsb_transaction_data_get_reconcile_number ( gint no_transaction )
+{
+    struct_transaction *transaction;
+
+    transaction = gsb_transaction_data_get_transaction_by_no ( no_transaction,
+							       -1 );
+
+    if ( !transaction )
+	return -1;
+
+    return transaction -> reconcile_number;
+}
+
+
+/** set the reconcile_number
+ * \param no_transaction
+ * \param  reconcile_number
+ * \return TRUE if ok
+ * */
+gboolean gsb_transaction_data_set_reconcile_number ( gint no_transaction,
+						     gint reconcile_number )
+{
+    struct_transaction *transaction;
+
+    transaction = gsb_transaction_data_get_transaction_by_no ( no_transaction,
+							       -1 );
+
+    if ( !transaction )
+	return FALSE;
+
+    transaction -> reconcile_number = reconcile_number;
+
+    return TRUE;
+}
+
+
+
 
 

@@ -1423,7 +1423,7 @@ gint etat_affiche_affichage_ligne_ope ( struct structure_operation *operation,
 
 	if ( etat_courant -> afficher_rappr_ope )
 	{
-	    text = rapprochement_name_by_no ( operation -> no_rapprochement );
+	    text = rapprochement_name_by_no ( gsb_transaction_data_get_reconcile_number ( gsb_transaction_data_get_transaction_number (operation )));
 
 	    if ( text )
 	    {
