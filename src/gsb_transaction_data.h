@@ -60,6 +60,7 @@ gdouble gsb_transaction_data_get_adjusted_amount ( gint no_transaction );
 gdouble gsb_transaction_data_get_adjusted_amount_for_currency ( gint no_transaction,
 								gint no_currency_for_return );
 gdouble gsb_transaction_data_get_amount ( gint no_transaction );
+gint gsb_transaction_data_get_automatic_transaction ( gint no_transaction );
 gint gsb_transaction_data_get_breakdown_of_transaction ( gint no_transaction );
 gint gsb_transaction_data_get_category_number ( gint no_transaction );
 gint gsb_transaction_data_get_change_between ( gint no_transaction );
@@ -82,6 +83,8 @@ gboolean gsb_transaction_data_set_account_number ( gint no_transaction,
 						   gint no_account );
 gboolean gsb_transaction_data_set_amount ( gint no_transaction,
 					   gdouble amount );
+gboolean gsb_transaction_data_set_automatic_transaction ( gint no_transaction,
+							  gint automatic_transaction );
 gboolean gsb_transaction_data_set_breakdown_of_transaction ( gint no_transaction,
 							     gint is_breakdown );
 gboolean gsb_transaction_data_set_category_number ( gint no_transaction,

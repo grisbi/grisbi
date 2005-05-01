@@ -2088,8 +2088,9 @@ void fin_edition_echeance ( void )
 
 	/*       récupération de auto_man */
 
-	operation -> auto_man = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_MODE]  ) -> menu_item ),
-									"auto_man" ) );
+	gsb_transaction_data_set_automatic_transaction ( gsb_transaction_data_get_transaction_number (operation ),
+							 GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_MODE]  ) -> menu_item ),
+												 "auto_man" )));
 
 	/* récupération des notes */
 
@@ -2178,7 +2179,8 @@ void fin_edition_echeance ( void )
 						    gsb_transaction_data_get_party_number ( gsb_transaction_data_get_transaction_number (operation )));
 	    gsb_transaction_data_set_marked_transaction ( gsb_transaction_data_get_transaction_number (operation_fille ),
 							  gsb_transaction_data_get_marked_transaction ( gsb_transaction_data_get_transaction_number (operation )));
-	    operation_fille -> auto_man = operation -> auto_man;
+	    gsb_transaction_data_set_automatic_transaction ( gsb_transaction_data_get_transaction_number (operation_fille ),
+							     gsb_transaction_data_get_automatic_transaction ( gsb_transaction_data_get_transaction_number (operation )));
 	    operation_fille -> no_operation_ventilee_associee = gsb_transaction_data_get_transaction_number (operation);
 
 
@@ -2343,7 +2345,8 @@ struct structure_operation *ajoute_contre_operation_echeance_dans_liste ( struct
 	gsb_transaction_data_set_notes ( gsb_transaction_data_get_transaction_number (contre_operation),
 					 g_strdup ( gsb_transaction_data_get_notes ( gsb_transaction_data_get_transaction_number (operation ))));
 
-    contre_operation -> auto_man = operation -> auto_man;
+    gsb_transaction_data_set_automatic_transaction ( gsb_transaction_data_get_transaction_number (contre_operation),
+						     gsb_transaction_data_get_automatic_transaction ( gsb_transaction_data_get_transaction_number (operation )));
     gsb_transaction_data_set_method_of_payment_number ( gsb_transaction_data_get_transaction_number (contre_operation ),
 							contre_type_ope );
 

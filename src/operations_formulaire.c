@@ -3299,7 +3299,8 @@ printf ( "ça passe\n" );
 	gsb_transaction_data_set_notes ( gsb_transaction_data_get_transaction_number (contra_transaction),
 					 g_strdup ( gsb_transaction_data_get_notes ( gsb_transaction_data_get_transaction_number (transaction ))));
 
-    contra_transaction -> auto_man = transaction -> auto_man;
+    gsb_transaction_data_set_automatic_transaction ( gsb_transaction_data_get_transaction_number (contra_transaction),
+						     gsb_transaction_data_get_automatic_transaction ( gsb_transaction_data_get_transaction_number (transaction )));
 
     /* récupération du type de l'autre opé */
 

@@ -2655,7 +2655,7 @@ gboolean gsb_transactions_list_edit_current_transaction ( void )
 
 		case TRANSACTION_FORM_MODE:
 
-		    if ( transaction -> auto_man )
+		    if ( gsb_transaction_data_get_automatic_transaction ( gsb_transaction_data_get_transaction_number (transaction )))
 			gtk_label_set_text ( GTK_LABEL ( widget ),
 					     _("Auto"));
 		    else

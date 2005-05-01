@@ -1718,7 +1718,8 @@ void verification_echeances_a_terme ( void )
 		    gsb_transaction_data_set_method_of_payment_content ( gsb_transaction_data_get_transaction_number (operation ),
 									 ECHEANCE_COURANTE -> contenu_type );
 
-		operation -> auto_man = ECHEANCE_COURANTE -> auto_man;
+		gsb_transaction_data_set_automatic_transaction ( gsb_transaction_data_get_transaction_number (operation ),
+								 ECHEANCE_COURANTE -> auto_man );
 		operation -> imputation = ECHEANCE_COURANTE -> imputation;
 		operation -> sous_imputation = ECHEANCE_COURANTE -> sous_imputation;
 
@@ -1807,9 +1808,10 @@ void verification_echeances_a_terme ( void )
 							     gsb_transaction_data_get_exchange_fees ( gsb_transaction_data_get_transaction_number (operation )));
 		    gsb_transaction_data_set_party_number ( gsb_transaction_data_get_transaction_number (operation_fille),
 							    gsb_transaction_data_get_party_number ( gsb_transaction_data_get_transaction_number (operation)));
-		    gsb_transaction_data_set_marked_transaction ( gsb_transaction_data_get_transaction_number (operation_fille ),
+		    gsb_transaction_data_set_marked_transaction ( gsb_transaction_data_get_transaction_number (operation_fille),
 								  gsb_transaction_data_get_marked_transaction ( gsb_transaction_data_get_transaction_number (operation )));
-		    operation_fille -> auto_man = operation -> auto_man;
+		    gsb_transaction_data_set_automatic_transaction ( gsb_transaction_data_get_transaction_number (operation_fille),
+								     gsb_transaction_data_get_automatic_transaction ( gsb_transaction_data_get_transaction_number (operation)));
 		    operation_fille -> no_operation_ventilee_associee = gsb_transaction_data_get_transaction_number (operation);
 
 

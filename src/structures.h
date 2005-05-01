@@ -190,7 +190,7 @@ struct structure_operation
 /*     gchar *contenu_type; */
 
 /*     gshort pointe; */
-    gshort auto_man;           /* 0=manuel, 1=automatique */
+/*     gshort auto_man; */
     gint no_rapprochement;          /* contient le numéro du rapprochement si elle est rapprochée */
 
     guint no_exercice;             /* exercice de l'opé */
@@ -612,6 +612,7 @@ struct iso_4217_currency
     gchar * currency_code;
     gchar * currency_nickname;
     gboolean active;
+    gchar *flag_filename;
 };
 
 

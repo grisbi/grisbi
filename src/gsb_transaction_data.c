@@ -1075,3 +1075,45 @@ gboolean gsb_transaction_data_set_marked_transaction ( gint no_transaction,
 
 
 
+/** get the automatic_transaction
+ * \param no_transaction the number of the transaction
+ * \return 1 if the transaction was taken automaticly
+ * */
+gint gsb_transaction_data_get_automatic_transaction ( gint no_transaction )
+{
+    struct_transaction *transaction;
+
+    transaction = gsb_transaction_data_get_transaction_by_no ( no_transaction,
+							       -1 );
+
+    if ( !transaction )
+	return -1;
+
+    return transaction -> automatic_transaction;
+}
+
+
+/** set the automatic_transaction
+ * \param no_transaction
+ * \param  automatic_transaction
+ * \return TRUE if ok
+ * */
+gboolean gsb_transaction_data_set_automatic_transaction ( gint no_transaction,
+							  gint automatic_transaction )
+{
+    struct_transaction *transaction;
+
+    transaction = gsb_transaction_data_get_transaction_by_no ( no_transaction,
+							       -1 );
+
+    if ( !transaction )
+	return FALSE;
+
+    transaction -> automatic_transaction = automatic_transaction;
+
+    return TRUE;
+}
+
+
+
+

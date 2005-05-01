@@ -1418,8 +1418,9 @@ gboolean recuperation_comptes_xml ( xmlNodePtr node_comptes )
 			    gsb_transaction_data_set_marked_transaction ( transaction_number,
 									  my_atoi ( xmlGetProp ( node_ope,
 												 "P" )));
-			    operation -> auto_man = my_atoi ( xmlGetProp ( node_ope,
-									   "A" ));
+			    gsb_transaction_data_set_automatic_transaction ( gsb_transaction_data_get_transaction_number (operation ),
+									     my_atoi ( xmlGetProp ( node_ope,
+												    "A" )));
 
 			    operation -> no_rapprochement = my_atoi ( xmlGetProp ( node_ope,
 										   "R" ));
@@ -3702,7 +3703,7 @@ gboolean enregistre_fichier ( gchar *new_file )
 
 	    xmlSetProp ( node_ope,
 			 "A",
-			 itoa ( operation -> auto_man ));
+			 itoa ( gsb_transaction_data_get_automatic_transaction (transaction_number)));
 
 	    xmlSetProp ( node_ope,
 			 "R",
