@@ -46,6 +46,7 @@
 #include "operations_formulaire.h"
 #include "structures.h"
 #include "echeancier_formulaire.h"
+#include "fichier_configuration.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -580,13 +581,27 @@ void fill_currency_list ( GtkTreeView * view, gboolean include_obsolete )
 	{
 	    if ( include_obsolete || currency -> active )
 	    {
+		GdkPixbuf * pixbuf;
+
+		pixbuf = gdk_pixbuf_new_from_file ( g_strconcat( PIXMAPS_DIR, 
+								 C_DIRECTORY_SEPARATOR,
+								 "flags", 
+								 C_DIRECTORY_SEPARATOR,
+								 currency -> flag_filename, 
+								 NULL ),
+						    NULL );	
+		
 		gtk_tree_store_append (GTK_TREE_STORE(model), &child_iter, &iter);
 		gtk_tree_store_set (GTK_TREE_STORE(model), &child_iter,
-				    COUNTRY_NAME_COLUMN, _(currency -> country_name),
+				    CURRENCY_FLAG_COLUMN, pixbuf,
+				    COUNTRY_NAME_COLUMN, g_strconcat ( " ", 
+								       _(currency -> country_name),
+								       NULL ),
 				    CURRENCY_NAME_COLUMN, _(currency -> currency_name),
 				    CURRENCY_ISO_CODE_COLUMN, _(currency -> currency_code),
 				    CURRENCY_NICKNAME_COLUMN, _(currency -> currency_nickname),
 				    CONTINENT_NAME_COLUMN, _(currency -> continent),
+				    CURRENCY_HAS_FLAG, TRUE,
 				    -1);
 	    }
 	    currency++;
@@ -634,8 +649,9 @@ GtkWidget * new_currency_list ()
 				    GTK_POLICY_ALWAYS);
     /* Create tree store */
     model = gtk_tree_store_new (NUM_CURRENCIES_COLUMNS,
+				GDK_TYPE_PIXBUF, G_TYPE_BOOLEAN,
 				G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING,
-				G_TYPE_STRING, G_TYPE_STRING);
+				G_TYPE_STRING, G_TYPE_STRING );
 
     /* Create tree view */
     treeview = gtk_tree_view_new_with_model (GTK_TREE_MODEL(model));
@@ -645,13 +661,26 @@ GtkWidget * new_currency_list ()
 		      G_CALLBACK (select_currency_in_iso_list),
 		      model);
 
-    cell = gtk_cell_renderer_text_new ();
+    /* Flag */
+    cell = gtk_cell_renderer_pixbuf_new ();
     col_offset = 
 	gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW (treeview),
 						     -1, _("Country name"),
-						     cell, "text",
-						     COUNTRY_NAME_COLUMN,
+						     cell, "pixbuf",
+						     CURRENCY_FLAG_COLUMN,
 						     NULL);
+    column = gtk_tree_view_get_column (GTK_TREE_VIEW (treeview), col_offset - 1);
+    gtk_tree_view_column_add_attribute(GTK_TREE_VIEW_COLUMN(column), cell,
+				       "visible", CURRENCY_HAS_FLAG);
+    gtk_tree_view_column_set_clickable (GTK_TREE_VIEW_COLUMN (column), TRUE);
+
+    /* Country name */
+    cell = gtk_cell_renderer_text_new ();
+    gtk_tree_view_column_pack_start(GTK_TREE_VIEW_COLUMN(column), cell, TRUE);
+    gtk_tree_view_column_add_attribute(GTK_TREE_VIEW_COLUMN(column), cell, 
+				       "text", COUNTRY_NAME_COLUMN);
+
+    /* Currency name */
     column = gtk_tree_view_get_column (GTK_TREE_VIEW (treeview), col_offset - 1);
     gtk_tree_view_column_set_clickable (GTK_TREE_VIEW_COLUMN (column), TRUE);
 
@@ -708,7 +737,7 @@ GtkWidget * new_currency_list ()
 
     vbox = gtk_vbox_new ( FALSE, 6 );
     gtk_box_pack_start ( GTK_BOX(vbox), sw,
-			 FALSE, FALSE, 0 );
+			 TRUE, TRUE, 0 );
 
     checkbox = gtk_check_button_new_with_label ( _("Include obsolete currencies"));
     gtk_box_pack_start ( GTK_BOX(vbox), checkbox,
@@ -731,7 +760,7 @@ GtkWidget * new_currency_list ()
 /* dans tous les cas, on ne repart pas s'il n'y a aucune devise définie */
 /***********************************************************************************************************/
 
-void ajout_devise ( GtkWidget *widget )
+gboolean ajout_devise ( GtkWidget *widget )
 {
     GtkWidget *dialog, *label, *table;
     GtkWidget *list, *paddingbox;
@@ -739,19 +768,12 @@ void ajout_devise ( GtkWidget *widget )
     gchar *nom_devise, *code_devise, *code_iso4217_devise;
     gint resultat;
 
-    if ( liste_struct_devises )
-	dialog = gtk_dialog_new_with_buttons ( _("Add a currency"),
-					       GTK_WINDOW (window),
-					       GTK_DIALOG_MODAL,
-					       GTK_STOCK_CANCEL,0,
-					       GTK_STOCK_OK,1,
-					       NULL );
-    else
-	dialog = gtk_dialog_new_with_buttons ( _("Add a currency"),
-					       GTK_WINDOW (window),
-					       GTK_DIALOG_MODAL,
-					       GTK_STOCK_OK,1,
-					       NULL );
+    dialog = gtk_dialog_new_with_buttons ( _("Add a currency"),
+					   GTK_WINDOW (window),
+					   GTK_DIALOG_MODAL,
+					   GTK_STOCK_CANCEL,0,
+					   GTK_STOCK_OK,1,
+					   NULL );
 
     gtk_container_set_border_width ( GTK_CONTAINER ( dialog ), 10 );
     gtk_signal_connect ( GTK_OBJECT ( dialog ),
@@ -765,10 +787,9 @@ void ajout_devise ( GtkWidget *widget )
 
     paddingbox = 
 	new_paddingbox_with_title (GTK_WIDGET ( GTK_DIALOG ( dialog ) -> vbox ),
-				   FALSE, _("ISO 4217 currencies"));
+				   TRUE, _("ISO 4217 currencies"));
     list = new_currency_list ();
-    gtk_box_pack_start ( GTK_BOX(paddingbox) , list,
-			 FALSE, FALSE, 5 );
+    gtk_box_pack_start ( GTK_BOX(paddingbox) , list, TRUE, TRUE, 5 );
 
     paddingbox = 
 	new_paddingbox_with_title (GTK_WIDGET ( GTK_DIALOG ( dialog ) -> vbox ),
@@ -876,6 +897,8 @@ reprise_dialog:
 					   ligne_liste, 0 );
 		    update_currency_widgets();
 		    modification_fichier ( TRUE );
+		    gtk_widget_destroy ( GTK_WIDGET ( dialog ));
+		    return TRUE;
 		}
 	    }
 	    else
@@ -892,12 +915,13 @@ reprise_dialog:
 
 	    if ( !liste_struct_devises )
 	    {
-		dialogue_error_hint ( _("At least one currency has to be defined in every Grisbi file.  Currencies are needed to compute balances and create transactions." ),
-				      _("No currency has been defined.") );
-		goto reprise_dialog;
+		gtk_widget_destroy ( GTK_WIDGET ( dialog ));
+		return FALSE;
 	    }
     }
+
     gtk_widget_destroy ( GTK_WIDGET ( dialog ));
+    return TRUE;
 }
 /***********************************************************************************************************/
 

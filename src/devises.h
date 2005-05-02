@@ -4,7 +4,9 @@
 
 /** Columns numbers for currencies list  */
 enum currency_list_column {
-    COUNTRY_NAME_COLUMN = 0,
+    CURRENCY_FLAG_COLUMN,
+    CURRENCY_HAS_FLAG,
+    COUNTRY_NAME_COLUMN,
     CURRENCY_NAME_COLUMN,
     CURRENCY_ISO_CODE_COLUMN,
     CURRENCY_NICKNAME_COLUMN,
@@ -18,7 +20,7 @@ enum currency_list_column {
 
 
 /* START_DECLARATION */
-void ajout_devise ( GtkWidget *widget );
+gboolean ajout_devise ( GtkWidget *widget );
 GtkWidget *creation_option_menu_devises ( gint devise_cachee, GSList *liste_tmp );
 void demande_taux_de_change ( struct struct_devise *devise_compte,
 			      struct struct_devise *devise ,
