@@ -86,6 +86,7 @@ help/tips/Makefile
 intl/Makefile
 macros/Makefile
 pixmaps/Makefile
+pixmaps/flags/Makefile
 po/Makefile.in
 src/Makefile
 ])
