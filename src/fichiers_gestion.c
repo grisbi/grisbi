@@ -133,11 +133,6 @@ gboolean new_file ( void )
     init_variables_new_file ();
     init_gui_new_file ();
 
-    /* on se met sur l'onglet de propriétés du compte */
-
-    gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ),
-			    3 );
-
     modification_fichier ( TRUE );
     return FALSE;
 }
