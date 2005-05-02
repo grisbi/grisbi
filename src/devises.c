@@ -330,7 +330,6 @@ void update_currency_widgets()
 									   GINT_TO_POINTER ( DEVISE ),
 									   ( GCompareFunc ) recherche_devise_par_no )));
 
-
     /* on recrée les boutons de devises dans la conf de l'état */
 
     if ( onglet_config_etat )
@@ -1613,7 +1612,7 @@ GtkWidget *onglet_devises ( void )
 
 
 /**
- * Creates a new GtkOptionMenu with a pointer to an integerthat will
+ * Creates a new GtkOptionMenu with a pointer to an integer that will
  * be modified according to the entry's value.
  *
  * \param value A pointer to a string
@@ -1629,7 +1628,9 @@ GtkWidget * new_currency_option_menu ( gint * value, GCallback hook )
     currency_menu = creation_option_menu_devises ( 0, liste_struct_devises );
     gtk_option_menu_set_menu ( GTK_OPTION_MENU ( currency_list ), currency_menu );
     if (value && *value)
-	gtk_option_menu_set_history ( GTK_OPTION_MENU(currency_list), *value - 1 );
+	gtk_option_menu_set_history ( GTK_OPTION_MENU(currency_list),
+				      gsb_currency_find_currency_in_option_menu ( currency_list,
+										  *value ));
 
     g_signal_connect ( GTK_OBJECT (currency_list), "changed", (GCallback) set_int_from_menu, value );
     g_signal_connect ( GTK_OBJECT (currency_list), "changed", (GCallback) hook, value );
@@ -1638,6 +1639,32 @@ GtkWidget * new_currency_option_menu ( gint * value, GCallback hook )
     return currency_list;
 }
 
+/** look for a specific currency in an option menu and return its place in
+ * the menu, used to set the option menu on that currency with gtk_option_menu_set_history
+ * \param option_menu
+ * \param no_currency
+ * \return the place of the currency in the menu
+ * */
+gint gsb_currency_find_currency_in_option_menu ( GtkWidget *option_menu,
+						 gint no_currency )
+{
+    GList *children;
+    gint pos = 0;
+
+    children = GTK_MENU_SHELL ( gtk_option_menu_get_menu ( GTK_OPTION_MENU ( option_menu))) -> children;
+    
+    while ( children )
+    {
+	if ( GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT ( children -> data ),
+						   "no_devise" )) == no_currency )
+	    return pos;
+	pos++;
+
+	children = children -> next;
+    }
+
+    return 0;
+}
 
 
 /**
