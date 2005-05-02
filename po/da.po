@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-07-03 17:36+0200\n"
-"PO-Revision-Date: 2005-04-29 14:45+0100\n"
+"PO-Revision-Date: 2005-05-02 18:25+0100\n"
 "Last-Translator: Dmitri Popov <lazylegs@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -25,7 +25,7 @@ msgstr "Bruger"
 
 #: src/accueil.c:253
 msgid "Closed liabilities accounts"
-msgstr ""
+msgstr "Lukkede passiver-konti"
 
 #: src/accueil.c:264
 msgid "Manual scheduled transactions at maturity date"
@@ -37,20 +37,20 @@ msgstr ""
 
 #: src/accueil.c:287
 msgid "Closed scheduled transactions"
-msgstr ""
+msgstr "Lukkede planlagte transaktioner"
 
 #: src/accueil.c:298
 msgid "Accounts under authorized balance"
-msgstr ""
+msgstr "Konti under det tilladte beløb"
 
 #: src/accueil.c:309
 msgid "Accounts under wanted balance"
-msgstr ""
+msgstr "Konti under det ønskede minimumsbeløb"
 
 #. crÃ©e la boite de dialogue
 #: src/accueil.c:397
 msgid "Enter a scheduled transaction"
-msgstr ""
+msgstr "Opret en planlagt transaktion"
 
 #: src/accueil.c:446
 #: src/echeancier_onglet.c:171
@@ -69,7 +69,7 @@ msgstr ""
 #: src/accueil.c:1224
 #: src/operations_liste.c:304
 msgid "Reconciled balance"
-msgstr ""
+msgstr "Afstemt balance"
 
 #: src/accueil.c:622
 #: src/accueil.c:907
@@ -84,7 +84,7 @@ msgstr "Betalingsbalance"
 #: src/accueil.c:1144
 #: src/accueil.c:1465
 msgid "Global balances"
-msgstr ""
+msgstr "Balancer"
 
 #: src/accueil.c:897
 #, c-format
@@ -275,7 +275,7 @@ msgstr ""
 #: src/affichage_formulaire.c:736
 #: src/affichage_formulaire.c:739
 msgid "The table is full"
-msgstr ""
+msgstr "Tabellen er fuld"
 
 #: src/affichage_formulaire.c:738
 msgid "There is no place enough to put the two elements (you have clicked on an element which contains two). You need to increase the number of rows or columns to add the elements."
@@ -544,21 +544,21 @@ msgstr ""
 
 #: src/affichage_liste.c:397
 msgid "Display modes"
-msgstr ""
+msgstr "Visninger"
 
 #: src/affichage_liste.c:404
 msgid "One line mode"
-msgstr ""
+msgstr "1 linje"
 
 #. pour 2 lignes
 #: src/affichage_liste.c:417
 msgid "Two lines mode"
-msgstr ""
+msgstr "2 linjer"
 
 #. pour 3 lignes
 #: src/affichage_liste.c:437
 msgid "Three lines mode"
-msgstr ""
+msgstr "3 linjer"
 
 #: src/affichage_liste.c:515
 msgid "Sort transaction list"
@@ -574,19 +574,19 @@ msgstr "efter dato"
 
 #: src/affichage_liste.c:541
 msgid "first line"
-msgstr ""
+msgstr "1. linje"
 
 #: src/affichage_liste.c:549
 msgid "second line"
-msgstr ""
+msgstr "2. linje"
 
 #: src/affichage_liste.c:557
 msgid "third line"
-msgstr ""
+msgstr "3. linje"
 
 #: src/affichage_liste.c:565
 msgid "fourth line"
-msgstr ""
+msgstr "4. linje"
 
 #: src/affichage_liste.c:809
 msgid "Payer/payee"
@@ -594,7 +594,7 @@ msgstr ""
 
 #: src/affichage_liste.c:813
 msgid "Budgetary information"
-msgstr ""
+msgstr "Budgetoplysninger"
 
 #: src/affichage_liste.c:825
 #: src/echeancier_liste.c:154
@@ -723,7 +723,7 @@ msgstr "Banker"
 
 #: src/banque.c:393
 msgid "Known banks"
-msgstr ""
+msgstr "Kendte banker"
 
 #: src/banque.c:573
 msgid "Bank details"
@@ -746,7 +746,7 @@ msgstr "Navn"
 #. Bank Sort code item
 #: src/banque.c:599
 msgid "Sort code"
-msgstr ""
+msgstr "Sorteringskode"
 
 #. Bank address
 #: src/banque.c:614
@@ -820,18 +820,18 @@ msgstr ""
 #: src/barre_outils.c:360
 #: src/barre_outils.c:361
 msgid "Mask reconciled transactions"
-msgstr ""
+msgstr "Skjul afstemte transaktioner"
 
 #: src/barre_outils.c:399
 #: src/barre_outils.c:400
 #: src/barre_outils.c:692
 #: src/barre_outils.c:693
 msgid "Display grid"
-msgstr ""
+msgstr "Vis gitter"
 
 #: src/barre_outils.c:422
 msgid "Account transactions"
-msgstr ""
+msgstr "Kontotransaktioner"
 
 #. View menu
 #: src/barre_outils.c:499
@@ -866,7 +866,7 @@ msgstr "Gennemse"
 #: src/menu.c:121
 #: src/menu.c:203
 msgid "Show grid"
-msgstr ""
+msgstr "Vis gitter"
 
 #: src/barre_outils.c:511
 #: src/fichiers_gestion.c:489
@@ -900,7 +900,7 @@ msgstr "Vis 4 linjer per transaktion"
 #: src/fichiers_gestion.c:482
 #: src/menu.c:122
 msgid "Show reconciled transactions"
-msgstr ""
+msgstr "Vis afstemte transaktioner"
 
 #: src/barre_outils.c:602
 #: src/barre_outils.c:603
