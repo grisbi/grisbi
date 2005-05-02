@@ -120,7 +120,8 @@ gboolean new_file ( void )
 
     /*     création de la 1ère devise */
 
-    ajout_devise ( NULL );
+    if ( ! ajout_devise ( NULL ) )
+	return FALSE;
 
     gsb_account_set_current_account ( gsb_account_new( type_de_compte ));
 
