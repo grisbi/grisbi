@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-04-26 16:21+0200\n"
-"PO-Revision-Date: 2005-04-26 16:25+0200\n"
+"PO-Revision-Date: 2005-05-02 18:11+0200\n"
 "Last-Translator: Alain PORTAL <aportal@univ-montp2.fr>\n"
 "Language-Team: français <traduc@traduc.org>\n"
 "MIME-Version: (null)\n"
@@ -220,7 +220,7 @@ msgstr "Sélection d'un nouveau logo"
 
 #: src/affichage.c:957 src/parametres.c:293
 msgid "Toolbars"
-msgstr ""
+msgstr "Barres d'outils"
 
 #: src/affichage.c:960
 #, fuzzy
@@ -845,12 +845,12 @@ msgstr "Mois"
 
 #: src/barre_outils.c:407
 msgid "Two months view"
-msgstr ""
+msgstr "Deux mois affichés"
 
 #: src/barre_outils.c:413
 #, fuzzy
 msgid "Year view"
-msgstr "Vue des catégories uniquement"
+msgstr "Un an affiché"
 
 #: src/barre_outils.c:419
 msgid "Unique view"
