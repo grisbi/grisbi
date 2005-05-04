@@ -1623,6 +1623,8 @@ GtkWidget *onglet_devises ( void )
 GtkWidget * new_currency_option_menu ( gint * value, GCallback hook )
 {
     GtkWidget * currency_list, *currency_menu;
+    gint gsb_currency_find_currency_in_option_menu ( GtkWidget *option_menu,
+						     gint no_currency );
 
     currency_list = gtk_option_menu_new ();
     currency_menu = creation_option_menu_devises ( 0, liste_struct_devises );
