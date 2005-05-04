@@ -35,6 +35,7 @@
 
 /*START_EXTERN*/
 extern GtkWidget *window;
+extern gchar *chemin_logo;
 /*END_EXTERN*/
 
 
@@ -44,250 +45,167 @@ extern GtkWidget *window;
 void a_propos ( GtkWidget *bouton,
 		gint data )
 {
-    GtkWidget *dialogue;
-    GtkWidget *url;
-    GtkWidget *label;
-    GtkWidget *notebook;
-    GtkWidget *vbox;
-    GtkWidget *hbox;
+    GtkWidget *dialogue, *url, *label, *notebook, *vbox, *hbox, *sw, *logo;
     gint i;
 
-    const gchar *generalites = _("Grisbi is a personnal accounting application for Linux\nSuch a program allows you to sort your financial transactions, whatever they are, in a convenient and intuitive way.  Thus, you will be able to manage them as to fit your needs the more you can.\nGrisbi aims both at simplicty and efficiency for common use, and at a powerful use for power users.  We will always try to respect this as features will come.");
+#define CPREFIX "  "
+#define CSUFFIX "\n"
 
-    const gchar *auteurs[] = { _("Cedric Auger (cedric@grisbi.org) : Programming"),
-	_("Daniel Cartron (doc@grisbi.org) : Manual, website, consultancy"),
-	_("Benjamin Drieu (bdrieu@april.org) : Programming, Debian packaging"),
-	_("Alain Portal <aportal AT univ-monpt2 DOT fr>: Programming, manual, RedHat packaging"),
-	_("Gerald Niel (gegeweb@users.sourceforge.net): Slackware packaging, website"),
-	_("Matthieu Puppat (tieum.tieum@free.fr): Mandrake packaging"),
-	_("Francois Terrot (grisbi@terrot.net): Windows packaging, cygwin port"),
-	_("Thierry Thomas (thierry@pompo.net): FreeBSD packaging"),
-	_("Dominique Parisot (parisot@villey-le-sec.com): contributor"),
-	_("Axel Rousseau (axel584@axel584.org): contributor"),
-	_("Andre Pascual (andre@linuxgraphic.org) : Logo"),
+    const gchar *auteurs = g_strconcat ( 
+"\n", "<b><big>", _("Programming"), "</big></b>\n",
+CPREFIX, _("Alain Portal (aportal[at]univ-monpt2.fr)"), CSUFFIX,
+CPREFIX, _("Benjamin Drieu (bdrieu[at]april.org)"), CSUFFIX,
+CPREFIX, _("Cedric Auger (cedric[at]grisbi.org)"), CSUFFIX,
+CPREFIX, _("Francois Terrot (grisbi[at]terrot.net)"), CSUFFIX,
+"\n",
+
+"<b><big>", _("Packaging"), "</big></b>\n",
+CPREFIX, _("Alain Pichon (aph[at]grisbi.org)"), CSUFFIX,
+CPREFIX, _("Baluchiterium  (baluchiterium[at]users.sf.net)"), CSUFFIX,
+CPREFIX, _("Francois Terrot (grisbi[at]terrot.net)"), CSUFFIX,
+CPREFIX, _("Gerald Niel (gerald.niel[at]grisbi.org)"), CSUFFIX,
+CPREFIX, _("PMF (ugly.duck[at]gmx.de)"), CSUFFIX,
+CPREFIX, _("Pascal Bleser (guru[at]linuxbe.org)"), CSUFFIX,
+CPREFIX, _("Sylvain Glaize (mokona[at]puupuu.org)"), CSUFFIX,
+CPREFIX, _("Thierry Thomas (thierry[at]pompo.net)"), CSUFFIX,
+CPREFIX, _("Vincent Marqueton (vincent[at]marqueton.org)"), CSUFFIX,
+"\n",
+
+"<b><big>", _("Translation"), "</big></b>\n",
+CPREFIX, _("Alain Portal (dionysos[at]grisbi.org): English"), CSUFFIX,
+CPREFIX, _("Benjamin Drieu (bdrieu[at]april.org): English"), CSUFFIX,
+CPREFIX, _("Carlos M. Cámara Mora (carcam_moceu[at]yahoo.es): Spanish"), CSUFFIX,
+CPREFIX, _("Daniel Cartron (cartron[at]grisbi.org): English"), CSUFFIX,
+CPREFIX, _("Edwin Huijsing (e.huijsing[at]fiberworld.nl): Dutch"), CSUFFIX,
+CPREFIX, _("Fabio Erculiani (fabio.erculiani[at]tiscali.it): Italian"), CSUFFIX,
+CPREFIX, _("Flavio Henrique Somensi (flavio[at]opens.com.br): Brazilian Portuguese"), CSUFFIX,
+CPREFIX, _("Giorgio Mandolfo (giorgio[at]pollycoke.org): Italian"), CSUFFIX,
+CPREFIX, _("Martin Stromberger (Fabiolla[at]aon.at): German"), CSUFFIX,
+CPREFIX, _("Ryszard Jeziorski (rjeziorski[at]eagle): Polish"), CSUFFIX,
+"\n",
+
+"<b><big>", _("Other"), "</big></b>\n",
+CPREFIX, _("Alain Portal (aportal[at]univ-monpt2.fr): manual"), CSUFFIX,
+CPREFIX, _("Andre Pascual (andre[at]linuxgraphic.org): Logo"), CSUFFIX,
+CPREFIX, _("Axel Rousseau (axel584[at]axel584.org): contributor"), CSUFFIX,
+CPREFIX, _("Daniel Cartron (doc[at]grisbi.org): manual"), CSUFFIX,
+CPREFIX, _("Dominique Parisot (parisot[at]villey-le-sec.com): contributor"), CSUFFIX,
+CPREFIX, _("Gerald Niel (gerald.niel[at]grisbi.org): administration"), CSUFFIX,
+
+NULL );	
+
+    const gchar *liens[] = { 
+	COLON(_("Website")),
+	"http://www.grisbi.org/",
+	"http://www.grisbi.org/",
+	_("Development list (discuss, participate, criticize, ...) : "),
+	"http://lists.sourceforge.net/lists/listinfo/grisbi-devel",
+	_("subscribe"),
+	COLON(_("Bug report")),
+	"http://www.grisbi.org/bugtracking/",
+	"http://www.grisbi.org/bugtracking/",
+	_("Information list (new releases announces, ...) : "),
+	"http://lists.sourceforge.net/lists/listinfo/grisbi-info",
+	_("subscribe"),
+	COLON(_("Grisbi documentation")),
+	"http://www.grisbi.org/manuel.html",
+	"http://www.grisbi.org/manuel.html",
 	NULL };
-	const gchar *traducteurs[] = { _("Daniel Cartron (cartron@grisbi.org) : English"),
-	    _("Benjamin Drieu (bdrieu@april.org) : English"),
-	    _("Alain Portal (dionysos@grisbi.org) : English"),
-            _("Giorgo Mandolfo (giorgio@pollycoke.org) : Italian"),
-	    NULL };
-	    const gchar *liens[] = { COLON(_("Website")),
-		"http://www.grisbi.org/",
-		"http://www.grisbi.org/",
-		_("Development list (discuss, participate, criticize, ...) : "),
-		"http://lists.sourceforge.net/lists/listinfo/grisbi-devel",
-		_("subscribe"),
-		COLON(_("Bug report")),
-		"http://www.grisbi.org/bugtracking/",
-		"http://www.grisbi.org/bugtracking/",
-		_("Information list (new releases announces, ...) : "),
-		"http://lists.sourceforge.net/lists/listinfo/grisbi-info",
-		_("subscribe"),
-		COLON(_("Grisbi documentation")),
-		"http://www.grisbi.org/manuel.html",
-		"http://www.grisbi.org/manuel.html",
-		NULL };
 
-		const gchar *license = "This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.\n\nThis program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.\n\nYou should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA";
+    const gchar *license = "This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.\n\nThis program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.\n\nYou should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA";
 
-		dialogue = gtk_dialog_new_with_buttons ( _("About..."),
-							 GTK_WINDOW (window),
-							 GTK_DIALOG_MODAL,
-							 GTK_STOCK_CLOSE,0,
-							 NULL );
+    dialogue = gtk_dialog_new_with_buttons ( _("About..."),
+					     GTK_WINDOW (window),
+					     GTK_DIALOG_MODAL,
+					     GTK_STOCK_CLOSE,0,
+					     NULL );
 
-		notebook = gtk_notebook_new ();
-		gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialogue ) -> vbox ),
-				     notebook,
-				     TRUE,
-				     TRUE,
-				     0 );
-		gtk_widget_show ( notebook );
+    notebook = gtk_notebook_new ();
+    gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialogue ) -> vbox ),
+			 notebook, TRUE, TRUE, 0 );
 
+    /* Generalities */
+    sw = gtk_scrolled_window_new ( NULL, NULL );    
+    gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( sw ),
+				     GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
 
-		/* mise en forme de l'onglet de généralités */
+    vbox = gtk_vbox_new ( FALSE, 5 );
+    gtk_container_set_border_width ( GTK_CONTAINER ( vbox ), 6 );
+    gtk_scrolled_window_add_with_viewport ( GTK_SCROLLED_WINDOW ( sw ), vbox );
 
-		vbox = gtk_vbox_new ( FALSE, 5 );
-		gtk_container_set_border_width ( GTK_CONTAINER ( vbox ), 10 );
-		gtk_widget_show ( vbox );
+    /* Logo */
+    if ( !chemin_logo || !strlen ( chemin_logo ))
+	chemin_logo = g_strdup ( LOGO_PATH );
+    logo =  gtk_image_new_from_file ( chemin_logo );
+    gtk_box_pack_start ( GTK_BOX ( vbox ), logo, FALSE, FALSE, 0 );
 
-		label = gtk_label_new ( g_strconcat ( "Grisbi ", VERSION, "\n\n", NULL ));
-		gtk_label_set_markup ( GTK_LABEL (label), 
-				       g_strconcat ( "<span size=\"large\" weight=\"bold\">",
+    /* Title */
+    label = gtk_label_new ( g_strconcat ( "Grisbi ", VERSION, "\n\n", NULL ));
+    gtk_label_set_markup ( GTK_LABEL (label), 
+			   g_strconcat ( "<span size=\"x-large\" weight=\"bold\">",
 
-						     "Grisbi ", VERSION, "</span>", NULL ) );
+					 "Grisbi ", VERSION, "</span>", NULL ) );
+    gtk_label_set_selectable ( GTK_LABEL ( label ), TRUE );
+    gtk_box_pack_start ( GTK_BOX ( vbox ), label, FALSE, FALSE, 0 );
 
-		gtk_box_pack_start ( GTK_BOX ( vbox ), label,
-				     FALSE, FALSE, 0 );
-		gtk_widget_show ( label );
+    /* Resume */
+    label = gtk_label_new ( _("Personal finance manager for all") );
+    gtk_label_set_selectable ( GTK_LABEL ( label ), TRUE );
+    gtk_label_set_line_wrap ( GTK_LABEL ( label ), TRUE );
+    gtk_box_pack_start ( GTK_BOX ( vbox ), label, TRUE, TRUE, 0 );
 
-		label = gtk_label_new ( generalites );
-		gtk_label_set_selectable ( GTK_LABEL ( label ), TRUE );
-		gtk_label_set_line_wrap ( GTK_LABEL ( label ),
-					  TRUE );
-		gtk_box_pack_start ( GTK_BOX ( vbox ),
-				     label,
-				     TRUE,
-				     TRUE,
-				     0 );
-		gtk_widget_show ( label );
+    /* Authors */
+    label = gtk_label_new ("");
+    gtk_label_set_markup ( GTK_LABEL(label), auteurs );
+    gtk_box_pack_start ( GTK_BOX ( vbox ), label, TRUE, TRUE, 0 );
 
-		gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
-					   vbox,
-					   gtk_label_new ( _("About Grisbi")));
-
-		/* mise en forme de l'onglet auteurs */
+    gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ), sw,
+			       gtk_label_new ( _("About Grisbi")));
 
 
-		vbox = gtk_vbox_new ( FALSE, 6 );
-		gtk_container_set_border_width ( GTK_CONTAINER ( vbox ),
-						 10 );
-		gtk_widget_show ( vbox );
+    /* mise en forme de l'onglet liens */
+    vbox = gtk_vbox_new ( FALSE, 5 );
+    gtk_container_set_border_width ( GTK_CONTAINER ( vbox ), 10 );
 
-		i=0;
+    i=0;
 
-		while ( auteurs[i] )
-		{
-		    hbox = gtk_hbox_new ( FALSE, 
-					  0 );
-		    gtk_box_pack_start ( GTK_BOX ( vbox ),
-					 hbox,
-					 FALSE,
-					 FALSE,
-					 0 );
-		    gtk_widget_show ( hbox );
+    while ( liens[i] )
+	{
+	    hbox = gtk_hbox_new ( FALSE, 5 );
+	    gtk_box_pack_start ( GTK_BOX ( vbox ), hbox, FALSE, FALSE, 0 );
 
-		    label = gtk_label_new ( auteurs[i] );
-		    gtk_box_pack_start ( GTK_BOX ( hbox ),
-					 label,
-					 FALSE,
-					 FALSE,
-					 0 );
-		    gtk_widget_show ( label );
-		    i++;
-		}
+	    label = gtk_label_new ( liens[i] );
+	    gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 0 );
 
-		gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
-					   vbox,
-					   gtk_label_new ( _("Authors")));
+	    url = cree_bouton_url ( liens[i+1], liens[i+2] );
+	    gtk_box_pack_start ( GTK_BOX ( hbox ), url, FALSE, FALSE, 0 );
+
+	    i = i + 3;
+	}
+
+    gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ), vbox, 
+			       gtk_label_new ( _("Links")));
 
 
-		/* mise en forme de l'onglet traduction */
+    /* mise en forme de l'onglet de license */ 
+    vbox = gtk_vbox_new ( FALSE, 5 );
+    gtk_container_set_border_width ( GTK_CONTAINER ( vbox ), 10 );
 
+    label = gtk_label_new ( license );
+    gtk_label_set_selectable ( GTK_LABEL ( label ), TRUE );
+    gtk_label_set_line_wrap ( GTK_LABEL ( label ), TRUE );
+    gtk_box_pack_start ( GTK_BOX ( vbox ), label, FALSE, FALSE, 0 );
 
-		vbox = gtk_vbox_new ( FALSE,
-				      5 );
-		gtk_container_set_border_width ( GTK_CONTAINER ( vbox ),
-						 10 );
-		gtk_widget_show ( vbox );
+    gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ), vbox,
+			       gtk_label_new ( _("License")));
 
-		i=0;
+    gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook ), 0 );
 
-		while ( traducteurs[i] )
-		{
-		    hbox = gtk_hbox_new ( FALSE, 
-					  0 );
-		    gtk_box_pack_start ( GTK_BOX ( vbox ),
-					 hbox,
-					 FALSE,
-					 FALSE,
-					 0 );
-		    gtk_widget_show ( hbox );
+    gtk_widget_show_all ( dialogue );
 
-		    label = gtk_label_new ( traducteurs[i] );
-		    gtk_box_pack_start ( GTK_BOX ( hbox ),
-					 label,
-					 FALSE,
-					 FALSE,
-					 0 );
-		    gtk_widget_show ( label );
-		    i++;
-		}
-
-		gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
-					   vbox,
-					   gtk_label_new ( _("Translators")));
-
-
-		/* mise en forme de l'onglet liens */
-
-
-		vbox = gtk_vbox_new ( FALSE,
-				      5 );
-		gtk_container_set_border_width ( GTK_CONTAINER ( vbox ),
-						 10 );
-		gtk_widget_show ( vbox );
-
-		i=0;
-
-		while ( liens[i] )
-		{
-		    hbox = gtk_hbox_new ( FALSE,
-					  5 );
-		    gtk_box_pack_start ( GTK_BOX ( vbox ),
-					 hbox,
-					 FALSE,
-					 FALSE,
-					 0 );
-		    gtk_widget_show ( hbox );
-
-		    label = gtk_label_new ( liens[i] );
-		    gtk_box_pack_start ( GTK_BOX ( hbox ),
-					 label,
-					 FALSE,
-					 FALSE,
-					 0 );
-		    gtk_widget_show ( label );
-
-		    url = cree_bouton_url ( liens[i+1],
-					    liens[i+2] );
-		    gtk_box_pack_start ( GTK_BOX ( hbox ),
-					 url,
-					 FALSE,
-					 FALSE,
-					 0 );
-		    gtk_widget_show ( url );
-
-		    i = i + 3;
-		}
-
-		gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
-					   vbox,
-					   gtk_label_new ( _("Links")));
-
-
-		/* mise en forme de l'onglet de license */
-
-		vbox = gtk_vbox_new ( FALSE,
-				      5 );
-		gtk_container_set_border_width ( GTK_CONTAINER ( vbox ),
-						 10 );
-		gtk_widget_show ( vbox );
-
-		label = gtk_label_new ( license );
-		gtk_label_set_selectable ( GTK_LABEL ( label ), TRUE );
-		gtk_label_set_line_wrap ( GTK_LABEL ( label ),
-					  TRUE );
-		gtk_box_pack_start ( GTK_BOX ( vbox ),
-				     label,
-				     FALSE,
-				     FALSE,
-				     0 );
-		gtk_widget_show ( label );
-
-		gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
-					   vbox,
-					   gtk_label_new ( _("License")));
-
-		gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook ),
-					0 );
-
-		gtk_dialog_run ( GTK_DIALOG ( dialogue ));
-		gtk_widget_destroy ( dialogue );
-
+    gtk_dialog_run ( GTK_DIALOG ( dialogue ));
+    gtk_widget_destroy ( dialogue );
 }
-/* **************************************************************************************************************************** */
-
 
 
 /* Local Variables: */
