@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-05-04 12:04+0200\n"
-"PO-Revision-Date: 2005-05-04 11:48+0200\n"
+"PO-Revision-Date: 2005-05-04 12:10+0200\n"
 "Last-Translator: Alain PORTAL <aportal@univ-montp2.fr>\n"
 "Language-Team: français <traduc@traduc.org>\n"
 "MIME-Version: (null)\n"
@@ -5760,8 +5760,7 @@ msgstr "Fabio·Erculiani·(fabio.erculiani[at]tiscali.it):·Italien"
 
 #: src/help.c:71
 msgid "Flavio Henrique Somensi (flavio[at]opens.com.br): Brazilian Portuguese"
-msgstr ""
-"Flavio Henrique Somensi (flavio[at]opens.com.br) : Portugais pour brésiliens"
+msgstr "Flavio Henrique Somensi (flavio[at]opens.com.br) : Portugais du Brésil"
 
 #: src/help.c:72
 msgid "Giorgio Mandolfo (giorgio[at]pollycoke.org): Italian"
