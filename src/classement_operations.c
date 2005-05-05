@@ -1311,8 +1311,8 @@ gint gsb_transactions_list_sort_by_voucher ( GtkTreeModel *model,
     if ( return_value )
 	return return_value;
 
-    temp_1 = transaction_1 -> no_piece_comptable;
-    temp_2 = transaction_2 -> no_piece_comptable;
+    temp_1 = gsb_transaction_data_get_voucher ( gsb_transaction_data_get_transaction_number (transaction_1 ));
+    temp_2 = gsb_transaction_data_get_voucher ( gsb_transaction_data_get_transaction_number (transaction_2 ));
 
     /* g_utf8_collate is said not very fast, must try with big big account to check
      * if it's enough, for me it's ok (cedric), eventually, change with gsb_strcasecmp */
@@ -1412,8 +1412,8 @@ gint gsb_transactions_list_sort_by_bank ( GtkTreeModel *model,
     if ( return_value )
 	return return_value;
 
-    temp_1 = transaction_1 -> info_banque_guichet;
-    temp_2 = transaction_2 -> info_banque_guichet;
+    temp_1 = gsb_transaction_data_get_bank_references ( gsb_transaction_data_get_transaction_number (transaction_1 ));
+    temp_2 = gsb_transaction_data_get_bank_references ( gsb_transaction_data_get_transaction_number (transaction_2 ));
 
     /* g_utf8_collate is said not very fast, must try with big big account to check
      * if it's enough, for me it's ok (cedric), eventually, change with gsb_strcasecmp */

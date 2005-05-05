@@ -1276,6 +1276,86 @@ gboolean gsb_transaction_data_set_sub_budgetary_number ( gint no_transaction,
 }
 
 
+/** get the voucher
+ * \param no_transaction the number of the transaction
+ * \return  voucher
+ * */
+gchar *gsb_transaction_data_get_voucher ( gint no_transaction )
+{
+    struct_transaction *transaction;
+
+    transaction = gsb_transaction_data_get_transaction_by_no ( no_transaction,
+							       -1 );
+
+    if ( !transaction )
+	return NULL;
+
+    return transaction -> voucher;
+}
+
+
+/** set the  voucher
+ * \param no_transaction
+ * \param voucher
+ * \return TRUE if ok
+ * */
+gboolean gsb_transaction_data_set_voucher ( gint no_transaction,
+					    gchar *voucher )
+{
+    struct_transaction *transaction;
+
+    transaction = gsb_transaction_data_get_transaction_by_no ( no_transaction,
+							       -1 );
+
+    if ( !transaction )
+	return FALSE;
+
+    transaction -> voucher = voucher;
+    
+    return TRUE;
+}
+
+
+
+/** get the bank_references
+ * \param no_transaction the number of the transaction
+ * \return bank_references
+ * */
+gchar *gsb_transaction_data_get_bank_references ( gint no_transaction )
+{
+    struct_transaction *transaction;
+
+    transaction = gsb_transaction_data_get_transaction_by_no ( no_transaction,
+							       -1 );
+
+    if ( !transaction )
+	return NULL;
+
+    return transaction -> bank_references;
+}
+
+
+/** set the bank_references
+ * \param no_transaction
+ * \param bank_references
+ * \return TRUE if ok
+ * */
+gboolean gsb_transaction_data_set_bank_references ( gint no_transaction,
+						    gchar *bank_references )
+{
+    struct_transaction *transaction;
+
+    transaction = gsb_transaction_data_get_transaction_by_no ( no_transaction,
+							       -1 );
+
+    if ( !transaction )
+	return FALSE;
+
+    transaction -> bank_references = bank_references;
+    
+    return TRUE;
+}
+
 
 
 

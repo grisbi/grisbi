@@ -1793,7 +1793,8 @@ void verification_echeances_a_terme ( void )
 								    ope_ventil -> sous_imputation);
 
 		    if ( ope_ventil -> no_piece_comptable )
-			operation_fille -> no_piece_comptable = g_strdup ( ope_ventil -> no_piece_comptable);
+			gsb_transaction_data_set_voucher ( gsb_transaction_data_get_transaction_number ( operation_fille ),
+							   g_strdup ( ope_ventil -> no_piece_comptable));
 
 		    gsb_transaction_data_set_financial_year_number ( gsb_transaction_data_get_transaction_number ( operation_fille ),
 								     ope_ventil -> no_exercice);

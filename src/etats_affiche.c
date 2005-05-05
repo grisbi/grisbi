@@ -1381,9 +1381,9 @@ gint etat_affiche_affichage_ligne_ope ( struct structure_operation *operation,
 
 	if ( etat_courant -> afficher_pc_ope )
 	{
-	    if ( operation -> no_piece_comptable )
+	    if ( gsb_transaction_data_get_voucher ( gsb_transaction_data_get_transaction_number (operation )))
 	    {
-		text = operation -> no_piece_comptable;
+		text = gsb_transaction_data_get_voucher ( gsb_transaction_data_get_transaction_number (operation ));
 
 		if ( etat_courant -> ope_clickables )
 		{
@@ -1403,9 +1403,9 @@ gint etat_affiche_affichage_ligne_ope ( struct structure_operation *operation,
 
 	if ( etat_courant -> afficher_infobd_ope )
 	{
-	    if ( operation -> info_banque_guichet )
+	    if ( gsb_transaction_data_get_bank_references ( gsb_transaction_data_get_transaction_number (operation )))
 	    {
-		text = operation -> info_banque_guichet;
+		text = gsb_transaction_data_get_bank_references ( gsb_transaction_data_get_transaction_number (operation ));
 
 		if ( etat_courant -> ope_clickables )
 		{

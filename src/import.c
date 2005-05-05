@@ -1161,7 +1161,7 @@ void cree_liens_virements_ope_import ( void )
 						       gsb_account_get_name (j),
 						       "]",
 						       NULL ),
-					 g_strstrip ( operation -> info_banque_guichet )))
+					 g_strstrip ( gsb_transaction_data_get_bank_references ( gsb_transaction_data_get_transaction_number (operation )))))
 			compte_trouve = j;
 
 		    list_tmp2 = list_tmp2 -> next;
@@ -1175,7 +1175,8 @@ void cree_liens_virements_ope_import ( void )
 		{
 		    operation -> relation_no_compte = 0;
 		    operation -> relation_no_operation = 0;
-		    operation -> info_banque_guichet = NULL;
+		    gsb_transaction_data_set_bank_references ( gsb_transaction_data_get_transaction_number ( operation ),
+							       NULL);
 		}
 		else
 		{
@@ -1197,12 +1198,12 @@ void cree_liens_virements_ope_import ( void )
 
 			if ( operation_2 -> relation_no_compte == -2
 			     &&
-			     operation_2 -> info_banque_guichet
+			     gsb_transaction_data_get_bank_references ( gsb_transaction_data_get_transaction_number (operation_2 ))
 			     &&
 			     (!g_strcasecmp ( g_strconcat ("[", nom_compte_courant, "]", NULL),
- 					      g_strstrip ( operation_2 -> info_banque_guichet ))
+ 					      g_strstrip ( gsb_transaction_data_get_bank_references ( gsb_transaction_data_get_transaction_number (operation_2 ))))
 			      || g_strcasecmp ( nom_compte_courant,
-						g_strstrip ( operation_2 -> info_banque_guichet ))) 
+						g_strstrip ( gsb_transaction_data_get_bank_references ( gsb_transaction_data_get_transaction_number (operation_2 ))))) 
 			     &&
 			     ( !same_currency || fabs ( gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (operation ))) == fabs ( gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (operation_2 ))))
 			     &&
@@ -1218,8 +1219,10 @@ void cree_liens_virements_ope_import ( void )
 			    operation_2 -> relation_no_operation = gsb_transaction_data_get_transaction_number (operation);
 			    operation_2 -> relation_no_compte = gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (operation));
 
-			    operation -> info_banque_guichet = NULL;
-			    operation_2 -> info_banque_guichet = NULL;
+			    gsb_transaction_data_set_bank_references ( gsb_transaction_data_get_transaction_number ( operation ),
+								       NULL);
+			    gsb_transaction_data_set_bank_references ( gsb_transaction_data_get_transaction_number ( operation_2 ),
+								       NULL);
 			}
 			pointeur_tmp = pointeur_tmp -> next;
 		    }
@@ -1231,7 +1234,8 @@ void cree_liens_virements_ope_import ( void )
 		    {
 			operation -> relation_no_compte = 0;
 			operation -> relation_no_operation = 0;
-			operation -> info_banque_guichet = NULL;
+			gsb_transaction_data_set_bank_references ( gsb_transaction_data_get_transaction_number ( operation ),
+								   NULL);
 		    }
 		}
 	    }
@@ -1440,7 +1444,8 @@ void creation_compte_importe ( struct struct_compte_importation *compte_import )
 		    /* on va mettre le nom du compte dans info_banque_guichet qui n'est jamais utilisé */
 		    /* lors d'import, et relation_no_compte sera mis à -2 (-1 est déjà utilisé pour les comptes supprimés */
 
-		    operation -> info_banque_guichet = operation_import -> categ;
+		    gsb_transaction_data_set_bank_references ( gsb_transaction_data_get_transaction_number ( operation ),
+							       operation_import -> categ);
 		    operation -> relation_no_compte = -2;
 		    operation -> relation_no_operation = -1;
 		    virements_a_chercher = 1;
@@ -2093,7 +2098,8 @@ struct structure_operation *enregistre_ope_importee ( struct struct_ope_importat
 		/* on va mettre le nom du compte dans info_banque_guichet qui n'est jamais utilisé */
 		/* lors d'import, et relation_no_compte sera mis à -2 (-1 est déjà utilisé pour les comptes supprimés */
 
-		operation -> info_banque_guichet = operation_import -> categ;
+		gsb_transaction_data_set_bank_references ( transaction_number,
+							   operation_import -> categ);
 		operation -> relation_no_compte = -2;
 		operation -> relation_no_operation = -1;
 		virements_a_chercher = 1;

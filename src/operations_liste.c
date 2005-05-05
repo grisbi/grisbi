@@ -1198,7 +1198,7 @@ gchar *recherche_contenu_cellule ( struct structure_operation *transaction,
 	    /* mise en place de la pièce comptable */
 
 	case TRANSACTION_LIST_VOUCHER:
-	    return ( transaction -> no_piece_comptable );
+	    return ( gsb_transaction_data_get_voucher ( gsb_transaction_data_get_transaction_number (transaction )));
 	    break;
 
 	    /* mise en forme des notes */
@@ -1210,7 +1210,7 @@ gchar *recherche_contenu_cellule ( struct structure_operation *transaction,
 	    /* mise en place de l'info banque/guichet */
 
 	case TRANSACTION_LIST_BANK:
-	    return ( transaction -> info_banque_guichet );
+	    return ( gsb_transaction_data_get_bank_references ( gsb_transaction_data_get_transaction_number (transaction )));
 	    break;
 
 	    /* mise en place du no d'opé */
@@ -2604,21 +2604,21 @@ gboolean gsb_transactions_list_edit_current_transaction ( void )
 
 		case TRANSACTION_FORM_BANK:
 
-		    if ( transaction -> info_banque_guichet )
+		    if ( gsb_transaction_data_get_bank_references ( gsb_transaction_data_get_transaction_number (transaction )))
 		    {
 			entree_prend_focus ( widget );
 			gtk_entry_set_text ( GTK_ENTRY ( widget ),
-					     transaction -> info_banque_guichet );
+					     gsb_transaction_data_get_bank_references ( gsb_transaction_data_get_transaction_number (transaction )));
 		    }
 		    break;
 
 		case TRANSACTION_FORM_VOUCHER:
 
-		    if ( transaction -> no_piece_comptable )
+		    if ( gsb_transaction_data_get_voucher ( gsb_transaction_data_get_transaction_number (transaction )))
 		    {
 			entree_prend_focus ( widget );
 			gtk_entry_set_text ( GTK_ENTRY ( widget ),
-					     transaction -> no_piece_comptable );
+					     gsb_transaction_data_get_voucher ( gsb_transaction_data_get_transaction_number (transaction )));
 		    }
 		    break;
 

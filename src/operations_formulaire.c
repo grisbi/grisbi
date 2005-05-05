@@ -1888,21 +1888,21 @@ gboolean completion_operation_par_tiers ( GtkWidget *entree )
 
 		case TRANSACTION_FORM_BANK:
 
-		    if ( transaction -> info_banque_guichet )
+		    if ( gsb_transaction_data_get_bank_references ( gsb_transaction_data_get_transaction_number (transaction )))
 		    {
 			entree_prend_focus ( widget );
 			gtk_entry_set_text ( GTK_ENTRY ( widget ),
-					     transaction -> info_banque_guichet );
+					     gsb_transaction_data_get_bank_references ( gsb_transaction_data_get_transaction_number (transaction )));
 		    }
 		    break;
 
 		case TRANSACTION_FORM_VOUCHER:
 
-		    if ( transaction -> no_piece_comptable )
+		    if ( gsb_transaction_data_get_voucher ( gsb_transaction_data_get_transaction_number (transaction )))
 		    {
 			entree_prend_focus ( widget );
 			gtk_entry_set_text ( GTK_ENTRY ( widget ),
-					     transaction -> no_piece_comptable );
+					     gsb_transaction_data_get_voucher ( gsb_transaction_data_get_transaction_number (transaction )));
 		    }
 		    break;
 
@@ -2972,17 +2972,21 @@ void recuperation_donnees_generales_formulaire ( struct structure_operation *tra
 		case TRANSACTION_FORM_BANK:
 
 		    if ( gtk_widget_get_style ( widget ) == style_entree_formulaire[ENCLAIR] )
-			transaction -> info_banque_guichet = g_strstrip ( g_strdup ( gtk_entry_get_text ( GTK_ENTRY ( widget ))));
+			gsb_transaction_data_set_bank_references ( gsb_transaction_data_get_transaction_number ( transaction ),
+								   g_strstrip ( g_strdup ( gtk_entry_get_text ( GTK_ENTRY ( widget )))));
 		    else
-			transaction -> info_banque_guichet = NULL;
+			gsb_transaction_data_set_bank_references ( gsb_transaction_data_get_transaction_number ( transaction ),
+								   NULL);
 		    break;
 
 		case TRANSACTION_FORM_VOUCHER:
 
 		    if ( gtk_widget_get_style ( widget ) == style_entree_formulaire[ENCLAIR] )
-			transaction -> no_piece_comptable = g_strstrip ( g_strdup ( gtk_entry_get_text ( GTK_ENTRY ( widget ))));
+			gsb_transaction_data_set_voucher ( gsb_transaction_data_get_transaction_number ( transaction ),
+							   g_strstrip ( g_strdup ( gtk_entry_get_text ( GTK_ENTRY ( widget )))));
 		    else
-			transaction -> no_piece_comptable = NULL;
+			gsb_transaction_data_set_voucher ( gsb_transaction_data_get_transaction_number ( transaction ),
+							   NULL);
 
 		    break;
 	    }
@@ -3330,11 +3334,13 @@ printf ( "ça passe\n" );
     gsb_transaction_data_set_sub_budgetary_number ( gsb_transaction_data_get_transaction_number ( contra_transaction ),
 						    gsb_transaction_data_get_sub_budgetary_number ( gsb_transaction_data_get_transaction_number (transaction )));
 
-    if ( transaction -> no_piece_comptable )
-	contra_transaction -> no_piece_comptable = g_strdup ( transaction -> no_piece_comptable );
+    if ( gsb_transaction_data_get_voucher ( gsb_transaction_data_get_transaction_number (transaction )))
+	gsb_transaction_data_set_voucher ( gsb_transaction_data_get_transaction_number ( contra_transaction ),
+					   g_strdup ( gsb_transaction_data_get_voucher ( gsb_transaction_data_get_transaction_number (transaction ))));
 
-    if ( transaction -> info_banque_guichet )
-	contra_transaction -> info_banque_guichet = g_strdup ( transaction -> info_banque_guichet );
+    if ( gsb_transaction_data_get_bank_references ( gsb_transaction_data_get_transaction_number (transaction )))
+	gsb_transaction_data_set_bank_references ( gsb_transaction_data_get_transaction_number ( contra_transaction ),
+						   g_strdup ( gsb_transaction_data_get_bank_references ( gsb_transaction_data_get_transaction_number (transaction ))));
 
     /* append the contra_transaction to the list */
 

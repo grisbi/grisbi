@@ -196,8 +196,8 @@ struct structure_operation
 /*     guint no_exercice; */
 /*     guint imputation; */
 /*     guint sous_imputation; */
-    gchar *no_piece_comptable;
-    gchar *info_banque_guichet;
+/*     gchar *no_piece_comptable; */
+/*     gchar *info_banque_guichet; */
 
     guint relation_no_operation;
     gint relation_no_compte;             /* attention, doit être à gint et pas guint car à -1 si compte supprimé */

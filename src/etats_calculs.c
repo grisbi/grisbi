@@ -366,10 +366,10 @@ GSList *recupere_opes_etat ( struct struct_etat *etat )
 
 			/* on récupère maintenant la plus grande pc */
 
-			if ( operation -> no_piece_comptable
+			if ( gsb_transaction_data_get_voucher ( gsb_transaction_data_get_transaction_number (operation ))
 			     &&
-			     my_atoi ( operation -> no_piece_comptable ) > dernier_pc )
-			    dernier_pc = my_atoi ( operation -> no_piece_comptable );
+			     my_atoi ( gsb_transaction_data_get_voucher ( gsb_transaction_data_get_transaction_number (operation ))) > dernier_pc )
+			    dernier_pc = my_atoi ( gsb_transaction_data_get_voucher ( gsb_transaction_data_get_transaction_number (operation )));
 
 
 			/* on récupère maintenant le dernier relevé */
@@ -1033,13 +1033,13 @@ gchar *recupere_texte_test_etat ( struct structure_operation *operation,
 	case 7:
 	    /* ref bancaires  */
 
-	    texte = operation -> info_banque_guichet;
+	    texte = gsb_transaction_data_get_bank_references ( gsb_transaction_data_get_transaction_number (operation ));
 	    break;
 
 	case 8:
 	    /* pc */
 
-	    texte = operation -> no_piece_comptable;
+	    texte = gsb_transaction_data_get_voucher ( gsb_transaction_data_get_transaction_number (operation ));
 	    break;
 
 
@@ -1792,25 +1792,25 @@ gint classement_ope_perso_etat ( struct structure_operation *operation_1,
 	case 8:
 	    /* pc  */
 
-	    if ( operation_1 -> no_piece_comptable
+	    if ( gsb_transaction_data_get_voucher ( gsb_transaction_data_get_transaction_number (operation_1 ))
 		 &&
-		 operation_2 -> no_piece_comptable )
-		retour = g_strcasecmp ( operation_1 -> no_piece_comptable,
-					operation_2 -> no_piece_comptable );
+		 gsb_transaction_data_get_voucher ( gsb_transaction_data_get_transaction_number (operation_2 )))
+		retour = g_strcasecmp ( gsb_transaction_data_get_voucher ( gsb_transaction_data_get_transaction_number (operation_1 )),
+					gsb_transaction_data_get_voucher ( gsb_transaction_data_get_transaction_number (operation_2 )));
 	    else
-		retour = GPOINTER_TO_INT ( operation_2 -> no_piece_comptable ) - GPOINTER_TO_INT ( operation_1 -> no_piece_comptable );
+		retour = GPOINTER_TO_INT ( gsb_transaction_data_get_voucher ( gsb_transaction_data_get_transaction_number (operation_2 ))) - GPOINTER_TO_INT ( gsb_transaction_data_get_voucher ( gsb_transaction_data_get_transaction_number (operation_1 )));
 	    break;
 
 	case 9:
 	    /* ibg  */
 
-	    if ( operation_1 -> info_banque_guichet
+	    if ( gsb_transaction_data_get_bank_references ( gsb_transaction_data_get_transaction_number (operation_1 ))
 		 &&
-		 operation_2 -> info_banque_guichet )
-		retour = g_strcasecmp ( operation_1 -> info_banque_guichet,
-					operation_2 -> info_banque_guichet );
+		 gsb_transaction_data_get_bank_references ( gsb_transaction_data_get_transaction_number (operation_2 )))
+		retour = g_strcasecmp ( gsb_transaction_data_get_bank_references ( gsb_transaction_data_get_transaction_number (operation_1 )),
+					gsb_transaction_data_get_bank_references ( gsb_transaction_data_get_transaction_number (operation_2 )));
 	    else
-		retour = GPOINTER_TO_INT ( operation_2 -> info_banque_guichet ) - GPOINTER_TO_INT ( operation_1 -> info_banque_guichet );
+		retour = GPOINTER_TO_INT ( gsb_transaction_data_get_bank_references ( gsb_transaction_data_get_transaction_number (operation_2 ))) - GPOINTER_TO_INT ( gsb_transaction_data_get_bank_references ( gsb_transaction_data_get_transaction_number (operation_1 )));
 	    break;
 
 	case 10:

@@ -61,6 +61,7 @@ gdouble gsb_transaction_data_get_adjusted_amount_for_currency ( gint no_transact
 								gint no_currency_for_return );
 gdouble gsb_transaction_data_get_amount ( gint no_transaction );
 gint gsb_transaction_data_get_automatic_transaction ( gint no_transaction );
+gchar *gsb_transaction_data_get_bank_references ( gint no_transaction );
 gint gsb_transaction_data_get_breakdown_of_transaction ( gint no_transaction );
 gint gsb_transaction_data_get_budgetary_number ( gint no_transaction );
 gint gsb_transaction_data_get_category_number ( gint no_transaction );
@@ -82,6 +83,7 @@ gint gsb_transaction_data_get_sub_category_number ( gint no_transaction );
 gchar *gsb_transaction_data_get_transaction_id ( gint no_transaction );
 gint gsb_transaction_data_get_transaction_number ( gpointer transaction_pointer );
 GDate *gsb_transaction_data_get_value_date ( gint no_transaction );
+gchar *gsb_transaction_data_get_voucher ( gint no_transaction );
 gboolean gsb_transaction_data_init_variables ( void );
 gboolean gsb_transaction_data_set_account_number ( gint no_transaction,
 						   gint no_account );
@@ -89,6 +91,8 @@ gboolean gsb_transaction_data_set_amount ( gint no_transaction,
 					   gdouble amount );
 gboolean gsb_transaction_data_set_automatic_transaction ( gint no_transaction,
 							  gint automatic_transaction );
+gboolean gsb_transaction_data_set_bank_references ( gint no_transaction,
+						    gchar *bank_references );
 gboolean gsb_transaction_data_set_breakdown_of_transaction ( gint no_transaction,
 							     gint is_breakdown );
 gboolean gsb_transaction_data_set_budgetary_number ( gint no_transaction,
@@ -129,6 +133,8 @@ gboolean gsb_transaction_data_set_transaction_number ( gpointer transaction_poin
 						       gint no_transaction );
 gboolean gsb_transaction_data_set_value_date ( gint no_transaction,
 					       GDate *date );
+gboolean gsb_transaction_data_set_voucher ( gint no_transaction,
+					    gchar *voucher );
 /* END_DECLARATION */
 
 

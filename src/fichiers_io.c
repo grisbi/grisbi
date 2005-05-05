@@ -1439,15 +1439,19 @@ gboolean recuperation_comptes_xml ( xmlNodePtr node_comptes )
 									    my_atoi ( xmlGetProp ( node_ope,
 												   "Si" )));
 
-			    operation -> no_piece_comptable = xmlGetProp ( node_ope,
-									   "Pc" );
-			    if ( !strlen ( operation -> no_piece_comptable ))
-				operation -> no_piece_comptable = NULL;
+			    gsb_transaction_data_set_voucher ( transaction_number,
+							       xmlGetProp ( node_ope,
+									    "Pc" ));
+			    if ( !strlen ( gsb_transaction_data_get_voucher (transaction_number)))
+				gsb_transaction_data_set_voucher ( transaction_number,
+								   NULL);
 
-			    operation -> info_banque_guichet = xmlGetProp ( node_ope,
-									    "Ibg" );
-			    if ( !strlen ( operation -> info_banque_guichet ))
-				operation -> info_banque_guichet = NULL;
+			    gsb_transaction_data_set_bank_references ( transaction_number,
+								       xmlGetProp ( node_ope,
+										    "Ibg" ));
+			    if ( !strlen ( gsb_transaction_data_get_bank_references ( gsb_transaction_data_get_transaction_number (operation ))))
+				gsb_transaction_data_set_bank_references ( transaction_number,
+									   NULL);
 
 			    operation -> relation_no_operation = my_atoi ( xmlGetProp ( node_ope,
 											"Ro" ));
@@ -3728,11 +3732,11 @@ gboolean enregistre_fichier ( gchar *new_file )
 
 	    xmlSetProp ( node_ope,
 			 "Pc",
-			 operation -> no_piece_comptable );
+			 gsb_transaction_data_get_voucher (transaction_number));
 
 	    xmlSetProp ( node_ope,
 			 "Ibg",
-			 operation -> info_banque_guichet );
+			 gsb_transaction_data_get_bank_references (transaction_number));
 
 	    xmlSetProp ( node_ope,
 			 "Ro",
