@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-07-03 17:36+0200\n"
-"PO-Revision-Date: 2005-05-02 18:25+0100\n"
+"PO-Revision-Date: 2005-05-05 19:19+0100\n"
 "Last-Translator: Dmitri Popov <lazylegs@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -176,11 +176,11 @@ msgstr "Skrifttyper"
 
 #: src/affichage.c:325
 msgid "Use a custom font for the transactions"
-msgstr ""
+msgstr "Brugerdefineret skriftype for transaktioner"
 
 #: src/affichage.c:406
 msgid "Revert to default font"
-msgstr ""
+msgstr "Tilbage til den oprindelige skrifttype"
 
 #: src/affichage.c:498
 #: src/parametres.c:276
@@ -213,7 +213,7 @@ msgstr "Sekundær adresse"
 
 #: src/affichage.c:697
 msgid "Transaction list font"
-msgstr ""
+msgstr "Skrifttype i liste over transaktioner"
 
 #: src/affichage.c:856
 msgid "Select a new animation"
@@ -368,7 +368,7 @@ msgstr "Regnskabsår"
 #: src/operations_formulaire.c:726
 #: src/operations_formulaire.c:3705
 msgid "Third party"
-msgstr ""
+msgstr "Tredjepart"
 
 #. mise en place de la frame des catÃ©gories
 #: src/affichage_formulaire.c:861
@@ -433,7 +433,7 @@ msgstr "Betalingstype"
 #: src/operations_formulaire.c:1070
 #: src/operations_formulaire.c:3778
 msgid "Cheque/Transfer number"
-msgstr ""
+msgstr "Check/Øverførselsnr."
 
 #: src/affichage_formulaire.c:885
 #: src/devises.c:1142
@@ -1099,7 +1099,7 @@ msgstr "Fly transaktioner til kategori"
 
 #: src/categories_onglet.c:1796
 msgid "Just remove this category."
-msgstr ""
+msgstr "Fjern denne kategori"
 
 #: src/categories_onglet.c:1825
 #: src/categories_onglet.c:2191
@@ -1119,7 +1119,7 @@ msgstr ""
 
 #: src/categories_onglet.c:2163
 msgid "Just remove this sub-category."
-msgstr ""
+msgstr "Fjern denne underkategori"
 
 #: src/categories_onglet.c:2484
 #: src/echeancier_formulaire.c:1049
@@ -1176,7 +1176,7 @@ msgstr "Ny kategori"
 
 #: src/categories_onglet.c:2760
 msgid "Enter name for new category"
-msgstr ""
+msgstr "Giv den nye kategori et navn"
 
 #: src/categories_onglet.c:2818
 msgid "New sub-category"
@@ -1184,7 +1184,7 @@ msgstr "Ny underkategori"
 
 #: src/categories_onglet.c:2819
 msgid "Enter name for new sub-category"
-msgstr ""
+msgstr "Giv den nye underkategori et navn"
 
 #: src/categories_onglet.c:2888
 msgid "Export categories"
@@ -1204,7 +1204,7 @@ msgstr "Gem fil"
 #: src/etats_onglet.c:1208
 #: src/imputation_budgetaire.c:2780
 msgid "File exists. Do you want to overwrite it?"
-msgstr ""
+msgstr "Filen findes allerede. Vil du overskrive den?"
 
 #: src/categories_onglet.c:2919
 #: src/etats_onglet.c:1213
@@ -1221,7 +1221,7 @@ msgstr ""
 #: src/categories_onglet.c:2955
 #: src/categories_onglet.c:2982
 msgid "Import a category list"
-msgstr ""
+msgstr "Importér en liste over kategorier"
 
 #. il y a dÃ©jÃ  des opÃ©rations dans le fichier, on ne peut que fusionner
 #: src/categories_onglet.c:3001
@@ -1275,7 +1275,7 @@ msgstr "Kontoejer"
 
 #: src/comptes_gestion.c:243
 msgid "Holder name"
-msgstr ""
+msgstr "Indehaver"
 
 #: src/comptes_gestion.c:267
 msgid "Common address is holder's address"
@@ -1283,7 +1283,7 @@ msgstr ""
 
 #: src/comptes_gestion.c:297
 msgid "Holder has his own address"
-msgstr ""
+msgstr "Inderhaverens adresse"
 
 #: src/comptes_gestion.c:331
 msgid "Financial institution"
@@ -1291,7 +1291,7 @@ msgstr ""
 
 #: src/comptes_gestion.c:360
 msgid "Details"
-msgstr ""
+msgstr "Yderligere info"
 
 #: src/comptes_gestion.c:388
 msgid "Bank sort code"
@@ -1303,7 +1303,7 @@ msgstr ""
 
 #: src/comptes_gestion.c:435
 msgid "Account number / Key"
-msgstr ""
+msgstr "Kontonummer/Nøgle"
 
 #. crÃ©ation de la ligne du solde initial
 #: src/comptes_gestion.c:456
@@ -1370,7 +1370,7 @@ msgstr ""
 
 #: src/comptes_gestion.c:1205
 msgid "Apply changes to account?"
-msgstr ""
+msgstr "Skal ændringerne gemmes?"
 
 #: src/comptes_gestion.c:1206
 #, c-format
@@ -1390,18 +1390,18 @@ msgstr "Ny konto"
 #: src/menu.c:133
 #: src/traitement_variables.c:375
 msgid "Remove an account"
-msgstr ""
+msgstr "Fjern en konto"
 
 #. insÃ¯Â¿Åe ses paramÃ¯Â¿Åres ( comme c'est un appel Ã¯Â¿Åcalloc, tout ce qui est Ã¯Â¿Å0 est dÃ¯Â¿ÅÃ¯Â¿ÅinitialisÃ¯Â¿Å)
 #: src/comptes_traitements.c:200
 #, c-format
 msgid "No name %d"
-msgstr ""
+msgstr "Ingen navn %d"
 
 #: src/comptes_traitements.c:303
 #, c-format
 msgid "Delete account \"%s\"?"
-msgstr ""
+msgstr "Slet kontoen \"%s\"?"
 
 #: src/comptes_traitements.c:305
 msgid "This will irreversibly remove this account and all operations that were previously contained.  There is no undo for this."
@@ -1429,7 +1429,7 @@ msgstr "Check"
 
 #: src/comptes_traitements.c:740
 msgid "Choose account type"
-msgstr ""
+msgstr "Vælg kontotype"
 
 #: src/comptes_traitements.c:741
 msgid ""
@@ -1452,7 +1452,7 @@ msgstr "Asien"
 
 #: src/devises.c:394
 msgid "Central America"
-msgstr ""
+msgstr "Centralamerika"
 
 #: src/devises.c:395
 msgid "Europe"
@@ -1460,19 +1460,19 @@ msgstr "Europa"
 
 #: src/devises.c:396
 msgid "Northern America"
-msgstr ""
+msgstr "Nordamerika"
 
 #: src/devises.c:397
 msgid "Pacific Ocean"
-msgstr ""
+msgstr "Stillehavet"
 
 #: src/devises.c:398
 msgid "Southern America"
-msgstr ""
+msgstr "Sydamerika"
 
 #: src/devises.c:489
 msgid "Country name"
-msgstr ""
+msgstr "Land"
 
 #. Currency name
 #: src/devises.c:499
@@ -1522,11 +1522,11 @@ msgstr "Valutasymbol"
 
 #: src/devises.c:692
 msgid "Currency already exists."
-msgstr ""
+msgstr "Valutaen findes allerede."
 
 #: src/devises.c:720
 msgid "All fields are not filled in!"
-msgstr ""
+msgstr "Alle felter skal være udfyldt!"
 
 #: src/devises.c:731
 msgid "You must define at least one currency for your file!"
@@ -1856,7 +1856,7 @@ msgstr ""
 
 #: src/echeancier_onglet.c:94
 msgid "Calendar"
-msgstr ""
+msgstr "Kalender"
 
 #: src/echeancier_onglet.c:136
 msgid "Scheduler list"
@@ -1871,7 +1871,7 @@ msgstr ""
 #: src/etats_config.c:492
 #: src/operations_liste.c:565
 msgid "Category"
-msgstr ""
+msgstr "Kategori"
 
 #: src/echeancier_ventilation.c:285
 #: src/ventilation.c:206
@@ -1888,7 +1888,7 @@ msgstr ""
 #: src/ventilation.c:557
 #: src/ventilation.c:558
 msgid "Associated method of payment"
-msgstr ""
+msgstr "Valgte betalingsmåde"
 
 #: src/echeancier_ventilation.c:829
 #: src/operations_formulaire.c:970
@@ -1896,7 +1896,7 @@ msgstr ""
 #: src/operations_formulaire.c:3195
 #: src/ventilation.c:750
 msgid "Deleted account"
-msgstr ""
+msgstr "Slet konto"
 
 #: src/echeancier_ventilation.c:1643
 #: src/ventilation.c:1414
@@ -2006,7 +2006,7 @@ msgstr ""
 
 #: src/erreur.c:208
 msgid "File is corrupted."
-msgstr ""
+msgstr "Filen er beskædiget."
 
 #: src/erreur.c:214
 msgid "Error occured saving file."
@@ -2027,7 +2027,7 @@ msgstr ""
 
 #: src/etat_io.c:83
 msgid "This file is not a Grisbi report"
-msgstr ""
+msgstr "Denne fil er ikke en Grisbi-rapport"
 
 #: src/etat_io.c:92
 #, c-format
@@ -2072,22 +2072,22 @@ msgstr ""
 #: src/etat_io.c:855
 #, c-format
 msgid "Account %s not found.\n"
-msgstr ""
+msgstr "Konto %s blev ikke fundet.\n"
 
 #: src/etat_io.c:892
 #, c-format
 msgid "%sCategory %s not found.\n"
-msgstr ""
+msgstr "%sKategori %s blev ikke fundet.\n"
 
 #: src/etat_io.c:895
 #, c-format
 msgid "Category %s not found.\n"
-msgstr ""
+msgstr "Kategori %s blev ikke fundet.\n"
 
 #: src/etat_io.c:931
 #, c-format
 msgid "%sBudget line %s not found.\n"
-msgstr ""
+msgstr "%sBudget linje %s blev ikke fundet.\n"
 
 #: src/etat_io.c:934
 #, c-format
@@ -2119,7 +2119,7 @@ msgstr ""
 #: src/etats_affiche.c:666
 #, c-format
 msgid "Total %s (%d transaction)"
-msgstr ""
+msgstr "Ialt %s (%d transaktion)"
 
 #: src/etats_affiche.c:170
 #: src/etats_affiche.c:377
@@ -2127,27 +2127,27 @@ msgstr ""
 #: src/etats_affiche.c:668
 #, c-format
 msgid "Total %s (%d transactions)"
-msgstr ""
+msgstr "Ialt %s (%d transaktioner)"
 
 #: src/etats_affiche.c:173
 #: src/etats_affiche.c:380
 #: src/etats_affiche.c:579
 msgid "Total"
-msgstr ""
+msgstr "Ialt"
 
 #: src/etats_affiche.c:180
 #, c-format
 msgid "Category total (%d transaction)"
-msgstr ""
+msgstr "Kategori ialt (%d transaktion)"
 
 #: src/etats_affiche.c:182
 #, c-format
 msgid "Category total (%d transactions)"
-msgstr ""
+msgstr "Kategori ialt (%d transaktioner)"
 
 #: src/etats_affiche.c:185
 msgid "Category total"
-msgstr ""
+msgstr "Kategori ialt"
 
 #: src/etats_affiche.c:207
 #: src/etats_affiche.c:314
@@ -2157,7 +2157,7 @@ msgstr ""
 #: src/etats_affiche.c:702
 #, c-format
 msgid "%4.2f %s (%d transaction)"
-msgstr ""
+msgstr "%4.2f %s (%d transaktion)"
 
 #: src/etats_affiche.c:210
 #: src/etats_affiche.c:317
@@ -2167,30 +2167,30 @@ msgstr ""
 #: src/etats_affiche.c:705
 #, c-format
 msgid "%4.2f %s (%d transactions)"
-msgstr ""
+msgstr "%4.2f %s (%d transaktioner)"
 
 #: src/etats_affiche.c:275
 #: src/etats_affiche.c:477
 #, c-format
 msgid "Total %s: %s (%d transaction)"
-msgstr ""
+msgstr "Total %s: %s (%d transaktion)"
 
 #: src/etats_affiche.c:278
 #: src/etats_affiche.c:480
 #, c-format
 msgid "Total %s: %s (%d transactions)"
-msgstr ""
+msgstr "Total %s: %s (%d transaktioner)"
 
 #: src/etats_affiche.c:282
 #: src/etats_affiche.c:484
 #, c-format
 msgid "Total %s: %s"
-msgstr ""
+msgstr "Total %s: %s"
 
 #: src/etats_affiche.c:289
 #, c-format
 msgid "Sub-categories total (%d transaction)"
-msgstr ""
+msgstr "Sub-categories total (%d transaction)"
 
 #: src/etats_affiche.c:292
 #, c-format
