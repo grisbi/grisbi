@@ -4,14 +4,15 @@
 # Copyright (C) 2005 THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # E.Huijsing <lighthous@users.sourceforge.net>, 2005.
+# E. Huijsing <lighthous@users.sourceforge.net>, 2005.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-04-18 22:34+0200\n"
-"PO-Revision-Date: 01/05/05 22:49\n"
-"Last-Translator: E.Huijsing <lighthous@users.sourceforge.net>\n"
+"PO-Revision-Date: 05/05/05 22:26\n"
+"Last-Translator: E. Huijsing <lighthous@users.sourceforge.net>\n"
 "Language-Team: Nederlands\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1887,7 +1888,7 @@ msgstr "Algerijnse dinar"
 
 #: src/devises.c:51
 msgid "Algeria"
-msgstr ""
+msgstr "Algerije"
 
 #: src/devises.c:52
 msgid "Botswana Pula"
@@ -1927,7 +1928,7 @@ msgstr "Kameroen"
 
 #: src/devises.c:57
 msgid "Chad"
-msgstr ""
+msgstr "Tsjaad"
 
 #: src/devises.c:58
 msgid "Congo"
@@ -2161,7 +2162,7 @@ msgstr "Zimbabwe"
 #: src/devises.c:123 src/devises.c:124 src/devises.c:125 src/devises.c:126
 #: src/devises.c:491
 msgid "Asia"
-msgstr ""
+msgstr "Azië"
 
 #: src/devises.c:87
 msgid "Afghani"
@@ -2925,7 +2926,7 @@ msgstr "Verenigde Staten van Amerika"
 #: src/devises.c:193 src/devises.c:194 src/devises.c:195 src/devises.c:196
 #: src/devises.c:197 src/devises.c:495
 msgid "Pacific Ocean"
-msgstr ""
+msgstr "Grote Oceaan"
 
 #: src/devises.c:181 src/devises.c:182 src/devises.c:183 src/devises.c:184
 msgid "Australian Dollar"
@@ -2953,7 +2954,7 @@ msgstr "CFP Franc"
 
 #: src/devises.c:185
 msgid "French Polynesia"
-msgstr ""
+msgstr "Franse Polynesia"
 
 #: src/devises.c:186
 msgid "New Caledonia"
