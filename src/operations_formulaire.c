@@ -2803,11 +2803,13 @@ void recuperation_donnees_generales_formulaire ( struct structure_operation *tra
 								 "no_exercice" )) == -1 )
 		    {
 			if ( !gsb_transaction_data_get_transaction_number (transaction))
-			    transaction -> no_exercice = 0;
+			    gsb_transaction_data_set_financial_year_number ( gsb_transaction_data_get_transaction_number ( transaction ),
+									     0);
 		    }
 		    else
-			transaction -> no_exercice = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget ) -> menu_item ),
-											   "no_exercice" ));
+			gsb_transaction_data_set_financial_year_number ( gsb_transaction_data_get_transaction_number ( transaction ),
+									 GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget ) -> menu_item ),
+														 "no_exercice" )));
 
 		    break;
 
@@ -3317,7 +3319,8 @@ printf ( "ça passe\n" );
 	gsb_transaction_data_set_method_of_payment_content ( gsb_transaction_data_get_transaction_number (contra_transaction),
 							     g_strdup ( gsb_transaction_data_get_method_of_payment_content ( gsb_transaction_data_get_transaction_number (transaction ))));
 
-    contra_transaction -> no_exercice = transaction -> no_exercice;
+    gsb_transaction_data_set_financial_year_number ( gsb_transaction_data_get_transaction_number ( contra_transaction ),
+						     gsb_transaction_data_get_financial_year_number ( gsb_transaction_data_get_transaction_number (transaction )));
     contra_transaction -> imputation = transaction -> imputation;
     contra_transaction -> sous_imputation = transaction -> sous_imputation;
 

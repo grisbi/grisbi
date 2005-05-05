@@ -2044,10 +2044,12 @@ void fin_edition_echeance ( void )
 
 	if ( GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_EXERCICE] ) -> menu_item ),
 						     "no_exercice" )) == -2 )
-	    operation -> no_exercice = recherche_exo_correspondant ( gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation)));
+	    gsb_transaction_data_set_financial_year_number ( gsb_transaction_data_get_transaction_number ( operation ),
+							     recherche_exo_correspondant ( gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation))));
 	else
-	    operation -> no_exercice = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_EXERCICE] ) -> menu_item ),
-									       "no_exercice" ));
+	    gsb_transaction_data_set_financial_year_number ( gsb_transaction_data_get_transaction_number ( operation ),
+							     GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_EXERCICE] ) -> menu_item ),
+												     "no_exercice" )));
 
 
 	/* récupération de l'imputation budgétaire */
@@ -2158,7 +2160,8 @@ void fin_edition_echeance ( void )
 	    if ( ope_ventil -> no_piece_comptable )
 		operation_fille -> no_piece_comptable = g_strdup ( ope_ventil -> no_piece_comptable);
 
-	    operation_fille -> no_exercice = ope_ventil -> no_exercice;
+	    gsb_transaction_data_set_financial_year_number ( gsb_transaction_data_get_transaction_number ( operation_fille ),
+							     ope_ventil -> no_exercice);
 
 	    /* 	    le reste est identique à la mère */
 
@@ -2354,7 +2357,8 @@ struct structure_operation *ajoute_contre_operation_echeance_dans_liste ( struct
 	gsb_transaction_data_set_method_of_payment_content ( gsb_transaction_data_get_transaction_number (contre_operation ),
 							     g_strdup ( gsb_transaction_data_get_method_of_payment_content ( gsb_transaction_data_get_transaction_number (operation ))) );
 
-    contre_operation -> no_exercice = operation -> no_exercice;
+    gsb_transaction_data_set_financial_year_number ( gsb_transaction_data_get_transaction_number ( contre_operation ),
+						     gsb_transaction_data_get_financial_year_number ( gsb_transaction_data_get_transaction_number (operation )));
     contre_operation -> imputation = operation -> imputation;
     contre_operation -> sous_imputation = operation -> sous_imputation;
 
@@ -2928,7 +2932,7 @@ void completion_operation_par_tiers_echeancier ( void )
     /* met en place l'exercice */
 
     gtk_option_menu_set_history (  GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_EXERCICE] ),
-				   cherche_no_menu_exercice ( operation -> no_exercice,
+				   cherche_no_menu_exercice ( gsb_transaction_data_get_financial_year_number ( gsb_transaction_data_get_transaction_number (operation )),
 							      widget_formulaire_echeancier[SCHEDULER_FORM_EXERCICE] ));
 
     /* met en place l'imputation budgétaire */

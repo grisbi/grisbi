@@ -191,9 +191,9 @@ struct structure_operation
 
 /*     gshort pointe; */
 /*     gshort auto_man; */
-    gint no_rapprochement;          /* contient le numéro du rapprochement si elle est rapprochée */
+/*     gint no_rapprochement; */
 
-    guint no_exercice;             /* exercice de l'opé */
+/*     guint no_exercice; */
     guint imputation;
     guint sous_imputation;
     gchar *no_piece_comptable;

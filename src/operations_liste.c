@@ -1165,7 +1165,7 @@ gchar *recherche_contenu_cellule ( struct structure_operation *transaction,
 	    /* mise en place de l'exo */
 
 	case TRANSACTION_LIST_EXERCICE:
-	    return ( exercice_name_by_no (  transaction -> no_exercice ));
+	    return ( exercice_name_by_no (  gsb_transaction_data_get_financial_year_number ( gsb_transaction_data_get_transaction_number (transaction ))));
 	    break;
 
 	    /* mise en place des catégories */
@@ -2412,7 +2412,7 @@ gboolean gsb_transactions_list_edit_current_transaction ( void )
 		case TRANSACTION_FORM_EXERCICE:
 
 		    gtk_option_menu_set_history (  GTK_OPTION_MENU ( widget ),
-						   cherche_no_menu_exercice ( transaction -> no_exercice,
+						   cherche_no_menu_exercice ( gsb_transaction_data_get_financial_year_number ( gsb_transaction_data_get_transaction_number (transaction )),
 									      widget ));
 
 		    /* 		    si l'opé est ventilée, on désensitive l'exo */
@@ -3808,7 +3808,7 @@ struct operation_echeance *schedule_transaction ( struct structure_operation * t
     echeance -> contenu_type = g_strdup ( gsb_transaction_data_get_method_of_payment_content ( gsb_transaction_data_get_transaction_number (transaction )));
 
 
-    echeance -> no_exercice = transaction -> no_exercice;
+    echeance -> no_exercice = gsb_transaction_data_get_financial_year_number ( gsb_transaction_data_get_transaction_number (transaction ));
     echeance -> imputation = transaction -> imputation;
     echeance -> sous_imputation = transaction -> sous_imputation;
 
@@ -3891,7 +3891,7 @@ struct operation_echeance *schedule_transaction ( struct structure_operation * t
 		echeance_de_ventil -> contenu_type = g_strdup ( gsb_transaction_data_get_method_of_payment_content ( gsb_transaction_data_get_transaction_number (transaction_de_ventil )));
 
 
-		echeance_de_ventil -> no_exercice = transaction_de_ventil -> no_exercice;
+		echeance_de_ventil -> no_exercice = gsb_transaction_data_get_financial_year_number ( gsb_transaction_data_get_transaction_number (transaction_de_ventil ));
 		echeance_de_ventil -> imputation = transaction_de_ventil -> imputation;
 		echeance_de_ventil -> sous_imputation = transaction_de_ventil -> sous_imputation;
 

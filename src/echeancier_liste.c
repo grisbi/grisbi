@@ -1726,9 +1726,11 @@ void verification_echeances_a_terme ( void )
 		/* si l'exo est automatique (-2), c'est ici qu'on va le chercher */
 
 		if ( ECHEANCE_COURANTE -> no_exercice == -2 )
-		    operation -> no_exercice = recherche_exo_correspondant ( gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation)));
+		    gsb_transaction_data_set_financial_year_number ( gsb_transaction_data_get_transaction_number ( operation ),
+								     recherche_exo_correspondant ( gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation))));
 		else
-		    operation -> no_exercice = ECHEANCE_COURANTE -> no_exercice;
+		    gsb_transaction_data_set_financial_year_number ( gsb_transaction_data_get_transaction_number ( operation ),
+								     ECHEANCE_COURANTE -> no_exercice);
 
 
 		/*   on a fini de remplir l'opé, on peut l'ajouter à la liste */
@@ -1789,7 +1791,8 @@ void verification_echeances_a_terme ( void )
 		    if ( ope_ventil -> no_piece_comptable )
 			operation_fille -> no_piece_comptable = g_strdup ( ope_ventil -> no_piece_comptable);
 
-		    operation_fille -> no_exercice = ope_ventil -> no_exercice;
+		    gsb_transaction_data_set_financial_year_number ( gsb_transaction_data_get_transaction_number ( operation_fille ),
+								     ope_ventil -> no_exercice);
 
 		    /* 	    le reste est identique à la mère */
 

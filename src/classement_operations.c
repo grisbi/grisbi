@@ -1145,15 +1145,15 @@ gint gsb_transactions_list_sort_by_financial_year ( GtkTreeModel *model,
     if ( return_value )
 	return return_value;
 
-    if ( transaction_1 -> no_exercice == transaction_2 -> no_exercice )
+    if ( gsb_transaction_data_get_financial_year_number ( gsb_transaction_data_get_transaction_number (transaction_1 ))== gsb_transaction_data_get_financial_year_number ( gsb_transaction_data_get_transaction_number (transaction_2 )))
 	return_value = gsb_transactions_list_sort_by_transaction_date_and_no();
     else
     {
 	GDate *date_1;
 	GDate *date_2;
 
-	date_1 = gsb_financial_year_get_begining_date (transaction_1 -> no_exercice);
-	date_2 = gsb_financial_year_get_begining_date (transaction_2 -> no_exercice);
+	date_1 = gsb_financial_year_get_begining_date (gsb_transaction_data_get_financial_year_number ( gsb_transaction_data_get_transaction_number (transaction_1 )));
+	date_2 = gsb_financial_year_get_begining_date (gsb_transaction_data_get_financial_year_number ( gsb_transaction_data_get_transaction_number (transaction_2 )));
 
 	if ( date_1 )
 	{

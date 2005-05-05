@@ -40,7 +40,6 @@
 #include "operations_formulaire.h"
 #include "gsb_account.h"
 #include "utils_dates.h"
-#include "gsb_transaction_data.h"
 #include "operations_liste.h"
 #include "gtk_combofix.h"
 #include "utils_ib.h"
@@ -1702,7 +1701,7 @@ void fin_edition_ventilation_echeances ( void )
 
 		categ = categ_par_nom ( tableau_char[0],
 					1,
-					gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (operation ))< 0,
+					operation -> montant,
 					0 );
 
 
@@ -1710,16 +1709,14 @@ void fin_edition_ventilation_echeances ( void )
 		{
 		    struct struct_sous_categ *sous_categ;
 
-		    gsb_transaction_data_set_category_number ( gsb_transaction_data_get_transaction_number (operation ),
-							       categ -> no_categ );
+		    operation -> categorie = categ -> no_categ;
 
 		    sous_categ = sous_categ_par_nom ( categ,
 						      tableau_char[1],
 						      1 );
 
 		    if ( sous_categ )
-			gsb_transaction_data_set_sub_category_number ( gsb_transaction_data_get_transaction_number (operation ),
-								       sous_categ -> no_sous_categ );
+			operation -> sous_categorie = sous_categ -> no_sous_categ;
 		}
 	    }
 	    else
@@ -1791,12 +1788,9 @@ void fin_edition_ventilation_echeances ( void )
 
     if ( gtk_widget_get_style ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_DEBIT] ) == style_entree_formulaire[ENCLAIR] )
 	/* c'est un débit */
-	gsb_transaction_data_set_amount ( gsb_transaction_data_get_transaction_number ( operation ),
-					  -calcule_total_entree ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_DEBIT] ));
+	operation -> montant = -calcule_total_entree ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_DEBIT] );
     else
-	gsb_transaction_data_set_amount ( gsb_transaction_data_get_transaction_number ( operation ),
-					  calcule_total_entree ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CREDIT] ) );
-
+	operation -> montant = calcule_total_entree ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CREDIT] );
 
 
     /* récupération de l'imputation budgétaire */
@@ -1812,7 +1806,7 @@ void fin_edition_ventilation_echeances ( void )
 
 	imputation = imputation_par_nom ( tableau_char[0],
 					  1,
-					  gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (operation ))< 0,
+					  operation -> montant,
 					  0 );
 
 	if ( imputation )

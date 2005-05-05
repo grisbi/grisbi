@@ -666,7 +666,7 @@ void association_automatique ( void )
 
 	    operation = pointeur_tmp -> data;
 
-	    if ( !operation -> no_exercice )
+	    if ( !gsb_transaction_data_get_financial_year_number ( gsb_transaction_data_get_transaction_number (operation )))
 	    {
 		GSList *pointeur_exo;
 
@@ -684,7 +684,8 @@ void association_automatique ( void )
 			 g_date_compare ( exo -> date_fin,
 					  gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation))) >= 0 )
 		    {
-			operation -> no_exercice = exo -> no_exercice;
+			gsb_transaction_data_set_financial_year_number ( gsb_transaction_data_get_transaction_number ( operation ),
+									 exo -> no_exercice);
 		    }
 
 		    pointeur_exo = pointeur_exo -> next;

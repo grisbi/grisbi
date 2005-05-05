@@ -770,16 +770,16 @@ GSList *recupere_opes_etat ( struct struct_etat *etat )
 			    ||
 			    etat -> utilise_detail_exo == 2 )
 			  &&
-			  ( operation -> no_exercice != no_exercice_recherche
+			  ( gsb_transaction_data_get_financial_year_number ( gsb_transaction_data_get_transaction_number (operation ))!= no_exercice_recherche
 			    ||
-			    !operation -> no_exercice ))
+			    !gsb_transaction_data_get_financial_year_number ( gsb_transaction_data_get_transaction_number (operation ))))
 			 ||
 			 ( etat -> utilise_detail_exo == 3
 			   &&
 			   ( g_slist_index ( etat -> no_exercices,
-					     GINT_TO_POINTER ( operation -> no_exercice )) == -1
+					     GINT_TO_POINTER ( gsb_transaction_data_get_financial_year_number ( gsb_transaction_data_get_transaction_number (operation )))) == -1
 			     ||
-			     !operation -> no_exercice )))
+			     !gsb_transaction_data_get_financial_year_number ( gsb_transaction_data_get_transaction_number (operation )))))
 			goto operation_refusee;
 		}
 		else

@@ -1033,7 +1033,7 @@ gint etat_affiche_affiche_total_exercice ( struct structure_operation *operation
 
 	if ( exo_en_cours_etat == -1 )
 	{
-	    exo_en_cours_etat = operation -> no_exercice;
+	    exo_en_cours_etat = gsb_transaction_data_get_financial_year_number ( gsb_transaction_data_get_transaction_number (operation ));
 	    return ligne;
 	}
 	
@@ -1041,7 +1041,7 @@ gint etat_affiche_affiche_total_exercice ( struct structure_operation *operation
 
 	if ( !force
 	     &&
-	     operation -> no_exercice == exo_en_cours_etat )
+	     gsb_transaction_data_get_financial_year_number ( gsb_transaction_data_get_transaction_number (operation ))== exo_en_cours_etat )
 	    return ligne;
 
 	if ( exo_en_cours_etat )
@@ -1103,7 +1103,7 @@ gint etat_affiche_affiche_total_exercice ( struct structure_operation *operation
 	/* comme il y a un changement d'état, on remet exo_en_cours_etat à celle de l'opé en cours */
 
 	if ( operation )
-	    exo_en_cours_etat = operation -> no_exercice;
+	    exo_en_cours_etat = gsb_transaction_data_get_financial_year_number ( gsb_transaction_data_get_transaction_number (operation ));
 	else
 	    date_debut_periode = NULL;
     }
@@ -1178,9 +1178,9 @@ gint etat_affiche_affichage_ligne_ope ( struct structure_operation *operation,
 
 	if ( etat_courant -> afficher_exo_ope )
 	{
-	    if ( operation -> no_exercice )
+	    if ( gsb_transaction_data_get_financial_year_number ( gsb_transaction_data_get_transaction_number (operation )))
 	    {
-		text = exercice_name_by_no ( operation -> no_exercice );
+		text = exercice_name_by_no ( gsb_transaction_data_get_financial_year_number ( gsb_transaction_data_get_transaction_number (operation )));
 
 		if ( etat_courant -> ope_clickables )
 		{

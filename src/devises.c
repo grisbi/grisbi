@@ -66,6 +66,8 @@ static gboolean deselection_ligne_devise ( GtkWidget *liste,
 				    GtkWidget *frame );
 static gboolean devise_selectionnee ( GtkWidget *menu_shell, gint origine );
 static void fill_currency_list ( GtkTreeView * view, gboolean include_obsolete );
+static gint gsb_currency_find_currency_in_option_menu ( GtkWidget *option_menu,
+						 gint no_currency );
 static GtkWidget * new_currency_list ();
 static GtkWidget * new_currency_option_menu ( gint * value, GCallback hook );
 static gboolean rebuild_currency_list ( GtkWidget * checkbox, GtkTreeView * view );
@@ -1527,14 +1529,45 @@ GtkWidget * new_currency_option_menu ( gint * value, GCallback hook )
     currency_list = gtk_option_menu_new ();
     currency_menu = creation_option_menu_devises ( 0, liste_struct_devises );
     gtk_option_menu_set_menu ( GTK_OPTION_MENU ( currency_list ), currency_menu );
-    if (value && *value)
-	gtk_option_menu_set_history ( GTK_OPTION_MENU(currency_list), *value - 1 );
+   if (value && *value)
+	gtk_option_menu_set_history ( GTK_OPTION_MENU(currency_list),
+				      gsb_currency_find_currency_in_option_menu ( currency_list,
+										  *value ));
 
     g_signal_connect ( GTK_OBJECT (currency_list), "changed", (GCallback) set_int_from_menu, value );
     g_signal_connect ( GTK_OBJECT (currency_list), "changed", (GCallback) hook, value );
     g_object_set_data ( G_OBJECT ( currency_list ), "pointer", value);
 
     return currency_list;
+}
+
+
+
+/** look for a specific currency in an option menu and return its place in
+ * the menu, used to set the option menu on that currency with gtk_option_menu_set_history
+ * \param option_menu
+ * \param no_currency
+ * \return the place of the currency in the menu
+ * */
+gint gsb_currency_find_currency_in_option_menu ( GtkWidget *option_menu,
+						 gint no_currency )
+{
+    GList *children;
+    gint pos = 0;
+
+    children = GTK_MENU_SHELL ( gtk_option_menu_get_menu ( GTK_OPTION_MENU ( option_menu))) -> children;
+    
+    while ( children )
+    {
+	if ( GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT ( children -> data ),
+						   "no_devise" )) == no_currency )
+	    return pos;
+	pos++;
+
+	children = children -> next;
+    }
+
+    return 0;
 }
 
 

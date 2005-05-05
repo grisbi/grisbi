@@ -456,7 +456,8 @@ gboolean set_int_from_menu ( GtkWidget * menu, gint * dummy)
 
     if ( data )
     {
-	*data = (gtk_option_menu_get_history ( GTK_OPTION_MENU ( menu )) + 1);
+	*data = GPOINTER_TO_INT (g_object_get_data ( G_OBJECT ( GTK_OPTION_MENU ( menu ) -> menu_item ),
+				    "no_devise" ));
     }
 
     /* Mark file as modified */

@@ -1155,6 +1155,47 @@ gboolean gsb_transaction_data_set_reconcile_number ( gint no_transaction,
 }
 
 
+/** get the financial_year_number
+ * \param no_transaction the number of the transaction
+ * \return the financial_year_number
+ * */
+gint gsb_transaction_data_get_financial_year_number ( gint no_transaction )
+{
+    struct_transaction *transaction;
+
+    transaction = gsb_transaction_data_get_transaction_by_no ( no_transaction,
+							       -1 );
+
+    if ( !transaction )
+	return -1;
+
+    return transaction -> financial_year_number;
+}
+
+
+/** set the financial_year_number
+ * \param no_transaction
+ * \param  financial_year_number
+ * \return TRUE if ok
+ * */
+gboolean gsb_transaction_data_set_financial_year_number ( gint no_transaction,
+							  gint financial_year_number )
+{
+    struct_transaction *transaction;
+
+    transaction = gsb_transaction_data_get_transaction_by_no ( no_transaction,
+							       -1 );
+
+    if ( !transaction )
+	return FALSE;
+
+    transaction -> financial_year_number = financial_year_number;
+
+    return TRUE;
+}
+
+
+
 
 
 

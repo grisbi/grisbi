@@ -1419,16 +1419,17 @@ gboolean recuperation_comptes_xml ( xmlNodePtr node_comptes )
 			    gsb_transaction_data_set_marked_transaction ( transaction_number,
 									  my_atoi ( xmlGetProp ( node_ope,
 												 "P" )));
-			    gsb_transaction_data_set_automatic_transaction ( gsb_transaction_data_get_transaction_number (operation ),
+			    gsb_transaction_data_set_automatic_transaction ( transaction_number,
 									     my_atoi ( xmlGetProp ( node_ope,
 												    "A" )));
 
-			    gsb_transaction_data_set_reconcile_number ( gsb_transaction_data_get_transaction_number (operation ),
+			    gsb_transaction_data_set_reconcile_number ( transaction_number,
 									my_atoi ( xmlGetProp ( node_ope,
 										   "R" )));
 
-			    operation -> no_exercice = my_atoi ( xmlGetProp ( node_ope,
-									      "E" ));
+			    gsb_transaction_data_set_financial_year_number ( transaction_number,
+									     my_atoi ( xmlGetProp ( node_ope,
+												    "E" )));
 
 			    operation -> imputation = my_atoi ( xmlGetProp ( node_ope,
 									     "I" ));
@@ -3713,7 +3714,7 @@ gboolean enregistre_fichier ( gchar *new_file )
 
 	    xmlSetProp ( node_ope,
 			 "E",
-			 itoa ( operation -> no_exercice ));
+			 itoa ( gsb_transaction_data_get_financial_year_number (transaction_number)));
 
 	    xmlSetProp ( node_ope,
 			 "I",
