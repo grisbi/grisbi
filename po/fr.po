@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-05-04 12:04+0200\n"
+"POT-Creation-Date: 2005-05-05 20:30+0200\n"
 "PO-Revision-Date: 2005-05-04 12:10+0200\n"
 "Last-Translator: Alain PORTAL <aportal@univ-montp2.fr>\n"
 "Language-Team: français <traduc@traduc.org>\n"
@@ -1851,6 +1851,7 @@ msgstr "N° de rapprochement"
 
 #. met le pointage
 #: src/csv.c:306 src/etats_affiche.c:1410 src/etats_affiche.c:1420
+#: src/menu.c:291 src/menu.c:295 src/menu.c:299
 msgid "C"
 msgstr "P"
 
@@ -6312,12 +6313,6 @@ msgstr "Signaler un bogue"
 msgid "On line User's guide"
 msgstr "Documentation en ligne"
 
-#. The trick to find the good language is to translate the
-#. string "en" into local language.
-#: src/menu.c:293 src/menu.c:297 src/menu.c:301
-msgid "en"
-msgstr "fr"
-
 #: src/ofx.c:34
 msgid ""
 "This build of Grisbi does not support OFX, please recompile Grisbi with OFX "
@@ -7083,6 +7078,9 @@ msgid "This transfer has a reconciled contra-transaction, deletion canceled."
 msgstr ""
 "La contre-opération de ce virement est relevée, on ne peut donc les "
 "supprimer."
+
+#~ msgid "en"
+#~ msgstr "fr"
 
 #~ msgid "Last chance to abort reconciliation!"
 #~ msgstr "Dernière chance d'abandonner le rapprochement !"

@@ -42,7 +42,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pt_BR\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-05-04 11:47+0200\n"
+"POT-Creation-Date: 2005-05-05 20:30+0200\n"
 "PO-Revision-Date: 2005-05-04 11:58+0200\n"
 "Last-Translator: \n"
 "Language-Team:  <pt@li.org>\n"
@@ -1877,6 +1877,7 @@ msgstr "Reconciliação número"
 
 #. met le pointage
 #: src/csv.c:306 src/etats_affiche.c:1410 src/etats_affiche.c:1420
+#: src/menu.c:291 src/menu.c:295 src/menu.c:299
 msgid "C"
 msgstr "C"
 
@@ -6324,10 +6325,6 @@ msgstr "informar um bug"
 msgid "On line User's guide"
 msgstr "Guia on-line do usuário "
 
-#: src/menu.c:291 src/menu.c:295 src/menu.c:299
-msgid "en"
-msgstr "pt_BR"
-
 #: src/ofx.c:34
 msgid ""
 "This build of Grisbi does not support OFX, please recompile Grisbi with OFX "
@@ -7084,6 +7081,9 @@ msgid "This transfer has a reconciled contra-transaction, deletion canceled."
 msgstr ""
 "Esta transferência tem um contra-lançamento reconciliado, Não é possível "
 "apagá-lo."
+
+#~ msgid "en"
+#~ msgstr "pt_BR"
 
 #~ msgid "Last chance to abort reconciliation!"
 #~ msgstr "Última chance de abortar a reconciliação!"
