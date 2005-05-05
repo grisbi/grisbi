@@ -1,17 +1,17 @@
+# translation of nl1.po to Nederlands
 # translation of nl.po to Nederlands
 # Dutch translation of PACKAGE.
 # Copyright (C) 2005 THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# E.Huijsing <e.huijsing@fiberworld.com>, 2005.
-# Edwin Huijsing <e.huijsing@fiberworld.nl>, 2005.
+# E.Huijsing <lighthous@users.sourceforge.net>, 2005.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-05-05 20:30+0200\n"
-"PO-Revision-Date: 16/04/05 21:38\n"
-"Last-Translator: Edwin Huijsing <e.huijsing@fiberworld.nl>\n"
+"POT-Creation-Date: 2005-04-18 22:34+0200\n"
+"PO-Revision-Date: 01/05/05 22:49\n"
+"Last-Translator: E.Huijsing <lighthous@users.sourceforge.net>\n"
 "Language-Team: Nederlands\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -37,7 +37,7 @@ msgstr "Geplande transacties die over of bijna aan de vervaldatum zijn :"
 
 #: src/accueil.c:218
 msgid "Automatic scheduled transactions entered"
-msgstr "Automatische geplande ingegane transacties"
+msgstr "Automatische geplande transacties gedaan"
 
 #: src/accueil.c:229
 msgid "Closed scheduled transactions"
@@ -68,8 +68,9 @@ msgstr "Rekening balans in %s"
 #. CrÃ©ation et remplissage de la premiÃ¨re ligne du tableau
 #: src/accueil.c:524 src/accueil.c:846 src/accueil.c:1167
 #: src/operations_liste.c:150
+#, fuzzy
 msgid "Reconciled balance"
-msgstr ""
+msgstr "Gecontroleerde balans"
 
 #: src/accueil.c:528 src/accueil.c:850 src/accueil.c:1171
 msgid "Current balance"
@@ -85,7 +86,7 @@ msgstr "Algemene balans"
 #: src/accueil.c:840
 #, c-format
 msgid "Liabilities accounts balances in %s"
-msgstr "Bedragen van de laste rekeningen in %s"
+msgstr "Bedragen van de lasten rekeningen in %s"
 
 #: src/accueil.c:1161
 #, c-format
@@ -94,16 +95,16 @@ msgstr "Bedragen van de tegoed rekeningen in %s"
 
 #: src/accueil.c:1581 src/accueil.c:1693
 msgid "No third party defined"
-msgstr "Geen begunstigde gedefinieerd."
+msgstr "Geen begunstigde gedefinieerd"
 
-#: src/accueil.c:1593 src/accueil.c:1707 src/echeancier_formulaire.c:2716
-#: src/echeancier_formulaire.c:2760
+#: src/accueil.c:1593 src/accueil.c:1707 src/echeancier_formulaire.c:2713
+#: src/echeancier_formulaire.c:2757
 #, c-format
 msgid "%4.2f %s credit on %s"
 msgstr "Credit (bij) %4.2f %s op %s"
 
-#: src/accueil.c:1598 src/accueil.c:1712 src/echeancier_formulaire.c:2721
-#: src/echeancier_formulaire.c:2765
+#: src/accueil.c:1598 src/accueil.c:1712 src/echeancier_formulaire.c:2718
+#: src/echeancier_formulaire.c:2762
 #, c-format
 msgid "%4.2f %s debit on %s"
 msgstr "Debet(af) %4.2f %s op %s"
@@ -111,8 +112,7 @@ msgstr "Debet(af) %4.2f %s op %s"
 #: src/accueil.c:1794 src/accueil.c:1829
 #, c-format
 msgid "Balance of account %s is under wanted and authorised minima!"
-msgstr ""
-"Het bedrag van de rekening %s is onder het gewilde en toegestane minimum!"
+msgstr "Het bedrag van de rekening %s is onder het gewilde en toegestane minimum!"
 
 #: src/accueil.c:1800
 #, c-format
@@ -151,7 +151,7 @@ msgstr "Transactie nummer"
 
 #: src/affichage.c:161 src/affichage_liste.c:36 src/affichage_liste.c:732
 #: src/affichage_liste.c:1037 src/csv.c:240 src/operations_formulaire.c:983
-#: src/operations_formulaire.c:3341
+#: src/operations_formulaire.c:3342
 msgid "Value date"
 msgstr "Valuta datum"
 
@@ -252,7 +252,6 @@ msgid "Sans 10"
 msgstr "Sans 10"
 
 #: src/affichage.c:811
-#, fuzzy
 msgid "Transaction list font"
 msgstr "Transactie list lettertype"
 
@@ -267,30 +266,30 @@ msgstr "Kies een ander logo"
 #. on met les titres des colonnes
 #: src/affichage_liste.c:35 src/affichage_liste.c:720
 #: src/affichage_liste.c:1033 src/csv.c:239 src/echeancier_formulaire.c:905
-#: src/echeancier_formulaire.c:2533 src/echeancier_liste.c:400
+#: src/echeancier_formulaire.c:2530 src/echeancier_liste.c:400
 #: src/equilibrage.c:194 src/etats_affiche.c:2223 src/import.c:352
 #: src/import.c:2658 src/operations_formulaire.c:790
-#: src/operations_formulaire.c:1408 src/operations_formulaire.c:1458
-#: src/operations_formulaire.c:1507 src/operations_formulaire.c:1546
-#: src/operations_formulaire.c:3331
+#: src/operations_formulaire.c:1409 src/operations_formulaire.c:1459
+#: src/operations_formulaire.c:1508 src/operations_formulaire.c:1547
+#: src/operations_formulaire.c:3332
 msgid "Date"
 msgstr "Datum"
 
 #. mise en place de la frame des tiers
 #: src/affichage_liste.c:37 src/affichage_liste.c:1041 src/csv.c:247
-#: src/echeancier_formulaire.c:914 src/echeancier_formulaire.c:2535
+#: src/echeancier_formulaire.c:914 src/echeancier_formulaire.c:2532
 #: src/echeancier_liste.c:402 src/etats_affiche.c:2237 src/etats_config.c:139
 #: src/etats_config.c:270 src/etats_config.c:7217 src/fenetre_principale.c:96
 #: src/import.c:2665 src/operations_formulaire.c:800
-#: src/operations_formulaire.c:3334
+#: src/operations_formulaire.c:3335
 msgid "Third party"
 msgstr "Begunstigde"
 
 #: src/affichage_liste.c:38 src/echeancier_formulaire.c:1067
-#: src/echeancier_formulaire.c:2545 src/echeancier_ventilation.c:967
+#: src/echeancier_formulaire.c:2542 src/echeancier_ventilation.c:967
 #: src/echeancier_ventilation.c:1495 src/etats_affiche.c:2251
 #: src/etats_config.c:262 src/operations_formulaire.c:1127
-#: src/operations_formulaire.c:3348 src/ventilation.c:968
+#: src/operations_formulaire.c:3349 src/ventilation.c:968
 #: src/ventilation.c:1493
 msgid "Budgetary line"
 msgstr "Budget regel"
@@ -298,10 +297,10 @@ msgstr "Budget regel"
 #. Debit type
 #: src/affichage_liste.c:39 src/affichage_liste.c:768
 #: src/affichage_liste.c:1049 src/categories_onglet.c:288 src/csv.c:249
-#: src/echeancier_formulaire.c:975 src/echeancier_formulaire.c:2537
+#: src/echeancier_formulaire.c:975 src/echeancier_formulaire.c:2534
 #: src/echeancier_ventilation.c:913 src/echeancier_ventilation.c:932
 #: src/echeancier_ventilation.c:1491 src/imputation_budgetaire.c:165
-#: src/operations_formulaire.c:891 src/operations_formulaire.c:3336
+#: src/operations_formulaire.c:891 src/operations_formulaire.c:3337
 #: src/type_operations.c:159 src/type_operations.c:436
 #: src/type_operations.c:862 src/ventilation.c:914 src/ventilation.c:933
 #: src/ventilation.c:1489
@@ -312,10 +311,10 @@ msgstr "Debet(af)"
 #: src/affichage_liste.c:40 src/affichage_liste.c:780
 #: src/affichage_liste.c:1053 src/categories_onglet.c:304 src/csv.c:248
 #: src/echeancier_formulaire.c:1037 src/echeancier_formulaire.c:1279
-#: src/echeancier_formulaire.c:2539 src/echeancier_ventilation.c:885
+#: src/echeancier_formulaire.c:2536 src/echeancier_ventilation.c:885
 #: src/echeancier_ventilation.c:960 src/echeancier_ventilation.c:1493
 #: src/imputation_budgetaire.c:181 src/operations_formulaire.c:976
-#: src/operations_formulaire.c:1328 src/operations_formulaire.c:3338
+#: src/operations_formulaire.c:1328 src/operations_formulaire.c:3339
 #: src/type_operations.c:173 src/type_operations.c:443
 #: src/type_operations.c:858 src/ventilation.c:886 src/ventilation.c:961
 #: src/ventilation.c:1491
@@ -340,8 +339,9 @@ msgstr "Methode van betaling"
 
 #: src/affichage_liste.c:44 src/affichage_liste.c:828
 #: src/affichage_liste.c:1069
+#, fuzzy
 msgid "Reconciliation ref."
-msgstr ""
+msgstr "Controle ref."
 
 #: src/affichage_liste.c:46 src/affichage_liste.c:1077 src/csv.c:252
 #: src/echeancier_ventilation.c:81 src/etats_affiche.c:2244
@@ -351,14 +351,15 @@ msgstr "Categorie"
 
 #: src/affichage_liste.c:47 src/affichage_liste.c:864
 #: src/affichage_liste.c:1081 src/csv.c:246
+#, fuzzy
 msgid "C/R"
-msgstr ""
+msgstr "C/R"
 
 #: src/affichage_liste.c:48 src/affichage_liste.c:876
 #: src/affichage_liste.c:1085 src/csv.c:257 src/echeancier_formulaire.c:1075
-#: src/echeancier_formulaire.c:2547 src/echeancier_ventilation.c:974
+#: src/echeancier_formulaire.c:2544 src/echeancier_ventilation.c:974
 #: src/echeancier_ventilation.c:1497 src/etats_affiche.c:2279
-#: src/operations_formulaire.c:1133 src/operations_formulaire.c:3350
+#: src/operations_formulaire.c:1133 src/operations_formulaire.c:3351
 #: src/ventilation.c:975 src/ventilation.c:1495
 msgid "Voucher"
 msgstr "Waardebon"
@@ -366,18 +367,18 @@ msgstr "Waardebon"
 #. Notes
 #: src/affichage_liste.c:49 src/affichage_liste.c:888
 #: src/affichage_liste.c:1089 src/banque.c:709 src/csv.c:254
-#: src/echeancier_formulaire.c:1081 src/echeancier_formulaire.c:2549
+#: src/echeancier_formulaire.c:1081 src/echeancier_formulaire.c:2546
 #: src/echeancier_liste.c:405 src/echeancier_ventilation.c:82
 #: src/echeancier_ventilation.c:864 src/echeancier_ventilation.c:1489
 #: src/etats_affiche.c:2258 src/operations_formulaire.c:1140
-#: src/operations_formulaire.c:3353 src/ventilation.c:85 src/ventilation.c:865
+#: src/operations_formulaire.c:3354 src/ventilation.c:85 src/ventilation.c:865
 #: src/ventilation.c:1487
 msgid "Notes"
 msgstr "Aantekeningen"
 
 #: src/affichage_liste.c:50 src/affichage_liste.c:900
 #: src/affichage_liste.c:1093 src/csv.c:259 src/etats_affiche.c:2286
-#: src/operations_formulaire.c:1146 src/operations_formulaire.c:3355
+#: src/operations_formulaire.c:1146 src/operations_formulaire.c:3356
 msgid "Bank references"
 msgstr "Bank referenties"
 
@@ -494,7 +495,7 @@ msgstr "vierde regel"
 msgid "Payer/payee"
 msgstr "Betaler/begunstigde"
 
-#: src/affichage_liste.c:816 src/equilibrage.c:1683
+#: src/affichage_liste.c:816 src/equilibrage.c:1681
 msgid "Payment method"
 msgstr "Betaal methode"
 
@@ -505,7 +506,7 @@ msgid "Categories"
 msgstr "Categoriën"
 
 #: src/affichage_liste.c:924 src/affichage_liste.c:1101
-#: src/operations_formulaire.c:1121 src/operations_formulaire.c:3345
+#: src/operations_formulaire.c:1121 src/operations_formulaire.c:3346
 msgid "Cheque/Transfer number"
 msgstr "Cheque/overschrijvings nummer"
 
@@ -516,12 +517,11 @@ msgid "Budgetary lines"
 msgstr "Budget regels"
 
 #: src/banque.c:122 src/comptes_traitements.c:135
-#: src/comptes_traitements.c:145 src/operations_formulaire.c:2214
+#: src/comptes_traitements.c:145 src/operations_formulaire.c:2215
 #: src/operations_liste.c:2890 src/operations_liste.c:2957
 #: src/operations_liste.c:3229 src/operations_liste.c:3322
 msgid "Cannot allocate memory, bad things will happen soon"
-msgstr ""
-"Kan geen geheugen meer toewijzen, slechte dingen zullen spoedig gebeuren"
+msgstr "Kan geen geheugen meer toewijzen, slechte dingen zullen spoedig gebeuren"
 
 #: src/banque.c:126 src/comptes_gestion.c:330
 msgid "New bank"
@@ -548,7 +548,7 @@ msgstr "Weet je zeker dat je de bank \"%s\" wilt verwijderen?\n"
 #. le premier nom est Aucune
 #. le premier nom est Aucun
 #. on lui associe 0
-#: src/banque.c:278 src/echeancier_formulaire.c:1489 src/equilibrage.c:573
+#: src/banque.c:278 src/echeancier_formulaire.c:1486 src/equilibrage.c:573
 #: src/exercice.c:568
 msgid "None"
 msgstr "Geen"
@@ -578,7 +578,7 @@ msgstr "Bank details"
 #. Name
 #. Create currency name entry
 #. Financial year name
-#: src/banque.c:543 src/banque.c:649 src/devises.c:1501 src/exercice.c:129
+#: src/banque.c:543 src/banque.c:649 src/devises.c:1500 src/exercice.c:129
 #: src/exercice.c:240 src/import.c:362 src/type_operations.c:379
 msgid "Name"
 msgstr "Naam"
@@ -644,12 +644,14 @@ msgid "One line per transaction"
 msgstr "Een regels per transactie"
 
 #: src/barre_outils.c:268 src/barre_outils.c:269
+#, fuzzy
 msgid "Display reconciled transactions"
-msgstr ""
+msgstr "Toon gecontroleerde transacties"
 
 #: src/barre_outils.c:295 src/barre_outils.c:296
+#, fuzzy
 msgid "Mask reconciled transactions"
-msgstr ""
+msgstr "Verberg gecontroleerde transacties"
 
 #: src/barre_outils.c:325
 msgid "Account transactions"
@@ -687,13 +689,13 @@ msgstr "Toon sub-afdelingen"
 
 #. ajoute le bouton annuler
 #. Add the "cancel" button
-#: src/calendar.c:111 src/utils.c:1516
+#: src/calendar.c:111 src/utils.c:1508
 msgid "Cancel"
 msgstr "Annuleren"
 
 #: src/categories_onglet.c:48
 msgid "Food : Bar"
-msgstr ""
+msgstr "Eten : Uitstapjes"
 
 #: src/categories_onglet.c:49
 msgid "Food : Baker"
@@ -701,11 +703,11 @@ msgstr "Eten : Bakker"
 
 #: src/categories_onglet.c:50
 msgid "Food : Canteen"
-msgstr ""
+msgstr "Eten : Kantiene"
 
 #: src/categories_onglet.c:51
 msgid "Food : Sweets"
-msgstr ""
+msgstr "Eten : snoepen"
 
 #: src/categories_onglet.c:52
 msgid "Food : Misc"
@@ -1065,27 +1067,27 @@ msgstr "Vakantie : Reis"
 
 #: src/categories_onglet.c:145
 msgid "Other incomes : Unemployment benefit"
-msgstr "Overige inkomen  : WW"
+msgstr "Overige inkomen : WW"
 
 #: src/categories_onglet.c:146
 msgid "Other incomes : Family allowance"
-msgstr "Overige inkomen  : Kindertoeslag"
+msgstr "Overige inkomen : Kindertoeslag"
 
 #: src/categories_onglet.c:147
 msgid "Other incomes : Tax credit"
-msgstr "Overige inkomen  : Beslatings teruggave"
+msgstr "Overige inkomen : Beslatings teruggave"
 
 #: src/categories_onglet.c:148
 msgid "Other incomes : Gamble"
-msgstr "Overige inkomen  : Gokken"
+msgstr "Overige inkomen : Gokken"
 
 #: src/categories_onglet.c:149
 msgid "Other incomes : Mutual insurance"
-msgstr "Overige inkomen  : Levensverzekering"
+msgstr "Overige inkomen : Levensverzekering"
 
 #: src/categories_onglet.c:150
 msgid "Other incomes : Social security"
-msgstr "Overige inkomen  : Ziekenfonds"
+msgstr "Overige inkomen : Ziekenfonds"
 
 #: src/categories_onglet.c:151
 msgid "Retirement : Retirement Fund"
@@ -1153,7 +1155,7 @@ msgstr "Bedrag per categorie"
 
 #: src/categories_onglet.c:191
 msgid "Amount per subcategory"
-msgstr "Bedrag per subcategorie"
+msgstr "Bedrag per sub-categorie"
 
 #: src/categories_onglet.c:192 src/imputation_budgetaire.c:70
 #: src/tiers_onglet.c:67
@@ -1284,11 +1286,11 @@ msgid "Just remove this sub-category."
 msgstr "Deze sub-categorie verwijderen."
 
 #: src/categories_onglet.c:2565 src/csv.c:424 src/echeancier_formulaire.c:1047
-#: src/echeancier_formulaire.c:1505 src/echeancier_formulaire.c:1538
-#: src/echeancier_formulaire.c:1765 src/echeancier_liste.c:1201
+#: src/echeancier_formulaire.c:1502 src/echeancier_formulaire.c:1535
+#: src/echeancier_formulaire.c:1762 src/echeancier_liste.c:1201
 #: src/echeancier_ventilation.c:204 src/etats_affiche.c:1688
-#: src/operations_formulaire.c:994 src/operations_formulaire.c:1822
-#: src/operations_formulaire.c:2517 src/operations_formulaire.c:2861
+#: src/operations_formulaire.c:994 src/operations_formulaire.c:1823
+#: src/operations_formulaire.c:2518 src/operations_formulaire.c:2862
 #: src/operations_liste.c:1085 src/operations_liste.c:1703
 #: src/ventilation.c:207
 msgid "Breakdown of transaction"
@@ -1297,15 +1299,15 @@ msgstr "Opsplitsen van transactie"
 #. Si c'est un virement, on fait les vÃ©rifications
 #: src/categories_onglet.c:2568 src/comptes_traitements.c:556
 #: src/comptes_traitements.c:641 src/csv.c:449 src/csv.c:574
-#: src/echeancier_formulaire.c:1526 src/echeancier_formulaire.c:1573
-#: src/echeancier_formulaire.c:1735 src/echeancier_formulaire.c:2093
-#: src/echeancier_formulaire.c:2994 src/echeancier_liste.c:1226
+#: src/echeancier_formulaire.c:1523 src/echeancier_formulaire.c:1570
+#: src/echeancier_formulaire.c:1732 src/echeancier_formulaire.c:2090
+#: src/echeancier_formulaire.c:2991 src/echeancier_liste.c:1226
 #: src/echeancier_ventilation.c:771 src/echeancier_ventilation.c:1580
 #: src/echeancier_ventilation.c:1666 src/echeancier_ventilation.c:2015
 #: src/echeancier_ventilation.c:2288 src/ofx.c:442
-#: src/operations_formulaire.c:1019 src/operations_formulaire.c:1931
-#: src/operations_formulaire.c:1936 src/operations_formulaire.c:2384
-#: src/operations_formulaire.c:2941 src/operations_liste.c:1644
+#: src/operations_formulaire.c:1019 src/operations_formulaire.c:1932
+#: src/operations_formulaire.c:1937 src/operations_formulaire.c:2385
+#: src/operations_formulaire.c:2942 src/operations_liste.c:1644
 #: src/ventilation.c:772 src/ventilation.c:1578 src/ventilation.c:1659
 #: src/ventilation.c:2028 src/ventilation.c:2366
 msgid "Transfer"
@@ -1366,7 +1368,7 @@ msgstr "Bestand opslaan"
 #: src/categories_onglet.c:3053 src/etats_onglet.c:1187
 #: src/imputation_budgetaire.c:2793
 msgid "File exists. Do you want to overwrite it?"
-msgstr "Bestand bestaat al. Wilt u het overschijven?"
+msgstr "Bestand bestaat al!  Wilt u het overschijven?"
 
 #: src/categories_onglet.c:3058 src/etats_onglet.c:1192
 #: src/imputation_budgetaire.c:2798
@@ -1385,10 +1387,9 @@ msgstr "Importeer categorie lijst"
 
 #. il y a dÃ©jÃ  des opÃ©rations dans le fichier, on ne peut que fusionner
 #: src/categories_onglet.c:3139
-msgid ""
-"File already contains transactions, the two categories lists will be merged."
+msgid "File already contains transactions, the two categories lists will be merged."
 msgstr ""
-"Het bestand bevat al transacties, De twee categorie lijsten zullen worden "
+"Het bestand bevat al transacties, de twee categorie lijsten zullen worden "
 "samen gevoegd."
 
 #: src/categories_onglet.c:3149 src/imputation_budgetaire.c:2887
@@ -1408,24 +1409,27 @@ msgstr "De oud categorie lijst vervangen"
 msgid "Cannot import file."
 msgstr "Kan het bestand niet importeren"
 
-#: src/check.c:71
-#, fuzzy
+#: src/check.c:70
 msgid "Grisbi found no known inconsistency in accounts processed."
-msgstr "Grisbi vond geen bekende inconsistentie in verwerkte rekeningen."
+msgstr "Grisbi vond geen bekende samenhangen in de verwerkte rekeningen."
 
-#: src/check.c:72
+#: src/check.c:71
 msgid "No inconsistency found."
-msgstr "Geen inconsistentie gevonden."
+msgstr "Geen samenhang gevonden."
 
-#: src/check.c:149
+#: src/check.c:148
 #, c-format
 msgid ""
 "<span weight=\"bold\">%s</span>\n"
 "  Last reconciliation amount : %4.2f%s\n"
 "  Computed reconciliation amount : %4.2f%s\n"
 msgstr ""
+"<span weight=\"bold\">%s</span>\n"
+"  Laatste gecontroleerd bedrag : %4.2f%s\n"
+"  Verwerkt controlebedrag : %4.2f%s\n"
 
-#: src/check.c:164
+#: src/check.c:163
+#, fuzzy
 msgid ""
 "Grisbi found accounts where reconciliation totals are inconsistent with the "
 "sum of reconcilied transactions.  Generally, the cause is too many transfers "
@@ -1434,17 +1438,20 @@ msgid ""
 "The following accounts are inconsistent:\n"
 "\n"
 msgstr ""
+"Grisbi vond rekeningen waar het gecontroleerdtotaal bedrag niet overeenstem met de som van de gecontroleerde transacties. Over het algemeen, is de oorzaak een teveel aan overschrijvingen naar andere rekeningen die gecontroleerd zijn. U moet handmatigte aanpassingen aan brengen bij de rekeningen die problemen geven.\n"
+"De volgende rekeningen zijn niet kloppend:\n"
+"\n"
 
-#: src/check.c:173 src/check.c:528 src/check.c:666
+#: src/check.c:172 src/check.c:527 src/check.c:665
 #, c-format
 msgid "%d accounts have inconsistencies."
 msgstr "%d rekeningen zijn niet in balans."
 
-#: src/check.c:178 src/check.c:533 src/check.c:671
+#: src/check.c:177 src/check.c:532 src/check.c:670
 msgid "An account has inconsistencies."
 msgstr "Een rekening heeft een verschil"
 
-#: src/check.c:216
+#: src/check.c:215
 msgid ""
 "Some sub-categories are duplicates:\n"
 "\n"
@@ -1452,12 +1459,12 @@ msgstr ""
 "Sommige sub-categorien zijn dubbel:\n"
 "\n"
 
-#: src/check.c:234
-#, fuzzy, c-format
+#: src/check.c:233
+#, c-format
 msgid "In <i>%s</i>, <i>%s</i> is a duplicate of <i>%s</i>.\n"
 msgstr "In <i>%s</i>, <i>%s</i> is een dubbelle van <i>%s</i>.\n"
 
-#: src/check.c:250
+#: src/check.c:249
 msgid ""
 "Due to a bug in previous versions of Grisbi, sub-categories may share the "
 "same numeric id in some cases, resulting in transactions having two sub-"
@@ -1474,19 +1481,18 @@ msgstr ""
 "verwijderen en deze opnieuw aanmaken in een nieuwe id.\n"
 "\n"
 "Geen gegevens zullen verloren gaan, maar in sommige gevallen, zult u de "
-"transacties handmatig maar een andere subcategorie moeten verplaatsen."
+"transacties handmatig naar een andere subcategorie moeten verplaatsen."
 
-#: src/check.c:260
+#: src/check.c:259
 msgid "Fix inconsistencies in sub-categories?"
-msgstr "Verschillen in sub-categorieën herstellen?"
+msgstr "Verschillen in sub-categorieën corrigeren?"
 
-#: src/check.c:339
-#, fuzzy, c-format
-msgid ""
-"Sub-budgetary line <i>'%s : %s'</i> is a duplicate of <i>'%s : %s'</i>\n"
+#: src/check.c:338
+#, c-format
+msgid "Sub-budgetary line <i>'%s : %s'</i> is a duplicate of <i>'%s : %s'</i>\n"
 msgstr "Sub-budget regel <i>'%s : %s'</i> bestaat al in <i>'%s : %s'</i>\n"
 
-#: src/check.c:356
+#: src/check.c:355
 msgid ""
 "Due to a bug in previous versions of Grisbi, sub-budgetary lines may share "
 "the same numeric id in some cases, resulting in transactions having two sub-"
@@ -1503,58 +1509,58 @@ msgstr ""
 "verwijderen en deze opnieuw aanmaken in een nieuwe id.\n"
 "\n"
 "Geen gegevens zullen verloren gaan, maar in sommige gevallen, zult u de "
-"transacties handmatig maar een andere sub-budget regel moeten verplaatsen."
+"transacties handmatig naar een andere sub-budget regel moeten verplaatsen."
 
-#: src/check.c:366
+#: src/check.c:365
 msgid "Fix inconsistencies in sub-budgetary lines?"
-msgstr "Verschillen in sub-budget regels herstellen?"
+msgstr "Verschillen in sub-budget regels corrigeren?"
 
-#: src/check.c:469
+#: src/check.c:468
 #, c-format
 msgid "Transaction #%d should have a contra #%d, but this one doesn't exist.\n"
-msgstr ""
-"Transactie #%d  moet een tegenrekening hebben  #%d  maar deze bestaat niet.\n"
+msgstr "Transactie #%d  moet een tegenrekening hebben  #%d  maar deze bestaat niet.\n"
 
-#: src/check.c:494
+#: src/check.c:493
 #, c-format
 msgid ""
 "Transaction #%d have a contra #%d, but transaction #%d have a contra #%d "
 "instead of #%d.\n"
 msgstr ""
-"Transactie  #%d heeft contrarekening #%d  maar transactie #%d heeft "
-"contrarekening #%d in plaats van #%d \n"
+"Transactie #%d heeft contrarekening #%d  maar transactie #%d heeft "
+"contrarekening #%d in plaats van #%d.\n"
 
-#: src/check.c:520
-#, fuzzy
+#: src/check.c:519
 msgid ""
 "Grisbi found transfer transactions where links are inconsistent among "
 "themselves.  Unfortunately, we don't know at the moment how it has "
 "happened.\n"
 "The following accounts are inconsistent:\n"
 msgstr ""
-"Grisbi vond overschrijfings transacties waar van de koppelingenkapport zijn. "
+"Grisbi vond overschrijfings transacties waarvan de koppelingenkappot zijn. "
 "Helaas weten wij  op dit  moment niet wat er gebeurt is.\n"
 "De volgende rekeningen hebben problemen:\n"
 
-#: src/check.c:615
+#: src/check.c:614
 #, c-format
 msgid "Breakdown line #%d is orpheanous.\n"
 msgstr "Opslitsregel #%d is wees.\n"
 
-#: src/check.c:633
+#: src/check.c:632
 #, c-format
 msgid ""
 "Transaction #%d has a financial year named %s and breakdown line #%d of this "
 "transaction has a financial year named %s\n"
-msgstr ""
+msgstr "Transactie #%d heeft is gekoppeld aan het financeel jaar genaamd %s en de opsplits regel #%d is gekoppled aan het financeel jaar genaamd %s\n"
 
-#: src/check.c:658
+#: src/check.c:657
 msgid ""
 "Grisbi found breakdown lines that have financial years different from the "
 "financial years of the related transaction.  Perhaps it isn't a problem, but "
 "perhaps it is.\n"
 "The following accounts seems inconsistent:\n"
 msgstr ""
+"Grisbi heeft een opsplits regel gevonden die een ander financeel jaar dan de transactie die daar aan gekoppeld is. Het hoeft geen probleem te zijn maar het kan wel een probleem zijn.\n"
+"De volgden rekeningen lijken niet te kloppen:\n"
 
 #: src/comptes_gestion.c:88
 msgid "Account details"
@@ -1682,7 +1688,9 @@ msgid ""
 "Do you confirm this change?"
 msgstr ""
 "U wil de valuta veranderen van een valuta die binnen de euro-zone (%s) ligt "
-"naar een die niet (%s) binnen de euro-zone "
+"naar een die niet (%s) binnen de euro-zone ligt.  De transacties in de euros zullen "
+"verloren gaan!  Er is geen herstel mogelijkheid hier voor.\n"
+"Toch door gaan?"
 
 #: src/comptes_gestion.c:1181
 msgid "Apply changes to account?"
@@ -1707,22 +1715,21 @@ msgid "Euro conversion is irreversible, are you sure you want to continue?"
 msgstr "De Euro omzetting is onomkeerbaar weet u zeker dat u wilt door gaan?"
 
 #: src/comptes_gestion.c:1233
-#, fuzzy
 msgid "Exchange rate between the 2 currencies is 0."
-msgstr "De wisselkoers tussen de 2 munten is 0."
+msgstr "De wisselkoers tussen de 2 valuta is 0."
 
-#: src/comptes_gestion.c:1240 src/devises.c:381 src/devises.c:957
-#: src/devises.c:1776 src/devises.c:1858 src/devises.c:2201 src/devises.c:2206
-#: src/devises.c:2331 src/echeancier_formulaire.c:2052
-#: src/echeancier_formulaire.c:2054 src/echeancier_formulaire.c:2428
-#: src/echeancier_formulaire.c:2430 src/echeancier_liste.c:1952
+#: src/comptes_gestion.c:1240 src/devises.c:380 src/devises.c:956
+#: src/devises.c:1745 src/devises.c:1827 src/devises.c:2170 src/devises.c:2175
+#: src/devises.c:2300 src/echeancier_formulaire.c:2049
+#: src/echeancier_formulaire.c:2051 src/echeancier_formulaire.c:2425
+#: src/echeancier_formulaire.c:2427 src/echeancier_liste.c:1952
 #: src/echeancier_liste.c:1954 src/etats_calculs.c:2449
 #: src/etats_calculs.c:2454 src/etats_calculs.c:2484 src/etats_calculs.c:2489
 #: src/etats_calculs.c:2519 src/etats_calculs.c:2524 src/etats_calculs.c:2568
 #: src/etats_calculs.c:2573 src/etats_calculs.c:2599 src/etats_calculs.c:2604
 #: src/etats_calculs.c:2632 src/etats_calculs.c:2637 src/etats_calculs.c:2665
-#: src/etats_calculs.c:2670 src/operations_formulaire.c:2691
-#: src/operations_formulaire.c:2692 src/operations_liste.c:1576
+#: src/etats_calculs.c:2670 src/operations_formulaire.c:2692
+#: src/operations_formulaire.c:2693 src/operations_liste.c:1576
 #: src/operations_liste.c:1578 src/ventilation.c:2972 src/ventilation.c:2974
 #: src/ventilation.c:3191 src/ventilation.c:3193
 msgid "Euro"
@@ -1730,8 +1737,7 @@ msgstr "Euro"
 
 #: src/comptes_gestion.c:1245
 msgid "Impossible to find the Euro currency, it has probably been deleted."
-msgstr ""
-"Onmogelijk om de Euro valuta te vinden, hij is waarschijnlijk verwijdert."
+msgstr "Onmogelijk om de Euro valuta te vinden, hij is waarschijnlijk verwijdert."
 
 #. mise en place des boutons du bas
 #: src/comptes_onglet.c:158 src/menu.c:102
@@ -1761,7 +1767,7 @@ msgid ""
 "previously contained.  There is no undo for this."
 msgstr ""
 "Dit zal onherroepelijk deze rekening en alle verrichtingen verwijderen die "
-"deze eerder bevatten. Er zijn geen weg terug meer voor dit."
+"deze eerder bevatten. Er is geen herstel mogelijkheid."
 
 #: src/comptes_traitements.c:568 src/ofx.c:430
 msgid "Deposit"
@@ -1791,7 +1797,7 @@ msgid ""
 "You will be able to change account type later."
 msgstr ""
 "Als u verkiest verder te gaan, zal een rekening met standaard \n"
-"betalingsmethodes worden gecreëerd, die u heeft gekozen.\n"
+"betalingsmethodes worden aangemaakt, die u heeft gekozen.\n"
 "U zult rekenings soort zelf kunnen later nog kunnen veranderen."
 
 #: src/csv.c:221 src/qif.c:1049 src/qif.c:1507
@@ -1828,8 +1834,9 @@ msgid "Sub-budgetary lines"
 msgstr "Sub-budget regel"
 
 #: src/csv.c:258
+#, fuzzy
 msgid "Reconciliation number"
-msgstr ""
+msgstr "Controle nummer"
 
 #. met le pointage
 #: src/csv.c:306 src/etats_affiche.c:1410 src/etats_affiche.c:1420
@@ -1856,8 +1863,8 @@ msgid "B"
 msgstr "B"
 
 #: src/csv.c:591 src/echeancier_ventilation.c:780
-#: src/operations_formulaire.c:1028 src/operations_formulaire.c:2397
-#: src/operations_formulaire.c:2953 src/ventilation.c:781
+#: src/operations_formulaire.c:1028 src/operations_formulaire.c:2398
+#: src/operations_formulaire.c:2954 src/ventilation.c:781
 msgid "Deleted account"
 msgstr "Verwijder rekening"
 
@@ -1870,7 +1877,7 @@ msgstr "Verwijder rekening"
 #: src/devises.c:75 src/devises.c:76 src/devises.c:77 src/devises.c:78
 #: src/devises.c:79 src/devises.c:80 src/devises.c:81 src/devises.c:82
 #: src/devises.c:83 src/devises.c:84 src/devises.c:85 src/devises.c:86
-#: src/devises.c:491
+#: src/devises.c:490
 msgid "Africa"
 msgstr "Afrika"
 
@@ -2152,7 +2159,7 @@ msgstr "Zimbabwe"
 #: src/devises.c:115 src/devises.c:116 src/devises.c:117 src/devises.c:118
 #: src/devises.c:119 src/devises.c:120 src/devises.c:121 src/devises.c:122
 #: src/devises.c:123 src/devises.c:124 src/devises.c:125 src/devises.c:126
-#: src/devises.c:492
+#: src/devises.c:491
 msgid "Asia"
 msgstr ""
 
@@ -2473,7 +2480,7 @@ msgid "China"
 msgstr "China"
 
 #: src/devises.c:127 src/devises.c:128 src/devises.c:129 src/devises.c:130
-#: src/devises.c:131 src/devises.c:132 src/devises.c:493
+#: src/devises.c:131 src/devises.c:132 src/devises.c:492
 msgid "Central America"
 msgstr "Midden Amerika"
 
@@ -2521,7 +2528,7 @@ msgstr "Mexico"
 msgid "Panama Balboa"
 msgstr "Panamese Balboa"
 
-#: src/devises.c:132 src/devises.c:197
+#: src/devises.c:132 src/devises.c:196
 msgid "Panama"
 msgstr "Panama"
 
@@ -2533,7 +2540,7 @@ msgstr "Panama"
 #: src/devises.c:153 src/devises.c:154 src/devises.c:155 src/devises.c:156
 #: src/devises.c:157 src/devises.c:158 src/devises.c:159 src/devises.c:160
 #: src/devises.c:161 src/devises.c:162 src/devises.c:163 src/devises.c:164
-#: src/devises.c:165 src/devises.c:166 src/devises.c:167 src/devises.c:494
+#: src/devises.c:165 src/devises.c:166 src/devises.c:493
 msgid "Europe"
 msgstr "Europa"
 
@@ -2797,372 +2804,352 @@ msgstr "Liechtenstein"
 msgid "Switzerland"
 msgstr "Zwitserland"
 
-#: src/devises.c:167
-msgid "Hryvnia"
-msgstr ""
-
-#: src/devises.c:167
-#, fuzzy
-msgid "Ukraine"
-msgstr "Frankrijk"
-
-#: src/devises.c:168 src/devises.c:169 src/devises.c:170 src/devises.c:171
-#: src/devises.c:172 src/devises.c:173 src/devises.c:174 src/devises.c:175
-#: src/devises.c:176 src/devises.c:177 src/devises.c:178 src/devises.c:179
-#: src/devises.c:180 src/devises.c:181 src/devises.c:495
+#: src/devises.c:167 src/devises.c:168 src/devises.c:169 src/devises.c:170
+#: src/devises.c:171 src/devises.c:172 src/devises.c:173 src/devises.c:174
+#: src/devises.c:175 src/devises.c:176 src/devises.c:177 src/devises.c:178
+#: src/devises.c:179 src/devises.c:180 src/devises.c:494
 msgid "Northern America"
 msgstr "Noord Amerika"
 
-#: src/devises.c:168
+#: src/devises.c:167
 msgid "Bahamian Dollar"
 msgstr " Bahamian Dollar"
 
-#: src/devises.c:168
+#: src/devises.c:167
 msgid "Bahamas"
 msgstr "Bahama's"
 
-#: src/devises.c:169
+#: src/devises.c:168
 msgid "Barbados Dollar"
 msgstr "Barbados Dollar"
 
-#: src/devises.c:169
+#: src/devises.c:168
 msgid "Barbados"
 msgstr "Barbados"
 
-#: src/devises.c:170
+#: src/devises.c:169
 msgid "Bermuda Dollar"
 msgstr ""
 
-#: src/devises.c:170
+#: src/devises.c:169
 msgid "Bermuda"
 msgstr "Bermuda"
 
-#: src/devises.c:171
+#: src/devises.c:170
 msgid "Canadian Dollar"
 msgstr "Canadese Dollar"
 
-#: src/devises.c:171
+#: src/devises.c:170
 msgid "Canada"
 msgstr "Canada"
 
-#: src/devises.c:172
+#: src/devises.c:171
 msgid "Cayman Islands Dollar"
 msgstr "Cayman Dollar"
 
-#: src/devises.c:172
+#: src/devises.c:171
 msgid "Cayman Islands"
 msgstr "Caymaneilanden"
 
-#: src/devises.c:173
+#: src/devises.c:172
 msgid "Cuban Peso"
 msgstr "Cubaanse Peso"
 
-#: src/devises.c:173
+#: src/devises.c:172
 msgid "Cuba"
 msgstr "Cuba"
 
-#: src/devises.c:174
+#: src/devises.c:173
 msgid "Dominican Peso"
 msgstr "Dominicaanse Peso"
 
-#: src/devises.c:174
+#: src/devises.c:173
 msgid "Dominican Republic"
 msgstr "Dominicaanse Republiek"
 
-#: src/devises.c:175 src/devises.c:176
+#: src/devises.c:174 src/devises.c:175
 msgid "East Caribbean Dollar"
 msgstr "Oost Caribische dollar"
 
-#: src/devises.c:175
+#: src/devises.c:174
 msgid "Grenada"
 msgstr "Dominicaanse Republiek"
 
-#: src/devises.c:176
+#: src/devises.c:175
 msgid "Saint Lucia"
 msgstr "Saint Lucia"
 
-#: src/devises.c:177
+#: src/devises.c:176
 msgid "Haitian Gourde"
 msgstr "Haïtiaanse Gourde"
 
-#: src/devises.c:177
+#: src/devises.c:176
 msgid "Haiti"
 msgstr "Haiti"
 
-#: src/devises.c:178
+#: src/devises.c:177
 msgid "Jamaican Dollar"
 msgstr "Jamaïcaanse Dollar"
 
-#: src/devises.c:178
+#: src/devises.c:177
 msgid "Jamaica"
 msgstr "Jamaica"
 
-#: src/devises.c:179
+#: src/devises.c:178
 msgid "Netherlands Antillian Guilder"
 msgstr "Antilliaanse Gulden"
 
-#: src/devises.c:179
+#: src/devises.c:178
 msgid "Netherlands Antilles"
 msgstr "Nederlandse Antillen"
 
-#: src/devises.c:180
+#: src/devises.c:179
 msgid "Trinidad and Tobago Dollar"
 msgstr "Trinidad en Tobago Dollar"
 
-#: src/devises.c:180
+#: src/devises.c:179
 msgid "Trinidad and Tobago"
 msgstr "Trinidad en Tobago"
 
-#: src/devises.c:181 src/devises.c:197
+#: src/devises.c:180 src/devises.c:196
 msgid "United States Dollar"
 msgstr "USA Dollar"
 
-#: src/devises.c:181
+#: src/devises.c:180
 msgid "United States"
 msgstr "Verenigde Staten van Amerika"
 
-#: src/devises.c:182 src/devises.c:183 src/devises.c:184 src/devises.c:185
-#: src/devises.c:186 src/devises.c:187 src/devises.c:188 src/devises.c:189
-#: src/devises.c:190 src/devises.c:191 src/devises.c:192 src/devises.c:193
-#: src/devises.c:194 src/devises.c:195 src/devises.c:196 src/devises.c:197
-#: src/devises.c:198 src/devises.c:496
+#: src/devises.c:181 src/devises.c:182 src/devises.c:183 src/devises.c:184
+#: src/devises.c:185 src/devises.c:186 src/devises.c:187 src/devises.c:188
+#: src/devises.c:189 src/devises.c:190 src/devises.c:191 src/devises.c:192
+#: src/devises.c:193 src/devises.c:194 src/devises.c:195 src/devises.c:196
+#: src/devises.c:197 src/devises.c:495
 msgid "Pacific Ocean"
 msgstr ""
 
-#: src/devises.c:182 src/devises.c:183 src/devises.c:184 src/devises.c:185
+#: src/devises.c:181 src/devises.c:182 src/devises.c:183 src/devises.c:184
 msgid "Australian Dollar"
 msgstr "Australische Dollar"
 
-#: src/devises.c:182
+#: src/devises.c:181
 msgid "Australia"
 msgstr "Australië"
 
-#: src/devises.c:183
+#: src/devises.c:182
 msgid "Kiribati"
 msgstr "Kiribati"
 
-#: src/devises.c:184
+#: src/devises.c:183
 msgid "Nauru"
 msgstr "Nauru"
 
-#: src/devises.c:185
+#: src/devises.c:184
 msgid "Tuvalu"
 msgstr "Tuvalu"
 
-#: src/devises.c:186 src/devises.c:187 src/devises.c:188
+#: src/devises.c:185 src/devises.c:186 src/devises.c:187
 msgid "CFP Franc"
 msgstr "CFP Franc"
 
-#: src/devises.c:186
+#: src/devises.c:185
 msgid "French Polynesia"
 msgstr ""
 
-#: src/devises.c:187
+#: src/devises.c:186
 msgid "New Caledonia"
 msgstr "Nieuw-Caledonië"
 
-#: src/devises.c:188
+#: src/devises.c:187
 msgid "Wallis and Futuna"
 msgstr "Wallis en Futuna"
 
-#: src/devises.c:189
+#: src/devises.c:188
 msgid "Fiji Dollar"
 msgstr "Fiji Dollar"
 
-#: src/devises.c:189
+#: src/devises.c:188
 msgid "Fiji"
 msgstr "Fiji"
 
-#: src/devises.c:190 src/devises.c:191
+#: src/devises.c:189 src/devises.c:190
 msgid "New Zealand Dollar"
 msgstr "Nieuw-Zeelandse dollar"
 
-#: src/devises.c:190
+#: src/devises.c:189
 msgid "Cook Islands"
 msgstr "Cookeilanden (Nieuw-Zeeland)"
 
-#: src/devises.c:191
+#: src/devises.c:190
 msgid "New Zealand"
 msgstr "Nieuw-Zeeland"
 
-#: src/devises.c:192
+#: src/devises.c:191
 msgid "Papua New Guinea Kina"
 msgstr "Papua Nieuw Guinea : Kina"
 
-#: src/devises.c:192
+#: src/devises.c:191
 msgid "Papua New Guinea"
 msgstr "Papua Nieuw Guinea"
 
-#: src/devises.c:193
+#: src/devises.c:192
 msgid "Samoa Tala"
 msgstr "Samoa Tala"
 
-#: src/devises.c:193
+#: src/devises.c:192
 msgid "Samoa"
 msgstr "Samoa"
 
-#: src/devises.c:194
+#: src/devises.c:193
 msgid "Solomon Islands Dollar"
 msgstr "Solomon Islands Dollar"
 
-#: src/devises.c:194
+#: src/devises.c:193
 msgid "Solomon Islands"
 msgstr "Salomonseilanden"
 
-#: src/devises.c:195
+#: src/devises.c:194
 msgid "Timor Escudo"
 msgstr "Timorese Escudo"
 
-#: src/devises.c:195
+#: src/devises.c:194
 msgid "Timor"
 msgstr "Timor"
 
-#: src/devises.c:196
+#: src/devises.c:195
 msgid "Tongan Pa'anga"
 msgstr "Tonganese Pa'anga"
 
-#: src/devises.c:196
+#: src/devises.c:195
 msgid "Tonga"
 msgstr "Tonga"
 
-#: src/devises.c:198
+#: src/devises.c:197
 msgid "Vanuatu Vatu"
 msgstr "Vanuatu Vatu"
 
-#: src/devises.c:198
+#: src/devises.c:197
 msgid "Vanuatu"
 msgstr "Vanuatu"
 
-#: src/devises.c:199 src/devises.c:200 src/devises.c:201 src/devises.c:202
-#: src/devises.c:203 src/devises.c:204 src/devises.c:205 src/devises.c:206
-#: src/devises.c:497
+#: src/devises.c:198 src/devises.c:199 src/devises.c:200 src/devises.c:201
+#: src/devises.c:202 src/devises.c:203 src/devises.c:204 src/devises.c:496
 msgid "Southern America"
 msgstr "Zuid Amerika"
 
-#: src/devises.c:199
+#: src/devises.c:198
 msgid "Chilean Peso"
 msgstr "Chileense Peso"
 
-#: src/devises.c:199
+#: src/devises.c:198
 msgid "Chile"
 msgstr "Chili"
 
-#: src/devises.c:200
+#: src/devises.c:199
 msgid "Colombian Peso"
 msgstr "Colombiaanse peso"
 
-#: src/devises.c:200
+#: src/devises.c:199
 msgid "Colombia"
 msgstr "Colombia"
 
-#: src/devises.c:201
+#: src/devises.c:200
 msgid "Ecuador Sucre"
 msgstr "Ecuador USD"
 
-#: src/devises.c:201
+#: src/devises.c:200
 msgid "Ecuador"
 msgstr "Ecuador"
 
-#: src/devises.c:202
+#: src/devises.c:201
 msgid "Guyana Dollar"
 msgstr "Guyana Dollar"
 
-#: src/devises.c:202
+#: src/devises.c:201
 msgid "Guyana"
 msgstr "Guyana"
 
-#: src/devises.c:203
+#: src/devises.c:202
 msgid "Paraguay Guarani"
 msgstr "Paraguayaanse Guarani"
 
-#: src/devises.c:203
+#: src/devises.c:202
 msgid "Paraguay"
 msgstr "Paraguay"
 
-#: src/devises.c:204
-#, fuzzy
-msgid "Real"
-msgstr "Legaal"
-
-#: src/devises.c:204
-#, fuzzy
-msgid "Brazil"
-msgstr "Bahrein"
-
-#: src/devises.c:205
+#: src/devises.c:203
 msgid "Suriname Guilder"
 msgstr "Surinaamse dollar"
 
-#: src/devises.c:205
+#: src/devises.c:203
 msgid "Suriname"
 msgstr "Suriname"
 
-#: src/devises.c:206
+#: src/devises.c:204
 msgid "Venezuelan Bolivar"
 msgstr "Venezolaanse Bolivar"
 
-#: src/devises.c:206
+#: src/devises.c:204
 msgid "Venezuela"
 msgstr "Venezuela"
 
 #. le 1er item c'est aucune devise
-#: src/devises.c:424
+#: src/devises.c:423
 msgid "No associated currency"
 msgstr "Er is geen valuta gekoppeld"
 
-#: src/devises.c:588
+#: src/devises.c:587
 msgid "Country name"
 msgstr "Land naam"
 
 #. Currency name
-#: src/devises.c:598 src/devises.c:711
+#: src/devises.c:597 src/devises.c:710
 msgid "Currency name"
 msgstr "Valuta naam"
 
-#: src/devises.c:608 src/devises.c:1378
+#: src/devises.c:607 src/devises.c:1377
 msgid "ISO Code"
 msgstr "ISO Code"
 
 #. Create code entry
-#: src/devises.c:619 src/devises.c:1379 src/devises.c:1516
+#: src/devises.c:618 src/devises.c:1378 src/devises.c:1515
 msgid "Sign"
 msgstr "Symbool"
 
-#: src/devises.c:646
+#: src/devises.c:645
 msgid "Include obsolete currencies"
 msgstr "Inclusief oude valuta"
 
-#: src/devises.c:675 src/import.c:456
+#: src/devises.c:674 src/import.c:456
 msgid "Add a currency"
 msgstr "Voeg een valuta toe"
 
-#: src/devises.c:693
+#: src/devises.c:692
 msgid "ISO 4217 currencies"
 msgstr "ISO 4217 valuta"
 
-#: src/devises.c:700
+#: src/devises.c:699
 msgid "Currency details"
 msgstr "Valuta details"
 
 #. Currency ISO code
-#: src/devises.c:728
+#: src/devises.c:727
 msgid "Currency ISO 4217 code"
 msgstr "Valuta ISO 4217 code"
 
 #. Currency usual sign
-#: src/devises.c:743
+#: src/devises.c:742
 msgid "Currency sign"
 msgstr "Valuta Code"
 
-#: src/devises.c:819
+#: src/devises.c:818
 msgid "All fields are not filled in!"
 msgstr "Nog niet alle velden zijn ingevuld!"
 
-#: src/devises.c:875
+#: src/devises.c:874
 msgid "..."
 msgstr "..."
 
-#: src/devises.c:964
+#: src/devises.c:963
 #, c-format
 msgid ""
 "The %s currency is used in the current account.\n"
@@ -3171,87 +3158,87 @@ msgstr ""
 "De %s valuta wordt nog gebruikt in het huidige account.\n"
 "Je kandeze niet verwijderen."
 
-#: src/devises.c:1024
+#: src/devises.c:1023
 msgid "Enter exchange rate"
 msgstr "Aanpaseen wisselkoers"
 
-#: src/devises.c:1034
+#: src/devises.c:1033
 #, c-format
 msgid "Please enter exchange rate for %s"
-msgstr "Val aub een wisselkoers in voor %s"
+msgstr "Vul aub een wisselkoers in voor %s"
 
-#: src/devises.c:1046
+#: src/devises.c:1045
 #, fuzzy
 msgid "A"
 msgstr "Een"
 
-#: src/devises.c:1054
+#: src/devises.c:1053
 msgid "equals"
 msgstr "is gelijk aan"
 
-#: src/devises.c:1116
+#: src/devises.c:1115
 msgid "Exchange fees"
 msgstr "Wisselkoers kosten"
 
-#: src/devises.c:1377 src/import.c:372
+#: src/devises.c:1376 src/import.c:372
 msgid "Currency"
 msgstr "Valuta"
 
-#: src/devises.c:1383 src/etats_config.c:6196 src/parametres.c:286
+#: src/devises.c:1382 src/etats_config.c:6196 src/parametres.c:286
 msgid "Currencies"
 msgstr "Valuta's"
 
-#: src/devises.c:1387
+#: src/devises.c:1386
 msgid "Known currencies"
 msgstr "Bekende valuta"
 
-#: src/devises.c:1480
+#: src/devises.c:1479
 msgid "Currency properties"
 msgstr "Valuta eigenschappen"
 
 #. Create code entry
-#: src/devises.c:1532
+#: src/devises.c:1531
 msgid "ISO code"
 msgstr "ISO code"
 
 #. Will switch to Euro?
-#: src/devises.c:1548
+#: src/devises.c:1547
 msgid "Will switch to Euro"
 msgstr "Gaat om naar Euro"
 
-#: src/devises.c:1559
+#: src/devises.c:1558
 msgid "Associated currency"
 msgstr "Gekoppelde valuta"
 
-#: src/devises.c:1580
+#: src/devises.c:1579
 msgid "One"
 msgstr "Een"
 
-#: src/devises.c:1588
+#: src/devises.c:1587
 msgid "costs"
 msgstr "Kosten"
 
-#: src/devises.c:1680 src/parametres.c:269
+#: src/devises.c:1649 src/parametres.c:269
 msgid "Totals currencies"
 msgstr "Gebruikte valuta"
 
-#: src/devises.c:1687
+#: src/devises.c:1656
 msgid "Currency for third parties tree"
 msgstr "Boom valuta van begunstigde"
 
-#: src/devises.c:1697
+#: src/devises.c:1666
 msgid "Currency for categories tree"
 msgstr "Valuta voor categorie boom"
 
-#: src/devises.c:1707
+#: src/devises.c:1676
 msgid "Currency for budgetary lines tree"
 msgstr "Valuta voor budget regels boom"
 
-#: src/devises.c:1923
+#: src/devises.c:1892
 msgid "Last exchange rate"
 msgstr "Laatste wisselkoers"
 
-#: src/devises.c:1929
+#: src/devises.c:1898
 msgid "No exchange rate defined"
 msgstr "Geen wisselkoer gedefinieerd"
 
@@ -3283,7 +3270,7 @@ msgstr "Financiële jaar sluiten"
 
 #: src/echeancier_formulaire.c:529 src/echeancier_formulaire.c:530
 msgid "Automatic/manual scheduled transaction"
-msgstr "Automatisch/Handmatig geplandetransacties"
+msgstr "Automatisch/Handmatig geplande transacties"
 
 #: src/echeancier_formulaire.c:538 src/echeancier_liste.c:809
 #: src/operations_liste.c:1816
@@ -3334,53 +3321,53 @@ msgstr "Dagen"
 #: src/echeancier_formulaire.c:775 src/echeancier_liste.c:275
 #: src/etats_config.c:5989
 msgid "Months"
-msgstr "maanden"
+msgstr "Maanden"
 
 #: src/echeancier_formulaire.c:783 src/echeancier_liste.c:287
 msgid "Years"
 msgstr "Jaren"
 
-#: src/echeancier_formulaire.c:1044 src/echeancier_formulaire.c:2541
+#: src/echeancier_formulaire.c:1044 src/echeancier_formulaire.c:2538
 #: src/echeancier_ventilation.c:857 src/echeancier_ventilation.c:1487
-#: src/operations_formulaire.c:1114 src/operations_formulaire.c:3343
+#: src/operations_formulaire.c:1114 src/operations_formulaire.c:3344
 #: src/ventilation.c:858 src/ventilation.c:1485
 msgid "Categories : Sub-categories"
 msgstr "Categoriën : Sub-categoriën"
 
-#: src/echeancier_formulaire.c:1062 src/echeancier_formulaire.c:2543
+#: src/echeancier_formulaire.c:1062 src/echeancier_formulaire.c:2540
 msgid "Transfer reference"
 msgstr "Transactie referentie"
 
-#: src/echeancier_formulaire.c:1090 src/echeancier_formulaire.c:2551
+#: src/echeancier_formulaire.c:1090 src/echeancier_formulaire.c:2548
 msgid "Limit date"
 msgstr "Tot datum"
 
-#: src/echeancier_formulaire.c:1478 src/equilibrage.c:948
-#: src/equilibrage.c:968 src/operations_formulaire.c:2340
+#: src/echeancier_formulaire.c:1475 src/equilibrage.c:948
+#: src/equilibrage.c:968 src/operations_formulaire.c:2341
 msgid "Invalid date"
 msgstr "Onbekende datum"
 
-#: src/echeancier_formulaire.c:1492
+#: src/echeancier_formulaire.c:1489
 msgid "Invalid limit date"
 msgstr "Ongeldige Tot datum"
 
-#: src/echeancier_formulaire.c:1530 src/operations_formulaire.c:2426
+#: src/echeancier_formulaire.c:1527 src/operations_formulaire.c:2427
 msgid "Can't issue a transfer its own account."
 msgstr "Je kan geen overschrijving maken naar de zelfde rekening"
 
-#: src/echeancier_formulaire.c:1560
+#: src/echeancier_formulaire.c:1557
 msgid "A breakdown of transaction is a transfer to this account.\n"
-msgstr ""
+msgstr "en deel van een opsplits transactie is naar deze rekening overgeschreven.\n"
 
-#: src/echeancier_formulaire.c:1583 src/operations_formulaire.c:2390
+#: src/echeancier_formulaire.c:1580 src/operations_formulaire.c:2391
 msgid "There is no associated account for this transfer."
 msgstr "Er is geen bijbehorende rekening voor deze overschrijving."
 
-#: src/echeancier_formulaire.c:1606 src/operations_formulaire.c:2419
+#: src/echeancier_formulaire.c:1603 src/operations_formulaire.c:2420
 msgid "Associated account of this transfer is invalid."
 msgstr "De bijbehorende rekening van deze overschrijving bestaat niet"
 
-#: src/echeancier_formulaire.c:1624
+#: src/echeancier_formulaire.c:1621
 msgid ""
 "Impossible to create or entry an automatic scheduled transaction\n"
 " with a cheque or a method of payment with an automatic incremental number."
@@ -3388,12 +3375,12 @@ msgstr ""
 "Onmogelijk om een automatisch overschrijving te creëren van een Cheque of "
 "ander betaalmethode die een automatisch stijgend nummer hebben."
 
-#: src/echeancier_formulaire.c:1637 src/echeancier_liste.c:664
-#: src/type_operations.c:1571 src/type_operations.c:1642
+#: src/echeancier_formulaire.c:1634 src/echeancier_liste.c:664
+#: src/type_operations.c:1565 src/type_operations.c:1636
 msgid "Input"
-msgstr "vul in"
+msgstr "Vul in"
 
-#: src/echeancier_formulaire.c:2591 src/echeancier_liste.c:557
+#: src/echeancier_formulaire.c:2588 src/echeancier_liste.c:557
 #: src/echeancier_liste.c:988
 msgid "Modification"
 msgstr "Aanpassing"
@@ -3420,7 +3407,7 @@ msgid ""
 "Fall due selected\n"
 "scheduled transaction"
 msgstr ""
-"Gedaald door selectie\n"
+"U Gedaald door selectie\n"
 "geplande transactie"
 
 #: src/echeancier_liste.c:372
@@ -3437,9 +3424,8 @@ msgid "Account"
 msgstr "Rekening"
 
 #: src/echeancier_liste.c:404
-#, fuzzy
 msgid "Mode"
-msgstr "stand"
+msgstr "Stand"
 
 #. del
 #: src/echeancier_liste.c:609
@@ -3481,7 +3467,7 @@ msgstr "Verwijder geplande transactie"
 msgid ""
 "Do you want to delete just this occurrence or the whole scheduled "
 "transaction?"
-msgstr "Wilt u enkel dit voorkomen of gehele geplande transactie verwijderen?"
+msgstr "Wilt u enkel deze voorkomende of gehele geplande transactie verwijderen?"
 
 #: src/echeancier_liste.c:1390
 msgid "All the occurences"
@@ -3496,7 +3482,7 @@ msgid ""
 "This breakdown of transaction contains a transfer on itself.  Either change "
 "the sub transaction to transfer on another account or change account of the "
 "transaction itself."
-msgstr ""
+msgstr "Deze opsplitsing van de transactie bevat een overschrijving naar zichzelf.  Verander of de rekening waar het naar toe moet of de rekening waar het vanaf moet."
 
 #: src/echeancier_liste.c:1900
 msgid "Can't issue scheduled operation"
@@ -3512,11 +3498,11 @@ msgstr "Plannings lijst"
 
 #: src/echeancier_onglet.c:135
 msgid "Scheduler broken down transactions"
-msgstr ""
+msgstr "Geplande gespliste transacties"
 
 #: src/echeancier_ventilation.c:227 src/ventilation.c:230
 msgid "Break down amount"
-msgstr "Op te splitsenn bedrag"
+msgstr "Op te splitsen bedrag"
 
 #: src/echeancier_ventilation.c:254 src/ventilation.c:257
 msgid "Not assigned"
@@ -3533,8 +3519,7 @@ msgstr "De bijbehorende rekening voor deze overschrijving bestand niet"
 
 #: src/echeancier_ventilation.c:1607 src/ventilation.c:1604
 msgid "It's impossible to transfer an account to itself"
-msgstr ""
-"Het is niet mogelijk om een overschrijving te maken naar de zelfde rekening"
+msgstr "Het is niet mogelijk om een overschrijving te maken naar de zelfde rekening"
 
 #: src/echeancier_ventilation.c:1614 src/ventilation.c:1611
 msgid "No account associated with the transfer"
@@ -3550,22 +3535,24 @@ msgid ""
 "Proceed anyway?"
 msgstr ""
 "Het totaal optesplitsen bedrag komt niet\n"
-"overeen met de totaal gebruikte bedragen.\n"
+"overeen met het totaal van de gebruikte bedragen.\n"
 "Toch door gaan?"
 
 #: src/echeancier_ventilation.c:2666 src/ventilation.c:2806
 msgid "A breakdown line is to be deleted though it is not yet registered."
-msgstr ""
+msgstr "Een opsplits regel word verwijderd terwijl deze nog niet is gekoppel"
 
 #: src/equilibrage.c:122 src/equilibrage.c:136
+#, fuzzy
 msgid "Reconciliation reference"
-msgstr ""
+msgstr "Controle referentie"
 
 #: src/equilibrage.c:135
+#, fuzzy
 msgid ""
 "If reconciliation reference ends in a digit, it is automatically incremented "
 "at each reconciliation."
-msgstr ""
+msgstr "Als een controle referentie op een nummer eindigd, wordt dit nummer bij de volgende met 1 verhoogd."
 
 #: src/equilibrage.c:319
 msgid "Final balance"
@@ -3600,44 +3587,73 @@ msgstr "Er is een verschil"
 msgid "Last statement: %02d/%02d/%d"
 msgstr "Laatste datum: %02d/%02d/%d"
 
-#. le rapprochement existe dÃ©jÃ 
+#. le rapprochement existe dÃ©jÃ
 #: src/equilibrage.c:1001
+#, fuzzy
 msgid "Reconciliation reference already exist"
-msgstr ""
+msgstr "Controle referentie bestaat al"
 
 #: src/equilibrage.c:1002
+#, fuzzy
 msgid ""
 "The choosen reconciliation reference already exists.  Perhaps it's not a "
 "problem, but perhaps it is.  Be sure you want to do.\n"
 "Proceed anyway?"
 msgstr ""
+"De gekozen controle referentie bestaal al. Het kan een probleem zijn maar het hoeft geen probleem te zijn. Zorg dat je weet wat je doet.\n"
+"Toch door gaan?"
 
 #: src/equilibrage.c:1028
+#, fuzzy
 msgid "No reconciliation reference"
-msgstr ""
+msgstr "Geen controle referentie"
 
 #: src/equilibrage.c:1029
+#, fuzzy
 msgid ""
 "You are reconciling the account without giving a reconciliation reference.  "
 "By doing this, you will unable to find these transactions according a "
 "reconciliation reference.\n"
 "Proceed anyway?"
 msgstr ""
+"Je bent een rekening aan het conroleren maar je hebt geen referentie opgegeven.  "
+"Door dit te doen ben je niet instaat om de transactie later nog terug te vinden, "
+"ook de kun je niet meer achterhalen welke transacties er me samen zijn gegaan.\n"
+"Toch door gaan?"
 
-#: src/equilibrage.c:1646 src/operations_onglet.c:83 src/parametres.c:261
+#: src/equilibrage.c:1039
+#, fuzzy
+msgid "Last chance to abort reconciliation!"
+msgstr "Laatste kans om controle af te breken!"
+
+#: src/equilibrage.c:1040
+#, fuzzy
+msgid ""
+"You are reconciling the account.  Pass this step, you won't able to undo "
+"unless not save the file and reload it.  Be sure you want to do.\n"
+"Proceed anyway?"
+msgstr ""
+"Je bent de rekening aan het controleren.  Na deze stap is er geen weg meer terug, "
+"want dit kan niet ongedaan worden gemaakt.(tenzij je het bestand niet opslaat).  "
+"Weet wat je doet.\n"
+"Toch door gaan?"
+
+#: src/equilibrage.c:1644 src/operations_onglet.c:83 src/parametres.c:261
 #: src/type_operations.c:255
+#, fuzzy
 msgid "Reconciliation"
-msgstr ""
+msgstr "Controleren"
 
-#: src/equilibrage.c:1650
+#: src/equilibrage.c:1648
+#, fuzzy
 msgid "Reconciliation: sort transactions"
-msgstr ""
+msgstr "Gecontroleerd: Sorteer transacties"
 
-#: src/equilibrage.c:1698
+#: src/equilibrage.c:1696
 msgid "Sort by date"
 msgstr "Sorteer volgens datum"
 
-#: src/equilibrage.c:1715
+#: src/equilibrage.c:1713
 msgid "Split neutral payment methods"
 msgstr "splits neutrale betalingsmethodes"
 
@@ -3646,7 +3662,6 @@ msgid "Log message"
 msgstr "Log berichten"
 
 #: src/erreur.c:108
-#, fuzzy
 msgid "This operation returned a message"
 msgstr "Deze verrichting heeft een logbericht gemaakt"
 
@@ -3674,9 +3689,7 @@ msgstr "Grisbi maakt zijn backupbestand in '%s'."
 
 #: src/erreur.c:233
 msgid "Please report this problem to http://www.grisbi.org/bugtracking/"
-msgstr ""
-"Maak a.u.b. melding van dit probleem via <a href=\"http://www.grisbi.org/"
-"bugtracking/\">http://www.grisbi.org/bugtracking/</a>"
+msgstr "Maak a.u.b. melding van dit probleem via http://www.grisbi.org/bugtracking/"
 
 #: src/erreur.c:237
 msgid "Grisbi terminated due to a segmentation fault."
@@ -3721,7 +3734,7 @@ msgstr "%s Financieel jaar %s is niet gevonden\n"
 #: src/etat_io.c:813
 #, c-format
 msgid "Financial year %s not found.\n"
-msgstr "Het financiële jaar %s is niet beschikbaar.\n"
+msgstr "Het financieel jaar %s is niet beschikbaar.\n"
 
 #: src/etat_io.c:856
 #, c-format
@@ -3800,11 +3813,11 @@ msgstr "Categorie totaal (%d transactie)"
 #: src/etats_affiche.c:120
 #, c-format
 msgid "Category total (%d transactions)"
-msgstr "Totaal  Categorie (%d transacties)"
+msgstr "Totaal Categorie (%d transacties)"
 
 #: src/etats_affiche.c:123
 msgid "Category total"
-msgstr "Totaal "
+msgstr "Totaal categorie"
 
 #: src/etats_affiche.c:145 src/etats_affiche.c:252 src/etats_affiche.c:351
 #: src/etats_affiche.c:455 src/etats_affiche.c:548 src/etats_affiche.c:640
@@ -3980,7 +3993,7 @@ msgstr "Overgeschreven van %s"
 #: src/etats_affiche.c:1525
 #, c-format
 msgid "Total expenses (%d transaction)"
-msgstr "Alle kosten (%d transacties)"
+msgstr "Alle kosten (%d transactie)"
 
 #: src/etats_affiche.c:1527
 #, c-format
@@ -4111,7 +4124,7 @@ msgstr "Laatste 12 maanden"
 
 #: src/etats_config.c:59
 msgid "Monday"
-msgstr "maandag"
+msgstr "Maandag"
 
 #: src/etats_config.c:60
 msgid "Tuesday"
@@ -4139,7 +4152,7 @@ msgstr "Zondag"
 
 #: src/etats_config.c:94
 msgid "Reports setup"
-msgstr "Setup repporten"
+msgstr "Setup rapporten"
 
 #: src/etats_config.c:121
 msgid "Data selection"
@@ -4175,7 +4188,7 @@ msgstr "Bedragen"
 
 #: src/etats_config.c:169
 msgid "Data organisation"
-msgstr "Groepen soorteren"
+msgstr "Groepen sorteren"
 
 #: src/etats_config.c:176
 msgid "Data display"
@@ -4241,7 +4254,7 @@ msgstr ""
 
 #: src/etats_config.c:1665
 msgid "Use dates ranges"
-msgstr " Gebruik data bereik"
+msgstr "Gebruik data bereik"
 
 #: src/etats_config.c:1762
 msgid "Use financial years"
@@ -4271,7 +4284,7 @@ msgstr "Start datum"
 msgid "Final date"
 msgstr "Eind datum"
 
-#. on met dans la partie de gauche une liste contenant les comptes Ã 
+#. on met dans la partie de gauche une liste contenant les comptes Ã
 #. sÃ©lectionner
 #: src/etats_config.c:2286
 msgid "Select transactions only for given accounts"
@@ -4317,8 +4330,7 @@ msgstr "Inclusief overschrijvingen van tegoed en schuld rekeningen"
 
 #: src/etats_config.c:2570
 msgid "Include transfers from or to accounts not in this report"
-msgstr ""
-"Inclusief overschrijvingen naar en van rekenigen die niet in dit rapport zijn"
+msgstr "Inclusief overschrijvingen naar en van rekenigen die niet in dit rapport zijn"
 
 #: src/etats_config.c:2583
 msgid "Include transfers from or to these accounts"
@@ -4339,7 +4351,7 @@ msgstr "Selecteer de categoriën voor het rapport"
 
 #: src/etats_config.c:2971
 msgid "Income categories"
-msgstr "Inkomste Categoriën"
+msgstr "Inkomste categoriën"
 
 #: src/etats_config.c:2985
 msgid "Outgoing categories"
@@ -4444,8 +4456,9 @@ msgid "the cheque number"
 msgstr "de cheque nummer"
 
 #: src/etats_config.c:4469 src/etats_config.c:6597
+#, fuzzy
 msgid "the reconciliation reference"
-msgstr ""
+msgstr "de controle referentie"
 
 #: src/etats_config.c:4524
 msgid "contains"
@@ -4545,8 +4558,9 @@ msgid "stop"
 msgstr "stop"
 
 #: src/etats_config.c:5515
+#, fuzzy
 msgid "Reconciled transactions"
-msgstr ""
+msgstr "Gecontroleerde transacties"
 
 #: src/etats_config.c:5531
 msgid "Select"
@@ -4557,24 +4571,28 @@ msgid "All transactions"
 msgstr "Alle transacties"
 
 #: src/etats_config.c:5549
+#, fuzzy
 msgid "Non reconciled transactions"
-msgstr ""
+msgstr "Geen gecontroleerde transacties"
 
 #: src/etats_config.c:5562
+#, fuzzy
 msgid "The reconciled transactions"
-msgstr ""
+msgstr "De gecontroleerde transacties"
 
 #: src/etats_config.c:5575
 msgid "The checked transactions"
 msgstr "De gecontroleerde transacties"
 
 #: src/etats_config.c:5588
+#, fuzzy
 msgid "The neither reconciled neither checked transactions"
-msgstr ""
+msgstr "Er zijn geen gecontroleerde nog gemarkeerde transacties"
 
 #: src/etats_config.c:5609
+#, fuzzy
 msgid "Do not detail reconciled transactions"
-msgstr ""
+msgstr "Laat geen details zien van de gecontroleerde transacties"
 
 #. choix de ce qu'on utilise dans le classement
 #: src/etats_config.c:5672
@@ -4608,11 +4626,11 @@ msgstr "Splits binnenkomend en uitgaand"
 
 #: src/etats_config.c:5890
 msgid "Split by financial year"
-msgstr "splits volgens financieel jaar"
+msgstr "Splits volgens financieel jaar"
 
 #: src/etats_config.c:5916
 msgid "Split by period"
-msgstr "splits volgens periode"
+msgstr "Splits volgens periode"
 
 #: src/etats_config.c:5977
 msgid "Week"
@@ -4644,8 +4662,7 @@ msgstr "Toon het nummer van de transacties met de totalen"
 
 #: src/etats_config.c:6284
 msgid "Consider the third parties of this report as a multiple third party."
-msgstr ""
-"Ga er van uit dat de begunstigde in dit rapport een meervoudig persoon is"
+msgstr "Ga er van uit dat de begunstigde in dit rapport een meervoudig persoon is"
 
 #: src/etats_config.c:6355
 msgid "Display the information about"
@@ -4736,8 +4753,9 @@ msgid "bank reference"
 msgstr "bank referentie"
 
 #: src/etats_config.c:6804
+#, fuzzy
 msgid "reconciliation reference"
-msgstr ""
+msgstr "Controle referentie"
 
 #: src/etats_config.c:6827
 msgid "Make transactions clickable"
@@ -4832,7 +4850,7 @@ msgstr "Toon het sub-totaal voor elke sub-budget regel"
 msgid "Display \"No sub-budgetary line\" if none"
 msgstr "Toon \"Geen sub-budget regel \"al er geen zijn"
 
-#. on met dans la partie de gauche une liste contenant les modes de paiement Ã 
+#. on met dans la partie de gauche une liste contenant les modes de paiement Ã
 #. sÃ©lectionner
 #: src/etats_config.c:7493
 msgid "Select the transactions by method of payment"
@@ -4846,13 +4864,12 @@ msgstr "Selecteerde betaal methode die toegevoegd moet worden"
 msgid "Export report to HTML file."
 msgstr "Exporteer naar een HTML bestand"
 
-#: src/etats_html.c:284 src/print_config.c:104
-#, fuzzy, c-format
+#: src/etats_html.c:284 src/print_config.c:102
+#, c-format
 msgid "File %s already exists."
-msgstr "Bestand '%s' bestand reeds"
+msgstr "Bestand %s bestand reeds"
 
-#: src/etats_html.c:286 src/print_config.c:106
-#, fuzzy
+#: src/etats_html.c:286 src/print_config.c:104
 msgid "Do you want to overwrite it?  There is no undo for this."
 msgstr ""
 "Dit zal het bestand overschrijven. Het is niet mogelijk om dit ongedaan te "
@@ -4938,7 +4955,7 @@ msgstr "Verwijder rapport"
 #: src/menu.c:113 src/traitement_variables.c:132
 #: src/traitement_variables.c:258
 msgid "Print report"
-msgstr "Print report"
+msgstr "Print rapport"
 
 #: src/etats_onglet.c:306 src/etats_onglet.c:1083 src/etats_onglet.c:1128
 #: src/menu.c:117 src/traitement_variables.c:138
@@ -4966,7 +4983,7 @@ msgstr "Bewerk rapport"
 
 #. Print report
 #. Set up dialog
-#: src/etats_onglet.c:337 src/print_config.c:64
+#: src/etats_onglet.c:337 src/print_config.c:62
 msgid "Print"
 msgstr "Print"
 
@@ -5045,7 +5062,7 @@ msgid ""
 "default, all accounts are selected."
 msgstr ""
 "Dit rapport laat de totalen zien van vorige maand gesorteerd volgens "
-"categoriënen sub-categoriën. Je hoeft alleen maar de rekening(en) te kiezen. "
+"categoriën en sub-categoriën. Je hoeft alleen maar de rekening(en) te kiezen. "
 "Standaart zijn ze allemaal geselecteerd."
 
 #. revenus et dÃ©penses du mois en cours
@@ -5056,7 +5073,7 @@ msgid ""
 "default, all accounts are selected."
 msgstr ""
 "Dit rapport laat de totalen zien van deze maand gesorteerd volgens "
-"categoriënen sub-categoriën. Je hoeft alleen maar de rekening(en) te kiezen. "
+"categoriën en sub-categoriën. Je hoeft alleen maar de rekening(en) te kiezen. "
 "Standaart zijn ze allemaal geselecteerd."
 
 #. budget annuel
@@ -5088,7 +5105,7 @@ msgid ""
 "This report displays current month's outgoings sorted by third parties. You "
 "just need to select the account(s). By default all accounts areselected."
 msgstr ""
-"Dit rapport toont de maandelijkse betalingen gesoord volgens begunstigde. Je "
+"Dit rapport toont de maandelijkse betalingen gesorteerd volgens begunstigde. Je "
 "heeft alleen een rekening(en) te keizen. Standaart zij alle rekeningen "
 "geselecteerd."
 
@@ -5149,7 +5166,7 @@ msgstr "financiële jaren"
 
 #: src/etats_support.c:168
 msgid "financial year"
-msgstr "financiële jaar"
+msgstr "financieel jaar"
 
 #: src/etats_support.c:209
 msgid "all dates"
@@ -5161,14 +5178,13 @@ msgid "Result from %d/%d/%d to %d/%d/%d"
 msgstr "Resultaat van financiële jaren %d/%d/%d tot %d/%d/%d"
 
 #: src/etats_support.c:231
-#, fuzzy
 msgid "Custom dates ranges not filled"
 msgstr "Aangepaste datum bereik is niet ingevuld"
 
 #: src/etats_support.c:239
-#, fuzzy, c-format
+#, c-format
 msgid "total at %d/%d/%d"
-msgstr "Totaal van %s/%d/%d"
+msgstr "Totaal van %d/%d/%d"
 
 #: src/etats_support.c:256 src/etats_support.c:305
 #, c-format
@@ -5181,12 +5197,12 @@ msgid "year %d"
 msgstr "jaar %d"
 
 #: src/etats_support.c:275
-#, fuzzy, c-format
+#, c-format
 msgid "month total at %d/%d/%d"
 msgstr "maand totaal van %d/%d/%d"
 
 #: src/etats_support.c:286
-#, fuzzy, c-format
+#, c-format
 msgid "year total at %d/%d/%d"
 msgstr "jaar totaal van %d/%d/%d"
 
@@ -5210,7 +5226,6 @@ msgstr "Bekende financiële jaren"
 
 #. Associate operations
 #: src/exercice.c:210
-#, fuzzy
 msgid "Associate operations without financial years"
 msgstr "Gekoppelde opdrachten zonder een financieel jaar"
 
@@ -5230,7 +5245,6 @@ msgstr "Eind"
 
 #. Activate in transaction form?
 #: src/exercice.c:280
-#, fuzzy
 msgid "Activate in transaction form"
 msgstr "Toepassen in formulier"
 
@@ -5249,7 +5263,6 @@ msgid "Not displayed"
 msgstr "Niet tonen"
 
 #: src/exercice.c:759
-#, fuzzy
 msgid "Automatic association for the financial year"
 msgstr "Automatisch koppelen voor financieel jaar"
 
@@ -5259,7 +5272,7 @@ msgid ""
 "one related to its transaction date.  If no financial year matches,\n"
 "the transaction will not be changed."
 msgstr ""
-"Deze functie koppelt iedere transactie zonder een financieel jaar toe\n"
+"Deze functie koppelt iedere transactie zonder een financieel jaar, toe\n"
 "aan een verwante transactie van die datum.  Als geen financieel jaar pas,\n"
 "word de transactie niet aangepast."
 
@@ -5272,8 +5285,7 @@ msgid "Select accounts to export"
 msgstr "Selecteer rekening om te exporteren"
 
 #: src/export.c:292 src/qif.c:1018
-msgid ""
-"This will irreversibly overwrite previous file.  There is no undo for this."
+msgid "This will irreversibly overwrite previous file.  There is no undo for this."
 msgstr ""
 "Dit zal het bestand overschrijven. Het is niet mogelijk om dit ongedaan te "
 "maken."
@@ -5289,12 +5301,11 @@ msgstr "Het bestand moet bewaart zijn voordat je het kan exporteren"
 
 #: src/export.c:381
 msgid "Export format does not define currencies."
-msgstr "Dit formaat exporteert geen valuta's."
+msgstr "Dit formaat exporteerd geen valuta's."
 
 #: src/export.c:382 src/qif.c:915
 msgid "All transactions will be converted into currency of their account."
-msgstr ""
-"Alle transacties zullen worden om geschreven naar de valuta van hun rekening."
+msgstr "Alle transacties zullen worden om geschreven naar de valuta van hun rekening."
 
 #: src/export.c:443 src/menu.c:105 src/operations_comptes.c:380
 #: src/operations_comptes.c:385 src/operations_comptes.c:446
@@ -5319,7 +5330,7 @@ msgstr "Rekeningen naar een CVS Bestand ..."
 #: src/menu.c:74 src/menu.c:75 src/menu.c:76 src/menu.c:77 src/menu.c:79
 #: src/menu.c:80 src/menu.c:81 src/menu.c:82 src/menu.c:83 src/menu.c:200
 #: src/menu.c:204 src/menu.c:222 src/menu.c:243 src/menu.c:254
-#: src/print_config.c:204 src/traitement_variables.c:58
+#: src/print_config.c:202 src/traitement_variables.c:58
 #: src/traitement_variables.c:65 src/traitement_variables.c:87
 #: src/traitement_variables.c:90 src/traitement_variables.c:93
 #: src/traitement_variables.c:96 src/traitement_variables.c:207
@@ -5356,7 +5367,7 @@ msgstr "Bestand : "
 msgid "Error opening config"
 msgstr "Fout tijdens laden van config"
 
-#: src/fichier_configuration.c:683 src/print_config.c:41
+#: src/fichier_configuration.c:683 src/print_config.c:39
 msgid "A4"
 msgstr "A4"
 
@@ -5415,8 +5426,7 @@ msgstr "Afsluiten zonder te bewaren"
 
 #: src/fichiers_gestion.c:447
 msgid "If you close without saving, all of your changes will be discarded."
-msgstr ""
-"Als je sluit onder eerst te bewaren, zullen alle gegevens verloren gaan."
+msgstr "Als je sluit zonder eerst te bewaren, zullen alle gegevens verloren gaan."
 
 #: src/fichiers_gestion.c:475
 msgid "Name the accounts file"
@@ -5442,7 +5452,7 @@ msgstr "Grisbi"
 
 #: src/fichiers_gestion.c:707
 msgid "Grisbi - No name"
-msgstr "Grisbi geen naam"
+msgstr "Grisbi - geen naam"
 
 #: src/fichiers_gestion.c:738
 msgid "Saving backup"
@@ -5450,7 +5460,7 @@ msgstr "Bezig met opslaan van backup"
 
 #: src/fichiers_io.c:114
 msgid "Invalid accounts file"
-msgstr "Ongeldig rekening bestand"
+msgstr "Ongeldig rekenings bestand"
 
 #. Ã  ce niveau, c'est que que la version n'est pas connue de grisbi, on donne alors
 #. la version nÃ©cessaire pour l'ouvrir
@@ -5477,12 +5487,12 @@ msgid ""
 msgstr ""
 "Waarschuwing: Grisbi heeft het bestands formaat verandert. Grisbi heeft een "
 "backup gemaakt in '%s'.\n"
-"Bewaar deze voor langer tijd, alleen voor het geval."
+"Bewaar deze voor langer tijd, je weet maar nooit."
 
 #: src/fichiers_io.c:232 src/fichiers_io.c:1978 src/fichiers_io.c:4235
 #, c-format
 msgid "File \"%s\" is already opened"
-msgstr "Bestand \"%s\" is al open."
+msgstr "Bestand \"%s\" is al geopend."
 
 #: src/fichiers_io.c:233 src/fichiers_io.c:1979 src/fichiers_io.c:4236
 msgid ""
@@ -5492,7 +5502,7 @@ msgid ""
 "files\" option in setup."
 msgstr ""
 "Het kan zijn dat dit bestand al door een andere gebruiker word gebruikt. Ook "
-"is het mogelijk dat het bestand niet goed is afgesloten(Grisbi kan crashed "
+"is het mogelijk dat het bestand niet goed is afgesloten(Grisbi kan gecrashd "
 "zijn).\n"
 "Grisbi kan het bestand niet opslaan. Als U het bestand wil opslaan moet u de "
 "optie \"Forceren om een geblokkeerd bestanden op te slaan\" in het "
@@ -5508,23 +5518,21 @@ msgid ""
 "Grisbi searched for such transaction and found:\n"
 "\n"
 msgstr ""
-"Er zat in bug in versies voor versie 0.4.0, Dit kon weestrasacties te gevolg "
-"hebben (bv. een overschrijving zonder tegen trasactie,of een breakdown "
-"transacties detail zonder koppeling naar de breakdown transactie).\n"
+"Er zat in bug in versies voor versie 0.4.0, Dit kon weestransacties tot gevolg "
+"hebben (bv. een overschrijving zonder tegen transactie,of een opsplits "
+"transactie detail zonder koppeling naar de opsplits transactie).\n"
 "\n"
 "Grisbi zocht naar dit soort transacties en heef er gevonden:\n"
 "\n"
 
 #: src/fichiers_io.c:1845
-#, fuzzy
 msgid "breakdown transactions, all of them were deleted.\n"
-msgstr "breakdown transacties, Deze zijn allemaal verwijderd.\n"
+msgstr "de opsplits transacties, deze zijn allemaal verwijderd.\n"
 
 #: src/fichiers_io.c:1852
 #, fuzzy
 msgid "transfers without contra-transaction, which categories were deleted.\n"
-msgstr ""
-"transacties zonder tegen transacties, welke categorieën zijn verwijdert.\n"
+msgstr "transacties zonder tegen transacties, of de categorieën zijn verwijdert.\n"
 
 #: src/fichiers_io.c:1857
 msgid ""
@@ -5562,7 +5570,7 @@ msgstr "Kan het bestand '%s': %s niet opslaan."
 #: src/fichiers_io.c:8617
 #, c-format
 msgid "Cannot lock file '%s': %s"
-msgstr "Kan bestand '%s\" niet vergendelen %s"
+msgstr "Kan bestand '%s': %s niet vergendelen"
 
 #: src/fichiers_io.c:8822
 msgid "This file is not a Grisbi category list file"
@@ -5650,21 +5658,16 @@ msgstr ""
 "gebruiker, en meer uitgebreid voor een ervaren gebruiker."
 
 #: src/help.c:47
-#, fuzzy
 msgid "Alain Pichon (aph[at]grisbi.org): RHEL and Fedora packaging"
-msgstr "Alain Pichon (alain.pichon[at]grisbi.org): RHEL packaging"
+msgstr "Alain Pichon (aph[at]grisbi.org): RHEL and Fedora packaging"
 
 #: src/help.c:48
-#, fuzzy
 msgid "Alain Portal <aportal AT univ-monpt2 DOT fr>: Programming, manual"
-msgstr ""
-"Alain Portal <aportal AT univ-monpt2 DOT fr>: Programming, manual, Fedora "
-"and RedHat packaging"
+msgstr "Alain Portal <aportal AT univ-monpt2 DOT fr>: Programming, manual"
 
 #: src/help.c:49
-#, fuzzy
 msgid "Andre Pascual (andre[at]linuxgraphic.org): Logo"
-msgstr "Andre Pascual (andre[at]linuxgraphic.org) : Logo"
+msgstr "Andre Pascual (andre[at]linuxgraphic.org): Logo"
 
 #: src/help.c:50
 msgid "Axel Rousseau (axel584[at]axel584.org): contributor"
@@ -5672,22 +5675,19 @@ msgstr "Axel Rousseau (axel584[at]axel584.org): contributor"
 
 #: src/help.c:51
 msgid "Baluchiterium  (baluchiterium[at]users.sf.net): Slackware packaging"
-msgstr ""
+msgstr "Baluchiterium  (baluchiterium[at]users.sf.net): Slackware packaging"
 
 #: src/help.c:52
-#, fuzzy
 msgid "Benjamin Drieu (bdrieu[at]april.org): Programming, Debian packaging"
-msgstr "Benjamin Drieu (bdrieu[at]april.org) : Programming, Debian packaging"
+msgstr "Benjamin Drieu (bdrieu[at]april.org): Programming, Debian packaging"
 
 #: src/help.c:53
-#, fuzzy
 msgid "Cedric Auger (cedric[at]grisbi.org): Programming"
-msgstr "Cedric Auger (cedric[at]grisbi.org) : Programming"
+msgstr "Cedric Auger (cedric[at]grisbi.org): Programming"
 
 #: src/help.c:54
-#, fuzzy
 msgid "Daniel Cartron (doc[at]grisbi.org): Manual, website, consultancy"
-msgstr "Daniel Cartron (doc[at]grisbi.org) : Manual, website, consultancy"
+msgstr "Daniel Cartron (doc[at]grisbi.org): Manual, website, consultancy"
 
 #: src/help.c:55
 msgid "Dominique Parisot (parisot[at]villey-le-sec.com): contributor"
@@ -5702,10 +5702,8 @@ msgstr ""
 "programming"
 
 #: src/help.c:57
-#, fuzzy
-msgid ""
-"Gerald Niel (gerald.niel[at]grisbi.org): Darwin packaging, administration"
-msgstr "Gerald Niel (gerald.niel[at]grisbi.org): Slackware packaging, website"
+msgid "Gerald Niel (gerald.niel[at]grisbi.org): Darwin packaging, administration"
+msgstr "Gerald Niel (gerald.niel[at]grisbi.org): Darwin packaging, administration"
 
 #: src/help.c:58
 msgid "PMF (ugly.duck[at]gmx.de): Zaurus packaging"
@@ -5725,45 +5723,39 @@ msgstr "Thierry Thomas (thierry[at]pompo.net): FreeBSD packaging"
 
 #: src/help.c:62
 msgid "Vincent Marqueton (vincent[at]marqueton.org): Fink packaging"
-msgstr ""
+msgstr "Vincent Marqueton (vincent[at]marqueton.org): Fink packaging"
 
 #: src/help.c:65
-#, fuzzy
 msgid "Alain Portal (dionysos[at]grisbi.org): English"
-msgstr "Alain Portal (dionysos[at]grisbi.org) : English"
+msgstr "Alain Portal (dionysos[at]grisbi.org): English"
 
 #: src/help.c:66
-#, fuzzy
 msgid "Benjamin Drieu (bdrieu[at]april.org): English"
-msgstr "Benjamin Drieu (bdrieu[at]april.org) : English"
+msgstr "Benjamin Drieu (bdrieu[at]april.org): English"
 
 #: src/help.c:67
-#, fuzzy
 msgid "Carlos M. CÃ¡mara Mora (carcam_moceu[at]yahoo.es): Spanish"
-msgstr "Carlos M. CÃ¡mara Mora (carcam_moceu[at]yahoo.es) : Spanish"
+msgstr "Carlos M. CÃ¡mara Mora (carcam_moceu[at]yahoo.es): Spanish"
 
 #: src/help.c:68
-#, fuzzy
 msgid "Daniel Cartron (cartron[at]grisbi.org): English"
-msgstr "Daniel Cartron (cartron[at]grisbi.org) : English"
+msgstr "Daniel Cartron (cartron[at]grisbi.org): English"
 
 #: src/help.c:69
 msgid "Edwin Huijsing (e.huijsing[at]fiberworld.nl): Dutch"
-msgstr ""
+msgstr "Edwin Huijsing (lighthous@users.sourceforge.net): Dutch"
 
 #: src/help.c:70
-#, fuzzy
 msgid "Fabio Erculiani (fabio.erculiani[at]tiscali.it): Italian"
-msgstr "Fabio Erculiani (fabio.erculiani[at]tiscali.it) : Italian"
+msgstr "Fabio Erculiani (fabio.erculiani[at]tiscali.it): Italian"
 
 #: src/help.c:71
 msgid "Flavio Henrique Somensi (flavio[at]opens.com.br): Brazilian Portuguese"
 msgstr "Flavio Henrique Somensi (flavio[at]opens.com.br): Brazilian Portuguese"
 
 #: src/help.c:72
-#, fuzzy
 msgid "Giorgio Mandolfo (giorgio[at]pollycoke.org): Italian"
-msgstr "Giorgio Mandolfo (giorgio[at]pollycoke.org) : Italian"
+msgstr "Giorgio Mandolfo (giorgio[at]pollycoke.org): Italian"
 
 #: src/help.c:73
 msgid "Martin Stromberger (Fabiolla[at]aon.at): German"
@@ -5771,12 +5763,11 @@ msgstr "Martin Stromberger (Fabiolla[at]aon.at): German"
 
 #: src/help.c:74
 msgid "Ryszard Jeziorski (rjeziorski[at]eagle): Polish"
-msgstr ""
+msgstr "Ryszard Jeziorski (rjeziorski[at]eagle): Polish"
 
 #: src/help.c:80
-#, fuzzy
 msgid "Development list (discuss, participate, criticize, ...): "
-msgstr "Ontwikkelings lijst (discussie, delename, beoordelen, ....) : "
+msgstr "Ontwikkelings lijst (discussie, delename, beoordelen, ....): "
 
 #: src/help.c:82 src/help.c:88
 msgid "subscribe"
@@ -5787,9 +5778,8 @@ msgid "Bug report"
 msgstr "Bug repport"
 
 #: src/help.c:86
-#, fuzzy
 msgid "Information list (new releases announces, ...): "
-msgstr "Informatie lijst (nieuwe ontwikkelingen. aankondigingen, ...) : "
+msgstr "Informatie lijst (nieuwe ontwikkelingen. aankondigingen, ...): "
 
 #: src/help.c:89
 msgid "Grisbi documentation"
@@ -5860,7 +5850,6 @@ msgid "Type of account"
 msgstr "Soort rekening"
 
 #: src/import.c:415
-#, fuzzy
 msgid "Origine"
 msgstr "Oorspronkelijk"
 
@@ -5915,7 +5904,7 @@ msgstr "HTML bestand"
 
 #: src/import.c:824
 msgid "Unknown"
-msgstr "Onbekent"
+msgstr "Onbekend"
 
 #. crÃ©ation des listes d'opÃ©s
 #: src/import.c:938
@@ -5973,13 +5962,11 @@ msgstr "Gevonden transactie : %02d/%02d/%04d ; %s ; %4.2f"
 
 #: src/import.c:2572
 msgid "Orphaned transactions"
-msgstr "Verweesde transactie"
+msgstr "Verweesde transacties"
 
 #: src/import.c:2580
-#, fuzzy
 msgid "Mark transactions you want to add to the list and click the add button"
-msgstr ""
-"Markeerd de transacties die je wilt toevoegen en klik op de \"add\"knop"
+msgstr "Markeerd de transacties die je wilt toevoegen en klik op de knop\"Toevoegen\" "
 
 #: src/import.c:2650
 msgid "Mark"
@@ -6132,7 +6119,7 @@ msgstr "Nieuwe budget regel"
 
 #: src/imputation_budgetaire.c:2643
 msgid "Enter the name of the new budgetary line"
-msgstr "Geef een naam van voor de nieuwe budget regel"
+msgstr "Geef een naam voor de nieuwe budget regel"
 
 #: src/imputation_budgetaire.c:2699
 msgid "New sub-budgetary line"
@@ -6327,7 +6314,6 @@ msgstr "OFX kan het bestand '%s' niet maken"
 
 #. Case of Windows, libofx.dll is not present or Grisbi failed in dynamically loading ofx_proc_file
 #: src/ofx.c:93
-#, fuzzy
 msgid "The OFX support can not be enabled!"
 msgstr "OFX supoort aan niet worden enabled!"
 
@@ -6374,6 +6360,9 @@ msgid ""
 "I didn't have any file to test that function.\n"
 "Please contact the grisbi team to implement that function."
 msgstr ""
+"Het bestand bevat proc_security_cb.\n"
+"Er is een bestand om deze functie te testen.\n"
+"Neem aub contact op met het Grisbi team om deze functie te kunnen gebruiken."
 
 #: src/ofx.c:346
 msgid "A transaction try to be saved but no account was created...\n"
@@ -6416,25 +6405,25 @@ msgid "Direct deposit"
 msgstr "Automatische afschrijving"
 
 #: src/ofx.c:458
+#, fuzzy
 msgid "Merchant initiated debit"
-msgstr ""
+msgstr "Schuld bij handelaar"
 
 #: src/ofx.c:462
 msgid "Repeating payment/standing order"
 msgstr "Herhaling van betaling/staande opdracht"
 
 #: src/operations_comptes.c:164 src/operations_comptes.c:168
-#, fuzzy
 msgid "Last statement"
 msgstr "Laatste datum"
 
 #. mise en place du bouton Ã©quilibrage
 #: src/operations_comptes.c:180
+#, fuzzy
 msgid "Reconcile"
-msgstr "Corrigeer"
+msgstr "Controleer"
 
 #: src/operations_comptes.c:306
-#, fuzzy
 msgid "Last statement: none"
 msgstr "Laatste datum: geen"
 
@@ -6449,40 +6438,40 @@ msgid "Change"
 msgstr "Aanpassen"
 
 #: src/operations_formulaire.c:488 src/operations_formulaire.c:489
-#, fuzzy
 msgid "Contra-transaction method of payment"
 msgstr "Contra-transactie betalings methode"
 
-#: src/operations_formulaire.c:1831
-msgid "Recover breakdown?"
-msgstr ""
-
 #: src/operations_formulaire.c:1832
-msgid "Do you want to recover all the lines of the last breakdown?"
-msgstr ""
+#, fuzzy
+msgid "Recover breakdown?"
+msgstr "Opsplitsen herstellen?"
 
-#: src/operations_formulaire.c:2085 src/operations_formulaire.c:2537
+#: src/operations_formulaire.c:1833
+msgid "Do you want to recover all the lines of the last breakdown?"
+msgstr "Wil je alle regels van de laatste opsplitsing herstellen?"
+
+#: src/operations_formulaire.c:2086 src/operations_formulaire.c:2538
 #: src/tiers_onglet.c:1429
 msgid "Report"
 msgstr "Rapport"
 
-#: src/operations_formulaire.c:2159
+#: src/operations_formulaire.c:2160
 msgid "No third party selected for this report."
 msgstr "Geen begunstigde geselecteerd voor dit rapport"
 
-#: src/operations_formulaire.c:2332
+#: src/operations_formulaire.c:2333
 msgid "You must enter a date."
 msgstr "Je moet een datum in vullen"
 
-#: src/operations_formulaire.c:2360
+#: src/operations_formulaire.c:2361
 msgid "Invalid date."
 msgstr "Onbekende datum"
 
-#: src/operations_formulaire.c:2437
+#: src/operations_formulaire.c:2438
 msgid "Can't issue a transfer on a closed account."
 msgstr "Kan geen transactie uitvoeren op/naar een gesloten rekening"
 
-#: src/operations_formulaire.c:2468
+#: src/operations_formulaire.c:2469
 msgid ""
 "Selected method of payment has an automatic incremental number\n"
 "but doesn't contain any number.\n"
@@ -6492,7 +6481,7 @@ msgstr ""
 "maar heeft geen nummer.\n"
 "Toch door gaan?"
 
-#: src/operations_formulaire.c:2498
+#: src/operations_formulaire.c:2499
 msgid ""
 "Warning: this cheque number is already used.\n"
 "Continue anyway?"
@@ -6500,11 +6489,11 @@ msgstr ""
 "Waarschuwing dit cheque nummer word al gebruikt.\n"
 "Toch door gaan?"
 
-#: src/operations_formulaire.c:2546
+#: src/operations_formulaire.c:2547
 msgid "A transaction with a multiple third party must be a new one."
 msgstr "Een transactie met meerdere begunstigden moet nieuwe zijn"
 
-#: src/operations_formulaire.c:2580
+#: src/operations_formulaire.c:2581
 msgid "Invalid multiple third party."
 msgstr "Ongeldig meervoudige begunstigde"
 
@@ -6514,7 +6503,7 @@ msgstr "Huidige Balans"
 
 #: src/operations_liste.c:203
 msgid "Account breakdown"
-msgstr ""
+msgstr "Rekening opsplitsen"
 
 #: src/operations_liste.c:1059
 msgid "Transfer to a deleted account"
@@ -6534,19 +6523,24 @@ msgid ""
 "this.  Do you confirm the removal?"
 msgstr ""
 "Je probeert een transactie te verwijderen.  Deze niet niet meer terug te "
-"halen.  Weet je zeker dat je wilt verwijden"
+"halen.  Weet je zeker dat je wilt verwijden?"
 
 #: src/operations_liste.c:1325
+#, fuzzy
 msgid "Confirmation of manual (un)reconciliation"
-msgstr ""
+msgstr "Bevestig het handmatisch controle handeling"
 
 #: src/operations_liste.c:1326
+#, fuzzy
 msgid ""
 "You are currently trying to reconcile or unreconcile manually a transaction "
 "which isn't a regular way to do.\n"
 "\n"
 "Are you really sure to know what you do?"
 msgstr ""
+"Je probeert een transactie handmatig te controleren of een controle op te heffen, dit is niet de normale manier om het te doen.\n"
+"\n"
+"Weet je echt wat je aan het doen bent?"
 
 #: src/operations_liste.c:1633
 msgid "Transfer: deleted account"
@@ -6557,23 +6551,25 @@ msgid "Auto"
 msgstr "Automatisch"
 
 #: src/operations_liste.c:1829
+#, fuzzy
 msgid "No reconciliation number"
-msgstr ""
+msgstr "Geen controlenummer"
 
 #: src/operations_liste.c:2106
+#, fuzzy
 msgid "Impossible to delete a reconciled transaction."
-msgstr ""
+msgstr "Het is niet mogelijk om een gecontroleerde transactie te verwijderen."
 
 #: src/operations_liste.c:2131
-msgid ""
-"The contra-transaction of this transfer is reconciled, deletion impossible."
-msgstr ""
+#, fuzzy
+msgid "The contra-transaction of this transfer is reconciled, deletion impossible."
+msgstr "De contra transactie van deze overschrijving is gecontroleerd, Verwijdering niet mogelijk!"
 
 #: src/operations_liste.c:2179
 msgid ""
 "One of the breakdown lines is a transfer whose contra-transaction is "
 "reconciled.  Deletion canceled."
-msgstr ""
+msgstr "Een van de regels in de splitsing heeft een overschrijvnig naar een rekening die gecontroleerd is.  Verwijderen niet mogelijk!"
 
 #. Delete transaction
 #: src/operations_liste.c:2702
@@ -6659,30 +6655,32 @@ msgstr "Niet meer waarschuwen voor verwijderen van geplande transactie"
 #: src/parametres.c:428
 #, fuzzy
 msgid "Do not warn about incomplete breakdown"
-msgstr "Niet meer waarschuwen voor verwijderen van breakdown"
+msgstr "Niet meer waarschuwen voor verwijderen van opsplits transacties"
 
 #. Display a warning message when no reconciliation reference given
 #: src/parametres.c:433
+#, fuzzy
 msgid "Do not warn about no reconciliation reference"
-msgstr ""
+msgstr "Niet meer waarschuwen als er geen controle referentie is"
 
 #. Display a warning message when no reconciliation reference given
 #: src/parametres.c:438
+#, fuzzy
 msgid "Do not warn about existing reconciliation reference"
-msgstr ""
+msgstr "Niet meer waarschuwen als er geen controle referentie is"
 
 #. Display a warning message when last chance to abort reconciliation
 #: src/parametres.c:443
+#, fuzzy
 msgid "Do not warn about last chance to abort reconciliation"
-msgstr ""
+msgstr "Niet meer waarschuwen als er al een controle referentie bestaat"
 
 #: src/parametres.c:451
 msgid "Scheduler warnings"
 msgstr "Waarschuwing voor geplande transacties"
 
 #: src/parametres.c:455
-msgid ""
-"Number of days before a warning message advertising a scheduled transaction"
+msgid "Number of days before a warning message advertising a scheduled transaction"
 msgstr ""
 "Het aantal dagen voor een geplande transactie dat er een "
 "waarschuwingsbericht gegeven moet worden"
@@ -6708,7 +6706,6 @@ msgid "Memorise last opened files"
 msgstr "Recent geopende bestanden herinderen"
 
 #: src/parametres.c:569
-#, fuzzy
 msgid "Backups"
 msgstr "Backup bestand"
 
@@ -6746,7 +6743,7 @@ msgid "dvips command"
 msgstr "dvips commando"
 
 #. Misc
-#: src/parametres.c:741 src/print_config.c:319
+#: src/parametres.c:741 src/print_config.c:317
 msgid "Misc"
 msgstr "Overige"
 
@@ -6756,80 +6753,80 @@ msgstr "Web browser"
 
 #: src/patienter.c:78
 msgid "Wait please..."
-msgstr "Even wachten AUB....."
+msgstr "Even wachten a.u.b....."
 
-#: src/print_config.c:40
+#: src/print_config.c:38
 msgid "A3"
 msgstr "A3"
 
-#: src/print_config.c:42
+#: src/print_config.c:40
 msgid "A5"
 msgstr "A5"
 
-#: src/print_config.c:43
+#: src/print_config.c:41
 msgid "A6"
 msgstr "A6"
 
-#: src/print_config.c:44
+#: src/print_config.c:42
 msgid "Letter"
 msgstr "Letter"
 
-#: src/print_config.c:45
+#: src/print_config.c:43
 msgid "Legal"
 msgstr "Legaal"
 
-#: src/print_config.c:46
+#: src/print_config.c:44
 msgid "Executive"
 msgstr "Exclusief"
 
-#: src/print_config.c:78
+#: src/print_config.c:76
 msgid "General"
 msgstr "Algemeen"
 
-#: src/print_config.c:81
+#: src/print_config.c:79
 msgid "Paper"
 msgstr "Papier"
 
 #. Printer paddingbox
 #. Print to printer
-#: src/print_config.c:182 src/print_config.c:190
+#: src/print_config.c:180 src/print_config.c:188
 msgid "Printer"
 msgstr "Pinter"
 
-#: src/print_config.c:225
+#: src/print_config.c:223
 msgid "Postscript file"
 msgstr "Postscript bestand"
 
-#: src/print_config.c:227
+#: src/print_config.c:225
 msgid "LaTeX file"
 msgstr "LaTeX bestand"
 
 #. Paper size
-#: src/print_config.c:260
+#: src/print_config.c:258
 msgid "Size"
 msgstr "Grote"
 
 #. Paper orientation
-#: src/print_config.c:284
+#: src/print_config.c:282
 #, fuzzy
 msgid "Orientation"
 msgstr "Oorspronkelijk"
 
-#: src/print_config.c:286
+#: src/print_config.c:284
 msgid "Portrait"
 msgstr "Portret"
 
-#: src/print_config.c:289
+#: src/print_config.c:287
 msgid "Landscape"
 msgstr "Liggend"
 
 #. Headers
-#: src/print_config.c:313
+#: src/print_config.c:311
 msgid "Headers"
 msgstr "Koptekst"
 
 #. Footers
-#: src/print_config.c:316
+#: src/print_config.c:314
 msgid "Footers"
 msgstr "Voet tekst"
 
@@ -6883,7 +6880,7 @@ msgstr "Bestands naam '%s' is niet geldig!"
 
 #: src/tiers_onglet.c:65
 msgid "Third parties list"
-msgstr "ijst begunstigde"
+msgstr "Lijst begunstigde"
 
 #: src/tiers_onglet.c:66
 msgid "Amount per third party"
@@ -6943,7 +6940,7 @@ msgstr "Nieuwe Begunstigde"
 
 #: src/tiers_onglet.c:1648
 msgid "Enter the new third party's name"
-msgstr "Geef de naam van de Begunstigden"
+msgstr "Geef de naam van de begunstigden"
 
 #: src/tiers_onglet.c:1657
 msgid ""
@@ -7014,27 +7011,27 @@ msgid ""
 "payment method."
 msgstr ""
 "Verschillend transactie maken nog gebruik van deze betaal methode.  Deze "
-"transacties dien aan een andere betaal methode te worden gekoppeld omdat "
-"deze verwijdering niet ongedaan te maken is."
+"transacties dienen eerst aan een andere betaal methode te worden "
+"gekoppeld omdat deze verwijdering niet ongedaan te maken is."
 
 #: src/type_operations.c:1039
 msgid "Associate transactions with"
 msgstr "Koppel de transacties aan"
 
-#: src/utils.c:718
+#: src/utils.c:710
 #, c-format
 msgid ""
 "Grisbi was unable to execute a web browser to browse url <tt>%s</tt>.  "
 "Please adjust your settings to a valid executable."
 msgstr ""
-"Grisbi was niet instaat om de url <tt>%s</tt>.te open in een web browser  Om "
-"deze pagina te kunnen bekijken dient je eerst de instellingen aan te passen."
+"Grisbi was niet instaat om de url <tt>%s</tt>.te open in een web browser.  "
+"Om deze pagina te kunnen bekijken dient je eerst de instellingen aan te passen."
 
-#: src/utils.c:719 src/utils.c:753
+#: src/utils.c:711 src/utils.c:745
 msgid "Cannot run web browser"
 msgstr "Het is niet mogelijk om de web browser te gebruiken"
 
-#: src/utils.c:752
+#: src/utils.c:744
 #, c-format
 msgid ""
 "Grisbi was unable to execute '%s'\n"
@@ -7057,9 +7054,12 @@ msgid "Browse"
 msgstr "Browse"
 
 #: src/ventilation.c:2201
+#, fuzzy
 msgid "This transaction has a reconciled breakdown line, deletion canceled."
-msgstr ""
+msgstr "Deze transactie heeft een gecontroleerde opsplits regel, verwijdering afgebroken."
 
 #: src/ventilation.c:2228
+#, fuzzy
 msgid "This transfer has a reconciled contra-transaction, deletion canceled."
-msgstr ""
+msgstr "Deze overschijfing heeft gecontroleerde contra-transacite, verwijdering afgebroken."
+
