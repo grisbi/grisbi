@@ -308,18 +308,18 @@ void calcule_total_montant_budgetary_line ( void )
 
 	    operation = liste_tmp -> data;
 
-	    if ( operation -> imputation )
+	    if ( gsb_transaction_data_get_budgetary_number ( gsb_transaction_data_get_transaction_number (operation )))
 	    {
 		struct struct_imputation * budgetary_line = NULL;
 		struct struct_sous_imputation * sub_budgetary_line = NULL;
 
 		/* il y a une catégorie */
-		budgetary_line = imputation_par_no ( operation -> imputation );
+		budgetary_line = imputation_par_no ( gsb_transaction_data_get_budgetary_number ( gsb_transaction_data_get_transaction_number (operation )));
 
 		/* on ajoute maintenant le montant à la sous ib si elle existe */
-		if ( operation -> sous_imputation )
-		    sub_budgetary_line = sous_imputation_par_no ( operation -> imputation, 
-								  operation -> sous_imputation );
+		if ( gsb_transaction_data_get_sub_budgetary_number ( gsb_transaction_data_get_transaction_number (operation )))
+		    sub_budgetary_line = sous_imputation_par_no ( gsb_transaction_data_get_budgetary_number ( gsb_transaction_data_get_transaction_number (operation )), 
+								  gsb_transaction_data_get_sub_budgetary_number ( gsb_transaction_data_get_transaction_number (operation )));
 
 		add_transaction_to_budgetary_line ( operation, budgetary_line, 
 						    sub_budgetary_line );

@@ -1720,8 +1720,10 @@ void verification_echeances_a_terme ( void )
 
 		gsb_transaction_data_set_automatic_transaction ( gsb_transaction_data_get_transaction_number (operation ),
 								 ECHEANCE_COURANTE -> auto_man );
-		operation -> imputation = ECHEANCE_COURANTE -> imputation;
-		operation -> sous_imputation = ECHEANCE_COURANTE -> sous_imputation;
+		gsb_transaction_data_set_budgetary_number ( gsb_transaction_data_get_transaction_number ( operation ),
+							    ECHEANCE_COURANTE -> imputation);
+		gsb_transaction_data_set_sub_budgetary_number ( gsb_transaction_data_get_transaction_number ( operation ),
+								ECHEANCE_COURANTE -> sous_imputation);
 
 		/* si l'exo est automatique (-2), c'est ici qu'on va le chercher */
 
@@ -1785,8 +1787,10 @@ void verification_echeances_a_terme ( void )
 			gsb_transaction_data_set_notes ( gsb_transaction_data_get_transaction_number (operation_fille),
 							 g_strdup ( ope_ventil -> notes ));
 
-		    operation_fille -> imputation = ope_ventil -> imputation;
-		    operation_fille -> sous_imputation = ope_ventil -> sous_imputation;
+		    gsb_transaction_data_set_budgetary_number ( gsb_transaction_data_get_transaction_number ( operation_fille ),
+								ope_ventil -> imputation);
+		    gsb_transaction_data_set_sub_budgetary_number ( gsb_transaction_data_get_transaction_number ( operation_fille ),
+								    ope_ventil -> sous_imputation);
 
 		    if ( ope_ventil -> no_piece_comptable )
 			operation_fille -> no_piece_comptable = g_strdup ( ope_ventil -> no_piece_comptable);

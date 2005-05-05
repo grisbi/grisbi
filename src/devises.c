@@ -45,8 +45,8 @@
 #include "affichage_formulaire.h"
 #include "operations_formulaire.h"
 #include "structures.h"
-#include "echeancier_formulaire.h"
 #include "fichier_configuration.h"
+#include "echeancier_formulaire.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

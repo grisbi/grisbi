@@ -27,6 +27,7 @@
 #include "meta_budgetary.h"
 #include "utils_ib.h"
 #include "utils_devises.h"
+#include "gsb_transaction_data.h"
 #include "imputation_budgetaire.h"
 #include "structures.h"
 /*END_INCLUDE*/
@@ -352,7 +353,7 @@ gint budgetary_line_div_type ( gpointer div )
 gint budgetary_line_transaction_div_id ( struct structure_operation * transaction )
 {
     if ( transaction )
-	return transaction -> imputation;
+	return gsb_transaction_data_get_budgetary_number ( gsb_transaction_data_get_transaction_number (transaction ));
     return 0;
 }
 
@@ -365,7 +366,7 @@ gint budgetary_line_transaction_div_id ( struct structure_operation * transactio
 gint budgetary_line_transaction_sub_div_id ( struct structure_operation * transaction )
 {
     if ( transaction )
-	return transaction -> sous_imputation;
+	return gsb_transaction_data_get_sub_budgetary_number ( gsb_transaction_data_get_transaction_number (transaction ));
     return 0;
 }
 
@@ -379,7 +380,8 @@ void budgetary_line_transaction_set_div_id ( struct structure_operation * transa
 					     int no_div )
 {
     if ( transaction )
-	transaction -> imputation = no_div;
+	gsb_transaction_data_set_budgetary_number ( gsb_transaction_data_get_transaction_number ( transaction ),
+						    no_div);
 }
 
 
@@ -392,7 +394,8 @@ void budgetary_line_transaction_set_sub_div_id ( struct structure_operation * tr
 						 int no_sub_div )
 {
     if ( transaction )
-	transaction -> sous_imputation = no_sub_div;
+	gsb_transaction_data_set_sub_budgetary_number ( gsb_transaction_data_get_transaction_number ( transaction ),
+							no_sub_div);
 }
 
 

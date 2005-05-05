@@ -1066,8 +1066,8 @@ gchar *recherche_contenu_cellule ( struct structure_operation *transaction,
 
 	case TRANSACTION_LIST_BUDGET:
 
-	    temp = nom_imputation_par_no ( transaction -> imputation,
-					   transaction -> sous_imputation );
+	    temp = nom_imputation_par_no ( gsb_transaction_data_get_budgetary_number ( gsb_transaction_data_get_transaction_number (transaction )),
+					   gsb_transaction_data_get_sub_budgetary_number ( gsb_transaction_data_get_transaction_number (transaction )));
 	    break;
 
 
@@ -2541,8 +2541,8 @@ gboolean gsb_transactions_list_edit_current_transaction ( void )
 
 		case TRANSACTION_FORM_BUDGET:
 
-		    char_tmp = nom_imputation_par_no ( transaction -> imputation,
-						       transaction -> sous_imputation );
+		    char_tmp = nom_imputation_par_no ( gsb_transaction_data_get_budgetary_number ( gsb_transaction_data_get_transaction_number (transaction )),
+						       gsb_transaction_data_get_sub_budgetary_number ( gsb_transaction_data_get_transaction_number (transaction )));
 		    if ( char_tmp )
 		    {
 			entree_prend_focus ( widget );
@@ -3809,8 +3809,8 @@ struct operation_echeance *schedule_transaction ( struct structure_operation * t
 
 
     echeance -> no_exercice = gsb_transaction_data_get_financial_year_number ( gsb_transaction_data_get_transaction_number (transaction ));
-    echeance -> imputation = transaction -> imputation;
-    echeance -> sous_imputation = transaction -> sous_imputation;
+    echeance -> imputation = gsb_transaction_data_get_budgetary_number ( gsb_transaction_data_get_transaction_number (transaction ));
+    echeance -> sous_imputation = gsb_transaction_data_get_sub_budgetary_number ( gsb_transaction_data_get_transaction_number (transaction ));
 
     echeance -> operation_ventilee = gsb_transaction_data_get_breakdown_of_transaction ( gsb_transaction_data_get_transaction_number (transaction ));
 
@@ -3892,8 +3892,8 @@ struct operation_echeance *schedule_transaction ( struct structure_operation * t
 
 
 		echeance_de_ventil -> no_exercice = gsb_transaction_data_get_financial_year_number ( gsb_transaction_data_get_transaction_number (transaction_de_ventil ));
-		echeance_de_ventil -> imputation = transaction_de_ventil -> imputation;
-		echeance_de_ventil -> sous_imputation = transaction_de_ventil -> sous_imputation;
+		echeance_de_ventil -> imputation = gsb_transaction_data_get_budgetary_number ( gsb_transaction_data_get_transaction_number (transaction_de_ventil ));
+		echeance_de_ventil -> sous_imputation = gsb_transaction_data_get_sub_budgetary_number ( gsb_transaction_data_get_transaction_number (transaction_de_ventil ));
 
 		echeance_de_ventil-> no_operation_ventilee_associee = echeance -> no_operation;
 

@@ -194,8 +194,8 @@ struct structure_operation
 /*     gint no_rapprochement; */
 
 /*     guint no_exercice; */
-    guint imputation;
-    guint sous_imputation;
+/*     guint imputation; */
+/*     guint sous_imputation; */
     gchar *no_piece_comptable;
     gchar *info_banque_guichet;
 

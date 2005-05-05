@@ -62,6 +62,7 @@ gdouble gsb_transaction_data_get_adjusted_amount_for_currency ( gint no_transact
 gdouble gsb_transaction_data_get_amount ( gint no_transaction );
 gint gsb_transaction_data_get_automatic_transaction ( gint no_transaction );
 gint gsb_transaction_data_get_breakdown_of_transaction ( gint no_transaction );
+gint gsb_transaction_data_get_budgetary_number ( gint no_transaction );
 gint gsb_transaction_data_get_category_number ( gint no_transaction );
 gint gsb_transaction_data_get_change_between ( gint no_transaction );
 gint gsb_transaction_data_get_currency_number ( gint no_transaction );
@@ -76,6 +77,7 @@ gint gsb_transaction_data_get_method_of_payment_number ( gint no_transaction );
 gchar *gsb_transaction_data_get_notes ( gint no_transaction );
 gint gsb_transaction_data_get_party_number ( gint no_transaction );
 gint gsb_transaction_data_get_reconcile_number ( gint no_transaction );
+gint gsb_transaction_data_get_sub_budgetary_number ( gint no_transaction );
 gint gsb_transaction_data_get_sub_category_number ( gint no_transaction );
 gchar *gsb_transaction_data_get_transaction_id ( gint no_transaction );
 gint gsb_transaction_data_get_transaction_number ( gpointer transaction_pointer );
@@ -89,6 +91,8 @@ gboolean gsb_transaction_data_set_automatic_transaction ( gint no_transaction,
 							  gint automatic_transaction );
 gboolean gsb_transaction_data_set_breakdown_of_transaction ( gint no_transaction,
 							     gint is_breakdown );
+gboolean gsb_transaction_data_set_budgetary_number ( gint no_transaction,
+						     gint budgetary_number );
 gboolean gsb_transaction_data_set_category_number ( gint no_transaction,
 						    gint no_category );
 gboolean gsb_transaction_data_set_change_between ( gint no_transaction,
@@ -115,6 +119,8 @@ gboolean gsb_transaction_data_set_party_number ( gint no_transaction,
 						 gint no_party );
 gboolean gsb_transaction_data_set_reconcile_number ( gint no_transaction,
 						     gint reconcile_number );
+gboolean gsb_transaction_data_set_sub_budgetary_number ( gint no_transaction,
+							 gint sub_budgetary_number );
 gboolean gsb_transaction_data_set_sub_category_number ( gint no_transaction,
 							gint no_sub_category );
 gboolean gsb_transaction_data_set_transaction_id ( gint no_transaction,

@@ -34,8 +34,8 @@
 
 
 /*START_EXTERN*/
-extern GtkWidget *window;
 extern gchar *chemin_logo;
+extern GtkWidget *window;
 /*END_EXTERN*/
 
 

@@ -1831,8 +1831,8 @@ gboolean completion_operation_par_tiers ( GtkWidget *entree )
 
 		case TRANSACTION_FORM_BUDGET:
 
-		    char_tmp = nom_imputation_par_no ( transaction -> imputation,
-						       transaction -> sous_imputation );
+		    char_tmp = nom_imputation_par_no ( gsb_transaction_data_get_budgetary_number ( gsb_transaction_data_get_transaction_number (transaction )),
+						       gsb_transaction_data_get_sub_budgetary_number ( gsb_transaction_data_get_transaction_number (transaction )));
 		    if ( char_tmp )
 		    {
 			entree_prend_focus ( widget );
@@ -2854,19 +2854,23 @@ void recuperation_donnees_generales_formulaire ( struct structure_operation *tra
 			{
 			    struct struct_sous_imputation *sous_imputation;
 
-			    transaction -> imputation = imputation -> no_imputation;
+			    gsb_transaction_data_set_budgetary_number ( gsb_transaction_data_get_transaction_number ( transaction ),
+									imputation -> no_imputation);
 
 			    sous_imputation = sous_imputation_par_nom ( imputation,
 									tab_char[1],
 									1 );
 
 			    if ( sous_imputation )
-				transaction -> sous_imputation = sous_imputation -> no_sous_imputation;
+				gsb_transaction_data_set_sub_budgetary_number ( gsb_transaction_data_get_transaction_number ( transaction ),
+										sous_imputation -> no_sous_imputation);
 			    else
-				transaction -> sous_imputation = 0;
+				gsb_transaction_data_set_sub_budgetary_number ( gsb_transaction_data_get_transaction_number ( transaction ),
+										0);
 			}
 			else
-			    transaction -> imputation = 0;
+			    gsb_transaction_data_set_budgetary_number ( gsb_transaction_data_get_transaction_number ( transaction ),
+									0 );
 
 			g_strfreev ( tab_char );
 		    break;
@@ -3321,8 +3325,10 @@ printf ( "ça passe\n" );
 
     gsb_transaction_data_set_financial_year_number ( gsb_transaction_data_get_transaction_number ( contra_transaction ),
 						     gsb_transaction_data_get_financial_year_number ( gsb_transaction_data_get_transaction_number (transaction )));
-    contra_transaction -> imputation = transaction -> imputation;
-    contra_transaction -> sous_imputation = transaction -> sous_imputation;
+    gsb_transaction_data_set_budgetary_number ( gsb_transaction_data_get_transaction_number ( contra_transaction ),
+						gsb_transaction_data_get_budgetary_number ( gsb_transaction_data_get_transaction_number (transaction )));
+    gsb_transaction_data_set_sub_budgetary_number ( gsb_transaction_data_get_transaction_number ( contra_transaction ),
+						    gsb_transaction_data_get_sub_budgetary_number ( gsb_transaction_data_get_transaction_number (transaction )));
 
     if ( transaction -> no_piece_comptable )
 	contra_transaction -> no_piece_comptable = g_strdup ( transaction -> no_piece_comptable );

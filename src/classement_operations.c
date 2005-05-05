@@ -769,19 +769,19 @@ gint gsb_transactions_list_sort_by_budget ( GtkTreeModel *model,
     if ( return_value )
 	return return_value;
 
-    if ( transaction_1 -> imputation == transaction_2 -> imputation
+    if ( gsb_transaction_data_get_budgetary_number ( gsb_transaction_data_get_transaction_number (transaction_1 )) == gsb_transaction_data_get_budgetary_number ( gsb_transaction_data_get_transaction_number (transaction_2 ))
 	 &&
-	 transaction_1 -> sous_imputation == transaction_2 -> sous_imputation )
+	 gsb_transaction_data_get_sub_budgetary_number ( gsb_transaction_data_get_transaction_number (transaction_1 ))== gsb_transaction_data_get_sub_budgetary_number ( gsb_transaction_data_get_transaction_number (transaction_2 )))
 	return_value = gsb_transactions_list_sort_by_transaction_date_and_no();
     else
     {
 	gchar *temp_1;
 	gchar *temp_2;
 
-	temp_1 = nom_imputation_par_no ( transaction_1 -> imputation,
-					 transaction_1 -> sous_imputation );
-	temp_2 = nom_imputation_par_no ( transaction_2 -> imputation,
-					 transaction_2 -> sous_imputation );
+	temp_1 = nom_imputation_par_no ( gsb_transaction_data_get_budgetary_number ( gsb_transaction_data_get_transaction_number (transaction_1 )),
+					 gsb_transaction_data_get_sub_budgetary_number ( gsb_transaction_data_get_transaction_number (transaction_1 )));
+	temp_2 = nom_imputation_par_no ( gsb_transaction_data_get_budgetary_number ( gsb_transaction_data_get_transaction_number (transaction_2 )),
+					 gsb_transaction_data_get_sub_budgetary_number ( gsb_transaction_data_get_transaction_number (transaction_2 )));
 
 	/* g_utf8_collate is said not very fast, must try with big big account to check
 	 * if it's enough, for me it's ok (cedric), eventually, change with gsb_strcasecmp */

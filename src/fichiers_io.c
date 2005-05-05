@@ -1431,11 +1431,13 @@ gboolean recuperation_comptes_xml ( xmlNodePtr node_comptes )
 									     my_atoi ( xmlGetProp ( node_ope,
 												    "E" )));
 
-			    operation -> imputation = my_atoi ( xmlGetProp ( node_ope,
-									     "I" ));
+			    gsb_transaction_data_set_budgetary_number ( transaction_number,
+									my_atoi ( xmlGetProp ( node_ope,
+											       "I" )));
 
-			    operation -> sous_imputation = my_atoi ( xmlGetProp ( node_ope,
-										  "Si" ));
+			    gsb_transaction_data_set_sub_budgetary_number ( transaction_number,
+									    my_atoi ( xmlGetProp ( node_ope,
+												   "Si" )));
 
 			    operation -> no_piece_comptable = xmlGetProp ( node_ope,
 									   "Pc" );
@@ -3718,11 +3720,11 @@ gboolean enregistre_fichier ( gchar *new_file )
 
 	    xmlSetProp ( node_ope,
 			 "I",
-			 itoa ( operation -> imputation ));
+			 itoa ( gsb_transaction_data_get_budgetary_number (transaction_number)));
 
 	    xmlSetProp ( node_ope,
 			 "Si",
-			 itoa ( operation -> sous_imputation ));
+			 itoa ( gsb_transaction_data_get_sub_budgetary_number (transaction_number)));
 
 	    xmlSetProp ( node_ope,
 			 "Pc",

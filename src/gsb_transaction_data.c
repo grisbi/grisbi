@@ -1196,6 +1196,86 @@ gboolean gsb_transaction_data_set_financial_year_number ( gint no_transaction,
 
 
 
+/** get the budgetary_number
+ * \param no_transaction the number of the transaction
+ * \return the budgetary_number of the transaction
+ * */
+gint gsb_transaction_data_get_budgetary_number ( gint no_transaction )
+{
+    struct_transaction *transaction;
+
+    transaction = gsb_transaction_data_get_transaction_by_no ( no_transaction,
+							       -1 );
+
+    if ( !transaction )
+	return -1;
+
+    return transaction -> budgetary_number;
+}
+
+
+/** set the budgetary_number
+ * \param no_transaction
+ * \param budgetary_number
+ * \return TRUE if ok
+ * */
+gboolean gsb_transaction_data_set_budgetary_number ( gint no_transaction,
+						     gint budgetary_number )
+{
+    struct_transaction *transaction;
+
+    transaction = gsb_transaction_data_get_transaction_by_no ( no_transaction,
+							       -1 );
+
+    if ( !transaction )
+	return FALSE;
+
+    transaction -> budgetary_number = budgetary_number;
+
+    return TRUE;
+}
+
+
+/** get the  sub_budgetary_number
+ * \param no_transaction the number of the transaction
+ * \return the sub_budgetary_number number of the transaction
+ * */
+gint gsb_transaction_data_get_sub_budgetary_number ( gint no_transaction )
+{
+    struct_transaction *transaction;
+
+    transaction = gsb_transaction_data_get_transaction_by_no ( no_transaction,
+							       -1 );
+
+    if ( !transaction )
+	return -1;
+
+    return transaction -> sub_budgetary_number;
+}
+
+
+/** set the sub_budgetary_number
+ * \param no_transaction
+ * \param sub_budgetary_number
+ * \return TRUE if ok
+ * */
+gboolean gsb_transaction_data_set_sub_budgetary_number ( gint no_transaction,
+							 gint sub_budgetary_number )
+{
+    struct_transaction *transaction;
+
+    transaction = gsb_transaction_data_get_transaction_by_no ( no_transaction,
+							       -1 );
+
+    if ( !transaction )
+	return FALSE;
+
+    transaction -> sub_budgetary_number = sub_budgetary_number;
+
+    return TRUE;
+}
+
+
 
 
 

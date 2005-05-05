@@ -2073,17 +2073,20 @@ void fin_edition_echeance ( void )
 	    {
 		struct struct_sous_imputation *sous_imputation;
 
-		operation -> imputation = imputation -> no_imputation;
+		gsb_transaction_data_set_budgetary_number ( gsb_transaction_data_get_transaction_number ( operation ),
+							    imputation -> no_imputation);
 
 		sous_imputation = sous_imputation_par_nom ( imputation,
 							    tableau_char[1],
 							    1 );
 
 		if ( sous_imputation )
-		    operation -> sous_imputation = sous_imputation -> no_sous_imputation;
+		    gsb_transaction_data_set_sub_budgetary_number ( gsb_transaction_data_get_transaction_number ( operation ),
+								    sous_imputation -> no_sous_imputation);
 	    }
 	    else
-		operation -> sous_imputation = 0;
+		gsb_transaction_data_set_sub_budgetary_number ( gsb_transaction_data_get_transaction_number ( operation ),
+								0);
 
 	    g_strfreev ( tableau_char );
 	}
@@ -2154,8 +2157,10 @@ void fin_edition_echeance ( void )
 		gsb_transaction_data_set_notes ( gsb_transaction_data_get_transaction_number (operation_fille),
 						 g_strdup ( ope_ventil -> notes ));
 
-	    operation_fille -> imputation = ope_ventil -> imputation;
-	    operation_fille -> sous_imputation = ope_ventil -> sous_imputation;
+	    gsb_transaction_data_set_budgetary_number ( gsb_transaction_data_get_transaction_number ( operation_fille ),
+							ope_ventil -> imputation);
+	    gsb_transaction_data_set_sub_budgetary_number ( gsb_transaction_data_get_transaction_number ( operation_fille ),
+							    ope_ventil -> sous_imputation);
 
 	    if ( ope_ventil -> no_piece_comptable )
 		operation_fille -> no_piece_comptable = g_strdup ( ope_ventil -> no_piece_comptable);
@@ -2359,8 +2364,10 @@ struct structure_operation *ajoute_contre_operation_echeance_dans_liste ( struct
 
     gsb_transaction_data_set_financial_year_number ( gsb_transaction_data_get_transaction_number ( contre_operation ),
 						     gsb_transaction_data_get_financial_year_number ( gsb_transaction_data_get_transaction_number (operation )));
-    contre_operation -> imputation = operation -> imputation;
-    contre_operation -> sous_imputation = operation -> sous_imputation;
+    gsb_transaction_data_set_budgetary_number ( gsb_transaction_data_get_transaction_number ( contre_operation ),
+						gsb_transaction_data_get_budgetary_number ( gsb_transaction_data_get_transaction_number (operation )));
+    gsb_transaction_data_set_sub_budgetary_number ( gsb_transaction_data_get_transaction_number ( contre_operation ),
+						    gsb_transaction_data_get_sub_budgetary_number ( gsb_transaction_data_get_transaction_number (operation )));
 
     /* on met maintenant les relations entre les différentes opé */
 
@@ -2938,8 +2945,8 @@ void completion_operation_par_tiers_echeancier ( void )
     /* met en place l'imputation budgétaire */
 
 
-    char_tmp = nom_imputation_par_no ( operation -> imputation,
-				       operation -> sous_imputation );
+    char_tmp = nom_imputation_par_no ( gsb_transaction_data_get_budgetary_number ( gsb_transaction_data_get_transaction_number (operation )),
+				       gsb_transaction_data_get_sub_budgetary_number ( gsb_transaction_data_get_transaction_number (operation )));
 
    if ( char_tmp )
     {

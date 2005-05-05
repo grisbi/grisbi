@@ -1260,12 +1260,12 @@ gint etat_affiche_affichage_ligne_ope ( struct structure_operation *operation,
 
 	if ( etat_courant -> afficher_ib_ope )
 	{
-	    if ( operation -> imputation )
+	    if ( gsb_transaction_data_get_budgetary_number ( gsb_transaction_data_get_transaction_number (operation )))
 	    {
 		gchar *pointeur;
 
-		pointeur = nom_imputation_par_no ( operation -> imputation,
-						   operation -> sous_imputation );
+		pointeur = nom_imputation_par_no ( gsb_transaction_data_get_budgetary_number ( gsb_transaction_data_get_transaction_number (operation )),
+						   gsb_transaction_data_get_sub_budgetary_number ( gsb_transaction_data_get_transaction_number (operation )));
 
 		if ( etat_courant -> ope_clickables )
 		{
@@ -1772,7 +1772,7 @@ gint etat_affiche_affiche_ib_etat ( struct structure_operation *operation,
 
     if ( etat_courant -> utilise_ib
 	 &&
-	 operation -> imputation != ancienne_ib_etat )
+	 gsb_transaction_data_get_budgetary_number ( gsb_transaction_data_get_transaction_number (operation )) != ancienne_ib_etat )
     {
 	/* lorsqu'on est au début de l'affichage de l'état, on n'affiche pas de totaux */
 
@@ -1800,9 +1800,9 @@ gint etat_affiche_affiche_ib_etat ( struct structure_operation *operation,
 
 	if ( etat_courant -> afficher_nom_ib )
 	{
-	    if ( operation -> imputation )
+	    if ( gsb_transaction_data_get_budgetary_number ( gsb_transaction_data_get_transaction_number (operation )))
 	    {
-		nom_ib_en_cours = nom_imputation_par_no ( operation -> imputation,
+		nom_ib_en_cours = nom_imputation_par_no ( gsb_transaction_data_get_budgetary_number ( gsb_transaction_data_get_transaction_number (operation )),
 							  0 );
 
 		pointeur_char = g_strconcat ( decalage_ib,
@@ -1822,7 +1822,7 @@ gint etat_affiche_affiche_ib_etat ( struct structure_operation *operation,
 	ligne_debut_partie = ligne;
 	denote_struct_sous_jaccentes ( 3 );
 
-	ancienne_ib_etat = operation -> imputation;
+	ancienne_ib_etat = gsb_transaction_data_get_budgetary_number ( gsb_transaction_data_get_transaction_number (operation ));
 
 	debut_affichage_etat = 0;
 	changement_de_groupe_etat = 1;
@@ -1850,9 +1850,9 @@ gint etat_affiche_affiche_sous_ib_etat ( struct structure_operation *operation,
 	 &&
 	 etat_courant -> afficher_sous_ib
 	 &&
-	 operation -> imputation
+	 gsb_transaction_data_get_budgetary_number ( gsb_transaction_data_get_transaction_number (operation ))
 	 &&
-	 operation -> sous_imputation != ancienne_sous_ib_etat )
+	 gsb_transaction_data_get_sub_budgetary_number ( gsb_transaction_data_get_transaction_number (operation )) != ancienne_sous_ib_etat )
     {
 	/* lorsqu'on est au début de l'affichage de l'état, on n'affiche pas de totaux */
 
@@ -1880,8 +1880,8 @@ gint etat_affiche_affiche_sous_ib_etat ( struct structure_operation *operation,
 
 	if ( etat_courant -> afficher_nom_ib )
 	{
-	    nom_ss_ib_en_cours = nom_sous_imputation_par_no ( operation -> imputation,
-							      operation -> sous_imputation );
+	    nom_ss_ib_en_cours = nom_sous_imputation_par_no ( gsb_transaction_data_get_budgetary_number ( gsb_transaction_data_get_transaction_number (operation )),
+							      gsb_transaction_data_get_sub_budgetary_number ( gsb_transaction_data_get_transaction_number (operation )));
 	    if ( nom_ss_ib_en_cours )
 		pointeur_char = g_strconcat ( decalage_sous_ib,
 					      nom_ss_ib_en_cours,
@@ -1904,7 +1904,7 @@ gint etat_affiche_affiche_sous_ib_etat ( struct structure_operation *operation,
 	ligne_debut_partie = ligne;
 	denote_struct_sous_jaccentes ( 4 );
 
-	ancienne_sous_ib_etat = operation -> sous_imputation;
+	ancienne_sous_ib_etat = gsb_transaction_data_get_sub_budgetary_number ( gsb_transaction_data_get_transaction_number (operation ));
 
 	debut_affichage_etat = 0;
 	changement_de_groupe_etat = 1;

@@ -719,13 +719,14 @@ GSList *recupere_opes_etat ( struct struct_etat *etat )
 
 		/* vérification de l'imputation budgétaire */
 
-		if ( etat -> exclure_ope_sans_ib && !operation -> imputation )
+		if ( etat -> exclure_ope_sans_ib && !gsb_transaction_data_get_budgetary_number ( gsb_transaction_data_get_transaction_number (operation )))
 		    goto operation_refusee;
 
 		if ((etat -> utilise_detail_ib &&
 		     g_slist_index(etat-> no_ib,
-				   GINT_TO_POINTER(operation->imputation)) == -1) &&
-		    operation -> imputation)
+				   GINT_TO_POINTER(gsb_transaction_data_get_budgetary_number ( gsb_transaction_data_get_transaction_number (operation)))) == -1)
+		    &&
+		    gsb_transaction_data_get_budgetary_number ( gsb_transaction_data_get_transaction_number (operation )))
 		    goto operation_refusee;
 
 
@@ -1012,15 +1013,15 @@ gchar *recupere_texte_test_etat ( struct structure_operation *operation,
 	case 4:
 	    /* ib */
 
-	    texte = nom_imputation_par_no ( operation -> imputation,
+	    texte = nom_imputation_par_no ( gsb_transaction_data_get_budgetary_number ( gsb_transaction_data_get_transaction_number (operation )),
 					    0 );
 	    break;
 
 	case 5:
 	    /* ss-ib */
 
-	    texte = nom_imputation_par_no ( operation -> imputation,
-					    operation -> sous_imputation );
+	    texte = nom_imputation_par_no ( gsb_transaction_data_get_budgetary_number ( gsb_transaction_data_get_transaction_number (operation )),
+					    gsb_transaction_data_get_sub_budgetary_number ( gsb_transaction_data_get_transaction_number (operation )));
 	    break;
 
 	case 6:
@@ -1595,8 +1596,8 @@ classement_suivant:
 
 	    if ( etat_courant -> utilise_ib )
 	    {
-		if ( operation_1 -> imputation != operation_2 -> imputation )
-		    return ( operation_1 -> imputation - operation_2 -> imputation );
+		if ( gsb_transaction_data_get_budgetary_number ( gsb_transaction_data_get_transaction_number (operation_1 ))!= gsb_transaction_data_get_budgetary_number ( gsb_transaction_data_get_transaction_number (operation_2 )))
+		    return ( gsb_transaction_data_get_budgetary_number ( gsb_transaction_data_get_transaction_number (operation_1 ))- gsb_transaction_data_get_budgetary_number ( gsb_transaction_data_get_transaction_number (operation_2 )));
 	    }
 
 	    /*       les ib sont identiques, passe au classement suivant */
@@ -1614,8 +1615,8 @@ classement_suivant:
 		 &&
 		 etat_courant -> afficher_sous_ib )
 	    {
-		if ( operation_1 -> sous_imputation != operation_2 -> sous_imputation )
-		    return ( operation_1 -> sous_imputation - operation_2 -> sous_imputation );
+		if ( gsb_transaction_data_get_sub_budgetary_number ( gsb_transaction_data_get_transaction_number (operation_1 )) != gsb_transaction_data_get_sub_budgetary_number ( gsb_transaction_data_get_transaction_number (operation_2 )))
+		    return ( gsb_transaction_data_get_sub_budgetary_number ( gsb_transaction_data_get_transaction_number (operation_1 )) - gsb_transaction_data_get_sub_budgetary_number ( gsb_transaction_data_get_transaction_number (operation_2 )));
 	    }
 
 	    /*       les ib sont identiques, passe au classement suivant */
@@ -1727,21 +1728,21 @@ gint classement_ope_perso_etat ( struct structure_operation *operation_1,
 	case 4:
 	    /* ib  */
 
-	    if ( !operation_1 -> imputation
+	    if ( !gsb_transaction_data_get_budgetary_number ( gsb_transaction_data_get_transaction_number (operation_1 ))
 		 ||
-		 !operation_2 -> imputation )
-		retour = operation_2 -> imputation - operation_1 -> imputation;
+		 !gsb_transaction_data_get_budgetary_number ( gsb_transaction_data_get_transaction_number (operation_2 )))
+		retour = gsb_transaction_data_get_budgetary_number ( gsb_transaction_data_get_transaction_number (operation_2 ))- gsb_transaction_data_get_budgetary_number ( gsb_transaction_data_get_transaction_number (operation_1 ));
 	    else
 	    {
-		if ( operation_1 -> imputation == operation_2 -> imputation
+		if ( gsb_transaction_data_get_budgetary_number ( gsb_transaction_data_get_transaction_number (operation_1 ))== gsb_transaction_data_get_budgetary_number ( gsb_transaction_data_get_transaction_number (operation_2 ))
 		     &&
-		     ( !operation_1 -> sous_imputation
+		     ( !gsb_transaction_data_get_sub_budgetary_number ( gsb_transaction_data_get_transaction_number (operation_1 ))
 		       ||
-		       !operation_2 -> sous_imputation ))
-		    retour = operation_2 -> sous_imputation - operation_1 -> sous_imputation;
+		       !gsb_transaction_data_get_sub_budgetary_number ( gsb_transaction_data_get_transaction_number (operation_2 ))))
+		    retour = gsb_transaction_data_get_sub_budgetary_number ( gsb_transaction_data_get_transaction_number (operation_2 )) - gsb_transaction_data_get_sub_budgetary_number ( gsb_transaction_data_get_transaction_number (operation_1 ));
 		else
-		    retour = g_strcasecmp ( nom_imputation_par_no ( operation_1 -> imputation, operation_1 -> sous_imputation ),
-					    nom_imputation_par_no ( operation_2 -> imputation, operation_2 -> sous_imputation ));
+		    retour = g_strcasecmp ( nom_imputation_par_no ( gsb_transaction_data_get_budgetary_number ( gsb_transaction_data_get_transaction_number (operation_1 )), gsb_transaction_data_get_sub_budgetary_number ( gsb_transaction_data_get_transaction_number (operation_1 ))),
+					    nom_imputation_par_no ( gsb_transaction_data_get_budgetary_number ( gsb_transaction_data_get_transaction_number (operation_2 )), gsb_transaction_data_get_sub_budgetary_number ( gsb_transaction_data_get_transaction_number (operation_2 ))));
 	    }
 	    break;
 
