@@ -72,7 +72,7 @@ void calcule_total_pointe_compte ( gint no_compte )
 
 	if ( gsb_transaction_data_get_marked_transaction ( gsb_transaction_data_get_transaction_number (operation ))== 1
 	     &&
-	     !operation -> no_operation_ventilee_associee )
+	     !gsb_transaction_data_get_mother_transaction_number ( gsb_transaction_data_get_transaction_number (operation )))
 	{
 	    gdouble montant;
 
@@ -131,7 +131,7 @@ gdouble calcule_solde_compte ( gint no_compte )
 
 	/* 	si l'opÃ© est ventilÃ©e, on saute */
 
-	if ( !operation -> no_operation_ventilee_associee )
+	if ( !gsb_transaction_data_get_mother_transaction_number ( gsb_transaction_data_get_transaction_number (operation )))
 	solde = solde + gsb_transaction_data_get_adjusted_amount ( gsb_transaction_data_get_transaction_number (operation));
 
 	liste_tmp = liste_tmp -> next;
@@ -168,7 +168,7 @@ gdouble calcule_solde_pointe_compte ( gint no_compte )
 
 	if ( gsb_transaction_data_get_marked_transaction ( gsb_transaction_data_get_transaction_number (operation ))
 	     &&
-	     !operation -> no_operation_ventilee_associee )
+	     !gsb_transaction_data_get_mother_transaction_number ( gsb_transaction_data_get_transaction_number (operation )))
 	solde = solde + gsb_transaction_data_get_adjusted_amount ( gsb_transaction_data_get_transaction_number (operation));
 	liste_tmp = liste_tmp -> next;
     }

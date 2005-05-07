@@ -1820,7 +1820,8 @@ void verification_echeances_a_terme ( void )
 								  gsb_transaction_data_get_marked_transaction ( gsb_transaction_data_get_transaction_number (operation )));
 		    gsb_transaction_data_set_automatic_transaction ( gsb_transaction_data_get_transaction_number (operation_fille),
 								     gsb_transaction_data_get_automatic_transaction ( gsb_transaction_data_get_transaction_number (operation)));
-		    operation_fille -> no_operation_ventilee_associee = gsb_transaction_data_get_transaction_number (operation);
+		    gsb_transaction_data_set_mother_transaction_number ( gsb_transaction_data_get_transaction_number (operation_fille),
+									 gsb_transaction_data_get_transaction_number (operation));
 
 
 

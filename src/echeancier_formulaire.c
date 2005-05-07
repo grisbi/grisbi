@@ -2190,7 +2190,8 @@ void fin_edition_echeance ( void )
 							  gsb_transaction_data_get_marked_transaction ( gsb_transaction_data_get_transaction_number (operation )));
 	    gsb_transaction_data_set_automatic_transaction ( gsb_transaction_data_get_transaction_number (operation_fille ),
 							     gsb_transaction_data_get_automatic_transaction ( gsb_transaction_data_get_transaction_number (operation )));
-	    operation_fille -> no_operation_ventilee_associee = gsb_transaction_data_get_transaction_number (operation);
+	    gsb_transaction_data_set_mother_transaction_number ( gsb_transaction_data_get_transaction_number (operation_fille),
+								 gsb_transaction_data_get_transaction_number (operation));
 
 
 	    /* 	    on vérifie maintenant si c'est un virement */
@@ -2372,10 +2373,14 @@ struct structure_operation *ajoute_contre_operation_echeance_dans_liste ( struct
 
     /* on met maintenant les relations entre les différentes opé */
 
-    operation -> relation_no_operation = gsb_transaction_data_get_transaction_number (contre_operation);
-    operation -> relation_no_compte = compte_virement;
-    contre_operation -> relation_no_operation = gsb_transaction_data_get_transaction_number (operation);
-    contre_operation -> relation_no_compte = gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (operation));
+    gsb_transaction_data_set_transaction_number_transfer ( gsb_transaction_data_get_transaction_number (operation),
+							   gsb_transaction_data_get_transaction_number (contre_operation));
+    gsb_transaction_data_set_account_number_transfer ( gsb_transaction_data_get_transaction_number (operation),
+						       compte_virement);
+    gsb_transaction_data_set_transaction_number_transfer ( gsb_transaction_data_get_transaction_number (contre_operation),
+							   gsb_transaction_data_get_transaction_number (operation));
+    gsb_transaction_data_set_account_number_transfer ( gsb_transaction_data_get_transaction_number (contre_operation),
+						       gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (operation)));
 
     return ( contre_operation );
 }
@@ -2860,8 +2865,9 @@ void completion_operation_par_tiers_echeancier ( void )
 
     /* vérifie si c'est un virement */
 
-    if ( operation -> relation_no_operation &&
-	 operation -> relation_no_compte != -1 )
+    if ( gsb_transaction_data_get_transaction_number_transfer ( gsb_transaction_data_get_transaction_number (operation ))
+	 &&
+	 gsb_transaction_data_get_account_number_transfer ( gsb_transaction_data_get_transaction_number (operation ))!= -1 )
     {
 	/* c'est un virement, on l'affiche */
 
@@ -2869,7 +2875,7 @@ void completion_operation_par_tiers_echeancier ( void )
 
 	gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_CATEGORY] ),
 				g_strconcat ( COLON(_("Transfer")),
-					      gsb_account_get_name (operation -> relation_no_compte),
+					      gsb_account_get_name (gsb_transaction_data_get_account_number_transfer ( gsb_transaction_data_get_transaction_number (operation ))),
 					      NULL ));
     }
     else

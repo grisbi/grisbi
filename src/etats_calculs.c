@@ -424,7 +424,7 @@ GSList *recupere_opes_etat ( struct struct_etat *etat )
 		     !etat -> pas_detailler_ventilation )
 		    goto operation_refusee;
 
-		if ( operation -> no_operation_ventilee_associee
+		if ( gsb_transaction_data_get_mother_transaction_number ( gsb_transaction_data_get_transaction_number (operation ))
 		     &&
 		     etat -> pas_detailler_ventilation )
 		    goto operation_refusee;
@@ -644,7 +644,7 @@ GSList *recupere_opes_etat ( struct struct_etat *etat )
 
 		/* 	      on vérifie les virements */
 
-		if ( operation -> relation_no_operation )
+		if ( gsb_transaction_data_get_transaction_number_transfer ( gsb_transaction_data_get_transaction_number (operation )))
 		{
 		    if ( !etat -> type_virement )
 			goto operation_refusee;
@@ -654,9 +654,9 @@ GSList *recupere_opes_etat ( struct struct_etat *etat )
 			/* on inclue l'opé que si le compte de virement */
 			/* est un compte de passif ou d'actif */
 
-			if ( gsb_account_get_kind (operation -> relation_no_compte) != GSB_TYPE_LIABILITIES
+			if ( gsb_account_get_kind (gsb_transaction_data_get_account_number_transfer ( gsb_transaction_data_get_transaction_number (operation ))) != GSB_TYPE_LIABILITIES
 			     &&
-			     gsb_account_get_kind (operation -> relation_no_compte) != GSB_TYPE_ASSET )
+			     gsb_account_get_kind (gsb_transaction_data_get_account_number_transfer ( gsb_transaction_data_get_transaction_number (operation ))) != GSB_TYPE_ASSET )
 			    goto operation_refusee;
 
 		    }
@@ -671,7 +671,7 @@ GSList *recupere_opes_etat ( struct struct_etat *etat )
 			    if ( etat -> utilise_detail_comptes )
 			    {
 				if ( g_slist_index ( etat -> no_comptes,
-						     GINT_TO_POINTER ( operation -> relation_no_compte )) != -1 )
+						     GINT_TO_POINTER ( gsb_transaction_data_get_account_number_transfer ( gsb_transaction_data_get_transaction_number (operation )))) != -1 )
 				    goto operation_refusee;
 			    }
 			    else
@@ -682,7 +682,7 @@ GSList *recupere_opes_etat ( struct struct_etat *etat )
 			    /* on inclut l'opé que si le compte de virement est dans la liste */
 
 			    if ( g_slist_index ( etat -> no_comptes_virements,
-						 GINT_TO_POINTER ( operation -> relation_no_compte )) == -1 )
+						 GINT_TO_POINTER ( gsb_transaction_data_get_account_number_transfer ( gsb_transaction_data_get_transaction_number (operation )))) == -1 )
 				goto operation_refusee;
 
 			}
@@ -713,7 +713,7 @@ GSList *recupere_opes_etat ( struct struct_etat *etat )
 		    &&
 		    !gsb_transaction_data_get_breakdown_of_transaction ( gsb_transaction_data_get_transaction_number (operation ))
 		    &&
-		    !operation -> relation_no_operation )
+		    !gsb_transaction_data_get_transaction_number_transfer ( gsb_transaction_data_get_transaction_number (operation )))
 		    goto operation_refusee;
 
 
@@ -1542,7 +1542,7 @@ classement_suivant:
 		{
 		    if ( gsb_transaction_data_get_breakdown_of_transaction ( gsb_transaction_data_get_transaction_number (operation_1 )))
 		    {
-			if ( operation_2 -> relation_no_operation )
+			if ( gsb_transaction_data_get_transaction_number_transfer ( gsb_transaction_data_get_transaction_number (operation_2 )))
 			    return ( -1 );
 			else
 			    if ( !gsb_transaction_data_get_breakdown_of_transaction ( gsb_transaction_data_get_transaction_number (operation_2 )))
@@ -1550,13 +1550,13 @@ classement_suivant:
 		    }
 		    else
 		    {
-			if ( operation_1 -> relation_no_operation )
+			if ( gsb_transaction_data_get_transaction_number_transfer ( gsb_transaction_data_get_transaction_number (operation_1 )))
 			{
-			    if ( !operation_2 -> relation_no_operation )
+			    if ( !gsb_transaction_data_get_transaction_number_transfer ( gsb_transaction_data_get_transaction_number (operation_2 )))
 				return ( 1 );
 			}
 			else
-			    if ( operation_2 -> relation_no_operation
+			    if ( gsb_transaction_data_get_transaction_number_transfer ( gsb_transaction_data_get_transaction_number (operation_2 ))
 				 ||
 				 gsb_transaction_data_get_breakdown_of_transaction ( gsb_transaction_data_get_transaction_number (operation_2 )))
 				return ( -1 );

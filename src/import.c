@@ -1140,7 +1140,7 @@ void cree_liens_virements_ope_import ( void )
 
 	    /* on fait la sélection sur relation_no_compte */
 
-	    if ( operation -> relation_no_compte == -2 )
+	    if ( gsb_transaction_data_get_account_number_transfer ( gsb_transaction_data_get_transaction_number (operation ))== -2 )
 	    {
 		/* recherche du compte associé */
 
@@ -1173,8 +1173,10 @@ void cree_liens_virements_ope_import ( void )
 
 		if ( compte_trouve == -1 )
 		{
-		    operation -> relation_no_compte = 0;
-		    operation -> relation_no_operation = 0;
+		    gsb_transaction_data_set_account_number_transfer ( gsb_transaction_data_get_transaction_number (operation),
+								       0);
+		    gsb_transaction_data_set_transaction_number_transfer ( gsb_transaction_data_get_transaction_number (operation),
+									   0);
 		    gsb_transaction_data_set_bank_references ( gsb_transaction_data_get_transaction_number ( operation ),
 							       NULL);
 		}
@@ -1196,7 +1198,7 @@ void cree_liens_virements_ope_import ( void )
 
 			operation_2 = pointeur_tmp -> data;
 
-			if ( operation_2 -> relation_no_compte == -2
+			if ( gsb_transaction_data_get_account_number_transfer ( gsb_transaction_data_get_transaction_number (operation_2 ))== -2
 			     &&
 			     gsb_transaction_data_get_bank_references ( gsb_transaction_data_get_transaction_number (operation_2 ))
 			     &&
@@ -1213,11 +1215,15 @@ void cree_liens_virements_ope_import ( void )
 			{
 			    /* la 2ème opération correspond en tout point à la 1ère, on met les relations */
 
-			    operation -> relation_no_operation = gsb_transaction_data_get_transaction_number (operation_2);
-			    operation -> relation_no_compte = gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (operation_2));
+			    gsb_transaction_data_set_transaction_number_transfer ( gsb_transaction_data_get_transaction_number (operation),
+										   gsb_transaction_data_get_transaction_number (operation_2));
+			    gsb_transaction_data_set_account_number_transfer ( gsb_transaction_data_get_transaction_number (operation),
+									       gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (operation_2)));
 
-			    operation_2 -> relation_no_operation = gsb_transaction_data_get_transaction_number (operation);
-			    operation_2 -> relation_no_compte = gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (operation));
+			    gsb_transaction_data_set_transaction_number_transfer ( gsb_transaction_data_get_transaction_number (operation_2),
+										   gsb_transaction_data_get_transaction_number (operation));
+			    gsb_transaction_data_set_account_number_transfer ( gsb_transaction_data_get_transaction_number (operation_2),
+									       gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (operation)));
 
 			    gsb_transaction_data_set_bank_references ( gsb_transaction_data_get_transaction_number ( operation ),
 								       NULL);
@@ -1230,10 +1236,12 @@ void cree_liens_virements_ope_import ( void )
 		    /*   on a fait le tour de l'autre compte, si aucune contre opération n'a été trouvée, on vire les */
 		    /* relations et ça devient une opé normale */
 
-		    if ( operation -> relation_no_compte == -2 )
+		    if ( gsb_transaction_data_get_account_number_transfer ( gsb_transaction_data_get_transaction_number (operation ))== -2 )
 		    {
-			operation -> relation_no_compte = 0;
-			operation -> relation_no_operation = 0;
+			gsb_transaction_data_set_account_number_transfer ( gsb_transaction_data_get_transaction_number (operation),
+									   0);
+			gsb_transaction_data_set_transaction_number_transfer ( gsb_transaction_data_get_transaction_number (operation),
+									       0);
 			gsb_transaction_data_set_bank_references ( gsb_transaction_data_get_transaction_number ( operation ),
 								   NULL);
 		    }
@@ -1446,8 +1454,10 @@ void creation_compte_importe ( struct struct_compte_importation *compte_import )
 
 		    gsb_transaction_data_set_bank_references ( gsb_transaction_data_get_transaction_number ( operation ),
 							       operation_import -> categ);
-		    operation -> relation_no_compte = -2;
-		    operation -> relation_no_operation = -1;
+		    gsb_transaction_data_set_account_number_transfer ( gsb_transaction_data_get_transaction_number (operation),
+								       -2);
+		    gsb_transaction_data_set_transaction_number_transfer ( gsb_transaction_data_get_transaction_number (operation),
+									   -1);
 		    virements_a_chercher = 1;
 		}
 		else
@@ -1577,7 +1587,8 @@ void creation_compte_importe ( struct struct_compte_importation *compte_import )
 	/* si c'est une ope de ventilation, lui ajoute le no de l'opération précÃ©dente */
 
 	if ( operation_import -> ope_de_ventilation )
-	    operation -> no_operation_ventilee_associee = derniere_operation;
+	    gsb_transaction_data_set_mother_transaction_number ( gsb_transaction_data_get_transaction_number (operation),
+								 derniere_operation);
 	else
 	    derniere_operation = gsb_transaction_data_get_transaction_number (operation);
 
@@ -2100,8 +2111,10 @@ struct structure_operation *enregistre_ope_importee ( struct struct_ope_importat
 
 		gsb_transaction_data_set_bank_references ( transaction_number,
 							   operation_import -> categ);
-		operation -> relation_no_compte = -2;
-		operation -> relation_no_operation = -1;
+		gsb_transaction_data_set_account_number_transfer ( gsb_transaction_data_get_transaction_number (operation),
+								   -2);
+		gsb_transaction_data_set_transaction_number_transfer ( transaction_number,
+								       -1);
 		virements_a_chercher = 1;
 	    }
 	    else
@@ -2232,7 +2245,8 @@ struct structure_operation *enregistre_ope_importee ( struct struct_ope_importat
     /* si c'est une ope de ventilation, lui ajoute le no de l'opération précédente */
 
     if ( operation_import -> ope_de_ventilation )
-	operation -> no_operation_ventilee_associee = derniere_operation_enregistrement_ope_import ;
+	gsb_transaction_data_set_mother_transaction_number ( gsb_transaction_data_get_transaction_number (operation),
+							     derniere_operation_enregistrement_ope_import );
     else
 	derniere_operation_enregistrement_ope_import  = gsb_transaction_data_get_transaction_number (operation);
 
@@ -2366,7 +2380,7 @@ void pointe_opes_importees ( struct struct_compte_importation *compte_import )
 					date_fin_comparaison ) <= 0 )
 
 		     &&
-		     !operation -> no_operation_ventilee_associee )
+		     !gsb_transaction_data_get_mother_transaction_number ( gsb_transaction_data_get_transaction_number (operation )))
 		    /* on a retouvé une opé de même date et même montant, on l'ajoute à la liste des opés trouvées */
 		    ope_trouvees = g_slist_append ( ope_trouvees,
 						    operation );
@@ -2432,7 +2446,7 @@ void pointe_opes_importees ( struct struct_compte_importation *compte_import )
 
 			    ope_fille = liste_ope -> data;
 
-			    if ( ope_fille -> no_operation_ventilee_associee == gsb_transaction_data_get_transaction_number (operation))
+			    if ( gsb_transaction_data_get_mother_transaction_number ( gsb_transaction_data_get_transaction_number (ope_fille ))== gsb_transaction_data_get_transaction_number (operation))
 				gsb_transaction_data_set_marked_transaction ( gsb_transaction_data_get_transaction_number (ope_fille),
 									      2 );
 
@@ -2528,7 +2542,7 @@ void pointe_opes_importees ( struct struct_compte_importation *compte_import )
 
 				    ope_fille = liste_ope -> data;
 
-				    if ( ope_fille -> no_operation_ventilee_associee == gsb_transaction_data_get_transaction_number (operation))
+				    if ( gsb_transaction_data_get_mother_transaction_number ( gsb_transaction_data_get_transaction_number (ope_fille ))== gsb_transaction_data_get_transaction_number (operation))
 					gsb_transaction_data_set_marked_transaction ( gsb_transaction_data_get_transaction_number (ope_fille),
 										      2 );
 

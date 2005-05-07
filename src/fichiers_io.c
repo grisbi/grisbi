@@ -342,7 +342,7 @@ gboolean mise_a_jour_versions_anterieures ( gint no_version,
 
 			    operation_2 = liste_tmp_2 -> data;
 
-			    if ( operation_2 -> no_operation_ventilee_associee == gsb_transaction_data_get_transaction_number (operation))
+			    if ( gsb_transaction_data_get_mother_transaction_number ( gsb_transaction_data_get_transaction_number (operation_2 ))== gsb_transaction_data_get_transaction_number (operation))
 				gsb_transaction_data_set_reconcile_number ( gsb_transaction_data_get_transaction_number (operation_2),
 									    gsb_transaction_data_get_reconcile_number ( gsb_transaction_data_get_transaction_number (operation )));
 
@@ -1449,18 +1449,21 @@ gboolean recuperation_comptes_xml ( xmlNodePtr node_comptes )
 			    gsb_transaction_data_set_bank_references ( transaction_number,
 								       xmlGetProp ( node_ope,
 										    "Ibg" ));
-			    if ( !strlen ( gsb_transaction_data_get_bank_references ( gsb_transaction_data_get_transaction_number (operation ))))
+			    if ( !strlen ( gsb_transaction_data_get_bank_references (transaction_number)))
 				gsb_transaction_data_set_bank_references ( transaction_number,
 									   NULL);
 
-			    operation -> relation_no_operation = my_atoi ( xmlGetProp ( node_ope,
-											"Ro" ));
+			    gsb_transaction_data_set_transaction_number_transfer ( transaction_number,
+										   my_atoi ( xmlGetProp ( node_ope,
+													  "Ro" )));
 
-			    operation -> relation_no_compte = my_atoi ( xmlGetProp ( node_ope,
-										     "Rc" ));
+			    gsb_transaction_data_set_account_number_transfer ( transaction_number,
+									       my_atoi ( xmlGetProp ( node_ope,
+												      "Rc" )));
 
-			    operation -> no_operation_ventilee_associee = my_atoi ( xmlGetProp ( node_ope,
-												 "Va" ));
+			    gsb_transaction_data_set_mother_transaction_number ( transaction_number,
+										 my_atoi ( xmlGetProp ( node_ope,
+													"Va" )));
 
 
 			    /* on met le compte associe */
@@ -3740,15 +3743,15 @@ gboolean enregistre_fichier ( gchar *new_file )
 
 	    xmlSetProp ( node_ope,
 			 "Ro",
-			 itoa ( operation -> relation_no_operation ));
+			 itoa ( gsb_transaction_data_get_transaction_number_transfer (transaction_number)));
 
 	    xmlSetProp ( node_ope,
 			 "Rc",
-			 itoa ( operation -> relation_no_compte ));
+			 itoa ( gsb_transaction_data_get_account_number_transfer (transaction_number)));
 
 	    xmlSetProp ( node_ope,
 			 "Va",
-			 itoa ( operation -> no_operation_ventilee_associee ));
+			 itoa ( gsb_transaction_data_get_mother_transaction_number (transaction_number)));
 
 	    pointeur_liste = pointeur_liste -> next;
 	}

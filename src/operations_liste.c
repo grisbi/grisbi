@@ -936,7 +936,7 @@ gboolean gsb_transactions_list_append_transaction ( struct structure_operation *
 
 	if ( transaction != GINT_TO_POINTER (-1)
 	     &&
-	     transaction -> no_operation_ventilee_associee )
+	     gsb_transaction_data_get_mother_transaction_number ( gsb_transaction_data_get_transaction_number (transaction )))
 	    j = TRANSACTION_LIST_ROWS_NB;
     }
     return FALSE;
@@ -1037,7 +1037,7 @@ gchar *recherche_contenu_cellule ( struct structure_operation *transaction,
     /* if it's a breakdown and we want to see the party,
      * we show the category */
 
-    if ( transaction -> no_operation_ventilee_associee
+    if ( gsb_transaction_data_get_mother_transaction_number ( gsb_transaction_data_get_transaction_number (transaction ))
 	 &&
 	 no_affichage == TRANSACTION_LIST_PARTY )
 	no_affichage = TRANSACTION_LIST_CATEGORY;
@@ -1293,7 +1293,7 @@ gboolean gsb_transactions_list_set_background_color ( gint no_account )
 
 	if ( transaction != GINT_TO_POINTER (-1)
 	     &&
-	     transaction -> no_operation_ventilee_associee )
+	     gsb_transaction_data_get_mother_transaction_number ( gsb_transaction_data_get_transaction_number (transaction )))
 	    gtk_list_store_set ( GTK_LIST_STORE ( model ),
 				 &iter,
 				 TRANSACTION_COL_NB_BACKGROUND, &couleur_grise,
@@ -1390,7 +1390,7 @@ gboolean gsb_transactions_list_set_transactions_balances ( gint no_account )
 	{
 	    /* if it's a breakdown, we do nothing */
 
-	    if ( transaction -> no_operation_ventilee_associee )
+	    if ( gsb_transaction_data_get_mother_transaction_number ( gsb_transaction_data_get_transaction_number (transaction )))
 	    {
 		gtk_tree_path_next ( path_sorted );
 		path = gsb_transactions_list_get_list_path_from_sorted_path ( path_sorted,
@@ -1509,7 +1509,7 @@ gdouble solde_debut_affichage ( gint no_account )
 
 	/* 	si l'opé est ventilée ou non relevée, on saute */
 
-	if ( !(transaction -> no_operation_ventilee_associee
+	if ( !(gsb_transaction_data_get_mother_transaction_number ( gsb_transaction_data_get_transaction_number (transaction ))
 	       ||
 	       gsb_transaction_data_get_marked_transaction ( gsb_transaction_data_get_transaction_number (transaction ))!= 3 ))
 	    solde = solde + gsb_transaction_data_get_adjusted_amount ( gsb_transaction_data_get_transaction_number (transaction));
@@ -1811,7 +1811,7 @@ struct structure_operation *gsb_transactions_list_get_transaction_next ( struct 
 
     if ( transaction != GINT_TO_POINTER (-1)
 	 &&
-	 transaction -> no_operation_ventilee_associee )
+	 gsb_transaction_data_get_mother_transaction_number ( gsb_transaction_data_get_transaction_number (transaction )))
 	gtk_tree_path_next ( path_sorted );
     else
 	for ( i=0 ; i<gsb_account_get_nb_rows ( gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (transaction))) ; i++ )
@@ -1899,7 +1899,7 @@ gboolean gsb_transactions_list_set_current_transaction ( struct structure_operat
 
 		if ( current_transaction != GINT_TO_POINTER (-1)
 		     &&
-		     current_transaction -> no_operation_ventilee_associee )
+		     gsb_transaction_data_get_mother_transaction_number ( gsb_transaction_data_get_transaction_number (current_transaction )))
 		    i = gsb_account_get_nb_rows (no_account);
 
 		gtk_tree_model_iter_next ( GTK_TREE_MODEL ( model ),
@@ -1937,7 +1937,7 @@ gboolean gsb_transactions_list_set_current_transaction ( struct structure_operat
 
 	    if ( new_transaction != GINT_TO_POINTER (-1)
 		 &&
-		 new_transaction -> no_operation_ventilee_associee )
+		 gsb_transaction_data_get_mother_transaction_number ( gsb_transaction_data_get_transaction_number (new_transaction )))
 		i = gsb_account_get_nb_rows (no_account);
 
 	    gtk_tree_model_iter_next ( GTK_TREE_MODEL ( model ),
@@ -2178,7 +2178,7 @@ struct structure_operation *gsb_transactions_list_find_white_breakdown ( struct 
 	}
 	while ( gsb_transaction_data_get_transaction_number (transaction_pointer) != -2
 		&&
-		transaction_pointer -> no_operation_ventilee_associee != gsb_transaction_data_get_transaction_number (breakdown_mother)
+		gsb_transaction_data_get_mother_transaction_number ( gsb_transaction_data_get_transaction_number (transaction_pointer ))!= gsb_transaction_data_get_transaction_number (breakdown_mother)
 		&&
 		gtk_tree_model_iter_next ( GTK_TREE_MODEL ( model ),
 					   &iter ));
@@ -2186,7 +2186,7 @@ struct structure_operation *gsb_transactions_list_find_white_breakdown ( struct 
 
     if ( gsb_transaction_data_get_transaction_number (transaction_pointer) == -2
 	 &&
-	 transaction_pointer -> no_operation_ventilee_associee == gsb_transaction_data_get_transaction_number (breakdown_mother))
+	 gsb_transaction_data_get_mother_transaction_number ( gsb_transaction_data_get_transaction_number (transaction_pointer ))== gsb_transaction_data_get_transaction_number (breakdown_mother))
 	return ( transaction_pointer );
     else
 	return NULL;
@@ -2358,7 +2358,7 @@ gboolean gsb_transactions_list_edit_current_transaction ( void )
     /* if the transaction is a breakdown, we unsensitive the date and party
      * and we do as if it was a modification of transaction */
 
-    if ( transaction -> no_operation_ventilee_associee )
+    if ( gsb_transaction_data_get_mother_transaction_number ( gsb_transaction_data_get_transaction_number (transaction )))
     {
 	gtk_widget_set_sensitive ( widget_formulaire_par_element (TRANSACTION_FORM_DATE),
 				   FALSE );
@@ -2479,25 +2479,25 @@ gboolean gsb_transactions_list_edit_current_transaction ( void )
 		    }
 		    else
 		    {
-			if ( transaction -> relation_no_operation )
+			if ( gsb_transaction_data_get_transaction_number_transfer ( gsb_transaction_data_get_transaction_number (transaction )))
 			{
 			    /* c'est un virement */
 
 			    entree_prend_focus ( widget );
 
-			    if ( transaction -> relation_no_operation != -1 )
+			    if ( gsb_transaction_data_get_transaction_number_transfer ( gsb_transaction_data_get_transaction_number (transaction ))!= -1 )
 			    {
 				struct structure_operation *contra_transaction;
 
 				gtk_combofix_set_text ( GTK_COMBOFIX ( widget ),
 							g_strconcat ( COLON(_("Transfer")),
-								      gsb_account_get_name (transaction -> relation_no_compte),
+								      gsb_account_get_name (gsb_transaction_data_get_account_number_transfer ( gsb_transaction_data_get_transaction_number (transaction ))),
 								      NULL ));
 
 				/* récupération de la contre opération */
 
-				contra_transaction = operation_par_no ( transaction -> relation_no_operation,
-								      transaction -> relation_no_compte );
+				contra_transaction = operation_par_no ( gsb_transaction_data_get_transaction_number_transfer ( gsb_transaction_data_get_transaction_number (transaction )),
+								      gsb_transaction_data_get_account_number_transfer ( gsb_transaction_data_get_transaction_number (transaction )));
 
 				/* 	  si la contre opération est relevée, on désensitive les categ et les montants */
 
@@ -2624,12 +2624,12 @@ gboolean gsb_transactions_list_edit_current_transaction ( void )
 
 		case TRANSACTION_FORM_CONTRA:
 
-		    if ( transaction -> relation_no_operation )
+		    if ( gsb_transaction_data_get_transaction_number_transfer ( gsb_transaction_data_get_transaction_number (transaction )))
 		    {
 			if ( gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (transaction ))< 0 )
-			    menu = creation_menu_types ( 2, transaction -> relation_no_compte, 0  );
+			    menu = creation_menu_types ( 2, gsb_transaction_data_get_account_number_transfer ( gsb_transaction_data_get_transaction_number (transaction )), 0  );
 			else
-			    menu = creation_menu_types ( 1, transaction -> relation_no_compte, 0  );
+			    menu = creation_menu_types ( 1, gsb_transaction_data_get_account_number_transfer ( gsb_transaction_data_get_transaction_number (transaction )), 0  );
 
 			if ( menu )
 			{
@@ -2641,8 +2641,8 @@ gboolean gsb_transactions_list_edit_current_transaction ( void )
 						       menu );
 			    gtk_widget_show ( widget );
 
-			    contra_transaction = operation_par_no ( transaction -> relation_no_operation,
-								  transaction -> relation_no_compte );
+			    contra_transaction = operation_par_no ( gsb_transaction_data_get_transaction_number_transfer ( gsb_transaction_data_get_transaction_number (transaction )),
+								    gsb_transaction_data_get_account_number_transfer ( gsb_transaction_data_get_transaction_number (transaction )));
 			    if ( contra_transaction )
 				place_type_formulaire ( gsb_transaction_data_get_method_of_payment_number ( gsb_transaction_data_get_transaction_number (contra_transaction )),
 							TRANSACTION_FORM_CONTRA,
@@ -2669,7 +2669,7 @@ gboolean gsb_transactions_list_edit_current_transaction ( void )
     /* the form is full, if it's not a breakdown, we give the focus to the date
      * else, we give the focus to the first free form element */
 
-    if ( transaction -> no_operation_ventilee_associee )
+    if ( gsb_transaction_data_get_mother_transaction_number ( gsb_transaction_data_get_transaction_number (transaction )))
 	focus_to = recherche_element_suivant_formulaire ( TRANSACTION_FORM_DATE,
 							  1 );
     else
@@ -2768,7 +2768,7 @@ void p_press (void)
 
 	    ope_fille = liste_tmp -> data;
 
-	    if ( ope_fille -> no_operation_ventilee_associee == gsb_transaction_data_get_transaction_number (transaction) )
+	    if ( gsb_transaction_data_get_mother_transaction_number ( gsb_transaction_data_get_transaction_number (ope_fille ))== gsb_transaction_data_get_transaction_number (transaction) )
 		gsb_transaction_data_set_marked_transaction ( gsb_transaction_data_get_transaction_number (ope_fille),
 							      gsb_transaction_data_get_marked_transaction ( gsb_transaction_data_get_transaction_number (transaction )));
 
@@ -2904,7 +2904,7 @@ void r_press (void)
 
 	    transaction_child = liste_tmp -> data;
 
-	    if ( transaction_child -> no_operation_ventilee_associee == gsb_transaction_data_get_transaction_number (transaction))
+	    if ( gsb_transaction_data_get_mother_transaction_number ( gsb_transaction_data_get_transaction_number (transaction_child ))== gsb_transaction_data_get_transaction_number (transaction))
 		gsb_transaction_data_set_marked_transaction ( gsb_transaction_data_get_transaction_number (transaction_child),
 													   gsb_transaction_data_get_marked_transaction ( gsb_transaction_data_get_transaction_number (transaction )));
 
@@ -2966,7 +2966,7 @@ gboolean gsb_transactions_list_delete_transaction ( struct structure_operation *
 		&&
 		( next_transaction == transaction 
 		  ||
-		  next_transaction -> no_operation_ventilee_associee == gsb_transaction_data_get_transaction_number (transaction)))
+		  gsb_transaction_data_get_mother_transaction_number ( gsb_transaction_data_get_transaction_number (next_transaction ))== gsb_transaction_data_get_transaction_number (transaction)))
 	    next_transaction = gsb_transactions_list_get_transaction_next ( next_transaction );
 
 	gsb_account_set_current_transaction ( gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (transaction)),
@@ -2975,12 +2975,12 @@ gboolean gsb_transactions_list_delete_transaction ( struct structure_operation *
 
     /* if it's a transfer, delete the contra-transaction */
 
-    if ( transaction -> relation_no_operation
+    if ( gsb_transaction_data_get_transaction_number_transfer ( gsb_transaction_data_get_transaction_number (transaction ))
 	 &&
-	 transaction -> relation_no_compte != -1 )
+	 gsb_transaction_data_get_account_number_transfer ( gsb_transaction_data_get_transaction_number (transaction ))!= -1 )
     {
-	transactions_tmp = operation_par_no ( transaction -> relation_no_operation,
-					      transaction -> relation_no_compte );
+	transactions_tmp = operation_par_no ( gsb_transaction_data_get_transaction_number_transfer ( gsb_transaction_data_get_transaction_number (transaction )),
+					      gsb_transaction_data_get_account_number_transfer ( gsb_transaction_data_get_transaction_number (transaction )));
 
 	gsb_transactions_list_delete_transaction_from_tree_view ( transactions_tmp );
 	gsb_transactions_list_delete_transaction_from_slist ( transactions_tmp );
@@ -2996,20 +2996,20 @@ gboolean gsb_transactions_list_delete_transaction ( struct structure_operation *
 	{
 	    transactions_tmp = transactions_list -> data;
 
-	    if ( transactions_tmp -> no_operation_ventilee_associee == gsb_transaction_data_get_transaction_number (transaction) )
+	    if ( gsb_transaction_data_get_mother_transaction_number ( gsb_transaction_data_get_transaction_number (transactions_tmp ))== gsb_transaction_data_get_transaction_number (transaction) )
 	    {
 		/* on se place tout de suite sur l'opé suivante */
 
 		transactions_list = transactions_list -> next;
 
-		if ( transactions_tmp -> relation_no_operation )
+		if ( gsb_transaction_data_get_transaction_number_transfer ( gsb_transaction_data_get_transaction_number (transactions_tmp )))
 		{
 		    /* the breakdown is a transfer, delete the contra-transaction */
 
 		    struct structure_operation *contra_transaction;
 
-		    contra_transaction = operation_par_no ( transactions_tmp -> relation_no_operation,
-							    transactions_tmp -> relation_no_compte );
+		    contra_transaction = operation_par_no ( gsb_transaction_data_get_transaction_number_transfer ( gsb_transaction_data_get_transaction_number (transactions_tmp )),
+							    gsb_transaction_data_get_account_number_transfer ( gsb_transaction_data_get_transaction_number (transactions_tmp )));
 
 		    gsb_transactions_list_delete_transaction_from_tree_view ( contra_transaction );
 		    gsb_transactions_list_delete_transaction_from_slist ( contra_transaction );
@@ -3093,12 +3093,12 @@ gboolean gsb_transactions_list_check_mark ( struct structure_operation *transact
 
     /* if it's a transfer, check the contra-transaction */
 
-    if ( transaction -> relation_no_operation
+    if ( gsb_transaction_data_get_transaction_number_transfer ( gsb_transaction_data_get_transaction_number (transaction ))
 	 &&
-	 transaction -> relation_no_compte != -1 )
+	 gsb_transaction_data_get_account_number_transfer ( gsb_transaction_data_get_transaction_number (transaction ))!= -1 )
     {
-	transactions_tmp = operation_par_no ( transaction -> relation_no_operation,
-					      transaction -> relation_no_compte );
+	transactions_tmp = operation_par_no ( gsb_transaction_data_get_transaction_number_transfer ( gsb_transaction_data_get_transaction_number (transaction )),
+					      gsb_transaction_data_get_account_number_transfer ( gsb_transaction_data_get_transaction_number (transaction )));
 
 	if ( transactions_tmp
 	     &&
@@ -3117,21 +3117,21 @@ gboolean gsb_transactions_list_check_mark ( struct structure_operation *transact
 	{
 	    transactions_tmp = transactions_list -> data;
 
-	    if ( transactions_tmp -> no_operation_ventilee_associee == gsb_transaction_data_get_transaction_number (transaction) )
+	    if ( gsb_transaction_data_get_mother_transaction_number ( gsb_transaction_data_get_transaction_number (transactions_tmp ))== gsb_transaction_data_get_transaction_number (transaction) )
 	    {
 		/* transactions_tmp is a child of transaction */
 
 		if ( gsb_transaction_data_get_marked_transaction ( gsb_transaction_data_get_transaction_number (transactions_tmp ))== OPERATION_RAPPROCHEE )
 		    return TRUE;
 
-		if (  transactions_tmp -> relation_no_operation )
+		if (  gsb_transaction_data_get_transaction_number_transfer ( gsb_transaction_data_get_transaction_number (transactions_tmp )))
 		{
 		    /* the breakdown is a transfer, we check the contra-transaction */
 
 		    struct structure_operation *contra_transaction;
 
-		    contra_transaction = operation_par_no ( transactions_tmp -> relation_no_operation,
-							    transactions_tmp -> relation_no_compte );
+		    contra_transaction = operation_par_no ( gsb_transaction_data_get_transaction_number_transfer ( gsb_transaction_data_get_transaction_number (transactions_tmp )),
+							    gsb_transaction_data_get_account_number_transfer ( gsb_transaction_data_get_transaction_number (transactions_tmp )));
 
 		    if ( contra_transaction
 			 &&
@@ -3182,7 +3182,7 @@ gboolean gsb_transactions_list_delete_transaction_from_tree_view ( struct struct
 
 	    /* if we are on a breakdown child, it's only 1 line */
 
-	    if ( transaction -> no_operation_ventilee_associee )
+	    if ( gsb_transaction_data_get_mother_transaction_number ( gsb_transaction_data_get_transaction_number (transaction )))
 		i = TRANSACTION_LIST_ROWS_NB;
 	}
 
@@ -3491,9 +3491,9 @@ struct structure_operation *gsb_transactions_list_clone_transaction ( struct str
     gsb_transactions_append_transaction ( new_transaction,
 					  gsb_transaction_data_get_transaction_number (new_transaction));
 
-    if ( new_transaction -> relation_no_operation )
+    if ( gsb_transaction_data_get_transaction_number_transfer ( gsb_transaction_data_get_transaction_number (new_transaction )))
     {
-	gsb_form_validate_transfer ( new_transaction, 1, gsb_account_get_name (new_transaction -> relation_no_compte) );
+	gsb_form_validate_transfer ( new_transaction, 1, gsb_account_get_name (gsb_transaction_data_get_account_number_transfer ( gsb_transaction_data_get_transaction_number (new_transaction ))) );
     }
 
     gsb_transactions_list_append_new_transaction ( new_transaction );
@@ -3510,10 +3510,11 @@ struct structure_operation *gsb_transactions_list_clone_transaction ( struct str
 
 	    operation_2 = liste_tmp -> data;
 
-	    if ( operation_2 -> no_operation_ventilee_associee == gsb_transaction_data_get_transaction_number (transaction) )
+	    if ( gsb_transaction_data_get_mother_transaction_number ( gsb_transaction_data_get_transaction_number (operation_2 ))== gsb_transaction_data_get_transaction_number (transaction) )
 	    {
 		ope_ventilee = gsb_transactions_list_clone_transaction ( operation_2 );
-		ope_ventilee -> no_operation_ventilee_associee = gsb_transaction_data_get_transaction_number (new_transaction);
+		gsb_transaction_data_set_mother_transaction_number ( gsb_transaction_data_get_transaction_number (ope_ventilee),
+								     gsb_transaction_data_get_transaction_number (new_transaction));
 	    }
 
 	    liste_tmp = liste_tmp -> next;
@@ -3622,24 +3623,25 @@ gboolean move_operation_to_account ( struct structure_operation * transaction,
     gint no_transaction;
 
     no_transaction = gsb_transaction_data_get_transaction_number (transaction);
-    if ( transaction -> relation_no_operation )
+    if ( gsb_transaction_data_get_transaction_number_transfer ( gsb_transaction_data_get_transaction_number (transaction )))
     {
 	struct structure_operation * contra_transaction;
 
 	/* 	l'opération est un virement, si on veut la déplacer vers le compte */
 	/* 	    viré, on refuse */
 
-	if ( transaction -> relation_no_compte == account )
+	if ( gsb_transaction_data_get_account_number_transfer ( gsb_transaction_data_get_transaction_number (transaction ))== account )
 	{
 	    dialogue_error ( _("Cannot move a transfer on his contra-account"));
 	    return FALSE;
 	}
 
-	contra_transaction = operation_par_no (  transaction -> relation_no_operation,
-						 transaction -> relation_no_compte );
+	contra_transaction = operation_par_no (  gsb_transaction_data_get_transaction_number_transfer ( gsb_transaction_data_get_transaction_number (transaction )),
+						 gsb_transaction_data_get_account_number_transfer ( gsb_transaction_data_get_transaction_number (transaction )));
 	if ( contra_transaction )
 	{
-	    contra_transaction -> relation_no_compte = account;
+	    gsb_transaction_data_set_account_number_transfer ( gsb_transaction_data_get_transaction_number (contra_transaction),
+							       account);
 
 	    /* 	    p_tab est placé par la fonction suivante, et on remet gsb_account_get_finished_balance_showed () à 1 */
 	    /* 		car est remis à 0 mais on ne change pas le solde */
@@ -3663,11 +3665,12 @@ gboolean move_operation_to_account ( struct structure_operation * transaction,
 
 	    transaction_2 = liste_tmp -> data;
 
-	    if ( transaction_2 -> no_operation_ventilee_associee == 
+	    if ( gsb_transaction_data_get_mother_transaction_number ( gsb_transaction_data_get_transaction_number (transaction_2 ))== 
 		 no_transaction )
 	    {
 		move_operation_to_account ( transaction_2, account );
-		transaction_2 -> relation_no_compte = account;
+		gsb_transaction_data_set_account_number_transfer ( gsb_transaction_data_get_transaction_number (transaction_2),
+								   account);
 	    }
 
 	    liste_tmp = liste_tmp -> next;
@@ -3784,15 +3787,15 @@ struct operation_echeance *schedule_transaction ( struct structure_operation * t
     /* 	mais si categ et sous categ sont à 0 et que ce n'est pas un virement ni une ventil, compte_virement = -1 */
     /*     on va changer ça la prochaine version, dès que c'est pas un virement -> -1 */
 
-    if ( transaction -> relation_no_operation )
+    if ( gsb_transaction_data_get_transaction_number_transfer ( gsb_transaction_data_get_transaction_number (transaction )))
     {
 	/* 	c'est un virement, on met la relation et on recherche le type de la contre opération */
 
 	struct structure_operation *contra_transaction;
 
-	echeance -> compte_virement = transaction -> relation_no_compte;
+	echeance -> compte_virement = gsb_transaction_data_get_account_number_transfer ( gsb_transaction_data_get_transaction_number (transaction ));
 
-	contra_transaction = operation_par_no ( transaction -> relation_no_operation,
+	contra_transaction = operation_par_no ( gsb_transaction_data_get_transaction_number_transfer ( gsb_transaction_data_get_transaction_number (transaction )),
 					      echeance -> compte_virement );
 	if ( contra_transaction )
 	    echeance -> type_contre_ope = gsb_transaction_data_get_method_of_payment_number ( gsb_transaction_data_get_transaction_number (contra_transaction ));
@@ -3841,7 +3844,7 @@ struct operation_echeance *schedule_transaction ( struct structure_operation * t
 
 	    transaction_de_ventil = liste_tmp -> data;
 
-	    if ( transaction_de_ventil -> no_operation_ventilee_associee == gsb_transaction_data_get_transaction_number (transaction) )
+	    if ( gsb_transaction_data_get_mother_transaction_number ( gsb_transaction_data_get_transaction_number (transaction_de_ventil ))== gsb_transaction_data_get_transaction_number (transaction) )
 	    {
 		struct operation_echeance *echeance_de_ventil;
 
@@ -3868,15 +3871,15 @@ struct operation_echeance *schedule_transaction ( struct structure_operation * t
 		/* 	mais si categ et sous categ sont à 0 et que ce n'est pas un virement, compte_virement = -1 */
 		/*     on va changer ça la prochaine version, dès que c'est pas un virement -> -1 */
 
-		if ( transaction_de_ventil -> relation_no_operation )
+		if ( gsb_transaction_data_get_transaction_number_transfer ( gsb_transaction_data_get_transaction_number (transaction_de_ventil )))
 		{
 		    /* 	c'est un virement, on met la relation et on recherche le type de la contre opération */
 
 		    struct structure_operation *contra_transaction;
 
-		    echeance_de_ventil -> compte_virement = transaction_de_ventil -> relation_no_compte;
+		    echeance_de_ventil -> compte_virement = gsb_transaction_data_get_account_number_transfer ( gsb_transaction_data_get_transaction_number (transaction_de_ventil ));
 
-		    contra_transaction = operation_par_no ( transaction_de_ventil -> relation_no_operation,
+		    contra_transaction = operation_par_no ( gsb_transaction_data_get_transaction_number_transfer ( gsb_transaction_data_get_transaction_number (transaction_de_ventil )),
 							  echeance_de_ventil -> compte_virement );
 
 		    if ( contra_transaction )
@@ -4355,7 +4358,7 @@ gboolean gsb_transactions_list_set_visibles_rows_on_account ( gint no_account )
 	    /* if it's a breakdown, we do nothing, only the user choose
 	     * what is shown or not */
 
-	    if ( transaction -> no_operation_ventilee_associee )
+	    if ( gsb_transaction_data_get_mother_transaction_number ( gsb_transaction_data_get_transaction_number (transaction )))
 		continue;
 
 	    /* 	    now we check if we show 1, 2, 3 or 4 lines */
@@ -4457,12 +4460,12 @@ gboolean gsb_transactions_list_set_visibles_rows_on_transaction ( struct structu
     /* if the transaction is a breakdown, we check with the mother
      * if it sould be shown or not */
 
-    if ( transaction -> no_operation_ventilee_associee )
+    if ( gsb_transaction_data_get_mother_transaction_number ( gsb_transaction_data_get_transaction_number (transaction )))
     {
 	GtkTreeIter *iter_2;
 	gboolean mother_is_expanded;
 
-	iter_2 = cherche_iter_operation ( operation_par_no ( transaction -> no_operation_ventilee_associee,
+	iter_2 = cherche_iter_operation ( operation_par_no ( gsb_transaction_data_get_mother_transaction_number ( gsb_transaction_data_get_transaction_number (transaction )),
 							     gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (transaction))),
 					  gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (transaction)));
 
@@ -4552,11 +4555,11 @@ gchar *gsb_transactions_get_category_real_name ( struct structure_operation *tra
 	temp = _("Breakdown of transaction");
     else
     {
-	if ( transaction -> relation_no_operation )
+	if ( gsb_transaction_data_get_transaction_number_transfer ( gsb_transaction_data_get_transaction_number (transaction )))
 	{
 	    /** it's a transfer */
 
-	    if ( transaction -> relation_no_compte == -1 )
+	    if ( gsb_transaction_data_get_account_number_transfer ( gsb_transaction_data_get_transaction_number (transaction ))== -1 )
 	    {
 		if ( gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (transaction ))< 0 )
 		    temp = _("Transfer to a deleted account");
@@ -4567,10 +4570,10 @@ gchar *gsb_transactions_get_category_real_name ( struct structure_operation *tra
 	    {
 		if ( gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (transaction ))< 0 )
 		    temp = g_strdup_printf ( _("Transfer to %s"),
-					     gsb_account_get_name ( transaction -> relation_no_compte) );
+					     gsb_account_get_name ( gsb_transaction_data_get_account_number_transfer ( gsb_transaction_data_get_transaction_number (transaction ))) );
 		else
 		    temp = g_strdup_printf ( _("Transfer from %s"),
-					     gsb_account_get_name ( transaction -> relation_no_compte) );
+					     gsb_account_get_name ( gsb_transaction_data_get_account_number_transfer ( gsb_transaction_data_get_transaction_number (transaction ))) );
 	    }
 	}
 	else
@@ -4611,7 +4614,7 @@ gboolean gsb_account_list_set_breakdowns_visible ( gint no_account,
 
 	if ( child_transaction != GINT_TO_POINTER (-1)
 	     &&
-	     child_transaction -> no_operation_ventilee_associee == gsb_transaction_data_get_transaction_number (transaction))
+	     gsb_transaction_data_get_mother_transaction_number ( gsb_transaction_data_get_transaction_number (child_transaction ))== gsb_transaction_data_get_transaction_number (transaction))
 	    gtk_list_store_set ( GTK_LIST_STORE ( model ),
 				 &iter,
 				 TRANSACTION_COL_NB_VISIBLE, visible,

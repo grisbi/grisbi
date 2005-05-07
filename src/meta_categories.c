@@ -360,7 +360,8 @@ gint category_transaction_div_id ( struct structure_operation * transaction )
 {
     if ( transaction )
     {
-	if ( transaction -> relation_no_operation || 
+	if ( gsb_transaction_data_get_transaction_number_transfer ( gsb_transaction_data_get_transaction_number (transaction ))
+	     || 
 	     gsb_transaction_data_get_breakdown_of_transaction ( gsb_transaction_data_get_transaction_number (transaction )))
 	    return -1;
 	else

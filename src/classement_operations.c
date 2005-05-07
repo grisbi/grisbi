@@ -500,15 +500,15 @@ gint gsb_transactions_list_breakdown_test ( GtkSortType sort_type )
 {
     gint return_value = 0;
 
-    if ( transaction_1 -> no_operation_ventilee_associee )
+    if ( gsb_transaction_data_get_mother_transaction_number ( gsb_transaction_data_get_transaction_number (transaction_1 )))
     {
-	if ( gsb_transaction_data_get_transaction_number (transaction_2) == transaction_1 -> no_operation_ventilee_associee )
+	if ( gsb_transaction_data_get_transaction_number (transaction_2) == gsb_transaction_data_get_mother_transaction_number ( gsb_transaction_data_get_transaction_number (transaction_1 )))
 	    return_value = 1;
 	else
 	{
-	    if ( transaction_2 -> no_operation_ventilee_associee )
+	    if ( gsb_transaction_data_get_mother_transaction_number ( gsb_transaction_data_get_transaction_number (transaction_2 )))
 	    {
-		if ( transaction_2 -> no_operation_ventilee_associee == transaction_1 -> no_operation_ventilee_associee )
+		if ( gsb_transaction_data_get_mother_transaction_number ( gsb_transaction_data_get_transaction_number (transaction_2 ))== gsb_transaction_data_get_mother_transaction_number ( gsb_transaction_data_get_transaction_number (transaction_1 )))
 		{
 		    if ( gsb_transaction_data_get_transaction_number (transaction_1) == -2 )
 			return_value = 1;
@@ -520,25 +520,25 @@ gint gsb_transactions_list_breakdown_test ( GtkSortType sort_type )
 		}
 		else
 		{
-		    transaction_1 = operation_par_no ( transaction_1 -> no_operation_ventilee_associee,
+		    transaction_1 = operation_par_no ( gsb_transaction_data_get_mother_transaction_number ( gsb_transaction_data_get_transaction_number (transaction_1 )),
 						       gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (transaction_1)));
-		    transaction_2 = operation_par_no ( transaction_2 -> no_operation_ventilee_associee,
+		    transaction_2 = operation_par_no ( gsb_transaction_data_get_mother_transaction_number ( gsb_transaction_data_get_transaction_number (transaction_2 )),
 						       gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (transaction_2)));
 		}
 	    }
 	    else
-		transaction_1 = operation_par_no ( transaction_1 -> no_operation_ventilee_associee,
+		transaction_1 = operation_par_no ( gsb_transaction_data_get_mother_transaction_number ( gsb_transaction_data_get_transaction_number (transaction_1 )),
 						   gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (transaction_1)));
 	}
     }
     else
     {
-	if ( transaction_2 -> no_operation_ventilee_associee )
+	if ( gsb_transaction_data_get_mother_transaction_number ( gsb_transaction_data_get_transaction_number (transaction_2 )))
 	{
-	    if ( gsb_transaction_data_get_transaction_number (transaction_1) == transaction_2 -> no_operation_ventilee_associee )
+	    if ( gsb_transaction_data_get_transaction_number (transaction_1) == gsb_transaction_data_get_mother_transaction_number ( gsb_transaction_data_get_transaction_number (transaction_2 )))
 		return_value = -1;
 	    else
-		transaction_2 = operation_par_no ( transaction_2 -> no_operation_ventilee_associee,
+		transaction_2 = operation_par_no ( gsb_transaction_data_get_mother_transaction_number ( gsb_transaction_data_get_transaction_number (transaction_2 )),
 						   gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (transaction_2)));
 	}
     }

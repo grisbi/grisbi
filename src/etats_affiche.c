@@ -1230,14 +1230,14 @@ gint etat_affiche_affichage_ligne_ope ( struct structure_operation *operation,
 		/* si c'est un virement, on le marque, sinon c'est qu'il n'y a pas de categ */
 		/* ou que c'est une opé ventilée, et on marque rien */
 
-		if ( operation -> relation_no_operation )
+		if ( gsb_transaction_data_get_transaction_number_transfer ( gsb_transaction_data_get_transaction_number (operation )))
 		{
 		    /* c'est un virement */
 
 		    if ( gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (operation ))< 0 )
-			pointeur = g_strdup_printf ( _("Transfer to %s"), gsb_account_get_name (operation -> relation_no_compte) );
+			pointeur = g_strdup_printf ( _("Transfer to %s"), gsb_account_get_name (gsb_transaction_data_get_account_number_transfer ( gsb_transaction_data_get_transaction_number (operation ))) );
 		    else
-			pointeur = g_strdup_printf ( _("Transfer from %s"), gsb_account_get_name (operation -> relation_no_compte) );
+			pointeur = g_strdup_printf ( _("Transfer from %s"), gsb_account_get_name (gsb_transaction_data_get_account_number_transfer ( gsb_transaction_data_get_transaction_number (operation ))) );
 		}
 	    }
 
@@ -1331,7 +1331,7 @@ gint etat_affiche_affichage_ligne_ope ( struct structure_operation *operation,
 	{
 	    /* Si l'opération est une opération de ventilation, il faut rechercher
 	       l'opération mère pour pouvoir récupérer le n° du chèque */
-	    if ( operation -> no_operation_ventilee_associee )
+	    if ( gsb_transaction_data_get_mother_transaction_number ( gsb_transaction_data_get_transaction_number (operation )))
 	    {
 		GSList *pTransactionList;
 		gboolean found = FALSE;
@@ -1348,8 +1348,7 @@ gint etat_affiche_affichage_ligne_ope ( struct structure_operation *operation,
 		    
 		    if ( gsb_transaction_data_get_breakdown_of_transaction ( gsb_transaction_data_get_transaction_number (pTransaction ))
 			 &&
-			 gsb_transaction_data_get_transaction_number (pTransaction) == operation -> no_operation_ventilee_associee
-			 &&
+			 gsb_transaction_data_get_transaction_number (pTransaction) == gsb_transaction_data_get_mother_transaction_number ( gsb_transaction_data_get_transaction_number (operation ))&&
 			 gsb_transaction_data_get_method_of_payment_content ( gsb_transaction_data_get_transaction_number (pTransaction )))
 		    {
 			gsb_transaction_data_set_method_of_payment_content ( gsb_transaction_data_get_transaction_number (operation ),
@@ -1589,7 +1588,7 @@ gint etat_affiche_affiche_categ_etat ( struct structure_operation *operation,
 	   ||
 	   ( ancienne_categ_speciale_etat == 1
 	     &&
-	     !operation -> relation_no_operation )
+	     !gsb_transaction_data_get_transaction_number_transfer ( gsb_transaction_data_get_transaction_number (operation )))
 	   ||
 	   ( ancienne_categ_speciale_etat == 2
 	     &&
@@ -1599,7 +1598,7 @@ gint etat_affiche_affiche_categ_etat ( struct structure_operation *operation,
 	     &&
 	     ( gsb_transaction_data_get_breakdown_of_transaction ( gsb_transaction_data_get_transaction_number (operation ))
 	       ||
-	       operation -> relation_no_operation ))))
+	       gsb_transaction_data_get_transaction_number_transfer ( gsb_transaction_data_get_transaction_number (operation ))))))
     {
 
 	/* lorsqu'on est au début de l'affichage de l'état, on n'affiche pas de totaux */
@@ -1639,7 +1638,7 @@ gint etat_affiche_affiche_categ_etat ( struct structure_operation *operation,
 	    }
 	    else
 	    {
-		if ( operation -> relation_no_operation )
+		if ( gsb_transaction_data_get_transaction_number_transfer ( gsb_transaction_data_get_transaction_number (operation )))
 		{
 		    pointeur_char = g_strconcat ( decalage_categ,
 						  _("Transfert"),

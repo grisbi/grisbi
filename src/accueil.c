@@ -903,7 +903,7 @@ void update_liste_comptes_accueil ( void )
 		    operation = liste_operations_tmp -> data;
 
 		    /* si c'est une opé de ventilation, on la saute */
-		    if ( !operation -> no_operation_ventilee_associee )
+		    if ( !gsb_transaction_data_get_mother_transaction_number ( gsb_transaction_data_get_transaction_number (operation )))
 		    {
 			/* quelle que soit l'opération (relevée ou non), on calcule les soldes courant */
 			montant = gsb_transaction_data_get_adjusted_amount ( gsb_transaction_data_get_transaction_number (operation));
@@ -1231,7 +1231,7 @@ void update_liste_comptes_accueil ( void )
 		    operation = liste_operations_tmp -> data;
 
 		    /* si c'est une opé de ventilation, on la saute */
-		    if ( !operation -> no_operation_ventilee_associee )
+		    if ( !gsb_transaction_data_get_mother_transaction_number ( gsb_transaction_data_get_transaction_number (operation )))
 		    {
 			/* quelle que soit l'opération (relevée ou non), on calcule les soldes courant */
 			montant = gsb_transaction_data_get_adjusted_amount ( gsb_transaction_data_get_transaction_number (operation));

@@ -1357,5 +1357,125 @@ gboolean gsb_transaction_data_set_bank_references ( gint no_transaction,
 }
 
 
+/** get the  transaction_number_transfer
+ * \param no_transaction the number of the transaction
+ * \return the transaction_number_transfer number of the transaction
+ * */
+gint gsb_transaction_data_get_transaction_number_transfer ( gint no_transaction )
+{
+    struct_transaction *transaction;
+
+    transaction = gsb_transaction_data_get_transaction_by_no ( no_transaction,
+							       -1 );
+
+    if ( !transaction )
+	return -1;
+
+    return transaction -> transaction_number_transfer;
+}
+
+
+/** set the transaction_number_transfer
+ * \param no_transaction
+ * \param transaction_number_transfer
+ * \return TRUE if ok
+ * */
+gboolean gsb_transaction_data_set_transaction_number_transfer ( gint no_transaction,
+							 gint transaction_number_transfer )
+{
+    struct_transaction *transaction;
+
+    transaction = gsb_transaction_data_get_transaction_by_no ( no_transaction,
+							       -1 );
+
+    if ( !transaction )
+	return FALSE;
+
+    transaction -> transaction_number_transfer = transaction_number_transfer;
+
+    return TRUE;
+}
+
+
+/** get the  account_number_transfer
+ * \param no_transaction the number of the transaction
+ * \return the account_number_transfer number of the transaction
+ * */
+gint gsb_transaction_data_get_account_number_transfer ( gint no_transaction )
+{
+    struct_transaction *transaction;
+
+    transaction = gsb_transaction_data_get_transaction_by_no ( no_transaction,
+							       -1 );
+
+    if ( !transaction )
+	return -1;
+
+    return transaction -> account_number_transfer;
+}
+
+
+/** set the account_number_transfer
+ * \param no_transaction
+ * \param account_number_transfer
+ * \return TRUE if ok
+ * */
+gboolean gsb_transaction_data_set_account_number_transfer ( gint no_transaction,
+							    gint account_number_transfer )
+{
+    struct_transaction *transaction;
+
+    transaction = gsb_transaction_data_get_transaction_by_no ( no_transaction,
+							       -1 );
+
+    if ( !transaction )
+	return FALSE;
+
+    transaction -> account_number_transfer = account_number_transfer;
+
+    return TRUE;
+}
+
+
+
+/** get the  mother_transaction_number
+ * \param no_transaction the number of the transaction
+ * \return the mother_transaction_number of the transaction
+ * */
+gint gsb_transaction_data_get_mother_transaction_number ( gint no_transaction )
+{
+    struct_transaction *transaction;
+
+    transaction = gsb_transaction_data_get_transaction_by_no ( no_transaction,
+							       -1 );
+
+    if ( !transaction )
+	return -1;
+
+    return transaction -> mother_transaction_number;
+}
+
+
+/** set the mother_transaction_number
+ * \param no_transaction
+ * \param mother_transaction_number
+ * \return TRUE if ok
+ * */
+gboolean gsb_transaction_data_set_mother_transaction_number ( gint no_transaction,
+							      gint mother_transaction_number )
+{
+    struct_transaction *transaction;
+
+    transaction = gsb_transaction_data_get_transaction_by_no ( no_transaction,
+							       -1 );
+
+    if ( !transaction )
+	return FALSE;
+
+    transaction -> mother_transaction_number = mother_transaction_number;
+
+    return TRUE;
+}
+
 
 

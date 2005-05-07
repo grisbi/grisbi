@@ -860,7 +860,7 @@ gboolean gsb_reconcile_mark_transaction ( struct structure_operation *transactio
 
 	    ope_fille = liste_tmp -> data;
 
-	    if ( ope_fille -> no_operation_ventilee_associee == gsb_transaction_data_get_transaction_number (transaction))
+	    if ( gsb_transaction_data_get_mother_transaction_number ( gsb_transaction_data_get_transaction_number (ope_fille ))== gsb_transaction_data_get_transaction_number (transaction))
 		gsb_transaction_data_set_marked_transaction ( gsb_transaction_data_get_transaction_number (ope_fille),
 							      gsb_transaction_data_get_marked_transaction ( gsb_transaction_data_get_transaction_number (transaction )));
 

@@ -326,7 +326,7 @@ void fill_transaction_row ( GtkTreeModel * model, GtkTreeIter * iter,
 	label = g_strconcat ( label, " : ", notes, NULL );
     }
 
-    if ( operation -> no_operation_ventilee_associee )
+    if ( gsb_transaction_data_get_mother_transaction_number ( gsb_transaction_data_get_transaction_number (operation )))
     {
 	label = g_strconcat ( label, " (", _("breakdown"), ")", NULL );
     }
@@ -725,7 +725,8 @@ gboolean division_column_expanded  ( GtkTreeView * treeview, GtkTreeIter * iter,
 		if ( operation &&
 		     iface -> transaction_div_id ( operation ) == no_division &&
 		     iface -> transaction_sub_div_id ( operation ) == no_sub_division/*  && */
-/* 		     !operation -> relation_no_operation && */
+/* 		     !gsb_transaction_data_get_transaction_number_transfer ( gsb_transaction_data_get_transaction_number (operation ))
+ *  		     && */
 /* 		     !gsb_transaction_data_get_breakdown_of_transaction ( gsb_transaction_data_get_transaction_number (operation ))*/ )
 		{
 		    if ( !first )
@@ -935,7 +936,8 @@ gboolean division_drag_data_received ( GtkTreeDragDest * drag_dest, GtkTreePath 
 			if ( transaction &&
 			     iface -> transaction_div_id (transaction) == no_orig_division &&
 			     iface -> transaction_sub_div_id (transaction) == no_orig_sub_division /* && */
-/* 			     !transaction -> relation_no_operation && */
+/* 			     !gsb_transaction_data_get_transaction_number_transfer ( gsb_transaction_data_get_transaction_number (transaction ))
+ *  			     && */
 /* 			     !gsb_transaction_data_get_breakdown_of_transaction ( gsb_transaction_data_get_transaction_number (transaction ))*/)
 			{
 			    GtkTreePath * path;

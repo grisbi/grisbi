@@ -200,7 +200,7 @@ void calcule_total_montant_payee ( void )
 	    }
 	    else if ( ! gsb_transaction_data_get_breakdown_of_transaction ( gsb_transaction_data_get_transaction_number (operation ))
 		      && 
-		      ! operation -> relation_no_operation )
+		      ! gsb_transaction_data_get_transaction_number_transfer ( gsb_transaction_data_get_transaction_number (operation )))
 	    {
 		add_transaction_to_payee ( operation, without_payee );
 	    }

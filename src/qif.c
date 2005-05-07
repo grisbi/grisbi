@@ -1148,7 +1148,7 @@ choix_liste_fichier:
 		    /* si c'est une opé de ventilation, on la saute pas elle sera recherchée quand */
 		    /* son opé ventilée sera exportée */
 
-		    if ( !operation -> no_operation_ventilee_associee )
+		    if ( !gsb_transaction_data_get_mother_transaction_number ( gsb_transaction_data_get_transaction_number (operation )))
 		    {
 			/* met la date */
 
@@ -1243,15 +1243,15 @@ choix_liste_fichier:
 
 				ope_test = liste_ventil -> data;
 
-				if ( ope_test -> no_operation_ventilee_associee == gsb_transaction_data_get_transaction_number (operation)
+				if ( gsb_transaction_data_get_mother_transaction_number ( gsb_transaction_data_get_transaction_number (ope_test ))== gsb_transaction_data_get_transaction_number (operation)
 				     &&
 				     ( gsb_transaction_data_get_category_number ( gsb_transaction_data_get_transaction_number (ope_test ))
 				       ||
-				       ope_test -> relation_no_operation ))
+				       gsb_transaction_data_get_transaction_number_transfer ( gsb_transaction_data_get_transaction_number (ope_test ))))
 				{
 				    /* on commence par mettre la catég et sous categ de l'opé et de l'opé de ventilation */
 
-				    if ( ope_test -> relation_no_operation )
+				    if ( gsb_transaction_data_get_transaction_number_transfer ( gsb_transaction_data_get_transaction_number (ope_test )))
 				    {
 					/* c'est un virement */
 
@@ -1260,7 +1260,7 @@ choix_liste_fichier:
 					    fprintf ( fichier_qif,
 						      "L%s\n",
 						      g_strconcat ( "[",
-								    gsb_account_get_name (ope_test -> relation_no_compte),
+								    gsb_account_get_name (gsb_transaction_data_get_account_number_transfer ( gsb_transaction_data_get_transaction_number (ope_test ))),
 								    "]",
 								    NULL ));
 					    categ_ope_mise = 1;
@@ -1269,7 +1269,7 @@ choix_liste_fichier:
 					fprintf ( fichier_qif,
 						  "S%s\n",
 						  g_strconcat ( "[",
-								gsb_account_get_name (ope_test -> relation_no_compte),
+								gsb_account_get_name (gsb_transaction_data_get_account_number_transfer ( gsb_transaction_data_get_transaction_number (ope_test ))),
 								"]",
 								NULL ));
 
@@ -1360,16 +1360,16 @@ choix_liste_fichier:
 			{
 			    /* si c'est un virement vers un compte supprimé, ça sera pris comme categ normale vide */
 
-			    if ( operation -> relation_no_operation
+			    if ( gsb_transaction_data_get_transaction_number_transfer ( gsb_transaction_data_get_transaction_number (operation ))
 				 &&
-				 operation -> relation_no_compte >= 0 )
+				 gsb_transaction_data_get_account_number_transfer ( gsb_transaction_data_get_transaction_number (operation ))>= 0 )
 			    {
 				/* c'est un virement */
 
 				fprintf ( fichier_qif,
 					  "L%s\n",
 					  g_strconcat ( "[",
-							gsb_account_get_name (operation -> relation_no_compte),
+							gsb_account_get_name (gsb_transaction_data_get_account_number_transfer ( gsb_transaction_data_get_transaction_number (operation ))),
 							"]",
 							NULL ));
 

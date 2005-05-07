@@ -37,6 +37,7 @@
 #include "fichiers_gestion.h"
 #include "gsb_account.h"
 #include "operations_comptes.h"
+#include "gsb_transaction_data.h"
 #include "main.h"
 #include "categories_onglet.h"
 #include "imputation_budgetaire.h"
@@ -233,9 +234,10 @@ gboolean delete_account ( void )
 
 	    operation = pointeur_tmp -> data;
 
-	    if ( operation -> relation_no_compte == deleted_account )
+	    if ( gsb_transaction_data_get_account_number_transfer ( gsb_transaction_data_get_transaction_number (operation ))== deleted_account )
 	    {
-		operation -> relation_no_compte = -1;
+		gsb_transaction_data_set_account_number_transfer ( gsb_transaction_data_get_transaction_number (operation),
+								   -1);
 		gsb_account_set_update_list ( i,
 					      1 );
 	    }
