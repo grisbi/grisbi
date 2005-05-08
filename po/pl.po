@@ -8,9 +8,9 @@ msgstr ""
 "Project-Id-Version: pl\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-05-05 20:30+0200\n"
-"PO-Revision-Date: 2005-05-03 20:17+0200\n"
+"PO-Revision-Date: 2005-05-06 13:19+0200\n"
 "Last-Translator: Ryszard Jeziorski <r.jeziorski@dart.kielce.pl>\n"
-"Language-Team:  <>\n"
+"Language-Team: Polish\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1379,10 +1379,8 @@ msgstr "Import listy kategorii"
 
 #. il y a dÃ©jÃ  des opÃ©rations dans le fichier, on ne peut que fusionner
 #: src/categories_onglet.c:3139
-msgid ""
-"File already contains transactions, the two categories lists will be merged."
-msgstr ""
-"Ponieważ plik zawiera już transakcje listy kategorii zostaną połączone."
+msgid "File already contains transactions, the two categories lists will be merged."
+msgstr "Ponieważ plik zawiera już transakcje listy kategorii zostaną połączone."
 
 #: src/categories_onglet.c:3149 src/imputation_budgetaire.c:2887
 msgid "Do you want"
@@ -1410,7 +1408,7 @@ msgid "No inconsistency found."
 msgstr "Nie znaleziono błędów"
 
 #: src/check.c:149
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "<span weight=\"bold\">%s</span>\n"
 "  Last reconciliation amount : %4.2f%s\n"
@@ -1419,7 +1417,6 @@ msgstr ""
 "<span weight=\"bold\">%s</span>\n"
 "  Ostatnia potwierdzona kwota : %4.2f%s\n"
 "  Wyliczona potwierdzona kwota : %4.2f%s\n"
-"\n"
 
 #: src/check.c:164
 msgid ""
@@ -1433,8 +1430,8 @@ msgstr ""
 "Grisbi znalazł konta, dla których kwota potwierdzenia nie pokrywa się z sumą "
 "potwierdzonych transakcji. Najczęściej przyczyną tego stanu jest za duża "
 "ilość potwierdzeń dla transferów. Aby usunąć ten problem należy ręcznie "
-"anulować potwierdzenia dla niezgodnych kont.\n"
-"Następujące konta są niezgodne:\n"
+"anulować potwierdzenia dla niespójnych kont.\n"
+"Następujące konta są niespójne:\n"
 "\n"
 
 #: src/check.c:173 src/check.c:528 src/check.c:666
@@ -1451,14 +1448,15 @@ msgid ""
 "Some sub-categories are duplicates:\n"
 "\n"
 msgstr ""
+"Niektóre podkategorie są powielone:\n"
+"\n"
 
 #: src/check.c:234
-#, fuzzy, c-format
+#, c-format
 msgid "In <i>%s</i>, <i>%s</i> is a duplicate of <i>%s</i>.\n"
-msgstr "Podkategoria <i>'%s : %s'</i> jest powtórzona w <i>'%s : %s'</i>\n"
+msgstr "W <i>%s</i>, <i>%s</i> jest duplikat z <i>%s</i>.\n"
 
 #: src/check.c:250
-#, fuzzy
 msgid ""
 "Due to a bug in previous versions of Grisbi, sub-categories may share the "
 "same numeric id in some cases, resulting in transactions having two sub-"
@@ -1480,13 +1478,11 @@ msgid "Fix inconsistencies in sub-categories?"
 msgstr "Poprawić niezgodności w podkategorii?"
 
 #: src/check.c:339
-#, fuzzy, c-format
-msgid ""
-"Sub-budgetary line <i>'%s : %s'</i> is a duplicate of <i>'%s : %s'</i>\n"
-msgstr "Podkategoria <i>'%s : %s'</i> jest powtórzona w <i>'%s : %s'</i>\n"
+#, c-format
+msgid "Sub-budgetary line <i>'%s : %s'</i> is a duplicate of <i>'%s : %s'</i>\n"
+msgstr "Podgrupa linii budżetowej <i>'%s : %s'</i> jest powtórzona w <i>'%s : %s'</i>\n"
 
 #: src/check.c:356
-#, fuzzy
 msgid ""
 "Due to a bug in previous versions of Grisbi, sub-budgetary lines may share "
 "the same numeric id in some cases, resulting in transactions having two sub-"
@@ -1496,29 +1492,27 @@ msgid ""
 "No transactions will be lost, but in some cases, you will have to manually "
 "move transactions to this new sub-budgetary line."
 msgstr ""
-"Z powodu błędu w poprzedniej wersji Grisbi podkategorie mogą mieć te same "
+"Z powodu błędu w poprzedniej wersji Grisbi podgrupy linii budżetowych mogą mieć te same "
 "numery identyfikacyjne. Grisbi usunie jedną z dwóch podkategorii o takim "
 "samym identyfikatorze i utworzy ją ponownie z nowym identyfikatorem.\n"
 "\n"
-"Żadne transakcje nie zostaną skasowane, co najwyżej trzeba będzie ręcznie "
-"przenieść transakcje do nowych podkategorii."
+"Żadne transakcje nie zostaną skasowane, co najwyżej trzeba będzie ręcznie przenieść transakcje do nowych podgrup linii budżetowych."
 
 #: src/check.c:366
-#, fuzzy
 msgid "Fix inconsistencies in sub-budgetary lines?"
-msgstr "Poprawić niezgodności w podkategorii?"
+msgstr "Poprawić niezgodności w podgrupie linii budżetowych?"
 
 #: src/check.c:469
 #, c-format
 msgid "Transaction #%d should have a contra #%d, but this one doesn't exist.\n"
-msgstr ""
+msgstr "Dla transakcji #%d powinna istnieć powiązana transakcja #%d.\n"
 
 #: src/check.c:494
 #, c-format
 msgid ""
 "Transaction #%d have a contra #%d, but transaction #%d have a contra #%d "
 "instead of #%d.\n"
-msgstr ""
+msgstr "Transakcja #%d ma powiązaną transakcję #%d, ale transakcja #%d ma powiązaną #%d zamiast #%d.\n"
 
 #: src/check.c:520
 msgid ""
@@ -1527,18 +1521,20 @@ msgid ""
 "happened.\n"
 "The following accounts are inconsistent:\n"
 msgstr ""
+"Grisbi odnalazł transfery których powiązania nie są spójne.  Niestety nie można stwierdzić co było tego powodem.\n"
+"Następujące konta są niespójne:\n"
 
 #: src/check.c:615
 #, c-format
 msgid "Breakdown line #%d is orpheanous.\n"
-msgstr ""
+msgstr "Pozycja transakcji zbiorczej #%d nie ma dowiązania.\n"
 
 #: src/check.c:633
 #, c-format
 msgid ""
 "Transaction #%d has a financial year named %s and breakdown line #%d of this "
 "transaction has a financial year named %s\n"
-msgstr ""
+msgstr "Transakcja #%d ma wybrany rok finansowy o nazwie %s a pozycja transakcji zbiorczej #%d ma wybrany rok finansowy %s\n"
 
 #: src/check.c:658
 msgid ""
@@ -1547,6 +1543,8 @@ msgid ""
 "perhaps it is.\n"
 "The following accounts seems inconsistent:\n"
 msgstr ""
+"Znaleziono pozycje transakcji zbiorczych, które mają wybrany inny rok finansowy niż powiązana transakcja.\n"
+"Następujące konta są niespójne:\n"
 
 #: src/comptes_gestion.c:88
 msgid "Account details"
@@ -1725,8 +1723,7 @@ msgstr "Euro"
 
 #: src/comptes_gestion.c:1245
 msgid "Impossible to find the Euro currency, it has probably been deleted."
-msgstr ""
-"Nie można znaleść waluty Euro. Prawdopodobnie została wcześniej skasowana."
+msgstr "Nie można znaleść waluty Euro. Prawdopodobnie została wcześniej skasowana."
 
 #. mise en place des boutons du bas
 #: src/comptes_onglet.c:158 src/menu.c:102
@@ -2790,12 +2787,11 @@ msgstr "Szwajcaria"
 
 #: src/devises.c:167
 msgid "Hryvnia"
-msgstr ""
+msgstr "hryvna ukraińska"
 
 #: src/devises.c:167
-#, fuzzy
 msgid "Ukraine"
-msgstr "Francja"
+msgstr "Ukraina"
 
 #: src/devises.c:168 src/devises.c:169 src/devises.c:170 src/devises.c:171
 #: src/devises.c:172 src/devises.c:173 src/devises.c:174 src/devises.c:175
@@ -3071,14 +3067,12 @@ msgid "Paraguay"
 msgstr "Paragwaj"
 
 #: src/devises.c:204
-#, fuzzy
 msgid "Real"
-msgstr "Legal"
+msgstr "real"
 
 #: src/devises.c:204
-#, fuzzy
 msgid "Brazil"
-msgstr "Bahrain"
+msgstr "Brazylia"
 
 #: src/devises.c:205
 msgid "Suriname Guilder"
@@ -3406,12 +3400,11 @@ msgid "Of year"
 msgstr "Na rok"
 
 #: src/echeancier_liste.c:358
-#, fuzzy
 msgid ""
 "Fall due selected\n"
 "scheduled transaction"
 msgstr ""
-"Usuń zaznaczone\n"
+"Wykonaj zaznaczone\n"
 "zaplanowane transakcje"
 
 #: src/echeancier_liste.c:372
@@ -3545,9 +3538,7 @@ msgstr ""
 
 #: src/echeancier_ventilation.c:2666 src/ventilation.c:2806
 msgid "A breakdown line is to be deleted though it is not yet registered."
-msgstr ""
-"Wiersz transakcji zbiorczej ma być usunięty, chociaż nie jest jeszcze "
-"zarejestrowany."
+msgstr "Pozycja w transakcji zbiorczej ma być usunięta, chociaż nie jest jeszcze zarejestrowana."
 
 #: src/equilibrage.c:122 src/equilibrage.c:136
 msgid "Reconciliation reference"
@@ -3582,7 +3573,7 @@ msgstr "P"
 #: src/operations_liste.c:764 src/operations_liste.c:1969
 #, c-format
 msgid "Checked balance: %4.2f %s"
-msgstr "Potwierdzone transakcje: %4.2f %s"
+msgstr "Zweryfikowany stan: %4.2f %s"
 
 #: src/equilibrage.c:927
 msgid "There is a variance"
@@ -3593,11 +3584,10 @@ msgstr "Niezgodność"
 msgid "Last statement: %02d/%02d/%d"
 msgstr "Ostatnia modyfikacja: %02d/%02d/%d"
 
-#. le rapprochement existe dÃ©jÃ 
+#. le rapprochement existe dÃ©jÃ
 #: src/equilibrage.c:1001
-#, fuzzy
 msgid "Reconciliation reference already exist"
-msgstr "Numer potwierdzenia"
+msgstr "Numer potwierdzenia już istnieje"
 
 #: src/equilibrage.c:1002
 msgid ""
@@ -3605,11 +3595,12 @@ msgid ""
 "problem, but perhaps it is.  Be sure you want to do.\n"
 "Proceed anyway?"
 msgstr ""
+"Wybrany numer potwierdzenia już istnieje. Proszę się upewnić, że numer jest prawidłowy.\n"
+"Kontynuować?"
 
 #: src/equilibrage.c:1028
-#, fuzzy
 msgid "No reconciliation reference"
-msgstr "numer potwierdzenia"
+msgstr "Brak numeru potwierdzenia"
 
 #: src/equilibrage.c:1029
 msgid ""
@@ -3618,6 +3609,9 @@ msgid ""
 "reconciliation reference.\n"
 "Proceed anyway?"
 msgstr ""
+"Za chwilę zostanie wykonana operacja potwierdzenia z pustym numerem potwierdzenia.  "
+"Po wykonaniu nie będzie możliwe znalezienie tej transakcji po numerze potwierdzenia.\n"
+"Kontynuować?"
 
 #: src/equilibrage.c:1646 src/operations_onglet.c:83 src/parametres.c:261
 #: src/type_operations.c:255
@@ -3682,8 +3676,7 @@ msgstr "Ten plik nie jest plikiem raportu Grisbi"
 msgid ""
 "This report has been produced with grisbi version %s, Grisbi will "
 "nevertheless try to import it."
-msgstr ""
-"Ten raport został wykonany w wersji %s programu i nie zostanie zaimporotwany."
+msgstr "Ten raport został wykonany w wersji %s programu i nie zostanie zaimporotwany."
 
 #: src/etat_io.c:68 src/fichiers_io.c:8832 src/fichiers_io.c:9185
 msgid "Version mismatch"
@@ -4259,7 +4252,7 @@ msgstr "Data początkowa"
 msgid "Final date"
 msgstr "Data końcowa"
 
-#. on met dans la partie de gauche une liste contenant les comptes Ã 
+#. on met dans la partie de gauche une liste contenant les comptes Ã
 #. sÃ©lectionner
 #: src/etats_config.c:2286
 msgid "Select transactions only for given accounts"
@@ -4552,14 +4545,12 @@ msgid "The reconciled transactions"
 msgstr "Potwierdzone transakcje"
 
 #: src/etats_config.c:5575
-#, fuzzy
 msgid "The checked transactions"
-msgstr "Potwierdzone transakcje"
+msgstr "Zweryfikowane transakcje"
 
 #: src/etats_config.c:5588
-#, fuzzy
 msgid "The neither reconciled neither checked transactions"
-msgstr "Potwierdzone transakcje"
+msgstr "Nie potwierdzone i nie zweryfikowane transakcje"
 
 #: src/etats_config.c:5609
 msgid "Do not detail reconciled transactions"
@@ -4664,7 +4655,6 @@ msgid "the cheque/transfer number"
 msgstr "numer czeku/przelewu"
 
 #: src/etats_config.c:6613
-#, fuzzy
 msgid "the check"
 msgstr "rachunek"
 
@@ -4821,7 +4811,7 @@ msgstr "Pokaż sumy cząstkowe dla każdej podgrupy linii budżetowcyh"
 msgid "Display \"No sub-budgetary line\" if none"
 msgstr "Pokaż \"Brak podgrup linii budżetowych\" jeżeli ich brak"
 
-#. on met dans la partie de gauche une liste contenant les modes de paiement Ã 
+#. on met dans la partie de gauche une liste contenant les modes de paiement Ã
 #. sÃ©lectionner
 #: src/etats_config.c:7493
 msgid "Select the transactions by method of payment"
@@ -4836,16 +4826,13 @@ msgid "Export report to HTML file."
 msgstr "Eksportuj raport do pliku HTML"
 
 #: src/etats_html.c:284 src/print_config.c:104
-#, fuzzy, c-format
+#, c-format
 msgid "File %s already exists."
-msgstr "Plik '%s' już istnieje"
+msgstr "Plik %s już istnieje."
 
 #: src/etats_html.c:286 src/print_config.c:106
-#, fuzzy
 msgid "Do you want to overwrite it?  There is no undo for this."
-msgstr ""
-"Ta operacja bezpowrotnie nadpisze poprzedni plik. Po wykonaniu nie będzie "
-"możliwe jego odzyskanie. "
+msgstr "Ta operacja nadpisze poprzedni plik. Po wykonaniu nie będzie możliwe jego odzyskanie."
 
 #: src/etats_html.c:318
 msgid "Make sure file exists and is writable."
@@ -5253,8 +5240,7 @@ msgid "Select accounts to export"
 msgstr "Wybierz konto do eksportu"
 
 #: src/export.c:292 src/qif.c:1018
-msgid ""
-"This will irreversibly overwrite previous file.  There is no undo for this."
+msgid "This will irreversibly overwrite previous file.  There is no undo for this."
 msgstr ""
 "Ta operacja bezpowrotnie nadpisze poprzedni plik. Po wykonaniu nie będzie "
 "możliwe jego odzyskanie. "
@@ -5274,8 +5260,7 @@ msgstr "Format eksportu nie definiuje danych typu waluta."
 
 #: src/export.c:382 src/qif.c:915
 msgid "All transactions will be converted into currency of their account."
-msgstr ""
-"Waluta wszystkich transakcji zostanie zmieniona na walutę domyślną konta."
+msgstr "Waluta wszystkich transakcji zostanie zmieniona na walutę domyślną konta."
 
 #: src/export.c:443 src/menu.c:105 src/operations_comptes.c:380
 #: src/operations_comptes.c:385 src/operations_comptes.c:446
@@ -5397,8 +5382,7 @@ msgstr "Zamknij bez zapisu"
 
 #: src/fichiers_gestion.c:447
 msgid "If you close without saving, all of your changes will be discarded."
-msgstr ""
-"Jeżeli zamkniesz bez zapisu wszystkie wprowadzone zmiany zostaną utracone."
+msgstr "Jeżeli zamkniesz bez zapisu wszystkie wprowadzone zmiany zostaną utracone."
 
 #: src/fichiers_gestion.c:475
 msgid "Name the accounts file"
@@ -5502,15 +5486,13 @@ msgstr "wszystkie transakcje zbiorcze zostały usunięte.\n"
 
 #: src/fichiers_io.c:1852
 msgid "transfers without contra-transaction, which categories were deleted.\n"
-msgstr ""
-"transfery bez powiązanych transakcji, których kategorie zostały usunięte. \n"
+msgstr "transfery bez powiązanych transakcji, których kategorie zostały usunięte. \n"
 
 #: src/fichiers_io.c:1857
 msgid ""
 "These modifications should not impact on neither Grisbi's behavior nor your "
 "accounts balances."
-msgstr ""
-"Te modyfikacje nie powinny wpływać na zachowanie programu ani na stan kont."
+msgstr "Te modyfikacje nie powinny wpływać na zachowanie programu ani na stan kont."
 
 #: src/fichiers_io.c:6467
 #, c-format
@@ -5629,18 +5611,16 @@ msgstr ""
 "wszystkie nowo dodane opcje w programie spełniały te założenia."
 
 #: src/help.c:47
-#, fuzzy
 msgid "Alain Pichon (aph[at]grisbi.org): RHEL and Fedora packaging"
-msgstr "Alain Pichon (alain.pichon[at]grisbi.org): paczki do RHEL"
+msgstr "Alain Pichon (aph[at]grisbi.org): paczki do RHEL i Fedory"
 
 #: src/help.c:48
 msgid "Alain Portal <aportal AT univ-monpt2 DOT fr>: Programming, manual"
-msgstr ""
+msgstr "Alain Portal <aportal AT univ-monpt2 DOT fr>: programowanie, podręcznik"
 
 #: src/help.c:49
-#, fuzzy
 msgid "Andre Pascual (andre[at]linuxgraphic.org): Logo"
-msgstr "Andre Pascual (andre[at]linuxgraphic.org) : logo"
+msgstr "Andre Pascual (andre[at]linuxgraphic.org): logo"
 
 #: src/help.c:50
 msgid "Axel Rousseau (axel584[at]axel584.org): contributor"
@@ -5648,24 +5628,19 @@ msgstr "Axel Rousseau (axel584[at]axel584.org): współpraca"
 
 #: src/help.c:51
 msgid "Baluchiterium  (baluchiterium[at]users.sf.net): Slackware packaging"
-msgstr ""
+msgstr "Baluchiterium  (baluchiterium[at]users.sf.net): paczki do Slackware"
 
 #: src/help.c:52
-#, fuzzy
 msgid "Benjamin Drieu (bdrieu[at]april.org): Programming, Debian packaging"
-msgstr ""
-"Benjamin Drieu (bdrieu[at]april.org) : programowanie, paczki do Debiana"
+msgstr "Benjamin Drieu (bdrieu[at]april.org): programowanie, paczki do Debiana"
 
 #: src/help.c:53
-#, fuzzy
 msgid "Cedric Auger (cedric[at]grisbi.org): Programming"
-msgstr "Cedric Auger (cedric[at]grisbi.org) : programowanie"
+msgstr "Cedric Auger (cedric[at]grisbi.org): programowanie"
 
 #: src/help.c:54
-#, fuzzy
 msgid "Daniel Cartron (doc[at]grisbi.org): Manual, website, consultancy"
-msgstr ""
-"Daniel Cartron (doc[at]grisbi.org) : podręcznik, strona WWW, konsultacje"
+msgstr "Daniel Cartron (doc[at]grisbi.org): podręcznik, strona WWW, konsultacje"
 
 #: src/help.c:55
 msgid "Dominique Parisot (parisot[at]villey-le-sec.com): contributor"
@@ -5675,15 +5650,11 @@ msgstr "Dominique Parisot (parisot[at]villey-le-sec.com): współpraca"
 msgid ""
 "Francois Terrot (grisbi[at]terrot.net): Windows packaging and port, "
 "programming"
-msgstr ""
-"Francois Terrot (grisbi[at]terrot.net): wersja dla Windows, programowanie"
+msgstr "Francois Terrot (grisbi[at]terrot.net): wersja dla Windows, programowanie"
 
 #: src/help.c:57
-#, fuzzy
-msgid ""
-"Gerald Niel (gerald.niel[at]grisbi.org): Darwin packaging, administration"
-msgstr ""
-"Gerald Niel (gerald.niel[at]grisbi.org): paczki do Slackware, strona WWW"
+msgid "Gerald Niel (gerald.niel[at]grisbi.org): Darwin packaging, administration"
+msgstr "Gerald Niel (gerald.niel[at]grisbi.org): paczki do Darwina, administracja"
 
 #: src/help.c:58
 msgid "PMF (ugly.duck[at]gmx.de): Zaurus packaging"
@@ -5703,54 +5674,49 @@ msgstr "Thierry Thomas (thierry[at]pompo.net): paczki do FreeBSD"
 
 #: src/help.c:62
 msgid "Vincent Marqueton (vincent[at]marqueton.org): Fink packaging"
-msgstr ""
+msgstr "Vincent Marqueton (vincent[at]marqueton.org): paczki Fink"
 
 #: src/help.c:65
-#, fuzzy
 msgid "Alain Portal (dionysos[at]grisbi.org): English"
-msgstr "Alain Portal (dionysos[at]grisbi.org) : angielski"
+msgstr "Alain Portal (dionysos[at]grisbi.org): angielski"
 
 #: src/help.c:66
-#, fuzzy
 msgid "Benjamin Drieu (bdrieu[at]april.org): English"
-msgstr "Benjamin Drieu (bdrieu[at]april.org) : angielski"
+msgstr "Benjamin Drieu (bdrieu[at]april.org): angielski"
 
 #: src/help.c:67
 msgid "Carlos M. CÃ¡mara Mora (carcam_moceu[at]yahoo.es): Spanish"
-msgstr ""
+msgstr "Carlos M. CÃ¡mara Mora (carcam_moceu[at]yahoo.es): hiszpański"
 
 #: src/help.c:68
-#, fuzzy
 msgid "Daniel Cartron (cartron[at]grisbi.org): English"
-msgstr "Daniel Cartron (cartron[at]grisbi.org) : angielski"
+msgstr "Daniel Cartron (cartron[at]grisbi.org): angielski"
 
 #: src/help.c:69
 msgid "Edwin Huijsing (e.huijsing[at]fiberworld.nl): Dutch"
-msgstr ""
+msgstr "Edwin Huijsing (e.huijsing[at]fiberworld.nl): holenderski"
 
 #: src/help.c:70
 msgid "Fabio Erculiani (fabio.erculiani[at]tiscali.it): Italian"
-msgstr ""
+msgstr "Fabio Erculiani (fabio.erculiani[at]tiscali.it): włoski"
 
 #: src/help.c:71
 msgid "Flavio Henrique Somensi (flavio[at]opens.com.br): Brazilian Portuguese"
 msgstr "Flavio Henrique Somensi (flavio[at]opens.com.br): portugalski"
 
 #: src/help.c:72
-#, fuzzy
 msgid "Giorgio Mandolfo (giorgio[at]pollycoke.org): Italian"
-msgstr "Giorgio Mandolfo (giorgio[at]pollycoke.org) : włoski"
+msgstr "Giorgio Mandolfo (giorgio[at]pollycoke.org): włoski"
 
 #: src/help.c:73
 msgid "Martin Stromberger (Fabiolla[at]aon.at): German"
 msgstr "Martin Stromberger (Fabiolla[at]aon.at): niemiecki"
 
 #: src/help.c:74
-msgid "Ryszard Jeziorski (rjeziorski[at]eagle): Polish"
-msgstr ""
+msgid "Ryszard Jeziorski (r.jeziorski[at]dart.kielce.pl): Polish"
+msgstr "Ryszard Jeziorski (r.jeziorski[at]dart.kielce.pl): polski"
 
 #: src/help.c:80
-#, fuzzy
 msgid "Development list (discuss, participate, criticize, ...): "
 msgstr "Lista dla deweloperów : "
 
@@ -5763,7 +5729,6 @@ msgid "Bug report"
 msgstr "Raport błędów"
 
 #: src/help.c:86
-#, fuzzy
 msgid "Information list (new releases announces, ...): "
 msgstr "Lista informacyjna (nowe wydania, ogłoszenia, ...) : "
 
@@ -5952,17 +5917,15 @@ msgstr "Osierocona transakcja"
 
 #: src/import.c:2580
 msgid "Mark transactions you want to add to the list and click the add button"
-msgstr ""
-"Zaznacz transakcje do dodania do listy i następnie kliknij na przycisk Dodaj"
+msgstr "Zaznacz transakcje do dodania do listy i następnie kliknij na przycisk Dodaj"
 
 #: src/import.c:2650
 msgid "Mark"
 msgstr "Zanacz"
 
 #: src/import.c:2858
-#, fuzzy
 msgid "Search the transaction"
-msgstr "Znajdź transakcję "
+msgstr "Znajdź transakcję"
 
 #: src/import.c:2885
 msgid "days around the date in the imported transaction."
@@ -6145,8 +6108,7 @@ msgstr "Zastąp stare listy w liniach budżetowych."
 #: src/main.c:140
 #, c-format
 msgid "Error on sigaction: SIGSEGV won't be trapped\n"
-msgstr ""
-"Błąd podczas przechwytywania sygnału: SIGSEGV nie będzie przechwycony\n"
+msgstr "Błąd podczas przechwytywania sygnału: SIGSEGV nie będzie przechwycony\n"
 
 #: src/menu.c:67
 msgid "New account file"
@@ -6353,8 +6315,7 @@ msgstr ""
 
 #: src/ofx.c:346
 msgid "A transaction try to be saved but no account was created...\n"
-msgstr ""
-"Program próbował zapamiętać transakcję ale konto nie zostało utworzone...\n"
+msgstr "Program próbował zapamiętać transakcję ale konto nie zostało utworzone...\n"
 
 #: src/ofx.c:414
 msgid "Interest"
@@ -6535,18 +6496,15 @@ msgid "Auto"
 msgstr "Automatyczny"
 
 #: src/operations_liste.c:1829
-#, fuzzy
 msgid "No reconciliation number"
-msgstr "Numer potwierdzenia"
+msgstr "Brak numeru potwierdzenia"
 
 #: src/operations_liste.c:2106
-#, fuzzy
 msgid "Impossible to delete a reconciled transaction."
 msgstr "Nie można usunąć potwierdzonej transakcji"
 
 #: src/operations_liste.c:2131
-msgid ""
-"The contra-transaction of this transfer is reconciled, deletion impossible."
+msgid "The contra-transaction of this transfer is reconciled, deletion impossible."
 msgstr ""
 "Transakcja powiązana z tym transferem została potwierdzona. Usunięcie jest "
 "niemożliwe."
@@ -6557,7 +6515,7 @@ msgid ""
 "reconciled.  Deletion canceled."
 msgstr ""
 "Jedna z pozycji transakcji zbiorczej jest transferem, który występuje w "
-"potwierdzonej transakcji powiązanej.  Usinięcie zostało anulowane."
+"potwierdzonej transakcji powiązanej.  Usunięcie zostało anulowane."
 
 #. Delete transaction
 #: src/operations_liste.c:2702
@@ -6566,8 +6524,7 @@ msgstr "Usuń transakcję"
 
 #: src/operations_liste.c:3133
 msgid "Cannot move a transfer on his contra-account"
-msgstr ""
-"Nie można przenieść transferu na konto, które bierze udział w tym transferze."
+msgstr "Nie można przenieść transferu na konto, które bierze udział w tym transferze."
 
 #. Create dialog
 #: src/parametres.c:150
@@ -6647,29 +6604,25 @@ msgstr "Nie ostrzegaj jeżeli transakcja zbioracza nie została rozliczona"
 
 #. Display a warning message when no reconciliation reference given
 #: src/parametres.c:433
-#, fuzzy
 msgid "Do not warn about no reconciliation reference"
-msgstr "Nie ostrzegaj jeżeli plik QIF nie zawiera walut"
+msgstr "Nie ostrzegaj jeżeli brak numeru potwierdzenia"
 
 #. Display a warning message when no reconciliation reference given
 #: src/parametres.c:438
-#, fuzzy
 msgid "Do not warn about existing reconciliation reference"
-msgstr "numer potwierdzenia sald"
+msgstr "Nie ostrzegaj jeżeli istnieje już podany numer potwierdzenia"
 
 #. Display a warning message when last chance to abort reconciliation
 #: src/parametres.c:443
-#, fuzzy
 msgid "Do not warn about last chance to abort reconciliation"
-msgstr "Nie ostrzegaj przed usunięciem transakcji"
+msgstr "Nie wyślwietlaj komunikatu o ostatniej możliwości przerwania potwierdzania"
 
 #: src/parametres.c:451
 msgid "Scheduler warnings"
 msgstr "Ostrzeżenia terminarza"
 
 #: src/parametres.c:455
-msgid ""
-"Number of days before a warning message advertising a scheduled transaction"
+msgid "Number of days before a warning message advertising a scheduled transaction"
 msgstr ""
 "Ile dni przed terminem zaplanowanej transakcji wyświetlić odpowiedni "
 "komunikat"
@@ -7042,9 +6995,7 @@ msgstr "Przeglądaj"
 
 #: src/ventilation.c:2201
 msgid "This transaction has a reconciled breakdown line, deletion canceled."
-msgstr ""
-"Ta transakcja posiada potwierdzoną transakcję zbiorczą. Usunięcie zostało "
-"anulowane."
+msgstr "Ta transakcja posiada potwierdzoną pozycję transakcji zbiorczej. Usunięcie zostało anulowane."
 
 #: src/ventilation.c:2228
 msgid "This transfer has a reconciled contra-transaction, deletion canceled."
@@ -7052,12 +7003,3 @@ msgstr ""
 "Ten transfer ma już potwierdzoną transakcję na drugim koncie. Usunięcie "
 "zostało anulowane."
 
-#~ msgid "Show"
-#~ msgstr "Pokaż"
-
-#~ msgid ""
-#~ "Alain Portal <dionysos[at]grisbi.org>: Programming, manual, Fedora and "
-#~ "RedHat packaging"
-#~ msgstr ""
-#~ "Alain Portal <dionysos[at]grisbi.org>: programowanie, podręcznik, paczki "
-#~ "do Fedory i RedHat'a"
