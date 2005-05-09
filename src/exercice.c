@@ -207,7 +207,7 @@ GtkWidget *onglet_exercices ( void )
     gtk_box_pack_start ( GTK_BOX ( vbox ), bouton_supprimer_exercice,
 			 FALSE, FALSE, 5 );
     /* Associate operations */
-    bouton = gtk_button_new_with_label ( _("Associate operations without financial years") );
+    bouton = gtk_button_new_with_label ( _("Associate transactions without financial years") );
     gtk_signal_connect ( GTK_OBJECT ( bouton ),
 			 "clicked",
 			 GTK_SIGNAL_FUNC ( association_automatique ),

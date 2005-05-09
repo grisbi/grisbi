@@ -1205,6 +1205,13 @@ gboolean clique_champ_formulaire ( GtkWidget *entree,
 	}
     }
 
+    /*     we set the exercice */
+
+    if ( etat.utilise_exercice )
+	affiche_exercice_par_date ( widget_formulaire_operations[TRANSACTION_FORM_DATE],
+				    widget_formulaire_operations[TRANSACTION_FORM_EXERCICE] );
+
+
     /* si ev est null ( cad que ça ne vient pas d'un click mais appelé par ex
        à la fin de fin_edition ), on se barre */
 
