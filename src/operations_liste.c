@@ -31,11 +31,12 @@
 #include "accueil.h"
 #include "utils_montants.h"
 #include "utils_exercices.h"
+#include "classement_echeances.h"
 #include "operations_formulaire.h"
-#include "echeancier_formulaire.h"
 #include "barre_outils.h"
 #include "type_operations.h"
 #include "comptes_traitements.h"
+#include "echeancier_formulaire.h"
 #include "utils.h"
 #include "utils_devises.h"
 #include "dialog.h"
@@ -67,7 +68,7 @@
 
 /*START_STATIC*/
 static gboolean assert_selected_transaction ();
-static struct structure_operation *cherche_operation_from_ligne ( gint ligne,
+static gpointer cherche_operation_from_ligne ( gint ligne,
 							   gint no_account );
 static void creation_titres_tree_view ( void );
 static GtkWidget *creation_tree_view_operations ( void );
@@ -76,36 +77,35 @@ static gint find_balance_line ( void );
 static gint find_p_r_line ();
 static gboolean gsb_transactions_list_change_sort_type ( GtkWidget *menu_item,
 						  gint *no_column );
-static gboolean gsb_transactions_list_check_mark ( struct structure_operation *transaction );
+static gboolean gsb_transactions_list_check_mark ( gpointer transaction );
 static gboolean gsb_transactions_list_current_transaction_down ( gint no_account );
 static gboolean gsb_transactions_list_current_transaction_up ( gint no_account );
-static gboolean gsb_transactions_list_delete_transaction_from_slist ( struct structure_operation *transaction );
-static gboolean gsb_transactions_list_delete_transaction_from_tree_view ( struct structure_operation *transaction );
-static struct structure_operation *gsb_transactions_list_find_white_breakdown ( struct structure_operation *breakdown_mother );
+static gboolean gsb_transactions_list_delete_transaction_from_slist ( gpointer transaction );
+static gboolean gsb_transactions_list_delete_transaction_from_tree_view ( gpointer transaction );
+static gpointer gsb_transactions_list_find_white_breakdown ( gpointer *breakdown_mother );
 static GtkTreePath *gsb_transactions_list_get_list_path_from_sorted_path ( GtkTreePath *path_sorted,
 								    gint no_account );
-static GtkTreePath *gsb_transactions_list_get_path_from_transaction ( struct structure_operation *transaction,
+static GtkTreePath *gsb_transactions_list_get_path_from_transaction ( gpointer *transaction,
 							       gint no_account );
 static GtkTreePath *gsb_transactions_list_get_sorted_path_from_list_path ( GtkTreePath *path,
 								    gint no_account );
-static struct structure_operation *gsb_transactions_list_get_transaction_from_path ( GtkTreePath *path,
+static gpointer gsb_transactions_list_get_transaction_from_path ( GtkTreePath *path,
 									      gint no_account );
-static struct structure_operation *gsb_transactions_list_get_transaction_next ( struct structure_operation *transaction );
+static gpointer gsb_transactions_list_get_transaction_next ( gpointer *transaction );
 static gboolean gsb_transactions_list_sort_column_changed ( GtkTreeViewColumn *tree_view_column,
 						     gint *no_account );
 static gboolean gsb_transactions_list_title_column_button_press ( GtkWidget *button,
 							   GdkEventButton *ev,
 							   gint *no_column );
-static gboolean move_operation_to_account ( struct structure_operation * transaction,
+static gboolean move_operation_to_account ( gpointer  transaction,
 				     gint account );
 static void move_selected_operation_to_account ( GtkMenuItem * menu_item );
 static void p_press (void);
 static void popup_transaction_context_menu ( gboolean full );
 static void r_press (void);
-static gchar *recherche_contenu_cellule ( struct structure_operation *transaction,
+static gchar *recherche_contenu_cellule ( gpointer *transaction,
 				   gint no_affichage );
 static void schedule_selected_transaction ();
-static struct operation_echeance *schedule_transaction ( struct structure_operation * transaction );
 static gdouble solde_debut_affichage ( gint no_account );
 /*END_STATIC*/
 
@@ -823,7 +823,7 @@ gboolean gsb_transactions_list_fill_store ( gint no_account,
 	      ||
 	      nb_max_ope_a_ajouter == -1))
     {
-	struct structure_operation *transaction;
+	gpointer transaction;
 
 	transaction = liste_transactions_tmp -> data;
 
@@ -882,15 +882,16 @@ gboolean gsb_transactions_list_fill_store ( gint no_account,
  *
  * \return a pointer to that new transaction
  * */
-struct structure_operation *gsb_transactions_list_append_white_breakdown ( struct structure_operation *transaction )
+gpointer gsb_transactions_list_append_white_breakdown ( gpointer *transaction )
 {
-    struct structure_operation *breakdown_transaction;
+    gpointer breakdown_transaction;
     /* FIXME : doit passer pas la création d'une opé, donc s'arrête là pour le moment */
+/*     xxx */
 exit (0);
     return NULL;
 
     breakdown_transaction = calloc ( 1,
-				     sizeof ( struct structure_operation ));
+				     sizeof ( gpointer ));
     gsb_transaction_data_set_transaction_number ( breakdown_transaction,
 						  -2 );
 /*     breakdown_transaction -> date = g_date_new_dmy ( g_date_get_day ( transaction -> date ), */
@@ -912,7 +913,7 @@ exit (0);
  * \param no_account
  * \return FALSE
  * */
-gboolean gsb_transactions_list_append_transaction ( struct structure_operation *transaction,
+gboolean gsb_transactions_list_append_transaction ( gpointer transaction,
 						    gint no_account )
 {
     gint j;
@@ -952,7 +953,7 @@ gboolean gsb_transactions_list_append_transaction ( struct structure_operation *
  * \param line_in_transaction
  * \return FALSE
  * */
-gboolean gsb_transactions_list_fill_row ( struct structure_operation *transaction,
+gboolean gsb_transactions_list_fill_row ( gpointer transaction,
 					  GtkTreeIter *iter,
 					  GtkListStore *store,
 					  gint line_in_transaction )
@@ -1028,7 +1029,7 @@ gboolean gsb_transactions_list_fill_row ( struct structure_operation *transactio
 /* et le numéro de l'argument qu'on veut afficher (tab_affichage_ope) */
 /* renvoie la chaine à afficher ou NULL */
 /******************************************************************************/
-gchar *recherche_contenu_cellule ( struct structure_operation *transaction,
+gchar *recherche_contenu_cellule ( gpointer *transaction,
 				   gint no_affichage )
 {
     gchar *temp;
@@ -1274,7 +1275,7 @@ gboolean gsb_transactions_list_set_background_color ( gint no_account )
     {
 	GtkTreePath *path;
 	GtkTreeIter iter;
-	struct structure_operation *transaction;
+	gpointer transaction;
 
 	/* 	now, normally we needn't to verify something, they must exit */
 
@@ -1379,7 +1380,7 @@ gboolean gsb_transactions_list_set_transactions_balances ( gint no_account )
 
     while ( path )
     {
-	struct structure_operation *transaction;
+	gpointer transaction;
 	GtkTreeIter iter;
 	gint i;
 
@@ -1503,7 +1504,7 @@ gdouble solde_debut_affichage ( gint no_account )
 
     while ( liste_tmp )
     {
-	struct structure_operation *transaction;
+	gpointer transaction;
 
 	transaction = liste_tmp -> data;
 
@@ -1536,7 +1537,7 @@ gboolean gsb_transactions_list_button_press ( GtkWidget *tree_view,
     GtkTreePath *path_sorted;
     GtkTreePath *path;
     GtkTreeViewColumn *tree_column;
-    struct structure_operation *transaction;
+    gpointer transaction;
 
     /*     if we are not in the list, go away */
 
@@ -1738,7 +1739,7 @@ gboolean gsb_transactions_list_key_press ( GtkWidget *widget,
  * */
 gboolean gsb_transactions_list_current_transaction_up ( gint no_account )
 {
-    struct structure_operation *transaction;
+    gpointer transaction;
     GtkTreePath *path;
     GtkTreePath *path_sorted;
 
@@ -1774,7 +1775,7 @@ gboolean gsb_transactions_list_current_transaction_up ( gint no_account )
  * */
 gboolean gsb_transactions_list_current_transaction_down ( gint no_account )
 {
-    struct structure_operation *transaction;
+    gpointer transaction;
 
     transaction = gsb_transactions_list_get_transaction_next ( gsb_account_get_current_transaction ( no_account ));
 
@@ -1794,7 +1795,7 @@ gboolean gsb_transactions_list_current_transaction_down ( gint no_account )
  * 
  * \return the pointer to the new transaction or NULL if problem
  * */
-struct structure_operation *gsb_transactions_list_get_transaction_next ( struct structure_operation *transaction )
+gpointer gsb_transactions_list_get_transaction_next ( gpointer *transaction )
 {
     GtkTreePath *path;
     GtkTreePath *path_sorted;
@@ -1836,14 +1837,14 @@ struct structure_operation *gsb_transactions_list_get_transaction_next ( struct 
  * \param no_account
  * \return FALSE
  * */
-gboolean gsb_transactions_list_set_current_transaction ( struct structure_operation *new_transaction,
+gboolean gsb_transactions_list_set_current_transaction ( gpointer new_transaction,
 							 gint no_account )
 {
     GtkTreeIter *iter;
     gint i;
     GdkColor *couleur;
     GtkTreeModel *model;
-    struct structure_operation *current_transaction;
+    gpointer current_transaction;
 
     if ( ! gsb_account_get_tree_view (no_account))
 	return FALSE;
@@ -2074,11 +2075,11 @@ gint recupere_hauteur_ligne_tree_view ( GtkWidget *tree_view )
 /* renvoie l'adr de l'opération correspondant  à la ligne envoyées */
 /* en argument */
 /******************************************************************************/
-struct structure_operation *cherche_operation_from_ligne ( gint ligne,
+gpointer cherche_operation_from_ligne ( gint ligne,
 							   gint no_account )
 {
     GtkTreeIter iter;
-    struct structure_operation *transaction;
+    gpointer transaction;
     GtkTreeModel *model;
 
     model = gsb_account_get_store ( no_account );
@@ -2104,10 +2105,10 @@ struct structure_operation *cherche_operation_from_ligne ( gint ligne,
 /* retrouve l'iter correspondant à l'opération donnée en argument dans la tree_view des opérations */
 /* renvoie NULL si pas trouvé */
 /******************************************************************************/
-GtkTreeIter *cherche_iter_operation ( struct structure_operation *transaction,
+GtkTreeIter *cherche_iter_operation ( gpointer *transaction,
 				      gint no_account )
 {
-    struct structure_operation *transaction_pointer;
+    gpointer transaction_pointer;
     GtkTreeIter iter;
     GtkTreeModel *model;
 
@@ -2153,9 +2154,9 @@ GtkTreeIter *cherche_iter_operation ( struct structure_operation *transaction,
  *
  * \return the adress of the transaction or NULL
  * */
-struct structure_operation *gsb_transactions_list_find_white_breakdown ( struct structure_operation *breakdown_mother )
+gpointer gsb_transactions_list_find_white_breakdown ( gpointer *breakdown_mother )
 {
-    struct structure_operation *transaction_pointer;
+    gpointer transaction_pointer;
     GtkTreeIter iter;
     GtkTreeModel *model;
 
@@ -2200,7 +2201,7 @@ struct structure_operation *gsb_transactions_list_find_white_breakdown ( struct 
  * \param no_account
  * \return the GtkTreePath
  * */
-GtkTreePath *gsb_transactions_list_get_path_from_transaction ( struct structure_operation *transaction,
+GtkTreePath *gsb_transactions_list_get_path_from_transaction ( gpointer *transaction,
 							       gint no_account )
 {
     GtkTreePath *path;
@@ -2223,10 +2224,10 @@ GtkTreePath *gsb_transactions_list_get_path_from_transaction ( struct structure_
  * \param no_account
  * \return the transaction
  * */
-struct structure_operation *gsb_transactions_list_get_transaction_from_path ( GtkTreePath *path,
+gpointer gsb_transactions_list_get_transaction_from_path ( GtkTreePath *path,
 									      gint no_account )
 {
-    struct structure_operation *transaction;
+    gpointer transaction;
     GtkTreeIter iter;
     GtkTreeModel *model;
 
@@ -2251,7 +2252,7 @@ struct structure_operation *gsb_transactions_list_get_transaction_from_path ( Gt
 /******************************************************************************/
 /* cette fonction renvoie le no de ligne de l'opération en argument */
 /******************************************************************************/
-gint cherche_ligne_operation ( struct structure_operation *transaction,
+gint cherche_ligne_operation ( gpointer transaction,
 			       gint no_account )
 {
     GtkTreeIter *iter;
@@ -2324,7 +2325,7 @@ gint find_p_r_line ()
  * */
 gboolean gsb_transactions_list_edit_current_transaction ( void )
 {
-    struct structure_operation *transaction;
+    gpointer transaction;
     gchar *char_tmp;
     gint i, j;
     struct organisation_formulaire *form_organization;
@@ -2487,7 +2488,7 @@ gboolean gsb_transactions_list_edit_current_transaction ( void )
 
 			    if ( gsb_transaction_data_get_transaction_number_transfer ( gsb_transaction_data_get_transaction_number (transaction ))!= -1 )
 			    {
-				struct structure_operation *contra_transaction;
+				gpointer contra_transaction;
 
 				gtk_combofix_set_text ( GTK_COMBOFIX ( widget ),
 							g_strconcat ( COLON(_("Transfer")),
@@ -2633,7 +2634,7 @@ gboolean gsb_transactions_list_edit_current_transaction ( void )
 
 			if ( menu )
 			{
-			    struct structure_operation *contra_transaction;
+			    gpointer contra_transaction;
 
 			    /* on met en place les types et se place sur celui correspondant à l'opé */
 
@@ -2692,7 +2693,7 @@ gboolean gsb_transactions_list_edit_current_transaction ( void )
 void p_press (void)
 {
     gdouble montant;
-    struct structure_operation *transaction;
+    gpointer transaction;
     GtkTreeIter *iter;
     gint col;
     GtkTreeModel *model;
@@ -2764,7 +2765,7 @@ void p_press (void)
 
 	while ( liste_tmp )
 	{
-	    struct structure_operation *ope_fille;
+	    gpointer ope_fille;
 
 	    ope_fille = liste_tmp -> data;
 
@@ -2820,7 +2821,7 @@ void p_press (void)
 /******************************************************************************/
 void r_press (void)
 {
-    struct structure_operation *transaction;
+    gpointer transaction;
     GtkTreeIter *iter;
     gint col;
     GtkTreeModel *model;
@@ -2860,7 +2861,7 @@ void r_press (void)
 	{
 	    /* we don't want to see the R, so the transaction will diseapear */
 
-	    struct structure_operation *next_transaction;
+	    gpointer next_transaction;
 
 	    next_transaction = gsb_transactions_list_get_transaction_next ( transaction );
 	    gtk_list_store_set ( GTK_LIST_STORE ( model ),
@@ -2900,7 +2901,7 @@ void r_press (void)
 
 	while ( liste_tmp )
 	{
-	    struct structure_operation *transaction_child;
+	    gpointer transaction_child;
 
 	    transaction_child = liste_tmp -> data;
 
@@ -2923,10 +2924,10 @@ void r_press (void)
  *
  * \return FALSE
  * */
-gboolean gsb_transactions_list_delete_transaction ( struct structure_operation *transaction )
+gboolean gsb_transactions_list_delete_transaction ( gpointer transaction )
 {
     GSList *transactions_list;
-    struct structure_operation *transactions_tmp;
+    gpointer transactions_tmp;
     gdouble montant;
 
     /* vérifications de bases */
@@ -2958,7 +2959,7 @@ gboolean gsb_transactions_list_delete_transaction ( struct structure_operation *
 
     if ( gsb_account_get_current_transaction (gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (transaction))) == transaction )
     {
-	struct structure_operation *next_transaction;
+	gpointer next_transaction;
 
 	next_transaction = transaction;
 
@@ -3006,7 +3007,7 @@ gboolean gsb_transactions_list_delete_transaction ( struct structure_operation *
 		{
 		    /* the breakdown is a transfer, delete the contra-transaction */
 
-		    struct structure_operation *contra_transaction;
+		    gpointer contra_transaction;
 
 		    contra_transaction = operation_par_no ( gsb_transaction_data_get_transaction_number_transfer ( gsb_transaction_data_get_transaction_number (transactions_tmp )),
 							    gsb_transaction_data_get_account_number_transfer ( gsb_transaction_data_get_transaction_number (transactions_tmp )));
@@ -3078,10 +3079,10 @@ gboolean gsb_transactions_list_delete_transaction ( struct structure_operation *
  *
  * \return TRUE : it's marked R ; FALSE : it's normal, P or T transaction
  * */
-gboolean gsb_transactions_list_check_mark ( struct structure_operation *transaction )
+gboolean gsb_transactions_list_check_mark ( gpointer transaction )
 {
     GSList *transactions_list;
-    struct structure_operation *transactions_tmp;
+    gpointer transactions_tmp;
 
     /* vérifications de bases */
 
@@ -3128,7 +3129,7 @@ gboolean gsb_transactions_list_check_mark ( struct structure_operation *transact
 		{
 		    /* the breakdown is a transfer, we check the contra-transaction */
 
-		    struct structure_operation *contra_transaction;
+		    gpointer contra_transaction;
 
 		    contra_transaction = operation_par_no ( gsb_transaction_data_get_transaction_number_transfer ( gsb_transaction_data_get_transaction_number (transactions_tmp )),
 							    gsb_transaction_data_get_account_number_transfer ( gsb_transaction_data_get_transaction_number (transactions_tmp )));
@@ -3154,7 +3155,7 @@ gboolean gsb_transactions_list_check_mark ( struct structure_operation *transact
  *
  * \return FALSE
  * */
-gboolean gsb_transactions_list_delete_transaction_from_tree_view ( struct structure_operation *transaction )
+gboolean gsb_transactions_list_delete_transaction_from_tree_view ( gpointer transaction )
 {
     GtkTreeIter *iter;
 
@@ -3200,7 +3201,7 @@ gboolean gsb_transactions_list_delete_transaction_from_tree_view ( struct struct
  *
  * \return FALSE
  * */
-gboolean gsb_transactions_list_delete_transaction_from_slist ( struct structure_operation *transaction )
+gboolean gsb_transactions_list_delete_transaction_from_slist ( gpointer transaction )
 {
     if ( transaction )
 	gsb_account_set_transactions_list ( gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (transaction)),
@@ -3463,18 +3464,18 @@ void clone_selected_transaction ()
  *
  * \return A newly created transaction.
  */
-struct structure_operation *gsb_transactions_list_clone_transaction ( struct structure_operation *transaction )
+gpointer gsb_transactions_list_clone_transaction ( gpointer *transaction )
 {
-    struct structure_operation * new_transaction, * ope_ventilee;
-
-    new_transaction = (struct structure_operation *) malloc ( sizeof(struct structure_operation) );
+    gpointer  new_transaction, ope_ventilee;
+/* xxx */
+    new_transaction = (gpointer ) malloc ( sizeof(gpointer) );
     if ( !new_transaction )
     {
 	dialogue_error_memory ();
 	return(FALSE);
     }
 
-    memcpy(new_transaction, transaction, sizeof(struct structure_operation) );
+    memcpy(new_transaction, transaction, sizeof(gpointer) );
 
     gsb_transaction_data_set_transaction_number  (new_transaction,
 						  0);
@@ -3506,7 +3507,7 @@ struct structure_operation *gsb_transactions_list_clone_transaction ( struct str
 
 	while ( liste_tmp )
 	{
-	    struct structure_operation *operation_2;
+	    gpointer operation_2;
 
 	    operation_2 = liste_tmp -> data;
 
@@ -3616,7 +3617,7 @@ void move_selected_operation_to_account_nb ( gint *account )
  * \param account Account to move the transaction to
  * return TRUE if ok
  */
-gboolean move_operation_to_account ( struct structure_operation * transaction,
+gboolean move_operation_to_account ( gpointer  transaction,
 				     gint account )
 {
     GtkTreeIter *iter;
@@ -3625,7 +3626,7 @@ gboolean move_operation_to_account ( struct structure_operation * transaction,
     no_transaction = gsb_transaction_data_get_transaction_number (transaction);
     if ( gsb_transaction_data_get_transaction_number_transfer ( gsb_transaction_data_get_transaction_number (transaction )))
     {
-	struct structure_operation * contra_transaction;
+	gpointer  contra_transaction;
 
 	/* 	l'opération est un virement, si on veut la déplacer vers le compte */
 	/* 	    viré, on refuse */
@@ -3661,7 +3662,7 @@ gboolean move_operation_to_account ( struct structure_operation * transaction,
 
 	while ( liste_tmp )
 	{
-	    struct structure_operation *transaction_2;
+	    gpointer transaction_2;
 
 	    transaction_2 = liste_tmp -> data;
 
@@ -3761,7 +3762,7 @@ void schedule_selected_transaction ()
  *
  * \param transaction Transaction to use as a template.
  */
-struct operation_echeance *schedule_transaction ( struct structure_operation * transaction )
+struct operation_echeance *schedule_transaction ( gpointer * transaction )
 {
     struct operation_echeance *echeance;
 
@@ -3791,7 +3792,7 @@ struct operation_echeance *schedule_transaction ( struct structure_operation * t
     {
 	/* 	c'est un virement, on met la relation et on recherche le type de la contre opération */
 
-	struct structure_operation *contra_transaction;
+	gpointer contra_transaction;
 
 	echeance -> compte_virement = gsb_transaction_data_get_account_number_transfer ( gsb_transaction_data_get_transaction_number (transaction ));
 
@@ -3828,7 +3829,7 @@ struct operation_echeance *schedule_transaction ( struct structure_operation * t
     nb_echeances++;
     liste_struct_echeances = g_slist_insert_sorted ( liste_struct_echeances,
 						     echeance,
-						     (GCompareFunc) comparaison_date_echeance );
+						     (GCompareFunc) classement_sliste_echeance_par_date );
 
     /*     on récupère les opés de ventil si c'était une opé ventilée */
 
@@ -3840,7 +3841,7 @@ struct operation_echeance *schedule_transaction ( struct structure_operation * t
 
 	while ( liste_tmp )
 	{
-	    struct structure_operation *transaction_de_ventil;
+	    gpointer transaction_de_ventil;
 
 	    transaction_de_ventil = liste_tmp -> data;
 
@@ -3875,7 +3876,7 @@ struct operation_echeance *schedule_transaction ( struct structure_operation * t
 		{
 		    /* 	c'est un virement, on met la relation et on recherche le type de la contre opération */
 
-		    struct structure_operation *contra_transaction;
+		    gpointer contra_transaction;
 
 		    echeance_de_ventil -> compte_virement = gsb_transaction_data_get_account_number_transfer ( gsb_transaction_data_get_transaction_number (transaction_de_ventil ));
 
@@ -3911,7 +3912,7 @@ struct operation_echeance *schedule_transaction ( struct structure_operation * t
 		nb_echeances++;
 		liste_struct_echeances = g_slist_insert_sorted ( liste_struct_echeances,
 								 echeance_de_ventil,
-								 (GCompareFunc) comparaison_date_echeance );
+								 (GCompareFunc) classement_sliste_echeance_par_date );
 	    }
 	    liste_tmp = liste_tmp -> next;
 	}
@@ -4313,7 +4314,7 @@ gboolean gsb_transactions_list_set_visibles_rows_on_account ( gint no_account )
 
 	do
 	{
-	    struct structure_operation *transaction;
+	    gpointer transaction;
 	    gint current_line;
 	    gint show;
 
@@ -4423,7 +4424,7 @@ gboolean gsb_transactions_list_set_visibles_rows_on_account ( gint no_account )
  * \param transaction the transaction to check
  * \return FALSE
  * */
-gboolean gsb_transactions_list_set_visibles_rows_on_transaction ( struct structure_operation *transaction )
+gboolean gsb_transactions_list_set_visibles_rows_on_transaction ( gpointer transaction )
 {
     GtkListStore *model;
     GtkTreeIter *iter;
@@ -4547,7 +4548,7 @@ gboolean gsb_transactions_list_set_visibles_rows_on_transaction ( struct structu
  * \param transaction the adr of the transaction
  * \return the real name
  * */
-gchar *gsb_transactions_get_category_real_name ( struct structure_operation *transaction )
+gchar *gsb_transactions_get_category_real_name ( gpointer *transaction )
 {
     gchar *temp;
 
@@ -4593,7 +4594,7 @@ gchar *gsb_transactions_get_category_real_name ( struct structure_operation *tra
  * \return FALSE
  * */
 gboolean gsb_account_list_set_breakdowns_visible ( gint no_account,
-						   struct structure_operation *transaction,
+						   gpointer transaction,
 						   gint visible )
 {
     GtkTreeModel *model;
@@ -4605,7 +4606,7 @@ gboolean gsb_account_list_set_breakdowns_visible ( gint no_account,
 
     do
     {
-	struct structure_operation *child_transaction;
+	gpointer child_transaction;
 
 	gtk_tree_model_get ( model,
 			     &iter,

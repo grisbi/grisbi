@@ -84,7 +84,6 @@ extern gchar *chemin_logo;
 extern struct struct_devise *devise_compte;
 extern struct struct_devise *devise_nulle;
 extern struct struct_devise *devise_operation;
-extern GSList *echeances_saisies;
 extern struct struct_etat *etat_courant;
 extern GtkItemFactory *item_factory_menu_general;
 extern gint ligne_affichage_une_ligne;
@@ -126,6 +125,7 @@ extern gint no_devise_totaux_ib;
 extern gint no_devise_totaux_tiers;
 extern gchar *nom_fichier_backup;
 extern gchar *nom_fichier_comptes;
+extern GSList *scheduled_transactions_taken;
 extern gint scheduler_col_width[NB_COLS_SCHEDULER] ;
 extern GtkWidget *solde_label;
 extern GtkWidget *solde_label_pointe;
@@ -210,7 +210,7 @@ void init_variables ( void )
     affichage_echeances = 3;
     affichage_echeances_perso_nb_libre = 0;
     affichage_echeances_perso_j_m_a = 0;
-    echeances_saisies = NULL;
+    scheduled_transactions_taken = NULL;
 
     liste_struct_tiers = NULL;
     nb_enregistrements_tiers = 0;

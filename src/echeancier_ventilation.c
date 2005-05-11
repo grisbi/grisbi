@@ -33,13 +33,14 @@
 #include "utils_exercices.h"
 #include "type_operations.h"
 #include "classement_operations.h"
-#include "echeancier_formulaire.h"
+#include "classement_echeances.h"
 #include "exercice.h"
 #include "dialog.h"
 #include "utils_echeances.h"
 #include "operations_formulaire.h"
 #include "gsb_account.h"
 #include "utils_dates.h"
+#include "echeancier_formulaire.h"
 #include "operations_liste.h"
 #include "gtk_combofix.h"
 #include "utils_ib.h"
@@ -61,7 +62,6 @@ static void changement_taille_liste_ventilation_echeances  ( GtkWidget *clist,
 						      GtkAllocation *allocation,
 						      gpointer null );
 static gboolean clique_champ_formulaire_ventilation_echeances ( void );
-static GtkWidget *creation_verification_ventilation_echeances ( void );
 static void echap_formulaire_ventilation_echeances ( void );
 static void edition_operation_ventilation_echeances ( void );
 static gboolean entree_ventilation_perd_focus_echeances ( GtkWidget *entree, GdkEventFocus *ev,
@@ -219,213 +219,6 @@ GtkWidget *creation_fenetre_ventilation_echeances ( void )
 }
 /*******************************************************************************************/
 
-
-
-/*******************************************************************************************/
-/* Fonction  creation_verification_ventilation_echeances*/
-/* crée la fenetre à la place de la liste des comptes qui contient les boutons et l'état de la ventilation */
-/*******************************************************************************************/
-
-GtkWidget *creation_verification_ventilation_echeances ( void )
-{
-    GtkWidget *onglet;
-    GtkWidget *label;
-    GtkWidget *frame;
-    GtkWidget *tableau;
-    GtkWidget *separateur;
-    GtkWidget *hbox;
-    GtkWidget *bouton;
-
-
-    /* création de la vbox */
-
-    onglet = gtk_vbox_new ( FALSE,
-			    10 );
-    gtk_container_set_border_width ( GTK_CONTAINER ( onglet ),
-				     10 );
-    gtk_widget_show ( onglet );
-
-
-    /* création du titre "opération ventilée" */
-
-    frame = gtk_frame_new ( NULL );
-    gtk_box_pack_start ( GTK_BOX ( onglet ),
-			 frame,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show ( frame );
-
-    label = gtk_label_new ( _("Breakdown of transaction") );
-    gtk_container_add ( GTK_CONTAINER ( frame ),
-			label );
-    gtk_widget_show ( label );
-
-
-    /* création du tableau */
-
-    tableau = gtk_table_new ( 4,
-			      2,
-			      FALSE );
-    gtk_table_set_row_spacings ( GTK_TABLE ( tableau ),
-				 10 );
-    gtk_table_set_col_spacings ( GTK_TABLE ( tableau ),
-				 10 );
-    gtk_box_pack_start ( GTK_BOX ( onglet ),
-			 tableau,
-			 FALSE,
-			 FALSE,
-			 20 );
-    gtk_widget_show ( tableau );
-
-
-    label = gtk_label_new ( COLON(_("Break down amount")) );
-    gtk_misc_set_alignment ( GTK_MISC ( label ),
-			     0,
-			     0.5 );
-    gtk_table_attach ( GTK_TABLE ( tableau ),
-		       label,
-		       0, 1,
-		       0, 1,
-		       GTK_SHRINK | GTK_FILL,
-		       GTK_SHRINK | GTK_FILL,
-		       0, 0 );
-    gtk_widget_show ( label );
-
-    label_somme_ventilee_echeances_echeances = gtk_label_new ( "" );
-    gtk_misc_set_alignment ( GTK_MISC ( label_somme_ventilee_echeances_echeances ),
-			     1,
-			     0.5 );
-    gtk_table_attach ( GTK_TABLE ( tableau ),
-		       label_somme_ventilee_echeances_echeances,
-		       1, 2,
-		       0, 1,
-		       GTK_SHRINK | GTK_FILL,
-		       GTK_SHRINK | GTK_FILL,
-		       0, 0 );
-    gtk_widget_show ( label_somme_ventilee_echeances_echeances );
-
-
-    label = gtk_label_new ( COLON(_("Not assigned")) );
-    gtk_misc_set_alignment ( GTK_MISC ( label ),
-			     0,
-			     0.5 );
-    gtk_table_attach ( GTK_TABLE ( tableau ),
-		       label,
-		       0, 1,
-		       1, 2,
-		       GTK_SHRINK | GTK_FILL,
-		       GTK_SHRINK | GTK_FILL,
-		       0, 0 );
-    gtk_widget_show ( label );
-
-    label_non_affecte_echeances = gtk_label_new ( "" );
-    gtk_misc_set_alignment ( GTK_MISC ( label_non_affecte_echeances ),
-			     1,
-			     0.5 );
-    gtk_table_attach ( GTK_TABLE ( tableau ),
-		       label_non_affecte_echeances,
-		       1, 2,
-		       1, 2,
-		       GTK_SHRINK | GTK_FILL,
-		       GTK_SHRINK | GTK_FILL,
-		       0, 0 );
-    gtk_widget_show ( label_non_affecte_echeances );
-
-
-    separateur = gtk_hseparator_new ();
-    gtk_table_attach ( GTK_TABLE ( tableau ),
-		       separateur,
-		       0, 2,
-		       2, 3,
-		       GTK_SHRINK | GTK_FILL,
-		       GTK_SHRINK | GTK_FILL,
-		       0, 0 );
-    gtk_widget_show ( separateur );
-
-
-
-    label = gtk_label_new ( COLON(_("Amount")) );
-    gtk_misc_set_alignment ( GTK_MISC ( label ),
-			     0,
-			     0.5 );
-    gtk_table_attach ( GTK_TABLE ( tableau ),
-		       label,
-		       0, 1,
-		       3, 4,
-		       GTK_SHRINK | GTK_FILL,
-		       GTK_SHRINK | GTK_FILL,
-		       0, 0 );
-    gtk_widget_show ( label );
-
-    label_montant_operation_ventilee_echeances_echeances = gtk_label_new ( "" );
-    gtk_misc_set_alignment ( GTK_MISC ( label_montant_operation_ventilee_echeances_echeances ),
-			     1,
-			     0.5 );
-    gtk_table_attach ( GTK_TABLE ( tableau ),
-		       label_montant_operation_ventilee_echeances_echeances,
-		       1, 2,
-		       3, 4,
-		       GTK_SHRINK | GTK_FILL,
-		       GTK_SHRINK | GTK_FILL,
-		       0, 0 );
-    gtk_widget_show ( label_montant_operation_ventilee_echeances_echeances );
-
-
-
-    /* mise en place des boutons */
-
-    hbox = gtk_hbox_new ( FALSE,
-			  10 );
-    gtk_box_pack_end ( GTK_BOX ( onglet ),
-		       hbox,
-		       FALSE,
-		       FALSE,
-		       10 );
-    gtk_widget_show ( hbox );
-
-
-    bouton = gtk_button_new_from_stock (GTK_STOCK_OK);
-
-    gtk_button_set_relief ( GTK_BUTTON ( bouton ),
-			    GTK_RELIEF_NONE );
-    gtk_signal_connect ( GTK_OBJECT ( bouton ),
-			 "clicked",
-			 GTK_SIGNAL_FUNC ( valider_ventilation_echeances ),
-			 NULL );
-    gtk_box_pack_start ( GTK_BOX ( hbox ),
-			 bouton,
-			 TRUE,
-			 FALSE,
-			 0 );
-    gtk_widget_show ( bouton );
-
-    bouton = gtk_button_new_from_stock    (GTK_STOCK_CANCEL);
-    gtk_button_set_relief ( GTK_BUTTON ( bouton ),
-			    GTK_RELIEF_NONE );
-    gtk_signal_connect ( GTK_OBJECT ( bouton ),
-			 "clicked",
-			 GTK_SIGNAL_FUNC ( annuler_ventilation_echeances ),
-			 NULL );
-    gtk_box_pack_start ( GTK_BOX ( hbox ),
-			 bouton,
-			 TRUE,
-			 FALSE,
-			 0 );
-    gtk_widget_show ( bouton );
-
-
-    separateur = gtk_hseparator_new ();
-    gtk_box_pack_end ( GTK_BOX ( onglet ),
-		       separateur,
-		       FALSE,
-		       FALSE,
-		       0 );
-    gtk_widget_show ( separateur );
-
-    return ( onglet );
-}
-/*******************************************************************************************/
 
 
 /*******************************************************************************************/
@@ -2403,7 +2196,7 @@ void valider_ventilation_echeances ( void )
     quitter_ventilation_echeances ();
 
     if ( enregistre_ope_au_retour_echeances )
-	fin_edition_echeance();
+	gsb_scheduler_validate_form();
 }
 /* ************************************************************************** */
 
@@ -2676,7 +2469,7 @@ void validation_ope_de_ventilation_echeances ( struct operation_echeance *operat
 		nb_echeances++;
 		liste_struct_echeances = g_slist_insert_sorted ( liste_struct_echeances,
 								 nouvelle_ope,
-								 (GCompareFunc) comparaison_date_echeance );
+								 (GCompareFunc) classement_sliste_echeance_par_date );
 	    }
 	}
 	liste_struct_ventilations = liste_struct_ventilations -> next;

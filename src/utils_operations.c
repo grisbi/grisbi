@@ -37,9 +37,9 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static void update_transaction_in_budgetary_line_tree ( struct structure_operation * transaction );
-static void update_transaction_in_categ_tree ( struct structure_operation * transaction );
-static void update_transaction_in_payee_tree ( struct structure_operation * transaction );
+static void update_transaction_in_budgetary_line_tree ( gpointer  transaction );
+static void update_transaction_in_categ_tree ( gpointer  transaction );
+static void update_transaction_in_payee_tree ( gpointer  transaction );
 /*END_STATIC*/
 
 
@@ -61,7 +61,7 @@ extern GtkTreeStore *payee_tree_model;
 /* renvoie l'adr de l'opÃ© demandÃ©e par son no */
 /* ou NULL si pas trouvÃ©e */
 /*****************************************************************************************************/
-struct structure_operation *operation_par_no ( gint no_operation,
+gpointer operation_par_no ( gint no_operation,
 					       gint no_compte )
 {
     GSList *liste_tmp;
@@ -83,7 +83,7 @@ struct structure_operation *operation_par_no ( gint no_operation,
 /* renvoie l'adr de l'opÃ© demandÃ©e par son no de cheque */
 /* ou NULL si pas trouvÃ©e */
 /*****************************************************************************************************/
-struct structure_operation *operation_par_cheque ( gint no_cheque,
+gpointer operation_par_cheque ( gint no_cheque,
 						   gint no_compte )
 {
     GSList *liste_tmp;
@@ -105,7 +105,7 @@ struct structure_operation *operation_par_cheque ( gint no_cheque,
 /* renvoie l'adr de l'opÃ© demandÃ©e par son no id*/
 /* ou NULL si pas trouvÃ©e */
 /*****************************************************************************************************/
-struct structure_operation *operation_par_id ( gchar *no_id,
+gpointer operation_par_id ( gchar *no_id,
 					       gint no_compte )
 {
     GSList *liste_tmp;
@@ -126,7 +126,7 @@ struct structure_operation *operation_par_id ( gchar *no_id,
  *
  *
  */
-void update_transaction_in_categ_tree ( struct structure_operation * transaction )
+void update_transaction_in_categ_tree ( gpointer  transaction )
 {
     /* FIXME: Kludgeish, we should maintain a state. */
     calcule_total_montant_categ();
@@ -139,7 +139,7 @@ void update_transaction_in_categ_tree ( struct structure_operation * transaction
  *
  *
  */
-void update_transaction_in_budgetary_line_tree ( struct structure_operation * transaction )
+void update_transaction_in_budgetary_line_tree ( gpointer  transaction )
 {
     /* FIXME: Kludgeish, we should maintain a state. */
     calcule_total_montant_budgetary_line();
@@ -153,7 +153,7 @@ void update_transaction_in_budgetary_line_tree ( struct structure_operation * tr
  *
  *
  */
-void update_transaction_in_payee_tree ( struct structure_operation * transaction )
+void update_transaction_in_payee_tree ( gpointer  transaction )
 {
     /* FIXME: Kludgeish, we should maintain a state. */
     calcule_total_montant_payee();
@@ -166,8 +166,10 @@ void update_transaction_in_payee_tree ( struct structure_operation * transaction
  *
  *
  */
-void update_transaction_in_trees ( struct structure_operation * transaction )
+void update_transaction_in_trees ( gpointer  transaction )
 {
+    if ( DEBUG )
+	printf ( "update_transaction_in_trees\n" );
     update_transaction_in_categ_tree ( transaction );
     update_transaction_in_payee_tree ( transaction );
     update_transaction_in_budgetary_line_tree ( transaction );

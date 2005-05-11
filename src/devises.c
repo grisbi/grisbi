@@ -1851,6 +1851,79 @@ struct struct_devise * find_currency_from_iso4217_list ( gchar * currency_name )
 /* ***************************************************************************************** */
 
 
+/** get and return the number of the currency in the option_menu given in param
+ * \param currency_option_menu an option menu with the currencies
+ * \return the number of currency
+ * */
+gint gsb_currency_get_option_menu_currency ( GtkWidget *currency_option_menu )
+{
+    struct struct_devise *currency;
+
+    if ( !currency_option_menu )
+	return 0;
+
+    currency = gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU (currency_option_menu) -> menu_item ),
+				     "adr_devise" );
+
+    if ( currency )
+	return currency -> no_devise;
+
+    return 0;
+}
+
+
+
+/** check if a transaction need an exchange rate and fees with its account
+ * if yes, ask for that and set the in the transaction
+ * \param no_transaction
+ * \return
+ * */
+void gsb_currency_check_for_change ( gint no_transaction )
+{
+    struct struct_devise *transaction_currency;
+    struct struct_devise *account_currency;
+
+    account_currency = devise_par_no ( gsb_account_get_currency (gsb_transaction_data_get_account_number (no_transaction)));
+    transaction_currency = devise_par_no ( gsb_transaction_data_get_currency_number (no_transaction));
+
+    /* si c'est la devise du compte ou */
+    /* si c'est un compte qui doit passer à l'euro ( la transfo se fait au niveau de l'affichage de la liste ) */
+    /* ou si c'est un compte en euro et l'opé est dans une devise qui doit passer à l'euro -> pas de change à demander */
+
+    if ( !( transaction_currency -> no_devise == account_currency -> no_devise
+	    ||
+	    ( account_currency -> passage_euro
+	      &&
+	      !strcmp ( transaction_currency -> nom_devise, _("Euro") ))
+	    ||
+	    ( !strcmp ( account_currency -> nom_devise, _("Euro") )
+	      &&
+	      transaction_currency -> passage_euro )))
+    {
+	/* it's a foreign currency, ask for the exchange rate and fees */
+
+	/* FIXME : utilise et remplit les variables globales taux_de_change, voir pour passer ça en local */
+
+	demande_taux_de_change ( account_currency,
+				 transaction_currency,
+				 1,
+				 ( gdouble ) 0,
+				 ( gdouble ) 0,
+				 FALSE );
+
+	gsb_transaction_data_set_exchange_rate ( no_transaction,
+						 fabs (taux_de_change[0] ));
+	gsb_transaction_data_set_exchange_fees ( no_transaction,
+						 taux_de_change[1] );
+
+	if ( taux_de_change[0] < 0 )
+	    gsb_transaction_data_set_change_between ( no_transaction,
+						      1 );
+    }
+}
+
+
+  
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

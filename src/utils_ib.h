@@ -6,7 +6,7 @@
 
 
 /* START_DECLARATION */
-void add_transaction_to_budgetary_line ( struct structure_operation * transaction,
+void add_transaction_to_budgetary_line ( gpointer  transaction,
 					 struct struct_imputation * budgetary_line,
 					 struct struct_sous_imputation * sub_budgetary_line );
 void calcule_total_montant_budgetary_line ( void );
@@ -19,7 +19,7 @@ gchar *nom_imputation_par_no ( gint no_imputation,
 			       gint no_sous_imputation );
 gchar *nom_sous_imputation_par_no ( gint no_imputation,
 				    gint no_sous_imputation );
-void remove_transaction_from_budgetary_line ( struct structure_operation * transaction,
+void remove_transaction_from_budgetary_line ( gpointer  transaction,
 					      struct struct_imputation * budgetary_line,
 					      struct struct_sous_imputation * sub_budgetary_line );
 struct struct_sous_imputation *sous_imputation_par_no ( gint no_imputation,

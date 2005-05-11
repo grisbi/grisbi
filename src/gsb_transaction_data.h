@@ -55,6 +55,8 @@ typedef struct
 
 
 /* START_DECLARATION */
+gboolean gsb_transaction_data_copy_transaction ( gint source_transaction_number,
+						 gint target_transaction_number );
 gint gsb_transaction_data_get_account_number ( gint no_transaction );
 gint gsb_transaction_data_get_account_number_transfer ( gint no_transaction );
 gdouble gsb_transaction_data_get_adjusted_amount ( gint no_transaction );
@@ -79,6 +81,7 @@ gint gsb_transaction_data_get_method_of_payment_number ( gint no_transaction );
 gint gsb_transaction_data_get_mother_transaction_number ( gint no_transaction );
 gchar *gsb_transaction_data_get_notes ( gint no_transaction );
 gint gsb_transaction_data_get_party_number ( gint no_transaction );
+gpointer gsb_transaction_data_get_pointer_to_transaction ( gint transaction_number );
 gint gsb_transaction_data_get_reconcile_number ( gint no_transaction );
 gint gsb_transaction_data_get_sub_budgetary_number ( gint no_transaction );
 gint gsb_transaction_data_get_sub_category_number ( gint no_transaction );
@@ -88,6 +91,7 @@ gint gsb_transaction_data_get_transaction_number_transfer ( gint no_transaction 
 GDate *gsb_transaction_data_get_value_date ( gint no_transaction );
 gchar *gsb_transaction_data_get_voucher ( gint no_transaction );
 gboolean gsb_transaction_data_init_variables ( void );
+gint gsb_transaction_data_new_transaction ( gint no_account );
 gboolean gsb_transaction_data_set_account_number ( gint no_transaction,
 						   gint no_account );
 gboolean gsb_transaction_data_set_account_number_transfer ( gint no_transaction,

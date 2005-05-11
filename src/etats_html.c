@@ -33,7 +33,7 @@
 /*START_STATIC*/
 static void html_attach_hsep ( int x, int x2, int y, int y2);
 static void html_attach_label ( gchar * text, gdouble properties, int x, int x2, int y, int y2, 
-			  enum alignement align, struct structure_operation * ope );
+			  enum alignement align, gpointer  ope );
 static void html_attach_vsep ( int x, int x2, int y, int y2);
 static gint html_finish ();
 static gint html_initialise (GSList * opes_selectionnees);
@@ -85,7 +85,7 @@ struct struct_etat_affichage html_affichage = {
  *            backend is not interactive)
  */
 void html_attach_label ( gchar * text, gdouble properties, int x, int x2, int y, int y2, 
-			  enum alignement align, struct structure_operation * ope )
+			  enum alignement align, gpointer  ope )
 {
     int pad, realsize, realcolumns;
 

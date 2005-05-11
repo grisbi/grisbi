@@ -230,7 +230,7 @@ gboolean delete_account ( void )
 
 	while ( pointeur_tmp )
 	{
-	    struct structure_operation *operation;
+	    gpointer operation;
 
 	    operation = pointeur_tmp -> data;
 

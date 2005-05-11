@@ -32,6 +32,7 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
+static gboolean is_euro ( struct struct_devise * currency );
 /*END_STATIC*/
 
 

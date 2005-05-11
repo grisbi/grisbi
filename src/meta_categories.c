@@ -36,9 +36,9 @@
 /*START_STATIC*/
 static gint category_add_div ();
 static gint category_add_sub_div ( int div_id );
-static gboolean category_add_transaction_to_div ( struct structure_operation * trans, 
+static gboolean category_add_transaction_to_div ( gpointer  trans, 
 					   int div_id );
-static gboolean category_add_transaction_to_sub_div ( struct structure_operation * trans, 
+static gboolean category_add_transaction_to_sub_div ( gpointer  trans, 
 					       int div_id, int sub_div_id );
 static gdouble category_div_balance ( gpointer div );
 static gint category_div_id ( gpointer category );
@@ -54,9 +54,9 @@ static gpointer category_get_sub_div_pointer_from_name ( int div_id, gchar * nam
 static gpointer category_get_without_div_pointer ( );
 static gboolean category_remove_div ( int div_id );
 static gboolean category_remove_sub_div ( int div_id, int sub_div_id );
-static gboolean category_remove_transaction_from_div ( struct structure_operation * trans, 
+static gboolean category_remove_transaction_from_div ( gpointer  trans, 
 						int div_id );
-static gboolean category_remove_transaction_from_sub_div ( struct structure_operation * trans, 
+static gboolean category_remove_transaction_from_sub_div ( gpointer  trans, 
 						    int div_id, int sub_div_id );
 static gint category_scheduled_div_id ( struct operation_echeance * scheduled );
 static void category_scheduled_set_div_id ( struct operation_echeance * scheduled, 
@@ -68,12 +68,12 @@ static gdouble category_sub_div_balance ( gpointer div, gpointer sub_div );
 static gint category_sub_div_id ( gpointer sub_category );
 static gchar * category_sub_div_name ( gpointer sub_div );
 static gint category_sub_div_nb_transactions ( gpointer div, gpointer sub_div );
-static gint category_transaction_div_id ( struct structure_operation * transaction );
-static void category_transaction_set_div_id ( struct structure_operation * transaction, 
+static gint category_transaction_div_id ( gpointer  transaction );
+static void category_transaction_set_div_id ( gpointer  transaction, 
 				       int no_div );
-static void category_transaction_set_sub_div_id ( struct structure_operation * transaction, 
+static void category_transaction_set_sub_div_id ( gpointer  transaction, 
 					   int no_sub_div );
-static gint category_transaction_sub_div_id ( struct structure_operation * transaction );
+static gint category_transaction_sub_div_id ( gpointer  transaction );
 static struct struct_devise * category_tree_currency ( );
 /*END_STATIC*/
 
@@ -356,7 +356,7 @@ gint category_div_type ( gpointer div )
  *		breakdown of transaction to avoid transaction being
  *		considered as a "No category" transaction.
  */
-gint category_transaction_div_id ( struct structure_operation * transaction )
+gint category_transaction_div_id ( gpointer  transaction )
 {
     if ( transaction )
     {
@@ -376,7 +376,7 @@ gint category_transaction_div_id ( struct structure_operation * transaction )
  *
  *
  */
-gint category_transaction_sub_div_id ( struct structure_operation * transaction )
+gint category_transaction_sub_div_id ( gpointer  transaction )
 {
     if ( transaction )
 	return gsb_transaction_data_get_sub_category_number ( gsb_transaction_data_get_transaction_number (transaction ));
@@ -389,7 +389,7 @@ gint category_transaction_sub_div_id ( struct structure_operation * transaction 
  *
  *
  */
-void category_transaction_set_div_id ( struct structure_operation * transaction, 
+void category_transaction_set_div_id ( gpointer  transaction, 
 				       int no_div )
 {
     if ( transaction )
@@ -403,7 +403,7 @@ void category_transaction_set_div_id ( struct structure_operation * transaction,
  *
  *
  */
-void category_transaction_set_sub_div_id ( struct structure_operation * transaction, 
+void category_transaction_set_sub_div_id ( gpointer  transaction, 
 					   int no_sub_div )
 {
     if ( transaction )
@@ -575,7 +575,7 @@ gboolean category_remove_sub_div ( int div_id, int sub_div_id )
  *
  *
  */
-gboolean category_add_transaction_to_div ( struct structure_operation * trans, 
+gboolean category_add_transaction_to_div ( gpointer  trans, 
 					   int div_id )
 {
     add_transaction_to_category ( trans, category_get_div_pointer ( div_id ), NULL );
@@ -588,7 +588,7 @@ gboolean category_add_transaction_to_div ( struct structure_operation * trans,
  *
  *
  */
-gboolean category_add_transaction_to_sub_div ( struct structure_operation * trans, 
+gboolean category_add_transaction_to_sub_div ( gpointer  trans, 
 					       int div_id, int sub_div_id )
 {
     add_transaction_to_category ( trans, category_get_div_pointer ( div_id ), 
@@ -602,7 +602,7 @@ gboolean category_add_transaction_to_sub_div ( struct structure_operation * tran
  *
  *
  */
-gboolean category_remove_transaction_from_div ( struct structure_operation * trans, 
+gboolean category_remove_transaction_from_div ( gpointer  trans, 
 						int div_id )
 {
     remove_transaction_from_category ( trans, 
@@ -616,7 +616,7 @@ gboolean category_remove_transaction_from_div ( struct structure_operation * tra
  *
  *
  */
-gboolean category_remove_transaction_from_sub_div ( struct structure_operation * trans, 
+gboolean category_remove_transaction_from_sub_div ( gpointer  trans, 
 						    int div_id, int sub_div_id )
 {
     remove_transaction_from_category ( trans, 

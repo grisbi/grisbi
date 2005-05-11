@@ -2274,3 +2274,28 @@ gboolean gsb_account_reorder ( GSList *new_order )
     g_slist_free (last_list);
     return TRUE;
 }
+
+
+/** append a new transaction to the list of transactions
+ * \param no_account
+ * \param transaction a pointer to the transaction
+ * \return TRUE if ok
+ * */
+gboolean gsb_account_append_transaction ( gint no_account,
+					  gpointer transaction )
+{
+    struct_account *account;
+
+    if ( !transaction )
+	return FALSE;
+
+    account = gsb_account_get_structure ( no_account );
+
+    if (!account )
+	return FALSE;
+
+    account -> transactions_list = g_slist_append ( account -> transactions_list,
+						    transaction );
+
+    return TRUE;
+}

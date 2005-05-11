@@ -33,7 +33,7 @@
 /*START_STATIC*/
 static void latex_attach_hsep ( int x, int x2, int y, int y2);
 static void latex_attach_label ( gchar * text, gdouble properties, int x, int x2, int y, int y2, 
-			  enum alignement align, struct structure_operation * ope );
+			  enum alignement align, gpointer  ope );
 static void latex_attach_vsep ( int x, int x2, int y, int y2);
 static gint latex_finish ();
 static gint latex_initialise (GSList * opes_selectionnees);
@@ -84,7 +84,7 @@ extern gint nb_colonnes;
  *            backend is not interactive)
  */
 void latex_attach_label ( gchar * text, gdouble properties, int x, int x2, int y, int y2, 
-			  enum alignement align, struct structure_operation * ope )
+			  enum alignement align, gpointer  ope )
 {
     int pad, realsize, realcolumns;
 

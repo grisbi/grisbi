@@ -47,8 +47,6 @@ static gchar *get_debug_time ( void );
 static GtkWidget * print_backtrace ( void );
 /*END_STATIC*/
 
-gint debugging_grisbi;
-
 /*START_EXTERN*/
 extern AB_BANKING *gbanking;
 extern gint id_temps;
@@ -61,6 +59,9 @@ extern GtkWidget *window;
 #ifdef HAVE_G2BANKING
 extern AB_BANKING *gbanking;
 #endif
+
+
+gint debugging_grisbi;
 
 
 

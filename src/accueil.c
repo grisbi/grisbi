@@ -40,6 +40,7 @@
 #include "gsb_transaction_data.h"
 #include "operations_liste.h"
 #include "gtk_list_button.h"
+#include "main.h"
 #include "utils.h"
 #include "utils_tiers.h"
 #include "structures.h"
@@ -51,7 +52,7 @@ static gboolean saisie_echeance_accueil ( GtkWidget *event_box,
 				   GdkEventButton *event,
 				   struct operation_echeance *echeance );
 static gboolean select_expired_scheduled_transaction ( GtkWidget * event_box, GdkEventButton *event,
-						struct structure_operation * operation );
+						gpointer  operation );
 static void update_fin_comptes_passifs ( void );
 static void update_liste_comptes_accueil ( void );
 static void update_liste_echeances_auto_accueil ( void );
@@ -61,8 +62,6 @@ static void update_soldes_minimaux ( void );
 
 /*START_EXTERN*/
 extern struct operation_echeance *echeance_selectionnnee;
-extern GSList *echeances_a_saisir;
-extern GSList *echeances_saisies;
 extern GtkWidget *formulaire;
 extern GtkWidget *formulaire_echeancier;
 extern GtkWidget *formulaire_echeancier;
@@ -71,6 +70,8 @@ extern GtkWidget *hbox_valider_annuler_echeance;
 extern GSList *liste_struct_devises;
 extern GtkWidget *notebook_formulaire_echeances;
 extern gint patience_en_cours;
+extern GSList *scheduled_transactions_taken;
+extern GSList *scheduled_transactions_to_take;
 extern GtkWidget *separateur_formulaire_echeancier;
 extern gchar *titre_fichier;
 extern GtkWidget *vbox_liste_comptes;
@@ -86,7 +87,7 @@ GtkWidget *frame_etat_comptes_accueil;
 GtkWidget *frame_etat_fin_compte_passif;
 GtkWidget *frame_etat_echeances_manuelles_accueil;
 GtkWidget *frame_etat_echeances_auto_accueil;
-GtkWidget *frame_etat_echeances_finies;
+GtkWidget *main_page_finished_scheduled_transactions_part;
 GtkWidget *frame_etat_soldes_minimaux_autorises;
 GtkWidget *frame_etat_soldes_minimaux_voulus;
 GtkStyle *style_label_nom_compte;
@@ -218,12 +219,12 @@ GtkWidget *creation_onglet_accueil ( void )
     /* partie des fin d'échéances */
     paddingbox = new_paddingbox_with_title ( base, FALSE,
 					     _("Closed scheduled transactions") );
-    frame_etat_echeances_finies = gtk_notebook_new ();
-    gtk_notebook_set_show_tabs ( GTK_NOTEBOOK(frame_etat_echeances_finies), FALSE );
-    gtk_notebook_set_show_border ( GTK_NOTEBOOK(frame_etat_echeances_finies), FALSE );
-    gtk_container_set_border_width ( GTK_CONTAINER(frame_etat_echeances_finies), 0 );
+    main_page_finished_scheduled_transactions_part = gtk_notebook_new ();
+    gtk_notebook_set_show_tabs ( GTK_NOTEBOOK(main_page_finished_scheduled_transactions_part), FALSE );
+    gtk_notebook_set_show_border ( GTK_NOTEBOOK(main_page_finished_scheduled_transactions_part), FALSE );
+    gtk_container_set_border_width ( GTK_CONTAINER(main_page_finished_scheduled_transactions_part), 0 );
     gtk_box_set_spacing ( GTK_BOX(paddingbox), 6 );
-    gtk_box_pack_start ( GTK_BOX(paddingbox), frame_etat_echeances_finies, FALSE, FALSE, 6 );
+    gtk_box_pack_start ( GTK_BOX(paddingbox), main_page_finished_scheduled_transactions_part, FALSE, FALSE, 6 );
 
 
     /* partie des soldes minimaux autorisés */
@@ -323,7 +324,7 @@ gboolean saisie_echeance_accueil ( GtkWidget *event_box,
     resultat = gtk_dialog_run ( GTK_DIALOG ( dialog ));
 
     if ( resultat == GTK_RESPONSE_OK )
-	fin_edition_echeance ();
+	 gsb_scheduler_validate_form ();
 
     gtk_widget_reparent ( formulaire_echeancier, ancien_parent );
 
@@ -898,7 +899,7 @@ void update_liste_comptes_accueil ( void )
 
 		while ( liste_operations_tmp )
 		{
-		    struct structure_operation *operation;
+		    gpointer operation;
 
 		    operation = liste_operations_tmp -> data;
 
@@ -1226,7 +1227,7 @@ void update_liste_comptes_accueil ( void )
 
 		while ( liste_operations_tmp )
 		{
-		    struct structure_operation *operation;
+		    gpointer operation;
 
 		    operation = liste_operations_tmp -> data;
 
@@ -1477,7 +1478,7 @@ gboolean click_sur_compte_accueil ( gint *no_compte )
 /* ************************************************************************* */
 void update_liste_echeances_manuelles_accueil ( void )
 {
-    verification_echeances_a_terme ();
+    gsb_scheduler_check_scheduled_transactions_time_limit ();
 
     if ( !mise_a_jour_liste_echeances_manuelles_accueil )
 	return;
@@ -1487,7 +1488,7 @@ void update_liste_echeances_manuelles_accueil ( void )
 
     mise_a_jour_liste_echeances_manuelles_accueil = 0;
 
-    if ( echeances_a_saisir )
+    if ( scheduled_transactions_to_take )
     {
 	GtkWidget *vbox;
 	GtkWidget *label;
@@ -1533,7 +1534,7 @@ void update_liste_echeances_manuelles_accueil ( void )
 	style_label->fg[GTK_STATE_ACTIVE] = couleur_bleue;
 
 
-	pointeur_liste = g_slist_sort(echeances_a_saisir,
+	pointeur_liste = g_slist_sort(scheduled_transactions_to_take,
 				      (GCompareFunc) classement_sliste_echeance_par_date );
 
 	while ( pointeur_liste )
@@ -1617,11 +1618,11 @@ void update_liste_echeances_auto_accueil ( void )
 
     mise_a_jour_liste_echeances_auto_accueil = 0;
 
-    if ( echeances_saisies )
+    if ( scheduled_transactions_taken )
     {
 	GtkWidget *vbox, *label, *event_box, *hbox;
 	GSList *pointeur_liste;
-	struct structure_operation *operation;
+	gpointer operation;
 	GtkStyle *style_selectable;
 	GdkColor gray_color;
 
@@ -1642,7 +1643,7 @@ void update_liste_echeances_auto_accueil ( void )
 	gtk_container_add ( GTK_CONTAINER ( frame_etat_echeances_auto_accueil ), vbox);
 	gtk_widget_show ( vbox);
 
-	pointeur_liste = echeances_saisies;
+	pointeur_liste = scheduled_transactions_taken;
 
 	while ( pointeur_liste )
 	{
@@ -2063,11 +2064,70 @@ void update_fin_comptes_passifs ( void )
 
 
 gboolean select_expired_scheduled_transaction ( GtkWidget * event_box, GdkEventButton *event,
-						struct structure_operation * operation )
+						gpointer  operation )
 {
     gsb_account_list_gui_change_current_account ( GINT_TO_POINTER (gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (operation))));
     gsb_transactions_list_edit_current_transaction ();
     return ( FALSE );
+}
+
+/** update the finished scheduled transactions part in the main page
+ * the scheduled transaction in param is finished
+ * \param scheduled_transaction
+ * \return FALSE
+ * */
+gboolean gsb_main_page_update_finished_scheduled_transactions ( struct operation_echeance *scheduled_transaction )
+{
+    GtkWidget *label;
+
+    /* check if the vbox is already made, and make it if necesssary */
+
+    if ( !GTK_BIN ( main_page_finished_scheduled_transactions_part ) -> child )
+    {
+	GtkWidget *vbox;
+
+	vbox = gtk_vbox_new ( FALSE,
+			      5 );
+	gtk_container_add ( GTK_CONTAINER ( main_page_finished_scheduled_transactions_part ),
+			    vbox );
+	gtk_widget_show ( vbox );
+
+	label = gtk_label_new ("");
+	gtk_box_pack_start ( GTK_BOX ( vbox ),
+			     label,
+			     FALSE,
+			     FALSE,
+			     0 );
+	gtk_widget_show ( label );
+    }
+
+    /* append in the vbox the finished scheduled transaction */
+
+    if ( scheduled_transaction -> montant >= 0 )
+	label = gtk_label_new ( g_strdup_printf (PRESPACIFY(_("%4.2f %s credit on %s")),
+						 scheduled_transaction -> montant,
+						 devise_code_by_no ( scheduled_transaction -> devise ),
+						 gsb_account_get_name (scheduled_transaction -> compte) ));
+    else
+	label = gtk_label_new ( g_strdup_printf (PRESPACIFY(_("%4.2f %s debit on %s")),
+						 -scheduled_transaction -> montant,
+						 devise_code_by_no ( scheduled_transaction -> devise ),
+						 gsb_account_get_name (scheduled_transaction -> compte) ));
+
+
+    gtk_misc_set_alignment ( GTK_MISC ( label ),
+			     0,
+			     0.5);
+    gtk_box_pack_start ( GTK_BOX ( GTK_BIN ( main_page_finished_scheduled_transactions_part ) -> child ),
+			 label,
+			 FALSE,
+			 TRUE,
+			 5 );
+    gtk_widget_show (  label );
+
+    gtk_widget_show ( main_page_finished_scheduled_transactions_part );
+
+    return FALSE;
 }
 
 /* Local Variables: */

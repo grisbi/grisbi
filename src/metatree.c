@@ -44,7 +44,7 @@
 static gboolean division_node_maybe_expand ( GtkTreeModel *model, GtkTreePath *path, 
 				      GtkTreeIter *iter, gpointer data );
 static void fill_transaction_row ( GtkTreeModel * model, GtkTreeIter * iter, 
-			    struct structure_operation * operation );
+			    gpointer  operation );
 static gboolean find_associated_transactions ( MetatreeInterface * iface, 
 					gint no_division, gint no_sub_division );
 static gboolean find_destination_blob ( MetatreeInterface * iface, GtkTreeModel * model, 
@@ -57,7 +57,7 @@ static gboolean metatree_get_row_properties ( GtkTreeModel * tree_model, GtkTree
 				       gpointer * data );
 static enum meta_tree_row_type metatree_get_row_type ( GtkTreeModel * tree_model, 
 						GtkTreePath * path );
-static void move_transaction_to_sub_division ( struct structure_operation * transaction,
+static void move_transaction_to_sub_division ( gpointer  transaction,
 					GtkTreeModel * model,
 					GtkTreePath * orig_path, GtkTreePath * dest_path,
 					gint no_division, gint no_sub_division );
@@ -279,7 +279,7 @@ void fill_sub_division_row ( GtkTreeModel * model, MetatreeInterface * iface,
  * \param model		The GtkTreeModel that contains iter.
  */
 void fill_transaction_row ( GtkTreeModel * model, GtkTreeIter * iter, 
-			    struct structure_operation * operation )
+			    gpointer  operation )
 {
     gchar *montant, * label, * notes = NULL; /* free */
 
@@ -483,7 +483,7 @@ gboolean supprimer_division ( GtkTreeView * tree_view )
 
 	    while ( liste_tmp )
 	    {
-		struct structure_operation *operation;
+		gpointer operation;
 
 		operation = liste_tmp -> data;
 
@@ -595,7 +595,7 @@ void supprimer_sub_division ( GtkTreeView * tree_view, GtkTreeModel * model,
 
 	    while ( liste_tmp )
 	    {
-		struct structure_operation *operation;
+		gpointer operation;
 
 		operation = liste_tmp -> data;
 
@@ -718,7 +718,7 @@ gboolean division_column_expanded  ( GtkTreeView * treeview, GtkTreeIter * iter,
 
 	    while ( pointeur_ope )
 	    {
-		struct structure_operation *operation;
+		gpointer operation;
 
 		operation = pointeur_ope -> data;
 
@@ -759,7 +759,7 @@ gboolean division_column_expanded  ( GtkTreeView * treeview, GtkTreeIter * iter,
 gboolean division_activated ( GtkTreeView * treeview, GtkTreePath * path,
 			      GtkTreeViewColumn * col, gpointer userdata )
 {
-    struct structure_operation * operation;
+    gpointer  operation;
     GtkTreeIter iter;
     GtkTreeModel *model;
     gint no_division, no_sub_division;
@@ -864,7 +864,7 @@ gboolean division_drag_data_received ( GtkTreeDragDest * drag_dest, GtkTreePath 
 	gint no_dest_division, no_dest_sub_division, no_orig_division, no_orig_sub_division;
 	gpointer sub_division, dest_sub_division, orig_division, dest_division, pointer;
 	enum meta_tree_row_type orig_type;
-	struct structure_operation * transaction = NULL;
+	gpointer  transaction = NULL;
 	MetatreeInterface * iface;
 	GSList *list_tmp;
 
@@ -890,7 +890,7 @@ gboolean division_drag_data_received ( GtkTreeDragDest * drag_dest, GtkTreePath 
 	switch ( orig_type )
 	{
 	    case META_TREE_TRANSACTION:
-		transaction = (struct structure_operation *) pointer;
+		transaction = (gpointer ) pointer;
 		if ( transaction )
 		{
 		    move_transaction_to_sub_division ( transaction, model, 
@@ -976,7 +976,7 @@ gboolean division_drag_data_received ( GtkTreeDragDest * drag_dest, GtkTreePath 
  * 
  *
  */
-void move_transaction_to_sub_division ( struct structure_operation * transaction,
+void move_transaction_to_sub_division ( gpointer  transaction,
 					GtkTreeModel * model,
 					GtkTreePath * orig_path, GtkTreePath * dest_path,
 					gint no_division, gint no_sub_division )
@@ -1318,7 +1318,7 @@ gboolean find_associated_transactions ( MetatreeInterface * iface,
 
 	while ( liste_tmp )
 	{
-	    struct structure_operation *operation;
+	    gpointer operation;
 
 	    operation = liste_tmp -> data;
 
@@ -1467,7 +1467,7 @@ GtkTreeIter * get_iter_from_pointer ( GtkTreeModel * model, gpointer pointer )
  * \param transaction   Transaction to update if associated GtkTreeIter exists.
  */
 void update_transaction_in_tree ( MetatreeInterface * iface, GtkTreeModel * model, 
-				  struct structure_operation * transaction )
+				  gpointer  transaction )
 {
     GtkTreeIter * transaction_iter, * sub_div_iter = NULL, * div_iter, dummy_iter;
     gpointer div, sub_div;

@@ -324,7 +324,7 @@ gboolean mise_a_jour_versions_anterieures ( gint no_version,
 
 		while ( liste_tmp )
 		{
-		    struct structure_operation *operation;
+		    gpointer operation;
 
 		    operation = liste_tmp -> data;
 
@@ -338,7 +338,7 @@ gboolean mise_a_jour_versions_anterieures ( gint no_version,
 
 			while ( liste_tmp_2 )
 			{
-			    struct structure_operation *operation_2;
+			    gpointer operation_2;
 
 			    operation_2 = liste_tmp_2 -> data;
 
@@ -657,7 +657,7 @@ void switch_t_r ( void )
 
 	while ( liste_tmp )
 	{ 
-	    struct structure_operation *operation;
+	    gpointer operation;
 
 	    operation = liste_tmp -> data;
 
@@ -1298,7 +1298,7 @@ gboolean recuperation_comptes_xml ( xmlNodePtr node_comptes )
 
 		    while ( node_ope )
 		    {
-			struct structure_operation *operation;
+			gpointer operation;
 			gchar **pointeur_char;
 			gchar *pointeur;
 
@@ -1306,12 +1306,12 @@ gboolean recuperation_comptes_xml ( xmlNodePtr node_comptes )
 			 * pas oublier */
 /* 			exit (0); */
 			operation = calloc ( 1,
-					     sizeof (struct structure_operation ));
+					     sizeof (gpointer ));
 
 			if ( node_ope -> type != XML_TEXT_NODE )
 			{
 			    gint transaction_number;
-			    gchar *char_tmp;
+			    gchar char_tmp;
 
 			    transaction_number = my_atoi ( xmlGetProp ( node_ope, "No" ));
 
@@ -3620,7 +3620,7 @@ gboolean enregistre_fichier ( gchar *new_file )
 
 	while ( pointeur_liste )
 	{
-	    struct structure_operation *operation;
+	    gpointer operation;
 	    xmlNodePtr node_ope;
 	    gint transaction_number;
 

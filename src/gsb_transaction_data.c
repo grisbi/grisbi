@@ -72,6 +72,19 @@ gboolean gsb_transaction_data_init_variables ( void )
 }
 
 
+/** transitionnal fonction, give back the pointer to the transaction,
+ * normally deleted when the transfer from old transactions is finished */
+gpointer gsb_transaction_data_get_pointer_to_transaction ( gint transaction_number )
+{
+    struct_transaction *transaction;
+
+    transaction = gsb_transaction_data_get_transaction_by_no ( transaction_number,
+							       -1 );
+
+    return transaction;
+
+}
+
 /** find the last number of transaction
  * \param none
  * \return the number
@@ -928,7 +941,8 @@ gchar *gsb_transaction_data_get_notes ( gint no_transaction )
 }
 
 
-/** set the  notes
+/** set the notes
+ * the notes parameter will be copy before stored in memory
  * \param no_transaction
  * \param no_account
  * \param notes a gchar with the new notes
@@ -945,7 +959,10 @@ gboolean gsb_transaction_data_set_notes ( gint no_transaction,
     if ( !transaction )
 	return FALSE;
 
-    transaction -> notes = notes;
+    if ( notes )
+	transaction -> notes = g_strdup (notes);
+    else
+	transaction -> notes = NULL;
     
     return TRUE;
 }
@@ -1011,6 +1028,7 @@ gchar *gsb_transaction_data_get_method_of_payment_content ( gint no_transaction 
 
 
 /** set the method_of_payment_content
+ * dupplicate the parameter before storing it in the transaction
  * \param no_transaction
  * \param no_account
  * \param method_of_payment_content a gchar with the new method_of_payment_content
@@ -1027,7 +1045,10 @@ gboolean gsb_transaction_data_set_method_of_payment_content ( gint no_transactio
     if ( !transaction )
 	return FALSE;
 
-    transaction -> method_of_payment_content = method_of_payment_content;
+    if ( method_of_payment_content )
+	transaction -> method_of_payment_content = g_strup (method_of_payment_content);
+    else
+	transaction -> method_of_payment_content = NULL;
     
     return TRUE;
 }
@@ -1294,7 +1315,8 @@ gchar *gsb_transaction_data_get_voucher ( gint no_transaction )
 }
 
 
-/** set the  voucher
+/** set the voucher
+ * it's a copy of the parameter which will be stored in the transaction
  * \param no_transaction
  * \param voucher
  * \return TRUE if ok
@@ -1310,7 +1332,10 @@ gboolean gsb_transaction_data_set_voucher ( gint no_transaction,
     if ( !transaction )
 	return FALSE;
 
-    transaction -> voucher = voucher;
+    if ( voucher )
+	transaction -> voucher = voucher;
+    else
+	transaction -> voucher = NULL;
     
     return TRUE;
 }
@@ -1336,6 +1361,7 @@ gchar *gsb_transaction_data_get_bank_references ( gint no_transaction )
 
 
 /** set the bank_references
+ * it's a copy of the parameter which will be stored in the transaction
  * \param no_transaction
  * \param bank_references
  * \return TRUE if ok
@@ -1351,7 +1377,10 @@ gboolean gsb_transaction_data_set_bank_references ( gint no_transaction,
     if ( !transaction )
 	return FALSE;
 
-    transaction -> bank_references = bank_references;
+    if ( bank_references )
+	transaction -> bank_references = bank_references;
+    else
+	transaction -> bank_references = NULL;
     
     return TRUE;
 }
@@ -1479,3 +1508,71 @@ gboolean gsb_transaction_data_set_mother_transaction_number ( gint no_transactio
 
 
 
+/** create a new transaction, append it to the list in the right account
+ * give a number and return the number
+ * \param no_account the number of the account where the transaction should be made
+ * \return the number of the new transaction
+ * */
+gint gsb_transaction_data_new_transaction ( gint no_account )
+{
+    struct_transaction *transaction;
+
+    transaction = calloc ( 1,
+			   sizeof ( struct_transaction ));
+    transaction -> account_number = no_account;
+    transaction -> transaction_number = gsb_transaction_data_get_last_number () + 1;
+
+    gsb_account_append_transaction ( no_account,
+				     transaction );
+
+    gsb_transaction_data_save_transaction_pointer (transaction);
+
+    return transaction -> transaction_number;
+}
+
+/** copy the content of a transaction into the second one
+ * the 2 transactions must exist before
+ * only the account_number and the transaction_number will be saved in the target transaction
+ * all the char are dupplicated, and transaction_id is set to NULL
+ * \param source_transaction_number the transaction we want to copy
+ * \param target_transaction_number the trnasaction we want to fill with the content of the first one
+ * \return TRUE if ok, FALSE else
+ * */
+gboolean gsb_transaction_data_copy_transaction ( gint source_transaction_number,
+						 gint target_transaction_number )
+{
+    struct_transaction *source_transaction;
+    struct_transaction *target_transaction;
+    gint target_transaction_account_number;
+
+    source_transaction = gsb_transaction_data_get_transaction_by_no ( source_transaction_number,
+								      -1 );
+    target_transaction = gsb_transaction_data_get_transaction_by_no ( target_transaction_number,
+								      -1 );
+
+    if ( !source_transaction
+	 ||
+	 !target_transaction )
+	return FALSE;
+
+    target_transaction_account_number = target_transaction -> account_number;
+
+    memcpy ( target_transaction,
+	     source_transaction,
+	     sizeof ( struct_transaction ));
+    target_transaction -> transaction_number = target_transaction_number;
+    target_transaction -> account_number = target_transaction_account_number;
+
+    if ( target_transaction -> notes)
+	target_transaction -> notes = g_strdup ( target_transaction -> notes );
+    if ( target_transaction -> voucher)
+	target_transaction -> voucher = g_strdup ( target_transaction -> voucher );
+    if ( target_transaction -> bank_references)
+	target_transaction -> bank_references = g_strdup ( target_transaction -> bank_references );
+    if ( target_transaction -> method_of_payment_content)
+	target_transaction -> method_of_payment_content = g_strdup ( target_transaction -> method_of_payment_content );
+
+    target_transaction -> transaction_id = NULL;
+
+    return TRUE;
+}

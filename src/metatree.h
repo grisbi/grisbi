@@ -94,7 +94,7 @@ GtkTreeIter * get_iter_from_div ( GtkTreeModel * model, int div, int sub_div );
 GtkTreeIter * get_iter_from_pointer ( GtkTreeModel * model, gpointer pointer );
 gboolean supprimer_division ( GtkTreeView * tree_view );
 void update_transaction_in_tree ( MetatreeInterface * iface, GtkTreeModel * model, 
-				  struct structure_operation * transaction );
+				  gpointer  transaction );
 /*END_DECLARATION*/
 
 #endif

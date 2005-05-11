@@ -44,12 +44,12 @@ gboolean entree_perd_focus ( GtkWidget *entree,
 			     gint *no_origine );
 gboolean entree_prend_focus ( GtkWidget *entree );
 void formulaire_a_zero (void);
-gboolean gsb_form_validate_transfer ( struct structure_operation *transaction,
+gint gsb_form_validate_transfer ( gint transaction_number,
 				      gint new_transaction,
 				      gchar *name_transfer_account );
-gboolean gsb_transactions_append_transaction ( struct structure_operation *transaction,
+gboolean gsb_transactions_append_transaction ( gpointer transaction,
 					       gint no_account );
-gboolean gsb_transactions_list_append_new_transaction ( struct structure_operation *transaction );
+gboolean gsb_transactions_list_append_new_transaction ( gpointer transaction );
 void place_type_formulaire ( gint no_type,
 			     gint no_option_menu,
 			     gchar *contenu );

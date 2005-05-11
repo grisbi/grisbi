@@ -44,6 +44,7 @@
 #include "utils_file_selection.h"
 #include "gsb_account.h"
 #include "operations_comptes.h"
+#include "echeancier_liste.h"
 #include "traitement_variables.h"
 #include "main.h"
 #include "accueil.h"
@@ -51,7 +52,6 @@
 #include "affichage_liste.h"
 #include "fichier_configuration.h"
 #include "utils.h"
-#include "echeancier_liste.h"
 #include "structures.h"
 /*END_INCLUDE*/
 
@@ -74,8 +74,6 @@ extern gboolean block_menu_cb ;
 extern gint compression_backup;
 extern gint compression_fichier;
 extern gchar *dernier_chemin_de_travail;
-extern GSList *echeances_a_saisir;
-extern GSList *echeances_saisies;
 extern gint id_temps;
 extern GtkItemFactory *item_factory_menu_general;
 extern GSList *liste_struct_echeances;
@@ -90,6 +88,8 @@ extern gint nb_max_derniers_fichiers_ouverts;
 extern gchar *nom_fichier_comptes;
 extern GtkWidget *notebook_general;
 extern gint rapport_largeur_colonnes[TRANSACTION_LIST_COL_NB];
+extern GSList *scheduled_transactions_taken;
+extern GSList *scheduled_transactions_to_take;
 extern gchar **tab_noms_derniers_fichiers_ouverts;
 extern gchar *titre_fichier;
 extern GtkWidget *window;
@@ -399,7 +399,7 @@ void ouverture_confirmee ( void )
 
     /*     on vérifie si des échéances sont à récupérer */
 
-    verification_echeances_a_terme ();
+    gsb_scheduler_check_scheduled_transactions_time_limit ();
 
     /* affiche le nom du fichier de comptes dans le titre de la fenetre */
 
@@ -820,8 +820,8 @@ gboolean fermer_fichier ( void )
 	    /* libère les échéances */
 
 	    g_slist_free ( liste_struct_echeances );
-	    g_slist_free ( echeances_a_saisir );
-	    g_slist_free ( echeances_saisies );
+	    g_slist_free ( scheduled_transactions_to_take );
+	    g_slist_free ( scheduled_transactions_taken );
 	    g_slist_free ( liste_struct_etats );
 
 	    gtk_signal_disconnect_by_func ( GTK_OBJECT ( notebook_general ),
@@ -997,6 +997,7 @@ void ajoute_new_file_liste_ouverture ( gchar *path_fichier )
 
     if ( nb_derniers_fichiers_ouverts < nb_max_derniers_fichiers_ouverts )
     {
+/* xxx */
 	tab_noms_derniers_fichiers_ouverts = realloc ( tab_noms_derniers_fichiers_ouverts,
 						       ( ++nb_derniers_fichiers_ouverts ) * sizeof ( gpointer ));
 	tab_noms_derniers_fichiers_ouverts[nb_derniers_fichiers_ouverts-1] = dernier;

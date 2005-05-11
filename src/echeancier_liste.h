@@ -35,11 +35,12 @@ void affiche_cache_commentaire_echeancier( void );
 void click_sur_saisir_echeance ( void );
 GtkWidget *creation_liste_echeances ( void );
 void edition_echeance ( void );
+void gsb_scheduler_check_scheduled_transactions_time_limit ( void );
+gboolean gsb_scheduler_delete_scheduled_transaction ( struct operation_echeance *scheduled_transaction );
 gboolean modification_affichage_echeances ( gint *origine, GtkWidget * widget );
 void new_scheduled_transaction ( void );
 void remplissage_liste_echeance ( void );
 void selectionne_echeance ( struct operation_echeance *echeance );
 void supprime_echeance ( struct operation_echeance *echeance );
-void verification_echeances_a_terme ( void );
 /* END_DECLARATION */
 #endif

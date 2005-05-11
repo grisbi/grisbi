@@ -36,9 +36,9 @@
 /*START_STATIC*/
 static gint budgetary_line_add_div ();
 static gint budgetary_line_add_sub_div ( int div_id );
-static gboolean budgetary_line_add_transaction_to_div ( struct structure_operation * trans, 
+static gboolean budgetary_line_add_transaction_to_div ( gpointer  trans, 
 						 int div_id );
-static gboolean budgetary_line_add_transaction_to_sub_div ( struct structure_operation * trans, 
+static gboolean budgetary_line_add_transaction_to_sub_div ( gpointer  trans, 
 						     int div_id, int sub_div_id );
 static gdouble budgetary_line_div_balance ( gpointer div );
 static gint budgetary_line_div_id ( gpointer budgetary_line );
@@ -55,9 +55,9 @@ static gpointer budgetary_line_get_sub_div_pointer_from_name ( int div_id, gchar
 static gpointer budgetary_line_get_without_div_pointer ( );
 static gboolean budgetary_line_remove_div ( int div_id );
 static gboolean budgetary_line_remove_sub_div ( int div_id, int sub_div_id );
-static gboolean budgetary_line_remove_transaction_from_div ( struct structure_operation * trans, 
+static gboolean budgetary_line_remove_transaction_from_div ( gpointer  trans, 
 						      int div_id );
-static gboolean budgetary_line_remove_transaction_from_sub_div ( struct structure_operation * trans, 
+static gboolean budgetary_line_remove_transaction_from_sub_div ( gpointer  trans, 
 							  int div_id, int sub_div_id );
 static gint budgetary_line_scheduled_div_id ( struct operation_echeance * scheduled );
 static void budgetary_line_scheduled_set_div_id ( struct operation_echeance * scheduled, 
@@ -69,12 +69,12 @@ static gdouble budgetary_line_sub_div_balance ( gpointer div, gpointer sub_div )
 static gint budgetary_line_sub_div_id ( gpointer sub_budgetary_line );
 static gchar * budgetary_line_sub_div_name ( gpointer sub_div );
 static gint budgetary_line_sub_div_nb_transactions ( gpointer div, gpointer sub_div );
-static gint budgetary_line_transaction_div_id ( struct structure_operation * transaction );
-static void budgetary_line_transaction_set_div_id ( struct structure_operation * transaction, 
+static gint budgetary_line_transaction_div_id ( gpointer  transaction );
+static void budgetary_line_transaction_set_div_id ( gpointer  transaction, 
 					     int no_div );
-static void budgetary_line_transaction_set_sub_div_id ( struct structure_operation * transaction, 
+static void budgetary_line_transaction_set_sub_div_id ( gpointer  transaction, 
 						 int no_sub_div );
-static gint budgetary_line_transaction_sub_div_id ( struct structure_operation * transaction );
+static gint budgetary_line_transaction_sub_div_id ( gpointer  transaction );
 static struct struct_devise * budgetary_line_tree_currency ( );
 /*END_STATIC*/
 
@@ -350,7 +350,7 @@ gint budgetary_line_div_type ( gpointer div )
  *
  * \return -1 if no type is supported in backend model, type otherwise.
  */
-gint budgetary_line_transaction_div_id ( struct structure_operation * transaction )
+gint budgetary_line_transaction_div_id ( gpointer  transaction )
 {
     if ( transaction )
 	return gsb_transaction_data_get_budgetary_number ( gsb_transaction_data_get_transaction_number (transaction ));
@@ -363,7 +363,7 @@ gint budgetary_line_transaction_div_id ( struct structure_operation * transactio
  *
  *
  */
-gint budgetary_line_transaction_sub_div_id ( struct structure_operation * transaction )
+gint budgetary_line_transaction_sub_div_id ( gpointer  transaction )
 {
     if ( transaction )
 	return gsb_transaction_data_get_sub_budgetary_number ( gsb_transaction_data_get_transaction_number (transaction ));
@@ -376,7 +376,7 @@ gint budgetary_line_transaction_sub_div_id ( struct structure_operation * transa
  *
  *
  */
-void budgetary_line_transaction_set_div_id ( struct structure_operation * transaction, 
+void budgetary_line_transaction_set_div_id ( gpointer  transaction, 
 					     int no_div )
 {
     if ( transaction )
@@ -390,7 +390,7 @@ void budgetary_line_transaction_set_div_id ( struct structure_operation * transa
  *
  *
  */
-void budgetary_line_transaction_set_sub_div_id ( struct structure_operation * transaction, 
+void budgetary_line_transaction_set_sub_div_id ( gpointer  transaction, 
 						 int no_sub_div )
 {
     if ( transaction )
@@ -563,7 +563,7 @@ gboolean budgetary_line_remove_sub_div ( int div_id, int sub_div_id )
  *
  *
  */
-gboolean budgetary_line_add_transaction_to_div ( struct structure_operation * trans, 
+gboolean budgetary_line_add_transaction_to_div ( gpointer  trans, 
 						 int div_id )
 {
     add_transaction_to_budgetary_line ( trans, budgetary_line_get_div_pointer ( div_id ), 
@@ -577,7 +577,7 @@ gboolean budgetary_line_add_transaction_to_div ( struct structure_operation * tr
  *
  *
  */
-gboolean budgetary_line_add_transaction_to_sub_div ( struct structure_operation * trans, 
+gboolean budgetary_line_add_transaction_to_sub_div ( gpointer  trans, 
 						     int div_id, int sub_div_id )
 {
     add_transaction_to_budgetary_line ( trans, budgetary_line_get_div_pointer ( div_id ), 
@@ -592,7 +592,7 @@ gboolean budgetary_line_add_transaction_to_sub_div ( struct structure_operation 
  *
  *
  */
-gboolean budgetary_line_remove_transaction_from_div ( struct structure_operation * trans, 
+gboolean budgetary_line_remove_transaction_from_div ( gpointer  trans, 
 						      int div_id )
 {
     remove_transaction_from_budgetary_line ( trans, 
@@ -606,7 +606,7 @@ gboolean budgetary_line_remove_transaction_from_div ( struct structure_operation
  *
  *
  */
-gboolean budgetary_line_remove_transaction_from_sub_div ( struct structure_operation * trans, 
+gboolean budgetary_line_remove_transaction_from_sub_div ( gpointer  trans, 
 							  int div_id, int sub_div_id )
 {
     remove_transaction_from_budgetary_line ( trans, 

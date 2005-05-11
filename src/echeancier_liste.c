@@ -28,18 +28,16 @@
 
 /*START_INCLUDE*/
 #include "echeancier_liste.h"
-#include "echeancier_formulaire.h"
 #include "utils_exercices.h"
 #include "type_operations.h"
 #include "barre_outils.h"
 #include "echeancier_ventilation.h"
-#include "devises.h"
+#include "echeancier_formulaire.h"
 #include "utils_devises.h"
 #include "dialog.h"
 #include "operations_formulaire.h"
 #include "utils_dates.h"
 #include "gsb_account.h"
-#include "gsb_transaction_data.h"
 #include "gtk_combofix.h"
 #include "utils_str.h"
 #include "echeancier_infos.h"
@@ -98,12 +96,12 @@ GSList *liste_struct_echeances;                 /* contient la liste des struct 
 gint nb_echeances;
 gint no_derniere_echeance;
 
-gint decalage_echeance;      /* nb de jours avant l'échéance pour prévenir */
+gint nb_days_before_scheduled;      /* nb de jours avant l'échéance pour prévenir */
 
 gint ancienne_largeur_echeances;
 
-GSList *echeances_a_saisir;
-GSList *echeances_saisies;
+GSList *scheduled_transactions_to_take;
+GSList *scheduled_transactions_taken;
 
 
 /*START_EXTERN*/
@@ -115,7 +113,6 @@ extern GtkWidget *bouton_valider_echeance_perso;
 extern GdkColor couleur_fond[2];
 extern GdkColor couleur_grise;
 extern GdkColor couleur_selection;
-extern struct struct_devise *devise_compte;
 extern GtkWidget *entree_personnalisation_affichage_echeances;
 extern GtkWidget *formulaire;
 extern GtkWidget *formulaire_echeancier;
@@ -125,7 +122,6 @@ extern GtkWidget *label_saisie_modif;
 extern gint mise_a_jour_liste_echeances_auto_accueil;
 extern gint mise_a_jour_liste_echeances_manuelles_accueil;
 extern GtkTreeStore *model;
-extern gdouble taux_de_change[2];
 extern GtkWidget *tree_view;
 extern GtkWidget *widget_formulaire_echeancier[SCHEDULER_FORM_TOTAL_WIDGET];
 extern GtkWidget *window;
@@ -458,7 +454,7 @@ void click_sur_saisir_echeance ( void )
 void remplissage_liste_echeance ( void )
 {
     GtkListStore *store;
-    GSList *pointeur_liste;
+    GSList *slist_ptr;
     GDate *date_fin;
     gint i;
     GtkTreeIter iter;
@@ -481,13 +477,13 @@ void remplissage_liste_echeance ( void )
 
     /*     remplissage de la liste */
 
-    pointeur_liste = liste_struct_echeances;
+    slist_ptr = liste_struct_echeances;
 
-    while ( pointeur_liste )
+    while ( slist_ptr )
     {
 	struct operation_echeance *echeance;
 
-	echeance = pointeur_liste -> data;
+	echeance = slist_ptr -> data;
 
 	if ( !echeance -> no_operation_ventilee_associee )
 	{
@@ -560,12 +556,12 @@ void remplissage_liste_echeance ( void )
 	    {
 		gint boucle;
 		GDate *pGDateCurrent;
-		struct operation_echeance *echeance_tmp;
+		struct operation_echeance *scheduled_transaction_buf;
 
-		/* 		echeance_tmp contient l'adr de l'échéance mère, puis NULL pour les */
+		/* 		scheduled_transaction_buf contient l'adr de l'échéance mère, puis NULL pour les */
 		/* 		    échéances calculées */
 
-		echeance_tmp = echeance;
+		scheduled_transaction_buf = echeance;
 
 		boucle = 1;
 		pGDateCurrent = g_date_new_dmy ( echeance -> date -> day,
@@ -587,7 +583,7 @@ void remplissage_liste_echeance ( void )
 
 		    gtk_list_store_set ( GTK_LIST_STORE ( store ),
 					 &iter,
-					 SCHEDULER_COL_NB_TRANSACTION_ADDRESS, echeance_tmp,
+					 SCHEDULER_COL_NB_TRANSACTION_ADDRESS, scheduled_transaction_buf,
 					 -1 );
 
 		    /* c'est maintenant qu'on voit si on sort ou pas ... */
@@ -607,14 +603,14 @@ void remplissage_liste_echeance ( void )
 							       g_date_day ( pGDateCurrent ),
 							       g_date_month ( pGDateCurrent ),
 							       g_date_year ( pGDateCurrent ));
-			echeance_tmp = NULL;
+			scheduled_transaction_buf = NULL;
 		    }
 		    else
 			boucle = 0;
 		}
 	    }
 	}
-	pointeur_liste = pointeur_liste -> next;
+	slist_ptr = slist_ptr -> next;
     }
 
 
@@ -807,7 +803,7 @@ void ajuste_scrolling_liste_echeances_a_selection ( void )
 *****************************************************************************/
 GtkTreeIter *cherche_iter_echeance ( struct operation_echeance *echeance )
 {
-    struct operation_echeance *echeance_tmp;
+    struct operation_echeance *scheduled_transaction_buf;
     GtkTreeIter iter;
     GtkTreeModel *model;
 
@@ -821,21 +817,21 @@ GtkTreeIter *cherche_iter_echeance ( struct operation_echeance *echeance )
 
     gtk_tree_model_get_iter_first ( model,
 				    &iter );
-    echeance_tmp = NULL;
+    scheduled_transaction_buf = NULL;
 
     do
     {
 	gtk_tree_model_get ( model,
 			     &iter,
-			     11, &echeance_tmp,
+			     11, &scheduled_transaction_buf,
 			     -1 );
     }
-    while ( echeance_tmp != echeance
+    while ( scheduled_transaction_buf != echeance
 	    &&
 	    gtk_tree_model_iter_next ( model,
 				       &iter ));
 
-    if ( echeance_tmp == echeance )
+    if ( scheduled_transaction_buf == echeance )
 	return ( gtk_tree_iter_copy ( &iter ));
     else
 	return NULL;
@@ -1011,7 +1007,7 @@ gboolean click_ligne_echeance ( GtkWidget *tree_view,
 void new_scheduled_transaction ( void )
 {
     selectionne_echeance ( GINT_TO_POINTER (-1));
-    echeance_selectionnnee = -1;
+    echeance_selectionnnee = GINT_TO_POINTER (-1);
     edition_echeance ();
 }
 
@@ -1338,52 +1334,14 @@ void supprime_echeance ( struct operation_echeance *echeance )
     switch ( resultat )
     {
 	case 0:
-	    incrementation_echeance ( echeance );
+	    gsb_scheduler_increase_scheduled_transaction ( echeance );
 	    remplissage_liste_echeance ();
 	    break;
 
 	case 1:
-	    /* 	    si c'est une ventil, on supprime les opés filles */
-
-	    if ( echeance -> operation_ventilee )
-	    {
-		GSList *liste_tmp;
-
-		liste_tmp = liste_struct_echeances;
-
-		while ( liste_tmp )
-		{
-		    struct operation_echeance *echeance_tmp;
-
-		    echeance_tmp = liste_tmp -> data;
-		    
-		    if ( echeance_tmp -> no_operation_ventilee_associee == echeance -> no_operation )
-		    {
-			liste_tmp = liste_tmp -> next;
-			liste_struct_echeances = g_slist_remove ( liste_struct_echeances, 
-								  echeance_tmp );
-			free ( echeance_tmp );
-			nb_echeances--;
-		    }
-		    else
-			liste_tmp = liste_tmp -> next;
-		}
-	    }
-
-	    /* 	    on vire l'échéance elle même */
-
-	    liste_struct_echeances = g_slist_remove ( liste_struct_echeances, 
-						      echeance );
-	    free ( echeance );
-	    echeance = gtk_clist_get_row_data ( GTK_CLIST ( tree_view_liste_echeances ),
-						gtk_clist_find_row_from_data ( GTK_CLIST ( tree_view_liste_echeances ),
-									       echeance ) + 1);
-
-	    nb_echeances--;
-
+	    gsb_scheduler_delete_scheduled_transaction ( echeance );
 	    remplissage_liste_echeance ();
 	    break;
-
     }
 
     mise_a_jour_calendrier();
@@ -1392,8 +1350,55 @@ void supprime_echeance ( struct operation_echeance *echeance )
 }
 /*****************************************************************************/
 
+/** delete the scheduled transaction, delete the children if it's a breakdown
+ * \param scheduled_transaction the transaction to delete
+ * \return FALSE
+ * */
+gboolean gsb_scheduler_delete_scheduled_transaction ( struct operation_echeance *scheduled_transaction )
+{
+    /* check here if it's a breakdown */
+    
+    if ( scheduled_transaction -> operation_ventilee )
+    {
+	/* it is a breakdown, delete the children */
 
+	GSList *list_ptr;
 
+	list_ptr = liste_struct_echeances;
+
+	while ( list_ptr )
+	{
+	    struct operation_echeance *scheduled_transaction_buf;
+
+	    scheduled_transaction_buf = list_ptr -> data;
+
+	    if ( scheduled_transaction_buf -> no_operation_ventilee_associee == scheduled_transaction -> no_operation )
+	    {
+		list_ptr = list_ptr -> next;
+		liste_struct_echeances = g_slist_remove ( liste_struct_echeances, 
+							  scheduled_transaction_buf );
+		free ( scheduled_transaction_buf );
+		nb_echeances--;
+	    }
+	    else
+		list_ptr = list_ptr -> next;
+	}
+    }
+
+    /* now remove really the scheduled transaction */
+
+    liste_struct_echeances = g_slist_remove ( liste_struct_echeances, 
+					      scheduled_transaction );
+    free ( scheduled_transaction );
+
+    if ( ( echeance_selectionnnee = scheduled_transaction ))
+	echeance_selectionnnee = gtk_clist_get_row_data ( GTK_CLIST ( tree_view_liste_echeances ),
+							  gtk_clist_find_row_from_data ( GTK_CLIST ( tree_view_liste_echeances ),
+											 scheduled_transaction ) + 1);
+    nb_echeances--;
+
+    return FALSE;
+}
 
 /*****************************************************************************/
 /* Fonction changement_taille_liste_echeances				     */
@@ -1572,319 +1577,109 @@ gboolean changement_taille_liste_echeances ( GtkWidget *tree_view,
 			   FALSE );
     return FALSE;
 }
-/*****************************************************************************/
 
 
 
-
-/*****************************************************************************/
-void verification_echeances_a_terme ( void )
+/** check the scheduled transactions if the are in time limit
+ * and make the transactions if necessary
+ * \param
+ * \return
+ * */
+void gsb_scheduler_check_scheduled_transactions_time_limit ( void )
 {
     GDate *pGDateCurrent;
-    GSList *pointeur_liste;
-    GSList *ancien_pointeur;
-    struct struct_devise *devise;
-
-    return;
+    GSList *slist_ptr;
+    GSList *last_slist_ptr;
 
     if ( DEBUG )
-	printf ( "verification_echeances_a_terme\n" );
+	printf ( "gsb_scheduler_check_scheduled_transactions_time_limit\n" );
 
-    /* les échÃ©ances à saisir sont revérifiées à chaque fois. Par contre, les
-       échéances saisies sont ajoutées à la liste de celles déjà saisies */
+    /* the scheduled transactions to take will be check here,
+     * but the scheduled transactions taked will be add to the append ones */
 
-    echeances_a_saisir = NULL;
+    scheduled_transactions_to_take = NULL;
 
-    /* récupère la date du jour et la met en format gdate */
+    /* get the date today + nb_days_before_scheduled */
 
-    pGDateCurrent = g_date_new ();
-    g_date_set_time ( pGDateCurrent,
-		      time ( NULL ));
-
-    /* on y ajoute le décalage de l'échéance */
-
+    pGDateCurrent = gdate_today ();
     g_date_add_days ( pGDateCurrent,
-		      decalage_echeance );
+		      nb_days_before_scheduled );
 
+    /* check all the scheduled transactions,
+     * if automatic, it's taken
+     * if manual, appened into scheduled_transactions_to_take */
 
-    /* on fait le tour des échéances : si elle est auto, elle est enregistrée,
-       sinon elle est juste répertoriée */
+    slist_ptr = liste_struct_echeances;
+    last_slist_ptr = NULL;
 
-    pointeur_liste = liste_struct_echeances;
-    ancien_pointeur = NULL;
-
-
-    while ( pointeur_liste )
+    while ( slist_ptr )
     {
-	if ( ECHEANCE_COURANTE -> auto_man &&
-	     ! ECHEANCE_COURANTE -> no_operation_ventilee_associee )
+	struct operation_echeance *scheduled_transaction;
+
+	scheduled_transaction = slist_ptr -> data;
+
+	/* we check that scheduled transaction only if it's not a child of a breakdown */
+
+	if ( !scheduled_transaction -> no_operation_ventilee_associee
+	     &&
+	     g_date_compare ( scheduled_transaction -> date,
+			      pGDateCurrent ) <= 0 )
 	{
-	    /* tant que cette échéance auto n'est pas arrivée à aujourd'hui, on recommence */
-
-	    while ( pointeur_liste != ancien_pointeur
-		    &&
-		    g_date_compare ( ECHEANCE_COURANTE -> date, pGDateCurrent ) <= 0 )
+	    if ( scheduled_transaction -> auto_man )
 	    {
-		struct structure_operation *operation;
-		gint virement;
-		GSList *pointeur_liste_ventil;
+		/* take automaticly the scheduled transaction untill today */
 
-
-		/* crée l'opÃ©ration */
-
-		operation = calloc ( 1,
-				     sizeof ( struct structure_operation ) ); 
-
-
-		/* remplit l'opération */
-
-		gsb_transaction_data_set_date ( gsb_transaction_data_get_transaction_number ( operation ),
-						g_date_new_dmy ( ECHEANCE_COURANTE ->jour,
-								 ECHEANCE_COURANTE ->mois,
-								 ECHEANCE_COURANTE ->annee));
-
-
-		gsb_transaction_data_set_account_number ( gsb_transaction_data_get_transaction_number ( operation ),
-							  ECHEANCE_COURANTE -> compte );
-		gsb_transaction_data_set_party_number ( gsb_transaction_data_get_transaction_number (operation ),
-							ECHEANCE_COURANTE -> tiers );
-		gsb_transaction_data_set_amount ( gsb_transaction_data_get_transaction_number ( operation ),
-						  ECHEANCE_COURANTE -> montant );
-		gsb_transaction_data_set_currency_number ( gsb_transaction_data_get_transaction_number (operation ),
-							   ECHEANCE_COURANTE -> devise );
-
-
-		/* demande si nécessaire la valeur de la devise et du change */
-		/* récupération des devises de l'opé et du compte */
-
-		devise = devise_par_no ( gsb_transaction_data_get_currency_number ( gsb_transaction_data_get_transaction_number (operation )));
-
-		if ( !devise_compte
-		     ||
-		     devise_compte -> no_devise != gsb_account_get_currency (gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (operation))) )
-		    devise_compte = devise_par_no ( gsb_account_get_currency (gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (operation))) );
-
-		if ( !( gsb_transaction_data_get_transaction_number (operation)
-			||
-			devise -> no_devise == gsb_account_get_currency (gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (operation)))
-			||
-			( devise_compte -> passage_euro && !strcmp ( devise -> nom_devise, _("Euro") ))
-			||
-			( !strcmp ( devise_compte -> nom_devise, _("Euro") ) && devise -> passage_euro )))
-		{
-		    /* c'est une devise étrangère, on demande le taux de change et les frais de change */
-
-		    demande_taux_de_change ( devise_compte, devise, 1,
-					     (gdouble ) 0, (gdouble ) 0, FALSE );
-
-		    gsb_transaction_data_set_exchange_rate ( gsb_transaction_data_get_transaction_number (operation ),
-							     fabs (taux_de_change[0] ));
-		    gsb_transaction_data_set_exchange_fees ( gsb_transaction_data_get_transaction_number (operation ),
-							     taux_de_change[1] );
-
-		    if ( taux_de_change[0] < 0 )
-			gsb_transaction_data_set_change_between ( gsb_transaction_data_get_transaction_number (operation ),
-								  1 );
-		}
-		else
-		{
-		    gsb_transaction_data_set_exchange_rate ( gsb_transaction_data_get_transaction_number (operation ),
-							     0 );
-		    gsb_transaction_data_set_exchange_fees ( gsb_transaction_data_get_transaction_number (operation ),
-							     0 );
-		}
-
-		gsb_transaction_data_set_category_number ( gsb_transaction_data_get_transaction_number (operation),
-							   ECHEANCE_COURANTE -> categorie );
-		gsb_transaction_data_set_sub_category_number ( gsb_transaction_data_get_transaction_number (operation ),
-							       ECHEANCE_COURANTE -> sous_categorie );
-
-		if ( !ECHEANCE_COURANTE -> categorie
-		     &&
-		     ECHEANCE_COURANTE -> compte_virement != -1
-		     &&
-		     !ECHEANCE_COURANTE -> operation_ventilee )
-		    virement = 1;
-		else
-		    virement = 0;
-
-		if ( ECHEANCE_COURANTE -> notes )
-		    gsb_transaction_data_set_notes ( gsb_transaction_data_get_transaction_number (operation ),
-						     g_strdup ( ECHEANCE_COURANTE -> notes ));
-
-		gsb_transaction_data_set_method_of_payment_number ( gsb_transaction_data_get_transaction_number (operation ),
-								    ECHEANCE_COURANTE -> type_ope );
-		if ( ECHEANCE_COURANTE -> contenu_type )
-		    gsb_transaction_data_set_method_of_payment_content ( gsb_transaction_data_get_transaction_number (operation ),
-									 ECHEANCE_COURANTE -> contenu_type );
-
-		gsb_transaction_data_set_automatic_transaction ( gsb_transaction_data_get_transaction_number (operation ),
-								 ECHEANCE_COURANTE -> auto_man );
-		gsb_transaction_data_set_budgetary_number ( gsb_transaction_data_get_transaction_number ( operation ),
-							    ECHEANCE_COURANTE -> imputation);
-		gsb_transaction_data_set_sub_budgetary_number ( gsb_transaction_data_get_transaction_number ( operation ),
-								ECHEANCE_COURANTE -> sous_imputation);
-
-		/* si l'exo est automatique (-2), c'est ici qu'on va le chercher */
-
-		if ( ECHEANCE_COURANTE -> no_exercice == -2 )
-		    gsb_transaction_data_set_financial_year_number ( gsb_transaction_data_get_transaction_number ( operation ),
-								     recherche_exo_correspondant ( gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation))));
-		else
-		    gsb_transaction_data_set_financial_year_number ( gsb_transaction_data_get_transaction_number ( operation ),
-								     ECHEANCE_COURANTE -> no_exercice);
-
-
-		/*   on a fini de remplir l'opé, on peut l'ajouter à la liste */
-
-		gsb_transactions_append_transaction ( operation,
-						      gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (operation)));
-
-		/*   si c'était un virement, on crée une copie de l'opé, on l'ajoute à la liste puis on remplit les relations */
-
-		/* FIXME : le jour où on choisira le type de la contre opération dans les échéances, il faudra changer ici */
-		/* cette opé de ventil est un virement */
-
-		if ( virement )
-		    ajoute_contre_operation_echeance_dans_liste ( operation,
-								  ECHEANCE_COURANTE -> compte_virement,
-								  gsb_transaction_data_get_method_of_payment_number ( gsb_transaction_data_get_transaction_number (operation )));
-
-		/* 	si c'était une échéance ventilée, c'est ici qu'on fait joujou */
-
-		pointeur_liste_ventil = creation_liste_ope_de_ventil_echeances ( ECHEANCE_COURANTE );
-
-		while ( pointeur_liste_ventil
+		while ( slist_ptr != last_slist_ptr
 			&&
-			pointeur_liste_ventil != GINT_TO_POINTER ( -1 ))
+			g_date_compare ( scheduled_transaction -> date, pGDateCurrent ) <= 0 )
 		{
-		    struct struct_ope_ventil *ope_ventil;
-		    struct structure_operation *operation_fille;
+		    gint transaction_number;
 
-		    /* 	    la mère est donc une ventil */
+		    transaction_number = gsb_scheduler_create_transaction_from_scheduled_transaction ( scheduled_transaction );
 
-		    gsb_transaction_data_set_breakdown_of_transaction ( gsb_transaction_data_get_transaction_number (operation ),
-									1 );
+		    scheduled_transactions_taken = g_slist_append ( scheduled_transactions_taken,
+								    transaction_number );
 
-		    ope_ventil = pointeur_liste_ventil -> data;
-		    operation_fille = calloc ( 1,
-					       sizeof ( struct structure_operation ));
+		    /* set the scheduled transaction to the next date,
+		     * if it finished, we set slist_ptr on the slist just before that one
+		     * and finish the while */
 
-		    /*   on a fini de remplir l'opé, on peut l'ajouter à la liste */
-
-		    gsb_transactions_append_transaction ( operation_fille,
-							  gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (operation)));
-
-
-		    gsb_transaction_data_set_amount ( gsb_transaction_data_get_transaction_number ( operation_fille ),
-						      gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (ope_ventil )));
-		    gsb_transaction_data_set_category_number ( gsb_transaction_data_get_transaction_number (operation_fille ),
-							       ope_ventil -> categorie );
-		    gsb_transaction_data_set_sub_category_number ( gsb_transaction_data_get_transaction_number (operation_fille),
-								   ope_ventil -> sous_categorie );
-
-		    if ( ope_ventil -> notes )
-			gsb_transaction_data_set_notes ( gsb_transaction_data_get_transaction_number (operation_fille),
-							 g_strdup ( ope_ventil -> notes ));
-
-		    gsb_transaction_data_set_budgetary_number ( gsb_transaction_data_get_transaction_number ( operation_fille ),
-								ope_ventil -> imputation);
-		    gsb_transaction_data_set_sub_budgetary_number ( gsb_transaction_data_get_transaction_number ( operation_fille ),
-								    ope_ventil -> sous_imputation);
-
-		    if ( ope_ventil -> no_piece_comptable )
-			gsb_transaction_data_set_voucher ( gsb_transaction_data_get_transaction_number ( operation_fille ),
-							   g_strdup ( ope_ventil -> no_piece_comptable));
-
-		    gsb_transaction_data_set_financial_year_number ( gsb_transaction_data_get_transaction_number ( operation_fille ),
-								     ope_ventil -> no_exercice);
-
-		    /* 	    le reste est identique à la mère */
-
-		    gsb_transaction_data_set_date ( gsb_transaction_data_get_transaction_number (operation_fille),
-						    gsb_date_copy ( gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation))));
-		    gsb_transaction_data_set_value_date ( gsb_transaction_data_get_transaction_number ( operation_fille ),
-							  gsb_date_copy ( gsb_transaction_data_get_value_date (gsb_transaction_data_get_transaction_number (operation))));
-
-		    gsb_transaction_data_set_currency_number ( gsb_transaction_data_get_transaction_number (operation_fille ),
-							       gsb_transaction_data_get_currency_number ( gsb_transaction_data_get_transaction_number (operation )));
-		    gsb_transaction_data_set_change_between ( gsb_transaction_data_get_transaction_number (operation_fille),
-							      gsb_transaction_data_get_change_between ( gsb_transaction_data_get_transaction_number (operation )));
-		    gsb_transaction_data_set_exchange_rate ( gsb_transaction_data_get_transaction_number (operation_fille),
-							     gsb_transaction_data_get_exchange_rate ( gsb_transaction_data_get_transaction_number (operation )));
-		    gsb_transaction_data_set_exchange_fees ( gsb_transaction_data_get_transaction_number (operation_fille ),
-							     gsb_transaction_data_get_exchange_fees ( gsb_transaction_data_get_transaction_number (operation )));
-		    gsb_transaction_data_set_party_number ( gsb_transaction_data_get_transaction_number (operation_fille),
-							    gsb_transaction_data_get_party_number ( gsb_transaction_data_get_transaction_number (operation)));
-		    gsb_transaction_data_set_marked_transaction ( gsb_transaction_data_get_transaction_number (operation_fille),
-								  gsb_transaction_data_get_marked_transaction ( gsb_transaction_data_get_transaction_number (operation )));
-		    gsb_transaction_data_set_automatic_transaction ( gsb_transaction_data_get_transaction_number (operation_fille),
-								     gsb_transaction_data_get_automatic_transaction ( gsb_transaction_data_get_transaction_number (operation)));
-		    gsb_transaction_data_set_mother_transaction_number ( gsb_transaction_data_get_transaction_number (operation_fille),
-									 gsb_transaction_data_get_transaction_number (operation));
-
-
-
-		    /* 	    on vérifie maintenant si c'est un virement */
-
-		    if ( ope_ventil -> relation_no_operation == -1 )
+		    if ( !gsb_scheduler_increase_scheduled_transaction ( scheduled_transaction ))
 		    {
-			/* cette opé de ventil est un virement */
-
-			ajoute_contre_operation_echeance_dans_liste ( operation_fille,
-							 ope_ventil -> relation_no_compte,
-							 ope_ventil -> no_type_associe );
+			if ( !last_slist_ptr )
+			{
+			    last_slist_ptr = liste_struct_echeances;
+			    /* as we will check again all the scheduled transactions, set that list
+			     * to NULL */
+			    scheduled_transactions_to_take = NULL;
+			}
+			slist_ptr = last_slist_ptr;
 		    }
-
-		    pointeur_liste_ventil = pointeur_liste_ventil -> next;
-		}
-
-
-		echeances_saisies = g_slist_append ( echeances_saisies,
-						     operation );
-
-
-		/* passe l'échéance à la prochaine date */
-
-		incrementation_echeance ( ECHEANCE_COURANTE );
-
-		if ( !g_slist_find ( liste_struct_echeances,
-				     ECHEANCE_COURANTE ) )
-		{
-		    if ( !ancien_pointeur )
-			ancien_pointeur = liste_struct_echeances;
-		    pointeur_liste = ancien_pointeur;
 		}
 	    }
+	    else
+		/* it's a manual scheduled transaction, we put it in the slist */
+		scheduled_transactions_to_take = g_slist_append ( scheduled_transactions_to_take ,
+								  scheduled_transaction );
 	}
-	else if ( ! ECHEANCE_COURANTE -> no_operation_ventilee_associee )
-	    /* ce n'est pas une échéance automatique, on la répertorie dans la liste des échéances à saisir */
-
-	    if ( g_date_compare ( ECHEANCE_COURANTE -> date,
-				  pGDateCurrent ) <= 0
-		 &&
-		 !ECHEANCE_COURANTE -> no_operation_ventilee_associee )
-		echeances_a_saisir = g_slist_append ( echeances_a_saisir ,
-						      ECHEANCE_COURANTE );
 
 
-	if ( ancien_pointeur == liste_struct_echeances && pointeur_liste == ancien_pointeur )
-	    ancien_pointeur = NULL;
+	if ( last_slist_ptr == liste_struct_echeances && slist_ptr == last_slist_ptr )
+	    last_slist_ptr = NULL;
 	else
 	{
-	    ancien_pointeur = pointeur_liste;
-	    pointeur_liste = pointeur_liste -> next;
+	    last_slist_ptr = slist_ptr;
+	    slist_ptr = slist_ptr -> next;
 	}
     }
 
-
-    if ( echeances_saisies )
+    if ( scheduled_transactions_taken )
     {
 	mise_a_jour_liste_echeances_auto_accueil = 1;
 	modification_fichier ( TRUE );
     }
 
-    if ( echeances_a_saisir )
+    if ( scheduled_transactions_to_take )
 	mise_a_jour_liste_echeances_manuelles_accueil = 1;
 
 }

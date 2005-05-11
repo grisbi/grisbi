@@ -46,28 +46,9 @@
 gint classement_sliste_echeance_par_date ( struct operation_echeance * a, 
 					   struct operation_echeance * b )
 {
-    if ( a->annee > b->annee )
-	return 1;
-    else if ( a->annee < b->annee )
-	return -1;
-    else 
-    {
-	if ( a->mois > b->mois )
-	    return 1;
-	else if ( a->mois < b->mois )
-	    return -1;
-	else 
-	{
-	    if ( a->jour > b->jour )
-		return 1;
-	    else if ( a->jour < b->jour )
-		return -1;
-	    else
-		return 0;
-	}
-    }
+    return ( g_date_compare ( a -> date,
+			      b -> date ));
 }
-/* ************************************************************************* */
 
 
 

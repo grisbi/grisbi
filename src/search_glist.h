@@ -32,11 +32,11 @@ gint recherche_imputation_par_no ( struct struct_imputation *imputation,
 				   gint *no_imputation );
 gint recherche_imputation_par_nom ( struct struct_imputation *imputation,
 				    gchar *nom_imputation );
-gint recherche_operation_par_cheque ( struct structure_operation *operation,
+gint recherche_operation_par_cheque ( gpointer operation,
 				      gint *no_chq );
-gint recherche_operation_par_id ( struct structure_operation *operation,
+gint recherche_operation_par_id ( gpointer operation,
 				  gchar *id_recherchee );
-gint recherche_operation_par_no ( struct structure_operation *operation,
+gint recherche_operation_par_no ( gpointer operation,
 				  gint *no_ope );
 gint recherche_rapprochement_par_no ( struct struct_no_rapprochement *rapprochement,
 				      gint *no_rap );

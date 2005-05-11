@@ -155,55 +155,6 @@ enum operation_etat_rapprochement {
 };
 
 
-struct structure_operation
-{
-/*     guint no_operation; */
-
-/*     gchar *id_operation; */
-
-/*     GDate *date; */
-/*     guint jour; */
-/*     guint mois; */
-/*     guint annee; */
-
-/*     GDate *date_bancaire; */
-/*     guint jour_bancaire; */
-/*     guint mois_bancaire; */
-/*     guint annee_bancaire; */
-
-/*     guint no_compte; */
-
-/*     gdouble montant; */
-/*     guint devise; */
-/*     guint une_devise_compte_egale_x_devise_ope; */
-/*     gdouble taux_change; */
-/*     gdouble frais_change; */
-
-/*     guint tiers; */
-/*     guint categorie; */
-/*     guint sous_categorie; */
-/*     gint operation_ventilee; */
-
-/*     gchar *notes; */
-
-/*     guint type_ope; */
-/*     gchar *contenu_type; */
-
-/*     gshort pointe; */
-/*     gshort auto_man; */
-/*     gint no_rapprochement; */
-
-/*     guint no_exercice; */
-/*     guint imputation; */
-/*     guint sous_imputation; */
-/*     gchar *no_piece_comptable; */
-/*     gchar *info_banque_guichet; */
-
-/*     guint relation_no_operation; */
-/*     gint relation_no_compte; */
-
-/*     guint no_operation_ventilee_associee; */
-};
 
 
 struct operation_echeance

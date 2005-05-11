@@ -64,7 +64,7 @@ void calcule_total_pointe_compte ( gint no_compte )
 
     while ( pointeur_liste_ope )
     {
-	struct structure_operation *operation;
+	gpointer operation;
 
 	operation = pointeur_liste_ope -> data;
 
@@ -125,7 +125,7 @@ gdouble calcule_solde_compte ( gint no_compte )
 
     while ( liste_tmp )
     {
-	struct structure_operation *operation;
+	gpointer operation;
 
 	operation = liste_tmp -> data;
 
@@ -160,7 +160,7 @@ gdouble calcule_solde_pointe_compte ( gint no_compte )
 
     while ( liste_tmp )
     {
-	struct structure_operation *operation;
+	gpointer operation;
 
 	operation = liste_tmp -> data;
 

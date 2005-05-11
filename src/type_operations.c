@@ -1022,7 +1022,7 @@ void supprimer_type_operation ( void )
 
 	while ( pointeur_tmp )
 	{
-	    struct structure_operation *operation;
+	    gpointer operation;
 	    operation = pointeur_tmp -> data;
 	    if ( gsb_transaction_data_get_method_of_payment_number ( gsb_transaction_data_get_transaction_number (operation ))== type_ope -> no_type )
 		ope_a_changer = g_slist_append ( ope_a_changer,
@@ -1121,7 +1121,7 @@ void supprimer_type_operation ( void )
 
 	    while ( pointeur_tmp )
 	    {
-		struct structure_operation *operation;
+		gpointer operation;
 
 		operation = pointeur_tmp -> data;
 

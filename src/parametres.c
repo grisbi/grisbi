@@ -91,8 +91,8 @@ GtkWidget *entree_jours;
 /*START_EXTERN*/
 extern gint compression_backup;
 extern gint compression_fichier;
-extern gint decalage_echeance;
 extern GtkTreeStore *model;
+extern gint nb_days_before_scheduled;
 extern gint nb_max_derniers_fichiers_ouverts;
 extern gchar *nom_fichier_backup;
 extern GtkWidget *treeview;
@@ -493,7 +493,7 @@ GtkWidget *onglet_messages_and_warnings ( void )
     label = gtk_label_new ( SPACIFY(COLON(_("Number of days before a warning message advertising a scheduled transaction"))) );
     gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 0 );
 
-    entree_jours = new_int_spin_button ( &(decalage_echeance),
+    entree_jours = new_int_spin_button ( &(nb_days_before_scheduled),
 					 /* Limit to one year */
 					 0, 365, 1, 5, 1, 1, 0, NULL ); 
     gtk_box_pack_start ( GTK_BOX ( hbox ), entree_jours, FALSE, FALSE, 0 );

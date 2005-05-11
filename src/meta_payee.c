@@ -37,9 +37,9 @@
 /*START_STATIC*/
 static gint payee_add_div ();
 static gint payee_add_sub_div ( int div_id );
-static gboolean payee_add_transaction_to_div ( struct structure_operation * trans, 
+static gboolean payee_add_transaction_to_div ( gpointer  trans, 
 					int div_id );
-static gboolean payee_add_transaction_to_sub_div ( struct structure_operation * trans, 
+static gboolean payee_add_transaction_to_sub_div ( gpointer  trans, 
 					    int div_id, int sub_div_id );
 static gdouble payee_div_balance ( gpointer div );
 static gint payee_div_id ( gpointer payee );
@@ -56,9 +56,9 @@ static gpointer payee_get_sub_div_pointer_from_name ( int div_id, gchar * name,
 static gpointer payee_get_without_div_pointer ( );
 static gboolean payee_remove_div ( int div_id );
 static gboolean payee_remove_sub_div ( int div_id, int sub_div_id );
-static gboolean payee_remove_transaction_from_div ( struct structure_operation * trans, 
+static gboolean payee_remove_transaction_from_div ( gpointer  trans, 
 					     int div_id );
-static gboolean payee_remove_transaction_from_sub_div ( struct structure_operation * trans, 
+static gboolean payee_remove_transaction_from_sub_div ( gpointer  trans, 
 						 int div_id, int sub_div_id );
 static gint payee_scheduled_div_id ( struct operation_echeance * scheduled );
 static void payee_scheduled_set_div_id ( struct operation_echeance * scheduled, 
@@ -70,12 +70,12 @@ static gdouble payee_sub_div_balance ( gpointer div, gpointer sub_div );
 static gint payee_sub_div_id ( gpointer sub_payee );
 static gchar * payee_sub_div_name ( gpointer sub_div );
 static gint payee_sub_div_nb_transactions ( gpointer div, gpointer sub_div );
-static gint payee_transaction_div_id ( struct structure_operation * transaction );
-static void payee_transaction_set_div_id ( struct structure_operation * transaction, 
+static gint payee_transaction_div_id ( gpointer  transaction );
+static void payee_transaction_set_div_id ( gpointer  transaction, 
 				    int no_div );
-static void payee_transaction_set_sub_div_id ( struct structure_operation * transaction, 
+static void payee_transaction_set_sub_div_id ( gpointer  transaction, 
 					int no_sub_div );
-static gint payee_transaction_sub_div_id ( struct structure_operation * transaction );
+static gint payee_transaction_sub_div_id ( gpointer  transaction );
 static struct struct_devise * payee_tree_currency ( );
 /*END_STATIC*/
 
@@ -329,7 +329,7 @@ gint payee_div_type ( gpointer div )
  *
  * \return -1 if no type is supported in backend model, type otherwise.
  */
-gint payee_transaction_div_id ( struct structure_operation * transaction )
+gint payee_transaction_div_id ( gpointer  transaction )
 {
     return gsb_transaction_data_get_party_number ( gsb_transaction_data_get_transaction_number (transaction ));
 }
@@ -340,7 +340,7 @@ gint payee_transaction_div_id ( struct structure_operation * transaction )
  *
  *
  */
-gint payee_transaction_sub_div_id ( struct structure_operation * transaction )
+gint payee_transaction_sub_div_id ( gpointer  transaction )
 {
     return -1;
 }
@@ -351,7 +351,7 @@ gint payee_transaction_sub_div_id ( struct structure_operation * transaction )
  *
  *
  */
-void payee_transaction_set_div_id ( struct structure_operation * transaction, 
+void payee_transaction_set_div_id ( gpointer  transaction, 
 				    int no_div )
 {
     gsb_transaction_data_set_party_number ( gsb_transaction_data_get_transaction_number (transaction),
@@ -364,7 +364,7 @@ void payee_transaction_set_div_id ( struct structure_operation * transaction,
  *
  *
  */
-void payee_transaction_set_sub_div_id ( struct structure_operation * transaction, 
+void payee_transaction_set_sub_div_id ( gpointer  transaction, 
 					int no_sub_div )
 {
 
@@ -490,7 +490,7 @@ gboolean payee_remove_sub_div ( int div_id, int sub_div_id )
  *
  *
  */
-gboolean payee_add_transaction_to_div ( struct structure_operation * trans, 
+gboolean payee_add_transaction_to_div ( gpointer  trans, 
 					int div_id )
 {
     add_transaction_to_payee ( trans, payee_get_div_pointer ( div_id ) );
@@ -503,7 +503,7 @@ gboolean payee_add_transaction_to_div ( struct structure_operation * trans,
  *
  *
  */
-gboolean payee_add_transaction_to_sub_div ( struct structure_operation * trans, 
+gboolean payee_add_transaction_to_sub_div ( gpointer  trans, 
 					    int div_id, int sub_div_id )
 {
     return TRUE;
@@ -515,7 +515,7 @@ gboolean payee_add_transaction_to_sub_div ( struct structure_operation * trans,
  *
  *
  */
-gboolean payee_remove_transaction_from_div ( struct structure_operation * trans, 
+gboolean payee_remove_transaction_from_div ( gpointer  trans, 
 					     int div_id )
 {
     remove_transaction_from_payee ( trans, payee_get_div_pointer (div_id) );
@@ -528,7 +528,7 @@ gboolean payee_remove_transaction_from_div ( struct structure_operation * trans,
  *
  *
  */
-gboolean payee_remove_transaction_from_sub_div ( struct structure_operation * trans, 
+gboolean payee_remove_transaction_from_sub_div ( gpointer  trans, 
 						 int div_id, int sub_div_id )
 {
     remove_transaction_from_payee ( trans, payee_get_div_pointer (div_id) );

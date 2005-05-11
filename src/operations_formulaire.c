@@ -70,17 +70,17 @@ static GtkWidget *creation_boutons_formulaire ( void );
 static GtkWidget *cree_element_formulaire_par_no ( gint no_element );
 static gboolean element_focusable ( gint no_element );
 static gboolean gsb_form_finish_edition ( void );
-static gboolean gsb_form_get_categories ( struct structure_operation *transaction,
+static gboolean gsb_form_get_categories ( gint transaction_number,
 				   gint new_transaction );
 static GSList *gsb_form_get_parties_list_from_report ( void );
-static gboolean gsb_form_validate_form_transaction ( struct structure_operation *transaction );
-static gboolean gsb_transactions_list_get_breakdowns_of_transaction ( struct structure_operation *new_transaction,
+static gboolean gsb_form_validate_form_transaction ( gpointer transaction );
+static gboolean gsb_transactions_list_get_breakdowns_of_transaction ( gpointer new_transaction,
 							       gint no_last_breakdown,
 							       gint no_account );
-static gboolean gsb_transactions_list_update_transaction ( struct structure_operation *transaction );
-static struct structure_operation *gsb_transactions_look_for_last_party ( gint no_party,
+static gboolean gsb_transactions_list_update_transaction ( gpointer transaction );
+static gpointer gsb_transactions_look_for_last_party ( gint no_party,
 								   gint no_new_transaction );
-static void recuperation_donnees_generales_formulaire ( struct structure_operation *transaction );
+static void recuperation_donnees_generales_formulaire ( gpointer transaction );
 static gboolean touches_champ_formulaire ( GtkWidget *widget,
 				    GdkEventKey *ev,
 				    gint *no_origine );
@@ -1111,6 +1111,13 @@ gboolean clique_champ_formulaire ( GtkWidget *entree,
 	    }
     }
 
+    /*     we set the exercice */
+
+    if ( widget_formulaire_par_element(TRANSACTION_FORM_EXERCICE) )
+	affiche_exercice_par_date ( widget_formulaire_par_element(TRANSACTION_FORM_DATE),
+				    widget_formulaire_par_element(TRANSACTION_FORM_EXERCICE));
+
+
 
     /*   si le type par défaut est un chèque, on met le nouveau numéro */
 
@@ -1680,7 +1687,7 @@ void widget_grab_focus_formulaire ( gint no_element )
 gboolean completion_operation_par_tiers ( GtkWidget *entree )
 {
     struct struct_tiers *tiers;
-    struct structure_operation *transaction;
+    gint transaction_number;
     gchar *char_tmp;
     gint i,j;
     struct organisation_formulaire *organisation_formulaire;
@@ -1744,12 +1751,12 @@ gboolean completion_operation_par_tiers ( GtkWidget *entree )
 
     /*     on essaie de retrouver la dernière opé entrée avec ce tiers */
 
-    transaction = gsb_transactions_look_for_last_party ( tiers -> no_tiers,
-							 0 );
+    transaction_number = gsb_transaction_data_get_transaction_number (gsb_transactions_look_for_last_party ( tiers -> no_tiers,
+													     0 ));
 
     /* si on n'a trouvé aucune opération, on se tire */
 
-    if ( !transaction )
+    if ( !transaction_number )
 	return TRUE;
 
     /*     on fait le tour du formulaire en ne remplissant que ce qui est nécessaire */
@@ -1763,29 +1770,29 @@ gboolean completion_operation_par_tiers ( GtkWidget *entree )
 	    {
 		case TRANSACTION_FORM_DEBIT:
 
-		    if ( gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (transaction ))< 0 )
+		    if ( gsb_transaction_data_get_amount (transaction_number)< 0 )
 		    {
 			entree_prend_focus ( widget );
 			gtk_entry_set_text ( GTK_ENTRY ( widget ),
 					     g_strdup_printf ( "%4.2f",
-							       -gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (transaction ))));
+							       -gsb_transaction_data_get_amount ( transaction_number)));
 		    }
 		    break;
 
 		case TRANSACTION_FORM_CREDIT:
 
-		    if ( gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (transaction ))>= 0 )
+		    if ( gsb_transaction_data_get_amount (transaction_number)>= 0 )
 		    {
 			entree_prend_focus ( widget );
 			gtk_entry_set_text ( GTK_ENTRY ( widget ),
 					     g_strdup_printf ( "%4.2f",
-							       gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (transaction ))));
+							       gsb_transaction_data_get_amount (transaction_number)));
 		    }
 		    break;
 
 		case TRANSACTION_FORM_CATEGORY:
 
-		    if ( gsb_transaction_data_get_breakdown_of_transaction ( gsb_transaction_data_get_transaction_number (transaction )))
+		    if ( gsb_transaction_data_get_breakdown_of_transaction (transaction_number))
 		    {
 			/* it's a breakdown of transaction */
 
@@ -1795,19 +1802,19 @@ gboolean completion_operation_par_tiers ( GtkWidget *entree )
 		    }
 		    else
 		    {
-			if ( gsb_transaction_data_get_transaction_number_transfer ( gsb_transaction_data_get_transaction_number (transaction )))
+			if ( gsb_transaction_data_get_transaction_number_transfer (transaction_number))
 			{
 			    /* c'est un virement */
 
 			    entree_prend_focus ( widget );
 
-			    if ( gsb_transaction_data_get_transaction_number_transfer ( gsb_transaction_data_get_transaction_number (transaction ))!= -1
+			    if ( gsb_transaction_data_get_transaction_number_transfer (transaction_number)!= -1
 				 &&
-				 gsb_transaction_data_get_account_number_transfer ( gsb_transaction_data_get_transaction_number (transaction ))!= -1 )
+				 gsb_transaction_data_get_account_number_transfer (transaction_number)!= -1 )
 			    {
 				gtk_combofix_set_text ( GTK_COMBOFIX ( widget ),
 							g_strconcat ( COLON(_("Transfer")),
-								      gsb_account_get_name (gsb_transaction_data_get_account_number_transfer ( gsb_transaction_data_get_transaction_number (transaction ))),
+								      gsb_account_get_name (gsb_transaction_data_get_account_number_transfer (transaction_number)),
 								      NULL ));
 			    }
 			    else
@@ -1818,8 +1825,8 @@ gboolean completion_operation_par_tiers ( GtkWidget *entree )
 			{
 			    /* c'est des catégories normales */
 
-			    char_tmp = nom_categ_par_no ( gsb_transaction_data_get_category_number ( gsb_transaction_data_get_transaction_number (transaction )),
-							  gsb_transaction_data_get_sub_category_number ( gsb_transaction_data_get_transaction_number (transaction )));
+			    char_tmp = nom_categ_par_no ( gsb_transaction_data_get_category_number (transaction_number),
+							  gsb_transaction_data_get_sub_category_number (transaction_number));
 			    if ( char_tmp )
 			    {
 				entree_prend_focus ( widget );
@@ -1832,8 +1839,8 @@ gboolean completion_operation_par_tiers ( GtkWidget *entree )
 
 		case TRANSACTION_FORM_BUDGET:
 
-		    char_tmp = nom_imputation_par_no ( gsb_transaction_data_get_budgetary_number ( gsb_transaction_data_get_transaction_number (transaction )),
-						       gsb_transaction_data_get_sub_budgetary_number ( gsb_transaction_data_get_transaction_number (transaction )));
+		    char_tmp = nom_imputation_par_no ( gsb_transaction_data_get_budgetary_number (transaction_number),
+						       gsb_transaction_data_get_sub_budgetary_number (transaction_number));
 		    if ( char_tmp )
 		    {
 			entree_prend_focus ( widget );
@@ -1844,17 +1851,17 @@ gboolean completion_operation_par_tiers ( GtkWidget *entree )
 
 		case TRANSACTION_FORM_NOTES:
 
-		    if ( gsb_transaction_data_get_notes ( gsb_transaction_data_get_transaction_number (transaction )))
+		    if ( gsb_transaction_data_get_notes (transaction_number))
 		    {
 			entree_prend_focus ( widget );
 			gtk_entry_set_text ( GTK_ENTRY ( widget ),
-					     gsb_transaction_data_get_notes ( gsb_transaction_data_get_transaction_number (transaction )));
+					     gsb_transaction_data_get_notes (transaction_number));
 		    }
 		    break;
 
 		case TRANSACTION_FORM_TYPE:
 
-		    if ( gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (transaction ))< 0 )
+		    if ( gsb_transaction_data_get_amount (transaction_number)< 0 )
 			menu = creation_menu_types ( 1, gsb_account_get_current_account (), 0  );
 		    else
 			menu = creation_menu_types ( 2, gsb_account_get_current_account (), 0  );
@@ -1867,7 +1874,7 @@ gboolean completion_operation_par_tiers ( GtkWidget *entree )
 						   menu );
 			gtk_widget_show ( widget );
 
-			place_type_formulaire ( gsb_transaction_data_get_method_of_payment_number ( gsb_transaction_data_get_transaction_number (transaction )),
+			place_type_formulaire ( gsb_transaction_data_get_method_of_payment_number (transaction_number),
 						TRANSACTION_FORM_TYPE,
 						NULL );
 		    }
@@ -1883,44 +1890,44 @@ gboolean completion_operation_par_tiers ( GtkWidget *entree )
 
 		    gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget ),
 						  g_slist_index ( liste_struct_devises,
-								  devise_par_no ( gsb_transaction_data_get_currency_number ( gsb_transaction_data_get_transaction_number (transaction )))));
+								  devise_par_no ( gsb_transaction_data_get_currency_number (transaction_number))));
 		    verification_bouton_change_devise ();
 		    break;
 
 		case TRANSACTION_FORM_BANK:
 
-		    if ( gsb_transaction_data_get_bank_references ( gsb_transaction_data_get_transaction_number (transaction )))
+		    if ( gsb_transaction_data_get_bank_references (transaction_number))
 		    {
 			entree_prend_focus ( widget );
 			gtk_entry_set_text ( GTK_ENTRY ( widget ),
-					     gsb_transaction_data_get_bank_references ( gsb_transaction_data_get_transaction_number (transaction )));
+					     gsb_transaction_data_get_bank_references (transaction_number));
 		    }
 		    break;
 
 		case TRANSACTION_FORM_VOUCHER:
 
-		    if ( gsb_transaction_data_get_voucher ( gsb_transaction_data_get_transaction_number (transaction )))
+		    if ( gsb_transaction_data_get_voucher (transaction_number))
 		    {
 			entree_prend_focus ( widget );
 			gtk_entry_set_text ( GTK_ENTRY ( widget ),
-					     gsb_transaction_data_get_voucher ( gsb_transaction_data_get_transaction_number (transaction )));
+					     gsb_transaction_data_get_voucher (transaction_number));
 		    }
 		    break;
 
 		case TRANSACTION_FORM_CONTRA:
 
-		    if ( gsb_transaction_data_get_transaction_number_transfer ( gsb_transaction_data_get_transaction_number (transaction ))
+		    if ( gsb_transaction_data_get_transaction_number_transfer (transaction_number)
 			 &&
-			 gsb_transaction_data_get_account_number_transfer ( gsb_transaction_data_get_transaction_number (transaction ))!= -1 )
+			 gsb_transaction_data_get_account_number_transfer (transaction_number)!= -1 )
 		    {
-			if ( gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (transaction ))< 0 )
-			    menu = creation_menu_types ( 2, gsb_transaction_data_get_account_number_transfer ( gsb_transaction_data_get_transaction_number (transaction )), 0  );
+			if ( gsb_transaction_data_get_amount (transaction_number)< 0 )
+			    menu = creation_menu_types ( 2, gsb_transaction_data_get_account_number_transfer (transaction_number), 0  );
 			else
-			    menu = creation_menu_types ( 1, gsb_transaction_data_get_account_number_transfer ( gsb_transaction_data_get_transaction_number (transaction )), 0  );
+			    menu = creation_menu_types ( 1, gsb_transaction_data_get_account_number_transfer (transaction_number), 0  );
 
 			if ( menu )
 			{
-			    struct structure_operation *contra_transaction;
+			    gpointer contra_transaction;
 
 			    /* on met en place les types et se place sur celui correspondant à l'opé */
 
@@ -1928,8 +1935,8 @@ gboolean completion_operation_par_tiers ( GtkWidget *entree )
 						       menu );
 			    gtk_widget_show ( widget );
 
-			    contra_transaction = operation_par_no ( gsb_transaction_data_get_transaction_number_transfer ( gsb_transaction_data_get_transaction_number (transaction )),
-								  gsb_transaction_data_get_account_number_transfer ( gsb_transaction_data_get_transaction_number (transaction )));
+			    contra_transaction = operation_par_no ( gsb_transaction_data_get_transaction_number_transfer (transaction_number),
+								  gsb_transaction_data_get_account_number_transfer (transaction_number));
 			    if ( contra_transaction )
 				place_type_formulaire ( gsb_transaction_data_get_method_of_payment_number ( gsb_transaction_data_get_transaction_number (contra_transaction )),
 							TRANSACTION_FORM_CONTRA,
@@ -1986,10 +1993,10 @@ void verification_bouton_change_devise ( void )
  *
  * \return the transaction found, or NULL
  * */
-struct structure_operation *gsb_transactions_look_for_last_party ( gint no_party,
+gpointer gsb_transactions_look_for_last_party ( gint no_party,
 								   gint no_new_transaction )
 {
-    struct structure_operation *last_transaction_found;
+    gpointer last_transaction_found;
     GSList *transactions_list;
     GSList *transactions_accounts;
     GSList *list_tmp;
@@ -2013,7 +2020,7 @@ struct structure_operation *gsb_transactions_look_for_last_party ( gint no_party
 
 	while ( transactions_list )
 	{
-	    struct structure_operation *transaction;
+	    gpointer transaction;
 
 	    transaction = transactions_list -> data;
 
@@ -2053,7 +2060,7 @@ struct structure_operation *gsb_transactions_look_for_last_party ( gint no_party
  *
  * \return FALSE
  * */
-gboolean gsb_transactions_list_get_breakdowns_of_transaction ( struct structure_operation *new_transaction,
+gboolean gsb_transactions_list_get_breakdowns_of_transaction ( gpointer new_transaction,
 							       gint no_last_breakdown,
 							       gint no_account )
 {
@@ -2072,13 +2079,13 @@ gboolean gsb_transactions_list_get_breakdowns_of_transaction ( struct structure_
 
     while ( transactions_list )
     {
-	struct structure_operation *transaction;
+	gpointer transaction;
 
 	transaction = transactions_list -> data;
 
 	if ( gsb_transaction_data_get_mother_transaction_number ( gsb_transaction_data_get_transaction_number (transaction ))== no_last_breakdown )
 	{
-	    struct structure_operation *breakdown_transaction;
+	    gpointer breakdown_transaction;
 
 	    breakdown_transaction = gsb_transactions_list_clone_transaction ( transaction );
 	    gsb_transaction_data_set_mother_transaction_number ( gsb_transaction_data_get_transaction_number (breakdown_transaction),
@@ -2183,7 +2190,7 @@ void place_type_formulaire ( gint no_type,
  * */
 gboolean gsb_form_finish_edition ( void )
 {
-    struct structure_operation *transaction;
+    gpointer transaction;
     gint new_transaction;
     GSList *list_nb_parties;
     GSList *list_tmp;
@@ -2290,8 +2297,9 @@ gboolean gsb_form_finish_edition ( void )
 	    else
 		mother_transaction = 0;
 	    
+/* 	    xxx */
 	    transaction = calloc ( 1,
-				 sizeof ( struct structure_operation ) );
+				 sizeof ( gpointer ) );
 	    if ( !transaction )
 	    {
 		dialogue_error ( _("Cannot allocate memory, bad things will happen soon") );
@@ -2321,7 +2329,7 @@ gboolean gsb_form_finish_edition ( void )
 	/*   récupération des catégories / sous-catég, s'ils n'existent pas, on les crée */
 	/* à mettre en dernier car si c'est une opé ventilée, chaque opé de ventil va récupérer les données du dessus */
 
-	gsb_form_get_categories ( transaction,
+	gsb_form_get_categories ( gsb_transaction_data_get_transaction_number (transaction ),
 				  new_transaction );
 
 	if ( new_transaction )
@@ -2451,7 +2459,7 @@ GSList *gsb_form_get_parties_list_from_report ( void )
 
 		while ( list_tmp )
 		{
-		    struct structure_operation *transaction;
+		    gpointer transaction;
 
 		    transaction = list_tmp -> data;
 
@@ -2480,7 +2488,7 @@ GSList *gsb_form_get_parties_list_from_report ( void )
  * \param transaction the new transaction
  * \return TRUE or FALSE
  * */
-gboolean gsb_form_validate_form_transaction ( struct structure_operation *transaction )
+gboolean gsb_form_validate_form_transaction ( gpointer transaction )
 {
     gchar **tab_char;
     GSList *list_tmp;
@@ -2622,7 +2630,7 @@ gboolean gsb_form_validate_form_transaction ( struct structure_operation *transa
 
 	if ( type -> numerotation_auto )
 	{
-	    struct structure_operation *operation_tmp;
+	    gpointer operation_tmp;
 
 	    /* vérifie s'il y a quelque chose */
 
@@ -2738,15 +2746,15 @@ sort_test_cheques :
 /* cette fonction récupère les données du formulaire et les met dans          */
 /* l'opération en argument sauf la catég                                      */
 /******************************************************************************/
-void recuperation_donnees_generales_formulaire ( struct structure_operation *transaction )
+void recuperation_donnees_generales_formulaire ( gpointer transaction )
 {
     gchar **tab_char;
-    struct struct_devise *devise;
     gint i, j;
     struct organisation_formulaire *organisation_formulaire;
     struct struct_imputation *imputation;
+    gint no_transaction;
 
-
+    no_transaction = gsb_transaction_data_get_transaction_number (transaction);
 
     /*     on fait le tour du formulaire en ne récupérant que ce qui est nécessaire */
 
@@ -2770,7 +2778,7 @@ void recuperation_donnees_generales_formulaire ( struct structure_operation *tra
 			     &month,
 			     &year );
 
-		    gsb_transaction_data_set_date ( gsb_transaction_data_get_transaction_number ( transaction ),
+		    gsb_transaction_data_set_date ( no_transaction,
 						    g_date_new_dmy ( day,
 								     month,
 								     year  ));
@@ -2787,13 +2795,13 @@ void recuperation_donnees_generales_formulaire ( struct structure_operation *tra
 				 &month,
 				 &year );
 
-			gsb_transaction_data_set_value_date ( gsb_transaction_data_get_transaction_number ( transaction ),
+			gsb_transaction_data_set_value_date ( no_transaction,
 							      g_date_new_dmy ( day,
 									       month,
 									       year ));
 		    }
 		    else
-			gsb_transaction_data_set_value_date ( gsb_transaction_data_get_transaction_number ( transaction ),
+			gsb_transaction_data_set_value_date ( no_transaction,
 							      NULL );
 		    break;
 
@@ -2807,11 +2815,11 @@ void recuperation_donnees_generales_formulaire ( struct structure_operation *tra
 								 "no_exercice" )) == -1 )
 		    {
 			if ( !gsb_transaction_data_get_transaction_number (transaction))
-			    gsb_transaction_data_set_financial_year_number ( gsb_transaction_data_get_transaction_number ( transaction ),
+			    gsb_transaction_data_set_financial_year_number ( no_transaction,
 									     0);
 		    }
 		    else
-			gsb_transaction_data_set_financial_year_number ( gsb_transaction_data_get_transaction_number ( transaction ),
+			gsb_transaction_data_set_financial_year_number ( no_transaction,
 									 GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget ) -> menu_item ),
 														 "no_exercice" )));
 
@@ -2832,14 +2840,14 @@ void recuperation_donnees_generales_formulaire ( struct structure_operation *tra
 		case TRANSACTION_FORM_DEBIT:
 
 		    if ( gtk_widget_get_style ( widget ) == style_entree_formulaire[ENCLAIR] )
-			gsb_transaction_data_set_amount ( gsb_transaction_data_get_transaction_number ( transaction ),
+			gsb_transaction_data_set_amount ( no_transaction,
 							  -calcule_total_entree ( widget ));
 		    break;
 
 		case TRANSACTION_FORM_CREDIT:
 
 		    if ( gtk_widget_get_style ( widget ) == style_entree_formulaire[ENCLAIR] )
-			gsb_transaction_data_set_amount ( gsb_transaction_data_get_transaction_number ( transaction ),
+			gsb_transaction_data_set_amount ( no_transaction,
 							  calcule_total_entree ( widget ));
 		    break;
 
@@ -2858,7 +2866,7 @@ void recuperation_donnees_generales_formulaire ( struct structure_operation *tra
 			{
 			    struct struct_sous_imputation *sous_imputation;
 
-			    gsb_transaction_data_set_budgetary_number ( gsb_transaction_data_get_transaction_number ( transaction ),
+			    gsb_transaction_data_set_budgetary_number ( no_transaction,
 									imputation -> no_imputation);
 
 			    sous_imputation = sous_imputation_par_nom ( imputation,
@@ -2866,14 +2874,14 @@ void recuperation_donnees_generales_formulaire ( struct structure_operation *tra
 									1 );
 
 			    if ( sous_imputation )
-				gsb_transaction_data_set_sub_budgetary_number ( gsb_transaction_data_get_transaction_number ( transaction ),
+				gsb_transaction_data_set_sub_budgetary_number ( no_transaction,
 										sous_imputation -> no_sous_imputation);
 			    else
-				gsb_transaction_data_set_sub_budgetary_number ( gsb_transaction_data_get_transaction_number ( transaction ),
+				gsb_transaction_data_set_sub_budgetary_number ( no_transaction,
 										0);
 			}
 			else
-			    gsb_transaction_data_set_budgetary_number ( gsb_transaction_data_get_transaction_number ( transaction ),
+			    gsb_transaction_data_set_budgetary_number ( no_transaction,
 									0 );
 
 			g_strfreev ( tab_char );
@@ -2929,67 +2937,30 @@ void recuperation_donnees_generales_formulaire ( struct structure_operation *tra
 
 		    /* récupération de la devise */
 
-		    devise = gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget ) -> menu_item ),
-						   "adr_devise" );
-
-		    /* si c'est la devise du compte ou */
-		    /* si c'est un compte qui doit passer à l'euro ( la transfo se fait au niveau de l'affichage de la liste ) */
-		    /* ou si c'est un compte en euro et l'opé est dans une devise qui doit passer à l'euro -> pas de change à demander */
-
-		    if ( !devise_compte
-			 ||
-			 devise_compte -> no_devise != gsb_account_get_currency (gsb_account_get_current_account ()) )
-			devise_compte = devise_par_no ( gsb_account_get_currency (gsb_account_get_current_account ()) );
-
 		    gsb_transaction_data_set_currency_number ( gsb_transaction_data_get_transaction_number (transaction ),
-							       devise -> no_devise );
+							       gsb_currency_get_option_menu_currency (widget));
 
-		    if ( !( gsb_transaction_data_get_transaction_number (transaction)
-			    ||
-			    devise -> no_devise == gsb_account_get_currency (gsb_account_get_current_account ())
-			    ||
-			    ( devise_compte -> passage_euro
-			      &&
-			      !strcmp ( devise -> nom_devise, _("Euro") ))
-			    ||
-			    ( !strcmp ( devise_compte -> nom_devise, _("Euro") )
-			      &&
-			      devise -> passage_euro )))
-		    {
-			/* c'est une devise étrangère, on demande le taux de change et les frais de change */
-
-			demande_taux_de_change ( devise_compte, devise, 1,
-						 ( gdouble ) 0, ( gdouble ) 0, FALSE );
-
-			gsb_transaction_data_set_exchange_rate ( gsb_transaction_data_get_transaction_number (transaction),
-								 fabs (taux_de_change[0] ));
-			gsb_transaction_data_set_exchange_fees ( gsb_transaction_data_get_transaction_number (transaction),
-								 taux_de_change[1] );
-
-			if ( taux_de_change[0] < 0 )
-			    gsb_transaction_data_set_change_between ( gsb_transaction_data_get_transaction_number (transaction),
-								      1 );
-		    }
+		    gsb_currency_check_for_change ( gsb_transaction_data_get_transaction_number (transaction ) );
 
 		    break;
 
 		case TRANSACTION_FORM_BANK:
 
 		    if ( gtk_widget_get_style ( widget ) == style_entree_formulaire[ENCLAIR] )
-			gsb_transaction_data_set_bank_references ( gsb_transaction_data_get_transaction_number ( transaction ),
+			gsb_transaction_data_set_bank_references ( no_transaction,
 								   g_strstrip ( g_strdup ( gtk_entry_get_text ( GTK_ENTRY ( widget )))));
 		    else
-			gsb_transaction_data_set_bank_references ( gsb_transaction_data_get_transaction_number ( transaction ),
+			gsb_transaction_data_set_bank_references ( no_transaction,
 								   NULL);
 		    break;
 
 		case TRANSACTION_FORM_VOUCHER:
 
 		    if ( gtk_widget_get_style ( widget ) == style_entree_formulaire[ENCLAIR] )
-			gsb_transaction_data_set_voucher ( gsb_transaction_data_get_transaction_number ( transaction ),
+			gsb_transaction_data_set_voucher ( no_transaction,
 							   g_strstrip ( g_strdup ( gtk_entry_get_text ( GTK_ENTRY ( widget )))));
 		    else
-			gsb_transaction_data_set_voucher ( gsb_transaction_data_get_transaction_number ( transaction ),
+			gsb_transaction_data_set_voucher ( no_transaction,
 							   NULL);
 
 		    break;
@@ -3001,16 +2972,16 @@ void recuperation_donnees_generales_formulaire ( struct structure_operation *tra
 
 /** deal with the category in the form, append it in the transaction given in param
  * create the oter transaction if it's a transfer...
- * \param transaction the transaction which work with
+ * \param transaction_number the transaction which work with
  * \param new_transaction 1 if it's a new_transaction
  * \return FALSE
  * */
-gboolean gsb_form_get_categories ( struct structure_operation *transaction,
+gboolean gsb_form_get_categories ( gint transaction_number,
 				   gint new_transaction )
 {
     gchar *char_ptr;
     gchar **tab_char;
-    struct structure_operation *contra_transaction;
+    gint contra_transaction_number;
     GtkWidget *category_entry;
 
     if ( !verifie_element_formulaire_existe ( TRANSACTION_FORM_CATEGORY ))
@@ -3020,8 +2991,6 @@ gboolean gsb_form_get_categories ( struct structure_operation *transaction,
 
     if ( gtk_widget_get_style ( category_entry ) == style_entree_formulaire[ENCLAIR] )
     {
-	struct struct_categ *categ;
-
 	char_ptr = g_strstrip ( g_strdup ( gtk_entry_get_text ( GTK_ENTRY ( category_entry ))));
 
 	if ( !strcmp ( char_ptr,
@@ -3032,29 +3001,23 @@ gboolean gsb_form_get_categories ( struct structure_operation *transaction,
 
 	    if ( !new_transaction
 		 &&
-		 gsb_transaction_data_get_transaction_number_transfer ( gsb_transaction_data_get_transaction_number (transaction )))
+		 ( contra_transaction_number = gsb_transaction_data_get_transaction_number_transfer (transaction_number)))
 	    {
-		contra_transaction = operation_par_no ( gsb_transaction_data_get_transaction_number_transfer ( gsb_transaction_data_get_transaction_number (transaction )),
-							gsb_transaction_data_get_account_number_transfer ( gsb_transaction_data_get_transaction_number (transaction )));
-
-		if ( contra_transaction )
-		{
-		    gsb_transaction_data_set_transaction_number_transfer ( gsb_transaction_data_get_transaction_number (contra_transaction),
-									   0);
-		    gsb_transactions_list_delete_transaction ( contra_transaction );
-		}
-
-		gsb_transaction_data_set_transaction_number_transfer ( gsb_transaction_data_get_transaction_number (transaction),
+		gsb_transaction_data_set_transaction_number_transfer ( contra_transaction_number,
 								       0);
-		gsb_transaction_data_set_account_number_transfer ( gsb_transaction_data_get_transaction_number (transaction),
+		gsb_transactions_list_delete_transaction ( gsb_transaction_data_get_pointer_to_transaction (contra_transaction_number ));
+
+		gsb_transaction_data_set_transaction_number_transfer ( transaction_number,
+								       0);
+		gsb_transaction_data_set_account_number_transfer ( transaction_number,
 								   0);
 	    }
 
-	    gsb_transaction_data_set_breakdown_of_transaction ( gsb_transaction_data_get_transaction_number (transaction),
+	    gsb_transaction_data_set_breakdown_of_transaction ( transaction_number,
 								1 );
-	    gsb_transaction_data_set_category_number ( gsb_transaction_data_get_transaction_number (transaction),
+	    gsb_transaction_data_set_category_number ( transaction_number,
 						       0 );
-	    gsb_transaction_data_set_sub_category_number ( gsb_transaction_data_get_transaction_number (transaction),
+	    gsb_transaction_data_set_sub_category_number ( transaction_number,
 							   0 );
 
 	    /*we will check here if there is another breakdown with the same party,
@@ -3062,13 +3025,13 @@ gboolean gsb_form_get_categories ( struct structure_operation *transaction,
 
 	    if ( new_transaction )
 	    {
-		struct structure_operation *breakdown_transaction;
+		gpointer breakdown_transaction;
 
-		breakdown_transaction = gsb_transactions_look_for_last_party ( gsb_transaction_data_get_party_number ( gsb_transaction_data_get_transaction_number (transaction )),
-									       gsb_transaction_data_get_transaction_number (transaction));
+		breakdown_transaction = gsb_transactions_look_for_last_party ( gsb_transaction_data_get_party_number (transaction_number),
+									       transaction_number);
 
 		if ( breakdown_transaction )
-		    gsb_transactions_list_get_breakdowns_of_transaction ( transaction,
+		    gsb_transactions_list_get_breakdowns_of_transaction ( gsb_transaction_data_get_pointer_to_transaction (transaction_number),
 									  gsb_transaction_data_get_transaction_number (breakdown_transaction),
 									  gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (breakdown_transaction)));
 	    }
@@ -3080,7 +3043,7 @@ gboolean gsb_form_get_categories ( struct structure_operation *transaction,
 
 	    if ( !new_transaction
 		 &&
-		 gsb_transaction_data_get_breakdown_of_transaction ( gsb_transaction_data_get_transaction_number (transaction )))
+		 gsb_transaction_data_get_breakdown_of_transaction (transaction_number))
 	    {
 		GSList *list_tmp;
 
@@ -3088,11 +3051,11 @@ gboolean gsb_form_get_categories ( struct structure_operation *transaction,
 
 		while ( list_tmp )
 		{
-		    struct structure_operation *transaction_tmp;
+		    gpointer transaction_tmp;
 
 		    transaction_tmp = list_tmp -> data;
 
-		    if ( gsb_transaction_data_get_mother_transaction_number ( gsb_transaction_data_get_transaction_number (transaction_tmp ))== gsb_transaction_data_get_transaction_number (transaction))
+		    if ( gsb_transaction_data_get_mother_transaction_number ( gsb_transaction_data_get_transaction_number (transaction_tmp ))== transaction_number)
 		    {
 			list_tmp = list_tmp -> next;
 			gsb_transactions_list_delete_transaction ( transaction_tmp );
@@ -3100,7 +3063,7 @@ gboolean gsb_form_get_categories ( struct structure_operation *transaction,
 		    else
 			list_tmp = list_tmp -> next;
 		}
-		gsb_transaction_data_set_breakdown_of_transaction ( gsb_transaction_data_get_transaction_number (transaction),
+		gsb_transaction_data_set_breakdown_of_transaction ( transaction_number,
 								    0 );
 	    }
 
@@ -3124,9 +3087,9 @@ gboolean gsb_form_get_categories ( struct structure_operation *transaction,
 		{
 		    /* it's a transfert */
 
-		    gsb_transaction_data_set_category_number ( gsb_transaction_data_get_transaction_number (transaction),
+		    gsb_transaction_data_set_category_number ( transaction_number,
 							       0 );
-		    gsb_transaction_data_set_sub_category_number ( gsb_transaction_data_get_transaction_number (transaction),
+		    gsb_transaction_data_set_sub_category_number ( transaction_number,
 								   0 );
 
 		    /* sépare entre virement vers un compte et virement vers un compte supprimé */
@@ -3135,16 +3098,16 @@ gboolean gsb_form_get_categories ( struct structure_operation *transaction,
 				  _("Deleted account") ) )
 		    {
 			/* it's a real transfert */
-			gsb_form_validate_transfer ( transaction,
+			gsb_form_validate_transfer ( transaction_number,
 						     new_transaction,
 						     tab_char[1] );
 		    }
 		    else
 		    {
 			/* it's a transfert to a deleted account */
-			gsb_transaction_data_set_account_number_transfer ( gsb_transaction_data_get_transaction_number (transaction),
+			gsb_transaction_data_set_account_number_transfer ( transaction_number,
 									   -1);
-			gsb_transaction_data_set_transaction_number_transfer ( gsb_transaction_data_get_transaction_number (transaction),
+			gsb_transaction_data_set_transaction_number_transfer ( transaction_number,
 									       1);
 		    }
 		}
@@ -3152,38 +3115,34 @@ gboolean gsb_form_get_categories ( struct structure_operation *transaction,
 		{
 		    /* c'est une catég normale, si c'est une modif d'opé, vérifier si ce n'était pas un virement */
 
+		    struct struct_categ *categ;
+
 		    if ( !new_transaction
 			 &&
-			 gsb_transaction_data_get_transaction_number_transfer ( gsb_transaction_data_get_transaction_number (transaction )))
+			 (contra_transaction_number = gsb_transaction_data_get_transaction_number_transfer (transaction_number)))
 		    {
 			/* c'était un virement, et ce ne l'est plus, donc on efface l'opé en relation */
 
-			contra_transaction = operation_par_no ( gsb_transaction_data_get_transaction_number_transfer ( gsb_transaction_data_get_transaction_number (transaction )),
-							      gsb_transaction_data_get_account_number_transfer ( gsb_transaction_data_get_transaction_number (transaction )));
-
-			if ( contra_transaction )
-			{
-			    gsb_transaction_data_set_transaction_number_transfer ( gsb_transaction_data_get_transaction_number (contra_transaction),
-										   0);
-			    gsb_transactions_list_delete_transaction ( contra_transaction );
-			}
-
-			gsb_transaction_data_set_transaction_number_transfer ( gsb_transaction_data_get_transaction_number (transaction),
+			gsb_transaction_data_set_transaction_number_transfer ( contra_transaction_number,
 									       0);
-			gsb_transaction_data_set_account_number_transfer ( gsb_transaction_data_get_transaction_number (transaction),
+			gsb_transactions_list_delete_transaction ( gsb_transaction_data_get_pointer_to_transaction(contra_transaction_number ));
+
+			gsb_transaction_data_set_transaction_number_transfer ( transaction_number,
+									       0);
+			gsb_transaction_data_set_account_number_transfer ( transaction_number,
 									   0);
 		    }
 
 		    categ = categ_par_nom ( tab_char[0],
 					    1,
-					    gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (transaction ))< 0,
+					    gsb_transaction_data_get_amount (transaction_number)< 0,
 					    0 );
 
 		    if ( categ )
 		    {
 			struct struct_sous_categ *sous_categ;
 
-			gsb_transaction_data_set_category_number ( gsb_transaction_data_get_transaction_number (transaction),
+			gsb_transaction_data_set_category_number ( transaction_number,
 								   categ -> no_categ );
 
 			sous_categ = sous_categ_par_nom ( categ,
@@ -3191,7 +3150,7 @@ gboolean gsb_form_get_categories ( struct structure_operation *transaction,
 							  1 );
 
 			if ( sous_categ )
-			    gsb_transaction_data_set_sub_category_number ( gsb_transaction_data_get_transaction_number (transaction),
+			    gsb_transaction_data_set_sub_category_number ( transaction_number,
 									   sous_categ -> no_sous_categ );
 		    }
 		}
@@ -3206,18 +3165,17 @@ gboolean gsb_form_get_categories ( struct structure_operation *transaction,
 /** validate a transfert from a form :
  * - create the contra-transaction
  * - delete the last contra-transaction if it's a modification
- * \param transaction the new transaction or the modify transaction
+ * - append the contra-transaction to the tree view or update the tree_view
+ * \param transaction_number the new transaction or the modify transaction
  * \param new_transaction TRUE if it's a new transaction
  * \param name_transfer_account the name of the account we want to create the contra-transaction
- * \return FALSE
+ * \return the number of the contra-transaction
  * */
-gboolean gsb_form_validate_transfer ( struct structure_operation *transaction,
+gint gsb_form_validate_transfer ( gint transaction_number,
 				      gint new_transaction,
 				      gchar *name_transfer_account )
 {
-    struct struct_devise *transaction_currency;
-    struct struct_devise *account_currency;
-    struct structure_operation *contra_transaction;
+    gint contra_transaction_number;
     gint account_transfer;
 
     account_transfer = gsb_account_get_no_account_by_name ( name_transfer_account );
@@ -3229,157 +3187,79 @@ gboolean gsb_form_validate_transfer ( struct structure_operation *transaction,
     if ( !new_transaction )
     {
 	/* it's a modification of a transaction */
-	/*       c'est une modif d'opé */
-	/* 	soit c'était un virement vers un autre compte et dans ce cas on vire la contre-opération pour la recréer plus tard */
-	/* soit c'est un virement vers le même compte et dans ce cas on fait rien, la contre opé sera modifiée automatiquement */
-	/* soit ce n'était pas un virement et dans ce cas on considère l'opé comme une nouvelle opé */
 
-	if ( gsb_transaction_data_get_transaction_number_transfer ( gsb_transaction_data_get_transaction_number (transaction )))
+	if ((contra_transaction_number = gsb_transaction_data_get_transaction_number_transfer (transaction_number)))
 	{
-	    if ( gsb_transaction_data_get_account_number_transfer ( gsb_transaction_data_get_transaction_number (transaction ))!= account_transfer )
-	    {
-		/* it was a transfer and the user changed the target account */
+	    /* the transaction is a transfer */
 
-		contra_transaction = operation_par_no ( gsb_transaction_data_get_transaction_number_transfer ( gsb_transaction_data_get_transaction_number (transaction )),
-							gsb_transaction_data_get_account_number_transfer ( gsb_transaction_data_get_transaction_number (transaction )));
-printf ( "ça passe\n" );
-		if ( contra_transaction )
-		{
-		    gsb_transaction_data_set_transaction_number_transfer ( gsb_transaction_data_get_transaction_number (contra_transaction),
-									   0);
-		    gsb_transactions_list_delete_transaction ( contra_transaction );
-		    new_transaction = 1;
-		}
+	    if ( gsb_transaction_data_get_account_number_transfer (transaction_number) != account_transfer )
+	    {
+		/* it was a transfer and the user changed the target account so we delete the last contra transaction
+		 * contra_transaction_transfer has just been set */
+
+		gsb_transaction_data_set_transaction_number_transfer ( contra_transaction_number,
+								       0);
+		gsb_transactions_list_delete_transaction (gsb_transaction_data_get_pointer_to_transaction(contra_transaction_number));
+		new_transaction = 1;
 	    }
 	}
 	else
 	{
-	    /* it was not a transfer, so it's the same as a new transaction, to do the contra-transaction */
+	    /* the transaction was not a transfer, so it's the same as a new transaction, to do the contra-transaction */
 
 	    new_transaction = 1;
 	}
     }
 
-    /* so, now, it's either a new transfer, either a transfer without changing the target account */
+    /* so, now, it's either a new transfer and new_transaction is TRUE,
+     * either a transfer without changing the target account and in that case, contra_transaction_number is
+     * already set */
 
-    if ( !new_transaction
-	 &&
-	 gsb_transaction_data_get_transaction_number_transfer ( gsb_transaction_data_get_transaction_number (transaction )))
-	contra_transaction = operation_par_no ( gsb_transaction_data_get_transaction_number_transfer ( gsb_transaction_data_get_transaction_number (transaction )),
-						account_transfer );
-    else
-    {
-	contra_transaction = calloc ( 1,
-				    sizeof ( struct structure_operation ) );
-    }
+    if ( new_transaction )
+	contra_transaction_number = gsb_transaction_data_new_transaction (account_transfer);
 
-    /* fill the contra-transaction */
+    gsb_transaction_data_copy_transaction ( transaction_number,
+					    contra_transaction_number );
 
-    gsb_transaction_data_set_date ( gsb_transaction_data_get_transaction_number ( contra_transaction ),
-				    gsb_date_copy ( gsb_transaction_data_get_date ( gsb_transaction_data_get_transaction_number ( transaction ))));
-    gsb_transaction_data_set_amount ( gsb_transaction_data_get_transaction_number ( contra_transaction ),
-				      -gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (transaction )));
+    /* we have to change the amount by the opposite */
 
-    /* check if we have to ask to convert a currency */
+    gsb_transaction_data_set_amount (contra_transaction_number,
+				      -gsb_transaction_data_get_amount (transaction_number));
 
-    account_currency = devise_par_no ( gsb_account_get_currency (account_transfer) );
-    transaction_currency = devise_par_no ( gsb_transaction_data_get_currency_number ( gsb_transaction_data_get_transaction_number (transaction )));
+    /* we have to check the change */
 
-    gsb_transaction_data_set_currency_number ( gsb_transaction_data_get_transaction_number (contra_transaction),
-					       gsb_transaction_data_get_currency_number ( gsb_transaction_data_get_transaction_number (transaction )));
+    gsb_currency_check_for_change ( contra_transaction_number );
 
-    if ( !( gsb_transaction_data_get_transaction_number (contra_transaction)
-	    ||
-	    transaction_currency -> no_devise == gsb_account_get_currency (account_transfer)
-	    ||
-	    ( account_currency -> passage_euro && is_euro(transaction_currency))
-	    ||
-	    ( is_euro(account_currency) && transaction_currency -> passage_euro )))
-    {
-	/* c'est une currency étrangère, on demande le taux de change et les frais de change */
-
-	demande_taux_de_change ( account_currency, transaction_currency, 1,
-				 (gdouble ) 0, (gdouble ) 0, FALSE );
-
-	gsb_transaction_data_set_exchange_rate ( gsb_transaction_data_get_transaction_number (contra_transaction),
-						 fabs (taux_de_change[0] ));
-	gsb_transaction_data_set_exchange_fees ( gsb_transaction_data_get_transaction_number (contra_transaction),
-						 taux_de_change[1] );
-
-	if ( taux_de_change[0] < 0 )
-	    gsb_transaction_data_set_change_between ( gsb_transaction_data_get_transaction_number (contra_transaction),
-						      1 );
-    }
-
-    gsb_transaction_data_set_party_number ( gsb_transaction_data_get_transaction_number (contra_transaction),
-					    gsb_transaction_data_get_party_number ( gsb_transaction_data_get_transaction_number (transaction)));
-    gsb_transaction_data_set_category_number ( gsb_transaction_data_get_transaction_number (contra_transaction),
-					       gsb_transaction_data_get_category_number ( gsb_transaction_data_get_transaction_number (transaction )));
-    gsb_transaction_data_set_sub_category_number ( gsb_transaction_data_get_transaction_number (contra_transaction),
-						   gsb_transaction_data_get_sub_category_number ( gsb_transaction_data_get_transaction_number (transaction )));
-
-    if ( gsb_transaction_data_get_notes ( gsb_transaction_data_get_transaction_number (transaction)))
-	gsb_transaction_data_set_notes ( gsb_transaction_data_get_transaction_number (contra_transaction),
-					 g_strdup ( gsb_transaction_data_get_notes ( gsb_transaction_data_get_transaction_number (transaction ))));
-
-    gsb_transaction_data_set_automatic_transaction ( gsb_transaction_data_get_transaction_number (contra_transaction),
-						     gsb_transaction_data_get_automatic_transaction ( gsb_transaction_data_get_transaction_number (transaction )));
-
-    /* récupération du type de l'autre opé */
+    /* set the method of payment
+     * FIXME : for the scheduled transactions, we arrive here but there is no button for that,
+     * so for now, TRANSACTION_FORM_CONTRA won't be visible so he just copy the method of the scheduled transaction */
 
     if ( verifie_element_formulaire_existe ( TRANSACTION_FORM_CONTRA )
 	 &&
 	 GTK_WIDGET_VISIBLE ( widget_formulaire_par_element (TRANSACTION_FORM_CONTRA) ))
-	gsb_transaction_data_set_method_of_payment_number ( gsb_transaction_data_get_transaction_number (contra_transaction),
+	gsb_transaction_data_set_method_of_payment_number ( contra_transaction_number,
 							    GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_par_element (TRANSACTION_FORM_CONTRA) ) -> menu_item ),
 												    "no_type" )));
 
-    if ( gsb_transaction_data_get_method_of_payment_number ( gsb_transaction_data_get_transaction_number (contra_transaction ))
-	 &&
-	 gsb_transaction_data_get_method_of_payment_content ( gsb_transaction_data_get_transaction_number (transaction )))
-	gsb_transaction_data_set_method_of_payment_content ( gsb_transaction_data_get_transaction_number (contra_transaction),
-							     g_strdup ( gsb_transaction_data_get_method_of_payment_content ( gsb_transaction_data_get_transaction_number (transaction ))));
-
-    gsb_transaction_data_set_financial_year_number ( gsb_transaction_data_get_transaction_number ( contra_transaction ),
-						     gsb_transaction_data_get_financial_year_number ( gsb_transaction_data_get_transaction_number (transaction )));
-    gsb_transaction_data_set_budgetary_number ( gsb_transaction_data_get_transaction_number ( contra_transaction ),
-						gsb_transaction_data_get_budgetary_number ( gsb_transaction_data_get_transaction_number (transaction )));
-    gsb_transaction_data_set_sub_budgetary_number ( gsb_transaction_data_get_transaction_number ( contra_transaction ),
-						    gsb_transaction_data_get_sub_budgetary_number ( gsb_transaction_data_get_transaction_number (transaction )));
-
-    if ( gsb_transaction_data_get_voucher ( gsb_transaction_data_get_transaction_number (transaction )))
-	gsb_transaction_data_set_voucher ( gsb_transaction_data_get_transaction_number ( contra_transaction ),
-					   g_strdup ( gsb_transaction_data_get_voucher ( gsb_transaction_data_get_transaction_number (transaction ))));
-
-    if ( gsb_transaction_data_get_bank_references ( gsb_transaction_data_get_transaction_number (transaction )))
-	gsb_transaction_data_set_bank_references ( gsb_transaction_data_get_transaction_number ( contra_transaction ),
-						   g_strdup ( gsb_transaction_data_get_bank_references ( gsb_transaction_data_get_transaction_number (transaction ))));
-
-    /* append the contra_transaction to the list */
-
-    if ( new_transaction )
-	gsb_transactions_append_transaction ( contra_transaction,
-					      account_transfer );
-
     /* set the link between the transactions */
 
-    gsb_transaction_data_set_transaction_number_transfer ( gsb_transaction_data_get_transaction_number (transaction),
-							   gsb_transaction_data_get_transaction_number (contra_transaction));
-    gsb_transaction_data_set_account_number_transfer ( gsb_transaction_data_get_transaction_number (transaction),
-						       gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (contra_transaction)));
-    gsb_transaction_data_set_transaction_number_transfer ( gsb_transaction_data_get_transaction_number (contra_transaction),
-							   gsb_transaction_data_get_transaction_number (transaction));
-    gsb_transaction_data_set_account_number_transfer ( gsb_transaction_data_get_transaction_number (contra_transaction),
-						       gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (transaction)));
+    gsb_transaction_data_set_transaction_number_transfer ( transaction_number,
+							   contra_transaction_number);
+    gsb_transaction_data_set_account_number_transfer ( transaction_number,
+						       gsb_transaction_data_get_account_number (contra_transaction_number));
+    gsb_transaction_data_set_transaction_number_transfer ( contra_transaction_number,
+							   transaction_number);
+    gsb_transaction_data_set_account_number_transfer ( contra_transaction_number,
+						       gsb_transaction_data_get_account_number (transaction_number));
 
     /* show the contra_transaction */
 
     if ( new_transaction )
-	gsb_transactions_list_append_new_transaction ( contra_transaction );
+	gsb_transactions_list_append_new_transaction ( gsb_transaction_data_get_pointer_to_transaction (contra_transaction_number) );
     else
-	gsb_transactions_list_update_transaction ( contra_transaction );
+	gsb_transactions_list_update_transaction ( gsb_transaction_data_get_pointer_to_transaction ( contra_transaction_number) );
 
-    return FALSE;
+    return contra_transaction_number;
 }
 /******************************************************************************/
 
@@ -3394,7 +3274,7 @@ printf ( "ça passe\n" );
  *
  * \return FALSE
  * */
-gboolean gsb_transactions_list_append_new_transaction ( struct structure_operation *transaction )
+gboolean gsb_transactions_list_append_new_transaction ( gpointer transaction )
 {
     if ( DEBUG )
 	printf ( "gsb_transactions_list_append_new_transaction %d\n",
@@ -3412,7 +3292,7 @@ gboolean gsb_transactions_list_append_new_transaction ( struct structure_operati
 
     if ( gsb_transaction_data_get_breakdown_of_transaction ( gsb_transaction_data_get_transaction_number (transaction )))
     {
-	struct structure_operation *breakdown_transaction;
+	gpointer breakdown_transaction;
 	GtkTreeIter *iter;
 
 	breakdown_transaction = gsb_transactions_list_append_white_breakdown ( transaction );
@@ -3466,12 +3346,13 @@ gboolean gsb_transactions_list_append_new_transaction ( struct structure_operati
  * \param no_account
  * return FALSE
  * */
-gboolean gsb_transactions_append_transaction ( struct structure_operation *transaction,
+gboolean gsb_transactions_append_transaction ( gpointer transaction,
 					       gint no_account )
 {
     /* FIXME : ça ça doit être fait dans gsb_transaction_data maintenant, on s'arrête ici pour pas oublier de le faire */
+/*     xxx */
     exit (0);
-    return;
+    return FALSE;
 
     if ( !gsb_transaction_data_get_transaction_number (transaction))
     {
@@ -3492,7 +3373,7 @@ gboolean gsb_transactions_append_transaction ( struct structure_operation *trans
  * \param transaction transaction to update
  * \return FALSE
  * */
-gboolean gsb_transactions_list_update_transaction ( struct structure_operation *transaction )
+gboolean gsb_transactions_list_update_transaction ( gpointer transaction )
 {
     gint j;
     GtkListStore *store;
@@ -3785,7 +3666,7 @@ void affiche_cache_le_formulaire ( void )
 /******************************************************************************/
 void click_sur_bouton_voir_change ( void )
 {
-    struct structure_operation *transaction;
+    gpointer transaction;
     struct struct_devise *devise;
 
     gtk_widget_grab_focus ( widget_formulaire_par_element (TRANSACTION_FORM_DATE) );

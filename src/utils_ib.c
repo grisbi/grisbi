@@ -304,7 +304,7 @@ void calcule_total_montant_budgetary_line ( void )
 	liste_tmp = gsb_account_get_transactions_list (i);
 	while ( liste_tmp )
 	{
-	    struct structure_operation *operation;
+	    gpointer operation;
 
 	    operation = liste_tmp -> data;
 
@@ -345,7 +345,7 @@ void calcule_total_montant_budgetary_line ( void )
  *
  *
  */
-void remove_transaction_from_budgetary_line ( struct structure_operation * transaction,
+void remove_transaction_from_budgetary_line ( gpointer  transaction,
 					      struct struct_imputation * budgetary_line,
 					      struct struct_sous_imputation * sub_budgetary_line )
 {
@@ -395,7 +395,7 @@ void remove_transaction_from_budgetary_line ( struct structure_operation * trans
  *
  *
  */
-void add_transaction_to_budgetary_line ( struct structure_operation * transaction,
+void add_transaction_to_budgetary_line ( gpointer  transaction,
 					 struct struct_imputation * budgetary_line,
 					 struct struct_sous_imputation * sub_budgetary_line )
 {

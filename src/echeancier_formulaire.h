@@ -30,15 +30,11 @@
 
 
 /* START_DECLARATION */
-struct structure_operation *ajoute_contre_operation_echeance_dans_liste ( struct structure_operation *operation,
-									  gint compte_virement,
-									  gint contre_type_ope );
-gint comparaison_date_echeance (  struct operation_echeance *echeance_1,
-				  struct operation_echeance *echeance_2);
 GtkWidget *creation_formulaire_echeancier ( void );
 void degrise_formulaire_echeancier ( void );
-void fin_edition_echeance ( void );
 void formulaire_echeancier_a_zero ( void );
-void incrementation_echeance ( struct operation_echeance *echeance );
+gint gsb_scheduler_create_transaction_from_scheduled_transaction ( struct operation_echeance *schedule_transaction );
+gboolean gsb_scheduler_increase_scheduled_transaction ( struct operation_echeance *scheduled_transaction );
+void gsb_scheduler_validate_form ( void );
 /* END_DECLARATION */
 #endif

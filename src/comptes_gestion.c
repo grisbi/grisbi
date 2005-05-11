@@ -54,6 +54,7 @@
 /*START_STATIC*/
 static void changement_bouton_adresse_commune_perso ( void );
 static void modification_details_compte ( void );
+static void sort_du_detail_compte ( void );
 /*END_STATIC*/
 
 
@@ -979,7 +980,7 @@ void modification_details_compte ( void )
 
 	while ( pointeur_liste )
 	{
-	    struct structure_operation *operation;
+	    gpointer operation;
 
 	    operation = pointeur_liste -> data;
 

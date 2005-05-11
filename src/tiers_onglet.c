@@ -115,8 +115,7 @@ extern GtkWidget *window;
 
 GtkWidget *onglet_tiers ( void )
 {
-    GtkWidget *onglet, *scroll_window, *scrolled_window_text;
-    GtkWidget *vbox, *vbox_frame, *hbox;
+    GtkWidget *onglet, *scroll_window;
     GtkTreeViewColumn *column;
     GtkCellRenderer *cell;
     GtkTreeDragDestIface * dst_iface;

@@ -937,7 +937,7 @@ gboolean change_toolbar_display_mode ( GtkRadioButton * button )
 {
     if ( gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(button)) )
 	{
-	    etat.display_toolbar = g_object_get_data ( G_OBJECT(button), "display" );
+	    etat.display_toolbar = GPOINTER_TO_INT (g_object_get_data ( G_OBJECT(button), "display" ));
 	    
 	}
 

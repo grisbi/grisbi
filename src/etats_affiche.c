@@ -48,7 +48,7 @@
 /*START_STATIC*/
 static void etat_affiche_attach_hsep ( int x, int x2, int y, int y2);
 static void etat_affiche_attach_label ( gchar * text, gdouble properties, int x, int x2, int y, int y2, 
-				 enum alignement align, struct structure_operation * ope );
+				 enum alignement align, gpointer  ope );
 static void etat_affiche_attach_vsep ( int x, int x2, int y, int y2);
 /*END_STATIC*/
 
@@ -737,7 +737,7 @@ gint etat_affiche_affiche_total_tiers ( gint ligne )
 /* si force = 0, vérifie les dates et affiche si nécessaire */
 /*   si force = 1, affiche le total (chgt de categ, ib ...) */
 /*****************************************************************************************************/
-gint etat_affiche_affiche_total_periode ( struct structure_operation *operation, gint ligne, gint force )
+gint etat_affiche_affiche_total_periode ( gpointer operation, gint ligne, gint force )
 {
     if ( etat_courant -> separation_par_plage )
     {
@@ -1020,7 +1020,7 @@ gint etat_affiche_affiche_total_periode ( struct structure_operation *operation,
 /* si force = 0, vérifie les dates et affiche si nécessaire */
 /*   si force = 1, affiche le total (chgt de categ, ib ...) */
 /*****************************************************************************************************/
-gint etat_affiche_affiche_total_exercice ( struct structure_operation *operation, gint ligne, gint force )
+gint etat_affiche_affiche_total_exercice ( gpointer operation, gint ligne, gint force )
 {
     if ( etat_courant -> separation_par_exo )
     {
@@ -1114,7 +1114,7 @@ gint etat_affiche_affiche_total_exercice ( struct structure_operation *operation
 
 
 /*****************************************************************************************************/
-gint etat_affiche_affichage_ligne_ope ( struct structure_operation *operation,
+gint etat_affiche_affichage_ligne_ope ( gpointer operation,
 					gint ligne )
 {
     gint colonne;
@@ -1342,7 +1342,7 @@ gint etat_affiche_affichage_ligne_ope ( struct structure_operation *operation,
 		pTransactionList = gsb_account_get_transactions_list (gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (operation)));
 		while ( pTransactionList && !found )
 		{
-		    struct structure_operation *pTransaction;
+		    gpointer pTransaction;
 
 		    pTransaction = pTransactionList -> data;
 		    
@@ -1573,7 +1573,7 @@ gint etat_affiche_affiche_total_general ( gdouble total_general,
 
 
 /*****************************************************************************************************/
-gint etat_affiche_affiche_categ_etat ( struct structure_operation *operation,
+gint etat_affiche_affiche_categ_etat ( gpointer operation,
 				       gchar *decalage_categ,
 				       gint ligne )
 {
@@ -1685,7 +1685,7 @@ gint etat_affiche_affiche_categ_etat ( struct structure_operation *operation,
 
 
 /*****************************************************************************************************/
-gint etat_affiche_affiche_sous_categ_etat ( struct structure_operation *operation,
+gint etat_affiche_affiche_sous_categ_etat ( gpointer operation,
 					    gchar *decalage_sous_categ,
 					    gint ligne )
 {
@@ -1760,7 +1760,7 @@ gint etat_affiche_affiche_sous_categ_etat ( struct structure_operation *operatio
 
 
 /*****************************************************************************************************/
-gint etat_affiche_affiche_ib_etat ( struct structure_operation *operation,
+gint etat_affiche_affiche_ib_etat ( gpointer operation,
 				    gchar *decalage_ib,
 				    gint ligne )
 {
@@ -1835,7 +1835,7 @@ gint etat_affiche_affiche_ib_etat ( struct structure_operation *operation,
 
 
 /*****************************************************************************************************/
-gint etat_affiche_affiche_sous_ib_etat ( struct structure_operation *operation,
+gint etat_affiche_affiche_sous_ib_etat ( gpointer operation,
 					 gchar *decalage_sous_ib,
 					 gint ligne )
 {
@@ -1917,7 +1917,7 @@ gint etat_affiche_affiche_sous_ib_etat ( struct structure_operation *operation,
 
 
 /*****************************************************************************************************/
-gint etat_affiche_affiche_compte_etat ( struct structure_operation *operation,
+gint etat_affiche_affiche_compte_etat ( gpointer operation,
 					gchar *decalage_compte,
 					gint ligne )
 {
@@ -1982,7 +1982,7 @@ gint etat_affiche_affiche_compte_etat ( struct structure_operation *operation,
 
 
 /*****************************************************************************************************/
-gint etat_affiche_affiche_tiers_etat ( struct structure_operation *operation,
+gint etat_affiche_affiche_tiers_etat ( gpointer operation,
 				       gchar *decalage_tiers,
 				       gint ligne )
 {
@@ -2264,7 +2264,7 @@ void etat_affiche_attach_vsep ( int x, int x2, int y, int y2)
 
 
 void etat_affiche_attach_label ( gchar * text, gdouble properties, int x, int x2, int y, int y2, 
-				 enum alignement align, struct structure_operation * ope )
+				 enum alignement align, gpointer  ope )
 {
     etat_affichage_output -> attach_label ( text, properties, x, x2, y, y2, align, ope );
 }

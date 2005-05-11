@@ -39,10 +39,10 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static gint classement_liste_opes_etat ( struct structure_operation *operation_1,
-				  struct structure_operation *operation_2 );
-static gint classement_ope_perso_etat ( struct structure_operation *operation_1,
-				 struct structure_operation *operation_2 );
+static gint classement_liste_opes_etat ( gpointer operation_1,
+				  gpointer operation_2 );
+static gint classement_ope_perso_etat ( gpointer operation_1,
+				 gpointer operation_2 );
 static gint compare_cheques_etat ( gint chq_ope,
 			    gint chq_test,
 			    gint comparateur );
@@ -52,7 +52,7 @@ static gint compare_montants_etat ( gdouble montant_ope,
 static void etape_finale_affichage_etat ( GSList *ope_selectionnees,
 				   struct struct_etat_affichage *affichage);
 static void impression_etat ( struct struct_etat *etat );
-static gchar *recupere_texte_test_etat ( struct structure_operation *operation,
+static gchar recupere_texte_test_etat ( gpointer *operation,
 				  gint champ );
 static gint verifie_chq_test_etat ( struct struct_comparaison_textes_etat *comp_textes,
 			     gchar *no_chq );
@@ -335,7 +335,7 @@ GSList *recupere_opes_etat ( struct struct_etat *etat )
 
 		    while ( pointeur_tmp )
 		    {
-			struct structure_operation *operation;
+			gpointer operation;
 
 			operation = pointeur_tmp -> data;
 
@@ -413,7 +413,7 @@ GSList *recupere_opes_etat ( struct struct_etat *etat )
 
 	    while ( pointeur_tmp )
 	    {
-		struct structure_operation *operation;
+		gpointer operation;
 
 		operation = pointeur_tmp -> data;
 
@@ -971,7 +971,7 @@ operation_refusee:
 /* récupère le texte pour faire le test sur les textes */
 /*****************************************************************************************************/
 
-gchar *recupere_texte_test_etat ( struct structure_operation *operation,
+gchar recupere_texte_test_etat ( gpointer *operation,
 				  gint champ )
 {
     gchar *texte;
@@ -1504,8 +1504,8 @@ void impression_etat_courant ( )
 /* en fonction du choix du type de classement */
 /*****************************************************************************************************/
 
-gint classement_liste_opes_etat ( struct structure_operation *operation_1,
-				  struct structure_operation *operation_2 )
+gint classement_liste_opes_etat ( gpointer operation_1,
+				  gpointer operation_2 )
 {
     GList *pointeur;
 
@@ -1672,8 +1672,8 @@ classement_suivant:
 /* si les 2 opés sont équivalentes à ce niveau, on classe par no d'opé */
 /*****************************************************************************************************/
 
-gint classement_ope_perso_etat ( struct structure_operation *operation_1,
-				 struct structure_operation *operation_2 )
+gint classement_ope_perso_etat ( gpointer operation_1,
+				 gpointer operation_2 )
 {
     gint retour;
 
@@ -1878,7 +1878,7 @@ void etape_finale_affichage_etat ( GSList *ope_selectionnees,
 
 	while ( pointeur_tmp )
 	{
-	    struct structure_operation *operation;
+	    gpointer operation;
 
 	    operation = pointeur_tmp -> data;
 
@@ -2235,7 +2235,7 @@ pas_decalage:
 
 	while ( pointeur_tmp )
 	{
-	    struct structure_operation *operation;
+	    gpointer operation;
 	    gdouble montant;
 
 	    operation = pointeur_tmp -> data;

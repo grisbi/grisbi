@@ -64,7 +64,7 @@ typedef struct
     GSList *transactions_list;
 
     /** @name pointer of the transaction selectionned, or -1 for the white line */
-    struct structure_operation *current_transaction;
+    gpointer current_transaction;
 
     /** @name bank stuff */
     gint bank_number;
@@ -106,6 +106,8 @@ typedef struct
 
 
 /* START_DECLARATION */
+gboolean gsb_account_append_transaction ( gint no_account,
+					  gpointer transaction );
 gboolean gsb_account_delete ( gint no_account );
 gint gsb_account_first_number ( void );
 gpointer gsb_account_get_account_button ( gint no_account );

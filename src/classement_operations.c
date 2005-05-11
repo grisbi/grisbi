@@ -128,8 +128,8 @@ static gint gsb_transactions_list_sort_by_voucher ( GtkTreeModel *model,
 extern GtkTreeStore *model;
 /*END_EXTERN*/
 
-static struct structure_operation *transaction_1;
-static struct structure_operation *transaction_2;
+static gpointer transaction_1;
+static gpointer transaction_2;
 static gint line_1;
 static gint line_2;
 

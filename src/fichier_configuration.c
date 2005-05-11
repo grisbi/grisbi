@@ -69,9 +69,9 @@ gint compression_backup;
 PangoFontDescription *pango_desc_fonte_liste;
 
 /*START_EXTERN*/
-extern gint decalage_echeance;
 extern GtkWidget *formulaire;
 extern gint max;
+extern gint nb_days_before_scheduled;
 extern gchar *nom_fichier_comptes;
 extern gint taille_largeur_colonnes[TRANSACTION_LIST_COL_NB];
 extern GtkWidget *window;
@@ -247,7 +247,7 @@ void charge_configuration ( void )
 	    node_echeances = node -> children;
 	    while (node_echeances) {
 		if ( !strcmp ( node_echeances -> name, "Delai_rappel_echeances" ) ) {
-		    decalage_echeance = my_atoi(xmlNodeGetContent ( node_echeances));
+		    nb_days_before_scheduled = my_atoi(xmlNodeGetContent ( node_echeances));
 		}
 		node_echeances = node_echeances->next;
 	    }
@@ -495,7 +495,7 @@ void charge_configuration_ancien ( void )
          &compression_backup  );
     sscanf ( temp,
          "Delai_rappel_echeances=%d",
-         &decalage_echeance );
+         &nb_days_before_scheduled );
     sscanf ( temp,
          "Affichage_formulaire=%d",
          &etat.formulaire_toujours_affiche );
@@ -593,7 +593,7 @@ void raz_configuration ( void )
     buffer_dernier_fichier = g_strdup ( "" );
     etat.sauvegarde_auto = 0;    /* on ne sauvegarde pas automatiquement */
     etat.entree = 1;    /* la touche entree provoque l'enregistrement de l'opération */
-    decalage_echeance = 3;     /* nb de jours avant l'échéance pour prévenir */
+    nb_days_before_scheduled = 3;     /* nb de jours avant l'échéance pour prévenir */
     etat.formulaire_toujours_affiche = 0;       /* le formulaire ne s'affiche que lors de l'edition d'1 opé */
     etat.formulaire_echeancier_toujours_affiche = 0;       /* le formulaire ne s'affiche que lors de l'edition d'1 opé */
     etat.affichage_exercice_automatique = 1;        /* l'exercice est choisi en fonction de la date */
@@ -768,7 +768,7 @@ void sauve_configuration(void)
     /* sauvegarde de l'onglet échéances */
     node = xmlNewChild ( doc->children,NULL, "Echeances",NULL );
     xmlNewChild ( node,NULL, "Delai_rappel_echeances",
-          itoa(decalage_echeance));
+          itoa(nb_days_before_scheduled));
 
     /* sauvegarde de l'onglet affichage */
     node = xmlNewChild ( doc->children,NULL, "Affichage",NULL );

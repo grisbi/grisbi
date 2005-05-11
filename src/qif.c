@@ -1073,7 +1073,7 @@ choix_liste_fichier:
 	else
 	{
 	    GSList *pointeur_tmp;
-	    struct structure_operation *operation;
+	    gpointer operation;
 	    gint no_compte;
 
 	    no_compte = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( liste_tmp -> data ),
@@ -1239,7 +1239,7 @@ choix_liste_fichier:
 
 			    while ( liste_ventil )
 			    {
-				struct structure_operation *ope_test;
+				gpointer ope_test;
 
 				ope_test = liste_ventil -> data;
 

@@ -297,7 +297,7 @@ gint recherche_sous_imputation_par_no ( struct struct_sous_imputation *sous_impu
 /* appelée par un slist_find_custom					      */
 /* recherche une opé par son numéro d'opé dans la liste des opérations	      */
 /******************************************************************************/
-gint recherche_operation_par_no ( struct structure_operation *operation,
+gint recherche_operation_par_no ( gpointer operation,
 				  gint *no_ope )
 {
     return ( ! ( gsb_transaction_data_get_transaction_number (operation) == GPOINTER_TO_INT ( no_ope ) ));
@@ -311,7 +311,7 @@ gint recherche_operation_par_no ( struct structure_operation *operation,
 /* appelée par un slist_find_custom					      */
 /* recherche une opé par son numéro de cheque dans la liste des opérations	      */
 /******************************************************************************/
-gint recherche_operation_par_cheque ( struct structure_operation *operation,
+gint recherche_operation_par_cheque ( gpointer operation,
 				      gint *no_chq )
 {
   if ( gsb_transaction_data_get_method_of_payment_content ( gsb_transaction_data_get_transaction_number (operation )))
@@ -325,7 +325,7 @@ gint recherche_operation_par_cheque ( struct structure_operation *operation,
 
 
 /* *******************************************************************************/
-gint recherche_operation_par_id ( struct structure_operation *operation,
+gint recherche_operation_par_id ( gpointer operation,
 				  gchar *id_recherchee )
 {
     gint transaction_number;

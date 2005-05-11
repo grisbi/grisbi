@@ -309,7 +309,7 @@ void calcule_total_montant_categ ( void )
 	liste_tmp = gsb_account_get_transactions_list (i);
 	while ( liste_tmp )
 	{
-	    struct structure_operation *operation;
+	    gpointer operation;
 
 	    operation = liste_tmp -> data;
 
@@ -348,7 +348,7 @@ void calcule_total_montant_categ ( void )
  *
  *
  */
-void remove_transaction_from_category ( struct structure_operation * transaction,
+void remove_transaction_from_category ( gpointer  transaction,
 					struct struct_categ * category,
 					struct struct_sous_categ * sub_category )
 {
@@ -383,7 +383,7 @@ void remove_transaction_from_category ( struct structure_operation * transaction
  *
  *
  */
-void add_transaction_to_category ( struct structure_operation * transaction,
+void add_transaction_to_category ( gpointer  transaction,
 				   struct struct_categ * category,
 				   struct struct_sous_categ * sub_category )
 {

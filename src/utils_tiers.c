@@ -185,7 +185,7 @@ void calcule_total_montant_payee ( void )
 	liste_tmp = gsb_account_get_transactions_list (i);
 	while ( liste_tmp )
 	{
-	    struct structure_operation *operation;
+	    gpointer operation;
 
 	    operation = liste_tmp -> data;
 
@@ -218,7 +218,7 @@ void calcule_total_montant_payee ( void )
  *
  *
  */
-void add_transaction_to_payee ( struct structure_operation * transaction,
+void add_transaction_to_payee ( gpointer  transaction,
 				struct struct_tiers * payee )
 {
     gdouble amount = 
@@ -242,7 +242,7 @@ void add_transaction_to_payee ( struct structure_operation * transaction,
  *
  *
  */
-void remove_transaction_from_payee ( struct structure_operation * transaction,
+void remove_transaction_from_payee ( gpointer  transaction,
 				     struct struct_tiers * payee )
 {
     gdouble amount = 

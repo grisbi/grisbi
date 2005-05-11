@@ -80,7 +80,7 @@ static void creation_compte_importe ( struct struct_compte_importation *compte_i
 static void cree_liens_virements_ope_import ( void );
 static void cree_ligne_recapitulatif ( struct struct_compte_importation *compte,
 				gint position );
-static struct structure_operation *enregistre_ope_importee ( struct struct_ope_importation *operation_import,
+static gpointer enregistre_ope_importee ( struct struct_ope_importation *operation_import,
 						      gint no_compte );
 static gboolean fichier_choisi_importation ( GtkWidget *fenetre );
 static gboolean filetype_changed ( GtkOptionMenu * option_menu, gpointer user_data );
@@ -1134,7 +1134,7 @@ void cree_liens_virements_ope_import ( void )
 
 	while ( liste_tmp )
 	{
-	    struct structure_operation *operation;
+	    gpointer operation;
 
 	    operation = liste_tmp -> data;
 
@@ -1194,7 +1194,7 @@ void cree_liens_virements_ope_import ( void )
 
 		    while ( pointeur_tmp )
 		    {
-			struct structure_operation *operation_2;
+			gpointer operation_2;
 
 			operation_2 = pointeur_tmp -> data;
 
@@ -1263,7 +1263,7 @@ void creation_compte_importe ( struct struct_compte_importation *compte_import )
     /* crée un nouveau compte contenant les données de la structure importée */
     /* ajoute ce compte aux anciens et crée la liste des opérations */
 
-    struct structure_operation *operation;
+    gpointer operation;
     gint derniere_operation;
     GSList *liste_tmp;
     gint no_compte;
@@ -1373,9 +1373,9 @@ void creation_compte_importe ( struct struct_compte_importation *compte_import )
 	gint transaction_number;
 
 	operation_import = liste_tmp -> data;
-
+/* xxx */
 	operation = calloc ( 1,
-			     sizeof ( struct structure_operation ));
+			     sizeof ( gpointer ));
 
 	/* récupération du no de l'opé */
 
@@ -1679,7 +1679,7 @@ void ajout_opes_importees ( struct struct_compte_importation *compte_import )
 
     while ( liste_tmp )
     {
-	struct structure_operation *operation;
+	gpointer operation;
 
 	operation = liste_tmp -> data;
 
@@ -1754,7 +1754,7 @@ void ajout_opes_importees ( struct struct_compte_importation *compte_import )
 
 		while ( liste_ope )
 		{
-		    struct structure_operation *operation;
+		    gpointer operation;
 
 		    operation = liste_ope -> data;
 
@@ -1897,7 +1897,7 @@ void confirmation_enregistrement_ope_import ( struct struct_compte_importation *
 	     &&
 	     !ope_import -> ope_de_ventilation )
 	{
-	    struct structure_operation *operation;
+	    gpointer operation;
 	    gchar *tiers;
 
 	    operation = ope_import -> ope_correspondante;
@@ -2027,15 +2027,15 @@ void confirmation_enregistrement_ope_import ( struct struct_compte_importation *
 
 
 /* *******************************************************************************/
-struct structure_operation *enregistre_ope_importee ( struct struct_ope_importation *operation_import,
+gpointer enregistre_ope_importee ( struct struct_ope_importation *operation_import,
 						      gint no_compte )
 {
-    struct structure_operation *operation;
+    gpointer operation;
     gchar **tab_str;
     gint transaction_number;
-
+/* xxx */
     operation = calloc ( 1,
-			 sizeof ( struct structure_operation ));
+			 sizeof ( gpointer ));
 
     /* récupération du no de l'opé */
 
@@ -2318,7 +2318,7 @@ void pointe_opes_importees ( struct struct_compte_importation *compte_import )
 	GSList *liste_ope;
 	GSList *ope_trouvees;
 	struct struct_ope_importation *ope_import;
-	struct structure_operation *operation;
+	gpointer operation;
 	gint i;
 	struct struct_ope_importation *autre_ope_import;
 
@@ -2331,7 +2331,7 @@ void pointe_opes_importees ( struct struct_compte_importation *compte_import )
 
 	if ( ope_import -> id_operation )
 	{
-	    struct structure_operation *ope;
+	    gpointer ope;
 
 	    ope = operation_par_id ( ope_import -> id_operation,
 				     no_compte );
@@ -2442,7 +2442,7 @@ void pointe_opes_importees ( struct struct_compte_importation *compte_import )
 
 			while ( liste_ope )
 			{
-			    struct structure_operation *ope_fille;
+			    gpointer ope_fille;
 
 			    ope_fille = liste_ope -> data;
 
@@ -2538,7 +2538,7 @@ void pointe_opes_importees ( struct struct_compte_importation *compte_import )
 
 				while ( liste_ope )
 				{
-				    struct structure_operation *ope_fille;
+				    gpointer ope_fille;
 
 				    ope_fille = liste_ope -> data;
 
@@ -2745,7 +2745,7 @@ gboolean click_dialog_ope_orphelines ( GtkWidget *dialog,
 		    /* à ce niveau, l'opé a été cochée donc on l'enregistre en la marquant T	 */
 
 		    struct struct_ope_importation *ope_import;
-		    struct structure_operation *operation;
+		    gpointer operation;
 
 		    ope_import = liste_tmp -> data;
 

@@ -57,14 +57,7 @@ extern GSList *liste_struct_echeances;
 /*****************************************************************************/
 GtkWidget *creation_partie_gauche_echeancier ( void )
 {
-    GtkWidget *vbox;
-    GtkWidget *separation;
-    GtkWidget *hbox;
-    GtkWidget *label;
     time_t temps;
-    GtkWidget *menu;
-    GtkWidget *bouton;
-    GtkWidget *item;
 
     /* crÃ©ation du calendrier */
 

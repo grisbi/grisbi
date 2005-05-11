@@ -790,7 +790,7 @@ gboolean annuler_equilibrage ( void )
  * \param transaction
  * \return FALSE
  * */
-gboolean gsb_reconcile_mark_transaction ( struct structure_operation *transaction )
+gboolean gsb_reconcile_mark_transaction ( gpointer transaction )
 {
     gdouble montant;
     GtkTreeIter *iter;
@@ -856,7 +856,7 @@ gboolean gsb_reconcile_mark_transaction ( struct structure_operation *transactio
 
 	while ( liste_tmp )
 	{
-	    struct structure_operation *ope_fille;
+	    gpointer ope_fille;
 
 	    ope_fille = liste_tmp -> data;
 
@@ -1011,7 +1011,7 @@ gboolean fin_equilibrage ( GtkWidget *bouton_ok,
 
     while ( pointeur_liste_ope )
     {
-	struct structure_operation *operation;
+	gpointer operation;
 
 	operation = pointeur_liste_ope -> data;
 
