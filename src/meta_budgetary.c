@@ -90,6 +90,7 @@ extern gint no_devise_totaux_ib;
 static MetatreeInterface _budgetary_interface = {
     2,
     budgetary_line_tree_currency,
+    N_("Budgetary line"),
     N_("No budgetary line"),
     N_("No sub-budgetary line"),
     budgetary_line_get_without_div_pointer,

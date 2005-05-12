@@ -136,12 +136,13 @@ GtkWidget *creation_onglet_accueil ( void )
     if ( titre_fichier )
     {
 	GtkWidget * hbox, * eb;
-	GdkColor gray = { 0, 54016, 54016, 54016 };
+	GtkStyle * style;
 
 	hbox = gtk_hbox_new ( FALSE, 0 );
 
 	eb = gtk_event_box_new ();
-	gtk_widget_modify_bg ( eb, 0, &gray );
+	style = gtk_widget_get_style ( eb );
+	gtk_widget_modify_bg ( eb, 0, &(style -> bg[GTK_STATE_ACTIVE]) );
 
 	label_titre_fichier = gtk_label_new ( titre_fichier );
 	gtk_label_set_markup ( GTK_LABEL ( label_titre_fichier ), 

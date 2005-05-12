@@ -5,7 +5,7 @@
 /*                                  barre_outis.c                             */
 /*                                                                            */
 /*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org)	      */
-/*			     2004 Benjamin Drieu (bdrieu@april.org)	      */
+/*			2004-2005 Benjamin Drieu (bdrieu@april.org)	      */
 /*			1995-1997 Peter Mattis, Spencer Kimball and	      */
 /*			          Jsh MacDonald				      */
 /* 			http://www.grisbi.org				      */
@@ -42,6 +42,7 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
+gboolean popup_transaction_view_mode_menu ( GtkWidget * button );
 /*END_STATIC*/
 
 
@@ -83,43 +84,41 @@ extern GtkWidget *tree_view_liste_echeances;
 /*******************************************************************************************/
 GtkWidget *creation_barre_outils ( void )
 {
-    GtkWidget *hbox, *handlebox, *hbox2, *menu, *menu_item;
-
-    hbox = gtk_hbox_new ( FALSE, 5 );
+    GtkWidget *handlebox, *hbox, *menu;
 
     if ( !tooltips_general_grisbi )
 	tooltips_general_grisbi = gtk_tooltips_new ();
 
     /* HandleBox */
     handlebox = gtk_handle_box_new ();
-    gtk_box_pack_start ( GTK_BOX ( hbox ), handlebox, FALSE, FALSE, 0 );
-    /* Hbox2 */
-    hbox2 = gtk_hbox_new ( FALSE, 0 );
-    gtk_container_add ( GTK_CONTAINER(handlebox), hbox2 );
+
+    /* Hbox */
+    hbox = gtk_hbox_new ( FALSE, 0 );
+    gtk_container_add ( GTK_CONTAINER(handlebox), hbox );
 
     /* Add various icons */
-    gtk_box_pack_start ( GTK_BOX ( hbox2 ),
+    gtk_box_pack_start ( GTK_BOX ( hbox ),
 			 new_button_with_label_and_image ( etat.display_toolbar,
 							   _("Transaction"),
 							   "new-transaction.png",
 							   G_CALLBACK ( new_transaction ),
 							   GINT_TO_POINTER(-1) ),
 			 FALSE, FALSE, 0 );
-    gtk_box_pack_start ( GTK_BOX ( hbox2 ), 
+    gtk_box_pack_start ( GTK_BOX ( hbox ), 
 			 new_stock_button_with_label ( etat.display_toolbar,
 						       GTK_STOCK_DELETE, 
 						       _("Delete"),
 						       G_CALLBACK ( remove_transaction ),
 						       NULL ), 
 			 FALSE, FALSE, 0 );
-    gtk_box_pack_start ( GTK_BOX ( hbox2 ), 
+    gtk_box_pack_start ( GTK_BOX ( hbox ), 
 			 new_stock_button_with_label ( etat.display_toolbar,
 						       GTK_STOCK_PROPERTIES, 
 						       _("Edit"),
 						       G_CALLBACK ( gsb_transactions_list_edit_current_transaction ),
 						       NULL ), 
 			 FALSE, FALSE, 0 );
-    gtk_box_pack_start ( GTK_BOX ( hbox2 ),
+    gtk_box_pack_start ( GTK_BOX ( hbox ),
 			 new_button_with_label_and_image ( etat.display_toolbar,
 							   _("Reconcile"),
 							   "reconciliation.png",
@@ -127,9 +126,27 @@ GtkWidget *creation_barre_outils ( void )
 							   GINT_TO_POINTER(-1) ),
 			 FALSE, FALSE, 0 );
 
-    gtk_box_pack_start ( GTK_BOX ( hbox2 ), gtk_vseparator_new(), FALSE, FALSE, 0 );
+    menu = new_stock_button_with_label_menu ( etat.display_toolbar,
+						GTK_STOCK_SELECT_COLOR, _("View"),
+						G_CALLBACK(popup_transaction_view_mode_menu),
+						NULL );
+    gtk_box_pack_start ( GTK_BOX(hbox), menu, FALSE, FALSE, 0 );
 
-    /* Display mode menu */
+    gtk_widget_show_all ( handlebox );
+
+    return ( handlebox );
+}
+
+
+
+/**
+ *
+ *
+ */
+gboolean popup_transaction_view_mode_menu ( GtkWidget * button )
+{
+    GtkWidget *menu, *menu_item;
+
     menu = gtk_menu_new ();
 
     menu_item = gtk_menu_item_new_with_label ( _("Simple view") );
@@ -152,15 +169,16 @@ GtkWidget *creation_barre_outils ( void )
     g_signal_connect_swapped ( G_OBJECT(menu_item), "activate", 
 			       G_CALLBACK (change_aspect_liste), GINT_TO_POINTER (4) );
 
-    display_lines_option_menu = gtk_option_menu_new ();
-    gtk_option_menu_set_menu ( GTK_OPTION_MENU ( display_lines_option_menu ), menu );
-    gtk_box_pack_end ( GTK_BOX(hbox), display_lines_option_menu, FALSE, FALSE, 6 );
+    gtk_option_menu_set_history ( GTK_OPTION_MENU(menu), 
+				  gsb_account_get_nb_rows ( gsb_account_get_current_account () ) );
 
-    gtk_widget_show_all ( hbox );
+    gtk_widget_show_all ( menu );
+    gtk_menu_popup ( GTK_MENU(menu), NULL, button, set_popup_position, button, 1, 
+		     gtk_get_current_event_time());
 
-    return ( hbox );
+    return FALSE;
 }
-/*******************************************************************************************/
+
 
 
 
@@ -305,74 +323,19 @@ gboolean change_aspect_liste ( gint demande )
 
     return ( TRUE );
 }
-/* ***************************************************************************************************** */
-
 
 
 
 /**
- * Create the toolbar that contains all elements needed to manipulate
- * the scheduler.
  *
- * \return A newly created hbox.
+ *
+ *
  */
-GtkWidget *creation_barre_outils_echeancier ( void )
+gboolean popup_scheduled_view_mode_menu ( GtkWidget * button )
 {
-    GtkWidget *bouton, *hbox, *hbox2, *handlebox, *menu, *item;
+    GtkWidget *menu, *item;
 
-    /* Main hbox */
-    hbox2 = gtk_hbox_new ( FALSE, 6 );
-
-    /* HandleBox + inner hbox */
-    handlebox = gtk_handle_box_new ();
-    gtk_box_pack_start ( GTK_BOX ( hbox2 ), handlebox, FALSE, FALSE, 0 );
-    hbox = gtk_hbox_new ( FALSE, 0 );
-    gtk_container_add ( GTK_CONTAINER(handlebox), hbox );
-
-    /* Common actions */
-    gtk_box_pack_start ( GTK_BOX ( hbox ),
-			 new_button_with_label_and_image ( etat.display_toolbar,
-							   _("Category"),
-							   "new-transaction.png",
-							   G_CALLBACK ( new_scheduled_transaction ),
-							   GINT_TO_POINTER(-1) ),
-			 FALSE, FALSE, 0 );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), 
-			 new_stock_button_with_label ( etat.display_toolbar,
-						       GTK_STOCK_PROPERTIES, 
-						       _("Edit"),
-						       G_CALLBACK ( edition_echeance ),
-						       NULL ), 
-			 FALSE, FALSE, 0 );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), 
-			 new_stock_button_with_label ( etat.display_toolbar,
-						       GTK_STOCK_DELETE, 
-						       _("Delete"),
-						       G_CALLBACK ( supprime_echeance ),
-						       NULL ), 
-			 FALSE, FALSE, 0 );
-
-    /* Display/hide comments */
-    scheduler_display_hide_comments = new_button_with_label_and_image ( etat.display_toolbar,
-									_("Display comments"),
-									"comments.png",
-									G_CALLBACK ( affiche_cache_commentaire_echeancier ),
-									0 );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), scheduler_display_hide_comments, 
-			 FALSE, FALSE, 0 );
-
-    /* Execute transaction */
-    gtk_box_pack_start ( GTK_BOX ( hbox ), 
-			 new_stock_button_with_label ( etat.display_toolbar,
-						       GTK_STOCK_EXECUTE, 
-						       _("Execute transaction"),
-						       G_CALLBACK ( click_sur_saisir_echeance ),
-						       NULL ), 
-			 FALSE, FALSE, 0 );
-
-    /* Create the menu */
-    bouton = gtk_option_menu_new ();
-    menu = gtk_menu_new();
+    menu = gtk_menu_new ();
 
     /* Populate menu. */
     item = gtk_menu_item_new_with_label ( _("Month view") );
@@ -405,14 +368,83 @@ GtkWidget *creation_barre_outils_echeancier ( void )
 				GINT_TO_POINTER (4) );
     gtk_menu_append ( GTK_MENU ( menu ), item );
 
-    gtk_option_menu_set_menu ( GTK_OPTION_MENU ( bouton ), menu );
-    gtk_option_menu_set_history ( GTK_OPTION_MENU ( bouton ), affichage_echeances );
+    gtk_widget_show_all ( menu );
 
-    gtk_box_pack_end ( GTK_BOX ( hbox2 ), bouton, FALSE, FALSE, 0 );
+    
 
-    gtk_widget_show_all ( hbox2 );
+    gtk_menu_popup ( GTK_MENU(menu), NULL, button, set_popup_position, button, 1, 
+		     gtk_get_current_event_time());
 
-    return ( hbox2 );
+    return FALSE;
+}
+
+
+
+/**
+ * Create the toolbar that contains all elements needed to manipulate
+ * the scheduler.
+ *
+ * \return A newly created hbox.
+ */
+GtkWidget *creation_barre_outils_echeancier ( void )
+{
+    GtkWidget *bouton, *hbox, *handlebox;
+
+    /* HandleBox + inner hbox */
+    handlebox = gtk_handle_box_new ();
+    hbox = gtk_hbox_new ( FALSE, 0 );
+    gtk_container_add ( GTK_CONTAINER(handlebox), hbox );
+
+    /* Common actions */
+    gtk_box_pack_start ( GTK_BOX ( hbox ),
+			 new_button_with_label_and_image ( etat.display_toolbar,
+							   _("Scheduled transaction"),
+							   "new-scheduled.png",
+							   G_CALLBACK ( new_scheduled_transaction ),
+							   GINT_TO_POINTER(-1) ),
+			 FALSE, FALSE, 0 );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), 
+			 new_stock_button_with_label ( etat.display_toolbar,
+						       GTK_STOCK_DELETE, 
+						       _("Delete"),
+						       G_CALLBACK ( supprime_echeance ),
+						       NULL ), 
+			 FALSE, FALSE, 0 );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), 
+			 new_stock_button_with_label ( etat.display_toolbar,
+						       GTK_STOCK_PROPERTIES, 
+						       _("Edit"),
+						       G_CALLBACK ( edition_echeance ),
+						       NULL ), 
+			 FALSE, FALSE, 0 );
+
+    /* Display/hide comments */
+    scheduler_display_hide_comments = new_button_with_label_and_image ( etat.display_toolbar,
+									_("Comments"),
+									"comments.png",
+									G_CALLBACK ( affiche_cache_commentaire_echeancier ),
+									0 );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), scheduler_display_hide_comments, 
+			 FALSE, FALSE, 0 );
+
+    /* Execute transaction */
+    gtk_box_pack_start ( GTK_BOX ( hbox ), 
+			 new_stock_button_with_label ( etat.display_toolbar,
+						       GTK_STOCK_EXECUTE, 
+						       _("Execute"),
+						       G_CALLBACK ( click_sur_saisir_echeance ),
+						       NULL ), 
+			 FALSE, FALSE, 0 );
+
+    bouton = new_stock_button_with_label_menu ( etat.display_toolbar,
+						GTK_STOCK_SELECT_COLOR, _("View"),
+						G_CALLBACK(popup_scheduled_view_mode_menu),
+						NULL );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), bouton, FALSE, FALSE, 0 );
+
+    gtk_widget_show_all ( handlebox );
+
+    return ( handlebox );
 }
 /*******************************************************************************************/
 

@@ -46,32 +46,19 @@ extern GtkWidget *frame_formulaire_echeancier;
 /*****************************************************************************************************/
 GtkWidget *creation_onglet_echeancier ( void )
 {
-    GtkWidget *frame;
     GtkWidget *vbox;
 
     /* création de la partie droite : les listes échéances/ventil
      * en haut, formulaires en bas */
 
-    vbox = gtk_vbox_new ( FALSE, 10 );
+    vbox = gtk_vbox_new ( FALSE, 6 );
     gtk_widget_show ( vbox );
 
     /*  Création de la liste des opérations */
-
-    frame = gtk_frame_new ( NULL );
-    gtk_box_pack_start ( GTK_BOX ( vbox ),
-			 frame, 
-			 TRUE,
-			 TRUE,
-			 0 );
-    gtk_frame_set_shadow_type ( GTK_FRAME ( frame ),
-				GTK_SHADOW_IN );
-    gtk_widget_show (frame);
-
     notebook_liste_ventil_echeances = gtk_notebook_new ();
-    gtk_notebook_set_show_tabs ( GTK_NOTEBOOK( notebook_liste_ventil_echeances ),
-				 FALSE );
-    gtk_container_add ( GTK_CONTAINER ( frame ),
-			notebook_liste_ventil_echeances );
+    gtk_notebook_set_show_border ( GTK_NOTEBOOK( notebook_liste_ventil_echeances ), FALSE );
+    gtk_notebook_set_show_tabs ( GTK_NOTEBOOK( notebook_liste_ventil_echeances ), FALSE );
+    gtk_box_pack_start ( GTK_BOX(vbox), notebook_liste_ventil_echeances, TRUE, TRUE, 0 );
     gtk_widget_show ( notebook_liste_ventil_echeances );
 
     /*  Création de la fenêtre de la liste des échéances */
@@ -86,22 +73,20 @@ GtkWidget *creation_onglet_echeancier ( void )
 
 
     /* création des formulaires */
-
-    frame_formulaire_echeancier = gtk_frame_new ( NULL );
-    gtk_frame_set_shadow_type ( GTK_FRAME ( frame_formulaire_echeancier ),
-				GTK_SHADOW_IN );
-    gtk_box_pack_start ( GTK_BOX ( vbox ),
-			 frame_formulaire_echeancier,
-			 FALSE,
-			 FALSE,
-			 0 );
+    frame_formulaire_echeancier = gtk_expander_new_with_mnemonic ( g_strconcat ( 
+							 "<b>",
+							 _("Scheduled transaction _form"),
+							 "</b>", NULL ) );
+    gtk_expander_set_expanded ( GTK_EXPANDER ( frame_formulaire_echeancier ), 
+				etat.formulaire_toujours_affiche );
+    gtk_expander_set_use_markup ( GTK_EXPANDER ( frame_formulaire_echeancier ), TRUE );
+    gtk_box_pack_start ( GTK_BOX ( vbox ), frame_formulaire_echeancier, FALSE, FALSE, 0 );
 
     /* création du notebook du formulaire ( contient le formulaire et le
        formulaire simplifié pour la ventilation ) */
-
     notebook_formulaire_echeances = gtk_notebook_new ();
-    gtk_notebook_set_show_tabs ( GTK_NOTEBOOK( notebook_formulaire_echeances ),
-				 FALSE );
+    gtk_notebook_set_show_border ( GTK_NOTEBOOK( notebook_formulaire_echeances ), FALSE );
+    gtk_notebook_set_show_tabs ( GTK_NOTEBOOK( notebook_formulaire_echeances ), FALSE );
     gtk_container_add ( GTK_CONTAINER ( frame_formulaire_echeancier ),
 			notebook_formulaire_echeances );
     gtk_widget_show ( notebook_formulaire_echeances );

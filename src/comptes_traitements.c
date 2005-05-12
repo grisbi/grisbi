@@ -49,6 +49,7 @@
 #include "structures.h"
 #include "operations_formulaire.h"
 #include "echeancier_formulaire.h"
+#include "fenetre_principale.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -76,6 +77,7 @@ extern GtkWidget *notebook_listes_operations;
 extern GtkStyle *style_entree_formulaire[2];
 extern GtkWidget *tree_view;
 extern GtkWidget *widget_formulaire_echeancier[SCHEDULER_FORM_TOTAL_WIDGET];
+extern GtkWidget *account_page;
 /*END_EXTERN*/
 
 
@@ -90,23 +92,20 @@ gboolean new_account ( void )
     kind_account type_de_compte;
     gint no_compte;
 
-    /*     if no accounts, it's a new file */
-
+    /*     if no accounts, it's a new file */ 
     if ( !gsb_account_get_accounts_amount () )
     {
 	new_file ();
 	return FALSE;
     }
 
-    /*     ask for the kind_account */
-
+    /*     ask for the kind_account */ 
     type_de_compte = demande_type_nouveau_compte ();
 
     if ( type_de_compte == -1 )
 	return FALSE;
 
-    /*     create the new account */
-
+    /*     create the new account */ 
     no_compte = gsb_account_new ( type_de_compte );
 
     if ( no_compte == -1 )
@@ -115,47 +114,41 @@ gboolean new_account ( void )
 	return FALSE;
     }
 
-    /* update the combofix for categ */
-
+    /* update the combofix for categ */ 
     mise_a_jour_combofix_categ();
 
-    /* update options menus of accounts */
-
+    /* update options menus of accounts */ 
     update_options_menus_comptes ();
 
-    /* update the main page */
-
+    /* update the main page */ 
     mise_a_jour_liste_comptes_accueil = 1;
 
     remplissage_liste_comptes_etats ();
     selectionne_liste_comptes_etat_courant ();
 
-    gtk_widget_set_sensitive ( bouton_supprimer_compte,
-			       TRUE );
+    gtk_widget_set_sensitive ( bouton_supprimer_compte, TRUE );
 
-    /* update the accounts lists */
-
-    gsb_account_list_gui_create_list ();
-
+    /* update the accounts lists */ 
+    gsb_account_list_gui_create_list (); 
     compte_courant_onglet = no_compte;
 
-   /* go to accounts property */
-
+    /* Go to accounts properties */
     gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ),
-			    3 );
+			    GSB_ACCOUNT_PAGE );
+    gtk_notebook_set_page ( GTK_NOTEBOOK ( account_page ), 1 );
+    remplissage_details_compte ();
 
-    /*     on crï¿œ le tree_view du compte */
+    /* Add an entry in navigation pane. */
+    gsb_gui_navigation_add_account ( no_compte );
 
+    /* Create account transaction list (in fact, a treeview). */
     creation_colonnes_tree_view_par_compte (no_compte);
 
     gtk_box_pack_start ( GTK_BOX ( notebook_listes_operations ),
 			 creation_tree_view_operations_par_compte (no_compte),
-			 TRUE,
-			 TRUE,
-			 0 );
+			 TRUE, TRUE, 0 );
 
-    /*     on remplit le compte par idle */
-
+    /*     on remplit le compte par idle */ 
     demarrage_idle ();
 
     modification_fichier ( TRUE );
@@ -295,6 +288,9 @@ gboolean delete_account ( void )
 
     remplissage_liste_comptes_etats ();
     selectionne_liste_comptes_etat_courant ();
+
+    /* Update navigation pane. */
+    gsb_gui_navigation_remove_account ( deleted_account );
 
     modification_fichier( TRUE ); 
     return FALSE;

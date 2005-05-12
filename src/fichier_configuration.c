@@ -75,6 +75,7 @@ extern gint nb_days_before_scheduled;
 extern gchar *nom_fichier_comptes;
 extern gint taille_largeur_colonnes[TRANSACTION_LIST_COL_NB];
 extern GtkWidget *window;
+extern GtkWidget *main_hpaned;
 /*END_EXTERN*/
 
 
@@ -192,7 +193,9 @@ void charge_configuration ( void )
 		if ( !strcmp ( node_general -> name, "Largeur_colonne_etats" ) ) {
 		    etat.largeur_colonne_etat = my_atoi(xmlNodeGetContent ( node_general));
 		}
-
+		if ( !strcmp ( node_general -> name, "Largeur_colonne_comptes_operation" ) ) {
+		    etat.largeur_colonne_comptes_operation = my_atoi( xmlNodeGetContent ( node_general ) );
+		}
 
 		node_general = node_general->next;
 	    }
@@ -737,10 +740,13 @@ void sauve_configuration(void)
     xmlNewChild ( node,NULL, "Animation_attente",etat.fichier_animation_attente);
 
 /*     on modifie la chaine si Ã§a contient &, il semblerait que la libxml n'apprécie pas... */
-    
     xmlNewChild ( node,NULL, "Navigateur_web",my_strdelimit ( etat.browser_command,
                                   "&",
                                   "\\e" ));
+
+    /* Remember size of main pane. */
+    xmlNewChild ( node,NULL, "Largeur_colonne_comptes_operation",
+		  itoa ( gtk_paned_get_position ( GTK_PANED ( main_hpaned ) ) ) );
 
     /* sauvegarde de l'onglet I/O */
     node = xmlNewChild ( doc->children,NULL, "IO",NULL );

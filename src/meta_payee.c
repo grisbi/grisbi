@@ -91,6 +91,7 @@ extern gint no_devise_totaux_tiers;
 static MetatreeInterface _payee_interface = {
     1,
     payee_tree_currency,
+    N_("Payee"),
     N_("No payee"),
     N_("No sub-payee"),
     payee_get_without_div_pointer,

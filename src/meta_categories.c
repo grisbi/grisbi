@@ -89,6 +89,7 @@ extern struct struct_categ * without_category;
 static MetatreeInterface _category_interface = {
     2,
     category_tree_currency,
+    N_("Category"),
     N_("No category"),
     N_("No sub-category"),
     category_get_without_div_pointer,

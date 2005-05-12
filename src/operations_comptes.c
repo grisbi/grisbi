@@ -200,7 +200,8 @@ gboolean gsb_account_list_gui_change_current_account ( gint *no_account )
 
     /*     on affiche le tree_view */
 
-    gtk_widget_show ( gsb_account_get_scrolled_window (new_account) );
+    if ( gsb_account_get_scrolled_window (new_account) )
+	gtk_widget_show ( gsb_account_get_scrolled_window (new_account) );
 
     gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
 							   menu_name(_("Edit"),

@@ -135,70 +135,39 @@ extern GtkWidget *window;
 /*****************************************************************************/
 GtkWidget *creation_liste_echeances ( void )
 {
-    GtkWidget *vbox;
-    GtkWidget *scrolled_window;
-    gint i;
-
-    gchar *titres_echeance[] = {
-	_("Date"),
-	_("Account"),
-	_("Third party"),
-	_("Frequency"),
-	_("Mode"),
-	_("Notes"),
-	_("Amount"),
-	_("Balance")
-    };
-
-    gfloat col_justs[] = {
-	COLUMN_CENTER,
-	COLUMN_LEFT,
-	COLUMN_LEFT,
-	COLUMN_CENTER,
-	COLUMN_CENTER,
-	COLUMN_LEFT,
-	COLUMN_RIGHT,
-	COLUMN_RIGHT
-    };
+    GtkWidget *vbox, *scrolled_window;
     GtkListStore *store;
-
+    gint i;
+    gchar *titres_echeance[] = {
+	_("Date"), _("Account"), _("Third party"), _("Frequency"), 
+	_("Mode"), _("Notes"), _("Amount"), _("Balance")
+    };
+    gfloat col_justs[] = {
+	COLUMN_CENTER, COLUMN_LEFT, COLUMN_LEFT, COLUMN_CENTER, 
+	COLUMN_CENTER, COLUMN_LEFT, COLUMN_RIGHT, COLUMN_RIGHT
+    };
 
     /*   à la base, on a une vbox */
-
-    vbox = gtk_vbox_new ( FALSE,
-			  5 );
-    gtk_container_set_border_width ( GTK_CONTAINER ( vbox ),
-				     5 );
+    vbox = gtk_vbox_new ( FALSE, 5 );
+    gtk_container_set_border_width ( GTK_CONTAINER ( vbox ), 0 );
     gtk_widget_show ( vbox );
 
+    /* création de la barre d'outils */ 
+    gtk_box_pack_start ( GTK_BOX ( vbox ), creation_barre_outils_echeancier(),
+			 FALSE, FALSE, 0 );
 
-    /* création de la barre d'outils */
-
-    gtk_box_pack_start ( GTK_BOX ( vbox ),
-			 creation_barre_outils_echeancier(),
-			 FALSE,
-			 FALSE,
-			 0 );
-
-    /* création de la scrolled window */
-
-    scrolled_window = gtk_scrolled_window_new ( NULL,
-						NULL);
+    /* création de la scrolled window */ 
+    scrolled_window = gtk_scrolled_window_new ( NULL, NULL);
     gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window ),
-				     GTK_POLICY_AUTOMATIC,
-				     GTK_POLICY_AUTOMATIC );
-    gtk_box_pack_start ( GTK_BOX ( vbox ),
-			 scrolled_window,
-			 TRUE,
-			 TRUE,
-			 5 );
+				     GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC );
+    gtk_scrolled_window_set_shadow_type ( GTK_SCROLLED_WINDOW ( scrolled_window ),
+					  GTK_SHADOW_IN );
+    gtk_box_pack_start ( GTK_BOX ( vbox ), scrolled_window, TRUE, TRUE, 0 );
     gtk_widget_show ( scrolled_window );
 
-    /*     création du tree view */
-
+    /*     création du tree view */ 
     tree_view_liste_echeances = gtk_tree_view_new ();
-    gtk_container_add ( GTK_CONTAINER ( scrolled_window ),
-			tree_view_liste_echeances );
+    gtk_container_add ( GTK_CONTAINER ( scrolled_window ), tree_view_liste_echeances );
     gtk_widget_show ( tree_view_liste_echeances );
 
     /*     on ne peut sélectionner qu'une ligne */
@@ -209,45 +178,34 @@ GtkWidget *creation_liste_echeances ( void )
     /* 	met en place la grille */
 
     if ( etat.affichage_grille )
-	g_signal_connect_after ( G_OBJECT ( tree_view_liste_echeances ),
-				 "expose-event",
+	g_signal_connect_after ( G_OBJECT ( tree_view_liste_echeances ), "expose-event",
 				 G_CALLBACK ( affichage_traits_liste_echeances ),
 				 NULL );
 
-    /* vérifie le simple ou double click */
-
-    g_signal_connect ( G_OBJECT ( tree_view_liste_echeances ),
-		       "button_press_event",
+    /* vérifie le simple ou double click */ 
+    g_signal_connect ( G_OBJECT ( tree_view_liste_echeances ), "button_press_event",
 		       G_CALLBACK ( click_ligne_echeance ),
 		       NULL );
 
-    /* vérifie la touche entrée, haut et bas */
-
-    g_signal_connect ( G_OBJECT ( tree_view_liste_echeances ),
-		       "key_press_event",
+    /* vérifie la touche entrée, haut et bas */ 
+    g_signal_connect ( G_OBJECT ( tree_view_liste_echeances ), "key_press_event",
 		       G_CALLBACK ( traitement_clavier_liste_echeances ),
 		       NULL );
-
-    /*     ajuste les colonnes si modification de la taille */
-
-    g_signal_connect ( G_OBJECT ( tree_view_liste_echeances ),
-		       "size-allocate",
+    
+/*     ajuste les colonnes si modification de la taille */ 
+    g_signal_connect ( G_OBJECT ( tree_view_liste_echeances ), "size-allocate",
 		       G_CALLBACK ( changement_taille_liste_echeances ),
 		       NULL );
-
-
+    
     /*     création des colonnes */
-
     for ( i = 0 ; i < NB_COLS_SCHEDULER ; i++ )
     {
 	GtkCellRenderer *cell_renderer;
 
 	cell_renderer = gtk_cell_renderer_text_new ();
 
-	g_object_set ( G_OBJECT (GTK_CELL_RENDERER ( cell_renderer )),
-		       "xalign",
-		       col_justs[i],
-		       NULL );
+	g_object_set ( G_OBJECT (GTK_CELL_RENDERER ( cell_renderer )), "xalign",
+		       col_justs[i], NULL );
 
 	colonnes_liste_echeancier[i] = gtk_tree_view_column_new_with_attributes ( titres_echeance[i],
 										  cell_renderer,
@@ -298,7 +256,6 @@ GtkWidget *creation_liste_echeances ( void )
 
     gtk_tree_view_set_model ( GTK_TREE_VIEW (tree_view_liste_echeances),
 			      GTK_TREE_MODEL ( store ));
-
 
     remplissage_liste_echeance();
     update_couleurs_background_echeancier ();
@@ -1006,8 +963,8 @@ gboolean click_ligne_echeance ( GtkWidget *tree_view,
  */
 void new_scheduled_transaction ( void )
 {
-    selectionne_echeance ( GINT_TO_POINTER (-1));
-    echeance_selectionnnee = GINT_TO_POINTER (-1);
+    selectionne_echeance ( GINT_TO_POINTER ( -1 ) );
+    echeance_selectionnnee = GINT_TO_POINTER ( -1 );
     edition_echeance ();
 }
 

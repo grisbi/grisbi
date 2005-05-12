@@ -43,7 +43,7 @@
 
 /*START_STATIC*/
 static GtkWidget *creation_barre_outils_tiers ( void );
-static gboolean edit_payee ( GtkWidget * button, GtkTreeView * view );
+static gboolean edit_payee ( GtkTreeView * view );
 static gboolean payee_drag_data_get ( GtkTreeDragSource * drag_source, GtkTreePath * path,
 			       GtkSelectionData * selection_data );
 static gboolean popup_payee_view_mode_menu ( GtkWidget * button );
@@ -239,6 +239,10 @@ GtkWidget *onglet_tiers ( void )
 	src_iface -> drag_data_get = &payee_drag_data_get;
     }
 
+    g_signal_connect ( gtk_tree_view_get_selection ( GTK_TREE_VIEW(payee_tree)),
+		       "changed", G_CALLBACK(metatree_selection_changed),
+		       payee_tree_model );
+
     /* la 1ère fois qu'on affichera les tiers, il faudra remplir la liste */
     modif_tiers = 1;
 
@@ -249,39 +253,37 @@ GtkWidget *onglet_tiers ( void )
 
 GtkWidget *creation_barre_outils_tiers ( void )
 {
-    GtkWidget *hbox, *separateur, *handlebox, *hbox2;
-
-    hbox = gtk_hbox_new ( FALSE, 5 );
+    GtkWidget *hbox, *separateur, *handlebox;
 
     /* HandleBox */
     handlebox = gtk_handle_box_new ();
-    gtk_box_pack_start ( GTK_BOX ( hbox ), handlebox, FALSE, FALSE, 0 );
-    /* Hbox2 */
-    hbox2 = gtk_hbox_new ( FALSE, 0 );
-    gtk_container_add ( GTK_CONTAINER(handlebox), hbox2 );
+
+    /* Hbox */
+    hbox = gtk_hbox_new ( FALSE, 0 );
+    gtk_container_add ( GTK_CONTAINER(handlebox), hbox );
 
     /* Add various icons */
-    gtk_box_pack_start ( GTK_BOX ( hbox2 ), 
+    gtk_box_pack_start ( GTK_BOX ( hbox ), 
 			 new_button_with_label_and_image ( etat.display_toolbar,
 							   _("New payee"), "new-payee.png",
 							   G_CALLBACK(appui_sur_ajout_division),
 							   payee_tree_model ), 
 			 FALSE, TRUE, 0 );
-    gtk_box_pack_start ( GTK_BOX ( hbox2 ), 
+    gtk_box_pack_start ( GTK_BOX ( hbox ), 
 			 new_stock_button_with_label ( etat.display_toolbar,
 						       GTK_STOCK_DELETE, 
 						       _("Delete"),
 						       G_CALLBACK(supprimer_division),
 						       payee_tree ), 
 			 FALSE, TRUE, 0 );
-    gtk_box_pack_start ( GTK_BOX ( hbox2 ), /* FIXME: write the property dialog */
+    gtk_box_pack_start ( GTK_BOX ( hbox ), /* FIXME: write the property dialog */
 			 new_stock_button_with_label ( etat.display_toolbar,
 						       GTK_STOCK_PROPERTIES, 
 						       _("Properties"),
 						       G_CALLBACK(edit_payee), 
 						       payee_tree ), 
 			 FALSE, TRUE, 0 );
-    gtk_box_pack_start ( GTK_BOX ( hbox2 ), 
+    gtk_box_pack_start ( GTK_BOX ( hbox ), 
 			 new_stock_button_with_label_menu ( etat.display_toolbar,
 							    GTK_STOCK_SELECT_COLOR, 
 							    _("View"),
@@ -289,12 +291,9 @@ GtkWidget *creation_barre_outils_tiers ( void )
 							    NULL ),
 			 FALSE, TRUE, 0 );
 
-    /* Vertical separator */
-    separateur = gtk_vseparator_new ();
-    gtk_box_pack_start ( GTK_BOX ( hbox ), separateur, FALSE, FALSE, 0 );
-    gtk_widget_show_all ( hbox );
+    gtk_widget_show_all ( handlebox );
 
-    return ( hbox );
+    return ( handlebox );
 }
 
 
@@ -472,7 +471,7 @@ void creation_liste_tiers_combofix ( void )
  *
  *
  */
-gboolean edit_payee ( GtkWidget * button, GtkTreeView * view )
+gboolean edit_payee ( GtkTreeView * view )
 {
     GtkWidget * dialog, *paddingbox, *table, *label, *entry, *hbox, *scrolled_window;
     GtkTreeSelection * selection;

@@ -240,10 +240,7 @@ GtkWidget *creation_formulaire_ventilation_echeances ( void )
 
     /* création du formulaire_echeancier */
 
-    onglet = gtk_vbox_new ( FALSE,
-			    5 );
-    gtk_container_set_border_width ( GTK_CONTAINER ( onglet ),
-				     10);
+    onglet = gtk_vbox_new ( FALSE, 0 );
     gtk_widget_show ( onglet );
 
     /* mise en place de la table */

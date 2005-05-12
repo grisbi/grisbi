@@ -133,6 +133,12 @@ gboolean new_file ( void )
     init_variables_new_file ();
     init_gui_new_file ();
 
+    /* on se met sur l'onglet de propriétés du compte */
+    gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ), GSB_ACCOUNT_PAGE );
+
+    /* Update headings. */
+    gsb_gui_headings_update ( g_strconcat ( "Grisbi : " , titre_fichier, NULL ), "" );
+
     modification_fichier ( TRUE );
     return FALSE;
 }
@@ -154,8 +160,9 @@ void init_variables_new_file ( void )
     rapport_largeur_colonnes[5] = 11;
     rapport_largeur_colonnes[6] = 11;
 
-    /* création des listes d'origine */
+    titre_fichier = _("My accounts");
 
+    /* création des listes d'origine */
     creation_liste_categories ();
 }
 /* ************************************************************************************************************ */
@@ -509,6 +516,9 @@ void ouverture_confirmee ( void )
     /*     on ajoute la fentre principale à la window */
     gtk_box_pack_start ( GTK_BOX ( window_vbox_principale), main_vbox, TRUE, TRUE, 0 );
     gtk_widget_show ( main_vbox );
+
+    /* Update headings. */
+    gsb_gui_headings_update ( g_strconcat ( "Grisbi : " , titre_fichier, NULL ), "" );
 
     mise_a_jour_accueil ();
     annulation_attente ();

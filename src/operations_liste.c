@@ -306,10 +306,8 @@ GtkWidget *creation_tree_view_operations_par_compte ( gint no_account )
     GtkWidget *tree_view;
     GtkWidget *scrolled_window;
 
-    scrolled_window = gtk_scrolled_window_new ( NULL,
-						NULL );
-    gsb_account_set_scrolled_window ( no_account,
-				      scrolled_window );
+    scrolled_window = gtk_scrolled_window_new ( NULL, NULL );
+    gsb_account_set_scrolled_window ( no_account, scrolled_window );
     gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window ),
 				     GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC );
     gtk_scrolled_window_set_shadow_type ( GTK_SCROLLED_WINDOW ( scrolled_window ),
@@ -1034,6 +1032,8 @@ gchar *recherche_contenu_cellule ( gpointer *transaction,
 {
     gchar *temp;
     gdouble montant;
+
+    return "XXX";
 
     /* if it's a breakdown and we want to see the party,
      * we show the category */

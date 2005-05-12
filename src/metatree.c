@@ -36,6 +36,7 @@
 #include "utils_str.h"
 #include "traitement_variables.h"
 #include "utils_tiers.h"
+#include "fenetre_principale.h"
 #include "structures.h"
 /*END_INCLUDE*/
 
@@ -348,27 +349,35 @@ void fill_transaction_row ( GtkTreeModel * model, GtkTreeIter * iter,
 
 
 /**
- * FIXME: shouldn't this be partly done via metatree?  (at least the
- * tree stuff).
+ *
+ *
+ *
  */
 void appui_sur_ajout_division ( GtkTreeModel * model )
 {
     MetatreeInterface * iface;
+    GtkTreeView * tree_view;
     GtkTreeIter iter, sub_iter;
     gint div_id;
 
     iface = g_object_get_data ( G_OBJECT(model), "metatree-interface" );   
-    if ( ! iface )
+    tree_view = g_object_get_data ( G_OBJECT(model), "tree-view" );
+    if ( !iface || !tree_view )
 	return;
 
     div_id = iface -> add_div ();
 
     gtk_tree_store_append ( GTK_TREE_STORE(model), &iter, NULL );
     fill_division_row ( model, iface, &iter, iface -> get_div_pointer ( div_id ) );
-    
-    gtk_tree_store_append (GTK_TREE_STORE (model), &sub_iter, &iter);
-    fill_sub_division_row ( GTK_TREE_MODEL(model), iface, &sub_iter, 
-			    iface -> get_div_pointer ( div_id ), NULL );
+
+    if ( iface -> depth > 1 )
+    {
+	gtk_tree_store_append (GTK_TREE_STORE (model), &sub_iter, &iter);
+	fill_sub_division_row ( GTK_TREE_MODEL(model), iface, &sub_iter, 
+				iface -> get_div_pointer ( div_id ), NULL );
+    }
+
+    gtk_tree_selection_select_iter ( gtk_tree_view_get_selection ( tree_view ), &iter );
 
     modification_fichier ( TRUE );
 }
@@ -410,6 +419,9 @@ void appui_sur_ajout_sub_division ( GtkTreeModel * model )
 	fill_sub_division_row ( model, iface, &iter, 
 				iface -> get_div_pointer ( div_id ),
 				iface -> get_sub_div_pointer ( div_id, sub_div_id ) );
+
+	gtk_tree_view_expand_row ( tree_view, path, FALSE );
+	gtk_tree_selection_select_iter ( gtk_tree_view_get_selection ( tree_view ), &iter );
 			     
 	modification_fichier ( TRUE );
 
@@ -1532,6 +1544,64 @@ void update_transaction_in_tree ( MetatreeInterface * iface, GtkTreeModel * mode
     }
 }
 
+
+
+/**
+ * Update the headings bar accordingly when selection changed.
+ *
+ * \return TRUE
+ */
+gboolean metatree_selection_changed ( GtkTreeSelection * selection, GtkTreeModel * model )
+{
+    MetatreeInterface * iface;
+    GtkTreeView * tree_view;
+    GtkTreeIter iter;
+
+    iface = g_object_get_data ( G_OBJECT(model), "metatree-interface" );   
+    tree_view = g_object_get_data ( G_OBJECT(model), "tree-view" );
+    if ( !iface || !tree_view )
+	return FALSE;
+
+    if ( selection && gtk_tree_selection_get_selected ( selection, &model, &iter ) )
+    {
+	gpointer div, sub_div = NULL;
+	gint div_id, sub_div_id;
+	gchar * text, * balance = "";
+	gpointer pointer;
+
+	gtk_tree_model_get ( GTK_TREE_MODEL(model), &iter,
+			 META_TREE_NO_DIV_COLUMN, &div_id,
+			 META_TREE_NO_SUB_DIV_COLUMN, &sub_div_id,
+			 META_TREE_POINTER_COLUMN, &pointer,
+			 -1);
+
+	div = iface -> get_div_pointer ( div_id );
+	text = g_strconcat ( _(iface -> meta_name),  " : ", 
+			     (div ? iface -> div_name ( div ) : _(iface->no_div_label) ),
+			     NULL );
+	if ( div ) 
+	{
+	    balance = g_strdup_printf ( "%4.2f %s", 
+					iface -> div_balance ( div ),
+					devise_code ( iface -> tree_currency () ) );
+	}
+
+	if ( sub_div_id >= 0 )
+	{
+	    sub_div = iface -> get_sub_div_pointer ( div_id, sub_div_id );
+	    text = g_strconcat ( text, " : ", 
+				 ( sub_div ? iface -> sub_div_name ( sub_div ) :
+				   _(iface->no_sub_div_label) ), NULL );
+	    balance = g_strdup_printf ( "%4.2f %s", 
+					iface -> sub_div_balance ( div, sub_div ),
+					devise_code ( iface -> tree_currency () ) );
+	}
+
+	gsb_gui_headings_update ( text, balance );
+    }
+
+    return TRUE;
+}
 
 
 /* Local Variables: */

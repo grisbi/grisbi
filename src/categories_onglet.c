@@ -48,7 +48,7 @@
 static gboolean categ_drag_data_get ( GtkTreeDragSource * drag_source, GtkTreePath * path,
 			       GtkSelectionData * selection_data );
 static GtkWidget *creation_barre_outils_categ ( void );
-static gboolean edit_category ( GtkWidget * button, GtkTreeView * view );
+static gboolean edit_category ( GtkTreeView * view );
 static gboolean exporter_categ ( GtkButton * widget, gpointer data );
 static void importer_categ ( void );
 static void merge_liste_categories ( void );
@@ -285,7 +285,7 @@ GtkWidget *onglet_categories ( void )
 
     /* Make category column */
     cell = gtk_cell_renderer_text_new ();
-    column = gtk_tree_view_column_new_with_attributes ("Category", cell, 
+    column = gtk_tree_view_column_new_with_attributes (_("Category"), cell, 
 						       "text", META_TREE_TEXT_COLUMN, 
 						       "weight", META_TREE_FONT_COLUMN,
 						       NULL);
@@ -297,7 +297,7 @@ GtkWidget *onglet_categories ( void )
 
     /* Make account column */
     cell = gtk_cell_renderer_text_new ();
-    column = gtk_tree_view_column_new_with_attributes ("Account", cell, 
+    column = gtk_tree_view_column_new_with_attributes (_("Account"), cell, 
 						       "text", META_TREE_ACCOUNT_COLUMN, 
 						       "weight", META_TREE_FONT_COLUMN,
 						       NULL);
@@ -306,7 +306,7 @@ GtkWidget *onglet_categories ( void )
 
     /* Make balance column */
     cell = gtk_cell_renderer_text_new ();
-    column = gtk_tree_view_column_new_with_attributes ("Balance", cell, 
+    column = gtk_tree_view_column_new_with_attributes (_("Balance"), cell, 
 						       "text", META_TREE_BALANCE_COLUMN,
 						       "weight", META_TREE_FONT_COLUMN,
 						       "xalign", META_TREE_XALIGN_COLUMN,
@@ -339,6 +339,10 @@ GtkWidget *onglet_categories ( void )
 				  1);
 	src_iface -> drag_data_get = &categ_drag_data_get;
     }
+
+    g_signal_connect ( gtk_tree_view_get_selection ( GTK_TREE_VIEW(arbre_categ)),
+		       "changed", G_CALLBACK(metatree_selection_changed),
+		       categ_tree_model );
 
     /* la 1ère fois qu'on affichera les catég, il faudra remplir la liste */
     modif_categ = 1;
@@ -762,13 +766,11 @@ void importer_categ ( void )
  */
 GtkWidget *creation_barre_outils_categ ( void )
 {
-    GtkWidget *hbox, *separateur, *handlebox, *hbox2;
-
-    hbox = gtk_hbox_new ( FALSE, 5 );
+    GtkWidget *handlebox, *hbox2;
 
     /* HandleBox */
     handlebox = gtk_handle_box_new ();
-    gtk_box_pack_start ( GTK_BOX ( hbox ), handlebox, FALSE, FALSE, 0 );
+
     /* Hbox2 */
     hbox2 = gtk_hbox_new ( FALSE, 0 );
     gtk_container_add ( GTK_CONTAINER(handlebox), hbox2 );
@@ -822,13 +824,9 @@ GtkWidget *creation_barre_outils_categ ( void )
 							    NULL ),
 			 FALSE, TRUE, 0 );
 
-    /* Vertical separator */
-    separateur = gtk_vseparator_new ();
-    gtk_box_pack_start ( GTK_BOX ( hbox ), separateur, FALSE, FALSE, 0 );
-    gtk_widget_show_all ( hbox );
+    gtk_widget_show_all ( handlebox );
 
-
-    return ( hbox );
+    return ( handlebox );
 }
 
 
@@ -875,7 +873,7 @@ gboolean popup_category_view_mode_menu ( GtkWidget * button )
  *
  *
  */
-gboolean edit_category ( GtkWidget * button, GtkTreeView * view )
+gboolean edit_category ( GtkTreeView * view )
 {
     GtkWidget * dialog, *paddingbox, *table, *label, *entry, *hbox, *radiogroup;
     GtkTreeSelection * selection;

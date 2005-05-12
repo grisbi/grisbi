@@ -12,6 +12,7 @@ typedef struct metatree_interface {
     gint depth;
     struct struct_devise * (* tree_currency) ();
     /* Read operations */
+    gchar * meta_name;
     gchar * no_div_label;
     gchar * no_sub_div_label;
     gpointer (* get_without_div_pointer) ();
@@ -94,7 +95,8 @@ GtkTreeIter * get_iter_from_div ( GtkTreeModel * model, int div, int sub_div );
 GtkTreeIter * get_iter_from_pointer ( GtkTreeModel * model, gpointer pointer );
 gboolean supprimer_division ( GtkTreeView * tree_view );
 void update_transaction_in_tree ( MetatreeInterface * iface, GtkTreeModel * model, 
-				  gpointer  transaction );
+				  struct structure_operation * transaction );
+gboolean metatree_selection_changed ( GtkTreeSelection * selection, GtkTreeModel * model );
 /*END_DECLARATION*/
 
 #endif

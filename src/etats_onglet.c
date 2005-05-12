@@ -134,19 +134,19 @@ GtkWidget *gsb_gui_create_report_toolbar ( void )
 							NULL );
     gtk_box_pack_start ( GTK_BOX ( hbox2 ), bouton_effacer_etat, FALSE, FALSE, 0 );
 
-    bouton_dupliquer_etat = new_stock_button_with_label ( etat.display_toolbar,
-							  GTK_STOCK_COPY, 
-							  _("Cloner"),
-							  G_CALLBACK (dupliquer_etat),
-							  NULL ), 
-    gtk_box_pack_start ( GTK_BOX ( hbox2 ), bouton_dupliquer_etat, FALSE, FALSE, 0 );
-
     bouton_personnaliser_etat = new_stock_button_with_label ( etat.display_toolbar,
 							      GTK_STOCK_PROPERTIES, 
 							      _("Properties"),
 							      G_CALLBACK (personnalisation_etat),
 							      NULL ), 
     gtk_box_pack_start ( GTK_BOX ( hbox2 ), bouton_personnaliser_etat, FALSE, FALSE, 0 );
+
+    bouton_dupliquer_etat = new_stock_button_with_label ( etat.display_toolbar,
+							  GTK_STOCK_COPY, 
+							  _("Clone"),
+							  G_CALLBACK (dupliquer_etat),
+							  NULL ), 
+    gtk_box_pack_start ( GTK_BOX ( hbox2 ), bouton_dupliquer_etat, FALSE, FALSE, 0 );
 
     gtk_widget_show_all ( hbox );
 

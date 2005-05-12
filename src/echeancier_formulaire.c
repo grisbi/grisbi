@@ -121,44 +121,22 @@ extern GtkWidget *tree_view_liste_echeances;
 /******************************************************************************/
 GtkWidget *creation_formulaire_echeancier ( void )
 {
-    GtkWidget *menu;
-    GtkWidget *item;
+    GtkWidget *menu, *item, *bouton, *table;
     GtkTooltips *tips;
-    GtkWidget *bouton;
-    GtkWidget *table;
     gint no_compte;
 
-
     /* on crée le tooltips */
-
     tips = gtk_tooltips_new ();
 
-
-    formulaire_echeancier = gtk_vbox_new ( FALSE,
-					   5 );
+    formulaire_echeancier = gtk_vbox_new ( FALSE, 0 );
     gtk_widget_show ( formulaire_echeancier );
 
-
     /*   création de la table */
-
-    table = gtk_table_new ( 6,
-			    4,
-			    FALSE );
-    gtk_container_set_border_width ( GTK_CONTAINER ( table ),
-				     10 );
-    gtk_table_set_col_spacings ( GTK_TABLE ( table ),
-				 5 );
-    gtk_widget_set_usize ( table,
-			   1,
-			   FALSE );
-    gtk_box_pack_start ( GTK_BOX ( formulaire_echeancier ),
-			 table,
-			 TRUE,
-			 TRUE,
-			 0 );
+    table = gtk_table_new ( 6, 4, FALSE );
+    gtk_table_set_col_spacings ( GTK_TABLE ( table ), 6 );
+    gtk_widget_set_usize ( table, 1, FALSE );
+    gtk_box_pack_start ( GTK_BOX ( formulaire_echeancier ), table, TRUE, TRUE, 0 );
     gtk_widget_show ( table );
-
-
 
     /* création du label saisie / modif */
 
@@ -173,7 +151,6 @@ GtkWidget *creation_formulaire_echeancier ( void )
 
 
     /* création de l'entrée de la date */
-
     widget_formulaire_echeancier[SCHEDULER_FORM_DATE] = gtk_entry_new_with_max_length ( 10 );
     gtk_table_attach ( GTK_TABLE ( table ),
 		       widget_formulaire_echeancier[SCHEDULER_FORM_DATE],
@@ -201,7 +178,6 @@ GtkWidget *creation_formulaire_echeancier ( void )
     gtk_widget_show ( widget_formulaire_echeancier[SCHEDULER_FORM_DATE] );
 
     /* création du combofix des tiers */
-
     widget_formulaire_echeancier[SCHEDULER_FORM_PARTY] = gtk_combofix_new (  liste_tiers_combofix_echeancier,
 									     FALSE,
 									     TRUE,
@@ -237,7 +213,6 @@ GtkWidget *creation_formulaire_echeancier ( void )
     gtk_widget_show ( widget_formulaire_echeancier[SCHEDULER_FORM_PARTY] );
 
     /* création de l'entrée des débits */
-
     widget_formulaire_echeancier[SCHEDULER_FORM_DEBIT] = gtk_entry_new ();
     gtk_signal_connect ( GTK_OBJECT ( widget_formulaire_echeancier[SCHEDULER_FORM_DEBIT] ),
 			 "key-press-event",
@@ -266,7 +241,6 @@ GtkWidget *creation_formulaire_echeancier ( void )
 
 
     /* création de l'entrée des crédits */
-
     widget_formulaire_echeancier[SCHEDULER_FORM_CREDIT] = gtk_entry_new ();
     gtk_signal_connect ( GTK_OBJECT ( widget_formulaire_echeancier[SCHEDULER_FORM_CREDIT] ),
 			 "key-press-event",
@@ -295,7 +269,6 @@ GtkWidget *creation_formulaire_echeancier ( void )
 
 
     /* met l'option menu des devises */
-
     widget_formulaire_echeancier[SCHEDULER_FORM_DEVISE] = gtk_option_menu_new ();
     gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tips ),
 			   widget_formulaire_echeancier[SCHEDULER_FORM_DEVISE],
@@ -319,7 +292,6 @@ GtkWidget *creation_formulaire_echeancier ( void )
     gtk_widget_show ( widget_formulaire_echeancier[SCHEDULER_FORM_DEVISE] );
 
     /* Mise en place du menu des comptes */
-
     widget_formulaire_echeancier[SCHEDULER_FORM_ACCOUNT] = gtk_option_menu_new ();
     gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tips ),
 			   widget_formulaire_echeancier[SCHEDULER_FORM_ACCOUNT],
@@ -346,7 +318,6 @@ GtkWidget *creation_formulaire_echeancier ( void )
     gtk_widget_show ( widget_formulaire_echeancier[SCHEDULER_FORM_ACCOUNT] );
 
     /* Affiche les catégories / sous-catégories */
-
     widget_formulaire_echeancier[SCHEDULER_FORM_CATEGORY] = gtk_combofix_new_complex ( liste_categories_combofix,
 										       FALSE,
 										       TRUE,
@@ -411,7 +382,6 @@ GtkWidget *creation_formulaire_echeancier ( void )
     gtk_widget_show ( widget_formulaire_echeancier[SCHEDULER_FORM_CHEQUE] );
 
     /*  Affiche l'option menu des types */
-
     widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] = gtk_option_menu_new ();
     gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tips ),
 			   widget_formulaire_echeancier[SCHEDULER_FORM_TYPE],
@@ -430,7 +400,6 @@ GtkWidget *creation_formulaire_echeancier ( void )
 		       0, 0);
 
     /* le menu par défaut est celui des débits */
-
     no_compte = recupere_no_compte ( widget_formulaire_echeancier[SCHEDULER_FORM_ACCOUNT] );
 
     if ( ( menu = creation_menu_types ( 1,

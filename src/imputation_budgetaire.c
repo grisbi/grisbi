@@ -168,7 +168,7 @@ GtkWidget *onglet_imputations ( void )
 
     /* Make category column */
     cell = gtk_cell_renderer_text_new ();
-    column = gtk_tree_view_column_new_with_attributes (_("Budgetary lines"), cell, 
+    column = gtk_tree_view_column_new_with_attributes (_("Budgetary line"), cell, 
 						       "text", META_TREE_TEXT_COLUMN, 
 						       "weight", META_TREE_FONT_COLUMN,
 						       NULL);
@@ -180,7 +180,7 @@ GtkWidget *onglet_imputations ( void )
 
     /* Make account column */
     cell = gtk_cell_renderer_text_new ();
-    column = gtk_tree_view_column_new_with_attributes ("Account", cell, 
+    column = gtk_tree_view_column_new_with_attributes (_("Account"), cell, 
 						       "text", META_TREE_ACCOUNT_COLUMN, 
 						       "weight", META_TREE_FONT_COLUMN,
 						       NULL);
@@ -189,7 +189,7 @@ GtkWidget *onglet_imputations ( void )
 
     /* Make balance column */
     cell = gtk_cell_renderer_text_new ();
-    column = gtk_tree_view_column_new_with_attributes ("Balance", cell, 
+    column = gtk_tree_view_column_new_with_attributes (_("Balance"), cell, 
 						       "text", META_TREE_BALANCE_COLUMN,
 						       "weight", META_TREE_FONT_COLUMN,
 						       "xalign", META_TREE_XALIGN_COLUMN,
@@ -222,6 +222,10 @@ GtkWidget *onglet_imputations ( void )
 				  1);
 	src_iface -> drag_data_get = &budgetary_line_drag_data_get;
     }
+
+    g_signal_connect ( gtk_tree_view_get_selection ( GTK_TREE_VIEW(budgetary_line_tree)),
+		       "changed", G_CALLBACK(metatree_selection_changed),
+		       budgetary_line_tree_model );
 
     /* la 1ère fois qu'on affichera les catég, il faudra remplir la liste */
 
@@ -629,13 +633,11 @@ void importer_ib ( void )
  */
 GtkWidget *creation_barre_outils_ib ( void )
 {
-    GtkWidget *hbox, *separateur, *handlebox, *hbox2;
-
-    hbox = gtk_hbox_new ( FALSE, 5 );
+    GtkWidget *handlebox, *hbox2;
 
     /* HandleBox */
     handlebox = gtk_handle_box_new ();
-    gtk_box_pack_start ( GTK_BOX ( hbox ), handlebox, FALSE, FALSE, 0 );
+
     /* Hbox2 */
     hbox2 = gtk_hbox_new ( FALSE, 0 );
     gtk_container_add ( GTK_CONTAINER(handlebox), hbox2 );
@@ -643,14 +645,14 @@ GtkWidget *creation_barre_outils_ib ( void )
     /* Add various icons */
     gtk_box_pack_start ( GTK_BOX ( hbox2 ), 
 			 new_button_with_label_and_image ( etat.display_toolbar,
-							   _("Budgetary line"), 
+							   _("_Budgetary line"), 
 							   "new-ib.png",
 							   G_CALLBACK(appui_sur_ajout_division),
 							   budgetary_line_tree_model ), 
 			 FALSE, TRUE, 0 );
     gtk_box_pack_start ( GTK_BOX ( hbox2 ), 
 			 new_button_with_label_and_image ( etat.display_toolbar,
-							   _("Sub-budgetary line"), 
+							   _("_Sub-budgetary line"), 
 							   "new-sub-ib.png",
 							   G_CALLBACK(appui_sur_ajout_sub_division),
 							   budgetary_line_tree_model ), 
@@ -691,13 +693,9 @@ GtkWidget *creation_barre_outils_ib ( void )
 							    NULL ),
 			 FALSE, TRUE, 0 );
 
-    /* Vertical separator */
-    separateur = gtk_vseparator_new ();
-    gtk_box_pack_start ( GTK_BOX ( hbox ), separateur, FALSE, FALSE, 0 );
-    gtk_widget_show_all ( hbox );
+    gtk_widget_show_all ( handlebox );
 
-
-    return ( hbox );
+    return ( handlebox );
 }
 
 

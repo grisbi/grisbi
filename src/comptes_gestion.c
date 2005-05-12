@@ -909,7 +909,10 @@ void modification_details_compte ( void )
 	i = gsb_account_get_no_account ( list_tmp -> data );
 
 	if ( i == compte_courant_onglet )
+	{
+	    list_tmp = list_tmp -> next;
 	    continue;
+	}
 
 	if ( !strcmp ( g_strstrip ( (gchar*) gtk_entry_get_text ( GTK_ENTRY ( detail_nom_compte ))), gsb_account_get_name (i) ))
 	{
@@ -943,6 +946,7 @@ void modification_details_compte ( void )
 								      "no_type_compte" )));
 	mise_a_jour_fin_comptes_passifs = 1;
 	mise_a_jour_soldes_minimaux = 1;
+	gsb_gui_navigation_update_account ( compte_courant_onglet );
 	formulaire_a_zero();
     }
 
@@ -1177,6 +1181,7 @@ void modification_details_compte ( void )
 	gsb_account_set_name ( compte_courant_onglet,
 			       g_strdup ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( detail_nom_compte )))) );
 
+	gsb_gui_navigation_update_account ( compte_courant_onglet );
 	gsb_account_list_gui_create_list ();
 	mise_a_jour_liste_comptes_accueil = 1;
 	remplissage_liste_echeance ();
