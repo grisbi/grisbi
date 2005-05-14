@@ -184,7 +184,7 @@ GtkWidget *creation_formulaire ( void )
 				"focus-in-event",
 				GTK_SIGNAL_FUNC ( entree_prend_focus ),
 				GTK_WIDGET ( widget_formulaire_operations[TRANSACTION_FORM_PARTY] ));
-    gtk_signal_connect ( GTK_OBJECT ( GTK_COMBOFIX ( widget_formulaire_operations[TRANSACTION_FORM_PARTY] ) -> entry ),
+    gtk_signal_connect_after ( GTK_OBJECT ( GTK_COMBOFIX ( widget_formulaire_operations[TRANSACTION_FORM_PARTY] ) -> entry ),
 			 "focus-out-event",
 			 GTK_SIGNAL_FUNC ( entree_perd_focus ),
 			 GINT_TO_POINTER ( TRANSACTION_FORM_PARTY ) );
