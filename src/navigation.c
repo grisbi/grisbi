@@ -22,35 +22,55 @@
 #include "include.h"
 
 /*START_INCLUDE*/
-#include "fenetre_principale.h"
-#include "fichier_configuration.h"
 #include "navigation.h"
-#include "structures.h"
+#include "etats_onglet.h"
+#include "echeancier_infos.h"
+#include "utils_devises.h"
 #include "gsb_account.h"
 #include "operations_comptes.h"
-#include "echeancier_infos.h"
-#include "etats_onglet.h"
-#include "utils_devises.h"
+#include "fenetre_principale.h"
 #include "comptes_gestion.h"
+#include "fichier_configuration.h"
+#include "structures.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
+static void create_account_list ( GtkTreeModel * model, GtkTreeIter * account_iter );
+static void create_report_list ( GtkTreeModel * model, GtkTreeIter * reports_iter );
+static void gsb_gui_navigation_add_report ( struct struct_etat * report );
+static  gboolean gsb_gui_navigation_remove_account_iterator ( GtkTreeModel * tree_model, 
+							     GtkTreePath *path, 
+							     GtkTreeIter *iter, 
+							     gpointer data );
+static void gsb_gui_navigation_remove_report ( gint report_nb );
+static  gboolean gsb_gui_navigation_remove_report_iterator ( GtkTreeModel * tree_model, 
+							     GtkTreePath *path, 
+							     GtkTreeIter *iter, 
+							     gpointer data );
+static gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
+					  GtkTreeModel *model );
 static  gboolean gsb_gui_navigation_select_link ( GtkTreeSelection * selection,
 						 GtkTreeModel * model );
 static void gsb_gui_navigation_update_account_iter ( GtkTreeModel * model, 
-						     GtkTreeIter * account_iter,
-						     gint account_nb );
-static gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
-						 GtkTreeModel *model );
-static void create_account_list ( GtkTreeModel * model, GtkTreeIter * account_iter );
-static void create_report_list ( GtkTreeModel * model, GtkTreeIter * reports_iter );
+					      GtkTreeIter * account_iter,
+					      gint account_nb );
+static  gboolean gsb_gui_navigation_update_account_iterator ( GtkTreeModel * tree_model, 
+							     GtkTreePath *path, 
+							     GtkTreeIter *iter, 
+							     gpointer data );
+static void gsb_gui_navigation_update_report ( gint report_nb );
+static void gsb_gui_navigation_update_report_iter ( GtkTreeModel * model, 
+					      GtkTreeIter * report_iter,
+					      struct struct_etat *report );
 /*END_STATIC*/
 
 
 /*START_EXTERN*/
-extern GSList *liste_struct_etats;
-extern GtkWidget * notebook_general;
 extern gint compte_courant_onglet;
+extern GSList *liste_struct_etats;
+extern GtkTreeStore *model;
+extern GtkWidget *notebook_general;
+extern GtkTreeSelection * selection;
 extern gchar *titre_fichier;
 /*END_EXTERN*/
 
@@ -359,9 +379,10 @@ static gboolean gsb_gui_navigation_update_account_iterator ( GtkTreeModel * tree
  */
 void gsb_gui_navigation_update_report ( gint report_nb )
 {
-    gtk_tree_model_foreach ( navigation_model, 
-			     (GtkTreeModelForeachFunc) gsb_gui_navigation_update_report_iterator, 
-			     GINT_TO_POINTER ( report_nb ) );
+/* FIXME : in comment because gsb_gui_navigation_update_report_iterator doesn't exist */
+/*     gtk_tree_model_foreach ( navigation_model,  */
+/* 			     (GtkTreeModelForeachFunc) gsb_gui_navigation_update_report_iterator,  */
+/* 			     GINT_TO_POINTER ( report_nb ) ); */
 }
 
 
@@ -375,7 +396,7 @@ void gsb_gui_navigation_update_report ( gint report_nb )
  */
 void gsb_gui_navigation_update_report_iter ( GtkTreeModel * model, 
 					      GtkTreeIter * report_iter,
-					      struct struct_etat report )
+					      struct struct_etat *report )
 {
     gtk_tree_store_set(GTK_TREE_STORE(model), report_iter, 
 		       NAVIGATION_TEXT, report -> nom_etat, 

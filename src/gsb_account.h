@@ -167,6 +167,8 @@ gpointer gsb_account_get_tree_view ( gint no_account );
 gboolean gsb_account_get_update_list ( gint no_account );
 gboolean gsb_account_init_variables ( void );
 gint gsb_account_new ( kind_account account_kind );
+gboolean gsb_account_remove_transaction ( gint no_account,
+					  gpointer transaction );
 gboolean gsb_account_reorder ( GSList *new_order );
 gboolean gsb_account_set_account_button ( gint no_account,
 					  gpointer account_button );
@@ -261,8 +263,6 @@ gboolean gsb_account_set_split_neutral_payment ( gint no_account,
 						 gint split_neutral_payment );
 gboolean gsb_account_set_store ( gint no_account,
 				 gpointer store );
-gboolean gsb_account_set_transactions_list ( gint no_account,
-					     GSList *list );
 gboolean gsb_account_set_tree_view ( gint no_account,
 				     gpointer tree );
 gboolean gsb_account_set_update_list ( gint no_account,

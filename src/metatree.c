@@ -31,12 +31,12 @@
 #include "gsb_account.h"
 #include "operations_comptes.h"
 #include "format.h"
+#include "fenetre_principale.h"
 #include "gsb_transaction_data.h"
 #include "gtk_combofix.h"
 #include "utils_str.h"
 #include "traitement_variables.h"
 #include "utils_tiers.h"
-#include "fenetre_principale.h"
 #include "structures.h"
 /*END_INCLUDE*/
 

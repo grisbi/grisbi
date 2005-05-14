@@ -1007,7 +1007,6 @@ void ajoute_new_file_liste_ouverture ( gchar *path_fichier )
 
     if ( nb_derniers_fichiers_ouverts < nb_max_derniers_fichiers_ouverts )
     {
-/* xxx */
 	tab_noms_derniers_fichiers_ouverts = realloc ( tab_noms_derniers_fichiers_ouverts,
 						       ( ++nb_derniers_fichiers_ouverts ) * sizeof ( gpointer ));
 	tab_noms_derniers_fichiers_ouverts[nb_derniers_fichiers_ouverts-1] = dernier;

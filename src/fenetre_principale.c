@@ -25,23 +25,17 @@
 
 /*START_INCLUDE*/
 #include "fenetre_principale.h"
-#include "etats_onglet.h"
+#include "navigation.h"
 #include "operations_onglet.h"
 #include "accueil.h"
 #include "comptes_onglet.h"
 #include "echeancier_onglet.h"
-#include "echeancier_infos.h"
-#include "gsb_account.h"
-#include "operations_comptes.h"
+#include "etats_onglet.h"
 #include "main.h"
-#include "navigation.h"
 #include "categories_onglet.h"
 #include "imputation_budgetaire.h"
 #include "tiers_onglet.h"
-#include "comptes_gestion.h"
-#include "utils_devises.h"
 #include "include.h"
-#include "fichier_configuration.h"
 #include "structures.h"
 /*END_INCLUDE*/
 
@@ -76,15 +70,10 @@ gint modif_imputation;
 /*START_EXTERN*/
 extern GtkTreeStore *budgetary_line_tree_model;
 extern GtkTreeStore * categ_tree_model;
-extern gint compte_courant_onglet;
 extern AB_BANKING *gbanking;
 extern GtkWidget * hpaned;
 extern gint id_temps;
-extern GSList *liste_struct_etats;
-extern GtkTreeStore *model;
 extern GtkTreeStore *payee_tree_model;
-extern GtkTreeSelection * selection;
-extern gchar *titre_fichier;
 extern GtkWidget * scheduler_calendar;
 /*END_EXTERN*/
 

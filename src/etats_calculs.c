@@ -52,7 +52,7 @@ static gint compare_montants_etat ( gdouble montant_ope,
 static void etape_finale_affichage_etat ( GSList *ope_selectionnees,
 				   struct struct_etat_affichage *affichage);
 static void impression_etat ( struct struct_etat *etat );
-static gchar recupere_texte_test_etat ( gpointer *operation,
+static gchar *recupere_texte_test_etat ( gpointer operation,
 				  gint champ );
 static gint verifie_chq_test_etat ( struct struct_comparaison_textes_etat *comp_textes,
 			     gchar *no_chq );
@@ -971,7 +971,7 @@ operation_refusee:
 /* récupère le texte pour faire le test sur les textes */
 /*****************************************************************************************************/
 
-gchar recupere_texte_test_etat ( gpointer *operation,
+gchar *recupere_texte_test_etat ( gpointer operation,
 				  gint champ )
 {
     gchar *texte;

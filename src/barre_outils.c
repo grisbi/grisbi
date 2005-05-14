@@ -42,7 +42,8 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-gboolean popup_transaction_view_mode_menu ( GtkWidget * button );
+static gboolean popup_scheduled_view_mode_menu ( GtkWidget * button );
+static gboolean popup_transaction_view_mode_menu ( GtkWidget * button );
 /*END_STATIC*/
 
 
@@ -71,7 +72,6 @@ GtkWidget *display_lines_option_menu;
 
 
 /*START_EXTERN*/
-extern gint affichage_echeances;
 extern gboolean block_menu_cb ;
 extern GtkWidget *formulaire;
 extern GtkItemFactory *item_factory_menu_general;

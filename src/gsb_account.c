@@ -44,6 +44,8 @@
 /*START_STATIC*/
 static struct_account *gsb_account_get_structure ( gint no );
 static gint gsb_account_max_number ( void );
+static gboolean gsb_account_set_transactions_list ( gint no_account,
+					     GSList *list );
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -2299,3 +2301,28 @@ gboolean gsb_account_append_transaction ( gint no_account,
 
     return TRUE;
 }
+
+/** remove a transaction from the list of transactions
+ * \param no_account
+ * \param transaction a pointer to the transaction
+ * \return TRUE if ok
+ * */
+gboolean gsb_account_remove_transaction ( gint no_account,
+					  gpointer transaction )
+{
+    struct_account *account;
+
+    if ( !transaction )
+	return FALSE;
+
+    account = gsb_account_get_structure ( no_account );
+
+    if (!account )
+	return FALSE;
+
+    account -> transactions_list = g_slist_remove ( account -> transactions_list,
+						    transaction );
+
+    return TRUE;
+}
+

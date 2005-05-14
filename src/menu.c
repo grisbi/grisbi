@@ -323,19 +323,22 @@ void lien_web ( GtkWidget *widget,
 void affiche_aide_locale ( gpointer null,
 			   gint origine )
 {
+    gchar *lang = _("_C");
+
+    /* we use lang to translate it, else C will be translated as for checked transactions */
+
     switch ( origine )
     {
 	case 1:
-	    /* FIXME: C is translated to current locale ... perhaps there is simpler */
-	    lance_navigateur_web ( g_strconcat ( HELP_PATH, "/", _("C"), "/grisbi-manuel.html", NULL ));
+	    lance_navigateur_web ( g_strconcat ( HELP_PATH, "/", lang+1, "/grisbi-manuel.html", NULL ));
 	    break;	
 
 	case 2:
-	    lance_navigateur_web ( g_strconcat ( HELP_PATH, "/", _("C"), "/quickstart.html", NULL ));
+	    lance_navigateur_web ( g_strconcat ( HELP_PATH, "/", lang+1, "/quickstart.html", NULL ));
 	    break;
 
 	case 3:
-	    lance_navigateur_web ( g_strconcat ( HELP_PATH, "/", _("C"), "/translation.html", NULL ));
+	    lance_navigateur_web ( g_strconcat ( HELP_PATH, "/", lang+1, "/translation.html", NULL ));
 	    break;
     }
 }

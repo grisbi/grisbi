@@ -69,6 +69,7 @@ sources = \
 	meta_budgetary.c	\
 	meta_payee.c		\
 	metatree.c		\
+	navigation.c		\
 	ofx.c                   \
 	operations_comptes.c	\
 	operations_formulaire.c \
@@ -161,6 +162,7 @@ grisbi_INCLUDES =		\
 	include.h		\
 	main.h			\
 	menu.h			\
+	navigation.h		\
 	operations_comptes.h	\
 	operations_formulaire.h	\
 	operations_liste.h	\

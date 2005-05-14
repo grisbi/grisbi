@@ -36,14 +36,19 @@
 /*START_INCLUDE*/
 #include "gsb_transaction_data.h"
 #include "utils_devises.h"
+#include "dialog.h"
 #include "gsb_account.h"
 #include "structures.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
+static gint gsb_transaction_data_change_transaction_number ( gint no_transaction,
+						      gint new_no_transaction );
 static struct_transaction *gsb_transaction_data_get_transaction_by_no ( gint no_transaction,
 								 gint no_account );
 static gboolean gsb_transaction_data_save_transaction_pointer ( gpointer transaction );
+static gboolean gsb_transaction_data_set_account_number ( gint no_transaction,
+						   gint no_account );
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -73,7 +78,8 @@ gboolean gsb_transaction_data_init_variables ( void )
 
 
 /** transitionnal fonction, give back the pointer to the transaction,
- * normally deleted when the transfer from old transactions is finished */
+ * normally deleted when the transfer from old transactions is finished 
+ * xxx */
 gpointer gsb_transaction_data_get_pointer_to_transaction ( gint transaction_number )
 {
     struct_transaction *transaction;
@@ -140,29 +146,6 @@ gint gsb_transaction_data_get_transaction_number ( gpointer transaction_pointer 
     gsb_transaction_data_save_transaction_pointer ( transaction );
 
     return transaction -> transaction_number;
-}
-
-
-/** get the number of the transaction
- * \param transaction a pointer to a transaction
- * \param no_transaction the new no
- * \return TRUE if ok
- * */
-gboolean gsb_transaction_data_set_transaction_number ( gpointer transaction_pointer,
-						       gint no_transaction )
-{
-    struct_transaction *transaction;
-
-    transaction = transaction_pointer;
-
-    if ( !transaction
-	 ||
-	 !no_transaction )
-	return FALSE;
-    
-    transaction -> transaction_number = no_transaction;
-    
-    return TRUE;
 }
 
 
@@ -277,6 +260,34 @@ struct_transaction *gsb_transaction_data_get_transaction_by_no ( gint no_transac
     /* we didn't find any transaction with that number */
 
     return NULL;
+}
+
+
+/** change the number of the transaction
+ * normally called only while downloading a file, else all the transactions numbers are
+ * set automaticky
+ * there is no check, so carreful that there is not the same number everywhere else
+ * the last number is lost
+ * \param no_transaction_number the number of the transaction we want to modify
+ * \param new_no_transaction the new number
+ * \return the new number of transaction
+ * */
+gint gsb_transaction_data_change_transaction_number ( gint no_transaction,
+						      gint new_no_transaction )
+{
+    struct_transaction *transaction;
+
+    transaction = gsb_transaction_data_get_transaction_by_no ( no_transaction,
+							       -1 );
+
+    if ( !transaction
+	 ||
+	 !new_no_transaction )
+	return FALSE;
+    
+    transaction -> transaction_number = new_no_transaction;
+    
+    return new_no_transaction;
 }
 
 
@@ -959,7 +970,9 @@ gboolean gsb_transaction_data_set_notes ( gint no_transaction,
     if ( !transaction )
 	return FALSE;
 
-    if ( notes )
+    if ( notes
+	 &&
+	 strlen (notes))
 	transaction -> notes = g_strdup (notes);
     else
 	transaction -> notes = NULL;
@@ -1045,7 +1058,9 @@ gboolean gsb_transaction_data_set_method_of_payment_content ( gint no_transactio
     if ( !transaction )
 	return FALSE;
 
-    if ( method_of_payment_content )
+    if ( method_of_payment_content
+	 &&
+	 strlen (method_of_payment_content))
 	transaction -> method_of_payment_content = g_strup (method_of_payment_content);
     else
 	transaction -> method_of_payment_content = NULL;
@@ -1332,7 +1347,9 @@ gboolean gsb_transaction_data_set_voucher ( gint no_transaction,
     if ( !transaction )
 	return FALSE;
 
-    if ( voucher )
+    if ( voucher
+	 &&
+	 strlen (voucher))
 	transaction -> voucher = voucher;
     else
 	transaction -> voucher = NULL;
@@ -1377,7 +1394,9 @@ gboolean gsb_transaction_data_set_bank_references ( gint no_transaction,
     if ( !transaction )
 	return FALSE;
 
-    if ( bank_references )
+    if ( bank_references
+	 &&
+	 strlen (bank_references))
 	transaction -> bank_references = bank_references;
     else
 	transaction -> bank_references = NULL;
@@ -1508,19 +1527,35 @@ gboolean gsb_transaction_data_set_mother_transaction_number ( gint no_transactio
 
 
 
-/** create a new transaction, append it to the list in the right account
- * give a number and return the number
+/** create a new transaction and append it to the list in the right account
+ * set the transaction number given in param (if no number, give the last number + 1)
+ * set the number of the account, the number of the transaction and the currency number
+ * which is by default the currency of the account
  * \param no_account the number of the account where the transaction should be made
+ * \param transaction_number the number of the transaction
  * \return the number of the new transaction
  * */
-gint gsb_transaction_data_new_transaction ( gint no_account )
+gint gsb_transaction_data_new_transaction_with_number ( gint no_account,
+							gint transaction_number )
 {
     struct_transaction *transaction;
 
     transaction = calloc ( 1,
 			   sizeof ( struct_transaction ));
+
+    if ( !transaction )
+    {
+	dialogue_error ( _("Cannot allocate memory, bad things will happen soon") );
+	return FALSE;
+    }
+
+    if ( !transaction_number )
+	transaction_number = gsb_transaction_data_get_last_number () + 1;
+
+
     transaction -> account_number = no_account;
-    transaction -> transaction_number = gsb_transaction_data_get_last_number () + 1;
+    transaction -> transaction_number = transaction_number;
+    transaction -> account_number = gsb_account_get_currency (no_account);
 
     gsb_account_append_transaction ( no_account,
 				     transaction );
@@ -1529,6 +1564,49 @@ gint gsb_transaction_data_new_transaction ( gint no_account )
 
     return transaction -> transaction_number;
 }
+
+
+
+
+/** create a new transaction with gsb_transaction_data_new_transaction_with_number
+ * but set automatickly the last number
+ * \param no_account the number of the account where the transaction should be made
+ * \return the number of the new transaction
+ * */
+gint gsb_transaction_data_new_transaction ( gint no_account )
+{
+    return gsb_transaction_data_new_transaction_with_number ( no_account,
+							      gsb_transaction_data_get_last_number () + 1);
+}
+
+
+
+/** move a transaction to another account
+ * \param transaction_number the transaction we want to move
+ * \param no_account the number of the account where the transaction should go
+ * \return TRUE ok
+ * */
+gboolean gsb_transaction_data_move_transaction ( gint transaction_number,
+						 gint target_account )
+{
+    struct_transaction *transaction;
+
+    transaction = gsb_transaction_data_get_transaction_by_no ( transaction_number,
+							       -1 );
+
+    if ( !transaction )
+	return FALSE;
+
+    /* FIXME : check that the g_slist_remove doesn't free the transaction struct */
+
+    gsb_transaction_data_remove_transaction ( transaction_number );
+    transaction -> account_number = target_account;
+    gsb_account_append_transaction ( transaction -> account_number,
+				     transaction );
+    return TRUE;
+}
+
+
 
 /** copy the content of a transaction into the second one
  * the 2 transactions must exist before
@@ -1562,6 +1640,8 @@ gboolean gsb_transaction_data_copy_transaction ( gint source_transaction_number,
 	     sizeof ( struct_transaction ));
     target_transaction -> transaction_number = target_transaction_number;
     target_transaction -> account_number = target_transaction_account_number;
+    target_transaction -> reconcile_number = 0;
+    target_transaction -> marked_transaction = 0;
 
     if ( target_transaction -> notes)
 	target_transaction -> notes = g_strdup ( target_transaction -> notes );
@@ -1574,5 +1654,25 @@ gboolean gsb_transaction_data_copy_transaction ( gint source_transaction_number,
 
     target_transaction -> transaction_id = NULL;
 
+    return TRUE;
+}
+
+/** remove the transaction from the transaction's list
+ * don't free the transaction
+ * \param transaction_number
+ * \return TRUE if ok
+ * */
+gboolean gsb_transaction_data_remove_transaction ( gint transaction_number )
+{
+    struct_transaction *transaction;
+
+    transaction = gsb_transaction_data_get_transaction_by_no ( transaction_number,
+							       -1 );
+
+    if ( !transaction )
+	return FALSE;
+
+    gsb_account_remove_transaction ( transaction -> account_number,
+				     transaction );
     return TRUE;
 }

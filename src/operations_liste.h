@@ -63,7 +63,6 @@
 #define COLUMN_RIGHT 1.0
 
 /* START_INCLUDE_H */
-#include "structures.h"
 /* END_INCLUDE_H */
 
 
@@ -90,7 +89,7 @@ gboolean gsb_transactions_list_append_transaction ( gpointer transaction,
 gpointer gsb_transactions_list_append_white_breakdown ( gpointer *transaction );
 gboolean gsb_transactions_list_button_press ( GtkWidget *tree_view,
 					      GdkEventButton *ev );
-gpointer gsb_transactions_list_clone_transaction ( gpointer *transaction );
+gint gsb_transactions_list_clone_transaction ( gint transaction_number );
 gboolean gsb_transactions_list_delete_transaction ( gpointer transaction );
 gboolean gsb_transactions_list_edit_current_transaction ( void );
 gboolean gsb_transactions_list_fill_row ( gpointer transaction,
@@ -116,7 +115,6 @@ void new_transaction () ;
 gint recupere_hauteur_ligne_tree_view ( GtkWidget *tree_view );
 void remove_transaction ();
 void remplissage_liste_operations ( gint compte );
-struct operation_echeance *schedule_transaction ( gpointer * transaction );
 void update_titres_tree_view ( void );
 void verification_list_store_termine ( gint no_account );
 /* END_DECLARATION */

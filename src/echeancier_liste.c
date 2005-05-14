@@ -1595,7 +1595,7 @@ void gsb_scheduler_check_scheduled_transactions_time_limit ( void )
 		    transaction_number = gsb_scheduler_create_transaction_from_scheduled_transaction ( scheduled_transaction );
 
 		    scheduled_transactions_taken = g_slist_append ( scheduled_transactions_taken,
-								    transaction_number );
+								    GINT_TO_POINTER (transaction_number));
 
 		    /* set the scheduled transaction to the next date,
 		     * if it finished, we set slist_ptr on the slist just before that one

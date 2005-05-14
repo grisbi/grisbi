@@ -33,10 +33,10 @@ typedef struct metatree_interface {
     gint (* div_type) (gpointer);
 
     /* Transaction operations */
-    gint (* transaction_div_id) (struct structure_operation *);
-    gint (* transaction_sub_div_id) (struct structure_operation *);
-    void (* transaction_set_div_id) (struct structure_operation *, int);
-    void (* transaction_set_sub_div_id) (struct structure_operation *, int);
+    gint (* transaction_div_id) (gpointer);
+    gint (* transaction_sub_div_id) (gpointer);
+    void (* transaction_set_div_id) (gpointer, int);
+    void (* transaction_set_sub_div_id) (gpointer, int);
     gint (* scheduled_div_id) (struct operation_echeance *);
     gint (* scheduled_sub_div_id) (struct operation_echeance *);
     void (* scheduled_set_div_id) (struct operation_echeance *, int);
@@ -47,10 +47,10 @@ typedef struct metatree_interface {
     gint (* add_sub_div) (int);
     gboolean (* remove_div) (int);
     gboolean (* remove_sub_div) (int,int);
-    gboolean (* add_transaction_to_div) (struct structure_operation *, int);
-    gboolean (* add_transaction_to_sub_div) (struct structure_operation *, int, int);
-    gboolean (* remove_transaction_from_div) (struct structure_operation *, int);
-    gboolean (* remove_transaction_from_sub_div) (struct structure_operation *, int, int);
+    gboolean (* add_transaction_to_div) (gpointer, int);
+    gboolean (* add_transaction_to_sub_div) (gpointer, int, int);
+    gboolean (* remove_transaction_from_div) (gpointer, int);
+    gboolean (* remove_transaction_from_sub_div) (gpointer, int, int);
 
 } MetatreeInterface;
 
@@ -93,10 +93,10 @@ void fill_sub_division_row ( GtkTreeModel * model, MetatreeInterface * iface,
 			     gpointer sub_division );
 GtkTreeIter * get_iter_from_div ( GtkTreeModel * model, int div, int sub_div );
 GtkTreeIter * get_iter_from_pointer ( GtkTreeModel * model, gpointer pointer );
+gboolean metatree_selection_changed ( GtkTreeSelection * selection, GtkTreeModel * model );
 gboolean supprimer_division ( GtkTreeView * tree_view );
 void update_transaction_in_tree ( MetatreeInterface * iface, GtkTreeModel * model, 
-				  struct structure_operation * transaction );
-gboolean metatree_selection_changed ( GtkTreeSelection * selection, GtkTreeModel * model );
+				  gpointer  transaction );
 /*END_DECLARATION*/
 
 #endif

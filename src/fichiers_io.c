@@ -955,7 +955,6 @@ gboolean recuperation_comptes_xml ( xmlNodePtr node_comptes )
 		    {
 			if ( node_detail -> type != XML_TEXT_NODE )
 			{
-
 			    if ( !strcmp ( node_detail -> name,
 					   "Nom" ))
 				gsb_account_set_name ( no_compte,
@@ -1227,7 +1226,6 @@ gboolean recuperation_comptes_xml ( xmlNodePtr node_comptes )
 
 				g_strfreev ( pointeur_char );
 			    }
-
 			}
 			node_detail = node_detail -> next;
 		    }
@@ -1293,30 +1291,19 @@ gboolean recuperation_comptes_xml ( xmlNodePtr node_comptes )
 		    xmlNodePtr node_ope;
 
 		    node_ope = node_nom_comptes -> children;
-		    gsb_account_set_transactions_list ( no_compte,
-							NULL );
 
 		    while ( node_ope )
 		    {
-			gpointer operation;
 			gchar **pointeur_char;
 			gchar *pointeur;
-
-			/* FIXME faire une nouvelle opé comme pour les comptes, on s'arrête là en attendant pour
-			 * pas oublier */
-/* 			exit (0); */
-			operation = calloc ( 1,
-					     sizeof (gpointer ));
 
 			if ( node_ope -> type != XML_TEXT_NODE )
 			{
 			    gint transaction_number;
-			    gchar char_tmp;
+			    gchar *char_tmp;
 
-			    transaction_number = my_atoi ( xmlGetProp ( node_ope, "No" ));
-
-			    gsb_transaction_data_set_transaction_number ( operation,
-									  transaction_number );
+			    transaction_number = gsb_transaction_data_new_transaction_with_number ( no_compte,
+												    my_atoi ( xmlGetProp ( node_ope, "No" )));
 
 			    char_tmp = xmlGetProp ( node_ope,
 						    "Id" );
@@ -1336,8 +1323,6 @@ gboolean recuperation_comptes_xml ( xmlNodePtr node_comptes )
 									     my_atoi ( pointeur_char[2] )));
 			    g_strfreev ( pointeur_char );
 
-			    /* GDC prise en compte de la lecture de la date bancaire */
-
 			    pointeur = xmlGetProp ( node_ope,
 						    "Db" );
 
@@ -1355,8 +1340,6 @@ gboolean recuperation_comptes_xml ( xmlNodePtr node_comptes )
 
 				g_strfreev ( pointeur_char );
 			    }
-
-			    /* GDCFin */
 
 			    gsb_transaction_data_set_amount ( transaction_number,
 							      my_strtod ( xmlGetProp ( node_ope,
@@ -1401,10 +1384,6 @@ gboolean recuperation_comptes_xml ( xmlNodePtr node_comptes )
 							     xmlGetProp ( node_ope,
 							      "N" ));
 
-			    if ( !strlen ( gsb_transaction_data_get_notes ( transaction_number)))
-				gsb_transaction_data_set_notes ( transaction_number,
-								 NULL );
-
 			    gsb_transaction_data_set_method_of_payment_number ( transaction_number,
 										my_atoi ( xmlGetProp ( node_ope,
 												       "Ty" )) );
@@ -1412,9 +1391,6 @@ gboolean recuperation_comptes_xml ( xmlNodePtr node_comptes )
 			    gsb_transaction_data_set_method_of_payment_content ( transaction_number,
 										 xmlGetProp ( node_ope,
 											      "Ct" ) );
-			    if ( !strlen ( gsb_transaction_data_get_method_of_payment_content (transaction_number)))
-				gsb_transaction_data_set_method_of_payment_content ( transaction_number,
-										     NULL );
 
 			    gsb_transaction_data_set_marked_transaction ( transaction_number,
 									  my_atoi ( xmlGetProp ( node_ope,
@@ -1442,16 +1418,10 @@ gboolean recuperation_comptes_xml ( xmlNodePtr node_comptes )
 			    gsb_transaction_data_set_voucher ( transaction_number,
 							       xmlGetProp ( node_ope,
 									    "Pc" ));
-			    if ( !strlen ( gsb_transaction_data_get_voucher (transaction_number)))
-				gsb_transaction_data_set_voucher ( transaction_number,
-								   NULL);
 
 			    gsb_transaction_data_set_bank_references ( transaction_number,
 								       xmlGetProp ( node_ope,
 										    "Ibg" ));
-			    if ( !strlen ( gsb_transaction_data_get_bank_references (transaction_number)))
-				gsb_transaction_data_set_bank_references ( transaction_number,
-									   NULL);
 
 			    gsb_transaction_data_set_transaction_number_transfer ( transaction_number,
 										   my_atoi ( xmlGetProp ( node_ope,
@@ -1464,24 +1434,14 @@ gboolean recuperation_comptes_xml ( xmlNodePtr node_comptes )
 			    gsb_transaction_data_set_mother_transaction_number ( transaction_number,
 										 my_atoi ( xmlGetProp ( node_ope,
 													"Va" )));
-
-
-			    /* on met le compte associe */
-			    gsb_transaction_data_set_account_number ( transaction_number,
-								      no_compte );
-
-			    gsb_account_set_transactions_list ( no_compte,
-								g_slist_append ( gsb_account_get_transactions_list (gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (operation))),
-										 operation) );
 			}
-
 			node_ope = node_ope -> next;
 		    }
 		}
 		node_nom_comptes = node_nom_comptes -> next;
 	    }
-	    /* 		    le compte est fini, on peut mettre à jour qques variables */
 
+	    /* 		    le compte est fini, on peut mettre à jour qques variables */
 
 	    if ( gsb_account_get_current_balance (no_compte) < gsb_account_get_mini_balance_wanted (no_compte) )
 		gsb_account_set_mini_balance_wanted_message ( no_compte,
@@ -1502,7 +1462,6 @@ gboolean recuperation_comptes_xml ( xmlNodePtr node_comptes )
 	    gsb_account_set_current_transaction ( no_compte,
 						  GINT_TO_POINTER (-1) );
 	}
-
 	node_comptes = node_comptes -> next;
     }
     return TRUE;

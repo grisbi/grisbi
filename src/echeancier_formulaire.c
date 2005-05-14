@@ -51,7 +51,6 @@
 #include "traitement_variables.h"
 #include "utils_str.h"
 #include "utils_comptes.h"
-#include "operations_liste.h"
 #include "utils_tiers.h"
 #include "utils_operations.h"
 #include "echeancier_ventilation.h"

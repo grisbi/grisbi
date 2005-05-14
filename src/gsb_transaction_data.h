@@ -91,9 +91,12 @@ gint gsb_transaction_data_get_transaction_number_transfer ( gint no_transaction 
 GDate *gsb_transaction_data_get_value_date ( gint no_transaction );
 gchar *gsb_transaction_data_get_voucher ( gint no_transaction );
 gboolean gsb_transaction_data_init_variables ( void );
+gboolean gsb_transaction_data_move_transaction ( gint transaction_number,
+						 gint target_account );
 gint gsb_transaction_data_new_transaction ( gint no_account );
-gboolean gsb_transaction_data_set_account_number ( gint no_transaction,
-						   gint no_account );
+gint gsb_transaction_data_new_transaction_with_number ( gint no_account,
+							gint transaction_number );
+gboolean gsb_transaction_data_remove_transaction ( gint transaction_number );
 gboolean gsb_transaction_data_set_account_number_transfer ( gint no_transaction,
 							    gint account_number_transfer );
 gboolean gsb_transaction_data_set_amount ( gint no_transaction,
@@ -140,8 +143,6 @@ gboolean gsb_transaction_data_set_sub_category_number ( gint no_transaction,
 							gint no_sub_category );
 gboolean gsb_transaction_data_set_transaction_id ( gint no_transaction,
 						   gchar *transaction_id );
-gboolean gsb_transaction_data_set_transaction_number ( gpointer transaction_pointer,
-						       gint no_transaction );
 gboolean gsb_transaction_data_set_transaction_number_transfer ( gint no_transaction,
 							 gint transaction_number_transfer );
 gboolean gsb_transaction_data_set_value_date ( gint no_transaction,

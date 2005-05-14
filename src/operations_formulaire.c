@@ -73,14 +73,13 @@ static gboolean gsb_form_finish_edition ( void );
 static gboolean gsb_form_get_categories ( gint transaction_number,
 				   gint new_transaction );
 static GSList *gsb_form_get_parties_list_from_report ( void );
-static gboolean gsb_form_validate_form_transaction ( gpointer transaction );
-static gboolean gsb_transactions_list_get_breakdowns_of_transaction ( gpointer new_transaction,
-							       gint no_last_breakdown,
-							       gint no_account );
-static gboolean gsb_transactions_list_update_transaction ( gpointer transaction );
+static void gsb_form_take_datas_from_form ( gint transaction_number );
+static gboolean gsb_form_validate_form_transaction ( gint transaction_number );
+static gboolean gsb_transactions_list_recover_breakdowns_of_transaction ( gint new_transaction_number,
+								   gint no_last_breakdown,
+								   gint no_account );
 static gpointer gsb_transactions_look_for_last_party ( gint no_party,
 								   gint no_new_transaction );
-static void recuperation_donnees_generales_formulaire ( gpointer transaction );
 static gboolean touches_champ_formulaire ( GtkWidget *widget,
 				    GdkEventKey *ev,
 				    gint *no_origine );
@@ -668,7 +667,7 @@ gboolean entree_perd_focus ( GtkWidget *entree,
 		/* 		si on n'utilise pas l'exo, la fonction ne fera rien */
 
 		if ( !gtk_object_get_data ( GTK_OBJECT ( formulaire ),
-					    "adr_struct_ope" ))
+					    "transaction_number_in_form" ))
 		    affiche_exercice_par_date( widget_formulaire_par_element (TRANSACTION_FORM_DATE),
 					       widget_formulaire_par_element (TRANSACTION_FORM_EXERCICE) );
 	    }
@@ -2054,15 +2053,15 @@ gpointer gsb_transactions_look_for_last_party ( gint no_party,
  * Get a breakdown of transactions and ask if we want to clone the daughters
  * do the copy if needed, set for the daugthers the number of the new transaction
  * 
- * \param new_transaction the new mother of the cloned transaction
+ * \param new_transaction_number the number of the new mother of the cloned transaction
  * \param no_last_breakdown the no of last breakdown mother
  * \param no_account the account of the last breakdown mother (important if it's not the same of the new_transaction)
  *
  * \return FALSE
  * */
-gboolean gsb_transactions_list_get_breakdowns_of_transaction ( gpointer new_transaction,
-							       gint no_last_breakdown,
-							       gint no_account )
+gboolean gsb_transactions_list_recover_breakdowns_of_transaction ( gint new_transaction_number,
+								   gint no_last_breakdown,
+								   gint no_account )
 {
     gint result;
     GSList *transactions_list;
@@ -2079,17 +2078,17 @@ gboolean gsb_transactions_list_get_breakdowns_of_transaction ( gpointer new_tran
 
     while ( transactions_list )
     {
-	gpointer transaction;
+	gint transaction_number;
 
-	transaction = transactions_list -> data;
+	transaction_number = gsb_transaction_data_get_transaction_number ( transactions_list -> data );
 
-	if ( gsb_transaction_data_get_mother_transaction_number ( gsb_transaction_data_get_transaction_number (transaction ))== no_last_breakdown )
+	if ( gsb_transaction_data_get_mother_transaction_number (transaction_number) == no_last_breakdown )
 	{
-	    gpointer breakdown_transaction;
+	    gint child_transaction_number;
 
-	    breakdown_transaction = gsb_transactions_list_clone_transaction ( transaction );
-	    gsb_transaction_data_set_mother_transaction_number ( gsb_transaction_data_get_transaction_number (breakdown_transaction),
-								 gsb_transaction_data_get_transaction_number (new_transaction));
+	    child_transaction_number = gsb_transactions_list_clone_transaction (transaction_number);
+	    gsb_transaction_data_set_mother_transaction_number ( child_transaction_number,
+								 new_transaction_number);
 	}
 	transactions_list = transactions_list -> next;
     }
@@ -2190,61 +2189,59 @@ void place_type_formulaire ( gint no_type,
  * */
 gboolean gsb_form_finish_edition ( void )
 {
-    gpointer transaction;
+    gint transaction_number;
     gint new_transaction;
     GSList *list_nb_parties;
     GSList *list_tmp;
+    gint current_account;
 
-    /* récupération de l'opération : soit l'adr de la struct, soit NULL si nouvelle */
+    /* get the number of the transaction, stored in the form (0 if new) */
 
-    transaction = gtk_object_get_data ( GTK_OBJECT ( formulaire ),
-					"adr_struct_ope" );
+    transaction_number = gtk_object_get_data ( GTK_OBJECT ( formulaire ),
+					       "transaction_number_in_form" );
+    current_account = gsb_account_get_current_account ();
 
     /* a new transaction is
-     * either transaction = NULL (normal transaction)
-     * either transaction -> no_transaction = -2 (new breakdown daughter)
+     * either transaction_number is 0 (normal transaction)
+     * either transaction_number is -2 (new breakdown daughter)
      * */
 
-    if ( transaction
+    if ( transaction_number
 	 &&
-	 gsb_transaction_data_get_transaction_number (transaction) != -2 )
+	 transaction_number != -2 )
 	new_transaction = 0;
     else
 	new_transaction = 1;
 
-    /*     on donne le focus à la liste, pour que le widget en cours perde le focus */
-    /* 	et applique les modifs nécessaires */
+    /* the current widget has to lose the focus to make all the changes if necessary */
 
-    gtk_widget_grab_focus ( gsb_account_get_tree_view (gsb_account_get_current_account ()) );
+    gtk_widget_grab_focus ( gsb_account_get_tree_view (current_account) );
     
-   /* on commence par vérifier que les données entrées sont correctes */
-    /* si la fonction renvoie false, c'est qu'on doit arrêter là */
+    /* check if the datas are ok */
 
-    if ( !gsb_form_validate_form_transaction ( transaction ))
+    if ( !gsb_form_validate_form_transaction ( transaction_number ))
 	return FALSE;
 
-    /* si le tiers est un état, on va faire autant d'opérations qu'il y a de tiers
-       dans l'état concerné. On va créer une liste avec les nos de tiers
-       ( ou -1, le tiers n'est pas un état), puis on fera une boucle sur cette liste
-       pour ajouter autant d'opérations que de tiers */
+    /* if the party is a report, we make as transactions as the number of parties in the
+     * report. So we create a list with the party's numbers or -1 if it's a normal
+     * party */
 
     list_nb_parties = gsb_form_get_parties_list_from_report ();
 
-    /* à ce niveau, list_nb_parties contient la liste des no de tiers pour chacun desquels on */
-    /* fera une opé, ou -1 si on utilise que le tiers dans l'entrée du formulaire */
-    /* on fait donc le tour de cette liste en ajoutant l'opé à chaque fois */
+    /* now we go throw the list */
 
     list_tmp = list_nb_parties;
 
     while ( list_tmp )
     {
-	/* soit on va chercher le tiers dans la liste des no de tiers et on le met dans le formulaire, */
-	/* soit on laisse tel quel et on met list_tmp à NULL */
-
 	if ( list_tmp -> data == GINT_TO_POINTER ( -1 ) )
+	    /* it's a normal party, we set the list_tmp to NULL */
 	    list_tmp = NULL;
 	else
 	{
+	    /* it's a report, so each time we come here we set the parti's combofix to the
+	     * party of the report */
+
 	    if ( !list_tmp -> data )
 	    {
 		dialogue_error ( _("No third party selected for this report."));
@@ -2255,20 +2252,16 @@ gboolean gsb_form_finish_edition ( void )
 		gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_par_element (TRANSACTION_FORM_PARTY) ),
 					tiers_name_by_no ( GPOINTER_TO_INT (list_tmp -> data), TRUE ));
 
-		/* si le moyen de paiement est à incrémentation automatique, à partir de la 2ème opé, */
-		/* on incrémente le contenu (no de chèque en général) */
+		/* if it's not the first party and the method of payment has to change its number (cheque),
+		 * we increase the number. as we are in a party's list, it's always a new transactio, 
+		 * so we know that it's not the first if transaction_number is not 0 */
 
-		/* comme c'est une liste de tiers, c'est forcemment une nouvelle opé */
-		/* donc si transaction n'est pas nul, c'est qu'on n'est pas sur la 1ère */
-		/* donc on peut incrémenter si nécessaire le contenu */
-		/* et on peut récupérer le no_type de l'ancienne opé */
-
-		if ( transaction )
+		if ( transaction_number )
 		{
 		    struct struct_type_ope *type;
 
-		    type = type_ope_par_no ( gsb_transaction_data_get_method_of_payment_number ( gsb_transaction_data_get_transaction_number (transaction )),
-					     gsb_account_get_current_account () );
+		    type = type_ope_par_no ( gsb_transaction_data_get_method_of_payment_number (transaction_number),
+					     current_account);
 
 		    if ( type
 			 &&
@@ -2284,58 +2277,39 @@ gboolean gsb_form_finish_edition ( void )
 	    }
 	}
 
-	/* si c'est une nouvelle opé, on la crée en mettant tout à 0 sauf le no de compte et la devise */
-
 	if ( new_transaction )
 	{
+	    /* it's a new transaction, we create it, and put the mother if necessary */
+
 	    gint mother_transaction;
 
-	    /* if transaction exists, it's a white daughter of a breakdown, so keep the no of the mother */
+	    /* if transaction exists already, it's that we are on a white daughter of a breakdown,
+	     * so we keep the no of the mother */
 
-	    if ( transaction )
-		mother_transaction = gsb_transaction_data_get_mother_transaction_number ( gsb_transaction_data_get_transaction_number (transaction ));
+	    if ( transaction_number )
+		mother_transaction = gsb_transaction_data_get_mother_transaction_number (transaction_number);
 	    else
 		mother_transaction = 0;
 	    
-/* 	    xxx */
-	    transaction = calloc ( 1,
-				 sizeof ( gpointer ) );
-	    if ( !transaction )
-	    {
-		dialogue_error ( _("Cannot allocate memory, bad things will happen soon") );
-		return FALSE;
-	    }
+	    transaction_number = gsb_transaction_data_new_transaction (current_account);
 
-	    /* 	    la devise par défaut est celle du compte, elle sera modifiée si nécessaire plus tard */
-
-	    gsb_transaction_data_set_currency_number ( gsb_transaction_data_get_transaction_number (transaction ),
-						       gsb_account_get_currency (gsb_account_get_current_account ()));
-	    gsb_transaction_data_set_mother_transaction_number ( gsb_transaction_data_get_transaction_number (transaction),
+	    gsb_transaction_data_set_mother_transaction_number ( transaction_number,
 								 mother_transaction);
 	}
 
-	/* on récupère les données du formulaire sauf la categ qui est traitée plus tard */
+	/* take the datas in the form, except the category */
 
-	recuperation_donnees_generales_formulaire ( transaction );
+	gsb_form_take_datas_from_form ( transaction_number );
 
-	/* il faut ajouter l'opération à la liste à ce niveau pour lui attribuer un numéro */
-	/* celui ci sera utilisé si c'est un virement ou si c'est une ventil qui contient des */
-	/* virements */
+	/* take the category and do the stuff with that (contra-transaction...) */
 
-	if ( new_transaction )
-	    gsb_transactions_append_transaction ( transaction,
-						  gsb_account_get_current_account ());
-
-	/*   récupération des catégories / sous-catég, s'ils n'existent pas, on les crée */
-	/* à mettre en dernier car si c'est une opé ventilée, chaque opé de ventil va récupérer les données du dessus */
-
-	gsb_form_get_categories ( gsb_transaction_data_get_transaction_number (transaction ),
+	gsb_form_get_categories ( transaction_number,
 				  new_transaction );
 
 	if ( new_transaction )
-	    gsb_transactions_list_append_new_transaction ( transaction );
+	    gsb_transactions_list_append_new_transaction ( gsb_transaction_data_get_pointer_to_transaction (transaction_number));
 	else
-	    gsb_transactions_list_update_transaction ( transaction );
+	    gsb_transactions_list_update_transaction ( gsb_transaction_data_get_pointer_to_transaction (transaction_number));
     }
 
     /* on libère la liste des no tiers */
@@ -2350,11 +2324,7 @@ gboolean gsb_form_finish_edition ( void )
 	 !new_transaction )
 	calcule_total_pointe_compte ( gsb_account_get_current_account () );
 
-
-    /* si c'était une nouvelle opération, on efface le formulaire,
-       on remet la date pour la suivante,
-       si c'était une modif, on redonne le focus à la liste */
-
+    /* if it was a new transaction, do the stuff to do another new transaction */
 
     if ( new_transaction )
     {
@@ -2374,8 +2344,7 @@ gboolean gsb_form_finish_edition ( void )
 	    gtk_widget_hide ( frame_droite_bas );
     }
 
-
-    /* met à jour les listes ( nouvelle opération associée au tiers et à la catégorie ) */
+    /* update the combofix's lists */
 
     if ( mise_a_jour_combofix_tiers_necessaire )
 	mise_a_jour_combofix_tiers ();
@@ -2384,10 +2353,11 @@ gboolean gsb_form_finish_edition ( void )
     if ( mise_a_jour_combofix_imputation_necessaire )
 	mise_a_jour_combofix_imputation ();
 
-    /*     on affiche un avertissement si nécessaire */
+    /* show the warnings */
+
     affiche_dialogue_soldes_minimaux ();
 
-    update_transaction_in_trees ( transaction );
+    update_transaction_in_trees (gsb_transaction_data_get_pointer_to_transaction (transaction_number));
 
     modification_fichier ( TRUE );
     return FALSE;
@@ -2485,14 +2455,13 @@ GSList *gsb_form_get_parties_list_from_report ( void )
 
 
 /** called to check if the transaction in the form is correct
- * \param transaction the new transaction
+ * \param transaction_number the new transaction number
  * \return TRUE or FALSE
  * */
-gboolean gsb_form_validate_form_transaction ( gpointer transaction )
+gboolean gsb_form_validate_form_transaction ( gint transaction_number )
 {
     gchar **tab_char;
     GSList *list_tmp;
-
 
     /* on vérifie qu'il y a bien une date */
 
@@ -2533,7 +2502,7 @@ gboolean gsb_form_validate_form_transaction ( gpointer transaction )
 
     /* check if it's a daughter breakdown that the category is not a breakdown of transaction */
 
-    if ( transaction
+    if ( transaction_number
 	 &&
 	 verifie_element_formulaire_existe ( TRANSACTION_FORM_CATEGORY )
 	 &&
@@ -2542,7 +2511,7 @@ gboolean gsb_form_validate_form_transaction ( gpointer transaction )
 	if ( !strcmp ( gtk_entry_get_text ( GTK_ENTRY ( GTK_COMBOFIX ( widget_formulaire_par_element (TRANSACTION_FORM_CATEGORY))->entry)),
 		       _("Breakdown of transaction"))
 	     &&
-	     gsb_transaction_data_get_mother_transaction_number ( gsb_transaction_data_get_transaction_number (transaction )))
+	     gsb_transaction_data_get_mother_transaction_number (transaction_number))
 	{
 	    dialogue_error ( _("You cannot set a daughter of a breakdown of transaction as a breakdown of transaction.") );
 	    return (FALSE);
@@ -2652,9 +2621,9 @@ gboolean gsb_form_validate_form_transaction ( gpointer transaction )
 
 	    if ( operation_tmp
 		 &&
-		 (!transaction
+		 (!transaction_number
 		  ||
-		  gsb_transaction_data_get_transaction_number (operation_tmp) != gsb_transaction_data_get_transaction_number (transaction)))
+		  gsb_transaction_data_get_transaction_number (operation_tmp) != transaction_number))
 	    {
 		if ( question ( _("Warning: this cheque number is already used.\nContinue anyway?") ))
 		    goto sort_test_cheques;
@@ -2678,7 +2647,7 @@ sort_test_cheques :
 
 	/* on vérifie d'abord si c'est une modif d'opé */
 
-	if ( transaction )
+	if ( transaction_number )
 	{
 	    dialogue_error ( _("A transaction with a multiple third party must be a new one.") );
 	    return (FALSE);
@@ -2742,19 +2711,16 @@ sort_test_cheques :
 }
 /******************************************************************************/
 
-/******************************************************************************/
-/* cette fonction récupère les données du formulaire et les met dans          */
-/* l'opération en argument sauf la catég                                      */
-/******************************************************************************/
-void recuperation_donnees_generales_formulaire ( gpointer transaction )
+/** take the datas in the form and put them in the transaction in param
+ * \param transaction_number the transaction to modify
+ * \return
+ * */
+void gsb_form_take_datas_from_form ( gint transaction_number )
 {
     gchar **tab_char;
     gint i, j;
     struct organisation_formulaire *organisation_formulaire;
     struct struct_imputation *imputation;
-    gint no_transaction;
-
-    no_transaction = gsb_transaction_data_get_transaction_number (transaction);
 
     /*     on fait le tour du formulaire en ne récupérant que ce qui est nécessaire */
 
@@ -2778,7 +2744,7 @@ void recuperation_donnees_generales_formulaire ( gpointer transaction )
 			     &month,
 			     &year );
 
-		    gsb_transaction_data_set_date ( no_transaction,
+		    gsb_transaction_data_set_date ( transaction_number,
 						    g_date_new_dmy ( day,
 								     month,
 								     year  ));
@@ -2795,13 +2761,13 @@ void recuperation_donnees_generales_formulaire ( gpointer transaction )
 				 &month,
 				 &year );
 
-			gsb_transaction_data_set_value_date ( no_transaction,
+			gsb_transaction_data_set_value_date ( transaction_number,
 							      g_date_new_dmy ( day,
 									       month,
 									       year ));
 		    }
 		    else
-			gsb_transaction_data_set_value_date ( no_transaction,
+			gsb_transaction_data_set_value_date ( transaction_number,
 							      NULL );
 		    break;
 
@@ -2814,12 +2780,12 @@ void recuperation_donnees_generales_formulaire ( gpointer transaction )
 		    if ( GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget ) -> menu_item ),
 								 "no_exercice" )) == -1 )
 		    {
-			if ( !gsb_transaction_data_get_transaction_number (transaction))
-			    gsb_transaction_data_set_financial_year_number ( no_transaction,
+			if ( !transaction_number)
+			    gsb_transaction_data_set_financial_year_number ( transaction_number,
 									     0);
 		    }
 		    else
-			gsb_transaction_data_set_financial_year_number ( no_transaction,
+			gsb_transaction_data_set_financial_year_number ( transaction_number,
 									 GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget ) -> menu_item ),
 														 "no_exercice" )));
 
@@ -2828,11 +2794,11 @@ void recuperation_donnees_generales_formulaire ( gpointer transaction )
 		case TRANSACTION_FORM_PARTY:
 
 		    if ( gtk_widget_get_style ( GTK_COMBOFIX ( widget ) -> entry ) == style_entree_formulaire[ENCLAIR] )
-			gsb_transaction_data_set_party_number ( gsb_transaction_data_get_transaction_number (transaction),
+			gsb_transaction_data_set_party_number ( transaction_number,
 								tiers_par_nom ( gtk_combofix_get_text ( GTK_COMBOFIX ( widget )),
 										1 ) -> no_tiers );
 		    else
-			gsb_transaction_data_set_party_number ( gsb_transaction_data_get_transaction_number (transaction),
+			gsb_transaction_data_set_party_number ( transaction_number,
 								0 );
 
 		    break;
@@ -2840,14 +2806,14 @@ void recuperation_donnees_generales_formulaire ( gpointer transaction )
 		case TRANSACTION_FORM_DEBIT:
 
 		    if ( gtk_widget_get_style ( widget ) == style_entree_formulaire[ENCLAIR] )
-			gsb_transaction_data_set_amount ( no_transaction,
+			gsb_transaction_data_set_amount ( transaction_number,
 							  -calcule_total_entree ( widget ));
 		    break;
 
 		case TRANSACTION_FORM_CREDIT:
 
 		    if ( gtk_widget_get_style ( widget ) == style_entree_formulaire[ENCLAIR] )
-			gsb_transaction_data_set_amount ( no_transaction,
+			gsb_transaction_data_set_amount ( transaction_number,
 							  calcule_total_entree ( widget ));
 		    break;
 
@@ -2859,14 +2825,14 @@ void recuperation_donnees_generales_formulaire ( gpointer transaction )
 
 			imputation = imputation_par_nom ( tab_char[0],
 							  1,
-							  gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (transaction ))< 0,
+							  gsb_transaction_data_get_amount ( transaction_number)< 0,
 							  0 );
 
 			if ( imputation )
 			{
 			    struct struct_sous_imputation *sous_imputation;
 
-			    gsb_transaction_data_set_budgetary_number ( no_transaction,
+			    gsb_transaction_data_set_budgetary_number ( transaction_number,
 									imputation -> no_imputation);
 
 			    sous_imputation = sous_imputation_par_nom ( imputation,
@@ -2874,14 +2840,14 @@ void recuperation_donnees_generales_formulaire ( gpointer transaction )
 									1 );
 
 			    if ( sous_imputation )
-				gsb_transaction_data_set_sub_budgetary_number ( no_transaction,
+				gsb_transaction_data_set_sub_budgetary_number ( transaction_number,
 										sous_imputation -> no_sous_imputation);
 			    else
-				gsb_transaction_data_set_sub_budgetary_number ( no_transaction,
+				gsb_transaction_data_set_sub_budgetary_number ( transaction_number,
 										0);
 			}
 			else
-			    gsb_transaction_data_set_budgetary_number ( no_transaction,
+			    gsb_transaction_data_set_budgetary_number ( transaction_number,
 									0 );
 
 			g_strfreev ( tab_char );
@@ -2890,10 +2856,10 @@ void recuperation_donnees_generales_formulaire ( gpointer transaction )
 		case TRANSACTION_FORM_NOTES:
 
 		    if ( gtk_widget_get_style ( widget ) == style_entree_formulaire[ENCLAIR] )
-			gsb_transaction_data_set_notes ( gsb_transaction_data_get_transaction_number (transaction),
+			gsb_transaction_data_set_notes ( transaction_number,
 							 g_strstrip ( g_strdup ( gtk_entry_get_text ( GTK_ENTRY ( widget )))));
 		    else
-			gsb_transaction_data_set_notes ( gsb_transaction_data_get_transaction_number (transaction),
+			gsb_transaction_data_set_notes ( transaction_number,
 							 NULL );
 		    break;
 
@@ -2901,7 +2867,7 @@ void recuperation_donnees_generales_formulaire ( gpointer transaction )
 
 		    if ( GTK_WIDGET_VISIBLE ( widget_formulaire_par_element (TRANSACTION_FORM_TYPE) ))
 		    {
-			gsb_transaction_data_set_method_of_payment_number ( gsb_transaction_data_get_transaction_number (transaction),
+			gsb_transaction_data_set_method_of_payment_number ( transaction_number,
 									    GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget ) -> menu_item ),
 														    "no_type" )));
 
@@ -2914,21 +2880,21 @@ void recuperation_donnees_generales_formulaire ( gpointer transaction )
 			    type = gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget ) -> menu_item ),
 							 "adr_type" );
 
-			    gsb_transaction_data_set_method_of_payment_content ( gsb_transaction_data_get_transaction_number (transaction),
+			    gsb_transaction_data_set_method_of_payment_content ( transaction_number,
 										 g_strstrip ( g_strdup ( gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_par_element (TRANSACTION_FORM_CHEQUE) )))));
 
 			    if ( type -> numerotation_auto )
-				type -> no_en_cours = ( my_atoi ( gsb_transaction_data_get_method_of_payment_content ( gsb_transaction_data_get_transaction_number (transaction ))));
+				type -> no_en_cours = ( my_atoi ( gsb_transaction_data_get_method_of_payment_content ( transaction_number)));
 			}
 			else
-			    gsb_transaction_data_set_method_of_payment_content ( gsb_transaction_data_get_transaction_number (transaction),
+			    gsb_transaction_data_set_method_of_payment_content ( transaction_number,
 										  NULL);
 		    }
 		    else
 		    {
-			gsb_transaction_data_set_method_of_payment_number ( gsb_transaction_data_get_transaction_number (transaction),
+			gsb_transaction_data_set_method_of_payment_number ( transaction_number,
 									    0 );
-			gsb_transaction_data_set_method_of_payment_content ( gsb_transaction_data_get_transaction_number (transaction),
+			gsb_transaction_data_set_method_of_payment_content ( transaction_number,
 									     NULL);
 		    }
 		    break;
@@ -2937,30 +2903,30 @@ void recuperation_donnees_generales_formulaire ( gpointer transaction )
 
 		    /* récupération de la devise */
 
-		    gsb_transaction_data_set_currency_number ( gsb_transaction_data_get_transaction_number (transaction ),
+		    gsb_transaction_data_set_currency_number ( transaction_number,
 							       gsb_currency_get_option_menu_currency (widget));
 
-		    gsb_currency_check_for_change ( gsb_transaction_data_get_transaction_number (transaction ) );
+		    gsb_currency_check_for_change ( transaction_number );
 
 		    break;
 
 		case TRANSACTION_FORM_BANK:
 
 		    if ( gtk_widget_get_style ( widget ) == style_entree_formulaire[ENCLAIR] )
-			gsb_transaction_data_set_bank_references ( no_transaction,
+			gsb_transaction_data_set_bank_references ( transaction_number,
 								   g_strstrip ( g_strdup ( gtk_entry_get_text ( GTK_ENTRY ( widget )))));
 		    else
-			gsb_transaction_data_set_bank_references ( no_transaction,
+			gsb_transaction_data_set_bank_references ( transaction_number,
 								   NULL);
 		    break;
 
 		case TRANSACTION_FORM_VOUCHER:
 
 		    if ( gtk_widget_get_style ( widget ) == style_entree_formulaire[ENCLAIR] )
-			gsb_transaction_data_set_voucher ( no_transaction,
+			gsb_transaction_data_set_voucher ( transaction_number,
 							   g_strstrip ( g_strdup ( gtk_entry_get_text ( GTK_ENTRY ( widget )))));
 		    else
-			gsb_transaction_data_set_voucher ( no_transaction,
+			gsb_transaction_data_set_voucher ( transaction_number,
 							   NULL);
 
 		    break;
@@ -3031,9 +2997,9 @@ gboolean gsb_form_get_categories ( gint transaction_number,
 									       transaction_number);
 
 		if ( breakdown_transaction )
-		    gsb_transactions_list_get_breakdowns_of_transaction ( gsb_transaction_data_get_pointer_to_transaction (transaction_number),
-									  gsb_transaction_data_get_transaction_number (breakdown_transaction),
-									  gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (breakdown_transaction)));
+		    gsb_transactions_list_recover_breakdowns_of_transaction ( transaction_number,
+									      gsb_transaction_data_get_transaction_number (breakdown_transaction),
+									      gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (breakdown_transaction)));
 	    }
 	}
 	else
@@ -3172,8 +3138,8 @@ gboolean gsb_form_get_categories ( gint transaction_number,
  * \return the number of the contra-transaction
  * */
 gint gsb_form_validate_transfer ( gint transaction_number,
-				      gint new_transaction,
-				      gchar *name_transfer_account )
+				  gint new_transaction,
+				  gchar *name_transfer_account )
 {
     gint contra_transaction_number;
     gint account_transfer;
@@ -3340,32 +3306,6 @@ gboolean gsb_transactions_list_append_new_transaction ( gpointer transaction )
 }
 /******************************************************************************/
 
-
-/** append a new transaction in the g_slist of transactions and give it a numero
- * \param transaction
- * \param no_account
- * return FALSE
- * */
-gboolean gsb_transactions_append_transaction ( gpointer transaction,
-					       gint no_account )
-{
-    /* FIXME : ça ça doit être fait dans gsb_transaction_data maintenant, on s'arrête ici pour pas oublier de le faire */
-/*     xxx */
-    exit (0);
-    return FALSE;
-
-    if ( !gsb_transaction_data_get_transaction_number (transaction))
-    {
-	gsb_transaction_data_set_transaction_number ( transaction,
-						      gsb_transaction_data_get_last_number () + 1);
-
-	gsb_account_set_transactions_list ( gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (transaction)),
-					    g_slist_append ( gsb_account_get_transactions_list (gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (transaction))),
-							     transaction ));
-    }
-    return FALSE;
-}
-/******************************************************************************/
 
 
 
@@ -3606,7 +3546,7 @@ void formulaire_a_zero (void)
 			       FALSE );
 
     gtk_object_set_data ( GTK_OBJECT ( formulaire ),
-			  "adr_struct_ope",
+			  "transaction_number_in_form",
 			  NULL );
     gtk_object_set_data ( GTK_OBJECT ( formulaire ),
 			  "liste_adr_ventilation",
@@ -3666,38 +3606,39 @@ void affiche_cache_le_formulaire ( void )
 /******************************************************************************/
 void click_sur_bouton_voir_change ( void )
 {
-    gpointer transaction;
+    gint transaction_number;
     struct struct_devise *devise;
 
     gtk_widget_grab_focus ( widget_formulaire_par_element (TRANSACTION_FORM_DATE) );
 
-    transaction = gtk_object_get_data ( GTK_OBJECT ( formulaire ),
-				      "adr_struct_ope" );
+    transaction_number = GPOINTER_TO_INT (gtk_object_get_data ( GTK_OBJECT ( formulaire ),
+								"transaction_number_in_form" ));
 
-    if ( !devise_compte ||
+    if ( !devise_compte
+	 ||
 	 devise_compte -> no_devise != gsb_account_get_currency (gsb_account_get_current_account ()) )
 	devise_compte = devise_par_no ( gsb_account_get_currency (gsb_account_get_current_account ()) );
 
-    devise = devise_par_no ( gsb_transaction_data_get_currency_number ( gsb_transaction_data_get_transaction_number (transaction )));
+    devise = devise_par_no ( gsb_transaction_data_get_currency_number (transaction_number));
 
     demande_taux_de_change ( devise_compte, devise,
-			     gsb_transaction_data_get_change_between ( gsb_transaction_data_get_transaction_number (transaction )),
-			     gsb_transaction_data_get_exchange_rate ( gsb_transaction_data_get_transaction_number (transaction )),
-			     gsb_transaction_data_get_exchange_fees ( gsb_transaction_data_get_transaction_number (transaction )), 
+			     gsb_transaction_data_get_change_between (transaction_number),
+			     gsb_transaction_data_get_exchange_rate (transaction_number),
+			     gsb_transaction_data_get_exchange_fees (transaction_number), 
 			     TRUE );
 
     if ( taux_de_change[0] ||  taux_de_change[1] )
     {
-	gsb_transaction_data_set_exchange_rate ( gsb_transaction_data_get_transaction_number (transaction),
+	gsb_transaction_data_set_exchange_rate (transaction_number,
 						 fabs (taux_de_change[0] ));
-	gsb_transaction_data_set_exchange_fees ( gsb_transaction_data_get_transaction_number (transaction),
+	gsb_transaction_data_set_exchange_fees (transaction_number,
 						 taux_de_change[1] );
 
 	if ( taux_de_change[0] < 0 )
-	    gsb_transaction_data_set_change_between ( gsb_transaction_data_get_transaction_number (transaction ),
+	    gsb_transaction_data_set_change_between (transaction_number,
 						      1 );
 	else
-	    gsb_transaction_data_set_change_between ( gsb_transaction_data_get_transaction_number (transaction ),
+	    gsb_transaction_data_set_change_between (transaction_number,
 						      0 );
     }
 }

@@ -334,7 +334,7 @@ struct struct_ope_liee
     gint ancien_no_ope;
     gint compte_ope;
     gint nouveau_no_ope;
-    struct structure_operation *ope_liee;
+    gpointer ope_liee;
     gint ope_ventilee;
 };
 
@@ -520,7 +520,7 @@ struct struct_etat_affichage
     gint (* finish) ();		/** End of drawing session  */
     void (* attach_hsep) (int, int, int, int); /** Draw horizontal separator (aka "-")  */
     void (* attach_vsep) (int, int, int, int); /** Draw vertical separator (aka "|") */
-    void (* attach_label) (gchar *, gdouble, int, int, int, int, enum alignement, struct structure_operation *); /** Drraw a label with properties  */
+    void (* attach_label) (gchar *, gdouble, int, int, int, int, enum alignement, gpointer); /** Drraw a label with properties  */
 };
 
 
@@ -622,7 +622,7 @@ struct struct_ope_importation
 
     gint action;       /* ce champ est à 0 si on enregisre l'opé, à 1 si on ne l'enregistre pas (demandé lors d'ajout des opés à un compte existant) */
     /*   et 2 si on ne veut pas l'enregistrer ni demander (une id qui a été retrouvée */
-    struct structure_operation *ope_correspondante; /* contient l'adrde l'opé qui correspond peut être à l'opé importée pour la présentation à l'utilisateur */
+    gpointer ope_correspondante; /* contient l'adrde l'opé qui correspond peut être à l'opé importée pour la présentation à l'utilisateur */
     GtkWidget *bouton;  /*  adr du bouton si cette opé est douteuse et vérifiée par l'utilisateur */
 
     gchar *tiers;

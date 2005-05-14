@@ -1623,7 +1623,6 @@ void update_liste_echeances_auto_accueil ( void )
     {
 	GtkWidget *vbox, *label, *event_box, *hbox;
 	GSList *pointeur_liste;
-	gpointer operation;
 	GtkStyle *style_selectable;
 	GdkColor gray_color;
 
@@ -1648,7 +1647,9 @@ void update_liste_echeances_auto_accueil ( void )
 
 	while ( pointeur_liste )
 	{
-	    operation = pointeur_liste -> data;
+	    gint transaction_number;
+
+	    transaction_number = GPOINTER_TO_INT ( pointeur_liste -> data );
 
 	    hbox = gtk_hbox_new ( TRUE, 5 );
 	    gtk_box_pack_start ( GTK_BOX ( vbox ), hbox, FALSE, FALSE, 0 );
@@ -1666,14 +1667,14 @@ void update_liste_echeances_auto_accueil ( void )
 	    gtk_signal_connect ( GTK_OBJECT ( event_box ),
 				 "button-press-event",
 				 (GtkSignalFunc) select_expired_scheduled_transaction,
-				 operation );
+				 gsb_transaction_data_get_pointer_to_transaction (transaction_number));
 	    gtk_widget_show ( event_box );
 
 	    /* label à gauche */
 
 	    label = gtk_label_new ( g_strdup_printf ( "%s : %s",
-						      gsb_format_gdate ( gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation))),
-						      tiers_name_by_no (gsb_transaction_data_get_party_number ( gsb_transaction_data_get_transaction_number (operation)), FALSE)));
+						      gsb_format_gdate ( gsb_transaction_data_get_date (transaction_number)),
+						      tiers_name_by_no (gsb_transaction_data_get_party_number (transaction_number), FALSE)));
 
 	    gtk_misc_set_alignment ( GTK_MISC ( label ), MISC_LEFT, MISC_VERT_CENTER );
 	    gtk_widget_set_style ( label, style_selectable );
@@ -1683,16 +1684,16 @@ void update_liste_echeances_auto_accueil ( void )
 
 	    /* label à droite */
 
-	    if ( gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (operation )) >= 0 )
+	    if ( gsb_transaction_data_get_amount (transaction_number) >= 0 )
 		label = gtk_label_new ( g_strdup_printf (_("%4.2f %s credit on %s"),
-							 gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (operation)),
-							 devise_code_by_no( gsb_transaction_data_get_currency_number ( gsb_transaction_data_get_transaction_number (operation ))),
-							 gsb_account_get_name (gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (operation))) ));
+							 gsb_transaction_data_get_amount ( transaction_number),
+							 devise_code_by_no( gsb_transaction_data_get_currency_number ( transaction_number)),
+							 gsb_account_get_name (gsb_transaction_data_get_account_number (transaction_number)) ));
 	    else
 		label = gtk_label_new ( g_strdup_printf (_("%4.2f %s debit on %s"),
-							 -gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (operation)),
-							 devise_code_by_no( gsb_transaction_data_get_currency_number ( gsb_transaction_data_get_transaction_number (operation ))),
-							 gsb_account_get_name (gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (operation))) ));
+							 -gsb_transaction_data_get_amount ( transaction_number),
+							 devise_code_by_no( gsb_transaction_data_get_currency_number ( transaction_number)),
+							 gsb_account_get_name (gsb_transaction_data_get_account_number (transaction_number)) ));
 
 	    gtk_misc_set_alignment ( GTK_MISC ( label ), MISC_LEFT, MISC_VERT_CENTER );
 	    gtk_box_pack_start ( GTK_BOX ( hbox ), label, TRUE, TRUE, 5 );

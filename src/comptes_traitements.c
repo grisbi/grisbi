@@ -37,6 +37,7 @@
 #include "fichiers_gestion.h"
 #include "gsb_account.h"
 #include "operations_comptes.h"
+#include "navigation.h"
 #include "gsb_transaction_data.h"
 #include "main.h"
 #include "categories_onglet.h"
@@ -48,8 +49,8 @@
 #include "echeancier_liste.h"
 #include "structures.h"
 #include "operations_formulaire.h"
-#include "echeancier_formulaire.h"
 #include "fenetre_principale.h"
+#include "echeancier_formulaire.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -60,6 +61,7 @@
 
 
 /*START_EXTERN*/
+extern GtkWidget *account_page;
 extern GtkWidget *bouton_supprimer_compte;
 extern gint compte_courant_onglet;
 extern struct operation_echeance *echeance_selectionnnee;
@@ -75,9 +77,8 @@ extern gint nb_echeances;
 extern GtkWidget *notebook_general;
 extern GtkWidget *notebook_listes_operations;
 extern GtkStyle *style_entree_formulaire[2];
-extern GtkWidget *tree_view;
+extern GtkWidget *treeview;
 extern GtkWidget *widget_formulaire_echeancier[SCHEDULER_FORM_TOTAL_WIDGET];
-extern GtkWidget *account_page;
 /*END_EXTERN*/
 
 
