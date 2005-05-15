@@ -57,7 +57,7 @@ void a_propos ( GtkWidget *bouton,
       _("Gerald Niel (gerald.niel[at]grisbi.org): Darwin packaging, administration"),
       _("PMF (ugly.duck[at]gmx.de): Zaurus packaging"),
       _("Pascal Bleser (guru[at]linuxbe.org): SuSE packaging"),
-      _("Sylvain Glaize (mokona[at]puupuu.org): Mandrake packaging"),
+      _("Sylvain Glaize (mokona[at]puupuu.org): Mandriva packaging"),
       _("Thierry Thomas (thierry[at]pompo.net): FreeBSD packaging"),
       _("Vincent Marqueton (vincent[at]marqueton.com): Fink packaging"),
       NULL };

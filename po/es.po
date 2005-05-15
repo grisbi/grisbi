@@ -5718,8 +5718,8 @@ msgid "Pascal Bleser (guru[at]linuxbe.org): SuSE packaging"
 msgstr "Pascal Bleser (guru[at]linuxbe.org): Empaquetamiento para SuSE"
 
 #: src/help.c:60
-msgid "Sylvain Glaize (mokona[at]puupuu.org): Mandrake packaging"
-msgstr "Sylvain Glaize (mokona[at]puupuu.org): Empaquetamiento para Mandrake"
+msgid "Sylvain Glaize (mokona[at]puupuu.org): Mandriva packaging"
+msgstr "Sylvain Glaize (mokona[at]puupuu.org): Empaquetamiento para Mandriva"
 
 #: src/help.c:61
 msgid "Thierry Thomas (thierry[at]pompo.net): FreeBSD packaging"

@@ -5682,7 +5682,7 @@ msgid "Pascal Bleser (guru[at]linuxbe.org): SuSE packaging"
 msgstr ""
 
 #: src/help.c:60
-msgid "Sylvain Glaize (mokona[at]puupuu.org): Mandrake packaging"
+msgid "Sylvain Glaize (mokona[at]puupuu.org): Mandriva packaging"
 msgstr ""
 
 #: src/help.c:61
