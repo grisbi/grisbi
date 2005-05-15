@@ -59,7 +59,7 @@ void a_propos ( GtkWidget *bouton,
       _("Pascal Bleser (guru[at]linuxbe.org): SuSE packaging"),
       _("Sylvain Glaize (mokona[at]puupuu.org): Mandrake packaging"),
       _("Thierry Thomas (thierry[at]pompo.net): FreeBSD packaging"),
-      _("Vincent Marqueton (vincent[at]marqueton.org): Fink packaging"),
+      _("Vincent Marqueton (vincent[at]marqueton.com): Fink packaging"),
       NULL };
     const gchar *traducteurs[] = { 
       _("Alain Portal (dionysos[at]grisbi.org): English"),
