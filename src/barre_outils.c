@@ -214,7 +214,7 @@ gboolean change_aspect_liste ( gint demande )
 
 		    i = gsb_account_get_no_account ( list_tmp -> data );
 
-		    g_signal_connect_after ( G_OBJECT ( gsb_account_get_tree_view (i) ),
+		    g_signal_connect_after ( G_OBJECT ( gsb_transactions_list_get_tree_view()),
 					     "expose-event",
 					     G_CALLBACK ( affichage_traits_liste_operation ),
 					     NULL );
@@ -238,14 +238,14 @@ gboolean change_aspect_liste ( gint demande )
 
 		    i = gsb_account_get_no_account ( list_tmp -> data );
 
-		    g_signal_handlers_disconnect_by_func ( G_OBJECT ( gsb_account_get_tree_view (i) ),
+		    g_signal_handlers_disconnect_by_func ( G_OBJECT ( gsb_transactions_list_get_tree_view()  ),
 							   G_CALLBACK ( affichage_traits_liste_operation ),
 							   NULL );
 
 		    list_tmp = list_tmp -> next;
 		}
 	    }
-	    gtk_widget_queue_draw ( gsb_account_get_tree_view (gsb_account_get_current_account ()) );
+	    gtk_widget_queue_draw ( gsb_transactions_list_get_tree_view());
 	    gtk_widget_queue_draw ( tree_view_liste_echeances );
 
 	    block_menu_cb = TRUE;

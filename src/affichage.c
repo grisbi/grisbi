@@ -661,18 +661,18 @@ void update_fonte_listes ( void )
 
 	i = gsb_account_get_no_account ( list_tmp -> data );
 
-	if ( gsb_account_get_store (i)
+	if ( gsb_transactions_list_get_store()
 	     &&
-	     gtk_tree_model_get_iter_first ( GTK_TREE_MODEL ( gsb_account_get_store (i) ),
+	     gtk_tree_model_get_iter_first ( GTK_TREE_MODEL ( gsb_transactions_list_get_store()  ),
 					     &iter ))
 	    do
 	    {
-		gtk_list_store_set ( GTK_LIST_STORE (gsb_account_get_store (i)),
+		gtk_list_store_set ( GTK_LIST_STORE (gsb_transactions_list_get_store() ),
 				     &iter,
 				     TRANSACTION_COL_NB_FONT, fonte_desc,
 				     -1 );
 	    }
-	    while ( gtk_tree_model_iter_next ( GTK_TREE_MODEL (gsb_account_get_store (i)),
+	    while ( gtk_tree_model_iter_next ( GTK_TREE_MODEL (gsb_transactions_list_get_store() ),
 					       &iter ));
 
 	list_tmp = list_tmp -> next;

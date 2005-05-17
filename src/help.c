@@ -68,7 +68,7 @@ CPREFIX, _("PMF (ugly.duck[at]gmx.de)"), CSUFFIX,
 CPREFIX, _("Pascal Bleser (guru[at]linuxbe.org)"), CSUFFIX,
 CPREFIX, _("Sylvain Glaize (mokona[at]puupuu.org)"), CSUFFIX,
 CPREFIX, _("Thierry Thomas (thierry[at]pompo.net)"), CSUFFIX,
-CPREFIX, _("Vincent Marqueton (vincent[at]marqueton.org)"), CSUFFIX,
+CPREFIX, _("Vincent Marqueton (vincent[at]marqueton.com)"), CSUFFIX,
 "\n",
 
 "<b><big>", _("Translation"), "</big></b>\n",

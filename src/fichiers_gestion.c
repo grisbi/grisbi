@@ -45,6 +45,7 @@
 #include "gsb_account.h"
 #include "operations_comptes.h"
 #include "echeancier_liste.h"
+#include "operations_liste.h"
 #include "traitement_variables.h"
 #include "main.h"
 #include "accueil.h"
@@ -70,12 +71,10 @@ gchar *nom_fichier_backup;
 
 
 /*START_EXTERN*/
-extern gboolean block_menu_cb ;
 extern gint compression_backup;
 extern gint compression_fichier;
 extern gchar *dernier_chemin_de_travail;
 extern gint id_temps;
-extern GtkItemFactory *item_factory_menu_general;
 extern GSList *liste_struct_echeances;
 extern GSList *liste_struct_etats;
 extern GtkWidget *main_hpaned, *main_vbox, *main_statusbar;
@@ -92,6 +91,7 @@ extern GSList *scheduled_transactions_taken;
 extern GSList *scheduled_transactions_to_take;
 extern gchar **tab_noms_derniers_fichiers_ouverts;
 extern gchar *titre_fichier;
+extern GtkWidget *tree_view_vbox;
 extern GtkWidget *window;
 extern GtkWidget *window_vbox_principale;
 /*END_EXTERN*/
@@ -190,7 +190,7 @@ void init_gui_new_file ( void )
     gsb_account_list_gui_change_current_account ( GINT_TO_POINTER ( gsb_account_get_current_account () ) );
 
     /* Display accounts in menus */
-    gsb_account_list_gui_create_list ();
+    gsb_menu_update_accounts_in_menus ();
 
     /* Affiche le nom du fichier de comptes dans le titre de la fenetre */
     affiche_titre_fenetre();
@@ -225,8 +225,6 @@ void ouvrir_fichier ( void )
 				GTK_OBJECT (selection_fichier) );
 
     gtk_widget_show ( selection_fichier );
-
-
 }
 /* ************************************************************************************************************ */
 
@@ -241,7 +239,7 @@ void ouverture_fichier_par_menu ( gpointer null,
 
     nom_fichier_comptes = tab_noms_derniers_fichiers_ouverts[no_fichier];
 
-    ouverture_confirmee ();
+    gsb_file_open_file (nom_fichier_comptes);
 }
 /* ************************************************************************************************************ */
 
@@ -275,158 +273,159 @@ void fichier_selectionne ( GtkWidget *selection_fichier)
 
     dernier_chemin_de_travail = file_selection_get_last_directory(GTK_FILE_SELECTION ( selection_fichier),TRUE);
 
-    ouverture_confirmee ();
+    gsb_file_open_file (nom_fichier_comptes);
 }
 /* ************************************************************************************************************ */
 
 
 
-/* ************************************************************************************************************ */
-/* Fonction ouverture_confirmee */
-/* ouvre le fichier dont le nom est dans nom_fichier_comptes */
-/* ne se préocupe pas d'un ancien fichier ou d'une initialisation de variables */
-/* ************************************************************************************************************ */
-
-void ouverture_confirmee ( void )
+/**
+ * ope a new grisbi file, don't check anything about another opened file that must
+ * have been done before
+ * \para filename the name of the file
+ * \return TRUE ok
+ * */
+gboolean gsb_file_open_file ( gchar *filename )
 {
     gint i;
-    GtkWidget * widget;
-    gchar * item_name = NULL;
     GSList *list_tmp;
+    GtkWidget *main_widget;
+    GtkWidget *tree_view_widget;
 
     if ( DEBUG )
-	printf ( "ouverture_confirmee\n" );
+	printf ( "gsb_file_open_file : %s\n",
+		 filename );
 
     mise_en_route_attente ( _("Load an accounts file") );
 
-    /*  si charge opérations renvoie FALSE, c'est qu'il y a eu un pb et un message est déjà affiché */
+    /* try to load the file */
 
-    if ( !charge_operations ( nom_fichier_comptes ) )
+    if ( charge_operations ( filename ) )
     {
-	/* 	  le chargement du fichier a planté, si l'option sauvegarde à l'ouverture est activée, on */
-	/* propose de charger l'ancien fichier */
+	/* the file has opened succesfully */
+
+	/* we make a backup if necessary */
+
+	if ( etat.sauvegarde_demarrage )
+	{
+	    gchar *backup_filename;
+	    gchar **tab_char;
+
+	    update_attente ( _("Autosave") );
+
+	    backup_filename = g_strdup ( filename );
+
+	    /* we get only the name of the file, not the path */
+
+	    tab_char = g_strsplit ( backup_filename,
+				    C_DIRECTORY_SEPARATOR,
+				    0);
+	    i=0;
+	    while ( tab_char[i] )
+		i++;
+
+	    backup_filename = g_strconcat ( my_get_gsb_file_default_dir(),
+				C_DIRECTORY_SEPARATOR,
+#ifndef _WIN32
+                                ".",
+#endif
+				tab_char [i-1],
+				".bak",
+				NULL );
+
+	    g_strfreev ( tab_char );
+
+	    enregistre_fichier ( backup_filename );
+	}
+    }
+    else
+    {
+	/* the loading failed
+	 * if the saving function at opening is set, we ask to load the last file */
 
 	annulation_attente ();
 
 	if ( etat.sauvegarde_demarrage )
 	{
-	    gchar *nom;
+	    gchar *backup_filename;
 	    gint result;
-	    gchar **parametres;
+	    gchar **tab_char;
 
-	    /* on crée le nom de la sauvegarde */
+	    /* create the name of the backup */
 
-	    nom = g_strdup ( nom_fichier_comptes );
+	    backup_filename = g_strdup ( filename );
 	    i=0;
 
-	    parametres = g_strsplit ( nom, C_DIRECTORY_SEPARATOR, 0);
-	    while ( parametres[i] )
+	    tab_char = g_strsplit ( backup_filename, C_DIRECTORY_SEPARATOR, 0);
+	    while ( tab_char[i] )
 		i++;
 
-	    nom = g_strconcat ( my_get_gsb_file_default_dir(),
-				C_DIRECTORY_SEPARATOR,
-				parametres [i-1],
-				".bak",
-				NULL );
-	    g_strfreev ( parametres );
+	    backup_filename = g_strconcat ( my_get_gsb_file_default_dir(),
+					    C_DIRECTORY_SEPARATOR,
+					    tab_char [i-1],
+					    ".bak",
+					    NULL );
+	    g_strfreev ( tab_char );
 
-	    result = utf8_open ( nom, O_RDONLY);
+	    result = utf8_open ( backup_filename, O_RDONLY);
 	    if (result == -1)
-		return;
+		return FALSE;
 	    else
 		close (result);
 
 	    mise_en_route_attente ( _("Loading backup") );
 
-	    if ( charge_operations ( nom ) )
+	    /* try to load the backup */
+
+	    if ( charge_operations ( backup_filename ) )
 	    {
-		/* on a réussi a charger la sauvegarde */
+		/* the backup loaded succesfully */
+
 		dialogue_error_hint ( _("Grisbi was unable to load file.  However, Grisbi loaded a backup file instead but all changes made since this backup were possibly lost."),
-				      g_strdup_printf ( _("Error loading file '%s'"), nom_fichier_comptes) );
+				      g_strdup_printf ( _("Error loading file '%s'"), filename) );
 	    }
 	    else
 	    {
-		/* le chargement de la sauvegarde a échoué */
+		/* the loading backup failed */
 
 		annulation_attente ();
 		dialogue_error_hint ( _("Grisbi was unable to load file.  Additionally, Grisbi was unable to load a backup file instead."),
-				      g_strdup_printf ( _("Error loading file '%s'"), nom_fichier_comptes) );
-		return;
+				      g_strdup_printf ( _("Error loading file '%s'"), filename) );
+		return FALSE;
 	    }
 	}
 	else
 	{
+	    dialogue_error_hint ( _("Grisbi was unable to load the file..."),
+				  g_strdup_printf ( _("Error loading file '%s'"), filename) );
 	    menus_sensitifs ( FALSE );
-	    return;
+	    return FALSE;
 	}
     }
-    else
-    {
-	/* 	    l'ouverture du fichier s'est bien passée */
-	/* 	si on veut faire une sauvegarde auto à chaque ouverture, c'est ici */
 
-	if ( etat.sauvegarde_demarrage )
-	{
-	    gchar *nom;
-	    gchar **parametres;
-
-	    update_attente ( _("Autosave") );
-
-	    nom = g_strdup ( nom_fichier_comptes );
-
-	    i=0;
-
-	    /* 	      on récupère uniquement le nom du fichier, pas le chemin */
-
-	    parametres = g_strsplit ( nom,
-				      C_DIRECTORY_SEPARATOR,
-				      0);
-
-	    while ( parametres[i] )
-		i++;
-
-	    nom = g_strconcat ( my_get_gsb_file_default_dir(),
-				C_DIRECTORY_SEPARATOR,
-#ifndef _WIN32
-                                ".",
-#endif
-				parametres [i-1],
-				".bak",
-				NULL );
-
-	    g_strfreev ( parametres );
-
-	    /* on force l'enregistrement */
-
-	    enregistre_fichier ( nom );
-	}
-    }
+    /* ok, here the file or backup is loaded */
 
     update_attente ( _("Checking schedulers"));
 
-    /*     on vérifie si des échéances sont à récupérer */
+    /* check the schedulers */
 
     gsb_scheduler_check_scheduled_transactions_time_limit ();
 
-    /* affiche le nom du fichier de comptes dans le titre de la fenetre */
+    /* set the name of the file in the window title */
 
     affiche_titre_fenetre();
 
-    /* on save le nom du fichier dans les derniers ouverts */
+    /* the the name in the last opened files */
 
-    if (nom_fichier_comptes)
-	ajoute_new_file_liste_ouverture ( nom_fichier_comptes );
+    ajoute_new_file_liste_ouverture ( filename );
 
-    /*     récupère l'organisation des colonnes  */
+    /* get the names of the columns */
 
     recuperation_noms_colonnes_et_tips ();
 
-    /*  on calcule les soldes courants */
-    /*     important de le faire avant l'affichage de l'accueil */
-    /* 	va afficher le message qu'une fois tous les comptes remplis */
-    /* 	(donc après l'idle ) */
-    
     update_attente ( _("Checking amounts"));
+
+    /* check the amounts of all the accounts */
 
     list_tmp = gsb_account_get_list_accounts ();
 
@@ -451,77 +450,53 @@ void ouverture_confirmee ( void )
 	list_tmp = list_tmp -> next;
     }
 
-    /*     on va afficher la page d'accueil */
-    /*     l'appel se fera lors de la création de la fenêtre principale */
+    /* we will need to update the main page */
 
     mise_a_jour_liste_comptes_accueil = 1;
     mise_a_jour_soldes_minimaux = 1;
     mise_a_jour_fin_comptes_passifs = 1;
 
-    /*     création de la liste des tiers pour le combofix */
+    /* make all the combofix's lists */
     
     creation_liste_tiers_combofix ();
-
-    /* creation de la liste des categ pour le combofix */
-
     creation_liste_categ_combofix ();
-
-    /* creation de la liste des imputations pour le combofix */
-
     creation_liste_imputation_combofix ();
 
-    /* on crée le notebook principal */
+    /* we make the main window */
 
     update_attente ( _("Making main window"));
-
-    create_main_widget();
+    main_widget = create_main_widget();
     
-    /*     on dégrise les menus */
+    /* we show and update the menus */
 
     menus_sensitifs ( TRUE );
 
-    /* On met à jour l'affichage des opérations rapprochées */
-    block_menu_cb = TRUE;
-    widget = gtk_item_factory_get_item ( item_factory_menu_general,
-					 menu_name(_("View"), _("Show reconciled transactions"), NULL) );
-
-    /* FIXME : à vérifier pour les 2 prochains gsb_account, mis gsb_account_get_current_account () en attendant */
-
-    gtk_check_menu_item_set_active( GTK_CHECK_MENU_ITEM(widget), gsb_account_get_r (gsb_account_get_current_account ()) );
-
-    /* On met à jour le contrôle dans le menu du nombre de lignes affichées */
-    switch ( gsb_account_get_nb_rows ( gsb_account_get_current_account () ) )
-      {
-      case 1 :
-	item_name = menu_name ( _("View"), _("Show one line per transaction"), NULL );
-	break;
-      case 2 :
-	item_name = menu_name ( _("View"), _("Show two lines per transaction"), NULL );
-	break;
-      case 3 :
-	item_name = menu_name ( _("View"), _("Show three lines per transaction"), NULL );
-	break;
-      case 4 :
-	item_name = menu_name ( _("View"), _("Show four lines per transaction"), NULL );
-	break;
-      }
-
-    widget = gtk_item_factory_get_item ( item_factory_menu_general, item_name );
-    gtk_check_menu_item_set_active( GTK_CHECK_MENU_ITEM(widget), TRUE );
-    block_menu_cb = FALSE;
-
-    /* Fill menus with list of accounts. */
-    gsb_account_list_gui_create_list ();
+    gsb_menu_update_view_menu (gsb_account_get_current_account ());
+    gsb_menu_update_accounts_in_menus ();
 
     /*     on ajoute la fentre principale à la window */
-    gtk_box_pack_start ( GTK_BOX ( window_vbox_principale), main_vbox, TRUE, TRUE, 0 );
-    gtk_widget_show ( main_vbox );
+    gtk_box_pack_start ( GTK_BOX (window_vbox_principale), main_widget, TRUE, TRUE, 0 );
+    gtk_widget_show ( main_widget );
 
     /* Update headings. */
     gsb_gui_headings_update ( g_strconcat ( "Grisbi : " , titre_fichier, NULL ), "" );
 
+    /* update the main page */
+
     mise_a_jour_accueil ();
+
+    /* create and fill the gui transactions list */
+
+    tree_view_widget = gsb_transactions_list_make_gui_list ();
+    gtk_box_pack_start ( GTK_BOX ( tree_view_vbox ),
+			 tree_view_widget,
+			 TRUE,
+			 TRUE,
+			 0 );
+    gtk_widget_show ( tree_view_widget );
+
     annulation_attente ();
+    return TRUE;
 }
 /* ************************************************************************************************************ */
 

@@ -75,6 +75,7 @@ extern gint max;
 extern gint nb_days_before_scheduled;
 extern gchar *nom_fichier_comptes;
 extern gint taille_largeur_colonnes[TRANSACTION_LIST_COL_NB];
+extern GtkTreeViewColumn *transactions_tree_view_columns[TRANSACTION_LIST_COL_NB];
 extern GtkWidget *window;
 /*END_EXTERN*/
 
@@ -682,8 +683,8 @@ void sauve_configuration(void)
     if ( gsb_account_get_accounts_amount () )
     {
     for ( i=0 ; i<TRANSACTION_LIST_COL_NB ; i++ )
-        if ( GTK_IS_TREE_VIEW_COLUMN ( gsb_account_get_column ( gsb_account_get_current_account (), i)))
-         taille_largeur_colonnes[i] = gtk_tree_view_column_get_width ( gsb_account_get_column ( gsb_account_get_current_account (), i));
+        if ( GTK_IS_TREE_VIEW_COLUMN ( transactions_tree_view_columns[i]))
+         taille_largeur_colonnes[i] = gtk_tree_view_column_get_width (transactions_tree_view_columns[i]);
     }
 
     /* creation de l'arbre xml en memoire */

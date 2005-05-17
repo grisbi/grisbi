@@ -19,6 +19,8 @@ enum view_menu_action {
 /* START_DECLARATION */
 void affiche_derniers_fichiers_ouverts ( void );
 void efface_derniers_fichiers_ouverts ( void );
+gboolean gsb_menu_update_accounts_in_menus ( void );
+gboolean gsb_menu_update_view_menu ( gint account_number );
 GtkWidget *init_menus ( GtkWidget *vbox );
 gchar * menu_name ( gchar * menu, gchar * submenu, gchar * subsubmenu );
 /* END_DECLARATION */

@@ -36,8 +36,8 @@
 #include "dialog.h"
 #include "operations_formulaire.h"
 #include "gsb_account.h"
-#include "operations_comptes.h"
 #include "navigation.h"
+#include "menu.h"
 #include "gsb_transaction_data.h"
 #include "categories_onglet.h"
 #include "traitement_variables.h"
@@ -775,6 +775,9 @@ void remplissage_details_compte ( void )
     struct struct_banque *banque;
     struct struct_devise *devise;
 
+    if ( DEBUG )
+	printf ( "remplissage_details_compte\n" );
+
     gtk_entry_set_text ( GTK_ENTRY ( detail_nom_compte ),
 			 gsb_account_get_name (compte_courant_onglet) );
 
@@ -1083,7 +1086,7 @@ void modification_details_compte ( void )
 					 gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( detail_compte_cloture )));
 	if ( mise_a_jour_combofix_categ_necessaire )
 	    mise_a_jour_combofix_categ();
-	gsb_account_list_gui_create_list ();
+	gsb_menu_update_accounts_in_menus ();
 	mise_a_jour_liste_comptes_accueil = 1;
 
 	/* Replace trees contents. */
@@ -1183,7 +1186,7 @@ void modification_details_compte ( void )
 			       g_strdup ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( detail_nom_compte )))) );
 
 	gsb_gui_navigation_update_account ( compte_courant_onglet );
-	gsb_account_list_gui_create_list ();
+	gsb_menu_update_accounts_in_menus ();
 	mise_a_jour_liste_comptes_accueil = 1;
 	remplissage_liste_echeance ();
 	mise_a_jour_liste_echeances_manuelles_accueil = 1;

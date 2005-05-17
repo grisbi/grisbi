@@ -32,6 +32,7 @@
 #include "operations_formulaire.h"
 #include "etats_onglet.h"
 #include "barre_outils.h"
+#include "operations_comptes.h"
 #include "operations_liste.h"
 #include "comptes_traitements.h"
 #include "fichiers_gestion.h"
@@ -402,6 +403,191 @@ void view_menu_cb ( gpointer callback_data, guint callback_action, GtkWidget *wi
 
   mise_a_jour_boutons_caract_liste (gsb_account_get_current_account ());
 }
+
+
+/**
+ * update the view menu in the menu bar
+ * \account_number the account used to update the menu
+ * \return FALSE
+ * */
+gboolean gsb_menu_update_view_menu ( gint account_number )
+{
+    GtkWidget *check_menu_item;
+    gchar * item_name = NULL;
+
+    if ( DEBUG )
+	printf ( "gsb_menu_update_view_menu account : %d\n",
+		 account_number );
+
+    block_menu_cb = TRUE;
+
+    /* update the showing of reconciled transactions */
+
+    check_menu_item = gtk_item_factory_get_item ( item_factory_menu_general,
+						  menu_name(_("View"), _("Show reconciled transactions"), NULL) );
+    gtk_check_menu_item_set_active( GTK_CHECK_MENU_ITEM(check_menu_item),
+				    gsb_account_get_r (account_number));
+
+    /* update the number of line showed */
+
+    switch ( gsb_account_get_nb_rows (account_number))
+    {
+	case 1 :
+	    item_name = menu_name ( _("View"), _("Show one line per transaction"), NULL );
+	    break;
+	case 2 :
+	    item_name = menu_name ( _("View"), _("Show two lines per transaction"), NULL );
+	    break;
+	case 3 :
+	    item_name = menu_name ( _("View"), _("Show three lines per transaction"), NULL );
+	    break;
+	case 4 :
+	    item_name = menu_name ( _("View"), _("Show four lines per transaction"), NULL );
+	    break;
+    }
+
+    check_menu_item = gtk_item_factory_get_item ( item_factory_menu_general, item_name );
+    gtk_check_menu_item_set_active( GTK_CHECK_MENU_ITEM(check_menu_item),
+				    TRUE );
+    block_menu_cb = FALSE;
+
+    return FALSE;
+}
+
+
+/** 
+ * Update the clickable list of closed accounts and target
+ * accounts to move a transaction, in menu.
+ *
+ * \param
+ * \return FALSE
+ * */
+gboolean gsb_menu_update_accounts_in_menus ( void )
+{
+    GSList *list_tmp;
+
+    if ( DEBUG )
+	printf ( "gsb_menu_update_accounts_in_menus\n" );
+
+    /* erase the closed accounts and accounts in the menu to move a transaction */
+    /* FIXME : je pense un bug ici, il va effacer que les comptes dont il connait le nom, peut 
+     * être faudrait passer par les menus directement ?? à vérifier (cédric)*/
+
+    list_tmp = gsb_account_get_list_accounts ();
+
+    while ( list_tmp )
+    {
+	gint i;
+	gchar *tmp;
+
+	i = gsb_account_get_no_account ( list_tmp -> data );
+
+	tmp = my_strdelimit ( gsb_account_get_name (i),
+			      "/",
+			      "\\/" );
+
+	if ( gsb_account_get_closed_account ( i ))
+	    gtk_item_factory_delete_item ( item_factory_menu_general,
+					   menu_name(_("Accounts"), _("Closed accounts"), tmp ));
+	else
+	    gtk_item_factory_delete_item ( item_factory_menu_general,
+					   menu_name(_("Edit"), _("Move transaction to another account"), tmp ));
+
+	list_tmp = list_tmp -> next;
+    }
+
+    gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
+							   menu_name(_("Accounts"), _("Closed accounts"), NULL)),
+			       FALSE );
+    gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
+							   menu_name(_("Edit"), _("Move transaction to another account"), NULL)),
+			       FALSE );
+
+
+    /* create the closed accounts and accounts in the menu to move a transaction */
+
+    list_tmp = gsb_account_get_list_accounts ();
+
+    while ( list_tmp )
+    {
+	gint i;
+	GtkItemFactoryEntry *item_factory_entry;
+	gchar *tmp;
+
+	i = gsb_account_get_no_account ( list_tmp -> data );
+
+	if ( gsb_account_get_closed_account (i))
+	{
+	    /* put the closed accounts in the menu */
+
+	    item_factory_entry = calloc ( 1,
+					  sizeof ( GtkItemFactoryEntry ));
+
+	    tmp = my_strdelimit ( gsb_account_get_name (i),
+				  "/",
+				  "\\/" );
+	    tmp = my_strdelimit ( tmp,
+				  "_",
+				  "__" );
+
+	    item_factory_entry -> path = menu_name(_("Accounts"),  _("Closed accounts"), tmp );
+	    item_factory_entry -> callback = G_CALLBACK ( changement_no_compte_par_menu );
+
+	    /* add 1, else for 0 it wouldn't work */
+
+	    item_factory_entry -> callback_action = i + 1;
+
+	    gtk_item_factory_create_item ( item_factory_menu_general,
+					   item_factory_entry,
+					   NULL,
+					   1 );
+	    gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
+								   menu_name(_("Accounts"), _("Closed accounts"), NULL)),
+				       TRUE );
+	}
+	else
+	{
+	    /* 	we put all the accounts in the edition menu */
+
+	    item_factory_entry = calloc ( 1, sizeof ( GtkItemFactoryEntry ));
+
+	    tmp = my_strdelimit ( gsb_account_get_name (i), "/", "\\/" );
+
+	    item_factory_entry -> path = menu_name(_("Edit"), 
+						   _("Move transaction to another account"), 
+						   my_strdelimit ( tmp, "_", "__" ) ); 
+
+	    item_factory_entry -> callback = G_CALLBACK ( move_selected_operation_to_account_nb );
+
+	    /* add 1, else for 0 it wouldn't work */
+
+	    item_factory_entry -> callback_action = i + 1;
+
+	    gtk_item_factory_create_item ( item_factory_menu_general,
+					   item_factory_entry,
+					   GINT_TO_POINTER (i),
+					   1 );
+
+	    gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
+								   menu_name(_("Edit"), _("Move transaction to another account"), NULL)),
+				       TRUE );
+
+	    if ( i == gsb_account_get_current_account () )
+	    {
+		/* un-sensitive the name of account in the menu */
+		gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
+								       menu_name(_("Edit"), _("Move transaction to another account"), tmp)),
+					   FALSE );
+	    }
+	}
+	list_tmp = list_tmp -> next;
+    }
+    return FALSE;
+}
+
+
+
+
 
 /* Local Variables: */
 /* c-basic-offset: 4 */

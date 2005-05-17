@@ -217,6 +217,8 @@ void remplissage_formulaire ( gint no_compte )
     gint i, j;
     GtkWidget *table;
 
+    if ( DEBUG )
+	printf ( "remplissage_formulaire compte %d\n", no_compte );
 
     /*     s'il y avait déjà un formulaire, on l'efface */
 
@@ -579,7 +581,7 @@ void echap_formulaire ( void )
     if ( !etat.formulaire_toujours_affiche )
 	gtk_widget_hide ( frame_droite_bas );
 
-    gtk_widget_grab_focus ( gsb_account_get_tree_view (gsb_account_get_current_account ()) );
+    gtk_widget_grab_focus ( gsb_transactions_list_get_tree_view());
 
 }
 /******************************************************************************/
@@ -2197,8 +2199,8 @@ gboolean gsb_form_finish_edition ( void )
 
     /* get the number of the transaction, stored in the form (0 if new) */
 
-    transaction_number = gtk_object_get_data ( GTK_OBJECT ( formulaire ),
-					       "transaction_number_in_form" );
+    transaction_number = GPOINTER_TO_INT (gtk_object_get_data ( GTK_OBJECT ( formulaire ),
+								"transaction_number_in_form" ));
     current_account = gsb_account_get_current_account ();
 
     /* a new transaction is
@@ -2215,7 +2217,7 @@ gboolean gsb_form_finish_edition ( void )
 
     /* the current widget has to lose the focus to make all the changes if necessary */
 
-    gtk_widget_grab_focus ( gsb_account_get_tree_view (current_account) );
+    gtk_widget_grab_focus ( gsb_transactions_list_get_tree_view()  );
     
     /* check if the datas are ok */
 
@@ -3249,8 +3251,8 @@ gboolean gsb_transactions_list_append_new_transaction ( gpointer transaction )
 
     /*     update the tree_view */
 
-    gsb_transactions_list_append_transaction ( transaction,
-					       gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (transaction)));
+    gsb_transactions_list_append_transaction ( gsb_transaction_data_get_transaction_number (transaction),
+					       gsb_transactions_list_get_store () );
 
     /* if the transaction is a breakdown mother, we happen a white line,
      * which is a normal transaction but with nothing and with the breakdown
@@ -3269,9 +3271,8 @@ gboolean gsb_transactions_list_append_new_transaction ( gpointer transaction )
 						  transaction,
 						  TRUE );
 
-	iter = cherche_iter_operation ( transaction,
-					gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (transaction)));
-	gtk_list_store_set ( GTK_LIST_STORE ( gsb_account_get_store ( gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (transaction)))),
+	iter = cherche_iter_operation ( transaction);
+	gtk_list_store_set ( GTK_LIST_STORE ( gsb_transactions_list_get_store()),
 			     iter,
 			     TRANSACTION_COL_NB_IS_EXPANDED, TRUE,
 			     -1 );
@@ -3323,13 +3324,12 @@ gboolean gsb_transactions_list_update_transaction ( gpointer transaction )
 	printf ( "gsb_transactions_list_update_transaction no %d\n",
 		 gsb_transaction_data_get_transaction_number (transaction));
 
-    store = gsb_account_get_store (gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (transaction)));
-    iter = cherche_iter_operation ( transaction,
-				    gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (transaction)));
+    store = gsb_transactions_list_get_store();
+    iter = cherche_iter_operation ( transaction);
 
     for ( j = 0 ; j < TRANSACTION_LIST_ROWS_NB ; j++ )
     {
-	gsb_transactions_list_fill_row ( transaction,
+	gsb_transactions_list_fill_row ( gsb_transaction_data_get_transaction_number (transaction),
 					 iter,
 					 store,
 					 j );
@@ -3575,7 +3575,7 @@ void affiche_cache_le_formulaire ( void )
 
 	update_ecran ();
 
-/* 	ajustement = gtk_tree_view_get_vadjustment ( GTK_TREE_VIEW ( gsb_account_get_tree_view (gsb_account_get_current_account ()) )); */
+/* 	ajustement = gtk_tree_view_get_vadjustment ( GTK_TREE_VIEW ( gsb_transactions_list_get_tree_view() ) )); */
 	
 /* 	position_ligne_selectionnee = ( cherche_ligne_operation ( gsb_account_get_current_transaction (gsb_account_get_current_account ()), */
 /* 								  gsb_account_get_current_account () ) */

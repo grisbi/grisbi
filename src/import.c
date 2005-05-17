@@ -35,15 +35,15 @@
 #include "utils.h"
 #include "utils_montants.h"
 #include "utils_categories.h"
-#include "operations_liste.h"
 #include "comptes_gestion.h"
+#include "operations_liste.h"
 #include "utils_devises.h"
 #include "dialog.h"
 #include "utils_file_selection.h"
 #include "utils_files.h"
 #include "gsb_account.h"
-#include "operations_comptes.h"
 #include "utils_dates.h"
+#include "menu.h"
 #include "gsb_transaction_data.h"
 #include "fichiers_gestion.h"
 #include "traitement_variables.h"
@@ -121,9 +121,9 @@ extern gint mise_a_jour_combofix_tiers_necessaire;
 extern gint mise_a_jour_liste_comptes_accueil;
 extern gint mise_a_jour_soldes_minimaux;
 extern GtkTreeStore *model;
-extern GtkWidget *notebook_listes_operations;
 extern GtkTreeSelection * selection;
 extern GtkWidget *tree_view;
+extern GtkWidget *tree_view_vbox;
 extern GtkWidget *window;
 /*END_EXTERN*/
 
@@ -1047,13 +1047,13 @@ void traitement_operations_importees ( void )
 
 	    i = gsb_account_get_no_account ( list_tmp -> data );
 
-	    if ( !gsb_account_get_tree_view (i) )
+	    if ( !gsb_transactions_list_get_tree_view()  )
 	    {
 		/*     on crée le tree_view du compte */
 
-		creation_colonnes_tree_view_par_compte (i);
+/* 		creation_colonnes_tree_view_par_compte (i); */
 
-		gtk_box_pack_start ( GTK_BOX ( notebook_listes_operations ),
+		gtk_box_pack_start ( GTK_BOX ( tree_view_vbox ),
 				     creation_tree_view_operations_par_compte (i),
 				     TRUE,
 				     TRUE,
@@ -1065,20 +1065,12 @@ void traitement_operations_importees ( void )
 
 		/* 	on réaffiche la liste des comptes */
 
-		gsb_account_list_gui_create_list();
+		gsb_menu_update_accounts_in_menus();
 	    }
 	    
 	    if ( gsb_account_get_update_list(i) )
 	    {
-		gtk_list_store_clear ( gsb_account_get_store (i) );
-		gsb_account_set_last_transaction ( i,
-						   NULL );
-		gsb_account_set_finished_background_color ( i,
-							    0 );
-		gsb_account_set_finished_balance_showed ( i,
-							  0 );
-		gsb_account_set_finished_selection_transaction ( i,
-								 0);
+		gtk_list_store_clear ( gsb_transactions_list_get_store()  );
 		gsb_account_set_update_list ( i,
 					      0 );
 	    }

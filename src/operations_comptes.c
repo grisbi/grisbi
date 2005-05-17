@@ -27,10 +27,10 @@
 /*START_INCLUDE*/
 #include "operations_comptes.h"
 #include "gsb_account.h"
-#include "gtk_list_button.h"
 #include "menu.h"
-#include "barre_outils.h"
 #include "operations_liste.h"
+#include "gtk_list_button.h"
+#include "barre_outils.h"
 #include "traitement_variables.h"
 #include "utils_str.h"
 #include "comptes_traitements.h"
@@ -40,8 +40,6 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static void changement_no_compte_par_menu ( gpointer null,
-				     gint no_account_plus_un );
 static gboolean gsb_account_list_gui_change_order ( GtkWidget *button );
 static GtkWidget *gsb_account_list_gui_create_account_button ( gint no_account,
 							gint group,
@@ -65,9 +63,7 @@ extern GtkItemFactory *item_factory_menu_general;
 extern gchar *last_date;
 extern gint mise_a_jour_liste_comptes_accueil;
 extern gint nb_colonnes;
-extern GtkWidget *notebook_general;
 extern GtkTreeSelection * selection;
-extern GtkWidget *tree_view;
 /*END_EXTERN*/
 
 
@@ -130,26 +126,13 @@ gboolean gsb_account_list_gui_change_current_account ( gint *no_account )
     if ( DEBUG )
 	printf ( "gsb_account_list_gui_change_current_account : %d\n", new_account );
 
-
-    /*   go to the transactions list page */
-
-    if ( gtk_notebook_get_current_page ( GTK_NOTEBOOK ( notebook_general ) ) != 1 )
-	gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ),
-				1 );
-
     /* Removed because it prevents updating tab at first selection,
      * because saved account is ALWAYS the same as the current one. */
+/*     xxx virer le compte courant dans la sauvegarde du fichier */
 /*     if ( new_account == gsb_account_get_current_account () ) */
 /* 	return FALSE; */
 
-    /* 	on va sur un no_account, on vérifie que ce n'est pas un no_account clos */
-    /* 	    si c'est le cas, on ferme l'icone */
-
-    verifie_no_account_clos ( new_account);
-
-    /*     on cache le tree_view */
-
-    gtk_widget_hide ( gsb_account_get_scrolled_window (gsb_account_get_current_account ()) );
+    /* sensitive the last account in the menu */
 
     gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
 							   menu_name(_("Edit"),
@@ -161,16 +144,16 @@ gboolean gsb_account_list_gui_change_current_account ( gint *no_account )
 
     /*     on se place sur les données du nouveau no_account */
 
-    gsb_account_set_current_account ( new_account);
+    gsb_account_set_current_account (new_account);
 
-    /* change le nom du no_account courant */
-/*     gtk_label_set_text ( GTK_LABEL ( label_name_current_account), gsb_account_get_name (new_account)); */
+    gsb_transactions_list_set_visibles_rows_on_account (new_account);
+    gsb_transactions_list_set_background_color (new_account);
+    gsb_transactions_list_set_transactions_balances (new_account);
 
     /*     affiche le nouveau formulaire  */
     /*     il met aussi à jour la devise courante et les types */
 
     remplissage_formulaire ( new_account );
-
 
     /*     mise en place de la date du dernier relevé */
 
@@ -196,12 +179,7 @@ gboolean gsb_account_list_gui_change_current_account ( gint *no_account )
 
     /*      on termine la liste d'opés si nécessaire */
 
-    verification_list_store_termine ( new_account );
-
-    /*     on affiche le tree_view */
-
-    if ( gsb_account_get_scrolled_window (new_account) )
-	gtk_widget_show ( gsb_account_get_scrolled_window (new_account) );
+/*     verification_list_store_termine ( new_account ); */
 
     gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
 							   menu_name(_("Edit"),
@@ -241,129 +219,6 @@ void verifie_no_account_clos ( gint no_nouveau_no_account )
 
 
 
-/** 
- * Erase and create the clickable list of closed accounts, in menu.
- *
- * \return FALSE
- * */
-gboolean gsb_account_list_gui_create_list ( void )
-{
-    GSList *list_tmp;
-
-    if ( DEBUG )
-	printf ( "gsb_account_list_gui_create_list\n" );
-
-    /* erase the closed accounts and accounts in the menu to move a transaction */
-    list_tmp = gsb_account_get_list_accounts ();
-
-    while ( list_tmp )
-    {
-	gint i;
-	gchar *tmp;
-
-	i = gsb_account_get_no_account ( list_tmp -> data );
-
-	tmp = my_strdelimit ( gsb_account_get_name (i),
-			      "/",
-			      "\\/" );
-
-	if ( gsb_account_get_closed_account ( i ))
-	    gtk_item_factory_delete_item ( item_factory_menu_general,
-					   menu_name(_("Accounts"), _("Closed accounts"), tmp ));
-	else
-	    gtk_item_factory_delete_item ( item_factory_menu_general,
-					   menu_name(_("Edit"), _("Move transaction to another account"), tmp ));
-
-	list_tmp = list_tmp -> next;
-    }
-
-    gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
-							   menu_name(_("Accounts"), _("Closed accounts"), NULL)),
-			       FALSE );
-    gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
-							   menu_name(_("Edit"), _("Move transaction to another account"), NULL)),
-			       FALSE );
-
-
-    /* create the list : a button and an icon for each account */
-
-    list_tmp = gsb_account_get_list_accounts ();
-
-    while ( list_tmp )
-    {
-	gint i;
-	GtkItemFactoryEntry *item_factory_entry;
-	gchar *tmp;
-
-
-	i = gsb_account_get_no_account ( list_tmp -> data );
-
-	if ( gsb_account_get_closed_account (i))
-	{
-	    item_factory_entry = calloc ( 1,
-					  sizeof ( GtkItemFactoryEntry ));
-
-	    tmp = my_strdelimit ( gsb_account_get_name (i),
-				  "/",
-				  "\\/" );
-	    tmp = my_strdelimit ( tmp,
-				  "_",
-				  "__" );
-
-	    item_factory_entry -> path = menu_name(_("Accounts"),  _("Closed accounts"), tmp );
-	    item_factory_entry -> callback = G_CALLBACK ( changement_no_compte_par_menu );
-
-	    /* 	    on rajoute 1 car sinon pour le no_account 0 ça passerait pas... */
-
-	    item_factory_entry -> callback_action = i + 1;
-
-	    gtk_item_factory_create_item ( item_factory_menu_general,
-					   item_factory_entry,
-					   NULL,
-					   1 );
-	    gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
-								   menu_name(_("Accounts"), _("Closed accounts"), NULL)),
-				       TRUE );
-	}
-	else
-	{
-	    /* 	we put all the accounts in the edition menu */
-	    item_factory_entry = calloc ( 1, sizeof ( GtkItemFactoryEntry ));
-
-	    tmp = my_strdelimit ( gsb_account_get_name (i), "/", "\\/" );
-
-	    item_factory_entry -> path = menu_name(_("Edit"), 
-						   _("Move transaction to another account"), 
-						   my_strdelimit ( tmp, "_", "__" ) ); 
-
-	    item_factory_entry -> callback = G_CALLBACK ( move_selected_operation_to_account_nb );
-
-	    /* 	    on rajoute 1 car sinon pour le no_account 0 ça passerait pas... */
-	    item_factory_entry -> callback_action = i + 1;
-
-	    gtk_item_factory_create_item ( item_factory_menu_general,
-					   item_factory_entry,
-					   GINT_TO_POINTER (i),
-					   1 );
-
-	    gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
-								   menu_name(_("Edit"), _("Move transaction to another account"), NULL)),
-				       TRUE );
-
-	    if ( i == gsb_account_get_current_account () )
-	    {
-		/* un-sensitive the name of account in the menu */
-		gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
-								       menu_name(_("Edit"), _("Move transaction to another account"), tmp)),
-					   FALSE );
-	    }
-	}
-	list_tmp = list_tmp -> next;
-    }
-    return FALSE;
-}
-
-
 
 /** 
  * Called when the order of accounts changed
@@ -395,7 +250,7 @@ gboolean gsb_account_list_gui_change_order ( GtkWidget *button )
 
     /* we remake the other accounts list */
 
-    gsb_account_list_gui_create_list ();
+    gsb_menu_update_accounts_in_menus ();
 
     mise_a_jour_liste_comptes_accueil = 1;
 

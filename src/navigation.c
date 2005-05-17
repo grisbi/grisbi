@@ -315,6 +315,8 @@ static gboolean gsb_gui_navigation_select_link ( GtkTreeSelection * selection,
     if (! gtk_tree_selection_get_selected (selection, NULL, &iter))
 	return(FALSE);
 
+    /* we go on the account page */ 
+
     gtk_tree_model_get_value (model, &iter, NAVIGATION_PAGE, &value);
     gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ), g_value_get_int(&value) );
     g_value_unset (&value);

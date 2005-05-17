@@ -46,6 +46,7 @@ static gint gsb_transaction_data_change_transaction_number ( gint no_transaction
 						      gint new_no_transaction );
 static struct_transaction *gsb_transaction_data_get_transaction_by_no ( gint no_transaction,
 								 gint no_account );
+static GSList *gsb_transaction_data_get_transactions_list_copy ( void );
 static gboolean gsb_transaction_data_save_transaction_pointer ( gpointer transaction );
 static gboolean gsb_transaction_data_set_account_number ( gint no_transaction,
 						   gint no_account );
@@ -54,7 +55,8 @@ static gboolean gsb_transaction_data_set_account_number ( gint no_transaction,
 /*START_EXTERN*/
 /*END_EXTERN*/
 
-
+/** the g_slist which contains all the transactions structures */
+static GSList *transactions_list;
 
 /** 2 pointers to the 2 last transaction used (to increase the speed) */
 static struct_transaction *transaction_buffer[2];
@@ -72,14 +74,43 @@ gboolean gsb_transaction_data_init_variables ( void )
     transaction_buffer[0] = NULL;
     transaction_buffer[1] = NULL;
     current_transaction_buffer = 0;
+    transactions_list = NULL;
 
     return FALSE;
 }
 
 
+/** 
+ * return a pointer to the g_slist of transactions structure
+ * it's not a copy, so we must not free or change it
+ * if we want to change something, use gsb_transaction_data_copy_transactions_list instead
+ *
+ * \param none
+ * \return the slist of transactions structures
+ * */
+GSList *gsb_transaction_data_get_transactions_list ( void )
+{
+    return transactions_list;
+}
+
+
+/**
+ * return a pointer on a copy g_slist of transactions
+ * that g_slist has to be freed with g_slist_free
+ * 
+ * \param none
+ * \return a copy of the g_slist on the transactions
+ * */
+GSList *gsb_transaction_data_get_transactions_list_copy ( void )
+{
+    return g_slist_copy (transactions_list);
+}
+
+
+
 /** transitionnal fonction, give back the pointer to the transaction,
  * normally deleted when the transfer from old transactions is finished 
- * xxx */
+ * set also in the transactions list, check if it's fast enough with only the transactions number ? */
 gpointer gsb_transaction_data_get_pointer_to_transaction ( gint transaction_number )
 {
     struct_transaction *transaction;
@@ -88,7 +119,6 @@ gpointer gsb_transaction_data_get_pointer_to_transaction ( gint transaction_numb
 							       -1 );
 
     return transaction;
-
 }
 
 /** find the last number of transaction
@@ -98,32 +128,49 @@ gpointer gsb_transaction_data_get_pointer_to_transaction ( gint transaction_numb
 gint gsb_transaction_data_get_last_number (void)
 {
     gint last_number = 0;
-    GSList *accounts_list;
+    GSList *transactions_list_tmp;
+    /*     xxx à virer */
+    /*     GSList *accounts_list; */
 
-    accounts_list = gsb_account_get_list_accounts ();
+    transactions_list_tmp = transactions_list;
 
-    while ( accounts_list )
+    while (transactions_list_tmp)
     {
-	gint i;
-	GSList *transactions_list;
+	struct_transaction *transaction;
 
-	i = gsb_account_get_no_account ( accounts_list -> data );
-	transactions_list = gsb_account_get_transactions_list (i);
+	transaction = transactions_list_tmp -> data;
+	if ( transaction -> transaction_number > last_number )
+	    last_number = transaction -> transaction_number;
 
-	while ( transactions_list )
-	{
-	    struct_transaction *transaction;
-
-	    transaction = transactions_list -> data;
-	    if ( transaction -> transaction_number > last_number )
-		last_number = transaction -> transaction_number;
-
-	    transactions_list = transactions_list -> next;
-	}
-	accounts_list = accounts_list -> next;
+	transactions_list_tmp = transactions_list_tmp -> next;
     }
-
     return last_number;
+
+    /*     xxx à virer */
+    /*     accounts_list = gsb_account_get_list_accounts (); */
+    /*  */
+    /*     while ( accounts_list ) */
+    /*     { */
+    /* 	gint i; */
+    /* 	GSList *transactions_list; */
+    /*  */
+    /* 	i = gsb_account_get_no_account ( accounts_list -> data ); */
+    /* 	transactions_list = gsb_account_get_transactions_list (i); */
+    /*  */
+    /* 	while ( transactions_list ) */
+    /* 	{ */
+    /* 	    struct_transaction *transaction; */
+    /*  */
+    /* 	    transaction = transactions_list -> data; */
+    /* 	    if ( transaction -> transaction_number > last_number ) */
+    /* 		last_number = transaction -> transaction_number; */
+    /*  */
+    /* 	    transactions_list = transactions_list -> next; */
+    /* 	} */
+    /* 	accounts_list = accounts_list -> next; */
+    /*     } */
+    /*  */
+    /*     return last_number; */
 }
 
 /** get the number of the transaction and save the pointer in the buffer
@@ -147,8 +194,6 @@ gint gsb_transaction_data_get_transaction_number ( gpointer transaction_pointer 
 
     return transaction -> transaction_number;
 }
-
-
 
 
 /** save the pointer in a buffer to increase the speed later
@@ -185,8 +230,9 @@ struct_transaction *gsb_transaction_data_get_transaction_by_no ( gint no_transac
 								 gint no_account )
 {
     GSList *accounts_list;
-    GSList *transactions_list;
-    struct_transaction *transaction;
+    GSList *transactions_list_tmp;
+
+    /* xxx virer no_account qui sert plus à rien */
 
     /* if it's a white line or nothing, go away */
 
@@ -199,67 +245,89 @@ struct_transaction *gsb_transaction_data_get_transaction_by_no ( gint no_transac
 	 &&
 	 transaction_buffer[0] -> transaction_number == no_transaction )
 	return transaction_buffer[0];
-	
+
     if ( transaction_buffer[1]
 	 &&
 	 transaction_buffer[1] -> transaction_number == no_transaction )
 	return transaction_buffer[1];
-	
-    /* if we have an account, we look for the transaction */
 
-    if ( no_account != -1 )
+    transactions_list_tmp = transactions_list;
+
+    while ( transactions_list_tmp )
     {
-	transactions_list = gsb_account_get_transactions_list ( no_account );
+	struct_transaction *transaction;
 
-	while ( transactions_list )
+	transaction = transactions_list_tmp -> data;
+
+	if ( transaction -> transaction_number == no_transaction )
 	{
-	    transaction = transactions_list -> data;
-
-	    if ( transaction -> transaction_number == no_transaction )
-	    {
-		gsb_transaction_data_save_transaction_pointer ( transaction );
-		return transaction;
-	    }
-
-	    transactions_list = transactions_list -> next;
+	    gsb_transaction_data_save_transaction_pointer ( transaction );
+	    return transaction;
 	}
+
+	transactions_list_tmp = transactions_list_tmp -> next;
     }
 
+    /* here, we didn't find any transaction with that number */
+
+    return NULL;
+
+    /*     xxx à virer */
+    /* if we have an account, we look for the transaction */
+
+    /*     if ( no_account != -1 ) */
+    /*     { */
+    /* 	transactions_list_tmp = gsb_account_get_transactions_list ( no_account ); */
+    /*  */
+    /* 	while ( transactions_list_tmp ) */
+    /* 	{ */
+    /* 	    transaction = transactions_list_tmp -> data; */
+    /*  */
+    /* 	    if ( transaction -> transaction_number == no_transaction ) */
+    /* 	    { */
+    /* 		gsb_transaction_data_save_transaction_pointer ( transaction ); */
+    /* 		return transaction; */
+    /* 	    } */
+    /*  */
+    /* 	    transactions_list_tmp = transactions_list_tmp -> next; */
+    /* 	} */
+    /*     } */
+    /*  */
     /* if we are here, it's either if no_account = -1
      * either we didn't find the transaction in the given account
      * so, we check all the accounts, except the one given in the parameters */
 
-    accounts_list = gsb_account_get_list_accounts ();
-
-    while ( accounts_list )
-    {
-	gint i;
-
-	i = gsb_account_get_no_account ( accounts_list -> data );
-
-	if ( i != no_account )
-	{
-	    transactions_list = gsb_account_get_transactions_list ( i );
-
-	    while ( transactions_list )
-	    {
-		transaction = transactions_list -> data;
-
-		if ( transaction -> transaction_number == no_transaction )
-		{
-		    gsb_transaction_data_save_transaction_pointer ( transaction );
-		    return transaction;
-		}
-
-		transactions_list = transactions_list -> next;
-	    }
-	}
-	accounts_list = accounts_list -> next;
-    }
+    /*     accounts_list = gsb_account_get_list_accounts (); */
+    /*  */
+    /*     while ( accounts_list ) */
+    /*     { */
+    /* 	gint i; */
+    /*  */
+    /* 	i = gsb_account_get_no_account ( accounts_list -> data ); */
+    /*  */
+    /* 	if ( i != no_account ) */
+    /* 	{ */
+    /* 	    transactions_list = gsb_account_get_transactions_list ( i ); */
+    /*  */
+    /* 	    while ( transactions_list ) */
+    /* 	    { */
+    /* 		transaction = transactions_list -> data; */
+    /*  */
+    /* 		if ( transaction -> transaction_number == no_transaction ) */
+    /* 		{ */
+    /* 		    gsb_transaction_data_save_transaction_pointer ( transaction ); */
+    /* 		    return transaction; */
+    /* 		} */
+    /*  */
+    /* 		transactions_list = transactions_list -> next; */
+    /* 	    } */
+    /* 	} */
+    /* 	accounts_list = accounts_list -> next; */
+    /* } */
 
     /* we didn't find any transaction with that number */
 
-    return NULL;
+    /*     return NULL; */
 }
 
 
@@ -284,9 +352,9 @@ gint gsb_transaction_data_change_transaction_number ( gint no_transaction,
 	 ||
 	 !new_no_transaction )
 	return FALSE;
-    
+
     transaction -> transaction_number = new_no_transaction;
-    
+
     return new_no_transaction;
 }
 
@@ -1552,11 +1620,13 @@ gint gsb_transaction_data_new_transaction_with_number ( gint no_account,
     if ( !transaction_number )
 	transaction_number = gsb_transaction_data_get_last_number () + 1;
 
-
     transaction -> account_number = no_account;
     transaction -> transaction_number = transaction_number;
-    transaction -> account_number = gsb_account_get_currency (no_account);
+    transaction -> currency_number = gsb_account_get_currency (no_account);
 
+    transactions_list = g_slist_append ( transactions_list,
+					 transaction );
+/* xxx to remove : */
     gsb_account_append_transaction ( no_account,
 				     transaction );
 
@@ -1601,6 +1671,7 @@ gboolean gsb_transaction_data_move_transaction ( gint transaction_number,
 
     gsb_transaction_data_remove_transaction ( transaction_number );
     transaction -> account_number = target_account;
+/*     xxx to remove that : */
     gsb_account_append_transaction ( transaction -> account_number,
 				     transaction );
     return TRUE;

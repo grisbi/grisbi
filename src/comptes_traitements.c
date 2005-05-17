@@ -29,8 +29,8 @@
 /*START_INCLUDE*/
 #include "comptes_traitements.h"
 #include "type_operations.h"
-#include "operations_liste.h"
 #include "comptes_gestion.h"
+#include "operations_liste.h"
 #include "utils.h"
 #include "dialog.h"
 #include "utils_echeances.h"
@@ -38,6 +38,7 @@
 #include "gsb_account.h"
 #include "operations_comptes.h"
 #include "navigation.h"
+#include "menu.h"
 #include "gsb_transaction_data.h"
 #include "main.h"
 #include "categories_onglet.h"
@@ -75,8 +76,8 @@ extern gint mise_a_jour_liste_echeances_manuelles_accueil;
 extern gint mise_a_jour_soldes_minimaux;
 extern gint nb_echeances;
 extern GtkWidget *notebook_general;
-extern GtkWidget *notebook_listes_operations;
 extern GtkStyle *style_entree_formulaire[2];
+extern GtkWidget *tree_view_vbox;
 extern GtkWidget *treeview;
 extern GtkWidget *widget_formulaire_echeancier[SCHEDULER_FORM_TOTAL_WIDGET];
 /*END_EXTERN*/
@@ -130,7 +131,7 @@ gboolean new_account ( void )
     gtk_widget_set_sensitive ( bouton_supprimer_compte, TRUE );
 
     /* update the accounts lists */ 
-    gsb_account_list_gui_create_list (); 
+    gsb_menu_update_accounts_in_menus (); 
     compte_courant_onglet = no_compte;
 
     /* Go to accounts properties */
@@ -143,9 +144,9 @@ gboolean new_account ( void )
     gsb_gui_navigation_add_account ( no_compte );
 
     /* Create account transaction list (in fact, a treeview). */
-    creation_colonnes_tree_view_par_compte (no_compte);
+/*     creation_colonnes_tree_view_par_compte (no_compte); */
 
-    gtk_box_pack_start ( GTK_BOX ( notebook_listes_operations ),
+    gtk_box_pack_start ( GTK_BOX ( tree_view_vbox ),
 			 creation_tree_view_operations_par_compte (no_compte),
 			 TRUE, TRUE, 0 );
 
@@ -189,7 +190,7 @@ gboolean delete_account ( void )
 
     /* delete the transactions list page */
 
-    gtk_notebook_remove_page ( GTK_NOTEBOOK ( notebook_listes_operations ),
+    gtk_notebook_remove_page ( GTK_NOTEBOOK ( tree_view_vbox ),
 			       deleted_account + 1 );
 
     /* delete the schedules transactions on that account */
@@ -260,7 +261,7 @@ gboolean delete_account ( void )
 
     /* update the buttons lists */
 
-    gsb_account_list_gui_create_list();
+    gsb_menu_update_accounts_in_menus();
 
     /* update the combofixes if needed */
 

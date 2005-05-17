@@ -116,6 +116,7 @@ extern GSList *liste_labels_titres_colonnes_liste_ope ;
 extern GtkWidget *preview;
 extern gchar *tips_col_liste_operations[TRANSACTION_LIST_COL_NB];
 extern gchar *titres_colonnes_liste_operations[TRANSACTION_LIST_COL_NB];
+extern GtkTreeViewColumn *transactions_tree_view_columns[TRANSACTION_LIST_COL_NB];
 extern GtkWidget *window;
 /*END_EXTERN*/
 
@@ -296,15 +297,7 @@ gboolean modification_retient_affichage_par_compte ( void )
 				      nb_lignes );
 	    gsb_account_set_r (i,
 			       affichage_r );
-	    gsb_account_set_last_transaction ( i,
-					       NULL );
-	    gsb_account_set_finished_background_color ( i,
-							0 );
-	    gsb_account_set_finished_balance_showed ( i,
-						      0 );
-	    gsb_account_set_finished_selection_transaction ( i,
-							      0);
-	    gtk_list_store_clear ( gsb_account_get_store (i) );
+	    gtk_list_store_clear ( gsb_transactions_list_get_store()  );
 	}
 
 	list_tmp = list_tmp -> next;
@@ -332,19 +325,19 @@ gboolean change_choix_ajustement_auto_colonnes ( GtkWidget *bouton )
 	allocation_precedente = 0;
 
 	for ( i = 0 ; i < TRANSACTION_LIST_COL_NB ; i++ )
-	    gtk_tree_view_column_set_resizable ( gsb_account_get_column ( gsb_account_get_current_account (), i),
+	    gtk_tree_view_column_set_resizable ( transactions_tree_view_columns[i],
 						 FALSE );
 
-	changement_taille_liste_ope ( gsb_account_get_tree_view (gsb_account_get_current_account ()),
-				      &( GTK_WIDGET (gsb_account_get_tree_view (gsb_account_get_current_account ()))-> allocation ));
+	changement_taille_liste_ope ( gsb_transactions_list_get_tree_view(),
+				      &( GTK_WIDGET (gsb_transactions_list_get_tree_view() ))-> allocation );
     }
     else
     {
 	for ( i = 0 ; i < TRANSACTION_LIST_COL_NB ; i++ )
 	{
-	    gtk_tree_view_column_set_resizable ( gsb_account_get_column ( gsb_account_get_current_account (), i),
+	    gtk_tree_view_column_set_resizable ( transactions_tree_view_columns[i],
 						 TRUE );
-	    taille_largeur_colonnes[i] = gtk_tree_view_column_get_fixed_width ( gsb_account_get_column ( gsb_account_get_current_account (), i));
+	    taille_largeur_colonnes[i] = gtk_tree_view_column_get_fixed_width ( transactions_tree_view_columns[i]);
 	}
    }
     return ( FALSE );
@@ -361,9 +354,9 @@ gboolean change_largeur_colonne ( GtkWidget *clist,
 
     if ( etat.largeur_auto_colonnes )
     {
-	if ( rapport_largeur_colonnes[colonne] * GTK_WIDGET (gsb_account_get_tree_view (gsb_account_get_current_account ())) -> allocation.width / 100 )
-	    gtk_tree_view_column_set_fixed_width ( gsb_account_get_column ( gsb_account_get_current_account (), colonne),
-						   rapport_largeur_colonnes[colonne] * GTK_WIDGET (gsb_account_get_tree_view (gsb_account_get_current_account ())) -> allocation.width / 100 );
+	if ( rapport_largeur_colonnes[colonne] * GTK_WIDGET (gsb_transactions_list_get_tree_view()) -> allocation.width / 100 )
+	    gtk_tree_view_column_set_fixed_width ( transactions_tree_view_columns[colonne],
+						   rapport_largeur_colonnes[colonne] * GTK_WIDGET (gsb_transactions_list_get_tree_view()) -> allocation.width / 100 );
     }
 
     return FALSE;
@@ -1041,9 +1034,6 @@ void recuperation_noms_colonnes_et_tips ( void )
 		}
 	    }
 	}
-    /*     on met à jour les titres des listes d'opé */
-
-    update_titres_tree_view ();
 }
 /* ************************************************************************************************************** */
 

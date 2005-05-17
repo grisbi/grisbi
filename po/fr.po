@@ -3719,8 +3719,8 @@ msgid ""
 msgstr "Gérald Niel (gerald.niel[at]grisbi.org) : paquets Slackware, site web"
 
 #: src/help.c:61
-msgid "Matthieu Puppat (tieum.tieum@free.fr): Mandrake packaging"
-msgstr "Matthieu Pupat (tieum.tieum@free.fr) : paquets Mandrake"
+msgid "Matthieu Puppat (tieum.tieum@free.fr): Mandriva packaging"
+msgstr "Matthieu Pupat (tieum.tieum@free.fr) : paquets Mandriva"
 
 #: src/help.c:62
 #, fuzzy

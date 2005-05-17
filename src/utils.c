@@ -321,7 +321,7 @@ void demarrage_idle ( void )
 {
     if ( DEBUG )
 	printf ( "demarrage_idle\n" );
-
+exit (0);
     if ( !id_fonction_idle )
 	id_fonction_idle = g_idle_add ( (GSourceFunc) utilisation_temps_idle,
 					NULL );
@@ -362,12 +362,12 @@ void update_ecran ( void )
     if ( DEBUG )
 	printf ( "update_ecran\n" );
 
-    idle_en_cours = termine_idle ();
+/*     idle_en_cours = termine_idle (); */
 
     while ( g_main_iteration (FALSE));
 
-    if ( idle_en_cours )
-	demarrage_idle ();
+/*     if ( idle_en_cours ) */
+/* 	demarrage_idle (); */
 }
 /******************************************************************************/
 

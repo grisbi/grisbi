@@ -806,12 +806,11 @@ gboolean gsb_reconcile_mark_transaction ( gpointer transaction )
 	 gsb_transaction_data_get_marked_transaction ( gsb_transaction_data_get_transaction_number (transaction ))== 3 )
 	return FALSE;
 
-    model = gsb_account_get_store ( gsb_account_get_current_account () );
+    model = GTK_TREE_MODEL (gsb_transactions_list_get_store());
 
     montant = gsb_transaction_data_get_adjusted_amount ( gsb_transaction_data_get_transaction_number (transaction));
 
-    iter = cherche_iter_operation ( transaction,
-				    gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (transaction)));
+    iter = cherche_iter_operation ( transaction);
 
     if ( gsb_transaction_data_get_marked_transaction ( gsb_transaction_data_get_transaction_number (transaction )))
     {

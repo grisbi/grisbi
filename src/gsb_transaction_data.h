@@ -88,6 +88,7 @@ gint gsb_transaction_data_get_sub_category_number ( gint no_transaction );
 gchar *gsb_transaction_data_get_transaction_id ( gint no_transaction );
 gint gsb_transaction_data_get_transaction_number ( gpointer transaction_pointer );
 gint gsb_transaction_data_get_transaction_number_transfer ( gint no_transaction );
+GSList *gsb_transaction_data_get_transactions_list ( void );
 GDate *gsb_transaction_data_get_value_date ( gint no_transaction );
 gchar *gsb_transaction_data_get_voucher ( gint no_transaction );
 gboolean gsb_transaction_data_init_variables ( void );

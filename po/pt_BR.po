@@ -3419,8 +3419,8 @@ msgid "Gerald Niel (gegeweb@users.sourceforge.net): Slackware packaging, website
 msgstr "Gerald Niel (gegeweb@users.sourceforge.net): Versão Slackware, website"
 
 #: src/help.c:61
-msgid "Matthieu Puppat (tieum.tieum@free.fr): Mandrake packaging"
-msgstr "Matthieu Puppat (tieum.tieum@free.fr): Versão Mandrake"
+msgid "Matthieu Puppat (tieum.tieum@free.fr): Mandriva packaging"
+msgstr "Matthieu Puppat (tieum.tieum@free.fr): Versão Mandriva"
 
 #: src/help.c:62
 msgid "Francois Terrot (grisbi@terrot.net): Windows packaging, cygwin port"

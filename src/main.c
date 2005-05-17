@@ -51,9 +51,9 @@
 #include "tip.h"
 #include "erreur.h"
 #include "gsb_account.h"
+#include "fichiers_gestion.h"
 #include "operations_liste.h"
 #include "traitement_variables.h"
-#include "fichiers_gestion.h"
 #include "parse_cmdline.h"
 #include "etats_config.h"
 #include "parametres.h"
@@ -277,7 +277,7 @@ int main (int argc, char *argv[])
 
 	/* 	on met en place l'idle */
 
-	demarrage_idle ();
+/* 	demarrage_idle (); */
 
 	/* on vérifie les arguments de ligne de commande */
 
@@ -285,7 +285,7 @@ int main (int argc, char *argv[])
 	{
 		/* nom de fichier sur la ligne de commande; c'est celui-là qu'on ouvre */
 		nom_fichier_comptes = opt.fichier;
-		ouverture_confirmee();
+		gsb_file_open_file(nom_fichier_comptes);
 	}
 	else 
 	{
@@ -295,7 +295,7 @@ int main (int argc, char *argv[])
 		     nom_fichier_comptes
 		     &&
 		     strlen ( nom_fichier_comptes ) )
-		    ouverture_confirmee();
+		    gsb_file_open_file(nom_fichier_comptes);
 	}
 	
 	/*   à ce niveau, le fichier doit être chargé, on met sur l'onglet demandé si nécessaire */
@@ -395,224 +395,6 @@ int main (int argc, char *argv[])
 	gtk_main ();
 
 	exit(0);
-}
-/************************************************************************************************/
-
-
-/************************************************************************************************/
-gboolean utilisation_temps_idle ( gpointer null )
-{
-    GSList *list_tmp;
-
-    if ( !gsb_account_get_accounts_amount () )
-    {
-	if ( DEBUG )
-	    printf ( "termine_idle\n" );
-	return FALSE;
-    }
-
-/*     dans l'ordre, on va créer et remplir la liste d'opé du compte courant, */
-/*     le 1er à être ouvert, puis les autres comptes */
-
-/*     réalisation de tous les list_store */
-/* 	de cette manière, lors du remplissage, les opé seront ajoutées */
-/* 	directement au tree view */
-
-    list_tmp = gsb_account_get_list_accounts ();
-
-    while ( list_tmp )
-    {
-	gint i;
-
-	i = gsb_account_get_no_account ( list_tmp -> data );
-
-	if ( !GTK_WIDGET_REALIZED ( gsb_account_get_tree_view (i) ))
-	{
-	    if( DEBUG )
-		printf ( "realize tree_view compte %d\n", i );
-
-	    gtk_widget_realize ( gsb_account_get_tree_view (i) );
-	    return TRUE;
-	}
-
-	list_tmp = list_tmp -> next;
-    }
-
-
-/*     remplissage du list_store du compte courant */
-/*     on remplit par parties de x opés, invisible ici */
-/* 	une fois que tout le compte a été remplit, OPE_EN_COURS = -1 */
-
-
-    if ( gsb_account_get_last_transaction (gsb_account_get_current_account ()) != GINT_TO_POINTER (-1))
-    {
-	if ( DEBUG
-	     &&
-	     !gsb_account_get_last_transaction (gsb_account_get_current_account ()) )
-	    printf ( "remplissage compte courant no %d par idle\n", gsb_account_get_current_account () );
-
-	gsb_transactions_list_fill_store ( gsb_account_get_current_account (),
-					   1 );
-	return TRUE;
-    }
-
-/*     update visibles rows for current account */
-
-    if ( !gsb_account_get_finished_visible_rows (gsb_account_get_current_account ()) )
-    {
-	if ( DEBUG )
-	    printf ( "show or hide the rows for the current account no %d by idle\n", gsb_account_get_current_account () );
-
-	 gsb_transactions_list_set_visibles_rows_on_account ( gsb_account_get_current_account () );
-
-	return TRUE;
-    }
-
-
-/*     mise à jour de la couleur du fond du compte courant */
-
-    if ( !gsb_account_get_finished_background_color (gsb_account_get_current_account ()) )
-    {
-	if ( DEBUG )
-	    printf ( "mise en place couleur du fond de liste compte courant no %d par idle\n", gsb_account_get_current_account () );
-
-	gsb_transactions_list_set_background_color ( gsb_account_get_current_account () );
-
-	return TRUE;
-    }
-
-/*     mise à jour des soldes du compte courant */
-
-    if ( !gsb_account_get_finished_balance_showed (gsb_account_get_current_account ()) )
-    {
-	if ( DEBUG )
-	    printf ( "mise en place des soldes de liste compte courant no %d par idle\n", gsb_account_get_current_account () );
-
-	gsb_transactions_list_set_transactions_balances ( gsb_account_get_current_account () );
-
-	return TRUE;
-    }
-
-    /*     on déplace le scrolling de la liste si nécessaire pour afficher la sélection */
-
-    gsb_transactions_list_move_to_current_transaction ( gsb_account_get_current_account ());
-
-
-
-/*     uncomment that to make only the first account, to make it faster while programming */
-
-/*     id_fonction_idle = 0;  */
-/*     if ( DEBUG ) */
-/* 	printf ( "termine_idle\n" ); */
-/*     return FALSE; */
-
-/*     création du list_store des différents comptes */
-
-    list_tmp = gsb_account_get_list_accounts ();
-
-    while ( list_tmp )
-    {
-	gint i;
-
-	i = gsb_account_get_no_account ( list_tmp -> data );
-
-	if ( gsb_account_get_last_transaction (i) != GINT_TO_POINTER (-1))
-	{
-	    if ( DEBUG
-		 &&
-		 gsb_account_get_last_transaction (i) )
-		printf ( "remplissage compte %d par idle\n", i );
-
-	    gsb_transactions_list_fill_store ( i,
-					       1 );
-	    return TRUE;
-	}
-
-	list_tmp = list_tmp -> next;
-    }
-
-
- /*     update visibles rows for current account */
-
-    list_tmp = gsb_account_get_list_accounts ();
-
-    while ( list_tmp )
-    {
-	gint i;
-
-	i = gsb_account_get_no_account ( list_tmp -> data );
-
-	if ( !gsb_account_get_finished_visible_rows (i) )
-	{
-	    if ( DEBUG )
-		printf ( "show or hide the rows for the account no %d by idle\n", i );
-
-	    gsb_transactions_list_set_visibles_rows_on_account ( i );
-
-	    return TRUE;
-	}
-
-	list_tmp = list_tmp -> next;
-    }
-
-
-/*     mise à jour de la couleur du fond des différents comptes */
-
-    list_tmp = gsb_account_get_list_accounts ();
-
-    while ( list_tmp )
-    {
-	gint i;
-
-	i = gsb_account_get_no_account ( list_tmp -> data );
-
-	if ( !gsb_account_get_finished_background_color (i) )
-	{
-	    if ( DEBUG )
-		printf ( "mise en place couleur du fond de liste compte no %d par idle\n", i );
-
-	    gsb_transactions_list_set_background_color ( i );
-
-	    return TRUE;
-	}
-
-	list_tmp = list_tmp -> next;
-    }
-
-/*     mise à jour des soldes des différents comptes */
-
-    list_tmp = gsb_account_get_list_accounts ();
-
-    while ( list_tmp )
-    {
-	gint i;
-
-	i = gsb_account_get_no_account ( list_tmp -> data );
-
-	if ( !gsb_account_get_finished_balance_showed (i) )
-	{
-	    if ( DEBUG )
-		printf ( "mise en place des soldes de liste compte no %d par idle\n", i );
-
-	    gsb_transactions_list_set_transactions_balances ( i );
-
-	    /*     on déplace le scrolling de la liste si nécessaire pour afficher la sélection */
-
-	    gsb_transactions_list_move_to_current_transaction ( i );
-
-
-	    return TRUE;
-	}
-
-	list_tmp = list_tmp -> next;
-    }
-
-
-    id_fonction_idle = 0; 
-    if ( DEBUG )
-	printf ( "termine_idle\n" );
-
-    return FALSE;
 }
 /************************************************************************************************/
 

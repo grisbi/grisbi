@@ -3383,7 +3383,7 @@ msgid ""
 msgstr ""
 
 #: src/help.c:61
-msgid "Matthieu Puppat (tieum.tieum@free.fr): Mandrake packaging"
+msgid "Matthieu Puppat (tieum.tieum@free.fr): Mandriva packaging"
 msgstr ""
 
 #: src/help.c:62

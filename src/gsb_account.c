@@ -37,13 +37,19 @@
 #include "data_currency.h"
 #include "data_form.h"
 #include "data_payment.h"
+#include "gsb_transaction_data.h"
 #include "operations_liste.h"
 #include "structures.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
+static gpointer gsb_account_get_column ( gint no_account,
+				  gint no_column );
 static struct_account *gsb_account_get_structure ( gint no );
 static gint gsb_account_max_number ( void );
+static gboolean gsb_account_set_column ( gint no_account,
+				  gint no_column,
+				  gpointer column );
 static gboolean gsb_account_set_transactions_list ( gint no_account,
 					     GSList *list );
 /*END_STATIC*/
@@ -757,122 +763,6 @@ gboolean gsb_account_set_marked_balance ( gint no_account,
 }
 
 
-/** get the tree of the account
- * \param no_account no of the account
- * \return tree or NULL if the account doesn't exist
- * */
-gpointer gsb_account_get_tree_view ( gint no_account )
-{
-    struct_account *account;
-
-    account = gsb_account_get_structure ( no_account );
-
-    if (!account )
-	return NULL;
-
-    return account -> transactions_tree_view;
-}
-
-
-/** set the tree of the account
- * \param no_account no of the account
- * \param tree tree to set
- * \return TRUE, ok ; FALSE, problem
- * */
-gboolean gsb_account_set_tree_view ( gint no_account,
-				     gpointer tree )
-{
-    struct_account *account;
-
-    account = gsb_account_get_structure ( no_account );
-
-    if (!account )
-	return FALSE;
-
-    account -> transactions_tree_view = tree;
-
-    return TRUE;
-}
-
-
-/** get the scrolled_window of the account
- * \param no_account no of the account
- * \return tree or NULL if the account doesn't exist
- * */
-gpointer gsb_account_get_scrolled_window ( gint no_account )
-{
-    struct_account *account;
-
-    account = gsb_account_get_structure ( no_account );
-
-    if (!account )
-	return NULL;
-
-    return account -> transactions_scrolled_window;
-}
-
-
-/** set the scrolled_window of the account
- * \param no_account no of the account
- * \param scrolled_window scrolled_window to set
- * \return TRUE, ok ; FALSE, problem
- * */
-gboolean gsb_account_set_scrolled_window ( gint no_account,
-					   gpointer scrolled_window )
-{
-    struct_account *account;
-
-    account = gsb_account_get_structure ( no_account );
-
-    if (!account )
-	return FALSE;
-
-    account -> transactions_scrolled_window = scrolled_window;
-
-    return TRUE;
-}
-
-
-
-/** get the store of the account
- * \param no_account no of the account
- * \return  or NULL if the account doesn't exist
- * */
-gpointer gsb_account_get_store ( gint no_account )
-{
-    struct_account *account;
-
-    account = gsb_account_get_structure ( no_account );
-
-    if (!account )
-	return NULL;
-
-    return account -> transactions_store;
-}
-
-
-/** set the store of the account
- * \param no_account no of the account
- * \param store  store to set
- * \return TRUE, ok ; FALSE, problem
- * */
-gboolean gsb_account_set_store ( gint no_account,
-				 gpointer store )
-{
-    struct_account *account;
-
-    account = gsb_account_get_structure ( no_account );
-
-    if (!account )
-	return FALSE;
-
-    account -> transactions_store = store;
-
-    return TRUE;
-}
-
-
-
 
 /** get the column of the account
  * \param no_account no of the account
@@ -1001,6 +891,9 @@ gboolean gsb_account_set_column_sort ( gint no_account,
  * */
 GSList *gsb_account_get_transactions_list ( gint no_account )
 {
+    return gsb_transaction_data_get_transactions_list ();
+
+/*     xxx à virer */
     struct_account *account;
 
     account = gsb_account_get_structure ( no_account );
@@ -1998,197 +1891,6 @@ gboolean gsb_account_set_sort_column ( gint no_account,
     return TRUE;
 }
 
-
-
-/** get the last_transaction slist of the account
- * \param no_account no of the account
- * \return the g_slist or NULL if the account doesn't exist
- * */
-GSList *gsb_account_get_last_transaction ( gint no_account )
-{
-    struct_account *account;
-
-    account = gsb_account_get_structure ( no_account );
-
-    if (!account )
-	return NULL;
-
-    return account -> last_transaction;
-}
-
-
-/** set the last_transaction slist of the account
- * \param no_account no of the account
- * \param list g_slist to set
- * \return TRUE, ok ; FALSE, problem
- * */
-gboolean gsb_account_set_last_transaction ( gint no_account,
-					    GSList *list )
-{
-    struct_account *account;
-
-    account = gsb_account_get_structure ( no_account );
-
-    if (!account )
-	return FALSE;
-
-    account -> last_transaction = list;
-
-    return TRUE;
-}
-
-
-
-/** get finished_visible_rows on the account given
- * \param no_account no of the account
- * \return finished_visible_rows or 0 if the account doesn't exist
- * */
-gint gsb_account_get_finished_visible_rows ( gint no_account )
-{
-    struct_account *account;
-
-    account = gsb_account_get_structure ( no_account );
-
-    if (!account )
-	return 0;
-
-    return account -> finished_visible_rows;
-}
-
-
-/** set finished_visible_rows in the account given
- * \param no_account no of the account
- * \param finished_visible_rows finished_visible_rows to set
- * \return TRUE, ok ; FALSE, problem
- * */
-gboolean gsb_account_set_finished_visible_rows ( gint no_account,
-						 gint finished_visible_rows )
-{
-    struct_account *account;
-
-    account = gsb_account_get_structure ( no_account );
-
-    if (!account )
-	return FALSE;
-
-    account -> finished_visible_rows = finished_visible_rows;
-
-    return TRUE;
-}
-
-
-/** get finished_background_color on the account given
- * \param no_account no of the account
- * \return finished_background_color or 0 if the account doesn't exist
- * */
-gint gsb_account_get_finished_background_color ( gint no_account )
-{
-    struct_account *account;
-
-    account = gsb_account_get_structure ( no_account );
-
-    if (!account )
-	return 0;
-
-    return account -> finished_background_color;
-}
-
-
-/** set finished_background_color in the account given
- * \param no_account no of the account
- * \param finished_background_color finished_background_color to set
- * \return TRUE, ok ; FALSE, problem
- * */
-gboolean gsb_account_set_finished_background_color ( gint no_account,
-						     gint finished_background_color )
-{
-    struct_account *account;
-
-    account = gsb_account_get_structure ( no_account );
-
-    if (!account )
-	return FALSE;
-
-    account -> finished_background_color = finished_background_color;
-
-    return TRUE;
-}
-
-
-/** get finished_balance_showed on the account given
- * \param no_account no of the account
- * \return finished_balance_showed or 0 if the account doesn't exist
- * */
-gint gsb_account_get_finished_balance_showed ( gint no_account )
-{
-    struct_account *account;
-
-    account = gsb_account_get_structure ( no_account );
-
-    if (!account )
-	return 0;
-
-    return account -> finished_balance_showed;
-}
-
-
-/** set finished_balance_showed in the account given
- * \param no_account no of the account
- * \param finished_balance_showed finished_balance_showed to set
- * \return TRUE, ok ; FALSE, problem
- * */
-gboolean gsb_account_set_finished_balance_showed ( gint no_account,
-						   gint finished_balance_showed )
-{
-    struct_account *account;
-
-    account = gsb_account_get_structure ( no_account );
-
-    if (!account )
-	return FALSE;
-
-    account -> finished_balance_showed = finished_balance_showed;
-
-    return TRUE;
-}
-
-
-/** get finished_selection_transaction on the account given
- * \param no_account no of the account
- * \return finished_selection_transaction or 0 if the account doesn't exist
- * */
-gint gsb_account_get_finished_selection_transaction ( gint no_account )
-{
-    struct_account *account;
-
-    account = gsb_account_get_structure ( no_account );
-
-    if (!account )
-	return 0;
-
-    return account -> finished_selection_transaction;
-}
-
-
-/** set  in the account given
- * \param no_account no of the account
- * \param finished_selection_transaction finished_selection_transaction to set
- * \return TRUE, ok ; FALSE, problem
- * */
-gboolean gsb_account_set_finished_selection_transaction ( gint no_account,
-							  gint finished_selection_transaction )
-{
-    struct_account *account;
-
-    account = gsb_account_get_structure ( no_account );
-
-    if (!account )
-	return FALSE;
-
-    account -> finished_selection_transaction = finished_selection_transaction;
-
-    return TRUE;
-}
 
 
 /** get the form_organization of the account

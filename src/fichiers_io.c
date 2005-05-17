@@ -42,6 +42,7 @@ struct recuperation_version
 #include "gsb_account.h"
 #include "data_form.h"
 #include "gsb_transaction_data.h"
+#include "operations_liste.h"
 #include "traitement_variables.h"
 #include "utils_str.h"
 #include "main.h"
@@ -51,7 +52,6 @@ struct recuperation_version
 #include "utils_files.h"
 #include "structures.h"
 #include "echeancier_liste.h"
-#include "operations_liste.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -3436,7 +3436,7 @@ gboolean enregistre_fichier ( gchar *new_file )
 			  "Ordre_du_tri",
 			  pointeur_char );
 
-	gtk_tree_sortable_get_sort_column_id ( GTK_TREE_SORTABLE ( gtk_tree_view_get_model (gsb_account_get_tree_view ( i ))),
+	gtk_tree_sortable_get_sort_column_id ( GTK_TREE_SORTABLE ( gtk_tree_view_get_model (gsb_transactions_list_get_tree_view() )),
 					       &sort_column_id,
 					       &order );
 	xmlNewTextChild ( node_compte,
