@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: pl\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-05-14 17:39+0200\n"
-"PO-Revision-Date: 2005-05-06 13:19+0200\n"
+"PO-Revision-Date: 2005-05-18 15:47+0200\n"
 "Last-Translator: Ryszard Jeziorski <r.jeziorski@dart.kielce.pl>\n"
 "Language-Team: Polish\n"
 "MIME-Version: 1.0\n"
@@ -149,7 +149,7 @@ msgstr "Numer transakcji"
 #: src/affichage_liste.c:1037 src/csv.c:240 src/operations_formulaire.c:983
 #: src/operations_formulaire.c:3348
 msgid "Value date"
-msgstr "Data płatnoci"
+msgstr "Data płatności"
 
 #: src/affichage.c:170 src/affichage_liste.c:45 src/affichage_liste.c:840
 #: src/affichage_liste.c:1073 src/csv.c:244 src/etats_affiche.c:2230
@@ -1379,10 +1379,8 @@ msgstr "Import listy kategorii"
 
 #. il y a dÃ©jÃ  des opÃ©rations dans le fichier, on ne peut que fusionner
 #: src/categories_onglet.c:3139
-msgid ""
-"File already contains transactions, the two categories lists will be merged."
-msgstr ""
-"Ponieważ plik zawiera już transakcje listy kategorii zostaną połączone."
+msgid "File already contains transactions, the two categories lists will be merged."
+msgstr "Ponieważ plik zawiera już transakcje listy kategorii zostaną połączone."
 
 #: src/categories_onglet.c:3149 src/imputation_budgetaire.c:2887
 msgid "Do you want"
@@ -1481,8 +1479,7 @@ msgstr "Poprawić niezgodności w podkategorii?"
 
 #: src/check.c:339
 #, c-format
-msgid ""
-"Sub-budgetary line <i>'%s : %s'</i> is a duplicate of <i>'%s : %s'</i>\n"
+msgid "Sub-budgetary line <i>'%s : %s'</i> is a duplicate of <i>'%s : %s'</i>\n"
 msgstr ""
 "Podgrupa linii budżetowej <i>'%s : %s'</i> jest powtórzona w <i>'%s : %s'</"
 "i>\n"
@@ -1736,8 +1733,7 @@ msgstr "Euro"
 
 #: src/comptes_gestion.c:1245
 msgid "Impossible to find the Euro currency, it has probably been deleted."
-msgstr ""
-"Nie można znaleść waluty Euro. Prawdopodobnie została wcześniej skasowana."
+msgstr "Nie można znaleść waluty Euro. Prawdopodobnie została wcześniej skasowana."
 
 #. mise en place des boutons du bas
 #: src/comptes_onglet.c:158 src/menu.c:102
@@ -3599,7 +3595,7 @@ msgstr "Niezgodność"
 msgid "Last statement: %02d/%02d/%d"
 msgstr "Ostatnia modyfikacja: %02d/%02d/%d"
 
-#. le rapprochement existe dÃ©jÃ 
+#. le rapprochement existe dÃ©jÃ
 #: src/equilibrage.c:1001
 msgid "Reconciliation reference already exist"
 msgstr "Numer potwierdzenia już istnieje"
@@ -3693,8 +3689,7 @@ msgstr "Ten plik nie jest plikiem raportu Grisbi"
 msgid ""
 "This report has been produced with grisbi version %s, Grisbi will "
 "nevertheless try to import it."
-msgstr ""
-"Ten raport został wykonany w wersji %s programu i nie zostanie zaimporotwany."
+msgstr "Ten raport został wykonany w wersji %s programu i nie zostanie zaimporotwany."
 
 #: src/etat_io.c:68 src/fichiers_io.c:8832 src/fichiers_io.c:9185
 msgid "Version mismatch"
@@ -4270,7 +4265,7 @@ msgstr "Data początkowa"
 msgid "Final date"
 msgstr "Data końcowa"
 
-#. on met dans la partie de gauche une liste contenant les comptes Ã 
+#. on met dans la partie de gauche une liste contenant les comptes Ã
 #. sÃ©lectionner
 #: src/etats_config.c:2286
 msgid "Select transactions only for given accounts"
@@ -4829,7 +4824,7 @@ msgstr "Pokaż sumy cząstkowe dla każdej podgrupy linii budżetowcyh"
 msgid "Display \"No sub-budgetary line\" if none"
 msgstr "Pokaż \"Brak podgrup linii budżetowych\" jeżeli ich brak"
 
-#. on met dans la partie de gauche une liste contenant les modes de paiement Ã 
+#. on met dans la partie de gauche une liste contenant les modes de paiement Ã
 #. sÃ©lectionner
 #: src/etats_config.c:7493
 msgid "Select the transactions by method of payment"
@@ -5199,9 +5194,8 @@ msgstr "Zdefiniowane lata finansowe"
 
 #. Associate operations
 #: src/exercice.c:210
-#, fuzzy
 msgid "Associate transactions without financial years"
-msgstr "Uzupełnij rok finansowy w transakcjach"
+msgstr "Powiązane transakcje bez roku finansowego"
 
 #: src/exercice.c:230
 msgid "Financial year details"
@@ -5261,8 +5255,7 @@ msgid "Select accounts to export"
 msgstr "Wybierz konto do eksportu"
 
 #: src/export.c:292 src/qif.c:1018
-msgid ""
-"This will irreversibly overwrite previous file.  There is no undo for this."
+msgid "This will irreversibly overwrite previous file.  There is no undo for this."
 msgstr ""
 "Ta operacja bezpowrotnie nadpisze poprzedni plik. Po wykonaniu nie będzie "
 "możliwe jego odzyskanie. "
@@ -5282,8 +5275,7 @@ msgstr "Format eksportu nie definiuje danych typu waluta."
 
 #: src/export.c:382 src/qif.c:915
 msgid "All transactions will be converted into currency of their account."
-msgstr ""
-"Waluta wszystkich transakcji zostanie zmieniona na walutę domyślną konta."
+msgstr "Waluta wszystkich transakcji zostanie zmieniona na walutę domyślną konta."
 
 #: src/export.c:443 src/menu.c:105 src/operations_comptes.c:380
 #: src/operations_comptes.c:385 src/operations_comptes.c:446
@@ -5405,8 +5397,7 @@ msgstr "Zamknij bez zapisu"
 
 #: src/fichiers_gestion.c:447
 msgid "If you close without saving, all of your changes will be discarded."
-msgstr ""
-"Jeżeli zamkniesz bez zapisu wszystkie wprowadzone zmiany zostaną utracone."
+msgstr "Jeżeli zamkniesz bez zapisu wszystkie wprowadzone zmiany zostaną utracone."
 
 #: src/fichiers_gestion.c:475
 msgid "Name the accounts file"
@@ -5510,15 +5501,13 @@ msgstr "wszystkie transakcje zbiorcze zostały usunięte.\n"
 
 #: src/fichiers_io.c:1852
 msgid "transfers without contra-transaction, which categories were deleted.\n"
-msgstr ""
-"transfery bez powiązanych transakcji, których kategorie zostały usunięte. \n"
+msgstr "transfery bez powiązanych transakcji, których kategorie zostały usunięte. \n"
 
 #: src/fichiers_io.c:1857
 msgid ""
 "These modifications should not impact on neither Grisbi's behavior nor your "
 "accounts balances."
-msgstr ""
-"Te modyfikacje nie powinny wpływać na zachowanie programu ani na stan kont."
+msgstr "Te modyfikacje nie powinny wpływać na zachowanie programu ani na stan kont."
 
 #: src/fichiers_io.c:6467
 #, c-format
@@ -5642,8 +5631,7 @@ msgstr "Alain Pichon (aph[at]grisbi.org): paczki do RHEL i Fedory"
 
 #: src/help.c:48
 msgid "Alain Portal <aportal AT univ-monpt2 DOT fr>: Programming, manual"
-msgstr ""
-"Alain Portal <aportal AT univ-monpt2 DOT fr>: programowanie, podręcznik"
+msgstr "Alain Portal <aportal AT univ-monpt2 DOT fr>: programowanie, podręcznik"
 
 #: src/help.c:49
 msgid "Andre Pascual (andre[at]linuxgraphic.org): Logo"
@@ -5667,8 +5655,7 @@ msgstr "Cedric Auger (cedric[at]grisbi.org): programowanie"
 
 #: src/help.c:54
 msgid "Daniel Cartron (doc[at]grisbi.org): Manual, website, consultancy"
-msgstr ""
-"Daniel Cartron (doc[at]grisbi.org): podręcznik, strona WWW, konsultacje"
+msgstr "Daniel Cartron (doc[at]grisbi.org): podręcznik, strona WWW, konsultacje"
 
 #: src/help.c:55
 msgid "Dominique Parisot (parisot[at]villey-le-sec.com): contributor"
@@ -5678,14 +5665,11 @@ msgstr "Dominique Parisot (parisot[at]villey-le-sec.com): współpraca"
 msgid ""
 "Francois Terrot (grisbi[at]terrot.net): Windows packaging and port, "
 "programming"
-msgstr ""
-"Francois Terrot (grisbi[at]terrot.net): wersja dla Windows, programowanie"
+msgstr "Francois Terrot (grisbi[at]terrot.net): wersja dla Windows, programowanie"
 
 #: src/help.c:57
-msgid ""
-"Gerald Niel (gerald.niel[at]grisbi.org): Darwin packaging, administration"
-msgstr ""
-"Gerald Niel (gerald.niel[at]grisbi.org): paczki do Darwina, administracja"
+msgid "Gerald Niel (gerald.niel[at]grisbi.org): Darwin packaging, administration"
+msgstr "Gerald Niel (gerald.niel[at]grisbi.org): paczki do Darwina, administracja"
 
 #: src/help.c:58
 msgid "PMF (ugly.duck[at]gmx.de): Zaurus packaging"
@@ -5948,8 +5932,7 @@ msgstr "Osierocona transakcja"
 
 #: src/import.c:2580
 msgid "Mark transactions you want to add to the list and click the add button"
-msgstr ""
-"Zaznacz transakcje do dodania do listy i następnie kliknij na przycisk Dodaj"
+msgstr "Zaznacz transakcje do dodania do listy i następnie kliknij na przycisk Dodaj"
 
 #: src/import.c:2650
 msgid "Mark"
@@ -6140,8 +6123,7 @@ msgstr "Zastąp stare listy w liniach budżetowych."
 #: src/main.c:140
 #, c-format
 msgid "Error on sigaction: SIGSEGV won't be trapped\n"
-msgstr ""
-"Błąd podczas przechwytywania sygnału: SIGSEGV nie będzie przechwycony\n"
+msgstr "Błąd podczas przechwytywania sygnału: SIGSEGV nie będzie przechwycony\n"
 
 #: src/menu.c:67
 msgid "New account file"
@@ -6283,7 +6265,6 @@ msgid "On line User's guide"
 msgstr "Internetowy poradnik użytkownika"
 
 #: src/menu.c:288
-#, fuzzy
 msgid "_C"
 msgstr "_C"
 
@@ -6353,8 +6334,7 @@ msgstr ""
 
 #: src/ofx.c:346
 msgid "A transaction try to be saved but no account was created...\n"
-msgstr ""
-"Program próbował zapamiętać transakcję ale konto nie zostało utworzone...\n"
+msgstr "Program próbował zapamiętać transakcję ale konto nie zostało utworzone...\n"
 
 #: src/ofx.c:414
 msgid "Interest"
@@ -6543,8 +6523,7 @@ msgid "Impossible to delete a reconciled transaction."
 msgstr "Nie można usunąć potwierdzonej transakcji"
 
 #: src/operations_liste.c:2131
-msgid ""
-"The contra-transaction of this transfer is reconciled, deletion impossible."
+msgid "The contra-transaction of this transfer is reconciled, deletion impossible."
 msgstr ""
 "Transakcja powiązana z tym transferem została potwierdzona. Usunięcie jest "
 "niemożliwe."
@@ -6564,8 +6543,7 @@ msgstr "Usuń transakcję"
 
 #: src/operations_liste.c:3133
 msgid "Cannot move a transfer on his contra-account"
-msgstr ""
-"Nie można przenieść transferu na konto, które bierze udział w tym transferze."
+msgstr "Nie można przenieść transferu na konto, które bierze udział w tym transferze."
 
 #. Create dialog
 #: src/parametres.c:150
@@ -6656,16 +6634,14 @@ msgstr "Nie ostrzegaj jeżeli istnieje już podany numer potwierdzenia"
 #. Display a warning message when last chance to abort reconciliation
 #: src/parametres.c:443
 msgid "Do not warn about last chance to abort reconciliation"
-msgstr ""
-"Nie wyślwietlaj komunikatu o ostatniej możliwości przerwania potwierdzania"
+msgstr "Nie wyślwietlaj komunikatu o ostatniej możliwości przerwania potwierdzania"
 
 #: src/parametres.c:451
 msgid "Scheduler warnings"
 msgstr "Ostrzeżenia terminarza"
 
 #: src/parametres.c:455
-msgid ""
-"Number of days before a warning message advertising a scheduled transaction"
+msgid "Number of days before a warning message advertising a scheduled transaction"
 msgstr ""
 "Ile dni przed terminem zaplanowanej transakcji wyświetlić odpowiedni "
 "komunikat"
@@ -7048,6 +7024,3 @@ msgstr ""
 "Ten transfer ma już potwierdzoną transakcję na drugim koncie. Usunięcie "
 "zostało anulowane."
 
-#, fuzzy
-#~ msgid "/C"
-#~ msgstr "/C"
