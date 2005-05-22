@@ -15,7 +15,7 @@ goto endofperl
 #  -------------------------------------------------------------------------
 #                               GRISBI for Windows
 #  -------------------------------------------------------------------------
-# $Id: autogen.bat,v 1.1.2.5 2005/04/17 16:53:17 teilginn Exp $
+# $Id: autogen.bat,v 1.1.2.6 2005/05/22 16:07:02 teilginn Exp $
 #  -------------------------------------------------------------------------
 # 
 #  Copyleft 2004 (c) François Terrot
@@ -38,6 +38,9 @@ goto endofperl
 #  History:
 #
 #  $Log: autogen.bat,v $
+#  Revision 1.1.2.6  2005/05/22 16:07:02  teilginn
+#  Support 'The Gimp' and also 'Gaim' GTK binary package
+#
 #  Revision 1.1.2.5  2005/04/17 16:53:17  teilginn
 #  New DevCpp version support + clean the script from unusefull stuff
 #
@@ -353,6 +356,14 @@ sub _uninstallstring # {{{
     $uninstallstring =~ s/\\/\//g if ($uninstallstring);
     return $uninstallstring;
 } # }}} 
+sub _ReadHklmSoftware($$)
+{
+    my ($progkey,$infokey) = @_;
+    my $string = $Registry->{"HKEY_LOCAL_MACHINE/Software/$progkey/$infokey"}; 
+    $string =~ s/\"//g   if ($string); 
+    $string =~ s/\\/\//g if ($string);
+    return $string;
+}
 # !
 # @brief extract some installation information from pkgconfig files
 sub _pkgconfig
@@ -413,11 +424,16 @@ sub _configuration_autodetect # {{{
     # GTK 2.4.14 or higher is required but not 2.6
     #
     $config{'directories'}{'gtkbin'} = _dirname _uninstallstring "WinGTK-2_is1" unless ($config{'directories'}{'gtkbin'});
+    $config{'directories'}{'gtkbin'} = _dirname _uninstallstring "GTK 2.0" unless ($config{'directories'}{'gtkbin'});
     
     die "*** ERROR *** autogen is not able to find any GTK2 2.4 binary packages on yout host\n\n \
         Please install GTK 2.4.14 or 2.4 higher version from http://www.gtk.org/win32/\n" unless $config{'directories'}{'gtkbin'};
     
-    ( my $gtkbinvers =  _uninstallstring "WinGTK-2_is1","DisplayName" ) =~ s/^.*((\d)\.(\d).(\d+)).*$/$1/;
+    my $gtkbinvers;
+    $gtkbinvers =  _uninstallstring "WinGTK-2_is1","DisplayName"; # gtk from gimp
+    $gtkbinvers =  _ReadHklmSoftware ("GTK/2.0","Version)" unless ($gtkbinvers); # gtk from gaim
+      
+    $gtkbinvers =~ s/^.*((\d)\.(\d).(\d+)).*$/$1/;
 
     die "*** ERROR *** Gtk+ version $gtkbinvers is not supported for building Grisbi\n\n \
         Please use GTK+ version 2.4.x (x>=14) (from http://www.gtk.org/win32)\n" if ($2 != 2); 
