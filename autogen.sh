@@ -1,7 +1,7 @@
 #!/bin/sh
 #
 # autogen.sh glue for Grisbi
-# $Id: autogen.sh,v 1.1.2.10 2005/01/07 19:24:18 benj2 Exp $
+# $Id: autogen.sh,v 1.1.2.11 2005/05/22 10:18:01 gegeweb Exp $
 #
 # Requires: automake, autoconf, dpkg-dev
 
@@ -41,9 +41,14 @@ for i in config.guess config.sub missing install-sh mkinstalldirs depcomp ; do
 	fi
 done
 
-aclocal -I macros
+if test -x /opt/local/share/aclocal
+then
+	aclocal -I /opt/local/share/aclocal -I macros
+else
+	aclocal -I macros
+fi
 autoheader
-automake --verbose --foreign --add-missing
+automake --verbose --foreign --add-missing --copy
 autoconf
 
 rm -rf autom4te.cache
