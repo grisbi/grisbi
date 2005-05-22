@@ -5,11 +5,7 @@
 /* contient toutes les structures du prog */
 
 #include "print_config.h"
-
-/* ces 2 fonctions sont utilisées dans ce fichier, donc définies */
-/* ici et dans leur fichier h respectif */
-
-gint my_atoi ( gchar *chaine );
+#include "utils_str.h"
 
 #define VERSION_FICHIER "0.6.0"
 #define VERSION_FICHIER_ETAT "0.5.0"
