@@ -1910,7 +1910,7 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
 								gsb_account_get_default_credit (account_number));
 
 	gsb_transaction_data_set_method_of_payment_content ( transaction_number,
-							     itoa ( imported_transaction -> cheque ) );
+							     utils_str_itoa ( imported_transaction -> cheque ) );
 
 	list_tmp = gsb_account_get_method_payment_list (account_number);
 	type_choisi = NULL;

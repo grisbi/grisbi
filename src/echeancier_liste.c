@@ -807,7 +807,7 @@ gint cherche_ligne_echeance ( struct operation_echeance *echeance )
 
     iter = cherche_iter_echeance ( echeance );
 
-    return ( my_atoi ( gtk_tree_model_get_string_from_iter (  GTK_TREE_MODEL ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view_liste_echeances ))),
+    return ( utils_str_atoi ( gtk_tree_model_get_string_from_iter (  GTK_TREE_MODEL ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view_liste_echeances ))),
 							      iter )));
 }
 /******************************************************************************/
@@ -825,7 +825,7 @@ struct operation_echeance *cherche_echeance_from_ligne ( gint ligne )
 
     if ( !gtk_tree_model_get_iter_from_string (GTK_TREE_MODEL ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view_liste_echeances ))),
 					       &iter,
-					       itoa (ligne)))
+					       utils_str_itoa (ligne)))
 	return NULL;
 
     gtk_tree_model_get ( GTK_TREE_MODEL ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view_liste_echeances ))),
@@ -1216,7 +1216,7 @@ void edition_echeance ( void )
     {
 	entree_prend_focus ( widget_formulaire_echeancier[SCHEDULER_FORM_FREQ_CUSTOM_NB] );
 	gtk_entry_set_text ( GTK_ENTRY (widget_formulaire_echeancier[SCHEDULER_FORM_FREQ_CUSTOM_NB] ),
-			     itoa ( echeance_selectionnnee ->  periodicite_personnalisee) );
+			     utils_str_itoa ( echeance_selectionnnee ->  periodicite_personnalisee) );
 	gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_FREQ_CUSTOM_MENU] ),
 				      echeance_selectionnnee -> intervalle_periodicite_personnalisee );
 	gtk_widget_show ( widget_formulaire_echeancier[SCHEDULER_FORM_FREQ_CUSTOM_NB] );
@@ -1656,7 +1656,7 @@ gboolean modification_affichage_echeances ( gint *origine, GtkWidget * widget )
 
 	case 5:
 
-	    affichage_echeances_perso_nb_libre = my_atoi ( g_strstrip ( (char *) gtk_entry_get_text ( GTK_ENTRY ( entree_personnalisation_affichage_echeances ))));
+	    affichage_echeances_perso_nb_libre = utils_str_atoi ( g_strstrip ( (char *) gtk_entry_get_text ( GTK_ENTRY ( entree_personnalisation_affichage_echeances ))));
 
 	    break;
 
@@ -1675,7 +1675,7 @@ gboolean modification_affichage_echeances ( gint *origine, GtkWidget * widget )
 	    affichage_echeances = GPOINTER_TO_INT ( origine );
 	    if ( affichage_echeances_perso_nb_libre )
 		gtk_entry_set_text ( GTK_ENTRY ( entree_personnalisation_affichage_echeances ),
-				     itoa ( affichage_echeances_perso_nb_libre ));
+				     utils_str_itoa ( affichage_echeances_perso_nb_libre ));
 	    gtk_option_menu_set_history ( GTK_OPTION_MENU ( bouton_personnalisation_affichage_echeances ),
 					  affichage_echeances_perso_j_m_a );
 	    gtk_widget_show ( entree_personnalisation_affichage_echeances );

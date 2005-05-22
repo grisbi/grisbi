@@ -241,7 +241,7 @@ void fill_payment_method_tree ()
 
 	    if ( type_ope -> numerotation_auto )
 	    {
-		number = itoa ( type_ope -> no_en_cours );
+		number = utils_str_itoa ( type_ope -> no_en_cours );
 	    }
 	    else
 	    {
@@ -1537,7 +1537,7 @@ gchar * automatic_numbering_get_new_number ( struct struct_type_ope * type )
 {
     if ( type )
     {
- 	return itoa ( type -> no_en_cours  + 1 );
+ 	return utils_str_itoa ( type -> no_en_cours  + 1 );
     }
   
     return "1";

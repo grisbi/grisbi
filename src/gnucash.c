@@ -515,8 +515,8 @@ gdouble gnucash_value ( gchar * value )
 
   tab_value = g_strsplit ( value, "/", 2 );
   
-  number = my_atoi ( tab_value[0] );
-  mantisse = my_atoi ( tab_value[1] );
+  number = utils_str_atoi ( tab_value[0] );
+  mantisse = utils_str_atoi ( tab_value[1] );
 
   return number / mantisse;
 }

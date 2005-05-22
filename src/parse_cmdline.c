@@ -197,7 +197,7 @@ gboolean  parse_onglet(char **argv, int argc, int *no, cmdline_options* pOpt)
 		return FALSE;
 	}
 	
-	w = my_atoi(split_chiffres[0]); 
+	w = utils_str_atoi(split_chiffres[0]); 
 	if ( !is_valid_window_number(w) )
 	{
 		return FALSE;
@@ -208,14 +208,14 @@ gboolean  parse_onglet(char **argv, int argc, int *no, cmdline_options* pOpt)
 		/* Fenetre des etats. Lit parametres restant si il y en a. */
 		if (split_chiffres[1]) 
 		{
-			x = my_atoi(split_chiffres[1]);
+			x = utils_str_atoi(split_chiffres[1]);
 		
 			if (split_chiffres[2]) 
 			{
-				y = my_atoi(split_chiffres[2]);
+				y = utils_str_atoi(split_chiffres[2]);
 				if (split_chiffres[3]) 
 				{
-					z = my_atoi(split_chiffres[3]);
+					z = utils_str_atoi(split_chiffres[3]);
 				}
 			}
 		}

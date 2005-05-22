@@ -1926,7 +1926,7 @@ gint gsb_scheduler_create_transaction_from_scheduled_form ( void )
 								 g_strdup ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_echeancier[SCHEDULER_FORM_CHEQUE] )))) );
 
 	    if ( type -> numerotation_auto )
-		type -> no_en_cours = my_atoi ( gsb_transaction_data_get_method_of_payment_content (transaction_number));
+		type -> no_en_cours = utils_str_atoi ( gsb_transaction_data_get_method_of_payment_content (transaction_number));
 	}
     }
 

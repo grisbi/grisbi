@@ -66,7 +66,7 @@ extern GtkWidget *formulaire;
 extern GtkWidget *formulaire_echeancier;
 extern GtkWidget *formulaire_echeancier;
 extern GtkWidget *frame_formulaire_echeancier;
-extern GtkWidget *hbox_valider_annuler_echeance;
+extern GtkWidget *hbox_valider_annuler_echeanc;
 extern GSList *liste_struct_devises;
 extern GtkWidget *notebook_formulaire_echeances;
 extern gint patience_en_cours;
@@ -76,6 +76,7 @@ extern GtkWidget *separateur_formulaire_echeancier;
 extern gchar *titre_fichier;
 extern GtkWidget *vbox_liste_comptes;
 extern GtkWidget *window;
+extern GtkWidget *hbox_valider_annuler_echeance;
 /*END_EXTERN*/
 
 gint id_temps;

@@ -286,7 +286,7 @@ void increment_decrement_champ ( GtkWidget *entry, gint increment )
     number = my_strtod ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entry ))), NULL );
     number += increment;
 
-    gtk_entry_set_text ( GTK_ENTRY ( entry ), itoa ( number ) );
+    gtk_entry_set_text ( GTK_ENTRY ( entry ), utils_str_itoa ( number ) );
 }
 
 

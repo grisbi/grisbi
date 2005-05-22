@@ -322,7 +322,7 @@ void initialize_debugging ( void )
 	if (getenv ("DEBUG_GRISBI"))
 	{
 		/* on choppe la variable d'environnement */
-		debug_variable=my_atoi (getenv ("DEBUG_GRISBI"));
+		debug_variable=utils_str_atoi (getenv ("DEBUG_GRISBI"));
 		
 		/* on verifie que la variable est cohérente */
 		if (debug_variable > 0 && debug_variable <= MAX_DEBUG_LEVEL) 

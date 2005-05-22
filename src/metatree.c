@@ -194,7 +194,7 @@ void fill_division_row ( GtkTreeModel * model, MetatreeInterface * iface,
 	 division &&
 	 iface -> div_nb_transactions ( division ) )
 	label = g_strconcat ( label, " (",
-			      itoa ( iface -> div_nb_transactions (division) ), ")",
+			      utils_str_itoa ( iface -> div_nb_transactions (division) ), ")",
 			      NULL );
 
     if ( division && iface -> div_balance ( division ) )
@@ -250,7 +250,7 @@ void fill_sub_division_row ( GtkTreeModel * model, MetatreeInterface * iface,
     if ( nb_ecritures )
     {
 	if ( etat.affiche_nb_ecritures_listes )
-	    label = g_strconcat ( label, " (", itoa ( nb_ecritures ), ")", NULL );
+	    label = g_strconcat ( label, " (", utils_str_itoa ( nb_ecritures ), ")", NULL );
 	
 	if ( ! gtk_tree_model_iter_has_child ( model, iter ) )
 	{

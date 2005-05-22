@@ -1212,7 +1212,7 @@ gchar *gsb_transactions_list_grep_cell_content ( gint transaction_number,
 	    /* mise en place du no d'opé */
 
 	case TRANSACTION_LIST_NO:
-	    return ( itoa ( transaction_number ));
+	    return ( utils_str_itoa ( transaction_number ));
 	    break;
 
 	    /* mise en place du no de chèque/virement */
@@ -2035,7 +2035,7 @@ gpointer cherche_operation_from_ligne ( gint ligne,
 
     if ( !gtk_tree_model_get_iter_from_string (GTK_TREE_MODEL ( model ),
 					       &iter,
-					       itoa (ligne)))
+					       utils_str_itoa (ligne)))
 	return NULL;
 
     gtk_tree_model_get ( GTK_TREE_MODEL ( model ),
@@ -2200,7 +2200,7 @@ gint cherche_ligne_operation ( gpointer transaction,
 
     iter = cherche_iter_operation ( transaction );
 
-    return ( my_atoi ( gtk_tree_model_get_string_from_iter (  GTK_TREE_MODEL ( gsb_transactions_list_get_store() ),
+    return ( utils_str_atoi ( gtk_tree_model_get_string_from_iter (  GTK_TREE_MODEL ( gsb_transactions_list_get_store() ),
 							      iter )));
 }
 /******************************************************************************/
@@ -2330,7 +2330,7 @@ gboolean gsb_transactions_list_edit_current_transaction ( void )
 		case TRANSACTION_FORM_OP_NB:
 
 		    gtk_label_set_text ( GTK_LABEL ( widget ),
-					 itoa ( gsb_transaction_data_get_transaction_number (transaction) ));
+					 utils_str_itoa ( gsb_transaction_data_get_transaction_number (transaction) ));
 		    break;
 
 		case TRANSACTION_FORM_DATE:

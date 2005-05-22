@@ -1064,7 +1064,7 @@ gboolean retire_ligne_organisation_formulaire ( void )
 
     gtk_tree_model_get_iter_from_string ( GTK_TREE_MODEL ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view_organisation_formulaire ))),
 					  &iter,
-					  itoa ( gsb_account_get_form_organization (no_compte) -> nb_lignes ));
+					  utils_str_itoa ( gsb_account_get_form_organization (no_compte) -> nb_lignes ));
     gtk_list_store_remove ( GTK_LIST_STORE ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view_organisation_formulaire ))),
 			    &iter );
 
@@ -1309,7 +1309,7 @@ gboolean button_press_classement_formulaire ( GtkWidget *tree_view,
 
     col_depart_drag = g_list_index ( gtk_tree_view_get_columns ( GTK_TREE_VIEW ( tree_view )),
 				     tree_colonne );
-    ligne_depart_drag = my_atoi ( gtk_tree_path_to_string ( path ));
+    ligne_depart_drag = utils_str_atoi ( gtk_tree_path_to_string ( path ));
 
 
     /* on grab la souris */
@@ -1367,7 +1367,7 @@ gboolean button_release_classement_formulaire ( GtkWidget *tree_view,
 
     col_arrivee_drag = g_list_index ( gtk_tree_view_get_columns ( GTK_TREE_VIEW ( tree_view )),
 				      tree_colonne );
-    ligne_arrivee_drag = my_atoi ( gtk_tree_path_to_string ( path ));
+    ligne_arrivee_drag = utils_str_atoi ( gtk_tree_path_to_string ( path ));
 
 
      /* on dÃ©grab la souris */

@@ -7,11 +7,11 @@
 /* START_DECLARATION */
 gint count_char_from_string ( gchar *search_char, gchar *string );
 gchar *get_line_from_string ( gchar *string );
-gchar *itoa ( gint integer );
+gchar *utils_str_itoa ( gint integer );
 gchar * latin2utf8 (char * inchar);
 gchar *limit_string ( gchar *string,
 		      gint length );
-gint my_atoi ( gchar *chaine );
+gint utils_str_atoi ( gchar *chaine );
 gchar *my_strdelimit ( gchar *string,
 		       gchar *delimiters,
 		       gchar *new_delimiters );

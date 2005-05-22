@@ -14,7 +14,8 @@
 
 /* constante de debug originale, obsolete il faudrait utiliser maintenant */
 /* la variable globale debugging_grisbi, voir erreur.c */
-#define DEBUG my_atoi (getenv ("DEBUG_GRISBI"))
+#define DEBUG utils_str_atoi (getenv ("DEBUG_GRISBI"))
+
 /* constantes definissant le niveau de debug */
 #define	DEBUG_LEVEL_ALERT			1		/* grave probleme */
 #define DEBUG_LEVEL_IMPORTANT	2		/* probleme moins grave */

@@ -124,10 +124,10 @@ void charge_configuration ( void )
 	    node_geometry = node -> children;
 	    while (node_geometry) {
 		if ( !strcmp ( node_geometry -> name, "Width" ) ) {
-		    largeur_window = my_atoi(xmlNodeGetContent ( node_geometry));
+		    largeur_window = utils_str_atoi(xmlNodeGetContent ( node_geometry));
 		}
 		if ( !strcmp ( node_geometry -> name, "Height" ) ) {
-		    hauteur_window = my_atoi(xmlNodeGetContent ( node_geometry));
+		    hauteur_window = utils_str_atoi(xmlNodeGetContent ( node_geometry));
 		}
 		node_geometry = node_geometry->next;
 	    }
@@ -138,7 +138,7 @@ void charge_configuration ( void )
 	    node_general = node -> children;
 	    while (node_general) {
 		if ( !strcmp ( node_general -> name, "Modification_operations_rapprochees" ) ) {
-		    etat.r_modifiable = my_atoi(xmlNodeGetContent ( node_general));
+		    etat.r_modifiable = utils_str_atoi(xmlNodeGetContent ( node_general));
 		}
 		if ( !strcmp ( node_general -> name, "Dernier_chemin_de_travail" ) ) {
 		    dernier_chemin_de_travail = xmlNodeGetContent ( node_general);
@@ -146,20 +146,20 @@ void charge_configuration ( void )
 			dernier_chemin_de_travail = g_strconcat ( my_get_gsb_file_default_dir(), C_DIRECTORY_SEPARATOR,NULL );
 		}
 		if ( !strcmp ( node_general -> name, "Affichage_alerte_permission" ) ) {
-		    etat.alerte_permission = my_atoi(xmlNodeGetContent ( node_general));
+		    etat.alerte_permission = utils_str_atoi(xmlNodeGetContent ( node_general));
 		}
 		if ( !strcmp ( node_general -> name, "Force_enregistrement" ) ) {
-		    etat.force_enregistrement = my_atoi(xmlNodeGetContent ( node_general));
+		    etat.force_enregistrement = utils_str_atoi(xmlNodeGetContent ( node_general));
 		}
 		if ( !strcmp ( node_general -> name, "Fonction_touche_entree" ) ) {
-		    etat.entree = my_atoi(xmlNodeGetContent ( node_general));
+		    etat.entree = utils_str_atoi(xmlNodeGetContent ( node_general));
 		}
 		if ( !strcmp ( node_general -> name, "Affichage_messages_alertes" ) ) {
-		    etat.alerte_mini = my_atoi(xmlNodeGetContent ( node_general));
+		    etat.alerte_mini = utils_str_atoi(xmlNodeGetContent ( node_general));
 		}
 
 		if ( !strcmp ( node_general -> name, "Utilise_fonte_des_listes" ) ) {
-		    etat.utilise_fonte_listes = my_atoi (xmlNodeGetContent ( node_general));
+		    etat.utilise_fonte_listes = utils_str_atoi (xmlNodeGetContent ( node_general));
 		}
 
 		if ( !strcmp ( node_general -> name, "Fonte_des_listes" ) ) {
@@ -183,19 +183,19 @@ void charge_configuration ( void )
 		    etat.fichier_animation_attente = xmlNodeGetContent ( node_general);
 		}
 		if ( !strcmp ( node_general -> name, "Largeur_colonne_comptes_operation" ) ) {
-		    etat.largeur_colonne_comptes_operation = my_atoi(xmlNodeGetContent ( node_general));
+		    etat.largeur_colonne_comptes_operation = utils_str_atoi(xmlNodeGetContent ( node_general));
 		}
 		if ( !strcmp ( node_general -> name, "Largeur_colonne_echeancier" ) ) {
-		    etat.largeur_colonne_echeancier = my_atoi(xmlNodeGetContent ( node_general));
+		    etat.largeur_colonne_echeancier = utils_str_atoi(xmlNodeGetContent ( node_general));
 		}
 		if ( !strcmp ( node_general -> name, "Largeur_colonne_comptes_comptes" ) ) {
-		    etat.largeur_colonne_comptes_comptes = my_atoi(xmlNodeGetContent ( node_general));
+		    etat.largeur_colonne_comptes_comptes = utils_str_atoi(xmlNodeGetContent ( node_general));
 		}
 		if ( !strcmp ( node_general -> name, "Largeur_colonne_etats" ) ) {
-		    etat.largeur_colonne_etat = my_atoi(xmlNodeGetContent ( node_general));
+		    etat.largeur_colonne_etat = utils_str_atoi(xmlNodeGetContent ( node_general));
 		}
 		if ( !strcmp ( node_general -> name, "Largeur_colonne_comptes_operation" ) ) {
-		    etat.largeur_colonne_comptes_operation = my_atoi( xmlNodeGetContent ( node_general ) );
+		    etat.largeur_colonne_comptes_operation = utils_str_atoi( xmlNodeGetContent ( node_general ) );
 		}
 
 		node_general = node_general->next;
@@ -208,26 +208,26 @@ void charge_configuration ( void )
 	    node_io = node -> children;
 	    while (node_io) {
 		if ( !strcmp ( node_io -> name, "Chargement_auto_dernier_fichier" ) ) {
-		    etat.dernier_fichier_auto = my_atoi(xmlNodeGetContent ( node_io));
+		    etat.dernier_fichier_auto = utils_str_atoi(xmlNodeGetContent ( node_io));
 		}
 		if ( !strcmp ( node_io -> name, "Nom_dernier_fichier" ) ) {
 		    nom_fichier_comptes = xmlNodeGetContent ( node_io);
 		}
 		if ( !strcmp ( node_io -> name, "Enregistrement_automatique" ) ) {
-		    etat.sauvegarde_auto = my_atoi(xmlNodeGetContent ( node_io));
+		    etat.sauvegarde_auto = utils_str_atoi(xmlNodeGetContent ( node_io));
 		}
 		if ( !strcmp ( node_io -> name, "Enregistrement_au_demarrage" ) ) {
-		    etat.sauvegarde_demarrage = my_atoi(xmlNodeGetContent ( node_io));
+		    etat.sauvegarde_demarrage = utils_str_atoi(xmlNodeGetContent ( node_io));
 		}
 		if ( !strcmp ( node_io -> name, "Nb_max_derniers_fichiers_ouverts" ) ) {
-		    nb_max_derniers_fichiers_ouverts = my_atoi(xmlNodeGetContent ( node_io));
+		    nb_max_derniers_fichiers_ouverts = utils_str_atoi(xmlNodeGetContent ( node_io));
 		}
 		if ( !strcmp ( node_io -> name, "Compression_fichier" ) ) {
-		    compression_fichier = my_atoi(xmlNodeGetContent ( node_io));
+		    compression_fichier = utils_str_atoi(xmlNodeGetContent ( node_io));
 		    xmlSetCompressMode ( compression_fichier );
 		}
 		if ( !strcmp ( node_io -> name, "Compression_backup" ) ) {
-		    compression_backup = my_atoi(xmlNodeGetContent ( node_io));
+		    compression_backup = utils_str_atoi(xmlNodeGetContent ( node_io));
 		}
 		if ( !strcmp ( node_io->name, "Liste_noms_derniers_fichiers_ouverts" ) ) {
 		    xmlNodePtr node_filename = node_io -> children;
@@ -251,7 +251,7 @@ void charge_configuration ( void )
 	    node_echeances = node -> children;
 	    while (node_echeances) {
 		if ( !strcmp ( node_echeances -> name, "Delai_rappel_echeances" ) ) {
-		    nb_days_before_scheduled = my_atoi(xmlNodeGetContent ( node_echeances));
+		    nb_days_before_scheduled = utils_str_atoi(xmlNodeGetContent ( node_echeances));
 		}
 		node_echeances = node_echeances->next;
 	    }
@@ -262,22 +262,22 @@ void charge_configuration ( void )
 	  node_io = node -> children;
 	  while (node_io) {
 	  if ( !strcmp ( node_io -> name, "Chargement_auto_dernier_fichier" ) ) {
-	  etat.dernier_fichier_auto = my_atoi(xmlNodeGetContent ( node_io));
+	  etat.dernier_fichier_auto = utils_str_atoi(xmlNodeGetContent ( node_io));
 	  }
 	  if ( !strcmp ( node_io -> name, "Nom_dernier_fichier" ) ) {
 	  nom_fichier_comptes = xmlNodeGetContent ( node_io);
 	  }
 	  if ( !strcmp ( node_io -> name, "Enregistrement_automatique" ) ) {
-	  etat.sauvegarde_auto = my_atoi(xmlNodeGetContent ( node_io));
+	  etat.sauvegarde_auto = utils_str_atoi(xmlNodeGetContent ( node_io));
 	  }
 	  if ( !strcmp ( node_io -> name, "Enregistrement_au_demarrage" ) ) {
-	  etat.sauvegarde_demarrage = my_atoi(xmlNodeGetContent ( node_io));
+	  etat.sauvegarde_demarrage = utils_str_atoi(xmlNodeGetContent ( node_io));
 	  }
 	  if ( !strcmp ( node_io -> name, "Nb_max_derniers_fichiers_ouverts" ) ) {
-	  nb_max_derniers_fichiers_ouverts = my_atoi(xmlNodeGetContent ( node_io));
+	  nb_max_derniers_fichiers_ouverts = utils_str_atoi(xmlNodeGetContent ( node_io));
 	  }
 	  if ( !strcmp ( node_io -> name, "Compression_fichier" ) ) {
-	  compression_fichier = my_atoi(xmlNodeGetContent ( node_io));
+	  compression_fichier = utils_str_atoi(xmlNodeGetContent ( node_io));
 	  }
 	  if ( !strcmp ( node_io -> name, "Compression_backup" ) ) {
 	  variable = xmlNodeGetContent ( node_io);
@@ -292,39 +292,39 @@ void charge_configuration ( void )
 	    node_affichage = node -> children;
 	    while (node_affichage) {
 			if ( !strcmp ( node_affichage -> name, "Affichage_formulaire" ) ) {
-			    etat.formulaire_toujours_affiche = my_atoi(xmlNodeGetContent ( node_affichage));
+			    etat.formulaire_toujours_affiche = utils_str_atoi(xmlNodeGetContent ( node_affichage));
 			}
 			if ( !strcmp ( node_affichage -> name, "Affichage_formulaire_echeancier" ) ) {
-			    etat.formulaire_echeancier_toujours_affiche = my_atoi(xmlNodeGetContent ( node_affichage));
+			    etat.formulaire_echeancier_toujours_affiche = utils_str_atoi(xmlNodeGetContent ( node_affichage));
 			}
 			if ( !strcmp ( node_affichage -> name, "Tri_par_date" ) ) {
-			    etat.classement_par_date = my_atoi(xmlNodeGetContent ( node_affichage));
+			    etat.classement_par_date = utils_str_atoi(xmlNodeGetContent ( node_affichage));
 			}
 			if ( !strcmp ( node_affichage -> name, "Affiche_boutons_valider_annuler" ) ) {
-			    etat.affiche_boutons_valider_annuler = my_atoi(xmlNodeGetContent ( node_affichage));
+			    etat.affiche_boutons_valider_annuler = utils_str_atoi(xmlNodeGetContent ( node_affichage));
 			}
 			if ( !strcmp ( node_affichage -> name, "Largeur_auto_colonnes" ) ) {
-			    etat.largeur_auto_colonnes = my_atoi(xmlNodeGetContent ( node_affichage));
+			    etat.largeur_auto_colonnes = utils_str_atoi(xmlNodeGetContent ( node_affichage));
 			}
 			// boucler pour avoir les tailles des différentes colonnes
 			if ( !strcmp ( node_affichage -> name, "taille_largeur_colonne" ) ) {
 			    //int numero_colonne;
 			    //int largeur_colonne;
-			    int numero_colonne = my_atoi(xmlGetProp ( node_affichage, "No"));
-			    int largeur_colonne = my_atoi(xmlNodeGetContent ( node_affichage));
+			    int numero_colonne = utils_str_atoi(xmlGetProp ( node_affichage, "No"));
+			    int largeur_colonne = utils_str_atoi(xmlNodeGetContent ( node_affichage));
 			    taille_largeur_colonnes[numero_colonne] = largeur_colonne;
 			}
 			if ( !strcmp ( node_affichage -> name, "Affichage_exercice_automatique" ) ) {
-			    etat.affichage_exercice_automatique = my_atoi(xmlNodeGetContent ( node_affichage));
+			    etat.affichage_exercice_automatique = utils_str_atoi(xmlNodeGetContent ( node_affichage));
 			}
 			if ( !strcmp ( node_affichage -> name, "display_toolbar" ) ) {
-			    etat.display_toolbar = my_atoi(xmlNodeGetContent ( node_affichage));
+			    etat.display_toolbar = utils_str_atoi(xmlNodeGetContent ( node_affichage));
 			}
 			if ( !strcmp ( node_affichage -> name, "Affichage_nb_ecritures" ) ) {
-			    etat.affiche_nb_ecritures_listes = my_atoi(xmlNodeGetContent ( node_affichage));
+			    etat.affiche_nb_ecritures_listes = utils_str_atoi(xmlNodeGetContent ( node_affichage));
 			}
 			if ( !strcmp ( node_affichage -> name, "Affichage_grille" ) ) {
-			    etat.affichage_grille = my_atoi(xmlNodeGetContent ( node_affichage));
+			    etat.affichage_grille = utils_str_atoi(xmlNodeGetContent ( node_affichage));
 		    }
 			if ( ! strcmp( node_affichage -> name, tagAFFICHAGE_FORMAT ) ) {
 			   load_config_format(node_affichage);
@@ -346,33 +346,33 @@ void charge_configuration ( void )
         node_messages = node -> children;
         while (node_messages) {
         if ( !strcmp ( node_messages -> name, "display_message_lock_active" ) ) {
-            etat.display_message_lock_active = my_atoi(xmlNodeGetContent ( node_messages));
+            etat.display_message_lock_active = utils_str_atoi(xmlNodeGetContent ( node_messages));
         }
     /* On Windows, the chmod feature does not work: FAT does not have right access permission notions , 
      * on NTFS it to complicated to implement => the feature is removed from the Windows version :
      * for that the corresponding parameter check box is not displayed and the paramater is forced to not display msg */
 #ifndef _WIN32
         if ( !strcmp ( node_messages -> name, "display_message_file_readable" ) ) {
-            etat.display_message_file_readable = my_atoi(xmlNodeGetContent ( node_messages));
+            etat.display_message_file_readable = utils_str_atoi(xmlNodeGetContent ( node_messages));
         }
 #else
                     etat.display_message_file_readable = 1;
 #endif
         if ( !strcmp ( node_messages -> name, "display_message_minimum_alert" ) ) {
-            etat.display_message_minimum_alert = my_atoi(xmlNodeGetContent ( node_messages));
+            etat.display_message_minimum_alert = utils_str_atoi(xmlNodeGetContent ( node_messages));
         }
         if ( !strcmp ( node_messages -> name, "display_message_no_budgetary_line" ) ) {
-            etat.display_message_no_budgetary_line = my_atoi(xmlNodeGetContent ( node_messages));
+            etat.display_message_no_budgetary_line = utils_str_atoi(xmlNodeGetContent ( node_messages));
         }
         if ( !strcmp ( node_messages -> name, "display_message_ofx_security" ) ) {
-            etat.display_message_ofx_security = my_atoi(xmlNodeGetContent ( node_messages));
+            etat.display_message_ofx_security = utils_str_atoi(xmlNodeGetContent ( node_messages));
         }
 
         if ( !strcmp ( node_messages -> name, "last_tip" ) ) {
-          etat.last_tip = my_atoi (xmlNodeGetContent ( node_messages ));
+          etat.last_tip = utils_str_atoi (xmlNodeGetContent ( node_messages ));
         }
         if ( !strcmp ( node_messages -> name, "show_tip" ) ) {
-          etat.show_tip = my_atoi (xmlNodeGetContent ( node_messages ));
+          etat.show_tip = utils_str_atoi (xmlNodeGetContent ( node_messages ));
         }
         node_messages = node_messages->next;
         }
@@ -384,7 +384,7 @@ void charge_configuration ( void )
         node_print = node -> children;
         while (node_print) {
         if ( !strcmp ( node_print -> name, "printer" ) ) {
-            etat.print_config.printer = my_atoi(xmlNodeGetContent (node_print));
+            etat.print_config.printer = utils_str_atoi(xmlNodeGetContent (node_print));
         }
         if ( !strcmp ( node_print -> name, "printer_name" ) ) {
             etat.print_config.printer_name = xmlNodeGetContent (node_print);
@@ -393,14 +393,14 @@ void charge_configuration ( void )
             etat.print_config.printer_filename = xmlNodeGetContent (node_print);
         }
         if ( !strcmp ( node_print -> name, "filetype" ) ) {
-            etat.print_config.filetype = my_atoi(xmlNodeGetContent (node_print));
+            etat.print_config.filetype = utils_str_atoi(xmlNodeGetContent (node_print));
         }
         if ( !strcmp ( node_print -> name, "orientation" ) ) {
-            etat.print_config.orientation = my_atoi(xmlNodeGetContent (node_print));
+            etat.print_config.orientation = utils_str_atoi(xmlNodeGetContent (node_print));
         }
         if ( !strcmp ( node_print -> name, "paper_config" ) ) {
-            etat.print_config.paper_config.width = my_atoi(xmlGetProp (node_print, "width"));
-            etat.print_config.paper_config.height = my_atoi(xmlGetProp (node_print, "height"));
+            etat.print_config.paper_config.width = utils_str_atoi(xmlGetProp (node_print, "width"));
+            etat.print_config.paper_config.height = utils_str_atoi(xmlGetProp (node_print, "height"));
             etat.print_config.paper_config.name = xmlGetProp (node_print, "name");
         }
 
@@ -709,33 +709,33 @@ void sauve_configuration(void)
 
     node = xmlNewChild ( doc->children,NULL, "Geometry",NULL );
     xmlNewChild ( node,NULL, "Width",
-          itoa(largeur_window));
+          utils_str_itoa(largeur_window));
     xmlNewChild ( node,NULL, "Height",
-          itoa(hauteur_window));
+          utils_str_itoa(hauteur_window));
 
     /* sauvegarde de l'onglet général */
     node = xmlNewChild ( doc->children,NULL, "General",NULL );
     xmlNewChild ( node,NULL, "Modification_operations_rapprochees",
-          itoa(etat.r_modifiable));
+          utils_str_itoa(etat.r_modifiable));
     xmlNewChild ( node,NULL, "Dernier_chemin_de_travail",dernier_chemin_de_travail);
     xmlNewChild ( node,NULL, "Affichage_alerte_permission",
-          itoa(etat.alerte_permission));
+          utils_str_itoa(etat.alerte_permission));
     xmlNewChild ( node,NULL, "Force_enregistrement",
-          itoa(etat.force_enregistrement));
+          utils_str_itoa(etat.force_enregistrement));
     xmlNewChild ( node,NULL, "Fonction_touche_entree",
-          itoa(etat.entree));
+          utils_str_itoa(etat.entree));
     xmlNewChild ( node,NULL, "Affichage_messages_alertes",
-          itoa(etat.alerte_mini));
+          utils_str_itoa(etat.alerte_mini));
 
     // In some cases pango_desc_fonte_liste is NULL, so this avoid Grisbi to crash
     if (pango_desc_fonte_liste)
     {
-        xmlNewChild ( node,NULL, "Utilise_fonte_des_listes",itoa (etat.utilise_fonte_listes));
+        xmlNewChild ( node,NULL, "Utilise_fonte_des_listes",utils_str_itoa (etat.utilise_fonte_listes));
         xmlNewChild ( node,NULL, "Fonte_des_listes",pango_font_description_to_string (pango_desc_fonte_liste));
     }
     else
     {
-        xmlNewChild ( node,NULL, "Utilise_fonte_des_listes",itoa (0));
+        xmlNewChild ( node,NULL, "Utilise_fonte_des_listes",utils_str_itoa (0));
         xmlNewChild ( node,NULL, "Fonte_des_listes","");
     }
     xmlNewChild ( node,NULL, "Animation_attente",etat.fichier_animation_attente);
@@ -747,60 +747,60 @@ void sauve_configuration(void)
 
     /* Remember size of main pane. */
     xmlNewChild ( node,NULL, "Largeur_colonne_comptes_operation",
-		  itoa ( gtk_paned_get_position ( GTK_PANED ( main_hpaned ) ) ) );
+		  utils_str_itoa ( gtk_paned_get_position ( GTK_PANED ( main_hpaned ) ) ) );
 
     /* sauvegarde de l'onglet I/O */
     node = xmlNewChild ( doc->children,NULL, "IO",NULL );
     xmlNewChild ( node,NULL, "Chargement_auto_dernier_fichier",
-          itoa(etat.dernier_fichier_auto));
+          utils_str_itoa(etat.dernier_fichier_auto));
     xmlNewChild ( node,NULL, "Nom_dernier_fichier",nom_fichier_comptes);
     xmlNewChild ( node,NULL, "Enregistrement_automatique",
-          itoa(etat.sauvegarde_auto));
+          utils_str_itoa(etat.sauvegarde_auto));
     xmlNewChild ( node,NULL, "Enregistrement_au_demarrage",
-          itoa(etat.sauvegarde_demarrage));
+          utils_str_itoa(etat.sauvegarde_demarrage));
     xmlNewChild ( node,NULL, "Nb_max_derniers_fichiers_ouverts",
-          itoa(nb_max_derniers_fichiers_ouverts));
+          utils_str_itoa(nb_max_derniers_fichiers_ouverts));
     xmlNewChild ( node,NULL, "Compression_fichier",
-          itoa(compression_fichier));
+          utils_str_itoa(compression_fichier));
     xmlNewChild ( node,NULL, "Compression_backup",
-          itoa(compression_backup));
+          utils_str_itoa(compression_backup));
     node_1 = xmlNewChild ( node,NULL, "Liste_noms_derniers_fichiers_ouverts",NULL);
     for (i=0;i<nb_derniers_fichiers_ouverts;i++) {
     // ajout des noeuds de la forme fichier1,fichier2,fichier3...
     //sprintf(buff, "fichier%i",i);
     node_2 = xmlNewChild ( node_1,NULL, "fichier",tab_noms_derniers_fichiers_ouverts[i]);
-    xmlSetProp ( node_2, "No", itoa (i));
+    xmlSetProp ( node_2, "No", utils_str_itoa (i));
     }
 
     /* sauvegarde de l'onglet échéances */
     node = xmlNewChild ( doc->children,NULL, "Echeances",NULL );
     xmlNewChild ( node,NULL, "Delai_rappel_echeances",
-          itoa(nb_days_before_scheduled));
+          utils_str_itoa(nb_days_before_scheduled));
 
     /* sauvegarde de l'onglet affichage */
     node = xmlNewChild ( doc->children,NULL, "Affichage",NULL );
     xmlNewChild ( node,NULL, "Affichage_formulaire",
-		  itoa(etat.formulaire_toujours_affiche));
+		  utils_str_itoa(etat.formulaire_toujours_affiche));
     xmlNewChild ( node,NULL, "Affichage_formulaire_echeancier",
-		  itoa(etat.formulaire_echeancier_toujours_affiche));
+		  utils_str_itoa(etat.formulaire_echeancier_toujours_affiche));
     xmlNewChild ( node,NULL, "Tri_par_date",
-		  itoa(etat.classement_par_date));
+		  utils_str_itoa(etat.classement_par_date));
     xmlNewChild ( node,NULL, "Affiche_boutons_valider_annuler",
-		  itoa(etat.affiche_boutons_valider_annuler));
+		  utils_str_itoa(etat.affiche_boutons_valider_annuler));
     xmlNewChild ( node,NULL, "Largeur_auto_colonnes",
-		  itoa(etat.largeur_auto_colonnes));
+		  utils_str_itoa(etat.largeur_auto_colonnes));
     for ( i=0 ; i<7 ; i++ ) {
 	node_2 = xmlNewChild ( node,NULL, "taille_largeur_colonne",
-			       itoa(taille_largeur_colonnes[i]));
-	xmlSetProp ( node_2, "No", itoa (i));
+			       utils_str_itoa(taille_largeur_colonnes[i]));
+	xmlSetProp ( node_2, "No", utils_str_itoa (i));
     }
     xmlNewChild ( node,NULL, "Affichage_nb_ecritures",
-		  itoa(etat.affichage_exercice_automatique));
+		  utils_str_itoa(etat.affichage_exercice_automatique));
     xmlNewChild ( node,NULL, "Affichage_grille",
-		  itoa(etat.affichage_grille));
+		  utils_str_itoa(etat.affichage_grille));
     xmlNewChild ( node,NULL, "Affichage_exercice_automatique",
-		  itoa(etat.affichage_exercice_automatique));
-    xmlNewChild ( node,NULL, "display_toolbar", itoa(etat.display_toolbar));
+		  utils_str_itoa(etat.affichage_exercice_automatique));
+    xmlNewChild ( node,NULL, "display_toolbar", utils_str_itoa(etat.display_toolbar));
     save_config_format(node);
 
     
@@ -811,31 +811,31 @@ void sauve_configuration(void)
     /* sauvegarde des messages */
     node = xmlNewChild ( doc->children,NULL, "Messages",NULL );
     xmlNewChild ( node,NULL, "display_message_lock_active",
-          itoa(etat.display_message_lock_active));
+          utils_str_itoa(etat.display_message_lock_active));
     xmlNewChild ( node,NULL, "display_message_file_readable",
-          itoa(etat.display_message_file_readable));
+          utils_str_itoa(etat.display_message_file_readable));
     xmlNewChild ( node,NULL, "display_message_minimum_alert",
-          itoa(etat.display_message_minimum_alert));
+          utils_str_itoa(etat.display_message_minimum_alert));
     xmlNewChild ( node,NULL, "display_message_no_budgetary_line",
-          itoa(etat.display_message_no_budgetary_line));
+          utils_str_itoa(etat.display_message_no_budgetary_line));
     xmlNewChild ( node,NULL, "display_message_ofx_security",
-          itoa(etat.display_message_ofx_security));
+          utils_str_itoa(etat.display_message_ofx_security));
 
     /* Sauvegarde des tips */
-    xmlNewChild ( node,NULL, "last_tip", itoa(etat.last_tip));
-    xmlNewChild ( node,NULL, "show_tip", itoa(etat.show_tip));
+    xmlNewChild ( node,NULL, "last_tip", utils_str_itoa(etat.last_tip));
+    xmlNewChild ( node,NULL, "show_tip", utils_str_itoa(etat.show_tip));
 
     /* sauvegarde des messages */
     node = xmlNewChild ( doc->children, NULL, "Print_config", NULL );
-    xmlNewChild ( node, NULL, "printer", itoa(etat.print_config.printer));
+    xmlNewChild ( node, NULL, "printer", utils_str_itoa(etat.print_config.printer));
     xmlNewChild ( node, NULL, "printer_name", etat.print_config.printer_name);
     xmlNewChild ( node, NULL, "printer_filename", etat.print_config.printer_filename);
-    xmlNewChild ( node, NULL, "filetype", itoa(etat.print_config.filetype));
-    xmlNewChild ( node, NULL, "orientation", itoa(etat.print_config.orientation));
+    xmlNewChild ( node, NULL, "filetype", utils_str_itoa(etat.print_config.filetype));
+    xmlNewChild ( node, NULL, "orientation", utils_str_itoa(etat.print_config.orientation));
     node = xmlNewChild ( node, NULL, "paper_config", NULL);
     xmlSetProp ( node, "name", etat.print_config.paper_config.name);
-    xmlSetProp ( node, "width", itoa(etat.print_config.paper_config.width));
-    xmlSetProp ( node, "height", itoa(etat.print_config.paper_config.height));
+    xmlSetProp ( node, "width", utils_str_itoa(etat.print_config.paper_config.width));
+    xmlSetProp ( node, "height", utils_str_itoa(etat.print_config.paper_config.height));
 
 
     /* Enregistre dans le ~/.grisbirc */

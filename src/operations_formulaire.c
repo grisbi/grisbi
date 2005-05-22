@@ -2615,7 +2615,7 @@ gboolean gsb_form_validate_form_transaction ( gint transaction_number )
 
 	    /* vérifie si le no de chèque n'est pas déjà utilisé */
 
-	    operation_tmp = operation_par_cheque ( my_atoi ( g_strdup ( gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_par_element (TRANSACTION_FORM_CHEQUE) )))),
+	    operation_tmp = operation_par_cheque ( utils_str_atoi ( g_strdup ( gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_par_element (TRANSACTION_FORM_CHEQUE) )))),
 						   gsb_account_get_current_account () );
 
 	    /* si on a trouvé le même no de chèque, si c'est une nouvelle opé, c'est pas normal, */
@@ -2886,7 +2886,7 @@ void gsb_form_take_datas_from_form ( gint transaction_number )
 										 g_strstrip ( g_strdup ( gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_par_element (TRANSACTION_FORM_CHEQUE) )))));
 
 			    if ( type -> numerotation_auto )
-				type -> no_en_cours = ( my_atoi ( gsb_transaction_data_get_method_of_payment_content ( transaction_number)));
+				type -> no_en_cours = ( utils_str_atoi ( gsb_transaction_data_get_method_of_payment_content ( transaction_number)));
 			}
 			else
 			    gsb_transaction_data_set_method_of_payment_content ( transaction_number,

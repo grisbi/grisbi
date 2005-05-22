@@ -47,35 +47,53 @@ extern FILE * out;
 
 
 /* ************************************************************************************************** */
-/* itoa : transforme un integer en chaine ascii */
+/* utils_str_itoa : transforme un integer en chaine ascii */
 /* ************************************************************************************************** */
 
-gchar *itoa ( gint integer )
+/*!
+ * @brief convert an integer into a gchar based string
+ * 
+ * 
+ * @param integer   integer to convert
+ * 
+ * @return  a newly allocated string
+ * 
+ * @caveats You have to unallocate the returned string when you no more use it to save memory
+ *
+ * @todo: check usage of this function which a cause of memory leak
+ * 
+ */
+
+gchar *utils_str_itoa ( gint integer )
 {
     div_t result_div;
     gchar *chaine;
     gint i = 0;
     gint num;
 
-    chaine = malloc ( 11*sizeof (char) );
+    chaine = g_malloc0 ( 11*sizeof (gchar) );
+    
     num = abs(integer);
 
+    // Construct the result in the reverse order from right to left, then reverse it.
     do
     {
 	result_div = div ( num, 10 );
-	chaine[i] = result_div.rem + 48;
+	chaine[i] = result_div.rem + '0'; 
 	i++;
     }
     while ( ( num = result_div.quot ));
 
+    // Add the sign at the end of the string just before to reverse it to avoid
+    // to have to insert it at the begin just after...
+    if (integer < 0)
+    {
+        chaine[i++] = '-';
+    }
+    
     chaine[i] = 0;
 
     g_strreverse ( chaine );
-
-    if ( integer < 0 )
-	chaine = g_strconcat ( "-",
-			       chaine,
-			       NULL );
 
     return ( chaine );
 }
@@ -86,14 +104,27 @@ gchar *itoa ( gint integer )
 /***********************************************************************************************************/
 /* cette fonction protÃšge atoi qui plante quand on lui envoie un null */
 /***********************************************************************************************************/
-
-gint my_atoi ( gchar *chaine )
+/*!
+ * @brief Secured version of atoi
+ * 
+ * Encapsulated call of atoi which may crash when it is call with a NULL pointer.
+ * 
+ * @param chaine   pointer to the buffer containing the string to convert
+ * 
+ * @return  the converted string as interger
+ * @retval  0 when the pointer is NULL or the string empty.
+ * 
+ */
+gint utils_str_atoi ( gchar *chaine )
 {
-    if ( chaine )
-	return ( atoi ( chaine ));
+    if ((chaine )&&(*chaine))
+    {
+        return ( atoi ( chaine ));
+    }
     else
-	return ( 0 );
-
+    {
+        return ( 0 );
+    }
 }
 /***********************************************************************************************************/
 

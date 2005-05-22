@@ -1144,7 +1144,7 @@ gint etat_affiche_affichage_ligne_ope ( gpointer operation,
 
 	if ( etat_courant -> afficher_no_ope )
 	{
-	    text = itoa ( gsb_transaction_data_get_transaction_number (operation));
+	    text = utils_str_itoa ( gsb_transaction_data_get_transaction_number (operation));
 
 	    if ( etat_courant -> ope_clickables )
 	    {

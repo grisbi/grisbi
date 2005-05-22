@@ -287,9 +287,9 @@ gboolean format_date ( GtkWidget *entree )
 	if ( tab_date[2] && tab_date[1] )
 	{
 	    /* on a rentrÃ© les 3 chiffres de la date */
-	    jour = my_atoi ( tab_date[0] );
-	    mois = my_atoi ( tab_date[1] );
-	    annee = my_atoi ( tab_date[2] );
+	    jour = utils_str_atoi ( tab_date[0] );
+	    mois = utils_str_atoi ( tab_date[1] );
+	    annee = utils_str_atoi ( tab_date[2] );
 
 	    if ( annee < 100 )
 	    {
@@ -305,8 +305,8 @@ gboolean format_date ( GtkWidget *entree )
 	    {
 		/* on a rentrÃ© la date sous la forme xx/xx,
 		   il suffit de mettre l'annÃ©e courante */
-		jour = my_atoi ( tab_date[0] );
-		mois = my_atoi ( tab_date[1] );
+		jour = utils_str_atoi ( tab_date[0] );
+		mois = utils_str_atoi ( tab_date[1] );
 		annee = g_date_year ( date );
 	    }
 	    else
@@ -322,7 +322,7 @@ gboolean format_date ( GtkWidget *entree )
 		    /* forme jj ou j */
 		    case 1:
 		    case 2:
-			jour = my_atoi ( tab_date[0] );
+			jour = utils_str_atoi ( tab_date[0] );
 			mois = g_date_month ( date );
 			annee = g_date_year ( date );
 			break;
@@ -334,8 +334,8 @@ gboolean format_date ( GtkWidget *entree )
 			buffer[1] = tab_date[0][1];
 			buffer[2] = 0;
 
-			jour = my_atoi ( buffer );
-			mois = my_atoi ( tab_date[0] + 2 );
+			jour = utils_str_atoi ( buffer );
+			mois = utils_str_atoi ( tab_date[0] + 2 );
 			annee = g_date_year ( date );
 			break;
 
@@ -346,12 +346,12 @@ gboolean format_date ( GtkWidget *entree )
 			buffer[1] = tab_date[0][1];
 			buffer[2] = 0;
 
-			jour = my_atoi ( buffer );
+			jour = utils_str_atoi ( buffer );
 			buffer[0] = tab_date[0][2];
 			buffer[1] = tab_date[0][3];
 
-			mois = my_atoi ( buffer );
-			annee = my_atoi ( tab_date[0] + 4 ) + 2000;
+			mois = utils_str_atoi ( buffer );
+			annee = utils_str_atoi ( tab_date[0] + 4 ) + 2000;
 			break;
 
 			/* forme jjmmaaaa */
@@ -361,12 +361,12 @@ gboolean format_date ( GtkWidget *entree )
 			buffer[1] = tab_date[0][1];
 			buffer[2] = 0;
 
-			jour = my_atoi ( buffer );
+			jour = utils_str_atoi ( buffer );
 			buffer[0] = tab_date[0][2];
 			buffer[1] = tab_date[0][3];
 
-			mois = my_atoi ( buffer );
-			annee = my_atoi ( tab_date[0] + 4 );
+			mois = utils_str_atoi ( buffer );
+			annee = utils_str_atoi ( tab_date[0] + 4 );
 			break;
 
 		    default :

@@ -315,7 +315,7 @@ gint recherche_operation_par_cheque ( gpointer operation,
 				      gint *no_chq )
 {
   if ( gsb_transaction_data_get_method_of_payment_content ( gsb_transaction_data_get_transaction_number (operation )))
-    return ( ! ( my_atoi (gsb_transaction_data_get_method_of_payment_content ( gsb_transaction_data_get_transaction_number (operation ))) == GPOINTER_TO_INT ( no_chq ) ));
+    return ( ! ( utils_str_atoi (gsb_transaction_data_get_method_of_payment_content ( gsb_transaction_data_get_transaction_number (operation ))) == GPOINTER_TO_INT ( no_chq ) ));
   return -1;
 }
 /******************************************************************************/
