@@ -37,6 +37,8 @@
 #include <winbase.h>
 #include <winerror.h>
 #include <gtk/gtk.h>
+#include <glib.h>
+#include <glib/gprintf.h>
 
 #include "win32gtkutils.h"
 
@@ -166,6 +168,142 @@ gboolean win32_make_sure_the_gtk2_dlls_path_is_in_PATH()
    return (gboolean)(dwStatus == NO_ERROR);
 
 } /* }}} win32_force_gtk2_dlls_to_be_in_path */
+
+/**
+ * Convert the Windows lang code into the compliant gettext LOCALE value.
+ * 
+ * \note This function has be inspired by win_gaim.c:wgaim_lcid_to_posix() 
+ *  from the Gaim (http://gaim.sf.net/) project
+ *  
+ *  \param lcid Window code from a language
+ *
+ *  \return the corresponding LOCALE string 
+ *  \retval NULL if the lcid value is unknown
+ *
+ *  \caveats : the returned string must be unallocated when no more needed
+ *  
+ */
+#define CASE_LCID_RETURN_LANG(lcid,lang)   case lcid : return g_strdup(lang) 
+static gchar* win32_lcid_to_lang(LCID lcid) 
+{
+    switch(lcid) {
+        CASE_LCID_RETURN_LANG(1026,"bg"); /* bulgarian */
+        CASE_LCID_RETURN_LANG(1027,"ca"); /* catalan */
+        CASE_LCID_RETURN_LANG(1050,"hr"); /* croation */
+        CASE_LCID_RETURN_LANG(1029,"cs"); /* czech */
+        CASE_LCID_RETURN_LANG(1030,"da"); /* danish */
+        CASE_LCID_RETURN_LANG(1043,"nl"); /* dutch - netherlands */
+        CASE_LCID_RETURN_LANG(1033,"en"); /* english - us */
+        CASE_LCID_RETURN_LANG(1035,"fi"); /* finnish */
+        CASE_LCID_RETURN_LANG(1036,"fr"); /* french - france */
+        CASE_LCID_RETURN_LANG(1031,"de"); /* german - germany */
+        CASE_LCID_RETURN_LANG(1032,"el"); /* greek */
+        CASE_LCID_RETURN_LANG(1037,"he"); /* hebrew */
+        CASE_LCID_RETURN_LANG(1038,"hu"); /* hungarian */
+        CASE_LCID_RETURN_LANG(1040,"it"); /* italian - italy */
+        CASE_LCID_RETURN_LANG(1041,"ja"); /* japanese */
+        CASE_LCID_RETURN_LANG(1042,"ko"); /* korean */
+        CASE_LCID_RETURN_LANG(1063,"lt"); /* lithuanian */
+        CASE_LCID_RETURN_LANG(1071,"mk"); /* macedonian */
+        CASE_LCID_RETURN_LANG(1045,"pl"); /* polish */
+        CASE_LCID_RETURN_LANG(2070,"pt"); /* portuguese - portugal */
+        CASE_LCID_RETURN_LANG(1046,"pt_BR"); /* portuguese - brazil */
+        CASE_LCID_RETURN_LANG(1048,"ro"); /* romanian - romania */
+        CASE_LCID_RETURN_LANG(1049,"ru"); /* russian - russia */
+        CASE_LCID_RETURN_LANG(2074,"sr@Latn"); /* serbian - latin */
+        CASE_LCID_RETURN_LANG(3098,"sr"); /* serbian - cyrillic */
+        CASE_LCID_RETURN_LANG(2052,"zh_CN"); /* chinese - china (simple) */
+        CASE_LCID_RETURN_LANG(1051,"sk"); /* slovak */
+        CASE_LCID_RETURN_LANG(1060,"sl"); /* slovenian */
+        CASE_LCID_RETURN_LANG(1034,"es"); /* spanish */
+        CASE_LCID_RETURN_LANG(1052,"sq"); /* albanian */
+        CASE_LCID_RETURN_LANG(1053,"sv"); /* swedish */
+        CASE_LCID_RETURN_LANG(1054,"th"); /* thai */
+        CASE_LCID_RETURN_LANG(1028,"zh_TW"); /* chinese - taiwan (traditional) */
+        CASE_LCID_RETURN_LANG(1055,"tr"); /* turkish */
+        CASE_LCID_RETURN_LANG(1058,"uk"); /* ukrainian */
+        default:
+                return (gchar*)NULL;
+        }
+}
+
+/* Determine and set Gaim locale as follows (in order of priority):
+   - Check GAIMLANG env var
+   - Check NSIS Installer Language reg value
+   - Use default user locale
+*/
+void win32_set_locale() 
+{
+    gchar* gzLocale = NULL;
+    
+    // Retrieve value set by grisbi_set_language
+    DWORD   dwStatus         = NO_ERROR;
+    DWORD   dwType           = REG_SZ;
+    PCHAR   pKeyValBuffer    = NULL   ;
+    DWORD   dwKeyValSize     = 0;
+    HKEY    hKey             = HKEY_CURRENT_USER;
+
+    // Retrieve the application location from registry
+    dwStatus = RegOpenKeyEx(HKEY_CURRENT_USER, (LPCSTR)"SOFTWARE\\GRISBI", 0, KEY_READ, &hKey);
+    if (dwStatus == NO_ERROR)
+    {
+        // Get the size of the key to allocate the correct size for the temporary pBuffer
+        dwStatus = RegQueryValueEx(hKey,(LPCSTR)"LANG",0,&dwType,(LPBYTE)pKeyValBuffer,&dwKeyValSize);
+        if (dwStatus == NO_ERROR)
+        {
+            // allocate the buffer and don't forget the '\0'
+            pKeyValBuffer = (char*)malloc(sizeof(char*)*(dwKeyValSize+1));
+            memset(pKeyValBuffer,0,(sizeof(char*)*(dwKeyValSize+1)));
+
+            // At last, ... read the value ...
+            dwStatus = RegQueryValueEx(hKey,(LPCSTR)"LANG",0,&dwType,(LPBYTE)pKeyValBuffer,&dwKeyValSize);
+            if ((dwStatus == NO_ERROR)&&(dwKeyValSize == 0))
+            {
+                dwStatus = ERROR_EMPTY;
+            }
+        }
+        // Don't forget to close the handle
+        RegCloseKey(hKey);
+    }
+    
+    if ((dwStatus == NO_ERROR)&&(pKeyValBuffer)&&(*pKeyValBuffer))
+    {
+        gzLocale = g_strdup((gchar*)pKeyValBuffer);
+    }
+
+    // TODO
+
+    if(!gzLocale)
+    {
+        gzLocale = g_strdup((char*)getenv("LANG"));
+    }
+    // Retrieve current Windows value
+    if (!gzLocale)
+    {
+        gzLocale = win32_lcid_to_lang(GetUserDefaultLCID());
+    }
+
+    // In the last change LANG=en
+    if (!gzLocale)
+    {
+        gzLocale = g_strdup("en");
+    }
+
+
+    if (gzLocale)
+    {
+        // Check the validity of LANG, some time in contains Windows code and not locale string
+        if (g_ascii_isdigit(*gzLocale)&& g_ascii_isdigit(*(gzLocale+1)) && g_ascii_isdigit(*(gzLocale+2))&&g_ascii_isdigit(*(gzLocale+3)))
+        {
+            gzLocale = win32_lcid_to_lang(atoi(gzLocale));
+        }
+    }
+    if (gzLocale)
+    {
+        g_setenv("LANG",gzLocale,TRUE);
+        g_free(gzLocale);
+    }
+}
 
 #ifdef __cplusplus
 }

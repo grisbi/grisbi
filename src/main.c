@@ -116,6 +116,8 @@ int main (int argc, char *argv[])
     win32_set_app_path(argv[0]);
     /* needed to be able to use the "common" installation of GTK libraries */
     win32_make_sure_the_gtk2_dlls_path_is_in_PATH(); 
+    /* work aroung LANG defintiion issues */
+    win32_set_locale();
 #endif
 
 	/*   setlocale (LC_ALL, ""); */

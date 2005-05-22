@@ -34,7 +34,8 @@ extern "C" {
 #endif
 
 /** Make sure any existing GTK Dlls Path is present in the PATH variable */
-gboolean win32_make_sure_the_gtk2_dlls_path_is_in_PATH();
+extern gboolean win32_make_sure_the_gtk2_dlls_path_is_in_PATH();
+extern void     win32_set_locale();
 
 
 #ifdef __cplusplus
