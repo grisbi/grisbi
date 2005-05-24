@@ -505,9 +505,9 @@ void fill_currency_list ( GtkTreeView * view, gboolean include_obsolete )
 	gtk_tree_store_append (GTK_TREE_STORE(model), &iter, NULL);
 	gtk_tree_store_set (GTK_TREE_STORE(model), &iter,
 			    COUNTRY_NAME_COLUMN, _(*continent),
-			    CURRENCY_NAME_COLUMN, FALSE,
-			    CURRENCY_ISO_CODE_COLUMN, FALSE,
-			    CURRENCY_NICKNAME_COLUMN, FALSE,
+			    CURRENCY_NAME_COLUMN, NULL,
+			    CURRENCY_ISO_CODE_COLUMN, NULL,
+			    CURRENCY_NICKNAME_COLUMN, NULL,
 			    CONTINENT_NAME_COLUMN, _(*continent),
 			    -1);
 
