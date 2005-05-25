@@ -36,6 +36,7 @@
 #include "utils.h"
 #include "affichage_formulaire.h"
 #include "structures.h"
+#include "type_operations.h"
 #include "echeancier_formulaire.h"
 /*END_INCLUDE*/
 
@@ -1008,6 +1009,7 @@ void supprimer_type_operation ( void )
 
     if ( good )
     {
+	GSList *list_tmp_transactions;
 	gtk_tree_model_get ( GTK_TREE_MODEL(model), &iter, 
 			     PAYMENT_METHODS_VISIBLE_COLUMN, &visible,
 			     PAYMENT_METHODS_POINTER_COLUMN, &type_ope,
@@ -1017,17 +1019,23 @@ void supprimer_type_operation ( void )
 	    return;
 
 	/** We then put related operations in a temporary list */
-	pointeur_tmp = gsb_account_get_transactions_list (type_ope -> no_compte);
+
+	list_tmp_transactions = gsb_transaction_data_get_transactions_list ();
 	ope_a_changer = NULL;
 
-	while ( pointeur_tmp )
+	while ( list_tmp_transactions )
 	{
-	    gpointer operation;
-	    operation = pointeur_tmp -> data;
-	    if ( gsb_transaction_data_get_method_of_payment_number ( gsb_transaction_data_get_transaction_number (operation ))== type_ope -> no_type )
+	    gint transaction_number_tmp;
+	    transaction_number_tmp = gsb_transaction_data_get_transaction_number (list_tmp_transactions -> data);
+
+	    if ( gsb_transaction_data_get_account_number (transaction_number_tmp) == type_ope -> no_compte
+		 &&
+		 gsb_transaction_data_get_method_of_payment_number (transaction_number_tmp) == type_ope -> no_type)
+	    {
 		ope_a_changer = g_slist_append ( ope_a_changer,
-						 operation );
-	    pointeur_tmp = pointeur_tmp -> next;
+						 GINT_TO_POINTER (transaction_number_tmp));
+	    }
+	    list_tmp_transactions = list_tmp_transactions -> next;
 	}
 
 	/** If operations are related to this method, we have to ask for
@@ -1121,15 +1129,14 @@ void supprimer_type_operation ( void )
 
 	    while ( pointeur_tmp )
 	    {
-		gpointer operation;
+		gint transaction_number;
 
-		operation = pointeur_tmp -> data;
+		transaction_number = GPOINTER_TO_INT ( pointeur_tmp -> data );
 
-		gsb_transaction_data_set_method_of_payment_number ( gsb_transaction_data_get_transaction_number (operation ),
+		gsb_transaction_data_set_method_of_payment_number ( transaction_number,
 								    nouveau_type );
 		pointeur_tmp = pointeur_tmp -> next;
 	    }
-
 	    gtk_widget_destroy ( GTK_WIDGET(dialog) );
 	}
 

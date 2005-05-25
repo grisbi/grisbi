@@ -27,6 +27,7 @@
 #define ENGRIS 1
 
 /* START_INCLUDE_H */
+#include "operations_formulaire.h"
 #include "structures.h"
 /* END_INCLUDE_H */
 
@@ -49,6 +50,9 @@ gint gsb_form_validate_transfer ( gint transaction_number,
 				  gchar *name_transfer_account );
 gboolean gsb_transactions_list_append_new_transaction ( gpointer transaction );
 gboolean gsb_transactions_list_update_transaction ( gpointer transaction );
+gint gsb_transactions_look_for_last_party ( gint no_party,
+					    gint no_new_transaction,
+					    gint account_number );
 void place_type_formulaire ( gint no_type,
 			     gint no_option_menu,
 			     gchar *contenu );

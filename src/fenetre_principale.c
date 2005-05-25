@@ -37,6 +37,7 @@
 #include "tiers_onglet.h"
 #include "include.h"
 #include "structures.h"
+#include "fenetre_principale.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

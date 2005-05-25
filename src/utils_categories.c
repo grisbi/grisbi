@@ -28,7 +28,6 @@
 /*START_INCLUDE*/
 #include "utils_categories.h"
 #include "metatree.h"
-#include "gsb_account.h"
 #include "gsb_transaction_data.h"
 #include "search_glist.h"
 #include "structures.h"
@@ -287,7 +286,7 @@ gchar *nom_sous_categ_par_no ( gint no_categorie,
  */
 void calcule_total_montant_categ ( void )
 {
-    GSList *list_tmp;
+    GSList *list_tmp_transactions;
 
     reset_category_counters();
 
@@ -297,49 +296,38 @@ void calcule_total_montant_categ ( void )
     without_category -> type_categ = 0;
     without_category -> no_derniere_sous_categ = 0;
 
-    list_tmp = gsb_account_get_list_accounts ();
+    list_tmp_transactions = gsb_transaction_data_get_transactions_list ();
 
-    while ( list_tmp )
+    while ( list_tmp_transactions )
     {
-	gint i;
-	GSList *liste_tmp;
+	gint transaction_number_tmp;
+	transaction_number_tmp = gsb_transaction_data_get_transaction_number (list_tmp_transactions -> data);
 
-	i = gsb_account_get_no_account ( list_tmp -> data );
-
-	liste_tmp = gsb_account_get_transactions_list (i);
-	while ( liste_tmp )
+	if ( gsb_transaction_data_get_category_number ( transaction_number_tmp))
 	{
-	    gpointer operation;
+	    struct struct_categ *categorie;
+	    struct struct_sous_categ *sous_categorie;
 
-	    operation = liste_tmp -> data;
+	    /* il y a une catégorie */
+	    categorie = categ_par_no ( gsb_transaction_data_get_category_number ( transaction_number_tmp));
 
-	    if ( gsb_transaction_data_get_category_number ( gsb_transaction_data_get_transaction_number (operation )))
-	    {
-		struct struct_categ *categorie = NULL;
-		struct struct_sous_categ *sous_categorie = NULL;
+	    /* on ajoute maintenant le montant à la sous categ si elle existe */
 
-		/* il y a une catégorie */
-		categorie = categ_par_no ( gsb_transaction_data_get_category_number ( gsb_transaction_data_get_transaction_number (operation )));
+	    sous_categorie = sous_categ_par_no ( gsb_transaction_data_get_category_number (transaction_number_tmp), 
+						 gsb_transaction_data_get_sub_category_number (transaction_number_tmp));
 
-		/* on ajoute maintenant le montant à la sous categ si elle existe */
-		if ( gsb_transaction_data_get_sub_category_number ( gsb_transaction_data_get_transaction_number (operation )))
-		    sous_categorie = sous_categ_par_no ( gsb_transaction_data_get_category_number ( gsb_transaction_data_get_transaction_number (operation )), 
-							 gsb_transaction_data_get_sub_category_number ( gsb_transaction_data_get_transaction_number (operation )));
-
-		add_transaction_to_category ( operation, categorie, sous_categorie );
-	    }
-	    else if ( ! gsb_transaction_data_get_breakdown_of_transaction ( gsb_transaction_data_get_transaction_number (operation ))
-		      && 
-		      ! gsb_transaction_data_get_transaction_number_transfer ( gsb_transaction_data_get_transaction_number (operation )))
-	    {
-		add_transaction_to_category ( operation, without_category, NULL );
-	    }
-
-	    liste_tmp = liste_tmp -> next;
+	    add_transaction_to_category ( gsb_transaction_data_get_pointer_to_transaction (transaction_number_tmp), categorie, sous_categorie );
 	}
-	list_tmp = list_tmp -> next;
-    }
+	else
+	    if ( !gsb_transaction_data_get_breakdown_of_transaction ( transaction_number_tmp)
+		 && 
+		 !gsb_transaction_data_get_transaction_number_transfer ( transaction_number_tmp))
+	    {
+		add_transaction_to_category ( gsb_transaction_data_get_pointer_to_transaction (transaction_number_tmp), without_category, NULL );
+	    }
 
+	list_tmp_transactions = list_tmp_transactions -> next;
+    }
 }
 
 

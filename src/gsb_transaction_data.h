@@ -51,6 +51,7 @@ typedef struct
 
 
 /* START_INCLUDE_H */
+#include "gsb_transaction_data.h"
 /* END_INCLUDE_H */
 
 
@@ -92,12 +93,12 @@ GSList *gsb_transaction_data_get_transactions_list ( void );
 GDate *gsb_transaction_data_get_value_date ( gint no_transaction );
 gchar *gsb_transaction_data_get_voucher ( gint no_transaction );
 gboolean gsb_transaction_data_init_variables ( void );
-gboolean gsb_transaction_data_move_transaction ( gint transaction_number,
-						 gint target_account );
 gint gsb_transaction_data_new_transaction ( gint no_account );
 gint gsb_transaction_data_new_transaction_with_number ( gint no_account,
 							gint transaction_number );
 gboolean gsb_transaction_data_remove_transaction ( gint transaction_number );
+gboolean gsb_transaction_data_set_account_number ( gint no_transaction,
+						   gint no_account );
 gboolean gsb_transaction_data_set_account_number_transfer ( gint no_transaction,
 							    gint account_number_transfer );
 gboolean gsb_transaction_data_set_amount ( gint no_transaction,

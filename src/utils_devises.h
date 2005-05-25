@@ -1,6 +1,7 @@
 #ifndef _UTILS_DEVISES_H
 #define _UTILS_DEVISES_H (1)
 /* START_INCLUDE_H */
+#include "utils_devises.h"
 #include "structures.h"
 /* END_INCLUDE_H */
 

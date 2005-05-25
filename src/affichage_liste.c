@@ -24,10 +24,10 @@
 /*START_INCLUDE*/
 #include "affichage_liste.h"
 #include "operations_liste.h"
-#include "utils.h"
 #include "gsb_account.h"
 #include "traitement_variables.h"
 #include "utils_buttons.h"
+#include "utils.h"
 #include "affichage.h"
 #include "structures.h"
 /*END_INCLUDE*/
@@ -302,10 +302,6 @@ gboolean modification_retient_affichage_par_compte ( void )
 
 	list_tmp = list_tmp -> next;
     }
-
-    /* 	on met en place l'idle */
-
-    demarrage_idle ();
 
     return FALSE;
 }

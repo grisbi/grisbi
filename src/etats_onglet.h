@@ -1,6 +1,7 @@
 #ifndef _ETATS_ONGLET_H
 #define _ETATS_ONGLET_H (1)
 /* START_INCLUDE_H */
+#include "etats_onglet.h"
 #include "structures.h"
 /* END_INCLUDE_H */
 

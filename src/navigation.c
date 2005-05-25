@@ -31,6 +31,7 @@
 #include "fenetre_principale.h"
 #include "comptes_gestion.h"
 #include "fichier_configuration.h"
+#include "navigation.h"
 #include "structures.h"
 /*END_INCLUDE*/
 

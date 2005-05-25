@@ -1,6 +1,7 @@
 #ifndef _ECHEANCIER_ONGLET_H
 #define _ECHEANCIER_ONGLET_H (1)
 /* START_INCLUDE_H */
+#include "echeancier_onglet.h"
 /* END_INCLUDE_H */
 
 

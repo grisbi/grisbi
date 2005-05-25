@@ -1,6 +1,7 @@
 #ifndef _UTILS_STR_H
 #define _UTILS_STR_H (1)
 /* START_INCLUDE_H */
+#include "utils_str.h"
 /* END_INCLUDE_H */
 
 

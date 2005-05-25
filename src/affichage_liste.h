@@ -2,6 +2,7 @@
 #define _AFFICHAGE_LISTE_H (1)
 
 /* START_INCLUDE_H */
+#include "affichage_liste.h"
 /* END_INCLUDE_H */
 
 

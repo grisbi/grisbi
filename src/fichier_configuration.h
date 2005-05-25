@@ -14,6 +14,7 @@
 #endif
 
 /* START_INCLUDE_H */
+#include "fichier_configuration.h"
 /* END_INCLUDE_H */
 
 

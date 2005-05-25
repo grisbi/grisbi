@@ -1,6 +1,7 @@
 #ifndef _ECHEANCIER_INFOS_H
 #define _ECHEANCIER_INFOS_H (1)
 /* START_INCLUDE_H */
+#include "echeancier_infos.h"
 /* END_INCLUDE_H */
 
 

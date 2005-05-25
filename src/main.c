@@ -47,12 +47,10 @@
 #include "main.h"
 #include "menu.h"
 #include "fichier_configuration.h"
-#include "utils.h"
 #include "tip.h"
 #include "erreur.h"
 #include "gsb_account.h"
 #include "fichiers_gestion.h"
-#include "operations_liste.h"
 #include "traitement_variables.h"
 #include "parse_cmdline.h"
 #include "etats_config.h"
@@ -60,8 +58,8 @@
 #include "etats_calculs.h"
 #include "utils_files.h"
 #include "include.h"
-#include "structures.h"
 #include "fenetre_principale.h"
+#include "structures.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -98,7 +96,6 @@ extern GtkWidget *notebook_config_etat;
 extern GtkWidget *notebook_general;
 extern GtkWidget *notebook_selection;
 extern GtkStyle *style_label_nom_compte;
-extern GtkWidget *tree_view;
 /*END_EXTERN*/
 
 
@@ -277,7 +274,6 @@ int main (int argc, char *argv[])
 
 	/* 	on met en place l'idle */
 
-/* 	demarrage_idle (); */
 
 	/* on vérifie les arguments de ligne de commande */
 

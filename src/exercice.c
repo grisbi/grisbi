@@ -654,51 +654,51 @@ void association_automatique ( void )
     while ( list_tmp )
     {
 	gint i;
-	GSList *pointeur_tmp;
+	GSList *list_tmp_transactions;
 
 	i = gsb_account_get_no_account ( list_tmp -> data );
 
-	pointeur_tmp = gsb_account_get_transactions_list (i);
+	list_tmp_transactions = gsb_transaction_data_get_transactions_list ();
 
-	while ( pointeur_tmp )
+	while ( list_tmp_transactions )
 	{
-	    gpointer operation;
+	    gint transaction_number_tmp;
+	    transaction_number_tmp = gsb_transaction_data_get_transaction_number (list_tmp_transactions -> data);
 
-	    operation = pointeur_tmp -> data;
-
-	    if ( !gsb_transaction_data_get_financial_year_number ( gsb_transaction_data_get_transaction_number (operation )))
+	    if ( gsb_transaction_data_get_account_number (transaction_number_tmp) == i )
 	    {
-		GSList *pointeur_exo;
-
-		pointeur_exo = liste_struct_exercices;
-
-		while ( pointeur_exo )
+		if ( !gsb_transaction_data_get_financial_year_number (transaction_number_tmp))
 		{
-		    struct struct_exercice *exo;
+		    GSList *pointeur_exo;
 
-		    exo = pointeur_exo -> data;
+		    pointeur_exo = liste_struct_exercices;
 
-		    if ( g_date_compare ( exo -> date_debut,
-					  gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation))) <= 0
-			 &&
-			 g_date_compare ( exo -> date_fin,
-					  gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation))) >= 0 )
+		    while ( pointeur_exo )
 		    {
-			gsb_transaction_data_set_financial_year_number ( gsb_transaction_data_get_transaction_number ( operation ),
-									 exo -> no_exercice);
-		    }
+			struct struct_exercice *exo;
 
-		    pointeur_exo = pointeur_exo -> next;
+			exo = pointeur_exo -> data;
+
+			if ( g_date_compare ( exo -> date_debut,
+					      gsb_transaction_data_get_date (transaction_number_tmp)) <= 0
+			     &&
+			     g_date_compare ( exo -> date_fin,
+					      gsb_transaction_data_get_date (transaction_number_tmp)) >= 0 )
+			{
+			    gsb_transaction_data_set_financial_year_number ( transaction_number_tmp,
+									     exo -> no_exercice);
+			}
+
+			pointeur_exo = pointeur_exo -> next;
+		    }
 		}
 	    }
-	    pointeur_tmp = pointeur_tmp -> next;
+	    list_tmp_transactions = list_tmp_transactions -> next;
 	}
-
 	list_tmp = list_tmp -> next;
     }
 
     demande_mise_a_jour_tous_comptes ();
-
     modification_fichier ( TRUE );
 }
 /* ************************************************************************************************************** */

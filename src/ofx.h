@@ -2,6 +2,7 @@
 #define OFX_H 1
 
 /* START_INCLUDE_H */
+#include "ofx.h"
 /* END_INCLUDE_H */
 
 

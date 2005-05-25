@@ -33,7 +33,9 @@
 #include "gsb_account.h"
 #include "gsb_transaction_data.h"
 #include "utils.h"
+#include "utils_categories.h"
 #include "search_glist.h"
+#include "utils_tiers.h"
 #include "structures.h"
 /*END_INCLUDE*/
 
@@ -48,8 +50,6 @@ GSList *liste_entrees_exportation;
 
 /*START_EXTERN*/
 extern GSList *liste_comptes_importes;
-extern GSList *liste_struct_categories;
-extern GSList *liste_struct_tiers;
 extern gchar *nom_fichier_comptes;
 extern GtkWidget *window;
 /*END_EXTERN*/
@@ -1059,7 +1059,6 @@ choix_liste_fichier:
 
     while ( liste_tmp )
     {
-
 	/*       ouverture du fichier, si pb, on marque l'erreur et passe au fichier suivant */
 
 	nom_fichier_qif = g_strdup ( gtk_entry_get_text ( GTK_ENTRY ( liste_tmp -> data )));
@@ -1072,9 +1071,9 @@ choix_liste_fichier:
 						    nom_fichier_qif ) );
 	else
 	{
-	    GSList *pointeur_tmp;
-	    gpointer operation;
 	    gint no_compte;
+	    GSList *list_tmp_transactions;
+	    gint begining;
 
 	    no_compte = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( liste_tmp -> data ),
 								"no_compte" ));
@@ -1095,93 +1094,91 @@ choix_liste_fichier:
 			      "!Type:Bank\n" );
 
 
-	    if ( gsb_account_get_transactions_list (no_compte) )
+	    list_tmp_transactions = gsb_transaction_data_get_transactions_list ();
+	    begining = 1;
+
+	    while ( list_tmp_transactions )
 	    {
-		/* met la date de la 1ère opération comme dâte d'ouverture de compte */
+		gint transaction_number_tmp;
+		transaction_number_tmp = gsb_transaction_data_get_transaction_number (list_tmp_transactions -> data);
 
-		operation = gsb_account_get_transactions_list (no_compte) -> data;
-
-		fprintf ( fichier_qif,
-			  "D%d/%d/%d\n",
-			  g_date_day (gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation))),
-			  g_date_month (gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation))),
-			  g_date_year (gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation))));
-
-		/* met le solde initial */
-
-		montant_tmp = g_strdup_printf ( "%4.2f",
-						gsb_account_get_init_balance (no_compte) );
-		montant_tmp = g_strdelimit ( montant_tmp,
-					     ",",
-					     '.' );
-
-		fprintf ( fichier_qif,
-			  "T%s\n",
-			  montant_tmp );
-
-
-		fprintf ( fichier_qif,
-			  "CX\nPOpening Balance\n" );
-
-		/* met le nom du compte */
-
-		fprintf ( fichier_qif,
-			  "L%s\n^\n",
-			  g_strconcat ( "[",
-					gsb_account_get_name (no_compte),
-					"]",
-					NULL ) );
-
-		/* on met toutes les opérations */
-
-		pointeur_tmp = gsb_account_get_transactions_list (no_compte);
-
-		while ( pointeur_tmp )
+		if ( gsb_transaction_data_get_account_number (transaction_number_tmp) == no_compte )
 		{
 		    GSList *pointeur;
 		    gdouble montant;
 		    struct struct_type_ope *type;
 
-		    operation = pointeur_tmp -> data;
+		    if ( begining )
+		    {
+			/* this is the begining of the qif file, we set some beginings things */
+			fprintf ( fichier_qif,
+				  "D%d/%d/%d\n",
+				  g_date_day (gsb_transaction_data_get_date (transaction_number_tmp)),
+				  g_date_month (gsb_transaction_data_get_date (transaction_number_tmp)),
+				  g_date_year (gsb_transaction_data_get_date (transaction_number_tmp)));
 
+			/* met le solde initial */
+
+			montant_tmp = g_strdup_printf ( "%4.2f",
+							gsb_account_get_init_balance (no_compte) );
+			montant_tmp = g_strdelimit ( montant_tmp,
+						     ",",
+						     '.' );
+			fprintf ( fichier_qif,
+				  "T%s\n",
+				  montant_tmp );
+
+			fprintf ( fichier_qif,
+				  "CX\nPOpening Balance\n" );
+
+			/* met le nom du compte */
+
+			fprintf ( fichier_qif,
+				  "L%s\n^\n",
+				  g_strconcat ( "[",
+						gsb_account_get_name (no_compte),
+						"]",
+						NULL ) );
+			begining = 0;
+		    }
 
 		    /* si c'est une opé de ventilation, on la saute pas elle sera recherchée quand */
 		    /* son opé ventilée sera exportée */
 
-		    if ( !gsb_transaction_data_get_mother_transaction_number ( gsb_transaction_data_get_transaction_number (operation )))
+		    if ( !gsb_transaction_data_get_mother_transaction_number ( transaction_number_tmp))
 		    {
 			/* met la date */
 
 			fprintf ( fichier_qif,
 				  "D%d/%d/%d\n",
-				  g_date_day (gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation))),
-				  g_date_month (gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation))),
-				  g_date_year (gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation))));
+				  g_date_day (gsb_transaction_data_get_date (transaction_number_tmp)),
+				  g_date_month (gsb_transaction_data_get_date (transaction_number_tmp)),
+				  g_date_year (gsb_transaction_data_get_date (transaction_number_tmp)));
 
 			/* met le pointage */
 
-			if ( gsb_transaction_data_get_marked_transaction ( gsb_transaction_data_get_transaction_number (operation ))== 1
+			if ( gsb_transaction_data_get_marked_transaction ( transaction_number_tmp)== OPERATION_POINTEE
 			     ||
-			     gsb_transaction_data_get_marked_transaction ( gsb_transaction_data_get_transaction_number (operation ))== 3 )
+			     gsb_transaction_data_get_marked_transaction ( transaction_number_tmp)== OPERATION_TELERAPPROCHEE )
 			    fprintf ( fichier_qif,
 				      "C*\n" );
 			else
-			    if ( gsb_transaction_data_get_marked_transaction ( gsb_transaction_data_get_transaction_number (operation ))== 2 )
+			    if ( gsb_transaction_data_get_marked_transaction ( transaction_number_tmp)== OPERATION_RAPPROCHEE )
 				fprintf ( fichier_qif,
 					  "CX\n" );
 
 
 			/* met les notes */
 
-			if ( gsb_transaction_data_get_notes ( gsb_transaction_data_get_transaction_number (operation )))
+			if ( gsb_transaction_data_get_notes ( transaction_number_tmp))
 			    fprintf ( fichier_qif,
 				      "M%s\n",
-				      gsb_transaction_data_get_notes ( gsb_transaction_data_get_transaction_number (operation )));
+				      gsb_transaction_data_get_notes ( transaction_number_tmp));
 
 
 			/* met le montant, transforme la devise si necessaire */
 
-			montant = gsb_transaction_data_get_adjusted_amount ( gsb_transaction_data_get_transaction_number (operation));
+			montant = gsb_transaction_data_get_adjusted_amount ( transaction_number_tmp);
 
 			montant_tmp = g_strdup_printf ( "%4.2f",
 							montant );
@@ -1193,11 +1190,10 @@ choix_liste_fichier:
 				  "T%s\n",
 				  montant_tmp );
 
-
 			/* met le chèque si c'est un type à numérotation automatique */
 
 			pointeur = g_slist_find_custom ( gsb_account_get_method_payment_list (no_compte),
-							 GINT_TO_POINTER ( gsb_transaction_data_get_method_of_payment_number ( gsb_transaction_data_get_transaction_number (operation ))),
+							 GINT_TO_POINTER ( gsb_transaction_data_get_method_of_payment_number ( transaction_number_tmp)),
 							 (GCompareFunc) recherche_type_ope_par_no );
 
 			if ( pointeur )
@@ -1207,21 +1203,15 @@ choix_liste_fichier:
 			    if ( type -> numerotation_auto )
 				fprintf ( fichier_qif,
 					  "N%s\n",
-					  gsb_transaction_data_get_method_of_payment_content ( gsb_transaction_data_get_transaction_number (operation )));
+					  gsb_transaction_data_get_method_of_payment_content ( transaction_number_tmp));
 			}
-
+			
 			/* met le tiers */
-
-			pointeur = g_slist_find_custom ( liste_struct_tiers,
-							 GINT_TO_POINTER ( gsb_transaction_data_get_party_number ( gsb_transaction_data_get_transaction_number (operation ))),
-							 (GCompareFunc) recherche_tiers_par_no );
-
-			if ( pointeur )
-			    fprintf ( fichier_qif,
-				      "P%s\n",
-				      ((struct struct_tiers *)(pointeur -> data )) -> nom_tiers );
-
-
+			
+			fprintf ( fichier_qif,
+				  "P%s\n",
+				  tiers_name_by_no ( gsb_transaction_data_get_party_number ( transaction_number_tmp),
+						     FALSE ));
 
 			/*  on met soit un virement, soit une ventilation, soit les catégories */
 
@@ -1229,207 +1219,130 @@ choix_liste_fichier:
 			/* et les met à la suite */
 			/* la catégorie de l'opé sera celle de la première opé de ventilation */
 
-			if ( gsb_transaction_data_get_breakdown_of_transaction ( gsb_transaction_data_get_transaction_number (operation )))
+			if ( gsb_transaction_data_get_breakdown_of_transaction ( transaction_number_tmp))
 			{
-			    GSList *liste_ventil;
-			    gint categ_ope_mise;
+			    /* it's a breakdown of transactions, look for the children and append them */
 
-			    categ_ope_mise = 0;
-			    liste_ventil = gsb_account_get_transactions_list (no_compte);
+			    gint mother_transaction_category_written;
+			    GSList *list_tmp_transactions_2;
 
-			    while ( liste_ventil )
+			    mother_transaction_category_written = 0;
+			    list_tmp_transactions_2 = gsb_transaction_data_get_transactions_list ();
+
+			    while ( list_tmp_transactions_2 )
 			    {
-				gpointer ope_test;
+				gint transaction_number_tmp_2;
+				transaction_number_tmp_2 = gsb_transaction_data_get_transaction_number (list_tmp_transactions_2 -> data);
 
-				ope_test = liste_ventil -> data;
-
-				if ( gsb_transaction_data_get_mother_transaction_number ( gsb_transaction_data_get_transaction_number (ope_test ))== gsb_transaction_data_get_transaction_number (operation)
-				     &&
-				     ( gsb_transaction_data_get_category_number ( gsb_transaction_data_get_transaction_number (ope_test ))
-				       ||
-				       gsb_transaction_data_get_transaction_number_transfer ( gsb_transaction_data_get_transaction_number (ope_test ))))
+				if (gsb_transaction_data_get_mother_transaction_number (transaction_number_tmp_2) == transaction_number_tmp)
 				{
-				    /* on commence par mettre la catég et sous categ de l'opé et de l'opé de ventilation */
+				    /* we are on a child, for the first one, we set the mother category */
+				    /*  the child can only be a normal category or a transfer */
 
-				    if ( gsb_transaction_data_get_transaction_number_transfer ( gsb_transaction_data_get_transaction_number (ope_test )))
+				    if ( gsb_transaction_data_get_transaction_number_transfer (transaction_number_tmp_2))
 				    {
-					/* c'est un virement */
+					/* the child is a transfer */
 
-					if ( !categ_ope_mise )
+					if ( !mother_transaction_category_written )
 					{
 					    fprintf ( fichier_qif,
 						      "L%s\n",
 						      g_strconcat ( "[",
-								    gsb_account_get_name (gsb_transaction_data_get_account_number_transfer ( gsb_transaction_data_get_transaction_number (ope_test ))),
+								    gsb_account_get_name (gsb_transaction_data_get_account_number_transfer (transaction_number_tmp_2)),
 								    "]",
 								    NULL ));
-					    categ_ope_mise = 1;
+					    mother_transaction_category_written = 1;
 					}
-
 					fprintf ( fichier_qif,
 						  "S%s\n",
 						  g_strconcat ( "[",
-								gsb_account_get_name (gsb_transaction_data_get_account_number_transfer ( gsb_transaction_data_get_transaction_number (ope_test ))),
+								gsb_account_get_name (gsb_transaction_data_get_account_number_transfer ( transaction_number_tmp_2)),
 								"]",
 								NULL ));
-
 				    }
 				    else
 				    {
-					/* c'est du type categ : sous categ */
+					/* it's a category : sub-category */
 
-					pointeur = g_slist_find_custom ( liste_struct_categories,
-									 GINT_TO_POINTER ( gsb_transaction_data_get_category_number ( gsb_transaction_data_get_transaction_number (ope_test ))),
-									 (GCompareFunc) recherche_categorie_par_no );
-
-					if ( pointeur )
+					if ( !mother_transaction_category_written )
 					{
-					    GSList *pointeur_2;
-					    struct struct_categ *categorie;
-
-					    categorie = pointeur -> data;
-
-					    pointeur_2 = g_slist_find_custom ( categorie -> liste_sous_categ,
-									       GINT_TO_POINTER ( gsb_transaction_data_get_sub_category_number ( gsb_transaction_data_get_transaction_number (ope_test ))),
-									       (GCompareFunc) recherche_sous_categorie_par_no );
-					    if ( pointeur_2 )
-					    {
-						if ( !categ_ope_mise )
-						{
-						    fprintf ( fichier_qif,
-							      "L%s\n",
-							      g_strconcat ( categorie -> nom_categ,
-									    ":",
-									    ((struct struct_sous_categ *)(pointeur_2->data)) -> nom_sous_categ,
-									    NULL ));
-						    categ_ope_mise = 1;
-						}
-
-						fprintf ( fichier_qif,
-							  "S%s\n",
-							  g_strconcat ( categorie -> nom_categ,
-									":",
-									((struct struct_sous_categ *)(pointeur_2->data)) -> nom_sous_categ,
-									NULL ));
-					    }
-					    else
-					    {
-						if ( !categ_ope_mise )
-						{
-						    fprintf ( fichier_qif,
-							      "L%s\n",
-							      categorie -> nom_categ );
-						    categ_ope_mise = 1;
-						}
-
-						fprintf ( fichier_qif,
-							  "S%s\n",
-							  categorie -> nom_categ );
-					    }
+					    fprintf ( fichier_qif,
+						      "L%s\n",
+						      nom_categ_par_no (gsb_transaction_data_get_category_number (transaction_number_tmp_2),
+									gsb_transaction_data_get_sub_category_number (transaction_number_tmp_2)));
+					    mother_transaction_category_written = 1;
 					}
+					fprintf ( fichier_qif,
+						  "S%s\n",
+						  nom_categ_par_no (gsb_transaction_data_get_category_number (transaction_number_tmp_2),
+								    gsb_transaction_data_get_sub_category_number (transaction_number_tmp_2)));
 				    }
 
+				    /* set the notes of the breakdown child */
 
-				    /* met les notes de la ventilation */
-
-				    if ( gsb_transaction_data_get_notes ( gsb_transaction_data_get_transaction_number (ope_test )))
+				    if ( gsb_transaction_data_get_notes (transaction_number_tmp_2))
 					fprintf ( fichier_qif,
 						  "E%s\n",
-						  gsb_transaction_data_get_notes ( gsb_transaction_data_get_transaction_number (ope_test )));
+						  gsb_transaction_data_get_notes (transaction_number_tmp_2));
 
-				    /* met le montant de la ventilation */
-
-				    montant = gsb_transaction_data_get_adjusted_amount ( gsb_transaction_data_get_transaction_number (ope_test));
-
-				    montant_tmp = g_strdup_printf ( "%4.2f",
-								    montant );
-				    montant_tmp = g_strdelimit ( montant_tmp,
-								 ",",
-								 '.' );
+				    /* set the amount of the breakdown child */
 
 				    fprintf ( fichier_qif,
 					      "$%s\n",
-					      montant_tmp );
-
+					      g_strdelimit ( g_strdup_printf ( "%4.2f",
+									       gsb_transaction_data_get_adjusted_amount (transaction_number_tmp_2) ),
+							     ",",
+							     '.' ));
 				}
-
-				liste_ventil = liste_ventil -> next;
+				list_tmp_transactions_2 = list_tmp_transactions_2 -> next;
 			    }
 			}
 			else
 			{
-			    /* si c'est un virement vers un compte supprimé, ça sera pris comme categ normale vide */
-
-			    if ( gsb_transaction_data_get_transaction_number_transfer ( gsb_transaction_data_get_transaction_number (operation ))
+			    /* if it's a transfer, the contra-account must exist, else we do
+			     * as for a normal category */
+			    
+			    if ( gsb_transaction_data_get_transaction_number_transfer (transaction_number_tmp)
 				 &&
-				 gsb_transaction_data_get_account_number_transfer ( gsb_transaction_data_get_transaction_number (operation ))>= 0 )
+				 gsb_transaction_data_get_account_number_transfer (transaction_number_tmp)>= 0 )
 			    {
-				/* c'est un virement */
+				/* it's a transfer */
 
 				fprintf ( fichier_qif,
 					  "L%s\n",
 					  g_strconcat ( "[",
-							gsb_account_get_name (gsb_transaction_data_get_account_number_transfer ( gsb_transaction_data_get_transaction_number (operation ))),
+							gsb_account_get_name (gsb_transaction_data_get_account_number_transfer ( transaction_number_tmp)),
 							"]",
 							NULL ));
-
 			    }
 			    else
 			    {
-				/* c'est du type categ : sous-categ */
+				/* it's a normal category */
 
-				pointeur = g_slist_find_custom ( liste_struct_categories,
-								 GINT_TO_POINTER ( gsb_transaction_data_get_category_number ( gsb_transaction_data_get_transaction_number (operation ))),
-								 (GCompareFunc) recherche_categorie_par_no );
-
-				if ( pointeur )
-				{
-				    GSList *pointeur_2;
-				    struct struct_categ *categorie;
-
-				    categorie = pointeur -> data;
-
-				    pointeur_2 = g_slist_find_custom ( categorie -> liste_sous_categ,
-								       GINT_TO_POINTER ( gsb_transaction_data_get_sub_category_number ( gsb_transaction_data_get_transaction_number (operation ))),
-								       (GCompareFunc) recherche_sous_categorie_par_no );
-				    if ( pointeur_2 )
-					fprintf ( fichier_qif,
-						  "L%s\n",
-						  g_strconcat ( categorie -> nom_categ,
-								":",
-								((struct struct_sous_categ *)(pointeur_2->data)) -> nom_sous_categ,
-								NULL ));
-				    else
-					fprintf ( fichier_qif,
-						  "L%s\n",
-						  categorie -> nom_categ );
-				}
+				fprintf ( fichier_qif,
+					  "L%s\n",
+					  nom_categ_par_no (gsb_transaction_data_get_category_number (transaction_number_tmp),
+							    gsb_transaction_data_get_sub_category_number (transaction_number_tmp)));
 			    }
 			}
-
 			fprintf ( fichier_qif,
 				  "^\n" );
 		    }
-
-		    pointeur_tmp = pointeur_tmp -> next;
 		}
+		list_tmp_transactions = list_tmp_transactions -> next;
 	    }
-	    else
+
+	    if ( begining )
 	    {
-		/* le compte n'a aucune opération enregistrée : on ne met pas de date, mais on fait l'ouverture du compte */
-
+		/* there is no transaction in the account, so do the opening of the account, bug no date */
 		/* met le solde initial */
-
-		montant_tmp = g_strdup_printf ( "%4.2f",
-						gsb_account_get_init_balance (no_compte) );
-		montant_tmp = g_strdelimit ( montant_tmp,
-					     ",",
-					     '.' );
 
 		fprintf ( fichier_qif,
 			  "T%s\n",
-			  montant_tmp );
-
+			  g_strdelimit ( g_strdup_printf ( "%4.2f",
+							   gsb_account_get_init_balance (no_compte) ),
+					 ",",
+					 '.' ));
 
 		fprintf ( fichier_qif,
 			  "CX\nPOpening Balance\n" );

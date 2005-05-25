@@ -27,7 +27,6 @@
 
 /*START_INCLUDE*/
 #include "utils_tiers.h"
-#include "gsb_account.h"
 #include "gsb_transaction_data.h"
 #include "tiers_onglet.h"
 #include "search_glist.h"
@@ -165,7 +164,7 @@ gchar *tiers_name_by_no ( gint no_tiers,
  */
 void calcule_total_montant_payee ( void )
 {
-    GSList *list_tmp;
+    GSList *list_tmp_transactions;
 
     reset_payee_counters();
 
@@ -173,42 +172,32 @@ void calcule_total_montant_payee ( void )
     without_payee -> no_tiers = 0;
     without_payee -> nom_tiers = _("No payee");
 
-    list_tmp = gsb_account_get_list_accounts ();
+    list_tmp_transactions = gsb_transaction_data_get_transactions_list ();
 
-    while ( list_tmp )
+    while ( list_tmp_transactions )
     {
-	gint i;
-	GSList *liste_tmp;
+	gint transaction_number_tmp;
+	transaction_number_tmp = gsb_transaction_data_get_transaction_number (list_tmp_transactions -> data);
 
-	i = gsb_account_get_no_account ( list_tmp -> data );
-
-	liste_tmp = gsb_account_get_transactions_list (i);
-	while ( liste_tmp )
+	if ( gsb_transaction_data_get_party_number (transaction_number_tmp))
 	{
-	    gpointer operation;
+	    struct struct_tiers *payee = NULL;
 
-	    operation = liste_tmp -> data;
+	    /* il y a une catégorie */
+	    payee = tiers_par_no ( gsb_transaction_data_get_party_number (transaction_number_tmp));
 
-	    if ( gsb_transaction_data_get_party_number ( gsb_transaction_data_get_transaction_number (operation )))
-	    {
-		struct struct_tiers * payee = NULL;
-
-		/* il y a une catégorie */
-		payee = tiers_par_no ( gsb_transaction_data_get_party_number ( gsb_transaction_data_get_transaction_number (operation )));
-
-		add_transaction_to_payee ( operation, payee );
-	    }
-	    else if ( ! gsb_transaction_data_get_breakdown_of_transaction ( gsb_transaction_data_get_transaction_number (operation ))
-		      && 
-		      ! gsb_transaction_data_get_transaction_number_transfer ( gsb_transaction_data_get_transaction_number (operation )))
-	    {
-		add_transaction_to_payee ( operation, without_payee );
-	    }
-
-	    liste_tmp = liste_tmp -> next;
+	    add_transaction_to_payee ( gsb_transaction_data_get_pointer_to_transaction (transaction_number_tmp),
+				       payee );
 	}
-
-	list_tmp = list_tmp -> next;
+	else
+	    if ( !gsb_transaction_data_get_breakdown_of_transaction (transaction_number_tmp)
+		 && 
+		 !gsb_transaction_data_get_transaction_number_transfer (transaction_number_tmp))
+	    {
+		add_transaction_to_payee ( gsb_transaction_data_get_pointer_to_transaction (transaction_number_tmp),
+					   without_payee );
+	    }
+	list_tmp_transactions = list_tmp_transactions -> next;
     }
 }
 

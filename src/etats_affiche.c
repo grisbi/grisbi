@@ -1333,29 +1333,33 @@ gint etat_affiche_affichage_ligne_ope ( gpointer operation,
 	       l'opération mère pour pouvoir récupérer le n° du chèque */
 	    if ( gsb_transaction_data_get_mother_transaction_number ( gsb_transaction_data_get_transaction_number (operation )))
 	    {
-		GSList *pTransactionList;
+		GSList *list_tmp_transactions;
 		gboolean found = FALSE;
 
 		/* On récupère donc la liste des opérations du compte et on en fait
 		   le tour jusqu'à ce qu'on trouve l'opération mère */
 
-		pTransactionList = gsb_account_get_transactions_list (gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (operation)));
-		while ( pTransactionList && !found )
-		{
-		    gpointer pTransaction;
+		list_tmp_transactions = gsb_transaction_data_get_transactions_list ();
 
-		    pTransaction = pTransactionList -> data;
-		    
-		    if ( gsb_transaction_data_get_breakdown_of_transaction ( gsb_transaction_data_get_transaction_number (pTransaction ))
-			 &&
-			 gsb_transaction_data_get_transaction_number (pTransaction) == gsb_transaction_data_get_mother_transaction_number ( gsb_transaction_data_get_transaction_number (operation ))&&
-			 gsb_transaction_data_get_method_of_payment_content ( gsb_transaction_data_get_transaction_number (pTransaction )))
+		while ( list_tmp_transactions )
+		{
+		    gint transaction_number_tmp;
+		    transaction_number_tmp = gsb_transaction_data_get_transaction_number (list_tmp_transactions -> data);
+
+		    if ( gsb_transaction_data_get_account_number (transaction_number_tmp) == gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (operation)))
 		    {
-			gsb_transaction_data_set_method_of_payment_content ( gsb_transaction_data_get_transaction_number (operation ),
-									     gsb_transaction_data_get_method_of_payment_content ( gsb_transaction_data_get_transaction_number (pTransaction )));
-			found = TRUE;
+			if ( gsb_transaction_data_get_breakdown_of_transaction (transaction_number_tmp)
+			     &&
+			     transaction_number_tmp == gsb_transaction_data_get_mother_transaction_number ( gsb_transaction_data_get_transaction_number (operation ))
+			     &&
+			     gsb_transaction_data_get_method_of_payment_content (transaction_number_tmp))
+			{
+			    gsb_transaction_data_set_method_of_payment_content ( gsb_transaction_data_get_transaction_number (operation ),
+										 gsb_transaction_data_get_method_of_payment_content (transaction_number_tmp));
+			    found = TRUE;
+			}
 		    }
-		    pTransactionList = pTransactionList -> next;
+		    list_tmp_transactions = list_tmp_transactions -> next;
 		}
 	    }
 	    

@@ -1,6 +1,7 @@
 #ifndef _OPERATIONS_COMPTES_H
 #define _OPERATIONS_COMPTES_H (1)
 /* START_INCLUDE_H */
+#include "operations_comptes.h"
 /* END_INCLUDE_H */
 
 

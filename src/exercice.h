@@ -1,6 +1,7 @@
 #ifndef _EXERCICE_H
 #define _EXERCICE_H (1)
 /* START_INCLUDE_H */
+#include "exercice.h"
 /* END_INCLUDE_H */
 
 

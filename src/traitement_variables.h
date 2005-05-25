@@ -25,6 +25,7 @@
 
 /* START_INCLUDE_H */
 #include "structures.h"
+#include "traitement_variables.h"
 /* END_INCLUDE_H */
 
 

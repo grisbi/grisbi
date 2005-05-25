@@ -1,6 +1,7 @@
 #ifndef _TIERS_ONGLET_H
 #define _TIERS_ONGLET_H (1)
 /* START_INCLUDE_H */
+#include "tiers_onglet.h"
 /* END_INCLUDE_H */
 
 

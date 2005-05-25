@@ -49,6 +49,7 @@
 #include "utils_comptes.h"
 #include "echeancier_liste.h"
 #include "structures.h"
+#include "echeancier_ventilation.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

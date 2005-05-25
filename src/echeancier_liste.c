@@ -48,6 +48,7 @@
 #include "operations_liste.h"
 #include "utils_tiers.h"
 #include "structures.h"
+#include "echeancier_liste.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

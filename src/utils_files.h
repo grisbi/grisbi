@@ -6,6 +6,7 @@
 #include <libxml/parser.h>
 
 /* START_INCLUDE_H */
+#include "utils_files.h"
 /* END_INCLUDE_H */
 
 

@@ -43,6 +43,7 @@ extern "C" {
 #include "utils_file_selection.h"
 #include "dialog.h"
 #include "utils_files.h"
+#include "utils_file_selection.h"
 #include "structures.h"
 /*END_INCLUDE*/
 

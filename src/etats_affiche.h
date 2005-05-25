@@ -1,6 +1,7 @@
 #ifndef _ETATS_AFFICHE_H
 #define _ETATS_AFFICHE_H (1)
 /* START_INCLUDE_H */
+#include "etats_affiche.h"
 /* END_INCLUDE_H */
 
 

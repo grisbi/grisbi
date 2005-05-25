@@ -1,6 +1,7 @@
 #ifndef _UTILS_TYPES_H
 #define _UTILS_TYPES_H (1)
 /* START_INCLUDE_H */
+#include "utils_types.h"
 #include "structures.h"
 /* END_INCLUDE_H */
 

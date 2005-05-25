@@ -45,6 +45,7 @@
 #include "affichage_formulaire.h"
 #include "operations_formulaire.h"
 #include "structures.h"
+#include "devises.h"
 #include "fichier_configuration.h"
 #include "echeancier_formulaire.h"
 /*END_INCLUDE*/
@@ -571,9 +572,9 @@ void fill_currency_list ( GtkTreeView * view, gboolean include_obsolete )
 	gtk_tree_store_append (GTK_TREE_STORE(model), &iter, NULL);
 	gtk_tree_store_set (GTK_TREE_STORE(model), &iter,
 			    COUNTRY_NAME_COLUMN, _(*continent),
-			    CURRENCY_NAME_COLUMN, FALSE,
-			    CURRENCY_ISO_CODE_COLUMN, FALSE,
-			    CURRENCY_NICKNAME_COLUMN, FALSE,
+			    CURRENCY_NAME_COLUMN, NULL,
+			    CURRENCY_ISO_CODE_COLUMN, NULL,
+			    CURRENCY_NICKNAME_COLUMN, NULL,
 			    CONTINENT_NAME_COLUMN, _(*continent),
 			    -1);
 
@@ -963,71 +964,52 @@ void retrait_devise ( GtkWidget *bouton,
 {
     gint devise_trouvee;
     struct struct_devise *devise;
-    GSList *list_tmp;
+    GSList *list_tmp_transactions;
 
 
     if ( ligne_selection_devise == -1 )
 	return;
 
-
     devise = gtk_clist_get_row_data ( GTK_CLIST ( liste ),
 				      ligne_selection_devise );
 
-    /*   recherche dans tous les comptes, les opÃ©s et les Ã©chÃ©ances si la devise n'est pas utilisÃ©e */
-    /* si elle l'est, empÃªche sa suppression */
+    /* we look for that currency in all the transactions and scheduler,
+     * if we find it, we cannot delete it */
 
     devise_trouvee = 0;
 
-    list_tmp = gsb_account_get_list_accounts ();
+    list_tmp_transactions = gsb_transaction_data_get_transactions_list ();
 
-    while ( list_tmp )
+    while ( list_tmp_transactions )
     {
-	gint i;
+	gint transaction_number;
+	transaction_number = gsb_transaction_data_get_transaction_number (list_tmp_transactions -> data);
 
-	i = gsb_account_get_no_account ( list_tmp -> data );
-
-	if ( gsb_account_get_currency (i) == devise -> no_devise )
+	if ( gsb_transaction_data_get_currency_number (transaction_number) == devise -> no_devise )
 	{
 	    devise_trouvee = 1;
-	    i = gsb_account_get_accounts_amount ();
+	    list_tmp_transactions = NULL;
 	}
 	else
+	    list_tmp_transactions = list_tmp_transactions -> next;
+    }
+
+    if ( !devise_trouvee )
+    {
+	GSList *list_tmp;
+
+	list_tmp = liste_struct_echeances;
+
+	while ( list_tmp )
 	{
-	    GSList *liste_tmp;
-
-	    liste_tmp = gsb_account_get_transactions_list (i);
-
-	    while ( liste_tmp )
+	    if ( ((struct operation_echeance *)(list_tmp -> data )) -> devise == devise -> no_devise )
 	    {
-		if ( gsb_transaction_data_get_currency_number ( gsb_transaction_data_get_transaction_number (liste_tmp -> data)) == devise -> no_devise )
-		{
-		    devise_trouvee = 1;
-		    i = gsb_account_get_accounts_amount ();
-		    liste_tmp = NULL;
-		}
-		else
-		    liste_tmp = liste_tmp -> next;
+		devise_trouvee = 1;
+		list_tmp = NULL;
 	    }
-
-	    if ( !devise )
-	    {
-		liste_tmp = liste_struct_echeances;
-
-		while ( liste_tmp )
-		{
-		    if ( ((struct operation_echeance *)(liste_tmp -> data )) -> devise == devise -> no_devise )
-		    {
-			devise_trouvee = 1;
-			i = gsb_account_get_accounts_amount ();
-			liste_tmp = NULL;
-		    }
-		    else
-			liste_tmp = liste_tmp -> next;
-		}
-	    }
+	    else
+		list_tmp = list_tmp -> next;
 	}
-
-	list_tmp = list_tmp -> next;
     }
 
     if ( devise_trouvee )

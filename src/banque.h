@@ -1,6 +1,7 @@
 #ifndef _BANQUE_H
 #define _BANQUE_H (1)
 /* START_INCLUDE_H */
+#include "banque.h"
 #include "structures.h"
 /* END_INCLUDE_H */
 

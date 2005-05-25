@@ -38,6 +38,7 @@
 #include "traitement_variables.h"
 #include "utils_tiers.h"
 #include "structures.h"
+#include "metatree.h"
 /*END_INCLUDE*/
 
 
@@ -444,7 +445,6 @@ gboolean supprimer_division ( GtkTreeView * tree_view )
     gint no_division = 0, no_sub_division = 0;
     gpointer pointer = NULL;
     MetatreeInterface * iface;
-    GSList *list_tmp;
 
     selection = gtk_tree_view_get_selection ( tree_view );
     if ( selection && gtk_tree_selection_get_selected(selection, &model, &iter))
@@ -475,6 +475,7 @@ gboolean supprimer_division ( GtkTreeView * tree_view )
     if ( find_associated_transactions ( iface, no_division, -1 ) )
     {
 	gint nouveau_no_division, nouveau_no_sub_division;
+	GSList *list_tmp_transactions;
 	
 	if ( ! find_destination_blob ( iface, model, pointer, NULL, 
 				       &nouveau_no_division, &nouveau_no_sub_division ) )
@@ -483,34 +484,21 @@ gboolean supprimer_division ( GtkTreeView * tree_view )
 	/* on fait le tour des opés pour mettre le nouveau numéro de
 	 * division et sub_division */
 
-	list_tmp = gsb_account_get_list_accounts ();
+	list_tmp_transactions = gsb_transaction_data_get_transactions_list ();
 
-	while ( list_tmp )
+	while ( list_tmp_transactions )
 	{
-	    gint i;
+	    gint transaction_number_tmp;
+	    transaction_number_tmp = gsb_transaction_data_get_transaction_number (list_tmp_transactions -> data);
 
-	    i = gsb_account_get_no_account ( list_tmp -> data );
-
-	    liste_tmp = gsb_account_get_transactions_list (i);
-
-	    while ( liste_tmp )
+	    if ( iface -> transaction_div_id (gsb_transaction_data_get_pointer_to_transaction (transaction_number_tmp)) == no_division )
 	    {
-		gpointer operation;
-
-		operation = liste_tmp -> data;
-
-		if ( iface -> transaction_div_id (operation) == no_division )
-		{
-		    iface -> add_transaction_to_sub_div ( operation, nouveau_no_division,
-							  nouveau_no_sub_division );
-		    iface -> transaction_set_div_id ( operation, nouveau_no_division );
-		    iface -> transaction_set_sub_div_id ( operation, nouveau_no_sub_division );
-		}
-
-		liste_tmp = liste_tmp -> next;
+		iface -> add_transaction_to_sub_div ( gsb_transaction_data_get_pointer_to_transaction (transaction_number_tmp), nouveau_no_division,
+						      nouveau_no_sub_division );
+		iface -> transaction_set_div_id ( gsb_transaction_data_get_pointer_to_transaction (transaction_number_tmp), nouveau_no_division );
+		iface -> transaction_set_sub_div_id ( gsb_transaction_data_get_pointer_to_transaction (transaction_number_tmp), nouveau_no_sub_division );
 	    }
-
-	    list_tmp = list_tmp -> next;
+	    list_tmp_transactions = list_tmp_transactions -> next;
 	}
 
 
@@ -578,7 +566,6 @@ void supprimer_sub_division ( GtkTreeView * tree_view, GtkTreeModel * model,
     gpointer division;
     GtkTreeSelection * selection;
     GtkTreeIter iter, * it;
-    GSList *list_tmp;
 
     division = iface -> get_div_pointer ( no_division );
 
@@ -587,6 +574,7 @@ void supprimer_sub_division ( GtkTreeView * tree_view, GtkTreeModel * model,
     {
 	gint nouveau_no_division, nouveau_no_sub_division;
 	GSList *liste_tmp;
+	GSList *list_tmp_transactions;
 
 	if ( ! find_destination_blob ( iface, model, division, sub_division, 
 				       &nouveau_no_division, &nouveau_no_sub_division ) )
@@ -595,39 +583,25 @@ void supprimer_sub_division ( GtkTreeView * tree_view, GtkTreeModel * model,
 	/* on fait le tour des opés pour mettre le nouveau numéro de
 	 * division et sub_division */
 
-	list_tmp = gsb_account_get_list_accounts ();
+	list_tmp_transactions = gsb_transaction_data_get_transactions_list ();
 
-	while ( list_tmp )
+	while ( list_tmp_transactions )
 	{
-	    gint i;
+	    gint transaction_number_tmp;
+	    transaction_number_tmp = gsb_transaction_data_get_transaction_number (list_tmp_transactions -> data);
 
-	    i = gsb_account_get_no_account ( list_tmp -> data );
-
-	    liste_tmp = gsb_account_get_transactions_list (i);
-
-	    while ( liste_tmp )
+	    if ( ( iface -> transaction_div_id (gsb_transaction_data_get_pointer_to_transaction (transaction_number_tmp)) == 
+		   iface -> div_id (division) ) &&
+		 ( iface -> transaction_sub_div_id (gsb_transaction_data_get_pointer_to_transaction (transaction_number_tmp)) == 
+		   iface -> sub_div_id (sub_division) ) )
 	    {
-		gpointer operation;
-
-		operation = liste_tmp -> data;
-
-		if ( ( iface -> transaction_div_id (operation) == 
-		       iface -> div_id (division) ) &&
-		     ( iface -> transaction_sub_div_id (operation) == 
-		       iface -> sub_div_id (sub_division) ) )
-		{
-		    iface -> add_transaction_to_sub_div ( operation, nouveau_no_division,
-							  nouveau_no_sub_division );
-		    iface -> transaction_set_div_id (operation, nouveau_no_division);
-		    iface -> transaction_set_sub_div_id (operation, nouveau_no_sub_division);
-		}
-
-		liste_tmp = liste_tmp -> next;
+		iface -> add_transaction_to_sub_div ( gsb_transaction_data_get_pointer_to_transaction (transaction_number_tmp), nouveau_no_division,
+						      nouveau_no_sub_division );
+		iface -> transaction_set_div_id (gsb_transaction_data_get_pointer_to_transaction (transaction_number_tmp), nouveau_no_division);
+		iface -> transaction_set_sub_div_id (gsb_transaction_data_get_pointer_to_transaction (transaction_number_tmp), nouveau_no_sub_division);
 	    }
-
-	    list_tmp = list_tmp -> next;
+	    list_tmp_transactions = list_tmp_transactions -> next;
 	}
-
 
 	/* fait le tour des échéances pour mettre le nouveau numéro
 	 * de division et sub_division  */
@@ -710,53 +684,36 @@ gboolean division_column_expanded  ( GtkTreeView * treeview, GtkTreeIter * iter,
     if ( !name )
     {
 	gboolean first = TRUE;
-	GSList *list_tmp;
+	GSList *list_tmp_transactions;
 
 	gtk_tree_model_get ( model, iter,
 			     META_TREE_NO_DIV_COLUMN, &no_division,
 			     META_TREE_NO_SUB_DIV_COLUMN, &no_sub_division,
 			     -1 );
 
-	list_tmp = gsb_account_get_list_accounts ();
+	list_tmp_transactions = gsb_transaction_data_get_transactions_list ();
 
-	while ( list_tmp )
+	while ( list_tmp_transactions )
 	{
-	    gint account;
-	    GSList *pointeur_ope;
+	    gint transaction_number_tmp;
+	    transaction_number_tmp = gsb_transaction_data_get_transaction_number (list_tmp_transactions -> data);
 
-	    account = gsb_account_get_no_account ( list_tmp -> data );
-
-	    pointeur_ope = gsb_account_get_transactions_list (GPOINTER_TO_INT(account));
-
-	    while ( pointeur_ope )
+	    if ( transaction_number_tmp &&
+		 iface -> transaction_div_id ( gsb_transaction_data_get_pointer_to_transaction (transaction_number_tmp)) == no_division &&
+		 iface -> transaction_sub_div_id ( gsb_transaction_data_get_pointer_to_transaction (transaction_number_tmp)) == no_sub_division )
 	    {
-		gpointer operation;
-
-		operation = pointeur_ope -> data;
-
-		if ( operation &&
-		     iface -> transaction_div_id ( operation ) == no_division &&
-		     iface -> transaction_sub_div_id ( operation ) == no_sub_division/*  && */
-/* 		     !gsb_transaction_data_get_transaction_number_transfer ( gsb_transaction_data_get_transaction_number (operation ))
- *  		     && */
-/* 		     !gsb_transaction_data_get_breakdown_of_transaction ( gsb_transaction_data_get_transaction_number (operation ))*/ )
+		if ( !first )
 		{
-		    if ( !first )
-		    {
-			gtk_tree_store_append ( GTK_TREE_STORE(model), &child_iter, iter );
-		    }
-		    else
-		    {
-			first = FALSE;
-		    }
-
-		    fill_transaction_row ( model, &child_iter, operation );
+		    gtk_tree_store_append ( GTK_TREE_STORE(model), &child_iter, iter );
+		}
+		else
+		{
+		    first = FALSE;
 		}
 
-		pointeur_ope = pointeur_ope -> next;
+		fill_transaction_row ( model, &child_iter, gsb_transaction_data_get_pointer_to_transaction (transaction_number_tmp) );
 	    }
-
-	    list_tmp = list_tmp -> next;
+	    list_tmp_transactions = list_tmp_transactions -> next;
 	}
     }
     return FALSE;
@@ -878,7 +835,7 @@ gboolean division_drag_data_received ( GtkTreeDragDest * drag_dest, GtkTreePath 
 	enum meta_tree_row_type orig_type;
 	gpointer  transaction = NULL;
 	MetatreeInterface * iface;
-	GSList *list_tmp;
+	GSList *list_tmp_transactions;
 
 	gtk_tree_get_row_drag_data (selection_data, &model, &orig_path);
 	iface = g_object_get_data ( G_OBJECT(model), "metatree-interface" );
@@ -930,38 +887,25 @@ gboolean division_drag_data_received ( GtkTreeDragDest * drag_dest, GtkTreePath 
 		fill_sub_division_row ( model, iface, &iter, 
 					dest_division, dest_sub_division );
 
-		list_tmp = gsb_account_get_list_accounts ();
+		list_tmp_transactions = gsb_transaction_data_get_transactions_list ();
 
-		while ( list_tmp )
+		while ( list_tmp_transactions )
 		{
-		    gint account;
-		    GSList *pointeur_ope;
+		    gint transaction_number_tmp;
+		    transaction_number_tmp = gsb_transaction_data_get_transaction_number (list_tmp_transactions -> data);
 
-		    account = gsb_account_get_no_account ( list_tmp -> data );
-
-		    pointeur_ope = gsb_account_get_transactions_list (account);
-	    
-		    while ( pointeur_ope )
+		    if ( transaction_number_tmp &&
+			 iface -> transaction_div_id (gsb_transaction_data_get_pointer_to_transaction (transaction_number_tmp)) == no_orig_division &&
+			 iface -> transaction_sub_div_id (gsb_transaction_data_get_pointer_to_transaction (transaction_number_tmp)) == no_orig_sub_division )
 		    {
-			transaction = pointeur_ope -> data;
-		
-			if ( transaction &&
-			     iface -> transaction_div_id (transaction) == no_orig_division &&
-			     iface -> transaction_sub_div_id (transaction) == no_orig_sub_division /* && */
-/* 			     !gsb_transaction_data_get_transaction_number_transfer ( gsb_transaction_data_get_transaction_number (transaction ))
- *  			     && */
-/* 			     !gsb_transaction_data_get_breakdown_of_transaction ( gsb_transaction_data_get_transaction_number (transaction ))*/)
-			{
-			    GtkTreePath * path;
-			    path = gtk_tree_model_get_path ( model, &iter );
-			    move_transaction_to_sub_division ( transaction, model, 
-							       NULL, path,
-							       no_dest_division, 
-							       no_dest_sub_division );
-			}
-			pointeur_ope = pointeur_ope -> next;
+			GtkTreePath * path;
+			path = gtk_tree_model_get_path ( model, &iter );
+			move_transaction_to_sub_division ( gsb_transaction_data_get_pointer_to_transaction (transaction_number_tmp), model, 
+							   NULL, path,
+							   no_dest_division, 
+							   no_dest_sub_division );
 		    }
-		    list_tmp = list_tmp -> next;
+		    list_tmp_transactions = list_tmp_transactions -> next;
 		}
 
 		gtk_tree_model_get_iter ( model, &orig_iter, orig_path );
@@ -1316,36 +1260,25 @@ gboolean find_associated_transactions ( MetatreeInterface * iface,
 					gint no_division, gint no_sub_division )
 {
     GSList *liste_tmp;
-    GSList *list_tmp;
+    GSList *list_tmp_transactions;
 
-    list_tmp = gsb_account_get_list_accounts ();
+    list_tmp_transactions = gsb_transaction_data_get_transactions_list ();
 
-    while ( list_tmp )
+    while ( list_tmp_transactions )
     {
-	gint i;
+	gint transaction_number_tmp;
+	transaction_number_tmp = gsb_transaction_data_get_transaction_number (list_tmp_transactions -> data);
 
-	i = gsb_account_get_no_account ( list_tmp -> data );
-
-	liste_tmp = gsb_account_get_transactions_list (i);
-
-	while ( liste_tmp )
+	if ( iface -> transaction_div_id ( gsb_transaction_data_get_pointer_to_transaction (transaction_number_tmp) ) == no_division &&
+	     ( no_sub_division == -1 ||
+	       iface -> transaction_sub_div_id ( gsb_transaction_data_get_pointer_to_transaction (transaction_number_tmp)) == no_sub_division ) )
 	{
-	    gpointer operation;
-
-	    operation = liste_tmp -> data;
-
-	    if ( iface -> transaction_div_id ( operation ) == no_division &&
-		 ( no_sub_division == -1 ||
-		   iface -> transaction_sub_div_id ( operation) == no_sub_division ) )
-	    {
-		return TRUE;
-	    }
-	    else
-		liste_tmp = liste_tmp -> next;
+	    return TRUE;
 	}
-
-	list_tmp = list_tmp -> next;
+	else
+	    list_tmp_transactions = list_tmp_transactions -> next;
     }
+
 
     liste_tmp = liste_struct_echeances;
 

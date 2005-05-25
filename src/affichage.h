@@ -1,6 +1,8 @@
 #ifndef _AFFICHAGE_H
 #define _AFFICHAGE_H (1)
+
 /* START_INCLUDE_H */
+#include "affichage.h"
 /* END_INCLUDE_H */
 
 

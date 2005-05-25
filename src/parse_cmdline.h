@@ -41,6 +41,7 @@ typedef struct _cmdline_options cmdline_options;
 
 /* gboolean  parse_options(int argc, char **argv, cmdline_options *pOpt); */
 /* START_INCLUDE_H */
+#include "parse_cmdline.h"
 #include "structures.h"
 /* END_INCLUDE_H */
 

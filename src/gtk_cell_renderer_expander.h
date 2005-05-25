@@ -62,6 +62,7 @@ struct _GtkCellRendererExpanderClass
 };
 
 /* START_INCLUDE_H */
+#include "gtk_cell_renderer_expander.h"
 #include "structures.h"
 /* END_INCLUDE_H */
 

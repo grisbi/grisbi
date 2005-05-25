@@ -294,6 +294,7 @@ gboolean mise_a_jour_versions_anterieures ( gint no_version,
     struct stat buffer_stat;
     GSList *list_tmp;
     gint i,j;
+    GSList *list_tmp_transactions;
 
 
     /*     par défaut le fichier n'est pas modifié sauf si on charge une version précédente */
@@ -312,47 +313,36 @@ gboolean mise_a_jour_versions_anterieures ( gint no_version,
 	    /* sauf que la 0.4.0 n'attribuait pas le no de relevé aux opés filles */
 	    /* d'une ventilation */
 
-	    list_tmp = gsb_account_get_list_accounts ();
 
-	    while ( list_tmp )
+	    list_tmp_transactions = gsb_transaction_data_get_transactions_list ();
+
+	    while ( list_tmp_transactions )
 	    {
-		GSList *liste_tmp;
+		gint transaction_number_tmp;
+		transaction_number_tmp = gsb_transaction_data_get_transaction_number (list_tmp_transactions -> data);
 
-		i = gsb_account_get_no_account ( list_tmp -> data );
+		/*  si l'opération est une ventil, on refait le tour de la liste pour trouver ses filles */
 
-		liste_tmp = gsb_account_get_transactions_list (i);
-
-		while ( liste_tmp )
+		if ( gsb_transaction_data_get_breakdown_of_transaction (transaction_number_tmp))
 		{
-		    gpointer operation;
+		    GSList *list_tmp_transactions_2;
+		    list_tmp_transactions_2 = gsb_transaction_data_get_transactions_list ();
 
-		    operation = liste_tmp -> data;
-
-		    /*  si l'opération est une ventil, on refait le tour de la liste pour trouver ses filles */
-
-		    if ( gsb_transaction_data_get_breakdown_of_transaction ( gsb_transaction_data_get_transaction_number (operation )))
+		    while ( list_tmp_transactions_2 )
 		    {
-			GSList *liste_tmp_2;
+			gint transaction_number_tmp_2;
+			transaction_number_tmp_2 = gsb_transaction_data_get_transaction_number (list_tmp_transactions_2 -> data);
 
-			liste_tmp_2 = gsb_account_get_transactions_list (i);
+			if ( gsb_transaction_data_get_account_number (transaction_number_tmp_2) == gsb_transaction_data_get_account_number (transaction_number_tmp)
+			     &&
+			     gsb_transaction_data_get_mother_transaction_number (transaction_number_tmp_2) == transaction_number_tmp)
+			    gsb_transaction_data_set_reconcile_number ( transaction_number_tmp_2,
+									gsb_transaction_data_get_reconcile_number (transaction_number_tmp));
 
-			while ( liste_tmp_2 )
-			{
-			    gpointer operation_2;
-
-			    operation_2 = liste_tmp_2 -> data;
-
-			    if ( gsb_transaction_data_get_mother_transaction_number ( gsb_transaction_data_get_transaction_number (operation_2 ))== gsb_transaction_data_get_transaction_number (operation))
-				gsb_transaction_data_set_reconcile_number ( gsb_transaction_data_get_transaction_number (operation_2),
-									    gsb_transaction_data_get_reconcile_number ( gsb_transaction_data_get_transaction_number (operation )));
-
-			    liste_tmp_2 = liste_tmp_2 -> next;
-			}
+			list_tmp_transactions_2 = list_tmp_transactions_2 -> next;
 		    }
-		    liste_tmp = liste_tmp -> next;
 		}
-
-		list_tmp = list_tmp -> next;
+		list_tmp_transactions = list_tmp_transactions -> next;
 	    }
 
 
@@ -636,7 +626,7 @@ void switch_t_r ( void )
 
 /*     à n'appeler que pour une version antérieure à 0.5.1 */
 
-    GSList *list_tmp;
+    GSList *list_tmp_transactions;
 
     if ( !gsb_account_get_accounts_amount () )
 	return;
@@ -644,38 +634,26 @@ void switch_t_r ( void )
     if ( DEBUG )
 	printf ( "switch_t_r\n");
 
-    list_tmp = gsb_account_get_list_accounts ();
 
-    while ( list_tmp )
+    list_tmp_transactions = gsb_transaction_data_get_transactions_list ();
+
+    while ( list_tmp_transactions )
     {
-	gint i;
-	GSList *liste_tmp;
+	gint transaction_number_tmp;
+	transaction_number_tmp = gsb_transaction_data_get_transaction_number (list_tmp_transactions -> data);
 
-	i = gsb_account_get_no_account ( list_tmp -> data );
-
-	liste_tmp = gsb_account_get_transactions_list (i);
-
-	while ( liste_tmp )
-	{ 
-	    gpointer operation;
-
-	    operation = liste_tmp -> data;
-
-	    switch ( gsb_transaction_data_get_marked_transaction ( gsb_transaction_data_get_transaction_number (operation )))
-	    {
-		case 2 :
-		    gsb_transaction_data_set_marked_transaction ( gsb_transaction_data_get_transaction_number (operation ),
-								  3 );
-		    break;
-		case 3:
-		    gsb_transaction_data_set_marked_transaction ( gsb_transaction_data_get_transaction_number (operation ),
-								  2 );
-		    break;
-	    }
-	    liste_tmp = liste_tmp -> next;
+	switch ( gsb_transaction_data_get_marked_transaction (transaction_number_tmp))
+	{
+	    case 2 :
+		gsb_transaction_data_set_marked_transaction ( transaction_number_tmp,
+							      3 );
+		break;
+	    case 3:
+		gsb_transaction_data_set_marked_transaction ( transaction_number_tmp,
+							      2 );
+		break;
 	}
-
-	list_tmp = list_tmp -> next;
+	list_tmp_transactions = list_tmp_transactions -> next;
     }
 }
 /***********************************************************************************************************/
@@ -3436,7 +3414,7 @@ gboolean enregistre_fichier ( gchar *new_file )
 			  "Ordre_du_tri",
 			  pointeur_char );
 
-	gtk_tree_sortable_get_sort_column_id ( GTK_TREE_SORTABLE ( gtk_tree_view_get_model (gsb_transactions_list_get_tree_view() )),
+	gtk_tree_sortable_get_sort_column_id ( GTK_TREE_SORTABLE ( gtk_tree_view_get_model (GTK_TREE_VIEW (gsb_transactions_list_get_tree_view()))),
 					       &sort_column_id,
 					       &order );
 	xmlNewTextChild ( node_compte,
@@ -3575,7 +3553,8 @@ gboolean enregistre_fichier ( gchar *new_file )
 				    "Detail_des_operations",
 				    NULL );
 
-	pointeur_liste = gsb_account_get_transactions_list (i);
+/* 	pointeur_liste = gsb_account_get_transactions_list (i); */
+	pointeur_liste = NULL;
 
 	while ( pointeur_liste )
 	{

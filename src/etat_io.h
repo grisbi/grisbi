@@ -1,6 +1,7 @@
 #ifndef _ETAT_IO_H
 #define _ETAT_IO_H (1)
 /* START_INCLUDE_H */
+#include "etat_io.h"
 /* END_INCLUDE_H */
 
 

@@ -3,6 +3,7 @@
 
 
 /* START_INCLUDE_H */
+#include "gsb_account.h"
 #include "operations_liste.h"
 #include "structures.h"
 /* END_INCLUDE_H */
@@ -60,9 +61,6 @@ typedef struct
     gint mini_balance_wanted_message;
     gint mini_balance_authorized_message;
 
-    /** @name transactions list : contains a list of transactions structures */
-    GSList *transactions_list;
-
     /** @name pointer of the transaction selectionned, or -1 for the white line */
     gpointer current_transaction;
 
@@ -82,9 +80,6 @@ typedef struct
     GSList *sort_list;                        /**< the method of payment sorted in a list */
     gint split_neutral_payment;               /**< if 1 : neutral payments are splitted into debits/credits */
 
-    /** @name tree_view stuff */
-    gpointer transactions_column[TRANSACTION_LIST_COL_NB];
-
     /** @name tree_view sort stuff */
     gint sort_type;          /**< GTK_SORT_DESCENDING / GTK_SORT_ASCENDING */
     gint sort_column;             /**< used to hide the arrow when change the column */
@@ -99,8 +94,6 @@ typedef struct
 
 
 /* START_DECLARATION */
-gboolean gsb_account_append_transaction ( gint no_account,
-					  gpointer transaction );
 gboolean gsb_account_delete ( gint no_account );
 gint gsb_account_first_number ( void );
 gpointer gsb_account_get_account_button ( gint no_account );
@@ -113,7 +106,6 @@ gint gsb_account_get_closed_account ( gint no_account );
 gint gsb_account_get_column_sort ( gint no_account,
 				   gint no_column );
 gchar *gsb_account_get_comment ( gint no_account );
-GSList *gsb_account_get_copy_list_accounts ( void );
 gint gsb_account_get_currency ( gint no_account );
 gint gsb_account_get_current_account ( void );
 gdouble gsb_account_get_current_balance ( gint no_account );
@@ -121,17 +113,12 @@ GDate *gsb_account_get_current_reconcile_date ( gint no_account );
 gpointer gsb_account_get_current_transaction ( gint no_account );
 gint gsb_account_get_default_credit ( gint no_account );
 gint gsb_account_get_default_debit ( gint no_account );
-gint gsb_account_get_finished_background_color ( gint no_account );
-gint gsb_account_get_finished_balance_showed ( gint no_account );
-gint gsb_account_get_finished_selection_transaction ( gint no_account );
-gint gsb_account_get_finished_visible_rows ( gint no_account );
 struct organisation_formulaire *gsb_account_get_form_organization ( gint no_account );
 gchar *gsb_account_get_holder_address ( gint no_account );
 gchar *gsb_account_get_holder_name ( gint no_account );
 gchar *gsb_account_get_id ( gint no_account );
 gdouble gsb_account_get_init_balance ( gint no_account );
 kind_account gsb_account_get_kind ( gint no_account );
-GSList *gsb_account_get_last_transaction ( gint no_account );
 GSList *gsb_account_get_list_accounts ( void );
 gdouble gsb_account_get_marked_balance ( gint no_account );
 GSList *gsb_account_get_method_payment_list ( gint no_account );
@@ -151,12 +138,9 @@ gint gsb_account_get_sort_column ( gint no_account );
 GSList *gsb_account_get_sort_list ( gint no_account );
 gint gsb_account_get_sort_type ( gint no_account );
 gint gsb_account_get_split_neutral_payment ( gint no_account );
-GSList *gsb_account_get_transactions_list ( gint no_account );
 gboolean gsb_account_get_update_list ( gint no_account );
 gboolean gsb_account_init_variables ( void );
 gint gsb_account_new ( kind_account account_kind );
-gboolean gsb_account_remove_transaction ( gint no_account,
-					  gpointer transaction );
 gboolean gsb_account_reorder ( GSList *new_order );
 gboolean gsb_account_set_account_button ( gint no_account,
 					  gpointer account_button );
@@ -190,14 +174,6 @@ gboolean gsb_account_set_default_credit ( gint no_account,
 					  gint default_credit );
 gboolean gsb_account_set_default_debit ( gint no_account,
 					 gint default_debit );
-gboolean gsb_account_set_finished_background_color ( gint no_account,
-						     gint finished_background_color );
-gboolean gsb_account_set_finished_balance_showed ( gint no_account,
-						   gint finished_balance_showed );
-gboolean gsb_account_set_finished_selection_transaction ( gint no_account,
-							  gint finished_selection_transaction );
-gboolean gsb_account_set_finished_visible_rows ( gint no_account,
-						 gint finished_visible_rows );
 gboolean gsb_account_set_form_organization ( gint no_account,
 					     struct organisation_formulaire *form_organization );
 gboolean gsb_account_set_holder_address ( gint no_account,
@@ -210,8 +186,6 @@ gboolean gsb_account_set_init_balance ( gint no_account,
 					gdouble balance );
 gboolean gsb_account_set_kind ( gint no_account,
 				kind_account account_kind );
-gboolean gsb_account_set_last_transaction ( gint no_account,
-					    GSList *list );
 gboolean gsb_account_set_marked_balance ( gint no_account,
 					  gdouble balance );
 gboolean gsb_account_set_method_payment_list ( gint no_account,

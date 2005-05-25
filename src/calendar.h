@@ -10,6 +10,7 @@
 #define SIZEOF_FORMATTED_STRING_DATE 11
 
 /* START_INCLUDE_H */
+#include "calendar.h"
 /* END_INCLUDE_H */
 
 

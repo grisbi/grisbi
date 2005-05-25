@@ -37,21 +37,13 @@
 #include "data_currency.h"
 #include "data_form.h"
 #include "data_payment.h"
-#include "gsb_transaction_data.h"
 #include "operations_liste.h"
 #include "structures.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static gpointer gsb_account_get_column ( gint no_account,
-				  gint no_column );
 static struct_account *gsb_account_get_structure ( gint no );
 static gint gsb_account_max_number ( void );
-static gboolean gsb_account_set_column ( gint no_account,
-				  gint no_column,
-				  gpointer column );
-static gboolean gsb_account_set_transactions_list ( gint no_account,
-					     GSList *list );
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -92,19 +84,6 @@ gboolean gsb_account_init_variables ( void )
 GSList *gsb_account_get_list_accounts ( void )
 {
     return list_accounts;
-}
-
-
-/**
- * return a pointer on a copy g_slist of accounts
- * that g_slist has to be freed with g_slist_free
- * 
- * \param none
- * \return a copy of the g_slist on the accounts
- * */
-GSList *gsb_account_get_copy_list_accounts ( void )
-{
-    return g_slist_copy (list_accounts);
 }
 
 
@@ -174,7 +153,6 @@ gboolean gsb_account_delete ( gint no_account )
 
     g_slist_free ( account -> method_payment_list );
 /* FIXME : faire une fonction pour mieux faire ça quand la struct liste opé sera faite */
-    g_slist_free ( account -> transactions_list );
     g_slist_free ( account -> sort_list );
     
     list_accounts = g_slist_remove ( list_accounts,
@@ -764,67 +742,6 @@ gboolean gsb_account_set_marked_balance ( gint no_account,
 
 
 
-/** get the column of the account
- * \param no_account no of the account
- * \param no_column no of the column
- * \return  or NULL if the account doesn't exist
- * */
-gpointer gsb_account_get_column ( gint no_account,
-				  gint no_column )
-{
-    struct_account *account;
-
-    if ( no_column < 0
-	 ||
-	 no_column > TRANSACTION_LIST_COL_NB )
-    {
-	g_strdup_printf ( _("Bad no column to gsb_account_get_column () in data_account.c\nno_column = %d\n" ),
-			  no_column );
-	return FALSE;
-    }
-
-    account = gsb_account_get_structure ( no_account );
-
-    if (!account )
-	return NULL;
-
-    return account -> transactions_column[no_column];
-}
-
-
-/** set the column of the account
- * \param no_account no of the account
- * \param no_column no of the column
- * \param column  column to set
- * \return TRUE, ok ; FALSE, problem
- * */
-gboolean gsb_account_set_column ( gint no_account,
-				  gint no_column,
-				  gpointer column )
-{
-    struct_account *account;
-
-    account = gsb_account_get_structure ( no_account );
-
-    if ( no_column < 0
-	 ||
-	 no_column > TRANSACTION_LIST_COL_NB )
-    {
-	g_strdup_printf ( _("Bad no column to gsb_account_set_column () in data_account.c\nno_column = %d\n" ),
-			  no_column );
-	return FALSE;
-    }
-
-    if (!account )
-	return FALSE;
-
-    account -> transactions_column[no_column] = column;
-
-    return TRUE;
-}
-
-
-
 /** get the column_sort of the account
  * \param no_account no of the account
  * \param no_column no of the column
@@ -880,47 +797,6 @@ gboolean gsb_account_set_column_sort ( gint no_account,
 	return FALSE;
 
     account -> transactions_column_sort[no_column] = column_sort;
-
-    return TRUE;
-}
-
-
-/** get the transactions list of the account
- * \param no_account no of the account
- * \return the g_slist or NULL if the account doesn't exist
- * */
-GSList *gsb_account_get_transactions_list ( gint no_account )
-{
-    return gsb_transaction_data_get_transactions_list ();
-
-/*     xxx à virer */
-    struct_account *account;
-
-    account = gsb_account_get_structure ( no_account );
-
-    if (!account )
-	return NULL;
-
-    return account -> transactions_list;
-}
-
-
-/** set the transactions list of the account
- * \param no_account no of the account
- * \param list g_slist to set
- * \return TRUE, ok ; FALSE, problem
- * */
-gboolean gsb_account_set_transactions_list ( gint no_account,
-					     GSList *list )
-{
-    struct_account *account;
-
-    account = gsb_account_get_structure ( no_account );
-
-    if (!account )
-	return FALSE;
-
-    account -> transactions_list = list;
 
     return TRUE;
 }
@@ -1976,55 +1852,6 @@ gboolean gsb_account_reorder ( GSList *new_order )
     }
 
     g_slist_free (last_list);
-    return TRUE;
-}
-
-
-/** append a new transaction to the list of transactions
- * \param no_account
- * \param transaction a pointer to the transaction
- * \return TRUE if ok
- * */
-gboolean gsb_account_append_transaction ( gint no_account,
-					  gpointer transaction )
-{
-    struct_account *account;
-
-    if ( !transaction )
-	return FALSE;
-
-    account = gsb_account_get_structure ( no_account );
-
-    if (!account )
-	return FALSE;
-
-    account -> transactions_list = g_slist_append ( account -> transactions_list,
-						    transaction );
-
-    return TRUE;
-}
-
-/** remove a transaction from the list of transactions
- * \param no_account
- * \param transaction a pointer to the transaction
- * \return TRUE if ok
- * */
-gboolean gsb_account_remove_transaction ( gint no_account,
-					  gpointer transaction )
-{
-    struct_account *account;
-
-    if ( !transaction )
-	return FALSE;
-
-    account = gsb_account_get_structure ( no_account );
-
-    if (!account )
-	return FALSE;
-
-    account -> transactions_list = g_slist_remove ( account -> transactions_list,
-						    transaction );
-
     return TRUE;
 }
 

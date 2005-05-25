@@ -41,6 +41,7 @@ typedef struct _ConfigFormat {
 
 
 /* START_INCLUDE_H */
+#include "configuration.h"
 /* END_INCLUDE_H */
 
 

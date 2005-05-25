@@ -63,6 +63,7 @@
 #define COLUMN_RIGHT 1.0
 
 /* START_INCLUDE_H */
+#include "operations_liste.h"
 /* END_INCLUDE_H */
 
 
@@ -94,7 +95,6 @@ gboolean gsb_transactions_list_fill_row ( gint transaction_number,
 					  GtkTreeIter *iter,
 					  GtkListStore *store,
 					  gint line_in_transaction );
-gboolean gsb_transactions_list_fill_store ( GtkListStore *store );
 GtkListStore *gsb_transactions_list_get_store (void);
 GtkWidget *gsb_transactions_list_get_tree_view (void);
 gboolean gsb_transactions_list_key_press ( GtkWidget *widget,
@@ -116,6 +116,5 @@ gint recupere_hauteur_ligne_tree_view ( GtkWidget *tree_view );
 void remove_transaction ();
 void remplissage_liste_operations ( gint compte );
 void update_titres_tree_view ( void );
-void verification_list_store_termine ( gint no_account );
 /* END_DECLARATION */
 #endif

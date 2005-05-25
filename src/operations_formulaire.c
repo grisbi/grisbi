@@ -61,6 +61,7 @@
 #include "utils_types.h"
 #include "utils.h"
 #include "structures.h"
+#include "operations_formulaire.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -78,8 +79,6 @@ static gboolean gsb_form_validate_form_transaction ( gint transaction_number );
 static gboolean gsb_transactions_list_recover_breakdowns_of_transaction ( gint new_transaction_number,
 								   gint no_last_breakdown,
 								   gint no_account );
-static gpointer gsb_transactions_look_for_last_party ( gint no_party,
-								   gint no_new_transaction );
 static gboolean touches_champ_formulaire ( GtkWidget *widget,
 				    GdkEventKey *ev,
 				    gint *no_origine );
@@ -1752,8 +1751,9 @@ gboolean completion_operation_par_tiers ( GtkWidget *entree )
 
     /*     on essaie de retrouver la dernière opé entrée avec ce tiers */
 
-    transaction_number = gsb_transaction_data_get_transaction_number (gsb_transactions_look_for_last_party ( tiers -> no_tiers,
-													     0 ));
+    transaction_number = gsb_transactions_look_for_last_party ( tiers -> no_tiers,
+								0,
+								gsb_account_get_current_account ());
 
     /* si on n'a trouvé aucune opération, on se tire */
 
@@ -1936,8 +1936,8 @@ gboolean completion_operation_par_tiers ( GtkWidget *entree )
 						       menu );
 			    gtk_widget_show ( widget );
 
-			    contra_transaction = operation_par_no ( gsb_transaction_data_get_transaction_number_transfer (transaction_number),
-								  gsb_transaction_data_get_account_number_transfer (transaction_number));
+			    contra_transaction = gsb_transaction_data_get_pointer_to_transaction (gsb_transaction_data_get_transaction_number_transfer (transaction_number));
+
 			    if ( contra_transaction )
 				place_type_formulaire ( gsb_transaction_data_get_method_of_payment_number ( gsb_transaction_data_get_transaction_number (contra_transaction )),
 							TRANSACTION_FORM_CONTRA,
@@ -1990,62 +1990,46 @@ void verification_bouton_change_devise ( void )
  *
  * \param no_party the party we are looking for
  * \param no_new_transaction if the transaction found is that transaction, we don't
+ * \param account_number the account we want to find first the party
  * keep it
  *
- * \return the transaction found, or NULL
+ * \return the number of the transaction found, or 0 
  * */
-gpointer gsb_transactions_look_for_last_party ( gint no_party,
-								   gint no_new_transaction )
+gint gsb_transactions_look_for_last_party ( gint no_party,
+					    gint no_new_transaction,
+					    gint account_number )
 {
-    gpointer last_transaction_found;
-    GSList *transactions_list;
-    GSList *transactions_accounts;
-    GSList *list_tmp;
+    GSList *list_tmp_transactions;
+    gint last_transaction_with_party_in_account = 0;
+    gint last_transaction_with_party_not_in_account = 0;
 
-    /* set the current account in first place */
+    list_tmp_transactions = gsb_transaction_data_get_transactions_list ();
 
-    transactions_accounts = gsb_account_get_copy_list_accounts ();
-    transactions_accounts = g_slist_remove ( transactions_accounts,
-					     GINT_TO_POINTER ( gsb_account_get_current_account ()));
-    transactions_accounts = g_slist_prepend ( transactions_accounts,
-					     GINT_TO_POINTER ( gsb_account_get_current_account ()));
-    list_tmp = transactions_accounts;
-
-    last_transaction_found = NULL;
-
-    while ( list_tmp
-	    &&
-	    !last_transaction_found )
+    while ( list_tmp_transactions )
     {
-	transactions_list = gsb_account_get_transactions_list ( GPOINTER_TO_INT ( list_tmp -> data ));
+	gint transaction_number_tmp;
+	transaction_number_tmp = gsb_transaction_data_get_transaction_number (list_tmp_transactions -> data);
 
-	while ( transactions_list )
+	if ( gsb_transaction_data_get_party_number (transaction_number_tmp) == no_party
+	     &&
+	     transaction_number_tmp != no_new_transaction
+	     &&
+	     !gsb_transaction_data_get_mother_transaction_number (transaction_number_tmp))
 	{
-	    gpointer transaction;
+	    /* we are on a transaction with the same party, so we keep it */
 
-	    transaction = transactions_list -> data;
-
-	    if ( gsb_transaction_data_get_party_number ( gsb_transaction_data_get_transaction_number (transaction ))== no_party
-		 &&
-		 gsb_transaction_data_get_transaction_number (transaction) != no_new_transaction
-		 &&
-		 !gsb_transaction_data_get_mother_transaction_number ( gsb_transaction_data_get_transaction_number (transaction )))
-	    {
-		if ( last_transaction_found )
-		{
-		    if ( gsb_transaction_data_get_transaction_number (last_transaction_found) > gsb_transaction_data_get_transaction_number (transaction))
-			last_transaction_found = transaction;
-		}
-		else
-		    last_transaction_found = transaction;
-	    }
-	    transactions_list = transactions_list -> next;
+	    if ( gsb_transaction_data_get_account_number (transaction_number_tmp) == account_number)
+		last_transaction_with_party_in_account = transaction_number_tmp;
+	    else
+		last_transaction_with_party_not_in_account = transaction_number_tmp;
 	}
-	list_tmp = list_tmp -> next;
+	list_tmp_transactions = list_tmp_transactions -> next;
     }
 
-    g_slist_free ( transactions_accounts );
-    return last_transaction_found;
+    if ( last_transaction_with_party_in_account )
+	return last_transaction_with_party_in_account;
+
+    return last_transaction_with_party_not_in_account;
 }
 /******************************************************************************/
 
@@ -2066,8 +2050,9 @@ gboolean gsb_transactions_list_recover_breakdowns_of_transaction ( gint new_tran
 								   gint no_account )
 {
     gint result;
-    GSList *transactions_list;
+    GSList *list_tmp_transactions;
 
+    /* xxx check for win */
     result = question_yes_no_hint ( _("Recover breakdown?"),
 				    _("This is a breakdown of transaction, associated transactions can be recovered as in last transaction with this third party.") );
 
@@ -2076,23 +2061,21 @@ gboolean gsb_transactions_list_recover_breakdowns_of_transaction ( gint new_tran
 
     /* go around the transactions list to get the daughters of the last breakdown */
 
-    transactions_list = gsb_account_get_transactions_list (no_account);
+    list_tmp_transactions = gsb_transaction_data_get_transactions_list ();
 
-    while ( transactions_list )
+    while ( list_tmp_transactions )
     {
-	gint transaction_number;
+	gint transaction_number_tmp;
+	transaction_number_tmp = gsb_transaction_data_get_transaction_number (list_tmp_transactions -> data);
 
-	transaction_number = gsb_transaction_data_get_transaction_number ( transactions_list -> data );
-
-	if ( gsb_transaction_data_get_mother_transaction_number (transaction_number) == no_last_breakdown )
+	if ( gsb_transaction_data_get_account_number (transaction_number_tmp) == no_account
+	     &&
+	     gsb_transaction_data_get_mother_transaction_number (transaction_number_tmp) == no_last_breakdown)
 	{
-	    gint child_transaction_number;
-
-	    child_transaction_number = gsb_transactions_list_clone_transaction (transaction_number);
-	    gsb_transaction_data_set_mother_transaction_number ( child_transaction_number,
+	    gsb_transaction_data_set_mother_transaction_number ( gsb_transactions_list_clone_transaction (transaction_number_tmp),
 								 new_transaction_number);
 	}
-	transactions_list = transactions_list -> next;
+	list_tmp_transactions = list_tmp_transactions -> next;
     }
     return FALSE;
 }
@@ -2993,15 +2976,15 @@ gboolean gsb_form_get_categories ( gint transaction_number,
 
 	    if ( new_transaction )
 	    {
-		gpointer breakdown_transaction;
+		gint breakdown_transaction_number;
 
-		breakdown_transaction = gsb_transactions_look_for_last_party ( gsb_transaction_data_get_party_number (transaction_number),
-									       transaction_number);
+		breakdown_transaction_number = gsb_transactions_look_for_last_party ( gsb_transaction_data_get_party_number (transaction_number),
+										      transaction_number,
+										      gsb_transaction_data_get_account_number(transaction_number));
 
-		if ( breakdown_transaction )
-		    gsb_transactions_list_recover_breakdowns_of_transaction ( transaction_number,
-									      gsb_transaction_data_get_transaction_number (breakdown_transaction),
-									      gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (breakdown_transaction)));
+		gsb_transactions_list_recover_breakdowns_of_transaction ( transaction_number,
+									  breakdown_transaction_number,
+									  gsb_transaction_data_get_account_number (breakdown_transaction_number));
 	    }
 	}
 	else
@@ -3013,23 +2996,23 @@ gboolean gsb_form_get_categories ( gint transaction_number,
 		 &&
 		 gsb_transaction_data_get_breakdown_of_transaction (transaction_number))
 	    {
-		GSList *list_tmp;
+		GSList *list_tmp_transactions;
+		list_tmp_transactions = gsb_transaction_data_get_transactions_list ();
 
-		list_tmp = gsb_account_get_transactions_list (gsb_account_get_current_account ());
-
-		while ( list_tmp )
+		while ( list_tmp_transactions )
 		{
-		    gpointer transaction_tmp;
+		    gint transaction_number_tmp;
+		    transaction_number_tmp = gsb_transaction_data_get_transaction_number (list_tmp_transactions -> data);
 
-		    transaction_tmp = list_tmp -> data;
-
-		    if ( gsb_transaction_data_get_mother_transaction_number ( gsb_transaction_data_get_transaction_number (transaction_tmp ))== transaction_number)
+		    if ( gsb_transaction_data_get_account_number (transaction_number_tmp) == gsb_account_get_current_account ()
+			 &&
+			 gsb_transaction_data_get_mother_transaction_number (transaction_number_tmp) == transaction_number )
 		    {
-			list_tmp = list_tmp -> next;
-			gsb_transactions_list_delete_transaction ( transaction_tmp );
+			list_tmp_transactions = list_tmp_transactions -> next;
+			gsb_transactions_list_delete_transaction (gsb_transaction_data_get_pointer_to_transaction (transaction_number_tmp));
 		    }
 		    else
-			list_tmp = list_tmp -> next;
+			list_tmp_transactions = list_tmp_transactions -> next;
 		}
 		gsb_transaction_data_set_breakdown_of_transaction ( transaction_number,
 								    0 );

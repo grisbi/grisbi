@@ -25,6 +25,7 @@
 # define SCHEDULER_FORM_TOTAL_WIDGET 19	 /* must be the last of the list */
 
 /* START_INCLUDE_H */
+#include "echeancier_formulaire.h"
 #include "structures.h"
 /* END_INCLUDE_H */
 

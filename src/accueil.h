@@ -12,6 +12,7 @@
 
 
 /* START_INCLUDE_H */
+#include "accueil.h"
 #include "structures.h"
 /* END_INCLUDE_H */
 

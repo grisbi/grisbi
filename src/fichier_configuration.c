@@ -33,6 +33,7 @@
 #include "main.h"
 #include "utils_files.h"
 #include "print_config.h"
+#include "fichier_configuration.h"
 #include "structures.h"
 #include "utils_buttons.h"
 #include "operations_liste.h"

@@ -55,6 +55,7 @@
 #include "utils_operations.h"
 #include "echeancier_ventilation.h"
 #include "structures.h"
+#include "echeancier_formulaire.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -2560,9 +2561,8 @@ gboolean gsb_scheduler_increase_date ( struct operation_echeance *scheduled_tran
 void completion_operation_par_tiers_echeancier ( void )
 {
     struct struct_tiers *tiers;
-    gpointer operation;
+    gint transaction_number;
     gint no_compte;
-    GSList *pointeur_ope;
     gchar *char_tmp;
 
     /* s'il y a quelque chose dans les crédit ou débit ou catégories, on se barre */
@@ -2578,7 +2578,7 @@ void completion_operation_par_tiers_echeancier ( void )
     tiers = tiers_par_nom ( gtk_combofix_get_text ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_PARTY])),
 			    0 );
 
-    /*   si nouveau tiers,  on s'en va simplement */
+    /* if it's a new party, go away */
 
     if ( !tiers )
 	return;
@@ -2587,88 +2587,28 @@ void completion_operation_par_tiers_echeancier ( void )
     /* s'il n'y a aucune opé correspondante, on fait le tour de tous les comptes */
 
     no_compte = recupere_no_compte ( widget_formulaire_echeancier[SCHEDULER_FORM_ACCOUNT] );
+    
+    transaction_number = gsb_transactions_look_for_last_party ( tiers -> no_tiers,
+								0,
+								no_compte );
 
-    operation = NULL;
-    pointeur_ope = gsb_account_get_transactions_list (no_compte);
+    /* if found no transaction with that party, go back */
 
-    while ( pointeur_ope )
-    {
-	gpointer ope_test;
-
-	ope_test = pointeur_ope -> data;
-
-	if ( gsb_transaction_data_get_party_number ( gsb_transaction_data_get_transaction_number (ope_test ))== tiers -> no_tiers )
-	{
-	    if ( operation )
-	    {
-		if ( g_date_compare ( gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (ope_test)),
-				      gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation))) >= 0 )
-		    operation = ope_test;
-	    }
-	    else
-		operation = ope_test;
-	}
-
-	pointeur_ope = pointeur_ope -> next;
-    }
-
-    if ( !operation )
-    {
-	/* aucune opération correspondant à ce tiers n'a été trouvée dans le compte courant */
-	/*       on recherche dans les autres comptes, la première trouvée fera l'affaire */
-
-	GSList *list_tmp;
-
-	list_tmp = gsb_account_get_list_accounts ();
-
-	while ( list_tmp )
-	{
-	    gint i;
-
-	    i = gsb_account_get_no_account ( list_tmp -> data );
-
-	    if ( i != no_compte )
-	    {
-		pointeur_ope = gsb_account_get_transactions_list (i);
-
-		while ( pointeur_ope )
-		{
-		    gpointer ope_test;
-
-		    ope_test = pointeur_ope -> data;
-
-		    if ( gsb_transaction_data_get_party_number ( gsb_transaction_data_get_transaction_number (ope_test ))== tiers -> no_tiers )
-		    {
-			operation = ope_test;
-			pointeur_ope = NULL;
-			i = gsb_account_get_accounts_amount ();
-		    }
-		    else
-			pointeur_ope = pointeur_ope -> next;
-		}
-	    }
-
-	    list_tmp = list_tmp -> next;
-	}
-    }
-
-    /* si on n'a trouvé aucune opération, on se tire */
-
-    if ( !operation )
+    if ( !transaction_number )
 	return;
 
     /* remplit les différentes entrées du formulaire */
 
     /* remplit les montant */
 
-    if ( gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (operation ))< 0 )
+    if ( gsb_transaction_data_get_amount ( transaction_number)< 0 )
     {
 	GtkWidget *menu;
 
 	entree_prend_focus ( widget_formulaire_echeancier[SCHEDULER_FORM_DEBIT] );
 	gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_echeancier[SCHEDULER_FORM_DEBIT] ),
 			     g_strdup_printf ( "%4.2f",
-					       -gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (operation ))));
+					       -gsb_transaction_data_get_amount ( transaction_number)));
 	/* met le menu des types débits */
 
 
@@ -2689,7 +2629,7 @@ void completion_operation_par_tiers_echeancier ( void )
 	entree_prend_focus ( widget_formulaire_echeancier[SCHEDULER_FORM_CREDIT] );
 	gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_echeancier[SCHEDULER_FORM_CREDIT] ),
 			     g_strdup_printf ( "%4.2f",
-					       gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (operation ))));
+					       gsb_transaction_data_get_amount ( transaction_number)));
 	/* met le menu des types crédits */
 
 
@@ -2710,15 +2650,15 @@ void completion_operation_par_tiers_echeancier ( void )
 
     gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_DEVISE] ),
 				  g_slist_index ( liste_struct_devises,
-						  devise_par_no ( gsb_transaction_data_get_currency_number ( gsb_transaction_data_get_transaction_number (operation )))));
+						  devise_par_no ( gsb_transaction_data_get_currency_number ( transaction_number))));
 
     /* mise en forme des catégories */
 
     /* vérifie si c'est un virement */
 
-    if ( gsb_transaction_data_get_transaction_number_transfer ( gsb_transaction_data_get_transaction_number (operation ))
+    if ( gsb_transaction_data_get_transaction_number_transfer ( transaction_number)
 	 &&
-	 gsb_transaction_data_get_account_number_transfer ( gsb_transaction_data_get_transaction_number (operation ))!= -1 )
+	 gsb_transaction_data_get_account_number_transfer ( transaction_number)!= -1 )
     {
 	/* c'est un virement, on l'affiche */
 
@@ -2726,13 +2666,13 @@ void completion_operation_par_tiers_echeancier ( void )
 
 	gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_CATEGORY] ),
 				g_strconcat ( COLON(_("Transfer")),
-					      gsb_account_get_name (gsb_transaction_data_get_account_number_transfer ( gsb_transaction_data_get_transaction_number (operation ))),
+					      gsb_account_get_name (gsb_transaction_data_get_account_number_transfer ( transaction_number)),
 					      NULL ));
     }
     else
     {
-	char_tmp = nom_categ_par_no ( gsb_transaction_data_get_category_number ( gsb_transaction_data_get_transaction_number (operation)),
-				      gsb_transaction_data_get_sub_category_number ( gsb_transaction_data_get_transaction_number (operation)));
+	char_tmp = nom_categ_par_no ( gsb_transaction_data_get_category_number ( transaction_number),
+				      gsb_transaction_data_get_sub_category_number ( transaction_number));
 	
 	if ( char_tmp )
 	{
@@ -2748,7 +2688,7 @@ void completion_operation_par_tiers_echeancier ( void )
     {
 	gint place_type;
 
-	place_type = cherche_no_menu_type_echeancier ( gsb_transaction_data_get_method_of_payment_number ( gsb_transaction_data_get_transaction_number (operation )));
+	place_type = cherche_no_menu_type_echeancier ( gsb_transaction_data_get_method_of_payment_number ( transaction_number));
 
 	/*       si la place est trouvée, on la met, sinon on met à la place par défaut */
 
@@ -2757,7 +2697,7 @@ void completion_operation_par_tiers_echeancier ( void )
 					  place_type );
 	else
 	{
-	    if ( gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (operation ))< 0 )
+	    if ( gsb_transaction_data_get_amount ( transaction_number)< 0 )
 		place_type = cherche_no_menu_type_echeancier ( gsb_account_get_default_debit (no_compte) );
 	    else
 		place_type = cherche_no_menu_type_echeancier ( gsb_account_get_default_credit (no_compte) );
@@ -2774,7 +2714,7 @@ void completion_operation_par_tiers_echeancier ( void )
 
 		/*  on met ce type par défaut, vu que celui par défaut marche plus ... */
 
-		if ( gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (operation ))< 0 )
+		if ( gsb_transaction_data_get_amount ( transaction_number)< 0 )
 		    gsb_account_set_default_debit ( no_compte,
 						    GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] ) -> menu_item ),
 											    "no_type" )) );
@@ -2797,14 +2737,14 @@ void completion_operation_par_tiers_echeancier ( void )
     /* met en place l'exercice */
 
     gtk_option_menu_set_history (  GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_EXERCICE] ),
-				   cherche_no_menu_exercice ( gsb_transaction_data_get_financial_year_number ( gsb_transaction_data_get_transaction_number (operation )),
+				   cherche_no_menu_exercice ( gsb_transaction_data_get_financial_year_number ( transaction_number),
 							      widget_formulaire_echeancier[SCHEDULER_FORM_EXERCICE] ));
 
     /* met en place l'imputation budgétaire */
 
 
-    char_tmp = nom_imputation_par_no ( gsb_transaction_data_get_budgetary_number ( gsb_transaction_data_get_transaction_number (operation )),
-				       gsb_transaction_data_get_sub_budgetary_number ( gsb_transaction_data_get_transaction_number (operation )));
+    char_tmp = nom_imputation_par_no ( gsb_transaction_data_get_budgetary_number ( transaction_number),
+				       gsb_transaction_data_get_sub_budgetary_number ( transaction_number));
 
    if ( char_tmp )
     {
@@ -2816,11 +2756,11 @@ void completion_operation_par_tiers_echeancier ( void )
 
     /*   remplit les notes */
 
-    if ( gsb_transaction_data_get_notes ( gsb_transaction_data_get_transaction_number (operation )))
+    if ( gsb_transaction_data_get_notes ( transaction_number))
     {
 	entree_prend_focus ( widget_formulaire_echeancier[SCHEDULER_FORM_NOTES] );
 	gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_echeancier[SCHEDULER_FORM_NOTES] ),
-			     gsb_transaction_data_get_notes ( gsb_transaction_data_get_transaction_number (operation )));
+			     gsb_transaction_data_get_notes ( transaction_number));
     }
 }
 /******************************************************************************/

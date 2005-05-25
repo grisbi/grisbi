@@ -32,7 +32,6 @@
 #include "gsb_transaction_data.h"
 #include "operations_liste.h"
 #include "utils.h"
-#include "utils_operations.h"
 #include "structures.h"
 #include "etats_config.h"
 /*END_INCLUDE*/
@@ -259,8 +258,7 @@ void gtktable_click_sur_ope_etat ( gpointer operation )
 {
     /* si c'est une opé de ventilation, on affiche l'opération mère */
 
-    operation = operation_par_no ( gsb_transaction_data_get_mother_transaction_number ( gsb_transaction_data_get_transaction_number (operation )),
-				   gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (operation)));
+    operation = gsb_transaction_data_get_pointer_to_transaction ( gsb_transaction_data_get_mother_transaction_number ( gsb_transaction_data_get_transaction_number (operation )));
 
     if ( operation )
     {

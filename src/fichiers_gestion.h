@@ -1,6 +1,7 @@
 #ifndef _FICHIERS_GESTION_H
 #define _FICHIERS_GESTION_H (1)
 /* START_INCLUDE_H */
+#include "fichiers_gestion.h"
 /* END_INCLUDE_H */
 
 

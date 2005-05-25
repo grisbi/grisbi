@@ -1,6 +1,7 @@
 #ifndef _META_CATEGORIES_H
 #define _META_CATEGORIES_H (1)
 /* START_INCLUDE_H */
+#include "meta_categories.h"
 /* END_INCLUDE_H */
 
 

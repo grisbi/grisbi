@@ -33,7 +33,6 @@
 #include "utils.h"
 #include "dialog.h"
 #include "gsb_account.h"
-#include "main.h"
 #include "fichier_configuration.h"
 #include "structures.h"
 /*END_INCLUDE*/
@@ -46,7 +45,6 @@
 
 
 /*START_EXTERN*/
-extern gint id_fonction_idle;
 extern GtkWidget *window;
 /*END_EXTERN*/
 
@@ -313,43 +311,7 @@ gboolean assert_account_loaded ()
 
 
 
-/******************************************************************************/
-/* cette fonction démarre la vérification idle si elle ne l'est pas déjà */
-/* l'idle se terminera d'elle même ou forcé */
-/******************************************************************************/
-void demarrage_idle ( void )
-{
-    if ( DEBUG )
-	printf ( "demarrage_idle\n" );
-exit (0);
-    if ( !id_fonction_idle )
-	id_fonction_idle = g_idle_add ( (GSourceFunc) utilisation_temps_idle,
-					NULL );
 
-
-}
-/******************************************************************************/
-
-
-/******************************************************************************/
-/* cette fonction arrête la vérification idle */
-/* renvoie TRUE si la fonction était en cours de fonctionnement */
-/******************************************************************************/
-gboolean termine_idle ( void )
-{
-    if ( DEBUG )
-	printf ( "termine_idle\n" );
-
-    if ( id_fonction_idle )
-    {
-	g_source_remove ( id_fonction_idle );
-	id_fonction_idle = 0;
-	return TRUE;
-    }
-
-    return FALSE;
-}
-/******************************************************************************/
 
 
 /******************************************************************************/
@@ -357,17 +319,10 @@ gboolean termine_idle ( void )
 /******************************************************************************/
 void update_ecran ( void )
 {
-    gint idle_en_cours;
-
     if ( DEBUG )
 	printf ( "update_ecran\n" );
 
-/*     idle_en_cours = termine_idle (); */
-
     while ( g_main_iteration (FALSE));
-
-/*     if ( idle_en_cours ) */
-/* 	demarrage_idle (); */
 }
 /******************************************************************************/
 

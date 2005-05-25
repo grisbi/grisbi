@@ -30,6 +30,7 @@
 #include "traitement_variables.h"
 #include "structures.h"
 #include "fichier_configuration.h"
+#include "utils_buttons.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

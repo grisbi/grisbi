@@ -34,6 +34,7 @@
 /*START_INCLUDE*/
 #include "gtk_list_button.h"
 #include "utils.h"
+#include "gtk_list_button.h"
 /*END_INCLUDE*/
 
 

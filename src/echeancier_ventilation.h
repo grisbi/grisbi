@@ -15,6 +15,7 @@
 # define SCHEDULER_BREAKDOWN_FORM_TOTAL_WIDGET 8	 /* must be the last of the list */
 
 /* START_INCLUDE_H */
+#include "echeancier_ventilation.h"
 #include "structures.h"
 /* END_INCLUDE_H */
 

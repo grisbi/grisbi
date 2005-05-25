@@ -12,6 +12,7 @@ enum reconciliation_columns {
 };
 
 /* START_INCLUDE_H */
+#include "equilibrage.h"
 /* END_INCLUDE_H */
 
 

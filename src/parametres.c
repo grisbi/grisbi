@@ -36,6 +36,7 @@
 #include "import.h"
 #include "type_operations.h"
 #include "equilibrage.h"
+#include "parametres.h"
 #include "structures.h"
 /*END_INCLUDE*/
 

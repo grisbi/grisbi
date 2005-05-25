@@ -24,6 +24,7 @@ enum preference_page  {
     NUM_PREFERENCES_PAGES
 };
 /* START_INCLUDE_H */
+#include "parametres.h"
 /* END_INCLUDE_H */
 
 

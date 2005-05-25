@@ -25,6 +25,7 @@
 
 
 /* START_INCLUDE_H */
+#include "echeancier_liste.h"
 #include "structures.h"
 /* END_INCLUDE_H */
 

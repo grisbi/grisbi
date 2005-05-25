@@ -29,6 +29,7 @@
 #include "utils.h"
 #include "dialog.h"
 #include "structures.h"
+#include "print_config.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

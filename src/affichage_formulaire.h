@@ -1,6 +1,7 @@
 #ifndef _AFFICHAGE_FORMULAIRE_H
 #define _AFFICHAGE_FORMULAIRE_H (1)
 /* START_INCLUDE_H */
+#include "affichage_formulaire.h"
 #include "structures.h"
 /* END_INCLUDE_H */
 

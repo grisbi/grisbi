@@ -253,7 +253,7 @@ GtkWidget *onglet_tiers ( void )
 
 GtkWidget *creation_barre_outils_tiers ( void )
 {
-    GtkWidget *hbox, *separateur, *handlebox;
+    GtkWidget *hbox, *handlebox;
 
     /* HandleBox */
     handlebox = gtk_handle_box_new ();

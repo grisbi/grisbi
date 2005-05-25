@@ -1,6 +1,7 @@
 #ifndef _PATIENTER_H
 #define _PATIENTER_H (1)
 /* START_INCLUDE_H */
+#include "patienter.h"
 /* END_INCLUDE_H */
 
 

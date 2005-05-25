@@ -49,6 +49,7 @@
 #include "parametres.h"
 #include "fichier_configuration.h"
 #include "structures.h"
+#include "menu.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

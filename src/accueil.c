@@ -44,6 +44,7 @@
 #include "utils.h"
 #include "utils_tiers.h"
 #include "structures.h"
+#include "accueil.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -897,23 +898,26 @@ void update_liste_comptes_accueil ( void )
 		/* on commence la boucle : fait le tour de toutes les opérations */
 		/* met à jour les solde_courant_affichage_liste et solde_pointe_affichage_liste */
 		/* affiche l'opération à l'écran en fonction de l'affichage de R */
-		liste_operations_tmp = gsb_account_get_transactions_list (no_compte);
+		liste_operations_tmp = gsb_transaction_data_get_transactions_list ();
 
 		while ( liste_operations_tmp )
 		{
-		    gpointer operation;
+		    gint transaction_number;
 
-		    operation = liste_operations_tmp -> data;
+		    transaction_number = gsb_transaction_data_get_transaction_number (liste_operations_tmp->data);
 
-		    /* si c'est une opé de ventilation, on la saute */
-		    if ( !gsb_transaction_data_get_mother_transaction_number ( gsb_transaction_data_get_transaction_number (operation )))
+		    if ( gsb_transaction_data_get_account_number (transaction_number) == no_compte )
 		    {
-			/* quelle que soit l'opération (relevée ou non), on calcule les soldes courant */
-			montant = gsb_transaction_data_get_adjusted_amount ( gsb_transaction_data_get_transaction_number (operation));
+			/* si c'est une opé de ventilation, on la saute */
+			if ( !gsb_transaction_data_get_mother_transaction_number (transaction_number))
+			{
+			    /* quelle que soit l'opération (relevée ou non), on calcule les soldes courant */
+			    montant = gsb_transaction_data_get_adjusted_amount (transaction_number);
 
-			/* si l'opé est pointée ou relevée, on ajoute ce montant au solde pointé */
-			if ( gsb_transaction_data_get_marked_transaction ( gsb_transaction_data_get_transaction_number (operation )))
-			    solde_pointe_affichage_liste = solde_pointe_affichage_liste + montant;
+			    /* si l'opé est pointée ou relevée, on ajoute ce montant au solde pointé */
+			    if ( gsb_transaction_data_get_marked_transaction (transaction_number))
+				solde_pointe_affichage_liste = solde_pointe_affichage_liste + montant;
+			}
 		    }
 		    liste_operations_tmp = liste_operations_tmp -> next;
 		}
@@ -1225,23 +1229,26 @@ void update_liste_comptes_accueil ( void )
 		/* on commence la boucle : fait le tour de toutes les opérations */
 		/* met à jour les solde_courant_affichage_liste et solde_pointe_affichage_liste */
 		/* affiche l'opération à l'écran en fonction de l'affichage de R */
-		liste_operations_tmp = gsb_account_get_transactions_list (no_compte);
+		liste_operations_tmp = gsb_transaction_data_get_transactions_list ();
 
 		while ( liste_operations_tmp )
 		{
-		    gpointer operation;
+		    gint transaction_number;
 
-		    operation = liste_operations_tmp -> data;
+		    transaction_number = gsb_transaction_data_get_transaction_number (liste_operations_tmp->data);
 
-		    /* si c'est une opé de ventilation, on la saute */
-		    if ( !gsb_transaction_data_get_mother_transaction_number ( gsb_transaction_data_get_transaction_number (operation )))
+		    if ( gsb_transaction_data_get_account_number (transaction_number) == no_compte )
 		    {
-			/* quelle que soit l'opération (relevée ou non), on calcule les soldes courant */
-			montant = gsb_transaction_data_get_adjusted_amount ( gsb_transaction_data_get_transaction_number (operation));
+			/* si c'est une opé de ventilation, on la saute */
+			if ( !gsb_transaction_data_get_mother_transaction_number (transaction_number))
+			{
+			    /* quelle que soit l'opération (relevée ou non), on calcule les soldes courant */
+			    montant = gsb_transaction_data_get_adjusted_amount (transaction_number);
 
-			/* si l'opé est pointée ou relevée, on ajoute ce montant au solde pointé */
-			if ( gsb_transaction_data_get_marked_transaction ( gsb_transaction_data_get_transaction_number (operation )))
-			    solde_pointe_affichage_liste = solde_pointe_affichage_liste + montant;
+			    /* si l'opé est pointée ou relevée, on ajoute ce montant au solde pointé */
+			    if ( gsb_transaction_data_get_marked_transaction (transaction_number))
+				solde_pointe_affichage_liste = solde_pointe_affichage_liste + montant;
+			}
 		    }
 		    liste_operations_tmp = liste_operations_tmp -> next;
 		}

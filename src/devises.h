@@ -15,6 +15,7 @@ enum currency_list_column {
 };
 
 /* START_INCLUDE_H */
+#include "devises.h"
 #include "structures.h"
 /* END_INCLUDE_H */
 

@@ -31,7 +31,6 @@
 #include "type_operations.h"
 #include "comptes_gestion.h"
 #include "operations_liste.h"
-#include "utils.h"
 #include "dialog.h"
 #include "utils_echeances.h"
 #include "fichiers_gestion.h"
@@ -150,8 +149,6 @@ gboolean new_account ( void )
 			 creation_tree_view_operations_par_compte (no_compte),
 			 TRUE, TRUE, 0 );
 
-    /*     on remplit le compte par idle */ 
-    demarrage_idle ();
 
     modification_fichier ( TRUE );
     return FALSE;
@@ -217,33 +214,34 @@ gboolean delete_account ( void )
     while ( list_tmp )
     {
 	gint i;
-	GSList *pointeur_tmp;
+	GSList *list_tmp_transactions;
 
 	i = gsb_account_get_no_account ( list_tmp -> data );
 
-	pointeur_tmp = gsb_account_get_transactions_list (i);
+	list_tmp_transactions = gsb_transaction_data_get_transactions_list ();
 
-	while ( pointeur_tmp )
+	while ( list_tmp_transactions )
 	{
-	    gpointer operation;
+	    gint transaction_number;
+	    transaction_number = gsb_transaction_data_get_transaction_number (list_tmp_transactions -> data);
 
-	    operation = pointeur_tmp -> data;
-
-	    if ( gsb_transaction_data_get_account_number_transfer ( gsb_transaction_data_get_transaction_number (operation ))== deleted_account )
+	    if ( gsb_transaction_data_get_account_number (transaction_number) == i )
 	    {
-		gsb_transaction_data_set_account_number_transfer ( gsb_transaction_data_get_transaction_number (operation),
-								   -1);
-		gsb_account_set_update_list ( i,
-					      1 );
+		if ( gsb_transaction_data_get_account_number_transfer (transaction_number) == deleted_account )
+		{
+		    gsb_transaction_data_set_account_number_transfer ( transaction_number,
+								       -1);
+		    gsb_account_set_update_list ( i,
+						  1 );
+		}
 	    }
-	    pointeur_tmp = pointeur_tmp -> next;
+	    list_tmp_transactions = list_tmp_transactions -> next;
 	}
 	list_tmp = list_tmp -> next;
     }
 
     /* check gsb_account_get_current_account () and gsb_account_get_current_account ()_onglet and put them
      * on the first account if they are on the deleted account */
-
 
     if ( gsb_account_get_current_account () == deleted_account )
     {

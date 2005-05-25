@@ -327,57 +327,58 @@ GSList *recupere_opes_etat ( struct struct_etat *etat )
 		     g_slist_index ( etat -> no_comptes,
 				     GINT_TO_POINTER ( i )) != -1 )
 		{
-		    GSList *pointeur_tmp;
+		    GSList *list_tmp_transactions;
 
 		    /* on fait le tour de la liste des opés en recherchant le plus grand ds les 3 variables */
 
-		    pointeur_tmp = gsb_account_get_transactions_list (i);
+		    list_tmp_transactions = gsb_transaction_data_get_transactions_list ();
 
-		    while ( pointeur_tmp )
+		    while ( list_tmp_transactions )
 		    {
-			gpointer operation;
+			gint transaction_number_tmp;
+			transaction_number_tmp = gsb_transaction_data_get_transaction_number (list_tmp_transactions -> data);
 
-			operation = pointeur_tmp -> data;
-
-			/* commence par le cheque, il faut que le type opé soit à incrémentation auto */
-			/* et le no le plus grand */
-			/* on ne recherche le type d'opé que si l'opé a un contenu du type et que celui ci */
-			/* est > que dernier_chq */
-
-			if ( gsb_transaction_data_get_method_of_payment_content ( gsb_transaction_data_get_transaction_number (operation ))
-			     &&
-			     utils_str_atoi ( gsb_transaction_data_get_method_of_payment_content ( gsb_transaction_data_get_transaction_number (operation ))) > dernier_chq
-			     &&
-			     gsb_transaction_data_get_method_of_payment_number ( gsb_transaction_data_get_transaction_number (operation )))
+			if ( gsb_transaction_data_get_account_number (transaction_number_tmp) == i )
 			{
-			    struct struct_type_ope *type_ope;
+			    /* commence par le cheque, il faut que le type opé soit à incrémentation auto */
+			    /* et le no le plus grand */
+			    /* on ne recherche le type d'opé que si l'opé a un contenu du type et que celui ci */
+			    /* est > que dernier_chq */
 
-			    type_ope = type_ope_par_no ( gsb_transaction_data_get_method_of_payment_number ( gsb_transaction_data_get_transaction_number (operation )),
-							 i );
+			    if ( gsb_transaction_data_get_method_of_payment_content (transaction_number_tmp)
+				 &&
+				 utils_str_atoi ( gsb_transaction_data_get_method_of_payment_content (transaction_number_tmp)) > dernier_chq
+				 &&
+				 gsb_transaction_data_get_method_of_payment_number (transaction_number_tmp))
+			    {
+				struct struct_type_ope *type_ope;
 
-			    if ( type_ope
+				type_ope = type_ope_par_no ( gsb_transaction_data_get_method_of_payment_number (transaction_number_tmp),
+							     i );
+
+				if ( type_ope
+				     &&
+				     type_ope -> affiche_entree
+				     &&
+				     type_ope -> numerotation_auto )
+				    dernier_chq = utils_str_atoi ( gsb_transaction_data_get_method_of_payment_content (transaction_number_tmp));
+			    }
+
+
+			    /* on récupère maintenant la plus grande pc */
+
+			    if ( gsb_transaction_data_get_voucher (transaction_number_tmp)
 				 &&
-				 type_ope -> affiche_entree
-				 &&
-				 type_ope -> numerotation_auto )
-				dernier_chq = utils_str_atoi ( gsb_transaction_data_get_method_of_payment_content ( gsb_transaction_data_get_transaction_number (operation )));
+				 utils_str_atoi ( gsb_transaction_data_get_voucher (transaction_number_tmp)) > dernier_pc )
+				dernier_pc = utils_str_atoi ( gsb_transaction_data_get_voucher (transaction_number_tmp));
+
+
+			    /* on récupère maintenant le dernier relevé */
+
+			    if ( gsb_transaction_data_get_reconcile_number (transaction_number_tmp)> dernier_no_rappr )
+				dernier_no_rappr = gsb_transaction_data_get_reconcile_number (transaction_number_tmp);
 			}
-
-
-			/* on récupère maintenant la plus grande pc */
-
-			if ( gsb_transaction_data_get_voucher ( gsb_transaction_data_get_transaction_number (operation ))
-			     &&
-			     utils_str_atoi ( gsb_transaction_data_get_voucher ( gsb_transaction_data_get_transaction_number (operation ))) > dernier_pc )
-			    dernier_pc = utils_str_atoi ( gsb_transaction_data_get_voucher ( gsb_transaction_data_get_transaction_number (operation )));
-
-
-			/* on récupère maintenant le dernier relevé */
-
-			if ( gsb_transaction_data_get_reconcile_number ( gsb_transaction_data_get_transaction_number (operation ))> dernier_no_rappr )
-			    dernier_no_rappr = gsb_transaction_data_get_reconcile_number ( gsb_transaction_data_get_transaction_number (operation ));
-
-			pointeur_tmp = pointeur_tmp -> next;
+			list_tmp_transactions = list_tmp_transactions -> next;
 		    }
 		}
 		list_tmp = list_tmp -> next;
@@ -403,560 +404,554 @@ GSList *recupere_opes_etat ( struct struct_etat *etat )
 			     GINT_TO_POINTER ( i )) != -1 )
 	{
 	    /* 	  le compte est bon, passe à la suite de la sélection */
-
-
 	    /* on va faire le tour de toutes les opés du compte */
 
-	    GSList *pointeur_tmp;
+	    GSList *list_tmp_transactions;
+	    list_tmp_transactions = gsb_transaction_data_get_transactions_list ();
 
-	    pointeur_tmp = gsb_account_get_transactions_list (i);
-
-	    while ( pointeur_tmp )
+	    while ( list_tmp_transactions )
 	    {
-		gpointer operation;
+		gint transaction_number_tmp;
+		transaction_number_tmp = gsb_transaction_data_get_transaction_number (list_tmp_transactions -> data);
 
-		operation = pointeur_tmp -> data;
-
-		/* si c'est une opé ventilée, dépend de la conf */
-
-		if ( gsb_transaction_data_get_breakdown_of_transaction ( gsb_transaction_data_get_transaction_number (operation ))
-		     &&
-		     !etat -> pas_detailler_ventilation )
-		    goto operation_refusee;
-
-		if ( gsb_transaction_data_get_mother_transaction_number ( gsb_transaction_data_get_transaction_number (operation ))
-		     &&
-		     etat -> pas_detailler_ventilation )
-		    goto operation_refusee;
-
-		/* on vérifie ensuite si un texte est recherché */
-
-		if ( etat -> utilise_texte )
+		if ( gsb_transaction_data_get_account_number (transaction_number_tmp) == i )
 		{
-		    gint garde_ope;
+		    /* si c'est une opé ventilée, dépend de la conf */
 
-		    liste_tmp = etat -> liste_struct_comparaison_textes;
-		    garde_ope = 0;
+		    if ( gsb_transaction_data_get_breakdown_of_transaction ( transaction_number_tmp)
+			 &&
+			 !etat -> pas_detailler_ventilation )
+			goto operation_refusee;
 
-		    while ( liste_tmp )
+		    if ( gsb_transaction_data_get_mother_transaction_number ( transaction_number_tmp)
+			 &&
+			 etat -> pas_detailler_ventilation )
+			goto operation_refusee;
+
+		    /* on vérifie ensuite si un texte est recherché */
+
+		    if ( etat -> utilise_texte )
 		    {
-			gchar *texte;
-			struct struct_comparaison_textes_etat *comp_textes;
-			gint ope_dans_test;
+			gint garde_ope;
 
-			comp_textes = liste_tmp -> data;
+			liste_tmp = etat -> liste_struct_comparaison_textes;
+			garde_ope = 0;
 
-
-			/* on commence par récupérer le texte du champs recherché */
-
-			texte = recupere_texte_test_etat ( operation,
-							   comp_textes -> champ );
-
-			/* à ce niveau, texte est soit null, soit contient le texte dans lequel on effectue la recherche */
-			/* on vérifie maintenant en fontion de l'opérateur */
-			/* si c'est un chq ou une pc et que utilise_txt, on utilise leur no */
-
-			if ( ( comp_textes -> champ == 8
-			       ||
-			       comp_textes -> champ == 9
-			       ||
-			       comp_textes -> champ == 10 )
-			     &&
-			     !comp_textes -> utilise_txt )
+			while ( liste_tmp )
 			{
-			    if ( texte )
-				ope_dans_test = verifie_chq_test_etat ( comp_textes,
-									texte );
+			    gchar *texte;
+			    struct struct_comparaison_textes_etat *comp_textes;
+			    gint ope_dans_test;
+
+			    comp_textes = liste_tmp -> data;
+
+
+			    /* on commence par récupérer le texte du champs recherché */
+
+			    texte = recupere_texte_test_etat ( gsb_transaction_data_get_pointer_to_transaction (transaction_number_tmp),
+							       comp_textes -> champ );
+
+			    /* à ce niveau, texte est soit null, soit contient le texte dans lequel on effectue la recherche */
+			    /* on vérifie maintenant en fontion de l'opérateur */
+			    /* si c'est un chq ou une pc et que utilise_txt, on utilise leur no */
+
+			    if ( ( comp_textes -> champ == 8
+				   ||
+				   comp_textes -> champ == 9
+				   ||
+				   comp_textes -> champ == 10 )
+				 &&
+				 !comp_textes -> utilise_txt )
+			    {
+				if ( texte )
+				    ope_dans_test = verifie_chq_test_etat ( comp_textes,
+									    texte );
+				else
+				    ope_dans_test = 0;
+			    }
 			    else
-				ope_dans_test = 0;
+				ope_dans_test = verifie_texte_test_etat ( comp_textes,
+									  texte );
+
+			    /* à ce niveau, ope_dans_test=1 si l'opé a passé ce test */
+			    /* il faut qu'on fasse le lien avec la ligne précédente */
+
+			    switch ( comp_textes -> lien_struct_precedente )
+			    {
+				case -1:
+				    /* 1ère ligne  */
+
+				    garde_ope = ope_dans_test;
+				    break;
+
+				case 0:
+				    /* et  */
+
+				    garde_ope = garde_ope && ope_dans_test;
+				    break;
+
+				case 1:
+				    /* ou  */
+
+				    garde_ope = garde_ope || ope_dans_test;
+				    break;
+
+				case 2:
+				    /* sauf  */
+
+				    garde_ope = garde_ope && (!ope_dans_test);
+				    break;
+			    }
+			    liste_tmp = liste_tmp -> next;
 			}
-			else
-			    ope_dans_test = verifie_texte_test_etat ( comp_textes,
-								      texte );
 
-			/* à ce niveau, ope_dans_test=1 si l'opé a passé ce test */
-			/* il faut qu'on fasse le lien avec la ligne précédente */
+			/* on ne garde l'opération que si garde_ope = 1 */
 
-			switch ( comp_textes -> lien_struct_precedente )
-			{
-			    case -1:
-				/* 1ère ligne  */
-
-				garde_ope = ope_dans_test;
-				break;
-
-			    case 0:
-				/* et  */
-
-				garde_ope = garde_ope && ope_dans_test;
-				break;
-
-			    case 1:
-				/* ou  */
-
-				garde_ope = garde_ope || ope_dans_test;
-				break;
-
-			    case 2:
-				/* sauf  */
-
-				garde_ope = garde_ope && (!ope_dans_test);
-				break;
-			}
-			liste_tmp = liste_tmp -> next;
+			if ( !garde_ope )
+			    goto operation_refusee;
 		    }
 
-		    /* on ne garde l'opération que si garde_ope = 1 */
 
-		    if ( !garde_ope )
-			goto operation_refusee;
-		}
+		    /* on vérifie les R */
 
-
-		/* on vérifie les R */
-
-		if ( etat -> afficher_r )
-		{
-		    if ( ( etat -> afficher_r == 1
-			   &&
-			   gsb_transaction_data_get_marked_transaction ( gsb_transaction_data_get_transaction_number (operation ))== 3 )
-			 ||
-			 ( etat -> afficher_r == 2
-			   &&
-			   gsb_transaction_data_get_marked_transaction ( gsb_transaction_data_get_transaction_number (operation ))!= 3 ))
-			goto operation_refusee;
-		}
-
-
-		/*    vérification du montant nul */
-
-		if ( etat -> exclure_montants_nuls
-		     &&
-		     fabs ( gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (operation ))) < 0.01 )
-		    goto operation_refusee;
-
-
-		/* vérification des montants */
-
-		if ( etat -> utilise_montant )
-		{
-		    gint garde_ope;
-
-		    liste_tmp = etat -> liste_struct_comparaison_montants;
-		    garde_ope = 0;
-
-		    while ( liste_tmp )
+		    if ( etat -> afficher_r )
 		    {
-			gdouble montant;
-			gint ope_dans_premier_test;
-			gint ope_dans_second_test;
-			struct struct_comparaison_montants_etat *comp_montants;
-			gint ope_dans_test;
-
-			comp_montants = liste_tmp -> data;
-
-			montant = gsb_transaction_data_get_adjusted_amount ( gsb_transaction_data_get_transaction_number (operation));
-
-			/* on vérifie maintenant en fonction de la ligne de test si on garde cette opé */
-
-			ope_dans_premier_test = compare_montants_etat ( montant,
-									comp_montants -> montant_1,
-									comp_montants -> comparateur_1 );
-
-			if ( comp_montants -> lien_1_2 != 3 )
-			    ope_dans_second_test = compare_montants_etat ( montant,
-									   comp_montants -> montant_2,
-									   comp_montants -> comparateur_2 );
-			else
-			    /* pour éviter les warning lors de la compil */
-			    ope_dans_second_test = 0;
-
-			switch ( comp_montants -> lien_1_2 )
-			{
-			    case 0:
-				/* et  */
-
-				ope_dans_test = ope_dans_premier_test && ope_dans_second_test;
-				break;
-
-			    case 1:
-				/*  ou */
-
-				ope_dans_test = ope_dans_premier_test || ope_dans_second_test;
-				break;
-
-			    case 2:
-				/* sauf  */
-
-				ope_dans_test = ope_dans_premier_test && (!ope_dans_second_test);
-				break;
-
-			    case 3:
-				/* aucun  */
-				ope_dans_test = ope_dans_premier_test;
-				break;
-
-			    default:
-				ope_dans_test = 0;
-			}
-
-			/* à ce niveau, ope_dans_test=1 si l'opé a passé ce test */
-			/* il faut qu'on fasse le lien avec la ligne précédente */
-
-
-			switch ( comp_montants -> lien_struct_precedente )
-			{
-			    case -1:
-				/* 1ère ligne  */
-
-				garde_ope = ope_dans_test;
-				break;
-
-			    case 0:
-				/* et  */
-
-				garde_ope = garde_ope && ope_dans_test;
-				break;
-
-			    case 1:
-				/* ou  */
-
-				garde_ope = garde_ope || ope_dans_test;
-				break;
-
-			    case 2:
-				/* sauf  */
-
-				garde_ope = garde_ope && (!ope_dans_test);
-				break;
-			}
-			liste_tmp = liste_tmp -> next;
+			if ( ( etat -> afficher_r == 1
+			       &&
+			       gsb_transaction_data_get_marked_transaction ( transaction_number_tmp)== 3 )
+			     ||
+			     ( etat -> afficher_r == 2
+			       &&
+			       gsb_transaction_data_get_marked_transaction ( transaction_number_tmp)!= 3 ))
+			    goto operation_refusee;
 		    }
 
-		    /* on ne garde l'opération que si garde_ope = 1 */
 
-		    if ( !garde_ope )
+		    /*    vérification du montant nul */
+
+		    if ( etat -> exclure_montants_nuls
+			 &&
+			 fabs ( gsb_transaction_data_get_amount ( transaction_number_tmp)) < 0.01 )
 			goto operation_refusee;
 
-		}
 
+		    /* vérification des montants */
 
-
-		/* 	      on vérifie les virements */
-
-		if ( gsb_transaction_data_get_transaction_number_transfer ( gsb_transaction_data_get_transaction_number (operation )))
-		{
-		    if ( !etat -> type_virement )
-			goto operation_refusee;
-
-		    if ( etat -> type_virement == 1 )
+		    if ( etat -> utilise_montant )
 		    {
-			/* on inclue l'opé que si le compte de virement */
-			/* est un compte de passif ou d'actif */
+			gint garde_ope;
 
-			if ( gsb_account_get_kind (gsb_transaction_data_get_account_number_transfer ( gsb_transaction_data_get_transaction_number (operation ))) != GSB_TYPE_LIABILITIES
-			     &&
-			     gsb_account_get_kind (gsb_transaction_data_get_account_number_transfer ( gsb_transaction_data_get_transaction_number (operation ))) != GSB_TYPE_ASSET )
+			liste_tmp = etat -> liste_struct_comparaison_montants;
+			garde_ope = 0;
+
+			while ( liste_tmp )
+			{
+			    gdouble montant;
+			    gint ope_dans_premier_test;
+			    gint ope_dans_second_test;
+			    struct struct_comparaison_montants_etat *comp_montants;
+			    gint ope_dans_test;
+
+			    comp_montants = liste_tmp -> data;
+
+			    montant = gsb_transaction_data_get_adjusted_amount ( transaction_number_tmp);
+
+			    /* on vérifie maintenant en fonction de la ligne de test si on garde cette opé */
+
+			    ope_dans_premier_test = compare_montants_etat ( montant,
+									    comp_montants -> montant_1,
+									    comp_montants -> comparateur_1 );
+
+			    if ( comp_montants -> lien_1_2 != 3 )
+				ope_dans_second_test = compare_montants_etat ( montant,
+									       comp_montants -> montant_2,
+									       comp_montants -> comparateur_2 );
+			    else
+				/* pour éviter les warning lors de la compil */
+				ope_dans_second_test = 0;
+
+			    switch ( comp_montants -> lien_1_2 )
+			    {
+				case 0:
+				    /* et  */
+
+				    ope_dans_test = ope_dans_premier_test && ope_dans_second_test;
+				    break;
+
+				case 1:
+				    /*  ou */
+
+				    ope_dans_test = ope_dans_premier_test || ope_dans_second_test;
+				    break;
+
+				case 2:
+				    /* sauf  */
+
+				    ope_dans_test = ope_dans_premier_test && (!ope_dans_second_test);
+				    break;
+
+				case 3:
+				    /* aucun  */
+				    ope_dans_test = ope_dans_premier_test;
+				    break;
+
+				default:
+				    ope_dans_test = 0;
+			    }
+
+			    /* à ce niveau, ope_dans_test=1 si l'opé a passé ce test */
+			    /* il faut qu'on fasse le lien avec la ligne précédente */
+
+
+			    switch ( comp_montants -> lien_struct_precedente )
+			    {
+				case -1:
+				    /* 1ère ligne  */
+
+				    garde_ope = ope_dans_test;
+				    break;
+
+				case 0:
+				    /* et  */
+
+				    garde_ope = garde_ope && ope_dans_test;
+				    break;
+
+				case 1:
+				    /* ou  */
+
+				    garde_ope = garde_ope || ope_dans_test;
+				    break;
+
+				case 2:
+				    /* sauf  */
+
+				    garde_ope = garde_ope && (!ope_dans_test);
+				    break;
+			    }
+			    liste_tmp = liste_tmp -> next;
+			}
+
+			/* on ne garde l'opération que si garde_ope = 1 */
+
+			if ( !garde_ope )
 			    goto operation_refusee;
 
 		    }
-		    else
-		    {
-			if ( etat -> type_virement == 2 )
-			{
-			    /* on inclut l'opé que si le compte de virement n'est */
-			    /* pas présent dans l'état */
 
-			    /*    si on ne détaille pas les comptes, on ne cherche pas, l'opé est refusée */
-			    if ( etat -> utilise_detail_comptes )
-			    {
-				if ( g_slist_index ( etat -> no_comptes,
-						     GINT_TO_POINTER ( gsb_transaction_data_get_account_number_transfer ( gsb_transaction_data_get_transaction_number (operation )))) != -1 )
-				    goto operation_refusee;
-			    }
-			    else
+		    /* 	      on vérifie les virements */
+
+		    if ( gsb_transaction_data_get_transaction_number_transfer ( transaction_number_tmp))
+		    {
+			if ( !etat -> type_virement )
+			    goto operation_refusee;
+
+			if ( etat -> type_virement == 1 )
+			{
+			    /* on inclue l'opé que si le compte de virement */
+			    /* est un compte de passif ou d'actif */
+
+			    if ( gsb_account_get_kind (gsb_transaction_data_get_account_number_transfer ( transaction_number_tmp)) != GSB_TYPE_LIABILITIES
+				 &&
+				 gsb_account_get_kind (gsb_transaction_data_get_account_number_transfer ( transaction_number_tmp)) != GSB_TYPE_ASSET )
 				goto operation_refusee;
+
 			}
 			else
 			{
-			    /* on inclut l'opé que si le compte de virement est dans la liste */
+			    if ( etat -> type_virement == 2 )
+			    {
+				/* on inclut l'opé que si le compte de virement n'est */
+				/* pas présent dans l'état */
 
-			    if ( g_slist_index ( etat -> no_comptes_virements,
-						 GINT_TO_POINTER ( gsb_transaction_data_get_account_number_transfer ( gsb_transaction_data_get_transaction_number (operation )))) == -1 )
-				goto operation_refusee;
+				/*    si on ne détaille pas les comptes, on ne cherche pas, l'opé est refusée */
+				if ( etat -> utilise_detail_comptes )
+				{
+				    if ( g_slist_index ( etat -> no_comptes,
+							 GINT_TO_POINTER ( gsb_transaction_data_get_account_number_transfer ( transaction_number_tmp))) != -1 )
+					goto operation_refusee;
+				}
+				else
+				    goto operation_refusee;
+			    }
+			    else
+			    {
+				/* on inclut l'opé que si le compte de virement est dans la liste */
 
+				if ( g_slist_index ( etat -> no_comptes_virements,
+						     GINT_TO_POINTER ( gsb_transaction_data_get_account_number_transfer ( transaction_number_tmp))) == -1 )
+				    goto operation_refusee;
+
+			    }
 			}
 		    }
-		}
-		else
-		{
-		    /* 		  l'opé n'est pas un virement, si on doit exclure les non virement, c'est ici */
-
-		    if ( etat -> type_virement
-			 &&
-			 etat -> exclure_ope_non_virement )
-			goto operation_refusee;
-		}
-
-
-		/* on va maintenant vérifier que les catég sont bonnes */
-		/* si on exclut les opés sans categ, on vérifie que c'est pas un virement ni une ventilation */
-
-		if ((( etat -> utilise_detail_categ
-		       &&
-		       g_slist_index ( etat -> no_categ,
-				       GINT_TO_POINTER ( gsb_transaction_data_get_category_number ( gsb_transaction_data_get_transaction_number (operation )))) == -1 )
-		     ||
-		     ( etat -> exclure_ope_sans_categ
-		       &&
-		       !gsb_transaction_data_get_category_number ( gsb_transaction_data_get_transaction_number (operation ))))
-		    &&
-		    !gsb_transaction_data_get_breakdown_of_transaction ( gsb_transaction_data_get_transaction_number (operation ))
-		    &&
-		    !gsb_transaction_data_get_transaction_number_transfer ( gsb_transaction_data_get_transaction_number (operation )))
-		    goto operation_refusee;
-
-
-		/* vérification de l'imputation budgétaire */
-
-		if ( etat -> exclure_ope_sans_ib && !gsb_transaction_data_get_budgetary_number ( gsb_transaction_data_get_transaction_number (operation )))
-		    goto operation_refusee;
-
-		if ((etat -> utilise_detail_ib &&
-		     g_slist_index(etat-> no_ib,
-				   GINT_TO_POINTER(gsb_transaction_data_get_budgetary_number ( gsb_transaction_data_get_transaction_number (operation)))) == -1)
-		    &&
-		    gsb_transaction_data_get_budgetary_number ( gsb_transaction_data_get_transaction_number (operation )))
-		    goto operation_refusee;
-
-
-		/* vérification du tiers */
-
-		if ( etat -> utilise_detail_tiers
-		     &&
-		     g_slist_index ( etat -> no_tiers,
-				     GINT_TO_POINTER ( gsb_transaction_data_get_party_number ( gsb_transaction_data_get_transaction_number (operation )))) == -1 )
-		    goto operation_refusee;
-
-		/* vérification du type d'opération */
-
-		if ( etat -> utilise_mode_paiement )
-		{
-		    struct struct_type_ope *type_ope;
-
-		    if ( ! gsb_transaction_data_get_method_of_payment_number ( gsb_transaction_data_get_transaction_number (operation )))
-			goto operation_refusee;
-
-		    /* normalement p_tab... est sur le compte en cours */
-
-		    type_ope = type_ope_par_no ( gsb_transaction_data_get_method_of_payment_number ( gsb_transaction_data_get_transaction_number (operation )),
-						 i );
-
-		    if ( !type_ope )
-			goto operation_refusee;
-
-		    if ( !g_slist_find_custom ( etat -> noms_modes_paiement,
-						type_ope -> nom_type,
-						(GCompareFunc) cherche_string_equivalente_dans_slist ))
-			goto operation_refusee;
-		}
-
-		/* vérifie la plage de date */
-
-		if ( etat -> exo_date )
-		{
-		    /* on utilise l'exercice */
-
-		    if ( (( etat -> utilise_detail_exo == 1
-			    ||
-			    etat -> utilise_detail_exo == 2 )
-			  &&
-			  ( gsb_transaction_data_get_financial_year_number ( gsb_transaction_data_get_transaction_number (operation ))!= no_exercice_recherche
-			    ||
-			    !gsb_transaction_data_get_financial_year_number ( gsb_transaction_data_get_transaction_number (operation ))))
-			 ||
-			 ( etat -> utilise_detail_exo == 3
-			   &&
-			   ( g_slist_index ( etat -> no_exercices,
-					     GINT_TO_POINTER ( gsb_transaction_data_get_financial_year_number ( gsb_transaction_data_get_transaction_number (operation )))) == -1
-			     ||
-			     !gsb_transaction_data_get_financial_year_number ( gsb_transaction_data_get_transaction_number (operation )))))
-			goto operation_refusee;
-		}
-		else
-		{
-		    /* on utilise une plage de dates */
-
-		    GDate *date_jour;
-		    GDate *date_tmp;
-
-		    date_jour = g_date_new ();
-		    g_date_set_time ( date_jour,
-				      time ( NULL ));
-
-
-		    switch ( etat -> no_plage_date )
+		    else
 		    {
-			case 0:
-			    /* toutes */
+			/* 		  l'opé n'est pas un virement, si on doit exclure les non virement, c'est ici */
 
-			    break;
-
-			case 1:
-			    /* plage perso */
-
-			    if ( !etat -> date_perso_debut
-				 ||
-				 !etat -> date_perso_fin
-				 ||
-				 g_date_compare ( etat -> date_perso_debut,
-						  gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation))) > 0
-				 ||
-				 g_date_compare ( etat -> date_perso_fin,
-						  gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation))) < 0 )
-				goto operation_refusee;
-			    break;
-
-			case 2:
-			    /* cumul à ce jour */
-
-			    if ( g_date_compare ( date_jour,
-						  gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation))) < 0 )
-				goto operation_refusee;
-			    break;
-
-			case 3:
-			    /* mois en cours */
-
-			    if ( g_date_month ( date_jour ) != g_date_month ( gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation)))
-				 ||
-				 g_date_year ( date_jour ) != g_date_year ( gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation))))
-				goto operation_refusee;
-			    break;
-
-			case 4:
-			    /* année en cours */
-
-			    if ( g_date_year ( date_jour ) != g_date_year ( gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation))))
-				goto operation_refusee;
-			    break;
-
-			case 5:
-			    /* cumul mensuel */
-
-			    if ( g_date_month ( date_jour ) != g_date_month ( gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation)))
-				 ||
-				 g_date_year ( date_jour ) != g_date_year ( gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation)))
-				 ||
-				 g_date_compare ( date_jour,
-						  gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation))) < 0 )
-				goto operation_refusee;
-			    break;
-
-			case 6:
-			    /* cumul annuel */
-
-			    if ( g_date_year ( date_jour ) != g_date_year ( gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation)))
-				 ||
-				 g_date_compare ( date_jour,
-						  gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation))) < 0 )
-				goto operation_refusee;
-			    break;
-
-			case 7:
-			    /* mois précédent */
-
-			    g_date_subtract_months ( date_jour,
-						     1 );
-
-			    if ( g_date_month ( date_jour ) != g_date_month ( gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation)))
-				 ||
-				 g_date_year ( date_jour ) != g_date_year ( gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation))))
-				goto operation_refusee;
-			    break;
-
-			case 8:
-			    /* année précédente */
-
-			    g_date_subtract_years ( date_jour,
-						    1 );
-
-			    if ( g_date_year ( date_jour ) != g_date_year ( gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation))))
-				goto operation_refusee;
-			    break;
-
-			case 9:
-			    /* 30 derniers jours */
-
-			    date_tmp = g_date_new_dmy ( g_date_day ( date_jour ),
-							g_date_month ( date_jour ),
-							g_date_year ( date_jour ) );
-			    g_date_subtract_days ( date_tmp,
-						   30 );
-			    if ( g_date_compare ( date_tmp,
-						  gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation))) > 0
-				 ||
-				 g_date_compare ( date_jour,
-						  gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation))) < 0 )
-				goto operation_refusee;
-			    break;
-
-			case 10:
-			    /* 3 derniers mois */
-
-			    date_tmp = g_date_new_dmy ( g_date_day ( date_jour ),
-							g_date_month ( date_jour ),
-							g_date_year ( date_jour ) );
-			    g_date_subtract_months ( date_tmp,
-						     3 );
-			    if ( g_date_compare ( date_tmp,
-						  gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation))) > 0
-				 ||
-				 g_date_compare ( date_jour,
-						  gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation))) < 0 )
-				goto operation_refusee;
-			    break;
-
-			case 11:
-			    /* 6 derniers mois */
-
-			    date_tmp = g_date_new_dmy ( g_date_day ( date_jour ),
-							g_date_month ( date_jour ),
-							g_date_year ( date_jour ) );
-			    g_date_subtract_months ( date_tmp,
-						     6 );
-			    if ( g_date_compare ( date_tmp,
-						  gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation))) > 0
-				 ||
-				 g_date_compare ( date_jour,
-						  gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation))) < 0 )
-				goto operation_refusee;
-			    break;
-
-			case 12:
-			    /* 12 derniers mois */
-
-			    date_tmp = g_date_new_dmy ( g_date_day ( date_jour ),
-							g_date_month ( date_jour ),
-							g_date_year ( date_jour ) );
-			    g_date_subtract_months ( date_tmp,
-						     12 );
-			    if ( g_date_compare ( date_tmp,
-						  gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation))) > 0
-				 ||
-				 g_date_compare ( date_jour,
-						  gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation))) < 0 )
-				goto operation_refusee;
-			    break;
+			if ( etat -> type_virement
+			     &&
+			     etat -> exclure_ope_non_virement )
+			    goto operation_refusee;
 		    }
+
+
+		    /* on va maintenant vérifier que les catég sont bonnes */
+		    /* si on exclut les opés sans categ, on vérifie que c'est pas un virement ni une ventilation */
+
+		    if ((( etat -> utilise_detail_categ
+			   &&
+			   g_slist_index ( etat -> no_categ,
+					   GINT_TO_POINTER ( gsb_transaction_data_get_category_number ( transaction_number_tmp))) == -1 )
+			 ||
+			 ( etat -> exclure_ope_sans_categ
+			   &&
+			   !gsb_transaction_data_get_category_number ( transaction_number_tmp)))
+			&&
+			!gsb_transaction_data_get_breakdown_of_transaction ( transaction_number_tmp)
+			&&
+			!gsb_transaction_data_get_transaction_number_transfer ( transaction_number_tmp))
+			goto operation_refusee;
+
+
+		    /* vérification de l'imputation budgétaire */
+
+		    if ( etat -> exclure_ope_sans_ib && !gsb_transaction_data_get_budgetary_number ( transaction_number_tmp))
+			goto operation_refusee;
+
+		    if ((etat -> utilise_detail_ib &&
+			 g_slist_index(etat-> no_ib,
+				       GINT_TO_POINTER(gsb_transaction_data_get_budgetary_number ( transaction_number_tmp))) == -1)
+			&&
+			gsb_transaction_data_get_budgetary_number ( transaction_number_tmp))
+			goto operation_refusee;
+
+
+		    /* vérification du tiers */
+
+		    if ( etat -> utilise_detail_tiers
+			 &&
+			 g_slist_index ( etat -> no_tiers,
+					 GINT_TO_POINTER ( gsb_transaction_data_get_party_number ( transaction_number_tmp))) == -1 )
+			goto operation_refusee;
+
+		    /* vérification du type d'opération */
+
+		    if ( etat -> utilise_mode_paiement )
+		    {
+			struct struct_type_ope *type_ope;
+
+			if ( ! gsb_transaction_data_get_method_of_payment_number ( transaction_number_tmp))
+			    goto operation_refusee;
+
+			/* normalement p_tab... est sur le compte en cours */
+
+			type_ope = type_ope_par_no ( gsb_transaction_data_get_method_of_payment_number ( transaction_number_tmp),
+						     i );
+
+			if ( !type_ope )
+			    goto operation_refusee;
+
+			if ( !g_slist_find_custom ( etat -> noms_modes_paiement,
+						    type_ope -> nom_type,
+						    (GCompareFunc) cherche_string_equivalente_dans_slist ))
+			    goto operation_refusee;
+		    }
+
+		    /* vérifie la plage de date */
+
+		    if ( etat -> exo_date )
+		    {
+			/* on utilise l'exercice */
+
+			if ( (( etat -> utilise_detail_exo == 1
+				||
+				etat -> utilise_detail_exo == 2 )
+			      &&
+			      ( gsb_transaction_data_get_financial_year_number ( transaction_number_tmp)!= no_exercice_recherche
+				||
+				!gsb_transaction_data_get_financial_year_number ( transaction_number_tmp)))
+			     ||
+			     ( etat -> utilise_detail_exo == 3
+			       &&
+			       ( g_slist_index ( etat -> no_exercices,
+						 GINT_TO_POINTER ( gsb_transaction_data_get_financial_year_number ( transaction_number_tmp))) == -1
+				 ||
+				 !gsb_transaction_data_get_financial_year_number ( transaction_number_tmp))))
+			    goto operation_refusee;
+		    }
+		    else
+		    {
+			/* on utilise une plage de dates */
+
+			GDate *date_jour;
+			GDate *date_tmp;
+
+			date_jour = g_date_new ();
+			g_date_set_time ( date_jour,
+					  time ( NULL ));
+
+
+			switch ( etat -> no_plage_date )
+			{
+			    case 0:
+				/* toutes */
+
+				break;
+
+			    case 1:
+				/* plage perso */
+
+				if ( !etat -> date_perso_debut
+				     ||
+				     !etat -> date_perso_fin
+				     ||
+				     g_date_compare ( etat -> date_perso_debut,
+						      gsb_transaction_data_get_date (transaction_number_tmp)) > 0
+				     ||
+				     g_date_compare ( etat -> date_perso_fin,
+						      gsb_transaction_data_get_date (transaction_number_tmp)) < 0 )
+				    goto operation_refusee;
+				break;
+
+			    case 2:
+				/* cumul à ce jour */
+
+				if ( g_date_compare ( date_jour,
+						      gsb_transaction_data_get_date (transaction_number_tmp)) < 0 )
+				    goto operation_refusee;
+				break;
+
+			    case 3:
+				/* mois en cours */
+
+				if ( g_date_month ( date_jour ) != g_date_month ( gsb_transaction_data_get_date (transaction_number_tmp))
+				     ||
+				     g_date_year ( date_jour ) != g_date_year ( gsb_transaction_data_get_date (transaction_number_tmp)))
+				    goto operation_refusee;
+				break;
+
+			    case 4:
+				/* année en cours */
+
+				if ( g_date_year ( date_jour ) != g_date_year ( gsb_transaction_data_get_date (transaction_number_tmp)))
+				    goto operation_refusee;
+				break;
+
+			    case 5:
+				/* cumul mensuel */
+
+				if ( g_date_month ( date_jour ) != g_date_month ( gsb_transaction_data_get_date (transaction_number_tmp))
+				     ||
+				     g_date_year ( date_jour ) != g_date_year ( gsb_transaction_data_get_date (transaction_number_tmp))
+				     ||
+				     g_date_compare ( date_jour,
+						      gsb_transaction_data_get_date (transaction_number_tmp)) < 0 )
+				    goto operation_refusee;
+				break;
+
+			    case 6:
+				/* cumul annuel */
+
+				if ( g_date_year ( date_jour ) != g_date_year ( gsb_transaction_data_get_date (transaction_number_tmp))
+				     ||
+				     g_date_compare ( date_jour,
+						      gsb_transaction_data_get_date (transaction_number_tmp)) < 0 )
+				    goto operation_refusee;
+				break;
+
+			    case 7:
+				/* mois précédent */
+
+				g_date_subtract_months ( date_jour,
+							 1 );
+
+				if ( g_date_month ( date_jour ) != g_date_month ( gsb_transaction_data_get_date (transaction_number_tmp))
+				     ||
+				     g_date_year ( date_jour ) != g_date_year ( gsb_transaction_data_get_date (transaction_number_tmp)))
+				    goto operation_refusee;
+				break;
+
+			    case 8:
+				/* année précédente */
+
+				g_date_subtract_years ( date_jour,
+							1 );
+
+				if ( g_date_year ( date_jour ) != g_date_year ( gsb_transaction_data_get_date (transaction_number_tmp)))
+				    goto operation_refusee;
+				break;
+
+			    case 9:
+				/* 30 derniers jours */
+
+				date_tmp = g_date_new_dmy ( g_date_day ( date_jour ),
+							    g_date_month ( date_jour ),
+							    g_date_year ( date_jour ) );
+				g_date_subtract_days ( date_tmp,
+						       30 );
+				if ( g_date_compare ( date_tmp,
+						      gsb_transaction_data_get_date (transaction_number_tmp)) > 0
+				     ||
+				     g_date_compare ( date_jour,
+						      gsb_transaction_data_get_date (transaction_number_tmp)) < 0 )
+				    goto operation_refusee;
+				break;
+
+			    case 10:
+				/* 3 derniers mois */
+
+				date_tmp = g_date_new_dmy ( g_date_day ( date_jour ),
+							    g_date_month ( date_jour ),
+							    g_date_year ( date_jour ) );
+				g_date_subtract_months ( date_tmp,
+							 3 );
+				if ( g_date_compare ( date_tmp,
+						      gsb_transaction_data_get_date (transaction_number_tmp)) > 0
+				     ||
+				     g_date_compare ( date_jour,
+						      gsb_transaction_data_get_date (transaction_number_tmp)) < 0 )
+				    goto operation_refusee;
+				break;
+
+			    case 11:
+				/* 6 derniers mois */
+
+				date_tmp = g_date_new_dmy ( g_date_day ( date_jour ),
+							    g_date_month ( date_jour ),
+							    g_date_year ( date_jour ) );
+				g_date_subtract_months ( date_tmp,
+							 6 );
+				if ( g_date_compare ( date_tmp,
+						      gsb_transaction_data_get_date (transaction_number_tmp)) > 0
+				     ||
+				     g_date_compare ( date_jour,
+						      gsb_transaction_data_get_date (transaction_number_tmp)) < 0 )
+				    goto operation_refusee;
+				break;
+
+			    case 12:
+				/* 12 derniers mois */
+
+				date_tmp = g_date_new_dmy ( g_date_day ( date_jour ),
+							    g_date_month ( date_jour ),
+							    g_date_year ( date_jour ) );
+				g_date_subtract_months ( date_tmp,
+							 12 );
+				if ( g_date_compare ( date_tmp,
+						      gsb_transaction_data_get_date (transaction_number_tmp)) > 0
+				     ||
+				     g_date_compare ( date_jour,
+						      gsb_transaction_data_get_date (transaction_number_tmp)) < 0 )
+				    goto operation_refusee;
+				break;
+			}
+		    }
+		    liste_operations_etat = g_slist_append ( liste_operations_etat,
+							     gsb_transaction_data_get_pointer_to_transaction (transaction_number_tmp));
 		}
-
-
-		liste_operations_etat = g_slist_append ( liste_operations_etat,
-							 operation );
-
 operation_refusee:
-		pointeur_tmp = pointeur_tmp -> next;
+		list_tmp_transactions = list_tmp_transactions -> next;
 	    }
 	}
 	list_tmp = list_tmp -> next;

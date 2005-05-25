@@ -45,6 +45,7 @@
 #include "gsb_account.h"
 #include "operations_comptes.h"
 #include "echeancier_liste.h"
+#include "gsb_transaction_data.h"
 #include "operations_liste.h"
 #include "traitement_variables.h"
 #include "main.h"
@@ -52,7 +53,6 @@
 #include "utils_files.h"
 #include "affichage_liste.h"
 #include "fichier_configuration.h"
-#include "utils.h"
 #include "structures.h"
 /*END_INCLUDE*/
 
@@ -731,8 +731,6 @@ gchar *demande_nom_enregistrement ( void )
 gboolean fermer_fichier ( void )
 {
     gint result;
-    GSList *list_tmp;
-
 
     if ( DEBUG)
 	printf ( "fermer_fichier\n" );
@@ -763,10 +761,6 @@ gboolean fermer_fichier ( void )
 
 	    sauve_configuration ();
 
-	    /*     s'il y a de l'idle, on le retire */
-
-	    termine_idle ();
-
 	    /* si le fichier n'était pas déjà ouvert, met à 0 l'ouverture */
 
 	    if ( !etat.fichier_deja_ouvert
@@ -786,20 +780,7 @@ gboolean fermer_fichier ( void )
 
 	    /* libère les opérations de tous les comptes */
 
-	    list_tmp = gsb_account_get_list_accounts ();
-
-	    while ( list_tmp )
-	    {
-		gint i;
-
-		i = gsb_account_get_no_account ( list_tmp -> data );
-
-		if ( gsb_account_get_transactions_list (i) )
-		    g_slist_free ( gsb_account_get_transactions_list (i) );
-
-		list_tmp = list_tmp -> next;
-	    }
-
+	    g_slist_free ( gsb_transaction_data_get_transactions_list ());
 	    g_slist_free ( gsb_account_get_list_accounts () );
 
 	    /* libère les échéances */

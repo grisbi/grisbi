@@ -961,7 +961,6 @@ void modification_details_compte ( void )
 							   "no_devise" )) )
     {
 	struct struct_devise *nouvelle_devise;
-	GSList *pointeur_liste;
 
 	if ( !devise_compte
 	     ||
@@ -984,23 +983,24 @@ void modification_details_compte ( void )
 		return;
 	}
 
-	pointeur_liste = gsb_account_get_transactions_list (compte_courant_onglet);
+	list_tmp = gsb_transaction_data_get_transactions_list ();
 
-	while ( pointeur_liste )
+	while ( list_tmp )
 	{
-	    gpointer operation;
+	    gint transaction_number;
+	    transaction_number = gsb_transaction_data_get_transaction_number (list_tmp -> data);
 
-	    operation = pointeur_liste -> data;
-
-	    if ( gsb_transaction_data_get_currency_number ( gsb_transaction_data_get_transaction_number (operation ))== gsb_account_get_currency (compte_courant_onglet) )
-		gsb_transaction_data_set_currency_number ( gsb_transaction_data_get_transaction_number (operation ),
-							   nouvelle_devise -> no_devise );
-	    else
-		if ( !nouvelle_devise -> passage_euro )
-		    gsb_transaction_data_set_currency_number ( gsb_transaction_data_get_transaction_number (operation ),
+	    if ( gsb_transaction_data_get_account_number (transaction_number) == compte_courant_onglet )
+	    {
+		if ( gsb_transaction_data_get_currency_number (transaction_number) == gsb_account_get_currency (compte_courant_onglet) )
+		    gsb_transaction_data_set_currency_number ( transaction_number,
 							       nouvelle_devise -> no_devise );
-
-	    pointeur_liste = pointeur_liste -> next;
+		else
+		    if ( !nouvelle_devise -> passage_euro )
+			gsb_transaction_data_set_currency_number ( transaction_number,
+								   nouvelle_devise -> no_devise );
+	    }
+	    list_tmp = list_tmp -> next;
 	}
 	gsb_account_set_currency ( compte_courant_onglet,
 				   nouvelle_devise -> no_devise );

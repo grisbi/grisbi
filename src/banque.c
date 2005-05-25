@@ -161,7 +161,7 @@ gboolean update_bank_menu ()
 struct struct_banque * ajout_banque ( GtkWidget *bouton, GtkWidget *clist )
 {
     struct struct_banque *banque;
-    gchar *ligne[1];
+    gchar *ligne[2];
     gint ligne_insert;
 
     if ( clist && GTK_IS_CLIST(clist) )
@@ -183,6 +183,8 @@ struct struct_banque * ajout_banque ( GtkWidget *bouton, GtkWidget *clist )
     banque -> nom_correspondant = "";
     liste_struct_banques = g_slist_append ( liste_struct_banques, banque );
     ligne[0] = banque -> nom_banque;
+    ligne[1] = "";
+
 
     if ( clist && GTK_IS_CLIST(clist) )
     {

@@ -1,6 +1,7 @@
 #ifndef _UTILS_IB_H
 #define _UTILS_IB_H (1)
 /* START_INCLUDE_H */
+#include "utils_ib.h"
 #include "structures.h"
 /* END_INCLUDE_H */
 

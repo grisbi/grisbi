@@ -1094,10 +1094,6 @@ void traitement_operations_importees ( void )
     if ( mise_a_jour_combofix_categ_necessaire )
 	mise_a_jour_combofix_categ();
 
-    /* 	on remplit ce qui est nécessaire */
-
-    demarrage_idle ();
-
     annulation_attente();
 
     modification_fichier ( TRUE );
@@ -1118,141 +1114,114 @@ void cree_liens_virements_ope_import ( void )
     /*   et une opé ayant une relation_no_compte à -2, le nom du compte dans info_banque_guichet */
     /* le même montant, le même jour avec le même tiers */
 
-    GSList *list_accounts;
+    GSList *list_tmp_transactions;
+    list_tmp_transactions = gsb_transaction_data_get_transactions_list ();
 
-    list_accounts = gsb_account_get_list_accounts ();
-
-    while ( list_accounts )
+    while ( list_tmp_transactions )
     {
-	gint i;
-	gchar *nom_compte_courant;
-	GSList *list_tmp;
-	gint currency;
+	gint transaction_number_tmp;
+	transaction_number_tmp = gsb_transaction_data_get_transaction_number (list_tmp_transactions -> data);
 
-	i = gsb_account_get_no_account ( list_accounts -> data );
+	/* if the account number of transfer is -2, it's a transfer */
 
-	nom_compte_courant = gsb_account_get_name (i);
-	list_tmp = gsb_account_get_transactions_list (i);
-	currency = gsb_account_get_currency (i);
-
-	while ( list_tmp )
+	if ( gsb_transaction_data_get_account_number_transfer (transaction_number_tmp)== -2
+	     &&
+	     gsb_transaction_data_get_bank_references (transaction_number_tmp))
 	{
-	    gint transaction_number;
+	    /* the name of the contra account is in the bank references with [ and ] */
 
-	    transaction_number = gsb_transaction_data_get_transaction_number (list_tmp -> data);
+	    gchar *contra_account_name;
+	    gint contra_account_number;
 
-	    /* on fait la sélection sur relation_no_compte */
+	    contra_account_name = gsb_transaction_data_get_bank_references (transaction_number_tmp);
+	    contra_account_name++;
+	    contra_account_name[strlen(contra_account_name)-1] = 0;
+	    contra_account_number = gsb_account_get_no_account_by_name ( contra_account_name );
 
-	    if ( gsb_transaction_data_get_account_number_transfer (transaction_number)== -2 )
+	    if ( contra_account_number == -1 )
 	    {
-		/* recherche du compte associé */
+		/* we have not found the contra-account */
 
-		gint compte_trouve;
-		GSList *list_tmp2;
-
-		compte_trouve = -1;
-
-		list_tmp2 = gsb_account_get_list_accounts ();
-
-		while ( list_tmp2 )
-		{
-		    gint j;
-
-		    j = gsb_account_get_no_account ( list_tmp2 -> data );
-
-		    if ( !g_strcasecmp ( g_strconcat ( "[",
-						       gsb_account_get_name (j),
-						       "]",
-						       NULL ),
-					 g_strstrip ( gsb_transaction_data_get_bank_references ( transaction_number))))
-			compte_trouve = j;
-
-		    list_tmp2 = list_tmp2 -> next;
-		}
-
-
-		/* 		  si on n'a pas trouvé de relation avec l'autre compte, on vire les liaisons */
-		/* et ça devient une opé normale sans catégorie */
-
-		if ( compte_trouve == -1 )
-		{
-		    gsb_transaction_data_set_account_number_transfer ( transaction_number,
+		gsb_transaction_data_set_account_number_transfer ( transaction_number_tmp,
+								   0);
+		gsb_transaction_data_set_transaction_number_transfer ( transaction_number_tmp,
 								       0);
-		    gsb_transaction_data_set_transaction_number_transfer ( transaction_number,
-									   0);
-		    gsb_transaction_data_set_bank_references ( transaction_number,
-							       NULL);
-		}
-		else
+		gsb_transaction_data_set_bank_references ( transaction_number_tmp,
+							   NULL);
+	    }
+	    else
+	    {
+		/* we have found the contra-account, we look for the contra-transaction */
+
+		GSList *list_tmp_transactions_2;
+		list_tmp_transactions_2 = gsb_transaction_data_get_transactions_list ();
+
+		while ( list_tmp_transactions_2 )
 		{
-		    /*  on a trouvé le compte opposé ; on cherche
-			maintenant l'opération */
-		    GSList *pointeur_tmp;
-		    gboolean same_currency = FALSE;
+		    gint contra_transaction_number_tmp;
+		    contra_transaction_number_tmp = gsb_transaction_data_get_transaction_number (list_tmp_transactions_2 -> data);
 
-		    if ( currency == gsb_account_get_currency (compte_trouve) )
-		      same_currency = TRUE;
-
-		    pointeur_tmp = gsb_account_get_transactions_list (compte_trouve);
-
-		    while ( pointeur_tmp )
+		    if ( gsb_transaction_data_get_account_number (contra_transaction_number_tmp) == contra_account_number
+			 &&
+			 gsb_transaction_data_get_account_number_transfer ( contra_transaction_number_tmp ) == -2
+			 &&
+			 gsb_transaction_data_get_bank_references ( contra_transaction_number_tmp )
+			 &&
+			 (!g_strcasecmp ( g_strconcat ("[",
+						       gsb_account_get_name (transaction_number_tmp),
+						       "]",
+						       NULL),
+					  g_strstrip ( gsb_transaction_data_get_bank_references ( contra_transaction_number_tmp )))
+			  ||
+			  g_strcasecmp ( gsb_account_get_name (transaction_number_tmp),
+					 g_strstrip ( gsb_transaction_data_get_bank_references ( contra_transaction_number_tmp)))) 
+			 &&
+			 ( fabs ( gsb_transaction_data_get_amount (transaction_number_tmp))
+			   ==
+			   fabs ( gsb_transaction_data_get_adjusted_amount_for_currency ( contra_transaction_number_tmp,
+											  gsb_account_get_currency (transaction_number_tmp))))
+			 &&
+			 ( gsb_transaction_data_get_party_number (transaction_number_tmp)
+			   ==
+			   gsb_transaction_data_get_party_number ( contra_transaction_number_tmp ))
+			 &&
+			 !g_date_compare ( gsb_transaction_data_get_date (transaction_number_tmp),
+					   gsb_transaction_data_get_date (contra_transaction_number_tmp)))
 		    {
-			gint contra_transaction_number;
+			/* la 2ème opération correspond en tout point à la 1ère, on met les relations */
 
-			contra_transaction_number = gsb_transaction_data_get_transaction_number (pointeur_tmp -> data);
+			gsb_transaction_data_set_transaction_number_transfer ( transaction_number_tmp,
+									       contra_transaction_number_tmp );
+			gsb_transaction_data_set_account_number_transfer ( transaction_number_tmp,
+									   gsb_transaction_data_get_account_number (contra_transaction_number_tmp));
 
-			if ( gsb_transaction_data_get_account_number_transfer ( contra_transaction_number )== -2
-			     &&
-			     gsb_transaction_data_get_bank_references ( contra_transaction_number )
-			     &&
-			     (!g_strcasecmp ( g_strconcat ("[", nom_compte_courant, "]", NULL),
- 					      g_strstrip ( gsb_transaction_data_get_bank_references ( contra_transaction_number )))
-			      || g_strcasecmp ( nom_compte_courant,
-						g_strstrip ( gsb_transaction_data_get_bank_references ( contra_transaction_number )))) 
-			     &&
-			     ( !same_currency || fabs ( gsb_transaction_data_get_amount ( transaction_number)) == fabs ( gsb_transaction_data_get_amount ( contra_transaction_number )))
-			     &&
-			     ( gsb_transaction_data_get_party_number ( transaction_number)== gsb_transaction_data_get_party_number ( contra_transaction_number ))
-			     &&
-			     !g_date_compare ( gsb_transaction_data_get_date (transaction_number), gsb_transaction_data_get_date (contra_transaction_number )))
-			{
-			    /* la 2ème opération correspond en tout point à la 1ère, on met les relations */
+			gsb_transaction_data_set_transaction_number_transfer ( contra_transaction_number_tmp,
+									       transaction_number_tmp);
+			gsb_transaction_data_set_account_number_transfer ( contra_transaction_number_tmp,
+									   gsb_transaction_data_get_account_number (transaction_number_tmp));
 
-			    gsb_transaction_data_set_transaction_number_transfer ( transaction_number,
-										   contra_transaction_number );
-			    gsb_transaction_data_set_account_number_transfer ( transaction_number,
-									       gsb_transaction_data_get_account_number (contra_transaction_number ));
-
-			    gsb_transaction_data_set_transaction_number_transfer ( contra_transaction_number ,
-										   transaction_number);
-			    gsb_transaction_data_set_account_number_transfer ( contra_transaction_number ,
-									       gsb_transaction_data_get_account_number (transaction_number));
-
-			    gsb_transaction_data_set_bank_references ( transaction_number,
-								       NULL);
-			    gsb_transaction_data_set_bank_references ( contra_transaction_number,
-								       NULL);
-			}
-			pointeur_tmp = pointeur_tmp -> next;
-		    }
-
-		    /*   on a fait le tour de l'autre compte, si aucune contre opération n'a été trouvée, on vire les */
-		    /* relations et ça devient une opé normale */
-
-		    if ( gsb_transaction_data_get_account_number_transfer ( transaction_number)== -2 )
-		    {
-			gsb_transaction_data_set_account_number_transfer ( transaction_number,
-									   0);
-			gsb_transaction_data_set_transaction_number_transfer ( transaction_number,
-									       0);
-			gsb_transaction_data_set_bank_references ( transaction_number,
+			gsb_transaction_data_set_bank_references ( transaction_number_tmp,
+								   NULL);
+			gsb_transaction_data_set_bank_references ( contra_transaction_number_tmp,
 								   NULL);
 		    }
+		    list_tmp_transactions_2 = list_tmp_transactions_2 -> next;
+		}
+
+		/* if no contra-transaction, that transaction becomes normal */
+
+		if ( gsb_transaction_data_get_account_number_transfer (transaction_number_tmp) == -2 )
+		{
+		    gsb_transaction_data_set_account_number_transfer ( transaction_number_tmp,
+								       0);
+		    gsb_transaction_data_set_transaction_number_transfer ( transaction_number_tmp,
+									   0);
+		    gsb_transaction_data_set_bank_references ( transaction_number_tmp,
+							       NULL);
 		}
 	    }
-	    list_tmp = list_tmp -> next;
 	}
-	list_accounts = list_accounts -> next;
+	list_tmp_transactions = list_tmp_transactions -> next;
     }
 }
 /* *******************************************************************************/
@@ -1373,6 +1342,7 @@ void gsb_import_add_imported_transactions ( struct struct_compte_importation *im
     GSList *list_tmp;
     GDate *last_date;
     gint demande_confirmation;
+    GSList *list_tmp_transactions;
 
     /* si le compte importé a une id, on la vérifie ici */
     /*     si elle est absente, on met celle importée */
@@ -1417,24 +1387,24 @@ void gsb_import_add_imported_transactions ( struct struct_compte_importation *im
     /* qui ont une date supérieure sont automatiquement acceptées */
 
 
-    list_tmp = gsb_account_get_transactions_list (account_number);
+    list_tmp_transactions = gsb_transaction_data_get_transactions_list ();
     last_date = NULL;
 
-    while ( list_tmp )
+    while ( list_tmp_transactions )
     {
-	gpointer operation;
+	gint transaction_number_tmp;
+	transaction_number_tmp = gsb_transaction_data_get_transaction_number (list_tmp_transactions -> data);
 
-	operation = list_tmp -> data;
-
-	if ( !last_date
-	     ||
-	     g_date_compare ( gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation)),
-			      last_date ) > 0 )
-	    last_date = gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation));
-
-	list_tmp = list_tmp -> next;
+	if ( gsb_transaction_data_get_account_number (transaction_number_tmp) == account_number )
+	{
+	    if ( !last_date
+		 ||
+		 g_date_compare ( gsb_transaction_data_get_date (transaction_number_tmp),
+				  last_date ) > 0 )
+		last_date = gsb_transaction_data_get_date (transaction_number_tmp);
+	}
+	list_tmp_transactions = list_tmp_transactions -> next;
     }
-
 
     list_tmp = imported_account -> operations_importees;
     demande_confirmation = 0;
@@ -1479,7 +1449,6 @@ void gsb_import_add_imported_transactions ( struct struct_compte_importation *im
 	    {
 		GDate *date_debut_comparaison;
 		GDate *date_fin_comparaison;
-		GSList *liste_ope;
 
 		date_debut_comparaison = g_date_new_dmy ( g_date_get_day ( imported_transaction -> date ),
 							  g_date_get_month ( imported_transaction -> date ),
@@ -1493,31 +1462,33 @@ void gsb_import_add_imported_transactions ( struct struct_compte_importation *im
 		g_date_add_days ( date_fin_comparaison,
 				  valeur_echelle_recherche_date_import );
 
-		liste_ope = gsb_account_get_transactions_list (account_number);
+		list_tmp_transactions = gsb_transaction_data_get_transactions_list ();
 
-		while ( liste_ope )
+		while ( list_tmp_transactions )
 		{
-		    gint transaction_number;
+		    gint transaction_number_tmp;
+		    transaction_number_tmp = gsb_transaction_data_get_transaction_number (list_tmp_transactions -> data);
 
-		    transaction_number = gsb_transaction_data_get_transaction_number (liste_ope -> data);
-
-		    if ( fabs ( gsb_transaction_data_get_amount (transaction_number)- imported_transaction -> montant ) < 0.01
-			 &&
-			 ( g_date_compare ( gsb_transaction_data_get_date (transaction_number),
-					    date_debut_comparaison ) >= 0 )
-			 &&
-			 ( g_date_compare ( gsb_transaction_data_get_date (transaction_number),
-					    date_fin_comparaison ) <= 0 )
-
-			 &&
-			 !imported_transaction -> ope_de_ventilation )
+		    if ( gsb_transaction_data_get_account_number (transaction_number_tmp) == account_number )
 		    {
-			/* l'opé a la même date et le même montant, on la marque pour demander quoi faire à l'utilisateur */
-			imported_transaction -> action = 1; 
-			imported_transaction -> ope_correspondante = gsb_transaction_data_get_pointer_to_transaction (transaction_number);
-			demande_confirmation = 1;
+			if ( fabs ( gsb_transaction_data_get_amount (transaction_number_tmp)- imported_transaction -> montant ) < 0.01
+			     &&
+			     ( g_date_compare ( gsb_transaction_data_get_date (transaction_number_tmp),
+						date_debut_comparaison ) >= 0 )
+			     &&
+			     ( g_date_compare ( gsb_transaction_data_get_date (transaction_number_tmp),
+						date_fin_comparaison ) <= 0 )
+
+			     &&
+			     !imported_transaction -> ope_de_ventilation )
+			{
+			    /* l'opé a la même date et le même montant, on la marque pour demander quoi faire à l'utilisateur */
+			    imported_transaction -> action = 1; 
+			    imported_transaction -> ope_correspondante = gsb_transaction_data_get_pointer_to_transaction (transaction_number_tmp);
+			    demande_confirmation = 1;
+			}
 		    }
-		    liste_ope = liste_ope -> next;
+		    list_tmp_transactions = list_tmp_transactions -> next;
 		}
 	    }
 	}
@@ -2075,6 +2046,7 @@ void pointe_opes_importees ( struct struct_compte_importation *imported_account 
 	{
 	    GDate *date_debut_comparaison;
 	    GDate *date_fin_comparaison;
+	    GSList *list_tmp_transactions;
 
 	    date_debut_comparaison = g_date_new_dmy ( g_date_get_day ( ope_import -> date ),
 						      g_date_get_month ( ope_import -> date ),
@@ -2088,29 +2060,30 @@ void pointe_opes_importees ( struct struct_compte_importation *imported_account 
 	    g_date_add_days ( date_fin_comparaison,
 			      valeur_echelle_recherche_date_import );
 
+	    list_tmp_transactions = gsb_transaction_data_get_transactions_list ();
 
-
-	    liste_ope = gsb_account_get_transactions_list (account_number);
-
-	    while ( liste_ope )
+	    while ( list_tmp_transactions )
 	    {
-		operation = liste_ope -> data;
+		gint transaction_number_tmp;
+		transaction_number_tmp = gsb_transaction_data_get_transaction_number (list_tmp_transactions -> data);
 
-		if ( fabs ( gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (operation ))- ope_import -> montant ) < 0.01
-		     &&
-		     ( g_date_compare ( gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation)),
-					date_debut_comparaison ) >= 0 )
-		     &&
-		     ( g_date_compare ( gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation)),
-					date_fin_comparaison ) <= 0 )
+		if ( gsb_transaction_data_get_account_number (transaction_number_tmp) == account_number )
+		{
+		    if ( fabs ( gsb_transaction_data_get_amount (transaction_number_tmp)- ope_import -> montant ) < 0.01
+			 &&
+			 ( g_date_compare ( gsb_transaction_data_get_date (transaction_number_tmp),
+					    date_debut_comparaison ) >= 0 )
+			 &&
+			 ( g_date_compare ( gsb_transaction_data_get_date (transaction_number_tmp),
+					    date_fin_comparaison ) <= 0 )
 
-		     &&
-		     !gsb_transaction_data_get_mother_transaction_number ( gsb_transaction_data_get_transaction_number (operation )))
-		    /* on a retouvé une opé de même date et même montant, on l'ajoute à la liste des opés trouvées */
-		    ope_trouvees = g_slist_append ( ope_trouvees,
-						    operation );
-
-		liste_ope = liste_ope -> next;
+			 &&
+			 !gsb_transaction_data_get_mother_transaction_number (transaction_number_tmp))
+			/* on a retouvé une opé de même date et même montant, on l'ajoute à la liste des opés trouvées */
+			ope_trouvees = g_slist_append ( ope_trouvees,
+							operation );
+		}
+		list_tmp_transactions = list_tmp_transactions -> next;
 	    }
 	}
 	/*       à ce stade, ope_trouvees contient la ou les opés qui sont comparables à l'opé importée */
@@ -2162,20 +2135,22 @@ void pointe_opes_importees ( struct struct_compte_importation *imported_account 
 
 		    if ( gsb_transaction_data_get_breakdown_of_transaction ( gsb_transaction_data_get_transaction_number (operation )))
 		    {
+			GSList *list_tmp_transactions;
 
-			liste_ope = gsb_account_get_transactions_list (account_number);
+			list_tmp_transactions = gsb_transaction_data_get_transactions_list ();
 
-			while ( liste_ope )
+			while ( list_tmp_transactions )
 			{
-			    gpointer ope_fille;
+			    gint transaction_number_tmp;
+			    transaction_number_tmp = gsb_transaction_data_get_transaction_number (list_tmp_transactions -> data);
 
-			    ope_fille = liste_ope -> data;
-
-			    if ( gsb_transaction_data_get_mother_transaction_number ( gsb_transaction_data_get_transaction_number (ope_fille ))== gsb_transaction_data_get_transaction_number (operation))
-				gsb_transaction_data_set_marked_transaction ( gsb_transaction_data_get_transaction_number (ope_fille),
-									      2 );
-
-			    liste_ope = liste_ope -> next;
+			    if ( gsb_transaction_data_get_account_number (transaction_number_tmp) == account_number )
+			    {
+				if ( gsb_transaction_data_get_mother_transaction_number (transaction_number_tmp) == gsb_transaction_data_get_transaction_number (operation))
+				    gsb_transaction_data_set_marked_transaction ( transaction_number_tmp,
+										  2 );
+			    }
+			    list_tmp_transactions = list_tmp_transactions -> next;
 			}
 		    }
 		}
@@ -2259,19 +2234,22 @@ void pointe_opes_importees ( struct struct_compte_importation *imported_account 
 
 			    if ( gsb_transaction_data_get_breakdown_of_transaction ( gsb_transaction_data_get_transaction_number (operation )))
 			    {
-				liste_ope = gsb_account_get_transactions_list (account_number);
+				GSList *list_tmp_transactions;
 
-				while ( liste_ope )
+				list_tmp_transactions = gsb_transaction_data_get_transactions_list ();
+
+				while ( list_tmp_transactions )
 				{
-				    gpointer ope_fille;
+				    gint transaction_number_tmp;
+				    transaction_number_tmp = gsb_transaction_data_get_transaction_number (list_tmp_transactions -> data);
 
-				    ope_fille = liste_ope -> data;
-
-				    if ( gsb_transaction_data_get_mother_transaction_number ( gsb_transaction_data_get_transaction_number (ope_fille ))== gsb_transaction_data_get_transaction_number (operation))
-					gsb_transaction_data_set_marked_transaction ( gsb_transaction_data_get_transaction_number (ope_fille),
-										      2 );
-
-				    liste_ope = liste_ope -> next;
+				    if ( gsb_transaction_data_get_account_number (transaction_number_tmp) == account_number )
+				    {
+					if ( gsb_transaction_data_get_mother_transaction_number (transaction_number_tmp) == gsb_transaction_data_get_transaction_number (operation))
+					    gsb_transaction_data_set_marked_transaction ( transaction_number_tmp,
+											  2 );
+				    }
+				    list_tmp_transactions = list_tmp_transactions -> next;
 				}
 			    }
 			}

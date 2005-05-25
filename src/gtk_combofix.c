@@ -28,6 +28,7 @@
 
 /*START_INCLUDE*/
 #include "gtk_combofix.h"
+#include "gtk_combofix.h"
 /*END_INCLUDE*/
 
 

@@ -1,6 +1,7 @@
 #ifndef _SEARCH_GLIST_H
 #define _SEARCH_GLIST_H (1)
 /* START_INCLUDE_H */
+#include "search_glist.h"
 #include "structures.h"
 /* END_INCLUDE_H */
 
@@ -36,8 +37,6 @@ gint recherche_operation_par_cheque ( gpointer operation,
 				      gint *no_chq );
 gint recherche_operation_par_id ( gpointer operation,
 				  gchar *id_recherchee );
-gint recherche_operation_par_no ( gpointer operation,
-				  gint *no_ope );
 gint recherche_rapprochement_par_no ( struct struct_no_rapprochement *rapprochement,
 				      gint *no_rap );
 gint recherche_rapprochement_par_nom ( struct struct_no_rapprochement *rapprochement,

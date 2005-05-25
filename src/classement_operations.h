@@ -1,6 +1,7 @@
 #ifndef _CLASSEMENT_OPERATIONS_H
 #define _CLASSEMENT_OPERATIONS_H (1)
 /* START_INCLUDE_H */
+#include "classement_operations.h"
 /* END_INCLUDE_H */
 
 

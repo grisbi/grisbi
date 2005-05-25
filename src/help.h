@@ -1,6 +1,7 @@
 #ifndef _HELP_H
 #define _HELP_H (1)
 /* START_INCLUDE_H */
+#include "help.h"
 /* END_INCLUDE_H */
 
 

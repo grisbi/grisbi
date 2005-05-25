@@ -63,10 +63,6 @@ void mise_en_route_attente ( gchar *message )
     if ( DEBUG )
 	printf ( "mise_en_route_attente %s\n", message );
 
-    /*     on stoppe l'idle */
-
-    idle_stoppe = termine_idle ();
-
     /*     s'il y a déjà une attente en cours, on l'update */
 
     if ( patience_en_cours )
@@ -183,9 +179,6 @@ void annulation_attente ()
 	gtk_widget_destroy ( fenetre_patience );
 	fenetre_patience = NULL;
     }
-
-    if ( idle_stoppe )
-	demarrage_idle ();
 }
 /* ******************************************************************************************** */
 

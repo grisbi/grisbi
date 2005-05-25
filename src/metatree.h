@@ -3,6 +3,7 @@
 
 
 /* START_INCLUDE_H */
+#include "metatree.h"
 #include "structures.h"
 /* END_INCLUDE_H */
 

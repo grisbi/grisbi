@@ -45,6 +45,7 @@
 #include "utils_rapprochements.h"
 #include "utils_types.h"
 #include "structures.h"
+#include "equilibrage.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -847,26 +848,24 @@ gboolean gsb_reconcile_mark_transaction ( gpointer transaction )
 
     if ( gsb_transaction_data_get_breakdown_of_transaction ( gsb_transaction_data_get_transaction_number (transaction )))
     {
-	/* p_tab est déjà pointé sur le compte courant */
+	GSList *list_tmp_transactions;
 
-	GSList *liste_tmp;
+	list_tmp_transactions = gsb_transaction_data_get_transactions_list ();
 
-	liste_tmp = gsb_account_get_transactions_list (gsb_account_get_current_account ());
-
-	while ( liste_tmp )
+	while ( list_tmp_transactions )
 	{
-	    gpointer ope_fille;
+	    gint transaction_number_tmp;
+	    transaction_number_tmp = gsb_transaction_data_get_transaction_number (list_tmp_transactions -> data);
 
-	    ope_fille = liste_tmp -> data;
-
-	    if ( gsb_transaction_data_get_mother_transaction_number ( gsb_transaction_data_get_transaction_number (ope_fille ))== gsb_transaction_data_get_transaction_number (transaction))
-		gsb_transaction_data_set_marked_transaction ( gsb_transaction_data_get_transaction_number (ope_fille),
-							      gsb_transaction_data_get_marked_transaction ( gsb_transaction_data_get_transaction_number (transaction )));
-
-	    liste_tmp = liste_tmp -> next;
+	    if ( gsb_transaction_data_get_account_number (transaction_number_tmp) == gsb_account_get_current_account ())
+	    {
+		if ( gsb_transaction_data_get_mother_transaction_number (transaction_number_tmp) == gsb_transaction_data_get_transaction_number (transaction))
+		    gsb_transaction_data_set_marked_transaction ( transaction_number_tmp,
+								  gsb_transaction_data_get_marked_transaction ( gsb_transaction_data_get_transaction_number (transaction )));
+	    }
+	    list_tmp_transactions = list_tmp_transactions -> next;
 	}
     }
-
 
     gtk_label_set_text ( GTK_LABEL ( label_equilibrage_pointe ),
 			 g_strdup_printf ("%4.2f",
@@ -900,14 +899,13 @@ gboolean gsb_reconcile_mark_transaction ( gpointer transaction )
 gboolean fin_equilibrage ( GtkWidget *bouton_ok,
 		       gpointer data )
 {
-    GSList *pointeur_liste_ope;
     gchar *text;
     gint nb_parametres;
     GDate *date;
     gint date_releve_jour;
     gint date_releve_mois;
     gint date_releve_annee;
-
+    GSList *list_tmp_transactions;
 
     if ( fabs ( solde_final - solde_initial - operations_pointees ) >= 0.01 )
     {
@@ -1006,27 +1004,27 @@ gboolean fin_equilibrage ( GtkWidget *bouton_ok,
 
     /* met tous les P à R */
 
-    pointeur_liste_ope = gsb_account_get_transactions_list (gsb_account_get_current_account ());
+    list_tmp_transactions = gsb_transaction_data_get_transactions_list ();
 
-    while ( pointeur_liste_ope )
+    while ( list_tmp_transactions )
     {
-	gpointer operation;
+	gint transaction_number_tmp;
+	transaction_number_tmp = gsb_transaction_data_get_transaction_number (list_tmp_transactions -> data);
 
-	operation = pointeur_liste_ope -> data;
-
-	if ( gsb_transaction_data_get_marked_transaction ( gsb_transaction_data_get_transaction_number (operation )) == OPERATION_POINTEE
-	     ||
-	     gsb_transaction_data_get_marked_transaction ( gsb_transaction_data_get_transaction_number (operation )) == OPERATION_TELERAPPROCHEE )
+	if ( gsb_transaction_data_get_account_number (transaction_number_tmp) == gsb_account_get_current_account ())
 	{
-	    gsb_transaction_data_set_marked_transaction ( gsb_transaction_data_get_transaction_number (operation ),
-							  OPERATION_RAPPROCHEE );
-	    gsb_transaction_data_set_reconcile_number ( gsb_transaction_data_get_transaction_number (operation ),
-							gsb_account_get_reconcile_last_number (gsb_account_get_current_account ()));
+	    if ( gsb_transaction_data_get_marked_transaction (transaction_number_tmp) == OPERATION_POINTEE
+		 ||
+		 gsb_transaction_data_get_marked_transaction (transaction_number_tmp) == OPERATION_TELERAPPROCHEE )
+	    {
+		gsb_transaction_data_set_marked_transaction ( transaction_number_tmp,
+							      OPERATION_RAPPROCHEE );
+		gsb_transaction_data_set_reconcile_number ( transaction_number_tmp,
+							    gsb_account_get_reconcile_last_number (gsb_account_get_current_account ()));
+	    }
 	}
-
-	pointeur_liste_ope = pointeur_liste_ope -> next;
+	list_tmp_transactions = list_tmp_transactions -> next;
     }
-
 
 
     /* on réaffiche la liste */

@@ -9,6 +9,7 @@ typedef enum GSB_BUTTON_STYLE {
 
 
 /* START_INCLUDE_H */
+#include "utils_buttons.h"
 /* END_INCLUDE_H */
 
 

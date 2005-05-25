@@ -57,33 +57,32 @@ extern gdouble solde_initial;
 /******************************************************************************/
 void calcule_total_pointe_compte ( gint no_compte )
 {
-    GSList *pointeur_liste_ope;
+    GSList *list_tmp_transactions;
 
-    pointeur_liste_ope = gsb_account_get_transactions_list (no_compte);
+    list_tmp_transactions = gsb_transaction_data_get_transactions_list ();
     operations_pointees = 0;
 
-    while ( pointeur_liste_ope )
+    while ( list_tmp_transactions )
     {
-	gpointer operation;
+	gint transaction_number_tmp;
+	transaction_number_tmp = gsb_transaction_data_get_transaction_number (list_tmp_transactions -> data);
 
-	operation = pointeur_liste_ope -> data;
-
-	/* on ne prend en compte l'opÃ© que si c'est pas une opÃ© de ventil */
-
-	if ( gsb_transaction_data_get_marked_transaction ( gsb_transaction_data_get_transaction_number (operation ))== 1
+	if ( gsb_transaction_data_get_account_number (transaction_number_tmp) == no_compte
 	     &&
-	     !gsb_transaction_data_get_mother_transaction_number ( gsb_transaction_data_get_transaction_number (operation )))
+	     gsb_transaction_data_get_marked_transaction (transaction_number_tmp)== OPERATION_POINTEE
+	     &&
+	     !gsb_transaction_data_get_mother_transaction_number (transaction_number_tmp))
 	{
 	    gdouble montant;
 
-	    montant = gsb_transaction_data_get_adjusted_amount ( gsb_transaction_data_get_transaction_number (operation));
+	    montant = gsb_transaction_data_get_adjusted_amount (transaction_number_tmp);
 
 	    operations_pointees = operations_pointees + montant;
 	}
-
-	pointeur_liste_ope = pointeur_liste_ope -> next;
+	list_tmp_transactions = list_tmp_transactions -> next;
     }
 
+ 
     gtk_label_set_text ( GTK_LABEL ( label_equilibrage_pointe ),
 			 g_strdup_printf ( "%4.2f", 
 					   operations_pointees ));
@@ -108,72 +107,75 @@ void calcule_total_pointe_compte ( gint no_compte )
 /******************************************************************************/
 
 
-/******************************************************************************/
-/* cette fonction calcule et renvoie le solde du compte donnÃ© en argument */
-/******************************************************************************/
-gdouble calcule_solde_compte ( gint no_compte )
+/** calculate the amount of the account given in arg
+ * \param account_number
+ * \return the current amount
+ * */
+gdouble calcule_solde_compte ( gint account_number )
 {
-    gdouble solde;
-    GSList *liste_tmp;
+    gdouble amount;
+    GSList *list_tmp;
 
     if ( DEBUG )
-	printf ( "calcule_solde_compte %d\n", no_compte );
+	printf ( "calcule_solde_compte %d\n", account_number );
 
-    solde = gsb_account_get_init_balance (no_compte);
+    amount = gsb_account_get_init_balance (account_number);
 
-    liste_tmp = gsb_account_get_transactions_list (no_compte);
+    list_tmp = gsb_transaction_data_get_transactions_list ();
 
-    while ( liste_tmp )
+    while ( list_tmp )
     {
-	gpointer operation;
+	gint no_transaction;
 
-	operation = liste_tmp -> data;
+	no_transaction = gsb_transaction_data_get_transaction_number (list_tmp -> data);
 
-	/* 	si l'opÃ© est ventilÃ©e, on saute */
+	if ( gsb_transaction_data_get_account_number (no_transaction) == account_number)
+	{
+	    /* if it's a child breakdown, don't use it */
 
-	if ( !gsb_transaction_data_get_mother_transaction_number ( gsb_transaction_data_get_transaction_number (operation )))
-	solde = solde + gsb_transaction_data_get_adjusted_amount ( gsb_transaction_data_get_transaction_number (operation));
-
-	liste_tmp = liste_tmp -> next;
+	    if ( !gsb_transaction_data_get_mother_transaction_number (no_transaction))
+		amount = amount + gsb_transaction_data_get_adjusted_amount (no_transaction);
+	}
+	list_tmp = list_tmp -> next;
     }
-
-    return ( solde );
+    return ( amount );
 }
-/******************************************************************************/
 
 
-
-/******************************************************************************/
-/* cette fonction calcule et renvoie le solde pointÃ© du compte donnÃ© en argument */
-/******************************************************************************/
-gdouble calcule_solde_pointe_compte ( gint no_compte )
+/** calculate the marked amount of the account given in arg
+ * \param account_number
+ * \return the current amount
+ * */
+gdouble calcule_solde_pointe_compte ( gint account_number )
 {
-    gdouble solde;
-    GSList *liste_tmp;
+    gdouble amount;
+    GSList *list_tmp;
 
     if ( DEBUG )
-	printf ( "calcule_solde_pointe_compte %d\n", no_compte );
+	printf ( "calcule_solde_pointe_compte %d\n", account_number );
 
-    solde = gsb_account_get_init_balance (no_compte);
+    amount = gsb_account_get_init_balance (account_number);
 
-    liste_tmp = gsb_account_get_transactions_list (no_compte);
+    list_tmp = gsb_transaction_data_get_transactions_list ();
 
-    while ( liste_tmp )
+    while ( list_tmp )
     {
-	gpointer operation;
+	gint no_transaction;
 
-	operation = liste_tmp -> data;
+	no_transaction = gsb_transaction_data_get_transaction_number (list_tmp -> data);
 
-	/* 	si l'opÃ© est ventilÃÂ©e ou non pointÃ©e, on saute */
-
-	if ( gsb_transaction_data_get_marked_transaction ( gsb_transaction_data_get_transaction_number (operation ))
+	if ( gsb_transaction_data_get_account_number (no_transaction) == account_number
 	     &&
-	     !gsb_transaction_data_get_mother_transaction_number ( gsb_transaction_data_get_transaction_number (operation )))
-	solde = solde + gsb_transaction_data_get_adjusted_amount ( gsb_transaction_data_get_transaction_number (operation));
-	liste_tmp = liste_tmp -> next;
-    }
+	     gsb_transaction_data_get_marked_transaction (no_transaction))
+	{
+	    /* if it's a child breakdown, don't use it */
 
-    return ( solde );
+	    if ( !gsb_transaction_data_get_mother_transaction_number (no_transaction))
+		amount = amount + gsb_transaction_data_get_adjusted_amount (no_transaction);
+	}
+	list_tmp = list_tmp -> next;
+    }
+    return ( amount );
 }
 /******************************************************************************/
 

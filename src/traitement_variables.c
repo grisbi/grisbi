@@ -30,6 +30,7 @@
 #include "gsb_transaction_data.h"
 #include "menu.h"
 #include "structures.h"
+#include "traitement_variables.h"
 #include "echeancier_liste.h"
 #include "operations_liste.h"
 /*END_INCLUDE*/

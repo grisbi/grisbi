@@ -1,6 +1,7 @@
 #ifndef _UTILS_XML_H
 #define _UTILS_XML_H (1)
 /* START_INCLUDE_H */
+#include "utils_xml.h"
 /* END_INCLUDE_H */
 
 

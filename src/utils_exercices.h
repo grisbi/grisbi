@@ -1,6 +1,7 @@
 #ifndef _UTILS_EXERCICES_H
 #define _UTILS_EXERCICES_H (1)
 /* START_INCLUDE_H */
+#include "utils_exercices.h"
 #include "structures.h"
 /* END_INCLUDE_H */
 
