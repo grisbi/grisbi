@@ -422,7 +422,6 @@ gint gsb_transactions_list_sort_by_no_sort (  GtkTreeModel *model,
 							  sort_type ));
     }
 }
-/******************************************************************************/
 
 
 /** used by all the sort functions for the transaction list,
@@ -471,10 +470,18 @@ gint gsb_transactions_list_general_test ( GtkTreeModel *model,
     transaction_number_1 = gsb_transaction_data_get_transaction_number (transaction_1);
     transaction_number_2 = gsb_transaction_data_get_transaction_number (transaction_2);
 
-    if ( transaction_number_1 == -1)
+    /* check first for the general white line, it's always set at the end */
+
+    if ( transaction_number_1 == -1
+	 &&
+	 !gsb_transaction_data_get_mother_transaction_number (transaction_number_1))
 	return_value = 1;
-    if ( transaction_number_2 == -1)
+
+    if ( transaction_number_2 == -1
+	 &&
+	 !gsb_transaction_data_get_mother_transaction_number (transaction_number_2))
 	return_value = -1;
+
     if ( transaction_number_1 == transaction_number_2 )
 	return_value = line_1 - line_2;
 
@@ -507,11 +514,11 @@ gint gsb_transactions_list_breakdown_test ( GtkSortType sort_type )
 	    {
 		if ( gsb_transaction_data_get_mother_transaction_number ( transaction_number_2)== gsb_transaction_data_get_mother_transaction_number ( transaction_number_1))
 		{
-		    if ( transaction_number_1 == -2 )
+		    if ( transaction_number_1 == -1 )
 			return_value = 1;
 		    else
 		    {
-			if ( transaction_number_2 == -2 )
+			if ( transaction_number_2 == -1 )
 			    return_value = -1;
 		    }
 		}

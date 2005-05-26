@@ -96,6 +96,7 @@ gboolean gsb_transaction_data_init_variables ( void );
 gint gsb_transaction_data_new_transaction ( gint no_account );
 gint gsb_transaction_data_new_transaction_with_number ( gint no_account,
 							gint transaction_number );
+gpointer gsb_transaction_data_new_white_line ( gint mother_transaction_number);
 gboolean gsb_transaction_data_remove_transaction ( gint transaction_number );
 gboolean gsb_transaction_data_set_account_number ( gint no_transaction,
 						   gint no_account );

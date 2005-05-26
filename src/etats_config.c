@@ -40,8 +40,8 @@
 #include "calendar.h"
 #include "classement_operations.h"
 #include "utils_ib.h"
-#include "utils_str.h"
 #include "traitement_variables.h"
+#include "utils_str.h"
 #include "etats_calculs.h"
 #include "structures.h"
 /*END_INCLUDE*/

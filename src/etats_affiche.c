@@ -35,12 +35,12 @@
 #include "gsb_account.h"
 #include "format.h"
 #include "gsb_transaction_data.h"
-#include "utils_str.h"
 #include "utils_categories.h"
 #include "utils_ib.h"
 #include "utils_rapprochements.h"
 #include "utils_tiers.h"
 #include "utils_types.h"
+#include "utils_str.h"
 #include "structures.h"
 #include "etats_config.h"
 /*END_INCLUDE*/

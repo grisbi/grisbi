@@ -52,7 +52,6 @@
 #include "tiers_onglet.h"
 #include "operations_comptes.h"
 #include "traitement_variables.h"
-#include "utils_str.h"
 #include "utils_operations.h"
 #include "affichage_formulaire.h"
 #include "utils_comptes.h"
@@ -60,6 +59,7 @@
 #include "utils_tiers.h"
 #include "utils_types.h"
 #include "utils.h"
+#include "utils_str.h"
 #include "structures.h"
 #include "operations_formulaire.h"
 /*END_INCLUDE*/
@@ -2292,7 +2292,7 @@ gboolean gsb_form_finish_edition ( void )
 				  new_transaction );
 
 	if ( new_transaction )
-	    gsb_transactions_list_append_new_transaction ( gsb_transaction_data_get_pointer_to_transaction (transaction_number));
+	    gsb_transactions_list_append_new_transaction (transaction_number);
 	else
 	    gsb_transactions_list_update_transaction ( gsb_transaction_data_get_pointer_to_transaction (transaction_number));
     }
@@ -3111,7 +3111,7 @@ gboolean gsb_form_get_categories ( gint transaction_number,
     }
     return FALSE;
 }
-/******************************************************************************/
+
 
 /** validate a transfert from a form :
  * - create the contra-transaction
@@ -3206,13 +3206,12 @@ gint gsb_form_validate_transfer ( gint transaction_number,
     /* show the contra_transaction */
 
     if ( new_transaction )
-	gsb_transactions_list_append_new_transaction ( gsb_transaction_data_get_pointer_to_transaction (contra_transaction_number) );
+	gsb_transactions_list_append_new_transaction (contra_transaction_number);
     else
 	gsb_transactions_list_update_transaction ( gsb_transaction_data_get_pointer_to_transaction ( contra_transaction_number) );
 
     return contra_transaction_number;
 }
-/******************************************************************************/
 
 
 
@@ -3221,61 +3220,53 @@ gint gsb_form_validate_transfer ( gint transaction_number,
  * if the transaction is a breakdown, append a white line and open
  * the breakdown to see the daughters
  *
- * \param transaction
+ * \param transaction_number
  *
  * \return FALSE
  * */
-gboolean gsb_transactions_list_append_new_transaction ( gpointer transaction )
+gboolean gsb_transactions_list_append_new_transaction ( gint transaction_number )
 {
     if ( DEBUG )
 	printf ( "gsb_transactions_list_append_new_transaction %d\n",
-		gsb_transaction_data_get_transaction_number (transaction));
+		 transaction_number );
 
+    /* append the transaction to the tree view */
 
-    /*     update the tree_view */
-
-    gsb_transactions_list_append_transaction ( gsb_transaction_data_get_transaction_number (transaction),
-					       gsb_transactions_list_get_store () );
+    gsb_transactions_list_append_transaction ( transaction_number,
+					       gsb_transactions_list_get_store ());
 
     /* if the transaction is a breakdown mother, we happen a white line,
      * which is a normal transaction but with nothing and with the breakdown
      * relation to the last transaction */
 
-    if ( gsb_transaction_data_get_breakdown_of_transaction ( gsb_transaction_data_get_transaction_number (transaction )))
+    if ( gsb_transaction_data_get_breakdown_of_transaction (transaction_number))
     {
-	gpointer breakdown_transaction;
-	GtkTreeIter *iter;
+	gsb_transactions_list_append_white_line ( transaction_number,
+						  gsb_transactions_list_get_store ());
 
-	breakdown_transaction = gsb_transactions_list_append_white_breakdown ( transaction );
+	/* we show the breakdowns daughter because it's a new transaction,
+	 * so they will be always shown for now */
 
-	/* we show the breakdowns daughters */
-
-	gsb_account_list_set_breakdowns_visible ( gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (transaction)),
-						  transaction,
+	gsb_account_list_set_breakdowns_visible ( transaction_number,
 						  TRUE );
 
-	iter = cherche_iter_operation ( transaction);
-	gtk_list_store_set ( GTK_LIST_STORE ( gsb_transactions_list_get_store()),
-			     iter,
-			     TRANSACTION_COL_NB_IS_EXPANDED, TRUE,
-			     -1 );
-	gtk_tree_iter_free ( iter );
-
-	gsb_transactions_list_set_current_transaction ( breakdown_transaction,
-							gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (breakdown_transaction)));
+	/* xxx il faudrait faire une fonction qui sélectionne soit la ligne blanche,
+	 * soit la ligne banche d'une ventilation */
+/* 	gsb_transactions_list_set_current_transaction ( breakdown_transaction, */
+/* 							gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (breakdown_transaction))); */
     }	
 
-    gsb_transactions_list_set_visibles_rows_on_transaction ( transaction );
-    gsb_transactions_list_set_background_color ( gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (transaction)));
-    gsb_transactions_list_set_transactions_balances ( gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (transaction)));
-    gsb_transactions_list_move_to_current_transaction ( gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (transaction)));
+    gsb_transactions_list_set_visibles_rows_on_transaction (transaction_number);
+    gsb_transactions_list_set_background_color ( gsb_transaction_data_get_account_number (transaction_number));
+    gsb_transactions_list_set_transactions_balances ( gsb_transaction_data_get_account_number (transaction_number));
+    gsb_transactions_list_move_to_current_transaction ( gsb_transaction_data_get_account_number (transaction_number));
 
     /*     calcul du solde courant */
 
-    gsb_account_set_current_balance ( gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (transaction)),
-				      gsb_account_get_current_balance ( gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (transaction)))
+    gsb_account_set_current_balance ( gsb_transaction_data_get_account_number (transaction_number),
+				      gsb_account_get_current_balance ( gsb_transaction_data_get_account_number (transaction_number))
 				      +
-				      gsb_transaction_data_get_adjusted_amount ( gsb_transaction_data_get_transaction_number (transaction)));
+				      gsb_transaction_data_get_adjusted_amount (transaction_number));
 
     /* on met à jour les labels des soldes */
 
@@ -3288,7 +3279,6 @@ gboolean gsb_transactions_list_append_new_transaction ( gpointer transaction )
     mise_a_jour_fin_comptes_passifs = 1;
     return FALSE;
 }
-/******************************************************************************/
 
 
 
@@ -3308,7 +3298,7 @@ gboolean gsb_transactions_list_update_transaction ( gpointer transaction )
 		 gsb_transaction_data_get_transaction_number (transaction));
 
     store = gsb_transactions_list_get_store();
-    iter = cherche_iter_operation ( transaction);
+    iter = gsb_transactions_list_get_iter_from_transaction (gsb_transaction_data_get_transaction_number (transaction ));
 
     for ( j = 0 ; j < TRANSACTION_LIST_ROWS_NB ; j++ )
     {
@@ -3350,7 +3340,6 @@ gboolean gsb_transactions_list_update_transaction ( gpointer transaction )
 
     return FALSE;
 }
-/******************************************************************************/
 
 
 /******************************************************************************/
@@ -3536,7 +3525,6 @@ void formulaire_a_zero (void)
 			  NULL );
 
 }
-/******************************************************************************/
 
 /******************************************************************************/
 /* Fonction affiche_cache_le_formulaire                                       */
@@ -3579,7 +3567,6 @@ void affiche_cache_le_formulaire ( void )
     block_menu_cb = FALSE;
 
 }
-/******************************************************************************/
 
 
 

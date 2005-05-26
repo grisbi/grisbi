@@ -27,8 +27,8 @@
 
 /*START_INCLUDE*/
 #include "utils_editables.h"
-#include "utils_str.h"
 #include "traitement_variables.h"
+#include "utils_str.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

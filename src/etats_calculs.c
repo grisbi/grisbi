@@ -30,11 +30,11 @@
 #include "etats_affiche.h"
 #include "gsb_account.h"
 #include "gsb_transaction_data.h"
-#include "utils_str.h"
 #include "utils_ib.h"
 #include "utils_rapprochements.h"
 #include "utils_tiers.h"
 #include "utils_types.h"
+#include "utils_str.h"
 #include "structures.h"
 /*END_INCLUDE*/
 

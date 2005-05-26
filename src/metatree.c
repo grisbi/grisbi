@@ -34,9 +34,9 @@
 #include "fenetre_principale.h"
 #include "gsb_transaction_data.h"
 #include "gtk_combofix.h"
-#include "utils_str.h"
 #include "traitement_variables.h"
 #include "utils_tiers.h"
+#include "utils_str.h"
 #include "structures.h"
 #include "metatree.h"
 /*END_INCLUDE*/

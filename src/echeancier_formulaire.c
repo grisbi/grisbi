@@ -2008,7 +2008,7 @@ gint gsb_scheduler_create_transaction_from_scheduled_form ( void )
 
     /* we show the new transaction in the tree view */
 
-    gsb_transactions_list_append_new_transaction (gsb_transaction_data_get_pointer_to_transaction(transaction_number));
+    gsb_transactions_list_append_new_transaction (transaction_number);
 
     return transaction_number;
 }
@@ -2224,7 +2224,7 @@ gint gsb_scheduler_create_transaction_from_scheduled_transaction ( struct operat
 
     /* we show the new transaction in the tree view */
 
-    gsb_transactions_list_append_new_transaction (gsb_transaction_data_get_pointer_to_transaction(transaction_number));
+    gsb_transactions_list_append_new_transaction (transaction_number);
 
     return transaction_number;
 }

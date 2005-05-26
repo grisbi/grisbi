@@ -48,7 +48,7 @@ void formulaire_a_zero (void);
 gint gsb_form_validate_transfer ( gint transaction_number,
 				  gint new_transaction,
 				  gchar *name_transfer_account );
-gboolean gsb_transactions_list_append_new_transaction ( gpointer transaction );
+gboolean gsb_transactions_list_append_new_transaction ( gint transaction_number );
 gboolean gsb_transactions_list_update_transaction ( gpointer transaction );
 gint gsb_transactions_look_for_last_party ( gint no_party,
 					    gint no_new_transaction,

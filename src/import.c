@@ -1053,11 +1053,12 @@ void traitement_operations_importees ( void )
 
 /* 		creation_colonnes_tree_view_par_compte (i); */
 
-		gtk_box_pack_start ( GTK_BOX ( tree_view_vbox ),
-				     creation_tree_view_operations_par_compte (i),
-				     TRUE,
-				     TRUE,
-				     0 );
+		/* xxx ici voir pour le tree_view */
+/* 		gtk_box_pack_start ( GTK_BOX ( tree_view_vbox ), */
+/* 				     creation_tree_view_operations_par_compte (i), */
+/* 				     TRUE, */
+/* 				     TRUE, */
+/* 				     0 ); */
 		/* on met à jour l'option menu du formulaire des échéances */
 
 		update_options_menus_comptes ();

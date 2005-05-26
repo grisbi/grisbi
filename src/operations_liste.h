@@ -71,7 +71,6 @@
 gboolean affichage_traits_liste_operation ( void );
 gboolean changement_taille_liste_ope ( GtkWidget *tree_view,
 				       GtkAllocation *allocation );
-GtkTreeIter *cherche_iter_operation ( gpointer *transaction );
 gint cherche_ligne_operation ( gpointer transaction,
 			       gint no_account );
 void clone_selected_transaction ();
@@ -79,13 +78,13 @@ GtkWidget *creation_fenetre_operations ( void );
 GtkWidget *creation_tree_view_operations_par_compte ( gint no_account );
 void demande_mise_a_jour_tous_comptes ( void );
 gint find_p_r_col ();
-gboolean gsb_account_list_set_breakdowns_visible ( gint no_account,
-						   gpointer transaction,
+gboolean gsb_account_list_set_breakdowns_visible ( gint mother_transaction_number,
 						   gint visible );
 gchar *gsb_transactions_get_category_real_name ( gint transaction_number );
 gboolean gsb_transactions_list_append_transaction ( gint transaction_number,
 						    GtkListStore *store );
-gpointer gsb_transactions_list_append_white_breakdown ( gpointer *transaction );
+gboolean gsb_transactions_list_append_white_line ( gint mother_transaction_number,
+						   GtkListStore *store );
 gboolean gsb_transactions_list_button_press ( GtkWidget *tree_view,
 					      GdkEventButton *ev );
 gint gsb_transactions_list_clone_transaction ( gint transaction_number );
@@ -95,6 +94,7 @@ gboolean gsb_transactions_list_fill_row ( gint transaction_number,
 					  GtkTreeIter *iter,
 					  GtkListStore *store,
 					  gint line_in_transaction );
+GtkTreeIter *gsb_transactions_list_get_iter_from_transaction ( gint transaction_number );
 GtkListStore *gsb_transactions_list_get_store (void);
 GtkWidget *gsb_transactions_list_get_tree_view (void);
 gboolean gsb_transactions_list_key_press ( GtkWidget *widget,
@@ -106,7 +106,7 @@ gboolean gsb_transactions_list_set_current_transaction ( gpointer new_transactio
 							 gint no_account );
 gboolean gsb_transactions_list_set_transactions_balances ( gint no_account );
 gboolean gsb_transactions_list_set_visibles_rows_on_account ( gint no_account );
-gboolean gsb_transactions_list_set_visibles_rows_on_transaction ( gpointer transaction );
+gboolean gsb_transactions_list_set_visibles_rows_on_transaction ( gint transaction_number );
 void mise_a_jour_affichage_lignes ( gint nb_lignes );
 void mise_a_jour_affichage_r ( gint affichage_r );
 void mise_a_jour_labels_soldes ( void );

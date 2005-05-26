@@ -35,9 +35,9 @@
 #include "fichiers_io.h"
 #include "fichiers_gestion.h"
 #include "traitement_variables.h"
-#include "utils_str.h"
 #include "utils_files.h"
 #include "fichier_configuration.h"
+#include "utils_str.h"
 #include "include.h"
 #include "structures.h"
 /*END_INCLUDE*/

@@ -145,9 +145,10 @@ gboolean new_account ( void )
     /* Create account transaction list (in fact, a treeview). */
 /*     creation_colonnes_tree_view_par_compte (no_compte); */
 
-    gtk_box_pack_start ( GTK_BOX ( tree_view_vbox ),
-			 creation_tree_view_operations_par_compte (no_compte),
-			 TRUE, TRUE, 0 );
+    /* xxx ici voir pour le tree_view */
+/*     gtk_box_pack_start ( GTK_BOX ( tree_view_vbox ), */
+/* 			 creation_tree_view_operations_par_compte (no_compte), */
+/* 			 TRUE, TRUE, 0 ); */
 
 
     modification_fichier ( TRUE );

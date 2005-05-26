@@ -33,14 +33,14 @@
 /*START_INCLUDE*/
 #include "equilibrage.h"
 #include "utils_montants.h"
-#include "operations_liste.h"
 #include "dialog.h"
+#include "operations_liste.h"
 #include "utils_dates.h"
 #include "gsb_account.h"
 #include "calendar.h"
 #include "gsb_transaction_data.h"
-#include "utils_str.h"
 #include "traitement_variables.h"
+#include "utils_str.h"
 #include "utils.h"
 #include "utils_rapprochements.h"
 #include "utils_types.h"
@@ -811,7 +811,7 @@ gboolean gsb_reconcile_mark_transaction ( gpointer transaction )
 
     montant = gsb_transaction_data_get_adjusted_amount ( gsb_transaction_data_get_transaction_number (transaction));
 
-    iter = cherche_iter_operation ( transaction);
+    iter = gsb_transactions_list_get_iter_from_transaction ( gsb_transaction_data_get_transaction_number (transaction ));
 
     if ( gsb_transaction_data_get_marked_transaction ( gsb_transaction_data_get_transaction_number (transaction )))
     {

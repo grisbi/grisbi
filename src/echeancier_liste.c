@@ -39,7 +39,6 @@
 #include "utils_dates.h"
 #include "gsb_account.h"
 #include "gtk_combofix.h"
-#include "utils_str.h"
 #include "echeancier_infos.h"
 #include "traitement_variables.h"
 #include "utils_categories.h"
@@ -47,6 +46,7 @@
 #include "utils_comptes.h"
 #include "operations_liste.h"
 #include "utils_tiers.h"
+#include "utils_str.h"
 #include "structures.h"
 #include "echeancier_liste.h"
 /*END_INCLUDE*/

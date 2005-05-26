@@ -38,6 +38,7 @@
 #include "utils_devises.h"
 #include "dialog.h"
 #include "gsb_account.h"
+#include "utils_dates.h"
 #include "structures.h"
 /*END_INCLUDE*/
 
@@ -154,9 +155,6 @@ gint gsb_transaction_data_get_transaction_number ( gpointer transaction_pointer 
  * */
 gboolean gsb_transaction_data_save_transaction_pointer ( gpointer transaction )
 {
-    if ( transaction <= 0 )
-	return FALSE;
-
     /* check if the transaction isn't already saved */
 
     if ( transaction == transaction_buffer[0]
@@ -178,11 +176,6 @@ gboolean gsb_transaction_data_save_transaction_pointer ( gpointer transaction )
 struct_transaction *gsb_transaction_data_get_transaction_by_no ( gint no_transaction )
 {
     GSList *transactions_list_tmp;
-
-    /* if it's a white line or nothing, go away */
-
-    if ( no_transaction <= 0)
-	return NULL;
 
     /* check first if the transaction is in the buffer */
 
@@ -261,7 +254,7 @@ gboolean gsb_transaction_data_set_transaction_id ( gint no_transaction,
 
 /** get the account_number
  * \param no_transaction the number of the transaction
- * \return the account of the transaction
+ * \return the account of the transaction or -1 if problem
  * */
 gint gsb_transaction_data_get_account_number ( gint no_transaction )
 {
@@ -1362,13 +1355,13 @@ gboolean gsb_transaction_data_set_account_number_transfer ( gint no_transaction,
 
 /** get the  mother_transaction_number
  * \param no_transaction the number of the transaction
- * \return the mother_transaction_number of the transaction
+ * \return the mother_transaction_number of the transaction or -1 if the transaction doen't exist
  * */
 gint gsb_transaction_data_get_mother_transaction_number ( gint no_transaction )
 {
     struct_transaction *transaction;
 
-    transaction = gsb_transaction_data_get_transaction_by_no ( no_transaction);
+    transaction = gsb_transaction_data_get_transaction_by_no (no_transaction);
 
     if ( !transaction )
 	return -1;
@@ -1437,8 +1430,6 @@ gint gsb_transaction_data_new_transaction_with_number ( gint no_account,
 }
 
 
-
-
 /** create a new transaction with gsb_transaction_data_new_transaction_with_number
  * but set automatickly the last number
  * \param no_account the number of the account where the transaction should be made
@@ -1450,6 +1441,41 @@ gint gsb_transaction_data_new_transaction ( gint no_account )
 							      gsb_transaction_data_get_last_number () + 1);
 }
 
+
+/** create a new white line, set the number to -1 and set the mother breakdown if it's a child
+ * if it's a child breakdown, the account is set as for its mother,
+ * if it's the last white line, the account is set to -1
+ * that transaction is not append to the transaction's list, the only mean to access it later
+ * is by the gtk list of transactions which remains the adresses
+ * \param mother_transaction_number the number of the mother's transaction if it's a breakdown child ; 0 if not
+ * \return a pointer to the new transaction
+ * */
+gpointer gsb_transaction_data_new_white_line ( gint mother_transaction_number)
+{
+    struct_transaction *transaction;
+
+    transaction = calloc ( 1,
+			   sizeof ( struct_transaction ));
+
+    if ( !transaction )
+    {
+	dialogue_error ( _("Cannot allocate memory, bad things will happen soon") );
+	return NULL;
+    }
+
+    /* we fill some things for the child breakdown to help to sort the list */
+
+    transaction -> account_number = gsb_transaction_data_get_account_number (mother_transaction_number);
+    transaction -> date = gsb_date_copy ( gsb_transaction_data_get_date (mother_transaction_number));
+    transaction -> party_number = gsb_transaction_data_get_party_number (mother_transaction_number);
+    transaction -> mother_transaction_number = mother_transaction_number;
+
+    transaction -> transaction_number = -1;
+
+    gsb_transaction_data_save_transaction_pointer (transaction);
+
+    return transaction;
+}
 
 
 

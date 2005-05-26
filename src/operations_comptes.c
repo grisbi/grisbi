@@ -113,8 +113,9 @@ void changement_no_compte_par_menu ( gpointer null,
 
 
 
-/** change the list of transactions, according to the new account
- * \param no_account the number of the account we want to see
+/** 
+ * change the list of transactions, according to the new account
+ * \param no_account a pointer on the number of the account we want to see
  * \return FALSE
  * */
 gboolean gsb_account_list_gui_change_current_account ( gint *no_account )
