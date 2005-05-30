@@ -2660,7 +2660,15 @@ void recuperation_donnees_generales_formulaire ( struct structure_operation *ope
 						      ( GCompareFunc ) recherche_tiers_par_nom )) )
 	    operation -> tiers = (( struct struct_tiers * )( pointeur_liste -> data )) -> no_tiers;
 	else
-	    operation -> tiers = (( struct struct_tiers * )( ajoute_nouveau_tiers ( pointeur_char ))) -> no_tiers;
+	{
+	    struct struct_tiers *tiers;
+
+	    tiers = ajoute_nouveau_tiers ( pointeur_char );
+	    if ( tiers )
+		operation -> tiers = tiers -> no_tiers;
+	    else
+		operation -> tiers = 0;
+	}
     }
     else
 	operation -> tiers = 0;
