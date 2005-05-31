@@ -88,8 +88,20 @@ gboolean charge_operations ( void )
 
     result = utf8_stat ( nom_fichier_comptes, &buffer_stat);
 
-    if ( result != -1 && 
-	 buffer_stat.st_mode != 33152 && !etat.display_message_file_readable )
+    /* check here if it's not a regular file */
+
+    if ( !S_ISREG (buffer_stat.st_mode))
+    {
+	dialogue_error ( g_strdup_printf ( _("%s doen't seem to be a regular file,\nplease check it and try again."),
+					   nom_fichier_comptes ));
+	return ( FALSE );
+	}
+
+    if ( result != -1
+	 && 
+	 buffer_stat.st_mode != 33152
+	 &&
+	 !etat.display_message_file_readable )
 	propose_changement_permissions();
 
 
