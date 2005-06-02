@@ -1,33 +1,13 @@
 #!/bin/sh
 #
 # autogen.sh glue for Grisbi
-# $Id: autogen.sh,v 1.1.2.11 2005/05/22 10:18:01 gegeweb Exp $
+# $Id: autogen.sh,v 1.1.2.12 2005/06/02 19:59:36 gegeweb Exp $
 #
 # Requires: automake, autoconf, dpkg-dev
 
-PATH_AUTOMAKE=/usr/share/automake
-
-# test for some distribution...
-# Y'a pas plus simple ?
-
-if test -x /usr/share/automake-1.8
+if test -z "${PATH_AUTOMAKE}"
 then
-	PATH_AUTOMAKE=/usr/share/automake-1.8
-fi
-
-if test -x /usr/share/automake-1.7
-then
-	PATH_AUTOMAKE=/usr/share/automake-1.7
-fi
-
-if test -x /usr/share/automake-1.6
-then
-	PATH_AUTOMAKE=/usr/share/automake-1.6
-fi
-
-if test -x /usr/share/automake-1.4
-then
-	PATH_AUTOMAKE=/usr/share/automake-1.4
+	PATH_AUTOMAKE=`ls -1d /usr/share/automake* 2>/dev/null | sort -gbu | tail -1`
 fi
 
 # Refresh GNU autotools toolchain.
