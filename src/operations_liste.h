@@ -71,11 +71,10 @@
 gboolean affichage_traits_liste_operation ( void );
 gboolean changement_taille_liste_ope ( GtkWidget *tree_view,
 				       GtkAllocation *allocation );
-gint cherche_ligne_operation ( gpointer transaction,
+gint cherche_ligne_operation ( gint transaction_number,
 			       gint no_account );
 void clone_selected_transaction ();
 GtkWidget *creation_fenetre_operations ( void );
-GtkWidget *creation_tree_view_operations_par_compte ( gint no_account );
 void demande_mise_a_jour_tous_comptes ( void );
 gint find_p_r_col ();
 gboolean gsb_account_list_set_breakdowns_visible ( gint mother_transaction_number,
@@ -88,7 +87,7 @@ gboolean gsb_transactions_list_append_white_line ( gint mother_transaction_numbe
 gboolean gsb_transactions_list_button_press ( GtkWidget *tree_view,
 					      GdkEventButton *ev );
 gint gsb_transactions_list_clone_transaction ( gint transaction_number );
-gboolean gsb_transactions_list_delete_transaction ( gpointer transaction );
+gboolean gsb_transactions_list_delete_transaction ( gint transaction_number );
 gboolean gsb_transactions_list_edit_current_transaction ( void );
 gboolean gsb_transactions_list_fill_row ( gint transaction_number,
 					  GtkTreeIter *iter,
@@ -101,9 +100,10 @@ gboolean gsb_transactions_list_key_press ( GtkWidget *widget,
 					   GdkEventKey *ev );
 GtkWidget *gsb_transactions_list_make_gui_list ( void );
 gboolean gsb_transactions_list_move_to_current_transaction ( gint no_account );
+gboolean gsb_transactions_list_set_adjustment_value ( gint account_number );
 gboolean gsb_transactions_list_set_background_color ( gint no_account );
-gboolean gsb_transactions_list_set_current_transaction ( gpointer new_transaction,
-							 gint no_account );
+gboolean gsb_transactions_list_set_current_transaction ( gint transaction_number,
+							 gint mother_transaction_number );
 gboolean gsb_transactions_list_set_transactions_balances ( gint no_account );
 gboolean gsb_transactions_list_set_visibles_rows_on_account ( gint no_account );
 gboolean gsb_transactions_list_set_visibles_rows_on_transaction ( gint transaction_number );

@@ -24,7 +24,6 @@
 
 /*START_INCLUDE*/
 #include "metatree.h"
-#include "barre_outils.h"
 #include "operations_liste.h"
 #include "utils_devises.h"
 #include "dialog.h"
@@ -737,22 +736,27 @@ gboolean division_activated ( GtkTreeView * treeview, GtkTreePath * path,
 
     if ( gtk_tree_model_get_iter ( model, &iter, path ) )
     {
+	gint transaction_number;
+	
 	gtk_tree_model_get( model, &iter, 
 			    META_TREE_NO_DIV_COLUMN, &no_division,
 			    META_TREE_NO_SUB_DIV_COLUMN, &no_sub_division,
 			    META_TREE_POINTER_COLUMN, &operation, 
 			    -1);
 
+	transaction_number = gsb_transaction_data_get_transaction_number (operation);
+
 	/* We do not jump to a transaction if a division is specified */
-	if ( operation && no_division == -1 && no_sub_division == -1 )
+	if ( transaction_number && no_division == -1 && no_sub_division == -1 )
 	{
-	    gsb_account_list_gui_change_current_account ( GINT_TO_POINTER ( gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (operation))));
-	    if ( gsb_transaction_data_get_marked_transaction ( gsb_transaction_data_get_transaction_number (operation )) == 3
+	    gsb_account_list_gui_change_current_account ( GINT_TO_POINTER ( gsb_transaction_data_get_account_number (transaction_number)));
+
+	    if ( gsb_transaction_data_get_marked_transaction (transaction_number) == OPERATION_RAPPROCHEE
 		 &&
-		 !gsb_account_get_r (gsb_account_get_current_account ()) )
-		change_aspect_liste ( 5 );
-	    gsb_transactions_list_set_current_transaction ( operation,
-							    gsb_account_get_current_account () );
+		 !gsb_account_get_r (gsb_account_get_current_account ()))
+		mise_a_jour_affichage_r ( TRUE );
+	    gsb_transactions_list_set_current_transaction ( transaction_number,
+							    0 );
 	}
     }
 

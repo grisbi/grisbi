@@ -63,8 +63,6 @@ static gboolean click_ligne_echeance ( GtkWidget *tree_view,
 static GDate *date_fin_affichage_liste_echeance ( void );
 static GDate *date_suivante_echeance ( struct operation_echeance *echeance,
 				GDate *pGDateCurrent );
-static gboolean traitement_clavier_liste_echeances ( GtkWidget *tree_view_liste_echeances,
-					      GdkEventKey *evenement );
 static void update_couleurs_background_echeancier ( void );
 /*END_STATIC*/
 

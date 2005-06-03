@@ -2956,7 +2956,7 @@ gboolean gsb_form_get_categories ( gint transaction_number,
 	    {
 		gsb_transaction_data_set_transaction_number_transfer ( contra_transaction_number,
 								       0);
-		gsb_transactions_list_delete_transaction ( gsb_transaction_data_get_pointer_to_transaction (contra_transaction_number ));
+		gsb_transactions_list_delete_transaction (contra_transaction_number );
 
 		gsb_transaction_data_set_transaction_number_transfer ( transaction_number,
 								       0);
@@ -3009,7 +3009,7 @@ gboolean gsb_form_get_categories ( gint transaction_number,
 			 gsb_transaction_data_get_mother_transaction_number (transaction_number_tmp) == transaction_number )
 		    {
 			list_tmp_transactions = list_tmp_transactions -> next;
-			gsb_transactions_list_delete_transaction (gsb_transaction_data_get_pointer_to_transaction (transaction_number_tmp));
+			gsb_transactions_list_delete_transaction (transaction_number_tmp);
 		    }
 		    else
 			list_tmp_transactions = list_tmp_transactions -> next;
@@ -3076,7 +3076,7 @@ gboolean gsb_form_get_categories ( gint transaction_number,
 
 			gsb_transaction_data_set_transaction_number_transfer ( contra_transaction_number,
 									       0);
-			gsb_transactions_list_delete_transaction ( gsb_transaction_data_get_pointer_to_transaction(contra_transaction_number ));
+			gsb_transactions_list_delete_transaction (contra_transaction_number );
 
 			gsb_transaction_data_set_transaction_number_transfer ( transaction_number,
 									       0);
@@ -3150,7 +3150,7 @@ gint gsb_form_validate_transfer ( gint transaction_number,
 
 		gsb_transaction_data_set_transaction_number_transfer ( contra_transaction_number,
 								       0);
-		gsb_transactions_list_delete_transaction (gsb_transaction_data_get_pointer_to_transaction(contra_transaction_number));
+		gsb_transactions_list_delete_transaction (contra_transaction_number);
 		new_transaction = 1;
 	    }
 	}
@@ -3230,6 +3230,9 @@ gboolean gsb_transactions_list_append_new_transaction ( gint transaction_number 
 	printf ( "gsb_transactions_list_append_new_transaction %d\n",
 		 transaction_number );
 
+    if ( !gsb_transactions_list_get_store ())
+	return FALSE;
+
     /* append the transaction to the tree view */
 
     gsb_transactions_list_append_transaction ( transaction_number,
@@ -3250,10 +3253,10 @@ gboolean gsb_transactions_list_append_new_transaction ( gint transaction_number 
 	gsb_account_list_set_breakdowns_visible ( transaction_number,
 						  TRUE );
 
-	/* xxx il faudrait faire une fonction qui sélectionne soit la ligne blanche,
-	 * soit la ligne banche d'une ventilation */
-/* 	gsb_transactions_list_set_current_transaction ( breakdown_transaction, */
-/* 							gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (breakdown_transaction))); */
+	/* we select the white line of that breakdown */
+
+	gsb_transactions_list_set_current_transaction ( -1,
+							transaction_number );
     }	
 
     gsb_transactions_list_set_visibles_rows_on_transaction (transaction_number);
@@ -3309,7 +3312,7 @@ gboolean gsb_transactions_list_update_transaction ( gpointer transaction )
 
 	/* if it's a breakdown, there is only 1 line */
 
-	if ( transaction != GINT_TO_POINTER (-1)
+	if ( gsb_transaction_data_get_transaction_number (transaction ) != -1
 	     &&
 	     gsb_transaction_data_get_mother_transaction_number ( gsb_transaction_data_get_transaction_number (transaction )))
 	    j = TRANSACTION_LIST_ROWS_NB;

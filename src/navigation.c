@@ -29,7 +29,9 @@
 #include "gsb_account.h"
 #include "operations_comptes.h"
 #include "fenetre_principale.h"
+#include "operations_liste.h"
 #include "comptes_gestion.h"
+#include "echeancier_liste.h"
 #include "fichier_configuration.h"
 #include "navigation.h"
 #include "structures.h"
@@ -39,6 +41,9 @@
 static void create_account_list ( GtkTreeModel * model, GtkTreeIter * account_iter );
 static void create_report_list ( GtkTreeModel * model, GtkTreeIter * reports_iter );
 static void gsb_gui_navigation_add_report ( struct struct_etat * report );
+static gboolean gsb_gui_navigation_check_key_press ( GtkWidget *tree_view,
+					      GdkEventKey *ev,
+					      GtkTreeModel *model );
 static  gboolean gsb_gui_navigation_remove_account_iterator ( GtkTreeModel * tree_model, 
 							     GtkTreePath *path, 
 							     GtkTreeIter *iter, 
@@ -73,6 +78,8 @@ extern GtkTreeStore *model;
 extern GtkWidget *notebook_general;
 extern GtkTreeSelection * selection;
 extern gchar *titre_fichier;
+extern GtkWidget *tree_view;
+extern GtkWidget *tree_view_liste_echeances;
 /*END_EXTERN*/
 
 
@@ -116,6 +123,14 @@ GtkWidget * create_navigation_pane ( void )
     navigation_tree_view = gtk_tree_view_new_with_model (GTK_TREE_MODEL(navigation_model));
     gtk_tree_view_set_headers_visible ( GTK_TREE_VIEW(navigation_tree_view), FALSE );
     gtk_container_add ( GTK_CONTAINER(sw), navigation_tree_view );
+
+    /* check the keyboard before all, if we need to move other things that the navigation
+     * tree view (for example, up and down on transactions list) */
+
+    g_signal_connect ( navigation_tree_view,
+		       "key-press-event", 
+		       G_CALLBACK (gsb_gui_navigation_check_key_press),
+		       navigation_model );
 
     g_signal_connect (gtk_tree_view_get_selection (GTK_TREE_VIEW (navigation_tree_view)), 
 		      "changed", ((GCallback) gsb_gui_navigation_select_link), 
@@ -230,7 +245,6 @@ GtkWidget * create_navigation_pane ( void )
     selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (navigation_tree_view));
     g_signal_connect ( selection, "changed", 
 		       ((GCallback) gsb_gui_navigation_select_line ), navigation_model );
-
     gtk_widget_show_all ( vbox );
     gtk_widget_hide_all ( scheduler_calendar );
 
@@ -256,8 +270,11 @@ void create_account_list ( GtkTreeModel * model, GtkTreeIter * account_iter )
 	gint i = gsb_account_get_no_account ( list_tmp -> data );
 	GtkTreeIter iter;
 
-	gtk_tree_store_append(GTK_TREE_STORE(model), &iter, account_iter);
-	gsb_gui_navigation_update_account_iter ( model, &iter, i);
+	if ( !gsb_account_get_closed_account (i))
+	{
+	    gtk_tree_store_append(GTK_TREE_STORE(model), &iter, account_iter);
+	    gsb_gui_navigation_update_account_iter ( model, &iter, i);
+	}
 
 	list_tmp = list_tmp -> next;
     }
@@ -687,6 +704,95 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
     }
 
     gsb_gui_headings_update ( title, suffix );
+
+    return FALSE;
+}
+
+/** check the key pressed on the navigation tree view,
+ * if need, stop the event to do another thing with that key
+ *
+ * \param tree_view the navigation tree_view
+ * \param ev the key event pressed
+ * \param model
+ *
+ * \return FALSE : the signal continue / TRUE : the signal is stopped here
+ * */
+gboolean gsb_gui_navigation_check_key_press ( GtkWidget *tree_view,
+					      GdkEventKey *ev,
+					      GtkTreeModel *model )
+{
+    gint page;
+    GtkTreeIter iter;
+
+   if (! gtk_tree_selection_get_selected ( gtk_tree_view_get_selection (GTK_TREE_VIEW (tree_view)),
+									NULL,
+									&iter))
+	return FALSE;
+
+   gtk_tree_model_get (model,
+		       &iter,
+		       NAVIGATION_PAGE, &page,
+		       -1 );
+
+    switch ( page )
+    {
+	case GSB_HOME_PAGE:
+	    /* nothing to do here for now */
+	    break;
+
+	case GSB_ACCOUNT_PAGE:
+	    switch ( ev -> keyval )
+	    {
+		case GDK_Return :		/* entrée */
+		case GDK_KP_Enter :
+		case GDK_Up :		/* touches flèche haut */
+		case GDK_KP_Up :
+		case GDK_Down :		/* touches flèche bas */
+		case GDK_KP_Down :
+		case GDK_Delete:		/*  del  */
+		case GDK_P:			/* touche P */
+		case GDK_p:			/* touche p */
+		case GDK_r:			/* touche r */
+		case GDK_R:			/* touche R */
+		    gsb_transactions_list_key_press ( gsb_transactions_list_get_tree_view (),
+						      ev );
+		    return TRUE;
+	    }
+	    break;
+
+	case GSB_PAYEES_PAGE:
+	    /* nothing to do here for now */
+	    break;
+
+	case GSB_CATEGORIES_PAGE:
+	    /* nothing to do here for now */
+	    break;
+
+	case GSB_BUDGETARY_LINES_PAGE:
+	    /* nothing to do here for now */
+	    break;
+
+	case GSB_SCHEDULER_PAGE:
+	    switch ( ev -> keyval )
+	    {
+		case GDK_Return :		/* touches entrée */
+		case GDK_KP_Enter :
+		case GDK_Up :		/* touches flèche haut */
+		case GDK_KP_Up :
+		case GDK_Down :		/* touches flèche bas */
+		case GDK_KP_Down :
+		case GDK_Delete :               /*  del  */
+
+		    traitement_clavier_liste_echeances  ( tree_view_liste_echeances,
+							  ev );
+		    return TRUE;
+	    }
+	    break;
+
+	case GSB_REPORTS_PAGE:
+	    /* nothing to do here for now */
+	    break;
+    }
 
     return FALSE;
 }

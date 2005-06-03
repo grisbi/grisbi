@@ -63,7 +63,6 @@ extern GtkItemFactory *item_factory_menu_general;
 extern gchar *last_date;
 extern gint mise_a_jour_liste_comptes_accueil;
 extern gint nb_colonnes;
-extern GtkTreeSelection * selection;
 /*END_EXTERN*/
 
 
@@ -99,16 +98,13 @@ GtkWidget *gsb_account_list_gui_create_account_button ( gint no_account,
 
     return ( button );
 }
-/* ********************************************************************************************************** */
 
 
-/* ********************************************************************************************************** */
 void changement_no_compte_par_menu ( gpointer null,
 				     gint no_account_plus_un )
 {
     gsb_account_list_gui_change_current_account ( GINT_TO_POINTER ( no_account_plus_un - 1) );
 }
-/* ********************************************************************************************************** */
 
 
 
@@ -121,28 +117,35 @@ void changement_no_compte_par_menu ( gpointer null,
 gboolean gsb_account_list_gui_change_current_account ( gint *no_account )
 {
     gint new_account;
+    gint current_account;
 
     new_account = GPOINTER_TO_INT ( no_account );
+    current_account = gsb_account_get_current_account ();
 
     if ( DEBUG )
 	printf ( "gsb_account_list_gui_change_current_account : %d\n", new_account );
-
-    /* Removed because it prevents updating tab at first selection,
-     * because saved account is ALWAYS the same as the current one. */
-/*     xxx virer le compte courant dans la sauvegarde du fichier */
-/*     if ( new_account == gsb_account_get_current_account () ) */
-/* 	return FALSE; */
 
     /* sensitive the last account in the menu */
 
     gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
 							   menu_name(_("Edit"),
 								     _("Move transaction to another account"),
-								     my_strdelimit ( gsb_account_get_name (gsb_account_get_current_account ()),
+								     my_strdelimit ( gsb_account_get_name (current_account),
 										     "/",
 										     "\\/" ))),
 			       TRUE );
 
+    /* save the adjustment of the last account */
+
+    if ( gsb_account_get_vertical_adjustment_value (current_account) != -1 )
+    {
+	GtkAdjustment *adjustment;
+
+	adjustment = gtk_tree_view_get_vadjustment ( GTK_TREE_VIEW (gsb_transactions_list_get_tree_view ()));
+	gsb_account_set_vertical_adjustment_value ( current_account,
+						    gtk_adjustment_get_value ( adjustment ));
+    }
+    
     /*     on se place sur les données du nouveau no_account */
 
     gsb_account_set_current_account (new_account);
@@ -150,7 +153,6 @@ gboolean gsb_account_list_gui_change_current_account ( gint *no_account )
     gsb_transactions_list_set_visibles_rows_on_account (new_account);
     gsb_transactions_list_set_background_color (new_account);
     gsb_transactions_list_set_transactions_balances (new_account);
-
     /*     affiche le nouveau formulaire  */
     /*     il met aussi à jour la devise courante et les types */
 
@@ -178,10 +180,6 @@ gboolean gsb_account_list_gui_change_current_account ( gint *no_account )
 
     mise_a_jour_boutons_caract_liste ( new_account );
 
-    /*      on termine la liste d'opés si nécessaire */
-
-/*     verification_list_store_termine ( new_account ); */
-
     gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
 							   menu_name(_("Edit"),
 								     _("Move transaction to another account"),
@@ -189,6 +187,8 @@ gboolean gsb_account_list_gui_change_current_account ( gint *no_account )
 										     "/",
 										     "\\/" ))),
 			       FALSE );
+
+    gsb_transactions_list_set_adjustment_value (new_account);
 
     /* unset the last date written */
 

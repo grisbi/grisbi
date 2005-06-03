@@ -43,5 +43,7 @@ void new_scheduled_transaction ( void );
 void remplissage_liste_echeance ( void );
 void selectionne_echeance ( struct operation_echeance *echeance );
 void supprime_echeance ( struct operation_echeance *echeance );
+gboolean traitement_clavier_liste_echeances ( GtkWidget *tree_view_liste_echeances,
+					      GdkEventKey *evenement );
 /* END_DECLARATION */
 #endif

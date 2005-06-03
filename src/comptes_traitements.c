@@ -30,7 +30,6 @@
 #include "comptes_traitements.h"
 #include "type_operations.h"
 #include "comptes_gestion.h"
-#include "operations_liste.h"
 #include "dialog.h"
 #include "utils_echeances.h"
 #include "fichiers_gestion.h"
@@ -76,6 +75,7 @@ extern gint mise_a_jour_soldes_minimaux;
 extern gint nb_echeances;
 extern GtkWidget *notebook_general;
 extern GtkStyle *style_entree_formulaire[2];
+extern GtkWidget *tree_view;
 extern GtkWidget *tree_view_vbox;
 extern GtkWidget *treeview;
 extern GtkWidget *widget_formulaire_echeancier[SCHEDULER_FORM_TOTAL_WIDGET];

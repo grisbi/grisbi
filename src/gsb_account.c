@@ -47,6 +47,7 @@ static gint gsb_account_max_number ( void );
 /*END_STATIC*/
 
 /*START_EXTERN*/
+extern GtkTreeSelection * selection;
 /*END_EXTERN*/
 
 
@@ -109,10 +110,11 @@ gint gsb_account_new ( kind_account account_kind )
 						account -> account_number );
     account -> currency = gsb_currency_default_currency ();
     account -> update_list = 1;
-    account -> current_transaction = GINT_TO_POINTER (-1);
     account -> account_kind = account_kind;
     account -> method_payment_list = gsb_payment_default_payment_list ();
     account -> sort_type = GTK_SORT_DESCENDING;
+    account -> current_transaction_number = -1;
+    account -> vertical_adjustment_value = (gdouble) -1;
     
     /*     if it's the first account, we put default conf (R not displayed and 3 lines per transaction) */
     /*     else we keep the conf of the last account */
@@ -803,34 +805,35 @@ gboolean gsb_account_set_column_sort ( gint no_account,
 
 
 
-/** get the current transaction of the account
- * if no current transaction, return -1 for the white line transaction
- * \param no_account no of the account
- * \return pointer to the transaction, -1 if none selected or NULL if the account doesn't exist
+
+/**
+ * get the number of the current transaction in the given account
+ *
+ * \param no_account
+ *
+ * \return the number of the transaction or 0 if problem
  * */
-gpointer gsb_account_get_current_transaction ( gint no_account )
+gint gsb_account_get_current_transaction_number ( gint no_account )
 {
     struct_account *account;
 
     account = gsb_account_get_structure ( no_account );
 
     if (!account )
-	return NULL;
+	return 0;
 
-    if ( account -> current_transaction )
-	return account -> current_transaction;
-    else
-	return GINT_TO_POINTER (-1);
+    return account -> current_transaction_number;
 }
+
 
 
 /** set the current transaction of the account
  * \param no_account no of the account
- * \param transaction  store to set
+ * \param transaction_number number of the transaction selection
  * \return TRUE, ok ; FALSE, problem
  * */
-gboolean gsb_account_set_current_transaction ( gint no_account,
-					       gpointer transaction )
+gboolean gsb_account_set_current_transaction_number ( gint no_account,
+						      gint transaction_number )
 {
     struct_account *account;
 
@@ -839,7 +842,7 @@ gboolean gsb_account_set_current_transaction ( gint no_account,
     if (!account )
 	return FALSE;
 
-    account -> current_transaction = transaction;
+    account -> current_transaction_number = transaction_number;
 
     return TRUE;
 }
@@ -1690,6 +1693,44 @@ gboolean gsb_account_set_account_button ( gint no_account,
 
 
 
+/** get vertical_adjustment_value on the account given
+ * \param no_account no of the account
+ * \return vertical_adjustment_value or 0 if the account doesn't exist
+ * */
+gdouble gsb_account_get_vertical_adjustment_value ( gint no_account )
+{
+    struct_account *account;
+
+    account = gsb_account_get_structure ( no_account );
+
+    if (!account )
+	return 0;
+
+    return account -> vertical_adjustment_value;
+}
+
+
+/** set vertical_adjustment_value in the account given
+ * \param no_account no of the account
+ * \param vertical_adjustment_value vertical_adjustment_value to set
+ * \return TRUE, ok ; FALSE, problem
+ * */
+gboolean gsb_account_set_vertical_adjustment_value ( gint no_account,
+						     gint vertical_adjustment_value )
+{
+    struct_account *account;
+
+    account = gsb_account_get_structure ( no_account );
+
+    if (!account )
+	return FALSE;
+
+    account -> vertical_adjustment_value = vertical_adjustment_value;
+
+    return TRUE;
+}
+
+
 /** get sort_type on the account given
  * \param no_account no of the account
  * \return sort_type or 0 if the account doesn't exist
@@ -1854,4 +1895,5 @@ gboolean gsb_account_reorder ( GSList *new_order )
     g_slist_free (last_list);
     return TRUE;
 }
+
 

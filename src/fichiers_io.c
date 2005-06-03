@@ -136,7 +136,6 @@ extern gchar *nom_fichier_backup;
 extern gint rapport_largeur_colonnes[TRANSACTION_LIST_COL_NB];
 extern GtkWidget *remarque_banque;
 extern gint scheduler_col_width[NB_COLS_SCHEDULER] ;
-extern GtkTreeSelection * selection;
 extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][TRANSACTION_LIST_COL_NB];
 extern GtkWidget *tel_banque;
 extern GtkWidget *tel_correspondant;
@@ -165,6 +164,15 @@ gboolean charge_operations ( gchar *nom_fichier )
     /* vérification de la permission du fichier */
 
     result = utf8_stat ( nom_fichier, &buffer_stat);
+
+    /* check here if it's not a regular file */
+
+    if ( !S_ISREG (buffer_stat.st_mode))
+    {
+	dialogue_error ( g_strdup_printf ( _("%s doen't seem to be a regular file,\nplease check it and try again."),
+					   nom_fichier_comptes ));
+	return ( FALSE );
+    }
 
     if ( result != -1 && 
 	 buffer_stat.st_mode != 33152 && !etat.display_message_file_readable )
@@ -1434,11 +1442,6 @@ gboolean recuperation_comptes_xml ( xmlNodePtr node_comptes )
 	    else
 		gsb_account_set_mini_balance_authorized_message ( no_compte,
 								  1 );
-
-	    /*       la selection au depart est en bas de la liste */
-
-	    gsb_account_set_current_transaction ( no_compte,
-						  GINT_TO_POINTER (-1) );
 	}
 	node_comptes = node_comptes -> next;
     }

@@ -61,8 +61,8 @@ typedef struct
     gint mini_balance_wanted_message;
     gint mini_balance_authorized_message;
 
-    /** @name pointer of the transaction selectionned, or -1 for the white line */
-    gpointer current_transaction;
+    /** @name number of the transaction selectionned, or -1 for the white line */
+    gint current_transaction_number;
 
     /** @name bank stuff */
     gint bank_number;
@@ -85,8 +85,9 @@ typedef struct
     gint sort_column;             /**< used to hide the arrow when change the column */
     gint transactions_column_sort[TRANSACTION_LIST_COL_NB];  /**< contains the default sort type for each column */
 
-    /** @name stuff for filling the transactions list */
-    gint finished_selection_transaction;   /**< 1 once the transaction is selectionned */
+    /** @name current graphic position in the list */
+
+    gdouble vertical_adjustment_value;
 
     /** @name struct of the form's organization */
     struct organisation_formulaire *form_organization;
@@ -110,7 +111,7 @@ gint gsb_account_get_currency ( gint no_account );
 gint gsb_account_get_current_account ( void );
 gdouble gsb_account_get_current_balance ( gint no_account );
 GDate *gsb_account_get_current_reconcile_date ( gint no_account );
-gpointer gsb_account_get_current_transaction ( gint no_account );
+gint gsb_account_get_current_transaction_number ( gint no_account );
 gint gsb_account_get_default_credit ( gint no_account );
 gint gsb_account_get_default_debit ( gint no_account );
 struct organisation_formulaire *gsb_account_get_form_organization ( gint no_account );
@@ -139,6 +140,7 @@ GSList *gsb_account_get_sort_list ( gint no_account );
 gint gsb_account_get_sort_type ( gint no_account );
 gint gsb_account_get_split_neutral_payment ( gint no_account );
 gboolean gsb_account_get_update_list ( gint no_account );
+gdouble gsb_account_get_vertical_adjustment_value ( gint no_account );
 gboolean gsb_account_init_variables ( void );
 gint gsb_account_new ( kind_account account_kind );
 gboolean gsb_account_reorder ( GSList *new_order );
@@ -168,8 +170,8 @@ gboolean gsb_account_set_current_balance ( gint no_account,
 					   gdouble balance );
 gboolean gsb_account_set_current_reconcile_date ( gint no_account,
 						  GDate *date );
-gboolean gsb_account_set_current_transaction ( gint no_account,
-					       gpointer transaction );
+gboolean gsb_account_set_current_transaction_number ( gint no_account,
+						      gint transaction_number );
 gboolean gsb_account_set_default_credit ( gint no_account,
 					  gint default_credit );
 gboolean gsb_account_set_default_debit ( gint no_account,
@@ -220,6 +222,8 @@ gboolean gsb_account_set_split_neutral_payment ( gint no_account,
 						 gint split_neutral_payment );
 gboolean gsb_account_set_update_list ( gint no_account,
 				       gboolean value );
+gboolean gsb_account_set_vertical_adjustment_value ( gint no_account,
+						     gint vertical_adjustment_value );
 /* END_DECLARATION */
 
 

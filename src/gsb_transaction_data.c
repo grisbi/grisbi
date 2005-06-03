@@ -1355,7 +1355,7 @@ gboolean gsb_transaction_data_set_account_number_transfer ( gint no_transaction,
 
 /** get the  mother_transaction_number
  * \param no_transaction the number of the transaction
- * \return the mother_transaction_number of the transaction or -1 if the transaction doen't exist
+ * \return the mother_transaction_number of the transaction or 0 if the transaction doen't exist
  * */
 gint gsb_transaction_data_get_mother_transaction_number ( gint no_transaction )
 {
@@ -1364,7 +1364,7 @@ gint gsb_transaction_data_get_mother_transaction_number ( gint no_transaction )
     transaction = gsb_transaction_data_get_transaction_by_no (no_transaction);
 
     if ( !transaction )
-	return -1;
+	return 0;
 
     return transaction -> mother_transaction_number;
 }

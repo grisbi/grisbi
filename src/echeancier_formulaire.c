@@ -2173,8 +2173,11 @@ gboolean gsb_scheduler_get_category_for_transaction_from_form ( gint transaction
 }
 
 
-/** create a new transaction and fill it from a scheduled transaction
- * \param scheduled_transaction the transaction we use to fill the new transaction
+/**
+ * create a new transaction and fill it from a scheduled transaction
+ * 
+ * \param scheduled_transaction the transaction we use to fill the new transaction*
+ *
  * \return the number of the new transaction
  * */
 gint gsb_scheduler_create_transaction_from_scheduled_transaction ( struct operation_echeance *scheduled_transaction )
@@ -2230,10 +2233,13 @@ gint gsb_scheduler_create_transaction_from_scheduled_transaction ( struct operat
 }
 
 
-/* used to catch a transaction from a scheduled transaction
+/**
+ * used to catch a transaction from a scheduled transaction
  * take the category, check if it's a transfer or a breakdown and
  * do the necessary (create contra-transaction, take the children's transactions
+ * 
  * \param transaction_number
+ *
  * \return TRUE if ok, FALSE else
  * */
 gboolean gsb_scheduler_get_category_for_transaction_from_transaction ( gint transaction_number,
