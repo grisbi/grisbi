@@ -8624,7 +8624,12 @@ void fichier_marque_ouvert ( gint ouvert )
 
     /* ouverture du fichier */
 
+#ifdef _WIN32
+    // Force binary mode to avoid ftell to take into account unexisting DOS end of lines
+    if (!(pointeur_fichier_comptes = utf8_fopen ( nom_fichier_comptes, "r+b")) )
+#else
     if (!(pointeur_fichier_comptes = utf8_fopen ( nom_fichier_comptes, "r+")) )
+#endif
     {
 	dialogue_error ( g_strdup_printf ( _("Cannot lock file '%s': %s"),
 					   nom_fichier_comptes,
