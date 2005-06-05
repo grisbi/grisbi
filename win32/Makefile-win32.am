@@ -117,7 +117,7 @@ run   : exe
 
 gdb   : exe 
 	$(GDB) -d ../src -d ../win32 $(EXE) 
-insight:exe runtimes
+insight:exe
 	$(GCCBASEDIR)/bin/Insight/bin/usr/bin/insight.exe -d ../src -d ../win32 $(EXE)
 
 	

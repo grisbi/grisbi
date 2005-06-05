@@ -15,7 +15,7 @@ goto endofperl
 #  -------------------------------------------------------------------------
 #                               GRISBI for Windows
 #  -------------------------------------------------------------------------
-# $Id: autogen.bat,v 1.7 2005/05/22 16:55:42 teilginn Exp $
+# $Id: autogen.bat,v 1.8 2005/06/05 10:06:54 teilginn Exp $
 #  -------------------------------------------------------------------------
 # 
 #  Copyleft 2004 (c) François Terrot
@@ -38,14 +38,14 @@ goto endofperl
 #  History:
 #
 #  $Log: autogen.bat,v $
-#  Revision 1.7  2005/05/22 16:55:42  teilginn
-#  Small merge issue
+#  Revision 1.8  2005/06/05 10:06:54  teilginn
+#  Better languages (po) variables list management
 #
-#  Revision 1.6  2005/05/22 16:48:06  teilginn
+#  Revision 1.1.2.7  2005/06/05 09:49:11  teilginn
+#  Better languages (po) variables list management
+#
+#  Revision 1.1.2.6  2005/05/22 16:07:02  teilginn
 #  Support 'The Gimp' and also 'Gaim' GTK binary package
-#
-#  Revision 1.5  2005/04/17 18:42:12  teilginn
-#  Update and clean : only GTK 2.4 is now supported
 #
 #  Revision 1.1.2.5  2005/04/17 16:53:17  teilginn
 #  New DevCpp version support + clean the script from unusefull stuff
@@ -222,6 +222,7 @@ sub _mkdir # {{{
 sub _cd # {{{
 {
     my ($dir,$quiet) = @_;
+    
     $dir = "${g_outdir}/${dir}" unless (File::Spec->file_name_is_absolute(${dir}));
     print "_cd $dir\n" if ($g_debug);
     _mkdir ($dir);
@@ -306,6 +307,7 @@ sub _cp # {{{
         }
     }
     _cd ($cp_oldpwd,'quiet');
+    
 } # }}}
 # \brief : compare the last modification time of two files
 #   it does $ledt cmp $right
@@ -399,7 +401,9 @@ sub _configuration_autodetect # {{{
     $config{'directories'}{'mingw'} =  _dirname _which 'gcc.exe'  unless ($config{'directories'}{'mingw'});
     die "*** ERROR *** autogen is not able to detect the location of gcc.exe\n\n \
         Please add the MinGw installation directory in your PATH\n" unless ($config{'directories'}{'mingw'});
+        
     # gettext
+    
     $config{'directories'}{'gettext'} = $config{'directories'}{'mingw'}."gettext/bin" if (-f $config{'directories'}{'mingw'}."gettext/bin/msgfmt.exe");
     $config{'directories'}{'gettext'} = _dirname _which 'msgfmt.exe'  unless ($config{'directories'}{'gettext'});
     die "*** ERROR autogen is not able to find msgfmt.exe\n\n \
@@ -407,9 +411,11 @@ sub _configuration_autodetect # {{{
 
     # Perl : in the path
     $config{'directories'}{'perl'}  =  _dirname _which 'perl.exe' unless ($config{'directories'}{'perl'});
+    
     # NSIS from PATH, then from registry 
     $config{'directories'}{'nsis'} = _which 'makensis.exe' unless ($config{'directories'}{'nsis'});
     $config{'directories'}{'nsis'} = _dirname _uninstallstring "NSIS" unless ($config{'directories'}{'nsis'});
+    
     #
     # GTK runtime (GTK 2.4.14 official pack as to be installed)
     # 
@@ -423,14 +429,17 @@ sub _configuration_autodetect # {{{
     #
     # GTK 2.4.14 or higher is required but not 2.6
     #
-    $config{'directories'}{'gtkbin'} = _dirname _uninstallstring "WinGTK-2_is1" unless ($config{'directories'}{'gtkbin'});    $config{'directories'}{'gtkbin'} = _dirname _uninstallstring "GTK 2.0" unless ($config{'directories'}{'gtkbin'});
-
+    $config{'directories'}{'gtkbin'} = _dirname _uninstallstring "WinGTK-2_is1" unless ($config{'directories'}{'gtkbin'});
+    $config{'directories'}{'gtkbin'} = _dirname _uninstallstring "GTK 2.0" unless ($config{'directories'}{'gtkbin'});
+    
     die "*** ERROR *** autogen is not able to find any GTK2 2.4 binary packages on yout host\n\n \
         Please install GTK 2.4.14 or 2.4 higher version from http://www.gtk.org/win32/\n" unless $config{'directories'}{'gtkbin'};
+    
     my $gtkbinvers;
     $gtkbinvers =  _uninstallstring "WinGTK-2_is1","DisplayName"; # gtk from gimp
     $gtkbinvers =  _ReadHklmSoftware ("GTK/2.0","Version") unless ($gtkbinvers); # gtk from gaim
-        $gtkbinvers =~ s/^.*((\d)\.(\d).(\d+)).*$/$1/;
+      
+    $gtkbinvers =~ s/^.*((\d)\.(\d).(\d+)).*$/$1/;
 
     die "*** ERROR *** Gtk+ version $gtkbinvers is not supported for building Grisbi\n\n \
         Please use GTK+ version 2.4.x (x>=14) (from http://www.gtk.org/win32)\n" if ($2 != 2); 
@@ -443,6 +452,7 @@ sub _configuration_autodetect # {{{
 
     die "*** ERROR *** Gtk+ version $gtkbinvers is no more supported for building Grisbi\n\n \
         Please use GTK+ version 2.4.x (x>=14) (from http://www.gtk.org/win32)\n" if (($3 == 4)&&($4 < 14)); 
+        
     #
     my ($pkgn,$gtkdevvers) = _pkgconfig($config{'directories'}{'mingw'}."/lib/pkgconfig/gtk+-2.0.pc");
     die "*** ERROR *** Unable to detect GTK+ development version\n\n \
@@ -462,6 +472,7 @@ sub _configuration_autodetect # {{{
 
     die "*** ERROR *** Gtk+ dev version $gtkdevvers is no more supported for building Grisbi\n\n \
         Please reinstall GTK+ 2.4.x (x>=14) DevPack\n" if (($3 == 4)&&($4 < 14)); 
+    
     $config{'directories'}{'gtkdev'} = $config{'directories'}{'mingw'};
 
     #
@@ -553,6 +564,7 @@ sub _cb_config_ini #{{{
         last READ_INI if ($l =~ s/GTKBINVERS/$config{'grisbi'}{'gtkbin'}/);
         last READ_INI if ($l =~ s/REQUIRE/$config{'grisbi'}{'build'}/);
     }
+    
     $l =~ s/\s+$//;
     return $l;
 } #}}}
@@ -561,6 +573,21 @@ sub _cb_config_h # {{{
      (my $l = shift ) =~ s/\@VERSION\@/$config{'grisbi'}{'core'} for Windows (GTK $config{'grisbi'}{'gtkdev'})/ ;
     return $l;
 } # }}}
+sub _explode_po # {{{
+{
+    my ($ori,$m) = @_;
+    my @pos = _get_po_file_list("../po");
+    my $r = "";
+    if (@pos)
+    {
+        foreach my $po (@pos)
+        {
+            my $PO = uc $po;
+            ( $r .= $ori . "\n" ) =~ s/$m/$PO/g; 
+        }
+    }
+    return $r;
+} # }}}
 sub _cb_config_nsh #{{{
 {
     my $l = shift;
@@ -568,8 +595,17 @@ sub _cb_config_nsh #{{{
         last READ_NSH if ($l =~ s/\@CORE\@/$config{'grisbi'}{'core'}/);
         last READ_NSH if ($l =~ s/\@BUILD\@/$config{'grisbi'}{'build'}/);
         last READ_NSH if ($l =~ s/\@PATCH\@/$config{'grisbi'}{'patch'}/);
-        last READ_NSH if ($l =~ s/\@GTKVERS\@/$config{'grisbi'}{'gtk'}/);
+        last READ_NSH if ($l =~ s/\@GTKVERS\@/$config{'grisbi'}{'gtkdev'}/);
+        last READ_NSH if ($l =~ s/\@GTKBINDIR\@/$config{'directories'}{'gtkbin'}/);
         last READ_NSH if ($l =~ s/\@REQUIRE\@/$config{'grisbi'}{'require'}/);
+        foreach my $mask ("APP","ATK","GLIB","GTK")
+        {
+            ( $l =~ m/\@${mask}LOCALES\@/ ) && do {
+                $l = _explode_po($l,"\@${mask}LOCALES\@");
+                last READ_NSH;
+            };
+        }
+
     }
     $l =~ s/\s+$//;
     return $l;
@@ -645,6 +681,7 @@ sub _cb_makefile # {{{
         };
 
     }
+    
     $l =~ s/\s+$//;
     return $l;
 } # }}}
@@ -665,6 +702,7 @@ sub _templates_configure # {{{
     my $found = 0;
     my $src   = '__FILE__';
     $callback = '_cb_default' unless (defined($callback));
+    
     # 
     READ_DATA: while (<DATA>)
     {
@@ -704,12 +742,14 @@ sub _templates_configure # {{{
         };
 
         next READ_DATA if (!$found);
+        
         chomp; 
         $_ = eval "$callback ".'$_';
         print FD $_."\n";
     }
 
     return ($found);
+    
 } # }}}
 # --------------------------------------------------------------------------
 #   Extract from _DATA_ part the file of templates available
@@ -773,6 +813,7 @@ sub _runtime_configure # {{{
 {
     my ($targets) = @_;
     $targets = join ':', qw/build libraries pixmaps help dtd/ unless $targets;
+    
 my $gtkcompliant   = 0;
 my $runtime_prefix = 0;
 my $target_found   = 0;
@@ -785,7 +826,7 @@ my $dest_dir       = "";
         last READ_RUNTIME if ( /^__END__$/);
         ( /^\<gtk\s+version=[\"\']?([\d\.\w-]*)[\"\']?/ ) && do {
             my $gtkversion = $1;
-            if (($gtkversion =~ m/all/i )||($gtkversion eq $config{'grisbi'}{'gtk'}))
+            if (($gtkversion =~ m/all/i )||($gtkversion eq $config{'grisbi'}{'gtkdev'}))
             {
                 $gtkcompliant = 1;
             }
@@ -795,6 +836,7 @@ my $dest_dir       = "";
 
        ( /^\s*\<prefix\>/ )   && do { $runtime_prefix = 1 ; };
        ( /^\s*\<\/prefix\>/ ) && do { $runtime_prefix = 0 ; };
+        
        next READ_RUNTIME unless($runtime_prefix);
 
        ( /^\s*\<target\s+name=([\/\w\d\.-]*)\s+(?:dest=([\/\"\'\$\{\}\w\d\s\.-]*))?/ ) && do {
@@ -840,6 +882,7 @@ my $dest_dir       = "";
            $with_target_dest = 0;
            $dest_dir         = undef;
        };
+       
        next READ_RUNTIME unless($target_found);
     }
     close FD;
@@ -1060,6 +1103,7 @@ Print this complete help message and exit
 =back
 
 =head1 DESCRIPTION
+    
     B<This program> is used to configure the build environment of Grisbi for
     Windows. It creates all needs files and configures them .
 

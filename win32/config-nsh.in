@@ -1,7 +1,7 @@
 ; --------------------------------------------------------------------------
 ;                            GRISBI for CYGWIN
 ; --------------------------------------------------------------------------
-; $Id: config-nsh.in,v 1.2 2004/08/15 14:38:11 teilginn Exp $
+; $Id: config-nsh.in,v 1.3 2005/06/05 10:06:54 teilginn Exp $
 ; --------------------------------------------------------------------------
 ; Authors    : Francois Terrot (grisbi@terrot.net)
 ;
@@ -34,11 +34,13 @@
 ; Installer mode defines which feature is included in the build package
 ; *Unique*Required*
 ; --------------------------------------------------------------------------
-!define INSTALL_FULL_MODE
+;!define INSTALL_FULL_MODE
 ;!define INSTALL_BIN_MODE
 ;!define INSTALL_LIB_MODE
 ;!define INSTALL_APP_MODE
 ;!define INSTALL_POST_INST_MODE 
+;!define GRISBIDIR "..\..\grisbi-0.5.0"
+;!define IS_TEST_VERSION
 
 ; --------------------------------------------------------------------------
 ; Package version Information : give the "official" grisbi version number
@@ -53,18 +55,16 @@
 ; PACKAGE_DOC_VERSION : the 3 digit of the version of the documentation
 ;   example : "0.4.0"
 ; --------------------------------------------------------------------------
-#!define GRISBIDIR "..\..\grisbi-0.5.0"
 
 !define BUILDDIR "${GRISBIDIR}\build"
 !define WIN32DIR "${GRISBIDIR}\win32"
 !define BUILDENV "gcc"
 !define VERSIONID "@CORE@"
 !define BUILDID  "@BUILD@"
-!define PATCHID  "@PATCH@"
-!define GTKVERS  "@GTKVER"
-!define REQUIRED_PATH "@BUILD@"
+!define PATCHID  "@PATCH@"!define GTKVERS  "@GTKVERS@"
+!define GTKBINDIR  "@GTKBINDIR@"
+!define REQUIRED_PATCH "@BUILD@"
 
-;!define IS_TEST_VERSION
 
 !ifndef LONG_VERSION ; ex 0.4.2-pre4
     !define VERSIONSTR "${VERSIONID}"
@@ -73,19 +73,32 @@
 !ifndef PACKAGE_DOC_VERSION
     !define PACKAGE_DOC_VERSION "0.4.0"
 !endif
-
-!define USE_ATK
-!define LIB_ATK         "atk-1.03-20020821"
-!define LIB_FONTCONFIG  "fontconfig-2.2.1"
-!define LIB_GLIB        "glib-2.2.4-3"
-!define LIB_GTK         "gtk+-2.2.4-3"
-!define LIB_LIBXML2     "libxml2-2.4.12"
-!define LIB_LIBICONV    "libiconv-1.9.1"
-!define LIB_LIBI18N     "libi18n"
-!define LIB_PANGO       "pango-1.2.1"
-!define LIB_GETTEXT     "gettext-0.13.1"
-!define LIB_IMGFMT      "Image format libs"
-!define LIB_ZLIB1       "zlib1-1.2.1.1"
 !define LIB_WINDOWS     "autres"
+!define LIB_SHFOLDER    "ShFolder (Only when needed)"
+!define LIB_MSVC71      "MS Visual C 7.1 Dlls"
+!define LIB_OFX_SUPPORT "$(lcOfxSupport)"
+!define LIB_LIBOFX      "libofx-0.7.0"
+!define LIB_LIBXML2     "libxml2"
+!define LIB_LIBICONV2   "libiconv-2"
 
-;eof vim:ft=nsis
+!macro  SECTION_LANG aLANG aTEXT
+Section "${aTEXT}"  ${aLANG}
+    SectionIn 1 2 3
+    !insertmacro CopyLocaleFiles "${aLANG}"
+SectionEnd
+!macroend
+
+!macro SECTIONS_APP_LOCALES
+SubSection "$(lcSectAppLocales)" AppLocales
+!insertmacro SECTION_LANG "@APPLOCALES@" "$(lcSectAppLocale@APPLOCALES@)"
+SubSectionEnd
+!macroend
+
+!macro INSTALL_GTK_LOCALES
+!insertmacro INSTALL_GTKFILE "atk10.mo"  "lib\locale\@ATKLOCALES@\LC_MESSAGES" "-"
+!insertmacro INSTALL_GTKFILE "glib20.mo"  "lib\locale\@GLIBLOCALES@\LC_MESSAGES" "-"
+!insertmacro INSTALL_GTKFILE "gtk20.mo"  "lib\locale\@GTKLOCALES@\LC_MESSAGES" "-"
+!macroend
+
+;eof 
+; vim:ft=nsis:
