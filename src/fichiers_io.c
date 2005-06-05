@@ -146,6 +146,51 @@ extern GtkWidget *window;
 
 
 
+/*!
+ * @brief Try to fix xml corruption introduced by Grisi 0.5.6 rev a during file log management
+ *
+ * This function replace corrupted xml end tag "</Fi0hier_ouvert>" by the good one
+ * When the function return TRUE, the file can be reloaded for a second try.
+ * 
+ * @caveats : Should only to be called when the xmlParseFile function call failed with zero as errno value
+ *
+ * @return Fix application status.
+ * @retval TRUE if a corruption has been found and fix applied.
+ * @retval FALSE in all other cases.
+ *
+ */
+static gboolean file_io_fix_xml_corrupted_file_lock_tag(gchar* accounts_filename)
+{
+    gboolean fix_applied      = FALSE;
+    FILE*    fd_accounts_file = fopen(accounts_filename, "r+b");
+    if (fd_accounts_file)
+    {
+        gchar    buffer [18];
+        gint     len        = 17;
+        gchar*   valid_tag  = "</Fichier_ouvert>"; 
+        gchar*   error0_tag = "</Fi0hier_ouvert>"; 
+        gchar*   error1_tag = "</Fi1hier_ouvert>"; 
+
+        while ( EOF != fscanf(fd_accounts_file,"%17s",buffer))
+        {
+            // The valid version of the tag has been found, the problem is not here 
+            if (!strncmp(buffer,valid_tag,len)) { break ; }
+                
+            // If the corrupted tag is found, rewinf the file to replace it by the valid value.
+            if ((!strncmp(buffer,error0_tag,len)) || (!strncmp(buffer,error1_tag,len)) )
+            { 
+                fseek(fd_accounts_file,-len,SEEK_CUR);
+                fprintf(fd_accounts_file,valid_tag);
+                fix_applied = TRUE;
+                break;
+            }
+        }
+        fclose(fd_accounts_file);
+        fd_accounts_file = NULL;
+    }
+    return fix_applied;
+    
+}
 
 /****************************************************************************/
 /** Procédure qui charge les opérations en mémoire sous forme de structures**/
@@ -184,6 +229,16 @@ gboolean charge_operations ( gchar *nom_fichier )
     if ( result != -1 )
     {
 	doc = utf8_xmlParseFile ( nom_fichier );
+        
+        // The file is not a grisbi file or it can have been corrupted by lock management ..
+        // if a fix has been applied, try to reload the file ...
+        if ((doc == NULL ) && ( errno == 0))
+        {
+            if (file_io_fix_xml_corrupted_file_lock_tag(nom_fichier_comptes))
+            {
+                doc = utf8_xmlParseFile ( nom_fichier_comptes );
+            }
+        }
 
 	if ( doc )
 	{
