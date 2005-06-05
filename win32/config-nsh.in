@@ -1,7 +1,7 @@
 ; --------------------------------------------------------------------------
 ;                            GRISBI for CYGWIN
 ; --------------------------------------------------------------------------
-; $Id: config-nsh.in,v 1.1.2.2 2004/10/13 19:46:44 teilginn Exp $
+; $Id: config-nsh.in,v 1.1.2.3 2005/06/05 09:53:16 teilginn Exp $
 ; --------------------------------------------------------------------------
 ; Authors    : Francois Terrot (grisbi@terrot.net)
 ;
@@ -61,8 +61,8 @@
 !define BUILDENV "gcc"
 !define VERSIONID "@CORE@"
 !define BUILDID  "@BUILD@"
-!define PATCHID  "@PATCH@"
-!define GTKVERS  "@GTKVER@"
+!define PATCHID  "@PATCH@"!define GTKVERS  "@GTKVERS@"
+!define GTKBINDIR  "@GTKBINDIR@"
 !define REQUIRED_PATCH "@BUILD@"
 
 
@@ -73,19 +73,32 @@
 !ifndef PACKAGE_DOC_VERSION
     !define PACKAGE_DOC_VERSION "0.4.0"
 !endif
-
-!define USE_ATK
-!define LIB_ATK         "atk-1.03-20020821"
-!define LIB_FONTCONFIG  "fontconfig-2.2.1"
-!define LIB_GLIB        "glib-2.2.4-3"
-!define LIB_GTK         "gtk+-2.2.4-3"
-!define LIB_LIBXML2     "libxml2-2.4.12"
-!define LIB_LIBICONV    "libiconv-1.9.1"
-!define LIB_LIBI18N     "libi18n"
-!define LIB_PANGO       "pango-1.2.1"
-!define LIB_GETTEXT     "gettext-0.13.1"
-!define LIB_IMGFMT      "Image format libs"
-!define LIB_ZLIB1       "zlib1-1.2.1.1"
 !define LIB_WINDOWS     "autres"
+!define LIB_SHFOLDER    "ShFolder (Only when needed)"
+!define LIB_MSVC71      "MS Visual C 7.1 Dlls"
+!define LIB_OFX_SUPPORT "$(lcOfxSupport)"
+!define LIB_LIBOFX      "libofx-0.7.0"
+!define LIB_LIBXML2     "libxml2"
+!define LIB_LIBICONV2   "libiconv-2"
 
-;eof vim:ft=nsis
+!macro  SECTION_LANG aLANG aTEXT
+Section "${aTEXT}"  ${aLANG}
+    SectionIn 1 2 3
+    !insertmacro CopyLocaleFiles "${aLANG}"
+SectionEnd
+!macroend
+
+!macro SECTIONS_APP_LOCALES
+SubSection "$(lcSectAppLocales)" AppLocales
+!insertmacro SECTION_LANG "@APPLOCALES@" "$(lcSectAppLocale@APPLOCALES@)"
+SubSectionEnd
+!macroend
+
+!macro INSTALL_GTK_LOCALES
+!insertmacro INSTALL_GTKFILE "atk10.mo"  "lib\locale\@ATKLOCALES@\LC_MESSAGES" "-"
+!insertmacro INSTALL_GTKFILE "glib20.mo"  "lib\locale\@GLIBLOCALES@\LC_MESSAGES" "-"
+!insertmacro INSTALL_GTKFILE "gtk20.mo"  "lib\locale\@GTKLOCALES@\LC_MESSAGES" "-"
+!macroend
+
+;eof 
+; vim:ft=nsis:

@@ -15,7 +15,7 @@ goto endofperl
 #  -------------------------------------------------------------------------
 #                               GRISBI for Windows
 #  -------------------------------------------------------------------------
-# $Id: autogen.bat,v 1.1.2.6 2005/05/22 16:07:02 teilginn Exp $
+# $Id: autogen.bat,v 1.1.2.7 2005/06/05 09:49:11 teilginn Exp $
 #  -------------------------------------------------------------------------
 # 
 #  Copyleft 2004 (c) François Terrot
@@ -38,6 +38,9 @@ goto endofperl
 #  History:
 #
 #  $Log: autogen.bat,v $
+#  Revision 1.1.2.7  2005/06/05 09:49:11  teilginn
+#  Better languages (po) variables list management
+#
 #  Revision 1.1.2.6  2005/05/22 16:07:02  teilginn
 #  Support 'The Gimp' and also 'Gaim' GTK binary package
 #
@@ -431,7 +434,7 @@ sub _configuration_autodetect # {{{
     
     my $gtkbinvers;
     $gtkbinvers =  _uninstallstring "WinGTK-2_is1","DisplayName"; # gtk from gimp
-    $gtkbinvers =  _ReadHklmSoftware ("GTK/2.0","Version)" unless ($gtkbinvers); # gtk from gaim
+    $gtkbinvers =  _ReadHklmSoftware ("GTK/2.0","Version") unless ($gtkbinvers); # gtk from gaim
       
     $gtkbinvers =~ s/^.*((\d)\.(\d).(\d+)).*$/$1/;
 
@@ -567,6 +570,21 @@ sub _cb_config_h # {{{
      (my $l = shift ) =~ s/\@VERSION\@/$config{'grisbi'}{'core'} for Windows (GTK $config{'grisbi'}{'gtkdev'})/ ;
     return $l;
 } # }}}
+sub _explode_po # {{{
+{
+    my ($ori,$m) = @_;
+    my @pos = _get_po_file_list("../po");
+    my $r = "";
+    if (@pos)
+    {
+        foreach my $po (@pos)
+        {
+            my $PO = uc $po;
+            ( $r .= $ori . "\n" ) =~ s/$m/$PO/g; 
+        }
+    }
+    return $r;
+} # }}}
 sub _cb_config_nsh #{{{
 {
     my $l = shift;
@@ -574,8 +592,17 @@ sub _cb_config_nsh #{{{
         last READ_NSH if ($l =~ s/\@CORE\@/$config{'grisbi'}{'core'}/);
         last READ_NSH if ($l =~ s/\@BUILD\@/$config{'grisbi'}{'build'}/);
         last READ_NSH if ($l =~ s/\@PATCH\@/$config{'grisbi'}{'patch'}/);
-        last READ_NSH if ($l =~ s/\@GTKVERS\@/$config{'grisbi'}{'gtk'}/);
+        last READ_NSH if ($l =~ s/\@GTKVERS\@/$config{'grisbi'}{'gtkdev'}/);
+        last READ_NSH if ($l =~ s/\@GTKBINDIR\@/$config{'directories'}{'gtkbin'}/);
         last READ_NSH if ($l =~ s/\@REQUIRE\@/$config{'grisbi'}{'require'}/);
+        foreach my $mask ("APP","ATK","GLIB","GTK")
+        {
+            ( $l =~ m/\@${mask}LOCALES\@/ ) && do {
+                $l = _explode_po($l,"\@${mask}LOCALES\@");
+                last READ_NSH;
+            };
+        }
+
     }
     $l =~ s/\s+$//;
     return $l;
@@ -796,7 +823,7 @@ my $dest_dir       = "";
         last READ_RUNTIME if ( /^__END__$/);
         ( /^\<gtk\s+version=[\"\']?([\d\.\w-]*)[\"\']?/ ) && do {
             my $gtkversion = $1;
-            if (($gtkversion =~ m/all/i )||($gtkversion eq $config{'grisbi'}{'gtk'}))
+            if (($gtkversion =~ m/all/i )||($gtkversion eq $config{'grisbi'}{'gtkdev'}))
             {
                 $gtkcompliant = 1;
             }
