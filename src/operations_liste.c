@@ -166,17 +166,17 @@ gchar *last_date;
 
 /*  pointeur vers le label qui contient le solde sous la liste des opé */
 
-GtkWidget *solde_label;
+GtkWidget *solde_label = NULL;
 
 /*  pointeur vers le label qui contient le solde pointe sous la liste des opé */
 
-GtkWidget *solde_label_pointe;
+GtkWidget *solde_label_pointe = NULL;
 
 
-GtkWidget *transactions_tree_view;
-GtkListStore *transactions_store;
-GtkTreeModel *transactions_filter_model;
-GtkTreeModel *transactions_sortable_model;
+GtkWidget *transactions_tree_view = NULL;
+GtkListStore *transactions_store = NULL;
+GtkTreeModel *transactions_filter_model = NULL;
+GtkTreeModel *transactions_sortable_model = NULL;
 
 
 /*START_EXTERN*/

@@ -188,8 +188,8 @@ int main (int argc, char *argv[])
 	/* parse des options de la ligne de commande */
 	if (parse_options(argc, argv, &opt)) 
 	{
-		/* en cas d'erreur dans les options ou si on a passé --version ou --help */
-/* 		exit(0); */
+	    /* en cas d'erreur dans les options ou si on a passé --version ou --help */
+	    exit(0);
 	}
 	
 #ifdef HAVE_G2BANKING

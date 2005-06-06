@@ -4,7 +4,7 @@
 /*                                  menu.c                                    */
 /*                                                                            */
 /*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org)	      */
-/*			     2004 Benjamin Drieu (bdrieu@april.org)	      */
+/*			2004-2005 Benjamin Drieu (bdrieu@april.org)	      */
 /*			http://www.grisbi.org				      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -67,6 +67,7 @@ extern GtkItemFactory *item_factory_menu_general;
 extern gint nb_derniers_fichiers_ouverts;
 extern gchar **tab_noms_derniers_fichiers_ouverts;
 extern GtkWidget *window;
+extern GtkTreeModelFilter * navigation_model_filtered;
 /*END_EXTERN*/
 
 
@@ -122,6 +123,7 @@ GtkWidget *init_menus ( GtkWidget *vbox )
 	{menu_name(_("View"), _("Show transaction form"), NULL),   NULL, G_CALLBACK(view_menu_cb), HIDE_SHOW_TRANSACTION_FORM, "<ToggleItem>", },
 	{menu_name(_("View"), _("Show grid"), NULL),   NULL, G_CALLBACK(view_menu_cb), HIDE_SHOW_GRID, "<ToggleItem>", },
 	{menu_name(_("View"), _("Show reconciled transactions"), NULL),   NULL, G_CALLBACK(view_menu_cb), HIDE_SHOW_RECONCILED_TRANSACTIONS, "<ToggleItem>", },
+	{menu_name(_("View"), _("Show closed accounts"), NULL),   NULL, G_CALLBACK(view_menu_cb), HIDE_SHOW_CLOSED_ACCOUNTS, "<ToggleItem>", },
 	{menu_name(_("View"), "Sep1", NULL),    NULL, NULL, 0, "<Separator>", NULL },
 	{menu_name(_("View"), _("Show one line per transaction"), NULL),   NULL, G_CALLBACK(view_menu_cb), ONE_LINE_PER_TRANSACTION, "<RadioItem>" },
 	{menu_name(_("View"), _("Show two lines per transaction"), NULL),   NULL, G_CALLBACK(view_menu_cb), TWO_LINES_PER_TRANSACTION, menu_name(_("View"), _("Show one line per transaction"), NULL) },
@@ -133,8 +135,6 @@ GtkWidget *init_menus ( GtkWidget *vbox )
 	{menu_name(_("Accounts"), "Detach", NULL),    NULL,  NULL, 0, "<Tearoff>", NULL },
 	{menu_name(_("Accounts"), _("New account"), NULL),   NULL, G_CALLBACK (new_account ), 0, "<StockItem>", GTK_STOCK_NEW },
 	{menu_name(_("Accounts"), _("Remove an account"), NULL),   NULL, G_CALLBACK ( delete_account), 0, "<StockItem>", GTK_STOCK_DELETE },
-	{menu_name(_("Accounts"), "Sep1", NULL),    NULL, NULL, 0, "<Separator>", NULL },
-	{menu_name(_("Accounts"), _("Closed accounts"), NULL),   NULL, NULL , 0, "<Branch>", NULL },
 
 	/* Reports menu */
 	{menu_name(_("Reports"), NULL, NULL), NULL, NULL, 0, "<Branch>", NULL },
@@ -167,31 +167,23 @@ GtkWidget *init_menus ( GtkWidget *vbox )
 	{menu_name(_("Help"), _("Today's tip"), NULL),   NULL, G_CALLBACK (force_display_tip), FALSE, NULL, NULL },
     };
 
-
-
     /* Nombre d elements du menu */
-
     nb_item_menu = sizeof(menu_item) / sizeof(menu_item[0]);
-
 
     /* Creation de la table d acceleration */
     accel = gtk_accel_group_new ();
 
     /* Creation du menu */
-
     item_factory_menu_general = gtk_item_factory_new(GTK_TYPE_MENU_BAR,
-						     "<main>",
-						     accel);
+						     "<main>", accel);
 
     /* Recuperation des elements du menu */
-
     gtk_item_factory_create_items(item_factory_menu_general,
 				  nb_item_menu,
 				  menu_item,
 				  NULL );
 
     /* Recuperation du widget pour l affichage du menu */
-
     barre_menu = gtk_item_factory_get_widget(item_factory_menu_general,
 					     "<main>");
 
@@ -205,6 +197,11 @@ GtkWidget *init_menus ( GtkWidget *vbox )
     widget = gtk_item_factory_get_item ( item_factory_menu_general,
 					 menu_name(_("View"), _("Show grid"), NULL) );
     gtk_check_menu_item_set_active( GTK_CHECK_MENU_ITEM(widget), etat.affichage_grille );
+
+    widget = gtk_item_factory_get_item ( item_factory_menu_general,
+					 menu_name(_("View"), _("Show closed accounts"), NULL) );
+    gtk_check_menu_item_set_active( GTK_CHECK_MENU_ITEM(widget), etat.show_closed_accounts );
+
     block_menu_cb = FALSE;
 
     gtk_window_add_accel_group(GTK_WINDOW(window), accel );
@@ -369,40 +366,51 @@ gchar * menu_name ( gchar * menu, gchar * submenu, gchar * subsubmenu )
  */
 void view_menu_cb ( gpointer callback_data, guint callback_action, GtkWidget *widget )
 {
-  /* FIXME benj: ugly but I cannot find a way to block this ... I
-     understand why gtkitemfactory is deprecated. */
-  if ( block_menu_cb ) return;
+    gboolean widget_state;
+    gint current_account;
 
-  switch ( callback_action )
+    /* FIXME benj: ugly but I cannot find a way to block this ... I
+       understand why gtkitemfactory is deprecated. */
+    if ( block_menu_cb ) return;
+
+    widget_state = gtk_check_menu_item_get_active( GTK_CHECK_MENU_ITEM(widget) );
+    current_account = gsb_account_get_current_account ();
+
+    switch ( callback_action )
     {
-    case HIDE_SHOW_TRANSACTION_FORM:
-      affiche_cache_le_formulaire();
-      break;
-    case HIDE_SHOW_GRID:
-      change_aspect_liste (0);
-      break;
-    case HIDE_SHOW_RECONCILED_TRANSACTIONS:
-      if ( gsb_account_get_r (gsb_account_get_current_account ()) )
-	change_aspect_liste(6);
-      else
-	change_aspect_liste(5);
-      
-      break;
-    case ONE_LINE_PER_TRANSACTION:
-      change_aspect_liste (1);
-      break;
-    case TWO_LINES_PER_TRANSACTION:
-      change_aspect_liste (2);
-      break;
-    case THREE_LINES_PER_TRANSACTION:
-      change_aspect_liste (3);
-      break;
-    case FOUR_LINES_PER_TRANSACTION:
-      change_aspect_liste (4);
-      break;
+	case HIDE_SHOW_TRANSACTION_FORM:
+	    affiche_cache_le_formulaire();
+	    break;
+	case HIDE_SHOW_GRID:
+	    change_aspect_liste (0);
+	    break;
+	case HIDE_SHOW_RECONCILED_TRANSACTIONS:
+	    if ( gsb_account_get_r ( current_account ) )
+		change_aspect_liste(6);
+	    else
+		change_aspect_liste(5);
+	    gsb_account_set_r ( current_account, widget_state );
+	    break;
+	case ONE_LINE_PER_TRANSACTION:
+	    change_aspect_liste (1);
+	    break;
+	case TWO_LINES_PER_TRANSACTION:
+	    change_aspect_liste (2);
+	    break;
+	case THREE_LINES_PER_TRANSACTION:
+	    change_aspect_liste (3);
+	    break;
+	case FOUR_LINES_PER_TRANSACTION:
+	    change_aspect_liste (4);
+	    break;
+	case HIDE_SHOW_CLOSED_ACCOUNTS:
+	    etat.show_closed_accounts = widget_state;
+	    gtk_tree_model_filter_refilter ( navigation_model_filtered );
+	    break;
+	default:
+	    break;
     }
 
-  mise_a_jour_boutons_caract_liste (gsb_account_get_current_account ());
 }
 
 
@@ -487,19 +495,13 @@ gboolean gsb_menu_update_accounts_in_menus ( void )
 			      "/",
 			      "\\/" );
 
-	if ( gsb_account_get_closed_account ( i ))
-	    gtk_item_factory_delete_item ( item_factory_menu_general,
-					   menu_name(_("Accounts"), _("Closed accounts"), tmp ));
-	else
+	if ( !gsb_account_get_closed_account ( i ))
 	    gtk_item_factory_delete_item ( item_factory_menu_general,
 					   menu_name(_("Edit"), _("Move transaction to another account"), tmp ));
-
+	
 	list_tmp = list_tmp -> next;
     }
 
-    gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
-							   menu_name(_("Accounts"), _("Closed accounts"), NULL)),
-			       FALSE );
     gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
 							   menu_name(_("Edit"), _("Move transaction to another account"), NULL)),
 			       FALSE );
@@ -517,76 +519,41 @@ gboolean gsb_menu_update_accounts_in_menus ( void )
 
 	i = gsb_account_get_no_account ( list_tmp -> data );
 
-	if ( gsb_account_get_closed_account (i))
+	/* 	we put all the accounts in the edition menu */
+	item_factory_entry = calloc ( 1, sizeof ( GtkItemFactoryEntry ));
+
+	tmp = my_strdelimit ( gsb_account_get_name (i), "/", "\\/" );
+
+	item_factory_entry -> path = menu_name(_("Edit"), 
+					       _("Move transaction to another account"), 
+					       my_strdelimit ( tmp, "_", "__" ) ); 
+
+	item_factory_entry -> callback = G_CALLBACK ( move_selected_operation_to_account_nb );
+
+	/* add 1, else for 0 it wouldn't work */
+	item_factory_entry -> callback_action = i + 1;
+
+	gtk_item_factory_create_item ( item_factory_menu_general,
+				       item_factory_entry,
+				       GINT_TO_POINTER (i),
+				       1 );
+
+	gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
+							       menu_name(_("Edit"), _("Move transaction to another account"), NULL)),
+				   TRUE );
+
+	if ( i == gsb_account_get_current_account () )
 	{
-	    /* put the closed accounts in the menu */
-
-	    item_factory_entry = calloc ( 1,
-					  sizeof ( GtkItemFactoryEntry ));
-
-	    tmp = my_strdelimit ( gsb_account_get_name (i),
-				  "/",
-				  "\\/" );
-	    tmp = my_strdelimit ( tmp,
-				  "_",
-				  "__" );
-
-	    item_factory_entry -> path = menu_name(_("Accounts"),  _("Closed accounts"), tmp );
-	    item_factory_entry -> callback = G_CALLBACK ( changement_no_compte_par_menu );
-
-	    /* add 1, else for 0 it wouldn't work */
-
-	    item_factory_entry -> callback_action = i + 1;
-
-	    gtk_item_factory_create_item ( item_factory_menu_general,
-					   item_factory_entry,
-					   NULL,
-					   1 );
+	    /* un-sensitive the name of account in the menu */
 	    gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
-								   menu_name(_("Accounts"), _("Closed accounts"), NULL)),
-				       TRUE );
+								   menu_name(_("Edit"), _("Move transaction to another account"), tmp)),
+				       FALSE );
 	}
-	else
-	{
-	    /* 	we put all the accounts in the edition menu */
 
-	    item_factory_entry = calloc ( 1, sizeof ( GtkItemFactoryEntry ));
-
-	    tmp = my_strdelimit ( gsb_account_get_name (i), "/", "\\/" );
-
-	    item_factory_entry -> path = menu_name(_("Edit"), 
-						   _("Move transaction to another account"), 
-						   my_strdelimit ( tmp, "_", "__" ) ); 
-
-	    item_factory_entry -> callback = G_CALLBACK ( move_selected_operation_to_account_nb );
-
-	    /* add 1, else for 0 it wouldn't work */
-
-	    item_factory_entry -> callback_action = i + 1;
-
-	    gtk_item_factory_create_item ( item_factory_menu_general,
-					   item_factory_entry,
-					   GINT_TO_POINTER (i),
-					   1 );
-
-	    gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
-								   menu_name(_("Edit"), _("Move transaction to another account"), NULL)),
-				       TRUE );
-
-	    if ( i == gsb_account_get_current_account () )
-	    {
-		/* un-sensitive the name of account in the menu */
-		gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
-								       menu_name(_("Edit"), _("Move transaction to another account"), tmp)),
-					   FALSE );
-	    }
-	}
 	list_tmp = list_tmp -> next;
     }
     return FALSE;
 }
-
-
 
 
 

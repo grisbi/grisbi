@@ -204,7 +204,7 @@ static GtkWidget *create_main_notebook (void )
     /* Création de la fenetre des tiers */
     page_tiers = onglet_tiers();
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_general ), page_tiers,
-			       gtk_label_new (SPACIFY(_("Third party"))) );
+			       gtk_label_new (SPACIFY(_("Payee"))) );
 
     /* création de la fenetre des categories */
     page_categories = onglet_categories();
@@ -216,16 +216,17 @@ static GtkWidget *create_main_notebook (void )
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_general ), page_imputations,
 			       gtk_label_new (SPACIFY(_("Budgetary lines"))) );
 
+    /* création de la fenetre gbanking */
+#ifdef HAVE_G2BANKING
+    page_queue = GBanking_JobView_new(gbanking, 0);
+    gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_general ), page_queue,
+			       gtk_label_new (SPACIFY(_("Outbox"))) );
+#endif
+
     /* création de la fenetre des états */
     page_etats = creation_onglet_etats ();
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_general ), page_etats,
 			       gtk_label_new (SPACIFY(_("Reports"))) );
-
-#ifdef HAVE_G2BANKING
-    page_queue = GBanking_JobView_new(gbanking, 0);
-    gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_general ), page_queue,
-                              gtk_label_new (SPACIFY(_("Outbox"))) );
-#endif
 
     gtk_signal_connect_after ( GTK_OBJECT ( notebook_general ), "switch_page",
 			       GTK_SIGNAL_FUNC ( change_page_notebook), NULL );

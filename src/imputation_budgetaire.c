@@ -3,7 +3,7 @@
 /* 			imputation_budgetaire.c                               */
 /*                                                                            */
 /*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org)	      */
-/*			2004 Benjamin Drieu (bdrieu@april.org)		      */
+/*			2004-2005 Benjamin Drieu (bdrieu@april.org)	      */
 /*			2004 Alain Portal (aportal@univ-montp2.fr) 	      */
 /*			http://www.grisbi.org   			      */
 /*                                                                            */
@@ -633,7 +633,7 @@ void importer_ib ( void )
  */
 GtkWidget *creation_barre_outils_ib ( void )
 {
-    GtkWidget *handlebox, *hbox2;
+    GtkWidget * handlebox, * hbox2, * button;
 
     /* HandleBox */
     handlebox = gtk_handle_box_new ();
@@ -642,21 +642,25 @@ GtkWidget *creation_barre_outils_ib ( void )
     hbox2 = gtk_hbox_new ( FALSE, 0 );
     gtk_container_add ( GTK_CONTAINER(handlebox), hbox2 );
 
-    /* Add various icons */
+    /* New budgetary line button */
     gtk_box_pack_start ( GTK_BOX ( hbox2 ), 
 			 new_button_with_label_and_image ( etat.display_toolbar,
-							   _("_Budgetary line"), 
+							   _("New\nbudgetary line"), 
 							   "new-ib.png",
 							   G_CALLBACK(appui_sur_ajout_division),
 							   budgetary_line_tree_model ), 
 			 FALSE, TRUE, 0 );
+
+    /* New sub budgetary line button */
     gtk_box_pack_start ( GTK_BOX ( hbox2 ), 
 			 new_button_with_label_and_image ( etat.display_toolbar,
-							   _("_Sub-budgetary line"), 
+							   _("New sub\nbudgetary line"), 
 							   "new-sub-ib.png",
 							   G_CALLBACK(appui_sur_ajout_sub_division),
 							   budgetary_line_tree_model ), 
 			 FALSE, TRUE, 0 );
+
+    /* Import button */
     gtk_box_pack_start ( GTK_BOX ( hbox2 ), 
 			 new_stock_button_with_label ( etat.display_toolbar,
 						       GTK_STOCK_OPEN, 
@@ -664,6 +668,8 @@ GtkWidget *creation_barre_outils_ib ( void )
 						       G_CALLBACK(importer_ib),
 						       NULL ), 
 			 FALSE, TRUE, 0 );
+
+    /* Export button */
     gtk_box_pack_start ( GTK_BOX ( hbox2 ), 
 			 new_stock_button_with_label ( etat.display_toolbar,
 						       GTK_STOCK_SAVE, 
@@ -671,20 +677,24 @@ GtkWidget *creation_barre_outils_ib ( void )
 						       G_CALLBACK(exporter_ib),
 						       NULL ), 
 			 FALSE, TRUE, 0 );
-    gtk_box_pack_start ( GTK_BOX ( hbox2 ), 
-			 new_stock_button_with_label ( etat.display_toolbar,
-						       GTK_STOCK_DELETE, 
-						       _("Delete"),
-						       G_CALLBACK(supprimer_division),
-						       budgetary_line_tree ), 
-			 FALSE, TRUE, 0 );
-    gtk_box_pack_start ( GTK_BOX ( hbox2 ), /* FIXME: write the property dialog */
-			 new_stock_button_with_label ( etat.display_toolbar,
-						       GTK_STOCK_PROPERTIES, 
-						       _("Properties"),
-						       G_CALLBACK(edit_budgetary_line), 
-						       budgetary_line_tree ), 
-			 FALSE, TRUE, 0 );
+
+    /* Delete button */
+    button = new_stock_button_with_label ( etat.display_toolbar,
+					   GTK_STOCK_DELETE, _("Delete"),
+					   G_CALLBACK(supprimer_division),
+					   budgetary_line_tree );
+    metatree_register_widget_as_linked ( budgetary_line_tree_model, button );
+    gtk_box_pack_start ( GTK_BOX ( hbox2 ), button, FALSE, TRUE, 0 );
+
+    /* Properties button */
+    button = new_stock_button_with_label ( etat.display_toolbar,
+					   GTK_STOCK_PROPERTIES, _("Properties"),
+					   G_CALLBACK(edit_budgetary_line), 
+					   budgetary_line_tree );
+    metatree_register_widget_as_linked ( budgetary_line_tree_model, button );
+    gtk_box_pack_start ( GTK_BOX ( hbox2 ), button, FALSE, TRUE, 0 );
+
+    /* View button */
     gtk_box_pack_start ( GTK_BOX ( hbox2 ), 
 			 new_stock_button_with_label_menu ( etat.display_toolbar,
 							    GTK_STOCK_SELECT_COLOR, 

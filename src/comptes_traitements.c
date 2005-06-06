@@ -296,7 +296,8 @@ gboolean delete_account ( void )
     modification_fichier( TRUE ); 
     return FALSE;
 }
-/* ************************************************************************** */
+
+
 
 /**
  *  Create a menu with the list of accounts.  This list is

@@ -80,8 +80,9 @@ extern GtkWidget *window;
 
 
 /**
+ * Create a toolbar containing all necessary controls on reports tab.
  *
- *
+ * \return a newly-allocated hbox
  */
 GtkWidget *gsb_gui_create_report_toolbar ( void )
 {
@@ -91,7 +92,7 @@ GtkWidget *gsb_gui_create_report_toolbar ( void )
 
     /* HandleBox */
     handlebox = gtk_handle_box_new ();
-    gtk_box_pack_start ( GTK_BOX ( hbox ), handlebox, FALSE, FALSE, 0 );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), handlebox, TRUE, TRUE, 0 );
     /* Hbox2 */
     hbox2 = gtk_hbox_new ( FALSE, 0 );
     gtk_container_add ( GTK_CONTAINER(handlebox), hbox2 );
@@ -296,7 +297,7 @@ gboolean ajout_etat ( void )
 			 GTK_SIGNAL_FUNC ( change_choix_nouvel_etat ),
 			 GTK_OBJECT ( label_description ));
 
-    menu_item = gtk_menu_item_new_with_label ( _("Monthly outgoings by third party"));
+    menu_item = gtk_menu_item_new_with_label ( _("Monthly outgoings by payee"));
     gtk_menu_append ( GTK_MENU ( menu ), menu_item );
     gtk_object_set_data ( GTK_OBJECT ( menu_item ), "no_etat",
 			  GINT_TO_POINTER ( 5 ));
@@ -591,7 +592,7 @@ gboolean ajout_etat ( void )
 
 	    /* dépenses mensuelles par tiers */
 
-	    etat -> nom_etat = g_strdup ( _("Monthly outgoings by third party") );
+	    etat -> nom_etat = g_strdup ( _("Monthly outgoings by payee") );
 
 	    /*   le classement de base est 1-2-3-4-5-6 (cf structure.h) */
 
@@ -724,6 +725,9 @@ gboolean ajout_etat ( void )
 /*     gtk_label_set_text ( GTK_LABEL ( label_etat_courant ), */
 /* 			 etat_courant -> nom_etat ); */
 
+    /* Add an entry in navigation pane. */
+    gsb_gui_navigation_add_report ( etat );
+
     personnalisation_etat ();
     modification_fichier ( TRUE );
 
@@ -774,13 +778,13 @@ void change_choix_nouvel_etat ( GtkWidget *menu_item,
 	case 5:
 	    /* dépenses mensuelles par tiers  */
 
-	    description = _("This report displays current month's outgoings sorted by third parties. You just need to select the account(s). By default all accounts areselected.");
+	    description = _("This report displays current month's outgoings sorted by payees. You just need to select the account(s). By default all accounts areselected.");
 	    break;
 
 	case 6:
 	    /* recherche  */
 
-	    description = _("This report displays all the information for all transactions of all accounts for the current year. You just have to add the amount, date, third parties etc. criteria thant you want. By default the transactions are clickables.");
+	    description = _("This report displays all the information for all transactions of all accounts for the current year. You just have to add the amount, date, payees etc. criteria thant you want. By default the transactions are clickables.");
 	    break;
 
 	default:
@@ -815,8 +819,10 @@ void efface_etat ( void )
     /* le bouton à null, et le label de l'état en cours à rien */
     liste_struct_etats = g_slist_remove ( liste_struct_etats, etat_courant );
 
+    /* Update reports list in navigation. */
+    gsb_gui_navigation_remove_report ( etat_courant );
+
     etat_courant = NULL;
-/*     gtk_label_set_text ( GTK_LABEL ( label_etat_courant ), "" ); */
     gtk_widget_set_sensitive ( bouton_personnaliser_etat, FALSE );
     gtk_widget_set_sensitive ( bouton_imprimer_etat, FALSE );
     gtk_widget_set_sensitive ( bouton_exporter_etat, FALSE );
@@ -845,9 +851,6 @@ void efface_etat ( void )
     if ( GTK_BIN ( scrolled_window_etat ) -> child )
 	gtk_widget_hide ( GTK_BIN ( scrolled_window_etat ) -> child );
 
-    /* on réaffiche la liste des états */
-
-    /* TODO, update with navigation list */
 /*     remplissage_liste_etats (); */
     modification_fichier ( TRUE );
 

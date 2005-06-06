@@ -257,36 +257,6 @@ void charge_configuration ( void )
 		node_echeances = node_echeances->next;
 	    }
 	}
-	/*if ( !strcmp ( node -> name, "Applet" ) )
-	  {
-	  xmlNodePtr node_io;
-	  node_io = node -> children;
-	  while (node_io) {
-	  if ( !strcmp ( node_io -> name, "Chargement_auto_dernier_fichier" ) ) {
-	  etat.dernier_fichier_auto = utils_str_atoi(xmlNodeGetContent ( node_io));
-	  }
-	  if ( !strcmp ( node_io -> name, "Nom_dernier_fichier" ) ) {
-	  nom_fichier_comptes = xmlNodeGetContent ( node_io);
-	  }
-	  if ( !strcmp ( node_io -> name, "Enregistrement_automatique" ) ) {
-	  etat.sauvegarde_auto = utils_str_atoi(xmlNodeGetContent ( node_io));
-	  }
-	  if ( !strcmp ( node_io -> name, "Enregistrement_au_demarrage" ) ) {
-	  etat.sauvegarde_demarrage = utils_str_atoi(xmlNodeGetContent ( node_io));
-	  }
-	  if ( !strcmp ( node_io -> name, "Nb_max_derniers_fichiers_ouverts" ) ) {
-	  nb_max_derniers_fichiers_ouverts = utils_str_atoi(xmlNodeGetContent ( node_io));
-	  }
-	  if ( !strcmp ( node_io -> name, "Compression_fichier" ) ) {
-	  compression_fichier = utils_str_atoi(xmlNodeGetContent ( node_io));
-	  }
-	  if ( !strcmp ( node_io -> name, "Compression_backup" ) ) {
-	  variable = xmlNodeGetContent ( node_io);
-	  }
-	// boucler pour avoir la liste des derniers fichiers.
-	node_io = node_io->next;
-	}
-	}*/
 	if ( !strcmp ( node -> name, "Affichage" ) )
 	{
 	    xmlNodePtr node_affichage;
@@ -326,7 +296,10 @@ void charge_configuration ( void )
 			}
 			if ( !strcmp ( node_affichage -> name, "Affichage_grille" ) ) {
 			    etat.affichage_grille = utils_str_atoi(xmlNodeGetContent ( node_affichage));
-		    }
+			}
+			if ( !strcmp ( node_affichage -> name, "show_closed_accounts" ) ) {
+			    etat.show_closed_accounts = utils_str_atoi(xmlNodeGetContent ( node_affichage));
+			}
 			if ( ! strcmp( node_affichage -> name, tagAFFICHAGE_FORMAT ) ) {
 			   load_config_format(node_affichage);
 	        }
@@ -603,6 +576,8 @@ void raz_configuration ( void )
     etat.formulaire_echeancier_toujours_affiche = 0;       /* le formulaire ne s'affiche que lors de l'edition d'1 opé */
     etat.affichage_exercice_automatique = 1;        /* l'exercice est choisi en fonction de la date */
     etat.display_toolbar = GSB_BUTTON_BOTH;        /* How to display toolbar icons. */
+    etat.show_closed_accounts = FALSE;
+
     pango_desc_fonte_liste = NULL;
     etat.force_enregistrement = 0;     /* par défaut, on ne force pas l'enregistrement */
     etat.classement_par_date = 1;  /* par défaut, on tri la liste des opés par les dates */
@@ -802,6 +777,8 @@ void sauve_configuration(void)
     xmlNewChild ( node,NULL, "Affichage_exercice_automatique",
 		  utils_str_itoa(etat.affichage_exercice_automatique));
     xmlNewChild ( node,NULL, "display_toolbar", utils_str_itoa(etat.display_toolbar));
+    xmlNewChild ( node,NULL, "show_closed_accounts",
+		  utils_str_itoa(etat.show_closed_accounts));
     save_config_format(node);
 
     

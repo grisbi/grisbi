@@ -98,6 +98,7 @@ gboolean metatree_selection_changed ( GtkTreeSelection * selection, GtkTreeModel
 gboolean supprimer_division ( GtkTreeView * tree_view );
 void update_transaction_in_tree ( MetatreeInterface * iface, GtkTreeModel * model, 
 				  gpointer  transaction );
+gboolean metatree_selection_changed ( GtkTreeSelection * selection, GtkTreeModel * model );
 /*END_DECLARATION*/
 
 #endif

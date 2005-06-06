@@ -102,8 +102,8 @@ struct {
     guint utilise_logo;
     guint utilise_fonte_listes;
     guint affichage_grille;         /* à 1 si la grille est affichée */
-
     guint display_toolbar;
+    guint show_closed_accounts;
 
     /* Various display message stuff  */
     guint display_message_lock_active;

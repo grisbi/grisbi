@@ -1084,6 +1084,9 @@ void modification_details_compte ( void )
     {
 	gsb_account_set_closed_account ( compte_courant_onglet,
 					 gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( detail_compte_cloture )));
+
+	gsb_gui_navigation_update_account ( compte_courant_onglet );
+
 	if ( mise_a_jour_combofix_categ_necessaire )
 	    mise_a_jour_combofix_categ();
 	gsb_menu_update_accounts_in_menus ();

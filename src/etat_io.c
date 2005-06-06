@@ -968,10 +968,10 @@ gint recupere_tiers_par_nom_etat ( gchar *nom )
 	no_tiers = 0;
 
 	if ( log_message )
-	    log_message = g_strdup_printf ( _("%sThird party %s not found.\n"),
+	    log_message = g_strdup_printf ( _("%sPayee %s not found.\n"),
 					    log_message, nom );
 	else
-	    log_message = g_strdup_printf ( _("Third party %s not found.\n"),
+	    log_message = g_strdup_printf ( _("Payee %s not found.\n"),
 					    nom );
     }
 

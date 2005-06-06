@@ -138,7 +138,7 @@ GtkWidget *creation_liste_echeances ( void )
     GtkListStore *store;
     gint i;
     gchar *titres_echeance[] = {
-	_("Date"), _("Account"), _("Third party"), _("Frequency"), 
+	_("Date"), _("Account"), _("Payee"), _("Frequency"), 
 	_("Mode"), _("Notes"), _("Amount"), _("Balance")
     };
     gfloat col_justs[] = {

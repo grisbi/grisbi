@@ -123,12 +123,12 @@ struct struct_sous_imputation *sous_imputation_par_nom ( struct struct_imputatio
 	 &&
 	 nom_sous_imputation
 	 &&
-	 strlen ( g_strstrip ( nom_sous_imputation )))
+	 strlen ( nom_sous_imputation ) )
     {
 	GSList *liste_tmp;
 
 	liste_tmp = g_slist_find_custom ( imputation -> liste_sous_imputation,
-					  g_strstrip (nom_sous_imputation),
+					  nom_sous_imputation,
 					  (GCompareFunc) recherche_sous_imputation_par_nom );
 
 	if ( liste_tmp )
@@ -142,7 +142,7 @@ struct struct_sous_imputation *sous_imputation_par_nom ( struct struct_imputatio
 		nouvelle_sous_imputation = malloc ( sizeof ( struct struct_sous_imputation ));
 
 		nouvelle_sous_imputation -> no_sous_imputation = ++( imputation -> no_derniere_sous_imputation );
-		nouvelle_sous_imputation -> nom_sous_imputation = g_strdup ( g_strstrip ( nom_sous_imputation ));
+		nouvelle_sous_imputation -> nom_sous_imputation = g_strdup ( nom_sous_imputation );
 		nouvelle_sous_imputation -> nb_transactions = 0;
 		nouvelle_sous_imputation -> balance = 0;
 

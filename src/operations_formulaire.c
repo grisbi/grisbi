@@ -681,7 +681,7 @@ gboolean entree_perd_focus ( GtkWidget *entree,
 	case TRANSACTION_FORM_PARTY :
 
 	    if ( !completion_operation_par_tiers ( entree ))
-		texte = _("Third party");
+		texte = _("Payee");
 	    break;
 
 	    /* on sort du débit : soit vide, soit change le menu des types s'il ne correspond pas */
@@ -2054,7 +2054,7 @@ gboolean gsb_transactions_list_recover_breakdowns_of_transaction ( gint new_tran
 
     /* xxx check for win */
     result = question_yes_no_hint ( _("Recover breakdown?"),
-				    _("This is a breakdown of transaction, associated transactions can be recovered as in last transaction with this third party.") );
+				    _("This is a breakdown of transaction, associated transactions can be recovered as in last transaction with this payee.") );
 
     if ( !result )
 	return FALSE;
@@ -2229,7 +2229,7 @@ gboolean gsb_form_finish_edition ( void )
 
 	    if ( !list_tmp -> data )
 	    {
-		dialogue_error ( _("No third party selected for this report."));
+		dialogue_error ( _("No payee selected for this report."));
 		return FALSE;
 	    }
 	    else
@@ -2634,7 +2634,7 @@ sort_test_cheques :
 
 	if ( transaction_number )
 	{
-	    dialogue_error ( _("A transaction with a multiple third party must be a new one.") );
+	    dialogue_error ( _("A transaction with a multiple payee must be a new one.") );
 	    return (FALSE);
 	}
 
@@ -2670,7 +2670,7 @@ sort_test_cheques :
 
 	    if ( !trouve )
 	    {
-		dialogue_error ( _("Invalid multiple third party.") );
+		dialogue_error ( _("Invalid multiple payee.") );
 		return (FALSE);
 	    }
 	}
@@ -3397,7 +3397,7 @@ void formulaire_a_zero (void)
 		    gtk_widget_set_style ( GTK_COMBOFIX ( widget ) -> entry,
 					   style_entree_formulaire[ENGRIS] );
 		    gtk_combofix_set_text ( GTK_COMBOFIX ( widget ),
-					    _("Third party") );
+					    _("Payee") );
 		    break;
 
 		case TRANSACTION_FORM_DEBIT:

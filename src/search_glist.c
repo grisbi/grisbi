@@ -129,7 +129,7 @@ gint recherche_devise_par_nom ( struct struct_devise *devise,
 {
     
   if ( ! devise ) return FALSE;
-  return ( g_strcasecmp ( devise_name(devise), nom ) );
+  return ( g_strcasecmp ( devise -> nom_devise, nom ) );
 }
 /* ************************************************************************************************************ */
 

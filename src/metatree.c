@@ -197,7 +197,7 @@ void fill_division_row ( GtkTreeModel * model, MetatreeInterface * iface,
 			      utils_str_itoa ( iface -> div_nb_transactions (division) ), ")",
 			      NULL );
 
-    if ( division && iface -> div_balance ( division ) )
+    if ( division && iface -> div_nb_transactions (division) )
 	balance = g_strdup_printf ( _("%4.2f %s"), iface -> div_balance ( division ),
 				    devise_code ( iface -> tree_currency () ) );
     
@@ -825,14 +825,14 @@ gboolean division_drag_data_received ( GtkTreeDragDest * drag_dest, GtkTreePath 
 				       GtkSelectionData * selection_data )
 {
     if ( DEBUG )
-	printf (">>> division_drag_data_received %p, %p, %p\n", drag_dest, dest_path, 
+	printf ("division_drag_data_received %p, %p, %p\n", drag_dest, dest_path, 
 		selection_data);
 
     if ( dest_path && selection_data )
     {
 	GtkTreeModel * model;
 	GtkTreePath * orig_path;
-	GtkTreeIter iter, iter_parent, orig_iter;
+	GtkTreeIter iter, iter_parent, orig_iter, orig_parent_iter;
 	gchar * name;
 	gint no_dest_division, no_dest_sub_division, no_orig_division, no_orig_sub_division;
 	gpointer sub_division, dest_sub_division, orig_division, dest_division, pointer;
@@ -887,7 +887,20 @@ gboolean division_drag_data_received ( GtkTreeDragDest * drag_dest, GtkTreePath 
 
 		/* Populate tree */
 		gtk_tree_model_get_iter ( model, &iter_parent, dest_path );
-		gtk_tree_store_append ( GTK_TREE_STORE(model), &iter, &iter_parent);
+		if ( iface -> get_sub_div_pointer ( no_orig_division, 
+						    no_orig_sub_division ) )
+		{
+		    gtk_tree_store_append ( GTK_TREE_STORE(model), &iter, &iter_parent);
+		}
+		else
+		{
+		    GtkTreeIter * p_iter;
+		    p_iter = get_iter_from_div ( model, no_dest_division, 0 );
+		    if ( p_iter )
+		    {
+			iter = *p_iter;
+		    }
+		}
 		fill_sub_division_row ( model, iface, &iter, 
 					dest_division, dest_sub_division );
 
@@ -913,6 +926,13 @@ gboolean division_drag_data_received ( GtkTreeDragDest * drag_dest, GtkTreePath 
 		}
 
 		gtk_tree_model_get_iter ( model, &orig_iter, orig_path );
+
+		/* Update original parent. */
+		if ( gtk_tree_model_iter_parent ( model, &orig_parent_iter, &orig_iter ) )
+		{
+		    fill_division_row ( model, iface, &orig_parent_iter, orig_division );
+		}
+
 		gtk_tree_store_remove ( GTK_TREE_STORE(model), &orig_iter );
 
 		iface -> remove_sub_div ( no_orig_division, no_orig_sub_division );
@@ -1085,10 +1105,10 @@ gboolean find_destination_blob ( MetatreeInterface * iface, GtkTreeModel * model
 
     dialog = dialogue_special_no_run ( GTK_MESSAGE_WARNING, GTK_BUTTONS_OK_CANCEL,
 				       make_hint ( g_strdup_printf ( _("'%s' still contains transactions."), 
-								     ( no_sub_div <= 0 ? 
+								     ( !sub_division ? 
 								       iface -> div_name ( division ) :
 								       iface -> sub_div_name ( sub_division ) ) ),
-						   _("If you want to remove this sub-division but want to keep transactions, you can transfer them to another (sub-)division.  Otherwise, transactions can be simply deleted along with their division.") ));
+						   _("If you want to remove this (sub-)division but want to keep transactions, you can transfer them to another (sub-)division.  Otherwise, transactions can be simply deleted along with their division.") ));
 
     /*       mise en place du choix tranfert vers un autre division */
 
@@ -1493,6 +1513,8 @@ gboolean metatree_selection_changed ( GtkTreeSelection * selection, GtkTreeModel
     MetatreeInterface * iface;
     GtkTreeView * tree_view;
     GtkTreeIter iter;
+    GSList * links;
+    gboolean selection_is_set = FALSE;;
 
     iface = g_object_get_data ( G_OBJECT(model), "metatree-interface" );   
     tree_view = g_object_get_data ( G_OBJECT(model), "tree-view" );
@@ -1535,10 +1557,39 @@ gboolean metatree_selection_changed ( GtkTreeSelection * selection, GtkTreeModel
 	}
 
 	gsb_gui_headings_update ( text, balance );
+	selection_is_set = TRUE;
+    }
+
+    links = g_object_get_data ( G_OBJECT(model), "links" );
+    while ( links )
+    {
+	if ( links -> data && GTK_IS_WIDGET ( links -> data ) )
+	{
+	    gtk_widget_set_sensitive ( GTK_WIDGET ( links -> data ), selection_is_set );
+	}
+	links = links -> next;
     }
 
     return TRUE;
 }
+
+
+
+/**
+ *
+ *
+ */
+void metatree_register_widget_as_linked ( GtkTreeModel * model, GtkWidget * widget )
+{
+    GSList * links;
+
+    g_return_if_fail ( widget != NULL );
+    g_return_if_fail ( model != NULL );
+
+    links = g_object_get_data ( G_OBJECT(model), "links" );
+    g_object_set_data ( G_OBJECT(model), "links", g_slist_append ( links, widget ) );
+}
+
 
 
 /* Local Variables: */

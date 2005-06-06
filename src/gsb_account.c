@@ -1274,7 +1274,7 @@ gboolean gsb_account_set_bank_account_key ( gint no_account,
 
 /** get closed_account on the account given
  * \param no_account no of the account
- * \return last number of reconcile or 0 if the account doesn't exist
+ * \return true if account is closed
  * */
 gint gsb_account_get_closed_account ( gint no_account )
 {

@@ -176,10 +176,6 @@ gboolean gsb_account_list_gui_change_current_account ( gint *no_account )
 
     mise_a_jour_labels_soldes ();
 
-    /* met les boutons R et nb lignes par opé comme il faut */
-
-    mise_a_jour_boutons_caract_liste ( new_account );
-
     gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
 							   menu_name(_("Edit"),
 								     _("Move transaction to another account"),

@@ -40,34 +40,30 @@
 /*START_STATIC*/
 static void create_account_list ( GtkTreeModel * model, GtkTreeIter * account_iter );
 static void create_report_list ( GtkTreeModel * model, GtkTreeIter * reports_iter );
-static void gsb_gui_navigation_add_report ( struct struct_etat * report );
 static gboolean gsb_gui_navigation_check_key_press ( GtkWidget *tree_view,
 					      GdkEventKey *ev,
 					      GtkTreeModel *model );
 static  gboolean gsb_gui_navigation_remove_account_iterator ( GtkTreeModel * tree_model, 
-							     GtkTreePath *path, 
-							     GtkTreeIter *iter, 
-							     gpointer data );
-static void gsb_gui_navigation_remove_report ( gint report_nb );
-static  gboolean gsb_gui_navigation_remove_report_iterator ( GtkTreeModel * tree_model, 
-							     GtkTreePath *path, 
-							     GtkTreeIter *iter, 
-							     gpointer data );
+							      GtkTreePath *path, 
+							      GtkTreeIter *iter, 
+							      gpointer data );
 static gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
-					  GtkTreeModel *model );
-static  gboolean gsb_gui_navigation_select_link ( GtkTreeSelection * selection,
-						 GtkTreeModel * model );
+						 GtkTreeModel *model );
 static void gsb_gui_navigation_update_account_iter ( GtkTreeModel * model, 
-					      GtkTreeIter * account_iter,
-					      gint account_nb );
+						     GtkTreeIter * account_iter,
+						     gint account_nb );
 static  gboolean gsb_gui_navigation_update_account_iterator ( GtkTreeModel * tree_model, 
-							     GtkTreePath *path, 
-							     GtkTreeIter *iter, 
-							     gpointer data );
-static void gsb_gui_navigation_update_report ( gint report_nb );
+							      GtkTreePath *path, 
+							      GtkTreeIter *iter, 
+							      gpointer data );
 static void gsb_gui_navigation_update_report_iter ( GtkTreeModel * model, 
-					      GtkTreeIter * report_iter,
-					      struct struct_etat *report );
+						    GtkTreeIter * report_iter,
+						    struct struct_etat *report );
+static gboolean gsb_gui_navigation_line_visible_p ( GtkTreeModel * model, 
+						    GtkTreeIter * iter,
+						    gpointer data) ;
+static gboolean gsb_gui_navigation_update_notebook ( GtkTreeSelection * selection,
+						     GtkTreeModel * model );
 /*END_STATIC*/
 
 
@@ -89,8 +85,12 @@ GtkWidget * navigation_tree_view;
 /** Model of the navigation tree. */
 GtkTreeModel * navigation_model;
 
+/** Fitered model, without closed accounts. */
+GtkTreeModelFilter * navigation_model_filtered;
+
 /** Widget that hold the scheduler calendar. */
 GtkWidget * scheduler_calendar;
+
 
 
 
@@ -119,35 +119,44 @@ GtkWidget * create_navigation_pane ( void )
 							     GDK_TYPE_PIXBUF,
 							     G_TYPE_BOOLEAN, G_TYPE_STRING, 
 							     G_TYPE_INT, G_TYPE_INT, 
-							     G_TYPE_INT, G_TYPE_POINTER ) );
-    navigation_tree_view = gtk_tree_view_new_with_model (GTK_TREE_MODEL(navigation_model));
+							     G_TYPE_INT, G_TYPE_POINTER,
+							     G_TYPE_INT ) );
+
+    /* Filter to display (or not) closed accounts. */
+    navigation_model_filtered = GTK_TREE_MODEL_FILTER ( gtk_tree_model_filter_new ( navigation_model, NULL ) );
+    gtk_tree_model_filter_set_visible_func ( navigation_model_filtered, 
+					     gsb_gui_navigation_line_visible_p,
+					     NULL, NULL );
+
+    /* Create the view */
+    navigation_tree_view = gtk_tree_view_new_with_model (GTK_TREE_MODEL(navigation_model_filtered));
     gtk_tree_view_set_headers_visible ( GTK_TREE_VIEW(navigation_tree_view), FALSE );
     gtk_container_add ( GTK_CONTAINER(sw), navigation_tree_view );
 
     /* check the keyboard before all, if we need to move other things that the navigation
      * tree view (for example, up and down on transactions list) */
-
     g_signal_connect ( navigation_tree_view,
 		       "key-press-event", 
 		       G_CALLBACK (gsb_gui_navigation_check_key_press),
-		       navigation_model );
+		       navigation_model_filtered );
 
     g_signal_connect (gtk_tree_view_get_selection (GTK_TREE_VIEW (navigation_tree_view)), 
-		      "changed", ((GCallback) gsb_gui_navigation_select_link), 
-		      navigation_model );
+		      "changed", ((GCallback) gsb_gui_navigation_select_line), 
+		      navigation_model_filtered );
 
     renderer = gtk_cell_renderer_pixbuf_new ();
     column = GTK_WIDGET ( gtk_tree_view_column_new_with_attributes ( "", renderer,
-								     "visible", 
-								     NAVIGATION_PIX_VISIBLE, 
-								     "pixbuf", 
-								     NAVIGATION_PIX, NULL) );
+								     "visible", NAVIGATION_PIX_VISIBLE, 
+								     "pixbuf", NAVIGATION_PIX,
+								     NULL) );
     renderer = gtk_cell_renderer_text_new();
     gtk_tree_view_column_pack_start(GTK_TREE_VIEW_COLUMN(column), renderer, TRUE);
     gtk_tree_view_column_add_attribute(GTK_TREE_VIEW_COLUMN(column), renderer, 
 				       "text", NAVIGATION_TEXT);
     gtk_tree_view_column_add_attribute(GTK_TREE_VIEW_COLUMN(column), renderer, 
 				       "weight", NAVIGATION_FONT);
+    gtk_tree_view_column_add_attribute(GTK_TREE_VIEW_COLUMN(column), renderer, 
+				       "sensitive", NAVIGATION_SENSITIVE);
 
     gtk_tree_view_column_pack_start(GTK_TREE_VIEW_COLUMN(column), renderer, FALSE);
 
@@ -164,6 +173,7 @@ GtkWidget * create_navigation_pane ( void )
 		       NAVIGATION_FONT, 800,
 		       NAVIGATION_PAGE, GSB_HOME_PAGE,
 		       NAVIGATION_ACCOUNT, -1,
+		       NAVIGATION_SENSITIVE, 1,
 		       -1);
     create_account_list ( navigation_model, &account_iter );
 
@@ -178,6 +188,7 @@ GtkWidget * create_navigation_pane ( void )
 		       NAVIGATION_FONT, 800,
 		       NAVIGATION_PAGE, GSB_SCHEDULER_PAGE,
 		       NAVIGATION_ACCOUNT, -1,
+		       NAVIGATION_SENSITIVE, 1,
 		       -1 );
 
     /* Payees */
@@ -191,6 +202,7 @@ GtkWidget * create_navigation_pane ( void )
 		       NAVIGATION_FONT, 800,
 		       NAVIGATION_PAGE, GSB_PAYEES_PAGE,
 		       NAVIGATION_ACCOUNT, -1,
+		       NAVIGATION_SENSITIVE, 1,
 		       -1 );
 
     /* Categories */
@@ -204,6 +216,7 @@ GtkWidget * create_navigation_pane ( void )
 		       NAVIGATION_FONT, 800,
 		       NAVIGATION_PAGE, GSB_CATEGORIES_PAGE,
 		       NAVIGATION_ACCOUNT, -1,
+		       NAVIGATION_SENSITIVE, 1,
 		       -1 );
 
     /* Budgetary lines */
@@ -217,7 +230,24 @@ GtkWidget * create_navigation_pane ( void )
 		       NAVIGATION_FONT, 800,
 		       NAVIGATION_PAGE, GSB_BUDGETARY_LINES_PAGE,
 		       NAVIGATION_ACCOUNT, -1,
+		       NAVIGATION_SENSITIVE, 1,
 		       -1 );
+
+#ifdef HAVE_G2BANKING
+    /* Gbanking */
+    pixbuf = gdk_pixbuf_new_from_file ( g_strconcat( PIXMAPS_DIR, C_DIRECTORY_SEPARATOR,
+						     "aqbanking.png", NULL ), NULL );
+    gtk_tree_store_append(GTK_TREE_STORE(navigation_model), &iter, NULL);
+    gtk_tree_store_set(GTK_TREE_STORE(navigation_model), &iter, 
+		       NAVIGATION_PIX, pixbuf,
+		       NAVIGATION_TEXT, _("Aqbanking"), 
+		       NAVIGATION_PIX_VISIBLE, TRUE, 
+		       NAVIGATION_FONT, 800,
+		       NAVIGATION_PAGE, GSB_AQBANKING_PAGE,
+		       NAVIGATION_ACCOUNT, -1,
+		       NAVIGATION_SENSITIVE, 1,
+		       -1 );
+#endif
 
     /* Reports */
     pixbuf = gdk_pixbuf_new_from_file ( g_strconcat( PIXMAPS_DIR, C_DIRECTORY_SEPARATOR,
@@ -230,6 +260,7 @@ GtkWidget * create_navigation_pane ( void )
 		       NAVIGATION_FONT, 800,
 		       NAVIGATION_PAGE, GSB_REPORTS_PAGE,
 		       NAVIGATION_ACCOUNT, -1,
+		       NAVIGATION_SENSITIVE, 1,
 		       -1 );
     create_report_list ( navigation_model, &reports_iter );
 
@@ -241,10 +272,6 @@ GtkWidget * create_navigation_pane ( void )
     scheduler_calendar = creation_partie_gauche_echeancier();
     gtk_box_pack_end ( GTK_BOX(vbox), scheduler_calendar, FALSE, FALSE, 0 );
 
-    /* Handle select */
-    selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (navigation_tree_view));
-    g_signal_connect ( selection, "changed", 
-		       ((GCallback) gsb_gui_navigation_select_line ), navigation_model );
     gtk_widget_show_all ( vbox );
     gtk_widget_hide_all ( scheduler_calendar );
 
@@ -306,11 +333,38 @@ void create_report_list ( GtkTreeModel * model, GtkTreeIter * reports_iter )
 			   NAVIGATION_FONT, 400,
 			   NAVIGATION_PAGE, GSB_REPORTS_PAGE,
 			   NAVIGATION_ACCOUNT, -1,
+			   NAVIGATION_SENSITIVE, 1,
 			   NAVIGATION_REPORT, etat,
 			   -1 );
 	
 	tmp_list = tmp_list -> next;
     }
+}
+
+
+/**
+ *
+ *
+ */
+gboolean gsb_gui_navigation_line_visible_p ( GtkTreeModel * model, GtkTreeIter * iter,
+					     gpointer data )
+{
+    guint account_nb, page;
+
+    gtk_tree_model_get ( GTK_TREE_MODEL ( model ), iter,
+			 NAVIGATION_PAGE, &page,
+			 NAVIGATION_ACCOUNT, &account_nb, 
+			 -1 );
+
+    if ( page != GSB_ACCOUNT_PAGE || account_nb < 0 )
+	return TRUE;
+
+    if ( (! gsb_account_get_closed_account(account_nb)) || etat.show_closed_accounts )
+    {
+        return TRUE;
+    }
+
+    return FALSE;
 }
 
 
@@ -324,8 +378,8 @@ void create_report_list ( GtkTreeModel * model, GtkTreeIter * reports_iter )
  *
  * \return		FALSE
  */
-static gboolean gsb_gui_navigation_select_link ( GtkTreeSelection * selection,
-						 GtkTreeModel * model )
+gboolean gsb_gui_navigation_update_notebook ( GtkTreeSelection * selection,
+					      GtkTreeModel * model )
 {
     GtkTreeIter iter;
     GValue value = {0, }, value2 = {0, };
@@ -393,16 +447,49 @@ static gboolean gsb_gui_navigation_update_account_iterator ( GtkTreeModel * tree
 
 
 /**
+ * Iterator that iterates over the navigation pane model and update
+ * iter of report that is equal to `data'.
+ *
+ * \param tree_model	Pointer to the model of the navigation tree.
+ * \param path		Not used.
+ * \param iter		Current iter to test.
+ * \param data		Number of an report to match against the
+ *			NAVIGATION_REPORT column of current iter.
+ *
+ * \return TRUE if this iter matches.
+ */
+static gboolean gsb_gui_navigation_update_report_iterator ( GtkTreeModel * tree_model, 
+							    GtkTreePath *path, 
+							    GtkTreeIter *iter, 
+							    gpointer data )
+{
+    gint report_nb;
+
+    gtk_tree_model_get ( GTK_TREE_MODEL ( tree_model ), iter,
+			 NAVIGATION_REPORT, &report_nb, 
+			 -1 );
+
+    if ( report_nb == GPOINTER_TO_INT ( data ) )
+    {
+	gsb_gui_navigation_update_report_iter ( tree_model, iter, data );
+	return TRUE;
+    }
+
+    return FALSE;
+}
+
+
+
+/**
  * Update informations for an report in navigation pane.
  *
  * \param report_nb	Number of the report that has to be updated.
  */
-void gsb_gui_navigation_update_report ( gint report_nb )
+void gsb_gui_navigation_update_report ( struct struct_etat * report )
 {
-/* FIXME : in comment because gsb_gui_navigation_update_report_iterator doesn't exist */
-/*     gtk_tree_model_foreach ( navigation_model,  */
-/* 			     (GtkTreeModelForeachFunc) gsb_gui_navigation_update_report_iterator,  */
-/* 			     GINT_TO_POINTER ( report_nb ) ); */
+    gtk_tree_model_foreach ( navigation_model,
+			     (GtkTreeModelForeachFunc) gsb_gui_navigation_update_report_iterator,
+			     GINT_TO_POINTER ( report ) );
 }
 
 
@@ -416,11 +503,14 @@ void gsb_gui_navigation_update_report ( gint report_nb )
  */
 void gsb_gui_navigation_update_report_iter ( GtkTreeModel * model, 
 					      GtkTreeIter * report_iter,
-					      struct struct_etat *report )
+					      struct struct_etat * report )
 {
     gtk_tree_store_set(GTK_TREE_STORE(model), report_iter, 
 		       NAVIGATION_TEXT, report -> nom_etat, 
+		       NAVIGATION_PAGE, GSB_REPORTS_PAGE,
 		       NAVIGATION_REPORT, report,
+		       NAVIGATION_ACCOUNT, -1,
+		       NAVIGATION_SENSITIVE, 1,
 		       -1 );
 }
 
@@ -469,8 +559,11 @@ void gsb_gui_navigation_add_report ( struct struct_etat * report )
 {
     GtkTreeIter parent, iter;
     GtkTreeSelection * selection;
+    GtkTreePath * path;
 
-    gtk_tree_model_get_iter_first ( navigation_model, &parent );
+    path = gtk_tree_path_new ();
+    gtk_tree_path_prepend_index ( path, GSB_REPORTS_PAGE - 1 );
+    gtk_tree_model_get_iter ( navigation_model, &parent, path );
     gtk_tree_store_append ( GTK_TREE_STORE(navigation_model), &iter, &parent );
 
     gsb_gui_navigation_update_report_iter ( navigation_model, &iter, report );    
@@ -486,11 +579,11 @@ void gsb_gui_navigation_add_report ( struct struct_etat * report )
  *
  * \param report_nb	Report ID to add.
  */
-void gsb_gui_navigation_remove_report ( gint report_nb )
+void gsb_gui_navigation_remove_report ( struct struct_etat * report )
 {
     gtk_tree_model_foreach ( navigation_model, 
 			     (GtkTreeModelForeachFunc) gsb_gui_navigation_remove_report_iterator, 
-			     GINT_TO_POINTER ( report_nb ) );
+			     GINT_TO_POINTER ( report ) );
    
 }
 
@@ -521,44 +614,41 @@ void gsb_gui_navigation_update_account_iter ( GtkTreeModel * model,
 					      GtkTreeIter * account_iter,
 					      gint account_nb )
 {
-    if ( !gsb_account_get_closed_account ( account_nb ) )
-    {
-	GdkPixbuf * pixbuf;
-	gchar * account_icon;
+    GdkPixbuf * pixbuf;
+    gchar * account_icon;
 	    
-	switch ( gsb_account_get_kind ( account_nb ) )
-	{
-	    case GSB_TYPE_BANK:
-		account_icon = "bank-account";
-		break;
+    switch ( gsb_account_get_kind ( account_nb ) )
+    {
+	case GSB_TYPE_BANK:
+	    account_icon = "bank-account";
+	    break;
 
-	    case GSB_TYPE_CASH:
-		account_icon = "money";
-		break;
+	case GSB_TYPE_CASH:
+	    account_icon = "money";
+	    break;
 
-	    case GSB_TYPE_ASSET:
-	    case GSB_TYPE_LIABILITIES:
-		account_icon = "asset";
-		break;
+	case GSB_TYPE_ASSET:
+	case GSB_TYPE_LIABILITIES:
+	    account_icon = "asset";
+	    break;
 
-	    default:
-		account_icon = "warnings";
-		break;
-	}
-
-	pixbuf = gdk_pixbuf_new_from_file ( g_strconcat( PIXMAPS_DIR, 
-							 C_DIRECTORY_SEPARATOR,
-							 account_icon, ".png", NULL ),
-					    NULL );
-	gtk_tree_store_set(GTK_TREE_STORE(model), account_iter, 
-			   NAVIGATION_PIX, pixbuf,
-			   NAVIGATION_PIX_VISIBLE, TRUE, 
-			   NAVIGATION_TEXT, gsb_account_get_name ( account_nb ), 
-			   NAVIGATION_FONT, 400,
-			   NAVIGATION_PAGE, GSB_ACCOUNT_PAGE,
-			   NAVIGATION_ACCOUNT, account_nb,
-			   -1 );
+	default:
+	    account_icon = "warnings";
+	    break;
     }
+
+    pixbuf = gdk_pixbuf_new_from_file ( g_strconcat( PIXMAPS_DIR, 
+						     C_DIRECTORY_SEPARATOR,
+						     account_icon, ".png", NULL ), NULL );
+    gtk_tree_store_set(GTK_TREE_STORE(model), account_iter, 
+		       NAVIGATION_PIX, pixbuf,
+		       NAVIGATION_PIX_VISIBLE, TRUE, 
+		       NAVIGATION_TEXT, gsb_account_get_name ( account_nb ), 
+		       NAVIGATION_FONT, 400,
+		       NAVIGATION_PAGE, GSB_ACCOUNT_PAGE,
+		       NAVIGATION_ACCOUNT, account_nb,
+		       NAVIGATION_SENSITIVE, !gsb_account_get_closed_account ( account_nb ),
+		       -1 );
 }
 
 
@@ -643,11 +733,12 @@ void gsb_gui_navigation_remove_account ( gint account_nb )
  * \return FALSE
  */
 gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
-					  GtkTreeModel *model )
+					  GtkTreeModel * model )
 {
     GtkTreeIter iter;
     GValue value = {0, }, pointer = {0, };
     gchar * title, * suffix = "";
+    gint account_nb;
 
     if (! gtk_tree_selection_get_selected (selection, NULL, &iter))
 	return FALSE;
@@ -661,9 +752,14 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 	    break;
 
 	case GSB_ACCOUNT_PAGE:
+	    gtk_tree_model_get (model, &iter, NAVIGATION_ACCOUNT, &account_nb, -1);
 	    title = g_strconcat ( _("Account transactions"), " : ",
-				 gsb_account_get_name ( compte_courant_onglet ),
-				 NULL );
+				  gsb_account_get_name ( account_nb ),
+				  NULL );
+	    if ( gsb_account_get_closed_account ( account_nb ) )
+	    {
+		title = g_strconcat ( title, " (", _("closed"), ")", NULL );
+	    }
 	    suffix = g_strdup_printf ( "%4.2f %s", 
 				       gsb_account_get_current_balance ( compte_courant_onglet ),
 				       devise_code ( devise_par_no ( gsb_account_get_currency ( compte_courant_onglet ) ) ) );
@@ -704,11 +800,15 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
     }
 
     gsb_gui_headings_update ( title, suffix );
+    gsb_gui_navigation_update_notebook ( selection, model );
 
     return FALSE;
 }
 
-/** check the key pressed on the navigation tree view,
+
+
+/** 
+ * Check the key pressed on the navigation tree view,
  * if need, stop the event to do another thing with that key
  *
  * \param tree_view the navigation tree_view

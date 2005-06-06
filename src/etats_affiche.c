@@ -679,12 +679,12 @@ gint etat_affiche_affiche_total_tiers ( gint ligne )
 		if ( etat_courant -> afficher_nb_opes )
 		{
 		    if ( nb_ope_tiers_etat <= 1 )
-			text = g_strdup_printf ( COLON(_("Third party total: (%d transaction)")), nb_ope_tiers_etat );
+			text = g_strdup_printf ( COLON(_("Payee total: (%d transaction)")), nb_ope_tiers_etat );
 		    else
-			text = g_strdup_printf ( COLON(_("Third party total: (%d transactions)")), nb_ope_tiers_etat );
+			text = g_strdup_printf ( COLON(_("Payee total: (%d transactions)")), nb_ope_tiers_etat );
 		}
 		else
-		    text = COLON(_("Third party total"));
+		    text = COLON(_("Payee total"));
 	    }
 
 	    etat_affiche_attach_label ( text, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, LEFT, NULL );
@@ -2034,7 +2034,7 @@ gint etat_affiche_affiche_tiers_etat ( gpointer operation,
 	    }
 	    else
 		pointeur_char = g_strconcat ( decalage_tiers,
-					      _("No third party"),
+					      _("No payee"),
 					      NULL );
 
 	    etat_affiche_attach_label ( pointeur_char, TEXT_NORMAL, 0, nb_colonnes-1, 
@@ -2179,7 +2179,7 @@ gint etat_affiche_affiche_titres_colonnes ( gint ligne )
 
     if ( etat_courant -> afficher_tiers_ope )
     {
-	etat_affiche_attach_label ( _("Third party"), TEXT_BOLD, colonne, colonne + 1, ligne, ligne + 1, CENTER, NULL );
+	etat_affiche_attach_label ( _("Payee"), TEXT_BOLD, colonne, colonne + 1, ligne, ligne + 1, CENTER, NULL );
 	etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
 	colonne = colonne + 2;
     }

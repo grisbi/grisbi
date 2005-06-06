@@ -838,7 +838,7 @@ gchar *recherche_nom_element_formulaire ( gint no_element )
 	    break;
 
 	case TRANSACTION_FORM_PARTY:
-	    return (N_("Third party"));
+	    return (N_("Payee"));
 	    break;
 
 	case TRANSACTION_FORM_CATEGORY:

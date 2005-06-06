@@ -919,7 +919,7 @@ gboolean entree_perd_focus_echeancier ( GtkWidget *entree,
 	    if ( strlen ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree )))))
 		completion_operation_par_tiers_echeancier ();
 	    else
-		texte = _("Third party");
+		texte = _("Payee");
 	    break;
 
 	    /* on sort du débit : soit vide, soit change le menu des types
@@ -2382,7 +2382,7 @@ void formulaire_echeancier_a_zero ( void )
     gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_echeancier[SCHEDULER_FORM_DATE] ),
 			 _("Date") );
     gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_PARTY] ),
-			    _("Third party") );
+			    _("Payee") );
     gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_echeancier[SCHEDULER_FORM_DEBIT] ),
 			 _("Debit") );
     gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_echeancier[SCHEDULER_FORM_CREDIT] ),

@@ -66,7 +66,6 @@ GtkWidget *bouton_grille_echeancier;
 GtkWidget *bouton_affiche_cache_formulaire;
 GtkWidget *fleche_haut;
 GtkWidget *fleche_bas;
-GtkWidget *display_lines_option_menu;
 
 
 
@@ -127,9 +126,9 @@ GtkWidget *creation_barre_outils ( void )
 			 FALSE, FALSE, 0 );
 
     menu = new_stock_button_with_label_menu ( etat.display_toolbar,
-						GTK_STOCK_SELECT_COLOR, _("View"),
-						G_CALLBACK(popup_transaction_view_mode_menu),
-						NULL );
+					      GTK_STOCK_SELECT_COLOR, _("View"),
+					      G_CALLBACK(popup_transaction_view_mode_menu),
+					      NULL );
     gtk_box_pack_start ( GTK_BOX(hbox), menu, FALSE, FALSE, 0 );
 
     gtk_widget_show_all ( handlebox );
@@ -447,22 +446,6 @@ GtkWidget *creation_barre_outils_echeancier ( void )
     return ( handlebox );
 }
 /*******************************************************************************************/
-
-
-/*******************************************************************************************/
-/* cette fonction met les boutons du nb lignes par opé et de l'affichage de R en fonction du compte */
-/* envoyé en argument */
-/*******************************************************************************************/
-
-void mise_a_jour_boutons_caract_liste ( gint no_compte )
-{
-    /*     on veut juste mettre les boutons à jour, sans redessiner la liste */
-    /*     on bloque donc les appels aux fonctions */
-
-    gtk_option_menu_set_history ( GTK_OPTION_MENU (display_lines_option_menu),
-				  gsb_account_get_nb_rows ( no_compte ) );
-}
-
 
 /* Local Variables: */
 /* c-basic-offset: 4 */

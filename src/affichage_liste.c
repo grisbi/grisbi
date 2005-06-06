@@ -58,7 +58,7 @@ static gboolean transactions_list_display_modes_menu_changed  ( GtkWidget * menu
 gchar *labels_boutons [] = {
     N_("Date"),
     N_("Value date"),
-    N_("Third party"),
+    N_("Payee"),
     N_("Budgetary line"),
     N_("Debit"),
     N_("Credit"),

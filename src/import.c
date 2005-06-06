@@ -2379,7 +2379,7 @@ void pointe_opes_importees ( struct struct_compte_importation *imported_account 
 	gtk_tree_view_append_column (GTK_TREE_VIEW (liste_ope_celibataires), column);
 
 	renderer = gtk_cell_renderer_text_new ();
-	column = gtk_tree_view_column_new_with_attributes ( _("Third party"),
+	column = gtk_tree_view_column_new_with_attributes ( _("Payee"),
 							    renderer,
 							    "text", 2,
 							    NULL);

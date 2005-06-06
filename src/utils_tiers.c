@@ -136,7 +136,7 @@ struct struct_tiers *ajoute_nouveau_tiers ( gchar *tiers )
 /* **************************************************************************************************** */
 /* retourne le tiers en donnant comme argument son numÃ©ro */
 /* retour : soit le nom du tiers
- * 	    soit No third party defined si return_null est FALSE et pas de tiers trouvÃ©,
+ * 	    soit No payee defined si return_null est FALSE et pas de tiers trouvÃ©,
  * 	    soit NULL si return_null est TRUE et pas de tiers trouvÃ© */
 /* **************************************************************************************************** */
 
@@ -153,7 +153,7 @@ gchar *tiers_name_by_no ( gint no_tiers,
 	if ( return_null )
 	    return NULL;
 	else
-	    return ( g_strdup (_("No third party defined")));
+	    return ( g_strdup (_("No payee defined")));
 }
 
 

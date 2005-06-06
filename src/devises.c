@@ -1569,7 +1569,7 @@ GtkWidget *tab_display_totals ( void )
     gtk_table_set_col_spacings ( GTK_TABLE ( table ), 5 );
     gtk_table_set_row_spacings ( GTK_TABLE ( table ), 5 );
 
-    label = gtk_label_new (_("Currency for third parties tree"));
+    label = gtk_label_new (_("Currency for payees tree"));
     gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
     gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_LEFT );
     gtk_table_attach ( GTK_TABLE ( table ), label, 

@@ -392,7 +392,7 @@ void personnalisation_etat (void)
 
 	gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_selection ),
 				   onglet_etat_tiers (),
-				   gtk_label_new (SPACIFY(_("Third party"))) );
+				   gtk_label_new (SPACIFY(_("Payee"))) );
 
 	gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_selection ),
 				   onglet_etat_categories (),
@@ -523,7 +523,7 @@ void personnalisation_etat (void)
 		break;
 
 	    case 6:
-		text[0] = _("Third party");
+		text[0] = _("Payee");
 		break;
 
 	}
@@ -1587,7 +1587,7 @@ void recuperation_info_perso_etat ( void )
     {
 	dialogue_special ( GTK_MESSAGE_INFO, 
 			   make_hint ( _("Performance issue."),
-				       _("All third parties have been selected.  Grisbi will run faster without the \"Detail third parties used\" option activated.") ) );
+				       _("All payees have been selected.  Grisbi will run faster without the \"Detail payees used\" option activated.") ) );
 	etat_courant -> utilise_detail_tiers = FALSE;
     }
 
@@ -1754,11 +1754,12 @@ void recuperation_info_perso_etat ( void )
     rafraichissement_etat ( etat_courant );
 
     /* on repasse à la 1ère page du notebook */
-
     gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_etats ),
 			    0 );
     gtk_widget_set_sensitive ( frame_liste_etats,
 			       TRUE );
+
+    gsb_gui_navigation_update_report ( etat_courant );
 }
 /******************************************************************************/
 
@@ -3634,7 +3635,7 @@ GtkWidget *onglet_etat_tiers ( void )
 			 0 );
     gtk_widget_show ( hbox );
 
-    bouton_detaille_tiers_etat = gtk_check_button_new_with_label ( _("Detail third parties") );
+    bouton_detaille_tiers_etat = gtk_check_button_new_with_label ( _("Detail payees") );
     gtk_signal_connect_object ( GTK_OBJECT ( bouton_detaille_tiers_etat ),
 				"toggled",
 				GTK_SIGNAL_FUNC ( stylise_tab_label_etat ),
@@ -3672,7 +3673,7 @@ GtkWidget *onglet_etat_tiers ( void )
 			 0 );
     gtk_widget_show ( vbox );
 
-    label = gtk_label_new ( COLON(_("Select third parties to include in this report")) );
+    label = gtk_label_new ( COLON(_("Select payees to include in this report")) );
     gtk_box_pack_start ( GTK_BOX ( vbox ),
 			 label,
 			 FALSE,
@@ -4440,7 +4441,7 @@ GtkWidget *cree_bouton_champ ( struct struct_comparaison_textes_etat *comp_texte
 
     menu = gtk_menu_new ();
 
-    menu_item = gtk_menu_item_new_with_label ( _("the third party"));
+    menu_item = gtk_menu_item_new_with_label ( _("the payee"));
     gtk_menu_append ( GTK_MENU ( menu ),
 		      menu_item );
     gtk_object_set_data ( GTK_OBJECT ( menu_item ),
@@ -4468,7 +4469,7 @@ GtkWidget *cree_bouton_champ ( struct struct_comparaison_textes_etat *comp_texte
 				GTK_OBJECT ( comp_textes -> bouton_utilise_no ));
     gtk_widget_show ( menu_item );
 
-    menu_item = gtk_menu_item_new_with_label ( _("the third party information"));
+    menu_item = gtk_menu_item_new_with_label ( _("the payee information"));
     gtk_menu_append ( GTK_MENU ( menu ),
 		      menu_item );
     gtk_object_set_data ( GTK_OBJECT ( menu_item ),
@@ -5929,7 +5930,7 @@ GtkWidget *page_organisation_donnees ( void )
 			 0 );
     gtk_widget_show ( hbox );
 
-    bouton_utilise_tiers_etat = gtk_check_button_new_with_label ( _("Group transactions by third party") );
+    bouton_utilise_tiers_etat = gtk_check_button_new_with_label ( _("Group transactions by payee") );
     gtk_box_pack_start ( GTK_BOX ( hbox ),
 			 bouton_utilise_tiers_etat,
 			 FALSE,
@@ -6493,7 +6494,7 @@ GtkWidget *onglet_affichage_etat_generalites ( void )
 			 0 );
     gtk_widget_show ( hbox );
 
-    bouton_inclure_dans_tiers = gtk_check_button_new_with_label ( _("Consider the third parties of this report as a multiple third party.") );
+    bouton_inclure_dans_tiers = gtk_check_button_new_with_label ( _("Consider the payees of this report as a multiple payee.") );
     gtk_box_pack_start ( GTK_BOX ( hbox ),
 			 bouton_inclure_dans_tiers,
 			 FALSE,
@@ -6645,7 +6646,7 @@ GtkWidget *onglet_affichage_etat_operations ( void )
 				1, 2 );
     gtk_widget_show ( hbox );
 
-    bouton_afficher_tiers_opes = gtk_check_button_new_with_label ( _("the third party") );
+    bouton_afficher_tiers_opes = gtk_check_button_new_with_label ( _("the payee") );
     gtk_box_pack_start ( GTK_BOX ( hbox ),
 			 bouton_afficher_tiers_opes,
 			 FALSE,
@@ -6933,7 +6934,7 @@ GtkWidget *onglet_affichage_etat_operations ( void )
 		      menu_item );
     gtk_widget_show ( menu_item );
 
-    menu_item = gtk_menu_item_new_with_label ( _("third party"));
+    menu_item = gtk_menu_item_new_with_label ( _("payee"));
     gtk_object_set_data ( GTK_OBJECT ( menu_item ),
 			  "no_classement",
 			  GINT_TO_POINTER ( 2 ));
@@ -7137,7 +7138,7 @@ GtkWidget *onglet_affichage_etat_devises ( void )
     gtk_widget_show ( hbox );
 
 
-    label = gtk_label_new ( COLON(_("Third parties currency")) );
+    label = gtk_label_new ( COLON(_("Payees currency")) );
     gtk_misc_set_alignment ( GTK_MISC ( label ),
 			     0,
 			     0.5 );
@@ -7410,7 +7411,7 @@ GtkWidget *onglet_affichage_etat_divers ( void )
 
     /* mise en place de la frame des tiers */
 
-    frame = gtk_frame_new ( COLON(_("Third party")));
+    frame = gtk_frame_new ( COLON(_("Payee")));
     gtk_box_pack_start ( GTK_BOX ( hbox ),
 			 frame,
 			 FALSE,
@@ -7428,7 +7429,7 @@ GtkWidget *onglet_affichage_etat_divers ( void )
 
     /* permet d'afficher le nom du tiers, activé uniquement si on utilise les tiers */
 
-    bouton_afficher_noms_tiers = gtk_check_button_new_with_label ( _("Display third party's name") );
+    bouton_afficher_noms_tiers = gtk_check_button_new_with_label ( _("Display payee's name") );
     gtk_box_pack_start ( GTK_BOX ( vbox ),
 			 bouton_afficher_noms_tiers,
 			 FALSE,
@@ -7444,7 +7445,7 @@ GtkWidget *onglet_affichage_etat_divers ( void )
     /* permet d'afficher un ss total lors de chgt de tiers */
     /* activé uniquement si on utilise les tiers */
 
-    bouton_affiche_sous_total_tiers = gtk_check_button_new_with_label ( _("Dsplay a sub-total for each third party") );
+    bouton_affiche_sous_total_tiers = gtk_check_button_new_with_label ( _("Dsplay a sub-total for each payee") );
     gtk_box_pack_start ( GTK_BOX ( vbox ),
 			 bouton_affiche_sous_total_tiers,
 			 FALSE,
