@@ -154,7 +154,7 @@ static struct iso_4217_currency iso_4217_currencies[] = {
     { N_("Europe"), N_("Netherlands Guilder"), N_("Netherlands"), "NLG", NULL, FALSE },
     { N_("Europe"), N_("New Yugoslavian Dinar"), N_("Serbia and Montenegro"), "YUD", NULL, FALSE },
     { N_("Europe"), N_("Norwegian Krone"), N_("Norway"), "NOK", NULL, TRUE },
-    { N_("Europe"), N_("Polish Zloty"), N_("Poland"), "PLZ", NULL, FALSE },
+    { N_("Europe"), N_("Polish Zloty"), N_("Poland"), "PLZ", NULL, TRUE },
     { N_("Europe"), N_("Portuguese Escudo"), N_("Portugal"), "PTE", NULL, FALSE },
     { N_("Europe"), N_("Pound Sterling"), N_("United Kingdom"), "GBP", "£", TRUE },
     { N_("Europe"), N_("Romanian Leu"), N_("Romania"), "ROL", NULL, TRUE },
