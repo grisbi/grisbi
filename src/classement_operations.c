@@ -514,11 +514,11 @@ gint gsb_transactions_list_breakdown_test ( GtkSortType sort_type )
 	    {
 		if ( gsb_transaction_data_get_mother_transaction_number ( transaction_number_2)== gsb_transaction_data_get_mother_transaction_number ( transaction_number_1))
 		{
-		    if ( transaction_number_1 == -1 )
+		    if ( transaction_number_1 < 0 )
 			return_value = 1;
 		    else
 		    {
-			if ( transaction_number_2 == -1 )
+			if ( transaction_number_2 < 0 )
 			    return_value = -1;
 		    }
 		}

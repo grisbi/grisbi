@@ -43,6 +43,7 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
+static gint gsb_transaction_data_get_last_white_number (void);
 static struct_transaction *gsb_transaction_data_get_transaction_by_no ( gint no_transaction );
 static gboolean gsb_transaction_data_save_transaction_pointer ( gpointer transaction );
 /*END_STATIC*/
@@ -52,6 +53,11 @@ static gboolean gsb_transaction_data_save_transaction_pointer ( gpointer transac
 
 /** the g_slist which contains all the transactions structures */
 static GSList *transactions_list;
+
+/** the g_slist which contains all the white transactions structures
+ * ie : 1 general white line
+ * and 1 white line per breakdown of transaction */
+static GSList *white_transactions_list;
 
 /** 2 pointers to the 2 last transaction used (to increase the speed) */
 static struct_transaction *transaction_buffer[2];
@@ -126,6 +132,44 @@ gint gsb_transaction_data_get_last_number (void)
     return last_number;
 }
 
+
+/** find the last number of the white lines
+ * all the white lines have a number < 0, and it always exists at least
+ * one line, which number -1 which is the general white line (without mother)
+ * so we never return 0 to avoid -1 for a number of white breakdown
+ * 
+ * \param none
+ *
+ * \return the number
+ * */
+gint gsb_transaction_data_get_last_white_number (void)
+{
+    gint last_number = 0;
+    GSList *transactions_list_tmp;
+
+    transactions_list_tmp = white_transactions_list;
+
+    while (transactions_list_tmp)
+    {
+	struct_transaction *transaction;
+
+	transaction = transactions_list_tmp -> data;
+	if ( transaction -> transaction_number < last_number )
+	    last_number = transaction -> transaction_number;
+
+	transactions_list_tmp = transactions_list_tmp -> next;
+    }
+    
+    /* if the general white line has not been appened already, we
+     * return -1 to keep that number for the general white line
+     * (the number will be decreased after to numbered the new line) */
+
+    if ( !last_number )
+	last_number = -1;
+
+    return last_number;
+}
+
 /** get the number of the transaction and save the pointer in the buffer
  * which will increase the speed later
  * \param transaction a pointer to a transaction
@@ -189,7 +233,10 @@ struct_transaction *gsb_transaction_data_get_transaction_by_no ( gint no_transac
 	 transaction_buffer[1] -> transaction_number == no_transaction )
 	return transaction_buffer[1];
 
-    transactions_list_tmp = transactions_list;
+    if ( no_transaction < 0 )
+	transactions_list_tmp = white_transactions_list;
+    else
+	transactions_list_tmp = transactions_list;
 
     while ( transactions_list_tmp )
     {
@@ -1442,13 +1489,19 @@ gint gsb_transaction_data_new_transaction ( gint no_account )
 }
 
 
-/** create a new white line, set the number to -1 and set the mother breakdown if it's a child
+/** 
+ * create a new white line
+ * if there is a mother transaction, it's a breakdown and we increment in the negatives values
+ * the number of that line
+ * without mother transaction, it's the general white line, the number is -1
+ *
  * if it's a child breakdown, the account is set as for its mother,
  * if it's the last white line, the account is set to -1
- * that transaction is not append to the transaction's list, the only mean to access it later
- * is by the gtk list of transactions which remains the adresses
+ * that transaction is appended to the white transactions list
+ * 
  * \param mother_transaction_number the number of the mother's transaction if it's a breakdown child ; 0 if not
- * \return a pointer to the new transaction
+ *
+ * \return the pointer of the white line
  * */
 gpointer gsb_transaction_data_new_white_line ( gint mother_transaction_number)
 {
@@ -1470,7 +1523,13 @@ gpointer gsb_transaction_data_new_white_line ( gint mother_transaction_number)
     transaction -> party_number = gsb_transaction_data_get_party_number (mother_transaction_number);
     transaction -> mother_transaction_number = mother_transaction_number;
 
-    transaction -> transaction_number = -1;
+    if ( mother_transaction_number )
+	transaction -> transaction_number = gsb_transaction_data_get_last_white_number () - 1;
+    else
+	transaction -> transaction_number = -1;
+
+    white_transactions_list = g_slist_append ( white_transactions_list,
+					       transaction );
 
     gsb_transaction_data_save_transaction_pointer (transaction);
 

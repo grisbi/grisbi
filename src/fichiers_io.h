@@ -13,5 +13,6 @@ gboolean enregistre_categ ( gchar *nom_categ );
 gboolean enregistre_fichier ( gchar *new_file );
 gboolean enregistre_ib ( gchar *nom_ib );
 gboolean modification_etat_ouverture_fichier ( gboolean fichier_ouvert );
+void propose_changement_permissions ( void );
 /* END_DECLARATION */
 #endif

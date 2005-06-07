@@ -34,16 +34,17 @@
 #include "patienter.h"
 #include "utils_montants.h"
 #include "fenetre_principale.h"
-#include "fichiers_io.h"
 #include "categories_onglet.h"
 #include "imputation_budgetaire.h"
 #include "tiers_onglet.h"
 #include "comptes_traitements.h"
 #include "dialog.h"
+#include "fichiers_io.h"
 #include "erreur.h"
 #include "utils_file_selection.h"
 #include "gsb_account.h"
 #include "operations_comptes.h"
+#include "gsb_file_load.h"
 #include "echeancier_liste.h"
 #include "gsb_transaction_data.h"
 #include "operations_liste.h"
@@ -300,7 +301,7 @@ gboolean gsb_file_open_file ( gchar *filename )
 
     /* try to load the file */
 
-    if ( charge_operations ( filename ) )
+    if ( gsb_file_load_open_file ( filename ) )
     {
 	/* the file has opened succesfully */
 
@@ -377,7 +378,7 @@ gboolean gsb_file_open_file ( gchar *filename )
 
 	    /* try to load the backup */
 
-	    if ( charge_operations ( backup_filename ) )
+	    if ( gsb_file_load_open_file ( backup_filename ) )
 	    {
 		/* the backup loaded succesfully */
 

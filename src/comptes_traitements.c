@@ -75,9 +75,7 @@ extern gint mise_a_jour_soldes_minimaux;
 extern gint nb_echeances;
 extern GtkWidget *notebook_general;
 extern GtkStyle *style_entree_formulaire[2];
-extern GtkWidget *tree_view;
 extern GtkWidget *tree_view_vbox;
-extern GtkWidget *treeview;
 extern GtkWidget *widget_formulaire_echeancier[SCHEDULER_FORM_TOTAL_WIDGET];
 /*END_EXTERN*/
 
@@ -141,15 +139,6 @@ gboolean new_account ( void )
 
     /* Add an entry in navigation pane. */
     gsb_gui_navigation_add_account ( no_compte );
-
-    /* Create account transaction list (in fact, a treeview). */
-/*     creation_colonnes_tree_view_par_compte (no_compte); */
-
-    /* xxx ici voir pour le tree_view */
-/*     gtk_box_pack_start ( GTK_BOX ( tree_view_vbox ), */
-/* 			 creation_tree_view_operations_par_compte (no_compte), */
-/* 			 TRUE, TRUE, 0 ); */
-
 
     modification_fichier ( TRUE );
     return FALSE;

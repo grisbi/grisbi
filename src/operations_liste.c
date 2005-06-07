@@ -306,7 +306,8 @@ GtkWidget *gsb_transactions_list_make_gui_list ( void )
     return scrolled_window;
 }
 
-/** called after a click on a column title ; the sort of the list is automatic,
+/**
+ * called after a click on a column title ; the sort of the list is automatic,
  * that function make the background color and the rest to be updated
  *
  * \param tree_view_column the tree_view_column clicked
@@ -334,6 +335,9 @@ gboolean gsb_transactions_list_sort_column_changed ( GtkTreeViewColumn *tree_vie
 					       sort_type );
 	return FALSE;
     }
+
+    gsb_transactions_list_set_background_color ( gsb_account_get_current_account ());
+    gsb_transactions_list_set_transactions_balances ( gsb_account_get_current_account ());
 
     modification_fichier ( TRUE );
     return FALSE;
@@ -372,7 +376,8 @@ void creation_titres_tree_view ( void )
 }
 
 
-/** create the columns of the tree_view
+/** 
+ * creates the columns of the tree_view
  * */
 void gsb_transactions_list_create_tree_view_columns ( void )
 {
@@ -582,9 +587,12 @@ GtkListStore *gsb_transactions_list_create_store ( void )
 }
 
 
-/** create a filter model from a filled store,
+/** 
+ * create a filter model from a filled store,
  * set the visible column
+ * 
  * \param store the filled store
+ * 
  * \return the filter model
  * */
 GtkTreeModel *gsb_transactions_list_set_filter_store ( GtkListStore *store )
@@ -604,9 +612,12 @@ GtkTreeModel *gsb_transactions_list_set_filter_store ( GtkListStore *store )
 
 
 
-/** create a filter model from a filled store,
+/** 
+ * create a sorting model from a filter model,
  * set the visible column
+ * 
  * \param store the filled store
+ * 
  * \return the filter model
  * */
 GtkTreeModel *gsb_transactions_list_set_sorting_store ( GtkTreeModel *filter_model )
@@ -819,17 +830,14 @@ gboolean gsb_transactions_list_append_white_line ( gint mother_transaction_numbe
 	gtk_list_store_append ( store,
 				&iter );
 
+	/* draw the first column for the general white line */
 	/* set the number of line in the transaction */
-
-	gtk_list_store_set ( store,
-			     &iter,
-			     TRANSACTION_COL_NB_TRANSACTION_LINE, i,
-			     -1 );
-
 	/* set the address of the transaction */
 
 	gtk_list_store_set ( store,
 			     &iter,
+			     TRANSACTION_COL_NB_IS_NOT_BREAKDOWN, !mother_transaction_number,
+			     TRANSACTION_COL_NB_TRANSACTION_LINE, i,
 			     TRANSACTION_COL_NB_TRANSACTION_ADDRESS, gsb_transaction_data_new_white_line (mother_transaction_number),
 			     -1 );
 
@@ -903,17 +911,16 @@ gboolean gsb_transactions_list_fill_row ( gint transaction_number,
     if ( gsb_transaction_data_get_breakdown_of_transaction (transaction_number)
 	 &&
 	 !line_in_transaction )
-    {
 	gtk_list_store_set ( store,
 			     iter,
 			     TRANSACTION_COL_NB_IS_EXPANDER, TRUE,
 			     TRANSACTION_COL_NB_IS_EXPANDED, FALSE,
 			     -1 );
-    }
     else
 	gtk_list_store_set ( store,
 			     iter,
-			     TRANSACTION_COL_NB_IS_NOT_BREAKDOWN, TRUE,
+			     TRANSACTION_COL_NB_IS_EXPANDER, FALSE,
+			     TRANSACTION_COL_NB_IS_EXPANDED, FALSE,
 			     -1 );
 
     /* if we use a custom font... */
@@ -924,17 +931,14 @@ gboolean gsb_transactions_list_fill_row ( gint transaction_number,
 			     TRANSACTION_COL_NB_FONT, pango_desc_fonte_liste,
 			     -1 );
 
+    /* draw the first column for all transactions, except for children of breakdowns */
     /* set the number of line in the transaction */
-
-    gtk_list_store_set ( store,
-			 iter,
-			 TRANSACTION_COL_NB_TRANSACTION_LINE, line_in_transaction,
-			 -1 );
-
     /* set the address of the transaction */
 
     gtk_list_store_set ( store,
 			 iter,
+			 TRANSACTION_COL_NB_IS_NOT_BREAKDOWN, !gsb_transaction_data_get_mother_transaction_number (transaction_number),
+			 TRANSACTION_COL_NB_TRANSACTION_LINE, line_in_transaction,
 			 TRANSACTION_COL_NB_TRANSACTION_ADDRESS, gsb_transaction_data_get_pointer_to_transaction (transaction_number),
 			 -1 );
 
@@ -1251,7 +1255,6 @@ gboolean gsb_transactions_list_set_background_color ( gint no_account )
 		couleur_en_cours = 1 - couleur_en_cours;
 	    }
 	}
-
 	gtk_tree_path_next ( path_sort );
     }
     return FALSE;
@@ -1747,9 +1750,7 @@ gint gsb_transactions_list_get_transaction_next ( gint transaction_number,
 
     /* if we are on the white line, do nothing */
 
-    if ( transaction_number == -1
-	 &&
-	 !mother_transaction_number)
+    if ( transaction_number == -1)
 	return 0;
 
     path = gsb_transactions_list_get_path_from_transaction (gsb_transaction_data_get_pointer_to_transaction (transaction_number));
@@ -1796,22 +1797,25 @@ gboolean gsb_transactions_list_set_current_transaction ( gint transaction_number
     gint current_transaction_number;
     gint account_number;
 
-     if ( DEBUG )
+    if ( DEBUG )
 	printf ( "gsb_transactions_list_set_current_transaction %d\n",
 		 transaction_number);
-
-   if ( !gsb_transactions_list_get_tree_view()
+    
+    if ( !gsb_transactions_list_get_tree_view()
 	 ||
 	 !transaction_number )
 	return FALSE;
+    
+    /* the white number has no account number, so we take the current account */
 
-   account_number = gsb_transaction_data_get_account_number (transaction_number);
+    if ( transaction_number != -1 )
+	account_number = gsb_transaction_data_get_account_number (transaction_number);
+    else
+	account_number = gsb_account_get_current_account ();
 
     current_transaction_number =  gsb_account_get_current_transaction_number (account_number);
-
-    /*     si gsb_account_get_finished_selection_transaction ()=0, c'est qu'il n'y a encore aucune sélection sur la liste */
-    /*     donc transaction_number = current_transaction = -1, mais on ne se barre pas */
-    /*     sinon si on est déjà dessus, on se barre */
+    
+    /* if there is no change in the selection, go away */
 
     if ( transaction_number == current_transaction_number )
 	return FALSE;
@@ -1843,14 +1847,13 @@ gboolean gsb_transactions_list_set_current_transaction ( gint transaction_number
 
 	    /* if it's a breakdown of transaction, it's only 1 line */
 
-	    if ( current_transaction_number != -1
-		 &&
-		 gsb_transaction_data_get_mother_transaction_number (current_transaction_number))
+	    if ( gsb_transaction_data_get_mother_transaction_number (current_transaction_number))
 		i = gsb_account_get_nb_rows (account_number);
 
 	    gtk_tree_model_iter_next ( GTK_TREE_MODEL ( model ),
 				       iter );
 	}
+	gtk_tree_iter_free (iter);
     }
 
     gsb_account_set_current_transaction_number ( account_number,
@@ -1879,14 +1882,13 @@ gboolean gsb_transactions_list_set_current_transaction ( gint transaction_number
 
 	    /* if it's a breakdown of transaction, it's only 1 line */
 
-	    if ( transaction_number != -1
-		 &&
-		 gsb_transaction_data_get_mother_transaction_number (transaction_number))
+	    if ( gsb_transaction_data_get_mother_transaction_number (transaction_number))
 		i = gsb_account_get_nb_rows (account_number);
 
 	    gtk_tree_model_iter_next ( GTK_TREE_MODEL ( model ),
 				       iter );
 	}
+	gtk_tree_iter_free (iter);
     }
     return FALSE;
 }
@@ -1913,8 +1915,8 @@ gboolean gsb_transactions_list_move_to_current_transaction ( gint no_account )
 
     if ( !path_sorted )
     {
-	/* 	gsb_transactions_list_set_current_transaction ( GINT_TO_POINTER (-1), */
-	/* 							no_account ); */
+	gsb_transactions_list_set_current_transaction ( -1,
+							0 );
 	return FALSE;
     }
 
@@ -4258,9 +4260,7 @@ gboolean gsb_transactions_list_set_visibles_rows_on_account ( gint no_account )
 
 	    /* check the general white line (one for all the list, so no account number) */
 
-	    if ( no_transaction == -1
-		 &&
-		 !gsb_transaction_data_get_mother_transaction_number (no_transaction))
+	    if ( no_transaction == -1)
 	    {
 		if ( current_line < nb_rows )
 		    show = TRUE;

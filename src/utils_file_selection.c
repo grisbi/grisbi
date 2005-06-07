@@ -9,7 +9,7 @@
 /*   Add some more convenient ways to access the GtkFileSelection properties  */
 /*                                                                            */
 /*                                                                            */
-/*     Copyright (C)	2004- xxxx François Terrot (grisbi@terrot.net)	      */
+/*     Copyright (C)	2004- François Terrot (grisbi@terrot.net)	      */
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
