@@ -38,6 +38,7 @@
 #include "utils_dates.h"
 #include "gsb_account.h"
 #include "calendar.h"
+#include "navigation.h"
 #include "classement_operations.h"
 #include "utils_ib.h"
 #include "traitement_variables.h"

@@ -284,7 +284,7 @@ gchar *gsb_transaction_data_get_transaction_id ( gint no_transaction )
  * \return TRUE if ok
  * */
 gboolean gsb_transaction_data_set_transaction_id ( gint no_transaction,
-						   gchar *transaction_id )
+						   const gchar *transaction_id )
 {
     struct_transaction *transaction;
 
@@ -293,7 +293,7 @@ gboolean gsb_transaction_data_set_transaction_id ( gint no_transaction,
     if ( !transaction )
 	return FALSE;
 
-    transaction -> transaction_id = transaction_id;
+    transaction -> transaction_id = g_strdup (transaction_id);
     
     return TRUE;
 }
@@ -899,7 +899,7 @@ gchar *gsb_transaction_data_get_notes ( gint no_transaction )
  * \return TRUE if ok
  * */
 gboolean gsb_transaction_data_set_notes ( gint no_transaction,
-					  gchar *notes )
+					  const gchar *notes )
 {
     struct_transaction *transaction;
 
@@ -983,7 +983,7 @@ gchar *gsb_transaction_data_get_method_of_payment_content ( gint no_transaction 
  * \return TRUE if ok
  * */
 gboolean gsb_transaction_data_set_method_of_payment_content ( gint no_transaction,
-							      gchar *method_of_payment_content )
+							      const gchar *method_of_payment_content )
 {
     struct_transaction *transaction;
 
@@ -1258,7 +1258,7 @@ gchar *gsb_transaction_data_get_voucher ( gint no_transaction )
  * \return TRUE if ok
  * */
 gboolean gsb_transaction_data_set_voucher ( gint no_transaction,
-					    gchar *voucher )
+					    const gchar *voucher )
 {
     struct_transaction *transaction;
 
@@ -1270,7 +1270,7 @@ gboolean gsb_transaction_data_set_voucher ( gint no_transaction,
     if ( voucher
 	 &&
 	 strlen (voucher))
-	transaction -> voucher = voucher;
+	transaction -> voucher = g_strdup (voucher);
     else
 	transaction -> voucher = NULL;
     
@@ -1303,7 +1303,7 @@ gchar *gsb_transaction_data_get_bank_references ( gint no_transaction )
  * \return TRUE if ok
  * */
 gboolean gsb_transaction_data_set_bank_references ( gint no_transaction,
-						    gchar *bank_references )
+						    const gchar *bank_references )
 {
     struct_transaction *transaction;
 
@@ -1315,7 +1315,7 @@ gboolean gsb_transaction_data_set_bank_references ( gint no_transaction,
     if ( bank_references
 	 &&
 	 strlen (bank_references))
-	transaction -> bank_references = bank_references;
+	transaction -> bank_references = g_strdup (bank_references);
     else
 	transaction -> bank_references = NULL;
     

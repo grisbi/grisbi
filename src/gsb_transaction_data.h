@@ -107,7 +107,7 @@ gboolean gsb_transaction_data_set_amount ( gint no_transaction,
 gboolean gsb_transaction_data_set_automatic_transaction ( gint no_transaction,
 							  gint automatic_transaction );
 gboolean gsb_transaction_data_set_bank_references ( gint no_transaction,
-						    gchar *bank_references );
+						    const gchar *bank_references );
 gboolean gsb_transaction_data_set_breakdown_of_transaction ( gint no_transaction,
 							     gint is_breakdown );
 gboolean gsb_transaction_data_set_budgetary_number ( gint no_transaction,
@@ -129,13 +129,13 @@ gboolean gsb_transaction_data_set_financial_year_number ( gint no_transaction,
 gboolean gsb_transaction_data_set_marked_transaction ( gint no_transaction,
 						       gint marked_transaction );
 gboolean gsb_transaction_data_set_method_of_payment_content ( gint no_transaction,
-							      gchar *method_of_payment_content );
+							      const gchar *method_of_payment_content );
 gboolean gsb_transaction_data_set_method_of_payment_number ( gint no_transaction,
 							     gint number );
 gboolean gsb_transaction_data_set_mother_transaction_number ( gint no_transaction,
 							      gint mother_transaction_number );
 gboolean gsb_transaction_data_set_notes ( gint no_transaction,
-					  gchar *notes );
+					  const gchar *notes );
 gboolean gsb_transaction_data_set_party_number ( gint no_transaction,
 						 gint no_party );
 gboolean gsb_transaction_data_set_reconcile_number ( gint no_transaction,
@@ -145,13 +145,13 @@ gboolean gsb_transaction_data_set_sub_budgetary_number ( gint no_transaction,
 gboolean gsb_transaction_data_set_sub_category_number ( gint no_transaction,
 							gint no_sub_category );
 gboolean gsb_transaction_data_set_transaction_id ( gint no_transaction,
-						   gchar *transaction_id );
+						   const gchar *transaction_id );
 gboolean gsb_transaction_data_set_transaction_number_transfer ( gint no_transaction,
 							 gint transaction_number_transfer );
 gboolean gsb_transaction_data_set_value_date ( gint no_transaction,
 					       GDate *date );
 gboolean gsb_transaction_data_set_voucher ( gint no_transaction,
-					    gchar *voucher );
+					    const gchar *voucher );
 /* END_DECLARATION */
 
 

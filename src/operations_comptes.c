@@ -30,7 +30,6 @@
 #include "menu.h"
 #include "operations_liste.h"
 #include "gtk_list_button.h"
-#include "barre_outils.h"
 #include "traitement_variables.h"
 #include "utils_str.h"
 #include "comptes_traitements.h"
@@ -40,6 +39,8 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
+static void changement_no_compte_par_menu ( gpointer null,
+				     gint no_account_plus_un );
 static gboolean gsb_account_list_gui_change_order ( GtkWidget *button );
 static GtkWidget *gsb_account_list_gui_create_account_button ( gint no_account,
 							gint group,

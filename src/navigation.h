@@ -13,6 +13,7 @@ enum navigation_cols {
 
 
 /* START_INCLUDE_H */
+#include "navigation.h"
 #include "structures.h"
 /* END_INCLUDE_H */
 
@@ -20,10 +21,10 @@ enum navigation_cols {
 /* START_DECLARATION */
 GtkWidget * create_navigation_pane ( void );
 void gsb_gui_navigation_add_account ( gint account_nb );
-void gsb_gui_navigation_remove_account ( gint account_nb );
-void gsb_gui_navigation_update_account ( gint account_nb );
 void gsb_gui_navigation_add_report ( struct struct_etat * report );
+void gsb_gui_navigation_remove_account ( gint account_nb );
 void gsb_gui_navigation_remove_report ( struct struct_etat * report );
+void gsb_gui_navigation_update_account ( gint account_nb );
 void gsb_gui_navigation_update_report ( struct struct_etat * report );
 /* END_DECLARATION */
 

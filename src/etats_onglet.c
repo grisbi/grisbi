@@ -28,6 +28,7 @@
 #include "etat_io.h"
 #include "dialog.h"
 #include "utils_file_selection.h"
+#include "navigation.h"
 #include "menu.h"
 #include "traitement_variables.h"
 #include "utils_buttons.h"

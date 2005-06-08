@@ -43,27 +43,34 @@ static void create_report_list ( GtkTreeModel * model, GtkTreeIter * reports_ite
 static gboolean gsb_gui_navigation_check_key_press ( GtkWidget *tree_view,
 					      GdkEventKey *ev,
 					      GtkTreeModel *model );
+static gboolean gsb_gui_navigation_line_visible_p ( GtkTreeModel * model, GtkTreeIter * iter,
+					     gpointer data );
 static  gboolean gsb_gui_navigation_remove_account_iterator ( GtkTreeModel * tree_model, 
-							      GtkTreePath *path, 
-							      GtkTreeIter *iter, 
-							      gpointer data );
+							     GtkTreePath *path, 
+							     GtkTreeIter *iter, 
+							     gpointer data );
+static  gboolean gsb_gui_navigation_remove_report_iterator ( GtkTreeModel * tree_model, 
+							     GtkTreePath *path, 
+							     GtkTreeIter *iter, 
+							     gpointer data );
 static gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
-						 GtkTreeModel *model );
+					  GtkTreeModel * model );
 static void gsb_gui_navigation_update_account_iter ( GtkTreeModel * model, 
-						     GtkTreeIter * account_iter,
-						     gint account_nb );
+					      GtkTreeIter * account_iter,
+					      gint account_nb );
 static  gboolean gsb_gui_navigation_update_account_iterator ( GtkTreeModel * tree_model, 
-							      GtkTreePath *path, 
-							      GtkTreeIter *iter, 
-							      gpointer data );
-static void gsb_gui_navigation_update_report_iter ( GtkTreeModel * model, 
-						    GtkTreeIter * report_iter,
-						    struct struct_etat *report );
-static gboolean gsb_gui_navigation_line_visible_p ( GtkTreeModel * model, 
-						    GtkTreeIter * iter,
-						    gpointer data) ;
+							     GtkTreePath *path, 
+							     GtkTreeIter *iter, 
+							     gpointer data );
 static gboolean gsb_gui_navigation_update_notebook ( GtkTreeSelection * selection,
-						     GtkTreeModel * model );
+					      GtkTreeModel * model );
+static void gsb_gui_navigation_update_report_iter ( GtkTreeModel * model, 
+					      GtkTreeIter * report_iter,
+					      struct struct_etat * report );
+static  gboolean gsb_gui_navigation_update_report_iterator ( GtkTreeModel * tree_model, 
+							    GtkTreePath *path, 
+							    GtkTreeIter *iter, 
+							    gpointer data );
 /*END_STATIC*/
 
 

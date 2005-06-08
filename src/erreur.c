@@ -34,6 +34,7 @@
 #include "dialog.h"
 #include "fichiers_io.h"
 #include "fichiers_gestion.h"
+#include "gsb_file_load.h"
 #include "traitement_variables.h"
 #include "utils_files.h"
 #include "fichier_configuration.h"

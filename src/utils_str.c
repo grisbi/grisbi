@@ -115,7 +115,7 @@ gchar *utils_str_itoa ( gint integer )
  * @retval  0 when the pointer is NULL or the string empty.
  * 
  */
-gint utils_str_atoi ( gchar *chaine )
+gint utils_str_atoi ( const gchar *chaine )
 {
     if ((chaine )&&(*chaine))
     {
@@ -144,7 +144,7 @@ gint utils_str_atoi ( gchar *chaine )
 /*   - invert : le signe du rÃ©sultat (0 -> positif, 1 -> nÃ©gatif)             */
 /*   - p, m : pointeurs locaux sur la chaine de caractÃšres Ã  convertir        */
 /******************************************************************************/
-double my_strtod ( char *nptr, char **endptr )
+double my_strtod ( const char *nptr, const char **endptr )
 {
     double entier=0, mantisse=0, resultat=0;
     int invert = 0;

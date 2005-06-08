@@ -39,6 +39,7 @@ struct recuperation_version
 #include "imputation_budgetaire.h"
 #include "utils_devises.h"
 #include "dialog.h"
+#include "gsb_file_load.h"
 #include "gsb_account.h"
 #include "data_form.h"
 #include "gsb_transaction_data.h"
@@ -46,7 +47,6 @@ struct recuperation_version
 #include "traitement_variables.h"
 #include "utils_str.h"
 #include "main.h"
-#include "utils_buttons.h"
 #include "fichiers_gestion.h"
 #include "search_glist.h"
 #include "utils_files.h"
@@ -58,9 +58,9 @@ struct recuperation_version
 static gboolean charge_categ_version_0_4_0 ( xmlDocPtr doc );
 static gboolean charge_fichier_xml_grisbi ( xmlDocPtr doc );
 static gboolean charge_ib_version_0_4_0 ( xmlDocPtr doc );
+static gboolean charge_operations ( gchar *nom_fichier );
 static gboolean mise_a_jour_versions_anterieures ( gint no_version,
 					    struct recuperation_version *version );
-static void propose_changement_permissions ( void );
 static gboolean recuperation_banques_xml ( xmlNodePtr node_banques );
 static gboolean recuperation_categories_xml ( xmlNodePtr node_categories );
 static gboolean recuperation_comptes_xml ( xmlNodePtr node_comptes );
@@ -73,7 +73,6 @@ static gboolean recuperation_imputations_xml ( xmlNodePtr node_imputations );
 static gboolean recuperation_rapprochements_xml ( xmlNodePtr node_rapprochements );
 static gboolean recuperation_tiers_xml ( xmlNodePtr node_tiers );
 static struct recuperation_version *recupere_version_fichier ( xmlDocPtr doc );
-static void switch_t_r ( void );
 /*END_STATIC*/
 
 
@@ -141,56 +140,8 @@ extern GtkWidget *tel_banque;
 extern GtkWidget *tel_correspondant;
 extern gint valeur_echelle_recherche_date_import;
 extern GtkWidget *web_banque;
-extern GtkWidget *window;
 /*END_EXTERN*/
 
-
-
-/*!
- * @brief Try to fix xml corruption introduced by Grisi 0.5.6 rev a during file log management
- *
- * This function replace corrupted xml end tag "</Fi0hier_ouvert>" by the good one
- * When the function return TRUE, the file can be reloaded for a second try.
- * 
- * @caveats : Should only to be called when the xmlParseFile function call failed with zero as errno value
- *
- * @return Fix application status.
- * @retval TRUE if a corruption has been found and fix applied.
- * @retval FALSE in all other cases.
- *
- */
-static gboolean file_io_fix_xml_corrupted_file_lock_tag(gchar* accounts_filename)
-{
-    gboolean fix_applied      = FALSE;
-    FILE*    fd_accounts_file = fopen(accounts_filename, "r+b");
-    if (fd_accounts_file)
-    {
-        gchar    buffer [18];
-        gint     len        = 17;
-        gchar*   valid_tag  = "</Fichier_ouvert>"; 
-        gchar*   error0_tag = "</Fi0hier_ouvert>"; 
-        gchar*   error1_tag = "</Fi1hier_ouvert>"; 
-
-        while ( EOF != fscanf(fd_accounts_file,"%17s",buffer))
-        {
-            // The valid version of the tag has been found, the problem is not here 
-            if (!strncmp(buffer,valid_tag,len)) { break ; }
-                
-            // If the corrupted tag is found, rewinf the file to replace it by the valid value.
-            if ((!strncmp(buffer,error0_tag,len)) || (!strncmp(buffer,error1_tag,len)) )
-            { 
-                fseek(fd_accounts_file,-len,SEEK_CUR);
-                fprintf(fd_accounts_file,valid_tag);
-                fix_applied = TRUE;
-                break;
-            }
-        }
-        fclose(fd_accounts_file);
-        fd_accounts_file = NULL;
-    }
-    return fix_applied;
-    
-}
 
 /****************************************************************************/
 /** Procédure qui charge les opérations en mémoire sous forme de structures**/
@@ -677,49 +628,6 @@ gboolean charge_fichier_xml_grisbi ( xmlDocPtr doc )
 /*****************************************************************************/
 
 
-
-
-
-/***********************************************************************************************************/
-void switch_t_r ( void )
-{
-/* cette fonction fait le tour des opérations et change le marquage T et R des opés */
-/*     R devient pointe=3 */
-/*     T devient pointe=2 */
-
-/*     à n'appeler que pour une version antérieure à 0.5.1 */
-
-    GSList *list_tmp_transactions;
-
-    if ( !gsb_account_get_accounts_amount () )
-	return;
-    
-    if ( DEBUG )
-	printf ( "switch_t_r\n");
-
-
-    list_tmp_transactions = gsb_transaction_data_get_transactions_list ();
-
-    while ( list_tmp_transactions )
-    {
-	gint transaction_number_tmp;
-	transaction_number_tmp = gsb_transaction_data_get_transaction_number (list_tmp_transactions -> data);
-
-	switch ( gsb_transaction_data_get_marked_transaction (transaction_number_tmp))
-	{
-	    case 2 :
-		gsb_transaction_data_set_marked_transaction ( transaction_number_tmp,
-							      3 );
-		break;
-	    case 3:
-		gsb_transaction_data_set_marked_transaction ( transaction_number_tmp,
-							      2 );
-		break;
-	}
-	list_tmp_transactions = list_tmp_transactions -> next;
-    }
-}
-/***********************************************************************************************************/
 
 
 
@@ -5229,146 +5137,6 @@ gboolean enregistre_fichier ( gchar *new_file )
 
 
 /***********************************************************************************************************/
-/* crée ou supprime un fichier du nom .nom.swp */
-/* renvoie true si ok */
-/***********************************************************************************************************/
-
-gboolean modification_etat_ouverture_fichier ( gboolean fichier_ouvert )
-{
-    struct stat buffer_stat;
-    int result;
-    gchar *nom_fichier_lock;
-    gchar **tab_str;
-    gint i;
-
-    /*     on efface et on recommence... bon, changement de technique : lors de l'ouverture */
-    /* 	d'un fichier, on crée un fichier .nom.swp qu'on efface à sa fermeture */
-
-    /*     si on ne force pas l'enregistrement et si le fichier était déjà ouvert, on ne fait rien */
-
-    if ( (etat.fichier_deja_ouvert
-	  &&
-	  !etat.force_enregistrement)
-	 ||
-	 !nom_fichier_comptes ||
-	 !nom_fichier_comptes ||
-	 !strlen(nom_fichier_comptes) )
-	return TRUE;
-
-    /*     on commence par vérifier que le fichier de nom_fichier_comptes existe bien */
-
-    result = utf8_stat ( nom_fichier_comptes, &buffer_stat);
-
-    if ( result == -1 )
-    {
-	dialogue_error (g_strdup_printf (_("Cannot open file '%s' to mark it as used: %s"),
-					 nom_fichier_comptes,
-					 latin2utf8 (strerror(errno))));
-	return FALSE;
-    }
-
-
-    /*     création du nom du fichier swp */
-
-    tab_str = g_strsplit ( nom_fichier_comptes,
-			   G_DIR_SEPARATOR_S,
-			   0 );
-
-    i=0;
-
-    while ( tab_str[i+1] )
-	i++;
-
-    tab_str[i] = g_strconcat ( 
-#ifndef _WIN32
-                              ".",
-#endif
-			       tab_str[i],
-			       ".swp",
-			       NULL );
-    nom_fichier_lock = g_strjoinv ( G_DIR_SEPARATOR_S,
-				   tab_str );
-    g_strfreev ( tab_str );
-
-    /*     maintenant on sépare entre l'effacement ou la création du fichier swp */
-
-    if ( fichier_ouvert )
-    {
-	/* 	on ouvre le fichier, donc on crée le fichier de lock */
-
-	FILE *fichier;
-
-	/* 	commence par tester si ce fichier existe, si c'est le cas on prévient l'utilisateur */
-	/* 	    avec possibilité d'annuler l'action ou d'effacer le fichier de lock */
-
-	result = utf8_stat ( nom_fichier_lock, &buffer_stat);
-
-	if ( result != -1 )
-	{
-	    /* 	    le fichier de lock existe */
-
-	    dialogue_conditional_hint ( g_strdup_printf( _("File \"%s\" is already opened"),
-							 nom_fichier_comptes),
-					_("Either this file is already opened by another user or it wasn't closed correctly (maybe Grisbi crashed?).\nGrisbi can't save the file unless you activate the \"Force saving locked files\" option in setup."),
-					&(etat.display_message_lock_active) );
-	    
-	    /* 	    on retourne true, vu que le fichier est déjà créé et qu'on a prévenu */
-
-	    etat.fichier_deja_ouvert = 1;
-	    return TRUE;
-	}
-
-	etat.fichier_deja_ouvert = 0;
-
-	fichier = utf8_fopen ( nom_fichier_lock, "w" );
-
-	if ( !fichier )
-	{
-	    dialogue_error (g_strdup_printf (_("Cannot write lock file :'%s': %s"),
-					     nom_fichier_comptes,
-					     latin2utf8 (strerror(errno))));
-	    return FALSE;
-	}
-
-	fclose ( fichier );
-	return TRUE;
-    }
-    else
-    {
-	/* 	on ferme le fichier, donc on détruit le fichier de lock */
-
-	etat.fichier_deja_ouvert = 0;
-
-	/* 	on vérifie d'abord que ce fichier existe */
-
-	result = utf8_stat ( nom_fichier_lock, &buffer_stat);
-
-	if ( result == -1 )
-	{
-	    /* 	    le fichier de lock n'existe */
-	    /* 	    on s'en fout, de toute façon fallait le virer, on s'en va */
-
-	    return TRUE;
-	}
-
-	result = utf8_remove ( nom_fichier_lock );
-
-	if ( result == -1 )
-	{
-	    dialogue_error (g_strdup_printf (_("Cannot erase lock file :'%s': %s"),
-					     nom_fichier_comptes,
-					     latin2utf8 (strerror(errno))));
-	    return FALSE;
-	}
-	return TRUE;
-    }
-}
-/***********************************************************************************************************/
-
-
-
-
-/***********************************************************************************************************/
 gboolean enregistre_categ ( gchar *nom_categ )
 {
     xmlDocPtr doc;
@@ -6092,42 +5860,6 @@ gboolean charge_ib_version_0_4_0 ( xmlDocPtr doc )
 }
 /***********************************************************************************************************/
 
-
-
-
-/***********************************************************************************************************/
-void propose_changement_permissions ( void )
-{
-    GtkWidget *dialog, *vbox, *checkbox;
-    gint resultat;
-
-    dialog = gtk_message_dialog_new ( GTK_WINDOW ( window ),
-				      GTK_DIALOG_DESTROY_WITH_PARENT,
-				      GTK_MESSAGE_QUESTION,
-				      GTK_BUTTONS_YES_NO,
-				      " ");
-
-    gtk_label_set_markup ( GTK_LABEL ( GTK_MESSAGE_DIALOG(dialog)->label ), 
-			   make_hint ( _("Account file is world readable."),
-				       _("Your account file should not be readable by anybody else, but it is. You should change its permissions.\nShould this be fixed now?")));
-    
-
-    vbox = GTK_DIALOG(dialog) -> vbox;
-    checkbox = new_checkbox_with_title ( _("Do not show this message again"),
-					 &(etat.display_message_file_readable), NULL);
-    gtk_box_pack_start ( GTK_BOX ( vbox ), checkbox, FALSE, FALSE, 6 );
-    gtk_widget_show_all ( dialog );
-
-    resultat = gtk_dialog_run ( GTK_DIALOG(dialog) );
-
-    if ( resultat == GTK_RESPONSE_YES )
-    {
-	chmod ( nom_fichier_comptes, S_IRUSR | S_IWUSR );
-    }
-
-    gtk_widget_destroy ( dialog );
-}
-/***********************************************************************************************************/
 
 
 

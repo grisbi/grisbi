@@ -32,7 +32,6 @@
 #include "operations_formulaire.h"
 #include "etats_onglet.h"
 #include "barre_outils.h"
-#include "operations_comptes.h"
 #include "operations_liste.h"
 #include "comptes_traitements.h"
 #include "fichiers_gestion.h"
@@ -64,10 +63,10 @@ static void view_menu_cb ( gpointer callback_data, guint callback_action, GtkWid
 
 /*START_EXTERN*/
 extern GtkItemFactory *item_factory_menu_general;
+extern GtkTreeModelFilter * navigation_model_filtered;
 extern gint nb_derniers_fichiers_ouverts;
 extern gchar **tab_noms_derniers_fichiers_ouverts;
 extern GtkWidget *window;
-extern GtkTreeModelFilter * navigation_model_filtered;
 /*END_EXTERN*/
 
 

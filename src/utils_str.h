@@ -17,8 +17,8 @@ gchar *my_strdelimit ( gchar *string,
 gint my_strncasecmp ( gchar *chaine_1,
 		      gchar *chaine_2,
 		      gint longueur );
-double my_strtod ( char *nptr, char **endptr );
-gint utils_str_atoi ( gchar *chaine );
+double my_strtod ( const char *nptr, const char **endptr );
+gint utils_str_atoi ( const gchar *chaine );
 gchar *utils_str_itoa ( gint integer );
 /* END_DECLARATION */
 #endif

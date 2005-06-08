@@ -94,11 +94,11 @@ void fill_sub_division_row ( GtkTreeModel * model, MetatreeInterface * iface,
 			     gpointer sub_division );
 GtkTreeIter * get_iter_from_div ( GtkTreeModel * model, int div, int sub_div );
 GtkTreeIter * get_iter_from_pointer ( GtkTreeModel * model, gpointer pointer );
+void metatree_register_widget_as_linked ( GtkTreeModel * model, GtkWidget * widget );
 gboolean metatree_selection_changed ( GtkTreeSelection * selection, GtkTreeModel * model );
 gboolean supprimer_division ( GtkTreeView * tree_view );
 void update_transaction_in_tree ( MetatreeInterface * iface, GtkTreeModel * model, 
 				  gpointer  transaction );
-gboolean metatree_selection_changed ( GtkTreeSelection * selection, GtkTreeModel * model );
 /*END_DECLARATION*/
 
 #endif
