@@ -38,27 +38,47 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static void gsb_file_load_account_part ( GMarkupParseContext *context,
-				  const gchar *text );
+static void gsb_file_load_account_part ( const gchar **attribute_names,
+				  const gchar **attribute_values );
+static void gsb_file_load_account_part_before_0_6 ( GMarkupParseContext *context,
+					     const gchar *text );
+static gboolean gsb_file_load_check_new_structure ( gchar *file_content );
 static void gsb_file_load_end_element ( GMarkupParseContext *context,
 				 const gchar *element_name,
 				 gpointer user_data,
 				 GError **error);
-static void gsb_file_load_general_part ( GMarkupParseContext *context,
-				  const gchar *text );
-static void gsb_file_load_report_part ( GMarkupParseContext *context,
-				 const gchar *text );
+static void gsb_file_load_end_element_before_0_6 ( GMarkupParseContext *context,
+					    const gchar *element_name,
+					    gpointer user_data,
+					    GError **error);
+static void gsb_file_load_general_part ( const gchar **attribute_names,
+				  const gchar **attribute_values );
+static void gsb_file_load_general_part_before_0_6 ( GMarkupParseContext *context,
+					     const gchar *text );
+static void gsb_file_load_report_part_before_0_6 ( GMarkupParseContext *context,
+					    const gchar *text );
 static void gsb_file_load_start_element ( GMarkupParseContext *context,
 				   const gchar *element_name,
 				   const gchar **attribute_names,
 				   const gchar **attribute_values,
 				   gpointer user_data,
 				   GError **error);
-static void gsb_file_load_text_element( GMarkupParseContext *context,
-				 const gchar *text,
-				 gsize text_len,  
-				 gpointer user_data,
-				 GError **error);
+static void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
+					      const gchar *element_name,
+					      const gchar **attribute_names,
+					      const gchar **attribute_values,
+					      gpointer user_data,
+					      GError **error);
+static void gsb_file_load_text_element ( GMarkupParseContext *context,
+				  const gchar *text,
+				  gsize text_len,  
+				  gpointer user_data,
+				  GError **error);
+static void gsb_file_load_text_element_before_0_6 ( GMarkupParseContext *context,
+					     const gchar *text,
+					     gsize text_len,  
+					     gpointer user_data,
+					     GError **error);
 static gboolean gsb_file_load_update_previous_version ( void );
 /*END_STATIC*/
 
@@ -89,6 +109,8 @@ extern GSList *liste_struct_imputation;
 extern GSList *liste_struct_rapprochements;
 extern GSList *liste_struct_tiers;
 extern gint nb_colonnes;
+extern int no_devise_totaux_categ;
+extern gint no_devise_totaux_ib;
 extern gint no_devise_totaux_tiers;
 extern GtkWidget *nom_banque;
 extern GtkWidget *nom_correspondant;
@@ -197,14 +219,10 @@ gboolean gsb_file_load_open_file ( gchar *filename )
 	printf ( "gsb_file_load_open_file %s\n", 
 		 filename );
 
-    /* fill the buffer stat to check the file */
-
-    return_value = utf8_stat ( filename,
-			       &buffer_stat);
-
     /* general check */
-
-    if ( return_value == -1 )
+    
+    if ( !g_file_test ( filename,
+			G_FILE_TEST_EXISTS ))
     {
 	dialogue_error (g_strdup_printf (_("Cannot open file '%s': %s"),
 					 filename,
@@ -215,7 +233,8 @@ gboolean gsb_file_load_open_file ( gchar *filename )
 
     /* check here if it's not a regular file */
 
-    if ( !S_ISREG (buffer_stat.st_mode))
+    if ( !g_file_test ( filename,
+			G_FILE_TEST_IS_REGULAR ))
     {
 	dialogue_error ( g_strdup_printf ( _("%s doesn't seem to be a regular file,\nplease check it and try again."),
 					   filename ));
@@ -223,8 +242,13 @@ gboolean gsb_file_load_open_file ( gchar *filename )
 	return ( FALSE );
     }
 
-    /* check the access to the file and propose to change it */
+     /* fill the buffer stat to check the permission */
 
+    return_value = utf8_stat ( filename,
+			       &buffer_stat);
+    
+    /* check the access to the file and propose to change it */
+    
     if ( buffer_stat.st_mode != 33152
 	 &&
 	 !etat.display_message_file_readable )
@@ -240,11 +264,25 @@ gboolean gsb_file_load_open_file ( gchar *filename )
 	GMarkupParser *markup_parser = g_malloc0 (sizeof (GMarkupParser));
 	GMarkupParseContext *context;
 
-	/* fill the GMarkupParser */
+	/* we begin to check if we are in a version under 0.6 or 0.6 and above,
+	 * because the xml structure changes after 0.6 */
 
-	markup_parser -> start_element = (void *) gsb_file_load_start_element;
-	markup_parser -> end_element = (void *) gsb_file_load_end_element;
-	markup_parser -> text = (void *) gsb_file_load_text_element;
+	if ( gsb_file_load_check_new_structure (file_content))
+	{
+	    /* fill the GMarkupParser for a new xml structure */
+
+	    markup_parser -> start_element = (void *) gsb_file_load_start_element;
+	    markup_parser -> end_element = (void *) gsb_file_load_end_element;
+	    markup_parser -> text = (void *) gsb_file_load_text_element;
+	}
+	else
+	{
+	    /* fill the GMarkupParser for the last xml structure */
+
+	    markup_parser -> start_element = (void *) gsb_file_load_start_element_before_0_6;
+	    markup_parser -> end_element = (void *) gsb_file_load_end_element_before_0_6;
+	    markup_parser -> text = (void *) gsb_file_load_text_element_before_0_6;
+	}
 
 	context = g_markup_parse_context_new ( markup_parser,
 					       0,
@@ -265,7 +303,6 @@ gboolean gsb_file_load_open_file ( gchar *filename )
 	    return FALSE;
 	}
 
-
 	g_markup_parse_context_free (context);
 	g_free (markup_parser);
 	g_free (file_content);
@@ -278,8 +315,762 @@ gboolean gsb_file_load_open_file ( gchar *filename )
 	remove_file_from_last_opened_files_list (filename);
 	return FALSE;
     }
+printf ( "%s\n", gsb_account_get_name (0) );
 
     return gsb_file_load_update_previous_version();
+}
+
+
+/** check if the xml file is the last structure (before 0.6) or
+ * the new structure (after 0.6)
+ *
+ * \param file_content the grisbi file
+ *
+ * \return TRUE if the version is after 0.6
+ * */
+gboolean gsb_file_load_check_new_structure ( gchar *file_content )
+{
+    if ( strstr ( file_content,
+		  "Generalites" ))
+	return FALSE;
+    return TRUE;
+}
+
+void gsb_file_load_start_element ( GMarkupParseContext *context,
+				   const gchar *element_name,
+				   const gchar **attribute_names,
+				   const gchar **attribute_values,
+				   gpointer user_data,
+				   GError **error)
+{
+    /* the first time we come here, we check if it's a grisbi file */
+
+    if ( !download_tmp_values.download_ok )
+    {
+	if ( strcmp ( element_name,
+		      "Grisbi" ))
+	{
+	    dialogue_error ( _("This is not a Grisbi file... Loading aborted.") );
+	    g_markup_parse_context_end_parse (context,
+					      NULL);
+	    return;
+	}
+	download_tmp_values.download_ok = TRUE;
+	return;
+    }
+
+    if ( !strcmp ( element_name,
+		   "General" ))
+    {
+	gsb_file_load_general_part ( attribute_names,
+				     attribute_values );
+	return;
+    }
+
+    if ( !strcmp ( element_name,
+		   "Account" ))
+    {
+	gsb_file_load_account_part ( attribute_names,
+				     attribute_values );
+	return;
+    }
+}
+
+void gsb_file_load_end_element ( GMarkupParseContext *context,
+				 const gchar *element_name,
+				 gpointer user_data,
+				 GError **error)
+{
+}
+
+
+
+void gsb_file_load_text_element ( GMarkupParseContext *context,
+				  const gchar *text,
+				  gsize text_len,  
+				  gpointer user_data,
+				  GError **error)
+{
+}
+
+
+/**
+ * load the general part in the grisbi file
+ *
+ * \param attribute_names
+ * \param attribute_values
+ *
+ * */
+void gsb_file_load_general_part ( const gchar **attribute_names,
+				  const gchar **attribute_values )
+{
+    gint i=0;
+
+    if ( !attribute_names[i] )
+	return;
+
+    do
+    {
+	if ( !strcmp ( attribute_names[i],
+		       "File_version" ))
+	{
+	    download_tmp_values.file_version = g_strdup (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Grisbi_version" ))
+	{
+	    download_tmp_values.grisbi_version = g_strdup (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Backup_file" ))
+	{
+	    nom_fichier_backup = g_strdup (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "File_title" ))
+	{
+	    titre_fichier = g_strdup (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "General_address" ))
+	{
+	    adresse_commune = g_strdup (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Second_general_address" ))
+	{
+	    adresse_secondaire = g_strdup (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Party_list_currency_number" ))
+	{
+	    no_devise_totaux_tiers = utils_str_atoi ( attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Category_list_currency_number" ))
+	{
+	    no_devise_totaux_categ = utils_str_atoi ( attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Budget_list_currency_number" ))
+	{
+	    no_devise_totaux_ib = utils_str_atoi ( attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Scheduler_view" ))
+	{
+	    affichage_echeances = utils_str_atoi ( attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Scheduler_custom_number" ))
+	{
+	    affichage_echeances_perso_nb_libre = utils_str_atoi ( attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Scheduler_custom_menu" ))
+	{
+	    affichage_echeances_perso_j_m_a = utils_str_atoi ( attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Import_interval_search" ))
+	{
+	    valeur_echelle_recherche_date_import = utils_str_atoi ( attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Use_logo" ))
+	{
+	    etat.utilise_logo = utils_str_atoi ( attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Path_logo" ))
+	{
+	    chemin_logo = g_strdup (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Remind_display_per_account" ))
+	{
+	    etat.retient_affichage_par_compte = utils_str_atoi( g_strdup (attribute_values[i]));
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Transactions_view" ))
+	{
+	    gchar **pointeur_char;
+	    gint k, l;
+	    gint number_columns;
+
+	    pointeur_char = g_strsplit ( g_strdup (attribute_values[i]),
+					 "-",
+					 0 );
+
+	    /* there is a pb here to go from 0.5.5 and before, untill 0.6.0
+	     * because the nb of columns goes from 8 to 9 ; the best is to
+	     * check how much numbers there is and to divide it by TRANSACTION_LIST_ROWS_NB
+	     * so we'll have the last nb of columns. it will work event if we increase again
+	     * the number of columns, but we need to find another way if TRANSACTION_LIST_ROWS_NB
+	     * increases */
+
+	    k = 0;
+	    while (pointeur_char[k])
+		k++;
+	    number_columns = k/TRANSACTION_LIST_ROWS_NB;
+
+	    for ( k=0 ; k<TRANSACTION_LIST_ROWS_NB ; k++ )
+		for ( l=0 ; l<= number_columns ; l++ )
+		{
+		    /* we have to check here because if one time we change TRANSACTION_LIST_ROWS_NB or
+		     * TRANSACTION_LIST_COL_NB, it will crash without that (ex : (5.5 -> 6.0 )) */
+		    if (  pointeur_char[l + k*TRANSACTION_LIST_COL_NB] )
+			tab_affichage_ope[k][l] = utils_str_atoi ( pointeur_char[l + k*number_columns]);
+		    else
+			l = TRANSACTION_LIST_COL_NB;
+		}
+
+	    g_strfreev ( pointeur_char );
+
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Transaction_column_width_ratio" ))
+	{
+	    gchar **pointeur_char;
+	    gint j;
+
+	    pointeur_char = g_strsplit ( g_strdup (attribute_values[i]),
+					 "-",
+					 0 );
+
+	    for ( j=0 ; j< TRANSACTION_LIST_COL_NB; j++ )
+		if ( pointeur_char[j] )
+		    rapport_largeur_colonnes[j] = utils_str_atoi ( pointeur_char[j]);
+
+	    g_strfreev ( pointeur_char );
+
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "One_line_showed" ))
+	{
+	    ligne_affichage_une_ligne = utils_str_atoi ( attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Two_lines_showed" ))
+	{
+	    gchar **pointeur_char;
+
+	    pointeur_char = g_strsplit ( g_strdup (attribute_values[i]),
+					 "-",
+					 0 );
+
+	    lignes_affichage_deux_lignes = NULL;
+	    lignes_affichage_deux_lignes = g_slist_append ( lignes_affichage_deux_lignes,
+							    GINT_TO_POINTER ( utils_str_atoi ( pointeur_char[0] )));
+	    lignes_affichage_deux_lignes = g_slist_append ( lignes_affichage_deux_lignes,
+							    GINT_TO_POINTER ( utils_str_atoi ( pointeur_char[1] )));
+
+	    g_strfreev ( pointeur_char );
+
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Three_lines_showed" ))
+	{
+	    gchar **pointeur_char;
+
+	    pointeur_char = g_strsplit ( g_strdup (attribute_values[i]),
+					 "-",
+					 0 );
+
+	    lignes_affichage_trois_lignes = NULL;
+	    lignes_affichage_trois_lignes = g_slist_append ( lignes_affichage_trois_lignes,
+							     GINT_TO_POINTER ( utils_str_atoi ( pointeur_char[0] )));
+	    lignes_affichage_trois_lignes = g_slist_append ( lignes_affichage_trois_lignes,
+							     GINT_TO_POINTER ( utils_str_atoi ( pointeur_char[1] )));
+	    lignes_affichage_trois_lignes = g_slist_append ( lignes_affichage_trois_lignes,
+							     GINT_TO_POINTER ( utils_str_atoi ( pointeur_char[2] )));
+
+	    g_strfreev ( pointeur_char );
+
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Remind_form_per_account" ))
+	{
+	etat.formulaire_distinct_par_compte = utils_str_atoi( g_strdup (attribute_values[i]));
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Scheduler_column_width_ratio" ))
+	{
+	    gchar **pointeur_char;
+	    gint j;
+
+	    pointeur_char = g_strsplit ( g_strdup (attribute_values[i]),
+					 "-",
+					 0 );
+
+	    for ( j=0 ; j<NB_COLS_SCHEDULER ; j++ )
+		scheduler_col_width[j] = utils_str_atoi ( pointeur_char[j]);
+
+	    g_strfreev ( pointeur_char );
+
+	    i++;
+	    continue;
+	}
+
+	/* normally, shouldn't come here */
+	i++;
+    }
+    while ( attribute_names[i] );
+}
+
+
+
+/**
+ * load the account part in the grisbi file
+ *
+ * \param attribute_names
+ * \param attribute_values
+ *
+ * */
+void gsb_file_load_account_part ( const gchar **attribute_names,
+				  const gchar **attribute_values )
+{
+    gint i=0;
+    gint account_number_tmp = 0;
+
+    if ( !attribute_names[i] )
+	return;
+
+    do
+    {
+	if ( !strcmp ( attribute_names[i],
+		       "Name" ))
+	{
+	    account_number_tmp = gsb_account_new ( GSB_TYPE_BANK );
+	    gsb_account_set_name ( account_number_tmp,
+				   g_strdup (attribute_values[i]) );
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Id" ))
+	{
+	    if ( strlen (attribute_values[i]))
+		gsb_account_set_id (account_number_tmp,
+				    g_strdup (attribute_values[i]));
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Number" ))
+	{
+	    account_number_tmp = gsb_account_set_account_number ( account_number_tmp,
+								  utils_str_atoi ( attribute_values[i]));
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Owner" ))
+	{
+	    gsb_account_set_holder_name ( account_number_tmp,
+					  g_strdup (attribute_values[i]));
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Kind" ))
+	{
+	    gsb_account_set_kind (account_number_tmp,
+				  utils_str_atoi ( attribute_values[i]));
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Currency" ))
+	{
+	    gsb_account_set_currency ( account_number_tmp,
+				       utils_str_atoi ( attribute_values[i]));
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Bank" ))
+	{
+	    gsb_account_set_bank ( account_number_tmp,
+				   utils_str_atoi ( attribute_values[i]));
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Bank_branch_code" ))
+	{
+	    gsb_account_set_bank_branch_code ( account_number_tmp,
+					       g_strdup (attribute_values[i]) );
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Bank_account_number" ))
+	{
+	    gsb_account_set_bank_account_number ( account_number_tmp,
+						  g_strdup (attribute_values[i]));
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Key" ))
+	{
+	    gsb_account_set_bank_account_key ( account_number_tmp,
+					       g_strdup (attribute_values[i]) );
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Initial_balance" ))
+	{
+	    gsb_account_set_init_balance (account_number_tmp,
+					  my_strtod ( g_strdup (attribute_values[i]),
+						      NULL ));
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Minimum_wanted_balance" ))
+	{
+	    gsb_account_set_mini_balance_wanted ( account_number_tmp, 
+						  my_strtod ( g_strdup (attribute_values[i]),
+							      NULL ));
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Minimum_authorised_balance" ))
+	{
+	    gsb_account_set_mini_balance_authorized ( account_number_tmp, 
+						      my_strtod ( g_strdup (attribute_values[i]),
+								  NULL ));
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Last_reconcile_date" ))
+	{
+
+	    if ( strlen (attribute_values[i]))
+	    {
+		gchar **pointeur_char;
+
+		pointeur_char = g_strsplit ( attribute_values[i], "/", 0 );
+		gsb_account_set_current_reconcile_date ( account_number_tmp,
+							 g_date_new_dmy ( utils_str_atoi ( pointeur_char [0] ),
+									  utils_str_atoi ( pointeur_char [1] ),
+									  utils_str_atoi ( pointeur_char [2] )));
+		g_strfreev ( pointeur_char );
+	    }
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Last_reconcile_balance" ))
+	{
+	    gsb_account_set_reconcile_balance ( account_number_tmp,
+						my_strtod ( g_strdup (attribute_values[i]),
+							    NULL ) );
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Last_reconcile_number" ))
+	{
+	    gsb_account_set_reconcile_last_number ( account_number_tmp,
+						    utils_str_atoi ( attribute_values[i]));
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Closed_account" ))
+	{
+	    gsb_account_set_closed_account ( account_number_tmp,
+					     utils_str_atoi ( attribute_values[i]));
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Show_marked" ))
+	{
+	    gsb_account_set_r ( account_number_tmp,
+				utils_str_atoi (attribute_values[i]));
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Lines_per_transaction" ))
+	{
+	    gsb_account_set_nb_rows ( account_number_tmp, 
+				      utils_str_atoi (attribute_values[i]));
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Comment" ))
+	{
+	    gsb_account_set_comment ( account_number_tmp,
+				      g_strdup (attribute_values[i]) );
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Owner_address" ))
+	{
+	    gsb_account_set_holder_address ( account_number_tmp,
+					     g_strdup (attribute_values[i]) );
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Default_debit_method" ))
+	{
+	    gsb_account_set_default_debit ( account_number_tmp,
+					    utils_str_atoi ( attribute_values[i]) );
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Default_credit_method" ))
+	{
+	    gsb_account_set_default_credit ( account_number_tmp,
+					     utils_str_atoi ( attribute_values[i]));
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Sort_by_method" ))
+	{
+	    gsb_account_set_reconcile_sort_type ( account_number_tmp,
+						  utils_str_atoi ( attribute_values[i]));
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Neutrals_inside_method" ))
+	{
+	    gsb_account_set_split_neutral_payment ( account_number_tmp,
+						    utils_str_atoi ( attribute_values[i]) );
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Sort_order" ))
+	{
+	    if ( strlen (attribute_values[i]))
+	    {
+		gchar **pointeur_char;
+		gint j;
+
+		pointeur_char = g_strsplit ( attribute_values[i],
+					     "/",
+					     0 );
+
+		j = 0;
+
+		while ( pointeur_char[j] )
+		{
+		    gsb_account_set_sort_list ( account_number_tmp,
+						g_slist_append ( gsb_account_get_sort_list (account_number_tmp),
+								 GINT_TO_POINTER ( utils_str_atoi ( pointeur_char[j] ))) );
+		    j++;
+		}
+		g_strfreev ( pointeur_char );
+	    }
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Ascending_sort" ))
+	{
+	    gsb_account_set_sort_type ( account_number_tmp,
+					utils_str_atoi ( attribute_values[i]));
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Column_sort" ))
+	{
+	    gsb_account_set_sort_column ( account_number_tmp,
+					  utils_str_atoi ( attribute_values[i]));
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Sorting_kind_column" ))
+	{
+	    gint j;
+	    gchar **pointeur_char;
+
+	    pointeur_char = g_strsplit ( attribute_values[i],
+					 "-",
+					 0 );
+
+	    for ( j=0 ; j<TRANSACTION_LIST_COL_NB ; j++ )
+	    {
+		gsb_account_set_column_sort ( account_number_tmp,
+					      j,
+					      utils_str_atoi ( pointeur_char[j] ));
+	    }
+	    g_strfreev ( pointeur_char );
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Form_columns_number" ))
+	{
+	    gsb_account_set_form_organization ( account_number_tmp,
+						calloc ( 1,
+							 sizeof ( struct organisation_formulaire )) );
+	    gsb_account_get_form_organization (account_number_tmp) -> nb_colonnes = utils_str_atoi ( attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Form_lines_number" ))
+	{
+	    gsb_account_get_form_organization (account_number_tmp) -> nb_lignes = utils_str_atoi ( attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Form_organization" ))
+	{
+	    gchar **pointeur_char;
+	    gint k, j;
+
+	    pointeur_char = g_strsplit ( attribute_values[i],
+					 "-",
+					 0 );
+
+	    for ( k=0 ; k<4 ; k++ )
+		for ( j=0 ; j< 6 ; j++ )
+		    gsb_account_get_form_organization (account_number_tmp) -> tab_remplissage_formulaire[k][j] = utils_str_atoi ( pointeur_char[j + k*6]);
+
+	    g_strfreev ( pointeur_char );
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Form_columns_width" ))
+	{
+	    gchar **pointeur_char;
+	    gint j;
+
+	    pointeur_char = g_strsplit ( attribute_values[i],
+					 "-",
+					 0 );
+
+	    for ( j=0 ; j<6 ; j++ )
+		gsb_account_get_form_organization (account_number_tmp) -> taille_colonne_pourcent[j] = utils_str_atoi ( pointeur_char[j]);
+
+	    g_strfreev ( pointeur_char );
+	    i++;
+	    continue;
+	}
+
+	/* normally, shouldn't come here */
+	i++;
+    }
+    while ( attribute_names[i] );
 }
 
 
@@ -518,12 +1309,12 @@ gboolean gsb_file_load_update_previous_version ( void )
 }
 
 
-void gsb_file_load_start_element ( GMarkupParseContext *context,
-				   const gchar *element_name,
-				   const gchar **attribute_names,
-				   const gchar **attribute_values,
-				   gpointer user_data,
-				   GError **error)
+void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
+					      const gchar *element_name,
+					      const gchar **attribute_names,
+					      const gchar **attribute_values,
+					      gpointer user_data,
+					      GError **error)
 {
     /* the first time we come here, we check if it's a grisbi file */
 
@@ -1496,7 +2287,7 @@ void gsb_file_load_start_element ( GMarkupParseContext *context,
 	 &&
 	 !strcmp ( attribute_names[1],
 		   "Comp_1" ))
-   {
+    {
 	gint i;
 
 	i = 0;
@@ -1569,10 +2360,10 @@ void gsb_file_load_start_element ( GMarkupParseContext *context,
 
 
 
-void gsb_file_load_end_element ( GMarkupParseContext *context,
-				 const gchar *element_name,
-				 gpointer user_data,
-				 GError **error)
+void gsb_file_load_end_element_before_0_6 ( GMarkupParseContext *context,
+					    const gchar *element_name,
+					    gpointer user_data,
+					    GError **error)
 {
     /* when it's the end of an element, we set it in the split structure to 0 */
 
@@ -1587,28 +2378,28 @@ void gsb_file_load_end_element ( GMarkupParseContext *context,
 	download_tmp_values.report_part = FALSE;
 }
 
-void gsb_file_load_text_element( GMarkupParseContext *context,
-				 const gchar *text,
-				 gsize text_len,  
-				 gpointer user_data,
-				 GError **error)
+void gsb_file_load_text_element_before_0_6 ( GMarkupParseContext *context,
+					     const gchar *text,
+					     gsize text_len,  
+					     gpointer user_data,
+					     GError **error)
 {
     /* we come here for all text element, we split here to go
      * on the necessary function to work with that element */
 
     if ( download_tmp_values.general_part )
-	gsb_file_load_general_part ( context,
-				     text );
+	gsb_file_load_general_part_before_0_6 ( context,
+						text );
     if ( download_tmp_values.account_part )
-	gsb_file_load_account_part ( context,
-				     text );
+	gsb_file_load_account_part_before_0_6 ( context,
+						text );
     if ( download_tmp_values.report_part )
-	gsb_file_load_report_part ( context,
-				    text );
+	gsb_file_load_report_part_before_0_6 ( context,
+					       text );
 }
 
-void gsb_file_load_general_part ( GMarkupParseContext *context,
-				  const gchar *text )
+void gsb_file_load_general_part_before_0_6 ( GMarkupParseContext *context,
+					     const gchar *text )
 {
     const gchar *element_name;
 
@@ -1847,8 +2638,8 @@ void gsb_file_load_general_part ( GMarkupParseContext *context,
 }
 
 
-void gsb_file_load_account_part ( GMarkupParseContext *context,
-				  const gchar *text )
+void gsb_file_load_account_part_before_0_6 ( GMarkupParseContext *context,
+					     const gchar *text )
 {
     const gchar *element_name;
 
@@ -2256,8 +3047,8 @@ void gsb_file_load_account_part ( GMarkupParseContext *context,
 }
 
 
-void gsb_file_load_report_part ( GMarkupParseContext *context,
-				 const gchar *text )
+void gsb_file_load_report_part_before_0_6 ( GMarkupParseContext *context,
+					    const gchar *text )
 {
     const gchar *element_name;
 
@@ -2953,17 +3744,16 @@ void gsb_file_load_report_part ( GMarkupParseContext *context,
 /***********************************************************************************************************/
 void switch_t_r ( void )
 {
-/* cette fonction fait le tour des opérations et change le marquage T et R des opés */
-/*     R devient pointe=3 */
-/*     T devient pointe=2 */
-
-/*     à n'appeler que pour une version antérieure à 0.5.1 */
+    /* cette fonction fait le tour des opérations et change le marquage T et R des opés */
+    /*     R devient pointe=3 */
+    /*     T devient pointe=2 */
+    /*     à n'appeler que pour une version antérieure à 0.5.1 */
 
     GSList *list_tmp_transactions;
 
     if ( !gsb_account_get_accounts_amount () )
 	return;
-    
+
     if ( DEBUG )
 	printf ( "switch_t_r\n");
 

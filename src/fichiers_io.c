@@ -41,6 +41,7 @@ struct recuperation_version
 #include "dialog.h"
 #include "gsb_file_load.h"
 #include "gsb_account.h"
+#include "gsb_file_save.h"
 #include "data_form.h"
 #include "gsb_transaction_data.h"
 #include "operations_liste.h"
@@ -2960,6 +2961,7 @@ gboolean enregistre_fichier ( gchar *new_file )
     gint mettre_permission;
     GSList *list_tmp;
 
+return (gsb_file_save_save_file (new_file));
 
     if ( DEBUG )
 	printf ( "enregistre_fichier : %s\n", new_file );
