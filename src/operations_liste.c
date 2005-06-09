@@ -408,7 +408,7 @@ void gsb_transactions_list_create_tree_view_columns ( void )
 	{
 	    cell_renderer = gtk_cell_renderer_text_new ();
 
-	    transactions_tree_view_columns[i] = gtk_tree_view_column_new_with_attributes ( titres_colonnes_liste_operations[i],
+	    transactions_tree_view_columns[i] = gtk_tree_view_column_new_with_attributes ( _(titres_colonnes_liste_operations[i]),
 											   cell_renderer,
 											   "text", i,
 											   "cell-background-gdk", TRANSACTION_COL_NB_BACKGROUND,
@@ -419,7 +419,7 @@ void gsb_transactions_list_create_tree_view_columns ( void )
 	{
 	    cell_renderer = gtk_cell_renderer_expander_new ();
 
-	    transactions_tree_view_columns[i] = gtk_tree_view_column_new_with_attributes ( titres_colonnes_liste_operations[i],
+	    transactions_tree_view_columns[i] = gtk_tree_view_column_new_with_attributes ( _(titres_colonnes_liste_operations[i]),
 											   cell_renderer,
 											   "is-expanded", TRANSACTION_COL_NB_IS_EXPANDED,
 											   "is-expander", TRANSACTION_COL_NB_IS_EXPANDER,
@@ -489,7 +489,7 @@ void update_titres_tree_view ( void )
 	for ( i = 0 ; i < TRANSACTION_LIST_COL_NB ; i++ )
 	{
 	    gtk_tree_view_column_set_title ( GTK_TREE_VIEW_COLUMN (transactions_tree_view_columns[i]),
-					     titres_colonnes_liste_operations[i] );
+					     _(titres_colonnes_liste_operations[i]) );
 
 	    if ( GTK_TREE_VIEW_COLUMN (transactions_tree_view_columns[i])->button )
 	    {
