@@ -149,7 +149,7 @@ NULL );
     gtk_box_pack_start ( GTK_BOX ( vbox ), label, FALSE, FALSE, 0 );
 
     /* Resume */
-    label = gtk_label_new ( _("Personal finance manager for all") );
+    label = gtk_label_new ( _("Personal finance manager for everyone") );
     gtk_label_set_selectable ( GTK_LABEL ( label ), TRUE );
     gtk_label_set_line_wrap ( GTK_LABEL ( label ), TRUE );
     gtk_box_pack_start ( GTK_BOX ( vbox ), label, TRUE, TRUE, 0 );
