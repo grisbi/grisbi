@@ -763,76 +763,80 @@ void importer_categ ( void )
  */
 GtkWidget *creation_barre_outils_categ ( void )
 {
-GtkWidget * handlebox, * hbox2, * button;
+    GtkWidget * handlebox, * hbox2, * button;
+    
+    /* HandleBox */
+    handlebox = gtk_handle_box_new ();
+    
+    /* Hbox2 */
+    hbox2 = gtk_hbox_new ( FALSE, 0 );
+    gtk_container_add ( GTK_CONTAINER(handlebox), hbox2 );
 
-/* HandleBox */
-handlebox = gtk_handle_box_new ();
+    /* New category button */
+    gtk_box_pack_start ( GTK_BOX ( hbox2 ), 
+			 new_button_with_label_and_image ( etat.display_toolbar,
+							   _("New\ncategory"), 
+							   "new-categ.png", 
+							   G_CALLBACK(metatree_new_division),
+							   categ_tree_model ), 
+			 FALSE, TRUE, 0 );
 
-/* Hbox2 */
-hbox2 = gtk_hbox_new ( FALSE, 0 );
-gtk_container_add ( GTK_CONTAINER(handlebox), hbox2 );
+    /* New sub category button */
+    button = new_button_with_label_and_image ( etat.display_toolbar,
+					       _("New sub\ncategory"), 
+					       "new-sub-categ.png",
+					       G_CALLBACK(appui_sur_ajout_sub_division),
+					       categ_tree_model );
+    metatree_register_widget_as_linked ( categ_tree_model, button, "selection" );
+    metatree_register_widget_as_linked ( categ_tree_model, button, "sub-division" );
+    gtk_box_pack_start ( GTK_BOX ( hbox2 ), button, FALSE, TRUE, 0 );
 
-/* New category button */
-gtk_box_pack_start ( GTK_BOX ( hbox2 ), 
-		     new_button_with_label_and_image ( etat.display_toolbar,
-						       _("New\ncategory"), 
-						       "new-categ.png", 
-						       G_CALLBACK(appui_sur_ajout_division),
-						       categ_tree_model ), 
-		     FALSE, TRUE, 0 );
+    /* Import button */
+    gtk_box_pack_start ( GTK_BOX ( hbox2 ), 
+			 new_stock_button_with_label ( etat.display_toolbar,
+						       GTK_STOCK_OPEN, 
+						       _("Import"),
+						       G_CALLBACK(importer_categ),
+						       NULL ), 
+			 FALSE, TRUE, 0 );
 
-/* New sub category button */
-gtk_box_pack_start ( GTK_BOX ( hbox2 ), 
-		     new_button_with_label_and_image ( etat.display_toolbar,
-						       _("New sub\ncategory"), 
-						       "new-sub-categ.png",
-						       G_CALLBACK(appui_sur_ajout_sub_division),
-						       categ_tree_model ), 
-		     FALSE, TRUE, 0 );
+    /* Export button */
+    gtk_box_pack_start ( GTK_BOX ( hbox2 ), 
+			 new_stock_button_with_label ( etat.display_toolbar,
+						       GTK_STOCK_SAVE, 
+						       _("Export"),
+						       G_CALLBACK(exporter_categ),
+						       NULL ), 
+			 FALSE, TRUE, 0 );
 
-/* Import button */
-gtk_box_pack_start ( GTK_BOX ( hbox2 ), 
-		     new_stock_button_with_label ( etat.display_toolbar,
-						   GTK_STOCK_OPEN, 
-						   _("Import"),
-						   G_CALLBACK(importer_categ),
-						   NULL ), 
-		     FALSE, TRUE, 0 );
+    /* Delete button */
+    button = new_stock_button_with_label ( etat.display_toolbar,
+					   GTK_STOCK_DELETE, _("Delete"),
+					   G_CALLBACK(supprimer_division), arbre_categ );
+    metatree_register_widget_as_linked ( categ_tree_model, button, "selection" );
+    gtk_box_pack_start ( GTK_BOX ( hbox2 ), button, FALSE, TRUE, 0 );
 
-/* Export button */
-gtk_box_pack_start ( GTK_BOX ( hbox2 ), 
-		     new_stock_button_with_label ( etat.display_toolbar,
-						   GTK_STOCK_SAVE, 
-						   _("Export"),
-						   G_CALLBACK(exporter_categ),
-						   NULL ), 
-		     FALSE, TRUE, 0 );
+    /* Properties button */
+    button = new_stock_button_with_label ( etat.display_toolbar,
+					   GTK_STOCK_PROPERTIES, _("Properties"),
+					   G_CALLBACK(edit_category), arbre_categ );
+    metatree_register_widget_as_linked ( categ_tree_model, button, "selection" );
+    gtk_box_pack_start ( GTK_BOX ( hbox2 ), button, FALSE, TRUE, 0 );
 
-button = new_stock_button_with_label ( etat.display_toolbar,
-				       GTK_STOCK_DELETE, _("Delete"),
-				       G_CALLBACK(supprimer_division), arbre_categ );
-metatree_register_widget_as_linked ( categ_tree_model, button );
-gtk_box_pack_start ( GTK_BOX ( hbox2 ), button, FALSE, TRUE, 0 );
+    /* View button */
+    gtk_box_pack_start ( GTK_BOX ( hbox2 ), 
+			 new_stock_button_with_label_menu ( etat.display_toolbar,
+							    GTK_STOCK_SELECT_COLOR, 
+							    _("View"),
+							    G_CALLBACK(popup_category_view_mode_menu),
+							    NULL ),
+			 FALSE, TRUE, 0 );
 
-/* Properties button */
-button = new_stock_button_with_label ( etat.display_toolbar,
-				       GTK_STOCK_PROPERTIES, _("Properties"),
-				       G_CALLBACK(edit_category), arbre_categ );
-metatree_register_widget_as_linked ( categ_tree_model, button );
-gtk_box_pack_start ( GTK_BOX ( hbox2 ), button, FALSE, TRUE, 0 );
+    gtk_widget_show_all ( handlebox );
 
-/* View button */
-gtk_box_pack_start ( GTK_BOX ( hbox2 ), 
-		     new_stock_button_with_label_menu ( etat.display_toolbar,
-							GTK_STOCK_SELECT_COLOR, 
-							_("View"),
-							G_CALLBACK(popup_category_view_mode_menu),
-							NULL ),
-		     FALSE, TRUE, 0 );
+    metatree_set_linked_widgets_sensitive ( categ_tree_model, FALSE, "selection" );
 
-gtk_widget_show_all ( handlebox );
-
-return ( handlebox );
+    return ( handlebox );
 }
 
 

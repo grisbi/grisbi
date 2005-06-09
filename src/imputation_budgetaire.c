@@ -643,22 +643,21 @@ GtkWidget *creation_barre_outils_ib ( void )
     gtk_container_add ( GTK_CONTAINER(handlebox), hbox2 );
 
     /* New budgetary line button */
-    gtk_box_pack_start ( GTK_BOX ( hbox2 ), 
-			 new_button_with_label_and_image ( etat.display_toolbar,
-							   _("New\nbudgetary line"), 
-							   "new-ib.png",
-							   G_CALLBACK(appui_sur_ajout_division),
-							   budgetary_line_tree_model ), 
-			 FALSE, TRUE, 0 );
+    button = new_button_with_label_and_image ( etat.display_toolbar,
+					       _("New\nbudgetary line"), "new-ib.png",
+					       G_CALLBACK(metatree_new_division),
+					       budgetary_line_tree_model );
+    gtk_box_pack_start ( GTK_BOX ( hbox2 ), button, FALSE, TRUE, 0 );
 
     /* New sub budgetary line button */
-    gtk_box_pack_start ( GTK_BOX ( hbox2 ), 
-			 new_button_with_label_and_image ( etat.display_toolbar,
-							   _("New sub\nbudgetary line"), 
-							   "new-sub-ib.png",
-							   G_CALLBACK(appui_sur_ajout_sub_division),
-							   budgetary_line_tree_model ), 
-			 FALSE, TRUE, 0 );
+    button = new_button_with_label_and_image ( etat.display_toolbar,
+					       _("New sub\nbudgetary line"), 
+					       "new-sub-ib.png",
+					       G_CALLBACK(appui_sur_ajout_sub_division),
+					       budgetary_line_tree_model );
+    metatree_register_widget_as_linked ( budgetary_line_tree_model, button, "selection" );
+    metatree_register_widget_as_linked ( budgetary_line_tree_model, button, "sub-division" );
+    gtk_box_pack_start ( GTK_BOX ( hbox2 ), button, FALSE, TRUE, 0 );
 
     /* Import button */
     gtk_box_pack_start ( GTK_BOX ( hbox2 ), 
@@ -683,7 +682,7 @@ GtkWidget *creation_barre_outils_ib ( void )
 					   GTK_STOCK_DELETE, _("Delete"),
 					   G_CALLBACK(supprimer_division),
 					   budgetary_line_tree );
-    metatree_register_widget_as_linked ( budgetary_line_tree_model, button );
+    metatree_register_widget_as_linked ( budgetary_line_tree_model, button, "selection" );
     gtk_box_pack_start ( GTK_BOX ( hbox2 ), button, FALSE, TRUE, 0 );
 
     /* Properties button */
@@ -691,7 +690,7 @@ GtkWidget *creation_barre_outils_ib ( void )
 					   GTK_STOCK_PROPERTIES, _("Properties"),
 					   G_CALLBACK(edit_budgetary_line), 
 					   budgetary_line_tree );
-    metatree_register_widget_as_linked ( budgetary_line_tree_model, button );
+    metatree_register_widget_as_linked ( budgetary_line_tree_model, button, "selection" );
     gtk_box_pack_start ( GTK_BOX ( hbox2 ), button, FALSE, TRUE, 0 );
 
     /* View button */
@@ -704,6 +703,8 @@ GtkWidget *creation_barre_outils_ib ( void )
 			 FALSE, TRUE, 0 );
 
     gtk_widget_show_all ( handlebox );
+
+    metatree_set_linked_widgets_sensitive ( budgetary_line_tree_model, FALSE, "selection" );
 
     return ( handlebox );
 }

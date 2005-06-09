@@ -253,7 +253,7 @@ GtkWidget *onglet_tiers ( void )
 
 GtkWidget *creation_barre_outils_tiers ( void )
 {
-    GtkWidget *hbox, *handlebox;
+    GtkWidget *hbox, *handlebox, *button;
 
     /* HandleBox */
     handlebox = gtk_handle_box_new ();
@@ -266,23 +266,24 @@ GtkWidget *creation_barre_outils_tiers ( void )
     gtk_box_pack_start ( GTK_BOX ( hbox ), 
 			 new_button_with_label_and_image ( etat.display_toolbar,
 							   _("New payee"), "new-payee.png",
-							   G_CALLBACK(appui_sur_ajout_division),
+							   G_CALLBACK(metatree_new_division),
 							   payee_tree_model ), 
 			 FALSE, TRUE, 0 );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), 
-			 new_stock_button_with_label ( etat.display_toolbar,
-						       GTK_STOCK_DELETE, 
-						       _("Delete"),
-						       G_CALLBACK(supprimer_division),
-						       payee_tree ), 
-			 FALSE, TRUE, 0 );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), /* FIXME: write the property dialog */
-			 new_stock_button_with_label ( etat.display_toolbar,
-						       GTK_STOCK_PROPERTIES, 
-						       _("Properties"),
-						       G_CALLBACK(edit_payee), 
-						       payee_tree ), 
-			 FALSE, TRUE, 0 );
+
+    button = new_stock_button_with_label ( etat.display_toolbar,
+					   GTK_STOCK_DELETE, _("Delete"),
+					   G_CALLBACK(supprimer_division),
+					   payee_tree );
+    metatree_register_widget_as_linked ( payee_tree_model, button, "selection" );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, TRUE, 0 );
+
+    button = new_stock_button_with_label ( etat.display_toolbar,
+					   GTK_STOCK_PROPERTIES, _("Properties"),
+					   G_CALLBACK(edit_payee), 
+					   payee_tree );
+    metatree_register_widget_as_linked ( payee_tree_model, button, "selection" );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, TRUE, 0 );
+
     gtk_box_pack_start ( GTK_BOX ( hbox ), 
 			 new_stock_button_with_label_menu ( etat.display_toolbar,
 							    GTK_STOCK_SELECT_COLOR, 
@@ -292,6 +293,8 @@ GtkWidget *creation_barre_outils_tiers ( void )
 			 FALSE, TRUE, 0 );
 
     gtk_widget_show_all ( handlebox );
+
+    metatree_set_linked_widgets_sensitive ( payee_tree_model, FALSE, "selection" );
 
     return ( handlebox );
 }
