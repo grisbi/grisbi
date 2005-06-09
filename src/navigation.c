@@ -98,6 +98,9 @@ GtkTreeModelFilter * navigation_model_filtered;
 /** Widget that hold the scheduler calendar. */
 GtkWidget * scheduler_calendar;
 
+/** Widget that hold all reconciliation widgets. */
+GtkWidget * reconcile_panel;
+
 
 
 
@@ -279,8 +282,13 @@ GtkWidget * create_navigation_pane ( void )
     scheduler_calendar = creation_partie_gauche_echeancier();
     gtk_box_pack_end ( GTK_BOX(vbox), scheduler_calendar, FALSE, FALSE, 0 );
 
+    /* Create reconcile stuff (hidden for now). */
+    reconcile_panel = creation_fenetre_equilibrage();
+    gtk_box_pack_end ( GTK_BOX(vbox), reconcile_panel, FALSE, FALSE, 0 );
+
     gtk_widget_show_all ( vbox );
     gtk_widget_hide_all ( scheduler_calendar );
+    gtk_widget_hide_all ( reconcile_panel );
 
     return vbox;
 }
@@ -304,11 +312,8 @@ void create_account_list ( GtkTreeModel * model, GtkTreeIter * account_iter )
 	gint i = gsb_account_get_no_account ( list_tmp -> data );
 	GtkTreeIter iter;
 
-	if ( !gsb_account_get_closed_account (i))
-	{
-	    gtk_tree_store_append(GTK_TREE_STORE(model), &iter, account_iter);
-	    gsb_gui_navigation_update_account_iter ( model, &iter, i);
-	}
+	gtk_tree_store_append(GTK_TREE_STORE(model), &iter, account_iter);
+	gsb_gui_navigation_update_account_iter ( model, &iter, i);
 
 	list_tmp = list_tmp -> next;
     }
