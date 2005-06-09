@@ -43,32 +43,32 @@
 
 /*START_STATIC*/
 static gboolean division_node_maybe_expand ( GtkTreeModel *model, GtkTreePath *path, 
-				      GtkTreeIter *iter, gpointer data );
+					     GtkTreeIter *iter, gpointer data );
 static void fill_transaction_row ( GtkTreeModel * model, GtkTreeIter * iter, 
-			    gpointer  operation );
+				   gpointer  operation );
 static gboolean find_associated_transactions ( MetatreeInterface * iface, 
-					gint no_division, gint no_sub_division );
+					       gint no_division, gint no_sub_division );
 static gboolean find_destination_blob ( MetatreeInterface * iface, GtkTreeModel * model, 
-				 gpointer division, gpointer sub_division, 
-				 gint * no_div, gint * no_sub_div );
+					gpointer division, gpointer sub_division, 
+					gint * no_div, gint * no_sub_div );
 static gboolean metatree_get ( GtkTreeModel * model, GtkTreePath * path,
-			gint column, gpointer * data );
+			       gint column, gpointer * data );
 static gboolean metatree_get_row_properties ( GtkTreeModel * tree_model, GtkTreePath * path, 
-				       gchar ** text, gint * lvl1, gint * lvl2, 
-				       gpointer * data );
+					      gchar ** text, gint * lvl1, gint * lvl2, 
+					      gpointer * data );
 static enum meta_tree_row_type metatree_get_row_type ( GtkTreeModel * tree_model, 
-						GtkTreePath * path );
+						       GtkTreePath * path );
 static void move_transaction_to_sub_division ( gpointer  transaction,
-					GtkTreeModel * model,
-					GtkTreePath * orig_path, GtkTreePath * dest_path,
-					gint no_division, gint no_sub_division );
+					       GtkTreeModel * model,
+					       GtkTreePath * orig_path, GtkTreePath * dest_path,
+					       gint no_division, gint no_sub_division );
 static gboolean search_for_div_or_subdiv ( GtkTreeModel *model, GtkTreePath *path,
-				    GtkTreeIter *iter, gpointer * pointers);
+					   GtkTreeIter *iter, gpointer * pointers);
 static gboolean search_for_pointer ( GtkTreeModel *model, GtkTreePath *path,
-			      GtkTreeIter *iter, gpointer * pointers);
+				     GtkTreeIter *iter, gpointer * pointers);
 static void supprimer_sub_division ( GtkTreeView * tree_view, GtkTreeModel * model,
-			      MetatreeInterface * iface, 
-			      gpointer sub_division, gint no_division );
+				     MetatreeInterface * iface, 
+				     gpointer sub_division, gint no_division );
 /*END_STATIC*/
 
 
@@ -349,11 +349,12 @@ void fill_transaction_row ( GtkTreeModel * model, GtkTreeIter * iter,
 
 
 /**
+ * Handle request for a new division.  Normally called when user
+ * clicked on the "New foo" button.
  *
- *
- *
+ * \param model		Model to create a new division for.
  */
-void appui_sur_ajout_division ( GtkTreeModel * model )
+void metatree_new_division ( GtkTreeModel * model )
 {
     MetatreeInterface * iface;
     GtkTreeView * tree_view;
@@ -378,6 +379,10 @@ void appui_sur_ajout_division ( GtkTreeModel * model )
     }
 
     gtk_tree_selection_select_iter ( gtk_tree_view_get_selection ( tree_view ), &iter );
+    gtk_tree_view_scroll_to_cell ( tree_view, 
+				   gtk_tree_model_get_path ( model, &iter ),
+				   gtk_tree_view_get_column ( tree_view, 0 ),
+				   TRUE, 0.5, 0.0 );
 
     modification_fichier ( TRUE );
 }
@@ -422,6 +427,10 @@ void appui_sur_ajout_sub_division ( GtkTreeModel * model )
 
 	gtk_tree_view_expand_row ( tree_view, path, FALSE );
 	gtk_tree_selection_select_iter ( gtk_tree_view_get_selection ( tree_view ), &iter );
+	gtk_tree_view_scroll_to_cell ( tree_view, 
+				       gtk_tree_model_get_path ( model, &iter ),
+				       gtk_tree_view_get_column ( tree_view, 0 ),
+				       TRUE, 0.5, 0.0 );
 			     
 	modification_fichier ( TRUE );
 
@@ -1504,7 +1513,9 @@ void update_transaction_in_tree ( MetatreeInterface * iface, GtkTreeModel * mode
 
 
 /**
- * Update the headings bar accordingly when selection changed.
+ * Performs actions needed when selection of a metatree has changed.
+ * First, update the headings bar accordingly.  Then update
+ * sensitiveness of linked widgets.
  *
  * \return TRUE
  */
@@ -1513,7 +1524,6 @@ gboolean metatree_selection_changed ( GtkTreeSelection * selection, GtkTreeModel
     MetatreeInterface * iface;
     GtkTreeView * tree_view;
     GtkTreeIter iter;
-    GSList * links;
     gboolean selection_is_set = FALSE;;
 
     iface = g_object_get_data ( G_OBJECT(model), "metatree-interface" );   
@@ -1529,10 +1539,10 @@ gboolean metatree_selection_changed ( GtkTreeSelection * selection, GtkTreeModel
 	gpointer pointer;
 
 	gtk_tree_model_get ( GTK_TREE_MODEL(model), &iter,
-			 META_TREE_NO_DIV_COLUMN, &div_id,
-			 META_TREE_NO_SUB_DIV_COLUMN, &sub_div_id,
-			 META_TREE_POINTER_COLUMN, &pointer,
-			 -1);
+			     META_TREE_NO_DIV_COLUMN, &div_id,
+			     META_TREE_NO_SUB_DIV_COLUMN, &sub_div_id,
+			     META_TREE_POINTER_COLUMN, &pointer,
+			     -1);
 
 	div = iface -> get_div_pointer ( div_id );
 	text = g_strconcat ( _(iface -> meta_name),  " : ", 
@@ -1560,14 +1570,17 @@ gboolean metatree_selection_changed ( GtkTreeSelection * selection, GtkTreeModel
 	selection_is_set = TRUE;
     }
 
-    links = g_object_get_data ( G_OBJECT(model), "links" );
-    while ( links )
+    /* Update sensitiveness of linked widgets. */
+    metatree_set_linked_widgets_sensitive ( model, selection_is_set, "selection" );
+    if ( selection_is_set && 
+	 metatree_get_row_type ( model, gtk_tree_model_get_path ( model, &iter ) ) == 
+	 META_TREE_DIV )
     {
-	if ( links -> data && GTK_IS_WIDGET ( links -> data ) )
-	{
-	    gtk_widget_set_sensitive ( GTK_WIDGET ( links -> data ), selection_is_set );
-	}
-	links = links -> next;
+	metatree_set_linked_widgets_sensitive ( model, TRUE, "sub-division" );
+    }
+    else
+    {
+	metatree_set_linked_widgets_sensitive ( model, FALSE, "sub-division" );
     }
 
     return TRUE;
@@ -1576,18 +1589,57 @@ gboolean metatree_selection_changed ( GtkTreeSelection * selection, GtkTreeModel
 
 
 /**
+ * Link a widget to a metatree.  This means, in some events like
+ * selection change, it will be set sensitive or unsensitive.
  *
- *
+ * \param model		Model to link widget to.
+ * \param widget	Widget to link to metatree.
+ * \param link_type	A string representing different links.  Should
+ *			be "selection" for a widget that is sensitive
+ *			only if a line is selected or "sub-division"
+ *			for a widget that is sensitive only if a first
+ *			level entry is selected.
  */
-void metatree_register_widget_as_linked ( GtkTreeModel * model, GtkWidget * widget )
+void metatree_register_widget_as_linked ( GtkTreeModel * model, GtkWidget * widget,
+					  gchar * link_type )
 {
     GSList * links;
 
     g_return_if_fail ( widget != NULL );
     g_return_if_fail ( model != NULL );
+    g_return_if_fail ( link_type && strlen ( link_type ) );
 
-    links = g_object_get_data ( G_OBJECT(model), "links" );
-    g_object_set_data ( G_OBJECT(model), "links", g_slist_append ( links, widget ) );
+    links = g_object_get_data ( G_OBJECT(model), link_type );
+    g_object_set_data ( G_OBJECT(model), link_type, g_slist_append ( links, widget ) );
+}
+
+
+
+/**
+ * Set widgets linked to a metatree (normally, buttons) sensitive or
+ * unsensitive.
+ *
+ * \param model		Model widgets are linked to.
+ * \param sensitive	Set widgets sensitive if TRUE, unsensitive otherwise.
+ * \param link_type	A string representing different links.  Should
+ *			be "selection" for a widget that is sensitive
+ *			only if a line is selected or "sub-division"
+ *			for a widget that is sensitive only if a first
+ *			level entry is selected.
+ */
+void metatree_set_linked_widgets_sensitive ( GtkTreeModel * model, gboolean sensitive,
+					     gchar * link_type )
+{
+    GSList * links = g_object_get_data ( G_OBJECT(model), link_type );
+
+    while ( links )
+    {
+	if ( links -> data && GTK_IS_WIDGET ( links -> data ) )
+	{
+	    gtk_widget_set_sensitive ( GTK_WIDGET ( links -> data ), sensitive );
+	}
+	links = links -> next;
+    }
 }
 
 
