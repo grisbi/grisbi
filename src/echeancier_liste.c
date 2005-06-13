@@ -447,7 +447,7 @@ void remplissage_liste_echeance ( void )
 
 	    /* 	    mise en forme de la date */
 
-	    ligne[COL_NB_DATE] = renvoie_date_formatee ( echeance -> date );
+	    ligne[COL_NB_DATE] = gsb_format_gdate ( echeance -> date );
 
 	    /* 	    mise en forme de la périodicité */
 

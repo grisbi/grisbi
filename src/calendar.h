@@ -7,7 +7,7 @@
 #define ONE_WEEK 7
 #define ONE_MONTH 30
 #define ONE_YEAR 365
-#define SIZEOF_FORMATTED_STRING_DATE 11
+#define SIZEOF_FORMATTED_STRING_DATE 128
 
 /* START_INCLUDE_H */
 #include "calendar.h"

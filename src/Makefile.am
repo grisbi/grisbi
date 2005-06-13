@@ -58,7 +58,6 @@ sources = \
 	fichier_configuration.c	\
 	fichiers_gestion.c	\
 	fichiers_io.c		\
-	format.c		\
 	gnucash.c               \
 	gtk_combofix.c		\
 	gtk_list_button.c	\

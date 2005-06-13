@@ -1569,10 +1569,10 @@ void update_liste_echeances_manuelles_accueil ( void )
 	    gtk_box_pack_start ( GTK_BOX ( hbox ), event_box, TRUE, TRUE, 5 );
 	    gtk_widget_show ( event_box  );
 
-	    label = gtk_label_new ( g_strdup_printf ( "%02d/%02d/%d : %s",
-						      ECHEANCE_COURANTE->jour,
-						      ECHEANCE_COURANTE->mois,
-						      ECHEANCE_COURANTE->annee,
+	    label = gtk_label_new ( g_strdup_printf ( "%s : %s",
+						      gsb_format_date ( ECHEANCE_COURANTE->jour,
+									 ECHEANCE_COURANTE->mois,
+									 ECHEANCE_COURANTE->annee ),
 						      tiers_name_by_no ( ECHEANCE_COURANTE->tiers, FALSE )));
 
 	    gtk_widget_set_style ( label, style_label );

@@ -2324,7 +2324,7 @@ gboolean gsb_transactions_list_edit_current_transaction ( void )
 
 		    entree_prend_focus ( widget );
 		    gtk_entry_set_text ( GTK_ENTRY ( widget ),
-					 renvoie_date_formatee ( gsb_transaction_data_get_date (transaction_number)));
+					 gsb_format_gdate ( gsb_transaction_data_get_date (transaction_number)));
 		    break;
 
 		case TRANSACTION_FORM_VALUE_DATE:
@@ -2333,7 +2333,7 @@ gboolean gsb_transactions_list_edit_current_transaction ( void )
 		    {
 			entree_prend_focus ( widget );
 			gtk_entry_set_text ( GTK_ENTRY ( widget ),
-					     renvoie_date_formatee ( gsb_transaction_data_get_value_date (transaction_number)));
+					     gsb_format_gdate ( gsb_transaction_data_get_value_date (transaction_number)));
 		    }
 		    break;
 

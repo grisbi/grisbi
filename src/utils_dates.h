@@ -14,6 +14,7 @@ GDate *gsb_date_copy ( GDate *date );
 gchar *gsb_today ( void );
 gboolean modifie_date ( GtkWidget *entree );
 GtkWidget * new_date_entry ( gchar ** value, GCallback hook );
-gchar *renvoie_date_formatee ( GDate *date );
+gchar *gsb_format_gdate ( GDate *date );
+gchar *gsb_format_date ( gint day, gint month, gint year );
 /* END_DECLARATION */
 #endif
