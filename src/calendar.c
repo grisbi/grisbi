@@ -55,14 +55,10 @@ extern GtkWidget *window;
 /******************************************************************************/
 GtkWidget *gsb_calendar_new ( GtkWidget *entry )
 {
-    GtkWidget *popup;
-    GtkWidget *pVBox;
+    GtkWidget *popup, *pVBox, *pCalendar, *bouton, *frame;
     GtkRequisition *taille_popup;
     gint x, y;
-    GtkWidget *pCalendar;
-    int jour, mois, annee;
-    GtkWidget *bouton;
-    GtkWidget *frame;
+    GDate * date;
 
     /* création de la popup */
 
@@ -88,17 +84,8 @@ GtkWidget *gsb_calendar_new ( GtkWidget *entry )
     gtk_container_add ( GTK_CONTAINER ( frame ), pVBox );
     gtk_widget_show ( pVBox );
 
-    if ( !( strlen ( g_strstrip ( ( gchar * ) gtk_entry_get_text ( GTK_ENTRY ( entry )))) &&
-	    sscanf ( ( gchar * ) gtk_entry_get_text ( GTK_ENTRY ( entry )),
-		     "%d/%d/%d",
-		     &jour,
-		     &mois,
-		     &annee )))
-	sscanf ( gsb_today(),
-		 "%d/%d/%d",
-		 &jour,
-		 &mois,
-		 &annee);
+    if ( strlen ( g_strstrip ( ( gchar * ) gtk_entry_get_text ( GTK_ENTRY ( entry )))) )
+	date = gsb_parse_date_string ( ( gchar * ) gtk_entry_get_text ( GTK_ENTRY ( entry ) ) );
 
     pCalendar = gtk_calendar_new();
 
@@ -106,8 +93,10 @@ GtkWidget *gsb_calendar_new ( GtkWidget *entry )
        pour identifier le mois :
        - pour g_date, janvier = 1
        - pour gtk_calendar, janvier = 0 */
-    gtk_calendar_select_month ( GTK_CALENDAR ( pCalendar ), mois - 1, annee );
-    gtk_calendar_select_day ( GTK_CALENDAR ( pCalendar ), jour );
+    gtk_calendar_select_month ( GTK_CALENDAR ( pCalendar ), 
+				g_date_get_month ( date ) - 1, 
+				g_date_get_year ( date ) );
+    gtk_calendar_select_day ( GTK_CALENDAR ( pCalendar ), g_date_get_day ( date ) );
     gtk_calendar_display_options ( GTK_CALENDAR ( pCalendar ),
 				   GTK_CALENDAR_SHOW_HEADING |
 				   GTK_CALENDAR_SHOW_DAY_NAMES |
@@ -194,11 +183,7 @@ void date_selection ( GtkCalendar *pCalendar,
     pTopLevelWidget = gtk_widget_get_toplevel ( GTK_WIDGET ( pCalendar ) );
     gtk_calendar_get_date ( pCalendar, &annee, &mois, &jour);
 
-    gtk_entry_set_text ( GTK_ENTRY ( entry ),
-			 g_strdup_printf ( "%02d/%02d/%04d",
-					   jour,
-					   mois + 1,
-					   annee ));
+    gtk_entry_set_text ( GTK_ENTRY ( entry ), gsb_format_date ( jour, mois + 1, annee ));
     if ( GTK_WIDGET_TOPLEVEL ( pTopLevelWidget ) )
 	gtk_widget_destroy ( pTopLevelWidget );
 }
@@ -242,10 +227,7 @@ gboolean clavier_calendrier ( GtkCalendar *pCalendar,
 	    gtk_signal_emit_stop_by_name ( GTK_OBJECT ( pCalendar ),
 					   "key-press-event");
 	    gtk_entry_set_text ( GTK_ENTRY ( entry ),
-				 g_strdup_printf ( "%02d/%02d/%04d",
-						   jour,
-						   mois + 1,
-						   annee ));
+				 gsb_format_date ( jour, mois + 1, annee ));
 	    if ( GTK_WIDGET_TOPLEVEL ( pTopLevelWidget ) )
 		gtk_widget_destroy ( pTopLevelWidget );
 	    break ;
@@ -472,24 +454,14 @@ gboolean clavier_calendrier ( GtkCalendar *pCalendar,
 /******************************************************************************/
 void inc_dec_date ( GtkWidget *entree, gint demande )
 {
-    gchar **tableau_char;
     GDate *date;
-    gint jour, mois, annee;
 
     /* on commence par vérifier que la date est valide */
 
     if ( !format_date ( entree ) )
 	return;
 
-    tableau_char = g_strsplit ( g_strstrip ( ( gchar * ) gtk_entry_get_text ( GTK_ENTRY ( entree ))),
-				"/",
-				3 );
-
-    jour = utils_str_atoi ( tableau_char[0] );
-    mois = utils_str_atoi ( tableau_char[1] );
-    annee = utils_str_atoi ( tableau_char[2] );
-
-    date = g_date_new_dmy ( jour, mois, annee);
+    date = gsb_parse_date_string ( g_strstrip ( ( gchar * ) gtk_entry_get_text ( GTK_ENTRY ( entree ) ) ) );
 
     switch ( demande )
     {
@@ -529,11 +501,7 @@ void inc_dec_date ( GtkWidget *entree, gint demande )
 	    break ;
     }
 
-    gtk_entry_set_text ( GTK_ENTRY ( entree ),
-			 g_strdup_printf ( "%02d/%02d/%04d",
-					   g_date_day ( date ),
-					   g_date_month ( date ),
-					   g_date_year ( date )));
+    gtk_entry_set_text ( GTK_ENTRY ( entree ), gsb_format_gdate ( date ) );
 }
 /******************************************************************************/
 

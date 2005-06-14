@@ -1,8 +1,8 @@
 /* ************************************************************************** */
 /*                                  utils_dates.c                             */
 /*                                                                            */
-/*     Copyright (C)	2000-2003 CÃ©dric Auger (cedric@grisbi.org)	      */
-/*			2003-2004 Benjamin Drieu (bdrieu@april.org)	      */
+/*     Copyright (C)	2000-2003 CÃ©dric Auger (cedric@grisbi.org)      */
+/*			2003-2005 Benjamin Drieu (bdrieu@april.org)	      */
 /*			2003-2004 Alain Portal (aportal@univ-montp2.fr)	      */
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
@@ -38,7 +38,6 @@
 static void close_calendar_popup ( GtkWidget *popup );
 static gboolean popup_calendar ( GtkWidget * button, gpointer data );
 static gboolean set_date (GtkEntry *entry, gchar *value, gint length, gint * position);
-static GDate * gsb_parse_date_string ( gchar * date_string );
 /*END_STATIC*/
 
 
@@ -197,7 +196,6 @@ GDate * gsb_parse_date_string ( gchar * date_string )
   
     for ( i = 0; separators[i]; i++ )
     {
-	printf (">> %s\n", separators[i]);
 	date = gdate_today();
 	
 	tab_date = g_strsplit ( date_string, separators[i], 3 );
@@ -293,6 +291,48 @@ GDate * gsb_parse_date_string ( gchar * date_string )
 
     return NULL;
 }
+
+
+
+/**
+ * Convenience function that return the string representation of a
+ * date based on locale settings.
+ *
+ * \param day		Day of the date to represent.
+ * \param month		Month of the date to represent.
+ * \param year		Year of the date to represent.
+ *
+ * \return		A string representing date.
+ */
+gchar * gsb_format_date ( gint day, gint month, gint year )
+{
+    return gsb_format_gdate ( g_date_new_dmy ( day, month, year ) );
+}
+
+
+
+/**
+ * Convenience function that return the string representation of a
+ * date based on locale settings.
+ *
+ * \param date		A GDate structure containing the date to represent.
+ *
+ * \return		A string representing date.
+ */
+gchar * gsb_format_gdate ( GDate *date )
+{
+    gchar retour_str[SIZEOF_FORMATTED_STRING_DATE];
+
+    if ( !date || !g_date_valid ( date ))
+    {
+	return g_strdup ("");
+    }
+
+    g_date_strftime ( retour_str, SIZEOF_FORMATTED_STRING_DATE, "%x", date );
+
+    return g_strdup ( retour_str );
+}
+
 
 
 /**
@@ -399,8 +439,7 @@ void date_set_value ( GtkWidget * hbox, GDate ** value, gboolean update )
 
 
     entry = get_entry_from_date_entry (hbox);
-    g_object_set_data ( G_OBJECT ( entry ),
-			"pointer", value );
+    g_object_set_data ( G_OBJECT ( entry ), "pointer", value );
 
     if ( update )
     {
@@ -423,11 +462,7 @@ void date_set_value ( GtkWidget * hbox, GDate ** value, gboolean update )
 
 	if ( value && *value )
 	{
-	    gtk_entry_set_text ( GTK_ENTRY(entry),
-				 g_strdup_printf ( "%02d/%02d/%04d",
-						   g_date_day (*value),
-						   g_date_month (*value),
-						   g_date_year (*value)));
+	    gtk_entry_set_text ( GTK_ENTRY(entry), gsb_format_gdate ( *value ) );
 	}
 
 	if (g_object_get_data ((GObject*) entry, "insert-hook") > 0)
@@ -466,8 +501,9 @@ void date_set_value ( GtkWidget * hbox, GDate ** value, gboolean update )
 gboolean popup_calendar ( GtkWidget * button, gpointer data )
 {
     GtkWidget *popup, *entree, *popup_boxv, *calendrier, *bouton, *frame;
-    gint x, y, cal_jour, cal_mois, cal_annee;
     GtkRequisition taille_entree, taille_popup;
+    GDate * date;
+    gint x, y;
 
     /* Find associated gtkentry */
     entree = g_object_get_data ( G_OBJECT(button), "entry" );
@@ -489,16 +525,20 @@ gboolean popup_calendar ( GtkWidget * button, gpointer data )
     gtk_container_add ( GTK_CONTAINER ( frame ), popup_boxv);
 
     /* Set initial date according to entry */
-    if ( !( strlen ( g_strstrip ( (gchar *) gtk_entry_get_text (GTK_ENTRY(entree))))
-	    &&
-	    sscanf ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree )),
-		     "%02d/%02d/%04d", &cal_jour, &cal_mois, &cal_annee)))
-	sscanf ( gsb_today(), "%02d/%02d/%04d", &cal_jour, &cal_mois, &cal_annee);
+    if ( strlen ( g_strstrip ( (gchar *) gtk_entry_get_text (GTK_ENTRY(entree))) ) )
+    {
+	date = gsb_parse_date_string ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree ) ) );
+    }
+    else
+    {
+	date = gdate_today ();
+    }
 
     /* Creates calendar */
     calendrier = gtk_calendar_new();
-    gtk_calendar_select_month ( GTK_CALENDAR ( calendrier ), cal_mois-1, cal_annee);
-    gtk_calendar_select_day  ( GTK_CALENDAR ( calendrier ), cal_jour);
+    gtk_calendar_select_month ( GTK_CALENDAR ( calendrier ), g_date_get_month ( date ) - 1,
+				g_date_get_year ( date ) );
+    gtk_calendar_select_day  ( GTK_CALENDAR ( calendrier ), g_date_get_day ( date ) );
     gtk_calendar_display_options ( GTK_CALENDAR ( calendrier ),
 				   GTK_CALENDAR_SHOW_HEADING |
 				   GTK_CALENDAR_SHOW_DAY_NAMES |
@@ -568,47 +608,6 @@ void close_calendar_popup ( GtkWidget *popup )
 GtkWidget * get_entry_from_date_entry (GtkWidget * hbox)
 {
     return ((GtkBoxChild *) GTK_BOX(hbox)->children->data)->widget;
-}
-
-
-
-/**
- * Convenience function that return the string representation of a
- * date based on locale settings.
- *
- * \param date		A GDate structure containing the date to represent.
- *
- * \return		A string representing date.
- */
-gchar * gsb_format_gdate ( GDate *date )
-{
-    gchar retour_str[SIZEOF_FORMATTED_STRING_DATE];
-
-    if ( !date || !g_date_valid ( date ))
-    {
-	return g_strdup ("");
-    }
-
-    g_date_strftime ( retour_str, SIZEOF_FORMATTED_STRING_DATE, "%x", date );
-
-    return g_strdup ( retour_str );
-}
-
-
-
-/**
- * Convenience function that return the string representation of a
- * date based on locale settings.
- *
- * \param day		Day of the date to represent.
- * \param month		Month of the date to represent.
- * \param year		Year of the date to represent.
- *
- * \return		A string representing date.
- */
-gchar * gsb_format_date ( gint day, gint month, gint year )
-{
-    return gsb_format_gdate ( g_date_new_dmy ( day, month, year ) );
 }
 
 

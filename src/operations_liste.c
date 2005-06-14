@@ -43,7 +43,6 @@
 #include "equilibrage.h"
 #include "gsb_account.h"
 #include "utils_dates.h"
-#include "format.h"
 #include "gsb_transaction_data.h"
 #include "classement_operations.h"
 #include "gtk_cell_renderer_expander.h"

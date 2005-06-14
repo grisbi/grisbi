@@ -16,5 +16,6 @@ gboolean modifie_date ( GtkWidget *entree );
 GtkWidget * new_date_entry ( gchar ** value, GCallback hook );
 gchar *gsb_format_gdate ( GDate *date );
 gchar *gsb_format_date ( gint day, gint month, gint year );
+GDate * gsb_parse_date_string ( gchar * date_string );
 /* END_DECLARATION */
 #endif

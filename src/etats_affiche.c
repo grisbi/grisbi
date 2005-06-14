@@ -33,7 +33,6 @@
 #include "etats_support.h"
 #include "utils_exercices.h"
 #include "gsb_account.h"
-#include "format.h"
 #include "gsb_transaction_data.h"
 #include "utils_categories.h"
 #include "utils_ib.h"

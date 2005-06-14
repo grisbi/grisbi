@@ -29,7 +29,6 @@
 #include "dialog.h"
 #include "gsb_account.h"
 #include "operations_comptes.h"
-#include "format.h"
 #include "fenetre_principale.h"
 #include "gsb_transaction_data.h"
 #include "gtk_combofix.h"

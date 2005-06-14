@@ -255,7 +255,9 @@ gboolean change_page_notebook ( GtkNotebook *notebook,
     }
 
     if ( numero_page != GSB_SCHEDULER_PAGE ) 
+    {
 	gtk_widget_hide_all ( scheduler_calendar );
+    }
 
     switch ( numero_page )
     {

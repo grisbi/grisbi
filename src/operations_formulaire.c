@@ -2715,24 +2715,14 @@ void gsb_form_take_datas_from_form ( gint transaction_number )
 	for ( j=0 ; j <  organisation_formulaire -> nb_colonnes ; j++ )
 	{
 	    GtkWidget *widget;
-	    gint day, month, year;
 
 	    widget =  widget_formulaire_par_element ( organisation_formulaire -> tab_remplissage_formulaire[i][j] );
 
 	    switch ( organisation_formulaire -> tab_remplissage_formulaire[i][j] )
 	    {
 		case TRANSACTION_FORM_DATE:
-
-		    sscanf ( gtk_entry_get_text ( GTK_ENTRY ( widget )),
-			     "%d/%d/%d",
-			     &day,
-			     &month,
-			     &year );
-
 		    gsb_transaction_data_set_date ( transaction_number,
-						    g_date_new_dmy ( day,
-								     month,
-								     year  ));
+						    gsb_parse_date_string ( gtk_entry_get_text ( GTK_ENTRY ( widget ) ) ) );
 
 		    break;
 
@@ -2740,16 +2730,8 @@ void gsb_form_take_datas_from_form ( gint transaction_number )
 
 		    if ( gtk_widget_get_style ( widget ) == style_entree_formulaire[ENCLAIR] )
 		    {
-			sscanf ( gtk_entry_get_text ( GTK_ENTRY ( widget )),
-				 "%d/%d/%d",
-				 &day,
-				 &month,
-				 &year );
-
 			gsb_transaction_data_set_value_date ( transaction_number,
-							      g_date_new_dmy ( day,
-									       month,
-									       year ));
+							      gsb_parse_date_string ( gtk_entry_get_text ( GTK_ENTRY ( widget ) ) ) );
 		    }
 		    else
 			gsb_transaction_data_set_value_date ( transaction_number,

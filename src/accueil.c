@@ -36,7 +36,6 @@
 #include "echeancier_formulaire.h"
 #include "gsb_account.h"
 #include "operations_comptes.h"
-#include "format.h"
 #include "gsb_transaction_data.h"
 #include "operations_liste.h"
 #include "gtk_list_button.h"
