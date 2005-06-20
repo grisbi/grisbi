@@ -2,6 +2,8 @@ grisbi_pixmapsdir = $(datadir)/pixmaps/grisbi
 
 grisbi_pixmaps_DATA = \
 	addresses.png \
+	aqbanking.png \
+	asset.png \
 	bank-account.png \
 	banks.png \
 	budgetary_lines.png \
@@ -18,13 +20,13 @@ grisbi_pixmaps_DATA = \
 	grid.png \
 	grisbi-logo.png \
 	grisbi.png \
-	hbci.png \
 	import.png \
 	money.png \
 	new-categ.png \
 	new-ib.png \
 	new-payee.png \
 	new-report.png \
+	new-scheduled.png \
 	new-sub-categ.png \
 	new-sub-ib.png \
 	new-transaction.png \
