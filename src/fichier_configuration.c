@@ -291,9 +291,6 @@ void charge_configuration ( void )
 			if ( !strcmp ( node_affichage -> name, "display_toolbar" ) ) {
 			    etat.display_toolbar = utils_str_atoi(xmlNodeGetContent ( node_affichage));
 			}
-			if ( !strcmp ( node_affichage -> name, "Affichage_nb_ecritures" ) ) {
-			    etat.affiche_nb_ecritures_listes = utils_str_atoi(xmlNodeGetContent ( node_affichage));
-			}
 			if ( !strcmp ( node_affichage -> name, "Affichage_grille" ) ) {
 			    etat.affichage_grille = utils_str_atoi(xmlNodeGetContent ( node_affichage));
 			}
@@ -495,9 +492,6 @@ void charge_configuration_ancien ( void )
     sscanf ( temp,
          "Affichage_exercice_automatique=%d",
          &etat.affichage_exercice_automatique );
-    sscanf ( temp,
-         "Affichage_nb_ecritures=%d",
-         &etat.affiche_nb_ecritures_listes );
     sscanf ( temp,
          "taille_largeur_colonne0=%d",
          &taille_largeur_colonnes[0] );
