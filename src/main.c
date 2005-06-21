@@ -168,6 +168,11 @@ int main (int argc, char *argv[])
 	bind_textdomain_codeset (PACKAGE, "UTF-8");
 	textdomain (PACKAGE);
 
+	if ( setlocale ( LC_MONETARY, getenv ( "LC_MONETARY" ) ) == NULL )
+	{
+	    setlocale ( LC_MONETARY, getenv ( "LANG" ) );
+	}
+
 	/* FIXME : tous les arguments du gnome_init... */
 	/* 	gnome_init_with_popt_table ("Grisbi", VERSION, argc, argv, options, 0, &ctx); */
 
