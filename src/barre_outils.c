@@ -76,6 +76,7 @@ extern GtkWidget *formulaire;
 extern GtkItemFactory *item_factory_menu_general;
 extern GtkTooltips *tooltips_general_grisbi;
 extern GtkWidget *tree_view_liste_echeances;
+extern GtkWidget *bouton_saisir_echeancier;
 /*END_EXTERN*/
 
 
@@ -427,13 +428,12 @@ GtkWidget *creation_barre_outils_echeancier ( void )
 			 FALSE, FALSE, 0 );
 
     /* Execute transaction */
-    gtk_box_pack_start ( GTK_BOX ( hbox ), 
-			 new_stock_button_with_label ( etat.display_toolbar,
-						       GTK_STOCK_EXECUTE, 
-						       _("Execute"),
-						       G_CALLBACK ( click_sur_saisir_echeance ),
-						       NULL ), 
-			 FALSE, FALSE, 0 );
+    bouton_saisir_echeancier = new_stock_button_with_label ( etat.display_toolbar,
+							     GTK_STOCK_EXECUTE, 
+							     _("Execute"),
+							     G_CALLBACK ( click_sur_saisir_echeance ),
+							     NULL ); 
+    gtk_box_pack_start ( GTK_BOX ( hbox ), bouton_saisir_echeancier, FALSE, FALSE, 0 );
 
     bouton = new_stock_button_with_label_menu ( etat.display_toolbar,
 						GTK_STOCK_SELECT_COLOR, _("View"),
