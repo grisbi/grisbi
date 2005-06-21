@@ -1,8 +1,8 @@
 /* ************************************************************************** */
 /*                                  utils_devises.c                           */
 /*                                                                            */
-/*     Copyright (C)	2000-2003 CÃ©dric Auger (cedric@grisbi.org)	      */
-/*			2003-2004 Benjamin Drieu (bdrieu@april.org)	      */
+/*     Copyright (C)	2000-2003 CÃ©dric Auger (cedric@grisbi.org)      */
+/*			2003-2005 Benjamin Drieu (bdrieu@april.org)	      */
 /*			2003-2004 Alain Portal (aportal@univ-montp2.fr)	      */
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
@@ -32,7 +32,6 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static gboolean is_euro ( struct struct_devise * currency );
 /*END_STATIC*/
 
 
@@ -107,6 +106,18 @@ struct struct_devise *devise_par_code_iso ( gchar *code_iso )
 /* ***************************************************************************************** */
 
 
+/* ***************************************************************************************** */
+/* renvoie le code de la devise correspondante au no */
+/* ou null si pas trouvÃ©e */
+/* ***************************************************************************************** */
+
+gchar * devise_code_by_no ( gint no_devise )
+{
+    return ( devise_code ( devise_par_no ( no_devise )));
+}
+
+
+
 /**
  * Return either currency's code or currency's ISO4217 nickname if no
  * name is found.
@@ -119,55 +130,48 @@ struct struct_devise *devise_par_code_iso ( gchar *code_iso )
  */
 gchar * devise_code ( struct struct_devise * devise )
 {
-    if ( devise )
-    {
-	if ( devise -> code_devise && (strlen(devise -> code_devise) > 0))
-	    return devise -> code_devise;
+    g_return_val_if_fail ( devise, "" );
 
+    if ( devise -> code_devise && ( strlen ( devise -> code_devise ) > 0 ) )
+	return devise -> code_devise;
+
+    if ( devise -> code_iso4217_devise && ( strlen ( devise -> code_iso4217_devise ) > 0 ) )
 	return devise -> code_iso4217_devise;
-    }
-    return NULL;
+    
+    return "";
 }
-/* ***************************************************************************************** */
 
 
 
-
-/* ***************************************************************************************** */
-/* renvoie le code de la devise correspondante au no */
-/* ou null si pas trouvÃ©e */
-/* ***************************************************************************************** */
-
-gchar * devise_code_by_no ( gint no_devise )
-{
-    return ( devise_code ( devise_par_no ( no_devise )));
-}
-/* ***************************************************************************************** */
-
-
-/* ***************************************************************************************** */
-/* renvoie le nom de la devise donnÃ© en argument */
-/* ***************************************************************************************** */
+/**
+ * Return either currency's code or ISO4217 code, or name depending on
+ * what is set.
+ *
+ * \param devise A pointer to a struct_devise holding currency
+ * informations.
+ *
+ * \return code or ISO4217 code of currency.
+ */
 gchar * devise_name ( struct struct_devise * devise )
 {
-    if ( devise )
+    gchar * name;
+
+    g_return_val_if_fail ( devise, "" );
+
+    name = devise_code ( devise );
+
+    if ( ! strlen ( name ) )
     {
-	if ( devise -> nom_devise && (strlen(devise -> nom_devise) > 0))
+	if ( devise -> nom_devise && ( strlen ( devise -> nom_devise ) > 0 ) )
 	    return devise -> nom_devise;
 
-	return devise -> code_iso4217_devise;
+	return _("No name");
     }
-    return NULL;
+    else
+    {
+	return name;
+    }
 }
-/* ***************************************************************************************** */
-
-/* ***************************************************************************************** */
-gboolean is_euro ( struct struct_devise * currency )
-{
-    return (gboolean) !strcmp ( currency -> nom_devise, _("Euro"));
-}
-/* ***************************************************************************************** */
-
 
 
 

@@ -28,6 +28,7 @@
 
 /*START_INCLUDE*/
 #include "devises.h"
+#include "devises_constants.h"
 #include "dialog.h"
 #include "utils_devises.h"
 #include "utils_editables.h"
@@ -69,7 +70,8 @@ static gboolean devise_selectionnee ( GtkWidget *menu_shell, gint origine );
 static void fill_currency_list ( GtkTreeView * view, gboolean include_obsolete );
 static gint gsb_currency_find_currency_in_option_menu ( GtkWidget *option_menu,
 						 gint no_currency );
-static GtkWidget * new_currency_list ();
+static GtkWidget * new_currency_tree ();
+static GtkWidget * new_currency_vbox ();
 static GtkWidget * new_currency_option_menu ( gint * value, GCallback hook );
 static gboolean rebuild_currency_list ( GtkWidget * checkbox, GtkTreeView * view );
 static void retrait_devise ( GtkWidget *bouton,
@@ -92,174 +94,10 @@ static void update_exchange_rate_cache ( struct struct_devise * currency1,
 /*END_STATIC*/
 
 
-
-static struct iso_4217_currency iso_4217_currencies[] = {
-    { N_("Africa"), N_("Algerian Dinar"), N_("Algeria"), "DZD", NULL, TRUE, "DZD.png" },
-    { N_("Africa"), N_("Botswana Pula"), N_("Botswana"), "BWP", NULL, TRUE, "BWP.png" },
-    { N_("Africa"), N_("Burundi Franc"), N_("Burundi"), "BIF", NULL, TRUE, "BIF.png" },
-    { N_("Africa"), N_("CFA Franc BCEAO"), N_("Niger"), "XOF", NULL, TRUE, "NIG.png" },
-    { N_("Africa"), N_("CFA Franc BCEAO"), N_("Senegal"), "XOF", NULL, TRUE, "SEN.png" },
-    { N_("Africa"), N_("CFA Franc BEAC"), N_("Cameroon"), "XAF", NULL, TRUE, "CAM.png" },
-    { N_("Africa"), N_("CFA Franc BEAC"), N_("Chad"), "XAF", NULL, TRUE, "CHA.png" },
-    { N_("Africa"), N_("CFA Franc BEAC"), N_("Congo"), "XAF", NULL, TRUE, "CON.png" },
-    { N_("Africa"), N_("Comoro Franc"), N_("Comoros"), "KMF", NULL, TRUE, "KMF.png" },
-    { N_("Africa"), N_("Egyptian Pound"), N_("Egypt"), "EGP", NULL, TRUE, "EGP.png" },
-    { N_("Africa"), N_("Ethiopian Birr"), N_("Ethiopia"), "ETB", NULL, TRUE, "ETB.png" },
-    { N_("Africa"), N_("Gambian Dalasi"), N_("Gambia"), "GMD", NULL, TRUE, "GMD.png" },
-    { N_("Africa"), N_("Ghana Cedi"), N_("Ghana"), "GHC", NULL, TRUE, "GHC.png" },
-    { N_("Africa"), N_("Guinea-Bissau Peso"), N_("Guinea-Bissau"), "GWP", NULL, TRUE, "GWP.png" },
-    { N_("Africa"), N_("Kenyan Shilling"), N_("Kenya"), "KES", NULL, TRUE, "KES.png" },
-    { N_("Africa"), N_("Liberian Dollar"), N_("Liberia"), "LRD", NULL, TRUE, "LRD.png" },
-    { N_("Africa"), N_("Libyan Dinar"), N_("Libyan Arab Jamahiriya"), "LYD", NULL, TRUE, "LYD.png" },
-    { N_("Africa"), N_("Malagasy Franc"), N_("Madagascar"), "MGF", NULL, TRUE, "MGF.png" },
-    { N_("Africa"), N_("Malawi Kwacha"), N_("Malawi"), "MWK", NULL, TRUE, "MWK.png" },
-    { N_("Africa"), N_("Mauritania Ouguiya"), N_("Mauritania"), "MRO", NULL, TRUE, "MRO.png" },
-    { N_("Africa"), N_("Moazambique Metical"), N_("Mozambique"), "MZM", NULL, TRUE, "MZM.png" },
-    { N_("Africa"), N_("Moroccan Dirham"), N_("Morocco"), "MAD", NULL, TRUE, "MAD.png" },
-    { N_("Africa"), N_("Nigerian Naira"), N_("Nigeria"), "NGN", "₦", TRUE, "NGN.png" },
-    { N_("Africa"), N_("Rwanda Franc"), N_("Rwanda"), "RWF", NULL, TRUE, "RWF.png" },
-    { N_("Africa"), N_("Sao Tome and Principe Dobra"), N_("Sao Tome and Principe"), "STD", NULL, TRUE, "STD.png" },
-    { N_("Africa"), N_("Seychelles Rupee"), N_("Seychelles"), "SCR", NULL, TRUE, "SCR.png" },
-    { N_("Africa"), N_("Sierra Leonean Leone"), N_("Sierra Leone"), "SLL", NULL, TRUE, "SLL.png" },
-    { N_("Africa"), N_("Somali Shilling"), N_("Somalia"), "SOS", NULL, TRUE, "SOS.png" },
-    { N_("Africa"), N_("South African Rand"), N_("Lesotho"), "ZAR", NULL, TRUE, "LSL.png" },
-    { N_("Africa"), N_("South African Rand"), N_("Namibia"), "ZAR", NULL, TRUE, "NAD.png" },
-    { N_("Africa"), N_("South African Rand"), N_("South Africa"), "ZAR", NULL, TRUE, "ZAR.png" },
-    { N_("Africa"), N_("Swaziland Lilangeni"), N_("Swaziland"), "SZL", NULL, TRUE, "SZL.png" },
-    { N_("Africa"), N_("Tanzanian Shilling"), N_("United Republic of Tanzania"), "TZS", NULL, TRUE, "TZS.png" },
-    { N_("Africa"), N_("Tunisian Dinar"), N_("Tunisia"), "TND", NULL, TRUE, "TND.png" },
-    { N_("Africa"), N_("Zambian Kwacha"), N_("Zambia"), "ZMK", NULL, TRUE, "ZMK.png" },
-    { N_("Africa"), N_("Zimbabwe Dollar"), N_("Zimbabwe"), "ZWD", NULL, TRUE, "ZWD.png" },
-    { N_("Asia"), N_("Afghani"), N_("Afghanistan"), "AFA", NULL, TRUE, "AFN.png" },
-    { N_("Asia"), N_("Bahraini Dinar"), N_("Bahrain"), "BHD", NULL, TRUE, "BHD.png" },
-    { N_("Asia"), N_("Bangladesh Taka"), N_("Bangladesh"), "BDT", NULL, TRUE, "BDT.png" },
-    { N_("Asia"), N_("Brunei Dollar"), N_("Brunei Darussalam"), "BND", NULL, TRUE, "BND.png" },
-    { N_("Asia"), N_("Cambodian Riel"), N_("Cambodia"), "KHR", NULL, TRUE, "KHR.png" },
-    { N_("Asia"), N_("Cyprus Pound"), N_("Cyprus"), "CYP", NULL, TRUE, "CYP.png" },
-    { N_("Asia"), N_("Hong Kong Dollar"), N_("Hong Kong"), "HKD", NULL, TRUE, "HKD.png" },
-    { N_("Asia"), N_("Indian Rupee"), N_("Bhutan"), "INR", "₨", TRUE, "BHU.png" },
-    { N_("Asia"), N_("Indian Rupee"), N_("India"), "INR", "₨", TRUE, "INR.png" },
-    { N_("Asia"), N_("Indonesian Rupiah"), N_("Indonesia"), "IDR", NULL, TRUE, "IDR.png" },
-    { N_("Asia"), N_("Iranian Rial"), N_("Iran"), "IRR", NULL, TRUE, "IRR.png" },
-    { N_("Asia"), N_("Iraqi Dinar"), N_("Iraq"), "IQD", NULL, TRUE, "IQD.png" },
-    { N_("Asia"), N_("Japanese Yen"), N_("Japan"), "JPY", "¥", TRUE, "JPY.png" },
-    { N_("Asia"), N_("Jordanian Dinar"), N_("Jordan"), "JOD", NULL, TRUE, "JOD.png" },
-    { N_("Asia"), N_("Kuwaiti Dinar"), N_("Kuwait"), "KWD", NULL, TRUE, "KWD.png" },
-    { N_("Asia"), N_("Lao Kip"), N_("Lao People's Democratic Republic"), "LAK", "₭", TRUE, "LAK.png" },
-    { N_("Asia"), N_("Lebanese Pound"), N_("Lebanon"), "LBP", NULL, TRUE, "LBP.png" },
-    { N_("Asia"), N_("Macau Pataca"), N_("Macao"), "MOP", NULL, TRUE, "MOP.png" },
-    { N_("Asia"), N_("Malaysian Ringgit"), N_("Malaysia"), "MYR", NULL, TRUE, "MYR.png" },
-    { N_("Asia"), N_("Mongolian Tugrik"), N_("Mongolia"), "MNT", "₮", TRUE, "MNT.png" },
-    { N_("Asia"), N_("Nepalese Rupee"), N_("Nepal"), "NPR", NULL, TRUE, "NPR.png" },
-    { N_("Asia"), N_("New Israeli Shekel"), N_("Israel"), "ILS", "₪", TRUE, "ILS.png" },
-    { N_("Asia"), N_("New Taiwan Dollar"), N_("Taiwan, Province of China"), "TWD", NULL, TRUE, "TWD.png" },
-    { N_("Asia"), N_("North Korean Won"), N_("Democratic People's Republic of Korea"), "KPW", "₩", TRUE, "KPW.png" },
-    { N_("Asia"), N_("Pakistan Rupee"), N_("Pakistan"), "PKR", NULL, TRUE, "PKR.png" },
-    { N_("Asia"), N_("Philippine peso"), N_("Philippines"), "PHP", NULL, TRUE, "PHP.png" },
-    { N_("Asia"), N_("Qatari Rial"), N_("Qatar"), "QAR", NULL, TRUE, "QAR.png" },
-    { N_("Asia"), N_("Rial Omani"), N_("Oman"), "OMR", NULL, TRUE, "OMR.png" },
-    { N_("Asia"), N_("Russian Ruble"), N_("Russia"), "RUR", NULL, TRUE, "RUB.png" },
-    { N_("Asia"), N_("Saudi Riyal"), N_("Saudi Arabia"), "SAR", NULL, TRUE, "SAR.png" },
-    { N_("Asia"), N_("Singapore Dollar"), N_("Singapore"), "SGD", NULL, TRUE, "SGD.png" },
-    { N_("Asia"), N_("South Korean Won"), N_("Republic of Korea"), "KRW", "₩", TRUE, "KRW.png" },
-    { N_("Asia"), N_("Sri Lanka Rupee"), N_("Sri Lanka"), "LKR", NULL, TRUE, "LKR.png" },
-    { N_("Asia"), N_("Syrian Pound"), N_("Syrian Arab Republic"), "SYP", NULL, TRUE, "SYP.png" },
-    { N_("Asia"), N_("Thai Baht"), N_("Thailand"), "THB", NULL, TRUE, "THB.png" },
-    { N_("Asia"), N_("Turkish Lira"), N_("Turkey"), "TRL", "₤", TRUE, "TRL.png" },
-    { N_("Asia"), N_("United Arab Emirates Dirham"), N_("United Arab Emirates"), "AED", NULL, TRUE, "AED.png" },
-    { N_("Asia"), N_("Viet Nam Dong"), N_("Viet Nam"), "VND", "₫", TRUE, "VND.png" },
-    { N_("Asia"), N_("Yemeni Rial"), N_("Yemen"), "YER", NULL, TRUE, "YER.png" },
-    { N_("Asia"), N_("Yuan Renminbi"), N_("China"), "CNY", NULL, TRUE, "CNY.png" },
-    { N_("Central America"), N_("Belize Dollar"), N_("Belize"), "BZD", NULL, TRUE, "BZD.png" },
-    { N_("Central America"), N_("Costa Rican Colon"), N_("Costa Rica"), "CRC", "₡", TRUE, "CRC.png" },
-    { N_("Central America"), N_("Guatemalan Quetzal"), N_("Guatemala"), "GTQ", NULL, TRUE, "GTQ.png" },
-    { N_("Central America"), N_("Honduran Lempira"), N_("Honduras"), "HNL", NULL, TRUE, "HNL.png" },
-    { N_("Central America"), N_("Mexican Peso"), N_("Mexico"), "MXP", NULL, FALSE, "MXN.png" },
-    { N_("Central America"), N_("Panama Balboa"), N_("Panama"), "PAB", NULL, TRUE, "PAB.png" },
-    { N_("Europe"), N_("Albanian Lek"), N_("Albania"), "ALL", NULL, TRUE, "ALL.png" },
-    { N_("Europe"), N_("Austrian Schilling"), N_("Austria"), "ATS", NULL, FALSE, "ATS.png" },
-    { N_("Europe"), N_("Belgian Franc"), N_("Belgium"), "BEF", NULL, FALSE, "BEF.png" },
-    { N_("Europe"), N_("Bulgarian Lev"), N_("Bulgaria"), "BGL", NULL, FALSE, "BGN.png" },
-    { N_("Europe"), N_("Czech Koruna"), N_("Czech Republic"), "CZK", NULL, TRUE, "CZK.png" },
-    { N_("Europe"), N_("Danish Krone"), N_("Denmark"), "DKK", NULL, TRUE, "DKK.png" },
-    { N_("Europe"), N_("Deutsche Mark"), N_("Germany"), "DEM", NULL, FALSE, "DEM.png" },
-    { N_("Europe"), N_("Estonian Kroon"), N_("Estonia"), "EEK", NULL, TRUE, "EEK.png" },
-    { N_("Europe"), N_("Euro"), N_("CEE"), "EUR", "€", TRUE, "EUR.png" },
-    { N_("Europe"), N_("Finnish Markka"), N_("Finland"), "FIM", NULL, FALSE, "FIM.png" },
-    { N_("Europe"), N_("French Franc"), N_("France"), "FRF", NULL, FALSE, "FRF.png" },
-    { N_("Europe"), N_("Gibraltar Pound"), N_("Gibraltar"), "GIP", NULL, TRUE, "GIP.png" },
-    { N_("Europe"), N_("Greek Drachma"), N_("Greece"), "GRD", "₯", FALSE, "GRD.png" },
-    { N_("Europe"), N_("Hungarian Forint"), N_("Hungary"), "HUF", NULL, TRUE, "HUF.png" },
-    { N_("Europe"), N_("Iceland Krona"), N_("Iceland"), "ISK", NULL, TRUE, "ISK.png" },
-    { N_("Europe"), N_("Irish Pound"), N_("Ireland"), "IEP", NULL, FALSE, "IEP.png" },
-    { N_("Europe"), N_("Italian Lira"), N_("Holy See"), "ITL", "₤", FALSE, "VAT.png" },
-    { N_("Europe"), N_("Italian Lira"), N_("Italy"), "ITL", "₤", FALSE, "ITL.png" },
-    { N_("Europe"), N_("Italian Lira"), N_("San Marino"), "ITL", "₤", FALSE, "SAN.png" },
-    { N_("Europe"), N_("Latvian Lat"), N_("Latvia"), "LVL", NULL, TRUE, "LVL.png" },
-    { N_("Europe"), N_("Lithuanian Litas"), N_("Lietuva"), "LTL", NULL, TRUE, "LTL.png" },
-    { N_("Europe"), N_("Luxembourg Franc"), N_("Luxembourg"), "LUF", NULL, FALSE, "LUF.png" },
-    { N_("Europe"), N_("Netherlands Guilder"), N_("Netherlands"), "NLG", NULL, FALSE, "NLG.png" },
-    { N_("Europe"), N_("New Yugoslavian Dinar"), N_("Serbia and Montenegro"), "YUD", NULL, FALSE, "YUV.png" },
-    { N_("Europe"), N_("Norwegian Krone"), N_("Norway"), "NOK", NULL, TRUE, "NOK.png" },
-    { N_("Europe"), N_("Polish Zloty"), N_("Poland"), "PLZ", NULL, TRUE, "PLN.png" },
-    { N_("Europe"), N_("Portuguese Escudo"), N_("Portugal"), "PTE", NULL, FALSE, "PTE.png" },
-    { N_("Europe"), N_("Pound Sterling"), N_("United Kingdom"), "GBP", "£", TRUE, "GBP.png" },
-    { N_("Europe"), N_("Romanian Leu"), N_("Romania"), "ROL", NULL, TRUE, "ROL.png" },
-    { N_("Europe"), N_("Slovak Koruna"), N_("Slovakia"), "SKK", NULL, TRUE, "SKK.png" },
-    { N_("Europe"), N_("Slovene Tolar"), N_("Slovenia"), "SIT", NULL, TRUE, "SIT.png" },
-    { N_("Europe"), N_("Spanish Peseta"), N_("Spain"), "ESP", "₧", FALSE, "ESP.png" },
-    { N_("Europe"), N_("Swedish Krona"), N_("Sweden"), "SEK", NULL, TRUE, "SEK.png" },
-    { N_("Europe"), N_("Swiss Franc"), N_("Liechtenstein"), "CHF", NULL, TRUE, "LIE.png" },
-    { N_("Europe"), N_("Swiss Franc"), N_("Switzerland"), "CHF", NULL, TRUE, "CHF.png" },
-    { N_("Europe"), N_("Hryvnia"), N_("Ukraine"), "UAH", NULL, TRUE, "UAH.png" },
-    { N_("Northern America"), N_("Bahamian Dollar"), N_("Bahamas"), "BSD", NULL, TRUE, "BSD.png" },
-    { N_("Northern America"), N_("Barbados Dollar"), N_("Barbados"), "BBD", NULL, TRUE, "BBD.png" },
-    { N_("Northern America"), N_("Bermuda Dollar"), N_("Bermuda"), "BMD", NULL, TRUE, "BMD.png" },
-    { N_("Northern America"), N_("Canadian Dollar"), N_("Canada"), "CAD", NULL, TRUE, "CAD.png" },
-    { N_("Northern America"), N_("Cayman Islands Dollar"), N_("Cayman Islands"), "KYD", NULL, TRUE, "KYD.png" },
-    { N_("Northern America"), N_("Cuban Peso"), N_("Cuba"), "CUP", NULL, TRUE, "CUP.png" },
-    { N_("Northern America"), N_("Dominican Peso"), N_("Dominican Republic"), "DOP", NULL, TRUE, "DOP.png" },
-    { N_("Northern America"), N_("East Caribbean Dollar"), N_("Grenada"), "XCD", NULL, TRUE, "GRE.png" },
-    { N_("Northern America"), N_("East Caribbean Dollar"), N_("Saint Lucia"), "XCD", NULL, TRUE, "SLC.png" },
-    { N_("Northern America"), N_("Haitian Gourde"), N_("Haiti"), "HTG", NULL, TRUE, "HTG.png" },
-    { N_("Northern America"), N_("Jamaican Dollar"), N_("Jamaica"), "JMD", NULL, TRUE, "JMD.png" },
-    { N_("Northern America"), N_("Netherlands Antillian Guilder"), N_("Netherlands Antilles"), "ANG", NULL, TRUE, "ANG.png" },
-    { N_("Northern America"), N_("Trinidad and Tobago Dollar"), N_("Trinidad and Tobago"), "TTD", NULL, TRUE, "TTD.png" },
-    { N_("Northern America"), N_("United States Dollar"), N_("United States"), "USD", "$", TRUE, "USD.png" },
-    { N_("Pacific Ocean"), N_("Australian Dollar"), N_("Australia"), "AUD", NULL, TRUE, "AUD.png" },
-    { N_("Pacific Ocean"), N_("Australian Dollar"), N_("Kiribati"), "AUD", NULL, TRUE, "KIR.png" },
-    { N_("Pacific Ocean"), N_("Australian Dollar"), N_("Nauru"), "AUD", NULL, TRUE, "NAU.png" },
-    { N_("Pacific Ocean"), N_("Australian Dollar"), N_("Tuvalu"), "AUD", NULL, TRUE, "TUV.png" },
-    { N_("Pacific Ocean"), N_("CFP Franc"), N_("French Polynesia"), "XPF", NULL, TRUE, "FRF.png" },
-    { N_("Pacific Ocean"), N_("CFP Franc"), N_("New Caledonia"), "XPF", NULL, TRUE, "FRF.png" },
-    { N_("Pacific Ocean"), N_("CFP Franc"), N_("Wallis and Futuna"), "XPF", NULL, TRUE, "FRF.png" },
-    { N_("Pacific Ocean"), N_("Fiji Dollar"), N_("Fiji"), "FJD", NULL, TRUE, "FJD.png" },
-    { N_("Pacific Ocean"), N_("New Zealand Dollar"), N_("Cook Islands"), "NZD", NULL, TRUE, "COO.png" },
-    { N_("Pacific Ocean"), N_("New Zealand Dollar"), N_("New Zealand"), "NZD", NULL, TRUE, "NZD.png" },
-    { N_("Pacific Ocean"), N_("Papua New Guinea Kina"), N_("Papua New Guinea"), "PGK", NULL, TRUE, "PGK.png" },
-    { N_("Pacific Ocean"), N_("Samoa Tala"), N_("Samoa"), "WST", NULL, TRUE, "WST.png" },
-    { N_("Pacific Ocean"), N_("Solomon Islands Dollar"), N_("Solomon Islands"), "SBD", NULL, TRUE, "SBD.png" },
-    { N_("Pacific Ocean"), N_("Timor Escudo"), N_("Timor"), "TPE", NULL, TRUE, "TPE.png" },
-    { N_("Pacific Ocean"), N_("Tongan Pa'anga"), N_("Tonga"), "TOP", NULL, TRUE, "TOP.png" },
-    { N_("Pacific Ocean"), N_("United States Dollar"), N_("Panama"), "USD", "$", TRUE, "PAB.png" },
-    { N_("Pacific Ocean"), N_("Vanuatu Vatu"), N_("Vanuatu"), "VUV", NULL, TRUE, "VUV.png" },
-    { N_("Southern America"), N_("Chilean Peso"), N_("Chile"), "CLP", NULL, TRUE, "CLP.png" },
-    { N_("Southern America"), N_("Colombian Peso"), N_("Colombia"), "COP", NULL, TRUE, "COP.png" },
-    { N_("Southern America"), N_("Ecuador Sucre"), N_("Ecuador"), "ECS", NULL, FALSE, "ECS.png" },
-    { N_("Southern America"), N_("Guyana Dollar"), N_("Guyana"), "GYD", NULL, TRUE, "GYD.png" },
-    { N_("Southern America"), N_("Paraguay Guarani"), N_("Paraguay"), "PYG", NULL, TRUE, "PYG.png" },
-    { N_("Southern America"), N_("Real"), N_("Brazil"), "BRL", "R$", TRUE, "BRL.png" },
-    { N_("Southern America"), N_("Suriname Guilder"), N_("Suriname"), "SRG", NULL, TRUE, "SRD.png" },
-    { N_("Southern America"), N_("Venezuelan Bolivar"), N_("Venezuela"), "VEB", NULL, TRUE, "VEB.png" },
-    { NULL },
-};
-
-
-
-
 GtkWidget *entree_nom, *entree_code, *entree_iso_code;
 
-
+GtkTreeModel * currency_list_model;
+GtkTreeView * currency_list_view;
 
 /** Exchange rates cache, used by update_exchange_rate_cache and
   cached_exchange_rates */
@@ -332,69 +170,48 @@ gint sort_tree (GtkTreeModel *model,
 		GtkTreeIter *b,
 		gpointer user_data)
 {
-    GValue value1 = {0, };
-    GValue value2 = {0, };
     GValue value3 = {0, };
     GValue value4 = {0, };
-    gchar * continent1, * continent2, * country1, * country2;
-
-    gtk_tree_model_get_value (model, a, CONTINENT_NAME_COLUMN, &value1);
-    gtk_tree_model_get_value (model, b, CONTINENT_NAME_COLUMN, &value2);
-    continent1 = (gchar *) g_value_get_string(&value1);
-    continent2 = (gchar *) g_value_get_string(&value2);
+    gchar * country1, * country2;
 
     gtk_tree_model_get_value (model, a, COUNTRY_NAME_COLUMN, &value3);
     gtk_tree_model_get_value (model, b, COUNTRY_NAME_COLUMN, &value4);
     country1 = (gchar *) g_value_get_string(&value3);
     country2 = (gchar *) g_value_get_string(&value4);
 
-    if (! strcmp(continent1, continent2))
-    {
-	return strcmp(country1, country2);
-    }
-    else
-    {
-	return strcmp(continent1, continent2);
-    }
+    return strcmp(country1, country2);
 }
 
 
 
-gboolean select_currency_in_iso_list (GtkTreeSelection *selection,
-				      GtkTreeModel *model)
+/**
+ *
+ *
+ *
+ */
+gboolean select_currency_in_iso_list ( GtkTreeSelection *selection, GtkTreeModel *model )
 {
+    gchar * currency_name, * currency_iso_code, * currency_nickname;
+    GtkWidget * entry_name, * entry_iso_code, * entry_code;
     GtkTreeIter iter;
-    GValue value1 = {0, };
-    GValue value2 = {0, };
-    GValue value3 = {0, };
 
     if (! gtk_tree_selection_get_selected (selection, NULL, &iter))
 	return(FALSE);
 
-    gtk_tree_model_get_value (model, &iter, CURRENCY_NAME_COLUMN, &value1);
-    gtk_tree_model_get_value (model, &iter, CURRENCY_ISO_CODE_COLUMN, &value2);
-    gtk_tree_model_get_value (model, &iter, CURRENCY_NICKNAME_COLUMN, &value3);
+    entry_name = g_object_get_data ( G_OBJECT(model), "entry_name" );
+    entry_iso_code = g_object_get_data ( G_OBJECT(model), "entry_iso_code" );
+    entry_code = g_object_get_data ( G_OBJECT(model), "entry_code" );
 
-    if (g_value_get_string(&value1))
-	gtk_entry_set_text ( GTK_ENTRY ( entree_nom ), 
-			     g_value_get_string(&value1) );
-    else
-	gtk_entry_set_text ( GTK_ENTRY ( entree_nom ), 
-			     "" );
+    gtk_tree_model_get ( model, &iter, 
+			 CURRENCY_NAME_COLUMN, &currency_name,
+			 CURRENCY_ISO_CODE_COLUMN, &currency_iso_code,
+			 CURRENCY_NICKNAME_COLUMN, &currency_nickname, 
+			 -1 );
 
-    if (g_value_get_string(&value2))
-	gtk_entry_set_text ( GTK_ENTRY ( entree_iso_code ), 
-			     g_value_get_string(&value2) );
-    else
-	gtk_entry_set_text ( GTK_ENTRY ( entree_iso_code ), 
-			     "" );
+    gtk_entry_set_text ( GTK_ENTRY ( entry_name ), currency_name );
+    gtk_entry_set_text ( GTK_ENTRY ( entry_iso_code ), currency_iso_code );
+    gtk_entry_set_text ( GTK_ENTRY ( entry_code ), currency_nickname );
 
-    if (g_value_get_string(&value3))
-	gtk_entry_set_text ( GTK_ENTRY ( entree_code ), 
-			     g_value_get_string(&value3) );
-    else
-	gtk_entry_set_text ( GTK_ENTRY ( entree_code ), 
-			     "" );
     return ( FALSE );
 } 
 
@@ -551,65 +368,40 @@ GtkWidget *creation_option_menu_devises ( gint devise_cachee, GSList *liste_tmp 
 void fill_currency_list ( GtkTreeView * view, gboolean include_obsolete )
 {
     GtkTreeModel * model;
-    GtkTreeIter iter, child_iter;
-    gchar ** continent;
+    GtkTreeIter child_iter;
     struct iso_4217_currency * currency = iso_4217_currencies;
-    gchar * continents[] = {
-	N_("Africa"),
-	N_("Asia"),
-	N_("Central America"),
-	N_("Europe"),
-	N_("Northern America"),
-	N_("Pacific Ocean"),
-	N_("Southern America"),
-	NULL,
-    };
 
     model = gtk_tree_view_get_model ( view );
 
-    for (continent = continents; *continent; continent++)
+    while (currency -> country_name )
     {
-	gtk_tree_store_append (GTK_TREE_STORE(model), &iter, NULL);
-	gtk_tree_store_set (GTK_TREE_STORE(model), &iter,
-			    COUNTRY_NAME_COLUMN, _(*continent),
-			    CURRENCY_NAME_COLUMN, NULL,
-			    CURRENCY_ISO_CODE_COLUMN, NULL,
-			    CURRENCY_NICKNAME_COLUMN, NULL,
-			    CONTINENT_NAME_COLUMN, _(*continent),
-			    -1);
-
-	while (currency -> country_name && 
-	       /* No need to translate ;-P */
-	       !strcmp(currency -> continent, *continent)) 
+	if ( include_obsolete || currency -> active )
 	{
-	    if ( include_obsolete || currency -> active )
-	    {
-		GdkPixbuf * pixbuf;
-
-		pixbuf = gdk_pixbuf_new_from_file ( g_strconcat( PIXMAPS_DIR, 
-								 C_DIRECTORY_SEPARATOR,
-								 "flags", 
-								 C_DIRECTORY_SEPARATOR,
-								 currency -> flag_filename, 
-								 NULL ),
-						    NULL );	
-		
-		gtk_tree_store_append (GTK_TREE_STORE(model), &child_iter, &iter);
-		gtk_tree_store_set (GTK_TREE_STORE(model), &child_iter,
-				    CURRENCY_FLAG_COLUMN, pixbuf,
-				    COUNTRY_NAME_COLUMN, g_strconcat ( " ", 
-								       _(currency -> country_name),
-								       NULL ),
-				    CURRENCY_NAME_COLUMN, _(currency -> currency_name),
-				    CURRENCY_ISO_CODE_COLUMN, _(currency -> currency_code),
-				    CURRENCY_NICKNAME_COLUMN, _(currency -> currency_nickname),
-				    CONTINENT_NAME_COLUMN, _(currency -> continent),
-				    CURRENCY_HAS_FLAG, TRUE,
-				    -1);
-	    }
-	    currency++;
+	    GdkPixbuf * pixbuf;
+	    
+	    pixbuf = gdk_pixbuf_new_from_file ( g_strconcat( PIXMAPS_DIR, 
+							     C_DIRECTORY_SEPARATOR,
+							     "flags", 
+							     C_DIRECTORY_SEPARATOR,
+							     currency -> flag_filename, 
+							     NULL ),
+						NULL );	
+	    
+	    gtk_tree_store_append (GTK_TREE_STORE(model), &child_iter, NULL);
+	    gtk_tree_store_set (GTK_TREE_STORE(model), &child_iter,
+				CURRENCY_FLAG_COLUMN, pixbuf,
+				COUNTRY_NAME_COLUMN, g_strconcat ( " ", 
+								   _(currency -> country_name),
+								   NULL ),
+				CURRENCY_NAME_COLUMN, _(currency -> currency_name),
+				CURRENCY_ISO_CODE_COLUMN, _(currency -> currency_code),
+				CURRENCY_NICKNAME_COLUMN, _(currency -> currency_nickname),
+				CURRENCY_HAS_FLAG, TRUE,
+				-1);
 	}
+	currency++;
     }
+
     gtk_tree_view_expand_all ( view );
 }
 
@@ -625,44 +417,33 @@ gboolean rebuild_currency_list ( GtkWidget * checkbox, GtkTreeView * view )
 
     model = gtk_tree_view_get_model ( view );
     gtk_tree_store_clear ( GTK_TREE_STORE (model) );
-    fill_currency_list ( view, 
-			 gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbox)) );
+    fill_currency_list ( view, gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbox)) );
     return FALSE;
 }
 
 
 
 /**
- * TODO: document this
+ *
  *
  */
-GtkWidget * new_currency_list ()
-{ 
+GtkWidget * new_currency_tree ()
+{
     GtkTreeViewColumn *column;
     GtkCellRenderer *cell;
-    GtkWidget *sw, *treeview, *vbox, *checkbox;
-    GtkTreeStore *model;
+    GtkTreeStore * model;
+    GtkWidget * treeview;
     gint col_offset;
 
-    sw = gtk_scrolled_window_new (NULL, NULL);
-    gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (sw),
-					 GTK_SHADOW_ETCHED_IN);
-    gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw),
-				    GTK_POLICY_NEVER,
-				    GTK_POLICY_ALWAYS);
     /* Create tree store */
     model = gtk_tree_store_new (NUM_CURRENCIES_COLUMNS,
 				GDK_TYPE_PIXBUF, G_TYPE_BOOLEAN,
 				G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING,
-				G_TYPE_STRING, G_TYPE_STRING );
+				G_TYPE_STRING );
 
     /* Create tree view */
     treeview = gtk_tree_view_new_with_model (GTK_TREE_MODEL(model));
     gtk_tree_view_set_rules_hint (GTK_TREE_VIEW (treeview), TRUE);
-    g_signal_connect (gtk_tree_view_get_selection (GTK_TREE_VIEW (treeview)), 
-		      "changed", 
-		      G_CALLBACK (select_currency_in_iso_list),
-		      model);
 
     /* Flag */
     cell = gtk_cell_renderer_pixbuf_new ();
@@ -726,15 +507,32 @@ GtkWidget * new_currency_list ()
     gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE(model), 
 					  COUNTRY_NAME_COLUMN, GTK_SORT_ASCENDING);
 
-    /*     mis sur collapse, trouve ça plus pratique à discuter si nécessaire [cedric] */
-    /* expand all rows after the treeview widget has been realized */
-    /*     g_signal_connect (treeview, "realize", */
-    /* 		      G_CALLBACK (gtk_tree_view_expand_all), NULL); */
-    g_signal_connect (treeview, "realize",
-		      G_CALLBACK (gtk_tree_view_collapse_all), NULL);
+    return treeview;
+}
 
 
+/**
+ * TODO: document this
+ *
+ */
+GtkWidget * new_currency_vbox ()
+{ 
+    GtkWidget * sw, * treeview, * vbox, * checkbox;
+    GtkTreeModel * model;
+
+    sw = gtk_scrolled_window_new (NULL, NULL);
+    gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (sw),
+					 GTK_SHADOW_ETCHED_IN);
+    gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw),
+				    GTK_POLICY_NEVER,
+				    GTK_POLICY_ALWAYS);
+
+    treeview = new_currency_tree ();
     gtk_widget_set_usize ( treeview, FALSE, 200 );
+    model = gtk_tree_view_get_model ( treeview );
+    g_signal_connect ( gtk_tree_view_get_selection (GTK_TREE_VIEW ( treeview ) ), "changed", 
+		       G_CALLBACK ( select_currency_in_iso_list ), model );
+
     gtk_container_add (GTK_CONTAINER (sw), treeview);
     gtk_container_set_resize_mode (GTK_CONTAINER (sw), GTK_RESIZE_PARENT);
 
@@ -791,7 +589,7 @@ gboolean ajout_devise ( GtkWidget *widget )
     paddingbox = 
 	new_paddingbox_with_title (GTK_WIDGET ( GTK_DIALOG ( dialog ) -> vbox ),
 				   TRUE, _("ISO 4217 currencies"));
-    list = new_currency_list ();
+    list = new_currency_vbox ();
     gtk_box_pack_start ( GTK_BOX(paddingbox) , list, TRUE, TRUE, 5 );
 
     paddingbox = 
@@ -802,58 +600,43 @@ gboolean ajout_devise ( GtkWidget *widget )
     table = gtk_table_new ( 2, 2, FALSE );
     gtk_table_set_col_spacings ( GTK_TABLE ( table ), 5 );
     gtk_table_set_row_spacings ( GTK_TABLE ( table ), 5 );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ),
-			 table,
-			 TRUE, TRUE, 0 );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), table, TRUE, TRUE, 0 );
 
     /* Currency name */
     label = gtk_label_new (COLON(_("Currency name")));
     gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
     gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
-    gtk_table_attach ( GTK_TABLE ( table ),
-		       label, 
-		       0, 1, 0, 1,
-		       GTK_SHRINK | GTK_FILL, 0,
-		       0, 0 );
+    gtk_table_attach ( GTK_TABLE ( table ), label, 0, 1, 0, 1,
+		       GTK_SHRINK | GTK_FILL, 0, 0, 0 );
     entree_nom = gtk_entry_new ();
-    gtk_entry_set_activates_default ( GTK_ENTRY ( entree_nom ),
-				      TRUE );
-    gtk_table_attach ( GTK_TABLE ( table ),
-		       entree_nom, 1, 2, 0, 1,
-		       GTK_EXPAND|GTK_FILL, 0,
-		       0, 0 );
+    gtk_entry_set_activates_default ( GTK_ENTRY ( entree_nom ), TRUE );
+    gtk_table_attach ( GTK_TABLE ( table ), entree_nom, 1, 2, 0, 1,
+		       GTK_EXPAND|GTK_FILL, 0, 0, 0 );
+    g_object_set_data ( G_OBJECT(model), "entry_name", entree_nom );
 
     /* Currency ISO code */
     label = gtk_label_new (COLON(_("Currency ISO 4217 code")));
     gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
     gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_LEFT );
-    gtk_table_attach ( GTK_TABLE ( table ),
-		       label, 
-		       0, 1, 1, 2,
-		       GTK_SHRINK | GTK_FILL, 0,
-		       0, 0 );
+    gtk_table_attach ( GTK_TABLE ( table ), label, 0, 1, 1, 2,
+		       GTK_SHRINK | GTK_FILL, 0, 0, 0 );
     entree_iso_code = gtk_entry_new ();
-    gtk_table_attach ( GTK_TABLE ( table ),
-		       entree_iso_code, 1, 2, 1, 2,
-		       GTK_EXPAND|GTK_FILL, 0,
-		       0, 0 );
+    gtk_table_attach ( GTK_TABLE ( table ), entree_iso_code, 1, 2, 1, 2,
+		       GTK_EXPAND|GTK_FILL, 0, 0, 0 );
+    g_object_set_data ( G_OBJECT(model), "entry_iso_code", entree_iso_code );
 
     /* Currency usual sign */
     label = gtk_label_new (COLON(_("Currency sign")));
     gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
     gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_LEFT );
-    gtk_table_attach ( GTK_TABLE ( table ),
-		       label,
-		       0, 1, 2, 3,
-		       GTK_SHRINK | GTK_FILL, 0,
-		       0, 0 );
+    gtk_table_attach ( GTK_TABLE ( table ), label, 0, 1, 2, 3,
+		       GTK_SHRINK | GTK_FILL, 0, 0, 0 );
     entree_code = gtk_entry_new ();
-    gtk_table_attach ( GTK_TABLE ( table ),
-		       entree_code, 1, 2, 2, 3,
-		       GTK_EXPAND|GTK_FILL, 0,
-		       0, 0 );
+    gtk_table_attach ( GTK_TABLE ( table ), entree_code, 1, 2, 2, 3,
+		       GTK_EXPAND|GTK_FILL, 0, 0, 0 );
+    g_object_set_data ( G_OBJECT(model), "entry_code", entree_code );
 
-reprise_dialog:
+  reprise_dialog:
     gtk_widget_show_all ( GTK_WIDGET ( dialog ) );
     resultat = gtk_dialog_run ( GTK_DIALOG ( dialog ));
 
@@ -884,20 +667,7 @@ reprise_dialog:
 
 		if ( widget )
 		{
-		    gchar *ligne[3];
-		    gint ligne_liste;
-
-		    ligne[0] = devise -> nom_devise;
-		    ligne[1] = devise -> code_iso4217_devise;
-		    ligne[2] = devise -> code_devise;
-
-		    ligne_liste = gtk_clist_append ( GTK_CLIST ( widget ),
-						     ligne );
-		    gtk_clist_set_row_data  ( GTK_CLIST ( widget ),
-					      ligne_liste,
-					      devise );
-		    gtk_clist_select_row ( GTK_CLIST ( widget ),
-					   ligne_liste, 0 );
+		    append_currency_to_currency_list ( currency_list_model, devise );
 		    update_currency_widgets();
 		    modification_fichier ( TRUE );
 		    gtk_widget_destroy ( GTK_WIDGET ( dialog ));
@@ -936,7 +706,7 @@ gint bloque_echap_choix_devise ( GtkWidget *dialog,
 				 gpointer null )
 {
 
-    /* empÃšche la touche echap de fermer la fenetre */
+    /* emp�,CE�(Bche la touche echap de fermer la fenetre */
 
     if ( key -> keyval == GDK_Escape )
     {
@@ -1036,9 +806,9 @@ void retrait_devise ( GtkWidget *bouton,
 
 /***********************************************************************************************************/
 /* Fonction demande_taux_de_change : */
-/* affiche une fenetre permettant d'entrer le taux de change entre la devise du compte et la devise demandÃ©e */
+/* affiche une fenetre permettant d'entrer le taux de change entre la devise du compte et la devise demand�©e */
 /* renvoie ce taux de change */
-/* le taux renvoyÃ© est <0 si une_devise_compte_egale_x_devise_ope = 1, > 0 sinon */
+/* le taux renvoy�© est <0 si une_devise_compte_egale_x_devise_ope = 1, > 0 sinon */
 /***********************************************************************************************************/
 
 void demande_taux_de_change ( struct struct_devise *devise_compte,
@@ -1076,7 +846,7 @@ void demande_taux_de_change ( struct struct_devise *devise_compte,
     gtk_box_set_spacing ( GTK_BOX ( GTK_DIALOG (dialog)->vbox ), 6 );
     
 
-    /* crÃ©ation de la ligne du change */
+    /* cr�©ation de la ligne du change */
 
     hbox = gtk_hbox_new ( FALSE, 5 );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox,
@@ -1105,8 +875,8 @@ void demande_taux_de_change ( struct struct_devise *devise_compte,
     gtk_box_pack_start ( GTK_BOX ( hbox ), option_menu_devise_2,
 			 TRUE, TRUE, 0);
 
-    /* crÃ©ation du menu de la 1Ãšre devise ( le menu comporte la devise
-       courante et celle associÃ©e ) */
+    /* cr�©ation du menu de la 1�,CE�(Bre devise ( le menu comporte la devise
+       courante et celle associ�©e ) */
     menu = gtk_menu_new ();
 
     item = gtk_menu_item_new_with_label ( devise -> nom_devise );
@@ -1126,8 +896,8 @@ void demande_taux_de_change ( struct struct_devise *devise_compte,
 			option_menu_devise_2 );
     g_object_set_data ( G_OBJECT (option_menu_devise_1), "currency", devise );
 
-    /* crÃ©ation du menu de la 2Ãšme devise ( le menu comporte la devise
-       courante et celle associÃ©e ) */
+    /* cr�©ation du menu de la 2�,CE�(Bme devise ( le menu comporte la devise
+       courante et celle associ�©e ) */
     menu = gtk_menu_new ();
 
     item = gtk_menu_item_new_with_label ( devise -> nom_devise );
@@ -1147,7 +917,7 @@ void demande_taux_de_change ( struct struct_devise *devise_compte,
 			option_menu_devise_1 );
     g_object_set_data ( G_OBJECT (option_menu_devise_2), "currency", devise );
 
-    /* crÃ©ation de la ligne des frais de change */
+    /* cr�©ation de la ligne des frais de change */
     hbox = gtk_hbox_new ( FALSE, 5 );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox,
 			 FALSE, FALSE, 5 );
@@ -1168,7 +938,7 @@ void demande_taux_de_change ( struct struct_devise *devise_compte,
 
     gtk_widget_show_all ( dialog );
 
-    /* choix des 1Ãšre et 2Ãšme devise */
+    /* choix des 1�,CE�(Bre et 2�,CE�(Bme devise */
     if ( taux_change || frais_change )
     {
 
@@ -1194,18 +964,18 @@ void demande_taux_de_change ( struct struct_devise *devise_compte,
     }
     else
     {
-	/* vÃ©rifie s'il y a dÃ©jÃ  une association entre la devise du
-	   compte et la devise de l'opÃ©ration */
+	/* v�©rifie s'il y a d�©j�  une association entre la devise du
+	   compte et la devise de l'op�©ration */
 	if ( devise_compte -> no_devise_en_rapport == devise -> no_devise )
 	{
 	    /* il y a une association de la devise du compte vers la
-	       devise de l'opÃ©ration */
+	       devise de l'op�©ration */
 	    gtk_option_menu_set_history ( GTK_OPTION_MENU ( option_menu_devise_1 ),
 					  devise_compte -> une_devise_1_egale_x_devise_2 );
 	    gtk_option_menu_set_history ( GTK_OPTION_MENU ( option_menu_devise_2 ),
 					  !( devise_compte -> une_devise_1_egale_x_devise_2 ));
 
-	    /* si un change est dÃ©jÃ  entrÃ©, on l'affiche */
+	    /* si un change est d�©j�  entr�©, on l'affiche */
 	    if ( devise_compte -> date_dernier_change )
 		gtk_entry_set_text ( GTK_ENTRY ( entree ),
 				     g_strdup_printf ( "%f",
@@ -1214,13 +984,13 @@ void demande_taux_de_change ( struct struct_devise *devise_compte,
 	else
 	    if ( devise -> no_devise_en_rapport == devise_compte -> no_devise )
 	    {
-		/* il y a une association de la devise de l'opÃ©ration
+		/* il y a une association de la devise de l'op�©ration
 		   vers la devise du compte */
 		gtk_option_menu_set_history ( GTK_OPTION_MENU ( option_menu_devise_1 ),
 					      !(devise -> une_devise_1_egale_x_devise_2 ));
 		gtk_option_menu_set_history ( GTK_OPTION_MENU ( option_menu_devise_2 ),
 					      devise -> une_devise_1_egale_x_devise_2 );
-		/* si un change est dÃ©jÃ  entrÃ©, on l'affiche */
+		/* si un change est d�©j�  entr�©, on l'affiche */
 		if ( devise -> date_dernier_change )
 		    gtk_entry_set_text ( GTK_ENTRY ( entree ),
 					 g_strdup_printf ( "%f",
@@ -1228,7 +998,7 @@ void demande_taux_de_change ( struct struct_devise *devise_compte,
 	    }
 	    else
 	    {
-		/* il n'y a aucun rapport Ã©tabli entre les 2 devises */
+		/* il n'y a aucun rapport �©tabli entre les 2 devises */
 		gtk_option_menu_set_history ( GTK_OPTION_MENU ( option_menu_devise_1 ),
 					      1 );
 		gtk_option_menu_set_history ( GTK_OPTION_MENU ( option_menu_devise_2 ),
@@ -1316,188 +1086,156 @@ gboolean devise_selectionnee ( GtkWidget *menu_shell, gint origine )
  */
 GtkWidget *onglet_devises ( void )
 {
-    GtkWidget *vbox_pref, *label, *paddingbox;
+    GtkWidget *vbox_pref, *label, *paddingbox, *bouton, *hbox;
     GtkWidget *scrolled_window, *vbox, *table;
     GSList *liste_tmp;
-    gchar *titres_devise [3] = { _("Currency"),
-	_("ISO Code"),
-	_("Sign") };
-	GtkWidget *bouton;
-	GtkWidget *hbox;
+    gchar *titres_devise [3] = { _("Currency"), _("ISO Code"), _("Sign") };
+    
+    vbox_pref = new_vbox_with_title_and_icon ( _("Currencies"), "currencies.png" ); 
+    paddingbox = new_paddingbox_with_title (vbox_pref, TRUE, _("Known currencies"));
+    
+    hbox = gtk_hbox_new ( FALSE, 5 );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, TRUE, TRUE, 0);
 
-	vbox_pref = new_vbox_with_title_and_icon ( _("Currencies"),
-						   "currencies.png" );
+    /* Currency list */
+    scrolled_window = gtk_scrolled_window_new ( NULL, NULL );
+    gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window ),
+				     GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
 
-	paddingbox = new_paddingbox_with_title (vbox_pref, TRUE,
-						_("Known currencies"));
+    /* Create it. */
+    currency_list_view = GTK_TREE_VIEW ( new_currency_tree () );
+    currency_list_model = gtk_tree_view_get_model ( currency_list_view );
+    gtk_container_add ( GTK_CONTAINER ( scrolled_window ), currency_list_view );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), scrolled_window, TRUE, TRUE, 0);
+    g_signal_connect ( gtk_tree_view_get_selection (GTK_TREE_VIEW ( treeview ) ), 
+		       "changed", G_CALLBACK ( select_currency_in_iso_list ), 
+		       currency_list_model );
 
-	hbox = gtk_hbox_new ( FALSE, 5 );
-	gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox,
-			     TRUE, TRUE, 0);
+    /*   s'il n'y a pas de fichier ouvert, on grise */
+    if ( !gsb_account_get_accounts_amount () )
+	gtk_widget_set_sensitive ( vbox_pref, FALSE );
+    else
+    {
+	/* remplissage de la liste avec les devises temporaires */
 
-	/* Currency list */
-	scrolled_window = gtk_scrolled_window_new ( NULL, NULL );
-	gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window ),
-					 GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
+	liste_tmp = liste_struct_devises;
 
-	clist_devises_parametres = gtk_clist_new_with_titles ( 3, titres_devise );
-	gtk_clist_set_column_auto_resize ( GTK_CLIST ( clist_devises_parametres ) ,
-					   0, TRUE );
-	gtk_clist_set_column_auto_resize ( GTK_CLIST ( clist_devises_parametres ) ,
-					   1, TRUE );
-	gtk_clist_set_column_auto_resize ( GTK_CLIST ( clist_devises_parametres ) ,
-					   2, TRUE );
-	gtk_clist_column_titles_passive ( GTK_CLIST ( clist_devises_parametres ));
-	gtk_clist_set_column_justification ( GTK_CLIST ( clist_devises_parametres ),
-					     1, GTK_JUSTIFY_CENTER);
-	gtk_clist_set_column_justification ( GTK_CLIST ( clist_devises_parametres ),
-					     2, GTK_JUSTIFY_CENTER);
-	gtk_container_add ( GTK_CONTAINER ( scrolled_window ),
-			    clist_devises_parametres );
-	gtk_box_pack_start ( GTK_BOX ( hbox ), scrolled_window,
-			     TRUE, TRUE, 0);
-
-	/*   s'il n'y a pas de fichier ouvert, on grise */
-	if ( !gsb_account_get_accounts_amount () )
-	    gtk_widget_set_sensitive ( vbox_pref, FALSE );
-	else
+	while ( liste_tmp )
 	{
-	    /* remplissage de la liste avec les devises temporaires */
+	    struct struct_devise *devise;
 
-	    liste_tmp = liste_struct_devises;
-
-	    while ( liste_tmp )
-	    {
-		struct struct_devise *devise;
-		gchar *ligne[3];
-		gint ligne_insert;
-
-		devise = liste_tmp -> data;
-
-		ligne[0] = devise -> nom_devise;
-		ligne[1] = devise -> code_iso4217_devise;
-		ligne[2] = devise -> code_devise;
-
-		ligne_insert = gtk_clist_append ( GTK_CLIST ( clist_devises_parametres ),
-						  ligne );
-
-		/* on associe Ã  la ligne la struct de la devise */
-
-		gtk_clist_set_row_data ( GTK_CLIST ( clist_devises_parametres ),
-					 ligne_insert,
-					 devise );
-
-		liste_tmp = liste_tmp -> next;
-	    }
-
+	    devise = liste_tmp -> data;
+	    append_currency_to_currency_list ( currency_list_model, devise );
+	    liste_tmp = liste_tmp -> next;
 	}
 
-	/* Create Add/Remove buttons */
-	vbox = gtk_vbox_new ( FALSE, 5 );
-	gtk_box_pack_start ( GTK_BOX ( hbox ), vbox,
-			     FALSE, FALSE, 0 );
+    }
 
-	/* Button "Add" */
-	bouton = gtk_button_new_from_stock (GTK_STOCK_ADD);
-	gtk_signal_connect_object ( GTK_OBJECT ( bouton ),
-				    "clicked",
-				    GTK_SIGNAL_FUNC  ( ajout_devise ),
-				    GTK_OBJECT (clist_devises_parametres ));
-	gtk_box_pack_start ( GTK_BOX ( vbox ), bouton,
-			     FALSE, FALSE, 5 );
+    /* Create Add/Remove buttons */
+    vbox = gtk_vbox_new ( FALSE, 5 );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), vbox, FALSE, FALSE, 0 );
 
-	/* Button "Remove" */
-	bouton_supprimer_devise = gtk_button_new_from_stock (GTK_STOCK_REMOVE);
-	gtk_signal_connect ( GTK_OBJECT ( bouton_supprimer_devise ),
-			     "clicked",
-			     GTK_SIGNAL_FUNC  ( retrait_devise ),
-			     clist_devises_parametres );
-	gtk_box_pack_start ( GTK_BOX ( vbox ), bouton_supprimer_devise,
-			     FALSE, FALSE, 5 );
+    /* Button "Add" */
+    bouton = gtk_button_new_from_stock (GTK_STOCK_ADD);
+    gtk_signal_connect_object ( GTK_OBJECT ( bouton ), "clicked",
+				GTK_SIGNAL_FUNC  ( ajout_devise ),
+				GTK_OBJECT (currency_list_model));
+    gtk_box_pack_start ( GTK_BOX ( vbox ), bouton, FALSE, FALSE, 5 );
 
+    /* Button "Remove" */
+    bouton_supprimer_devise = gtk_button_new_from_stock (GTK_STOCK_REMOVE);
+    gtk_signal_connect ( GTK_OBJECT ( bouton_supprimer_devise ), "clicked",
+			 GTK_SIGNAL_FUNC  ( retrait_devise ), currency_list_model );
+    gtk_box_pack_start ( GTK_BOX ( vbox ), bouton_supprimer_devise, FALSE, FALSE, 5 );
 
-	/* Input form for currencies */
-	paddingbox = new_paddingbox_with_title (vbox_pref, FALSE,
-						_("Currency properties"));
+    /* Input form for currencies */
+    paddingbox = new_paddingbox_with_title (vbox_pref, FALSE, _("Currency properties"));
 
-	/* Selecting a currency activates this form */
-	gtk_signal_connect ( GTK_OBJECT ( clist_devises_parametres ),
-			     "select-row",
-			     GTK_SIGNAL_FUNC ( selection_ligne_devise ),
-			     paddingbox );
-	gtk_signal_connect ( GTK_OBJECT ( clist_devises_parametres ),
-			     "unselect-row",
-			     GTK_SIGNAL_FUNC ( deselection_ligne_devise ),
-			     paddingbox );
+    /* Selecting a currency activates this form */
+    gtk_signal_connect ( GTK_OBJECT ( clist_devises_parametres ), "select-row",
+			 GTK_SIGNAL_FUNC ( selection_ligne_devise ), paddingbox );
+    gtk_signal_connect ( GTK_OBJECT ( clist_devises_parametres ), "unselect-row",
+			 GTK_SIGNAL_FUNC ( deselection_ligne_devise ), paddingbox );
 
+    /* Create table */
+    table = gtk_table_new ( 2, 2, FALSE );
+    gtk_table_set_col_spacings ( GTK_TABLE ( table ), 5 );
+    gtk_table_set_row_spacings ( GTK_TABLE ( table ), 5 );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), table, TRUE, TRUE, 0 );
 
-	/* Create table */
-	table = gtk_table_new ( 2, 2, FALSE );
-	gtk_table_set_col_spacings ( GTK_TABLE ( table ), 5 );
-	gtk_table_set_row_spacings ( GTK_TABLE ( table ), 5 );
-	gtk_box_pack_start ( GTK_BOX ( paddingbox ), table,
-			     TRUE, TRUE, 0 );
+    /* Create currency name entry */
+    label = gtk_label_new (COLON(_("Name")));
+    gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
+    gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
+    gtk_table_attach ( GTK_TABLE ( table ), label, 0, 1, 0, 1,
+		       GTK_SHRINK | GTK_FILL, 0, 0, 0 );
+    entree_nom_devise_parametres = new_text_entry ( NULL, (GCallback) changement_nom_entree_devise );
+    gtk_table_attach ( GTK_TABLE ( table ), entree_nom_devise_parametres, 1, 2, 0, 1, 
+		       GTK_EXPAND | GTK_FILL, 0, 0, 0 );
+    g_object_set_data ( G_OBJECT(currency_list_model), "entry_name", 
+			entree_nom_devise_parametres  );
 
-	/* Create currency name entry */
-	label = gtk_label_new (COLON(_("Name")));
-	gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
-	gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
-	gtk_table_attach ( GTK_TABLE ( table ),
-			   label, 0, 1, 0, 1,
-			   GTK_SHRINK | GTK_FILL, 0,
-			   0, 0 );
-	entree_nom_devise_parametres = new_text_entry ( NULL, (GCallback) changement_nom_entree_devise );
-	gtk_table_attach ( GTK_TABLE ( table ),
-			   entree_nom_devise_parametres, 
-			   1, 2, 0, 1, 
-			   GTK_EXPAND | GTK_FILL, 0,
-			   0, 0 );
+    /* Create code entry */
+    label = gtk_label_new (COLON(_("Sign")));
+    gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
+    gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
+    gtk_table_attach ( GTK_TABLE ( table ), label, 0, 1, 1, 2,
+		       GTK_SHRINK | GTK_FILL, 0, 0, 0 );
+    entree_code_devise_parametres = new_text_entry ( NULL, (GCallback) changement_code_entree_devise );
+    gtk_table_attach ( GTK_TABLE ( table ), entree_code_devise_parametres, 1, 2, 1, 2,
+		       GTK_EXPAND | GTK_FILL, 0, 0, 0 );
+    g_object_set_data ( G_OBJECT(currency_list_model), "entry_code", 
+			entree_code_devise_parametres  );
 
-	/* Create code entry */
-	label = gtk_label_new (COLON(_("Sign")));
-	gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
-	gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
-	gtk_table_attach ( GTK_TABLE ( table ),
-			   label, 
-			   0, 1, 1, 2,
-			   GTK_SHRINK | GTK_FILL, 0,
-			   0, 0 );
-	entree_code_devise_parametres = new_text_entry ( NULL, (GCallback) changement_code_entree_devise );
-	gtk_table_attach ( GTK_TABLE ( table ),
-			   entree_code_devise_parametres, 
-			   1, 2, 1, 2,
-			   GTK_EXPAND | GTK_FILL, 0,
-			   0, 0 );
+    /* Create code entry */
+    label = gtk_label_new ( COLON(_("ISO code")) );
+    gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
+    gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
+    gtk_table_attach ( GTK_TABLE ( table ), label, 0, 1, 2, 3,
+		       GTK_SHRINK | GTK_FILL, 0, 0, 0 );
+    entree_iso_code_devise_parametres = new_text_entry ( NULL, (GCallback) changement_iso_code_entree_devise );
+    gtk_table_attach ( GTK_TABLE ( table ), entree_iso_code_devise_parametres, 1, 2, 2, 3,
+		       GTK_EXPAND | GTK_FILL, 0, 0, 0 );
+    g_object_set_data ( G_OBJECT(currency_list_model), "entry_iso_code", 
+			entree_iso_code_devise_parametres  );
 
-	/* Create code entry */
-	label = gtk_label_new ( COLON(_("ISO code")) );
-	gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
-	gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
-	gtk_table_attach ( GTK_TABLE ( table ),
-			   label,
-			   0, 1, 2, 3,
-			   GTK_SHRINK | GTK_FILL, 0,
-			   0, 0 );
-	entree_iso_code_devise_parametres = new_text_entry ( NULL, (GCallback) changement_iso_code_entree_devise );
-	gtk_table_attach ( GTK_TABLE ( table ),
-			   entree_iso_code_devise_parametres, 
-			   1, 2, 2, 3,
-			   GTK_EXPAND | GTK_FILL, 0,
-			   0, 0 );
-
-	/* Select first entry if applicable */
-	gtk_clist_select_row ( GTK_CLIST(clist_devises_parametres), 0, 0 ); 
-
-	return ( vbox_pref );
-
+    return ( vbox_pref );
 }
-/* ************************************************************************************************************** */
 
 
 
 /**
- * Creates a new GtkOptionMenu with a pointer to an integerthat will
- * be modified according to the entry's value.
+ *
+ *
+ *
+ */
+void append_currency_to_currency_list ( GtkTreeStore * model, struct struct_devise * devise )
+{
+    GdkPixbuf * pixbuf;
+    GtkTreeIter iter;
+
+    pixbuf = gdk_pixbuf_new_from_file ( g_strconcat( PIXMAPS_DIR, C_DIRECTORY_SEPARATOR,
+						     "flags", C_DIRECTORY_SEPARATOR,
+						     devise -> code_iso4217_devise,
+						     ".png", NULL ),
+					NULL );	
+
+    gtk_tree_store_append (GTK_TREE_STORE(model), &iter, NULL);
+    gtk_tree_store_set ( GTK_TREE_STORE ( model ), &iter,
+			 CURRENCY_FLAG_COLUMN, pixbuf,
+			 COUNTRY_NAME_COLUMN, "",
+			 CURRENCY_NAME_COLUMN, devise -> nom_devise,
+			 CURRENCY_ISO_CODE_COLUMN, devise -> code_iso4217_devise,
+			 CURRENCY_NICKNAME_COLUMN, devise -> code_devise,
+			 CURRENCY_HAS_FLAG, TRUE,
+			 -1);
+}
+
+
+
+/**
+ * Create a new GtkOptionMenu with a pointer to an integerthat will be
+ * modified according to the entry's value.
  *
  * \param value A pointer to a string
  * \param hook An optional function to execute as a handler
@@ -1608,7 +1346,7 @@ GtkWidget *tab_display_totals ( void )
 
 /* **************************************************************************************************************************** */
 /* Fonction selection_ligne_devise */
-/* appelÃ©e lorsqu'on sÃ©lectionne une devise dans la liste */
+/* appel�©e lorsqu'on s�©lectionne une devise dans la liste */
 /* **************************************************************************************************************************** */
 
 gboolean selection_ligne_devise ( GtkWidget *liste,
@@ -1644,7 +1382,7 @@ gboolean selection_ligne_devise ( GtkWidget *liste,
 
 /* **************************************************************************************************************************** */
 /* Fonction deselection_ligne_devise */
-/* appelÃ©e lorsqu'on dÃ©sÃÂ©lectionne une devise dans la liste */
+/* appel�©e lorsqu'on d�©s�,CC©(Blectionne une devise dans la liste */
 /* **************************************************************************************************************************** */
 
 gboolean deselection_ligne_devise ( GtkWidget *liste,
@@ -1788,7 +1526,8 @@ void update_exchange_rate_cache ( struct struct_devise * currency1,
 
 
 /* ***************************************************************************************** */
-struct struct_devise *create_currency ( gchar * nom_devise, gchar * code_devise, gchar * code_iso4217_devise )
+struct struct_devise *create_currency ( gchar * nom_devise, gchar * code_devise, 
+					gchar * code_iso4217_devise )
 {
   struct struct_devise * devise;
   
