@@ -35,6 +35,7 @@
 #include "structures.h"
 #include "echeancier_liste.h"
 #include "operations_liste.h"
+#include "devises_constants.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -2012,6 +2013,31 @@ void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
 		i++;
 	    }
 	    while ( attribute_names[i] );
+
+	    /* Set ISO4217 code if needed (compatibility function). */
+	    if ( ! devise -> code_iso4217_devise || 
+		 ! strlen ( devise -> code_iso4217_devise ) )
+	    {
+		int i;
+		for ( i = 0; iso_4217_currencies[i].continent != NULL; i++ )
+		{
+		    /* Basically, we check if either currency currency
+		     * name or nickname (code) match iso4217 *
+		     * currencies code or nickname.  If so, we set
+		     * iso4217 code accordingly. */
+		    if ( (devise -> nom_devise && 
+			  ! strcmp ( devise -> nom_devise, _(iso_4217_currencies[i].currency_name ) ) ) ||
+			 ( devise -> code_devise && 
+			   ! strcmp ( devise -> code_devise, iso_4217_currencies[i].currency_code ) ) ||
+			 ( iso_4217_currencies[i].currency_nickname && 
+			   devise -> code_devise &&
+			   ! strcmp ( devise -> code_devise, iso_4217_currencies[i].currency_nickname ) ) )
+		    {
+			devise -> code_iso4217_devise = iso_4217_currencies[i].currency_code;
+			break;
+		    }				 
+		}
+	    }
 
 	    liste_struct_devises = g_slist_append ( liste_struct_devises,
 						    devise );

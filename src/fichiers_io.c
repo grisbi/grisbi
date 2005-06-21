@@ -53,6 +53,7 @@ struct recuperation_version
 #include "utils_files.h"
 #include "structures.h"
 #include "echeancier_liste.h"
+#include "devises_constants.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -1949,20 +1950,28 @@ gboolean recuperation_devises_xml ( xmlNodePtr node_devises )
 	    {
 		struct struct_devise *devise;
 
-		devise = calloc ( 1,
-				  sizeof ( struct struct_devise ));
+		devise = calloc ( 1, sizeof ( struct struct_devise ));
 
 		if ( node_detail -> type != XML_TEXT_NODE )
 		{
+		    devise -> no_devise = utils_str_atoi ( xmlGetProp ( node_detail, "No" ));
+		    devise -> nom_devise = xmlGetProp ( node_detail, "Nom" );
+		    devise -> code_iso4217_devise = xmlGetProp ( node_detail, "IsoCode" );
+		    devise -> code_devise = xmlGetProp ( node_detail, "Code" );
 
-		    devise -> no_devise = utils_str_atoi ( xmlGetProp ( node_detail,
-								 "No" ));
-		    devise -> nom_devise = xmlGetProp ( node_detail,
-							"Nom" );
-		    devise -> code_iso4217_devise = xmlGetProp ( node_detail,
-								 "IsoCode" );
-		    devise -> code_devise = xmlGetProp ( node_detail,
-							 "Code" );
+		    if ( ! strlen ( devise -> code_iso4217_devise ) )
+		    {
+			int i;
+			for ( i = 0; iso_4217_currencies[0].continent != NULL; i++ )
+			{
+			    if ( ! strcmp ( devise -> nom_devise, _(iso_4217_currencies[i].currency_name ) ) ||
+				 ! strcmp ( devise -> code_devise, iso_4217_currencies[i].currency_nickname ) )
+			    {
+				devise -> code_iso4217_devise = iso_4217_currencies[i].currency_code;
+			    }				 
+			}
+		    }
+
 		    if ( !strlen ( devise -> code_devise ))
 			devise -> code_devise = NULL;
 		    if (! devise -> code_iso4217_devise ||
