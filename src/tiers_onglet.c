@@ -140,10 +140,7 @@ GtkWidget *onglet_tiers ( void )
 
     /* We create the gtktreeview and model early so that they can be referenced. */
     payee_tree = gtk_tree_view_new();
-    payee_tree_model = gtk_tree_store_new ( META_TREE_NUM_COLUMNS, 
-					    G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, 
-					    G_TYPE_POINTER, G_TYPE_INT, G_TYPE_INT, 
-					    G_TYPE_INT, G_TYPE_FLOAT );
+    payee_tree_model = gtk_tree_store_new ( META_TREE_NUM_COLUMNS, META_TREE_COLUMN_TYPES );
 
     /* on y ajoute la barre d'outils */
     gtk_box_pack_start ( GTK_BOX ( onglet ),
@@ -164,6 +161,9 @@ GtkWidget *onglet_tiers ( void )
     /* Create model */
     gtk_tree_sortable_set_sort_column_id ( GTK_TREE_SORTABLE(payee_tree_model), 
 					   META_TREE_TEXT_COLUMN, GTK_SORT_ASCENDING );
+    gtk_tree_sortable_set_sort_func ( GTK_TREE_SORTABLE(payee_tree_model), 
+				      META_TREE_TEXT_COLUMN, metatree_sort_column,
+				      NULL, NULL );
     g_object_set_data ( G_OBJECT ( payee_tree_model), "metatree-interface", 
 			payee_interface );
 
@@ -294,7 +294,8 @@ GtkWidget *creation_barre_outils_tiers ( void )
 
     gtk_widget_show_all ( handlebox );
 
-    metatree_set_linked_widgets_sensitive ( payee_tree_model, FALSE, "selection" );
+    metatree_set_linked_widgets_sensitive ( GTK_TREE_MODEL(payee_tree_model), 
+					    FALSE, "selection" );
 
     return ( handlebox );
 }

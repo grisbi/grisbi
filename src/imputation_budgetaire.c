@@ -125,9 +125,7 @@ GtkWidget *onglet_imputations ( void )
     /* We create the gtktreeview and model early so that they can be referenced. */
     budgetary_line_tree = gtk_tree_view_new();
     budgetary_line_tree_model = gtk_tree_store_new ( META_TREE_NUM_COLUMNS, 
-						     G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, 
-						     G_TYPE_POINTER, G_TYPE_INT, G_TYPE_INT, 
-						     G_TYPE_INT, G_TYPE_FLOAT );
+						     META_TREE_COLUMN_TYPES );
 
     /* We create the main vbox */
     vbox = gtk_vbox_new ( FALSE, 5 );
@@ -148,6 +146,9 @@ GtkWidget *onglet_imputations ( void )
     /* Create model */
     gtk_tree_sortable_set_sort_column_id ( GTK_TREE_SORTABLE(budgetary_line_tree_model), 
 					   META_TREE_TEXT_COLUMN, GTK_SORT_ASCENDING );
+    gtk_tree_sortable_set_sort_func ( GTK_TREE_SORTABLE(budgetary_line_tree_model), 
+				      META_TREE_TEXT_COLUMN, metatree_sort_column,
+				      NULL, NULL );
     g_object_set_data ( G_OBJECT ( budgetary_line_tree_model), "metatree-interface", 
 			budgetary_interface );
 
@@ -655,8 +656,8 @@ GtkWidget *creation_barre_outils_ib ( void )
 					       "new-sub-ib.png",
 					       G_CALLBACK(appui_sur_ajout_sub_division),
 					       budgetary_line_tree_model );
-    metatree_register_widget_as_linked ( budgetary_line_tree_model, button, "selection" );
-    metatree_register_widget_as_linked ( budgetary_line_tree_model, button, "sub-division" );
+    metatree_register_widget_as_linked ( GTK_TREE_MODEL(budgetary_line_tree_model), button, "selection" );
+    metatree_register_widget_as_linked ( GTK_TREE_MODEL(budgetary_line_tree_model), button, "sub-division" );
     gtk_box_pack_start ( GTK_BOX ( hbox2 ), button, FALSE, TRUE, 0 );
 
     /* Import button */
@@ -682,7 +683,7 @@ GtkWidget *creation_barre_outils_ib ( void )
 					   GTK_STOCK_DELETE, _("Delete"),
 					   G_CALLBACK(supprimer_division),
 					   budgetary_line_tree );
-    metatree_register_widget_as_linked ( budgetary_line_tree_model, button, "selection" );
+    metatree_register_widget_as_linked ( GTK_TREE_MODEL(budgetary_line_tree_model), button, "selection" );
     gtk_box_pack_start ( GTK_BOX ( hbox2 ), button, FALSE, TRUE, 0 );
 
     /* Properties button */
@@ -690,7 +691,7 @@ GtkWidget *creation_barre_outils_ib ( void )
 					   GTK_STOCK_PROPERTIES, _("Properties"),
 					   G_CALLBACK(edit_budgetary_line), 
 					   budgetary_line_tree );
-    metatree_register_widget_as_linked ( budgetary_line_tree_model, button, "selection" );
+    metatree_register_widget_as_linked ( GTK_TREE_MODEL(budgetary_line_tree_model), button, "selection" );
     gtk_box_pack_start ( GTK_BOX ( hbox2 ), button, FALSE, TRUE, 0 );
 
     /* View button */
@@ -704,7 +705,8 @@ GtkWidget *creation_barre_outils_ib ( void )
 
     gtk_widget_show_all ( handlebox );
 
-    metatree_set_linked_widgets_sensitive ( budgetary_line_tree_model, FALSE, "selection" );
+    metatree_set_linked_widgets_sensitive ( GTK_TREE_MODEL(budgetary_line_tree_model),
+					    FALSE, "selection" );
 
     return ( handlebox );
 }
