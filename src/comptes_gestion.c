@@ -778,6 +778,8 @@ void remplissage_details_compte ( void )
     if ( DEBUG )
 	printf ( "remplissage_details_compte\n" );
 
+    g_return_if_fail ( compte_courant_onglet );
+
     gtk_entry_set_text ( GTK_ENTRY ( detail_nom_compte ),
 			 gsb_account_get_name (compte_courant_onglet) );
 
