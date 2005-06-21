@@ -23,9 +23,6 @@
 #include "include.h"
 
 
-
-
-
 /*START_INCLUDE*/
 #include "devises.h"
 #include "devises_constants.h"
@@ -76,8 +73,8 @@ static GtkWidget * new_currency_option_menu ( gint * value, GCallback hook );
 static gboolean rebuild_currency_list ( GtkWidget * checkbox, GtkTreeView * view );
 static void retrait_devise ( GtkWidget *bouton,
 		      GtkWidget *liste );
-static gboolean select_currency_in_iso_list (GtkTreeSelection *selection,
-				      GtkTreeModel *model);
+static gboolean select_currency_in_iso_list ( GtkTreeSelection *selection,
+					      GtkTreeModel *model );
 static gboolean selection_ligne_devise ( GtkWidget *liste,
 				  gint ligne,
 				  gint colonne,
@@ -91,6 +88,11 @@ static void update_currency_widgets();
 static void update_exchange_rate_cache ( struct struct_devise * currency1, 
 				  struct struct_devise * currency2,
 				  gdouble change, gdouble fees );
+static gboolean gsb_gui_select_default_currency ( GtkTreeModel * tree_model, 
+						  GtkTreePath * path, 
+						  GtkTreeIter * iter, GtkTreeView * view );
+static void append_currency_to_currency_list ( GtkTreeStore * model, 
+					       struct struct_devise * devise );
 /*END_STATIC*/
 
 
@@ -151,7 +153,6 @@ extern gint mise_a_jour_combofix_tiers_necessaire;
 extern gint mise_a_jour_liste_comptes_accueil;
 extern gint mise_a_jour_liste_echeances_auto_accueil;
 extern gint mise_a_jour_liste_echeances_manuelles_accueil;
-extern GtkTreeStore *model;
 extern int no_devise_totaux_categ;
 extern gint no_devise_totaux_ib;
 extern gint no_devise_totaux_tiers;
@@ -207,6 +208,13 @@ gboolean select_currency_in_iso_list ( GtkTreeSelection *selection, GtkTreeModel
 			 CURRENCY_ISO_CODE_COLUMN, &currency_iso_code,
 			 CURRENCY_NICKNAME_COLUMN, &currency_nickname, 
 			 -1 );
+
+    if ( ! currency_name ) 
+	currency_name = "";
+    if ( ! currency_nickname ) 
+	currency_nickname = "";
+    if ( ! currency_iso_code ) 
+	currency_iso_code = "";
 
     gtk_entry_set_text ( GTK_ENTRY ( entry_name ), currency_name );
     gtk_entry_set_text ( GTK_ENTRY ( entry_iso_code ), currency_iso_code );
@@ -529,9 +537,10 @@ GtkWidget * new_currency_vbox ()
 
     treeview = new_currency_tree ();
     gtk_widget_set_usize ( treeview, FALSE, 200 );
-    model = gtk_tree_view_get_model ( treeview );
-    g_signal_connect ( gtk_tree_view_get_selection (GTK_TREE_VIEW ( treeview ) ), "changed", 
-		       G_CALLBACK ( select_currency_in_iso_list ), model );
+    model = gtk_tree_view_get_model ( GTK_TREE_VIEW(treeview) );
+    g_signal_connect ( gtk_tree_view_get_selection (GTK_TREE_VIEW ( treeview ) ), 
+		       "changed", G_CALLBACK ( select_currency_in_iso_list ), 
+		       model );
 
     gtk_container_add (GTK_CONTAINER (sw), treeview);
     gtk_container_set_resize_mode (GTK_CONTAINER (sw), GTK_RESIZE_PARENT);
@@ -548,6 +557,9 @@ GtkWidget * new_currency_vbox ()
 
     fill_currency_list ( GTK_TREE_VIEW(treeview), FALSE );
 
+    g_object_set_data ( G_OBJECT(vbox), "model", model );
+    g_object_set_data ( G_OBJECT(vbox), "treeview", treeview );
+
     return vbox;
 }
 
@@ -563,10 +575,9 @@ GtkWidget * new_currency_vbox ()
 
 gboolean ajout_devise ( GtkWidget *widget )
 {
-    GtkWidget *dialog, *label, *table;
-    GtkWidget *list, *paddingbox;
-    struct struct_devise *devise;
+    GtkWidget *dialog, *label, *table, *model, *list, *paddingbox;
     gchar *nom_devise, *code_devise, *code_iso4217_devise;
+    struct struct_devise *devise;
     gint resultat;
 
     dialog = gtk_dialog_new_with_buttons ( _("Add a currency"),
@@ -589,7 +600,11 @@ gboolean ajout_devise ( GtkWidget *widget )
     paddingbox = 
 	new_paddingbox_with_title (GTK_WIDGET ( GTK_DIALOG ( dialog ) -> vbox ),
 				   TRUE, _("ISO 4217 currencies"));
+
+    /* Create list */
     list = new_currency_vbox ();
+    model = g_object_get_data ( G_OBJECT(list), "model" );
+
     gtk_box_pack_start ( GTK_BOX(paddingbox) , list, TRUE, TRUE, 5 );
 
     paddingbox = 
@@ -636,6 +651,11 @@ gboolean ajout_devise ( GtkWidget *widget )
 		       GTK_EXPAND|GTK_FILL, 0, 0, 0 );
     g_object_set_data ( G_OBJECT(model), "entry_code", entree_code );
 
+    /* Select default currency. */
+    gtk_tree_model_foreach ( GTK_TREE_MODEL(model), 
+			     (GtkTreeModelForeachFunc) gsb_gui_select_default_currency, 
+			     g_object_get_data ( G_OBJECT(list), "treeview" ) );
+
   reprise_dialog:
     gtk_widget_show_all ( GTK_WIDGET ( dialog ) );
     resultat = gtk_dialog_run ( GTK_DIALOG ( dialog ));
@@ -667,7 +687,8 @@ gboolean ajout_devise ( GtkWidget *widget )
 
 		if ( widget )
 		{
-		    append_currency_to_currency_list ( currency_list_model, devise );
+		    append_currency_to_currency_list ( GTK_TREE_STORE ( currency_list_model ),
+						       devise );
 		    update_currency_widgets();
 		    modification_fichier ( TRUE );
 		    gtk_widget_destroy ( GTK_WIDGET ( dialog ));
@@ -1089,7 +1110,6 @@ GtkWidget *onglet_devises ( void )
     GtkWidget *vbox_pref, *label, *paddingbox, *bouton, *hbox;
     GtkWidget *scrolled_window, *vbox, *table;
     GSList *liste_tmp;
-    gchar *titres_devise [3] = { _("Currency"), _("ISO Code"), _("Sign") };
     
     vbox_pref = new_vbox_with_title_and_icon ( _("Currencies"), "currencies.png" ); 
     paddingbox = new_paddingbox_with_title (vbox_pref, TRUE, _("Known currencies"));
@@ -1105,7 +1125,7 @@ GtkWidget *onglet_devises ( void )
     /* Create it. */
     currency_list_view = GTK_TREE_VIEW ( new_currency_tree () );
     currency_list_model = gtk_tree_view_get_model ( currency_list_view );
-    gtk_container_add ( GTK_CONTAINER ( scrolled_window ), currency_list_view );
+    gtk_container_add ( GTK_CONTAINER ( scrolled_window ), GTK_WIDGET(currency_list_view) );
     gtk_box_pack_start ( GTK_BOX ( hbox ), scrolled_window, TRUE, TRUE, 0);
     g_signal_connect ( gtk_tree_view_get_selection (GTK_TREE_VIEW ( treeview ) ), 
 		       "changed", G_CALLBACK ( select_currency_in_iso_list ), 
@@ -1125,7 +1145,8 @@ GtkWidget *onglet_devises ( void )
 	    struct struct_devise *devise;
 
 	    devise = liste_tmp -> data;
-	    append_currency_to_currency_list ( currency_list_model, devise );
+	    append_currency_to_currency_list ( GTK_TREE_STORE ( currency_list_model ),
+					       devise );
 	    liste_tmp = liste_tmp -> next;
 	}
 
@@ -1644,7 +1665,53 @@ void gsb_currency_check_for_change ( gint no_transaction )
 }
 
 
-  
+
+/**
+ *
+ *
+ */
+gboolean gsb_gui_select_default_currency ( GtkTreeModel * tree_model, GtkTreePath * path, 
+					   GtkTreeIter * iter, GtkTreeView * view )
+{
+    struct lconv * conv = localeconv();
+    gchar * code, * symbol, * country;
+    gboolean good = FALSE;
+
+    gtk_tree_model_get ( GTK_TREE_MODEL ( tree_model ), iter,
+			 CURRENCY_ISO_CODE_COLUMN, &code, 
+			 COUNTRY_NAME_COLUMN, &country, 
+			 -1 );
+    if ( conv && conv -> int_curr_symbol && strlen ( conv -> int_curr_symbol ) )
+    {
+	symbol = g_strstrip ( g_strdup ( conv -> int_curr_symbol ));
+	if ( ! strcmp ( code, symbol ) )
+	{
+	    good = TRUE;
+	}
+	free ( symbol );
+    }
+    else
+    {
+	symbol = g_strstrip ( g_strdup ( country ) );
+	if ( ! strcmp ( symbol, _("United States") ) )
+	{
+	    good = TRUE;
+	}
+	free ( symbol );
+    }
+
+    if ( good )
+    {
+	gtk_tree_selection_select_path ( gtk_tree_view_get_selection ( view ), path );
+	gtk_tree_view_scroll_to_cell ( GTK_TREE_VIEW (view), path, NULL, TRUE, 0.5, 0 );
+	return TRUE;
+    }
+    
+    return FALSE;
+}
+
+
+
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */
