@@ -196,6 +196,7 @@ static struct iso_4217_currency iso_4217_currencies[] = {
     { N_("Pacific Ocean"), N_("Tongan Pa'anga"), N_("Tonga"), "TOP", NULL, TRUE },
     { N_("Pacific Ocean"), N_("United States Dollar"), N_("Panama"), "USD", "$", TRUE },
     { N_("Pacific Ocean"), N_("Vanuatu Vatu"), N_("Vanuatu"), "VUV", NULL, TRUE },
+    { N_("Southern America"), N_("Brazilian Real"), N_("Brazil"), "BRL", "R$", TRUE },
     { N_("Southern America"), N_("Chilean Peso"), N_("Chile"), "CLP", NULL, TRUE },
     { N_("Southern America"), N_("Colombian Peso"), N_("Colombia"), "COP", NULL, TRUE },
     { N_("Southern America"), N_("Ecuador Sucre"), N_("Ecuador"), "ECS", NULL, FALSE },
@@ -2233,20 +2234,26 @@ gdouble calcule_montant_devise_renvoi ( gdouble montant_init,
 
 
 /**
- * Return either currency's name or currency's ISO4217 nickname if no
- * name is found.
+ * Return either currency's code or ISO4217 code, or name depending on
+ * what is set.
  *
  * \param devise A pointer to a struct_devise holding currency
  * informations.
  *
- * \return name or ISO4217 name of currency.
+ * \return code or ISO4217 code of currency.
  */
 gchar * devise_name ( struct struct_devise * devise )
 {
     if (devise -> code_devise && (strlen(devise -> code_devise) > 0))
 	return devise -> code_devise;
 
-    return devise -> code_iso4217_devise;
+    if (devise -> code_iso4217_devise && (strlen(devise -> code_iso4217_devise) > 0))
+	return devise -> code_iso4217_devise;
+
+    if (devise -> nom_devise && (strlen(devise -> nom_devise) > 0))
+	return devise -> nom_devise;
+
+    return _("No name");    
 }
 
 
