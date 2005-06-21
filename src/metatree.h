@@ -64,6 +64,7 @@ enum meta_tree_columns {
     META_TREE_NO_SUB_DIV_COLUMN,
     META_TREE_FONT_COLUMN,
     META_TREE_XALIGN_COLUMN,
+    META_TREE_DATE_COLUMN,
     META_TREE_NUM_COLUMNS,
 }; 
 
@@ -73,6 +74,10 @@ enum meta_tree_row_type {
     META_TREE_TRANSACTION,
     META_TREE_INVALID,
 };
+
+#define META_TREE_COLUMN_TYPES G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, \
+				 G_TYPE_POINTER, G_TYPE_INT, G_TYPE_INT, \
+				 G_TYPE_INT, G_TYPE_FLOAT, G_TYPE_POINTER
 
 
 /*START_DECLARATION*/
@@ -103,6 +108,8 @@ void metatree_register_widget_as_linked ( GtkTreeModel * model, GtkWidget * widg
 					  gchar * link_type );
 void metatree_set_linked_widgets_sensitive ( GtkTreeModel * model, gboolean sensitive,
 					     gchar * link_type );
+gboolean metatree_sort_column  ( GtkTreeModel * model, GtkTreeIter * a, GtkTreeIter * b, 
+				 gpointer user_data );
 /*END_DECLARATION*/
 
 #endif

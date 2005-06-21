@@ -1,6 +1,6 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*     Copyright (C)	     2004 Benjamin Drieu (bdrieu@april.org)	      */
+/*     Copyright (C)	2004-2005 Benjamin Drieu (bdrieu@april.org)	      */
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -189,8 +189,7 @@ void fill_division_row ( GtkTreeModel * model, MetatreeInterface * iface,
     if ( ! division )
 	division = iface -> get_without_div_pointer ();
 
-    if ( etat.affiche_nb_ecritures_listes && 
-	 division &&
+    if ( division &&
 	 iface -> div_nb_transactions ( division ) )
 	label = g_strconcat ( label, " (",
 			      utils_str_itoa ( iface -> div_nb_transactions (division) ), ")",
@@ -215,6 +214,7 @@ void fill_division_row ( GtkTreeModel * model, MetatreeInterface * iface,
 			META_TREE_NO_DIV_COLUMN, iface -> div_id ( division ),
 			META_TREE_NO_SUB_DIV_COLUMN, -1,
 			META_TREE_FONT_COLUMN, 800,
+			META_TREE_DATE_COLUMN, NULL,
 			-1);
 }
 
@@ -248,8 +248,7 @@ void fill_sub_division_row ( GtkTreeModel * model, MetatreeInterface * iface,
     
     if ( nb_ecritures )
     {
-	if ( etat.affiche_nb_ecritures_listes )
-	    label = g_strconcat ( label, " (", utils_str_itoa ( nb_ecritures ), ")", NULL );
+	label = g_strconcat ( label, " (", utils_str_itoa ( nb_ecritures ), ")", NULL );
 	
 	if ( ! gtk_tree_model_iter_has_child ( model, iter ) )
 	{
@@ -269,6 +268,7 @@ void fill_sub_division_row ( GtkTreeModel * model, MetatreeInterface * iface,
 			 META_TREE_NO_DIV_COLUMN, iface -> div_id ( division ),
 			 META_TREE_NO_SUB_DIV_COLUMN, iface -> sub_div_id ( sub_division ),
 			 META_TREE_FONT_COLUMN, 400,
+			 META_TREE_DATE_COLUMN, NULL,
 			 -1 );
 }
 
@@ -281,13 +281,16 @@ void fill_sub_division_row ( GtkTreeModel * model, MetatreeInterface * iface,
 void fill_transaction_row ( GtkTreeModel * model, GtkTreeIter * iter, 
 			    gpointer  operation )
 {
-    gchar *montant, * label, * notes = NULL; /* free */
+    gchar * account, * montant, * label, * notes = NULL; /* free */
+    gint trans_nb;
 
-    if ( gsb_transaction_data_get_notes ( gsb_transaction_data_get_transaction_number (operation )))
+    trans_nb = gsb_transaction_data_get_transaction_number ( operation );
+
+    if ( gsb_transaction_data_get_notes ( trans_nb))
     {
-	if ( strlen ( gsb_transaction_data_get_notes ( gsb_transaction_data_get_transaction_number (operation ))) > 30 )
+	if ( strlen ( gsb_transaction_data_get_notes ( trans_nb)) > 30 )
 	{
-	    gchar * tmp = (gsb_transaction_data_get_notes ( gsb_transaction_data_get_transaction_number (operation ))) + 30;
+	    gchar * tmp = (gsb_transaction_data_get_notes ( trans_nb)) + 30;
 
 	    tmp = strchr ( tmp, ' ' );
 	    if ( !tmp )
@@ -295,24 +298,24 @@ void fill_transaction_row ( GtkTreeModel * model, GtkTreeIter * iter,
 		/* We do not risk splitting the string
 		   in the middle of a UTF-8 accent
 		   ... the end is probably near btw. */
-		notes = gsb_transaction_data_get_notes ( gsb_transaction_data_get_transaction_number (operation ));
+		notes = gsb_transaction_data_get_notes ( trans_nb);
 	    }
 	    else 
 	    {
-		gchar * trunc = g_strndup ( gsb_transaction_data_get_notes ( gsb_transaction_data_get_transaction_number (operation )), 
-					    ( tmp - gsb_transaction_data_get_notes ( gsb_transaction_data_get_transaction_number (operation ))) );
+		gchar * trunc = g_strndup ( gsb_transaction_data_get_notes ( trans_nb), 
+					    ( tmp - gsb_transaction_data_get_notes ( trans_nb)) );
 		notes = g_strconcat ( trunc, " ...", NULL );
 		free ( trunc );
 	    }
 	}
 	else 
 	{
-	    notes = gsb_transaction_data_get_notes ( gsb_transaction_data_get_transaction_number (operation ));
+	    notes = gsb_transaction_data_get_notes ( trans_nb);
 	}
     }
     else
     {
-	struct struct_tiers * tiers = tiers_par_no ( gsb_transaction_data_get_party_number ( gsb_transaction_data_get_transaction_number (operation )));
+	struct struct_tiers * tiers = tiers_par_no ( gsb_transaction_data_get_party_number ( trans_nb));
 	if ( tiers )
 	{
 	    notes = tiers -> nom_tiers;
@@ -326,23 +329,25 @@ void fill_transaction_row ( GtkTreeModel * model, GtkTreeIter * iter,
 	label = g_strconcat ( label, " : ", notes, NULL );
     }
 
-    if ( gsb_transaction_data_get_mother_transaction_number ( gsb_transaction_data_get_transaction_number (operation )))
+    if ( gsb_transaction_data_get_mother_transaction_number ( trans_nb))
     {
 	label = g_strconcat ( label, " (", _("breakdown"), ")", NULL );
     }
 
-    montant = g_strdup_printf ( "%4.2f %s", gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (operation )),
-				devise_code ( devise_par_no ( gsb_transaction_data_get_currency_number ( gsb_transaction_data_get_transaction_number (operation ))) ) );
+    montant = g_strdup_printf ( "%4.2f %s", gsb_transaction_data_get_amount ( trans_nb),
+				devise_code ( devise_par_no ( gsb_transaction_data_get_currency_number ( trans_nb)) ) );
+    account = gsb_account_get_name ( gsb_transaction_data_get_account_number ( gsb_transaction_data_get_transaction_number ( operation ) ) );
+
     gtk_tree_store_set ( GTK_TREE_STORE(model), iter, 
 			 META_TREE_POINTER_COLUMN, operation,
 			 META_TREE_TEXT_COLUMN, label,
-			 META_TREE_ACCOUNT_COLUMN, gsb_account_get_name(gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (operation))),
+			 META_TREE_ACCOUNT_COLUMN, account,
 			 META_TREE_BALANCE_COLUMN, montant,
 			 META_TREE_NO_DIV_COLUMN, -1,
 			 META_TREE_NO_SUB_DIV_COLUMN, -1,
 			 META_TREE_XALIGN_COLUMN, 1.0,
+			 META_TREE_DATE_COLUMN, gsb_transaction_data_get_date ( trans_nb ),
 			 -1);
-    
 }
 
 
@@ -1523,7 +1528,7 @@ gboolean metatree_selection_changed ( GtkTreeSelection * selection, GtkTreeModel
     MetatreeInterface * iface;
     GtkTreeView * tree_view;
     GtkTreeIter iter;
-    gboolean selection_is_set = FALSE;;
+    gboolean selection_is_set = FALSE;
 
     iface = g_object_get_data ( G_OBJECT(model), "metatree-interface" );   
     tree_view = g_object_get_data ( G_OBJECT(model), "tree-view" );
@@ -1639,6 +1644,43 @@ void metatree_set_linked_widgets_sensitive ( GtkTreeModel * model, gboolean sens
 	}
 	links = links -> next;
     }
+}
+
+
+
+/**
+ * Compare two iters from a metatree.  If they both contain a date
+ * (from the META_TREE_DATE_COLUMN field), then a date comparison is
+ * done.  Otherwise, it compares dates.  Normally, it is called as a
+ * backend function from gtk_tree_sortable_set_sort_func().
+ *
+ * \param model		Sortable tree model that triggered the sort.
+ * \param a		First iter to compare.
+ * \param b		Second iter to compare.
+ * \param user_data	Not used.
+ *
+ * \return		Same as a > b
+ */
+inline gboolean metatree_sort_column  ( GtkTreeModel * model, 
+					GtkTreeIter * a, GtkTreeIter * b, 
+					gpointer user_data )
+{
+    GDate * date_a = NULL, * date_b = NULL;
+    gchar * string_a, * string_b;
+
+    gtk_tree_model_get ( model, a, 
+			 META_TREE_DATE_COLUMN, &date_a, 
+			 META_TREE_TEXT_COLUMN, &string_a,  -1 );
+    gtk_tree_model_get ( model, b, 
+			 META_TREE_DATE_COLUMN, &date_b, 
+			 META_TREE_TEXT_COLUMN, &string_b, -1 );
+
+    if ( date_a && date_b )
+    {
+	return g_date_compare ( date_a, date_b );
+    }
+    
+    return g_utf8_collate ( string_a, string_b );
 }
 
 
