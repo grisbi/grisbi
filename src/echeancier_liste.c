@@ -555,10 +555,7 @@ void remplissage_liste_echeance ( void )
 			 &&
 			 echeance -> periodicite )
 		    {
-			ligne[COL_NB_DATE] = g_strdup_printf ( "%02d/%02d/%d",
-							       g_date_day ( pGDateCurrent ),
-							       g_date_month ( pGDateCurrent ),
-							       g_date_year ( pGDateCurrent ));
+			ligne[COL_NB_DATE] = gsb_format_gdate ( pGDateCurrent );
 			scheduled_transaction_buf = NULL;
 		    }
 		    else
@@ -1002,10 +999,9 @@ void edition_echeance ( void )
 
     entree_prend_focus ( widget_formulaire_echeancier[SCHEDULER_FORM_DATE] );
     gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_echeancier[SCHEDULER_FORM_DATE] ),
-			 g_strdup_printf ( "%02d/%02d/%d",
-					   echeance_selectionnnee -> jour,
+			 gsb_format_date ( echeance_selectionnnee -> jour,
 					   echeance_selectionnnee -> mois,
-					   echeance_selectionnnee -> annee ));
+					   echeance_selectionnnee -> annee ) );
 
     /* mise en place du tiers */
 
@@ -1199,10 +1195,9 @@ void edition_echeance ( void )
 	{
 	    entree_prend_focus ( widget_formulaire_echeancier[SCHEDULER_FORM_FINAL_DATE] );
 	    gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_echeancier[SCHEDULER_FORM_FINAL_DATE] ),
-				 g_strdup_printf ( "%02d/%02d/%d",
-						   echeance_selectionnnee ->  jour_limite,
+				 gsb_format_date ( echeance_selectionnnee ->  jour_limite,
 						   echeance_selectionnnee ->  mois_limite,
-						   echeance_selectionnnee ->  annee_limite ));
+						   echeance_selectionnnee ->  annee_limite ) );
 	}
 
 	gtk_widget_show ( widget_formulaire_echeancier[SCHEDULER_FORM_FINAL_DATE] );
@@ -1263,10 +1258,10 @@ void supprime_echeance ( struct operation_echeance *echeance )
 	GtkWidget * dialog;
 	gchar * occurences = "";
 
-	occurences = g_strdup_printf ( _("%02d/%02d/%d : %s [%4.2f %s]"),
-				       echeance -> jour,
-				       echeance -> mois,
-				       echeance -> annee,
+	occurences = g_strdup_printf ( _("%s : %s [%4.2f %s]"),
+				       gsb_format_date ( echeance -> jour,
+							 echeance -> mois,
+							 echeance -> annee ),
 				       tiers_name_by_no ( echeance -> tiers, FALSE ),
 				       echeance -> montant,
 				       devise_name ( devise_par_no (echeance->devise) ) );
