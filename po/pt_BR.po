@@ -44,7 +44,7 @@ msgstr ""
 "Project-Id-Version: pt_BR\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-05-14 17:39+0200\n"
-"PO-Revision-Date: 2005-05-16 08:40-0300\n"
+"PO-Revision-Date: 2005-06-21 11:33+0200\n"
 "Last-Translator: \n"
 "Language-Team:  <pt@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -727,91 +727,91 @@ msgstr "Alimentos : Bar"
 
 #: src/categories_onglet.c:49
 msgid "Food : Baker"
-msgstr "Alimentos ; Padaria"
+msgstr "Alimentos : Padaria"
 
 #: src/categories_onglet.c:50
 msgid "Food : Canteen"
-msgstr "Alimentos ; Cantina"
+msgstr "Alimentos : Cantina"
 
 #: src/categories_onglet.c:51
 msgid "Food : Sweets"
-msgstr "Alimentos ; Doces"
+msgstr "Alimentos : Doces"
 
 #: src/categories_onglet.c:52
 msgid "Food : Misc"
-msgstr "Alimentos ; Dvs"
+msgstr "Alimentos : Dvs"
 
 #: src/categories_onglet.c:53
 msgid "Food : Grocery"
-msgstr "Alimentos ; Mantimentos"
+msgstr "Alimentos : Mantimentos"
 
 #: src/categories_onglet.c:54
 msgid "Food : Restaurant"
-msgstr "Alimentos ; Restaurante"
+msgstr "Alimentos : Restaurante"
 
 #: src/categories_onglet.c:55
 msgid "Food : Self-service"
-msgstr "Alimentos ; Self-service"
+msgstr "Alimentos : Self-service"
 
 #: src/categories_onglet.c:56
 msgid "Food : Supermarket"
-msgstr "Alimentos ; Supermercado"
+msgstr "Alimentos : Supermercado"
 
 #: src/categories_onglet.c:57
 msgid "Pets : Food"
-msgstr "Animais de estimação ; Alimentos"
+msgstr "Animais de estimação : Alimentos"
 
 #: src/categories_onglet.c:58
 msgid "Pets : Various supplies"
-msgstr "Animais de estimação ; Fornecedores dvs"
+msgstr "Animais de estimação : Fornecedores dvs"
 
 #: src/categories_onglet.c:59
 msgid "Pets : Grooming"
-msgstr "Animais de estimação ; Escovação"
+msgstr "Animais de estimação : Escovação"
 
 #: src/categories_onglet.c:60
 msgid "Pets : Veterinary surgeon"
-msgstr "Animais de estimação ; Veterinário"
+msgstr "Animais de estimação : Veterinário"
 
 #: src/categories_onglet.c:61
 msgid "Insurance : Car"
-msgstr "Seguros ; Carro"
+msgstr "Seguros : Carro"
 
 #: src/categories_onglet.c:62
 msgid "Insurance : Health"
-msgstr "Seguros ; Saúde"
+msgstr "Seguros : Saúde"
 
 #: src/categories_onglet.c:63
 msgid "Insurance : House"
-msgstr "Seguros ; Casa"
+msgstr "Seguros : Casa"
 
 #: src/categories_onglet.c:64
 msgid "Insurance : Civil liability"
-msgstr "Seguros ; Responsabilidade civil"
+msgstr "Seguros : Responsabilidade civil"
 
 #: src/categories_onglet.c:65
 msgid "Insurance : Life"
-msgstr "Seguros ; Vida"
+msgstr "Seguros : Vida"
 
 #: src/categories_onglet.c:66
 msgid "Car : Fuel"
-msgstr "Automóvel ; Combustível"
+msgstr "Automóvel : Combustível"
 
 #: src/categories_onglet.c:67
 msgid "Car : Repairs"
-msgstr "Automóvel ; Reparos"
+msgstr "Automóvel : Reparos"
 
 #: src/categories_onglet.c:68
 msgid "Car : Maintenance"
-msgstr "Automóvel ; Manutenção"
+msgstr "Automóvel : Manutenção"
 
 #: src/categories_onglet.c:69
 msgid "Car : Parking"
-msgstr "Automóvel ; Estacionamento"
+msgstr "Automóvel : Estacionamento"
 
 #: src/categories_onglet.c:70
 msgid "Car : Fines"
-msgstr "Automóvel ; Multas"
+msgstr "Automóvel : Multas"
 
 #: src/categories_onglet.c:71 src/etats_config.c:163
 msgid "Misc."
@@ -823,355 +823,355 @@ msgstr "Presentes"
 
 #: src/categories_onglet.c:73
 msgid "Children : Nurse"
-msgstr "Crianças ; Enfermeira"
+msgstr "Crianças : Enfermeira"
 
 #: src/categories_onglet.c:74
 msgid "Children : Misc."
-msgstr "Crianças ; Diversos"
+msgstr "Crianças : Diversos"
 
 #: src/categories_onglet.c:75
 msgid "Children : Studies"
-msgstr "Crianças ; Estudos"
+msgstr "Crianças : Estudos"
 
 #: src/categories_onglet.c:76
 msgid "Studies : Lessons"
-msgstr "Estudos ; Lições"
+msgstr "Estudos : Lições"
 
 #: src/categories_onglet.c:77
 msgid "Studies : School fees"
-msgstr "Estudos ; Taxas escolares"
+msgstr "Estudos : Taxas escolares"
 
 #: src/categories_onglet.c:78
 msgid "Studies : Books"
-msgstr "Estudos ; Livros"
+msgstr "Estudos : Livros"
 
 #: src/categories_onglet.c:79
 msgid "Miscellaneous : Gifts"
-msgstr "Diversos ; Presentes"
+msgstr "Diversos : Presentes"
 
 #: src/categories_onglet.c:80
 msgid "Financial expenses : Miscellaneous"
-msgstr "Despesas financeiras ; Diversas"
+msgstr "Despesas financeiras : Diversas"
 
 #: src/categories_onglet.c:81
 msgid "Financial expenses : Bank charges"
-msgstr "Despesas Financeiras ; Taxas Bancárias"
+msgstr "Despesas Financeiras : Taxas Bancárias"
 
 #: src/categories_onglet.c:82
 msgid "Financial expenses : Loan/Mortgage"
-msgstr "Despesas Financeiras ; Empréstimos/Hipotécas"
+msgstr "Despesas Financeiras : Empréstimos/Hipotécas"
 
 #: src/categories_onglet.c:83
 msgid "Financial expenses : Charges"
-msgstr "Despesas Financeiras ; Taxas"
+msgstr "Despesas Financeiras : Taxas"
 
 #: src/categories_onglet.c:84
 msgid "Financial expenses : Refunding"
-msgstr "Despesas Financeiras ; Reembolsos"
+msgstr "Despesas Financeiras : Reembolsos"
 
 #: src/categories_onglet.c:85
 msgid "Professional expenses : Non refundable"
-msgstr "Despesas profissionais ; Não reembolsáveis"
+msgstr "Despesas profissionais : Não reembolsáveis"
 
 #: src/categories_onglet.c:86
 msgid "Professional expenses : Refundable"
-msgstr "Despesas profissionais ; Reembolsáveis"
+msgstr "Despesas profissionais : Reembolsáveis"
 
 #: src/categories_onglet.c:87
 msgid "Taxes : Miscellaneous"
-msgstr "Impostos ; Diversos"
+msgstr "Impostos : Diversos"
 
 #: src/categories_onglet.c:88
 msgid "Taxes : Income"
-msgstr "Impostos ; de Renda"
+msgstr "Impostos : de Renda"
 
 #: src/categories_onglet.c:89
 msgid "Taxes : Land"
-msgstr "Impostos ; Terra"
+msgstr "Impostos : Terra"
 
 #: src/categories_onglet.c:90
 msgid "Housing : Hotel"
-msgstr "Moradia ; Hotel"
+msgstr "Moradia : Hotel"
 
 #: src/categories_onglet.c:91
 msgid "Housing : Rent"
-msgstr "Moradia ; Aluguel"
+msgstr "Moradia : Aluguel"
 
 #: src/categories_onglet.c:92
 msgid "Housing : TV"
-msgstr "Moradia ; TV"
+msgstr "Moradia : TV"
 
 #: src/categories_onglet.c:93
 msgid "Housing : Furnitures"
-msgstr "Moradia ; Mobilia"
+msgstr "Moradia : Mobilia"
 
 #: src/categories_onglet.c:94
 msgid "Housing : Charges"
-msgstr "Moradia ; Taxas"
+msgstr "Moradia : Taxas"
 
 #: src/categories_onglet.c:95
 msgid "Housing : Heating"
-msgstr "Moradia ; Aquecimento"
+msgstr "Moradia : Aquecimento"
 
 #: src/categories_onglet.c:96
 msgid "Housing : Decoration"
-msgstr "Moradia ; Decoração"
+msgstr "Moradia : Decoração"
 
 #: src/categories_onglet.c:97
 msgid "Housing : Water"
-msgstr "Moradia ; Água"
+msgstr "Moradia : Água"
 
 #: src/categories_onglet.c:98
 msgid "Housing : Electricity"
-msgstr "Moradia ; Eletrecidade"
+msgstr "Moradia : Eletrecidade"
 
 #: src/categories_onglet.c:99
 msgid "Housing : White products"
-msgstr "Moradia ; Eletrodomésticos"
+msgstr "Moradia : Eletrodomésticos"
 
 #: src/categories_onglet.c:100
 msgid "Housing : Equipment"
-msgstr "Moradia ; Equipamentos"
+msgstr "Moradia : Equipamentos"
 
 #: src/categories_onglet.c:101
 msgid "Housing : Gaz"
-msgstr "Moradia ; Gás"
+msgstr "Moradia : Gás"
 
 #: src/categories_onglet.c:102
 msgid "Housing : Garden"
-msgstr "Moradia ; Jardim"
+msgstr "Moradia : Jardim"
 
 #: src/categories_onglet.c:103
 msgid "Housing : House keeper"
-msgstr "Moradia ; Zelador"
+msgstr "Moradia : Zelador"
 
 #: src/categories_onglet.c:104
 msgid "Housing : Phone"
-msgstr "Moradia ; Telefone"
+msgstr "Moradia : Telefone"
 
 #: src/categories_onglet.c:105
 msgid "Housing : Mobile Phone"
-msgstr "Moradia ; Celular"
+msgstr "Moradia : Celular"
 
 #: src/categories_onglet.c:106
 msgid "Leisures : Snooker"
-msgstr "Lazer ; Snooker"
+msgstr "Lazer : Snooker"
 
 #: src/categories_onglet.c:107
 msgid "Leisures : Bowling"
-msgstr "Lazer ; Boliche"
+msgstr "Lazer : Boliche"
 
 #: src/categories_onglet.c:108
 msgid "Leisures : Movies"
-msgstr "Lazer ; Cinema"
+msgstr "Lazer : Cinema"
 
 #: src/categories_onglet.c:109
 msgid "Leisures : Night club"
-msgstr "Lazer ; Boates"
+msgstr "Lazer : Boates"
 
 #: src/categories_onglet.c:110
 msgid "Leisures : IT"
-msgstr "Lazer  ; IT"
+msgstr "Lazer  : IT"
 
 #: src/categories_onglet.c:111
 msgid "Leisures : Games"
-msgstr "Lazer ; Jogos"
+msgstr "Lazer : Jogos"
 
 #: src/categories_onglet.c:112
 msgid "Leisures : Books"
-msgstr "Lazer ; Livros"
+msgstr "Lazer : Livros"
 
 #: src/categories_onglet.c:113
 msgid "Leisures : Parks"
-msgstr "Lazer ; Parques"
+msgstr "Lazer : Parques"
 
 #: src/categories_onglet.c:114
 msgid "Leisures : Concerts"
-msgstr "Lazer ; Concertos"
+msgstr "Lazer : Concertos"
 
 #: src/categories_onglet.c:115
 msgid "Leisures : Sports"
-msgstr "Lazer ; Esportes"
+msgstr "Lazer : Esportes"
 
 #: src/categories_onglet.c:116
 msgid "Leisures : Video"
-msgstr "Lazer ; Vídeo"
+msgstr "Lazer : Vídeo"
 
 #: src/categories_onglet.c:117
 msgid "Leisures : Travels"
-msgstr "Lazer ; Viagens"
+msgstr "Lazer : Viagens"
 
 #: src/categories_onglet.c:118
 msgid "Leisures : Equipment"
-msgstr "Lazer ; Equipamentos"
+msgstr "Lazer : Equipamentos"
 
 #: src/categories_onglet.c:119
 msgid "Leisures : Museums/Exhibitions"
-msgstr "Lazer ; Museus/Exposições"
+msgstr "Lazer : Museus/Exposições"
 
 #: src/categories_onglet.c:120
 msgid "Loan/Mortgage : Capital"
-msgstr "Empréstimos/Hipotécas ; Capital"
+msgstr "Empréstimos/Hipotécas : Capital"
 
 #: src/categories_onglet.c:121
 msgid "Health : Insurance"
-msgstr "Saúde ; Seguros"
+msgstr "Saúde : Seguros"
 
 #: src/categories_onglet.c:122
 msgid "Health : Dentist"
-msgstr "Saúde ; Dentista"
+msgstr "Saúde : Dentista"
 
 #: src/categories_onglet.c:123
 msgid "Health : Hospital"
-msgstr "Saúde ; Hospital"
+msgstr "Saúde : Hospital"
 
 #: src/categories_onglet.c:124
 msgid "Health : Kinesitherapist"
-msgstr "Saúde ; Terapeuta"
+msgstr "Saúde : Terapeuta"
 
 #: src/categories_onglet.c:125
 msgid "Health : Doctor"
-msgstr "Saúde ; Médico"
+msgstr "Saúde : Médico"
 
 #: src/categories_onglet.c:126
 msgid "Health : Ophtalmologist"
-msgstr "Saúde ; Oftalmologista"
+msgstr "Saúde : Oftalmologista"
 
 #: src/categories_onglet.c:127
 msgid "Health : Osteopath"
-msgstr "Saúde ; Ortopedista"
+msgstr "Saúde : Ortopedista"
 
 #: src/categories_onglet.c:128
 msgid "Health : Chemist"
-msgstr "Saúde ; Farmacêutico"
+msgstr "Saúde : Farmacêutico"
 
 #: src/categories_onglet.c:129
 msgid "Health : Social security"
-msgstr "Saúde ; Seguro social"
+msgstr "Saúde : Seguro social"
 
 #: src/categories_onglet.c:130
 msgid "Care : Hairdresser"
-msgstr "Pessoal ; Cabeleireiro"
+msgstr "Pessoal : Cabeleireiro"
 
 #: src/categories_onglet.c:131
 msgid "Care : Clothing"
-msgstr "Pessoal ; Roupas"
+msgstr "Pessoal : Roupas"
 
 #: src/categories_onglet.c:132
 msgid "Transport : Bus"
-msgstr "Transportes ; Ônibus"
+msgstr "Transportes : Ônibus"
 
 #: src/categories_onglet.c:133
 msgid "Transport : Metro"
-msgstr "Transportes ; Metro"
+msgstr "Transportes : Metro"
 
 #: src/categories_onglet.c:134
 msgid "Transport : Toll"
-msgstr "Transportes ; Pedágio"
+msgstr "Transportes : Pedágio"
 
 #: src/categories_onglet.c:135 src/categories_onglet.c:138
 msgid "Transport : Train"
-msgstr "Transportes ; Trem"
+msgstr "Transportes : Trem"
 
 #: src/categories_onglet.c:136
 msgid "Transport : Tramway"
-msgstr "Transportes ; Bonde"
+msgstr "Transportes : Bonde"
 
 #: src/categories_onglet.c:137
 msgid "Transport : Travels"
-msgstr "Transportes ; Viagens"
+msgstr "Transportes : Viagens"
 
 #: src/categories_onglet.c:139
 msgid "Hollydays : Housing"
-msgstr "Feriados ; Moradia"
+msgstr "Feriados : Moradia"
 
 #: src/categories_onglet.c:140
 msgid "Hollydays : Visits"
-msgstr "Feriados ; Visitas"
+msgstr "Feriados : Visitas"
 
 #: src/categories_onglet.c:141
 msgid "Hollydays : Travels"
-msgstr "Feriados ; Viagens"
+msgstr "Feriados : Viagens"
 
 #: src/categories_onglet.c:145
 msgid "Other incomes : Unemployment benefit"
-msgstr "Outras rendas ; Seguro desemprego"
+msgstr "Outras rendas : Seguro desemprego"
 
 #: src/categories_onglet.c:146
 msgid "Other incomes : Family allowance"
-msgstr "Outras rendas ; Pensão Família"
+msgstr "Outras rendas : Pensão Família"
 
 #: src/categories_onglet.c:147
 msgid "Other incomes : Tax credit"
-msgstr "Outras rendas ; Crédito de impostos"
+msgstr "Outras rendas : Crédito de impostos"
 
 #: src/categories_onglet.c:148
 msgid "Other incomes : Gamble"
-msgstr "Outras rendas ; Loterias"
+msgstr "Outras rendas : Loterias"
 
 #: src/categories_onglet.c:149
 msgid "Other incomes : Mutual insurance"
-msgstr "Outras rendas ; Seguro mútuo"
+msgstr "Outras rendas : Seguro mútuo"
 
 #: src/categories_onglet.c:150
 msgid "Other incomes : Social security"
-msgstr "Outras rendas ; Seguro social"
+msgstr "Outras rendas : Seguro social"
 
 #: src/categories_onglet.c:151
 msgid "Retirement : Retirement Fund"
-msgstr "Aposentadoria ; Fundo de aposentadoria"
+msgstr "Aposentadoria : Fundo de aposentadoria"
 
 #: src/categories_onglet.c:152
 msgid "Retirement : Pension"
-msgstr "Aposentadoria ; Pensào"
+msgstr "Aposentadoria : Pensào"
 
 #: src/categories_onglet.c:153
 msgid "Retirement : Supplementary pension"
-msgstr "Aposentadoria ; Pensão complementar"
+msgstr "Aposentadoria : Pensão complementar"
 
 #: src/categories_onglet.c:154
 msgid "Investment incomes : Dividends"
-msgstr "Rendas de Investimentos ; Dividendos"
+msgstr "Rendas de Investimentos : Dividendos"
 
 #: src/categories_onglet.c:155
 msgid "Investment incomes : Interests"
-msgstr "Rendas de investimentos ; Interesses"
+msgstr "Rendas de investimentos : Interesses"
 
 #: src/categories_onglet.c:156
 msgid "Investment incomes : Capital gain"
-msgstr "Rendas de Investimentos ; Ganho de capital"
+msgstr "Rendas de Investimentos : Ganho de capital"
 
 #: src/categories_onglet.c:157
 msgid "Salary : Overtime"
-msgstr "Salário ; Horas extras"
+msgstr "Salário : Horas extras"
 
 #: src/categories_onglet.c:158
 msgid "Salary : Leave allowance"
-msgstr "Salário ; Licenças remuneradas"
+msgstr "Salário : Licenças remuneradas"
 
 #: src/categories_onglet.c:159
 msgid "Salary : Misc. premiums"
-msgstr "Salário ; Prêmios diversos"
+msgstr "Salário : Prêmios diversos"
 
 #: src/categories_onglet.c:160
 msgid "Salary : Success fee"
-msgstr "Salário ; Bonificações"
+msgstr "Salário : Bonificações"
 
 #: src/categories_onglet.c:161
 msgid "Salary : Net salary"
-msgstr "Salário ; Salário líquido"
+msgstr "Salário : Salário líquido"
 
 #: src/categories_onglet.c:162
 msgid "Misc. incomes : Gifts"
-msgstr "Rendas diversas ; Presentes"
+msgstr "Rendas diversas : Presentes"
 
 #: src/categories_onglet.c:163
 msgid "Misc. incomes : Refunds"
-msgstr "Rendas diversas ; Reembolsos"
+msgstr "Rendas diversas : Reembolsos"
 
 #: src/categories_onglet.c:164
 msgid "Misc. incomes : Second hand sales"
-msgstr "Rendas diversas ; Vendas de usados"
+msgstr "Rendas diversas : Vendas de usados"
 
 #: src/categories_onglet.c:189
 msgid "Categories list"
@@ -3375,7 +3375,7 @@ msgstr "Anos"
 #: src/operations_formulaire.c:1114 src/operations_formulaire.c:3350
 #: src/ventilation.c:858 src/ventilation.c:1485
 msgid "Categories : Sub-categories"
-msgstr "Categorias ; sub-categorias"
+msgstr "Categorias : sub-categorias"
 
 #: src/echeancier_formulaire.c:1062 src/echeancier_formulaire.c:2543
 msgid "Transfer reference"
