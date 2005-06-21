@@ -716,8 +716,13 @@ void sauve_configuration(void)
                                   "\\e" ));
 
     /* Remember size of main pane. */
+    if ( main_hpaned && GTK_IS_PANED ( main_hpaned ) )
+    {
+	etat.largeur_colonne_comptes_operation = gtk_paned_get_position ( GTK_PANED ( main_hpaned ) );
+    }
+
     xmlNewChild ( node,NULL, "Largeur_colonne_comptes_operation",
-		  utils_str_itoa ( gtk_paned_get_position ( GTK_PANED ( main_hpaned ) ) ) );
+		  utils_str_itoa ( etat.largeur_colonne_comptes_operation ) );
 
     /* sauvegarde de l'onglet I/O */
     node = xmlNewChild ( doc->children,NULL, "IO",NULL );
