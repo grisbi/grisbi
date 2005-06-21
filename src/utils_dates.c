@@ -183,8 +183,9 @@ gboolean format_date ( GtkWidget *entree )
 
 
 /**
+ * Create and return a GDate from a string reprensentation of a date.
  *
- *
+ * \param	
  *
  */
 GDate * gsb_parse_date_string ( gchar * date_string )
@@ -193,7 +194,13 @@ GDate * gsb_parse_date_string ( gchar * date_string )
     int jour = -1, mois = -1, annee = -1, i;
     gchar **tab_date;
     GDate * date;
-  
+
+    date = (GDate *) malloc ( sizeof (GDate) );
+
+    g_date_set_parse ( date, date_string );
+    if ( g_date_valid ( date ) )
+	return date;
+
     for ( i = 0; separators[i]; i++ )
     {
 	date = gdate_today();
