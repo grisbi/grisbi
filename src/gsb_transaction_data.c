@@ -101,7 +101,7 @@ static gboolean gsb_transaction_data_save_transaction_pointer ( gpointer transac
 
 
 /** the g_slist which contains all the transactions structures */
-static GSList *transactions_list;
+static GSList *transactions_list = NULL;
 
 /** the g_slist which contains all the white transactions structures
  * ie : 1 general white line
@@ -1044,7 +1044,7 @@ gboolean gsb_transaction_data_set_method_of_payment_content ( gint no_transactio
     if ( method_of_payment_content
 	 &&
 	 strlen (method_of_payment_content))
-	transaction -> method_of_payment_content = g_strup (method_of_payment_content);
+	transaction -> method_of_payment_content = g_strdup (method_of_payment_content);
     else
 	transaction -> method_of_payment_content = NULL;
     

@@ -72,11 +72,11 @@ GtkWidget *fleche_bas;
 
 /*START_EXTERN*/
 extern gboolean block_menu_cb ;
+extern GtkWidget *bouton_saisir_echeancier;
 extern GtkWidget *formulaire;
 extern GtkItemFactory *item_factory_menu_general;
 extern GtkTooltips *tooltips_general_grisbi;
 extern GtkWidget *tree_view_liste_echeances;
-extern GtkWidget *bouton_saisir_echeancier;
 /*END_EXTERN*/
 
 

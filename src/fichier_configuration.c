@@ -71,7 +71,7 @@ PangoFontDescription *pango_desc_fonte_liste;
 
 /*START_EXTERN*/
 extern GtkWidget *formulaire;
-extern GtkWidget *main_hpaned, *main_vbox, *main_statusbar;
+extern GtkWidget *main_hpaned ;
 extern gint max;
 extern gint nb_days_before_scheduled;
 extern gchar *nom_fichier_comptes;

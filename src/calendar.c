@@ -29,7 +29,6 @@
 /*START_INCLUDE*/
 #include "calendar.h"
 #include "utils_dates.h"
-#include "utils_str.h"
 #include "calendar.h"
 #include "structures.h"
 /*END_INCLUDE*/

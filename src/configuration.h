@@ -46,7 +46,6 @@ typedef struct _ConfigFormat {
 
 
 /* START_DECLARATION */
-ConfigFormat *get_config_format();
 void load_config_format(xmlNodePtr node_format);
 void save_config_format(xmlNodePtr parent_node);
 void set_default_config_format();

@@ -78,7 +78,7 @@ extern gchar *dernier_chemin_de_travail;
 extern gint id_temps;
 extern GSList *liste_struct_echeances;
 extern GSList *liste_struct_etats;
-extern GtkWidget *main_hpaned, *main_vbox, *main_statusbar;
+extern GtkWidget *main_vbox;
 extern gint max;
 extern gint mise_a_jour_fin_comptes_passifs;
 extern gint mise_a_jour_liste_comptes_accueil;

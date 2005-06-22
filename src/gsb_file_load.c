@@ -26,6 +26,7 @@
 #include "dialog.h"
 #include "gsb_account.h"
 #include "data_form.h"
+#include "utils_dates.h"
 #include "gsb_transaction_data.h"
 #include "traitement_variables.h"
 #include "utils_str.h"
@@ -52,10 +53,15 @@ static void gsb_file_load_end_element_before_0_6 ( GMarkupParseContext *context,
 					    const gchar *element_name,
 					    gpointer user_data,
 					    GError **error);
+static void gsb_file_load_error ( GMarkupParseContext *context,
+				  GError *error,
+				  gpointer user_data );
 static void gsb_file_load_general_part ( const gchar **attribute_names,
 				  const gchar **attribute_values );
 static void gsb_file_load_general_part_before_0_6 ( GMarkupParseContext *context,
 					     const gchar *text );
+static void gsb_file_load_payment_part ( const gchar **attribute_names,
+				  const gchar **attribute_values );
 static void gsb_file_load_report_part_before_0_6 ( GMarkupParseContext *context,
 					    const gchar *text );
 static void gsb_file_load_start_element ( GMarkupParseContext *context,
@@ -80,6 +86,8 @@ static void gsb_file_load_text_element_before_0_6 ( GMarkupParseContext *context
 					     gsize text_len,  
 					     gpointer user_data,
 					     GError **error);
+static void gsb_file_load_transactions ( const gchar **attribute_names,
+				  const gchar **attribute_values );
 static gboolean gsb_file_load_update_previous_version ( void );
 /*END_STATIC*/
 
@@ -275,6 +283,7 @@ gboolean gsb_file_load_open_file ( gchar *filename )
 	    markup_parser -> start_element = (void *) gsb_file_load_start_element;
 	    markup_parser -> end_element = (void *) gsb_file_load_end_element;
 	    markup_parser -> text = (void *) gsb_file_load_text_element;
+	    markup_parser -> error = (void *) gsb_file_load_error;
 	}
 	else
 	{
@@ -316,7 +325,6 @@ gboolean gsb_file_load_open_file ( gchar *filename )
 	remove_file_from_last_opened_files_list (filename);
 	return FALSE;
     }
-printf ( "%s\n", gsb_account_get_name (0) );
 
     return gsb_file_load_update_previous_version();
 }
@@ -375,7 +383,27 @@ void gsb_file_load_start_element ( GMarkupParseContext *context,
 				     attribute_values );
 	return;
     }
+
+    if ( !strcmp ( element_name,
+		   "Payment" ))
+    {
+	gsb_file_load_payment_part ( attribute_names,
+				     attribute_values );
+	return;
+    }
+
+        if ( !strcmp ( element_name,
+		   "Transaction" ))
+    {
+	gsb_file_load_transactions ( attribute_names,
+				     attribute_values );
+	return;
+    }
+
+
 }
+
+
 
 void gsb_file_load_end_element ( GMarkupParseContext *context,
 				 const gchar *element_name,
@@ -393,6 +421,16 @@ void gsb_file_load_text_element ( GMarkupParseContext *context,
 				  GError **error)
 {
 }
+
+void gsb_file_load_error ( GMarkupParseContext *context,
+			   GError *error,
+			   gpointer user_data )
+{
+	dialogue_error (g_strdup_printf (_("An error occured while parsing the file :\nError number : %d\n%s"),
+					 error -> code,
+					 error -> message ));
+}
+
 
 
 /**
@@ -1073,6 +1111,414 @@ void gsb_file_load_account_part ( const gchar **attribute_names,
     }
     while ( attribute_names[i] );
 }
+
+
+
+/**
+ * load the payment part in the grisbi file
+ *
+ * \param attribute_names
+ * \param attribute_values
+ *
+ * */
+void gsb_file_load_payment_part ( const gchar **attribute_names,
+				  const gchar **attribute_values )
+{
+    gint i=0;
+    struct struct_type_ope *payment_method;
+
+    if ( !attribute_names[i] )
+	return;
+    
+    payment_method = calloc ( 1,
+			      sizeof ( struct struct_type_ope ));
+
+    do
+    {
+	if ( !strcmp ( attribute_names[i],
+		       "Number" ))
+	{
+	    payment_method -> no_type = utils_str_atoi (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Name" ))
+	{
+	    payment_method -> nom_type = g_strdup (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Sign" ))
+	{
+	    payment_method -> signe_type = utils_str_atoi (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Show_entry" ))
+	{
+	    payment_method -> affiche_entree = utils_str_atoi (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Automatic_number" ))
+	{
+	    payment_method -> numerotation_auto = utils_str_atoi (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Current_number" ))
+	{
+	    payment_method -> no_en_cours = utils_str_atoi (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Account" ))
+	{
+	    payment_method -> no_compte = utils_str_atoi (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	/* normally, shouldn't come here */
+	i++;
+    }
+    while ( attribute_names[i] );
+
+    gsb_account_set_method_payment_list ( payment_method -> no_compte,
+					  g_slist_append ( gsb_account_get_method_payment_list (payment_method -> no_compte),
+							   payment_method ));
+}
+
+
+/**
+ * load the transactions in the grisbi file
+ *
+ * \param attribute_names
+ * \param attribute_values
+ *
+ * */
+void gsb_file_load_transactions ( const gchar **attribute_names,
+				  const gchar **attribute_values )
+{
+    gint i=0;
+    gint transaction_number = 0;
+    gint account_number = 0;
+
+    if ( !attribute_names[i] )
+	return;
+    
+
+    do
+    {
+	if ( !strcmp ( attribute_names[i],
+		       "Ac" ))
+	{
+	    account_number = utils_str_atoi (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Nb" ))
+	{
+	    transaction_number = gsb_transaction_data_new_transaction_with_number ( account_number,
+										    utils_str_atoi (attribute_values[i]));
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Id" ))
+	{
+	    gsb_transaction_data_set_transaction_id ( transaction_number,
+						      attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+
+	if ( !strcmp ( attribute_names[i],
+		       "Dt" ))
+	{
+	    gsb_transaction_data_set_date ( transaction_number,
+					    gsb_parse_date_string (attribute_values[i]));
+	    i++;
+	    continue;
+	}
+
+
+	if ( !strcmp ( attribute_names[i],
+		       "Dv" ))
+	{
+	    gsb_transaction_data_set_value_date ( transaction_number,
+						  gsb_parse_date_string (attribute_values[i]));
+	    i++;
+	    continue;
+	}
+
+
+	if ( !strcmp ( attribute_names[i],
+		       "Am" ))
+	{
+	    gsb_transaction_data_set_amount ( transaction_number,
+					      my_strtod (attribute_values[i],
+							 NULL));
+	    i++;
+	    continue;
+	}
+
+
+	if ( !strcmp ( attribute_names[i],
+		       "Cu" ))
+	{
+	    gsb_transaction_data_set_currency_number ( transaction_number,
+						       utils_str_atoi (attribute_values[i]));
+	    i++;
+	    continue;
+	}
+
+
+	if ( !strcmp ( attribute_names[i],
+		       "Exb" ))
+	{
+	    gsb_transaction_data_set_change_between ( transaction_number,
+						      utils_str_atoi (attribute_values[i]));
+	    i++;
+	    continue;
+	}
+
+
+	if ( !strcmp ( attribute_names[i],
+		       "Exr" ))
+	{
+	    gsb_transaction_data_set_exchange_rate ( transaction_number,
+						     my_strtod (attribute_values[i],
+								NULL));
+	    i++;
+	    continue;
+	}
+
+
+	if ( !strcmp ( attribute_names[i],
+		       "Exf" ))
+	{
+	    gsb_transaction_data_set_exchange_fees ( transaction_number,
+						     my_strtod (attribute_values[i],
+								NULL));
+	    i++;
+	    continue;
+	}
+
+
+	if ( !strcmp ( attribute_names[i],
+		       "Pa" ))
+	{
+	    gsb_transaction_data_set_party_number ( transaction_number,
+						    utils_str_atoi (attribute_values[i]));
+	    i++;
+	    continue;
+	}
+
+
+	if ( !strcmp ( attribute_names[i],
+		       "Ca" ))
+	{
+	    gsb_transaction_data_set_category_number ( transaction_number,
+						       utils_str_atoi (attribute_values[i]));
+	    i++;
+	    continue;
+	}
+
+
+	if ( !strcmp ( attribute_names[i],
+		       "Sca" ))
+	{
+	    gsb_transaction_data_set_sub_category_number ( transaction_number,
+							   utils_str_atoi (attribute_values[i]));
+	    i++;
+	    continue;
+	}
+
+
+	if ( !strcmp ( attribute_names[i],
+		       "Br" ))
+	{
+	    gsb_transaction_data_set_breakdown_of_transaction ( transaction_number,
+								utils_str_atoi (attribute_values[i]));
+	    i++;
+	    continue;
+	}
+
+
+	if ( !strcmp ( attribute_names[i],
+		       "No" ))
+	{
+	    if ( strcmp ( attribute_values[i],
+			  "(null)"))
+		gsb_transaction_data_set_notes ( transaction_number,
+						 attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+
+	if ( !strcmp ( attribute_names[i],
+		       "Pn" ))
+	{
+	    gsb_transaction_data_set_method_of_payment_number ( transaction_number,
+								utils_str_atoi (attribute_values[i]));
+	    i++;
+	    continue;
+	}
+
+
+	if ( !strcmp ( attribute_names[i],
+		       "Pc" ))
+	{
+	    if ( strcmp ( attribute_values[i],
+			  "(null)"))
+		gsb_transaction_data_set_method_of_payment_content ( transaction_number,
+								     attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+
+	if ( !strcmp ( attribute_names[i],
+		       "Ma" ))
+	{
+	    gsb_transaction_data_set_marked_transaction ( transaction_number,
+							  utils_str_atoi (attribute_values[i]));
+	    i++;
+	    continue;
+	}
+
+
+	if ( !strcmp ( attribute_names[i],
+		       "Au" ))
+	{
+	    gsb_transaction_data_set_automatic_transaction ( transaction_number,
+							     utils_str_atoi (attribute_values[i]));
+	    i++;
+	    continue;
+	}
+
+
+	if ( !strcmp ( attribute_names[i],
+		       "Re" ))
+	{
+	    gsb_transaction_data_set_reconcile_number ( transaction_number,
+							utils_str_atoi (attribute_values[i]));
+	    i++;
+	    continue;
+	}
+
+
+	if ( !strcmp ( attribute_names[i],
+		       "Fi" ))
+	{
+	    gsb_transaction_data_set_financial_year_number ( transaction_number,
+							     utils_str_atoi (attribute_values[i]));
+	    i++;
+	    continue;
+	}
+
+
+	if ( !strcmp ( attribute_names[i],
+		       "Bu" ))
+	{
+	    gsb_transaction_data_set_budgetary_number ( transaction_number,
+							utils_str_atoi (attribute_values[i]));
+	    i++;
+	    continue;
+	}
+
+
+	if ( !strcmp ( attribute_names[i],
+		       "Sbu" ))
+	{
+	    gsb_transaction_data_set_sub_budgetary_number ( transaction_number,
+							    utils_str_atoi (attribute_values[i]));
+	    i++;
+	    continue;
+	}
+
+
+	if ( !strcmp ( attribute_names[i],
+		       "Vo" ))
+	{
+	    if ( strcmp ( attribute_values[i],
+			  "(null)"))
+		gsb_transaction_data_set_voucher ( transaction_number,
+						   attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+
+	if ( !strcmp ( attribute_names[i],
+		       "Ba" ))
+	{
+	    if ( strcmp ( attribute_values[i],
+			  "(null)"))
+		gsb_transaction_data_set_bank_references ( transaction_number,
+							   attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+
+	if ( !strcmp ( attribute_names[i],
+		       "Trt" ))
+	{
+	    gsb_transaction_data_set_transaction_number_transfer ( transaction_number,
+								   utils_str_atoi (attribute_values[i]));
+	    i++;
+	    continue;
+	}
+
+
+	if ( !strcmp ( attribute_names[i],
+		       "Tra" ))
+	{
+	    gsb_transaction_data_set_account_number_transfer ( transaction_number,
+							       utils_str_atoi (attribute_values[i]));
+	    i++;
+	    continue;
+	}
+
+
+	if ( !strcmp ( attribute_names[i],
+		       "Mo" ))
+	{
+	    gsb_transaction_data_set_mother_transaction_number ( transaction_number,
+								 utils_str_atoi (attribute_values[i]));
+	    i++;
+	    continue;
+	}
+
+
+
+	/* normally, shouldn't come here */
+	i++;
+    }
+    while ( attribute_names[i] );
+
+}
+
+
 
 
 /**

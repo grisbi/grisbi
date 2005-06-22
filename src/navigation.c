@@ -24,6 +24,7 @@
 /*START_INCLUDE*/
 #include "navigation.h"
 #include "etats_onglet.h"
+#include "equilibrage.h"
 #include "echeancier_infos.h"
 #include "utils_devises.h"
 #include "gsb_account.h"

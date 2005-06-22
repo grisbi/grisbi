@@ -29,6 +29,7 @@
 #include "dialog.h"
 #include "gsb_account.h"
 #include "operations_comptes.h"
+#include "utils_dates.h"
 #include "fenetre_principale.h"
 #include "gsb_transaction_data.h"
 #include "gtk_combofix.h"
@@ -42,32 +43,32 @@
 
 /*START_STATIC*/
 static gboolean division_node_maybe_expand ( GtkTreeModel *model, GtkTreePath *path, 
-					     GtkTreeIter *iter, gpointer data );
+				      GtkTreeIter *iter, gpointer data );
 static void fill_transaction_row ( GtkTreeModel * model, GtkTreeIter * iter, 
-				   gpointer  operation );
+			    gpointer  operation );
 static gboolean find_associated_transactions ( MetatreeInterface * iface, 
-					       gint no_division, gint no_sub_division );
+					gint no_division, gint no_sub_division );
 static gboolean find_destination_blob ( MetatreeInterface * iface, GtkTreeModel * model, 
-					gpointer division, gpointer sub_division, 
-					gint * no_div, gint * no_sub_div );
+				 gpointer division, gpointer sub_division, 
+				 gint * no_div, gint * no_sub_div );
 static gboolean metatree_get ( GtkTreeModel * model, GtkTreePath * path,
-			       gint column, gpointer * data );
+			gint column, gpointer * data );
 static gboolean metatree_get_row_properties ( GtkTreeModel * tree_model, GtkTreePath * path, 
-					      gchar ** text, gint * lvl1, gint * lvl2, 
-					      gpointer * data );
+				       gchar ** text, gint * lvl1, gint * lvl2, 
+				       gpointer * data );
 static enum meta_tree_row_type metatree_get_row_type ( GtkTreeModel * tree_model, 
-						       GtkTreePath * path );
+						GtkTreePath * path );
 static void move_transaction_to_sub_division ( gpointer  transaction,
-					       GtkTreeModel * model,
-					       GtkTreePath * orig_path, GtkTreePath * dest_path,
-					       gint no_division, gint no_sub_division );
+					GtkTreeModel * model,
+					GtkTreePath * orig_path, GtkTreePath * dest_path,
+					gint no_division, gint no_sub_division );
 static gboolean search_for_div_or_subdiv ( GtkTreeModel *model, GtkTreePath *path,
-					   GtkTreeIter *iter, gpointer * pointers);
+				    GtkTreeIter *iter, gpointer * pointers);
 static gboolean search_for_pointer ( GtkTreeModel *model, GtkTreePath *path,
-				     GtkTreeIter *iter, gpointer * pointers);
+			      GtkTreeIter *iter, gpointer * pointers);
 static void supprimer_sub_division ( GtkTreeView * tree_view, GtkTreeModel * model,
-				     MetatreeInterface * iface, 
-				     gpointer sub_division, gint no_division );
+			      MetatreeInterface * iface, 
+			      gpointer sub_division, gint no_division );
 /*END_STATIC*/
 
 

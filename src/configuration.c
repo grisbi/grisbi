@@ -28,6 +28,7 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
+static ConfigFormat *get_config_format();
 /*END_STATIC*/
 
 /*START_EXTERN*/

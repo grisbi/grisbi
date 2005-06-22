@@ -25,7 +25,6 @@
 
 /*START_INCLUDE*/
 #include "devises.h"
-#include "devises_constants.h"
 #include "dialog.h"
 #include "utils_devises.h"
 #include "utils_editables.h"
@@ -46,9 +45,11 @@
 #include "devises.h"
 #include "fichier_configuration.h"
 #include "echeancier_formulaire.h"
+#include "devises_constants.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
+static void append_currency_to_currency_list ( GtkTreeStore * model, struct struct_devise * devise );
 static gint bloque_echap_choix_devise ( GtkWidget *dialog,
 				 GdkEventKey *key,
 				 gpointer null );
@@ -57,7 +58,8 @@ static struct cached_exchange_rate *cached_exchange_rate ( struct struct_devise 
 static gboolean changement_code_entree_devise ( void );
 static gboolean changement_iso_code_entree_devise ( void );
 static gboolean changement_nom_entree_devise ( void );
-static struct struct_devise *create_currency ( gchar * nom_devise, gchar * code_devise, gchar * code_iso4217_devise );
+static struct struct_devise *create_currency ( gchar * nom_devise, gchar * code_devise, 
+					gchar * code_iso4217_devise );
 static gboolean deselection_ligne_devise ( GtkWidget *liste,
 				    gint ligne,
 				    gint colonne,
@@ -67,14 +69,15 @@ static gboolean devise_selectionnee ( GtkWidget *menu_shell, gint origine );
 static void fill_currency_list ( GtkTreeView * view, gboolean include_obsolete );
 static gint gsb_currency_find_currency_in_option_menu ( GtkWidget *option_menu,
 						 gint no_currency );
+static gboolean gsb_gui_select_default_currency ( GtkTreeModel * tree_model, GtkTreePath * path, 
+					   GtkTreeIter * iter, GtkTreeView * view );
+static GtkWidget * new_currency_option_menu ( gint * value, GCallback hook );
 static GtkWidget * new_currency_tree ();
 static GtkWidget * new_currency_vbox ();
-static GtkWidget * new_currency_option_menu ( gint * value, GCallback hook );
 static gboolean rebuild_currency_list ( GtkWidget * checkbox, GtkTreeView * view );
 static void retrait_devise ( GtkWidget *bouton,
 		      GtkWidget *liste );
-static gboolean select_currency_in_iso_list ( GtkTreeSelection *selection,
-					      GtkTreeModel *model );
+static gboolean select_currency_in_iso_list ( GtkTreeSelection *selection, GtkTreeModel *model );
 static gboolean selection_ligne_devise ( GtkWidget *liste,
 				  gint ligne,
 				  gint colonne,
@@ -88,11 +91,6 @@ static void update_currency_widgets();
 static void update_exchange_rate_cache ( struct struct_devise * currency1, 
 				  struct struct_devise * currency2,
 				  gdouble change, gdouble fees );
-static gboolean gsb_gui_select_default_currency ( GtkTreeModel * tree_model, 
-						  GtkTreePath * path, 
-						  GtkTreeIter * iter, GtkTreeView * view );
-static void append_currency_to_currency_list ( GtkTreeStore * model, 
-					       struct struct_devise * devise );
 /*END_STATIC*/
 
 
@@ -153,6 +151,7 @@ extern gint mise_a_jour_combofix_tiers_necessaire;
 extern gint mise_a_jour_liste_comptes_accueil;
 extern gint mise_a_jour_liste_echeances_auto_accueil;
 extern gint mise_a_jour_liste_echeances_manuelles_accueil;
+extern GtkTreeStore *model;
 extern int no_devise_totaux_categ;
 extern gint no_devise_totaux_ib;
 extern gint no_devise_totaux_tiers;

@@ -53,8 +53,7 @@ static gboolean clavier_equilibrage ( GtkWidget *widget,
 static void deplacement_type_tri_bas ( void );
 static void deplacement_type_tri_haut ( GtkWidget * button, gpointer data );
 static void fill_reconciliation_tree ();
-static gboolean fin_equilibrage ( GtkWidget *bouton_ok,
-				  gpointer data );
+static gboolean fin_equilibrage ( GtkWidget *bouton_ok, gpointer data );
 static gboolean modif_entree_solde_final_equilibrage ( void );
 static gboolean modif_entree_solde_init_equilibrage ( void );
 static void reconcile_by_date_toggled ( GtkCellRendererToggle *cell, 
@@ -106,11 +105,10 @@ gint ancien_retient_affichage_par_compte;
 extern GtkWidget *label_last_statement;
 extern gint mise_a_jour_liste_comptes_accueil;
 extern GtkTreeStore *model;
-extern GtkWidget *notebook_comptes_equilibrage;
 extern FILE * out;
+extern GtkWidget * reconcile_panel;
 extern GtkWidget *treeview;
 extern GtkWidget *vbox_fleches_tri;
-extern GtkWidget *reconcile_panel;
 /*END_EXTERN*/
 
 

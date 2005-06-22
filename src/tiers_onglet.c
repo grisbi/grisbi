@@ -28,8 +28,8 @@
 
 /*START_INCLUDE*/
 #include "tiers_onglet.h"
-#include "metatree.h"
 #include "utils_tiers.h"
+#include "metatree.h"
 #include "gtk_combofix.h"
 #include "utils_buttons.h"
 #include "utils.h"

@@ -24,6 +24,8 @@
 #include "gsb_file_save.h"
 #include "dialog.h"
 #include "gsb_account.h"
+#include "utils_dates.h"
+#include "gsb_transaction_data.h"
 #include "utils_str.h"
 #include "structures.h"
 #include "echeancier_liste.h"
@@ -235,12 +237,17 @@ gboolean gsb_file_save_save_file ( gchar *filename )
 	/* set the last reconcile date */
 
 	if ( gsb_account_get_current_reconcile_date (i) )
-	    last_reconcile_date = g_strconcat ( utils_str_itoa ( g_date_day ( gsb_account_get_current_reconcile_date (i) ) ),
-					  "/",
-					  utils_str_itoa ( g_date_month ( gsb_account_get_current_reconcile_date (i) ) ),
-					  "/",
-					  utils_str_itoa ( g_date_year ( gsb_account_get_current_reconcile_date (i) ) ),
-					  NULL );
+	{
+	    last_reconcile_date = g_strconcat ( first_string_to_free = utils_str_itoa ( g_date_day ( gsb_account_get_current_reconcile_date (i) ) ),
+						"/",
+						second_string_to_free = utils_str_itoa ( g_date_month ( gsb_account_get_current_reconcile_date (i) ) ),
+						"/",
+						third_string_to_free = utils_str_itoa ( g_date_year ( gsb_account_get_current_reconcile_date (i) ) ),
+						NULL );
+	    g_free (first_string_to_free);
+	    g_free (second_string_to_free);
+	    g_free (third_string_to_free);
+	}
 	else
 	    last_reconcile_date = g_strdup ("");
 
@@ -252,10 +259,14 @@ gboolean gsb_file_save_save_file ( gchar *filename )
 	while ( list_tmp_2 )
 	{
 	    if ( sort_list )
-		sort_list = g_strconcat ( sort_list,
+	    {
+		sort_list = g_strconcat ( first_string_to_free = sort_list,
 					  "/",
-					  utils_str_itoa ( GPOINTER_TO_INT ( list_tmp_2 -> data )),
+					  second_string_to_free = utils_str_itoa ( GPOINTER_TO_INT ( list_tmp_2 -> data )),
 					  NULL );
+		g_free (first_string_to_free);
+		g_free (second_string_to_free);
+	    }
 	    else
 		sort_list = utils_str_itoa ( GPOINTER_TO_INT ( list_tmp_2 -> data ));
 
@@ -269,11 +280,15 @@ gboolean gsb_file_save_save_file ( gchar *filename )
 	for ( j=0 ; j<TRANSACTION_LIST_COL_NB ; j++ )
 	{
 	    if ( sort_kind_column )
-		sort_kind_column = g_strconcat ( sort_kind_column,
-					      "-",
-					      utils_str_itoa ( gsb_account_get_column_sort ( i,
-										   j )),
-					      NULL );
+	    {
+		sort_kind_column = g_strconcat ( first_string_to_free = sort_kind_column,
+						 "-",
+						 second_string_to_free = utils_str_itoa ( gsb_account_get_column_sort ( i,
+												j )),
+						 NULL );
+		g_free (first_string_to_free);
+		g_free (second_string_to_free);
+	    }
 	    else
 		sort_kind_column = utils_str_itoa ( gsb_account_get_column_sort ( i,
 								     j ));
@@ -281,15 +296,19 @@ gboolean gsb_file_save_save_file ( gchar *filename )
 
 	/* set the form organization */
 
-	form_organization = "";
+	form_organization = NULL;
 
 	for ( k=0 ; k<4 ; k++ )
 	    for ( j=0 ; j< 6 ; j++ )
 		if ( form_organization )
-		    form_organization = g_strconcat ( form_organization,
+		{ 
+		    form_organization = g_strconcat ( first_string_to_free = form_organization,
 						      "-",
-						      utils_str_itoa ( gsb_account_get_form_organization (i) -> tab_remplissage_formulaire [k][j] ),
+						      second_string_to_free = utils_str_itoa ( gsb_account_get_form_organization (i) -> tab_remplissage_formulaire [k][j] ),
 						      NULL );
+		    g_free (first_string_to_free);
+		    g_free (second_string_to_free);
+		}
 		else
 		    form_organization = utils_str_itoa ( gsb_account_get_form_organization (i) -> tab_remplissage_formulaire [k][j] );
 
@@ -299,10 +318,14 @@ gboolean gsb_file_save_save_file ( gchar *filename )
 
 	for ( k=0 ; k<6 ; k++ )
 	    if ( form_columns_width )
-		form_columns_width = g_strconcat ( form_columns_width,
+	    {
+		form_columns_width = g_strconcat ( first_string_to_free = form_columns_width,
 						   "-",
-						   utils_str_itoa ( gsb_account_get_form_organization (i) -> taille_colonne_pourcent [k] ),
+						   second_string_to_free = utils_str_itoa ( gsb_account_get_form_organization (i) -> taille_colonne_pourcent [k] ),
 						   NULL );
+		g_free (first_string_to_free);
+		g_free (second_string_to_free);
+	    }
 	    else
 		form_columns_width = utils_str_itoa ( gsb_account_get_form_organization (i) -> taille_colonne_pourcent [k] );
 
@@ -356,10 +379,97 @@ gboolean gsb_file_save_save_file ( gchar *filename )
     }
 
 
-    /* à mettre, le détail des types après les comptes */
+    /* save the differents method of payment */
+
+    list_tmp = gsb_account_get_list_accounts ();
+
+    while ( list_tmp )
+    {
+	GSList *list_tmp_2;
+	
+	i = gsb_account_get_no_account ( list_tmp -> data );
+	list_tmp_2 = gsb_account_get_method_payment_list (i);
+
+	while ( list_tmp_2 )
+	{
+	    struct struct_type_ope *method;
+
+	    method = list_tmp_2 -> data;
+
+	    /* now we can fill the file content */
+
+	    file_content = g_strconcat ( first_string_to_free = file_content,
+					 second_string_to_free = g_markup_printf_escaped ( "\t<Payment Number=\"%d\" Name=\"%s\" Sign=\"%d\" Show_entry=\"%d\" Automatic_number=\"%d\" Current_number=\"%d\" Account=\"%d\" />\n",
+											   method -> no_type,
+											   method -> nom_type,
+											   method -> signe_type,
+											   method -> affiche_entree,
+											   method -> numerotation_auto,
+											   method -> no_en_cours,
+											   i ),
+					 NULL );
+	    g_free (first_string_to_free);
+	    g_free (second_string_to_free);
+
+	    list_tmp_2 = list_tmp_2 -> next;
+	}
+	list_tmp = list_tmp -> next;
+    }
+
+    /* save the transactions */
+
+    list_tmp = gsb_transaction_data_get_transactions_list ();
+
+    while ( list_tmp )
+    {
+	gint transaction_number;
+
+	transaction_number = gsb_transaction_data_get_transaction_number ( list_tmp -> data );
+	
+	/* now we can fill the file content */
+
+	file_content = g_strconcat ( first_string_to_free = file_content,
+				     second_string_to_free = g_markup_printf_escaped ( "\t<Transaction Ac=\"%d\" Nb=\"%d\" Id=\"%s\" Dt=\"%s\" Dv=\"%s\" Am=\"%4.7f\" Cu=\"%d\" Exb=\"%d\" Exr=\"%4.7f\" Exf=\"%4.7f\" Pa=\"%d\" Ca=\"%d\" Sca=\"%d\" Br=\"%d\" No=\"%s\" Pn=\"%d\" Pc=\"%s\" Ma=\"%d\" Au=\"%d\" Re=\"%d\" Fi=\"%d\" Bu=\"%d\" Sbu=\"%d\" Vo=\"%s\" Ba=\"%s\" Trt=\"%d\" Tra=\"%d\" Mo=\"%d\" />\n",
+										       gsb_transaction_data_get_account_number ( transaction_number ),
+										       transaction_number,
+										       gsb_transaction_data_get_transaction_id ( transaction_number),
+										       gsb_format_gdate ( gsb_transaction_data_get_date ( transaction_number )),
+										       gsb_format_gdate ( gsb_transaction_data_get_value_date ( transaction_number )),
+										       gsb_transaction_data_get_amount ( transaction_number ),
+										       gsb_transaction_data_get_currency_number (transaction_number ),
+										       gsb_transaction_data_get_change_between (transaction_number ),
+										       gsb_transaction_data_get_exchange_rate (transaction_number ),
+										       gsb_transaction_data_get_exchange_fees ( transaction_number),
+										       gsb_transaction_data_get_party_number ( transaction_number),
+										       gsb_transaction_data_get_category_number ( transaction_number),
+										       gsb_transaction_data_get_sub_category_number (transaction_number),
+										       gsb_transaction_data_get_breakdown_of_transaction (transaction_number),
+										       gsb_transaction_data_get_notes (transaction_number),
+										       gsb_transaction_data_get_method_of_payment_number (transaction_number),
+										       gsb_transaction_data_get_method_of_payment_content (transaction_number),
+										       gsb_transaction_data_get_marked_transaction (transaction_number),
+										       gsb_transaction_data_get_automatic_transaction (transaction_number),
+										       gsb_transaction_data_get_reconcile_number (transaction_number),
+										       gsb_transaction_data_get_financial_year_number (transaction_number),
+										       gsb_transaction_data_get_budgetary_number (transaction_number),
+										       gsb_transaction_data_get_sub_budgetary_number (transaction_number),
+										       gsb_transaction_data_get_voucher (transaction_number),
+										       gsb_transaction_data_get_bank_references (transaction_number),
+										       gsb_transaction_data_get_transaction_number_transfer (transaction_number),
+										       gsb_transaction_data_get_account_number_transfer (transaction_number),
+										       gsb_transaction_data_get_mother_transaction_number (transaction_number)),
+										       NULL );
+	g_free (first_string_to_free);
+	g_free (second_string_to_free);
+
+	list_tmp = list_tmp -> next;
+    }
+
+
+    /* finish the file */
 
     file_content = g_strconcat ( first_string_to_free = file_content,
-				 "</Grisbi>" );
+				 "</Grisbi>");
     g_free (first_string_to_free);
 
     /* the file is in memory, we can save it */

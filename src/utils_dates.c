@@ -188,12 +188,17 @@ gboolean format_date ( GtkWidget *entree )
  * \param	
  *
  */
-GDate * gsb_parse_date_string ( gchar * date_string )
+GDate * gsb_parse_date_string ( const gchar * date_string )
 {
     gchar * separators[4] = { "/", ".", "-", NULL };
     int jour = -1, mois = -1, annee = -1, i;
     gchar **tab_date;
     GDate * date;
+
+    if ( !date_string
+	 ||
+	 !strlen (date_string))
+	return NULL;
 
     date = (GDate *) malloc ( sizeof (GDate) );
 

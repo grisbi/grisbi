@@ -296,7 +296,7 @@ struct struct_type_ope
     gint signe_type;   /* 0=neutre, 1=débit, 2=crédit */
     gint affiche_entree;    /* par ex pour virement, chèques ... */
     gint numerotation_auto;        /* pour les chèques */
-    gdouble no_en_cours;
+    gint no_en_cours;
     gint no_compte;
 };
 

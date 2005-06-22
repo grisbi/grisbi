@@ -47,7 +47,9 @@ static  GtkWidget *create_main_notebook (void );
 
 /* adr du notebook de base */
 GtkWidget *notebook_general;
-GtkWidget *main_hpaned = NULL, *main_vbox, *main_statusbar;
+GtkWidget *main_hpaned = NULL;
+GtkWidget *main_vbox;
+GtkWidget *main_statusbar;
 
 /* adr de l'onglet accueil */
 GtkWidget *page_accueil;
