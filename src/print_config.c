@@ -124,7 +124,9 @@ gboolean print_config ( )
     if ( response == GTK_RESPONSE_OK )
     {
 	etat.print_config.printer = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON (g_object_get_data(G_OBJECT(dialog), "printer")) );
+#ifndef _WIN32
 	etat.print_config.printer_name = g_strdup ( gtk_entry_get_text ( GTK_ENTRY (g_object_get_data(G_OBJECT(dialog), "printer_name") )));
+#endif
 	etat.print_config.printer_filename = g_strdup ( gtk_entry_get_text ( GTK_ENTRY (g_object_get_data(G_OBJECT(dialog), "printer_filename") )));
 
 	etat.print_config.filetype = gtk_option_menu_get_history ( GTK_OPTION_MENU (g_object_get_data(G_OBJECT(dialog), "filetype") ));
@@ -195,11 +197,12 @@ GtkWidget * print_config_general ( GtkWidget * dialog )
     g_signal_connect ( G_OBJECT(radio1), "toggled", 
 		       (GCallback) print_config_radio_toggled, NULL );
 
+#ifndef _WIN32
     input1 = gtk_entry_new ( );
     gtk_table_attach_defaults ( GTK_TABLE(table), input1, 1, 2, 0, 1 );
     g_object_set_data ( G_OBJECT(dialog), "printer_name", input1 );
     gtk_entry_set_text ( GTK_ENTRY(input1), etat.print_config.printer_name );
-
+#endif
     /* Print to file */
     radio2 = gtk_radio_button_new_with_label ( gtk_radio_button_group (GTK_RADIO_BUTTON(radio1)), _("File") );
     gtk_table_attach ( GTK_TABLE(table), radio2, 0, 1, 1, 2,
@@ -226,13 +229,17 @@ GtkWidget * print_config_general ( GtkWidget * dialog )
     gtk_menu_append ( GTK_MENU ( menu ), item );
     item = gtk_menu_item_new_with_label ( _("LaTeX file") );
     gtk_menu_append ( GTK_MENU ( menu ), item );
+    item = gtk_menu_item_new_with_label ( _("HTML file") );
+    gtk_menu_append ( GTK_MENU ( menu ), item );
     gtk_option_menu_set_history ( GTK_OPTION_MENU(omenu), etat.print_config.filetype );
     gtk_table_attach_defaults ( GTK_TABLE(table), omenu, 1, 2, 2, 3 );
 
     /* Set pointers to widget that need to be (in)sensitived */
     g_object_set_data ( G_OBJECT(radio1), "peer1", input2 );
     g_object_set_data ( G_OBJECT(radio1), "peer2", omenu );
+#ifndef _WIN32
     g_object_set_data ( G_OBJECT(radio2), "peer1", input1 );
+#endif
     g_object_set_data ( G_OBJECT(radio2), "peer2", NULL );
     print_config_radio_toggled ( GTK_TOGGLE_BUTTON(radio1), NULL );
     print_config_radio_toggled ( GTK_TOGGLE_BUTTON(radio2), NULL );

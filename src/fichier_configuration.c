@@ -385,7 +385,12 @@ void charge_configuration ( void )
 		}
 		if ( !strcmp ( node_print -> name, "printer_name" ) ) {
 		    etat.print_config.printer_name = xmlNodeGetContent (node_print);
+#ifdef _WIN32
+                    // Force to use the prt2prv.exe preview tool
+                    etat.print_config.printer_name = g_strdup("prv2prt.exe");
+#endif
 		}
+                
 		if ( !strcmp ( node_print -> name, "printer_filename" ) ) {
 		    etat.print_config.printer_filename = xmlNodeGetContent (node_print);
 		}
@@ -676,7 +681,7 @@ void raz_configuration ( void )
 #ifndef _WIN32
     etat.print_config.printer_name = "lpr";
 #else
-    etat.print_config.printer_name = "gsprint";
+    etat.print_config.printer_name = "prv2prt.exe";
 #endif
     etat.print_config.printer_filename = "";
     etat.print_config.filetype = POSTSCRIPT_FILE;

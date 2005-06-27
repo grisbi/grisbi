@@ -1482,7 +1482,13 @@ void rafraichissement_etat ( struct struct_etat *etat )
 /*****************************************************************************************************/
 void impression_etat ( struct struct_etat *etat )
 {
+#ifndef _WIN32
     affichage_etat ( etat, &latex_affichage );
+#else
+    html_affichage.to_printer = TRUE;
+    affichage_etat ( etat, &html_affichage );
+    html_affichage.to_printer = FALSE;
+#endif
 }
 
 
@@ -1500,6 +1506,7 @@ void impression_etat_courant ( )
 
 void export_etat_vers_html ( struct struct_etat *etat )
 {
+    html_affichage.to_printer = FALSE;
     affichage_etat ( etat, &html_affichage );
 }
 

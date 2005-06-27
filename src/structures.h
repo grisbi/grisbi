@@ -624,6 +624,7 @@ struct struct_etat_affichage
     void (* attach_hsep) (int, int, int, int); /** Draw horizontal separator (aka "-")  */
     void (* attach_vsep) (int, int, int, int); /** Draw vertical separator (aka "|") */
     void (* attach_label) (gchar *, gdouble, int, int, int, int, enum alignement, struct structure_operation *); /** Drraw a label with properties  */
+    gboolean to_printer;
 };
 
 

@@ -341,6 +341,95 @@ BOOL win32_shell_execute_open(const gchar* file)
    return ((int)ShellExecute(NULL, "open", file, NULL, NULL, SW_SHOWNORMAL)>32);
 }
 
+BOOL win32_create_process(gchar* application_path,gchar* arg_line,gboolean detach,gboolean with_sdterr)
+{
+
+    DWORD dw;
+    STARTUPINFO si;
+    PROCESS_INFORMATION pi;
+    TCHAR arg[MAX_PATH];
+
+    memset( &si, 0, sizeof(si) );
+    si.cb = sizeof(si);
+
+    memset( &pi, 0, sizeof(pi) );
+    // STDERR
+    if (with_sdterr)
+    {
+        TCHAR stderr_path[MAX_PATH];
+        strcpy(stderr_path,application_path);
+        strcat(stderr_path,".err");
+        HANDLE hStdError = CreateFile(stderr_path,     // file to create
+                   GENERIC_WRITE,          // open for writing
+                   0,                      // do not share
+                   NULL,                   // default security
+                   CREATE_ALWAYS,          // overwrite existing
+                   FILE_ATTRIBUTE_NORMAL,  // normal file
+                   NULL);                  // no attr. template
+
+        if (hStdError == INVALID_HANDLE_VALUE) 
+        { 
+            printf("Could not open file (error %d)\n", GetLastError());
+        }
+        else
+        {
+            si.hStdError = hStdError;
+        }
+    }
+
+    sprintf(arg," \"%s\" ",arg_line);
+    if(!CreateProcess(application_path,
+        arg,
+        NULL,
+        NULL,
+        FALSE,
+        CREATE_DEFAULT_ERROR_MODE|DETACHED_PROCESS|NORMAL_PRIORITY_CLASS,
+        NULL,
+        NULL,
+        &si,
+        &pi))
+    {
+        TCHAR szBuf[255]; 
+        LPVOID lpMsgBuf;
+        dw = GetLastError(); 
+
+        FormatMessage(
+            FORMAT_MESSAGE_ALLOCATE_BUFFER | 
+            FORMAT_MESSAGE_FROM_SYSTEM,
+            NULL,
+            dw,
+            MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
+            (LPTSTR) &lpMsgBuf,
+            0, NULL );
+
+        wsprintf(szBuf, 
+        "CreateProcess %s failed with error %d: %s", 
+        application_path, dw, lpMsgBuf); 
+        
+ 
+        MessageBox(NULL,szBuf, "Error CreateProcess", MB_OK); 
+
+        LocalFree(lpMsgBuf);
+    }
+    else
+    {
+        // Wait until child process exits.
+        if (!detach) WaitForSingleObject( pi.hProcess, INFINITE );
+
+        // Close process and thread handles. 
+        CloseHandle( pi.hProcess );
+        CloseHandle( pi.hThread );
+
+    }
+
+    // Restore the current environnement
+    if ((si.hStdError) && (si.hStdError != INVALID_HANDLE_VALUE))
+    {
+        CloseHandle(si.hStdError);
+        si.hStdError = NULL;
+    }
+   return (gboolean)(dw==0);
+}
 
 // -------------------------------------------------------------------------
 // End of WinUtils

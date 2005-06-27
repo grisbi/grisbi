@@ -31,11 +31,12 @@
 
 
 FILE * html_out;
-gchar * html_tempname;
 int html_lastline;
 int html_lastcol;
 gboolean html_last_is_hsep;
 gboolean html_first_line;
+gchar * html_tempname;
+
 
 
 struct struct_etat_affichage html_affichage = {
@@ -44,6 +45,7 @@ struct struct_etat_affichage html_affichage = {
     html_attach_hsep,
     html_attach_vsep,
     html_attach_label,
+    FALSE,
 };
 
 
@@ -259,7 +261,29 @@ gint html_initialise (GSList * opes_selectionnees)
     html_lastcol = 0;
     html_last_is_hsep = FALSE;
     html_first_line = TRUE;
-
+#ifdef _WIN32
+if (etat_affichage_output&&(etat_affichage_output->to_printer))
+{
+    
+    //if ( ! print_config(safe_file_name ( g_strconcat (etats_titre(), ".html", NULL))) )
+    //return FALSE;
+    etat.print_config.printer = 1;
+    if ( etat.print_config.printer)
+    {
+        
+        html_tempname = g_strdup_printf ( "%s\\gsbpt%d",g_get_tmp_dir(), g_random_int_range (0,99999) );
+        filename =  g_strdup_printf ( "%s.html", html_tempname );
+        html_tempname =  g_strdup(filename);
+    }
+    else
+    {
+        html_tempname = NULL;
+        filename = etat.print_config.printer_filename;
+    }
+}
+else
+{
+#endif
     file_selector = gtk_file_selection_new ( _("Export report to HTML file."));
     file_selection_set_filename ( GTK_FILE_SELECTION ( file_selector ),
 				  dernier_chemin_de_travail );
@@ -311,6 +335,9 @@ gint html_initialise (GSList * opes_selectionnees)
 	return FALSE;
       }
     gtk_widget_destroy ( file_selector );
+#ifdef _WIN32
+}
+#endif
     
     html_out = utf8_fopen ( filename, "w" );
     if ( ! html_out )
@@ -354,7 +381,25 @@ gint html_finish ()
 	     "  </body>\n"
 	     "</html>\n");
     fclose (html_out);
+#ifdef _WIN32
+    if ((etat.print_config.printer )&&(html_tempname))
+    {
+        if (*etat.print_config.printer_name)
+        {
 
+            if (win32_create_process(etat.print_config.printer_name,html_tempname,FALSE,FALSE))
+            {
+                dialogue_error ( _("Cannot send job to printer") );
+            }
+        }
+        else
+        {
+        }
+        unlink(html_tempname);
+    }
+    if (html_tempname)
+        g_free(html_tempname);
+#endif
     return 1;
 }
 

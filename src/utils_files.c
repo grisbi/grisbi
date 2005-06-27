@@ -297,10 +297,11 @@ gint utf8_remove(const gchar* utf8filename)
 /** 
  * Sanitize a safe filename.  All chars that are not normally allowed
  * are replaced by underscores.
+ * Then the filename is converted to locale
  *
  * \param filename Filename to sanitize.
  */
 gchar * safe_file_name ( gchar* filename )
 {
-    return g_strdelimit ( g_strdup(filename), "/\\", '_' );
+    return g_filename_from_utf8(g_strdelimit( g_strdup(filename), "/\\:*?\"<>|", '_' ),-1,NULL,NULL,NULL);
 }
