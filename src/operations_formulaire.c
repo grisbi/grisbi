@@ -1582,7 +1582,7 @@ gboolean touches_champ_formulaire ( GtkWidget *widget,
 /* récupère le tiers, et recherche la dernière opé associée à ce tiers        */
 /* remplit le reste de l'opération avec les dernières données                 */
 /******************************************************************************/
-void completion_operation_par_tiers ( void )
+gboolean completion_operation_par_tiers ( void )
 {
     GSList *liste_tmp;
     struct struct_tiers *tiers;
@@ -1597,7 +1597,7 @@ void completion_operation_par_tiers ( void )
 	 gtk_widget_get_style ( widget_formulaire_operations[TRANSACTION_FORM_CREDIT] ) == style_entree_formulaire[ENCLAIR]
 	 ||
 	 gtk_widget_get_style ( GTK_COMBOFIX ( widget_formulaire_operations[TRANSACTION_FORM_CATEGORY] )->entry ) == style_entree_formulaire[ENCLAIR] )
-	return;
+	return FALSE;
 
     /* recherche le tiers demandé */
 
@@ -1608,7 +1608,7 @@ void completion_operation_par_tiers ( void )
     /*   si nouveau tiers,  on s'en va simplement */
 
     if ( !liste_tmp )
-	return;
+	return FALSE;
 
     tiers = liste_tmp -> data;
 
@@ -1683,7 +1683,7 @@ void completion_operation_par_tiers ( void )
     /* si on n'a trouvé aucune opération, on se tire */
 
     if ( !operation )
-	return;
+	return FALSE;
 
     /* remplit les différentes entrées du formulaire */
 
@@ -2050,6 +2050,8 @@ void completion_operation_par_tiers ( void )
 	gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_operations[TRANSACTION_FORM_BANK] ),
 			     operation -> info_banque_guichet );
     }
+
+    return FALSE;
 }
 /******************************************************************************/
 
