@@ -35,8 +35,26 @@
 
 
 /* to avoid an error because of mk_include and g2banking */
-
 #ifndef HAVE_G2BANKING
 #define AB_BANKING void
 #endif
 
+
+/* Define gettext functions */
+#ifdef ENABLE_NLS
+#  include <libintl.h>
+#  define _(String) gettext(String)
+#  ifdef gettext_noop
+#    define N_(String) gettext_noop(String)
+#  else
+#    define N_(String) (String)
+#  endif /* gettext_noop */
+#else
+#  define _(String) (String)
+#  define N_(String) (String)
+#  define textdomain(String) (String)
+#  define gettext(String) (String)
+#  define dgettext(Domain,String) (String)
+#  define dcgettext(Domain,String,Type) (String)
+#  define bindtextdomain(Domain,Directory) (Domain) 
+#endif /* ENABLE_NLS */
