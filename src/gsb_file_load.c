@@ -49,6 +49,8 @@ static void gsb_file_load_account_part_before_0_6 ( GMarkupParseContext *context
 					     const gchar *text );
 static void gsb_file_load_bank ( const gchar **attribute_names,
 			  const gchar **attribute_values );
+static void gsb_file_load_financial_year ( const gchar **attribute_names,
+			  const gchar **attribute_values );
 static void gsb_file_load_budgetary ( const gchar **attribute_names,
 			       const gchar **attribute_values );
 static void gsb_file_load_category ( const gchar **attribute_names,
@@ -67,6 +69,8 @@ static void gsb_file_load_end_element_before_0_6 ( GMarkupParseContext *context,
 static void gsb_file_load_error ( GMarkupParseContext *context,
 			   GError *error,
 			   gpointer user_data );
+static void gsb_file_load_financial_year ( const gchar **attribute_names,
+				    const gchar **attribute_values );
 static void gsb_file_load_general_part ( const gchar **attribute_names,
 				  const gchar **attribute_values );
 static void gsb_file_load_general_part_before_0_6 ( GMarkupParseContext *context,
@@ -480,6 +484,14 @@ void gsb_file_load_start_element ( GMarkupParseContext *context,
     {
 	gsb_file_load_bank ( attribute_names,
 			     attribute_values );
+	return;
+    }
+
+    if ( !strcmp ( element_name,
+		   "Financial_year" ))
+    {
+	gsb_file_load_financial_year ( attribute_names,
+				       attribute_values );
 	return;
     }
 
@@ -2468,6 +2480,87 @@ void gsb_file_load_bank ( const gchar **attribute_names,
 }
 
 
+/**
+ * load the financials years in the grisbi file
+ *
+ * \param attribute_names
+ * \param attribute_values
+ *
+ * */
+void gsb_file_load_financial_year ( const gchar **attribute_names,
+				    const gchar **attribute_values )
+{
+    gint i=0;
+    struct struct_exercice *financial_year;
+
+    if ( !attribute_names[i] )
+	return;
+
+    financial_year = calloc ( 1,
+			      sizeof ( struct struct_exercice ) );
+
+    do
+    {
+	/* 	we test at the begining if the attribute_value is NULL, if yes, */
+	/* 	   go to the next */
+
+	if ( !strcmp (attribute_values[i],
+	     "(null)"))
+	{
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Nb" ))
+	{
+	    financial_year -> no_exercice = utils_str_atoi (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Na" ))
+	{
+	    financial_year -> nom_exercice = g_strdup (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Bdte" ))
+	{
+	    financial_year -> date_debut = gsb_parse_date_string (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Edte" ))
+	{
+	    financial_year -> date_fin = gsb_parse_date_string (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Sho" ))
+	{
+	    financial_year -> affiche_dans_formulaire = utils_str_atoi (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	/* normally, shouldn't come here */
+	i++;
+    }
+    while ( attribute_names[i] );
+
+    liste_struct_exercices = g_slist_append ( liste_struct_exercices,
+					      financial_year );
+}
+
+
 
 
 
@@ -3540,7 +3633,7 @@ void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
 
 
     if ( !strcmp ( element_name,
-		   "Exercices" ))
+		   "Exercice" ))
     {
 	gint i;
 

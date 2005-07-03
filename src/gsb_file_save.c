@@ -56,6 +56,7 @@ extern GSList *liste_struct_banques;
 extern GSList *liste_struct_categories;
 extern GSList *liste_struct_devises;
 extern GSList *liste_struct_echeances;
+extern GSList *liste_struct_exercices;
 extern GSList *liste_struct_imputation;
 extern GSList *liste_struct_tiers;
 extern gint nb_colonnes;
@@ -64,6 +65,7 @@ extern gint no_devise_totaux_ib;
 extern gint no_devise_totaux_tiers;
 extern GtkWidget *nom_banque;
 extern GtkWidget *nom_correspondant;
+extern GtkWidget *nom_exercice;
 extern gchar *nom_fichier_backup;
 extern gint rapport_largeur_colonnes[TRANSACTION_LIST_COL_NB];
 extern GtkWidget *remarque_banque;
@@ -708,6 +710,33 @@ gboolean gsb_file_save_save_file ( gchar *filename )
 										       bank -> tel_correspondant,
 										       bank -> email_correspondant,
 										       bank -> remarque_banque),
+				     NULL );
+	g_free (first_string_to_free);
+	g_free (second_string_to_free);
+
+	list_tmp = list_tmp -> next;
+    }
+
+
+    /* save the financials years */
+
+    list_tmp = liste_struct_exercices;
+
+    while ( list_tmp )
+    {
+	struct struct_exercice *financial_year;
+
+	financial_year = list_tmp -> data;
+
+	/* now we can fill the file content */
+
+	file_content = g_strconcat ( first_string_to_free = file_content,
+				     second_string_to_free = g_markup_printf_escaped ( "\t<Financial_year Nb=\"%d\" Na=\"%s\" Bdte=\"%s\" Edte=\"%s\" Sho=\"%d\" />\n",
+										       financial_year -> no_exercice,
+										       financial_year -> nom_exercice,
+										       gsb_format_gdate (financial_year -> date_debut),
+										       gsb_format_gdate (financial_year -> date_fin),
+										       financial_year -> affiche_dans_formulaire),
 				     NULL );
 	g_free (first_string_to_free);
 	g_free (second_string_to_free);
