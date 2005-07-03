@@ -38,15 +38,21 @@
 
 
 /*START_EXTERN*/
+extern GtkWidget *adr_banque;
 extern gchar *adresse_commune;
 extern gchar *adresse_secondaire;
 extern gint affichage_echeances;
 extern gint affichage_echeances_perso_j_m_a;
 extern gint affichage_echeances_perso_nb_libre;
 extern gchar *chemin_logo;
+extern GtkWidget *code_banque;
+extern GtkWidget *email_banque;
+extern GtkWidget *email_correspondant;
+extern GtkWidget *fax_correspondant;
 extern gint ligne_affichage_une_ligne;
 extern GSList *lignes_affichage_deux_lignes;
 extern GSList *lignes_affichage_trois_lignes;
+extern GSList *liste_struct_banques;
 extern GSList *liste_struct_categories;
 extern GSList *liste_struct_devises;
 extern GSList *liste_struct_echeances;
@@ -56,12 +62,18 @@ extern gint nb_colonnes;
 extern int no_devise_totaux_categ;
 extern gint no_devise_totaux_ib;
 extern gint no_devise_totaux_tiers;
+extern GtkWidget *nom_banque;
+extern GtkWidget *nom_correspondant;
 extern gchar *nom_fichier_backup;
 extern gint rapport_largeur_colonnes[TRANSACTION_LIST_COL_NB];
+extern GtkWidget *remarque_banque;
 extern gint scheduler_col_width[NB_COLS_SCHEDULER] ;
 extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][TRANSACTION_LIST_COL_NB];
+extern GtkWidget *tel_banque;
+extern GtkWidget *tel_correspondant;
 extern gchar *titre_fichier;
 extern gint valeur_echelle_recherche_date_import;
+extern GtkWidget *web_banque;
 /*END_EXTERN*/
 
 
@@ -669,6 +681,40 @@ gboolean gsb_file_save_save_file ( gchar *filename )
 
 	list_tmp = list_tmp -> next;
     }
+
+    /* save the banks */
+
+    list_tmp = liste_struct_banques;
+
+    while ( list_tmp )
+    {
+	struct struct_banque *bank;
+
+	bank = list_tmp -> data;
+
+	/* now we can fill the file content */
+
+	file_content = g_strconcat ( first_string_to_free = file_content,
+				     second_string_to_free = g_markup_printf_escaped ( "\t<Bank Nb=\"%d\" Na=\"%s\" Co=\"%s\" Adr=\"%s\" Tel=\"%s\" Mail=\"%s\" Web=\"%s\" Nac=\"%s\" Faxc=\"%s\" Telc=\"%s\" Mailc=\"%s\" Rem=\"%s\" />\n",
+										       bank -> no_banque,
+										       bank -> nom_banque,
+										       bank -> code_banque,
+										       bank -> adr_banque,
+										       bank -> tel_banque,
+										       bank -> email_banque,
+										       bank -> web_banque,
+										       bank -> nom_correspondant,
+										       bank -> fax_correspondant,
+										       bank -> tel_correspondant,
+										       bank -> email_correspondant,
+										       bank -> remarque_banque),
+				     NULL );
+	g_free (first_string_to_free);
+	g_free (second_string_to_free);
+
+	list_tmp = list_tmp -> next;
+    }
+
 
 
 

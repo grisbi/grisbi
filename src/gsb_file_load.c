@@ -47,11 +47,15 @@ static void gsb_file_load_account_part ( const gchar **attribute_names,
 				  const gchar **attribute_values );
 static void gsb_file_load_account_part_before_0_6 ( GMarkupParseContext *context,
 					     const gchar *text );
+static void gsb_file_load_bank ( const gchar **attribute_names,
+			  const gchar **attribute_values );
 static void gsb_file_load_budgetary ( const gchar **attribute_names,
 			       const gchar **attribute_values );
 static void gsb_file_load_category ( const gchar **attribute_names,
 			      const gchar **attribute_values );
 static gboolean gsb_file_load_check_new_structure ( gchar *file_content );
+static void gsb_file_load_currency ( const gchar **attribute_names,
+			      const gchar **attribute_values );
 static void gsb_file_load_end_element ( GMarkupParseContext *context,
 				 const gchar *element_name,
 				 gpointer user_data,
@@ -88,8 +92,6 @@ static void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *contex
 					      gpointer user_data,
 					      GError **error);
 static void gsb_file_load_sub_budgetary ( const gchar **attribute_names,
-				   const gchar **attribute_values );
-static void gsb_file_load_currency ( const gchar **attribute_names,
 				   const gchar **attribute_values );
 static void gsb_file_load_sub_category ( const gchar **attribute_names,
 				  const gchar **attribute_values );
@@ -472,6 +474,15 @@ void gsb_file_load_start_element ( GMarkupParseContext *context,
 				 attribute_values );
 	return;
     }
+
+    if ( !strcmp ( element_name,
+		   "Bank" ))
+    {
+	gsb_file_load_bank ( attribute_names,
+			     attribute_values );
+	return;
+    }
+
 
 
 }
@@ -2318,6 +2329,144 @@ void gsb_file_load_currency ( const gchar **attribute_names,
     liste_struct_devises = g_slist_append ( liste_struct_devises,
 					    currency );
 }
+
+/**
+ * load the banks in the grisbi file
+ *
+ * \param attribute_names
+ * \param attribute_values
+ *
+ * */
+void gsb_file_load_bank ( const gchar **attribute_names,
+			  const gchar **attribute_values )
+{
+    gint i=0;
+    struct struct_banque *bank;
+
+    if ( !attribute_names[i] )
+	return;
+
+    bank = calloc ( 1,
+		    sizeof ( struct struct_banque ) );
+
+    do
+    {
+	/* 	we test at the begining if the attribute_value is NULL, if yes, */
+	/* 	   go to the next */
+
+	if ( !strcmp (attribute_values[i],
+	     "(null)"))
+	{
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Nb" ))
+	{
+	    bank -> no_banque = utils_str_atoi (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Na" ))
+	{
+	    bank -> nom_banque = g_strdup (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Co" ))
+	{
+	    bank -> code_banque = g_strdup (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Adr" ))
+	{
+	    bank -> adr_banque = g_strdup (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Tel" ))
+	{
+	    bank -> tel_banque = g_strdup (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Mail" ))
+	{
+	    bank -> email_banque = g_strdup (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Web" ))
+	{
+	    bank -> web_banque = g_strdup (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Nac" ))
+	{
+	    bank -> nom_correspondant = g_strdup (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Faxc" ))
+	{
+	    bank -> fax_correspondant = g_strdup (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Telc" ))
+	{
+	    bank -> tel_correspondant = g_strdup (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Mailc" ))
+	{
+	    bank -> email_correspondant = g_strdup (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Rem" ))
+	{
+	    bank -> remarque_banque = g_strdup (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+
+	/* normally, shouldn't come here */
+	i++;
+    }
+    while ( attribute_names[i] );
+
+    liste_struct_banques = g_slist_append ( liste_struct_banques,
+					    bank );
+}
+
 
 
 
