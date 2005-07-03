@@ -35,6 +35,7 @@
 #include "utils_buttons.h"
 #include "utils_comptes.h"
 #include "operations_formulaire.h"
+#include "include.h"
 #include "structures.h"
 /*END_INCLUDE*/
 

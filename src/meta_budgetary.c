@@ -29,6 +29,7 @@
 #include "utils_devises.h"
 #include "gsb_transaction_data.h"
 #include "imputation_budgetaire.h"
+#include "include.h"
 #include "structures.h"
 /*END_INCLUDE*/
 

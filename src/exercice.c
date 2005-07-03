@@ -39,6 +39,7 @@
 #include "echeancier_ventilation.h"
 #include "echeancier_formulaire.h"
 #include "operations_formulaire.h"
+#include "include.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

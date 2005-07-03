@@ -53,6 +53,7 @@ struct recuperation_version
 #include "utils_files.h"
 #include "structures.h"
 #include "echeancier_liste.h"
+#include "include.h"
 #include "devises_constants.h"
 /*END_INCLUDE*/
 

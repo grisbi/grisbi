@@ -32,6 +32,7 @@
 #include "structures.h"
 #include "traitement_variables.h"
 #include "echeancier_liste.h"
+#include "include.h"
 #include "operations_liste.h"
 /*END_INCLUDE*/
 

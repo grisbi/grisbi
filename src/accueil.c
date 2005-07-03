@@ -45,6 +45,7 @@
 #include "utils_tiers.h"
 #include "structures.h"
 #include "accueil.h"
+#include "include.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

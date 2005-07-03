@@ -44,6 +44,7 @@
 #include "utils_types.h"
 #include "structures.h"
 #include "equilibrage.h"
+#include "include.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

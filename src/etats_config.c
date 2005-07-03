@@ -45,6 +45,7 @@
 #include "utils_str.h"
 #include "etats_calculs.h"
 #include "structures.h"
+#include "include.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

@@ -36,6 +36,7 @@
 #include "utils_editables.h"
 #include "structures.h"
 #include "utils_buttons.h"
+#include "include.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

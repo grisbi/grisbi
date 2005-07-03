@@ -28,6 +28,7 @@
 /*START_INCLUDE*/
 #include "utils_devises.h"
 #include "search_glist.h"
+#include "include.h"
 #include "structures.h"
 /*END_INCLUDE*/
 

@@ -39,6 +39,7 @@
 #include "dialog.h"
 #include "gsb_account.h"
 #include "utils_dates.h"
+#include "include.h"
 #include "structures.h"
 /*END_INCLUDE*/
 

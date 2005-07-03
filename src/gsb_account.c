@@ -38,6 +38,7 @@
 #include "data_form.h"
 #include "data_payment.h"
 #include "operations_liste.h"
+#include "include.h"
 #include "structures.h"
 /*END_INCLUDE*/
 

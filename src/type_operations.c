@@ -38,6 +38,7 @@
 #include "structures.h"
 #include "type_operations.h"
 #include "echeancier_formulaire.h"
+#include "include.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

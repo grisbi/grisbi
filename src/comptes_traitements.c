@@ -50,6 +50,7 @@
 #include "operations_formulaire.h"
 #include "fenetre_principale.h"
 #include "echeancier_formulaire.h"
+#include "include.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

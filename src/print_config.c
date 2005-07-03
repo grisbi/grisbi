@@ -28,6 +28,7 @@
 #include "utils_files.h"
 #include "utils.h"
 #include "dialog.h"
+#include "include.h"
 #include "structures.h"
 #include "print_config.h"
 /*END_INCLUDE*/

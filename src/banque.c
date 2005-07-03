@@ -36,6 +36,7 @@
 #include "utils.h"
 #include "search_glist.h"
 #include "structures.h"
+#include "include.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

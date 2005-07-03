@@ -31,7 +31,7 @@
 #include "traitement_variables.h"
 #include "utils_str.h"
 #include "operations_formulaire.h"
-#include "structures.h"
+#include "include.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

@@ -25,6 +25,7 @@
 /*START_INCLUDE*/
 #include "etats_support.h"
 #include "utils_exercices.h"
+#include "include.h"
 #include "structures.h"
 /*END_INCLUDE*/
 

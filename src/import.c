@@ -61,6 +61,7 @@
 #include "imputation_budgetaire.h"
 #include "utils_tiers.h"
 #include "structures.h"
+#include "include.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

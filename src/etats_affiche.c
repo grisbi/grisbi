@@ -43,6 +43,7 @@
 #include "utils_str.h"
 #include "structures.h"
 #include "etats_config.h"
+#include "include.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

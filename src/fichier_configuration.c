@@ -37,6 +37,7 @@
 #include "structures.h"
 #include "utils_buttons.h"
 #include "operations_liste.h"
+#include "include.h"
 #include "xmlnames.h"
 /*END_INCLUDE*/
 

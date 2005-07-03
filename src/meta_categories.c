@@ -29,6 +29,7 @@
 #include "utils_devises.h"
 #include "gsb_transaction_data.h"
 #include "categories_onglet.h"
+#include "include.h"
 #include "structures.h"
 /*END_INCLUDE*/
 

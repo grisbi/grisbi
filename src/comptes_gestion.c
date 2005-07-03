@@ -50,6 +50,7 @@
 #include "tiers_onglet.h"
 #include "utils_comptes.h"
 #include "structures.h"
+#include "include.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

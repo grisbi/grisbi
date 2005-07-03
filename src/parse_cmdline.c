@@ -22,7 +22,7 @@
 #include "parse_cmdline.h"
 #include "main.h"
 #include "utils_str.h"
-#include "structures.h"
+#include "include.h"
 /*END_INCLUDE*/
 
 /* Definitions des options (à ne pas traduire)                               */

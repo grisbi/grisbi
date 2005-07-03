@@ -55,6 +55,7 @@
 #include "affichage_liste.h"
 #include "fichier_configuration.h"
 #include "structures.h"
+#include "include.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

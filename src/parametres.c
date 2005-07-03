@@ -38,6 +38,7 @@
 #include "equilibrage.h"
 #include "parametres.h"
 #include "structures.h"
+#include "include.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

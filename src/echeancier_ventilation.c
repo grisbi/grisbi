@@ -50,6 +50,7 @@
 #include "echeancier_liste.h"
 #include "structures.h"
 #include "echeancier_ventilation.h"
+#include "include.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

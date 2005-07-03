@@ -36,6 +36,7 @@
 #include "structures.h"
 #include "echeancier_liste.h"
 #include "operations_liste.h"
+#include "include.h"
 #include "devises_constants.h"
 /*END_INCLUDE*/
 
@@ -65,6 +66,8 @@ static void gsb_file_load_payment_part ( const gchar **attribute_names,
 static void gsb_file_load_report_part_before_0_6 ( GMarkupParseContext *context,
 					    const gchar *text );
 static void gsb_file_load_scheduled_transactions ( const gchar **attribute_names,
+					    const gchar **attribute_values );
+static void gsb_file_load_party ( const gchar **attribute_names,
 					    const gchar **attribute_values );
 static void gsb_file_load_start_element ( GMarkupParseContext *context,
 				   const gchar *element_name,
@@ -407,6 +410,14 @@ void gsb_file_load_start_element ( GMarkupParseContext *context,
     {
 	gsb_file_load_scheduled_transactions ( attribute_names,
 					       attribute_values );
+	return;
+    }
+
+    if ( !strcmp ( element_name,
+		   "Party" ))
+    {
+	gsb_file_load_party ( attribute_names,
+			      attribute_values );
 	return;
     }
 
@@ -1788,6 +1799,72 @@ void gsb_file_load_scheduled_transactions ( const gchar **attribute_names,
     liste_struct_echeances = g_slist_append ( liste_struct_echeances,
 					      scheduled_transaction );
 }
+
+
+/**
+ * load the parties in the grisbi file
+ *
+ * \param attribute_names
+ * \param attribute_values
+ *
+ * */
+void gsb_file_load_party ( const gchar **attribute_names,
+			   const gchar **attribute_values )
+{
+    gint i=0;
+    struct struct_tiers *party;
+
+    if ( !attribute_names[i] )
+	return;
+
+    party = calloc ( 1,
+		     sizeof ( struct struct_tiers ) );
+
+    do
+    {
+	/* 	we test at the begining if the attribute_value is NULL, if yes, */
+	/* 	   go to the next */
+
+	if ( !strcmp (attribute_values[i],
+	     "(null)"))
+	{
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Nb" ))
+	{
+	    party -> no_tiers = utils_str_atoi (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Na" ))
+	{
+	    party -> nom_tiers = g_strdup (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Txt" ))
+	{
+	    party -> texte = g_strdup (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	/* normally, shouldn't come here */
+	i++;
+    }
+    while ( attribute_names[i] );
+
+    liste_struct_tiers = g_slist_append ( liste_struct_tiers,
+					  party );
+}
+
 
 
 

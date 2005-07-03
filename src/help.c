@@ -27,6 +27,7 @@
 #include "utils_buttons.h"
 #include "dialog.h"
 #include "structures.h"
+#include "include.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

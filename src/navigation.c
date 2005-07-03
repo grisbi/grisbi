@@ -35,6 +35,7 @@
 #include "echeancier_liste.h"
 #include "fichier_configuration.h"
 #include "navigation.h"
+#include "include.h"
 #include "structures.h"
 /*END_INCLUDE*/
 

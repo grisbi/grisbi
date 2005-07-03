@@ -64,6 +64,7 @@
 #include "utils_str.h"
 #include "structures.h"
 #include "operations_liste.h"
+#include "include.h"
 #include "mouse.h"
 /*END_INCLUDE*/
 

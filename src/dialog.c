@@ -31,7 +31,7 @@
 #include "dialog.h"
 #include "utils_buttons.h"
 #include "parametres.h"
-#include "structures.h"
+#include "include.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

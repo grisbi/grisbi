@@ -28,6 +28,7 @@
 #include "dialog.h"
 #include "utils_buttons.h"
 #include "fichier_configuration.h"
+#include "include.h"
 #include "structures.h"
 #define END_INCLUDE
 

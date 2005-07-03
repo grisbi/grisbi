@@ -36,6 +36,7 @@
 #include "operations_formulaire.h"
 #include "utils_comptes.h"
 #include "structures.h"
+#include "include.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

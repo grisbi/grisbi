@@ -30,6 +30,7 @@
 #include "gsb_transaction_data.h"
 #include "tiers_onglet.h"
 #include "search_glist.h"
+#include "include.h"
 #include "structures.h"
 /*END_INCLUDE*/
 

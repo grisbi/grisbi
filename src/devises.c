@@ -45,6 +45,7 @@
 #include "devises.h"
 #include "fichier_configuration.h"
 #include "echeancier_formulaire.h"
+#include "include.h"
 #include "devises_constants.h"
 /*END_INCLUDE*/
 
