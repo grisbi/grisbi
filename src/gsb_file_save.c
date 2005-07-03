@@ -49,6 +49,7 @@ extern GSList *lignes_affichage_deux_lignes;
 extern GSList *lignes_affichage_trois_lignes;
 extern GSList *liste_struct_categories;
 extern GSList *liste_struct_echeances;
+extern GSList *liste_struct_imputation;
 extern GSList *liste_struct_tiers;
 extern gint nb_colonnes;
 extern int no_devise_totaux_categ;
@@ -587,6 +588,56 @@ gboolean gsb_file_save_save_file ( gchar *filename )
 	}
 	list_tmp = list_tmp -> next;
     }
+
+
+    /* save the budgetaries */
+
+    list_tmp = liste_struct_imputation;
+
+    while ( list_tmp )
+    {
+	struct struct_imputation *budgetary;
+	GSList *sub_list_tmp;
+
+	budgetary = list_tmp -> data;
+
+	/* now we can fill the file content */
+
+	file_content = g_strconcat ( first_string_to_free = file_content,
+				     second_string_to_free = g_markup_printf_escaped ( "\t<Budgetary Nb=\"%d\" Na=\"%s\" Kd=\"%d\" />\n",
+										       budgetary -> no_imputation,
+										       budgetary -> nom_imputation,
+										       budgetary -> type_imputation),
+				     NULL );
+	g_free (first_string_to_free);
+	g_free (second_string_to_free);
+
+	/* save the sub-budgetaries */
+
+	sub_list_tmp = budgetary -> liste_sous_imputation;
+
+	while ( sub_list_tmp )
+	{
+	    struct struct_sous_imputation *sub_budgetary;
+
+	    sub_budgetary = sub_list_tmp -> data;
+
+	    /* now we can fill the file content */
+
+	    file_content = g_strconcat ( first_string_to_free = file_content,
+					 second_string_to_free = g_markup_printf_escaped ( "\t<Sub_budgetary Nb=\"%d\" Na=\"%s\" Nbc=\"%d\" />\n",
+											   sub_budgetary -> no_sous_imputation,
+											   sub_budgetary -> nom_sous_imputation,
+											   budgetary -> no_imputation),
+					 NULL );
+	    g_free (first_string_to_free);
+	    g_free (second_string_to_free);
+
+	    sub_list_tmp = sub_list_tmp -> next;
+	}
+	list_tmp = list_tmp -> next;
+    }
+
 
 
 
