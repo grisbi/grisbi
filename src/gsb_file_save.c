@@ -48,6 +48,7 @@ extern gint ligne_affichage_une_ligne;
 extern GSList *lignes_affichage_deux_lignes;
 extern GSList *lignes_affichage_trois_lignes;
 extern GSList *liste_struct_categories;
+extern GSList *liste_struct_devises;
 extern GSList *liste_struct_echeances;
 extern GSList *liste_struct_imputation;
 extern GSList *liste_struct_tiers;
@@ -635,6 +636,37 @@ gboolean gsb_file_save_save_file ( gchar *filename )
 
 	    sub_list_tmp = sub_list_tmp -> next;
 	}
+	list_tmp = list_tmp -> next;
+    }
+
+
+    /* save the currencies */
+
+    list_tmp = liste_struct_devises;
+
+    while ( list_tmp )
+    {
+	struct struct_devise *currency;
+
+	currency = list_tmp -> data;
+
+	/* now we can fill the file content */
+
+	file_content = g_strconcat ( first_string_to_free = file_content,
+				     second_string_to_free = g_markup_printf_escaped ( "\t<Currency Nb=\"%d\" Na=\"%s\" Co=\"%s\" Ico=\"%s\" Mte=\"%d\" Dte=\"%s\" Rbc=\"%d\" Rcu=\"%d\" Ch=\"%4.7f\" />\n",
+										       currency -> no_devise,
+										       currency -> nom_devise,
+										       currency -> code_devise,
+										       currency -> code_iso4217_devise,
+										       currency -> passage_euro,
+										       gsb_format_gdate (currency -> date_dernier_change),
+										       currency -> une_devise_1_egale_x_devise_2,
+										       currency -> no_devise_en_rapport,
+										       currency -> change),
+				     NULL );
+	g_free (first_string_to_free);
+	g_free (second_string_to_free);
+
 	list_tmp = list_tmp -> next;
     }
 

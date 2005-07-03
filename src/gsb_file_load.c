@@ -89,6 +89,8 @@ static void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *contex
 					      GError **error);
 static void gsb_file_load_sub_budgetary ( const gchar **attribute_names,
 				   const gchar **attribute_values );
+static void gsb_file_load_currency ( const gchar **attribute_names,
+				   const gchar **attribute_values );
 static void gsb_file_load_sub_category ( const gchar **attribute_names,
 				  const gchar **attribute_values );
 static void gsb_file_load_text_element ( GMarkupParseContext *context,
@@ -462,6 +464,15 @@ void gsb_file_load_start_element ( GMarkupParseContext *context,
 				      attribute_values );
 	return;
     }
+
+    if ( !strcmp ( element_name,
+		   "Currency" ))
+    {
+	gsb_file_load_currency ( attribute_names,
+				 attribute_values );
+	return;
+    }
+
 
 }
 
@@ -2191,6 +2202,121 @@ void gsb_file_load_sub_budgetary ( const gchar **attribute_names,
 	    budgetary -> liste_sous_imputation = g_slist_append ( budgetary -> liste_sous_imputation,
 								  sub_budgetary );
     }
+}
+
+
+/**
+ * load the currencies in the grisbi file
+ *
+ * \param attribute_names
+ * \param attribute_values
+ *
+ * */
+void gsb_file_load_currency ( const gchar **attribute_names,
+			      const gchar **attribute_values )
+{
+    gint i=0;
+    struct struct_devise *currency;
+
+    if ( !attribute_names[i] )
+	return;
+
+    currency = calloc ( 1,
+		     sizeof ( struct struct_devise ) );
+
+    do
+    {
+	/* 	we test at the begining if the attribute_value is NULL, if yes, */
+	/* 	   go to the next */
+
+	if ( !strcmp (attribute_values[i],
+	     "(null)"))
+	{
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Nb" ))
+	{
+	    currency -> no_devise = utils_str_atoi (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Na" ))
+	{
+	    currency -> nom_devise = g_strdup (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Co" ))
+	{
+	    currency -> code_devise = g_strdup (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Ico" ))
+	{
+	    currency -> code_iso4217_devise = g_strdup (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Mte" ))
+	{
+	    currency -> passage_euro = utils_str_atoi (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Dte" ))
+	{
+	    currency -> date_dernier_change = gsb_parse_date_string (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Rbc" ))
+	{
+	    currency -> une_devise_1_egale_x_devise_2 = utils_str_atoi (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Rcu" ))
+	{
+	    currency -> no_devise_en_rapport = utils_str_atoi (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Ch" ))
+	{
+	    currency -> change = my_strtod (attribute_values[i],
+					    NULL );
+	    i++;
+	    continue;
+	}
+
+
+	/* normally, shouldn't come here */
+	i++;
+    }
+    while ( attribute_names[i] );
+
+    liste_struct_devises = g_slist_append ( liste_struct_devises,
+					    currency );
 }
 
 
