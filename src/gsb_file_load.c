@@ -54,8 +54,8 @@ static void gsb_file_load_end_element_before_0_6 ( GMarkupParseContext *context,
 					    gpointer user_data,
 					    GError **error);
 static void gsb_file_load_error ( GMarkupParseContext *context,
-				  GError *error,
-				  gpointer user_data );
+			   GError *error,
+			   gpointer user_data );
 static void gsb_file_load_general_part ( const gchar **attribute_names,
 				  const gchar **attribute_values );
 static void gsb_file_load_general_part_before_0_6 ( GMarkupParseContext *context,
@@ -64,6 +64,8 @@ static void gsb_file_load_payment_part ( const gchar **attribute_names,
 				  const gchar **attribute_values );
 static void gsb_file_load_report_part_before_0_6 ( GMarkupParseContext *context,
 					    const gchar *text );
+static void gsb_file_load_scheduled_transactions ( const gchar **attribute_names,
+					    const gchar **attribute_values );
 static void gsb_file_load_start_element ( GMarkupParseContext *context,
 				   const gchar *element_name,
 				   const gchar **attribute_names,
@@ -392,7 +394,7 @@ void gsb_file_load_start_element ( GMarkupParseContext *context,
 	return;
     }
 
-        if ( !strcmp ( element_name,
+    if ( !strcmp ( element_name,
 		   "Transaction" ))
     {
 	gsb_file_load_transactions ( attribute_names,
@@ -400,6 +402,13 @@ void gsb_file_load_start_element ( GMarkupParseContext *context,
 	return;
     }
 
+    if ( !strcmp ( element_name,
+		   "Scheduled" ))
+    {
+	gsb_file_load_scheduled_transactions ( attribute_names,
+					       attribute_values );
+	return;
+    }
 
 }
 
@@ -743,6 +752,16 @@ void gsb_file_load_account_part ( const gchar **attribute_names,
 
     do
     {
+	/* 	we test at the begining if the attribute_value is NULL, if yes, */
+	/* 	   go to the next */
+
+	if ( !strcmp (attribute_values[i],
+	     "(null)"))
+	{
+	    i++;
+	    continue;
+	}
+
 	if ( !strcmp ( attribute_names[i],
 		       "Name" ))
 	{
@@ -1135,6 +1154,16 @@ void gsb_file_load_payment_part ( const gchar **attribute_names,
 
     do
     {
+	/* 	we test at the begining if the attribute_value is NULL, if yes, */
+	/* 	   go to the next */
+
+	if ( !strcmp (attribute_values[i],
+	     "(null)"))
+	{
+	    i++;
+	    continue;
+	}
+
 	if ( !strcmp ( attribute_names[i],
 		       "Number" ))
 	{
@@ -1222,6 +1251,16 @@ void gsb_file_load_transactions ( const gchar **attribute_names,
 
     do
     {
+	/* 	we test at the begining if the attribute_value is NULL, if yes, */
+	/* 	   go to the next */
+
+	if ( !strcmp (attribute_values[i],
+	     "(null)"))
+	{
+	    i++;
+	    continue;
+	}
+
 	if ( !strcmp ( attribute_names[i],
 		       "Ac" ))
 	{
@@ -1365,10 +1404,8 @@ void gsb_file_load_transactions ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "No" ))
 	{
-	    if ( strcmp ( attribute_values[i],
-			  "(null)"))
-		gsb_transaction_data_set_notes ( transaction_number,
-						 attribute_values[i]);
+	    gsb_transaction_data_set_notes ( transaction_number,
+					     attribute_values[i]);
 	    i++;
 	    continue;
 	}
@@ -1387,10 +1424,8 @@ void gsb_file_load_transactions ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Pc" ))
 	{
-	    if ( strcmp ( attribute_values[i],
-			  "(null)"))
-		gsb_transaction_data_set_method_of_payment_content ( transaction_number,
-								     attribute_values[i]);
+	    gsb_transaction_data_set_method_of_payment_content ( transaction_number,
+								 attribute_values[i]);
 	    i++;
 	    continue;
 	}
@@ -1459,10 +1494,8 @@ void gsb_file_load_transactions ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Vo" ))
 	{
-	    if ( strcmp ( attribute_values[i],
-			  "(null)"))
-		gsb_transaction_data_set_voucher ( transaction_number,
-						   attribute_values[i]);
+	    gsb_transaction_data_set_voucher ( transaction_number,
+					       attribute_values[i]);
 	    i++;
 	    continue;
 	}
@@ -1471,10 +1504,8 @@ void gsb_file_load_transactions ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Ba" ))
 	{
-	    if ( strcmp ( attribute_values[i],
-			  "(null)"))
-		gsb_transaction_data_set_bank_references ( transaction_number,
-							   attribute_values[i]);
+	    gsb_transaction_data_set_bank_references ( transaction_number,
+						       attribute_values[i]);
 	    i++;
 	    continue;
 	}
@@ -1517,6 +1548,247 @@ void gsb_file_load_transactions ( const gchar **attribute_names,
     while ( attribute_names[i] );
 
 }
+
+
+/**
+ * load the scheduled transactions in the grisbi file
+ *
+ * \param attribute_names
+ * \param attribute_values
+ *
+ * */
+void gsb_file_load_scheduled_transactions ( const gchar **attribute_names,
+					    const gchar **attribute_values )
+{
+    gint i=0;
+    struct operation_echeance *scheduled_transaction;
+
+    if ( !attribute_names[i] )
+	return;
+    
+    scheduled_transaction = calloc ( 1,
+				  sizeof (struct operation_echeance ));
+
+    do
+    {
+	/* 	we test at the begining if the attribute_value is NULL, if yes, */
+	/* 	   go to the next */
+
+	if ( !strcmp (attribute_values[i],
+	     "(null)"))
+	{
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Nb" ))
+	{
+	    scheduled_transaction -> no_operation = utils_str_atoi (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Dt" ))
+	{
+	    scheduled_transaction -> date = gsb_parse_date_string (attribute_values[i]);
+
+	    /* FIXME : to remove */
+
+	    scheduled_transaction -> jour = g_date_day (scheduled_transaction -> date);
+	    scheduled_transaction -> mois = g_date_month (scheduled_transaction -> date);
+	    scheduled_transaction -> annee = g_date_year (scheduled_transaction -> date);
+
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Ac" ))
+	{
+	    scheduled_transaction -> compte = utils_str_atoi (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Am" ))
+	{
+	    scheduled_transaction -> montant = my_strtod (attribute_values[i],
+							  NULL);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Cu" ))
+	{
+	    scheduled_transaction -> devise = utils_str_atoi (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Pa" ))
+	{
+	    scheduled_transaction -> tiers = utils_str_atoi (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Ca" ))
+	{
+	    scheduled_transaction -> categorie = utils_str_atoi (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Sca" ))
+	{
+	    scheduled_transaction -> sous_categorie = utils_str_atoi (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Tra" ))
+	{
+	    scheduled_transaction -> compte_virement = utils_str_atoi (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Pn" ))
+	{
+	    scheduled_transaction -> type_ope = utils_str_atoi (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "CPn" ))
+	{
+	    scheduled_transaction -> type_contre_ope = utils_str_atoi (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Pc" ))
+	{
+	    scheduled_transaction -> contenu_type = g_strdup (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Fi" ))
+	{
+	    scheduled_transaction -> no_exercice = utils_str_atoi (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Bu" ))
+	{
+	    scheduled_transaction -> imputation = utils_str_atoi (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Sbu" ))
+	{
+	    scheduled_transaction -> sous_imputation = utils_str_atoi (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "No" ))
+	{
+	    scheduled_transaction -> notes = g_strdup (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Au" ))
+	{
+	    scheduled_transaction -> auto_man = utils_str_atoi (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Pe" ))
+	{
+	    scheduled_transaction -> periodicite = utils_str_atoi (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Pei" ))
+	{
+	    scheduled_transaction -> intervalle_periodicite_personnalisee = utils_str_atoi (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Pep" ))
+	{
+	    scheduled_transaction -> periodicite_personnalisee = utils_str_atoi (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Dtl" ))
+	{
+	    scheduled_transaction -> date_limite = gsb_parse_date_string (attribute_values[i]);
+
+	    /* FIXME : to remove */
+
+	    scheduled_transaction -> jour_limite = g_date_day (scheduled_transaction -> date_limite);
+	    scheduled_transaction -> mois_limite = g_date_month (scheduled_transaction -> date_limite);
+	    scheduled_transaction -> annee_limite = g_date_year (scheduled_transaction -> date_limite);
+
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Br" ))
+	{
+	    scheduled_transaction -> operation_ventilee = utils_str_atoi (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Mo" ))
+	{
+	    scheduled_transaction -> no_operation_ventilee_associee = utils_str_atoi (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	/* normally, shouldn't come here */
+	i++;
+    }
+    while ( attribute_names[i] );
+
+    liste_struct_echeances = g_slist_append ( liste_struct_echeances,
+					      scheduled_transaction );
+}
+
 
 
 
