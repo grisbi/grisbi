@@ -22,6 +22,7 @@
 
 /*START_INCLUDE*/
 #include "gsb_file_load.h"
+#include "utils_categories.h"
 #include "utils_devises.h"
 #include "dialog.h"
 #include "gsb_account.h"
@@ -45,6 +46,8 @@ static void gsb_file_load_account_part ( const gchar **attribute_names,
 				  const gchar **attribute_values );
 static void gsb_file_load_account_part_before_0_6 ( GMarkupParseContext *context,
 					     const gchar *text );
+static void gsb_file_load_category ( const gchar **attribute_names,
+			      const gchar **attribute_values );
 static gboolean gsb_file_load_check_new_structure ( gchar *file_content );
 static void gsb_file_load_end_element ( GMarkupParseContext *context,
 				 const gchar *element_name,
@@ -61,13 +64,13 @@ static void gsb_file_load_general_part ( const gchar **attribute_names,
 				  const gchar **attribute_values );
 static void gsb_file_load_general_part_before_0_6 ( GMarkupParseContext *context,
 					     const gchar *text );
+static void gsb_file_load_party ( const gchar **attribute_names,
+			   const gchar **attribute_values );
 static void gsb_file_load_payment_part ( const gchar **attribute_names,
 				  const gchar **attribute_values );
 static void gsb_file_load_report_part_before_0_6 ( GMarkupParseContext *context,
 					    const gchar *text );
 static void gsb_file_load_scheduled_transactions ( const gchar **attribute_names,
-					    const gchar **attribute_values );
-static void gsb_file_load_party ( const gchar **attribute_names,
 					    const gchar **attribute_values );
 static void gsb_file_load_start_element ( GMarkupParseContext *context,
 				   const gchar *element_name,
@@ -81,6 +84,8 @@ static void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *contex
 					      const gchar **attribute_values,
 					      gpointer user_data,
 					      GError **error);
+static void gsb_file_load_sub_category ( const gchar **attribute_names,
+				  const gchar **attribute_values );
 static void gsb_file_load_text_element ( GMarkupParseContext *context,
 				  const gchar *text,
 				  gsize text_len,  
@@ -418,6 +423,22 @@ void gsb_file_load_start_element ( GMarkupParseContext *context,
     {
 	gsb_file_load_party ( attribute_names,
 			      attribute_values );
+	return;
+    }
+
+    if ( !strcmp ( element_name,
+		   "Category" ))
+    {
+	gsb_file_load_category ( attribute_names,
+				 attribute_values );
+	return;
+    }
+
+    if ( !strcmp ( element_name,
+		   "Sub_category" ))
+    {
+	gsb_file_load_sub_category ( attribute_names,
+				     attribute_values );
 	return;
     }
 
@@ -1864,6 +1885,151 @@ void gsb_file_load_party ( const gchar **attribute_names,
     liste_struct_tiers = g_slist_append ( liste_struct_tiers,
 					  party );
 }
+
+
+/**
+ * load the categories in the grisbi file
+ *
+ * \param attribute_names
+ * \param attribute_values
+ *
+ * */
+void gsb_file_load_category ( const gchar **attribute_names,
+			      const gchar **attribute_values )
+{
+    gint i=0;
+
+    struct struct_categ *category;
+
+    if ( !attribute_names[i] )
+	return;
+
+    category = calloc ( 1,
+			 sizeof ( struct struct_categ ) );
+
+    do
+    {
+	/* 	we test at the begining if the attribute_value is NULL, if yes, */
+	/* 	   go to the next */
+
+	if ( !strcmp (attribute_values[i],
+	     "(null)"))
+	{
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Nb" ))
+	{
+	    category -> no_categ = utils_str_atoi (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Na" ))
+	{
+	    category -> nom_categ = g_strdup (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Kd" ))
+	{
+	    category -> type_categ = utils_str_atoi (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	/* normally, shouldn't come here */
+	i++;
+    }
+    while ( attribute_names[i] );
+
+    liste_struct_categories = g_slist_append ( liste_struct_categories,
+					       category );
+}
+
+
+/**
+ * load the sub-categories in the grisbi file
+ *
+ * \param attribute_names
+ * \param attribute_values
+ *
+ * */
+void gsb_file_load_sub_category ( const gchar **attribute_names,
+				  const gchar **attribute_values )
+{
+    gint i=0;
+    gint category_number = 0;
+    struct struct_sous_categ *sub_category;
+
+    if ( !attribute_names[i] )
+	return;
+
+    sub_category = calloc ( 1,
+			    sizeof ( struct struct_sous_categ ) );
+
+    do
+    {
+	/* 	we test at the begining if the attribute_value is NULL, if yes, */
+	/* 	   go to the next */
+
+	if ( !strcmp (attribute_values[i],
+	     "(null)"))
+	{
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Nb" ))
+	{
+	    sub_category -> no_sous_categ = utils_str_atoi (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Na" ))
+	{
+	    sub_category -> nom_sous_categ = g_strdup (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Nbc" ))
+	{
+	    category_number = utils_str_atoi (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	/* normally, shouldn't come here */
+	i++;
+    }
+    while ( attribute_names[i] );
+
+    /* we append the sub-category to the category which must
+     * have been created already */
+
+    if ( category_number )
+    {
+	struct struct_categ *category;
+
+	category = categ_par_no ( category_number );
+
+	if ( category )
+	    category -> liste_sous_categ = g_slist_append ( category -> liste_sous_categ,
+							    sub_category );
+    }
+}
+
+
 
 
 

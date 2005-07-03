@@ -47,6 +47,7 @@ extern gchar *chemin_logo;
 extern gint ligne_affichage_une_ligne;
 extern GSList *lignes_affichage_deux_lignes;
 extern GSList *lignes_affichage_trois_lignes;
+extern GSList *liste_struct_categories;
 extern GSList *liste_struct_echeances;
 extern GSList *liste_struct_tiers;
 extern gint nb_colonnes;
@@ -535,6 +536,55 @@ gboolean gsb_file_save_save_file ( gchar *filename )
 	g_free (first_string_to_free);
 	g_free (second_string_to_free);
 
+	list_tmp = list_tmp -> next;
+    }
+
+
+    /* save the categories */
+
+    list_tmp = liste_struct_categories;
+
+    while ( list_tmp )
+    {
+	struct struct_categ *category;
+	GSList *sub_list_tmp;
+
+	category = list_tmp -> data;
+
+	/* now we can fill the file content */
+
+	file_content = g_strconcat ( first_string_to_free = file_content,
+				     second_string_to_free = g_markup_printf_escaped ( "\t<Category Nb=\"%d\" Na=\"%s\" Kd=\"%d\" />\n",
+										       category -> no_categ,
+										       category -> nom_categ,
+										       category -> type_categ),
+				     NULL );
+	g_free (first_string_to_free);
+	g_free (second_string_to_free);
+
+	/* save the sub-categories */
+
+	sub_list_tmp = category -> liste_sous_categ;
+
+	while ( sub_list_tmp )
+	{
+	    struct struct_sous_categ *sub_category;
+
+	    sub_category = sub_list_tmp -> data;
+
+	    /* now we can fill the file content */
+
+	    file_content = g_strconcat ( first_string_to_free = file_content,
+					 second_string_to_free = g_markup_printf_escaped ( "\t<Sub_category Nb=\"%d\" Na=\"%s\" Nbc=\"%d\" />\n",
+											   sub_category -> no_sous_categ,
+											   sub_category -> nom_sous_categ,
+											   category -> no_categ),
+					 NULL );
+	    g_free (first_string_to_free);
+	    g_free (second_string_to_free);
+
+	    sub_list_tmp = sub_list_tmp -> next;
+	}
 	list_tmp = list_tmp -> next;
     }
 
