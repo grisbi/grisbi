@@ -252,6 +252,7 @@ void dialogue_conditional_special ( gchar *text, gchar * var, GtkMessageType typ
 		return;
 	    }
 	}
+	message++;
     }
 
     dialog = gtk_message_dialog_new ( GTK_WINDOW (window),
