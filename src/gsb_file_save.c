@@ -205,31 +205,55 @@ gboolean gsb_file_save_save_file ( gchar *filename )
     /* save the general informations */
 
     file_content = g_strconcat ( first_string_to_free = file_content,
-				 second_string_to_free = g_markup_printf_escaped ( "\t<General\n\t\tFile_version=\"%s\"\n\t\tGrisbi_version=\"%s\"\n\t\tBackup_file=\"%s\"\n\t\tFile_title=\"%s\"\n\t\tGeneral_address=\"%s\"\n\t\tSecond_general_address=\"%s\"\n\t\tParty_list_currency_number=\"%d\"\n\t\tCategory_list_currency_number=\"%d\"\n\t\tBudget_list_currency_number=\"%d\"\n\t\tScheduler_view=\"%d\"\n\t\tScheduler_custom_number=\"%d\"\n\t\tScheduler_custom_menu=\"%d\"\n\t\tImport_interval_search=\"%d\"\n\t\tUse_logo=\"%d\"\n\t\tPath_logo=\"%s\"\n\t\tRemind_display_per_account=\"%d\"\n\t\tTransactions_view=\"%s\"\n\t\tTransaction_column_width_ratio=\"%s\"\n\t\tOne_line_showed=\"%d\"\n\t\tTwo_lines_showed=\"%s\"\n\t\tThree_lines_showed=\"%s\"\n\t\tRemind_form_per_account=\"%d\"\n\t\tScheduler_column_width_ratio=\"%s\" />\n",
-										   VERSION_FICHIER,
-										   VERSION,
-										   nom_fichier_backup,
-										   titre_fichier,
-										   adresse_commune,
-										   adresse_secondaire,
-										   no_devise_totaux_tiers,
-										   no_devise_totaux_categ,
-										   no_devise_totaux_ib,
-										   affichage_echeances,
-										   affichage_echeances_perso_nb_libre,
-										   affichage_echeances_perso_j_m_a,
-										   valeur_echelle_recherche_date_import,
-										   etat.utilise_logo,
-										   chemin_logo,
-										   etat.retient_affichage_par_compte,
-										   transactions_view,
-										   transaction_column_width_ratio,
-										   ligne_affichage_une_ligne,
-										   two_lines_showed,
-										   tree_lines_showed,
-										   etat.formulaire_distinct_par_compte,
-										   scheduler_column_width_ratio),
-										   NULL );
+				 second_string_to_free = g_markup_printf_escaped ( 
+				     "\t<General\n"
+				     "\t\tFile_version=\"%s\"\n"
+				     "\t\tGrisbi_version=\"%s\"\n"
+				     "\t\tBackup_file=\"%s\"\n"
+				     "\t\tFile_title=\"%s\"\n"
+				     "\t\tGeneral_address=\"%s\"\n"
+				     "\t\tSecond_general_address=\"%s\"\n"
+				     "\t\tParty_list_currency_number=\"%d\"\n"
+				     "\t\tCategory_list_currency_number=\"%d\"\n"
+				     "\t\tBudget_list_currency_number=\"%d\"\n"
+				     "\t\tScheduler_view=\"%d\"\n"
+				     "\t\tScheduler_custom_number=\"%d\"\n"
+				     "\t\tScheduler_custom_menu=\"%d\"\n"
+				     "\t\tImport_interval_search=\"%d\"\n"
+				     "\t\tUse_logo=\"%d\"\n"
+				     "\t\tPath_logo=\"%s\"\n"
+				     "\t\tRemind_display_per_account=\"%d\"\n"
+				     "\t\tTransactions_view=\"%s\"\n"
+				     "\t\tTransaction_column_width_ratio=\"%s\"\n"
+				     "\t\tOne_line_showed=\"%d\"\n"
+				     "\t\tTwo_lines_showed=\"%s\"\n"
+				     "\t\tThree_lines_showed=\"%s\"\n"
+				     "\t\tRemind_form_per_account=\"%d\"\n"
+				     "\t\tScheduler_column_width_ratio=\"%s\" />\n",
+				     VERSION_FICHIER,
+				     VERSION,
+				     nom_fichier_backup,
+				     titre_fichier,
+				     adresse_commune,
+				     adresse_secondaire,
+				     no_devise_totaux_tiers,
+				     no_devise_totaux_categ,
+				     no_devise_totaux_ib,
+				     affichage_echeances,
+				     affichage_echeances_perso_nb_libre,
+				     affichage_echeances_perso_j_m_a,
+				     valeur_echelle_recherche_date_import,
+				     etat.utilise_logo,
+				     chemin_logo,
+				     etat.retient_affichage_par_compte,
+				     transactions_view,
+				     transaction_column_width_ratio,
+				     ligne_affichage_une_ligne,
+				     two_lines_showed,
+				     tree_lines_showed,
+				     etat.formulaire_distinct_par_compte,
+				     scheduler_column_width_ratio),
+				 NULL );
     g_free (first_string_to_free);
     g_free (second_string_to_free);
     g_free (transactions_view);
@@ -352,41 +376,75 @@ gboolean gsb_file_save_save_file ( gchar *filename )
 	/* now we can fill the file content */
 
 	file_content = g_strconcat ( first_string_to_free = file_content,
-				     second_string_to_free = g_markup_printf_escaped ( "\t<Account\n\t\tName=\"%s\"\n\t\tId=\"%s\"\n\t\tNumber=\"%d\"\n\t\tOwner=\"%s\"\n\t\tKind=\"%d\"\n\t\tCurrency=\"%d\"\n\t\tBank=\"%d\"\n\t\tBank_branch_code=\"%s\"\n\t\tBank_account_number=\"%s\"\n\t\tKey=\"%s\"\n\t\tInitial_balance=\"%4.7f\"\n\t\tMinimum_wanted_balance=\"%4.7f\"\n\t\tMinimum_authorised_balance=\"%4.7f\"\n\t\tLast_reconcile_date=\"%s\"\n\t\tLast_reconcile_balance=\"%4.7f\"\n\t\tLast_reconcile_number=\"%d\"\n\t\tClosed_account=\"%d\"\n\t\tShow_marked=\"%d\"\n\t\tLines_per_transaction=\"%d\"\n\t\tComment=\"%s\"\n\t\tOwner_address=\"%s\"\n\t\tDefault_debit_method=\"%d\"\n\t\tDefault_credit_method=\"%d\"\n\t\tSort_by_method=\"%d\"\n\t\tNeutrals_inside_method=\"%d\"\n\t\tSort_order=\"%s\"\n\t\tAscending_sort=\"%d\"\n\t\tColumn_sort=\"%d\"\n\t\tSorting_kind_column=\"%s\"\n\t\tForm_columns_number=\"%d\"\n\t\tForm_lines_number=\"%d\"\n\t\tForm_organization=\"%s\"\n\t\tForm_columns_width=\"%s\" />\n",
-										       gsb_account_get_name (i),
-										       gsb_account_get_id (i),
-										       i,
-										       gsb_account_get_holder_name (i),
-										       gsb_account_get_kind (i),
-										       gsb_account_get_currency (i),
-										       gsb_account_get_bank (i),
-										       gsb_account_get_bank_branch_code (i),
-										       gsb_account_get_bank_account_number (i),
-										       gsb_account_get_bank_account_key (i),
-										       gsb_account_get_init_balance (i),
-										       gsb_account_get_mini_balance_wanted (i),
-										       gsb_account_get_mini_balance_authorized (i),
-										       last_reconcile_date,
-										       gsb_account_get_reconcile_balance (i),
-										       gsb_account_get_reconcile_last_number (i),
-										       gsb_account_get_closed_account (i),
-										       gsb_account_get_r (i),
-										       gsb_account_get_nb_rows (i),
-										       gsb_account_get_comment (i),
-										       gsb_account_get_holder_address (i),
-										       gsb_account_get_default_debit (i),
-										       gsb_account_get_default_credit (i),
-										       gsb_account_get_reconcile_sort_type (i),
-										       gsb_account_get_split_neutral_payment (i),
-										       sort_list,
-										       gsb_account_get_sort_type (i),
-										       gsb_account_get_sort_column (i),
-										       sort_kind_column,
-										       gsb_account_get_form_organization (i) -> nb_colonnes,
-										       gsb_account_get_form_organization (i) -> nb_lignes,
-										       form_organization,
-										       form_columns_width ),
-										       NULL );
+				     second_string_to_free = g_markup_printf_escaped ( 
+					 "\t<Account\n"
+					 "\t\tName=\"%s\"\n"
+					 "\t\tId=\"%s\"\n"
+					 "\t\tNumber=\"%d\"\n"
+					 "\t\tOwner=\"%s\"\n"
+					 "\t\tKind=\"%d\"\n"
+					 "\t\tCurrency=\"%d\"\n"
+					 "\t\tBank=\"%d\"\n"
+					 "\t\tBank_branch_code=\"%s\"\n"
+					 "\t\tBank_account_number=\"%s\"\n"
+					 "\t\tKey=\"%s\"\n"
+					 "\t\tInitial_balance=\"%4.7f\"\n"
+					 "\t\tMinimum_wanted_balance=\"%4.7f\"\n"
+					 "\t\tMinimum_authorised_balance=\"%4.7f\"\n"
+					 "\t\tLast_reconcile_date=\"%s\"\n"
+					 "\t\tLast_reconcile_balance=\"%4.7f\"\n"
+					 "\t\tLast_reconcile_number=\"%d\"\n"
+					 "\t\tClosed_account=\"%d\"\n"
+					 "\t\tShow_marked=\"%d\"\n"
+					 "\t\tLines_per_transaction=\"%d\"\n"
+					 "\t\tComment=\"%s\"\n"
+					 "\t\tOwner_address=\"%s\"\n"
+					 "\t\tDefault_debit_method=\"%d\"\n"
+					 "\t\tDefault_credit_method=\"%d\"\n"
+					 "\t\tSort_by_method=\"%d\"\n"
+					 "\t\tNeutrals_inside_method=\"%d\"\n"
+					 "\t\tSort_order=\"%s\"\n"
+					 "\t\tAscending_sort=\"%d\"\n"
+					 "\t\tColumn_sort=\"%d\"\n"
+					 "\t\tSorting_kind_column=\"%s\"\n"
+					 "\t\tForm_columns_number=\"%d\"\n"
+					 "\t\tForm_lines_number=\"%d\"\n"
+					 "\t\tForm_organization=\"%s\"\n"
+					 "\t\tForm_columns_width=\"%s\" />\n",
+					 gsb_account_get_name (i),
+					 gsb_account_get_id (i),
+					 i,
+					 gsb_account_get_holder_name (i),
+					 gsb_account_get_kind (i),
+					 gsb_account_get_currency (i),
+					 gsb_account_get_bank (i),
+					 gsb_account_get_bank_branch_code (i),
+					 gsb_account_get_bank_account_number (i),
+					 gsb_account_get_bank_account_key (i),
+					 gsb_account_get_init_balance (i),
+					 gsb_account_get_mini_balance_wanted (i),
+					 gsb_account_get_mini_balance_authorized (i),
+					 last_reconcile_date,
+					 gsb_account_get_reconcile_balance (i),
+					 gsb_account_get_reconcile_last_number (i),
+					 gsb_account_get_closed_account (i),
+					 gsb_account_get_r (i),
+					 gsb_account_get_nb_rows (i),
+					 gsb_account_get_comment (i),
+					 gsb_account_get_holder_address (i),
+					 gsb_account_get_default_debit (i),
+					 gsb_account_get_default_credit (i),
+					 gsb_account_get_reconcile_sort_type (i),
+					 gsb_account_get_split_neutral_payment (i),
+					 sort_list,
+					 gsb_account_get_sort_type (i),
+					 gsb_account_get_sort_column (i),
+					 sort_kind_column,
+					 gsb_account_get_form_organization (i) -> nb_colonnes,
+					 gsb_account_get_form_organization (i) -> nb_lignes,
+					 form_organization,
+					 form_columns_width ),
+				     NULL );
 	g_free (first_string_to_free);
 	g_free (second_string_to_free);
 	g_free (last_reconcile_date);
