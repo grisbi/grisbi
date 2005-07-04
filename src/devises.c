@@ -165,26 +165,6 @@ extern GtkWidget *window;
 
 
 
-
-gint sort_tree (GtkTreeModel *model,
-		GtkTreeIter *a,
-		GtkTreeIter *b,
-		gpointer user_data)
-{
-    GValue value3 = {0, };
-    GValue value4 = {0, };
-    gchar * country1, * country2;
-
-    gtk_tree_model_get_value (model, a, COUNTRY_NAME_COLUMN, &value3);
-    gtk_tree_model_get_value (model, b, COUNTRY_NAME_COLUMN, &value4);
-    country1 = (gchar *) g_value_get_string(&value3);
-    country2 = (gchar *) g_value_get_string(&value4);
-
-    return strcmp(country1, country2);
-}
-
-
-
 /**
  *
  *
@@ -508,10 +488,6 @@ GtkWidget * new_currency_tree ()
     gtk_tree_view_column_set_clickable (GTK_TREE_VIEW_COLUMN (column), TRUE);
 
     /* Sort columns accordingly */
-    gtk_tree_sortable_set_default_sort_func (GTK_TREE_SORTABLE(model), 
-					     sort_tree, NULL, NULL);
-    gtk_tree_sortable_set_sort_func (GTK_TREE_SORTABLE(model), COUNTRY_NAME_COLUMN, 
-				     sort_tree, NULL, NULL);
     gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE(model), 
 					  COUNTRY_NAME_COLUMN, GTK_SORT_ASCENDING);
 
