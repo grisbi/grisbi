@@ -37,7 +37,7 @@
 /*START_STATIC*/
 static gchar *demande_texte ( gchar *titre_fenetre,
 		       gchar *question );
-static void dialogue_conditional_special ( gchar *text, int * var, GtkMessageType type );
+static void dialogue_conditional_special ( gchar *text, gchar * var, GtkMessageType type );
 static gboolean question_yes_no ( gchar *texte );
 /*END_STATIC*/
 
@@ -45,6 +45,7 @@ static gboolean question_yes_no ( gchar *texte );
 
 /*START_EXTERN*/
 extern GtkWidget *window;
+extern struct conditional_message messages[];
 /*END_EXTERN*/
 
 
@@ -181,7 +182,7 @@ GtkWidget * dialogue_special_no_run ( GtkMessageType param, GtkButtonsType butto
  * appear or not and that indicates which variable could be modified
  * so that this message won't appear again.
  */
-void dialogue_conditional_hint ( gchar *hint, gchar * text, int * var )
+void dialogue_conditional_hint ( gchar *hint, gchar * text, gchar * var )
 {
     dialogue_conditional ( make_hint(hint, text), var );
 }
@@ -200,12 +201,13 @@ void dialogue_conditional_hint ( gchar *hint, gchar * text, int * var )
  * appear or not and that indicates which variable could be modified
  * so that this message won't appear again.
  */
-void dialogue_conditional_info_hint ( gchar *hint, gchar * text, int * var )
+void dialogue_conditional_info_hint ( gchar *hint, gchar * text, gchar * var )
 {
     dialogue_conditional_special ( make_hint(hint, text), var, GTK_MESSAGE_INFO );
 }
 
 
+
 /**
  * This function pop ups a dialog with an informal text and a checkbox
  * that allow this message not to be displayed again thanks to
@@ -216,12 +218,13 @@ void dialogue_conditional_info_hint ( gchar *hint, gchar * text, int * var )
  * appear or not and that indicates which variable could be modified
  * so that this message won't appear again.
  */
-void dialogue_conditional ( gchar *text, int * var )
+void dialogue_conditional ( gchar *text, gchar * var )
 {
     dialogue_conditional_special ( text, var, GTK_MESSAGE_WARNING );
 }
 
 
+
 /**
  * This function pop ups a dialog with an informal text and a checkbox
  * that allow this message not to be displayed again thanks to
@@ -232,12 +235,24 @@ void dialogue_conditional ( gchar *text, int * var )
  * appear or not and that indicates which variable could be modified
  * so that this message won't appear again.
  */
-void dialogue_conditional_special ( gchar *text, int * var, GtkMessageType type )
+void dialogue_conditional_special ( gchar *text, gchar * var, GtkMessageType type )
 {
     GtkWidget * vbox, * checkbox, *dialog;
+    struct conditional_message * message = messages;
 
-    if ( !var || *var)
+    if ( !var || !strlen ( var ) )
 	return;
+
+    while ( message -> name )
+    {
+	if ( !strcmp ( message -> name, var ) )
+	{
+	    if ( ! message -> hidden )
+	    {
+		return;
+	    }
+	}
+    }
 
     dialog = gtk_message_dialog_new ( GTK_WINDOW (window),
 				      GTK_DIALOG_DESTROY_WITH_PARENT,
@@ -249,13 +264,17 @@ void dialogue_conditional_special ( gchar *text, int * var, GtkMessageType type 
     gtk_label_set_markup ( GTK_LABEL ( GTK_MESSAGE_DIALOG(dialog)->label ), text );
 
     vbox = GTK_DIALOG(dialog) -> vbox;
-    checkbox = new_checkbox_with_title ( _("Do not show this message again"), var, 
-					 NULL );
+
+    checkbox = gtk_check_button_new_with_label ( _("Do not show this message again") );
     gtk_box_pack_start ( GTK_BOX ( vbox ), checkbox, TRUE, TRUE, 6 );
     gtk_widget_show_all ( checkbox );
 
     gtk_window_set_modal ( GTK_WINDOW ( dialog ), TRUE );
-    gtk_dialog_run (GTK_DIALOG (dialog));
+    if ( gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_CLOSE )
+    {
+	printf (">> OK\n");
+    }
+
     gtk_widget_destroy ( dialog );
 }
 
@@ -435,6 +454,33 @@ void dialogue_error_memory ()
 
 }
 
+
+
+/**
+ *
+ *
+ *
+ */
+void dialog_message ( gchar * label )
+{
+    struct conditional_message * message = messages;
+
+    while ( message -> name )
+    {
+	printf (">> %s, %s\n", message -> name, label);
+	if ( !strcmp ( message -> name, label ) )
+	{
+	    if ( !message -> hidden )
+	    {
+		dialogue_conditional_hint ( _(message -> message), _(message -> hint),
+					    message -> name );
+	    }
+	    return;
+	}
+	message ++;
+    }
+}
+ 
 
 /* Local Variables: */
 /* c-basic-offset: 4 */

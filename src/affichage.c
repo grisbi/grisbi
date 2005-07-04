@@ -31,6 +31,7 @@
 #include "gsb_account.h"
 #include "operations_liste.h"
 #include "main.h"
+#include "dialog.h"
 #include "traitement_variables.h"
 #include "utils.h"
 #include "utils_editables.h"
@@ -63,20 +64,6 @@ static gboolean update_homepage_title (GtkEntry *entry, gchar *value,
 /*END_STATIC*/
 
 
-
-
-GtkWidget * list_font_name_label, * list_font_size_label;
-
-/** Button used to store a nice preview of the homepage logo */
-GtkWidget *logo_button;
-
-/** GtkImage containing the preview  */
-GtkWidget *preview;
-
-GtkWidget *anim_button;
-GtkWidget *anim_preview;
-
-
 /*START_EXTERN*/
 extern gchar *adresse_commune;
 extern gchar *adresse_secondaire;
@@ -100,8 +87,31 @@ extern GtkWidget *window;
 /*END_EXTERN*/
 
 
+
+
+GtkWidget * list_font_name_label, * list_font_size_label;
+
+/** Button used to store a nice preview of the homepage logo */
+GtkWidget *logo_button;
+
+/** GtkImage containing the preview  */
+GtkWidget *preview;
+
+GtkWidget *anim_button;
+GtkWidget *anim_preview;
+
+struct conditional_message messages[] =
+{
+    { "no-tip-available", N_("No tip of the day available"), 
+      N_("Make sure that grisbi was correctly installed and that tips file is readable."),
+      TRUE, TRUE, },
+    { NULL },
+};
+
+
+
 /**
- * Updates transaction form according to state "etat"
+ * Update transaction form according to state "etat"
  *
  * \param checkbox Widget that triggers this event.  Normally not
  * needed there.
@@ -124,6 +134,7 @@ gboolean update_transaction_form ( GtkWidget * checkbox, gpointer data )
     }
     return ( FALSE );
 }
+
 
 
 GtkWidget *onglet_display_transaction_form ( void )
@@ -152,9 +163,6 @@ GtkWidget *onglet_display_transaction_form ( void )
 
     return vbox_pref;
 }
-/* *************************************************************************** */
-
-
 
 
 
