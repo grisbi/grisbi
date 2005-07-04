@@ -3114,6 +3114,8 @@ gint gsb_form_validate_transfer ( gint transaction_number,
 
     account_transfer = gsb_account_get_no_account_by_name ( name_transfer_account );
 
+    g_return_val_if_fail ( account_transfer, -1 );
+
     /* either it's a new transfer or a change of a non-transfer transaction
      * either it was already a transfer, in that case, if we change the target account,
      * we delete the contra-transaction and it's the same as a new transfer */
@@ -3168,12 +3170,15 @@ gint gsb_form_validate_transfer ( gint transaction_number,
      * FIXME : for the scheduled transactions, we arrive here but there is no button for that,
      * so for now, TRANSACTION_FORM_CONTRA won't be visible so he just copy the method of the scheduled transaction */
 
-    if ( verifie_element_formulaire_existe ( TRANSACTION_FORM_CONTRA )
-	 &&
+    if ( widget_formulaire_par_element (TRANSACTION_FORM_CONTRA) &&
+	 GTK_IS_WIDGET ( widget_formulaire_par_element (TRANSACTION_FORM_CONTRA) ) &&
+	 verifie_element_formulaire_existe ( TRANSACTION_FORM_CONTRA ) &&
 	 GTK_WIDGET_VISIBLE ( widget_formulaire_par_element (TRANSACTION_FORM_CONTRA) ))
+    {
 	gsb_transaction_data_set_method_of_payment_number ( contra_transaction_number,
 							    GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_par_element (TRANSACTION_FORM_CONTRA) ) -> menu_item ),
 												    "no_type" )));
+    }
 
     /* set the link between the transactions */
 
