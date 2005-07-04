@@ -73,12 +73,16 @@ static  gboolean gsb_gui_navigation_update_report_iterator ( GtkTreeModel * tree
 							    GtkTreePath *path, 
 							    GtkTreeIter *iter, 
 							    gpointer data );
-gboolean navigation_tree_drag_data_get ( GtkTreeDragSource * drag_source, 
-					 GtkTreePath * path,
-					 GtkSelectionData * selection_data );
-gboolean navigation_row_drop_possible ( GtkTreeDragDest * drag_dest, 
-					GtkTreePath * dest_path,
-					GtkSelectionData * selection_data );
+static gboolean navigation_tree_drag_data_get ( GtkTreeDragSource * drag_source, 
+						GtkTreePath * path,
+						GtkSelectionData * selection_data );
+static gboolean navigation_row_drop_possible ( GtkTreeDragDest * drag_dest, 
+					       GtkTreePath * dest_path,
+					       GtkSelectionData * selection_data );
+static gboolean navigation_drag_data_received ( GtkTreeDragDest * drag_dest, 
+						GtkTreePath * dest_path,
+						GtkSelectionData * selection_data );
+
 /*END_STATIC*/
 
 
@@ -168,7 +172,7 @@ GtkWidget * create_navigation_pane ( void )
     dst_iface = GTK_TREE_DRAG_DEST_GET_IFACE (navigation_model_filtered);
     if ( dst_iface )
     {
-/* 	dst_iface -> drag_data_received = &division_drag_data_received; */
+	dst_iface -> drag_data_received = &navigation_drag_data_received;
 	dst_iface -> row_drop_possible = &navigation_row_drop_possible;
     }
 
@@ -966,6 +970,28 @@ gboolean navigation_tree_drag_data_get ( GtkTreeDragSource * drag_source, GtkTre
 				     path );
     }
 
+    return FALSE;
+}
+
+
+
+/**
+ *  
+ *
+ */
+gboolean navigation_drag_data_received ( GtkTreeDragDest * drag_dest, 
+					 GtkTreePath * dest_path,
+					 GtkSelectionData * selection_data )
+{
+    if ( DEBUG )
+	printf ("navigation_drag_data_received %p, %p, %p\n", drag_dest, dest_path, 
+		selection_data);
+
+    if ( dest_path && selection_data )
+    {
+
+    }
+    
     return FALSE;
 }
 
