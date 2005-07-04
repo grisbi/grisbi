@@ -73,6 +73,12 @@ static  gboolean gsb_gui_navigation_update_report_iterator ( GtkTreeModel * tree
 							    GtkTreePath *path, 
 							    GtkTreeIter *iter, 
 							    gpointer data );
+gboolean navigation_tree_drag_data_get ( GtkTreeDragSource * drag_source, 
+					 GtkTreePath * path,
+					 GtkSelectionData * selection_data );
+gboolean navigation_row_drop_possible ( GtkTreeDragDest * drag_dest, 
+					GtkTreePath * dest_path,
+					GtkSelectionData * selection_data );
 /*END_STATIC*/
 
 
@@ -119,6 +125,11 @@ GtkWidget * create_navigation_pane ( void )
     GtkTreeIter iter, account_iter, reports_iter;
     GtkCellRenderer * renderer;
     GtkTreeSelection * selection;
+    GtkTreeDragDestIface * dst_iface;
+    GtkTreeDragSourceIface * src_iface;
+    static GtkTargetEntry row_targets[] = {
+	{ "GTK_TREE_MODEL_ROW", GTK_TARGET_SAME_WIDGET, 0 }
+    };
 
     vbox = gtk_vbox_new ( FALSE, 6 );
 
@@ -144,6 +155,32 @@ GtkWidget * create_navigation_pane ( void )
     navigation_tree_view = gtk_tree_view_new_with_model (GTK_TREE_MODEL(navigation_model_filtered));
     gtk_tree_view_set_headers_visible ( GTK_TREE_VIEW(navigation_tree_view), FALSE );
     gtk_container_add ( GTK_CONTAINER(sw), navigation_tree_view );
+
+    /* Enable drag & drop */
+    gtk_tree_view_enable_model_drag_source( GTK_TREE_VIEW(navigation_tree_view),
+					    GDK_BUTTON1_MASK, row_targets, 1,
+					    GDK_ACTION_MOVE );
+    gtk_tree_view_enable_model_drag_dest ( GTK_TREE_VIEW(navigation_tree_view), row_targets,
+					   1, GDK_ACTION_MOVE );
+    gtk_tree_view_set_reorderable ( GTK_TREE_VIEW(navigation_tree_view), TRUE );
+
+    /* Handle drag & drop */
+    dst_iface = GTK_TREE_DRAG_DEST_GET_IFACE (navigation_model_filtered);
+    if ( dst_iface )
+    {
+/* 	dst_iface -> drag_data_received = &division_drag_data_received; */
+	dst_iface -> row_drop_possible = &navigation_row_drop_possible;
+    }
+
+    src_iface = GTK_TREE_DRAG_SOURCE_GET_IFACE (navigation_model_filtered);
+    if ( src_iface )
+    {
+	gtk_selection_add_target (navigation_tree_view,
+				  GDK_SELECTION_PRIMARY,
+				  GDK_SELECTION_TYPE_ATOM,
+				  1);
+	src_iface -> drag_data_get = &navigation_tree_drag_data_get;
+    }
 
     /* check the keyboard before all, if we need to move other things that the navigation
      * tree view (for example, up and down on transactions list) */
@@ -843,10 +880,7 @@ gboolean gsb_gui_navigation_check_key_press ( GtkWidget *tree_view,
 									&iter))
 	return FALSE;
 
-   gtk_tree_model_get (model,
-		       &iter,
-		       NAVIGATION_PAGE, &page,
-		       -1 );
+   gtk_tree_model_get (model, &iter, NAVIGATION_PAGE, &page, -1 );
 
     switch ( page )
     {
@@ -910,3 +944,90 @@ gboolean gsb_gui_navigation_check_key_press ( GtkWidget *tree_view,
 
     return FALSE;
 }
+
+
+
+/**
+ * Fill the drag & drop structure with the path of selected column.
+ * This is an interface function called from GTK, much like a callback.
+ *
+ * \param drag_source		Not used.
+ * \param path			Original path for the gtk selection.
+ * \param selection_data	A pointer to the drag & drop structure.
+ *
+ * \return FALSE, to allow future processing by the callback chain.
+ */
+gboolean navigation_tree_drag_data_get ( GtkTreeDragSource * drag_source, GtkTreePath * path,
+			       GtkSelectionData * selection_data )
+{
+    if ( path )
+    {
+	gtk_tree_set_row_drag_data ( selection_data, GTK_TREE_MODEL(navigation_model), 
+				     path );
+    }
+
+    return FALSE;
+}
+
+
+
+/**
+ *
+ *
+ */
+gboolean navigation_row_drop_possible ( GtkTreeDragDest * drag_dest, 
+					GtkTreePath * dest_path,
+					GtkSelectionData * selection_data )
+{
+    if ( dest_path && selection_data )
+    {
+	GtkTreePath * orig_path;
+	GtkTreeModel * model;
+	gpointer src_report, dst_report;
+	gint src_account, dst_account, dst_page;
+	GtkTreeIter iter;
+
+	gtk_tree_get_row_drag_data ( selection_data, &model, &orig_path );
+
+	if ( gtk_tree_model_get_iter ( model, &iter, orig_path ) )
+	{
+	    gtk_tree_model_get ( model, &iter, 
+				 NAVIGATION_REPORT, &src_report, 
+				 NAVIGATION_ACCOUNT, &src_account,
+				 -1 );
+	}
+	if ( gtk_tree_model_get_iter ( model, &iter, dest_path ) )
+	{
+	    gtk_tree_model_get ( model, &iter, 
+				 NAVIGATION_REPORT, &dst_report, 
+				 NAVIGATION_ACCOUNT, &dst_account,
+				 NAVIGATION_PAGE, &dst_page,
+				 -1 );
+	}
+	
+	/* We handle an account */
+	if ( src_account >= 0 )
+	{
+	    if ( dst_account >= 0 )
+	    {
+		return TRUE;
+	    }
+	}
+	/* We handle a report */
+	else if ( src_report )
+	{
+	    if ( dst_report )
+	    {
+		return TRUE;
+	    }
+	}
+    }
+
+    return FALSE;
+}
+
+
+
+/* Local Variables: */
+/* c-basic-offset: 4 */
+/* End: */
