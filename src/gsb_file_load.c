@@ -49,8 +49,6 @@ static void gsb_file_load_account_part_before_0_6 ( GMarkupParseContext *context
 					     const gchar *text );
 static void gsb_file_load_bank ( const gchar **attribute_names,
 			  const gchar **attribute_values );
-static void gsb_file_load_financial_year ( const gchar **attribute_names,
-			  const gchar **attribute_values );
 static void gsb_file_load_budgetary ( const gchar **attribute_names,
 			       const gchar **attribute_values );
 static void gsb_file_load_category ( const gchar **attribute_names,

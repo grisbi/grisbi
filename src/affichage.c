@@ -31,13 +31,13 @@
 #include "gsb_account.h"
 #include "operations_liste.h"
 #include "main.h"
-#include "dialog.h"
 #include "traitement_variables.h"
 #include "utils.h"
 #include "utils_editables.h"
 #include "structures.h"
 #include "utils_buttons.h"
 #include "include.h"
+#include "dialog.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -104,7 +104,7 @@ struct conditional_message messages[] =
 {
     { "no-tip-available", N_("No tip of the day available"), 
       N_("Make sure that grisbi was correctly installed and that tips file is readable."),
-      TRUE, TRUE, },
+      FALSE, FALSE, },
     { NULL },
 };
 

@@ -74,6 +74,7 @@ PangoFontDescription *pango_desc_fonte_liste;
 extern GtkWidget *formulaire;
 extern GtkWidget *main_hpaned ;
 extern gint max;
+extern struct conditional_message messages[] ;
 extern gint nb_days_before_scheduled;
 extern gchar *nom_fichier_comptes;
 extern gint taille_largeur_colonnes[TRANSACTION_LIST_COL_NB];

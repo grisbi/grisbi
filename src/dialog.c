@@ -29,9 +29,9 @@
 
 /*START_INCLUDE*/
 #include "dialog.h"
-#include "utils_buttons.h"
 #include "parametres.h"
 #include "include.h"
+#include "dialog.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -44,8 +44,8 @@ static gboolean question_yes_no ( gchar *texte );
 
 
 /*START_EXTERN*/
+extern struct conditional_message messages[] ;
 extern GtkWidget *window;
-extern struct conditional_message messages[];
 /*END_EXTERN*/
 
 
@@ -247,7 +247,7 @@ void dialogue_conditional_special ( gchar *text, gchar * var, GtkMessageType typ
     {
 	if ( !strcmp ( message -> name, var ) )
 	{
-	    if ( ! message -> hidden )
+	    if ( message -> hidden )
 	    {
 		return;
 	    }
@@ -468,12 +468,12 @@ void dialog_message ( gchar * label )
 
     while ( message -> name )
     {
-	printf (">> %s, %s\n", message -> name, label);
 	if ( !strcmp ( message -> name, label ) )
 	{
+	    printf (">> %s, %s, %d\n", message -> name, label, message -> hidden);
 	    if ( !message -> hidden )
 	    {
-		dialogue_conditional_hint ( _(message -> message), _(message -> hint),
+		dialogue_conditional_hint ( _(message -> hint), _(message -> message),
 					    message -> name );
 	    }
 	    return;

@@ -8,6 +8,7 @@
 /* START_DECLARATION */
 gboolean blocage_boites_dialogues ( GtkWidget *dialog,
 				    gpointer null );
+void dialog_message ( gchar * label );
 void dialogue ( gchar *texte_dialogue );
 void dialogue_conditional ( gchar *text, gchar * var );
 void dialogue_conditional_hint ( gchar *hint, gchar * text, gchar * var );
@@ -25,7 +26,6 @@ void dialogue_warning_hint ( gchar *text, gchar * hint );
 gchar * make_hint ( gchar * hint, gchar * text );
 gboolean question ( gchar *texte );
 gboolean question_yes_no_hint ( gchar * hint, gchar *texte );
-void dialog_message ( gchar * label );
 /* END_DECLARATION */
 
 struct conditional_message
