@@ -34,9 +34,9 @@
 #include "comptes_gestion.h"
 #include "echeancier_liste.h"
 #include "fichier_configuration.h"
+#include "structures.h"
 #include "navigation.h"
 #include "include.h"
-#include "structures.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -73,16 +73,14 @@ static  gboolean gsb_gui_navigation_update_report_iterator ( GtkTreeModel * tree
 							    GtkTreePath *path, 
 							    GtkTreeIter *iter, 
 							    gpointer data );
-static gboolean navigation_tree_drag_data_get ( GtkTreeDragSource * drag_source, 
-						GtkTreePath * path,
-						GtkSelectionData * selection_data );
-static gboolean navigation_row_drop_possible ( GtkTreeDragDest * drag_dest, 
-					       GtkTreePath * dest_path,
-					       GtkSelectionData * selection_data );
 static gboolean navigation_drag_data_received ( GtkTreeDragDest * drag_dest, 
-						GtkTreePath * dest_path,
-						GtkSelectionData * selection_data );
-
+					 GtkTreePath * dest_path,
+					 GtkSelectionData * selection_data );
+static gboolean navigation_row_drop_possible ( GtkTreeDragDest * drag_dest, 
+					GtkTreePath * dest_path,
+					GtkSelectionData * selection_data );
+static gboolean navigation_tree_drag_data_get ( GtkTreeDragSource * drag_source, GtkTreePath * path,
+			       GtkSelectionData * selection_data );
 /*END_STATIC*/
 
 

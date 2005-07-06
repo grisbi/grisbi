@@ -84,10 +84,6 @@ static gboolean selection_ligne_devise ( GtkWidget *liste,
 				  gint colonne,
 				  GdkEventButton *ev,
 				  GtkWidget *frame );
-static gint sort_tree (GtkTreeModel *model,
-		GtkTreeIter *a,
-		GtkTreeIter *b,
-		gpointer user_data);
 static void update_currency_widgets();
 static void update_exchange_rate_cache ( struct struct_devise * currency1, 
 				  struct struct_devise * currency2,
