@@ -2104,13 +2104,11 @@ gint etat_affiche_affiche_titre_depenses_etat ( gint ligne )
 gint etat_affiche_affiche_totaux_sous_jaccent ( gint origine,
 						gint ligne )
 {
-    GList *pointeur_glist;
-
+    GSList *pointeur_glist;
 
     /* on doit partir du bout de la liste pour revenir vers la structure demandée */
-
-    pointeur_glist = g_list_last ( etat_courant -> type_classement );
-
+    
+    pointeur_glist = g_slist_reverse (g_slist_copy ( etat_courant -> type_classement ));
 
     while ( GPOINTER_TO_INT ( pointeur_glist -> data ) != origine )
     {
@@ -2140,9 +2138,10 @@ gint etat_affiche_affiche_totaux_sous_jaccent ( gint origine,
 		ligne = etat_affiche_affiche_total_tiers ( ligne );
 		break;
 	}
-	pointeur_glist = pointeur_glist -> prev;
+	pointeur_glist = pointeur_glist -> next;
     }
 
+    g_slist_free (pointeur_glist);
     return ( ligne );
 
 }

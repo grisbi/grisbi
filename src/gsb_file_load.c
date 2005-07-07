@@ -28,10 +28,10 @@
 #include "gsb_account.h"
 #include "data_form.h"
 #include "utils_dates.h"
+#include "utils_str.h"
 #include "gsb_transaction_data.h"
 #include "utils_ib.h"
 #include "traitement_variables.h"
-#include "utils_str.h"
 #include "utils_buttons.h"
 #include "fichiers_gestion.h"
 #include "utils_files.h"
@@ -47,6 +47,8 @@ static void gsb_file_load_account_part ( const gchar **attribute_names,
 				  const gchar **attribute_values );
 static void gsb_file_load_account_part_before_0_6 ( GMarkupParseContext *context,
 					     const gchar *text );
+static void gsb_file_load_amount_comparison ( const gchar **attribute_names,
+				       const gchar **attribute_values );
 static void gsb_file_load_bank ( const gchar **attribute_names,
 			  const gchar **attribute_values );
 static void gsb_file_load_budgetary ( const gchar **attribute_names,
@@ -79,6 +81,8 @@ static void gsb_file_load_payment_part ( const gchar **attribute_names,
 				  const gchar **attribute_values );
 static void gsb_file_load_reconcile ( const gchar **attribute_names,
 			       const gchar **attribute_values );
+static void gsb_file_load_report ( const gchar **attribute_names,
+			    const gchar **attribute_values );
 static void gsb_file_load_report_part_before_0_6 ( GMarkupParseContext *context,
 					    const gchar *text );
 static void gsb_file_load_scheduled_transactions ( const gchar **attribute_names,
@@ -99,6 +103,8 @@ static void gsb_file_load_sub_budgetary ( const gchar **attribute_names,
 				   const gchar **attribute_values );
 static void gsb_file_load_sub_category ( const gchar **attribute_names,
 				  const gchar **attribute_values );
+static void gsb_file_load_text_comparison ( const gchar **attribute_names,
+				     const gchar **attribute_values );
 static void gsb_file_load_text_element ( GMarkupParseContext *context,
 				  const gchar *text,
 				  gsize text_len,  
@@ -500,6 +506,30 @@ void gsb_file_load_start_element ( GMarkupParseContext *context,
     {
 	gsb_file_load_reconcile ( attribute_names,
 				  attribute_values );
+	return;
+    }
+
+    if ( !strcmp ( element_name,
+		   "Report" ))
+    {
+	gsb_file_load_report ( attribute_names,
+			       attribute_values );
+	return;
+    }
+
+    if ( !strcmp ( element_name,
+		   "Text_comparison" ))
+    {
+	gsb_file_load_text_comparison ( attribute_names,
+					attribute_values );
+	return;
+    }
+
+    if ( !strcmp ( element_name,
+		   "Amount_comparison" ))
+    {
+	gsb_file_load_amount_comparison ( attribute_names,
+					  attribute_values );
 	return;
     }
 
@@ -2626,6 +2656,942 @@ void gsb_file_load_reconcile ( const gchar **attribute_names,
 						   reconcile_struct );
 }
 
+/**
+ * load the report structure in the grisbi file
+ *
+ * \param attribute_names
+ * \param attribute_values
+ *
+ * */
+void gsb_file_load_report ( const gchar **attribute_names,
+			    const gchar **attribute_values )
+{
+    struct struct_etat *report;
+    gint i=0;
+
+    if ( !attribute_names[i] )
+	return;
+
+    report = calloc ( 1,
+		      sizeof ( struct struct_etat ) );
+
+    do
+    {
+	/* 	we test at the begining if the attribute_value is NULL, if yes, */
+	/* 	   go to the next */
+
+	if ( !strcmp (attribute_values[i],
+	     "(null)"))
+	{
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Nb" ))
+	{
+	    report -> no_etat = utils_str_atoi (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Name" ))
+	{
+	    report -> nom_etat = g_strdup (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "General_sort_type" ))
+	{
+	    report -> type_classement = gsb_string_get_list_from_string (attribute_values[i],
+									 "/-/" );
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Show_r" ))
+	{
+	    report -> afficher_r = utils_str_atoi (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Show_transaction" ))
+	{
+	    report -> afficher_opes = utils_str_atoi (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Show_transaction_amount" ))
+	{
+	    report -> afficher_nb_opes = utils_str_atoi (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Show_transaction_nb" ))
+	{
+	    report -> afficher_no_ope = utils_str_atoi (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Show_transaction_date" ))
+	{
+	    report -> afficher_date_ope = utils_str_atoi (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Show_transaction_payee" ))
+	{
+	    report -> afficher_tiers_ope = utils_str_atoi (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Show_transaction_categ" ))
+	{
+	    report -> afficher_categ_ope = utils_str_atoi (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Show_transaction_sub_categ" ))
+	{
+	    report -> afficher_sous_categ_ope = utils_str_atoi (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Show_transaction_payment" ))
+	{
+	    report -> afficher_type_ope = utils_str_atoi (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Show_transaction_budget" ))
+	{
+	    report -> afficher_ib_ope = utils_str_atoi (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Show_transaction_sub_budget" ))
+	{
+	    report -> afficher_sous_ib_ope = utils_str_atoi (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Show_transaction_chq" ))
+	{
+	    report -> afficher_cheque_ope = utils_str_atoi (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Show_transaction_note" ))
+	{
+	    report -> afficher_notes_ope = utils_str_atoi (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Show_transaction_voucher" ))
+	{
+	    report -> afficher_pc_ope = utils_str_atoi (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Show_transaction_reconcile" ))
+	{
+	    report -> afficher_rappr_ope = utils_str_atoi (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Show_transaction_bank" ))
+	{
+	    report -> afficher_infobd_ope = utils_str_atoi (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Show_transaction_fin_year" ))
+	{
+	    report -> afficher_exo_ope = utils_str_atoi (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Show_transaction_sort_type" ))
+	{
+	    report -> type_classement_ope = utils_str_atoi (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Show_columns_titles" ))
+	{
+	    report -> afficher_titre_colonnes = utils_str_atoi (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Show_title_column_kind" ))
+	{
+	    report -> type_affichage_titres = utils_str_atoi (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Show_exclude_breakdown_child" ))
+	{
+	    report -> pas_detailler_ventilation = utils_str_atoi (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Show_split_amounts" ))
+	{
+	    report -> separer_revenus_depenses = utils_str_atoi (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Currency_general" ))
+	{
+	    report -> devise_de_calcul_general = utils_str_atoi (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Report_in_payees" ))
+	{
+	    report -> inclure_dans_tiers = utils_str_atoi (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Report_can_click" ))
+	{
+	    report -> ope_clickables = utils_str_atoi (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Financial_year_used" ))
+	{
+	    report -> exo_date = utils_str_atoi (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Financial_year_kind" ))
+	{
+	    report -> utilise_detail_exo = utils_str_atoi (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Financial_year_select" ))
+	{
+	    report -> no_exercices = gsb_string_get_list_from_string (attribute_values[i],
+								      "/-/" );
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Date_kind" ))
+	{
+	    report -> no_plage_date = utils_str_atoi (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Date_begining" ))
+	{
+	    report -> date_perso_debut = gsb_parse_date_string (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Date_end" ))
+	{
+	    report -> date_perso_fin = gsb_parse_date_string (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Split_by_date" ))
+	{
+	    report -> separation_par_plage = utils_str_atoi (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Split_date_period" ))
+	{
+	    report -> type_separation_plage = utils_str_atoi (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Split_by_fin_year" ))
+	{
+	    report -> separation_par_exo = utils_str_atoi (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Split_day_begining" ))
+	{
+	    report -> jour_debut_semaine = utils_str_atoi (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Account_use_selection" ))
+	{
+	    report -> utilise_detail_comptes = utils_str_atoi (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Account_selected" ))
+	{
+	    report -> no_comptes = gsb_string_get_list_from_string (attribute_values[i],
+								    "/-/" );
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Account_group_transactions" ))
+	{
+	    report -> regroupe_ope_par_compte = utils_str_atoi (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Account_show_amount" ))
+	{
+	    report -> affiche_sous_total_compte = utils_str_atoi (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Account_show_name" ))
+	{
+	    report -> afficher_nom_compte = utils_str_atoi (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Transfer_kind" ))
+	{
+	    report -> type_virement = utils_str_atoi (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Transfer_selected_accounts" ))
+	{
+	    report -> no_comptes_virements = gsb_string_get_list_from_string (attribute_values[i],
+									      "/-/" );
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Transfer_exclude_transactions" ))
+	{
+	    report -> exclure_ope_non_virement = utils_str_atoi (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Categ_use" ))
+	{
+	    report -> utilise_categ = utils_str_atoi (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Categ_use_selection" ))
+	{
+	    report -> utilise_detail_categ = utils_str_atoi (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Categ_selected" ))
+	{
+	    report -> no_categ = gsb_string_get_list_from_string (attribute_values[i],
+								  "/-/" );
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Categ_exclude_transactions" ))
+	{
+	    report -> exclure_ope_sans_categ = utils_str_atoi (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Categ_show_amount" ))
+	{
+	    report -> affiche_sous_total_categ = utils_str_atoi (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Categ_show_sub_categ" ))
+	{
+	    report -> afficher_sous_categ = utils_str_atoi (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Categ_show_without_sub_categ" ))
+	{
+	    report -> afficher_pas_de_sous_categ = utils_str_atoi (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Categ_show_sub_categ_amount" ))
+	{
+	    report -> affiche_sous_total_sous_categ = utils_str_atoi (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Categ_currency" ))
+	{
+	    report -> devise_de_calcul_categ = utils_str_atoi (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Categ_show_name" ))
+	{
+	    report -> afficher_nom_categ = utils_str_atoi (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Budget_use" ))
+	{
+	    report -> utilise_ib = utils_str_atoi (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Budget_use_selection" ))
+	{
+	    report -> utilise_detail_ib = utils_str_atoi (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Budget_selected" ))
+	{
+	    report -> no_ib = gsb_string_get_list_from_string (attribute_values[i],
+							       "/-/" );
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Budget_exclude_transactions" ))
+	{
+	    report -> exclure_ope_sans_ib = utils_str_atoi (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Budget_show_amount" ))
+	{
+	    report -> affiche_sous_total_ib = utils_str_atoi (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Budget_show_sub_budget" ))
+	{
+	    report -> afficher_sous_ib = utils_str_atoi (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Budget_show_without_sub_budget" ))
+	{
+	    report -> afficher_pas_de_sous_ib = utils_str_atoi (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Budget_show_sub_budget_amount" ))
+	{
+	    report -> affiche_sous_total_sous_ib = utils_str_atoi (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Budget_currency" ))
+	{
+	    report -> devise_de_calcul_ib = utils_str_atoi (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Budget_show_name" ))
+	{
+	    report -> afficher_nom_ib = utils_str_atoi (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Payee_use" ))
+	{
+	    report -> utilise_tiers = utils_str_atoi (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Payee_use_selection" ))
+	{
+	    report -> utilise_detail_tiers = utils_str_atoi (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Payee_selected" ))
+	{
+	    report -> no_tiers = gsb_string_get_list_from_string (attribute_values[i],
+								  "/-/" );
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Payee_show_amount" ))
+	{
+	    report -> affiche_sous_total_tiers = utils_str_atoi (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Payee_currency" ))
+	{
+	    report -> devise_de_calcul_tiers = utils_str_atoi (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Payee_show_name" ))
+	{
+	    report -> afficher_nom_tiers = utils_str_atoi (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Amount_currency" ))
+	{
+	    report -> choix_devise_montant = utils_str_atoi (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Amount_exclude_null" ))
+	{
+	    report -> exclure_montants_nuls = utils_str_atoi (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Payment_method_list" ))
+	{
+	    report -> noms_modes_paiement = gsb_string_get_list_from_string (attribute_values[i],
+									     "/-/" );
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Use_text" ))
+	{
+	    report -> utilise_texte = utils_str_atoi (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Use_amount" ))
+	{
+	    report -> utilise_montant = utils_str_atoi (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	/* normally, shouldn't come here */
+	i++;
+    }
+    while ( attribute_names[i] );
+
+    liste_struct_etats = g_slist_append ( liste_struct_etats,
+					  report );
+}
+
+/**
+ * load the text comparison structure in the grisbi file
+ *
+ * \param attribute_names
+ * \param attribute_values
+ *
+ * */
+void gsb_file_load_text_comparison ( const gchar **attribute_names,
+				     const gchar **attribute_values )
+{
+    struct struct_comparaison_textes_etat *text_comparison;
+    gint i=0;
+    gint report_number = 0;
+    struct struct_etat *report;
+    GSList *list_tmp;
+
+    if ( !attribute_names[i] )
+	return;
+
+    text_comparison = calloc ( 1,
+			       sizeof ( struct struct_comparaison_textes_etat ) );
+
+    do
+    {
+	/* 	we test at the begining if the attribute_value is NULL, if yes, */
+	/* 	   go to the next */
+
+	if ( !strcmp (attribute_values[i],
+	     "(null)"))
+	{
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Report_nb" ))
+	{
+	    report_number = utils_str_atoi (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Last_comparison" ))
+	{
+	    text_comparison -> lien_struct_precedente = utils_str_atoi (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Object" ))
+	{
+	    text_comparison -> champ = utils_str_atoi (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Operator" ))
+	{
+	    text_comparison -> operateur = utils_str_atoi (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Text" ))
+	{
+	    text_comparison -> texte = g_strdup (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Use_text" ))
+	{
+	    text_comparison -> utilise_txt = utils_str_atoi (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Comparison_1" ))
+	{
+	    text_comparison -> comparateur_1 = utils_str_atoi (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Link_1_2" ))
+	{
+	    text_comparison -> lien_1_2 = utils_str_atoi (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Comparison_2" ))
+	{
+	    text_comparison -> comparateur_2 = utils_str_atoi (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Amount_1" ))
+	{
+	    text_comparison -> montant_1 = utils_str_atoi (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Amount_2" ))
+	{
+	    text_comparison -> montant_2 = utils_str_atoi (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	/* normally, shouldn't come here */
+	i++;
+    }
+    while ( attribute_names[i] );
+
+    /* FIXME : to remove when do the struct of report */
+
+    report = NULL;
+    list_tmp = liste_struct_etats;
+
+    while ( list_tmp )
+    {
+	report = list_tmp -> data;
+
+	if ( report -> no_etat == report_number )
+	    list_tmp = NULL;
+	else
+	{
+	    report= NULL;
+	    list_tmp = list_tmp -> next;
+	}
+    }
+
+    if ( report )
+	report -> liste_struct_comparaison_textes = g_slist_append ( report -> liste_struct_comparaison_textes,
+								     text_comparison );
+}
+
+
+/**
+ * load the amount comparaison structure in the grisbi file
+ *
+ * \param attribute_names
+ * \param attribute_values
+ *
+ * */
+void gsb_file_load_amount_comparison ( const gchar **attribute_names,
+				       const gchar **attribute_values )
+{
+    struct struct_comparaison_montants_etat *amount_comparison;
+    gint i=0;
+    gint report_number = 0;
+    struct struct_etat *report;
+    GSList *list_tmp;
+
+    if ( !attribute_names[i] )
+	return;
+
+    amount_comparison = calloc ( 1,
+			       sizeof ( struct struct_comparaison_montants_etat ) );
+
+    do
+    {
+	/* 	we test at the begining if the attribute_value is NULL, if yes, */
+	/* 	   go to the next */
+
+	if ( !strcmp (attribute_values[i],
+	     "(null)"))
+	{
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Report_nb" ))
+	{
+	    report_number = utils_str_atoi (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Last_comparison" ))
+	{
+	    amount_comparison -> lien_struct_precedente = utils_str_atoi (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Comparison_1" ))
+	{
+	    amount_comparison -> comparateur_1 = utils_str_atoi (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Link_1_2" ))
+	{
+	    amount_comparison -> lien_1_2 = utils_str_atoi (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Comparison_2" ))
+	{
+	    amount_comparison -> comparateur_2 = utils_str_atoi (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Amount_1" ))
+	{
+	    amount_comparison -> montant_1 = g_strtod (attribute_values[i],
+						       NULL );
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Amount_2" ))
+	{
+	    amount_comparison -> montant_2 = g_strtod (attribute_values[i],
+						       NULL );
+	    i++;
+	    continue;
+	}
+
+	/* normally, shouldn't come here */
+	i++;
+    }
+    while ( attribute_names[i] );
+
+    /* FIXME : to remove when do the struct of report */
+
+    report = NULL;
+    list_tmp = liste_struct_etats;
+
+    while ( list_tmp )
+    {
+	report = list_tmp -> data;
+
+	if ( report -> no_etat == report_number )
+	    list_tmp = NULL;
+	else
+	{
+	    report= NULL;
+	    list_tmp = list_tmp -> next;
+	}
+    }
+
+    if ( report )
+	report -> liste_struct_comparaison_montants = g_slist_append ( report -> liste_struct_comparaison_montants,
+								       amount_comparison );
+}
+
+
 
 
 
@@ -4689,8 +5655,8 @@ void gsb_file_load_report_part_before_0_6 ( GMarkupParseContext *context,
 
 	while ( pointeur_char[i] )
 	{
-	    report_tmp -> type_classement = g_list_append ( report_tmp -> type_classement,
-							    GINT_TO_POINTER ( utils_str_atoi ( pointeur_char[i] )));
+	    report_tmp -> type_classement = g_slist_append ( report_tmp -> type_classement,
+							     GINT_TO_POINTER ( utils_str_atoi ( pointeur_char[i] )));
 	    i++;
 	}
 	g_strfreev ( pointeur_char );

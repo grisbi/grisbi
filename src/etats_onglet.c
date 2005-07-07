@@ -367,17 +367,17 @@ gboolean ajout_etat ( void )
 
 	    /*   le classement de base est 1-2-3-4-5-6 (cf structure.h) */
 
-	    etat -> type_classement = g_list_append ( etat -> type_classement,
+	    etat -> type_classement = g_slist_append ( etat -> type_classement,
 						      GINT_TO_POINTER ( 1 ));
-	    etat -> type_classement = g_list_append ( etat -> type_classement,
+	    etat -> type_classement = g_slist_append ( etat -> type_classement,
 						      GINT_TO_POINTER ( 2 ));
-	    etat -> type_classement = g_list_append ( etat -> type_classement,
+	    etat -> type_classement = g_slist_append ( etat -> type_classement,
 						      GINT_TO_POINTER ( 3 ));
-	    etat -> type_classement = g_list_append ( etat -> type_classement,
+	    etat -> type_classement = g_slist_append ( etat -> type_classement,
 						      GINT_TO_POINTER ( 4 ));
-	    etat -> type_classement = g_list_append ( etat -> type_classement,
+	    etat -> type_classement = g_slist_append ( etat -> type_classement,
 						      GINT_TO_POINTER ( 5 ));
-	    etat -> type_classement = g_list_append ( etat -> type_classement,
+	    etat -> type_classement = g_slist_append ( etat -> type_classement,
 						      GINT_TO_POINTER ( 6 ));
 
 	    etat -> type_virement = 2;
@@ -409,17 +409,17 @@ gboolean ajout_etat ( void )
 
 	    /*   le classement de base est 1-2-3-4-5-6 (cf structure.h) */
 
-	    etat -> type_classement = g_list_append ( etat -> type_classement,
+	    etat -> type_classement = g_slist_append ( etat -> type_classement,
 						      GINT_TO_POINTER ( 1 ));
-	    etat -> type_classement = g_list_append ( etat -> type_classement,
+	    etat -> type_classement = g_slist_append ( etat -> type_classement,
 						      GINT_TO_POINTER ( 2 ));
-	    etat -> type_classement = g_list_append ( etat -> type_classement,
+	    etat -> type_classement = g_slist_append ( etat -> type_classement,
 						      GINT_TO_POINTER ( 3 ));
-	    etat -> type_classement = g_list_append ( etat -> type_classement,
+	    etat -> type_classement = g_slist_append ( etat -> type_classement,
 						      GINT_TO_POINTER ( 4 ));
-	    etat -> type_classement = g_list_append ( etat -> type_classement,
+	    etat -> type_classement = g_slist_append ( etat -> type_classement,
 						      GINT_TO_POINTER ( 5 ));
-	    etat -> type_classement = g_list_append ( etat -> type_classement,
+	    etat -> type_classement = g_slist_append ( etat -> type_classement,
 						      GINT_TO_POINTER ( 6 ));
 
 	    etat -> type_virement = 2;
@@ -449,17 +449,17 @@ gboolean ajout_etat ( void )
 
 	    /*   le classement de base est 1-2-3-4-5-6 (cf structure.h) */
 
-	    etat -> type_classement = g_list_append ( etat -> type_classement,
+	    etat -> type_classement = g_slist_append ( etat -> type_classement,
 						      GINT_TO_POINTER ( 1 ));
-	    etat -> type_classement = g_list_append ( etat -> type_classement,
+	    etat -> type_classement = g_slist_append ( etat -> type_classement,
 						      GINT_TO_POINTER ( 2 ));
-	    etat -> type_classement = g_list_append ( etat -> type_classement,
+	    etat -> type_classement = g_slist_append ( etat -> type_classement,
 						      GINT_TO_POINTER ( 3 ));
-	    etat -> type_classement = g_list_append ( etat -> type_classement,
+	    etat -> type_classement = g_slist_append ( etat -> type_classement,
 						      GINT_TO_POINTER ( 4 ));
-	    etat -> type_classement = g_list_append ( etat -> type_classement,
+	    etat -> type_classement = g_slist_append ( etat -> type_classement,
 						      GINT_TO_POINTER ( 5 ));
-	    etat -> type_classement = g_list_append ( etat -> type_classement,
+	    etat -> type_classement = g_slist_append ( etat -> type_classement,
 						      GINT_TO_POINTER ( 6 ));
 
 	    /*   les devises sont à 1 (euro) */
@@ -495,17 +495,17 @@ gboolean ajout_etat ( void )
 
 	    /*   le classement de base est 1-2-3-4-5-6 (cf structure.h) */
 
-	    etat -> type_classement = g_list_append ( etat -> type_classement,
+	    etat -> type_classement = g_slist_append ( etat -> type_classement,
 						      GINT_TO_POINTER ( 1 ));
-	    etat -> type_classement = g_list_append ( etat -> type_classement,
+	    etat -> type_classement = g_slist_append ( etat -> type_classement,
 						      GINT_TO_POINTER ( 2 ));
-	    etat -> type_classement = g_list_append ( etat -> type_classement,
+	    etat -> type_classement = g_slist_append ( etat -> type_classement,
 						      GINT_TO_POINTER ( 3 ));
-	    etat -> type_classement = g_list_append ( etat -> type_classement,
+	    etat -> type_classement = g_slist_append ( etat -> type_classement,
 						      GINT_TO_POINTER ( 4 ));
-	    etat -> type_classement = g_list_append ( etat -> type_classement,
+	    etat -> type_classement = g_slist_append ( etat -> type_classement,
 						      GINT_TO_POINTER ( 5 ));
-	    etat -> type_classement = g_list_append ( etat -> type_classement,
+	    etat -> type_classement = g_slist_append ( etat -> type_classement,
 						      GINT_TO_POINTER ( 6 ));
 
 	    /*   les devises sont à 1 (euro) */
@@ -544,17 +544,17 @@ gboolean ajout_etat ( void )
 
 	    /*   le classement de base est 1-2-3-4-5-6 (cf structure.h) */
 
-	    etat -> type_classement = g_list_append ( etat -> type_classement,
+	    etat -> type_classement = g_slist_append ( etat -> type_classement,
 						      GINT_TO_POINTER ( 1 ));
-	    etat -> type_classement = g_list_append ( etat -> type_classement,
+	    etat -> type_classement = g_slist_append ( etat -> type_classement,
 						      GINT_TO_POINTER ( 2 ));
-	    etat -> type_classement = g_list_append ( etat -> type_classement,
+	    etat -> type_classement = g_slist_append ( etat -> type_classement,
 						      GINT_TO_POINTER ( 3 ));
-	    etat -> type_classement = g_list_append ( etat -> type_classement,
+	    etat -> type_classement = g_slist_append ( etat -> type_classement,
 						      GINT_TO_POINTER ( 4 ));
-	    etat -> type_classement = g_list_append ( etat -> type_classement,
+	    etat -> type_classement = g_slist_append ( etat -> type_classement,
 						      GINT_TO_POINTER ( 5 ));
-	    etat -> type_classement = g_list_append ( etat -> type_classement,
+	    etat -> type_classement = g_slist_append ( etat -> type_classement,
 						      GINT_TO_POINTER ( 6 ));
 
 	    /*   les devises sont à 1 (euro) */
@@ -598,17 +598,17 @@ gboolean ajout_etat ( void )
 
 	    /*   le classement de base est 1-2-3-4-5-6 (cf structure.h) */
 
-	    etat -> type_classement = g_list_append ( etat -> type_classement,
+	    etat -> type_classement = g_slist_append ( etat -> type_classement,
 						      GINT_TO_POINTER ( 6 ));
-	    etat -> type_classement = g_list_append ( etat -> type_classement,
+	    etat -> type_classement = g_slist_append ( etat -> type_classement,
 						      GINT_TO_POINTER ( 1 ));
-	    etat -> type_classement = g_list_append ( etat -> type_classement,
+	    etat -> type_classement = g_slist_append ( etat -> type_classement,
 						      GINT_TO_POINTER ( 2 ));
-	    etat -> type_classement = g_list_append ( etat -> type_classement,
+	    etat -> type_classement = g_slist_append ( etat -> type_classement,
 						      GINT_TO_POINTER ( 3 ));
-	    etat -> type_classement = g_list_append ( etat -> type_classement,
+	    etat -> type_classement = g_slist_append ( etat -> type_classement,
 						      GINT_TO_POINTER ( 4 ));
-	    etat -> type_classement = g_list_append ( etat -> type_classement,
+	    etat -> type_classement = g_slist_append ( etat -> type_classement,
 						      GINT_TO_POINTER ( 5 ));
 
 	    /*   les devises sont à 1 (euro) */
@@ -656,17 +656,17 @@ gboolean ajout_etat ( void )
 
 	    /*   le classement de base est 1-2-3-4-5-6 (cf structure.h) */
 
-	    etat -> type_classement = g_list_append ( etat -> type_classement,
+	    etat -> type_classement = g_slist_append ( etat -> type_classement,
 						      GINT_TO_POINTER ( 1 ));
-	    etat -> type_classement = g_list_append ( etat -> type_classement,
+	    etat -> type_classement = g_slist_append ( etat -> type_classement,
 						      GINT_TO_POINTER ( 2 ));
-	    etat -> type_classement = g_list_append ( etat -> type_classement,
+	    etat -> type_classement = g_slist_append ( etat -> type_classement,
 						      GINT_TO_POINTER ( 3 ));
-	    etat -> type_classement = g_list_append ( etat -> type_classement,
+	    etat -> type_classement = g_slist_append ( etat -> type_classement,
 						      GINT_TO_POINTER ( 4 ));
-	    etat -> type_classement = g_list_append ( etat -> type_classement,
+	    etat -> type_classement = g_slist_append ( etat -> type_classement,
 						      GINT_TO_POINTER ( 5 ));
-	    etat -> type_classement = g_list_append ( etat -> type_classement,
+	    etat -> type_classement = g_slist_append ( etat -> type_classement,
 						      GINT_TO_POINTER ( 6 ));
 
 	    /*   les devises sont à 1 (euro) */

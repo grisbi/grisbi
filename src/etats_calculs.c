@@ -1502,7 +1502,7 @@ void impression_etat_courant ( )
 gint classement_liste_opes_etat ( gpointer operation_1,
 				  gpointer operation_2 )
 {
-    GList *pointeur;
+    GSList *pointeur;
 
     pointeur = etat_courant -> type_classement;
 
@@ -1854,7 +1854,7 @@ void etape_finale_affichage_etat ( GSList *ope_selectionnees,
     gchar *decalage_sous_ib;
     gchar *decalage_compte;
     gchar *decalage_tiers;
-    GList *pointeur_glist;
+    GSList *pointeur_glist;
 
 
     /*   soit on sépare en revenus et dépenses, soit non */
@@ -2469,13 +2469,12 @@ pas_decalage:
 
 void denote_struct_sous_jaccentes ( gint origine )
 {
-    GList *pointeur_glist;
+    GSList *pointeur_glist;
 
     /* on peut partir du bout de la liste pour revenir vers la structure demandée */
     /* gros vulgaire copier coller de la fonction précédente */
 
-    pointeur_glist = g_list_last ( etat_courant -> type_classement );
-
+    pointeur_glist = g_slist_reverse (g_slist_copy ( etat_courant -> type_classement ));
 
     while ( GPOINTER_TO_INT ( pointeur_glist -> data ) != origine )
     {
@@ -2506,8 +2505,9 @@ void denote_struct_sous_jaccentes ( gint origine )
 		ancien_tiers_etat = -1;
 		break;
 	}
-	pointeur_glist = pointeur_glist -> prev;
+	pointeur_glist = pointeur_glist -> next;
     }
+    g_slist_free ( pointeur_glist );
 }
 /*****************************************************************************************************/
 

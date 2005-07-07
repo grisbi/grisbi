@@ -333,7 +333,7 @@ void personnalisation_etat (void)
     GtkWidget *bouton;
     GtkWidget *hbox;
     GtkCTreeNode *parent;
-    GList *pointeur_liste;
+    GSList *pointeur_liste;
 
     if ( !etat_courant )
 	return;
@@ -1222,7 +1222,7 @@ void recuperation_info_perso_etat ( void )
 
     /* récupération du type de classement */
 
-    g_list_free ( etat_courant -> type_classement );
+    g_slist_free ( etat_courant -> type_classement );
 
     etat_courant -> type_classement = NULL;
 
@@ -1234,16 +1234,16 @@ void recuperation_info_perso_etat ( void )
 							     gtk_ctree_node_nth ( GTK_CTREE ( liste_type_classement_etat ),
 										  i )));
 
-	etat_courant -> type_classement = g_list_append ( etat_courant -> type_classement,
+	etat_courant -> type_classement = g_slist_append ( etat_courant -> type_classement,
 							  GINT_TO_POINTER ( no ));
 
 	/* rajoute les ss categ et ss ib */
 
 	if ( no == 1 )
-	    etat_courant -> type_classement = g_list_append ( etat_courant -> type_classement,
+	    etat_courant -> type_classement = g_slist_append ( etat_courant -> type_classement,
 							      GINT_TO_POINTER ( 2 ));
 	if ( no == 3 )
-	    etat_courant -> type_classement = g_list_append ( etat_courant -> type_classement,
+	    etat_courant -> type_classement = g_slist_append ( etat_courant -> type_classement,
 							      GINT_TO_POINTER ( 4 ));
     }
 

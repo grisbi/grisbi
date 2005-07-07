@@ -368,7 +368,7 @@ struct struct_etat
     gint type_separation_plage;        /*  0=semaines, 1=mois, 2=année */
     gint jour_debut_semaine;           /* 0=lundi ... */
 
-    GList *type_classement;  /* liste de no : 1=caté,2=ss categ,3=ib,4=ss ib,5=compte,6=tiers */
+    GSList *type_classement;  /* liste de no : 1=caté,2=ss categ,3=ib,4=ss ib,5=compte,6=tiers */
 
     gint utilise_detail_comptes;
     GSList *no_comptes;

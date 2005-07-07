@@ -486,6 +486,49 @@ gint count_char_from_string ( gchar *search_char, gchar *string )
 }
 /* ******************************************************************************* */
 
+/**
+ * give back a gslist of integer from a string which the elements are separated
+ * by the separator
+ *
+ * \param string the string we want to change to a list
+ * \param delimiter the string which is the separator in the list
+ *
+ * \return a g_slist or NULL
+ * */
+GSList *gsb_string_get_list_from_string ( const gchar *string,
+					  gchar *delimiter )
+{
+    GSList *list_tmp;
+    gchar **tab;
+    gint i=0;
+
+    if ( !string
+	 ||
+	 !delimiter
+	 ||
+	 !strlen (string)
+	 ||
+	 !strlen (delimiter))
+	return NULL;
+
+    tab = g_strsplit ( string,
+		       delimiter,
+		       0 );
+
+    list_tmp = NULL;
+
+    while ( tab[i] )
+    {
+	list_tmp = g_slist_append ( list_tmp,
+				    GINT_TO_POINTER ( atoi (tab[i])));
+	i++;
+    }
+
+    g_strfreev ( tab );
+
+    return list_tmp;
+}
+
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

@@ -56,6 +56,7 @@ extern GSList *liste_struct_banques;
 extern GSList *liste_struct_categories;
 extern GSList *liste_struct_devises;
 extern GSList *liste_struct_echeances;
+extern GSList *liste_struct_etats;
 extern GSList *liste_struct_exercices;
 extern GSList *liste_struct_imputation;
 extern GSList *liste_struct_rapprochements;
@@ -823,6 +824,418 @@ gboolean gsb_file_save_save_file ( gchar *filename )
 	g_free (first_string_to_free);
 	g_free (second_string_to_free);
 
+	list_tmp = list_tmp -> next;
+    }
+
+
+    /* save the reports */
+
+    list_tmp = liste_struct_etats;
+
+    while ( list_tmp )
+    {
+	struct struct_etat *report;
+	GSList *pointer_list;
+	gchar *general_sort_type;
+	gchar *financial_year_select;
+	gchar *account_selected;
+	gchar *transfer_selected_accounts;
+	gchar *categ_selected;
+	gchar *budget_selected;
+	gchar *payee_selected;
+	gchar *payment_method_list;
+	GSList *list_tmp_2;
+
+	report = list_tmp -> data;
+
+	/* set the general sort type */
+
+	pointer_list = report -> type_classement;
+	general_sort_type = NULL;
+
+	while ( pointer_list )
+	{
+	    if ( general_sort_type )
+		general_sort_type = g_strconcat ( general_sort_type,
+						  "/-/",
+						  utils_str_itoa ( GPOINTER_TO_INT ( pointer_list -> data )),
+						  NULL );
+	    else
+		general_sort_type = utils_str_itoa ( GPOINTER_TO_INT ( pointer_list -> data ));
+
+	    pointer_list = pointer_list -> next;
+	}
+
+	/* set the financial_year_select */
+
+	pointer_list = report -> no_exercices;
+	financial_year_select = NULL;
+
+	while ( pointer_list )
+	{
+	    if ( financial_year_select )
+		financial_year_select = g_strconcat ( financial_year_select,
+						      "/-/",
+						      utils_str_itoa ( GPOINTER_TO_INT ( pointer_list -> data )),
+						      NULL );
+	    else
+		financial_year_select = utils_str_itoa ( GPOINTER_TO_INT ( pointer_list -> data ));
+
+	    pointer_list = pointer_list -> next;
+	}
+
+	/* set the account_selected */
+
+	pointer_list = report -> no_comptes;
+	account_selected = NULL;
+
+	while ( pointer_list )
+	{
+	    if ( account_selected )
+		account_selected = g_strconcat ( account_selected,
+						 "/-/",
+						 utils_str_itoa ( GPOINTER_TO_INT ( pointer_list -> data )),
+						 NULL );
+	    else
+		account_selected = utils_str_itoa ( GPOINTER_TO_INT ( pointer_list -> data ));
+
+	    pointer_list = pointer_list -> next;
+	}
+
+	/* 	set the transfer_selected_accounts */
+	
+	pointer_list = report -> no_comptes_virements;
+	transfer_selected_accounts = NULL;
+
+	while ( pointer_list )
+	{
+	    if ( transfer_selected_accounts )
+		transfer_selected_accounts = g_strconcat ( transfer_selected_accounts,
+					      "/-/",
+					      utils_str_itoa ( GPOINTER_TO_INT ( pointer_list -> data )),
+					      NULL );
+	    else
+		transfer_selected_accounts = utils_str_itoa ( GPOINTER_TO_INT ( pointer_list -> data ));
+
+	    pointer_list = pointer_list -> next;
+	}
+
+	/* 	set the categ_selected */
+	
+	pointer_list = report -> no_categ;
+	categ_selected = NULL;
+
+	while ( pointer_list )
+	{
+	    if ( categ_selected )
+		categ_selected = g_strconcat ( categ_selected,
+					      "/-/",
+					      utils_str_itoa ( GPOINTER_TO_INT ( pointer_list -> data )),
+					      NULL );
+	    else
+		categ_selected = utils_str_itoa ( GPOINTER_TO_INT ( pointer_list -> data ));
+
+	    pointer_list = pointer_list -> next;
+	}
+
+	/* 	set the budget_selected */
+
+	pointer_list = report -> no_ib;
+	budget_selected = NULL;
+
+	while ( pointer_list )
+	{
+	    if ( budget_selected )
+		budget_selected = g_strconcat ( budget_selected,
+					      "/-/",
+					      utils_str_itoa ( GPOINTER_TO_INT ( pointer_list -> data )),
+					      NULL );
+	    else
+		budget_selected = utils_str_itoa ( GPOINTER_TO_INT ( pointer_list -> data ));
+
+	    pointer_list = pointer_list -> next;
+	}
+
+	/* 	set the payee_selected */
+
+	pointer_list = report -> no_tiers;
+	payee_selected = NULL;
+
+	while ( pointer_list )
+	{
+	    if ( payee_selected )
+		payee_selected = g_strconcat ( payee_selected,
+					      "/-/",
+					      utils_str_itoa ( GPOINTER_TO_INT ( pointer_list -> data )),
+					      NULL );
+	    else
+		payee_selected = utils_str_itoa ( GPOINTER_TO_INT ( pointer_list -> data ));
+
+	    pointer_list = pointer_list -> next;
+	}
+
+	/* 	set the payment_method_list */
+
+	pointer_list = report -> noms_modes_paiement;
+	payment_method_list = NULL;
+
+	while ( pointer_list )
+	{
+	    if ( payment_method_list )
+		payment_method_list = g_strconcat ( payment_method_list,
+					      "/-/",
+					      utils_str_itoa ( GPOINTER_TO_INT ( pointer_list -> data )),
+					      NULL );
+	    else
+		payment_method_list = utils_str_itoa ( GPOINTER_TO_INT ( pointer_list -> data ));
+
+	    pointer_list = pointer_list -> next;
+	}
+
+
+	/* now we can fill the file content */
+
+	file_content = g_strconcat ( first_string_to_free = file_content,
+				     second_string_to_free = g_markup_printf_escaped (
+										      "\t<Report\n"
+										      "\t\tNb=\"%d\"\n"
+										      "\t\tName=\"%s\"\n"
+										      "\t\tGeneral_sort_type=\"%s\"\n"
+										      "\t\tShow_r=\"%d\"\n"
+										      "\t\tShow_transaction=\"%d\"\n"
+										      "\t\tShow_transaction_amount=\"%d\"\n"
+										      "\t\tShow_transaction_nb=\"%d\"\n"
+										      "\t\tShow_transaction_date=\"%d\"\n"
+										      "\t\tShow_transaction_payee=\"%d\"\n"
+										      "\t\tShow_transaction_categ=\"%d\"\n"
+										      "\t\tShow_transaction_sub_categ=\"%d\"\n"
+										      "\t\tShow_transaction_payment=\"%d\"\n"
+										      "\t\tShow_transaction_budget=\"%d\"\n"
+										      "\t\tShow_transaction_sub_budget=\"%d\"\n"
+										      "\t\tShow_transaction_chq=\"%d\"\n"
+										      "\t\tShow_transaction_note=\"%d\"\n"
+										      "\t\tShow_transaction_voucher=\"%d\"\n"
+										      "\t\tShow_transaction_reconcile=\"%d\"\n"
+										      "\t\tShow_transaction_bank=\"%d\"\n"
+										      "\t\tShow_transaction_fin_year=\"%d\"\n"
+										      "\t\tShow_transaction_sort_type=\"%d\"\n"
+										      "\t\tShow_columns_titles=\"%d\"\n"
+										      "\t\tShow_title_column_kind=\"%d\"\n"
+										      "\t\tShow_exclude_breakdown_child=\"%d\"\n"
+										      "\t\tShow_split_amounts=\"%d\"\n"
+										      "\t\tCurrency_general=\"%d\"\n"
+										      "\t\tReport_in_payees=\"%d\"\n"
+										      "\t\tReport_can_click=\"%d\"\n"
+										      "\t\tFinancial_year_used=\"%d\"\n"
+										      "\t\tFinancial_year_kind=\"%d\"\n"
+										      "\t\tFinancial_year_select=\"%s\"\n"
+										      "\t\tDate_kind=\"%d\"\n"
+										      "\t\tDate_begining=\"%s\"\n"
+										      "\t\tDate_end=\"%s\"\n"
+										      "\t\tSplit_by_date=\"%d\"\n"
+										      "\t\tSplit_date_period=\"%d\"\n"
+										      "\t\tSplit_by_fin_year=\"%d\"\n"
+										      "\t\tSplit_day_begining=\"%d\"\n"
+										      "\t\tAccount_use_selection=\"%d\"\n"
+										      "\t\tAccount_selected=\"%s\"\n"
+										      "\t\tAccount_group_transactions=\"%d\"\n"
+										      "\t\tAccount_show_amount=\"%d\"\n"
+										      "\t\tAccount_show_name=\"%d\"\n"
+										      "\t\tTransfer_kind=\"%d\"\n"
+										      "\t\tTransfer_selected_accounts=\"%s\"\n"
+										      "\t\tTransfer_exclude_transactions=\"%d\"\n"
+										      "\t\tCateg_use=\"%d\"\n"
+										      "\t\tCateg_use_selection=\"%d\"\n"
+										      "\t\tCateg_selected=\"%s\"\n"
+										      "\t\tCateg_exclude_transactions=\"%d\"\n"
+										      "\t\tCateg_show_amount=\"%d\"\n"
+										      "\t\tCateg_show_sub_categ=\"%d\"\n"
+										      "\t\tCateg_show_without_sub_categ=\"%d\"\n"
+										      "\t\tCateg_show_sub_categ_amount=\"%d\"\n"
+										      "\t\tCateg_currency=\"%d\"\n"
+										      "\t\tCateg_show_name=\"%d\"\n"
+										      "\t\tBudget_use=\"%d\"\n"
+										      "\t\tBudget_use_selection=\"%d\"\n"
+										      "\t\tBudget_selected=\"%s\"\n"
+										      "\t\tBudget_exclude_transactions=\"%d\"\n"
+										      "\t\tBudget_show_amount=\"%d\"\n"
+										      "\t\tBudget_show_sub_budget=\"%d\"\n"
+										      "\t\tBudget_show_without_sub_budget=\"%d\"\n"
+										      "\t\tBudget_show_sub_budget_amount=\"%d\"\n"
+										      "\t\tBudget_currency=\"%d\"\n"
+										      "\t\tBudget_show_name=\"%d\"\n"
+										      "\t\tPayee_use=\"%d\"\n"
+										      "\t\tPayee_use_selection=\"%d\"\n"
+										      "\t\tPayee_selected=\"%s\"\n"
+										      "\t\tPayee_show_amount=\"%d\"\n"
+										      "\t\tPayee_currency=\"%d\"\n"
+										      "\t\tPayee_show_name=\"%d\"\n"
+										      "\t\tAmount_currency=\"%d\"\n"
+										      "\t\tAmount_exclude_null=\"%d\"\n"
+										      "\t\tPayment_method_list=\"%s\"\n"
+										      "\t\tUse_text=\"%d\"\n"
+										      "\t\tUse_amount=\"%d\" />\n",
+										       report -> no_etat,
+										       report -> nom_etat,
+										       general_sort_type,
+										       report -> afficher_r,
+										       report -> afficher_opes,
+										       report -> afficher_nb_opes,
+										       report -> afficher_no_ope,
+										       report -> afficher_date_ope,
+										       report -> afficher_tiers_ope,
+										       report -> afficher_categ_ope,
+										       report -> afficher_sous_categ_ope,
+										       report -> afficher_type_ope,
+										       report -> afficher_ib_ope,
+										       report -> afficher_sous_ib_ope,
+										       report -> afficher_cheque_ope,
+										       report -> afficher_notes_ope,
+										       report -> afficher_pc_ope,
+										       report -> afficher_rappr_ope,
+										       report -> afficher_infobd_ope,
+										       report -> afficher_exo_ope,
+										       report -> type_classement_ope,
+										       report -> afficher_titre_colonnes,
+										       report -> type_affichage_titres,
+										       report -> pas_detailler_ventilation,
+										       report -> separer_revenus_depenses,
+										       report -> devise_de_calcul_general,
+										       report -> inclure_dans_tiers,
+										       report -> ope_clickables,
+										       report -> exo_date,
+										       report -> utilise_detail_exo,
+										       financial_year_select,
+										       report -> no_plage_date,
+										       gsb_format_gdate (report -> date_perso_debut),
+										       gsb_format_gdate (report -> date_perso_fin),
+										       report -> separation_par_plage,
+										       report -> type_separation_plage,
+										       report -> separation_par_exo,
+										       report -> jour_debut_semaine,
+										       report -> utilise_detail_comptes,
+										       account_selected,
+										       report -> regroupe_ope_par_compte,
+										       report -> affiche_sous_total_compte,
+										       report -> afficher_nom_compte,
+										       report -> type_virement,
+										       transfer_selected_accounts,
+										       report -> exclure_ope_non_virement,
+										       report -> utilise_categ,
+										       report -> utilise_detail_categ,
+										       categ_selected,
+										       report -> exclure_ope_sans_categ,
+										       report -> affiche_sous_total_categ,
+										       report -> afficher_sous_categ,
+										       report -> afficher_pas_de_sous_categ,
+										       report -> affiche_sous_total_sous_categ,
+										       report -> devise_de_calcul_categ,
+										       report -> afficher_nom_categ,
+										       report -> utilise_ib,
+										       report -> utilise_detail_ib,
+										       budget_selected,
+										       report -> exclure_ope_sans_ib,
+										       report -> affiche_sous_total_ib,
+										       report -> afficher_sous_ib,
+										       report -> afficher_pas_de_sous_ib,
+										       report -> affiche_sous_total_sous_ib,
+										       report -> devise_de_calcul_ib,
+										       report -> afficher_nom_ib,
+										       report -> utilise_tiers,
+										       report -> utilise_detail_tiers,
+										       payee_selected,
+										       report -> affiche_sous_total_tiers,
+										       report -> devise_de_calcul_tiers,
+										       report -> afficher_nom_tiers,
+										       report -> choix_devise_montant,
+										       report -> exclure_montants_nuls,
+										       payment_method_list,
+										       report -> utilise_texte,
+										       report -> utilise_montant),
+										       NULL );
+	g_free (first_string_to_free);
+	g_free (second_string_to_free);
+
+
+	/* save the text comparison */
+
+	list_tmp_2 = report -> liste_struct_comparaison_textes;
+
+	while ( list_tmp_2 )
+	{
+	    struct struct_comparaison_textes_etat *text_comparison;
+
+	    text_comparison = list_tmp_2 -> data;
+
+	    /* now we can fill the file content */
+
+	    file_content = g_strconcat ( first_string_to_free = file_content,
+					 second_string_to_free = g_markup_printf_escaped (
+											  "\t<Text_comparison\n"
+											  "\t\tReport_nb=\"%d\"\n"
+											  "\t\tLast_comparison=\"%d\"\n"
+											  "\t\tObject=\"%d\"\n"
+											  "\t\tOperator=\"%d\"\n"
+											  "\t\tText=\"%s\"\n"
+											  "\t\tUse_text=\"%d\"\n"
+											  "\t\tComparison_1=\"%d\"\n"
+											  "\t\tLink_1_2=\"%d\"\n"
+											  "\t\tComparison_2=\"%d\"\n"
+											  "\t\tAmount_1=\"%d\"\n"
+											  "\t\tAmount_2=\"%d\" />\n",
+											  report -> no_etat,
+											  text_comparison -> lien_struct_precedente,
+											  text_comparison -> champ,
+											  text_comparison -> operateur,
+											  text_comparison -> texte,
+											  text_comparison -> utilise_txt,
+											  text_comparison -> comparateur_1,
+											  text_comparison -> lien_1_2,
+											  text_comparison -> comparateur_2,
+											  text_comparison -> montant_1,
+											  text_comparison -> montant_2),
+											  NULL );
+	    g_free (first_string_to_free);
+	    g_free (second_string_to_free);
+
+	    list_tmp_2 = list_tmp_2 -> next;
+	}
+
+	/* save the amount comparison */
+
+	list_tmp_2 = report -> liste_struct_comparaison_montants;
+
+	while ( list_tmp_2 )
+	{
+	    struct struct_comparaison_montants_etat *amount_comparison;
+
+	    amount_comparison = list_tmp_2 -> data;
+
+	    /* now we can fill the file content */
+
+	    file_content = g_strconcat ( first_string_to_free = file_content,
+					 second_string_to_free = g_markup_printf_escaped (
+											  "\t<Amount_comparison\n"
+											  "\t\tReport_nb=\"%d\"\n"
+											  "\t\tLast_comparison=\"%d\"\n"
+											  "\t\tComparison_1=\"%d\"\n"
+											  "\t\tLink_1_2=\"%d\"\n"
+											  "\t\tComparison_2=\"%d\"\n"
+											  "\t\tAmount_1=\"%4.7f\"\n"
+											  "\t\tAmount_2=\"%4.7f\" />\n",
+											  report -> no_etat,
+											  amount_comparison -> lien_struct_precedente,
+											  amount_comparison -> comparateur_1,
+											  amount_comparison -> lien_1_2,
+											  amount_comparison -> comparateur_2,
+											  amount_comparison -> montant_1,
+											  amount_comparison -> montant_2),
+											  NULL );
+	    g_free (first_string_to_free);
+	    g_free (second_string_to_free);
+
+	    list_tmp_2 = list_tmp_2 -> next;
+	}
 	list_tmp = list_tmp -> next;
     }
 

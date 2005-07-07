@@ -8,6 +8,8 @@
 /* START_DECLARATION */
 gint count_char_from_string ( gchar *search_char, gchar *string );
 gchar *get_line_from_string ( gchar *string );
+GSList *gsb_string_get_list_from_string ( const gchar *string,
+					  gchar *delimiter );
 gchar * latin2utf8 (char * inchar);
 gchar *limit_string ( gchar *string,
 		      gint length );
