@@ -77,6 +77,8 @@ static void gsb_file_load_party ( const gchar **attribute_names,
 			   const gchar **attribute_values );
 static void gsb_file_load_payment_part ( const gchar **attribute_names,
 				  const gchar **attribute_values );
+static void gsb_file_load_reconcile ( const gchar **attribute_names,
+			       const gchar **attribute_values );
 static void gsb_file_load_report_part_before_0_6 ( GMarkupParseContext *context,
 					    const gchar *text );
 static void gsb_file_load_scheduled_transactions ( const gchar **attribute_names,
@@ -492,6 +494,15 @@ void gsb_file_load_start_element ( GMarkupParseContext *context,
 				       attribute_values );
 	return;
     }
+
+    if ( !strcmp ( element_name,
+		   "Reconcile" ))
+    {
+	gsb_file_load_reconcile ( attribute_names,
+				  attribute_values );
+	return;
+    }
+
 
 
 
@@ -2556,6 +2567,63 @@ void gsb_file_load_financial_year ( const gchar **attribute_names,
 
     liste_struct_exercices = g_slist_append ( liste_struct_exercices,
 					      financial_year );
+}
+
+
+/**
+ * load the reconcile structure in the grisbi file
+ *
+ * \param attribute_names
+ * \param attribute_values
+ *
+ * */
+void gsb_file_load_reconcile ( const gchar **attribute_names,
+			       const gchar **attribute_values )
+{
+    struct struct_no_rapprochement *reconcile_struct;
+    gint i=0;
+
+    if ( !attribute_names[i] )
+	return;
+
+    reconcile_struct = calloc ( 1,
+				sizeof ( struct struct_no_rapprochement ) );
+
+    do
+    {
+	/* 	we test at the begining if the attribute_value is NULL, if yes, */
+	/* 	   go to the next */
+
+	if ( !strcmp (attribute_values[i],
+	     "(null)"))
+	{
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Nb" ))
+	{
+	    reconcile_struct -> no_rapprochement = utils_str_atoi (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Na" ))
+	{
+	    reconcile_struct -> nom_rapprochement = g_strdup (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	/* normally, shouldn't come here */
+	i++;
+    }
+    while ( attribute_names[i] );
+
+    liste_struct_rapprochements = g_slist_append ( liste_struct_rapprochements,
+						   reconcile_struct );
 }
 
 

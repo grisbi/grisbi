@@ -58,6 +58,7 @@ extern GSList *liste_struct_devises;
 extern GSList *liste_struct_echeances;
 extern GSList *liste_struct_exercices;
 extern GSList *liste_struct_imputation;
+extern GSList *liste_struct_rapprochements;
 extern GSList *liste_struct_tiers;
 extern gint nb_colonnes;
 extern int no_devise_totaux_categ;
@@ -795,6 +796,29 @@ gboolean gsb_file_save_save_file ( gchar *filename )
 										       gsb_format_gdate (financial_year -> date_debut),
 										       gsb_format_gdate (financial_year -> date_fin),
 										       financial_year -> affiche_dans_formulaire),
+				     NULL );
+	g_free (first_string_to_free);
+	g_free (second_string_to_free);
+
+	list_tmp = list_tmp -> next;
+    }
+
+    /* save the reconcile structures */
+
+    list_tmp = liste_struct_rapprochements;
+
+    while ( list_tmp )
+    {
+	struct struct_no_rapprochement *reconcile_struct;
+
+	reconcile_struct = list_tmp -> data;
+
+	/* now we can fill the file content */
+
+	file_content = g_strconcat ( first_string_to_free = file_content,
+				     second_string_to_free = g_markup_printf_escaped ( "\t<Reconcile Nb=\"%d\" Na=\"%s\" />\n",
+										       reconcile_struct -> no_rapprochement,
+										       reconcile_struct -> nom_rapprochement ),
 				     NULL );
 	g_free (first_string_to_free);
 	g_free (second_string_to_free);

@@ -4371,7 +4371,6 @@ return (gsb_file_save_save_file (new_file));
 
     /* mise en place des no de rapprochement : generalites puis liste */
 
-
     node = xmlNewChild ( doc->children,
 			 NULL,
 			 "Rapprochements",
