@@ -49,6 +49,25 @@ extern GtkWidget *window;
 /*END_EXTERN*/
 
 
+/** All messages */
+struct conditional_message messages[] =
+{
+    { "no-tip-available", N_("No tip of the day available"), 
+      N_("Make sure that grisbi was correctly installed and that tips file is readable."),
+      FALSE, FALSE, },
+    { "qif-does-not-define-currencies", N_("QIF format does not define currencies."),
+      N_("All transactions will be converted into currency of their account."), 
+      FALSE, FALSE, },
+/*
+    { "", N_(),
+      N_(), 
+      FALSE, FALSE, },
+*/
+    { NULL },
+};
+
+
+
 /**
  * Display an info dialog window with a hint displayed larger and in
  * bold.
@@ -238,21 +257,21 @@ void dialogue_conditional ( gchar *text, gchar * var )
 void dialogue_conditional_special ( gchar *text, gchar * var, GtkMessageType type )
 {
     GtkWidget * vbox, * checkbox, *dialog;
-    struct conditional_message * message = messages;
+    int i;
 
     if ( !var || !strlen ( var ) )
 	return;
 
-    while ( message -> name )
+    for  ( i = 0; messages[i].name; i++ )
     {
-	if ( !strcmp ( message -> name, var ) )
+	if ( !strcmp ( messages[i].name, var ) )
 	{
-	    if ( message -> hidden )
+	    if ( messages[i].hidden )
 	    {
 		return;
 	    }
+	    break;
 	}
-	message++;
     }
 
     dialog = gtk_message_dialog_new ( GTK_WINDOW (window),
@@ -271,10 +290,10 @@ void dialogue_conditional_special ( gchar *text, gchar * var, GtkMessageType typ
     gtk_widget_show_all ( checkbox );
 
     gtk_window_set_modal ( GTK_WINDOW ( dialog ), TRUE );
-    if ( gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_CLOSE )
-    {
-	printf (">> OK\n");
-    }
+    gtk_dialog_run ( GTK_DIALOG (dialog) );
+
+    messages[i].hidden = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON(checkbox) );
+    printf ("-> %d\n", messages[i].hidden );
 
     gtk_widget_destroy ( dialog );
 }
@@ -464,21 +483,22 @@ void dialogue_error_memory ()
  */
 void dialog_message ( gchar * label )
 {
-    struct conditional_message * message = messages;
+    int i = 0;
 
-    while ( message -> name )
+    while ( messages[i] . name )
     {
-	if ( !strcmp ( message -> name, label ) )
+	if ( !strcmp ( messages[i] . name, label ) )
 	{
-	    printf (">> %s, %s, %d\n", message -> name, label, message -> hidden);
-	    if ( !message -> hidden )
+	    printf (">> %s, %s, %d\n", messages[i] . name, label, messages[i] . hidden);
+	    if ( ! messages[i] . hidden )
 	    {
-		dialogue_conditional_hint ( _(message -> hint), _(message -> message),
-					    message -> name );
+		dialogue_conditional_hint ( _(messages[i] . hint), 
+					    _(messages[i] . message),
+					    messages[i] . name );
 	    }
 	    return;
 	}
-	message ++;
+	i ++;
     }
 }
  
