@@ -317,39 +317,39 @@ void charge_configuration ( void )
     {
         xmlNodePtr node_messages;
         node_messages = node -> children;
-        while (node_messages) {
-        if ( !strcmp ( node_messages -> name, "display_message_lock_active" ) ) {
-            etat.display_message_lock_active = utils_str_atoi(xmlNodeGetContent ( node_messages));
-        }
-    /* On Windows, the chmod feature does not work: FAT does not have right access permission notions , 
-     * on NTFS it to complicated to implement => the feature is removed from the Windows version :
-     * for that the corresponding parameter check box is not displayed and the paramater is forced to not display msg */
-#ifndef _WIN32
-        if ( !strcmp ( node_messages -> name, "display_message_file_readable" ) ) {
-            etat.display_message_file_readable = utils_str_atoi(xmlNodeGetContent ( node_messages));
-        }
-#else
-                    etat.display_message_file_readable = 1;
+        while (node_messages) 
+	{
+	    int i;
+	    
+	    for ( i = 0; messages[i].name; i++ )
+	    {
+		if ( !strcmp ( node_messages -> name, messages[i].name ) )
+		{
+		    messages[i].hidden = utils_str_atoi ( xmlNodeGetContent ( node_messages ) );
+		}
+	    }
+	    node_messages = node_messages -> next;
+	}
+    
+	/* On Windows, the chmod feature does not work: FAT does not
+	 * have right access permission notions , on NTFS it to
+	 * complicated to implement => the feature is removed from the
+	 * Windows version : for that the corresponding parameter
+	 * check box is not displayed and the paramater is forced to
+	 * not display msg. */
+#ifdef _WIN32
+	etat.display_message_file_readable = 1;
 #endif
-        if ( !strcmp ( node_messages -> name, "display_message_minimum_alert" ) ) {
-            etat.display_message_minimum_alert = utils_str_atoi(xmlNodeGetContent ( node_messages));
-        }
-        if ( !strcmp ( node_messages -> name, "display_message_no_budgetary_line" ) ) {
-            etat.display_message_no_budgetary_line = utils_str_atoi(xmlNodeGetContent ( node_messages));
-        }
-        if ( !strcmp ( node_messages -> name, "display_message_ofx_security" ) ) {
-            etat.display_message_ofx_security = utils_str_atoi(xmlNodeGetContent ( node_messages));
-        }
 
         if ( !strcmp ( node_messages -> name, "last_tip" ) ) {
-          etat.last_tip = utils_str_atoi (xmlNodeGetContent ( node_messages ));
+	    etat.last_tip = utils_str_atoi (xmlNodeGetContent ( node_messages ));
         }
         if ( !strcmp ( node_messages -> name, "show_tip" ) ) {
-          etat.show_tip = utils_str_atoi (xmlNodeGetContent ( node_messages ));
+	    etat.show_tip = utils_str_atoi (xmlNodeGetContent ( node_messages ));
         }
         node_messages = node_messages->next;
-        }
     }
+
     if ( !strcmp ( node -> name, "Print_config" ) )
     {
         xmlNodePtr node_print;
@@ -591,19 +591,6 @@ void raz_configuration ( void )
     etat.retient_affichage_par_compte = 0;
     etat.fichier_animation_attente = g_strdup ( ANIM_PATH );
 
-    /* Messages */
-    etat.display_message_lock_active = 0;
-    /* On Windows, the chmod feature does not work: FAT does not have right access permission notions , 
-     * on NTFS it to complicated to implement => the feature is removed from the Windows version :
-     * for that the corresponding parameter check box is not displayed and the paramater is forced to not display msg */
-#ifndef _WIN32        
-    etat.display_message_file_readable = 0;
-#else
-    etat.display_message_file_readable = 1;
-#endif
-    etat.display_message_minimum_alert = 0;
-    etat.display_message_no_budgetary_line = 1;
-    etat.display_message_ofx_security = 1;
     etat.last_tip = 0;
     etat.show_tip = FALSE;
 
@@ -789,16 +776,12 @@ void sauve_configuration(void)
 
     /* sauvegarde des messages */
     node = xmlNewChild ( doc->children,NULL, "Messages",NULL );
-    xmlNewChild ( node,NULL, "display_message_lock_active",
-          utils_str_itoa(etat.display_message_lock_active));
-    xmlNewChild ( node,NULL, "display_message_file_readable",
-          utils_str_itoa(etat.display_message_file_readable));
-    xmlNewChild ( node,NULL, "display_message_minimum_alert",
-          utils_str_itoa(etat.display_message_minimum_alert));
-    xmlNewChild ( node,NULL, "display_message_no_budgetary_line",
-          utils_str_itoa(etat.display_message_no_budgetary_line));
-    xmlNewChild ( node,NULL, "display_message_ofx_security",
-          utils_str_itoa(etat.display_message_ofx_security));
+
+    for ( i = 0; messages[i].name; i ++ )
+    {
+	xmlNewChild ( node,NULL, messages[i].name,
+		      utils_str_itoa(messages[i].hidden ) );
+    }
 
     /* Sauvegarde des tips */
     xmlNewChild ( node,NULL, "last_tip", utils_str_itoa(etat.last_tip));
