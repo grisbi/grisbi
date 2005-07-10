@@ -122,13 +122,13 @@ GtkWidget * reconcile_panel;
  */
 GtkWidget * create_navigation_pane ( void )
 {
-    GtkWidget * sw, *column, *vbox;
+    GtkWidget * sw, *vbox;
     GdkPixbuf * pixbuf;
     GtkTreeIter iter, account_iter, reports_iter;
     GtkCellRenderer * renderer;
-    GtkTreeSelection * selection;
     GtkTreeDragDestIface * dst_iface;
     GtkTreeDragSourceIface * src_iface;
+    GtkTreeViewColumn * column;
     static GtkTargetEntry row_targets[] = {
 	{ "GTK_TREE_MODEL_ROW", GTK_TARGET_SAME_WIDGET, 0 }
     };
@@ -195,15 +195,22 @@ GtkWidget * create_navigation_pane ( void )
 		      "changed", ((GCallback) gsb_gui_navigation_select_line), 
 		      navigation_model_filtered );
 
+    /* Create column */
+    column = gtk_tree_view_column_new ( );
+
     /* Pixbuf renderer. */
     renderer = gtk_cell_renderer_pixbuf_new ();
-    column = gtk_tree_view_column_new_with_attributes ( "", renderer,
-							"visible", NAVIGATION_PIX_VISIBLE, 
-							"pixbuf", NAVIGATION_PIX,
-							NULL );
+    gtk_tree_view_column_pack_start(GTK_TREE_VIEW_COLUMN(column), renderer, FALSE);
+    gtk_tree_view_column_add_attribute(GTK_TREE_VIEW_COLUMN(column), renderer, 
+				       "pixbuf", NAVIGATION_PIX);
+    gtk_tree_view_column_add_attribute(GTK_TREE_VIEW_COLUMN(column), renderer, 
+				       "visible", NAVIGATION_PIX_VISIBLE);
+    gtk_tree_view_column_set_expand ( column, FALSE );
+
     /* Text renderer. */
     renderer = gtk_cell_renderer_text_new();
-    gtk_tree_view_column_pack_start(GTK_TREE_VIEW_COLUMN(column), renderer, FALSE);
+    renderer -> xpad = 6;
+    gtk_tree_view_column_pack_start(GTK_TREE_VIEW_COLUMN(column), renderer, TRUE);
     gtk_tree_view_column_add_attribute(GTK_TREE_VIEW_COLUMN(column), renderer, 
 				       "text", NAVIGATION_TEXT);
     gtk_tree_view_column_add_attribute(GTK_TREE_VIEW_COLUMN(column), renderer, 
