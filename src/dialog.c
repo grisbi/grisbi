@@ -44,7 +44,6 @@ static gboolean question_yes_no ( gchar *texte );
 
 
 /*START_EXTERN*/
-extern struct conditional_message messages[] ;
 extern GtkWidget *window;
 /*END_EXTERN*/
 
@@ -65,6 +64,7 @@ struct conditional_message messages[] =
 */
     { NULL },
 };
+
 
 
 
@@ -481,18 +481,22 @@ void dialogue_error_memory ()
  *
  *
  */
-void dialog_message ( gchar * label )
+void dialog_message ( gchar * label, ... )
 {
+    va_list ap;
     int i = 0;
 
     while ( messages[i] . name )
     {
 	if ( !strcmp ( messages[i] . name, label ) )
 	{
-	    printf (">> %s, %s, %d\n", messages[i] . name, label, messages[i] . hidden);
 	    if ( ! messages[i] . hidden )
 	    {
-		dialogue_conditional_hint ( _(messages[i] . hint), 
+		gchar hint_buffer[1024];
+		va_start ( ap, label );
+		vsnprintf ( hint_buffer, 1024, _(messages[i] . hint), ap );
+
+		dialogue_conditional_hint ( hint_buffer,
 					    _(messages[i] . message),
 					    messages[i] . name );
 	    }
