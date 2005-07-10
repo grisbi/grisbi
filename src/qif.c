@@ -924,10 +924,7 @@ void exporter_fichier_qif ( void )
 	return;
     }
 
-
-    dialogue_conditional_info_hint ( _("QIF format does not define currencies."), 
-				     _("All transactions will be converted into currency of their account."),
-				     &etat.display_message_qif_export_currency ); 
+    dialog_message ( "qif-does-not-define-currencies" );
 
     dialog = gtk_dialog_new_with_buttons ( _("Export QIF files"),
 					   GTK_WINDOW(window),
