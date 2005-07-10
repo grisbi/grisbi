@@ -100,14 +100,6 @@ GtkWidget *preview;
 GtkWidget *anim_button;
 GtkWidget *anim_preview;
 
-struct conditional_message messages[] =
-{
-    { "no-tip-available", N_("No tip of the day available"), 
-      N_("Make sure that grisbi was correctly installed and that tips file is readable."),
-      FALSE, FALSE, },
-    { NULL },
-};
-
 
 
 /**
