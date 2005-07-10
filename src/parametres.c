@@ -93,7 +93,6 @@ GtkWidget *entree_jours;
 /*START_EXTERN*/
 extern gint compression_backup;
 extern gint compression_fichier;
-extern struct conditional_message messages[] ;
 extern GtkTreeStore *model;
 extern gint nb_days_before_scheduled;
 extern gint nb_max_derniers_fichiers_ouverts;
