@@ -24,6 +24,7 @@
 /*START_INCLUDE*/
 #include "parametres.h"
 #include "utils.h"
+#include "dialog.h"
 #include "utils_buttons.h"
 #include "gsb_account.h"
 #include "traitement_variables.h"
@@ -56,6 +57,8 @@ static gboolean preference_selectable_func (GtkTreeSelection *selection,
 				     gpointer data);
 static gboolean selectionne_liste_preference ( GtkTreeSelection *selection,
 					GtkTreeModel *model );
+static gboolean gsb_gui_messages_toggled ( GtkCellRendererToggle *cell, gchar *path_str,
+					   GtkTreeModel * model );
 /*END_STATIC*/
 
 
@@ -93,12 +96,12 @@ GtkWidget *entree_jours;
 /*START_EXTERN*/
 extern gint compression_backup;
 extern gint compression_fichier;
-extern GtkTreeStore *model;
 extern gint nb_days_before_scheduled;
 extern gint nb_max_derniers_fichiers_ouverts;
 extern gchar *nom_fichier_backup;
 extern GtkWidget *treeview;
 extern GtkWidget *window;
+extern struct conditional_message messages[];
 /*END_EXTERN*/
 
 
@@ -448,44 +451,14 @@ gboolean selectionne_liste_preference ( GtkTreeSelection *selection,
  */
 GtkWidget *onglet_messages_and_warnings ( void )
 {
-    GtkWidget *hbox, *vbox_pref, *paddingbox, *label, *tip_checkbox;
+    GtkWidget *hbox, *vbox_pref, *paddingbox, *label, *tip_checkbox, *tree_view, *sw;
+    GtkTreeModel * model;
+    GtkCellRenderer * cell;
+    GtkTreeViewColumn * column;
+    int i;
 
     vbox_pref = new_vbox_with_title_and_icon ( _("Messages & warnings"),
 					       "warnings.png" );
-
-    /* Warnings */
-    paddingbox = new_paddingbox_with_title (vbox_pref, FALSE,
-					    _("Warnings messages"));
-
-    /* Display a warning message if minimum balances are under minimum level */
-    bouton_solde_mini = new_checkbox_with_title ( _("Do not Warn if balances are under minimum levels"),
-						  &(etat.display_message_minimum_alert), NULL );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), bouton_solde_mini, FALSE, FALSE, 0 );
-
-    /* Display a warning message if account file is readable by someone else */
-    /* On Windows, the chmod feature does not work: FAT does not have right access permission notions , 
-     * on NTFS it to complicated to implement => the feature is removed from the Windows version :
-     * for that the corresponding parameter check box is not displayed and the paramater is forced to not display msg ( 1!!! ) */
-#ifndef _WIN32
-    bouton_affiche_permission = new_checkbox_with_title ( _("Do not warn if account file is readable by someone else"),
-							  &(etat.display_message_file_readable), NULL );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), bouton_affiche_permission, FALSE, FALSE, 0 );
-#endif
-    /* Display a warning message if file is already opened */
-    bouton_display_lock_active = new_checkbox_with_title ( _("Do not warn about an already opened file"),
-							   &(etat.display_message_lock_active), NULL );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), bouton_display_lock_active, FALSE, FALSE, 0 );
-
-    /* Display a warning message that QIF doesn't contain currencies */
-    bouton_display_lock_active = new_checkbox_with_title ( _("Do not warn about about QIF not containing currencies"),
-							   &(etat.display_message_qif_export_currency), NULL );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), bouton_display_lock_active, FALSE, FALSE, 0 );
-
-    /* Display a warning message if no budgetary line is entered in form */
-    bouton_display_lock_active = new_checkbox_with_title ( _("Do not warn if no budgetary line is entered in transaction"),
-							   &(etat.display_message_no_budgetary_line), NULL );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), bouton_display_lock_active, FALSE, FALSE, 0 );
-
 
     /* Number of days before a warning message advertising a scheduled
        transaction */
@@ -508,6 +481,40 @@ GtkWidget *onglet_messages_and_warnings ( void )
 					     &(etat.show_tip), NULL );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), tip_checkbox, FALSE, FALSE, 0 );
 
+    /* Warnings */
+    paddingbox = new_paddingbox_with_title (vbox_pref, TRUE, _("Warnings messages"));
+    model = GTK_TREE_MODEL(gtk_tree_store_new (3, G_TYPE_INT, G_TYPE_STRING, G_TYPE_INT ));
+
+    sw = gtk_scrolled_window_new ( NULL, NULL );
+    gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (sw), GTK_SHADOW_IN);
+    gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw),
+				    GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
+
+    tree_view = gtk_tree_view_new();
+    gtk_tree_view_set_model ( GTK_TREE_VIEW (tree_view), GTK_TREE_MODEL (model) );
+    gtk_container_add (GTK_CONTAINER (sw), tree_view);
+    gtk_box_pack_start ( GTK_BOX(paddingbox), sw, TRUE, TRUE, 0 );
+
+    cell = gtk_cell_renderer_toggle_new ();
+    column = gtk_tree_view_column_new_with_attributes ("", cell, "active", 0, NULL);
+    gtk_tree_view_append_column (GTK_TREE_VIEW (tree_view), GTK_TREE_VIEW_COLUMN (column));
+    g_signal_connect (cell, "toggled", G_CALLBACK (gsb_gui_messages_toggled), model);
+
+    cell = gtk_cell_renderer_text_new ();
+    column = gtk_tree_view_column_new_with_attributes ("Message", cell, "text", 1, NULL);
+    gtk_tree_view_append_column (GTK_TREE_VIEW (tree_view), GTK_TREE_VIEW_COLUMN (column));
+
+    for  ( i = 0; messages[i].name; i++ )
+    {
+	GtkTreeIter iter;
+	gtk_tree_store_append (GTK_TREE_STORE (model), &iter, NULL);
+	gtk_tree_store_set (GTK_TREE_STORE (model), &iter,
+			    0, !messages[i] . hidden,
+			    1, messages[i] . hint,
+			    2, i,
+			    -1);
+    }
+
     /* Show everything */
     gtk_widget_show_all ( vbox_pref );
 
@@ -518,6 +525,32 @@ GtkWidget *onglet_messages_and_warnings ( void )
 
     return ( vbox_pref );
 }
+
+
+
+/**
+ *
+ *
+ */
+gboolean gsb_gui_messages_toggled ( GtkCellRendererToggle *cell, gchar *path_str,
+				    GtkTreeModel * model )
+{
+    GtkTreePath *path = gtk_tree_path_new_from_string (path_str);
+    GtkTreeIter iter;
+    gint position;
+
+    /* Get toggled iter */
+    gtk_tree_model_get_iter (GTK_TREE_MODEL(model), &iter, path);
+    gtk_tree_model_get (GTK_TREE_MODEL(model), &iter, 2, &position, -1);
+
+    messages[position] . hidden = !messages[position] . hidden;
+
+    /* Set new value */
+    gtk_tree_store_set (GTK_TREE_STORE (model), &iter, 0, ! messages[position] . hidden, -1);
+
+    return TRUE;
+}
+
 
 
 /** 
@@ -784,7 +817,8 @@ GtkWidget *onglet_programmes (void)
 
     return ( vbox_pref );
 }
-/* *******************************************************************************/
+
+
 
 /* Local Variables: */
 /* c-basic-offset: 4 */
