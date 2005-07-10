@@ -340,14 +340,6 @@ void charge_configuration ( void )
 #ifdef _WIN32
 	etat.display_message_file_readable = 1;
 #endif
-
-        if ( !strcmp ( node_messages -> name, "last_tip" ) ) {
-	    etat.last_tip = utils_str_atoi (xmlNodeGetContent ( node_messages ));
-        }
-        if ( !strcmp ( node_messages -> name, "show_tip" ) ) {
-	    etat.show_tip = utils_str_atoi (xmlNodeGetContent ( node_messages ));
-        }
-        node_messages = node_messages->next;
     }
 
     if ( !strcmp ( node -> name, "Print_config" ) )
