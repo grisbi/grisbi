@@ -154,7 +154,6 @@ extern gint no_devise_totaux_ib;
 extern gint no_devise_totaux_tiers;
 extern GtkWidget *onglet_config_etat;
 extern GtkTreeSelection * selection;
-extern GtkWidget *treeview;
 extern GtkWidget *widget_formulaire_echeancier[SCHEDULER_FORM_TOTAL_WIDGET];
 extern GtkWidget *window;
 /*END_EXTERN*/
@@ -1099,7 +1098,7 @@ GtkWidget *onglet_devises ( void )
     currency_list_model = gtk_tree_view_get_model ( currency_list_view );
     gtk_container_add ( GTK_CONTAINER ( scrolled_window ), GTK_WIDGET(currency_list_view) );
     gtk_box_pack_start ( GTK_BOX ( hbox ), scrolled_window, TRUE, TRUE, 0);
-    g_signal_connect ( gtk_tree_view_get_selection (GTK_TREE_VIEW ( treeview ) ), 
+    g_signal_connect ( gtk_tree_view_get_selection (GTK_TREE_VIEW ( currency_list_view ) ), 
 		       "changed", G_CALLBACK ( select_currency_in_iso_list ), 
 		       currency_list_model );
 
@@ -1132,7 +1131,7 @@ GtkWidget *onglet_devises ( void )
     bouton = gtk_button_new_from_stock (GTK_STOCK_ADD);
     gtk_signal_connect_object ( GTK_OBJECT ( bouton ), "clicked",
 				GTK_SIGNAL_FUNC  ( ajout_devise ),
-				GTK_OBJECT (currency_list_model));
+				currency_list_model );
     gtk_box_pack_start ( GTK_BOX ( vbox ), bouton, FALSE, FALSE, 5 );
 
     /* Button "Remove" */
@@ -1145,9 +1144,9 @@ GtkWidget *onglet_devises ( void )
     paddingbox = new_paddingbox_with_title (vbox_pref, FALSE, _("Currency properties"));
 
     /* Selecting a currency activates this form */
-    gtk_signal_connect ( GTK_OBJECT ( clist_devises_parametres ), "select-row",
+    gtk_signal_connect ( clist_devises_parametres, "select-row",
 			 GTK_SIGNAL_FUNC ( selection_ligne_devise ), paddingbox );
-    gtk_signal_connect ( GTK_OBJECT ( clist_devises_parametres ), "unselect-row",
+    gtk_signal_connect ( clist_devises_parametres, "unselect-row",
 			 GTK_SIGNAL_FUNC ( deselection_ligne_devise ), paddingbox );
 
     /* Create table */
