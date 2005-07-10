@@ -478,7 +478,8 @@ void mise_a_jour_organisation_formulaire ( gint no_compte )
     for ( i=0 ; i<3 ; i++ )
 	for ( j=0 ; j<6 ; j++ )
 	{
-	    if ( j + i*6 < TRANSACTION_FORM_WIDGET_NB - 3 )
+	    if ( j + i*6 < TRANSACTION_FORM_WIDGET_NB - 3 &&
+		 boutons_organisation_formulaire[j + i*6] )
 	    {
 		g_signal_handlers_block_by_func ( G_OBJECT ( boutons_organisation_formulaire[j + i*6] ),
 						  G_CALLBACK ( toggled_signal_configuration_formulaire ),
