@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-06-09 13:33+0200\n"
-"PO-Revision-Date: 2005-06-09 13:38+0200\n"
+"PO-Revision-Date: 2005-07-11 14:03+0200\n"
 "Last-Translator: Benjamin Drieu <bdrieu@april.org>\n"
 "Language-Team: Francais <traduction@grisbi.org>\n"
 "MIME-Version: (null)\n"
@@ -2387,7 +2387,7 @@ msgstr "Euro"
 
 #: src/devises.c:187
 msgid "CEE"
-msgstr ""
+msgstr "EU"
 
 #: src/devises.c:188
 msgid "Finnish Markka"
