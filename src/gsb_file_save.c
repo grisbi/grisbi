@@ -24,6 +24,7 @@
 #include "gsb_file_save.h"
 #include "dialog.h"
 #include "gsb_account.h"
+#include "gsb_file_util.h"
 #include "utils_dates.h"
 #include "gsb_transaction_data.h"
 #include "utils_str.h"
@@ -100,7 +101,8 @@ gboolean gsb_file_save_save_file ( gchar *filename )
     gint i,j;
     FILE *grisbi_file;
     GSList *list_tmp;
-
+    gint length;
+    gchar *last_file_content;
 
     /* used to prepare general informations */
 
@@ -1239,35 +1241,41 @@ gboolean gsb_file_save_save_file ( gchar *filename )
 	list_tmp = list_tmp -> next;
     }
 
-
-
-
-
-
     /* finish the file */
 
     file_content = g_strconcat ( first_string_to_free = file_content,
 				 "</Grisbi>");
     g_free (first_string_to_free);
 
+    /* before saving the file, we compress and crypt it if necessary */
+
+    file_content = gsb_file_util_compress_file ( file_content,
+						 TRUE );
+
+    /* we have to keep the length, because after encryption, we cannot do it */
+
+    length = strlen (file_content);
+    last_file_content = file_content;
+
+    file_content = gsb_file_util_crypt_file ( file_content,
+					      TRUE,
+					      length );
+    
+    /* if the encryption was ok, the length increased of 22 */
+
+    if ( file_content != last_file_content )
+	length = length + 22;
+
     /* the file is in memory, we can save it */
 
     grisbi_file = fopen ( filename,
 			  "w" );
 
-    if ( !grisbi_file )
-    {
-	dialogue_error ( g_strdup_printf ( _("Cannot save file '%s': %s"),
-					   filename,
-					   latin2utf8(strerror(errno)) ));
-	free ( file_content);
-	return ( FALSE );
-    }
-    
-
-    if ( !fwrite ( file_content,
+    if ( !grisbi_file
+	 ||
+	 !fwrite ( file_content,
 		   sizeof (gchar),
-		   strlen (file_content),
+		   length,
 		   grisbi_file ))
     {
 	dialogue_error ( g_strdup_printf ( _("Cannot save file '%s': %s"),

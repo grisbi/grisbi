@@ -80,9 +80,13 @@ GtkWidget *entree_titre_fichier;
 GtkWidget *entree_adresse_commune;
 GtkWidget *entree_adresse_secondaire;
 
+/* FIXME : some of that buttons are used only in a function, check them and
+ * remove them from the globals variables */
+
 GtkWidget *bouton_avec_demarrage;
 GtkWidget *bouton_save_auto;
 GtkWidget *bouton_force_enregistrement;
+GtkWidget *crypt_file_button;
 GtkWidget *bouton_demande_backup;
 GtkWidget *entree_chemin_backup;
 GtkWidget *spin_button_derniers_fichiers_ouverts;
@@ -96,6 +100,7 @@ GtkWidget *entree_jours;
 /*START_EXTERN*/
 extern gint compression_backup;
 extern gint compression_fichier;
+extern GtkTreeStore *model;
 extern gint nb_days_before_scheduled;
 extern gint nb_max_derniers_fichiers_ouverts;
 extern gchar *nom_fichier_backup;
@@ -615,6 +620,13 @@ GtkWidget *onglet_fichier ( void )
 	new_checkbox_with_title ( _("Force saving of locked files"),
 				  &(etat.force_enregistrement), NULL );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), bouton_force_enregistrement,
+			 FALSE, FALSE, 0 );
+
+    /* crypt the grisbi file */
+    crypt_file_button = 
+	new_checkbox_with_title ( _("Crypt the grisbi file"),
+				  &(etat.crypt_file), NULL );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), crypt_file_button,
 			 FALSE, FALSE, 0 );
 
     /* Compression level of files */

@@ -83,6 +83,7 @@ extern gint affichage_echeances;
 extern gint affichage_echeances_perso_j_m_a;
 extern gint affichage_echeances_perso_nb_libre;
 extern gchar *chemin_logo;
+extern gchar *crypt_key;
 extern struct struct_devise *devise_compte;
 extern struct struct_devise *devise_nulle;
 extern struct struct_devise *devise_operation;
@@ -188,6 +189,8 @@ void init_variables ( void )
 
     gsb_account_init_variables ();
     gsb_transaction_data_init_variables ();
+
+    crypt_key = NULL;
 
     mise_a_jour_liste_comptes_accueil = 0;
     mise_a_jour_liste_echeances_manuelles_accueil = 0;

@@ -42,6 +42,7 @@ struct recuperation_version
 #include "gsb_file_load.h"
 #include "gsb_account.h"
 #include "gsb_file_save.h"
+#include "gsb_file_util.h"
 #include "data_form.h"
 #include "gsb_transaction_data.h"
 #include "operations_liste.h"
@@ -175,7 +176,7 @@ gboolean charge_operations ( gchar *nom_fichier )
 
     if ( result != -1 && 
 	 buffer_stat.st_mode != 33152 && !etat.display_message_file_readable )
-	propose_changement_permissions();
+	gsb_file_util_change_permissions();
 
 
     /* on commence par ouvrir le fichier en xml */
@@ -521,7 +522,7 @@ gboolean mise_a_jour_versions_anterieures ( gint no_version,
 
     /* on marque le fichier comme ouvert */
 
-    modification_etat_ouverture_fichier ( TRUE );
+    gsb_file_util_modify_lock ( TRUE );
 
 
     return TRUE;

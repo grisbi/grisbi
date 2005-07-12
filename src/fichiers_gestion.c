@@ -45,6 +45,7 @@
 #include "gsb_account.h"
 #include "operations_comptes.h"
 #include "gsb_file_load.h"
+#include "gsb_file_util.h"
 #include "echeancier_liste.h"
 #include "gsb_transaction_data.h"
 #include "operations_liste.h"
@@ -572,13 +573,13 @@ gboolean enregistrement_fichier ( gint origine )
 	/* 	l'enregistrement s'est bien passé, */
 	/* 	on délock le fichier (l'ancien ou le courant) */
 	    
-	modification_etat_ouverture_fichier ( FALSE );
+	gsb_file_util_modify_lock ( FALSE );
 
 	nom_fichier_comptes = nouveau_nom_enregistrement;
 
 	/* 	... et locke le nouveau */
 
-	modification_etat_ouverture_fichier ( TRUE );
+	gsb_file_util_modify_lock ( TRUE );
 
 	/* 	dans tout les cas, le fichier n'était plus ouvert à l'ouverture */
 
@@ -770,7 +771,7 @@ gboolean fermer_fichier ( void )
 		 gsb_account_get_accounts_amount ()
 		 &&
 		 nom_fichier_comptes )
-		modification_etat_ouverture_fichier ( FALSE );
+		gsb_file_util_modify_lock ( FALSE );
 
 	    /*       stoppe le timer */
 

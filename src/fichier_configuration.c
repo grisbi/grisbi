@@ -154,6 +154,9 @@ void charge_configuration ( void )
 		if ( !strcmp ( node_general -> name, "Force_enregistrement" ) ) {
 		    etat.force_enregistrement = utils_str_atoi(xmlNodeGetContent ( node_general));
 		}
+		if ( !strcmp ( node_general -> name, "Crypt_file" ) ) {
+		    etat.crypt_file = utils_str_atoi(xmlNodeGetContent ( node_general));
+		}
 		if ( !strcmp ( node_general -> name, "Fonction_touche_entree" ) ) {
 		    etat.entree = utils_str_atoi(xmlNodeGetContent ( node_general));
 		}
@@ -684,6 +687,8 @@ void sauve_configuration(void)
           utils_str_itoa(etat.alerte_permission));
     xmlNewChild ( node,NULL, "Force_enregistrement",
           utils_str_itoa(etat.force_enregistrement));
+    xmlNewChild ( node,NULL, "Crypt_file",
+          utils_str_itoa(etat.crypt_file));
     xmlNewChild ( node,NULL, "Fonction_touche_entree",
           utils_str_itoa(etat.entree));
     xmlNewChild ( node,NULL, "Affichage_messages_alertes",

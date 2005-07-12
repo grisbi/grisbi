@@ -26,13 +26,13 @@
 #include "utils_devises.h"
 #include "dialog.h"
 #include "gsb_account.h"
+#include "gsb_file_util.h"
 #include "data_form.h"
 #include "utils_dates.h"
 #include "utils_str.h"
 #include "gsb_transaction_data.h"
 #include "utils_ib.h"
 #include "traitement_variables.h"
-#include "utils_buttons.h"
 #include "fichiers_gestion.h"
 #include "utils_files.h"
 #include "structures.h"
@@ -154,7 +154,6 @@ extern GtkWidget *nom_banque;
 extern GtkWidget *nom_correspondant;
 extern GtkWidget *nom_exercice;
 extern gchar *nom_fichier_backup;
-extern gchar *nom_fichier_comptes;
 extern gint rapport_largeur_colonnes[TRANSACTION_LIST_COL_NB];
 extern GtkWidget *remarque_banque;
 extern gint scheduler_col_width[NB_COLS_SCHEDULER] ;
@@ -164,7 +163,6 @@ extern GtkWidget *tel_correspondant;
 extern gchar *titre_fichier;
 extern gint valeur_echelle_recherche_date_import;
 extern GtkWidget *web_banque;
-extern GtkWidget *window;
 /*END_EXTERN*/
 
 static struct
@@ -252,6 +250,7 @@ gboolean gsb_file_load_open_file ( gchar *filename )
     struct stat buffer_stat;
     gint return_value;
     gchar *file_content;
+    gint length;
 
     if ( DEBUG )
 	printf ( "gsb_file_load_open_file %s\n", 
@@ -290,17 +289,27 @@ gboolean gsb_file_load_open_file ( gchar *filename )
     if ( buffer_stat.st_mode != 33152
 	 &&
 	 !etat.display_message_file_readable )
-	propose_changement_permissions();
+	gsb_file_util_change_permissions();
 
     /* load the file */
 
     if ( g_file_get_contents ( filename,
 			       &file_content,
-			       NULL,
+			       &length,
 			       NULL ))
     {
 	GMarkupParser *markup_parser = g_malloc0 (sizeof (GMarkupParser));
 	GMarkupParseContext *context;
+
+	/* first, we check if the file is crypted, if it is, we decrypt it */
+
+	if ( !strncmp ( file_content,
+			"Grisbi encrypted file ",
+			22 ))
+	    if ( !( file_content = gsb_file_util_crypt_file ( file_content,
+							      FALSE,
+							      length )))
+		return FALSE;
 
 	/* we begin to check if we are in a version under 0.6 or 0.6 and above,
 	 * because the xml structure changes after 0.6 */
@@ -532,10 +541,6 @@ void gsb_file_load_start_element ( GMarkupParseContext *context,
 					  attribute_values );
 	return;
     }
-
-
-
-
 }
 
 
@@ -585,6 +590,16 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
 
     do
     {
+	/* 	we test at the begining if the attribute_value is NULL, if yes, */
+	/* 	   go to the next */
+
+	if ( !strcmp (attribute_values[i],
+	     "(null)"))
+	{
+	    i++;
+	    continue;
+	}
+
 	if ( !strcmp ( attribute_names[i],
 		       "File_version" ))
 	{
@@ -3593,13 +3608,6 @@ void gsb_file_load_amount_comparison ( const gchar **attribute_names,
 
 
 
-
-
-
-
-
-
-
 /**
  * called after downloading a file, check the version and do the changes if
  * necessary
@@ -3828,7 +3836,7 @@ gboolean gsb_file_load_update_previous_version ( void )
 
     /* on marque le fichier comme ouvert */
 
-    modification_etat_ouverture_fichier ( TRUE );
+    gsb_file_util_modify_lock ( TRUE );
 
 
     return TRUE;
@@ -6290,225 +6298,6 @@ void gsb_file_load_report_part_before_0_6 ( GMarkupParseContext *context,
     }
 
 }
-
-
-/***********************************************************************************************************/
-void switch_t_r ( void )
-{
-    /* cette fonction fait le tour des opérations et change le marquage T et R des opés */
-    /*     R devient pointe=3 */
-    /*     T devient pointe=2 */
-    /*     à n'appeler que pour une version antérieure à 0.5.1 */
-
-    GSList *list_tmp_transactions;
-
-    if ( !gsb_account_get_accounts_amount () )
-	return;
-
-    if ( DEBUG )
-	printf ( "switch_t_r\n");
-
-
-    list_tmp_transactions = gsb_transaction_data_get_transactions_list ();
-
-    while ( list_tmp_transactions )
-    {
-	gint transaction_number_tmp;
-	transaction_number_tmp = gsb_transaction_data_get_transaction_number (list_tmp_transactions -> data);
-
-	switch ( gsb_transaction_data_get_marked_transaction (transaction_number_tmp))
-	{
-	    case 2 :
-		gsb_transaction_data_set_marked_transaction ( transaction_number_tmp,
-							      3 );
-		break;
-	    case 3:
-		gsb_transaction_data_set_marked_transaction ( transaction_number_tmp,
-							      2 );
-		break;
-	}
-	list_tmp_transactions = list_tmp_transactions -> next;
-    }
-}
-/***********************************************************************************************************/
-
-
-/***********************************************************************************************************/
-/* crée ou supprime un fichier du nom .nom.swp */
-/* renvoie true si ok */
-/***********************************************************************************************************/
-
-gboolean modification_etat_ouverture_fichier ( gboolean fichier_ouvert )
-{
-    struct stat buffer_stat;
-    int result;
-    gchar *nom_fichier_lock;
-    gchar **tab_str;
-    gint i;
-
-    /*     on efface et on recommence... bon, changement de technique : lors de l'ouverture */
-    /* 	d'un fichier, on crée un fichier .nom.swp qu'on efface à sa fermeture */
-
-    /*     si on ne force pas l'enregistrement et si le fichier était déjà ouvert, on ne fait rien */
-
-    if ( (etat.fichier_deja_ouvert
-	  &&
-	  !etat.force_enregistrement)
-	 ||
-	 !nom_fichier_comptes ||
-	 !nom_fichier_comptes ||
-	 !strlen(nom_fichier_comptes) )
-	return TRUE;
-
-    /*     on commence par vérifier que le fichier de nom_fichier_comptes existe bien */
-
-    result = utf8_stat ( nom_fichier_comptes, &buffer_stat);
-
-    if ( result == -1 )
-    {
-	dialogue_error (g_strdup_printf (_("Cannot open file '%s' to mark it as used: %s"),
-					 nom_fichier_comptes,
-					 latin2utf8 (strerror(errno))));
-	return FALSE;
-    }
-
-
-    /*     création du nom du fichier swp */
-
-    tab_str = g_strsplit ( nom_fichier_comptes,
-			   G_DIR_SEPARATOR_S,
-			   0 );
-
-    i=0;
-
-    while ( tab_str[i+1] )
-	i++;
-
-    tab_str[i] = g_strconcat ( 
-#ifndef _WIN32
-                              ".",
-#endif
-			       tab_str[i],
-			       ".swp",
-			       NULL );
-    nom_fichier_lock = g_strjoinv ( G_DIR_SEPARATOR_S,
-				   tab_str );
-    g_strfreev ( tab_str );
-
-    /*     maintenant on sépare entre l'effacement ou la création du fichier swp */
-
-    if ( fichier_ouvert )
-    {
-	/* 	on ouvre le fichier, donc on crée le fichier de lock */
-
-	FILE *fichier;
-
-	/* 	commence par tester si ce fichier existe, si c'est le cas on prévient l'utilisateur */
-	/* 	    avec possibilité d'annuler l'action ou d'effacer le fichier de lock */
-
-	result = utf8_stat ( nom_fichier_lock, &buffer_stat);
-
-	if ( result != -1 )
-	{
-	    /* 	    le fichier de lock existe */
-
-	    dialogue_conditional_hint ( g_strdup_printf( _("File \"%s\" is already opened"),
-							 nom_fichier_comptes),
-					_("Either this file is already opened by another user or it wasn't closed correctly (maybe Grisbi crashed?).\nGrisbi can't save the file unless you activate the \"Force saving locked files\" option in setup."),
-					&(etat.display_message_lock_active) );
-	    
-	    /* 	    on retourne true, vu que le fichier est déjà créé et qu'on a prévenu */
-
-	    etat.fichier_deja_ouvert = 1;
-	    return TRUE;
-	}
-
-	etat.fichier_deja_ouvert = 0;
-
-	fichier = utf8_fopen ( nom_fichier_lock, "w" );
-
-	if ( !fichier )
-	{
-	    dialogue_error (g_strdup_printf (_("Cannot write lock file :'%s': %s"),
-					     nom_fichier_comptes,
-					     latin2utf8 (strerror(errno))));
-	    return FALSE;
-	}
-
-	fclose ( fichier );
-	return TRUE;
-    }
-    else
-    {
-	/* 	on ferme le fichier, donc on détruit le fichier de lock */
-
-	etat.fichier_deja_ouvert = 0;
-
-	/* 	on vérifie d'abord que ce fichier existe */
-
-	result = utf8_stat ( nom_fichier_lock, &buffer_stat);
-
-	if ( result == -1 )
-	{
-	    /* 	    le fichier de lock n'existe */
-	    /* 	    on s'en fout, de toute façon fallait le virer, on s'en va */
-
-	    return TRUE;
-	}
-
-	result = utf8_remove ( nom_fichier_lock );
-
-	if ( result == -1 )
-	{
-	    dialogue_error (g_strdup_printf (_("Cannot erase lock file :'%s': %s"),
-					     nom_fichier_comptes,
-					     latin2utf8 (strerror(errno))));
-	    return FALSE;
-	}
-	return TRUE;
-    }
-}
-/***********************************************************************************************************/
-
-
-
-
-/***********************************************************************************************************/
-void propose_changement_permissions ( void )
-{
-    GtkWidget *dialog, *vbox, *checkbox;
-    gint resultat;
-
-    dialog = gtk_message_dialog_new ( GTK_WINDOW ( window ),
-				      GTK_DIALOG_DESTROY_WITH_PARENT,
-				      GTK_MESSAGE_QUESTION,
-				      GTK_BUTTONS_YES_NO,
-				      " ");
-
-    gtk_label_set_markup ( GTK_LABEL ( GTK_MESSAGE_DIALOG(dialog)->label ), 
-			   make_hint ( _("Account file is world readable."),
-				       _("Your account file should not be readable by anybody else, but it is. You should change its permissions.\nShould this be fixed now?")));
-    
-
-    vbox = GTK_DIALOG(dialog) -> vbox;
-    checkbox = new_checkbox_with_title ( _("Do not show this message again"),
-					 &(etat.display_message_file_readable), NULL);
-    gtk_box_pack_start ( GTK_BOX ( vbox ), checkbox, FALSE, FALSE, 6 );
-    gtk_widget_show_all ( dialog );
-
-    resultat = gtk_dialog_run ( GTK_DIALOG(dialog) );
-
-    if ( resultat == GTK_RESPONSE_YES )
-    {
-	chmod ( nom_fichier_comptes, S_IRUSR | S_IWUSR );
-    }
-
-    gtk_widget_destroy ( dialog );
-}
-/***********************************************************************************************************/
-
-
-
 
 /* Local Variables: */
 /* c-basic-offset: 4 */

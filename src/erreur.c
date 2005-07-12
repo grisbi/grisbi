@@ -34,7 +34,7 @@
 #include "dialog.h"
 #include "fichiers_io.h"
 #include "fichiers_gestion.h"
-#include "gsb_file_load.h"
+#include "gsb_file_util.h"
 #include "traitement_variables.h"
 #include "utils_files.h"
 #include "fichier_configuration.h"
@@ -108,7 +108,7 @@ gboolean fermeture_grisbi ( void )
 
     sauve_configuration ();
 
-    modification_etat_ouverture_fichier ( FALSE );
+    gsb_file_util_modify_lock ( FALSE );
 
     /*       stoppe le timer */
 
@@ -307,7 +307,7 @@ void traitement_sigsegv ( gint signal_nb )
 
     /*     on évite le message du fichier ouvert à la prochaine ouverture */
 
-    modification_etat_ouverture_fichier ( FALSE );
+    gsb_file_util_modify_lock ( FALSE );
     exit(1);
 }
 

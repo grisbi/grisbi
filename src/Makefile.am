@@ -31,6 +31,7 @@ sources = \
 	gsb_account.c		\
 	gsb_file_load.c		\
 	gsb_file_save.c		\
+	gsb_file_util.c		\
 	gsb_transaction_data.c	\
 	data_currency.c		\
 	data_form.c		\
@@ -131,6 +132,7 @@ grisbi_INCLUDES =		\
 	gsb_account.h		\
 	gsb_file_load.h		\
 	gsb_file_save.h		\
+	gsb_file_util.h		\
 	gsb_transaction_data.c	\
 	data_currency.h		\
 	data_form.h		\
