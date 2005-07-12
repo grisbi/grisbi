@@ -321,11 +321,22 @@ void charge_configuration ( void )
 	{
 	    int i;
 	    
-	    for ( i = 0; messages[i].name; i++ )
+	    if ( !strcmp ( node_messages -> name, "show_tip" ) )
 	    {
-		if ( !strcmp ( node_messages -> name, messages[i].name ) )
+		etat.show_tip = utils_str_atoi(xmlNodeGetContent ( node_messages ));
+	    }
+	    else if ( !strcmp ( node_messages -> name, "last_tip" ) )
+	    {
+		etat.last_tip = utils_str_atoi(xmlNodeGetContent ( node_messages ));
+	    }
+	    else 
+	    {	    
+		for ( i = 0; messages[i].name; i++ )
 		{
-		    messages[i].hidden = utils_str_atoi ( xmlNodeGetContent ( node_messages ) );
+		    if ( !strcmp ( node_messages -> name, messages[i].name ) )
+		    {
+			messages[i].hidden = utils_str_atoi ( xmlNodeGetContent ( node_messages ) );
+		    }
 		}
 	    }
 	    node_messages = node_messages -> next;
