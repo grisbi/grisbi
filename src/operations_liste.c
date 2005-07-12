@@ -1377,7 +1377,8 @@ gboolean gsb_transactions_list_set_adjustment_value ( gint account_number )
 	printf ( "gsb_transactions_list_set_adjustment_value account %d\n",
 		 account_number );
 
-    update_ecran ();
+/*     update_ecran (); */
+
     adjustment = gtk_tree_view_get_vadjustment ( GTK_TREE_VIEW (gsb_transactions_list_get_tree_view ()));
     value = gsb_account_get_vertical_adjustment_value (account_number);
 
