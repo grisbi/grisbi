@@ -1,4 +1,4 @@
-#!/usr/bin/perl -w
+#!/usr/bin/perl 
 # 
 #  Copyright 2003 (c) Benjamin Drieu
 #  Copyright 2005 (c) Francois Terrot
@@ -22,10 +22,9 @@
 #  personnal details to developers such as addresses, names, amounts,
 #  balances.
 
-use strict;
 my $file_in  = $ARGV[0];
 my $file_out = $ARGV[1];
-my $FD_OUT   = "STDOUT";   # Default output is stdout ...
+my $FD_OUT   = STDOUT;   # Default output is stdout ...
 
 die "Usage: obfuscate.pl gsb_file_to_obfuscte [obfuscated_gsb_file]\n" if ($#ARGV <0);
 die "It's not a good idea to overwrite the input file !\n" if ("$file_in" eq "$file_out");
