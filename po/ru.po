@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: ru\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-07-11 02:41+0400\n"
-"PO-Revision-Date: 2005-07-11 02:56+0400\n"
+"PO-Revision-Date: 2005-07-17 22:30+0400\n"
 "Last-Translator: Alexandre Prokoudine <alexandre.prokoudine@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -67,18 +67,18 @@ msgstr ""
 #: src/accueil.c:524 src/accueil.c:846 src/accueil.c:1167
 #: src/operations_liste.c:150
 msgid "Reconciled balance"
-msgstr ""
+msgstr "Согласованный баланс"
 
 #: src/accueil.c:528 src/accueil.c:850 src/accueil.c:1171
 msgid "Current balance"
-msgstr ""
+msgstr "Текущий баланс"
 
 #. CrÃ©ation et remplissage de la (nb_comptes + 3)iÃ¨me ligne du tableau :
 #. elle contient la somme des soldes de chaque compte
 #. DeuxiÃ¨me colonne
 #: src/accueil.c:766 src/accueil.c:1087 src/accueil.c:1408
 msgid "Global balances"
-msgstr ""
+msgstr "Глобальные балансы"
 
 #: src/accueil.c:840
 #, c-format
@@ -270,7 +270,7 @@ msgstr ""
 #: src/operations_formulaire.c:1514 src/operations_formulaire.c:1553
 #: src/operations_formulaire.c:3346
 msgid "Date"
-msgstr ""
+msgstr "Дата"
 
 #. mise en place de la frame des tiers
 #: src/affichage_liste.c:37 src/affichage_liste.c:1041 src/csv.c:247
@@ -280,7 +280,7 @@ msgstr ""
 #: src/import.c:2665 src/operations_formulaire.c:800
 #: src/operations_formulaire.c:3349
 msgid "Third party"
-msgstr ""
+msgstr "Третьи лица"
 
 #: src/affichage_liste.c:38 src/echeancier_formulaire.c:1067
 #: src/echeancier_formulaire.c:2545 src/echeancier_ventilation.c:967
@@ -289,7 +289,7 @@ msgstr ""
 #: src/operations_formulaire.c:3363 src/ventilation.c:968
 #: src/ventilation.c:1493
 msgid "Budgetary line"
-msgstr ""
+msgstr "Бюджетная линия"
 
 #. Debit type
 #: src/affichage_liste.c:39 src/affichage_liste.c:768
@@ -302,7 +302,7 @@ msgstr ""
 #: src/type_operations.c:862 src/ventilation.c:914 src/ventilation.c:933
 #: src/ventilation.c:1489
 msgid "Debit"
-msgstr ""
+msgstr "Расход"
 
 #. Credit type
 #: src/affichage_liste.c:40 src/affichage_liste.c:780
@@ -316,23 +316,23 @@ msgstr ""
 #: src/type_operations.c:858 src/ventilation.c:886 src/ventilation.c:961
 #: src/ventilation.c:1491
 msgid "Credit"
-msgstr ""
+msgstr "Приход"
 
 #: src/affichage_liste.c:41 src/affichage_liste.c:792
 #: src/affichage_liste.c:1057 src/csv.c:251 src/equilibrage.c:202
 msgid "Balance"
-msgstr ""
+msgstr "Баланс"
 
 #: src/affichage_liste.c:42 src/affichage_liste.c:804
 #: src/affichage_liste.c:1061 src/csv.c:250 src/echeancier_liste.c:406
 #: src/echeancier_ventilation.c:83 src/echeancier_ventilation.c:293
 #: src/import.c:2673 src/ventilation.c:86 src/ventilation.c:296
 msgid "Amount"
-msgstr ""
+msgstr "Кол-во"
 
 #: src/affichage_liste.c:43 src/affichage_liste.c:1065
 msgid "Method of payment"
-msgstr ""
+msgstr "Способ оплаты"
 
 #: src/affichage_liste.c:44 src/affichage_liste.c:828
 #: src/affichage_liste.c:1069
@@ -343,7 +343,7 @@ msgstr ""
 #: src/echeancier_ventilation.c:81 src/etats_affiche.c:2244
 #: src/etats_config.c:258 src/ventilation.c:84
 msgid "Category"
-msgstr ""
+msgstr "Категория"
 
 #: src/affichage_liste.c:47 src/affichage_liste.c:864
 #: src/affichage_liste.c:1081 src/csv.c:246
@@ -357,7 +357,7 @@ msgstr ""
 #: src/operations_formulaire.c:1133 src/operations_formulaire.c:3365
 #: src/ventilation.c:975 src/ventilation.c:1495
 msgid "Voucher"
-msgstr ""
+msgstr "Поручитель"
 
 #. Notes
 #: src/affichage_liste.c:49 src/affichage_liste.c:888
@@ -433,25 +433,25 @@ msgstr ""
 
 #: src/affichage_liste.c:295
 msgid "Transactions list"
-msgstr ""
+msgstr "Список транзакций"
 
 #: src/affichage_liste.c:302
 msgid "Display modes"
-msgstr ""
+msgstr "Режимы отображения"
 
 #: src/affichage_liste.c:309
 msgid "One line mode"
-msgstr ""
+msgstr "Однострочный"
 
 #. pour 2 lignes
 #: src/affichage_liste.c:322
 msgid "Two lines mode"
-msgstr ""
+msgstr "Двустрочный"
 
 #. pour 3 lignes
 #: src/affichage_liste.c:342
 msgid "Three lines mode"
-msgstr ""
+msgstr "Трёхстрочный"
 
 #: src/affichage_liste.c:420
 msgid "Sort transaction list"
@@ -463,7 +463,7 @@ msgstr ""
 
 #: src/affichage_liste.c:422
 msgid "by date"
-msgstr ""
+msgstr "по дате"
 
 #. on permet de regrouper les opÃ©rations pointÃ©es
 #: src/affichage_liste.c:427
@@ -472,19 +472,19 @@ msgstr ""
 
 #: src/affichage_liste.c:459
 msgid "first line"
-msgstr ""
+msgstr "первая строка"
 
 #: src/affichage_liste.c:467
 msgid "second line"
-msgstr ""
+msgstr "вторая строка"
 
 #: src/affichage_liste.c:475
 msgid "third line"
-msgstr ""
+msgstr "третья строка"
 
 #: src/affichage_liste.c:483
 msgid "fourth line"
-msgstr ""
+msgstr "четвёртая строка"
 
 #: src/affichage_liste.c:744
 msgid "Payer/payee"
@@ -498,7 +498,7 @@ msgstr ""
 #: src/affichage_liste.c:852 src/etats_config.c:143 src/etats_config.c:7277
 #: src/fenetre_principale.c:103
 msgid "Categories"
-msgstr ""
+msgstr "Категории"
 
 #: src/affichage_liste.c:924 src/affichage_liste.c:1101
 #: src/operations_formulaire.c:1121 src/operations_formulaire.c:3360
@@ -509,7 +509,7 @@ msgstr ""
 #: src/affichage_liste.c:1045 src/csv.c:255 src/etats_config.c:147
 #: src/etats_config.c:7371 src/fenetre_principale.c:110
 msgid "Budgetary lines"
-msgstr ""
+msgstr "Бюджетные линии"
 
 #: src/banque.c:122 src/comptes_traitements.c:135
 #: src/comptes_traitements.c:145 src/operations_formulaire.c:2221
@@ -520,7 +520,7 @@ msgstr ""
 
 #: src/banque.c:126 src/comptes_gestion.c:330
 msgid "New bank"
-msgstr ""
+msgstr "Новый банк"
 
 #: src/banque.c:201 src/banque.c:205
 msgid "Confirmation of bank removal"
@@ -544,28 +544,28 @@ msgstr ""
 #: src/banque.c:280 src/echeancier_formulaire.c:1489 src/equilibrage.c:573
 #: src/exercice.c:568
 msgid "None"
-msgstr ""
+msgstr "Ничего"
 
 #. ligne de l'Ã©tablissement financier
 #: src/banque.c:347 src/comptes_gestion.c:279
 msgid "Bank"
-msgstr ""
+msgstr "Банк"
 
 #: src/banque.c:348
 msgid "Contact name"
-msgstr ""
+msgstr "Контактное лицо"
 
 #: src/banque.c:350 src/parametres.c:294
 msgid "Banks"
-msgstr ""
+msgstr "Банки"
 
 #: src/banque.c:354
 msgid "Known banks"
-msgstr ""
+msgstr "Известные банки"
 
 #: src/banque.c:534
 msgid "Bank details"
-msgstr ""
+msgstr "Подробности о банке"
 
 #. Bank name item
 #. Name
@@ -574,7 +574,7 @@ msgstr ""
 #: src/banque.c:545 src/banque.c:651 src/devises.c:1501 src/exercice.c:129
 #: src/exercice.c:240 src/import.c:362 src/type_operations.c:379
 msgid "Name"
-msgstr ""
+msgstr "Имя"
 
 #. Bank Sort code item
 #: src/banque.c:560
@@ -584,23 +584,23 @@ msgstr ""
 #. Bank address
 #: src/banque.c:575 src/comptes_gestion.c:233
 msgid "Address"
-msgstr ""
+msgstr "Адрес"
 
 #. Phone number
 #: src/banque.c:598 src/banque.c:666
 msgid "Phone"
-msgstr ""
+msgstr "Телефон"
 
 #. E-mail
 #. E-Mail
 #: src/banque.c:613 src/banque.c:696
 msgid "E-Mail"
-msgstr ""
+msgstr "E-Mail"
 
 #. Website
 #: src/banque.c:628 src/help.c:77
 msgid "Website"
-msgstr ""
+msgstr "Веб-сайт"
 
 #. Contact
 #: src/banque.c:643
@@ -610,11 +610,11 @@ msgstr ""
 #. Fax
 #: src/banque.c:681
 msgid "Fax"
-msgstr ""
+msgstr "Факс"
 
 #: src/banque.c:771
 msgid "Edit bank"
-msgstr ""
+msgstr "Изменить банк"
 
 #: src/barre_outils.c:86 src/barre_outils.c:87
 msgid "Display/Hide form"
@@ -622,19 +622,19 @@ msgstr ""
 
 #: src/barre_outils.c:146 src/barre_outils.c:147
 msgid "Four lines per transaction"
-msgstr ""
+msgstr "Четыре линии на транзакцию"
 
 #: src/barre_outils.c:175 src/barre_outils.c:176
 msgid "Three lines per transaction"
-msgstr ""
+msgstr "Три линии на транзакцию"
 
 #: src/barre_outils.c:203 src/barre_outils.c:204
 msgid "Two lines per transaction"
-msgstr ""
+msgstr "Две линии на транзакцию"
 
 #: src/barre_outils.c:232 src/barre_outils.c:233
 msgid "One line per transaction"
-msgstr ""
+msgstr "Одна линия на транзакцию"
 
 #: src/barre_outils.c:268 src/barre_outils.c:269
 msgid "Display reconciled transactions"
@@ -646,7 +646,7 @@ msgstr ""
 
 #: src/barre_outils.c:325
 msgid "Account transactions"
-msgstr ""
+msgstr "Транзакции счёта"
 
 #: src/barre_outils.c:749 src/barre_outils.c:750
 msgid "Display/hide form"
@@ -659,7 +659,7 @@ msgstr ""
 #: src/barre_outils.c:865 src/barre_outils.c:866 src/barre_outils.c:990
 #: src/barre_outils.c:991 src/barre_outils.c:1145 src/barre_outils.c:1146
 msgid "Close tree"
-msgstr ""
+msgstr "Закрыть дерево"
 
 #: src/barre_outils.c:894 src/barre_outils.c:895 src/barre_outils.c:1048
 #: src/barre_outils.c:1049 src/barre_outils.c:1203 src/barre_outils.c:1204
@@ -682,135 +682,135 @@ msgstr ""
 #. Add the "cancel" button
 #: src/calendar.c:111 src/utils.c:1516
 msgid "Cancel"
-msgstr ""
+msgstr "Отменить"
 
 #: src/categories_onglet.c:48
 msgid "Food : Bar"
-msgstr ""
+msgstr "Еда : Бар"
 
 #: src/categories_onglet.c:49
 msgid "Food : Baker"
-msgstr ""
+msgstr "Еда : Булочник"
 
 #: src/categories_onglet.c:50
 msgid "Food : Canteen"
-msgstr ""
+msgstr "Еда : Столовая"
 
 #: src/categories_onglet.c:51
 msgid "Food : Sweets"
-msgstr ""
+msgstr "Еда : Сладкое"
 
 #: src/categories_onglet.c:52
 msgid "Food : Misc"
-msgstr ""
+msgstr "Еда : Разное"
 
 #: src/categories_onglet.c:53
 msgid "Food : Grocery"
-msgstr ""
+msgstr "Еда : Зеленщик"
 
 #: src/categories_onglet.c:54
 msgid "Food : Restaurant"
-msgstr ""
+msgstr "Еда : Ресторан"
 
 #: src/categories_onglet.c:55
 msgid "Food : Self-service"
-msgstr ""
+msgstr "Еда : Самообслуживание"
 
 #: src/categories_onglet.c:56
 msgid "Food : Supermarket"
-msgstr ""
+msgstr "Еда : Супермаркет"
 
 #: src/categories_onglet.c:57
 msgid "Pets : Food"
-msgstr ""
+msgstr "Домашние животные : Еда"
 
 #: src/categories_onglet.c:58
 msgid "Pets : Various supplies"
-msgstr ""
+msgstr "Домашние животные : Фуфыськи"
 
 #: src/categories_onglet.c:59
 msgid "Pets : Grooming"
-msgstr ""
+msgstr "Домашние животные : Уход"
 
 #: src/categories_onglet.c:60
 msgid "Pets : Veterinary surgeon"
-msgstr ""
+msgstr "Домашние животные : Ветеринар"
 
 #: src/categories_onglet.c:61
 msgid "Insurance : Car"
-msgstr ""
+msgstr "Страховка : Автомобиль"
 
 #: src/categories_onglet.c:62
 msgid "Insurance : Health"
-msgstr ""
+msgstr "Страховка : Здоровье"
 
 #: src/categories_onglet.c:63
 msgid "Insurance : House"
-msgstr ""
+msgstr "Страховка : Дом"
 
 #: src/categories_onglet.c:64
 msgid "Insurance : Civil liability"
-msgstr ""
+msgstr "Страховка : Гражданская ответственность"
 
 #: src/categories_onglet.c:65
 msgid "Insurance : Life"
-msgstr ""
+msgstr "Страховка : Жизнь"
 
 #: src/categories_onglet.c:66
 msgid "Car : Fuel"
-msgstr ""
+msgstr "Автомобиль : Топливо"
 
 #: src/categories_onglet.c:67
 msgid "Car : Repairs"
-msgstr ""
+msgstr "Автомобиль : Ремонт"
 
 #: src/categories_onglet.c:68
 msgid "Car : Maintenance"
-msgstr ""
+msgstr "Автомобиль : Обслуживание"
 
 #: src/categories_onglet.c:69
 msgid "Car : Parking"
-msgstr ""
+msgstr "Автомобиль : Парковка"
 
 #: src/categories_onglet.c:70
 msgid "Car : Fines"
-msgstr ""
+msgstr "Автомобиль : Штраф"
 
 #: src/categories_onglet.c:71 src/etats_config.c:163
 msgid "Misc."
-msgstr ""
+msgstr "Разное"
 
 #: src/categories_onglet.c:72
 msgid "Gifts"
-msgstr ""
+msgstr "Подарки"
 
 #: src/categories_onglet.c:73
 msgid "Children : Nurse"
-msgstr ""
+msgstr "Дети : Сиделка"
 
 #: src/categories_onglet.c:74
 msgid "Children : Misc."
-msgstr ""
+msgstr "Дети : Разное"
 
 #: src/categories_onglet.c:75
 msgid "Children : Studies"
-msgstr ""
+msgstr "Дети : Частные уроки"
 
 #: src/categories_onglet.c:76
 msgid "Studies : Lessons"
-msgstr ""
+msgstr "Учёба : Частные уроки"
 
 #: src/categories_onglet.c:77
 msgid "Studies : School fees"
-msgstr ""
+msgstr "Учёба : Оплата школы"
 
 #: src/categories_onglet.c:78
 msgid "Studies : Books"
-msgstr ""
+msgstr "Учёба : Книги"
 
 #: src/categories_onglet.c:79
 msgid "Miscellaneous : Gifts"
-msgstr ""
+msgstr "Разное : Подарки"
 
 #: src/categories_onglet.c:80
 msgid "Financial expenses : Miscellaneous"
@@ -842,31 +842,31 @@ msgstr ""
 
 #: src/categories_onglet.c:87
 msgid "Taxes : Miscellaneous"
-msgstr ""
+msgstr "Налоги : Разное"
 
 #: src/categories_onglet.c:88
 msgid "Taxes : Income"
-msgstr ""
+msgstr "Налоги : Подоходный"
 
 #: src/categories_onglet.c:89
 msgid "Taxes : Land"
-msgstr ""
+msgstr "Налоги : Земля"
 
 #: src/categories_onglet.c:90
 msgid "Housing : Hotel"
-msgstr ""
+msgstr "Дом : Отель"
 
 #: src/categories_onglet.c:91
 msgid "Housing : Rent"
-msgstr ""
+msgstr "Дом : Рента"
 
 #: src/categories_onglet.c:92
 msgid "Housing : TV"
-msgstr ""
+msgstr "Дом : ТВ"
 
 #: src/categories_onglet.c:93
 msgid "Housing : Furnitures"
-msgstr ""
+msgstr "Дом : Мебель"
 
 #: src/categories_onglet.c:94
 msgid "Housing : Charges"
@@ -874,19 +874,19 @@ msgstr ""
 
 #: src/categories_onglet.c:95
 msgid "Housing : Heating"
-msgstr ""
+msgstr "Дом : Отопление"
 
 #: src/categories_onglet.c:96
 msgid "Housing : Decoration"
-msgstr ""
+msgstr "Дом : Украшение интерьера"
 
 #: src/categories_onglet.c:97
 msgid "Housing : Water"
-msgstr ""
+msgstr "Дом : Вода"
 
 #: src/categories_onglet.c:98
 msgid "Housing : Electricity"
-msgstr ""
+msgstr "Дом : Электричество"
 
 #: src/categories_onglet.c:99
 msgid "Housing : White products"
@@ -894,27 +894,27 @@ msgstr ""
 
 #: src/categories_onglet.c:100
 msgid "Housing : Equipment"
-msgstr ""
+msgstr "Дом : Инструменты"
 
 #: src/categories_onglet.c:101
 msgid "Housing : Gaz"
-msgstr ""
+msgstr "Дом : Газ"
 
 #: src/categories_onglet.c:102
 msgid "Housing : Garden"
-msgstr ""
+msgstr "Дом : Сад"
 
 #: src/categories_onglet.c:103
 msgid "Housing : House keeper"
-msgstr ""
+msgstr "Дом : Экономка"
 
 #: src/categories_onglet.c:104
 msgid "Housing : Phone"
-msgstr ""
+msgstr "Дом : Телефон"
 
 #: src/categories_onglet.c:105
 msgid "Housing : Mobile Phone"
-msgstr ""
+msgstr "Дом : Мобильный телефон"
 
 #: src/categories_onglet.c:106
 msgid "Leisures : Snooker"
@@ -1138,25 +1138,25 @@ msgstr ""
 
 #: src/categories_onglet.c:189
 msgid "Categories list"
-msgstr ""
+msgstr "Список категорий"
 
 #: src/categories_onglet.c:190
 msgid "Amount per category"
-msgstr ""
+msgstr "Кол-во на категорию"
 
 #: src/categories_onglet.c:191
 msgid "Amount per subcategory"
-msgstr ""
+msgstr "Кол-во на подкатегорию"
 
 #: src/categories_onglet.c:192 src/imputation_budgetaire.c:70
 #: src/tiers_onglet.c:67
 msgid "Amount per account"
-msgstr ""
+msgstr "Кол-во на счёт"
 
 #: src/categories_onglet.c:237 src/imputation_budgetaire.c:114
 #: src/tiers_onglet.c:118
 msgid "Information"
-msgstr ""
+msgstr "Информация"
 
 #: src/categories_onglet.c:279 src/imputation_budgetaire.c:156
 msgid "Sorting"
@@ -1165,11 +1165,11 @@ msgstr ""
 #. mise en place des boutons ajout d'1 categ / sous-categ
 #: src/categories_onglet.c:388
 msgid "Add a category"
-msgstr ""
+msgstr "Добавить категорию"
 
 #: src/categories_onglet.c:402
 msgid "Add a subcategory"
-msgstr ""
+msgstr "Добавить подкатегорию"
 
 #. on met le bouton exporter
 #. mise en place du bouton exporter
@@ -1177,7 +1177,7 @@ msgstr ""
 #: src/imputation_budgetaire.c:340 src/menu.c:77 src/traitement_variables.c:90
 #: src/traitement_variables.c:213
 msgid "Export"
-msgstr ""
+msgstr "Экспортировать"
 
 #. on met le bouton importer
 #. mise en place du bouton importer
@@ -1185,7 +1185,7 @@ msgstr ""
 #: src/imputation_budgetaire.c:356 src/menu.c:75 src/menu.c:76
 #: src/parametres.c:188
 msgid "Import"
-msgstr ""
+msgstr "Импортировать"
 
 #: src/categories_onglet.c:650 src/categories_onglet.c:707
 #: src/categories_onglet.c:773 src/categories_onglet.c:833
@@ -1511,36 +1511,36 @@ msgstr ""
 
 #: src/comptes_gestion.c:88
 msgid "Account details"
-msgstr ""
+msgstr "Подробнее о счёте"
 
 #: src/comptes_gestion.c:100
 msgid "Account name"
-msgstr ""
+msgstr "Название счёта"
 
 #: src/comptes_gestion.c:122 src/comptes_traitements.c:690
 msgid "Account type"
-msgstr ""
+msgstr "Тип счёта"
 
 #: src/comptes_gestion.c:147
 msgid "Account currency"
-msgstr ""
+msgstr "Валюта счёта"
 
 #: src/comptes_gestion.c:168
 msgid "Convert this account to euros"
-msgstr ""
+msgstr "Преобразовать счёт в евро"
 
 #: src/comptes_gestion.c:182
 msgid "Closed account"
-msgstr ""
+msgstr "Закрытый счёт"
 
 #. crÃ©ation de la ligne du titulaire du compte
 #: src/comptes_gestion.c:188
 msgid "Account holder"
-msgstr ""
+msgstr "Владелец счёта"
 
 #: src/comptes_gestion.c:199
 msgid "Holder name"
-msgstr ""
+msgstr "Имя владельца"
 
 #: src/comptes_gestion.c:223
 msgid "Common address is holder's address"
@@ -1548,7 +1548,7 @@ msgstr ""
 
 #: src/comptes_gestion.c:253
 msgid "Holder has his own address"
-msgstr ""
+msgstr "У владельца есть собственный адрес"
 
 #: src/comptes_gestion.c:290
 msgid "Financial institution"
@@ -1573,35 +1573,35 @@ msgstr ""
 #. crÃ©ation de la ligne du solde initial
 #: src/comptes_gestion.c:415
 msgid "Balances"
-msgstr ""
+msgstr "Балансы"
 
 #. tiers
 #: src/comptes_gestion.c:425 src/csv.c:265 src/equilibrage.c:297
 msgid "Initial balance"
-msgstr ""
+msgstr "Исходный баланс"
 
 #: src/comptes_gestion.c:448
 msgid "Minimum authorised balance"
-msgstr ""
+msgstr "Минимальный авторизованный баланс"
 
 #: src/comptes_gestion.c:471
 msgid "Minimum wanted balance"
-msgstr ""
+msgstr "Минимальный желаемый баланс"
 
 #. crÃ©ation de la ligne du commentaire
 #: src/comptes_gestion.c:486
 msgid "Comments"
-msgstr ""
+msgstr "Комментарии"
 
 #. crÃ©ation de l'item compte bancaire
 #: src/comptes_gestion.c:658
 msgid "Bank account"
-msgstr ""
+msgstr "Банковский счёт"
 
 #. crÃ©ation de l'item compte de caisse
 #: src/comptes_gestion.c:669
 msgid "Cash account"
-msgstr ""
+msgstr "Наличный счёт"
 
 #. crÃ©ation de l'item compte passif
 #: src/comptes_gestion.c:680
@@ -1611,16 +1611,16 @@ msgstr ""
 #. crÃ©ation de l'item compte actif
 #: src/comptes_gestion.c:690
 msgid "Assets account"
-msgstr ""
+msgstr "Счёт активов"
 
 #: src/comptes_gestion.c:874
 msgid "Account has no name!"
-msgstr ""
+msgstr "У счёта нет имени!"
 
 #: src/comptes_gestion.c:889
 #, c-format
 msgid "Account \"%s\" already exists!"
-msgstr ""
+msgstr "Счёт под именем  \"%s\" уже существует!"
 
 #: src/comptes_gestion.c:945
 msgid "Confirm currency change"
@@ -1674,7 +1674,7 @@ msgstr ""
 #: src/operations_liste.c:1578 src/ventilation.c:2972 src/ventilation.c:2974
 #: src/ventilation.c:3191 src/ventilation.c:3193
 msgid "Euro"
-msgstr ""
+msgstr "Евро"
 
 #: src/comptes_gestion.c:1245
 msgid "Impossible to find the Euro currency, it has probably been deleted."
@@ -1683,13 +1683,13 @@ msgstr ""
 #. mise en place des boutons du bas
 #: src/comptes_onglet.c:158 src/menu.c:102
 msgid "New account"
-msgstr ""
+msgstr "Завести новый счёт"
 
 #. mise en place du bouton "supprimer un compte"
 #: src/comptes_onglet.c:168 src/menu.c:103 src/traitement_variables.c:99
 #: src/traitement_variables.c:222
 msgid "Remove an account"
-msgstr ""
+msgstr "Удалить счёт"
 
 #. insÃ¨re ses paramÃ¨tres ( comme c'est un appel Ã  calloc, tout ce qui est Ã  0 est dÃ©jÃ  initialisÃ© )
 #: src/comptes_traitements.c:155
@@ -1700,7 +1700,7 @@ msgstr ""
 #: src/comptes_traitements.c:197
 #, c-format
 msgid "Delete account \"%s\"?"
-msgstr ""
+msgstr "Удалить счёт \"%s\"?"
 
 #: src/comptes_traitements.c:199
 msgid ""
@@ -1710,12 +1710,12 @@ msgstr ""
 
 #: src/comptes_traitements.c:568 src/ofx.c:430
 msgid "Deposit"
-msgstr ""
+msgstr "Депозит"
 
 #. c'est un compte ccard
 #: src/comptes_traitements.c:580 src/qif.c:284
 msgid "Credit card"
-msgstr ""
+msgstr "Кредитная карта"
 
 #: src/comptes_traitements.c:592
 msgid "Direct debit"
@@ -1723,7 +1723,7 @@ msgstr ""
 
 #: src/comptes_traitements.c:604 src/etats_affiche.c:2272
 msgid "Cheque"
-msgstr ""
+msgstr "Чек"
 
 #: src/comptes_traitements.c:681
 msgid "Choose account type"
@@ -1745,7 +1745,7 @@ msgstr ""
 
 #: src/csv.c:237 src/etats_config.c:6192 src/fenetre_principale.c:75
 msgid "Transactions"
-msgstr ""
+msgstr "Транзакции"
 
 #. bouton ventilation, pour accÃ©der Ã  la fenetre de ventil de l'Ã©chÃ©ance
 #. mise en forme du bouton ventilation
@@ -1761,7 +1761,7 @@ msgstr ""
 
 #: src/csv.c:253
 msgid "Sub-categories"
-msgstr ""
+msgstr "Подкатегории"
 
 #: src/csv.c:256
 msgid "Sub-budgetary lines"
@@ -1807,15 +1807,15 @@ msgstr ""
 #: src/devises.c:83 src/devises.c:84 src/devises.c:85 src/devises.c:86
 #: src/devises.c:491
 msgid "Africa"
-msgstr ""
+msgstr "Африка"
 
 #: src/devises.c:51
 msgid "Algerian Dinar"
-msgstr ""
+msgstr "Алжирский динар"
 
 #: src/devises.c:51
 msgid "Algeria"
-msgstr ""
+msgstr "Алжир"
 
 #: src/devises.c:52
 msgid "Botswana Pula"
@@ -1851,15 +1851,15 @@ msgstr ""
 
 #: src/devises.c:56
 msgid "Cameroon"
-msgstr ""
+msgstr "Камерун"
 
 #: src/devises.c:57
 msgid "Chad"
-msgstr ""
+msgstr "Чад"
 
 #: src/devises.c:58
 msgid "Congo"
-msgstr ""
+msgstr "Конго"
 
 #: src/devises.c:59
 msgid "Comoro Franc"
@@ -1871,11 +1871,11 @@ msgstr ""
 
 #: src/devises.c:60
 msgid "Egyptian Pound"
-msgstr ""
+msgstr "Египетский фунт"
 
 #: src/devises.c:60
 msgid "Egypt"
-msgstr ""
+msgstr "Египет"
 
 #: src/devises.c:61
 msgid "Ethiopian Birr"
@@ -1883,7 +1883,7 @@ msgstr ""
 
 #: src/devises.c:61
 msgid "Ethiopia"
-msgstr ""
+msgstr "Эфиопия"
 
 #: src/devises.c:62
 msgid "Gambian Dalasi"
@@ -1891,7 +1891,7 @@ msgstr ""
 
 #: src/devises.c:62
 msgid "Gambia"
-msgstr ""
+msgstr "Гамбия"
 
 #: src/devises.c:63
 msgid "Ghana Cedi"
@@ -1899,7 +1899,7 @@ msgstr ""
 
 #: src/devises.c:63
 msgid "Ghana"
-msgstr ""
+msgstr "Гана"
 
 #: src/devises.c:64
 msgid "Guinea-Bissau Peso"
@@ -1907,7 +1907,7 @@ msgstr ""
 
 #: src/devises.c:64
 msgid "Guinea-Bissau"
-msgstr ""
+msgstr "Гвинея-Бисау"
 
 #: src/devises.c:65
 msgid "Kenyan Shilling"
@@ -1915,7 +1915,7 @@ msgstr ""
 
 #: src/devises.c:65
 msgid "Kenya"
-msgstr ""
+msgstr "Кения"
 
 #: src/devises.c:66
 msgid "Liberian Dollar"
@@ -1923,7 +1923,7 @@ msgstr ""
 
 #: src/devises.c:66
 msgid "Liberia"
-msgstr ""
+msgstr "Либерия"
 
 #: src/devises.c:67
 msgid "Libyan Dinar"
@@ -1939,7 +1939,7 @@ msgstr ""
 
 #: src/devises.c:68
 msgid "Madagascar"
-msgstr ""
+msgstr "Мадагаскар"
 
 #: src/devises.c:69
 msgid "Malawi Kwacha"
@@ -1963,7 +1963,7 @@ msgstr ""
 
 #: src/devises.c:71
 msgid "Mozambique"
-msgstr ""
+msgstr "Мозамбик"
 
 #: src/devises.c:72
 msgid "Moroccan Dirham"
@@ -1971,7 +1971,7 @@ msgstr ""
 
 #: src/devises.c:72
 msgid "Morocco"
-msgstr ""
+msgstr "Морокко"
 
 #: src/devises.c:73
 msgid "Nigerian Naira"
@@ -1979,7 +1979,7 @@ msgstr ""
 
 #: src/devises.c:73
 msgid "Nigeria"
-msgstr ""
+msgstr "Нигерия"
 
 #: src/devises.c:74
 msgid "Rwanda Franc"
@@ -1987,7 +1987,7 @@ msgstr ""
 
 #: src/devises.c:74
 msgid "Rwanda"
-msgstr ""
+msgstr "Руанда"
 
 #: src/devises.c:75
 msgid "Sao Tome and Principe Dobra"
@@ -2003,7 +2003,7 @@ msgstr ""
 
 #: src/devises.c:76
 msgid "Seychelles"
-msgstr ""
+msgstr "Сейшелльские о-ва"
 
 #: src/devises.c:77
 msgid "Sierra Leonean Leone"
@@ -2011,7 +2011,7 @@ msgstr ""
 
 #: src/devises.c:77
 msgid "Sierra Leone"
-msgstr ""
+msgstr "Сьерра-Леоне"
 
 #: src/devises.c:78
 msgid "Somali Shilling"
@@ -2019,7 +2019,7 @@ msgstr ""
 
 #: src/devises.c:78
 msgid "Somalia"
-msgstr ""
+msgstr "Сомали"
 
 #: src/devises.c:79 src/devises.c:80 src/devises.c:81
 msgid "South African Rand"
@@ -2027,11 +2027,11 @@ msgstr ""
 
 #: src/devises.c:79
 msgid "Lesotho"
-msgstr ""
+msgstr "Лесото"
 
 #: src/devises.c:80
 msgid "Namibia"
-msgstr ""
+msgstr "Намибия"
 
 #: src/devises.c:81
 msgid "South Africa"
@@ -2043,7 +2043,7 @@ msgstr ""
 
 #: src/devises.c:82
 msgid "Swaziland"
-msgstr ""
+msgstr "Свазиленд"
 
 #: src/devises.c:83
 msgid "Tanzanian Shilling"
@@ -2051,7 +2051,7 @@ msgstr ""
 
 #: src/devises.c:83
 msgid "United Republic of Tanzania"
-msgstr ""
+msgstr "Объединённая республика Танзания"
 
 #: src/devises.c:84
 msgid "Tunisian Dinar"
@@ -2059,7 +2059,7 @@ msgstr ""
 
 #: src/devises.c:84
 msgid "Tunisia"
-msgstr ""
+msgstr "Тунис"
 
 #: src/devises.c:85
 msgid "Zambian Kwacha"
@@ -2067,7 +2067,7 @@ msgstr ""
 
 #: src/devises.c:85
 msgid "Zambia"
-msgstr ""
+msgstr "Замбия"
 
 #: src/devises.c:86
 msgid "Zimbabwe Dollar"
@@ -2075,7 +2075,7 @@ msgstr ""
 
 #: src/devises.c:86
 msgid "Zimbabwe"
-msgstr ""
+msgstr "Зимбабве"
 
 #: src/devises.c:87 src/devises.c:88 src/devises.c:89 src/devises.c:90
 #: src/devises.c:91 src/devises.c:92 src/devises.c:93 src/devises.c:94
@@ -2089,15 +2089,15 @@ msgstr ""
 #: src/devises.c:123 src/devises.c:124 src/devises.c:125 src/devises.c:126
 #: src/devises.c:492
 msgid "Asia"
-msgstr ""
+msgstr "Азия"
 
 #: src/devises.c:87
 msgid "Afghani"
-msgstr ""
+msgstr "Афгани"
 
 #: src/devises.c:87
 msgid "Afghanistan"
-msgstr ""
+msgstr "Афганистан"
 
 #: src/devises.c:88
 msgid "Bahraini Dinar"
@@ -2105,7 +2105,7 @@ msgstr ""
 
 #: src/devises.c:88
 msgid "Bahrain"
-msgstr ""
+msgstr "Бахрейн"
 
 #: src/devises.c:89
 msgid "Bangladesh Taka"
@@ -2113,7 +2113,7 @@ msgstr ""
 
 #: src/devises.c:89
 msgid "Bangladesh"
-msgstr ""
+msgstr "Бангладеш"
 
 #: src/devises.c:90
 msgid "Brunei Dollar"
@@ -2129,7 +2129,7 @@ msgstr ""
 
 #: src/devises.c:91
 msgid "Cambodia"
-msgstr ""
+msgstr "Камбоджа"
 
 #: src/devises.c:92
 msgid "Cyprus Pound"
@@ -2137,7 +2137,7 @@ msgstr ""
 
 #: src/devises.c:92
 msgid "Cyprus"
-msgstr ""
+msgstr "Кипр"
 
 #: src/devises.c:93
 msgid "Hong Kong Dollar"
@@ -2145,67 +2145,67 @@ msgstr ""
 
 #: src/devises.c:93
 msgid "Hong Kong"
-msgstr ""
+msgstr "Гонконг"
 
 #: src/devises.c:94 src/devises.c:95
 msgid "Indian Rupee"
-msgstr ""
+msgstr "Индийская рупия"
 
 #: src/devises.c:94
 msgid "Bhutan"
-msgstr ""
+msgstr "Бутан"
 
 #: src/devises.c:95
 msgid "India"
-msgstr ""
+msgstr "Индия"
 
 #: src/devises.c:96
 msgid "Indonesian Rupiah"
-msgstr ""
+msgstr "Индонезийская рупия"
 
 #: src/devises.c:96
 msgid "Indonesia"
-msgstr ""
+msgstr "Индонезия"
 
 #: src/devises.c:97
 msgid "Iranian Rial"
-msgstr ""
+msgstr "Иранский риал"
 
 #: src/devises.c:97
 msgid "Iran"
-msgstr ""
+msgstr "Иран"
 
 #: src/devises.c:98
 msgid "Iraqi Dinar"
-msgstr ""
+msgstr "Иракский динар"
 
 #: src/devises.c:98
 msgid "Iraq"
-msgstr ""
+msgstr "Ирак"
 
 #: src/devises.c:99
 msgid "Japanese Yen"
-msgstr ""
+msgstr "Японская йена"
 
 #: src/devises.c:99
 msgid "Japan"
-msgstr ""
+msgstr "Япония"
 
 #: src/devises.c:100
 msgid "Jordanian Dinar"
-msgstr ""
+msgstr "Иорданский динар"
 
 #: src/devises.c:100
 msgid "Jordan"
-msgstr ""
+msgstr "Иордан"
 
 #: src/devises.c:101
 msgid "Kuwaiti Dinar"
-msgstr ""
+msgstr "Кувейтский динар"
 
 #: src/devises.c:101
 msgid "Kuwait"
-msgstr ""
+msgstr "Кувейт"
 
 #: src/devises.c:102
 msgid "Lao Kip"
@@ -2213,7 +2213,7 @@ msgstr ""
 
 #: src/devises.c:102
 msgid "Lao People's Democratic Republic"
-msgstr ""
+msgstr "Народная демократическая республика Лаос"
 
 #: src/devises.c:103
 msgid "Lebanese Pound"
@@ -2229,7 +2229,7 @@ msgstr ""
 
 #: src/devises.c:104
 msgid "Macao"
-msgstr ""
+msgstr "Макао"
 
 #: src/devises.c:105
 msgid "Malaysian Ringgit"
@@ -2237,63 +2237,63 @@ msgstr ""
 
 #: src/devises.c:105
 msgid "Malaysia"
-msgstr ""
+msgstr "Малайзия"
 
 #: src/devises.c:106
 msgid "Mongolian Tugrik"
-msgstr ""
+msgstr "Монгольский тугрик"
 
 #: src/devises.c:106
 msgid "Mongolia"
-msgstr ""
+msgstr "Монголия"
 
 #: src/devises.c:107
 msgid "Nepalese Rupee"
-msgstr ""
+msgstr "Непальская рупия"
 
 #: src/devises.c:107
 msgid "Nepal"
-msgstr ""
+msgstr "Непал"
 
 #: src/devises.c:108
 msgid "New Israeli Shekel"
-msgstr ""
+msgstr "Новый израильский шекель"
 
 #: src/devises.c:108
 msgid "Israel"
-msgstr ""
+msgstr "Израиль"
 
 #: src/devises.c:109
 msgid "New Taiwan Dollar"
-msgstr ""
+msgstr "Новый тайванский доллар"
 
 #: src/devises.c:109
 msgid "Taiwan, Province of China"
-msgstr ""
+msgstr "Тайвань"
 
 #: src/devises.c:110
 msgid "North Korean Won"
-msgstr ""
+msgstr "Северокорейский вон"
 
 #: src/devises.c:110
 msgid "Democratic People's Republic of Korea"
-msgstr ""
+msgstr "Народная демократическая республика Кореи"
 
 #: src/devises.c:111
 msgid "Pakistan Rupee"
-msgstr ""
+msgstr "Пакистанская рупия"
 
 #: src/devises.c:111
 msgid "Pakistan"
-msgstr ""
+msgstr "Пакистан"
 
 #: src/devises.c:112
 msgid "Philippine peso"
-msgstr ""
+msgstr "Филиппинский песо"
 
 #: src/devises.c:112
 msgid "Philippines"
-msgstr ""
+msgstr "Филиппины"
 
 #: src/devises.c:113
 msgid "Qatari Rial"
@@ -2305,43 +2305,43 @@ msgstr ""
 
 #: src/devises.c:114
 msgid "Rial Omani"
-msgstr ""
+msgstr "Оманский риал"
 
 #: src/devises.c:114
 msgid "Oman"
-msgstr ""
+msgstr "Оман"
 
 #: src/devises.c:115
 msgid "Russian Ruble"
-msgstr ""
+msgstr "Российский рубль"
 
 #: src/devises.c:115
 msgid "Russia"
-msgstr ""
+msgstr "Россия"
 
 #: src/devises.c:116
 msgid "Saudi Riyal"
-msgstr ""
+msgstr "Саудовский риал"
 
 #: src/devises.c:116
 msgid "Saudi Arabia"
-msgstr ""
+msgstr "Саудовская Аравия"
 
 #: src/devises.c:117
 msgid "Singapore Dollar"
-msgstr ""
+msgstr "Сингапурский доллар"
 
 #: src/devises.c:117
 msgid "Singapore"
-msgstr ""
+msgstr "Сингапур"
 
 #: src/devises.c:118
 msgid "South Korean Won"
-msgstr ""
+msgstr "Южнокорейский вон"
 
 #: src/devises.c:118
 msgid "Republic of Korea"
-msgstr ""
+msgstr "Республика Кореи"
 
 #: src/devises.c:119
 msgid "Sri Lanka Rupee"
@@ -2349,11 +2349,11 @@ msgstr ""
 
 #: src/devises.c:119
 msgid "Sri Lanka"
-msgstr ""
+msgstr "Шри-Ланка"
 
 #: src/devises.c:120
 msgid "Syrian Pound"
-msgstr ""
+msgstr "Сирийский фунт"
 
 #: src/devises.c:120
 msgid "Syrian Arab Republic"
@@ -2361,19 +2361,19 @@ msgstr ""
 
 #: src/devises.c:121
 msgid "Thai Baht"
-msgstr ""
+msgstr "Тайский бахт"
 
 #: src/devises.c:121
 msgid "Thailand"
-msgstr ""
+msgstr "Тайланд"
 
 #: src/devises.c:122
 msgid "Turkish Lira"
-msgstr ""
+msgstr "Турецкая лира"
 
 #: src/devises.c:122
 msgid "Turkey"
-msgstr ""
+msgstr "Турция"
 
 #: src/devises.c:123
 msgid "United Arab Emirates Dirham"
@@ -2385,19 +2385,19 @@ msgstr ""
 
 #: src/devises.c:124
 msgid "Viet Nam Dong"
-msgstr ""
+msgstr "Вьетнамский донг"
 
 #: src/devises.c:124
 msgid "Viet Nam"
-msgstr ""
+msgstr "Вьетнам"
 
 #: src/devises.c:125
 msgid "Yemeni Rial"
-msgstr ""
+msgstr "Йеменский риал"
 
 #: src/devises.c:125
 msgid "Yemen"
-msgstr ""
+msgstr "Йемен"
 
 #: src/devises.c:126
 msgid "Yuan Renminbi"
@@ -2405,20 +2405,20 @@ msgstr ""
 
 #: src/devises.c:126
 msgid "China"
-msgstr ""
+msgstr "Китай"
 
 #: src/devises.c:127 src/devises.c:128 src/devises.c:129 src/devises.c:130
 #: src/devises.c:131 src/devises.c:132 src/devises.c:493
 msgid "Central America"
-msgstr ""
+msgstr "Центральная Америка"
 
 #: src/devises.c:127
 msgid "Belize Dollar"
-msgstr ""
+msgstr "Белизский доллар"
 
 #: src/devises.c:127
 msgid "Belize"
-msgstr ""
+msgstr "Белиз"
 
 #: src/devises.c:128
 msgid "Costa Rican Colon"
@@ -2426,7 +2426,7 @@ msgstr ""
 
 #: src/devises.c:128
 msgid "Costa Rica"
-msgstr ""
+msgstr "Коста Рика"
 
 #: src/devises.c:129
 msgid "Guatemalan Quetzal"
@@ -2434,7 +2434,7 @@ msgstr ""
 
 #: src/devises.c:129
 msgid "Guatemala"
-msgstr ""
+msgstr "Гватемала"
 
 #: src/devises.c:130
 msgid "Honduran Lempira"
@@ -2442,23 +2442,23 @@ msgstr ""
 
 #: src/devises.c:130
 msgid "Honduras"
-msgstr ""
+msgstr "Гондурас"
 
 #: src/devises.c:131
 msgid "Mexican Peso"
-msgstr ""
+msgstr "Мексиканский песо"
 
 #: src/devises.c:131
 msgid "Mexico"
-msgstr ""
+msgstr "Мексика"
 
 #: src/devises.c:132
 msgid "Panama Balboa"
-msgstr ""
+msgstr "Панамский бальбоа"
 
 #: src/devises.c:132 src/devises.c:197
 msgid "Panama"
-msgstr ""
+msgstr "Панама"
 
 #: src/devises.c:133 src/devises.c:134 src/devises.c:135 src/devises.c:136
 #: src/devises.c:137 src/devises.c:138 src/devises.c:139 src/devises.c:140
@@ -2470,131 +2470,131 @@ msgstr ""
 #: src/devises.c:161 src/devises.c:162 src/devises.c:163 src/devises.c:164
 #: src/devises.c:165 src/devises.c:166 src/devises.c:167 src/devises.c:494
 msgid "Europe"
-msgstr ""
+msgstr "Европа"
 
 #: src/devises.c:133
 msgid "Albanian Lek"
-msgstr ""
+msgstr "Албанский лек"
 
 #: src/devises.c:133
 msgid "Albania"
-msgstr ""
+msgstr "Албания"
 
 #: src/devises.c:134
 msgid "Austrian Schilling"
-msgstr ""
+msgstr "Австрийский шиллинг"
 
 #: src/devises.c:134
 msgid "Austria"
-msgstr ""
+msgstr "Австрия"
 
 #: src/devises.c:135
 msgid "Belgian Franc"
-msgstr ""
+msgstr "Бельгийский франк"
 
 #: src/devises.c:135
 msgid "Belgium"
-msgstr ""
+msgstr "Бельгия"
 
 #: src/devises.c:136
 msgid "Bulgarian Lev"
-msgstr ""
+msgstr "Болгарский лев"
 
 #: src/devises.c:136
 msgid "Bulgaria"
-msgstr ""
+msgstr "Болгария"
 
 #: src/devises.c:137
 msgid "Czech Koruna"
-msgstr ""
+msgstr "Чешская крона"
 
 #: src/devises.c:137
 msgid "Czech Republic"
-msgstr ""
+msgstr "Чешская республика"
 
 #: src/devises.c:138
 msgid "Danish Krone"
-msgstr ""
+msgstr "Датская крона"
 
 #: src/devises.c:138
 msgid "Denmark"
-msgstr ""
+msgstr "Дания"
 
 #: src/devises.c:139
 msgid "Deutsche Mark"
-msgstr ""
+msgstr "Немецкая марка"
 
 #: src/devises.c:139
 msgid "Germany"
-msgstr ""
+msgstr "Германия"
 
 #: src/devises.c:140
 msgid "Estonian Kroon"
-msgstr ""
+msgstr "Эстонская крона"
 
 #: src/devises.c:140
 msgid "Estonia"
-msgstr ""
+msgstr "Эстония"
 
 #: src/devises.c:141
 msgid "Finnish Markka"
-msgstr ""
+msgstr "Финская марка"
 
 #: src/devises.c:141
 msgid "Finland"
-msgstr ""
+msgstr "Финляндия"
 
 #: src/devises.c:142
 msgid "French Franc"
-msgstr ""
+msgstr "Французский франк"
 
 #: src/devises.c:142
 msgid "France"
-msgstr ""
+msgstr "Франция"
 
 #: src/devises.c:143
 msgid "Gibraltar Pound"
-msgstr ""
+msgstr "Гибралтарский фунт"
 
 #: src/devises.c:143
 msgid "Gibraltar"
-msgstr ""
+msgstr "Гибралтар"
 
 #: src/devises.c:144
 msgid "Greek Drachma"
-msgstr ""
+msgstr "Греческая драхма"
 
 #: src/devises.c:144
 msgid "Greece"
-msgstr ""
+msgstr "Греция"
 
 #: src/devises.c:145
 msgid "Hungarian Forint"
-msgstr ""
+msgstr "Венгерский форинт"
 
 #: src/devises.c:145
 msgid "Hungary"
-msgstr ""
+msgstr "Венгрия"
 
 #: src/devises.c:146
 msgid "Iceland Krona"
-msgstr ""
+msgstr "Исландская крона"
 
 #: src/devises.c:146
 msgid "Iceland"
-msgstr ""
+msgstr "Исландия"
 
 #: src/devises.c:147
 msgid "Irish Pound"
-msgstr ""
+msgstr "Ирландский фунт"
 
 #: src/devises.c:147
 msgid "Ireland"
-msgstr ""
+msgstr "Ирландия"
 
 #: src/devises.c:148 src/devises.c:149 src/devises.c:150
 msgid "Italian Lira"
-msgstr ""
+msgstr "Итальянская лира"
 
 #: src/devises.c:148
 msgid "Holy See"
@@ -2602,99 +2602,99 @@ msgstr ""
 
 #: src/devises.c:149
 msgid "Italy"
-msgstr ""
+msgstr "Италия"
 
 #: src/devises.c:150
 msgid "San Marino"
-msgstr ""
+msgstr "Сан Марино"
 
 #: src/devises.c:151
 msgid "Latvian Lat"
-msgstr ""
+msgstr "Латвийский лат"
 
 #: src/devises.c:151
 msgid "Latvia"
-msgstr ""
+msgstr "Латвия"
 
 #: src/devises.c:152
 msgid "Lithuanian Litas"
-msgstr ""
+msgstr "Литовский лит"
 
 #: src/devises.c:152
 msgid "Lietuva"
-msgstr ""
+msgstr "Литва"
 
 #: src/devises.c:153
 msgid "Luxembourg Franc"
-msgstr ""
+msgstr "Люксембургский франк"
 
 #: src/devises.c:153
 msgid "Luxembourg"
-msgstr ""
+msgstr "Люксембург"
 
 #: src/devises.c:154
 msgid "Netherlands Guilder"
-msgstr ""
+msgstr "Нидерландский гульден"
 
 #: src/devises.c:154
 msgid "Netherlands"
-msgstr ""
+msgstr "Нидерланды"
 
 #: src/devises.c:155
 msgid "New Yugoslavian Dinar"
-msgstr ""
+msgstr "Новый югославский динар"
 
 #: src/devises.c:155
 msgid "Serbia and Montenegro"
-msgstr ""
+msgstr "Сербия и Черногория"
 
 #: src/devises.c:156
 msgid "Norwegian Krone"
-msgstr ""
+msgstr "Норвежская крона"
 
 #: src/devises.c:156
 msgid "Norway"
-msgstr ""
+msgstr "Норвегия"
 
 #: src/devises.c:157
 msgid "Polish Zloty"
-msgstr ""
+msgstr "Польская злота"
 
 #: src/devises.c:157
 msgid "Poland"
-msgstr ""
+msgstr "Польша"
 
 #: src/devises.c:158
 msgid "Portuguese Escudo"
-msgstr ""
+msgstr "Португальский эскудо"
 
 #: src/devises.c:158
 msgid "Portugal"
-msgstr ""
+msgstr "Португалия"
 
 #: src/devises.c:159
 msgid "Pound Sterling"
-msgstr ""
+msgstr "Фунт стерлингов"
 
 #: src/devises.c:159
 msgid "United Kingdom"
-msgstr ""
+msgstr "Объединённое королевство"
 
 #: src/devises.c:160
 msgid "Romanian Leu"
-msgstr ""
+msgstr "Румынский лев"
 
 #: src/devises.c:160
 msgid "Romania"
-msgstr ""
+msgstr "Румыния"
 
 #: src/devises.c:161
 msgid "Slovak Koruna"
-msgstr ""
+msgstr "Словацкая крона"
 
 #: src/devises.c:161
 msgid "Slovakia"
-msgstr ""
+msgstr "Словакия"
 
 #: src/devises.c:162
 msgid "Slovene Tolar"
@@ -2702,82 +2702,82 @@ msgstr ""
 
 #: src/devises.c:162
 msgid "Slovenia"
-msgstr ""
+msgstr "Словения"
 
 #: src/devises.c:163
 msgid "Spanish Peseta"
-msgstr ""
+msgstr "Испанская песета"
 
 #: src/devises.c:163
 msgid "Spain"
-msgstr ""
+msgstr "Испания"
 
 #: src/devises.c:164
 msgid "Swedish Krona"
-msgstr ""
+msgstr "Шведская крона"
 
 #: src/devises.c:164
 msgid "Sweden"
-msgstr ""
+msgstr "Швеция"
 
 #: src/devises.c:165 src/devises.c:166
 msgid "Swiss Franc"
-msgstr ""
+msgstr "Швейцарский франк"
 
 #: src/devises.c:165
 msgid "Liechtenstein"
-msgstr ""
+msgstr "Лихтенштейн"
 
 #: src/devises.c:166
 msgid "Switzerland"
-msgstr ""
+msgstr "Швейцария"
 
 #: src/devises.c:167
 msgid "Hryvnia"
-msgstr ""
+msgstr "Гривна"
 
 #: src/devises.c:167
 msgid "Ukraine"
-msgstr ""
+msgstr "Украина"
 
 #: src/devises.c:168 src/devises.c:169 src/devises.c:170 src/devises.c:171
 #: src/devises.c:172 src/devises.c:173 src/devises.c:174 src/devises.c:175
 #: src/devises.c:176 src/devises.c:177 src/devises.c:178 src/devises.c:179
 #: src/devises.c:180 src/devises.c:181 src/devises.c:495
 msgid "Northern America"
-msgstr ""
+msgstr "Северная Америка"
 
 #: src/devises.c:168
 msgid "Bahamian Dollar"
-msgstr ""
+msgstr "Багамский доллар"
 
 #: src/devises.c:168
 msgid "Bahamas"
-msgstr ""
+msgstr "Багамы"
 
 #: src/devises.c:169
 msgid "Barbados Dollar"
-msgstr ""
+msgstr "Барбадосский доллар"
 
 #: src/devises.c:169
 msgid "Barbados"
-msgstr ""
+msgstr "Барбадос"
 
 #: src/devises.c:170
 msgid "Bermuda Dollar"
-msgstr ""
+msgstr "Бермудский доллар"
 
 #: src/devises.c:170
 msgid "Bermuda"
-msgstr ""
+msgstr "Бермуды"
 
 #: src/devises.c:171
 msgid "Canadian Dollar"
-msgstr ""
+msgstr "Канадский доллар"
 
 #: src/devises.c:171
 msgid "Canada"
-msgstr ""
+msgstr "Канада"
 
 #: src/devises.c:172
 msgid "Cayman Islands Dollar"
@@ -2785,23 +2785,23 @@ msgstr ""
 
 #: src/devises.c:172
 msgid "Cayman Islands"
-msgstr ""
+msgstr "Каймановы о-ва"
 
 #: src/devises.c:173
 msgid "Cuban Peso"
-msgstr ""
+msgstr "Кубинский песо"
 
 #: src/devises.c:173
 msgid "Cuba"
-msgstr ""
+msgstr "Куба"
 
 #: src/devises.c:174
 msgid "Dominican Peso"
-msgstr ""
+msgstr "Доминиканский песо"
 
 #: src/devises.c:174
 msgid "Dominican Republic"
-msgstr ""
+msgstr "Доминиканская республика"
 
 #: src/devises.c:175 src/devises.c:176
 msgid "East Caribbean Dollar"
@@ -2809,7 +2809,7 @@ msgstr ""
 
 #: src/devises.c:175
 msgid "Grenada"
-msgstr ""
+msgstr "Гренада"
 
 #: src/devises.c:176
 msgid "Saint Lucia"
@@ -2821,15 +2821,15 @@ msgstr ""
 
 #: src/devises.c:177
 msgid "Haiti"
-msgstr ""
+msgstr "Гаити"
 
 #: src/devises.c:178
 msgid "Jamaican Dollar"
-msgstr ""
+msgstr "Ямайский доллар"
 
 #: src/devises.c:178
 msgid "Jamaica"
-msgstr ""
+msgstr "Ямайка"
 
 #: src/devises.c:179
 msgid "Netherlands Antillian Guilder"
@@ -2845,15 +2845,15 @@ msgstr ""
 
 #: src/devises.c:180
 msgid "Trinidad and Tobago"
-msgstr ""
+msgstr "Тринидад и Тобаго"
 
 #: src/devises.c:181 src/devises.c:197
 msgid "United States Dollar"
-msgstr ""
+msgstr "Доллар США"
 
 #: src/devises.c:181
 msgid "United States"
-msgstr ""
+msgstr "Соединённые штаты Америки"
 
 #: src/devises.c:182 src/devises.c:183 src/devises.c:184 src/devises.c:185
 #: src/devises.c:186 src/devises.c:187 src/devises.c:188 src/devises.c:189
@@ -2861,15 +2861,15 @@ msgstr ""
 #: src/devises.c:194 src/devises.c:195 src/devises.c:196 src/devises.c:197
 #: src/devises.c:198 src/devises.c:496
 msgid "Pacific Ocean"
-msgstr ""
+msgstr "Тихий океан"
 
 #: src/devises.c:182 src/devises.c:183 src/devises.c:184 src/devises.c:185
 msgid "Australian Dollar"
-msgstr ""
+msgstr "Австралийский доллар"
 
 #: src/devises.c:182
 msgid "Australia"
-msgstr ""
+msgstr "Австралия"
 
 #: src/devises.c:183
 msgid "Kiribati"
@@ -2877,7 +2877,7 @@ msgstr ""
 
 #: src/devises.c:184
 msgid "Nauru"
-msgstr ""
+msgstr "Науру"
 
 #: src/devises.c:185
 msgid "Tuvalu"
@@ -2889,11 +2889,11 @@ msgstr ""
 
 #: src/devises.c:186
 msgid "French Polynesia"
-msgstr ""
+msgstr "Французская Полинезия"
 
 #: src/devises.c:187
 msgid "New Caledonia"
-msgstr ""
+msgstr "Новая Каледония"
 
 #: src/devises.c:188
 msgid "Wallis and Futuna"
@@ -2901,23 +2901,23 @@ msgstr ""
 
 #: src/devises.c:189
 msgid "Fiji Dollar"
-msgstr ""
+msgstr "Доллар Фиджи"
 
 #: src/devises.c:189
 msgid "Fiji"
-msgstr ""
+msgstr "О-ва Фиджи"
 
 #: src/devises.c:190 src/devises.c:191
 msgid "New Zealand Dollar"
-msgstr ""
+msgstr "Новозеландский доллар"
 
 #: src/devises.c:190
 msgid "Cook Islands"
-msgstr ""
+msgstr "О-ва Кука"
 
 #: src/devises.c:191
 msgid "New Zealand"
-msgstr ""
+msgstr "Новая Зеландия"
 
 #: src/devises.c:192
 msgid "Papua New Guinea Kina"
@@ -2925,7 +2925,7 @@ msgstr ""
 
 #: src/devises.c:192
 msgid "Papua New Guinea"
-msgstr ""
+msgstr "Папуа Новая Гвинея"
 
 #: src/devises.c:193
 msgid "Samoa Tala"
@@ -2933,7 +2933,7 @@ msgstr ""
 
 #: src/devises.c:193
 msgid "Samoa"
-msgstr ""
+msgstr "О-ва Самоа"
 
 #: src/devises.c:194
 msgid "Solomon Islands Dollar"
@@ -2941,7 +2941,7 @@ msgstr ""
 
 #: src/devises.c:194
 msgid "Solomon Islands"
-msgstr ""
+msgstr "Соломоновы о-ва"
 
 #: src/devises.c:195
 msgid "Timor Escudo"
@@ -2971,23 +2971,23 @@ msgstr ""
 #: src/devises.c:203 src/devises.c:204 src/devises.c:205 src/devises.c:206
 #: src/devises.c:497
 msgid "Southern America"
-msgstr ""
+msgstr "Южная Америка"
 
 #: src/devises.c:199
 msgid "Chilean Peso"
-msgstr ""
+msgstr "Чилийский песо"
 
 #: src/devises.c:199
 msgid "Chile"
-msgstr ""
+msgstr "Чили"
 
 #: src/devises.c:200
 msgid "Colombian Peso"
-msgstr ""
+msgstr "Колумбийский песо"
 
 #: src/devises.c:200
 msgid "Colombia"
-msgstr ""
+msgstr "Колумбия"
 
 #: src/devises.c:201
 msgid "Ecuador Sucre"
@@ -2995,7 +2995,7 @@ msgstr ""
 
 #: src/devises.c:201
 msgid "Ecuador"
-msgstr ""
+msgstr "Эквадор"
 
 #: src/devises.c:202
 msgid "Guyana Dollar"
@@ -3011,15 +3011,15 @@ msgstr ""
 
 #: src/devises.c:203
 msgid "Paraguay"
-msgstr ""
+msgstr "Парагвай"
 
 #: src/devises.c:204
 msgid "Real"
-msgstr ""
+msgstr "Реал"
 
 #: src/devises.c:204
 msgid "Brazil"
-msgstr ""
+msgstr "Бразилия"
 
 #: src/devises.c:205
 msgid "Suriname Guilder"
@@ -3027,46 +3027,46 @@ msgstr ""
 
 #: src/devises.c:205
 msgid "Suriname"
-msgstr ""
+msgstr "Суринам"
 
 #: src/devises.c:206
 msgid "Venezuelan Bolivar"
-msgstr ""
+msgstr "Венесуэльский боливар"
 
 #: src/devises.c:206
 msgid "Venezuela"
-msgstr ""
+msgstr "Венесуэла"
 
 #. le 1er item c'est aucune devise
 #: src/devises.c:424
 msgid "No associated currency"
-msgstr ""
+msgstr "Нет ассоциированной валюты"
 
 #: src/devises.c:588
 msgid "Country name"
-msgstr ""
+msgstr "Название страны"
 
 #. Currency name
 #: src/devises.c:598 src/devises.c:711
 msgid "Currency name"
-msgstr ""
+msgstr "Название валюты"
 
 #: src/devises.c:608 src/devises.c:1378
 msgid "ISO Code"
-msgstr ""
+msgstr "ISO-код"
 
 #. Create code entry
 #: src/devises.c:619 src/devises.c:1379 src/devises.c:1516
 msgid "Sign"
-msgstr ""
+msgstr "Знак"
 
 #: src/devises.c:646
 msgid "Include obsolete currencies"
-msgstr ""
+msgstr "Показать устаревшие валюты"
 
 #: src/devises.c:675 src/import.c:456
 msgid "Add a currency"
-msgstr ""
+msgstr "Добавить валюту"
 
 #: src/devises.c:693
 msgid "ISO 4217 currencies"
@@ -3074,7 +3074,7 @@ msgstr ""
 
 #: src/devises.c:700
 msgid "Currency details"
-msgstr ""
+msgstr "Подробности о валюте"
 
 #. Currency ISO code
 #: src/devises.c:728
@@ -3084,15 +3084,15 @@ msgstr ""
 #. Currency usual sign
 #: src/devises.c:743
 msgid "Currency sign"
-msgstr ""
+msgstr "Знак валюты"
 
 #: src/devises.c:819
 msgid "All fields are not filled in!"
-msgstr ""
+msgstr "Не все поля заполнены!"
 
 #: src/devises.c:875
 msgid "..."
-msgstr ""
+msgstr "..."
 
 #: src/devises.c:964
 #, c-format
@@ -3124,41 +3124,41 @@ msgstr ""
 
 #: src/devises.c:1377 src/import.c:372
 msgid "Currency"
-msgstr ""
+msgstr "Валюта"
 
 #: src/devises.c:1383 src/etats_config.c:6196 src/parametres.c:286
 msgid "Currencies"
-msgstr ""
+msgstr "Валюты"
 
 #: src/devises.c:1387
 msgid "Known currencies"
-msgstr ""
+msgstr "Известные валюты"
 
 #: src/devises.c:1480
 msgid "Currency properties"
-msgstr ""
+msgstr "Свойства валюты"
 
 #. Create code entry
 #: src/devises.c:1532
 msgid "ISO code"
-msgstr ""
+msgstr "ISO-код"
 
 #. Will switch to Euro?
 #: src/devises.c:1548
 msgid "Will switch to Euro"
-msgstr ""
+msgstr "Будет заменена на евро"
 
 #: src/devises.c:1559
 msgid "Associated currency"
-msgstr ""
+msgstr "Ассоциированная валюта"
 
 #: src/devises.c:1580
 msgid "One"
-msgstr ""
+msgstr "1"
 
 #: src/devises.c:1588
 msgid "costs"
-msgstr ""
+msgstr "стоит"
 
 #: src/devises.c:1680 src/parametres.c:269
 msgid "Totals currencies"
@@ -3178,7 +3178,7 @@ msgstr ""
 
 #: src/devises.c:1923
 msgid "Last exchange rate"
-msgstr ""
+msgstr "Последний обменный курс"
 
 #: src/devises.c:1929
 msgid "No exchange rate defined"
@@ -4013,35 +4013,35 @@ msgstr ""
 
 #: src/etats_config.c:59
 msgid "Monday"
-msgstr ""
+msgstr "Понедельник"
 
 #: src/etats_config.c:60
 msgid "Tuesday"
-msgstr ""
+msgstr "Вторник"
 
 #: src/etats_config.c:61
 msgid "Wednesday"
-msgstr ""
+msgstr "Среда"
 
 #: src/etats_config.c:62
 msgid "Thursday"
-msgstr ""
+msgstr "Четверг"
 
 #: src/etats_config.c:63
 msgid "Friday"
-msgstr ""
+msgstr "Пятница"
 
 #: src/etats_config.c:64
 msgid "Saturday"
-msgstr ""
+msgstr "Суббота"
 
 #: src/etats_config.c:65
 msgid "Sunday"
-msgstr ""
+msgstr "Воскресенье"
 
 #: src/etats_config.c:94
 msgid "Reports setup"
-msgstr ""
+msgstr "Настройка отчётов"
 
 #: src/etats_config.c:121
 msgid "Data selection"
@@ -4049,7 +4049,7 @@ msgstr ""
 
 #: src/etats_config.c:127
 msgid "Dates"
-msgstr ""
+msgstr "Даты"
 
 #: src/etats_config.c:131
 msgid "Transfers"
@@ -4065,7 +4065,7 @@ msgstr ""
 #: src/traitement_variables.c:99 src/traitement_variables.c:222
 #: src/traitement_variables.c:225
 msgid "Accounts"
-msgstr ""
+msgstr "Счета"
 
 #: src/etats_config.c:151
 msgid "Texts"
@@ -4787,76 +4787,76 @@ msgstr ""
 #: src/traitement_variables.c:264 src/traitement_variables.c:267
 #: src/traitement_variables.c:270
 msgid "Reports"
-msgstr ""
+msgstr "Отчёты"
 
 #. mise en place du bouton ajouter
 #. on ajoute un Ã©tat vierge appelÃ© nouvel Ã©tat
 #: src/etats_onglet.c:236 src/etats_onglet.c:736 src/menu.c:110
 #: src/traitement_variables.c:123 src/traitement_variables.c:249
 msgid "New report"
-msgstr ""
+msgstr "Новый отчёт"
 
 #. on met le bouton personnaliser
 #: src/etats_onglet.c:253
 msgid "Customize report"
-msgstr ""
+msgstr "Настроить отчёт"
 
 #. on met le bouton dupliquer
 #: src/etats_onglet.c:271 src/etats_onglet.c:300 src/etats_onglet.c:1074
 #: src/etats_onglet.c:1119 src/menu.c:112 src/traitement_variables.c:129
 #: src/traitement_variables.c:255
 msgid "Clone report"
-msgstr ""
+msgstr "Склонировать отчёт"
 
 #. mise en place du bouton effacer Ã©tat
 #: src/etats_onglet.c:286
 msgid "Delete report"
-msgstr ""
+msgstr "Удалить отчёт"
 
 #: src/etats_onglet.c:303 src/etats_onglet.c:1077 src/etats_onglet.c:1122
 #: src/menu.c:113 src/traitement_variables.c:132
 #: src/traitement_variables.c:258
 msgid "Print report"
-msgstr ""
+msgstr "Напечатать отчёт"
 
 #: src/etats_onglet.c:306 src/etats_onglet.c:1083 src/etats_onglet.c:1128
 #: src/menu.c:117 src/traitement_variables.c:138
 #: src/traitement_variables.c:264
 msgid "Export report file"
-msgstr ""
+msgstr "Экспортировать в файл"
 
 #: src/etats_onglet.c:309 src/etats_onglet.c:1080 src/etats_onglet.c:1125
 #: src/menu.c:114 src/traitement_variables.c:135
 #: src/traitement_variables.c:261
 msgid "Export report as HTML..."
-msgstr ""
+msgstr "Экспортировать в HTML"
 
 #: src/etats_onglet.c:312 src/etats_onglet.c:1086 src/etats_onglet.c:1131
 #: src/menu.c:119 src/traitement_variables.c:141
 #: src/traitement_variables.c:267
 msgid "Remove report"
-msgstr ""
+msgstr "Удалить отчёт"
 
 #: src/etats_onglet.c:315 src/etats_onglet.c:1089 src/etats_onglet.c:1134
 #: src/menu.c:121 src/traitement_variables.c:144
 #: src/traitement_variables.c:270
 msgid "Edit report"
-msgstr ""
+msgstr "Изменить отчёт"
 
 #. Print report
 #. Set up dialog
 #: src/etats_onglet.c:337 src/print_config.c:64
 msgid "Print"
-msgstr ""
+msgstr "Печать"
 
 #. on met le bouton rafraichir
 #: src/etats_onglet.c:351
 msgid "Refresh"
-msgstr ""
+msgstr "Обновить"
 
 #: src/etats_onglet.c:473
 msgid "Choose template for new report"
-msgstr ""
+msgstr "Выбрать шаблон для нового отчёта"
 
 #: src/etats_onglet.c:474
 msgid ""
@@ -4866,25 +4866,25 @@ msgstr ""
 
 #: src/etats_onglet.c:477
 msgid "Report type"
-msgstr ""
+msgstr "Тип отчёта"
 
 #: src/etats_onglet.c:488
 msgid "Description"
-msgstr ""
+msgstr "Описание"
 
 #: src/etats_onglet.c:509
 msgid "Last month incomes and outgoings"
-msgstr ""
+msgstr "Доход и расход за последний месяц"
 
 #. revenus et dÃ©penses du mois courant
 #: src/etats_onglet.c:520 src/etats_onglet.c:646
 msgid "Current month incomes and outgoings"
-msgstr ""
+msgstr "Доход и расход за текущий месяц"
 
 #. on ajoute le budget annuel
 #: src/etats_onglet.c:528 src/etats_onglet.c:690
 msgid "Annual budget"
-msgstr ""
+msgstr "Ежегодный бюджет"
 
 #. remise de chÃ¨ques
 #: src/etats_onglet.c:536 src/etats_onglet.c:785
@@ -4899,7 +4899,7 @@ msgstr ""
 #. recherche
 #: src/etats_onglet.c:552 src/etats_onglet.c:897
 msgid "Search"
-msgstr ""
+msgstr "Поиск"
 
 #: src/etats_onglet.c:560
 msgid "Blank report"
@@ -4972,7 +4972,7 @@ msgstr ""
 #: src/etats_onglet.c:1055
 #, c-format
 msgid "Delete report \"%s\"?"
-msgstr ""
+msgstr "Удалить отчёт \"%s\"?"
 
 #: src/etats_onglet.c:1057
 msgid "This will irreversibly remove this report.  There is no undo for this."
@@ -5012,7 +5012,7 @@ msgstr ""
 
 #: src/etats_support.c:209
 msgid "all dates"
-msgstr ""
+msgstr "все даты"
 
 #: src/etats_support.c:221 src/etats_support.c:331
 #, c-format
@@ -5031,12 +5031,12 @@ msgstr ""
 #: src/etats_support.c:256 src/etats_support.c:305
 #, c-format
 msgid "%s %d"
-msgstr ""
+msgstr "%s %d"
 
 #: src/etats_support.c:266 src/etats_support.c:315
 #, c-format
 msgid "year %d"
-msgstr ""
+msgstr "год %d"
 
 #: src/etats_support.c:275
 #, c-format
@@ -5051,12 +5051,12 @@ msgstr ""
 #: src/etats_support.c:360 src/etats_support.c:390 src/etats_support.c:419
 #, c-format
 msgid "from %s %d"
-msgstr ""
+msgstr "от %s %d"
 
 #: src/etats_support.c:364 src/etats_support.c:394 src/etats_support.c:423
 #, c-format
 msgid "to %s %d"
-msgstr ""
+msgstr "до %s %d"
 
 #: src/exercice.c:131 src/parametres.c:302
 msgid "Financial years"
@@ -5078,12 +5078,12 @@ msgstr ""
 #. Start
 #: src/exercice.c:252
 msgid "Start"
-msgstr ""
+msgstr "Начало"
 
 #. End
 #: src/exercice.c:266
 msgid "End"
-msgstr ""
+msgstr "Конец"
 
 #. Activate in transaction form?
 #: src/exercice.c:280
@@ -5092,7 +5092,7 @@ msgstr ""
 
 #: src/exercice.c:317
 msgid "New financial year"
-msgstr ""
+msgstr "Новый финансовый год"
 
 #: src/exercice.c:460
 msgid "The financial year must have a name."
@@ -5117,7 +5117,7 @@ msgstr ""
 
 #: src/export.c:160
 msgid "Export files"
-msgstr ""
+msgstr "Экспортировать файлы"
 
 #: src/export.c:182 src/qif.c:929
 msgid "Select accounts to export"
@@ -5174,11 +5174,11 @@ msgstr "Счета в CSV-файл..."
 #: src/traitement_variables.c:210 src/traitement_variables.c:213
 #: src/traitement_variables.c:216 src/traitement_variables.c:219
 msgid "File"
-msgstr "Файл"
+msgstr "_Файл"
 
 #: src/fenetre_principale.c:66
 msgid "Main page"
-msgstr ""
+msgstr "Резюме"
 
 #: src/fenetre_principale.c:82
 msgid "Scheduler"
@@ -5254,7 +5254,7 @@ msgstr ""
 
 #: src/fichiers_gestion.c:441
 msgid "Close without saving"
-msgstr "Закрыть без сохранения"
+msgstr "Закрыть _без сохранения"
 
 #: src/fichiers_gestion.c:447
 msgid "If you close without saving, all of your changes will be discarded."
@@ -5288,7 +5288,7 @@ msgstr ""
 
 #: src/fichiers_gestion.c:738
 msgid "Saving backup"
-msgstr ""
+msgstr "Сохраняется архивная копия"
 
 #: src/fichiers_io.c:95
 #, c-format
@@ -5567,7 +5567,7 @@ msgstr ""
 
 #: src/help.c:80
 msgid "Development list (discuss, participate, criticize, ...): "
-msgstr ""
+msgstr "Список рассылки (обсуждение, участие, критика, ...): "
 
 #: src/help.c:82 src/help.c:88
 msgid "subscribe"
@@ -5583,31 +5583,31 @@ msgstr ""
 
 #: src/help.c:89
 msgid "Grisbi documentation"
-msgstr ""
+msgstr "Документация по Grisbi"
 
 #: src/help.c:96
 msgid "About..."
-msgstr ""
+msgstr "О программе..."
 
 #: src/help.c:140
 msgid "About Grisbi"
-msgstr ""
+msgstr "О Grisbi"
 
 #: src/help.c:175
 msgid "Authors"
-msgstr ""
+msgstr "Авторы"
 
 #: src/help.c:212
 msgid "Translators"
-msgstr ""
+msgstr "Переводчики"
 
 #: src/help.c:259
 msgid "Links"
-msgstr ""
+msgstr "Ссылки"
 
 #: src/help.c:283
 msgid "License"
-msgstr ""
+msgstr "Лицензия"
 
 #: src/import.c:93
 msgid "Select files to import"
@@ -5640,11 +5640,11 @@ msgstr ""
 
 #: src/import.c:382
 msgid "Action"
-msgstr ""
+msgstr "Действие"
 
 #: src/import.c:405
 msgid "Type of account"
-msgstr ""
+msgstr "Тип действия"
 
 #: src/import.c:415
 msgid "Origine"
@@ -5673,11 +5673,11 @@ msgstr ""
 
 #: src/import.c:645
 msgid "Create a new account"
-msgstr ""
+msgstr "Создать новый счёт"
 
 #: src/import.c:664
 msgid "Add the transactions"
-msgstr ""
+msgstr "Добавить транзакции"
 
 #: src/import.c:680
 msgid "Mark transactions"
@@ -5685,15 +5685,15 @@ msgstr ""
 
 #: src/import.c:812
 msgid "QIF file"
-msgstr ""
+msgstr "Файл QIF"
 
 #: src/import.c:816
 msgid "OFX file"
-msgstr ""
+msgstr "Файл OFX"
 
 #: src/import.c:820
 msgid "HTML file"
-msgstr ""
+msgstr "Файл HTML"
 
 #: src/import.c:824
 msgid "Unknown"
@@ -5702,7 +5702,7 @@ msgstr ""
 #. crÃ©ation des listes d'opÃ©s
 #: src/import.c:938
 msgid "Please wait"
-msgstr ""
+msgstr "Подождите, пожалуйста"
 
 #: src/import.c:1203
 msgid "Imported account"
@@ -5934,29 +5934,29 @@ msgstr ""
 
 #: src/menu.c:67
 msgid "New account file"
-msgstr ""
+msgstr "Новый файл счёта"
 
 #: src/menu.c:68
 msgid "_Open"
-msgstr ""
+msgstr "_Открыть"
 
 #: src/menu.c:70 src/traitement_variables.c:58 src/traitement_variables.c:65
 #: src/traitement_variables.c:207
 msgid "Save"
-msgstr ""
+msgstr "_Сохранить"
 
 #: src/menu.c:71 src/traitement_variables.c:87 src/traitement_variables.c:210
 msgid "Save as"
-msgstr ""
+msgstr "Сохранить _как"
 
 #: src/menu.c:73 src/menu.c:200 src/menu.c:204 src/menu.c:222 src/menu.c:243
 #: src/menu.c:254
 msgid "Recently opened files"
-msgstr ""
+msgstr "Н_едавние файлы"
 
 #: src/menu.c:76
 msgid "QIF\\/OFX\\/Gnucash file ..."
-msgstr ""
+msgstr "Файл QIF\\/OFX\\/Gnucash..."
 
 #: src/menu.c:80 src/traitement_variables.c:96 src/traitement_variables.c:219
 msgid "Debug file"
@@ -5964,11 +5964,11 @@ msgstr "Отладить файл"
 
 #: src/menu.c:82 src/traitement_variables.c:93 src/traitement_variables.c:216
 msgid "Close"
-msgstr "Закрыть"
+msgstr "_Закрыть"
 
 #: src/menu.c:83
 msgid "Exit"
-msgstr "Выйти"
+msgstr "Вы_йти"
 
 #. Edit menu
 #: src/menu.c:86 src/menu.c:87 src/menu.c:88 src/menu.c:89 src/menu.c:90
@@ -5984,41 +5984,41 @@ msgstr "Выйти"
 #: src/traitement_variables.c:237 src/traitement_variables.c:240
 #: src/traitement_variables.c:243 src/traitement_variables.c:246
 msgid "Edit"
-msgstr "Правка"
+msgstr "_Правка"
 
 #. New transaction
 #: src/menu.c:88 src/operations_liste.c:2686 src/traitement_variables.c:102
 #: src/traitement_variables.c:228
 msgid "New transaction"
-msgstr "Новая транзакция"
+msgstr "_Новая транзакция"
 
 #. New transaction from
 #: src/menu.c:89 src/operations_liste.c:2694 src/traitement_variables.c:105
 #: src/traitement_variables.c:231
 msgid "Use selected transaction as a template"
-msgstr ""
+msgstr "Использовать эту транзакцию как _шаблон"
 
 #: src/menu.c:90 src/traitement_variables.c:108 src/traitement_variables.c:234
 msgid "Remove transaction"
-msgstr "Удалить транзакцию"
+msgstr "_Удалить транзакцию"
 
 #. Clone transaction
 #: src/menu.c:91 src/operations_liste.c:2714 src/traitement_variables.c:111
 #: src/traitement_variables.c:237
 msgid "Clone transaction"
-msgstr "Склонировать транзакцию"
+msgstr "_Склонировать транзакцию"
 
 #. Edit transaction
 #: src/menu.c:92 src/operations_liste.c:2673 src/traitement_variables.c:114
 #: src/traitement_variables.c:240
 msgid "Edit transaction"
-msgstr "Изменить транзакцию"
+msgstr "_Изменить транзакцию"
 
 #. Convert to scheduled transaction
 #: src/menu.c:94 src/operations_liste.c:2727 src/traitement_variables.c:117
 #: src/traitement_variables.c:243
 msgid "Convert transaction to scheduled transaction"
-msgstr "Преобразовать транзакцию в запланированную"
+msgstr "Преобразовать транзакцию в _запланированную"
 
 #. Move to another account
 #: src/menu.c:95 src/operations_comptes.c:403 src/operations_comptes.c:408
@@ -6026,11 +6026,11 @@ msgstr "Преобразовать транзакцию в запланиров�
 #: src/operations_comptes.c:510 src/operations_liste.c:2737
 #: src/traitement_variables.c:120 src/traitement_variables.c:246
 msgid "Move transaction to another account"
-msgstr "Перенести транзацкию на другой счёт"
+msgstr "_Перенести транзакцию на другой счёт"
 
 #: src/menu.c:97
 msgid "Preferences"
-msgstr "Настроить..."
+msgstr "Н_астроить..."
 
 #: src/menu.c:116 src/traitement_variables.c:126
 #: src/traitement_variables.c:252
@@ -6041,27 +6041,27 @@ msgstr "Импортировать файл отчёта"
 #: src/menu.c:124 src/menu.c:125 src/menu.c:126 src/menu.c:127 src/menu.c:128
 #: src/menu.c:129 src/menu.c:130 src/menu.c:131 src/menu.c:132 src/menu.c:133
 msgid "Help"
-msgstr "Справка"
+msgstr "_Справка"
 
 #: src/menu.c:126
 msgid "Grisbi Manual"
-msgstr "Руководство по Grisbi"
+msgstr "_Руководство по Grisbi"
 
 #: src/menu.c:127
 msgid "Quickstart"
-msgstr "Введение"
+msgstr "_Введение"
 
 #: src/menu.c:128
 msgid "Translation"
-msgstr "Локализация"
+msgstr "_Локализация"
 
 #: src/menu.c:129
 msgid "About"
-msgstr "О программе"
+msgstr "_О программе"
 
 #: src/menu.c:131
 msgid "Grisbi website"
-msgstr "Веб-сайт Grisbi"
+msgstr "Веб-_сайт Grisbi"
 
 #: src/menu.c:132
 msgid "Report a bug"
@@ -6069,7 +6069,7 @@ msgstr "Сообщить об ошибке"
 
 #: src/menu.c:133
 msgid "On line User's guide"
-msgstr "Электронное руководство"
+msgstr "_Электронное руководство"
 
 #: src/menu.c:288
 msgid "_C"
@@ -6327,7 +6327,7 @@ msgstr ""
 #. Delete transaction
 #: src/operations_liste.c:2702
 msgid "Delete transaction"
-msgstr ""
+msgstr "Удалить транзакцию"
 
 #: src/operations_liste.c:3133
 msgid "Cannot move a transfer on his contra-account"
@@ -6336,35 +6336,35 @@ msgstr ""
 #. Create dialog
 #: src/parametres.c:150
 msgid "Grisbi setup"
-msgstr ""
+msgstr "Настройка Grisbi"
 
 #: src/parametres.c:180 src/parametres.c:514
 msgid "Files"
-msgstr ""
+msgstr "Файлы"
 
 #: src/parametres.c:196 src/parametres.c:715
 msgid "Programs"
-msgstr ""
+msgstr "Программы"
 
 #: src/parametres.c:205
 msgid "Display"
-msgstr ""
+msgstr "Вид"
 
 #: src/parametres.c:220 src/parametres.c:380
 msgid "Messages & warnings"
-msgstr ""
+msgstr "Сообщения и предупреждения"
 
 #: src/parametres.c:252
 msgid "Transactions list lines"
-msgstr ""
+msgstr "Линии списка транзакций"
 
 #: src/parametres.c:279
 msgid "Resources"
-msgstr ""
+msgstr "Ресурсы"
 
 #: src/parametres.c:385
 msgid "Warnings messages"
-msgstr ""
+msgstr "Предупредительные сообщения"
 
 #. Display a warning message if minimum balances are under minimum level
 #: src/parametres.c:388
@@ -6424,7 +6424,7 @@ msgstr ""
 
 #: src/parametres.c:451
 msgid "Scheduler warnings"
-msgstr ""
+msgstr "Предупреждения по расписанию"
 
 #: src/parametres.c:455
 msgid "Number of days before a warning message advertising a scheduled transaction"
