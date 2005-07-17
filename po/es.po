@@ -9,12 +9,12 @@ msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-05-14 17:39+0200\n"
-"PO-Revision-Date: 2005-05-04 11:54+0200\n"
+"PO-Revision-Date: 2005-07-17 18:02+0200\n"
 "Last-Translator: Carlos M. Cámara Mora <carcam_moceu@yahoo.es>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
+"Content-Transfer-Encoding: 8bit"
 
 #: src/accueil.c:120
 msgid "No user"
@@ -5217,9 +5217,8 @@ msgstr "Años financieros conocidos"
 
 #. Associate operations
 #: src/exercice.c:210
-#, fuzzy
 msgid "Associate transactions without financial years"
-msgstr "Operaciones asociadas sin los años financieros"
+msgstr "Asociar transacciones sin los años financieros"
 
 #: src/exercice.c:230
 msgid "Financial year details"
@@ -5766,9 +5765,8 @@ msgid "Martin Stromberger (Fabiolla[at]aon.at): German"
 msgstr "Martin Stromberger (Fabiolla[at]aon.at): Alemán"
 
 #: src/help.c:74
-#, fuzzy
 msgid "Ryszard Jeziorski (r.jeziorski[at]dart.kielce.pl): Polish"
-msgstr "Ryszard Jeziorski (rjeziorski[at]eagle): Polaco"
+msgstr "Ryszard Jeziorski (rjeziorski[at]dart.kielce.pl): Polaco"
 
 #: src/help.c:80
 msgid "Development list (discuss, participate, criticize, ...): "
@@ -6309,7 +6307,6 @@ msgid "On line User's guide"
 msgstr "Guía del usuario en línea"
 
 #: src/menu.c:288
-#, fuzzy
 msgid "_C"
 msgstr "_C"
 
