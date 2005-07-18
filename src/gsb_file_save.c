@@ -1257,9 +1257,7 @@ gboolean gsb_file_save_save_file ( gchar *filename )
     length = strlen (file_content);
     last_file_content = file_content;
 
-    file_content = gsb_file_util_crypt_file ( file_content,
-					      TRUE,
-					      length );
+    file_content = gsb_file_util_crypt_file ( filename, file_content, TRUE, length );
     
     /* if the encryption was ok, the length increased of 22 */
 

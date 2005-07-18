@@ -303,12 +303,9 @@ gboolean gsb_file_load_open_file ( gchar *filename )
 
 	/* first, we check if the file is crypted, if it is, we decrypt it */
 
-	if ( !strncmp ( file_content,
-			"Grisbi encrypted file ",
-			22 ))
-	    if ( !( file_content = gsb_file_util_crypt_file ( file_content,
-							      FALSE,
-							      length )))
+	if ( !strncmp ( file_content, "Grisbi encrypted file ", 22 ))
+	    if ( !( file_content = gsb_file_util_crypt_file ( filename, file_content, 
+							      FALSE, length )))
 		return FALSE;
 
 	/* we begin to check if we are in a version under 0.6 or 0.6 and above,

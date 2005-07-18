@@ -35,7 +35,7 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static gchar *gsb_file_util_ask_for_crypt_key (  gboolean encrypt  );
+static gchar *gsb_file_util_ask_for_crypt_key ( gchar * file_name, gboolean encrypt  );
 /*END_STATIC*/
 
 
@@ -64,21 +64,24 @@ gchar *gsb_file_util_compress_file ( gchar *file_content,
     return file_content;
 }
 
+
+
 /**
  * crypt if necessary the string given in the param
  * if the string is crypted, the parameter string is freed
  *
- * \param file_content a string which is the file
- * \param crypt TRUE to crypt, FALSE to uncrypt
- * \param length the length of the grisbi data,
- * without "Grisbi encrypted file " if comes to crypt
- * with "Grisbi encrypted file " if comes to decrypt
+ * \param file_name	File name, used to 
+ * \param file_content	A string which is the file
+ * \param crypt		TRUE to crypt, FALSE to uncrypt
+ * \param length	The length of the grisbi data, without "Grisbi
+ *			encrypted file " if comes to crypt with
+ *			"Grisbi encrypted file " if comes to decrypt 
  *
- * \return either the same string, either the crypted string, either NULL if we cannot decrypt
- * */
-gchar *gsb_file_util_crypt_file ( gchar *file_content,
-				  gboolean crypt,
-				  gint length )
+ * \return either the same string, either the crypted string, either
+ * NULL if we cannot decrypt 
+ */
+gchar *gsb_file_util_crypt_file ( gchar * file_name, gchar *file_content,
+				  gboolean crypt, gint length )
 {
     gint result;
     gchar *key;
@@ -103,7 +106,7 @@ gchar *gsb_file_util_crypt_file ( gchar *file_content,
 	if ( crypt_key )
 	    key = crypt_key;
 	else
-	    key = gsb_file_util_ask_for_crypt_key (TRUE);
+	    key = gsb_file_util_ask_for_crypt_key ( file_name, TRUE);
 
 	/* if we have no key, we will no crypt that file */
 
@@ -171,7 +174,7 @@ return_bad_password:
 	if ( crypt_key )
 	    key = crypt_key;
 	else
-	    key = gsb_file_util_ask_for_crypt_key (FALSE);
+	    key = gsb_file_util_ask_for_crypt_key ( file_name, FALSE);
 
 	/* if we have no key, we stop the loading */
 
@@ -249,59 +252,68 @@ return_bad_password:
  *
  * \param encrypt : TRUE if comes to encrypt, FALSE to decrypt
  *
- * \return a string which is the crypt key
- * */
-gchar *gsb_file_util_ask_for_crypt_key ( gboolean encrypt )
+ * \return a string which is the crypt key or NULL if it was
+ * cancelled. */
+gchar *gsb_file_util_ask_for_crypt_key ( gchar * file_name, gboolean encrypt )
 {
     gchar *key = NULL;
-    GtkWidget *dialog;
-    GtkWidget *button;
-    GtkWidget *label;
-    GtkWidget *entry;
+    GtkWidget *dialog, *button, *label, *entry, *hbox, *hbox2, *vbox, *icon;
     gint result;
 
-    dialog = gtk_dialog_new_with_buttons ( _("Ask for password"),
+    dialog = gtk_dialog_new_with_buttons ( _("Grisbi password"),
 					   GTK_WINDOW ( window ),
 					   GTK_DIALOG_MODAL,
-					   GTK_STOCK_OK, GTK_RESPONSE_OK,
 					   GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+					   ( encrypt ? _("Crypt file") : _("Decrypt file") ),
+					   GTK_RESPONSE_OK,
 					   NULL );
     gtk_dialog_set_default_response ( GTK_DIALOG ( dialog ),
 				      GTK_RESPONSE_OK );
 
+    hbox = gtk_hbox_new ( FALSE, 6 );
+    gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox), hbox, TRUE, TRUE, 6 );
+
+    /* Ugly dance to force alignement. */
+    vbox = gtk_vbox_new ( FALSE, 6 );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), vbox, FALSE, FALSE, 6 );
+    icon = gtk_image_new_from_stock ( GTK_STOCK_DIALOG_AUTHENTICATION,
+				      GTK_ICON_SIZE_DIALOG );
+    gtk_box_pack_start ( GTK_BOX ( vbox ), icon, FALSE, FALSE, 6 );
+    
+    vbox = gtk_vbox_new ( FALSE, 6 );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), vbox, TRUE, TRUE, 6 );
+
+    label = gtk_label_new ("");
+    gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_LEFT );
+    gtk_misc_set_alignment (GTK_MISC (label), 0, 0);
+    gtk_label_set_line_wrap ( GTK_LABEL(label), TRUE );
+
     if ( encrypt )
-	label = gtk_label_new ( _( "Please enter the password to encrypt the file :\n(leave it blank or cancel not to do any encryption)" ));
+	gtk_label_set_markup ( label,
+			       g_strdup_printf ( _( "Please enter password to encrypt file\n'<tt>%s</tt>'" ),
+						 file_name ) );
     else
-	label = gtk_label_new ( _( "Please enter the password to decrypt the file :\n" ));
-    gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox),
-			 label,
-			 FALSE,
-			 FALSE,
-			 5 );
-    gtk_widget_show ( label );
+	gtk_label_set_markup ( label, 
+			       g_strdup_printf ( _( "Please enter password to decrypt file\n'<tt>%s</tt>'" ),
+						 file_name ) );
+    gtk_box_pack_start ( GTK_BOX ( vbox ), label, FALSE, FALSE, 6 );
+
+    hbox2 = gtk_hbox_new ( FALSE, 6 );
+    gtk_box_pack_start ( GTK_BOX ( vbox ), hbox2, FALSE, FALSE, 6 );
+    gtk_box_pack_start ( GTK_BOX ( hbox2 ), 
+			 gtk_label_new ( COLON(_("Password")) ), 
+			 FALSE, FALSE, 0 );
 
     entry = gtk_entry_new ();
-    gtk_entry_set_activates_default ( GTK_ENTRY ( entry ),
-				      TRUE );
-    gtk_entry_set_visibility ( GTK_ENTRY ( entry ),
-			       FALSE );
-    gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox),
-			 entry,
-			 FALSE,
-			 FALSE,
-			 5 );
-    gtk_widget_show ( entry );
+    gtk_entry_set_activates_default ( GTK_ENTRY ( entry ), TRUE );
+    gtk_entry_set_visibility ( GTK_ENTRY ( entry ), FALSE );
+    gtk_box_pack_start ( GTK_BOX ( hbox2 ), entry, TRUE, TRUE, 0 );
 
-    button = gtk_check_button_new_with_label ( _("Keep the password in memory\n(It won't be asked again for this file in that grisbi session)"));
-    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( button ),
-				   TRUE );
-    gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox),
-			 button,
-			 FALSE,
-			 FALSE,
-			 5 );
-    gtk_widget_show ( button );
+    button = gtk_check_button_new_with_label ( _("Don't ask password again for this session."));
+    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( button ), TRUE );
+    gtk_box_pack_start ( GTK_BOX ( vbox ), button, FALSE, FALSE, 5 );
 
+    gtk_widget_show_all ( dialog );
     result = gtk_dialog_run ( GTK_DIALOG ( dialog ));
 
     switch (result)
@@ -324,6 +336,8 @@ gchar *gsb_file_util_ask_for_crypt_key ( gboolean encrypt )
 
     return key;
 }
+
+
 
 /**
  * for a grisbi file before 0.5.1, switch the R and T transactions because T appears
