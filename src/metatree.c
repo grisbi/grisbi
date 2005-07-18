@@ -858,6 +858,8 @@ gboolean division_drag_data_received ( GtkTreeDragDest * drag_dest, GtkTreePath 
 
 	gtk_tree_get_row_drag_data (selection_data, &model, &orig_path);
 	iface = g_object_get_data ( G_OBJECT(model), "metatree-interface" );
+	if ( ! iface )
+	    return FALSE;
 
 	metatree_get_row_properties ( model, orig_path,
 				      NULL, &no_orig_division, &no_orig_sub_division, 
