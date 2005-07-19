@@ -26,6 +26,7 @@ gboolean change_page_notebook ( GtkNotebook *notebook,
 				gpointer null );
 GtkWidget * create_main_widget ( void );
 void gsb_gui_headings_update ( gchar * title, gchar * suffix );
+void gsb_gui_notebook_change_page ( GsbGeneralNotebookPages page );
 /*END_DECLARATION*/
 
 #endif
