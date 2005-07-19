@@ -50,7 +50,6 @@ static GtkWidget * print_backtrace ( void );
 
 /*START_EXTERN*/
 extern AB_BANKING *gbanking;
-extern gint id_temps;
 extern gchar *log_message;
 extern gchar *nom_fichier_comptes;
 extern GtkWidget *window;
@@ -110,13 +109,6 @@ gboolean fermeture_grisbi ( void )
 
     gsb_file_util_modify_lock ( FALSE );
 
-    /*       stoppe le timer */
-
-    if ( id_temps )
-    {
-	gtk_timeout_remove ( id_temps );
-	id_temps = 0;
-    }
 
 #ifdef HAVE_G2BANKING
     if (gbanking) {

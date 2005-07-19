@@ -81,7 +81,6 @@ extern GtkWidget *vbox_liste_comptes;
 extern GtkWidget *window;
 /*END_EXTERN*/
 
-gint id_temps;
 gchar *chemin_logo;
 GtkWidget *logo_accueil;
 GtkWidget *label_temps;

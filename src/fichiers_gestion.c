@@ -77,7 +77,6 @@ gchar *nom_fichier_backup;
 extern gint compression_backup;
 extern gint compression_fichier;
 extern gchar *dernier_chemin_de_travail;
-extern gint id_temps;
 extern GSList *liste_struct_echeances;
 extern GSList *liste_struct_etats;
 extern GtkWidget *main_vbox;
@@ -772,14 +771,6 @@ gboolean fermer_fichier ( void )
 		 &&
 		 nom_fichier_comptes )
 		gsb_file_util_modify_lock ( FALSE );
-
-	    /*       stoppe le timer */
-
-	    if ( id_temps )
-	    {
-		gtk_timeout_remove ( id_temps );
-		id_temps = 0;
-	    }
 
 	    /* libère les opérations de tous les comptes */
 
