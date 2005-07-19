@@ -59,6 +59,7 @@ static gboolean selectionne_liste_preference ( GtkTreeSelection *selection,
 					GtkTreeModel *model );
 static gboolean gsb_gui_messages_toggled ( GtkCellRendererToggle *cell, gchar *path_str,
 					   GtkTreeModel * model );
+gboolean gsb_gui_encryption_toggled ( GtkWidget * checkbox, gpointer data );
 /*END_STATIC*/
 
 
@@ -624,8 +625,8 @@ GtkWidget *onglet_fichier ( void )
 
     /* crypt the grisbi file */
     crypt_file_button = 
-	new_checkbox_with_title ( _("Crypt the grisbi file"),
-				  &(etat.crypt_file), NULL );
+	new_checkbox_with_title ( _("Encrypt Grisbi file"),
+				  &(etat.crypt_file), gsb_gui_encryption_toggled );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), crypt_file_button,
 			 FALSE, FALSE, 0 );
 
@@ -745,11 +746,36 @@ GtkWidget *onglet_fichier ( void )
 
 
 
+/**
+ * Warns that there is no coming back if password is forgotten when
+ * encryption is activated.
+ *
+ * \param checkbox	Checkbox that triggered event.
+ * \param data		Unused.
+ *
+ * \return		FALSE
+ */
+gboolean gsb_gui_encryption_toggled ( GtkWidget * checkbox, gpointer data )
+{
+    if ( gtk_toggle_button_get_active ( checkbox ) )
+    {
+	dialog_message ( "encryption-is-irreversible" );
+    }
+
+    return FALSE;
+}
 
 
-/* **************************************************************************************************************************** */
-void changement_choix_backup ( GtkWidget *bouton,
-			       gpointer pointeur )
+
+/**
+ * Callback triggered when user activates the "Backup" option.
+ *
+ * \param bouton	Checkbox that triggered event.
+ * \param pointeur	Unused.
+ *
+ * \return		FALSE
+ */
+void changement_choix_backup ( GtkWidget *bouton, gpointer pointeur )
 {
     if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_demande_backup )))
     {
