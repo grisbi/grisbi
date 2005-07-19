@@ -57,6 +57,9 @@ struct conditional_message messages[] =
     { "qif-does-not-define-currencies", N_("QIF format does not define currencies."),
       N_("All transactions will be converted into currency of their account."), 
       FALSE, FALSE, },
+    { "encryption-is-irreversible", N_("Encryption is irreversible."),
+      N_("Grisbi encrypts files in a secure way that does not allow recovery without original password.  This means that if you forget your password, you will loose all your data.  Use with caution.\n\nI repeat: if you forget your password, there is no coming back, don't complain to us."), 
+      FALSE, FALSE, },
 /*
     { "", N_(),
       N_(), 
