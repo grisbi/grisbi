@@ -73,22 +73,20 @@ static  gboolean gsb_gui_navigation_update_report_iterator ( GtkTreeModel * tree
 							    GtkTreePath *path, 
 							    GtkTreeIter *iter, 
 							    gpointer data );
-static gboolean navigation_drag_data_received ( GtkTreeDragDest * drag_dest, 
-					 GtkTreePath * dest_path,
-					 GtkSelectionData * selection_data );
+static gboolean navigation_drag_data_received ( GtkTreeDragDest * drag_dest,
+						GtkTreePath * dest_path,
+						GtkSelectionData * selection_data );
 static gboolean navigation_row_drop_possible ( GtkTreeDragDest * drag_dest, 
-					GtkTreePath * dest_path,
-					GtkSelectionData * selection_data );
+					       GtkTreePath * dest_path,
+					       GtkSelectionData * selection_data );
 static gboolean navigation_tree_drag_data_get ( GtkTreeDragSource * drag_source, GtkTreePath * path,
-			       GtkSelectionData * selection_data );
+						GtkSelectionData * selection_data );
 /*END_STATIC*/
 
 
 /*START_EXTERN*/
 extern gint compte_courant_onglet;
 extern GSList *liste_struct_etats;
-extern GtkTreeStore *model;
-extern GtkWidget *notebook_general;
 extern GtkTreeSelection * selection;
 extern gchar *titre_fichier;
 extern GtkWidget *tree_view;
@@ -100,7 +98,7 @@ extern GtkWidget *tree_view_liste_echeances;
 GtkWidget * navigation_tree_view;
 
 /** Model of the navigation tree. */
-GtkTreeModel * navigation_model;
+GtkTreeStore * navigation_model;
 
 /** Fitered model, without closed accounts. */
 GtkTreeModelFilter * navigation_model_filtered;
@@ -140,41 +138,45 @@ GtkWidget * create_navigation_pane ( void )
     gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw), GTK_POLICY_NEVER,
 				    GTK_POLICY_AUTOMATIC);
 
-    navigation_model = GTK_TREE_MODEL ( gtk_tree_store_new ( NAVIGATION_TOTAL, 
-							     GDK_TYPE_PIXBUF,
-							     G_TYPE_BOOLEAN, G_TYPE_STRING, 
-							     G_TYPE_INT, G_TYPE_INT, 
-							     G_TYPE_INT, G_TYPE_POINTER,
-							     G_TYPE_INT ) );
-
     /* Filter to display (or not) closed accounts. */
-    navigation_model_filtered = GTK_TREE_MODEL_FILTER ( gtk_tree_model_filter_new ( navigation_model, NULL ) );
-    gtk_tree_model_filter_set_visible_func ( navigation_model_filtered, 
-					     gsb_gui_navigation_line_visible_p,
-					     NULL, NULL );
+/*     navigation_model_filtered = GTK_TREE_MODEL_FILTER ( gtk_tree_model_filter_new ( navigation_model, NULL ) ); */
+/*     gtk_tree_model_filter_set_visible_func ( navigation_model_filtered,  */
+/* 					     gsb_gui_navigation_line_visible_p, */
+/* 					     NULL, NULL ); */
 
     /* Create the view */
-    navigation_tree_view = gtk_tree_view_new_with_model (GTK_TREE_MODEL(navigation_model_filtered));
+    navigation_tree_view = gtk_tree_view_new ();
     gtk_tree_view_set_headers_visible ( GTK_TREE_VIEW(navigation_tree_view), FALSE );
     gtk_container_add ( GTK_CONTAINER(sw), navigation_tree_view );
 
+    navigation_model = gtk_tree_store_new ( NAVIGATION_TOTAL, 
+					    GDK_TYPE_PIXBUF,
+					    G_TYPE_BOOLEAN, G_TYPE_STRING, 
+					    G_TYPE_INT, G_TYPE_INT, 
+					    G_TYPE_INT, G_TYPE_POINTER,
+					    G_TYPE_INT );
+
     /* Enable drag & drop */
-    gtk_tree_view_enable_model_drag_source( GTK_TREE_VIEW(navigation_tree_view),
-					    GDK_BUTTON1_MASK, row_targets, 1,
-					    GDK_ACTION_MOVE );
+    gtk_tree_view_enable_model_drag_source ( GTK_TREE_VIEW(navigation_tree_view),
+					     GDK_BUTTON1_MASK, row_targets, 1,
+					     GDK_ACTION_MOVE | GDK_ACTION_COPY );
     gtk_tree_view_enable_model_drag_dest ( GTK_TREE_VIEW(navigation_tree_view), row_targets,
-					   1, GDK_ACTION_MOVE );
+					   1, GDK_ACTION_MOVE | GDK_ACTION_COPY );
     gtk_tree_view_set_reorderable ( GTK_TREE_VIEW(navigation_tree_view), TRUE );
+    gtk_tree_selection_set_mode ( gtk_tree_view_get_selection ( GTK_TREE_VIEW(navigation_tree_view)),
+				  GTK_SELECTION_SINGLE );
+    gtk_tree_view_set_model ( GTK_TREE_VIEW(navigation_tree_view), 
+			      GTK_TREE_MODEL(navigation_model) );
 
     /* Handle drag & drop */
-    dst_iface = GTK_TREE_DRAG_DEST_GET_IFACE (navigation_model_filtered);
+    dst_iface = GTK_TREE_DRAG_DEST_GET_IFACE (navigation_model);
     if ( dst_iface )
     {
 	dst_iface -> drag_data_received = &navigation_drag_data_received;
 	dst_iface -> row_drop_possible = &navigation_row_drop_possible;
     }
 
-    src_iface = GTK_TREE_DRAG_SOURCE_GET_IFACE (navigation_model_filtered);
+    src_iface = GTK_TREE_DRAG_SOURCE_GET_IFACE (navigation_model);
     if ( src_iface )
     {
 	gtk_selection_add_target (navigation_tree_view,
@@ -189,11 +191,11 @@ GtkWidget * create_navigation_pane ( void )
     g_signal_connect ( navigation_tree_view,
 		       "key-press-event", 
 		       G_CALLBACK (gsb_gui_navigation_check_key_press),
-		       navigation_model_filtered );
+		       navigation_model  );
 
     g_signal_connect (gtk_tree_view_get_selection (GTK_TREE_VIEW (navigation_tree_view)), 
 		      "changed", ((GCallback) gsb_gui_navigation_select_line), 
-		      navigation_model_filtered );
+		      navigation_model );
 
     /* Create column */
     column = gtk_tree_view_column_new ( );
@@ -233,7 +235,7 @@ GtkWidget * create_navigation_pane ( void )
 		       NAVIGATION_ACCOUNT, -1,
 		       NAVIGATION_SENSITIVE, 1,
 		       -1);
-    create_account_list ( navigation_model, &account_iter );
+    create_account_list ( GTK_TREE_MODEL(navigation_model), &account_iter );
 
     /* Scheduler */
     pixbuf = gdk_pixbuf_new_from_file ( g_strconcat( PIXMAPS_DIR, C_DIRECTORY_SEPARATOR,
@@ -320,7 +322,7 @@ GtkWidget * create_navigation_pane ( void )
 		       NAVIGATION_ACCOUNT, -1,
 		       NAVIGATION_SENSITIVE, 1,
 		       -1 );
-    create_report_list ( navigation_model, &reports_iter );
+    create_report_list ( GTK_TREE_MODEL(navigation_model), &reports_iter );
 
     /* Finish tree. */
     gtk_tree_view_expand_all ( GTK_TREE_VIEW(navigation_tree_view) );
@@ -442,29 +444,30 @@ gboolean gsb_gui_navigation_update_notebook ( GtkTreeSelection * selection,
 					      GtkTreeModel * model )
 {
     GtkTreeIter iter;
-    GValue value = {0, }, value2 = {0, };
+    gpointer report;
+    gint account_nb, page;
 
     if (! gtk_tree_selection_get_selected (selection, NULL, &iter))
 	return(FALSE);
 
     /* we go on the account page */ 
 
-    gtk_tree_model_get_value (model, &iter, NAVIGATION_PAGE, &value);
-    gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ), g_value_get_int(&value) );
-    g_value_unset (&value);
+    gtk_tree_model_get (model, &iter, 
+			NAVIGATION_PAGE, &page,
+			NAVIGATION_ACCOUNT, &account_nb,
+			NAVIGATION_REPORT, &report,
+			-1 );
+    gsb_gui_notebook_change_page ( (GsbGeneralNotebookPages) page );
 
-    gtk_tree_model_get_value (model, &iter, NAVIGATION_ACCOUNT, &value);
-    if ( g_value_get_int(&value) >= 0 )
+    if ( account_nb >= 0 )
     {
-	gsb_account_list_gui_change_current_account ( GINT_TO_POINTER(g_value_get_int(&value) ));
-	compte_courant_onglet = g_value_get_int(&value);
+	gsb_account_list_gui_change_current_account ( GINT_TO_POINTER(account_nb) );
 	remplissage_details_compte ();
     }
 
-    gtk_tree_model_get_value (model, &iter, NAVIGATION_REPORT, &value2);
-    if ( g_value_get_pointer(&value2) > 0 )
+    if ( report > 0 )
     {
-	changement_etat ( g_value_get_pointer(&value2) );
+	changement_etat ( (struct struct_etat *) report );
     }
 
     return FALSE;
@@ -547,7 +550,7 @@ static gboolean gsb_gui_navigation_update_report_iterator ( GtkTreeModel * tree_
  */
 void gsb_gui_navigation_update_report ( struct struct_etat * report )
 {
-    gtk_tree_model_foreach ( navigation_model,
+    gtk_tree_model_foreach ( GTK_TREE_MODEL(navigation_model),
 			     (GtkTreeModelForeachFunc) gsb_gui_navigation_update_report_iterator,
 			     GINT_TO_POINTER ( report ) );
 }
@@ -623,10 +626,10 @@ void gsb_gui_navigation_add_report ( struct struct_etat * report )
 
     path = gtk_tree_path_new ();
     gtk_tree_path_prepend_index ( path, GSB_REPORTS_PAGE - 1 );
-    gtk_tree_model_get_iter ( navigation_model, &parent, path );
+    gtk_tree_model_get_iter ( GTK_TREE_MODEL(navigation_model), &parent, path );
     gtk_tree_store_append ( GTK_TREE_STORE(navigation_model), &iter, &parent );
 
-    gsb_gui_navigation_update_report_iter ( navigation_model, &iter, report );    
+    gsb_gui_navigation_update_report_iter ( GTK_TREE_MODEL(navigation_model), &iter, report );    
 
     selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW(navigation_tree_view) );
     gtk_tree_selection_select_iter ( selection, &iter );
@@ -641,7 +644,7 @@ void gsb_gui_navigation_add_report ( struct struct_etat * report )
  */
 void gsb_gui_navigation_remove_report ( struct struct_etat * report )
 {
-    gtk_tree_model_foreach ( navigation_model, 
+    gtk_tree_model_foreach ( GTK_TREE_MODEL(navigation_model), 
 			     (GtkTreeModelForeachFunc) gsb_gui_navigation_remove_report_iterator, 
 			     GINT_TO_POINTER ( report ) );
    
@@ -656,7 +659,7 @@ void gsb_gui_navigation_remove_report ( struct struct_etat * report )
  */
 void gsb_gui_navigation_update_account ( gint account_nb )
 {
-    gtk_tree_model_foreach ( navigation_model, 
+    gtk_tree_model_foreach ( GTK_TREE_MODEL(navigation_model), 
 			     (GtkTreeModelForeachFunc) gsb_gui_navigation_update_account_iterator, 
 			     GINT_TO_POINTER ( account_nb ) );
 }
@@ -757,10 +760,10 @@ void gsb_gui_navigation_add_account ( gint account_nb )
     GtkTreeIter parent, iter;
     GtkTreeSelection * selection;
 
-    gtk_tree_model_get_iter_first ( navigation_model, &parent );
+    gtk_tree_model_get_iter_first ( GTK_TREE_MODEL(navigation_model), &parent );
     gtk_tree_store_append ( GTK_TREE_STORE(navigation_model), &iter, &parent );
 
-    gsb_gui_navigation_update_account_iter ( navigation_model, &iter, account_nb );    
+    gsb_gui_navigation_update_account_iter ( GTK_TREE_MODEL(navigation_model), &iter, account_nb );    
 
     selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW(navigation_tree_view) );
     gtk_tree_selection_select_iter ( selection, &iter );
@@ -775,7 +778,7 @@ void gsb_gui_navigation_add_account ( gint account_nb )
  */
 void gsb_gui_navigation_remove_account ( gint account_nb )
 {
-    gtk_tree_model_foreach ( navigation_model, 
+    gtk_tree_model_foreach ( GTK_TREE_MODEL(navigation_model), 
 			     (GtkTreeModelForeachFunc) gsb_gui_navigation_remove_account_iterator, 
 			     GINT_TO_POINTER ( account_nb ) );
    
@@ -862,7 +865,65 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
     gsb_gui_headings_update ( title, suffix );
     gsb_gui_navigation_update_notebook ( selection, model );
 
-    return FALSE;
+    return TRUE;
+}
+
+
+
+/**
+ * Set the selection of the navigation list depending on desired
+ * page and/or account or report.
+ *
+ * \param page		Page to switch to.
+ * \param account_nb	If page is GSB_ACCOUNT_PAGE, switch to given
+ *			account.
+ * \param report	If page is GSB_REPORTS, switch to given
+ *			report.
+ * 
+ * \return		TRUE on success.
+ */
+gboolean gsb_gui_navigation_set_selection ( gint page, gint account_nb, gpointer report )
+{
+    GtkTreeIter parent, iter;
+    GtkTreeSelection * selection;
+
+    selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW(navigation_tree_view) );
+    g_return_val_if_fail ( selection, FALSE );
+
+    g_signal_handlers_block_by_func ( selection,
+				      gsb_gui_navigation_select_line,
+				      navigation_model );
+
+    gtk_tree_model_get_iter_first ( GTK_TREE_MODEL(navigation_model), &parent );
+    gtk_tree_model_iter_children ( GTK_TREE_MODEL(navigation_model), &iter, &parent );
+
+    do 
+    {
+	gint iter_page, iter_account_nb;
+	gpointer iter_report;
+
+	gtk_tree_model_get ( GTK_TREE_MODEL(navigation_model), &iter, 
+			     NAVIGATION_REPORT, &iter_report, 
+			     NAVIGATION_ACCOUNT, &iter_account_nb,
+			     NAVIGATION_PAGE, &iter_page,
+			     -1 );
+
+	if ( iter_page == page &&
+	     ! ( page == GSB_ACCOUNT_PAGE && 
+		 iter_account_nb != account_nb ) &&
+	     ! ( page == GSB_REPORTS_PAGE &&
+		 iter_report != report ) )
+	{
+	    gtk_tree_selection_select_iter ( selection, &iter );
+	}
+    }
+    while ( gtk_tree_model_iter_next ( GTK_TREE_MODEL(navigation_model), &iter ) );
+
+    g_signal_handlers_unblock_by_func ( selection,
+					gsb_gui_navigation_select_line,
+					navigation_model );
+
+    return TRUE;
 }
 
 
@@ -967,8 +1028,9 @@ gboolean gsb_gui_navigation_check_key_press ( GtkWidget *tree_view,
  * \return FALSE, to allow future processing by the callback chain.
  */
 gboolean navigation_tree_drag_data_get ( GtkTreeDragSource * drag_source, GtkTreePath * path,
-			       GtkSelectionData * selection_data )
+					 GtkSelectionData * selection_data )
 {
+    printf (">> DATA GET\n");
     if ( path )
     {
 	gtk_tree_set_row_drag_data ( selection_data, GTK_TREE_MODEL(navigation_model), 
@@ -984,19 +1046,29 @@ gboolean navigation_tree_drag_data_get ( GtkTreeDragSource * drag_source, GtkTre
  *  
  *
  */
-gboolean navigation_drag_data_received ( GtkTreeDragDest * drag_dest, 
+/* gboolean navigation_drag_data_received ( GtkWidget * widget, GdkDragContext * context,  */
+/* 					 gint x, gint y, GtkSelectionData * data,  */
+/* 					 guint info, guint time, gpointer null ) */
+gboolean navigation_drag_data_received ( GtkTreeDragDest * drag_dest,
 					 GtkTreePath * dest_path,
 					 GtkSelectionData * selection_data )
 {
-    if ( DEBUG )
-	printf ("navigation_drag_data_received %p, %p, %p\n", drag_dest, dest_path, 
-		selection_data);
+    GtkTreePath * path;
+
+    printf ("navigation_drag_data_received %p, %p\n", dest_path, selection_data);
 
     if ( dest_path && selection_data )
     {
+	GtkTreeIter iter;
+	gchar name[512];
 
+	if ( gtk_tree_model_get_iter ( GTK_TREE_MODEL(navigation_model), &iter, dest_path ) ) {
+	    gtk_tree_model_get (GTK_TREE_MODEL(navigation_model) , &iter, 
+				NAVIGATION_TEXT, &name, -1 );
+	    printf ( ">> %s\n", name );
+	}
     }
-    
+
     return FALSE;
 }
 
@@ -1041,6 +1113,7 @@ gboolean navigation_row_drop_possible ( GtkTreeDragDest * drag_dest,
 	{
 	    if ( dst_account >= 0 )
 	    {
+		printf (">> OK account\n");
 		return TRUE;
 	    }
 	}
@@ -1049,11 +1122,13 @@ gboolean navigation_row_drop_possible ( GtkTreeDragDest * drag_dest,
 	{
 	    if ( dst_report )
 	    {
+		printf (">> OK report\n");
 		return TRUE;
 	    }
 	}
     }
 
+    printf (">> NOK\n");
     return FALSE;
 }
 
