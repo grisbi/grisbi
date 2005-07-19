@@ -34,6 +34,7 @@
 #include "utils_devises.h"
 #include "dialog.h"
 #include "echeancier_formulaire.h"
+#include "fenetre_principale.h"
 #include "gsb_account.h"
 #include "operations_comptes.h"
 #include "utils_dates.h"
@@ -1358,7 +1359,7 @@ void update_liste_comptes_accueil ( void )
 		gtk_signal_connect_object ( GTK_OBJECT ( pEventBox ),
 					    "button-press-event",
 					    GTK_SIGNAL_FUNC ( click_sur_compte_accueil ),
-					    GINT_TO_POINTER ( GINT_TO_POINTER (no_compte) ));
+					    GINT_TO_POINTER ( no_compte ));
 		gtk_table_attach ( GTK_TABLE ( pTable ), pEventBox,
 				   5, 6, i, i+1,
 				   GTK_FILL| GTK_SHRINK, GTK_FILL| GTK_SHRINK,
@@ -1458,24 +1459,11 @@ void update_liste_comptes_accueil ( void )
 /* ************************************************************************* */
 gboolean click_sur_compte_accueil ( gint *no_compte )
 {
-    GList *liste_tmp;
+    gsb_account_list_gui_change_current_account ( GPOINTER_TO_INT(no_compte) );
+    remplissage_details_compte ();
+    gsb_gui_notebook_change_page ( GSB_ACCOUNT_PAGE );
+    gsb_gui_navigation_set_selection ( GSB_ACCOUNT_PAGE, no_compte, NULL );
 
-    liste_tmp = GTK_BOX ( vbox_liste_comptes ) -> children;
-
-    while ( liste_tmp )
-    {
-	GtkBoxChild *child;
-
-	child = liste_tmp -> data;
-
-	if ( gtk_list_button_get_data ( GTK_LIST_BUTTON ( child-> widget )) == no_compte )
-	{
-	    gtk_button_clicked ( GTK_BUTTON ( child -> widget ));
-	    liste_tmp = NULL;
-	    continue;
-	}
-	liste_tmp = liste_tmp -> next;
-    }
     return FALSE;
 }
 /* ************************************************************************* */
