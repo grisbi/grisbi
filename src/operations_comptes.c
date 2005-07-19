@@ -60,6 +60,7 @@ GtkWidget *label_last_statement;
 
 
 /*START_EXTERN*/
+extern gint compte_courant_onglet;
 extern GtkWidget *formulaire;
 extern GtkItemFactory *item_factory_menu_general;
 extern gchar *last_date;
@@ -187,6 +188,9 @@ gboolean gsb_account_list_gui_change_current_account ( gint *no_account )
 			       FALSE );
 
     gsb_transactions_list_set_adjustment_value (new_account);
+
+    /* Set current account, then. */
+    compte_courant_onglet = new_account;
 
     /* unset the last date written */
 
