@@ -42,6 +42,10 @@
 
 /*START_STATIC*/
 static  GtkWidget *create_main_notebook (void );
+gboolean gsb_gui_on_notebook_switch_page ( GtkNotebook *notebook,
+					   GtkNotebookPage *page,
+					   guint numero_page,
+					   gpointer null );
 /*END_STATIC*/
 
 
@@ -75,7 +79,6 @@ extern GtkTreeStore *budgetary_line_tree_model;
 extern GtkTreeStore * categ_tree_model;
 extern AB_BANKING *gbanking;
 extern GtkWidget * hpaned;
-extern gint id_temps;
 extern GtkTreeStore *payee_tree_model;
 extern GtkWidget * scheduler_calendar;
 /*END_EXTERN*/
@@ -231,30 +234,31 @@ static GtkWidget *create_main_notebook (void )
 			       gtk_label_new (SPACIFY(_("Reports"))) );
 
     gtk_signal_connect_after ( GTK_OBJECT ( notebook_general ), "switch_page",
-			       GTK_SIGNAL_FUNC ( change_page_notebook), NULL );
+			       GTK_SIGNAL_FUNC ( gsb_gui_on_notebook_switch_page ), NULL );
 
     return ( notebook_general );
 }
-/***********************************************************************************************************/
 
 
 
-/***********************************************************************************************************/
-
-gboolean change_page_notebook ( GtkNotebook *notebook,
-				GtkNotebookPage *page,
-				guint numero_page,
-				gpointer null )
+/**
+ * Handler triggered when the main notebook changed page.  It is
+ * responsible for initial widgets fill, because it is not done at the
+ * first time to speed up startup.
+ *
+ * \param notebook	Widget that triggered event.
+ * \param page		Not used.
+ * \param numero_page	Page set.
+ * \param null		Not used.
+ *
+ * \return		FALSE
+ */
+gboolean gsb_gui_on_notebook_switch_page ( GtkNotebook *notebook,
+					   GtkNotebookPage *page,
+					   guint numero_page,
+					   gpointer null )
 {
     GtkTreeIter dummy_iter;
-
-    /* retire l'horloge si part de l'accueil */
-
-    if ( id_temps )
-    {
-	gtk_timeout_remove ( id_temps );
-	id_temps = 0;
-    }
 
     if ( numero_page != GSB_SCHEDULER_PAGE ) 
     {
@@ -316,8 +320,9 @@ void gsb_gui_headings_update ( gchar * title, gchar * suffix )
 
 
 /**
- *
- *
+ * Set the main notebook page.
+ * 
+ * \param page		Page to set.
  */
 void gsb_gui_notebook_change_page ( GsbGeneralNotebookPages page )
 {
