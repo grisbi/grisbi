@@ -645,6 +645,7 @@ GtkWidget * new_image_label ( GsbButtonStyle style, gchar * image_name, gchar * 
 	label = gtk_label_new ( name );
 	gtk_label_set_text_with_mnemonic ( GTK_LABEL(label), name );
 	gtk_label_set_line_wrap ( GTK_LABEL(label), TRUE );
+	gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_CENTER );
 	gtk_box_pack_start ( GTK_BOX(vbox), label, FALSE, FALSE, 0 );
     }
 
