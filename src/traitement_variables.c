@@ -80,7 +80,7 @@ GSList *liste_labels_titres_colonnes_liste_ope = NULL;
 extern gchar *adresse_commune;
 extern gchar *adresse_secondaire;
 extern gint affichage_echeances;
-extern gint affichage_echeances_perso_j_m_a;
+extern enum periodicity_units affichage_echeances_perso_j_m_a;
 extern gint affichage_echeances_perso_nb_libre;
 extern gchar *chemin_logo;
 extern gchar *crypt_key;
@@ -157,7 +157,7 @@ void modification_fichier ( gboolean modif )
 	    printf ( "fichier modifie\n" );
 	etat.modification_fichier = 1;
 	gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
-							       menu_name(_("File"), _("Save"), NULL)),
+							       gsb_string_escape_underscores(menu_name(_("File"), _("Save"), NULL))),
 				   TRUE );
     }
     else
@@ -166,7 +166,7 @@ void modification_fichier ( gboolean modif )
 	    printf ( "fichier non modifie\n" );
 	etat.modification_fichier = 0;
 	gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
-							       menu_name(_("File"), _("Save"), NULL)),
+							       gsb_string_escape_underscores(menu_name(_("File"), _("Save"), NULL))),
 				   FALSE );
     }
 
@@ -212,9 +212,9 @@ void init_variables ( void )
     liste_struct_echeances = NULL;
     nb_echeances = 0;
     no_derniere_echeance = 0;
-    affichage_echeances = 3;
+    affichage_echeances = SCHEDULER_PERIODICITY_ONCE_VIEW;
     affichage_echeances_perso_nb_libre = 0;
-    affichage_echeances_perso_j_m_a = 0;
+    affichage_echeances_perso_j_m_a = PERIODICITY_DAYS;
     scheduled_transactions_taken = NULL;
 
     liste_struct_tiers = NULL;
@@ -409,14 +409,17 @@ void menus_sensitifs ( gboolean sensitif )
 	printf ( "menus_sensitifs : %d\n", sensitif );
 
     while ( *tmp )
-      {
-	  if ( gtk_item_factory_get_item ( item_factory_menu_general,
-					   *tmp ))
-	      gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
-								     *tmp ),
-					 sensitif );
+    {
+	GtkWidget * widget;
+	widget = gtk_item_factory_get_item ( item_factory_menu_general,
+					     gsb_string_escape_underscores(*tmp) );
+
+/* 	if ( widget && GTK_IS_WIDGET(widget) ) */
+	{
+	    gtk_widget_set_sensitive ( widget, sensitif );
+	}
 	tmp++;
-      }
+    }
 }
 /*****************************************************************************************************/
 
