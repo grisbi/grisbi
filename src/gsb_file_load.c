@@ -126,7 +126,7 @@ extern GtkWidget *adr_banque;
 extern gchar *adresse_commune;
 extern gchar *adresse_secondaire;
 extern gint affichage_echeances;
-extern gint affichage_echeances_perso_j_m_a;
+extern enum periodicity_units affichage_echeances_perso_j_m_a;
 extern gint affichage_echeances_perso_nb_libre;
 extern gchar *chemin_logo;
 extern GtkWidget *code_banque;
@@ -4222,7 +4222,16 @@ void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
 
 		if ( !strcmp ( attribute_names[i],
 			       "Periodicite" ))
+		{
 		    operation_echeance -> periodicite = utils_str_atoi ( attribute_values[i]);
+
+		    /* Compatibility issue, we inserted two entries
+		     * after month view. */
+		    if ( operation_echeance -> periodicite > SCHEDULER_PERIODICITY_MONTH_VIEW )
+		    {
+			operation_echeance -> periodicite += 2;
+		    }
+		}
 
 		if ( !strcmp ( attribute_names[i],
 			       "Intervalle_periodicite" ))
@@ -5020,6 +5029,17 @@ void gsb_file_load_general_part_before_0_6 ( GMarkupParseContext *context,
 		   "Type_affichage_des_echeances" ))
     {
 	affichage_echeances = utils_str_atoi ( text);
+
+	/* Compatibility issue. */
+	switch ( affichage_echeances )
+	{
+	    case 0: affichage_echeances = SCHEDULER_PERIODICITY_MONTH_VIEW; break;
+	    case 1: affichage_echeances = SCHEDULER_PERIODICITY_TWO_MONTHS_VIEW; break;
+	    case 2: affichage_echeances = SCHEDULER_PERIODICITY_YEAR_VIEW; break;
+	    case 3: affichage_echeances = SCHEDULER_PERIODICITY_ONCE_VIEW; break;
+	    case 4: affichage_echeances = SCHEDULER_PERIODICITY_CUSTOM_VIEW; break;
+	}
+
 	return;
     }
 
