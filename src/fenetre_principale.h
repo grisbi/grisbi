@@ -20,12 +20,12 @@ typedef enum GSB_GENERAL_NOTEBOOK_PAGES {
 
 
 /* START_DECLARATION */
-gboolean change_page_notebook ( GtkNotebook *notebook,
-				GtkNotebookPage *page,
-				guint numero_page,
-				gpointer null );
 GtkWidget * create_main_widget ( void );
 void gsb_gui_headings_update ( gchar * title, gchar * suffix );
+gboolean gsb_gui_on_notebook_switch_page ( GtkNotebook *notebook,
+					   GtkNotebookPage *page,
+					   guint numero_page,
+					   gpointer null );
 void gsb_gui_notebook_change_page ( GsbGeneralNotebookPages page );
 /*END_DECLARATION*/
 

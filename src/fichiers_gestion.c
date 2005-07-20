@@ -785,7 +785,7 @@ gboolean fermer_fichier ( void )
 	    g_slist_free ( liste_struct_etats );
 
 	    gtk_signal_disconnect_by_func ( GTK_OBJECT ( notebook_general ),
-					    GTK_SIGNAL_FUNC ( change_page_notebook),
+					    GTK_SIGNAL_FUNC ( gsb_gui_on_notebook_switch_page ),
 					    NULL );
 
 	    gtk_widget_destroy ( main_vbox );
