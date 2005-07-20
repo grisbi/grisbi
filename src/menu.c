@@ -74,11 +74,143 @@ extern GtkWidget *window;
 gboolean block_menu_cb = FALSE;
 
 
+
+static void menu_add_widget (GtkUIManager * p_uiManager, GtkWidget * p_widget, 
+			     GtkContainer * p_box) 
+{ 
+    gtk_box_pack_start (GTK_BOX (p_box), p_widget, FALSE, FALSE, 0);
+    gtk_widget_show (p_widget); 
+    return; 
+}
+
+
+
+GtkWidget *init_menus ( GtkWidget *vbox )
+{
+    GtkUIManager * ui_manager;
+    GtkWidget * barre_menu;
+    gchar * buffer = 
+"<ui>"
+"  <menubar name='MenuBar'>"
+"    <menu action='FileMenu'>"
+"      <menuitem action='New'/>"
+"      <menuitem action='Open'/>"
+"      <menuitem action='Save'/>"
+"      <menuitem action='SaveAs'/>"
+"      <separator/>"
+"      <menuitem action='RecentFiles'/>"
+"      <separator/>"
+"      <menuitem action='ImportFile'/>"
+"      <menuitem action='ExportFile'/>"
+"      <separator/>"
+"      <menuitem action='Close'/>"
+"      <menuitem action='Quit'/>"
+"    </menu>"
+"    <menu action='EditMenu'>"
+"	<menuitem action='NewTransaction'/>"
+"	<menuitem action='RemoveTransaction'/>"
+"	<menuitem action='CloneTransaction'/>"
+"	<menuitem action='EditTransaction'/>"
+"	<separator/>"
+"	<menuitem action='ConvertToScheduled'/>"
+"	<menuitem action='MoveToAnotherAccount'/>"
+"	<separator/>"
+"	<menuitem action='Preferences'/>"
+"    </menu>"
+"    <menu action='ViewMenu'>"
+"      <menuitem action='ShowTransactionForm'/>"
+"      <menuitem action='ShowGrid'/>"
+"      <menuitem action='ShowReconciled'/>"
+"      <menuitem action='ShowClosed'/>"
+"      <separator/>"
+"      <menuitem action='ShowOneLine'/>"
+"      <menuitem action='ShowTwoLines'/>"
+"      <menuitem action='ShowThreeLines'/>"
+"      <menuitem action='ShowFourLines'/>"
+"    </menu>"
+"    <menu action='AccountMenu'>"
+"      <menuitem action='NewAccount'/>"
+"      <menuitem action='RemoveAccount'/>"
+"    </menu>"
+"    <menu action='ReportsMenu'>"
+"      <menuitem action='NewReport'/>"
+"      <separator/>"
+"      <menuitem action='CloneReport'/>"
+"      <menuitem action='PrintReport'/>"
+"      <menuitem action='ImportReport'/>"
+"      <menuitem action='ExportReport'/>"
+"      <menuitem action='ExportReportHTML'/>"
+"      <separator/>"
+"      <menuitem action='RemoveReport'/>"
+"      <menuitem action='EditReport'/>"
+"    </menu>"
+"    <menu action='HelpMenu'>"
+"      <menuitem action='Manual'/>"
+"      <menuitem action='QuickStart'/>"
+"      <menuitem action='Translation'/>"
+"      <menuitem action='About'/>"
+"      <separator/>"
+"      <menuitem action='Grisbiwebsite'/>"
+"      <menuitem action='ReporBug'/>"
+"      <separator/>"
+"      <menuitem action='Tip'/>"
+"    </menu>"
+"  </menubar>"
+"</ui>";
+    GtkActionGroup * action_group;
+    GtkActionEntry entries[] = {
+	{ "FileMenu",	NULL,		_("_File"),	
+	  NULL,		NULL,		G_CALLBACK( NULL ) },
+	
+	{ "New",	GTK_STOCK_NEW,	_("_New account file..."),	
+	  NULL,		NULL,		G_CALLBACK( new_file ) },
+	
+	{ "Open",	GTK_STOCK_OPEN,	_("_Open..."),	
+	  NULL,		NULL,		G_CALLBACK( ouvrir_fichier ) },
+
+	{ "RecentFiles",NULL,		_("_Recently opened files"),
+	  NULL,		NULL,		G_CALLBACK( NULL ) },
+
+	{ "Save",	GTK_STOCK_SAVE,	_("_Save"),	
+	  NULL,		NULL,		G_CALLBACK( enregistrement_fichier ) },
+
+	{ "SaveAs",	GTK_STOCK_SAVE_AS,_("_Save as..."),	
+	  NULL,		NULL,		G_CALLBACK( enregistrement_fichier ) },	/* Arg */
+
+	{ "ImportFile",	NULL,		_("_Import QIF/OFX/CSV/Gnucash file..."),
+	  NULL,		NULL,		G_CALLBACK( importer_fichier ) },
+
+	{ "ExportFile",	NULL,		_("_Export QIF file..."),
+	  NULL,		NULL,		G_CALLBACK( exporter_fichier_qif ) },
+
+	{ "Close",	GTK_STOCK_CLOSE,_("_Close"),
+	  NULL,		NULL,		G_CALLBACK( fermer_fichier ) },
+
+	{ "Quit",	GTK_STOCK_QUIT,	_("_Quit"),	
+	  NULL,		NULL,		G_CALLBACK( fermeture_grisbi ) },
+	};
+
+    ui_manager = gtk_ui_manager_new ();
+
+    g_signal_connect ( ui_manager, "add_widget", G_CALLBACK( menu_add_widget ), vbox );
+
+    action_group = gtk_action_group_new ( "Group" );
+    gtk_action_group_add_actions( action_group, entries, G_N_ELEMENTS( entries ), NULL );
+    gtk_ui_manager_insert_action_group ( ui_manager, action_group, 0 );
+    gtk_ui_manager_add_ui_from_string ( ui_manager, buffer, strlen(buffer), NULL );
+
+    barre_menu = gtk_ui_manager_get_widget ( ui_manager, "/menubar" );
+    gtk_widget_show_all ( barre_menu );
+ 
+    return barre_menu;
+}
+
+
+
 /***********************************************/
 /* définition de la barre des menus, version gtk */
 /***********************************************/
-
-GtkWidget *init_menus ( GtkWidget *vbox )
+GtkWidget *init_menus_old ( GtkWidget *vbox )
 {
     GtkWidget *barre_menu, *widget;
     GtkAccelGroup *accel;
@@ -126,9 +258,9 @@ GtkWidget *init_menus ( GtkWidget *vbox )
 	{menu_name(_("View"), _("Show closed accounts"), NULL),   NULL, G_CALLBACK(view_menu_cb), HIDE_SHOW_CLOSED_ACCOUNTS, "<ToggleItem>", },
 	{menu_name(_("View"), "Sep1", NULL),    NULL, NULL, 0, "<Separator>", NULL },
 	{menu_name(_("View"), _("Show one line per transaction"), NULL),   NULL, G_CALLBACK(view_menu_cb), ONE_LINE_PER_TRANSACTION, "<RadioItem>" },
-	{menu_name(_("View"), _("Show two lines per transaction"), NULL),   NULL, G_CALLBACK(view_menu_cb), TWO_LINES_PER_TRANSACTION, menu_name(_("View"), _("Show one line per transaction"), NULL) },
-	{menu_name(_("View"), _("Show three lines per transaction"), NULL),   NULL, G_CALLBACK(view_menu_cb), THREE_LINES_PER_TRANSACTION, menu_name(_("View"), _("Show one line per transaction"), NULL)},
-	{menu_name(_("View"), _("Show four lines per transaction"), NULL),   NULL, G_CALLBACK(view_menu_cb), FOUR_LINES_PER_TRANSACTION, menu_name(_("View"), _("Show one line per transaction"), NULL)},
+	{menu_name(_("View"), _("Show two lines per transaction"), NULL),   NULL, G_CALLBACK(view_menu_cb), TWO_LINES_PER_TRANSACTION, menu_name(gsb_string_escape_underscores(_("_View")), _("Show one line per transaction"), NULL) },
+	{menu_name(_("View"), _("Show three lines per transaction"), NULL),   NULL, G_CALLBACK(view_menu_cb), THREE_LINES_PER_TRANSACTION, menu_name(gsb_string_escape_underscores(_("_View")), _("Show one line per transaction"), NULL)},
+	{menu_name(_("View"), _("Show four lines per transaction"), NULL),   NULL, G_CALLBACK(view_menu_cb), FOUR_LINES_PER_TRANSACTION, menu_name(gsb_string_escape_underscores(_("_View")), _("Show one line per transaction"), NULL)},
 
 	/* Accounts menu */
 	{menu_name(_("Accounts"), NULL, NULL), NULL, NULL, 0, "<Branch>", NULL },
