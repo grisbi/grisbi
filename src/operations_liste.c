@@ -1908,25 +1908,20 @@ gboolean gsb_transactions_list_move_to_current_transaction ( gint no_account )
 	printf ( "gsb_transactions_list_move_to_current_transaction, compte %d\n", no_account );
 
     path = gsb_transactions_list_get_path_from_transaction ( gsb_transaction_data_get_pointer_to_transaction (gsb_account_get_current_transaction_number (no_account)));
-    path_sorted = gsb_transactions_list_get_sorted_path_from_list_path ( path,
-									 no_account );
+    path_sorted = gsb_transactions_list_get_sorted_path_from_list_path ( path, no_account );
 
-    /*     sometimes, the current transaction can be hidden, so we have to check for each path if it's valid */
-    /* 	if it's not, we make a selection on the white line */
+    /* Sometimes, the current transaction can be hidden, so we have to
+     * check for each path if it's valid if it's not, we make a
+     * selection on the white line */
 
     if ( !path_sorted )
     {
-	gsb_transactions_list_set_current_transaction ( -1,
-							0 );
+	gsb_transactions_list_set_current_transaction ( -1, 0 );
 	return FALSE;
     }
 
     gtk_tree_view_scroll_to_cell ( GTK_TREE_VIEW (gsb_transactions_list_get_tree_view()),
-				   path_sorted,
-				   NULL,
-				   FALSE,
-				   0,
-				   0 );
+				   path_sorted, NULL, FALSE, 0.5, 0.5 );
 
 
     return FALSE;
