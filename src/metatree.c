@@ -764,6 +764,14 @@ gboolean division_activated ( GtkTreeView * treeview, GtkTreePath * path,
 	/* We do not jump to a transaction if a division is specified */
 	if ( transaction_number && no_division == -1 && no_sub_division == -1 )
 	{
+	    /* If transaction is reconciled, show reconciled
+	     * transactions. */
+	    if ( gsb_transaction_data_get_marked_transaction (transaction_number) == OPERATION_RAPPROCHEE &&
+		 !gsb_account_get_r (gsb_account_get_current_account ()))
+	    {
+		mise_a_jour_affichage_r ( TRUE );
+	    }
+
 	    gsb_account_list_gui_change_current_account ( GINT_TO_POINTER ( gsb_transaction_data_get_account_number (transaction_number)));
 	    remplissage_details_compte ();
 	    gsb_gui_notebook_change_page ( GSB_ACCOUNT_PAGE );
@@ -771,13 +779,8 @@ gboolean division_activated ( GtkTreeView * treeview, GtkTreePath * path,
 					       gsb_transaction_data_get_account_number (transaction_number), 
 					       NULL );
 
-	    /* If transaction is reconciled, show reconciled
-	     * transactions. */
-	    if ( gsb_transaction_data_get_marked_transaction (transaction_number) == OPERATION_RAPPROCHEE
-		 &&
-		 !gsb_account_get_r (gsb_account_get_current_account ()))
-		mise_a_jour_affichage_r ( TRUE );
 	    gsb_transactions_list_set_current_transaction ( transaction_number, 0 );
+	    gsb_transactions_list_move_to_current_transaction ( gsb_transaction_data_get_account_number (transaction_number) );
 	}
 	else
 	{
