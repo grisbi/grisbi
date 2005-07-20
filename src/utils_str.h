@@ -22,5 +22,6 @@ gint my_strncasecmp ( gchar *chaine_1,
 double my_strtod ( const char *nptr, const char **endptr );
 gint utils_str_atoi ( const gchar *chaine );
 gchar *utils_str_itoa ( gint integer );
+gchar * gsb_string_escape_underscores ( gchar * orig );
 /* END_DECLARATION */
 #endif

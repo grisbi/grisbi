@@ -529,6 +529,35 @@ GSList *gsb_string_get_list_from_string ( const gchar *string,
     return list_tmp;
 }
 
+
+
+/**
+ * Create and return a string where underscores are escaped so that
+ * gtk_item_factory_get_item won't be confused.
+ *
+ * \param orig		Original string.
+ *
+ * \return		A newly-allocated and escaped string.
+ */
+gchar * gsb_string_escape_underscores ( gchar * orig )
+{
+    gchar new[1024], *iter;
+
+    for ( iter = new; *orig; orig++ )
+    {
+	if ( *orig == '_' )
+	{
+	    *iter++ = '_';
+	}
+	*iter++ = *orig;
+    }
+    *iter = 0;
+
+    printf (">>%s<<\n", new);
+
+    return new;
+}
+
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */
