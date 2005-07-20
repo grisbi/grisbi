@@ -1,10 +1,10 @@
 /* ************************************************************************** */
-/* fichier qui s'occupe de tout ce qui concerne l'échéancier                  */
+/* fichier qui s'occupe de tout ce qui concerne l'échéancier                */
 /* 			echeances_liste.c                                     */
 /*                                                                            */
 /*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org)	      */
 /*			2004 Alain Portal (aportal@univ-montp2.fr) 	      */
-/*			2004 Benjamin Drieu (bdrieu@april.org)  	      */
+/*			2004-2005 Benjamin Drieu (bdrieu@april.org)  	      */
 /* 			http://www.grisbi.org   			      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -50,6 +50,8 @@
 #include "structures.h"
 #include "echeancier_liste.h"
 #include "include.h"
+#include "utils.h"
+#include "utils_buttons.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -106,7 +108,7 @@ GSList *scheduled_transactions_taken;
 
 /*START_EXTERN*/
 extern gint affichage_echeances;
-extern gint affichage_echeances_perso_j_m_a;
+extern enum periodicity_units affichage_echeances_perso_j_m_a;
 extern gint affichage_echeances_perso_nb_libre;
 extern GtkWidget *bouton_personnalisation_affichage_echeances;
 extern GtkWidget *bouton_valider_echeance_perso;
@@ -445,29 +447,14 @@ void remplissage_liste_echeance ( void )
 	if ( !echeance -> no_operation_ventilee_associee )
 	{
 	    gchar *ligne[NB_COLS_SCHEDULER];
-
-	    /* 	    mise en forme de la date */
+	    GDate *pGDateCurrent;
+	    struct operation_echeance *scheduled_transaction_buf;
 
 	    ligne[COL_NB_DATE] = gsb_format_gdate ( echeance -> date );
 
-	    /* 	    mise en forme de la périodicité */
-
-	    switch ( echeance ->periodicite )
+	    if ( echeance ->periodicite == SCHEDULER_PERIODICITY_CUSTOM_VIEW )
 	    {
-		case 0 :
-		    ligne[COL_NB_FREQUENCY] = _("Once");
-		    break;
-		case 1 :
-		    ligne[COL_NB_FREQUENCY] = _("Weekly");
-		    break;
-		case 2 : 
-		    ligne[COL_NB_FREQUENCY] = _("Monthly");
-		    break;
-		case 3 : 
-		    ligne[COL_NB_FREQUENCY] = _("Yearly");
-		    break;
-		case 4 :
-		    if ( echeance -> intervalle_periodicite_personnalisee )
+		if ( echeance -> intervalle_periodicite_personnalisee )
 			if ( echeance -> intervalle_periodicite_personnalisee == 1 )
 			    ligne[COL_NB_FREQUENCY] = g_strdup_printf ( _("%d months"),
 									echeance -> periodicite_personnalisee );
@@ -477,92 +464,57 @@ void remplissage_liste_echeance ( void )
 		    else
 			ligne[COL_NB_FREQUENCY] = g_strdup_printf ( _("%d days"),
 								    echeance -> periodicite_personnalisee );
-		    break;
+	    }
+	    else if ( echeance -> periodicite < SCHEDULER_PERIODICITY_NB_CHOICES &&
+		      echeance -> periodicite > 0 )
+	    {
+		gchar * names[] = { _("Once"), _("Weekly"), _("Montly"), 
+				    _("Bimonthly"), _("Quarterly"), _("Yearly") };
+		ligne[COL_NB_FREQUENCY] = names [ echeance -> periodicite ];
 	    }
 
-	    /* mise en forme du compte */
-
 	    ligne[COL_NB_ACCOUNT] = gsb_account_get_name ( echeance -> compte );
-
-	    /* mise en forme du tiers */
-
 	    ligne[COL_NB_PARTY] = tiers_name_by_no (echeance -> tiers, TRUE );
-
-	    /* mise en forme de auto/man */
+	    ligne[COL_NB_NOTES] = echeance -> notes;
+	    ligne[COL_NB_AMOUNT] = g_strdup_printf ( "%4.2f", echeance -> montant );
 
 	    if ( echeance -> auto_man )
 		ligne[COL_NB_MODE]=_("Automatic");
 	    else
 		ligne[COL_NB_MODE] = _("Manual");
 
-	    /* mise en forme des notes */
+	    /* scheduled_transaction_buf contient l'adr de
+	     * l'échéance mère, puis NULL pour les échéances
+	     * calculées */
+	    scheduled_transaction_buf = echeance;
 
-	    ligne[COL_NB_NOTES] = echeance -> notes;
+	    pGDateCurrent = g_date_new_dmy ( echeance -> date -> day,
+					     echeance -> date -> month,
+					     echeance -> date -> year );
 
-	    /* mise en forme du montant */
-
-	    ligne[COL_NB_AMOUNT] = g_strdup_printf ( "%4.2f",
-						     echeance -> montant );
-
-	    /* on va ajouter l'échéance une ou plusieurs fois en changeant juste sa date */
-	    /* en fontion de l'affichage de l'échéance */
-
-	    if ( !( g_date_compare ( date_fin, echeance -> date ) <= 0
-		    &&
-		    affichage_echeances != 3 ))
+	    do
 	    {
-		gint boucle;
-		GDate *pGDateCurrent;
-		struct operation_echeance *scheduled_transaction_buf;
+		gtk_list_store_append ( GTK_LIST_STORE (store), &iter );
 
-		/* 		scheduled_transaction_buf contient l'adr de l'échéance mère, puis NULL pour les */
-		/* 		    échéances calculées */
+		for ( i=0 ; i<NB_COLS_SCHEDULER ; i++ )
+		    gtk_list_store_set ( GTK_LIST_STORE ( store ), &iter,
+					 i, ligne[i], -1 );
 
-		scheduled_transaction_buf = echeance;
+		/* on met le numéro de l'échéance celui ci est
+		 * à NULL si c'est une échéance calculée */
+		gtk_list_store_set ( GTK_LIST_STORE ( store ), &iter,
+				     SCHEDULER_COL_NB_TRANSACTION_ADDRESS, scheduled_transaction_buf,
+				     -1 );
 
-		boucle = 1;
-		pGDateCurrent = g_date_new_dmy ( echeance -> date -> day,
-						 echeance -> date -> month,
-						 echeance -> date -> year );
-
-		while ( boucle )
-		{
-		    gtk_list_store_append ( GTK_LIST_STORE (store),
-					    &iter );
-
-		    for ( i=0 ; i<NB_COLS_SCHEDULER ; i++ )
-			gtk_list_store_set ( GTK_LIST_STORE ( store ),
-					     &iter,
-					     i, ligne[i],
-					     -1 );
-
-		    /* on met le numéro de l'échéance celui ci est à NULL si c'est une échéance calculée */
-
-		    gtk_list_store_set ( GTK_LIST_STORE ( store ),
-					 &iter,
-					 SCHEDULER_COL_NB_TRANSACTION_ADDRESS, scheduled_transaction_buf,
-					 -1 );
-
-		    /* c'est maintenant qu'on voit si on sort ou pas ... */
-
-		    pGDateCurrent = date_suivante_echeance ( echeance,
-							     pGDateCurrent );
-
-		    if ( pGDateCurrent
-			 &&
-			 g_date_compare ( date_fin, pGDateCurrent ) > 0
-			 &&
-			 affichage_echeances != 3
-			 &&
-			 echeance -> periodicite )
-		    {
-			ligne[COL_NB_DATE] = gsb_format_gdate ( pGDateCurrent );
-			scheduled_transaction_buf = NULL;
-		    }
-		    else
-			boucle = 0;
-		}
+		pGDateCurrent = date_suivante_echeance ( echeance, pGDateCurrent );
+		    
+		ligne[COL_NB_DATE] = gsb_format_gdate ( pGDateCurrent );
+		scheduled_transaction_buf = NULL;
 	    }
+	    while ( pGDateCurrent &&
+		    g_date_compare ( date_fin, pGDateCurrent ) > 0 &&
+		    affichage_echeances != SCHEDULER_PERIODICITY_ONCE_VIEW &&
+		    echeance -> periodicite );
 	}
 	slist_ptr = slist_ptr -> next;
     }
@@ -714,7 +666,7 @@ void selectionne_echeance ( struct operation_echeance *echeance )
 	gtk_widget_set_sensitive ( GTK_WIDGET ( bouton_saisir_echeancier ),
 				   FALSE );
 }
-/*****************************************************************************/
+
 
 
 /******************************************************************************/
@@ -841,7 +793,8 @@ GDate *date_fin_affichage_liste_echeance ( void )
 {
     GDate *date_fin;
     
-   /* on récupère la date du jour et la met dans date_fin pour les vérifications ultérieures */
+   /* on récupère la date du jour et la met dans date_fin pour les
+    * vérifications ultérieures */
 
     date_fin = gdate_today ();
 
@@ -849,37 +802,50 @@ GDate *date_fin_affichage_liste_echeance ( void )
 
     switch ( affichage_echeances )
     {
-	case 0:
-	    g_date_add_months ( date_fin,
-				1 );
+	case SCHEDULER_PERIODICITY_WEEK_VIEW:
+	    g_date_add_days ( date_fin, 7 );
+	    g_date_add_months ( date_fin, 0 );
+	    break;
+
+	case SCHEDULER_PERIODICITY_MONTH_VIEW:
+	    g_date_add_months ( date_fin, 1 );
 	    date_fin -> day = 1;
 	    break;
 
-	case 1:
-	    g_date_add_months ( date_fin,
-				2 );
+	case SCHEDULER_PERIODICITY_TWO_MONTHS_VIEW:
+	    g_date_add_months ( date_fin, 2 );
 	    date_fin -> day = 1;
 	    break;
 
-	case 2:
-	    g_date_add_years ( date_fin,
-			       1 );
+	case SCHEDULER_PERIODICITY_TRIMESTER_VIEW:
+	    g_date_add_months ( date_fin, 3 );
+	    date_fin -> day = 1;
+	    break;
+
+	case SCHEDULER_PERIODICITY_YEAR_VIEW:
+	    g_date_add_years ( date_fin, 1 );
 	    date_fin -> day = 1;
 	    date_fin -> month = 1;
 	    break;
 
-	case 4:
-	    if ( !affichage_echeances_perso_j_m_a )
-		g_date_add_days ( date_fin,
-				  affichage_echeances_perso_nb_libre );
-	    else
+	case SCHEDULER_PERIODICITY_CUSTOM_VIEW:
+	    switch ( affichage_echeances_perso_j_m_a )
 	    {
-		if ( affichage_echeances_perso_j_m_a == 1 )
-		    g_date_add_months ( date_fin,
-					affichage_echeances_perso_nb_libre );
-		else
-		    g_date_add_years ( date_fin,
-				       affichage_echeances_perso_nb_libre );
+		case PERIODICITY_DAYS:
+		    g_date_add_days ( date_fin, affichage_echeances_perso_nb_libre );
+		    break;
+
+		case PERIODICITY_WEEKS:
+		    g_date_add_days ( date_fin, affichage_echeances_perso_nb_libre * 7 );
+		    break;
+
+		case PERIODICITY_MONTHS:
+		    g_date_add_months ( date_fin, affichage_echeances_perso_nb_libre );
+		    break;
+
+		case PERIODICITY_YEARS:
+		    g_date_add_years ( date_fin, affichage_echeances_perso_nb_libre );
+		    break;
 	    }
     }
     return date_fin;
@@ -1638,59 +1604,84 @@ void gsb_scheduler_check_scheduled_transactions_time_limit ( void )
 /*****************************************************************************/
 
 
+gboolean gsb_gui_popup_custom_periodicity_dialog ()
+{
+    GtkWidget * dialog, *hbox, *hbox2, *paddingbox, *omenu, *menu, *label, *entry, *item;
+    gchar * names[] = { _("days"), _("weeks"), _("months"), _("years"), NULL };
+    int i;
+
+    dialog = gtk_dialog_new_with_buttons ( _("Scheduler frequency"), 
+					   GTK_WINDOW (window), GTK_DIALOG_MODAL,
+					   GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+					   GTK_STOCK_APPLY, GTK_RESPONSE_OK,
+					   NULL);
+
+    /* Ugly dance to avoid side effects on dialog's vbox. */
+    hbox = gtk_hbox_new ( FALSE, 0 );
+    gtk_box_pack_start ( GTK_BOX(GTK_DIALOG(dialog)->vbox), hbox, FALSE, FALSE, 0 );
+    paddingbox = new_paddingbox_with_title ( hbox, TRUE, _("Scheduler frequency") );
+    gtk_container_set_border_width ( GTK_CONTAINER(hbox), 6 );
+    gtk_container_set_border_width ( GTK_CONTAINER(paddingbox), 6 );
+
+    hbox2 = gtk_hbox_new ( FALSE, 0 );
+    gtk_box_pack_start ( GTK_BOX(paddingbox), hbox2, FALSE, FALSE, 0 );
+
+    label = gtk_label_new ( _("Show transactions for the next "));
+    gtk_box_pack_start ( GTK_BOX(hbox2), label, FALSE, FALSE, 0 );
+    entry = new_int_spin_button ( &affichage_echeances_perso_nb_libre, 
+				  0.0, 65536.0, 1.0, 5.0, 1.0, 1.0, 0, NULL );
+    gtk_box_pack_start ( GTK_BOX(hbox2), entry, FALSE, FALSE, 6 );
+
+    omenu = gtk_option_menu_new ();
+    menu = gtk_menu_new();
+    gtk_option_menu_set_menu ( GTK_OPTION_MENU(omenu), menu );
+    gtk_box_pack_start ( GTK_BOX(hbox2), omenu, FALSE, FALSE, 0 );
+
+    for ( i = 0; names[i]; i++ )
+    {
+	item = gtk_menu_item_new_with_label ( names[i] );
+	gtk_menu_append ( menu, item );
+    }
+    gtk_option_menu_set_history ( GTK_OPTION_MENU ( omenu ),
+				  affichage_echeances_perso_j_m_a );
+
+    gtk_widget_show_all ( dialog );
+
+    switch ( gtk_dialog_run ( GTK_DIALOG ( dialog ) ) )
+    {
+	case GTK_RESPONSE_OK:
+	    affichage_echeances_perso_j_m_a = gtk_option_menu_get_history ( GTK_OPTION_MENU ( omenu ) );
+	    affichage_echeances_perso_nb_libre = utils_str_atoi ( gtk_entry_get_text ( entry ) );
+	    gtk_widget_destroy ( dialog );
+	    return TRUE;
+    }
+
+    gtk_widget_destroy ( dialog );
+    return FALSE;
+}
+
+
 
 /*****************************************************************************/
 /* Fonction appelée lorsqu'on change le bouton pour l'affichage des	     */
 /* échéances ( choix mois, 2 mois ... )					     */
 /*****************************************************************************/
-gboolean modification_affichage_echeances ( gint *origine, GtkWidget * widget )
+gboolean gsb_gui_change_scheduler_view ( enum scheduler_periodicity periodicity )
 {
-    switch ( GPOINTER_TO_INT ( origine ))
+    gchar * names[] = { _("Unique view"), _("Week view"), _("Month view"), 
+			_("Two months view"), _("Quarter view"), 
+			_("Year view"), _("Custom view"), NULL };
+
+    if ( periodicity == SCHEDULER_PERIODICITY_CUSTOM_VIEW )
     {
-	/* vient de l'entrée qui perd le focus */
-
-	case 5:
-
-	    affichage_echeances_perso_nb_libre = utils_str_atoi ( g_strstrip ( (char *) gtk_entry_get_text ( GTK_ENTRY ( entree_personnalisation_affichage_echeances ))));
-
-	    break;
-
-	    /* vient d'un chgt du bouton perso jour/mois/an */
-
-	case 6:
-
-	    affichage_echeances_perso_j_m_a = GPOINTER_TO_INT 
-		( gtk_object_get_data ( GTK_OBJECT ( widget ), "intervalle_perso" ));
-	    break;
-
-	    /*       vient du reste, si c'est perso ( 4 ) , on affiche ce qu'il faut */
-
-	case 4:
-
-	    affichage_echeances = GPOINTER_TO_INT ( origine );
-	    if ( affichage_echeances_perso_nb_libre )
-		gtk_entry_set_text ( GTK_ENTRY ( entree_personnalisation_affichage_echeances ),
-				     utils_str_itoa ( affichage_echeances_perso_nb_libre ));
-	    gtk_option_menu_set_history ( GTK_OPTION_MENU ( bouton_personnalisation_affichage_echeances ),
-					  affichage_echeances_perso_j_m_a );
-	    gtk_widget_show ( entree_personnalisation_affichage_echeances );
-	    gtk_widget_show ( bouton_personnalisation_affichage_echeances );
-	    gtk_widget_show ( bouton_valider_echeance_perso );
-	    break;
-
-	case 0:
-	case 1:
-	case 2:
-	case 3:
-	    affichage_echeances = GPOINTER_TO_INT ( origine );
-	    gtk_widget_hide ( entree_personnalisation_affichage_echeances );
-	    gtk_widget_hide ( bouton_personnalisation_affichage_echeances );
-	    gtk_widget_hide ( bouton_valider_echeance_perso );
-
-	    break;
-
+	if ( ! gsb_gui_popup_custom_periodicity_dialog () )
+	    return FALSE;
     }
 
+    gsb_gui_headings_update ( g_strconcat ( _("Scheduled transactions"), " : ", 
+					    names[periodicity], NULL), "" );
+
+    affichage_echeances = periodicity;
     remplissage_liste_echeance ();
     update_couleurs_background_echeancier ();
     selectionne_echeance ( echeance_selectionnnee );
@@ -1699,15 +1690,16 @@ gboolean modification_affichage_echeances ( gint *origine, GtkWidget * widget )
 
     return FALSE;
 }
-/*****************************************************************************/
+
+
+
 
 /*****************************************************************************/
 /* reçoit en argument une échéance et une date, renvoie la date suivante     */
 /* en accord avec la périodicité de l'échéance				     */
 /* renvoie null si la date limite est dépassée ou si c'est une fois	     */
 /*****************************************************************************/
-GDate *date_suivante_echeance ( struct operation_echeance *echeance,
-				GDate *pGDateCurrent )
+GDate *date_suivante_echeance ( struct operation_echeance *echeance, GDate *pGDateCurrent )
 {
     if ( !echeance -> periodicite )
     {
@@ -1716,55 +1708,67 @@ GDate *date_suivante_echeance ( struct operation_echeance *echeance,
 	return ( pGDateCurrent );
     }
 
-    /* périodicité hebdomadaire */
-    if ( echeance -> periodicite == 1 )
+    switch ( echeance -> periodicite )
     {
-	g_date_add_days ( pGDateCurrent,
-			  7 );
-	/* magouille car il semble y avoir un bug dans g_date_add_days
-	   qui ne fait pas l'addition si on ne met pas la ligne suivante */
-	g_date_add_months ( pGDateCurrent,
-			    0 );
-    }
-    else
-	/* périodicité mensuelle */
-	if ( echeance -> periodicite == 2 )
-	    g_date_add_months ( pGDateCurrent,
-				1 );
-	else
-	    /* périodicité annuelle */
-	    if ( echeance -> periodicite == 3 )
-		g_date_add_years ( pGDateCurrent,
-				   1 );
-	    else
-		/* périodicité perso */
-		if ( !echeance -> intervalle_periodicite_personnalisee )
-		{
-		    g_date_add_days ( pGDateCurrent,
+	case SCHEDULER_PERIODICITY_WEEK_VIEW:
+	    g_date_add_days ( pGDateCurrent, 7 );
+	    /* magouille car il semble y avoir un bug dans g_date_add_days
+	       qui ne fait pas l'addition si on ne met pas la ligne suivante */
+	    g_date_add_months ( pGDateCurrent, 0 );
+	    break;
+
+	case SCHEDULER_PERIODICITY_MONTH_VIEW:
+	    g_date_add_months ( pGDateCurrent, 1 );
+	    break;
+
+	case SCHEDULER_PERIODICITY_TWO_MONTHS_VIEW:
+	    g_date_add_months ( pGDateCurrent, 2 );
+	    break;
+
+	case SCHEDULER_PERIODICITY_TRIMESTER_VIEW:
+	    g_date_add_months ( pGDateCurrent, 3 );
+	    break;
+
+	case SCHEDULER_PERIODICITY_YEAR_VIEW:
+	    g_date_add_years ( pGDateCurrent, 1 );
+
+	case SCHEDULER_PERIODICITY_CUSTOM_VIEW:
+	    switch ( echeance -> intervalle_periodicite_personnalisee )
+	    {
+		case PERIODICITY_DAYS:
+		    g_date_add_days ( pGDateCurrent, 
 				      echeance -> periodicite_personnalisee );
+		    g_date_add_months ( pGDateCurrent, 0 );
+		    break;
 
-		    /* magouille car il semble y avoir un bug dans g_date_add_days
-		       qui ne fait pas l'addition si on ne met pas la ligne suivante */
+		case PERIODICITY_WEEKS:
+		    g_date_add_days ( pGDateCurrent, 
+				      echeance -> periodicite_personnalisee * 7 );
+		    g_date_add_months ( pGDateCurrent, 0 );
+		    break;
+
+		case PERIODICITY_MONTHS:
 		    g_date_add_months ( pGDateCurrent,
-					0 );
-		}
-		else
-		    if ( echeance -> intervalle_periodicite_personnalisee == 1 )
-			g_date_add_months ( pGDateCurrent,
-					    echeance -> periodicite_personnalisee );
-		    else
-			g_date_add_years ( pGDateCurrent,
-					   echeance -> periodicite_personnalisee );
+					echeance -> periodicite_personnalisee );
+		    break;
 
-    if ( echeance -> date_limite
-	 &&
-	 g_date_compare ( pGDateCurrent,
-			  echeance -> date_limite ) > 0 )
+		case PERIODICITY_YEARS:
+		    g_date_add_years ( pGDateCurrent,
+				       echeance -> periodicite_personnalisee );
+		    g_date_add_months ( pGDateCurrent, 0 );
+		    break;
+	    }
+	    break;
+    }
+
+    if ( echeance -> date_limite &&
+	 g_date_compare ( pGDateCurrent, echeance -> date_limite ) > 0 )
+    {
 	pGDateCurrent = NULL;
-
+    }
+    
     return ( pGDateCurrent );
 }
-/*****************************************************************************/
 
 
 
