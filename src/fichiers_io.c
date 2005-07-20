@@ -93,7 +93,7 @@ gchar *adresse_secondaire;
 /*START_EXTERN*/
 extern GtkWidget *adr_banque;
 extern gint affichage_echeances;
-extern gint affichage_echeances_perso_j_m_a;
+extern enum periodicity_units affichage_echeances_perso_j_m_a;
 extern gint affichage_echeances_perso_nb_libre;
 extern gchar *chemin_logo;
 extern GtkWidget *code_banque;

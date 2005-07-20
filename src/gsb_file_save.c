@@ -43,7 +43,7 @@ extern GtkWidget *adr_banque;
 extern gchar *adresse_commune;
 extern gchar *adresse_secondaire;
 extern gint affichage_echeances;
-extern gint affichage_echeances_perso_j_m_a;
+extern enum periodicity_units affichage_echeances_perso_j_m_a;
 extern gint affichage_echeances_perso_nb_libre;
 extern gchar *chemin_logo;
 extern GtkWidget *code_banque;

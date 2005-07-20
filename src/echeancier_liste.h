@@ -24,6 +24,24 @@
 #define SCHEDULER_COL_NB_TOTAL 13 
 
 
+enum scheduler_periodicity {
+    SCHEDULER_PERIODICITY_ONCE_VIEW,
+    SCHEDULER_PERIODICITY_WEEK_VIEW,
+    SCHEDULER_PERIODICITY_MONTH_VIEW,
+    SCHEDULER_PERIODICITY_TWO_MONTHS_VIEW,
+    SCHEDULER_PERIODICITY_TRIMESTER_VIEW,
+    SCHEDULER_PERIODICITY_YEAR_VIEW,
+    SCHEDULER_PERIODICITY_CUSTOM_VIEW,
+    SCHEDULER_PERIODICITY_NB_CHOICES,
+};
+
+enum periodicity_units {
+    PERIODICITY_DAYS,
+    PERIODICITY_WEEKS,
+    PERIODICITY_MONTHS,
+    PERIODICITY_YEARS,
+};
+
 /* START_INCLUDE_H */
 #include "echeancier_liste.h"
 #include "structures.h"
@@ -38,7 +56,7 @@ GtkWidget *creation_liste_echeances ( void );
 void edition_echeance ( void );
 void gsb_scheduler_check_scheduled_transactions_time_limit ( void );
 gboolean gsb_scheduler_delete_scheduled_transaction ( struct operation_echeance *scheduled_transaction );
-gboolean modification_affichage_echeances ( gint *origine, GtkWidget * widget );
+gboolean gsb_gui_change_scheduler_view ( enum scheduler_periodicity periodicity );
 void new_scheduled_transaction ( void );
 void remplissage_liste_echeance ( void );
 void selectionne_echeance ( struct operation_echeance *echeance );

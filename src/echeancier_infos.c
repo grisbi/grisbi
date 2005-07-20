@@ -30,6 +30,7 @@
 /*START_INCLUDE*/
 #include "echeancier_infos.h"
 #include "structures.h"
+#include "echeancier_liste.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -41,9 +42,9 @@ GtkWidget *calendrier_echeances;
 GtkWidget *entree_personnalisation_affichage_echeances;
 GtkWidget *bouton_personnalisation_affichage_echeances;
 GtkWidget *bouton_valider_echeance_perso;
-gint affichage_echeances; /* contient 0(mois), 1 (2 mois), 2(annÃ©e), 3(toutes), 4(perso) */
+gint affichage_echeances;
 gint affichage_echeances_perso_nb_libre;     /* contient le contenu de l'entrÃ©e */
-gint affichage_echeances_perso_j_m_a;        /* contient 0 (jours), 1 (mois), 2 (annÃ©es) */
+enum periodicity_units affichage_echeances_perso_j_m_a;
 
 
 /*START_EXTERN*/
