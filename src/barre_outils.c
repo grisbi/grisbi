@@ -251,7 +251,7 @@ gboolean change_aspect_liste ( gint demande )
 
 	    block_menu_cb = TRUE;
 	    widget = gtk_item_factory_get_item ( item_factory_menu_general,
-						 menu_name(_("View"), _("Show grid"), NULL) );
+						 gsb_string_escape_underscores(menu_name(_("_View"), _("Show grid"), NULL) ) );
 	    gtk_check_menu_item_set_active( GTK_CHECK_MENU_ITEM(widget), 
 					    etat.affichage_grille );
 	    block_menu_cb = FALSE;
@@ -262,28 +262,28 @@ gboolean change_aspect_liste ( gint demande )
 
 	case 1 :
 	    widget = gtk_item_factory_get_item ( item_factory_menu_general,
-						 menu_name(_("View"), _("Show one line per transaction"), NULL) );
+						 gsb_string_escape_underscores( menu_name(_("_View"), _("Show one line per transaction"), NULL) ));
 	    gtk_check_menu_item_set_active( GTK_CHECK_MENU_ITEM(widget), TRUE );
 	    mise_a_jour_affichage_lignes ( demande );
 	    modification_fichier ( TRUE );
 	    break;
 	case 2 :
 	    widget = gtk_item_factory_get_item ( item_factory_menu_general,
-						 menu_name(_("View"), _("Show two lines per transaction"), NULL) );
+						 gsb_string_escape_underscores( menu_name(_("_View"), _("Show two lines per transaction"), NULL) ) );
 	    gtk_check_menu_item_set_active( GTK_CHECK_MENU_ITEM(widget), TRUE );
 	    mise_a_jour_affichage_lignes ( demande );
 	    modification_fichier ( TRUE );
 	    break;
 	case 3 :
 	    widget = gtk_item_factory_get_item ( item_factory_menu_general,
-						 menu_name(_("View"), _("Show three lines per transaction"), NULL) );
+						 gsb_string_escape_underscores( menu_name(_("_View"), _("Show three lines per transaction"), NULL) ) );
 	    gtk_check_menu_item_set_active( GTK_CHECK_MENU_ITEM(widget), TRUE );
 	    mise_a_jour_affichage_lignes ( demande );
 	    modification_fichier ( TRUE );
 	    break;
 	case 4 :
 	    widget = gtk_item_factory_get_item ( item_factory_menu_general,
-						 menu_name(_("View"), _("Show four lines per transaction"), NULL) );
+						 gsb_string_escape_underscores(menu_name(_("_View"), _("Show four lines per transaction"), NULL) ) );
 	    gtk_check_menu_item_set_active( GTK_CHECK_MENU_ITEM(widget), TRUE );
 	    mise_a_jour_affichage_lignes ( demande );
 	    modification_fichier ( TRUE );
@@ -298,7 +298,7 @@ gboolean change_aspect_liste ( gint demande )
 
 	    block_menu_cb = TRUE;
 	    widget = gtk_item_factory_get_item ( item_factory_menu_general,
-						 menu_name(_("View"), _("Show reconciled transactions"), NULL) );
+						 gsb_string_escape_underscores( menu_name(_("_View"), _("Show reconciled transactions"), NULL) ) );
 	    gtk_check_menu_item_set_active( GTK_CHECK_MENU_ITEM(widget), TRUE );
 	    block_menu_cb = FALSE;
 
@@ -313,7 +313,7 @@ gboolean change_aspect_liste ( gint demande )
 
 	    block_menu_cb = TRUE;
 	    widget = gtk_item_factory_get_item ( item_factory_menu_general,
-						 menu_name(_("View"), _("Show reconciled transactions"), NULL) );
+						 gsb_string_escape_underscores( menu_name(_("_View"), _("Show reconciled transactions"), NULL) ) );
 	    gtk_check_menu_item_set_active( GTK_CHECK_MENU_ITEM(widget), FALSE );
 	    block_menu_cb = FALSE;
 
@@ -335,43 +335,23 @@ gboolean change_aspect_liste ( gint demande )
 gboolean popup_scheduled_view_mode_menu ( GtkWidget * button )
 {
     GtkWidget *menu, *item;
+    gchar * names[] = { _("Unique view"), _("Week view"), _("Month view"), 
+			_("Two months view"), _("Quarter view"), 
+			_("Year view"), _("Custom view"), NULL, };
+    int i;
 
     menu = gtk_menu_new ();
-
-    /* Populate menu. */
-    item = gtk_menu_item_new_with_label ( _("Month view") );
-    gtk_signal_connect_object ( GTK_OBJECT ( item ), "activate",
-				GTK_SIGNAL_FUNC ( modification_affichage_echeances ), 
-				NULL );
-    gtk_menu_append ( GTK_MENU ( menu ), item );
-
-    item = gtk_menu_item_new_with_label ( _("Two months view") );
-    gtk_signal_connect_object ( GTK_OBJECT ( item ), "activate",
-				GTK_SIGNAL_FUNC ( modification_affichage_echeances ),
-				GINT_TO_POINTER (1) );
-    gtk_menu_append ( GTK_MENU ( menu ), item );
-
-    item = gtk_menu_item_new_with_label ( _("Year view") );
-    gtk_signal_connect_object ( GTK_OBJECT ( item ), "activate",
-				GTK_SIGNAL_FUNC ( modification_affichage_echeances ),
-				GINT_TO_POINTER (2) );
-    gtk_menu_append ( GTK_MENU ( menu ), item );
-
-    item = gtk_menu_item_new_with_label ( _("Unique view") );
-    gtk_signal_connect_object ( GTK_OBJECT ( item ), "activate",
-				GTK_SIGNAL_FUNC ( modification_affichage_echeances ),
-				GINT_TO_POINTER (3) );
-    gtk_menu_append ( GTK_MENU ( menu ), item );
-
-    item = gtk_menu_item_new_with_label ( _("Custom view") );
-    gtk_signal_connect_object ( GTK_OBJECT ( item ), "activate",
-				GTK_SIGNAL_FUNC ( modification_affichage_echeances ),
-				GINT_TO_POINTER (4) );
-    gtk_menu_append ( GTK_MENU ( menu ), item );
+    
+    for ( i = 0 ; names[i] ; i++ )
+    {
+	item = gtk_menu_item_new_with_label ( names[i] );
+	gtk_signal_connect_object ( GTK_OBJECT ( item ), "activate",
+				    GTK_SIGNAL_FUNC ( gsb_gui_change_scheduler_view ),
+				    GINT_TO_POINTER(i) );
+	gtk_menu_append ( GTK_MENU ( menu ), item );
+    }
 
     gtk_widget_show_all ( menu );
-
-    
 
     gtk_menu_popup ( GTK_MENU(menu), NULL, button, set_popup_position, button, 1, 
 		     gtk_get_current_event_time());
@@ -399,7 +379,7 @@ GtkWidget *creation_barre_outils_echeancier ( void )
     /* Common actions */
     gtk_box_pack_start ( GTK_BOX ( hbox ),
 			 new_button_with_label_and_image ( etat.display_toolbar,
-							   _("Scheduled transaction"),
+							   _("_New transaction"),
 							   "new-scheduled.png",
 							   G_CALLBACK ( new_scheduled_transaction ),
 							   GINT_TO_POINTER(-1) ),
