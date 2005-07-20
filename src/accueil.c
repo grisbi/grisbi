@@ -35,6 +35,8 @@
 #include "dialog.h"
 #include "echeancier_formulaire.h"
 #include "fenetre_principale.h"
+#include "comptes_gestion.h"
+#include "navigation.h"
 #include "gsb_account.h"
 #include "operations_comptes.h"
 #include "utils_dates.h"
@@ -1458,7 +1460,7 @@ void update_liste_comptes_accueil ( void )
 /* ************************************************************************* */
 gboolean click_sur_compte_accueil ( gint *no_compte )
 {
-    gsb_account_list_gui_change_current_account ( GPOINTER_TO_INT(no_compte) );
+    gsb_account_list_gui_change_current_account ( no_compte );
     remplissage_details_compte ();
     gsb_gui_notebook_change_page ( GSB_ACCOUNT_PAGE );
     gsb_gui_navigation_set_selection ( GSB_ACCOUNT_PAGE, no_compte, NULL );
