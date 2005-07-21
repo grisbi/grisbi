@@ -2462,6 +2462,8 @@ void formulaire_echeancier_a_zero ( void )
  * */
 gboolean gsb_scheduler_increase_scheduled_transaction ( struct operation_echeance *scheduled_transaction )
 {
+    g_return_val_if_fail ( g_date_valid ( scheduled_transaction -> date ), TRUE );
+
     /* increase the date of the scheduled_transaction */
 
     gsb_scheduler_increase_date ( scheduled_transaction,

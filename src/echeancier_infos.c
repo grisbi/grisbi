@@ -134,6 +134,9 @@ void mise_a_jour_calendrier ( void )
 					  echeance -> mois,
 					  echeance -> annee );
 
+	if ( !g_date_valid_dmy ( echeance -> jour, echeance -> mois, echeance -> annee ) )
+	    break;
+
 	/* si c'est une fois */
 	/* ou si c'est personnalisÃ© mais la periodicitÃ© est de 0, */
 	/* on passe */

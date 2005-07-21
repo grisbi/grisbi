@@ -447,6 +447,9 @@ void remplissage_liste_echeance ( void )
 	    GDate *pGDateCurrent;
 	    struct operation_echeance *scheduled_transaction_buf;
 
+	    if ( g_date_valid ( echeance -> date ) )
+		break;
+
 	    ligne[COL_NB_DATE] = gsb_format_gdate ( echeance -> date );
 
 	    if ( echeance ->periodicite == SCHEDULER_PERIODICITY_CUSTOM_VIEW )
