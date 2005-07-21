@@ -38,9 +38,12 @@
 #include "operations_formulaire.h"
 #include "utils_dates.h"
 #include "gsb_account.h"
+#include "fenetre_principale.h"
 #include "gtk_combofix.h"
 #include "echeancier_infos.h"
 #include "traitement_variables.h"
+#include "utils_buttons.h"
+#include "utils.h"
 #include "utils_categories.h"
 #include "utils_ib.h"
 #include "utils_comptes.h"
@@ -50,8 +53,6 @@
 #include "structures.h"
 #include "echeancier_liste.h"
 #include "include.h"
-#include "utils.h"
-#include "utils_buttons.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -64,8 +65,8 @@ static gint cherche_ligne_echeance ( struct operation_echeance *echeance );
 static gboolean click_ligne_echeance ( GtkWidget *tree_view,
 				GdkEventButton *evenement );
 static GDate *date_fin_affichage_liste_echeance ( void );
-static GDate *date_suivante_echeance ( struct operation_echeance *echeance,
-				GDate *pGDateCurrent );
+static GDate *date_suivante_echeance ( struct operation_echeance *echeance, GDate *pGDateCurrent );
+static gboolean gsb_gui_popup_custom_periodicity_dialog ();
 static void update_couleurs_background_echeancier ( void );
 /*END_STATIC*/
 
@@ -108,14 +109,10 @@ GSList *scheduled_transactions_taken;
 
 /*START_EXTERN*/
 extern gint affichage_echeances;
-extern enum periodicity_units affichage_echeances_perso_j_m_a;
 extern gint affichage_echeances_perso_nb_libre;
-extern GtkWidget *bouton_personnalisation_affichage_echeances;
-extern GtkWidget *bouton_valider_echeance_perso;
 extern GdkColor couleur_fond[2];
 extern GdkColor couleur_grise;
 extern GdkColor couleur_selection;
-extern GtkWidget *entree_personnalisation_affichage_echeances;
 extern GtkWidget *formulaire;
 extern GtkWidget *formulaire_echeancier;
 extern GdkGC *gc_separateur_operation;

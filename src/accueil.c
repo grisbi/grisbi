@@ -34,17 +34,16 @@
 #include "utils_devises.h"
 #include "dialog.h"
 #include "echeancier_formulaire.h"
-#include "fenetre_principale.h"
-#include "comptes_gestion.h"
-#include "navigation.h"
 #include "gsb_account.h"
 #include "operations_comptes.h"
 #include "utils_dates.h"
+#include "navigation.h"
+#include "fenetre_principale.h"
 #include "gsb_transaction_data.h"
 #include "operations_liste.h"
-#include "gtk_list_button.h"
 #include "main.h"
 #include "utils.h"
+#include "comptes_gestion.h"
 #include "utils_tiers.h"
 #include "structures.h"
 #include "accueil.h"
@@ -79,7 +78,6 @@ extern GSList *scheduled_transactions_taken;
 extern GSList *scheduled_transactions_to_take;
 extern GtkWidget *separateur_formulaire_echeancier;
 extern gchar *titre_fichier;
-extern GtkWidget *vbox_liste_comptes;
 extern GtkWidget *window;
 /*END_EXTERN*/
 

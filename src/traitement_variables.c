@@ -27,12 +27,14 @@
 /*START_INCLUDE*/
 #include "traitement_variables.h"
 #include "gsb_account.h"
+#include "utils_str.h"
 #include "gsb_transaction_data.h"
 #include "menu.h"
 #include "structures.h"
 #include "traitement_variables.h"
 #include "echeancier_liste.h"
 #include "include.h"
+#include "echeancier_infos.h"
 #include "operations_liste.h"
 /*END_INCLUDE*/
 
@@ -80,7 +82,6 @@ GSList *liste_labels_titres_colonnes_liste_ope = NULL;
 extern gchar *adresse_commune;
 extern gchar *adresse_secondaire;
 extern gint affichage_echeances;
-extern enum periodicity_units affichage_echeances_perso_j_m_a;
 extern gint affichage_echeances_perso_nb_libre;
 extern gchar *chemin_logo;
 extern gchar *crypt_key;

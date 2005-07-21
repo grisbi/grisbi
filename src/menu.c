@@ -39,11 +39,11 @@
 #include "erreur.h"
 #include "tip.h"
 #include "gsb_account.h"
+#include "utils_str.h"
 #include "import.h"
 #include "etats_calculs.h"
 #include "utils.h"
 #include "main.h"
-#include "utils_str.h"
 #include "etats_config.h"
 #include "parametres.h"
 #include "fichier_configuration.h"
@@ -55,8 +55,11 @@
 /*START_STATIC*/
 static void affiche_aide_locale ( gpointer null,
 			   gint origine );
+static GtkWidget *init_menus_old ( GtkWidget *vbox );
 static void lien_web ( GtkWidget *widget,
 		gint origine );
+static  void menu_add_widget (GtkUIManager * p_uiManager, GtkWidget * p_widget, 
+			     GtkContainer * p_box) ;
 static void view_menu_cb ( gpointer callback_data, guint callback_action, GtkWidget *widget );
 /*END_STATIC*/
 

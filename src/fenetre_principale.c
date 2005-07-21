@@ -42,10 +42,6 @@
 
 /*START_STATIC*/
 static  GtkWidget *create_main_notebook (void );
-gboolean gsb_gui_on_notebook_switch_page ( GtkNotebook *notebook,
-					   GtkNotebookPage *page,
-					   guint numero_page,
-					   gpointer null );
 /*END_STATIC*/
 
 

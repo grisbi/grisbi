@@ -24,6 +24,7 @@ void gsb_gui_navigation_add_account ( gint account_nb );
 void gsb_gui_navigation_add_report ( struct struct_etat * report );
 void gsb_gui_navigation_remove_account ( gint account_nb );
 void gsb_gui_navigation_remove_report ( struct struct_etat * report );
+gboolean gsb_gui_navigation_set_selection ( gint page, gint account_nb, gpointer report );
 void gsb_gui_navigation_update_account ( gint account_nb );
 void gsb_gui_navigation_update_report ( struct struct_etat * report );
 /* END_DECLARATION */

@@ -35,7 +35,7 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static gchar *gsb_file_util_ask_for_crypt_key ( gchar * file_name, gboolean encrypt  );
+static gchar *gsb_file_util_ask_for_crypt_key ( gchar * file_name, gboolean encrypt );
 /*END_STATIC*/
 
 

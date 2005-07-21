@@ -8,6 +8,7 @@
 /* START_DECLARATION */
 gint count_char_from_string ( gchar *search_char, gchar *string );
 gchar *get_line_from_string ( gchar *string );
+gchar * gsb_string_escape_underscores ( gchar * orig );
 GSList *gsb_string_get_list_from_string ( const gchar *string,
 					  gchar *delimiter );
 gchar * latin2utf8 (char * inchar);
@@ -22,6 +23,5 @@ gint my_strncasecmp ( gchar *chaine_1,
 double my_strtod ( const char *nptr, const char **endptr );
 gint utils_str_atoi ( const gchar *chaine );
 gchar *utils_str_itoa ( gint integer );
-gchar * gsb_string_escape_underscores ( gchar * orig );
 /* END_DECLARATION */
 #endif

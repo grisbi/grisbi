@@ -55,6 +55,7 @@ struct recuperation_version
 #include "structures.h"
 #include "echeancier_liste.h"
 #include "include.h"
+#include "echeancier_infos.h"
 #include "devises_constants.h"
 /*END_INCLUDE*/
 
@@ -93,7 +94,6 @@ gchar *adresse_secondaire;
 /*START_EXTERN*/
 extern GtkWidget *adr_banque;
 extern gint affichage_echeances;
-extern enum periodicity_units affichage_echeances_perso_j_m_a;
 extern gint affichage_echeances_perso_nb_libre;
 extern gchar *chemin_logo;
 extern GtkWidget *code_banque;

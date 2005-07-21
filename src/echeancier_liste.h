@@ -35,12 +35,6 @@ enum scheduler_periodicity {
     SCHEDULER_PERIODICITY_NB_CHOICES,
 };
 
-enum periodicity_units {
-    PERIODICITY_DAYS,
-    PERIODICITY_WEEKS,
-    PERIODICITY_MONTHS,
-    PERIODICITY_YEARS,
-};
 
 /* START_INCLUDE_H */
 #include "echeancier_liste.h"
@@ -54,9 +48,9 @@ void affiche_cache_commentaire_echeancier( void );
 void click_sur_saisir_echeance ( void );
 GtkWidget *creation_liste_echeances ( void );
 void edition_echeance ( void );
+gboolean gsb_gui_change_scheduler_view ( enum scheduler_periodicity periodicity );
 void gsb_scheduler_check_scheduled_transactions_time_limit ( void );
 gboolean gsb_scheduler_delete_scheduled_transaction ( struct operation_echeance *scheduled_transaction );
-gboolean gsb_gui_change_scheduler_view ( enum scheduler_periodicity periodicity );
 void new_scheduled_transaction ( void );
 void remplissage_liste_echeance ( void );
 void selectionne_echeance ( struct operation_echeance *echeance );

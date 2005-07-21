@@ -4,10 +4,8 @@
 void gsb_file_util_change_permissions ( void );
 gchar *gsb_file_util_compress_file ( gchar *file_content,
 				     gboolean compress );
-gchar *gsb_file_util_crypt_file ( gchar * file_name, 
-				  gchar *file_content,
-				  gboolean crypt,
-				  gint length );
+gchar *gsb_file_util_crypt_file ( gchar * file_name, gchar *file_content,
+				  gboolean crypt, gint length );
 gboolean gsb_file_util_modify_lock ( gboolean create_swp );
 void switch_t_r ( void );
 /* END_DECLARATION */

@@ -30,7 +30,6 @@
 /*START_INCLUDE*/
 #include "echeancier_infos.h"
 #include "structures.h"
-#include "echeancier_liste.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -38,14 +37,13 @@ static void click_sur_jour_calendrier_echeance ( GtkWidget *calendrier,
 					  gpointer null );
 /*END_STATIC*/
 
+
 GtkWidget *calendrier_echeances;
 GtkWidget *entree_personnalisation_affichage_echeances;
 GtkWidget *bouton_personnalisation_affichage_echeances;
 GtkWidget *bouton_valider_echeance_perso;
 gint affichage_echeances;
 gint affichage_echeances_perso_nb_libre;     /* contient le contenu de l'entrÃ©e */
-enum periodicity_units affichage_echeances_perso_j_m_a;
-
 
 /*START_EXTERN*/
 extern GSList *liste_struct_echeances;

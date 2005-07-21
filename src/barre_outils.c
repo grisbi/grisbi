@@ -35,6 +35,7 @@
 #include "operations_liste.h"
 #include "equilibrage.h"
 #include "gsb_account.h"
+#include "utils_str.h"
 #include "menu.h"
 #include "traitement_variables.h"
 #include "utils_buttons.h"

@@ -24,8 +24,8 @@
 /*START_INCLUDE*/
 #include "parametres.h"
 #include "utils.h"
-#include "dialog.h"
 #include "utils_buttons.h"
+#include "dialog.h"
 #include "gsb_account.h"
 #include "traitement_variables.h"
 #include "utils_editables.h"
@@ -44,9 +44,11 @@
 
 /*START_STATIC*/
 static gboolean change_backup_path ( GtkEntry *entry, gchar *value, gint length, gint * position );
-static void changement_choix_backup ( GtkWidget *bouton,
-			       gpointer pointeur );
+static void changement_choix_backup ( GtkWidget *bouton, gpointer pointeur );
 static GtkWidget * create_preferences_tree ( );
+static gboolean gsb_gui_encryption_toggled ( GtkWidget * checkbox, gpointer data );
+static gboolean gsb_gui_messages_toggled ( GtkCellRendererToggle *cell, gchar *path_str,
+				    GtkTreeModel * model );
 static GtkWidget *onglet_fichier ( void );
 static GtkWidget *onglet_messages_and_warnings ( void );
 static GtkWidget *onglet_programmes (void);
@@ -57,9 +59,6 @@ static gboolean preference_selectable_func (GtkTreeSelection *selection,
 				     gpointer data);
 static gboolean selectionne_liste_preference ( GtkTreeSelection *selection,
 					GtkTreeModel *model );
-static gboolean gsb_gui_messages_toggled ( GtkCellRendererToggle *cell, gchar *path_str,
-					   GtkTreeModel * model );
-gboolean gsb_gui_encryption_toggled ( GtkWidget * checkbox, gpointer data );
 /*END_STATIC*/
 
 
@@ -101,13 +100,13 @@ GtkWidget *entree_jours;
 /*START_EXTERN*/
 extern gint compression_backup;
 extern gint compression_fichier;
+extern struct conditional_message messages[] ;
 extern GtkTreeStore *model;
 extern gint nb_days_before_scheduled;
 extern gint nb_max_derniers_fichiers_ouverts;
 extern gchar *nom_fichier_backup;
 extern GtkWidget *treeview;
 extern GtkWidget *window;
-extern struct conditional_message messages[];
 /*END_EXTERN*/
 
 

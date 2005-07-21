@@ -154,6 +154,7 @@ extern gint no_devise_totaux_ib;
 extern gint no_devise_totaux_tiers;
 extern GtkWidget *onglet_config_etat;
 extern GtkTreeSelection * selection;
+extern GtkWidget *treeview;
 extern GtkWidget *widget_formulaire_echeancier[SCHEDULER_FORM_TOTAL_WIDGET];
 extern GtkWidget *window;
 /*END_EXTERN*/
