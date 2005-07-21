@@ -409,10 +409,6 @@ gboolean gsb_file_open_file ( gchar *filename )
 
     update_attente ( _("Checking schedulers"));
 
-    /* check the schedulers */
-
-    gsb_scheduler_check_scheduled_transactions_time_limit ();
-
     /* set the name of the file in the window title */
 
     affiche_titre_fenetre();
@@ -496,6 +492,9 @@ gboolean gsb_file_open_file ( gchar *filename )
 			 TRUE,
 			 0 );
     gtk_widget_show ( tree_view_widget );
+
+    /* check the schedulers */
+    gsb_scheduler_check_scheduled_transactions_time_limit ();
 
     annulation_attente ();
     return TRUE;
