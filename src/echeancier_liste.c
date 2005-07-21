@@ -1599,7 +1599,6 @@ void gsb_scheduler_check_scheduled_transactions_time_limit ( void )
 
     if ( scheduled_transactions_to_take )
 	mise_a_jour_liste_echeances_manuelles_accueil = 1;
-
 }
 /*****************************************************************************/
 

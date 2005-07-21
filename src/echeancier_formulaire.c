@@ -2504,6 +2504,7 @@ gboolean gsb_scheduler_increase_scheduled_transaction ( struct operation_echeanc
 gboolean gsb_scheduler_increase_date ( struct operation_echeance *scheduled_transaction,
 				       GDate *date )
 {
+    printf ( "%d\n", scheduled_transaction -> periodicite );
     switch ( scheduled_transaction -> periodicite )
     {
 	case 1:
@@ -2530,6 +2531,10 @@ gboolean gsb_scheduler_increase_date ( struct operation_echeance *scheduled_tran
 			       1 );
 
 	case 4:
+	    /* set default here because sometimes the periodicity can be more than 4... 
+	     * FIXME to check why... if it was a bug, change that
+	     * here it's a personnal periodicity of 3 monthes which have here 6 instead of 4 */
+	default:
 	    /* périodicité perso */
 
 	    switch ( scheduled_transaction -> intervalle_periodicite_personnalisee )

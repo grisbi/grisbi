@@ -1068,6 +1068,11 @@ gchar *gsb_transactions_list_grep_cell_content ( gint transaction_number,
 
 		amount = gsb_transaction_data_get_adjusted_amount ( transaction_number);
 
+		if ( !devise_compte
+		     ||
+		     devise_compte -> no_devise != gsb_account_get_currency (gsb_transaction_data_get_account_number (transaction_number)))
+		    devise_compte = devise_par_no (gsb_account_get_currency (gsb_transaction_data_get_account_number (transaction_number)));
+
 		return ( g_strdup_printf ( "(%4.2f %s)",
 					   amount,
 					   devise_code ( devise_compte ) ));

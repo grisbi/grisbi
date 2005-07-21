@@ -35,6 +35,11 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
+gint gsb_file_save_general_part ( gint iterator );
+gint gsb_file_save_append_part ( gint iterator,
+				 gint *length_calculated,
+				 gchar **file_content,
+				 gchar *new_string );
 /*END_STATIC*/
 
 
@@ -81,6 +86,11 @@ extern gint valeur_echelle_recherche_date_import;
 extern GtkWidget *web_banque;
 /*END_EXTERN*/
 
+/* contains the current length allocated by malloc to save the file */
+static gint length_calculated;
+
+/* pointer to the content of the file we are making */
+static gchar *file_content;
 
 /** 
  * save the grisbi file
@@ -94,25 +104,26 @@ extern GtkWidget *web_banque;
 gboolean gsb_file_save_save_file ( gchar *filename )
 {
     gint do_chmod;
-    gchar *file_content;
     gchar *first_string_to_free;
     gchar *second_string_to_free;
     gchar *third_string_to_free;
-    gint i,j;
+    gint i;
     FILE *grisbi_file;
     GSList *list_tmp;
-    gint length;
+    gint iterator;
     gchar *last_file_content;
 
-    /* used to prepare general informations */
-
-    gchar *transactions_view;
-    gchar *transaction_column_width_ratio;
-    gchar *two_lines_showed;
-    gchar *tree_lines_showed;
-    gchar *scheduler_column_width_ratio;
-
-
+    gint general_part;
+    gint account_part;
+    gint transaction_part;
+    gint party_part;
+    gint category_part;
+    gint budgetary_part;
+    gint currency_part;
+    gint bank_part;
+    gint financial_year_part;
+    gint reconcile_part;
+    gint report_part;
 
     if ( DEBUG )
 	printf ( "gsb_file_save_save_file : %s\n",
@@ -123,149 +134,50 @@ gboolean gsb_file_save_save_file ( gchar *filename )
 
     etat.en_train_de_sauvegarder = 1;
 
-    file_content = NULL;
+    /* we begin to try to reserve enough memory to make the entire file
+     * if not enough, we will make it growth later
+     * the data below are about the memory to take for each part and for 1 of this part
+     * with that i think we will allocate enough memory in one time but not too much */
+
+    general_part = 900;
+    account_part = 1200;
+    transaction_part = 350;
+    party_part = 100;
+    category_part = 500;
+    budgetary_part = 500;
+    currency_part = 150;
+    bank_part = 300;
+    financial_year_part = 100;
+    reconcile_part = 50;
+    report_part = 2500;
+    
+    length_calculated = general_part
+	+ account_part * gsb_account_get_accounts_amount ()
+	+ transaction_part * g_slist_length ( gsb_transaction_data_get_transactions_list ())
+	+ party_part * g_slist_length ( liste_struct_tiers )
+	+ category_part * g_slist_length ( liste_struct_categories )
+	+ budgetary_part * g_slist_length ( liste_struct_imputation )
+	+ currency_part * g_slist_length ( liste_struct_devises )
+	+ bank_part * g_slist_length ( liste_struct_banques )
+	+ financial_year_part * g_slist_length (liste_struct_exercices  )
+	+ reconcile_part * g_slist_length ( liste_struct_rapprochements )
+	+ report_part * g_slist_length ( liste_struct_etats );
+
+    /* FIXME to check... */
+    length_calculated = 10;
+    printf ( "%d\n", length_calculated );
+
+    iterator = 0;
 
     /* begin the file whit xml markup */
     
-    file_content = g_strdup ( "<?xml version=\"1.0\"?>\n<Grisbi>\n" );
+    iterator = gsb_file_save_append_part ( iterator,
+					   &length_calculated,
+					   &file_content,
+					   g_strdup ("<?xml version=\"1.0\"?>\n<Grisbi>\n"));
 
-    /* prepare stuff to save generals informations */
-
-    /* prepare transactions_view */
-
-    transactions_view = NULL;
-
-    for ( i=0 ; i<TRANSACTION_LIST_ROWS_NB ; i++ )
-	for ( j=0 ; j< TRANSACTION_LIST_COL_NB ; j++ )
-	    if ( transactions_view )
-	    {
-		transactions_view = g_strconcat ( first_string_to_free = transactions_view,
-						  "-",
-						  second_string_to_free = utils_str_itoa ( tab_affichage_ope[i][j] ),
-						  NULL );
-		g_free (first_string_to_free);
-		g_free (second_string_to_free);
-	    }
-	    else
-		transactions_view = utils_str_itoa ( tab_affichage_ope[i][j] );
-
-    /* prepare transaction_column_width_ratio */
-
-     transaction_column_width_ratio = NULL;
-
-    for ( i=0 ; i<TRANSACTION_LIST_COL_NB ; i++ )
-	if ( transaction_column_width_ratio )
-	{
-	    transaction_column_width_ratio = g_strconcat ( first_string_to_free = transaction_column_width_ratio,
-							   "-",
-							   second_string_to_free = utils_str_itoa ( rapport_largeur_colonnes[i] ),
-							   NULL );
-	    g_free (first_string_to_free);
-	    g_free (second_string_to_free);
-	}
-	else
-	    transaction_column_width_ratio = utils_str_itoa ( rapport_largeur_colonnes[i] );
-
-
-    /* prepare two_lines_showed */
-
-    two_lines_showed = g_strconcat ( first_string_to_free = utils_str_itoa ( GPOINTER_TO_INT ( lignes_affichage_deux_lignes -> data )),
-				     "-",
-				     second_string_to_free = utils_str_itoa ( GPOINTER_TO_INT ( lignes_affichage_deux_lignes -> next -> data )),
-				     NULL );
-    g_free (first_string_to_free);
-    g_free (second_string_to_free);
-
-    /* prepare tree_lines_showed */
-
-    tree_lines_showed = g_strconcat ( first_string_to_free = utils_str_itoa ( GPOINTER_TO_INT ( lignes_affichage_trois_lignes -> data )),
-				      "-",
-				      second_string_to_free = utils_str_itoa ( GPOINTER_TO_INT ( lignes_affichage_trois_lignes -> next -> data )),
-				      "-",
-				      third_string_to_free = utils_str_itoa ( GPOINTER_TO_INT ( lignes_affichage_trois_lignes -> next -> next -> data )),
-				      NULL );
-    g_free (first_string_to_free);
-    g_free (second_string_to_free);
-    g_free (third_string_to_free);
-
-    /* prepare scheduler_column_width_ratio */
-
-    scheduler_column_width_ratio = NULL;
-
-    for ( i=0 ; i<NB_COLS_SCHEDULER ; i++ )
-	if ( scheduler_column_width_ratio )
-	{
-	    scheduler_column_width_ratio = g_strconcat ( first_string_to_free = scheduler_column_width_ratio,
-							 "-",
-							 second_string_to_free = utils_str_itoa ( scheduler_col_width[i] ),
-							 NULL );
-	    g_free (first_string_to_free);
-	    g_free (second_string_to_free);
-	}
-	else
-	    scheduler_column_width_ratio  = utils_str_itoa ( scheduler_col_width[i] );
-
-
-    /* save the general informations */
-
-    file_content = g_strconcat ( first_string_to_free = file_content,
-				 second_string_to_free = g_markup_printf_escaped ( 
-				     "\t<General\n"
-				     "\t\tFile_version=\"%s\"\n"
-				     "\t\tGrisbi_version=\"%s\"\n"
-				     "\t\tBackup_file=\"%s\"\n"
-				     "\t\tFile_title=\"%s\"\n"
-				     "\t\tGeneral_address=\"%s\"\n"
-				     "\t\tSecond_general_address=\"%s\"\n"
-				     "\t\tParty_list_currency_number=\"%d\"\n"
-				     "\t\tCategory_list_currency_number=\"%d\"\n"
-				     "\t\tBudget_list_currency_number=\"%d\"\n"
-				     "\t\tScheduler_view=\"%d\"\n"
-				     "\t\tScheduler_custom_number=\"%d\"\n"
-				     "\t\tScheduler_custom_menu=\"%d\"\n"
-				     "\t\tImport_interval_search=\"%d\"\n"
-				     "\t\tUse_logo=\"%d\"\n"
-				     "\t\tPath_logo=\"%s\"\n"
-				     "\t\tRemind_display_per_account=\"%d\"\n"
-				     "\t\tTransactions_view=\"%s\"\n"
-				     "\t\tTransaction_column_width_ratio=\"%s\"\n"
-				     "\t\tOne_line_showed=\"%d\"\n"
-				     "\t\tTwo_lines_showed=\"%s\"\n"
-				     "\t\tThree_lines_showed=\"%s\"\n"
-				     "\t\tRemind_form_per_account=\"%d\"\n"
-				     "\t\tScheduler_column_width_ratio=\"%s\" />\n",
-				     VERSION_FICHIER,
-				     VERSION,
-				     nom_fichier_backup,
-				     titre_fichier,
-				     adresse_commune,
-				     adresse_secondaire,
-				     no_devise_totaux_tiers,
-				     no_devise_totaux_categ,
-				     no_devise_totaux_ib,
-				     affichage_echeances,
-				     affichage_echeances_perso_nb_libre,
-				     affichage_echeances_perso_j_m_a,
-				     valeur_echelle_recherche_date_import,
-				     etat.utilise_logo,
-				     chemin_logo,
-				     etat.retient_affichage_par_compte,
-				     transactions_view,
-				     transaction_column_width_ratio,
-				     ligne_affichage_une_ligne,
-				     two_lines_showed,
-				     tree_lines_showed,
-				     etat.formulaire_distinct_par_compte,
-				     scheduler_column_width_ratio),
-				 NULL );
-    g_free (first_string_to_free);
-    g_free (second_string_to_free);
-    g_free (transactions_view);
-    g_free (transaction_column_width_ratio);
-    g_free (two_lines_showed);
-    g_free (tree_lines_showed);
-    g_free (scheduler_column_width_ratio);
-
+    iterator = gsb_file_save_general_part ( iterator );
+goto fin;
     /* save the accounts informations */
 
     list_tmp = gsb_account_get_list_accounts ();
@@ -1240,12 +1152,13 @@ gboolean gsb_file_save_save_file ( gchar *filename )
 	}
 	list_tmp = list_tmp -> next;
     }
-
+fin:
     /* finish the file */
 
-    file_content = g_strconcat ( first_string_to_free = file_content,
-				 "</Grisbi>");
-    g_free (first_string_to_free);
+    iterator = gsb_file_save_append_part ( iterator,
+					   &length_calculated,
+					   &file_content,
+					   g_strdup ("</Grisbi>"));
 
     /* before saving the file, we compress and crypt it if necessary */
 
@@ -1254,15 +1167,14 @@ gboolean gsb_file_save_save_file ( gchar *filename )
 
     /* we have to keep the length, because after encryption, we cannot do it */
 
-    length = strlen (file_content);
     last_file_content = file_content;
 
-    file_content = gsb_file_util_crypt_file ( filename, file_content, TRUE, length );
+    file_content = gsb_file_util_crypt_file ( filename, file_content, TRUE, iterator );
     
     /* if the encryption was ok, the length increased of 22 */
 
     if ( file_content != last_file_content )
-	length = length + 22;
+	iterator = iterator + 22;
 
     /* the file is in memory, we can save it */
 
@@ -1273,7 +1185,7 @@ gboolean gsb_file_save_save_file ( gchar *filename )
 	 ||
 	 !fwrite ( file_content,
 		   sizeof (gchar),
-		   length,
+		   iterator,
 		   grisbi_file ))
     {
 	dialogue_error ( g_strdup_printf ( _("Cannot save file '%s': %s"),
@@ -1284,8 +1196,8 @@ gboolean gsb_file_save_save_file ( gchar *filename )
     }
     
     fclose (grisbi_file);
-
     free ( file_content);
+exit(0);
    
     /* if it's a new file, we set the permission */
 
@@ -1296,4 +1208,205 @@ gboolean gsb_file_save_save_file ( gchar *filename )
     etat.en_train_de_sauvegarder = 0;
 
     return ( TRUE );
+}
+
+/**
+ * add the string given in arg and
+ * check if we don't go throw the upper limit of file_content
+ * if yes, we reallocate it
+ *
+ * \param file_content the file content
+ * \param iterator the current iterator
+ * \param new_string the string we want to add, it will be freed
+ *
+ * \return the new iterator
+ * */
+gint gsb_file_save_append_part ( gint iterator,
+				 gint *length_calculated,
+				 gchar **file_content,
+				 gchar *new_string )
+{
+    /* we check first if we don't go throw the upper limit */
+
+    while ( (iterator + strlen (new_string)) >= *length_calculated )
+    {
+	/* we change the size by adding half of length_calculated */
+
+	*length_calculated = 1.5 * *length_calculated;
+	*file_content = realloc ( *file_content,
+				  *length_calculated );
+
+	if ( DEBUG )
+	    printf ( "The length calculated for saving file should be bigger?\n" );
+    }
+
+    memcpy ( *file_content + iterator,
+	     new_string,
+	     strlen (new_string));
+    iterator = iterator + strlen (new_string);
+    g_free (new_string);
+
+    return iterator;
+}
+
+/**
+ * save the general part
+ *
+ * \param iterator the current iterator
+ *
+ * \return the new iterator
+ * */
+gint gsb_file_save_general_part ( gint iterator )
+{
+    gchar *first_string_to_free;
+    gchar *second_string_to_free;
+    gchar *third_string_to_free;
+    gint i,j;
+    gchar *transactions_view;
+    gchar *transaction_column_width_ratio;
+    gchar *two_lines_showed;
+    gchar *tree_lines_showed;
+    gchar *scheduler_column_width_ratio;
+    gchar *new_string;
+
+    /* prepare stuff to save generals informations */
+
+    /* prepare transactions_view */
+
+    transactions_view = NULL;
+
+    for ( i=0 ; i<TRANSACTION_LIST_ROWS_NB ; i++ )
+	for ( j=0 ; j< TRANSACTION_LIST_COL_NB ; j++ )
+	    if ( transactions_view )
+	    {
+		transactions_view = g_strconcat ( first_string_to_free = transactions_view,
+						  "-",
+						  second_string_to_free = utils_str_itoa ( tab_affichage_ope[i][j] ),
+						  NULL );
+		g_free (first_string_to_free);
+		g_free (second_string_to_free);
+	    }
+	    else
+		transactions_view = utils_str_itoa ( tab_affichage_ope[i][j] );
+
+    /* prepare transaction_column_width_ratio */
+
+    transaction_column_width_ratio = NULL;
+
+    for ( i=0 ; i<TRANSACTION_LIST_COL_NB ; i++ )
+	if ( transaction_column_width_ratio )
+	{
+	    transaction_column_width_ratio = g_strconcat ( first_string_to_free = transaction_column_width_ratio,
+							   "-",
+							   second_string_to_free = utils_str_itoa ( rapport_largeur_colonnes[i] ),
+							   NULL );
+	    g_free (first_string_to_free);
+	    g_free (second_string_to_free);
+	}
+	else
+	    transaction_column_width_ratio = utils_str_itoa ( rapport_largeur_colonnes[i] );
+
+
+    /* prepare two_lines_showed */
+
+    two_lines_showed = g_strconcat ( first_string_to_free = utils_str_itoa ( GPOINTER_TO_INT ( lignes_affichage_deux_lignes -> data )),
+				     "-",
+				     second_string_to_free = utils_str_itoa ( GPOINTER_TO_INT ( lignes_affichage_deux_lignes -> next -> data )),
+				     NULL );
+    g_free (first_string_to_free);
+    g_free (second_string_to_free);
+
+    /* prepare tree_lines_showed */
+
+    tree_lines_showed = g_strconcat ( first_string_to_free = utils_str_itoa ( GPOINTER_TO_INT ( lignes_affichage_trois_lignes -> data )),
+				      "-",
+				      second_string_to_free = utils_str_itoa ( GPOINTER_TO_INT ( lignes_affichage_trois_lignes -> next -> data )),
+				      "-",
+				      third_string_to_free = utils_str_itoa ( GPOINTER_TO_INT ( lignes_affichage_trois_lignes -> next -> next -> data )),
+				      NULL );
+    g_free (first_string_to_free);
+    g_free (second_string_to_free);
+    g_free (third_string_to_free);
+
+    /* prepare scheduler_column_width_ratio */
+
+    scheduler_column_width_ratio = NULL;
+
+    for ( i=0 ; i<NB_COLS_SCHEDULER ; i++ )
+	if ( scheduler_column_width_ratio )
+	{
+	    scheduler_column_width_ratio = g_strconcat ( first_string_to_free = scheduler_column_width_ratio,
+							 "-",
+							 second_string_to_free = utils_str_itoa ( scheduler_col_width[i] ),
+							 NULL );
+	    g_free (first_string_to_free);
+	    g_free (second_string_to_free);
+	}
+	else
+	    scheduler_column_width_ratio  = utils_str_itoa ( scheduler_col_width[i] );
+
+
+    /* save the general informations */
+
+    new_string = g_strdup_printf ( "\t<General\n"
+				   "\t\tFile_version=\"%s\"\n"
+				   "\t\tGrisbi_version=\"%s\"\n"
+				   "\t\tBackup_file=\"%s\"\n"
+				   "\t\tFile_title=\"%s\"\n"
+				   "\t\tGeneral_address=\"%s\"\n"
+				   "\t\tSecond_general_address=\"%s\"\n"
+				   "\t\tParty_list_currency_number=\"%d\"\n"
+				   "\t\tCategory_list_currency_number=\"%d\"\n"
+				   "\t\tBudget_list_currency_number=\"%d\"\n"
+				   "\t\tScheduler_view=\"%d\"\n"
+				   "\t\tScheduler_custom_number=\"%d\"\n"
+				   "\t\tScheduler_custom_menu=\"%d\"\n"
+				   "\t\tImport_interval_search=\"%d\"\n"
+				   "\t\tUse_logo=\"%d\"\n"
+				   "\t\tPath_logo=\"%s\"\n"
+				   "\t\tRemind_display_per_account=\"%d\"\n"
+				   "\t\tTransactions_view=\"%s\"\n"
+				   "\t\tTransaction_column_width_ratio=\"%s\"\n"
+				   "\t\tOne_line_showed=\"%d\"\n"
+				   "\t\tTwo_lines_showed=\"%s\"\n"
+				   "\t\tThree_lines_showed=\"%s\"\n"
+				   "\t\tRemind_form_per_account=\"%d\"\n"
+				   "\t\tScheduler_column_width_ratio=\"%s\" />\n",
+	VERSION_FICHIER,
+	VERSION,
+	nom_fichier_backup,
+	titre_fichier,
+	adresse_commune,
+	adresse_secondaire,
+	no_devise_totaux_tiers,
+	no_devise_totaux_categ,
+	no_devise_totaux_ib,
+	affichage_echeances,
+	affichage_echeances_perso_nb_libre,
+	affichage_echeances_perso_j_m_a,
+	valeur_echelle_recherche_date_import,
+	etat.utilise_logo,
+	chemin_logo,
+	etat.retient_affichage_par_compte,
+	transactions_view,
+	transaction_column_width_ratio,
+	ligne_affichage_une_ligne,
+	two_lines_showed,
+	tree_lines_showed,
+	etat.formulaire_distinct_par_compte,
+	scheduler_column_width_ratio );
+
+    g_free (transactions_view);
+    g_free (transaction_column_width_ratio);
+    g_free (two_lines_showed);
+    g_free (tree_lines_showed);
+    g_free (scheduler_column_width_ratio);
+
+    /* append the new string to the file content
+     * and return the new iterator */
+
+    return gsb_file_save_append_part ( iterator,
+				       &length_calculated,
+				       &file_content,
+				       new_string );
 }

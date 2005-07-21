@@ -1,4 +1,6 @@
 New in version CVS HEAD :
+ - New english file structure
+ - Encryption of the file
  - Totally redesigned transaction list with native GTK2 widgets
  - Optional grid in transaction list
  - New "view" menu
