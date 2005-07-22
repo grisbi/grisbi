@@ -76,11 +76,15 @@ GdkColor couleur_grise;
 GdkColor couleur_selection;
 GSList *liste_labels_titres_colonnes_liste_ope = NULL;
 
+gchar *nom_fichier_comptes;
+
+gchar *titre_fichier;
+gchar *adresse_commune;
+gchar *adresse_secondaire;
+
 
 
 /*START_EXTERN*/
-extern gchar *adresse_commune;
-extern gchar *adresse_secondaire;
 extern gint affichage_echeances;
 extern gint affichage_echeances_perso_nb_libre;
 extern gchar *chemin_logo;
@@ -128,13 +132,11 @@ extern int no_devise_totaux_categ;
 extern gint no_devise_totaux_ib;
 extern gint no_devise_totaux_tiers;
 extern gchar *nom_fichier_backup;
-extern gchar *nom_fichier_comptes;
 extern GSList *scheduled_transactions_taken;
 extern gint scheduler_col_width[NB_COLS_SCHEDULER] ;
 extern GtkWidget *solde_label ;
 extern GtkWidget *solde_label_pointe ;
 extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][TRANSACTION_LIST_COL_NB];
-extern gchar *titre_fichier;
 extern GtkTooltips *tooltips_general_grisbi;
 extern gint valeur_echelle_recherche_date_import;
 extern GtkWidget *window;
