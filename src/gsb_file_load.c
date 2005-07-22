@@ -22,6 +22,7 @@
 
 /*START_INCLUDE*/
 #include "gsb_file_load.h"
+#include "utils_ib.h"
 #include "utils_categories.h"
 #include "utils_devises.h"
 #include "dialog.h"
@@ -31,7 +32,6 @@
 #include "utils_dates.h"
 #include "utils_str.h"
 #include "gsb_transaction_data.h"
-#include "utils_ib.h"
 #include "traitement_variables.h"
 #include "fichiers_gestion.h"
 #include "utils_files.h"
@@ -44,32 +44,20 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
+static gboolean file_io_fix_xml_corrupted_file_lock_tag(gchar* accounts_filename);
 static void gsb_file_load_account_part ( const gchar **attribute_names,
 				  const gchar **attribute_values );
 static void gsb_file_load_account_part_before_0_6 ( GMarkupParseContext *context,
 					     const gchar *text );
-static void gsb_file_load_amount_comparison ( const gchar **attribute_names,
-				       const gchar **attribute_values );
 static void gsb_file_load_bank ( const gchar **attribute_names,
 			  const gchar **attribute_values );
-static void gsb_file_load_budgetary ( const gchar **attribute_names,
-			       const gchar **attribute_values );
-static void gsb_file_load_category ( const gchar **attribute_names,
-			      const gchar **attribute_values );
 static gboolean gsb_file_load_check_new_structure ( gchar *file_content );
 static void gsb_file_load_currency ( const gchar **attribute_names,
 			      const gchar **attribute_values );
-static void gsb_file_load_end_element ( GMarkupParseContext *context,
-				 const gchar *element_name,
-				 gpointer user_data,
-				 GError **error);
 static void gsb_file_load_end_element_before_0_6 ( GMarkupParseContext *context,
 					    const gchar *element_name,
 					    gpointer user_data,
 					    GError **error);
-static void gsb_file_load_error ( GMarkupParseContext *context,
-			   GError *error,
-			   gpointer user_data );
 static void gsb_file_load_financial_year ( const gchar **attribute_names,
 				    const gchar **attribute_values );
 static void gsb_file_load_general_part ( const gchar **attribute_names,
@@ -82,8 +70,6 @@ static void gsb_file_load_payment_part ( const gchar **attribute_names,
 				  const gchar **attribute_values );
 static void gsb_file_load_reconcile ( const gchar **attribute_names,
 			       const gchar **attribute_values );
-static void gsb_file_load_report ( const gchar **attribute_names,
-			    const gchar **attribute_values );
 static void gsb_file_load_report_part_before_0_6 ( GMarkupParseContext *context,
 					    const gchar *text );
 static void gsb_file_load_scheduled_transactions ( const gchar **attribute_names,
@@ -100,17 +86,6 @@ static void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *contex
 					      const gchar **attribute_values,
 					      gpointer user_data,
 					      GError **error);
-static void gsb_file_load_sub_budgetary ( const gchar **attribute_names,
-				   const gchar **attribute_values );
-static void gsb_file_load_sub_category ( const gchar **attribute_names,
-				  const gchar **attribute_values );
-static void gsb_file_load_text_comparison ( const gchar **attribute_names,
-				     const gchar **attribute_values );
-static void gsb_file_load_text_element ( GMarkupParseContext *context,
-				  const gchar *text,
-				  gsize text_len,  
-				  gpointer user_data,
-				  GError **error);
 static void gsb_file_load_text_element_before_0_6 ( GMarkupParseContext *context,
 					     const gchar *text,
 					     gsize text_len,  
@@ -316,8 +291,6 @@ gboolean gsb_file_load_open_file ( gchar *filename )
 	    /* fill the GMarkupParser for a new xml structure */
 
 	    markup_parser -> start_element = (void *) gsb_file_load_start_element;
-	    markup_parser -> end_element = (void *) gsb_file_load_end_element;
-	    markup_parser -> text = (void *) gsb_file_load_text_element;
 	    markup_parser -> error = (void *) gsb_file_load_error;
 	}
 	else
@@ -455,7 +428,8 @@ void gsb_file_load_start_element ( GMarkupParseContext *context,
 		   "Category" ))
     {
 	gsb_file_load_category ( attribute_names,
-				 attribute_values );
+				 attribute_values,
+				 NULL );
 	return;
     }
 
@@ -463,7 +437,8 @@ void gsb_file_load_start_element ( GMarkupParseContext *context,
 		   "Sub_category" ))
     {
 	gsb_file_load_sub_category ( attribute_names,
-				     attribute_values );
+				     attribute_values,
+				     NULL );
 	return;
     }
 
@@ -471,7 +446,8 @@ void gsb_file_load_start_element ( GMarkupParseContext *context,
 		   "Budgetary" ))
     {
 	gsb_file_load_budgetary ( attribute_names,
-				  attribute_values );
+				  attribute_values,
+				  NULL );
 	return;
     }
 
@@ -479,7 +455,8 @@ void gsb_file_load_start_element ( GMarkupParseContext *context,
 		   "Sub_budgetary" ))
     {
 	gsb_file_load_sub_budgetary ( attribute_names,
-				      attribute_values );
+				      attribute_values,
+				      NULL );
 	return;
     }
 
@@ -519,7 +496,8 @@ void gsb_file_load_start_element ( GMarkupParseContext *context,
 		   "Report" ))
     {
 	gsb_file_load_report ( attribute_names,
-			       attribute_values );
+			       attribute_values,
+			       NULL );
 	return;
     }
 
@@ -527,7 +505,8 @@ void gsb_file_load_start_element ( GMarkupParseContext *context,
 		   "Text_comparison" ))
     {
 	gsb_file_load_text_comparison ( attribute_names,
-					attribute_values );
+					attribute_values,
+					NULL );
 	return;
     }
 
@@ -535,37 +514,22 @@ void gsb_file_load_start_element ( GMarkupParseContext *context,
 		   "Amount_comparison" ))
     {
 	gsb_file_load_amount_comparison ( attribute_names,
-					  attribute_values );
+					  attribute_values,
+					  NULL );
 	return;
     }
 }
 
 
 
-void gsb_file_load_end_element ( GMarkupParseContext *context,
-				 const gchar *element_name,
-				 gpointer user_data,
-				 GError **error)
-{
-}
-
-
-
-void gsb_file_load_text_element ( GMarkupParseContext *context,
-				  const gchar *text,
-				  gsize text_len,  
-				  gpointer user_data,
-				  GError **error)
-{
-}
 
 void gsb_file_load_error ( GMarkupParseContext *context,
 			   GError *error,
 			   gpointer user_data )
 {
-	dialogue_error (g_strdup_printf (_("An error occured while parsing the file :\nError number : %d\n%s"),
-					 error -> code,
-					 error -> message ));
+    dialogue_error (g_strdup_printf (_("An error occured while parsing the file :\nError number : %d\n%s"),
+				     error -> code,
+				     error -> message ));
 }
 
 
@@ -1998,10 +1962,13 @@ void gsb_file_load_party ( const gchar **attribute_names,
  *
  * \param attribute_names
  * \param attribute_values
+ * \param import_list that parameter is NULL for the grisbi file loading, but
+ * not NULL for the category importing
  *
  * */
 void gsb_file_load_category ( const gchar **attribute_names,
-			      const gchar **attribute_values )
+			      const gchar **attribute_values,
+			      GSList **import_list )
 {
     gint i=0;
 
@@ -2054,8 +2021,12 @@ void gsb_file_load_category ( const gchar **attribute_names,
     }
     while ( attribute_names[i] );
 
-    liste_struct_categories = g_slist_append ( liste_struct_categories,
-					       category );
+    if ( import_list )
+	*import_list = g_slist_append ( *import_list,
+					category );
+    else
+	liste_struct_categories = g_slist_append ( liste_struct_categories,
+						   category );
 }
 
 
@@ -2064,10 +2035,13 @@ void gsb_file_load_category ( const gchar **attribute_names,
  *
  * \param attribute_names
  * \param attribute_values
+ * \param import_list that parameter is NULL for the grisbi file loading, but
+ * not NULL for the category importing
  *
  * */
 void gsb_file_load_sub_category ( const gchar **attribute_names,
-				  const gchar **attribute_values )
+				  const gchar **attribute_values,
+				  GSList **import_list )
 {
     gint i=0;
     gint category_number = 0;
@@ -2127,11 +2101,23 @@ void gsb_file_load_sub_category ( const gchar **attribute_names,
     {
 	struct struct_categ *category;
 
-	category = categ_par_no ( category_number );
+	if (import_list)
+	{
+	    category = categ_by_no_in_list ( category_number,
+					     *import_list );
 
-	if ( category )
-	    category -> liste_sous_categ = g_slist_append ( category -> liste_sous_categ,
-							    sub_category );
+	    if ( category )
+		category -> liste_sous_categ = g_slist_append ( category -> liste_sous_categ,
+								sub_category );
+	}
+	else
+	{
+	    category = categ_par_no ( category_number );
+
+	    if ( category )
+		category -> liste_sous_categ = g_slist_append ( category -> liste_sous_categ,
+								sub_category );
+	}
     }
 }
 
@@ -2141,10 +2127,13 @@ void gsb_file_load_sub_category ( const gchar **attribute_names,
  *
  * \param attribute_names
  * \param attribute_values
+ * \param import_list that parameter is NULL for the grisbi file loading, but
+ * not NULL for the category importing
  *
  * */
 void gsb_file_load_budgetary ( const gchar **attribute_names,
-			       const gchar **attribute_values )
+			       const gchar **attribute_values,
+			       GSList **import_list )
 {
     gint i=0;
 
@@ -2197,8 +2186,12 @@ void gsb_file_load_budgetary ( const gchar **attribute_names,
     }
     while ( attribute_names[i] );
 
-    liste_struct_imputation = g_slist_append ( liste_struct_imputation,
-					       budgetary );
+    if ( import_list )
+	*import_list = g_slist_append ( *import_list,
+					budgetary );
+    else
+	liste_struct_imputation = g_slist_append ( liste_struct_imputation,
+						   budgetary );
 }
 
 
@@ -2207,10 +2200,13 @@ void gsb_file_load_budgetary ( const gchar **attribute_names,
  *
  * \param attribute_names
  * \param attribute_values
+ * \param import_list that parameter is NULL for the grisbi file loading, but
+ * not NULL for the category importing
  *
  * */
 void gsb_file_load_sub_budgetary ( const gchar **attribute_names,
-				   const gchar **attribute_values )
+				   const gchar **attribute_values,
+				   GSList **import_list )
 {
     gint i=0;
     gint budgetary_number = 0;
@@ -2270,11 +2266,23 @@ void gsb_file_load_sub_budgetary ( const gchar **attribute_names,
     {
 	struct struct_imputation *budgetary;
 
-	budgetary = imputation_par_no ( budgetary_number );
+	if (import_list)
+	{
+	    budgetary = budget_by_no_in_list ( budgetary_number,
+					       *import_list );
 
-	if ( budgetary )
-	    budgetary -> liste_sous_imputation = g_slist_append ( budgetary -> liste_sous_imputation,
-								  sub_budgetary );
+	    if ( budgetary )
+		budgetary-> liste_sous_imputation = g_slist_append ( budgetary -> liste_sous_imputation,
+								     sub_budgetary );
+	}
+	else
+	{
+	    budgetary = imputation_par_no ( budgetary_number );
+
+	    if ( budgetary )
+		budgetary -> liste_sous_imputation = g_slist_append ( budgetary -> liste_sous_imputation,
+								      sub_budgetary );
+	}
     }
 }
 
@@ -2673,10 +2681,13 @@ void gsb_file_load_reconcile ( const gchar **attribute_names,
  *
  * \param attribute_names
  * \param attribute_values
+ * \param import_list that parameter is NULL for the grisbi file loading, but
+ * not NULL for the category importing
  *
  * */
 void gsb_file_load_report ( const gchar **attribute_names,
-			    const gchar **attribute_values )
+			    const gchar **attribute_values,
+			    GSList **import_list )
 {
     struct struct_etat *report;
     gint i=0;
@@ -3337,10 +3348,13 @@ void gsb_file_load_report ( const gchar **attribute_names,
  *
  * \param attribute_names
  * \param attribute_values
+ * \param import_list that parameter is NULL for the grisbi file loading, but
+ * not NULL for the category importing
  *
  * */
 void gsb_file_load_text_comparison ( const gchar **attribute_names,
-				     const gchar **attribute_values )
+				     const gchar **attribute_values,
+				     GSList **import_list )
 {
     struct struct_comparaison_textes_etat *text_comparison;
     gint i=0;
@@ -3488,10 +3502,13 @@ void gsb_file_load_text_comparison ( const gchar **attribute_names,
  *
  * \param attribute_names
  * \param attribute_values
+ * \param import_list that parameter is NULL for the grisbi file loading, but
+ * not NULL for the category importing
  *
  * */
 void gsb_file_load_amount_comparison ( const gchar **attribute_names,
-				       const gchar **attribute_values )
+				       const gchar **attribute_values,
+				       GSList **import_list )
 {
     struct struct_comparaison_montants_etat *amount_comparison;
     gint i=0;

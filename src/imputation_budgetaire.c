@@ -33,10 +33,10 @@
 #include "imputation_budgetaire.h"
 #include "metatree.h"
 #include "utils_ib.h"
-#include "fichiers_io.h"
 #include "utils_devises.h"
 #include "dialog.h"
 #include "utils_file_selection.h"
+#include "gsb_file_others.h"
 #include "gsb_transaction_data.h"
 #include "gtk_combofix.h"
 #include "main.h"
@@ -532,7 +532,7 @@ void exporter_ib ( void )
 
 	    /* vérification que c'est possible est faite par la boite de dialogue */
 
-	    if ( !enregistre_ib ( nom_ib ))
+	    if ( !gsb_file_others_save_budget ( nom_ib ))
 	    {
 		dialogue_error ( _("Cannot save file.") );
 		return;
@@ -616,7 +616,7 @@ void importer_ib ( void )
 	    }
 
 	case 1:
-	    if ( !charge_ib ( nom_ib ))
+	    if ( !gsb_file_others_load_budget ( nom_ib ))
 	    {
 		dialogue_error ( _("Cannot import file.") );
 		return;

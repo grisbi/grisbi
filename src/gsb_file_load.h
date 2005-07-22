@@ -8,8 +8,31 @@
 
 
 /* START_DECLARATION */
-gboolean file_io_fix_xml_corrupted_file_lock_tag(gchar* accounts_filename);
+void gsb_file_load_amount_comparison ( const gchar **attribute_names,
+				       const gchar **attribute_values,
+				       GSList **import_list );
+void gsb_file_load_budgetary ( const gchar **attribute_names,
+			       const gchar **attribute_values,
+			       GSList **import_list );
+void gsb_file_load_category ( const gchar **attribute_names,
+			      const gchar **attribute_values,
+			      GSList **import_list );
+void gsb_file_load_error ( GMarkupParseContext *context,
+			   GError *error,
+			   gpointer user_data );
 gboolean gsb_file_load_open_file ( gchar *filename );
+void gsb_file_load_report ( const gchar **attribute_names,
+			    const gchar **attribute_values,
+			    GSList **import_list );
+void gsb_file_load_sub_budgetary ( const gchar **attribute_names,
+				   const gchar **attribute_values,
+				   GSList **import_list );
+void gsb_file_load_sub_category ( const gchar **attribute_names,
+				  const gchar **attribute_values,
+				  GSList **import_list );
+void gsb_file_load_text_comparison ( const gchar **attribute_names,
+				     const gchar **attribute_values,
+				     GSList **import_list );
 /* END_DECLARATION */
 #endif
 

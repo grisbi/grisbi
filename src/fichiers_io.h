@@ -6,10 +6,5 @@
 
 
 /* START_DECLARATION */
-gboolean charge_categ ( gchar *nom_categ );
-gboolean charge_ib ( gchar *nom_ib );
-gboolean enregistre_categ ( gchar *nom_categ );
-gboolean enregistre_fichier ( gchar *new_file );
-gboolean enregistre_ib ( gchar *nom_ib );
 /* END_DECLARATION */
 #endif

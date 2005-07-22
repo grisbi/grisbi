@@ -32,8 +32,8 @@
 #include "patienter.h"
 #include "utils.h"
 #include "dialog.h"
-#include "fichiers_io.h"
 #include "fichiers_gestion.h"
+#include "gsb_file_save.h"
 #include "gsb_file_util.h"
 #include "traitement_variables.h"
 #include "utils_files.h"
@@ -264,7 +264,7 @@ void traitement_sigsegv ( gint signal_nb )
 
 	mise_en_route_attente ( _("Save file") );
 
-	enregistre_fichier ( nom_fichier_comptes );
+	gsb_file_save_save_file ( nom_fichier_comptes );
 
 	annulation_attente();
 

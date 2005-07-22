@@ -163,23 +163,42 @@ struct struct_sous_imputation *sous_imputation_par_nom ( struct struct_imputatio
 
 
 
+/**
+ * look for the budget in the budget general list
+ *
+ * \param budgetary_number
+ *
+ * \return a pointer to the budget struct or NULL
+ * */
 
-/* **************************************************************************************************** */
-/* cette fonction renvoie l'adr de la imputation demandÃ©e en argument */
-/* et NULL si pas trouvÃ©e */
-/* **************************************************************************************************** */
-struct struct_imputation *imputation_par_no ( gint no_imputation )
+struct struct_imputation *imputation_par_no ( gint budgetary_number )
 {
-    if ( no_imputation )
+    return budget_by_no_in_list ( budgetary_number,
+				  liste_struct_imputation );
+}
+
+
+/**
+ * look for the budget in the list given in param
+ *
+ * \param budgetary_number
+ * \param budget_list
+ *
+ * \return a pointer to the budget struct or NULL
+ * */
+struct struct_imputation *budget_by_no_in_list ( gint budgetary_number,
+						 GSList *budget_list )
+{
+    if ( budgetary_number )
     {
-	GSList *liste_tmp;
+	GSList *list_tmp;
 
-	liste_tmp = g_slist_find_custom ( liste_struct_imputation,
-					  GINT_TO_POINTER ( no_imputation ),
-					  (GCompareFunc) recherche_imputation_par_no );
+	list_tmp = g_slist_find_custom ( budget_list,
+					 GINT_TO_POINTER ( budgetary_number ),
+					 (GCompareFunc) recherche_imputation_par_no );
 
-	if ( liste_tmp )
-	    return ( liste_tmp -> data );
+	if ( list_tmp )
+	    return ( list_tmp -> data );
     }
     return NULL;
 }

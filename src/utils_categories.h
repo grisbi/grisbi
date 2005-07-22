@@ -11,6 +11,8 @@ void add_transaction_to_category ( gpointer  transaction,
 				   struct struct_categ * category,
 				   struct struct_sous_categ * sub_category );
 void calcule_total_montant_categ ( void );
+struct struct_categ *categ_by_no_in_list ( gint no_categorie,
+					   GSList *categ_list );
 struct struct_categ *categ_par_no ( gint no_categorie );
 struct struct_categ *categ_par_nom ( gchar *nom_categ,
 				     gboolean creer,

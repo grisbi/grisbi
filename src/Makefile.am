@@ -29,7 +29,9 @@ sources = \
 	comptes_traitements.c	\
 	import_csv.c		\
 	gsb_account.c		\
+	gsb_category_data.c	\
 	gsb_file_load.c		\
+	gsb_file_others.c	\
 	gsb_file_save.c		\
 	gsb_file_util.c		\
 	gsb_transaction_data.c	\
@@ -130,7 +132,9 @@ grisbi_INCLUDES =		\
 	constants.h		\
 	import_csv.h \
 	gsb_account.h		\
+	gsb_category_data.h	\
 	gsb_file_load.h		\
+	gsb_file_others.h	\
 	gsb_file_save.h		\
 	gsb_file_util.h		\
 	gsb_transaction_data.c	\

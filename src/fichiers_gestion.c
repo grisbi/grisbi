@@ -39,12 +39,12 @@
 #include "tiers_onglet.h"
 #include "comptes_traitements.h"
 #include "dialog.h"
-#include "fichiers_io.h"
 #include "erreur.h"
 #include "utils_file_selection.h"
 #include "gsb_account.h"
 #include "operations_comptes.h"
 #include "gsb_file_load.h"
+#include "gsb_file_save.h"
 #include "gsb_file_util.h"
 #include "echeancier_liste.h"
 #include "gsb_transaction_data.h"
@@ -337,7 +337,7 @@ gboolean gsb_file_open_file ( gchar *filename )
 
 	    g_strfreev ( tab_char );
 
-	    enregistre_fichier ( backup_filename );
+	    gsb_file_save_save_file ( backup_filename );
 	}
     }
     else
@@ -564,7 +564,7 @@ gboolean enregistrement_fichier ( gint origine )
 
     mise_en_route_attente ( _("Save file") );
 
-    result = enregistre_fichier ( nouveau_nom_enregistrement );
+    result = gsb_file_save_save_file ( nouveau_nom_enregistrement );
 
     if ( result )
     {
@@ -861,7 +861,7 @@ gboolean enregistrement_backup ( void )
 
     xmlSetCompressMode ( compression_backup );
 
-    retour = enregistre_fichier( nom_fichier_backup );
+    retour = gsb_file_save_save_file( nom_fichier_backup );
 
     xmlSetCompressMode ( compression_fichier );
 

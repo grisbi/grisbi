@@ -10,8 +10,10 @@
 void add_transaction_to_budgetary_line ( gpointer  transaction,
 					 struct struct_imputation * budgetary_line,
 					 struct struct_sous_imputation * sub_budgetary_line );
+struct struct_imputation *budget_by_no_in_list ( gint budgetary_number,
+						 GSList *budget_list );
 void calcule_total_montant_budgetary_line ( void );
-struct struct_imputation *imputation_par_no ( gint no_imputation );
+struct struct_imputation *imputation_par_no ( gint budgetary_number );
 struct struct_imputation *imputation_par_nom ( gchar *nom_ib,
 					       gboolean creer,
 					       gint type_ib,

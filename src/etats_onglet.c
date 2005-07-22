@@ -28,6 +28,7 @@
 #include "etat_io.h"
 #include "dialog.h"
 #include "utils_file_selection.h"
+#include "gsb_file_others.h"
 #include "navigation.h"
 #include "menu.h"
 #include "traitement_variables.h"
@@ -952,7 +953,7 @@ void exporter_etat ( void )
 
 	    /* la vÃ©rification que c'est possible a été faite par la boite de selection*/
 
-	    if ( !enregistre_etat ( nom_etat ))
+	    if ( !gsb_file_others_save_report ( nom_etat ))
 	    {
 		return;
 	    }

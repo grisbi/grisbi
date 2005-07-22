@@ -8,9 +8,9 @@
 #include "utils_str.h"
 
 #define VERSION_FICHIER "0.6.0"
-#define VERSION_FICHIER_ETAT "0.5.0"
-#define VERSION_FICHIER_CATEG "0.5.0"
-#define VERSION_FICHIER_IB "0.5.0"
+#define VERSION_FICHIER_ETAT "0.6.0"
+#define VERSION_FICHIER_CATEG "0.6.0"
+#define VERSION_FICHIER_IB "0.6.0"
 
 /* constante de debug originale, obsolete il faudrait utiliser maintenant */
 /* la variable globale debugging_grisbi, voir erreur.c */

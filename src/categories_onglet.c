@@ -26,10 +26,10 @@
 #include "categories_onglet.h"
 #include "metatree.h"
 #include "utils_categories.h"
-#include "fichiers_io.h"
 #include "dialog.h"
 #include "utils_file_selection.h"
 #include "gsb_account.h"
+#include "gsb_file_others.h"
 #include "gsb_transaction_data.h"
 #include "gtk_combofix.h"
 #include "main.h"
@@ -672,7 +672,7 @@ gboolean exporter_categ ( GtkButton * widget, gpointer data )
     nom_categ = file_selection_get_filename ( GTK_FILE_SELECTION ( fenetre_nom ));
     gtk_widget_destroy ( GTK_WIDGET ( fenetre_nom ));
 
-    enregistre_categ ( nom_categ );
+    gsb_file_others_save_category ( nom_categ );
 
     return FALSE;
 }
@@ -746,7 +746,7 @@ void importer_categ ( void )
 	    }
 
         case 1 :
-	    if ( !charge_categ ( nom_categ ))
+	    if ( !gsb_file_others_load_category ( nom_categ ))
 	    {
 		return;
 	    }

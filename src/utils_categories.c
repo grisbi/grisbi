@@ -175,11 +175,25 @@ struct struct_sous_categ *sous_categ_par_nom ( struct struct_categ *categ,
 /* **************************************************************************************************** */
 struct struct_categ *categ_par_no ( gint no_categorie )
 {
+    return categ_by_no_in_list ( no_categorie,
+				 liste_struct_categories );
+}
+/* **************************************************************************************************** */
+
+
+/* **************************************************************************************************** */
+/* cette fonction renvoie l'adr de la categ demandÃ©e en argument dans la liste
+ * donnée en arg */
+/* et NULL si pas trouvÃ©e */
+/* **************************************************************************************************** */
+struct struct_categ *categ_by_no_in_list ( gint no_categorie,
+					   GSList *categ_list )
+{
     if ( no_categorie )
     {
 	GSList *liste_tmp;
 
-	liste_tmp = g_slist_find_custom ( liste_struct_categories,
+	liste_tmp = g_slist_find_custom ( categ_list,
 					  GINT_TO_POINTER ( no_categorie ),
 					  (GCompareFunc) recherche_categorie_par_no );
 

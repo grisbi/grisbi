@@ -59,7 +59,7 @@ gchar *crypt_key;
 gchar *gsb_file_util_compress_file ( gchar *file_content,
 				     gboolean compress )
 {
-
+/* xxx */
 
     return file_content;
 }

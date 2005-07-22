@@ -39,19 +39,9 @@
 static gint gsb_file_save_account_part ( gint iterator,
 				  gint *length_calculated,
 				  gchar **file_content );
-static gint gsb_file_save_append_part ( gint iterator,
-				 gint *length_calculated,
-				 gchar **file_content,
-				 gchar *new_string );
 static gint gsb_file_save_bank_part ( gint iterator,
 			       gint *length_calculated,
 			       gchar **file_content );
-static gint gsb_file_save_budgetary_part ( gint iterator,
-				    gint *length_calculated,
-				    gchar **file_content );
-static gint gsb_file_save_category_part ( gint iterator,
-				   gint *length_calculated,
-				   gchar **file_content );
 static gint gsb_file_save_currency_part ( gint iterator,
 				   gint *length_calculated,
 				   gchar **file_content );
@@ -70,9 +60,6 @@ static gint gsb_file_save_payment_part ( gint iterator,
 static gint gsb_file_save_reconcile_part ( gint iterator,
 				    gint *length_calculated,
 				    gchar **file_content );
-static gint gsb_file_save_report_part ( gint iterator,
-				 gint *length_calculated,
-				 gchar **file_content );
 static gint gsb_file_save_scheduled_part ( gint iterator,
 				    gint *length_calculated,
 				    gchar **file_content );
@@ -455,30 +442,30 @@ gint gsb_file_save_general_part ( gint iterator,
 
     /* save the general informations */
 
-    new_string = g_strdup_printf ( "\t<General\n"
-				   "\t\tFile_version=\"%s\"\n"
-				   "\t\tGrisbi_version=\"%s\"\n"
-				   "\t\tBackup_file=\"%s\"\n"
-				   "\t\tFile_title=\"%s\"\n"
-				   "\t\tGeneral_address=\"%s\"\n"
-				   "\t\tSecond_general_address=\"%s\"\n"
-				   "\t\tParty_list_currency_number=\"%d\"\n"
-				   "\t\tCategory_list_currency_number=\"%d\"\n"
-				   "\t\tBudget_list_currency_number=\"%d\"\n"
-				   "\t\tScheduler_view=\"%d\"\n"
-				   "\t\tScheduler_custom_number=\"%d\"\n"
-				   "\t\tScheduler_custom_menu=\"%d\"\n"
-				   "\t\tImport_interval_search=\"%d\"\n"
-				   "\t\tUse_logo=\"%d\"\n"
-				   "\t\tPath_logo=\"%s\"\n"
-				   "\t\tRemind_display_per_account=\"%d\"\n"
-				   "\t\tTransactions_view=\"%s\"\n"
-				   "\t\tTransaction_column_width_ratio=\"%s\"\n"
-				   "\t\tOne_line_showed=\"%d\"\n"
-				   "\t\tTwo_lines_showed=\"%s\"\n"
-				   "\t\tThree_lines_showed=\"%s\"\n"
-				   "\t\tRemind_form_per_account=\"%d\"\n"
-				   "\t\tScheduler_column_width_ratio=\"%s\" />\n",
+    new_string = g_markup_printf_escaped ( "\t<General\n"
+					   "\t\tFile_version=\"%s\"\n"
+					   "\t\tGrisbi_version=\"%s\"\n"
+					   "\t\tBackup_file=\"%s\"\n"
+					   "\t\tFile_title=\"%s\"\n"
+					   "\t\tGeneral_address=\"%s\"\n"
+					   "\t\tSecond_general_address=\"%s\"\n"
+					   "\t\tParty_list_currency_number=\"%d\"\n"
+					   "\t\tCategory_list_currency_number=\"%d\"\n"
+					   "\t\tBudget_list_currency_number=\"%d\"\n"
+					   "\t\tScheduler_view=\"%d\"\n"
+					   "\t\tScheduler_custom_number=\"%d\"\n"
+					   "\t\tScheduler_custom_menu=\"%d\"\n"
+					   "\t\tImport_interval_search=\"%d\"\n"
+					   "\t\tUse_logo=\"%d\"\n"
+					   "\t\tPath_logo=\"%s\"\n"
+					   "\t\tRemind_display_per_account=\"%d\"\n"
+					   "\t\tTransactions_view=\"%s\"\n"
+					   "\t\tTransaction_column_width_ratio=\"%s\"\n"
+					   "\t\tOne_line_showed=\"%d\"\n"
+					   "\t\tTwo_lines_showed=\"%s\"\n"
+					   "\t\tThree_lines_showed=\"%s\"\n"
+					   "\t\tRemind_form_per_account=\"%d\"\n"
+					   "\t\tScheduler_column_width_ratio=\"%s\" />\n",
 	VERSION_FICHIER,
 	VERSION,
 	nom_fichier_backup,
@@ -650,40 +637,40 @@ gint gsb_file_save_account_part ( gint iterator,
 
 	/* now we can fill the file content */
 
-	new_string = g_strdup_printf ( "\t<Account\n"
-				       "\t\tName=\"%s\"\n"
-				       "\t\tId=\"%s\"\n"
-				       "\t\tNumber=\"%d\"\n"
-				       "\t\tOwner=\"%s\"\n"
-				       "\t\tKind=\"%d\"\n"
-				       "\t\tCurrency=\"%d\"\n"
-				       "\t\tBank=\"%d\"\n"
-				       "\t\tBank_branch_code=\"%s\"\n"
-				       "\t\tBank_account_number=\"%s\"\n"
-				       "\t\tKey=\"%s\"\n"
-				       "\t\tInitial_balance=\"%4.7f\"\n"
-				       "\t\tMinimum_wanted_balance=\"%4.7f\"\n"
-				       "\t\tMinimum_authorised_balance=\"%4.7f\"\n"
-				       "\t\tLast_reconcile_date=\"%s\"\n"
-				       "\t\tLast_reconcile_balance=\"%4.7f\"\n"
-				       "\t\tLast_reconcile_number=\"%d\"\n"
-				       "\t\tClosed_account=\"%d\"\n"
-				       "\t\tShow_marked=\"%d\"\n"
-				       "\t\tLines_per_transaction=\"%d\"\n"
-				       "\t\tComment=\"%s\"\n"
-				       "\t\tOwner_address=\"%s\"\n"
-				       "\t\tDefault_debit_method=\"%d\"\n"
-				       "\t\tDefault_credit_method=\"%d\"\n"
-				       "\t\tSort_by_method=\"%d\"\n"
-				       "\t\tNeutrals_inside_method=\"%d\"\n"
-				       "\t\tSort_order=\"%s\"\n"
-				       "\t\tAscending_sort=\"%d\"\n"
-				       "\t\tColumn_sort=\"%d\"\n"
-				       "\t\tSorting_kind_column=\"%s\"\n"
-				       "\t\tForm_columns_number=\"%d\"\n"
-				       "\t\tForm_lines_number=\"%d\"\n"
-				       "\t\tForm_organization=\"%s\"\n"
-				       "\t\tForm_columns_width=\"%s\" />\n",
+	new_string = g_markup_printf_escaped ( "\t<Account\n"
+					       "\t\tName=\"%s\"\n"
+					       "\t\tId=\"%s\"\n"
+					       "\t\tNumber=\"%d\"\n"
+					       "\t\tOwner=\"%s\"\n"
+					       "\t\tKind=\"%d\"\n"
+					       "\t\tCurrency=\"%d\"\n"
+					       "\t\tBank=\"%d\"\n"
+					       "\t\tBank_branch_code=\"%s\"\n"
+					       "\t\tBank_account_number=\"%s\"\n"
+					       "\t\tKey=\"%s\"\n"
+					       "\t\tInitial_balance=\"%4.7f\"\n"
+					       "\t\tMinimum_wanted_balance=\"%4.7f\"\n"
+					       "\t\tMinimum_authorised_balance=\"%4.7f\"\n"
+					       "\t\tLast_reconcile_date=\"%s\"\n"
+					       "\t\tLast_reconcile_balance=\"%4.7f\"\n"
+					       "\t\tLast_reconcile_number=\"%d\"\n"
+					       "\t\tClosed_account=\"%d\"\n"
+					       "\t\tShow_marked=\"%d\"\n"
+					       "\t\tLines_per_transaction=\"%d\"\n"
+					       "\t\tComment=\"%s\"\n"
+					       "\t\tOwner_address=\"%s\"\n"
+					       "\t\tDefault_debit_method=\"%d\"\n"
+					       "\t\tDefault_credit_method=\"%d\"\n"
+					       "\t\tSort_by_method=\"%d\"\n"
+					       "\t\tNeutrals_inside_method=\"%d\"\n"
+					       "\t\tSort_order=\"%s\"\n"
+					       "\t\tAscending_sort=\"%d\"\n"
+					       "\t\tColumn_sort=\"%d\"\n"
+					       "\t\tSorting_kind_column=\"%s\"\n"
+					       "\t\tForm_columns_number=\"%d\"\n"
+					       "\t\tForm_lines_number=\"%d\"\n"
+					       "\t\tForm_organization=\"%s\"\n"
+					       "\t\tForm_columns_width=\"%s\" />\n",
 	    gsb_account_get_name (i),
 	    gsb_account_get_id (i),
 	    i,
@@ -771,14 +758,14 @@ gint gsb_file_save_payment_part ( gint iterator,
 
 	    /* now we can fill the file content */
 
-	    new_string = g_strdup_printf ( "\t<Payment Number=\"%d\" Name=\"%s\" Sign=\"%d\" Show_entry=\"%d\" Automatic_number=\"%d\" Current_number=\"%d\" Account=\"%d\" />\n",
-					   method -> no_type,
-					   method -> nom_type,
-					   method -> signe_type,
-					   method -> affiche_entree,
-					   method -> numerotation_auto,
-					   method -> no_en_cours,
-					   i );
+	    new_string = g_markup_printf_escaped ( "\t<Payment Number=\"%d\" Name=\"%s\" Sign=\"%d\" Show_entry=\"%d\" Automatic_number=\"%d\" Current_number=\"%d\" Account=\"%d\" />\n",
+						   method -> no_type,
+						   method -> nom_type,
+						   method -> signe_type,
+						   method -> affiche_entree,
+						   method -> numerotation_auto,
+						   method -> no_en_cours,
+						   i );
 
 	    /* append the new string to the file content
 	     * and take the new iterator */
@@ -820,43 +807,43 @@ gint gsb_file_save_transaction_part ( gint iterator,
 	
 	/* now we can fill the file content */
 
-	new_string = g_strdup_printf ( "\t<Transaction Ac=\"%d\" Nb=\"%d\" Id=\"%s\" Dt=\"%s\" Dv=\"%s\" Am=\"%4.7f\" Cu=\"%d\" Exb=\"%d\" Exr=\"%4.7f\" Exf=\"%4.7f\" Pa=\"%d\" Ca=\"%d\" Sca=\"%d\" Br=\"%d\" No=\"%s\" Pn=\"%d\" Pc=\"%s\" Ma=\"%d\" Au=\"%d\" Re=\"%d\" Fi=\"%d\" Bu=\"%d\" Sbu=\"%d\" Vo=\"%s\" Ba=\"%s\" Trt=\"%d\" Tra=\"%d\" Mo=\"%d\" />\n",
-					 gsb_transaction_data_get_account_number ( transaction_number ),
-					 transaction_number,
-					 gsb_transaction_data_get_transaction_id ( transaction_number),
-					 gsb_format_gdate ( gsb_transaction_data_get_date ( transaction_number )),
-					 gsb_format_gdate ( gsb_transaction_data_get_value_date ( transaction_number )),
-					 gsb_transaction_data_get_amount ( transaction_number ),
-					 gsb_transaction_data_get_currency_number (transaction_number ),
-					 gsb_transaction_data_get_change_between (transaction_number ),
-					 gsb_transaction_data_get_exchange_rate (transaction_number ),
-					 gsb_transaction_data_get_exchange_fees ( transaction_number),
-					 gsb_transaction_data_get_party_number ( transaction_number),
-					 gsb_transaction_data_get_category_number ( transaction_number),
-					 gsb_transaction_data_get_sub_category_number (transaction_number),
-					 gsb_transaction_data_get_breakdown_of_transaction (transaction_number),
-					 gsb_transaction_data_get_notes (transaction_number),
-					 gsb_transaction_data_get_method_of_payment_number (transaction_number),
-					 gsb_transaction_data_get_method_of_payment_content (transaction_number),
-					 gsb_transaction_data_get_marked_transaction (transaction_number),
-					 gsb_transaction_data_get_automatic_transaction (transaction_number),
-					 gsb_transaction_data_get_reconcile_number (transaction_number),
-					 gsb_transaction_data_get_financial_year_number (transaction_number),
-					 gsb_transaction_data_get_budgetary_number (transaction_number),
-					 gsb_transaction_data_get_sub_budgetary_number (transaction_number),
-					 gsb_transaction_data_get_voucher (transaction_number),
-					 gsb_transaction_data_get_bank_references (transaction_number),
-					 gsb_transaction_data_get_transaction_number_transfer (transaction_number),
-					 gsb_transaction_data_get_account_number_transfer (transaction_number),
-					 gsb_transaction_data_get_mother_transaction_number (transaction_number));
+	new_string = g_markup_printf_escaped ( "\t<Transaction Ac=\"%d\" Nb=\"%d\" Id=\"%s\" Dt=\"%s\" Dv=\"%s\" Am=\"%4.7f\" Cu=\"%d\" Exb=\"%d\" Exr=\"%4.7f\" Exf=\"%4.7f\" Pa=\"%d\" Ca=\"%d\" Sca=\"%d\" Br=\"%d\" No=\"%s\" Pn=\"%d\" Pc=\"%s\" Ma=\"%d\" Au=\"%d\" Re=\"%d\" Fi=\"%d\" Bu=\"%d\" Sbu=\"%d\" Vo=\"%s\" Ba=\"%s\" Trt=\"%d\" Tra=\"%d\" Mo=\"%d\" />\n",
+					       gsb_transaction_data_get_account_number ( transaction_number ),
+					       transaction_number,
+					       gsb_transaction_data_get_transaction_id ( transaction_number),
+					       gsb_format_gdate ( gsb_transaction_data_get_date ( transaction_number )),
+					       gsb_format_gdate ( gsb_transaction_data_get_value_date ( transaction_number )),
+					       gsb_transaction_data_get_amount ( transaction_number ),
+					       gsb_transaction_data_get_currency_number (transaction_number ),
+					       gsb_transaction_data_get_change_between (transaction_number ),
+					       gsb_transaction_data_get_exchange_rate (transaction_number ),
+					       gsb_transaction_data_get_exchange_fees ( transaction_number),
+					       gsb_transaction_data_get_party_number ( transaction_number),
+					       gsb_transaction_data_get_category_number ( transaction_number),
+					       gsb_transaction_data_get_sub_category_number (transaction_number),
+					       gsb_transaction_data_get_breakdown_of_transaction (transaction_number),
+					       gsb_transaction_data_get_notes (transaction_number),
+					       gsb_transaction_data_get_method_of_payment_number (transaction_number),
+					       gsb_transaction_data_get_method_of_payment_content (transaction_number),
+					       gsb_transaction_data_get_marked_transaction (transaction_number),
+					       gsb_transaction_data_get_automatic_transaction (transaction_number),
+					       gsb_transaction_data_get_reconcile_number (transaction_number),
+					       gsb_transaction_data_get_financial_year_number (transaction_number),
+					       gsb_transaction_data_get_budgetary_number (transaction_number),
+					       gsb_transaction_data_get_sub_budgetary_number (transaction_number),
+					       gsb_transaction_data_get_voucher (transaction_number),
+					       gsb_transaction_data_get_bank_references (transaction_number),
+					       gsb_transaction_data_get_transaction_number_transfer (transaction_number),
+					       gsb_transaction_data_get_account_number_transfer (transaction_number),
+					       gsb_transaction_data_get_mother_transaction_number (transaction_number));
 
-	    /* append the new string to the file content
-	     * and take the new iterator */
+	/* append the new string to the file content
+	 * and take the new iterator */
 
-	    iterator = gsb_file_save_append_part ( iterator,
-						   length_calculated,
-						   file_content,
-						   new_string );
+	iterator = gsb_file_save_append_part ( iterator,
+					       length_calculated,
+					       file_content,
+					       new_string );
 	list_tmp = list_tmp -> next;
     }
     return iterator;
@@ -889,30 +876,30 @@ gint gsb_file_save_scheduled_part ( gint iterator,
 
 	/* now we can fill the file content */
 
-	new_string = g_strdup_printf ( "\t<Scheduled Nb=\"%d\" Dt=\"%s\" Ac=\"%d\" Am=\"%4.7f\" Cu=\"%d\" Pa=\"%d\" Ca=\"%d\" Sca=\"%d\" Tra=\"%d\" Pn=\"%d\" CPn=\"%d\" Pc=\"%s\" Fi=\"%d\" Bu=\"%d\" Sbu=\"%d\" No=\"%s\" Au=\"%d\" Pe=\"%d\" Pei=\"%d\" Pep=\"%d\" Dtl=\"%s\" Br=\"%d\" Mo=\"%d\" />\n",
-				       echeance -> no_operation,
-				       gsb_format_gdate ( echeance -> date),
-				       echeance -> compte,
-				       echeance -> montant,
-				       echeance -> devise,
-				       echeance -> tiers,
-				       echeance -> categorie,
-				       echeance -> sous_categorie,
-				       echeance -> compte_virement,
-				       echeance -> type_ope,
-				       echeance -> type_contre_ope,
-				       echeance -> contenu_type,
-				       echeance -> no_exercice,
-				       echeance -> imputation,
-				       echeance -> sous_imputation,
-				       echeance -> notes,
-				       echeance -> auto_man,
-				       echeance -> periodicite,
-				       echeance -> intervalle_periodicite_personnalisee,
-				       echeance -> periodicite_personnalisee,
-				       gsb_format_gdate ( echeance -> date_limite),
-				       echeance -> operation_ventilee,
-				       echeance -> no_operation_ventilee_associee );
+	new_string = g_markup_printf_escaped ( "\t<Scheduled Nb=\"%d\" Dt=\"%s\" Ac=\"%d\" Am=\"%4.7f\" Cu=\"%d\" Pa=\"%d\" Ca=\"%d\" Sca=\"%d\" Tra=\"%d\" Pn=\"%d\" CPn=\"%d\" Pc=\"%s\" Fi=\"%d\" Bu=\"%d\" Sbu=\"%d\" No=\"%s\" Au=\"%d\" Pe=\"%d\" Pei=\"%d\" Pep=\"%d\" Dtl=\"%s\" Br=\"%d\" Mo=\"%d\" />\n",
+					       echeance -> no_operation,
+					       gsb_format_gdate ( echeance -> date),
+					       echeance -> compte,
+					       echeance -> montant,
+					       echeance -> devise,
+					       echeance -> tiers,
+					       echeance -> categorie,
+					       echeance -> sous_categorie,
+					       echeance -> compte_virement,
+					       echeance -> type_ope,
+					       echeance -> type_contre_ope,
+					       echeance -> contenu_type,
+					       echeance -> no_exercice,
+					       echeance -> imputation,
+					       echeance -> sous_imputation,
+					       echeance -> notes,
+					       echeance -> auto_man,
+					       echeance -> periodicite,
+					       echeance -> intervalle_periodicite_personnalisee,
+					       echeance -> periodicite_personnalisee,
+					       gsb_format_gdate ( echeance -> date_limite),
+					       echeance -> operation_ventilee,
+					       echeance -> no_operation_ventilee_associee );
 
 	/* append the new string to the file content
 	 * and take the new iterator */
@@ -953,10 +940,10 @@ gint gsb_file_save_party_part ( gint iterator,
 
 	/* now we can fill the file content */
 
-	new_string = g_strdup_printf ( "\t<Party Nb=\"%d\" Na=\"%s\" Txt=\"%s\" />\n",
-				       party -> no_tiers,
-				       party -> nom_tiers,
-				       party -> texte );
+	new_string = g_markup_printf_escaped ( "\t<Party Nb=\"%d\" Na=\"%s\" Txt=\"%s\" />\n",
+					       party -> no_tiers,
+					       party -> nom_tiers,
+					       party -> texte );
 
 	/* append the new string to the file content
 	 * and take the new iterator */
@@ -998,10 +985,10 @@ gint gsb_file_save_category_part ( gint iterator,
 
 	/* now we can fill the file content */
 
-	new_string = g_strdup_printf ( "\t<Category Nb=\"%d\" Na=\"%s\" Kd=\"%d\" />\n",
-				       category -> no_categ,
-				       category -> nom_categ,
-				       category -> type_categ);
+	new_string = g_markup_printf_escaped ( "\t<Category Nb=\"%d\" Na=\"%s\" Kd=\"%d\" />\n",
+					       category -> no_categ,
+					       category -> nom_categ,
+					       category -> type_categ);
 
 	/* append the new string to the file content
 	 * and take the new iterator */
@@ -1022,10 +1009,10 @@ gint gsb_file_save_category_part ( gint iterator,
 
 	    /* now we can fill the file content */
 
-	    new_string = g_strdup_printf ( "\t<Sub_category Nb=\"%d\" Na=\"%s\" Nbc=\"%d\" />\n",
-					   sub_category -> no_sous_categ,
-					   sub_category -> nom_sous_categ,
-					   category -> no_categ);
+	    new_string = g_markup_printf_escaped ( "\t<Sub_category Nb=\"%d\" Na=\"%s\" Nbc=\"%d\" />\n",
+						   sub_category -> no_sous_categ,
+						   sub_category -> nom_sous_categ,
+						   category -> no_categ);
 
 	    /* append the new string to the file content
 	     * and take the new iterator */
@@ -1070,10 +1057,10 @@ gint gsb_file_save_budgetary_part ( gint iterator,
 
 	/* now we can fill the file content */
 
-	new_string = g_strdup_printf ( "\t<Budgetary Nb=\"%d\" Na=\"%s\" Kd=\"%d\" />\n",
-				       budgetary -> no_imputation,
-				       budgetary -> nom_imputation,
-				       budgetary -> type_imputation);
+	new_string = g_markup_printf_escaped ( "\t<Budgetary Nb=\"%d\" Na=\"%s\" Kd=\"%d\" />\n",
+					       budgetary -> no_imputation,
+					       budgetary -> nom_imputation,
+					       budgetary -> type_imputation);
 
 	/* append the new string to the file content
 	 * and take the new iterator */
@@ -1094,10 +1081,10 @@ gint gsb_file_save_budgetary_part ( gint iterator,
 
 	    /* now we can fill the file content */
 
-	    new_string = g_strdup_printf ( "\t<Sub_budgetary Nb=\"%d\" Na=\"%s\" Nbc=\"%d\" />\n",
-					   sub_budgetary -> no_sous_imputation,
-					   sub_budgetary -> nom_sous_imputation,
-					   budgetary -> no_imputation);
+	    new_string = g_markup_printf_escaped ( "\t<Sub_budgetary Nb=\"%d\" Na=\"%s\" Nbc=\"%d\" />\n",
+						   sub_budgetary -> no_sous_imputation,
+						   sub_budgetary -> nom_sous_imputation,
+						   budgetary -> no_imputation);
 	    /* append the new string to the file content
 	     * and take the new iterator */
 
@@ -1139,16 +1126,16 @@ gint gsb_file_save_currency_part ( gint iterator,
 
 	/* now we can fill the file content */
 
-	new_string = g_strdup_printf ( "\t<Currency Nb=\"%d\" Na=\"%s\" Co=\"%s\" Ico=\"%s\" Mte=\"%d\" Dte=\"%s\" Rbc=\"%d\" Rcu=\"%d\" Ch=\"%4.7f\" />\n",
-				       currency -> no_devise,
-				       currency -> nom_devise,
-				       currency -> code_devise,
-				       currency -> code_iso4217_devise,
-				       currency -> passage_euro,
-				       gsb_format_gdate (currency -> date_dernier_change),
-				       currency -> une_devise_1_egale_x_devise_2,
-				       currency -> no_devise_en_rapport,
-				       currency -> change);
+	new_string = g_markup_printf_escaped ( "\t<Currency Nb=\"%d\" Na=\"%s\" Co=\"%s\" Ico=\"%s\" Mte=\"%d\" Dte=\"%s\" Rbc=\"%d\" Rcu=\"%d\" Ch=\"%4.7f\" />\n",
+					       currency -> no_devise,
+					       currency -> nom_devise,
+					       currency -> code_devise,
+					       currency -> code_iso4217_devise,
+					       currency -> passage_euro,
+					       gsb_format_gdate (currency -> date_dernier_change),
+					       currency -> une_devise_1_egale_x_devise_2,
+					       currency -> no_devise_en_rapport,
+					       currency -> change);
 
 	/* append the new string to the file content
 	 * and take the new iterator */
@@ -1189,19 +1176,19 @@ gint gsb_file_save_bank_part ( gint iterator,
 
 	/* now we can fill the file content */
 
-	new_string = g_strdup_printf ( "\t<Bank Nb=\"%d\" Na=\"%s\" Co=\"%s\" Adr=\"%s\" Tel=\"%s\" Mail=\"%s\" Web=\"%s\" Nac=\"%s\" Faxc=\"%s\" Telc=\"%s\" Mailc=\"%s\" Rem=\"%s\" />\n",
-				       bank -> no_banque,
-				       bank -> nom_banque,
-				       bank -> code_banque,
-				       bank -> adr_banque,
-				       bank -> tel_banque,
-				       bank -> email_banque,
-				       bank -> web_banque,
-				       bank -> nom_correspondant,
-				       bank -> fax_correspondant,
-				       bank -> tel_correspondant,
-				       bank -> email_correspondant,
-				       bank -> remarque_banque);
+	new_string = g_markup_printf_escaped ( "\t<Bank Nb=\"%d\" Na=\"%s\" Co=\"%s\" Adr=\"%s\" Tel=\"%s\" Mail=\"%s\" Web=\"%s\" Nac=\"%s\" Faxc=\"%s\" Telc=\"%s\" Mailc=\"%s\" Rem=\"%s\" />\n",
+					       bank -> no_banque,
+					       bank -> nom_banque,
+					       bank -> code_banque,
+					       bank -> adr_banque,
+					       bank -> tel_banque,
+					       bank -> email_banque,
+					       bank -> web_banque,
+					       bank -> nom_correspondant,
+					       bank -> fax_correspondant,
+					       bank -> tel_correspondant,
+					       bank -> email_correspondant,
+					       bank -> remarque_banque);
 
 	/* append the new string to the file content
 	 * and take the new iterator */
@@ -1242,12 +1229,12 @@ gint gsb_file_save_financial_year_part ( gint iterator,
 
 	/* now we can fill the file content */
 
-	new_string = g_strdup_printf( "\t<Financial_year Nb=\"%d\" Na=\"%s\" Bdte=\"%s\" Edte=\"%s\" Sho=\"%d\" />\n",
-				      financial_year -> no_exercice,
-				      financial_year -> nom_exercice,
-				      gsb_format_gdate (financial_year -> date_debut),
-				      gsb_format_gdate (financial_year -> date_fin),
-				      financial_year -> affiche_dans_formulaire);
+	new_string = g_markup_printf_escaped( "\t<Financial_year Nb=\"%d\" Na=\"%s\" Bdte=\"%s\" Edte=\"%s\" Sho=\"%d\" />\n",
+					      financial_year -> no_exercice,
+					      financial_year -> nom_exercice,
+					      gsb_format_gdate (financial_year -> date_debut),
+					      gsb_format_gdate (financial_year -> date_fin),
+					      financial_year -> affiche_dans_formulaire);
 
 	/* append the new string to the file content
 	 * and take the new iterator */
@@ -1288,9 +1275,9 @@ gint gsb_file_save_reconcile_part ( gint iterator,
 
 	/* now we can fill the file content */
 
-	new_string = g_strdup_printf ( "\t<Reconcile Nb=\"%d\" Na=\"%s\" />\n",
-				       reconcile_struct -> no_rapprochement,
-				       reconcile_struct -> nom_rapprochement );
+	new_string = g_markup_printf_escaped ( "\t<Reconcile Nb=\"%d\" Na=\"%s\" />\n",
+					       reconcile_struct -> no_rapprochement,
+					       reconcile_struct -> nom_rapprochement );
 
 	/* append the new string to the file content
 	 * and take the new iterator */
@@ -1486,84 +1473,84 @@ gint gsb_file_save_report_part ( gint iterator,
 
 	/* now we can fill the file content */
 
-	new_string = g_strdup_printf ( "\t<Report\n"
-				       "\t\tNb=\"%d\"\n"
-				       "\t\tName=\"%s\"\n"
-				       "\t\tGeneral_sort_type=\"%s\"\n"
-				       "\t\tShow_r=\"%d\"\n"
-				       "\t\tShow_transaction=\"%d\"\n"
-				       "\t\tShow_transaction_amount=\"%d\"\n"
-				       "\t\tShow_transaction_nb=\"%d\"\n"
-				       "\t\tShow_transaction_date=\"%d\"\n"
-				       "\t\tShow_transaction_payee=\"%d\"\n"
-				       "\t\tShow_transaction_categ=\"%d\"\n"
-				       "\t\tShow_transaction_sub_categ=\"%d\"\n"
-				       "\t\tShow_transaction_payment=\"%d\"\n"
-				       "\t\tShow_transaction_budget=\"%d\"\n"
-				       "\t\tShow_transaction_sub_budget=\"%d\"\n"
-				       "\t\tShow_transaction_chq=\"%d\"\n"
-				       "\t\tShow_transaction_note=\"%d\"\n"
-				       "\t\tShow_transaction_voucher=\"%d\"\n"
-				       "\t\tShow_transaction_reconcile=\"%d\"\n"
-				       "\t\tShow_transaction_bank=\"%d\"\n"
-				       "\t\tShow_transaction_fin_year=\"%d\"\n"
-				       "\t\tShow_transaction_sort_type=\"%d\"\n"
-				       "\t\tShow_columns_titles=\"%d\"\n"
-				       "\t\tShow_title_column_kind=\"%d\"\n"
-				       "\t\tShow_exclude_breakdown_child=\"%d\"\n"
-				       "\t\tShow_split_amounts=\"%d\"\n"
-				       "\t\tCurrency_general=\"%d\"\n"
-				       "\t\tReport_in_payees=\"%d\"\n"
-				       "\t\tReport_can_click=\"%d\"\n"
-				       "\t\tFinancial_year_used=\"%d\"\n"
-				       "\t\tFinancial_year_kind=\"%d\"\n"
-				       "\t\tFinancial_year_select=\"%s\"\n"
-				       "\t\tDate_kind=\"%d\"\n"
-				       "\t\tDate_begining=\"%s\"\n"
-				       "\t\tDate_end=\"%s\"\n"
-				       "\t\tSplit_by_date=\"%d\"\n"
-				       "\t\tSplit_date_period=\"%d\"\n"
-				       "\t\tSplit_by_fin_year=\"%d\"\n"
-				       "\t\tSplit_day_begining=\"%d\"\n"
-				       "\t\tAccount_use_selection=\"%d\"\n"
-				       "\t\tAccount_selected=\"%s\"\n"
-				       "\t\tAccount_group_transactions=\"%d\"\n"
-				       "\t\tAccount_show_amount=\"%d\"\n"
-				       "\t\tAccount_show_name=\"%d\"\n"
-				       "\t\tTransfer_kind=\"%d\"\n"
-				       "\t\tTransfer_selected_accounts=\"%s\"\n"
-				       "\t\tTransfer_exclude_transactions=\"%d\"\n"
-				       "\t\tCateg_use=\"%d\"\n"
-				       "\t\tCateg_use_selection=\"%d\"\n"
-				       "\t\tCateg_selected=\"%s\"\n"
-				       "\t\tCateg_exclude_transactions=\"%d\"\n"
-				       "\t\tCateg_show_amount=\"%d\"\n"
-				       "\t\tCateg_show_sub_categ=\"%d\"\n"
-				       "\t\tCateg_show_without_sub_categ=\"%d\"\n"
-				       "\t\tCateg_show_sub_categ_amount=\"%d\"\n"
-				       "\t\tCateg_currency=\"%d\"\n"
-				       "\t\tCateg_show_name=\"%d\"\n"
-				       "\t\tBudget_use=\"%d\"\n"
-				       "\t\tBudget_use_selection=\"%d\"\n"
-				       "\t\tBudget_selected=\"%s\"\n"
-				       "\t\tBudget_exclude_transactions=\"%d\"\n"
-				       "\t\tBudget_show_amount=\"%d\"\n"
-				       "\t\tBudget_show_sub_budget=\"%d\"\n"
-				       "\t\tBudget_show_without_sub_budget=\"%d\"\n"
-				       "\t\tBudget_show_sub_budget_amount=\"%d\"\n"
-				       "\t\tBudget_currency=\"%d\"\n"
-				       "\t\tBudget_show_name=\"%d\"\n"
-				       "\t\tPayee_use=\"%d\"\n"
-				       "\t\tPayee_use_selection=\"%d\"\n"
-				       "\t\tPayee_selected=\"%s\"\n"
-				       "\t\tPayee_show_amount=\"%d\"\n"
-				       "\t\tPayee_currency=\"%d\"\n"
-				       "\t\tPayee_show_name=\"%d\"\n"
-				       "\t\tAmount_currency=\"%d\"\n"
-				       "\t\tAmount_exclude_null=\"%d\"\n"
-				       "\t\tPayment_method_list=\"%s\"\n"
-				       "\t\tUse_text=\"%d\"\n"
-				       "\t\tUse_amount=\"%d\" />\n",
+	new_string = g_markup_printf_escaped ( "\t<Report\n"
+					       "\t\tNb=\"%d\"\n"
+					       "\t\tName=\"%s\"\n"
+					       "\t\tGeneral_sort_type=\"%s\"\n"
+					       "\t\tShow_r=\"%d\"\n"
+					       "\t\tShow_transaction=\"%d\"\n"
+					       "\t\tShow_transaction_amount=\"%d\"\n"
+					       "\t\tShow_transaction_nb=\"%d\"\n"
+					       "\t\tShow_transaction_date=\"%d\"\n"
+					       "\t\tShow_transaction_payee=\"%d\"\n"
+					       "\t\tShow_transaction_categ=\"%d\"\n"
+					       "\t\tShow_transaction_sub_categ=\"%d\"\n"
+					       "\t\tShow_transaction_payment=\"%d\"\n"
+					       "\t\tShow_transaction_budget=\"%d\"\n"
+					       "\t\tShow_transaction_sub_budget=\"%d\"\n"
+					       "\t\tShow_transaction_chq=\"%d\"\n"
+					       "\t\tShow_transaction_note=\"%d\"\n"
+					       "\t\tShow_transaction_voucher=\"%d\"\n"
+					       "\t\tShow_transaction_reconcile=\"%d\"\n"
+					       "\t\tShow_transaction_bank=\"%d\"\n"
+					       "\t\tShow_transaction_fin_year=\"%d\"\n"
+					       "\t\tShow_transaction_sort_type=\"%d\"\n"
+					       "\t\tShow_columns_titles=\"%d\"\n"
+					       "\t\tShow_title_column_kind=\"%d\"\n"
+					       "\t\tShow_exclude_breakdown_child=\"%d\"\n"
+					       "\t\tShow_split_amounts=\"%d\"\n"
+					       "\t\tCurrency_general=\"%d\"\n"
+					       "\t\tReport_in_payees=\"%d\"\n"
+					       "\t\tReport_can_click=\"%d\"\n"
+					       "\t\tFinancial_year_used=\"%d\"\n"
+					       "\t\tFinancial_year_kind=\"%d\"\n"
+					       "\t\tFinancial_year_select=\"%s\"\n"
+					       "\t\tDate_kind=\"%d\"\n"
+					       "\t\tDate_begining=\"%s\"\n"
+					       "\t\tDate_end=\"%s\"\n"
+					       "\t\tSplit_by_date=\"%d\"\n"
+					       "\t\tSplit_date_period=\"%d\"\n"
+					       "\t\tSplit_by_fin_year=\"%d\"\n"
+					       "\t\tSplit_day_begining=\"%d\"\n"
+					       "\t\tAccount_use_selection=\"%d\"\n"
+					       "\t\tAccount_selected=\"%s\"\n"
+					       "\t\tAccount_group_transactions=\"%d\"\n"
+					       "\t\tAccount_show_amount=\"%d\"\n"
+					       "\t\tAccount_show_name=\"%d\"\n"
+					       "\t\tTransfer_kind=\"%d\"\n"
+					       "\t\tTransfer_selected_accounts=\"%s\"\n"
+					       "\t\tTransfer_exclude_transactions=\"%d\"\n"
+					       "\t\tCateg_use=\"%d\"\n"
+					       "\t\tCateg_use_selection=\"%d\"\n"
+					       "\t\tCateg_selected=\"%s\"\n"
+					       "\t\tCateg_exclude_transactions=\"%d\"\n"
+					       "\t\tCateg_show_amount=\"%d\"\n"
+					       "\t\tCateg_show_sub_categ=\"%d\"\n"
+					       "\t\tCateg_show_without_sub_categ=\"%d\"\n"
+					       "\t\tCateg_show_sub_categ_amount=\"%d\"\n"
+					       "\t\tCateg_currency=\"%d\"\n"
+					       "\t\tCateg_show_name=\"%d\"\n"
+					       "\t\tBudget_use=\"%d\"\n"
+					       "\t\tBudget_use_selection=\"%d\"\n"
+					       "\t\tBudget_selected=\"%s\"\n"
+					       "\t\tBudget_exclude_transactions=\"%d\"\n"
+					       "\t\tBudget_show_amount=\"%d\"\n"
+					       "\t\tBudget_show_sub_budget=\"%d\"\n"
+					       "\t\tBudget_show_without_sub_budget=\"%d\"\n"
+					       "\t\tBudget_show_sub_budget_amount=\"%d\"\n"
+					       "\t\tBudget_currency=\"%d\"\n"
+					       "\t\tBudget_show_name=\"%d\"\n"
+					       "\t\tPayee_use=\"%d\"\n"
+					       "\t\tPayee_use_selection=\"%d\"\n"
+					       "\t\tPayee_selected=\"%s\"\n"
+					       "\t\tPayee_show_amount=\"%d\"\n"
+					       "\t\tPayee_currency=\"%d\"\n"
+					       "\t\tPayee_show_name=\"%d\"\n"
+					       "\t\tAmount_currency=\"%d\"\n"
+					       "\t\tAmount_exclude_null=\"%d\"\n"
+					       "\t\tPayment_method_list=\"%s\"\n"
+					       "\t\tUse_text=\"%d\"\n"
+					       "\t\tUse_amount=\"%d\" />\n",
 	    report -> no_etat,
 	    report -> nom_etat,
 	    general_sort_type,
@@ -1671,29 +1658,29 @@ gint gsb_file_save_report_part ( gint iterator,
 
 	    /* now we can fill the file content */
 
-	    new_string = g_strdup_printf ( "\t<Text_comparison\n"
-					   "\t\tReport_nb=\"%d\"\n"
-					   "\t\tLast_comparison=\"%d\"\n"
-					   "\t\tObject=\"%d\"\n"
-					   "\t\tOperator=\"%d\"\n"
-					   "\t\tText=\"%s\"\n"
-					   "\t\tUse_text=\"%d\"\n"
-					   "\t\tComparison_1=\"%d\"\n"
-					   "\t\tLink_1_2=\"%d\"\n"
-					   "\t\tComparison_2=\"%d\"\n"
-					   "\t\tAmount_1=\"%d\"\n"
-					   "\t\tAmount_2=\"%d\" />\n",
-					   report -> no_etat,
-					   text_comparison -> lien_struct_precedente,
-					   text_comparison -> champ,
-					   text_comparison -> operateur,
-					   text_comparison -> texte,
-					   text_comparison -> utilise_txt,
-					   text_comparison -> comparateur_1,
-					   text_comparison -> lien_1_2,
-					   text_comparison -> comparateur_2,
-					   text_comparison -> montant_1,
-					   text_comparison -> montant_2);
+	    new_string = g_markup_printf_escaped ( "\t<Text_comparison\n"
+						   "\t\tReport_nb=\"%d\"\n"
+						   "\t\tLast_comparison=\"%d\"\n"
+						   "\t\tObject=\"%d\"\n"
+						   "\t\tOperator=\"%d\"\n"
+						   "\t\tText=\"%s\"\n"
+						   "\t\tUse_text=\"%d\"\n"
+						   "\t\tComparison_1=\"%d\"\n"
+						   "\t\tLink_1_2=\"%d\"\n"
+						   "\t\tComparison_2=\"%d\"\n"
+						   "\t\tAmount_1=\"%d\"\n"
+						   "\t\tAmount_2=\"%d\" />\n",
+						   report -> no_etat,
+						   text_comparison -> lien_struct_precedente,
+						   text_comparison -> champ,
+						   text_comparison -> operateur,
+						   text_comparison -> texte,
+						   text_comparison -> utilise_txt,
+						   text_comparison -> comparateur_1,
+						   text_comparison -> lien_1_2,
+						   text_comparison -> comparateur_2,
+						   text_comparison -> montant_1,
+						   text_comparison -> montant_2);
 
 	    /* append the new string to the file content
 	     * and take the new iterator */
@@ -1718,21 +1705,21 @@ gint gsb_file_save_report_part ( gint iterator,
 
 	    /* now we can fill the file content */
 
-	    new_string = g_strdup_printf ( "\t<Amount_comparison\n"
-					   "\t\tReport_nb=\"%d\"\n"
-					   "\t\tLast_comparison=\"%d\"\n"
-					   "\t\tComparison_1=\"%d\"\n"
-					   "\t\tLink_1_2=\"%d\"\n"
-					   "\t\tComparison_2=\"%d\"\n"
-					   "\t\tAmount_1=\"%4.7f\"\n"
-					   "\t\tAmount_2=\"%4.7f\" />\n",
-					   report -> no_etat,
-					   amount_comparison -> lien_struct_precedente,
-					   amount_comparison -> comparateur_1,
-					   amount_comparison -> lien_1_2,
-					   amount_comparison -> comparateur_2,
-					   amount_comparison -> montant_1,
-					   amount_comparison -> montant_2);
+	    new_string = g_markup_printf_escaped ( "\t<Amount_comparison\n"
+						   "\t\tReport_nb=\"%d\"\n"
+						   "\t\tLast_comparison=\"%d\"\n"
+						   "\t\tComparison_1=\"%d\"\n"
+						   "\t\tLink_1_2=\"%d\"\n"
+						   "\t\tComparison_2=\"%d\"\n"
+						   "\t\tAmount_1=\"%4.7f\"\n"
+						   "\t\tAmount_2=\"%4.7f\" />\n",
+						   report -> no_etat,
+						   amount_comparison -> lien_struct_precedente,
+						   amount_comparison -> comparateur_1,
+						   amount_comparison -> lien_1_2,
+						   amount_comparison -> comparateur_2,
+						   amount_comparison -> montant_1,
+						   amount_comparison -> montant_2);
 
 	    /* append the new string to the file content
 	     * and take the new iterator */
