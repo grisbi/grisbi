@@ -19,5 +19,6 @@ void ouverture_fichier_par_menu ( gpointer null,
 void ouvrir_fichier ( void );
 gint question_fermer_sans_enregistrer ( void );
 void remove_file_from_last_opened_files_list ( gchar * nom_fichier );
+gboolean gsb_save_file_as ( void );
 /* END_DECLARATION */
 #endif
