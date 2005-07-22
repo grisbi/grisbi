@@ -48,7 +48,6 @@ sources = \
 	echeancier_ventilation.c\
 	equilibrage.c		\
 	erreur.c		\
-	etat_io.c		\
 	etats_affiche.c		\
 	etats_calculs.c		\
 	etats_config.c		\
@@ -151,7 +150,6 @@ grisbi_INCLUDES =		\
 	echeancier_ventilation.h\
 	equilibrage.h		\
 	erreur.h		\
-	etat_io.h		\
 	etats_calculs.h		\
 	etats_config.h		\
 	etats_gtktable.h	\

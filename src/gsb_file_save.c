@@ -79,6 +79,7 @@ extern gchar *chemin_logo;
 extern GtkWidget *code_banque;
 extern GtkWidget *email_banque;
 extern GtkWidget *email_correspondant;
+extern struct struct_etat *etat_courant;
 extern GtkWidget *fax_correspondant;
 extern gint ligne_affichage_une_ligne;
 extern GSList *lignes_affichage_deux_lignes;
@@ -240,7 +241,8 @@ gboolean gsb_file_save_save_file ( gchar *filename )
 
     iterator = gsb_file_save_report_part ( iterator,
 					   &length_calculated,
-					   &file_content );
+					   &file_content,
+					   FALSE );
     /* finish the file */
 
     iterator = gsb_file_save_append_part ( iterator,
@@ -1298,12 +1300,14 @@ gint gsb_file_save_reconcile_part ( gint iterator,
  * \param iterator the current iterator
  * \param length_calculated a pointer to the variable lengh_calculated
  * \param file_content a pointer to the variable file_content
+ * \param current_report if TRUE, only save the current report (to exporting a report)
  *
  * \return the new iterator
  * */
 gint gsb_file_save_report_part ( gint iterator,
 				 gint *length_calculated,
-				 gchar **file_content )
+				 gchar **file_content,
+				 gboolean current_report )
 {
     GSList *list_tmp;
 	
@@ -1325,6 +1329,16 @@ gint gsb_file_save_report_part ( gint iterator,
 	GSList *list_tmp_2;
 
 	report = list_tmp -> data;
+
+	/* if we need only the current report, we check here */
+
+	if ( current_report
+	     &&
+	     etat_courant -> no_etat != report -> no_etat )
+	{
+	    list_tmp = list_tmp -> next;
+	    continue;
+	}
 
 	/* set the general sort type */
 

@@ -20,7 +20,8 @@ gint gsb_file_save_category_part ( gint iterator,
 				   gchar **file_content );
 gint gsb_file_save_report_part ( gint iterator,
 				 gint *length_calculated,
-				 gchar **file_content );
+				 gchar **file_content,
+				 gboolean current_report );
 gboolean gsb_file_save_save_file ( gchar *filename );
 /* END_DECLARATION */
 

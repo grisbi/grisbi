@@ -50,7 +50,6 @@ static GtkWidget * print_backtrace ( void );
 
 /*START_EXTERN*/
 extern AB_BANKING *gbanking;
-extern gchar *log_message;
 extern gchar *nom_fichier_comptes;
 extern GtkWidget *window;
 /*END_EXTERN*/
@@ -130,77 +129,6 @@ gboolean fermeture_grisbi ( void )
 /*************************************************************************************************************/
 
 
-
-
-
-
-/*************************************************************************************************************/
-/* affiche le contenu de la variable log_message si elle n'est pas null */
-/*************************************************************************************************************/
-
-void affiche_log_message ( void )
-{
-    GtkWidget *dialog;
-    GtkWidget *label;
-    GtkWidget *scrolled_window;
-    GtkWidget *vbox;
-
-    if ( !log_message )
-	return;
-
-    dialog = gtk_dialog_new_with_buttons ( _("Log message"),
-					   GTK_WINDOW (window),
-					   GTK_DIALOG_MODAL,
-					   GTK_STOCK_OK,0,
-					   NULL );
-
-    label = gtk_label_new ( COLON(_("This operation returned a message")));
-    gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox ),
-			 label,
-			 FALSE,
-			 FALSE, 
-			 0 );
-    gtk_widget_show ( label );
-
-    scrolled_window = gtk_scrolled_window_new ( NULL,
-						NULL );
-    gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window ),
-				     GTK_POLICY_AUTOMATIC,
-				     GTK_POLICY_AUTOMATIC );
-    gtk_widget_set_usize ( scrolled_window,
-			   400,
-			   200 );
-    gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox ),
-			 scrolled_window,
-			 FALSE,
-			 FALSE, 
-			 0 );
-    gtk_widget_show ( scrolled_window );
-
-    vbox = gtk_vbox_new ( FALSE,
-			  5 );
-    gtk_scrolled_window_add_with_viewport ( GTK_SCROLLED_WINDOW ( scrolled_window ),
-					    vbox );
-    gtk_widget_show ( vbox );
-
-    label = gtk_label_new ( log_message );
-    gtk_label_set_justify ( GTK_LABEL ( label ),
-			    GTK_JUSTIFY_LEFT );
-    gtk_misc_set_alignment ( GTK_MISC ( label ),
-			     0,
-			     0.5 );
-    gtk_box_pack_start ( GTK_BOX ( vbox ),
-			 label,
-			 FALSE,
-			 FALSE, 
-			 0 );
-    gtk_widget_show ( label );
-
-    gtk_dialog_run ( GTK_DIALOG ( dialog ));
-    gtk_widget_destroy ( dialog );
-
-}
-/*************************************************************************************************************/
 
 
 

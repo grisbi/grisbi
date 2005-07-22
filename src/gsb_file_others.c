@@ -35,6 +35,7 @@
 #include "gsb_category_data.h"
 #include "gsb_file_load.h"
 #include "gsb_file_save.h"
+#include "navigation.h"
 #include "utils_str.h"
 #include "fichiers_gestion.h"
 #include "structures.h"
@@ -46,7 +47,6 @@ static gboolean gsb_file_others_check_file ( gchar *file_content,
 				      gint origin );
 static gboolean gsb_file_others_load ( gchar *filename,
 				gint origin );
-static gboolean gsb_file_others_load_report ( gchar *filename );
 static gint gsb_file_others_save_general_part ( gint iterator,
 					 gint *length_calculated,
 					 gchar **file_content,
@@ -64,6 +64,7 @@ static void gsb_file_others_start_element ( GMarkupParseContext *context,
 extern GSList *liste_struct_categories;
 extern GSList *liste_struct_etats;
 extern GSList *liste_struct_imputation;
+extern gint no_dernier_etat;
 /*END_EXTERN*/
 
 
@@ -279,7 +280,8 @@ gboolean gsb_file_others_save_report ( gchar *filename )
 
     iterator = gsb_file_save_report_part ( iterator,
 					   &length_calculated,
-					   &file_content );
+					   &file_content,
+					   TRUE );
 
     /* finish the file */
 
@@ -473,6 +475,8 @@ gboolean gsb_file_others_load ( gchar *filename,
 
 	switch ( origin )
 	{
+	    struct struct_etat *report;
+
 	    case 0:
 		/* comes for category */
 
@@ -490,8 +494,51 @@ gboolean gsb_file_others_load ( gchar *filename,
 		break;
 
 	    case 2:
-		/* comes for report */
+		/* comes for report,
+		 * as we cannot have the same things between differents grisbi files,
+		 * we cannot export/import currencies, financial years, accounts names,
+		 * categories, budgetaries and parties
+		 * so we erase them here because perhaps they doesn't exist and show
+		 * a warning : the user has to do it by himself (untill a druid to help him ?) */
 
+		report = import_list -> data;
+
+		if (report)
+		{
+		    /* set the new number */
+		    report -> no_etat = ++no_dernier_etat;
+
+		    /* set the currencies */
+		    report -> devise_de_calcul_general = 1;
+		    report -> devise_de_calcul_categ = 1;
+		    report -> devise_de_calcul_ib = 1;
+		    report -> devise_de_calcul_tiers = 1;
+		    report -> choix_devise_montant = 1;
+
+		    /* erase the financials years */
+		    report -> no_exercices = NULL;
+		    /* erase the accounts */
+		    report -> no_comptes = NULL;
+		    /* erase the transferts accounts */
+		    report -> no_comptes_virements = NULL;
+		    /* erase the categories */
+		    report -> no_categ = NULL;
+		    /* erase the budget */
+		    report -> no_ib = NULL;
+		    /* erase the parties */
+		    report -> no_tiers = NULL;
+		    /* erase the kinds of payment */
+		    report -> noms_modes_paiement = NULL;
+
+		    /* append it to the list */
+		    liste_struct_etats = g_slist_append ( liste_struct_etats, 
+							  report );
+		    gsb_gui_navigation_add_report ( report );
+
+		    /* inform the user of that */
+		    dialogue_hint ( _("Some things in a report cannot be imported :\nThe selected lists of financial years, accounts, transfer accounts, categories, budgetaries, parties and kind of payments.\nSo that lists have been erased while the import.\nThe currencies have been set too on the first currency of this grisbi file.\nYou should check and modify that in the property box of that account."),
+				    _("Importing a report"));
+		}
 		break;
 	}
 

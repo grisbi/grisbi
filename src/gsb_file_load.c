@@ -3340,8 +3340,12 @@ void gsb_file_load_report ( const gchar **attribute_names,
     }
     while ( attribute_names[i] );
 
-    liste_struct_etats = g_slist_append ( liste_struct_etats,
-					  report );
+    if ( import_list )
+	*import_list = g_slist_append ( *import_list,
+					report );
+    else
+	liste_struct_etats = g_slist_append ( liste_struct_etats,
+					      report );
 }
 
 /**
@@ -3474,24 +3478,33 @@ void gsb_file_load_text_comparison ( const gchar **attribute_names,
     }
     while ( attribute_names[i] );
 
-    /* FIXME : to remove when do the struct of report */
-
-    report = NULL;
-    list_tmp = liste_struct_etats;
-
-    while ( list_tmp )
+    /* if we have an import_list, so we are importing a report,
+     * so if we are here, the report is necessary the first one
+     * of that list */
+    
+    if ( import_list )
+	report = (*import_list) -> data;
+    else
     {
-	report = list_tmp -> data;
+    /* FIXME : to remove when do the struct of report
+     * get_report_by_no */
 
-	if ( report -> no_etat == report_number )
-	    list_tmp = NULL;
-	else
+	report = NULL;
+	list_tmp = liste_struct_etats;
+
+	while ( list_tmp )
 	{
-	    report= NULL;
-	    list_tmp = list_tmp -> next;
+	    report = list_tmp -> data;
+
+	    if ( report -> no_etat == report_number )
+		list_tmp = NULL;
+	    else
+	    {
+		report= NULL;
+		list_tmp = list_tmp -> next;
+	    }
 	}
     }
-
     if ( report )
 	report -> liste_struct_comparaison_textes = g_slist_append ( report -> liste_struct_comparaison_textes,
 								     text_comparison );
@@ -3598,24 +3611,32 @@ void gsb_file_load_amount_comparison ( const gchar **attribute_names,
     }
     while ( attribute_names[i] );
 
-    /* FIXME : to remove when do the struct of report */
+    /* if we have an import_list, so we are importing a report,
+     * so if we are here, the report is necessary the first one
+     * of that list */
 
-    report = NULL;
-    list_tmp = liste_struct_etats;
-
-    while ( list_tmp )
+    if ( import_list )
+	report = (*import_list) -> data;
+    else
     {
-	report = list_tmp -> data;
+	/* FIXME : to remove when do the struct of report */
 
-	if ( report -> no_etat == report_number )
-	    list_tmp = NULL;
-	else
+	report = NULL;
+	list_tmp = liste_struct_etats;
+
+	while ( list_tmp )
 	{
-	    report= NULL;
-	    list_tmp = list_tmp -> next;
+	    report = list_tmp -> data;
+
+	    if ( report -> no_etat == report_number )
+		list_tmp = NULL;
+	    else
+	    {
+		report= NULL;
+		list_tmp = list_tmp -> next;
+	    }
 	}
     }
-
     if ( report )
 	report -> liste_struct_comparaison_montants = g_slist_append ( report -> liste_struct_comparaison_montants,
 								       amount_comparison );
