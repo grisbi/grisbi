@@ -98,6 +98,7 @@ static gboolean gsb_transaction_data_save_transaction_pointer ( gpointer transac
 /*END_STATIC*/
 
 /*START_EXTERN*/
+extern     gchar * buffer ;
 /*END_EXTERN*/
 
 

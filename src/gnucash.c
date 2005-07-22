@@ -56,6 +56,7 @@ static void update_split ( struct gnucash_split * split, gdouble amount,
 /*END_STATIC*/
 
 /*START_EXTERN*/
+extern     gchar * buffer ;
 extern GSList *liste_comptes_importes;
 extern gchar * tempname;
 /*END_EXTERN*/

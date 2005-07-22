@@ -103,6 +103,7 @@ extern gchar *adresse_commune;
 extern gchar *adresse_secondaire;
 extern gint affichage_echeances;
 extern gint affichage_echeances_perso_nb_libre;
+extern     gchar * buffer ;
 extern gchar *chemin_logo;
 extern GtkWidget *code_banque;
 extern GtkWidget *email_banque;

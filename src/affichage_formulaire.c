@@ -104,6 +104,7 @@ GtkWidget *formulaire;
 
 
 /*START_EXTERN*/
+extern     gchar * buffer ;
 extern gint col_depart_drag;
 extern gint ligne_depart_drag;
 extern gint nb_colonnes;

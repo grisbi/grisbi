@@ -48,6 +48,7 @@ static gint gsb_account_max_number ( void );
 /*END_STATIC*/
 
 /*START_EXTERN*/
+extern     gchar * buffer ;
 extern GtkTreeSelection * selection;
 /*END_EXTERN*/
 

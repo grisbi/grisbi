@@ -42,6 +42,7 @@ static gboolean set_date (GtkEntry *entry, gchar *value, gint length, gint * pos
 
 
 /*START_EXTERN*/
+extern     gchar * buffer ;
 extern GtkWidget *entree_date_finale_etat;
 extern GtkWidget *entree_date_init_etat;
 extern GtkWidget *fenetre_preferences;

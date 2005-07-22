@@ -34,7 +34,6 @@ struct recuperation_version
 
 /*START_INCLUDE*/
 #include "fichiers_io.h"
-#include "categories_onglet.h"
 #include "imputation_budgetaire.h"
 #include "utils_str.h"
 #include "traitement_variables.h"
@@ -58,11 +57,8 @@ gchar *adresse_secondaire;
 
 
 /*START_EXTERN*/
-extern GSList *liste_struct_categories;
 extern GSList *liste_struct_imputation;
-extern gint nb_enregistrements_categories, no_derniere_categorie;
 extern gint nb_enregistrements_imputations;
-extern gint nb_enregistrements_categories, no_derniere_categorie;
 extern gint no_derniere_imputation;
 /*END_EXTERN*/
 

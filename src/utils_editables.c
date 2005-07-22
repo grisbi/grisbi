@@ -39,6 +39,7 @@ static gboolean set_text_from_area ( GtkTextBuffer *buffer, gpointer dummy );
 
 
 /*START_EXTERN*/
+extern     gchar * buffer ;
 /*END_EXTERN*/
 
 

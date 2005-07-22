@@ -110,6 +110,7 @@ GSList *lignes_affichage_trois_lignes;
 
 /*START_EXTERN*/
 extern gint allocation_precedente;
+extern     gchar * buffer ;
 extern gint col_depart_drag;
 extern GtkWidget *formulaire;
 extern gint ligne_depart_drag;

@@ -29,7 +29,9 @@
 /*START_INCLUDE*/
 #include "gsb_file_others.h"
 #include "categories_onglet.h"
+#include "imputation_budgetaire.h"
 #include "dialog.h"
+#include "gsb_budget_data.h"
 #include "gsb_category_data.h"
 #include "gsb_file_load.h"
 #include "gsb_file_save.h"
@@ -482,6 +484,9 @@ gboolean gsb_file_others_load ( gchar *filename,
 	    case 1:
 		/* comes for budget */
 
+		gsb_budget_data_merge_budget_list ( import_list );
+		remplit_arbre_imputation ();
+		creation_liste_imputation_combofix ();
 		break;
 
 	    case 2:
@@ -519,7 +524,7 @@ gboolean gsb_file_others_check_file ( gchar *file_content,
 {
     if ( !file_content
 	 ||
-	 strlen (file_content) < 36 )
+	 strlen (file_content) < 37 )
     {
 	dialogue_error ( _("This is not a grisbi file, loading canceled..."));
 	return FALSE;
@@ -539,8 +544,8 @@ gboolean gsb_file_others_check_file ( gchar *file_content,
 	    if ( !strncmp ( file_content,
 			    "<?xml version=\"1.0\"?>\n<Grisbi_budget>",
 			    37 ))
-		dialogue_error ( _("This is not a budget file, loading canceled..."));
 		return TRUE;
+	    dialogue_error ( _("This is not a budget file, loading canceled..."));
 
 	    break;
 
@@ -548,8 +553,8 @@ gboolean gsb_file_others_check_file ( gchar *file_content,
 	    if ( !strncmp ( file_content,
 			    "<?xml version=\"1.0\"?>\n<Grisbi_report>",
 			    37 ))
-		dialogue_error ( _("This is not a report file, loading canceled..."));
 		return TRUE;
+	    dialogue_error ( _("This is not a report file, loading canceled..."));
 	    break;
     }
 
