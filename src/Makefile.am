@@ -61,7 +61,6 @@ sources = \
 	fenetre_principale.c	\
 	fichier_configuration.c	\
 	fichiers_gestion.c	\
-	fichiers_io.c		\
 	gnucash.c               \
 	gtk_combofix.c		\
 	gtk_list_button.c	\
@@ -164,7 +163,6 @@ grisbi_INCLUDES =		\
 	fenetre_principale.h	\
 	fichier_configuration.h	\
 	fichiers_gestion.h	\
-	fichiers_io.h		\
 	format.h		\
 	gtk_combofix.h		\
 	gtk_list_button.h	\
