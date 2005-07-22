@@ -180,7 +180,7 @@ GtkActionEntry entries[] = {
 
 /* Arg */
 { "SaveAs",		GTK_STOCK_SAVE_AS,	_("_Save as..."),
-  NULL,			NULL,			G_CALLBACK( enregistrement_fichier ) },	
+  NULL,			NULL,			G_CALLBACK( gsb_save_file_as ) },	
 
 { "ImportFile",		NULL,			_("_Import QIF/OFX/CSV/Gnucash file..."),
   NULL,			NULL,			G_CALLBACK( importer_fichier ) },

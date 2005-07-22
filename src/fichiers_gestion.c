@@ -499,11 +499,18 @@ gboolean gsb_file_open_file ( gchar *filename )
     annulation_attente ();
     return TRUE;
 }
-/* ************************************************************************************************************ */
 
 
 
-
+/**
+ * Perform the "Save as" feature.
+ *
+ * \return TRUE on success.  FALSE otherwise.
+ */
+gboolean gsb_save_file_as ( void )
+{
+    return enregistrement_fichier ( -2 );
+}
 
 
 /* ************************************************************************************************************ */
@@ -513,7 +520,6 @@ gboolean gsb_file_open_file ( gchar *filename )
 /* si origine = -2 : provient de enregistrer sous */
 /* retour : TRUE si tout va bien, cad on ne veut pas enregistrer ou c'est enregistré */
 /* ************************************************************************************************************ */
-
 gboolean enregistrement_fichier ( gint origine )
 {
     gint etat_force, result;
