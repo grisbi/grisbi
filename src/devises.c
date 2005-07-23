@@ -43,7 +43,7 @@
 #include "operations_formulaire.h"
 #include "structures.h"
 #include "devises.h"
-#include "fichier_configuration.h"
+#include "gsb_file_config.h"
 #include "echeancier_formulaire.h"
 #include "include.h"
 #include "devises_constants.h"

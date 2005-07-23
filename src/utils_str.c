@@ -270,7 +270,7 @@ int myisolat1ToUTF8(unsigned char* out, int *outlen,
 /* par new_delimiters */
 /* new_delemiters peut contenir plusieurs caratÃšres */
 /* **************************************************************************************************** */
-gchar *my_strdelimit ( gchar *string,
+gchar *my_strdelimit ( const gchar *string,
 		       gchar *delimiters,
 		       gchar *new_delimiters )
 {

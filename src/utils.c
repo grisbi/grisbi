@@ -33,7 +33,7 @@
 #include "utils.h"
 #include "dialog.h"
 #include "gsb_account.h"
-#include "fichier_configuration.h"
+#include "gsb_file_config.h"
 #include "structures.h"
 #include "include.h"
 /*END_INCLUDE*/

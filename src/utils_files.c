@@ -35,6 +35,7 @@
 
 /*START_STATIC*/
 static void browse_file ( GtkButton *button, gpointer data );
+static gint        utf8_xmlSaveFormatFile(const gchar *utf8filename, xmlDocPtr cur, gint format);
 /*END_STATIC*/
 
 

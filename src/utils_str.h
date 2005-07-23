@@ -14,7 +14,7 @@ GSList *gsb_string_get_list_from_string ( const gchar *string,
 gchar * latin2utf8 (char * inchar);
 gchar *limit_string ( gchar *string,
 		      gint length );
-gchar *my_strdelimit ( gchar *string,
+gchar *my_strdelimit ( const gchar *string,
 		       gchar *delimiters,
 		       gchar *new_delimiters );
 gint my_strncasecmp ( gchar *chaine_1,

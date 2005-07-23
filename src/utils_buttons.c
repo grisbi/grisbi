@@ -29,7 +29,7 @@
 #include "utils.h"
 #include "traitement_variables.h"
 #include "structures.h"
-#include "fichier_configuration.h"
+#include "gsb_file_config.h"
 #include "utils_buttons.h"
 /*END_INCLUDE*/
 

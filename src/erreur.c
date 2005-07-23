@@ -33,11 +33,11 @@
 #include "utils.h"
 #include "dialog.h"
 #include "fichiers_gestion.h"
+#include "gsb_file_config.h"
 #include "gsb_file_save.h"
 #include "gsb_file_util.h"
 #include "traitement_variables.h"
 #include "utils_files.h"
-#include "fichier_configuration.h"
 #include "utils_str.h"
 #include "include.h"
 #include "structures.h"
@@ -51,7 +51,6 @@ static GtkWidget * print_backtrace ( void );
 /*START_EXTERN*/
 extern AB_BANKING *gbanking;
 extern gchar *nom_fichier_comptes;
-extern GtkWidget *window;
 /*END_EXTERN*/
 
 
@@ -104,7 +103,7 @@ gboolean fermeture_grisbi ( void )
     /*     à ce niveau, soit le fichier a été enregistré, soit on ne veut pas l'enregistrer */
     /* 	on ferme grisbi */
 
-    sauve_configuration ();
+    gsb_file_config_save_config ();
 
     gsb_file_util_modify_lock ( FALSE );
 

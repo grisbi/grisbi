@@ -32,6 +32,7 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
+static struct struct_exercice *exercice_par_nom ( gchar *nom_exo );
 /*END_STATIC*/
 
 

@@ -1,7 +1,6 @@
-#ifndef _FICHIER_CONFIGURATION_H
-#define _FICHIER_CONFIGURATION_H (1)
+#ifndef _GSB_FILE_CONFIG_H
+#define _GSB_FILE_CONFIG_H (1)
 
-/* quelques chaines de configuration*/
 #define ETAT_WWW_BROWSER "www-browser"
 
 #ifndef _WIN32
@@ -13,13 +12,10 @@
 #define C_GRISBIRC  "\\grisbi.rc"
 #endif
 
-/* START_INCLUDE_H */
-#include "fichier_configuration.h"
-/* END_INCLUDE_H */
-
 
 /* START_DECLARATION */
-void charge_configuration ( void );
-void sauve_configuration(void);
+gboolean gsb_file_config_load_config ( void );
+gboolean gsb_file_config_save_config ( void );
 /* END_DECLARATION */
+
 #endif

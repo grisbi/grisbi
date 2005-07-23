@@ -103,7 +103,7 @@ extern gint compression_fichier;
 extern struct conditional_message messages[] ;
 extern GtkTreeStore *model;
 extern gint nb_days_before_scheduled;
-extern gint nb_max_derniers_fichiers_ouverts;
+extern gint nb_max_derniers_fichiers_ouverts ;
 extern gchar *nom_fichier_backup;
 extern GtkWidget *treeview;
 extern GtkWidget *window;

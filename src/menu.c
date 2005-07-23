@@ -46,7 +46,7 @@
 #include "main.h"
 #include "etats_config.h"
 #include "parametres.h"
-#include "fichier_configuration.h"
+#include "gsb_file_config.h"
 #include "structures.h"
 #include "menu.h"
 #include "include.h"
@@ -68,8 +68,8 @@ static void view_menu_cb ( gpointer callback_data, guint callback_action, GtkWid
 /*START_EXTERN*/
 extern GtkItemFactory *item_factory_menu_general;
 extern GtkTreeModelFilter * navigation_model_filtered;
-extern gint nb_derniers_fichiers_ouverts;
-extern gchar **tab_noms_derniers_fichiers_ouverts;
+extern gsize nb_derniers_fichiers_ouverts ;
+extern gchar **tab_noms_derniers_fichiers_ouverts ;
 extern GtkWidget *window;
 /*END_EXTERN*/
 

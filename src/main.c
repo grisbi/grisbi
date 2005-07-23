@@ -3,10 +3,10 @@
 /* Programme de gestion financière personnelle                                   */
 /*           	  license : GPL                                                  */
 /*                                                                               */
-/*     Copyright (C)    2000-2003 Cédric Auger (cedric@grisbi.org)               */
-/*                      2003-2004 Benjamin Drieu (bdrieu@april.org)              */
+/*     Copyright (C)    2000-2005 Cédric Auger (cedric@grisbi.org)               */
+/*                      2003-2005 Benjamin Drieu (bdrieu@april.org)              */
 /*                      http://www.grisbi.org                                    */
-/*      Version : 0.5.1                                                          */
+/*      Version : 0.6.0                                                          */
 /*                                                                               */
 /* *******************************************************************************/
 
@@ -46,10 +46,10 @@
 /*START_INCLUDE*/
 #include "main.h"
 #include "menu.h"
-#include "fichier_configuration.h"
 #include "tip.h"
 #include "erreur.h"
 #include "gsb_account.h"
+#include "gsb_file_config.h"
 #include "fichiers_gestion.h"
 #include "traitement_variables.h"
 #include "parse_cmdline.h"
@@ -239,7 +239,7 @@ int main (int argc, char *argv[])
 
 
 	init_variables ();
-	charge_configuration();
+	gsb_file_config_load_config ();
 
 	/*   création des menus */
 	menu_general = init_menus ( window_vbox_principale );
@@ -277,26 +277,26 @@ int main (int argc, char *argv[])
 
 	initialisation_couleurs_listes ();
 
-	/* 	on met en place l'idle */
-
-
 	/* on vérifie les arguments de ligne de commande */
 
 	if (opt.fichier != NULL) 
 	{
 		/* nom de fichier sur la ligne de commande; c'est celui-là qu'on ouvre */
 		nom_fichier_comptes = opt.fichier;
-		gsb_file_open_file(nom_fichier_comptes);
+
+		if (!gsb_file_open_file(nom_fichier_comptes))
+		    nom_fichier_comptes = NULL;
 	}
 	else 
 	{
-		/* ouvre le dernier fichier si defini et si chargement auto. */
-		if ( etat.dernier_fichier_auto
-		     &&
-		     nom_fichier_comptes
-		     &&
-		     strlen ( nom_fichier_comptes ) )
-		    gsb_file_open_file(nom_fichier_comptes);
+	    /* ouvre le dernier fichier si defini et si chargement auto. */
+	    if ( etat.dernier_fichier_auto
+		 &&
+		 nom_fichier_comptes
+		 &&
+		 strlen ( nom_fichier_comptes ) )
+		if (!gsb_file_open_file(nom_fichier_comptes))
+		    nom_fichier_comptes = NULL;
 	}
 	
 	/*   à ce niveau, le fichier doit être chargé, on met sur l'onglet demandé si nécessaire */

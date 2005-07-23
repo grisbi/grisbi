@@ -43,6 +43,7 @@
 #include "utils_file_selection.h"
 #include "gsb_account.h"
 #include "operations_comptes.h"
+#include "gsb_file_config.h"
 #include "gsb_file_load.h"
 #include "gsb_file_save.h"
 #include "gsb_file_util.h"
@@ -54,7 +55,6 @@
 #include "accueil.h"
 #include "utils_files.h"
 #include "affichage_liste.h"
-#include "fichier_configuration.h"
 #include "structures.h"
 #include "include.h"
 /*END_INCLUDE*/
@@ -84,14 +84,14 @@ extern gint max;
 extern gint mise_a_jour_fin_comptes_passifs;
 extern gint mise_a_jour_liste_comptes_accueil;
 extern gint mise_a_jour_soldes_minimaux;
-extern gint nb_derniers_fichiers_ouverts;
-extern gint nb_max_derniers_fichiers_ouverts;
+extern gsize nb_derniers_fichiers_ouverts ;
+extern gint nb_max_derniers_fichiers_ouverts ;
 extern gchar *nom_fichier_comptes;
 extern GtkWidget *notebook_general;
 extern gint rapport_largeur_colonnes[TRANSACTION_LIST_COL_NB];
 extern GSList *scheduled_transactions_taken;
 extern GSList *scheduled_transactions_to_take;
-extern gchar **tab_noms_derniers_fichiers_ouverts;
+extern gchar **tab_noms_derniers_fichiers_ouverts ;
 extern gchar *titre_fichier;
 extern GtkWidget *tree_view_vbox;
 extern GtkWidget *window;
@@ -397,12 +397,7 @@ gboolean gsb_file_open_file ( gchar *filename )
 	    }
 	}
 	else
-	{
-	    dialogue_error_hint ( _("Grisbi was unable to load the file..."),
-				  g_strdup_printf ( _("Error loading file '%s'"), filename) );
-	    menus_sensitifs ( FALSE );
 	    return FALSE;
-	}
     }
 
     /* ok, here the file or backup is loaded */
@@ -766,7 +761,7 @@ gboolean fermer_fichier ( void )
 
 	    /*     on enregistre la config */
 
-	    sauve_configuration ();
+	     gsb_file_config_save_config();
 
 	    /* si le fichier n'était pas déjà ouvert, met à 0 l'ouverture */
 
@@ -984,17 +979,17 @@ void remove_file_from_last_opened_files_list ( gchar * nom_fichier )
 
     for ( i = 0 ; i < nb_derniers_fichiers_ouverts ; i++ )
     {
-	if ( ! strcmp (nom_fichier_comptes, tab_noms_derniers_fichiers_ouverts[i]) )
+	if ( ! strcmp (nom_fichier, tab_noms_derniers_fichiers_ouverts[i]) )
 	{
+	    nb_derniers_fichiers_ouverts--;
+
 	    for ( j = i; j < nb_derniers_fichiers_ouverts-1; j++ )
 	    {
 		tab_noms_derniers_fichiers_ouverts[j] = tab_noms_derniers_fichiers_ouverts[j+1];
 
 	    }
-	    break;
 	}
     }
-    nb_derniers_fichiers_ouverts--;
     affiche_derniers_fichiers_ouverts();
 }
 /****************************************************************************/

@@ -43,17 +43,14 @@ static ConfigFormat  g_config_format;
 /*  Function : load_config_format                                           */
 /*                                                                          */
 /*--------------------------------------------------------------------------*/
-void load_config_format(xmlNodePtr node_format)
+void load_config_format(GKeyFile *config)
 {
-	xmlNodePtr node;
-	for (node = node_format->children ; node ; node = node->next ) 
-	{
-		if (!strcmp(node -> name, tagAFFICHAGE_FORMAT_DATE_LISTE_OPE)) 
-		{
-			strcpy(g_config_format.format_date_liste_ope, 
-                   xmlNodeGetContent(node));
-		}
-	}
+
+    strcpy(g_config_format.format_date_liste_ope, 
+	   g_key_file_get_string ( config,
+				   "Shown",
+				   tagAFFICHAGE_FORMAT_DATE_LISTE_OPE,
+				   NULL ));
 }
 
 
@@ -62,11 +59,12 @@ void load_config_format(xmlNodePtr node_format)
 /*  Function : save_config_format                                           */
 /*                                                                          */
 /*--------------------------------------------------------------------------*/
-void save_config_format(xmlNodePtr parent_node)
+void save_config_format(GKeyFile *config)
 {
-	xmlNodePtr format_node = xmlNewChild(parent_node, NULL, tagAFFICHAGE_FORMAT, NULL);
-
-	xmlNewChild(format_node, NULL, tagAFFICHAGE_FORMAT_DATE_LISTE_OPE, g_config_format.format_date_liste_ope);
+     g_key_file_set_string ( config,
+			    "Shown",
+			    tagAFFICHAGE_FORMAT_DATE_LISTE_OPE,
+			    g_config_format.format_date_liste_ope );
 }
 
 /*--------------------------------------------------------------------------*/

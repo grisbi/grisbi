@@ -31,6 +31,7 @@ sources = \
 	gsb_account.c		\
 	gsb_budget_data.c	\
 	gsb_category_data.c	\
+	gsb_file_config.c	\
 	gsb_file_load.c		\
 	gsb_file_others.c	\
 	gsb_file_save.c		\
@@ -58,7 +59,6 @@ sources = \
 	etats_support.c		\
 	exercice.c		\
 	fenetre_principale.c	\
-	fichier_configuration.c	\
 	fichiers_gestion.c	\
 	gnucash.c               \
 	gtk_combofix.c		\
@@ -133,6 +133,7 @@ grisbi_INCLUDES =		\
 	gsb_account.h		\
 	gsb_budget_data.h	\
 	gsb_category_data.h	\
+	gsb_file_config.h	\
 	gsb_file_load.h		\
 	gsb_file_others.h	\
 	gsb_file_save.h		\
@@ -159,7 +160,6 @@ grisbi_INCLUDES =		\
 	etats_support.h		\
 	exercice.h		\
 	fenetre_principale.h	\
-	fichier_configuration.h	\
 	fichiers_gestion.h	\
 	format.h		\
 	gtk_combofix.h		\

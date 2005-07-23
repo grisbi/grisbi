@@ -33,7 +33,7 @@
 #include "operations_liste.h"
 #include "comptes_gestion.h"
 #include "echeancier_liste.h"
-#include "fichier_configuration.h"
+#include "gsb_file_config.h"
 #include "navigation.h"
 #include "include.h"
 #include "structures.h"

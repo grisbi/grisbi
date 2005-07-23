@@ -46,8 +46,8 @@ typedef struct _ConfigFormat {
 
 
 /* START_DECLARATION */
-void load_config_format(xmlNodePtr node_format);
-void save_config_format(xmlNodePtr parent_node);
+void load_config_format(GKeyFile *config);
+void save_config_format(GKeyFile *config);
 void set_default_config_format();
 /* END_DECLARATION */
 

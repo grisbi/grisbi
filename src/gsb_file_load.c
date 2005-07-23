@@ -226,7 +226,7 @@ gboolean gsb_file_load_open_file ( gchar *filename )
     struct stat buffer_stat;
     gint return_value;
     gchar *file_content;
-    gint length;
+    gsize length;
 
     if ( DEBUG )
 	printf ( "gsb_file_load_open_file %s\n", 
@@ -237,9 +237,10 @@ gboolean gsb_file_load_open_file ( gchar *filename )
     if ( !g_file_test ( filename,
 			G_FILE_TEST_EXISTS ))
     {
-	dialogue_error (g_strdup_printf (_("Cannot open file '%s': %s"),
-					 filename,
-					 latin2utf8 (strerror(errno))));
+	dialogue_error_hint (g_strdup_printf (_("Cannot open file '%s': %s"),
+					      filename,
+					      latin2utf8 (strerror(errno))),
+			     g_strdup_printf ( _("Error loading file '%s'"), filename));
 	remove_file_from_last_opened_files_list (filename);
 	return FALSE;
     }
@@ -249,8 +250,9 @@ gboolean gsb_file_load_open_file ( gchar *filename )
     if ( !g_file_test ( filename,
 			G_FILE_TEST_IS_REGULAR ))
     {
-	dialogue_error ( g_strdup_printf ( _("%s doesn't seem to be a regular file,\nplease check it and try again."),
-					   filename ));
+	dialogue_error_hint ( g_strdup_printf ( _("%s doesn't seem to be a regular file,\nplease check it and try again."),
+						filename ),
+			      g_strdup_printf ( _("Error loading file '%s'"), filename));
 	remove_file_from_last_opened_files_list (filename);
 	return ( FALSE );
     }
@@ -328,9 +330,10 @@ gboolean gsb_file_load_open_file ( gchar *filename )
     }
     else
     {
-	dialogue_error (g_strdup_printf (_("Cannot open file '%s': %s"),
-					 filename,
-					 latin2utf8 (strerror(errno))));
+	dialogue_error_hint (g_strdup_printf (_("Cannot open file '%s': %s"),
+					      filename,
+					      latin2utf8 (strerror(errno))),
+			     g_strdup_printf ( _("Error loading file '%s'"), filename));
 	remove_file_from_last_opened_files_list (filename);
 	return FALSE;
     }
@@ -353,6 +356,8 @@ gboolean gsb_file_load_check_new_structure ( gchar *file_content )
 	return FALSE;
     return TRUE;
 }
+
+
 
 void gsb_file_load_start_element ( GMarkupParseContext *context,
 				   const gchar *element_name,

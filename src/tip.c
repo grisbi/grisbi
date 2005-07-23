@@ -27,7 +27,7 @@
 #include "tip.h"
 #include "dialog.h"
 #include "utils_buttons.h"
-#include "fichier_configuration.h"
+#include "gsb_file_config.h"
 #include "include.h"
 #include "structures.h"
 #define END_INCLUDE
