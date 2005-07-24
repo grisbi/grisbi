@@ -264,14 +264,14 @@ gboolean gsb_file_save_save_file ( gchar *filename,
 
     /* we have to keep the length, because after encryption, we cannot do it */
 
-    last_file_content = file_content;
+/*     last_file_content = file_content; */
 
-    file_content = gsb_file_util_crypt_file ( filename, file_content, TRUE, iterator );
+    iterator = gsb_file_util_crypt_file ( filename, &file_content, TRUE, iterator );
     
     /* if the encryption was ok, the length increased of 22 */
 
-    if ( file_content != last_file_content )
-	iterator = iterator + 22;
+/*     if ( file_content != last_file_content ) */
+/* 	iterator = iterator + 22; */
 
     /* the file is in memory, we can save it */
 

@@ -283,12 +283,12 @@ gboolean gsb_file_load_open_file ( gchar *filename )
 	/* for zlib, need a gulong for size and g_file_get_contents a guint...
 	 * perhaps it exists another mean than that ? */
 
-	long_length = long_length + length;
+	long_length = length;
 
 	/* first, we check if the file is crypted, if it is, we decrypt it */
 
 	if ( !strncmp ( file_content, "Grisbi encrypted file ", 22 ))
-	    if ( !( file_content = gsb_file_util_crypt_file ( filename, file_content, 
+	    if ( !( long_length = gsb_file_util_crypt_file ( filename, &file_content, 
 							      FALSE, long_length )))
 		return FALSE;
 

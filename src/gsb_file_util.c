@@ -181,19 +181,18 @@ gint gsb_file_util_compress_file ( gchar **file_content,
  * \param file_name	File name, used to 
  * \param file_content	A string which is the file
  * \param crypt		TRUE to crypt, FALSE to uncrypt
- * \param length	The length of the grisbi data, without "Grisbi
- *			encrypted file " if comes to crypt with
- *			"Grisbi encrypted file " if comes to decrypt 
+ * \param length	The length of the grisbi data,
+ *                      without "Grisbi encrypted file " if comes to crypt
+ *                      with "Grisbi encrypted file " if comes to decrypt 
  *
- * \return either the same string, either the crypted string, either
- * NULL if we cannot decrypt 
+ * \return the length of the new file_content or 0 if problem
  */
-gchar *gsb_file_util_crypt_file ( gchar * file_name, gchar *file_content,
-				  gboolean crypt, gulong length )
+gulong gsb_file_util_crypt_file ( gchar * file_name, gchar **file_content,
+				gboolean crypt, gulong length )
 {
     gint result;
     gchar *key;
-    gint position;
+    gulong position;
 
     if ( DEBUG )
 	printf ( "gsb_file_util_crypt_file : %d\n", crypt );
@@ -207,7 +206,7 @@ gchar *gsb_file_util_crypt_file ( gchar * file_name, gchar *file_content,
 	/* check first if we want to encrypt that file */
 
 	if ( !etat.crypt_file )
-	    return file_content;
+	    return length;
 
 	/* now, if we know here a key to crypt, we use it, else, we ask for it */
 
@@ -219,7 +218,7 @@ gchar *gsb_file_util_crypt_file ( gchar * file_name, gchar *file_content,
 	/* if we have no key, we will no crypt that file */
 
 	if ( !key )
-	    return file_content;
+	    return length;
 
 	/* we create a copy of the file in memory which will begin by "Grisbi encrypted file " */
 
@@ -228,16 +227,16 @@ gchar *gsb_file_util_crypt_file ( gchar * file_name, gchar *file_content,
 		  "Grisbi encrypted file ",
 		  22 );
 	memmove ( encrypted_file + 22,
-		  file_content,
+		  *file_content,
 		  length );
 	
 	position = 0;
 
 	while ( position < length)
 	{
-	    gint size;
+	    gulong size;
 
-	    if ( (length - position - 8192) < 0 )
+	    if ( (length - position ) < 8192 )
 	    {
 		size = length - position;
 
@@ -257,13 +256,16 @@ gchar *gsb_file_util_crypt_file ( gchar * file_name, gchar *file_content,
 	    if ( result == DESERR_BADPARAM )
 	    {
 		dialogue_error ( _("Error while crypting the file, the file saved won't be crypted."));
-		return file_content;
+		return length;
 	    }
 
 	    position = position + 8192;
 	}
-	free (file_content);
-	return encrypted_file;
+	free (*file_content);
+	*file_content = encrypted_file;
+
+	/* the actual length is the initial + 22 (size of Grisbi encrypted file */
+	return length + 22;
     }
     else
     {
@@ -287,13 +289,13 @@ return_bad_password:
 	/* if we have no key, we stop the loading */
 
 	if ( !key )
-	    return NULL;
+	    return 0;
 
 	/* we create a copy of the file in memory which will begin by "Grisbi encrypted file " */
 
 	decrypted_file = malloc ( length * sizeof ( gchar ));
 	memmove ( decrypted_file,
-		  file_content + 22,
+		  *file_content + 22,
 		  length );
 	
 	position = 0;
@@ -302,7 +304,7 @@ return_bad_password:
 	{
 	    gint size;
 
-	    if ( (length - position - 8192) < 0 )
+	    if ( (length - position ) < 8192 )
 	    {
 		size = length - position;
 
@@ -322,7 +324,7 @@ return_bad_password:
 	    if ( result == DESERR_BADPARAM )
 	    {
 		dialogue_error ( _("Error while decrypting the file, the file cannot be opened."));
-		return NULL;
+		return 0;
 	    }
 
 	    position = position + 8192;
@@ -333,7 +335,11 @@ return_bad_password:
 
 	if ( strncmp ( decrypted_file,
 		       "<?xml version=\"1.0\"?>",
-		       18 ))
+		       18 )
+	     &&
+	     strncmp ( decrypted_file,
+		       "Grisbi compressed file ",
+		       23 ))
 	{
 	    /* it seems that it was not the correct password */
 
@@ -344,13 +350,13 @@ return_bad_password:
 	    goto return_bad_password;
 	}
 
-	free (file_content);
-	return decrypted_file;
+	free (*file_content);
+	*file_content = decrypted_file;
+	return length;
     }
 
     /* normally never come here */
-
-    return NULL;
+    return 0;
 }
 
 
@@ -437,10 +443,13 @@ gchar *gsb_file_util_ask_for_crypt_key ( gchar * file_name, gboolean encrypt )
 		crypt_key = key;
 	    else
 		crypt_key = NULL;
+	    break;
 
 	case GTK_RESPONSE_CANCEL:
-	    gtk_widget_destroy ( dialog );
+	    key = NULL;
     }
+
+    gtk_widget_destroy ( dialog );
 
     return key;
 }
