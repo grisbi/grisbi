@@ -103,6 +103,10 @@ gboolean recuperation_donnees_qif ( FILE *fichier )
 		/* 	    à ce niveau on est sur un !type ou !Type, on vérifie maintenant qu'on supporte */
 		/* 		bien ce type ; si c'est le cas, on met retour à -1 */
 
+		/* a new of money : now it sets the name bank (and perhaps the others ??)
+		 * in the locale... so i do it here, and keep the non localisation because
+		 * there is not only money on earth... pfff... */
+
 		if ( !my_strncasecmp ( pointeur_char+6,
 				       "bank",
 				       4 )
@@ -125,8 +129,26 @@ gboolean recuperation_donnees_qif ( FILE *fichier )
 		     ||
 		     !my_strncasecmp ( pointeur_char+6,
 				       "oth l",
-				       5 ))
-					   retour = -2;
+				       5 )
+		     ||
+		     !my_strcasecmp ( pointeur_char+6,
+				       _("bank"))
+		     ||
+		     !my_strcasecmp ( pointeur_char+6,
+				      _("cash)"))
+		     ||
+		     !my_strcasecmp ( pointeur_char+6,
+				      _("ccard)"))
+		     ||
+		     !my_strcasecmp ( pointeur_char+6,
+				      _("invst)"))
+		     ||
+		     !my_strcasecmp ( pointeur_char+6,
+				      _("oth a)"))
+		     ||
+		     !my_strcasecmp ( pointeur_char+6,
+				      _("oth l)")))
+		     retour = -2;
 	    }
 	}
 	while ( retour != EOF
@@ -159,12 +181,18 @@ gboolean recuperation_donnees_qif ( FILE *fichier )
 	if ( !my_strncasecmp ( pointeur_char+6,
 			       "bank",
 			       4 ))
-	    compte -> type_de_compte = 0;
+	    ||
+		!my_strcasecmp ( pointeur_char+6,
+				 _("bank"))
+		compte -> type_de_compte = 0;
 	else
 	{
 	    if ( !my_strncasecmp ( pointeur_char+6,
 				   "invst",
-				   5 ))
+				   5 )
+		 ||
+		 !my_strcasecmp ( pointeur_char+6,
+				  _("invst)")))
 	    {
 /* 		on considère le compte d'investissement comme un compte bancaire mais met un */
 /* 		    warning car pas implémenté ; aucune idée si ça passe ou pas... */
@@ -175,19 +203,28 @@ gboolean recuperation_donnees_qif ( FILE *fichier )
 	    {
 		if ( !my_strncasecmp ( pointeur_char+6,
 				       "cash",
-				       4 ))
+				       4 )
+		     ||
+		     !my_strcasecmp ( pointeur_char+6,
+				      _("cash)")))
 		    compte -> type_de_compte = 7;
 		else
 		{
 		    if ( !my_strncasecmp ( pointeur_char+6,
 					   "oth a",
-					   5 ))
+					   5 )
+			 ||
+			 !my_strcasecmp ( pointeur_char+6,
+					  _("oth a)")))
 			compte -> type_de_compte = 2;
 		    else
 		    {
 			if ( !my_strncasecmp ( pointeur_char+6,
 					       "oth l",
-					       5 ))
+					       5 )
+			     ||
+			     !my_strcasecmp ( pointeur_char+6,
+					      _("oth l)")))
 			    compte -> type_de_compte = 3;
 			else
 			    /* CCard */
