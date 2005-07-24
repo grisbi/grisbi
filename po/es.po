@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-05-14 17:39+0200\n"
-"PO-Revision-Date: 2005-07-17 18:02+0200\n"
+"PO-Revision-Date: 2005-07-24 14:07+0200\n"
 "Last-Translator: Carlos M. Cámara Mora <carcam_moceu@yahoo.es>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -689,7 +689,7 @@ msgstr "Cancelar"
 
 #: src/categories_onglet.c:48
 msgid "Food : Bar"
-msgstr "Comida: Bar"
+msgstr "Comida : Bar"
 
 #: src/categories_onglet.c:49
 msgid "Food : Baker"
@@ -977,19 +977,19 @@ msgstr "Ocio : Museos/exhibiciones"
 
 #: src/categories_onglet.c:120
 msgid "Loan/Mortgage : Capital"
-msgstr "Préstamo/Hipoteca . Capital"
+msgstr "Préstamo/Hipoteca : Capital"
 
 #: src/categories_onglet.c:121
 msgid "Health : Insurance"
-msgstr "Salud . Seguro"
+msgstr "Salud : Seguro"
 
 #: src/categories_onglet.c:122
 msgid "Health : Dentist"
-msgstr "Salud . Dentista"
+msgstr "Salud : Dentista"
 
 #: src/categories_onglet.c:123
 msgid "Health : Hospital"
-msgstr "Salud . Hospital"
+msgstr "Salud : Hospital"
 
 #: src/categories_onglet.c:124
 msgid "Health : Kinesitherapist"
@@ -997,31 +997,31 @@ msgstr "Salud : Kinesioterapia"
 
 #: src/categories_onglet.c:125
 msgid "Health : Doctor"
-msgstr "Salud . Médico"
+msgstr "Salud : Médico"
 
 #: src/categories_onglet.c:126
 msgid "Health : Ophtalmologist"
-msgstr "Salud . Oftalmólogo"
+msgstr "Salud : Oftalmólogo"
 
 #: src/categories_onglet.c:127
 msgid "Health : Osteopath"
-msgstr "Salud . Traumatólogo"
+msgstr "Salud : Traumatólogo"
 
 #: src/categories_onglet.c:128
 msgid "Health : Chemist"
-msgstr "Salud . Medicamentos"
+msgstr "Salud : Medicamentos"
 
 #: src/categories_onglet.c:129
 msgid "Health : Social security"
-msgstr "Salud . Seguridad Social"
+msgstr "Salud : Seguridad Social"
 
 #: src/categories_onglet.c:130
 msgid "Care : Hairdresser"
-msgstr "Cuidados . Peluquería"
+msgstr "Cuidados : Peluquería"
 
 #: src/categories_onglet.c:131
 msgid "Care : Clothing"
-msgstr "Cuidados . Ropa"
+msgstr "Cuidados : Ropa"
 
 #: src/categories_onglet.c:132
 msgid "Transport : Bus"
@@ -1037,7 +1037,7 @@ msgstr "Transporte : Tranvía"
 
 #: src/categories_onglet.c:135 src/categories_onglet.c:138
 msgid "Transport : Train"
-msgstr "Transporte . Tren"
+msgstr "Transporte : Tren"
 
 #: src/categories_onglet.c:136
 msgid "Transport : Tramway"
@@ -1045,71 +1045,71 @@ msgstr "Transporte : Metro"
 
 #: src/categories_onglet.c:137
 msgid "Transport : Travels"
-msgstr "Transporte . Viajes"
+msgstr "Transporte : Viajes"
 
 #: src/categories_onglet.c:139
 msgid "Hollydays : Housing"
-msgstr "Vacaciones . Alojamientos"
+msgstr "Vacaciones : Alojamientos"
 
 #: src/categories_onglet.c:140
 msgid "Hollydays : Visits"
-msgstr "Vacaciones . Visitas"
+msgstr "Vacaciones : Visitas"
 
 #: src/categories_onglet.c:141
 msgid "Hollydays : Travels"
-msgstr "Vacaciones . Viajes"
+msgstr "Vacaciones : Viajes"
 
 #: src/categories_onglet.c:145
 msgid "Other incomes : Unemployment benefit"
-msgstr "Otros ingresos . Pensión de desempleo"
+msgstr "Otros ingresos : Pensión de desempleo"
 
 #: src/categories_onglet.c:146
 msgid "Other incomes : Family allowance"
-msgstr "Otros ingresos . Pensión familiar"
+msgstr "Otros ingresos : Pensión familiar"
 
 #: src/categories_onglet.c:147
 msgid "Other incomes : Tax credit"
-msgstr "Otros ingresos . Intereses de préstamos"
+msgstr "Otros ingresos : Intereses de préstamos"
 
 #: src/categories_onglet.c:148
 msgid "Other incomes : Gamble"
-msgstr "Otros ingresos . Apuestas"
+msgstr "Otros ingresos : Apuestas"
 
 #: src/categories_onglet.c:149
 msgid "Other incomes : Mutual insurance"
-msgstr "Otros ingresos . Mutua de seguros"
+msgstr "Otros ingresos : Mutua de seguros"
 
 #: src/categories_onglet.c:150
 msgid "Other incomes : Social security"
-msgstr "Otros ingresos . Seguridad social"
+msgstr "Otros ingresos : Seguridad social"
 
 #: src/categories_onglet.c:151
 msgid "Retirement : Retirement Fund"
-msgstr "Jubilación . Plan de pensiones"
+msgstr "Jubilación : Plan de pensiones"
 
 #: src/categories_onglet.c:152
 msgid "Retirement : Pension"
-msgstr "Jubilación . Pensión"
+msgstr "Jubilación : Pensión"
 
 #: src/categories_onglet.c:153
 msgid "Retirement : Supplementary pension"
-msgstr "Jubilación . Pensión suplementaria"
+msgstr "Jubilación : Pensión suplementaria"
 
 #: src/categories_onglet.c:154
 msgid "Investment incomes : Dividends"
-msgstr "Inversiones ingresos . Dividendos"
+msgstr "Inversiones ingresos : Dividendos"
 
 #: src/categories_onglet.c:155
 msgid "Investment incomes : Interests"
-msgstr "Ingresos ingresos . Intereses"
+msgstr "Ingresos ingresos : Intereses"
 
 #: src/categories_onglet.c:156
 msgid "Investment incomes : Capital gain"
-msgstr "Inversiones ingresos . Ganancia de capital"
+msgstr "Inversiones ingresos : Ganancia de capital"
 
 #: src/categories_onglet.c:157
 msgid "Salary : Overtime"
-msgstr "Salario . Horas extra"
+msgstr "Salario : Horas extra"
 
 #: src/categories_onglet.c:158
 msgid "Salary : Leave allowance"
@@ -1117,27 +1117,27 @@ msgstr "Salario : Pensión por despido"
 
 #: src/categories_onglet.c:159
 msgid "Salary : Misc. premiums"
-msgstr "Salario . recompensas varias"
+msgstr "Salario : recompensas varias"
 
 #: src/categories_onglet.c:160
 msgid "Salary : Success fee"
-msgstr "Salario . Gratificaciones"
+msgstr "Salario : Gratificaciones"
 
 #: src/categories_onglet.c:161
 msgid "Salary : Net salary"
-msgstr "Salario . Salario neto"
+msgstr "Salario : Salario neto"
 
 #: src/categories_onglet.c:162
 msgid "Misc. incomes : Gifts"
-msgstr "Varios ingresos . Regalos"
+msgstr "Varios ingresos : Regalos"
 
 #: src/categories_onglet.c:163
 msgid "Misc. incomes : Refunds"
-msgstr "Varios ingresos . Reembolsos"
+msgstr "Varios ingresos : Reembolsos"
 
 #: src/categories_onglet.c:164
 msgid "Misc. incomes : Second hand sales"
-msgstr "Varios ingresos . Ventas en segunda mano"
+msgstr "Varios ingresos : Ventas en segunda mano"
 
 #: src/categories_onglet.c:189
 msgid "Categories list"
