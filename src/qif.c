@@ -93,6 +93,10 @@ gboolean recuperation_donnees_qif ( FILE *fichier )
 		if ( tab[1] )
 		    tab[1] = g_strstrip ( tab[1] );
 
+		/* a new of money : now it sets the name bank (and perhaps the others ??)
+		 * in the locale... so i do it here, and keep the non localisation because
+		 * there is not only money on earth... pfff... */
+
 		if ( !my_strcasecmp ( tab[1],
 				      "bank" )
 		     ||
@@ -109,7 +113,25 @@ gboolean recuperation_donnees_qif ( FILE *fichier )
 				      "oth a" )
 		     ||
 		     !my_strcasecmp ( tab[1],
-				      "oth l" ))
+				      "oth l" )
+		     ||
+		     !my_strcasecmp ( tab[1],
+				      _("bank") )
+		     ||
+		     !my_strcasecmp ( tab[1],
+				      _("cash") )
+		     ||
+		     !my_strcasecmp ( tab[1],
+				      _("ccard") )
+		     ||
+		     !my_strcasecmp ( tab[1],
+				      _("invst") )
+		     ||
+		     !my_strcasecmp ( tab[1],
+				      _("oth a") )
+		     ||
+		     !my_strcasecmp ( tab[1],
+				      _("oth l") ))
 		{
 		    retour = -2;
 		    type = g_strdup ( tab[1] );
@@ -148,12 +170,18 @@ gboolean recuperation_donnees_qif ( FILE *fichier )
 	/* récupération du type de compte */
 
 	if ( !my_strcasecmp ( type,
-			      "bank" ))
+			      "bank" )
+	     ||
+	     !my_strcasecmp ( tab[1],
+			      _("bank")))
 	    compte -> type_de_compte = 0;
 	else
 	{
 	    if ( !my_strcasecmp ( type,
-				  "invst" ))
+				  "invst" )
+		 ||
+		 !my_strcasecmp ( tab[1],
+				  _("invst")))
 	    {
 /* 		on considère le compte d'investissement comme un compte bancaire mais met un */
 /* 		    warning car pas implémenté ; aucune idée si ça passe ou pas... */
@@ -163,17 +191,26 @@ gboolean recuperation_donnees_qif ( FILE *fichier )
 	    else
 	    {
 		if ( !my_strcasecmp ( type,
-				      "cash" ))
+				      "cash" )
+		     ||
+		     !my_strcasecmp ( tab[1],
+				      _("cash")))
 		    compte -> type_de_compte = 7;
 		else
 		{
 		    if ( !my_strcasecmp ( type,
-					  "oth a" ))
-			compte -> type_de_compte = 2;
+					  "oth a" )
+			 ||
+			 !my_strcasecmp ( tab[1],
+					  _("oth a")))
+			 compte -> type_de_compte = 2;
 		    else
 		    {
 			if ( !my_strcasecmp ( type,
-					      "oth l" ))
+					      "oth l" )
+			     ||
+			     !my_strcasecmp ( tab[1],
+					      _("oth l")))
 			    compte -> type_de_compte = 3;
 			else
 			    /* CCard */
@@ -192,7 +229,10 @@ gboolean recuperation_donnees_qif ( FILE *fichier )
 	/* "carte de crédit" avec un solde init de 0 */
 
 	if ( my_strcasecmp ( type,
-			      "ccard" ))
+			      "ccard" )
+	     &&
+	     my_strcasecmp ( tab[1],
+			     _("ccard")))
 	{
 	    /* ce n'est pas une ccard, on récupère les infos */
 
