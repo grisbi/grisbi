@@ -72,6 +72,8 @@ struct {
     guint force_enregistrement;    /* à un si on force l'enregistrement */
     guint affichage_exercice_automatique;   /* à 1 si exercice automatique selon la date, 0 si affiche le dernier choisi */
     guint crypt_file;   /* TRUE if we want to crypt the file */
+    guint compress_file;  /* TRUE if we want to compress the grisbi file */
+    guint compress_backup;  /* TRUE if we want to compress the backup */
 
     guint formulaire_distinct_par_compte;  /* à 1 si le formulaire est différent pour chaque compte */
     guint affiche_boutons_valider_annuler;

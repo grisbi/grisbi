@@ -36,36 +36,36 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static gint gsb_file_save_account_part ( gint iterator,
-				  gint *length_calculated,
-				  gchar **file_content );
-static gint gsb_file_save_bank_part ( gint iterator,
-			       gint *length_calculated,
-			       gchar **file_content );
-static gint gsb_file_save_currency_part ( gint iterator,
-				   gint *length_calculated,
-				   gchar **file_content );
-static gint gsb_file_save_financial_year_part ( gint iterator,
-					 gint *length_calculated,
-					 gchar **file_content );
-static gint gsb_file_save_general_part ( gint iterator,
-				  gint *length_calculated,
-				  gchar **file_content );
-static gint gsb_file_save_party_part ( gint iterator,
-				gint *length_calculated,
-				gchar **file_content );
-static gint gsb_file_save_payment_part ( gint iterator,
-				  gint *length_calculated,
-				  gchar **file_content );
-static gint gsb_file_save_reconcile_part ( gint iterator,
-				    gint *length_calculated,
+static gulong gsb_file_save_account_part ( gulong iterator,
+				    gulong *length_calculated,
 				    gchar **file_content );
-static gint gsb_file_save_scheduled_part ( gint iterator,
-				    gint *length_calculated,
+static gulong gsb_file_save_bank_part ( gulong iterator,
+				 gulong *length_calculated,
+				 gchar **file_content );
+static gulong gsb_file_save_currency_part ( gulong iterator,
+				     gulong *length_calculated,
+				     gchar **file_content );
+static gulong gsb_file_save_financial_year_part ( gulong iterator,
+					   gulong *length_calculated,
+					   gchar **file_content );
+static gulong gsb_file_save_general_part ( gulong iterator,
+				    gulong *length_calculated,
 				    gchar **file_content );
-static gint gsb_file_save_transaction_part ( gint iterator,
-				      gint *length_calculated,
+static gulong gsb_file_save_party_part ( gulong iterator,
+				  gulong *length_calculated,
+				  gchar **file_content );
+static gulong gsb_file_save_payment_part ( gulong iterator,
+				    gulong *length_calculated,
+				    gchar **file_content );
+static gulong gsb_file_save_reconcile_part ( gulong iterator,
+				      gulong *length_calculated,
 				      gchar **file_content );
+static gulong gsb_file_save_scheduled_part ( gulong iterator,
+				      gulong *length_calculated,
+				      gchar **file_content );
+static gulong gsb_file_save_transaction_part ( gulong iterator,
+					gulong *length_calculated,
+					gchar **file_content );
 /*END_STATIC*/
 
 
@@ -112,23 +112,28 @@ extern gint valeur_echelle_recherche_date_import;
 extern GtkWidget *web_banque;
 /*END_EXTERN*/
 
+
+
+
 /** 
  * save the grisbi file
  * we don't check anything here, all must be done before, here we just write
  * the file and set the permissions
  *
  * \param filename the name of the file
+ * \param compress TRUE if we want to compress the file
  *
  * \return TRUE : ok, FALSE : problem
  * */
-gboolean gsb_file_save_save_file ( gchar *filename )
+gboolean gsb_file_save_save_file ( gchar *filename,
+				   gboolean compress )
 {
     gint do_chmod;
     FILE *grisbi_file;
-    gint iterator;
+    gulong iterator;
     gchar *last_file_content;
 
-    gint length_calculated;
+    gulong length_calculated;
     gchar *file_content;
 
     gint general_part;
@@ -252,7 +257,9 @@ gboolean gsb_file_save_save_file ( gchar *filename )
 
     /* before saving the file, we compress and crypt it if necessary */
 
-    file_content = gsb_file_util_compress_file ( file_content,
+    if ( compress )
+	iterator = gsb_file_util_compress_file ( &file_content,
+						 iterator,
 						 TRUE );
 
     /* we have to keep the length, because after encryption, we cannot do it */
@@ -310,10 +317,10 @@ gboolean gsb_file_save_save_file ( gchar *filename )
  *
  * \return the new iterator
  * */
-gint gsb_file_save_append_part ( gint iterator,
-				 gint *length_calculated,
-				 gchar **file_content,
-				 gchar *new_string )
+gulong gsb_file_save_append_part ( gulong iterator,
+				   gulong *length_calculated,
+				   gchar **file_content,
+				   gchar *new_string )
 {
     if ( !new_string )
 	return iterator;
@@ -350,9 +357,9 @@ gint gsb_file_save_append_part ( gint iterator,
  *
  * \return the new iterator
  * */
-gint gsb_file_save_general_part ( gint iterator,
-				  gint *length_calculated,
-				  gchar **file_content )
+gulong gsb_file_save_general_part ( gulong iterator,
+				    gulong *length_calculated,
+				    gchar **file_content )
 {
     gchar *first_string_to_free;
     gchar *second_string_to_free;
@@ -517,9 +524,9 @@ gint gsb_file_save_general_part ( gint iterator,
  *
  * \return the new iterator
  * */
-gint gsb_file_save_account_part ( gint iterator,
-				  gint *length_calculated,
-				  gchar **file_content )
+gulong gsb_file_save_account_part ( gulong iterator,
+				    gulong *length_calculated,
+				    gchar **file_content )
 {
     GSList *list_tmp;
 
@@ -735,9 +742,9 @@ gint gsb_file_save_account_part ( gint iterator,
  *
  * \return the new iterator
  * */
-gint gsb_file_save_payment_part ( gint iterator,
-				  gint *length_calculated,
-				  gchar **file_content )
+gulong gsb_file_save_payment_part ( gulong iterator,
+				    gulong *length_calculated,
+				    gchar **file_content )
 {
     GSList *list_tmp;
 
@@ -792,9 +799,9 @@ gint gsb_file_save_payment_part ( gint iterator,
  *
  * \return the new iterator
  * */
-gint gsb_file_save_transaction_part ( gint iterator,
-				      gint *length_calculated,
-				      gchar **file_content )
+gulong gsb_file_save_transaction_part ( gulong iterator,
+					gulong *length_calculated,
+					gchar **file_content )
 {
     GSList *list_tmp;
 
@@ -861,9 +868,9 @@ gint gsb_file_save_transaction_part ( gint iterator,
  *
  * \return the new iterator
  * */
-gint gsb_file_save_scheduled_part ( gint iterator,
-				    gint *length_calculated,
-				    gchar **file_content )
+gulong gsb_file_save_scheduled_part ( gulong iterator,
+				      gulong *length_calculated,
+				      gchar **file_content )
 {
     GSList *list_tmp;
 	
@@ -925,9 +932,9 @@ gint gsb_file_save_scheduled_part ( gint iterator,
  *
  * \return the new iterator
  * */
-gint gsb_file_save_party_part ( gint iterator,
-				gint *length_calculated,
-				gchar **file_content )
+gulong gsb_file_save_party_part ( gulong iterator,
+				  gulong *length_calculated,
+				  gchar **file_content )
 {
     GSList *list_tmp;
 	
@@ -969,9 +976,9 @@ gint gsb_file_save_party_part ( gint iterator,
  *
  * \return the new iterator
  * */
-gint gsb_file_save_category_part ( gint iterator,
-				   gint *length_calculated,
-				   gchar **file_content )
+gulong gsb_file_save_category_part ( gulong iterator,
+				     gulong *length_calculated,
+				     gchar **file_content )
 {
     GSList *list_tmp;
 	
@@ -1041,9 +1048,9 @@ gint gsb_file_save_category_part ( gint iterator,
  *
  * \return the new iterator
  * */
-gint gsb_file_save_budgetary_part ( gint iterator,
-				    gint *length_calculated,
-				    gchar **file_content )
+gulong gsb_file_save_budgetary_part ( gulong iterator,
+				      gulong *length_calculated,
+				      gchar **file_content )
 {
     GSList *list_tmp;
 	
@@ -1111,9 +1118,9 @@ gint gsb_file_save_budgetary_part ( gint iterator,
  *
  * \return the new iterator
  * */
-gint gsb_file_save_currency_part ( gint iterator,
-				   gint *length_calculated,
-				   gchar **file_content )
+gulong gsb_file_save_currency_part ( gulong iterator,
+				     gulong *length_calculated,
+				     gchar **file_content )
 {
     GSList *list_tmp;
 	
@@ -1161,9 +1168,9 @@ gint gsb_file_save_currency_part ( gint iterator,
  *
  * \return the new iterator
  * */
-gint gsb_file_save_bank_part ( gint iterator,
-			       gint *length_calculated,
-			       gchar **file_content )
+gulong gsb_file_save_bank_part ( gulong iterator,
+				 gulong *length_calculated,
+				 gchar **file_content )
 {
     GSList *list_tmp;
 	
@@ -1214,9 +1221,9 @@ gint gsb_file_save_bank_part ( gint iterator,
  *
  * \return the new iterator
  * */
-gint gsb_file_save_financial_year_part ( gint iterator,
-					 gint *length_calculated,
-					 gchar **file_content )
+gulong gsb_file_save_financial_year_part ( gulong iterator,
+					   gulong *length_calculated,
+					   gchar **file_content )
 {
     GSList *list_tmp;
 	
@@ -1260,9 +1267,9 @@ gint gsb_file_save_financial_year_part ( gint iterator,
  *
  * \return the new iterator
  * */
-gint gsb_file_save_reconcile_part ( gint iterator,
-				    gint *length_calculated,
-				    gchar **file_content )
+gulong gsb_file_save_reconcile_part ( gulong iterator,
+				      gulong *length_calculated,
+				      gchar **file_content )
 {
     GSList *list_tmp;
 	
@@ -1304,10 +1311,10 @@ gint gsb_file_save_reconcile_part ( gint iterator,
  *
  * \return the new iterator
  * */
-gint gsb_file_save_report_part ( gint iterator,
-				 gint *length_calculated,
-				 gchar **file_content,
-				 gboolean current_report )
+gulong gsb_file_save_report_part ( gulong iterator,
+				   gulong *length_calculated,
+				   gchar **file_content,
+				   gboolean current_report )
 {
     GSList *list_tmp;
 	

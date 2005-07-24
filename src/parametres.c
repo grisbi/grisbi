@@ -90,16 +90,14 @@ GtkWidget *crypt_file_button;
 GtkWidget *bouton_demande_backup;
 GtkWidget *entree_chemin_backup;
 GtkWidget *spin_button_derniers_fichiers_ouverts;
-GtkWidget *spin_button_compression_fichier;
-GtkWidget *spin_button_compression_backup;
+GtkWidget *check_button_compress_file;
+GtkWidget *check_button_compress_backup;
 GtkWidget *bouton_save_demarrage;
 GtkWidget *entree_jours;
 
 
 
 /*START_EXTERN*/
-extern gint compression_backup;
-extern gint compression_fichier;
 extern struct conditional_message messages[] ;
 extern GtkTreeStore *model;
 extern gint nb_days_before_scheduled;
@@ -630,17 +628,10 @@ GtkWidget *onglet_fichier ( void )
 			 FALSE, FALSE, 0 );
 
     /* Compression level of files */
-    hbox = gtk_hbox_new ( FALSE, 5 );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox,
-			 FALSE, FALSE, 0 );
-    label = gtk_label_new ( COLON(_("File compression level")) );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), label,
-			 FALSE, FALSE, 0 );
-    spin_button_compression_fichier = 
-	new_int_spin_button ( &(compression_fichier),
-			      0.0, 9.0, 1.0, 5.0, 1.0, 1.0, 0, NULL );
-
-    gtk_box_pack_start ( GTK_BOX ( hbox ), spin_button_compression_fichier,
+    check_button_compress_file = 
+	new_checkbox_with_title ( _("Compress Grisbi file"),
+				  &(etat.compress_file), NULL );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), check_button_compress_file,
 			 FALSE, FALSE, 0 );
 
     /* Memorize last opened files in menu */
@@ -720,17 +711,10 @@ GtkWidget *onglet_fichier ( void )
 
 
     /* Compression level of backups */
-    hbox = gtk_hbox_new ( FALSE, 5 );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox,
-			 FALSE, FALSE, 0 );
-
-    label = gtk_label_new ( COLON(_("Backup compression level")) );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), label,
-			 FALSE, FALSE, 0 );
-
-    spin_button_compression_backup = new_int_spin_button ( &(compression_backup),
-							   0, 9, 1, 5, 1, 1, 0, NULL );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), spin_button_compression_backup,
+    check_button_compress_backup =
+	new_checkbox_with_title ( _("Compress Grisbi backup"),
+				  &(etat.compress_backup), NULL );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), check_button_compress_backup,
 			 FALSE, FALSE, 0 );
 
     gtk_widget_show_all ( vbox_pref );

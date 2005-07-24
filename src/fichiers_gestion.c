@@ -74,8 +74,6 @@ gchar *nom_fichier_backup;
 
 
 /*START_EXTERN*/
-extern gint compression_backup;
-extern gint compression_fichier;
 extern gchar *dernier_chemin_de_travail;
 extern GSList *liste_struct_echeances;
 extern GSList *liste_struct_etats;
@@ -337,7 +335,8 @@ gboolean gsb_file_open_file ( gchar *filename )
 
 	    g_strfreev ( tab_char );
 
-	    gsb_file_save_save_file ( backup_filename );
+	    gsb_file_save_save_file ( backup_filename,
+				      etat.compress_backup );
 	}
     }
     else
@@ -565,7 +564,8 @@ gboolean enregistrement_fichier ( gint origine )
 
     mise_en_route_attente ( _("Save file") );
 
-    result = gsb_file_save_save_file ( nouveau_nom_enregistrement );
+    result = gsb_file_save_save_file ( nouveau_nom_enregistrement,
+				       etat.compress_file );
 
     if ( result )
     {
@@ -858,13 +858,8 @@ gboolean enregistrement_backup ( void )
 
     update_attente ( _("Saving backup") );
 
-    mise_en_route_attente ( _("Saving backup") );
-
-    xmlSetCompressMode ( compression_backup );
-
-    retour = gsb_file_save_save_file( nom_fichier_backup );
-
-    xmlSetCompressMode ( compression_fichier );
+    retour = gsb_file_save_save_file( nom_fichier_backup,
+				      etat.compress_backup );
 
     annulation_attente();
 

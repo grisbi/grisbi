@@ -191,7 +191,8 @@ void traitement_sigsegv ( gint signal_nb )
 
 	mise_en_route_attente ( _("Save file") );
 
-	gsb_file_save_save_file ( nom_fichier_comptes );
+	gsb_file_save_save_file ( nom_fichier_comptes,
+				  etat.compress_file );
 
 	annulation_attente();
 

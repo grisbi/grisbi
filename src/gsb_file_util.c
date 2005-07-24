@@ -21,6 +21,8 @@
 #include "include.h"
 
 #include <rpc/des_crypt.h>
+#include <zlib.h>
+
 
 /*START_INCLUDE*/
 #include "gsb_file_util.h"
@@ -48,20 +50,126 @@ extern GtkWidget *window;
 gchar *crypt_key;
 
 /**
- * compress or uncompress if necessary the string given in the param
+ * compress or uncompress  the string given in the param
  * if the compress is done, the parameter string is freed
  *
  * \param file_content a string which is the file
+ * \param length length of the string
  * \param compress TRUE to compress, FALSE to uncompress
  *
- * \return either the same string, either the compressed string
+ * \return the new length of the string
  * */
-gchar *gsb_file_util_compress_file ( gchar *file_content,
-				     gboolean compress )
+gint gsb_file_util_compress_file ( gchar **file_content,
+				   gulong length,
+				   gboolean compress )
 {
- /* xxx */
+    /* FIXME : for zlib, file_content need to be guchar, but g_file_get_contents need
+     * a gchar... i don't know if it's a problem to hide that to gcc, but it
+     * seems to work... perhaps there is a better way ?
+     * so here a gchar comes in, but it's hidden with (guchar *) to zlib... */
 
-    return file_content;
+    if (DEBUG)
+	printf ( "gsb_file_util_compress_file : %d\n",
+		 compress );
+
+    if ( compress )
+    {
+	/* compress */
+	gchar *temp;
+	gulong new_length;
+	gint result;
+	gchar *str_length;
+	gint iterator;
+
+	new_length = compressBound (length);
+
+	temp = malloc (new_length);
+
+	result = compress2 ( (guchar *) temp, &new_length,
+			     (guchar *) *file_content, length,
+			     Z_BEST_COMPRESSION );
+	
+	if ( result != Z_OK )
+	{
+	    dialogue_error_hint ( ("An error occured while compressing the file : zlib error\nOperation aborted"),
+				  _("File compression"));
+	    free (*file_content);
+	    free (temp);
+	    return 0;
+	}
+	free (*file_content);
+
+	str_length = utils_str_itoa (length);
+
+	*file_content = malloc (23 + strlen (str_length) + 1 + new_length);
+	
+	memcpy ( *file_content, "Grisbi compressed file ", 23 );
+	iterator = 23;
+	memcpy ( *file_content + iterator, str_length, strlen (str_length));
+	iterator = iterator + strlen (str_length);
+	memcpy ( *file_content + iterator, "_", 1);
+	iterator = iterator + 1;
+	memcpy ( *file_content + iterator, temp, new_length);
+	iterator = iterator + new_length;
+
+	free (temp);
+
+	return iterator;
+    }
+    else
+    {
+	/* decompress */
+
+	gchar *temp;
+	gint result;
+	gulong new_length;
+	gchar *zip_begining;
+	gulong zip_size;
+
+	/* get the length of the uncompressed file */
+
+	if ( !sscanf ( *file_content,
+		       "Grisbi compressed file %ld_",
+		       &new_length ))
+	{
+	    dialogue_error_hint ( ("An error occured while uncompressing the file : cannot get the size\nOperation aborted"),
+				  _("File uncompression"));
+	    free (*file_content);
+	    return 0;
+	}
+
+	zip_begining = memchr ( *file_content, '_', length );
+
+	if (!zip_begining)
+	{
+	    dialogue_error_hint ( ("An error occured while uncompressing the file : cannot find the begining of the compressed file.\nOperation aborted"),
+				  _("File uncompression"));
+	    free (*file_content);
+	    return 0;
+	}
+
+	zip_begining = zip_begining + 1;
+	zip_size = length - (zip_begining - *file_content );
+
+	temp = malloc ( new_length );
+	result = uncompress ( (guchar *) temp, &new_length,
+			      (guchar *) zip_begining, zip_size);
+
+	if ( result != Z_OK )
+	{
+	    dialogue_error_hint ( ("An error occured while uncompressing the file : zlib error\nOperation aborted"),
+				  _("File uncompression"));
+	    free (*file_content);
+	    free (temp);
+	    return 0;
+	}
+	free (*file_content);
+	*file_content = temp;
+	return new_length;
+    }
+
+    /* normally souldn't come here */
+    return length;
 }
 
 
@@ -81,7 +189,7 @@ gchar *gsb_file_util_compress_file ( gchar *file_content,
  * NULL if we cannot decrypt 
  */
 gchar *gsb_file_util_crypt_file ( gchar * file_name, gchar *file_content,
-				  gboolean crypt, gint length )
+				  gboolean crypt, gulong length )
 {
     gint result;
     gchar *key;
@@ -289,11 +397,11 @@ gchar *gsb_file_util_ask_for_crypt_key ( gchar * file_name, gboolean encrypt )
     gtk_label_set_line_wrap ( GTK_LABEL(label), TRUE );
 
     if ( encrypt )
-	gtk_label_set_markup ( label,
+	gtk_label_set_markup ( GTK_LABEL (label),
 			       g_strdup_printf ( _( "Please enter password to encrypt file\n'<tt>%s</tt>'" ),
 						 file_name ) );
     else
-	gtk_label_set_markup ( label, 
+	gtk_label_set_markup ( GTK_LABEL (label), 
 			       g_strdup_printf ( _( "Please enter password to decrypt file\n'<tt>%s</tt>'" ),
 						 file_name ) );
     gtk_box_pack_start ( GTK_BOX ( vbox ), label, FALSE, FALSE, 6 );
@@ -466,7 +574,7 @@ gboolean gsb_file_util_modify_lock ( gboolean create_swp )
 	    dialogue_conditional_hint ( g_strdup_printf( _("File \"%s\" is already opened"),
 							 nom_fichier_comptes),
 					_("Either this file is already opened by another user or it wasn't closed correctly (maybe Grisbi crashed?).\nGrisbi can't save the file unless you activate the \"Force saving locked files\" option in setup."),
-					&(etat.display_message_lock_active) );
+					(gchar *) &(etat.display_message_lock_active) );
 
 	    /* the lock is already created, return TRUE */
 

@@ -8,21 +8,22 @@
 
 
 /* START_DECLARATION */
-gint gsb_file_save_append_part ( gint iterator,
-				 gint *length_calculated,
-				 gchar **file_content,
-				 gchar *new_string );
-gint gsb_file_save_budgetary_part ( gint iterator,
-				    gint *length_calculated,
-				    gchar **file_content );
-gint gsb_file_save_category_part ( gint iterator,
-				   gint *length_calculated,
-				   gchar **file_content );
-gint gsb_file_save_report_part ( gint iterator,
-				 gint *length_calculated,
-				 gchar **file_content,
-				 gboolean current_report );
-gboolean gsb_file_save_save_file ( gchar *filename );
+gulong gsb_file_save_append_part ( gulong iterator,
+				   gulong *length_calculated,
+				   gchar **file_content,
+				   gchar *new_string );
+gulong gsb_file_save_budgetary_part ( gulong iterator,
+				      gulong *length_calculated,
+				      gchar **file_content );
+gulong gsb_file_save_category_part ( gulong iterator,
+				     gulong *length_calculated,
+				     gchar **file_content );
+gulong gsb_file_save_report_part ( gulong iterator,
+				   gulong *length_calculated,
+				   gchar **file_content,
+				   gboolean current_report );
+gboolean gsb_file_save_save_file ( gchar *filename,
+				   gboolean compress );
 /* END_DECLARATION */
 
 #endif

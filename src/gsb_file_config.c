@@ -77,8 +77,6 @@ gsize nb_derniers_fichiers_ouverts = 0;
 
 gint nb_max_derniers_fichiers_ouverts = 0;
 gchar **tab_noms_derniers_fichiers_ouverts = NULL;
-gint compression_fichier;
-gint compression_backup;
 
 PangoFontDescription *pango_desc_fonte_liste;
 
@@ -225,15 +223,15 @@ gboolean gsb_file_config_load_config ( void )
 								"Nb last opened files",
 								NULL );
 
-    compression_fichier = g_key_file_get_integer ( config,
-						   "IO",
-						   "Compress file",
-						   NULL );
-
-    compression_backup = g_key_file_get_integer ( config,
+    etat.compress_file = g_key_file_get_integer ( config,
 						  "IO",
-						  "Compress backup",
+						  "Compress file",
 						  NULL );
+
+    etat.compress_backup = g_key_file_get_integer ( config,
+						    "IO",
+						    "Compress backup",
+						    NULL );
 
     etat.force_enregistrement = g_key_file_get_integer ( config,
 							 "IO",
@@ -529,12 +527,12 @@ gboolean gsb_file_config_save_config ( void )
     g_key_file_set_integer ( config,
 			     "IO",
 			     "Compress file",
-			     compression_fichier );
+			     etat.compress_file );
 
     g_key_file_set_integer ( config,
 			     "IO",
 			     "Compress backup",
-			     compression_backup );
+			     etat.compress_backup );
 
     g_key_file_set_integer ( config,
 			     "IO",
@@ -991,14 +989,14 @@ void gsb_file_config_get_xml_text_element ( GMarkupParseContext *context,
     if ( !strcmp ( element_name,
 		   "Compression_fichier" ))
     {
-	compression_fichier = utils_str_atoi (text);
+	etat.compress_file = utils_str_atoi (text);
 	return;
     }
 
     if ( !strcmp ( element_name,
 		   "Compression_backup" ))
     {
-	compression_backup = utils_str_atoi (text);
+	etat.compress_backup = utils_str_atoi (text);
 	return;
     }
 
@@ -1175,8 +1173,11 @@ void gsb_file_config_clean_config ( void )
     nb_derniers_fichiers_ouverts = 0;
     nb_max_derniers_fichiers_ouverts = 3;
     tab_noms_derniers_fichiers_ouverts = NULL;
-    compression_fichier = 0;     /* pas de compression par défaut */
-    compression_backup = 0;
+
+    /* no compress by default */
+    etat.compress_file = 0;
+    etat.compress_backup = 0;
+
     etat.largeur_auto_colonnes = 1;
     etat.retient_affichage_par_compte = 0;
     etat.fichier_animation_attente = g_strdup ( ANIM_PATH );

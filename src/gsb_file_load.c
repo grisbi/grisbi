@@ -226,7 +226,7 @@ gboolean gsb_file_load_open_file ( gchar *filename )
     struct stat buffer_stat;
     gint return_value;
     gchar *file_content;
-    gsize length;
+    guint length;
 
     if ( DEBUG )
 	printf ( "gsb_file_load_open_file %s\n", 
@@ -278,12 +278,26 @@ gboolean gsb_file_load_open_file ( gchar *filename )
     {
 	GMarkupParser *markup_parser = g_malloc0 (sizeof (GMarkupParser));
 	GMarkupParseContext *context;
+	gulong long_length = 0;
+
+	/* for zlib, need a gulong for size and g_file_get_contents a guint...
+	 * perhaps it exists another mean than that ? */
+
+	long_length = long_length + length;
 
 	/* first, we check if the file is crypted, if it is, we decrypt it */
 
 	if ( !strncmp ( file_content, "Grisbi encrypted file ", 22 ))
 	    if ( !( file_content = gsb_file_util_crypt_file ( filename, file_content, 
-							      FALSE, length )))
+							      FALSE, long_length )))
+		return FALSE;
+
+	/* after, we check if the file is compressed, if it is, we uncompress it */
+
+	if ( !strncmp ( file_content, "Grisbi compressed file ", 23 ))
+	    if ( !( length = gsb_file_util_compress_file ( &file_content, 
+							   long_length,
+							   FALSE )))
 		return FALSE;
 
 	/* we begin to check if we are in a version under 0.6 or 0.6 and above,

@@ -47,10 +47,10 @@ static gboolean gsb_file_others_check_file ( gchar *file_content,
 				      gint origin );
 static gboolean gsb_file_others_load ( gchar *filename,
 				gint origin );
-static gint gsb_file_others_save_general_part ( gint iterator,
-					 gint *length_calculated,
-					 gchar **file_content,
-					 gchar *version );
+static gulong gsb_file_others_save_general_part ( gulong iterator,
+					   gulong *length_calculated,
+					   gchar **file_content,
+					   gchar *version );
 static void gsb_file_others_start_element ( GMarkupParseContext *context,
 				     const gchar *element_name,
 				     const gchar **attribute_names,
@@ -81,10 +81,10 @@ extern gint no_dernier_etat;
 gboolean gsb_file_others_save_category ( gchar *filename )
 {
     FILE *file;
-    gint iterator;
-    gint length_calculated;
+    gulong iterator;
+    gulong length_calculated;
     gchar *file_content;
-    gint length_part;
+    gulong length_part;
 
     if ( DEBUG )
 	printf ( "gsb_file_others_save_category : %s\n",
@@ -163,10 +163,10 @@ gboolean gsb_file_others_save_category ( gchar *filename )
 gboolean gsb_file_others_save_budget ( gchar *filename )
 {
     FILE *file;
-    gint iterator;
-    gint length_calculated;
+    gulong iterator;
+    gulong length_calculated;
     gchar *file_content;
-    gint length_part;
+    gulong length_part;
 
     if ( DEBUG )
 	printf ( "gsb_file_others_save_budget : %s\n",
@@ -245,10 +245,10 @@ gboolean gsb_file_others_save_budget ( gchar *filename )
 gboolean gsb_file_others_save_report ( gchar *filename )
 {
     FILE *file;
-    gint iterator;
-    gint length_calculated;
+    gulong iterator;
+    gulong length_calculated;
     gchar *file_content;
-    gint length_part;
+    gulong length_part;
 
     if ( DEBUG )
 	printf ( "gsb_file_others_save_report : %s\n",
@@ -327,10 +327,10 @@ gboolean gsb_file_others_save_report ( gchar *filename )
  *
  * \return the new iterator
  * */
-gint gsb_file_others_save_general_part ( gint iterator,
-					 gint *length_calculated,
-					 gchar **file_content,
-					 gchar *version )
+gulong gsb_file_others_save_general_part ( gulong iterator,
+					   gulong *length_calculated,
+					   gchar **file_content,
+					   gchar *version )
 {
     gchar *new_string;
 
@@ -406,7 +406,6 @@ gboolean gsb_file_others_load ( gchar *filename,
 				gint origin )
 {
     gchar *file_content;
-    gint length;
     GSList *import_list = NULL;
 
     if ( DEBUG )
@@ -440,7 +439,7 @@ gboolean gsb_file_others_load ( gchar *filename,
 
     if ( g_file_get_contents ( filename,
 			       &file_content,
-			       &length,
+			       NULL,
 			       NULL ))
     {
 	GMarkupParser *markup_parser = g_malloc0 (sizeof (GMarkupParser));
