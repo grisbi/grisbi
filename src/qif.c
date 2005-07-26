@@ -180,10 +180,10 @@ gboolean recuperation_donnees_qif ( FILE *fichier )
 
 	if ( !my_strncasecmp ( pointeur_char+6,
 			       "bank",
-			       4 ))
-	    ||
+			       4 )
+	     ||
 		!my_strcasecmp ( pointeur_char+6,
-				 _("bank"))
+				 _("bank")))
 		compte -> type_de_compte = 0;
 	else
 	{
