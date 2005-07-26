@@ -14,10 +14,15 @@ Combined with categories (how money is spend), budgetary lines are a powerful wa
 
 If you write a category or a budgetary line which name contains a ':', a sub-category or sub-budgetary line will be created as well."
 
-6 - "You can efficiently manage your professional expenses with Grisbi.
+6 - "You can encrypt your Grisbi files to improve your privacy.  Just select the \"Encrypt Grisbi file\" in preferences window and enter a password next time you save your file.
+
+Encryption is irreversible, if you loose your password, there is NO WAY to restore your Grisbi accounts.  Use with caution !"
+
+7 - "You can efficiently manage your professional expenses with Grisbi.
 
 Create a 'Professional expenses' budgetary line and put all professional expenses there.  When you are paid, split your salary as a breakdown of transaction, with both a 'Salary' part and a 'Profesionnal expenses' part.  
 
 Then, you can create a new report that sums up transactions from the 'Profesionnal expenses' budgetary line and see the balance."
 
-7 - "No more tips available !  Please send any tips you know to grisbi-devel@lists.sourceforge.net so that we can include them in next version for all users."
+8 - "No more tips available !  Please send any tips you know to grisbi-devel@lists.sourceforge.net so that we can include them in next version for all users."
+
