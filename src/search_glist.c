@@ -37,6 +37,8 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
+static gint recherche_exercice_par_nom ( struct struct_exercice *exercice,
+				  gchar *nom );
 /*END_STATIC*/
 
 
@@ -326,35 +328,6 @@ gint recherche_operation_par_id ( gpointer operation,
 }
 /* *******************************************************************************/
 
-
-/***************************************************************************************************/
-/* Fonction recherche tiers par no */
-/* appelée par un g_slist_find_custom */
-/* donne en arg la struct du tiers et le no du tiers recherché */
-/***************************************************************************************************/
-
-gint recherche_tiers_par_no ( struct struct_tiers *tiers,
-			      gint *no_tiers )
-{
-    return ( tiers -> no_tiers != GPOINTER_TO_INT ( no_tiers ) );
-}
-/***************************************************************************************************/
-
-
-
-/* **************************************************************************************************** */
-/* Fonction recherche_tiers_par_nom */
-/* appelée par un g_slist_find_custom */
-/* prend en arg la struct du tiers et le nom du tiers recherché */
-/* **************************************************************************************************** */
-
-gint recherche_tiers_par_nom ( struct struct_tiers *tiers,
-			       gchar *ancien_tiers )
-{
-    return ( g_strcasecmp ( tiers -> nom_tiers,
-			    ancien_tiers ) );
-}
-/* **************************************************************************************************** */
 
 
 /* ************************************************************************************************************** */

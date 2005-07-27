@@ -39,12 +39,12 @@
 #include "utils_dates.h"
 #include "navigation.h"
 #include "fenetre_principale.h"
+#include "gsb_payee_data.h"
 #include "gsb_transaction_data.h"
 #include "operations_liste.h"
 #include "main.h"
 #include "utils.h"
 #include "comptes_gestion.h"
-#include "utils_tiers.h"
 #include "structures.h"
 #include "accueil.h"
 #include "include.h"
@@ -412,30 +412,54 @@ void update_liste_comptes_accueil ( void )
     CouleurSoldeAlarmeVerteNormal.red =     0.00 * 65535 ;
     CouleurSoldeAlarmeVerteNormal.green =   0.50 * 65535 ;
     CouleurSoldeAlarmeVerteNormal.blue =    0.00 * 65535 ;
+/* xxx : vérifier ici pour l'accueil */
+	CouleurSoldeAlarmeVerteNormal.pixel = 1;
+
     CouleurSoldeAlarmeVertePrelight.red =   0.00 * 65535 ;
     CouleurSoldeAlarmeVertePrelight.green = 0.90 * 65535 ;
     CouleurSoldeAlarmeVertePrelight.blue =  0.00 * 65535 ;
+/* xxx : vérifier ici pour l'accueil */
+	CouleurSoldeAlarmeVertePrelight.pixel = 1;
+
 
     CouleurSoldeAlarmeOrangeNormal.red =     0.90 * 65535 ;
     CouleurSoldeAlarmeOrangeNormal.green =   0.60 * 65535 ;
     CouleurSoldeAlarmeOrangeNormal.blue =    0.00 * 65535 ;
+/* xxx : vérifier ici pour l'accueil */
+	CouleurSoldeAlarmeOrangeNormal.pixel = 1;
+
     CouleurSoldeAlarmeOrangePrelight.red =   1.00 * 65535 ;
     CouleurSoldeAlarmeOrangePrelight.green = 0.80 * 65535 ;
     CouleurSoldeAlarmeOrangePrelight.blue =  0.00 * 65535 ;
+/* xxx : vérifier ici pour l'accueil */
+	CouleurSoldeAlarmeOrangePrelight.pixel = 1;
+
 
     CouleurSoldeAlarmeRougeNormal.red =     0.60 * 65535 ;
     CouleurSoldeAlarmeRougeNormal.green =   0.00 * 65535 ;
     CouleurSoldeAlarmeRougeNormal.blue =    0.00 * 65535 ;
+/* xxx : vérifier ici pour l'accueil */
+	CouleurSoldeAlarmeRougeNormal.pixel = 1;
+
     CouleurSoldeAlarmeRougePrelight.red =   1.00 * 65535 ;
     CouleurSoldeAlarmeRougePrelight.green = 0.00 * 65535 ;
     CouleurSoldeAlarmeRougePrelight.blue =  0.00 * 65535 ;
+/* xxx : vérifier ici pour l'accueil */
+	CouleurSoldeAlarmeRougePrelight.pixel = 1;
+
 
     CouleurNomCompteNormal.red =     0.00 * 65535 ;
     CouleurNomCompteNormal.green =   0.00 * 65535 ;
     CouleurNomCompteNormal.blue =    0.00 * 65535 ;
+/* xxx : vérifier ici pour l'accueil */
+	CouleurNomCompteNormal.pixel = 1;
+
     CouleurNomComptePrelight.red =   0.61 * 65535 ;
     CouleurNomComptePrelight.green = 0.61 * 65535 ;
     CouleurNomComptePrelight.blue =  0.61 * 65535 ;
+/* xxx : vérifier ici pour l'accueil */
+	CouleurNomComptePrelight.pixel = 1;
+
 
     /* Création d'un label juste pour en récupérer le style */
     pLabel = gtk_label_new ("");
@@ -1461,7 +1485,7 @@ gboolean click_sur_compte_accueil ( gint *no_compte )
     gsb_account_list_gui_change_current_account ( no_compte );
     remplissage_details_compte ();
     gsb_gui_notebook_change_page ( GSB_ACCOUNT_PAGE );
-    gsb_gui_navigation_set_selection ( GSB_ACCOUNT_PAGE, no_compte, NULL );
+    gsb_gui_navigation_set_selection ( GSB_ACCOUNT_PAGE, GPOINTER_TO_INT (no_compte), NULL );
 
     return FALSE;
 }
@@ -1518,10 +1542,15 @@ void update_liste_echeances_manuelles_accueil ( void )
 	couleur_bleue.red = 500;
 	couleur_bleue.green = 500;
 	couleur_bleue.blue = 65535;
+/* xxx : vérifier ici pour l'accueil */
+	couleur_bleue.pixel = 1;
+
 
 	couleur_jaune.red =40000;
 	couleur_jaune.green =40000;
 	couleur_jaune.blue = 0;
+/* xxx : vérifier ici pour l'accueil */
+	couleur_jaune.pixel = 1;
 
 	style_label->fg[GTK_STATE_PRELIGHT] = couleur_jaune;
 	style_label->fg[GTK_STATE_NORMAL] = couleur_bleue;
@@ -1561,7 +1590,7 @@ void update_liste_echeances_manuelles_accueil ( void )
 						      gsb_format_date ( ECHEANCE_COURANTE->jour,
 									 ECHEANCE_COURANTE->mois,
 									 ECHEANCE_COURANTE->annee ),
-						      tiers_name_by_no ( ECHEANCE_COURANTE->tiers, FALSE )));
+						      gsb_payee_get_name ( ECHEANCE_COURANTE->tiers, FALSE )));
 
 	    gtk_widget_set_style ( label, style_label );
 	    gtk_misc_set_alignment ( GTK_MISC ( label ), MISC_LEFT, MISC_VERT_CENTER );
@@ -1629,6 +1658,9 @@ void update_liste_echeances_auto_accueil ( void )
 	gray_color.red =   0.61 * 65535 ;
 	gray_color.green = 0.61 * 65535 ;
 	gray_color.blue =  0.61 * 65535 ;
+/* xxx : vérifier ici pour l'accueil */
+	gray_color.pixel = 1;
+
 	style_selectable = gtk_style_copy ( gtk_widget_get_style ( frame_etat_echeances_auto_accueil ));
 	style_selectable->fg[GTK_STATE_PRELIGHT] = gray_color;
 
@@ -1669,7 +1701,7 @@ void update_liste_echeances_auto_accueil ( void )
 
 	    label = gtk_label_new ( g_strdup_printf ( "%s : %s",
 						      gsb_format_gdate ( gsb_transaction_data_get_date (transaction_number)),
-						      tiers_name_by_no (gsb_transaction_data_get_party_number (transaction_number), FALSE)));
+						      gsb_payee_get_name (gsb_transaction_data_get_party_number (transaction_number), FALSE)));
 
 	    gtk_misc_set_alignment ( GTK_MISC ( label ), MISC_LEFT, MISC_VERT_CENTER );
 	    gtk_widget_set_style ( label, style_selectable );

@@ -90,9 +90,6 @@ GSList *gsb_account_get_list_accounts ( void )
 }
 
 
-
-
-
 /** create a new account and add to the list of accounts
  * \param account_type the type of the account
  * \return no of account
@@ -247,8 +244,11 @@ gboolean gsb_account_set_current_account ( gint no_current_account )
 }
 
 
-/** find and return the number of the account which the struct is the param 
+/**
+ * find and return the number of the account which the struct is the param 
+ * 
  * \param the struct of the account
+ * 
  * \return the number of account, -1 if pb
  * */
 gint gsb_account_get_no_account ( gpointer account_ptr )
@@ -259,6 +259,7 @@ gint gsb_account_get_no_account ( gpointer account_ptr )
 	return -1;
 
     account = account_ptr;
+    account_buffer = account;
 
     return  account -> account_number;
 }
@@ -290,8 +291,11 @@ gint gsb_account_set_account_number ( gint no_account,
 
 
 
-/** find and return the structure of the account asked
+/** 
+ * find and return the structure of the account asked
+ * 
  * \param no number of account
+ * 
  * \return the adr of the struct of the account (NULL if doesn't exit)
  * */
 struct_account *gsb_account_get_structure ( gint no )
@@ -314,7 +318,10 @@ struct_account *gsb_account_get_structure ( gint no )
 	account = tmp -> data;
 
 	if ( account -> account_number == no )
+	{
+	    account_buffer = account;
 	    return account;
+	}
 
 	tmp = tmp -> next;
     }

@@ -36,6 +36,7 @@ sources = \
 	gsb_file_others.c	\
 	gsb_file_save.c		\
 	gsb_file_util.c		\
+	gsb_payee_data.c	\
 	gsb_transaction_data.c	\
 	data_currency.c		\
 	data_form.c		\
@@ -105,7 +106,6 @@ sources = \
 	utils_operations.c	\
 	utils_rapprochements.c	\
 	utils_str.c		\
-	utils_tiers.c		\
 	utils_types.c		\
 	utils_xml.c		\
 	search_glist.c		\
@@ -138,6 +138,7 @@ grisbi_INCLUDES =		\
 	gsb_file_others.h	\
 	gsb_file_save.h		\
 	gsb_file_util.h		\
+	gsb_payee_data.h	\
 	gsb_transaction_data.c	\
 	data_currency.h		\
 	data_form.h		\
@@ -203,7 +204,6 @@ grisbi_INCLUDES =		\
 	utils_operations.h	\
 	utils_rapprochements.h	\
 	utils_str.h		\
-	utils_tiers.h		\
 	utils_types.h		\
 	utils_xml.h		\
 	search_glist.h		\

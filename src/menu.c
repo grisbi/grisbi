@@ -718,6 +718,7 @@ gboolean gsb_gui_toggle_grid_mode ()
 
     gtk_widget_queue_draw ( gsb_transactions_list_get_tree_view());
     gtk_widget_queue_draw ( tree_view_liste_echeances );
+    return FALSE;
 }
 
 /*     widget_state = gtk_check_menu_item_get_active( GTK_CHECK_MENU_ITEM(widget) ); */

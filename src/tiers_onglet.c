@@ -28,12 +28,12 @@
 
 /*START_INCLUDE*/
 #include "tiers_onglet.h"
-#include "utils_tiers.h"
 #include "metatree.h"
+#include "utils_editables.h"
+#include "gsb_payee_data.h"
 #include "gtk_combofix.h"
 #include "utils_buttons.h"
 #include "utils.h"
-#include "utils_editables.h"
 #include "etats_config.h"
 #include "affichage_formulaire.h"
 #include "operations_formulaire.h"
@@ -71,21 +71,6 @@ GdkPixmap *pixmap_ferme;
 GdkBitmap *masque_ferme;
 GtkWidget *bouton_ajouter_tiers;
 
-gint nb_enregistrements_tiers;
-gint no_dernier_tiers;
-
-/* contient la liste des struct liste_tiers de tous les tiers */
-
-GSList *liste_struct_tiers;
-
-/* liste des tiers pour le combofix */
-
-GSList *liste_tiers_combofix;
-
-/* liste des tiers pour le combofix de l'échéancier */
-
-GSList *liste_tiers_combofix_echeancier;
-
 gint no_devise_totaux_tiers;
 
 GtkWidget *payee_tree;
@@ -96,10 +81,7 @@ GtkTreeStore *payee_tree_model;
 
 /*START_EXTERN*/
 extern struct struct_etat *etat_courant;
-extern GtkWidget *formulaire;
-extern GSList *liste_struct_etats;
 extern GtkTreeStore *model;
-extern gint modif_tiers;
 extern MetatreeInterface * payee_interface ;
 extern GtkTreeSelection * selection;
 extern GtkWidget *widget_formulaire_echeancier[SCHEDULER_FORM_TOTAL_WIDGET];
@@ -244,9 +226,6 @@ GtkWidget *onglet_tiers ( void )
 		       "changed", G_CALLBACK(metatree_selection_changed),
 		       payee_tree_model );
 
-    /* la 1ère fois qu'on affichera les tiers, il faudra remplir la liste */
-    modif_tiers = 1;
-
     return ( onglet );
 }
 
@@ -275,14 +254,14 @@ GtkWidget *creation_barre_outils_tiers ( void )
 					   GTK_STOCK_DELETE, _("Delete"),
 					   G_CALLBACK(supprimer_division),
 					   payee_tree );
-    metatree_register_widget_as_linked ( payee_tree_model, button, "selection" );
+    metatree_register_widget_as_linked ( GTK_TREE_MODEL (payee_tree_model), button, "selection" );
     gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, TRUE, 0 );
 
     button = new_stock_button_with_label ( etat.display_toolbar,
 					   GTK_STOCK_PROPERTIES, _("Properties"),
 					   G_CALLBACK(edit_payee), 
 					   payee_tree );
-    metatree_register_widget_as_linked ( payee_tree_model, button, "selection" );
+    metatree_register_widget_as_linked ( GTK_TREE_MODEL (payee_tree_model), button, "selection" );
     gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, TRUE, 0 );
 
     gtk_box_pack_start ( GTK_BOX ( hbox ), 
@@ -346,17 +325,20 @@ void remplit_arbre_tiers ( void )
     GSList *liste_payee_tmp;
     GtkTreeIter iter_payee;
 
+    /* Compute payee balances. */
+    gsb_payee_update_counters ();
+
     /** First, remove previous tree */
     gtk_tree_store_clear ( GTK_TREE_STORE (payee_tree_model) );
 
-    /* Compute payee balances. */
-    calcule_total_montant_payee ();
-
     /** Then, populate tree with payee. */
-    liste_payee_tmp = g_slist_prepend ( liste_struct_tiers, NULL );
+
+    liste_payee_tmp = gsb_payee_get_payees_list ();
+    liste_payee_tmp = g_slist_prepend ( liste_payee_tmp, NULL );
+
     while ( liste_payee_tmp )
     {
-	struct struct_tiers *payee;
+	gpointer payee;
 
 	payee = liste_payee_tmp -> data;
 
@@ -366,8 +348,6 @@ void remplit_arbre_tiers ( void )
 
 	liste_payee_tmp = liste_payee_tmp -> next;
     }
-
-    modif_tiers = 0;
 }
 
 
@@ -405,72 +385,6 @@ gint classement_alphabetique_tree ( GtkWidget *tree,
 
 
 
-void creation_liste_tiers_combofix ( void )
-{
-    GSList *pointeur;
-    GSList *liste_tmp;
-
-    /* on commence à créer les 2 listes semblables de tous les tiers */
-    /*   celle du formulaire est de type complex, cad qu'elle contiendra 2 listes : */
-    /* les tiers et les états sélectionnés */
-
-    pointeur = liste_struct_tiers;
-    liste_tiers_combofix = NULL;
-    liste_tiers_combofix_echeancier = NULL;
-    liste_tmp = NULL;
-
-    while ( pointeur )
-    {
-	liste_tmp = g_slist_append ( liste_tmp,
-				     ((struct struct_tiers * )( pointeur -> data )) -> nom_tiers );
-	liste_tiers_combofix_echeancier = g_slist_append ( liste_tiers_combofix_echeancier,
-							   ((struct struct_tiers * )( pointeur -> data )) -> nom_tiers );
-	pointeur = pointeur -> next;
-    }
-
-    /* on ajoute liste tmp à liste_tiers_combofix */
-
-    liste_tiers_combofix = g_slist_append ( liste_tiers_combofix,
-					    liste_tmp );
-
-    /* on fait maintenant le tour des états pour rajouter ceux qui ont été sélectionnés */
-
-    liste_tmp = NULL;
-    pointeur = liste_struct_etats;
-
-    while ( pointeur )
-    {
-	struct struct_etat *etat;
-
-	etat = pointeur -> data;
-
-	if ( etat -> inclure_dans_tiers )
-	{
-	    if ( liste_tmp )
-		liste_tmp = g_slist_append ( liste_tmp,
-					     g_strconcat ( "\t",
-							   g_strdup ( etat -> nom_etat ),
-							   NULL ));
-	    else
-	    {
-		liste_tmp = g_slist_append ( liste_tmp,
-					     _("Report"));
-		liste_tmp = g_slist_append ( liste_tmp,
-					     g_strconcat ( "\t",
-							   g_strdup ( etat -> nom_etat ),
-							   NULL ));
-	    }
-	}
-	pointeur = pointeur -> next;
-    }
-
-    /* on ajoute liste tmp à liste_tiers_combofix */
-
-    liste_tiers_combofix = g_slist_append ( liste_tiers_combofix,
-					    liste_tmp );
-}
-
-
 
 /**
  *
@@ -478,12 +392,13 @@ void creation_liste_tiers_combofix ( void )
  */
 gboolean edit_payee ( GtkTreeView * view )
 {
-    GtkWidget * dialog, *paddingbox, *table, *label, *entry, *hbox, *scrolled_window;
+    GtkWidget * dialog, *paddingbox, *table, *label, *entry_name, *entry_description, *hbox, *scrolled_window;
     GtkTreeSelection * selection;
     GtkTreeModel * model;
     GtkTreeIter iter;
     gint no_division = -1;
-    struct struct_tiers * payee = NULL;
+    gpointer payee = NULL;
+    gint payee_number;
     gchar * title;
 
     selection = gtk_tree_view_get_selection ( view );
@@ -498,7 +413,12 @@ gboolean edit_payee ( GtkTreeView * view )
     if ( !selection || no_division <= 0 )
 	return FALSE;
 
-    title = g_strdup_printf ( _("Properties for %s"), payee -> nom_tiers);
+    /* FIXME : should set the number of payee in the list, not the address */
+
+    payee_number = gsb_payee_get_no_payee (payee);
+
+    title = g_strdup_printf ( _("Properties for %s"), gsb_payee_get_name(payee_number,
+									 TRUE));
     dialog = gtk_dialog_new_with_buttons ( title, GTK_WINDOW (window), GTK_DIALOG_MODAL,
 					   GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE, NULL);
 
@@ -520,9 +440,12 @@ gboolean edit_payee ( GtkTreeView * view )
     gtk_table_attach ( GTK_TABLE(table), label, 0, 1, 0, 1,
 		       GTK_SHRINK | GTK_FILL, GTK_SHRINK | GTK_FILL, 0, 0 );
 
-    entry = new_text_entry ( &(payee -> nom_tiers), NULL );
-    gtk_widget_set_usize ( entry, 400, 0 );
-    gtk_table_attach ( GTK_TABLE(table), entry, 1, 2, 0, 1, GTK_EXPAND|GTK_FILL, 0, 0, 0 );
+    entry_name = gtk_entry_new ();
+    gtk_entry_set_text ( GTK_ENTRY ( entry_name ),
+			 gsb_payee_get_name(payee_number,
+					    TRUE));
+    gtk_widget_set_usize ( entry_name, 400, 0 );
+    gtk_table_attach ( GTK_TABLE(table), entry_name, 1, 2, 0, 1, GTK_EXPAND|GTK_FILL, 0, 0, 0 );
 
     /* Description entry */
     label = gtk_label_new ( _("Description"));
@@ -530,13 +453,13 @@ gboolean edit_payee ( GtkTreeView * view )
     gtk_table_attach ( GTK_TABLE(table), label, 0, 1, 1, 2,
 		       GTK_SHRINK | GTK_FILL, GTK_SHRINK | GTK_FILL, 0, 0 );
 
-    entry = new_text_area ( &(payee -> texte), NULL );
+    entry_description = gsb_new_text_view (gsb_payee_get_description (payee_number));
     scrolled_window = gtk_scrolled_window_new ( NULL, NULL );
     gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window ),
 				     GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC );
     gtk_scrolled_window_set_shadow_type ( GTK_SCROLLED_WINDOW(scrolled_window), 
 					  GTK_SHADOW_IN );
-    gtk_container_add ( GTK_CONTAINER ( scrolled_window ), entry );
+    gtk_container_add ( GTK_CONTAINER ( scrolled_window ), entry_description );
     gtk_table_attach ( GTK_TABLE(table), scrolled_window, 
 		       1, 2, 1, 2, GTK_EXPAND|GTK_FILL, 0, 0, 0 );
 
@@ -544,12 +467,21 @@ gboolean edit_payee ( GtkTreeView * view )
     free ( title );
 
     gtk_dialog_run ( GTK_DIALOG(dialog) );
+
+    /* get the name */
+    gsb_payee_set_name( payee_number,
+			gtk_entry_get_text ( GTK_ENTRY (entry_name)));
+
+    /* get the description */
+    gsb_payee_set_description ( payee_number,
+				gsb_text_view_get_content ( entry_description ));
+
     gtk_widget_destroy ( dialog );
 
     mise_a_jour_combofix_tiers ();
 
     fill_division_row ( model, payee_interface,
-			get_iter_from_div ( model, payee -> no_tiers, -1 ), payee );
+			get_iter_from_div ( model, payee_number, -1 ), payee );
 
     return TRUE;
 }
@@ -566,18 +498,16 @@ void mise_a_jour_combofix_tiers ( void )
     if ( DEBUG )
 	printf ( "mise_a_jour_combofix_tiers\n" );
 
-    creation_liste_tiers_combofix ();
-
     if ( verifie_element_formulaire_existe ( TRANSACTION_FORM_PARTY )
 	 &&
 	 GTK_IS_COMBOFIX ( widget_formulaire_par_element (TRANSACTION_FORM_PARTY) ))
 	gtk_combofix_set_list ( GTK_COMBOFIX ( widget_formulaire_par_element (TRANSACTION_FORM_PARTY) ),
-				liste_tiers_combofix,
+				gsb_payee_get_name_and_report_list (),
 				TRUE,
 				TRUE );
     if ( GTK_IS_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_PARTY] ))
 	gtk_combofix_set_list ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_PARTY] ),
-				liste_tiers_combofix_echeancier,
+				gsb_payee_get_name_list(),
 				FALSE,
 				TRUE );
 
@@ -590,7 +520,6 @@ void mise_a_jour_combofix_tiers ( void )
     }
 
     mise_a_jour_combofix_tiers_necessaire = 0;
-    modif_tiers = 1;
 }
 
 

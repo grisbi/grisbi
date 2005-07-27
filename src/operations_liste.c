@@ -43,6 +43,7 @@
 #include "equilibrage.h"
 #include "gsb_account.h"
 #include "utils_dates.h"
+#include "gsb_payee_data.h"
 #include "gsb_transaction_data.h"
 #include "classement_operations.h"
 #include "gtk_cell_renderer_expander.h"
@@ -57,7 +58,6 @@
 #include "utils_ib.h"
 #include "parametres.h"
 #include "utils_rapprochements.h"
-#include "utils_tiers.h"
 #include "utils_types.h"
 #include "utils.h"
 #include "utils_operations.h"
@@ -983,7 +983,7 @@ gchar *gsb_transactions_list_grep_cell_content ( gint transaction_number,
 	    /* mise en forme du tiers */
 
 	case TRANSACTION_LIST_PARTY:
-	    return ( tiers_name_by_no ( gsb_transaction_data_get_party_number ( transaction_number), TRUE ));
+	    return ( gsb_payee_get_name ( gsb_transaction_data_get_party_number ( transaction_number), TRUE ));
 	    break;
 
 	    /* mise en forme de l'ib */
@@ -2358,7 +2358,7 @@ gboolean gsb_transactions_list_edit_current_transaction ( void )
 		    {
 			entree_prend_focus ( widget );
 			gtk_combofix_set_text ( GTK_COMBOFIX ( widget ),
-						tiers_name_by_no ( gsb_transaction_data_get_party_number (transaction_number), TRUE ));
+						gsb_payee_get_name ( gsb_transaction_data_get_party_number (transaction_number), TRUE ));
 		    }
 		    break;
 
@@ -2873,7 +2873,7 @@ gboolean gsb_transactions_list_delete_transaction ( gint transaction_number )
 
     if ( !question_yes_no_hint ( _("Delete a transaction"),
 				 g_strdup_printf ( _("Do you really want to delete the transaction whith the party '%s' ?"),
-						   tiers_name_by_no ( gsb_transaction_data_get_party_number ( transaction_number),
+						   gsb_payee_get_name ( gsb_transaction_data_get_party_number ( transaction_number),
 								      FALSE ))))
 	return FALSE;
 

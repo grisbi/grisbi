@@ -25,11 +25,9 @@
 
 /*START_INCLUDE*/
 #include "meta_payee.h"
-#include "utils_tiers.h"
 #include "utils_devises.h"
+#include "gsb_payee_data.h"
 #include "gsb_transaction_data.h"
-#include "tiers_onglet.h"
-#include "traitement_variables.h"
 #include "include.h"
 #include "structures.h"
 /*END_INCLUDE*/
@@ -43,19 +41,14 @@ static gboolean payee_add_transaction_to_div ( gpointer  trans,
 static gboolean payee_add_transaction_to_sub_div ( gpointer  trans, 
 					    int div_id, int sub_div_id );
 static gdouble payee_div_balance ( gpointer div );
-static gint payee_div_id ( gpointer payee );
-static GSList * payee_div_list ( );
-static gchar * payee_div_name ( gpointer div );
+static gchar *payee_div_name ( gpointer div );
 static gint payee_div_nb_transactions ( gpointer div );
 static GSList * payee_div_sub_div_list ( gpointer div );
 static gint payee_div_type ( gpointer div );
-static gpointer payee_get_div_pointer ( int div_id );
 static gpointer payee_get_div_pointer_from_name ( gchar * name, gboolean create );
 static gpointer payee_get_sub_div_pointer ( int div_id, int sub_div_id );
 static gpointer payee_get_sub_div_pointer_from_name ( int div_id, gchar * name, 
 					       gboolean create );
-static gpointer payee_get_without_div_pointer ( );
-static gboolean payee_remove_div ( int div_id );
 static gboolean payee_remove_sub_div ( int div_id, int sub_div_id );
 static gboolean payee_remove_transaction_from_div ( gpointer  trans, 
 					     int div_id );
@@ -81,10 +74,7 @@ static struct struct_devise * payee_tree_currency ( );
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern GSList *liste_struct_tiers;
-extern gint mise_a_jour_combofix_tiers_necessaire;
 extern GtkTreeStore *model;
-extern gint nb_enregistrements_tiers;
 extern gint no_devise_totaux_tiers;
 /*END_EXTERN*/
 
@@ -95,8 +85,8 @@ static MetatreeInterface _payee_interface = {
     N_("Payee"),
     N_("No payee"),
     N_("No sub-payee"),
-    payee_get_without_div_pointer,
-    payee_get_div_pointer,
+    gsb_payee_get_without_payee,
+    gsb_payee_get_structure,
     payee_get_sub_div_pointer,
     payee_get_div_pointer_from_name,
     payee_get_sub_div_pointer_from_name,
@@ -106,9 +96,9 @@ static MetatreeInterface _payee_interface = {
     payee_sub_div_name,
     payee_div_balance,
     payee_sub_div_balance,
-    payee_div_id,
+    gsb_payee_get_no_payee,
     payee_sub_div_id,
-    payee_div_list,
+    gsb_payee_get_payees_list,
     payee_div_sub_div_list,
     payee_div_type,
 
@@ -123,7 +113,7 @@ static MetatreeInterface _payee_interface = {
 
     payee_add_div,
     payee_add_sub_div,
-    payee_remove_div,
+    gsb_payee_remove,
     payee_remove_sub_div,
     payee_add_transaction_to_div,
     payee_add_transaction_to_sub_div,
@@ -132,9 +122,6 @@ static MetatreeInterface _payee_interface = {
 };
 
 MetatreeInterface * payee_interface = &_payee_interface;
-struct struct_tiers * without_payee;
-
-
 
 
 /**
@@ -147,26 +134,6 @@ struct struct_devise * payee_tree_currency ( )
 }
 
 
-
-/**
- *
- *
- */
-gpointer payee_get_without_div_pointer ( )
-{
-    return (gpointer) without_payee;
-}
-
-
-
-/**
- *
- *
- */
-gpointer payee_get_div_pointer ( int div_id )
-{
-    return (gpointer) tiers_par_no ( div_id );
-}
 
 
 
@@ -187,7 +154,8 @@ gpointer payee_get_sub_div_pointer ( int div_id, int sub_div_id )
  */
 gpointer payee_get_div_pointer_from_name ( gchar * name, gboolean create )
 {
-    return tiers_par_nom ( name, 0 );
+    return gsb_payee_get_structure ( gsb_payee_get_number_by_name ( name,
+								    FALSE ));
 }
 
 
@@ -210,7 +178,7 @@ gpointer payee_get_sub_div_pointer_from_name ( int div_id, gchar * name,
  */
 gint payee_div_nb_transactions ( gpointer div )
 {
-    return ((struct struct_tiers *) div) -> nb_transactions;
+    return gsb_payee_get_nb_transactions ( gsb_payee_get_no_payee (div));
 }
 
 
@@ -230,9 +198,12 @@ gint payee_sub_div_nb_transactions ( gpointer div, gpointer sub_div )
  *
  *
  */
-gchar * payee_div_name ( gpointer div )
+gchar *payee_div_name ( gpointer div )
 {
-    return ((struct struct_tiers *) div) -> nom_tiers;
+    /* FIXME : later we should use the list with the number of payee, and not a pointer */
+
+    return gsb_payee_get_name( gsb_payee_get_no_payee(div),
+			       TRUE);
 }
 
 
@@ -254,7 +225,7 @@ gchar * payee_sub_div_name ( gpointer sub_div )
  */
 gdouble payee_div_balance ( gpointer div )
 {
-    return ((struct struct_tiers *) div) -> balance;
+    return gsb_payee_get_balance ( gsb_payee_get_no_payee (div));
 }
 
 
@@ -270,17 +241,6 @@ gdouble payee_sub_div_balance ( gpointer div, gpointer sub_div )
 
 
 
-/**
- *
- *
- */
-gint payee_div_id ( gpointer payee )
-{
-    if ( payee )
-	return ((struct struct_tiers *) payee) -> no_tiers;
-    return 0;
-}
-
 
 
 /**
@@ -293,15 +253,6 @@ gint payee_sub_div_id ( gpointer sub_payee )
 }
 
 
-
-/**
- *
- *
- */
-GSList * payee_div_list ( )
-{
-    return liste_struct_tiers;
-}
 
 
 
@@ -421,27 +372,36 @@ void payee_scheduled_set_sub_div_id ( struct operation_echeance * scheduled,
 
 
 /**
+ * create a new payee with an automatic name
+ * called by the button in the payee list
  *
+ * \param 
+ *
+ * \return the new number of the payee
  *
  */
 gint payee_add_div ()
 {
-    struct struct_tiers * new_payee;
-    gchar * name;
+    gint payee_number;
+    gchar *name;
     int i = 1;
 
     /** Find a unique name for payee */
     name =  g_strdup ( _("New payee") );
 
-    while ( tiers_par_nom ( name, 0 ) )
+    while ( gsb_payee_get_number_by_name ( name,
+					   FALSE ))
     {
 	i++;
+	g_free (name);
 	name = g_strdup_printf ( _("New payee #%d"), i ); 
     }
 
-    new_payee = ajoute_nouveau_tiers ( name );
+    payee_number = gsb_payee_new (name);
 
-    return new_payee -> no_tiers;
+    g_free (name);
+
+    return payee_number;
 }
 
 
@@ -455,25 +415,6 @@ gint payee_add_sub_div ( int div_id )
     return -1;
 }
 
-
-
-/**
- *
- *
- */
-gboolean payee_remove_div ( int div_id )
-{
-    liste_struct_tiers = g_slist_remove ( liste_struct_tiers,
-					   payee_get_div_pointer ( div_id ) );
-
-    /** Then, update various counters and stuff. */
-    nb_enregistrements_tiers--;
-    mise_a_jour_combofix_tiers_necessaire = 1;
-    mise_a_jour_combofix_tiers ();
-    modification_fichier(TRUE);
-
-    return TRUE;
-}
 
 
 
@@ -495,7 +436,7 @@ gboolean payee_remove_sub_div ( int div_id, int sub_div_id )
 gboolean payee_add_transaction_to_div ( gpointer  trans, 
 					int div_id )
 {
-    add_transaction_to_payee ( trans, payee_get_div_pointer ( div_id ) );
+    gsb_payee_add_transaction_to_payee ( gsb_transaction_data_get_transaction_number (trans));
     return TRUE;
 }
 
@@ -520,7 +461,7 @@ gboolean payee_add_transaction_to_sub_div ( gpointer  trans,
 gboolean payee_remove_transaction_from_div ( gpointer  trans, 
 					     int div_id )
 {
-    remove_transaction_from_payee ( trans, payee_get_div_pointer (div_id) );
+    gsb_payee_remove_transaction_from_payee ( gsb_transaction_data_get_transaction_number (trans));
     return TRUE;
 }
 
@@ -533,6 +474,6 @@ gboolean payee_remove_transaction_from_div ( gpointer  trans,
 gboolean payee_remove_transaction_from_sub_div ( gpointer  trans, 
 						 int div_id, int sub_div_id )
 {
-    remove_transaction_from_payee ( trans, payee_get_div_pointer (div_id) );
+    gsb_payee_remove_transaction_from_payee ( gsb_transaction_data_get_transaction_number (trans));
     return TRUE;
 }

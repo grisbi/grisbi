@@ -42,6 +42,7 @@
 #include "calendar.h"
 #include "utils_dates.h"
 #include "accueil.h"
+#include "gsb_payee_data.h"
 #include "echeancier_liste.h"
 #include "gsb_transaction_data.h"
 #include "gtk_combofix.h"
@@ -51,7 +52,6 @@
 #include "traitement_variables.h"
 #include "utils_str.h"
 #include "utils_comptes.h"
-#include "utils_tiers.h"
 #include "utils_operations.h"
 #include "echeancier_ventilation.h"
 #include "structures.h"
@@ -104,7 +104,6 @@ extern GSList *liste_categories_combofix;
 extern GSList *liste_imputations_combofix;
 extern GSList *liste_struct_devises;
 extern GSList *liste_struct_echeances;
-extern GSList *liste_tiers_combofix_echeancier;
 extern GtkWidget *main_page_finished_scheduled_transactions_part;
 extern gint mise_a_jour_combofix_categ_necessaire;
 extern gint mise_a_jour_liste_echeances_auto_accueil;
@@ -179,7 +178,7 @@ GtkWidget *creation_formulaire_echeancier ( void )
     gtk_widget_show ( widget_formulaire_echeancier[SCHEDULER_FORM_DATE] );
 
     /* création du combofix des tiers */
-    widget_formulaire_echeancier[SCHEDULER_FORM_PARTY] = gtk_combofix_new (  liste_tiers_combofix_echeancier,
+    widget_formulaire_echeancier[SCHEDULER_FORM_PARTY] = gtk_combofix_new (  gsb_payee_get_name_list(),
 									     FALSE,
 									     TRUE,
 									     TRUE,
@@ -1459,8 +1458,8 @@ void gsb_scheduler_validate_form ( void )
 	{
 	    char_ptr = gtk_combofix_get_text ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_PARTY] ));
 
-	    scheduled_transaction -> tiers  = tiers_par_nom ( char_ptr,
-							      1 ) -> no_tiers;
+	    scheduled_transaction -> tiers  = gsb_payee_get_number_by_name (char_ptr,
+									    TRUE );
 	}
 
 	/* récupération du montant */
@@ -1888,8 +1887,8 @@ gint gsb_scheduler_create_transaction_from_scheduled_form ( void )
 
     if ( gtk_widget_get_style ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_PARTY] ) -> entry ) == style_entree_formulaire[ENCLAIR] )
 	gsb_transaction_data_set_party_number ( transaction_number,
-						tiers_par_nom ( gtk_combofix_get_text ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_PARTY] )),
-								1 ) -> no_tiers );
+						gsb_payee_get_number_by_name ( gtk_combofix_get_text ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_PARTY] )),
+									       TRUE ));
 
     /* get the amount */
 
@@ -2574,10 +2573,10 @@ gboolean gsb_scheduler_increase_date ( struct operation_echeance *scheduled_tran
 /******************************************************************************/
 void completion_operation_par_tiers_echeancier ( void )
 {
-    struct struct_tiers *tiers;
     gint transaction_number;
     gint no_compte;
     gchar *char_tmp;
+    gint payee_number;
 
     /* s'il y a quelque chose dans les crédit ou débit ou catégories, on se barre */
 
@@ -2588,21 +2587,19 @@ void completion_operation_par_tiers_echeancier ( void )
 	 gtk_widget_get_style ( GTK_COMBOFIX (widget_formulaire_echeancier[SCHEDULER_FORM_CATEGORY])->entry ) == style_entree_formulaire[ENCLAIR] )
 	return;
 
-
-    tiers = tiers_par_nom ( gtk_combofix_get_text ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_PARTY])),
-			    0 );
+    payee_number = gsb_payee_get_number_by_name ( gtk_combofix_get_text ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_PARTY])),
+						  FALSE );
 
     /* if it's a new party, go away */
 
-    if ( !tiers )
+    if ( !payee_number )
 	return;
 
-    /* on fait d'abord le tour du compte courant pour recherche une opé avec ce tiers */
-    /* s'il n'y a aucune opé correspondante, on fait le tour de tous les comptes */
+    /* look for the party in the current account and the others after */
 
     no_compte = recupere_no_compte ( widget_formulaire_echeancier[SCHEDULER_FORM_ACCOUNT] );
     
-    transaction_number = gsb_transactions_look_for_last_party ( tiers -> no_tiers,
+    transaction_number = gsb_transactions_look_for_last_party ( payee_number,
 								0,
 								no_compte );
 

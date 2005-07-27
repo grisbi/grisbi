@@ -39,6 +39,7 @@
 #include "utils_dates.h"
 #include "gsb_account.h"
 #include "fenetre_principale.h"
+#include "gsb_payee_data.h"
 #include "gtk_combofix.h"
 #include "echeancier_infos.h"
 #include "traitement_variables.h"
@@ -48,7 +49,6 @@
 #include "utils_ib.h"
 #include "utils_comptes.h"
 #include "operations_liste.h"
-#include "utils_tiers.h"
 #include "utils_str.h"
 #include "structures.h"
 #include "echeancier_liste.h"
@@ -474,7 +474,7 @@ void remplissage_liste_echeance ( void )
 	    }
 
 	    ligne[COL_NB_ACCOUNT] = gsb_account_get_name ( echeance -> compte );
-	    ligne[COL_NB_PARTY] = tiers_name_by_no (echeance -> tiers, TRUE );
+	    ligne[COL_NB_PARTY] = gsb_payee_get_name (echeance -> tiers, TRUE );
 	    ligne[COL_NB_NOTES] = echeance -> notes;
 	    ligne[COL_NB_AMOUNT] = g_strdup_printf ( "%4.2f", echeance -> montant );
 
@@ -972,7 +972,7 @@ void edition_echeance ( void )
 
     /* mise en place du tiers */
 
-    char_tmp = tiers_name_by_no ( echeance_selectionnnee -> tiers, TRUE );
+    char_tmp = gsb_payee_get_name ( echeance_selectionnnee -> tiers, TRUE );
 
     if ( char_tmp )
     {
@@ -1229,7 +1229,7 @@ void supprime_echeance ( struct operation_echeance *echeance )
 				       gsb_format_date ( echeance -> jour,
 							 echeance -> mois,
 							 echeance -> annee ),
-				       tiers_name_by_no ( echeance -> tiers, FALSE ),
+				       gsb_payee_get_name ( echeance -> tiers, FALSE ),
 				       echeance -> montant,
 				       devise_name ( devise_par_no (echeance->devise) ) );
 

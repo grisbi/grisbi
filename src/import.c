@@ -43,6 +43,7 @@
 #include "gsb_account.h"
 #include "utils_dates.h"
 #include "menu.h"
+#include "gsb_payee_data.h"
 #include "gsb_transaction_data.h"
 #include "operations_liste.h"
 #include "fichiers_gestion.h"
@@ -59,7 +60,6 @@
 #include "qif.h"
 #include "utils_comptes.h"
 #include "imputation_budgetaire.h"
-#include "utils_tiers.h"
 #include "structures.h"
 #include "include.h"
 /*END_INCLUDE*/
@@ -1668,7 +1668,7 @@ void confirmation_enregistrement_ope_import ( struct struct_compte_importation *
 				 0 );
 	    gtk_widget_show ( label );
 
-	    tiers = tiers_name_by_no ( gsb_transaction_data_get_party_number ( gsb_transaction_data_get_transaction_number (operation )), FALSE );
+	    tiers = gsb_payee_get_name ( gsb_transaction_data_get_party_number ( gsb_transaction_data_get_transaction_number (operation )), FALSE );
 
 	    if ( gsb_transaction_data_get_notes ( gsb_transaction_data_get_transaction_number (operation)))
 		label = gtk_label_new ( g_strdup_printf ( _("Transaction found : %02d/%02d/%04d ; %s ; %4.2f ; %s"),
@@ -1789,8 +1789,8 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
 	 &&
 	 strlen ( g_strstrip ( imported_transaction -> tiers )))
 	gsb_transaction_data_set_party_number ( transaction_number,
-						tiers_par_nom ( imported_transaction -> tiers,
-								1 ) -> no_tiers );
+						gsb_payee_get_number_by_name ( imported_transaction -> tiers,
+									       TRUE ));
 
     /* vérification si c'est ventilé, sinon récupération des catégories */
 

@@ -27,8 +27,6 @@ gint recherche_echeance_par_no_compte ( struct operation_echeance *echeance,
 					gint no_compte );
 gint recherche_exercice_par_no ( struct struct_exercice *exercice,
 				 gint *no_exercice );
-gint recherche_exercice_par_nom ( struct struct_exercice *exercice,
-				  gchar *nom );
 gint recherche_imputation_par_no ( struct struct_imputation *imputation,
 				   gint *no_imputation );
 gint recherche_imputation_par_nom ( struct struct_imputation *imputation,
@@ -49,10 +47,6 @@ gint recherche_sous_imputation_par_no ( struct struct_sous_imputation *sous_impu
 					gint *no_sous_imputation );
 gint recherche_sous_imputation_par_nom ( struct struct_sous_imputation *sous_imputation,
 					 gchar *nom_sous_imputation );
-gint recherche_tiers_par_no ( struct struct_tiers *tiers,
-			      gint *no_tiers );
-gint recherche_tiers_par_nom ( struct struct_tiers *tiers,
-			       gchar *ancien_tiers );
 gint recherche_type_ope_par_no ( struct struct_type_ope *type_ope,
 				 gint *no_type );
 /* END_DECLARATION */

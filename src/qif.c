@@ -31,11 +31,11 @@
 #include "utils_files.h"
 #include "utils_str.h"
 #include "gsb_account.h"
+#include "gsb_payee_data.h"
 #include "gsb_transaction_data.h"
 #include "utils.h"
 #include "utils_categories.h"
 #include "search_glist.h"
-#include "utils_tiers.h"
 #include "structures.h"
 #include "include.h"
 /*END_INCLUDE*/
@@ -182,9 +182,9 @@ gboolean recuperation_donnees_qif ( FILE *fichier )
 			       "bank",
 			       4 )
 	     ||
-		!my_strcasecmp ( pointeur_char+6,
-				 _("bank")))
-		compte -> type_de_compte = 0;
+	     !my_strcasecmp ( pointeur_char+6,
+			      _("bank")))
+	    compte -> type_de_compte = 0;
 	else
 	{
 	    if ( !my_strncasecmp ( pointeur_char+6,
@@ -1245,7 +1245,7 @@ choix_liste_fichier:
 			
 			fprintf ( fichier_qif,
 				  "P%s\n",
-				  tiers_name_by_no ( gsb_transaction_data_get_party_number ( transaction_number_tmp),
+				  gsb_payee_get_name ( gsb_transaction_data_get_party_number ( transaction_number_tmp),
 						     FALSE ));
 
 			/*  on met soit un virement, soit une ventilation, soit les catégories */

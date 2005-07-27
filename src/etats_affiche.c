@@ -34,11 +34,11 @@
 #include "utils_exercices.h"
 #include "gsb_account.h"
 #include "utils_dates.h"
+#include "gsb_payee_data.h"
 #include "gsb_transaction_data.h"
 #include "utils_categories.h"
 #include "utils_ib.h"
 #include "utils_rapprochements.h"
-#include "utils_tiers.h"
 #include "utils_types.h"
 #include "utils_str.h"
 #include "structures.h"
@@ -1202,7 +1202,7 @@ gint etat_affiche_affichage_ligne_ope ( gpointer operation,
 	{
 	    if ( gsb_transaction_data_get_party_number ( gsb_transaction_data_get_transaction_number (operation )))
 	    {
-		text = tiers_name_by_no ( gsb_transaction_data_get_party_number ( gsb_transaction_data_get_transaction_number (operation )), TRUE );
+		text = gsb_payee_get_name ( gsb_transaction_data_get_party_number ( gsb_transaction_data_get_transaction_number (operation )), TRUE );
 
 		if ( etat_courant -> ope_clickables )
 		{
@@ -2028,7 +2028,7 @@ gint etat_affiche_affiche_tiers_etat ( gpointer operation,
 	{
 	    if ( gsb_transaction_data_get_party_number ( gsb_transaction_data_get_transaction_number (operation )))
 	    {
-		nom_tiers_en_cours = tiers_name_by_no ( gsb_transaction_data_get_party_number ( gsb_transaction_data_get_transaction_number (operation )), TRUE );
+		nom_tiers_en_cours = gsb_payee_get_name ( gsb_transaction_data_get_party_number ( gsb_transaction_data_get_transaction_number (operation )), TRUE );
 
 		pointeur_char = g_strconcat ( decalage_tiers,
 					      nom_tiers_en_cours,

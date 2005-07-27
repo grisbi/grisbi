@@ -29,7 +29,7 @@
 #include "utils_operations.h"
 #include "utils_ib.h"
 #include "utils_categories.h"
-#include "utils_tiers.h"
+#include "gsb_payee_data.h"
 #include "gsb_transaction_data.h"
 #include "search_glist.h"
 #include "metatree.h"
@@ -133,7 +133,7 @@ void update_transaction_in_budgetary_line_tree ( gpointer  transaction )
 void update_transaction_in_payee_tree ( gpointer  transaction )
 {
     /* FIXME: Kludgeish, we should maintain a state. */
-    calcule_total_montant_payee();
+    gsb_payee_update_counters ();
     update_transaction_in_tree ( payee_interface, GTK_TREE_MODEL (payee_tree_model), transaction );
 }
 

@@ -29,10 +29,10 @@
 #include "utils_devises.h"
 #include "etats_affiche.h"
 #include "gsb_account.h"
+#include "gsb_payee_data.h"
 #include "gsb_transaction_data.h"
 #include "utils_ib.h"
 #include "utils_rapprochements.h"
-#include "utils_tiers.h"
 #include "utils_types.h"
 #include "utils_str.h"
 #include "structures.h"
@@ -970,25 +970,19 @@ gchar *recupere_texte_test_etat ( gpointer operation,
 				  gint champ )
 {
     gchar *texte;
-    struct struct_tiers *tiers;
 
     switch ( champ )
     {
 	case 0:
 	    /* tiers  */
 
-	    texte = tiers_name_by_no ( gsb_transaction_data_get_party_number ( gsb_transaction_data_get_transaction_number (operation )), TRUE );
+	    texte = gsb_payee_get_name ( gsb_transaction_data_get_party_number ( gsb_transaction_data_get_transaction_number (operation )), TRUE );
 	    break;
 
 	case 1:
 	    /* info du tiers */
 	    
-	    tiers = tiers_par_no ( gsb_transaction_data_get_party_number ( gsb_transaction_data_get_transaction_number (operation )));
-
-	    if ( tiers )
-		texte = tiers -> texte;
-	    else
-		texte = NULL;
+	    texte = gsb_payee_get_description ( gsb_transaction_data_get_party_number ( gsb_transaction_data_get_transaction_number (operation )));
 	    break;
 
 	case 2:
@@ -1695,8 +1689,8 @@ gint classement_ope_perso_etat ( gpointer operation_1,
 		 !gsb_transaction_data_get_party_number ( gsb_transaction_data_get_transaction_number (operation_2 )))
 		retour = gsb_transaction_data_get_party_number ( gsb_transaction_data_get_transaction_number (operation_2 ))- gsb_transaction_data_get_party_number ( gsb_transaction_data_get_transaction_number (operation_1 ));
 	    else
-		retour = g_strcasecmp ( tiers_name_by_no ( gsb_transaction_data_get_party_number ( gsb_transaction_data_get_transaction_number (operation_1 )), TRUE ),
-					tiers_name_by_no ( gsb_transaction_data_get_party_number ( gsb_transaction_data_get_transaction_number (operation_2 )), TRUE ));
+		retour = g_strcasecmp ( gsb_payee_get_name ( gsb_transaction_data_get_party_number ( gsb_transaction_data_get_transaction_number (operation_1 )), TRUE ),
+					gsb_payee_get_name ( gsb_transaction_data_get_party_number ( gsb_transaction_data_get_transaction_number (operation_2 )), TRUE ));
 	    break;
 
 	case 3:

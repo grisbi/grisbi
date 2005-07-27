@@ -179,16 +179,12 @@ GtkWidget * new_text_area ( gchar ** value, GCallback hook )
     GtkWidget * text_view;
     GtkTextBuffer *buffer;
 
-    text_view = gtk_text_view_new ();
-    buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (text_view));
-    gtk_text_view_set_pixels_above_lines (GTK_TEXT_VIEW (text_view), 3);
-    gtk_text_view_set_pixels_below_lines (GTK_TEXT_VIEW (text_view), 3);
-    gtk_text_view_set_left_margin (GTK_TEXT_VIEW (text_view), 3);
-    gtk_text_view_set_right_margin (GTK_TEXT_VIEW (text_view), 3);
-    gtk_text_view_set_wrap_mode ( GTK_TEXT_VIEW (text_view), GTK_WRAP_WORD );
+    if (value)
+	text_view = gsb_new_text_view(*value);
+    else
+	text_view = gsb_new_text_view(NULL);
 
-    if (value && *value)
-	gtk_text_buffer_set_text (buffer, *value, -1);
+    buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (text_view));
 
     g_object_set_data ( G_OBJECT ( buffer ), "pointer", value);
 
@@ -206,6 +202,56 @@ GtkWidget * new_text_area ( gchar ** value, GCallback hook )
     return text_view;
 }
 
+
+/**
+ * create a normalised text view for grisbi and add the value inside
+ *
+ * \param value a pointer to a string
+ *
+ * \return a GtkWidget which is a text_view with the string inside
+ * */
+GtkWidget *gsb_new_text_view ( gchar *value )
+{
+    GtkWidget * text_view;
+    GtkTextBuffer *buffer;
+
+    text_view = gtk_text_view_new ();
+    buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (text_view));
+    gtk_text_view_set_pixels_above_lines (GTK_TEXT_VIEW (text_view), 3);
+    gtk_text_view_set_pixels_below_lines (GTK_TEXT_VIEW (text_view), 3);
+    gtk_text_view_set_left_margin (GTK_TEXT_VIEW (text_view), 3);
+    gtk_text_view_set_right_margin (GTK_TEXT_VIEW (text_view), 3);
+    gtk_text_view_set_wrap_mode ( GTK_TEXT_VIEW (text_view), GTK_WRAP_WORD );
+
+    if (value)
+	gtk_text_buffer_set_text (buffer, value, -1);
+
+    return text_view;
+}
+
+/**
+ * get the entire content of a text view
+ *
+ * \param the text_view
+ *
+ * \return a gchar which is the content of the text view 
+ * */
+gchar *gsb_text_view_get_content ( GtkWidget *text_view )
+{
+    GtkTextIter start, end;
+    GtkTextBuffer *buffer;
+
+    g_return_val_if_fail (text_view,
+			  NULL);
+    g_return_val_if_fail (GTK_IS_TEXT_VIEW (text_view),
+			  NULL);
+    
+    buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (text_view));
+    gtk_text_buffer_get_iter_at_offset ( buffer, &start, 0 );
+    gtk_text_buffer_get_iter_at_offset ( buffer, &end, -1 );
+
+    return (gtk_text_buffer_get_text (buffer, &start, &end, 0));
+}
 
 
 /** 

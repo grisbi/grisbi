@@ -26,6 +26,7 @@
 #include "gsb_account.h"
 #include "gsb_file_util.h"
 #include "utils_dates.h"
+#include "gsb_payee_data.h"
 #include "gsb_transaction_data.h"
 #include "utils_str.h"
 #include "structures.h"
@@ -92,7 +93,6 @@ extern GSList *liste_struct_etats;
 extern GSList *liste_struct_exercices;
 extern GSList *liste_struct_imputation;
 extern GSList *liste_struct_rapprochements;
-extern GSList *liste_struct_tiers;
 extern gint nb_colonnes;
 extern int no_devise_totaux_categ;
 extern gint no_devise_totaux_ib;
@@ -131,7 +131,6 @@ gboolean gsb_file_save_save_file ( gchar *filename,
     gint do_chmod;
     FILE *grisbi_file;
     gulong iterator;
-    gchar *last_file_content;
 
     gulong length_calculated;
     gchar *file_content;
@@ -177,7 +176,7 @@ gboolean gsb_file_save_save_file ( gchar *filename,
     length_calculated = general_part
 	+ account_part * gsb_account_get_accounts_amount ()
 	+ transaction_part * g_slist_length ( gsb_transaction_data_get_transactions_list ())
-	+ party_part * g_slist_length ( liste_struct_tiers )
+	+ party_part * g_slist_length ( gsb_payee_get_payees_list () )
 	+ category_part * g_slist_length ( liste_struct_categories )
 	+ budgetary_part * g_slist_length ( liste_struct_imputation )
 	+ currency_part * g_slist_length ( liste_struct_devises )
@@ -262,17 +261,8 @@ gboolean gsb_file_save_save_file ( gchar *filename,
 						 iterator,
 						 TRUE );
 
-    /* we have to keep the length, because after encryption, we cannot do it */
-
-/*     last_file_content = file_content; */
-
     iterator = gsb_file_util_crypt_file ( filename, &file_content, TRUE, iterator );
     
-    /* if the encryption was ok, the length increased of 22 */
-
-/*     if ( file_content != last_file_content ) */
-/* 	iterator = iterator + 22; */
-
     /* the file is in memory, we can save it */
 
     grisbi_file = fopen ( filename,
@@ -938,21 +928,21 @@ gulong gsb_file_save_party_part ( gulong iterator,
 {
     GSList *list_tmp;
 	
-    list_tmp = liste_struct_tiers;
+    list_tmp = gsb_payee_get_payees_list ();
 
     while ( list_tmp )
     {
 	gchar *new_string;
-	struct struct_tiers *party;
+	gint payee_number;
 
-	party = list_tmp -> data;
-
+	payee_number = gsb_payee_get_no_payee (list_tmp -> data);
 	/* now we can fill the file content */
 
 	new_string = g_markup_printf_escaped ( "\t<Party Nb=\"%d\" Na=\"%s\" Txt=\"%s\" />\n",
-					       party -> no_tiers,
-					       party -> nom_tiers,
-					       party -> texte );
+					       payee_number,
+					       gsb_payee_get_name (payee_number,
+								   TRUE ),
+					       gsb_payee_get_description (payee_number));
 
 	/* append the new string to the file content
 	 * and take the new iterator */

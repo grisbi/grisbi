@@ -30,6 +30,7 @@
 #include "gsb_file_util.h"
 #include "data_form.h"
 #include "utils_dates.h"
+#include "gsb_payee_data.h"
 #include "utils_str.h"
 #include "gsb_transaction_data.h"
 #include "traitement_variables.h"
@@ -121,7 +122,6 @@ extern GSList *liste_struct_etats;
 extern GSList *liste_struct_exercices;
 extern GSList *liste_struct_imputation;
 extern GSList *liste_struct_rapprochements;
-extern GSList *liste_struct_tiers;
 extern gint nb_colonnes;
 extern int no_devise_totaux_categ;
 extern gint no_devise_totaux_ib;
@@ -1923,13 +1923,12 @@ void gsb_file_load_party ( const gchar **attribute_names,
 			   const gchar **attribute_values )
 {
     gint i=0;
-    struct struct_tiers *party;
+    gint payee_number;
 
     if ( !attribute_names[i] )
 	return;
 
-    party = calloc ( 1,
-		     sizeof ( struct struct_tiers ) );
+    payee_number = gsb_payee_new (NULL);
 
     do
     {
@@ -1946,7 +1945,8 @@ void gsb_file_load_party ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Nb" ))
 	{
-	    party -> no_tiers = utils_str_atoi (attribute_values[i]);
+	    payee_number = gsb_payee_set_new_number ( payee_number,
+						      utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
 	}
@@ -1954,7 +1954,8 @@ void gsb_file_load_party ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Na" ))
 	{
-	    party -> nom_tiers = g_strdup (attribute_values[i]);
+	    gsb_payee_set_name ( payee_number,
+				 attribute_values[i]);
 	    i++;
 	    continue;
 	}
@@ -1962,7 +1963,8 @@ void gsb_file_load_party ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Txt" ))
 	{
-	    party -> texte = g_strdup (attribute_values[i]);
+	    gsb_payee_set_description ( payee_number,
+					attribute_values[i]);
 	    i++;
 	    continue;
 	}
@@ -1971,9 +1973,6 @@ void gsb_file_load_party ( const gchar **attribute_names,
 	i++;
     }
     while ( attribute_names[i] );
-
-    liste_struct_tiers = g_slist_append ( liste_struct_tiers,
-					  party );
 }
 
 
@@ -4351,36 +4350,53 @@ void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
 
 	if ( attribute_names[i] )
 	{
-	    struct struct_tiers *tiers;
+	    gint payee_number;
 
-	    tiers = calloc ( 1,
-			     sizeof ( struct struct_tiers ) );
+	    payee_number = gsb_payee_new (NULL);
+
 	    do
 	    {
+		/* 	we test at the begining if the attribute_value is NULL, if yes, */
+		/* 	   go to the next */
+
+		if ( !strcmp (attribute_values[i],
+			      "(null)"))
+		{
+		    i++;
+		    continue;
+		}
+
 		if ( !strcmp ( attribute_names[i],
 			       "No" ))
-		    tiers -> no_tiers = utils_str_atoi (attribute_values[i]);
+		{
+		    payee_number = gsb_payee_set_new_number ( payee_number,
+							      utils_str_atoi (attribute_values[i]));
+		    i++;
+		    continue;
+		}
 
 		if ( !strcmp ( attribute_names[i],
 			       "Nom" ))
-		    tiers -> nom_tiers = g_strdup (attribute_values[i]);
+		{
+		    gsb_payee_set_name ( payee_number,
+					 attribute_values[i]);
+		    i++;
+		    continue;
+		}
 
 		if ( !strcmp ( attribute_names[i],
-			       "Informations" )
-		     &&
-		     strlen (attribute_values[i]))
-		    tiers -> texte = g_strdup (attribute_values[i]);
+			       "Informations" ))
+		{
+		    gsb_payee_set_description ( payee_number,
+						attribute_values[i]);
+		    i++;
+		    continue;
+		}
 
-		if ( !strcmp ( attribute_names[i],
-			       "Liaison" ))
-		    tiers -> liaison = utils_str_atoi (attribute_values[i]);
-
+		/* normally, shouldn't come here */
 		i++;
 	    }
 	    while ( attribute_names[i] );
-
-	    liste_struct_tiers = g_slist_append ( liste_struct_tiers,
-						  tiers );
 	}
     }
 

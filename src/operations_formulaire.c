@@ -43,6 +43,7 @@
 #include "gsb_account.h"
 #include "calendar.h"
 #include "utils_dates.h"
+#include "gsb_payee_data.h"
 #include "gsb_transaction_data.h"
 #include "gtk_combofix.h"
 #include "utils_ib.h"
@@ -56,7 +57,6 @@
 #include "affichage_formulaire.h"
 #include "utils_comptes.h"
 #include "etats_calculs.h"
-#include "utils_tiers.h"
 #include "utils_types.h"
 #include "utils.h"
 #include "utils_str.h"
@@ -126,7 +126,6 @@ extern GSList *liste_categories_combofix;
 extern GSList *liste_imputations_combofix;
 extern GSList *liste_struct_devises;
 extern GSList *liste_struct_etats;
-extern GSList *liste_tiers_combofix;
 extern gint mise_a_jour_combofix_categ_necessaire;
 extern gint mise_a_jour_combofix_imputation_necessaire;
 extern gint mise_a_jour_combofix_tiers_necessaire;
@@ -337,7 +336,7 @@ GtkWidget *cree_element_formulaire_par_no ( gint no_element )
 	case TRANSACTION_FORM_PARTY:
 	    /*  entrée du tiers : c'est une combofix */
 
-	    widget = gtk_combofix_new_complex ( liste_tiers_combofix,
+	    widget = gtk_combofix_new_complex ( gsb_payee_get_name_and_report_list(),
 						FALSE,
 						TRUE,
 						TRUE,
@@ -1687,7 +1686,7 @@ void widget_grab_focus_formulaire ( gint no_element )
 /******************************************************************************/
 gboolean completion_operation_par_tiers ( GtkWidget *entree )
 {
-    struct struct_tiers *tiers;
+    gint payee_number;
     gint transaction_number;
     gchar *char_tmp;
     gint i,j;
@@ -1739,20 +1738,19 @@ gboolean completion_operation_par_tiers ( GtkWidget *entree )
     if ( pas_de_completion )
 	return TRUE;
     
+    /* get the payee_number */
 
-    /* recherche le tiers demandé */
+    payee_number = gsb_payee_get_number_by_name ( nom_tiers,
+						  FALSE );
 
-    tiers = tiers_par_nom ( nom_tiers,
-			    0 );
+    /* if it's a new payee, go away */
 
-    /*   si nouveau tiers,  on s'en va simplement */
-
-    if ( !tiers )
+    if ( !payee_number )
 	return TRUE;
 
-    /*     on essaie de retrouver la dernière opé entrée avec ce tiers */
+    /* find the last transaction with that payee */
 
-    transaction_number = gsb_transactions_look_for_last_party ( tiers -> no_tiers,
+    transaction_number = gsb_transactions_look_for_last_party ( payee_number,
 								0,
 								gsb_account_get_current_account ());
 
@@ -2236,7 +2234,7 @@ gboolean gsb_form_finish_edition ( void )
 	    else
 	    {
 		gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_par_element (TRANSACTION_FORM_PARTY) ),
-					tiers_name_by_no ( GPOINTER_TO_INT (list_tmp -> data), TRUE ));
+					gsb_payee_get_name ( GPOINTER_TO_INT (list_tmp -> data), TRUE ));
 
 		/* if it's not the first party and the method of payment has to change its number (cheque),
 		 * we increase the number. as we are in a party's list, it's always a new transactio, 
@@ -2763,8 +2761,8 @@ void gsb_form_take_datas_from_form ( gint transaction_number )
 
 		    if ( gtk_widget_get_style ( GTK_COMBOFIX ( widget ) -> entry ) == style_entree_formulaire[ENCLAIR] )
 			gsb_transaction_data_set_party_number ( transaction_number,
-								tiers_par_nom ( gtk_combofix_get_text ( GTK_COMBOFIX ( widget )),
-										1 ) -> no_tiers );
+								gsb_payee_get_number_by_name ( gtk_combofix_get_text ( GTK_COMBOFIX ( widget )),
+											       TRUE ));
 		    else
 			gsb_transaction_data_set_party_number ( transaction_number,
 								0 );

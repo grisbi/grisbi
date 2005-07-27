@@ -65,7 +65,6 @@ GtkWidget * headings_title;
 GtkWidget * headings_suffix;
 
 
-gint modif_tiers;
 gint modif_categ;
 gint modif_imputation;
 

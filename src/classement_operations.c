@@ -30,11 +30,11 @@
 #include "erreur.h"
 #include "gsb_account.h"
 #include "utils_exercices.h"
+#include "gsb_payee_data.h"
 #include "gsb_transaction_data.h"
 #include "operations_liste.h"
 #include "utils_ib.h"
 #include "utils_rapprochements.h"
-#include "utils_tiers.h"
 #include "utils_types.h"
 #include "structures.h"
 #include "include.h"
@@ -718,9 +718,9 @@ gint gsb_transactions_list_sort_by_party ( GtkTreeModel *model,
 	gchar *temp_1;
 	gchar *temp_2;
 
-	temp_1 = tiers_name_by_no ( gsb_transaction_data_get_party_number ( transaction_number_1),
+	temp_1 = gsb_payee_get_name ( gsb_transaction_data_get_party_number ( transaction_number_1),
 				    TRUE );
-	temp_2 = tiers_name_by_no ( gsb_transaction_data_get_party_number ( transaction_number_2),
+	temp_2 = gsb_payee_get_name ( gsb_transaction_data_get_party_number ( transaction_number_2),
 				    TRUE );
 
 	/* g_utf8_collate is said not very fast, must try with big big account to check

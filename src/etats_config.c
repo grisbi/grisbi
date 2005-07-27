@@ -39,6 +39,7 @@
 #include "gsb_account.h"
 #include "calendar.h"
 #include "navigation.h"
+#include "gsb_payee_data.h"
 #include "classement_operations.h"
 #include "utils_ib.h"
 #include "traitement_variables.h"
@@ -307,7 +308,6 @@ extern GSList *liste_struct_categories;
 extern GSList *liste_struct_devises;
 extern GSList *liste_struct_exercices;
 extern GSList *liste_struct_imputation;
-extern GSList *liste_struct_tiers;
 extern gint mise_a_jour_combofix_tiers_necessaire;
 extern GtkWidget *nom_exercice;
 extern GtkWidget *notebook_aff_donnees;
@@ -3759,7 +3759,7 @@ GtkWidget *onglet_etat_tiers ( void )
 /******************************************************************************/
 void remplissage_liste_tiers_etats ( void )
 {
-    GSList *pointeur_liste;
+    GSList *payee_list;
 
     if ( !onglet_config_etat )
 	return;
@@ -3769,26 +3769,27 @@ void remplissage_liste_tiers_etats ( void )
 
     gtk_clist_clear ( GTK_CLIST ( liste_tiers_etat ) );
 
-    pointeur_liste = liste_struct_tiers;
+    payee_list = gsb_payee_get_payees_list();
 
-    while ( pointeur_liste )
+    while ( payee_list )
     {
-	struct struct_tiers *tiers;
-	gchar *nom[1];
+	gint payee_number;
+	gchar *name[1];
 	gint ligne;
 
-	tiers = pointeur_liste -> data;
+	payee_number = gsb_payee_get_no_payee ( payee_list -> data );
 
-	nom[0] = tiers -> nom_tiers;
+	name[0] = gsb_payee_get_name (payee_number,
+				      TRUE );
 
 	ligne = gtk_clist_append ( GTK_CLIST ( liste_tiers_etat ),
-				   nom );
+				   name );
 
 	gtk_clist_set_row_data ( GTK_CLIST ( liste_tiers_etat ),
 				 ligne,
-				 GINT_TO_POINTER ( tiers -> no_tiers ));
+				 GINT_TO_POINTER (payee_number));
 
-	pointeur_liste = pointeur_liste -> next;
+	payee_list = payee_list -> next;
     }
 
     gtk_clist_sort ( GTK_CLIST ( liste_tiers_etat ));

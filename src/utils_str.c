@@ -31,8 +31,6 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static gint my_strcasecmp ( gchar *chaine_1,
-		     gchar *chaine_2 );
 static gint my_strcmp ( gchar *chaine_1,
 		 gchar *chaine_2 );
 static int myisolat1ToUTF8(unsigned char* out, int *outlen,
@@ -206,7 +204,7 @@ double my_strtod ( const char *nptr, const char **endptr )
 
 gchar * latin2utf8 (char * inchar)
 {
-    char buffer[1024];
+    guchar buffer[1024];
     int outlen, inlen, res;
 
     if (!inchar)
@@ -285,7 +283,7 @@ gchar *my_strdelimit ( const gchar *string,
 	    delimiters
 	    &&
 	    new_delimiters ))
-	return string;
+	return (gchar *) string;
 
     tab_str = g_strsplit ( string,
 			   delimiters,
@@ -557,7 +555,7 @@ gchar * gsb_string_escape_underscores ( gchar * orig )
 
     printf (">>%s<<\n", new);
 
-    return new;
+    return g_strdup (new);
 }
 
 /* Local Variables: */

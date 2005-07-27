@@ -36,7 +36,6 @@
 #include "fenetre_principale.h"
 #include "categories_onglet.h"
 #include "imputation_budgetaire.h"
-#include "tiers_onglet.h"
 #include "comptes_traitements.h"
 #include "dialog.h"
 #include "erreur.h"
@@ -450,7 +449,6 @@ gboolean gsb_file_open_file ( gchar *filename )
 
     /* make all the combofix's lists */
     
-    creation_liste_tiers_combofix ();
     creation_liste_categ_combofix ();
     creation_liste_imputation_combofix ();
 

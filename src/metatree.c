@@ -32,11 +32,11 @@
 #include "utils_dates.h"
 #include "fenetre_principale.h"
 #include "navigation.h"
+#include "gsb_payee_data.h"
 #include "gsb_transaction_data.h"
 #include "gtk_combofix.h"
 #include "traitement_variables.h"
 #include "comptes_gestion.h"
-#include "utils_tiers.h"
 #include "utils_str.h"
 #include "structures.h"
 #include "metatree.h"
@@ -319,11 +319,8 @@ void fill_transaction_row ( GtkTreeModel * model, GtkTreeIter * iter,
     }
     else
     {
-	struct struct_tiers * tiers = tiers_par_no ( gsb_transaction_data_get_party_number ( trans_nb));
-	if ( tiers )
-	{
-	    notes = tiers -> nom_tiers;
-	}
+	notes = gsb_payee_get_name (gsb_transaction_data_get_party_number (trans_nb),
+				    TRUE);
     }
 
     label = gsb_format_gdate ( gsb_transaction_data_get_date ( gsb_transaction_data_get_transaction_number ( operation )));

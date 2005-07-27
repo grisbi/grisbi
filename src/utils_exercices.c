@@ -32,7 +32,6 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static struct struct_exercice *exercice_par_nom ( gchar *nom_exo );
 /*END_STATIC*/
 
 
@@ -150,26 +149,6 @@ struct struct_exercice *exercice_par_no ( gint no_exo )
 }
 /* ************************************************************************************************************** */
 
-
-
-/* ************************************************************************************************************** */
-/* renvoie l'adr de l'exo demandÃ© par son nom */
-/* ou NULL si pas trouvÃ© */
-/* ************************************************************************************************************** */
-struct struct_exercice *exercice_par_nom ( gchar *nom_exo )
-{
-    GSList *liste_tmp;
-
-    liste_tmp = g_slist_find_custom ( liste_struct_exercices,
-				      g_strstrip ( nom_exo ),
-				      (GCompareFunc) recherche_exercice_par_nom );
-
-    if ( liste_tmp )
-	return ( liste_tmp -> data );
- 
-    return NULL;
-}
-/* ************************************************************************************************************** */
 
 /* ************************************************************************************************************** */
 /* renvoie le nom de l'exercice donnÃ© en argument */
