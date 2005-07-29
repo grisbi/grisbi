@@ -28,16 +28,16 @@ sources = \
 	comptes_onglet.c	\
 	comptes_traitements.c	\
 	import_csv.c		\
-	gsb_account.c		\
-	gsb_budget_data.c	\
-	gsb_category_data.c	\
+	gsb_data_account.c	\
+	gsb_data_budget.c	\
+	gsb_data_category.c	\
+	gsb_data_payee.c	\
+	gsb_data_transaction.c	\
 	gsb_file_config.c	\
 	gsb_file_load.c		\
 	gsb_file_others.c	\
 	gsb_file_save.c		\
 	gsb_file_util.c		\
-	gsb_payee_data.c	\
-	gsb_transaction_data.c	\
 	data_currency.c		\
 	data_form.c		\
 	data_payment.c		\
@@ -130,16 +130,16 @@ grisbi_INCLUDES =		\
 	comptes_traitements.h	\
 	constants.h		\
 	import_csv.h \
-	gsb_account.h		\
-	gsb_budget_data.h	\
-	gsb_category_data.h	\
+	gsb_data_account.h	\
+	gsb_data_budget.h	\
+	gsb_data_category.h	\
+	gsb_data_payee.h	\
+	gsb_data_transaction.h	\
 	gsb_file_config.h	\
 	gsb_file_load.h		\
 	gsb_file_others.h	\
 	gsb_file_save.h		\
 	gsb_file_util.h		\
-	gsb_payee_data.h	\
-	gsb_transaction_data.c	\
 	data_currency.h		\
 	data_form.h		\
 	data_payment.h		\

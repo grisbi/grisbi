@@ -31,8 +31,8 @@
 #include "categories_onglet.h"
 #include "imputation_budgetaire.h"
 #include "dialog.h"
-#include "gsb_budget_data.h"
-#include "gsb_category_data.h"
+#include "gsb_data_budget.h"
+#include "gsb_data_category.h"
 #include "gsb_file_load.h"
 #include "gsb_file_save.h"
 #include "navigation.h"
@@ -479,7 +479,7 @@ gboolean gsb_file_others_load ( gchar *filename,
 	    case 0:
 		/* comes for category */
 
-		gsb_category_data_merge_category_list ( import_list );
+		gsb_data_category_merge_category_list ( import_list );
 		remplit_arbre_categ ();
 		creation_liste_categ_combofix ();
 		break;
@@ -487,7 +487,7 @@ gboolean gsb_file_others_load ( gchar *filename,
 	    case 1:
 		/* comes for budget */
 
-		gsb_budget_data_merge_budget_list ( import_list );
+		gsb_data_budget_merge_budget_list ( import_list );
 		remplit_arbre_imputation ();
 		creation_liste_imputation_combofix ();
 		break;

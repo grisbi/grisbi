@@ -29,8 +29,8 @@
 #include "utils_operations.h"
 #include "utils_ib.h"
 #include "utils_categories.h"
-#include "gsb_payee_data.h"
-#include "gsb_transaction_data.h"
+#include "gsb_data_payee.h"
+#include "gsb_data_transaction.h"
 #include "search_glist.h"
 #include "metatree.h"
 #include "structures.h"
@@ -65,7 +65,7 @@ gpointer operation_par_cheque ( gint no_cheque,
 {
     GSList *liste_tmp;
 
-    liste_tmp = g_slist_find_custom ( gsb_transaction_data_get_transactions_list (),
+    liste_tmp = g_slist_find_custom ( gsb_data_transaction_get_transactions_list (),
 				      GINT_TO_POINTER ( no_cheque ),
 				      (GCompareFunc) recherche_operation_par_cheque );
 
@@ -87,7 +87,7 @@ gpointer operation_par_id ( gchar *no_id,
 {
     GSList *liste_tmp;
 
-    liste_tmp = g_slist_find_custom ( gsb_transaction_data_get_transactions_list (),
+    liste_tmp = g_slist_find_custom ( gsb_data_transaction_get_transactions_list (),
 				      g_strstrip ( no_id ),
 				      (GCompareFunc) recherche_operation_par_id );
 
@@ -133,7 +133,7 @@ void update_transaction_in_budgetary_line_tree ( gpointer  transaction )
 void update_transaction_in_payee_tree ( gpointer  transaction )
 {
     /* FIXME: Kludgeish, we should maintain a state. */
-    gsb_payee_update_counters ();
+    gsb_data_payee_update_counters ();
     update_transaction_in_tree ( payee_interface, GTK_TREE_MODEL (payee_tree_model), transaction );
 }
 

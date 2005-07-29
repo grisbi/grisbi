@@ -34,10 +34,10 @@
 
 
 /*START_INCLUDE*/
-#include "gsb_transaction_data.h"
+#include "gsb_data_transaction.h"
 #include "utils_devises.h"
 #include "dialog.h"
-#include "gsb_account.h"
+#include "gsb_data_account.h"
 #include "utils_dates.h"
 #include "include.h"
 #include "structures.h"
@@ -92,9 +92,9 @@ typedef struct
 
 
 /*START_STATIC*/
-static gint gsb_transaction_data_get_last_white_number (void);
-static struct_transaction *gsb_transaction_data_get_transaction_by_no ( gint no_transaction );
-static gboolean gsb_transaction_data_save_transaction_pointer ( gpointer transaction );
+static gint gsb_data_transaction_get_last_white_number (void);
+static struct_transaction *gsb_data_transaction_get_transaction_by_no ( gint no_transaction );
+static gboolean gsb_data_transaction_save_transaction_pointer ( gpointer transaction );
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -121,7 +121,7 @@ static gint current_transaction_buffer;
  * \param none
  * \return FALSE
  * */
-gboolean gsb_transaction_data_init_variables ( void )
+gboolean gsb_data_transaction_init_variables ( void )
 {
     transaction_buffer[0] = NULL;
     transaction_buffer[1] = NULL;
@@ -135,12 +135,12 @@ gboolean gsb_transaction_data_init_variables ( void )
 /** 
  * return a pointer to the g_slist of transactions structure
  * it's not a copy, so we must not free or change it
- * if we want to change something, use gsb_transaction_data_copy_transactions_list instead
+ * if we want to change something, use gsb_data_transaction_copy_transactions_list instead
  *
  * \param none
  * \return the slist of transactions structures
  * */
-GSList *gsb_transaction_data_get_transactions_list ( void )
+GSList *gsb_data_transaction_get_transactions_list ( void )
 {
     return transactions_list;
 }
@@ -150,11 +150,11 @@ GSList *gsb_transaction_data_get_transactions_list ( void )
 /** transitionnal fonction, give back the pointer to the transaction,
  * normally deleted when the transfer from old transactions is finished 
  * set also in the transactions list, check if it's fast enough with only the transactions number ? */
-gpointer gsb_transaction_data_get_pointer_to_transaction ( gint transaction_number )
+gpointer gsb_data_transaction_get_pointer_to_transaction ( gint transaction_number )
 {
     struct_transaction *transaction;
 
-    transaction = gsb_transaction_data_get_transaction_by_no ( transaction_number);
+    transaction = gsb_data_transaction_get_transaction_by_no ( transaction_number);
 
     return transaction;
 }
@@ -163,7 +163,7 @@ gpointer gsb_transaction_data_get_pointer_to_transaction ( gint transaction_numb
  * \param none
  * \return the number
  * */
-gint gsb_transaction_data_get_last_number (void)
+gint gsb_data_transaction_get_last_number (void)
 {
     gint last_number = 0;
     GSList *transactions_list_tmp;
@@ -193,7 +193,7 @@ gint gsb_transaction_data_get_last_number (void)
  *
  * \return the number
  * */
-gint gsb_transaction_data_get_last_white_number (void)
+gint gsb_data_transaction_get_last_white_number (void)
 {
     gint last_number = 0;
     GSList *transactions_list_tmp;
@@ -226,7 +226,7 @@ gint gsb_transaction_data_get_last_white_number (void)
  * \param transaction a pointer to a transaction
  * \return the number of the transaction
  * */
-gint gsb_transaction_data_get_transaction_number ( gpointer transaction_pointer )
+gint gsb_data_transaction_get_transaction_number ( gpointer transaction_pointer )
 {
     struct_transaction *transaction;
 
@@ -238,7 +238,7 @@ gint gsb_transaction_data_get_transaction_number ( gpointer transaction_pointer 
     /* if we want the transaction number, usually it's to make other stuff after that
      * so we will save the adr of the transaction to increase the speed after */
 
-    gsb_transaction_data_save_transaction_pointer ( transaction );
+    gsb_data_transaction_save_transaction_pointer ( transaction );
 
     return transaction -> transaction_number;
 }
@@ -248,7 +248,7 @@ gint gsb_transaction_data_get_transaction_number ( gpointer transaction_pointer 
  * \param transaction the pointer to the transaction
  * \return TRUE or FALSE if pb
  * */
-gboolean gsb_transaction_data_save_transaction_pointer ( gpointer transaction )
+gboolean gsb_data_transaction_save_transaction_pointer ( gpointer transaction )
 {
     /* check if the transaction isn't already saved */
 
@@ -268,7 +268,7 @@ gboolean gsb_transaction_data_save_transaction_pointer ( gpointer transaction )
  * \param no_transaction
  * \return a pointer to the transaction, NULL if not found
  * */
-struct_transaction *gsb_transaction_data_get_transaction_by_no ( gint no_transaction )
+struct_transaction *gsb_data_transaction_get_transaction_by_no ( gint no_transaction )
 {
     GSList *transactions_list_tmp;
 
@@ -297,7 +297,7 @@ struct_transaction *gsb_transaction_data_get_transaction_by_no ( gint no_transac
 
 	if ( transaction -> transaction_number == no_transaction )
 	{
-	    gsb_transaction_data_save_transaction_pointer ( transaction );
+	    gsb_data_transaction_save_transaction_pointer ( transaction );
 	    return transaction;
 	}
 
@@ -315,11 +315,11 @@ struct_transaction *gsb_transaction_data_get_transaction_by_no ( gint no_transac
  * \param no_account the number of account, may be -1, in that case we will look for the transaction in all accounts
  * \return the id of the transaction
  * */
-gchar *gsb_transaction_data_get_transaction_id ( gint no_transaction )
+gchar *gsb_data_transaction_get_transaction_id ( gint no_transaction )
 {
     struct_transaction *transaction;
 
-    transaction = gsb_transaction_data_get_transaction_by_no ( no_transaction);
+    transaction = gsb_data_transaction_get_transaction_by_no ( no_transaction);
 
     if ( !transaction )
 	return NULL;
@@ -334,12 +334,12 @@ gchar *gsb_transaction_data_get_transaction_id ( gint no_transaction )
  * \param transaction_id a gchar with the new transaction_id
  * \return TRUE if ok
  * */
-gboolean gsb_transaction_data_set_transaction_id ( gint no_transaction,
+gboolean gsb_data_transaction_set_transaction_id ( gint no_transaction,
 						   const gchar *transaction_id )
 {
     struct_transaction *transaction;
 
-    transaction = gsb_transaction_data_get_transaction_by_no ( no_transaction);
+    transaction = gsb_data_transaction_get_transaction_by_no ( no_transaction);
 
     if ( !transaction )
 	return FALSE;
@@ -354,11 +354,11 @@ gboolean gsb_transaction_data_set_transaction_id ( gint no_transaction,
  * \param no_transaction the number of the transaction
  * \return the account of the transaction or -1 if problem
  * */
-gint gsb_transaction_data_get_account_number ( gint no_transaction )
+gint gsb_data_transaction_get_account_number ( gint no_transaction )
 {
     struct_transaction *transaction;
 
-    transaction = gsb_transaction_data_get_transaction_by_no ( no_transaction);
+    transaction = gsb_data_transaction_get_transaction_by_no ( no_transaction);
 
     if ( !transaction )
 	return -1;
@@ -372,12 +372,12 @@ gint gsb_transaction_data_get_account_number ( gint no_transaction )
  * \param no_account
  * \return TRUE if ok
  * */
-gboolean gsb_transaction_data_set_account_number ( gint no_transaction,
+gboolean gsb_data_transaction_set_account_number ( gint no_transaction,
 						   gint no_account )
 {
     struct_transaction *transaction;
 
-    transaction = gsb_transaction_data_get_transaction_by_no ( no_transaction);
+    transaction = gsb_data_transaction_get_transaction_by_no ( no_transaction);
 
     if ( !transaction )
 	return FALSE;
@@ -393,11 +393,11 @@ gboolean gsb_transaction_data_set_account_number ( gint no_transaction,
  * \param no_transaction the number of the transaction
  * \return the GDate of the transaction
  * */
-GDate *gsb_transaction_data_get_date ( gint no_transaction )
+GDate *gsb_data_transaction_get_date ( gint no_transaction )
 {
     struct_transaction *transaction;
 
-    transaction = gsb_transaction_data_get_transaction_by_no ( no_transaction);
+    transaction = gsb_data_transaction_get_transaction_by_no ( no_transaction);
 
     if ( !transaction )
 	return NULL;
@@ -411,12 +411,12 @@ GDate *gsb_transaction_data_get_date ( gint no_transaction )
  * \param no_account
  * \return TRUE if ok
  * */
-gboolean gsb_transaction_data_set_date ( gint no_transaction,
+gboolean gsb_data_transaction_set_date ( gint no_transaction,
 					 GDate *date )
 {
     struct_transaction *transaction;
 
-    transaction = gsb_transaction_data_get_transaction_by_no ( no_transaction);
+    transaction = gsb_data_transaction_get_transaction_by_no ( no_transaction);
 
     if ( !transaction )
 	return FALSE;
@@ -433,11 +433,11 @@ gboolean gsb_transaction_data_set_date ( gint no_transaction,
  * \param no_transaction the number of the transaction
  * \return the GDate of the transaction
  * */
-GDate *gsb_transaction_data_get_value_date ( gint no_transaction )
+GDate *gsb_data_transaction_get_value_date ( gint no_transaction )
 {
     struct_transaction *transaction;
 
-    transaction = gsb_transaction_data_get_transaction_by_no ( no_transaction);
+    transaction = gsb_data_transaction_get_transaction_by_no ( no_transaction);
 
     if ( !transaction )
 	return NULL;
@@ -451,12 +451,12 @@ GDate *gsb_transaction_data_get_value_date ( gint no_transaction )
  * \param date the value date
  * \return TRUE if ok
  * */
-gboolean gsb_transaction_data_set_value_date ( gint no_transaction,
+gboolean gsb_data_transaction_set_value_date ( gint no_transaction,
 					       GDate *date )
 {
     struct_transaction *transaction;
 
-    transaction = gsb_transaction_data_get_transaction_by_no ( no_transaction);
+    transaction = gsb_data_transaction_get_transaction_by_no ( no_transaction);
 
     if ( !transaction )
 	return FALSE;
@@ -475,11 +475,11 @@ gboolean gsb_transaction_data_set_value_date ( gint no_transaction,
  * \param no_transaction the number of the transaction
  * \return the amount of the transaction
  * */
-gdouble gsb_transaction_data_get_amount ( gint no_transaction )
+gdouble gsb_data_transaction_get_amount ( gint no_transaction )
 {
     struct_transaction *transaction;
 
-    transaction = gsb_transaction_data_get_transaction_by_no ( no_transaction);
+    transaction = gsb_data_transaction_get_transaction_by_no ( no_transaction);
 
     if ( !transaction )
 	return 0;
@@ -493,12 +493,12 @@ gdouble gsb_transaction_data_get_amount ( gint no_transaction )
  * \param amount
  * \return TRUE if ok
  * */
-gboolean gsb_transaction_data_set_amount ( gint no_transaction,
+gboolean gsb_data_transaction_set_amount ( gint no_transaction,
 					   gdouble amount )
 {
     struct_transaction *transaction;
 
-    transaction = gsb_transaction_data_get_transaction_by_no ( no_transaction);
+    transaction = gsb_data_transaction_get_transaction_by_no ( no_transaction);
 
     if ( !transaction )
 	return FALSE;
@@ -515,17 +515,17 @@ gboolean gsb_transaction_data_set_amount ( gint no_transaction,
  * \param no_transaction the number of the transaction
  * \return the amount of the transaction
  * */
-gdouble gsb_transaction_data_get_adjusted_amount ( gint no_transaction )
+gdouble gsb_data_transaction_get_adjusted_amount ( gint no_transaction )
 {
     struct_transaction *transaction;
 
-    transaction = gsb_transaction_data_get_transaction_by_no ( no_transaction);
+    transaction = gsb_data_transaction_get_transaction_by_no ( no_transaction);
 
     if ( !transaction )
 	return 0;
 
-    return gsb_transaction_data_get_adjusted_amount_for_currency ( no_transaction,
-								   gsb_account_get_currency ( transaction -> account_number ));
+    return gsb_data_transaction_get_adjusted_amount_for_currency ( no_transaction,
+								   gsb_data_account_get_currency ( transaction -> account_number ));
 }
 
 
@@ -537,7 +537,7 @@ gdouble gsb_transaction_data_get_adjusted_amount ( gint no_transaction )
  * \param no_currency_for_return the currency we want to adjust the transaction's amount
  * \return the amount of the transaction
  * */
-gdouble gsb_transaction_data_get_adjusted_amount_for_currency ( gint no_transaction,
+gdouble gsb_data_transaction_get_adjusted_amount_for_currency ( gint no_transaction,
 								gint no_currency_for_return )
 {
     struct_transaction *transaction;
@@ -545,7 +545,7 @@ gdouble gsb_transaction_data_get_adjusted_amount_for_currency ( gint no_transact
     struct struct_devise *transaction_currency;
     gdouble amount = 0;
 
-    transaction = gsb_transaction_data_get_transaction_by_no ( no_transaction);
+    transaction = gsb_data_transaction_get_transaction_by_no ( no_transaction);
 
     if ( ! (transaction
 	    &&
@@ -613,11 +613,11 @@ gdouble gsb_transaction_data_get_adjusted_amount_for_currency ( gint no_transact
  * \param no_transaction the number of the transaction
  * \return the currency number of the transaction
  * */
-gint gsb_transaction_data_get_currency_number ( gint no_transaction )
+gint gsb_data_transaction_get_currency_number ( gint no_transaction )
 {
     struct_transaction *transaction;
 
-    transaction = gsb_transaction_data_get_transaction_by_no ( no_transaction);
+    transaction = gsb_data_transaction_get_transaction_by_no ( no_transaction);
 
     if ( !transaction )
 	return -1;
@@ -631,12 +631,12 @@ gint gsb_transaction_data_get_currency_number ( gint no_transaction )
  * \param no_currency
  * \return TRUE if ok
  * */
-gboolean gsb_transaction_data_set_currency_number ( gint no_transaction,
+gboolean gsb_data_transaction_set_currency_number ( gint no_transaction,
 						    gint no_currency )
 {
     struct_transaction *transaction;
 
-    transaction = gsb_transaction_data_get_transaction_by_no ( no_transaction);
+    transaction = gsb_data_transaction_get_transaction_by_no ( no_transaction);
 
     if ( !transaction )
 	return FALSE;
@@ -655,11 +655,11 @@ gboolean gsb_transaction_data_set_currency_number ( gint no_transaction,
  * \param no_transaction the number of the transaction
  * \return the currency number of the transaction
  * */
-gint gsb_transaction_data_get_change_between ( gint no_transaction )
+gint gsb_data_transaction_get_change_between ( gint no_transaction )
 {
     struct_transaction *transaction;
 
-    transaction = gsb_transaction_data_get_transaction_by_no ( no_transaction);
+    transaction = gsb_data_transaction_get_transaction_by_no ( no_transaction);
 
     if ( !transaction )
 	return -1;
@@ -675,12 +675,12 @@ gint gsb_transaction_data_get_change_between ( gint no_transaction )
  * \param value
  * \return TRUE if ok
  * */
-gboolean gsb_transaction_data_set_change_between ( gint no_transaction,
+gboolean gsb_data_transaction_set_change_between ( gint no_transaction,
 						   gint value )
 {
     struct_transaction *transaction;
 
-    transaction = gsb_transaction_data_get_transaction_by_no ( no_transaction);
+    transaction = gsb_data_transaction_get_transaction_by_no ( no_transaction);
 
     if ( !transaction )
 	return FALSE;
@@ -697,11 +697,11 @@ gboolean gsb_transaction_data_set_change_between ( gint no_transaction,
  * \param no_transaction the number of the transaction
  * \return the exchange_rate of the transaction
  * */
-gdouble gsb_transaction_data_get_exchange_rate ( gint no_transaction )
+gdouble gsb_data_transaction_get_exchange_rate ( gint no_transaction )
 {
     struct_transaction *transaction;
 
-    transaction = gsb_transaction_data_get_transaction_by_no ( no_transaction);
+    transaction = gsb_data_transaction_get_transaction_by_no ( no_transaction);
 
     if ( !transaction )
 	return 0;
@@ -715,12 +715,12 @@ gdouble gsb_transaction_data_get_exchange_rate ( gint no_transaction )
  * \param rate
  * \return TRUE if ok
  * */
-gboolean gsb_transaction_data_set_exchange_rate ( gint no_transaction,
+gboolean gsb_data_transaction_set_exchange_rate ( gint no_transaction,
 						  gdouble rate )
 {
     struct_transaction *transaction;
 
-    transaction = gsb_transaction_data_get_transaction_by_no ( no_transaction);
+    transaction = gsb_data_transaction_get_transaction_by_no ( no_transaction);
 
     if ( !transaction )
 	return FALSE;
@@ -736,11 +736,11 @@ gboolean gsb_transaction_data_set_exchange_rate ( gint no_transaction,
  * \param no_transaction the number of the transaction
  * \return the exchange_fees of the transaction
  * */
-gdouble gsb_transaction_data_get_exchange_fees ( gint no_transaction )
+gdouble gsb_data_transaction_get_exchange_fees ( gint no_transaction )
 {
     struct_transaction *transaction;
 
-    transaction = gsb_transaction_data_get_transaction_by_no ( no_transaction);
+    transaction = gsb_data_transaction_get_transaction_by_no ( no_transaction);
 
     if ( !transaction )
 	return 0;
@@ -754,12 +754,12 @@ gdouble gsb_transaction_data_get_exchange_fees ( gint no_transaction )
  * \param rate
  * \return TRUE if ok
  * */
-gboolean gsb_transaction_data_set_exchange_fees ( gint no_transaction,
+gboolean gsb_data_transaction_set_exchange_fees ( gint no_transaction,
 						  gdouble rate )
 {
     struct_transaction *transaction;
 
-    transaction = gsb_transaction_data_get_transaction_by_no ( no_transaction);
+    transaction = gsb_data_transaction_get_transaction_by_no ( no_transaction);
 
     if ( !transaction )
 	return FALSE;
@@ -776,11 +776,11 @@ gboolean gsb_transaction_data_set_exchange_fees ( gint no_transaction,
  * \param no_transaction the number of the transaction
  * \return the currency number of the transaction
  * */
-gint gsb_transaction_data_get_party_number ( gint no_transaction )
+gint gsb_data_transaction_get_party_number ( gint no_transaction )
 {
     struct_transaction *transaction;
 
-    transaction = gsb_transaction_data_get_transaction_by_no ( no_transaction);
+    transaction = gsb_data_transaction_get_transaction_by_no ( no_transaction);
 
     if ( !transaction )
 	return -1;
@@ -794,12 +794,12 @@ gint gsb_transaction_data_get_party_number ( gint no_transaction )
  * \param value
  * \return TRUE if ok
  * */
-gboolean gsb_transaction_data_set_party_number ( gint no_transaction,
+gboolean gsb_data_transaction_set_party_number ( gint no_transaction,
 						 gint no_party )
 {
     struct_transaction *transaction;
 
-    transaction = gsb_transaction_data_get_transaction_by_no ( no_transaction);
+    transaction = gsb_data_transaction_get_transaction_by_no ( no_transaction);
 
     if ( !transaction )
 	return FALSE;
@@ -815,11 +815,11 @@ gboolean gsb_transaction_data_set_party_number ( gint no_transaction,
  * \param no_transaction the number of the transaction
  * \return the category number of the transaction
  * */
-gint gsb_transaction_data_get_category_number ( gint no_transaction )
+gint gsb_data_transaction_get_category_number ( gint no_transaction )
 {
     struct_transaction *transaction;
 
-    transaction = gsb_transaction_data_get_transaction_by_no ( no_transaction);
+    transaction = gsb_data_transaction_get_transaction_by_no ( no_transaction);
 
     if ( !transaction )
 	return -1;
@@ -833,12 +833,12 @@ gint gsb_transaction_data_get_category_number ( gint no_transaction )
  * \param value
  * \return TRUE if ok
  * */
-gboolean gsb_transaction_data_set_category_number ( gint no_transaction,
+gboolean gsb_data_transaction_set_category_number ( gint no_transaction,
 						    gint no_category )
 {
     struct_transaction *transaction;
 
-    transaction = gsb_transaction_data_get_transaction_by_no ( no_transaction);
+    transaction = gsb_data_transaction_get_transaction_by_no ( no_transaction);
 
     if ( !transaction )
 	return FALSE;
@@ -853,11 +853,11 @@ gboolean gsb_transaction_data_set_category_number ( gint no_transaction,
  * \param no_transaction the number of the transaction
  * \return the sub_category number of the transaction
  * */
-gint gsb_transaction_data_get_sub_category_number ( gint no_transaction )
+gint gsb_data_transaction_get_sub_category_number ( gint no_transaction )
 {
     struct_transaction *transaction;
 
-    transaction = gsb_transaction_data_get_transaction_by_no ( no_transaction);
+    transaction = gsb_data_transaction_get_transaction_by_no ( no_transaction);
 
     if ( !transaction )
 	return -1;
@@ -871,12 +871,12 @@ gint gsb_transaction_data_get_sub_category_number ( gint no_transaction )
  * \param value
  * \return TRUE if ok
  * */
-gboolean gsb_transaction_data_set_sub_category_number ( gint no_transaction,
+gboolean gsb_data_transaction_set_sub_category_number ( gint no_transaction,
 							gint no_sub_category )
 {
     struct_transaction *transaction;
 
-    transaction = gsb_transaction_data_get_transaction_by_no ( no_transaction);
+    transaction = gsb_data_transaction_get_transaction_by_no ( no_transaction);
 
     if ( !transaction )
 	return FALSE;
@@ -891,11 +891,11 @@ gboolean gsb_transaction_data_set_sub_category_number ( gint no_transaction,
  * \param no_transaction the number of the transaction
  * \return TRUE if the transaction is a breakdown of transaction
  * */
-gint gsb_transaction_data_get_breakdown_of_transaction ( gint no_transaction )
+gint gsb_data_transaction_get_breakdown_of_transaction ( gint no_transaction )
 {
     struct_transaction *transaction;
 
-    transaction = gsb_transaction_data_get_transaction_by_no ( no_transaction);
+    transaction = gsb_data_transaction_get_transaction_by_no ( no_transaction);
 
     if ( !transaction )
 	return -1;
@@ -909,12 +909,12 @@ gint gsb_transaction_data_get_breakdown_of_transaction ( gint no_transaction )
  * \param is_breakdown
  * \return TRUE if ok
  * */
-gboolean gsb_transaction_data_set_breakdown_of_transaction ( gint no_transaction,
+gboolean gsb_data_transaction_set_breakdown_of_transaction ( gint no_transaction,
 							     gint is_breakdown )
 {
     struct_transaction *transaction;
 
-    transaction = gsb_transaction_data_get_transaction_by_no ( no_transaction);
+    transaction = gsb_data_transaction_get_transaction_by_no ( no_transaction);
 
     if ( !transaction )
 	return FALSE;
@@ -929,11 +929,11 @@ gboolean gsb_transaction_data_set_breakdown_of_transaction ( gint no_transaction
  * \param no_transaction the number of the transaction
  * \return the notes of the transaction
  * */
-gchar *gsb_transaction_data_get_notes ( gint no_transaction )
+gchar *gsb_data_transaction_get_notes ( gint no_transaction )
 {
     struct_transaction *transaction;
 
-    transaction = gsb_transaction_data_get_transaction_by_no ( no_transaction);
+    transaction = gsb_data_transaction_get_transaction_by_no ( no_transaction);
 
     if ( !transaction )
 	return NULL;
@@ -949,12 +949,12 @@ gchar *gsb_transaction_data_get_notes ( gint no_transaction )
  * \param notes a gchar with the new notes
  * \return TRUE if ok
  * */
-gboolean gsb_transaction_data_set_notes ( gint no_transaction,
+gboolean gsb_data_transaction_set_notes ( gint no_transaction,
 					  const gchar *notes )
 {
     struct_transaction *transaction;
 
-    transaction = gsb_transaction_data_get_transaction_by_no ( no_transaction);
+    transaction = gsb_data_transaction_get_transaction_by_no ( no_transaction);
 
     if ( !transaction )
 	return FALSE;
@@ -975,11 +975,11 @@ gboolean gsb_transaction_data_set_notes ( gint no_transaction,
  * \param no_transaction the number of the transaction
  * \return the method_of_payment_number
  * */
-gint gsb_transaction_data_get_method_of_payment_number ( gint no_transaction )
+gint gsb_data_transaction_get_method_of_payment_number ( gint no_transaction )
 {
     struct_transaction *transaction;
 
-    transaction = gsb_transaction_data_get_transaction_by_no ( no_transaction);
+    transaction = gsb_data_transaction_get_transaction_by_no ( no_transaction);
 
     if ( !transaction )
 	return -1;
@@ -993,12 +993,12 @@ gint gsb_transaction_data_get_method_of_payment_number ( gint no_transaction )
  * \param 
  * \return TRUE if ok
  * */
-gboolean gsb_transaction_data_set_method_of_payment_number ( gint no_transaction,
+gboolean gsb_data_transaction_set_method_of_payment_number ( gint no_transaction,
 							     gint number )
 {
     struct_transaction *transaction;
 
-    transaction = gsb_transaction_data_get_transaction_by_no ( no_transaction);
+    transaction = gsb_data_transaction_get_transaction_by_no ( no_transaction);
 
     if ( !transaction )
 	return FALSE;
@@ -1013,11 +1013,11 @@ gboolean gsb_transaction_data_set_method_of_payment_number ( gint no_transaction
  * \param no_transaction the number of the transaction
  * \return the method_of_payment_content of the transaction
  * */
-gchar *gsb_transaction_data_get_method_of_payment_content ( gint no_transaction )
+gchar *gsb_data_transaction_get_method_of_payment_content ( gint no_transaction )
 {
     struct_transaction *transaction;
 
-    transaction = gsb_transaction_data_get_transaction_by_no ( no_transaction);
+    transaction = gsb_data_transaction_get_transaction_by_no ( no_transaction);
 
     if ( !transaction )
 	return NULL;
@@ -1033,12 +1033,12 @@ gchar *gsb_transaction_data_get_method_of_payment_content ( gint no_transaction 
  * \param method_of_payment_content a gchar with the new method_of_payment_content
  * \return TRUE if ok
  * */
-gboolean gsb_transaction_data_set_method_of_payment_content ( gint no_transaction,
+gboolean gsb_data_transaction_set_method_of_payment_content ( gint no_transaction,
 							      const gchar *method_of_payment_content )
 {
     struct_transaction *transaction;
 
-    transaction = gsb_transaction_data_get_transaction_by_no ( no_transaction);
+    transaction = gsb_data_transaction_get_transaction_by_no ( no_transaction);
 
     if ( !transaction )
 	return FALSE;
@@ -1059,11 +1059,11 @@ gboolean gsb_transaction_data_set_method_of_payment_content ( gint no_transactio
  * \param no_transaction the number of the transaction
  * \return the marked_transaction : 0=nothing, 1=P, 2=T, 3=R
  * */
-gint gsb_transaction_data_get_marked_transaction ( gint no_transaction )
+gint gsb_data_transaction_get_marked_transaction ( gint no_transaction )
 {
     struct_transaction *transaction;
 
-    transaction = gsb_transaction_data_get_transaction_by_no ( no_transaction);
+    transaction = gsb_data_transaction_get_transaction_by_no ( no_transaction);
 
     if ( !transaction )
 	return -1;
@@ -1077,12 +1077,12 @@ gint gsb_transaction_data_get_marked_transaction ( gint no_transaction )
  * \param marked_transaction : 0=nothing, 1=P, 2=T, 3=R
  * \return TRUE if ok
  * */
-gboolean gsb_transaction_data_set_marked_transaction ( gint no_transaction,
+gboolean gsb_data_transaction_set_marked_transaction ( gint no_transaction,
 						       gint marked_transaction )
 {
     struct_transaction *transaction;
 
-    transaction = gsb_transaction_data_get_transaction_by_no ( no_transaction);
+    transaction = gsb_data_transaction_get_transaction_by_no ( no_transaction);
 
     if ( !transaction )
 	return FALSE;
@@ -1098,11 +1098,11 @@ gboolean gsb_transaction_data_set_marked_transaction ( gint no_transaction,
  * \param no_transaction the number of the transaction
  * \return 1 if the transaction was taken automaticly
  * */
-gint gsb_transaction_data_get_automatic_transaction ( gint no_transaction )
+gint gsb_data_transaction_get_automatic_transaction ( gint no_transaction )
 {
     struct_transaction *transaction;
 
-    transaction = gsb_transaction_data_get_transaction_by_no ( no_transaction);
+    transaction = gsb_data_transaction_get_transaction_by_no ( no_transaction);
 
     if ( !transaction )
 	return -1;
@@ -1116,12 +1116,12 @@ gint gsb_transaction_data_get_automatic_transaction ( gint no_transaction )
  * \param  automatic_transaction
  * \return TRUE if ok
  * */
-gboolean gsb_transaction_data_set_automatic_transaction ( gint no_transaction,
+gboolean gsb_data_transaction_set_automatic_transaction ( gint no_transaction,
 							  gint automatic_transaction )
 {
     struct_transaction *transaction;
 
-    transaction = gsb_transaction_data_get_transaction_by_no ( no_transaction);
+    transaction = gsb_data_transaction_get_transaction_by_no ( no_transaction);
 
     if ( !transaction )
 	return FALSE;
@@ -1136,11 +1136,11 @@ gboolean gsb_transaction_data_set_automatic_transaction ( gint no_transaction,
  * \param no_transaction the number of the transaction
  * \return the reconcile_number
  * */
-gint gsb_transaction_data_get_reconcile_number ( gint no_transaction )
+gint gsb_data_transaction_get_reconcile_number ( gint no_transaction )
 {
     struct_transaction *transaction;
 
-    transaction = gsb_transaction_data_get_transaction_by_no ( no_transaction);
+    transaction = gsb_data_transaction_get_transaction_by_no ( no_transaction);
 
     if ( !transaction )
 	return -1;
@@ -1154,12 +1154,12 @@ gint gsb_transaction_data_get_reconcile_number ( gint no_transaction )
  * \param  reconcile_number
  * \return TRUE if ok
  * */
-gboolean gsb_transaction_data_set_reconcile_number ( gint no_transaction,
+gboolean gsb_data_transaction_set_reconcile_number ( gint no_transaction,
 						     gint reconcile_number )
 {
     struct_transaction *transaction;
 
-    transaction = gsb_transaction_data_get_transaction_by_no ( no_transaction);
+    transaction = gsb_data_transaction_get_transaction_by_no ( no_transaction);
 
     if ( !transaction )
 	return FALSE;
@@ -1174,11 +1174,11 @@ gboolean gsb_transaction_data_set_reconcile_number ( gint no_transaction,
  * \param no_transaction the number of the transaction
  * \return the financial_year_number
  * */
-gint gsb_transaction_data_get_financial_year_number ( gint no_transaction )
+gint gsb_data_transaction_get_financial_year_number ( gint no_transaction )
 {
     struct_transaction *transaction;
 
-    transaction = gsb_transaction_data_get_transaction_by_no ( no_transaction);
+    transaction = gsb_data_transaction_get_transaction_by_no ( no_transaction);
 
     if ( !transaction )
 	return -1;
@@ -1192,12 +1192,12 @@ gint gsb_transaction_data_get_financial_year_number ( gint no_transaction )
  * \param  financial_year_number
  * \return TRUE if ok
  * */
-gboolean gsb_transaction_data_set_financial_year_number ( gint no_transaction,
+gboolean gsb_data_transaction_set_financial_year_number ( gint no_transaction,
 							  gint financial_year_number )
 {
     struct_transaction *transaction;
 
-    transaction = gsb_transaction_data_get_transaction_by_no ( no_transaction);
+    transaction = gsb_data_transaction_get_transaction_by_no ( no_transaction);
 
     if ( !transaction )
 	return FALSE;
@@ -1213,11 +1213,11 @@ gboolean gsb_transaction_data_set_financial_year_number ( gint no_transaction,
  * \param no_transaction the number of the transaction
  * \return the budgetary_number of the transaction
  * */
-gint gsb_transaction_data_get_budgetary_number ( gint no_transaction )
+gint gsb_data_transaction_get_budgetary_number ( gint no_transaction )
 {
     struct_transaction *transaction;
 
-    transaction = gsb_transaction_data_get_transaction_by_no ( no_transaction);
+    transaction = gsb_data_transaction_get_transaction_by_no ( no_transaction);
 
     if ( !transaction )
 	return -1;
@@ -1231,12 +1231,12 @@ gint gsb_transaction_data_get_budgetary_number ( gint no_transaction )
  * \param budgetary_number
  * \return TRUE if ok
  * */
-gboolean gsb_transaction_data_set_budgetary_number ( gint no_transaction,
+gboolean gsb_data_transaction_set_budgetary_number ( gint no_transaction,
 						     gint budgetary_number )
 {
     struct_transaction *transaction;
 
-    transaction = gsb_transaction_data_get_transaction_by_no ( no_transaction);
+    transaction = gsb_data_transaction_get_transaction_by_no ( no_transaction);
 
     if ( !transaction )
 	return FALSE;
@@ -1251,11 +1251,11 @@ gboolean gsb_transaction_data_set_budgetary_number ( gint no_transaction,
  * \param no_transaction the number of the transaction
  * \return the sub_budgetary_number number of the transaction
  * */
-gint gsb_transaction_data_get_sub_budgetary_number ( gint no_transaction )
+gint gsb_data_transaction_get_sub_budgetary_number ( gint no_transaction )
 {
     struct_transaction *transaction;
 
-    transaction = gsb_transaction_data_get_transaction_by_no ( no_transaction);
+    transaction = gsb_data_transaction_get_transaction_by_no ( no_transaction);
 
     if ( !transaction )
 	return -1;
@@ -1269,12 +1269,12 @@ gint gsb_transaction_data_get_sub_budgetary_number ( gint no_transaction )
  * \param sub_budgetary_number
  * \return TRUE if ok
  * */
-gboolean gsb_transaction_data_set_sub_budgetary_number ( gint no_transaction,
+gboolean gsb_data_transaction_set_sub_budgetary_number ( gint no_transaction,
 							 gint sub_budgetary_number )
 {
     struct_transaction *transaction;
 
-    transaction = gsb_transaction_data_get_transaction_by_no ( no_transaction);
+    transaction = gsb_data_transaction_get_transaction_by_no ( no_transaction);
 
     if ( !transaction )
 	return FALSE;
@@ -1289,11 +1289,11 @@ gboolean gsb_transaction_data_set_sub_budgetary_number ( gint no_transaction,
  * \param no_transaction the number of the transaction
  * \return  voucher
  * */
-gchar *gsb_transaction_data_get_voucher ( gint no_transaction )
+gchar *gsb_data_transaction_get_voucher ( gint no_transaction )
 {
     struct_transaction *transaction;
 
-    transaction = gsb_transaction_data_get_transaction_by_no ( no_transaction);
+    transaction = gsb_data_transaction_get_transaction_by_no ( no_transaction);
 
     if ( !transaction )
 	return NULL;
@@ -1308,12 +1308,12 @@ gchar *gsb_transaction_data_get_voucher ( gint no_transaction )
  * \param voucher
  * \return TRUE if ok
  * */
-gboolean gsb_transaction_data_set_voucher ( gint no_transaction,
+gboolean gsb_data_transaction_set_voucher ( gint no_transaction,
 					    const gchar *voucher )
 {
     struct_transaction *transaction;
 
-    transaction = gsb_transaction_data_get_transaction_by_no ( no_transaction);
+    transaction = gsb_data_transaction_get_transaction_by_no ( no_transaction);
 
     if ( !transaction )
 	return FALSE;
@@ -1334,11 +1334,11 @@ gboolean gsb_transaction_data_set_voucher ( gint no_transaction,
  * \param no_transaction the number of the transaction
  * \return bank_references
  * */
-gchar *gsb_transaction_data_get_bank_references ( gint no_transaction )
+gchar *gsb_data_transaction_get_bank_references ( gint no_transaction )
 {
     struct_transaction *transaction;
 
-    transaction = gsb_transaction_data_get_transaction_by_no ( no_transaction);
+    transaction = gsb_data_transaction_get_transaction_by_no ( no_transaction);
 
     if ( !transaction )
 	return NULL;
@@ -1353,12 +1353,12 @@ gchar *gsb_transaction_data_get_bank_references ( gint no_transaction )
  * \param bank_references
  * \return TRUE if ok
  * */
-gboolean gsb_transaction_data_set_bank_references ( gint no_transaction,
+gboolean gsb_data_transaction_set_bank_references ( gint no_transaction,
 						    const gchar *bank_references )
 {
     struct_transaction *transaction;
 
-    transaction = gsb_transaction_data_get_transaction_by_no ( no_transaction);
+    transaction = gsb_data_transaction_get_transaction_by_no ( no_transaction);
 
     if ( !transaction )
 	return FALSE;
@@ -1378,11 +1378,11 @@ gboolean gsb_transaction_data_set_bank_references ( gint no_transaction,
  * \param no_transaction the number of the transaction
  * \return the transaction_number_transfer number of the transaction
  * */
-gint gsb_transaction_data_get_transaction_number_transfer ( gint no_transaction )
+gint gsb_data_transaction_get_transaction_number_transfer ( gint no_transaction )
 {
     struct_transaction *transaction;
 
-    transaction = gsb_transaction_data_get_transaction_by_no ( no_transaction);
+    transaction = gsb_data_transaction_get_transaction_by_no ( no_transaction);
 
     if ( !transaction )
 	return -1;
@@ -1396,12 +1396,12 @@ gint gsb_transaction_data_get_transaction_number_transfer ( gint no_transaction 
  * \param transaction_number_transfer
  * \return TRUE if ok
  * */
-gboolean gsb_transaction_data_set_transaction_number_transfer ( gint no_transaction,
+gboolean gsb_data_transaction_set_transaction_number_transfer ( gint no_transaction,
 							 gint transaction_number_transfer )
 {
     struct_transaction *transaction;
 
-    transaction = gsb_transaction_data_get_transaction_by_no ( no_transaction);
+    transaction = gsb_data_transaction_get_transaction_by_no ( no_transaction);
 
     if ( !transaction )
 	return FALSE;
@@ -1416,11 +1416,11 @@ gboolean gsb_transaction_data_set_transaction_number_transfer ( gint no_transact
  * \param no_transaction the number of the transaction
  * \return the account_number_transfer number of the transaction
  * */
-gint gsb_transaction_data_get_account_number_transfer ( gint no_transaction )
+gint gsb_data_transaction_get_account_number_transfer ( gint no_transaction )
 {
     struct_transaction *transaction;
 
-    transaction = gsb_transaction_data_get_transaction_by_no ( no_transaction);
+    transaction = gsb_data_transaction_get_transaction_by_no ( no_transaction);
 
     if ( !transaction )
 	return -1;
@@ -1434,12 +1434,12 @@ gint gsb_transaction_data_get_account_number_transfer ( gint no_transaction )
  * \param account_number_transfer
  * \return TRUE if ok
  * */
-gboolean gsb_transaction_data_set_account_number_transfer ( gint no_transaction,
+gboolean gsb_data_transaction_set_account_number_transfer ( gint no_transaction,
 							    gint account_number_transfer )
 {
     struct_transaction *transaction;
 
-    transaction = gsb_transaction_data_get_transaction_by_no ( no_transaction);
+    transaction = gsb_data_transaction_get_transaction_by_no ( no_transaction);
 
     if ( !transaction )
 	return FALSE;
@@ -1455,11 +1455,11 @@ gboolean gsb_transaction_data_set_account_number_transfer ( gint no_transaction,
  * \param no_transaction the number of the transaction
  * \return the mother_transaction_number of the transaction or 0 if the transaction doen't exist
  * */
-gint gsb_transaction_data_get_mother_transaction_number ( gint no_transaction )
+gint gsb_data_transaction_get_mother_transaction_number ( gint no_transaction )
 {
     struct_transaction *transaction;
 
-    transaction = gsb_transaction_data_get_transaction_by_no (no_transaction);
+    transaction = gsb_data_transaction_get_transaction_by_no (no_transaction);
 
     if ( !transaction )
 	return 0;
@@ -1473,12 +1473,12 @@ gint gsb_transaction_data_get_mother_transaction_number ( gint no_transaction )
  * \param mother_transaction_number
  * \return TRUE if ok
  * */
-gboolean gsb_transaction_data_set_mother_transaction_number ( gint no_transaction,
+gboolean gsb_data_transaction_set_mother_transaction_number ( gint no_transaction,
 							      gint mother_transaction_number )
 {
     struct_transaction *transaction;
 
-    transaction = gsb_transaction_data_get_transaction_by_no ( no_transaction);
+    transaction = gsb_data_transaction_get_transaction_by_no ( no_transaction);
 
     if ( !transaction )
 	return FALSE;
@@ -1498,7 +1498,7 @@ gboolean gsb_transaction_data_set_mother_transaction_number ( gint no_transactio
  * \param transaction_number the number of the transaction
  * \return the number of the new transaction
  * */
-gint gsb_transaction_data_new_transaction_with_number ( gint no_account,
+gint gsb_data_transaction_new_transaction_with_number ( gint no_account,
 							gint transaction_number )
 {
     struct_transaction *transaction;
@@ -1513,30 +1513,30 @@ gint gsb_transaction_data_new_transaction_with_number ( gint no_account,
     }
 
     if ( !transaction_number )
-	transaction_number = gsb_transaction_data_get_last_number () + 1;
+	transaction_number = gsb_data_transaction_get_last_number () + 1;
 
     transaction -> account_number = no_account;
     transaction -> transaction_number = transaction_number;
-    transaction -> currency_number = gsb_account_get_currency (no_account);
+    transaction -> currency_number = gsb_data_account_get_currency (no_account);
 
     transactions_list = g_slist_append ( transactions_list,
 					 transaction );
 
-    gsb_transaction_data_save_transaction_pointer (transaction);
+    gsb_data_transaction_save_transaction_pointer (transaction);
 
     return transaction -> transaction_number;
 }
 
 
-/** create a new transaction with gsb_transaction_data_new_transaction_with_number
+/** create a new transaction with gsb_data_transaction_new_transaction_with_number
  * but set automatickly the last number
  * \param no_account the number of the account where the transaction should be made
  * \return the number of the new transaction
  * */
-gint gsb_transaction_data_new_transaction ( gint no_account )
+gint gsb_data_transaction_new_transaction ( gint no_account )
 {
-    return gsb_transaction_data_new_transaction_with_number ( no_account,
-							      gsb_transaction_data_get_last_number () + 1);
+    return gsb_data_transaction_new_transaction_with_number ( no_account,
+							      gsb_data_transaction_get_last_number () + 1);
 }
 
 
@@ -1554,7 +1554,7 @@ gint gsb_transaction_data_new_transaction ( gint no_account )
  *
  * \return the pointer of the white line
  * */
-gpointer gsb_transaction_data_new_white_line ( gint mother_transaction_number)
+gpointer gsb_data_transaction_new_white_line ( gint mother_transaction_number)
 {
     struct_transaction *transaction;
 
@@ -1569,20 +1569,20 @@ gpointer gsb_transaction_data_new_white_line ( gint mother_transaction_number)
 
     /* we fill some things for the child breakdown to help to sort the list */
 
-    transaction -> account_number = gsb_transaction_data_get_account_number (mother_transaction_number);
-    transaction -> date = gsb_date_copy ( gsb_transaction_data_get_date (mother_transaction_number));
-    transaction -> party_number = gsb_transaction_data_get_party_number (mother_transaction_number);
+    transaction -> account_number = gsb_data_transaction_get_account_number (mother_transaction_number);
+    transaction -> date = gsb_date_copy ( gsb_data_transaction_get_date (mother_transaction_number));
+    transaction -> party_number = gsb_data_transaction_get_party_number (mother_transaction_number);
     transaction -> mother_transaction_number = mother_transaction_number;
 
     if ( mother_transaction_number )
-	transaction -> transaction_number = gsb_transaction_data_get_last_white_number () - 1;
+	transaction -> transaction_number = gsb_data_transaction_get_last_white_number () - 1;
     else
 	transaction -> transaction_number = -1;
 
     white_transactions_list = g_slist_append ( white_transactions_list,
 					       transaction );
 
-    gsb_transaction_data_save_transaction_pointer (transaction);
+    gsb_data_transaction_save_transaction_pointer (transaction);
 
     return transaction;
 }
@@ -1597,15 +1597,15 @@ gpointer gsb_transaction_data_new_white_line ( gint mother_transaction_number)
  * \param target_transaction_number the trnasaction we want to fill with the content of the first one
  * \return TRUE if ok, FALSE else
  * */
-gboolean gsb_transaction_data_copy_transaction ( gint source_transaction_number,
+gboolean gsb_data_transaction_copy_transaction ( gint source_transaction_number,
 						 gint target_transaction_number )
 {
     struct_transaction *source_transaction;
     struct_transaction *target_transaction;
     gint target_transaction_account_number;
 
-    source_transaction = gsb_transaction_data_get_transaction_by_no ( source_transaction_number);
-    target_transaction = gsb_transaction_data_get_transaction_by_no ( target_transaction_number);
+    source_transaction = gsb_data_transaction_get_transaction_by_no ( source_transaction_number);
+    target_transaction = gsb_data_transaction_get_transaction_by_no ( target_transaction_number);
 
     if ( !source_transaction
 	 ||
@@ -1641,11 +1641,11 @@ gboolean gsb_transaction_data_copy_transaction ( gint source_transaction_number,
  * \param transaction_number
  * \return TRUE if ok
  * */
-gboolean gsb_transaction_data_remove_transaction ( gint transaction_number )
+gboolean gsb_data_transaction_remove_transaction ( gint transaction_number )
 {
     struct_transaction *transaction;
 
-    transaction = gsb_transaction_data_get_transaction_by_no ( transaction_number);
+    transaction = gsb_data_transaction_get_transaction_by_no ( transaction_number);
 
     if ( !transaction )
 	return FALSE;

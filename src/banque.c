@@ -31,7 +31,7 @@
 #include "comptes_gestion.h"
 #include "dialog.h"
 #include "utils_editables.h"
-#include "gsb_account.h"
+#include "gsb_data_account.h"
 #include "traitement_variables.h"
 #include "utils.h"
 #include "search_glist.h"
@@ -148,7 +148,7 @@ gboolean update_bank_menu ()
 
     gtk_option_menu_set_history ( GTK_OPTION_MENU ( detail_option_menu_banque ),
 				  g_slist_index ( liste_struct_banques,
-						  banque_par_no ( gsb_account_get_bank (compte_courant_onglet))) +1 );
+						  banque_par_no ( gsb_data_account_get_bank (compte_courant_onglet))) +1 );
 
     return FALSE;
 }
@@ -230,15 +230,15 @@ void supprime_banque ( GtkWidget *bouton,
 
     bank_nb_to_remove = banque -> no_banque;
 
-    list_tmp = gsb_account_get_list_accounts ();
+    list_tmp = gsb_data_account_get_list_accounts ();
 
     while ( list_tmp )
     {
 	gint i;
 
-	i = gsb_account_get_no_account ( list_tmp -> data );
+	i = gsb_data_account_get_no_account ( list_tmp -> data );
 
-	if ( gsb_account_get_bank (i) == bank_nb_to_remove )
+	if ( gsb_data_account_get_bank (i) == bank_nb_to_remove )
 	    bank_is_used = TRUE;
 
 	list_tmp = list_tmp -> next;
@@ -258,20 +258,20 @@ void supprime_banque ( GtkWidget *bouton,
 	/* La suppression de la banque est confirmée, On fait le tour des
 	   comptes pour en modifier le numéro de banque associée */
 
-	list_tmp = gsb_account_get_list_accounts ();
+	list_tmp = gsb_data_account_get_list_accounts ();
 
 	while ( list_tmp )
 	{
 	    gint i;
 
-	    i = gsb_account_get_no_account ( list_tmp -> data );
+	    i = gsb_data_account_get_no_account ( list_tmp -> data );
 
-	    if ( gsb_account_get_bank (i) == bank_nb_to_remove )
-		gsb_account_set_bank ( i,
+	    if ( gsb_data_account_get_bank (i) == bank_nb_to_remove )
+		gsb_data_account_set_bank ( i,
 				       0 );
-	    if ( gsb_account_get_bank (i) > bank_nb_to_remove )
-		gsb_account_set_bank ( i,
-				       gsb_account_get_bank (i));
+	    if ( gsb_data_account_get_bank (i) > bank_nb_to_remove )
+		gsb_data_account_set_bank ( i,
+				       gsb_data_account_get_bank (i));
 
 	    list_tmp = list_tmp -> next;
 	}
@@ -422,7 +422,7 @@ GtkWidget *onglet_banques ( void )
 			     TRUE, TRUE, 0);
 
 	/* Do not activate unless an account is opened */
-	if ( !gsb_account_get_accounts_amount () )
+	if ( !gsb_data_account_get_accounts_amount () )
 	    gtk_widget_set_sensitive ( vbox_pref, FALSE );
 	else
 	{

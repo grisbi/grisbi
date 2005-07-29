@@ -27,8 +27,8 @@
 
 /*START_INCLUDE*/
 #include "utils_montants.h"
-#include "gsb_account.h"
-#include "gsb_transaction_data.h"
+#include "gsb_data_account.h"
+#include "gsb_data_transaction.h"
 #include "structures.h"
 /*END_INCLUDE*/
 
@@ -59,23 +59,23 @@ void calcule_total_pointe_compte ( gint no_compte )
 {
     GSList *list_tmp_transactions;
 
-    list_tmp_transactions = gsb_transaction_data_get_transactions_list ();
+    list_tmp_transactions = gsb_data_transaction_get_transactions_list ();
     operations_pointees = 0;
 
     while ( list_tmp_transactions )
     {
 	gint transaction_number_tmp;
-	transaction_number_tmp = gsb_transaction_data_get_transaction_number (list_tmp_transactions -> data);
+	transaction_number_tmp = gsb_data_transaction_get_transaction_number (list_tmp_transactions -> data);
 
-	if ( gsb_transaction_data_get_account_number (transaction_number_tmp) == no_compte
+	if ( gsb_data_transaction_get_account_number (transaction_number_tmp) == no_compte
 	     &&
-	     gsb_transaction_data_get_marked_transaction (transaction_number_tmp)== OPERATION_POINTEE
+	     gsb_data_transaction_get_marked_transaction (transaction_number_tmp)== OPERATION_POINTEE
 	     &&
-	     !gsb_transaction_data_get_mother_transaction_number (transaction_number_tmp))
+	     !gsb_data_transaction_get_mother_transaction_number (transaction_number_tmp))
 	{
 	    gdouble montant;
 
-	    montant = gsb_transaction_data_get_adjusted_amount (transaction_number_tmp);
+	    montant = gsb_data_transaction_get_adjusted_amount (transaction_number_tmp);
 
 	    operations_pointees = operations_pointees + montant;
 	}
@@ -119,22 +119,22 @@ gdouble calcule_solde_compte ( gint account_number )
     if ( DEBUG )
 	printf ( "calcule_solde_compte %d\n", account_number );
 
-    amount = gsb_account_get_init_balance (account_number);
+    amount = gsb_data_account_get_init_balance (account_number);
 
-    list_tmp = gsb_transaction_data_get_transactions_list ();
+    list_tmp = gsb_data_transaction_get_transactions_list ();
 
     while ( list_tmp )
     {
 	gint no_transaction;
 
-	no_transaction = gsb_transaction_data_get_transaction_number (list_tmp -> data);
+	no_transaction = gsb_data_transaction_get_transaction_number (list_tmp -> data);
 
-	if ( gsb_transaction_data_get_account_number (no_transaction) == account_number)
+	if ( gsb_data_transaction_get_account_number (no_transaction) == account_number)
 	{
 	    /* if it's a child breakdown, don't use it */
 
-	    if ( !gsb_transaction_data_get_mother_transaction_number (no_transaction))
-		amount = amount + gsb_transaction_data_get_adjusted_amount (no_transaction);
+	    if ( !gsb_data_transaction_get_mother_transaction_number (no_transaction))
+		amount = amount + gsb_data_transaction_get_adjusted_amount (no_transaction);
 	}
 	list_tmp = list_tmp -> next;
     }
@@ -154,24 +154,24 @@ gdouble calcule_solde_pointe_compte ( gint account_number )
     if ( DEBUG )
 	printf ( "calcule_solde_pointe_compte %d\n", account_number );
 
-    amount = gsb_account_get_init_balance (account_number);
+    amount = gsb_data_account_get_init_balance (account_number);
 
-    list_tmp = gsb_transaction_data_get_transactions_list ();
+    list_tmp = gsb_data_transaction_get_transactions_list ();
 
     while ( list_tmp )
     {
 	gint no_transaction;
 
-	no_transaction = gsb_transaction_data_get_transaction_number (list_tmp -> data);
+	no_transaction = gsb_data_transaction_get_transaction_number (list_tmp -> data);
 
-	if ( gsb_transaction_data_get_account_number (no_transaction) == account_number
+	if ( gsb_data_transaction_get_account_number (no_transaction) == account_number
 	     &&
-	     gsb_transaction_data_get_marked_transaction (no_transaction))
+	     gsb_data_transaction_get_marked_transaction (no_transaction))
 	{
 	    /* if it's a child breakdown, don't use it */
 
-	    if ( !gsb_transaction_data_get_mother_transaction_number (no_transaction))
-		amount = amount + gsb_transaction_data_get_adjusted_amount (no_transaction);
+	    if ( !gsb_data_transaction_get_mother_transaction_number (no_transaction))
+		amount = amount + gsb_data_transaction_get_adjusted_amount (no_transaction);
 	}
 	list_tmp = list_tmp -> next;
     }

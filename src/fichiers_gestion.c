@@ -40,14 +40,14 @@
 #include "dialog.h"
 #include "erreur.h"
 #include "utils_file_selection.h"
-#include "gsb_account.h"
+#include "gsb_data_account.h"
 #include "operations_comptes.h"
+#include "gsb_data_transaction.h"
 #include "gsb_file_config.h"
 #include "gsb_file_load.h"
 #include "gsb_file_save.h"
 #include "gsb_file_util.h"
 #include "echeancier_liste.h"
-#include "gsb_transaction_data.h"
 #include "operations_liste.h"
 #include "traitement_variables.h"
 #include "main.h"
@@ -122,11 +122,11 @@ gboolean new_file ( void )
     if ( ! ajout_devise ( NULL ) )
 	return FALSE;
 
-    gsb_account_set_current_account ( gsb_account_new( type_de_compte ));
+    gsb_data_account_set_current_account ( gsb_data_account_new( type_de_compte ));
 
     /* si la création s'est mal passée, on se barre */
 
-    if ( gsb_account_get_current_account () == -1 )
+    if ( gsb_data_account_get_current_account () == -1 )
 	return FALSE;
 
     init_variables_new_file ();
@@ -186,7 +186,7 @@ void init_gui_new_file ( void )
     gtk_box_pack_start ( GTK_BOX ( window_vbox_principale), create_main_widget(),
 			 TRUE, TRUE, 0 );
 
-    gsb_account_list_gui_change_current_account ( GINT_TO_POINTER ( gsb_account_get_current_account () ) );
+    gsb_data_account_list_gui_change_current_account ( GINT_TO_POINTER ( gsb_data_account_get_current_account () ) );
 
     /* Display accounts in menus */
     gsb_menu_update_accounts_in_menus ();
@@ -418,25 +418,25 @@ gboolean gsb_file_open_file ( gchar *filename )
 
     /* check the amounts of all the accounts */
 
-    list_tmp = gsb_account_get_list_accounts ();
+    list_tmp = gsb_data_account_get_list_accounts ();
 
     while ( list_tmp )
     {
 	gint i;
 
-	i = gsb_account_get_no_account ( list_tmp -> data );
+	i = gsb_data_account_get_no_account ( list_tmp -> data );
 
-	gsb_account_set_current_balance ( i, 
+	gsb_data_account_set_current_balance ( i, 
 					  calcule_solde_compte ( i ));
-	gsb_account_set_marked_balance ( i, 
+	gsb_data_account_set_marked_balance ( i, 
 					 calcule_solde_pointe_compte ( i ));
 
 	/* 	on met à jour les affichage solde mini et autres */
 
-	gsb_account_set_mini_balance_authorized_message ( i,
-							  gsb_account_get_current_balance (i) < gsb_account_get_mini_balance_authorized (i));
-	gsb_account_set_mini_balance_wanted_message ( i,
-						      gsb_account_get_current_balance (i) < gsb_account_get_mini_balance_wanted (i) );
+	gsb_data_account_set_mini_balance_authorized_message ( i,
+							  gsb_data_account_get_current_balance (i) < gsb_data_account_get_mini_balance_authorized (i));
+	gsb_data_account_set_mini_balance_wanted_message ( i,
+						      gsb_data_account_get_current_balance (i) < gsb_data_account_get_mini_balance_wanted (i) );
 
 	list_tmp = list_tmp -> next;
     }
@@ -461,7 +461,7 @@ gboolean gsb_file_open_file ( gchar *filename )
 
     menus_sensitifs ( TRUE );
 
-    gsb_menu_update_view_menu (gsb_account_get_current_account ());
+    gsb_menu_update_view_menu (gsb_data_account_get_current_account ());
     gsb_menu_update_accounts_in_menus ();
 
     /*     on ajoute la fentre principale à la window */
@@ -523,7 +523,7 @@ gboolean enregistrement_fichier ( gint origine )
     etat_force = 0;
 
     if ( ( ! etat.modification_fichier && origine != -2 ) ||
-	 ! gsb_account_get_accounts_amount () )
+	 ! gsb_data_account_get_accounts_amount () )
     {
 	if ( DEBUG )
 	    printf ( "nothing done in enregistrement_fichier\n" );
@@ -736,7 +736,7 @@ gboolean fermer_fichier ( void )
 	printf ( "fermer_fichier\n" );
 
 
-    if ( !gsb_account_get_accounts_amount () )
+    if ( !gsb_data_account_get_accounts_amount () )
 	return ( TRUE );
 
 
@@ -765,15 +765,15 @@ gboolean fermer_fichier ( void )
 
 	    if ( !etat.fichier_deja_ouvert
 		 &&
-		 gsb_account_get_accounts_amount ()
+		 gsb_data_account_get_accounts_amount ()
 		 &&
 		 nom_fichier_comptes )
 		gsb_file_util_modify_lock ( FALSE );
 
 	    /* libère les opérations de tous les comptes */
 
-	    g_slist_free ( gsb_transaction_data_get_transactions_list ());
-	    g_slist_free ( gsb_account_get_list_accounts () );
+	    g_slist_free ( gsb_data_transaction_get_transactions_list ());
+	    g_slist_free ( gsb_data_account_get_list_accounts () );
 
 	    /* libère les échéances */
 

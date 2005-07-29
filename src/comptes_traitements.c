@@ -33,11 +33,11 @@
 #include "dialog.h"
 #include "utils_echeances.h"
 #include "fichiers_gestion.h"
-#include "gsb_account.h"
+#include "gsb_data_account.h"
 #include "operations_comptes.h"
+#include "gsb_data_transaction.h"
 #include "navigation.h"
 #include "menu.h"
-#include "gsb_transaction_data.h"
 #include "main.h"
 #include "categories_onglet.h"
 #include "imputation_budgetaire.h"
@@ -93,7 +93,7 @@ gboolean new_account ( void )
     gint no_compte;
 
     /*     if no accounts, it's a new file */ 
-    if ( !gsb_account_get_accounts_amount () )
+    if ( !gsb_data_account_get_accounts_amount () )
     {
 	new_file ();
 	return FALSE;
@@ -106,7 +106,7 @@ gboolean new_account ( void )
 	return FALSE;
 
     /*     create the new account */ 
-    no_compte = gsb_account_new ( type_de_compte );
+    no_compte = gsb_data_account_new ( type_de_compte );
 
     if ( no_compte == -1 )
     {
@@ -163,13 +163,13 @@ gboolean delete_account ( void )
     deleted_account = compte_courant_onglet;
 
     if ( !question_yes_no_hint ( g_strdup_printf (_("Delete account \"%s\"?"),
-						  gsb_account_get_name (deleted_account)),
+						  gsb_data_account_get_name (deleted_account)),
 				 _("This will irreversibly remove this account and all operations that were previously contained.  There is no undo for this. Usually it's a better way to close an account.") ))
 	return FALSE;
 
     /* if the las account, close the file */
 
-    if ( gsb_account_get_accounts_amount () == 1 )
+    if ( gsb_data_account_get_accounts_amount () == 1 )
     {
 	etat.modification_fichier = 0;
 	fermer_fichier ();
@@ -196,33 +196,33 @@ gboolean delete_account ( void )
 
     /*     delete the account */
 
-    gsb_account_delete ( deleted_account );
+    gsb_data_account_delete ( deleted_account );
 
     /*     check all the transactions, and put -1 if it's a transfer to the deleted account */
 
-    list_tmp = gsb_account_get_list_accounts ();
+    list_tmp = gsb_data_account_get_list_accounts ();
 
     while ( list_tmp )
     {
 	gint i;
 	GSList *list_tmp_transactions;
 
-	i = gsb_account_get_no_account ( list_tmp -> data );
+	i = gsb_data_account_get_no_account ( list_tmp -> data );
 
-	list_tmp_transactions = gsb_transaction_data_get_transactions_list ();
+	list_tmp_transactions = gsb_data_transaction_get_transactions_list ();
 
 	while ( list_tmp_transactions )
 	{
 	    gint transaction_number;
-	    transaction_number = gsb_transaction_data_get_transaction_number (list_tmp_transactions -> data);
+	    transaction_number = gsb_data_transaction_get_transaction_number (list_tmp_transactions -> data);
 
-	    if ( gsb_transaction_data_get_account_number (transaction_number) == i )
+	    if ( gsb_data_transaction_get_account_number (transaction_number) == i )
 	    {
-		if ( gsb_transaction_data_get_account_number_transfer (transaction_number) == deleted_account )
+		if ( gsb_data_transaction_get_account_number_transfer (transaction_number) == deleted_account )
 		{
-		    gsb_transaction_data_set_account_number_transfer ( transaction_number,
+		    gsb_data_transaction_set_account_number_transfer ( transaction_number,
 								       -1);
-		    gsb_account_set_update_list ( i,
+		    gsb_data_account_set_update_list ( i,
 						  1 );
 		}
 	    }
@@ -231,22 +231,22 @@ gboolean delete_account ( void )
 	list_tmp = list_tmp -> next;
     }
 
-    /* check gsb_account_get_current_account () and gsb_account_get_current_account ()_onglet and put them
+    /* check gsb_data_account_get_current_account () and gsb_data_account_get_current_account ()_onglet and put them
      * on the first account if they are on the deleted account */
 
-    if ( gsb_account_get_current_account () == deleted_account )
+    if ( gsb_data_account_get_current_account () == deleted_account )
     {
 	/* update the transaction list */
 
 	page_number = gtk_notebook_get_current_page (GTK_NOTEBOOK(notebook_general));
 
-	gsb_account_list_gui_change_current_account ( GINT_TO_POINTER ( gsb_account_first_number () ));
+	gsb_data_account_list_gui_change_current_account ( GINT_TO_POINTER ( gsb_data_account_first_number () ));
 
 	gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ), page_number );
     }
 
     if ( compte_courant_onglet == deleted_account )
-	compte_courant_onglet = gsb_account_first_number ();
+	compte_courant_onglet = gsb_data_account_first_number ();
 
     /* update the buttons lists */
 
@@ -310,19 +310,19 @@ GtkWidget * creation_option_menu_comptes ( GtkSignalFunc func,
 
     menu = gtk_menu_new ();
 
-    list_tmp = gsb_account_get_list_accounts ();
+    list_tmp = gsb_data_account_get_list_accounts ();
 
     while ( list_tmp )
     {
 	gint i;
 
-	i = gsb_account_get_no_account ( list_tmp -> data );
+	i = gsb_data_account_get_no_account ( list_tmp -> data );
 
-	if ( !gsb_account_get_closed_account (i)
+	if ( !gsb_data_account_get_closed_account (i)
 	     ||
 	     include_closed )
 	{
-	    item = gtk_menu_item_new_with_label ( gsb_account_get_name (i));
+	    item = gtk_menu_item_new_with_label ( gsb_data_account_get_name (i));
 	    gtk_object_set_data ( GTK_OBJECT ( item ),
 				  "no_compte",
 				  GINT_TO_POINTER (i));
@@ -331,7 +331,7 @@ GtkWidget * creation_option_menu_comptes ( GtkSignalFunc func,
 	    gtk_menu_append ( GTK_MENU ( menu ), item );
 
 	    if ( !activate_currrent && 
-		 gsb_account_get_current_account () == i)
+		 gsb_data_account_get_current_account () == i)
 	    {
 		gtk_widget_set_sensitive ( item, FALSE );
 	    }      
@@ -368,7 +368,7 @@ void changement_choix_compte_echeancier ( void )
 	    gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] ),
 				       menu );
 	    gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] ),
-					  cherche_no_menu_type_echeancier ( gsb_account_get_default_credit (no_compte)));
+					  cherche_no_menu_type_echeancier ( gsb_data_account_get_default_credit (no_compte)));
 	    gtk_widget_show ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] );
 	}
 	else
@@ -385,7 +385,7 @@ void changement_choix_compte_echeancier ( void )
 	    gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] ),
 				       menu );
 	    gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] ),
-					  cherche_no_menu_type_echeancier ( gsb_account_get_default_debit (no_compte) ) );
+					  cherche_no_menu_type_echeancier ( gsb_data_account_get_default_debit (no_compte) ) );
 	    gtk_widget_show ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] );
 	}
 	else
@@ -400,17 +400,17 @@ void creation_types_par_defaut ( gint no_compte,
 {
     /* si des types d'opï¿œexistaient dï¿œï¿œ on les vire */
 
-    if ( gsb_account_get_method_payment_list (no_compte) )
-	g_slist_free ( gsb_account_get_method_payment_list (no_compte) );
+    if ( gsb_data_account_get_method_payment_list (no_compte) )
+	g_slist_free ( gsb_data_account_get_method_payment_list (no_compte) );
 
-    gsb_account_set_method_payment_list ( no_compte,
+    gsb_data_account_set_method_payment_list ( no_compte,
 					  NULL );
-    gsb_account_set_default_debit ( no_compte,
+    gsb_data_account_set_default_debit ( no_compte,
 				    0 );
-    gsb_account_set_default_credit ( no_compte,
+    gsb_data_account_set_default_credit ( no_compte,
 				     0 );
 
-    if ( gsb_account_get_kind (no_compte) == GSB_TYPE_BANK )
+    if ( gsb_data_account_get_kind (no_compte) == GSB_TYPE_BANK )
     {
 	/* c'est un compte bancaire, on ajoute virement, prï¿œï¿œement, chï¿œue et cb */
 	/* 	  modification par rapport ï¿œavant, les nouveaux n: */
@@ -428,8 +428,8 @@ void creation_types_par_defaut ( gint no_compte,
 	type_ope -> no_en_cours = 0;
 	type_ope -> no_compte = no_compte;
 
-	gsb_account_set_method_payment_list ( no_compte,
-					      g_slist_append ( gsb_account_get_method_payment_list (no_compte),
+	gsb_data_account_set_method_payment_list ( no_compte,
+					      g_slist_append ( gsb_data_account_get_method_payment_list (no_compte),
 							       type_ope ) );
 
 	type_ope = malloc ( sizeof ( struct struct_type_ope ));
@@ -441,8 +441,8 @@ void creation_types_par_defaut ( gint no_compte,
 	type_ope -> no_en_cours = 0;
 	type_ope -> no_compte = no_compte;
 
-	gsb_account_set_method_payment_list ( no_compte,
-					      g_slist_append ( gsb_account_get_method_payment_list (no_compte),
+	gsb_data_account_set_method_payment_list ( no_compte,
+					      g_slist_append ( gsb_data_account_get_method_payment_list (no_compte),
 							       type_ope ) );
 
 	type_ope = malloc ( sizeof ( struct struct_type_ope ));
@@ -454,8 +454,8 @@ void creation_types_par_defaut ( gint no_compte,
 	type_ope -> no_en_cours = 0;
 	type_ope -> no_compte = no_compte;
 
-	gsb_account_set_method_payment_list ( no_compte,
-					      g_slist_append ( gsb_account_get_method_payment_list (no_compte),
+	gsb_data_account_set_method_payment_list ( no_compte,
+					      g_slist_append ( gsb_data_account_get_method_payment_list (no_compte),
 							       type_ope ) );
 
 	type_ope = malloc ( sizeof ( struct struct_type_ope ));
@@ -467,8 +467,8 @@ void creation_types_par_defaut ( gint no_compte,
 	type_ope -> no_en_cours = 0;
 	type_ope -> no_compte = no_compte;
 
-	gsb_account_set_method_payment_list ( no_compte,
-					      g_slist_append ( gsb_account_get_method_payment_list (no_compte),
+	gsb_data_account_set_method_payment_list ( no_compte,
+					      g_slist_append ( gsb_data_account_get_method_payment_list (no_compte),
 							       type_ope ) );
 
 	type_ope = malloc ( sizeof ( struct struct_type_ope ));
@@ -480,36 +480,36 @@ void creation_types_par_defaut ( gint no_compte,
 	type_ope -> no_en_cours = dernier_cheque;
 	type_ope -> no_compte = no_compte;
 
-	gsb_account_set_method_payment_list ( no_compte,
-					      g_slist_append ( gsb_account_get_method_payment_list (no_compte),
+	gsb_data_account_set_method_payment_list ( no_compte,
+					      g_slist_append ( gsb_data_account_get_method_payment_list (no_compte),
 							       type_ope ) );
 
-	gsb_account_set_default_debit ( no_compte,
+	gsb_data_account_set_default_debit ( no_compte,
 					3 );
-	gsb_account_set_default_credit ( no_compte,
+	gsb_data_account_set_default_credit ( no_compte,
 					 2 );
 
 	/* on crï¿œ le tri pour compte bancaire qui sera 1 2 3 4 5 */
 
-	gsb_account_set_sort_list ( no_compte,
-				    g_slist_append ( gsb_account_get_sort_list (no_compte),
+	gsb_data_account_set_sort_list ( no_compte,
+				    g_slist_append ( gsb_data_account_get_sort_list (no_compte),
 				     GINT_TO_POINTER ( 1 )) );
-	gsb_account_set_sort_list ( no_compte,
-				    g_slist_append ( gsb_account_get_sort_list (no_compte),
+	gsb_data_account_set_sort_list ( no_compte,
+				    g_slist_append ( gsb_data_account_get_sort_list (no_compte),
 				     GINT_TO_POINTER ( 2 )) );
-	gsb_account_set_sort_list ( no_compte,
-				    g_slist_append ( gsb_account_get_sort_list (no_compte),
+	gsb_data_account_set_sort_list ( no_compte,
+				    g_slist_append ( gsb_data_account_get_sort_list (no_compte),
 				     GINT_TO_POINTER ( 3 )) );
-	gsb_account_set_sort_list ( no_compte,
-				    g_slist_append ( gsb_account_get_sort_list (no_compte),
+	gsb_data_account_set_sort_list ( no_compte,
+				    g_slist_append ( gsb_data_account_get_sort_list (no_compte),
 				     GINT_TO_POINTER ( 4 )) );
-	gsb_account_set_sort_list ( no_compte,
-				    g_slist_append ( gsb_account_get_sort_list (no_compte),
+	gsb_data_account_set_sort_list ( no_compte,
+				    g_slist_append ( gsb_data_account_get_sort_list (no_compte),
 				     GINT_TO_POINTER ( 5 )) );
     }
     else
     {
-	if ( gsb_account_get_kind (no_compte) == GSB_TYPE_LIABILITIES )
+	if ( gsb_data_account_get_kind (no_compte) == GSB_TYPE_LIABILITIES )
 	{
 	    /* c'est un compte de passif, on ne met que le virement */
 
@@ -524,19 +524,19 @@ void creation_types_par_defaut ( gint no_compte,
 	    type_ope -> no_en_cours = 0;
 	    type_ope -> no_compte = no_compte;
 
-	    gsb_account_set_method_payment_list ( no_compte,
-						  g_slist_append ( gsb_account_get_method_payment_list (no_compte),
+	    gsb_data_account_set_method_payment_list ( no_compte,
+						  g_slist_append ( gsb_data_account_get_method_payment_list (no_compte),
 								   type_ope ) );
 
-	    gsb_account_set_default_debit ( no_compte,
+	    gsb_data_account_set_default_debit ( no_compte,
 					    1 );
-	    gsb_account_set_default_credit ( no_compte,
+	    gsb_data_account_set_default_credit ( no_compte,
 					     1 );
 
 	    /* on crï¿œ le tri pour compte passif qui sera 1 */
 
-	    gsb_account_set_sort_list ( no_compte,
-					g_slist_append ( gsb_account_get_sort_list (no_compte),
+	    gsb_data_account_set_sort_list ( no_compte,
+					g_slist_append ( gsb_data_account_get_sort_list (no_compte),
 							 GINT_TO_POINTER ( 1 )) );
 	}
     }

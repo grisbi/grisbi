@@ -36,8 +36,8 @@
 #include "utils_devises.h"
 #include "dialog.h"
 #include "utils_file_selection.h"
+#include "gsb_data_transaction.h"
 #include "gsb_file_others.h"
-#include "gsb_transaction_data.h"
 #include "gtk_combofix.h"
 #include "main.h"
 #include "traitement_variables.h"
@@ -574,7 +574,7 @@ void importer_ib ( void )
     nom_ib = file_selection_get_filename ( GTK_FILE_SELECTION ( fenetre_nom ));
     gtk_widget_destroy ( GTK_WIDGET ( fenetre_nom ));
 
-    last_transaction_number = gsb_transaction_data_get_last_number ();
+    last_transaction_number = gsb_data_transaction_get_last_number ();
 
     if ( last_transaction_number )
     {

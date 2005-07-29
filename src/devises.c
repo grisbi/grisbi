@@ -28,8 +28,8 @@
 #include "dialog.h"
 #include "utils_devises.h"
 #include "utils_editables.h"
-#include "gsb_account.h"
-#include "gsb_transaction_data.h"
+#include "gsb_data_account.h"
+#include "gsb_data_transaction.h"
 #include "categories_onglet.h"
 #include "imputation_budgetaire.h"
 #include "tiers_onglet.h"
@@ -229,7 +229,7 @@ void update_currency_widgets()
 				GTK_OBJECT ( hbox_boutons_modif ) );
     gtk_option_menu_set_history ( GTK_OPTION_MENU (  detail_devise_compte),
 				  g_slist_index ( liste_struct_devises,
-						  devise_par_no ( gsb_account_get_currency (gsb_account_get_current_account ()) ))); 
+						  devise_par_no ( gsb_data_account_get_currency (gsb_data_account_get_current_account ()) ))); 
 
 
     /* on recrée les boutons de devises dans la conf de l'état */
@@ -741,14 +741,14 @@ void retrait_devise ( GtkWidget *bouton,
 
     devise_trouvee = 0;
 
-    list_tmp_transactions = gsb_transaction_data_get_transactions_list ();
+    list_tmp_transactions = gsb_data_transaction_get_transactions_list ();
 
     while ( list_tmp_transactions )
     {
 	gint transaction_number;
-	transaction_number = gsb_transaction_data_get_transaction_number (list_tmp_transactions -> data);
+	transaction_number = gsb_data_transaction_get_transaction_number (list_tmp_transactions -> data);
 
-	if ( gsb_transaction_data_get_currency_number (transaction_number) == devise -> no_devise )
+	if ( gsb_data_transaction_get_currency_number (transaction_number) == devise -> no_devise )
 	{
 	    devise_trouvee = 1;
 	    list_tmp_transactions = NULL;
@@ -1104,7 +1104,7 @@ GtkWidget *onglet_devises ( void )
 		       currency_list_model );
 
     /*   s'il n'y a pas de fichier ouvert, on grise */
-    if ( !gsb_account_get_accounts_amount () )
+    if ( !gsb_data_account_get_accounts_amount () )
 	gtk_widget_set_sensitive ( vbox_pref, FALSE );
     else
     {
@@ -1597,8 +1597,8 @@ void gsb_currency_check_for_change ( gint no_transaction )
     struct struct_devise *transaction_currency;
     struct struct_devise *account_currency;
 
-    account_currency = devise_par_no ( gsb_account_get_currency (gsb_transaction_data_get_account_number (no_transaction)));
-    transaction_currency = devise_par_no ( gsb_transaction_data_get_currency_number (no_transaction));
+    account_currency = devise_par_no ( gsb_data_account_get_currency (gsb_data_transaction_get_account_number (no_transaction)));
+    transaction_currency = devise_par_no ( gsb_data_transaction_get_currency_number (no_transaction));
 
     /* si c'est la devise du compte ou */
     /* si c'est un compte qui doit passer à l'euro ( la transfo se fait au niveau de l'affichage de la liste ) */
@@ -1625,13 +1625,13 @@ void gsb_currency_check_for_change ( gint no_transaction )
 				 ( gdouble ) 0,
 				 FALSE );
 
-	gsb_transaction_data_set_exchange_rate ( no_transaction,
+	gsb_data_transaction_set_exchange_rate ( no_transaction,
 						 fabs (taux_de_change[0] ));
-	gsb_transaction_data_set_exchange_fees ( no_transaction,
+	gsb_data_transaction_set_exchange_fees ( no_transaction,
 						 taux_de_change[1] );
 
 	if ( taux_de_change[0] < 0 )
-	    gsb_transaction_data_set_change_between ( no_transaction,
+	    gsb_data_transaction_set_change_between ( no_transaction,
 						      1 );
     }
 }

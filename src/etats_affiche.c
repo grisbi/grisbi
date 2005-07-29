@@ -32,10 +32,10 @@
 #include "utils_devises.h"
 #include "etats_support.h"
 #include "utils_exercices.h"
-#include "gsb_account.h"
+#include "gsb_data_account.h"
+#include "gsb_data_payee.h"
+#include "gsb_data_transaction.h"
 #include "utils_dates.h"
-#include "gsb_payee_data.h"
-#include "gsb_transaction_data.h"
 #include "utils_categories.h"
 #include "utils_ib.h"
 #include "utils_rapprochements.h"
@@ -761,9 +761,9 @@ gint etat_affiche_affiche_total_periode ( gpointer operation, gint ligne, gint f
 		    case 0:
 			/* séparation par semaine : on recherche le début de la semaine qui contient l'opé */
 
-			date_debut_periode = g_date_new_dmy ( g_date_day ( gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation))),
-							      g_date_month ( gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation))),
-							      g_date_year ( gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation))));
+			date_debut_periode = g_date_new_dmy ( g_date_day ( gsb_data_transaction_get_date (gsb_data_transaction_get_transaction_number (operation))),
+							      g_date_month ( gsb_data_transaction_get_date (gsb_data_transaction_get_transaction_number (operation))),
+							      g_date_year ( gsb_data_transaction_get_date (gsb_data_transaction_get_transaction_number (operation))));
 
 			if ( g_date_weekday ( date_debut_periode )  != (etat_courant -> jour_debut_semaine + 1 ))
 			{
@@ -780,8 +780,8 @@ gint etat_affiche_affiche_total_periode ( gpointer operation, gint ligne, gint f
 			/* séparation par mois */
 
 			date_debut_periode = g_date_new_dmy ( 1,
-							      g_date_month ( gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation))),
-							      g_date_year ( gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation))));
+							      g_date_month ( gsb_data_transaction_get_date (gsb_data_transaction_get_transaction_number (operation))),
+							      g_date_year ( gsb_data_transaction_get_date (gsb_data_transaction_get_transaction_number (operation))));
 			break;
 
 		    case 2:
@@ -789,7 +789,7 @@ gint etat_affiche_affiche_total_periode ( gpointer operation, gint ligne, gint f
 
 			date_debut_periode = g_date_new_dmy ( 1,
 							      1,
-							      g_date_year ( gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation))));
+							      g_date_year ( gsb_data_transaction_get_date (gsb_data_transaction_get_transaction_number (operation))));
 			break;
 		}
 	    }
@@ -812,7 +812,7 @@ gint etat_affiche_affiche_total_periode ( gpointer operation, gint ligne, gint f
 
 	    if ( !force
 		 &&
-		 !g_date_compare ( gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation)),
+		 !g_date_compare ( gsb_data_transaction_get_date (gsb_data_transaction_get_transaction_number (operation)),
 				   date_debut_periode ))
 		return ( ligne );
 
@@ -826,9 +826,9 @@ gint etat_affiche_affiche_total_periode ( gpointer operation, gint ligne, gint f
 
 	    if ( !force
 		 &&
-		 ( g_date_weekday ( gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation)))  != (etat_courant -> jour_debut_semaine + 1 )
+		 ( g_date_weekday ( gsb_data_transaction_get_date (gsb_data_transaction_get_transaction_number (operation)))  != (etat_courant -> jour_debut_semaine + 1 )
 		   &&
-		   g_date_compare ( gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation)),
+		   g_date_compare ( gsb_data_transaction_get_date (gsb_data_transaction_get_transaction_number (operation)),
 				    date_tmp ) < 0 ))
 		return ( ligne );
 
@@ -889,7 +889,7 @@ gint etat_affiche_affiche_total_periode ( gpointer operation, gint ligne, gint f
 
 	    if ( !force
 		 &&
-		 g_date_month ( gsb_transaction_data_get_date ( gsb_transaction_data_get_transaction_number (operation))) == g_date_month ( date_debut_periode ) )
+		 g_date_month ( gsb_data_transaction_get_date ( gsb_data_transaction_get_transaction_number (operation))) == g_date_month ( date_debut_periode ) )
 		return ( ligne );
 
 	    g_date_strftime ( buffer,
@@ -917,7 +917,7 @@ gint etat_affiche_affiche_total_periode ( gpointer operation, gint ligne, gint f
 
 	    if ( !force
 		 &&
-		 g_date_year ( gsb_transaction_data_get_date ( gsb_transaction_data_get_transaction_number (operation))) == g_date_year ( date_debut_periode ) )
+		 g_date_year ( gsb_data_transaction_get_date ( gsb_data_transaction_get_transaction_number (operation))) == g_date_year ( date_debut_periode ) )
 		return ( ligne );
 
 	    g_date_strftime ( buffer,
@@ -973,9 +973,9 @@ gint etat_affiche_affiche_total_periode ( gpointer operation, gint ligne, gint f
 		case 0:
 		    /* séparation par semaine : on recherche le début de la semaine qui contient l'opé */
 
-		    date_debut_periode = g_date_new_dmy ( g_date_day ( gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation))),
-							  g_date_month ( gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation))),
-							  g_date_year ( gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation))));
+		    date_debut_periode = g_date_new_dmy ( g_date_day ( gsb_data_transaction_get_date (gsb_data_transaction_get_transaction_number (operation))),
+							  g_date_month ( gsb_data_transaction_get_date (gsb_data_transaction_get_transaction_number (operation))),
+							  g_date_year ( gsb_data_transaction_get_date (gsb_data_transaction_get_transaction_number (operation))));
 
 		    if ( g_date_weekday ( date_debut_periode )  != (etat_courant -> jour_debut_semaine + 1 ))
 		    {
@@ -992,8 +992,8 @@ gint etat_affiche_affiche_total_periode ( gpointer operation, gint ligne, gint f
 		    /* séparation par mois */
 
 		    date_debut_periode = g_date_new_dmy ( 1,
-							  g_date_month ( gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation))),
-							  g_date_year ( gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation))));
+							  g_date_month ( gsb_data_transaction_get_date (gsb_data_transaction_get_transaction_number (operation))),
+							  g_date_year ( gsb_data_transaction_get_date (gsb_data_transaction_get_transaction_number (operation))));
 		    break;
 
 		case 2:
@@ -1001,7 +1001,7 @@ gint etat_affiche_affiche_total_periode ( gpointer operation, gint ligne, gint f
 
 		    date_debut_periode = g_date_new_dmy ( 1,
 							  1,
-							  g_date_year ( gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation))));
+							  g_date_year ( gsb_data_transaction_get_date (gsb_data_transaction_get_transaction_number (operation))));
 		    break;
 	    }
 	}
@@ -1035,7 +1035,7 @@ gint etat_affiche_affiche_total_exercice ( gpointer operation, gint ligne, gint 
 
 	if ( exo_en_cours_etat == -1 )
 	{
-	    exo_en_cours_etat = gsb_transaction_data_get_financial_year_number ( gsb_transaction_data_get_transaction_number (operation ));
+	    exo_en_cours_etat = gsb_data_transaction_get_financial_year_number ( gsb_data_transaction_get_transaction_number (operation ));
 	    return ligne;
 	}
 	
@@ -1043,7 +1043,7 @@ gint etat_affiche_affiche_total_exercice ( gpointer operation, gint ligne, gint 
 
 	if ( !force
 	     &&
-	     gsb_transaction_data_get_financial_year_number ( gsb_transaction_data_get_transaction_number (operation ))== exo_en_cours_etat )
+	     gsb_data_transaction_get_financial_year_number ( gsb_data_transaction_get_transaction_number (operation ))== exo_en_cours_etat )
 	    return ligne;
 
 	if ( exo_en_cours_etat )
@@ -1105,7 +1105,7 @@ gint etat_affiche_affiche_total_exercice ( gpointer operation, gint ligne, gint 
 	/* comme il y a un changement d'état, on remet exo_en_cours_etat à celle de l'opé en cours */
 
 	if ( operation )
-	    exo_en_cours_etat = gsb_transaction_data_get_financial_year_number ( gsb_transaction_data_get_transaction_number (operation ));
+	    exo_en_cours_etat = gsb_data_transaction_get_financial_year_number ( gsb_data_transaction_get_transaction_number (operation ));
 	else
 	    date_debut_periode = NULL;
     }
@@ -1146,7 +1146,7 @@ gint etat_affiche_affichage_ligne_ope ( gpointer operation,
 
 	if ( etat_courant -> afficher_no_ope )
 	{
-	    text = utils_str_itoa ( gsb_transaction_data_get_transaction_number (operation));
+	    text = utils_str_itoa ( gsb_data_transaction_get_transaction_number (operation));
 
 	    if ( etat_courant -> ope_clickables )
 	    {
@@ -1163,7 +1163,7 @@ gint etat_affiche_affichage_ligne_ope ( gpointer operation,
 
 	if ( etat_courant -> afficher_date_ope )
 	{
-	    text = gsb_format_gdate ( gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation)));
+	    text = gsb_format_gdate ( gsb_data_transaction_get_date (gsb_data_transaction_get_transaction_number (operation)));
 
 	    if ( etat_courant -> ope_clickables )
 	    {
@@ -1180,9 +1180,9 @@ gint etat_affiche_affichage_ligne_ope ( gpointer operation,
 
 	if ( etat_courant -> afficher_exo_ope )
 	{
-	    if ( gsb_transaction_data_get_financial_year_number ( gsb_transaction_data_get_transaction_number (operation )))
+	    if ( gsb_data_transaction_get_financial_year_number ( gsb_data_transaction_get_transaction_number (operation )))
 	    {
-		text = exercice_name_by_no ( gsb_transaction_data_get_financial_year_number ( gsb_transaction_data_get_transaction_number (operation )));
+		text = exercice_name_by_no ( gsb_data_transaction_get_financial_year_number ( gsb_data_transaction_get_transaction_number (operation )));
 
 		if ( etat_courant -> ope_clickables )
 		{
@@ -1200,9 +1200,9 @@ gint etat_affiche_affichage_ligne_ope ( gpointer operation,
 
 	if ( etat_courant -> afficher_tiers_ope )
 	{
-	    if ( gsb_transaction_data_get_party_number ( gsb_transaction_data_get_transaction_number (operation )))
+	    if ( gsb_data_transaction_get_party_number ( gsb_data_transaction_get_transaction_number (operation )))
 	    {
-		text = gsb_payee_get_name ( gsb_transaction_data_get_party_number ( gsb_transaction_data_get_transaction_number (operation )), TRUE );
+		text = gsb_data_payee_get_name ( gsb_data_transaction_get_party_number ( gsb_data_transaction_get_transaction_number (operation )), TRUE );
 
 		if ( etat_courant -> ope_clickables )
 		{
@@ -1224,22 +1224,22 @@ gint etat_affiche_affichage_ligne_ope ( gpointer operation,
 
 	    pointeur = NULL;
 
-	    if ( gsb_transaction_data_get_category_number ( gsb_transaction_data_get_transaction_number (operation )))
-		pointeur = nom_categ_par_no ( gsb_transaction_data_get_category_number ( gsb_transaction_data_get_transaction_number (operation )),
-					      gsb_transaction_data_get_sub_category_number ( gsb_transaction_data_get_transaction_number (operation )));
+	    if ( gsb_data_transaction_get_category_number ( gsb_data_transaction_get_transaction_number (operation )))
+		pointeur = nom_categ_par_no ( gsb_data_transaction_get_category_number ( gsb_data_transaction_get_transaction_number (operation )),
+					      gsb_data_transaction_get_sub_category_number ( gsb_data_transaction_get_transaction_number (operation )));
 	    else
 	    {
 		/* si c'est un virement, on le marque, sinon c'est qu'il n'y a pas de categ */
 		/* ou que c'est une opé ventilée, et on marque rien */
 
-		if ( gsb_transaction_data_get_transaction_number_transfer ( gsb_transaction_data_get_transaction_number (operation )))
+		if ( gsb_data_transaction_get_transaction_number_transfer ( gsb_data_transaction_get_transaction_number (operation )))
 		{
 		    /* c'est un virement */
 
-		    if ( gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (operation ))< 0 )
-			pointeur = g_strdup_printf ( _("Transfer to %s"), gsb_account_get_name (gsb_transaction_data_get_account_number_transfer ( gsb_transaction_data_get_transaction_number (operation ))) );
+		    if ( gsb_data_transaction_get_amount ( gsb_data_transaction_get_transaction_number (operation ))< 0 )
+			pointeur = g_strdup_printf ( _("Transfer to %s"), gsb_data_account_get_name (gsb_data_transaction_get_account_number_transfer ( gsb_data_transaction_get_transaction_number (operation ))) );
 		    else
-			pointeur = g_strdup_printf ( _("Transfer from %s"), gsb_account_get_name (gsb_transaction_data_get_account_number_transfer ( gsb_transaction_data_get_transaction_number (operation ))) );
+			pointeur = g_strdup_printf ( _("Transfer from %s"), gsb_data_account_get_name (gsb_data_transaction_get_account_number_transfer ( gsb_data_transaction_get_transaction_number (operation ))) );
 		}
 	    }
 
@@ -1262,12 +1262,12 @@ gint etat_affiche_affichage_ligne_ope ( gpointer operation,
 
 	if ( etat_courant -> afficher_ib_ope )
 	{
-	    if ( gsb_transaction_data_get_budgetary_number ( gsb_transaction_data_get_transaction_number (operation )))
+	    if ( gsb_data_transaction_get_budgetary_number ( gsb_data_transaction_get_transaction_number (operation )))
 	    {
 		gchar *pointeur;
 
-		pointeur = nom_imputation_par_no ( gsb_transaction_data_get_budgetary_number ( gsb_transaction_data_get_transaction_number (operation )),
-						   gsb_transaction_data_get_sub_budgetary_number ( gsb_transaction_data_get_transaction_number (operation )));
+		pointeur = nom_imputation_par_no ( gsb_data_transaction_get_budgetary_number ( gsb_data_transaction_get_transaction_number (operation )),
+						   gsb_data_transaction_get_sub_budgetary_number ( gsb_data_transaction_get_transaction_number (operation )));
 
 		if ( etat_courant -> ope_clickables )
 		{
@@ -1286,9 +1286,9 @@ gint etat_affiche_affichage_ligne_ope ( gpointer operation,
 
 	if ( etat_courant -> afficher_notes_ope )
 	{
-	    if ( gsb_transaction_data_get_notes ( gsb_transaction_data_get_transaction_number (operation )))
+	    if ( gsb_data_transaction_get_notes ( gsb_data_transaction_get_transaction_number (operation )))
 	    {
-		text =  gsb_transaction_data_get_notes ( gsb_transaction_data_get_transaction_number (operation ));
+		text =  gsb_data_transaction_get_notes ( gsb_data_transaction_get_transaction_number (operation ));
 
 		if ( etat_courant -> ope_clickables )
 		{
@@ -1310,8 +1310,8 @@ gint etat_affiche_affichage_ligne_ope ( gpointer operation,
 
 	if ( etat_courant -> afficher_type_ope )
 	{
-	    text = type_ope_name_by_no ( gsb_transaction_data_get_method_of_payment_number ( gsb_transaction_data_get_transaction_number (operation )),
-					 gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (operation)));
+	    text = type_ope_name_by_no ( gsb_data_transaction_get_method_of_payment_number ( gsb_data_transaction_get_transaction_number (operation )),
+					 gsb_data_transaction_get_account_number (gsb_data_transaction_get_transaction_number (operation)));
 	    if ( text )
 	    {
 		if ( etat_courant -> ope_clickables )
@@ -1333,7 +1333,7 @@ gint etat_affiche_affichage_ligne_ope ( gpointer operation,
 	{
 	    /* Si l'opération est une opération de ventilation, il faut rechercher
 	       l'opération mère pour pouvoir récupérer le n° du chèque */
-	    if ( gsb_transaction_data_get_mother_transaction_number ( gsb_transaction_data_get_transaction_number (operation )))
+	    if ( gsb_data_transaction_get_mother_transaction_number ( gsb_data_transaction_get_transaction_number (operation )))
 	    {
 		GSList *list_tmp_transactions;
 		gboolean found = FALSE;
@@ -1341,23 +1341,23 @@ gint etat_affiche_affichage_ligne_ope ( gpointer operation,
 		/* On récupère donc la liste des opérations du compte et on en fait
 		   le tour jusqu'à ce qu'on trouve l'opération mère */
 
-		list_tmp_transactions = gsb_transaction_data_get_transactions_list ();
+		list_tmp_transactions = gsb_data_transaction_get_transactions_list ();
 
 		while ( list_tmp_transactions )
 		{
 		    gint transaction_number_tmp;
-		    transaction_number_tmp = gsb_transaction_data_get_transaction_number (list_tmp_transactions -> data);
+		    transaction_number_tmp = gsb_data_transaction_get_transaction_number (list_tmp_transactions -> data);
 
-		    if ( gsb_transaction_data_get_account_number (transaction_number_tmp) == gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (operation)))
+		    if ( gsb_data_transaction_get_account_number (transaction_number_tmp) == gsb_data_transaction_get_account_number (gsb_data_transaction_get_transaction_number (operation)))
 		    {
-			if ( gsb_transaction_data_get_breakdown_of_transaction (transaction_number_tmp)
+			if ( gsb_data_transaction_get_breakdown_of_transaction (transaction_number_tmp)
 			     &&
-			     transaction_number_tmp == gsb_transaction_data_get_mother_transaction_number ( gsb_transaction_data_get_transaction_number (operation ))
+			     transaction_number_tmp == gsb_data_transaction_get_mother_transaction_number ( gsb_data_transaction_get_transaction_number (operation ))
 			     &&
-			     gsb_transaction_data_get_method_of_payment_content (transaction_number_tmp))
+			     gsb_data_transaction_get_method_of_payment_content (transaction_number_tmp))
 			{
-			    gsb_transaction_data_set_method_of_payment_content ( gsb_transaction_data_get_transaction_number (operation ),
-										 gsb_transaction_data_get_method_of_payment_content (transaction_number_tmp));
+			    gsb_data_transaction_set_method_of_payment_content ( gsb_data_transaction_get_transaction_number (operation ),
+										 gsb_data_transaction_get_method_of_payment_content (transaction_number_tmp));
 			    found = TRUE;
 			}
 		    }
@@ -1365,9 +1365,9 @@ gint etat_affiche_affichage_ligne_ope ( gpointer operation,
 		}
 	    }
 	    
-	    if ( gsb_transaction_data_get_method_of_payment_content ( gsb_transaction_data_get_transaction_number (operation )))
+	    if ( gsb_data_transaction_get_method_of_payment_content ( gsb_data_transaction_get_transaction_number (operation )))
 	    {
-		text = gsb_transaction_data_get_method_of_payment_content ( gsb_transaction_data_get_transaction_number (operation ));
+		text = gsb_data_transaction_get_method_of_payment_content ( gsb_data_transaction_get_transaction_number (operation ));
 
 		if ( etat_courant -> ope_clickables )
 		{
@@ -1386,9 +1386,9 @@ gint etat_affiche_affichage_ligne_ope ( gpointer operation,
 
 	if ( etat_courant -> afficher_pc_ope )
 	{
-	    if ( gsb_transaction_data_get_voucher ( gsb_transaction_data_get_transaction_number (operation )))
+	    if ( gsb_data_transaction_get_voucher ( gsb_data_transaction_get_transaction_number (operation )))
 	    {
-		text = gsb_transaction_data_get_voucher ( gsb_transaction_data_get_transaction_number (operation ));
+		text = gsb_data_transaction_get_voucher ( gsb_data_transaction_get_transaction_number (operation ));
 
 		if ( etat_courant -> ope_clickables )
 		{
@@ -1408,9 +1408,9 @@ gint etat_affiche_affichage_ligne_ope ( gpointer operation,
 
 	if ( etat_courant -> afficher_infobd_ope )
 	{
-	    if ( gsb_transaction_data_get_bank_references ( gsb_transaction_data_get_transaction_number (operation )))
+	    if ( gsb_data_transaction_get_bank_references ( gsb_data_transaction_get_transaction_number (operation )))
 	    {
-		text = gsb_transaction_data_get_bank_references ( gsb_transaction_data_get_transaction_number (operation ));
+		text = gsb_data_transaction_get_bank_references ( gsb_data_transaction_get_transaction_number (operation ));
 
 		if ( etat_courant -> ope_clickables )
 		{
@@ -1428,7 +1428,7 @@ gint etat_affiche_affichage_ligne_ope ( gpointer operation,
 
 	if ( etat_courant -> afficher_rappr_ope )
 	{
-	    text = rapprochement_name_by_no ( gsb_transaction_data_get_reconcile_number ( gsb_transaction_data_get_transaction_number (operation )));
+	    text = rapprochement_name_by_no ( gsb_data_transaction_get_reconcile_number ( gsb_data_transaction_get_transaction_number (operation )));
 
 	    if ( text )
 	    {
@@ -1451,10 +1451,10 @@ gint etat_affiche_affichage_ligne_ope ( gpointer operation,
 
 	if ( devise_compte_en_cours_etat
 	     &&
-	     gsb_transaction_data_get_currency_number ( gsb_transaction_data_get_transaction_number (operation ))== devise_compte_en_cours_etat -> no_devise )
-	    text = g_strdup_printf  ( _("%4.2f %s"), gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (operation )), devise_code ( devise_compte_en_cours_etat ) );
+	     gsb_data_transaction_get_currency_number ( gsb_data_transaction_get_transaction_number (operation ))== devise_compte_en_cours_etat -> no_devise )
+	    text = g_strdup_printf  ( _("%4.2f %s"), gsb_data_transaction_get_amount ( gsb_data_transaction_get_transaction_number (operation )), devise_code ( devise_compte_en_cours_etat ) );
 	else
-	    text = g_strdup_printf  ( _("%4.2f %s"), gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (operation )), devise_code_by_no ( gsb_transaction_data_get_currency_number ( gsb_transaction_data_get_transaction_number (operation ))) );
+	    text = g_strdup_printf  ( _("%4.2f %s"), gsb_data_transaction_get_amount ( gsb_data_transaction_get_transaction_number (operation )), devise_code_by_no ( gsb_data_transaction_get_currency_number ( gsb_data_transaction_get_transaction_number (operation ))) );
 
 	if ( etat_courant -> ope_clickables )
 	{
@@ -1590,21 +1590,21 @@ gint etat_affiche_affiche_categ_etat ( gpointer operation,
 
     if ( etat_courant -> utilise_categ
 	 &&
-	 ( gsb_transaction_data_get_category_number ( gsb_transaction_data_get_transaction_number (operation ))!= ancienne_categ_etat
+	 ( gsb_data_transaction_get_category_number ( gsb_data_transaction_get_transaction_number (operation ))!= ancienne_categ_etat
 	   ||
 	   ( ancienne_categ_speciale_etat == 1
 	     &&
-	     !gsb_transaction_data_get_transaction_number_transfer ( gsb_transaction_data_get_transaction_number (operation )))
+	     !gsb_data_transaction_get_transaction_number_transfer ( gsb_data_transaction_get_transaction_number (operation )))
 	   ||
 	   ( ancienne_categ_speciale_etat == 2
 	     &&
-	     !gsb_transaction_data_get_breakdown_of_transaction ( gsb_transaction_data_get_transaction_number (operation )))
+	     !gsb_data_transaction_get_breakdown_of_transaction ( gsb_data_transaction_get_transaction_number (operation )))
 	   ||
 	   ( ancienne_categ_speciale_etat == 3
 	     &&
-	     ( gsb_transaction_data_get_breakdown_of_transaction ( gsb_transaction_data_get_transaction_number (operation ))
+	     ( gsb_data_transaction_get_breakdown_of_transaction ( gsb_data_transaction_get_transaction_number (operation ))
 	       ||
-	       gsb_transaction_data_get_transaction_number_transfer ( gsb_transaction_data_get_transaction_number (operation ))))))
+	       gsb_data_transaction_get_transaction_number_transfer ( gsb_data_transaction_get_transaction_number (operation ))))))
     {
 
 	/* lorsqu'on est au début de l'affichage de l'état, on n'affiche pas de totaux */
@@ -1633,9 +1633,9 @@ gint etat_affiche_affiche_categ_etat ( gpointer operation,
 
 	if ( etat_courant -> afficher_nom_categ )
 	{
-	    if ( gsb_transaction_data_get_category_number ( gsb_transaction_data_get_transaction_number (operation )))
+	    if ( gsb_data_transaction_get_category_number ( gsb_data_transaction_get_transaction_number (operation )))
 	    {
-		nom_categ_en_cours = nom_categ_par_no ( gsb_transaction_data_get_category_number ( gsb_transaction_data_get_transaction_number (operation )),
+		nom_categ_en_cours = nom_categ_par_no ( gsb_data_transaction_get_category_number ( gsb_data_transaction_get_transaction_number (operation )),
 							0 );
 		pointeur_char = g_strconcat ( decalage_categ,
 					      nom_categ_en_cours,
@@ -1644,7 +1644,7 @@ gint etat_affiche_affiche_categ_etat ( gpointer operation,
 	    }
 	    else
 	    {
-		if ( gsb_transaction_data_get_transaction_number_transfer ( gsb_transaction_data_get_transaction_number (operation )))
+		if ( gsb_data_transaction_get_transaction_number_transfer ( gsb_data_transaction_get_transaction_number (operation )))
 		{
 		    pointeur_char = g_strconcat ( decalage_categ,
 						  _("Transfert"),
@@ -1653,7 +1653,7 @@ gint etat_affiche_affiche_categ_etat ( gpointer operation,
 		}
 		else
 		{
-		    if ( gsb_transaction_data_get_breakdown_of_transaction ( gsb_transaction_data_get_transaction_number (operation )))
+		    if ( gsb_data_transaction_get_breakdown_of_transaction ( gsb_data_transaction_get_transaction_number (operation )))
 		    {
 			pointeur_char = g_strconcat ( decalage_categ,
 						      _("Breakdown of transaction"),
@@ -1678,7 +1678,7 @@ gint etat_affiche_affiche_categ_etat ( gpointer operation,
 	ligne_debut_partie = ligne;
 	denote_struct_sous_jaccentes ( 1 );
 
-	ancienne_categ_etat = gsb_transaction_data_get_category_number ( gsb_transaction_data_get_transaction_number (operation ));
+	ancienne_categ_etat = gsb_data_transaction_get_category_number ( gsb_data_transaction_get_transaction_number (operation ));
 
 	debut_affichage_etat = 0;
 	changement_de_groupe_etat = 1;
@@ -1701,9 +1701,9 @@ gint etat_affiche_affiche_sous_categ_etat ( gpointer operation,
 	 &&
 	 etat_courant -> afficher_sous_categ
 	 &&
-	 gsb_transaction_data_get_category_number ( gsb_transaction_data_get_transaction_number (operation ))
+	 gsb_data_transaction_get_category_number ( gsb_data_transaction_get_transaction_number (operation ))
 	 &&
-	 gsb_transaction_data_get_sub_category_number ( gsb_transaction_data_get_transaction_number (operation)) != ancienne_sous_categ_etat )
+	 gsb_data_transaction_get_sub_category_number ( gsb_data_transaction_get_transaction_number (operation)) != ancienne_sous_categ_etat )
     {
 	/* lorsqu'on est au début de l'affichage de l'état, on n'affiche pas de totaux */
 
@@ -1731,8 +1731,8 @@ gint etat_affiche_affiche_sous_categ_etat ( gpointer operation,
 
 	if ( etat_courant -> afficher_nom_categ )
 	{
-	    pointeur_char = nom_sous_categ_par_no ( gsb_transaction_data_get_category_number ( gsb_transaction_data_get_transaction_number (operation )),
-						    gsb_transaction_data_get_sub_category_number ( gsb_transaction_data_get_transaction_number (operation )));
+	    pointeur_char = nom_sous_categ_par_no ( gsb_data_transaction_get_category_number ( gsb_data_transaction_get_transaction_number (operation )),
+						    gsb_data_transaction_get_sub_category_number ( gsb_data_transaction_get_transaction_number (operation )));
 
 	    if ( !pointeur_char )
 	    {
@@ -1752,7 +1752,7 @@ gint etat_affiche_affiche_sous_categ_etat ( gpointer operation,
 	ligne_debut_partie = ligne;
 	denote_struct_sous_jaccentes ( 2 );
 
-	ancienne_sous_categ_etat = gsb_transaction_data_get_sub_category_number ( gsb_transaction_data_get_transaction_number (operation ));
+	ancienne_sous_categ_etat = gsb_data_transaction_get_sub_category_number ( gsb_data_transaction_get_transaction_number (operation ));
 
 	debut_affichage_etat = 0;
 	changement_de_groupe_etat = 1;
@@ -1777,7 +1777,7 @@ gint etat_affiche_affiche_ib_etat ( gpointer operation,
 
     if ( etat_courant -> utilise_ib
 	 &&
-	 gsb_transaction_data_get_budgetary_number ( gsb_transaction_data_get_transaction_number (operation )) != ancienne_ib_etat )
+	 gsb_data_transaction_get_budgetary_number ( gsb_data_transaction_get_transaction_number (operation )) != ancienne_ib_etat )
     {
 	/* lorsqu'on est au début de l'affichage de l'état, on n'affiche pas de totaux */
 
@@ -1805,9 +1805,9 @@ gint etat_affiche_affiche_ib_etat ( gpointer operation,
 
 	if ( etat_courant -> afficher_nom_ib )
 	{
-	    if ( gsb_transaction_data_get_budgetary_number ( gsb_transaction_data_get_transaction_number (operation )))
+	    if ( gsb_data_transaction_get_budgetary_number ( gsb_data_transaction_get_transaction_number (operation )))
 	    {
-		nom_ib_en_cours = nom_imputation_par_no ( gsb_transaction_data_get_budgetary_number ( gsb_transaction_data_get_transaction_number (operation )),
+		nom_ib_en_cours = nom_imputation_par_no ( gsb_data_transaction_get_budgetary_number ( gsb_data_transaction_get_transaction_number (operation )),
 							  0 );
 
 		pointeur_char = g_strconcat ( decalage_ib,
@@ -1827,7 +1827,7 @@ gint etat_affiche_affiche_ib_etat ( gpointer operation,
 	ligne_debut_partie = ligne;
 	denote_struct_sous_jaccentes ( 3 );
 
-	ancienne_ib_etat = gsb_transaction_data_get_budgetary_number ( gsb_transaction_data_get_transaction_number (operation ));
+	ancienne_ib_etat = gsb_data_transaction_get_budgetary_number ( gsb_data_transaction_get_transaction_number (operation ));
 
 	debut_affichage_etat = 0;
 	changement_de_groupe_etat = 1;
@@ -1855,9 +1855,9 @@ gint etat_affiche_affiche_sous_ib_etat ( gpointer operation,
 	 &&
 	 etat_courant -> afficher_sous_ib
 	 &&
-	 gsb_transaction_data_get_budgetary_number ( gsb_transaction_data_get_transaction_number (operation ))
+	 gsb_data_transaction_get_budgetary_number ( gsb_data_transaction_get_transaction_number (operation ))
 	 &&
-	 gsb_transaction_data_get_sub_budgetary_number ( gsb_transaction_data_get_transaction_number (operation )) != ancienne_sous_ib_etat )
+	 gsb_data_transaction_get_sub_budgetary_number ( gsb_data_transaction_get_transaction_number (operation )) != ancienne_sous_ib_etat )
     {
 	/* lorsqu'on est au début de l'affichage de l'état, on n'affiche pas de totaux */
 
@@ -1885,8 +1885,8 @@ gint etat_affiche_affiche_sous_ib_etat ( gpointer operation,
 
 	if ( etat_courant -> afficher_nom_ib )
 	{
-	    nom_ss_ib_en_cours = nom_sous_imputation_par_no ( gsb_transaction_data_get_budgetary_number ( gsb_transaction_data_get_transaction_number (operation )),
-							      gsb_transaction_data_get_sub_budgetary_number ( gsb_transaction_data_get_transaction_number (operation )));
+	    nom_ss_ib_en_cours = nom_sous_imputation_par_no ( gsb_data_transaction_get_budgetary_number ( gsb_data_transaction_get_transaction_number (operation )),
+							      gsb_data_transaction_get_sub_budgetary_number ( gsb_data_transaction_get_transaction_number (operation )));
 	    if ( nom_ss_ib_en_cours )
 		pointeur_char = g_strconcat ( decalage_sous_ib,
 					      nom_ss_ib_en_cours,
@@ -1909,7 +1909,7 @@ gint etat_affiche_affiche_sous_ib_etat ( gpointer operation,
 	ligne_debut_partie = ligne;
 	denote_struct_sous_jaccentes ( 4 );
 
-	ancienne_sous_ib_etat = gsb_transaction_data_get_sub_budgetary_number ( gsb_transaction_data_get_transaction_number (operation ));
+	ancienne_sous_ib_etat = gsb_data_transaction_get_sub_budgetary_number ( gsb_data_transaction_get_transaction_number (operation ));
 
 	debut_affichage_etat = 0;
 	changement_de_groupe_etat = 1;
@@ -1933,7 +1933,7 @@ gint etat_affiche_affiche_compte_etat ( gpointer operation,
 
     if ( etat_courant -> regroupe_ope_par_compte
 	 &&
-	 gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (operation)) != ancien_compte_etat )
+	 gsb_data_transaction_get_account_number (gsb_data_transaction_get_transaction_number (operation)) != ancien_compte_etat )
     {
 	/* lorsqu'on est au début de l'affichage de l'état, on n'affiche pas de totaux */
 
@@ -1962,9 +1962,9 @@ gint etat_affiche_affiche_compte_etat ( gpointer operation,
 	if ( etat_courant -> afficher_nom_compte )
 	{
 	    pointeur_char = g_strconcat ( decalage_compte,
-					  gsb_account_get_name (gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (operation))),
+					  gsb_data_account_get_name (gsb_data_transaction_get_account_number (gsb_data_transaction_get_transaction_number (operation))),
 					  NULL );
-	    nom_compte_en_cours = gsb_account_get_name (gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (operation)));
+	    nom_compte_en_cours = gsb_data_account_get_name (gsb_data_transaction_get_account_number (gsb_data_transaction_get_transaction_number (operation)));
 
 	    etat_affiche_attach_label ( pointeur_char, TEXT_NORMAL, 0, nb_colonnes-1, 
 					ligne, ligne + 1, LEFT, NULL );
@@ -1974,7 +1974,7 @@ gint etat_affiche_affiche_compte_etat ( gpointer operation,
 	ligne_debut_partie = ligne;
 	denote_struct_sous_jaccentes ( 5 );
 
-	ancien_compte_etat = gsb_transaction_data_get_account_number (gsb_transaction_data_get_transaction_number (operation));
+	ancien_compte_etat = gsb_data_transaction_get_account_number (gsb_data_transaction_get_transaction_number (operation));
 
 	debut_affichage_etat = 0;
 	changement_de_groupe_etat = 1;
@@ -1998,7 +1998,7 @@ gint etat_affiche_affiche_tiers_etat ( gpointer operation,
 
     if ( etat_courant -> utilise_tiers
 	 &&
-	 gsb_transaction_data_get_party_number ( gsb_transaction_data_get_transaction_number (operation )) != ancien_tiers_etat )
+	 gsb_data_transaction_get_party_number ( gsb_data_transaction_get_transaction_number (operation )) != ancien_tiers_etat )
     {
 	/* lorsqu'on est au début de l'affichage de l'état, on n'affiche pas de totaux */
 
@@ -2026,9 +2026,9 @@ gint etat_affiche_affiche_tiers_etat ( gpointer operation,
 
 	if ( etat_courant -> afficher_nom_tiers )
 	{
-	    if ( gsb_transaction_data_get_party_number ( gsb_transaction_data_get_transaction_number (operation )))
+	    if ( gsb_data_transaction_get_party_number ( gsb_data_transaction_get_transaction_number (operation )))
 	    {
-		nom_tiers_en_cours = gsb_payee_get_name ( gsb_transaction_data_get_party_number ( gsb_transaction_data_get_transaction_number (operation )), TRUE );
+		nom_tiers_en_cours = gsb_data_payee_get_name ( gsb_data_transaction_get_party_number ( gsb_data_transaction_get_transaction_number (operation )), TRUE );
 
 		pointeur_char = g_strconcat ( decalage_tiers,
 					      nom_tiers_en_cours,
@@ -2047,7 +2047,7 @@ gint etat_affiche_affiche_tiers_etat ( gpointer operation,
 	ligne_debut_partie = ligne;
 	denote_struct_sous_jaccentes ( 6 );
 
-	ancien_tiers_etat = gsb_transaction_data_get_party_number ( gsb_transaction_data_get_transaction_number (operation ));
+	ancien_tiers_etat = gsb_data_transaction_get_party_number ( gsb_data_transaction_get_transaction_number (operation ));
 
 	debut_affichage_etat = 0;
 	changement_de_groupe_etat = 1;

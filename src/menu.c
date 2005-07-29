@@ -28,18 +28,18 @@
 
 /*START_INCLUDE*/
 #include "menu.h"
-#include "echeancier_liste.h"
 #include "help.h"
+#include "echeancier_liste.h"
+#include "operations_liste.h"
 #include "operations_formulaire.h"
 #include "etats_onglet.h"
 #include "barre_outils.h"
-#include "operations_liste.h"
 #include "comptes_traitements.h"
 #include "fichiers_gestion.h"
 #include "qif.h"
 #include "erreur.h"
 #include "tip.h"
-#include "gsb_account.h"
+#include "gsb_data_account.h"
 #include "utils_str.h"
 #include "import.h"
 #include "etats_calculs.h"
@@ -56,15 +56,14 @@
 /*START_STATIC*/
 static void affiche_aide_locale ( gpointer null,
 			   gint origine );
+static gboolean gsb_gui_toggle_grid_mode ();
+static void gsb_gui_toggle_line_view_mode ( GtkRadioAction * action, GtkRadioAction *current, 
+				     gpointer user_data );
 static GtkWidget *init_menus_old ( GtkWidget *vbox );
 static void lien_web ( GtkWidget *widget,
 		gint origine );
 static  void menu_add_widget (GtkUIManager * p_uiManager, GtkWidget * p_widget, 
 			     GtkContainer * p_box) ;
-void gsb_gui_toggle_line_view_mode ( GtkRadioAction * action, GtkRadioAction *current, 
-				     gpointer user_data );
-/* static void view_menu_cb ( gpointer callback_data, guint callback_action, GtkWidget *widget ); */
-gboolean gsb_gui_toggle_grid_mode ();
 /*END_STATIC*/
 
 
@@ -74,8 +73,8 @@ extern GtkItemFactory *item_factory_menu_general;
 extern GtkTreeModelFilter * navigation_model_filtered;
 extern gsize nb_derniers_fichiers_ouverts ;
 extern gchar **tab_noms_derniers_fichiers_ouverts ;
-extern GtkWidget *window;
 extern GtkWidget *tree_view_liste_echeances;
+extern GtkWidget *window;
 /*END_EXTERN*/
 
 
@@ -676,13 +675,13 @@ gboolean gsb_gui_toggle_grid_mode ()
 				 G_CALLBACK ( affichage_traits_liste_echeances ),
 				 NULL );
 
-	list_tmp = gsb_account_get_list_accounts ();
+	list_tmp = gsb_data_account_get_list_accounts ();
 
 	while ( list_tmp )
 	{
 	    gint i;
 
-	    i = gsb_account_get_no_account ( list_tmp -> data );
+	    i = gsb_data_account_get_no_account ( list_tmp -> data );
 
 	    g_signal_connect_after ( G_OBJECT ( gsb_transactions_list_get_tree_view()),
 				     "expose-event",
@@ -700,13 +699,13 @@ gboolean gsb_gui_toggle_grid_mode ()
 					       G_CALLBACK ( affichage_traits_liste_echeances ),
 					       NULL );
 
-	list_tmp = gsb_account_get_list_accounts ();
+	list_tmp = gsb_data_account_get_list_accounts ();
 
 	while ( list_tmp )
 	{
 	    gint i;
 
-	    i = gsb_account_get_no_account ( list_tmp -> data );
+	    i = gsb_data_account_get_no_account ( list_tmp -> data );
 
 	    g_signal_handlers_disconnect_by_func ( G_OBJECT ( gsb_transactions_list_get_tree_view()  ),
 						   G_CALLBACK ( affichage_traits_liste_operation ),
@@ -722,7 +721,7 @@ gboolean gsb_gui_toggle_grid_mode ()
 }
 
 /*     widget_state = gtk_check_menu_item_get_active( GTK_CHECK_MENU_ITEM(widget) ); */
-/*     current_account = gsb_account_get_current_account (); */
+/*     current_account = gsb_data_account_get_current_account (); */
 
 /*     switch ( callback_action ) */
 /*     { */
@@ -733,11 +732,11 @@ gboolean gsb_gui_toggle_grid_mode ()
 /* 	    change_aspect_liste (0); */
 /* 	    break; */
 /* 	case HIDE_SHOW_RECONCILED_TRANSACTIONS: */
-/* 	    if ( gsb_account_get_r ( current_account ) ) */
+/* 	    if ( gsb_data_account_get_r ( current_account ) ) */
 /* 		change_aspect_liste(6); */
 /* 	    else */
 /* 		change_aspect_liste(5); */
-/* 	    gsb_account_set_r ( current_account, widget_state ); */
+/* 	    gsb_data_account_set_r ( current_account, widget_state ); */
 /* 	    break; */
 /* 	case HIDE_SHOW_CLOSED_ACCOUNTS: */
 /* 	    etat.show_closed_accounts = widget_state; */
@@ -770,11 +769,11 @@ gboolean gsb_menu_update_view_menu ( gint account_number )
     check_menu_item = gtk_item_factory_get_item ( item_factory_menu_general,
 						  menu_name(_("View"), _("Show reconciled transactions"), NULL) );
     gtk_check_menu_item_set_active( GTK_CHECK_MENU_ITEM(check_menu_item),
-				    gsb_account_get_r (account_number));
+				    gsb_data_account_get_r (account_number));
 
     /* update the number of line showed */
 
-    switch ( gsb_account_get_nb_rows (account_number))
+    switch ( gsb_data_account_get_nb_rows (account_number))
     {
 	case 1 :
 	    item_name = menu_name ( _("View"), _("Show one line per transaction"), NULL );
@@ -817,20 +816,20 @@ gboolean gsb_menu_update_accounts_in_menus ( void )
     /* FIXME : je pense un bug ici, il va effacer que les comptes dont il connait le nom, peut 
      * être faudrait passer par les menus directement ?? à vérifier (cédric)*/
 
-    list_tmp = gsb_account_get_list_accounts ();
+    list_tmp = gsb_data_account_get_list_accounts ();
 
     while ( list_tmp )
     {
 	gint i;
 	gchar *tmp;
 
-	i = gsb_account_get_no_account ( list_tmp -> data );
+	i = gsb_data_account_get_no_account ( list_tmp -> data );
 
-	tmp = my_strdelimit ( gsb_account_get_name (i),
+	tmp = my_strdelimit ( gsb_data_account_get_name (i),
 			      "/",
 			      "\\/" );
 
-	if ( !gsb_account_get_closed_account ( i ))
+	if ( !gsb_data_account_get_closed_account ( i ))
 	    gtk_item_factory_delete_item ( item_factory_menu_general,
 					   menu_name(_("Edit"), _("Move transaction to another account"), tmp ));
 	
@@ -844,7 +843,7 @@ gboolean gsb_menu_update_accounts_in_menus ( void )
 
     /* create the closed accounts and accounts in the menu to move a transaction */
 
-    list_tmp = gsb_account_get_list_accounts ();
+    list_tmp = gsb_data_account_get_list_accounts ();
 
     while ( list_tmp )
     {
@@ -852,12 +851,12 @@ gboolean gsb_menu_update_accounts_in_menus ( void )
 	GtkItemFactoryEntry *item_factory_entry;
 	gchar *tmp;
 
-	i = gsb_account_get_no_account ( list_tmp -> data );
+	i = gsb_data_account_get_no_account ( list_tmp -> data );
 
 	/* 	we put all the accounts in the edition menu */
 	item_factory_entry = calloc ( 1, sizeof ( GtkItemFactoryEntry ));
 
-	tmp = my_strdelimit ( gsb_account_get_name (i), "/", "\\/" );
+	tmp = my_strdelimit ( gsb_data_account_get_name (i), "/", "\\/" );
 
 	item_factory_entry -> path = menu_name(_("Edit"), 
 					       _("Move transaction to another account"), 
@@ -877,7 +876,7 @@ gboolean gsb_menu_update_accounts_in_menus ( void )
 							       menu_name(_("Edit"), _("Move transaction to another account"), NULL)),
 				   TRUE );
 
-	if ( i == gsb_account_get_current_account () )
+	if ( i == gsb_data_account_get_current_account () )
 	{
 	    /* un-sensitive the name of account in the menu */
 	    gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,

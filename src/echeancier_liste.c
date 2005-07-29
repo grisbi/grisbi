@@ -37,9 +37,9 @@
 #include "dialog.h"
 #include "operations_formulaire.h"
 #include "utils_dates.h"
-#include "gsb_account.h"
+#include "gsb_data_account.h"
+#include "gsb_data_payee.h"
 #include "fenetre_principale.h"
-#include "gsb_payee_data.h"
 #include "gtk_combofix.h"
 #include "echeancier_infos.h"
 #include "traitement_variables.h"
@@ -473,8 +473,8 @@ void remplissage_liste_echeance ( void )
 		ligne[COL_NB_FREQUENCY] = names [ echeance -> periodicite ];
 	    }
 
-	    ligne[COL_NB_ACCOUNT] = gsb_account_get_name ( echeance -> compte );
-	    ligne[COL_NB_PARTY] = gsb_payee_get_name (echeance -> tiers, TRUE );
+	    ligne[COL_NB_ACCOUNT] = gsb_data_account_get_name ( echeance -> compte );
+	    ligne[COL_NB_PARTY] = gsb_data_payee_get_name (echeance -> tiers, TRUE );
 	    ligne[COL_NB_NOTES] = echeance -> notes;
 	    ligne[COL_NB_AMOUNT] = g_strdup_printf ( "%4.2f", echeance -> montant );
 
@@ -972,7 +972,7 @@ void edition_echeance ( void )
 
     /* mise en place du tiers */
 
-    char_tmp = gsb_payee_get_name ( echeance_selectionnnee -> tiers, TRUE );
+    char_tmp = gsb_data_payee_get_name ( echeance_selectionnnee -> tiers, TRUE );
 
     if ( char_tmp )
     {
@@ -1060,7 +1060,7 @@ void edition_echeance ( void )
 	    if ( echeance_selectionnnee -> compte_virement )
 	    {
 		texte = g_strconcat ( COLON(_("Transfer")),
-				      gsb_account_get_name (echeance_selectionnnee -> compte_virement),
+				      gsb_data_account_get_name (echeance_selectionnnee -> compte_virement),
 				      NULL );
 	    }
 	    else
@@ -1229,7 +1229,7 @@ void supprime_echeance ( struct operation_echeance *echeance )
 				       gsb_format_date ( echeance -> jour,
 							 echeance -> mois,
 							 echeance -> annee ),
-				       gsb_payee_get_name ( echeance -> tiers, FALSE ),
+				       gsb_data_payee_get_name ( echeance -> tiers, FALSE ),
 				       echeance -> montant,
 				       devise_name ( devise_par_no (echeance->devise) ) );
 

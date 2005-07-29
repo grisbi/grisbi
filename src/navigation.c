@@ -27,7 +27,7 @@
 #include "equilibrage.h"
 #include "echeancier_infos.h"
 #include "utils_devises.h"
-#include "gsb_account.h"
+#include "gsb_data_account.h"
 #include "operations_comptes.h"
 #include "fenetre_principale.h"
 #include "operations_liste.h"
@@ -357,10 +357,10 @@ void create_account_list ( GtkTreeModel * model, GtkTreeIter * account_iter )
     GSList *list_tmp;
 
     /* Fill in with accounts. */
-    list_tmp = gsb_account_get_list_accounts ();
+    list_tmp = gsb_data_account_get_list_accounts ();
     while ( list_tmp )
     {
-	gint i = gsb_account_get_no_account ( list_tmp -> data );
+	gint i = gsb_data_account_get_no_account ( list_tmp -> data );
 	GtkTreeIter iter;
 
 	gtk_tree_store_append(GTK_TREE_STORE(model), &iter, account_iter);
@@ -422,7 +422,7 @@ gboolean gsb_gui_navigation_line_visible_p ( GtkTreeModel * model, GtkTreeIter *
     if ( page != GSB_ACCOUNT_PAGE || account_nb < 0 )
 	return TRUE;
 
-    if ( (! gsb_account_get_closed_account(account_nb)) || etat.show_closed_accounts )
+    if ( (! gsb_data_account_get_closed_account(account_nb)) || etat.show_closed_accounts )
     {
         return TRUE;
     }
@@ -462,7 +462,7 @@ gboolean gsb_gui_navigation_update_notebook ( GtkTreeSelection * selection,
 
     if ( account_nb >= 0 )
     {
-	gsb_account_list_gui_change_current_account ( GINT_TO_POINTER(account_nb) );
+	gsb_data_account_list_gui_change_current_account ( GINT_TO_POINTER(account_nb) );
 	remplissage_details_compte ();
     }
 
@@ -681,7 +681,7 @@ void gsb_gui_navigation_update_account_iter ( GtkTreeModel * model,
     GdkPixbuf * pixbuf;
     gchar * account_icon;
 	    
-    switch ( gsb_account_get_kind ( account_nb ) )
+    switch ( gsb_data_account_get_kind ( account_nb ) )
     {
 	case GSB_TYPE_BANK:
 	    account_icon = "bank-account";
@@ -707,11 +707,11 @@ void gsb_gui_navigation_update_account_iter ( GtkTreeModel * model,
     gtk_tree_store_set(GTK_TREE_STORE(model), account_iter, 
 		       NAVIGATION_PIX, pixbuf,
 		       NAVIGATION_PIX_VISIBLE, TRUE, 
-		       NAVIGATION_TEXT, gsb_account_get_name ( account_nb ), 
+		       NAVIGATION_TEXT, gsb_data_account_get_name ( account_nb ), 
 		       NAVIGATION_FONT, 400,
 		       NAVIGATION_PAGE, GSB_ACCOUNT_PAGE,
 		       NAVIGATION_ACCOUNT, account_nb,
-		       NAVIGATION_SENSITIVE, !gsb_account_get_closed_account ( account_nb ),
+		       NAVIGATION_SENSITIVE, !gsb_data_account_get_closed_account ( account_nb ),
 		       -1 );
 }
 
@@ -818,15 +818,15 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 	case GSB_ACCOUNT_PAGE:
 	    gtk_tree_model_get (model, &iter, NAVIGATION_ACCOUNT, &account_nb, -1);
 	    title = g_strconcat ( _("Account transactions"), " : ",
-				  gsb_account_get_name ( account_nb ),
+				  gsb_data_account_get_name ( account_nb ),
 				  NULL );
-	    if ( gsb_account_get_closed_account ( account_nb ) )
+	    if ( gsb_data_account_get_closed_account ( account_nb ) )
 	    {
 		title = g_strconcat ( title, " (", _("closed"), ")", NULL );
 	    }
 	    suffix = g_strdup_printf ( "%4.2f %s", 
-				       gsb_account_get_current_balance ( compte_courant_onglet ),
-				       devise_code ( devise_par_no ( gsb_account_get_currency ( compte_courant_onglet ) ) ) );
+				       gsb_data_account_get_current_balance ( compte_courant_onglet ),
+				       devise_code ( devise_par_no ( gsb_data_account_get_currency ( compte_courant_onglet ) ) ) );
 	    break;
 
 	case GSB_PAYEES_PAGE:

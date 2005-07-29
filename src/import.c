@@ -40,11 +40,11 @@
 #include "dialog.h"
 #include "utils_file_selection.h"
 #include "utils_files.h"
-#include "gsb_account.h"
+#include "gsb_data_account.h"
+#include "gsb_data_payee.h"
+#include "gsb_data_transaction.h"
 #include "utils_dates.h"
 #include "menu.h"
-#include "gsb_payee_data.h"
-#include "gsb_transaction_data.h"
 #include "operations_liste.h"
 #include "fichiers_gestion.h"
 #include "traitement_variables.h"
@@ -314,7 +314,7 @@ gboolean affichage_recapitulatif_importation ( void )
       }
 
     /* We have to do that as soon as possible since this would reset currencies */
-    if ( !gsb_account_get_accounts_amount () )
+    if ( !gsb_data_account_get_accounts_amount () )
       {
 	init_variables ();
       }
@@ -389,7 +389,7 @@ gboolean affichage_recapitulatif_importation ( void )
 				TRUE,
 				FALSE );
 
-	if ( gsb_account_get_accounts_amount () )
+	if ( gsb_data_account_get_accounts_amount () )
 	    gtk_widget_set_usize ( dialog_recapitulatif,
 				   900,
 				   400 );
@@ -472,7 +472,7 @@ gboolean affichage_recapitulatif_importation ( void )
 			   0, 0 );
 	gtk_widget_show ( label );
 
-	if ( gsb_account_get_accounts_amount () )
+	if ( gsb_data_account_get_accounts_amount () )
 	{
 	    label = gtk_label_new ( _( "Account" ));
 	    gtk_table_attach ( GTK_TABLE ( table_recapitulatif ),
@@ -509,7 +509,7 @@ gboolean affichage_recapitulatif_importation ( void )
 
 	/* si aucun compte n'est ouvert, on crée les devises de base */
 
-	if ( !gsb_account_get_accounts_amount () )
+	if ( !gsb_data_account_get_accounts_amount () )
 	{
 	    menus_sensitifs ( FALSE );
 	    ajout_devise (NULL);
@@ -731,7 +731,7 @@ void cree_ligne_recapitulatif ( struct struct_compte_importation *compte,
     gtk_object_set_data ( GTK_OBJECT ( menu_item ),
 			  "no_action",
 			  GINT_TO_POINTER ( 0 ) );
-    if ( gsb_account_get_accounts_amount () )
+    if ( gsb_data_account_get_accounts_amount () )
 	gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
 				    "activate",
 				    GTK_SIGNAL_FUNC ( desensitive_widget ),
@@ -744,7 +744,7 @@ void cree_ligne_recapitulatif ( struct struct_compte_importation *compte,
 		      menu_item );
     gtk_widget_show ( menu_item );
 
-    if ( gsb_account_get_accounts_amount () )
+    if ( gsb_data_account_get_accounts_amount () )
     {
 	menu_item = gtk_menu_item_new_with_label ( _("Add the transactions"));
 	gtk_object_set_data ( GTK_OBJECT ( menu_item ),
@@ -797,23 +797,23 @@ void cree_ligne_recapitulatif ( struct struct_compte_importation *compte,
 
     no_compte_trouve = -1;
 
-    if ( gsb_account_get_accounts_amount () )
+    if ( gsb_data_account_get_accounts_amount () )
     {
 	GSList *list_tmp;
 
 	menu = gtk_menu_new ();
 
-	list_tmp = gsb_account_get_list_accounts ();
+	list_tmp = gsb_data_account_get_list_accounts ();
 
 	while ( list_tmp )
 	{
 	    gint i;
 
-	    i = gsb_account_get_no_account ( list_tmp -> data );
+	    i = gsb_data_account_get_no_account ( list_tmp -> data );
 
-	    if ( !gsb_account_get_closed_account (i))
+	    if ( !gsb_data_account_get_closed_account (i))
 	    {
-		menu_item = gtk_menu_item_new_with_label ( gsb_account_get_name (i));
+		menu_item = gtk_menu_item_new_with_label ( gsb_data_account_get_name (i));
 		gtk_object_set_data ( GTK_OBJECT ( menu_item ),
 				      "account_number",
 				      GINT_TO_POINTER (i));
@@ -823,10 +823,10 @@ void cree_ligne_recapitulatif ( struct struct_compte_importation *compte,
 
 		if ( compte -> id_compte
 		     &&
-		     gsb_account_get_id (i)
+		     gsb_data_account_get_id (i)
 		     &&
 		     !g_strcasecmp ( compte -> id_compte,
-				     gsb_account_get_id (i)))
+				     gsb_data_account_get_id (i)))
 		    no_compte_trouve = i;
 
 		/* on ne passe par cette étape que si le compte n'a pas déjà été trouvé avec l'id */
@@ -836,7 +836,7 @@ void cree_ligne_recapitulatif ( struct struct_compte_importation *compte,
 		     compte -> nom_de_compte
 		     &&
 		     !g_strcasecmp ( compte -> nom_de_compte,
-				     gsb_account_get_name (i)))
+				     gsb_data_account_get_name (i)))
 		    no_compte_trouve = i;
 
 
@@ -957,7 +957,7 @@ void traitement_operations_importees ( void )
 
     /* fait le nécessaire si aucun compte n'est ouvert */
 
-    if ( gsb_account_get_accounts_amount () )
+    if ( gsb_data_account_get_accounts_amount () )
 	new_file = 0;
     else
     {
@@ -1012,7 +1012,7 @@ void traitement_operations_importees ( void )
     /*     à ce niveau, il y a forcemment des comptes de créés donc si rien */
     /* 	c'est que pb, on se barre */
 
-    if (!gsb_account_get_accounts_amount ())
+    if (!gsb_data_account_get_accounts_amount ())
 	return;
 
     /* les différentes liste d'opérations ont été créés, on va faire le tour des opés */
@@ -1040,13 +1040,13 @@ void traitement_operations_importees ( void )
 
 	GSList *list_tmp;
 
-	list_tmp = gsb_account_get_list_accounts ();
+	list_tmp = gsb_data_account_get_list_accounts ();
 
 	while ( list_tmp )
 	{
 	    gint i;
 
-	    i = gsb_account_get_no_account ( list_tmp -> data );
+	    i = gsb_data_account_get_no_account ( list_tmp -> data );
 
 	    if ( !gsb_transactions_list_get_tree_view()  )
 	    {
@@ -1070,10 +1070,10 @@ void traitement_operations_importees ( void )
 		gsb_menu_update_accounts_in_menus();
 	    }
 	    
-	    if ( gsb_account_get_update_list(i) )
+	    if ( gsb_data_account_get_update_list(i) )
 	    {
 		gtk_list_store_clear ( gsb_transactions_list_get_store()  );
-		gsb_account_set_update_list ( i,
+		gsb_data_account_set_update_list ( i,
 					      0 );
 	    }
 
@@ -1117,38 +1117,38 @@ void cree_liens_virements_ope_import ( void )
     /* le même montant, le même jour avec le même tiers */
 
     GSList *list_tmp_transactions;
-    list_tmp_transactions = gsb_transaction_data_get_transactions_list ();
+    list_tmp_transactions = gsb_data_transaction_get_transactions_list ();
 
     while ( list_tmp_transactions )
     {
 	gint transaction_number_tmp;
-	transaction_number_tmp = gsb_transaction_data_get_transaction_number (list_tmp_transactions -> data);
+	transaction_number_tmp = gsb_data_transaction_get_transaction_number (list_tmp_transactions -> data);
 
 	/* if the account number of transfer is -2, it's a transfer */
 
-	if ( gsb_transaction_data_get_account_number_transfer (transaction_number_tmp)== -2
+	if ( gsb_data_transaction_get_account_number_transfer (transaction_number_tmp)== -2
 	     &&
-	     gsb_transaction_data_get_bank_references (transaction_number_tmp))
+	     gsb_data_transaction_get_bank_references (transaction_number_tmp))
 	{
 	    /* the name of the contra account is in the bank references with [ and ] */
 
 	    gchar *contra_account_name;
 	    gint contra_account_number;
 
-	    contra_account_name = gsb_transaction_data_get_bank_references (transaction_number_tmp);
+	    contra_account_name = gsb_data_transaction_get_bank_references (transaction_number_tmp);
 	    contra_account_name++;
 	    contra_account_name[strlen(contra_account_name)-1] = 0;
-	    contra_account_number = gsb_account_get_no_account_by_name ( contra_account_name );
+	    contra_account_number = gsb_data_account_get_no_account_by_name ( contra_account_name );
 
 	    if ( contra_account_number == -1 )
 	    {
 		/* we have not found the contra-account */
 
-		gsb_transaction_data_set_account_number_transfer ( transaction_number_tmp,
+		gsb_data_transaction_set_account_number_transfer ( transaction_number_tmp,
 								   0);
-		gsb_transaction_data_set_transaction_number_transfer ( transaction_number_tmp,
+		gsb_data_transaction_set_transaction_number_transfer ( transaction_number_tmp,
 								       0);
-		gsb_transaction_data_set_bank_references ( transaction_number_tmp,
+		gsb_data_transaction_set_bank_references ( transaction_number_tmp,
 							   NULL);
 	    }
 	    else
@@ -1156,55 +1156,55 @@ void cree_liens_virements_ope_import ( void )
 		/* we have found the contra-account, we look for the contra-transaction */
 
 		GSList *list_tmp_transactions_2;
-		list_tmp_transactions_2 = gsb_transaction_data_get_transactions_list ();
+		list_tmp_transactions_2 = gsb_data_transaction_get_transactions_list ();
 
 		while ( list_tmp_transactions_2 )
 		{
 		    gint contra_transaction_number_tmp;
-		    contra_transaction_number_tmp = gsb_transaction_data_get_transaction_number (list_tmp_transactions_2 -> data);
+		    contra_transaction_number_tmp = gsb_data_transaction_get_transaction_number (list_tmp_transactions_2 -> data);
 
-		    if ( gsb_transaction_data_get_account_number (contra_transaction_number_tmp) == contra_account_number
+		    if ( gsb_data_transaction_get_account_number (contra_transaction_number_tmp) == contra_account_number
 			 &&
-			 gsb_transaction_data_get_account_number_transfer ( contra_transaction_number_tmp ) == -2
+			 gsb_data_transaction_get_account_number_transfer ( contra_transaction_number_tmp ) == -2
 			 &&
-			 gsb_transaction_data_get_bank_references ( contra_transaction_number_tmp )
+			 gsb_data_transaction_get_bank_references ( contra_transaction_number_tmp )
 			 &&
 			 (!g_strcasecmp ( g_strconcat ("[",
-						       gsb_account_get_name (transaction_number_tmp),
+						       gsb_data_account_get_name (transaction_number_tmp),
 						       "]",
 						       NULL),
-					  g_strstrip ( gsb_transaction_data_get_bank_references ( contra_transaction_number_tmp )))
+					  g_strstrip ( gsb_data_transaction_get_bank_references ( contra_transaction_number_tmp )))
 			  ||
-			  g_strcasecmp ( gsb_account_get_name (transaction_number_tmp),
-					 g_strstrip ( gsb_transaction_data_get_bank_references ( contra_transaction_number_tmp)))) 
+			  g_strcasecmp ( gsb_data_account_get_name (transaction_number_tmp),
+					 g_strstrip ( gsb_data_transaction_get_bank_references ( contra_transaction_number_tmp)))) 
 			 &&
-			 ( fabs ( gsb_transaction_data_get_amount (transaction_number_tmp))
+			 ( fabs ( gsb_data_transaction_get_amount (transaction_number_tmp))
 			   ==
-			   fabs ( gsb_transaction_data_get_adjusted_amount_for_currency ( contra_transaction_number_tmp,
-											  gsb_account_get_currency (transaction_number_tmp))))
+			   fabs ( gsb_data_transaction_get_adjusted_amount_for_currency ( contra_transaction_number_tmp,
+											  gsb_data_account_get_currency (transaction_number_tmp))))
 			 &&
-			 ( gsb_transaction_data_get_party_number (transaction_number_tmp)
+			 ( gsb_data_transaction_get_party_number (transaction_number_tmp)
 			   ==
-			   gsb_transaction_data_get_party_number ( contra_transaction_number_tmp ))
+			   gsb_data_transaction_get_party_number ( contra_transaction_number_tmp ))
 			 &&
-			 !g_date_compare ( gsb_transaction_data_get_date (transaction_number_tmp),
-					   gsb_transaction_data_get_date (contra_transaction_number_tmp)))
+			 !g_date_compare ( gsb_data_transaction_get_date (transaction_number_tmp),
+					   gsb_data_transaction_get_date (contra_transaction_number_tmp)))
 		    {
 			/* la 2ème opération correspond en tout point à la 1ère, on met les relations */
 
-			gsb_transaction_data_set_transaction_number_transfer ( transaction_number_tmp,
+			gsb_data_transaction_set_transaction_number_transfer ( transaction_number_tmp,
 									       contra_transaction_number_tmp );
-			gsb_transaction_data_set_account_number_transfer ( transaction_number_tmp,
-									   gsb_transaction_data_get_account_number (contra_transaction_number_tmp));
+			gsb_data_transaction_set_account_number_transfer ( transaction_number_tmp,
+									   gsb_data_transaction_get_account_number (contra_transaction_number_tmp));
 
-			gsb_transaction_data_set_transaction_number_transfer ( contra_transaction_number_tmp,
+			gsb_data_transaction_set_transaction_number_transfer ( contra_transaction_number_tmp,
 									       transaction_number_tmp);
-			gsb_transaction_data_set_account_number_transfer ( contra_transaction_number_tmp,
-									   gsb_transaction_data_get_account_number (transaction_number_tmp));
+			gsb_data_transaction_set_account_number_transfer ( contra_transaction_number_tmp,
+									   gsb_data_transaction_get_account_number (transaction_number_tmp));
 
-			gsb_transaction_data_set_bank_references ( transaction_number_tmp,
+			gsb_data_transaction_set_bank_references ( transaction_number_tmp,
 								   NULL);
-			gsb_transaction_data_set_bank_references ( contra_transaction_number_tmp,
+			gsb_data_transaction_set_bank_references ( contra_transaction_number_tmp,
 								   NULL);
 		    }
 		    list_tmp_transactions_2 = list_tmp_transactions_2 -> next;
@@ -1212,13 +1212,13 @@ void cree_liens_virements_ope_import ( void )
 
 		/* if no contra-transaction, that transaction becomes normal */
 
-		if ( gsb_transaction_data_get_account_number_transfer (transaction_number_tmp) == -2 )
+		if ( gsb_data_transaction_get_account_number_transfer (transaction_number_tmp) == -2 )
 		{
-		    gsb_transaction_data_set_account_number_transfer ( transaction_number_tmp,
+		    gsb_data_transaction_set_account_number_transfer ( transaction_number_tmp,
 								       0);
-		    gsb_transaction_data_set_transaction_number_transfer ( transaction_number_tmp,
+		    gsb_data_transaction_set_transaction_number_transfer ( transaction_number_tmp,
 									   0);
-		    gsb_transaction_data_set_bank_references ( transaction_number_tmp,
+		    gsb_data_transaction_set_bank_references ( transaction_number_tmp,
 							       NULL);
 		}
 	    }
@@ -1244,7 +1244,7 @@ gint gsb_import_create_imported_account ( struct struct_compte_importation *impo
     /*     on crée et initialise le nouveau compte  */
     /*     le type par défaut est 0 (compte bancaire) */
 
-    account_number = gsb_account_new( GSB_TYPE_BANK );
+    account_number = gsb_data_account_new( GSB_TYPE_BANK );
 
     /*     si ça c'est mal passé, on se barre */
 
@@ -1257,32 +1257,32 @@ gint gsb_import_create_imported_account ( struct struct_compte_importation *impo
     {
 	gchar **tab_str;
 
-	gsb_account_set_id (account_number,
+	gsb_data_account_set_id (account_number,
 			    g_strdup ( imported_account -> id_compte ));
 
 	/* 	en théorie cet id est "no_banque no_guichet no_comptecle" */
 	/* on va essayer d'importer ces données ici */
 	/* si on rencontre un null, on s'arrête */
 
-	tab_str = g_strsplit ( gsb_account_get_id (account_number),
+	tab_str = g_strsplit ( gsb_data_account_get_id (account_number),
 			       " ",
 			       3 );
 	if ( tab_str[1] )
 	{
-	    gsb_account_set_bank_branch_code ( account_number,
+	    gsb_data_account_set_bank_branch_code ( account_number,
 					       g_strdup ( tab_str[1] ) );
 
 	    if ( tab_str[2] )
 	    {
 		gchar *temp;
 
-		gsb_account_set_bank_account_key ( account_number,
+		gsb_data_account_set_bank_account_key ( account_number,
 						   g_strdup ( tab_str[2] + strlen ( tab_str[2] ) - 1 ) );
 
 		temp = g_strdup ( tab_str[2] );
 
 		temp[strlen (temp) - 1 ] = 0;
-		gsb_account_set_bank_account_number ( account_number,
+		gsb_data_account_set_bank_account_number ( account_number,
 						      temp );
 	    }
 	}
@@ -1292,15 +1292,15 @@ gint gsb_import_create_imported_account ( struct struct_compte_importation *impo
     /* met le nom du compte */
 
     if ( imported_account -> nom_de_compte )
-	gsb_account_set_name ( account_number,
+	gsb_data_account_set_name ( account_number,
 			       g_strstrip ( imported_account -> nom_de_compte ) );
     else
-	gsb_account_set_name ( account_number,
+	gsb_data_account_set_name ( account_number,
 			       g_strdup ( _("Imported account")) );
 
     /* choix de la devise du compte */
 
-    gsb_account_set_currency ( account_number,
+    gsb_data_account_set_currency ( account_number,
 			       GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( imported_account -> bouton_devise ) -> menu_item ),
 								       "no_devise" )));
 
@@ -1309,24 +1309,24 @@ gint gsb_import_create_imported_account ( struct struct_compte_importation *impo
     switch ( imported_account -> type_de_compte )
     {
 	case 3:
-	    gsb_account_set_kind (account_number,
+	    gsb_data_account_set_kind (account_number,
 				  GSB_TYPE_LIABILITIES);
 	    break;
 
 	case 7:
-	    gsb_account_set_kind (account_number,
+	    gsb_data_account_set_kind (account_number,
 				  GSB_TYPE_CASH);
 	    break;
     }
 
     /* met le solde init */
 
-    gsb_account_set_init_balance ( account_number,
+    gsb_data_account_set_init_balance ( account_number,
 				   imported_account -> solde);
-    gsb_account_set_current_balance ( account_number, 
-				      gsb_account_get_init_balance (account_number));
-    gsb_account_set_marked_balance ( account_number, 
-				     gsb_account_get_init_balance (account_number));
+    gsb_data_account_set_current_balance ( account_number, 
+				      gsb_data_account_get_init_balance (account_number));
+    gsb_data_account_set_marked_balance ( account_number, 
+				     gsb_data_account_get_init_balance (account_number));
 
     return account_number;
 }
@@ -1352,9 +1352,9 @@ void gsb_import_add_imported_transactions ( struct struct_compte_importation *im
 
     if ( imported_account -> id_compte )
     {
-	if ( gsb_account_get_id (account_number) )
+	if ( gsb_data_account_get_id (account_number) )
 	{
-	    if ( g_strcasecmp ( gsb_account_get_id (account_number),
+	    if ( g_strcasecmp ( gsb_data_account_get_id (account_number),
 				imported_account -> id_compte ))
 	    {
 		/* 		l'id du compte choisi et l'id du compte importé sont différents */
@@ -1363,14 +1363,14 @@ void gsb_import_add_imported_transactions ( struct struct_compte_importation *im
 
 		if ( question_yes_no_hint ( _("The id of the imported and chosen accounts are different"),
 					    _("Perhaps you choose a wrong account ?  If you choose to continue, the id of the account will be changed.  Do you want to continue ?")))
-		    gsb_account_set_id (account_number,
+		    gsb_data_account_set_id (account_number,
 					g_strdup ( imported_account -> id_compte ));
 		else
 		    return;
 	    }
 	}
 	else
-	    gsb_account_set_id (account_number,
+	    gsb_data_account_set_id (account_number,
 				g_strdup ( imported_account -> id_compte ));
 
     }
@@ -1389,21 +1389,21 @@ void gsb_import_add_imported_transactions ( struct struct_compte_importation *im
     /* qui ont une date supérieure sont automatiquement acceptées */
 
 
-    list_tmp_transactions = gsb_transaction_data_get_transactions_list ();
+    list_tmp_transactions = gsb_data_transaction_get_transactions_list ();
     last_date = NULL;
 
     while ( list_tmp_transactions )
     {
 	gint transaction_number_tmp;
-	transaction_number_tmp = gsb_transaction_data_get_transaction_number (list_tmp_transactions -> data);
+	transaction_number_tmp = gsb_data_transaction_get_transaction_number (list_tmp_transactions -> data);
 
-	if ( gsb_transaction_data_get_account_number (transaction_number_tmp) == account_number )
+	if ( gsb_data_transaction_get_account_number (transaction_number_tmp) == account_number )
 	{
 	    if ( !last_date
 		 ||
-		 g_date_compare ( gsb_transaction_data_get_date (transaction_number_tmp),
+		 g_date_compare ( gsb_data_transaction_get_date (transaction_number_tmp),
 				  last_date ) > 0 )
-		last_date = gsb_transaction_data_get_date (transaction_number_tmp);
+		last_date = gsb_data_transaction_get_date (transaction_number_tmp);
 	}
 	list_tmp_transactions = list_tmp_transactions -> next;
     }
@@ -1464,21 +1464,21 @@ void gsb_import_add_imported_transactions ( struct struct_compte_importation *im
 		g_date_add_days ( date_fin_comparaison,
 				  valeur_echelle_recherche_date_import );
 
-		list_tmp_transactions = gsb_transaction_data_get_transactions_list ();
+		list_tmp_transactions = gsb_data_transaction_get_transactions_list ();
 
 		while ( list_tmp_transactions )
 		{
 		    gint transaction_number_tmp;
-		    transaction_number_tmp = gsb_transaction_data_get_transaction_number (list_tmp_transactions -> data);
+		    transaction_number_tmp = gsb_data_transaction_get_transaction_number (list_tmp_transactions -> data);
 
-		    if ( gsb_transaction_data_get_account_number (transaction_number_tmp) == account_number )
+		    if ( gsb_data_transaction_get_account_number (transaction_number_tmp) == account_number )
 		    {
-			if ( fabs ( gsb_transaction_data_get_amount (transaction_number_tmp)- imported_transaction -> montant ) < 0.01
+			if ( fabs ( gsb_data_transaction_get_amount (transaction_number_tmp)- imported_transaction -> montant ) < 0.01
 			     &&
-			     ( g_date_compare ( gsb_transaction_data_get_date (transaction_number_tmp),
+			     ( g_date_compare ( gsb_data_transaction_get_date (transaction_number_tmp),
 						date_debut_comparaison ) >= 0 )
 			     &&
-			     ( g_date_compare ( gsb_transaction_data_get_date (transaction_number_tmp),
+			     ( g_date_compare ( gsb_data_transaction_get_date (transaction_number_tmp),
 						date_fin_comparaison ) <= 0 )
 
 			     &&
@@ -1486,7 +1486,7 @@ void gsb_import_add_imported_transactions ( struct struct_compte_importation *im
 			{
 			    /* l'opé a la même date et le même montant, on la marque pour demander quoi faire à l'utilisateur */
 			    imported_transaction -> action = 1; 
-			    imported_transaction -> ope_correspondante = gsb_transaction_data_get_pointer_to_transaction (transaction_number_tmp);
+			    imported_transaction -> ope_correspondante = gsb_data_transaction_get_pointer_to_transaction (transaction_number_tmp);
 			    demande_confirmation = 1;
 			}
 		    }
@@ -1534,7 +1534,7 @@ void gsb_import_add_imported_transactions ( struct struct_compte_importation *im
     }
 
 
-    gsb_account_set_update_list ( account_number,
+    gsb_data_account_set_update_list ( account_number,
 				  1 );
 /*     calcule_solde_compte ( account_number ); */
 /*     calcule_solde_pointe_compte ( account_number ); */
@@ -1668,23 +1668,23 @@ void confirmation_enregistrement_ope_import ( struct struct_compte_importation *
 				 0 );
 	    gtk_widget_show ( label );
 
-	    tiers = gsb_payee_get_name ( gsb_transaction_data_get_party_number ( gsb_transaction_data_get_transaction_number (operation )), FALSE );
+	    tiers = gsb_data_payee_get_name ( gsb_data_transaction_get_party_number ( gsb_data_transaction_get_transaction_number (operation )), FALSE );
 
-	    if ( gsb_transaction_data_get_notes ( gsb_transaction_data_get_transaction_number (operation)))
+	    if ( gsb_data_transaction_get_notes ( gsb_data_transaction_get_transaction_number (operation)))
 		label = gtk_label_new ( g_strdup_printf ( _("Transaction found : %02d/%02d/%04d ; %s ; %4.2f ; %s"),
-							  g_date_day ( gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation))),
-							  g_date_month ( gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation))),
-							  g_date_year ( gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation))),
+							  g_date_day ( gsb_data_transaction_get_date (gsb_data_transaction_get_transaction_number (operation))),
+							  g_date_month ( gsb_data_transaction_get_date (gsb_data_transaction_get_transaction_number (operation))),
+							  g_date_year ( gsb_data_transaction_get_date (gsb_data_transaction_get_transaction_number (operation))),
 							  tiers,
-							  gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (operation )),
-							  gsb_transaction_data_get_notes ( gsb_transaction_data_get_transaction_number (operation ))));
+							  gsb_data_transaction_get_amount ( gsb_data_transaction_get_transaction_number (operation )),
+							  gsb_data_transaction_get_notes ( gsb_data_transaction_get_transaction_number (operation ))));
 	    else
 		label = gtk_label_new ( g_strdup_printf ( _("Transaction found : %02d/%02d/%04d ; %s ; %4.2f"),
-							  g_date_day ( gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation))),
-							  g_date_month ( gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation))),
-							  g_date_year ( gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation))),
+							  g_date_day ( gsb_data_transaction_get_date (gsb_data_transaction_get_transaction_number (operation))),
+							  g_date_month ( gsb_data_transaction_get_date (gsb_data_transaction_get_transaction_number (operation))),
+							  g_date_year ( gsb_data_transaction_get_date (gsb_data_transaction_get_transaction_number (operation))),
 							  tiers,
-							  gsb_transaction_data_get_amount ( gsb_transaction_data_get_transaction_number (operation ))));
+							  gsb_data_transaction_get_amount ( gsb_data_transaction_get_transaction_number (operation ))));
 
 	    gtk_box_pack_start ( GTK_BOX ( hbox ),
 				 label,
@@ -1755,32 +1755,32 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
 
     /* we create the new transaction */
 
-    transaction_number = gsb_transaction_data_new_transaction ( account_number );
+    transaction_number = gsb_data_transaction_new_transaction ( account_number );
 
     /* récupération de l'id de l'opé s'il existe */
 
     if ( imported_transaction -> id_operation )
-	gsb_transaction_data_set_transaction_id ( transaction_number,
+	gsb_data_transaction_set_transaction_id ( transaction_number,
 						  g_strdup ( imported_transaction -> id_operation ));
 
     /* récupération de la date */
 
-    gsb_transaction_data_set_date ( transaction_number,
+    gsb_data_transaction_set_date ( transaction_number,
 				    gsb_date_copy ( imported_transaction -> date ));
 
     /* récupération de la date de valeur */
 
-    gsb_transaction_data_set_value_date ( transaction_number,
+    gsb_data_transaction_set_value_date ( transaction_number,
 					  gsb_date_copy ( imported_transaction -> date_de_valeur ));
 
     /* récupération du montant */
 
-    gsb_transaction_data_set_amount ( transaction_number,
+    gsb_data_transaction_set_amount ( transaction_number,
 				      imported_transaction -> montant );
 
     /* 	  récupération de la devise */
 
-    gsb_transaction_data_set_currency_number ( transaction_number,
+    gsb_data_transaction_set_currency_number ( transaction_number,
 					       imported_transaction -> devise );
 
     /* rÃ©cupération du tiers */
@@ -1788,8 +1788,8 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
     if ( imported_transaction -> tiers 
 	 &&
 	 strlen ( g_strstrip ( imported_transaction -> tiers )))
-	gsb_transaction_data_set_party_number ( transaction_number,
-						gsb_payee_get_number_by_name ( imported_transaction -> tiers,
+	gsb_data_transaction_set_party_number ( transaction_number,
+						gsb_data_payee_get_number_by_name ( imported_transaction -> tiers,
 									       TRUE ));
 
     /* vérification si c'est ventilé, sinon récupération des catégories */
@@ -1798,7 +1798,7 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
     {
 	/* l'opération est ventilée */
 
-	gsb_transaction_data_set_breakdown_of_transaction ( transaction_number,
+	gsb_data_transaction_set_breakdown_of_transaction ( transaction_number,
 							    1 );
     }
     else
@@ -1815,11 +1815,11 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
 		/* on va mettre le nom du compte dans info_banque_guichet qui n'est jamais utilisé */
 		/* lors d'import, et relation_no_compte sera mis à -2 (-1 est déjà utilisé pour les comptes supprimés */
 
-		gsb_transaction_data_set_bank_references ( transaction_number,
+		gsb_data_transaction_set_bank_references ( transaction_number,
 							   imported_transaction -> categ);
-		gsb_transaction_data_set_account_number_transfer ( transaction_number,
+		gsb_data_transaction_set_account_number_transfer ( transaction_number,
 								   -2);
-		gsb_transaction_data_set_transaction_number_transfer ( transaction_number,
+		gsb_data_transaction_set_transaction_number_transfer ( transaction_number,
 								       -1);
 		virements_a_chercher = 1;
 	    }
@@ -1843,7 +1843,7 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
 		{
 		    struct struct_sous_categ *sous_categ ;
 
-		    gsb_transaction_data_set_category_number ( transaction_number,
+		    gsb_data_transaction_set_category_number ( transaction_number,
 							       categ -> no_categ );
 
 		    /* récupération ou création de la sous-catégorie */
@@ -1852,7 +1852,7 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
 						      g_strstrip ( tab_str[1]),
 						      1 );
 		    if ( sous_categ )
-			gsb_transaction_data_set_sub_category_number ( transaction_number,
+			gsb_data_transaction_set_sub_category_number ( transaction_number,
 								       sous_categ -> no_sous_categ);
 		}
 		g_strfreev ( tab_str );
@@ -1862,7 +1862,7 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
 
     /* récupération des notes */
 
-    gsb_transaction_data_set_notes ( transaction_number,
+    gsb_data_transaction_set_notes ( transaction_number,
 				     imported_transaction -> notes );
 
     /* récupération du chèque et mise en forme du type d'opération */
@@ -1875,17 +1875,17 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
 	struct struct_type_ope *type_choisi;
 	GSList *list_tmp;
 
-	if ( gsb_transaction_data_get_amount (transaction_number)< 0 )
-	    gsb_transaction_data_set_method_of_payment_number ( transaction_number,
-								gsb_account_get_default_debit (account_number));
+	if ( gsb_data_transaction_get_amount (transaction_number)< 0 )
+	    gsb_data_transaction_set_method_of_payment_number ( transaction_number,
+								gsb_data_account_get_default_debit (account_number));
 	else
-	    gsb_transaction_data_set_method_of_payment_number ( transaction_number,
-								gsb_account_get_default_credit (account_number));
+	    gsb_data_transaction_set_method_of_payment_number ( transaction_number,
+								gsb_data_account_get_default_credit (account_number));
 
-	gsb_transaction_data_set_method_of_payment_content ( transaction_number,
+	gsb_data_transaction_set_method_of_payment_content ( transaction_number,
 							     utils_str_itoa ( imported_transaction -> cheque ) );
 
-	list_tmp = gsb_account_get_method_payment_list (account_number);
+	list_tmp = gsb_data_account_get_method_payment_list (account_number);
 	type_choisi = NULL;
 
 	while ( list_tmp )
@@ -1902,18 +1902,18 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
 	    {
 		if ( !type -> signe_type
 		     ||
-		     ( type -> signe_type == 1 && gsb_transaction_data_get_amount (transaction_number)< 0 )
+		     ( type -> signe_type == 1 && gsb_data_transaction_get_amount (transaction_number)< 0 )
 		     ||
-		     ( type -> signe_type == 2 && gsb_transaction_data_get_amount (transaction_number)> 0 ))
+		     ( type -> signe_type == 2 && gsb_data_transaction_get_amount (transaction_number)> 0 ))
 		{
-		    gsb_transaction_data_set_method_of_payment_number ( transaction_number,
+		    gsb_data_transaction_set_method_of_payment_number ( transaction_number,
 									type -> no_type );
 		    type_choisi = type;
 		    list_tmp = NULL;
 		}
 		else
 		{
-		    gsb_transaction_data_set_method_of_payment_number ( transaction_number,
+		    gsb_data_transaction_set_method_of_payment_number ( transaction_number,
 									type -> no_type );
 		    type_choisi = type;
 		    list_tmp = list_tmp -> next;
@@ -1933,29 +1933,29 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
     {
 	/* comme ce n'est pas un chèque, on met sur le type par défaut */
 
-	if ( gsb_transaction_data_get_amount (transaction_number)< 0 )
-	    gsb_transaction_data_set_method_of_payment_number ( transaction_number,
-								gsb_account_get_default_debit (account_number));
+	if ( gsb_data_transaction_get_amount (transaction_number)< 0 )
+	    gsb_data_transaction_set_method_of_payment_number ( transaction_number,
+								gsb_data_account_get_default_debit (account_number));
 	else
-	    gsb_transaction_data_set_method_of_payment_number ( transaction_number,
-								gsb_account_get_default_credit (account_number));
+	    gsb_data_transaction_set_method_of_payment_number ( transaction_number,
+								gsb_data_account_get_default_credit (account_number));
 
     }
 
     /* récupération du pointé */
 
-    gsb_transaction_data_set_marked_transaction ( transaction_number,
+    gsb_data_transaction_set_marked_transaction ( transaction_number,
 						  imported_transaction -> p_r );
 
     /* si c'est une ope de ventilation, lui ajoute le no de l'opération précédente */
 
     if ( imported_transaction -> ope_de_ventilation )
-	gsb_transaction_data_set_mother_transaction_number ( transaction_number,
+	gsb_data_transaction_set_mother_transaction_number ( transaction_number,
 							     mother_transaction_number );
     else
 	mother_transaction_number  = transaction_number;
 
-    gsb_account_set_update_list ( account_number,
+    gsb_data_account_set_update_list ( account_number,
 				  1 );
 
     return (transaction_number);
@@ -1982,9 +1982,9 @@ void pointe_opes_importees ( struct struct_compte_importation *imported_account 
 
     if ( imported_account -> id_compte )
     {
-	if ( gsb_account_get_id (account_number) )
+	if ( gsb_data_account_get_id (account_number) )
 	{
-	    if ( g_strcasecmp ( gsb_account_get_id (account_number),
+	    if ( g_strcasecmp ( gsb_data_account_get_id (account_number),
 				imported_account -> id_compte ))
 	    {
 		/* 		l'id du compte choisi et l'id du compte importé sont différents */
@@ -1993,14 +1993,14 @@ void pointe_opes_importees ( struct struct_compte_importation *imported_account 
 
 		if ( question_yes_no_hint ( _("The id of the imported and chosen accounts are different"),
 					    _("Perhaps you choose a wrong account ?  If you choose to continue, the id of the account will be changed.  Do you want to continue ?")))
-		    gsb_account_set_id (account_number,
+		    gsb_data_account_set_id (account_number,
 					g_strdup ( imported_account -> id_compte ));
 		else
 		    return;
 	    }
 	}
 	else
-	    gsb_account_set_id (account_number,
+	    gsb_data_account_set_id (account_number,
 				g_strdup ( imported_account -> id_compte ));
 
     }
@@ -2062,25 +2062,25 @@ void pointe_opes_importees ( struct struct_compte_importation *imported_account 
 	    g_date_add_days ( date_fin_comparaison,
 			      valeur_echelle_recherche_date_import );
 
-	    list_tmp_transactions = gsb_transaction_data_get_transactions_list ();
+	    list_tmp_transactions = gsb_data_transaction_get_transactions_list ();
 
 	    while ( list_tmp_transactions )
 	    {
 		gint transaction_number_tmp;
-		transaction_number_tmp = gsb_transaction_data_get_transaction_number (list_tmp_transactions -> data);
+		transaction_number_tmp = gsb_data_transaction_get_transaction_number (list_tmp_transactions -> data);
 
-		if ( gsb_transaction_data_get_account_number (transaction_number_tmp) == account_number )
+		if ( gsb_data_transaction_get_account_number (transaction_number_tmp) == account_number )
 		{
-		    if ( fabs ( gsb_transaction_data_get_amount (transaction_number_tmp)- ope_import -> montant ) < 0.01
+		    if ( fabs ( gsb_data_transaction_get_amount (transaction_number_tmp)- ope_import -> montant ) < 0.01
 			 &&
-			 ( g_date_compare ( gsb_transaction_data_get_date (transaction_number_tmp),
+			 ( g_date_compare ( gsb_data_transaction_get_date (transaction_number_tmp),
 					    date_debut_comparaison ) >= 0 )
 			 &&
-			 ( g_date_compare ( gsb_transaction_data_get_date (transaction_number_tmp),
+			 ( g_date_compare ( gsb_data_transaction_get_date (transaction_number_tmp),
 					    date_fin_comparaison ) <= 0 )
 
 			 &&
-			 !gsb_transaction_data_get_mother_transaction_number (transaction_number_tmp))
+			 !gsb_data_transaction_get_mother_transaction_number (transaction_number_tmp))
 			/* on a retouvé une opé de même date et même montant, on l'ajoute à la liste des opés trouvées */
 			ope_trouvees = g_slist_append ( ope_trouvees,
 							operation );
@@ -2120,36 +2120,36 @@ void pointe_opes_importees ( struct struct_compte_importation *imported_account 
 
 		operation = ope_trouvees -> data;
 
-		if ( !gsb_transaction_data_get_transaction_id ( gsb_transaction_data_get_transaction_number (operation))
+		if ( !gsb_data_transaction_get_transaction_id ( gsb_data_transaction_get_transaction_number (operation))
 		     &&
 		     ope_import -> id_operation )
-		    gsb_transaction_data_set_transaction_id ( gsb_transaction_data_get_transaction_number (operation),
+		    gsb_data_transaction_set_transaction_id ( gsb_data_transaction_get_transaction_number (operation),
 							      ope_import -> id_operation );
 
-		if ( !gsb_transaction_data_get_marked_transaction ( gsb_transaction_data_get_transaction_number (operation )))
+		if ( !gsb_data_transaction_get_marked_transaction ( gsb_data_transaction_get_transaction_number (operation )))
 		{
-		    gsb_transaction_data_set_marked_transaction ( gsb_transaction_data_get_transaction_number (operation ),
+		    gsb_data_transaction_set_marked_transaction ( gsb_data_transaction_get_transaction_number (operation ),
 								  2 );
-		    gsb_account_set_update_list ( account_number,
+		    gsb_data_account_set_update_list ( account_number,
 						  1 );
 
 		    /* si c'est une opé ventilée, on recherche les opé filles pour leur mettre le même pointage que la mère */
 
-		    if ( gsb_transaction_data_get_breakdown_of_transaction ( gsb_transaction_data_get_transaction_number (operation )))
+		    if ( gsb_data_transaction_get_breakdown_of_transaction ( gsb_data_transaction_get_transaction_number (operation )))
 		    {
 			GSList *list_tmp_transactions;
 
-			list_tmp_transactions = gsb_transaction_data_get_transactions_list ();
+			list_tmp_transactions = gsb_data_transaction_get_transactions_list ();
 
 			while ( list_tmp_transactions )
 			{
 			    gint transaction_number_tmp;
-			    transaction_number_tmp = gsb_transaction_data_get_transaction_number (list_tmp_transactions -> data);
+			    transaction_number_tmp = gsb_data_transaction_get_transaction_number (list_tmp_transactions -> data);
 
-			    if ( gsb_transaction_data_get_account_number (transaction_number_tmp) == account_number )
+			    if ( gsb_data_transaction_get_account_number (transaction_number_tmp) == account_number )
 			    {
-				if ( gsb_transaction_data_get_mother_transaction_number (transaction_number_tmp) == gsb_transaction_data_get_transaction_number (operation))
-				    gsb_transaction_data_set_marked_transaction ( transaction_number_tmp,
+				if ( gsb_data_transaction_get_mother_transaction_number (transaction_number_tmp) == gsb_data_transaction_get_transaction_number (operation))
+				    gsb_data_transaction_set_marked_transaction ( transaction_number_tmp,
 										  2 );
 			    }
 			    list_tmp_transactions = list_tmp_transactions -> next;
@@ -2190,10 +2190,10 @@ void pointe_opes_importees ( struct struct_compte_importation *imported_account 
 
 		    if ( fabs ( autre_ope_import -> montant - ope_import -> montant ) < 0.01
 			 &&
-			 ( g_date_compare ( gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation)),
+			 ( g_date_compare ( gsb_data_transaction_get_date (gsb_data_transaction_get_transaction_number (operation)),
 					    date_debut_comparaison ) >= 0 )
 			 &&
-			 ( g_date_compare ( gsb_transaction_data_get_date (gsb_transaction_data_get_transaction_number (operation)),
+			 ( g_date_compare ( gsb_data_transaction_get_date (gsb_data_transaction_get_transaction_number (operation)),
 					    date_fin_comparaison ) <= 0 )
 
 			 &&
@@ -2219,36 +2219,36 @@ void pointe_opes_importees ( struct struct_compte_importation *imported_account 
 		    {
 			operation = list_tmp_2 -> data;
 
-			if ( !gsb_transaction_data_get_transaction_id ( gsb_transaction_data_get_transaction_number (operation))
+			if ( !gsb_data_transaction_get_transaction_id ( gsb_data_transaction_get_transaction_number (operation))
 			     &&
 			     ope_import -> id_operation )
-			    gsb_transaction_data_set_transaction_id ( gsb_transaction_data_get_transaction_number (operation),
+			    gsb_data_transaction_set_transaction_id ( gsb_data_transaction_get_transaction_number (operation),
 								      ope_import -> id_operation );
 
-			if ( !gsb_transaction_data_get_marked_transaction ( gsb_transaction_data_get_transaction_number (operation )))
+			if ( !gsb_data_transaction_get_marked_transaction ( gsb_data_transaction_get_transaction_number (operation )))
 			{
-			    gsb_transaction_data_set_marked_transaction ( gsb_transaction_data_get_transaction_number (operation ),
+			    gsb_data_transaction_set_marked_transaction ( gsb_data_transaction_get_transaction_number (operation ),
 									  2 );
-			    gsb_account_set_update_list ( account_number,
+			    gsb_data_account_set_update_list ( account_number,
 							  1 );
 
 			    /* si c'est une opé ventilée, on recherche les opé filles pour leur mettre le même pointage que la mère */
 
-			    if ( gsb_transaction_data_get_breakdown_of_transaction ( gsb_transaction_data_get_transaction_number (operation )))
+			    if ( gsb_data_transaction_get_breakdown_of_transaction ( gsb_data_transaction_get_transaction_number (operation )))
 			    {
 				GSList *list_tmp_transactions;
 
-				list_tmp_transactions = gsb_transaction_data_get_transactions_list ();
+				list_tmp_transactions = gsb_data_transaction_get_transactions_list ();
 
 				while ( list_tmp_transactions )
 				{
 				    gint transaction_number_tmp;
-				    transaction_number_tmp = gsb_transaction_data_get_transaction_number (list_tmp_transactions -> data);
+				    transaction_number_tmp = gsb_data_transaction_get_transaction_number (list_tmp_transactions -> data);
 
-				    if ( gsb_transaction_data_get_account_number (transaction_number_tmp) == account_number )
+				    if ( gsb_data_transaction_get_account_number (transaction_number_tmp) == account_number )
 				    {
-					if ( gsb_transaction_data_get_mother_transaction_number (transaction_number_tmp) == gsb_transaction_data_get_transaction_number (operation))
-					    gsb_transaction_data_set_marked_transaction ( transaction_number_tmp,
+					if ( gsb_data_transaction_get_mother_transaction_number (transaction_number_tmp) == gsb_data_transaction_get_transaction_number (operation))
+					    gsb_data_transaction_set_marked_transaction ( transaction_number_tmp,
 											  2 );
 				    }
 				    list_tmp_transactions = list_tmp_transactions -> next;
@@ -2456,7 +2456,7 @@ gboolean click_dialog_ope_orphelines ( GtkWidget *dialog,
 
 		    transaction_number = gsb_import_create_transaction ( ope_import,
 									 ope_import -> no_compte );
-		    gsb_transaction_data_set_marked_transaction ( transaction_number,
+		    gsb_data_transaction_set_marked_transaction ( transaction_number,
 								  2 );
 
 		    /* on a enregistré l'opé, on la retire maintenant de la liste et de la sliste */

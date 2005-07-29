@@ -34,7 +34,7 @@
 #include "echeancier_liste.h"
 #include "operations_liste.h"
 #include "equilibrage.h"
-#include "gsb_account.h"
+#include "gsb_data_account.h"
 #include "utils_str.h"
 #include "menu.h"
 #include "traitement_variables.h"
@@ -172,7 +172,7 @@ gboolean popup_transaction_view_mode_menu ( GtkWidget * button )
 			       G_CALLBACK (change_aspect_liste), GINT_TO_POINTER (4) );
 
     gtk_option_menu_set_history ( GTK_OPTION_MENU(menu), 
-				  gsb_account_get_nb_rows ( gsb_account_get_current_account () ) );
+				  gsb_data_account_get_nb_rows ( gsb_data_account_get_current_account () ) );
 
     gtk_widget_show_all ( menu );
     gtk_menu_popup ( GTK_MENU(menu), NULL, button, set_popup_position, button, 1, 
@@ -208,13 +208,13 @@ gboolean change_aspect_liste ( gint demande )
 					 G_CALLBACK ( affichage_traits_liste_echeances ),
 					 NULL );
 
-		list_tmp = gsb_account_get_list_accounts ();
+		list_tmp = gsb_data_account_get_list_accounts ();
 
 		while ( list_tmp )
 		{
 		    gint i;
 
-		    i = gsb_account_get_no_account ( list_tmp -> data );
+		    i = gsb_data_account_get_no_account ( list_tmp -> data );
 
 		    g_signal_connect_after ( G_OBJECT ( gsb_transactions_list_get_tree_view()),
 					     "expose-event",
@@ -232,13 +232,13 @@ gboolean change_aspect_liste ( gint demande )
 						       G_CALLBACK ( affichage_traits_liste_echeances ),
 						       NULL );
 
-		list_tmp = gsb_account_get_list_accounts ();
+		list_tmp = gsb_data_account_get_list_accounts ();
 
 		while ( list_tmp )
 		{
 		    gint i;
 
-		    i = gsb_account_get_no_account ( list_tmp -> data );
+		    i = gsb_data_account_get_no_account ( list_tmp -> data );
 
 		    g_signal_handlers_disconnect_by_func ( G_OBJECT ( gsb_transactions_list_get_tree_view()  ),
 							   G_CALLBACK ( affichage_traits_liste_operation ),

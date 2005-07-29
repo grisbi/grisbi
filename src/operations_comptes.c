@@ -26,7 +26,7 @@
 
 /*START_INCLUDE*/
 #include "operations_comptes.h"
-#include "gsb_account.h"
+#include "gsb_data_account.h"
 #include "menu.h"
 #include "operations_liste.h"
 #include "gtk_list_button.h"
@@ -42,8 +42,8 @@
 /*START_STATIC*/
 static void changement_no_compte_par_menu ( gpointer null,
 				     gint no_account_plus_un );
-static gboolean gsb_account_list_gui_change_order ( GtkWidget *button );
-static GtkWidget *gsb_account_list_gui_create_account_button ( gint no_account,
+static gboolean gsb_data_account_list_gui_change_order ( GtkWidget *button );
+static GtkWidget *gsb_data_account_list_gui_create_account_button ( gint no_account,
 							gint group,
 							gpointer callback );
 static void verifie_no_account_clos ( gint no_nouveau_no_account );
@@ -77,16 +77,16 @@ extern gint nb_colonnes;
  * \param callback function to call when clicked
  * \return a GtkButton
  * */
-GtkWidget *gsb_account_list_gui_create_account_button ( gint no_account,
+GtkWidget *gsb_data_account_list_gui_create_account_button ( gint no_account,
 							gint group,
 							gpointer callback )
 {
     GtkWidget *button;
 
-    button = gtk_list_button_new ( gsb_account_get_name (no_account), group, TRUE, GINT_TO_POINTER (no_account));
+    button = gtk_list_button_new ( gsb_data_account_get_name (no_account), group, TRUE, GINT_TO_POINTER (no_account));
 
     if ( group == 1 )
-	gsb_account_set_account_button( no_account,
+	gsb_data_account_set_account_button( no_account,
 					button );
 
     g_signal_connect_swapped ( G_OBJECT (button),
@@ -95,7 +95,7 @@ GtkWidget *gsb_account_list_gui_create_account_button ( gint no_account,
 			       GINT_TO_POINTER ( no_account ) );
     g_signal_connect ( G_OBJECT ( button ),
 		       "reordered",
-		       G_CALLBACK ( gsb_account_list_gui_change_order ),
+		       G_CALLBACK ( gsb_data_account_list_gui_change_order ),
 		       NULL );
     gtk_widget_show ( button );
 
@@ -106,7 +106,7 @@ GtkWidget *gsb_account_list_gui_create_account_button ( gint no_account,
 void changement_no_compte_par_menu ( gpointer null,
 				     gint no_account_plus_un )
 {
-    gsb_account_list_gui_change_current_account ( GINT_TO_POINTER ( no_account_plus_un - 1) );
+    gsb_data_account_list_gui_change_current_account ( GINT_TO_POINTER ( no_account_plus_un - 1) );
 }
 
 
@@ -117,41 +117,41 @@ void changement_no_compte_par_menu ( gpointer null,
  * \param no_account a pointer on the number of the account we want to see
  * \return FALSE
  * */
-gboolean gsb_account_list_gui_change_current_account ( gint *no_account )
+gboolean gsb_data_account_list_gui_change_current_account ( gint *no_account )
 {
     gint new_account;
     gint current_account;
 
     new_account = GPOINTER_TO_INT ( no_account );
-    current_account = gsb_account_get_current_account ();
+    current_account = gsb_data_account_get_current_account ();
 
     if ( DEBUG )
-	printf ( "gsb_account_list_gui_change_current_account : %d\n", new_account );
+	printf ( "gsb_data_account_list_gui_change_current_account : %d\n", new_account );
 
     /* sensitive the last account in the menu */
 
     gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
 							   menu_name(_("Edit"),
 								     _("Move transaction to another account"),
-								     my_strdelimit ( gsb_account_get_name (current_account),
+								     my_strdelimit ( gsb_data_account_get_name (current_account),
 										     "/",
 										     "\\/" ))),
 			       TRUE );
 
     /* save the adjustment of the last account */
 
-    if ( gsb_account_get_vertical_adjustment_value (current_account) != -1 )
+    if ( gsb_data_account_get_vertical_adjustment_value (current_account) != -1 )
     {
 	GtkAdjustment *adjustment;
 
 	adjustment = gtk_tree_view_get_vadjustment ( GTK_TREE_VIEW (gsb_transactions_list_get_tree_view ()));
-	gsb_account_set_vertical_adjustment_value ( current_account,
+	gsb_data_account_set_vertical_adjustment_value ( current_account,
 						    gtk_adjustment_get_value ( adjustment ));
     }
     
     /*     on se place sur les données du nouveau no_account */
 
-    gsb_account_set_current_account (new_account);
+    gsb_data_account_set_current_account (new_account);
 
     gsb_transactions_list_set_visibles_rows_on_account (new_account);
     gsb_transactions_list_set_background_color (new_account);
@@ -163,12 +163,12 @@ gboolean gsb_account_list_gui_change_current_account ( gint *no_account )
 
     /*     mise en place de la date du dernier relevé */
 
-    if ( gsb_account_get_current_reconcile_date (new_account) )
+    if ( gsb_data_account_get_current_reconcile_date (new_account) )
 	gtk_label_set_text ( GTK_LABEL ( label_last_statement ),
 			     g_strdup_printf ( _("Last statement: %02d/%02d/%d"), 
-					       g_date_day ( gsb_account_get_current_reconcile_date (new_account)),
-					       g_date_month ( gsb_account_get_current_reconcile_date (new_account)),
-					       g_date_year ( gsb_account_get_current_reconcile_date (new_account))));
+					       g_date_day ( gsb_data_account_get_current_reconcile_date (new_account)),
+					       g_date_month ( gsb_data_account_get_current_reconcile_date (new_account)),
+					       g_date_year ( gsb_data_account_get_current_reconcile_date (new_account))));
 
     else
 	gtk_label_set_text ( GTK_LABEL ( label_last_statement ),
@@ -182,7 +182,7 @@ gboolean gsb_account_list_gui_change_current_account ( gint *no_account )
     gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
 							   menu_name(_("Edit"),
 								     _("Move transaction to another account"),
-								     my_strdelimit ( gsb_account_get_name (new_account),
+								     my_strdelimit ( gsb_data_account_get_name (new_account),
 										     "/",
 										     "\\/" ))),
 			       FALSE );
@@ -209,12 +209,12 @@ void verifie_no_account_clos ( gint no_nouveau_no_account )
 {
     /*     si le no_account courant est déjà cloturé, on fait rien */
 
-    if ( gsb_account_get_closed_account (gsb_account_get_current_account ()) )
+    if ( gsb_data_account_get_closed_account (gsb_data_account_get_current_account ()) )
 	return;
 
-    if ( gsb_account_get_closed_account (no_nouveau_no_account) )
+    if ( gsb_data_account_get_closed_account (no_nouveau_no_account) )
     {
-	gtk_list_button_close ( GTK_BUTTON ( gsb_account_get_account_button (gsb_account_get_current_account ()) ));
+	gtk_list_button_close ( GTK_BUTTON ( gsb_data_account_get_account_button (gsb_data_account_get_current_account ()) ));
     }
 }
 /* ********************************************************************************************************** */
@@ -229,7 +229,7 @@ void verifie_no_account_clos ( gint no_nouveau_no_account )
  * \param button
  * \return FALSE
  * */
-gboolean gsb_account_list_gui_change_order ( GtkWidget *button )
+gboolean gsb_data_account_list_gui_change_order ( GtkWidget *button )
 {
     GSList *new_list_order;
     GList *list_buttons_accounts;
@@ -248,7 +248,7 @@ gboolean gsb_account_list_gui_change_order ( GtkWidget *button )
 	list_buttons_accounts = list_buttons_accounts -> next;
     }
 
-    gsb_account_reorder ( new_list_order );
+    gsb_data_account_reorder ( new_list_order );
     g_slist_free (new_list_order);
 
     /* we remake the other accounts list */

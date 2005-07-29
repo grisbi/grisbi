@@ -26,9 +26,9 @@
 
 /*START_INCLUDE*/
 #include "etats_gtktable.h"
-#include "gsb_account.h"
+#include "gsb_data_account.h"
 #include "operations_comptes.h"
-#include "gsb_transaction_data.h"
+#include "gsb_data_transaction.h"
 #include "operations_liste.h"
 #include "utils.h"
 #include "structures.h"
@@ -257,25 +257,25 @@ void gtktable_click_sur_ope_etat ( gpointer operation )
 {
     gint transaction_number;
 
-    transaction_number = gsb_transaction_data_get_transaction_number (operation);
+    transaction_number = gsb_data_transaction_get_transaction_number (operation);
 
     /* if it's a child of breakdown, we go on the mother */
     /* FIXME : now, we can go directly on the child... */
 
-    if ( gsb_transaction_data_get_mother_transaction_number (transaction_number))
-	transaction_number = gsb_transaction_data_get_mother_transaction_number (transaction_number);
+    if ( gsb_data_transaction_get_mother_transaction_number (transaction_number))
+	transaction_number = gsb_data_transaction_get_mother_transaction_number (transaction_number);
 
     if ( transaction_number )
     {
 	/* passage sur le compte concerné */
 
-	gsb_account_list_gui_change_current_account ( GINT_TO_POINTER ( gsb_transaction_data_get_account_number (transaction_number)));;
+	gsb_data_account_list_gui_change_current_account ( GINT_TO_POINTER ( gsb_data_transaction_get_account_number (transaction_number)));;
 
 	/* récupération de la ligne de l'opé dans la liste ; affichage de toutes les opé si nécessaire */
 
-	if ( gsb_transaction_data_get_marked_transaction (transaction_number) == OPERATION_RAPPROCHEE 
+	if ( gsb_data_transaction_get_marked_transaction (transaction_number) == OPERATION_RAPPROCHEE 
 	     &&
-	     !gsb_account_get_r (gsb_account_get_current_account ()))
+	     !gsb_data_account_get_r (gsb_data_account_get_current_account ()))
 	    mise_a_jour_affichage_r ( TRUE );
 
 	gsb_transactions_list_set_current_transaction ( transaction_number,

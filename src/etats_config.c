@@ -36,10 +36,10 @@
 #include "dialog.h"
 #include "utils_exercices.h"
 #include "utils_dates.h"
-#include "gsb_account.h"
 #include "calendar.h"
+#include "gsb_data_account.h"
+#include "gsb_data_payee.h"
 #include "navigation.h"
-#include "gsb_payee_data.h"
 #include "classement_operations.h"
 #include "utils_ib.h"
 #include "traitement_variables.h"
@@ -2705,7 +2705,7 @@ void remplissage_liste_comptes_etats ( void )
 
     gtk_clist_clear ( GTK_CLIST ( liste_comptes_etat ) );
 
-   list_tmp = gsb_account_get_list_accounts ();
+   list_tmp = gsb_data_account_get_list_accounts ();
 
     while ( list_tmp )
     {
@@ -2714,9 +2714,9 @@ void remplissage_liste_comptes_etats ( void )
 	gint ligne;
 
 
-	i = gsb_account_get_no_account ( list_tmp -> data );
+	i = gsb_data_account_get_no_account ( list_tmp -> data );
 
-	nom[0] = gsb_account_get_name (i);
+	nom[0] = gsb_data_account_get_name (i);
 
 	ligne = gtk_clist_append ( GTK_CLIST ( liste_comptes_etat ),
 				   nom );
@@ -2736,14 +2736,14 @@ void selectionne_partie_liste_compte_etat ( gint *type_compte )
 
     gtk_clist_unselect_all ( GTK_CLIST ( liste_comptes_etat ));
 
-    for ( i=0 ; i<gsb_account_get_accounts_amount () ; i++ )
+    for ( i=0 ; i<gsb_data_account_get_accounts_amount () ; i++ )
     {
 	gint no_compte;
 
 	no_compte = GPOINTER_TO_INT ( gtk_clist_get_row_data ( GTK_CLIST ( liste_comptes_etat ),
 							       i ));
 
-	if ( gsb_account_get_kind (no_compte) == GPOINTER_TO_INT ( type_compte ))
+	if ( gsb_data_account_get_kind (no_compte) == GPOINTER_TO_INT ( type_compte ))
 	    gtk_clist_select_row ( GTK_CLIST ( liste_comptes_etat ),
 				   i,
 				   0 );
@@ -3005,7 +3005,7 @@ void remplissage_liste_comptes_virements ( void )
 
     gtk_clist_clear ( GTK_CLIST ( liste_comptes_virements ) );
 
-    list_tmp = gsb_account_get_list_accounts ();
+    list_tmp = gsb_data_account_get_list_accounts ();
 
     while ( list_tmp )
     {
@@ -3013,9 +3013,9 @@ void remplissage_liste_comptes_virements ( void )
 	gchar *nom[1];
 	gint ligne;
 
-	i = gsb_account_get_no_account ( list_tmp -> data );
+	i = gsb_data_account_get_no_account ( list_tmp -> data );
 
-	nom[0] = gsb_account_get_name (i);
+	nom[0] = gsb_data_account_get_name (i);
 
 	ligne = gtk_clist_append ( GTK_CLIST ( liste_comptes_virements ),
 				   nom );
@@ -3035,14 +3035,14 @@ void selectionne_partie_liste_compte_vir_etat ( gint *type_compte )
 
     gtk_clist_unselect_all ( GTK_CLIST ( liste_comptes_virements ));
 
-    for ( i=0 ; i<gsb_account_get_accounts_amount () ; i++ )
+    for ( i=0 ; i<gsb_data_account_get_accounts_amount () ; i++ )
     {
 	gint no_compte;
 
 	no_compte = GPOINTER_TO_INT ( gtk_clist_get_row_data ( GTK_CLIST ( liste_comptes_virements ),
 							       i ));
 
-	if ( gsb_account_get_kind (no_compte) == GPOINTER_TO_INT ( type_compte ))
+	if ( gsb_data_account_get_kind (no_compte) == GPOINTER_TO_INT ( type_compte ))
 	    gtk_clist_select_row ( GTK_CLIST ( liste_comptes_virements ),
 				   i,
 				   0 );
@@ -3769,7 +3769,7 @@ void remplissage_liste_tiers_etats ( void )
 
     gtk_clist_clear ( GTK_CLIST ( liste_tiers_etat ) );
 
-    payee_list = gsb_payee_get_payees_list();
+    payee_list = gsb_data_payee_get_payees_list();
 
     while ( payee_list )
     {
@@ -3777,9 +3777,9 @@ void remplissage_liste_tiers_etats ( void )
 	gchar *name[1];
 	gint ligne;
 
-	payee_number = gsb_payee_get_no_payee ( payee_list -> data );
+	payee_number = gsb_data_payee_get_no_payee ( payee_list -> data );
 
-	name[0] = gsb_payee_get_name (payee_number,
+	name[0] = gsb_data_payee_get_name (payee_number,
 				      TRUE );
 
 	ligne = gtk_clist_append ( GTK_CLIST ( liste_tiers_etat ),
@@ -7828,16 +7828,16 @@ void remplissage_liste_modes_paiement_etats ( void )
     /* on va commencer par créer une liste de textes contenant les noms */
     /* des modes de paiement sans doublon */
 
-    list_tmp = gsb_account_get_list_accounts ();
+    list_tmp = gsb_data_account_get_list_accounts ();
     liste_nom_types = NULL;
 
     while ( list_tmp )
     {
 	gint i;
 
-	i = gsb_account_get_no_account ( list_tmp -> data );
+	i = gsb_data_account_get_no_account ( list_tmp -> data );
 
-	liste_tmp = gsb_account_get_method_payment_list (i);
+	liste_tmp = gsb_data_account_get_method_payment_list (i);
 
 	while ( liste_tmp )
 	{

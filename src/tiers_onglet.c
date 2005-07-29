@@ -29,8 +29,8 @@
 /*START_INCLUDE*/
 #include "tiers_onglet.h"
 #include "metatree.h"
+#include "gsb_data_payee.h"
 #include "utils_editables.h"
-#include "gsb_payee_data.h"
 #include "gtk_combofix.h"
 #include "utils_buttons.h"
 #include "utils.h"
@@ -326,14 +326,14 @@ void remplit_arbre_tiers ( void )
     GtkTreeIter iter_payee;
 
     /* Compute payee balances. */
-    gsb_payee_update_counters ();
+    gsb_data_payee_update_counters ();
 
     /** First, remove previous tree */
     gtk_tree_store_clear ( GTK_TREE_STORE (payee_tree_model) );
 
     /** Then, populate tree with payee. */
 
-    liste_payee_tmp = gsb_payee_get_payees_list ();
+    liste_payee_tmp = gsb_data_payee_get_payees_list ();
     liste_payee_tmp = g_slist_prepend ( liste_payee_tmp, NULL );
 
     while ( liste_payee_tmp )
@@ -415,9 +415,9 @@ gboolean edit_payee ( GtkTreeView * view )
 
     /* FIXME : should set the number of payee in the list, not the address */
 
-    payee_number = gsb_payee_get_no_payee (payee);
+    payee_number = gsb_data_payee_get_no_payee (payee);
 
-    title = g_strdup_printf ( _("Properties for %s"), gsb_payee_get_name(payee_number,
+    title = g_strdup_printf ( _("Properties for %s"), gsb_data_payee_get_name(payee_number,
 									 TRUE));
     dialog = gtk_dialog_new_with_buttons ( title, GTK_WINDOW (window), GTK_DIALOG_MODAL,
 					   GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE, NULL);
@@ -442,7 +442,7 @@ gboolean edit_payee ( GtkTreeView * view )
 
     entry_name = gtk_entry_new ();
     gtk_entry_set_text ( GTK_ENTRY ( entry_name ),
-			 gsb_payee_get_name(payee_number,
+			 gsb_data_payee_get_name(payee_number,
 					    TRUE));
     gtk_widget_set_usize ( entry_name, 400, 0 );
     gtk_table_attach ( GTK_TABLE(table), entry_name, 1, 2, 0, 1, GTK_EXPAND|GTK_FILL, 0, 0, 0 );
@@ -453,7 +453,7 @@ gboolean edit_payee ( GtkTreeView * view )
     gtk_table_attach ( GTK_TABLE(table), label, 0, 1, 1, 2,
 		       GTK_SHRINK | GTK_FILL, GTK_SHRINK | GTK_FILL, 0, 0 );
 
-    entry_description = gsb_new_text_view (gsb_payee_get_description (payee_number));
+    entry_description = gsb_new_text_view (gsb_data_payee_get_description (payee_number));
     scrolled_window = gtk_scrolled_window_new ( NULL, NULL );
     gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window ),
 				     GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC );
@@ -469,11 +469,11 @@ gboolean edit_payee ( GtkTreeView * view )
     gtk_dialog_run ( GTK_DIALOG(dialog) );
 
     /* get the name */
-    gsb_payee_set_name( payee_number,
+    gsb_data_payee_set_name( payee_number,
 			gtk_entry_get_text ( GTK_ENTRY (entry_name)));
 
     /* get the description */
-    gsb_payee_set_description ( payee_number,
+    gsb_data_payee_set_description ( payee_number,
 				gsb_text_view_get_content ( entry_description ));
 
     gtk_widget_destroy ( dialog );
@@ -502,12 +502,12 @@ void mise_a_jour_combofix_tiers ( void )
 	 &&
 	 GTK_IS_COMBOFIX ( widget_formulaire_par_element (TRANSACTION_FORM_PARTY) ))
 	gtk_combofix_set_list ( GTK_COMBOFIX ( widget_formulaire_par_element (TRANSACTION_FORM_PARTY) ),
-				gsb_payee_get_name_and_report_list (),
+				gsb_data_payee_get_name_and_report_list (),
 				TRUE,
 				TRUE );
     if ( GTK_IS_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_PARTY] ))
 	gtk_combofix_set_list ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_PARTY] ),
-				gsb_payee_get_name_list(),
+				gsb_data_payee_get_name_list(),
 				FALSE,
 				TRUE );
 

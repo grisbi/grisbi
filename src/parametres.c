@@ -26,7 +26,7 @@
 #include "utils.h"
 #include "utils_buttons.h"
 #include "dialog.h"
-#include "gsb_account.h"
+#include "gsb_data_account.h"
 #include "traitement_variables.h"
 #include "utils_editables.h"
 #include "affichage_liste.h"
@@ -521,7 +521,7 @@ GtkWidget *onglet_messages_and_warnings ( void )
     /* Show everything */
     gtk_widget_show_all ( vbox_pref );
 
-    if ( !gsb_account_get_accounts_amount () )
+    if ( !gsb_data_account_get_accounts_amount () )
     {
       gtk_widget_set_sensitive ( vbox_pref, FALSE );
     }
@@ -664,7 +664,7 @@ GtkWidget *onglet_fichier ( void )
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), bouton_demande_backup,
 			 FALSE, FALSE, 0 );
 
-    if ( gsb_account_get_accounts_amount () )
+    if ( gsb_data_account_get_accounts_amount () )
     {
 	gboolean dummy = (nom_fichier_backup != NULL &&
 			  strlen(nom_fichier_backup) > 0);
@@ -719,7 +719,7 @@ GtkWidget *onglet_fichier ( void )
 
     gtk_widget_show_all ( vbox_pref );
 
-    if ( !gsb_account_get_accounts_amount () )
+    if ( !gsb_data_account_get_accounts_amount () )
     {
 	gtk_widget_set_sensitive ( vbox_pref, FALSE );
     }

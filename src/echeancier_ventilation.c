@@ -38,7 +38,7 @@
 #include "dialog.h"
 #include "utils_echeances.h"
 #include "operations_formulaire.h"
-#include "gsb_account.h"
+#include "gsb_data_account.h"
 #include "utils_dates.h"
 #include "echeancier_formulaire.h"
 #include "operations_liste.h"
@@ -619,14 +619,14 @@ gboolean entree_ventilation_perd_focus_echeances ( GtkWidget *entree, GdkEventFo
 
 			    gint compte_virement;
 
-			    compte_virement = gsb_account_get_no_account_by_name ( tableau_char[1] );
+			    compte_virement = gsb_data_account_get_no_account_by_name ( tableau_char[1] );
 
 			    /* si on a touvé un compte de virement, que celui ci n'est pas le compte */
 			    /* courant et que son menu des types n'est pas encore affiché, on crée le menu */
 
 			    if ( compte_virement != -1
 				 &&
-				 compte_virement != gsb_account_get_current_account () )
+				 compte_virement != gsb_data_account_get_current_account () )
 			    {
 				/* si le menu affiché est déjà celui du compte de virement, on n'y touche pas */
 
@@ -1399,7 +1399,7 @@ void fin_edition_ventilation_echeances ( void )
 	    {
 		if ( tableau_char[1] )
 		{
-		    compte_vire = gsb_account_get_no_account_by_name ( tableau_char[1] );
+		    compte_vire = gsb_data_account_get_no_account_by_name ( tableau_char[1] );
 
 		    if ( compte_vire == -1 )
 		    {
@@ -1780,7 +1780,7 @@ void edition_operation_ventilation_echeances ( void )
 
 	gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CATEGORY] ),
 				g_strconcat ( COLON(_("Transfer")),
-					      gsb_account_get_name (operation -> relation_no_compte),
+					      gsb_data_account_get_name (operation -> relation_no_compte),
 					      NULL ));
 
 	/* on met le type de l'opé associée */
@@ -2018,7 +2018,7 @@ void ajoute_ope_sur_liste_ventilation_echeances ( struct struct_ope_ventil *oper
 	/* c'est un virement */
 
 	ligne [0] = g_strconcat ( COLON(_("Transfer")),
-				  gsb_account_get_name (operation -> relation_no_compte),
+				  gsb_data_account_get_name (operation -> relation_no_compte),
 				  NULL );
     }
     else

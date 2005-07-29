@@ -28,7 +28,7 @@
 #include "operations_onglet.h"
 #include "operations_liste.h"
 #include "operations_formulaire.h"
-#include "gsb_account.h"
+#include "gsb_data_account.h"
 #include "include.h"
 #include "structures.h"
 /*END_INCLUDE*/
@@ -104,7 +104,7 @@ GtkWidget *create_transaction_page ( void )
 
     /* for the current account : */
     /* we show the current form */
-    remplissage_formulaire ( gsb_account_get_current_account ());
+    remplissage_formulaire ( gsb_data_account_get_current_account ());
 
     /* we fill the marked amount and the total amount */
 

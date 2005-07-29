@@ -23,11 +23,11 @@
 /*START_INCLUDE*/
 #include "gsb_file_save.h"
 #include "dialog.h"
-#include "gsb_account.h"
+#include "gsb_data_account.h"
+#include "gsb_data_payee.h"
+#include "gsb_data_transaction.h"
 #include "gsb_file_util.h"
 #include "utils_dates.h"
-#include "gsb_payee_data.h"
-#include "gsb_transaction_data.h"
 #include "utils_str.h"
 #include "structures.h"
 #include "echeancier_liste.h"
@@ -174,9 +174,9 @@ gboolean gsb_file_save_save_file ( gchar *filename,
     report_part = 2500;
     
     length_calculated = general_part
-	+ account_part * gsb_account_get_accounts_amount ()
-	+ transaction_part * g_slist_length ( gsb_transaction_data_get_transactions_list ())
-	+ party_part * g_slist_length ( gsb_payee_get_payees_list () )
+	+ account_part * gsb_data_account_get_accounts_amount ()
+	+ transaction_part * g_slist_length ( gsb_data_transaction_get_transactions_list ())
+	+ party_part * g_slist_length ( gsb_data_payee_get_payees_list () )
 	+ category_part * g_slist_length ( liste_struct_categories )
 	+ budgetary_part * g_slist_length ( liste_struct_imputation )
 	+ currency_part * g_slist_length ( liste_struct_devises )
@@ -520,7 +520,7 @@ gulong gsb_file_save_account_part ( gulong iterator,
 {
     GSList *list_tmp;
 
-    list_tmp = gsb_account_get_list_accounts ();
+    list_tmp = gsb_data_account_get_list_accounts ();
 
     while ( list_tmp )
     {
@@ -537,17 +537,17 @@ gulong gsb_file_save_account_part ( gulong iterator,
 	GSList *list_tmp_2;
 	gchar *new_string;
 
-	i = gsb_account_get_no_account ( list_tmp -> data );
+	i = gsb_data_account_get_no_account ( list_tmp -> data );
 
 	/* set the last reconcile date */
 
-	if ( gsb_account_get_current_reconcile_date (i) )
+	if ( gsb_data_account_get_current_reconcile_date (i) )
 	{
-	    last_reconcile_date = g_strconcat ( first_string_to_free = utils_str_itoa ( g_date_day ( gsb_account_get_current_reconcile_date (i) ) ),
+	    last_reconcile_date = g_strconcat ( first_string_to_free = utils_str_itoa ( g_date_day ( gsb_data_account_get_current_reconcile_date (i) ) ),
 						"/",
-						second_string_to_free = utils_str_itoa ( g_date_month ( gsb_account_get_current_reconcile_date (i) ) ),
+						second_string_to_free = utils_str_itoa ( g_date_month ( gsb_data_account_get_current_reconcile_date (i) ) ),
 						"/",
-						third_string_to_free = utils_str_itoa ( g_date_year ( gsb_account_get_current_reconcile_date (i) ) ),
+						third_string_to_free = utils_str_itoa ( g_date_year ( gsb_data_account_get_current_reconcile_date (i) ) ),
 						NULL );
 	    g_free (first_string_to_free);
 	    g_free (second_string_to_free);
@@ -558,7 +558,7 @@ gulong gsb_file_save_account_part ( gulong iterator,
 
 	/* set the sort_list */
 
-	list_tmp_2 = gsb_account_get_sort_list (i);
+	list_tmp_2 = gsb_data_account_get_sort_list (i);
 	sort_list = NULL;
 
 	while ( list_tmp_2 )
@@ -588,14 +588,14 @@ gulong gsb_file_save_account_part ( gulong iterator,
 	    {
 		sort_kind_column = g_strconcat ( first_string_to_free = sort_kind_column,
 						 "-",
-						 second_string_to_free = utils_str_itoa ( gsb_account_get_column_sort ( i,
+						 second_string_to_free = utils_str_itoa ( gsb_data_account_get_column_sort ( i,
 												j )),
 						 NULL );
 		g_free (first_string_to_free);
 		g_free (second_string_to_free);
 	    }
 	    else
-		sort_kind_column = utils_str_itoa ( gsb_account_get_column_sort ( i,
+		sort_kind_column = utils_str_itoa ( gsb_data_account_get_column_sort ( i,
 								     j ));
 	}
 
@@ -609,13 +609,13 @@ gulong gsb_file_save_account_part ( gulong iterator,
 		{ 
 		    form_organization = g_strconcat ( first_string_to_free = form_organization,
 						      "-",
-						      second_string_to_free = utils_str_itoa ( gsb_account_get_form_organization (i) -> tab_remplissage_formulaire [k][j] ),
+						      second_string_to_free = utils_str_itoa ( gsb_data_account_get_form_organization (i) -> tab_remplissage_formulaire [k][j] ),
 						      NULL );
 		    g_free (first_string_to_free);
 		    g_free (second_string_to_free);
 		}
 		else
-		    form_organization = utils_str_itoa ( gsb_account_get_form_organization (i) -> tab_remplissage_formulaire [k][j] );
+		    form_organization = utils_str_itoa ( gsb_data_account_get_form_organization (i) -> tab_remplissage_formulaire [k][j] );
 
 	/* set the form columns width */
 
@@ -626,13 +626,13 @@ gulong gsb_file_save_account_part ( gulong iterator,
 	    {
 		form_columns_width = g_strconcat ( first_string_to_free = form_columns_width,
 						   "-",
-						   second_string_to_free = utils_str_itoa ( gsb_account_get_form_organization (i) -> taille_colonne_pourcent [k] ),
+						   second_string_to_free = utils_str_itoa ( gsb_data_account_get_form_organization (i) -> taille_colonne_pourcent [k] ),
 						   NULL );
 		g_free (first_string_to_free);
 		g_free (second_string_to_free);
 	    }
 	    else
-		form_columns_width = utils_str_itoa ( gsb_account_get_form_organization (i) -> taille_colonne_pourcent [k] );
+		form_columns_width = utils_str_itoa ( gsb_data_account_get_form_organization (i) -> taille_colonne_pourcent [k] );
 
 	/* now we can fill the file content */
 
@@ -670,37 +670,37 @@ gulong gsb_file_save_account_part ( gulong iterator,
 					       "\t\tForm_lines_number=\"%d\"\n"
 					       "\t\tForm_organization=\"%s\"\n"
 					       "\t\tForm_columns_width=\"%s\" />\n",
-	    gsb_account_get_name (i),
-	    gsb_account_get_id (i),
+	    gsb_data_account_get_name (i),
+	    gsb_data_account_get_id (i),
 	    i,
-	    gsb_account_get_holder_name (i),
-	    gsb_account_get_kind (i),
-	    gsb_account_get_currency (i),
-	    gsb_account_get_bank (i),
-	    gsb_account_get_bank_branch_code (i),
-	    gsb_account_get_bank_account_number (i),
-	    gsb_account_get_bank_account_key (i),
-	    gsb_account_get_init_balance (i),
-	    gsb_account_get_mini_balance_wanted (i),
-	    gsb_account_get_mini_balance_authorized (i),
+	    gsb_data_account_get_holder_name (i),
+	    gsb_data_account_get_kind (i),
+	    gsb_data_account_get_currency (i),
+	    gsb_data_account_get_bank (i),
+	    gsb_data_account_get_bank_branch_code (i),
+	    gsb_data_account_get_bank_account_number (i),
+	    gsb_data_account_get_bank_account_key (i),
+	    gsb_data_account_get_init_balance (i),
+	    gsb_data_account_get_mini_balance_wanted (i),
+	    gsb_data_account_get_mini_balance_authorized (i),
 	    last_reconcile_date,
-	    gsb_account_get_reconcile_balance (i),
-	    gsb_account_get_reconcile_last_number (i),
-	    gsb_account_get_closed_account (i),
-	    gsb_account_get_r (i),
-	    gsb_account_get_nb_rows (i),
-	    gsb_account_get_comment (i),
-	    gsb_account_get_holder_address (i),
-	    gsb_account_get_default_debit (i),
-	    gsb_account_get_default_credit (i),
-	    gsb_account_get_reconcile_sort_type (i),
-	    gsb_account_get_split_neutral_payment (i),
+	    gsb_data_account_get_reconcile_balance (i),
+	    gsb_data_account_get_reconcile_last_number (i),
+	    gsb_data_account_get_closed_account (i),
+	    gsb_data_account_get_r (i),
+	    gsb_data_account_get_nb_rows (i),
+	    gsb_data_account_get_comment (i),
+	    gsb_data_account_get_holder_address (i),
+	    gsb_data_account_get_default_debit (i),
+	    gsb_data_account_get_default_credit (i),
+	    gsb_data_account_get_reconcile_sort_type (i),
+	    gsb_data_account_get_split_neutral_payment (i),
 	    sort_list,
-	    gsb_account_get_sort_type (i),
-	    gsb_account_get_sort_column (i),
+	    gsb_data_account_get_sort_type (i),
+	    gsb_data_account_get_sort_column (i),
 	    sort_kind_column,
-	    gsb_account_get_form_organization (i) -> nb_colonnes,
-	    gsb_account_get_form_organization (i) -> nb_lignes,
+	    gsb_data_account_get_form_organization (i) -> nb_colonnes,
+	    gsb_data_account_get_form_organization (i) -> nb_lignes,
 	    form_organization,
 	    form_columns_width );
 
@@ -738,7 +738,7 @@ gulong gsb_file_save_payment_part ( gulong iterator,
 {
     GSList *list_tmp;
 
-    list_tmp = gsb_account_get_list_accounts ();
+    list_tmp = gsb_data_account_get_list_accounts ();
 
     while ( list_tmp )
     {
@@ -746,8 +746,8 @@ gulong gsb_file_save_payment_part ( gulong iterator,
 	gint i;
 	gchar *new_string;
 
-	i = gsb_account_get_no_account ( list_tmp -> data );
-	list_tmp_2 = gsb_account_get_method_payment_list (i);
+	i = gsb_data_account_get_no_account ( list_tmp -> data );
+	list_tmp_2 = gsb_data_account_get_method_payment_list (i);
 
 	while ( list_tmp_2 )
 	{
@@ -795,46 +795,46 @@ gulong gsb_file_save_transaction_part ( gulong iterator,
 {
     GSList *list_tmp;
 
-    list_tmp = gsb_transaction_data_get_transactions_list ();
+    list_tmp = gsb_data_transaction_get_transactions_list ();
 
     while ( list_tmp )
     {
 	gint transaction_number;
 	gchar *new_string;
 
-	transaction_number = gsb_transaction_data_get_transaction_number ( list_tmp -> data );
+	transaction_number = gsb_data_transaction_get_transaction_number ( list_tmp -> data );
 	
 	/* now we can fill the file content */
 
 	new_string = g_markup_printf_escaped ( "\t<Transaction Ac=\"%d\" Nb=\"%d\" Id=\"%s\" Dt=\"%s\" Dv=\"%s\" Am=\"%4.7f\" Cu=\"%d\" Exb=\"%d\" Exr=\"%4.7f\" Exf=\"%4.7f\" Pa=\"%d\" Ca=\"%d\" Sca=\"%d\" Br=\"%d\" No=\"%s\" Pn=\"%d\" Pc=\"%s\" Ma=\"%d\" Au=\"%d\" Re=\"%d\" Fi=\"%d\" Bu=\"%d\" Sbu=\"%d\" Vo=\"%s\" Ba=\"%s\" Trt=\"%d\" Tra=\"%d\" Mo=\"%d\" />\n",
-					       gsb_transaction_data_get_account_number ( transaction_number ),
+					       gsb_data_transaction_get_account_number ( transaction_number ),
 					       transaction_number,
-					       gsb_transaction_data_get_transaction_id ( transaction_number),
-					       gsb_format_gdate ( gsb_transaction_data_get_date ( transaction_number )),
-					       gsb_format_gdate ( gsb_transaction_data_get_value_date ( transaction_number )),
-					       gsb_transaction_data_get_amount ( transaction_number ),
-					       gsb_transaction_data_get_currency_number (transaction_number ),
-					       gsb_transaction_data_get_change_between (transaction_number ),
-					       gsb_transaction_data_get_exchange_rate (transaction_number ),
-					       gsb_transaction_data_get_exchange_fees ( transaction_number),
-					       gsb_transaction_data_get_party_number ( transaction_number),
-					       gsb_transaction_data_get_category_number ( transaction_number),
-					       gsb_transaction_data_get_sub_category_number (transaction_number),
-					       gsb_transaction_data_get_breakdown_of_transaction (transaction_number),
-					       gsb_transaction_data_get_notes (transaction_number),
-					       gsb_transaction_data_get_method_of_payment_number (transaction_number),
-					       gsb_transaction_data_get_method_of_payment_content (transaction_number),
-					       gsb_transaction_data_get_marked_transaction (transaction_number),
-					       gsb_transaction_data_get_automatic_transaction (transaction_number),
-					       gsb_transaction_data_get_reconcile_number (transaction_number),
-					       gsb_transaction_data_get_financial_year_number (transaction_number),
-					       gsb_transaction_data_get_budgetary_number (transaction_number),
-					       gsb_transaction_data_get_sub_budgetary_number (transaction_number),
-					       gsb_transaction_data_get_voucher (transaction_number),
-					       gsb_transaction_data_get_bank_references (transaction_number),
-					       gsb_transaction_data_get_transaction_number_transfer (transaction_number),
-					       gsb_transaction_data_get_account_number_transfer (transaction_number),
-					       gsb_transaction_data_get_mother_transaction_number (transaction_number));
+					       gsb_data_transaction_get_transaction_id ( transaction_number),
+					       gsb_format_gdate ( gsb_data_transaction_get_date ( transaction_number )),
+					       gsb_format_gdate ( gsb_data_transaction_get_value_date ( transaction_number )),
+					       gsb_data_transaction_get_amount ( transaction_number ),
+					       gsb_data_transaction_get_currency_number (transaction_number ),
+					       gsb_data_transaction_get_change_between (transaction_number ),
+					       gsb_data_transaction_get_exchange_rate (transaction_number ),
+					       gsb_data_transaction_get_exchange_fees ( transaction_number),
+					       gsb_data_transaction_get_party_number ( transaction_number),
+					       gsb_data_transaction_get_category_number ( transaction_number),
+					       gsb_data_transaction_get_sub_category_number (transaction_number),
+					       gsb_data_transaction_get_breakdown_of_transaction (transaction_number),
+					       gsb_data_transaction_get_notes (transaction_number),
+					       gsb_data_transaction_get_method_of_payment_number (transaction_number),
+					       gsb_data_transaction_get_method_of_payment_content (transaction_number),
+					       gsb_data_transaction_get_marked_transaction (transaction_number),
+					       gsb_data_transaction_get_automatic_transaction (transaction_number),
+					       gsb_data_transaction_get_reconcile_number (transaction_number),
+					       gsb_data_transaction_get_financial_year_number (transaction_number),
+					       gsb_data_transaction_get_budgetary_number (transaction_number),
+					       gsb_data_transaction_get_sub_budgetary_number (transaction_number),
+					       gsb_data_transaction_get_voucher (transaction_number),
+					       gsb_data_transaction_get_bank_references (transaction_number),
+					       gsb_data_transaction_get_transaction_number_transfer (transaction_number),
+					       gsb_data_transaction_get_account_number_transfer (transaction_number),
+					       gsb_data_transaction_get_mother_transaction_number (transaction_number));
 
 	/* append the new string to the file content
 	 * and take the new iterator */
@@ -928,21 +928,21 @@ gulong gsb_file_save_party_part ( gulong iterator,
 {
     GSList *list_tmp;
 	
-    list_tmp = gsb_payee_get_payees_list ();
+    list_tmp = gsb_data_payee_get_payees_list ();
 
     while ( list_tmp )
     {
 	gchar *new_string;
 	gint payee_number;
 
-	payee_number = gsb_payee_get_no_payee (list_tmp -> data);
+	payee_number = gsb_data_payee_get_no_payee (list_tmp -> data);
 	/* now we can fill the file content */
 
 	new_string = g_markup_printf_escaped ( "\t<Party Nb=\"%d\" Na=\"%s\" Txt=\"%s\" />\n",
 					       payee_number,
-					       gsb_payee_get_name (payee_number,
+					       gsb_data_payee_get_name (payee_number,
 								   TRUE ),
-					       gsb_payee_get_description (payee_number));
+					       gsb_data_payee_get_description (payee_number));
 
 	/* append the new string to the file content
 	 * and take the new iterator */

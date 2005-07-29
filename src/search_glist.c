@@ -31,7 +31,7 @@
 
 /*START_INCLUDE*/
 #include "search_glist.h"
-#include "gsb_transaction_data.h"
+#include "gsb_data_transaction.h"
 #include "utils_str.h"
 #include "structures.h"
 /*END_INCLUDE*/
@@ -300,8 +300,8 @@ gint recherche_sous_imputation_par_no ( struct struct_sous_imputation *sous_impu
 gint recherche_operation_par_cheque ( gpointer operation,
 				      gint *no_chq )
 {
-  if ( gsb_transaction_data_get_method_of_payment_content ( gsb_transaction_data_get_transaction_number (operation )))
-    return ( ! ( utils_str_atoi (gsb_transaction_data_get_method_of_payment_content ( gsb_transaction_data_get_transaction_number (operation ))) == GPOINTER_TO_INT ( no_chq ) ));
+  if ( gsb_data_transaction_get_method_of_payment_content ( gsb_data_transaction_get_transaction_number (operation )))
+    return ( ! ( utils_str_atoi (gsb_data_transaction_get_method_of_payment_content ( gsb_data_transaction_get_transaction_number (operation ))) == GPOINTER_TO_INT ( no_chq ) ));
   return -1;
 }
 /******************************************************************************/
@@ -318,11 +318,11 @@ gint recherche_operation_par_id ( gpointer operation,
     
     /* FIXME : à mettre dans gsb_transaction_data.c */
     
-    transaction_number = gsb_transaction_data_get_transaction_number (operation);
+    transaction_number = gsb_data_transaction_get_transaction_number (operation);
 
-    if ( gsb_transaction_data_get_transaction_id ( transaction_number ))
+    if ( gsb_data_transaction_get_transaction_id ( transaction_number ))
 	return ( strcmp ( id_recherchee,
-			  gsb_transaction_data_get_transaction_id ( transaction_number)));
+			  gsb_data_transaction_get_transaction_id ( transaction_number)));
     else
 	return -1;
 }

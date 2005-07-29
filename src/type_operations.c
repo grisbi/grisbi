@@ -29,8 +29,8 @@
 #include "dialog.h"
 #include "operations_formulaire.h"
 #include "utils_editables.h"
-#include "gsb_account.h"
-#include "gsb_transaction_data.h"
+#include "gsb_data_account.h"
+#include "gsb_data_transaction.h"
 #include "traitement_variables.h"
 #include "utils.h"
 #include "utils_str.h"
@@ -111,10 +111,10 @@ void payment_method_toggled ( GtkCellRendererToggle *cell, gchar *path_str,
 			-1);
 
     if (type_ope -> signe_type == 1) /* Débit */
-	gsb_account_set_default_debit ( type_ope -> no_compte,
+	gsb_data_account_set_default_debit ( type_ope -> no_compte,
 					type_ope -> no_type);
     else if  (type_ope -> signe_type == 2) /* Crédit */
-	gsb_account_set_default_credit ( type_ope -> no_compte,
+	gsb_data_account_set_default_credit ( type_ope -> no_compte,
 					 type_ope -> no_type );
 
     if (! toggle_item)
@@ -162,18 +162,18 @@ void fill_payment_method_tree ()
 
     /* Fill tree, iter over with accounts */
 
-    list_tmp = gsb_account_get_list_accounts ();
+    list_tmp = gsb_data_account_get_list_accounts ();
 
     while ( list_tmp )
     {
 	gint i;
 	GSList *liste_tmp;
 
-	i = gsb_account_get_no_account ( list_tmp -> data );
+	i = gsb_data_account_get_no_account ( list_tmp -> data );
 
 	gtk_tree_store_append (model, &account_iter, NULL);
 	gtk_tree_store_set (model, &account_iter,
-			    PAYMENT_METHODS_NAME_COLUMN, gsb_account_get_name (i),
+			    PAYMENT_METHODS_NAME_COLUMN, gsb_data_account_get_name (i),
 			    PAYMENT_METHODS_NUMBERING_COLUMN, "",
 			    /* This is a hack: account number is put in 
 			       Debit/Credit nodes */
@@ -214,7 +214,7 @@ void fill_payment_method_tree ()
 
 
 	/* Iter over account payment methods */
-	liste_tmp = gsb_account_get_method_payment_list (i);
+	liste_tmp = gsb_data_account_get_method_payment_list (i);
 
 	while ( liste_tmp )
 	{
@@ -226,9 +226,9 @@ void fill_payment_method_tree ()
 
 	    type_ope = liste_tmp->data;
 
-	    if ( type_ope -> no_type == gsb_account_get_default_debit (i)
+	    if ( type_ope -> no_type == gsb_data_account_get_default_debit (i)
 		 ||
-		 type_ope -> no_type == gsb_account_get_default_credit (i) )
+		 type_ope -> no_type == gsb_data_account_get_default_credit (i) )
 		isdefault = 1;
 	    else
 		isdefault = 0;
@@ -484,7 +484,7 @@ GtkWidget *onglet_types_operations ( void )
 		       0, 0 );
 
     /** Do not set this tab sensitive is no account file is opened. */
-    if ( !gsb_account_get_accounts_amount () )
+    if ( !gsb_data_account_get_accounts_amount () )
     {
 	gtk_widget_set_sensitive ( vbox_pref, FALSE );
     }
@@ -580,14 +580,14 @@ void modification_entree_nom_type ( void )
 
 	if ( verifie_element_formulaire_existe ( TRANSACTION_FORM_TYPE ))
 	{
-	    if ( (menu = creation_menu_types ( 1, gsb_account_get_current_account () , 0 )))
+	    if ( (menu = creation_menu_types ( 1, gsb_data_account_get_current_account () , 0 )))
 	    {
 		gint pos_type;
 
 		gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_par_element (TRANSACTION_FORM_TYPE) ),
 					   menu );
 
-		pos_type = cherche_no_menu_type ( gsb_account_get_default_debit (gsb_account_get_current_account ()) );
+		pos_type = cherche_no_menu_type ( gsb_data_account_get_default_debit (gsb_data_account_get_current_account ()) );
 
 		if ( pos_type != -1 )
 		    gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_par_element (TRANSACTION_FORM_TYPE) ),
@@ -598,7 +598,7 @@ void modification_entree_nom_type ( void )
 
 		    gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_par_element (TRANSACTION_FORM_TYPE) ),
 						  0 );
-		    gsb_account_set_default_debit ( gsb_account_get_current_account (),
+		    gsb_data_account_set_default_debit ( gsb_data_account_get_current_account (),
 						    GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_par_element (TRANSACTION_FORM_TYPE) ) -> menu_item ),
 											  "no_type" )));
 
@@ -753,7 +753,7 @@ gint find_operation_type_by_type ( gint no_compte, gint signe_type, gint exclude
 {
     GSList * pointer;
 
-    for ( pointer = gsb_account_get_method_payment_list (no_compte); pointer; pointer = pointer -> next )
+    for ( pointer = gsb_data_account_get_method_payment_list (no_compte); pointer; pointer = pointer -> next )
     {
 	struct struct_type_ope * type_ope;
 	type_ope = (struct struct_type_ope *) pointer -> data;
@@ -799,9 +799,9 @@ void modification_type_signe ( gint *no_menu )
 	switch (type_ope -> signe_type)
 	{
 	    case 1:			/* Debit */
-		if ( gsb_account_get_default_debit (type_ope -> no_compte) == type_ope -> no_type)
+		if ( gsb_data_account_get_default_debit (type_ope -> no_compte) == type_ope -> no_type)
 		{
-		    gsb_account_set_default_debit ( type_ope -> no_compte,
+		    gsb_data_account_set_default_debit ( type_ope -> no_compte,
 						    find_operation_type_by_type (type_ope->no_compte,
 										 type_ope->signe_type,
 										 type_ope->no_type));
@@ -809,9 +809,9 @@ void modification_type_signe ( gint *no_menu )
 		break;
 
 	    case 2:			/* Credit */
-		if ( gsb_account_get_default_credit (type_ope -> no_compte) == type_ope -> no_type)
+		if ( gsb_data_account_get_default_credit (type_ope -> no_compte) == type_ope -> no_type)
 		{
-		    gsb_account_set_default_credit ( type_ope -> no_compte,
+		    gsb_data_account_set_default_credit ( type_ope -> no_compte,
 						     find_operation_type_by_type (type_ope->no_compte,
 										  type_ope->signe_type,
 										  type_ope->no_type) );
@@ -935,9 +935,9 @@ void ajouter_type_operation ( void )
 
     type_ope = malloc ( sizeof ( struct struct_type_ope ));
 
-    if ( gsb_account_get_method_payment_list (no_compte) )
+    if ( gsb_data_account_get_method_payment_list (no_compte) )
 	type_ope -> no_type = ((struct struct_type_ope *)
-			       (g_slist_last ( gsb_account_get_method_payment_list (no_compte) )->data))->no_type + 1;
+			       (g_slist_last ( gsb_data_account_get_method_payment_list (no_compte) )->data))->no_type + 1;
     else
 	type_ope -> no_type = 1;
 
@@ -967,8 +967,8 @@ void ajouter_type_operation ( void )
     gtk_tree_path_free ( treepath );
 
     /* Add to payment methods */
-    gsb_account_set_method_payment_list ( no_compte,
-					  g_slist_append ( gsb_account_get_method_payment_list (no_compte), type_ope ) );
+    gsb_data_account_set_method_payment_list ( no_compte,
+					  g_slist_append ( gsb_data_account_get_method_payment_list (no_compte), type_ope ) );
 
     /* Mark file as modified */
     modification_fichier ( TRUE );
@@ -1021,17 +1021,17 @@ void supprimer_type_operation ( void )
 
 	/** We then put related operations in a temporary list */
 
-	list_tmp_transactions = gsb_transaction_data_get_transactions_list ();
+	list_tmp_transactions = gsb_data_transaction_get_transactions_list ();
 	ope_a_changer = NULL;
 
 	while ( list_tmp_transactions )
 	{
 	    gint transaction_number_tmp;
-	    transaction_number_tmp = gsb_transaction_data_get_transaction_number (list_tmp_transactions -> data);
+	    transaction_number_tmp = gsb_data_transaction_get_transaction_number (list_tmp_transactions -> data);
 
-	    if ( gsb_transaction_data_get_account_number (transaction_number_tmp) == type_ope -> no_compte
+	    if ( gsb_data_transaction_get_account_number (transaction_number_tmp) == type_ope -> no_compte
 		 &&
-		 gsb_transaction_data_get_method_of_payment_number (transaction_number_tmp) == type_ope -> no_type)
+		 gsb_data_transaction_get_method_of_payment_number (transaction_number_tmp) == type_ope -> no_type)
 	    {
 		ope_a_changer = g_slist_append ( ope_a_changer,
 						 GINT_TO_POINTER (transaction_number_tmp));
@@ -1078,7 +1078,7 @@ void supprimer_type_operation ( void )
 
 	    option_menu = gtk_option_menu_new ();
 	    menu = gtk_menu_new ();
-	    pointeur_tmp = gsb_account_get_method_payment_list (type_ope -> no_compte);
+	    pointeur_tmp = gsb_data_account_get_method_payment_list (type_ope -> no_compte);
 
 	    /** Then, we find neutral types of types the same sign and build a
 	      menu to choose among them */
@@ -1134,7 +1134,7 @@ void supprimer_type_operation ( void )
 
 		transaction_number = GPOINTER_TO_INT ( pointeur_tmp -> data );
 
-		gsb_transaction_data_set_method_of_payment_number ( transaction_number,
+		gsb_data_transaction_set_method_of_payment_number ( transaction_number,
 								    nouveau_type );
 		pointeur_tmp = pointeur_tmp -> next;
 	    }
@@ -1143,16 +1143,16 @@ void supprimer_type_operation ( void )
 
 	/* Remove type from tree & memory */
 	gtk_tree_store_remove ( GTK_TREE_STORE(model), &iter );
-	gsb_account_set_method_payment_list ( type_ope -> no_compte,
-					      g_slist_remove ( gsb_account_get_method_payment_list (type_ope -> no_compte), type_ope ) );
+	gsb_data_account_set_method_payment_list ( type_ope -> no_compte,
+					      g_slist_remove ( gsb_data_account_get_method_payment_list (type_ope -> no_compte), type_ope ) );
 
 	/* If it was a default, change default */
 	switch (type_ope -> signe_type)
 	{
 	    case 1:			/* Debit */
-		if ( gsb_account_get_default_debit (type_ope -> no_compte) == type_ope -> no_type)
+		if ( gsb_data_account_get_default_debit (type_ope -> no_compte) == type_ope -> no_type)
 		{
-		    gsb_account_set_default_debit ( type_ope -> no_compte,
+		    gsb_data_account_set_default_debit ( type_ope -> no_compte,
 						    find_operation_type_by_type (type_ope->no_compte,
 										 type_ope->signe_type,
 										 type_ope->no_type));
@@ -1160,9 +1160,9 @@ void supprimer_type_operation ( void )
 		break;
 
 	    case 2:			/* Credit */
-		if ( gsb_account_get_default_credit (type_ope -> no_compte) == type_ope -> no_type)
+		if ( gsb_data_account_get_default_credit (type_ope -> no_compte) == type_ope -> no_type)
 		{
-		    gsb_account_set_default_credit ( type_ope -> no_compte,
+		    gsb_data_account_set_default_credit ( type_ope -> no_compte,
 						     find_operation_type_by_type (type_ope->no_compte,
 										  type_ope->signe_type,
 										  type_ope->no_type));
@@ -1212,7 +1212,7 @@ GtkWidget *creation_menu_types ( gint demande,
 
     /*   s'il n'y a pas de menu, on se barre */
 
-    if ( !(liste_tmp = gsb_account_get_method_payment_list (compte) ))
+    if ( !(liste_tmp = gsb_data_account_get_method_payment_list (compte) ))
     {
 	return ( NULL );
     }

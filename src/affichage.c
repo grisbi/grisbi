@@ -28,7 +28,7 @@
 #include "fichiers_gestion.h"
 #include "affichage_formulaire.h"
 #include "utils_file_selection.h"
-#include "gsb_account.h"
+#include "gsb_data_account.h"
 #include "operations_liste.h"
 #include "main.h"
 #include "traitement_variables.h"
@@ -147,7 +147,7 @@ GtkWidget *onglet_display_transaction_form ( void )
 
     
 
-    if ( !gsb_account_get_accounts_amount () )
+    if ( !gsb_data_account_get_accounts_amount () )
     {
 	gtk_widget_set_sensitive ( vbox_pref, FALSE );
     }
@@ -410,7 +410,7 @@ GtkWidget * onglet_display_fonts ( void )
     g_signal_connect (init_button, "clicked", 
 		      G_CALLBACK (init_fonts), NULL);
 
-    if ( !gsb_account_get_accounts_amount () )
+    if ( !gsb_data_account_get_accounts_amount () )
     {
 	gtk_widget_set_sensitive ( vbox_pref, FALSE );
     }
@@ -552,7 +552,7 @@ GtkWidget *onglet_display_addresses ( void )
     gtk_container_add ( GTK_CONTAINER ( scrolled_window ),
 			entree_adresse_secondaire );
 
-    if ( !gsb_account_get_accounts_amount () )
+    if ( !gsb_data_account_get_accounts_amount () )
 	gtk_widget_set_sensitive ( vbox_pref, FALSE );
 
     return ( vbox_pref );
@@ -652,14 +652,14 @@ void update_fonte_listes ( void )
 	/* 	fonte_desc = pango_font_description_copy ( arbre_tiers -> style -> font_desc ); */
 	fonte_desc = NULL;
 
-    list_tmp = gsb_account_get_list_accounts ();
+    list_tmp = gsb_data_account_get_list_accounts ();
 
     while ( list_tmp )
     {
 	gint i;
 	GtkTreeIter iter;
 
-	i = gsb_account_get_no_account ( list_tmp -> data );
+	i = gsb_data_account_get_no_account ( list_tmp -> data );
 
 	if ( gsb_transactions_list_get_store()
 	     &&
@@ -682,7 +682,7 @@ void update_fonte_listes ( void )
 
     update_ecran ();
     hauteur_ligne_liste_opes = 0;
-    gsb_transactions_list_move_to_current_transaction ( gsb_account_get_current_account () );
+    gsb_transactions_list_move_to_current_transaction ( gsb_data_account_get_current_account () );
 
 }
 /* **************************************************************************************************************************** */
@@ -735,7 +735,7 @@ void change_logo_accueil ( GtkWidget *widget, gpointer user_data )
 
     selected_filename = file_selection_get_filename (GTK_FILE_SELECTION (file_selector));
 
-    if ( gsb_account_get_accounts_amount () )
+    if ( gsb_data_account_get_accounts_amount () )
     {
 	/* on change le logo */
 	chemin_logo = g_strdup ( (gchar *) selected_filename );
@@ -983,7 +983,7 @@ GtkWidget *tab_display_toolbar ( void )
 
     gtk_widget_show_all ( vbox_pref );
 
-    if ( !gsb_account_get_accounts_amount () )
+    if ( !gsb_data_account_get_accounts_amount () )
 	gtk_widget_set_sensitive ( vbox_pref, FALSE );
 
     return ( vbox_pref );

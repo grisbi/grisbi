@@ -28,10 +28,10 @@
 /*START_INCLUDE*/
 #include "classement_operations.h"
 #include "erreur.h"
-#include "gsb_account.h"
+#include "gsb_data_account.h"
+#include "gsb_data_payee.h"
+#include "gsb_data_transaction.h"
 #include "utils_exercices.h"
-#include "gsb_payee_data.h"
-#include "gsb_transaction_data.h"
 #include "operations_liste.h"
 #include "utils_ib.h"
 #include "utils_rapprochements.h"
@@ -152,7 +152,7 @@ gint gsb_transactions_list_sort_column_0 ( GtkTreeModel *model,
 						   iter_1,
 						   iter_2,
 						   gtk_tree_view_column_get_sort_order ( GTK_TREE_VIEW_COLUMN ( transactions_tree_view_columns[TRANSACTION_COL_NB_CHECK])),
-						   gsb_account_get_column_sort ( GPOINTER_TO_INT ( no_account ),
+						   gsb_data_account_get_column_sort ( GPOINTER_TO_INT ( no_account ),
 										 TRANSACTION_COL_NB_CHECK ));
 }
 
@@ -173,7 +173,7 @@ gint gsb_transactions_list_sort_column_1 ( GtkTreeModel *model,
 						   iter_1,
 						   iter_2,
 						   gtk_tree_view_column_get_sort_order ( GTK_TREE_VIEW_COLUMN ( transactions_tree_view_columns[TRANSACTION_COL_NB_DATE])),
-						   gsb_account_get_column_sort ( GPOINTER_TO_INT ( no_account ),
+						   gsb_data_account_get_column_sort ( GPOINTER_TO_INT ( no_account ),
 										 TRANSACTION_COL_NB_DATE ));
 }
 
@@ -195,7 +195,7 @@ gint gsb_transactions_list_sort_column_2 ( GtkTreeModel *model,
 						   iter_1,
 						   iter_2,
 						   gtk_tree_view_column_get_sort_order ( GTK_TREE_VIEW_COLUMN ( transactions_tree_view_columns[TRANSACTION_COL_NB_PARTY])),
-						   gsb_account_get_column_sort ( GPOINTER_TO_INT ( no_account ),
+						   gsb_data_account_get_column_sort ( GPOINTER_TO_INT ( no_account ),
 										 TRANSACTION_COL_NB_PARTY ));
 }
 
@@ -217,7 +217,7 @@ gint gsb_transactions_list_sort_column_3 ( GtkTreeModel *model,
 						   iter_1,
 						   iter_2,
 						   gtk_tree_view_column_get_sort_order ( GTK_TREE_VIEW_COLUMN ( transactions_tree_view_columns[TRANSACTION_COL_NB_PR])),
-						   gsb_account_get_column_sort ( GPOINTER_TO_INT ( no_account ),
+						   gsb_data_account_get_column_sort ( GPOINTER_TO_INT ( no_account ),
 										 TRANSACTION_COL_NB_PR ));
 }
 
@@ -239,7 +239,7 @@ gint gsb_transactions_list_sort_column_4 ( GtkTreeModel *model,
 						   iter_1,
 						   iter_2,
 						   gtk_tree_view_column_get_sort_order ( GTK_TREE_VIEW_COLUMN ( transactions_tree_view_columns[TRANSACTION_COL_NB_DEBIT])),
-						   gsb_account_get_column_sort ( GPOINTER_TO_INT ( no_account ),
+						   gsb_data_account_get_column_sort ( GPOINTER_TO_INT ( no_account ),
 										 TRANSACTION_COL_NB_DEBIT ));
 }
 
@@ -261,7 +261,7 @@ gint gsb_transactions_list_sort_column_5 ( GtkTreeModel *model,
 						   iter_1,
 						   iter_2,
 						   gtk_tree_view_column_get_sort_order ( GTK_TREE_VIEW_COLUMN ( transactions_tree_view_columns[TRANSACTION_COL_NB_CREDIT])),
-						   gsb_account_get_column_sort ( GPOINTER_TO_INT ( no_account ),
+						   gsb_data_account_get_column_sort ( GPOINTER_TO_INT ( no_account ),
 										 TRANSACTION_COL_NB_CREDIT ));
 }
 
@@ -283,7 +283,7 @@ gint gsb_transactions_list_sort_column_6 ( GtkTreeModel *model,
 						   iter_1,
 						   iter_2,
 						   gtk_tree_view_column_get_sort_order ( GTK_TREE_VIEW_COLUMN ( transactions_tree_view_columns[TRANSACTION_COL_NB_BALANCE])),
-						   gsb_account_get_column_sort ( GPOINTER_TO_INT ( no_account ),
+						   gsb_data_account_get_column_sort ( GPOINTER_TO_INT ( no_account ),
 										 TRANSACTION_COL_NB_BALANCE ));
 }
 
@@ -468,19 +468,19 @@ gint gsb_transactions_list_general_test ( GtkTreeModel *model,
 	return 0;
     }
 
-    transaction_number_1 = gsb_transaction_data_get_transaction_number (transaction_1);
-    transaction_number_2 = gsb_transaction_data_get_transaction_number (transaction_2);
+    transaction_number_1 = gsb_data_transaction_get_transaction_number (transaction_1);
+    transaction_number_2 = gsb_data_transaction_get_transaction_number (transaction_2);
 
     /* check first for the general white line, it's always set at the end */
 
     if ( transaction_number_1 == -1
 	 &&
-	 !gsb_transaction_data_get_mother_transaction_number (transaction_number_1))
+	 !gsb_data_transaction_get_mother_transaction_number (transaction_number_1))
 	return_value = 1;
 
     if ( transaction_number_2 == -1
 	 &&
-	 !gsb_transaction_data_get_mother_transaction_number (transaction_number_2))
+	 !gsb_data_transaction_get_mother_transaction_number (transaction_number_2))
 	return_value = -1;
 
     if ( transaction_number_1 == transaction_number_2 )
@@ -505,15 +505,15 @@ gint gsb_transactions_list_breakdown_test ( GtkSortType sort_type )
 {
     gint return_value = 0;
 
-    if ( gsb_transaction_data_get_mother_transaction_number (transaction_number_1))
+    if ( gsb_data_transaction_get_mother_transaction_number (transaction_number_1))
     {
-	if ( transaction_number_2 == gsb_transaction_data_get_mother_transaction_number (transaction_number_1))
+	if ( transaction_number_2 == gsb_data_transaction_get_mother_transaction_number (transaction_number_1))
 	    return_value = 1;
 	else
 	{
-	    if ( gsb_transaction_data_get_mother_transaction_number ( transaction_number_2))
+	    if ( gsb_data_transaction_get_mother_transaction_number ( transaction_number_2))
 	    {
-		if ( gsb_transaction_data_get_mother_transaction_number ( transaction_number_2)== gsb_transaction_data_get_mother_transaction_number ( transaction_number_1))
+		if ( gsb_data_transaction_get_mother_transaction_number ( transaction_number_2)== gsb_data_transaction_get_mother_transaction_number ( transaction_number_1))
 		{
 		    if ( transaction_number_1 < 0 )
 			return_value = 1;
@@ -525,22 +525,22 @@ gint gsb_transactions_list_breakdown_test ( GtkSortType sort_type )
 		}
 		else
 		{
-		    transaction_number_1 = gsb_transaction_data_get_mother_transaction_number ( transaction_number_1);
-		    transaction_number_2 = gsb_transaction_data_get_mother_transaction_number ( transaction_number_2);
+		    transaction_number_1 = gsb_data_transaction_get_mother_transaction_number ( transaction_number_1);
+		    transaction_number_2 = gsb_data_transaction_get_mother_transaction_number ( transaction_number_2);
 		}
 	    }
 	    else
-		transaction_number_1 = gsb_transaction_data_get_mother_transaction_number ( transaction_number_1);
+		transaction_number_1 = gsb_data_transaction_get_mother_transaction_number ( transaction_number_1);
 	}
     }
     else
     {
-	if ( gsb_transaction_data_get_mother_transaction_number ( transaction_number_2))
+	if ( gsb_data_transaction_get_mother_transaction_number ( transaction_number_2))
 	{
-	    if ( transaction_number_1 == gsb_transaction_data_get_mother_transaction_number ( transaction_number_2))
+	    if ( transaction_number_1 == gsb_data_transaction_get_mother_transaction_number ( transaction_number_2))
 		return_value = -1;
 	    else
-		transaction_number_2 = gsb_transaction_data_get_mother_transaction_number ( transaction_number_2);
+		transaction_number_2 = gsb_data_transaction_get_mother_transaction_number ( transaction_number_2);
 	}
     }
 
@@ -561,8 +561,8 @@ gint gsb_transactions_list_sort_by_transaction_date_and_no ( void )
 {
     gint return_value;
 
-    return_value = g_date_compare ( gsb_transaction_data_get_date (transaction_number_1),
-				    gsb_transaction_data_get_date (transaction_number_2));
+    return_value = g_date_compare ( gsb_data_transaction_get_date (transaction_number_1),
+				    gsb_data_transaction_get_date (transaction_number_2));
 
     if ( return_value )
 	return return_value;
@@ -669,8 +669,8 @@ gint gsb_transactions_list_sort_by_value_date ( GtkTreeModel *model,
     if ( return_value )
 	return return_value;
 
-    return_value = g_date_compare ( gsb_transaction_data_get_value_date (transaction_number_1),
-				    gsb_transaction_data_get_value_date (transaction_number_2));
+    return_value = g_date_compare ( gsb_data_transaction_get_value_date (transaction_number_1),
+				    gsb_data_transaction_get_value_date (transaction_number_2));
 
     if ( return_value )
 	return return_value;
@@ -711,16 +711,16 @@ gint gsb_transactions_list_sort_by_party ( GtkTreeModel *model,
     if ( return_value )
 	return return_value;
 
-    if ( gsb_transaction_data_get_party_number ( transaction_number_1)== gsb_transaction_data_get_party_number ( transaction_number_2))
+    if ( gsb_data_transaction_get_party_number ( transaction_number_1)== gsb_data_transaction_get_party_number ( transaction_number_2))
 	return_value = gsb_transactions_list_sort_by_transaction_date_and_no();
     else
     {
 	gchar *temp_1;
 	gchar *temp_2;
 
-	temp_1 = gsb_payee_get_name ( gsb_transaction_data_get_party_number ( transaction_number_1),
+	temp_1 = gsb_data_payee_get_name ( gsb_data_transaction_get_party_number ( transaction_number_1),
 				    TRUE );
-	temp_2 = gsb_payee_get_name ( gsb_transaction_data_get_party_number ( transaction_number_2),
+	temp_2 = gsb_data_payee_get_name ( gsb_data_transaction_get_party_number ( transaction_number_2),
 				    TRUE );
 
 	/* g_utf8_collate is said not very fast, must try with big big account to check
@@ -770,19 +770,19 @@ gint gsb_transactions_list_sort_by_budget ( GtkTreeModel *model,
     if ( return_value )
 	return return_value;
 
-    if ( gsb_transaction_data_get_budgetary_number ( transaction_number_1) == gsb_transaction_data_get_budgetary_number ( transaction_number_2)
+    if ( gsb_data_transaction_get_budgetary_number ( transaction_number_1) == gsb_data_transaction_get_budgetary_number ( transaction_number_2)
 	 &&
-	 gsb_transaction_data_get_sub_budgetary_number ( transaction_number_1)== gsb_transaction_data_get_sub_budgetary_number ( transaction_number_2))
+	 gsb_data_transaction_get_sub_budgetary_number ( transaction_number_1)== gsb_data_transaction_get_sub_budgetary_number ( transaction_number_2))
 	return_value = gsb_transactions_list_sort_by_transaction_date_and_no();
     else
     {
 	gchar *temp_1;
 	gchar *temp_2;
 
-	temp_1 = nom_imputation_par_no ( gsb_transaction_data_get_budgetary_number ( transaction_number_1),
-					 gsb_transaction_data_get_sub_budgetary_number ( transaction_number_1));
-	temp_2 = nom_imputation_par_no ( gsb_transaction_data_get_budgetary_number ( transaction_number_2),
-					 gsb_transaction_data_get_sub_budgetary_number ( transaction_number_2));
+	temp_1 = nom_imputation_par_no ( gsb_data_transaction_get_budgetary_number ( transaction_number_1),
+					 gsb_data_transaction_get_sub_budgetary_number ( transaction_number_1));
+	temp_2 = nom_imputation_par_no ( gsb_data_transaction_get_budgetary_number ( transaction_number_2),
+					 gsb_data_transaction_get_sub_budgetary_number ( transaction_number_2));
 
 	/* g_utf8_collate is said not very fast, must try with big big account to check
 	 * if it's enough, for me it's ok (cedric), eventually, change with gsb_strcasecmp */
@@ -833,20 +833,20 @@ gint gsb_transactions_list_sort_by_credit ( GtkTreeModel *model,
 
     /* for the amounts, we have to check also the currency */
 
-    if ( fabs (gsb_transaction_data_get_amount ( transaction_number_1) - gsb_transaction_data_get_amount ( transaction_number_2)) < 0.01
+    if ( fabs (gsb_data_transaction_get_amount ( transaction_number_1) - gsb_data_transaction_get_amount ( transaction_number_2)) < 0.01
 	 &&
-	 gsb_transaction_data_get_currency_number ( transaction_number_1)== gsb_transaction_data_get_currency_number ( transaction_number_2))
+	 gsb_data_transaction_get_currency_number ( transaction_number_1)== gsb_data_transaction_get_currency_number ( transaction_number_2))
 	return_value = gsb_transactions_list_sort_by_transaction_date_and_no();
     else
     {
-	if ( gsb_transaction_data_get_currency_number ( transaction_number_1)== gsb_transaction_data_get_currency_number ( transaction_number_2))
-	    return_value = gsb_transaction_data_get_amount ( transaction_number_1)- gsb_transaction_data_get_amount ( transaction_number_2);
+	if ( gsb_data_transaction_get_currency_number ( transaction_number_1)== gsb_data_transaction_get_currency_number ( transaction_number_2))
+	    return_value = gsb_data_transaction_get_amount ( transaction_number_1)- gsb_data_transaction_get_amount ( transaction_number_2);
 	else
 	{
 	    gdouble amount_1, amount_2;
 
-	    amount_1 = gsb_transaction_data_get_adjusted_amount ( transaction_number_1);
-	    amount_2 = gsb_transaction_data_get_adjusted_amount ( transaction_number_2);
+	    amount_1 = gsb_data_transaction_get_adjusted_amount ( transaction_number_1);
+	    amount_2 = gsb_data_transaction_get_adjusted_amount ( transaction_number_2);
 	    return_value = amount_1 - amount_2;
 
 	}
@@ -895,20 +895,20 @@ gint gsb_transactions_list_sort_by_debit ( GtkTreeModel *model,
 
     /* for the amounts, we have to check also the currency */
 
-    if ( fabs (gsb_transaction_data_get_amount ( transaction_number_1)- gsb_transaction_data_get_amount ( transaction_number_2)) < 0.01
+    if ( fabs (gsb_data_transaction_get_amount ( transaction_number_1)- gsb_data_transaction_get_amount ( transaction_number_2)) < 0.01
 	 &&
-	 gsb_transaction_data_get_currency_number ( transaction_number_1)== gsb_transaction_data_get_currency_number ( transaction_number_2))
+	 gsb_data_transaction_get_currency_number ( transaction_number_1)== gsb_data_transaction_get_currency_number ( transaction_number_2))
 	return_value = gsb_transactions_list_sort_by_transaction_date_and_no();
     else
     {
-	if ( gsb_transaction_data_get_currency_number ( transaction_number_1)== gsb_transaction_data_get_currency_number ( transaction_number_2))
-	    return_value = gsb_transaction_data_get_amount ( transaction_number_2)- gsb_transaction_data_get_amount ( transaction_number_1);
+	if ( gsb_data_transaction_get_currency_number ( transaction_number_1)== gsb_data_transaction_get_currency_number ( transaction_number_2))
+	    return_value = gsb_data_transaction_get_amount ( transaction_number_2)- gsb_data_transaction_get_amount ( transaction_number_1);
 	else
 	{
 	    gdouble amount_1, amount_2;
 
-	    amount_1 = gsb_transaction_data_get_adjusted_amount ( transaction_number_1);
-	    amount_2 = gsb_transaction_data_get_adjusted_amount ( transaction_number_2);
+	    amount_1 = gsb_data_transaction_get_adjusted_amount ( transaction_number_1);
+	    amount_2 = gsb_data_transaction_get_adjusted_amount ( transaction_number_2);
 	    return_value = amount_2 - amount_1;
 
 	}
@@ -954,20 +954,20 @@ gint gsb_transactions_list_sort_by_amount ( GtkTreeModel *model,
 
     /* for the amounts, we have to check also the currency */
 
-    if ( fabs (gsb_transaction_data_get_amount ( transaction_number_1)- gsb_transaction_data_get_amount ( transaction_number_2)) < 0.01
+    if ( fabs (gsb_data_transaction_get_amount ( transaction_number_1)- gsb_data_transaction_get_amount ( transaction_number_2)) < 0.01
 	 &&
-	 gsb_transaction_data_get_currency_number ( transaction_number_1)== gsb_transaction_data_get_currency_number ( transaction_number_2))
+	 gsb_data_transaction_get_currency_number ( transaction_number_1)== gsb_data_transaction_get_currency_number ( transaction_number_2))
 	return_value = gsb_transactions_list_sort_by_transaction_date_and_no();
     else
     {
-	if ( gsb_transaction_data_get_currency_number ( transaction_number_1)== gsb_transaction_data_get_currency_number ( transaction_number_2))
-	    return_value = fabs(gsb_transaction_data_get_amount ( transaction_number_1)) - fabs (gsb_transaction_data_get_amount ( transaction_number_2));
+	if ( gsb_data_transaction_get_currency_number ( transaction_number_1)== gsb_data_transaction_get_currency_number ( transaction_number_2))
+	    return_value = fabs(gsb_data_transaction_get_amount ( transaction_number_1)) - fabs (gsb_data_transaction_get_amount ( transaction_number_2));
 	else
 	{
 	    gdouble amount_1, amount_2;
 
-	    amount_1 = gsb_transaction_data_get_adjusted_amount ( transaction_number_1);
-	    amount_2 = gsb_transaction_data_get_adjusted_amount ( transaction_number_2);
+	    amount_1 = gsb_data_transaction_get_adjusted_amount ( transaction_number_1);
+	    amount_2 = gsb_data_transaction_get_adjusted_amount ( transaction_number_2);
 	    return_value = fabs(amount_1) - fabs(amount_2);
 
 	}
@@ -1013,11 +1013,11 @@ gint gsb_transactions_list_sort_by_type ( GtkTreeModel *model,
 
     /* if it's the same type, we sort by the content of the types */
 
-    if ( gsb_transaction_data_get_method_of_payment_number ( transaction_number_1)== gsb_transaction_data_get_method_of_payment_number ( transaction_number_2))
+    if ( gsb_data_transaction_get_method_of_payment_number ( transaction_number_1)== gsb_data_transaction_get_method_of_payment_number ( transaction_number_2))
     {
-	return_value = g_utf8_collate ( g_utf8_casefold ( gsb_transaction_data_get_method_of_payment_content ( transaction_number_1) ? gsb_transaction_data_get_method_of_payment_content ( transaction_number_1) : "",
+	return_value = g_utf8_collate ( g_utf8_casefold ( gsb_data_transaction_get_method_of_payment_content ( transaction_number_1) ? gsb_data_transaction_get_method_of_payment_content ( transaction_number_1) : "",
 							  -1 ),
-					g_utf8_casefold ( gsb_transaction_data_get_method_of_payment_content ( transaction_number_2) ? gsb_transaction_data_get_method_of_payment_content ( transaction_number_2) : "",
+					g_utf8_casefold ( gsb_data_transaction_get_method_of_payment_content ( transaction_number_2) ? gsb_data_transaction_get_method_of_payment_content ( transaction_number_2) : "",
 							  -1 ));
 
 	if ( !return_value )
@@ -1028,10 +1028,10 @@ gint gsb_transactions_list_sort_by_type ( GtkTreeModel *model,
 	gchar *temp_1;
 	gchar *temp_2;
 
-	temp_1 = type_ope_name_by_no ( gsb_transaction_data_get_method_of_payment_number ( transaction_number_1),
-				       gsb_transaction_data_get_account_number (transaction_number_1));
-	temp_2 = type_ope_name_by_no ( gsb_transaction_data_get_method_of_payment_number ( transaction_number_2),
-				       gsb_transaction_data_get_account_number (transaction_number_2));
+	temp_1 = type_ope_name_by_no ( gsb_data_transaction_get_method_of_payment_number ( transaction_number_1),
+				       gsb_data_transaction_get_account_number (transaction_number_1));
+	temp_2 = type_ope_name_by_no ( gsb_data_transaction_get_method_of_payment_number ( transaction_number_2),
+				       gsb_data_transaction_get_account_number (transaction_number_2));
 
 	/* g_utf8_collate is said not very fast, must try with big big account to check
 	 * if it's enough, for me it's ok (cedric), eventually, change with gsb_strcasecmp */
@@ -1047,9 +1047,9 @@ gint gsb_transactions_list_sort_by_type ( GtkTreeModel *model,
     {
 	/* 	it seems that the 2 types are different no but same spell... */
 
-	return_value = g_utf8_collate ( g_utf8_casefold ( gsb_transaction_data_get_method_of_payment_content ( transaction_number_1)? gsb_transaction_data_get_method_of_payment_content ( transaction_number_1): "",
+	return_value = g_utf8_collate ( g_utf8_casefold ( gsb_data_transaction_get_method_of_payment_content ( transaction_number_1)? gsb_data_transaction_get_method_of_payment_content ( transaction_number_1): "",
 							  -1 ),
-					g_utf8_casefold ( gsb_transaction_data_get_method_of_payment_content ( transaction_number_2)? gsb_transaction_data_get_method_of_payment_content ( transaction_number_2): "",
+					g_utf8_casefold ( gsb_data_transaction_get_method_of_payment_content ( transaction_number_2)? gsb_data_transaction_get_method_of_payment_content ( transaction_number_2): "",
 							  -1 ));
 
 	if ( !return_value )
@@ -1090,15 +1090,15 @@ gint gsb_transactions_list_sort_by_reconcile_nb ( GtkTreeModel *model,
     if ( return_value )
 	return return_value;
 
-    if ( gsb_transaction_data_get_reconcile_number ( transaction_number_1)== gsb_transaction_data_get_reconcile_number ( transaction_number_2))
+    if ( gsb_data_transaction_get_reconcile_number ( transaction_number_1)== gsb_data_transaction_get_reconcile_number ( transaction_number_2))
 	return_value = gsb_transactions_list_sort_by_transaction_date_and_no();
     else
     {
 	gchar *temp_1;
 	gchar *temp_2;
 
-	temp_1 = rapprochement_name_by_no ( gsb_transaction_data_get_reconcile_number ( transaction_number_1));
-	temp_2 = rapprochement_name_by_no ( gsb_transaction_data_get_reconcile_number ( transaction_number_2));
+	temp_1 = rapprochement_name_by_no ( gsb_data_transaction_get_reconcile_number ( transaction_number_1));
+	temp_2 = rapprochement_name_by_no ( gsb_data_transaction_get_reconcile_number ( transaction_number_2));
 
 	/* g_utf8_collate is said not very fast, must try with big big account to check
 	 * if it's enough, for me it's ok (cedric), eventually, change with gsb_strcasecmp */
@@ -1146,15 +1146,15 @@ gint gsb_transactions_list_sort_by_financial_year ( GtkTreeModel *model,
     if ( return_value )
 	return return_value;
 
-    if ( gsb_transaction_data_get_financial_year_number ( transaction_number_1)== gsb_transaction_data_get_financial_year_number ( transaction_number_2))
+    if ( gsb_data_transaction_get_financial_year_number ( transaction_number_1)== gsb_data_transaction_get_financial_year_number ( transaction_number_2))
 	return_value = gsb_transactions_list_sort_by_transaction_date_and_no();
     else
     {
 	GDate *date_1;
 	GDate *date_2;
 
-	date_1 = gsb_financial_year_get_begining_date (gsb_transaction_data_get_financial_year_number ( transaction_number_1));
-	date_2 = gsb_financial_year_get_begining_date (gsb_transaction_data_get_financial_year_number ( transaction_number_2));
+	date_1 = gsb_financial_year_get_begining_date (gsb_data_transaction_get_financial_year_number ( transaction_number_1));
+	date_2 = gsb_financial_year_get_begining_date (gsb_data_transaction_get_financial_year_number ( transaction_number_2));
 
 	if ( date_1 )
 	{
@@ -1268,7 +1268,7 @@ gint gsb_transactions_list_sort_by_mark ( GtkTreeModel *model,
     if ( return_value )
 	return return_value;
 
-    return_value = gsb_transaction_data_get_marked_transaction ( transaction_number_1)- gsb_transaction_data_get_marked_transaction ( transaction_number_2);
+    return_value = gsb_data_transaction_get_marked_transaction ( transaction_number_1)- gsb_data_transaction_get_marked_transaction ( transaction_number_2);
 
 
     if ( return_value )
@@ -1312,8 +1312,8 @@ gint gsb_transactions_list_sort_by_voucher ( GtkTreeModel *model,
     if ( return_value )
 	return return_value;
 
-    temp_1 = gsb_transaction_data_get_voucher ( transaction_number_1);
-    temp_2 = gsb_transaction_data_get_voucher ( transaction_number_2);
+    temp_1 = gsb_data_transaction_get_voucher ( transaction_number_1);
+    temp_2 = gsb_data_transaction_get_voucher ( transaction_number_2);
 
     /* g_utf8_collate is said not very fast, must try with big big account to check
      * if it's enough, for me it's ok (cedric), eventually, change with gsb_strcasecmp */
@@ -1362,8 +1362,8 @@ gint gsb_transactions_list_sort_by_notes ( GtkTreeModel *model,
     if ( return_value )
 	return return_value;
 
-    temp_1 = gsb_transaction_data_get_notes ( transaction_number_1);
-    temp_2 = gsb_transaction_data_get_notes ( transaction_number_2);
+    temp_1 = gsb_data_transaction_get_notes ( transaction_number_1);
+    temp_2 = gsb_data_transaction_get_notes ( transaction_number_2);
 
     /* g_utf8_collate is said not very fast, must try with big big account to check
      * if it's enough, for me it's ok (cedric), eventually, change with gsb_strcasecmp */
@@ -1413,8 +1413,8 @@ gint gsb_transactions_list_sort_by_bank ( GtkTreeModel *model,
     if ( return_value )
 	return return_value;
 
-    temp_1 = gsb_transaction_data_get_bank_references ( transaction_number_1);
-    temp_2 = gsb_transaction_data_get_bank_references ( transaction_number_2);
+    temp_1 = gsb_data_transaction_get_bank_references ( transaction_number_1);
+    temp_2 = gsb_data_transaction_get_bank_references ( transaction_number_2);
 
     /* g_utf8_collate is said not very fast, must try with big big account to check
      * if it's enough, for me it's ok (cedric), eventually, change with gsb_strcasecmp */
@@ -1464,8 +1464,8 @@ gint gsb_transactions_list_sort_by_chq ( GtkTreeModel *model,
     if ( return_value )
 	return return_value;
 
-    temp_1 = gsb_transaction_data_get_method_of_payment_content ( transaction_number_1);
-    temp_2 = gsb_transaction_data_get_method_of_payment_content ( transaction_number_2);
+    temp_1 = gsb_data_transaction_get_method_of_payment_content ( transaction_number_1);
+    temp_2 = gsb_data_transaction_get_method_of_payment_content ( transaction_number_2);
 
     /* g_utf8_collate is said not very fast, must try with big big account to check
      * if it's enough, for me it's ok (cedric), eventually, change with gsb_strcasecmp */

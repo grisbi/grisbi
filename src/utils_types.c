@@ -27,7 +27,7 @@
 
 /*START_INCLUDE*/
 #include "utils_types.h"
-#include "gsb_account.h"
+#include "gsb_data_account.h"
 #include "search_glist.h"
 #include "structures.h"
 /*END_INCLUDE*/
@@ -52,7 +52,7 @@ struct struct_type_ope *type_ope_par_no ( gint no_type_ope,
 {
     GSList *liste_tmp;
 
-    liste_tmp = g_slist_find_custom ( gsb_account_get_method_payment_list (no_compte),
+    liste_tmp = g_slist_find_custom ( gsb_data_account_get_method_payment_list (no_compte),
 				      GINT_TO_POINTER ( no_type_ope ),
 				      (GCompareFunc) recherche_type_ope_par_no );
 

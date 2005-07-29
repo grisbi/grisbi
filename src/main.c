@@ -48,7 +48,7 @@
 #include "menu.h"
 #include "tip.h"
 #include "erreur.h"
-#include "gsb_account.h"
+#include "gsb_data_account.h"
 #include "gsb_file_config.h"
 #include "fichiers_gestion.h"
 #include "traitement_variables.h"
@@ -301,7 +301,7 @@ int main (int argc, char *argv[])
 	
 	/*   à ce niveau, le fichier doit être chargé, on met sur l'onglet demandé si nécessaire */
 
-	if ( gsb_account_get_accounts_amount ()
+	if ( gsb_data_account_get_accounts_amount ()
 	     &&
 	     opt.demande_page )
 	{

@@ -26,13 +26,13 @@
 #include "utils_categories.h"
 #include "utils_devises.h"
 #include "dialog.h"
-#include "gsb_account.h"
+#include "gsb_data_account.h"
+#include "gsb_data_payee.h"
+#include "gsb_data_transaction.h"
 #include "gsb_file_util.h"
 #include "data_form.h"
 #include "utils_dates.h"
-#include "gsb_payee_data.h"
 #include "utils_str.h"
-#include "gsb_transaction_data.h"
 #include "traitement_variables.h"
 #include "fichiers_gestion.h"
 #include "utils_files.h"
@@ -887,8 +887,8 @@ void gsb_file_load_account_part ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Name" ))
 	{
-	    account_number_tmp = gsb_account_new ( GSB_TYPE_BANK );
-	    gsb_account_set_name ( account_number_tmp,
+	    account_number_tmp = gsb_data_account_new ( GSB_TYPE_BANK );
+	    gsb_data_account_set_name ( account_number_tmp,
 				   g_strdup (attribute_values[i]) );
 	    i++;
 	    continue;
@@ -898,7 +898,7 @@ void gsb_file_load_account_part ( const gchar **attribute_names,
 		       "Id" ))
 	{
 	    if ( strlen (attribute_values[i]))
-		gsb_account_set_id (account_number_tmp,
+		gsb_data_account_set_id (account_number_tmp,
 				    g_strdup (attribute_values[i]));
 	    i++;
 	    continue;
@@ -907,7 +907,7 @@ void gsb_file_load_account_part ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Number" ))
 	{
-	    account_number_tmp = gsb_account_set_account_number ( account_number_tmp,
+	    account_number_tmp = gsb_data_account_set_account_number ( account_number_tmp,
 								  utils_str_atoi ( attribute_values[i]));
 	    i++;
 	    continue;
@@ -916,7 +916,7 @@ void gsb_file_load_account_part ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Owner" ))
 	{
-	    gsb_account_set_holder_name ( account_number_tmp,
+	    gsb_data_account_set_holder_name ( account_number_tmp,
 					  g_strdup (attribute_values[i]));
 	    i++;
 	    continue;
@@ -925,7 +925,7 @@ void gsb_file_load_account_part ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Kind" ))
 	{
-	    gsb_account_set_kind (account_number_tmp,
+	    gsb_data_account_set_kind (account_number_tmp,
 				  utils_str_atoi ( attribute_values[i]));
 	    i++;
 	    continue;
@@ -934,7 +934,7 @@ void gsb_file_load_account_part ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Currency" ))
 	{
-	    gsb_account_set_currency ( account_number_tmp,
+	    gsb_data_account_set_currency ( account_number_tmp,
 				       utils_str_atoi ( attribute_values[i]));
 	    i++;
 	    continue;
@@ -943,7 +943,7 @@ void gsb_file_load_account_part ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Bank" ))
 	{
-	    gsb_account_set_bank ( account_number_tmp,
+	    gsb_data_account_set_bank ( account_number_tmp,
 				   utils_str_atoi ( attribute_values[i]));
 	    i++;
 	    continue;
@@ -952,7 +952,7 @@ void gsb_file_load_account_part ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Bank_branch_code" ))
 	{
-	    gsb_account_set_bank_branch_code ( account_number_tmp,
+	    gsb_data_account_set_bank_branch_code ( account_number_tmp,
 					       g_strdup (attribute_values[i]) );
 	    i++;
 	    continue;
@@ -961,7 +961,7 @@ void gsb_file_load_account_part ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Bank_account_number" ))
 	{
-	    gsb_account_set_bank_account_number ( account_number_tmp,
+	    gsb_data_account_set_bank_account_number ( account_number_tmp,
 						  g_strdup (attribute_values[i]));
 	    i++;
 	    continue;
@@ -970,7 +970,7 @@ void gsb_file_load_account_part ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Key" ))
 	{
-	    gsb_account_set_bank_account_key ( account_number_tmp,
+	    gsb_data_account_set_bank_account_key ( account_number_tmp,
 					       g_strdup (attribute_values[i]) );
 	    i++;
 	    continue;
@@ -979,7 +979,7 @@ void gsb_file_load_account_part ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Initial_balance" ))
 	{
-	    gsb_account_set_init_balance (account_number_tmp,
+	    gsb_data_account_set_init_balance (account_number_tmp,
 					  my_strtod ( g_strdup (attribute_values[i]),
 						      NULL ));
 	    i++;
@@ -989,7 +989,7 @@ void gsb_file_load_account_part ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Minimum_wanted_balance" ))
 	{
-	    gsb_account_set_mini_balance_wanted ( account_number_tmp, 
+	    gsb_data_account_set_mini_balance_wanted ( account_number_tmp, 
 						  my_strtod ( g_strdup (attribute_values[i]),
 							      NULL ));
 	    i++;
@@ -999,7 +999,7 @@ void gsb_file_load_account_part ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Minimum_authorised_balance" ))
 	{
-	    gsb_account_set_mini_balance_authorized ( account_number_tmp, 
+	    gsb_data_account_set_mini_balance_authorized ( account_number_tmp, 
 						      my_strtod ( g_strdup (attribute_values[i]),
 								  NULL ));
 	    i++;
@@ -1015,7 +1015,7 @@ void gsb_file_load_account_part ( const gchar **attribute_names,
 		gchar **pointeur_char;
 
 		pointeur_char = g_strsplit ( attribute_values[i], "/", 0 );
-		gsb_account_set_current_reconcile_date ( account_number_tmp,
+		gsb_data_account_set_current_reconcile_date ( account_number_tmp,
 							 g_date_new_dmy ( utils_str_atoi ( pointeur_char [0] ),
 									  utils_str_atoi ( pointeur_char [1] ),
 									  utils_str_atoi ( pointeur_char [2] )));
@@ -1028,7 +1028,7 @@ void gsb_file_load_account_part ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Last_reconcile_balance" ))
 	{
-	    gsb_account_set_reconcile_balance ( account_number_tmp,
+	    gsb_data_account_set_reconcile_balance ( account_number_tmp,
 						my_strtod ( g_strdup (attribute_values[i]),
 							    NULL ) );
 	    i++;
@@ -1038,7 +1038,7 @@ void gsb_file_load_account_part ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Last_reconcile_number" ))
 	{
-	    gsb_account_set_reconcile_last_number ( account_number_tmp,
+	    gsb_data_account_set_reconcile_last_number ( account_number_tmp,
 						    utils_str_atoi ( attribute_values[i]));
 	    i++;
 	    continue;
@@ -1047,7 +1047,7 @@ void gsb_file_load_account_part ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Closed_account" ))
 	{
-	    gsb_account_set_closed_account ( account_number_tmp,
+	    gsb_data_account_set_closed_account ( account_number_tmp,
 					     utils_str_atoi ( attribute_values[i]));
 	    i++;
 	    continue;
@@ -1056,7 +1056,7 @@ void gsb_file_load_account_part ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Show_marked" ))
 	{
-	    gsb_account_set_r ( account_number_tmp,
+	    gsb_data_account_set_r ( account_number_tmp,
 				utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
@@ -1065,7 +1065,7 @@ void gsb_file_load_account_part ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Lines_per_transaction" ))
 	{
-	    gsb_account_set_nb_rows ( account_number_tmp, 
+	    gsb_data_account_set_nb_rows ( account_number_tmp, 
 				      utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
@@ -1074,7 +1074,7 @@ void gsb_file_load_account_part ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Comment" ))
 	{
-	    gsb_account_set_comment ( account_number_tmp,
+	    gsb_data_account_set_comment ( account_number_tmp,
 				      g_strdup (attribute_values[i]) );
 	    i++;
 	    continue;
@@ -1083,7 +1083,7 @@ void gsb_file_load_account_part ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Owner_address" ))
 	{
-	    gsb_account_set_holder_address ( account_number_tmp,
+	    gsb_data_account_set_holder_address ( account_number_tmp,
 					     g_strdup (attribute_values[i]) );
 	    i++;
 	    continue;
@@ -1092,7 +1092,7 @@ void gsb_file_load_account_part ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Default_debit_method" ))
 	{
-	    gsb_account_set_default_debit ( account_number_tmp,
+	    gsb_data_account_set_default_debit ( account_number_tmp,
 					    utils_str_atoi ( attribute_values[i]) );
 	    i++;
 	    continue;
@@ -1101,7 +1101,7 @@ void gsb_file_load_account_part ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Default_credit_method" ))
 	{
-	    gsb_account_set_default_credit ( account_number_tmp,
+	    gsb_data_account_set_default_credit ( account_number_tmp,
 					     utils_str_atoi ( attribute_values[i]));
 	    i++;
 	    continue;
@@ -1110,7 +1110,7 @@ void gsb_file_load_account_part ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Sort_by_method" ))
 	{
-	    gsb_account_set_reconcile_sort_type ( account_number_tmp,
+	    gsb_data_account_set_reconcile_sort_type ( account_number_tmp,
 						  utils_str_atoi ( attribute_values[i]));
 	    i++;
 	    continue;
@@ -1119,7 +1119,7 @@ void gsb_file_load_account_part ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Neutrals_inside_method" ))
 	{
-	    gsb_account_set_split_neutral_payment ( account_number_tmp,
+	    gsb_data_account_set_split_neutral_payment ( account_number_tmp,
 						    utils_str_atoi ( attribute_values[i]) );
 	    i++;
 	    continue;
@@ -1141,8 +1141,8 @@ void gsb_file_load_account_part ( const gchar **attribute_names,
 
 		while ( pointeur_char[j] )
 		{
-		    gsb_account_set_sort_list ( account_number_tmp,
-						g_slist_append ( gsb_account_get_sort_list (account_number_tmp),
+		    gsb_data_account_set_sort_list ( account_number_tmp,
+						g_slist_append ( gsb_data_account_get_sort_list (account_number_tmp),
 								 GINT_TO_POINTER ( utils_str_atoi ( pointeur_char[j] ))) );
 		    j++;
 		}
@@ -1155,7 +1155,7 @@ void gsb_file_load_account_part ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Ascending_sort" ))
 	{
-	    gsb_account_set_sort_type ( account_number_tmp,
+	    gsb_data_account_set_sort_type ( account_number_tmp,
 					utils_str_atoi ( attribute_values[i]));
 	    i++;
 	    continue;
@@ -1164,7 +1164,7 @@ void gsb_file_load_account_part ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Column_sort" ))
 	{
-	    gsb_account_set_sort_column ( account_number_tmp,
+	    gsb_data_account_set_sort_column ( account_number_tmp,
 					  utils_str_atoi ( attribute_values[i]));
 	    i++;
 	    continue;
@@ -1182,7 +1182,7 @@ void gsb_file_load_account_part ( const gchar **attribute_names,
 
 	    for ( j=0 ; j<TRANSACTION_LIST_COL_NB ; j++ )
 	    {
-		gsb_account_set_column_sort ( account_number_tmp,
+		gsb_data_account_set_column_sort ( account_number_tmp,
 					      j,
 					      utils_str_atoi ( pointeur_char[j] ));
 	    }
@@ -1194,10 +1194,10 @@ void gsb_file_load_account_part ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Form_columns_number" ))
 	{
-	    gsb_account_set_form_organization ( account_number_tmp,
+	    gsb_data_account_set_form_organization ( account_number_tmp,
 						calloc ( 1,
 							 sizeof ( struct organisation_formulaire )) );
-	    gsb_account_get_form_organization (account_number_tmp) -> nb_colonnes = utils_str_atoi ( attribute_values[i]);
+	    gsb_data_account_get_form_organization (account_number_tmp) -> nb_colonnes = utils_str_atoi ( attribute_values[i]);
 	    i++;
 	    continue;
 	}
@@ -1205,7 +1205,7 @@ void gsb_file_load_account_part ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Form_lines_number" ))
 	{
-	    gsb_account_get_form_organization (account_number_tmp) -> nb_lignes = utils_str_atoi ( attribute_values[i]);
+	    gsb_data_account_get_form_organization (account_number_tmp) -> nb_lignes = utils_str_atoi ( attribute_values[i]);
 	    i++;
 	    continue;
 	}
@@ -1222,7 +1222,7 @@ void gsb_file_load_account_part ( const gchar **attribute_names,
 
 	    for ( k=0 ; k<4 ; k++ )
 		for ( j=0 ; j< 6 ; j++ )
-		    gsb_account_get_form_organization (account_number_tmp) -> tab_remplissage_formulaire[k][j] = utils_str_atoi ( pointeur_char[j + k*6]);
+		    gsb_data_account_get_form_organization (account_number_tmp) -> tab_remplissage_formulaire[k][j] = utils_str_atoi ( pointeur_char[j + k*6]);
 
 	    g_strfreev ( pointeur_char );
 	    i++;
@@ -1240,7 +1240,7 @@ void gsb_file_load_account_part ( const gchar **attribute_names,
 					 0 );
 
 	    for ( j=0 ; j<6 ; j++ )
-		gsb_account_get_form_organization (account_number_tmp) -> taille_colonne_pourcent[j] = utils_str_atoi ( pointeur_char[j]);
+		gsb_data_account_get_form_organization (account_number_tmp) -> taille_colonne_pourcent[j] = utils_str_atoi ( pointeur_char[j]);
 
 	    g_strfreev ( pointeur_char );
 	    i++;
@@ -1347,8 +1347,8 @@ void gsb_file_load_payment_part ( const gchar **attribute_names,
     }
     while ( attribute_names[i] );
 
-    gsb_account_set_method_payment_list ( payment_method -> no_compte,
-					  g_slist_append ( gsb_account_get_method_payment_list (payment_method -> no_compte),
+    gsb_data_account_set_method_payment_list ( payment_method -> no_compte,
+					  g_slist_append ( gsb_data_account_get_method_payment_list (payment_method -> no_compte),
 							   payment_method ));
 }
 
@@ -1394,7 +1394,7 @@ void gsb_file_load_transactions ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Nb" ))
 	{
-	    transaction_number = gsb_transaction_data_new_transaction_with_number ( account_number,
+	    transaction_number = gsb_data_transaction_new_transaction_with_number ( account_number,
 										    utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
@@ -1403,7 +1403,7 @@ void gsb_file_load_transactions ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Id" ))
 	{
-	    gsb_transaction_data_set_transaction_id ( transaction_number,
+	    gsb_data_transaction_set_transaction_id ( transaction_number,
 						      attribute_values[i]);
 	    i++;
 	    continue;
@@ -1413,7 +1413,7 @@ void gsb_file_load_transactions ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Dt" ))
 	{
-	    gsb_transaction_data_set_date ( transaction_number,
+	    gsb_data_transaction_set_date ( transaction_number,
 					    gsb_parse_date_string (attribute_values[i]));
 	    i++;
 	    continue;
@@ -1423,7 +1423,7 @@ void gsb_file_load_transactions ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Dv" ))
 	{
-	    gsb_transaction_data_set_value_date ( transaction_number,
+	    gsb_data_transaction_set_value_date ( transaction_number,
 						  gsb_parse_date_string (attribute_values[i]));
 	    i++;
 	    continue;
@@ -1433,7 +1433,7 @@ void gsb_file_load_transactions ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Am" ))
 	{
-	    gsb_transaction_data_set_amount ( transaction_number,
+	    gsb_data_transaction_set_amount ( transaction_number,
 					      my_strtod (attribute_values[i],
 							 NULL));
 	    i++;
@@ -1444,7 +1444,7 @@ void gsb_file_load_transactions ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Cu" ))
 	{
-	    gsb_transaction_data_set_currency_number ( transaction_number,
+	    gsb_data_transaction_set_currency_number ( transaction_number,
 						       utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
@@ -1454,7 +1454,7 @@ void gsb_file_load_transactions ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Exb" ))
 	{
-	    gsb_transaction_data_set_change_between ( transaction_number,
+	    gsb_data_transaction_set_change_between ( transaction_number,
 						      utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
@@ -1464,7 +1464,7 @@ void gsb_file_load_transactions ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Exr" ))
 	{
-	    gsb_transaction_data_set_exchange_rate ( transaction_number,
+	    gsb_data_transaction_set_exchange_rate ( transaction_number,
 						     my_strtod (attribute_values[i],
 								NULL));
 	    i++;
@@ -1475,7 +1475,7 @@ void gsb_file_load_transactions ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Exf" ))
 	{
-	    gsb_transaction_data_set_exchange_fees ( transaction_number,
+	    gsb_data_transaction_set_exchange_fees ( transaction_number,
 						     my_strtod (attribute_values[i],
 								NULL));
 	    i++;
@@ -1486,7 +1486,7 @@ void gsb_file_load_transactions ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Pa" ))
 	{
-	    gsb_transaction_data_set_party_number ( transaction_number,
+	    gsb_data_transaction_set_party_number ( transaction_number,
 						    utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
@@ -1496,7 +1496,7 @@ void gsb_file_load_transactions ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Ca" ))
 	{
-	    gsb_transaction_data_set_category_number ( transaction_number,
+	    gsb_data_transaction_set_category_number ( transaction_number,
 						       utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
@@ -1506,7 +1506,7 @@ void gsb_file_load_transactions ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Sca" ))
 	{
-	    gsb_transaction_data_set_sub_category_number ( transaction_number,
+	    gsb_data_transaction_set_sub_category_number ( transaction_number,
 							   utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
@@ -1516,7 +1516,7 @@ void gsb_file_load_transactions ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Br" ))
 	{
-	    gsb_transaction_data_set_breakdown_of_transaction ( transaction_number,
+	    gsb_data_transaction_set_breakdown_of_transaction ( transaction_number,
 								utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
@@ -1526,7 +1526,7 @@ void gsb_file_load_transactions ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "No" ))
 	{
-	    gsb_transaction_data_set_notes ( transaction_number,
+	    gsb_data_transaction_set_notes ( transaction_number,
 					     attribute_values[i]);
 	    i++;
 	    continue;
@@ -1536,7 +1536,7 @@ void gsb_file_load_transactions ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Pn" ))
 	{
-	    gsb_transaction_data_set_method_of_payment_number ( transaction_number,
+	    gsb_data_transaction_set_method_of_payment_number ( transaction_number,
 								utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
@@ -1546,7 +1546,7 @@ void gsb_file_load_transactions ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Pc" ))
 	{
-	    gsb_transaction_data_set_method_of_payment_content ( transaction_number,
+	    gsb_data_transaction_set_method_of_payment_content ( transaction_number,
 								 attribute_values[i]);
 	    i++;
 	    continue;
@@ -1556,7 +1556,7 @@ void gsb_file_load_transactions ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Ma" ))
 	{
-	    gsb_transaction_data_set_marked_transaction ( transaction_number,
+	    gsb_data_transaction_set_marked_transaction ( transaction_number,
 							  utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
@@ -1566,7 +1566,7 @@ void gsb_file_load_transactions ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Au" ))
 	{
-	    gsb_transaction_data_set_automatic_transaction ( transaction_number,
+	    gsb_data_transaction_set_automatic_transaction ( transaction_number,
 							     utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
@@ -1576,7 +1576,7 @@ void gsb_file_load_transactions ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Re" ))
 	{
-	    gsb_transaction_data_set_reconcile_number ( transaction_number,
+	    gsb_data_transaction_set_reconcile_number ( transaction_number,
 							utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
@@ -1586,7 +1586,7 @@ void gsb_file_load_transactions ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Fi" ))
 	{
-	    gsb_transaction_data_set_financial_year_number ( transaction_number,
+	    gsb_data_transaction_set_financial_year_number ( transaction_number,
 							     utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
@@ -1596,7 +1596,7 @@ void gsb_file_load_transactions ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Bu" ))
 	{
-	    gsb_transaction_data_set_budgetary_number ( transaction_number,
+	    gsb_data_transaction_set_budgetary_number ( transaction_number,
 							utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
@@ -1606,7 +1606,7 @@ void gsb_file_load_transactions ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Sbu" ))
 	{
-	    gsb_transaction_data_set_sub_budgetary_number ( transaction_number,
+	    gsb_data_transaction_set_sub_budgetary_number ( transaction_number,
 							    utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
@@ -1616,7 +1616,7 @@ void gsb_file_load_transactions ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Vo" ))
 	{
-	    gsb_transaction_data_set_voucher ( transaction_number,
+	    gsb_data_transaction_set_voucher ( transaction_number,
 					       attribute_values[i]);
 	    i++;
 	    continue;
@@ -1626,7 +1626,7 @@ void gsb_file_load_transactions ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Ba" ))
 	{
-	    gsb_transaction_data_set_bank_references ( transaction_number,
+	    gsb_data_transaction_set_bank_references ( transaction_number,
 						       attribute_values[i]);
 	    i++;
 	    continue;
@@ -1636,7 +1636,7 @@ void gsb_file_load_transactions ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Trt" ))
 	{
-	    gsb_transaction_data_set_transaction_number_transfer ( transaction_number,
+	    gsb_data_transaction_set_transaction_number_transfer ( transaction_number,
 								   utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
@@ -1646,7 +1646,7 @@ void gsb_file_load_transactions ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Tra" ))
 	{
-	    gsb_transaction_data_set_account_number_transfer ( transaction_number,
+	    gsb_data_transaction_set_account_number_transfer ( transaction_number,
 							       utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
@@ -1656,7 +1656,7 @@ void gsb_file_load_transactions ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Mo" ))
 	{
-	    gsb_transaction_data_set_mother_transaction_number ( transaction_number,
+	    gsb_data_transaction_set_mother_transaction_number ( transaction_number,
 								 utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
@@ -1928,7 +1928,7 @@ void gsb_file_load_party ( const gchar **attribute_names,
     if ( !attribute_names[i] )
 	return;
 
-    payee_number = gsb_payee_new (NULL);
+    payee_number = gsb_data_payee_new (NULL);
 
     do
     {
@@ -1945,7 +1945,7 @@ void gsb_file_load_party ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Nb" ))
 	{
-	    payee_number = gsb_payee_set_new_number ( payee_number,
+	    payee_number = gsb_data_payee_set_new_number ( payee_number,
 						      utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
@@ -1954,7 +1954,7 @@ void gsb_file_load_party ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Na" ))
 	{
-	    gsb_payee_set_name ( payee_number,
+	    gsb_data_payee_set_name ( payee_number,
 				 attribute_values[i]);
 	    i++;
 	    continue;
@@ -1963,7 +1963,7 @@ void gsb_file_load_party ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Txt" ))
 	{
-	    gsb_payee_set_description ( payee_number,
+	    gsb_data_payee_set_description ( payee_number,
 					attribute_values[i]);
 	    i++;
 	    continue;
@@ -3700,30 +3700,30 @@ gboolean gsb_file_load_update_previous_version ( void )
 	    /* sauf que la 0.4.0 n'attribuait pas le no de relevé aux opés filles */
 	    /* d'une ventilation */
 
-	    list_tmp_transactions = gsb_transaction_data_get_transactions_list ();
+	    list_tmp_transactions = gsb_data_transaction_get_transactions_list ();
 
 	    while ( list_tmp_transactions )
 	    {
 		gint transaction_number_tmp;
-		transaction_number_tmp = gsb_transaction_data_get_transaction_number (list_tmp_transactions -> data);
+		transaction_number_tmp = gsb_data_transaction_get_transaction_number (list_tmp_transactions -> data);
 
 		/*  si l'opération est une ventil, on refait le tour de la liste pour trouver ses filles */
 
-		if ( gsb_transaction_data_get_breakdown_of_transaction (transaction_number_tmp))
+		if ( gsb_data_transaction_get_breakdown_of_transaction (transaction_number_tmp))
 		{
 		    GSList *list_tmp_transactions_2;
-		    list_tmp_transactions_2 = gsb_transaction_data_get_transactions_list ();
+		    list_tmp_transactions_2 = gsb_data_transaction_get_transactions_list ();
 
 		    while ( list_tmp_transactions_2 )
 		    {
 			gint transaction_number_tmp_2;
-			transaction_number_tmp_2 = gsb_transaction_data_get_transaction_number (list_tmp_transactions_2 -> data);
+			transaction_number_tmp_2 = gsb_data_transaction_get_transaction_number (list_tmp_transactions_2 -> data);
 
-			if ( gsb_transaction_data_get_account_number (transaction_number_tmp_2) == gsb_transaction_data_get_account_number (transaction_number_tmp)
+			if ( gsb_data_transaction_get_account_number (transaction_number_tmp_2) == gsb_data_transaction_get_account_number (transaction_number_tmp)
 			     &&
-			     gsb_transaction_data_get_mother_transaction_number (transaction_number_tmp_2) == transaction_number_tmp)
-			    gsb_transaction_data_set_reconcile_number ( transaction_number_tmp_2,
-									gsb_transaction_data_get_reconcile_number (transaction_number_tmp));
+			     gsb_data_transaction_get_mother_transaction_number (transaction_number_tmp_2) == transaction_number_tmp)
+			    gsb_data_transaction_set_reconcile_number ( transaction_number_tmp_2,
+									gsb_data_transaction_get_reconcile_number (transaction_number_tmp));
 
 			list_tmp_transactions_2 = list_tmp_transactions_2 -> next;
 		    }
@@ -3775,18 +3775,18 @@ gboolean gsb_file_load_update_previous_version ( void )
 		gint nb_lignes_ope;
 		GSList *list_tmp;
 
-		affichage_r = gsb_account_get_r (gsb_account_get_current_account ());
-		nb_lignes_ope = gsb_account_get_nb_rows ( gsb_account_get_current_account () );
+		affichage_r = gsb_data_account_get_r (gsb_data_account_get_current_account ());
+		nb_lignes_ope = gsb_data_account_get_nb_rows ( gsb_data_account_get_current_account () );
 
-		list_tmp = gsb_account_get_list_accounts ();
+		list_tmp = gsb_data_account_get_list_accounts ();
 
 		while ( list_tmp )
 		{
-		    i = gsb_account_get_no_account ( list_tmp -> data );
+		    i = gsb_data_account_get_no_account ( list_tmp -> data );
 
-		    gsb_account_set_r ( i,
+		    gsb_data_account_set_r ( i,
 					affichage_r );
-		    gsb_account_set_nb_rows ( i, 
+		    gsb_data_account_set_nb_rows ( i, 
 					      nb_lignes_ope );
 
 		    list_tmp = list_tmp -> next;
@@ -3810,7 +3810,7 @@ gboolean gsb_file_load_update_previous_version ( void )
 
 	    /* now the order of the accounts are the order in the GSList */
 
-	    gsb_account_reorder ( sort_accounts );
+	    gsb_data_account_reorder ( sort_accounts );
 	    g_slist_free ( sort_accounts );
 
 
@@ -3828,14 +3828,14 @@ gboolean gsb_file_load_update_previous_version ( void )
 		rapport_largeur_colonnes[i] = rapport_largeur_colonnes[i-1];
 	    rapport_largeur_colonnes[0] = 2;
 
-	    list_tmp = gsb_account_get_list_accounts ();
+	    list_tmp = gsb_data_account_get_list_accounts ();
 
 	    while ( list_tmp )
 	    {
-		i = gsb_account_get_no_account ( list_tmp -> data );
+		i = gsb_data_account_get_no_account ( list_tmp -> data );
 
 		/* 	    set the form organization at 0 */
-		gsb_account_set_form_organization ( i,
+		gsb_data_account_set_form_organization ( i,
 						    gsb_form_new_organization ());
 
 		/* 	   set the current sort by date and ascending sort */
@@ -3989,8 +3989,8 @@ void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
 
 	    type -> no_compte = account_number_tmp;
 
-	    gsb_account_set_method_payment_list ( account_number_tmp,
-						  g_slist_append ( gsb_account_get_method_payment_list (account_number_tmp),
+	    gsb_data_account_set_method_payment_list ( account_number_tmp,
+						  g_slist_append ( gsb_data_account_get_method_payment_list (account_number_tmp),
 								   type ));
 	    return;
 	}
@@ -4013,12 +4013,12 @@ void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
 
 		if ( !strcmp ( attribute_names[i],
 			       "No" ))
-		    transaction_number = gsb_transaction_data_new_transaction_with_number ( account_number_tmp,
+		    transaction_number = gsb_data_transaction_new_transaction_with_number ( account_number_tmp,
 											    utils_str_atoi ( attribute_values[i]));
 
 		if ( !strcmp ( attribute_names[i],
 			       "Id" ))
-		    gsb_transaction_data_set_transaction_id ( transaction_number,
+		    gsb_data_transaction_set_transaction_id ( transaction_number,
 							       attribute_values[i] );
 
 		if ( !strcmp ( attribute_names[i],
@@ -4026,7 +4026,7 @@ void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
 		{
 		    pointeur_char = g_strsplit ( attribute_values[i], "/", 0 );
 
-		    gsb_transaction_data_set_date ( transaction_number,
+		    gsb_data_transaction_set_date ( transaction_number,
 						    g_date_new_dmy ( utils_str_atoi ( pointeur_char[0] ),
 								     utils_str_atoi ( pointeur_char[1] ),
 								     utils_str_atoi ( pointeur_char[2] )));
@@ -4043,7 +4043,7 @@ void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
 						     0 );
 
 			if ( utils_str_atoi ( pointeur_char[0] ))
-			    gsb_transaction_data_set_value_date ( transaction_number,
+			    gsb_data_transaction_set_value_date ( transaction_number,
 								  g_date_new_dmy ( utils_str_atoi ( pointeur_char[0] ),
 										   utils_str_atoi ( pointeur_char[1] ),
 										   utils_str_atoi ( pointeur_char[2] )));
@@ -4054,119 +4054,119 @@ void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
 
 		if ( !strcmp ( attribute_names[i],
 			       "M" ))
-		    gsb_transaction_data_set_amount ( transaction_number,
+		    gsb_data_transaction_set_amount ( transaction_number,
 						      my_strtod ( attribute_values[i],
 								  NULL ));
 
 		if ( !strcmp ( attribute_names[i],
 			       "De" ))
-		    gsb_transaction_data_set_currency_number ( transaction_number,
+		    gsb_data_transaction_set_currency_number ( transaction_number,
 							       utils_str_atoi ( attribute_values[i]));
 
 		if ( !strcmp ( attribute_names[i],
 			       "Rdc" ))
-		    gsb_transaction_data_set_change_between ( transaction_number,
+		    gsb_data_transaction_set_change_between ( transaction_number,
 							      utils_str_atoi ( attribute_values[i]));
 
 		if ( !strcmp ( attribute_names[i],
 			       "Tc" ))
-		    gsb_transaction_data_set_exchange_rate ( transaction_number,
+		    gsb_data_transaction_set_exchange_rate ( transaction_number,
 							     my_strtod ( attribute_values[i],
 									 NULL ) );
 
 		if ( !strcmp ( attribute_names[i],
 			       "Fc" ))
-		    gsb_transaction_data_set_exchange_fees ( transaction_number,
+		    gsb_data_transaction_set_exchange_fees ( transaction_number,
 							     my_strtod ( attribute_values[i],
 									 NULL ) );
 
 		if ( !strcmp ( attribute_names[i],
 			       "T" ))
-		    gsb_transaction_data_set_party_number ( transaction_number,
+		    gsb_data_transaction_set_party_number ( transaction_number,
 							    utils_str_atoi ( attribute_values[i])  );
 
 		if ( !strcmp ( attribute_names[i],
 			       "C" ))
-		    gsb_transaction_data_set_category_number ( transaction_number,
+		    gsb_data_transaction_set_category_number ( transaction_number,
 							       utils_str_atoi ( attribute_values[i]));
 
 		if ( !strcmp ( attribute_names[i],
 			       "Sc" ))
-		    gsb_transaction_data_set_sub_category_number ( transaction_number,
+		    gsb_data_transaction_set_sub_category_number ( transaction_number,
 								   utils_str_atoi ( attribute_values[i]));
 
 		if ( !strcmp ( attribute_names[i],
 			       "Ov" ))
-		    gsb_transaction_data_set_breakdown_of_transaction ( transaction_number,
+		    gsb_data_transaction_set_breakdown_of_transaction ( transaction_number,
 									utils_str_atoi ( attribute_values[i]) );
 
 		if ( !strcmp ( attribute_names[i],
 			       "N" ))
-		    gsb_transaction_data_set_notes ( transaction_number,
+		    gsb_data_transaction_set_notes ( transaction_number,
 						     attribute_values[i]);
 
 		if ( !strcmp ( attribute_names[i],
 			       "Ty" ))
-		    gsb_transaction_data_set_method_of_payment_number ( transaction_number,
+		    gsb_data_transaction_set_method_of_payment_number ( transaction_number,
 									utils_str_atoi ( attribute_values[i]) );
 
 		if ( !strcmp ( attribute_names[i],
 			       "Ct" ))
-		    gsb_transaction_data_set_method_of_payment_content ( transaction_number,
+		    gsb_data_transaction_set_method_of_payment_content ( transaction_number,
 									 attribute_values[i] );
 
 		if ( !strcmp ( attribute_names[i],
 			       "P" ))
-		    gsb_transaction_data_set_marked_transaction ( transaction_number,
+		    gsb_data_transaction_set_marked_transaction ( transaction_number,
 								  utils_str_atoi ( attribute_values[i]));
 		if ( !strcmp ( attribute_names[i],
 			       "A" ))
-		    gsb_transaction_data_set_automatic_transaction ( transaction_number,
+		    gsb_data_transaction_set_automatic_transaction ( transaction_number,
 								     utils_str_atoi ( attribute_values[i]));
 
 		if ( !strcmp ( attribute_names[i],
 			       "R" ))
-		    gsb_transaction_data_set_reconcile_number ( transaction_number,
+		    gsb_data_transaction_set_reconcile_number ( transaction_number,
 								utils_str_atoi ( attribute_values[i]));
 
 		if ( !strcmp ( attribute_names[i],
 			       "E" ))
-		    gsb_transaction_data_set_financial_year_number ( transaction_number,
+		    gsb_data_transaction_set_financial_year_number ( transaction_number,
 								     utils_str_atoi ( attribute_values[i]));
 
 		if ( !strcmp ( attribute_names[i],
 			       "I" ))
-		    gsb_transaction_data_set_budgetary_number ( transaction_number,
+		    gsb_data_transaction_set_budgetary_number ( transaction_number,
 								utils_str_atoi ( attribute_values[i]));
 
 		if ( !strcmp ( attribute_names[i],
 			       "Si" ))
-		    gsb_transaction_data_set_sub_budgetary_number ( transaction_number,
+		    gsb_data_transaction_set_sub_budgetary_number ( transaction_number,
 								    utils_str_atoi ( attribute_values[i]));
 
 		if ( !strcmp ( attribute_names[i],
 			       "Pc" ))
-		    gsb_transaction_data_set_voucher ( transaction_number,
+		    gsb_data_transaction_set_voucher ( transaction_number,
 						       attribute_values[i]);
 
 		if ( !strcmp ( attribute_names[i],
 			       "Ibg" ))
-		    gsb_transaction_data_set_bank_references ( transaction_number,
+		    gsb_data_transaction_set_bank_references ( transaction_number,
 							       attribute_values[i]);
 
 		if ( !strcmp ( attribute_names[i],
 			       "Ro" ))
-		    gsb_transaction_data_set_transaction_number_transfer ( transaction_number,
+		    gsb_data_transaction_set_transaction_number_transfer ( transaction_number,
 									   utils_str_atoi ( attribute_values[i]));
 
 		if ( !strcmp ( attribute_names[i],
 			       "Rc" ))
-		    gsb_transaction_data_set_account_number_transfer ( transaction_number,
+		    gsb_data_transaction_set_account_number_transfer ( transaction_number,
 								       utils_str_atoi ( attribute_values[i]));
 
 		if ( !strcmp ( attribute_names[i],
 			       "Va" ))
-		    gsb_transaction_data_set_mother_transaction_number ( transaction_number,
+		    gsb_data_transaction_set_mother_transaction_number ( transaction_number,
 									 utils_str_atoi ( attribute_values[i]));
 
 		i++;
@@ -4352,7 +4352,7 @@ void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
 	{
 	    gint payee_number;
 
-	    payee_number = gsb_payee_new (NULL);
+	    payee_number = gsb_data_payee_new (NULL);
 
 	    do
 	    {
@@ -4369,7 +4369,7 @@ void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
 		if ( !strcmp ( attribute_names[i],
 			       "No" ))
 		{
-		    payee_number = gsb_payee_set_new_number ( payee_number,
+		    payee_number = gsb_data_payee_set_new_number ( payee_number,
 							      utils_str_atoi (attribute_values[i]));
 		    i++;
 		    continue;
@@ -4378,7 +4378,7 @@ void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
 		if ( !strcmp ( attribute_names[i],
 			       "Nom" ))
 		{
-		    gsb_payee_set_name ( payee_number,
+		    gsb_data_payee_set_name ( payee_number,
 					 attribute_values[i]);
 		    i++;
 		    continue;
@@ -4387,7 +4387,7 @@ void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
 		if ( !strcmp ( attribute_names[i],
 			       "Informations" ))
 		{
-		    gsb_payee_set_description ( payee_number,
+		    gsb_data_payee_set_description ( payee_number,
 						attribute_values[i]);
 		    i++;
 		    continue;
@@ -5342,8 +5342,8 @@ void gsb_file_load_account_part_before_0_6 ( GMarkupParseContext *context,
     if ( !strcmp ( element_name,
 		   "Nom" ))
     {
-	account_number_tmp = gsb_account_new ( GSB_TYPE_BANK );
-	gsb_account_set_name ( account_number_tmp,
+	account_number_tmp = gsb_data_account_new ( GSB_TYPE_BANK );
+	gsb_data_account_set_name ( account_number_tmp,
 			       g_strdup (text) );
 	return;
     }
@@ -5351,10 +5351,10 @@ void gsb_file_load_account_part_before_0_6 ( GMarkupParseContext *context,
     if ( !strcmp ( element_name,
 		   "Id_compte" ))
     {
-	gsb_account_set_id (account_number_tmp,
+	gsb_data_account_set_id (account_number_tmp,
 			    g_strdup (text));
-	if ( !strlen ( gsb_account_get_id (account_number_tmp)))
-	    gsb_account_set_id (account_number_tmp,
+	if ( !strlen ( gsb_data_account_get_id (account_number_tmp)))
+	    gsb_data_account_set_id (account_number_tmp,
 				NULL );
 	return;
     }
@@ -5364,7 +5364,7 @@ void gsb_file_load_account_part_before_0_6 ( GMarkupParseContext *context,
     if ( !strcmp ( element_name,
 		   "No_de_compte" ))
     {
-	account_number_tmp = gsb_account_set_account_number ( account_number_tmp,
+	account_number_tmp = gsb_data_account_set_account_number ( account_number_tmp,
 							      utils_str_atoi ( text));
 	return;
     }
@@ -5372,7 +5372,7 @@ void gsb_file_load_account_part_before_0_6 ( GMarkupParseContext *context,
     if ( !strcmp ( element_name,
 		   "Titulaire" ))
     {
-	gsb_account_set_holder_name ( account_number_tmp,
+	gsb_data_account_set_holder_name ( account_number_tmp,
 				      g_strdup (text));
 	return;
     }
@@ -5380,7 +5380,7 @@ void gsb_file_load_account_part_before_0_6 ( GMarkupParseContext *context,
     if ( !strcmp ( element_name,
 		   "Type_de_compte" ))
     {
-	gsb_account_set_kind (account_number_tmp,
+	gsb_data_account_set_kind (account_number_tmp,
 			      utils_str_atoi ( text));
 	return;
     }
@@ -5388,7 +5388,7 @@ void gsb_file_load_account_part_before_0_6 ( GMarkupParseContext *context,
     if ( !strcmp ( element_name,
 		   "Devise" ))
     {
-	gsb_account_set_currency ( account_number_tmp,
+	gsb_data_account_set_currency ( account_number_tmp,
 				   utils_str_atoi ( text));
 	return;
     }
@@ -5396,7 +5396,7 @@ void gsb_file_load_account_part_before_0_6 ( GMarkupParseContext *context,
     if ( !strcmp ( element_name,
 		   "Banque" ))
     {
-	gsb_account_set_bank ( account_number_tmp,
+	gsb_data_account_set_bank ( account_number_tmp,
 			       utils_str_atoi ( text));
 	return;
     }
@@ -5404,7 +5404,7 @@ void gsb_file_load_account_part_before_0_6 ( GMarkupParseContext *context,
     if ( !strcmp ( element_name,
 		   "Guichet" ))
     {
-	gsb_account_set_bank_branch_code ( account_number_tmp,
+	gsb_data_account_set_bank_branch_code ( account_number_tmp,
 					   g_strdup (text) );
 	return;
     }
@@ -5412,7 +5412,7 @@ void gsb_file_load_account_part_before_0_6 ( GMarkupParseContext *context,
     if ( !strcmp ( element_name,
 		   "No_compte_banque" ))
     {
-	gsb_account_set_bank_account_number ( account_number_tmp,
+	gsb_data_account_set_bank_account_number ( account_number_tmp,
 					      g_strdup (text));
 	return;
     }
@@ -5420,7 +5420,7 @@ void gsb_file_load_account_part_before_0_6 ( GMarkupParseContext *context,
     if ( !strcmp ( element_name,
 		   "Cle_du_compte" ))
     {
-	gsb_account_set_bank_account_key ( account_number_tmp,
+	gsb_data_account_set_bank_account_key ( account_number_tmp,
 					   g_strdup (text) );
 	return;
     }
@@ -5428,7 +5428,7 @@ void gsb_file_load_account_part_before_0_6 ( GMarkupParseContext *context,
     if ( !strcmp ( element_name,
 		   "Solde_initial" ))
     {
-	gsb_account_set_init_balance (account_number_tmp,
+	gsb_data_account_set_init_balance (account_number_tmp,
 				      my_strtod ( g_strdup (text),
 						  NULL ));
 	return;
@@ -5437,7 +5437,7 @@ void gsb_file_load_account_part_before_0_6 ( GMarkupParseContext *context,
     if ( !strcmp ( element_name,
 		   "Solde_mini_voulu" ))
     {
-	gsb_account_set_mini_balance_wanted ( account_number_tmp, 
+	gsb_data_account_set_mini_balance_wanted ( account_number_tmp, 
 					      my_strtod ( g_strdup (text),
 							  NULL ));
 	return;
@@ -5446,7 +5446,7 @@ void gsb_file_load_account_part_before_0_6 ( GMarkupParseContext *context,
     if ( !strcmp ( element_name,
 		   "Solde_mini_autorise" ))
     {
-	gsb_account_set_mini_balance_authorized ( account_number_tmp, 
+	gsb_data_account_set_mini_balance_authorized ( account_number_tmp, 
 						  my_strtod ( g_strdup (text),
 							      NULL ));
 	return;
@@ -5461,7 +5461,7 @@ void gsb_file_load_account_part_before_0_6 ( GMarkupParseContext *context,
 	     strlen (text) > 0 )
 	{
 	    pointeur_char = g_strsplit ( g_strdup (text), "/", 0 );
-	    gsb_account_set_current_reconcile_date ( account_number_tmp,
+	    gsb_data_account_set_current_reconcile_date ( account_number_tmp,
 						     g_date_new_dmy ( utils_str_atoi ( pointeur_char [0] ),
 								      utils_str_atoi ( pointeur_char [1] ),
 								      utils_str_atoi ( pointeur_char [2] )));
@@ -5473,7 +5473,7 @@ void gsb_file_load_account_part_before_0_6 ( GMarkupParseContext *context,
     if ( !strcmp ( element_name,
 		   "Solde_dernier_releve" ))
     {
-	gsb_account_set_reconcile_balance ( account_number_tmp,
+	gsb_data_account_set_reconcile_balance ( account_number_tmp,
 					    my_strtod ( g_strdup (text),
 							NULL ) );
 	return;
@@ -5482,7 +5482,7 @@ void gsb_file_load_account_part_before_0_6 ( GMarkupParseContext *context,
     if ( !strcmp ( element_name,
 		   "Dernier_no_de_rapprochement" ))
     {
-	gsb_account_set_reconcile_last_number ( account_number_tmp,
+	gsb_data_account_set_reconcile_last_number ( account_number_tmp,
 						utils_str_atoi ( text));
 	return;
     }
@@ -5490,7 +5490,7 @@ void gsb_file_load_account_part_before_0_6 ( GMarkupParseContext *context,
     if ( !strcmp ( element_name,
 		   "Compte_cloture" ))
     {
-	gsb_account_set_closed_account ( account_number_tmp,
+	gsb_data_account_set_closed_account ( account_number_tmp,
 					 utils_str_atoi ( text));
 	return;
     }
@@ -5498,7 +5498,7 @@ void gsb_file_load_account_part_before_0_6 ( GMarkupParseContext *context,
     if ( !strcmp ( element_name,
 		   "Affichage_r" ))
     {
-	gsb_account_set_r ( account_number_tmp,
+	gsb_data_account_set_r ( account_number_tmp,
 			    utils_str_atoi (text));
 	return;
     }
@@ -5506,7 +5506,7 @@ void gsb_file_load_account_part_before_0_6 ( GMarkupParseContext *context,
     if ( !strcmp ( element_name,
 		   "Nb_lignes_ope" ))
     {
-	gsb_account_set_nb_rows ( account_number_tmp, 
+	gsb_data_account_set_nb_rows ( account_number_tmp, 
 				  utils_str_atoi (text));
 	return;
     }
@@ -5514,7 +5514,7 @@ void gsb_file_load_account_part_before_0_6 ( GMarkupParseContext *context,
     if ( !strcmp ( element_name,
 		   "Commentaires" ))
     {
-	gsb_account_set_comment ( account_number_tmp,
+	gsb_data_account_set_comment ( account_number_tmp,
 				  g_strdup (text) );
 	return;
     }
@@ -5522,7 +5522,7 @@ void gsb_file_load_account_part_before_0_6 ( GMarkupParseContext *context,
     if ( !strcmp ( element_name,
 		   "Adresse_du_titulaire" ))
     {
-	gsb_account_set_holder_address ( account_number_tmp,
+	gsb_data_account_set_holder_address ( account_number_tmp,
 					 g_strdup (text) );
 	return;
     }
@@ -5530,7 +5530,7 @@ void gsb_file_load_account_part_before_0_6 ( GMarkupParseContext *context,
     if ( !strcmp ( element_name,
 		   "Type_defaut_debit" ))
     {
-	gsb_account_set_default_debit ( account_number_tmp,
+	gsb_data_account_set_default_debit ( account_number_tmp,
 					utils_str_atoi ( text) );
 	return;
     }
@@ -5538,7 +5538,7 @@ void gsb_file_load_account_part_before_0_6 ( GMarkupParseContext *context,
     if ( !strcmp ( element_name,
 		   "Type_defaut_credit" ))
     {
-	gsb_account_set_default_credit ( account_number_tmp,
+	gsb_data_account_set_default_credit ( account_number_tmp,
 					 utils_str_atoi ( text));
 	return;
     }
@@ -5546,7 +5546,7 @@ void gsb_file_load_account_part_before_0_6 ( GMarkupParseContext *context,
     if ( !strcmp ( element_name,
 		   "Tri_par_type" ))
     {
-	gsb_account_set_reconcile_sort_type ( account_number_tmp,
+	gsb_data_account_set_reconcile_sort_type ( account_number_tmp,
 					      utils_str_atoi ( text));
 	return;
     }
@@ -5554,7 +5554,7 @@ void gsb_file_load_account_part_before_0_6 ( GMarkupParseContext *context,
     if ( !strcmp ( element_name,
 		   "Neutres_inclus" ))
     {
-	gsb_account_set_split_neutral_payment ( account_number_tmp,
+	gsb_data_account_set_split_neutral_payment ( account_number_tmp,
 						utils_str_atoi ( text) );
 	return;
     }
@@ -5562,7 +5562,7 @@ void gsb_file_load_account_part_before_0_6 ( GMarkupParseContext *context,
     if ( !strcmp ( element_name,
 		   "Ordre_du_tri" ))
     {
-	gsb_account_set_sort_list ( account_number_tmp,
+	gsb_data_account_set_sort_list ( account_number_tmp,
 				    NULL );
 
 	if ( g_strdup (text))
@@ -5578,8 +5578,8 @@ void gsb_file_load_account_part_before_0_6 ( GMarkupParseContext *context,
 
 	    while ( pointeur_char[i] )
 	    {
-		gsb_account_set_sort_list ( account_number_tmp,
-					    g_slist_append ( gsb_account_get_sort_list (account_number_tmp),
+		gsb_data_account_set_sort_list ( account_number_tmp,
+					    g_slist_append ( gsb_data_account_get_sort_list (account_number_tmp),
 							     GINT_TO_POINTER ( utils_str_atoi ( pointeur_char[i] ))) );
 		i++;
 	    }
@@ -5591,7 +5591,7 @@ void gsb_file_load_account_part_before_0_6 ( GMarkupParseContext *context,
     if ( !strcmp ( element_name,
 		   "Classement_croissant" ))
     {
-	gsb_account_set_sort_type ( account_number_tmp,
+	gsb_data_account_set_sort_type ( account_number_tmp,
 				    utils_str_atoi ( text));
 	return;
     }
@@ -5599,7 +5599,7 @@ void gsb_file_load_account_part_before_0_6 ( GMarkupParseContext *context,
     if ( !strcmp ( element_name,
 		   "Classement_colonne" ))
     {
-	gsb_account_set_sort_column ( account_number_tmp,
+	gsb_data_account_set_sort_column ( account_number_tmp,
 				      utils_str_atoi ( text));
 	return;
     }
@@ -5616,7 +5616,7 @@ void gsb_file_load_account_part_before_0_6 ( GMarkupParseContext *context,
 
 	for ( i=0 ; i<TRANSACTION_LIST_COL_NB ; i++ )
 	{
-	    gsb_account_set_column_sort ( account_number_tmp,
+	    gsb_data_account_set_column_sort ( account_number_tmp,
 					  i,
 					  utils_str_atoi ( pointeur_char[i] ));
 	}
@@ -5629,22 +5629,22 @@ void gsb_file_load_account_part_before_0_6 ( GMarkupParseContext *context,
     if ( !strcmp ( element_name,
 		   "Nb_colonnes_formulaire" ))
     {
-	if ( !gsb_account_get_form_organization (account_number_tmp) )
-	    gsb_account_set_form_organization ( account_number_tmp,
+	if ( !gsb_data_account_get_form_organization (account_number_tmp) )
+	    gsb_data_account_set_form_organization ( account_number_tmp,
 						calloc ( 1,
 							 sizeof ( struct organisation_formulaire )) );
-	gsb_account_get_form_organization (account_number_tmp) -> nb_colonnes = utils_str_atoi ( text);
+	gsb_data_account_get_form_organization (account_number_tmp) -> nb_colonnes = utils_str_atoi ( text);
 	return;
     }
 
     if ( !strcmp ( element_name,
 		   "Nb_lignes_formulaire" ))
     {
-	if ( !gsb_account_get_form_organization (account_number_tmp) )
-	    gsb_account_set_form_organization ( account_number_tmp,
+	if ( !gsb_data_account_get_form_organization (account_number_tmp) )
+	    gsb_data_account_set_form_organization ( account_number_tmp,
 						calloc ( 1,
 							 sizeof ( struct organisation_formulaire )) );
-	gsb_account_get_form_organization (account_number_tmp) -> nb_lignes = utils_str_atoi ( text);
+	gsb_data_account_get_form_organization (account_number_tmp) -> nb_lignes = utils_str_atoi ( text);
 	return;
     }
 
@@ -5655,8 +5655,8 @@ void gsb_file_load_account_part_before_0_6 ( GMarkupParseContext *context,
 	gchar **pointeur_char;
 	gint i, j;
 
-	if ( !gsb_account_get_form_organization (account_number_tmp) )
-	    gsb_account_set_form_organization ( account_number_tmp,
+	if ( !gsb_data_account_get_form_organization (account_number_tmp) )
+	    gsb_data_account_set_form_organization ( account_number_tmp,
 						calloc ( 1,
 							 sizeof ( struct organisation_formulaire )) );
 
@@ -5666,7 +5666,7 @@ void gsb_file_load_account_part_before_0_6 ( GMarkupParseContext *context,
 
 	for ( i=0 ; i<4 ; i++ )
 	    for ( j=0 ; j< 6 ; j++ )
-		gsb_account_get_form_organization (account_number_tmp) -> tab_remplissage_formulaire[i][j] = utils_str_atoi ( pointeur_char[j + i*6]);
+		gsb_data_account_get_form_organization (account_number_tmp) -> tab_remplissage_formulaire[i][j] = utils_str_atoi ( pointeur_char[j + i*6]);
 
 	g_strfreev ( pointeur_char );
 	return;
@@ -5679,8 +5679,8 @@ void gsb_file_load_account_part_before_0_6 ( GMarkupParseContext *context,
 	gchar **pointeur_char;
 	gint i;
 
-	if ( !gsb_account_get_form_organization (account_number_tmp) )
-	    gsb_account_set_form_organization ( account_number_tmp,
+	if ( !gsb_data_account_get_form_organization (account_number_tmp) )
+	    gsb_data_account_set_form_organization ( account_number_tmp,
 						calloc ( 1,
 							 sizeof ( struct organisation_formulaire )) );
 
@@ -5689,7 +5689,7 @@ void gsb_file_load_account_part_before_0_6 ( GMarkupParseContext *context,
 				     0 );
 
 	for ( i=0 ; i<6 ; i++ )
-	    gsb_account_get_form_organization (account_number_tmp) -> taille_colonne_pourcent[i] = utils_str_atoi ( pointeur_char[i]);
+	    gsb_data_account_get_form_organization (account_number_tmp) -> taille_colonne_pourcent[i] = utils_str_atoi ( pointeur_char[i]);
 
 	g_strfreev ( pointeur_char );
 	return;

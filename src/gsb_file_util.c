@@ -27,8 +27,8 @@
 /*START_INCLUDE*/
 #include "gsb_file_util.h"
 #include "dialog.h"
-#include "gsb_account.h"
-#include "gsb_transaction_data.h"
+#include "gsb_data_account.h"
+#include "gsb_data_transaction.h"
 #include "utils_str.h"
 #include "utils_buttons.h"
 #include "utils_files.h"
@@ -473,28 +473,28 @@ void switch_t_r ( void )
 
     GSList *list_tmp_transactions;
 
-    if ( !gsb_account_get_accounts_amount () )
+    if ( !gsb_data_account_get_accounts_amount () )
 	return;
 
     if ( DEBUG )
 	printf ( "switch_t_r\n");
 
 
-    list_tmp_transactions = gsb_transaction_data_get_transactions_list ();
+    list_tmp_transactions = gsb_data_transaction_get_transactions_list ();
 
     while ( list_tmp_transactions )
     {
 	gint transaction_number_tmp;
-	transaction_number_tmp = gsb_transaction_data_get_transaction_number (list_tmp_transactions -> data);
+	transaction_number_tmp = gsb_data_transaction_get_transaction_number (list_tmp_transactions -> data);
 
-	switch ( gsb_transaction_data_get_marked_transaction (transaction_number_tmp))
+	switch ( gsb_data_transaction_get_marked_transaction (transaction_number_tmp))
 	{
 	    case 2 :
-		gsb_transaction_data_set_marked_transaction ( transaction_number_tmp,
+		gsb_data_transaction_set_marked_transaction ( transaction_number_tmp,
 							      3 );
 		break;
 	    case 3:
-		gsb_transaction_data_set_marked_transaction ( transaction_number_tmp,
+		gsb_data_transaction_set_marked_transaction ( transaction_number_tmp,
 							      2 );
 		break;
 	}

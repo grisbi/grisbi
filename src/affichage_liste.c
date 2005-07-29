@@ -24,7 +24,7 @@
 /*START_INCLUDE*/
 #include "affichage_liste.h"
 #include "operations_liste.h"
-#include "gsb_account.h"
+#include "gsb_data_account.h"
 #include "traitement_variables.h"
 #include "utils_buttons.h"
 #include "utils.h"
@@ -233,12 +233,12 @@ GtkWidget *onglet_affichage_liste ( void )
 	gtk_box_pack_end ( GTK_BOX(onglet), bouton,
 			   TRUE, FALSE, 0 );
 
-	if ( !gsb_account_get_accounts_amount () )
+	if ( !gsb_data_account_get_accounts_amount () )
 	{
 	    gtk_widget_set_sensitive ( onglet, FALSE );
 	}
 
-	if ( gsb_account_get_accounts_amount () )
+	if ( gsb_data_account_get_accounts_amount () )
 	{
 	    /* on remplit le tableau */
 
@@ -276,28 +276,28 @@ gboolean modification_retient_affichage_par_compte ( void )
     if ( etat.retient_affichage_par_compte )
 	return FALSE;
 
-    nb_lignes = gsb_account_get_nb_rows ( gsb_account_get_current_account () );
-    affichage_r = gsb_account_get_r (gsb_account_get_current_account ());
+    nb_lignes = gsb_data_account_get_nb_rows ( gsb_data_account_get_current_account () );
+    affichage_r = gsb_data_account_get_r (gsb_data_account_get_current_account ());
 
     /*     on doit réafficher tous les comptes qui ne correspondent pas */
 
     GSList *list_tmp;
 
-    list_tmp = gsb_account_get_list_accounts ();
+    list_tmp = gsb_data_account_get_list_accounts ();
 
     while ( list_tmp )
     {
 	gint i;
 
-	i = gsb_account_get_no_account ( list_tmp -> data );
+	i = gsb_data_account_get_no_account ( list_tmp -> data );
 
-	if (  gsb_account_get_nb_rows ( i ) != nb_lignes
+	if (  gsb_data_account_get_nb_rows ( i ) != nb_lignes
 	      ||
-	      gsb_account_get_r (i) != affichage_r )
+	      gsb_data_account_get_r (i) != affichage_r )
 	{
-	    gsb_account_set_nb_rows ( i, 
+	    gsb_data_account_set_nb_rows ( i, 
 				      nb_lignes );
-	    gsb_account_set_r (i,
+	    gsb_data_account_set_r (i,
 			       affichage_r );
 	    gtk_list_store_clear ( gsb_transactions_list_get_store()  );
 	}
@@ -474,7 +474,7 @@ GtkWidget *onglet_affichage_operations ( void )
 				3, 4, 2, 3 );
 
 
-    if ( gsb_account_get_accounts_amount () )
+    if ( gsb_data_account_get_accounts_amount () )
     {
 	/* on place les lignes à afficher */
 
@@ -531,7 +531,7 @@ GtkWidget *onglet_affichage_operations ( void )
 					    _("by date"),
 					    &etat.classement_par_date, NULL);
 
-    if ( !gsb_account_get_accounts_amount () )
+    if ( !gsb_data_account_get_accounts_amount () )
     {
 	gtk_widget_set_sensitive ( vbox_pref, FALSE );
     }
@@ -1107,7 +1107,7 @@ GtkWidget *onglet_diverse_form_and_lists ( void )
 					    &etat.affichage_exercice_automatique, 
 					    NULL);
 
-    if ( !gsb_account_get_accounts_amount () )
+    if ( !gsb_data_account_get_accounts_amount () )
     {
 	gtk_widget_set_sensitive ( vbox_pref, FALSE );
     }

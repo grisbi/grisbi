@@ -30,8 +30,8 @@
 #include "utils_dates.h"
 #include "operations_liste.h"
 #include "utils_editables.h"
-#include "gsb_account.h"
-#include "gsb_transaction_data.h"
+#include "gsb_data_account.h"
+#include "gsb_data_transaction.h"
 #include "traitement_variables.h"
 #include "utils.h"
 #include "dialog.h"
@@ -194,7 +194,7 @@ GtkWidget *onglet_exercices ( void )
 
 
     /* Do not activate unless an account is opened */
-    if ( !gsb_account_get_accounts_amount () )
+    if ( !gsb_data_account_get_accounts_amount () )
     {
 	gtk_widget_set_sensitive ( vbox_pref, FALSE );
     }
@@ -650,25 +650,25 @@ void association_automatique ( void )
     if ( resultat )
 	return;
 
-    list_tmp = gsb_account_get_list_accounts ();
+    list_tmp = gsb_data_account_get_list_accounts ();
 
     while ( list_tmp )
     {
 	gint i;
 	GSList *list_tmp_transactions;
 
-	i = gsb_account_get_no_account ( list_tmp -> data );
+	i = gsb_data_account_get_no_account ( list_tmp -> data );
 
-	list_tmp_transactions = gsb_transaction_data_get_transactions_list ();
+	list_tmp_transactions = gsb_data_transaction_get_transactions_list ();
 
 	while ( list_tmp_transactions )
 	{
 	    gint transaction_number_tmp;
-	    transaction_number_tmp = gsb_transaction_data_get_transaction_number (list_tmp_transactions -> data);
+	    transaction_number_tmp = gsb_data_transaction_get_transaction_number (list_tmp_transactions -> data);
 
-	    if ( gsb_transaction_data_get_account_number (transaction_number_tmp) == i )
+	    if ( gsb_data_transaction_get_account_number (transaction_number_tmp) == i )
 	    {
-		if ( !gsb_transaction_data_get_financial_year_number (transaction_number_tmp))
+		if ( !gsb_data_transaction_get_financial_year_number (transaction_number_tmp))
 		{
 		    GSList *pointeur_exo;
 
@@ -681,12 +681,12 @@ void association_automatique ( void )
 			exo = pointeur_exo -> data;
 
 			if ( g_date_compare ( exo -> date_debut,
-					      gsb_transaction_data_get_date (transaction_number_tmp)) <= 0
+					      gsb_data_transaction_get_date (transaction_number_tmp)) <= 0
 			     &&
 			     g_date_compare ( exo -> date_fin,
-					      gsb_transaction_data_get_date (transaction_number_tmp)) >= 0 )
+					      gsb_data_transaction_get_date (transaction_number_tmp)) >= 0 )
 			{
-			    gsb_transaction_data_set_financial_year_number ( transaction_number_tmp,
+			    gsb_data_transaction_set_financial_year_number ( transaction_number_tmp,
 									     exo -> no_exercice);
 			}
 

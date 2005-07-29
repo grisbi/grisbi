@@ -33,7 +33,7 @@
 #include "include.h"
 
 /*START_INCLUDE*/
-#include "gsb_account.h"
+#include "gsb_data_account.h"
 #include "data_currency.h"
 #include "data_form.h"
 #include "data_payment.h"
@@ -42,14 +42,87 @@
 #include "structures.h"
 /*END_INCLUDE*/
 
+/** \struct
+ * describe an account
+ * */
+
+typedef struct
+{
+    /** @name general stuff */
+    gint account_number;
+    gchar *account_id;                       /**< for ofx import, invisible for the user */
+    kind_account account_kind;
+    gchar *account_name;
+    gint currency;
+    gint closed_account;                     /**< if 1 => closed */
+    gchar *comment;
+    gchar *holder_name;
+    gchar *holder_address;
+
+    /** @name method of payment */
+    GSList *method_payment_list;         /**< list of method of payment struct */
+    gint default_debit;
+    gint default_credit;
+
+    /** @name showed list stuff */
+    gint show_r;                      /**< 1 : reconciled transactions are showed */
+    gint nb_rows_by_transaction;      /**< 1, 2, 3, 4  */
+    gpointer account_button;        /**< the button in the list of accounts on the transactions page */
+    gint update_list;                /**< 1 when the list need to be updated when showed */
+
+    /** @name remaining of the balances */
+    gdouble init_balance;
+    gdouble mini_balance_wanted;
+    gdouble mini_balance_authorized;
+    gdouble current_balance;
+    gdouble marked_balance;
+
+    /** @name remaining of the minimun balance message */
+    gint mini_balance_wanted_message;
+    gint mini_balance_authorized_message;
+
+    /** @name number of the transaction selectionned, or -1 for the white line */
+    gint current_transaction_number;
+
+    /** @name bank stuff */
+    gint bank_number;
+    gchar *bank_branch_code;
+    gchar *bank_account_number;
+    gchar *bank_account_key;
+
+    /** @name reconcile stuff */
+    GDate *reconcile_date;
+    gdouble reconcile_balance;
+    gint reconcile_last_number;
+
+    /** @name reconcile sort */
+    gint reconcile_sort_type;                           /**< 1 : sort by method of payment ; 0 : sort by date */
+    GSList *sort_list;                        /**< the method of payment sorted in a list */
+    gint split_neutral_payment;               /**< if 1 : neutral payments are splitted into debits/credits */
+
+    /** @name tree_view sort stuff */
+    gint sort_type;          /**< GTK_SORT_DESCENDING / GTK_SORT_ASCENDING */
+    gint sort_column;             /**< used to hide the arrow when change the column */
+    gint transactions_column_sort[TRANSACTION_LIST_COL_NB];  /**< contains the default sort type for each column */
+
+    /** @name current graphic position in the list */
+
+    gdouble vertical_adjustment_value;
+
+    /** @name struct of the form's organization */
+    struct organisation_formulaire *form_organization;
+} struct_account;
+
+
 /*START_STATIC*/
-static struct_account *gsb_account_get_structure ( gint no );
-static gint gsb_account_max_number ( void );
+static struct_account *gsb_data_account_get_structure ( gint no );
+static gint gsb_data_account_max_number ( void );
 /*END_STATIC*/
 
 /*START_EXTERN*/
 extern     gchar * buffer ;
 extern GtkTreeSelection * selection;
+extern GtkWidget *tree_view;
 /*END_EXTERN*/
 
 
@@ -67,7 +140,7 @@ static gint current_account;
  * \param none
  * \return FALSE
  * */
-gboolean gsb_account_init_variables ( void )
+gboolean gsb_data_account_init_variables ( void )
 {
     account_buffer = NULL;
     list_accounts = NULL;
@@ -79,12 +152,12 @@ gboolean gsb_account_init_variables ( void )
 /**
  * return a pointer on the g_slist of accounts
  * carrefull : it's not a copy, so we must not free or change it
- * if we want to change the list, use gsb_account_get_copy_list_accounts instead
+ * if we want to change the list, use gsb_data_account_get_copy_list_accounts instead
  * 
  * \param none
  * \return a g_slist on the accounts
  * */
-GSList *gsb_account_get_list_accounts ( void )
+GSList *gsb_data_account_get_list_accounts ( void )
 {
     return list_accounts;
 }
@@ -94,7 +167,7 @@ GSList *gsb_account_get_list_accounts ( void )
  * \param account_type the type of the account
  * \return no of account
  * */
-gint gsb_account_new ( kind_account account_kind )
+gint gsb_data_account_new ( kind_account account_kind )
 {
     struct_account *account;
 
@@ -104,7 +177,7 @@ gint gsb_account_new ( kind_account account_kind )
     if ( !account )
 	return -1;
 
-    account -> account_number = gsb_account_max_number () + 1;
+    account -> account_number = gsb_data_account_max_number () + 1;
     account -> account_name = g_strdup_printf ( _("No name %d"),
 						account -> account_number );
     account -> currency = gsb_currency_default_currency ();
@@ -126,9 +199,9 @@ gint gsb_account_new ( kind_account account_kind )
     }
     else
     {
-	account -> show_r = gsb_account_get_r ( gsb_account_max_number ());
-	account -> nb_rows_by_transaction = gsb_account_get_nb_rows ( gsb_account_max_number ());
-	account -> form_organization = gsb_form_dup_organization ( gsb_account_get_structure (gsb_account_max_number ()) -> form_organization );
+	account -> show_r = gsb_data_account_get_r ( gsb_data_account_max_number ());
+	account -> nb_rows_by_transaction = gsb_data_account_get_nb_rows ( gsb_data_account_max_number ());
+	account -> form_organization = gsb_form_dup_organization ( gsb_data_account_get_structure (gsb_data_account_max_number ()) -> form_organization );
     }
 
     list_accounts = g_slist_append ( list_accounts,
@@ -143,11 +216,11 @@ gint gsb_account_new ( kind_account account_kind )
  * \param no_account the no of account
  * \return TRUE if ok
  * */
-gboolean gsb_account_delete ( gint no_account )
+gboolean gsb_data_account_delete ( gint no_account )
 {
     struct_account *account;
 
-    account = gsb_account_get_structure ( no_account );
+    account = gsb_data_account_get_structure ( no_account );
 
     if (!account )
 	return FALSE;
@@ -169,7 +242,7 @@ gboolean gsb_account_delete ( gint no_account )
  * \param none
  * \return amount of accounts
  * */
-gint gsb_account_get_accounts_amount ( void )
+gint gsb_data_account_get_accounts_amount ( void )
 {
     if ( !list_accounts )
 	return 0;
@@ -183,7 +256,7 @@ gint gsb_account_get_accounts_amount ( void )
  * \param none
  * \return last number of account
  * */
-gint gsb_account_max_number ( void )
+gint gsb_data_account_max_number ( void )
 {
     GSList *tmp;
     gint number_tmp = 0;
@@ -209,7 +282,7 @@ gint gsb_account_max_number ( void )
  * \param none
  * \return first number of account, -1 if no accounts
  * */
-gint gsb_account_first_number ( void )
+gint gsb_data_account_first_number ( void )
 {
     struct_account *account;
 
@@ -226,7 +299,7 @@ gint gsb_account_first_number ( void )
  * \param none
  * \return the number of the current account
  * */
-gint gsb_account_get_current_account ( void )
+gint gsb_data_account_get_current_account ( void )
 {
     return  current_account;
 }
@@ -236,7 +309,7 @@ gint gsb_account_get_current_account ( void )
  * \param none
  * \return FALSE
  * */
-gboolean gsb_account_set_current_account ( gint no_current_account )
+gboolean gsb_data_account_set_current_account ( gint no_current_account )
 {
     current_account = no_current_account;
 
@@ -251,7 +324,7 @@ gboolean gsb_account_set_current_account ( gint no_current_account )
  * 
  * \return the number of account, -1 if pb
  * */
-gint gsb_account_get_no_account ( gpointer account_ptr )
+gint gsb_data_account_get_no_account ( gpointer account_ptr )
 {
     struct_account *account;
 
@@ -273,12 +346,12 @@ gint gsb_account_get_no_account ( gpointer account_ptr )
  * \param new_no new number to the account
  * \return the new number, or -1 if failed
  * */
-gint gsb_account_set_account_number ( gint no_account,
+gint gsb_data_account_set_account_number ( gint no_account,
 				      gint new_no )
 {
     struct_account *account;
 
-    account = gsb_account_get_structure ( no_account );
+    account = gsb_data_account_get_structure ( no_account );
 
     if (!account )
 	return -1;
@@ -298,7 +371,7 @@ gint gsb_account_set_account_number ( gint no_account,
  * 
  * \return the adr of the struct of the account (NULL if doesn't exit)
  * */
-struct_account *gsb_account_get_structure ( gint no )
+struct_account *gsb_data_account_get_structure ( gint no )
 {
     GSList *tmp;
 
@@ -334,11 +407,11 @@ struct_account *gsb_account_get_structure ( gint no )
  * \param no_account no of the account
  * \return nb of rows displayed or 0 if the account doesn't exist
  * */
-gint gsb_account_get_nb_rows ( gint no_account )
+gint gsb_data_account_get_nb_rows ( gint no_account )
 {
     struct_account *account;
 
-    account = gsb_account_get_structure ( no_account );
+    account = gsb_data_account_get_structure ( no_account );
 
     if (!account )
 	return 0;
@@ -352,7 +425,7 @@ gint gsb_account_get_nb_rows ( gint no_account )
  * \param nb_rows number of rows per transaction (1, 2, 3 or 4)
  * \return TRUE, ok ; FALSE, problem
  * */
-gboolean gsb_account_set_nb_rows ( gint no_account,
+gboolean gsb_data_account_set_nb_rows ( gint no_account,
 				   gint nb_rows )
 {
     struct_account *account;
@@ -361,11 +434,11 @@ gboolean gsb_account_set_nb_rows ( gint no_account,
 	 ||
 	 nb_rows > 4 )
     {
-	printf ( _("Bad nb rows to gsb_account_set_nb_rows () in data_account.c\n" ));
+	printf ( _("Bad nb rows to gsb_data_account_set_nb_rows () in data_account.c\n" ));
 	return FALSE;
     }
 
-    account = gsb_account_get_structure ( no_account );
+    account = gsb_data_account_get_structure ( no_account );
 
     if (!account )
 	return FALSE;
@@ -380,11 +453,11 @@ gboolean gsb_account_set_nb_rows ( gint no_account,
  * \param no_account no of the account
  * \return boolean show/not show R
  * */
-gboolean gsb_account_get_r ( gint no_account )
+gboolean gsb_data_account_get_r ( gint no_account )
 {
     struct_account *account;
 
-    account = gsb_account_get_structure ( no_account );
+    account = gsb_data_account_get_structure ( no_account );
 
     if (!account )
 	return 0;
@@ -397,12 +470,12 @@ gboolean gsb_account_get_r ( gint no_account )
  * \param show_r boolean
  * \return TRUE, ok ; FALSE, problem
  * */
-gboolean gsb_account_set_r ( gint no_account,
+gboolean gsb_data_account_set_r ( gint no_account,
 			     gboolean show_r )
 {
     struct_account *account;
 
-    account = gsb_account_get_structure ( no_account );
+    account = gsb_data_account_get_structure ( no_account );
 
     if (!account )
 	return FALSE;
@@ -416,11 +489,11 @@ gboolean gsb_account_set_r ( gint no_account,
  * \param no_account no of the account
  * \return id or 0 if the account doesn't exist
  * */
-gchar *gsb_account_get_id ( gint no_account )
+gchar *gsb_data_account_get_id ( gint no_account )
 {
     struct_account *account;
 
-    account = gsb_account_get_structure ( no_account );
+    account = gsb_data_account_get_structure ( no_account );
 
     if (!account )
 	return NULL;
@@ -434,12 +507,12 @@ gchar *gsb_account_get_id ( gint no_account )
  * \param id id to set
  * \return TRUE, ok ; FALSE, problem
  * */
-gboolean gsb_account_set_id ( gint no_account,
+gboolean gsb_data_account_set_id ( gint no_account,
 			      gchar *id )
 {
     struct_account *account;
 
-    account = gsb_account_get_structure ( no_account );
+    account = gsb_data_account_get_structure ( no_account );
 
     if (!account )
 	return FALSE;
@@ -455,11 +528,11 @@ gboolean gsb_account_set_id ( gint no_account,
  * \param no_account no of the account
  * \return account type or 0 if the account doesn't exist
  * */
-kind_account gsb_account_get_kind ( gint no_account )
+kind_account gsb_data_account_get_kind ( gint no_account )
 {
     struct_account *account;
 
-    account = gsb_account_get_structure ( no_account );
+    account = gsb_data_account_get_structure ( no_account );
 
     if (!account )
 	return 0;
@@ -473,12 +546,12 @@ kind_account gsb_account_get_kind ( gint no_account )
  * \param account_kind type to set
  * \return TRUE, ok ; FALSE, problem
  * */
-gboolean gsb_account_set_kind ( gint no_account,
+gboolean gsb_data_account_set_kind ( gint no_account,
 				kind_account account_kind )
 {
     struct_account *account;
 
-    account = gsb_account_get_structure ( no_account );
+    account = gsb_data_account_get_structure ( no_account );
 
     if (!account )
 	return FALSE;
@@ -494,11 +567,11 @@ gboolean gsb_account_set_kind ( gint no_account,
  * \param no_account no of the account
  * \return name or NULL if the account doesn't exist
  * */
-gchar *gsb_account_get_name ( gint no_account )
+gchar *gsb_data_account_get_name ( gint no_account )
 {
     struct_account *account;
 
-    account = gsb_account_get_structure ( no_account );
+    account = gsb_data_account_get_structure ( no_account );
 
     if (!account )
 	return NULL;
@@ -512,12 +585,12 @@ gchar *gsb_account_get_name ( gint no_account )
  * \param name name to set
  * \return TRUE, ok ; FALSE, problem
  * */
-gboolean gsb_account_set_name ( gint no_account,
+gboolean gsb_data_account_set_name ( gint no_account,
 				gchar *name )
 {
     struct_account *account;
 
-    account = gsb_account_get_structure ( no_account );
+    account = gsb_data_account_get_structure ( no_account );
 
     if (!account )
 	return FALSE;
@@ -533,7 +606,7 @@ gboolean gsb_account_set_name ( gint no_account,
  * \param account_name
  * \return the number of account or -1
  * */
-gint gsb_account_get_no_account_by_name ( gchar *account_name )
+gint gsb_data_account_get_no_account_by_name ( gchar *account_name )
 {
     GSList *list_tmp;
 
@@ -564,11 +637,11 @@ gint gsb_account_get_no_account_by_name ( gchar *account_name )
  * \param no_account no of the account
  * \return balance or NULL if the account doesn't exist
  * */
-gdouble gsb_account_get_init_balance ( gint no_account )
+gdouble gsb_data_account_get_init_balance ( gint no_account )
 {
     struct_account *account;
 
-    account = gsb_account_get_structure ( no_account );
+    account = gsb_data_account_get_structure ( no_account );
 
     if (!account )
 	return 0;
@@ -582,12 +655,12 @@ gdouble gsb_account_get_init_balance ( gint no_account )
  * \param balance balance to set
  * \return TRUE, ok ; FALSE, problem
  * */
-gboolean gsb_account_set_init_balance ( gint no_account,
+gboolean gsb_data_account_set_init_balance ( gint no_account,
 					gdouble balance )
 {
     struct_account *account;
 
-    account = gsb_account_get_structure ( no_account );
+    account = gsb_data_account_get_structure ( no_account );
 
     if (!account )
 	return FALSE;
@@ -603,11 +676,11 @@ gboolean gsb_account_set_init_balance ( gint no_account,
  * \param no_account no of the account
  * \return balance or NULL if the account doesn't exist
  * */
-gdouble gsb_account_get_mini_balance_wanted ( gint no_account )
+gdouble gsb_data_account_get_mini_balance_wanted ( gint no_account )
 {
     struct_account *account;
 
-    account = gsb_account_get_structure ( no_account );
+    account = gsb_data_account_get_structure ( no_account );
 
     if (!account )
 	return 0;
@@ -621,12 +694,12 @@ gdouble gsb_account_get_mini_balance_wanted ( gint no_account )
  * \param balance balance to set
  * \return TRUE, ok ; FALSE, problem
  * */
-gboolean gsb_account_set_mini_balance_wanted ( gint no_account,
+gboolean gsb_data_account_set_mini_balance_wanted ( gint no_account,
 					       gdouble balance )
 {
     struct_account *account;
 
-    account = gsb_account_get_structure ( no_account );
+    account = gsb_data_account_get_structure ( no_account );
 
     if (!account )
 	return FALSE;
@@ -640,11 +713,11 @@ gboolean gsb_account_set_mini_balance_wanted ( gint no_account,
  * \param no_account no of the account
  * \return balance or NULL if the account doesn't exist
  * */
-gdouble gsb_account_get_mini_balance_authorized ( gint no_account )
+gdouble gsb_data_account_get_mini_balance_authorized ( gint no_account )
 {
     struct_account *account;
 
-    account = gsb_account_get_structure ( no_account );
+    account = gsb_data_account_get_structure ( no_account );
 
     if (!account )
 	return 0;
@@ -658,12 +731,12 @@ gdouble gsb_account_get_mini_balance_authorized ( gint no_account )
  * \param balance balance to set
  * \return TRUE, ok ; FALSE, problem
  * */
-gboolean gsb_account_set_mini_balance_authorized ( gint no_account,
+gboolean gsb_data_account_set_mini_balance_authorized ( gint no_account,
 						   gdouble balance )
 {
     struct_account *account;
 
-    account = gsb_account_get_structure ( no_account );
+    account = gsb_data_account_get_structure ( no_account );
 
     if (!account )
 	return FALSE;
@@ -679,11 +752,11 @@ gboolean gsb_account_set_mini_balance_authorized ( gint no_account,
  * \param no_account no of the account
  * \return balance or NULL if the account doesn't exist
  * */
-gdouble gsb_account_get_current_balance ( gint no_account )
+gdouble gsb_data_account_get_current_balance ( gint no_account )
 {
     struct_account *account;
 
-    account = gsb_account_get_structure ( no_account );
+    account = gsb_data_account_get_structure ( no_account );
 
     if (!account )
 	return 0;
@@ -697,12 +770,12 @@ gdouble gsb_account_get_current_balance ( gint no_account )
  * \param balance balance to set
  * \return TRUE, ok ; FALSE, problem
  * */
-gboolean gsb_account_set_current_balance ( gint no_account,
+gboolean gsb_data_account_set_current_balance ( gint no_account,
 					   gdouble balance )
 {
     struct_account *account;
 
-    account = gsb_account_get_structure ( no_account );
+    account = gsb_data_account_get_structure ( no_account );
 
     if (!account )
 	return FALSE;
@@ -718,11 +791,11 @@ gboolean gsb_account_set_current_balance ( gint no_account,
  * \param no_account no of the account
  * \return balance or NULL if the account doesn't exist
  * */
-gdouble gsb_account_get_marked_balance ( gint no_account )
+gdouble gsb_data_account_get_marked_balance ( gint no_account )
 {
     struct_account *account;
 
-    account = gsb_account_get_structure ( no_account );
+    account = gsb_data_account_get_structure ( no_account );
 
     if (!account )
 	return 0;
@@ -736,12 +809,12 @@ gdouble gsb_account_get_marked_balance ( gint no_account )
  * \param balance balance to set
  * \return TRUE, ok ; FALSE, problem
  * */
-gboolean gsb_account_set_marked_balance ( gint no_account,
+gboolean gsb_data_account_set_marked_balance ( gint no_account,
 					  gdouble balance )
 {
     struct_account *account;
 
-    account = gsb_account_get_structure ( no_account );
+    account = gsb_data_account_get_structure ( no_account );
 
     if (!account )
 	return FALSE;
@@ -758,7 +831,7 @@ gboolean gsb_account_set_marked_balance ( gint no_account,
  * \param no_column no of the column
  * \return  or NULL if the account doesn't exist
  * */
-gint gsb_account_get_column_sort ( gint no_account,
+gint gsb_data_account_get_column_sort ( gint no_account,
 				   gint no_column )
 {
     struct_account *account;
@@ -767,12 +840,12 @@ gint gsb_account_get_column_sort ( gint no_account,
 	 ||
 	 no_column > TRANSACTION_LIST_COL_NB )
     {
-	g_strdup_printf ( _("Bad no column to gsb_account_get_column_sort () in data_account.c\nno_column = %d\n" ),
+	g_strdup_printf ( _("Bad no column to gsb_data_account_get_column_sort () in data_account.c\nno_column = %d\n" ),
 			  no_column );
 	return FALSE;
     }
 
-    account = gsb_account_get_structure ( no_account );
+    account = gsb_data_account_get_structure ( no_account );
 
     if (!account )
 	return 0;
@@ -787,19 +860,19 @@ gint gsb_account_get_column_sort ( gint no_account,
  * \param column_sort  column_sort to set
  * \return TRUE, ok ; FALSE, problem
  * */
-gboolean gsb_account_set_column_sort ( gint no_account,
+gboolean gsb_data_account_set_column_sort ( gint no_account,
 				       gint no_column,
 				       gint column_sort )
 {
     struct_account *account;
 
-    account = gsb_account_get_structure ( no_account );
+    account = gsb_data_account_get_structure ( no_account );
 
     if ( no_column < 0
 	 ||
 	 no_column > TRANSACTION_LIST_COL_NB )
     {
-	g_strdup_printf ( _("Bad no column to gsb_account_set_column_sort () in data_account.c\nno_column = %d\n" ),
+	g_strdup_printf ( _("Bad no column to gsb_data_account_set_column_sort () in data_account.c\nno_column = %d\n" ),
 			  no_column );
 	return FALSE;
     }
@@ -822,11 +895,11 @@ gboolean gsb_account_set_column_sort ( gint no_account,
  *
  * \return the number of the transaction or 0 if problem
  * */
-gint gsb_account_get_current_transaction_number ( gint no_account )
+gint gsb_data_account_get_current_transaction_number ( gint no_account )
 {
     struct_account *account;
 
-    account = gsb_account_get_structure ( no_account );
+    account = gsb_data_account_get_structure ( no_account );
 
     if (!account )
 	return 0;
@@ -841,12 +914,12 @@ gint gsb_account_get_current_transaction_number ( gint no_account )
  * \param transaction_number number of the transaction selection
  * \return TRUE, ok ; FALSE, problem
  * */
-gboolean gsb_account_set_current_transaction_number ( gint no_account,
+gboolean gsb_data_account_set_current_transaction_number ( gint no_account,
 						      gint transaction_number )
 {
     struct_account *account;
 
-    account = gsb_account_get_structure ( no_account );
+    account = gsb_data_account_get_structure ( no_account );
 
     if (!account )
 	return FALSE;
@@ -862,11 +935,11 @@ gboolean gsb_account_set_current_transaction_number ( gint no_account,
  * \param no_account no of the account
  * \return mini_balance_wanted_message or 0 if the account doesn't exist
  * */
-gboolean gsb_account_get_mini_balance_wanted_message ( gint no_account )
+gboolean gsb_data_account_get_mini_balance_wanted_message ( gint no_account )
 {
     struct_account *account;
 
-    account = gsb_account_get_structure ( no_account );
+    account = gsb_data_account_get_structure ( no_account );
 
     if (!account )
 	return 0;
@@ -880,12 +953,12 @@ gboolean gsb_account_get_mini_balance_wanted_message ( gint no_account )
  * \param value 
  * \return TRUE, ok ; FALSE, problem
  * */
-gboolean gsb_account_set_mini_balance_wanted_message ( gint no_account,
+gboolean gsb_data_account_set_mini_balance_wanted_message ( gint no_account,
 						       gboolean value )
 {
     struct_account *account;
 
-    account = gsb_account_get_structure ( no_account );
+    account = gsb_data_account_get_structure ( no_account );
 
     if (!account )
 	return FALSE;
@@ -900,11 +973,11 @@ gboolean gsb_account_set_mini_balance_wanted_message ( gint no_account,
  * \param no_account no of the account
  * \return mini_balance_authorized_message or 0 if the account doesn't exist
  * */
-gboolean gsb_account_get_mini_balance_authorized_message ( gint no_account )
+gboolean gsb_data_account_get_mini_balance_authorized_message ( gint no_account )
 {
     struct_account *account;
 
-    account = gsb_account_get_structure ( no_account );
+    account = gsb_data_account_get_structure ( no_account );
 
     if (!account )
 	return 0;
@@ -918,12 +991,12 @@ gboolean gsb_account_get_mini_balance_authorized_message ( gint no_account )
  * \param value 
  * \return TRUE, ok ; FALSE, problem
  * */
-gboolean gsb_account_set_mini_balance_authorized_message ( gint no_account,
+gboolean gsb_data_account_set_mini_balance_authorized_message ( gint no_account,
 							   gboolean value )
 {
     struct_account *account;
 
-    account = gsb_account_get_structure ( no_account );
+    account = gsb_data_account_get_structure ( no_account );
 
     if (!account )
 	return FALSE;
@@ -939,11 +1012,11 @@ gboolean gsb_account_set_mini_balance_authorized_message ( gint no_account,
  * \param no_account no of the account
  * \return a GDate of the reconcile date or NULL if the account doesn't exist
  * */
-GDate *gsb_account_get_current_reconcile_date ( gint no_account )
+GDate *gsb_data_account_get_current_reconcile_date ( gint no_account )
 {
     struct_account *account;
 
-    account = gsb_account_get_structure ( no_account );
+    account = gsb_data_account_get_structure ( no_account );
 
     if (!account )
 	return NULL;
@@ -957,12 +1030,12 @@ GDate *gsb_account_get_current_reconcile_date ( gint no_account )
  * \param date date to set
  * \return TRUE, ok ; FALSE, problem
  * */
-gboolean gsb_account_set_current_reconcile_date ( gint no_account,
+gboolean gsb_data_account_set_current_reconcile_date ( gint no_account,
 						  GDate *date )
 {
     struct_account *account;
 
-    account = gsb_account_get_structure ( no_account );
+    account = gsb_data_account_get_structure ( no_account );
 
     if (!account )
 	return FALSE;
@@ -978,11 +1051,11 @@ gboolean gsb_account_set_current_reconcile_date ( gint no_account,
  * \param no_account no of the account
  * \return balance or NULL if the account doesn't exist
  * */
-gdouble gsb_account_get_reconcile_balance ( gint no_account )
+gdouble gsb_data_account_get_reconcile_balance ( gint no_account )
 {
     struct_account *account;
 
-    account = gsb_account_get_structure ( no_account );
+    account = gsb_data_account_get_structure ( no_account );
 
     if (!account )
 	return 0;
@@ -996,12 +1069,12 @@ gdouble gsb_account_get_reconcile_balance ( gint no_account )
  * \param balance balance to set
  * \return TRUE, ok ; FALSE, problem
  * */
-gboolean gsb_account_set_reconcile_balance ( gint no_account,
+gboolean gsb_data_account_set_reconcile_balance ( gint no_account,
 					     gdouble balance )
 {
     struct_account *account;
 
-    account = gsb_account_get_structure ( no_account );
+    account = gsb_data_account_get_structure ( no_account );
 
     if (!account )
 	return FALSE;
@@ -1017,11 +1090,11 @@ gboolean gsb_account_set_reconcile_balance ( gint no_account,
  * \param no_account no of the account
  * \return last number of reconcile or 0 if the account doesn't exist
  * */
-gint gsb_account_get_reconcile_last_number ( gint no_account )
+gint gsb_data_account_get_reconcile_last_number ( gint no_account )
 {
     struct_account *account;
 
-    account = gsb_account_get_structure ( no_account );
+    account = gsb_data_account_get_structure ( no_account );
 
     if (!account )
 	return 0;
@@ -1035,12 +1108,12 @@ gint gsb_account_get_reconcile_last_number ( gint no_account )
  * \param number last number of reconcile
  * \return TRUE, ok ; FALSE, problem
  * */
-gboolean gsb_account_set_reconcile_last_number ( gint no_account,
+gboolean gsb_data_account_set_reconcile_last_number ( gint no_account,
 						 gint number )
 {
     struct_account *account;
 
-    account = gsb_account_get_structure ( no_account );
+    account = gsb_data_account_get_structure ( no_account );
 
     if (!account )
 	return FALSE;
@@ -1056,11 +1129,11 @@ gboolean gsb_account_set_reconcile_last_number ( gint no_account,
  * \param no_account no of the account
  * \return update_list or 0 if the account doesn't exist
  * */
-gboolean gsb_account_get_update_list ( gint no_account )
+gboolean gsb_data_account_get_update_list ( gint no_account )
 {
     struct_account *account;
 
-    account = gsb_account_get_structure ( no_account );
+    account = gsb_data_account_get_structure ( no_account );
 
     if (!account )
 	return 0;
@@ -1074,12 +1147,12 @@ gboolean gsb_account_get_update_list ( gint no_account )
  * \param value 
  * \return TRUE, ok ; FALSE, problem
  * */
-gboolean gsb_account_set_update_list ( gint no_account,
+gboolean gsb_data_account_set_update_list ( gint no_account,
 				       gboolean value )
 {
     struct_account *account;
 
-    account = gsb_account_get_structure ( no_account );
+    account = gsb_data_account_get_structure ( no_account );
 
     if (!account )
 	return FALSE;
@@ -1094,11 +1167,11 @@ gboolean gsb_account_set_update_list ( gint no_account,
  * \param no_account no of the account
  * \return last number of reconcile or 0 if the account doesn't exist
  * */
-gint gsb_account_get_currency ( gint no_account )
+gint gsb_data_account_get_currency ( gint no_account )
 {
     struct_account *account;
 
-    account = gsb_account_get_structure ( no_account );
+    account = gsb_data_account_get_structure ( no_account );
 
     if (!account )
 	return 0;
@@ -1112,12 +1185,12 @@ gint gsb_account_get_currency ( gint no_account )
  * \param currency the currency to set
  * \return TRUE, ok ; FALSE, problem
  * */
-gboolean gsb_account_set_currency ( gint no_account,
+gboolean gsb_data_account_set_currency ( gint no_account,
 				    gint currency )
 {
     struct_account *account;
 
-    account = gsb_account_get_structure ( no_account );
+    account = gsb_data_account_get_structure ( no_account );
 
     if (!account )
 	return FALSE;
@@ -1132,11 +1205,11 @@ gboolean gsb_account_set_currency ( gint no_account,
  * \param no_account no of the account
  * \return last number of reconcile or 0 if the account doesn't exist
  * */
-gint gsb_account_get_bank ( gint no_account )
+gint gsb_data_account_get_bank ( gint no_account )
 {
     struct_account *account;
 
-    account = gsb_account_get_structure ( no_account );
+    account = gsb_data_account_get_structure ( no_account );
 
     if (!account )
 	return 0;
@@ -1150,12 +1223,12 @@ gint gsb_account_get_bank ( gint no_account )
  * \param bank the bank to set
  * \return TRUE, ok ; FALSE, problem
  * */
-gboolean gsb_account_set_bank ( gint no_account,
+gboolean gsb_data_account_set_bank ( gint no_account,
 				gint bank )
 {
     struct_account *account;
 
-    account = gsb_account_get_structure ( no_account );
+    account = gsb_data_account_get_structure ( no_account );
 
     if (!account )
 	return FALSE;
@@ -1170,11 +1243,11 @@ gboolean gsb_account_set_bank ( gint no_account,
  * \param no_account no of the account
  * \return id or NULL if the account doesn't exist
  * */
-gchar *gsb_account_get_bank_branch_code ( gint no_account )
+gchar *gsb_data_account_get_bank_branch_code ( gint no_account )
 {
     struct_account *account;
 
-    account = gsb_account_get_structure ( no_account );
+    account = gsb_data_account_get_structure ( no_account );
 
     if (!account )
 	return NULL;
@@ -1188,12 +1261,12 @@ gchar *gsb_account_get_bank_branch_code ( gint no_account )
  * \param bank_branch_code bank_branch_code to set
  * \return TRUE, ok ; FALSE, problem
  * */
-gboolean gsb_account_set_bank_branch_code ( gint no_account,
+gboolean gsb_data_account_set_bank_branch_code ( gint no_account,
 					    gchar *bank_branch_code )
 {
     struct_account *account;
 
-    account = gsb_account_get_structure ( no_account );
+    account = gsb_data_account_get_structure ( no_account );
 
     if (!account )
 	return FALSE;
@@ -1208,11 +1281,11 @@ gboolean gsb_account_set_bank_branch_code ( gint no_account,
  * \param no_account no of the account
  * \return id or NULL if the account doesn't exist
  * */
-gchar *gsb_account_get_bank_account_number ( gint no_account )
+gchar *gsb_data_account_get_bank_account_number ( gint no_account )
 {
     struct_account *account;
 
-    account = gsb_account_get_structure ( no_account );
+    account = gsb_data_account_get_structure ( no_account );
 
     if (!account )
 	return NULL;
@@ -1226,12 +1299,12 @@ gchar *gsb_account_get_bank_account_number ( gint no_account )
  * \param bank_account_number bank_account_number to set
  * \return TRUE, ok ; FALSE, problem
  * */
-gboolean gsb_account_set_bank_account_number ( gint no_account,
+gboolean gsb_data_account_set_bank_account_number ( gint no_account,
 					       gchar *bank_account_number )
 {
     struct_account *account;
 
-    account = gsb_account_get_structure ( no_account );
+    account = gsb_data_account_get_structure ( no_account );
 
     if (!account )
 	return FALSE;
@@ -1247,11 +1320,11 @@ gboolean gsb_account_set_bank_account_number ( gint no_account,
  * \param no_account no of the account
  * \return id or NULL if the account doesn't exist
  * */
-gchar *gsb_account_get_bank_account_key ( gint no_account )
+gchar *gsb_data_account_get_bank_account_key ( gint no_account )
 {
     struct_account *account;
 
-    account = gsb_account_get_structure ( no_account );
+    account = gsb_data_account_get_structure ( no_account );
 
     if (!account )
 	return NULL;
@@ -1265,12 +1338,12 @@ gchar *gsb_account_get_bank_account_key ( gint no_account )
  * \param bank_account_key bank_account_key to set
  * \return TRUE, ok ; FALSE, problem
  * */
-gboolean gsb_account_set_bank_account_key ( gint no_account,
+gboolean gsb_data_account_set_bank_account_key ( gint no_account,
 					    gchar *bank_account_key )
 {
     struct_account *account;
 
-    account = gsb_account_get_structure ( no_account );
+    account = gsb_data_account_get_structure ( no_account );
 
     if (!account )
 	return FALSE;
@@ -1285,11 +1358,11 @@ gboolean gsb_account_set_bank_account_key ( gint no_account,
  * \param no_account no of the account
  * \return true if account is closed
  * */
-gint gsb_account_get_closed_account ( gint no_account )
+gint gsb_data_account_get_closed_account ( gint no_account )
 {
     struct_account *account;
 
-    account = gsb_account_get_structure ( no_account );
+    account = gsb_data_account_get_structure ( no_account );
 
     if (!account )
 	return 0;
@@ -1303,12 +1376,12 @@ gint gsb_account_get_closed_account ( gint no_account )
  * \param closed_account closed_account to set
  * \return TRUE, ok ; FALSE, problem
  * */
-gboolean gsb_account_set_closed_account ( gint no_account,
+gboolean gsb_data_account_set_closed_account ( gint no_account,
 					  gint closed_account )
 {
     struct_account *account;
 
-    account = gsb_account_get_structure ( no_account );
+    account = gsb_data_account_get_structure ( no_account );
 
     if (!account )
 	return FALSE;
@@ -1323,11 +1396,11 @@ gboolean gsb_account_set_closed_account ( gint no_account,
  * \param no_account no of the account
  * \return comment or NULL if the account doesn't exist
  * */
-gchar *gsb_account_get_comment ( gint no_account )
+gchar *gsb_data_account_get_comment ( gint no_account )
 {
     struct_account *account;
 
-    account = gsb_account_get_structure ( no_account );
+    account = gsb_data_account_get_structure ( no_account );
 
     if (!account )
 	return NULL;
@@ -1341,12 +1414,12 @@ gchar *gsb_account_get_comment ( gint no_account )
  * \param comment comment to set
  * \return TRUE, ok ; FALSE, problem
  * */
-gboolean gsb_account_set_comment ( gint no_account,
+gboolean gsb_data_account_set_comment ( gint no_account,
 				   gchar *comment )
 {
     struct_account *account;
 
-    account = gsb_account_get_structure ( no_account );
+    account = gsb_data_account_get_structure ( no_account );
 
     if (!account )
 	return FALSE;
@@ -1362,11 +1435,11 @@ gboolean gsb_account_set_comment ( gint no_account,
  * \param no_account no of the account
  * \return sort_type or 0 if the account doesn't exist
  * */
-gint gsb_account_get_reconcile_sort_type ( gint no_account )
+gint gsb_data_account_get_reconcile_sort_type ( gint no_account )
 {
     struct_account *account;
 
-    account = gsb_account_get_structure ( no_account );
+    account = gsb_data_account_get_structure ( no_account );
 
     if (!account )
 	return 0;
@@ -1380,12 +1453,12 @@ gint gsb_account_get_reconcile_sort_type ( gint no_account )
  * \param sort_type sort_type to set
  * \return TRUE, ok ; FALSE, problem
  * */
-gboolean gsb_account_set_reconcile_sort_type ( gint no_account,
+gboolean gsb_data_account_set_reconcile_sort_type ( gint no_account,
 					       gint sort_type )
 {
     struct_account *account;
 
-    account = gsb_account_get_structure ( no_account );
+    account = gsb_data_account_get_structure ( no_account );
 
     if (!account )
 	return FALSE;
@@ -1400,11 +1473,11 @@ gboolean gsb_account_set_reconcile_sort_type ( gint no_account,
  * \param no_account no of the account
  * \return the g_slist or NULL if the account doesn't exist
  * */
-GSList *gsb_account_get_sort_list ( gint no_account )
+GSList *gsb_data_account_get_sort_list ( gint no_account )
 {
     struct_account *account;
 
-    account = gsb_account_get_structure ( no_account );
+    account = gsb_data_account_get_structure ( no_account );
 
     if (!account )
 	return NULL;
@@ -1418,12 +1491,12 @@ GSList *gsb_account_get_sort_list ( gint no_account )
  * \param list g_slist to set
  * \return TRUE, ok ; FALSE, problem
  * */
-gboolean gsb_account_set_sort_list ( gint no_account,
+gboolean gsb_data_account_set_sort_list ( gint no_account,
 				     GSList *list )
 {
     struct_account *account;
 
-    account = gsb_account_get_structure ( no_account );
+    account = gsb_data_account_get_structure ( no_account );
 
     if (!account )
 	return FALSE;
@@ -1438,11 +1511,11 @@ gboolean gsb_account_set_sort_list ( gint no_account,
  * \param no_account no of the account
  * \return split_neutral_payment or 0 if the account doesn't exist
  * */
-gint gsb_account_get_split_neutral_payment ( gint no_account )
+gint gsb_data_account_get_split_neutral_payment ( gint no_account )
 {
     struct_account *account;
 
-    account = gsb_account_get_structure ( no_account );
+    account = gsb_data_account_get_structure ( no_account );
 
     if (!account )
 	return 0;
@@ -1456,12 +1529,12 @@ gint gsb_account_get_split_neutral_payment ( gint no_account )
  * \param split_neutral_payment split_neutral_payment to set
  * \return TRUE, ok ; FALSE, problem
  * */
-gboolean gsb_account_set_split_neutral_payment ( gint no_account,
+gboolean gsb_data_account_set_split_neutral_payment ( gint no_account,
 						 gint split_neutral_payment )
 {
     struct_account *account;
 
-    account = gsb_account_get_structure ( no_account );
+    account = gsb_data_account_get_structure ( no_account );
 
     if (!account )
 	return FALSE;
@@ -1476,11 +1549,11 @@ gboolean gsb_account_set_split_neutral_payment ( gint no_account,
  * \param no_account no of the account
  * \return holder_name or NULL if the account doesn't exist
  * */
-gchar *gsb_account_get_holder_name ( gint no_account )
+gchar *gsb_data_account_get_holder_name ( gint no_account )
 {
     struct_account *account;
 
-    account = gsb_account_get_structure ( no_account );
+    account = gsb_data_account_get_structure ( no_account );
 
     if (!account )
 	return NULL;
@@ -1494,12 +1567,12 @@ gchar *gsb_account_get_holder_name ( gint no_account )
  * \param holder_name holder_name to set
  * \return TRUE, ok ; FALSE, problem
  * */
-gboolean gsb_account_set_holder_name ( gint no_account,
+gboolean gsb_data_account_set_holder_name ( gint no_account,
 				       gchar *holder_name )
 {
     struct_account *account;
 
-    account = gsb_account_get_structure ( no_account );
+    account = gsb_data_account_get_structure ( no_account );
 
     if (!account )
 	return FALSE;
@@ -1514,11 +1587,11 @@ gboolean gsb_account_set_holder_name ( gint no_account,
  * \param no_account no of the account
  * \return holder_address or NULL if the account doesn't exist
  * */
-gchar *gsb_account_get_holder_address ( gint no_account )
+gchar *gsb_data_account_get_holder_address ( gint no_account )
 {
     struct_account *account;
 
-    account = gsb_account_get_structure ( no_account );
+    account = gsb_data_account_get_structure ( no_account );
 
     if (!account )
 	return NULL;
@@ -1532,12 +1605,12 @@ gchar *gsb_account_get_holder_address ( gint no_account )
  * \param holder_address holder_address to set
  * \return TRUE, ok ; FALSE, problem
  * */
-gboolean gsb_account_set_holder_address ( gint no_account,
+gboolean gsb_data_account_set_holder_address ( gint no_account,
 					  gchar *holder_address )
 {
     struct_account *account;
 
-    account = gsb_account_get_structure ( no_account );
+    account = gsb_data_account_get_structure ( no_account );
 
     if (!account )
 	return FALSE;
@@ -1552,11 +1625,11 @@ gboolean gsb_account_set_holder_address ( gint no_account,
  * \param no_account no of the account
  * \return the g_slist or NULL if the account doesn't exist
  * */
-GSList *gsb_account_get_method_payment_list ( gint no_account )
+GSList *gsb_data_account_get_method_payment_list ( gint no_account )
 {
     struct_account *account;
 
-    account = gsb_account_get_structure ( no_account );
+    account = gsb_data_account_get_structure ( no_account );
 
     if (!account )
 	return NULL;
@@ -1570,12 +1643,12 @@ GSList *gsb_account_get_method_payment_list ( gint no_account )
  * \param list g_slist to set
  * \return TRUE, ok ; FALSE, problem
  * */
-gboolean gsb_account_set_method_payment_list ( gint no_account,
+gboolean gsb_data_account_set_method_payment_list ( gint no_account,
 					       GSList *list )
 {
     struct_account *account;
 
-    account = gsb_account_get_structure ( no_account );
+    account = gsb_data_account_get_structure ( no_account );
 
     if (!account )
 	return FALSE;
@@ -1590,11 +1663,11 @@ gboolean gsb_account_set_method_payment_list ( gint no_account,
  * \param no_account no of the account
  * \return default_debit or 0 if the account doesn't exist
  * */
-gint gsb_account_get_default_debit ( gint no_account )
+gint gsb_data_account_get_default_debit ( gint no_account )
 {
     struct_account *account;
 
-    account = gsb_account_get_structure ( no_account );
+    account = gsb_data_account_get_structure ( no_account );
 
     if (!account )
 	return 0;
@@ -1608,12 +1681,12 @@ gint gsb_account_get_default_debit ( gint no_account )
  * \param default_debit default_debit to set
  * \return TRUE, ok ; FALSE, problem
  * */
-gboolean gsb_account_set_default_debit ( gint no_account,
+gboolean gsb_data_account_set_default_debit ( gint no_account,
 					 gint default_debit )
 {
     struct_account *account;
 
-    account = gsb_account_get_structure ( no_account );
+    account = gsb_data_account_get_structure ( no_account );
 
     if (!account )
 	return FALSE;
@@ -1629,11 +1702,11 @@ gboolean gsb_account_set_default_debit ( gint no_account,
  * \param no_account no of the account
  * \return default_credit or 0 if the account doesn't exist
  * */
-gint gsb_account_get_default_credit ( gint no_account )
+gint gsb_data_account_get_default_credit ( gint no_account )
 {
     struct_account *account;
 
-    account = gsb_account_get_structure ( no_account );
+    account = gsb_data_account_get_structure ( no_account );
 
     if (!account )
 	return 0;
@@ -1647,12 +1720,12 @@ gint gsb_account_get_default_credit ( gint no_account )
  * \param default_credit default_credit to set
  * \return TRUE, ok ; FALSE, problem
  * */
-gboolean gsb_account_set_default_credit ( gint no_account,
+gboolean gsb_data_account_set_default_credit ( gint no_account,
 					  gint default_credit )
 {
     struct_account *account;
 
-    account = gsb_account_get_structure ( no_account );
+    account = gsb_data_account_get_structure ( no_account );
 
     if (!account )
 	return FALSE;
@@ -1667,11 +1740,11 @@ gboolean gsb_account_set_default_credit ( gint no_account,
  * \param no_account no of the account
  * \return tree or NULL if the account doesn't exist
  * */
-gpointer gsb_account_get_account_button ( gint no_account )
+gpointer gsb_data_account_get_account_button ( gint no_account )
 {
     struct_account *account;
 
-    account = gsb_account_get_structure ( no_account );
+    account = gsb_data_account_get_structure ( no_account );
 
     if (!account )
 	return NULL;
@@ -1685,12 +1758,12 @@ gpointer gsb_account_get_account_button ( gint no_account )
  * \param account_button account_button to set
  * \return TRUE, ok ; FALSE, problem
  * */
-gboolean gsb_account_set_account_button ( gint no_account,
+gboolean gsb_data_account_set_account_button ( gint no_account,
 					  gpointer account_button )
 {
     struct_account *account;
 
-    account = gsb_account_get_structure ( no_account );
+    account = gsb_data_account_get_structure ( no_account );
 
     if (!account )
 	return FALSE;
@@ -1706,11 +1779,11 @@ gboolean gsb_account_set_account_button ( gint no_account,
  * \param no_account no of the account
  * \return vertical_adjustment_value or 0 if the account doesn't exist
  * */
-gdouble gsb_account_get_vertical_adjustment_value ( gint no_account )
+gdouble gsb_data_account_get_vertical_adjustment_value ( gint no_account )
 {
     struct_account *account;
 
-    account = gsb_account_get_structure ( no_account );
+    account = gsb_data_account_get_structure ( no_account );
 
     if (!account )
 	return 0;
@@ -1724,12 +1797,12 @@ gdouble gsb_account_get_vertical_adjustment_value ( gint no_account )
  * \param vertical_adjustment_value vertical_adjustment_value to set
  * \return TRUE, ok ; FALSE, problem
  * */
-gboolean gsb_account_set_vertical_adjustment_value ( gint no_account,
+gboolean gsb_data_account_set_vertical_adjustment_value ( gint no_account,
 						     gint vertical_adjustment_value )
 {
     struct_account *account;
 
-    account = gsb_account_get_structure ( no_account );
+    account = gsb_data_account_get_structure ( no_account );
 
     if (!account )
 	return FALSE;
@@ -1744,11 +1817,11 @@ gboolean gsb_account_set_vertical_adjustment_value ( gint no_account,
  * \param no_account no of the account
  * \return sort_type or 0 if the account doesn't exist
  * */
-gint gsb_account_get_sort_type ( gint no_account )
+gint gsb_data_account_get_sort_type ( gint no_account )
 {
     struct_account *account;
 
-    account = gsb_account_get_structure ( no_account );
+    account = gsb_data_account_get_structure ( no_account );
 
     if (!account )
 	return 0;
@@ -1762,12 +1835,12 @@ gint gsb_account_get_sort_type ( gint no_account )
  * \param sort_type sort_type to set
  * \return TRUE, ok ; FALSE, problem
  * */
-gboolean gsb_account_set_sort_type ( gint no_account,
+gboolean gsb_data_account_set_sort_type ( gint no_account,
 					  gint sort_type )
 {
     struct_account *account;
 
-    account = gsb_account_get_structure ( no_account );
+    account = gsb_data_account_get_structure ( no_account );
 
     if (!account )
 	return FALSE;
@@ -1784,11 +1857,11 @@ gboolean gsb_account_set_sort_type ( gint no_account,
  * \param no_account no of the account
  * \return sort_column or 0 if the account doesn't exist
  * */
-gint gsb_account_get_sort_column ( gint no_account )
+gint gsb_data_account_get_sort_column ( gint no_account )
 {
     struct_account *account;
 
-    account = gsb_account_get_structure ( no_account );
+    account = gsb_data_account_get_structure ( no_account );
 
     if (!account )
 	return 0;
@@ -1802,12 +1875,12 @@ gint gsb_account_get_sort_column ( gint no_account )
  * \param sort_column sort_column to set
  * \return TRUE, ok ; FALSE, problem
  * */
-gboolean gsb_account_set_sort_column ( gint no_account,
+gboolean gsb_data_account_set_sort_column ( gint no_account,
 				       gint sort_column )
 {
     struct_account *account;
 
-    account = gsb_account_get_structure ( no_account );
+    account = gsb_data_account_get_structure ( no_account );
 
     if (!account )
 	return FALSE;
@@ -1823,11 +1896,11 @@ gboolean gsb_account_set_sort_column ( gint no_account,
  * \param no_account no of the account
  * \return form_organization or NULL if the account doesn't exist
  * */
-struct organisation_formulaire *gsb_account_get_form_organization ( gint no_account )
+struct organisation_formulaire *gsb_data_account_get_form_organization ( gint no_account )
 {
     struct_account *account;
 
-    account = gsb_account_get_structure ( no_account );
+    account = gsb_data_account_get_structure ( no_account );
 
     if (!account )
 	return NULL;
@@ -1841,12 +1914,12 @@ struct organisation_formulaire *gsb_account_get_form_organization ( gint no_acco
  * \param form_organization form_organization to set
  * \return TRUE, ok ; FALSE, problem
  * */
-gboolean gsb_account_set_form_organization ( gint no_account,
+gboolean gsb_data_account_set_form_organization ( gint no_account,
 					     struct organisation_formulaire *form_organization )
 {
     struct_account *account;
 
-    account = gsb_account_get_structure ( no_account );
+    account = gsb_data_account_get_structure ( no_account );
 
     if (!account )
 	return FALSE;
@@ -1862,7 +1935,7 @@ gboolean gsb_account_set_form_organization ( gint no_account,
  * \param new_order a g_slist which contains the number of accounts in the new order
  * \return FALSE
  * */
-gboolean gsb_account_reorder ( GSList *new_order )
+gboolean gsb_data_account_reorder ( GSList *new_order )
 {
     GSList *last_list;
     GSList *new_list_accounts;
@@ -1873,7 +1946,7 @@ gboolean gsb_account_reorder ( GSList *new_order )
     while ( new_order )
     {
 	new_list_accounts = g_slist_append ( new_list_accounts,
-					     gsb_account_get_structure ( GPOINTER_TO_INT ( new_order -> data )));
+					     gsb_data_account_get_structure ( GPOINTER_TO_INT ( new_order -> data )));
 	new_order = new_order -> next;
     }
 					     
@@ -1892,7 +1965,7 @@ gboolean gsb_account_reorder ( GSList *new_order )
 
 	account = list_tmp -> data;
 	
-	check_account = gsb_account_get_structure ( account -> account_number );
+	check_account = gsb_data_account_get_structure ( account -> account_number );
 
 	if ( !check_account )
 	    list_accounts = g_slist_append ( list_accounts,

@@ -32,7 +32,7 @@
 /*START_INCLUDE*/
 #include "utils.h"
 #include "dialog.h"
-#include "gsb_account.h"
+#include "gsb_data_account.h"
 #include "gsb_file_config.h"
 #include "structures.h"
 #include "include.h"
@@ -307,7 +307,7 @@ GtkWidget *new_vbox_with_title_and_icon ( gchar * title,
  */
 gboolean assert_account_loaded ()
 {
-  return gsb_account_get_accounts_amount () != 0;
+  return gsb_data_account_get_accounts_amount () != 0;
 }
 
 

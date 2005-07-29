@@ -28,7 +28,7 @@
 /*START_INCLUDE*/
 #include "gsb_file_config.h"
 #include "dialog.h"
-#include "gsb_account.h"
+#include "gsb_data_account.h"
 #include "utils_str.h"
 #include "configuration.h"
 #include "main.h"
@@ -409,7 +409,7 @@ gboolean gsb_file_config_save_config ( void )
     
     /* get the width of the columns if a file is in memory */
 
-    if ( gsb_account_get_accounts_amount () )
+    if ( gsb_data_account_get_accounts_amount () )
     {
 	for ( i=0 ; i<TRANSACTION_LIST_COL_NB ; i++ )
 	    if ( GTK_IS_TREE_VIEW_COLUMN ( transactions_tree_view_columns[i]))

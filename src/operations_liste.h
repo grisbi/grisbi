@@ -77,7 +77,7 @@ void clone_selected_transaction ();
 GtkWidget *creation_fenetre_operations ( void );
 void demande_mise_a_jour_tous_comptes ( void );
 gint find_p_r_col ();
-gboolean gsb_account_list_set_breakdowns_visible ( gint mother_transaction_number,
+gboolean gsb_data_account_list_set_breakdowns_visible ( gint mother_transaction_number,
 						   gint visible );
 gchar *gsb_transactions_get_category_real_name ( gint transaction_number );
 gboolean gsb_transactions_list_append_transaction ( gint transaction_number,

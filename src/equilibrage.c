@@ -34,9 +34,9 @@
 #include "dialog.h"
 #include "operations_liste.h"
 #include "utils_dates.h"
-#include "gsb_account.h"
 #include "calendar.h"
-#include "gsb_transaction_data.h"
+#include "gsb_data_account.h"
+#include "gsb_data_transaction.h"
 #include "traitement_variables.h"
 #include "utils_str.h"
 #include "utils.h"
@@ -290,17 +290,17 @@ void equilibrage ( void )
 
     /* calcule le montant des opérations pointées */
     /* FIXME : à vérifie mais normalement, pas besoin de ça vu que c'est en temps réel... */
-    /*     calcule_total_pointe_compte ( gsb_account_get_current_account () ); */
+    /*     calcule_total_pointe_compte ( gsb_data_account_get_current_account () ); */
 
 
     /* récupère l'ancien no de rapprochement et essaie d'incrémenter la partie
        numérique. Si ne réussit pas, remet juste le nom de l'ancien */
 
-    if ( gsb_account_get_reconcile_last_number (gsb_account_get_current_account ()) )
+    if ( gsb_data_account_get_reconcile_last_number (gsb_data_account_get_current_account ()) )
     {
 	gchar *new_rap;
 
-	new_rap = rapprochement_name_by_no ( gsb_account_get_reconcile_last_number (gsb_account_get_current_account ()) );
+	new_rap = rapprochement_name_by_no ( gsb_data_account_get_reconcile_last_number (gsb_data_account_get_current_account ()) );
 
 	if ( new_rap )
 	{
@@ -373,11 +373,11 @@ void equilibrage ( void )
 
     /* récupère l'ancienne date et l'augmente d'1 mois et le met dans entree_nouvelle_date_equilibrage */
 
-    if ( gsb_account_get_current_reconcile_date (gsb_account_get_current_account ()) )
+    if ( gsb_data_account_get_current_reconcile_date (gsb_data_account_get_current_account ()) )
     {
-	date = g_date_new_dmy ( g_date_day ( gsb_account_get_current_reconcile_date (gsb_account_get_current_account ()) ),
-				g_date_month ( gsb_account_get_current_reconcile_date (gsb_account_get_current_account ()) ),
-				g_date_year ( gsb_account_get_current_reconcile_date (gsb_account_get_current_account ()) ));
+	date = g_date_new_dmy ( g_date_day ( gsb_data_account_get_current_reconcile_date (gsb_data_account_get_current_account ()) ),
+				g_date_month ( gsb_data_account_get_current_reconcile_date (gsb_data_account_get_current_account ()) ),
+				g_date_year ( gsb_data_account_get_current_reconcile_date (gsb_data_account_get_current_account ()) ));
 
 	gtk_label_set_text ( GTK_LABEL ( label_ancienne_date_equilibrage ),
 			     g_strdup_printf ( "%02d/%02d/%d",
@@ -390,7 +390,7 @@ void equilibrage ( void )
 	    date = gdate_today();
 
 	gtk_entry_set_text ( GTK_ENTRY ( entree_ancien_solde_equilibrage ),
-			     g_strdup_printf ("%4.2f", gsb_account_get_reconcile_balance (gsb_account_get_current_account () )));
+			     g_strdup_printf ("%4.2f", gsb_data_account_get_reconcile_balance (gsb_data_account_get_current_account () )));
 	gtk_widget_set_sensitive ( GTK_WIDGET ( entree_ancien_solde_equilibrage ),
 				   FALSE );
     }
@@ -402,7 +402,7 @@ void equilibrage ( void )
 	date = gdate_today();
 
 	gtk_entry_set_text ( GTK_ENTRY ( entree_ancien_solde_equilibrage ),
-			     g_strdup_printf ("%4.2f", gsb_account_get_init_balance (gsb_account_get_current_account ()) ));
+			     g_strdup_printf ("%4.2f", gsb_data_account_get_init_balance (gsb_data_account_get_current_account ()) ));
 	gtk_widget_set_sensitive ( GTK_WIDGET ( entree_ancien_solde_equilibrage ),
 				   TRUE );
     }
@@ -415,7 +415,7 @@ void equilibrage ( void )
     gtk_entry_set_text ( GTK_ENTRY ( entree_nouveau_montant_equilibrage ), "" );
     gtk_label_set_markup ( GTK_LABEL ( label_equilibrage_compte ),
 			   g_strdup_printf ( " <b>%s reconciliation</b> ",
-					     gsb_account_get_name (gsb_account_get_current_account () ) ) );
+					     gsb_data_account_get_name (gsb_data_account_get_current_account () ) ) );
 
 
     etat.equilibrage = 1;
@@ -435,14 +435,14 @@ void equilibrage ( void )
 
     /*     on passe en non affichage des R */
 
-    ancien_r_modifiable = gsb_account_get_r (gsb_account_get_current_account ());
-    gsb_account_set_r (gsb_account_get_current_account (), FALSE );
+    ancien_r_modifiable = gsb_data_account_get_r (gsb_data_account_get_current_account ());
+    gsb_data_account_set_r (gsb_data_account_get_current_account (), FALSE );
     mise_a_jour_affichage_r ( 0 );
 
     /*     on affiche les opés sur 1 ligne */
 
-    ancien_nb_lignes_ope = gsb_account_get_nb_rows ( gsb_account_get_current_account () );
-    gsb_account_set_nb_rows ( gsb_account_get_current_account (), 1 );
+    ancien_nb_lignes_ope = gsb_data_account_get_nb_rows ( gsb_data_account_get_current_account () );
+    gsb_data_account_set_nb_rows ( gsb_data_account_get_current_account (), 1 );
     mise_a_jour_affichage_lignes ( 1 );
 
     gtk_widget_show_all ( reconcile_panel );
@@ -540,11 +540,11 @@ gboolean annuler_equilibrage ( void )
 
     /*     on restaure la config de l'utilisateur */
 
-    gsb_account_set_nb_rows ( gsb_account_get_current_account (), 
+    gsb_data_account_set_nb_rows ( gsb_data_account_get_current_account (), 
 			      ancien_nb_lignes_ope );
     mise_a_jour_affichage_lignes ( ancien_nb_lignes_ope );
 
-    gsb_account_set_r (gsb_account_get_current_account (),
+    gsb_data_account_set_r (gsb_data_account_get_current_account (),
 		       ancien_r_modifiable );
     mise_a_jour_affichage_r ( ancien_r_modifiable );
 
@@ -576,22 +576,22 @@ gboolean gsb_reconcile_mark_transaction ( gpointer transaction )
 
     if ( transaction == GINT_TO_POINTER ( -1 )
 	 ||
-	 gsb_transaction_data_get_marked_transaction ( gsb_transaction_data_get_transaction_number (transaction ))== 3 )
+	 gsb_data_transaction_get_marked_transaction ( gsb_data_transaction_get_transaction_number (transaction ))== 3 )
 	return FALSE;
 
     model = GTK_TREE_MODEL (gsb_transactions_list_get_store());
 
-    montant = gsb_transaction_data_get_adjusted_amount ( gsb_transaction_data_get_transaction_number (transaction));
+    montant = gsb_data_transaction_get_adjusted_amount ( gsb_data_transaction_get_transaction_number (transaction));
 
-    iter = gsb_transactions_list_get_iter_from_transaction ( gsb_transaction_data_get_transaction_number (transaction ));
+    iter = gsb_transactions_list_get_iter_from_transaction ( gsb_data_transaction_get_transaction_number (transaction ));
 
-    if ( gsb_transaction_data_get_marked_transaction ( gsb_transaction_data_get_transaction_number (transaction )))
+    if ( gsb_data_transaction_get_marked_transaction ( gsb_data_transaction_get_transaction_number (transaction )))
     {
 	operations_pointees = operations_pointees - montant;
-	gsb_account_set_marked_balance ( gsb_account_get_current_account (),
-					 gsb_account_get_marked_balance (gsb_account_get_current_account ()) - montant );
+	gsb_data_account_set_marked_balance ( gsb_data_account_get_current_account (),
+					 gsb_data_account_get_marked_balance (gsb_data_account_get_current_account ()) - montant );
 
-	gsb_transaction_data_set_marked_transaction ( gsb_transaction_data_get_transaction_number (transaction),
+	gsb_data_transaction_set_marked_transaction ( gsb_data_transaction_get_transaction_number (transaction),
 						      0 );
 
 	gtk_list_store_set ( GTK_LIST_STORE ( model ),
@@ -602,10 +602,10 @@ gboolean gsb_reconcile_mark_transaction ( gpointer transaction )
     else
     {
 	operations_pointees = operations_pointees + montant;
-	gsb_account_set_marked_balance ( gsb_account_get_current_account (),
-					 gsb_account_get_marked_balance (gsb_account_get_current_account ()) + montant );
+	gsb_data_account_set_marked_balance ( gsb_data_account_get_current_account (),
+					 gsb_data_account_get_marked_balance (gsb_data_account_get_current_account ()) + montant );
 
-	gsb_transaction_data_set_marked_transaction ( gsb_transaction_data_get_transaction_number (transaction),
+	gsb_data_transaction_set_marked_transaction ( gsb_data_transaction_get_transaction_number (transaction),
 						      1 );
 	
 	gtk_list_store_set ( GTK_LIST_STORE ( model ),
@@ -618,22 +618,22 @@ gboolean gsb_reconcile_mark_transaction ( gpointer transaction )
     /* si c'est une opération ventilée, on recherche les opérations filles
        pour leur mettre le même pointage que la mère */
 
-    if ( gsb_transaction_data_get_breakdown_of_transaction ( gsb_transaction_data_get_transaction_number (transaction )))
+    if ( gsb_data_transaction_get_breakdown_of_transaction ( gsb_data_transaction_get_transaction_number (transaction )))
     {
 	GSList *list_tmp_transactions;
 
-	list_tmp_transactions = gsb_transaction_data_get_transactions_list ();
+	list_tmp_transactions = gsb_data_transaction_get_transactions_list ();
 
 	while ( list_tmp_transactions )
 	{
 	    gint transaction_number_tmp;
-	    transaction_number_tmp = gsb_transaction_data_get_transaction_number (list_tmp_transactions -> data);
+	    transaction_number_tmp = gsb_data_transaction_get_transaction_number (list_tmp_transactions -> data);
 
-	    if ( gsb_transaction_data_get_account_number (transaction_number_tmp) == gsb_account_get_current_account ())
+	    if ( gsb_data_transaction_get_account_number (transaction_number_tmp) == gsb_data_account_get_current_account ())
 	    {
-		if ( gsb_transaction_data_get_mother_transaction_number (transaction_number_tmp) == gsb_transaction_data_get_transaction_number (transaction))
-		    gsb_transaction_data_set_marked_transaction ( transaction_number_tmp,
-								  gsb_transaction_data_get_marked_transaction ( gsb_transaction_data_get_transaction_number (transaction )));
+		if ( gsb_data_transaction_get_mother_transaction_number (transaction_number_tmp) == gsb_data_transaction_get_transaction_number (transaction))
+		    gsb_data_transaction_set_marked_transaction ( transaction_number_tmp,
+								  gsb_data_transaction_get_marked_transaction ( gsb_data_transaction_get_transaction_number (transaction )));
 	    }
 	    list_tmp_transactions = list_tmp_transactions -> next;
 	}
@@ -719,7 +719,7 @@ gboolean fin_equilibrage ( GtkWidget *bouton_ok, gpointer data )
 			      g_strdup_printf ( _("Invalid date '%s'"), text ) );
 	return FALSE;
     }
-    gsb_account_set_current_reconcile_date ( gsb_account_get_current_account (),
+    gsb_data_account_set_current_reconcile_date ( gsb_data_account_get_current_account (),
 					     g_date_new_dmy ( date_releve_jour,
 							      date_releve_mois,
 							      date_releve_annee ));
@@ -747,7 +747,7 @@ gboolean fin_equilibrage ( GtkWidget *bouton_ok, gpointer data )
 	{
 	    /* le rapprochement existe déjà */
 
-	    gsb_account_set_reconcile_last_number ( gsb_account_get_current_account (),
+	    gsb_data_account_set_reconcile_last_number ( gsb_data_account_get_current_account (),
 						    rapprochement -> no_rapprochement);
 	}
 	else
@@ -761,33 +761,33 @@ gboolean fin_equilibrage ( GtkWidget *bouton_ok, gpointer data )
 	    liste_struct_rapprochements = g_slist_append ( liste_struct_rapprochements,
 							   rapprochement );
 
-	    gsb_account_set_reconcile_last_number ( gsb_account_get_current_account (),
+	    gsb_data_account_set_reconcile_last_number ( gsb_data_account_get_current_account (),
 						    rapprochement -> no_rapprochement);
 	}
     }
     else
-	gsb_account_set_reconcile_last_number ( gsb_account_get_current_account (),
+	gsb_data_account_set_reconcile_last_number ( gsb_data_account_get_current_account (),
 						0 );
 
     /* met tous les P à R */
 
-    list_tmp_transactions = gsb_transaction_data_get_transactions_list ();
+    list_tmp_transactions = gsb_data_transaction_get_transactions_list ();
 
     while ( list_tmp_transactions )
     {
 	gint transaction_number_tmp;
-	transaction_number_tmp = gsb_transaction_data_get_transaction_number (list_tmp_transactions -> data);
+	transaction_number_tmp = gsb_data_transaction_get_transaction_number (list_tmp_transactions -> data);
 
-	if ( gsb_transaction_data_get_account_number (transaction_number_tmp) == gsb_account_get_current_account ())
+	if ( gsb_data_transaction_get_account_number (transaction_number_tmp) == gsb_data_account_get_current_account ())
 	{
-	    if ( gsb_transaction_data_get_marked_transaction (transaction_number_tmp) == OPERATION_POINTEE
+	    if ( gsb_data_transaction_get_marked_transaction (transaction_number_tmp) == OPERATION_POINTEE
 		 ||
-		 gsb_transaction_data_get_marked_transaction (transaction_number_tmp) == OPERATION_TELERAPPROCHEE )
+		 gsb_data_transaction_get_marked_transaction (transaction_number_tmp) == OPERATION_TELERAPPROCHEE )
 	    {
-		gsb_transaction_data_set_marked_transaction ( transaction_number_tmp,
+		gsb_data_transaction_set_marked_transaction ( transaction_number_tmp,
 							      OPERATION_RAPPROCHEE );
-		gsb_transaction_data_set_reconcile_number ( transaction_number_tmp,
-							    gsb_account_get_reconcile_last_number (gsb_account_get_current_account ()));
+		gsb_data_transaction_set_reconcile_number ( transaction_number_tmp,
+							    gsb_data_account_get_reconcile_last_number (gsb_data_account_get_current_account ()));
 	    }
 	}
 	list_tmp_transactions = list_tmp_transactions -> next;
@@ -795,7 +795,7 @@ gboolean fin_equilibrage ( GtkWidget *bouton_ok, gpointer data )
 
     /* on réaffiche la liste */
     modification_fichier( TRUE );
-    gsb_account_set_reconcile_balance ( gsb_account_get_current_account (),
+    gsb_data_account_set_reconcile_balance ( gsb_data_account_get_current_account (),
 					solde_final );
 
     /*     on remet tout normal pour les opérations */
@@ -908,26 +908,26 @@ void fill_reconciliation_tree ()
     GtkTreeIter account_iter, payment_method_iter;
     GSList *list_tmp;
 
-    list_tmp = gsb_account_get_list_accounts ();
+    list_tmp = gsb_data_account_get_list_accounts ();
 
     while ( list_tmp )
     {
 	gint i;
 	GSList * liste_tmp;
 
-	i = gsb_account_get_no_account ( list_tmp -> data );
+	i = gsb_data_account_get_no_account ( list_tmp -> data );
 
 	gtk_tree_store_append (reconcile_model, &account_iter, NULL);
 	gtk_tree_store_set (reconcile_model, &account_iter,
-			    RECONCILIATION_NAME_COLUMN, gsb_account_get_name (i),
+			    RECONCILIATION_NAME_COLUMN, gsb_data_account_get_name (i),
 			    RECONCILIATION_VISIBLE_COLUMN, TRUE,
-			    RECONCILIATION_SORT_COLUMN, !gsb_account_get_reconcile_sort_type(i),
-			    RECONCILIATION_SPLIT_NEUTRAL_COLUMN, gsb_account_get_split_neutral_payment (i),
+			    RECONCILIATION_SORT_COLUMN, !gsb_data_account_get_reconcile_sort_type(i),
+			    RECONCILIATION_SPLIT_NEUTRAL_COLUMN, gsb_data_account_get_split_neutral_payment (i),
 			    RECONCILIATION_ACCOUNT_COLUMN, i,
 			    RECONCILIATION_TYPE_COLUMN, -1,
 			    -1 );
 
-	liste_tmp = gsb_account_get_sort_list (i);
+	liste_tmp = gsb_data_account_get_sort_list (i);
 
 	while ( liste_tmp )
 	{
@@ -946,7 +946,7 @@ void fill_reconciliation_tree ()
 		      ||
 		      !type_ope -> signe_type)
 		     &&
-		     gsb_account_get_split_neutral_payment (i) 
+		     gsb_data_account_get_split_neutral_payment (i) 
 		     &&
 		     GPOINTER_TO_INT(liste_tmp->data) < 0 )
 		    nom = g_strconcat ( type_ope -> nom_type, " ( - )", NULL );
@@ -955,7 +955,7 @@ void fill_reconciliation_tree ()
 			 ||
 			 ! type_ope -> signe_type)
 			&&
-			gsb_account_get_split_neutral_payment (i)
+			gsb_data_account_get_split_neutral_payment (i)
 			&&
 			GPOINTER_TO_INT(liste_tmp->data) > 0 )
 			nom = g_strconcat ( type_ope -> nom_type, " ( + )", NULL );
@@ -975,7 +975,7 @@ void fill_reconciliation_tree ()
 	}
 
 	if ( gtk_tree_model_iter_has_child( GTK_TREE_MODEL(reconcile_model), &account_iter) &&
-	     gsb_account_get_reconcile_sort_type (i) )
+	     gsb_data_account_get_reconcile_sort_type (i) )
 	{
 	    GtkTreePath * treepath;
 	    treepath = gtk_tree_model_get_path (GTK_TREE_MODEL(reconcile_model), &account_iter);
@@ -1066,15 +1066,15 @@ void deplacement_type_tri_haut ( GtkWidget * button, gpointer data )
     select_reconciliation_entry ( reconcile_selection, 
 				  GTK_TREE_MODEL(reconcile_model) );
 
-    for ( elt = gsb_account_get_sort_list (no_compte) ; elt -> next ; elt = elt -> next )
+    for ( elt = gsb_data_account_get_sort_list (no_compte) ; elt -> next ; elt = elt -> next )
     {
 	if ( elt -> next &&
 	     GPOINTER_TO_INT(elt -> next -> data) == no_type )
 	{
-	    gsb_account_set_sort_list ( no_compte,
-					g_slist_remove ( gsb_account_get_sort_list (no_compte), (gpointer) no_type ) );
-	    gsb_account_set_sort_list ( no_compte,
-					g_slist_insert_before ( gsb_account_get_sort_list (no_compte), elt, (gpointer) no_type ) );
+	    gsb_data_account_set_sort_list ( no_compte,
+					g_slist_remove ( gsb_data_account_get_sort_list (no_compte), (gpointer) no_type ) );
+	    gsb_data_account_set_sort_list ( no_compte,
+					g_slist_insert_before ( gsb_data_account_get_sort_list (no_compte), elt, (gpointer) no_type ) );
 	    break;
 	}
     }  
@@ -1119,15 +1119,15 @@ void deplacement_type_tri_bas ( void )
     select_reconciliation_entry ( reconcile_selection, 
 				  GTK_TREE_MODEL(reconcile_model) );
 
-    for ( elt = gsb_account_get_sort_list (no_compte) ; elt -> next ; elt = elt -> next )
+    for ( elt = gsb_data_account_get_sort_list (no_compte) ; elt -> next ; elt = elt -> next )
     {
 	if ( elt -> next && ((gint) elt -> data) == no_type )
 	{
 	    gint ref = ((gint) elt -> next -> data);
-	    gsb_account_set_sort_list ( no_compte,
-					g_slist_remove ( gsb_account_get_sort_list (no_compte), (gpointer) ref ) );
-	    gsb_account_set_sort_list ( no_compte,
-					g_slist_insert_before ( gsb_account_get_sort_list (no_compte), elt, (gpointer) ref ) );
+	    gsb_data_account_set_sort_list ( no_compte,
+					g_slist_remove ( gsb_data_account_get_sort_list (no_compte), (gpointer) ref ) );
+	    gsb_data_account_set_sort_list ( no_compte,
+					g_slist_insert_before ( gsb_data_account_get_sort_list (no_compte), elt, (gpointer) ref ) );
 	    break;
 	}
     }  
@@ -1166,7 +1166,7 @@ void reconcile_by_date_toggled ( GtkCellRendererToggle *cell,
 
     /* Set to 1 (sort by types) if toggle is not selected */
 
-    gsb_account_set_reconcile_sort_type ( no_compte,
+    gsb_data_account_set_reconcile_sort_type ( no_compte,
 					  ! toggle );
 
     if (toggle)
@@ -1207,7 +1207,7 @@ void reconcile_include_neutral_toggled ( GtkCellRendererToggle *cell,
 
     toggle ^= 1;
 
-    gsb_account_set_split_neutral_payment ( no_compte,
+    gsb_data_account_set_split_neutral_payment ( no_compte,
 					    toggle );
 
     /* set new value */
@@ -1217,7 +1217,7 @@ void reconcile_include_neutral_toggled ( GtkCellRendererToggle *cell,
 
     if ( toggle )
     {
-	liste_tmp = gsb_account_get_sort_list (no_compte);
+	liste_tmp = gsb_data_account_get_sort_list (no_compte);
 
 	while ( liste_tmp )
 	{
@@ -1226,12 +1226,12 @@ void reconcile_include_neutral_toggled ( GtkCellRendererToggle *cell,
 	    if ( GPOINTER_TO_INT ( liste_tmp->data ) > 0 )
 	    {
 		type_ope = type_ope_par_no ( GPOINTER_TO_INT ( liste_tmp -> data ),
-					     gsb_account_get_current_account () );
+					     gsb_data_account_get_current_account () );
 
 		if ( type_ope && !type_ope->signe_type )
 		{
-		    gsb_account_set_sort_list ( no_compte,
-						g_slist_append ( gsb_account_get_sort_list (no_compte),
+		    gsb_data_account_set_sort_list ( no_compte,
+						g_slist_append ( gsb_data_account_get_sort_list (no_compte),
 								 GINT_TO_POINTER ( - GPOINTER_TO_INT ( liste_tmp->data ))));
 
 		    clear_tree = 1;
@@ -1244,15 +1244,15 @@ void reconcile_include_neutral_toggled ( GtkCellRendererToggle *cell,
     {
 	/* on efface tous les nombres négatifs de la liste */
 
-	liste_tmp = gsb_account_get_sort_list (no_compte);
+	liste_tmp = gsb_data_account_get_sort_list (no_compte);
 
 	while ( liste_tmp )
 	{
 	    if ( GPOINTER_TO_INT ( liste_tmp->data ) < 0 )
 	    {
-		gsb_account_set_sort_list ( no_compte,
-					    g_slist_remove ( gsb_account_get_sort_list (no_compte), liste_tmp -> data ) );
-		liste_tmp = gsb_account_get_sort_list (no_compte);
+		gsb_data_account_set_sort_list ( no_compte,
+					    g_slist_remove ( gsb_data_account_get_sort_list (no_compte), liste_tmp -> data ) );
+		liste_tmp = gsb_data_account_get_sort_list (no_compte);
 		clear_tree = 1;
 	    }
 	    else
@@ -1385,7 +1385,7 @@ GtkWidget * tab_display_reconciliation ( void )
     gtk_container_add ( GTK_CONTAINER ( vbox_fleches_tri ), button_move_down );
     gtk_widget_set_sensitive ( button_move_down, FALSE );
 
-    if ( !gsb_account_get_accounts_amount () )
+    if ( !gsb_data_account_get_accounts_amount () )
     {
 	gtk_widget_set_sensitive ( vbox_pref, FALSE );
     }

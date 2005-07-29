@@ -26,10 +26,10 @@
 
 /*START_INCLUDE*/
 #include "traitement_variables.h"
-#include "gsb_account.h"
-#include "gsb_payee_data.h"
+#include "gsb_data_account.h"
+#include "gsb_data_payee.h"
+#include "gsb_data_transaction.h"
 #include "utils_str.h"
-#include "gsb_transaction_data.h"
 #include "menu.h"
 #include "structures.h"
 #include "traitement_variables.h"
@@ -188,9 +188,9 @@ void init_variables ( void )
     if ( DEBUG )
 	printf ( "init_variables\n" );
 
-    gsb_account_init_variables ();
-    gsb_transaction_data_init_variables ();
-    gsb_payee_init_variables ();
+    gsb_data_account_init_variables ();
+    gsb_data_transaction_init_variables ();
+    gsb_data_payee_init_variables ();
 
     crypt_key = NULL;
 
@@ -476,22 +476,22 @@ void init_default_sort_column ( gint no_account )
     for ( i = 0 ; i<4 ; i++ )
 	for ( j = 0 ; j<TRANSACTION_LIST_COL_NB ; j++ )
 	{
-	    if ( !gsb_account_get_column_sort ( no_account,
+	    if ( !gsb_data_account_get_column_sort ( no_account,
 						j )
 		 &&
 		 tab_affichage_ope[i][j]
 		 &&
 		 tab_affichage_ope[i][j] != TRANSACTION_LIST_BALANCE )
-		gsb_account_set_column_sort ( no_account,
+		gsb_data_account_set_column_sort ( no_account,
 					      j,
 					      tab_affichage_ope[i][j] );
 	}
 
     /* the default sort is by date and ascending */
 
-    gsb_account_set_sort_type ( no_account,
+    gsb_data_account_set_sort_type ( no_account,
 				GTK_SORT_ASCENDING );
-    gsb_account_set_sort_column ( no_account,
+    gsb_data_account_set_sort_column ( no_account,
 				  TRANSACTION_COL_NB_DATE );
 }
 

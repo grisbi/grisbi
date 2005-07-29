@@ -27,7 +27,7 @@
 
 /*START_INCLUDE*/
 #include "utils_ib.h"
-#include "gsb_transaction_data.h"
+#include "gsb_data_transaction.h"
 #include "search_glist.h"
 #include "include.h"
 #include "structures.h"
@@ -311,35 +311,35 @@ void calcule_total_montant_budgetary_line ( void )
     without_budgetary_line -> type_imputation = 0;
     without_budgetary_line -> no_derniere_sous_imputation = 0;
 
-    list_tmp_transactions = gsb_transaction_data_get_transactions_list ();
+    list_tmp_transactions = gsb_data_transaction_get_transactions_list ();
 
     while ( list_tmp_transactions )
     {
 	gint transaction_number_tmp;
-	transaction_number_tmp = gsb_transaction_data_get_transaction_number (list_tmp_transactions -> data);
+	transaction_number_tmp = gsb_data_transaction_get_transaction_number (list_tmp_transactions -> data);
 
-	if ( gsb_transaction_data_get_budgetary_number ( transaction_number_tmp))
+	if ( gsb_data_transaction_get_budgetary_number ( transaction_number_tmp))
 	{
 	    struct struct_imputation * budgetary_line;
 	    struct struct_sous_imputation * sub_budgetary_line;
 
 	    /* il y a une catégorie */
-	    budgetary_line = imputation_par_no ( gsb_transaction_data_get_budgetary_number ( transaction_number_tmp));
+	    budgetary_line = imputation_par_no ( gsb_data_transaction_get_budgetary_number ( transaction_number_tmp));
 
 	    /* on ajoute maintenant le montant à la sous ib si elle existe */
-	    sub_budgetary_line = sous_imputation_par_no ( gsb_transaction_data_get_budgetary_number ( transaction_number_tmp), 
-							  gsb_transaction_data_get_sub_budgetary_number ( transaction_number_tmp));
+	    sub_budgetary_line = sous_imputation_par_no ( gsb_data_transaction_get_budgetary_number ( transaction_number_tmp), 
+							  gsb_data_transaction_get_sub_budgetary_number ( transaction_number_tmp));
 
-	    add_transaction_to_budgetary_line ( gsb_transaction_data_get_pointer_to_transaction (transaction_number_tmp),
+	    add_transaction_to_budgetary_line ( gsb_data_transaction_get_pointer_to_transaction (transaction_number_tmp),
 						budgetary_line, 
 						sub_budgetary_line );
 	}
 	else
-	    if ( !gsb_transaction_data_get_breakdown_of_transaction ( transaction_number_tmp)
+	    if ( !gsb_data_transaction_get_breakdown_of_transaction ( transaction_number_tmp)
 		 && 
-		 !gsb_transaction_data_get_transaction_number_transfer ( transaction_number_tmp))
+		 !gsb_data_transaction_get_transaction_number_transfer ( transaction_number_tmp))
 	    {
-		add_transaction_to_budgetary_line ( gsb_transaction_data_get_pointer_to_transaction (transaction_number_tmp),
+		add_transaction_to_budgetary_line ( gsb_data_transaction_get_pointer_to_transaction (transaction_number_tmp),
 						    without_budgetary_line, 
 						    NULL );
 	    }
@@ -358,7 +358,7 @@ void remove_transaction_from_budgetary_line ( gpointer  transaction,
 					      struct struct_sous_imputation * sub_budgetary_line )
 {
     gdouble amount = 
-	gsb_transaction_data_get_adjusted_amount ( gsb_transaction_data_get_transaction_number (transaction));
+	gsb_data_transaction_get_adjusted_amount ( gsb_data_transaction_get_transaction_number (transaction));
 
     if ( budgetary_line )
     {
@@ -408,7 +408,7 @@ void add_transaction_to_budgetary_line ( gpointer  transaction,
 					 struct struct_sous_imputation * sub_budgetary_line )
 {
     gdouble amount = 
-	gsb_transaction_data_get_adjusted_amount ( gsb_transaction_data_get_transaction_number (transaction));
+	gsb_data_transaction_get_adjusted_amount ( gsb_data_transaction_get_transaction_number (transaction));
 
     if ( budgetary_line )
     {

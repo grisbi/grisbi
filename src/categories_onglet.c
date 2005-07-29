@@ -28,9 +28,9 @@
 #include "utils_categories.h"
 #include "dialog.h"
 #include "utils_file_selection.h"
-#include "gsb_account.h"
+#include "gsb_data_account.h"
+#include "gsb_data_transaction.h"
 #include "gsb_file_others.h"
-#include "gsb_transaction_data.h"
 #include "gtk_combofix.h"
 #include "main.h"
 #include "utils_buttons.h"
@@ -583,17 +583,17 @@ void creation_liste_categ_combofix ( void )
     liste_categ_special = g_slist_append ( liste_categ_special,
 					   _("Transfer") );
 
-    list_tmp = gsb_account_get_list_accounts ();
+    list_tmp = gsb_data_account_get_list_accounts ();
 
     while ( list_tmp )
     {
 	gint i;
 
-	i = gsb_account_get_no_account ( list_tmp -> data );
-	if ( ! gsb_account_get_closed_account (i) )
+	i = gsb_data_account_get_no_account ( list_tmp -> data );
+	if ( ! gsb_data_account_get_closed_account (i) )
 	    liste_categ_special = g_slist_append ( liste_categ_special,
 						   g_strconcat ( "\t",
-								 gsb_account_get_name (i),
+								 gsb_data_account_get_name (i),
 								 NULL ));
 	list_tmp = list_tmp -> next;
     }
@@ -706,7 +706,7 @@ void importer_categ ( void )
     nom_categ = file_selection_get_filename ( GTK_FILE_SELECTION ( fenetre_nom ));
     gtk_widget_destroy ( GTK_WIDGET ( fenetre_nom ));
 
-    last_transaction_number = gsb_transaction_data_get_last_number();
+    last_transaction_number = gsb_data_transaction_get_last_number();
 
     /* on permet de remplacer/fusionner la liste */
 

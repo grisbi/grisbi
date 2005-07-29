@@ -27,7 +27,7 @@
 #include "meta_categories.h"
 #include "utils_categories.h"
 #include "utils_devises.h"
-#include "gsb_transaction_data.h"
+#include "gsb_data_transaction.h"
 #include "categories_onglet.h"
 #include "include.h"
 #include "structures.h"
@@ -362,12 +362,12 @@ gint category_transaction_div_id ( gpointer  transaction )
 {
     if ( transaction )
     {
-	if ( gsb_transaction_data_get_transaction_number_transfer ( gsb_transaction_data_get_transaction_number (transaction ))
+	if ( gsb_data_transaction_get_transaction_number_transfer ( gsb_data_transaction_get_transaction_number (transaction ))
 	     || 
-	     gsb_transaction_data_get_breakdown_of_transaction ( gsb_transaction_data_get_transaction_number (transaction )))
+	     gsb_data_transaction_get_breakdown_of_transaction ( gsb_data_transaction_get_transaction_number (transaction )))
 	    return -1;
 	else
-	    return gsb_transaction_data_get_category_number ( gsb_transaction_data_get_transaction_number (transaction ));
+	    return gsb_data_transaction_get_category_number ( gsb_data_transaction_get_transaction_number (transaction ));
     }
     return 0;
 }
@@ -381,7 +381,7 @@ gint category_transaction_div_id ( gpointer  transaction )
 gint category_transaction_sub_div_id ( gpointer  transaction )
 {
     if ( transaction )
-	return gsb_transaction_data_get_sub_category_number ( gsb_transaction_data_get_transaction_number (transaction ));
+	return gsb_data_transaction_get_sub_category_number ( gsb_data_transaction_get_transaction_number (transaction ));
     return 0;
 }
 
@@ -395,7 +395,7 @@ void category_transaction_set_div_id ( gpointer  transaction,
 				       int no_div )
 {
     if ( transaction )
-	gsb_transaction_data_set_category_number ( gsb_transaction_data_get_transaction_number (transaction ),
+	gsb_data_transaction_set_category_number ( gsb_data_transaction_get_transaction_number (transaction ),
 						   no_div );
 }
 
@@ -409,7 +409,7 @@ void category_transaction_set_sub_div_id ( gpointer  transaction,
 					   int no_sub_div )
 {
     if ( transaction )
-	gsb_transaction_data_set_sub_category_number ( gsb_transaction_data_get_transaction_number (transaction ),
+	gsb_data_transaction_set_sub_category_number ( gsb_data_transaction_get_transaction_number (transaction ),
 						       no_sub_div );
 }
 

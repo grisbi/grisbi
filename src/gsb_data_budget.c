@@ -1,7 +1,6 @@
 /* ************************************************************************** */
-/* work with the struct of categories                                         */
+/* work with the struct of budget                                             */
 /*                                                                            */
-/*                                  data_account                              */
 /*                                                                            */
 /*     Copyright (C)	2000-2005 Cédric Auger (cedric@grisbi.org)	      */
 /* 			http://www.grisbi.org				      */
@@ -23,23 +22,23 @@
 /* ************************************************************************** */
 
 /**
- * \file gsb_category_data.c
- * work with the category structure, no GUI here
+ * \file gsb_budget_data.c
+ * work with the budget structure, no GUI here
  */
 
 
 #include "include.h"
 
 /*START_INCLUDE*/
-#include "gsb_category_data.h"
-#include "utils_categories.h"
+#include "gsb_data_budget.h"
+#include "utils_ib.h"
 #include "structures.h"
 /*END_INCLUDE*/
 
 
 /**
  * \struct 
- * Describe a category
+ * Describe a budget
  */
 /* typedef struct */
 /* { */
@@ -55,13 +54,13 @@
 
 
 /**
- * merge the given category list with the current category list
+ * merge the given budget list with the current budget list
  *
  * \param list_to_merge
  *
  * \return TRUE if ok
  * */
-gboolean gsb_category_data_merge_category_list ( GSList *list_to_merge )
+gboolean gsb_data_budget_merge_budget_list ( GSList *list_to_merge )
 {
     GSList *list_tmp;
 
@@ -69,36 +68,36 @@ gboolean gsb_category_data_merge_category_list ( GSList *list_to_merge )
 
     while ( list_tmp )
     {
-	struct struct_categ *new_category;
-	struct struct_categ *last_category;
+	struct struct_imputation *new_budget;
+	struct struct_imputation *last_budget;
 	
-	new_category = list_tmp -> data;
+	new_budget = list_tmp -> data;
 
-	/* we try to find the new category in the currents categories
+	/* we try to find the new budget in the currents budgets
 	 * if don't, it creates it */
 
-	last_category = categ_par_nom ( new_category -> nom_categ,
-					TRUE,
-					new_category -> type_categ,
-					0 );
+	last_budget = imputation_par_nom ( new_budget -> nom_imputation,
+					   TRUE,
+					   new_budget -> type_imputation,
+					   0 );
 
-	/* here normally last category is real, we can append the sub-categories */
+	/* here normally last budget is real, we can append the sub-budget */
 
-	if ( last_category )
+	if ( last_budget )
 	{
 	    GSList *sub_list_tmp;
 
-	    sub_list_tmp = new_category -> liste_sous_categ;
+	    sub_list_tmp = new_budget -> liste_sous_imputation;
 
 	    while ( sub_list_tmp )
 	    {
-		struct struct_sous_categ * new_sub_category;
+		struct struct_sous_imputation *new_sub_budget;
 
-		new_sub_category = sub_list_tmp -> data;
+		new_sub_budget = sub_list_tmp -> data;
 
-		sous_categ_par_nom ( last_category,
-				     new_sub_category -> nom_sous_categ,
-				     TRUE );
+		sous_imputation_par_nom ( last_budget,
+					  new_sub_budget -> nom_sous_imputation,
+					  TRUE );
 
 		sub_list_tmp = sub_list_tmp -> next;
 	    }
