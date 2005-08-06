@@ -284,13 +284,26 @@ void change_temps ( GtkWidget *label_temps )
 	       "%A %d %B %Y",
 	       (const struct tm *) localtime ( &date ) );
 
+    /* do the if for macos x, a bug ?, from 1/08/2005 a pb with the accent
+     * kill grisbi
+     * to check later or why ? */
+
     /* Convert to UTF-8 */
     tampon = g_locale_to_utf8 ( tampon_date, -1, NULL, NULL, NULL);
 
-    /* Capitalize */
-    tampon[0] = toupper ( tampon[0] );
+      /* do the if for macos x, a bug ?, from 1/08/2005 a pb with the accent
+     * kill grisbi
+     * to check later or why ? */
 
-    gtk_label_set_text ( GTK_LABEL ( label_jour ), tampon );
+    if (tampon)
+    {
+	/* Capitalize */
+	tampon[0] = toupper ( tampon[0] );
+
+	gtk_label_set_text ( GTK_LABEL ( label_jour ), tampon );
+    }
+    else
+	gtk_label_set_text ( GTK_LABEL ( label_jour ), tampon_date );
 }
 /* ************************************************************************* */
 
