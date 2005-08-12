@@ -1,3 +1,4 @@
+# translation of de.po to deutsch
 # translation of de.po to
 # translation of de.po to
 # translation of de.po to Deutsch
@@ -41,13 +42,13 @@ msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-05-14 17:39+0200\n"
-"PO-Revision-Date: 2005-05-15 18:39+0200\n"
+"PO-Revision-Date: 2005-08-12 23:05+0200\n"
 "Last-Translator: Martin Stromberger <fabiolla@aon.at>\n"
-"Language-Team: Deutsch <de@li.org>\n"
+"Language-Team: deutsch <de@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.10\n"
+"X-Generator: KBabel 1.10.1\n"
 
 #: src/accueil.c:120
 msgid "No user"
@@ -1351,7 +1352,7 @@ msgid ""
 "Category names must be both unique and not empty.  Please use another name "
 "for this category."
 msgstr ""
-"Kategorien müssen eindeutig sein. Weiters ist die Eingabe einer leeren "
+"Kategorien müssen eindeutig sein, desweiteren ist die Eingabe einer leeren "
 "Bezeichnung nicht zulässig. Verwenden Sie bitte eine andere Bezeichnung."
 
 #: src/categories_onglet.c:2893
@@ -1372,7 +1373,7 @@ msgid ""
 "Sub-category names must be both unique and not empty.  Please use another "
 "name for this sub-category."
 msgstr ""
-"Unterkategorien müssen eindeutig sein. Weiters ist die Eingabe einer leeren "
+"Unterkategorien müssen eindeutig sein, desweiteren ist die Eingabe einer leeren "
 "Bezeichnung nicht zulässig. Verwenden Sie bitte eine andere Bezeichnung."
 
 #: src/categories_onglet.c:2972
@@ -5833,7 +5834,7 @@ msgid ""
 "file or a gnucash file, please contact the grisbi team to resolve this "
 "problem."
 msgstr ""
-"Grisbi kann die Datei nicht erkennen.Wenn es sich um eine .Qif, eine .Ofx "
+"Grisbi kann die Datei nicht erkennen. Wenn es sich um eine .Qif, eine .Ofx "
 "oder eine Gnucash Datei handelt kontaktieren Sie bitte das Grisbi Team um "
 "dieses Problem zu lösen."
 
@@ -5882,7 +5883,7 @@ msgid ""
 "but the ISO code is wrong.\n"
 "To avoid this message, please set its ISO code in configuration."
 msgstr ""
-"Die Währung des importierten Kontos %s ist %s.Wenn die Währung nicht "
+"Die Währung des importierten Kontos %s ist %s. Wenn die Währung nicht "
 "vorhanden ist müssen Sie die Währung im Dialogfenster eingeben.\n"
 "Wenn die Währung bereits vorhanden ist, aber der ISO Code falsch ist müssen "
 "Sie den ISO Code in der Konfiguration setzen."
@@ -6093,7 +6094,7 @@ msgid ""
 "Budgetary lines names must be both unique and not empty.  Please use another "
 "name for this budgetary line."
 msgstr ""
-"Budgeteinträge müssen eindeutig sein. Weiters ist die Eingabe einer leeren "
+"Budgeteinträge müssen eindeutig sein, desweiteren ist die Eingabe einer leeren "
 "Bezeichnung nicht zulässig.  Verwenden Sie bitte eine andere Bezeichnung."
 
 #: src/imputation_budgetaire.c:2320
@@ -6106,7 +6107,7 @@ msgid ""
 "Sub-budgetary lines names must be both unique and not empty.  Please use "
 "another name for this sub-budgetary line."
 msgstr ""
-"Teil-Budgeteinträge müssen eindeutig sein. Weiters ist die Eingabe einer "
+"Teil-Budgeteinträge müssen eindeutig sein, desweiteren ist die Eingabe einer "
 "leeren Bezeichnung nicht zulässig.  Verwenden Sie bitte eine andere "
 "Bezeichnung."
 
