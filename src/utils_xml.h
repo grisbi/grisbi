@@ -4,6 +4,7 @@
 #include "utils_xml.h"
 /* END_INCLUDE_H */
 
+#include <libxml/parser.h>
 
 /* START_DECLARATION */
 gchar * child_content ( xmlNodePtr node, gchar * child_name );

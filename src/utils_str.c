@@ -23,6 +23,8 @@
 /* ************************************************************************** */
 
 #include "include.h"
+#include <stdlib.h>
+#include <libxml/parser.h>
 
 
 /*START_INCLUDE*/
@@ -45,11 +47,6 @@ extern FILE * out;
 
 
 
-
-/* ************************************************************************************************** */
-/* utils_str_itoa : transforme un integer en chaine ascii */
-/* ************************************************************************************************** */
-
 /*!
  * @brief convert an integer into a gchar based string
  * 
@@ -63,7 +60,6 @@ extern FILE * out;
  * @todo: check usage of this function which a cause of memory leak
  * 
  */
-
 gchar *utils_str_itoa ( gint integer )
 {
     div_t result_div;
