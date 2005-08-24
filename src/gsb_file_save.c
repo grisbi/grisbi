@@ -984,10 +984,11 @@ gulong gsb_file_save_category_part ( gulong iterator,
 
 	/* now we can fill the file content */
 
-	new_string = g_markup_printf_escaped ( "\t<Category Nb=\"%d\" Na=\"%s\" Kd=\"%d\" />\n",
+	new_string = g_markup_printf_escaped ( "\t<Category Nb=\"%d\" Na=\"%s\" Kd=\"%d\" No_derniere_sous_cagegorie=\"%d\"/>\n",
 					       category -> no_categ,
 					       category -> nom_categ,
-					       category -> type_categ);
+					       category -> type_categ,
+					       category -> no_derniere_sous_categ );
 
 	/* append the new string to the file content
 	 * and take the new iterator */
