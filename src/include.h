@@ -23,9 +23,6 @@
 #include <errno.h>
 #include <math.h>
 
-#include <libxml/encoding.h>
-#include <libxml/tree.h>
-
 #define GTK_ENABLE_BROKEN 1
 #define G_BROKEN_FILENAMES 1
 #include <gtk/gtktext.h>
