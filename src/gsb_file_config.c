@@ -95,7 +95,7 @@ gboolean gsb_file_config_load_config ( void )
 {
     GKeyFile *config;
     gboolean result;
-    gchar *filename;
+    gchar *filename, * font_string;
     gint i;
     
     gsb_file_config_clean_config ();
@@ -163,12 +163,11 @@ gboolean gsb_file_config_load_config ( void )
 							 "General",
 							 "Use user font",
 							 NULL );
-
-    pango_desc_fonte_liste = pango_font_description_from_string (g_key_file_get_string ( config,
-											 "General",
-											 "Font name",
-											 NULL ));
-
+    
+    font_string = g_key_file_get_string ( config, "General", "Font name", NULL );
+    if ( font_string )
+	pango_desc_fonte_liste = pango_font_description_from_string ( font_string );
+    
     etat.fichier_animation_attente = g_key_file_get_string ( config,
 							     "General",
 							     "Waiting animation",
@@ -464,10 +463,11 @@ gboolean gsb_file_config_save_config ( void )
 			     "General",
 			     "Use user font",
 			     etat.utilise_fonte_listes );
-    g_key_file_set_string ( config,
-			    "General",
-			    "Font name",
-			    pango_font_description_to_string (pango_desc_fonte_liste));
+    if ( pango_desc_fonte_liste )
+	g_key_file_set_string ( config,
+				"General",
+				"Font name",
+				pango_font_description_to_string (pango_desc_fonte_liste));
     g_key_file_set_string ( config,
 			    "General",
 			    "Waiting animation",

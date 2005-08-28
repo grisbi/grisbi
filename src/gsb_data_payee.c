@@ -213,16 +213,19 @@ gint gsb_data_payee_new ( gchar *name )
 {
     struct_payee *payee;
 
-    payee = calloc ( 1,
-		     sizeof ( struct_payee ));
+    payee = calloc ( 1, sizeof ( struct_payee ));
     payee -> payee_number = gsb_data_payee_max_number () + 1;
+
     if (name)
 	payee -> payee_name = g_strdup (name);
+    else 
+	payee -> payee_name = g_strdup ("");
 
-    payee_list = g_slist_append ( payee_list,
-				  payee );
+    payee_list = g_slist_append ( payee_list, payee );
 
-    mise_a_jour_combofix_tiers ();
+    if (name)
+	mise_a_jour_combofix_tiers ();
+
     modification_fichier(TRUE);
 
     return payee -> payee_number;

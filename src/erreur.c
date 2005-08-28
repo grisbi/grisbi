@@ -49,12 +49,10 @@ static GtkWidget * print_backtrace ( void );
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern AB_BANKING *gbanking;
 extern gchar *nom_fichier_comptes;
 /*END_EXTERN*/
 
-
-#ifdef HAVE_G2BANKING
+#ifdef HAVE_AQBANKING
 extern AB_BANKING *gbanking;
 #endif
 

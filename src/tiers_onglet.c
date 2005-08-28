@@ -498,8 +498,8 @@ void mise_a_jour_combofix_tiers ( void )
     if ( DEBUG )
 	printf ( "mise_a_jour_combofix_tiers\n" );
 
-    if ( verifie_element_formulaire_existe ( TRANSACTION_FORM_PARTY )
-	 &&
+    if ( verifie_element_formulaire_existe ( TRANSACTION_FORM_PARTY ) &&
+	 widget_formulaire_par_element (TRANSACTION_FORM_PARTY) &&
 	 GTK_IS_COMBOFIX ( widget_formulaire_par_element (TRANSACTION_FORM_PARTY) ))
 	gtk_combofix_set_list ( GTK_COMBOFIX ( widget_formulaire_par_element (TRANSACTION_FORM_PARTY) ),
 				gsb_data_payee_get_name_and_report_list (),

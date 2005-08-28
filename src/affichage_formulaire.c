@@ -785,6 +785,8 @@ void remplissage_liste_organisation_formulaire ( GtkListStore *store,
     gint i, j;
     GtkTreeIter iter;
 
+    g_return_if_fail ( structure_formulaire );
+
     gtk_list_store_clear ( store );
 
     for ( i=0 ; i < structure_formulaire -> nb_lignes ; i++ )
