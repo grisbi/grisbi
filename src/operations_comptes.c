@@ -62,7 +62,6 @@ GtkWidget *label_last_statement;
 /*START_EXTERN*/
 extern gint compte_courant_onglet;
 extern GtkWidget *formulaire;
-extern GtkItemFactory *item_factory_menu_general;
 extern gchar *last_date;
 extern gint mise_a_jour_liste_comptes_accueil;
 extern gint nb_colonnes;
@@ -130,13 +129,9 @@ gboolean gsb_data_account_list_gui_change_current_account ( gint *no_account )
 
     /* sensitive the last account in the menu */
 
-    gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
-							   menu_name(_("Edit"),
-								     _("Move transaction to another account"),
-								     my_strdelimit ( gsb_data_account_get_name (current_account),
-										     "/",
-										     "\\/" ))),
-			       TRUE );
+    gsb_gui_sensitive_menu_item ( "EditMenu", "MoveToAnotherAccount", 
+				  gsb_data_account_get_name (current_account),
+				  TRUE );
 
     /* save the adjustment of the last account */
 
@@ -179,13 +174,9 @@ gboolean gsb_data_account_list_gui_change_current_account ( gint *no_account )
 
     mise_a_jour_labels_soldes ();
 
-    gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
-							   menu_name(_("Edit"),
-								     _("Move transaction to another account"),
-								     my_strdelimit ( gsb_data_account_get_name (new_account),
-										     "/",
-										     "\\/" ))),
-			       FALSE );
+    gsb_gui_sensitive_menu_item ( "EditMenu", "MoveToAnotherAccount", 
+				  gsb_data_account_get_name (new_account),
+				  FALSE );
 
     gsb_transactions_list_set_adjustment_value (new_account);
 

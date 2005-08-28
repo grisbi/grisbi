@@ -827,6 +827,7 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 	    suffix = g_strdup_printf ( "%4.2f %s", 
 				       gsb_data_account_get_current_balance ( compte_courant_onglet ),
 				       devise_code ( devise_par_no ( gsb_data_account_get_currency ( compte_courant_onglet ) ) ) );
+	    gsb_menu_update_view_menu ( account_nb );
 	    break;
 
 	case GSB_PAYEES_PAGE:

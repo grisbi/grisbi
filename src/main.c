@@ -243,11 +243,11 @@ int main (int argc, char *argv[])
 
 	/*   création des menus */
 	menu_general = init_menus ( window_vbox_principale );
-	gtk_box_pack_start ( GTK_BOX ( window_vbox_principale ),
-			     menu_general,
-			     FALSE,
-			     FALSE,
-			     0 );
+/* 	gtk_box_pack_start ( GTK_BOX ( window_vbox_principale ), */
+/* 			     menu_general, */
+/* 			     FALSE, */
+/* 			     FALSE, */
+/* 			     0 ); */
 
 	/* on grise les fonctions inutiles au départ */
 

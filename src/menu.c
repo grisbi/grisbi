@@ -68,12 +68,12 @@ static  void menu_add_widget (GtkUIManager * p_uiManager, GtkWidget * p_widget,
 
 
 /*START_EXTERN*/
-extern GtkItemFactory *item_factory_menu_general;
 extern GtkTreeModelFilter * navigation_model_filtered;
 extern gsize nb_derniers_fichiers_ouverts ;
 extern gchar **tab_noms_derniers_fichiers_ouverts ;
 extern GtkWidget *tree_view_liste_echeances;
 extern GtkWidget *window;
+extern GtkItemFactory *item_factory_menu_general;
 /*END_EXTERN*/
 
 
@@ -341,7 +341,6 @@ GtkToggleActionEntry toggle_entries[] = {
 				gtk_ui_manager_get_accel_group (ui_manager));
 
     barre_menu = gtk_ui_manager_get_widget ( ui_manager, "/menubar" );
-    gtk_widget_show_all ( barre_menu );
  
     return barre_menu;
 }
@@ -448,17 +447,74 @@ void affiche_aide_locale ( gpointer null,
 	    break;
     }
 }
-/* **************************************************************************************************** */
 
 
+
+/**
+ * Concatenate menu entry names to produce a valid menu path, like
+ * /Menubar/FileMenu/Save
+ *
+ * \param menu		Name of the root menu.
+ * \param submenu	Name of the sub-menu.
+ * \param subsubmenu	Name of the sub-sub-menu.
+ *
+ * \return A newly-created string representing the menu path.
+ */
 gchar * menu_name ( gchar * menu, gchar * submenu, gchar * subsubmenu )
 {
   if ( subsubmenu )
-    return g_strconcat ( "/", menu, "/", submenu, "/", subsubmenu, NULL );
+    return g_strconcat ( "/MenuBar/", menu, "/", submenu, "/", subsubmenu, NULL );
   else if ( submenu )
-    return g_strconcat ( "/", menu, "/", submenu, NULL );
+    return g_strconcat ( "/MenuBar/", menu, "/", submenu, NULL );
   else
-    return g_strconcat ( "/", menu, NULL );
+    return g_strconcat ( "/MenuBar/", menu, NULL );
+}
+
+
+
+/**
+ * Set sensitiveness of a menu item according to a string
+ * representation of its position in the menu.
+ * menu.
+ *
+ * \param root_menu_name	Name of the menu.
+ * \param submenu_name		Name of the sub menu.
+ * \param subsubmenu_name	Name of the sub sub menu.
+ *
+ * \return TRUE on success.
+ */
+gboolean gsb_gui_sensitive_menu_item_from_string ( gchar * item_name, gboolean state )
+{
+    GtkWidget * widget;
+
+    widget = gtk_ui_manager_get_widget ( ui_manager, item_name );
+    
+    if ( widget && GTK_IS_WIDGET(widget) )
+    {
+	gtk_widget_set_sensitive ( widget, state );
+	return TRUE;
+    }
+    return FALSE;
+}
+
+
+/**
+ * Set sensitiveness of a menu item according to its position in the
+ * menu.
+ *
+ * \param root_menu_name	Name of the menu.
+ * \param submenu_name		Name of the sub menu.
+ * \param subsubmenu_name	Name of the sub sub menu.
+ *
+ * \return TRUE on success.
+ */
+gboolean gsb_gui_sensitive_menu_item ( gchar * root_menu_name, gchar * submenu_name,
+				       gchar * subsubmenu_name, gboolean state )
+{
+    return gsb_gui_sensitive_menu_item_from_string ( menu_name ( root_menu_name,
+								 submenu_name,
+								 subsubmenu_name ), 
+						     state );
 }
 
 
@@ -604,10 +660,9 @@ gboolean gsb_menu_update_view_menu ( gint account_number )
 
     /* update the showing of reconciled transactions */
 
-    check_menu_item = gtk_item_factory_get_item ( item_factory_menu_general,
-						  menu_name(_("View"), _("Show reconciled transactions"), NULL) );
-    gtk_check_menu_item_set_active( GTK_CHECK_MENU_ITEM(check_menu_item),
-				    gsb_data_account_get_r (account_number));
+    gtk_toggle_action_set_active ( gtk_ui_manager_get_action ( ui_manager, 
+							       menu_name ( "ViewMenu", "ShowReconciled", NULL ) ), 
+				   gsb_data_account_get_r (account_number) );
 
     /* update the number of line showed */
 

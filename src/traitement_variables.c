@@ -151,24 +151,19 @@ extern GtkWidget *window;
 
 void modification_fichier ( gboolean modif )
 {
-
     if ( modif )
     {
 	if ( DEBUG )
 	    printf ( "fichier modifie\n" );
 	etat.modification_fichier = 1;
-	gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
-							       gsb_string_escape_underscores(menu_name(_("File"), _("Save"), NULL))),
-				   TRUE );
+	gsb_gui_sensitive_menu_item ( "FileMenu", "Save", NULL, TRUE );
     }
     else
     {
 	if ( DEBUG )
 	    printf ( "fichier non modifie\n" );
 	etat.modification_fichier = 0;
-	gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
-							       gsb_string_escape_underscores(menu_name(_("File"), _("Save"), NULL))),
-				   FALSE );
+	gsb_gui_sensitive_menu_item ( "FileMenu", "Save", NULL, FALSE );
     }
 
 }
@@ -373,49 +368,46 @@ void initialisation_couleurs_listes ( void )
 void menus_sensitifs ( gboolean sensitif )
 {
     gchar * items[] = {
-      menu_name(_("File"), _("Save"), NULL),
-      menu_name(_("File"), _("Save as"), NULL),
-      menu_name(_("File"), _("Export QIF file ..."), NULL),
-      menu_name(_("File"), _("Close"), NULL),
-      menu_name(_("Accounts"), _("Remove an account"), NULL),
-      menu_name(_("Edit"), _("New transaction"), NULL),
-      menu_name(_("Edit"), _("Remove transaction"), NULL),
-      menu_name(_("Edit"), _("Clone transaction"), NULL),
-      menu_name(_("Edit"), _("Edit transaction"), NULL),
-      menu_name(_("Edit"), _("Convert transaction to scheduled transaction"), NULL),
-      menu_name(_("Edit"), _("Move transaction to another account"), NULL),
-      menu_name(_("View"), _("Show transaction form"), NULL),
-      menu_name(_("View"), _("Show grid"), NULL),
-      menu_name(_("View"), _("Show reconciled transactions"), NULL),
-      menu_name(_("View"), _("Show closed accounts"), NULL),
-      menu_name(_("View"), _("Show one line per transaction"), NULL),
-      menu_name(_("View"), _("Show two lines per transaction"), NULL),
-      menu_name(_("View"), _("Show three lines per transaction"), NULL),
-      menu_name(_("View"), _("Show four lines per transaction"), NULL),
-      menu_name(_("Reports"), _("New report"), NULL),
-      menu_name(_("Reports"), _("Clone report"), NULL),
-      menu_name(_("Reports"), _("Print report"), NULL),
-      menu_name(_("Reports"), _("Import report"), NULL),
-      menu_name(_("Reports"), _("Export report"), NULL),
-      menu_name(_("Reports"), _("Remove report"), NULL),
-      menu_name(_("Reports"), _("Edit report"), NULL),
-      NULL,
+	menu_name ( "FileMenu",		"Save",			NULL ),
+	menu_name ( "FileMenu",		"SaveAs",		NULL ),
+	menu_name ( "FileMenu",		"ExportFile",		NULL ),
+	menu_name ( "FileMenu",		"Close",		NULL ),
+	menu_name ( "EditMenu",		"NewTransaction",	NULL ),
+	menu_name ( "EditMenu",		"RemoveTransaction",	NULL ),
+	menu_name ( "EditMenu",		"CloneTransaction",	NULL ),
+	menu_name ( "EditMenu",		"EditTransaction",	NULL ),
+	menu_name ( "EditMenu",		"ConvertToScheduled",	NULL ),
+	menu_name ( "EditMenu",		"MoveToAnotherAccount",	NULL ),
+	menu_name ( "EditMenu",		"Preferences",		NULL ),
+	menu_name ( "ViewMenu",		"ShowTransactionForm",	NULL ),
+	menu_name ( "ViewMenu",		"ShowGrid",		NULL ),
+	menu_name ( "ViewMenu",		"ShowReconciled",	NULL ),
+	menu_name ( "ViewMenu",		"ShowClosed",		NULL ),
+	menu_name ( "ViewMenu",		"ShowOneLine",		NULL ),
+	menu_name ( "ViewMenu",		"ShowTwoLines",		NULL ),
+	menu_name ( "ViewMenu",		"ShowThreeLines",	NULL ),
+	menu_name ( "ViewMenu",		"ShowFourLines",	NULL ),
+	menu_name ( "AccountMenu",	"RemoveAccount",	NULL ),
+	menu_name ( "ReportsMenu",	"NewReport",		NULL ),
+	menu_name ( "ReportsMenu",	"CloneReport",		NULL ),
+	menu_name ( "ReportsMenu",	"PrintReport",		NULL ),
+	menu_name ( "ReportsMenu",	"ImportReport",		NULL ),
+	menu_name ( "ReportsMenu",	"ExportReport",		NULL ),
+	menu_name ( "ReportsMenu",	"ExportReportHTML",	NULL ),
+	menu_name ( "ReportsMenu",	"RemoveReport",		NULL ),
+	menu_name ( "ReportsMenu",	"EditReport",		NULL ),
+	NULL,
     };
     gchar ** tmp = items;
-
+    
     if ( DEBUG )
 	printf ( "menus_sensitifs : %d\n", sensitif );
 
     while ( *tmp )
     {
 	GtkWidget * widget;
-	widget = gtk_item_factory_get_item ( item_factory_menu_general,
-					     gsb_string_escape_underscores(*tmp) );
 
-/* 	if ( widget && GTK_IS_WIDGET(widget) ) */
-	{
-	    gtk_widget_set_sensitive ( widget, sensitif );
-	}
+	gsb_gui_sensitive_menu_item_from_string ( *tmp, sensitif );
 	tmp++;
     }
 }
