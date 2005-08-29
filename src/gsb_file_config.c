@@ -1126,12 +1126,8 @@ void gsb_file_config_get_xml_text_element ( GMarkupParseContext *context,
 
 
 /**
- * set all the config variables to their default values
- *
- * \param
- *
- * \return
- * */
+ * Set all the config variables to their default values.
+ */
 void gsb_file_config_clean_config ( void )
 {
     largeur_window = 0;
@@ -1150,7 +1146,7 @@ void gsb_file_config_clean_config ( void )
     etat.show_closed_accounts = FALSE;
 
     pango_desc_fonte_liste = NULL;
-    etat.force_enregistrement = 0;     /* par défaut, on ne force pas l'enregistrement */
+    etat.force_enregistrement = 1;     /* par défaut, on force l'enregistrement */
     etat.classement_par_date = 1;  /* par défaut, on tri la liste des opés par les dates */
     etat.affiche_boutons_valider_annuler = 1;
     etat.classement_par_date = 1;
@@ -1165,7 +1161,7 @@ void gsb_file_config_clean_config ( void )
     etat.compress_file = 0;
     etat.compress_backup = 0;
 
-    etat.largeur_auto_colonnes = 1;
+    etat.largeur_auto_colonnes = 0;
     etat.retient_affichage_par_compte = 0;
     etat.fichier_animation_attente = g_strdup ( ANIM_PATH );
 
