@@ -216,7 +216,6 @@ extern gdouble solde_final;
 extern gdouble solde_initial;
 extern GtkStyle *style_entree_formulaire[2];
 extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][TRANSACTION_LIST_COL_NB];
-extern gint taille_largeur_colonnes[TRANSACTION_LIST_COL_NB];
 extern GtkWidget *tree_view;
 extern GtkWidget *window;
 /*END_EXTERN*/
@@ -3153,15 +3152,9 @@ gboolean changement_taille_liste_ope ( GtkWidget *tree_view,
 
 	j = gsb_data_account_get_no_account ( list_tmp -> data );
 
-	if ( etat.largeur_auto_colonnes )
-	    for ( i = 0 ; i < TRANSACTION_LIST_COL_NB ; i++ )
-		gtk_tree_view_column_set_fixed_width ( transactions_tree_view_columns[i],
-						       rapport_largeur_colonnes[i] * allocation_precedente / 100 );
-	else
-	    for ( i = 0 ; i < TRANSACTION_LIST_COL_NB ; i++ )
-		if ( taille_largeur_colonnes[i] )
-		    gtk_tree_view_column_set_fixed_width ( transactions_tree_view_columns[i],
-							   taille_largeur_colonnes[i]  );
+	for ( i = 0 ; i < TRANSACTION_LIST_COL_NB ; i++ )
+	    gtk_tree_view_column_set_fixed_width ( transactions_tree_view_columns[i],
+						   rapport_largeur_colonnes[i] * allocation_precedente / 100 );
 
 	list_tmp = list_tmp -> next;
     }
@@ -3323,6 +3316,7 @@ void new_transaction ()
     gsb_transactions_list_edit_current_transaction ();
 
     gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ), 1 );
+    gtk_expander_set_expanded ( GTK_EXPANDER ( frame_droite_bas ), TRUE );
 }
 
 
