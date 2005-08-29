@@ -37,6 +37,7 @@
 #include "utils_comptes.h"
 #include "structures.h"
 #include "include.h"
+#include "utils_dates.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -160,10 +161,8 @@ gboolean gsb_data_account_list_gui_change_current_account ( gint *no_account )
 
     if ( gsb_data_account_get_current_reconcile_date (new_account) )
 	gtk_label_set_text ( GTK_LABEL ( label_last_statement ),
-			     g_strdup_printf ( _("Last statement: %02d/%02d/%d"), 
-					       g_date_day ( gsb_data_account_get_current_reconcile_date (new_account)),
-					       g_date_month ( gsb_data_account_get_current_reconcile_date (new_account)),
-					       g_date_year ( gsb_data_account_get_current_reconcile_date (new_account))));
+			     g_strdup_printf ( _("Last statement: %s"), 
+					       gsb_format_gdate ( gsb_data_account_get_current_reconcile_date (new_account) ) ) );
 
     else
 	gtk_label_set_text ( GTK_LABEL ( label_last_statement ),

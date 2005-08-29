@@ -855,32 +855,20 @@ gint etat_affiche_affiche_total_periode ( gpointer operation, gint ligne, gint f
 	    if ( etat_courant -> afficher_nb_opes )
 	    {
 		if ( nb_ope_periode_etat <= 1 )
-		    text = g_strdup_printf ( _("Result from %d/%d/%d to %d/%d/%d (%d transaction):"),
-					     g_date_day ( date_debut_periode ),
-					     g_date_month ( date_debut_periode ),
-					     g_date_year ( date_debut_periode ),
-					     g_date_day ( date_tmp ),
-					     g_date_month ( date_tmp ),
-					     g_date_year ( date_tmp ),
+		    text = g_strdup_printf ( _("Result from %s to %s (%d transaction):"),
+					     gsb_format_gdate ( date_debut_periode ),
+					     gsb_format_gdate ( date_tmp ),
 					     nb_ope_periode_etat );
 		else
-		    text = g_strdup_printf ( _("Result from %d/%d/%d to %d/%d/%d (%d transactions):"),
-					     g_date_day ( date_debut_periode ),
-					     g_date_month ( date_debut_periode ),
-					     g_date_year ( date_debut_periode ),
-					     g_date_day ( date_tmp ),
-					     g_date_month ( date_tmp ),
-					     g_date_year ( date_tmp ),
+		    text = g_strdup_printf ( _("Result from %s to %s (%d transactions):"),
+					     gsb_format_gdate ( date_debut_periode ),
+					     gsb_format_gdate ( date_tmp ),
 					     nb_ope_periode_etat );
 	    }
 	    else
-		text = g_strdup_printf ( _("Result from %d/%d/%d to %d/%d/%d:"),
-					 g_date_day ( date_debut_periode ),
-					 g_date_month ( date_debut_periode ),
-					 g_date_year ( date_debut_periode ),
-					 g_date_day ( date_tmp ),
-					 g_date_month ( date_tmp ),
-					 g_date_year ( date_tmp ));
+		text = g_strdup_printf ( _("Result from %s to %s:"),
+					 gsb_format_gdate ( date_debut_periode ),
+					 gsb_format_gdate ( date_tmp ) );
 
 	    break;
 

@@ -565,7 +565,6 @@ void affiche_exercice_par_date ( GtkWidget *entree_date,
 				 GtkWidget *option_menu_exercice )
 {
     GDate *date_courante;
-    gint jour, mois, an;
     GSList *liste_tmp;
     gint trouve;
 
@@ -577,26 +576,15 @@ void affiche_exercice_par_date ( GtkWidget *entree_date,
     if ( !option_menu_exercice )
 	return;
 
-    sscanf ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree_date )),
-	     "%02d/%02d/%04d",
-	     &jour,
-	     &mois,
-	     &an );
-
-    if ( !g_date_valid_dmy ( jour,
-			     mois,
-			     an ))
+    date_courante = gsb_parse_date_string ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree_date ) ) );
+    if ( ! date_courante )
 	return;
-
-    date_courante = g_date_new_dmy ( jour,
-				     mois,
-				     an );
 
     /* on fait le tour des exercices pour trouver le premier qui inclut la date */
 
     liste_tmp = liste_struct_exercices;
     trouve = 0;
-    ;
+
     while ( liste_tmp )
     {
 	struct struct_exercice *exercice;

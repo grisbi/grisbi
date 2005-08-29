@@ -712,17 +712,11 @@ void personnalisation_etat (void)
 
     if ( etat_courant -> date_perso_debut )
 	gtk_entry_set_text ( GTK_ENTRY ( entree_date_init_etat ),
-			     g_strdup_printf ( "%02d/%02d/%04d",
-					       g_date_day ( etat_courant -> date_perso_debut ),
-					       g_date_month ( etat_courant -> date_perso_debut ),
-					       g_date_year ( etat_courant -> date_perso_debut )));
+			     gsb_format_gdate ( etat_courant -> date_perso_debut ) );
 
     if ( etat_courant -> date_perso_fin )
 	gtk_entry_set_text ( GTK_ENTRY ( entree_date_finale_etat ),
-			     g_strdup_printf ( "%02d/%02d/%04d",
-					       g_date_day ( etat_courant -> date_perso_fin ),
-					       g_date_month ( etat_courant -> date_perso_fin ),
-					       g_date_year ( etat_courant -> date_perso_fin )));
+			     gsb_format_gdate ( etat_courant -> date_perso_fin ) );
 
     /* on remplit les détails de la séparation des dates */
 
@@ -1351,34 +1345,14 @@ void recuperation_info_perso_etat ( void )
 	 &&
 	 format_date ( entree_date_init_etat ))
     {
-	gint jour, mois, annee;
-
-	sscanf ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree_date_init_etat ))),
-		 "%d/%d/%d",
-		 &jour,
-		 &mois,
-		 &annee );
-
-	etat_courant -> date_perso_debut = g_date_new_dmy ( jour,
-							    mois,
-							    annee );
+	etat_courant -> date_perso_debut = gsb_parse_date_string ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree_date_init_etat ) ) );
     }
 
     if ( strlen ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree_date_finale_etat ))))
 	 &&
 	 format_date ( entree_date_finale_etat ))
     {
-	gint jour, mois, annee;
-
-	sscanf ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree_date_finale_etat ))),
-		 "%d/%d/%d",
-		 &jour,
-		 &mois,
-		 &annee );
-
-	etat_courant -> date_perso_fin = g_date_new_dmy ( jour,
-							  mois,
-							  annee );
+	etat_courant -> date_perso_fin = gsb_parse_date_string ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree_date_finale_etat ) ) );
     }
 
     etat_courant -> separation_par_plage = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_separe_plages_etat ));

@@ -876,7 +876,7 @@ void echap_formulaire_echeancier ( void )
     gtk_widget_grab_focus ( tree_view_liste_echeances );
 
     if ( !etat.formulaire_echeancier_toujours_affiche )
-	gtk_widget_hide ( frame_formulaire_echeancier );
+	gtk_expander_set_expanded ( GTK_EXPANDER(frame_formulaire_echeancier), FALSE );
 }
 /******************************************************************************/
 
@@ -1437,20 +1437,13 @@ void gsb_scheduler_validate_form ( void )
 
 	char_ptr = g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY (widget_formulaire_echeancier[SCHEDULER_FORM_DATE] )));
 
-	tab_char = g_strsplit ( char_ptr,
-				"/",
-				3 );
-
-	scheduled_transaction -> jour = my_strtod ( tab_char[0],
-						    NULL );
-	scheduled_transaction -> mois = my_strtod ( tab_char[1],
-						    NULL );
-	scheduled_transaction -> annee = my_strtod (tab_char[2],
-						    NULL );
-
-	scheduled_transaction ->date = g_date_new_dmy ( scheduled_transaction ->jour,
-							scheduled_transaction ->mois,
-							scheduled_transaction ->annee);
+	scheduled_transaction -> date = gsb_parse_date_string ( char_ptr );
+	if ( scheduled_transaction -> date )
+	{
+	    scheduled_transaction -> jour = scheduled_transaction -> date -> day;
+	    scheduled_transaction -> mois = scheduled_transaction -> date -> month;
+	    scheduled_transaction -> annee = scheduled_transaction -> date -> year;
+	}
 
 	/* récupération du tiers, s'il n'existe pas, on le crée */
 
@@ -1644,24 +1637,16 @@ void gsb_scheduler_validate_form ( void )
 	     gtk_widget_get_style ( widget_formulaire_echeancier[SCHEDULER_FORM_FINAL_DATE] ) == style_entree_formulaire[ENCLAIR] )
 	{
 	    /* traitement de la date limite */
-
-	    tab_char = g_strsplit ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_echeancier[SCHEDULER_FORM_FINAL_DATE] ))),
-				    "/",
-				    3 );
-
-	    scheduled_transaction -> jour_limite = my_strtod ( tab_char[0],
-							       NULL );
-	    scheduled_transaction -> mois_limite = my_strtod ( tab_char[1],
-							       NULL );
-	    scheduled_transaction -> annee_limite = my_strtod (tab_char[2],
-							       NULL );
-
-	    scheduled_transaction->date_limite = g_date_new_dmy ( scheduled_transaction->jour_limite,
-								  scheduled_transaction->mois_limite,
-								  scheduled_transaction->annee_limite);
+	    
+	    scheduled_transaction -> date_limite = gsb_parse_date_string ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_echeancier[SCHEDULER_FORM_FINAL_DATE] ) ) ) );
+	    if ( scheduled_transaction -> date_limite )
+	    {
+		scheduled_transaction -> jour_limite = scheduled_transaction -> date_limite -> day;
+		scheduled_transaction -> mois_limite = scheduled_transaction -> date_limite -> month;
+		scheduled_transaction -> annee_limite = scheduled_transaction -> date_limite -> year;
+	    }
 	}
-
-
+	    
 	/* si c'est une nouvelle opé,  on l'ajoute à la liste */
 
 	if ( !gtk_object_get_data ( GTK_OBJECT ( formulaire_echeancier ),
@@ -1695,7 +1680,7 @@ void gsb_scheduler_validate_form ( void )
     formulaire_echeancier_a_zero ();
 
     if ( !etat.formulaire_echeancier_toujours_affiche )
-	gtk_widget_hide ( frame_formulaire_echeancier );
+	gtk_expander_set_expanded ( GTK_EXPANDER(frame_formulaire_echeancier), FALSE );
 
     mise_a_jour_liste_echeances_manuelles_accueil = 1;
     mise_a_jour_liste_echeances_auto_accueil = 1;
@@ -1866,22 +1851,12 @@ gboolean gsb_scheduler_check_form ( void )
 gint gsb_scheduler_create_transaction_from_scheduled_form ( void )
 {
     gint transaction_number;
-    gint day, month, year;
 
     transaction_number = gsb_data_transaction_new_transaction ( recupere_no_compte ( widget_formulaire_echeancier[SCHEDULER_FORM_ACCOUNT] ));
 
     /* take the date */
-
-    sscanf ( gtk_entry_get_text ( GTK_ENTRY (GTK_ENTRY (widget_formulaire_echeancier[SCHEDULER_FORM_DATE] ))),
-	     "%d/%d/%d",
-	     &day,
-	     &month,
-	     &year );
-
     gsb_data_transaction_set_date ( transaction_number,
-				    g_date_new_dmy ( day,
-						     month,
-						     year  ));
+				    gsb_parse_date_string ( gtk_entry_get_text ( GTK_ENTRY (GTK_ENTRY (widget_formulaire_echeancier[SCHEDULER_FORM_DATE] ) ) ) ) );
 
     /* take the party */
 

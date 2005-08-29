@@ -27,6 +27,7 @@
 #include "utils_exercices.h"
 #include "include.h"
 #include "structures.h"
+#include "utils_dates.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -226,18 +227,12 @@ gchar * etats_titre ()
 	    case 1:
 		/* plage perso */
 
-		if ( etat_courant -> date_perso_debut
-		     &&
-		     etat_courant -> date_perso_fin )
+		if ( etat_courant -> date_perso_debut && etat_courant -> date_perso_fin )
 		    titre = g_strconcat ( titre,
 					  ", ",
-					  g_strdup_printf ( _("Result from %d/%d/%d to %d/%d/%d"),
-							    g_date_day ( etat_courant -> date_perso_debut ),
-							    g_date_month ( etat_courant -> date_perso_debut ),
-							    g_date_year ( etat_courant -> date_perso_debut ),
-							    g_date_day ( etat_courant -> date_perso_fin ),
-							    g_date_month ( etat_courant -> date_perso_fin ),
-							    g_date_year ( etat_courant -> date_perso_fin )),
+					  g_strdup_printf ( _("Result from %s to %s"),
+							    gsb_format_gdate ( etat_courant -> date_perso_debut ),
+							    gsb_format_gdate ( etat_courant -> date_perso_fin ) ),
 					  NULL );
 		else
 		    titre = g_strconcat ( titre,
@@ -249,10 +244,9 @@ gchar * etats_titre ()
 		/* cumul à ce jour */
 
 		titre = g_strconcat ( titre,
-				      ", ", g_strdup_printf ( _("total at %d/%d/%d"),
-							      g_date_day ( date_jour ),
-							      g_date_month ( date_jour ),
-							      g_date_year ( date_jour )),
+				      ", ", 
+				      g_strdup_printf ( _("total at %s"),
+							gsb_format_gdate ( date_jour ) ),
 				      NULL );
 		break;
 
@@ -285,10 +279,9 @@ gchar * etats_titre ()
 		/* cumul mensuel */
 
 		titre = g_strconcat ( titre,
-				      ", ", g_strdup_printf ( _("month total at %d/%d/%d"),
-							      g_date_day ( date_jour ),
-							      g_date_month ( date_jour ),
-							      g_date_year ( date_jour )),
+				      ", ", 
+				      g_strdup_printf ( _("month total at %s"),
+							gsb_format_gdate ( date_jour ) ),
 				      NULL );
 		break;
 
@@ -296,10 +289,9 @@ gchar * etats_titre ()
 		/* cumul annuel */
 
 		titre = g_strconcat ( titre,
-				      ", ", g_strdup_printf ( _("year total at %d/%d/%d"),
-							      g_date_day ( date_jour ),
-							      g_date_month ( date_jour ),
-							      g_date_year ( date_jour )),
+				      ", ", 
+				      g_strdup_printf ( _("year total at %s"),
+							gsb_format_gdate ( date_jour ) ),
 				      NULL );
 		break;
 
@@ -341,13 +333,10 @@ gchar * etats_titre ()
 				       30 );
 
 		titre = g_strconcat ( titre,
-				      ", ", g_strdup_printf ( _("Result from %d/%d/%d to %d/%d/%d"),
-							      g_date_day ( date_tmp ),
-							      g_date_month ( date_tmp ),
-							      g_date_year (date_tmp  ),
-							      g_date_day ( date_jour ),
-							      g_date_month ( date_jour ),
-							      g_date_year ( date_jour )),
+				      ", ", 
+				      g_strdup_printf ( _("Result from %s to %s"),
+							gsb_format_gdate ( date_tmp ),
+							gsb_format_gdate ( date_jour ) ),
 				      NULL );
 		break;
 

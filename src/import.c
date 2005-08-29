@@ -626,10 +626,7 @@ void cree_ligne_recapitulatif ( struct struct_compte_importation *compte,
 
     if ( compte -> date_fin )
     {
-	label = gtk_label_new ( g_strdup_printf ( "%02d/%02d/%d",
-						  g_date_day ( compte -> date_fin ),
-						  g_date_month ( compte -> date_fin ),
-						  g_date_year ( compte -> date_fin )));
+	label = gtk_label_new ( gsb_format_gdate ( compte -> date_fin ) );
 	gtk_table_attach ( GTK_TABLE ( table_recapitulatif ),
 			   label,
 			   0, 1,
@@ -1636,10 +1633,8 @@ void confirmation_enregistrement_ope_import ( struct struct_compte_importation *
 				 0 );
 	    gtk_widget_show ( ope_import -> bouton );
 
-	    label = gtk_label_new ( g_strdup_printf ( _("Transactions to import : %02d/%02d/%04d ; %s ; %4.2f"),
-						      g_date_day ( ope_import -> date ),
-						      g_date_month ( ope_import -> date ),
-						      g_date_year ( ope_import -> date ),
+	    label = gtk_label_new ( g_strdup_printf ( _("Transactions to import : %s ; %s ; %4.2f"),
+						      gsb_format_gdate ( ope_import -> date ),
 						      ope_import -> tiers,
 						      ope_import -> montant ));
 	    gtk_box_pack_start ( GTK_BOX ( hbox ),
@@ -1671,18 +1666,14 @@ void confirmation_enregistrement_ope_import ( struct struct_compte_importation *
 	    tiers = gsb_data_payee_get_name ( gsb_data_transaction_get_party_number ( gsb_data_transaction_get_transaction_number (operation )), FALSE );
 
 	    if ( gsb_data_transaction_get_notes ( gsb_data_transaction_get_transaction_number (operation)))
-		label = gtk_label_new ( g_strdup_printf ( _("Transaction found : %02d/%02d/%04d ; %s ; %4.2f ; %s"),
-							  g_date_day ( gsb_data_transaction_get_date (gsb_data_transaction_get_transaction_number (operation))),
-							  g_date_month ( gsb_data_transaction_get_date (gsb_data_transaction_get_transaction_number (operation))),
-							  g_date_year ( gsb_data_transaction_get_date (gsb_data_transaction_get_transaction_number (operation))),
+		label = gtk_label_new ( g_strdup_printf ( _("Transaction found : %s ; %s ; %4.2f ; %s"),
+							  gsb_format_gdate ( gsb_data_transaction_get_date (gsb_data_transaction_get_transaction_number (operation) ) ),
 							  tiers,
 							  gsb_data_transaction_get_amount ( gsb_data_transaction_get_transaction_number (operation )),
 							  gsb_data_transaction_get_notes ( gsb_data_transaction_get_transaction_number (operation ))));
 	    else
-		label = gtk_label_new ( g_strdup_printf ( _("Transaction found : %02d/%02d/%04d ; %s ; %4.2f"),
-							  g_date_day ( gsb_data_transaction_get_date (gsb_data_transaction_get_transaction_number (operation))),
-							  g_date_month ( gsb_data_transaction_get_date (gsb_data_transaction_get_transaction_number (operation))),
-							  g_date_year ( gsb_data_transaction_get_date (gsb_data_transaction_get_transaction_number (operation))),
+		label = gtk_label_new ( g_strdup_printf ( _("Transaction found : %s ; %s ; %4.2f"),
+							  gsb_format_gdate ( gsb_data_transaction_get_date (gsb_data_transaction_get_transaction_number (operation))),
 							  tiers,
 							  gsb_data_transaction_get_amount ( gsb_data_transaction_get_transaction_number (operation ))));
 
@@ -2326,10 +2317,7 @@ void pointe_opes_importees ( struct struct_compte_importation *imported_account 
 	    gtk_list_store_set ( store,
 				 &iter,
 				 0, FALSE,
-				 1, g_strdup_printf ( "%02d/%02d/%04d",
-						      g_date_get_day ( ope_import -> date ),
-						      g_date_get_month ( ope_import -> date ),
-						      g_date_get_year ( ope_import -> date )),
+				 1, gsb_format_gdate ( ope_import -> date ),
 				 2, ope_import -> tiers,
 				 3, ope_import -> montant,
 				 -1 );

@@ -110,6 +110,7 @@ extern FILE * out;
 extern GtkWidget * reconcile_panel;
 extern GtkWidget *treeview;
 extern GtkWidget *vbox_fleches_tri;
+extern GtkWidget *navigation_tree_view;
 /*END_EXTERN*/
 
 
@@ -380,10 +381,7 @@ void equilibrage ( void )
 				g_date_year ( gsb_data_account_get_current_reconcile_date (gsb_data_account_get_current_account ()) ));
 
 	gtk_label_set_text ( GTK_LABEL ( label_ancienne_date_equilibrage ),
-			     g_strdup_printf ( "%02d/%02d/%d",
-					       g_date_day ( date ),
-					       g_date_month ( date ),
-					       g_date_year ( date ) ));
+			     gsb_format_gdate ( date ) );
 	g_date_add_months ( date, 1 );
 
 	if ( g_date_compare ( date, gdate_today()) > 0 )
@@ -408,10 +406,7 @@ void equilibrage ( void )
     }
 
     gtk_entry_set_text ( GTK_ENTRY ( entree_nouvelle_date_equilibrage ),
-			 g_strdup_printf ( "%02d/%02d/%d",
-					   g_date_day ( date ),
-					   g_date_month ( date ),
-					   g_date_year ( date ) ));
+			 gsb_format_gdate ( date ) );
     gtk_entry_set_text ( GTK_ENTRY ( entree_nouveau_montant_equilibrage ), "" );
     gtk_label_set_markup ( GTK_LABEL ( label_equilibrage_compte ),
 			   g_strdup_printf ( " <b>%s reconciliation</b> ",
@@ -446,6 +441,7 @@ void equilibrage ( void )
     mise_a_jour_affichage_lignes ( 1 );
 
     gtk_widget_show_all ( reconcile_panel );
+    gtk_widget_set_sensitive ( navigation_tree_view, FALSE );
 }
 /******************************************************************************/
 
@@ -552,6 +548,7 @@ gboolean annuler_equilibrage ( void )
 
     /* Don't display uneeded widget for now. */
     gtk_widget_hide_all ( reconcile_panel );
+    gtk_widget_set_sensitive ( navigation_tree_view, TRUE );
 
     return FALSE;
 }
@@ -560,7 +557,7 @@ gboolean annuler_equilibrage ( void )
 
 /** called when button press in the P column while a reconcile
  * it will mark/unmark the transaction
- * \param transaction
+ * \param transactiona
  * \return FALSE
  * */
 gboolean gsb_reconcile_mark_transaction ( gpointer transaction )
@@ -674,7 +671,6 @@ gboolean gsb_reconcile_mark_transaction ( gpointer transaction )
  */
 gboolean fin_equilibrage ( GtkWidget *bouton_ok, gpointer data )
 {
-    gint nb_parametres, date_releve_jour, date_releve_mois, date_releve_annee;
     GSList *list_tmp_transactions;
     GDate *date;
     gchar *text;
@@ -690,45 +686,19 @@ gboolean fin_equilibrage ( GtkWidget *bouton_ok, gpointer data )
     /* récupération de la date */
 
     text = (char *) gtk_entry_get_text ( GTK_ENTRY ( entree_nouvelle_date_equilibrage ) );
-
-    if ( ( nb_parametres = sscanf ( text, "%d/%d/%d", &date_releve_jour,
-				    &date_releve_mois, &date_releve_annee)) != 3 )
+    date = gsb_parse_date_string ( text );
+    if ( !g_date_valid ( date ) )
     {
-	if ( !nb_parametres || nb_parametres == -1 )
-	{
-	    dialogue_error_hint ( _("Grisbi can't parse date.  It should be of the form 'dd/mm/yyyy'."),
-				  g_strdup_printf ( _("Invalid date '%s'"), text ) );
-	    return FALSE;
-	}
-
-	date = g_date_new ();
-	g_date_set_time ( date, time(NULL));
-
-	if ( nb_parametres == 1 )
-	{
-	    date_releve_mois = g_date_month( date );
-	}
-
-	date_releve_annee = g_date_year( date );
-
-    }
-
-    if ( !g_date_valid_dmy ( date_releve_jour, date_releve_mois, date_releve_annee))
-    {
-	dialogue_error_hint ( _("Date format looks valid but date is valid according to calendar."),
-			      g_strdup_printf ( _("Invalid date '%s'"), text ) );
+	dialogue_error ( g_strdup_printf ( _("Invalid date: '%s'"), text ) );
 	return FALSE;
     }
+
     gsb_data_account_set_current_reconcile_date ( gsb_data_account_get_current_account (),
-					     g_date_new_dmy ( date_releve_jour,
-							      date_releve_mois,
-							      date_releve_annee ));
+						  date );
 
     gtk_label_set_text ( GTK_LABEL ( label_last_statement ),
-			 g_strdup_printf ( _("Last statement: %02d/%02d/%d"), 
-					   date_releve_jour,
-					   date_releve_mois,
-					   date_releve_annee ));
+			 g_strdup_printf ( _("Last statement: %s"), 
+					   gsb_format_gdate ( date ) ) );
 
 
     /*   récupération du no de rapprochement, */
@@ -851,7 +821,6 @@ gboolean clavier_equilibrage ( GtkWidget *widget,
 	    else
 		inc_dec_date ( widget, ONE_WEEK );
 	    return TRUE;
-	    break;
 
 	case GDK_minus:		/* touches - */
 	case GDK_KP_Subtract:
@@ -863,7 +832,6 @@ gboolean clavier_equilibrage ( GtkWidget *widget,
 	    else
 		inc_dec_date ( widget, - ONE_WEEK );
 	    return TRUE;
-	    break;
 
 	case GDK_Page_Up :		/* touche PgUp */
 	case GDK_KP_Page_Up :
@@ -875,7 +843,6 @@ gboolean clavier_equilibrage ( GtkWidget *widget,
 	    else
 		inc_dec_date ( widget, ONE_YEAR );
 	    return TRUE;
-	    break;
 
 	case GDK_Page_Down :		/* touche PgDown */
 	case GDK_KP_Page_Down :
@@ -888,12 +855,9 @@ gboolean clavier_equilibrage ( GtkWidget *widget,
 		inc_dec_date ( widget, - ONE_YEAR );
 	    return TRUE;
 
-	    break;
-
 	default:
 	    /* Reverting to default handler */
 	    return FALSE;
-	    break;
     }
     return TRUE;
 }
