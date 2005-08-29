@@ -78,6 +78,7 @@ GtkWidget *creation_onglet_echeancier ( void )
 							 "<b>",
 							 _("Scheduled transaction _form"),
 							 "</b>", NULL ) );
+    gtk_widget_show ( frame_formulaire_echeancier );
     gtk_expander_set_expanded ( GTK_EXPANDER ( frame_formulaire_echeancier ), 
 				etat.formulaire_toujours_affiche );
     gtk_expander_set_use_markup ( GTK_EXPANDER ( frame_formulaire_echeancier ), TRUE );
@@ -91,9 +92,6 @@ GtkWidget *creation_onglet_echeancier ( void )
     gtk_container_add ( GTK_CONTAINER ( frame_formulaire_echeancier ),
 			notebook_formulaire_echeances );
     gtk_widget_show ( notebook_formulaire_echeances );
-
-    if ( etat.formulaire_echeancier_toujours_affiche )
-	gtk_widget_show (frame_formulaire_echeancier);
 
     /* création du formulaire */
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_formulaire_echeances ),
