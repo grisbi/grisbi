@@ -79,7 +79,7 @@ extern GtkItemFactory *item_factory_menu_general;
 
 gboolean block_menu_cb = FALSE;
 GtkUIManager * ui_manager;
-gint recent_files_merge_id;
+gint recent_files_merge_id = -1, move_to_account_merge_id = -1;
 
 
     gchar * buffer = 
@@ -91,7 +91,7 @@ gint recent_files_merge_id;
 "      <menuitem action='Save'/>"
 "      <menuitem action='SaveAs'/>"
 "      <separator/>"
-"      <menu action=\"RecentFiles\">"
+"      <menu action='RecentFiles'>"
 "      </menu>"
 "      <separator/>"
 "      <menuitem action='ImportFile'/>"
@@ -107,7 +107,8 @@ gint recent_files_merge_id;
 "	<menuitem action='EditTransaction'/>"
 "	<separator/>"
 "	<menuitem action='ConvertToScheduled'/>"
-"	<menuitem action='MoveToAnotherAccount'/>"
+"	<menu action='MoveToAnotherAccount'>"
+"       </menu>"
 "	<separator/>"
 "	<menuitem action='Preferences'/>"
 "    </menu>"
@@ -669,22 +670,22 @@ gboolean gsb_menu_update_view_menu ( gint account_number )
     switch ( gsb_data_account_get_nb_rows (account_number))
     {
 	case 1 :
-	    item_name = menu_name ( _("View"), _("Show one line per transaction"), NULL );
+	    item_name = menu_name ( "ViewMenu", "ShowOneLine", NULL );
 	    break;
 	case 2 :
-	    item_name = menu_name ( _("View"), _("Show two lines per transaction"), NULL );
+	    item_name = menu_name ( "ViewMenu", "ShowTwoLines", NULL );
 	    break;
 	case 3 :
-	    item_name = menu_name ( _("View"), _("Show three lines per transaction"), NULL );
+	    item_name = menu_name ( "ViewMenu", "ShowThreeLines", NULL );
 	    break;
 	case 4 :
-	    item_name = menu_name ( _("View"), _("Show four lines per transaction"), NULL );
+	    item_name = menu_name ( "ViewMenu", "ShowFourLines", NULL );
 	    break;
     }
 
-    check_menu_item = gtk_item_factory_get_item ( item_factory_menu_general, item_name );
-    gtk_check_menu_item_set_active( GTK_CHECK_MENU_ITEM(check_menu_item),
-				    TRUE );
+    gtk_toggle_action_set_active ( gtk_ui_manager_get_action ( ui_manager, item_name ),
+				   TRUE );
+
     block_menu_cb = FALSE;
 
     return FALSE;
@@ -701,84 +702,53 @@ gboolean gsb_menu_update_view_menu ( gint account_number )
 gboolean gsb_menu_update_accounts_in_menus ( void )
 {
     GSList *list_tmp;
+    GtkActionGroup * action_group;
 
     if ( DEBUG )
 	printf ( "gsb_menu_update_accounts_in_menus\n" );
 
-    /* erase the closed accounts and accounts in the menu to move a transaction */
-    /* FIXME : je pense un bug ici, il va effacer que les comptes dont il connait le nom, peut 
-     * être faudrait passer par les menus directement ?? à vérifier (cédric)*/
+    if ( move_to_account_merge_id != -1 ) 
+	gtk_ui_manager_remove_ui ( ui_manager, move_to_account_merge_id );
 
-    list_tmp = gsb_data_account_get_list_accounts ();
-
-    while ( list_tmp )
-    {
-	gint i;
-	gchar *tmp;
-
-	i = gsb_data_account_get_no_account ( list_tmp -> data );
-
-	tmp = my_strdelimit ( gsb_data_account_get_name (i),
-			      "/",
-			      "\\/" );
-
-	if ( !gsb_data_account_get_closed_account ( i ))
-	    gtk_item_factory_delete_item ( item_factory_menu_general,
-					   menu_name(_("Edit"), _("Move transaction to another account"), tmp ));
-	
-	list_tmp = list_tmp -> next;
-    }
-
-    gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
-							   menu_name(_("Edit"), _("Move transaction to another account"), NULL)),
-			       FALSE );
-
+    move_to_account_merge_id = gtk_ui_manager_new_merge_id ( ui_manager );
+    action_group = gtk_action_group_new ( "Group3" );
 
     /* create the closed accounts and accounts in the menu to move a transaction */
-
     list_tmp = gsb_data_account_get_list_accounts ();
 
     while ( list_tmp )
     {
 	gint i;
 	GtkItemFactoryEntry *item_factory_entry;
-	gchar *tmp;
 
 	i = gsb_data_account_get_no_account ( list_tmp -> data );
 
-	/* 	we put all the accounts in the edition menu */
-	item_factory_entry = calloc ( 1, sizeof ( GtkItemFactoryEntry ));
-
-	tmp = my_strdelimit ( gsb_data_account_get_name (i), "/", "\\/" );
-
-	item_factory_entry -> path = menu_name(_("Edit"), 
-					       _("Move transaction to another account"), 
-					       my_strdelimit ( tmp, "_", "__" ) ); 
-
-	item_factory_entry -> callback = G_CALLBACK ( move_selected_operation_to_account_nb );
-
-	/* add 1, else for 0 it wouldn't work */
-	item_factory_entry -> callback_action = i + 1;
-
-	gtk_item_factory_create_item ( item_factory_menu_general,
-				       item_factory_entry,
-				       GINT_TO_POINTER (i),
-				       1 );
-
-	gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
-							       menu_name(_("Edit"), _("Move transaction to another account"), NULL)),
-				   TRUE );
-
-	if ( i == gsb_data_account_get_current_account () )
+	if ( !gsb_data_account_get_closed_account ( i ))
 	{
-	    /* un-sensitive the name of account in the menu */
-	    gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
-								   menu_name(_("Edit"), _("Move transaction to another account"), tmp)),
-				       FALSE );
+	    gchar * tmp_name = g_strdup_printf ( "MoveToAccount%d", i );
+	    GtkAction * action = gtk_action_new ( tmp_name, 
+						  gsb_data_account_get_name(i),
+						  "", "" );
+	    if ( gsb_data_account_get_current_account () == i )
+		gtk_action_set_sensitive ( action, FALSE );
+
+	    gtk_action_group_add_action ( action_group, action );
+
+	    g_signal_connect ( action, "activate", 
+			       G_CALLBACK(move_selected_operation_to_account_nb), 
+			       GINT_TO_POINTER(i) );
+	    gtk_ui_manager_add_ui ( ui_manager, recent_files_merge_id, 
+				    "/MenuBar/EditMenu/MoveToAnotherAccount/",
+				    tmp_name, tmp_name,
+				    GTK_UI_MANAGER_MENUITEM, FALSE );
 	}
 
 	list_tmp = list_tmp -> next;
     }
+
+    gtk_ui_manager_insert_action_group ( ui_manager, action_group, 2 );
+    gtk_ui_manager_ensure_update ( ui_manager );
+
     return FALSE;
 }
 
