@@ -445,6 +445,7 @@ gulong gsb_file_save_general_part ( gulong iterator,
 					   "\t\tFile_version=\"%s\"\n"
 					   "\t\tGrisbi_version=\"%s\"\n"
 					   "\t\tBackup_file=\"%s\"\n"
+					   "\t\tCrypt_file=\"%d\"\n"
 					   "\t\tFile_title=\"%s\"\n"
 					   "\t\tGeneral_address=\"%s\"\n"
 					   "\t\tSecond_general_address=\"%s\"\n"
@@ -468,6 +469,7 @@ gulong gsb_file_save_general_part ( gulong iterator,
 	VERSION_FICHIER,
 	VERSION,
 	nom_fichier_backup,
+	etat.crypt_file,
 	titre_fichier,
 	adresse_commune,
 	adresse_secondaire,
