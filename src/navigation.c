@@ -800,16 +800,16 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 					  GtkTreeModel * model )
 {
     GtkTreeIter iter;
-    GValue value = {0, }, pointer = {0, };
     gchar * title, * suffix = "";
-    gint account_nb;
+    gint account_nb, page;
+    gpointer pointer;
 
     if (! gtk_tree_selection_get_selected (selection, NULL, &iter))
 	return FALSE;
 
-    gtk_tree_model_get_value (model, &iter, NAVIGATION_PAGE, &value);
+    gtk_tree_model_get (model, &iter, NAVIGATION_PAGE, &page, -1);
 
-    switch ( g_value_get_int(&value) )
+    switch ( page )
     {
 	case GSB_HOME_PAGE:
 	    title = g_strconcat ( "Grisbi : " , titre_fichier, NULL );
@@ -847,10 +847,10 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 	    break;
 
 	case GSB_REPORTS_PAGE:
-	    gtk_tree_model_get_value (model, &iter, NAVIGATION_REPORT, &pointer);
-	    if ( g_value_get_pointer(&pointer) )
+	    gtk_tree_model_get (model, &iter, NAVIGATION_REPORT, &pointer, -1);
+	    if ( pointer )
 	    {
-		struct struct_etat * etat =  g_value_get_pointer ( &pointer );
+		struct struct_etat * etat = pointer;
 		title = g_strconcat ( _("Report"), " : ", etat -> nom_etat, NULL );
 	    }
 	    else
@@ -866,6 +866,8 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 
     gsb_gui_headings_update ( title, suffix );
     gsb_gui_navigation_update_notebook ( selection, model );
+    if ( page == GSB_ACCOUNT_PAGE )
+	gsb_menu_update_accounts_in_menus ();
 
     return TRUE;
 }
