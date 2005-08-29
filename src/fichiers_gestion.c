@@ -205,14 +205,10 @@ void ouvrir_fichier ( void )
 {
     GtkWidget *selection_fichier;
 
-    selection_fichier = file_selection_new ( _("Open an accounts file"),FILE_SELECTION_MUST_EXIST);
+    selection_fichier = file_selection_new ( _("Open an accounts file"),
+					     FILE_SELECTION_MUST_EXIST);
     gtk_window_set_position ( GTK_WINDOW ( selection_fichier ),
 			      GTK_WIN_POS_MOUSE);
-
-    file_selection_set_filename ( GTK_FILE_SELECTION ( selection_fichier ),
-				      dernier_chemin_de_travail );
-
-    gtk_file_selection_complete ( GTK_FILE_SELECTION(selection_fichier), ".gsb" );
 
     gtk_signal_connect_object ( GTK_OBJECT ( GTK_FILE_SELECTION ( selection_fichier ) -> cancel_button ),
 				"clicked",
@@ -224,6 +220,9 @@ void ouvrir_fichier ( void )
 				GTK_OBJECT (selection_fichier) );
 
     gtk_widget_show ( selection_fichier );
+
+    file_selection_set_filename ( GTK_FILE_SELECTION ( selection_fichier ), "*.gsb" );
+    gtk_file_selection_complete ( selection_fichier, "*.gsb" );
 }
 /* ************************************************************************************************************ */
 
