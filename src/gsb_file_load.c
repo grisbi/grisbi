@@ -575,142 +575,115 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
 	/* 	   go to the next */
 
 	if ( !strcmp (attribute_values[i],
-	     "(null)"))
+		      "(null)"))
 	{
-	    i++;
-	    continue;
+	    /* Nothing */
 	}
 
-	if ( !strcmp ( attribute_names[i],
-		       "File_version" ))
+	else if ( !strcmp ( attribute_names[i],
+			    "File_version" ))
 	{
 	    download_tmp_values.file_version = g_strdup (attribute_values[i]);
-	    i++;
-	    continue;
 	}
 
-	if ( !strcmp ( attribute_names[i],
-		       "Grisbi_version" ))
+	else if ( !strcmp ( attribute_names[i],
+			    "Grisbi_version" ))
 	{
 	    download_tmp_values.grisbi_version = g_strdup (attribute_values[i]);
-	    i++;
-	    continue;
 	}
 
-	if ( !strcmp ( attribute_names[i],
-		       "Backup_file" ))
+	else if ( !strcmp ( attribute_names[i],
+			    "Backup_file" ))
 	{
 	    nom_fichier_backup = g_strdup (attribute_values[i]);
-	    i++;
-	    continue;
 	}
 
-	if ( !strcmp ( attribute_names[i],
-		       "File_title" ))
+	else if ( !strcmp ( attribute_names[i],
+			    "Crypt_file" ))
+	{
+	    etat.crypt_file = utils_str_atoi (attribute_values[i]);
+	}
+
+	else if ( !strcmp ( attribute_names[i],
+			    "File_title" ))
 	{
 	    titre_fichier = g_strdup (attribute_values[i]);
-	    i++;
-	    continue;
 	}
 
-	if ( !strcmp ( attribute_names[i],
-		       "General_address" ))
+	else if ( !strcmp ( attribute_names[i],
+			    "General_address" ))
 	{
 	    adresse_commune = g_strdup (attribute_values[i]);
-	    i++;
-	    continue;
 	}
 
-	if ( !strcmp ( attribute_names[i],
-		       "Second_general_address" ))
+	else if ( !strcmp ( attribute_names[i],
+			    "Second_general_address" ))
 	{
 	    adresse_secondaire = g_strdup (attribute_values[i]);
-	    i++;
-	    continue;
 	}
 
-	if ( !strcmp ( attribute_names[i],
-		       "Party_list_currency_number" ))
+	else if ( !strcmp ( attribute_names[i],
+			    "Party_list_currency_number" ))
 	{
 	    no_devise_totaux_tiers = utils_str_atoi ( attribute_values[i]);
-	    i++;
-	    continue;
 	}
 
-	if ( !strcmp ( attribute_names[i],
-		       "Category_list_currency_number" ))
+	else if ( !strcmp ( attribute_names[i],
+			    "Category_list_currency_number" ))
 	{
 	    no_devise_totaux_categ = utils_str_atoi ( attribute_values[i]);
-	    i++;
-	    continue;
 	}
 
-	if ( !strcmp ( attribute_names[i],
-		       "Budget_list_currency_number" ))
+	else if ( !strcmp ( attribute_names[i],
+			    "Budget_list_currency_number" ))
 	{
 	    no_devise_totaux_ib = utils_str_atoi ( attribute_values[i]);
-	    i++;
-	    continue;
 	}
 
-	if ( !strcmp ( attribute_names[i],
-		       "Scheduler_view" ))
+	else if ( !strcmp ( attribute_names[i],
+			    "Scheduler_view" ))
 	{
 	    affichage_echeances = utils_str_atoi ( attribute_values[i]);
-	    i++;
-	    continue;
 	}
 
-	if ( !strcmp ( attribute_names[i],
-		       "Scheduler_custom_number" ))
+	else if ( !strcmp ( attribute_names[i],
+			    "Scheduler_custom_number" ))
 	{
 	    affichage_echeances_perso_nb_libre = utils_str_atoi ( attribute_values[i]);
-	    i++;
-	    continue;
 	}
 
-	if ( !strcmp ( attribute_names[i],
-		       "Scheduler_custom_menu" ))
+	else if ( !strcmp ( attribute_names[i],
+			    "Scheduler_custom_menu" ))
 	{
 	    affichage_echeances_perso_j_m_a = utils_str_atoi ( attribute_values[i]);
-	    i++;
-	    continue;
 	}
 
-	if ( !strcmp ( attribute_names[i],
-		       "Import_interval_search" ))
+	else if ( !strcmp ( attribute_names[i],
+			    "Import_interval_search" ))
 	{
 	    valeur_echelle_recherche_date_import = utils_str_atoi ( attribute_values[i]);
-	    i++;
-	    continue;
 	}
 
-	if ( !strcmp ( attribute_names[i],
-		       "Use_logo" ))
+	else if ( !strcmp ( attribute_names[i],
+			    "Use_logo" ))
 	{
 	    etat.utilise_logo = utils_str_atoi ( attribute_values[i]);
-	    i++;
-	    continue;
 	}
 
-	if ( !strcmp ( attribute_names[i],
-		       "Path_logo" ))
+	else if ( !strcmp ( attribute_names[i],
+			    "Path_logo" ))
 	{
 	    chemin_logo = g_strdup (attribute_values[i]);
-	    i++;
-	    continue;
 	}
 
-	if ( !strcmp ( attribute_names[i],
-		       "Remind_display_per_account" ))
+	else if ( !strcmp ( attribute_names[i],
+			    "Remind_display_per_account" ))
 	{
 	    etat.retient_affichage_par_compte = utils_str_atoi( g_strdup (attribute_values[i]));
-	    i++;
-	    continue;
 	}
 
-	if ( !strcmp ( attribute_names[i],
-		       "Transactions_view" ))
+	else if ( !strcmp ( attribute_names[i],
+			    "Transactions_view" ))
 	{
 	    gchar **pointeur_char;
 	    gint k, l;
@@ -720,12 +693,13 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
 					 "-",
 					 0 );
 
-	    /* there is a pb here to go from 0.5.5 and before, untill 0.6.0
-	     * because the nb of columns goes from 8 to 9 ; the best is to
-	     * check how much numbers there is and to divide it by TRANSACTION_LIST_ROWS_NB
-	     * so we'll have the last nb of columns. it will work event if we increase again
-	     * the number of columns, but we need to find another way if TRANSACTION_LIST_ROWS_NB
-	     * increases */
+	    /* there is a pb here to go from 0.5.5 and before, untill
+	     * 0.6.0 because the nb of columns goes from 8 to 9 ; the
+	     * best is to check how much numbers there is and to
+	     * divide it by TRANSACTION_LIST_ROWS_NB so we'll have the
+	     * last nb of columns. it will work event if we increase
+	     * again the number of columns, but we need to find
+	     * another way if TRANSACTION_LIST_ROWS_NB increases */
 
 	    k = 0;
 	    while (pointeur_char[k])
@@ -735,8 +709,10 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
 	    for ( k=0 ; k<TRANSACTION_LIST_ROWS_NB ; k++ )
 		for ( l=0 ; l<= number_columns ; l++ )
 		{
-		    /* we have to check here because if one time we change TRANSACTION_LIST_ROWS_NB or
-		     * TRANSACTION_LIST_COL_NB, it will crash without that (ex : (5.5 -> 6.0 )) */
+		    /* we have to check here because if one time we
+		     * change TRANSACTION_LIST_ROWS_NB or
+		     * TRANSACTION_LIST_COL_NB, it will crash without
+		     * that (ex : (5.5 -> 6.0 )) */
 		    if (  pointeur_char[l + k*TRANSACTION_LIST_COL_NB] )
 			tab_affichage_ope[k][l] = utils_str_atoi ( pointeur_char[l + k*number_columns]);
 		    else
@@ -745,12 +721,10 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
 
 	    g_strfreev ( pointeur_char );
 
-	    i++;
-	    continue;
 	}
 
-	if ( !strcmp ( attribute_names[i],
-		       "Transaction_column_width_ratio" ))
+	else if ( !strcmp ( attribute_names[i],
+			    "Transaction_column_width_ratio" ))
 	{
 	    gchar **pointeur_char;
 	    gint j;
@@ -765,20 +739,16 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
 
 	    g_strfreev ( pointeur_char );
 
-	    i++;
-	    continue;
 	}
 
-	if ( !strcmp ( attribute_names[i],
-		       "One_line_showed" ))
+	else if ( !strcmp ( attribute_names[i],
+			    "One_line_showed" ))
 	{
 	    ligne_affichage_une_ligne = utils_str_atoi ( attribute_values[i]);
-	    i++;
-	    continue;
 	}
 
-	if ( !strcmp ( attribute_names[i],
-		       "Two_lines_showed" ))
+	else if ( !strcmp ( attribute_names[i],
+			    "Two_lines_showed" ))
 	{
 	    gchar **pointeur_char;
 
@@ -794,12 +764,10 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
 
 	    g_strfreev ( pointeur_char );
 
-	    i++;
-	    continue;
 	}
 
-	if ( !strcmp ( attribute_names[i],
-		       "Three_lines_showed" ))
+	else if ( !strcmp ( attribute_names[i],
+			    "Three_lines_showed" ))
 	{
 	    gchar **pointeur_char;
 
@@ -817,20 +785,16 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
 
 	    g_strfreev ( pointeur_char );
 
-	    i++;
-	    continue;
 	}
 
-	if ( !strcmp ( attribute_names[i],
-		       "Remind_form_per_account" ))
+	else if ( !strcmp ( attribute_names[i],
+			    "Remind_form_per_account" ))
 	{
-	etat.formulaire_distinct_par_compte = utils_str_atoi( g_strdup (attribute_values[i]));
-	    i++;
-	    continue;
+	    etat.formulaire_distinct_par_compte = utils_str_atoi( g_strdup (attribute_values[i]));
 	}
 
-	if ( !strcmp ( attribute_names[i],
-		       "Scheduler_column_width_ratio" ))
+	else if ( !strcmp ( attribute_names[i],
+			    "Scheduler_column_width_ratio" ))
 	{
 	    gchar **pointeur_char;
 	    gint j;
@@ -844,11 +808,8 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
 
 	    g_strfreev ( pointeur_char );
 
-	    i++;
-	    continue;
 	}
 
-	/* normally, shouldn't come here */
 	i++;
     }
     while ( attribute_names[i] );
