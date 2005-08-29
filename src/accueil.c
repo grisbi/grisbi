@@ -1,5 +1,5 @@
 /* ************************************************************************** */
-/* Fichier qui s'occupe de la page d'accueil ( de démarrage lors de           */
+/* Fichier qui s'occupe de la page d'accueil ( de démarrage lors de          */
 /* l'ouverture d'un fichier de comptes                                        */
 /*                                                                            */
 /*                                  accueil.c                                 */
@@ -67,7 +67,6 @@ static void update_soldes_minimaux ( void );
 /*START_EXTERN*/
 extern struct operation_echeance *echeance_selectionnnee;
 extern GtkWidget *formulaire;
-extern GtkWidget *formulaire_echeancier;
 extern GtkWidget *formulaire_echeancier;
 extern GtkWidget *frame_formulaire_echeancier;
 extern GtkWidget *hbox_valider_annuler_echeance;
@@ -364,9 +363,7 @@ gboolean saisie_echeance_accueil ( GtkWidget *event_box,
     echeance_selectionnnee = ancienne_selection_echeance;
 
     if ( !etat.formulaire_echeancier_toujours_affiche )
-	gtk_widget_hide ( frame_formulaire_echeancier );
-
-
+	gtk_expander_set_expanded ( frame_formulaire_echeancier, FALSE );
 
     return FALSE;
 }
