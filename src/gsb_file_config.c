@@ -1,21 +1,25 @@
-/* file gsb_file_config.c
- * used to save and load the config file                     */
-/*     Copyright (C)	2000-2005 Cédric Auger (cedric@grisbi.org) */
-/* 			http://www.grisbi.org */
+/* ************************************************************************** */
+/*                                                                            */
+/*     Copyright (C)	2000-2005 CÃ©dric Auger (cedric@grisbi.org)	      */
+/*			     2005 Benjamin Drieu (bdrieu@april.org)	      */
+/* 			http://www.grisbi.org				      */
+/*                                                                            */
+/*  This program is free software; you can redistribute it and/or modify      */
+/*  it under the terms of the GNU General Public License as published by      */
+/*  the Free Software Foundation; either version 2 of the License, or         */
+/*  (at your option) any later version.                                       */
+/*                                                                            */
+/*  This program is distributed in the hope that it will be useful,           */
+/*  but WITHOUT ANY WARRANTY; without even the implied warranty of            */
+/*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             */
+/*  GNU General Public License for more details.                              */
+/*                                                                            */
+/*  You should have received a copy of the GNU General Public License         */
+/*  along with this program; if not, write to the Free Software               */
+/*  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
+/*                                                                            */
+/* ************************************************************************** */
 
-/*     This program is free software; you can redistribute it and/or modify */
-/*     it under the terms of the GNU General Public License as published by */
-/*     the Free Software Foundation; either version 2 of the License, or */
-/*     (at your option) any later version. */
-
-/*     This program is distributed in the hope that it will be useful, */
-/*     but WITHOUT ANY WARRANTY; without even the implied warranty of */
-/*     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the */
-/*     GNU General Public License for more details. */
-
-/*     You should have received a copy of the GNU General Public License */
-/*     along with this program; if not, write to the Free Software */
-/*     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 
 /**
  * \file gsb_file_config.c
@@ -236,11 +240,6 @@ gboolean gsb_file_config_load_config ( void )
 							 "IO",
 							 "Force saving",
 							 NULL );
-
-    etat.crypt_file = g_key_file_get_integer ( config,
-					       "IO",
-					       "Crypt file",
-					       NULL );
 
     tab_noms_derniers_fichiers_ouverts = g_key_file_get_string_list ( config,
 								      "IO",
@@ -538,11 +537,6 @@ gboolean gsb_file_config_save_config ( void )
 			     "IO",
 			     "Force saving",
 			     etat.force_enregistrement );
-
-    g_key_file_set_integer ( config,
-			     "IO",
-			     "Crypt file",
-			     etat.crypt_file );
 
     g_key_file_set_string_list ( config,
 				 "IO",
@@ -851,13 +845,6 @@ void gsb_file_config_get_xml_text_element ( GMarkupParseContext *context,
 		   "Force_enregistrement" ))
     {
 	etat.force_enregistrement = utils_str_atoi (text);
-	return;
-    }
-
-    if ( !strcmp ( element_name,
-		   "Crypt_file" ))
-    {
-	etat.crypt_file = utils_str_atoi (text);
 	return;
     }
 
