@@ -578,7 +578,7 @@ void echap_formulaire ( void )
     formulaire_a_zero();
 
     if ( !etat.formulaire_toujours_affiche )
-	gtk_widget_hide ( frame_droite_bas );
+	gtk_expander_set_expanded ( GTK_EXPANDER ( frame_droite_bas ), FALSE );
 
     gtk_widget_grab_focus ( gsb_transactions_list_get_tree_view());
 
@@ -2325,7 +2325,7 @@ gboolean gsb_form_finish_edition ( void )
     {
 	formulaire_a_zero ();
 	if ( !etat.formulaire_toujours_affiche )
-	    gtk_widget_hide ( frame_droite_bas );
+	    gtk_expander_set_expanded ( GTK_EXPANDER ( frame_droite_bas ), FALSE );
     }
 
     /* update the combofix's lists */
