@@ -929,6 +929,8 @@ void new_scheduled_transaction ( void )
     selectionne_echeance ( GINT_TO_POINTER ( -1 ) );
     echeance_selectionnnee = GINT_TO_POINTER ( -1 );
     edition_echeance ();
+
+/*     affiche_nb_ecritures_listes (); */
 }
 
 
@@ -944,6 +946,8 @@ void edition_echeance ( void )
     /*   si le formulaire est caché, on le montre */
 
     gtk_widget_show ( frame_formulaire_echeancier );
+    gtk_expander_set_expanded ( GTK_EXPANDER(frame_formulaire_echeancier), TRUE );
+    degrise_formulaire_echeancier ();
 
     /* si c'est une nouvelle échéance, on met la date courante,
        la sélectionne et lui donne le focus */
@@ -1650,7 +1654,7 @@ gboolean gsb_gui_popup_custom_periodicity_dialog ()
     {
 	case GTK_RESPONSE_OK:
 	    affichage_echeances_perso_j_m_a = gtk_option_menu_get_history ( GTK_OPTION_MENU ( omenu ) );
-	    affichage_echeances_perso_nb_libre = utils_str_atoi ( gtk_entry_get_text ( entry ) );
+	    affichage_echeances_perso_nb_libre = utils_str_atoi ( gtk_entry_get_text ( GTK_ENTRY(entry) ) );
 	    gtk_widget_destroy ( dialog );
 	    return TRUE;
     }
