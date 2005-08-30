@@ -3843,8 +3843,8 @@ gboolean affichage_traits_liste_operation ( void )
 	x = x + gtk_tree_view_column_get_width ( GTK_TREE_VIEW_COLUMN ( transactions_tree_view_columns[i]));
 	gdk_draw_line ( GDK_DRAWABLE ( fenetre ),
 			gc_separateur_operation,
-			x, 0,
-			x, hauteur );
+			x - 1 , 0,
+			x - 1, hauteur );
     }
 
     /*     les lignes horizontales : il faut calculer la position y de chaque changement d'opé à l'écran */
