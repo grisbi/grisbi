@@ -117,6 +117,8 @@ static void r_press (void);
 static void schedule_selected_transaction ();
 static struct operation_echeance *schedule_transaction ( gpointer * transaction );
 static gdouble solde_debut_affichage ( gint no_account );
+static gboolean gsb_transactions_list_columns_changed ( GtkTreeView *treeview, 
+							gpointer user_data );
 /*END_STATIC*/
 
 
@@ -382,14 +384,8 @@ void gsb_transactions_list_create_tree_view_columns ( void )
 {
     gint i;
     gfloat alignment[] = {
-	COLUMN_CENTER,
-	COLUMN_CENTER,
-	COLUMN_CENTER,
-	COLUMN_LEFT,
-	COLUMN_CENTER,
-	COLUMN_RIGHT,
-	COLUMN_RIGHT,
-	COLUMN_RIGHT
+	COLUMN_CENTER, COLUMN_CENTER, COLUMN_LEFT, COLUMN_CENTER,
+	COLUMN_RIGHT, COLUMN_RIGHT, COLUMN_RIGHT
     };
     gint column_balance;
 
@@ -428,16 +424,15 @@ void gsb_transactions_list_create_tree_view_columns ( void )
 	}
 
 	g_object_set ( G_OBJECT ( GTK_CELL_RENDERER (cell_renderer)),
-		       "xalign",
-		       alignment[i],
+		       "xalign", alignment[i],
 		       NULL );
 
 	gtk_tree_view_column_set_alignment ( transactions_tree_view_columns[i],
 					     alignment[i] );
 	gtk_tree_view_column_set_sizing ( transactions_tree_view_columns[i],
-					  GTK_TREE_VIEW_COLUMN_FIXED );
-	gtk_tree_view_column_set_sort_column_id ( transactions_tree_view_columns[i],
-						  i );
+					  GTK_TREE_VIEW_COLUMN_AUTOSIZE );
+	gtk_tree_view_column_set_sort_column_id ( transactions_tree_view_columns[i], i );
+	gtk_tree_view_column_set_expand ( transactions_tree_view_columns[i], TRUE );
 
 	if ( etat.largeur_auto_colonnes )
 	    gtk_tree_view_column_set_resizable ( transactions_tree_view_columns[i],
@@ -687,12 +682,10 @@ GtkWidget *gsb_transactions_list_create_tree_view ( GtkTreeModel *model )
     tree_view = gtk_tree_view_new ();
 
     /*  we cannot do a selection */
-
     gtk_tree_selection_set_mode ( GTK_TREE_SELECTION ( gtk_tree_view_get_selection ( GTK_TREE_VIEW( tree_view ))),
 				  GTK_SELECTION_NONE );
 
     /* 	met en place la grille */
-
     if ( etat.affichage_grille )
 	g_signal_connect_after ( G_OBJECT ( tree_view ),
 				 "expose-event",
@@ -700,21 +693,18 @@ GtkWidget *gsb_transactions_list_create_tree_view ( GtkTreeModel *model )
 				 NULL );
 
     /* vérifie le simple ou double click */
-
     g_signal_connect ( G_OBJECT ( tree_view ),
 		       "button_press_event",
 		       G_CALLBACK ( gsb_transactions_list_button_press ),
 		       NULL );
 
     /* vérifie la touche entrée, haut et bas */
-
     g_signal_connect ( G_OBJECT ( tree_view ),
 		       "key_press_event",
 		       G_CALLBACK ( gsb_transactions_list_key_press ),
 		       NULL );
 
     /*     ajuste les colonnes si modification de la taille */
-
     g_signal_connect ( G_OBJECT ( tree_view ),
 		       "size-allocate",
 		       G_CALLBACK ( changement_taille_liste_ope ),
@@ -734,7 +724,6 @@ GtkWidget *gsb_transactions_list_create_tree_view ( GtkTreeModel *model )
 						 FALSE );
 
 	/* 	    set the tooltips */
-
 	gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi ),
 			       transactions_tree_view_columns[i] ->button,
 			       tips_col_liste_operations[i],
@@ -746,7 +735,6 @@ GtkWidget *gsb_transactions_list_create_tree_view ( GtkTreeModel *model )
 			   GINT_TO_POINTER (i));
 
 	/* 	    after changing the sort of the list, we update the background color */
-
 	g_signal_connect_after ( G_OBJECT ( transactions_tree_view_columns[i] ),
 				 "clicked",
 				 G_CALLBACK ( gsb_transactions_list_sort_column_changed ),
@@ -1680,7 +1668,21 @@ gboolean gsb_transactions_list_key_press ( GtkWidget *widget,
 
     return TRUE;
 }
-/******************************************************************************/
+
+
+
+/**
+ *
+ *
+ *
+ */
+gboolean gsb_transactions_list_columns_changed ( GtkTreeView *treeview, gpointer user_data )
+{
+    printf ("> gsb_transactions_list_columns_changed\n");
+
+    return FALSE;
+}
+
 
 
 /** change the selection to the transaction above
@@ -3132,6 +3134,8 @@ gboolean changement_taille_liste_ope ( GtkWidget *tree_view,
     gint i;
     GSList *list_tmp;
 
+    return FALSE;
+
     /*     pour éviter que le système ne s'emballe... */
 
     if ( allocation -> width
@@ -3153,8 +3157,10 @@ gboolean changement_taille_liste_ope ( GtkWidget *tree_view,
 	j = gsb_data_account_get_no_account ( list_tmp -> data );
 
 	for ( i = 0 ; i < TRANSACTION_LIST_COL_NB ; i++ )
-	    gtk_tree_view_column_set_fixed_width ( transactions_tree_view_columns[i],
-						   rapport_largeur_colonnes[i] * allocation_precedente / 100 );
+	    if ( rapport_largeur_colonnes[i] )
+		gtk_tree_view_column_set_fixed_width ( transactions_tree_view_columns[i],
+						       rapport_largeur_colonnes[i] * 
+						       allocation_precedente / 100 );
 
 	list_tmp = list_tmp -> next;
     }

@@ -61,7 +61,7 @@ gchar *labels_titres_colonnes_liste_ope[] = {
     N_("Notes"),
     N_("Bank references"),
     N_("Transaction number"),
-    N_("Cheque/Transfer number"),
+    N_("Nb"),
     NULL };
 
 
