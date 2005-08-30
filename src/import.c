@@ -167,7 +167,7 @@ void selection_fichiers_import ( void )
 				      dernier_chemin_de_travail );
 
     gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( fenetre ) -> vbox ), 
-			 create_file_format_import_menu(), FALSE, FALSE, 0 );
+			 create_file_format_import_menu(), FALSE, FALSE, 6 );
 
     gtk_signal_connect_object (GTK_OBJECT ( GTK_FILE_SELECTION( fenetre ) -> ok_button ),
 			       "clicked",
