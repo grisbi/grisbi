@@ -3838,7 +3838,7 @@ gboolean affichage_traits_liste_operation ( void )
 
     x=0;
 
-    for ( i=0 ; i<TRANSACTION_LIST_COL_NB ; i++ )
+    for ( i=0 ; i<TRANSACTION_LIST_COL_NB - 1 ; i++ )
     {
 	x = x + gtk_tree_view_column_get_width ( GTK_TREE_VIEW_COLUMN ( transactions_tree_view_columns[i]));
 	gdk_draw_line ( GDK_DRAWABLE ( fenetre ),
@@ -3858,15 +3858,15 @@ gboolean affichage_traits_liste_operation ( void )
 
 	do
 	{
-	    gdk_draw_line ( GDK_DRAWABLE ( fenetre ),
-			    gc_separateur_operation,
-			    0, y, 
-			    largeur, y );
+	    if ( y )
+		gdk_draw_line ( GDK_DRAWABLE ( fenetre ),
+				gc_separateur_operation,
+				0, y, 
+				largeur, y );
 	    y = y + hauteur_ligne_liste_opes*gsb_data_account_get_nb_rows ( gsb_data_account_get_current_account () );
 	}
-	while ( y < ( adjustment -> page_size )
-		&&
-		y <= derniere_ligne );
+	while ( y < ( adjustment -> page_size ) &&
+		y < derniere_ligne );
     }
 
     return FALSE;
