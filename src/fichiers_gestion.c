@@ -165,6 +165,8 @@ void init_variables_new_file ( void )
  */
 void init_gui_new_file ( void )
 {
+    GtkWidget * tree_view_widget;
+
     /* dégrise les menus nécessaire */
     
     menus_sensitifs ( TRUE );
@@ -177,6 +179,15 @@ void init_gui_new_file ( void )
     /* Create main widget. */
     gtk_box_pack_start ( GTK_BOX ( window_vbox_principale), create_main_widget(),
 			 TRUE, TRUE, 0 );
+
+    /* Create transaction list. */
+    tree_view_widget = gsb_transactions_list_make_gui_list ();
+    gtk_box_pack_start ( GTK_BOX ( tree_view_vbox ),
+			 tree_view_widget,
+			 TRUE,
+			 TRUE,
+			 0 );
+    gtk_widget_show ( tree_view_widget );
 
     gsb_data_account_list_gui_change_current_account ( GINT_TO_POINTER ( gsb_data_account_get_current_account () ) );
 
