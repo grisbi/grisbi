@@ -365,65 +365,6 @@ gboolean question_yes_no ( gchar *texte )
 
 
 
-
-/*************************************************************************************************************/
-/* fonction demande_texte */
-/* affiche une boite de dialogue qui demande l'entrée d'un texte */
-/* renvoie NULL si annulé ou le texte */
-/*************************************************************************************************************/
-gchar *demande_texte ( gchar *titre_fenetre,
-		       gchar *question )
-{
-    GtkWidget *dialog;
-    gint resultat;
-    GtkWidget *label;
-    GtkWidget *entree;
-    gchar *retour;
-
-    dialog = gtk_dialog_new_with_buttons ( titre_fenetre,
-					   GTK_WINDOW (window),
-					   GTK_DIALOG_MODAL,
-					   GTK_STOCK_OK,0,
-					   GTK_STOCK_CANCEL,1,
-					   NULL );
-
-    label = gtk_label_new ( question );
-    gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox ),
-			 label,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show ( label );
-
-    entree = gtk_entry_new ();
-    gtk_entry_set_activates_default ( GTK_ENTRY ( entree ),
-				      TRUE );
-    gtk_window_set_focus ( GTK_WINDOW ( dialog ),
-			   entree );
-    gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox ),
-			 entree,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show ( entree );
-
-    resultat = gtk_dialog_run ( GTK_DIALOG ( dialog ));
-
-    if ( resultat )
-    {
-	gtk_widget_destroy ( GTK_WIDGET ( dialog ));
-	return ( NULL );
-    }
-
-    retour = g_strstrip ( g_strdup ( gtk_entry_get_text ( GTK_ENTRY ( entree ))));
-
-    gtk_widget_destroy ( GTK_WIDGET ( dialog ));
-    return ( retour );
-}
-/*************************************************************************************************************/
-
-
-
 /*************************************************************************************************************/
 gboolean blocage_boites_dialogues ( GtkWidget *dialog,
 				    gpointer null )
