@@ -240,7 +240,7 @@ void init_variables ( void )
 
     liste_struct_rapprochements = NULL;
 
-    titre_fichier = NULL;
+    titre_fichier = _("My accounting");
     adresse_commune = NULL;
     adresse_secondaire = NULL;
 
