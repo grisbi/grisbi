@@ -549,8 +549,6 @@ gchar * gsb_string_escape_underscores ( gchar * orig )
     }
     *iter = 0;
 
-    printf (">>%s<<\n", new);
-
     return g_strdup (new);
 }
 
