@@ -51,9 +51,9 @@ struct paper_config paper_sizes[8] = {
     {N_("A4"), 210, 297},
     {N_("A5"), 148, 210},
     {N_("A6"), 105, 148},
-    {N_("Letter"), 215, 279.4},
-    {N_("Legal"), 215, 355.6},
-    {N_("Executive"), 184.15, 266.7},
+    {N_("USletter"), 215, 279.4},
+    {N_("USlegal"), 215, 355.6},
+    {N_("USexecutive"), 184.15, 266.7},
     {NULL, 0, 0},
 };
 
