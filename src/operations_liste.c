@@ -1,6 +1,4 @@
 /* ************************************************************************** */
-/*  fichier qui gère la liste des opérations                                  */
-/* 			liste_operations.c                                    */
 /*                                                                            */
 /*     copyright (c)	2000-2005 Cédric Auger (cedric@grisbi.org)	      */
 /*			2004-2005 Benjamin Drieu (bdrieu@april.org) 	      */
@@ -8,18 +6,18 @@
 /*			http://www.grisbi.org   			      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
-/*  it under the terms of the gnu general public license as published by      */
-/*  the free software foundation; either version 2 of the license, or         */
+/*  it under the terms of the GNU General Public License as published by      */
+/*  the Free Software Foundation; either version 2 of the License, or         */
 /*  (at your option) any later version.                                       */
 /*                                                                            */
 /*  This program is distributed in the hope that it will be useful,           */
-/*  but without any warranty; without even the implied warranty of            */
-/*  merchantability or fitness for a particular purpose.  see the             */
-/*  gnu general public license for more details.                              */
+/*  but WITHOUT ANY WARRANTY; without even the implied warranty of            */
+/*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             */
+/*  GNU General Public License for more details.                              */
 /*                                                                            */
-/*  You should have received a copy of the gnu general public license         */
-/*  along with this program; if not, write to the free software               */
-/*  foundation, inc., 59 temple place, suite 330, boston, ma  02111-1307  usa */
+/*  You should have received a copy of the GNU General Public License         */
+/*  along with this program; if not, write to the Free Software               */
+/*  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,68 +110,56 @@ static gboolean move_operation_to_account ( gint transaction_number,
 				     gint target_account );
 static void move_selected_operation_to_account ( GtkMenuItem * menu_item );
 static void p_press (void);
-static void popup_transaction_context_menu ( gboolean full );
+static void popup_transaction_context_menu ( gboolean full, int x, int y );
 static void r_press (void);
 static void schedule_selected_transaction ();
 static struct operation_echeance *schedule_transaction ( gpointer * transaction );
 static gdouble solde_debut_affichage ( gint no_account );
 static gboolean gsb_transactions_list_columns_changed ( GtkTreeView *treeview, 
 							gpointer user_data );
+static GtkWidget * gsb_gui_create_cell_contents_menu ( int x, int y );
+static gboolean gsb_gui_change_cell_content ( GtkWidget * item, gint number );
 /*END_STATIC*/
 
 
 
 /*  adr du notebook qui contient les opés de chaque compte */
-
 GtkWidget *tree_view_vbox;
 
 /* the columns of the tree_view */
-
 GtkTreeViewColumn *transactions_tree_view_columns[TRANSACTION_LIST_COL_NB];
 
 /* adr de la frame contenant le formulaire */
-
 GtkWidget *frame_droite_bas;
 
 /* adr de la barre d'outils */
-
 GtkWidget *barre_outils;
 
 /* contient les tips et titres des colonnes des listes d'opé */
-
 gchar *tips_col_liste_operations[TRANSACTION_LIST_COL_NB];
 gchar *titres_colonnes_liste_operations[TRANSACTION_LIST_COL_NB];
 
-
 /* hauteur d'une ligne de la liste des opés */
-
 gint hauteur_ligne_liste_opes;
 
 /* on va essayer de créer un object tooltip général pour grisbi */
 /* donc associer tous les autres tooltips à ce tooltip (fixme) */
-
 GtkTooltips *tooltips_general_grisbi;
 
 /* le GdkGc correspondant aux lignes, créés au début une fois pour toute */
-
 GdkGC *gc_separateur_operation;
 
 /* utilisé pour éviter que ça s'emballe lors du réglage de la largeur des colonnes */
-
 gint allocation_precedente;
 
 /* sauvegarde de la dernière date entree */
-
 gchar *last_date;
 
 /*  pointeur vers le label qui contient le solde sous la liste des opé */
-
 GtkWidget *solde_label = NULL;
 
 /*  pointeur vers le label qui contient le solde pointe sous la liste des opé */
-
 GtkWidget *solde_label_pointe = NULL;
-
 
 GtkWidget *transactions_tree_view = NULL;
 GtkListStore *transactions_store = NULL;
@@ -212,7 +198,6 @@ extern gint no_derniere_echeance;
 extern GtkWidget *notebook_general;
 extern gdouble operations_pointees;
 extern PangoFontDescription *pango_desc_fonte_liste;
-extern gint rapport_largeur_colonnes[TRANSACTION_LIST_COL_NB];
 extern GtkTreeSelection * selection;
 extern gdouble solde_final;
 extern gdouble solde_initial;
@@ -384,8 +369,8 @@ void gsb_transactions_list_create_tree_view_columns ( void )
 {
     gint i;
     gfloat alignment[] = {
-	COLUMN_CENTER, COLUMN_CENTER, COLUMN_LEFT, COLUMN_CENTER,
-	COLUMN_RIGHT, COLUMN_RIGHT, COLUMN_RIGHT
+	COLUMN_CENTER, COLUMN_CENTER, COLUMN_CENTER, COLUMN_LEFT, 
+	COLUMN_CENTER, COLUMN_RIGHT, COLUMN_RIGHT, COLUMN_RIGHT
     };
     gint column_balance;
 
@@ -434,12 +419,7 @@ void gsb_transactions_list_create_tree_view_columns ( void )
 	gtk_tree_view_column_set_sort_column_id ( transactions_tree_view_columns[i], i );
 	gtk_tree_view_column_set_expand ( transactions_tree_view_columns[i], TRUE );
 
-	if ( etat.largeur_auto_colonnes )
-	    gtk_tree_view_column_set_resizable ( transactions_tree_view_columns[i],
-						 FALSE );
-	else
-	    gtk_tree_view_column_set_resizable ( transactions_tree_view_columns[i],
-						 TRUE );
+	gtk_tree_view_column_set_resizable ( transactions_tree_view_columns[i], TRUE );
     }
 
     /*     pour la colonne du solde, on rajoute le foreground */
@@ -959,19 +939,16 @@ gchar *gsb_transactions_list_grep_cell_content ( gint transaction_number,
 
 	case TRANSACTION_LIST_DATE:
 	    return gsb_format_gdate(gsb_data_transaction_get_date (transaction_number));
-	    break;
 
 	    /* mise en forme de la date de valeur */
 
 	case TRANSACTION_LIST_VALUE_DATE:
 	    return gsb_format_gdate(gsb_data_transaction_get_value_date (transaction_number));
-	    break;
 
 	    /* mise en forme du tiers */
 
 	case TRANSACTION_LIST_PARTY:
 	    return ( gsb_data_payee_get_name ( gsb_data_transaction_get_party_number ( transaction_number), TRUE ));
-	    break;
 
 	    /* mise en forme de l'ib */
 
@@ -979,7 +956,7 @@ gchar *gsb_transactions_list_grep_cell_content ( gint transaction_number,
 
 	    temp = nom_imputation_par_no ( gsb_data_transaction_get_budgetary_number ( transaction_number),
 					   gsb_data_transaction_get_sub_budgetary_number ( transaction_number));
-	    break;
+	    return temp;
 
 
 	    /* mise en forme du débit */
@@ -1044,56 +1021,44 @@ gchar *gsb_transactions_list_grep_cell_content ( gint transaction_number,
 
 	case TRANSACTION_LIST_BALANCE:
 	    return NULL;
-	    break;
 
 	    /* mise en forme du amount dans la devise du compte */
 
 	case TRANSACTION_LIST_AMOUNT:
-	    if ( gsb_data_transaction_get_currency_number ( transaction_number)!= gsb_data_account_get_currency (gsb_data_transaction_get_account_number (transaction_number)) )
-	    {
-		/* on doit calculer et afficher le amount de l'ope */
+	    /* on doit calculer et afficher le amount de l'ope */
 
-		amount = gsb_data_transaction_get_adjusted_amount ( transaction_number);
+	    amount = gsb_data_transaction_get_adjusted_amount ( transaction_number);
 
-		if ( !devise_compte
-		     ||
-		     devise_compte -> no_devise != gsb_data_account_get_currency (gsb_data_transaction_get_account_number (transaction_number)))
-		    devise_compte = devise_par_no (gsb_data_account_get_currency (gsb_data_transaction_get_account_number (transaction_number)));
+	    if ( !devise_compte
+		 ||
+		 devise_compte -> no_devise != gsb_data_account_get_currency (gsb_data_transaction_get_account_number (transaction_number)))
+		devise_compte = devise_par_no (gsb_data_account_get_currency (gsb_data_transaction_get_account_number (transaction_number)));
 
-		return ( g_strdup_printf ( "(%4.2f %s)",
-					   amount,
-					   devise_code ( devise_compte ) ));
-	    }
-	    else
-		return ( NULL );
-
-	    break;
+	    return ( g_strdup_printf ( "%4.2f %s",
+				       amount,
+				       devise_code ( devise_compte ) ));
 
 	    /* mise en forme du moyen de paiement */
 
 	case TRANSACTION_LIST_TYPE:
 	    return ( type_ope_name_by_no ( gsb_data_transaction_get_method_of_payment_number ( transaction_number),
 					   gsb_data_transaction_get_account_number (transaction_number)));
-	    break;
 
 	    /* mise en forme du no de rapprochement */
 
 	case TRANSACTION_LIST_RECONCILE_NB:
 	    return ( rapprochement_name_by_no ( gsb_data_transaction_get_reconcile_number ( transaction_number)));
-	    break;
 
 	    /* mise en place de l'exo */
 
 	case TRANSACTION_LIST_EXERCICE:
 	    return ( exercice_name_by_no (  gsb_data_transaction_get_financial_year_number ( transaction_number)));
-	    break;
 
 	    /* mise en place des catégories */
 
 	case TRANSACTION_LIST_CATEGORY:
 
 	    return ( gsb_transactions_get_category_real_name ( transaction_number ));
-	    break;
 
 	    /* mise en forme R/P */
 
@@ -1119,25 +1084,21 @@ gchar *gsb_transactions_list_grep_cell_content ( gint transaction_number,
 
 	case TRANSACTION_LIST_VOUCHER:
 	    return ( gsb_data_transaction_get_voucher ( transaction_number));
-	    break;
 
 	    /* mise en forme des notes */
 
 	case TRANSACTION_LIST_NOTES:
 	    return ( gsb_data_transaction_get_notes ( transaction_number));
-	    break;
 
 	    /* mise en place de l'info banque/guichet */
 
 	case TRANSACTION_LIST_BANK:
 	    return ( gsb_data_transaction_get_bank_references ( transaction_number));
-	    break;
 
 	    /* mise en place du no d'opé */
 
 	case TRANSACTION_LIST_NO:
 	    return ( utils_str_itoa ( transaction_number ));
-	    break;
 
 	    /* mise en place du no de chèque/virement */
 
@@ -1496,7 +1457,7 @@ gboolean gsb_transactions_list_button_press ( GtkWidget *tree_view,
     GtkTreePath *path;
     GtkTreeViewColumn *tree_column;
     gpointer transaction;
-    gint transaction_number;
+    gint transaction_number, column, line_in_transaction;
 
     /*     if we are not in the list, go away */
 
@@ -1518,7 +1479,7 @@ gboolean gsb_transactions_list_button_press ( GtkWidget *tree_view,
 	/* 	éventuellement, si c'est un clic du bouton droit, on affiche la popup partielle */
 
 	if ( ev -> button == RIGHT_BUTTON )
-	    popup_transaction_context_menu ( FALSE );
+	    popup_transaction_context_menu ( FALSE, -1, -1 );
 
 	return (TRUE);
     }
@@ -1526,13 +1487,14 @@ gboolean gsb_transactions_list_button_press ( GtkWidget *tree_view,
     path = gsb_transactions_list_get_list_path_from_sorted_path (path_sorted);
     model = GTK_TREE_MODEL ( gsb_transactions_list_get_store());
 
-    gtk_tree_model_get_iter ( model,
-			      &iter,
-			      path );
-    gtk_tree_model_get ( model,
-			 &iter,
+    gtk_tree_model_get_iter ( model, &iter, path );
+    gtk_tree_model_get ( model, &iter,
 			 TRANSACTION_COL_NB_TRANSACTION_ADDRESS, &transaction,
+			 TRANSACTION_COL_NB_TRANSACTION_LINE, &line_in_transaction,
 			 -1 );
+    column = g_list_index ( gtk_tree_view_get_columns ( GTK_TREE_VIEW ( tree_view )),
+			    tree_column );
+
     transaction_number = gsb_data_transaction_get_transaction_number (transaction);
 
     /*     we check if we don't want open a breakdown, before changing the selection */
@@ -1571,9 +1533,9 @@ gboolean gsb_transactions_list_button_press ( GtkWidget *tree_view,
     if ( ev -> button == RIGHT_BUTTON )
     {
 	if ( transaction_number == -1)
-	    popup_transaction_context_menu ( FALSE );
+	    popup_transaction_context_menu ( FALSE, -1, -1 );
 	else
-	    popup_transaction_context_menu ( TRUE );
+	    popup_transaction_context_menu ( TRUE, column, line_in_transaction );
 	return(TRUE);
     }
 
@@ -1581,22 +1543,9 @@ gboolean gsb_transactions_list_button_press ( GtkWidget *tree_view,
 
     if ( transaction_number != -1 )
     {
-	gint column;
-
-	column = g_list_index ( gtk_tree_view_get_columns ( GTK_TREE_VIEW ( tree_view )),
-				tree_column );
-
 	if ( column == find_p_r_col() )
 	{
-	    gint line_in_transaction;
-
-	    gtk_tree_model_get ( model,
-				 &iter,
-				 TRANSACTION_COL_NB_TRANSACTION_LINE, &line_in_transaction,
-				 -1 );
-
-	    if ( etat.equilibrage
-		 &&
+	    if ( etat.equilibrage &&
 		 line_in_transaction == find_p_r_line())
 	    {
 		gsb_reconcile_mark_transaction (gsb_data_transaction_get_pointer_to_transaction (transaction_number));
@@ -3123,57 +3072,29 @@ gboolean gsb_transactions_list_delete_transaction_from_tree_view ( gpointer tran
 
 
 
-/******************************************************************************/
-/* Fonction changement_taille_liste_ope					      */
-/* appelée dès que la taille de la clist a changé			      */
-/* pour mettre la taille des différentes colonnes			      */
-/******************************************************************************/
-gboolean changement_taille_liste_ope ( GtkWidget *tree_view,
-				       GtkAllocation *allocation )
+/**
+ * Update screen when screen size changes.
+ *
+ * \param tree_view	Unused.
+ * \param allocation	Size of new allocation.
+ *
+ * \return FALSE
+ */
+gboolean changement_taille_liste_ope ( GtkWidget *tree_view, GtkAllocation *allocation )
 {
-    gint i;
-    GSList *list_tmp;
-
-    return FALSE;
-
-    /*     pour éviter que le système ne s'emballe... */
-
-    if ( allocation -> width
-	 ==
-	 allocation_precedente )
+    /* Check to avoid useless computation. */
+    if ( allocation -> width == allocation_precedente )
 	return FALSE;
 
     allocation_precedente = allocation -> width;
 
-    /* si la largeur est automatique, on change la largeur des colonnes */
-    /* sinon, on y met les valeurs fixes */
-
-    list_tmp = gsb_data_account_get_list_accounts ();
-
-    while ( list_tmp )
-    {
-	gint j;
-
-	j = gsb_data_account_get_no_account ( list_tmp -> data );
-
-	for ( i = 0 ; i < TRANSACTION_LIST_COL_NB ; i++ )
-	    if ( rapport_largeur_colonnes[i] )
-		gtk_tree_view_column_set_fixed_width ( transactions_tree_view_columns[i],
-						       rapport_largeur_colonnes[i] * 
-						       allocation_precedente / 100 );
-
-	list_tmp = list_tmp -> next;
-    }
-
-    /* met les entrées du formulaire selon une taille proportionnelle */
-
+    /* Update various elements. */
     mise_a_jour_taille_formulaire ( allocation_precedente );
-
     update_ecran ();
 
     return ( FALSE );
 }
-/******************************************************************************/
+
 
 
 /******************************************************************************/
@@ -3184,28 +3105,19 @@ gboolean changement_taille_liste_ope ( GtkWidget *tree_view,
 /******************************************************************************/
 void demande_mise_a_jour_tous_comptes ( void )
 {
-    GSList *list_tmp;
-
-    list_tmp = gsb_data_account_get_list_accounts ();
-
-    while ( list_tmp )
-    {
-	gint i;
-
-	i = gsb_data_account_get_no_account ( list_tmp -> data );
-
-	gtk_list_store_clear ( GTK_LIST_STORE ( gsb_transactions_list_get_store()  ));
-
-	list_tmp = list_tmp -> next;
-    }
+    gtk_list_store_clear ( GTK_LIST_STORE ( gsb_transactions_list_get_store()  ));
+    gsb_transactions_list_fill_store ( gsb_transactions_list_get_store() );
 }
 /******************************************************************************/
 
 
 /**
  * Pop up a menu with several actions to apply to current transaction.
+ * 
+ * \param xxx
+ *
  */
-void popup_transaction_context_menu ( gboolean full )
+void popup_transaction_context_menu ( gboolean full, int x, int y )
 {
     GtkWidget *menu, *menu_item;
 
@@ -3220,8 +3132,7 @@ void popup_transaction_context_menu ( gboolean full )
 				    gtk_image_new_from_stock ( GTK_STOCK_PROPERTIES,
 							       GTK_ICON_SIZE_MENU ));
     g_signal_connect ( G_OBJECT(menu_item), "activate", G_CALLBACK (gsb_transactions_list_edit_current_transaction), NULL );
-    if ( !full )
-	gtk_widget_set_sensitive ( menu_item, FALSE );
+    gtk_widget_set_sensitive ( menu_item, full );
     gtk_menu_append ( menu, menu_item );
 
     /* Separator */
@@ -3255,8 +3166,7 @@ void popup_transaction_context_menu ( gboolean full )
 				    gtk_image_new_from_stock ( GTK_STOCK_COPY,
 							       GTK_ICON_SIZE_MENU ));
     g_signal_connect ( G_OBJECT(menu_item), "activate", clone_selected_transaction, NULL );
-    if ( !full )
-	gtk_widget_set_sensitive ( menu_item, FALSE );
+    gtk_widget_set_sensitive ( menu_item, full );
     gtk_menu_append ( menu, menu_item );
 
     /* Separator */
@@ -3268,8 +3178,7 @@ void popup_transaction_context_menu ( gboolean full )
 				    gtk_image_new_from_stock ( GTK_STOCK_CONVERT,
 							       GTK_ICON_SIZE_MENU ));
     g_signal_connect ( G_OBJECT(menu_item), "activate", schedule_selected_transaction, NULL );
-    if ( !full )
-	gtk_widget_set_sensitive ( menu_item, FALSE );
+    gtk_widget_set_sensitive ( menu_item, full );
     gtk_menu_append ( menu, menu_item );
 
     /* Move to another account */
@@ -3289,9 +3198,127 @@ void popup_transaction_context_menu ( gboolean full )
     gtk_menu_item_set_submenu ( GTK_MENU_ITEM(menu_item), 
 				GTK_WIDGET(creation_option_menu_comptes(GTK_SIGNAL_FUNC(move_selected_operation_to_account), FALSE, FALSE)) );
 
+    /* Separator */
+    gtk_menu_append ( menu, gtk_separator_menu_item_new() );
+
+    /* Change cell content. */
+    menu_item = gtk_menu_item_new_with_label ( _("Change cell content") );
+    if ( full )
+	gtk_menu_item_set_submenu ( GTK_MENU_ITEM ( menu_item ), 
+				    GTK_WIDGET ( gsb_gui_create_cell_contents_menu ( x, y ) ) );
+    gtk_widget_set_sensitive ( menu_item, full );
+    gtk_menu_append ( menu, menu_item );
+
+    /* Finish all. */
     gtk_widget_show_all (menu);
     gtk_menu_popup ( GTK_MENU(menu), NULL, NULL, NULL, NULL, 3, gtk_get_current_event_time());
 }
+
+
+
+/**
+ * Create and return a menu that contains all cell content types.
+ * When a type is selected, the cell that triggered this pop-up menu
+ * is changed accordingly.
+ * 
+ * \param x	Horizontal coordinate of the cell that will be modified.
+ * \param y	Vertical coordinate of the cell that will be modified.
+ *
+ * \return	A newly-allocated menu.
+ */
+GtkWidget * gsb_gui_create_cell_contents_menu ( int x, int y )
+{
+    GtkWidget * menu, * item;
+    gchar *labels_boutons [] = {
+	_("Date"), _("Value date"), _("Payee"), _("Budgetary line"), _("Debit"), 
+	_("Credit"), _("Balance"), _("Amount"), _("Method of payment"),
+	_("Reconciliation ref."), _("Financial year"), _("Category"), _("C/R"),
+	_("Voucher"), _("Notes"), _("Bank references"), _("Transaction number"),
+	NULL };
+    gint i;
+
+    menu = gtk_menu_new ();
+
+    for ( i = 0 ; labels_boutons[i] ; i++ )
+    {
+	item = gtk_menu_item_new_with_label ( labels_boutons[i] );
+	g_object_set_data ( item, "x", x );
+	g_object_set_data ( item, "y", y );
+	g_signal_connect ( G_OBJECT(item), "activate", 
+			   G_CALLBACK(gsb_gui_change_cell_content), i );
+	gtk_menu_append ( menu, item );
+    }
+    
+    return menu;
+}
+
+
+
+/**
+ * Iterator to update one cell of the transaction list.
+ *
+ * \param model		Model to update.
+ * \param path		GtkTreePath to the iter to modify.
+ * \param iter		GtkTreeIter to modify.
+ * \param coords	A couple of coordinates : coords[0] is
+ *			vertical coordinate and coords[1] is
+ *			horizontal coordinate.
+ *
+ * \return FALSE
+ */
+gboolean gsb_gui_update_row_foreach ( GtkTreeModel *model, GtkTreePath *path,
+				      GtkTreeIter *iter, gint coords[2] )
+{
+    gint line, transaction_number;
+    gpointer pointer;
+    
+    gtk_tree_model_get ( model, iter,
+			 TRANSACTION_COL_NB_TRANSACTION_LINE, &line,
+			 TRANSACTION_COL_NB_TRANSACTION_ADDRESS, &pointer,
+			 -1 );
+    transaction_number = gsb_data_transaction_get_transaction_number ( pointer );
+
+    if ( coords[1] == line )
+    {
+	gtk_list_store_set ( gsb_transactions_list_get_store (), iter, coords[0], 
+			     gsb_transactions_list_grep_cell_content ( transaction_number,
+								       tab_affichage_ope[coords[1]][coords[0]] ),
+			     -1 );
+    }
+
+    return FALSE;
+}
+
+
+
+/**
+ * Change the content of a cell.  This is triggered from the
+ * activation of a menu item, so that we check the attributes of this
+ * item to determine which cell is changed and with what.
+ *
+ * After this, iterate to update all GtkTreeIters of the transaction
+ * list.
+ *
+ * \param item		The GtkMenuItem that triggered event.
+ * \param number	Content to put in the cell.
+ *
+ * \return FALSE
+ */
+gboolean gsb_gui_change_cell_content ( GtkWidget * item, gint number )
+{
+    gint coords[2];
+
+    coords[0] = g_object_get_data ( item, "x" );
+    coords[1] = g_object_get_data ( item, "y" );
+
+    tab_affichage_ope[coords[1]][coords[0]] = number + 1;
+    
+    gtk_tree_model_foreach ( gsb_transactions_list_get_store (),
+			     gsb_gui_update_row_foreach, coords );
+
+    return FALSE;
+}
+
 
 
 /**
@@ -3326,6 +3353,7 @@ void new_transaction ()
 }
 
 
+
 /**
  * Remove selected transaction if any.
  */
@@ -3336,6 +3364,7 @@ void remove_transaction ()
     gsb_transactions_list_delete_transaction (gsb_data_account_get_current_transaction_number (gsb_data_account_get_current_account ()));
     gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ), 1 );
 }
+
 
 
 /**
@@ -3362,6 +3391,7 @@ void clone_selected_transaction ()
 
     modification_fichier ( TRUE );
 }
+
 
 
 /**
