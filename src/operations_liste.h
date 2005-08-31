@@ -13,7 +13,7 @@
 #define TRANSACTION_COL_NB_CREDIT 6
 #define TRANSACTION_COL_NB_BALANCE 7
 
-#define TRANSACTION_LIST_COL_NB 7	 /*< must be the last of the list */
+#define TRANSACTION_LIST_COL_NB 8	 /*< must be the last of the list */
 
 /* define the columns in the store
  * as the data are filled above, the number here
