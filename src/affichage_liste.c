@@ -273,6 +273,17 @@ GtkWidget *onglet_affichage_operations ( void )
 					    _("by date"),
 					    &etat.classement_par_date, NULL);
 
+
+    /* Account distinction */
+    paddingbox = new_paddingbox_with_title (vbox_pref, FALSE, 
+					    COLON(_("Account distinction")));
+
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ),
+			 new_checkbox_with_title (_("Remember display settings for each account separately"),
+						  &etat.retient_affichage_par_compte,
+						  NULL ),
+			 FALSE, FALSE, 0 );
+
     if ( !gsb_data_account_get_accounts_amount () )
     {
 	gtk_widget_set_sensitive ( vbox_pref, FALSE );
