@@ -57,6 +57,7 @@
 static void affiche_aide_locale ( gpointer null,
 			   gint origine );
 static gboolean gsb_gui_toggle_grid_mode ();
+static gboolean gsb_gui_toggle_show_reconciled ();
 static void gsb_gui_toggle_line_view_mode ( GtkRadioAction * action, GtkRadioAction *current, 
 				     gpointer user_data );
 static void lien_web ( GtkWidget *widget,
@@ -314,7 +315,8 @@ GtkToggleActionEntry toggle_entries[] = {
   NULL,			NULL,			G_CALLBACK ( gsb_gui_toggle_grid_mode ), 
   etat.affichage_grille },
 { "ShowReconciled",	NULL,			_("Show _reconciled"),
-  NULL,			NULL,			G_CALLBACK ( NULL ),
+  gsb_data_account_get_r ( gsb_data_account_get_current_account ()), 
+			NULL,			G_CALLBACK ( gsb_gui_toggle_show_reconciled),
   0 },
 { "ShowClosed",		NULL,			_("Show _closed accounts"),
   NULL,			NULL,			G_CALLBACK ( NULL ),
@@ -615,37 +617,35 @@ gboolean gsb_gui_toggle_grid_mode ()
     return FALSE;
 }
 
-/*     widget_state = gtk_check_menu_item_get_active( GTK_CHECK_MENU_ITEM(widget) ); */
-/*     current_account = gsb_data_account_get_current_account (); */
 
-/*     switch ( callback_action ) */
-/*     { */
-/* 	case HIDE_SHOW_TRANSACTION_FORM: */
-/* 	    affiche_cache_le_formulaire(); */
-/* 	    break; */
-/* 	case HIDE_SHOW_GRID: */
-/* 	    change_aspect_liste (0); */
-/* 	    break; */
-/* 	case HIDE_SHOW_RECONCILED_TRANSACTIONS: */
-/* 	    if ( gsb_data_account_get_r ( current_account ) ) */
-/* 		change_aspect_liste(6); */
-/* 	    else */
-/* 		change_aspect_liste(5); */
-/* 	    gsb_data_account_set_r ( current_account, widget_state ); */
-/* 	    break; */
-/* 	case HIDE_SHOW_CLOSED_ACCOUNTS: */
-/* 	    etat.show_closed_accounts = widget_state; */
-/* 	    gtk_tree_model_filter_refilter ( navigation_model_filtered ); */
-/* 	    break; */
-/* 	default: */
-/* 	    break; */
-/*     } */
+
+/**
+ * Show or hide display of reconciled transactions.
+ *
+ * \return FALSE
+ */
+gboolean gsb_gui_toggle_show_reconciled ()
+{
+    if ( block_menu_cb )
+	return FALSE;
+
+    if ( gsb_data_account_get_r ( gsb_data_account_get_current_account () ) )
+	change_aspect_liste(6);
+    else
+	change_aspect_liste(5);
+
+    gsb_transactions_list_set_visibles_rows_on_account ( gsb_data_account_get_current_account () );
+
+    return FALSE;
+}
 
 
 
 /**
- * update the view menu in the menu bar
- * \account_number the account used to update the menu
+ * Update the view menu in the menu bar
+ *
+ * \param account_number	The account used to update the menu
+ *
  * \return FALSE
  * */
 gboolean gsb_menu_update_view_menu ( gint account_number )
