@@ -281,12 +281,6 @@ gboolean gsb_file_config_load_config ( void )
 							  "Columns width auto",
 							  NULL );
 
-    *taille_largeur_colonnes = g_key_file_get_integer_list ( config,
-							    "Shown",
-							    "Column width",
-							    NULL,
-							    NULL );
-
     etat.affichage_grille = g_key_file_get_integer ( config,
 						     "Shown",
 						     "Show grid",
@@ -405,16 +399,6 @@ gboolean gsb_file_config_save_config ( void )
     filename = g_strconcat ( my_get_grisbirc_dir(), C_GRISBIRC, NULL );
     config = g_key_file_new ();
     
-    /* get the width of the columns if a file is in memory */
-
-    if ( gsb_data_account_get_accounts_amount () )
-    {
-	for ( i=0 ; i<TRANSACTION_LIST_COL_NB ; i++ )
-	    if ( GTK_IS_TREE_VIEW_COLUMN ( transactions_tree_view_columns[i]))
-		taille_largeur_colonnes[i] = gtk_tree_view_column_get_width (transactions_tree_view_columns[i]);
-    }
-
-
     /* get the geometry */
 
     if ( GTK_WIDGET ( window) -> window ) 
@@ -572,17 +556,6 @@ gboolean gsb_file_config_save_config ( void )
 			     "Shown",
 			     "Show valid_cancel buttons",
 			     etat.affiche_boutons_valider_annuler );
-
-    g_key_file_set_integer ( config,
-			     "Shown",
-			     "Columns width auto",
-			     etat.largeur_auto_colonnes );
-
-    g_key_file_set_integer_list ( config,
-				  "Shown",
-				  "Column width",
-				  taille_largeur_colonnes,
-				  7 );
 
     g_key_file_set_integer ( config,
 			     "Shown",

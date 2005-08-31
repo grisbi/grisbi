@@ -130,7 +130,6 @@ extern GtkWidget *nom_banque;
 extern GtkWidget *nom_correspondant;
 extern GtkWidget *nom_exercice;
 extern gchar *nom_fichier_backup;
-extern gint rapport_largeur_colonnes[TRANSACTION_LIST_COL_NB];
 extern GtkWidget *remarque_banque;
 extern gint scheduler_col_width[NB_COLS_SCHEDULER] ;
 extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][TRANSACTION_LIST_COL_NB];
@@ -718,24 +717,6 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
 		    else
 			l = TRANSACTION_LIST_COL_NB;
 		}
-
-	    g_strfreev ( pointeur_char );
-
-	}
-
-	else if ( !strcmp ( attribute_names[i],
-			    "Transaction_column_width_ratio" ))
-	{
-	    gchar **pointeur_char;
-	    gint j;
-
-	    pointeur_char = g_strsplit ( g_strdup (attribute_values[i]),
-					 "-",
-					 0 );
-
-	    for ( j=0 ; j< TRANSACTION_LIST_COL_NB; j++ )
-		if ( pointeur_char[j] )
-		    rapport_largeur_colonnes[j] = utils_str_atoi ( pointeur_char[j]);
 
 	    g_strfreev ( pointeur_char );
 
@@ -3785,10 +3766,6 @@ gboolean gsb_file_load_update_previous_version ( void )
 		tab_affichage_ope[j][0] = 0;
 	    }
 
-	    for ( i=TRANSACTION_LIST_COL_NB-1 ; i ; i-- )
-		rapport_largeur_colonnes[i] = rapport_largeur_colonnes[i-1];
-	    rapport_largeur_colonnes[0] = 2;
-
 	    list_tmp = gsb_data_account_get_list_accounts ();
 
 	    while ( list_tmp )
@@ -5153,24 +5130,6 @@ void gsb_file_load_general_part_before_0_6 ( GMarkupParseContext *context,
 		else
 		    j = TRANSACTION_LIST_COL_NB;
 	    }
-
-	g_strfreev ( pointeur_char );
-	return;
-    }
-
-    if ( !strcmp ( element_name,
-		   "Rapport_largeur_col" ))
-    {
-	gchar **pointeur_char;
-	gint i;
-
-	pointeur_char = g_strsplit ( g_strdup (text),
-				     "-",
-				     0 );
-
-	for ( i=0 ; i< TRANSACTION_LIST_COL_NB; i++ )
-	    if ( pointeur_char[i] )
-		rapport_largeur_colonnes[i] = utils_str_atoi ( pointeur_char[i]);
 
 	g_strfreev ( pointeur_char );
 	return;

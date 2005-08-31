@@ -383,22 +383,7 @@ gulong gsb_file_save_general_part ( gulong iterator,
 		transactions_view = utils_str_itoa ( tab_affichage_ope[i][j] );
 
     /* prepare transaction_column_width_ratio */
-
     transaction_column_width_ratio = NULL;
-
-    for ( i=0 ; i<TRANSACTION_LIST_COL_NB ; i++ )
-	if ( transaction_column_width_ratio )
-	{
-	    transaction_column_width_ratio = g_strconcat ( first_string_to_free = transaction_column_width_ratio,
-							   "-",
-							   second_string_to_free = utils_str_itoa ( rapport_largeur_colonnes[i] ),
-							   NULL );
-	    g_free (first_string_to_free);
-	    g_free (second_string_to_free);
-	}
-	else
-	    transaction_column_width_ratio = utils_str_itoa ( rapport_largeur_colonnes[i] );
-
 
     /* prepare two_lines_showed */
 
