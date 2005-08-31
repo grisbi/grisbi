@@ -1,3 +1,4 @@
+# translation of fr.po to 
 # translation of fr.po to français
 # translation of fr.po to
 # translation of fr.po to
@@ -12,19 +13,20 @@
 # 			Alain Portal <aportal@univ-montp2.fr>, 2003.
 # Alain PORTAL <alain.portal@free.fr>, 2004.
 # Alain PORTAL <aportal@univ-montp2.fr>, 2005.
+# Benjamin Drieu,,, <benj@atlin>, 2005.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-07-20 18:25+0200\n"
-"PO-Revision-Date: 2005-07-20 18:26+0200\n"
-"Last-Translator: Benjamin Drieu <bdrieu@april.org>\n"
-"Language-Team: Francais <traduction@grisbi.org>\n"
+"PO-Revision-Date: 2005-08-31 18:16+0200\n"
+"Last-Translator: Benjamin Drieu,,, <benj@atlin>\n"
+"Language-Team:  <en@li.org>\n"
 "MIME-Version: (null)\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.3.1\n"
+"X-Generator: KBabel 1.9.1\n"
 
 #: src/accueil.c:188
 msgid "Closed liabilities accounts"
@@ -158,8 +160,7 @@ msgstr "Utiliser le logo"
 
 #: src/affichage.c:250
 msgid "Click on preview to change homepage logo"
-msgstr ""
-"Cliquer sur la prévisualisation pour modifier le logo de l'onglet « Accueil »"
+msgstr "Cliquer sur la prévisualisation pour modifier le logo de l'onglet « Accueil »"
 
 #: src/affichage.c:306
 msgid "Click on preview to change animation"
@@ -520,8 +521,7 @@ msgstr "Ajuster la taille des colonnes selon le tableau ci-dessus"
 
 #: src/affichage_liste.c:223
 msgid "Remember display settings for each account separately"
-msgstr ""
-"Retenir les caractéristiques de l'affichage séparément pour chaque compte"
+msgstr "Retenir les caractéristiques de l'affichage séparément pour chaque compte"
 
 #: src/affichage_liste.c:229
 msgid "Revert to defaults"
@@ -793,9 +793,8 @@ msgstr "Vue complète"
 #: src/barre_outils.c:279 src/barre_outils.c:286 src/barre_outils.c:301
 #: src/barre_outils.c:316 src/menu.c:261 src/menu.c:262 src/menu.c:263
 #: src/operations_formulaire.c:3556
-#, fuzzy
 msgid "_View"
-msgstr "Affichage"
+msgstr "_Affichage"
 
 #: src/barre_outils.c:254 src/menu.c:256 src/menu.c:330
 #: src/traitement_variables.c:390
@@ -832,9 +831,8 @@ msgid "Unique view"
 msgstr "Vue unique"
 
 #: src/barre_outils.c:338 src/echeancier_liste.c:1671
-#, fuzzy
 msgid "Week view"
-msgstr "Vue des tiers uniquement"
+msgstr "Vue hebdomadaire"
 
 #: src/barre_outils.c:338 src/echeancier_liste.c:1671
 msgid "Month view"
@@ -845,9 +843,8 @@ msgid "Two months view"
 msgstr "Vue bimestrielle"
 
 #: src/barre_outils.c:339 src/echeancier_liste.c:1672
-#, fuzzy
 msgid "Quarter view"
-msgstr "Vue des catégories uniquement"
+msgstr "Vue trimestrielle"
 
 #: src/barre_outils.c:340 src/echeancier_liste.c:1673
 msgid "Year view"
@@ -858,9 +855,8 @@ msgid "Custom view"
 msgstr "Vue personnalisée"
 
 #: src/barre_outils.c:382
-#, fuzzy
 msgid "_New transaction"
-msgstr "Nouvelle opération"
+msgstr "_Nouvelle opération"
 
 #. crÃ©ation de la ligne du commentaire
 #: src/barre_outils.c:404 src/comptes_gestion.c:535
@@ -1805,8 +1801,7 @@ msgid "No tip of the day available"
 msgstr "Aucune astuce du jour disponible"
 
 #: src/dialog.c:55
-msgid ""
-"Make sure that grisbi was correctly installed and that tips file is readable."
+msgid "Make sure that grisbi was correctly installed and that tips file is readable."
 msgstr ""
 "Assurez-vous que Grisbi soit correctement installé et que le fichier des "
 "astuces soit accessible en lecture."
@@ -1823,7 +1818,7 @@ msgstr ""
 
 #: src/dialog.c:60
 msgid "Encryption is irreversible."
-msgstr ""
+msgstr "Le chiffrement est irréversible."
 
 #: src/dialog.c:61
 msgid ""
@@ -1834,6 +1829,8 @@ msgid ""
 "I repeat: if you forget your password, there is no coming back, don't "
 "complain to us."
 msgstr ""
+"Grisbi chiffre ses fichiers d'une manière sécurisée qui ne permet pas de retrouver le fichier original sans le mot de passe.  Cela signifie que si vous oubliez votre mot de passe, vous perdrez toutes vos données.  Utilisez avec précaution. "
+"Je répète : si vous oubliez votre mot de passe, il n'y a pas de retour en arrière, ne venez pas vous plaindre auprès de nous."
 
 #: src/dialog.c:291 src/fichiers_gestion.c:558 src/gsb_file_util.c:545
 #: src/tip.c:83
@@ -2056,23 +2053,21 @@ msgid "%d days"
 msgstr "%d jours"
 
 #: src/echeancier_liste.c:471
-#, fuzzy
 msgid "Montly"
 msgstr "Mensuel"
 
 #: src/echeancier_liste.c:472
-#, fuzzy
 msgid "Bimonthly"
-msgstr "Mensuel"
+msgstr "Bimensuel"
 
 #: src/echeancier_liste.c:472
 msgid "Quarterly"
-msgstr ""
+msgstr "Trimestriel"
 
 #: src/echeancier_liste.c:1228
-#, fuzzy, c-format
+#, c-format
 msgid "%s : %s [%4.2f %s]"
-msgstr "%02d/%02d/%d : %s [%4.2f %s]"
+msgstr "%s : %s [%4.2f %s]"
 
 #: src/echeancier_liste.c:1237
 msgid "Delete this scheduled transaction?"
@@ -2097,24 +2092,20 @@ msgid "Only this one"
 msgstr "Juste celle-ci"
 
 #: src/echeancier_liste.c:1610
-#, fuzzy
 msgid "days"
-msgstr "jour"
+msgstr "jours"
 
 #: src/echeancier_liste.c:1610
-#, fuzzy
 msgid "weeks"
-msgstr "Semaine"
+msgstr "semaines"
 
 #: src/echeancier_liste.c:1610
-#, fuzzy
 msgid "months"
-msgstr "Mois"
+msgstr "mois"
 
 #: src/echeancier_liste.c:1610
-#, fuzzy
 msgid "years"
-msgstr "Années"
+msgstr "années"
 
 #: src/echeancier_liste.c:1613 src/echeancier_liste.c:1622
 #, fuzzy
@@ -2282,8 +2273,7 @@ msgid "Grisbi made a backup file at '%s'."
 msgstr "Grisbi a effectué une copie de sauvegarde dans '%s'."
 
 #: src/erreur.c:279
-msgid ""
-"Please report this problem to <tt>http://www.grisbi.org/bugtracking/</tt>.  "
+msgid "Please report this problem to <tt>http://www.grisbi.org/bugtracking/</tt>.  "
 msgstr ""
 "Veuillez rapporter cette erreur à la page <tt>http://www.grisbi.org/"
 "bugtracking/</tt>."
@@ -2322,8 +2312,7 @@ msgid "%s : %s - %s\n"
 msgstr "%s : %s - %s\n"
 
 #: src/etat_io.c:84 src/etat_io.c:101
-msgid ""
-"Grisbi is unable to parse this file as a report file.  Be sure it is valid."
+msgid "Grisbi is unable to parse this file as a report file.  Be sure it is valid."
 msgstr ""
 
 #: src/etat_io.c:85 src/etat_io.c:102
@@ -2922,7 +2911,7 @@ msgstr "Date initiale"
 msgid "Final date"
 msgstr "Date finale"
 
-#. on met dans la partie de gauche une liste contenant les comptes Ã 
+#. on met dans la partie de gauche une liste contenant les comptes Ã
 #. sÃ©lectionner
 #: src/etats_config.c:2521
 msgid "Select transactions only for given accounts"
@@ -2968,8 +2957,7 @@ msgstr "Inclure les virements de ou vers les comptes d'actif et de passif"
 
 #: src/etats_config.c:2805
 msgid "Include transfers from or to accounts not in this report"
-msgstr ""
-"Inclure les virements de ou vers les comptes ne figurant pas dans l'état"
+msgstr "Inclure les virements de ou vers les comptes ne figurant pas dans l'état"
 
 #: src/etats_config.c:2818
 msgid "Include transfers from or to these accounts"
@@ -3291,8 +3279,7 @@ msgstr "Afficher le nombre d'opérations avec les totaux"
 
 #: src/etats_config.c:6499
 msgid "Consider the payees of this report as a multiple payee."
-msgstr ""
-"Inclure cet état dans la liste des tiers du formulaire de saisie d'opération."
+msgstr "Inclure cet état dans la liste des tiers du formulaire de saisie d'opération."
 
 #. afficher ou non les opÃ©s
 #: src/etats_config.c:6550
@@ -3480,7 +3467,7 @@ msgstr "Afficher un sous-total lors du changement de sous-imputation"
 msgid "Display \"No sub-budgetary line\" if none"
 msgstr "Afficher \"Pas de sous-imputation\" si absente"
 
-#. on met dans la partie de gauche une liste contenant les modes de paiement Ã 
+#. on met dans la partie de gauche une liste contenant les modes de paiement Ã
 #. sÃ©lectionner
 #: src/etats_config.c:7692
 msgid "Select the transactions by method of payment"
@@ -3540,9 +3527,8 @@ msgid "Print"
 msgstr "Imprimer"
 
 #: src/etats_onglet.c:149
-#, fuzzy
 msgid "Clone"
-msgstr "Fermer"
+msgstr "Cloner"
 
 #. Reports menu
 #: src/etats_onglet.c:185 src/fenetre_principale.c:234 src/menu.c:272
@@ -3653,8 +3639,7 @@ msgstr ""
 #. etat vierge
 #: src/etats_onglet.c:771
 msgid "This report is an empty one. You need to customise it entirely."
-msgstr ""
-"Cette option crée un état vierge dans lequel vous devez tous configurer."
+msgstr "Cette option crée un état vierge dans lequel vous devez tous configurer."
 
 #. remise de chÃ¨ques
 #: src/etats_onglet.c:777
@@ -3699,16 +3684,14 @@ msgstr "Effacer l'état « %s » ?"
 
 #: src/etats_onglet.c:817
 msgid "This will irreversibly remove this report.  There is no undo for this."
-msgstr ""
-"Cela détruira irrémédiablement cet état. Il n'y a pas d'annulation possible."
+msgstr "Cela détruira irrémédiablement cet état. Il n'y a pas d'annulation possible."
 
 #: src/etats_onglet.c:834 src/etats_onglet.c:837 src/etats_onglet.c:840
 #: src/etats_onglet.c:843 src/etats_onglet.c:846 src/etats_onglet.c:849
 #: src/etats_onglet.c:874 src/etats_onglet.c:877 src/etats_onglet.c:880
 #: src/etats_onglet.c:883 src/etats_onglet.c:886 src/etats_onglet.c:889
-#, fuzzy
 msgid "_Reports"
-msgstr "États"
+msgstr "_États"
 
 #: src/etats_onglet.c:834 src/etats_onglet.c:874 src/menu.c:276
 #: src/traitement_variables.c:398
@@ -3716,19 +3699,16 @@ msgid "Clone report"
 msgstr "Cloner l'état"
 
 #: src/etats_onglet.c:837 src/etats_onglet.c:877 src/menu.c:277
-#, fuzzy
 msgid "Print report..."
-msgstr "Imprimer l'état"
+msgstr "Imprimer l'état..."
 
 #: src/etats_onglet.c:840 src/etats_onglet.c:880 src/menu.c:280
-#, fuzzy
 msgid "Export report..."
-msgstr "Exporter un état"
+msgstr "Exporter l'état..."
 
 #: src/etats_onglet.c:843 src/etats_onglet.c:883 src/menu.c:281
-#, fuzzy
 msgid "Export report as HTML..."
-msgstr "Exporter un état"
+msgstr "Exporter l'état en HTML..."
 
 #: src/etats_onglet.c:846 src/etats_onglet.c:886 src/menu.c:283
 #: src/traitement_variables.c:402
@@ -3736,13 +3716,12 @@ msgid "Remove report"
 msgstr "Effacer l'état"
 
 #: src/etats_onglet.c:849 src/etats_onglet.c:889 src/menu.c:285
-#, fuzzy
 msgid "Edit report..."
-msgstr "Éditer l'état"
+msgstr "Éditer l'état..."
 
 #: src/etats_onglet.c:937 src/traitement_variables.c:401
 msgid "Export report"
-msgstr "Exporter un état"
+msgstr "Exporter l'état"
 
 #: src/etats_onglet.c:981
 msgid "Import a report"
@@ -4110,8 +4089,7 @@ msgstr ""
 #: src/gnucash.c:544 src/utils_file_selection.c:141
 #, c-format
 msgid "Either file \"%s\" does not exist or it is not a regular file."
-msgstr ""
-"Soit le fichier « %s » n'existe pas, soit ce n'est pas un fichier normal."
+msgstr "Soit le fichier « %s » n'existe pas, soit ce n'est pas un fichier normal."
 
 #: src/gnucash.c:546 src/utils_file_selection.c:143
 #, c-format
@@ -4186,7 +4164,7 @@ msgstr ""
 
 #: src/gsb_file_util.c:234
 msgid "The password was incorrect ! Please try again..."
-msgstr ""
+msgstr "Mot de passe incorrect ! Essayez à nouveau..."
 
 #: src/gsb_file_util.c:263
 msgid "Grisbi password"
@@ -4416,8 +4394,7 @@ msgstr ""
 #: src/help.c:89
 #, fuzzy
 msgid "Alain Portal (aportal[at]univ-monpt2.fr): manual"
-msgstr ""
-"Alain Portal (dionysos[at]grisbi.org) : programmation, manuel, paquets RedHat"
+msgstr "Alain Portal (dionysos[at]grisbi.org) : programmation, manuel, paquets RedHat"
 
 #: src/help.c:90
 #, fuzzy
@@ -4932,14 +4909,12 @@ msgstr ""
 
 #. Edit transaction
 #: src/imputation_budgetaire.c:727
-#, fuzzy
 msgid "Budgetary line view"
-msgstr "Imputation"
+msgstr "Vue des imputations"
 
 #: src/imputation_budgetaire.c:733
-#, fuzzy
 msgid "Sub-budgetary line view"
-msgstr "Total sous-imputations"
+msgstr "Vue des sous imputations"
 
 #: src/main.c:190
 #, c-format
@@ -4956,9 +4931,8 @@ msgid "_File"
 msgstr "_Fichier"
 
 #: src/menu.c:165
-#, fuzzy
 msgid "_New account file..."
-msgstr "_Nouveau fichier de compte"
+msgstr "_Nouveau fichier de compte..."
 
 #: src/menu.c:168
 msgid "_Open..."
@@ -5029,9 +5003,8 @@ msgid "Recently opened files"
 msgstr "Derniers fichiers"
 
 #: src/menu.c:233
-#, fuzzy
 msgid "Import QIF\\/OFX\\/CSV\\/Gnucash file ..."
-msgstr "Fichier QIF\\/OFX\\/Gnucash ..."
+msgstr "Importer un fichier QIF\\/OFX\\/CSV\\/Gnucash ..."
 
 #: src/menu.c:234 src/traitement_variables.c:380
 msgid "Export QIF file ..."
@@ -5241,18 +5214,16 @@ msgstr ""
 "les opérations, mais aucune catégorie n'a été entrée."
 
 #: src/metatree.c:1258
-#, fuzzy
 msgid "Please enter a division!"
-msgstr "Veuillez entrer une catégorie !"
+msgstr "Veuillez entrer une division !"
 
 #: src/navigation.c:260 src/navigation.c:832 src/tiers_onglet.c:188
 msgid "Payees"
 msgstr "Tiers"
 
 #: src/navigation.c:303
-#, fuzzy
 msgid "Aqbanking"
-msgstr "Albanie"
+msgstr "Aqbanking"
 
 #: src/navigation.c:819
 msgid "Account transactions"
@@ -5306,8 +5277,7 @@ msgstr ""
 
 #: src/ofx.c:333
 msgid "A transaction try to be saved but no account was created...\n"
-msgstr ""
-"Tentative d'enregistrement d'un opération sans compte créé précedemment...\n"
+msgstr "Tentative d'enregistrement d'un opération sans compte créé précedemment...\n"
 
 #: src/ofx.c:397
 msgid "Check"
@@ -5358,9 +5328,8 @@ msgid "Repeating payment/standing order"
 msgstr "Paiement répété"
 
 #: src/operations_comptes.c:134 src/operations_comptes.c:183
-#, fuzzy
 msgid "_Edit"
-msgstr "Édition"
+msgstr "_Édition"
 
 #: src/operations_comptes.c:175
 msgid "Last statement: none"
@@ -5450,9 +5419,8 @@ msgid "The word \"Report\" is reserved. Please use another one."
 msgstr "Le mot « État » est réservé.  Veuillez en utiliser un autre."
 
 #: src/operations_formulaire.c:2690
-#, fuzzy
 msgid "No budgetary line was entered"
-msgstr "Pas d'imputation"
+msgstr "Pas d'imputation budgétaire saisie"
 
 #: src/operations_formulaire.c:2691
 msgid ""
@@ -5483,9 +5451,8 @@ msgid ""
 msgstr ""
 
 #: src/operations_liste.c:2869
-#, fuzzy
 msgid "Delete a transaction"
-msgstr "Supprimer l'opération"
+msgstr "Supprimer une opération"
 
 #: src/operations_liste.c:2870
 #, c-format
@@ -5520,9 +5487,8 @@ msgstr "_Formulaire de saisie d'opérations"
 
 #. Create dialog
 #: src/parametres.c:211
-#, fuzzy
 msgid "Grisbi preferences"
-msgstr "Paramètres"
+msgstr "Préférences de Grisbi"
 
 #: src/parametres.c:241 src/parametres.c:600
 msgid "Files"
@@ -5541,9 +5507,8 @@ msgid "Messages & warnings"
 msgstr "Messages et alertes"
 
 #: src/parametres.c:321
-#, fuzzy
 msgid "Informations shown"
-msgstr "Informations"
+msgstr "Informations montrées"
 
 #: src/parametres.c:329
 msgid "List behavior"
@@ -5564,8 +5529,7 @@ msgid "Scheduler warnings"
 msgstr "Alertes de l'échéancier"
 
 #: src/parametres.c:474
-msgid ""
-"Number of days before a warning message advertising a scheduled transaction"
+msgid "Number of days before a warning message advertising a scheduled transaction"
 msgstr "Nombre de jours précédant le rappel d'une échéance"
 
 #. Tip of the day
@@ -5596,9 +5560,8 @@ msgid "Automatically save on exit"
 msgstr "Enregistrer automatiquement en fermant"
 
 #: src/parametres.c:628
-#, fuzzy
 msgid "Encrypt Grisbi file"
-msgstr "Décrypter le fichier"
+msgstr "Chiffrer le fichier Grisbi"
 
 #: src/parametres.c:637
 msgid "File compression level"
@@ -5947,9 +5910,8 @@ msgid "Browse"
 msgstr "Parcourir"
 
 #: src/utils_file_selection.c:95
-#, fuzzy
 msgid "File already exists"
-msgstr "Le fichier « %s » existe déjà."
+msgstr "Le fichier existe déjà."
 
 #: src/utils_file_selection.c:96
 #, c-format
@@ -5965,1210 +5927,3 @@ msgstr "Date de fin « %s » invalide"
 msgid "No payee defined"
 msgstr "Aucun tiers défini"
 
-#~ msgid "Scheduled transaction"
-#~ msgstr "Échéance"
-
-#~ msgid "Africa"
-#~ msgstr "Afrique"
-
-#~ msgid "Algerian Dinar"
-#~ msgstr "Dinar algérien"
-
-#~ msgid "Algeria"
-#~ msgstr "Algérie"
-
-#~ msgid "Botswana Pula"
-#~ msgstr "Pula"
-
-#~ msgid "Botswana"
-#~ msgstr "Botswana"
-
-#~ msgid "Burundi Franc"
-#~ msgstr "Franc du Burundi"
-
-#~ msgid "Burundi"
-#~ msgstr "Burundi"
-
-#~ msgid "CFA Franc BCEAO"
-#~ msgstr "Franc CFA (BCEAO)"
-
-#~ msgid "Niger"
-#~ msgstr "Niger"
-
-#~ msgid "Senegal"
-#~ msgstr "Senegal"
-
-#~ msgid "CFA Franc BEAC"
-#~ msgstr "Franc CFA (BEAC)"
-
-#~ msgid "Cameroon"
-#~ msgstr "Cameroun"
-
-#~ msgid "Chad"
-#~ msgstr "Tchad"
-
-#~ msgid "Congo"
-#~ msgstr "Congo"
-
-#~ msgid "Comoro Franc"
-#~ msgstr "Franc des Comores"
-
-#~ msgid "Comoros"
-#~ msgstr "Comores"
-
-#~ msgid "Egyptian Pound"
-#~ msgstr "Livre égyptienne"
-
-#~ msgid "Egypt"
-#~ msgstr "Egypte"
-
-#~ msgid "Ethiopian Birr"
-#~ msgstr "Birr"
-
-# #####
-#~ msgid "Ethiopia"
-#~ msgstr "Ethiopie"
-
-#~ msgid "Gambian Dalasi"
-#~ msgstr "Dalasie"
-
-#~ msgid "Gambia"
-#~ msgstr "Gambie"
-
-#~ msgid "Ghana Cedi"
-#~ msgstr "Cedi"
-
-#~ msgid "Ghana"
-#~ msgstr "Ghana"
-
-#~ msgid "Guinea-Bissau Peso"
-#~ msgstr "Peso de Guinée-Bissau"
-
-#~ msgid "Guinea-Bissau"
-#~ msgstr "Guinée-Bissau"
-
-#~ msgid "Kenyan Shilling"
-#~ msgstr "Shilling du Kenya"
-
-#~ msgid "Kenya"
-#~ msgstr "Kenya"
-
-#~ msgid "Liberian Dollar"
-#~ msgstr "Dollar libérien"
-
-#~ msgid "Liberia"
-#~ msgstr "Libéria"
-
-#~ msgid "Libyan Dinar"
-#~ msgstr "Dinar Iybien"
-
-#~ msgid "Libyan Arab Jamahiriya"
-#~ msgstr "Lybie"
-
-#~ msgid "Malagasy Franc"
-#~ msgstr "Franc malgache"
-
-#~ msgid "Madagascar"
-#~ msgstr "Madagascar"
-
-#~ msgid "Malawi Kwacha"
-#~ msgstr "Kwacha"
-
-#~ msgid "Malawi"
-#~ msgstr "Malawi"
-
-#~ msgid "Mauritania Ouguiya"
-#~ msgstr "Ouguija"
-
-#~ msgid "Mauritania"
-#~ msgstr "Mauritanie"
-
-#~ msgid "Moazambique Metical"
-#~ msgstr "Metical"
-
-#~ msgid "Mozambique"
-#~ msgstr "Mozambique"
-
-#~ msgid "Moroccan Dirham"
-#~ msgstr "Dirham marocain"
-
-#~ msgid "Morocco"
-#~ msgstr "Maroc"
-
-#~ msgid "Nigerian Naira"
-#~ msgstr "Naira"
-
-#~ msgid "Nigeria"
-#~ msgstr "Nigeria"
-
-#~ msgid "Rwanda Franc"
-#~ msgstr "Franc du Rwanda"
-
-#~ msgid "Rwanda"
-#~ msgstr "Rwanda"
-
-#~ msgid "Sao Tome and Principe Dobra"
-#~ msgstr "Dobra"
-
-#~ msgid "Sao Tome and Principe"
-#~ msgstr "Sâo Tomé - Principe"
-
-#~ msgid "Seychelles Rupee"
-#~ msgstr "Roupie des Seychelles"
-
-#~ msgid "Seychelles"
-#~ msgstr "Seychelles"
-
-#~ msgid "Sierra Leonean Leone"
-#~ msgstr "Leone"
-
-#~ msgid "Sierra Leone"
-#~ msgstr "Sierra Leone"
-
-#~ msgid "Somali Shilling"
-#~ msgstr "Shilling de Somalie"
-
-#~ msgid "Somalia"
-#~ msgstr "Somalie"
-
-#~ msgid "South African Rand"
-#~ msgstr "Rand"
-
-#~ msgid "Lesotho"
-#~ msgstr "Lesotho"
-
-#~ msgid "Namibia"
-#~ msgstr "Namibie"
-
-#~ msgid "South Africa"
-#~ msgstr "Afrique du Sud"
-
-#~ msgid "Swaziland Lilangeni"
-#~ msgstr "Lilangeni"
-
-#~ msgid "Swaziland"
-#~ msgstr "Swaziland"
-
-#~ msgid "Tanzanian Shilling"
-#~ msgstr "Shilling de Tanzanie"
-
-#~ msgid "United Republic of Tanzania"
-#~ msgstr "Tanzanie"
-
-#~ msgid "Tunisian Dinar"
-#~ msgstr "Dinar tunisien"
-
-#~ msgid "Tunisia"
-#~ msgstr "Tunisie"
-
-#~ msgid "Zambian Kwacha"
-#~ msgstr "Kwacha"
-
-#~ msgid "Zambia"
-#~ msgstr "Zambie"
-
-#~ msgid "Zimbabwe Dollar"
-#~ msgstr "Zimbabwe dollar"
-
-#~ msgid "Zimbabwe"
-#~ msgstr "Zimbabwe"
-
-#~ msgid "Asia"
-#~ msgstr "Asie"
-
-#~ msgid "Afghani"
-#~ msgstr "Afghani"
-
-#~ msgid "Afghanistan"
-#~ msgstr "Afghanistan"
-
-#~ msgid "Bahraini Dinar"
-#~ msgstr "Dinar de Bahrein"
-
-#~ msgid "Bahrain"
-#~ msgstr "Bahrein"
-
-#~ msgid "Bangladesh Taka"
-#~ msgstr "Taka"
-
-#~ msgid "Bangladesh"
-#~ msgstr "Bangladesh"
-
-#~ msgid "Brunei Dollar"
-#~ msgstr "Dollar de Brunei"
-
-#~ msgid "Brunei Darussalam"
-#~ msgstr "Brunei"
-
-#~ msgid "Cambodian Riel"
-#~ msgstr "Riel"
-
-#~ msgid "Cambodia"
-#~ msgstr "Cambodge"
-
-#~ msgid "Cyprus Pound"
-#~ msgstr "Livre cypriote"
-
-#~ msgid "Cyprus"
-#~ msgstr "Chypre"
-
-#~ msgid "Hong Kong Dollar"
-#~ msgstr "Dollar de Hong Kong"
-
-#~ msgid "Hong Kong"
-#~ msgstr "Hong Kong"
-
-#~ msgid "Indian Rupee"
-#~ msgstr "Roupie indienne"
-
-#~ msgid "Bhutan"
-#~ msgstr "Buthan"
-
-#~ msgid "India"
-#~ msgstr "Inde"
-
-#~ msgid "Indonesian Rupiah"
-#~ msgstr "Rupiah"
-
-#~ msgid "Indonesia"
-#~ msgstr "Indonésie"
-
-#~ msgid "Iranian Rial"
-#~ msgstr "Rial iranien"
-
-#~ msgid "Iran"
-#~ msgstr "Iran"
-
-#~ msgid "Iraqi Dinar"
-#~ msgstr "Dinar irakien"
-
-#~ msgid "Iraq"
-#~ msgstr "Irak"
-
-#~ msgid "Japanese Yen"
-#~ msgstr "Yen"
-
-#~ msgid "Japan"
-#~ msgstr "Japon"
-
-#~ msgid "Jordanian Dinar"
-#~ msgstr "Dinar jordanien"
-
-#~ msgid "Jordan"
-#~ msgstr "Jordanie"
-
-#~ msgid "Kuwaiti Dinar"
-#~ msgstr "Dinar koweitien"
-
-#~ msgid "Kuwait"
-#~ msgstr "Koweit"
-
-#~ msgid "Lao Kip"
-#~ msgstr "Kip"
-
-#~ msgid "Lao People's Democratic Republic"
-#~ msgstr "Laos"
-
-#~ msgid "Lebanese Pound"
-#~ msgstr "Livre libanaise"
-
-#~ msgid "Lebanon"
-#~ msgstr "Liban"
-
-#~ msgid "Macau Pataca"
-#~ msgstr "Pataca"
-
-#~ msgid "Macao"
-#~ msgstr "Macao"
-
-#~ msgid "Malaysian Ringgit"
-#~ msgstr "Ringgit"
-
-#~ msgid "Malaysia"
-#~ msgstr "Malaisie"
-
-#~ msgid "Mongolian Tugrik"
-#~ msgstr "Tugrik"
-
-#~ msgid "Mongolia"
-#~ msgstr "Mongolie"
-
-#~ msgid "Nepalese Rupee"
-#~ msgstr "Roupie du Népal"
-
-#~ msgid "Nepal"
-#~ msgstr "Népal"
-
-#~ msgid "New Israeli Shekel"
-#~ msgstr "Shékel"
-
-#~ msgid "Israel"
-#~ msgstr "Israël"
-
-#~ msgid "New Taiwan Dollar"
-#~ msgstr "Dollar taïwanien"
-
-#~ msgid "Taiwan, Province of China"
-#~ msgstr "Taïwan"
-
-#~ msgid "North Korean Won"
-#~ msgstr "Won nord-coréen"
-
-#~ msgid "Democratic People's Republic of Korea"
-#~ msgstr "Corée du Nord"
-
-#~ msgid "Pakistan Rupee"
-#~ msgstr "Roupie du Pakistan"
-
-#~ msgid "Pakistan"
-#~ msgstr "Pakistan"
-
-#~ msgid "Philippine peso"
-#~ msgstr "Peso philippin"
-
-#~ msgid "Philippines"
-#~ msgstr "Philippines"
-
-#~ msgid "Qatari Rial"
-#~ msgstr "Rial du Qatar"
-
-#~ msgid "Qatar"
-#~ msgstr "Qatar"
-
-#~ msgid "Rial Omani"
-#~ msgstr "Rial omani"
-
-#~ msgid "Oman"
-#~ msgstr "Oman"
-
-#~ msgid "Russian Ruble"
-#~ msgstr "Rouble de Russie"
-
-#~ msgid "Russia"
-#~ msgstr "Russie"
-
-#~ msgid "Saudi Riyal"
-#~ msgstr "Riyal saoudien"
-
-#~ msgid "Saudi Arabia"
-#~ msgstr "Arabie Saoudite"
-
-#~ msgid "Singapore Dollar"
-#~ msgstr "Dollar de Singapour"
-
-#~ msgid "Singapore"
-#~ msgstr "Singapour"
-
-#~ msgid "South Korean Won"
-#~ msgstr "Won"
-
-#~ msgid "Republic of Korea"
-#~ msgstr "Corée du Sud"
-
-#~ msgid "Sri Lanka Rupee"
-#~ msgstr "Roupie de Sri Lanka"
-
-#~ msgid "Sri Lanka"
-#~ msgstr "Sri Lanka"
-
-#~ msgid "Syrian Pound"
-#~ msgstr "Livre syrienne"
-
-#~ msgid "Syrian Arab Republic"
-#~ msgstr "Syrie"
-
-#~ msgid "Thai Baht"
-#~ msgstr "Baht"
-
-#~ msgid "Thailand"
-#~ msgstr "Thailande"
-
-#~ msgid "Turkish Lira"
-#~ msgstr "Livre turque"
-
-#~ msgid "Turkey"
-#~ msgstr "Turquie"
-
-#~ msgid "United Arab Emirates Dirham"
-#~ msgstr "Dirham des E A.U."
-
-#~ msgid "United Arab Emirates"
-#~ msgstr "Emirats Arabes Unis"
-
-#~ msgid "Viet Nam Dong"
-#~ msgstr "Dong"
-
-#~ msgid "Viet Nam"
-#~ msgstr "Viêt-nam"
-
-#~ msgid "Yemeni Rial"
-#~ msgstr "Riyal du Yémen"
-
-#~ msgid "Yemen"
-#~ msgstr "Yémen du Nord (Rép. arab.)"
-
-#~ msgid "Yuan Renminbi"
-#~ msgstr "Yuan Ren-min-bi"
-
-#~ msgid "China"
-#~ msgstr "Chine"
-
-#~ msgid "Central America"
-#~ msgstr "Amérique centrale"
-
-#~ msgid "Belize Dollar"
-#~ msgstr "Dollar de Belize"
-
-#~ msgid "Belize"
-#~ msgstr "Belize"
-
-#~ msgid "Costa Rican Colon"
-#~ msgstr "Colon"
-
-#~ msgid "Costa Rica"
-#~ msgstr "Costa Rica"
-
-#~ msgid "Guatemalan Quetzal"
-#~ msgstr "Quetzal"
-
-#~ msgid "Guatemala"
-#~ msgstr "Guatemala"
-
-#~ msgid "Honduran Lempira"
-#~ msgstr "Lempira"
-
-#~ msgid "Honduras"
-#~ msgstr "Honduras"
-
-#~ msgid "Mexican Peso"
-#~ msgstr "Peso mexicain"
-
-#~ msgid "Mexico"
-#~ msgstr "Mexique"
-
-#~ msgid "Panama Balboa"
-#~ msgstr "Balboa"
-
-#~ msgid "Panama"
-#~ msgstr "Panama"
-
-#~ msgid "Europe"
-#~ msgstr "Europe"
-
-#~ msgid "Albanian Lek"
-#~ msgstr "Lek"
-
-#~ msgid "Albania"
-#~ msgstr "Albanie"
-
-#~ msgid "Austrian Schilling"
-#~ msgstr "Schilling autrichien"
-
-#~ msgid "Austria"
-#~ msgstr "Autriche"
-
-#~ msgid "Belgian Franc"
-#~ msgstr "Franc belge"
-
-#~ msgid "Belgium"
-#~ msgstr "Belgique"
-
-#~ msgid "Bulgarian Lev"
-#~ msgstr "Lev"
-
-#~ msgid "Bulgaria"
-#~ msgstr "Bulgarie"
-
-#~ msgid "Czech Koruna"
-#~ msgstr "Couronne tchèque"
-
-#~ msgid "Czech Republic"
-#~ msgstr "Tchéquie"
-
-#~ msgid "Danish Krone"
-#~ msgstr "Couronne danoise"
-
-#~ msgid "Denmark"
-#~ msgstr "Danemark"
-
-#~ msgid "Deutsche Mark"
-#~ msgstr "Deutsche mark"
-
-#~ msgid "Germany"
-#~ msgstr "Allemagne"
-
-#~ msgid "Estonian Kroon"
-#~ msgstr "Couronne Estonienne"
-
-# #####
-#~ msgid "Estonia"
-#~ msgstr "Estonie"
-
-#~ msgid "CEE"
-#~ msgstr "EU"
-
-#~ msgid "Finnish Markka"
-#~ msgstr "Mark finlandais"
-
-#~ msgid "Finland"
-#~ msgstr "Finlande"
-
-#~ msgid "French Franc"
-#~ msgstr "Franc français"
-
-#~ msgid "France"
-#~ msgstr "France"
-
-#~ msgid "Gibraltar Pound"
-#~ msgstr "Livre de Gibraltar"
-
-#~ msgid "Gibraltar"
-#~ msgstr "Gibraltar"
-
-#~ msgid "Greek Drachma"
-#~ msgstr "Drachme"
-
-#~ msgid "Greece"
-#~ msgstr "Grèce"
-
-#~ msgid "Hungarian Forint"
-#~ msgstr "Forint"
-
-#~ msgid "Hungary"
-#~ msgstr "Hongrie"
-
-#~ msgid "Iceland Krona"
-#~ msgstr "Couronne islandaise"
-
-#~ msgid "Iceland"
-#~ msgstr "Islande"
-
-#~ msgid "Irish Pound"
-#~ msgstr "Livre irlandaise"
-
-#~ msgid "Ireland"
-#~ msgstr "Irlande"
-
-#~ msgid "Italian Lira"
-#~ msgstr "Lire italienne"
-
-#~ msgid "Holy See"
-#~ msgstr "Vatican (St Siège)"
-
-#~ msgid "Italy"
-#~ msgstr "Italie"
-
-#~ msgid "San Marino"
-#~ msgstr "San Marino"
-
-#, fuzzy
-#~ msgid "Latvian Lat"
-#~ msgstr "Lire lituanienne"
-
-#, fuzzy
-#~ msgid "Latvia"
-#~ msgstr "Lituanie"
-
-#~ msgid "Lithuanian Litas"
-#~ msgstr "Lire lituanienne"
-
-#~ msgid "Luxembourg Franc"
-#~ msgstr "Franc luxembourgeois"
-
-#~ msgid "Luxembourg"
-#~ msgstr "Luxembourg"
-
-#~ msgid "Netherlands Guilder"
-#~ msgstr "Florin néerlandais"
-
-#~ msgid "Netherlands"
-#~ msgstr "Pays-Bas"
-
-#~ msgid "New Yugoslavian Dinar"
-#~ msgstr "Nouveau dinar yougoslave"
-
-#~ msgid "Serbia and Montenegro"
-#~ msgstr "Yougoslavie"
-
-#~ msgid "Norwegian Krone"
-#~ msgstr "Couronne norvégienne"
-
-#~ msgid "Norway"
-#~ msgstr "Norvège"
-
-#~ msgid "Polish Zloty"
-#~ msgstr "Zloty"
-
-#~ msgid "Poland"
-#~ msgstr "Pologne"
-
-#~ msgid "Portuguese Escudo"
-#~ msgstr "Escudo portugais"
-
-#~ msgid "Portugal"
-#~ msgstr "Portugal (Açores-Madère)"
-
-#~ msgid "Pound Sterling"
-#~ msgstr "Livre sterling"
-
-#~ msgid "United Kingdom"
-#~ msgstr "Royaume-Uni"
-
-#~ msgid "Romanian Leu"
-#~ msgstr "Leu"
-
-#~ msgid "Romania"
-#~ msgstr "Roumanie"
-
-#~ msgid "Slovak Koruna"
-#~ msgstr "Couronne slovaque"
-
-#~ msgid "Slovakia"
-#~ msgstr "Slovaquie"
-
-#~ msgid "Slovene Tolar"
-#~ msgstr "Monnaie slovène"
-
-#~ msgid "Slovenia"
-#~ msgstr "Slovénie"
-
-#~ msgid "Spanish Peseta"
-#~ msgstr "Peseta espagnole"
-
-#~ msgid "Spain"
-#~ msgstr "Espagne"
-
-#~ msgid "Swedish Krona"
-#~ msgstr "Couronne suédoise"
-
-#~ msgid "Sweden"
-#~ msgstr "Suède"
-
-#~ msgid "Swiss Franc"
-#~ msgstr "Franc suisse"
-
-#~ msgid "Liechtenstein"
-#~ msgstr "Liechtenstein"
-
-#~ msgid "Switzerland"
-#~ msgstr "Suisse"
-
-#~ msgid "Ukraine"
-#~ msgstr "Ukraine"
-
-#~ msgid "Northern America"
-#~ msgstr "Amérique du Nord"
-
-#~ msgid "Bahamian Dollar"
-#~ msgstr "Dollar des Bahamas"
-
-#~ msgid "Bahamas"
-#~ msgstr "Bahamas"
-
-#~ msgid "Barbados Dollar"
-#~ msgstr "Dollar de Barbade"
-
-#~ msgid "Barbados"
-#~ msgstr "Barbade"
-
-#~ msgid "Bermuda Dollar"
-#~ msgstr "Dollar des Bermudes"
-
-#~ msgid "Bermuda"
-#~ msgstr "Berrnudes"
-
-#~ msgid "Canadian Dollar"
-#~ msgstr "Dollar canadien"
-
-#~ msgid "Canada"
-#~ msgstr "Canada"
-
-#~ msgid "Cayman Islands Dollar"
-#~ msgstr "Dollar des Caimanes"
-
-#~ msgid "Cayman Islands"
-#~ msgstr "Iles Caimanes"
-
-#~ msgid "Cuban Peso"
-#~ msgstr "Peso cubain"
-
-#~ msgid "Cuba"
-#~ msgstr "Cuba"
-
-#~ msgid "Dominican Peso"
-#~ msgstr "Peso dominicain"
-
-#~ msgid "Dominican Republic"
-#~ msgstr "Rép.  Dominicaine"
-
-#~ msgid "East Caribbean Dollar"
-#~ msgstr "Dollar des Caraïbes"
-
-#~ msgid "Grenada"
-#~ msgstr "Grenade"
-
-#~ msgid "Saint Lucia"
-#~ msgstr "St. Lucia"
-
-#~ msgid "Haitian Gourde"
-#~ msgstr "Gourde"
-
-#~ msgid "Haiti"
-#~ msgstr "Haïti"
-
-#~ msgid "Jamaican Dollar"
-#~ msgstr "Dollar jamaicain"
-
-#~ msgid "Jamaica"
-#~ msgstr "Jamaique"
-
-#~ msgid "Netherlands Antillian Guilder"
-#~ msgstr "Florin des Antilles néerl."
-
-#~ msgid "Netherlands Antilles"
-#~ msgstr "Curaçao e.a."
-
-#~ msgid "Trinidad and Tobago Dollar"
-#~ msgstr "Dollar de la Trinité"
-
-#~ msgid "Trinidad and Tobago"
-#~ msgstr "Trinité-et-Tobago"
-
-#~ msgid "United States Dollar"
-#~ msgstr "Dollar des Etats-Unis"
-
-#~ msgid "Pacific Ocean"
-#~ msgstr "Océan Pacifique"
-
-#~ msgid "Australian Dollar"
-#~ msgstr "Dollar australien"
-
-#~ msgid "Australia"
-#~ msgstr "Australie"
-
-#~ msgid "Kiribati"
-#~ msgstr "Kiribati"
-
-#~ msgid "Nauru"
-#~ msgstr "Nauru"
-
-#~ msgid "Tuvalu"
-#~ msgstr "Tuvalu"
-
-#~ msgid "CFP Franc"
-#~ msgstr "Franc CFP"
-
-#~ msgid "French Polynesia"
-#~ msgstr "Polynésie française"
-
-#~ msgid "New Caledonia"
-#~ msgstr "Nouvelle-Calédonie"
-
-#~ msgid "Wallis and Futuna"
-#~ msgstr "Iles Wallis & Futuna"
-
-#~ msgid "Fiji Dollar"
-#~ msgstr "Dollar de Fidji"
-
-#~ msgid "Fiji"
-#~ msgstr "Fidji"
-
-#~ msgid "New Zealand Dollar"
-#~ msgstr "Dollar néo-zélandais"
-
-#~ msgid "Cook Islands"
-#~ msgstr "Cook Islands"
-
-#~ msgid "New Zealand"
-#~ msgstr "Nouvelle-Zélande"
-
-#~ msgid "Papua New Guinea Kina"
-#~ msgstr "Kina"
-
-#~ msgid "Papua New Guinea"
-#~ msgstr "Papouasie - Nouvelle-Guinée"
-
-#~ msgid "Samoa Tala"
-#~ msgstr "Tala"
-
-#~ msgid "Samoa"
-#~ msgstr "Samoa occidental"
-
-#~ msgid "Solomon Islands Dollar"
-#~ msgstr "Dollar de Salomon"
-
-#~ msgid "Solomon Islands"
-#~ msgstr "Iles Salomon"
-
-#~ msgid "Timor Escudo"
-#~ msgstr "Escudo de Timor"
-
-#~ msgid "Timor"
-#~ msgstr "Timor"
-
-#~ msgid "Tongan Pa'anga"
-#~ msgstr "Pa'anga"
-
-#~ msgid "Tonga"
-#~ msgstr "Tonga"
-
-#~ msgid "Vanuatu Vatu"
-#~ msgstr "Vatu"
-
-#~ msgid "Vanuatu"
-#~ msgstr "Vanuatu"
-
-#~ msgid "Southern America"
-#~ msgstr "Amérique du Sud"
-
-#~ msgid "Chilean Peso"
-#~ msgstr "Peso chilien"
-
-#~ msgid "Chile"
-#~ msgstr "Chili"
-
-#~ msgid "Colombian Peso"
-#~ msgstr "Peso colombien"
-
-#~ msgid "Colombia"
-#~ msgstr "Colombie"
-
-#~ msgid "Ecuador Sucre"
-#~ msgstr "Sucre"
-
-#~ msgid "Ecuador"
-#~ msgstr "Equateur"
-
-#~ msgid "Guyana Dollar"
-#~ msgstr "Dollar de Guyane"
-
-#~ msgid "Guyana"
-#~ msgstr "Guyane"
-
-#~ msgid "Paraguay Guarani"
-#~ msgstr "Guarani"
-
-#~ msgid "Paraguay"
-#~ msgstr "Paraguay"
-
-#~ msgid "Real"
-#~ msgstr "Real"
-
-#~ msgid "Brazil"
-#~ msgstr "Brésil"
-
-#~ msgid "Suriname Guilder"
-#~ msgstr "Florin de Surinam"
-
-#~ msgid "Suriname"
-#~ msgstr "Surinam"
-
-#~ msgid "Venezuelan Bolivar"
-#~ msgstr "Bolivar"
-
-#~ msgid "Venezuela"
-#~ msgstr "Vénézuela"
-
-#~ msgid "Do not Warn if balances are under minimum levels"
-#~ msgstr "Ne pas avertir lorsque les seuils minimums sont atteints"
-
-#~ msgid "Do not warn if account file is readable by someone else"
-#~ msgstr ""
-#~ "Ne pas avertir lorsque le fichier de compte est lisible par quelqu'un "
-#~ "d'autre"
-
-#~ msgid "Do not warn about an already opened file"
-#~ msgstr "Ne pas avertir lorsque le fichier est déjà ouvert"
-
-#~ msgid "Do not warn about about QIF not containing currencies"
-#~ msgstr "Ne pas avertir que le format QIF ne contient pas de devises"
-
-#~ msgid "Do not warn if no budgetary line is entered in transaction"
-#~ msgstr "Ne pas prévenir si aucune imputation n'est saisie dans l'opération."
-
-#~ msgid "Sub-category"
-#~ msgstr "Sous-catégorie"
-
-#~ msgid "_Budgetary line"
-#~ msgstr "_Imputation"
-
-#~ msgid "_Sub-budgetary line"
-#~ msgstr "_Sous-imputation"
-
-#~ msgid "Closed accounts"
-#~ msgstr "Comptes clos"
-
-#~ msgid "No currency has been defined."
-#~ msgstr "Aucune devise n'a été définie."
-
-#~ msgid "Break down amount"
-#~ msgstr "Somme ventilée"
-
-#~ msgid "Not assigned"
-#~ msgstr "Non affecté"
-
-#~ msgid ""
-#~ "Grisbi is a personnal accounting application for Linux\n"
-#~ "Such a program allows you to sort your financial transactions, whatever "
-#~ "they are, in a convenient and intuitive way.  Thus, you will be able to "
-#~ "manage them as to fit your needs the more you can.\n"
-#~ "Grisbi aims both at simplicty and efficiency for common use, and at a "
-#~ "powerful use for power users.  We will always try to respect this as "
-#~ "features will come."
-#~ msgstr ""
-#~ "Grisbi est un logiciel vous permettant de gérer votre comptabilité "
-#~ "personnelle sous Linux.\n"
-#~ "Le principe de base d'un tel logiciel est de vous permettre de classer "
-#~ "vos opérations financières, quelles qu'elles soient, de façon simple et "
-#~ "intuitive, afin de pouvoir les exploiter au mieux en fonction de vos "
-#~ "besoins.\n"
-#~ "Grisbi a pris le parti de la simplicité et de l'efficacité pour un usage "
-#~ "de base, sans toutefois exclure la sophistication nécessaire à un usage "
-#~ "avancé. Les fonctionnalités futures tenteront toujours de respecter ces "
-#~ "critères."
-
-#, fuzzy
-#~ msgid "Daniel Cartron (doc@grisbi.org) : Manual, website, consultancy"
-#~ msgstr "Daniel Cartron (doc[at]grisbi.org) : manuel, site web, conseils"
-
-#, fuzzy
-#~ msgid "Benjamin Drieu (bdrieu@april.org) : Programming, Debian packaging"
-#~ msgstr ""
-#~ "Benjamin Drieu (bdrieu[at]april.org) : programmation, paquets Debian"
-
-#, fuzzy
-#~ msgid ""
-#~ "Gerald Niel (gegeweb@users.sourceforge.net): Slackware packaging, website"
-#~ msgstr ""
-#~ "Gérald Niel (gerald.niel[at]grisbi.org) : paquets Slackware, site web"
-
-#~ msgid "Matthieu Puppat (tieum.tieum@free.fr): Mandrake packaging"
-#~ msgstr "Matthieu Pupat (tieum.tieum@free.fr) : paquets Mandrake"
-
-#~ msgid "Authors"
-#~ msgstr "Auteurs"
-
-#~ msgid "Translators"
-#~ msgstr "Traducteurs"
-
-#~ msgid "Display comments"
-#~ msgstr "Affiche les commentaires"
-
-#~ msgid "Execute transaction"
-#~ msgstr "Exécuter l'opération"
-
-#~ msgid "Show reconciled"
-#~ msgstr "Voir opé rapprochées"
-
-#~ msgid "Display grid"
-#~ msgstr "Voir grille"
-
-#~ msgid "No user"
-#~ msgstr "Pas d'utilisateur"
-
-#~ msgid "User"
-#~ msgstr "Utilisateur"
-
-#~ msgid "Display/Hide form"
-#~ msgstr "Affiche / Masque le formulaire"
-
-#~ msgid "One line per transaction"
-#~ msgstr "1 ligne par opération"
-
-#~ msgid "Two lines per transaction"
-#~ msgstr "2 lignes par opération"
-
-#~ msgid "Three lines per transaction"
-#~ msgstr "3 lignes par opération"
-
-#~ msgid "Four lines per transaction"
-#~ msgstr "4 lignes par opération"
-
-#~ msgid "Display reconciled transactions"
-#~ msgstr "Opérations rapprochées non masquées"
-
-#~ msgid "Mask reconciled transactions"
-#~ msgstr "Opérations rapprochées masquées"
-
-#~ msgid "Display/hide form"
-#~ msgstr "Affiche / masque le formulaire"
-
-#~ msgid "Information"
-#~ msgstr "Informations"
-
-#~ msgid "Sorting"
-#~ msgstr "Classement"
-
-#~ msgid "Add a category"
-#~ msgstr "Ajouter une catégorie"
-
-#~ msgid "Add a subcategory"
-#~ msgstr "Ajouter une sous-catégorie"
-
-#~ msgid "Display scheduled transactions"
-#~ msgstr "Affichage des échéances"
-
-#~ msgid "Of month"
-#~ msgstr "Du mois"
-
-#~ msgid "Of next two months"
-#~ msgstr "Des 2 prochains mois"
-
-#~ msgid "Of year"
-#~ msgstr "De l'année"
-
-#~ msgid "Show"
-#~ msgstr "Afficher"
-
-#~ msgid "Validate"
-#~ msgstr "Saisir"
-
-#~ msgid "Calendar"
-#~ msgstr "Calendrier"
-
-#~ msgid "Customize report"
-#~ msgstr "Personnaliser l'état"
-
-#~ msgid "Delete report"
-#~ msgstr "Effacer l'état"
-
-#~ msgid "Refresh"
-#~ msgstr "Rafraichir"
-
-#~ msgid "Payees list (transactions)"
-#~ msgstr "Liste des tiers (écritures)"
-
-#~ msgid "Add a sub-budget line"
-#~ msgstr "Ajouter une sous-imputation"
-
-#~ msgid "Merge categories"
-#~ msgstr "Fusionner les catégories"
-
-#~ msgid "Delete a budgetary line"
-#~ msgstr "Suppression d'une imputation"
-
-#~ msgid ""
-#~ "Some transactions are still assigned to this budgetary line.\n"
-#~ "\n"
-#~ "You can"
-#~ msgstr ""
-#~ "L'imputation sélectionnée contient encore des opérations.\n"
-#~ "\n"
-#~ "Vous pouvez"
-
-#~ msgid "Move the transactions to"
-#~ msgstr "Transférer les opérations sur"
-
-#~ msgid "Just delete the budgetary line."
-#~ msgstr " Supprimer simplement cette imputation."
-
-#~ msgid "Please enter a budgetary line!"
-#~ msgstr "Veuillez entrer une imputation !"
-
-#~ msgid "Deleting a budgetary line"
-#~ msgstr "Suppression d'une imputation"
-
-#~ msgid ""
-#~ "Some transactions are still assigned to this sub-budgetary line.\n"
-#~ "\n"
-#~ "You can"
-#~ msgstr ""
-#~ "La sous-imputation sélectionnée contient encore des opérations.\n"
-#~ "\n"
-#~ "Vous pouvez"
-
-#~ msgid "Just delete the sub-budgetary line."
-#~ msgstr "Supprimer simplement cette sous-imputation."
-
-#~ msgid "Enter the name of the new budgetary line"
-#~ msgstr "Entrer le nom de la nouvelle imputation"
-
-#~ msgid ""
-#~ "Budgetary lines names must be both unique and not empty.  Please use "
-#~ "another name for this budgetary line."
-#~ msgstr ""
-#~ "Les imputations doivent être à la fois uniques et non nulles.  Utiliser "
-#~ "un autre nom pour cette imputation."
-
-#~ msgid "Budgetary line '%s' already exists."
-#~ msgstr "L'imputation « %s » existe déjà."
-
-#~ msgid "Enter the name of the new sub-budgetary line"
-#~ msgstr "Entrer le nom de la nouvelle sous-imputation"
-
-#~ msgid "%02d/%02d/%04d"
-#~ msgstr "%02d/%02d/%04d"
-
-#~ msgid "Last statement"
-#~ msgstr "Dernier relevé"
-
-#~ msgid "Curent balance"
-#~ msgstr "Solde courant"
-
-#~ msgid "Imposible to delete a reconciled transaction."
-#~ msgstr "Impossible de supprimer une opération relevée."
-
-#~ msgid ""
-#~ "The contra-transaction of this transfer is reconciled, deletion "
-#~ "impossible."
-#~ msgstr ""
-#~ "La contre-opération de ce virement est relevée, la suppression est "
-#~ "impossible."
-
-#~ msgid ""
-#~ "One of the breakdown lines is a transfer whose contra-transaction is "
-#~ "reconciled.  Deletion canceled."
-#~ msgstr ""
-#~ "Une des opérations de la ventilation est un virement dont la contre-"
-#~ "opération est relevée.  La suppression est annulée."
-
-#~ msgid "Current balance: %4.2f %s"
-#~ msgstr "Solde courant : %4.2f %s"
-
-#~ msgid "Checked balance: %4.2f %s"
-#~ msgstr "Solde pointé : %4.2f %s"
-
-#~ msgid "Add a payee"
-#~ msgstr "Ajouter un tiers"
-
-#~ msgid "I don't know !!!"
-#~ msgstr "Je ne sais pas !"
-
-#~ msgid ""
-#~ "There is no account in memory ! But if you see that error, it should...\n"
-#~ "Please send a bug report to the grisbi team, this is a very big bug !\n"
-#~ "Grisbi will probably crash after that message..."
-#~ msgstr ""
-#~ "Il n'y a pas de compte chargé en mémoire, mais si vous voyez cette "
-#~ "erreur, cea devrait être le cas... Veuillez envoyer un rapport d'erreur à "
-#~ "l'équipe de Grisbi, c'est un bug important. Grisbi va probablement "
-#~ "planter après cette erreur. Bonne journée !"
-
-#~ msgid "No account in memory"
-#~ msgstr "Pas de compte en mémoire"
-
-#~ msgid "Warning : variable p_tab_nom_de_compte_variable is abnormal."
-#~ msgstr "Attention: la variable p_tab_nom_de_compte_variable est anormale."
-
-#~ msgid ""
-#~ "Associated account of this transfer is closed.  Please associate a valid "
-#~ "account with this transfer."
-#~ msgstr ""
-#~ "Le compte associé au virement est clos. Veuillez associer un compte "
-#~ "valide à ce virement."
-
-#~ msgid "This transaction has a reconciled breakdown line, deletion canceled."
-#~ msgstr ""
-#~ "L'opération ventilée de cette opération est relevée, la suppression est "
-#~ "annulée."
-
-#~ msgid ""
-#~ "This transfer has a reconciled contra-transaction, deletion canceled."
-#~ msgstr ""
-#~ "La contre-opération de ce virement est relevée, on ne peut donc les "
-#~ "supprimer."
-
-#~ msgid "A breakdown line is to be deleted though it is not yet registered."
-#~ msgstr ""
-#~ "Une opé de ventilation a été marquée pour la suppression alors qu'elle "
-#~ "n'était pas encore enregistrée."
