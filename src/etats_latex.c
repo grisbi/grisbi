@@ -347,7 +347,8 @@ gint latex_finish ()
     {
 	command = g_strdup_printf ( "%s -interaction=nonstopmode %s.tex", etat.latex_command, tempname );
 	if ( system ( command ) > 0 )
-	    dialogue_error ( _("LaTeX run was unable to complete, see console output for details.") );
+	    dialogue_error_hint ( _("See console output for details.  Be sure you have installed LaTeX properly with unicode support."),
+				  _("LaTeX run was unable to complete.") );
 	else 
 	{
 	  command = g_strdup_printf ( "%s %s %s.dvi -o %s",  etat.dvips_command,
@@ -445,6 +446,7 @@ void latex_safe ( gchar * text )
 	    case '%':
 	    case '&':
 	    case '\\':
+	    case '$':
 		fprintf ( out, "\\" );
 
 	    default:
