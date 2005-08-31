@@ -144,27 +144,19 @@ gboolean new_file ( void )
 /* ************************************************************************************************************ */
 
 
-/* init the variables when begin a new
- * */
+/**
+ * Init various variables upon new file creation.
+ */
 void init_variables_new_file ( void )
 {
-    /*   la taille des colonnes est automatique au départ, on y met les rapports de base */
-
+    /* FIXME: remove this. */
     etat.largeur_auto_colonnes = 1;
-    rapport_largeur_colonnes[0] = 11;
-    rapport_largeur_colonnes[1] = 13;
-    rapport_largeur_colonnes[2] = 30;
-    rapport_largeur_colonnes[3] = 3;
-    rapport_largeur_colonnes[4] = 11;
-    rapport_largeur_colonnes[5] = 11;
-    rapport_largeur_colonnes[6] = 11;
 
     titre_fichier = _("My accounts");
 
-    /* création des listes d'origine */
+    /* Create initial lists. */
     creation_liste_categories ();
 }
-/* ************************************************************************************************************ */
 
 
 
