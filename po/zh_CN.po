@@ -22,7 +22,7 @@ msgstr "没有用户"
 
 #: src/accueil.c:123
 msgid "User"
-msgstr "用户"
+msgstr "当前用户"
 
 #: src/accueil.c:197
 msgid "Closed liabilities accounts"
@@ -55,7 +55,7 @@ msgstr ""
 
 #: src/accueil.c:364 src/echeancier_onglet.c:168 src/operations_onglet.c:127
 msgid "Form"
-msgstr ""
+msgstr "表格"
 
 #: src/accueil.c:518
 #, c-format
@@ -130,7 +130,7 @@ msgstr ""
 
 #: src/affichage.c:137
 msgid "selects next field"
-msgstr ""
+msgstr "选择下一栏位"
 
 #: src/affichage.c:138
 msgid "terminates transaction"
@@ -149,7 +149,7 @@ msgstr "交易号码"
 #: src/affichage_liste.c:1037 src/csv.c:240 src/operations_formulaire.c:983
 #: src/operations_formulaire.c:3348
 msgid "Value date"
-msgstr ""
+msgstr "有效日期"
 
 #: src/affichage.c:170 src/affichage_liste.c:45 src/affichage_liste.c:840
 #: src/affichage_liste.c:1073 src/csv.c:244 src/etats_affiche.c:2230
@@ -194,15 +194,15 @@ msgstr "Grisbi标志"
 
 #: src/affichage.c:260
 msgid "Use the logo"
-msgstr ""
+msgstr "使用标志图"
 
 #: src/affichage.c:321
 msgid "Click on preview to change homepage logo"
-msgstr "点击预览更换首页标志"
+msgstr "点击预览图更换首页标志"
 
 #: src/affichage.c:377
 msgid "Click on preview to change animation"
-msgstr ""
+msgstr "点击预览图更换动画"
 
 #: src/affichage.c:384
 msgid "Fonts"
@@ -218,11 +218,11 @@ msgstr "恢复默认字体"
 
 #: src/affichage.c:603 src/parametres.c:228
 msgid "Addresses & titles"
-msgstr "地址和头衔"
+msgstr "地址和名称抬头"
 
 #: src/affichage.c:608 src/etats_config.c:6188
 msgid "Titles"
-msgstr "名称头衔"
+msgstr "名称抬头"
 
 #: src/affichage.c:613
 msgid "Accounts file title"
@@ -378,31 +378,31 @@ msgstr ""
 
 #: src/affichage_liste.c:66
 msgid "Col1"
-msgstr ""
+msgstr "列1"
 
 #: src/affichage_liste.c:66
 msgid "Col2"
-msgstr ""
+msgstr "列2"
 
 #: src/affichage_liste.c:66
 msgid "Col3"
-msgstr ""
+msgstr "列3"
 
 #: src/affichage_liste.c:66
 msgid "Col4"
-msgstr ""
+msgstr "列4"
 
 #: src/affichage_liste.c:67
 msgid "Col5"
-msgstr ""
+msgstr "列5"
 
 #: src/affichage_liste.c:67
 msgid "Col6"
-msgstr ""
+msgstr "列6"
 
 #: src/affichage_liste.c:67
 msgid "Col7"
-msgstr ""
+msgstr "列7"
 
 #. Ã  la base, on met une vbox
 #: src/affichage_liste.c:75 src/parametres.c:244
@@ -436,25 +436,25 @@ msgstr ""
 
 #: src/affichage_liste.c:302
 msgid "Display modes"
-msgstr ""
+msgstr "显示模式"
 
 #: src/affichage_liste.c:309
 msgid "One line mode"
-msgstr ""
+msgstr "单行模式"
 
 #. pour 2 lignes
 #: src/affichage_liste.c:322
 msgid "Two lines mode"
-msgstr ""
+msgstr "两行模式"
 
 #. pour 3 lignes
 #: src/affichage_liste.c:342
 msgid "Three lines mode"
-msgstr ""
+msgstr "三行模式"
 
 #: src/affichage_liste.c:420
 msgid "Sort transaction list"
-msgstr ""
+msgstr "交易列表排序"
 
 #: src/affichage_liste.c:421
 msgid "by value date"
@@ -462,7 +462,7 @@ msgstr ""
 
 #: src/affichage_liste.c:422
 msgid "by date"
-msgstr ""
+msgstr "按日期"
 
 #. on permet de regrouper les opÃ©rations pointÃ©es
 #: src/affichage_liste.c:427
@@ -471,19 +471,19 @@ msgstr ""
 
 #: src/affichage_liste.c:459
 msgid "first line"
-msgstr ""
+msgstr "第一行"
 
 #: src/affichage_liste.c:467
 msgid "second line"
-msgstr ""
+msgstr "第二行"
 
 #: src/affichage_liste.c:475
 msgid "third line"
-msgstr ""
+msgstr "第三行"
 
 #: src/affichage_liste.c:483
 msgid "fourth line"
-msgstr ""
+msgstr "第四行"
 
 #: src/affichage_liste.c:744
 msgid "Payer/payee"
@@ -491,18 +491,18 @@ msgstr ""
 
 #: src/affichage_liste.c:816 src/equilibrage.c:1683
 msgid "Payment method"
-msgstr ""
+msgstr "支付方式"
 
 #. mise en place de la frame des catÃ©gories
 #: src/affichage_liste.c:852 src/etats_config.c:143 src/etats_config.c:7277
 #: src/fenetre_principale.c:103
 msgid "Categories"
-msgstr ""
+msgstr "类别"
 
 #: src/affichage_liste.c:924 src/affichage_liste.c:1101
 #: src/operations_formulaire.c:1121 src/operations_formulaire.c:3352
 msgid "Cheque/Transfer number"
-msgstr ""
+msgstr "支票/转帐编号"
 
 #. mise en place de la frame des ib
 #: src/affichage_liste.c:1045 src/csv.c:255 src/etats_config.c:147
@@ -519,7 +519,7 @@ msgstr ""
 
 #: src/banque.c:126 src/comptes_gestion.c:330
 msgid "New bank"
-msgstr ""
+msgstr "新增银行"
 
 #: src/banque.c:199 src/banque.c:203
 msgid "Confirmation of bank removal"
@@ -548,23 +548,23 @@ msgstr ""
 #. ligne de l'Ã©tablissement financier
 #: src/banque.c:345 src/comptes_gestion.c:279
 msgid "Bank"
-msgstr ""
+msgstr "银行"
 
 #: src/banque.c:346
 msgid "Contact name"
-msgstr ""
+msgstr "联系人"
 
 #: src/banque.c:348 src/parametres.c:294
 msgid "Banks"
-msgstr ""
+msgstr "银行"
 
 #: src/banque.c:352
 msgid "Known banks"
-msgstr ""
+msgstr "已知银行"
 
 #: src/banque.c:532
 msgid "Bank details"
-msgstr ""
+msgstr "银行明细"
 
 #. Bank name item
 #. Name
@@ -573,67 +573,67 @@ msgstr ""
 #: src/banque.c:543 src/banque.c:649 src/devises.c:1501 src/exercice.c:129
 #: src/exercice.c:240 src/import.c:362 src/type_operations.c:379
 msgid "Name"
-msgstr ""
+msgstr "名称"
 
 #. Bank Sort code item
 #: src/banque.c:558
 msgid "Sort code"
-msgstr ""
+msgstr "排序号"
 
 #. Bank address
 #: src/banque.c:573 src/comptes_gestion.c:233
 msgid "Address"
-msgstr ""
+msgstr "地址"
 
 #. Phone number
 #: src/banque.c:596 src/banque.c:664
 msgid "Phone"
-msgstr ""
+msgstr "电话"
 
 #. E-mail
 #. E-Mail
 #: src/banque.c:611 src/banque.c:694
 msgid "E-Mail"
-msgstr ""
+msgstr "电子邮件"
 
 #. Website
 #: src/banque.c:626 src/help.c:77
 msgid "Website"
-msgstr ""
+msgstr "网站"
 
 #. Contact
 #: src/banque.c:641
 msgid "Contact"
-msgstr ""
+msgstr "联系方式"
 
 #. Fax
 #: src/banque.c:679
 msgid "Fax"
-msgstr ""
+msgstr "传真"
 
 #: src/banque.c:769
 msgid "Edit bank"
-msgstr ""
+msgstr "更改银行信息"
 
 #: src/barre_outils.c:86 src/barre_outils.c:87
 msgid "Display/Hide form"
-msgstr ""
+msgstr "显示/隐藏表单"
 
 #: src/barre_outils.c:146 src/barre_outils.c:147
 msgid "Four lines per transaction"
-msgstr ""
+msgstr "每笔交易显示4行"
 
 #: src/barre_outils.c:175 src/barre_outils.c:176
 msgid "Three lines per transaction"
-msgstr ""
+msgstr "每笔交易显示3行"
 
 #: src/barre_outils.c:203 src/barre_outils.c:204
 msgid "Two lines per transaction"
-msgstr ""
+msgstr "每笔交易显示2行"
 
 #: src/barre_outils.c:232 src/barre_outils.c:233
 msgid "One line per transaction"
-msgstr ""
+msgstr "每笔交易显示1行"
 
 #: src/barre_outils.c:268 src/barre_outils.c:269
 msgid "Display reconciled transactions"
@@ -645,15 +645,15 @@ msgstr ""
 
 #: src/barre_outils.c:325
 msgid "Account transactions"
-msgstr ""
+msgstr "账户交易"
 
 #: src/barre_outils.c:749 src/barre_outils.c:750
 msgid "Display/hide form"
-msgstr ""
+msgstr "显示/隐藏表单"
 
 #: src/barre_outils.c:812 src/barre_outils.c:813
 msgid "Display/hide comments"
-msgstr ""
+msgstr "显示/隐藏注释"
 
 #: src/barre_outils.c:865 src/barre_outils.c:866 src/barre_outils.c:990
 #: src/barre_outils.c:991 src/barre_outils.c:1145 src/barre_outils.c:1146
@@ -663,14 +663,14 @@ msgstr ""
 #: src/barre_outils.c:894 src/barre_outils.c:895 src/barre_outils.c:1048
 #: src/barre_outils.c:1049 src/barre_outils.c:1203 src/barre_outils.c:1204
 msgid "Display accounts"
-msgstr ""
+msgstr "显示账户"
 
 #. afficher ou non les opÃ©s
 #: src/barre_outils.c:923 src/barre_outils.c:924 src/barre_outils.c:1077
 #: src/barre_outils.c:1078 src/barre_outils.c:1232 src/barre_outils.c:1233
 #: src/etats_config.c:6335
 msgid "Display transactions"
-msgstr ""
+msgstr "显示交易"
 
 #: src/barre_outils.c:1019 src/barre_outils.c:1020 src/barre_outils.c:1174
 #: src/barre_outils.c:1175
@@ -685,67 +685,67 @@ msgstr "取消"
 
 #: src/categories_onglet.c:48
 msgid "Food : Bar"
-msgstr "食品：酒吧"
+msgstr "食品 : 酒吧"
 
 #: src/categories_onglet.c:49
 msgid "Food : Baker"
-msgstr "食品：面包"
+msgstr "食品 : 面包类"
 
 #: src/categories_onglet.c:50
 msgid "Food : Canteen"
-msgstr "食品：罐头"
+msgstr "食品 : 方便食品"
 
 #: src/categories_onglet.c:51
 msgid "Food : Sweets"
-msgstr "食品：甜品"
+msgstr "食品 : 甜品"
 
 #: src/categories_onglet.c:52
 msgid "Food : Misc"
-msgstr "食品：其它"
+msgstr "食品 : 其它"
 
 #: src/categories_onglet.c:53
 msgid "Food : Grocery"
-msgstr "食品：杂货"
+msgstr ""
 
 #: src/categories_onglet.c:54
 msgid "Food : Restaurant"
-msgstr "食品：饭店"
+msgstr "食品 : 饭店"
 
 #: src/categories_onglet.c:55
 msgid "Food : Self-service"
-msgstr "食品：自助餐"
+msgstr "食品 : 自助餐"
 
 #: src/categories_onglet.c:56
 msgid "Food : Supermarket"
-msgstr "食品：超市"
+msgstr "食品 : 超市"
 
 #: src/categories_onglet.c:57
 msgid "Pets : Food"
-msgstr "宠物：食品"
+msgstr "宠物 : 食品"
 
 #: src/categories_onglet.c:58
 msgid "Pets : Various supplies"
-msgstr "宠物：其它支出"
+msgstr "宠物 : 其它"
 
 #: src/categories_onglet.c:59
 msgid "Pets : Grooming"
-msgstr "宠物：美容"
+msgstr ""
 
 #: src/categories_onglet.c:60
 msgid "Pets : Veterinary surgeon"
-msgstr "宠物：兽医"
+msgstr ""
 
 #: src/categories_onglet.c:61
 msgid "Insurance : Car"
-msgstr ""
+msgstr "保险 : 汽车"
 
 #: src/categories_onglet.c:62
 msgid "Insurance : Health"
-msgstr ""
+msgstr "保险 : 健康"
 
 #: src/categories_onglet.c:63
 msgid "Insurance : House"
-msgstr ""
+msgstr "保险 : 房产"
 
 #: src/categories_onglet.c:64
 msgid "Insurance : Civil liability"
@@ -753,23 +753,23 @@ msgstr ""
 
 #: src/categories_onglet.c:65
 msgid "Insurance : Life"
-msgstr ""
+msgstr "保险 : 生命"
 
 #: src/categories_onglet.c:66
 msgid "Car : Fuel"
-msgstr ""
+msgstr "汽车 : 油"
 
 #: src/categories_onglet.c:67
 msgid "Car : Repairs"
-msgstr ""
+msgstr "汽车 : 维修"
 
 #: src/categories_onglet.c:68
 msgid "Car : Maintenance"
-msgstr ""
+msgstr "汽车 : 保养"
 
 #: src/categories_onglet.c:69
 msgid "Car : Parking"
-msgstr ""
+msgstr "汽车 : 停车"
 
 #: src/categories_onglet.c:70
 msgid "Car : Fines"
@@ -777,7 +777,7 @@ msgstr ""
 
 #: src/categories_onglet.c:71 src/etats_config.c:163
 msgid "Misc."
-msgstr "其他"
+msgstr "其它"
 
 #: src/categories_onglet.c:72
 msgid "Gifts"
@@ -785,31 +785,31 @@ msgstr "礼物"
 
 #: src/categories_onglet.c:73
 msgid "Children : Nurse"
-msgstr "子女：医护"
+msgstr "子女 : 看护"
 
 #: src/categories_onglet.c:74
 msgid "Children : Misc."
-msgstr "子女：其他"
+msgstr "子女 : 其它"
 
 #: src/categories_onglet.c:75
 msgid "Children : Studies"
-msgstr "子女：学习"
+msgstr "子女 : 学习"
 
 #: src/categories_onglet.c:76
 msgid "Studies : Lessons"
-msgstr "学习：课程"
+msgstr "学习 : 课程"
 
 #: src/categories_onglet.c:77
 msgid "Studies : School fees"
-msgstr "学习：学校费用"
+msgstr "学习 : 学校费用"
 
 #: src/categories_onglet.c:78
 msgid "Studies : Books"
-msgstr "学习：书籍"
+msgstr "学习 : 书籍"
 
 #: src/categories_onglet.c:79
 msgid "Miscellaneous : Gifts"
-msgstr "其他：礼物"
+msgstr "其它 : 礼物"
 
 #: src/categories_onglet.c:80
 msgid "Financial expenses : Miscellaneous"
@@ -845,47 +845,47 @@ msgstr ""
 
 #: src/categories_onglet.c:88
 msgid "Taxes : Income"
-msgstr ""
+msgstr "税收 : 所得税"
 
 #: src/categories_onglet.c:89
 msgid "Taxes : Land"
-msgstr ""
+msgstr "税收 : 地产"
 
 #: src/categories_onglet.c:90
 msgid "Housing : Hotel"
-msgstr "居家：旅馆"
+msgstr ""
 
 #: src/categories_onglet.c:91
 msgid "Housing : Rent"
-msgstr "居家：租金"
+msgstr ""
 
 #: src/categories_onglet.c:92
 msgid "Housing : TV"
-msgstr "居家：电视"
+msgstr "日常 : 电视"
 
 #: src/categories_onglet.c:93
 msgid "Housing : Furnitures"
-msgstr "居家：家具"
+msgstr "日常 : 家具"
 
 #: src/categories_onglet.c:94
 msgid "Housing : Charges"
-msgstr "居家：收费"
+msgstr "日常 : 收费"
 
 #: src/categories_onglet.c:95
 msgid "Housing : Heating"
-msgstr "居家：暖气费"
+msgstr "日常 : 暖气"
 
 #: src/categories_onglet.c:96
 msgid "Housing : Decoration"
-msgstr "居家：装潢"
+msgstr "日常 : 装潢"
 
 #: src/categories_onglet.c:97
 msgid "Housing : Water"
-msgstr "居家：水费"
+msgstr "日常 : 水"
 
 #: src/categories_onglet.c:98
 msgid "Housing : Electricity"
-msgstr "居家：电费"
+msgstr "日常 : 电"
 
 #: src/categories_onglet.c:99
 msgid "Housing : White products"
@@ -901,7 +901,7 @@ msgstr ""
 
 #: src/categories_onglet.c:102
 msgid "Housing : Garden"
-msgstr ""
+msgstr "日常 : 花园"
 
 #: src/categories_onglet.c:103
 msgid "Housing : House keeper"
@@ -909,11 +909,11 @@ msgstr ""
 
 #: src/categories_onglet.c:104
 msgid "Housing : Phone"
-msgstr ""
+msgstr "日常 : 电话"
 
 #: src/categories_onglet.c:105
 msgid "Housing : Mobile Phone"
-msgstr ""
+msgstr "日常 : 移动电话"
 
 #: src/categories_onglet.c:106
 msgid "Leisures : Snooker"
@@ -933,35 +933,35 @@ msgstr ""
 
 #: src/categories_onglet.c:110
 msgid "Leisures : IT"
-msgstr ""
+msgstr "休闲 : 信息技术"
 
 #: src/categories_onglet.c:111
 msgid "Leisures : Games"
-msgstr ""
+msgstr "休闲 : 游戏"
 
 #: src/categories_onglet.c:112
 msgid "Leisures : Books"
-msgstr ""
+msgstr "休闲 : 书籍"
 
 #: src/categories_onglet.c:113
 msgid "Leisures : Parks"
-msgstr ""
+msgstr "休闲 : 公园"
 
 #: src/categories_onglet.c:114
 msgid "Leisures : Concerts"
-msgstr ""
+msgstr "休闲 : 音乐会"
 
 #: src/categories_onglet.c:115
 msgid "Leisures : Sports"
-msgstr ""
+msgstr "休闲 : 运动"
 
 #: src/categories_onglet.c:116
 msgid "Leisures : Video"
-msgstr ""
+msgstr "休闲 : 影碟"
 
 #: src/categories_onglet.c:117
 msgid "Leisures : Travels"
-msgstr ""
+msgstr "休闲 : 旅行"
 
 #: src/categories_onglet.c:118
 msgid "Leisures : Equipment"
@@ -969,7 +969,7 @@ msgstr ""
 
 #: src/categories_onglet.c:119
 msgid "Leisures : Museums/Exhibitions"
-msgstr ""
+msgstr "休闲 : 博物馆/展览"
 
 #: src/categories_onglet.c:120
 msgid "Loan/Mortgage : Capital"
@@ -1021,27 +1021,27 @@ msgstr ""
 
 #: src/categories_onglet.c:132
 msgid "Transport : Bus"
-msgstr ""
+msgstr "交通 : 公交"
 
 #: src/categories_onglet.c:133
 msgid "Transport : Metro"
-msgstr ""
+msgstr "交通 : 地铁"
 
 #: src/categories_onglet.c:134
 msgid "Transport : Toll"
-msgstr ""
+msgstr "交通 : 通行税/费"
 
 #: src/categories_onglet.c:135 src/categories_onglet.c:138
 msgid "Transport : Train"
-msgstr ""
+msgstr "交通 : 列车"
 
 #: src/categories_onglet.c:136
 msgid "Transport : Tramway"
-msgstr ""
+msgstr "交通 : 电车/轨道车"
 
 #: src/categories_onglet.c:137
 msgid "Transport : Travels"
-msgstr ""
+msgstr "交通 : 旅行"
 
 #: src/categories_onglet.c:139
 msgid "Hollydays : Housing"
@@ -1105,11 +1105,11 @@ msgstr ""
 
 #: src/categories_onglet.c:157
 msgid "Salary : Overtime"
-msgstr ""
+msgstr "薪资 : 加班"
 
 #: src/categories_onglet.c:158
 msgid "Salary : Leave allowance"
-msgstr ""
+msgstr "薪资 : 休假津贴"
 
 #: src/categories_onglet.c:159
 msgid "Salary : Misc. premiums"
@@ -1117,11 +1117,11 @@ msgstr ""
 
 #: src/categories_onglet.c:160
 msgid "Salary : Success fee"
-msgstr ""
+msgstr "薪资 : 奖金"
 
 #: src/categories_onglet.c:161
 msgid "Salary : Net salary"
-msgstr ""
+msgstr "薪资 : 薪资"
 
 #: src/categories_onglet.c:162
 msgid "Misc. incomes : Gifts"
@@ -1137,7 +1137,7 @@ msgstr ""
 
 #: src/categories_onglet.c:189
 msgid "Categories list"
-msgstr ""
+msgstr "类别清单"
 
 #: src/categories_onglet.c:190
 msgid "Amount per category"
@@ -1155,20 +1155,20 @@ msgstr ""
 #: src/categories_onglet.c:237 src/imputation_budgetaire.c:114
 #: src/tiers_onglet.c:118
 msgid "Information"
-msgstr ""
+msgstr "信息"
 
 #: src/categories_onglet.c:279 src/imputation_budgetaire.c:156
 msgid "Sorting"
-msgstr ""
+msgstr "排序"
 
 #. mise en place des boutons ajout d'1 categ / sous-categ
 #: src/categories_onglet.c:388
 msgid "Add a category"
-msgstr ""
+msgstr "增加类别"
 
 #: src/categories_onglet.c:402
 msgid "Add a subcategory"
-msgstr ""
+msgstr "增加子类"
 
 #. on met le bouton exporter
 #. mise en place du bouton exporter
@@ -1176,7 +1176,7 @@ msgstr ""
 #: src/imputation_budgetaire.c:340 src/menu.c:77 src/traitement_variables.c:90
 #: src/traitement_variables.c:213
 msgid "Export"
-msgstr ""
+msgstr "导出"
 
 #. on met le bouton importer
 #. mise en place du bouton importer
@@ -1184,7 +1184,7 @@ msgstr ""
 #: src/imputation_budgetaire.c:356 src/menu.c:75 src/menu.c:76
 #: src/parametres.c:188
 msgid "Import"
-msgstr ""
+msgstr "导入"
 
 #: src/categories_onglet.c:650 src/categories_onglet.c:707
 #: src/categories_onglet.c:773 src/categories_onglet.c:833
@@ -1295,15 +1295,15 @@ msgstr ""
 #: src/ventilation.c:772 src/ventilation.c:1578 src/ventilation.c:1659
 #: src/ventilation.c:2028 src/ventilation.c:2366
 msgid "Transfer"
-msgstr ""
+msgstr "转帐"
 
 #: src/categories_onglet.c:2884
 msgid "New category"
-msgstr ""
+msgstr "新增类别"
 
 #: src/categories_onglet.c:2885
 msgid "Enter name for new category"
-msgstr ""
+msgstr "请输入新类别的名称"
 
 #: src/categories_onglet.c:2892
 msgid ""
@@ -1314,15 +1314,15 @@ msgstr ""
 #: src/categories_onglet.c:2893
 #, c-format
 msgid "Category '%s' already exists."
-msgstr ""
+msgstr "类别 '%s' 已经存在"
 
 #: src/categories_onglet.c:2949
 msgid "New sub-category"
-msgstr ""
+msgstr "新增子类"
 
 #: src/categories_onglet.c:2950
 msgid "Enter name for new sub-category"
-msgstr ""
+msgstr "请输入新增子类的名称"
 
 #: src/categories_onglet.c:2971
 msgid ""
@@ -1333,37 +1333,37 @@ msgstr ""
 #: src/categories_onglet.c:2972
 #, c-format
 msgid "Sub-category '%s' already exists."
-msgstr ""
+msgstr "新增子类 '%s' 已经存在"
 
 #: src/categories_onglet.c:3028
 msgid "Export categories"
-msgstr ""
+msgstr "导出类别"
 
 #: src/categories_onglet.c:3052 src/erreur.c:218 src/erreur.c:220
 #: src/etats_onglet.c:1186 src/fichiers_gestion.c:544
 #: src/fichiers_gestion.c:546 src/imputation_budgetaire.c:2792
 msgid "Save file"
-msgstr ""
+msgstr "保存文件"
 
 #: src/categories_onglet.c:3053 src/etats_onglet.c:1187
 #: src/imputation_budgetaire.c:2793
 msgid "File exists. Do you want to overwrite it?"
-msgstr ""
+msgstr "文件已存在。您想覆盖原文件吗？"
 
 #: src/categories_onglet.c:3058 src/etats_onglet.c:1192
 #: src/imputation_budgetaire.c:2798
 #, c-format
 msgid "Invalid filename \"%s\"!"
-msgstr ""
+msgstr "文件名 \"%s\" 无效"
 
 #: src/categories_onglet.c:3066
 msgid "Error saving file."
-msgstr ""
+msgstr "保存文件时发生错误"
 
 #. on permet de remplacer/fusionner la liste
 #: src/categories_onglet.c:3094 src/categories_onglet.c:3120
 msgid "Import a category list"
-msgstr ""
+msgstr "导入类别清单"
 
 #. il y a dÃ©jÃ  des opÃ©rations dans le fichier, on ne peut que fusionner
 #: src/categories_onglet.c:3139
@@ -1373,7 +1373,7 @@ msgstr ""
 
 #: src/categories_onglet.c:3149 src/imputation_budgetaire.c:2887
 msgid "Do you want"
-msgstr ""
+msgstr "您想要"
 
 #: src/categories_onglet.c:3167
 msgid "Merge the two categories lists"
@@ -1386,7 +1386,7 @@ msgstr ""
 #: src/categories_onglet.c:3209 src/etats_onglet.c:1250
 #: src/imputation_budgetaire.c:2947
 msgid "Cannot import file."
-msgstr ""
+msgstr "不能导入文件"
 
 #: src/check.c:71
 msgid "Grisbi found no known inconsistency in accounts processed."
@@ -1512,15 +1512,15 @@ msgstr ""
 
 #: src/comptes_gestion.c:88
 msgid "Account details"
-msgstr ""
+msgstr "账户明细"
 
 #: src/comptes_gestion.c:100
 msgid "Account name"
-msgstr ""
+msgstr "账户名称"
 
 #: src/comptes_gestion.c:122 src/comptes_traitements.c:690
 msgid "Account type"
-msgstr ""
+msgstr "账户类型"
 
 #: src/comptes_gestion.c:147
 msgid "Account currency"
@@ -1557,11 +1557,11 @@ msgstr ""
 
 #: src/comptes_gestion.c:319
 msgid "Details"
-msgstr ""
+msgstr "明细"
 
 #: src/comptes_gestion.c:347
 msgid "Bank sort code"
-msgstr ""
+msgstr "银行排序编号"
 
 #: src/comptes_gestion.c:370
 msgid "Bank branch code"
@@ -1597,31 +1597,31 @@ msgstr ""
 #. crÃ©ation de l'item compte bancaire
 #: src/comptes_gestion.c:658
 msgid "Bank account"
-msgstr ""
+msgstr "银行账户"
 
 #. crÃ©ation de l'item compte de caisse
 #: src/comptes_gestion.c:669
 msgid "Cash account"
-msgstr ""
+msgstr "现金账户"
 
 #. crÃ©ation de l'item compte passif
 #: src/comptes_gestion.c:680
 msgid "Liabilities account"
-msgstr ""
+msgstr "负债账户"
 
 #. crÃ©ation de l'item compte actif
 #: src/comptes_gestion.c:690
 msgid "Assets account"
-msgstr ""
+msgstr "资产账户"
 
 #: src/comptes_gestion.c:874
 msgid "Account has no name!"
-msgstr ""
+msgstr "您没有输入账户名称！"
 
 #: src/comptes_gestion.c:889
 #, c-format
 msgid "Account \"%s\" already exists!"
-msgstr ""
+msgstr "账户 \"%s\" 已存在！"
 
 #: src/comptes_gestion.c:945
 msgid "Confirm currency change"
@@ -1638,14 +1638,14 @@ msgstr ""
 
 #: src/comptes_gestion.c:1181
 msgid "Apply changes to account?"
-msgstr ""
+msgstr "您确认对账户的更改吗？"
 
 #: src/comptes_gestion.c:1182
 #, c-format
 msgid ""
 "Account \"%s\" has been modified.\n"
 "Do you want to save changes?"
-msgstr ""
+msgstr "您要保存更新的信息吗？"
 
 #: src/comptes_gestion.c:1211
 #, c-format
@@ -1684,13 +1684,13 @@ msgstr ""
 #. mise en place des boutons du bas
 #: src/comptes_onglet.c:158 src/menu.c:102
 msgid "New account"
-msgstr ""
+msgstr "新账户"
 
 #. mise en place du bouton "supprimer un compte"
 #: src/comptes_onglet.c:168 src/menu.c:103 src/traitement_variables.c:99
 #: src/traitement_variables.c:222
 msgid "Remove an account"
-msgstr ""
+msgstr "删除账户"
 
 #. insÃ¨re ses paramÃ¨tres ( comme c'est un appel Ã  calloc, tout ce qui est Ã  0 est dÃ©jÃ  initialisÃ© )
 #: src/comptes_traitements.c:155
@@ -1701,7 +1701,7 @@ msgstr ""
 #: src/comptes_traitements.c:197
 #, c-format
 msgid "Delete account \"%s\"?"
-msgstr ""
+msgstr "您确认要删除账户 \"%s\" 吗？"
 
 #: src/comptes_traitements.c:199
 msgid ""
@@ -1758,11 +1758,11 @@ msgstr ""
 
 #: src/csv.c:241
 msgid "Cheques"
-msgstr ""
+msgstr "支票"
 
 #: src/csv.c:253
 msgid "Sub-categories"
-msgstr ""
+msgstr "子类别"
 
 #: src/csv.c:256
 msgid "Sub-budgetary lines"
@@ -1795,7 +1795,7 @@ msgstr ""
 #: src/operations_formulaire.c:1028 src/operations_formulaire.c:2404
 #: src/operations_formulaire.c:2960 src/ventilation.c:781
 msgid "Deleted account"
-msgstr ""
+msgstr "已删除账户"
 
 #: src/devises.c:51 src/devises.c:52 src/devises.c:53 src/devises.c:54
 #: src/devises.c:55 src/devises.c:56 src/devises.c:57 src/devises.c:58
@@ -2266,11 +2266,11 @@ msgstr ""
 
 #: src/devises.c:109
 msgid "New Taiwan Dollar"
-msgstr ""
+msgstr "新台币"
 
 #: src/devises.c:109
 msgid "Taiwan, Province of China"
-msgstr ""
+msgstr "中国台湾"
 
 #: src/devises.c:110
 msgid "North Korean Won"
@@ -2402,11 +2402,11 @@ msgstr ""
 
 #: src/devises.c:126
 msgid "Yuan Renminbi"
-msgstr ""
+msgstr "人民币"
 
 #: src/devises.c:126
 msgid "China"
-msgstr ""
+msgstr "中国"
 
 #: src/devises.c:127 src/devises.c:128 src/devises.c:129 src/devises.c:130
 #: src/devises.c:131 src/devises.c:132 src/devises.c:493
@@ -3041,25 +3041,25 @@ msgstr ""
 #. le 1er item c'est aucune devise
 #: src/devises.c:424
 msgid "No associated currency"
-msgstr ""
+msgstr "没有关联的货币"
 
 #: src/devises.c:588
 msgid "Country name"
-msgstr ""
+msgstr "国家"
 
 #. Currency name
 #: src/devises.c:598 src/devises.c:711
 msgid "Currency name"
-msgstr ""
+msgstr "货币名称"
 
 #: src/devises.c:608 src/devises.c:1378
 msgid "ISO Code"
-msgstr ""
+msgstr "ISO编号"
 
 #. Create code entry
 #: src/devises.c:619 src/devises.c:1379 src/devises.c:1516
 msgid "Sign"
-msgstr ""
+msgstr "符号"
 
 #: src/devises.c:646
 msgid "Include obsolete currencies"
@@ -3067,25 +3067,25 @@ msgstr ""
 
 #: src/devises.c:675 src/import.c:456
 msgid "Add a currency"
-msgstr ""
+msgstr "新增货币"
 
 #: src/devises.c:693
 msgid "ISO 4217 currencies"
-msgstr ""
+msgstr "ISO4217货币"
 
 #: src/devises.c:700
 msgid "Currency details"
-msgstr ""
+msgstr "货币明细"
 
 #. Currency ISO code
 #: src/devises.c:728
 msgid "Currency ISO 4217 code"
-msgstr ""
+msgstr "ISO4217编号"
 
 #. Currency usual sign
 #: src/devises.c:743
 msgid "Currency sign"
-msgstr ""
+msgstr "货币符号"
 
 #: src/devises.c:819
 msgid "All fields are not filled in!"
@@ -3104,7 +3104,7 @@ msgstr ""
 
 #: src/devises.c:1024
 msgid "Enter exchange rate"
-msgstr ""
+msgstr "输入汇率"
 
 #: src/devises.c:1034
 #, c-format
@@ -3117,7 +3117,7 @@ msgstr ""
 
 #: src/devises.c:1054
 msgid "equals"
-msgstr ""
+msgstr "等于"
 
 #: src/devises.c:1116
 msgid "Exchange fees"
@@ -3125,15 +3125,15 @@ msgstr ""
 
 #: src/devises.c:1377 src/import.c:372
 msgid "Currency"
-msgstr ""
+msgstr "货币"
 
 #: src/devises.c:1383 src/etats_config.c:6196 src/parametres.c:286
 msgid "Currencies"
-msgstr ""
+msgstr "货币"
 
 #: src/devises.c:1387
 msgid "Known currencies"
-msgstr ""
+msgstr "已知货币"
 
 #: src/devises.c:1480
 msgid "Currency properties"
@@ -3142,7 +3142,7 @@ msgstr ""
 #. Create code entry
 #: src/devises.c:1532
 msgid "ISO code"
-msgstr ""
+msgstr "ISO编号"
 
 #. Will switch to Euro?
 #: src/devises.c:1548
@@ -3193,16 +3193,16 @@ msgstr ""
 #: src/echeancier_formulaire.c:255 src/echeancier_formulaire.c:256
 #: src/operations_formulaire.c:256 src/operations_formulaire.c:257
 msgid "Choose currency"
-msgstr ""
+msgstr "选择货币"
 
 #: src/echeancier_formulaire.c:279 src/echeancier_formulaire.c:280
 msgid "Choose the account"
-msgstr ""
+msgstr "选择账户"
 
 #: src/echeancier_formulaire.c:371 src/echeancier_formulaire.c:372
 #: src/operations_formulaire.c:392 src/operations_formulaire.c:393
 msgid "Choose the method of payment"
-msgstr ""
+msgstr "选择支付方式"
 
 #: src/echeancier_formulaire.c:407 src/echeancier_formulaire.c:408
 #: src/echeancier_ventilation.c:598 src/echeancier_ventilation.c:599
@@ -3218,44 +3218,44 @@ msgstr ""
 #: src/echeancier_formulaire.c:538 src/echeancier_liste.c:809
 #: src/operations_liste.c:1816
 msgid "Manual"
-msgstr ""
+msgstr "手动"
 
 #: src/echeancier_formulaire.c:546 src/echeancier_liste.c:807
 #: src/exercice.c:553
 msgid "Automatic"
-msgstr ""
+msgstr "自动"
 
 #: src/echeancier_formulaire.c:601 src/echeancier_formulaire.c:602
 #: src/echeancier_liste.c:403
 msgid "Frequency"
-msgstr ""
+msgstr "频率"
 
 #: src/echeancier_formulaire.c:610 src/echeancier_liste.c:215
 #: src/echeancier_liste.c:767
 msgid "Once"
-msgstr ""
+msgstr "单次"
 
 #: src/echeancier_formulaire.c:626 src/echeancier_liste.c:769
 msgid "Weekly"
-msgstr ""
+msgstr "每周"
 
 #: src/echeancier_formulaire.c:642 src/echeancier_liste.c:771
 msgid "Monthly"
-msgstr ""
+msgstr "每月"
 
 #: src/echeancier_formulaire.c:658 src/echeancier_liste.c:773
 msgid "Yearly"
-msgstr ""
+msgstr "每年"
 
 #: src/echeancier_formulaire.c:674 src/echeancier_liste.c:225
 #: src/etats_config.c:44
 msgid "Custom"
-msgstr ""
+msgstr "自定义"
 
 #: src/echeancier_formulaire.c:738 src/echeancier_formulaire.c:739
 #: src/echeancier_formulaire.c:758 src/echeancier_formulaire.c:759
 msgid "Custom frequency"
-msgstr ""
+msgstr "自定义频率"
 
 #: src/echeancier_formulaire.c:767 src/echeancier_liste.c:263
 msgid "Days"
@@ -3940,11 +3940,11 @@ msgstr ""
 
 #: src/etats_affiche.c:2120
 msgid "Incomes"
-msgstr ""
+msgstr "收入"
 
 #: src/etats_affiche.c:2140
 msgid "Outgoings"
-msgstr ""
+msgstr "支出"
 
 #: src/etats_affiche.c:2216
 msgid "Number"
@@ -4014,31 +4014,31 @@ msgstr ""
 
 #: src/etats_config.c:59
 msgid "Monday"
-msgstr ""
+msgstr "星期一"
 
 #: src/etats_config.c:60
 msgid "Tuesday"
-msgstr ""
+msgstr "星期二"
 
 #: src/etats_config.c:61
 msgid "Wednesday"
-msgstr ""
+msgstr "星期三"
 
 #: src/etats_config.c:62
 msgid "Thursday"
-msgstr ""
+msgstr "星期四"
 
 #: src/etats_config.c:63
 msgid "Friday"
-msgstr ""
+msgstr "星期五"
 
 #: src/etats_config.c:64
 msgid "Saturday"
-msgstr ""
+msgstr "星期六"
 
 #: src/etats_config.c:65
 msgid "Sunday"
-msgstr ""
+msgstr "星期日"
 
 #: src/etats_config.c:94
 msgid "Reports setup"
@@ -6093,7 +6093,7 @@ msgstr ""
 
 #: src/ofx.c:110
 msgid "Warning"
-msgstr ""
+msgstr "警告"
 
 #: src/ofx.c:111
 msgid "An error or warning has occured. Do you still want to import the file ?"
@@ -6434,11 +6434,11 @@ msgstr ""
 
 #: src/parametres.c:523
 msgid "Automatically load last file on startup"
-msgstr ""
+msgstr "启动时自动载入最后一次使用的文件"
 
 #: src/parametres.c:528
 msgid "Automatically save on exit"
-msgstr ""
+msgstr "退出时自动保存"
 
 #: src/parametres.c:544
 msgid "File compression level"
@@ -6450,11 +6450,11 @@ msgstr ""
 
 #: src/parametres.c:569
 msgid "Backups"
-msgstr ""
+msgstr "备份"
 
 #: src/parametres.c:573
 msgid "Make a backup copy after opening files"
-msgstr ""
+msgstr "打开文件时保存一份备份文件"
 
 #. Automatic backup ?
 #: src/parametres.c:579
@@ -6463,11 +6463,11 @@ msgstr ""
 
 #: src/parametres.c:596
 msgid "Backup file"
-msgstr ""
+msgstr "备份文件"
 
 #: src/parametres.c:635
 msgid "Backup compression level"
-msgstr ""
+msgstr "备份文件压缩率"
 
 #: src/parametres.c:667
 msgid "backup.gsb"
@@ -6492,7 +6492,7 @@ msgstr ""
 
 #: src/parametres.c:748
 msgid "Web browser"
-msgstr ""
+msgstr "Web浏览器"
 
 #: src/patienter.c:78
 msgid "Wait please..."
@@ -6692,11 +6692,11 @@ msgstr ""
 
 #: src/type_operations.c:264
 msgid "Known payment methods"
-msgstr ""
+msgstr "现有支付方式"
 
 #: src/type_operations.c:313
 msgid "Default"
-msgstr ""
+msgstr "默认"
 
 #: src/type_operations.c:325
 msgid "Numbering"
@@ -6704,7 +6704,7 @@ msgstr ""
 
 #: src/type_operations.c:369
 msgid "Payment method details"
-msgstr ""
+msgstr "支付方式明细"
 
 #. Automatic numbering
 #: src/type_operations.c:393
@@ -6718,7 +6718,7 @@ msgstr ""
 #. Payment method type
 #: src/type_operations.c:417
 msgid "Type"
-msgstr ""
+msgstr "类型"
 
 #. Neutral type
 #: src/type_operations.c:429
@@ -6727,7 +6727,7 @@ msgstr ""
 
 #: src/type_operations.c:915
 msgid "New payment method"
-msgstr ""
+msgstr "新支付方式"
 
 #: src/type_operations.c:1014
 msgid "Delete a payment method"
@@ -6764,7 +6764,7 @@ msgstr ""
 
 #: src/utils_files.c:61
 msgid "Print to file"
-msgstr ""
+msgstr "打印到文件"
 
 #. aie, pb de mÃ©moire, on vire
 #: src/utils_files.c:142 src/utils_files.c:159
