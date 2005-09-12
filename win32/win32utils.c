@@ -341,7 +341,266 @@ BOOL win32_shell_execute_open(const gchar* file)
    return ((int)ShellExecute(NULL, "open", file, NULL, NULL, SW_SHOWNORMAL)>32);
 }
 
+BOOL win32_create_process(gchar* application_path,gchar* arg_line,gboolean detach,gboolean with_sdterr)
+{
 
+    DWORD dw;
+    STARTUPINFO si;
+    PROCESS_INFORMATION pi;
+    TCHAR arg[MAX_PATH];
+
+    memset( &si, 0, sizeof(si) );
+    si.cb = sizeof(si);
+
+    memset( &pi, 0, sizeof(pi) );
+    // STDERR
+    if (with_sdterr)
+    {
+        TCHAR stderr_path[MAX_PATH];
+        strcpy(stderr_path,application_path);
+        strcat(stderr_path,".err");
+        HANDLE hStdError = CreateFile(stderr_path,     // file to create
+                   GENERIC_WRITE,          // open for writing
+                   0,                      // do not share
+                   NULL,                   // default security
+                   CREATE_ALWAYS,          // overwrite existing
+                   FILE_ATTRIBUTE_NORMAL,  // normal file
+                   NULL);                  // no attr. template
+
+        if (hStdError == INVALID_HANDLE_VALUE) 
+        { 
+            printf("Could not open file (error %d)\n", GetLastError());
+        }
+        else
+        {
+            si.hStdError = hStdError;
+        }
+    }
+
+    sprintf(arg," \"%s\" ",arg_line);
+    if(!CreateProcess(application_path,
+        arg,
+        NULL,
+        NULL,
+        FALSE,
+        CREATE_DEFAULT_ERROR_MODE|DETACHED_PROCESS|NORMAL_PRIORITY_CLASS,
+        NULL,
+        NULL,
+        &si,
+        &pi))
+    {
+        TCHAR szBuf[255]; 
+        LPVOID lpMsgBuf;
+        dw = GetLastError(); 
+
+        FormatMessage(
+            FORMAT_MESSAGE_ALLOCATE_BUFFER | 
+            FORMAT_MESSAGE_FROM_SYSTEM,
+            NULL,
+            dw,
+            MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
+            (LPTSTR) &lpMsgBuf,
+            0, NULL );
+
+        wsprintf(szBuf, 
+        "CreateProcess %s failed with error %d: %s", 
+        application_path, dw, lpMsgBuf); 
+        
+ 
+        MessageBox(NULL,szBuf, "Error CreateProcess", MB_OK); 
+
+        LocalFree(lpMsgBuf);
+    }
+    else
+    {
+        // Wait until child process exits.
+        if (!detach) WaitForSingleObject( pi.hProcess, INFINITE );
+
+        // Close process and thread handles. 
+        CloseHandle( pi.hProcess );
+        CloseHandle( pi.hThread );
+
+    }
+
+    // Restore the current environnement
+    if ((si.hStdError) && (si.hStdError != INVALID_HANDLE_VALUE))
+    {
+        CloseHandle(si.hStdError);
+        si.hStdError = NULL;
+    }
+   return (gboolean)(dw==0);
+}
+#if 0
+/**
+ * Convert a short filename to a long one
+ *
+ * The used GetLongPathName is not available on all Windows version.
+ * So the function will first detect if a native version is available.
+ * 
+ * \param   utf8_short_file_name short file name to convert in UTF-8 charset
+ * \caveats the returned string must be unallocated when no more needed
+ * \return  long file name in windows locale charset or NULL 
+ */
+gchar* win32_get_long_file_name(gchar* utf8_short_file_name)
+{
+    HMODULE             hKernel32Lib         = NULL;
+    PFNGETLONGPATHNAME  pfnGetLongPathName = NULL; 
+    TCHAR               szLongFilename[MAX_PATH+1];
+    
+    
+    // First check a GetLangPathName native version is provided 
+    hKernel32Lib = LoadLibrary("kernel32.dll");
+    if (hKernel32Lib)
+    {
+        pfnGetLongPathName = (PFNGETLONGPATHNAME)GetProcAddress(hKernel32Lib,SZ_GETLONGPATHNAME);
+    }
+    
+    // Use the native implementation provided by Kernel32.dll (W98; and W2K and next)
+    if(pfnGetLongPathName) 
+    {
+        DWORD dwResult = 0;
+
+        dwResult = (pfnGetLongPathName)((LPCTSTR)g_filename_from_utf8(utf8_short_file_name,-1,NULL,NULL,NULL),szLongFilename,MAX_PATH);
+    }
+    else // Try to emulate GetLongPathName for system which do no have a native version 
+    {
+        szLongFilename = (TCHAR*)utf8_short_file_name
+    }
+    
+    // In case of error, return the original name ...
+    if (dwResult != NO_ERROR)
+    {
+        str
+    }
+    if (hKernel32Lib)
+    {
+        FreeLibrary(hKernel32Lib);
+        hKernel32Lib = NULL;
+    }
+    return g_strdup(szLongFilename);  
+}
+
+/* 
+ * The GetLongPathName API call is only available on Windows 98/ME and Windows 2000/XP. 
+ * It is not available on Windows 95 & NT. This function will emulate it on all system.
+ * The algorithm recursively strips off path components, then reassembles them with
+ * their long name equivalents.
+ * 
+
+ * \param lpszShortPath [in]  Pointer to a null-terminated path to be converted limited to MAX_PATH characters
+ * \param lpszLongPath  [out] Pointer to the buffer to receive the long path. 
+ * \param cchBuffer     [in]  Size of the buffer, in TCHARs. 
+ * \caveats
+ *    The provided buffer MUST have been ALLOCATED before calling the function.
+ *   
+ * \return 
+ *    If the function succeeds, the return value is the length of the string copied to the lpszLongPath parameter, in TCHARs. This length does not include the terminating null character.
+ *    If the function fails for any other reason, the return value is zero. To get extended error information, call GetLastError.
+ *
+ *    If the lpszLongPath buffer is too small to contain the path, the return value is the size of the buffer required to hold the path, 
+ *    including the terminating null character, in TCHARs. Therefore, if the return value is greater than cchBuffer, call the function again with a buffer is at least this large.
+ * 
+ * \note
+ *   This function is inspired on the "GetLongPathName API Function Emulation" 
+ *   provided by Randall Garacci on the CodeGuru site
+ *   http://www.codeguru.com/Cpp/W-P/files/article.php/c4461/
+ * 
+ * \note
+ *   "dir1\\dir2\\file"      -> "long dir1\\long dir2\\long file name"
+ *   "c:\\\\dir1\\dir2\\file" -> "c:\\\\long dir1\\long dir2\\long file name"
+ * \caveats   
+ *   \\server\ is not supported in this implementation 
+ */
+
+
+DWORD win32_get_long_path_name(LPCTSTR szShortPath, LPTSTR* szLongPath, DWORD ccBuffer)
+{
+    BOOL bFound = FALSE;
+    int iFound = -1;
+    
+    //// remove duplicate (or more) '\' from path by going back to the first of the serie
+    //while ((iFound > 0) && (lpszShortPath[iFound-1] == '\')) { iFound--; }
+    // reverse find '\\' in szShortPath
+    for ( iFound = strlen(lpszShortPath)-1; (iFound >= 0) && (lpszShortPath[iFound] != '\\'), --iFound);
+
+    
+    // if we point to a '\'  at the third position of the string, check if we are are in the <disk>:\ case
+    if ((iFound == 2) && (lpszShortPath[1]==':')) { iFound = -1 };
+    
+    if (iFound >= 1) // recurse to peel off components
+    {
+        TCHAR szLeftOfShortName[MAX_PATH+1];
+        strcpy(szLeftOfShortName,szShortPath);
+        szLeftOfShortName[iFound] = 0;
+        
+        if (win32_get_long_path_name(szLeftOfShortName,szLongPath) > 0)
+        {
+
+            if ( szShortPath[strlen(szShortPath)-1] != '\\' )
+            {
+                // search and append the long component name to the path
+                WIN32_FIND_DATE findData;
+                if (INVALID_HANDLE_VALUE != FindFirstFile(szShortPath,&findData))
+                {
+                    strcat(szLongPath,"\\");
+                    strcat(szLongPath,findData.cFileName);
+                }
+                else // if FindFirstFile fails, return the error code
+                {
+                    *szLongPath = 0;
+                    return 0;
+                }
+            }
+        }
+    }
+    else
+    {
+        strcpy(szLongPath,szShortPath);
+    }
+    return strlen(szLongPath);
+}
+DWORD GetLongPathName(CString  strShortPath,
+                      CString& strLongPath  )
+{
+  int iFound = strShortPath.ReverseFind('\\');
+  if (iFound > 1)
+  {
+    // recurse to peel off components
+    //
+    if (GetLongPathName(strShortPath.Left(iFound),
+                        strLongPath) > 0)
+    {
+      strLongPath += '\\';
+
+      if (strShortPath.Right(1) != "\\")
+      {
+        WIN32_FIND_DATA findData;
+
+        // append the long component name to the path
+        //
+        if (INVALID_HANDLE_VALUE != ::FindFirstFile
+           (strShortPath, &findData))
+        {
+          strLongPath += findData.cFileName;
+        }
+        else
+        {
+          // if FindFirstFile fails, return the error code
+          //
+          strLongPath.Empty();
+          return 0;
+        }
+      }
+    }
+  }
+  else
+  {
+    strLongPath = strShortPath;
+  }
+
+  return strLongPath.GetLength();
+}
+#endif
 // -------------------------------------------------------------------------
 // End of WinUtils
 // -------------------------------------------------------------------------

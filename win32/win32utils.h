@@ -104,6 +104,19 @@ extern win_version    win32_get_windows_version(void);
 extern win_technology win32_get_windows_technology(win_version);
 
 BOOL win32_shell_execute_open(const gchar* file);
+// GetLongPathName
+// -------------------------------------------------------------------------
+typedef HRESULT (__stdcall * PFNSHGETGETLONGPATHNAMEA)(LPCTSTR, LPTSTR, DWORD);  // "GetLongPathNameA"
+typedef HRESULT (__stdcall * PFNSHGETGETLONGPATHNAMEW)(LPCTSTR, LPTSTR, DWORD); // "GetLongPathNameW"
+#ifdef UNICODE
+#define GetLongPathName     GetLongPathNameA
+#define SZ_GETLONGPATHNAME  "GetLongPathNameA"
+#define PFNGETLONGPATHNAME  PFNSHGETGETLONGPATHNAMEA
+#else
+#define GetLongPathName     GetLongPathNameW
+#define SZ_GETLONGPATHNAME  "GetLongPathNameW"
+#define PFNGETLONGPATHNAME  PFNSHGETGETLONGPATHNAMEW
+#endif
 
 #endif//!WINUTILS_H_C61461B7_ACF2_4011_888A_030AD5F25F8F
 
