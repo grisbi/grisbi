@@ -576,17 +576,12 @@ gboolean gsb_file_util_modify_lock ( gboolean create_swp )
 
 	result = utf8_stat ( lock_filename, &buffer_stat);
 
-	if ( result != -1 )
+	if ( result != -1)
 	{
-	    /* the file lock exists, if we want create a new one, we must force in the parameters */
-
-	    dialogue_conditional_hint ( g_strdup_printf( _("File \"%s\" is already opened"),
-							 nom_fichier_comptes),
-					_("Either this file is already opened by another user or it wasn't closed correctly (maybe Grisbi crashed?).\nGrisbi can't save the file unless you activate the \"Force saving locked files\" option in setup."),
-					(gchar *) &(etat.display_message_lock_active) );
+	    if ( ! etat.force_enregistrement )
+		dialog_message ( "account-already-opened", nom_fichier_comptes );
 
 	    /* the lock is already created, return TRUE */
-
 	    etat.fichier_deja_ouvert = 1;
 	    return TRUE;
 	}
@@ -644,34 +639,23 @@ gboolean gsb_file_util_modify_lock ( gboolean create_swp )
  * */
 void gsb_file_util_change_permissions ( void )
 {
-    GtkWidget *dialog, *vbox, *checkbox;
     gint resultat;
 
-    dialog = gtk_message_dialog_new ( GTK_WINDOW ( window ),
-				      GTK_DIALOG_DESTROY_WITH_PARENT,
-				      GTK_MESSAGE_QUESTION,
-				      GTK_BUTTONS_YES_NO,
-				      " ");
+    /* On Windows, the chmod feature does not work: FAT does not
+     * have right access permission notions , on NTFS it to
+     * complicated to implement => the feature is removed from the
+     * Windows version : for that the corresponding parameter
+     * check box is not displayed and the paramater is forced to
+     * not display msg. */
+#ifdef _WIN32
+    resultat = question_conditional_yes_no ( "account-file-readable" );
 
-    gtk_label_set_markup ( GTK_LABEL ( GTK_MESSAGE_DIALOG(dialog)->label ), 
-			   make_hint ( _("Account file is world readable."),
-				       _("Your account file should not be readable by anybody else, but it is. You should change its permissions.\nShould this be fixed now?")));
-    
-
-    vbox = GTK_DIALOG(dialog) -> vbox;
-    checkbox = new_checkbox_with_title ( _("Do not show this message again"),
-					 &(etat.display_message_file_readable), NULL);
-    gtk_box_pack_start ( GTK_BOX ( vbox ), checkbox, FALSE, FALSE, 6 );
-    gtk_widget_show_all ( dialog );
-
-    resultat = gtk_dialog_run ( GTK_DIALOG(dialog) );
-
-    if ( resultat == GTK_RESPONSE_YES )
+    if ( resultat == TRUE )
     {
 	chmod ( nom_fichier_comptes, S_IRUSR | S_IWUSR );
     }
 
-    gtk_widget_destroy ( dialog );
+#endif /* _WIN32 */
 }
 
 
