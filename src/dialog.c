@@ -55,12 +55,35 @@ struct conditional_message messages[] =
     { "no-tip-available", N_("No tip of the day available"), 
       N_("Make sure that grisbi was correctly installed and that tips file is readable."),
       FALSE, FALSE, },
+
     { "qif-does-not-define-currencies", N_("QIF format does not define currencies."),
       N_("All transactions will be converted into currency of their account."), 
       FALSE, FALSE, },
+
+    { "ofx-security-not-implemented", N_("Security feature not implemented"),
+      N_("This file contains security informations, which processing is not implemented at this moment."),
+      FALSE, FALSE, },
+
     { "encryption-is-irreversible", N_("Encryption is irreversible."),
       N_("Grisbi encrypts files in a secure way that does not allow recovery without original password.  This means that if you forget your password, you will loose all your data.  Use with caution.\n\nI repeat: if you forget your password, there is no coming back, don't complain to us."), 
       FALSE, FALSE, },
+
+    { "account-file-readable",  N_("Account file is world readable."),
+      N_("Your account file should not be readable by anybody else, but it is. You should change its permissions.\nShould this be fixed now?"),
+      FALSE, FALSE, },
+
+    { "account-already-opened", N_("File \"%s\" is already opened"),
+      N_("Either this file is already opened by another user or it wasn't closed correctly (maybe Grisbi crashed?).\nGrisbi can't save the file unless you activate the \"Force saving locked files\" option in setup."),
+      FALSE, FALSE, },
+     
+    { "minimum-balance-alert", N_("Account under wanted balance."),
+      N_("Grisbi detected that an account is under a wanted balance: %s"), 
+      FALSE, FALSE, },
+    
+    { "no-budgetary-line", N_("No budgetary line was entered"),
+      N_("This transaction has no budgetary line entered.  You should use them to easily produce budgets and make reports on them."),
+      FALSE, FALSE, },
+
 /*
     { "", N_(),
       N_(), 
@@ -194,6 +217,70 @@ GtkWidget * dialogue_special_no_run ( GtkMessageType param, GtkButtonsType butto
 
 
 /**
+ * xxx
+ *
+ */
+gboolean dialogue_update_var ( GtkWidget * checkbox, gint message )
+{
+    messages[message].hidden = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON(checkbox) );
+
+    return FALSE;
+}
+
+
+/**
+ * Create a dialog with an informal text and a checkbox that allow
+ * this message not to be displayed again thanks to preferences.
+ *
+ * \param text	Text to be displayed
+ * \param var	Variable that both controls whether the dialog will
+ *		appear or not and that indicates which variable could
+ *		be modified so that this message won't appear again.
+ *
+ * \return	A newly-created GtkDialog.
+ */
+GtkDialog * dialogue_conditional_new ( gchar *text, gchar * var, GtkMessageType type,
+				       GtkButtonsType buttons )
+{
+    GtkWidget * vbox, * checkbox, *dialog;
+    int i;
+
+    if ( !var || !strlen ( var ) )
+	return NULL;
+
+    for  ( i = 0; messages[i].name; i++ )
+    {
+	if ( !strcmp ( messages[i].name, var ) )
+	{
+	    if ( messages[i].hidden )
+	    {
+		return NULL;
+	    }
+	    break;
+	}
+    }
+
+    dialog = gtk_message_dialog_new ( GTK_WINDOW (window), GTK_DIALOG_DESTROY_WITH_PARENT,
+				      type, buttons, text );
+    gtk_dialog_set_default_response ( GTK_DIALOG( dialog ), GTK_RESPONSE_CLOSE );
+    gtk_label_set_markup ( GTK_LABEL ( GTK_MESSAGE_DIALOG(dialog)->label ), text );
+
+    vbox = GTK_DIALOG(dialog) -> vbox;
+
+    checkbox = gtk_check_button_new_with_label ( _("Do not show this message again") );
+    g_signal_connect ( G_OBJECT ( checkbox ), "toggled", 
+		       G_CALLBACK ( dialogue_update_var ), GINT_TO_POINTER ( i ) );
+    gtk_box_pack_start ( GTK_BOX ( vbox ), checkbox, TRUE, TRUE, 6 );
+    gtk_widget_show_all ( checkbox );
+
+    gtk_window_set_modal ( GTK_WINDOW ( dialog ), TRUE );
+
+    return dialog;
+}
+
+
+
+/**
  * This function pop ups a dialog with a hint (first sentence, in
  * bold), an informal text and a checkbox that allow this message not
  * to be displayed again thanks to preferences.  It calls
@@ -253,52 +340,20 @@ void dialogue_conditional ( gchar *text, gchar * var )
  * that allow this message not to be displayed again thanks to
  * preferences.
  *
- * \param text text to be displayed
- * \param var variable that both controls whether the dialog will
- * appear or not and that indicates which variable could be modified
- * so that this message won't appear again.
+ * \param text	Text to be displayed
+ * \param var	Variable that both controls whether the dialog will
+ *		appear or not and that indicates which variable could
+ *		be modified so that this message won't appear again.
  */
 void dialogue_conditional_special ( gchar *text, gchar * var, GtkMessageType type )
 {
-    GtkWidget * vbox, * checkbox, *dialog;
-    int i;
+    GtkDialog * dialog;
 
-    if ( !var || !strlen ( var ) )
+    dialog = dialogue_conditional_new ( text, var, type, GTK_BUTTONS_CLOSE );
+    if ( ! dialog )
 	return;
 
-    for  ( i = 0; messages[i].name; i++ )
-    {
-	if ( !strcmp ( messages[i].name, var ) )
-	{
-	    if ( messages[i].hidden )
-	    {
-		return;
-	    }
-	    break;
-	}
-    }
-
-    dialog = gtk_message_dialog_new ( GTK_WINDOW (window),
-				      GTK_DIALOG_DESTROY_WITH_PARENT,
-				      type,
-				      GTK_BUTTONS_CLOSE,
-				      text );
-    gtk_dialog_set_default_response ( GTK_DIALOG( dialog ),
-				      GTK_RESPONSE_CLOSE );
-    gtk_label_set_markup ( GTK_LABEL ( GTK_MESSAGE_DIALOG(dialog)->label ), text );
-
-    vbox = GTK_DIALOG(dialog) -> vbox;
-
-    checkbox = gtk_check_button_new_with_label ( _("Do not show this message again") );
-    gtk_box_pack_start ( GTK_BOX ( vbox ), checkbox, TRUE, TRUE, 6 );
-    gtk_widget_show_all ( checkbox );
-
-    gtk_window_set_modal ( GTK_WINDOW ( dialog ), TRUE );
     gtk_dialog_run ( GTK_DIALOG (dialog) );
-
-    messages[i].hidden = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON(checkbox) );
-    printf ("-> %d\n", messages[i].hidden );
-
     gtk_widget_destroy ( dialog );
 }
 
@@ -365,7 +420,58 @@ gboolean question_yes_no ( gchar *texte )
 
 
 
-/*************************************************************************************************************/
+/**
+ * Pop up a warning dialog window with a question and a checkbox that allow
+ * this message not to be displayed again thanks to preferences and wait
+ * for user to press 'OK' or 'Cancel'.
+ *
+ * \param var variable that both controls whether the dialog will
+ * appear or not and that indicates which variable could be modified
+ * so that this message won't appear again.
+ *
+ * \return TRUE if user pressed 'OK'.  FALSE otherwise.
+ */
+gboolean question_conditional_yes_no ( gchar * var )
+{
+    GtkDialog * dialog;
+    gint response, i;
+
+    for  ( i = 0; messages[i].name; i++ )
+    {
+	if ( !strcmp ( messages[i].name, var ) )
+	{
+	    if ( messages[i].hidden )
+	    {
+		return messages[i].default_answer;
+	    }
+	    break;
+	}
+    }
+
+    dialog = dialogue_conditional_new ( make_hint ( _(messages[i].hint),
+						    _(messages[i].message) ), 
+					var, GTK_MESSAGE_QUESTION,
+					GTK_BUTTONS_YES_NO );
+    if ( ! dialog )
+	return messages[i].default_answer;
+
+    response = gtk_dialog_run (GTK_DIALOG (dialog));
+    gtk_widget_destroy ( dialog );
+
+    if ( response == GTK_RESPONSE_YES )
+	messages[i].default_answer = TRUE;
+    else
+	messages[i].default_answer = FALSE;
+
+    return messages[i].default_answer;	
+}
+
+
+
+/**
+ * xxx
+ *
+ */
 gboolean blocage_boites_dialogues ( GtkWidget *dialog,
 				    gpointer null )
 {
@@ -437,12 +543,12 @@ void dialog_message ( gchar * label, ... )
 	{
 	    if ( ! messages[i] . hidden )
 	    {
-		gchar hint_buffer[1024];
+		gchar hint_buffer[1024], message_buffer[1024];
 		va_start ( ap, label );
 		vsnprintf ( hint_buffer, 1024, _(messages[i] . hint), ap );
+		vsnprintf ( message_buffer, 1024, _(messages[i] . message), ap );
 
-		dialogue_conditional_hint ( hint_buffer,
-					    _(messages[i] . message),
+		dialogue_conditional_hint ( hint_buffer, message_buffer,
 					    messages[i] . name );
 	    }
 	    return;
@@ -450,7 +556,7 @@ void dialog_message ( gchar * label, ... )
 	i ++;
     }
 }
- 
+
 
 /* Local Variables: */
 /* c-basic-offset: 4 */
