@@ -2007,8 +2007,7 @@ void affiche_dialogue_soldes_minimaux ( void )
     }
 
     if ( strlen ( texte_affiche ))
-	dialogue_conditional ( texte_affiche,
-			       &(etat.display_message_minimum_alert));
+	dialog_message ( "minimum-balance-alert", texte_affiche );
 }
 /* ************************************************************************* */
 
