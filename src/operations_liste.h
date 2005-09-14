@@ -116,5 +116,6 @@ gint recupere_hauteur_ligne_tree_view ( GtkWidget *tree_view );
 void remove_transaction ();
 void remplissage_liste_operations ( gint compte );
 void update_titres_tree_view ( void );
+void schedule_selected_transaction ();
 /* END_DECLARATION */
 #endif
