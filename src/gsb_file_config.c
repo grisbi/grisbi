@@ -309,10 +309,12 @@ gboolean gsb_file_config_load_config ( void )
 
     for ( i = 0; messages[i].name; i ++ )
     {
-	messages[i].hidden = g_key_file_get_integer ( config,
-						      "Messages",
-						      messages[i].name,
-						      NULL );
+	gchar * name = g_strconcat ( messages[i].name , " (answer)", NULL );
+	messages[i].hidden = g_key_file_get_integer ( config, "Messages",
+						      messages[i].name, NULL );
+	messages[i].default_answer = g_key_file_get_integer ( config, "Messages",
+							      name, NULL );
+	g_free ( name );
     }
 
     etat.last_tip = g_key_file_get_integer ( config,
@@ -583,10 +585,11 @@ gboolean gsb_file_config_save_config ( void )
 
     for ( i = 0; messages[i].name; i ++ )
     {
-	g_key_file_set_integer ( config,
-				 "Messages",
-				 messages[i].name,
-				 messages[i].hidden );
+	gchar * name = g_strconcat ( messages[i].name , " (answer)", NULL );
+
+	g_key_file_set_integer ( config, "Messages", messages[i].name, messages[i].hidden );
+	g_key_file_set_integer ( config, "Messages", name, messages[i].default_answer );
+	g_free ( name );
     }
 
     g_key_file_set_integer ( config,
@@ -738,16 +741,6 @@ gboolean gsb_file_config_load_last_xml_config ( gchar *filename )
 					 latin2utf8 (strerror(errno))));
 	return FALSE;
     }
-
-    /* On Windows, the chmod feature does not work: FAT does not
-     * have right access permission notions , on NTFS it to
-     * complicated to implement => the feature is removed from the
-     * Windows version : for that the corresponding parameter
-     * check box is not displayed and the paramater is forced to
-     * not display msg. */
-#ifdef _WIN32
-    etat.display_message_file_readable = 1;
-#endif
 
     return TRUE;
 }
