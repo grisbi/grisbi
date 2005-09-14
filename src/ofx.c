@@ -171,25 +171,25 @@ int ofx_proc_status_cb(struct OfxStatusData data)
 
 	    case OFX_WARN :
 		if ( data.code_valid )
-		    dialogue_warning ( g_strconcat ( _("The file has returned the next message :\n"),
+		    dialogue_warning ( g_strconcat ( _("File processing returned following message:\n"),
 						     data.name,
 						     "\n",
 						     data.description,
 						     NULL ));
 		else
-		    dialogue_warning ( _("The file has returned a warning message which is no valid."));
+		    dialogue_warning ( _("File processing ended in a warning message which is not valid."));
 		erreur_import_ofx = 1;
 		break;
 
 	    case OFX_ERROR:
 		if ( data.code_valid )
-		    dialogue_error ( g_strconcat ( _("The file has returned the next message :\n"),
+		    dialogue_error ( g_strconcat ( _("The file returned following error message:\n"),
 						   data.name,
 						   "\n",
 						   data.description,
 						   NULL ));
 		else
-		    dialogue_error ( _("The file has returned a warning message which is no valid."));
+		    dialogue_error ( _("File processing returned an error message which is not valid."));
 		erreur_import_ofx = 1;
 		break;
 	}		
@@ -208,10 +208,7 @@ int ofx_proc_status_cb(struct OfxStatusData data)
 /* *******************************************************************************/
 int ofx_proc_security_cb(struct OfxSecurityData data)
 {
-    dialogue_conditional_hint ( _("Security feature not implemented"), 
-				_("This file contains security informations, which processing is not implemented at this moment."),
-				&(etat.display_message_ofx_security) );
-
+    dialog_message ( "ofx-security-not-implemented" );
     return 0;
 }
 /* *******************************************************************************/
