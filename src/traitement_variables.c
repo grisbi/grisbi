@@ -195,6 +195,7 @@ void init_variables ( void )
     mise_a_jour_soldes_minimaux = 0;
     mise_a_jour_fin_comptes_passifs = 0;
 
+    etat.force_enregistrement = 1;
     etat.modification_fichier = 0;
     etat.utilise_logo = 1;
 
