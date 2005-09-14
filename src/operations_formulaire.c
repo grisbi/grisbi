@@ -2190,9 +2190,8 @@ gboolean gsb_form_finish_edition ( void )
      * either transaction_number is -2 (new breakdown daughter)
      * */
 
-    if ( transaction_number
-	 &&
-	 transaction_number != -2 )
+    if ( transaction_number &&
+	 transaction_number >= -1 )
 	new_transaction = 0;
     else
 	new_transaction = 1;
