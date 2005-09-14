@@ -410,23 +410,6 @@ void latex_safe ( gchar * text )
     {
 	switch ( * text )
 	{
-	    /* FIXME: this is very iso8859-1 centric */
-	    case 'Ã':
-		if ( *(text+1) == '«' )
-		{
-		    fprintf ( out, "<<" );
-		    text++;
-		}
-		else if ( *(text+1) == '»' )
-		{
-		    fprintf ( out, ">>" );
-		    text++;
-		}
-		else 
-		{
-		    fprintf ( out, "%c", *text );
-		}
-		break;
 
 	    case ' ':
 		if ( start )
