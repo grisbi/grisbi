@@ -112,7 +112,6 @@ static void move_selected_operation_to_account ( GtkMenuItem * menu_item );
 static void p_press (void);
 static void popup_transaction_context_menu ( gboolean full, int x, int y );
 static void r_press (void);
-static void schedule_selected_transaction ();
 static struct operation_echeance *schedule_transaction ( gpointer * transaction );
 static gdouble solde_debut_affichage ( gint no_account );
 static gboolean gsb_transactions_list_columns_changed ( GtkTreeView *treeview, 
