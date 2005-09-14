@@ -32,8 +32,8 @@ struct conditional_message
     gchar * name;
     gchar * hint;
     gchar * message;
-    gboolean default_state;
     gboolean hidden;
+    gboolean default_answer;	/** Useful for yes/no questions. */
 };
 
 #endif
