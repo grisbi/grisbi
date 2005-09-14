@@ -551,11 +551,10 @@ gboolean enregistrement_fichier ( gint origine )
 	 &&
 	 origine != -2 )
     {
-	dialogue_conditional_hint ( g_strdup_printf( _("Can not save file \"%s\""), nom_fichier_comptes),
-				    g_strdup_printf( _("Grisbi was unable to save this file because it is locked.  Please save it with another name or activate the \"%s\" option in setup.  Alternatively, choose the \"%s\" option below."),
-						     _("Force saving of locked files"),
-						     _("Do not show this message again")), 
-				    &(etat.force_enregistrement ) );
+	dialogue_error_hint ( g_strdup_printf( _("Grisbi was unable to save this file because it is locked.  Please save it with another name or activate the \"%s\" option in preferences."),
+					       _("Force saving of locked files" ) ),
+			      g_strdup_printf( _("Can not save file \"%s\""), 
+					       nom_fichier_comptes ) );
 	return ( FALSE );
     }
 
