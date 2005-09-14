@@ -262,11 +262,10 @@ gboolean gsb_file_load_open_file ( gchar *filename )
 			       &buffer_stat);
     
     /* check the access to the file and propose to change it */
-    
-    if ( buffer_stat.st_mode != 33152
-	 &&
-	 !etat.display_message_file_readable )
+#ifdef _WIN32
+    if ( buffer_stat.st_mode != 33152 )
 	gsb_file_util_change_permissions();
+#endif /* _WIN32 */
 
     /* load the file */
 
@@ -999,7 +998,7 @@ void gsb_file_load_account_part ( const gchar **attribute_names,
 		       "Show_marked" ))
 	{
 	    gsb_data_account_set_r ( account_number_tmp,
-				utils_str_atoi (attribute_values[i]));
+				     utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
 	}
