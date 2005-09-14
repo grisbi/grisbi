@@ -218,7 +218,7 @@ GtkActionEntry entries[] = {
 
 /* Argh */
 { "ConvertToScheduled",	GTK_STOCK_CONVERT,	_("Convert to _scheduled transaction"),
-  NULL,			NULL,			G_CALLBACK( NULL ) },
+  NULL,			NULL,			G_CALLBACK( schedule_selected_transaction ) },
 
 { "MoveToAnotherAccount",NULL,			_("_Move transaction to another account"),
   NULL,			NULL,			G_CALLBACK( NULL ) },
@@ -235,10 +235,10 @@ GtkActionEntry entries[] = {
   NULL,			NULL,			G_CALLBACK( NULL ) },
 
 { "NewAccount",		GTK_STOCK_NEW,		_("_New account"),
-  "",			NULL,			G_CALLBACK( NULL ) },
+  "",			NULL,			G_CALLBACK( new_account ) },
 
 { "RemoveAccount",	GTK_STOCK_DELETE,	_("_Remove current account"),
-  "",			NULL,			G_CALLBACK( NULL ) },
+  "",			NULL,			G_CALLBACK( delete_account ) },
 
 /* Reports menu */
 { "ReportsMenu",	NULL,			_("_Reports"),
