@@ -26,32 +26,32 @@ msgstr "当前用户"
 
 #: src/accueil.c:197
 msgid "Closed liabilities accounts"
-msgstr "结算负债账户"
+msgstr "已结清负债账户"
 
 #: src/accueil.c:207
 msgid "Manual scheduled transactions at maturity date"
-msgstr "自定义的定期交易"
+msgstr "手动预定的到期日交易"
 
 #: src/accueil.c:218
 msgid "Automatic scheduled transactions entered"
-msgstr "自动定期交易"
+msgstr "录入自动预定的交易"
 
 #: src/accueil.c:229
 msgid "Closed scheduled transactions"
-msgstr "已结算定期交易"
+msgstr "已结清预定交易"
 
 #: src/accueil.c:240
 msgid "Accounts under authorized balance"
-msgstr "账面不平衡"
+msgstr "账户审核不平衡"
 
 #: src/accueil.c:251
 msgid "Accounts under wanted balance"
-msgstr ""
+msgstr "账户预期不平衡"
 
 #. crÃ©e la boite de dialogue
 #: src/accueil.c:315
 msgid "Enter a scheduled transaction"
-msgstr "录入定期交易"
+msgstr "录入预定交易"
 
 #: src/accueil.c:364 src/echeancier_onglet.c:168 src/operations_onglet.c:127
 msgid "Form"
@@ -108,25 +108,25 @@ msgstr "%4.2f %s 记入借方 %s"
 #: src/accueil.c:1794 src/accueil.c:1829
 #, c-format
 msgid "Balance of account %s is under wanted and authorised minima!"
-msgstr ""
+msgstr "账户 %s 的余额小于预期和审核的最小值"
 
 #: src/accueil.c:1800
 #, c-format
 msgid "Balance of account %s is under authorised minimum!"
-msgstr ""
+msgstr "账户 %s 的余额小于审核的最小值"
 
 #: src/accueil.c:1835
 #, c-format
 msgid "Balance of account %s is under wanted minimum!"
-msgstr ""
+msgstr "账户 %s 的余额小于预期值"
 
 #: src/affichage.c:131 src/parametres.c:236
 msgid "Transaction form"
-msgstr "交易表单"
+msgstr "交易表格"
 
 #: src/affichage.c:136
 msgid "Pressing RETURN in transaction form"
-msgstr ""
+msgstr "在交易表格里按下回车键"
 
 #: src/affichage.c:137
 msgid "selects next field"
@@ -134,7 +134,7 @@ msgstr "选择下一栏位"
 
 #: src/affichage.c:138
 msgid "terminates transaction"
-msgstr ""
+msgstr "中止交易"
 
 #: src/affichage.c:143
 msgid "Displayed fields"
@@ -288,7 +288,7 @@ msgstr "第三方"
 #: src/operations_formulaire.c:3355 src/ventilation.c:968
 #: src/ventilation.c:1493
 msgid "Budgetary line"
-msgstr ""
+msgstr "预算行"
 
 #. Debit type
 #: src/affichage_liste.c:39 src/affichage_liste.c:768
@@ -336,7 +336,7 @@ msgstr "支付方式"
 #: src/affichage_liste.c:44 src/affichage_liste.c:828
 #: src/affichage_liste.c:1069
 msgid "Reconciliation ref."
-msgstr ""
+msgstr "调整参考"
 
 #: src/affichage_liste.c:46 src/affichage_liste.c:1077 src/csv.c:252
 #: src/echeancier_ventilation.c:81 src/etats_affiche.c:2244
@@ -374,7 +374,7 @@ msgstr "备注"
 #: src/affichage_liste.c:1093 src/csv.c:259 src/etats_affiche.c:2286
 #: src/operations_formulaire.c:1146 src/operations_formulaire.c:3362
 msgid "Bank references"
-msgstr ""
+msgstr "银行征信"
 
 #: src/affichage_liste.c:66
 msgid "Col1"
@@ -420,11 +420,11 @@ msgstr "交易清单内容"
 #. on permet maintenant de choisir soi mÃªme la taille des colonnes
 #: src/affichage_liste.c:126
 msgid "Adjust column size according to this table"
-msgstr ""
+msgstr "根据本表格调整列宽"
 
 #: src/affichage_liste.c:139
 msgid "Remember display settings for each account separately"
-msgstr ""
+msgstr "为每个账户记住显示设定"
 
 #: src/affichage_liste.c:145
 msgid "Revert to defaults"
@@ -467,7 +467,7 @@ msgstr "按日期"
 #. on permet de regrouper les opÃ©rations pointÃ©es
 #: src/affichage_liste.c:427
 msgid "Bring together marked transactions"
-msgstr ""
+msgstr "合并标记的交易"
 
 #: src/affichage_liste.c:459
 msgid "first line"
@@ -508,7 +508,7 @@ msgstr "支票/转帐编号"
 #: src/affichage_liste.c:1045 src/csv.c:255 src/etats_config.c:147
 #: src/etats_config.c:7371 src/fenetre_principale.c:110
 msgid "Budgetary lines"
-msgstr ""
+msgstr "预算行"
 
 #: src/banque.c:122 src/comptes_traitements.c:135
 #: src/comptes_traitements.c:145 src/operations_formulaire.c:2221
@@ -531,11 +531,13 @@ msgid ""
 "Bank \"%s\" is used by one or several accounts.\n"
 "Do you really want to remove it?"
 msgstr ""
+"有其他账户在使用银行 \"%s\" 。\n"
+"您确定要删除吗？"
 
 #: src/banque.c:204
 #, c-format
 msgid "Are you sure you want to remove bank \"%s\"?\n"
-msgstr ""
+msgstr "您确定要删除银行 \"%s\"吗？\n"
 
 #. le premier nom est Aucune
 #. le premier nom est Aucun
@@ -543,7 +545,7 @@ msgstr ""
 #: src/banque.c:278 src/echeancier_formulaire.c:1489 src/equilibrage.c:573
 #: src/exercice.c:568
 msgid "None"
-msgstr ""
+msgstr "无"
 
 #. ligne de l'Ã©tablissement financier
 #: src/banque.c:345 src/comptes_gestion.c:279
@@ -637,11 +639,11 @@ msgstr "每笔交易显示1行"
 
 #: src/barre_outils.c:268 src/barre_outils.c:269
 msgid "Display reconciled transactions"
-msgstr ""
+msgstr "显示调整交易"
 
 #: src/barre_outils.c:295 src/barre_outils.c:296
 msgid "Mask reconciled transactions"
-msgstr ""
+msgstr "标记调整交易"
 
 #: src/barre_outils.c:325
 msgid "Account transactions"
@@ -675,7 +677,7 @@ msgstr "显示交易"
 #: src/barre_outils.c:1019 src/barre_outils.c:1020 src/barre_outils.c:1174
 #: src/barre_outils.c:1175
 msgid "Display sub-divisions"
-msgstr ""
+msgstr "显示子分隔线"
 
 #. ajoute le bouton annuler
 #. Add the "cancel" button
@@ -693,11 +695,11 @@ msgstr "食品 : 面包类"
 
 #: src/categories_onglet.c:50
 msgid "Food : Canteen"
-msgstr "食品 : 方便食品"
+msgstr "食品 : 盒饭类"
 
 #: src/categories_onglet.c:51
 msgid "Food : Sweets"
-msgstr "食品 : 甜品"
+msgstr "食品 : 糖果"
 
 #: src/categories_onglet.c:52
 msgid "Food : Misc"
@@ -705,7 +707,7 @@ msgstr "食品 : 其它"
 
 #: src/categories_onglet.c:53
 msgid "Food : Grocery"
-msgstr ""
+msgstr "食品 : 杂货"
 
 #: src/categories_onglet.c:54
 msgid "Food : Restaurant"
@@ -729,11 +731,11 @@ msgstr "宠物 : 其它"
 
 #: src/categories_onglet.c:59
 msgid "Pets : Grooming"
-msgstr ""
+msgstr "宠物 : 整容"
 
 #: src/categories_onglet.c:60
 msgid "Pets : Veterinary surgeon"
-msgstr ""
+msgstr "宠物 : 兽医"
 
 #: src/categories_onglet.c:61
 msgid "Insurance : Car"
@@ -749,7 +751,7 @@ msgstr "保险 : 房产"
 
 #: src/categories_onglet.c:64
 msgid "Insurance : Civil liability"
-msgstr ""
+msgstr "保险 : 民事责任"
 
 #: src/categories_onglet.c:65
 msgid "Insurance : Life"
@@ -757,7 +759,7 @@ msgstr "保险 : 生命"
 
 #: src/categories_onglet.c:66
 msgid "Car : Fuel"
-msgstr "汽车 : 油"
+msgstr "汽车 : 燃料"
 
 #: src/categories_onglet.c:67
 msgid "Car : Repairs"
@@ -773,7 +775,7 @@ msgstr "汽车 : 停车"
 
 #: src/categories_onglet.c:70
 msgid "Car : Fines"
-msgstr ""
+msgstr "Car : 调优"
 
 #: src/categories_onglet.c:71 src/etats_config.c:163
 msgid "Misc."
@@ -813,35 +815,35 @@ msgstr "其它 : 礼物"
 
 #: src/categories_onglet.c:80
 msgid "Financial expenses : Miscellaneous"
-msgstr ""
+msgstr "金融支出 : 其它"
 
 #: src/categories_onglet.c:81
 msgid "Financial expenses : Bank charges"
-msgstr ""
+msgstr "金融支出 : 银行收费"
 
 #: src/categories_onglet.c:82
 msgid "Financial expenses : Loan/Mortgage"
-msgstr ""
+msgstr "金融支出 : 贷款/抵押"
 
 #: src/categories_onglet.c:83
 msgid "Financial expenses : Charges"
-msgstr ""
+msgstr "金融支出 : 收费"
 
 #: src/categories_onglet.c:84
 msgid "Financial expenses : Refunding"
-msgstr ""
+msgstr "金融支出 : 债务延展"
 
 #: src/categories_onglet.c:85
 msgid "Professional expenses : Non refundable"
-msgstr ""
+msgstr "职业支出 : 不可偿还的"
 
 #: src/categories_onglet.c:86
 msgid "Professional expenses : Refundable"
-msgstr ""
+msgstr "职业支出 : 可偿还的"
 
 #: src/categories_onglet.c:87
 msgid "Taxes : Miscellaneous"
-msgstr ""
+msgstr "税收 : 其它"
 
 #: src/categories_onglet.c:88
 msgid "Taxes : Income"
@@ -853,51 +855,51 @@ msgstr "税收 : 地产"
 
 #: src/categories_onglet.c:90
 msgid "Housing : Hotel"
-msgstr ""
+msgstr "居家 : 旅馆"
 
 #: src/categories_onglet.c:91
 msgid "Housing : Rent"
-msgstr ""
+msgstr "居家 : 租金"
 
 #: src/categories_onglet.c:92
 msgid "Housing : TV"
-msgstr "日常 : 电视"
+msgstr "居家 : 电视"
 
 #: src/categories_onglet.c:93
 msgid "Housing : Furnitures"
-msgstr "日常 : 家具"
+msgstr "居家 : 家具"
 
 #: src/categories_onglet.c:94
 msgid "Housing : Charges"
-msgstr "日常 : 收费"
+msgstr "居家 : 收费"
 
 #: src/categories_onglet.c:95
 msgid "Housing : Heating"
-msgstr "日常 : 暖气"
+msgstr "居家 : 暖气"
 
 #: src/categories_onglet.c:96
 msgid "Housing : Decoration"
-msgstr "日常 : 装潢"
+msgstr "居家 : 装潢"
 
 #: src/categories_onglet.c:97
 msgid "Housing : Water"
-msgstr "日常 : 水"
+msgstr "居家 : 水"
 
 #: src/categories_onglet.c:98
 msgid "Housing : Electricity"
-msgstr "日常 : 电"
+msgstr "居家 : 电"
 
 #: src/categories_onglet.c:99
 msgid "Housing : White products"
-msgstr ""
+msgstr "居家 : 透明石油产品"
 
 #: src/categories_onglet.c:100
 msgid "Housing : Equipment"
-msgstr ""
+msgstr "居家 : 设备"
 
 #: src/categories_onglet.c:101
 msgid "Housing : Gaz"
-msgstr ""
+msgstr "居家 : Gaz"
 
 #: src/categories_onglet.c:102
 msgid "Housing : Garden"
@@ -905,31 +907,31 @@ msgstr "日常 : 花园"
 
 #: src/categories_onglet.c:103
 msgid "Housing : House keeper"
-msgstr ""
+msgstr "居家 : 看护"
 
 #: src/categories_onglet.c:104
 msgid "Housing : Phone"
-msgstr "日常 : 电话"
+msgstr "居家 : 电话"
 
 #: src/categories_onglet.c:105
 msgid "Housing : Mobile Phone"
-msgstr "日常 : 移动电话"
+msgstr "居家 : 移动电话"
 
 #: src/categories_onglet.c:106
 msgid "Leisures : Snooker"
-msgstr ""
+msgstr "休闲 : 桌球"
 
 #: src/categories_onglet.c:107
 msgid "Leisures : Bowling"
-msgstr ""
+msgstr "休闲 : 保龄球"
 
 #: src/categories_onglet.c:108
 msgid "Leisures : Movies"
-msgstr ""
+msgstr "休闲 : 电影"
 
 #: src/categories_onglet.c:109
 msgid "Leisures : Night club"
-msgstr ""
+msgstr "休闲 : 夜总会"
 
 #: src/categories_onglet.c:110
 msgid "Leisures : IT"
@@ -965,7 +967,7 @@ msgstr "休闲 : 旅行"
 
 #: src/categories_onglet.c:118
 msgid "Leisures : Equipment"
-msgstr ""
+msgstr "休闲 : 设备"
 
 #: src/categories_onglet.c:119
 msgid "Leisures : Museums/Exhibitions"
@@ -973,43 +975,43 @@ msgstr "休闲 : 博物馆/展览"
 
 #: src/categories_onglet.c:120
 msgid "Loan/Mortgage : Capital"
-msgstr ""
+msgstr "贷款/抵押 : 资产"
 
 #: src/categories_onglet.c:121
 msgid "Health : Insurance"
-msgstr ""
+msgstr "健康 : 保险"
 
 #: src/categories_onglet.c:122
 msgid "Health : Dentist"
-msgstr ""
+msgstr "健康 : 牙科"
 
 #: src/categories_onglet.c:123
 msgid "Health : Hospital"
-msgstr ""
+msgstr "健康 : 医院"
 
 #: src/categories_onglet.c:124
 msgid "Health : Kinesitherapist"
-msgstr ""
+msgstr "健康 : 运动疗法"
 
 #: src/categories_onglet.c:125
 msgid "Health : Doctor"
-msgstr ""
+msgstr "健康 : 医生"
 
 #: src/categories_onglet.c:126
 msgid "Health : Ophtalmologist"
-msgstr ""
+msgstr "健康 : 眼科"
 
 #: src/categories_onglet.c:127
 msgid "Health : Osteopath"
-msgstr ""
+msgstr "健康 : 骨科"
 
 #: src/categories_onglet.c:128
 msgid "Health : Chemist"
-msgstr ""
+msgstr "健康 : 药剂"
 
 #: src/categories_onglet.c:129
 msgid "Health : Social security"
-msgstr ""
+msgstr "健康 : 社会保险"
 
 #: src/categories_onglet.c:130
 msgid "Care : Hairdresser"
@@ -1045,63 +1047,63 @@ msgstr "交通 : 旅行"
 
 #: src/categories_onglet.c:139
 msgid "Hollydays : Housing"
-msgstr ""
+msgstr "度假 : 家居"
 
 #: src/categories_onglet.c:140
 msgid "Hollydays : Visits"
-msgstr ""
+msgstr "度假 : 参观"
 
 #: src/categories_onglet.c:141
 msgid "Hollydays : Travels"
-msgstr ""
+msgstr "度假 : 旅行"
 
 #: src/categories_onglet.c:145
 msgid "Other incomes : Unemployment benefit"
-msgstr ""
+msgstr "其它收入 : 失业救济"
 
 #: src/categories_onglet.c:146
 msgid "Other incomes : Family allowance"
-msgstr ""
+msgstr "其它收入 : 家庭津贴"
 
 #: src/categories_onglet.c:147
 msgid "Other incomes : Tax credit"
-msgstr ""
+msgstr "其它收入 : 课税扣除"
 
 #: src/categories_onglet.c:148
 msgid "Other incomes : Gamble"
-msgstr ""
+msgstr "其它收入 : 投机"
 
 #: src/categories_onglet.c:149
 msgid "Other incomes : Mutual insurance"
-msgstr ""
+msgstr "其它收入 : 互助保险"
 
 #: src/categories_onglet.c:150
 msgid "Other incomes : Social security"
-msgstr ""
+msgstr "其它收入 : 社会保险"
 
 #: src/categories_onglet.c:151
 msgid "Retirement : Retirement Fund"
-msgstr ""
+msgstr "退休 : 退休基金"
 
 #: src/categories_onglet.c:152
 msgid "Retirement : Pension"
-msgstr ""
+msgstr "退休 : 养老金"
 
 #: src/categories_onglet.c:153
 msgid "Retirement : Supplementary pension"
-msgstr ""
+msgstr "退休 : 增补养老金"
 
 #: src/categories_onglet.c:154
 msgid "Investment incomes : Dividends"
-msgstr ""
+msgstr "投资收入 : 股息税"
 
 #: src/categories_onglet.c:155
 msgid "Investment incomes : Interests"
-msgstr ""
+msgstr "投资收入 : 利息"
 
 #: src/categories_onglet.c:156
 msgid "Investment incomes : Capital gain"
-msgstr ""
+msgstr "投资收入 : 资本收益"
 
 #: src/categories_onglet.c:157
 msgid "Salary : Overtime"
@@ -1113,7 +1115,7 @@ msgstr "薪资 : 休假津贴"
 
 #: src/categories_onglet.c:159
 msgid "Salary : Misc. premiums"
-msgstr ""
+msgstr "薪资 : 其它补贴"
 
 #: src/categories_onglet.c:160
 msgid "Salary : Success fee"
@@ -1125,15 +1127,15 @@ msgstr "薪资 : 薪资"
 
 #: src/categories_onglet.c:162
 msgid "Misc. incomes : Gifts"
-msgstr ""
+msgstr "其它收入 : 礼物"
 
 #: src/categories_onglet.c:163
 msgid "Misc. incomes : Refunds"
-msgstr ""
+msgstr "其它收入 : 退款"
 
 #: src/categories_onglet.c:164
 msgid "Misc. incomes : Second hand sales"
-msgstr ""
+msgstr "其它收入 : 出卖旧物"
 
 #: src/categories_onglet.c:189
 msgid "Categories list"
@@ -1201,7 +1203,7 @@ msgstr "导入"
 #: src/tiers_onglet.c:434 src/tiers_onglet.c:1630
 #, c-format
 msgid "%4.2f %s"
-msgstr "%4.2f %s"
+msgstr ""
 
 #: src/categories_onglet.c:765 src/categories_onglet.c:857
 #, c-format
@@ -1219,7 +1221,7 @@ msgstr "类别 (%d) 不存在"
 
 #: src/categories_onglet.c:831 src/etats_affiche.c:1695
 msgid "No category"
-msgstr "没有类别"
+msgstr "未分类"
 
 #: src/categories_onglet.c:1144 src/imputation_budgetaire.c:1060
 #, c-format
@@ -1524,11 +1526,11 @@ msgstr "账户类型"
 
 #: src/comptes_gestion.c:147
 msgid "Account currency"
-msgstr ""
+msgstr "账户货币"
 
 #: src/comptes_gestion.c:168
 msgid "Convert this account to euros"
-msgstr ""
+msgstr "将本在账户转换到欧元"
 
 #: src/comptes_gestion.c:182
 msgid "Closed account"
@@ -6731,7 +6733,7 @@ msgstr "新支付方式"
 
 #: src/type_operations.c:1014
 msgid "Delete a payment method"
-msgstr ""
+msgstr "删除支付方式"
 
 #: src/type_operations.c:1022
 msgid ""
@@ -6753,7 +6755,7 @@ msgstr ""
 
 #: src/utils.c:719 src/utils.c:753
 msgid "Cannot run web browser"
-msgstr ""
+msgstr "无法运行web浏览器"
 
 #: src/utils.c:752
 #, c-format
@@ -6769,11 +6771,11 @@ msgstr "打印到文件"
 #. aie, pb de mÃ©moire, on vire
 #: src/utils_files.c:142 src/utils_files.c:159
 msgid "Memory allocation error"
-msgstr ""
+msgstr "应用程序不能获得足够的内存"
 
 #: src/utils_files.c:200
 msgid "Browse"
-msgstr ""
+msgstr "浏览"
 
 #: src/ventilation.c:2201
 msgid "This transaction has a reconciled breakdown line, deletion canceled."
