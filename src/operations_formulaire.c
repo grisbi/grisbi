@@ -2052,8 +2052,7 @@ gboolean gsb_transactions_list_recover_breakdowns_of_transaction ( gint new_tran
     GSList *list_tmp_transactions;
 
     /* xxx check for win */
-    result = question_yes_no_hint ( _("Recover breakdown?"),
-				    _("This is a breakdown of transaction, associated transactions can be recovered as in last transaction with this payee.") );
+    result = question_conditional_yes_no ( "recover-breakdown" );
 
     if ( !result )
 	return FALSE;

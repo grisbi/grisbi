@@ -84,6 +84,10 @@ struct conditional_message messages[] =
       N_("This transaction has no budgetary line entered.  You should use them to easily produce budgets and make reports on them."),
       FALSE, FALSE, },
 
+    { "recover-breakdown", N_("Recover breakdown?"),
+      N_("This is a breakdown of transaction, associated transactions can be recovered as in last transaction with this payee.  Do you want to recover them?"),
+      FALSE, FALSE, },
+
 /*
     { "", N_(),
       N_(), 
