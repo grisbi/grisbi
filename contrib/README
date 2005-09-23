@@ -1,0 +1,9 @@
+This contrib directory contains various things that can be useful for
+Grisbi users:
+
+ - obfuscate.pl : a Perl script that creates an anonymize Grisbi file,
+   suitable to attach in a bug report without discarding personal
+   information like name, address, balances, ...
+
+ - plan-comptable.cgsb : a Grisbi categories file to import, which
+   contains the French "Plan comptable général".  Thanks Jean-Michel.
