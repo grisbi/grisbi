@@ -3481,11 +3481,12 @@ void move_selected_operation_to_account ( GtkMenuItem * menu_item )
 	    mise_a_jour_combofix_imputation ();
 
 	gsb_data_account_set_current_balance ( source_account, 
-					  calcule_solde_compte ( source_account ));
+					       calcule_solde_compte ( source_account ));
 	gsb_data_account_set_marked_balance ( source_account, 
-					 calcule_solde_pointe_compte ( source_account ));
+					      calcule_solde_pointe_compte ( source_account ));
 
 	mise_a_jour_labels_soldes ();
+	mise_a_jour_accueil ();
 
 	modification_fichier ( TRUE );
     }

@@ -1687,6 +1687,7 @@ void gsb_scheduler_validate_form ( void )
     remplissage_liste_echeance ();
     gtk_widget_grab_focus ( tree_view_liste_echeances );
 
+    mise_a_jour_accueil();
     modification_fichier ( TRUE );
 }
 
