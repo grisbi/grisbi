@@ -106,11 +106,11 @@ gint ancien_retient_affichage_par_compte;
 extern GtkWidget *label_last_statement;
 extern gint mise_a_jour_liste_comptes_accueil;
 extern GtkTreeStore *model;
+extern GtkWidget * navigation_tree_view;
 extern FILE * out;
 extern GtkWidget * reconcile_panel;
 extern GtkWidget *treeview;
 extern GtkWidget *vbox_fleches_tri;
-extern GtkWidget *navigation_tree_view;
 /*END_EXTERN*/
 
 

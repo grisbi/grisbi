@@ -27,17 +27,16 @@
 /*START_INCLUDE*/
 #include "operations_comptes.h"
 #include "gsb_data_account.h"
+#include "utils_dates.h"
 #include "menu.h"
 #include "operations_liste.h"
 #include "gtk_list_button.h"
 #include "traitement_variables.h"
-#include "utils_str.h"
 #include "comptes_traitements.h"
 #include "operations_formulaire.h"
 #include "utils_comptes.h"
 #include "structures.h"
 #include "include.h"
-#include "utils_dates.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

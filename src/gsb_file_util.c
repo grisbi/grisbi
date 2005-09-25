@@ -30,7 +30,6 @@
 #include "gsb_data_account.h"
 #include "gsb_data_transaction.h"
 #include "utils_str.h"
-#include "utils_buttons.h"
 #include "utils_files.h"
 #include "structures.h"
 #include "include.h"

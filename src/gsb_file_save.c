@@ -101,7 +101,6 @@ extern GtkWidget *nom_banque;
 extern GtkWidget *nom_correspondant;
 extern GtkWidget *nom_exercice;
 extern gchar *nom_fichier_backup;
-extern gint rapport_largeur_colonnes[TRANSACTION_LIST_COL_NB];
 extern GtkWidget *remarque_banque;
 extern gint scheduler_col_width[NB_COLS_SCHEDULER] ;
 extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][TRANSACTION_LIST_COL_NB];

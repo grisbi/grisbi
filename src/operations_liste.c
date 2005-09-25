@@ -68,15 +68,21 @@
 
 /*START_STATIC*/
 static gboolean assert_selected_transaction ();
+static gboolean changement_taille_liste_ope ( GtkWidget *tree_view, GtkAllocation *allocation );
 static gpointer cherche_operation_from_ligne ( gint ligne,
 					gint no_account );
 static void creation_titres_tree_view ( void );
 static gint find_balance_col ( void );
 static gint find_balance_line ( void );
 static gint find_p_r_line ();
+static gboolean gsb_gui_change_cell_content ( GtkWidget * item, gint number );
+static GtkWidget * gsb_gui_create_cell_contents_menu ( int x, int y );
+static gboolean gsb_gui_update_row_foreach ( GtkTreeModel *model, GtkTreePath *path,
+				      GtkTreeIter *iter, gint coords[2] );
 static gboolean gsb_transactions_list_change_sort_type ( GtkWidget *menu_item,
 						  gint *no_column );
 static gboolean gsb_transactions_list_check_mark ( gpointer transaction );
+static gboolean gsb_transactions_list_columns_changed ( GtkTreeView *treeview, gpointer user_data );
 static GtkListStore *gsb_transactions_list_create_store ( void );
 static GtkWidget *gsb_transactions_list_create_tree_view ( GtkTreeModel *model );
 static void gsb_transactions_list_create_tree_view_columns ( void );
@@ -114,10 +120,7 @@ static void popup_transaction_context_menu ( gboolean full, int x, int y );
 static void r_press (void);
 static struct operation_echeance *schedule_transaction ( gpointer * transaction );
 static gdouble solde_debut_affichage ( gint no_account );
-static gboolean gsb_transactions_list_columns_changed ( GtkTreeView *treeview, 
-							gpointer user_data );
-static GtkWidget * gsb_gui_create_cell_contents_menu ( int x, int y );
-static gboolean gsb_gui_change_cell_content ( GtkWidget * item, gint number );
+static void update_titres_tree_view ( void );
 /*END_STATIC*/
 
 
@@ -177,6 +180,7 @@ extern struct operation_echeance *echeance_selectionnnee;
 extern GtkWidget *formulaire;
 extern GtkWidget *label_equilibrage_ecart;
 extern GtkWidget *label_equilibrage_pointe;
+extern gchar *labels_boutons [] ;
 extern gint ligne_affichage_une_ligne;
 extern GSList *lignes_affichage_deux_lignes;
 extern GSList *lignes_affichage_trois_lignes;
@@ -203,6 +207,7 @@ extern gdouble solde_initial;
 extern GtkStyle *style_entree_formulaire[2];
 extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][TRANSACTION_LIST_COL_NB];
 extern GtkWidget *tree_view;
+extern GtkWidget *treeview;
 extern GtkWidget *window;
 /*END_EXTERN*/
 

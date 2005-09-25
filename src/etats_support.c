@@ -25,9 +25,9 @@
 /*START_INCLUDE*/
 #include "etats_support.h"
 #include "utils_exercices.h"
+#include "utils_dates.h"
 #include "include.h"
 #include "structures.h"
-#include "utils_dates.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

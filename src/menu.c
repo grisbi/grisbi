@@ -40,14 +40,11 @@
 #include "erreur.h"
 #include "tip.h"
 #include "gsb_data_account.h"
-#include "utils_str.h"
 #include "import.h"
 #include "etats_calculs.h"
 #include "utils.h"
-#include "main.h"
 #include "etats_config.h"
 #include "parametres.h"
-#include "gsb_file_config.h"
 #include "structures.h"
 #include "menu.h"
 #include "include.h"
@@ -57,9 +54,9 @@
 static void affiche_aide_locale ( gpointer null,
 			   gint origine );
 static gboolean gsb_gui_toggle_grid_mode ();
-static gboolean gsb_gui_toggle_show_reconciled ();
 static void gsb_gui_toggle_line_view_mode ( GtkRadioAction * action, GtkRadioAction *current, 
 				     gpointer user_data );
+static gboolean gsb_gui_toggle_show_reconciled ();
 static void lien_web ( GtkWidget *widget,
 		gint origine );
 static  void menu_add_widget (GtkUIManager * p_uiManager, GtkWidget * p_widget, 
@@ -69,12 +66,10 @@ static  void menu_add_widget (GtkUIManager * p_uiManager, GtkWidget * p_widget,
 
 
 /*START_EXTERN*/
-extern GtkTreeModelFilter * navigation_model_filtered;
 extern gsize nb_derniers_fichiers_ouverts ;
 extern gchar **tab_noms_derniers_fichiers_ouverts ;
 extern GtkWidget *tree_view_liste_echeances;
 extern GtkWidget *window;
-extern GtkItemFactory *item_factory_menu_general;
 /*END_EXTERN*/
 
 

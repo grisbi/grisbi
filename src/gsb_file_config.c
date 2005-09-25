@@ -32,7 +32,6 @@
 /*START_INCLUDE*/
 #include "gsb_file_config.h"
 #include "dialog.h"
-#include "gsb_data_account.h"
 #include "utils_str.h"
 #include "configuration.h"
 #include "main.h"
@@ -41,7 +40,6 @@
 #include "gsb_file_config.h"
 #include "structures.h"
 #include "utils_buttons.h"
-#include "operations_liste.h"
 #include "include.h"
 /*END_INCLUDE*/
 
@@ -63,8 +61,6 @@ extern gint max;
 extern struct conditional_message messages[] ;
 extern gint nb_days_before_scheduled;
 extern gchar *nom_fichier_comptes;
-extern gint taille_largeur_colonnes[TRANSACTION_LIST_COL_NB];
-extern GtkTreeViewColumn *transactions_tree_view_columns[TRANSACTION_LIST_COL_NB];
 extern GtkWidget *window;
 /*END_EXTERN*/
 

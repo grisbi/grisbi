@@ -8,7 +8,6 @@
 /* START_DECLARATION */
 void affiche_titre_fenetre ( void );
 gboolean enregistrement_fichier ( gint origine );
-gboolean enregistrer_fichier_sous ( void );
 gboolean fermer_fichier ( void );
 gboolean gsb_file_open_file ( gchar *filename );
 gboolean gsb_save_file_as ( void );

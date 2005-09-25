@@ -30,6 +30,7 @@
 #include "gsb_data_account.h"
 #include "operations_comptes.h"
 #include "fenetre_principale.h"
+#include "menu.h"
 #include "operations_liste.h"
 #include "comptes_gestion.h"
 #include "echeancier_liste.h"

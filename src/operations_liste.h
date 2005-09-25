@@ -69,8 +69,6 @@
 
 /* START_DECLARATION */
 gboolean affichage_traits_liste_operation ( void );
-gboolean changement_taille_liste_ope ( GtkWidget *tree_view,
-				       GtkAllocation *allocation );
 gint cherche_ligne_operation ( gint transaction_number,
 			       gint no_account );
 void clone_selected_transaction ();
@@ -115,7 +113,6 @@ void new_transaction () ;
 gint recupere_hauteur_ligne_tree_view ( GtkWidget *tree_view );
 void remove_transaction ();
 void remplissage_liste_operations ( gint compte );
-void update_titres_tree_view ( void );
 void schedule_selected_transaction ();
 /* END_DECLARATION */
 #endif

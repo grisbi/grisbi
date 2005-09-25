@@ -68,6 +68,7 @@ static void update_soldes_minimaux ( void );
 extern struct operation_echeance *echeance_selectionnnee;
 extern GtkWidget *formulaire;
 extern GtkWidget *formulaire_echeancier;
+extern GtkWidget *formulaire_echeancier;
 extern GtkWidget *frame_formulaire_echeancier;
 extern GtkWidget *hbox_valider_annuler_echeance;
 extern GSList *liste_struct_devises;

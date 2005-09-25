@@ -30,7 +30,6 @@
 #include "gsb_data_category.h"
 #include "gsb_data_payee.h"
 #include "gsb_data_transaction.h"
-#include "utils_str.h"
 #include "menu.h"
 #include "structures.h"
 #include "traitement_variables.h"
@@ -95,7 +94,6 @@ extern struct struct_devise *devise_compte;
 extern struct struct_devise *devise_nulle;
 extern struct struct_devise *devise_operation;
 extern struct struct_etat *etat_courant;
-extern GtkItemFactory *item_factory_menu_general;
 extern gint ligne_affichage_une_ligne;
 extern GSList *lignes_affichage_deux_lignes;
 extern GSList *lignes_affichage_trois_lignes;

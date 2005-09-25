@@ -53,6 +53,7 @@
 #include "main.h"
 #include "accueil.h"
 #include "utils_files.h"
+#include "parametres.h"
 #include "affichage_liste.h"
 #include "structures.h"
 #include "include.h"
@@ -62,6 +63,7 @@
 static void ajoute_new_file_liste_ouverture ( gchar *path_fichier );
 static gchar *demande_nom_enregistrement ( void );
 static gboolean enregistrement_backup ( void );
+static gboolean enregistrer_fichier_sous ( void );
 static void fichier_selectionne ( GtkWidget *selection_fichier);
 /*END_STATIC*/
 
@@ -85,7 +87,6 @@ extern gsize nb_derniers_fichiers_ouverts ;
 extern gint nb_max_derniers_fichiers_ouverts ;
 extern gchar *nom_fichier_comptes;
 extern GtkWidget *notebook_general;
-extern gint rapport_largeur_colonnes[TRANSACTION_LIST_COL_NB];
 extern GSList *scheduled_transactions_taken;
 extern GSList *scheduled_transactions_to_take;
 extern gchar **tab_noms_derniers_fichiers_ouverts ;

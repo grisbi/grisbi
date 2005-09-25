@@ -36,7 +36,7 @@
 /*START_STATIC*/
 static GtkWidget *cree_menu_quatres_lignes ( void );
 static gboolean transactions_list_display_modes_menu_changed  ( GtkWidget * menu_shell,
-								gint origine );
+							 gint origine );
 /*END_STATIC*/
 
 
@@ -90,16 +90,10 @@ GSList *lignes_affichage_trois_lignes;
 
 
 /*START_EXTERN*/
-extern gint allocation_precedente;
-extern     gchar * buffer ;
-extern gint col_depart_drag;
 extern GtkWidget *formulaire;
-extern gint ligne_depart_drag;
 extern GSList *liste_labels_titres_colonnes_liste_ope ;
-extern GtkWidget *preview;
 extern gchar *tips_col_liste_operations[TRANSACTION_LIST_COL_NB];
 extern gchar *titres_colonnes_liste_operations[TRANSACTION_LIST_COL_NB];
-extern GtkWidget *window;
 /*END_EXTERN*/
 
 
