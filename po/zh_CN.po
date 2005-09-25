@@ -1014,11 +1014,11 @@ msgid "Health : Social security"
 msgstr "健康 : 社会保险"
 
 #: src/categories_onglet.c:130
-msgid "Care : Hairdresser"
+msgid "起居 : 美容"
 msgstr ""
 
 #: src/categories_onglet.c:131
-msgid "Care : Clothing"
+msgid "起居 : 服装"
 msgstr ""
 
 #: src/categories_onglet.c:132
@@ -1203,7 +1203,7 @@ msgstr "导入"
 #: src/tiers_onglet.c:434 src/tiers_onglet.c:1630
 #, c-format
 msgid "%4.2f %s"
-msgstr ""
+msgstr "%4.2f %s"
 
 #: src/categories_onglet.c:765 src/categories_onglet.c:857
 #, c-format
@@ -1226,16 +1226,16 @@ msgstr "未分类"
 #: src/categories_onglet.c:1144 src/imputation_budgetaire.c:1060
 #, c-format
 msgid "%d/%d/%d : %4.2f %s (breakdown) [ %s ]"
-msgstr ""
+msgstr "%d/%d/%d : %4.2f %s (breakdown) [ %s ]"
 
 #: src/categories_onglet.c:1163 src/imputation_budgetaire.c:1079
 #, c-format
 msgid "%d/%d/%d : %4.2f %s (breakdown)"
-msgstr ""
+msgstr "%d/%d/%d : %4.2f %s (breakdown)"
 
 #: src/categories_onglet.c:1710
 msgid "Remove a category"
-msgstr ""
+msgstr "删除类别"
 
 #: src/categories_onglet.c:1717
 msgid ""
@@ -1243,6 +1243,9 @@ msgid ""
 "\n"
 "You may"
 msgstr ""
+"有历史交易引用了本类别。\n"
+"\n"
+"您可以"
 
 #: src/categories_onglet.c:1742 src/categories_onglet.c:2107
 msgid "Transfer transactions to category"
@@ -1250,7 +1253,7 @@ msgstr "移动交易到类别"
 
 #: src/categories_onglet.c:1830
 msgid "Just remove this category."
-msgstr ""
+msgstr "仍然删除本类别"
 
 #: src/categories_onglet.c:1856 src/categories_onglet.c:2224
 msgid "Please enter a category!"
@@ -1266,10 +1269,13 @@ msgid ""
 "\n"
 "You may"
 msgstr ""
+"有历史交易引用了选中的子类别。\n"
+"\n"
+"您可以"
 
 #: src/categories_onglet.c:2198
 msgid "Just remove this sub-category."
-msgstr ""
+msgstr "仍然删除该子类"
 
 #: src/categories_onglet.c:2565 src/csv.c:424 src/echeancier_formulaire.c:1047
 #: src/echeancier_formulaire.c:1505 src/echeancier_formulaire.c:1538
@@ -1280,7 +1286,7 @@ msgstr ""
 #: src/operations_liste.c:1085 src/operations_liste.c:1703
 #: src/ventilation.c:207
 msgid "Breakdown of transaction"
-msgstr ""
+msgstr "交易细目分类"
 
 #. Si c'est un virement, on fait les vÃ©rifications
 #: src/categories_onglet.c:2568 src/comptes_traitements.c:556
@@ -1312,6 +1318,8 @@ msgid ""
 "Category names must be both unique and not empty.  Please use another name "
 "for this category."
 msgstr ""
+"类别名称必须唯一而且不能填空，"
+"请为本类别使用另外的名称。"
 
 #: src/categories_onglet.c:2893
 #, c-format
@@ -1331,6 +1339,8 @@ msgid ""
 "Sub-category names must be both unique and not empty.  Please use another "
 "name for this sub-category."
 msgstr ""
+"类别名称必须唯一而且不能填空，"
+"请为本类别使用另外的名称。"
 
 #: src/categories_onglet.c:2972
 #, c-format
@@ -1372,6 +1382,7 @@ msgstr "导入类别清单"
 msgid ""
 "File already contains transactions, the two categories lists will be merged."
 msgstr ""
+"该文件已经包含了历史交易，两个类别清单将被合并。"
 
 #: src/categories_onglet.c:3149 src/imputation_budgetaire.c:2887
 msgid "Do you want"
@@ -1379,11 +1390,11 @@ msgstr "您想要"
 
 #: src/categories_onglet.c:3167
 msgid "Merge the two categories lists"
-msgstr ""
+msgstr "合并这两份类别清单"
 
 #: src/categories_onglet.c:3175
 msgid "Replace the old categories list"
-msgstr ""
+msgstr "替换旧的类别清单"
 
 #: src/categories_onglet.c:3209 src/etats_onglet.c:1250
 #: src/imputation_budgetaire.c:2947
@@ -1392,11 +1403,11 @@ msgstr "不能导入文件"
 
 #: src/check.c:71
 msgid "Grisbi found no known inconsistency in accounts processed."
-msgstr ""
+msgstr "Grisbi没有找到"
 
 #: src/check.c:72
 msgid "No inconsistency found."
-msgstr ""
+msgstr "没有发现矛盾"
 
 #: src/check.c:149
 #, c-format
@@ -1405,6 +1416,9 @@ msgid ""
 "  Last reconciliation amount : %4.2f%s\n"
 "  Computed reconciliation amount : %4.2f%s\n"
 msgstr ""
+"<span weight=\"bold\">%s</span>\n"
+"  上次调整总额 : %4.2f%s\n"
+"  计算调整总额 : %4.2f%s\n"
 
 #: src/check.c:164
 msgid ""
@@ -1415,26 +1429,34 @@ msgid ""
 "The following accounts are inconsistent:\n"
 "\n"
 msgstr ""
+"Grisbi 发现调整总额的账户与调整后的交易总量 "
+"矛盾。通常这是由于过多的转帐交易被调整了。 "
+"您必须自己取消对一些矛盾账户转帐交易的调整。\n "
+"\n"
+"下列账户存在矛盾：\n"
+"\n"
 
 #: src/check.c:173 src/check.c:528 src/check.c:666
 #, c-format
 msgid "%d accounts have inconsistencies."
-msgstr ""
+msgstr "%d 账户存在矛盾。"
 
 #: src/check.c:178 src/check.c:533 src/check.c:671
 msgid "An account has inconsistencies."
-msgstr ""
+msgstr "一个账户存在矛盾。"
 
 #: src/check.c:216
 msgid ""
 "Some sub-categories are duplicates:\n"
 "\n"
 msgstr ""
+"一些子类别被复制\n"
+"\n"
 
 #: src/check.c:234
 #, c-format
 msgid "In <i>%s</i>, <i>%s</i> is a duplicate of <i>%s</i>.\n"
-msgstr ""
+msgstr "在 <i>%s</i>, <i>%s</i> 是 <i>%s</i>的复制。\n"
 
 #: src/check.c:250
 msgid ""
