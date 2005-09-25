@@ -27,7 +27,6 @@
 
 /*START_INCLUDE*/
 #include "etats_config.h"
-#include "utils_categories.h"
 #include "search_glist.h"
 #include "tiers_onglet.h"
 #include "devises.h"
@@ -38,6 +37,7 @@
 #include "utils_dates.h"
 #include "calendar.h"
 #include "gsb_data_account.h"
+#include "gsb_data_category.h"
 #include "gsb_data_payee.h"
 #include "navigation.h"
 #include "classement_operations.h"
@@ -304,7 +304,6 @@ GtkWidget *liste_mode_paiement_etat;
 /*START_EXTERN*/
 extern struct struct_etat *etat_courant;
 extern GtkWidget *frame_liste_etats;
-extern GSList *liste_struct_categories;
 extern GSList *liste_struct_devises;
 extern GSList *liste_struct_exercices;
 extern GSList *liste_struct_imputation;
@@ -333,7 +332,7 @@ void personnalisation_etat (void)
     GtkWidget *bouton;
     GtkWidget *hbox;
     GtkCTreeNode *parent;
-    GSList *pointeur_liste;
+    GSList *list_tmp;
 
     if ( !etat_courant )
 	return;
@@ -500,17 +499,17 @@ void personnalisation_etat (void)
 
     /* on remplit le ctree en fonction du classement courant */
 
-    pointeur_liste = etat_courant -> type_classement;
+    list_tmp = etat_courant -> type_classement;
     parent = NULL;
     gtk_clist_clear ( GTK_CLIST ( liste_type_classement_etat ));
 
-    while ( pointeur_liste )
+    while ( list_tmp )
     {
 	gchar *text[1];
 
 	text[0] = NULL;
 
-	switch ( GPOINTER_TO_INT ( pointeur_liste -> data ))
+	switch ( GPOINTER_TO_INT ( list_tmp -> data ))
 	{
 	    case 1:
 		text[0] = _("Category");
@@ -545,10 +544,10 @@ void personnalisation_etat (void)
 					     TRUE );
 	    gtk_ctree_node_set_row_data ( GTK_CTREE ( liste_type_classement_etat ),
 					  GTK_CTREE_NODE ( parent ),
-					  pointeur_liste -> data );
+					  list_tmp -> data );
 	}
 
-	pointeur_liste = pointeur_liste -> next;
+	list_tmp = list_tmp -> next;
     }
 
     gtk_clist_select_row ( GTK_CLIST ( liste_type_classement_etat ),
@@ -1164,7 +1163,7 @@ void selectionne_devise_tiers_etat_courant ( void )
 void recuperation_info_perso_etat ( void )
 {
     GSList *liste_tmp;
-    GList *pointeur_liste;
+    GList *list_tmp;
     gchar *pointeur_char;
     gint i;
     struct struct_comparaison_montants_etat *comp_montants;
@@ -1312,14 +1311,14 @@ void recuperation_info_perso_etat ( void )
 	etat_courant -> no_exercices = NULL;
     }
 
-    pointeur_liste = GTK_CLIST ( liste_exo_etat ) -> selection;
+    list_tmp = GTK_CLIST ( liste_exo_etat ) -> selection;
 
-    while ( pointeur_liste )
+    while ( list_tmp )
     {
 	etat_courant -> no_exercices = g_slist_append ( etat_courant -> no_exercices,
 							gtk_clist_get_row_data ( GTK_CLIST ( liste_exo_etat ),
-										 GPOINTER_TO_INT ( pointeur_liste -> data )));
-	pointeur_liste = pointeur_liste -> next;
+										 GPOINTER_TO_INT ( list_tmp -> data )));
+	list_tmp = list_tmp -> next;
     }
 
     /*   si tous les exos ont été sélectionnés, on met bouton_detaille_exo_etat à 0 (plus rapide) */
@@ -1371,14 +1370,14 @@ void recuperation_info_perso_etat ( void )
 	etat_courant -> no_comptes = NULL;
     }
 
-    pointeur_liste = GTK_CLIST ( liste_comptes_etat ) -> selection;
+    list_tmp = GTK_CLIST ( liste_comptes_etat ) -> selection;
 
-    while ( pointeur_liste )
+    while ( list_tmp )
     {
 	etat_courant -> no_comptes = g_slist_append ( etat_courant -> no_comptes,
 						      gtk_clist_get_row_data ( GTK_CLIST ( liste_comptes_etat ),
-									       GPOINTER_TO_INT ( pointeur_liste -> data )));
-	pointeur_liste = pointeur_liste -> next;
+									       GPOINTER_TO_INT ( list_tmp -> data )));
+	list_tmp = list_tmp -> next;
     }
 
     /*   si tous les comptes ont été sélectionnés, on met utilise_detail_comptes à 0 (plus rapide) */
@@ -1421,14 +1420,14 @@ void recuperation_info_perso_etat ( void )
 	etat_courant -> no_comptes_virements = NULL;
     }
 
-    pointeur_liste = GTK_CLIST ( liste_comptes_virements ) -> selection;
+    list_tmp = GTK_CLIST ( liste_comptes_virements ) -> selection;
 
-    while ( pointeur_liste )
+    while ( list_tmp )
     {
 	etat_courant -> no_comptes_virements = g_slist_append ( etat_courant -> no_comptes_virements,
 								gtk_clist_get_row_data ( GTK_CLIST ( liste_comptes_virements ),
-											 GPOINTER_TO_INT ( pointeur_liste -> data )));
-	pointeur_liste = pointeur_liste -> next;
+											 GPOINTER_TO_INT ( list_tmp -> data )));
+	list_tmp = list_tmp -> next;
     }
 
     etat_courant -> exclure_ope_non_virement = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_exclure_non_virements_etat ));
@@ -1447,14 +1446,14 @@ void recuperation_info_perso_etat ( void )
 	etat_courant -> no_categ = NULL;
     }
 
-    pointeur_liste = GTK_CLIST ( liste_categ_etat ) -> selection;
+    list_tmp = GTK_CLIST ( liste_categ_etat ) -> selection;
 
-    while ( pointeur_liste )
+    while ( list_tmp )
     {
 	etat_courant -> no_categ = g_slist_append ( etat_courant -> no_categ,
 						    gtk_clist_get_row_data ( GTK_CLIST ( liste_categ_etat ),
-									     GPOINTER_TO_INT ( pointeur_liste -> data )));
-	pointeur_liste = pointeur_liste -> next;
+									     GPOINTER_TO_INT ( list_tmp -> data )));
+	list_tmp = list_tmp -> next;
     }
 
     /*   si tous les categ ont été sélectionnés, on met utilise_detail_categ à 0 (plus rapide) */
@@ -1494,14 +1493,14 @@ void recuperation_info_perso_etat ( void )
 	etat_courant -> no_ib = NULL;
     }
 
-    pointeur_liste = GTK_CLIST ( liste_ib_etat ) -> selection;
+    list_tmp = GTK_CLIST ( liste_ib_etat ) -> selection;
 
-    while ( pointeur_liste )
+    while ( list_tmp )
     {
 	etat_courant -> no_ib = g_slist_append ( etat_courant -> no_ib,
 						 gtk_clist_get_row_data ( GTK_CLIST ( liste_ib_etat ),
-									  GPOINTER_TO_INT ( pointeur_liste -> data )));
-	pointeur_liste = pointeur_liste -> next;
+									  GPOINTER_TO_INT ( list_tmp -> data )));
+	list_tmp = list_tmp -> next;
     }
 
     etat_courant -> afficher_sous_ib = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_sous_ib ));
@@ -1543,14 +1542,14 @@ void recuperation_info_perso_etat ( void )
 	etat_courant -> no_tiers = NULL;
     }
 
-    pointeur_liste = GTK_CLIST ( liste_tiers_etat ) -> selection;
+    list_tmp = GTK_CLIST ( liste_tiers_etat ) -> selection;
 
-    while ( pointeur_liste )
+    while ( list_tmp )
     {
 	etat_courant -> no_tiers = g_slist_append ( etat_courant -> no_tiers,
 						    gtk_clist_get_row_data ( GTK_CLIST ( liste_tiers_etat ),
-									     GPOINTER_TO_INT ( pointeur_liste -> data )));
-	pointeur_liste = pointeur_liste -> next;
+									     GPOINTER_TO_INT ( list_tmp -> data )));
+	list_tmp = list_tmp -> next;
     }
 
     /*   si tous les tiers ont été sélectionnés, on met utilise_detail_tiers à 0 (plus rapide) */
@@ -1693,14 +1692,14 @@ void recuperation_info_perso_etat ( void )
 	etat_courant -> noms_modes_paiement = NULL;
     }
 
-    pointeur_liste = GTK_CLIST ( liste_mode_paiement_etat ) -> selection;
+    list_tmp = GTK_CLIST ( liste_mode_paiement_etat ) -> selection;
 
-    while ( pointeur_liste )
+    while ( list_tmp )
     {
 	etat_courant -> noms_modes_paiement = g_slist_append ( etat_courant -> noms_modes_paiement,
 							       gtk_clist_get_row_data ( GTK_CLIST ( liste_mode_paiement_etat ),
-											GPOINTER_TO_INT ( pointeur_liste -> data )));
-	pointeur_liste = pointeur_liste -> next;
+											GPOINTER_TO_INT ( list_tmp -> data )));
+	list_tmp = list_tmp -> next;
     }
 
     /*   si tous les modes de paiement ont été sélectionnés, on met utilise_mode_paiement à 0 (plus rapide) */
@@ -2430,22 +2429,22 @@ void modif_type_separation_dates ( gint *origine )
 /******************************************************************************/
 void remplissage_liste_exo_etats ( void )
 {
-    GSList *pointeur_liste;
+    GSList *list_tmp;
 
     if ( !onglet_config_etat )
 	return;
 
     gtk_clist_clear ( GTK_CLIST ( liste_exo_etat ) );
 
-    pointeur_liste = liste_struct_exercices;
+    list_tmp = liste_struct_exercices;
 
-    while ( pointeur_liste )
+    while ( list_tmp )
     {
 	struct struct_exercice *exercice;
 	gchar *nom[1];
 	gint ligne;
 
-	exercice = pointeur_liste -> data;
+	exercice = list_tmp -> data;
 
 	nom[0] = exercice -> nom_exercice;
 
@@ -2456,7 +2455,7 @@ void remplissage_liste_exo_etats ( void )
 				 ligne,
 				 GINT_TO_POINTER ( exercice -> no_exercice ));
 
-	pointeur_liste = pointeur_liste -> next;
+	list_tmp = list_tmp -> next;
     }
 }
 /******************************************************************************/
@@ -3245,14 +3244,14 @@ void click_type_categ_etat ( gint type )
 
     for ( i=0 ; i<GTK_CLIST ( liste_categ_etat ) -> rows ; i++ )
     {
-	struct struct_categ *categ;
+	gint category_number;
 
-	categ = categ_par_no ( GPOINTER_TO_INT ( gtk_clist_get_row_data ( GTK_CLIST ( liste_categ_etat ),
-									  i )));
+	category_number = GPOINTER_TO_INT ( gtk_clist_get_row_data ( GTK_CLIST ( liste_categ_etat ),
+								     i ));
 
-	if ( categ
+	if ( category_number
 	     &&
-	     categ -> type_categ == type )
+	     gsb_data_category_get_type (category_number) == type )
 	    gtk_clist_select_row ( GTK_CLIST ( liste_categ_etat ),
 				   i,
 				   0 );
@@ -3263,7 +3262,7 @@ void click_type_categ_etat ( gint type )
 /******************************************************************************/
 void remplissage_liste_categ_etats ( void )
 {
-    GSList *pointeur_liste;
+    GSList *list_tmp;
 
     if ( !liste_categ_etat )
 	return;
@@ -3273,30 +3272,30 @@ void remplissage_liste_categ_etats ( void )
 
     gtk_clist_clear ( GTK_CLIST ( liste_categ_etat ) );
 
-    pointeur_liste = liste_struct_categories;
+    list_tmp = gsb_data_category_get_categories_list ();
 
-    while ( pointeur_liste )
+    while ( list_tmp )
     {
-	struct struct_categ *categ;
+	gint category_number;
 	gchar *nom[1];
-	gint ligne;
+	gint line;
 
-	categ = pointeur_liste -> data;
+	category_number = gsb_data_category_get_no_category ( list_tmp -> data );
 
-	nom[0] = categ -> nom_categ;
+	nom[0] = gsb_data_category_get_name (category_number,
+					     0,
+					     NULL );
 
-	ligne = gtk_clist_append ( GTK_CLIST ( liste_categ_etat ),
-				   nom );
+	line = gtk_clist_append ( GTK_CLIST ( liste_categ_etat ),
+				  nom );
 
 	gtk_clist_set_row_data ( GTK_CLIST ( liste_categ_etat ),
-				 ligne,
-				 GINT_TO_POINTER ( categ -> no_categ ));
+				 line,
+				 GINT_TO_POINTER (category_number));
 
-	pointeur_liste = pointeur_liste -> next;
+	list_tmp = list_tmp -> next;
     }
-
     gtk_clist_sort ( GTK_CLIST ( liste_categ_etat ));
-
 }
 /******************************************************************************/
 
@@ -3538,7 +3537,7 @@ void click_type_ib_etat ( gint type )
 /******************************************************************************/
 void remplissage_liste_ib_etats ( void )
 {
-    GSList *pointeur_liste;
+    GSList *list_tmp;
 
     if ( !onglet_config_etat )
 	return;
@@ -3548,15 +3547,15 @@ void remplissage_liste_ib_etats ( void )
 
     gtk_clist_clear ( GTK_CLIST ( liste_ib_etat ) );
 
-    pointeur_liste = liste_struct_imputation;
+    list_tmp = liste_struct_imputation;
 
-    while ( pointeur_liste )
+    while ( list_tmp )
     {
 	struct struct_imputation *imputation;
 	gchar *nom[1];
 	gint ligne;
 
-	imputation = pointeur_liste -> data;
+	imputation = list_tmp -> data;
 
 	nom[0] = imputation -> nom_imputation;
 
@@ -3567,7 +3566,7 @@ void remplissage_liste_ib_etats ( void )
 				 ligne,
 				 GINT_TO_POINTER ( imputation -> no_imputation ));
 
-	pointeur_liste = pointeur_liste -> next;
+	list_tmp = list_tmp -> next;
     }
 
     gtk_clist_sort ( GTK_CLIST ( liste_ib_etat ));

@@ -563,6 +563,7 @@ static gboolean affiche_proposition ( GtkWidget *entree,
     couleur_bleue.red = COULEUR_RED ;
     couleur_bleue.green = COULEUR_GREEN;
     couleur_bleue.blue = COULEUR_BLUE;
+    couleur_bleue.pixel = 0;
 
     /*   pour éviter un warning lors de la compil : */
 

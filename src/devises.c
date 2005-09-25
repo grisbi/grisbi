@@ -1145,9 +1145,9 @@ GtkWidget *onglet_devises ( void )
     paddingbox = new_paddingbox_with_title (vbox_pref, FALSE, _("Currency properties"));
 
     /* Selecting a currency activates this form */
-    gtk_signal_connect ( clist_devises_parametres, "select-row",
+    gtk_signal_connect ( GTK_OBJECT (clist_devises_parametres), "select-row",
 			 GTK_SIGNAL_FUNC ( selection_ligne_devise ), paddingbox );
-    gtk_signal_connect ( clist_devises_parametres, "unselect-row",
+    gtk_signal_connect ( GTK_OBJECT (clist_devises_parametres), "unselect-row",
 			 GTK_SIGNAL_FUNC ( deselection_ligne_devise ), paddingbox );
 
     /* Create table */

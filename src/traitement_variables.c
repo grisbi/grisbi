@@ -27,6 +27,7 @@
 /*START_INCLUDE*/
 #include "traitement_variables.h"
 #include "gsb_data_account.h"
+#include "gsb_data_category.h"
 #include "gsb_data_payee.h"
 #include "gsb_data_transaction.h"
 #include "utils_str.h"
@@ -100,7 +101,6 @@ extern GSList *lignes_affichage_deux_lignes;
 extern GSList *lignes_affichage_trois_lignes;
 extern GtkWidget *liste_categ_etat;
 extern GSList *liste_struct_banques;
-extern GSList *liste_struct_categories;
 extern GSList *liste_struct_devises;
 extern GSList *liste_struct_echeances;
 extern GSList *liste_struct_etats;
@@ -186,6 +186,7 @@ void init_variables ( void )
     gsb_data_account_init_variables ();
     gsb_data_transaction_init_variables ();
     gsb_data_payee_init_variables ();
+    gsb_data_category_init_variables ();
 
     crypt_key = NULL;
 
@@ -215,7 +216,6 @@ void init_variables ( void )
     affichage_echeances_perso_j_m_a = PERIODICITY_DAYS;
     scheduled_transactions_taken = NULL;
 
-    liste_struct_categories = NULL;
     nb_enregistrements_categories = 0;
     no_derniere_categorie = 0;
 
@@ -309,12 +309,14 @@ void initialisation_couleurs_listes ( void )
     couleur_rouge.red = COULEUR_ROUGE_RED;
     couleur_rouge.green = COULEUR_ROUGE_GREEN;
     couleur_rouge.blue = COULEUR_ROUGE_BLUE;
+    couleur_rouge.pixel = 0;
 
     /*     couleur grise de l'échéancier */
 
     couleur_grise.red = COULEUR_GRISE_RED;
     couleur_grise.green = COULEUR_GRISE_GREEN;
     couleur_grise.blue = COULEUR_GRISE_BLUE;
+    couleur_grise.pixel = 0;
 
     /* initialise la couleur de la sélection */
 

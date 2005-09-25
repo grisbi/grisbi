@@ -23,10 +23,10 @@
 /*START_INCLUDE*/
 #include "gsb_file_load.h"
 #include "utils_ib.h"
-#include "utils_categories.h"
 #include "utils_devises.h"
 #include "dialog.h"
 #include "gsb_data_account.h"
+#include "gsb_data_category.h"
 #include "gsb_data_payee.h"
 #include "gsb_data_transaction.h"
 #include "gsb_file_util.h"
@@ -115,7 +115,6 @@ extern gint ligne_affichage_une_ligne;
 extern GSList *lignes_affichage_deux_lignes;
 extern GSList *lignes_affichage_trois_lignes;
 extern GSList *liste_struct_banques;
-extern GSList *liste_struct_categories;
 extern GSList *liste_struct_devises;
 extern GSList *liste_struct_echeances;
 extern GSList *liste_struct_etats;
@@ -155,9 +154,13 @@ static struct
 } download_tmp_values;
 
 static gint account_number_tmp;
-static struct struct_categ *category_tmp;
 static struct struct_imputation *budget_tmp;
 static struct struct_etat *report_tmp;
+
+/* to import older file than 0.6, makes the link between category and sub-category */
+static gint last_category = 0;
+static gint last_sub_category_number = 0;
+
 
 /* used to get the sort of the accounts in the version < 0.6 */
 static GSList *sort_accounts;
@@ -1931,14 +1934,10 @@ void gsb_file_load_category ( const gchar **attribute_names,
 			      GSList **import_list )
 {
     gint i=0;
-
-    struct struct_categ *category;
+    gint category_number = 0;
 
     if ( !attribute_names[i] )
 	return;
-
-    category = calloc ( 1,
-			 sizeof ( struct struct_categ ) );
 
     do
     {
@@ -1955,7 +1954,16 @@ void gsb_file_load_category ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Nb" ))
 	{
-	    category -> no_categ = utils_str_atoi (attribute_values[i]);
+	    /* not sure tha *import_list give sigsev if import_list = NULL,
+	     * so check it before, perhaps can remove the check ? */
+	    
+	    if (import_list)
+		category_number = gsb_data_category_new_with_number ( utils_str_atoi (attribute_values[i]),
+								      *import_list );
+	    else
+		category_number = gsb_data_category_new_with_number ( utils_str_atoi (attribute_values[i]),
+								      NULL ); 
+
 	    i++;
 	    continue;
 	}
@@ -1963,7 +1971,8 @@ void gsb_file_load_category ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Na" ))
 	{
-	    category -> nom_categ = g_strdup (attribute_values[i]);
+	    gsb_data_category_set_name ( category_number,
+					 attribute_values[i]);
 	    i++;
 	    continue;
 	}
@@ -1971,7 +1980,8 @@ void gsb_file_load_category ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Kd" ))
 	{
-	    category -> type_categ = utils_str_atoi (attribute_values[i]);
+	    gsb_data_category_set_type ( category_number,
+					 utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
 	}
@@ -1980,13 +1990,6 @@ void gsb_file_load_category ( const gchar **attribute_names,
 	i++;
     }
     while ( attribute_names[i] );
-
-    if ( import_list )
-	*import_list = g_slist_append ( *import_list,
-					category );
-    else
-	liste_struct_categories = g_slist_append ( liste_struct_categories,
-						   category );
 }
 
 
@@ -2005,13 +2008,10 @@ void gsb_file_load_sub_category ( const gchar **attribute_names,
 {
     gint i=0;
     gint category_number = 0;
-    struct struct_sous_categ *sub_category;
+    gint sub_category_number = 0;
 
     if ( !attribute_names[i] )
 	return;
-
-    sub_category = calloc ( 1,
-			    sizeof ( struct struct_sous_categ ) );
 
     do
     {
@@ -2026,9 +2026,27 @@ void gsb_file_load_sub_category ( const gchar **attribute_names,
 	}
 
 	if ( !strcmp ( attribute_names[i],
+		       "Nbc" ))
+	{
+	    category_number = utils_str_atoi (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
 		       "Nb" ))
 	{
-	    sub_category -> no_sous_categ = utils_str_atoi (attribute_values[i]);
+	    /* not sure tha *import_list give sigsev if import_list = NULL,
+	     * so check it before, perhaps can remove the check ? */
+	    
+	    if (import_list)
+		sub_category_number = gsb_data_category_new_sub_category_with_number ( utils_str_atoi (attribute_values[i]),
+										       category_number,
+										       *import_list );
+	    else
+		sub_category_number = gsb_data_category_new_sub_category_with_number ( utils_str_atoi (attribute_values[i]),
+										       category_number,
+										       NULL ); 
 	    i++;
 	    continue;
 	}
@@ -2036,15 +2054,9 @@ void gsb_file_load_sub_category ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Na" ))
 	{
-	    sub_category -> nom_sous_categ = g_strdup (attribute_values[i]);
-	    i++;
-	    continue;
-	}
-
-	if ( !strcmp ( attribute_names[i],
-		       "Nbc" ))
-	{
-	    category_number = utils_str_atoi (attribute_values[i]);
+	    gsb_data_category_set_sub_category_name ( category_number,
+						      sub_category_number,
+						      attribute_values[i] );
 	    i++;
 	    continue;
 	}
@@ -2053,32 +2065,6 @@ void gsb_file_load_sub_category ( const gchar **attribute_names,
 	i++;
     }
     while ( attribute_names[i] );
-
-    /* we append the sub-category to the category which must
-     * have been created already */
-
-    if ( category_number )
-    {
-	struct struct_categ *category;
-
-	if (import_list)
-	{
-	    category = categ_by_no_in_list ( category_number,
-					     *import_list );
-
-	    if ( category )
-		category -> liste_sous_categ = g_slist_append ( category -> liste_sous_categ,
-								sub_category );
-	}
-	else
-	{
-	    category = categ_par_no ( category_number );
-
-	    if ( category )
-		category -> liste_sous_categ = g_slist_append ( category -> liste_sous_categ,
-								sub_category );
-	}
-    }
 }
 
 
@@ -2207,7 +2193,7 @@ void gsb_file_load_sub_budgetary ( const gchar **attribute_names,
 	}
 
 	if ( !strcmp ( attribute_names[i],
-		       "Nbc" ))
+		       "Nbb" ))
 	{
 	    budgetary_number = utils_str_atoi (attribute_values[i]);
 	    i++;
@@ -4341,39 +4327,25 @@ void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
     if ( !strcmp ( element_name,
 		   "Categorie" ))
     {
-	gint i;
+	gint i = 0;
 
-	i = 0;
-
-	if ( attribute_names[i] )
+	while ( attribute_names[i] )
 	{
-	    category_tmp = calloc ( 1,
-				 sizeof ( struct struct_categ ) );
+	    if ( !strcmp ( attribute_names[i],
+			   "No" ))
+		last_category = gsb_data_category_new_with_number ( utils_str_atoi (attribute_values[i]),
+								    NULL ); 
 
-	    do
-	    {
-		if ( !strcmp ( attribute_names[i],
-			       "No" ))
-		    category_tmp -> no_categ = utils_str_atoi (attribute_values[i]);
+	    if ( !strcmp ( attribute_names[i],
+			   "Nom" ))
+		gsb_data_category_set_name ( last_category,
+					     attribute_values[i]);
 
-		if ( !strcmp ( attribute_names[i],
-			       "Nom" ))
-		    category_tmp -> nom_categ = g_strdup (attribute_values[i]);
-
-		if ( !strcmp ( attribute_names[i],
-			       "Type" ))
-		    category_tmp -> type_categ = utils_str_atoi (attribute_values[i]);
-
-		if ( !strcmp ( attribute_names[i],
-			       "No_derniere_sous_cagegorie" ))
-		    category_tmp -> no_derniere_sous_categ = utils_str_atoi (attribute_values[i]);
-
-		i++;
-	    }
-	    while ( attribute_names[i] );
-
-	    liste_struct_categories = g_slist_append ( liste_struct_categories,
-						       category_tmp );
+	    if ( !strcmp ( attribute_names[i],
+			   "Type" ))
+		gsb_data_category_set_type ( last_category,
+					     utils_str_atoi (attribute_values[i]));
+	    i++;
 	}
     }
 
@@ -4381,34 +4353,24 @@ void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
     if ( !strcmp ( element_name,
 		   "Sous-categorie" ))
     {
-	gint i;
+	gint i = 0;
 
-	i = 0;
+	/* each sub-category is stored after a category, so last_category should be filled before */
 
-	if ( attribute_names[i] )
+	while ( attribute_names[i] )
 	{
-	    struct struct_sous_categ *sous_categ;
+	    if ( !strcmp ( attribute_names[i],
+			   "No" ))
+		last_sub_category_number = gsb_data_category_new_sub_category_with_number ( utils_str_atoi (attribute_values[i]),
+											    last_category,
+											    NULL );
 
-	    sous_categ = calloc ( 1,
-				  sizeof ( struct struct_sous_categ ) );
-
-	    do
-	    {
-		if ( !strcmp ( attribute_names[i],
-			       "No" ))
-		    sous_categ -> no_sous_categ = utils_str_atoi (attribute_values[i]);
-		if ( !strcmp ( attribute_names[i],
-			       "Nom" ))
-		    sous_categ -> nom_sous_categ = g_strdup (attribute_values[i]);
-
-		i++;
-	    }
-	    while ( attribute_names[i] );
-
-	    /* normally categorie was defined before */
-
-	    category_tmp -> liste_sous_categ = g_slist_append ( category_tmp -> liste_sous_categ,
-							     sous_categ );
+	    if ( !strcmp ( attribute_names[i],
+			   "Nom" ))
+		gsb_data_category_set_sub_category_name ( last_category,
+							  last_sub_category_number,
+							  attribute_values[i]);
+	    i++;
 	}
     }
 

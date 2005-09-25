@@ -34,7 +34,6 @@
 #include "patienter.h"
 #include "utils_montants.h"
 #include "fenetre_principale.h"
-#include "categories_onglet.h"
 #include "imputation_budgetaire.h"
 #include "comptes_traitements.h"
 #include "dialog.h"
@@ -42,6 +41,7 @@
 #include "utils_file_selection.h"
 #include "gsb_data_account.h"
 #include "operations_comptes.h"
+#include "gsb_data_category.h"
 #include "gsb_data_transaction.h"
 #include "gsb_file_config.h"
 #include "gsb_file_load.h"
@@ -155,7 +155,7 @@ void init_variables_new_file ( void )
     titre_fichier = _("My accounts");
 
     /* Create initial lists. */
-    creation_liste_categories ();
+    gsb_data_category_create_default_category_list ();
 }
 
 
@@ -170,8 +170,6 @@ void init_gui_new_file ( void )
     /* dégrise les menus nécessaire */
     
     menus_sensitifs ( TRUE );
-
-    creation_liste_categ_combofix ();
 
     /*     récupère l'organisation des colonnes  */
     recuperation_noms_colonnes_et_tips ();
@@ -451,7 +449,6 @@ gboolean gsb_file_open_file ( gchar *filename )
 
     /* make all the combofix's lists */
     
-    creation_liste_categ_combofix ();
     creation_liste_imputation_combofix ();
 
     /* we make the main window */

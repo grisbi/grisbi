@@ -38,6 +38,7 @@
 #include "operations_formulaire.h"
 #include "utils_dates.h"
 #include "gsb_data_account.h"
+#include "gsb_data_category.h"
 #include "gsb_data_payee.h"
 #include "fenetre_principale.h"
 #include "gtk_combofix.h"
@@ -45,7 +46,6 @@
 #include "traitement_variables.h"
 #include "utils_buttons.h"
 #include "utils.h"
-#include "utils_categories.h"
 #include "utils_ib.h"
 #include "utils_comptes.h"
 #include "operations_liste.h"
@@ -1054,8 +1054,9 @@ void edition_echeance ( void )
 	{
 	    /* 	    il y a donc des catégs/sous-catég */
 
-	    texte =  nom_categ_par_no ( echeance_selectionnnee -> categorie,
-					echeance_selectionnnee -> sous_categorie );
+	    texte = gsb_data_category_get_name ( echeance_selectionnnee -> categorie,
+						 echeance_selectionnnee -> sous_categorie,
+						 NULL );
 	}
 	else
 	{
@@ -1654,7 +1655,7 @@ gboolean gsb_gui_popup_custom_periodicity_dialog ()
     {
 	case GTK_RESPONSE_OK:
 	    affichage_echeances_perso_j_m_a = gtk_option_menu_get_history ( GTK_OPTION_MENU ( omenu ) );
-	    affichage_echeances_perso_nb_libre = utils_str_atoi ( gtk_entry_get_text ( GTK_ENTRY(entry) ) );
+	    affichage_echeances_perso_nb_libre = utils_str_atoi ( gtk_entry_get_text ( GTK_ENTRY(entry)) );
 	    gtk_widget_destroy ( dialog );
 	    return TRUE;
     }

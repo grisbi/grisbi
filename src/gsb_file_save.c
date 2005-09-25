@@ -24,6 +24,7 @@
 #include "gsb_file_save.h"
 #include "dialog.h"
 #include "gsb_data_account.h"
+#include "gsb_data_category.h"
 #include "gsb_data_payee.h"
 #include "gsb_data_transaction.h"
 #include "gsb_file_util.h"
@@ -86,7 +87,6 @@ extern gint ligne_affichage_une_ligne;
 extern GSList *lignes_affichage_deux_lignes;
 extern GSList *lignes_affichage_trois_lignes;
 extern GSList *liste_struct_banques;
-extern GSList *liste_struct_categories;
 extern GSList *liste_struct_devises;
 extern GSList *liste_struct_echeances;
 extern GSList *liste_struct_etats;
@@ -176,8 +176,8 @@ gboolean gsb_file_save_save_file ( gchar *filename,
     length_calculated = general_part
 	+ account_part * gsb_data_account_get_accounts_amount ()
 	+ transaction_part * g_slist_length ( gsb_data_transaction_get_transactions_list ())
-	+ party_part * g_slist_length ( gsb_data_payee_get_payees_list () )
-	+ category_part * g_slist_length ( liste_struct_categories )
+	+ party_part * g_slist_length ( gsb_data_payee_get_payees_list ())
+	+ category_part * g_slist_length ( gsb_data_category_get_categories_list ())
 	+ budgetary_part * g_slist_length ( liste_struct_imputation )
 	+ currency_part * g_slist_length ( liste_struct_devises )
 	+ bank_part * g_slist_length ( liste_struct_banques )
@@ -959,23 +959,24 @@ gulong gsb_file_save_category_part ( gulong iterator,
 {
     GSList *list_tmp;
 	
-    list_tmp = liste_struct_categories;
+    list_tmp = gsb_data_category_get_categories_list ();
 
     while ( list_tmp )
     {
 	gchar *new_string;
-	struct struct_categ *category;
+	gint category_number;
 	GSList *sub_list_tmp;
 
-	category = list_tmp -> data;
+	category_number = gsb_data_category_get_no_category (list_tmp -> data);
 
 	/* now we can fill the file content */
 
-	new_string = g_markup_printf_escaped ( "\t<Category Nb=\"%d\" Na=\"%s\" Kd=\"%d\" No_derniere_sous_cagegorie=\"%d\"/>\n",
-					       category -> no_categ,
-					       category -> nom_categ,
-					       category -> type_categ,
-					       category -> no_derniere_sous_categ );
+	new_string = g_markup_printf_escaped ( "\t<Category Nb=\"%d\" Na=\"%s\" Kd=\"%d\" />\n",
+					       category_number,
+					       gsb_data_category_get_name ( category_number,
+									    0,
+									    NULL ),
+					       gsb_data_category_get_type ( category_number ));
 
 	/* append the new string to the file content
 	 * and take the new iterator */
@@ -986,20 +987,23 @@ gulong gsb_file_save_category_part ( gulong iterator,
 					       new_string );
 	/* save the sub-categories */
 
-	sub_list_tmp = category -> liste_sous_categ;
+	sub_list_tmp = gsb_data_category_get_sub_category_list ( category_number );
 
 	while ( sub_list_tmp )
 	{
-	    struct struct_sous_categ *sub_category;
+	    gint sub_category_number;
 
-	    sub_category = sub_list_tmp -> data;
+	    sub_category_number = gsb_data_category_get_no_sub_category (sub_list_tmp -> data);
 
-	    /* now we can fill the file content */
+	    /* now we can fill the file content
+	     * carrefull : the number of category must be the first */
 
-	    new_string = g_markup_printf_escaped ( "\t<Sub_category Nb=\"%d\" Na=\"%s\" Nbc=\"%d\" />\n",
-						   sub_category -> no_sous_categ,
-						   sub_category -> nom_sous_categ,
-						   category -> no_categ);
+	    new_string = g_markup_printf_escaped ( "\t<Sub_category Nbc=\"%d\" Nb=\"%d\" Na=\"%s\" />\n",
+						   category_number,
+						   sub_category_number,
+						   gsb_data_category_get_sub_category_name ( category_number,
+											     sub_category_number,
+											     NULL ));
 
 	    /* append the new string to the file content
 	     * and take the new iterator */
@@ -1066,12 +1070,14 @@ gulong gsb_file_save_budgetary_part ( gulong iterator,
 
 	    sub_budgetary = sub_list_tmp -> data;
 
-	    /* now we can fill the file content */
+	    /* now we can fill the file content,
+	     * carrefull : the number of the budgetary must be the first */
 
-	    new_string = g_markup_printf_escaped ( "\t<Sub_budgetary Nb=\"%d\" Na=\"%s\" Nbc=\"%d\" />\n",
+	    new_string = g_markup_printf_escaped ( "\t<Sub_budgetary Nbb=\"%d\" Nb=\"%d\" Na=\"%s\" />\n",
+						   budgetary -> no_imputation,
 						   sub_budgetary -> no_sous_imputation,
-						   sub_budgetary -> nom_sous_imputation,
-						   budgetary -> no_imputation);
+						   sub_budgetary -> nom_sous_imputation);
+
 	    /* append the new string to the file content
 	     * and take the new iterator */
 

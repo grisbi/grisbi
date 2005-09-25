@@ -29,7 +29,6 @@
 #include "echeancier_formulaire.h"
 #include "exercice.h"
 #include "utils_editables.h"
-#include "utils_categories.h"
 #include "comptes_traitements.h"
 #include "utils_exercices.h"
 #include "type_operations.h"
@@ -40,6 +39,7 @@
 #include "operations_formulaire.h"
 #include "calendar.h"
 #include "gsb_data_account.h"
+#include "gsb_data_category.h"
 #include "gsb_data_payee.h"
 #include "gsb_data_transaction.h"
 #include "utils_dates.h"
@@ -89,7 +89,6 @@ static gboolean pression_touche_formulaire_echeancier ( GtkWidget *widget,
 
 GtkWidget *widget_formulaire_echeancier[SCHEDULER_FORM_TOTAL_WIDGET];
 GtkWidget *label_saisie_modif;
-GSList *liste_categories_ventilation_combofix;        /*  liste des noms des categ et sous categ pour le combofix */
 GtkWidget *separateur_formulaire_echeancier;
 GtkWidget *hbox_valider_annuler_echeance;
 
@@ -100,7 +99,6 @@ extern GtkWidget *formulaire;
 extern GtkWidget *formulaire_echeancier;
 extern GtkWidget *formulaire_echeancier;
 extern GtkWidget *frame_formulaire_echeancier;
-extern GSList *liste_categories_combofix;
 extern GSList *liste_imputations_combofix;
 extern GSList *liste_struct_devises;
 extern GSList *liste_struct_echeances;
@@ -318,7 +316,10 @@ GtkWidget *creation_formulaire_echeancier ( void )
     gtk_widget_show ( widget_formulaire_echeancier[SCHEDULER_FORM_ACCOUNT] );
 
     /* Affiche les catégories / sous-catégories */
-    widget_formulaire_echeancier[SCHEDULER_FORM_CATEGORY] = gtk_combofix_new_complex ( liste_categories_combofix,
+    widget_formulaire_echeancier[SCHEDULER_FORM_CATEGORY] = gtk_combofix_new_complex ( gsb_data_category_get_name_list (TRUE,
+															TRUE,
+															TRUE,
+															TRUE ),
 										       FALSE,
 										       TRUE,
 										       TRUE,
@@ -1477,8 +1478,6 @@ void gsb_scheduler_validate_form ( void )
 
 	if ( gtk_widget_get_style ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_CATEGORY] ) -> entry ) == style_entree_formulaire[ENCLAIR] )
 	{
-	    struct struct_categ *categ;
-
 	    tab_char = g_strsplit ( g_strstrip ( gtk_combofix_get_text ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_CATEGORY] ))),
 				    ":",
 				    2 );
@@ -1525,26 +1524,13 @@ void gsb_scheduler_validate_form ( void )
 
 		    }
 		    else
-		    {	
-			struct struct_sous_categ *sous_categ;
-
-			categ = categ_par_nom ( tab_char[0],
-						1,
-						0,
-						0 );
-
-			if ( categ )
-			{
-			    scheduled_transaction -> categorie = categ -> no_categ;
-
-			    sous_categ = sous_categ_par_nom ( categ,
-							      tab_char[1],
-							      1 );
-
-			    if ( sous_categ )
-				scheduled_transaction -> sous_categorie = sous_categ -> no_sous_categ;
-			}
-
+		    {
+			scheduled_transaction -> categorie = gsb_data_category_get_number_by_name ( tab_char[0],
+												    TRUE,
+												    scheduled_transaction -> montant < 0);
+			scheduled_transaction -> sous_categorie = gsb_data_category_get_sub_category_number_by_name ( scheduled_transaction -> categorie,
+														      tab_char[1],
+														      TRUE );
 			scheduled_transaction -> compte_virement = 0;
 			scheduled_transaction -> operation_ventilee = 0;
 		    }
@@ -2118,28 +2104,18 @@ gboolean gsb_scheduler_get_category_for_transaction_from_form ( gint transaction
 		{
 		    /* it's a normal category */
 
-		    struct struct_categ *categ;
+		    gint category_number;
 
-		    categ = categ_par_nom ( tab_char[0],
-					    1,
-					    gsb_data_transaction_get_amount (transaction_number)< 0,
-					    0 );
+		    category_number = gsb_data_category_get_number_by_name ( tab_char[0],
+									     TRUE,
+									     gsb_data_transaction_get_amount (transaction_number) < 0 );
+		    gsb_data_transaction_set_category_number ( transaction_number,
+							       category_number );
 
-		    if ( categ )
-		    {
-			struct struct_sous_categ *sous_categ;
-
-			gsb_data_transaction_set_category_number ( transaction_number,
-								   categ -> no_categ );
-
-			sous_categ = sous_categ_par_nom ( categ,
-							  tab_char[1],
-							  1 );
-
-			if ( sous_categ )
-			    gsb_data_transaction_set_sub_category_number ( transaction_number,
-									   sous_categ -> no_sous_categ );
-		    }
+		    gsb_data_transaction_set_sub_category_number ( transaction_number,
+								   gsb_data_category_get_sub_category_number_by_name ( category_number,
+														       tab_char[1],
+														       TRUE ));
 		}
 	    }
 	    g_strfreev ( tab_char );
@@ -2658,8 +2634,9 @@ void completion_operation_par_tiers_echeancier ( void )
     }
     else
     {
-	char_tmp = nom_categ_par_no ( gsb_data_transaction_get_category_number ( transaction_number),
-				      gsb_data_transaction_get_sub_category_number ( transaction_number));
+	char_tmp = gsb_data_category_get_name ( gsb_data_transaction_get_category_number ( transaction_number),
+						gsb_data_transaction_get_sub_category_number ( transaction_number),
+						NULL );
 	
 	if ( char_tmp )
 	{

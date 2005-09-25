@@ -35,8 +35,6 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static gchar *demande_texte ( gchar *titre_fenetre,
-		       gchar *question );
 static void dialogue_conditional_info_hint ( gchar *hint, gchar * text, gchar * var );
 static void dialogue_conditional_special ( gchar *text, gchar * var, GtkMessageType type );
 static gboolean question_yes_no ( gchar *texte );
@@ -469,7 +467,6 @@ gboolean question_conditional_yes_no ( gchar * var )
 
     return messages[i].default_answer;	
 }
-
 
 
 /**

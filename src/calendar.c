@@ -85,6 +85,8 @@ GtkWidget *gsb_calendar_new ( GtkWidget *entry )
 
     if ( strlen ( g_strstrip ( ( gchar * ) gtk_entry_get_text ( GTK_ENTRY ( entry )))) )
 	date = gsb_parse_date_string ( ( gchar * ) gtk_entry_get_text ( GTK_ENTRY ( entry ) ) );
+    else
+	date = gdate_today ();
 
     pCalendar = gtk_calendar_new();
 

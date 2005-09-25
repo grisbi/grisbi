@@ -11,10 +11,6 @@ gint cherche_string_equivalente_dans_slist ( gchar *string_list,
 					     gchar *string_cmp );
 gint recherche_banque_par_no ( struct struct_banque *banque,
 			       gint *no_banque );
-gint recherche_categorie_par_no ( struct struct_categ *categorie,
-				  gint *no_categorie );
-gint recherche_categorie_par_nom ( struct struct_categ *categorie,
-				   gchar *categ );
 gint recherche_devise_par_code_iso ( struct struct_devise *devise,
 				     gchar *nom );
 gint recherche_devise_par_no ( struct struct_devise *devise,
@@ -39,10 +35,6 @@ gint recherche_rapprochement_par_no ( struct struct_no_rapprochement *rapprochem
 				      gint *no_rap );
 gint recherche_rapprochement_par_nom ( struct struct_no_rapprochement *rapprochement,
 				       gchar *no_rap );
-gint recherche_sous_categorie_par_no ( struct struct_sous_categ *sous_categorie,
-				       gint *no_sous_categorie );
-gint recherche_sous_categorie_par_nom ( struct struct_sous_categ *sous_categorie,
-					gchar *sous_categ );
 gint recherche_sous_imputation_par_no ( struct struct_sous_imputation *sous_imputation,
 					gint *no_sous_imputation );
 gint recherche_sous_imputation_par_nom ( struct struct_sous_imputation *sous_imputation,

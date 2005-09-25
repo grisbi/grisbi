@@ -25,10 +25,9 @@
 /*START_INCLUDE*/
 #include "categories_onglet.h"
 #include "metatree.h"
-#include "utils_categories.h"
 #include "dialog.h"
 #include "utils_file_selection.h"
-#include "gsb_data_account.h"
+#include "gsb_data_category.h"
 #include "gsb_data_transaction.h"
 #include "gsb_file_others.h"
 #include "gtk_combofix.h"
@@ -52,7 +51,6 @@ static GtkWidget *creation_barre_outils_categ ( void );
 static gboolean edit_category ( GtkTreeView * view );
 static gboolean exporter_categ ( GtkButton * widget, gpointer data );
 static void importer_categ ( void );
-static void merge_liste_categories ( void );
 static gboolean popup_category_view_mode_menu ( GtkWidget * button );
 /*END_STATIC*/
 
@@ -186,12 +184,6 @@ GtkWidget *bouton_modif_categ_modifier, *bouton_modif_categ_annuler;
 GtkWidget *bouton_supprimer_categ, *bouton_ajouter_categorie;
 GtkWidget *bouton_ajouter_sous_categorie;
 
-/* liste des structures de catég */
-GSList *liste_struct_categories;
-
-/*  liste des noms des categ et sous categ pour le combofix */
-GSList *liste_categories_combofix;
-
 /* nombre de catégories */
 gint nb_enregistrements_categories, no_derniere_categorie;
 
@@ -207,8 +199,6 @@ int no_devise_totaux_categ;
 extern MetatreeInterface * category_interface ;
 extern gchar *dernier_chemin_de_travail;
 extern struct struct_etat *etat_courant;
-extern GtkWidget *formulaire;
-extern GSList *liste_categories_ventilation_combofix;
 extern GtkTreeStore *model;
 extern gint modif_categ;
 extern GtkTreeSelection * selection;
@@ -355,55 +345,65 @@ GtkWidget *onglet_categories ( void )
  */
 void remplit_arbre_categ ( void )
 {
-    GSList *liste_categ_tmp;
+    GSList *category_list;
     GtkTreeIter iter_categ, iter_sous_categ;
+
+    if ( DEBUG )
+	printf ( "remplit_arbre_categ\n" );
 
     /** First, remove previous tree */
     gtk_tree_store_clear ( GTK_TREE_STORE (categ_tree_model) );
 
     /* Compute category balances. */
-    calcule_total_montant_categ ();
+    gsb_data_category_update_counters ();
 
     /** Then, populate tree with categories. */
-    liste_categ_tmp = g_slist_prepend ( liste_struct_categories, NULL );
-    while ( liste_categ_tmp )
-    {
-	struct struct_categ *categ;
-	GSList *liste_sous_categ_tmp = NULL;
 
-	categ = liste_categ_tmp -> data;
+    category_list = gsb_data_category_get_categories_list ();
+    category_list = g_slist_prepend ( category_list, NULL );
+
+    while ( category_list )
+    {
+	gint category_number;
+
+	category_number = gsb_data_category_get_no_category (category_list -> data);
 
 	gtk_tree_store_append (GTK_TREE_STORE (categ_tree_model), &iter_categ, NULL);
 	fill_division_row ( GTK_TREE_MODEL(categ_tree_model), category_interface, 
-			    &iter_categ, categ );
+			    &iter_categ, gsb_data_category_get_structure (category_number));
 
 	/** Each category has subcategories. */
-	if ( categ )
-	    liste_sous_categ_tmp = categ -> liste_sous_categ;
-
-	while ( liste_sous_categ_tmp )
+	if ( category_number )
 	{
-	    struct struct_sous_categ *sous_categ;
+	    GSList *sub_category_list;
 
-	    sous_categ = liste_sous_categ_tmp -> data;
+	    sub_category_list = gsb_data_category_get_sub_category_list ( category_number );
 
-	    gtk_tree_store_append (GTK_TREE_STORE (categ_tree_model), 
-				   &iter_sous_categ, &iter_categ);
-	    fill_sub_division_row ( GTK_TREE_MODEL(categ_tree_model), category_interface, 
-				    &iter_sous_categ, categ, sous_categ );
+	    while ( sub_category_list )
+	    {
+		gint sub_category_number;
 
-	    liste_sous_categ_tmp = liste_sous_categ_tmp -> next;
+		sub_category_number = gsb_data_category_get_no_sub_category (sub_category_list -> data);
+
+		gtk_tree_store_append (GTK_TREE_STORE (categ_tree_model), 
+				       &iter_sous_categ, &iter_categ);
+		fill_sub_division_row ( GTK_TREE_MODEL(categ_tree_model), category_interface, 
+					&iter_sous_categ,
+					gsb_data_category_get_structure (category_number),
+					gsb_data_category_get_sub_category_structure( category_number,
+										      sub_category_number));
+
+		sub_category_list = sub_category_list -> next;
+	    }
 	}
 
 	gtk_tree_store_append (GTK_TREE_STORE (categ_tree_model), 
 			       &iter_sous_categ, &iter_categ);
 	fill_sub_division_row ( GTK_TREE_MODEL(categ_tree_model), category_interface, 
-				&iter_sous_categ, categ, NULL );
+				&iter_sous_categ, gsb_data_category_get_structure (category_number), NULL );
 	
-	liste_categ_tmp = liste_categ_tmp -> next;
+	category_list = category_list -> next;
     }
-
-    modif_categ = 0;
 }
 
 
@@ -431,209 +431,39 @@ gboolean categ_drag_data_get ( GtkTreeDragSource * drag_source, GtkTreePath * pa
 
 
 
-/**
- * Reset some variables related to categories and create the base
- * category list.
- */
-void creation_liste_categories ( void )
-{
-    liste_struct_categories = NULL;
-    nb_enregistrements_categories = 0;
-    no_derniere_categorie = 0;
-
-    /** In fact, we merge the category list with nothing, ending in
-     * creating the base categories. */
-    merge_liste_categories ();
-}
-
-
 
 /**
- * Merge existing category list with base categories.
- */
-void merge_liste_categories ( void )
-{
-    gint i;
-    gchar **categ;
-    gint debit;
-    struct struct_categ *categorie;
-
-    debit = 0;
-
-    /* récupération des crédits puis des débits*/
-    retour_recuperation :
-	if ( debit )
-	    categ = categories_de_base_debit;
-	else
-	    categ = categories_de_base_credit;
-
-    i = 0;
-
-    while ( categ[i] )
-    {
-	gchar **split_categ;
-	struct struct_sous_categ *sous_categ;
-
-	split_categ = g_strsplit ( _(categ[i]), " : ", 2 );
-
-	categorie = categ_par_nom( g_strstrip (g_strdup (split_categ[0])),
-				   1, debit, 0 );
-
-	if ( split_categ[1] )
-	    sous_categ = sous_categ_par_nom ( categorie,
-					      g_strstrip(g_strdup (split_categ[1])), 1 );
-
-	/* libère le tableau créé */
-	g_strfreev ( split_categ );
-
-	i++;
-    }
-
-    /*       si on a fait les crédits, on fait les débits */
-    if ( !debit )
-    {
-	debit = 1;
-	goto retour_recuperation;
-    }
-
-}
-
-
-
-/**
- * Create category list suitable for transaction form combofix.  In
- * fact, it create three lists in one : debit categories, credit
- * categories, special categories (transfer, breakdown, ...).
- */
-void creation_liste_categ_combofix ( void )
-{
-    GSList *pointeur, *liste_categ_credit, *liste_categ_debit, *liste_categ_special;
-    GSList *list_tmp;
-
-
-    if ( DEBUG )
-	printf ( "creation_liste_categ_combofix\n" );
-
-    liste_categories_combofix = NULL;
-    liste_categories_ventilation_combofix = NULL;
-    liste_categ_credit = NULL;
-    liste_categ_debit = NULL;
-
-    pointeur = liste_struct_categories;
-
-    while ( pointeur )
-    {
-	struct struct_categ *categorie;
-	GSList *sous_pointeur;
-
-	categorie = pointeur -> data;
-
-	if ( categorie -> type_categ )
-	    liste_categ_debit = g_slist_append ( liste_categ_debit,
-						 g_strdup ( categorie -> nom_categ ) );
-	else
-	    liste_categ_credit = g_slist_append ( liste_categ_credit,
-						  g_strdup ( categorie -> nom_categ ) );
-
-
-	sous_pointeur = categorie -> liste_sous_categ;
-
-	while ( sous_pointeur )
-	{
-	    struct struct_sous_categ *sous_categ;
-
-	    sous_categ = sous_pointeur -> data;
-
-	    if ( categorie -> type_categ )
-		liste_categ_debit = g_slist_append ( liste_categ_debit,
-						     g_strconcat ( "\t",
-								   sous_categ -> nom_sous_categ,
-								   NULL ) );
-	    else
-		liste_categ_credit = g_slist_append ( liste_categ_credit,
-						      g_strconcat ( "\t",
-								    sous_categ -> nom_sous_categ,
-								    NULL ) );
-
-	    sous_pointeur = sous_pointeur -> next;
-	}
-	pointeur = pointeur -> next;
-    }
-
-
-    /*   on ajoute les listes des crédits / débits à la liste du combofix du formulaire */
-    liste_categories_combofix = g_slist_append ( liste_categories_combofix,
-						 liste_categ_debit );
-    liste_categories_combofix = g_slist_append ( liste_categories_combofix,
-						 liste_categ_credit );
-
-    /*   on ajoute les listes des crédits / débits à la liste du
-     *   combofix des échéances  */
-    liste_categories_ventilation_combofix = g_slist_append ( liste_categories_ventilation_combofix,
-							     liste_categ_debit );
-    liste_categories_ventilation_combofix = g_slist_append ( liste_categories_ventilation_combofix,
-							     liste_categ_credit );
-
-    /* création des catégories spéciales : les virements et la
-     * ventilation pour le formulaire */
-    liste_categ_special = NULL;
-
-    liste_categ_special = g_slist_append ( liste_categ_special,
-					   _("Breakdown of transaction") );
-    liste_categ_special = g_slist_append ( liste_categ_special,
-					   _("Transfer") );
-
-    list_tmp = gsb_data_account_get_list_accounts ();
-
-    while ( list_tmp )
-    {
-	gint i;
-
-	i = gsb_data_account_get_no_account ( list_tmp -> data );
-	if ( ! gsb_data_account_get_closed_account (i) )
-	    liste_categ_special = g_slist_append ( liste_categ_special,
-						   g_strconcat ( "\t",
-								 gsb_data_account_get_name (i),
-								 NULL ));
-	list_tmp = list_tmp -> next;
-    }
-
-    liste_categories_combofix = g_slist_append ( liste_categories_combofix,
-						 liste_categ_special );
-
-    /* on saute le texte Opération ventilée */
-    liste_categ_special = liste_categ_special -> next;
-    liste_categories_ventilation_combofix = g_slist_append ( liste_categories_ventilation_combofix,
-							     liste_categ_special );
-
-}
-
-
-
-/**
- * Create category lists via creation_liste_categ_combofix() and
  * update category combofixes.
  */
 void mise_a_jour_combofix_categ ( void )
 {
+    GSList *list_tmp;
+
     if ( DEBUG )
 	printf ( "mise_a_jour_combofix_categ\n" );
 
-    creation_liste_categ_combofix ();
+    list_tmp = gsb_data_category_get_name_list ( TRUE,
+						 TRUE,
+						 TRUE,
+						 TRUE );
 
     if ( verifie_element_formulaire_existe ( TRANSACTION_FORM_CATEGORY )
 	 &&
 	 GTK_IS_COMBOFIX ( widget_formulaire_par_element (TRANSACTION_FORM_CATEGORY)))
 	gtk_combofix_set_list ( GTK_COMBOFIX ( widget_formulaire_par_element (TRANSACTION_FORM_CATEGORY) ),
-				liste_categories_combofix, TRUE, TRUE );
+				list_tmp, TRUE, TRUE );
 
     if ( GTK_IS_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_CATEGORY] ))
 	gtk_combofix_set_list ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_CATEGORY] ),
-				liste_categories_combofix, TRUE, TRUE );
+				list_tmp, TRUE, TRUE );
 
     if ( GTK_IS_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_BREAKDOWN_FORM_CATEGORY] ))
 	gtk_combofix_set_list ( GTK_COMBOFIX ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CATEGORY] ),
-				liste_categories_ventilation_combofix, TRUE, TRUE );
+				gsb_data_category_get_name_list ( TRUE,
+								  TRUE,
+								  TRUE,
+								  FALSE ),
+				TRUE, TRUE );
 
     /* FIXME : this should not be in this function */
     if ( etat_courant )
@@ -735,15 +565,10 @@ void importer_categ ( void )
     switch ( resultat )
     {
 	case 2 :
-	    /* si on a choisi de remplacer l'ancienne liste, on la vire ici */
+	    /* we want to replace the list */
 
 	    if ( !last_transaction_number )
-	    {
-		g_slist_free ( liste_struct_categories );
-		liste_struct_categories = NULL;
-		no_derniere_categorie = 0;
-		nb_enregistrements_categories = 0;
-	    }
+		gsb_data_category_init_variables ();
 
         case 1 :
 	    if ( !gsb_file_others_load_category ( nom_categ ))
@@ -891,33 +716,32 @@ gboolean edit_category ( GtkTreeView * view )
     GtkTreeSelection * selection;
     GtkTreeModel * model;
     GtkTreeIter iter;
-    gint no_division = -1, no_sub_division = -1;
-    struct struct_categ * categ = NULL;
-    struct struct_sous_categ * sous_categ = NULL;
     gchar * title;
+    gint category_number = -1;
+    gint sub_category_number = -1;
+
+    /* fill category_number and sub_category_number */
 
     selection = gtk_tree_view_get_selection ( view );
     if ( selection && gtk_tree_selection_get_selected(selection, &model, &iter))
     {
 	gtk_tree_model_get ( model, &iter, 
-			     META_TREE_POINTER_COLUMN, &categ,
-			     META_TREE_NO_DIV_COLUMN, &no_division,
-			     META_TREE_NO_SUB_DIV_COLUMN, &no_sub_division,
+			     META_TREE_NO_DIV_COLUMN, &category_number,
+			     META_TREE_NO_SUB_DIV_COLUMN, &sub_category_number,
 			     -1 );
     }
 
-    if ( !selection || no_division <= 0 || ! categ)
+    if ( !selection || category_number <= 0 )
 	return FALSE;
 
-    if ( no_sub_division > 0 )
-    {
-	sous_categ = (struct struct_sous_categ *) categ;
-	title = g_strdup_printf ( _("Properties for %s"), sous_categ -> nom_sous_categ );
-    }
+    if ( sub_category_number > 0 )
+	title = g_strdup_printf ( _("Properties for %s"), gsb_data_category_get_sub_category_name ( category_number,
+												    sub_category_number,
+												    _("No sub-category defined" )));
     else
-    {
-	title = g_strdup_printf ( _("Properties for %s"), categ -> nom_categ );
-    }
+	title = g_strdup_printf ( _("Properties for %s"), gsb_data_category_get_name ( category_number,
+										       0,
+										       _("No category defined") ));
 
     dialog = gtk_dialog_new_with_buttons ( title, GTK_WINDOW (window), GTK_DIALOG_MODAL,
 					   GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE, NULL);
@@ -940,21 +764,44 @@ gboolean edit_category ( GtkTreeView * view )
     gtk_table_attach ( GTK_TABLE(table), label, 0, 1, 0, 1,
 		       GTK_SHRINK | GTK_FILL, GTK_SHRINK | GTK_FILL, 0, 0 );
 
-    if ( sous_categ )
-	entry = new_text_entry ( &(sous_categ -> nom_sous_categ), NULL );
+    /* FIXME : should not work, replace new_text_entry ? */
+
+    if ( sub_category_number )
+    {
+	gchar *sub_category_name;
+
+	sub_category_name = gsb_data_category_get_sub_category_name ( category_number,
+								      sub_category_number,
+								      "" );
+	entry = new_text_entry ( &sub_category_name, NULL );
+    }
     else
-	entry = new_text_entry ( &(categ -> nom_categ), NULL );
+    {
+	gchar *category_name;
+
+	category_name = gsb_data_category_get_name ( category_number,
+						     0,
+						     "" );
+	entry = new_text_entry ( &category_name, NULL );
+    }
+
     gtk_widget_set_usize ( entry, 400, 0 );
     gtk_table_attach ( GTK_TABLE(table), entry, 1, 2, 0, 1, GTK_EXPAND|GTK_FILL, 0, 0, 0 );
 
-    if ( ! sous_categ )
+    if ( !sub_category_number )
     {
+	guint type;
+
 	/* Description entry */
 	label = gtk_label_new ( _("Type"));
 	gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.5 );
 	gtk_table_attach ( GTK_TABLE(table), label, 0, 1, 1, 2,
 			   GTK_SHRINK | GTK_FILL, GTK_SHRINK | GTK_FILL, 0, 0 );
-	radiogroup = new_radiogroup ( _("Credit"), _("Debit"), &(categ -> type_categ), NULL );
+	/* FIXME : must use other than new_radiogroup because &gsb_data_category_get_type (category_number) don't compile */
+	type = gsb_data_category_get_type (category_number);
+	radiogroup = new_radiogroup ( _("Credit"), _("Debit"),
+				      &type,
+				      NULL );
 	gtk_table_attach ( GTK_TABLE(table), radiogroup, 
 			   1, 2, 1, 2, GTK_EXPAND|GTK_FILL, 0, 0, 0 );
     }
@@ -967,16 +814,19 @@ gboolean edit_category ( GtkTreeView * view )
 
     mise_a_jour_combofix_categ ();
 
-    if ( sous_categ )
+    if ( sub_category_number )
     {
 	fill_sub_division_row ( model, category_interface,
-				get_iter_from_div ( model, no_division, no_sub_division ), 
-				categ_par_no ( no_division ), sous_categ );
+				get_iter_from_div ( model, category_number, sub_category_number ), 
+				gsb_data_category_get_structure ( category_number ),
+				gsb_data_category_get_sub_category_structure ( category_number,
+									       sub_category_number));
     }
     else
     {
 	fill_division_row ( model, category_interface,
-			    get_iter_from_div ( model, no_division, -1 ), categ );
+			    get_iter_from_div ( model, category_number, -1 ),
+			    gsb_data_category_get_structure ( category_number ));
     }
 
     return TRUE;

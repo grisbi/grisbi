@@ -51,63 +51,6 @@ extern GtkWidget *nom_exercice;
 
 
 
-/***********************************************************************************************************/
-/* Fonction recherche_categorie_par_nom */
-/***********************************************************************************************************/
-
-gint recherche_categorie_par_nom ( struct struct_categ *categorie,
-				   gchar *categ )
-{
-    return ( g_strcasecmp ( categorie -> nom_categ,
-			    categ ) );
-}
-/***********************************************************************************************************/
-
-
-/***********************************************************************************************************/
-/* Fonction recherche_sous_categorie_par_nom */
-/***********************************************************************************************************/
-
-gint recherche_sous_categorie_par_nom ( struct struct_sous_categ *sous_categorie,
-					gchar *sous_categ )
-{
-    return ( g_strcasecmp ( sous_categorie -> nom_sous_categ,
-			    sous_categ ) );
-}
-/***********************************************************************************************************/
-
-
-
-/***************************************************************************************************/
-/* Fonction  recherche_categorie_par_no */
-/* appelée par un g_slist_find_custom */
-/* donne en arg la struct du tiers et le no du tiers recherché */
-/***************************************************************************************************/
-
-gint recherche_categorie_par_no ( struct struct_categ *categorie,
-				  gint *no_categorie )
-{
-    return (  categorie ->  no_categ != GPOINTER_TO_INT ( no_categorie ) );
-}
-/***************************************************************************************************/
-
-
-/***************************************************************************************************/
-/* Fonction  recherche_sous_categorie_par_no */
-/* appelée par un g_slist_find_custom */
-/* donne en arg la struct du tiers et le no du tiers recherché */
-/***************************************************************************************************/
-
-gint recherche_sous_categorie_par_no ( struct struct_sous_categ *sous_categorie,
-				       gint *no_sous_categorie )
-{
-    return (  sous_categorie ->  no_sous_categ != GPOINTER_TO_INT ( no_sous_categorie ) );
-}
-/***************************************************************************************************/
-
-
-
-
 
 /* ************************************************************************************************************ */
 /* Fonction recherche_banque_par_no */

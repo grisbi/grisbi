@@ -36,6 +36,7 @@
 #include "utils_devises.h"
 #include "dialog.h"
 #include "utils_file_selection.h"
+#include "gsb_data_category.h"
 #include "gsb_data_transaction.h"
 #include "gsb_file_others.h"
 #include "gtk_combofix.h"
@@ -92,7 +93,6 @@ extern gchar *dernier_chemin_de_travail;
 extern struct struct_devise *devise_compte;
 extern struct struct_etat *etat_courant;
 extern GtkWidget *formulaire;
-extern GSList *liste_struct_categories;
 extern GtkTreeStore *model;
 extern gint modif_imputation;
 extern gint no_devise_totaux_tiers;
@@ -451,49 +451,53 @@ void fusion_categories_imputation ( void )
 {
     /* on fait le tour des catégories et on ajoute aux imputations celles qui n'existent pas */
 
-    GSList *liste_tmp;
+    GSList *list_tmp;
 
     if ( !question ( _("Warning: this will add all the categories and subcategories to the budgetary lines!\nBesides you can't cancel this afterwards.\nWe advise you not to use this unless you know exactly what you are doing.\nDo you want to continue anyway?") ))
 	return;
 
-    liste_tmp = liste_struct_categories;
+    list_tmp = gsb_data_category_get_categories_list ();
 
-    while ( liste_tmp )
+    while ( list_tmp )
     {
-	struct struct_categ *categorie;
+	gint category_number;
 	struct struct_imputation *imputation;
-	GSList *liste_sous_tmp;
+	GSList *sub_list_tmp;
 
-	categorie = liste_tmp -> data;
+	category_number = gsb_data_category_get_no_category (list_tmp -> data);
 
 	/* vérifie si une imputation du nom de la catégorie existe */
 
-	imputation = imputation_par_nom ( categorie -> nom_categ,
+	imputation = imputation_par_nom ( gsb_data_category_get_name ( category_number,
+								       0,
+								       NULL),
 					  1,
-					  categorie -> type_categ,
+					  gsb_data_category_get_type (category_number),
 					  0 );
 	
 	if ( imputation )
 	{
 	    /* on fait maintenant la comparaison avec les sous catég et les sous imputations */
 
-	    liste_sous_tmp = categorie -> liste_sous_categ;
+	    sub_list_tmp = gsb_data_category_get_sub_category_list (category_number);
 
-	    while ( liste_sous_tmp )
+	    while ( sub_list_tmp )
 	    {
-		struct struct_sous_categ *sous_categ;
+		gint sub_category_number;
 		struct struct_sous_imputation *sous_ib;
 
-		sous_categ = liste_sous_tmp -> data;
+		sub_category_number = gsb_data_category_get_no_sub_category (sub_list_tmp);
 
 		sous_ib = sous_imputation_par_nom ( imputation,
-						    sous_categ -> nom_sous_categ,
+						    gsb_data_category_get_sub_category_name ( category_number,
+											      sub_category_number,
+											      NULL ),
 						    1 );
 
-		liste_sous_tmp = liste_sous_tmp -> next;
+		sub_list_tmp = sub_list_tmp -> next;
 	    }
 	}
-	liste_tmp = liste_tmp -> next;
+	list_tmp = list_tmp -> next;
     }
 
     /* on met à jour les listes */

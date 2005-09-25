@@ -322,31 +322,31 @@ gboolean popup_payee_view_mode_menu ( GtkWidget * button )
 
 void remplit_arbre_tiers ( void )
 {
-    GSList *liste_payee_tmp;
+    GSList *payee_list_tmp;
     GtkTreeIter iter_payee;
-
-    /* Compute payee balances. */
-    gsb_data_payee_update_counters ();
 
     /** First, remove previous tree */
     gtk_tree_store_clear ( GTK_TREE_STORE (payee_tree_model) );
 
+    /* Compute payee balances. */
+    gsb_data_payee_update_counters ();
+
     /** Then, populate tree with payee. */
 
-    liste_payee_tmp = gsb_data_payee_get_payees_list ();
-    liste_payee_tmp = g_slist_prepend ( liste_payee_tmp, NULL );
+    payee_list_tmp = gsb_data_payee_get_payees_list ();
+    payee_list_tmp = g_slist_prepend ( payee_list_tmp, NULL );
 
-    while ( liste_payee_tmp )
+    while ( payee_list_tmp )
     {
 	gpointer payee;
 
-	payee = liste_payee_tmp -> data;
+	payee = payee_list_tmp -> data;
 
 	gtk_tree_store_append (GTK_TREE_STORE (payee_tree_model), &iter_payee, NULL);
 	fill_division_row ( GTK_TREE_MODEL(payee_tree_model), payee_interface, 
 			    &iter_payee, payee );
 
-	liste_payee_tmp = liste_payee_tmp -> next;
+	payee_list_tmp = payee_list_tmp -> next;
     }
 }
 

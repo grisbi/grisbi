@@ -54,6 +54,7 @@ static gboolean find_associated_transactions ( MetatreeInterface * iface,
 static gboolean find_destination_blob ( MetatreeInterface * iface, GtkTreeModel * model, 
 				 gpointer division, gpointer sub_division, 
 				 gint * no_div, gint * no_sub_div );
+static GtkTreeIter * get_iter_from_pointer ( GtkTreeModel * model, gpointer pointer );
 static gboolean metatree_get ( GtkTreeModel * model, GtkTreePath * path,
 			gint column, gpointer * data );
 static gboolean metatree_get_row_properties ( GtkTreeModel * tree_model, GtkTreePath * path, 

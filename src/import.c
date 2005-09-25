@@ -34,13 +34,13 @@
 #include "patienter.h"
 #include "utils.h"
 #include "utils_montants.h"
-#include "utils_categories.h"
 #include "comptes_gestion.h"
 #include "utils_devises.h"
 #include "dialog.h"
 #include "utils_file_selection.h"
 #include "utils_files.h"
 #include "gsb_data_account.h"
+#include "gsb_data_category.h"
 #include "gsb_data_payee.h"
 #include "gsb_data_transaction.h"
 #include "utils_dates.h"
@@ -1816,37 +1816,25 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
 	    }
 	    else
 	    {
-		struct struct_categ *categ;
+		/* it's a normal category */
+
+		gint category_number;
 
 		tab_str = g_strsplit ( imported_transaction -> categ,
 				       ":",
 				       2 );
 
+		/* get the category and create it if doesn't exist */
 
-		/* récupération ou création de la catégorie */
-
-		categ = categ_par_nom ( tab_str[0],
-					1,
-					imported_transaction -> montant < 0,
-					0 );
-
-		if ( categ )
-		{
-		    struct struct_sous_categ *sous_categ ;
-
-		    gsb_data_transaction_set_category_number ( transaction_number,
-							       categ -> no_categ );
-
-		    /* récupération ou création de la sous-catégorie */
-
-		    sous_categ = sous_categ_par_nom ( categ,
-						      g_strstrip ( tab_str[1]),
-						      1 );
-		    if ( sous_categ )
-			gsb_data_transaction_set_sub_category_number ( transaction_number,
-								       sous_categ -> no_sous_categ);
-		}
-		g_strfreev ( tab_str );
+		category_number = gsb_data_category_get_number_by_name ( g_strstrip (tab_str[0]),
+									 TRUE,
+									 imported_transaction -> montant < 0 );
+		gsb_data_transaction_set_category_number ( transaction_number,
+							   category_number );
+		gsb_data_transaction_set_sub_category_number ( transaction_number,
+							       gsb_data_category_get_sub_category_number_by_name ( category_number,
+														   g_strstrip (tab_str[1]),
+														   TRUE ));
 	    }
 	}
     }

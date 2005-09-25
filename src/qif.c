@@ -31,10 +31,10 @@
 #include "utils_files.h"
 #include "utils_str.h"
 #include "gsb_data_account.h"
+#include "gsb_data_category.h"
 #include "gsb_data_payee.h"
 #include "gsb_data_transaction.h"
 #include "utils.h"
-#include "utils_categories.h"
 #include "search_glist.h"
 #include "structures.h"
 #include "include.h"
@@ -1303,14 +1303,16 @@ choix_liste_fichier:
 					{
 					    fprintf ( fichier_qif,
 						      "L%s\n",
-						      nom_categ_par_no (gsb_data_transaction_get_category_number (transaction_number_tmp_2),
-									gsb_data_transaction_get_sub_category_number (transaction_number_tmp_2)));
+						      gsb_data_category_get_name (gsb_data_transaction_get_category_number (transaction_number_tmp_2),
+										  gsb_data_transaction_get_sub_category_number (transaction_number_tmp_2),
+										   _("No category defined")));
 					    mother_transaction_category_written = 1;
 					}
 					fprintf ( fichier_qif,
 						  "S%s\n",
-						  nom_categ_par_no (gsb_data_transaction_get_category_number (transaction_number_tmp_2),
-								    gsb_data_transaction_get_sub_category_number (transaction_number_tmp_2)));
+						  gsb_data_category_get_name (gsb_data_transaction_get_category_number (transaction_number_tmp_2),
+									      gsb_data_transaction_get_sub_category_number (transaction_number_tmp_2),
+									      _("No category defined")));
 				    }
 
 				    /* set the notes of the breakdown child */
@@ -1356,8 +1358,9 @@ choix_liste_fichier:
 
 				fprintf ( fichier_qif,
 					  "L%s\n",
-					  nom_categ_par_no (gsb_data_transaction_get_category_number (transaction_number_tmp),
-							    gsb_data_transaction_get_sub_category_number (transaction_number_tmp)));
+					  gsb_data_category_get_name (gsb_data_transaction_get_category_number (transaction_number_tmp),
+								      gsb_data_transaction_get_sub_category_number (transaction_number_tmp),
+								      FALSE ));
 			    }
 			}
 			fprintf ( fichier_qif,

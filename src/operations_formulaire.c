@@ -34,7 +34,6 @@
 #include "type_operations.h"
 #include "utils_editables.h"
 #include "utils_montants.h"
-#include "utils_categories.h"
 #include "operations_liste.h"
 #include "devises.h"
 #include "utils_devises.h"
@@ -42,6 +41,7 @@
 #include "equilibrage.h"
 #include "calendar.h"
 #include "gsb_data_account.h"
+#include "gsb_data_category.h"
 #include "gsb_data_payee.h"
 #include "gsb_data_transaction.h"
 #include "utils_dates.h"
@@ -122,7 +122,6 @@ extern GtkWidget *frame_droite_bas;
 extern gint hauteur_ligne_liste_opes;
 extern GtkItemFactory *item_factory_menu_general;
 extern gchar *last_date;
-extern GSList *liste_categories_combofix;
 extern GSList *liste_imputations_combofix;
 extern GSList *liste_struct_devises;
 extern GSList *liste_struct_etats;
@@ -158,10 +157,12 @@ GtkWidget *creation_formulaire ( void )
     couleur_normale.red = COULEUR_NOIRE_RED;
     couleur_normale.green = COULEUR_NOIRE_GREEN;
     couleur_normale.blue = COULEUR_NOIRE_BLUE;
+    couleur_normale.pixel = 0;
 
     couleur_grise.red = COULEUR_GRISE_RED;
     couleur_grise.green = COULEUR_GRISE_GREEN;
     couleur_grise.blue = COULEUR_GRISE_BLUE;
+    couleur_grise.pixel = 0;
 
     style_entree_formulaire[ENCLAIR] = gtk_style_new();
     style_entree_formulaire[ENCLAIR] -> text[GTK_STATE_NORMAL] = couleur_normale;
@@ -347,7 +348,7 @@ GtkWidget *cree_element_formulaire_par_no ( gint no_element )
 	case TRANSACTION_FORM_CATEGORY:
 	    /*  Affiche les catégories / sous-catégories */
 
-	    widget = gtk_combofix_new_complex ( liste_categories_combofix,
+	    widget = gtk_combofix_new_complex ( gsb_data_category_get_name_list (TRUE, TRUE, TRUE, TRUE),
 						FALSE,
 						TRUE,
 						TRUE,
@@ -1825,8 +1826,9 @@ gboolean completion_operation_par_tiers ( GtkWidget *entree )
 			{
 			    /* c'est des catégories normales */
 
-			    char_tmp = nom_categ_par_no ( gsb_data_transaction_get_category_number (transaction_number),
-							  gsb_data_transaction_get_sub_category_number (transaction_number));
+			    char_tmp = gsb_data_category_get_name ( gsb_data_transaction_get_category_number (transaction_number),
+								    gsb_data_transaction_get_sub_category_number (transaction_number),
+								    NULL );
 			    if ( char_tmp )
 			    {
 				entree_prend_focus ( widget );
@@ -3043,7 +3045,7 @@ gboolean gsb_form_get_categories ( gint transaction_number,
 		{
 		    /* c'est une catég normale, si c'est une modif d'opé, vérifier si ce n'était pas un virement */
 
-		    struct struct_categ *categ;
+		    gint category_number;
 
 		    if ( !new_transaction
 			 &&
@@ -3061,26 +3063,15 @@ gboolean gsb_form_get_categories ( gint transaction_number,
 									   0);
 		    }
 
-		    categ = categ_par_nom ( tab_char[0],
-					    1,
-					    gsb_data_transaction_get_amount (transaction_number)< 0,
-					    0 );
-
-		    if ( categ )
-		    {
-			struct struct_sous_categ *sous_categ;
-
-			gsb_data_transaction_set_category_number ( transaction_number,
-								   categ -> no_categ );
-
-			sous_categ = sous_categ_par_nom ( categ,
-							  tab_char[1],
-							  1 );
-
-			if ( sous_categ )
-			    gsb_data_transaction_set_sub_category_number ( transaction_number,
-									   sous_categ -> no_sous_categ );
-		    }
+		    category_number = gsb_data_category_get_number_by_name ( g_strstrip (tab_char[0]),
+									     TRUE,
+									     gsb_data_transaction_get_amount (transaction_number)<0 );
+		    gsb_data_transaction_set_category_number ( transaction_number,
+							       category_number );
+		    gsb_data_transaction_set_sub_category_number ( transaction_number,
+								   gsb_data_category_get_sub_category_number_by_name ( category_number,
+														       g_strstrip (tab_char[1]),
+														       TRUE ));
 		}
 	    }
 	    g_strfreev ( tab_char );

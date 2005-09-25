@@ -66,7 +66,7 @@ extern     gchar * buffer ;
 extern GSList *liste_struct_etats;
 /*END_EXTERN*/
 
-/** contains a g_slist of struct_payee */
+/** contains the g_slist of struct_payee */
 static GSList *payee_list;
 
 /** a pointer to the last payee used (to increase the speed) */
@@ -705,3 +705,4 @@ gpointer gsb_data_payee_get_without_payee ( void )
 {
     return (gpointer) without_payee;
 }
+

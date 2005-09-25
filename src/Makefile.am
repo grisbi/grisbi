@@ -92,7 +92,6 @@ sources = \
 	type_operations.c	\
 	utils.c			\
 	utils_buttons.c		\
-	utils_categories.c	\
 	utils_comptes.c		\
 	utils_dates.c		\
 	utils_devises.c		\
@@ -190,7 +189,6 @@ grisbi_INCLUDES =		\
 	utils.h			\
 	utils_c.h	\
 	utils_buttons.h		\
-	utils_categories.h	\
 	utils_comptes.h		\
 	utils_dates.h		\
 	utils_devises.h		\

@@ -40,6 +40,7 @@
 #include "echeancier_liste.h"
 #include "equilibrage.h"
 #include "gsb_data_account.h"
+#include "gsb_data_category.h"
 #include "gsb_data_payee.h"
 #include "gsb_data_transaction.h"
 #include "utils_dates.h"
@@ -52,7 +53,6 @@
 #include "tiers_onglet.h"
 #include "operations_comptes.h"
 #include "traitement_variables.h"
-#include "utils_categories.h"
 #include "utils_ib.h"
 #include "parametres.h"
 #include "utils_rapprochements.h"
@@ -2404,8 +2404,9 @@ gboolean gsb_transactions_list_edit_current_transaction ( void )
 			{
 			    /* c'est des catégories normales */
 
-			    char_tmp = nom_categ_par_no ( gsb_data_transaction_get_category_number ( transaction_number),
-							  gsb_data_transaction_get_sub_category_number ( transaction_number));
+			    char_tmp = gsb_data_category_get_name ( gsb_data_transaction_get_category_number ( transaction_number),
+								    gsb_data_transaction_get_sub_category_number ( transaction_number),
+								    NULL );
 			    if ( char_tmp )
 			    {
 				entree_prend_focus ( widget );
@@ -4592,8 +4593,9 @@ gchar *gsb_transactions_get_category_real_name ( gint transaction_number )
 	}
 	else
 	    /* it's a normal category */
-	    tmp = nom_categ_par_no ( gsb_data_transaction_get_category_number (transaction_number),
-				     gsb_data_transaction_get_sub_category_number (transaction_number));
+	    tmp = gsb_data_category_get_name ( gsb_data_transaction_get_category_number (transaction_number),
+					       gsb_data_transaction_get_sub_category_number (transaction_number),
+					       NULL );
     }
     return tmp;
 }

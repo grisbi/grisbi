@@ -29,7 +29,6 @@
 /*START_INCLUDE*/
 #include "echeancier_ventilation.h"
 #include "utils_editables.h"
-#include "utils_categories.h"
 #include "utils_exercices.h"
 #include "type_operations.h"
 #include "classement_operations.h"
@@ -39,6 +38,7 @@
 #include "utils_echeances.h"
 #include "operations_formulaire.h"
 #include "gsb_data_account.h"
+#include "gsb_data_category.h"
 #include "utils_dates.h"
 #include "echeancier_formulaire.h"
 #include "operations_liste.h"
@@ -107,7 +107,6 @@ extern GtkWidget *formulaire;
 extern GtkWidget *formulaire_echeancier;
 extern GtkWidget *formulaire_echeancier;
 extern GtkWidget *frame_droite_bas;
-extern GSList *liste_categories_ventilation_combofix;
 extern GSList *liste_imputations_combofix;
 extern GSList *liste_struct_echeances;
 extern gint mise_a_jour_combofix_categ_necessaire;
@@ -261,11 +260,14 @@ GtkWidget *creation_formulaire_ventilation_echeances ( void )
 
     /* mise en place des catégories */
 
-    widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CATEGORY] = gtk_combofix_new_complex ( liste_categories_ventilation_combofix,
-									    FALSE,
-									    TRUE,
-									    TRUE,
-									    0 );
+    widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CATEGORY] = gtk_combofix_new_complex ( gsb_data_category_get_name_list (TRUE,
+																	     TRUE,
+																	     TRUE,
+																	     FALSE ),
+													    FALSE,
+													    TRUE,
+													    TRUE,
+													    0 );
     gtk_signal_connect ( GTK_OBJECT ( GTK_COMBOFIX ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CATEGORY] ) -> entry ),
 			 "key_press_event",
 			 GTK_SIGNAL_FUNC ( appui_touche_ventilation_echeances ),
@@ -591,35 +593,35 @@ gboolean entree_ventilation_perd_focus_echeances ( GtkWidget *entree, GdkEventFo
 		/* si c'est un virement, on met le menu des types de l'autre compte */
 		/* si ce menu n'est pas déjà affiché */
 
-		gchar **tableau_char;
+		gchar **tab_char;
 
-		tableau_char = g_strsplit ( (char *) gtk_entry_get_text ( GTK_ENTRY ( entree )),
+		tab_char = g_strsplit ( (char *) gtk_entry_get_text ( GTK_ENTRY ( entree )),
 					    ":",
 					    2 );
 
-		tableau_char[0] = g_strstrip ( tableau_char[0] );
+		tab_char[0] = g_strstrip ( tab_char[0] );
 
-		if ( tableau_char[1] )
-		    tableau_char[1] = g_strstrip ( tableau_char[1] );
+		if ( tab_char[1] )
+		    tab_char[1] = g_strstrip ( tab_char[1] );
 
 
-		if ( strlen ( tableau_char[0] ) )
+		if ( strlen ( tab_char[0] ) )
 		{
-		    if ( !strcmp ( tableau_char[0],
+		    if ( !strcmp ( tab_char[0],
 				   _("Transfer") )
-			 && tableau_char[1]
-			 && strlen ( tableau_char[1]) )
+			 && tab_char[1]
+			 && strlen ( tab_char[1]) )
 		    {
 			/* c'est un virement : on recherche le compte associé et on affiche les types de paiement */
 
-			if ( strcmp ( tableau_char[1],
+			if ( strcmp ( tab_char[1],
 				      _("Deleted account") ) )
 			{
 			    /* recherche le no de compte du virement */
 
 			    gint compte_virement;
 
-			    compte_virement = gsb_data_account_get_no_account_by_name ( tableau_char[1] );
+			    compte_virement = gsb_data_account_get_no_account_by_name ( tab_char[1] );
 
 			    /* si on a touvé un compte de virement, que celui ci n'est pas le compte */
 			    /* courant et que son menu des types n'est pas encore affiché, on crée le menu */
@@ -676,7 +678,7 @@ gboolean entree_ventilation_perd_focus_echeances ( GtkWidget *entree, GdkEventFo
 		else
 		    gtk_widget_hide ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CONTRA] );
 
-		g_strfreev ( tableau_char );
+		g_strfreev ( tab_char );
 	    }
 	    else
 		texte = _("Categories : Sub-categories");
@@ -1351,14 +1353,14 @@ void fin_edition_ventilation_echeances ( void )
 {
     struct struct_ope_ventil *operation;
     gint modification;
-    gchar **tableau_char;
+    gchar **tab_char;
     gint compte_vire;
     gint perte_ligne_selectionnee;
 
     /* pour éviter les warnings lors de la compil */
 
     compte_vire = 0;
-    tableau_char = NULL;
+    tab_char = NULL;
 
     /* on met le focus sur la liste des opés pour éventuellement faire perdre le focus aux entrées des */
     /* montants pour faire les modifs nécessaires automatiquement */
@@ -1383,23 +1385,23 @@ void fin_edition_ventilation_echeances ( void )
     {
 	/*       on split déjà les catég, sans libérer la variable, pour la récupérer ensuite pour les categ */
 
-	tableau_char = g_strsplit ( g_strstrip ( gtk_combofix_get_text ( GTK_COMBOFIX ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CATEGORY] ))),
+	tab_char = g_strsplit ( g_strstrip ( gtk_combofix_get_text ( GTK_COMBOFIX ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CATEGORY] ))),
 				    ":",
 				    2 );
-	if ( tableau_char[0]  )
+	if ( tab_char[0]  )
 	{
-	    tableau_char[0] = g_strstrip ( tableau_char[0] );
+	    tab_char[0] = g_strstrip ( tab_char[0] );
 
-	    if ( tableau_char[1] )
-		tableau_char[1] = g_strstrip ( tableau_char[1] );
+	    if ( tab_char[1] )
+		tab_char[1] = g_strstrip ( tab_char[1] );
 
 
-	    if ( !strcmp ( tableau_char[0],
+	    if ( !strcmp ( tab_char[0],
 			   _("Transfer")))
 	    {
-		if ( tableau_char[1] )
+		if ( tab_char[1] )
 		{
-		    compte_vire = gsb_data_account_get_no_account_by_name ( tableau_char[1] );
+		    compte_vire = gsb_data_account_get_no_account_by_name ( tab_char[1] );
 
 		    if ( compte_vire == -1 )
 		    {
@@ -1445,7 +1447,7 @@ void fin_edition_ventilation_echeances ( void )
 
 
     /*   récupération des catégories / sous-catég, s'ils n'existent pas, on les crée */
-    /* la variable tableau_char est déjà initialisée lors des tests du virement */
+    /* la variable tab_char est déjà initialisée lors des tests du virement */
 
     /*   il y a 3 possibilités en rapport avec les virements : */
     /* si l'ancienne opé était un virement, la nouvelle est : */
@@ -1460,20 +1462,20 @@ void fin_edition_ventilation_echeances ( void )
 
     if ( gtk_widget_get_style ( GTK_COMBOFIX ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CATEGORY] ) -> entry ) == style_entree_formulaire[ENCLAIR] )
     {
-	struct struct_categ *categ;
-
-	tableau_char = g_strsplit ( g_strstrip ( gtk_combofix_get_text ( GTK_COMBOFIX ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CATEGORY] ))),
+	tab_char = g_strsplit ( g_strstrip ( gtk_combofix_get_text ( GTK_COMBOFIX ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CATEGORY] ))),
 				    ":",
 				    2 );
 
- 	if ( strlen ( tableau_char[0] ) )
+ 	if ( strlen ( tab_char[0] ) )
 	{
 	    /* on vérifie ici si c'est un virement */
 
-	    if ( strcmp ( tableau_char[0],
+	    if ( strcmp ( tab_char[0],
 			  _("Transfer") ) )
 	    {
 		/* ce n'est pas un virement, recherche les catég */
+
+		gint category_number;
 
 		/* si c'est une modif d'opé et que l'ancienne opé était un virement */
 		/* on marque cette opé comme supprimée et on en fait une nouvelle */
@@ -1491,25 +1493,14 @@ void fin_edition_ventilation_echeances ( void )
 
 		/* recherche des catégories */
 
-		categ = categ_par_nom ( tableau_char[0],
-					1,
-					operation -> montant,
-					0 );
 
-
-		if ( categ )
-		{
-		    struct struct_sous_categ *sous_categ;
-
-		    operation -> categorie = categ -> no_categ;
-
-		    sous_categ = sous_categ_par_nom ( categ,
-						      tableau_char[1],
-						      1 );
-
-		    if ( sous_categ )
-			operation -> sous_categorie = sous_categ -> no_sous_categ;
-		}
+		category_number = gsb_data_category_get_number_by_name ( tab_char[0],
+									 TRUE,
+									 operation -> montant < 0 );
+		operation -> categorie = category_number;
+		operation -> sous_categorie = gsb_data_category_get_sub_category_number_by_name ( category_number,
+												  tab_char[1],
+												  TRUE );
 	    }
 	    else
 	    {
@@ -1551,9 +1542,9 @@ void fin_edition_ventilation_echeances ( void )
 		operation -> relation_no_compte = compte_vire;
 	    }
 	}
-	/*       on peut maintenant libérer la variable tableau_char, qui ne sera plus utilisée */
+	/*       on peut maintenant libérer la variable tab_char, qui ne sera plus utilisée */
 
-	g_strfreev ( tableau_char );
+	g_strfreev ( tab_char );
     }
     else
     {
@@ -1590,13 +1581,13 @@ void fin_edition_ventilation_echeances ( void )
     if ( gtk_widget_get_style ( GTK_COMBOFIX ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_BUDGETARY] ) -> entry ) == style_entree_formulaire[ENCLAIR] )
     {
 	struct struct_imputation *imputation;
-	gchar **tableau_char;
+	gchar **tab_char;
 
-	tableau_char = g_strsplit ( gtk_combofix_get_text ( GTK_COMBOFIX ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_BUDGETARY] )),
+	tab_char = g_strsplit ( gtk_combofix_get_text ( GTK_COMBOFIX ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_BUDGETARY] )),
 				    ":",
 				    2 );
 
-	imputation = imputation_par_nom ( tableau_char[0],
+	imputation = imputation_par_nom ( tab_char[0],
 					  1,
 					  operation -> montant,
 					  0 );
@@ -1608,7 +1599,7 @@ void fin_edition_ventilation_echeances ( void )
 	    operation -> imputation = imputation -> no_imputation;
 
 	    sous_imputation = sous_imputation_par_nom ( imputation,
-							tableau_char[1],
+							tab_char[1],
 							1 );
 
 	    if ( sous_imputation )
@@ -1619,7 +1610,7 @@ void fin_edition_ventilation_echeances ( void )
 	else
 	    operation -> imputation = 0;
 
-	g_strfreev ( tableau_char );
+	g_strfreev ( tab_char );
     }
 
     /* récupération de l'exercice */
@@ -1808,8 +1799,9 @@ void edition_operation_ventilation_echeances ( void )
     }
     else
     {
-	char_tmp = nom_categ_par_no ( operation -> categorie,
-				      operation -> sous_categorie );
+	char_tmp = gsb_data_category_get_name ( operation -> categorie,
+						operation -> sous_categorie,
+						NULL );
 	if ( char_tmp )
 	{
 	    entree_prend_focus (widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CATEGORY] );
@@ -2025,8 +2017,9 @@ void ajoute_ope_sur_liste_ventilation_echeances ( struct struct_ope_ventil *oper
     {
 	/* c'est des categ : sous categ */
 
-	ligne[0] = nom_categ_par_no ( operation -> categorie,
-				      operation -> sous_categorie );
+	ligne[0] = gsb_data_category_get_name ( operation -> categorie,
+						operation -> sous_categorie,
+						NULL );
    }
 
 

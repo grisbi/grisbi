@@ -1057,8 +1057,6 @@ gboolean navigation_drag_data_received ( GtkTreeDragDest * drag_dest,
 					 GtkTreePath * dest_path,
 					 GtkSelectionData * selection_data )
 {
-    GtkTreePath * path;
-
     printf ("navigation_drag_data_received %p, %p\n", dest_path, selection_data);
 
     if ( dest_path && selection_data )

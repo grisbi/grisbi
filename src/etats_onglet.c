@@ -1054,7 +1054,7 @@ void dupliquer_etat ( void )
 						  g_date_month ( etat_courant -> date_perso_fin ),
 						  g_date_year ( etat_courant -> date_perso_fin ));
 
-    etat -> type_classement = g_list_copy ( etat_courant -> type_classement );
+    etat -> type_classement = g_slist_copy ( etat_courant -> type_classement );
     etat -> no_comptes = g_slist_copy ( etat_courant -> no_comptes );
     etat -> no_comptes_virements = g_slist_copy ( etat_courant -> no_comptes_virements );
     etat -> no_categ = g_slist_copy ( etat_courant -> no_categ );

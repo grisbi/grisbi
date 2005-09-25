@@ -18,8 +18,8 @@
 
 /* constantes definissant le niveau de debug */
 #define	DEBUG_LEVEL_ALERT			1		/* grave probleme */
-#define DEBUG_LEVEL_IMPORTANT	2		/* probleme moins grave */
-#define DEBUG_LEVEL_NOTICE		3		/* probleme encore moins grave :) */
+#define DEBUG_LEVEL_IMPORTANT			2		/* probleme moins grave */
+#define DEBUG_LEVEL_NOTICE			3		/* probleme encore moins grave :) */
 #define DEBUG_LEVEL_INFO			4		/* autre information */
 #define DEBUG_LEVEL_DEBUG			5		/* information de debug */
 #define MAX_DEBUG_LEVEL				5		/* ignore higher debug levels */
@@ -185,40 +185,6 @@ struct operation_echeance
 
 #define COMPTE_ECHEANCE GTK_LABEL (GTK_BIN ( widget_formulaire_echeancier[5]  )  -> child ) -> label
 #define ECHEANCE_COURANTE ((struct operation_echeance *)  ( pointeur_liste -> data ))
-
-
-struct struct_tiers
-{
-    guint no_tiers;
-    gchar *nom_tiers;
-    gchar *texte;                  /* contient le texte associé au tiers */
-    gint liaison;                    /* à 1 si ce tiers est lié à un autre logiciel */
-    gint nb_transactions;
-    gint balance;
-};
-
-
-struct struct_categ
-{
-    gint no_categ;
-    gchar *nom_categ;
-    gint type_categ;                   /* 0=crédit ; 1 = débit ; 2 = spécial */
-    gint no_derniere_sous_categ;
-    GSList *liste_sous_categ;
-    gint nb_transactions;
-    gint nb_direct_transactions;
-    gdouble balance;
-    gdouble direct_balance;
-};
-
-struct struct_sous_categ
-{
-    gint no_sous_categ;
-    gchar *nom_sous_categ;
-    gint nb_transactions;
-    gdouble balance;
-};
-
 
 
 

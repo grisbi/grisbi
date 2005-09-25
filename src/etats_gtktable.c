@@ -117,6 +117,7 @@ void gtktable_attach_label ( gchar * text, gdouble properties, int x, int x2, in
 	color.red =   1.00 * 65535 ;
 	color.green = 0.00 * 65535 ;
 	color.blue =  0.00 * 65535 ;
+	color.pixel = 0;
 	style->fg[GTK_STATE_PRELIGHT] = color;
 
 	event_box = gtk_event_box_new ();
