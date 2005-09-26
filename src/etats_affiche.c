@@ -33,11 +33,11 @@
 #include "etats_support.h"
 #include "utils_exercices.h"
 #include "gsb_data_account.h"
+#include "gsb_data_budget.h"
 #include "gsb_data_category.h"
 #include "gsb_data_payee.h"
 #include "gsb_data_transaction.h"
 #include "utils_dates.h"
-#include "utils_ib.h"
 #include "utils_rapprochements.h"
 #include "utils_types.h"
 #include "utils_str.h"
@@ -1257,8 +1257,9 @@ gint etat_affiche_affichage_ligne_ope ( gpointer operation,
 	    {
 		gchar *pointeur;
 
-		pointeur = nom_imputation_par_no ( gsb_data_transaction_get_budgetary_number ( transaction_number),
-						   gsb_data_transaction_get_sub_budgetary_number ( transaction_number));
+		pointeur = gsb_data_budget_get_name ( gsb_data_transaction_get_budgetary_number ( transaction_number),
+						      gsb_data_transaction_get_sub_budgetary_number ( transaction_number),
+						      NULL );
 
 		if ( etat_courant -> ope_clickables )
 		{
@@ -1807,8 +1808,9 @@ gint etat_affiche_affiche_ib_etat ( gpointer operation,
 	{
 	    if ( gsb_data_transaction_get_budgetary_number ( gsb_data_transaction_get_transaction_number (operation )))
 	    {
-		nom_ib_en_cours = nom_imputation_par_no ( gsb_data_transaction_get_budgetary_number ( gsb_data_transaction_get_transaction_number (operation )),
-							  0 );
+		nom_ib_en_cours = gsb_data_budget_get_name ( gsb_data_transaction_get_budgetary_number ( gsb_data_transaction_get_transaction_number (operation )),
+							     0,
+							     NULL );
 
 		pointeur_char = g_strconcat ( decalage_ib,
 					      nom_ib_en_cours,
@@ -1885,8 +1887,9 @@ gint etat_affiche_affiche_sous_ib_etat ( gpointer operation,
 
 	if ( etat_courant -> afficher_nom_ib )
 	{
-	    nom_ss_ib_en_cours = nom_sous_imputation_par_no ( gsb_data_transaction_get_budgetary_number ( gsb_data_transaction_get_transaction_number (operation )),
-							      gsb_data_transaction_get_sub_budgetary_number ( gsb_data_transaction_get_transaction_number (operation )));
+	    nom_ss_ib_en_cours = gsb_data_budget_get_sub_budget_name ( gsb_data_transaction_get_budgetary_number ( gsb_data_transaction_get_transaction_number (operation )),
+								       gsb_data_transaction_get_sub_budgetary_number ( gsb_data_transaction_get_transaction_number (operation )),
+								       NULL );
 	    if ( nom_ss_ib_en_cours )
 		pointeur_char = g_strconcat ( decalage_sous_ib,
 					      nom_ss_ib_en_cours,

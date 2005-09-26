@@ -100,7 +100,6 @@ sources = \
 	utils_exercices.c	\
 	utils_file_selection.c \
 	utils_files.c		\
-	utils_ib.c		\
 	utils_montants.c	\
 	utils_operations.c	\
 	utils_rapprochements.c	\
@@ -197,7 +196,6 @@ grisbi_INCLUDES =		\
 	utils_exercices.h	\
 	utils_file_selection.h \
 	utils_files.h		\
-	utils_ib.h		\
 	utils_montants.h	\
 	utils_operations.h	\
 	utils_rapprochements.h	\

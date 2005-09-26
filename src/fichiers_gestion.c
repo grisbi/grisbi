@@ -34,7 +34,6 @@
 #include "patienter.h"
 #include "utils_montants.h"
 #include "fenetre_principale.h"
-#include "imputation_budgetaire.h"
 #include "comptes_traitements.h"
 #include "dialog.h"
 #include "erreur.h"
@@ -447,10 +446,6 @@ gboolean gsb_file_open_file ( gchar *filename )
     mise_a_jour_liste_comptes_accueil = 1;
     mise_a_jour_soldes_minimaux = 1;
     mise_a_jour_fin_comptes_passifs = 1;
-
-    /* make all the combofix's lists */
-    
-    creation_liste_imputation_combofix ();
 
     /* we make the main window */
 

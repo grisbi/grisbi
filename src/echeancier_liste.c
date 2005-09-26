@@ -38,6 +38,7 @@
 #include "operations_formulaire.h"
 #include "utils_dates.h"
 #include "gsb_data_account.h"
+#include "gsb_data_budget.h"
 #include "gsb_data_category.h"
 #include "gsb_data_payee.h"
 #include "fenetre_principale.h"
@@ -46,7 +47,6 @@
 #include "traitement_variables.h"
 #include "utils_buttons.h"
 #include "utils.h"
-#include "utils_ib.h"
 #include "utils_comptes.h"
 #include "operations_liste.h"
 #include "utils_str.h"
@@ -1130,8 +1130,9 @@ void edition_echeance ( void )
 
     /* met en place l'imputation budgétaire */
 
-    char_tmp = nom_imputation_par_no ( echeance_selectionnnee -> imputation,
-				       echeance_selectionnnee -> sous_imputation );
+    char_tmp = gsb_data_budget_get_name ( echeance_selectionnnee -> imputation,
+					  echeance_selectionnnee -> sous_imputation,
+					  NULL );
 
     if ( char_tmp )
     {

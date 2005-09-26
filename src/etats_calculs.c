@@ -28,10 +28,10 @@
 #include "utils_devises.h"
 #include "etats_affiche.h"
 #include "gsb_data_account.h"
+#include "gsb_data_budget.h"
 #include "gsb_data_category.h"
 #include "gsb_data_payee.h"
 #include "gsb_data_transaction.h"
-#include "utils_ib.h"
 #include "utils_rapprochements.h"
 #include "utils_types.h"
 #include "utils_str.h"
@@ -1007,15 +1007,17 @@ gchar *recupere_texte_test_etat ( gpointer operation,
 	case 4:
 	    /* ib */
 
-	    texte = nom_imputation_par_no ( gsb_data_transaction_get_budgetary_number (transaction_number),
-					    0 );
+	    texte = gsb_data_budget_get_name ( gsb_data_transaction_get_budgetary_number (transaction_number),
+					       0,
+					       NULL );
 	    break;
 
 	case 5:
 	    /* ss-ib */
 
-	    texte = nom_imputation_par_no ( gsb_data_transaction_get_budgetary_number (transaction_number),
-					    gsb_data_transaction_get_sub_budgetary_number (transaction_number));
+	    texte = gsb_data_budget_get_name ( gsb_data_transaction_get_budgetary_number (transaction_number),
+					       gsb_data_transaction_get_sub_budgetary_number (transaction_number),
+					       NULL );
 	    break;
 
 	case 6:
@@ -1744,8 +1746,12 @@ gint classement_ope_perso_etat ( gpointer operation_1,
 		       !gsb_data_transaction_get_sub_budgetary_number ( transaction_number_2)))
 		    retour = gsb_data_transaction_get_sub_budgetary_number ( transaction_number_2) - gsb_data_transaction_get_sub_budgetary_number ( transaction_number_1);
 		else
-		    retour = g_strcasecmp ( nom_imputation_par_no ( gsb_data_transaction_get_budgetary_number ( transaction_number_1), gsb_data_transaction_get_sub_budgetary_number ( transaction_number_1)),
-					    nom_imputation_par_no ( gsb_data_transaction_get_budgetary_number ( transaction_number_2), gsb_data_transaction_get_sub_budgetary_number ( transaction_number_2)));
+		    retour = g_strcasecmp ( gsb_data_budget_get_name ( gsb_data_transaction_get_budgetary_number ( transaction_number_1),
+								       gsb_data_transaction_get_sub_budgetary_number ( transaction_number_1),
+								       NULL ),
+					    gsb_data_budget_get_name ( gsb_data_transaction_get_budgetary_number ( transaction_number_2),
+								       gsb_data_transaction_get_sub_budgetary_number ( transaction_number_2),
+								       NULL ));
 	    }
 	    break;
 

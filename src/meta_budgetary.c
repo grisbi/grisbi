@@ -25,8 +25,8 @@
 
 /*START_INCLUDE*/
 #include "meta_budgetary.h"
-#include "utils_ib.h"
 #include "utils_devises.h"
+#include "gsb_data_budget.h"
 #include "gsb_data_transaction.h"
 #include "imputation_budgetaire.h"
 #include "include.h"
@@ -42,20 +42,15 @@ static gboolean budgetary_line_add_transaction_to_div ( gpointer  trans,
 static gboolean budgetary_line_add_transaction_to_sub_div ( gpointer  trans, 
 						     int div_id, int sub_div_id );
 static gdouble budgetary_line_div_balance ( gpointer div );
-static gint budgetary_line_div_id ( gpointer budgetary_line );
-static GSList * budgetary_line_div_list ( );
 static gchar * budgetary_line_div_name ( gpointer div );
 static gint budgetary_line_div_nb_transactions ( gpointer div );
 static GSList * budgetary_line_div_sub_div_list ( gpointer div );
 static gint budgetary_line_div_type ( gpointer div );
-static gpointer budgetary_line_get_div_pointer ( int div_id );
 static gpointer budgetary_line_get_div_pointer_from_name ( gchar * name, gboolean create );
 static gpointer budgetary_line_get_sub_div_pointer ( int div_id, int sub_div_id );
 static gpointer budgetary_line_get_sub_div_pointer_from_name ( int div_id, gchar * name, 
 							gboolean create );
 static gpointer budgetary_line_get_without_div_pointer ( );
-static gboolean budgetary_line_remove_div ( int div_id );
-static gboolean budgetary_line_remove_sub_div ( int div_id, int sub_div_id );
 static gboolean budgetary_line_remove_transaction_from_div ( gpointer  trans, 
 						      int div_id );
 static gboolean budgetary_line_remove_transaction_from_sub_div ( gpointer  trans, 
@@ -67,7 +62,6 @@ static void budgetary_line_scheduled_set_sub_div_id ( struct operation_echeance 
 					       int no_sub_div );
 static gint budgetary_line_scheduled_sub_div_id ( struct operation_echeance * scheduled );
 static gdouble budgetary_line_sub_div_balance ( gpointer div, gpointer sub_div );
-static gint budgetary_line_sub_div_id ( gpointer sub_budgetary_line );
 static gchar * budgetary_line_sub_div_name ( gpointer sub_div );
 static gint budgetary_line_sub_div_nb_transactions ( gpointer div, gpointer sub_div );
 static gint budgetary_line_transaction_div_id ( gpointer  transaction );
@@ -80,10 +74,7 @@ static struct struct_devise * budgetary_line_tree_currency ( );
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern GSList *liste_struct_imputation;
-extern gint mise_a_jour_combofix_imputation_necessaire;
 extern GtkTreeStore *model;
-extern gint nb_enregistrements_imputations;
 extern gint no_devise_totaux_ib;
 /*END_EXTERN*/
 
@@ -95,7 +86,7 @@ static MetatreeInterface _budgetary_interface = {
     N_("No budgetary line"),
     N_("No sub-budgetary line"),
     budgetary_line_get_without_div_pointer,
-    budgetary_line_get_div_pointer,
+    gsb_data_budget_get_structure,
     budgetary_line_get_sub_div_pointer,
     budgetary_line_get_div_pointer_from_name,
     budgetary_line_get_sub_div_pointer_from_name,
@@ -105,9 +96,9 @@ static MetatreeInterface _budgetary_interface = {
     budgetary_line_sub_div_name,
     budgetary_line_div_balance,
     budgetary_line_sub_div_balance,
-    budgetary_line_div_id,
-    budgetary_line_sub_div_id,
-    budgetary_line_div_list,
+    gsb_data_budget_get_no_budget,
+    gsb_data_budget_get_no_sub_budget,
+    gsb_data_budget_get_budgets_list,
     budgetary_line_div_sub_div_list,
     budgetary_line_div_type,
 
@@ -122,8 +113,8 @@ static MetatreeInterface _budgetary_interface = {
 
     budgetary_line_add_div,
     budgetary_line_add_sub_div,
-    budgetary_line_remove_div,
-    budgetary_line_remove_sub_div,
+    gsb_data_budget_remove,
+    gsb_data_budget_sub_budget_remove,
     budgetary_line_add_transaction_to_div,
     budgetary_line_add_transaction_to_sub_div,
     budgetary_line_remove_transaction_from_div,
@@ -131,7 +122,6 @@ static MetatreeInterface _budgetary_interface = {
 };
 
 MetatreeInterface * budgetary_interface = &_budgetary_interface;
-struct struct_imputation * without_budgetary_line;
 
 
 /**
@@ -151,18 +141,7 @@ struct struct_devise * budgetary_line_tree_currency ( )
  */
 gpointer budgetary_line_get_without_div_pointer ( )
 {
-    return (gpointer) without_budgetary_line;
-}
-
-
-
-/**
- *
- *
- */
-gpointer budgetary_line_get_div_pointer ( int div_id )
-{
-    return (gpointer) imputation_par_no ( div_id );
+    return NULL;
 }
 
 
@@ -173,7 +152,7 @@ gpointer budgetary_line_get_div_pointer ( int div_id )
  */
 gpointer budgetary_line_get_sub_div_pointer ( int div_id, int sub_div_id )
 {
-    return sous_imputation_par_no ( div_id, sub_div_id );
+    return gsb_data_budget_get_sub_budget_structure ( div_id, sub_div_id );
 }
 
 
@@ -184,7 +163,7 @@ gpointer budgetary_line_get_sub_div_pointer ( int div_id, int sub_div_id )
  */
 gpointer budgetary_line_get_div_pointer_from_name ( gchar * name, gboolean create )
 {
-    return imputation_par_nom ( name, create, 0, 0 );
+    return gsb_data_budget_get_structure (gsb_data_budget_get_number_by_name ( name, create, 0 ));
 }
 
 
@@ -196,7 +175,8 @@ gpointer budgetary_line_get_div_pointer_from_name ( gchar * name, gboolean creat
 gpointer budgetary_line_get_sub_div_pointer_from_name ( int div_id, gchar * name, 
 							gboolean create )
 {
-    return sous_imputation_par_nom ( budgetary_line_get_div_pointer (div_id), name, create );
+    return gsb_data_budget_get_sub_budget_structure ( div_id,
+							  gsb_data_budget_get_sub_budget_number_by_name( div_id, name, create));
 }
 
 
@@ -207,7 +187,11 @@ gpointer budgetary_line_get_sub_div_pointer_from_name ( int div_id, gchar * name
  */
 gint budgetary_line_div_nb_transactions ( gpointer div )
 {
-    return ((struct struct_imputation *) div) -> nb_transactions;
+    gint budget_number;
+
+    budget_number = gsb_data_budget_get_no_budget (div);
+
+    return gsb_data_budget_get_nb_transactions ( budget_number );
 }
 
 
@@ -218,13 +202,20 @@ gint budgetary_line_div_nb_transactions ( gpointer div )
  */
 gint budgetary_line_sub_div_nb_transactions ( gpointer div, gpointer sub_div )
 {
+    gint budget_number;
+    gint sub_budget_number;
+
+    budget_number = gsb_data_budget_get_no_budget (div);
+    sub_budget_number = gsb_data_budget_get_no_sub_budget (sub_div);
+
     if ( sub_div )
     {
-	return ((struct struct_sous_imputation *) sub_div) -> nb_transactions;
+	return gsb_data_budget_get_sub_budget_nb_transactions ( budget_number,
+								    sub_budget_number );
     }
     else if ( div )
     {
-	return ((struct struct_imputation *) div) -> nb_direct_transactions;
+	return gsb_data_budget_get_nb_direct_transactions (budget_number);
     }
     return 0;
 }
@@ -237,7 +228,13 @@ gint budgetary_line_sub_div_nb_transactions ( gpointer div, gpointer sub_div )
  */
 gchar * budgetary_line_div_name ( gpointer div )
 {
-    return ((struct struct_imputation *) div) -> nom_imputation;
+    gint budget_number;
+
+    budget_number = gsb_data_budget_get_no_budget (div);
+
+    return gsb_data_budget_get_name ( budget_number,
+					0,
+					"" );
 }
 
 
@@ -248,9 +245,15 @@ gchar * budgetary_line_div_name ( gpointer div )
  */
 gchar * budgetary_line_sub_div_name ( gpointer sub_div )
 {
-    if ( sub_div )
-	return ((struct struct_sous_imputation *) sub_div) -> nom_sous_imputation;
-    return "";
+    gint budget_number;
+    gint sub_budget_number;
+
+    budget_number = gsb_data_budget_get_no_budget_from_sub_budget (sub_div);
+    sub_budget_number = gsb_data_budget_get_no_sub_budget (sub_div);
+
+    return gsb_data_budget_get_sub_budget_name ( budget_number,
+						     sub_budget_number,
+						     "" );
 }
 
 
@@ -261,7 +264,11 @@ gchar * budgetary_line_sub_div_name ( gpointer sub_div )
  */
 gdouble budgetary_line_div_balance ( gpointer div )
 {
-    return ((struct struct_imputation *) div) -> balance;
+    gint budget_number;
+
+    budget_number = gsb_data_budget_get_no_budget (div);
+
+    return gsb_data_budget_get_balance ( budget_number );
 }
 
 
@@ -272,53 +279,26 @@ gdouble budgetary_line_div_balance ( gpointer div )
  */
 gdouble budgetary_line_sub_div_balance ( gpointer div, gpointer sub_div )
 {
+    gint budget_number;
+    gint sub_budget_number;
+
+    budget_number = gsb_data_budget_get_no_budget (div);
+    sub_budget_number = gsb_data_budget_get_no_sub_budget (sub_div);
+
     if ( sub_div )
     {
-	return ((struct struct_sous_imputation *) sub_div) -> balance;
+	return gsb_data_budget_get_sub_budget_balance ( budget_number,
+							    sub_budget_number );
     }
     else if ( div )
     {
-	return ((struct struct_imputation *) div) -> direct_balance;
+	return gsb_data_budget_get_direct_balance ( budget_number );
     }
     return 0;
 }
 
 
 
-/**
- *
- *
- */
-gint budgetary_line_div_id ( gpointer budgetary_line )
-{
-    if ( budgetary_line )
-	return ((struct struct_imputation *) budgetary_line) -> no_imputation;
-    return 0;
-}
-
-
-
-/**
- *
- *
- */
-gint budgetary_line_sub_div_id ( gpointer sub_budgetary_line )
-{
-    if ( sub_budgetary_line )
-	return ((struct struct_sous_imputation *) sub_budgetary_line) -> no_sous_imputation;
-    return 0;
-}
-
-
-
-/**
- *
- *
- */
-GSList * budgetary_line_div_list ( )
-{
-    return liste_struct_imputation;
-}
 
 
 
@@ -328,9 +308,11 @@ GSList * budgetary_line_div_list ( )
  */
 GSList * budgetary_line_div_sub_div_list ( gpointer div )
 {
-    if ( div )
-	return ((struct struct_imputation *) div) -> liste_sous_imputation;
-    return NULL;
+    gint budget_number;
+
+    budget_number = gsb_data_budget_get_no_budget (div);
+
+    return gsb_data_budget_get_sub_budget_list (budget_number);
 }
 
 
@@ -341,9 +323,11 @@ GSList * budgetary_line_div_sub_div_list ( gpointer div )
  */
 gint budgetary_line_div_type ( gpointer div )
 {
-    if ( div )
-	return ((struct struct_imputation *) div) -> type_imputation;
-    return 0;
+    gint budget_number;
+
+    budget_number = gsb_data_budget_get_no_budget (div);
+
+    return gsb_data_budget_get_type (budget_number);
 }
 
 
@@ -355,7 +339,14 @@ gint budgetary_line_div_type ( gpointer div )
 gint budgetary_line_transaction_div_id ( gpointer  transaction )
 {
     if ( transaction )
-	return gsb_data_transaction_get_budgetary_number ( gsb_data_transaction_get_transaction_number (transaction ));
+    {
+	if ( gsb_data_transaction_get_transaction_number_transfer ( gsb_data_transaction_get_transaction_number (transaction ))
+	     || 
+	     gsb_data_transaction_get_breakdown_of_transaction ( gsb_data_transaction_get_transaction_number (transaction )))
+	    return -1;
+	else
+	    return gsb_data_transaction_get_budgetary_number ( gsb_data_transaction_get_transaction_number (transaction ));
+    }
     return 0;
 }
 
@@ -367,7 +358,7 @@ gint budgetary_line_transaction_div_id ( gpointer  transaction )
  */
 gint budgetary_line_transaction_sub_div_id ( gpointer  transaction )
 {
-    if ( transaction )
+   if ( transaction )
 	return gsb_data_transaction_get_sub_budgetary_number ( gsb_data_transaction_get_transaction_number (transaction ));
     return 0;
 }
@@ -464,24 +455,24 @@ void budgetary_line_scheduled_set_sub_div_id ( struct operation_echeance * sched
  */
 gint budgetary_line_add_div ()
 {
-    struct struct_imputation * new_budgetary_line;
+    gint new_budget_number;
     gchar * name;
     int i = 1;
 
-    /** Find a unique name for budgetary_line */
-    name =  g_strdup ( _("New budgetary line") );
+    /** Find a unique name for budget */
+    name =  g_strdup (_("New budget"));
 
-    while ( imputation_par_nom ( name, 0, 0, 0 ) )
+    while ( gsb_data_budget_get_number_by_name ( name, FALSE, 0 ))
     {
+	g_free (name);
 	i++;
-	name = g_strdup_printf ( _("New budgetary line #%d"), i ); 
+	name = g_strdup_printf ( _("New budget #%d"), i ); 
     }
 
-    new_budgetary_line = imputation_par_nom ( name, 1, 0, 0 );
-    mise_a_jour_combofix_imputation_necessaire = 1;
+    new_budget_number = gsb_data_budget_get_number_by_name ( name, TRUE, 0 );
     mise_a_jour_combofix_imputation();
 
-    return new_budgetary_line -> no_imputation;
+    return new_budget_number;
 }
 
 
@@ -492,72 +483,30 @@ gint budgetary_line_add_div ()
  */
 gint budgetary_line_add_sub_div ( int div_id )
 {
-    struct struct_imputation * parent_budgetary_line;
-    struct struct_sous_imputation * new_sub_budgetary_line;
+    gint new_sub_budget_number;
     gchar * name;
     int i = 1;
 
-    parent_budgetary_line = budgetary_line_get_div_pointer ( div_id );
+    if ( !div_id )
+	return -1;
 
-    /** Find a unique name for budgetary_line */
-    name =  g_strdup ( _("New sub-budgetary line") );
+    /** Find a unique name for budget */
+    name =  g_strdup (_("New sub-budget"));
 
-    while ( sous_imputation_par_nom ( parent_budgetary_line, name, 0 ) )
+    while ( gsb_data_budget_get_sub_budget_number_by_name ( div_id, name, FALSE ))
     {
+	g_free (name);
 	i++;
-	name = g_strdup_printf ( _("New sub-budgetary line #%d"), i ); 
+	name = g_strdup_printf ( _("New sub-budget #%d"), i ); 
     }
 
-    new_sub_budgetary_line = sous_imputation_par_nom ( parent_budgetary_line, name, 1 );
+    new_sub_budget_number = gsb_data_budget_get_sub_budget_number_by_name ( div_id, name, TRUE );
 
-    mise_a_jour_combofix_imputation_necessaire = 1;
     mise_a_jour_combofix_imputation();
 
-    return new_sub_budgetary_line -> no_sous_imputation;
+    return new_sub_budget_number;
 }
 
-
-
-/**
- *
- *
- */
-gboolean budgetary_line_remove_div ( int div_id )
-{
-    liste_struct_imputation = g_slist_remove ( liste_struct_imputation,
-					       budgetary_line_get_div_pointer ( div_id ) );
-
-    /** Then, update various counters and stuff. */
-    nb_enregistrements_imputations--;
-    mise_a_jour_combofix_imputation_necessaire = 1;
-    mise_a_jour_combofix_imputation  ();
-
-    return TRUE;
-}
-
-
-
-/**
- *
- *
- */
-gboolean budgetary_line_remove_sub_div ( int div_id, int sub_div_id )
-{
-    struct struct_imputation * budgetary_line;
-    struct struct_sous_imputation * sub_budgetary_line;
-
-    budgetary_line = budgetary_line_get_div_pointer ( div_id );
-    if ( budgetary_line )
-    {
-	sub_budgetary_line = budgetary_line_get_sub_div_pointer ( div_id, sub_div_id );
-	budgetary_line -> liste_sous_imputation = g_slist_remove ( budgetary_line -> liste_sous_imputation,
-								   sub_budgetary_line );
-	mise_a_jour_combofix_imputation_necessaire = 1;
-	mise_a_jour_combofix_imputation ();
-	return TRUE;
-    }
-    return FALSE;
-}
 
 
 
@@ -568,8 +517,7 @@ gboolean budgetary_line_remove_sub_div ( int div_id, int sub_div_id )
 gboolean budgetary_line_add_transaction_to_div ( gpointer  trans, 
 						 int div_id )
 {
-    add_transaction_to_budgetary_line ( trans, budgetary_line_get_div_pointer ( div_id ), 
-					NULL );
+    gsb_data_budget_add_transaction_to_budget ( gsb_data_transaction_get_transaction_number (trans));
     return TRUE;
 }
 
@@ -582,9 +530,7 @@ gboolean budgetary_line_add_transaction_to_div ( gpointer  trans,
 gboolean budgetary_line_add_transaction_to_sub_div ( gpointer  trans, 
 						     int div_id, int sub_div_id )
 {
-    add_transaction_to_budgetary_line ( trans, budgetary_line_get_div_pointer ( div_id ), 
-					budgetary_line_get_sub_div_pointer ( div_id, 
-									     sub_div_id ) );
+    gsb_data_budget_add_transaction_to_budget ( gsb_data_transaction_get_transaction_number (trans));
     return TRUE;
 }
 
@@ -597,8 +543,7 @@ gboolean budgetary_line_add_transaction_to_sub_div ( gpointer  trans,
 gboolean budgetary_line_remove_transaction_from_div ( gpointer  trans, 
 						      int div_id )
 {
-    remove_transaction_from_budgetary_line ( trans, 
-					     budgetary_line_get_div_pointer (div_id), NULL );
+    gsb_data_budget_remove_transaction_from_budget ( gsb_data_transaction_get_transaction_number (trans));
     return TRUE;
 }
 
@@ -611,8 +556,6 @@ gboolean budgetary_line_remove_transaction_from_div ( gpointer  trans,
 gboolean budgetary_line_remove_transaction_from_sub_div ( gpointer  trans, 
 							  int div_id, int sub_div_id )
 {
-    remove_transaction_from_budgetary_line ( trans, 
-					     budgetary_line_get_div_pointer (div_id), 
-					     budgetary_line_get_sub_div_pointer (div_id, sub_div_id) );
+    gsb_data_budget_remove_transaction_from_budget ( gsb_data_transaction_get_transaction_number (trans));
     return TRUE;
 }

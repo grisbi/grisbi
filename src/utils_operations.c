@@ -27,7 +27,7 @@
 
 /*START_INCLUDE*/
 #include "utils_operations.h"
-#include "utils_ib.h"
+#include "gsb_data_budget.h"
 #include "gsb_data_category.h"
 #include "gsb_data_payee.h"
 #include "gsb_data_transaction.h"
@@ -119,7 +119,7 @@ void update_transaction_in_categ_tree ( gpointer  transaction )
 void update_transaction_in_budgetary_line_tree ( gpointer  transaction )
 {
     /* FIXME: Kludgeish, we should maintain a state. */
-    calcule_total_montant_budgetary_line();
+    gsb_data_budget_update_counters();
     update_transaction_in_tree ( budgetary_interface, GTK_TREE_MODEL (budgetary_line_tree_model), 
 				 transaction );
 }

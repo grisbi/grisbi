@@ -29,11 +29,11 @@
 #include "classement_operations.h"
 #include "erreur.h"
 #include "gsb_data_account.h"
+#include "gsb_data_budget.h"
 #include "gsb_data_payee.h"
 #include "gsb_data_transaction.h"
 #include "utils_exercices.h"
 #include "operations_liste.h"
-#include "utils_ib.h"
 #include "utils_rapprochements.h"
 #include "utils_types.h"
 #include "structures.h"
@@ -779,10 +779,12 @@ gint gsb_transactions_list_sort_by_budget ( GtkTreeModel *model,
 	gchar *temp_1;
 	gchar *temp_2;
 
-	temp_1 = nom_imputation_par_no ( gsb_data_transaction_get_budgetary_number ( transaction_number_1),
-					 gsb_data_transaction_get_sub_budgetary_number ( transaction_number_1));
-	temp_2 = nom_imputation_par_no ( gsb_data_transaction_get_budgetary_number ( transaction_number_2),
-					 gsb_data_transaction_get_sub_budgetary_number ( transaction_number_2));
+	temp_1 = gsb_data_budget_get_name ( gsb_data_transaction_get_budgetary_number ( transaction_number_1),
+					    gsb_data_transaction_get_sub_budgetary_number ( transaction_number_1),
+					    NULL );
+	temp_2 = gsb_data_budget_get_name ( gsb_data_transaction_get_budgetary_number ( transaction_number_2),
+					    gsb_data_transaction_get_sub_budgetary_number ( transaction_number_2),
+					    NULL);
 
 	/* g_utf8_collate is said not very fast, must try with big big account to check
 	 * if it's enough, for me it's ok (cedric), eventually, change with gsb_strcasecmp */

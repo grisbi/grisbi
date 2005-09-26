@@ -39,6 +39,7 @@
 #include "operations_formulaire.h"
 #include "calendar.h"
 #include "gsb_data_account.h"
+#include "gsb_data_budget.h"
 #include "gsb_data_category.h"
 #include "gsb_data_payee.h"
 #include "gsb_data_transaction.h"
@@ -46,7 +47,6 @@
 #include "accueil.h"
 #include "echeancier_liste.h"
 #include "gtk_combofix.h"
-#include "utils_ib.h"
 #include "main.h"
 #include "categories_onglet.h"
 #include "traitement_variables.h"
@@ -99,7 +99,6 @@ extern GtkWidget *formulaire;
 extern GtkWidget *formulaire_echeancier;
 extern GtkWidget *formulaire_echeancier;
 extern GtkWidget *frame_formulaire_echeancier;
-extern GSList *liste_imputations_combofix;
 extern GSList *liste_struct_devises;
 extern GSList *liste_struct_echeances;
 extern GtkWidget *main_page_finished_scheduled_transactions_part;
@@ -439,7 +438,7 @@ GtkWidget *creation_formulaire_echeancier ( void )
 
     /*  Affiche l'imputation budgétaire */
 
-    widget_formulaire_echeancier[SCHEDULER_FORM_BUDGETARY] = gtk_combofix_new_complex ( liste_imputations_combofix,
+    widget_formulaire_echeancier[SCHEDULER_FORM_BUDGETARY] = gtk_combofix_new_complex ( gsb_data_budget_get_name_list (TRUE, TRUE),
 											FALSE,
 											TRUE,
 											TRUE ,
@@ -1478,7 +1477,7 @@ void gsb_scheduler_validate_form ( void )
 
 	if ( gtk_widget_get_style ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_CATEGORY] ) -> entry ) == style_entree_formulaire[ENCLAIR] )
 	{
-	    tab_char = g_strsplit ( g_strstrip ( gtk_combofix_get_text ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_CATEGORY] ))),
+	    tab_char = g_strsplit ( gtk_combofix_get_text ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_CATEGORY] )),
 				    ":",
 				    2 );
 
@@ -1525,6 +1524,7 @@ void gsb_scheduler_validate_form ( void )
 		    }
 		    else
 		    {
+			/* it's a normal category */
 			scheduled_transaction -> categorie = gsb_data_category_get_number_by_name ( tab_char[0],
 												    TRUE,
 												    scheduled_transaction -> montant < 0);
@@ -1563,33 +1563,24 @@ void gsb_scheduler_validate_form ( void )
 
 	if ( gtk_widget_get_style ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_BUDGETARY] ) -> entry ) == style_entree_formulaire[ENCLAIR] )
 	{
-	    struct struct_imputation *imputation;
-
-	    char_ptr = gtk_combofix_get_text ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_BUDGETARY] ));
-
-	    tab_char = g_strsplit ( char_ptr,
+	    tab_char = g_strsplit ( gtk_combofix_get_text ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_BUDGETARY] )),
 				    ":",
 				    2 );
 
-	    imputation = imputation_par_nom ( tab_char[0],
-					      1,
-					      scheduled_transaction -> montant < 0,
-					      0 );
+	    tab_char[0] = g_strstrip ( tab_char[0] );
 
-	    if ( imputation )
+	    if ( tab_char[1] )
+		tab_char[1] = g_strstrip ( tab_char[1] );
+
+	    if ( strlen ( tab_char[0] ) )
 	    {
-		struct struct_sous_imputation *sous_imputation;
-
-		scheduled_transaction -> imputation = imputation -> no_imputation;
-
-		sous_imputation = sous_imputation_par_nom ( imputation,
-							    tab_char[1],
-							    1 );
-
-		if ( sous_imputation )
-		    scheduled_transaction -> sous_imputation = sous_imputation -> no_sous_imputation;
+		scheduled_transaction -> imputation = gsb_data_budget_get_number_by_name ( tab_char[0],
+											   TRUE,
+											   scheduled_transaction -> montant < 0);
+		scheduled_transaction -> sous_imputation = gsb_data_budget_get_sub_budget_number_by_name ( scheduled_transaction -> imputation,
+													   tab_char[1],
+													   TRUE );
 	    }
-
 	    g_strfreev ( tab_char );
 	}
 
@@ -1923,31 +1914,29 @@ gint gsb_scheduler_create_transaction_from_scheduled_form ( void )
     if ( gtk_widget_get_style ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_BUDGETARY] ) -> entry ) == style_entree_formulaire[ENCLAIR] )
     {
 	gchar **tab_char;
-	struct struct_imputation *budgetary;
 
 	tab_char = g_strsplit ( gtk_combofix_get_text ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_BUDGETARY] )),
 				":",
 				2 );
 
-	budgetary = imputation_par_nom ( tab_char[0],
-					 1,
-					 gsb_data_transaction_get_amount (transaction_number)< 0,
-					 0 );
+	tab_char[0] = g_strstrip ( tab_char[0] );
 
-	if ( budgetary )
+	if ( tab_char[1] )
+	    tab_char[1] = g_strstrip ( tab_char[1] );
+
+	if ( strlen ( tab_char[0] ) )
 	{
-	    struct struct_sous_imputation *sub_budgetary;
+	    gint budget_number;
 
+	    budget_number = gsb_data_budget_get_number_by_name ( tab_char[0],
+								 TRUE,
+								 gsb_data_transaction_get_amount (transaction_number) < 0 );
 	    gsb_data_transaction_set_budgetary_number ( transaction_number,
-							budgetary -> no_imputation);
-
-	    sub_budgetary = sous_imputation_par_nom ( budgetary,
-						      tab_char[1],
-						      1 );
-
-	    if ( sub_budgetary )
-		gsb_data_transaction_set_sub_budgetary_number ( transaction_number,
-								sub_budgetary -> no_sous_imputation);
+							budget_number );
+	    gsb_data_transaction_set_sub_budgetary_number ( transaction_number,
+							    gsb_data_budget_get_sub_budget_number_by_name ( budget_number,
+													    tab_char[1],
+													    TRUE ));
 	}
 	g_strfreev ( tab_char );
     }
@@ -2707,8 +2696,9 @@ void completion_operation_par_tiers_echeancier ( void )
     /* met en place l'imputation budgétaire */
 
 
-    char_tmp = nom_imputation_par_no ( gsb_data_transaction_get_budgetary_number ( transaction_number),
-				       gsb_data_transaction_get_sub_budgetary_number ( transaction_number));
+    char_tmp = gsb_data_budget_get_name ( gsb_data_transaction_get_budgetary_number ( transaction_number),
+					  gsb_data_transaction_get_sub_budgetary_number ( transaction_number),
+					  NULL );
 
    if ( char_tmp )
     {

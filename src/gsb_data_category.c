@@ -157,7 +157,7 @@ gpointer gsb_data_category_get_structure ( gint no_category )
     if (!no_category)
 	return empty_category;
 
-    /* before checking all the categories, we check the buffer */
+    /* before checking all the categories, we check the category_buffer */
 
     if ( category_buffer
 	 &&

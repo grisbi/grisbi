@@ -27,6 +27,7 @@
 /*START_INCLUDE*/
 #include "traitement_variables.h"
 #include "gsb_data_account.h"
+#include "gsb_data_budget.h"
 #include "gsb_data_category.h"
 #include "gsb_data_payee.h"
 #include "gsb_data_transaction.h"
@@ -103,7 +104,6 @@ extern GSList *liste_struct_devises;
 extern GSList *liste_struct_echeances;
 extern GSList *liste_struct_etats;
 extern GSList *liste_struct_exercices;
-extern GSList *liste_struct_imputation;
 extern GSList *liste_struct_rapprochements;
 extern gint mise_a_jour_combofix_categ_necessaire;
 extern gint mise_a_jour_combofix_imputation_necessaire;
@@ -116,14 +116,10 @@ extern gint mise_a_jour_soldes_minimaux;
 extern gint nb_banques;
 extern gint nb_devises;
 extern gint nb_echeances;
-extern gint nb_enregistrements_categories, no_derniere_categorie;
-extern gint nb_enregistrements_imputations;
 extern gint no_dernier_etat;
 extern gint no_derniere_banque;
-extern gint nb_enregistrements_categories, no_derniere_categorie;
 extern gint no_derniere_devise;
 extern gint no_derniere_echeance;
-extern gint no_derniere_imputation;
 extern int no_devise_totaux_categ;
 extern gint no_devise_totaux_ib;
 extern gint no_devise_totaux_tiers;
@@ -185,6 +181,7 @@ void init_variables ( void )
     gsb_data_transaction_init_variables ();
     gsb_data_payee_init_variables ();
     gsb_data_category_init_variables ();
+    gsb_data_budget_init_variables ();
 
     crypt_key = NULL;
 
@@ -213,13 +210,6 @@ void init_variables ( void )
     affichage_echeances_perso_nb_libre = 0;
     affichage_echeances_perso_j_m_a = PERIODICITY_DAYS;
     scheduled_transactions_taken = NULL;
-
-    nb_enregistrements_categories = 0;
-    no_derniere_categorie = 0;
-
-    liste_struct_imputation = NULL;
-    nb_enregistrements_imputations = 0;
-    no_derniere_imputation = 0;
 
     liste_struct_devises = NULL;
     nb_devises = 0;

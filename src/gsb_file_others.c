@@ -28,7 +28,6 @@
 
 /*START_INCLUDE*/
 #include "gsb_file_others.h"
-#include "imputation_budgetaire.h"
 #include "dialog.h"
 #include "gsb_data_budget.h"
 #include "gsb_data_category.h"
@@ -38,6 +37,7 @@
 #include "utils_str.h"
 #include "fichiers_gestion.h"
 #include "categories_onglet.h"
+#include "imputation_budgetaire.h"
 #include "structures.h"
 #include "include.h"
 /*END_INCLUDE*/
@@ -62,7 +62,6 @@ static void gsb_file_others_start_element ( GMarkupParseContext *context,
 
 /*START_EXTERN*/
 extern GSList *liste_struct_etats;
-extern GSList *liste_struct_imputation;
 extern gint no_dernier_etat;
 /*END_EXTERN*/
 
@@ -178,7 +177,7 @@ gboolean gsb_file_others_save_budget ( gchar *filename )
 
     length_part = 500;
     
-    length_calculated = length_part * g_slist_length ( liste_struct_imputation );
+    length_calculated = length_part * g_slist_length (gsb_data_budget_get_budgets_list());
 
     iterator = 0;
     file_content = malloc ( length_calculated );
@@ -487,7 +486,6 @@ gboolean gsb_file_others_load ( gchar *filename,
 
 		gsb_data_budget_merge_budget_list ( import_list );
 		remplit_arbre_imputation ();
-		creation_liste_imputation_combofix ();
 		break;
 
 	    case 2:

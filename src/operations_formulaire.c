@@ -41,12 +41,12 @@
 #include "equilibrage.h"
 #include "calendar.h"
 #include "gsb_data_account.h"
+#include "gsb_data_budget.h"
 #include "gsb_data_category.h"
 #include "gsb_data_payee.h"
 #include "gsb_data_transaction.h"
 #include "utils_dates.h"
 #include "gtk_combofix.h"
-#include "utils_ib.h"
 #include "menu.h"
 #include "categories_onglet.h"
 #include "imputation_budgetaire.h"
@@ -122,7 +122,6 @@ extern GtkWidget *frame_droite_bas;
 extern gint hauteur_ligne_liste_opes;
 extern GtkItemFactory *item_factory_menu_general;
 extern gchar *last_date;
-extern GSList *liste_imputations_combofix;
 extern GSList *liste_struct_devises;
 extern GSList *liste_struct_etats;
 extern gint mise_a_jour_combofix_categ_necessaire;
@@ -362,7 +361,7 @@ GtkWidget *cree_element_formulaire_par_no ( gint no_element )
 	case TRANSACTION_FORM_BUDGET:
 	    /* Affiche l'imputation budgétaire */
 
-	    widget = gtk_combofix_new_complex ( liste_imputations_combofix,
+	    widget = gtk_combofix_new_complex ( gsb_data_budget_get_name_list (TRUE, TRUE),
 						FALSE,
 						TRUE,
 						TRUE,
@@ -1841,8 +1840,9 @@ gboolean completion_operation_par_tiers ( GtkWidget *entree )
 
 		case TRANSACTION_FORM_BUDGET:
 
-		    char_tmp = nom_imputation_par_no ( gsb_data_transaction_get_budgetary_number (transaction_number),
-						       gsb_data_transaction_get_sub_budgetary_number (transaction_number));
+		    char_tmp = gsb_data_budget_get_name ( gsb_data_transaction_get_budgetary_number (transaction_number),
+							  gsb_data_transaction_get_sub_budgetary_number (transaction_number),
+							  NULL );
 		    if ( char_tmp )
 		    {
 			entree_prend_focus ( widget );
@@ -2702,7 +2702,6 @@ void gsb_form_take_datas_from_form ( gint transaction_number )
     gchar **tab_char;
     gint i, j;
     struct organisation_formulaire *organisation_formulaire;
-    struct struct_imputation *imputation;
 
     /*     on fait le tour du formulaire en ne récupérant que ce qui est nécessaire */
 
@@ -2783,38 +2782,30 @@ void gsb_form_take_datas_from_form ( gint transaction_number )
 
 		case TRANSACTION_FORM_BUDGET:
 
-			tab_char = g_strsplit ( gtk_combofix_get_text ( GTK_COMBOFIX ( widget )),
-						    ":",
-						    2 );
+		    tab_char = g_strsplit ( gtk_combofix_get_text ( GTK_COMBOFIX ( widget )),
+					    ":",
+					    2 );
 
-			imputation = imputation_par_nom ( tab_char[0],
-							  1,
-							  gsb_data_transaction_get_amount ( transaction_number)< 0,
-							  0 );
+		    tab_char[0] = g_strstrip ( tab_char[0] );
 
-			if ( imputation )
-			{
-			    struct struct_sous_imputation *sous_imputation;
+		    if ( tab_char[1] )
+			tab_char[1] = g_strstrip ( tab_char[1] );
 
-			    gsb_data_transaction_set_budgetary_number ( transaction_number,
-									imputation -> no_imputation);
+		    if ( strlen ( tab_char[0] ) )
+		    {
+			gint budget_number;
 
-			    sous_imputation = sous_imputation_par_nom ( imputation,
-									tab_char[1],
-									1 );
-
-			    if ( sous_imputation )
-				gsb_data_transaction_set_sub_budgetary_number ( transaction_number,
-										sous_imputation -> no_sous_imputation);
-			    else
-				gsb_data_transaction_set_sub_budgetary_number ( transaction_number,
-										0);
-			}
-			else
-			    gsb_data_transaction_set_budgetary_number ( transaction_number,
-									0 );
-
-			g_strfreev ( tab_char );
+			budget_number = gsb_data_budget_get_number_by_name ( g_strstrip (tab_char[0]),
+									     TRUE,
+									     gsb_data_transaction_get_amount (transaction_number)<0 );
+			gsb_data_transaction_set_budgetary_number ( transaction_number,
+								    budget_number );
+			gsb_data_transaction_set_sub_budgetary_number ( transaction_number,
+									gsb_data_budget_get_sub_budget_number_by_name ( budget_number,
+															tab_char[1],
+															TRUE ));
+		    }
+		    g_strfreev ( tab_char );
 		    break;
 
 		case TRANSACTION_FORM_NOTES:
@@ -3063,14 +3054,14 @@ gboolean gsb_form_get_categories ( gint transaction_number,
 									   0);
 		    }
 
-		    category_number = gsb_data_category_get_number_by_name ( g_strstrip (tab_char[0]),
+		    category_number = gsb_data_category_get_number_by_name ( tab_char[0],
 									     TRUE,
 									     gsb_data_transaction_get_amount (transaction_number)<0 );
 		    gsb_data_transaction_set_category_number ( transaction_number,
 							       category_number );
 		    gsb_data_transaction_set_sub_category_number ( transaction_number,
 								   gsb_data_category_get_sub_category_number_by_name ( category_number,
-														       g_strstrip (tab_char[1]),
+														       tab_char[1],
 														       TRUE ));
 		}
 	    }

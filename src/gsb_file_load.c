@@ -22,10 +22,10 @@
 
 /*START_INCLUDE*/
 #include "gsb_file_load.h"
-#include "utils_ib.h"
 #include "utils_devises.h"
 #include "dialog.h"
 #include "gsb_data_account.h"
+#include "gsb_data_budget.h"
 #include "gsb_data_category.h"
 #include "gsb_data_payee.h"
 #include "gsb_data_transaction.h"
@@ -119,7 +119,6 @@ extern GSList *liste_struct_devises;
 extern GSList *liste_struct_echeances;
 extern GSList *liste_struct_etats;
 extern GSList *liste_struct_exercices;
-extern GSList *liste_struct_imputation;
 extern GSList *liste_struct_rapprochements;
 extern gint nb_colonnes;
 extern int no_devise_totaux_categ;
@@ -154,12 +153,15 @@ static struct
 } download_tmp_values;
 
 static gint account_number_tmp;
-static struct struct_imputation *budget_tmp;
 static struct struct_etat *report_tmp;
 
 /* to import older file than 0.6, makes the link between category and sub-category */
 static gint last_category = 0;
 static gint last_sub_category_number = 0;
+
+/* to import older file than 0.6, makes the link between budget and sub-budget */
+static gint last_budget = 0;
+static gint last_sub_budget_number = 0;
 
 
 /* used to get the sort of the accounts in the version < 0.6 */
@@ -2082,14 +2084,10 @@ void gsb_file_load_budgetary ( const gchar **attribute_names,
 			       GSList **import_list )
 {
     gint i=0;
-
-    struct struct_imputation *budgetary;
+    gint budget_number = 0;
 
     if ( !attribute_names[i] )
 	return;
-
-    budgetary = calloc ( 1,
-			 sizeof ( struct  struct_imputation) );
 
     do
     {
@@ -2106,7 +2104,16 @@ void gsb_file_load_budgetary ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Nb" ))
 	{
-	    budgetary -> no_imputation = utils_str_atoi (attribute_values[i]);
+	    /* not sure that *import_list give sigsev if import_list = NULL,
+	     * so check it before, perhaps can remove the check ? */
+
+	    if (import_list)
+		budget_number = gsb_data_budget_new_with_number ( utils_str_atoi (attribute_values[i]),
+								  *import_list );
+	    else
+		budget_number = gsb_data_budget_new_with_number ( utils_str_atoi (attribute_values[i]),
+								  NULL ); 
+
 	    i++;
 	    continue;
 	}
@@ -2114,7 +2121,8 @@ void gsb_file_load_budgetary ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Na" ))
 	{
-	    budgetary -> nom_imputation = g_strdup (attribute_values[i]);
+	    gsb_data_budget_set_name ( budget_number,
+				       attribute_values[i]);
 	    i++;
 	    continue;
 	}
@@ -2122,7 +2130,8 @@ void gsb_file_load_budgetary ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Kd" ))
 	{
-	    budgetary -> type_imputation = utils_str_atoi (attribute_values[i]);
+	    gsb_data_budget_set_type ( budget_number,
+				       utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
 	}
@@ -2131,13 +2140,6 @@ void gsb_file_load_budgetary ( const gchar **attribute_names,
 	i++;
     }
     while ( attribute_names[i] );
-
-    if ( import_list )
-	*import_list = g_slist_append ( *import_list,
-					budgetary );
-    else
-	liste_struct_imputation = g_slist_append ( liste_struct_imputation,
-						   budgetary );
 }
 
 
@@ -2147,7 +2149,7 @@ void gsb_file_load_budgetary ( const gchar **attribute_names,
  * \param attribute_names
  * \param attribute_values
  * \param import_list that parameter is NULL for the grisbi file loading, but
- * not NULL for the category importing
+ * not NULL for the budget importing
  *
  * */
 void gsb_file_load_sub_budgetary ( const gchar **attribute_names,
@@ -2155,14 +2157,11 @@ void gsb_file_load_sub_budgetary ( const gchar **attribute_names,
 				   GSList **import_list )
 {
     gint i=0;
-    gint budgetary_number = 0;
-    struct struct_sous_imputation *sub_budgetary;
+    gint budget_number = 0;
+    gint sub_budget_number = 0;
 
     if ( !attribute_names[i] )
 	return;
-
-    sub_budgetary = calloc ( 1,
-			     sizeof ( struct struct_sous_imputation ) );
 
     do
     {
@@ -2170,24 +2169,8 @@ void gsb_file_load_sub_budgetary ( const gchar **attribute_names,
 	/* 	   go to the next */
 
 	if ( !strcmp (attribute_values[i],
-		      "(null)"))
+	     "(null)"))
 	{
-	    i++;
-	    continue;
-	}
-
-	if ( !strcmp ( attribute_names[i],
-		       "Nb" ))
-	{
-	    sub_budgetary -> no_sous_imputation = utils_str_atoi (attribute_values[i]);
-	    i++;
-	    continue;
-	}
-
-	if ( !strcmp ( attribute_names[i],
-		       "Na" ))
-	{
-	    sub_budgetary -> nom_sous_imputation = g_strdup (attribute_values[i]);
 	    i++;
 	    continue;
 	}
@@ -2195,7 +2178,35 @@ void gsb_file_load_sub_budgetary ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Nbb" ))
 	{
-	    budgetary_number = utils_str_atoi (attribute_values[i]);
+	    budget_number = utils_str_atoi (attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Nb" ))
+	{
+	    /* not sure that *import_list give sigsev if import_list = NULL,
+	     * so check it before, perhaps can remove the check ? */
+
+	    if (import_list)
+		sub_budget_number = gsb_data_budget_new_sub_budget_with_number ( utils_str_atoi (attribute_values[i]),
+										 budget_number,
+										 *import_list );
+	    else
+		sub_budget_number = gsb_data_budget_new_sub_budget_with_number ( utils_str_atoi (attribute_values[i]),
+										 budget_number,
+										 NULL ); 
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Na" ))
+	{
+	    gsb_data_budget_set_sub_budget_name ( budget_number,
+						  sub_budget_number,
+						  attribute_values[i] );
 	    i++;
 	    continue;
 	}
@@ -2204,32 +2215,6 @@ void gsb_file_load_sub_budgetary ( const gchar **attribute_names,
 	i++;
     }
     while ( attribute_names[i] );
-
-    /* we append the sub-budgetary to the budgetary which must
-     * have been created already */
-
-    if ( budgetary_number )
-    {
-	struct struct_imputation *budgetary;
-
-	if (import_list)
-	{
-	    budgetary = budget_by_no_in_list ( budgetary_number,
-					       *import_list );
-
-	    if ( budgetary )
-		budgetary-> liste_sous_imputation = g_slist_append ( budgetary -> liste_sous_imputation,
-								     sub_budgetary );
-	}
-	else
-	{
-	    budgetary = imputation_par_no ( budgetary_number );
-
-	    if ( budgetary )
-		budgetary -> liste_sous_imputation = g_slist_append ( budgetary -> liste_sous_imputation,
-								      sub_budgetary );
-	}
-    }
 }
 
 
@@ -4378,39 +4363,25 @@ void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
     if ( !strcmp ( element_name,
 		   "Imputation" ))
     {
-	gint i;
+	gint i = 0;
 
-	i = 0;
-
-	if ( attribute_names[i] )
+	while ( attribute_names[i] )
 	{
-	    budget_tmp = calloc ( 1,
-				  sizeof ( struct struct_imputation ) );
+	    if ( !strcmp ( attribute_names[i],
+			   "No" ))
+		last_budget = gsb_data_budget_new_with_number ( utils_str_atoi (attribute_values[i]),
+								NULL ); 
 
-	    do
-	    {
-		if ( !strcmp ( attribute_names[i],
-			       "No" ))
-		    budget_tmp -> no_imputation = utils_str_atoi (attribute_values[i]);
+	    if ( !strcmp ( attribute_names[i],
+			   "Nom" ))
+		gsb_data_budget_set_name ( last_budget,
+					   attribute_values[i]);
 
-		if ( !strcmp ( attribute_names[i],
-			       "Nom" ))
-		    budget_tmp -> nom_imputation = g_strdup (attribute_values[i]);
-
-		if ( !strcmp ( attribute_names[i],
-			       "Type" ))
-		    budget_tmp -> type_imputation = utils_str_atoi (attribute_values[i]);
-
-		if ( !strcmp ( attribute_names[i],
-			       "No_derniere_sous_imputation" ))
-		    budget_tmp -> no_derniere_sous_imputation = utils_str_atoi (attribute_values[i]);
-
-		i++;
-	    }
-	    while ( attribute_names[i] );
-
-	    liste_struct_imputation = g_slist_append ( liste_struct_imputation,
-						       budget_tmp );
+	    if ( !strcmp ( attribute_names[i],
+			   "Type" ))
+		gsb_data_budget_set_type ( last_budget,
+					   utils_str_atoi (attribute_values[i]));
+	    i++;
 	}
     }
 
@@ -4418,34 +4389,24 @@ void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
     if ( !strcmp ( element_name,
 		   "Sous-imputation" ))
     {
-	gint i;
+	gint i = 0;
 
-	i = 0;
+	/* each sub-budget is stored after a budget, so last_budget should be filled before */
 
-	if ( attribute_names[i] )
+	while ( attribute_names[i] )
 	{
-	    struct struct_sous_imputation *sous_imputation;
+	    if ( !strcmp ( attribute_names[i],
+			   "No" ))
+		last_sub_budget_number = gsb_data_budget_new_sub_budget_with_number ( utils_str_atoi (attribute_values[i]),
+										      last_budget,
+										      NULL );
 
-	    sous_imputation = calloc ( 1,
-				       sizeof ( struct struct_sous_imputation ) );
-
-	    do
-	    {
-		if ( !strcmp ( attribute_names[i],
-			       "No" ))
-		    sous_imputation -> no_sous_imputation = utils_str_atoi (attribute_values[i]);
-		if ( !strcmp ( attribute_names[i],
-			       "Nom" ))
-		    sous_imputation -> nom_sous_imputation = g_strdup (attribute_values[i]);
-
-		i++;
-	    }
-	    while ( attribute_names[i] );
-
-	    /* normally budget_tmp was defined before */
-
-	    budget_tmp -> liste_sous_imputation = g_slist_append ( budget_tmp -> liste_sous_imputation,
-								   sous_imputation );
+	    if ( !strcmp ( attribute_names[i],
+			   "Nom" ))
+		gsb_data_budget_set_sub_budget_name ( last_budget,
+						      last_sub_budget_number,
+						      attribute_values[i]);
+	    i++;
 	}
     }
 

@@ -24,6 +24,7 @@
 #include "gsb_file_save.h"
 #include "dialog.h"
 #include "gsb_data_account.h"
+#include "gsb_data_budget.h"
 #include "gsb_data_category.h"
 #include "gsb_data_payee.h"
 #include "gsb_data_transaction.h"
@@ -91,7 +92,6 @@ extern GSList *liste_struct_devises;
 extern GSList *liste_struct_echeances;
 extern GSList *liste_struct_etats;
 extern GSList *liste_struct_exercices;
-extern GSList *liste_struct_imputation;
 extern GSList *liste_struct_rapprochements;
 extern gint nb_colonnes;
 extern int no_devise_totaux_categ;
@@ -177,7 +177,7 @@ gboolean gsb_file_save_save_file ( gchar *filename,
 	+ transaction_part * g_slist_length ( gsb_data_transaction_get_transactions_list ())
 	+ party_part * g_slist_length ( gsb_data_payee_get_payees_list ())
 	+ category_part * g_slist_length ( gsb_data_category_get_categories_list ())
-	+ budgetary_part * g_slist_length ( liste_struct_imputation )
+	+ budgetary_part * g_slist_length ( gsb_data_budget_get_budgets_list ())
 	+ currency_part * g_slist_length ( liste_struct_devises )
 	+ bank_part * g_slist_length ( liste_struct_banques )
 	+ financial_year_part * g_slist_length (liste_struct_exercices  )
@@ -1035,22 +1035,24 @@ gulong gsb_file_save_budgetary_part ( gulong iterator,
 {
     GSList *list_tmp;
 	
-    list_tmp = liste_struct_imputation;
+    list_tmp = gsb_data_budget_get_budgets_list ();
 
     while ( list_tmp )
     {
 	gchar *new_string;
-	struct struct_imputation *budgetary;
+	gint budget_number;
 	GSList *sub_list_tmp;
 
-	budgetary = list_tmp -> data;
+	budget_number = gsb_data_budget_get_no_budget (list_tmp -> data);
 
 	/* now we can fill the file content */
 
 	new_string = g_markup_printf_escaped ( "\t<Budgetary Nb=\"%d\" Na=\"%s\" Kd=\"%d\" />\n",
-					       budgetary -> no_imputation,
-					       budgetary -> nom_imputation,
-					       budgetary -> type_imputation);
+					       budget_number,
+					       gsb_data_budget_get_name ( budget_number,
+									  0,
+									  NULL ),
+					       gsb_data_budget_get_type ( budget_number ));
 
 	/* append the new string to the file content
 	 * and take the new iterator */
@@ -1061,21 +1063,23 @@ gulong gsb_file_save_budgetary_part ( gulong iterator,
 					       new_string );
 	/* save the sub-budgetaries */
 
-	sub_list_tmp = budgetary -> liste_sous_imputation;
+	sub_list_tmp = gsb_data_budget_get_sub_budget_list ( budget_number );
 
 	while ( sub_list_tmp )
 	{
-	    struct struct_sous_imputation *sub_budgetary;
+	    gint sub_budget_number;
 
-	    sub_budgetary = sub_list_tmp -> data;
+	    sub_budget_number = gsb_data_budget_get_no_sub_budget (sub_list_tmp -> data);
 
-	    /* now we can fill the file content,
-	     * carrefull : the number of the budgetary must be the first */
+	    /* now we can fill the file content
+	     * carrefull : the number of budget must be the first */
 
 	    new_string = g_markup_printf_escaped ( "\t<Sub_budgetary Nbb=\"%d\" Nb=\"%d\" Na=\"%s\" />\n",
-						   budgetary -> no_imputation,
-						   sub_budgetary -> no_sous_imputation,
-						   sub_budgetary -> nom_sous_imputation);
+						   budget_number,
+						   sub_budget_number,
+						   gsb_data_budget_get_sub_budget_name ( budget_number,
+											 sub_budget_number,
+											 NULL ));
 
 	    /* append the new string to the file content
 	     * and take the new iterator */
@@ -1084,6 +1088,7 @@ gulong gsb_file_save_budgetary_part ( gulong iterator,
 						   length_calculated,
 						   file_content,
 						   new_string );
+
 	    sub_list_tmp = sub_list_tmp -> next;
 	}
 	list_tmp = list_tmp -> next;

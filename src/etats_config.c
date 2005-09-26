@@ -37,11 +37,11 @@
 #include "utils_dates.h"
 #include "calendar.h"
 #include "gsb_data_account.h"
+#include "gsb_data_budget.h"
 #include "gsb_data_category.h"
 #include "gsb_data_payee.h"
 #include "navigation.h"
 #include "classement_operations.h"
-#include "utils_ib.h"
 #include "traitement_variables.h"
 #include "utils_str.h"
 #include "etats_calculs.h"
@@ -306,7 +306,6 @@ extern struct struct_etat *etat_courant;
 extern GtkWidget *frame_liste_etats;
 extern GSList *liste_struct_devises;
 extern GSList *liste_struct_exercices;
-extern GSList *liste_struct_imputation;
 extern gint mise_a_jour_combofix_tiers_necessaire;
 extern GtkWidget *nom_exercice;
 extern GtkWidget *notebook_aff_donnees;
@@ -3519,14 +3518,14 @@ void click_type_ib_etat ( gint type )
 
     for ( i=0 ; i<GTK_CLIST ( liste_ib_etat ) -> rows ; i++ )
     {
-	struct struct_imputation *imputation;
+	gint budget_number;
 
-	imputation = imputation_par_no ( GPOINTER_TO_INT ( gtk_clist_get_row_data ( GTK_CLIST ( liste_ib_etat ),
-										    i )));
+	budget_number = GPOINTER_TO_INT ( gtk_clist_get_row_data ( GTK_CLIST ( liste_ib_etat ),
+								   i ));
 
-	if ( imputation
+	if ( budget_number
 	     &&
-	     imputation -> type_imputation == type )
+	     gsb_data_budget_get_type (budget_number) == type )
 	    gtk_clist_select_row ( GTK_CLIST ( liste_ib_etat ),
 				   i,
 				   0 );
@@ -3547,28 +3546,29 @@ void remplissage_liste_ib_etats ( void )
 
     gtk_clist_clear ( GTK_CLIST ( liste_ib_etat ) );
 
-    list_tmp = liste_struct_imputation;
+    list_tmp = gsb_data_budget_get_budgets_list ();
 
     while ( list_tmp )
     {
-	struct struct_imputation *imputation;
+	gint budget_number;
 	gchar *nom[1];
-	gint ligne;
+	gint line;
 
-	imputation = list_tmp -> data;
+	budget_number = gsb_data_budget_get_no_budget ( list_tmp -> data );
 
-	nom[0] = imputation -> nom_imputation;
+	nom[0] = gsb_data_budget_get_name (budget_number,
+					   0,
+					   NULL );
 
-	ligne = gtk_clist_append ( GTK_CLIST ( liste_ib_etat ),
-				   nom );
+	line = gtk_clist_append ( GTK_CLIST ( liste_ib_etat ),
+				  nom );
 
 	gtk_clist_set_row_data ( GTK_CLIST ( liste_ib_etat ),
-				 ligne,
-				 GINT_TO_POINTER ( imputation -> no_imputation ));
+				 line,
+				 GINT_TO_POINTER (budget_number));
 
 	list_tmp = list_tmp -> next;
     }
-
     gtk_clist_sort ( GTK_CLIST ( liste_ib_etat ));
 }
 /******************************************************************************/

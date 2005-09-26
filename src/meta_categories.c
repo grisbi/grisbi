@@ -175,7 +175,6 @@ gpointer category_get_div_pointer_from_name ( gchar * name, gboolean create )
  */
 gpointer category_get_sub_div_pointer_from_name ( int div_id, gchar * name, gboolean create )
 {
-
     return gsb_data_category_get_sub_category_structure ( div_id,
 							  gsb_data_category_get_sub_category_number_by_name( div_id, name, create));
 }

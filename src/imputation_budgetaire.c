@@ -32,20 +32,16 @@
 /*START_INCLUDE*/
 #include "imputation_budgetaire.h"
 #include "metatree.h"
-#include "utils_ib.h"
-#include "utils_devises.h"
 #include "dialog.h"
 #include "utils_file_selection.h"
-#include "gsb_data_category.h"
+#include "gsb_data_budget.h"
 #include "gsb_data_transaction.h"
 #include "gsb_file_others.h"
 #include "gtk_combofix.h"
 #include "main.h"
-#include "traitement_variables.h"
 #include "utils_buttons.h"
 #include "utils.h"
 #include "utils_editables.h"
-#include "parametres.h"
 #include "etats_config.h"
 #include "affichage_formulaire.h"
 #include "operations_formulaire.h"
@@ -60,7 +56,6 @@ static gboolean budgetary_line_drag_data_get ( GtkTreeDragSource * drag_source, 
 static GtkWidget *creation_barre_outils_ib ( void );
 static gboolean edit_budgetary_line ( GtkTreeView * view );
 static void exporter_ib ( void );
-static void fusion_categories_imputation ( void );
 static void importer_ib ( void );
 static gboolean popup_budgetary_line_view_mode_menu ( GtkWidget * button );
 /*END_STATIC*/
@@ -79,10 +74,6 @@ GtkWidget *bouton_supprimer_imputation;
 GtkWidget *bouton_ajouter_imputation;
 GtkWidget *bouton_ajouter_sous_imputation;
 
-GSList *liste_struct_imputation;    /* liste des structures de catég */
-GSList *liste_imputations_combofix;        /*  liste des noms des imputation et sous imputation pour le combofix */
-gint nb_enregistrements_imputations;        /* nombre de catégories */
-gint no_derniere_imputation;
 gint mise_a_jour_combofix_imputation_necessaire;
 gint no_devise_totaux_ib;
 
@@ -90,12 +81,9 @@ gint no_devise_totaux_ib;
 /*START_EXTERN*/
 extern MetatreeInterface * budgetary_interface ;
 extern gchar *dernier_chemin_de_travail;
-extern struct struct_devise *devise_compte;
 extern struct struct_etat *etat_courant;
-extern GtkWidget *formulaire;
 extern GtkTreeStore *model;
 extern gint modif_imputation;
-extern gint no_devise_totaux_tiers;
 extern GtkTreeSelection * selection;
 extern GtkWidget *widget_formulaire_echeancier[SCHEDULER_FORM_TOTAL_WIDGET];
 extern GtkWidget *window;
@@ -247,62 +235,67 @@ GtkWidget *onglet_imputations ( void )
 
 void remplit_arbre_imputation ( void )
 {
-    GSList *liste_budgetary_line_tmp;
+    GSList *budget_list;
     GtkTreeIter iter_budgetary_line, iter_sub_budgetary_line;
 
+    if ( DEBUG )
+	printf ( "remplit_arbre_imputation\n" );
+
     /** First, remove previous tree */
-    gtk_tree_store_clear ( GTK_TREE_STORE (budgetary_line_tree_model) );
+    gtk_tree_store_clear ( GTK_TREE_STORE (budgetary_line_tree_model));
 
-    /** Currency used for totals is then chosen from preferences.  */
-    if ( !devise_compte
-	 ||
-	 devise_compte -> no_devise != no_devise_totaux_tiers )
-	devise_compte = devise_par_no ( no_devise_totaux_tiers );
-
-    /* Compute budgetary lines balances. */
-    calcule_total_montant_budgetary_line ();
+    /* Compute budget balances. */
+    gsb_data_budget_update_counters ();
 
     /** Then, populate tree with budgetary lines. */
-    liste_budgetary_line_tmp = g_slist_prepend ( liste_struct_imputation, NULL );
-    while ( liste_budgetary_line_tmp )
-    {
-	struct struct_imputation *budgetary_line;
-	GSList *liste_sub_budgetary_line_tmp = NULL;
 
-	budgetary_line = liste_budgetary_line_tmp -> data;
+    budget_list = gsb_data_budget_get_budgets_list ();
+    budget_list = g_slist_prepend ( budget_list, NULL );
+
+    while ( budget_list )
+    {
+	gint budget_number;
+
+	budget_number = gsb_data_budget_get_no_budget (budget_list -> data);
 
 	gtk_tree_store_append (GTK_TREE_STORE (budgetary_line_tree_model), &iter_budgetary_line, NULL);
 	fill_division_row ( GTK_TREE_MODEL(budgetary_line_tree_model), budgetary_interface, 
-			    &iter_budgetary_line, budgetary_line );
+			    &iter_budgetary_line, gsb_data_budget_get_structure (budget_number));
 
-	/** Each budgetary line has sub budgetary lines. */
-	if ( budgetary_line )
-	    liste_sub_budgetary_line_tmp = budgetary_line -> liste_sous_imputation;
-
-	while ( liste_sub_budgetary_line_tmp )
+	/** Each budget has sub budgetary lines. */
+	if ( budget_number )
 	{
-	    struct struct_sous_imputation *sub_budgetary_line;
+	    GSList *sub_budget_list;
 
-	    sub_budgetary_line = liste_sub_budgetary_line_tmp -> data;
+	    sub_budget_list = gsb_data_budget_get_sub_budget_list ( budget_number );
 
-	    gtk_tree_store_append (GTK_TREE_STORE (budgetary_line_tree_model), 
-				   &iter_sub_budgetary_line, &iter_budgetary_line);
-	    fill_sub_division_row ( GTK_TREE_MODEL(budgetary_line_tree_model), budgetary_interface, 
-				    &iter_sub_budgetary_line, budgetary_line, sub_budgetary_line );
+	    while ( sub_budget_list )
+	    {
+		gint sub_budget_number;
 
-	    liste_sub_budgetary_line_tmp = liste_sub_budgetary_line_tmp -> next;
+		sub_budget_number = gsb_data_budget_get_no_sub_budget (sub_budget_list -> data);
+
+		gtk_tree_store_append (GTK_TREE_STORE (budgetary_line_tree_model), 
+				       &iter_sub_budgetary_line, &iter_budgetary_line);
+		fill_sub_division_row ( GTK_TREE_MODEL(budgetary_line_tree_model), budgetary_interface, 
+					&iter_sub_budgetary_line,
+					gsb_data_budget_get_structure (budget_number),
+					gsb_data_budget_get_sub_budget_structure( budget_number,
+										  sub_budget_number));
+
+		sub_budget_list = sub_budget_list -> next;
+	    }
 	}
 
 	gtk_tree_store_append (GTK_TREE_STORE (budgetary_line_tree_model), 
 			       &iter_sub_budgetary_line, &iter_budgetary_line);
 	fill_sub_division_row ( GTK_TREE_MODEL(budgetary_line_tree_model), budgetary_interface, 
-				&iter_sub_budgetary_line, budgetary_line, NULL );
+				&iter_sub_budgetary_line, gsb_data_budget_get_structure (budget_number), NULL );
 	
-	liste_budgetary_line_tmp = liste_budgetary_line_tmp -> next;
+	budget_list = budget_list -> next;
     }
-
-    modif_imputation = 0;
 }
+
 
 
 
@@ -331,80 +324,6 @@ gboolean budgetary_line_drag_data_get ( GtkTreeDragSource * drag_source, GtkTree
 
 
 
-/***********************************************************************************************************/
-/*  Routine qui crée la liste des catégories pour les combofix du formulaire et de la ventilation */
-/* c'est à dire 3 listes dans 1 liste : */
-/* la première contient les catégories de débit */
-/* la seconde contient les catégories de crédit */
-/* la troisième contient les catégories spéciales ( virement, retrait, ventilation ) */
-/* la ventilation n'apparait pas dans les échéances ( et dans la ventilation ) */
-/***********************************************************************************************************/
-
-void creation_liste_imputation_combofix ( void )
-{
-    GSList *pointeur;
-    GSList *liste_imputation_credit;
-    GSList *liste_imputation_debit;
-
-    if ( DEBUG )
-	printf ( "creation_liste_imputation_combofix\n" );
-
-    liste_imputations_combofix = NULL;
-    liste_imputation_credit = NULL;
-    liste_imputation_debit = NULL;
-
-
-    pointeur = liste_struct_imputation;
-
-    while ( pointeur )
-    {
-	struct struct_imputation *imputation;
-	GSList *sous_pointeur;
-
-	imputation = pointeur -> data;
-
-	if ( imputation -> type_imputation )
-	    liste_imputation_debit = g_slist_append ( liste_imputation_debit,
-						      g_strdup ( imputation -> nom_imputation ) );
-	else
-	    liste_imputation_credit = g_slist_append ( liste_imputation_credit,
-						       g_strdup ( imputation -> nom_imputation ) );
-
-	sous_pointeur = imputation -> liste_sous_imputation;
-
-	while ( sous_pointeur )
-	{
-	    struct struct_sous_imputation *sous_imputation;
-
-	    sous_imputation = sous_pointeur -> data;
-
-	    if ( imputation -> type_imputation )
-		liste_imputation_debit = g_slist_append ( liste_imputation_debit,
-							  g_strconcat ( "\t",
-									sous_imputation -> nom_sous_imputation,
-									NULL ) );
-	    else
-		liste_imputation_credit = g_slist_append ( liste_imputation_credit,
-							   g_strconcat ( "\t",
-									 sous_imputation -> nom_sous_imputation,
-									 NULL ) );
-	    sous_pointeur = sous_pointeur -> next;
-	}
-	pointeur = pointeur -> next;
-    }
-
-
-    /*   on ajoute les listes des crédits / débits à la liste du combofix du formulaire */
-
-    liste_imputations_combofix = g_slist_append ( liste_imputations_combofix,
-						  liste_imputation_debit );
-    liste_imputations_combofix = g_slist_append ( liste_imputations_combofix,
-						  liste_imputation_credit );
-}
-/***********************************************************************************************************/
-
-
-
 
 /***********************************************************************************************************/
 /* Fonction mise_a_jour_combofix_imputation */
@@ -417,16 +336,14 @@ void mise_a_jour_combofix_imputation ( void )
     if ( DEBUG )
 	printf ( "mise_a_jour_combofix_imputation\n" );
 
-    creation_liste_imputation_combofix ();
-
     if ( verifie_element_formulaire_existe ( TRANSACTION_FORM_BUDGET ))
 	gtk_combofix_set_list ( GTK_COMBOFIX ( widget_formulaire_par_element (TRANSACTION_FORM_BUDGET) ),
-				liste_imputations_combofix,
+				gsb_data_budget_get_name_list (TRUE, TRUE),
 				TRUE,
 				TRUE );
 
     gtk_combofix_set_list ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_BUDGETARY] ),
-			    liste_imputations_combofix,
+			    gsb_data_budget_get_name_list (TRUE, TRUE),
 			    TRUE,
 			    TRUE );
 
@@ -441,73 +358,9 @@ void mise_a_jour_combofix_imputation ( void )
     mise_a_jour_combofix_imputation_necessaire = 0;
     modif_imputation = 1;
 }
-/***********************************************************************************************************/
 
 
 
-
-/***************************************************************************************************/
-void fusion_categories_imputation ( void )
-{
-    /* on fait le tour des catégories et on ajoute aux imputations celles qui n'existent pas */
-
-    GSList *list_tmp;
-
-    if ( !question ( _("Warning: this will add all the categories and subcategories to the budgetary lines!\nBesides you can't cancel this afterwards.\nWe advise you not to use this unless you know exactly what you are doing.\nDo you want to continue anyway?") ))
-	return;
-
-    list_tmp = gsb_data_category_get_categories_list ();
-
-    while ( list_tmp )
-    {
-	gint category_number;
-	struct struct_imputation *imputation;
-	GSList *sub_list_tmp;
-
-	category_number = gsb_data_category_get_no_category (list_tmp -> data);
-
-	/* vérifie si une imputation du nom de la catégorie existe */
-
-	imputation = imputation_par_nom ( gsb_data_category_get_name ( category_number,
-								       0,
-								       NULL),
-					  1,
-					  gsb_data_category_get_type (category_number),
-					  0 );
-	
-	if ( imputation )
-	{
-	    /* on fait maintenant la comparaison avec les sous catég et les sous imputations */
-
-	    sub_list_tmp = gsb_data_category_get_sub_category_list (category_number);
-
-	    while ( sub_list_tmp )
-	    {
-		gint sub_category_number;
-		struct struct_sous_imputation *sous_ib;
-
-		sub_category_number = gsb_data_category_get_no_sub_category (sub_list_tmp);
-
-		sous_ib = sous_imputation_par_nom ( imputation,
-						    gsb_data_category_get_sub_category_name ( category_number,
-											      sub_category_number,
-											      NULL ),
-						    1 );
-
-		sub_list_tmp = sub_list_tmp -> next;
-	    }
-	}
-	list_tmp = list_tmp -> next;
-    }
-
-    /* on met à jour les listes */
-
-    if ( mise_a_jour_combofix_imputation_necessaire )
-	mise_a_jour_combofix_imputation ();
-    remplit_arbre_imputation ();
-
-    modification_fichier(TRUE);
-}
 
 
 
@@ -556,73 +409,64 @@ void exporter_ib ( void )
 /* **************************************************************************************************** */
 void importer_ib ( void )
 {
-    GtkWidget *dialog, *fenetre_nom;
+    GtkWidget *dialog;
     gint resultat;
-    gchar *nom_ib;
+    gchar *budget_name;
     gint last_transaction_number;
 
-    fenetre_nom = file_selection_new (_("Import budgetary lines" ),
-				      FILE_SELECTION_MUST_EXIST);
-    file_selection_set_filename ( GTK_FILE_SELECTION ( fenetre_nom ),
-				  dernier_chemin_de_travail );
-    file_selection_set_entry ( GTK_FILE_SELECTION ( fenetre_nom ), ".igsb" );
+    dialog = file_selection_new ( _("Import budgetary lines"),
+				  FILE_SELECTION_IS_OPEN_DIALOG | FILE_SELECTION_MUST_EXIST);
+    file_selection_set_filename ( GTK_FILE_SELECTION ( dialog ), dernier_chemin_de_travail );
+    file_selection_set_entry ( GTK_FILE_SELECTION ( dialog ), ".igsb" );
 
-    resultat = gtk_dialog_run ( GTK_DIALOG ( fenetre_nom ));
+    resultat = gtk_dialog_run ( GTK_DIALOG ( dialog ));
 
-    if ( resultat != GTK_RESPONSE_OK )
+    if ( resultat != GTK_RESPONSE_OK  )
     {
-	gtk_widget_destroy ( fenetre_nom );
+	gtk_widget_destroy ( dialog );
 	return;
     }
 
-    nom_ib = file_selection_get_filename ( GTK_FILE_SELECTION ( fenetre_nom ));
-    gtk_widget_destroy ( GTK_WIDGET ( fenetre_nom ));
+    budget_name = file_selection_get_filename ( GTK_FILE_SELECTION ( dialog ));
+    gtk_widget_destroy ( GTK_WIDGET ( dialog ));
 
-    last_transaction_number = gsb_data_transaction_get_last_number ();
+    last_transaction_number = gsb_data_transaction_get_last_number();
 
-    if ( last_transaction_number )
-    {
-	/*       il y a déjà des opérations dans le fichier, on ne peut que fusionner */
+    /* on permet de remplacer/fusionner la liste */
 
-	resultat = question_yes_no_hint ( _("Merge imported budgetary lines with existing?"),
-					  _("File already contains transactions.  If you decide to continue, existing budgetary lines will be merged with imported ones.") );
-    }
-    else
-    {
-	/* on permet de remplacer/fusionner la liste */
-	dialog = dialogue_special_no_run ( GTK_MESSAGE_QUESTION, GTK_BUTTONS_NONE,
-					   make_hint ( _("Merge imported budgetary lines with existing?"),
-						       _("File does not contain transactions.  "
-							 "If you decide to continue, existing budgetary lines will be merged with imported ones.  "
-							 "Once performed, there is no undo for this.\n"
-							 "You may also decide to replace existing budgetary lines with imported ones.") ) );
-	
-	gtk_dialog_add_buttons ( GTK_DIALOG ( dialog ), 
+    dialog = dialogue_special_no_run ( GTK_MESSAGE_QUESTION, GTK_BUTTONS_NONE,
+				       make_hint ( _("Merge imported budgetary lines with existing?"),
+						   ( last_transaction_number ?
+						     _("File already contains transactions.  If you decide to continue, existing categories will be merged with imported ones.") :
+						     _("File does not contain transactions.  "
+						       "If you decide to continue, existing budgetary lines will be merged with imported ones.  "
+						       "Once performed, there is no undo for this.\n"
+						       "You may also decide to replace existing budgetary lines with imported ones." ) ) ) );
+
+    if ( !last_transaction_number)
+	gtk_dialog_add_buttons ( GTK_DIALOG(dialog),
 				 _("Replace existing"), 2,
-				 GTK_STOCK_CANCEL, 0,
-				 GTK_STOCK_OK, 1,
-				 NULL);
-    
-	resultat = gtk_dialog_run ( GTK_DIALOG ( dialog ));
-	gtk_widget_destroy ( GTK_WIDGET ( dialog ));
-    }
+				 NULL );
+
+    gtk_dialog_add_buttons ( GTK_DIALOG(dialog),
+			     GTK_STOCK_CANCEL, 0,
+			     GTK_STOCK_OK, 1,
+			     NULL );
+
+    resultat = gtk_dialog_run ( GTK_DIALOG ( dialog ));
+    gtk_widget_destroy ( GTK_WIDGET ( dialog ));
 
     switch ( resultat )
     {
 	case 2 :
-	    /* si on a choisi de remplacer l'ancienne liste, on la vire ici */
-	    if ( !last_transaction_number )
-	    {
-		g_slist_free ( liste_struct_imputation );
-		liste_struct_imputation = NULL;
-		no_derniere_imputation = 0;
-		nb_enregistrements_imputations = 0;
-	    }
+	    /* we want to replace the list */
 
-	case 1:
-	    if ( !gsb_file_others_load_budget ( nom_ib ))
+	    if ( !last_transaction_number )
+		gsb_data_budget_init_variables ();
+
+        case 1 :
+	    if ( !gsb_file_others_load_budget ( budget_name ))
 	    {
-		dialogue_error ( _("Cannot import file.") );
 		return;
 	    }
 	    break;
@@ -631,7 +475,6 @@ void importer_ib ( void )
 	    return;
     }
 }
-
 
 
 /** 
@@ -766,33 +609,31 @@ gboolean edit_budgetary_line ( GtkTreeView * view )
     GtkTreeSelection * selection;
     GtkTreeModel * model;
     GtkTreeIter iter;
-    gint no_division = -1, no_sub_division = -1;
-    struct struct_imputation * budgetary_line = NULL;
-    struct struct_sous_imputation * sub_budgetary_line = NULL;
+    gint budget_number = -1, sub_budget_number = -1;
     gchar * title;
 
     selection = gtk_tree_view_get_selection ( view );
     if ( selection && gtk_tree_selection_get_selected(selection, &model, &iter))
     {
 	gtk_tree_model_get ( model, &iter, 
-			     META_TREE_POINTER_COLUMN, &budgetary_line,
-			     META_TREE_NO_DIV_COLUMN, &no_division,
-			     META_TREE_NO_SUB_DIV_COLUMN, &no_sub_division,
+			     META_TREE_NO_DIV_COLUMN, &budget_number,
+			     META_TREE_NO_SUB_DIV_COLUMN, &sub_budget_number,
 			     -1 );
     }
 
-    if ( !selection || no_division <= 0 || ! budgetary_line)
+    if ( !selection || budget_number <= 0 )
 	return FALSE;
 
-    if ( no_sub_division > 0 )
-    {
-	sub_budgetary_line = (struct struct_sous_imputation *) budgetary_line;
-	title = g_strdup_printf ( _("Properties for %s"), sub_budgetary_line -> nom_sous_imputation );
-    }
+    if ( sub_budget_number > 0 )
+	title = g_strdup_printf ( _("Properties for %s"),
+				  gsb_data_budget_get_sub_budget_name ( budget_number,
+									sub_budget_number,
+									_("No sub-budget defined" )));
     else
-    {
-	title = g_strdup_printf ( _("Properties for %s"), budgetary_line -> nom_imputation );
-    }
+	title = g_strdup_printf ( _("Properties for %s"),
+				  gsb_data_budget_get_name ( budget_number,
+							     0,
+							     _("No budget defined") ));
 
     dialog = gtk_dialog_new_with_buttons ( title, GTK_WINDOW (window), GTK_DIALOG_MODAL,
 					   GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE, NULL);
@@ -815,22 +656,43 @@ gboolean edit_budgetary_line ( GtkTreeView * view )
     gtk_table_attach ( GTK_TABLE(table), label, 0, 1, 0, 1,
 		       GTK_SHRINK | GTK_FILL, GTK_SHRINK | GTK_FILL, 0, 0 );
 
-    if ( sub_budgetary_line )
-	entry = new_text_entry ( &(sub_budgetary_line -> nom_sous_imputation), NULL );
+   /* FIXME : should not work, replace new_text_entry ? */
+
+    if ( sub_budget_number )
+    {
+	gchar *sub_budget_name;
+
+	sub_budget_name = gsb_data_budget_get_sub_budget_name ( budget_number,
+								sub_budget_number,
+								"" );
+	entry = new_text_entry ( &sub_budget_name, NULL );
+    }
     else
-	entry = new_text_entry ( &(budgetary_line -> nom_imputation), NULL );
+    {
+	gchar *budget_name;
+
+	budget_name = gsb_data_budget_get_name ( budget_number,
+						 0,
+						 "" );
+	entry = new_text_entry ( &budget_name, NULL );
+    }
+
     gtk_widget_set_usize ( entry, 400, 0 );
     gtk_table_attach ( GTK_TABLE(table), entry, 1, 2, 0, 1, GTK_EXPAND|GTK_FILL, 0, 0, 0 );
 
-    if ( ! sub_budgetary_line )
+    if ( !sub_budget_number )
     {
+	guint type;
+
 	/* Description entry */
 	label = gtk_label_new ( _("Type"));
 	gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.5 );
 	gtk_table_attach ( GTK_TABLE(table), label, 0, 1, 1, 2,
 			   GTK_SHRINK | GTK_FILL, GTK_SHRINK | GTK_FILL, 0, 0 );
+	/* FIXME : must use other than new_radiogroup because &gsb_data_budget_get_type (budget_number) don't compile */
+	type = gsb_data_budget_get_type (budget_number);
 	radiogroup = new_radiogroup ( _("Credit"), _("Debit"), 
-				      &(budgetary_line -> type_imputation), NULL );
+				      &type, NULL );
 	gtk_table_attach ( GTK_TABLE(table), radiogroup, 
 			   1, 2, 1, 2, GTK_EXPAND|GTK_FILL, 0, 0, 0 );
     }
@@ -843,16 +705,19 @@ gboolean edit_budgetary_line ( GtkTreeView * view )
 
     mise_a_jour_combofix_imputation ();
 
-    if ( sub_budgetary_line )
+    if ( sub_budget_number )
     {
 	fill_sub_division_row ( model, budgetary_interface,
-				get_iter_from_div ( model, no_division, no_sub_division ), 
-				imputation_par_no ( no_division ), sub_budgetary_line );
+				get_iter_from_div ( model, budget_number, sub_budget_number ), 
+				gsb_data_budget_get_structure ( budget_number ),
+				gsb_data_budget_get_sub_budget_structure ( budget_number,
+									   sub_budget_number));
     }
     else
     {
 	fill_division_row ( model, budgetary_interface,
-			    get_iter_from_div ( model, no_division, -1 ), budgetary_line );
+			    get_iter_from_div ( model, budget_number, -1 ),
+			    gsb_data_budget_get_structure ( budget_number ));
     }
 
     return TRUE;

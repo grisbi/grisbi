@@ -184,9 +184,6 @@ GtkWidget *bouton_modif_categ_modifier, *bouton_modif_categ_annuler;
 GtkWidget *bouton_supprimer_categ, *bouton_ajouter_categorie;
 GtkWidget *bouton_ajouter_sous_categorie;
 
-/* nombre de catégories */
-gint nb_enregistrements_categories, no_derniere_categorie;
-
 gint mise_a_jour_combofix_categ_necessaire;
 
 /* Category tree model & view */
@@ -515,26 +512,26 @@ gboolean exporter_categ ( GtkButton * widget, gpointer data )
  */
 void importer_categ ( void )
 {
-    GtkWidget *dialog, *fenetre_nom;
+    GtkWidget *dialog;
     gint resultat;
-    gchar *nom_categ;
+    gchar *category_name;
     gint last_transaction_number;
 
-    fenetre_nom = file_selection_new ( _("Import categories"),
+    dialog = file_selection_new ( _("Import categories"),
 				       FILE_SELECTION_IS_OPEN_DIALOG | FILE_SELECTION_MUST_EXIST);
-    file_selection_set_filename ( GTK_FILE_SELECTION ( fenetre_nom ), dernier_chemin_de_travail );
-    file_selection_set_entry ( GTK_FILE_SELECTION ( fenetre_nom ), ".cgsb" );
+    file_selection_set_filename ( GTK_FILE_SELECTION ( dialog ), dernier_chemin_de_travail );
+    file_selection_set_entry ( GTK_FILE_SELECTION ( dialog ), ".cgsb" );
 
-    resultat = gtk_dialog_run ( GTK_DIALOG ( fenetre_nom ));
+    resultat = gtk_dialog_run ( GTK_DIALOG ( dialog ));
 
     if ( resultat != GTK_RESPONSE_OK  )
     {
-	gtk_widget_destroy ( fenetre_nom );
+	gtk_widget_destroy ( dialog );
 	return;
     }
 
-    nom_categ = file_selection_get_filename ( GTK_FILE_SELECTION ( fenetre_nom ));
-    gtk_widget_destroy ( GTK_WIDGET ( fenetre_nom ));
+    category_name = file_selection_get_filename ( GTK_FILE_SELECTION ( dialog ));
+    gtk_widget_destroy ( GTK_WIDGET ( dialog ));
 
     last_transaction_number = gsb_data_transaction_get_last_number();
 
@@ -571,7 +568,7 @@ void importer_categ ( void )
 		gsb_data_category_init_variables ();
 
         case 1 :
-	    if ( !gsb_file_others_load_category ( nom_categ ))
+	    if ( !gsb_file_others_load_category ( category_name ))
 	    {
 		return;
 	    }

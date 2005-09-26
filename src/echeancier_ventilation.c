@@ -38,12 +38,12 @@
 #include "utils_echeances.h"
 #include "operations_formulaire.h"
 #include "gsb_data_account.h"
+#include "gsb_data_budget.h"
 #include "gsb_data_category.h"
 #include "utils_dates.h"
 #include "echeancier_formulaire.h"
 #include "operations_liste.h"
 #include "gtk_combofix.h"
-#include "utils_ib.h"
 #include "categories_onglet.h"
 #include "imputation_budgetaire.h"
 #include "utils_comptes.h"
@@ -107,7 +107,6 @@ extern GtkWidget *formulaire;
 extern GtkWidget *formulaire_echeancier;
 extern GtkWidget *formulaire_echeancier;
 extern GtkWidget *frame_droite_bas;
-extern GSList *liste_imputations_combofix;
 extern GSList *liste_struct_echeances;
 extern gint mise_a_jour_combofix_categ_necessaire;
 extern gint mise_a_jour_combofix_imputation_necessaire;
@@ -383,11 +382,11 @@ GtkWidget *creation_formulaire_ventilation_echeances ( void )
 
     /*  Affiche l'imputation budgétaire */
 
-    widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_BUDGETARY] = gtk_combofix_new_complex ( liste_imputations_combofix,
-									    FALSE,
-									    TRUE,
-									    TRUE,
-									    0 );
+    widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_BUDGETARY] = gtk_combofix_new_complex ( gsb_data_budget_get_name_list (TRUE, TRUE),
+													     FALSE,
+													     TRUE,
+													     TRUE,
+													     0 );
     gtk_table_attach ( GTK_TABLE (table),
 		       widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_BUDGETARY],
 		       0, 1, 1, 2,
@@ -1580,36 +1579,25 @@ void fin_edition_ventilation_echeances ( void )
 
     if ( gtk_widget_get_style ( GTK_COMBOFIX ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_BUDGETARY] ) -> entry ) == style_entree_formulaire[ENCLAIR] )
     {
-	struct struct_imputation *imputation;
 	gchar **tab_char;
 
 	tab_char = g_strsplit ( gtk_combofix_get_text ( GTK_COMBOFIX ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_BUDGETARY] )),
-				    ":",
-				    2 );
+				":",
+				2 );
+	tab_char[0] = g_strstrip ( tab_char[0] );
 
-	imputation = imputation_par_nom ( tab_char[0],
-					  1,
-					  operation -> montant,
-					  0 );
+	if ( tab_char[1] )
+	    tab_char[1] = g_strstrip ( tab_char[1] );
 
-	if ( imputation )
+	if ( strlen ( tab_char[0] ) )
 	{
-	    struct struct_sous_imputation *sous_imputation;
-
-	    operation -> imputation = imputation -> no_imputation;
-
-	    sous_imputation = sous_imputation_par_nom ( imputation,
-							tab_char[1],
-							1 );
-
-	    if ( sous_imputation )
-		operation -> sous_imputation = sous_imputation -> no_sous_imputation;
-	    else
-		operation -> sous_imputation = 0;
+	    operation -> imputation = gsb_data_budget_get_number_by_name ( tab_char[0],
+									   TRUE,
+									   operation -> montant < 0);
+	    operation -> sous_imputation = gsb_data_budget_get_sub_budget_number_by_name ( operation -> imputation,
+											   tab_char[1],
+											   TRUE );
 	}
-	else
-	    operation -> imputation = 0;
-
 	g_strfreev ( tab_char );
     }
 
@@ -1823,8 +1811,9 @@ void edition_operation_ventilation_echeances ( void )
 
     /* met en place l'imputation budgétaire */
 
-    char_tmp = nom_imputation_par_no (  operation -> imputation,
-					operation -> sous_imputation );
+    char_tmp = gsb_data_budget_get_name (  operation -> imputation,
+					   operation -> sous_imputation,
+					   NULL );
     if ( char_tmp )
     {
 	entree_prend_focus ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_BUDGETARY] );

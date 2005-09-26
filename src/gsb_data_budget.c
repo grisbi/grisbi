@@ -31,13 +31,12 @@
 
 /*START_INCLUDE*/
 #include "gsb_data_budget.h"
-#include "gsb_data_account.h"
+#include "gsb_data_category.h"
 #include "gsb_data_transaction.h"
-#include "utils_ib.h"
 #include "categories_onglet.h"
 #include "traitement_variables.h"
+#include "dialog.h"
 #include "include.h"
-#include "structures.h"
 /*END_INCLUDE*/
 
 
@@ -90,73 +89,22 @@ typedef struct
 
 
 /*START_STATIC*/
-static void gsb_data_budget_add_transaction_to_budget ( gint transaction_number );
 static GSList *gsb_data_budget_append_sub_budget_to_list ( GSList *budget_list,
 						    GSList *sub_budget_list );
 static void gsb_data_budget_create_default_budget_list ( void );
-static gdouble gsb_data_budget_get_balance ( gint no_budget );
-static GSList *gsb_data_budget_get_budgets_list ( void );
-static gdouble gsb_data_budget_get_direct_balance ( gint no_budget );
-static gchar *gsb_data_budget_get_name ( gint no_budget,
-				  gint no_sub_budget,
-				  gchar *return_value_error );
-static GSList *gsb_data_budget_get_name_list ( gboolean set_debit,
-					gboolean set_credit,
-					gboolean set_special,
-					gboolean set_breakdown );
-static gint gsb_data_budget_get_nb_direct_transactions ( gint no_budget );
-static gint gsb_data_budget_get_nb_transactions ( gint no_budget );
-static gint gsb_data_budget_get_no_budget ( gpointer budget_ptr );
-static gint gsb_data_budget_get_no_budget_from_sub_budget ( gpointer sub_budget_ptr );
-static gint gsb_data_budget_get_no_sub_budget ( gpointer sub_budget_ptr );
-static gint gsb_data_budget_get_number_by_name ( gchar *name,
-					  gboolean create,
-					  gint budget_type );
 static gint gsb_data_budget_get_pointer_from_name_in_glist ( struct_budget *budget,
 						      gchar *name );
 static gint gsb_data_budget_get_pointer_from_sub_name_in_glist ( struct_sub_budget *sub_budget,
 							  gchar *name );
-static gpointer gsb_data_budget_get_structure ( gint no_budget );
 static gpointer gsb_data_budget_get_structure_in_list ( gint no_budget,
 						 GSList *list );
-static gdouble gsb_data_budget_get_sub_budget_balance ( gint no_budget,
-						 gint no_sub_budget );
-static GSList *gsb_data_budget_get_sub_budget_list ( gint no_budget );
-static gchar *gsb_data_budget_get_sub_budget_name ( gint no_budget,
-					     gint no_sub_budget,
-					     gchar *return_value_error );
-static gint gsb_data_budget_get_sub_budget_nb_transactions ( gint no_budget,
-						      gint no_sub_budget );
-static gint gsb_data_budget_get_sub_budget_number_by_name ( gint budget_number,
-						     gchar *name,
-						     gboolean create );
-static gpointer gsb_data_budget_get_sub_budget_structure ( gint no_budget,
-						    gint no_sub_budget );
-static gint gsb_data_budget_get_type ( gint no_budget );
-static gboolean gsb_data_budget_init_variables ( void );
 static gint gsb_data_budget_max_number ( void );
 static gint gsb_data_budget_max_sub_budget_number ( gint budget_number );
+static gboolean gsb_data_budget_merge_category_list ( void );
 static gint gsb_data_budget_new ( gchar *name );
 static gint gsb_data_budget_new_sub_budget ( gint budget_number,
 				      gchar *name );
-static gint gsb_data_budget_new_sub_budget_with_number ( gint number,
-						  gint budget_number,
-						  GSList **import_list);
-static gint gsb_data_budget_new_with_number ( gint number,
-				       GSList **import_list);
-static gboolean gsb_data_budget_remove ( gint no_budget );
-static void gsb_data_budget_remove_transaction_from_budget ( gint transaction_number );
 static void gsb_data_budget_reset_counters ( void );
-static gboolean gsb_data_budget_set_name ( gint no_budget,
-				    const gchar *name );
-static gboolean gsb_data_budget_set_sub_budget_name ( gint no_budget,
-					       gint no_sub_budget,
-					       const gchar *name );
-static gboolean gsb_data_budget_set_type ( gint no_budget,
-				    gint budget_type );
-static gboolean gsb_data_budget_sub_budget_remove ( gint no_budget,
-					     gint no_sub_budget );
-static void gsb_data_budget_update_counters ( void );
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -218,7 +166,7 @@ gpointer gsb_data_budget_get_structure ( gint no_budget )
     if (!no_budget)
 	return empty_budget;
 
-    /* before checking all the budgets, we check the buffer */
+    /* before checking all the budgets, we check the budget_buffer */
 
     if ( budget_buffer
 	 &&
@@ -923,15 +871,11 @@ gboolean gsb_data_budget_set_sub_budget_name ( gint no_budget,
  *
  * \param set_debit TRUE if we want to have the debits
  * \param set_credit TRUE if we want to have the credits
- * \param set_special TRUE if we want to have the specials
- * \param set_breakdown TRUE if we want to add the breakdown to the specials budget
  *
  * \return a g_slist of g_slist of gchar *
  * */
 GSList *gsb_data_budget_get_name_list ( gboolean set_debit,
-					gboolean set_credit,
-					gboolean set_special,
-					gboolean set_breakdown )
+					gboolean set_credit )
 {
     GSList *return_list;
     GSList *tmp_list;
@@ -982,37 +926,6 @@ GSList *gsb_data_budget_get_name_list ( gboolean set_debit,
 	return_list = g_slist_append ( return_list,
 				       credit_list );
 
-    /* append the specials list if needed */
-
-    if (set_special)
-    {
-	GSList *special_list = NULL;
-
-	if (set_breakdown)
-	    special_list = g_slist_append ( special_list,
-					    _("Breakdown of transaction"));
-	special_list = g_slist_append ( special_list,
-					_("Transfer"));
-
-	/* append the accounts name with a tab at the begining */
-
-	tmp_list= gsb_data_account_get_list_accounts ();
-
-	while ( tmp_list )
-	{
-	    gint i;
-
-	    i = gsb_data_account_get_no_account ( tmp_list -> data );
-	    if ( ! gsb_data_account_get_closed_account (i) )
-		special_list = g_slist_append ( special_list,
-						g_strconcat ( "\t",
-							      gsb_data_account_get_name (i),
-							      NULL ));
-	    tmp_list = tmp_list -> next;
-	}
-	return_list = g_slist_append ( return_list,
-				       special_list );
-    }
     return return_list;
 }
 
@@ -1410,8 +1323,6 @@ void gsb_data_budget_create_default_budget_list ( void )
 
 
 
-
-
 /**
  * merge the given budget list with the current budget list
  *
@@ -1427,44 +1338,63 @@ gboolean gsb_data_budget_merge_budget_list ( GSList *list_to_merge )
 
     while ( list_tmp )
     {
-	struct struct_imputation *new_budget;
-	struct struct_imputation *last_budget;
+	gint budget_number;
+	struct_budget *new_budget;
 
 	new_budget = list_tmp -> data;
 
-	/* we try to find the new budget in the currents budgets
+	/* we try to find the new budget in the currents categories
 	 * if don't, it creates it */
 
-	last_budget = imputation_par_nom ( new_budget -> nom_imputation,
-					   TRUE,
-					   new_budget -> type_imputation,
-					   0 );
+	budget_number = gsb_data_budget_get_number_by_name ( new_budget -> budget_name,
+							     TRUE,
+							     new_budget -> budget_type );
 
-	/* here normally last budget is real, we can append the sub-budget */
+	/* we check budget_number but normally it will always != 0 */
 
-	if ( last_budget )
+	if ( budget_number )
 	{
 	    GSList *sub_list_tmp;
 
-	    sub_list_tmp = new_budget -> liste_sous_imputation;
+	    sub_list_tmp = new_budget -> sub_budget_list;
 
 	    while ( sub_list_tmp )
 	    {
-		struct struct_sous_imputation *new_sub_budget;
+		struct_sub_budget *new_sub_budget;
 
 		new_sub_budget = sub_list_tmp -> data;
 
-		sous_imputation_par_nom ( last_budget,
-					  new_sub_budget -> nom_sous_imputation,
-					  TRUE );
-
+		gsb_data_budget_get_sub_budget_number_by_name ( budget_number,
+								    new_sub_budget -> sub_budget_name,
+								    TRUE );
 		sub_list_tmp = sub_list_tmp -> next;
 	    }
+	    list_tmp = list_tmp -> next;
 	}
-	list_tmp = list_tmp -> next;
     }
-
     return TRUE;
 }
+
+
+
+/**
+ * merge the category list with the current budget list
+ *
+ * \param nothing
+ *
+ * \return TRUE if ok
+ * */
+gboolean gsb_data_budget_merge_category_list ( void )
+{
+    GSList *list_tmp;
+
+    if ( !question_yes_no_hint ( _("Merge the categories list"),
+				 _("Warning: this will add all the categories and subcategories to the budgetary lines!\nBesides you can't cancel this afterwards.\nWe advise you not to use this unless you know exactly what you are doing.\nDo you want to continue anyway?")))
+	return FALSE;
+    
+    return (gsb_data_budget_merge_budget_list (gsb_data_category_get_categories_list ()));
+}
+
+
 
 
