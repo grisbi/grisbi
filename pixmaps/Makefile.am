@@ -4,6 +4,7 @@ grisbi_pixmaps_DATA = \
 	addresses.png \
 	aqbanking.png \
 	asset.png \
+	csv.png \
 	bank-account.png \
 	banks.png \
 	budgetary_lines.png \
