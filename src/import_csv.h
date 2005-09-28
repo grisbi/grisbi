@@ -6,6 +6,7 @@
 
 
 /* START_DECLARATION */
+gboolean importer_csv ();
 gboolean recuperation_donnees_csv ( FILE *fichier );
 /* END_DECLARATION */
 #endif
