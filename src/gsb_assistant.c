@@ -97,7 +97,7 @@ GtkWidget * gsb_assistant_new ( gchar * title, gchar * explanation,
     view = gtk_text_view_new ();
     gtk_text_view_set_wrap_mode (GTK_TEXT_VIEW (view), GTK_WRAP_WORD);
     buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (view));
-    gtk_text_buffer_set_text (buffer, explanation, -1);
+    gtk_text_buffer_set_text (buffer, g_strconcat ( "\n", explanation, "\n", NULL ), -1);
     gtk_text_view_set_editable ( view, FALSE );
     gtk_text_view_set_cursor_visible ( view, FALSE );
     gtk_text_view_set_left_margin ( view, 12 );
@@ -105,7 +105,6 @@ GtkWidget * gsb_assistant_new ( gchar * title, gchar * explanation,
     gtk_notebook_append_page ( notebook, view, gtk_label_new("") );
 
     g_object_set_data ( window, "next0", 1 );
-
     g_object_set_data ( window, "notebook", notebook );
     g_object_set_data ( window, "title", title );
 
