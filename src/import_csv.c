@@ -27,6 +27,7 @@
 #include "erreur.h"
 #include "dialog.h"
 #include "utils_files.h"
+#include "gsb_assistant.h"
 #include "structures.h"
 #include "include.h"
 /*END_INCLUDE*/
@@ -35,10 +36,175 @@
 extern GSList *liste_comptes_importes;
 /*END_EXTERN*/
 
+/*START_STATIC*/
+static GtkWidget * cvs_import_create_first_page ( );
+static gchar * parse_csv ( gchar * contents, gchar separator );
+static gchar * sanitize_field ( gchar * begin, gchar * end  );
+/*END_STATIC*/
+
 /* definition temporaire pour indiquer l'en tete du debug CSV, qui */
 #define WHERE_AM_I g_strdup_printf("Import CSV (%s)",DEBUG_WHERE_AM_I)
 
-/* *******************************************************************************/
+
+
+/**
+ *
+ *
+ */
+gboolean importer_csv ()
+{
+    GtkWidget * a;
+
+    a = gsb_assistant_new ( "CSV import assistant.",
+			    "This assistant will help you import a CSV file into Grisbi."
+			    "\n\n"
+			    "If Grisbi can't automatically guess CSV format, it will be "
+			    "necessary to manually configure its format in this assistant.",
+			    "csv.png" );
+
+    gsb_assistant_add_page ( a, cvs_import_create_first_page(), 1, 0, 3 );
+    gsb_assistant_add_page ( a, gtk_label_new ( "Plop page 2" ), 2, 1, 3 );
+    gsb_assistant_add_page ( a, gtk_label_new ( "Plop page 3" ), 3, 2, 4 );
+
+    gsb_assistant_run ( a );
+
+    return FALSE;
+}
+
+
+
+/**
+ *
+ *
+ *
+ */
+GtkWidget * cvs_import_create_first_page ( )
+{
+    GtkWidget * vbox, * paddingbox;
+
+    vbox = gtk_vbox_new ( FALSE, 6 );
+    gtk_container_set_border_width ( GTK_CONTAINER(vbox), 12 );
+
+    paddingbox = new_paddingbox_with_title ( vbox, TRUE, "CSV file to import" );
+
+    gtk_box_pack_start ( paddingbox, gtk_file_chooser_button_new ( "Import CSV file",
+								   GTK_FILE_CHOOSER_ACTION_OPEN ),
+			 FALSE, FALSE, 6 );
+
+    return vbox;
+}
+
+
+
+/**
+ * TODO
+ *
+ *
+ */
+gchar * parse_csv ( gchar * contents, gchar separator )
+{
+    gchar * tmp = contents, * begin = tmp;
+    gint is_unquoted = FALSE;
+
+    if ( *tmp == '\n' )
+    {
+	return tmp+1;
+    }
+    
+    if ( *tmp == '!' || *tmp == '#' || *tmp == ';' )
+    {
+	return strchr ( tmp, '\n' ) + 1;
+    }
+
+    while ( *tmp )
+    {
+	switch ( *tmp )
+	{
+	    case '\n':
+		printf ( "[%s]\n", sanitize_field ( begin, tmp ) );
+		return tmp+1;
+
+	    case '"':
+		if ( ! is_unquoted )
+		{
+		    tmp++;
+		    while ( *tmp )
+		    {
+			/* End of quoted string. */
+			if ( *tmp == '"' && *(tmp+1) != '"' )
+			{
+			    tmp+=1;
+			    break;
+			}
+			
+			tmp++;
+		    }
+		}
+
+	    default:
+		is_unquoted = TRUE;
+		if ( *tmp == separator )
+		{
+		    printf ( "[%s]", sanitize_field ( begin, tmp ) );
+		    begin = tmp + 1;
+		    is_unquoted = FALSE;
+		}
+		break;
+	}
+
+	tmp++;
+    }
+
+    return NULL;
+}
+
+
+
+/**
+ * TODO
+ *
+ */
+gchar * sanitize_field ( gchar * begin, gchar * end  )
+{
+    gchar * field, * iter;
+
+    g_return_val_if_fail ( begin <= end, NULL );
+
+    if ( begin == end )
+	return g_strdup ( "" );
+
+    iter = field = g_malloc ( end - begin );
+
+    /* Strip out intial white spaces. */
+    while ( *begin == ' ' )
+	begin++;
+
+    if ( *begin == '"' )
+    {
+	begin++;
+	while ( *end != '"' && end >= begin )
+	    end--;
+    }
+
+    while ( begin < end )
+    {
+	if ( *begin == '"' && *(begin+1) == '"' )
+	    begin++;
+
+	*iter++ = *begin++;
+    }
+
+    /* Strip out remaining white spaces. */
+    while ( *(iter-1) == ' ' || *(iter-1) == '\n' )
+	iter--;
+
+    *iter = '\0';
+
+    return field;
+}
+
+
+
 gboolean recuperation_donnees_csv ( FILE *fichier )
 {
 	/* on va récupérer ici chaque ligne d'un fichier csv et le handler import va gérer
@@ -362,4 +528,9 @@ gboolean recuperation_donnees_csv ( FILE *fichier )
 	
 	return ( TRUE );
 }
-/* *******************************************************************************/
+
+
+
+/* Local Variables: */
+/* c-basic-offset: 4 */
+/* End: */
