@@ -28,12 +28,15 @@
 #include "dialog.h"
 #include "utils_files.h"
 #include "gsb_assistant.h"
+#include "utils.h"
+#include "csv.h"
 #include "structures.h"
 #include "include.h"
 /*END_INCLUDE*/
 
 /*START_EXTERN*/
 extern GSList *liste_comptes_importes;
+extern FILE * out;
 /*END_EXTERN*/
 
 /*START_STATIC*/
@@ -55,7 +58,7 @@ gboolean importer_csv ()
 {
     GtkWidget * a;
 
-    a = gsb_assistant_new ( "CSV import assistant.",
+    a = gsb_assistant_new ( "Importing a CSV file.",
 			    "This assistant will help you import a CSV file into Grisbi."
 			    "\n\n"
 			    "If Grisbi can't automatically guess CSV format, it will be "
