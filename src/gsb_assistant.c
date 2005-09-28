@@ -30,6 +30,7 @@
 
 /*START_INCLUDE*/
 #include "gsb_assistant.h"
+#include "gsb_file_config.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -83,7 +84,8 @@ GtkWidget * gsb_assistant_new ( gchar * title, gchar * explanation,
 						title, "</span></b>", NULL ) );
     gtk_box_pack_start ( hbox, label, TRUE, TRUE, 0 );
 
-    image = gtk_image_new_from_file ( image_filename );
+    image = gtk_image_new_from_file ( g_strconcat ( PIXMAPS_DIR, C_DIRECTORY_SEPARATOR,
+						    image_filename, NULL) );
     gtk_box_pack_start ( hbox, image, FALSE, FALSE, 0 );
 
     gtk_box_pack_start ( GTK_DIALOG(window) -> vbox, eb, 
