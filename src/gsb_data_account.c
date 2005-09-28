@@ -1,11 +1,10 @@
 /* ************************************************************************** */
 /* work with the struct of accounts                                           */
 /*                                                                            */
-/*                                  data_account                              */
+/*                                  gsb_data_account                          */
 /*                                                                            */
-/*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org)	      */
-/*			2003-2004 Benjamin Drieu (bdrieu@april.org)	      */
-/*			2003-2004 Alain Portal (aportal@univ-montp2.fr)	      */
+/*     Copyright (C)	2000-2005 Cédric Auger (cedric@grisbi.org)	      */
+/*			2003-2005 Benjamin Drieu (bdrieu@april.org)	      */
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -25,7 +24,7 @@
 /* ************************************************************************** */
 
 /**
- * \file data_account.c
+ * \file gsb_data_account.c
  * work with the account structure, no GUI here
  */
 
@@ -136,8 +135,11 @@ static struct_account *account_buffer;
 /** the number of the current account */
 static gint current_account;
 
-/** set the accounts global variables to NULL, usually when we init all the global variables
+/**
+ * set the accounts global variables to NULL, usually when we init all the global variables
+ * 
  * \param none
+ *
  * \return FALSE
  * */
 gboolean gsb_data_account_init_variables ( void )
@@ -301,7 +303,7 @@ gint gsb_data_account_first_number ( void )
  * */
 gint gsb_data_account_get_current_account ( void )
 {
-    return  current_account;
+    return current_account;
 }
 
 
@@ -347,7 +349,7 @@ gint gsb_data_account_get_no_account ( gpointer account_ptr )
  * \return the new number, or -1 if failed
  * */
 gint gsb_data_account_set_account_number ( gint no_account,
-				      gint new_no )
+					   gint new_no )
 {
     struct_account *account;
 
@@ -426,7 +428,7 @@ gint gsb_data_account_get_nb_rows ( gint no_account )
  * \return TRUE, ok ; FALSE, problem
  * */
 gboolean gsb_data_account_set_nb_rows ( gint no_account,
-				   gint nb_rows )
+					gint nb_rows )
 {
     struct_account *account;
 

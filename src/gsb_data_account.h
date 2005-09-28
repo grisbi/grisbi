@@ -75,7 +75,7 @@ gboolean gsb_data_account_reorder ( GSList *new_order );
 gboolean gsb_data_account_set_account_button ( gint no_account,
 					  gpointer account_button );
 gint gsb_data_account_set_account_number ( gint no_account,
-				      gint new_no );
+					   gint new_no );
 gboolean gsb_data_account_set_bank ( gint no_account,
 				gint bank );
 gboolean gsb_data_account_set_bank_account_key ( gint no_account,
@@ -131,7 +131,7 @@ gboolean gsb_data_account_set_mini_balance_wanted_message ( gint no_account,
 gboolean gsb_data_account_set_name ( gint no_account,
 				gchar *name );
 gboolean gsb_data_account_set_nb_rows ( gint no_account,
-				   gint nb_rows );
+					gint nb_rows );
 gboolean gsb_data_account_set_r ( gint no_account,
 			     gboolean show_r );
 gboolean gsb_data_account_set_reconcile_balance ( gint no_account,
