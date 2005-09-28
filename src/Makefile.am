@@ -63,6 +63,7 @@ sources = \
 	fenetre_principale.c	\
 	fichiers_gestion.c	\
 	gnucash.c               \
+	gsb_assistant.c		\
 	gtk_combofix.c		\
 	gtk_list_button.c	\
 	gtk_cell_renderer_expander.c	\
@@ -128,7 +129,8 @@ grisbi_INCLUDES =		\
 	comptes_onglet.h	\
 	comptes_traitements.h	\
 	constants.h		\
-	import_csv.h \
+	import_csv.h		\
+	gsb_assistant.h		\
 	gsb_data_account.h	\
 	gsb_data_budget.h	\
 	gsb_data_category.h	\
@@ -188,7 +190,7 @@ grisbi_INCLUDES =		\
 	traitement_variables.h	\
 	type_operations.h	\
 	utils.h			\
-	utils_c.h	\
+	utils_c.h		\
 	utils_buttons.h		\
 	utils_comptes.h		\
 	utils_dates.h		\
@@ -196,7 +198,7 @@ grisbi_INCLUDES =		\
 	utils_echeances.h	\
 	utils_editables.h	\
 	utils_exercices.h	\
-	utils_file_selection.h \
+	utils_file_selection.h	\
 	utils_files.h		\
 	utils_montants.h	\
 	utils_operations.h	\
