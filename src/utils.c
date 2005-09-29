@@ -703,11 +703,15 @@ gboolean lance_navigateur_web ( const gchar *url )
     gchar **split;
     gchar *chaine;
 #ifdef _WIN32
+
     gboolean use_default_browser = TRUE;
 
-    if ( etat.browser_command && strlen ( etat.browser_command) )
+    // Fix Bug 24: When a browser string is defined, concider only the absolute path as valid
+    // All other are not valid -> use default browser
+    // On Windows a absolute path is like C:\...
+    if ( etat.browser_command && (strlen ( etat.browser_command) > 2) )
     {
-        use_default_browser = !strcmp(etat.browser_command,ETAT_WWW_BROWSER);
+        use_default_browser = (etat.browser_command[1] != ':'); 
     }
     
 #else // !_WIN32
