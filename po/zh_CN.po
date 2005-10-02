@@ -1468,16 +1468,19 @@ msgid ""
 "No transactions will be lost, but in some cases, you will have to manually "
 "move transactions to this new sub-category."
 msgstr ""
+"交易信息不会丢失，但是有可能您需要手工转移 "
+"交易到新的子类别"
 
 #: src/check.c:260
 msgid "Fix inconsistencies in sub-categories?"
-msgstr ""
+msgstr "修正子类别的矛盾？"
 
 #: src/check.c:339
 #, c-format
 msgid ""
 "Sub-budgetary line <i>'%s : %s'</i> is a duplicate of <i>'%s : %s'</i>\n"
 msgstr ""
+"子预算 <i>'%s : %s'</i> 是 <i>'%s : %s'</i>的复制\n"
 
 #: src/check.c:356
 msgid ""
@@ -1489,15 +1492,22 @@ msgid ""
 "No transactions will be lost, but in some cases, you will have to manually "
 "move transactions to this new sub-budgetary line."
 msgstr ""
+"由于上一个Grisbi版本的错误，子预算行可能使用 "
+"了相同的数字编号，导致交易中出现两个子预算行。"
+"如果您选择继续，Grisbi将删除其中一条重复的一条"
+"并且用新的编号重新保存\n"
+"\n"
+"交易信息不会丢失，但是某些时候您需要手工转移"
+"交易到新的子预算行。"
 
 #: src/check.c:366
 msgid "Fix inconsistencies in sub-budgetary lines?"
-msgstr ""
+msgstr "修正子预算行的矛盾？"
 
 #: src/check.c:469
 #, c-format
 msgid "Transaction #%d should have a contra #%d, but this one doesn't exist.\n"
-msgstr ""
+msgstr "交易 #%d 应当反 #%d，但本条没有。\n"
 
 #: src/check.c:494
 #, c-format
@@ -1505,6 +1515,8 @@ msgid ""
 "Transaction #%d have a contra #%d, but transaction #%d have a contra #%d "
 "instead of #%d.\n"
 msgstr ""
+"交易 #%d 有反 #%d， 但交易 #%d 有反 #%d "
+"而不是 #%d。\n"
 
 #: src/check.c:520
 msgid ""
@@ -1513,11 +1525,15 @@ msgid ""
 "happened.\n"
 "The following accounts are inconsistent:\n"
 msgstr ""
+"Grisbi 发现转帐交易的链接与它本身有矛盾。 "
+"很抱歉，我们不知道为什么出现这个问题。\n "
+"\n"
+"下列账户有矛盾：\n"
 
 #: src/check.c:615
 #, c-format
 msgid "Breakdown line #%d is orpheanous.\n"
-msgstr ""
+msgstr "细目分类行 #%d \n"
 
 #: src/check.c:633
 #, c-format
@@ -1525,6 +1541,8 @@ msgid ""
 "Transaction #%d has a financial year named %s and breakdown line #%d of this "
 "transaction has a financial year named %s\n"
 msgstr ""
+"交易 #%d 有一个财年 %s 及本交易的细目分类行 #%d "
+"有一个财年 %s\n"
 
 #: src/check.c:658
 msgid ""
@@ -1533,6 +1551,10 @@ msgid ""
 "perhaps it is.\n"
 "The following accounts seems inconsistent:\n"
 msgstr ""
+"Grisbi发现有些细目分类行的财年和与它相关"
+"的交易的财年不同，也许这不存在问题，但是"
+"也有可能。\n"
+"下列账户可能有矛盾：\n"
 
 #: src/comptes_gestion.c:88
 msgid "Account details"
@@ -1556,28 +1578,28 @@ msgstr "将本在账户转换到欧元"
 
 #: src/comptes_gestion.c:182
 msgid "Closed account"
-msgstr ""
+msgstr "已结清账户"
 
 #. crÃ©ation de la ligne du titulaire du compte
 #: src/comptes_gestion.c:188
 msgid "Account holder"
-msgstr ""
+msgstr "账户所有者"
 
 #: src/comptes_gestion.c:199
 msgid "Holder name"
-msgstr ""
+msgstr "所有者名称"
 
 #: src/comptes_gestion.c:223
 msgid "Common address is holder's address"
-msgstr ""
+msgstr "通用地址是所有者的地址"
 
 #: src/comptes_gestion.c:253
 msgid "Holder has his own address"
-msgstr ""
+msgstr "所有者有单独的地址"
 
 #: src/comptes_gestion.c:290
 msgid "Financial institution"
-msgstr ""
+msgstr "财务制度"
 
 #: src/comptes_gestion.c:319
 msgid "Details"
@@ -1589,34 +1611,34 @@ msgstr "银行排序编号"
 
 #: src/comptes_gestion.c:370
 msgid "Bank branch code"
-msgstr ""
+msgstr "支行代码"
 
 #: src/comptes_gestion.c:394
 msgid "Account number / Key"
-msgstr ""
+msgstr "账户编号 / Key "
 
 #. crÃ©ation de la ligne du solde initial
 #: src/comptes_gestion.c:415
 msgid "Balances"
-msgstr ""
+msgstr "结余"
 
 #. tiers
 #: src/comptes_gestion.c:425 src/csv.c:265 src/equilibrage.c:297
 msgid "Initial balance"
-msgstr ""
+msgstr "初始余额"
 
 #: src/comptes_gestion.c:448
 msgid "Minimum authorised balance"
-msgstr ""
+msgstr "最小许可余额"
 
 #: src/comptes_gestion.c:471
 msgid "Minimum wanted balance"
-msgstr ""
+msgstr "最小期望余额"
 
 #. crÃ©ation de la ligne du commentaire
 #: src/comptes_gestion.c:486
 msgid "Comments"
-msgstr ""
+msgstr "备注"
 
 #. crÃ©ation de l'item compte bancaire
 #: src/comptes_gestion.c:658
@@ -1649,7 +1671,7 @@ msgstr "账户 \"%s\" 已存在！"
 
 #: src/comptes_gestion.c:945
 msgid "Confirm currency change"
-msgstr ""
+msgstr "确认货币更改"
 
 #: src/comptes_gestion.c:946
 #, c-format
@@ -1659,6 +1681,10 @@ msgid ""
 "this.\n"
 "Do you confirm this change?"
 msgstr ""
+"您在更改一个欧元区 (%s)的货币到另一个"
+"地区 (%s)。欧元的交易将被丢失！并且"
+"无法恢复。\n"
+"您确定要这么做吗？"
 
 #: src/comptes_gestion.c:1181
 msgid "Apply changes to account?"
@@ -1674,15 +1700,15 @@ msgstr "您要保存更新的信息吗？"
 #: src/comptes_gestion.c:1211
 #, c-format
 msgid "Convert account \"%s\" to euro?"
-msgstr ""
+msgstr "转换账户 \"%s\" 到欧元吗？"
 
 #: src/comptes_gestion.c:1213
 msgid "Euro conversion is irreversible, are you sure you want to continue?"
-msgstr ""
+msgstr "到欧元的转换是无法恢复的，您确定要这么做吗？"
 
 #: src/comptes_gestion.c:1233
 msgid "Exchange rate between the 2 currencies is 0."
-msgstr ""
+msgstr "两个货币的汇率是0."
 
 #: src/comptes_gestion.c:1240 src/devises.c:381 src/devises.c:957
 #: src/devises.c:1776 src/devises.c:1858 src/devises.c:2201 src/devises.c:2206
@@ -1699,11 +1725,11 @@ msgstr ""
 #: src/operations_liste.c:1578 src/ventilation.c:2972 src/ventilation.c:2974
 #: src/ventilation.c:3191 src/ventilation.c:3193
 msgid "Euro"
-msgstr ""
+msgstr "欧元"
 
 #: src/comptes_gestion.c:1245
 msgid "Impossible to find the Euro currency, it has probably been deleted."
-msgstr ""
+msgstr "无法找到欧元，也许被删除了。"
 
 #. mise en place des boutons du bas
 #: src/comptes_onglet.c:158 src/menu.c:102
@@ -1720,7 +1746,7 @@ msgstr "删除账户"
 #: src/comptes_traitements.c:155
 #, c-format
 msgid "No name %d"
-msgstr ""
+msgstr "未命名 %d"
 
 #: src/comptes_traitements.c:197
 #, c-format
@@ -1732,6 +1758,8 @@ msgid ""
 "This will irreversibly remove this account and all operations that were "
 "previously contained.  There is no undo for this."
 msgstr ""
+"删除本账户是无法恢复的，包括"
+"之前所有的操作。"
 
 #: src/comptes_traitements.c:568 src/ofx.c:430
 msgid "Deposit"
@@ -1760,6 +1788,9 @@ msgid ""
 "methods chosen according to your choice.\n"
 "You will be able to change account type later."
 msgstr ""
+"如果您选择继续，将新建一个账户，其默认的支付"
+"方式取决与您的设定。\n"
+"您可以稍后再改变账户类型。"
 
 #: src/csv.c:221 src/qif.c:1049 src/qif.c:1507
 #, c-format
@@ -1767,6 +1798,8 @@ msgid ""
 "Error for the file \"%s\" :\n"
 "%s"
 msgstr ""
+"文件 \"%s\" 发现错误：\n"
+"%s"
 
 #: src/csv.c:237 src/etats_config.c:6192 src/fenetre_principale.c:75
 msgid "Transactions"
@@ -1778,7 +1811,7 @@ msgstr "交易"
 #: src/echeancier_onglet.c:173 src/operations_formulaire.c:533
 #: src/operations_onglet.c:77 src/operations_onglet.c:133
 msgid "Breakdown"
-msgstr ""
+msgstr "细目分类"
 
 #: src/csv.c:241
 msgid "Cheques"
@@ -1790,11 +1823,11 @@ msgstr "子类别"
 
 #: src/csv.c:256
 msgid "Sub-budgetary lines"
-msgstr ""
+msgstr "子类别行"
 
 #: src/csv.c:258
 msgid "Reconciliation number"
-msgstr ""
+msgstr "调整数量"
 
 #. met le pointage
 #: src/csv.c:306 src/etats_affiche.c:1410 src/etats_affiche.c:1420
@@ -1832,7 +1865,7 @@ msgstr "已删除账户"
 #: src/devises.c:83 src/devises.c:84 src/devises.c:85 src/devises.c:86
 #: src/devises.c:491
 msgid "Africa"
-msgstr ""
+msgstr "非洲"
 
 #: src/devises.c:51
 msgid "Algerian Dinar"
@@ -2114,7 +2147,7 @@ msgstr ""
 #: src/devises.c:123 src/devises.c:124 src/devises.c:125 src/devises.c:126
 #: src/devises.c:492
 msgid "Asia"
-msgstr ""
+msgstr "亚洲"
 
 #: src/devises.c:87
 msgid "Afghani"
@@ -2435,7 +2468,7 @@ msgstr "中国"
 #: src/devises.c:127 src/devises.c:128 src/devises.c:129 src/devises.c:130
 #: src/devises.c:131 src/devises.c:132 src/devises.c:493
 msgid "Central America"
-msgstr ""
+msgstr "中美洲"
 
 #: src/devises.c:127
 msgid "Belize Dollar"
@@ -2495,7 +2528,7 @@ msgstr ""
 #: src/devises.c:161 src/devises.c:162 src/devises.c:163 src/devises.c:164
 #: src/devises.c:165 src/devises.c:166 src/devises.c:167 src/devises.c:494
 msgid "Europe"
-msgstr ""
+msgstr "欧洲"
 
 #: src/devises.c:133
 msgid "Albanian Lek"
@@ -2770,7 +2803,7 @@ msgstr ""
 #: src/devises.c:176 src/devises.c:177 src/devises.c:178 src/devises.c:179
 #: src/devises.c:180 src/devises.c:181 src/devises.c:495
 msgid "Northern America"
-msgstr ""
+msgstr "北美洲"
 
 #: src/devises.c:168
 msgid "Bahamian Dollar"
@@ -2886,7 +2919,7 @@ msgstr ""
 #: src/devises.c:194 src/devises.c:195 src/devises.c:196 src/devises.c:197
 #: src/devises.c:198 src/devises.c:496
 msgid "Pacific Ocean"
-msgstr ""
+msgstr "太平洋地区"
 
 #: src/devises.c:182 src/devises.c:183 src/devises.c:184 src/devises.c:185
 msgid "Australian Dollar"
@@ -2996,7 +3029,7 @@ msgstr ""
 #: src/devises.c:203 src/devises.c:204 src/devises.c:205 src/devises.c:206
 #: src/devises.c:497
 msgid "Southern America"
-msgstr ""
+msgstr "南美洲"
 
 #: src/devises.c:199
 msgid "Chilean Peso"
@@ -3087,7 +3120,7 @@ msgstr "符号"
 
 #: src/devises.c:646
 msgid "Include obsolete currencies"
-msgstr ""
+msgstr "包含过期的货币"
 
 #: src/devises.c:675 src/import.c:456
 msgid "Add a currency"
@@ -3113,7 +3146,7 @@ msgstr "货币符号"
 
 #: src/devises.c:819
 msgid "All fields are not filled in!"
-msgstr ""
+msgstr "所有的栏位都没有填！"
 
 #: src/devises.c:875
 msgid "..."
@@ -3125,6 +3158,8 @@ msgid ""
 "The %s currency is used in the current account.\n"
 "You can't delete it."
 msgstr ""
+"货币 %s 被当前账户使用。\n"
+"您不能删除"
 
 #: src/devises.c:1024
 msgid "Enter exchange rate"
@@ -3133,11 +3168,11 @@ msgstr "输入汇率"
 #: src/devises.c:1034
 #, c-format
 msgid "Please enter exchange rate for %s"
-msgstr ""
+msgstr "请输入 %s 的汇率"
 
 #: src/devises.c:1046
 msgid "A"
-msgstr ""
+msgstr "一单位"
 
 #: src/devises.c:1054
 msgid "equals"
@@ -3145,7 +3180,7 @@ msgstr "等于"
 
 #: src/devises.c:1116
 msgid "Exchange fees"
-msgstr ""
+msgstr "兑费"
 
 #: src/devises.c:1377 src/import.c:372
 msgid "Currency"
@@ -3191,15 +3226,15 @@ msgstr "所有货币"
 
 #: src/devises.c:1687
 msgid "Currency for third parties tree"
-msgstr ""
+msgstr "第三方树的货币"
 
 #: src/devises.c:1697
 msgid "Currency for categories tree"
-msgstr ""
+msgstr "分类树的货币"
 
 #: src/devises.c:1707
 msgid "Currency for budgetary lines tree"
-msgstr ""
+msgstr "预算行树的货币"
 
 #: src/devises.c:1923
 msgid "Last exchange rate"
@@ -3283,157 +3318,167 @@ msgstr "自定义频率"
 
 #: src/echeancier_formulaire.c:767 src/echeancier_liste.c:263
 msgid "Days"
-msgstr ""
+msgstr "日"
 
 #: src/echeancier_formulaire.c:775 src/echeancier_liste.c:275
 #: src/etats_config.c:5989
 msgid "Months"
-msgstr ""
+msgstr "月"
 
 #: src/echeancier_formulaire.c:783 src/echeancier_liste.c:287
 msgid "Years"
-msgstr ""
+msgstr "年"
 
 #: src/echeancier_formulaire.c:1044 src/echeancier_formulaire.c:2541
 #: src/echeancier_ventilation.c:857 src/echeancier_ventilation.c:1487
 #: src/operations_formulaire.c:1114 src/operations_formulaire.c:3350
 #: src/ventilation.c:858 src/ventilation.c:1485
 msgid "Categories : Sub-categories"
-msgstr ""
+msgstr "类别 : 子类别"
 
 #: src/echeancier_formulaire.c:1062 src/echeancier_formulaire.c:2543
 msgid "Transfer reference"
-msgstr ""
+msgstr "转帐关系"
 
 #: src/echeancier_formulaire.c:1090 src/echeancier_formulaire.c:2551
 msgid "Limit date"
-msgstr ""
+msgstr "限制日期"
 
 #: src/echeancier_formulaire.c:1478 src/equilibrage.c:948
 #: src/equilibrage.c:968 src/operations_formulaire.c:2347
 msgid "Invalid date"
-msgstr ""
+msgstr "非法日期"
 
 #: src/echeancier_formulaire.c:1492
 msgid "Invalid limit date"
-msgstr ""
+msgstr "非法限制日期"
 
 #: src/echeancier_formulaire.c:1530 src/operations_formulaire.c:2433
 msgid "Can't issue a transfer its own account."
-msgstr ""
+msgstr "不能转帐到本账户。"
 
 #: src/echeancier_formulaire.c:1560
 msgid "A breakdown of transaction is a transfer to this account.\n"
-msgstr ""
+msgstr "交易的细目分类是本账户的转帐。\n"
 
 #: src/echeancier_formulaire.c:1583 src/operations_formulaire.c:2397
 msgid "There is no associated account for this transfer."
-msgstr ""
+msgstr "本转帐没有相关账户。"
 
 #: src/echeancier_formulaire.c:1606 src/operations_formulaire.c:2426
 msgid "Associated account of this transfer is invalid."
-msgstr ""
+msgstr "本转帐的相关账户非法。"
 
 #: src/echeancier_formulaire.c:1624
 msgid ""
 "Impossible to create or entry an automatic scheduled transaction\n"
 " with a cheque or a method of payment with an automatic incremental number."
 msgstr ""
+"无法新增或者更改一个自动定期交易，\n"
+"由于它用自增的方式给支票或者支付方式编号。"
 
 #: src/echeancier_formulaire.c:1637 src/echeancier_liste.c:664
 #: src/type_operations.c:1571 src/type_operations.c:1642
 msgid "Input"
-msgstr ""
+msgstr "输入"
 
 #: src/echeancier_formulaire.c:2591 src/echeancier_liste.c:557
 #: src/echeancier_liste.c:988
 msgid "Modification"
-msgstr ""
+msgstr "更改"
 
 #: src/echeancier_liste.c:166
 msgid "Display scheduled transactions"
-msgstr ""
+msgstr "显示定期交易"
 
 #: src/echeancier_liste.c:187
 msgid "Of month"
-msgstr ""
+msgstr "月"
 
 #: src/echeancier_liste.c:196
 msgid "Of next two months"
-msgstr ""
+msgstr "未来的两个月"
 
 #: src/echeancier_liste.c:205
 msgid "Of year"
-msgstr ""
+msgstr "年"
 
 #: src/echeancier_liste.c:358
 msgid ""
 "Fall due selected\n"
 "scheduled transaction"
 msgstr ""
+"到期选择的\n"
+"定期交易"
 
 #: src/echeancier_liste.c:372
 msgid ""
 "Remove selected\n"
 "scheduled transaction"
 msgstr ""
+"删除选择的\n"
+"定期交易"
 
 #: src/echeancier_liste.c:401 src/etats_config.c:266 src/import.c:394
 #: src/type_operations.c:299
 msgid "Account"
-msgstr ""
+msgstr "账户"
 
 #: src/echeancier_liste.c:404
 msgid "Mode"
-msgstr ""
+msgstr "模式"
 
 #. del
 #: src/echeancier_liste.c:609
 msgid "Confirmation of scheduled transaction removal"
-msgstr ""
+msgstr "确认删除定期交易"
 
 #: src/echeancier_liste.c:610
 msgid ""
 "You are currently trying to remove a scheduled transaction.  There is no "
 "undo for this.  Do you confirm the removal?"
 msgstr ""
+"您试图删除一条定期交易。这是无法恢复的。"
+"您确定要这么做吗？"
 
 #: src/echeancier_liste.c:778
 #, c-format
 msgid "%d months"
-msgstr ""
+msgstr "%d 月"
 
 #: src/echeancier_liste.c:781
 #, c-format
 msgid "%d years"
-msgstr ""
+msgstr "%d 年"
 
 #: src/echeancier_liste.c:784
 #, c-format
 msgid "%d days"
-msgstr ""
+msgstr "%d 日"
 
 #: src/echeancier_liste.c:1380 src/etats_affiche.c:2092
 msgid "No third party"
-msgstr ""
+msgstr "没有第三放"
 
 #: src/echeancier_liste.c:1385
 msgid "Delete a scheduled transaction"
-msgstr ""
+msgstr "删除一条定期交易"
 
 #: src/echeancier_liste.c:1386
 msgid ""
 "Do you want to delete just this occurrence or the whole scheduled "
 "transaction?"
 msgstr ""
+"您想单删除本次事件"
+"还是整个定期交易？"
 
 #: src/echeancier_liste.c:1390
 msgid "All the occurences"
-msgstr ""
+msgstr "所有的事件"
 
 #: src/echeancier_liste.c:1391
 msgid "Only this one"
-msgstr ""
+msgstr "只有这个"
 
 #: src/echeancier_liste.c:1899
 msgid ""
@@ -3441,18 +3486,21 @@ msgid ""
 "the sub transaction to transfer on another account or change account of the "
 "transaction itself."
 msgstr ""
+"本交易的细目分类本身包含一个转帐。 "
+"您需要改变子交易到另一个账户的转帐，"
+"或者改变交易账户本身。"
 
 #: src/echeancier_liste.c:1900
 msgid "Can't issue scheduled operation"
-msgstr ""
+msgstr "不能进行定期操作"
 
 #: src/echeancier_onglet.c:90
 msgid "Calendar"
-msgstr ""
+msgstr "日历"
 
 #: src/echeancier_onglet.c:130
 msgid "Scheduler list"
-msgstr ""
+msgstr "日程清单"
 
 #: src/echeancier_onglet.c:135
 msgid "Scheduler broken down transactions"
@@ -3464,12 +3512,12 @@ msgstr ""
 
 #: src/echeancier_ventilation.c:254 src/ventilation.c:257
 msgid "Not assigned"
-msgstr ""
+msgstr "未指定"
 
 #: src/echeancier_ventilation.c:580 src/echeancier_ventilation.c:581
 #: src/ventilation.c:583 src/ventilation.c:584
 msgid "Associated method of payment"
-msgstr ""
+msgstr "关联的支付方式"
 
 #: src/echeancier_ventilation.c:1599 src/ventilation.c:1597
 msgid "The associated account for this transfer is invalid"
