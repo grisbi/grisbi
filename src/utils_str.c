@@ -552,6 +552,41 @@ gchar * gsb_string_escape_underscores ( gchar * orig )
     return g_strdup (new);
 }
 
+
+
+/**
+ * Return a newly created strings, truncating original.  It should be
+ * truncated at the end of the word containing the 20th letter.
+ *
+ * \param string	String to truncate.
+ *
+ * \return A newly-created string.
+ */
+gchar * gsb_string_truncate ( gchar * string )
+{
+    gchar * tmp = string;
+
+    if ( strlen(string) < 20 )
+    {
+	return g_strdup ( string );
+    }
+    
+    tmp = string + 20;
+    if ( ! ( tmp = strchr ( tmp, ' ' ) ) )
+    {
+	/* We do not risk splitting the string in the middle of a
+	   UTF-8 accent ... the end is probably near btw. */
+	return g_strdup ( string );
+    }
+    else 
+    {
+	gchar * trunc = g_strndup ( string, ( tmp - string ) );
+	trunc = g_strconcat ( trunc, "...", NULL );
+	return trunc;
+    }
+}
+
+
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */
