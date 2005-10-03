@@ -153,6 +153,12 @@ void gsb_assistant_run ( GtkWidget * assistant )
 	gint prev = g_object_get_data ( assistant, g_strdup_printf ( "prev%d", current ) );
 	gint next = g_object_get_data ( assistant, g_strdup_printf ( "next%d", current ) );
 
+	gtk_window_set_title ( assistant, 
+			       g_strdup_printf ( "%s (%d of %d)", 
+						 g_object_get_data ( assistant, "title" ),
+						 current + 1,
+						 gtk_notebook_get_n_pages ( notebook ) ) );
+
 	switch ( gtk_dialog_run ( assistant ) )
 	{
 	    case GTK_RESPONSE_CANCEL:
@@ -179,12 +185,6 @@ void gsb_assistant_run ( GtkWidget * assistant )
 		}
 		break;
 	}
-
-	gtk_window_set_title ( assistant, 
-			       g_strdup_printf ( "%s (%d of %d)", 
-						 g_object_get_data ( assistant, "title" ),
-						 current + 1,
-						 gtk_notebook_get_n_pages ( notebook ) ) );
     }
 
 }
