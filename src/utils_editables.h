@@ -12,7 +12,7 @@ GtkWidget *gsb_new_text_view ( gchar *value );
 gchar *gsb_text_view_get_content ( GtkWidget *text_view );
 void increment_decrement_champ ( GtkWidget *entry, gint increment );
 GtkWidget * new_text_area ( gchar ** value, GCallback hook );
-GtkWidget * new_text_entry ( gchar ** value, GCallback hook );
+GtkWidget * new_text_entry ( gchar ** value, GCallback hook, gpointer data );
 void text_area_set_value ( GtkWidget * text_view, gchar ** value );
 /* END_DECLARATION */
 #endif

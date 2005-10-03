@@ -53,8 +53,9 @@ extern     gchar * buffer ;
  * \param value A pointer to a string
  * \param hook An optional function to execute as a handler if the
  * entry's contents are modified.
+ * \param data An optional pointer to pass to hooks.
  */
-GtkWidget * new_text_entry ( gchar ** value, GCallback hook )
+GtkWidget * new_text_entry ( gchar ** value, GCallback hook, gpointer data )
 {
     GtkWidget * entry;
 
@@ -67,20 +68,20 @@ GtkWidget * new_text_entry ( gchar ** value, GCallback hook )
 
     g_object_set_data ( G_OBJECT ( entry ), "insert-text", 
 			(gpointer) g_signal_connect_after (GTK_OBJECT(entry), "insert-text",
-							   ((GCallback) set_text), NULL));
+							   ((GCallback) set_text), data));
     g_object_set_data ( G_OBJECT ( entry ), "delete-text", 
 			(gpointer) g_signal_connect_after (GTK_OBJECT(entry), "delete-text",
-							   ((GCallback) set_text), NULL));
+							   ((GCallback) set_text), data));
     if ( hook )
     {
 	g_object_set_data ( G_OBJECT ( entry ), "insert-hook", 
 			    (gpointer) g_signal_connect_after (GTK_OBJECT(entry), 
 							       "insert-text",
-							       ((GCallback) hook), NULL));
+							       ((GCallback) hook), data));
 	g_object_set_data ( G_OBJECT ( entry ), "delete-hook", 
 			    (gpointer) g_signal_connect_after (GTK_OBJECT(entry), 
 							       "delete-text",
-							       ((GCallback) hook), NULL));
+							       ((GCallback) hook), data));
     }
 
     return entry;
