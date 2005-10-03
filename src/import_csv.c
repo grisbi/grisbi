@@ -1,23 +1,24 @@
-/* ce fichier de la gestion du format csv - version initiale par kik0r */
-
-
-/*     Copyright (C) 2000-2003  Cédric Auger */
-/* 			cedric@grisbi.org */
-/* 			http://www.grisbi.org */
-
-/*     This program is free software; you can redistribute it and/or modify */
-/*     it under the terms of the GNU General Public License as published by */
-/*     the Free Software Foundation; either version 2 of the License, or */
-/*     (at your option) any later version. */
-
-/*     This program is distributed in the hope that it will be useful, */
-/*     but WITHOUT ANY WARRANTY; without even the implied warranty of */
-/*     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the */
-/*     GNU General Public License for more details. */
-
-/*     You should have received a copy of the GNU General Public License */
-/*     along with this program; if not, write to the Free Software */
-/*     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
+/* ************************************************************************** */
+/*                                                                            */
+/*     Copyright (C)	2000-2003 Cédric Auger	(cedric@grisbi.org)	      */
+/*			2004-2005 Benjamin Drieu (bdrieu@april.org)	      */
+/* 			http://www.grisbi.org				      */
+/*                                                                            */
+/*  This program is free software; you can redistribute it and/or modify      */
+/*  it under the terms of the GNU General Public License as published by      */
+/*  the Free Software Foundation; either version 2 of the License, or         */
+/*  (at your option) any later version.                                       */
+/*                                                                            */
+/*  This program is distributed in the hope that it will be useful,           */
+/*  but WITHOUT ANY WARRANTY; without even the implied warranty of            */
+/*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             */
+/*  GNU General Public License for more details.                              */
+/*                                                                            */
+/*  You should have received a copy of the GNU General Public License         */
+/*  along with this program; if not, write to the Free Software               */
+/*  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "include.h"
 
@@ -29,6 +30,7 @@
 #include "utils_files.h"
 #include "gsb_assistant.h"
 #include "utils.h"
+#include "utils_editables.h"
 #include "csv.h"
 #include "structures.h"
 #include "include.h"
@@ -36,12 +38,23 @@
 
 /*START_EXTERN*/
 extern GSList *liste_comptes_importes;
+extern gint max;
+extern GtkTreeStore *model;
 extern FILE * out;
+extern GtkWidget *tree_view;
 /*END_EXTERN*/
 
 /*START_STATIC*/
-static GtkWidget * cvs_import_create_first_page ( );
-static gchar * parse_csv ( gchar * contents, gchar separator );
+static gboolean csv_import_change_separator ( GtkEntry * entry, gchar * value, 
+				       gint length, gint * position );
+static gint csv_import_count_columns ( gchar * contents, gchar * separator );
+static GtkTreeModel * csv_import_create_model ( GtkTreeView * tree_preview, gchar * contents, 
+					 gchar * separator );
+static gboolean csv_import_enter_second_page ( GtkWidget * assistant );
+static gboolean csv_import_update_preview ( GtkWidget * assistant );
+static GSList * csv_parse_line ( gchar * contents[], gchar * separator );
+static GtkWidget * cvs_import_create_first_page ( GtkWidget * assistant );
+static GtkWidget * cvs_import_create_second_page ( GtkWidget * assistant );
 static gchar * sanitize_field ( gchar * begin, gchar * end  );
 /*END_STATIC*/
 
@@ -65,9 +78,10 @@ gboolean importer_csv ()
 			    "necessary to manually configure its format in this assistant.",
 			    "csv.png" );
 
-    gsb_assistant_add_page ( a, cvs_import_create_first_page(), 1, 0, 3 );
-    gsb_assistant_add_page ( a, gtk_label_new ( "Plop page 2" ), 2, 1, 3 );
-    gsb_assistant_add_page ( a, gtk_label_new ( "Plop page 3" ), 3, 2, 4 );
+    gsb_assistant_add_page ( a, cvs_import_create_first_page ( a ), 1, 0, 2, NULL );
+    gsb_assistant_add_page ( a, cvs_import_create_second_page ( a ), 2, 1, 3,
+			     G_CALLBACK (csv_import_enter_second_page ) );
+    gsb_assistant_add_page ( a, gtk_label_new ( "Plop page 3" ), 3, 2, 4, NULL );
 
     gsb_assistant_run ( a );
 
@@ -81,20 +95,316 @@ gboolean importer_csv ()
  *
  *
  */
-GtkWidget * cvs_import_create_first_page ( )
+GtkWidget * cvs_import_create_first_page ( GtkWidget * assistant )
 {
-    GtkWidget * vbox, * paddingbox;
+    GtkWidget * vbox, * paddingbox, * chooser;
 
     vbox = gtk_vbox_new ( FALSE, 6 );
     gtk_container_set_border_width ( GTK_CONTAINER(vbox), 12 );
 
     paddingbox = new_paddingbox_with_title ( vbox, TRUE, "CSV file to import" );
+    
+    chooser = gtk_file_chooser_button_new ( "Import CSV file",
+					    GTK_FILE_CHOOSER_ACTION_OPEN );
+    gtk_box_pack_start ( GTK_BOX(paddingbox), chooser, FALSE, FALSE, 6 );
 
-    gtk_box_pack_start ( paddingbox, gtk_file_chooser_button_new ( "Import CSV file",
-								   GTK_FILE_CHOOSER_ACTION_OPEN ),
-			 FALSE, FALSE, 6 );
+    /* Test, remove before commiting */
+    gtk_file_chooser_set_filename ( chooser, 
+				    "/home/benj/.grisbi/Exemple.gsb_Compte_Courant.csv" );
+    g_object_set_data ( G_OBJECT(assistant), "filename_widget", chooser );
 
     return vbox;
+}
+
+
+
+GtkWidget * cvs_import_create_second_page ( GtkWidget * assistant )
+{
+    GtkWidget * vbox, * paddingbox, * tree_preview, * entry, * sw;
+    GtkTreeModel * model;
+
+    vbox = gtk_vbox_new ( FALSE, 6 );
+    gtk_container_set_border_width ( GTK_CONTAINER(vbox), 12 );
+
+    paddingbox = new_paddingbox_with_title ( vbox, TRUE, "Choose CSV separator" );
+
+    entry = new_text_entry ( NULL, G_CALLBACK ( csv_import_change_separator ), assistant );
+    g_object_set_data ( G_OBJECT(entry), "assistant", assistant );
+    g_object_set_data ( G_OBJECT(assistant), "entry", entry );    
+    gtk_box_pack_start ( GTK_BOX(paddingbox), entry, FALSE, FALSE, 6 );
+
+    sw = gtk_scrolled_window_new (NULL, NULL);
+    gtk_widget_set_usize ( sw, 480, 240 );
+    gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (sw), GTK_SHADOW_ETCHED_IN);
+    gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw), GTK_POLICY_AUTOMATIC,
+				    GTK_POLICY_AUTOMATIC);
+    gtk_box_pack_start ( GTK_BOX(paddingbox), sw, TRUE, TRUE, 6 );
+
+    tree_preview = gtk_tree_view_new ();
+    g_object_set_data ( G_OBJECT(assistant), "tree_preview", tree_preview );
+    gtk_container_add (GTK_CONTAINER (sw), tree_preview);
+
+    return vbox;
+}
+
+
+
+/**
+ *
+ *
+ *
+ */
+GtkTreeModel * csv_import_create_model ( GtkTreeView * tree_preview, gchar * contents, 
+					 gchar * separator )
+{
+    GtkTreeStore * model;
+    GtkCellRenderer * cell;
+    GError * error;
+    GType * types;
+    gint size, i;
+    GSList * list;
+
+    size = csv_import_count_columns ( contents, separator );
+    printf (">> SIZE is %d\n", size );
+    if ( ! size )
+    {
+	return NULL;
+    }
+
+    /* Remove previous columns if any. */
+    list = gtk_tree_view_get_columns ( tree_preview );
+    while ( list )
+    {
+	gtk_tree_view_remove_column ( tree_preview, list -> data );
+	list = list -> next;
+    }
+
+    types = (GType *) malloc ( size * sizeof ( GType ) );
+    for ( i = 0 ; i < size ; i ++ ) 
+    {
+	types[i] = G_TYPE_STRING;
+	cell = gtk_cell_renderer_text_new ();
+	gtk_tree_view_insert_column_with_attributes ( GTK_TREE_VIEW (tree_preview),
+						      -1, g_strdup_printf ( _("Field %d"), i ),
+						      cell, "text", i,
+						      NULL);
+
+    }
+
+    model =  gtk_tree_store_newv ( size, types );
+
+    return (GtkTreeModel *) model;
+}
+
+
+
+/**
+ *
+ *
+ *
+ */
+gchar * csv_import_guess_separator ( gchar * contents )
+{
+    gchar * separators[] = { ",", ";", "	", " ", NULL };
+    gint i;
+
+    for ( i = 0 ; separators[i] ; i++ )
+    {
+	if ( csv_import_try_separator ( contents, separators[i] ) )
+	{
+	    return g_strdup ( separators[i] );
+	}
+    }
+}
+
+
+
+/**
+ *
+ *
+ *
+ */
+gboolean csv_import_try_separator ( gchar * contents, gchar * separator )
+{
+    GSList * list;
+    int cols, i = 0;
+
+    do 
+    {
+	list = csv_parse_line ( &contents, separator );
+    }
+    while ( list ==  GINT_TO_POINTER(-1) );
+    cols = g_slist_length ( list );
+    printf ("> I believe first line is %d cols\n", cols );
+
+    do
+    {
+	list = csv_parse_line ( &contents, separator );
+	if ( list == GINT_TO_POINTER(-1) )
+	{
+	    continue;
+	}
+
+	if ( cols != g_slist_length ( list ) || cols == 1 )
+	{
+	    printf ("> %d != %d, not %s\n", cols, g_slist_length ( list ), separator );
+	    return FALSE;
+	}
+	
+	i++;
+    } 
+    while ( list && i < 10 );
+
+    printf ("> I believe separator is %s\n", separator );
+    return TRUE;
+}
+
+
+
+/**
+ *
+ *
+ */
+gint csv_import_count_columns ( gchar * contents, gchar * separator )
+{
+    gint max = 0, i = 0;
+    GSList * list;
+
+    do
+    {
+	list = csv_parse_line ( &contents, separator );
+	
+	if ( list == GINT_TO_POINTER(-1) )
+	{
+	    continue;
+	}
+
+	if ( g_slist_length ( list ) > max )
+	{
+	    max = g_slist_length ( list );
+	}
+
+	i++;
+    } 
+    while ( list && i < 5 );
+
+    return max;
+}
+
+
+
+/**
+ *
+ *
+ *
+ */
+gboolean csv_import_change_separator ( GtkEntry * entry, gchar * value, 
+				       gint length, gint * position )
+{
+    gchar * separator = (gchar *) gtk_entry_get_text ( GTK_ENTRY (entry) );
+    GtkWidget * assistant = g_object_get_data ( G_OBJECT(entry), "assistant" );
+
+    printf (">> change separator\n" );
+    g_object_set_data ( G_OBJECT(assistant), "separator", separator );
+    
+    if ( strlen ( separator ) )
+    {
+	csv_import_update_preview ( assistant );
+    }
+
+    return FALSE;
+}
+
+
+
+gboolean csv_import_update_preview ( GtkWidget * assistant )
+{
+    gchar * contents, * filename, * separator, * label = g_strdup ("");
+    GtkTreeModel * model;
+    GtkTreeView * tree_preview;
+    GSList * list;
+    gsize size;
+    gint line = 0;
+    GError * error;
+
+    separator = g_object_get_data ( assistant, "separator" );
+    filename = g_object_get_data ( assistant, "filename" );
+    tree_preview = g_object_get_data ( assistant, "tree_preview" );
+
+    if ( ! g_file_get_contents ( filename, &contents, &size, &error ) )
+    {
+	printf ("Unable to read file: %s\n", error->message);
+	return FALSE;
+    }
+
+    model = csv_import_create_model ( tree_preview, contents, separator );
+    if ( model )
+    {
+	gtk_tree_view_set_model ( GTK_TREE_VIEW(tree_preview), model );
+    }
+
+    while ( line < 5 )
+    {
+	GtkTreeIter iter;
+	gint i = 0;
+
+	do
+	{
+	    list = csv_parse_line ( &contents, separator );
+	}
+	while ( list == -1 );
+
+	if ( ! list )
+	{
+	    return FALSE;
+	}
+
+	gtk_tree_store_append (GTK_TREE_STORE(model), &iter, NULL);
+	while ( list )
+	{
+	    gtk_tree_store_set ( GTK_TREE_STORE ( model ), &iter, i, 
+				 truncate_string ( list -> data ), -1 ); 
+	    if ( list -> data )
+		label = g_strconcat ( label, "[[", list -> data, "]]\n", NULL );
+
+	    i++;
+
+	    list = list -> next;
+	}
+
+	line++;
+    }
+
+    return FALSE;
+}
+
+
+
+gboolean csv_import_enter_second_page ( GtkWidget * assistant )
+{
+    GtkWidget * button, * entry;
+    gchar * contents;
+    gsize * size;
+    GError * error;
+
+    button = g_object_get_data ( assistant, "filename_widget" );
+    printf ("> %s\n", gtk_file_chooser_get_filename ( button ) );
+    g_object_set_data ( assistant, "filename", gtk_file_chooser_get_filename ( button ) );
+
+    if ( ! g_file_get_contents ( gtk_file_chooser_get_filename ( button ), 
+				 &contents, &size, &error ) )
+    {
+	printf ("Unable to read file: %s\n", error -> message);
+	return FALSE;
+    }
+
+    entry = g_object_get_data ( G_OBJECT(assistant), "entry" );
+    if ( entry )
+    {
+	gtk_entry_set_text ( entry, csv_import_guess_separator ( contents ) );
+    }
+    
+    return FALSE;
 }
 
 
@@ -104,19 +414,22 @@ GtkWidget * cvs_import_create_first_page ( )
  *
  *
  */
-gchar * parse_csv ( gchar * contents, gchar separator )
+GSList * csv_parse_line ( gchar * contents[], gchar * separator )
 {
-    gchar * tmp = contents, * begin = tmp;
-    gint is_unquoted = FALSE;
+    gchar * tmp = (* contents), * begin = tmp;
+    gint is_unquoted = FALSE, len = strlen ( separator );
+    GSList * list = NULL;
 
     if ( *tmp == '\n' )
     {
-	return tmp+1;
+	*contents = tmp+1;
+	return -1;
     }
     
     if ( *tmp == '!' || *tmp == '#' || *tmp == ';' )
     {
-	return strchr ( tmp, '\n' ) + 1;
+	*contents = strchr ( tmp, '\n' ) + 1;
+	return -1;
     }
 
     while ( *tmp )
@@ -125,7 +438,9 @@ gchar * parse_csv ( gchar * contents, gchar separator )
 	{
 	    case '\n':
 		printf ( "[%s]\n", sanitize_field ( begin, tmp ) );
-		return tmp+1;
+		list = g_slist_append ( list, sanitize_field ( begin, tmp ) );
+		*contents = tmp+1;
+		return list;
 
 	    case '"':
 		if ( ! is_unquoted )
@@ -133,10 +448,17 @@ gchar * parse_csv ( gchar * contents, gchar separator )
 		    tmp++;
 		    while ( *tmp )
 		    {
+			/* Thsi is lame escaping but we need to
+			 * support it. */
+			if ( *tmp == '\\' && *(tmp+1) == '"' )
+			{
+			    tmp += 2;
+			}
+
 			/* End of quoted string. */
 			if ( *tmp == '"' && *(tmp+1) != '"' )
 			{
-			    tmp+=1;
+			    tmp += 1;
 			    break;
 			}
 			
@@ -146,10 +468,11 @@ gchar * parse_csv ( gchar * contents, gchar separator )
 
 	    default:
 		is_unquoted = TRUE;
-		if ( *tmp == separator )
+		if ( !strncmp ( tmp, separator, len ) )
 		{
 		    printf ( "[%s]", sanitize_field ( begin, tmp ) );
-		    begin = tmp + 1;
+		    list = g_slist_append ( list, sanitize_field ( begin, tmp ) );
+		    begin = tmp + len;
 		    is_unquoted = FALSE;
 		}
 		break;
@@ -174,7 +497,7 @@ gchar * sanitize_field ( gchar * begin, gchar * end  )
     g_return_val_if_fail ( begin <= end, NULL );
 
     if ( begin == end )
-	return g_strdup ( "" );
+	return "";
 
     iter = field = g_malloc ( end - begin );
 
@@ -194,6 +517,9 @@ gchar * sanitize_field ( gchar * begin, gchar * end  )
 	if ( *begin == '"' && *(begin+1) == '"' )
 	    begin++;
 
+	if ( *begin == '\\' && *(begin+1) == '"' )
+	    begin++;
+	
 	*iter++ = *begin++;
     }
 
