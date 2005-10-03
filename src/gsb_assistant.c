@@ -34,6 +34,8 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
+static gboolean gsb_assistant_change_page ( GtkNotebook * notebook, GtkNotebookPage * npage, 
+				     gint page, gpointer assistant );
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -50,26 +52,26 @@ extern GtkWidget *window;
 GtkWidget * gsb_assistant_new ( gchar * title, gchar * explanation,
 				gchar * image_filename )
 {
-    GtkWidget * window, *notebook, *vbox, *hbox, *label, *image, *view, *eb;
+    GtkWidget * assistant, *notebook, *vbox, *hbox, *label, *image, *view, *eb;
     GtkWidget * button_cancel, * button_prev, * button_next;
     GtkTextIter iter;
     GtkStyle * style;
     GtkTextBuffer * buffer;
     
-    window = gtk_dialog_new_with_buttons ( title,
+    assistant = gtk_dialog_new_with_buttons ( title,
 					   GTK_WINDOW(NULL),
 					   GTK_DIALOG_NO_SEPARATOR,
 					   NULL );
 
-    button_cancel = gtk_dialog_add_button ( window, GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL );
-    g_object_set_data ( window, "button_cancel", button_cancel );
+    button_cancel = gtk_dialog_add_button ( assistant, GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL );
+    g_object_set_data ( assistant, "button_cancel", button_cancel );
 
-    button_prev = gtk_dialog_add_button ( window, GTK_STOCK_GO_BACK, GTK_RESPONSE_NO );
-    g_object_set_data ( window, "button_prev", button_prev );
+    button_prev = gtk_dialog_add_button ( assistant, GTK_STOCK_GO_BACK, GTK_RESPONSE_NO );
+    g_object_set_data ( assistant, "button_prev", button_prev );
     gtk_widget_set_sensitive ( button_prev, FALSE );
 
-    button_next = gtk_dialog_add_button ( window, GTK_STOCK_GO_FORWARD, GTK_RESPONSE_YES );
-    g_object_set_data ( window, "button_next", button_next );
+    button_next = gtk_dialog_add_button ( assistant, GTK_STOCK_GO_FORWARD, GTK_RESPONSE_YES );
+    g_object_set_data ( assistant, "button_next", button_next );
 
     eb = gtk_event_box_new ();
     style = gtk_widget_get_style ( eb );
@@ -88,13 +90,13 @@ GtkWidget * gsb_assistant_new ( gchar * title, gchar * explanation,
 						    image_filename, NULL) );
     gtk_box_pack_start ( hbox, image, FALSE, FALSE, 0 );
 
-    gtk_box_pack_start ( GTK_DIALOG(window) -> vbox, eb, 
+    gtk_box_pack_start ( GTK_DIALOG(assistant) -> vbox, eb, 
 			 FALSE, FALSE, 0 );
 
     notebook = gtk_notebook_new ();
     gtk_notebook_set_show_tabs ( notebook, FALSE );
     gtk_notebook_set_show_border ( notebook, FALSE );
-    gtk_box_pack_start ( GTK_DIALOG(window) -> vbox, notebook, TRUE, TRUE, 0 );
+    gtk_box_pack_start ( GTK_DIALOG(assistant) -> vbox, notebook, TRUE, TRUE, 0 );
 
     view = gtk_text_view_new ();
     gtk_text_view_set_wrap_mode (GTK_TEXT_VIEW (view), GTK_WRAP_WORD);
@@ -106,17 +108,20 @@ GtkWidget * gsb_assistant_new ( gchar * title, gchar * explanation,
     gtk_text_view_set_right_margin ( view, 12 );
     gtk_notebook_append_page ( notebook, view, gtk_label_new("") );
 
-    g_object_set_data ( window, "next0", 1 );
-    g_object_set_data ( window, "notebook", notebook );
-    g_object_set_data ( window, "title", title );
+    g_signal_connect ( notebook, "switch-page",
+		       G_CALLBACK ( gsb_assistant_change_page ), assistant );
 
-    return window;
+    g_object_set_data ( assistant, "next0", 1 );
+    g_object_set_data ( assistant, "notebook", notebook );
+    g_object_set_data ( assistant, "title", title );
+
+    return assistant;
 }
 
 
 
 void gsb_assistant_add_page ( GtkWidget * assistant, GtkWidget * widget, gint position,
-			      gint prev, gint next )
+			      gint prev, gint next, GCallback enter_callback )
 {
     GtkWidget * notebook;
 
@@ -125,6 +130,7 @@ void gsb_assistant_add_page ( GtkWidget * assistant, GtkWidget * widget, gint po
 
     g_object_set_data ( assistant, g_strdup_printf ( "prev%d", position ), prev );
     g_object_set_data ( assistant, g_strdup_printf ( "next%d", position ), next );
+    g_object_set_data ( assistant, g_strdup_printf ( "enter%d", position ), enter_callback );
 }
 
 
@@ -182,6 +188,30 @@ void gsb_assistant_run ( GtkWidget * assistant )
     }
 
 }
+
+
+
+/**
+ * TODO
+ *
+ */
+gboolean gsb_assistant_change_page ( GtkNotebook * notebook, GtkNotebookPage * npage, 
+				     gint page, gpointer assistant )
+{
+    gboolean (* callback) ( GtkWidget * );
+    gpointer padding[32];	/* Don't touch, looks like we have a
+				 * buffer overflow problem. */
+
+    callback = (gboolean *) g_object_get_data ( assistant, g_strdup_printf ( "enter%d", page ) );
+
+    if ( callback )
+    {
+	return callback ( assistant );
+    }
+
+    return FALSE;
+}
+
 
 
 /* Local Variables: */
