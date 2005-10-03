@@ -245,11 +245,6 @@ gboolean fichier_choisi_importation ( GtkWidget *fenetre )
 	    result = recuperation_donnees_qif ( fichier );
 	    break;
 
-/* 	  case TYPE_HTML: */
-	    /* Pour l'instant html non implémenté */
-/* 	    result = recuperation_donnees_html ( fichier ); */
-/* 	    break; */
-
 	  case TYPE_GNUCASH:
 	    result = recuperation_donnees_gnucash ( liste_selection[i] );
 	    break;
@@ -1324,6 +1319,8 @@ gint gsb_import_create_imported_account ( struct struct_compte_importation *impo
 				      gsb_data_account_get_init_balance (account_number));
     gsb_data_account_set_marked_balance ( account_number, 
 				     gsb_data_account_get_init_balance (account_number));
+
+    gsb_gui_navigation_add_account ( account_number );
 
     return account_number;
 }
@@ -2618,10 +2615,9 @@ GtkWidget * create_file_format_import_menu ()
   g_object_set_data ( G_OBJECT ( menu_item ), "file", (gpointer) TYPE_GNUCASH );
   gtk_menu_append ( GTK_MENU ( menu ), menu_item );
 
-/* TODO: add it again */
-/*   menu_item = gtk_menu_item_new_with_label ( _("CSV file") ); */
-/*   g_object_set_data ( G_OBJECT ( menu_item ), "file", (gpointer) TYPE_CSV ); */
-/*   gtk_menu_append ( GTK_MENU ( menu ), menu_item ); */
+  menu_item = gtk_menu_item_new_with_label ( _("CSV file") );
+  g_object_set_data ( G_OBJECT ( menu_item ), "file", (gpointer) TYPE_CSV );
+  gtk_menu_append ( GTK_MENU ( menu ), menu_item );
 
   omenu = gtk_option_menu_new ();
   gtk_option_menu_set_menu ( GTK_OPTION_MENU ( omenu ), menu );
