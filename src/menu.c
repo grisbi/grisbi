@@ -92,7 +92,6 @@ gint recent_files_merge_id = -1, move_to_account_merge_id = -1;
 "      </menu>"
 "      <separator/>"
 "      <menuitem action='ImportFile'/>"
-"      <menuitem action='ImportCSV'/>"
 "      <menuitem action='ExportFile'/>"
 "      <separator/>"
 "      <menuitem action='Close'/>"
@@ -188,9 +187,6 @@ GtkActionEntry entries[] = {
 
 { "ImportFile",		NULL,			_("_Import QIF/OFX/CSV/Gnucash file..."),
   NULL,			NULL,			G_CALLBACK( importer_fichier ) },
-
-{ "ImportCSV",		NULL,			_("_Import a CSV..."),
-  NULL,			NULL,			G_CALLBACK( importer_csv ) },
 
 { "ExportFile",		NULL,			_("_Export QIF file..."),
   NULL,			NULL,			G_CALLBACK( exporter_fichier_qif ) },
