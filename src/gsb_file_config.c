@@ -1152,3 +1152,7 @@ void gsb_file_config_clean_config ( void )
     set_default_config_format();
 }
 
+
+/* Local Variables: */
+/* c-basic-offset: 4 */
+/* End: */
