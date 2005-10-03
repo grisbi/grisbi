@@ -25,51 +25,93 @@
 /*START_INCLUDE*/
 #include "import_csv.h"
 #include "utils_str.h"
+#include "csv_parse.h"
 #include "erreur.h"
 #include "dialog.h"
 #include "utils_files.h"
 #include "gsb_assistant.h"
 #include "utils.h"
 #include "utils_editables.h"
-#include "csv.h"
 #include "structures.h"
 #include "include.h"
+#include "import_csv.h"
 /*END_INCLUDE*/
 
 /*START_EXTERN*/
 extern GSList *liste_comptes_importes;
 extern gint max;
 extern GtkTreeStore *model;
-extern FILE * out;
-extern GtkWidget *tree_view;
 /*END_EXTERN*/
 
 /*START_STATIC*/
+static gboolean csv_import_change_field ( GtkWidget * item, gint no_menu );
 static gboolean csv_import_change_separator ( GtkEntry * entry, gchar * value, 
 				       gint length, gint * position );
 static gint csv_import_count_columns ( gchar * contents, gchar * separator );
 static GtkTreeModel * csv_import_create_model ( GtkTreeView * tree_preview, gchar * contents, 
 					 gchar * separator );
-static gboolean csv_import_enter_second_page ( GtkWidget * assistant );
+static gboolean csv_import_enter_final_page ( GtkWidget * assistant );
+static gboolean csv_import_enter_preview_page ( GtkWidget * assistant );
+static GtkWidget * csv_import_fields_menu ( GtkTreeViewColumn * col, gint field );
+static gint * csv_import_guess_fields_config ( gchar * contents, gint size );
+static gchar * csv_import_guess_separator ( gchar * contents );
+static gboolean csv_import_header_on_click ( GtkWidget * button, GdkEventButton * ev, 
+				      gint *no_column );
+static gboolean csv_import_try_separator ( gchar * contents, gchar * separator );
+static gint * csv_import_update_fields_config ( gchar * contents, gint size );
 static gboolean csv_import_update_preview ( GtkWidget * assistant );
-static GSList * csv_parse_line ( gchar * contents[], gchar * separator );
 static GtkWidget * cvs_import_create_first_page ( GtkWidget * assistant );
 static GtkWidget * cvs_import_create_second_page ( GtkWidget * assistant );
-static gchar * sanitize_field ( gchar * begin, gchar * end  );
 /*END_STATIC*/
+
+
+
+/* Globals */
+gint * csv_fields_config = NULL; /** Array of pointers to fields.  */
+
+
+/** Contain configuration of CSV fields.  */
+struct csv_field csv_fields[14] = {
+    { N_("Unknown field"),  0.0, NULL,			     NULL		     },
+/*     { N_("Account"),	    0.0, csv_import_validate_string, NULL		     }, */
+    { N_("Currency"),	    0.0, csv_import_validate_string, csv_import_parse_currency },
+    { N_("Date"),	    0.0, csv_import_validate_date,   csv_import_parse_date },
+    { N_("Value date"),	    0.0, csv_import_validate_date,   csv_import_parse_value_date },
+    { N_("Payee"),	    0.0, csv_import_validate_string, csv_import_parse_payee },
+    { N_("Notes"),	    0.0, csv_import_validate_string, csv_import_parse_notes },
+    { N_("Voucher number"), 0.0, csv_import_validate_number, csv_import_parse_voucher },
+    { N_("Category"),	    0.0, csv_import_validate_string, csv_import_parse_category },
+    { N_("Sub-Category"),   0.0, csv_import_validate_string, csv_import_parse_sub_category },
+    { N_("Amount"),	    0.0, csv_import_validate_amount, csv_import_parse_amount },
+    { N_("Credit"),	    0.0, csv_import_validate_amount, csv_import_parse_credit },
+    { N_("Debit"),	    0.0, csv_import_validate_amount, csv_import_parse_debit },
+    { N_("P/R"),	    0.0, csv_import_validate_string, csv_import_parse_p_r },
+    { NULL },
+};
+
+
 
 /* definition temporaire pour indiquer l'en tete du debug CSV, qui */
 #define WHERE_AM_I g_strdup_printf("Import CSV (%s)",DEBUG_WHERE_AM_I)
 
 
 
+struct struct_compte_importation * compte;
+
+
 /**
  *
  *
  */
-gboolean importer_csv ()
+gboolean recuperation_donnees_csv ( FILE *fichier )
 {
     GtkWidget * a;
+
+    compte = calloc ( 1, sizeof ( struct struct_compte_importation ));
+    compte -> origine = CSV_IMPORT;
+    compte -> type_de_compte = 0;
+    compte -> solde = 0;
+    compte -> nom_de_compte = g_strdup ( _("Imported account with no name" ));
 
     a = gsb_assistant_new ( "Importing a CSV file.",
 			    "This assistant will help you import a CSV file into Grisbi."
@@ -80,10 +122,13 @@ gboolean importer_csv ()
 
     gsb_assistant_add_page ( a, cvs_import_create_first_page ( a ), 1, 0, 2, NULL );
     gsb_assistant_add_page ( a, cvs_import_create_second_page ( a ), 2, 1, 3,
-			     G_CALLBACK (csv_import_enter_second_page ) );
-    gsb_assistant_add_page ( a, gtk_label_new ( "Plop page 3" ), 3, 2, 4, NULL );
+			     G_CALLBACK ( csv_import_enter_preview_page ) );
+    gsb_assistant_add_page ( a, gtk_label_new ( "Plop page 3" ), 3, 2, 4, 
+			     G_CALLBACK ( csv_import_enter_final_page ) );
 
     gsb_assistant_run ( a );
+
+    liste_comptes_importes = g_slist_append ( liste_comptes_importes, compte );
 
     return FALSE;
 }
@@ -109,7 +154,7 @@ GtkWidget * cvs_import_create_first_page ( GtkWidget * assistant )
     gtk_box_pack_start ( GTK_BOX(paddingbox), chooser, FALSE, FALSE, 6 );
 
     /* Test, remove before commiting */
-    gtk_file_chooser_set_filename ( chooser, 
+    gtk_file_chooser_set_filename ( GTK_FILE_CHOOSER(chooser), 
 				    "/home/benj/.grisbi/Exemple.gsb_Compte_Courant.csv" );
     g_object_set_data ( G_OBJECT(assistant), "filename_widget", chooser );
 
@@ -121,7 +166,6 @@ GtkWidget * cvs_import_create_first_page ( GtkWidget * assistant )
 GtkWidget * cvs_import_create_second_page ( GtkWidget * assistant )
 {
     GtkWidget * vbox, * paddingbox, * tree_preview, * entry, * sw;
-    GtkTreeModel * model;
 
     vbox = gtk_vbox_new ( FALSE, 6 );
     gtk_container_set_border_width ( GTK_CONTAINER(vbox), 12 );
@@ -133,8 +177,10 @@ GtkWidget * cvs_import_create_second_page ( GtkWidget * assistant )
     g_object_set_data ( G_OBJECT(assistant), "entry", entry );    
     gtk_box_pack_start ( GTK_BOX(paddingbox), entry, FALSE, FALSE, 6 );
 
+    paddingbox = new_paddingbox_with_title ( vbox, TRUE, "Select CSV fields" );
+
     sw = gtk_scrolled_window_new (NULL, NULL);
-    gtk_widget_set_usize ( sw, 480, 240 );
+    gtk_widget_set_usize ( sw, 480, 200 );
     gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (sw), GTK_SHADOW_ETCHED_IN);
     gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw), GTK_POLICY_AUTOMATIC,
 				    GTK_POLICY_AUTOMATIC);
@@ -158,8 +204,6 @@ GtkTreeModel * csv_import_create_model ( GtkTreeView * tree_preview, gchar * con
 					 gchar * separator )
 {
     GtkTreeStore * model;
-    GtkCellRenderer * cell;
-    GError * error;
     GType * types;
     gint size, i;
     GSList * list;
@@ -171,8 +215,10 @@ GtkTreeModel * csv_import_create_model ( GtkTreeView * tree_preview, gchar * con
 	return NULL;
     }
 
+    csv_fields_config = csv_import_update_fields_config ( contents, size );
+
     /* Remove previous columns if any. */
-    list = gtk_tree_view_get_columns ( tree_preview );
+    list = (GSList *) gtk_tree_view_get_columns ( GTK_TREE_VIEW(tree_preview) );
     while ( list )
     {
 	gtk_tree_view_remove_column ( tree_preview, list -> data );
@@ -182,18 +228,49 @@ GtkTreeModel * csv_import_create_model ( GtkTreeView * tree_preview, gchar * con
     types = (GType *) malloc ( size * sizeof ( GType ) );
     for ( i = 0 ; i < size ; i ++ ) 
     {
+	GtkTreeViewColumn * col;
+	GtkCellRenderer * cell;
+	GtkWidget * button;
+
 	types[i] = G_TYPE_STRING;
 	cell = gtk_cell_renderer_text_new ();
-	gtk_tree_view_insert_column_with_attributes ( GTK_TREE_VIEW (tree_preview),
-						      -1, g_strdup_printf ( _("Field %d"), i ),
-						      cell, "text", i,
-						      NULL);
 
+	col = gtk_tree_view_column_new_with_attributes ( csv_fields [ csv_fields_config[i] ] . name,
+							 cell, "text", i,
+							 NULL);
+	gtk_tree_view_append_column ( tree_preview, col );
+
+	gtk_tree_view_column_set_clickable ( col, TRUE );
+	g_object_set_data ( G_OBJECT ( col -> button ), "column", col );
+	g_signal_connect ( G_OBJECT ( col -> button ),
+			   "button-press-event",
+			   G_CALLBACK ( csv_import_header_on_click ),
+			   GINT_TO_POINTER ( i ) );
     }
 
     model =  gtk_tree_store_newv ( size, types );
 
     return (GtkTreeModel *) model;
+}
+
+
+
+/**
+ *
+ *
+ *
+ */
+gboolean csv_import_header_on_click ( GtkWidget * button, GdkEventButton * ev, 
+				      gint *no_column )
+{
+    GtkWidget * menu, * col;
+
+    col = g_object_get_data ( G_OBJECT ( button ), "column" );
+
+    menu = csv_import_fields_menu ( col, GPOINTER_TO_INT ( no_column ) );
+    gtk_menu_popup ( GTK_MENU(menu), NULL, NULL, NULL, NULL, 3, gtk_get_current_event_time());
+    
+    return FALSE;
 }
 
 
@@ -215,6 +292,8 @@ gchar * csv_import_guess_separator ( gchar * contents )
 	    return g_strdup ( separators[i] );
 	}
     }
+
+    return NULL;
 }
 
 
@@ -296,6 +375,62 @@ gint csv_import_count_columns ( gchar * contents, gchar * separator )
 /**
  *
  *
+ */
+gint * csv_import_update_fields_config ( gchar * contents, gint size )
+{
+    gint i, * old_csv_fields_config = csv_fields_config;
+
+    g_return_if_fail ( size );
+
+    if ( ! old_csv_fields_config )
+    {
+	return csv_import_guess_fields_config ( contents, size );
+    }
+
+    csv_fields_config = (gint *) malloc ( ( size + 2 ) * sizeof ( gint ) );
+
+    for ( i = 0; i < size && old_csv_fields_config [ i ] != -1 ; i ++ )
+    {
+	csv_fields_config [ i ] = old_csv_fields_config [ i ];
+    }
+
+    for ( ; i < size ; i ++ )
+    {
+	csv_fields_config[i] = 0;
+    }
+
+    free ( old_csv_fields_config );
+    csv_fields_config [ i ] = -1;    
+
+    return csv_fields_config;
+}
+
+
+
+/**
+ *
+ *
+ *
+ */
+gint * csv_import_guess_fields_config ( gchar * contents, gint size )
+{
+    gint * default_config;
+    gint benj_config[13] = { 0, 0, 2, 12, 4, 10, 11, 0, 7, 8, 5, 0 };
+
+    default_config = (gint *) malloc ( size * sizeof ( int ) );
+/*     bzero ( default_config, size * sizeof(int) );  */
+    bcopy ( benj_config, default_config, size * sizeof(int) );
+
+    default_config [ size ] = -1;
+
+    return default_config;
+}
+
+
+
+/**
+ *
+ *
  *
  */
 gboolean csv_import_change_separator ( GtkEntry * entry, gchar * value, 
@@ -327,9 +462,9 @@ gboolean csv_import_update_preview ( GtkWidget * assistant )
     gint line = 0;
     GError * error;
 
-    separator = g_object_get_data ( assistant, "separator" );
-    filename = g_object_get_data ( assistant, "filename" );
-    tree_preview = g_object_get_data ( assistant, "tree_preview" );
+    separator = g_object_get_data ( G_OBJECT(assistant), "separator" );
+    filename = g_object_get_data ( G_OBJECT(assistant), "filename" );
+    tree_preview = g_object_get_data ( G_OBJECT(assistant), "tree_preview" );
 
     if ( ! g_file_get_contents ( filename, &contents, &size, &error ) )
     {
@@ -352,7 +487,7 @@ gboolean csv_import_update_preview ( GtkWidget * assistant )
 	{
 	    list = csv_parse_line ( &contents, separator );
 	}
-	while ( list == -1 );
+	while ( list == GINT_TO_POINTER(-1) );
 
 	if ( ! list )
 	{
@@ -363,7 +498,7 @@ gboolean csv_import_update_preview ( GtkWidget * assistant )
 	while ( list )
 	{
 	    gtk_tree_store_set ( GTK_TREE_STORE ( model ), &iter, i, 
-				 truncate_string ( list -> data ), -1 ); 
+				 gsb_string_truncate ( list -> data ), -1 ); 
 	    if ( list -> data )
 		label = g_strconcat ( label, "[[", list -> data, "]]\n", NULL );
 
@@ -380,18 +515,71 @@ gboolean csv_import_update_preview ( GtkWidget * assistant )
 
 
 
-gboolean csv_import_enter_second_page ( GtkWidget * assistant )
+/**
+ *
+ *
+ *
+ */
+GtkWidget * csv_import_fields_menu ( GtkTreeViewColumn * col, gint field )
+{
+    GtkWidget * menu, * omenu, * item;
+    int i;
+
+    menu = gtk_menu_new();
+
+    for ( i = 0 ; csv_fields[i] . name ; i++ )
+    {
+	item = gtk_menu_item_new_with_label ( csv_fields[i] . name );
+	g_object_set_data ( G_OBJECT ( item ), "column", col );
+	g_object_set_data ( G_OBJECT ( item ), "field", field );
+	gtk_signal_connect ( GTK_OBJECT ( item ), "activate",
+			     GTK_SIGNAL_FUNC ( csv_import_change_field ), i );
+	gtk_menu_append ( GTK_MENU ( menu ), item );
+    }
+
+    gtk_widget_show_all ( menu );
+    return menu;
+}
+
+
+
+/**
+ *
+ *
+ */
+gboolean csv_import_change_field ( GtkWidget * item, gint no_menu )
+{
+    GtkTreeViewColumn * col;
+    gint field;
+
+    col = g_object_get_data ( G_OBJECT(item), "column" );
+    field = g_object_get_data ( G_OBJECT(item), "field" );
+
+    gtk_tree_view_column_set_title ( col, csv_fields [ no_menu ] . name );
+    csv_fields_config [ field ] = no_menu;
+
+    return FALSE;
+}
+
+
+
+/**
+ *
+ *
+ *
+ */
+gboolean csv_import_enter_preview_page ( GtkWidget * assistant )
 {
     GtkWidget * button, * entry;
     gchar * contents;
     gsize * size;
     GError * error;
 
-    button = g_object_get_data ( assistant, "filename_widget" );
-    printf ("> %s\n", gtk_file_chooser_get_filename ( button ) );
-    g_object_set_data ( assistant, "filename", gtk_file_chooser_get_filename ( button ) );
+    button = g_object_get_data ( G_OBJECT(assistant), "filename_widget" );
+    g_object_set_data ( G_OBJECT(assistant), "filename", 
+			gtk_file_chooser_get_filename ( GTK_FILE_CHOOSER(button) ) );
 
-    if ( ! g_file_get_contents ( gtk_file_chooser_get_filename ( button ), 
+    if ( ! g_file_get_contents ( gtk_file_chooser_get_filename ( GTK_FILE_CHOOSER(button) ), 
 				 &contents, &size, &error ) )
     {
 	printf ("Unable to read file: %s\n", error -> message);
@@ -401,8 +589,10 @@ gboolean csv_import_enter_second_page ( GtkWidget * assistant )
     entry = g_object_get_data ( G_OBJECT(assistant), "entry" );
     if ( entry )
     {
-	gtk_entry_set_text ( entry, csv_import_guess_separator ( contents ) );
+	gtk_entry_set_text ( GTK_ENTRY(entry), csv_import_guess_separator ( contents ) );
     }
+
+    g_object_set_data ( G_OBJECT(assistant), "contents", contents );
     
     return FALSE;
 }
@@ -410,131 +600,76 @@ gboolean csv_import_enter_second_page ( GtkWidget * assistant )
 
 
 /**
- * TODO
+ *
  *
  *
  */
-GSList * csv_parse_line ( gchar * contents[], gchar * separator )
+gboolean csv_import_enter_final_page ( GtkWidget * assistant )
 {
-    gchar * tmp = (* contents), * begin = tmp;
-    gint is_unquoted = FALSE, len = strlen ( separator );
-    GSList * list = NULL;
+    gchar * contents, * separator;
+    GSList * list;
 
-    if ( *tmp == '\n' )
-    {
-	*contents = tmp+1;
-	return -1;
-    }
-    
-    if ( *tmp == '!' || *tmp == '#' || *tmp == ';' )
-    {
-	*contents = strchr ( tmp, '\n' ) + 1;
-	return -1;
-    }
+    contents = g_object_get_data ( G_OBJECT(assistant), "contents" );
+    separator = g_object_get_data ( G_OBJECT(assistant), "separator" );
 
-    while ( *tmp )
+    do
     {
-	switch ( *tmp )
+	list = csv_parse_line ( &contents, separator );
+    }
+    while ( list == GINT_TO_POINTER(-1) );
+
+    do
+    {
+	struct struct_ope_importation * ope;
+	int i;
+
+	ope = malloc ( sizeof ( struct struct_ope_importation ) );
+	bzero ( ope, sizeof ( struct struct_ope_importation ) );
+
+	list = csv_parse_line ( &contents, separator );
+	
+	if ( list == GINT_TO_POINTER(-1) )
 	{
-	    case '\n':
-		printf ( "[%s]\n", sanitize_field ( begin, tmp ) );
-		list = g_slist_append ( list, sanitize_field ( begin, tmp ) );
-		*contents = tmp+1;
-		return list;
-
-	    case '"':
-		if ( ! is_unquoted )
-		{
-		    tmp++;
-		    while ( *tmp )
-		    {
-			/* Thsi is lame escaping but we need to
-			 * support it. */
-			if ( *tmp == '\\' && *(tmp+1) == '"' )
-			{
-			    tmp += 2;
-			}
-
-			/* End of quoted string. */
-			if ( *tmp == '"' && *(tmp+1) != '"' )
-			{
-			    tmp += 1;
-			    break;
-			}
-			
-			tmp++;
-		    }
-		}
-
-	    default:
-		is_unquoted = TRUE;
-		if ( !strncmp ( tmp, separator, len ) )
-		{
-		    printf ( "[%s]", sanitize_field ( begin, tmp ) );
-		    list = g_slist_append ( list, sanitize_field ( begin, tmp ) );
-		    begin = tmp + len;
-		    is_unquoted = FALSE;
-		}
-		break;
+	    continue;
 	}
 
-	tmp++;
+	for ( i = 0; csv_fields_config[i] != -1 && list ; i++)
+	{
+	    struct csv_field * field = & csv_fields [ csv_fields_config[i] ];
+	    if ( field -> parse )
+	    {
+		printf ("> Parsing %s ... ",  field -> name );
+		if ( field -> validate )
+		{
+		    if ( field -> validate ( list -> data ) )
+		    {
+			field -> parse ( ope, list -> data );
+		    }
+		    else
+		    {
+			printf ("(invalid)");
+		    }
+		    printf ("\n");
+		}
+	    }
+	    list = list -> next;
+	}
+
+	compte -> operations_importees = g_slist_append ( compte -> operations_importees,
+							  ope );
     }
+    while ( list );
 
-    return NULL;
+    return FALSE;
 }
-
 
 
 /**
- * TODO
+ *
+ *
  *
  */
-gchar * sanitize_field ( gchar * begin, gchar * end  )
-{
-    gchar * field, * iter;
-
-    g_return_val_if_fail ( begin <= end, NULL );
-
-    if ( begin == end )
-	return "";
-
-    iter = field = g_malloc ( end - begin );
-
-    /* Strip out intial white spaces. */
-    while ( *begin == ' ' )
-	begin++;
-
-    if ( *begin == '"' )
-    {
-	begin++;
-	while ( *end != '"' && end >= begin )
-	    end--;
-    }
-
-    while ( begin < end )
-    {
-	if ( *begin == '"' && *(begin+1) == '"' )
-	    begin++;
-
-	if ( *begin == '\\' && *(begin+1) == '"' )
-	    begin++;
-	
-	*iter++ = *begin++;
-    }
-
-    /* Strip out remaining white spaces. */
-    while ( *(iter-1) == ' ' || *(iter-1) == '\n' )
-	iter--;
-
-    *iter = '\0';
-
-    return field;
-}
-
-
-
-gboolean recuperation_donnees_csv ( FILE *fichier )
+gboolean recuperation_donnees_csv_old ( FILE *fichier )
 {
 	/* on va récupérer ici chaque ligne d'un fichier csv et le handler import va gérer
 	l'importation dans un compte existant ou nouveau */
