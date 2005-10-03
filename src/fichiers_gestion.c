@@ -466,10 +466,6 @@ gboolean gsb_file_open_file ( gchar *filename )
     /* Update headings. */
     gsb_gui_headings_update ( g_strconcat ( "Grisbi : " , titre_fichier, NULL ), "" );
 
-    /* update the main page */
-
-    mise_a_jour_accueil ();
-
     /* create and fill the gui transactions list */
 
     tree_view_widget = gsb_transactions_list_make_gui_list ();
@@ -479,6 +475,10 @@ gboolean gsb_file_open_file ( gchar *filename )
 			 TRUE,
 			 0 );
     gtk_widget_show ( tree_view_widget );
+
+    /* update the main page */
+
+    mise_a_jour_accueil ();
 
     /* check the schedulers */
     gsb_scheduler_check_scheduled_transactions_time_limit ();
