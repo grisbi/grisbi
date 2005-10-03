@@ -665,7 +665,7 @@ gboolean edit_budgetary_line ( GtkTreeView * view )
 	sub_budget_name = gsb_data_budget_get_sub_budget_name ( budget_number,
 								sub_budget_number,
 								"" );
-	entry = new_text_entry ( &sub_budget_name, NULL );
+	entry = new_text_entry ( &sub_budget_name, NULL, NULL );
     }
     else
     {
@@ -674,7 +674,7 @@ gboolean edit_budgetary_line ( GtkTreeView * view )
 	budget_name = gsb_data_budget_get_name ( budget_number,
 						 0,
 						 "" );
-	entry = new_text_entry ( &budget_name, NULL );
+	entry = new_text_entry ( &budget_name, NULL, NULL );
     }
 
     gtk_widget_set_usize ( entry, 400, 0 );

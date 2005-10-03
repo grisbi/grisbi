@@ -23,6 +23,7 @@ gint my_strncasecmp ( gchar *chaine_1,
 		      gchar *chaine_2,
 		      gint longueur );
 double my_strtod ( const char *nptr, const char **endptr );
+gchar * gsb_string_truncate ( gchar * string );
 gint utils_str_atoi ( const gchar *chaine );
 gchar *utils_str_itoa ( gint integer );
 /* END_DECLARATION */

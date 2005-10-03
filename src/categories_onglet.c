@@ -770,7 +770,7 @@ gboolean edit_category ( GtkTreeView * view )
 	sub_category_name = gsb_data_category_get_sub_category_name ( category_number,
 								      sub_category_number,
 								      "" );
-	entry = new_text_entry ( &sub_category_name, NULL );
+	entry = new_text_entry ( &sub_category_name, NULL, NULL );
     }
     else
     {
@@ -779,7 +779,7 @@ gboolean edit_category ( GtkTreeView * view )
 	category_name = gsb_data_category_get_name ( category_number,
 						     0,
 						     "" );
-	entry = new_text_entry ( &category_name, NULL );
+	entry = new_text_entry ( &category_name, NULL, NULL );
     }
 
     gtk_widget_set_usize ( entry, 400, 0 );

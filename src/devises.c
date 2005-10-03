@@ -1162,7 +1162,7 @@ GtkWidget *onglet_devises ( void )
     gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
     gtk_table_attach ( GTK_TABLE ( table ), label, 0, 1, 0, 1,
 		       GTK_SHRINK | GTK_FILL, 0, 0, 0 );
-    entree_nom_devise_parametres = new_text_entry ( NULL, (GCallback) changement_nom_entree_devise );
+    entree_nom_devise_parametres = new_text_entry ( NULL, (GCallback) changement_nom_entree_devise, NULL );
     gtk_table_attach ( GTK_TABLE ( table ), entree_nom_devise_parametres, 1, 2, 0, 1, 
 		       GTK_EXPAND | GTK_FILL, 0, 0, 0 );
     g_object_set_data ( G_OBJECT(currency_list_model), "entry_name", 
@@ -1174,7 +1174,7 @@ GtkWidget *onglet_devises ( void )
     gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
     gtk_table_attach ( GTK_TABLE ( table ), label, 0, 1, 1, 2,
 		       GTK_SHRINK | GTK_FILL, 0, 0, 0 );
-    entree_code_devise_parametres = new_text_entry ( NULL, (GCallback) changement_code_entree_devise );
+    entree_code_devise_parametres = new_text_entry ( NULL, (GCallback) changement_code_entree_devise, NULL );
     gtk_table_attach ( GTK_TABLE ( table ), entree_code_devise_parametres, 1, 2, 1, 2,
 		       GTK_EXPAND | GTK_FILL, 0, 0, 0 );
     g_object_set_data ( G_OBJECT(currency_list_model), "entry_code", 
@@ -1186,7 +1186,7 @@ GtkWidget *onglet_devises ( void )
     gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
     gtk_table_attach ( GTK_TABLE ( table ), label, 0, 1, 2, 3,
 		       GTK_SHRINK | GTK_FILL, 0, 0, 0 );
-    entree_iso_code_devise_parametres = new_text_entry ( NULL, (GCallback) changement_iso_code_entree_devise );
+    entree_iso_code_devise_parametres = new_text_entry ( NULL, (GCallback) changement_iso_code_entree_devise, NULL );
     gtk_table_attach ( GTK_TABLE ( table ), entree_iso_code_devise_parametres, 1, 2, 2, 3,
 		       GTK_EXPAND | GTK_FILL, 0, 0, 0 );
     g_object_set_data ( G_OBJECT(currency_list_model), "entry_iso_code", 

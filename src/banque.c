@@ -593,7 +593,7 @@ GtkWidget * bank_form ( GtkWidget * parent )
 		       label, 0, 1, 0, 1,
 		       GTK_SHRINK | GTK_FILL, 0,
 		       0, 0 );
-    nom_banque = new_text_entry ( NULL, G_CALLBACK(update_bank_list) );
+    nom_banque = new_text_entry ( NULL, G_CALLBACK(update_bank_list), NULL );
     gtk_size_group_add_widget ( size_group, nom_banque );
     gtk_table_attach ( GTK_TABLE ( table ),
 		       nom_banque, 1, 2, 0, 1,
@@ -608,7 +608,7 @@ GtkWidget * bank_form ( GtkWidget * parent )
 		       label, 0, 1, 1, 2,
 		       GTK_SHRINK | GTK_FILL, 0,
 		       0, 0 );
-    code_banque = new_text_entry ( NULL, NULL );
+    code_banque = new_text_entry ( NULL, NULL, NULL );
     gtk_size_group_add_widget ( size_group, code_banque );
     gtk_table_attach ( GTK_TABLE ( table ),
 		       code_banque, 1, 2, 1, 2,
@@ -646,7 +646,7 @@ GtkWidget * bank_form ( GtkWidget * parent )
 		       label, 0, 1, 4, 5,
 		       GTK_SHRINK | GTK_FILL, 0,
 		       0, 0 );
-    tel_banque = new_text_entry ( NULL, NULL );
+    tel_banque = new_text_entry ( NULL, NULL, NULL );
     gtk_size_group_add_widget ( size_group, tel_banque );
     gtk_table_attach ( GTK_TABLE ( table ),
 		       tel_banque, 1, 2, 4, 5,
@@ -661,7 +661,7 @@ GtkWidget * bank_form ( GtkWidget * parent )
 		       label, 0, 1, 3, 4,
 		       GTK_SHRINK | GTK_FILL, 0,
 		       0, 0 );
-    email_banque = new_text_entry ( NULL, NULL );
+    email_banque = new_text_entry ( NULL, NULL, NULL );
     gtk_size_group_add_widget ( size_group, email_banque );
     gtk_table_attach ( GTK_TABLE ( table ),
 		       email_banque, 1, 2, 3, 4,
@@ -676,7 +676,7 @@ GtkWidget * bank_form ( GtkWidget * parent )
 		       label, 0, 1, 5, 6,
 		       GTK_SHRINK | GTK_FILL, 0,
 		       0, 0 );
-    web_banque = new_text_entry ( NULL, NULL );
+    web_banque = new_text_entry ( NULL, NULL, NULL );
     gtk_size_group_add_widget ( size_group, web_banque );
     gtk_table_attach ( GTK_TABLE ( table ),
 		       web_banque, 1, 2, 5, 6,
@@ -699,7 +699,7 @@ GtkWidget * bank_form ( GtkWidget * parent )
 		       label, 0, 1, 0, 1,
 		       GTK_SHRINK | GTK_FILL, 0,
 		       0, 0 );
-    nom_correspondant = new_text_entry ( NULL, G_CALLBACK(update_bank_list) );
+    nom_correspondant = new_text_entry ( NULL, G_CALLBACK(update_bank_list), NULL );
     gtk_size_group_add_widget ( size_group, nom_correspondant );
     gtk_table_attach ( GTK_TABLE ( table ),
 		       nom_correspondant, 1, 2, 0, 1,
@@ -714,7 +714,7 @@ GtkWidget * bank_form ( GtkWidget * parent )
 		       label, 0, 1, 1, 2,
 		       GTK_SHRINK | GTK_FILL, 0,
 		       0, 0 );
-    tel_correspondant = new_text_entry ( NULL, NULL );
+    tel_correspondant = new_text_entry ( NULL, NULL, NULL );
     gtk_size_group_add_widget ( size_group, tel_correspondant );
     gtk_table_attach ( GTK_TABLE ( table ),
 		       tel_correspondant, 1, 2, 1, 2,
@@ -729,7 +729,7 @@ GtkWidget * bank_form ( GtkWidget * parent )
 		       label, 0, 1, 3, 4,
 		       GTK_SHRINK | GTK_FILL, 0,
 		       0, 0 );
-    fax_correspondant = new_text_entry ( NULL, NULL );
+    fax_correspondant = new_text_entry ( NULL, NULL, NULL );
     gtk_size_group_add_widget ( size_group, fax_correspondant );
     gtk_table_attach ( GTK_TABLE ( table ),
 		       fax_correspondant, 1, 2, 3, 4,
@@ -744,7 +744,7 @@ GtkWidget * bank_form ( GtkWidget * parent )
 		       label, 0, 1, 2, 3,
 		       GTK_SHRINK | GTK_FILL, 0,
 		       0, 0 );
-    email_correspondant = new_text_entry ( NULL, NULL );
+    email_correspondant = new_text_entry ( NULL, NULL, NULL );
     gtk_size_group_add_widget ( size_group, email_correspondant );
     gtk_table_attach ( GTK_TABLE ( table ),
 		       email_correspondant, 1, 2, 2, 3,

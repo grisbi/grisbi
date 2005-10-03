@@ -507,7 +507,7 @@ GtkWidget *onglet_display_addresses ( void )
 			 FALSE, FALSE, 0);
 
     entree_titre_fichier = new_text_entry (&titre_fichier,
-					   ((GCallback)update_homepage_title));
+					   ((GCallback)update_homepage_title), NULL);
     gtk_box_pack_start ( GTK_BOX ( hbox ), entree_titre_fichier,
 			 TRUE, TRUE, 0);
 

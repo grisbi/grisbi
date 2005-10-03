@@ -279,7 +279,7 @@ GtkWidget *onglet_exercices ( void )
 		       label, 0, 1, 0, 1,
 		       GTK_SHRINK | GTK_FILL, 0,
 		       0, 0 );
-    nom_exercice = new_text_entry ( NULL, (GCallback) update_financial_year_list );
+    nom_exercice = new_text_entry ( NULL, (GCallback) update_financial_year_list, NULL );
     gtk_table_attach ( GTK_TABLE ( table ),
 		       nom_exercice, 1, 2, 0, 1,
 		       GTK_EXPAND | GTK_FILL, 0,

@@ -795,7 +795,7 @@ GtkWidget *onglet_programmes (void)
     gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.5 );
     gtk_table_attach ( GTK_TABLE(table), label, 0, 1, 0, 1,
 		       GTK_SHRINK | GTK_FILL, GTK_SHRINK | GTK_FILL, 0, 0 );
-    entree = new_text_entry ( &etat.latex_command, NULL );
+    entree = new_text_entry ( &etat.latex_command, NULL, NULL );
     gtk_table_attach ( GTK_TABLE(table), entree, 1, 2, 0, 1, GTK_EXPAND|GTK_FILL, 0, 0, 0 );
 
     label = gtk_label_new ( _("dvips command"));
@@ -803,7 +803,7 @@ GtkWidget *onglet_programmes (void)
     gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.5 );
     gtk_table_attach ( GTK_TABLE(table), label, 0, 1, 1, 2,
 		       GTK_SHRINK | GTK_FILL, GTK_SHRINK | GTK_FILL, 0, 0 );
-    entree = new_text_entry ( &etat.dvips_command, NULL );
+    entree = new_text_entry ( &etat.dvips_command, NULL, NULL );
     gtk_table_attach ( GTK_TABLE(table), entree, 1, 2, 1, 2, GTK_EXPAND|GTK_FILL, 0, 0, 0 );
 
 
@@ -819,7 +819,7 @@ GtkWidget *onglet_programmes (void)
     gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.5 );
     gtk_table_attach ( GTK_TABLE(table), label, 0, 1, 1, 2,
 		       GTK_SHRINK | GTK_FILL, GTK_SHRINK | GTK_FILL, 0, 0 );
-    entree = new_text_entry ( &etat.browser_command, NULL );
+    entree = new_text_entry ( &etat.browser_command, NULL, NULL );
     gtk_table_attach ( GTK_TABLE(table), entree, 1, 2, 1, 2, GTK_EXPAND|GTK_FILL, 0, 0, 0 );
 
     gtk_size_group_set_mode ( size_group, GTK_SIZE_GROUP_HORIZONTAL );

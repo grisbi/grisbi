@@ -413,7 +413,7 @@ GtkWidget *onglet_types_operations ( void )
 		       label, 0, 1, 0, 1,
 		       GTK_SHRINK | GTK_FILL, 0,
 		       0, 0 );
-    entree_type_nom = new_text_entry ( NULL, modification_entree_nom_type );
+    entree_type_nom = new_text_entry ( NULL, modification_entree_nom_type, NULL );
     gtk_table_attach ( GTK_TABLE ( table ),
 		       entree_type_nom, 1, 3, 0, 1,
 		       GTK_EXPAND | GTK_FILL, 0,
