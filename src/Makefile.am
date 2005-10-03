@@ -27,6 +27,7 @@ sources = \
 	comptes_gestion.c	\
 	comptes_onglet.c	\
 	comptes_traitements.c	\
+	csv_parse.c		\
 	import_csv.c		\
 	gsb_data_account.c	\
 	gsb_data_budget.c	\
