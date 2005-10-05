@@ -52,6 +52,7 @@ static  gboolean _file_selection_check_filename ( GtkWidget *selection_fichier);
 static  gboolean _file_selection_overwrite_file_check( GtkWidget *selection_fichier);
 static void file_selection_check_filename_signal(GtkWidget *selection_fichier);
 static gchar* file_selection_get_entry(GtkFileSelection* filesel);
+static gchar** file_selection_get_selections(GtkFileSelection* filesel);
 static void file_selection_overwrite_file_check_signal(GtkWidget *selection_fichier);
 /*END_STATIC*/
 

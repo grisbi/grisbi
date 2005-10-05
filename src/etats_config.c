@@ -302,6 +302,7 @@ GtkWidget *liste_mode_paiement_etat;
 
 
 /*START_EXTERN*/
+extern struct struct_compte_importation * compte;
 extern struct struct_etat *etat_courant;
 extern GtkWidget *frame_liste_etats;
 extern GSList *liste_struct_devises;

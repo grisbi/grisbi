@@ -10,7 +10,7 @@ void gsb_assistant_add_page ( GtkWidget * assistant, GtkWidget * widget, gint po
 			      gint prev, gint next, GCallback enter_callback );
 GtkWidget * gsb_assistant_new ( gchar * title, gchar * explanation,
 				gchar * image_filename );
-void gsb_assistant_run ( GtkWidget * assistant );
+GtkResponseType gsb_assistant_run ( GtkWidget * assistant );
 /* END_DECLARATION */
 
 #endif

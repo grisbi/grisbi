@@ -85,6 +85,7 @@ GtkWidget *hbox_boutons_modif;
 extern GtkWidget *adr_banque;
 extern     gchar * buffer ;
 extern GtkWidget *code_banque;
+extern struct struct_compte_importation * compte;
 extern gint compte_courant_onglet;
 extern struct struct_devise *devise_compte;
 extern GSList *liste_struct_banques;

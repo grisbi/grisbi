@@ -81,6 +81,7 @@ GtkWidget *vbox_fleches_tri;
 GtkWidget * details_paddingbox;
 
 /*START_EXTERN*/
+extern struct struct_compte_importation * compte;
 extern GtkWidget *fenetre_preferences;
 extern GtkWidget *formulaire;
 extern GtkWidget *label_saisie_modif;

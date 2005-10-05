@@ -44,6 +44,7 @@
 
 
 /*START_EXTERN*/
+extern struct struct_compte_importation * compte;
 extern AB_BANKING *gbanking;
 extern GSList *liste_comptes_importes;
 /*END_EXTERN*/

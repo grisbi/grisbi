@@ -65,6 +65,7 @@ static void update_soldes_minimaux ( void );
 /*END_STATIC*/
 
 /*START_EXTERN*/
+extern struct struct_compte_importation * compte;
 extern struct operation_echeance *echeance_selectionnnee;
 extern GtkWidget *formulaire;
 extern GtkWidget *formulaire_echeancier;

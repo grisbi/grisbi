@@ -171,6 +171,7 @@ GtkTreeModel *transactions_sortable_model = NULL;
 
 /*START_EXTERN*/
 extern GtkWidget *bouton_ok_equilibrage;
+extern struct struct_compte_importation * compte;
 extern GdkColor couleur_fond[2];
 extern GdkColor couleur_grise;
 extern GdkColor couleur_selection;

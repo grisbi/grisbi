@@ -63,6 +63,7 @@
 /*START_EXTERN*/
 extern GtkWidget *account_page;
 extern GtkWidget *bouton_supprimer_compte;
+extern struct struct_compte_importation * compte;
 extern gint compte_courant_onglet;
 extern struct operation_echeance *echeance_selectionnnee;
 extern GSList *liste_struct_echeances;

@@ -139,6 +139,7 @@ extern GtkWidget *bouton_devise_categ_etat;
 extern GtkWidget *bouton_devise_ib_etat;
 extern GtkWidget *bouton_devise_montant_etat;
 extern GtkWidget *bouton_devise_tiers_etat;
+extern struct struct_compte_importation * compte;
 extern GtkWidget *detail_devise_compte;
 extern GtkWidget *hbox_boutons_modif;
 extern GSList *liste_struct_echeances;

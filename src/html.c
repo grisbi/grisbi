@@ -29,6 +29,7 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
+static gboolean recuperation_donnees_html ( FILE *fichier );
 /*END_STATIC*/
 
 

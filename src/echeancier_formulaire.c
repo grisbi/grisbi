@@ -94,6 +94,7 @@ GtkWidget *hbox_valider_annuler_echeance;
 
 
 /*START_EXTERN*/
+extern struct struct_compte_importation * compte;
 extern gint enregistre_ope_au_retour_echeances;
 extern GtkWidget *formulaire;
 extern GtkWidget *formulaire_echeancier;

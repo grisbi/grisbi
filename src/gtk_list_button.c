@@ -75,6 +75,7 @@ gint moved;
 gint list_button_can_drag;
 
 /*START_EXTERN*/
+extern struct struct_compte_importation * compte;
 extern GtkWidget *window;
 /*END_EXTERN*/
 

@@ -80,6 +80,7 @@ extern gint affichage_echeances;
 extern gint affichage_echeances_perso_nb_libre;
 extern gchar *chemin_logo;
 extern GtkWidget *code_banque;
+extern struct struct_compte_importation * compte;
 extern GtkWidget *email_banque;
 extern GtkWidget *email_correspondant;
 extern struct struct_etat *etat_courant;

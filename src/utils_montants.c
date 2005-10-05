@@ -38,6 +38,7 @@
 
 /*START_EXTERN*/
 extern GtkWidget *bouton_ok_equilibrage;
+extern struct struct_compte_importation * compte;
 extern GtkWidget *label_equilibrage_ecart;
 extern GtkWidget *label_equilibrage_pointe;
 extern gdouble operations_pointees;

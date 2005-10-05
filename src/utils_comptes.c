@@ -35,6 +35,7 @@
 
 
 /*START_EXTERN*/
+extern struct struct_compte_importation * compte;
 extern GtkWidget *widget_formulaire_echeancier[SCHEDULER_FORM_TOTAL_WIDGET];
 /*END_EXTERN*/
 

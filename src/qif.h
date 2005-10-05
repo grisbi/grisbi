@@ -7,6 +7,6 @@
 
 /* START_DECLARATION */
 void exporter_fichier_qif ( void );
-gboolean recuperation_donnees_qif ( FILE *fichier );
+gboolean recuperation_donnees_qif ( FILE *fichier, gchar * filename );
 /* END_DECLARATION */
 #endif

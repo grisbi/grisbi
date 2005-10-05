@@ -110,6 +110,7 @@ GSList *scheduled_transactions_taken;
 /*START_EXTERN*/
 extern gint affichage_echeances;
 extern gint affichage_echeances_perso_nb_libre;
+extern struct struct_compte_importation * compte;
 extern GdkColor couleur_fond[2];
 extern GdkColor couleur_grise;
 extern GdkColor couleur_selection;

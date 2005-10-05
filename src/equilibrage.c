@@ -103,6 +103,7 @@ gint ancien_retient_affichage_par_compte;
 
 
 /*START_EXTERN*/
+extern struct struct_compte_importation * compte;
 extern GtkWidget *label_last_statement;
 extern gint mise_a_jour_liste_comptes_accueil;
 extern GtkTreeStore *model;

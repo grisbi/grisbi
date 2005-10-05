@@ -33,6 +33,7 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
+static gint count_char_from_string ( gchar *search_char, gchar *string );
 static gint my_strcmp ( gchar *chaine_1,
 		 gchar *chaine_2 );
 static int myisolat1ToUTF8(unsigned char* out, int *outlen,
@@ -42,6 +43,7 @@ static int myisolat1ToUTF8(unsigned char* out, int *outlen,
 
 /*START_EXTERN*/
 extern     gchar * buffer ;
+extern struct struct_compte_importation * compte;
 extern FILE * out;
 /*END_EXTERN*/
 
