@@ -74,6 +74,7 @@ gchar *nom_fichier_backup;
 
 
 /*START_EXTERN*/
+extern struct struct_compte_importation * compte;
 extern gchar *dernier_chemin_de_travail;
 extern GSList *liste_struct_echeances;
 extern GSList *liste_struct_etats;
@@ -129,8 +130,8 @@ gboolean new_file ( void )
     if ( gsb_data_account_get_current_account () == -1 )
 	return FALSE;
 
-    init_variables_new_file ();
     init_gui_new_file ();
+    init_variables_new_file ();
 
     /* on se met sur l'onglet de propriétés du compte */
     gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ), GSB_ACCOUNT_PAGE );
