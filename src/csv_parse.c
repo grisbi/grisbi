@@ -354,7 +354,7 @@ gboolean csv_import_parse_category ( struct struct_ope_importation * ope, gchar 
 gboolean csv_import_parse_sub_category ( struct struct_ope_importation * ope, gchar * string )
 {
     g_return_if_fail ( string );
-    if ( ! ope -> categ )
+    if ( ! ope -> categ || ! strlen ( string ) )
 	return FALSE;
     ope -> categ = g_strconcat ( ope -> categ, " : ", string, NULL );
     return TRUE;
