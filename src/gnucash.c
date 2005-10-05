@@ -31,6 +31,7 @@
 #include "utils_files.h"
 #include "utils_str.h"
 #include "structures.h"
+#include "import.h"
 #include "include.h"
 /*END_INCLUDE*/
 
@@ -57,7 +58,9 @@ static void update_split ( struct gnucash_split * split, gdouble amount,
 
 /*START_EXTERN*/
 extern     gchar * buffer ;
+extern struct struct_compte_importation * compte;
 extern GSList *liste_comptes_importes;
+extern GSList *liste_comptes_importes_error;
 extern gchar * tempname;
 /*END_EXTERN*/
 
@@ -96,6 +99,7 @@ GSList * gnucash_categories = NULL;
 gboolean recuperation_donnees_gnucash ( gchar * filename )
 {
   xmlDocPtr doc;
+  struct struct_compte_importation * account;
 
   doc = parse_gnucash_file ( filename );
 
@@ -106,14 +110,17 @@ gboolean recuperation_donnees_gnucash ( gchar * filename )
       if ( root )
       {
 	  recuperation_donnees_gnucash_book ( root );
-      }
-      else
-      {
-	  return FALSE;
+	  return TRUE;
       }
   }
-  
-  return ( TRUE );
+
+  /* So, we failed to import file. */
+  account = calloc ( 1, sizeof ( struct struct_compte_importation ));
+  account -> origine = TYPE_GNUCASH;
+  account -> nom_de_compte = _("Gnucash invalid account");
+  account -> filename = filename;
+  liste_comptes_importes_error = g_slist_append ( liste_comptes_importes_error, account );
+  return FALSE;
 }
 
 
@@ -175,38 +182,38 @@ void recuperation_donnees_gnucash_book ( xmlNodePtr book_node )
  */
 void recuperation_donnees_gnucash_compte ( xmlNodePtr compte_node )
 {
-  struct struct_compte_importation *compte;
-  gchar * type = child_content ( compte_node, "type" );
+    struct struct_compte_importation *compte;
+    gchar * type = child_content ( compte_node, "type" );
 
-  compte = calloc ( 1, sizeof ( struct struct_compte_importation ));
+    compte = calloc ( 1, sizeof ( struct struct_compte_importation ));
 
-  /* Gnucash import */
-  compte -> origine = GNUCASH_IMPORT;
+    /* Gnucash import */
+    compte -> origine = TYPE_GNUCASH;
 
-  if ( !strcmp(type, "BANK") || !strcmp(type, "CREDIT") ) 
+    if ( !strcmp(type, "BANK") || !strcmp(type, "CREDIT") ) 
     {
-      compte -> type_de_compte = 0; /* Bank */
+	compte -> type_de_compte = 0; /* Bank */
     }
-  else if ( !strcmp(type, "CASH") || !strcmp(type, "CURRENCY") ) 
+    else if ( !strcmp(type, "CASH") || !strcmp(type, "CURRENCY") ) 
     {
-      compte -> type_de_compte = 1; /* Currency */
+	compte -> type_de_compte = 1; /* Currency */
     }
-  else if ( !strcmp(type, "ASSET") || !strcmp(type, "STOCK") || !strcmp(type, "MUTUAL") ) 
+    else if ( !strcmp(type, "ASSET") || !strcmp(type, "STOCK") || !strcmp(type, "MUTUAL") ) 
     {
-      compte -> type_de_compte = 0; /* Asset */
+	compte -> type_de_compte = 0; /* Asset */
     }
-  else if ( !strcmp(type, "LIABILITY") ) 
+    else if ( !strcmp(type, "LIABILITY") ) 
     {
-      compte -> type_de_compte = 0; /* Liability */
+	compte -> type_de_compte = 0; /* Liability */
     }
 
-  compte -> nom_de_compte = child_content ( compte_node, "name" );
-  compte -> solde = 0;
-  compte -> devise = get_currency ( get_child(compte_node, "commodity") );
-  compte -> guid = child_content ( compte_node, "id" );
-  compte -> operations_importees = NULL;
+    compte -> nom_de_compte = child_content ( compte_node, "name" );
+    compte -> solde = 0;
+    compte -> devise = get_currency ( get_child(compte_node, "commodity") );
+    compte -> guid = child_content ( compte_node, "id" );
+    compte -> operations_importees = NULL;
 
-  liste_comptes_importes = g_slist_append ( liste_comptes_importes, compte );
+    liste_comptes_importes = g_slist_append ( liste_comptes_importes, compte );
 }
 
 
@@ -423,7 +430,7 @@ struct struct_compte_importation * find_imported_account_by_uid ( gchar * guid )
     {
       struct struct_compte_importation * account = liste_tmp -> data;
 
-      if ( !strcmp ( account -> guid, guid ))
+      if ( account -> guid && !strcmp ( account -> guid, guid ))
 	{
 	  return account;
 	}

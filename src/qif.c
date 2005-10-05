@@ -37,6 +37,7 @@
 #include "utils.h"
 #include "search_glist.h"
 #include "structures.h"
+#include "import.h"
 #include "include.h"
 /*END_INCLUDE*/
 
@@ -50,14 +51,16 @@ GSList *liste_entrees_exportation;
 
 
 /*START_EXTERN*/
+extern struct struct_compte_importation * compte;
 extern GSList *liste_comptes_importes;
+extern GSList *liste_comptes_importes_error;
 extern gchar *nom_fichier_comptes;
 extern GtkWidget *window;
 /*END_EXTERN*/
 
 
 /* *******************************************************************************/
-gboolean recuperation_donnees_qif ( FILE *fichier )
+gboolean recuperation_donnees_qif ( FILE * fichier, gchar * filename )
 {
     gchar *pointeur_char;
     gchar **tab_char;
@@ -72,8 +75,10 @@ gboolean recuperation_donnees_qif ( FILE *fichier )
 
     rewind ( fichier );
     
-/*     on n'accepte que les types bank, cash, ccard, invst(avec warning), oth a, oth l */
-/* 	le reste, on passe */
+    compte = calloc ( 1, sizeof ( struct struct_compte_importation ));
+    compte -> nom_de_compte = _("Invalid QIF file");
+    compte -> filename = filename;
+    compte -> origine = TYPE_QIF;
 
     do
     {
@@ -161,22 +166,21 @@ gboolean recuperation_donnees_qif ( FILE *fichier )
 	{
 	    if ( !pas_le_premier_compte )
 	    {
+		liste_comptes_importes_error = g_slist_append ( liste_comptes_importes_error,
+								compte );
 		return FALSE;
 	    }
 	    else
 		return TRUE;
 	}
 
-	/*     on est sur le début d'opérations d'un compte, on crée un nouveau compte */
-
-	compte = calloc ( 1,
-			  sizeof ( struct struct_compte_importation ));
-
-	/* c'est une importation qif */
-
-	compte -> origine = QIF_IMPORT;
+	compte = calloc ( 1, sizeof ( struct struct_compte_importation ));
+	compte -> origine = TYPE_QIF;
 
 	/* récupération du type de compte */
+
+/*     on n'accepte que les types bank, cash, ccard, invst(avec warning), oth a, oth l */
+/* 	le reste, on passe */
 
 	if ( !my_strncasecmp ( pointeur_char+6,
 			       "bank",
@@ -292,6 +296,7 @@ gboolean recuperation_donnees_qif ( FILE *fichier )
 		if ( pointeur_char[0] == 'L' )
 		{
 		    compte -> nom_de_compte = get_line_from_string ( pointeur_char ) + 1;
+		    compte -> filename = filename;
 
 		    /* on vire les crochets s'ils y sont */
 
@@ -348,6 +353,8 @@ gboolean recuperation_donnees_qif ( FILE *fichier )
 	    free (compte);
 	    if ( !pas_le_premier_compte )
 	    {
+		liste_comptes_importes_error = g_slist_append ( liste_comptes_importes_error,
+								compte );
 		return (FALSE);
 	    }
 	    else
@@ -779,8 +786,8 @@ changement_format_date:
 		{
 		    if ( format_date )
 		    {
-			dialogue_error_hint ( _("Dates can't be parsed in QIF file."),
-					      _("Grisbi automatically tries to parse dates from QIF files using heuristics.  Please double check that they are valid and contact grisbi development team for assistance if needed") );
+			liste_comptes_importes_error = g_slist_append ( liste_comptes_importes_error,
+									compte );
 			return (FALSE);
 		    }
 
@@ -932,7 +939,7 @@ changement_format_date:
     }
     while ( retour != EOF );
 
-	    return ( TRUE );
+    return ( TRUE );
 }
 /* *******************************************************************************/
 

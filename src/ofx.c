@@ -40,6 +40,7 @@ gboolean recuperation_donnees_ofx ( gchar *nom_fichier )
 /*START_INCLUDE*/
 #include "ofx.h"
 #include "dialog.h"
+#include "import.h"
 #include "utils_str.h"
 #include "ofx.h"
 #include "include.h"
@@ -58,7 +59,9 @@ gint  message_erreur_operation;
 
 
 /*START_EXTERN*/
+extern struct struct_compte_importation * compte;
 extern GSList *liste_comptes_importes;
+extern GSList *liste_comptes_importes_error;
 /*END_EXTERN*/
 
 
@@ -79,7 +82,7 @@ int ofx_proc_statement_cb(struct OfxStatementData data, void * statement_data);
 gboolean recuperation_donnees_ofx ( gchar *nom_fichier )
 {
     gchar *argv[2];
-
+    GSList *liste_tmp;
 
     liste_comptes_importes_ofx = NULL;
     compte_ofx_importation_en_cours = NULL;
@@ -105,35 +108,40 @@ gboolean recuperation_donnees_ofx ( gchar *nom_fichier )
 #endif /* OFX_0_7 */
 
     /*     le dernier compte n'a pas été ajouté à la liste */
-
     liste_comptes_importes_ofx = g_slist_append ( liste_comptes_importes_ofx,
 						  compte_ofx_importation_en_cours );
 
     if ( !compte_ofx_importation_en_cours )
     {
-      return ( FALSE );
+	struct struct_compte_importation * account;
+	account = calloc ( 1, sizeof ( struct struct_compte_importation ));
+	account -> nom_de_compte = _("Invalid OFX file");
+	compte -> filename = nom_fichier;
+	account -> origine = TYPE_OFX;
+	liste_comptes_importes_error = g_slist_append ( liste_comptes_importes_error,
+							account );
+	return ( FALSE );
     }
 
-    if ( erreur_import_ofx )
-	erreur_import_ofx = !question_yes_no_hint ( _("Warning" ),
-						    _( "An error or warning has occured. Do you still want to import the file ?" ));
+    liste_tmp = liste_comptes_importes_ofx;
 
-    if ( !erreur_import_ofx )
+    while ( liste_tmp )
     {
-	GSList *liste_tmp;
-
-	liste_tmp = liste_comptes_importes_ofx;
-
-	/* ajoute le ou les compte aux autres comptes importés */
-
-	while ( liste_tmp )
+	if ( !erreur_import_ofx )
 	{
 	    liste_comptes_importes = g_slist_append ( liste_comptes_importes,
 						      liste_tmp -> data );
-	    liste_tmp = liste_tmp -> next;
 	}
+	else
+	{
+	    liste_comptes_importes_error = g_slist_append ( liste_comptes_importes_error,
+							    liste_tmp -> data );
+	}
+
+	liste_tmp = liste_tmp -> next;
     }
 
+    
     return ( TRUE );
 }
 /* *******************************************************************************/
@@ -171,25 +179,25 @@ int ofx_proc_status_cb(struct OfxStatusData data)
 
 	    case OFX_WARN :
 		if ( data.code_valid )
-		    dialogue_warning ( g_strconcat ( _("File processing returned following message:\n"),
+		    dialogue_warning ( g_strconcat ( _("OFX processing returned following message:\n"),
 						     data.name,
 						     "\n",
 						     data.description,
 						     NULL ));
 		else
-		    dialogue_warning ( _("File processing ended in a warning message which is not valid."));
-		erreur_import_ofx = 1;
+		    dialogue_warning ( _("OFX processing ended in a warning message which is not valid."));
+/* 		erreur_import_ofx = 1; */
 		break;
 
 	    case OFX_ERROR:
 		if ( data.code_valid )
-		    dialogue_error ( g_strconcat ( _("The file returned following error message:\n"),
+		    dialogue_error ( g_strconcat ( _("OFX processing returned following error message:\n"),
 						   data.name,
 						   "\n",
 						   data.description,
 						   NULL ));
 		else
-		    dialogue_error ( _("File processing returned an error message which is not valid."));
+		    dialogue_error ( _("OFX processing returned an error message which is not valid."));
 		erreur_import_ofx = 1;
 		break;
 	}		
