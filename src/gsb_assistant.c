@@ -106,6 +106,7 @@ GtkWidget * gsb_assistant_new ( gchar * title, gchar * explanation,
     gtk_text_view_set_cursor_visible ( view, FALSE );
     gtk_text_view_set_left_margin ( view, 12 );
     gtk_text_view_set_right_margin ( view, 12 );
+
     gtk_notebook_append_page ( notebook, view, gtk_label_new("") );
 
     g_signal_connect ( notebook, "switch-page",
@@ -131,11 +132,13 @@ void gsb_assistant_add_page ( GtkWidget * assistant, GtkWidget * widget, gint po
     g_object_set_data ( assistant, g_strdup_printf ( "prev%d", position ), prev );
     g_object_set_data ( assistant, g_strdup_printf ( "next%d", position ), next );
     g_object_set_data ( assistant, g_strdup_printf ( "enter%d", position ), enter_callback );
+
+    gtk_widget_show_all ( widget );
 }
 
 
 
-void gsb_assistant_run ( GtkWidget * assistant )
+GtkResponseType gsb_assistant_run ( GtkWidget * assistant )
 {
     gint state = 0;
     GtkWidget * notebook, * button_prev, * button_next;
@@ -150,8 +153,7 @@ void gsb_assistant_run ( GtkWidget * assistant )
     while ( TRUE )
     {
 	gint current = gtk_notebook_get_current_page ( notebook );
-	gint prev = g_object_get_data ( assistant, g_strdup_printf ( "prev%d", current ) );
-	gint next = g_object_get_data ( assistant, g_strdup_printf ( "next%d", current ) );
+	gint result, prev, next;
 
 	gtk_window_set_title ( assistant, 
 			       g_strdup_printf ( "%s (%d of %d)", 
@@ -159,34 +161,54 @@ void gsb_assistant_run ( GtkWidget * assistant )
 						 current + 1,
 						 gtk_notebook_get_n_pages ( notebook ) ) );
 
-	switch ( gtk_dialog_run ( assistant ) )
-	{
-	    case GTK_RESPONSE_CANCEL:
-		gtk_widget_destroy ( assistant );
-		return;
+	result = gtk_dialog_run ( assistant );
+	prev = g_object_get_data ( assistant, g_strdup_printf ( "prev%d", current ) );
+	next = g_object_get_data ( assistant, g_strdup_printf ( "next%d", current ) );
 
+	switch ( result )
+	{
 	    case GTK_RESPONSE_YES:
-		gtk_notebook_set_page ( notebook, next );
+		printf ("??> NTH pages %d\n", gtk_notebook_get_n_pages ( g_object_get_data ( assistant, "notebook" ) ) );
+
 
 		gtk_widget_set_sensitive ( button_prev, TRUE );
 		if ( gtk_notebook_get_n_pages ( notebook ) == ( next + 1 ) )
 		{
-		    gtk_widget_set_sensitive ( button_next, FALSE );
+		    gtk_widget_destroy ( button_next );
+		    button_next = gtk_dialog_add_button ( assistant, GTK_STOCK_CLOSE, 
+							  GTK_RESPONSE_APPLY );
 		}
+
+		gtk_notebook_set_page ( notebook, next );
 		break;
 
 	    case GTK_RESPONSE_NO:
-		gtk_notebook_set_page ( notebook, prev );
+		if ( gtk_notebook_get_n_pages ( notebook ) == next )
+		{
+		    gtk_widget_destroy ( button_next );
+		    button_next = gtk_dialog_add_button ( assistant, GTK_STOCK_GO_FORWARD, 
+							  GTK_RESPONSE_YES );
+		}
 
 		gtk_widget_set_sensitive ( button_next, TRUE );
-		if ( prev == 0 )
+		if ( current == 0 )
 		{
 		    gtk_widget_set_sensitive ( button_prev, FALSE );
 		}
+
+		gtk_notebook_set_page ( notebook, prev );
 		break;
+
+	    case GTK_RESPONSE_APPLY:
+		return GTK_RESPONSE_APPLY;
+
+	    default:
+	    case GTK_RESPONSE_CANCEL:
+		return GTK_RESPONSE_CANCEL;
 	}
     }
 
+    return GTK_RESPONSE_CANCEL;
 }
 
 
