@@ -516,6 +516,7 @@ struct struct_compte_importation
     enum origine_importation origine;    /* 0=qif, 1=ofx, 2=html, 3=gnucash, 4=csv */
 
     gchar *nom_de_compte;
+    gchar *filename;
     gint type_de_compte;  /* 0=OFX_CHECKING,1=OFX_SAVINGS,2=OFX_MONEYMRKT,3=OFX_CREDITLINE,4=OFX_CMA,5=OFX_CREDITCARD,6=OFX_INVESTMENT, 7=cash */
     gchar *devise;
 
@@ -528,12 +529,18 @@ struct struct_compte_importation
     gchar *date_solde_qif;            /* utilisé temporairement pour un fichier qif */
 
     GtkWidget *bouton_devise;             /* adr du bouton de la devise dans le récapitulatif */
-    GtkWidget *bouton_action;             /* adr du bouton de l'action dans le récapitulatif */
+    gint action;             	/* action a faire */
     GtkWidget *bouton_type_compte;             /* adr du bouton du type de compte dans le récapitulatif */
-    GtkWidget *bouton_compte;             /* adr du bouton du compte dans le récapitulatif */
+    GtkWidget *bouton_compte_add;             /* adr du bouton du compte
+					   * dans le récapitulatif */
+    GtkWidget *bouton_compte_mark;             /* adr du bouton du compte dans le récapitulatif */
 
-  /* Used by gnucash import */
-  gchar * guid;
+    GtkWidget * hbox1;
+    GtkWidget * hbox2;
+    GtkWidget * hbox3;
+
+    /* Used by gnucash import */
+    gchar * guid;
 };
 
 
