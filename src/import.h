@@ -6,8 +6,25 @@
 
 
 /* START_DECLARATION */
-gboolean affichage_recapitulatif_importation ( void );
+gboolean affichage_recapitulatif_importation ( GtkWidget * assistant );
+GSList * import_selected_files ( GtkWidget * assistant );
 void importer_fichier ( void );
 GtkWidget *onglet_importation (void);
 /* END_DECLARATION */
+
+enum import_type {
+  TYPE_UNKNOWN = 0,
+  TYPE_QIF,
+  TYPE_OFX,
+  TYPE_GNUCASH,
+  TYPE_CSV,
+  TYPE_MAX,
+};
+
+struct imported_file {
+    gchar * name;
+    enum import_type type;
+};
+
+
 #endif

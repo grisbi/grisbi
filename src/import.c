@@ -4,7 +4,7 @@
 /*                                  accueil.c                                 */
 /*                                                                            */
 /*     Copyright (C)	2000-2004 Cédric Auger (cedric@grisbi.org)	      */
-/*			     2004 Benjamin Drieu (bdrieu@april.org)	      */
+/*			2004-2005 Benjamin Drieu (bdrieu@april.org)	      */
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -35,38 +35,41 @@
 #include "utils.h"
 #include "utils_montants.h"
 #include "comptes_gestion.h"
+#include "import_csv.h"
 #include "utils_devises.h"
 #include "dialog.h"
-#include "utils_file_selection.h"
 #include "utils_files.h"
+#include "gsb_assistant.h"
 #include "gsb_data_account.h"
 #include "gsb_data_category.h"
 #include "gsb_data_payee.h"
 #include "gsb_data_transaction.h"
 #include "utils_dates.h"
+#include "navigation.h"
 #include "menu.h"
 #include "operations_liste.h"
 #include "fichiers_gestion.h"
 #include "traitement_variables.h"
-#include "utils_str.h"
 #include "accueil.h"
 #include "categories_onglet.h"
 #include "tiers_onglet.h"
+#include "utils_str.h"
 #include "utils_operations.h"
-#include "import_csv.h"
 #include "gnucash.h"
-#include "html.h"
 #include "ofx.h"
 #include "qif.h"
 #include "utils_comptes.h"
 #include "imputation_budgetaire.h"
 #include "structures.h"
+#include "import.h"
 #include "include.h"
+#include "gsb_file_config.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
 static void ajout_devise_dans_liste_import ( void );
-static enum import_type autodetect_file_type ( FILE * fichier, gchar * pointeur_char );
+static enum import_type autodetect_file_type ( gchar * filename, FILE * fichier, 
+					gchar * pointeur_char );
 static gboolean changement_valeur_echelle_recherche_date_import ( GtkWidget *spin_button );
 static gboolean click_dialog_ope_orphelines ( GtkWidget *dialog,
 				       gint result,
@@ -77,43 +80,32 @@ static gboolean click_sur_liste_opes_orphelines ( GtkCellRendererToggle *rendere
 static void confirmation_enregistrement_ope_import ( struct struct_compte_importation *imported_account );
 static GtkWidget * create_file_format_import_menu ();
 static void cree_liens_virements_ope_import ( void );
-static void cree_ligne_recapitulatif ( struct struct_compte_importation *compte,
-				gint position );
-static gboolean fichier_choisi_importation ( GtkWidget *fenetre );
+static GtkWidget * cree_ligne_recapitulatif ( struct struct_compte_importation *compte );
 static gboolean filetype_changed ( GtkOptionMenu * option_menu, gpointer user_data );
 static void gsb_import_add_imported_transactions ( struct struct_compte_importation *imported_account,
 					    gint account_number );
 static gint gsb_import_create_imported_account ( struct struct_compte_importation *imported_account );
 static gint gsb_import_create_transaction ( struct struct_ope_importation *imported_transaction,
 				     gint account_number );
+static gboolean import_active_toggled ( GtkCellRendererToggle * cell, gchar *path_str,
+				 gpointer model );
+static GtkWidget * import_create_file_selection_page ( GtkWidget * assistant );
+static GtkWidget * import_create_final_page ( GtkWidget * assistant );
+static gboolean import_enter_file_selection_page ( GtkWidget * assistant );
+static gboolean import_enter_final_page ( GtkWidget * assistant );
+static void import_preview_maybe_sensitive_next ( GtkWidget * assistant, GtkTreeModel * model ) ;
+static gboolean import_select_file ( GtkWidget * button, GtkWidget * assistant );
+static gboolean import_switch_type ( GtkCellRendererText *cell, const gchar *path,
+			      const gchar *value, GtkListStore * model );
 static void pointe_opes_importees ( struct struct_compte_importation *imported_account );
-static void selection_fichiers_import ( void );
 static void traitement_operations_importees ( void );
+static gchar * type_string_representation ( enum import_type type );
+static gboolean import_account_action_activated ( GtkWidget * radio, gint action );
 /*END_STATIC*/
 
-
-/** used to keep the number of the mother transaction while importing breakdown transactions */
-
-static gint mother_transaction_number;
-gint valeur_echelle_recherche_date_import;
-GSList *liste_comptes_importes;
-GtkWidget *dialog_recapitulatif;
-GtkWidget *table_recapitulatif;
-gint virements_a_chercher;
-
-enum import_type {
-  TYPE_UNKNOWN = 0,
-  TYPE_QIF,
-  TYPE_OFX,
-  TYPE_GNUCASH,
-  TYPE_CSV,
-  TYPE_HTML,
-};
-
-enum import_type file_type;
-
 /*START_EXTERN*/
-extern gchar *dernier_chemin_de_travail;
+extern     gchar * buffer ;
+extern struct struct_compte_importation * compte;
 extern GtkWidget *formulaire;
 extern gchar *last_date;
 extern GSList *liste_struct_devises;
@@ -130,6 +122,26 @@ extern GtkWidget *window;
 
 
 
+/** used to keep the number of the mother transaction while importing breakdown transactions */
+
+static gint mother_transaction_number;
+gint valeur_echelle_recherche_date_import;
+GSList *liste_comptes_importes;
+GSList *liste_comptes_importes_error;
+GtkWidget *dialog_recapitulatif;
+GtkWidget *table_recapitulatif;
+gint virements_a_chercher;
+
+enum import_type file_type;
+enum import_filesel_columns { 
+    IMPORT_FILESEL_SELECTED = 0,
+    IMPORT_FILESEL_TYPENAME,
+    IMPORT_FILESEL_FILENAME,
+    IMPORT_FILESEL_TYPE,
+    IMPORT_FILESEL_NUM_COLS,
+};
+
+
 /* *******************************************************************************/
 /* fonction importer_fichier */
 /* appelée par le menu importer */
@@ -137,176 +149,528 @@ extern GtkWidget *window;
 
 void importer_fichier ( void )
 {
+    GtkWidget * a;
+
     liste_comptes_importes = NULL;
-    dialog_recapitulatif = NULL;
+    liste_comptes_importes_error = NULL;
     virements_a_chercher = 0;
 
-    selection_fichiers_import ();
-}
-/* *******************************************************************************/
 
+    a = gsb_assistant_new ( "Importing a new file",
+			    "This assistant will help you import one or several files into Grisbi."
+			    "\n\n"
+			    "Grisbi will try to do its best to guess which format are imported, but you may have to manually set them in the list of next page.",
+			    "csv.png" );
 
+    gsb_assistant_add_page ( a, import_create_file_selection_page ( a ), 1, 0, 3, 
+			     G_CALLBACK ( import_enter_file_selection_page ) );
+    gsb_assistant_add_page ( a, import_create_csv_preview_page ( a ), 2, 1, 3,
+			     G_CALLBACK ( import_enter_csv_preview_page ) );
+    gsb_assistant_add_page ( a, import_create_final_page ( a ), 3, 1, 4, 
+			     G_CALLBACK ( import_enter_final_page ) );
 
-/* *******************************************************************************/
-/* Affiche la fenêtre de sélection de fichier pour l'import */
-/* *******************************************************************************/
-
-void selection_fichiers_import ( void )
-{
-    GtkWidget *fenetre;
-
-    file_type = TYPE_UNKNOWN;
-
-    fenetre = file_selection_new ( _("Select files to import"),FILE_SELECTION_MUST_EXIST );
-    gtk_window_set_transient_for ( GTK_WINDOW ( fenetre ),
-				   GTK_WINDOW ( window ));
-    gtk_window_set_modal ( GTK_WINDOW ( fenetre ),
-			   TRUE );
-    gtk_file_selection_set_select_multiple ( GTK_FILE_SELECTION ( fenetre ), TRUE );
-    file_selection_set_filename ( GTK_FILE_SELECTION ( fenetre ),
-				      dernier_chemin_de_travail );
-
-    gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( fenetre ) -> vbox ), 
-			 create_file_format_import_menu(), FALSE, FALSE, 6 );
-
-    gtk_signal_connect_object (GTK_OBJECT ( GTK_FILE_SELECTION( fenetre ) -> ok_button ),
-			       "clicked",
-			       GTK_SIGNAL_FUNC ( fichier_choisi_importation ),
-			       GTK_OBJECT ( fenetre ));
-    gtk_signal_connect_object (GTK_OBJECT ( GTK_FILE_SELECTION( fenetre ) -> cancel_button ),
-			       "clicked",
-			       GTK_SIGNAL_FUNC (gtk_widget_destroy),
-			       GTK_OBJECT ( fenetre ));
-    gtk_widget_show ( fenetre );
-
-
-}
-/* *******************************************************************************/
-
-
-
-/* *******************************************************************************/
-gboolean fichier_choisi_importation ( GtkWidget *fenetre )
-{
-    /* un ou plusieurs fichiers ont été sélectionnés dans la gtk_file_selection en argument */
-    /* on va récupérer ces fichiers et les trier par qif/ofx/web */
-
-    gchar **liste_selection;
-    gint i;	
-    gboolean result = TRUE;
-
-    /* on sauve le répertoire courant  */
-
-    dernier_chemin_de_travail = file_selection_get_last_directory( GTK_FILE_SELECTION ( fenetre ) , TRUE);
-
-    /* on va récupérer tous les fichiers sélectionnés puis proposer d'en importer d'autres */
-
-
-    liste_selection = file_selection_get_selections ( GTK_FILE_SELECTION ( fenetre ));
-    i=0;
-    gtk_widget_destroy ( fenetre );
-
-    while ((result == TRUE)&&( liste_selection[i]))
+    if ( gsb_assistant_run ( a ) == GTK_RESPONSE_APPLY )
     {
-	FILE *fichier;
-	gchar *pointeur_char = NULL;
-
-
-	/* on ouvre maintenant le fichier pour tester sa structure */
-
-	if ( !( fichier = utf8_fopen ( liste_selection[i], "r" )))
-	{
-	    /* on n'a pas réussi à ouvrir le fichier, on affiche
-	       l'erreur et on retourne sur la sélection des
-	       fichiers */
-	    dialogue_error_hint ( latin2utf8 ( strerror(errno) ),
-				  g_strdup_printf ( _("Error opening file '%s'"),
-						    liste_selection[i] ) );
-            return FALSE;
-	}
-
-	do
-	    get_line_from_file ( fichier,
-				 &pointeur_char );
-	while ( strlen ( pointeur_char ) == 1 );
-
-	if ( file_type == TYPE_UNKNOWN )
-	  {
-	    file_type = autodetect_file_type ( fichier, pointeur_char );
-	  }
-
-	switch ( file_type )
-	  {
-	  case TYPE_OFX:
-	    result = recuperation_donnees_ofx ( liste_selection[i]);
-	    break;
-
-	  case TYPE_QIF:
-	    result = recuperation_donnees_qif ( fichier );
-	    break;
-
-	  case TYPE_GNUCASH:
-	    result = recuperation_donnees_gnucash ( liste_selection[i] );
-	    break;
-		
-		/* TODO : work in progress dude :p */
-	  case TYPE_CSV: 
- 	    result = recuperation_donnees_csv ( fichier ); 
- 	    break;	 
-		
-	  case TYPE_UNKNOWN:
-	  default:
-	    result = FALSE;
-	    break;
-	  }
-
-        /* clean up */
-        if (pointeur_char) free ( pointeur_char );
-        pointeur_char = NULL;
-        
-        /* In case of error, return to file selection dialog, else
-	   import next selected file */
-        if (!result) 
-	  break;
-	
-        i++;
-
-	fclose ( fichier );
+	traitement_operations_importees ();
+	remplit_arbre_categ ();
+	remplit_arbre_imputation ();
+	remplit_arbre_tiers ();
     }
 
-    affichage_recapitulatif_importation();
-
-    /* Replace trees contents. */
-    remplit_arbre_categ ();
-    remplit_arbre_imputation ();
-    remplit_arbre_tiers ();
-
-    return ( result );
+    gtk_widget_destroy ( a );
 }
-/* *******************************************************************************/
 
 
 
-/* *******************************************************************************/
-gboolean affichage_recapitulatif_importation ( void )
+/**
+ *
+ *
+ *
+ */
+GtkWidget * import_create_file_selection_page ( GtkWidget * assistant )
 {
-    /* on affiche un tableau récapitulatif des comptes importés */
-    /* propose l'action à faire pour chaque compte et propose */
-    /* d'en importer d'autres */
+    GtkWidget * vbox, * paddingbox, * chooser, * hbox, * tree_view, * column, * sw;
+    GtkCellRenderer *renderer;
+    GtkTreeModel * model, * list_acc;
+    int i;
 
-    gint retour;
+    vbox = gtk_vbox_new ( FALSE, 6 );
+    gtk_container_set_border_width ( GTK_CONTAINER(vbox), 12 );
+
+    paddingbox = new_paddingbox_with_title ( vbox, TRUE, "Choose file to import" );
+    
+    chooser = gtk_button_new_with_label ( "Add file to import" );
+    gtk_box_pack_start ( GTK_BOX(paddingbox), chooser, FALSE, FALSE, 6 );
+    g_signal_connect ( G_OBJECT ( chooser ), "clicked", G_CALLBACK ( import_select_file ),
+		       assistant );
+
+    /* Scroll for tree view. */
+    sw = gtk_scrolled_window_new (NULL, NULL);
+    gtk_widget_set_usize ( sw, 480, 120 );
+    gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (sw), GTK_SHADOW_ETCHED_IN);
+    gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw), GTK_POLICY_AUTOMATIC,
+				    GTK_POLICY_AUTOMATIC);
+    gtk_box_pack_start ( GTK_BOX(paddingbox), sw, TRUE, TRUE, 6 );
+
+    /* Tree view and model. */
+    model = gtk_tree_store_new ( IMPORT_FILESEL_NUM_COLS, G_TYPE_BOOLEAN, G_TYPE_STRING, 
+				 G_TYPE_STRING, G_TYPE_INT );
+    tree_view = gtk_tree_view_new_with_model ( GTK_TREE_MODEL ( model ) );
+    gtk_container_add ( GTK_CONTAINER ( sw ), tree_view );
+
+    /* Toggle column. */
+    renderer = gtk_cell_renderer_toggle_new ();
+    g_signal_connect ( renderer, "toggled", G_CALLBACK (import_active_toggled), model);
+    column = gtk_tree_view_column_new_with_attributes ( _("Import"), renderer,
+							"active", IMPORT_FILESEL_SELECTED, 
+							NULL);
+    gtk_tree_view_append_column (GTK_TREE_VIEW ( tree_view ), column );
+
+    /* Type column. */
+    renderer = gtk_cell_renderer_combo_new ();
+    g_signal_connect ( G_OBJECT (renderer), "edited", G_CALLBACK ( import_switch_type), 
+		       model );
+    list_acc = gtk_list_store_new (1, G_TYPE_STRING);
+    for ( i = 0 ; i < TYPE_MAX ; i++ )
+    {
+	GtkTreeIter iter; 
+	gtk_list_store_append (list_acc, &iter);
+	gtk_list_store_set (list_acc, &iter, 0, type_string_representation ( i ), -1);
+    }
+    g_object_set ( renderer, 
+		   "model", list_acc, 
+		   "text-column", 0, 
+		   "editable", TRUE, 
+		   "has-entry", FALSE, 
+		   NULL );
+    column = gtk_tree_view_column_new_with_attributes ( _("Type"), renderer,
+							"text", IMPORT_FILESEL_TYPENAME, 
+							NULL);
+    gtk_tree_view_append_column (GTK_TREE_VIEW ( tree_view ), column );
+
+    /* Name column. */
+    renderer = gtk_cell_renderer_text_new ();
+    column = gtk_tree_view_column_new_with_attributes ( _("File name"), renderer,
+							"text", IMPORT_FILESEL_FILENAME,
+							NULL);
+    gtk_tree_view_append_column (GTK_TREE_VIEW ( tree_view ), column );
+
+    g_object_set_data ( G_OBJECT(assistant), "tree_view", model );
+    g_object_set_data ( G_OBJECT(assistant), "model", model );
+    g_object_set_data ( G_OBJECT(model), "assistant", assistant );
+
+    return vbox;
+}
+
+
+
+/**
+ *
+ *
+ */
+gboolean import_switch_type ( GtkCellRendererText *cell, const gchar *path,
+			      const gchar *value, GtkListStore * model )
+{
+     GtkTreeIter iter;
+     guint i = 0;
+     gchar *name = NULL;
+     GtkWidget * assistant;
+
+     assistant = g_object_get_data ( model, "assistant" );
+
+     if ( gtk_tree_model_get_iter_from_string ( GTK_TREE_MODEL ( model ), &iter, path ))
+     {
+	 for ( i = 0 ; i < TYPE_MAX ; i ++ )
+	 {
+	     if ( ! strcmp ( value, type_string_representation ( i ) ) )
+	     {
+		 gtk_tree_store_set ( model, &iter,
+				      IMPORT_FILESEL_TYPENAME, value, 
+				      IMPORT_FILESEL_TYPE, i, 
+				      -1 );
+		 
+		 /* CSV is special because it needs configuration, so
+		  * we add a conditional jump there. */
+		 if ( i == TYPE_CSV )
+		 {
+		     g_object_set_data ( G_OBJECT ( assistant ), "next1", 2 );
+		     g_object_set_data ( G_OBJECT ( assistant ), "prev3", 2 );
+		 }
+
+		 import_preview_maybe_sensitive_next ( assistant, model );
+	     }
+	 }
+     }
+
+     return FALSE;
+}    
+
+
+
+
+/**
+ *
+ *
+ */
+gboolean import_enter_file_selection_page ( GtkWidget * assistant )
+{
+    GtkTreeModel * model;
+
+    model = g_object_get_data ( G_OBJECT ( assistant ), "model" );
+    import_preview_maybe_sensitive_next ( assistant, model );
+
+    return FALSE;
+}
+
+
+
+/**
+ *
+ *
+ *
+ */
+gboolean import_active_toggled ( GtkCellRendererToggle * cell, gchar *path_str,
+				 gpointer model )
+{
+    GtkWidget * assistant;
+    GtkTreePath *path = gtk_tree_path_new_from_string (path_str);
+    GtkTreeIter iter;
+    gboolean toggle_item;
+
+    assistant = g_object_get_data ( G_OBJECT ( model ), "assistant" );
+
+    gtk_tree_model_get_iter ( GTK_TREE_MODEL ( model ), &iter, path);
+    gtk_tree_model_get ( GTK_TREE_MODEL ( model ), &iter, 
+			 IMPORT_FILESEL_SELECTED, &toggle_item, -1 );
+    gtk_tree_store_set ( GTK_TREE_STORE ( model ), &iter, 
+			 IMPORT_FILESEL_SELECTED, !toggle_item, -1 );
+
+    import_preview_maybe_sensitive_next ( assistant, model );
+
+    return FALSE;
+}
+
+
+
+/**
+ *
+ *
+ *
+ */
+void import_preview_maybe_sensitive_next ( GtkWidget * assistant, GtkTreeModel * model ) 
+{
+    GtkTreeIter iter;
+
+    /* Don't allow going to next page if no file is selected yet. */
+    gtk_widget_set_sensitive ( g_object_get_data ( assistant, "button_next" ), FALSE );
+
+    gtk_tree_model_get_iter_first ( model, &iter );
+    if ( ! gtk_tree_store_iter_is_valid ( model, &iter ))
+    {
+	return;
+    }
+
+    /* Iterate over lines so we check if some are checked. */
+    do 
+    {
+	gboolean selected;
+	enum import_type type;
+	gtk_tree_model_get ( GTK_TREE_STORE ( model ), &iter, 
+			     IMPORT_FILESEL_SELECTED, &selected, 
+			     IMPORT_FILESEL_TYPE, &type,
+			     -1 );
+	if ( selected && type != TYPE_UNKNOWN )
+	{
+	    gtk_widget_set_sensitive ( g_object_get_data ( assistant, "button_next" ), 
+				       TRUE );
+	    return;
+	}
+    }
+    while ( gtk_tree_model_iter_next ( model, &iter ) );
+}
+
+
+
+/**
+ *
+ *
+ *
+ */
+gboolean import_select_file ( GtkWidget * button, GtkWidget * assistant )
+{
+    GtkWidget * dialog;
+
+    dialog = gtk_file_chooser_dialog_new ( _("Choose files to import."),
+					   NULL, GTK_FILE_CHOOSER_ACTION_OPEN,
+					   GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+					   GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT,
+					   NULL );
+    gtk_file_chooser_set_select_multiple ( GTK_FILE_CHOOSER ( dialog ), TRUE );
+
+    if ( gtk_dialog_run ( GTK_DIALOG (dialog ) ) == GTK_RESPONSE_ACCEPT )
+    {
+	GSList * filenames, * iterator;
+	GtkTreeModel * model;
+
+	filenames = gtk_file_chooser_get_filenames ( GTK_FILE_CHOOSER ( dialog ) );
+	iterator = filenames;
+	
+	model = g_object_get_data ( G_OBJECT ( assistant ), "model" );
+	
+	while ( iterator && model )
+	{
+	    GtkTreeIter iter;
+	    enum import_type type = autodetect_file_type ( iterator -> data, NULL, NULL );
+
+	    gtk_tree_store_append ( GTK_TREE_STORE ( model ), &iter, NULL );
+	    gtk_tree_store_set ( GTK_TREE_STORE ( model ), &iter, 
+				 IMPORT_FILESEL_SELECTED, TRUE,
+				 IMPORT_FILESEL_TYPENAME, type_string_representation (type),
+				 IMPORT_FILESEL_FILENAME, iterator -> data,
+				 IMPORT_FILESEL_TYPE, type,
+				 -1 ); 
+
+	    /* CSV is special because it needs configuration, so we
+	     * add a conditional jump there. */
+	    if ( type == TYPE_CSV )
+	    {
+		g_object_set_data ( G_OBJECT ( assistant ), "next1", 2 );
+	    }
+
+	    if ( type != TYPE_UNKNOWN )
+	    {
+		/* A valid file was selected, so we can now go ahead. */
+		gtk_widget_set_sensitive ( g_object_get_data ( assistant, "button_next" ), 
+					   TRUE );
+	    }
+
+	    iterator = iterator -> next;
+	}
+	
+	if ( filenames )
+	{
+	    g_slist_free ( filenames );
+	}
+    }
+
+    gtk_widget_destroy ( dialog );
+
+
+    return FALSE;
+}
+
+
+
+/**
+ *
+ *
+ */
+GtkWidget * import_create_final_page ( GtkWidget * assistant )
+{
+    GtkWidget * view;
+    GtkTextBuffer * buffer;
+
+    view = gtk_text_view_new ();
+    gtk_text_view_set_wrap_mode (GTK_TEXT_VIEW (view), GTK_WRAP_WORD);
+
+    gtk_text_view_set_editable ( view, FALSE );
+    gtk_text_view_set_cursor_visible ( view, FALSE );
+    gtk_text_view_set_left_margin ( view, 12 );
+    gtk_text_view_set_right_margin ( view, 12 );
+
+    buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (view));
+    gtk_text_buffer_create_tag ( buffer, "bold",
+				 "weight", PANGO_WEIGHT_BOLD, NULL);  
+    gtk_text_buffer_create_tag ( buffer, "x-large",
+				 "scale", PANGO_SCALE_X_LARGE, NULL);
+    gtk_text_buffer_create_tag (buffer, "indented",
+				"left-margin", 24, NULL);
+  
+    g_object_set_data ( G_OBJECT ( assistant ), "text-buffer", buffer );
+
+    return view;
+}
+
+
+
+/**
+ *
+ *
+ *
+ */
+gboolean import_enter_final_page ( GtkWidget * assistant )
+{
+    GSList * files = import_selected_files ( assistant ), * list;
+    FILE * qif_fd;
+    GtkTextBuffer * buffer;
+    GtkTextIter iter;
+
+    liste_comptes_importes_error = NULL;
+    liste_comptes_importes = NULL;
+
+    while ( files )
+    {
+	struct imported_file * imported = files -> data;
+
+	switch ( imported -> type )
+	{
+	    case TYPE_CSV :
+		csv_import_csv_account ( assistant, imported -> name );
+		break;
+
+	    case TYPE_OFX :
+		recuperation_donnees_ofx ( imported -> name );
+		break;
+
+	    case TYPE_QIF :
+		if ( qif_fd = utf8_fopen ( imported -> name, "r" ) )
+		{
+		    recuperation_donnees_qif ( qif_fd, imported -> name );
+		    fclose ( qif_fd );
+		}
+		break;
+
+	    case TYPE_GNUCASH:
+		recuperation_donnees_gnucash ( imported -> name );
+		break;
+
+	    default:
+		break;
+	}
+
+	files = files -> next;
+    }
+
+    buffer = g_object_get_data ( G_OBJECT ( assistant ), "text-buffer" );
+    gtk_text_buffer_set_text (buffer, "\n", -1 );
+    gtk_text_buffer_get_iter_at_offset (buffer, &iter, 1);
+
+    if ( liste_comptes_importes )
+    {
+	gtk_text_buffer_insert_with_tags_by_name (buffer, &iter,
+						  _("Congratulations !"), -1,
+						  "x-large", NULL);
+	gtk_text_buffer_insert (buffer, &iter, "\n\n", -1 );
+
+	gtk_text_buffer_insert (buffer, &iter, 
+				_("You successfully imported files into Grisbi.  The following pages will help you set up imported data for the following files:"), 
+				-1 );
+	gtk_text_buffer_insert (buffer, &iter, "\n\n", -1 );
+
+	list = liste_comptes_importes;
+	while ( list )
+	{
+	    struct struct_compte_importation * compte;
+	    compte = list -> data;
+
+	    gtk_text_buffer_insert_with_tags_by_name (buffer, &iter, 
+						      g_strconcat ( "• ",
+								    compte -> nom_de_compte,
+								    " (", 
+								    type_string_representation ( compte -> origine ),
+								    ")\n\n", 
+								    NULL ),
+						      -1, "indented", NULL );
+
+	    list = list -> next;
+	}
+
+	affichage_recapitulatif_importation ( assistant );
+    }
+    else 
+    {
+	gtk_text_buffer_insert_with_tags_by_name (buffer, &iter,
+						  _("Error !"), -1,
+						  "x-large", NULL);
+	gtk_text_buffer_insert (buffer, &iter, "\n\n", -1 );
+
+	gtk_text_buffer_insert (buffer, &iter, 
+				_("No file has been imported, please double check that they are valid files.  Please make sure that they are not compressed and that their format is valid."), 
+				-1 );
+	gtk_text_buffer_insert (buffer, &iter, "\n\n", -1 );
+    }
+
+    if ( liste_comptes_importes_error )
+    {
+	gtk_text_buffer_insert (buffer, &iter, "The following files are in error:", -1 );
+	gtk_text_buffer_insert (buffer, &iter, "\n\n", -1 );
+
+	list = liste_comptes_importes_error;
+	while ( list )
+	{
+	    struct struct_compte_importation * compte;
+	    compte = list -> data;
+
+	    gtk_text_buffer_insert_with_tags_by_name (buffer, &iter, 
+						      g_strconcat ( "• ",
+								    compte -> nom_de_compte,
+								    " (", 
+								    type_string_representation ( compte -> origine ),
+								    ")\n\n", 
+								    NULL ),
+						      -1, "indented", NULL );
+
+	    list = list -> next;
+	}
+    }
+
+    return FALSE;
+}
+
+
+
+/**
+ *
+ *
+ *
+ */
+GSList * import_selected_files ( GtkWidget * assistant )
+{
+    GSList * list = NULL;
+    GtkTreeModel * model;
+    GtkTreeIter iter;
+
+    model = g_object_get_data ( G_OBJECT ( assistant ), "model" );
+    g_return_val_if_fail ( model, NULL );
+
+    gtk_tree_model_get_iter_first ( model, &iter );
+    
+    do 
+    {
+	struct imported_file * imported;
+	gboolean selected;
+
+	imported = malloc ( sizeof ( struct imported_file * ) );
+	gtk_tree_model_get ( GTK_TREE_STORE ( model ), &iter, 
+			     0, &selected,
+			     2, &(imported -> name), 
+			     3, &(imported -> type), 
+			     -1 );
+
+	if ( selected )
+	{
+	    list = g_slist_append ( list, imported );
+	}
+    }
+    while ( gtk_tree_model_iter_next ( model, &iter ) );
+
+    return list;
+}
+
+
+
+/**
+ *
+ *
+ */
+gboolean affichage_recapitulatif_importation ( GtkWidget * assistant )
+{
+    gint retour, page;
     GtkWidget *label;
     GSList *list_tmp;
     GtkWidget *scrolled_window;
     GtkWidget *bouton;
-    GtkWidget *hbox;
-
-    if ( !liste_comptes_importes )
-      {
-	dialogue_warning_hint ( _("Grisbi is unable to find an account in imported file.  Be sure this file is valid or try with another one.\nIf you think imported file is in valid format, please contact Grisbi development team."), 
-				_("No account was imported") );
-	return (FALSE);
-      }
+    GtkWidget *button_next;
 
     /* We have to do that as soon as possible since this would reset currencies */
     if ( !gsb_data_account_get_accounts_amount () )
@@ -314,15 +678,18 @@ gboolean affichage_recapitulatif_importation ( void )
 	init_variables ();
       }
 
+    /* Initial page is fourth. */
+    page = 4;
+
     /* First, iter to see if we need to create currencies */
     list_tmp = liste_comptes_importes;
     while ( list_tmp )
-      {
+    {
 	struct struct_compte_importation * compte;
 	compte = list_tmp -> data;
 
 	if ( compte -> devise )
-	  {
+	{
 	    struct struct_devise *devise;
 		    
 	    /* First, we search currency from ISO4217 code for
@@ -331,246 +698,37 @@ gboolean affichage_recapitulatif_importation ( void )
 
 	    /* Then, by nickname for existing currencies */
 	    if ( ! devise )
-	      devise = devise_par_nom ( compte -> devise );
+		devise = devise_par_nom ( compte -> devise );
 
 	    /* Last ressort, we browse ISO4217 currency list and create
 	       currency if found */
 	    if ( ! devise )
-	      devise = find_currency_from_iso4217_list ( compte -> devise );
+		devise = find_currency_from_iso4217_list ( compte -> devise );
 
-	  }
+	}
 
+	gsb_assistant_add_page ( assistant, cree_ligne_recapitulatif ( list_tmp -> data ), 
+				 page, page - 1, page + 1, G_CALLBACK ( NULL ) );
 	list_tmp = list_tmp -> next;
-      }
-
-    if ( dialog_recapitulatif )
-      {
-	/*  la boite a déjà été créé, on ajoute les nouveaux comptes à la suite */
-
-	/* on vérifie déjà s'il y a plus d'éléments dans la liste que de lignes sur le tableau */
-
-	if ( g_slist_length ( liste_comptes_importes ) > ( GTK_TABLE ( table_recapitulatif ) -> nrows - 1 ))
-	{
-	    /* on démarre au nouveaux comptes */
-
-	    list_tmp = g_slist_nth ( liste_comptes_importes,
-				      GTK_TABLE ( table_recapitulatif ) -> nrows - 1 );
-
-	    while ( list_tmp )
-	      {
-		cree_ligne_recapitulatif ( list_tmp -> data,
-					   g_slist_position ( liste_comptes_importes,
-							      list_tmp ) + 1);
-		    list_tmp = list_tmp -> next;
-	      }
-	}
-	
-	gtk_widget_show ( dialog_recapitulatif );
-
-    }
-    else
-    {
-	/* la boite n'a pas encore été créé, on le fait */
-
-	dialog_recapitulatif = gtk_dialog_new_with_buttons ( _("Actions on imported accounts:" ),
-							     GTK_WINDOW ( window ),
-							     GTK_DIALOG_MODAL,
-							     _("Add more accounts"), 1,
-							     GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-							     GTK_STOCK_OK, GTK_RESPONSE_OK,
-							     NULL );
-	gtk_window_set_policy ( GTK_WINDOW ( dialog_recapitulatif ),
-				TRUE,
-				TRUE,
-				FALSE );
-
-	if ( gsb_data_account_get_accounts_amount () )
-	    gtk_widget_set_usize ( dialog_recapitulatif,
-				   900,
-				   400 );
-	else
-	    gtk_widget_set_usize ( dialog_recapitulatif,
-				   650,
-				   400 );
-
-
-	label = gtk_label_new ( _("List of the selection of accounts :"));
-	gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog_recapitulatif ) -> vbox ),
-			     label,
-			     FALSE,
-			     FALSE,
-			     0 );
-	gtk_widget_show ( label );
-
-	scrolled_window = gtk_scrolled_window_new ( FALSE,
-						    FALSE );
-	gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window ),
-					 GTK_POLICY_AUTOMATIC,
-					 GTK_POLICY_AUTOMATIC );
-	gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog_recapitulatif ) -> vbox ),
-			     scrolled_window,
-			     TRUE,
-			     TRUE,
-			     0 );
-	gtk_widget_show ( scrolled_window );
-
-
-	table_recapitulatif = gtk_table_new ( g_slist_length ( liste_comptes_importes ),
-					      7,
-					      FALSE );
-	gtk_scrolled_window_add_with_viewport ( GTK_SCROLLED_WINDOW ( scrolled_window ),
-						table_recapitulatif );
-	gtk_container_set_border_width ( GTK_CONTAINER ( table_recapitulatif ), 10 );
-	gtk_table_set_col_spacings ( GTK_TABLE(table_recapitulatif), 6 );
-	gtk_table_set_row_spacings ( GTK_TABLE(table_recapitulatif), 6 );
-	gtk_widget_show ( table_recapitulatif );
-
-	/* on met les titres des colonnes */
-
-	label = gtk_label_new ( _( "Date" ));
-	gtk_table_attach ( GTK_TABLE ( table_recapitulatif ),
-			   label,
-			   0, 1,
-			   0 ,1,
-			   GTK_SHRINK,
-			   GTK_SHRINK,
-			   0, 0 );
-	gtk_widget_show ( label );
-
-	label = gtk_label_new ( _( "Name" ));
-	gtk_table_attach ( GTK_TABLE ( table_recapitulatif ),
-			   label,
-			   1, 2,
-			   0 ,1,
-			   GTK_SHRINK,
-			   GTK_SHRINK,
-			   0, 0 );
-	gtk_widget_show ( label );
-
-	label = gtk_label_new ( _( "Currency" ));
-	gtk_table_attach ( GTK_TABLE ( table_recapitulatif ),
-			   label,
-			   2, 3,
-			   0 ,1,
-			   GTK_SHRINK,
-			   GTK_SHRINK,
-			   0, 0 );
-	gtk_widget_show ( label );
-
-	label = gtk_label_new ( _( "Action" ));
-	gtk_table_attach ( GTK_TABLE ( table_recapitulatif ),
-			   label,
-			   3, 4,
-			   0 ,1,
-			   GTK_SHRINK,
-			   GTK_SHRINK,
-			   0, 0 );
-	gtk_widget_show ( label );
-
-	if ( gsb_data_account_get_accounts_amount () )
-	{
-	    label = gtk_label_new ( _( "Account" ));
-	    gtk_table_attach ( GTK_TABLE ( table_recapitulatif ),
-			       label,
-			       4, 5,
-			       0 ,1,
-			       GTK_SHRINK,
-			       GTK_SHRINK,
-			       0, 0 );
-	    gtk_widget_show ( label );
-	}
-
-	label = gtk_label_new ( _( "Type of account" ));
-	gtk_table_attach ( GTK_TABLE ( table_recapitulatif ),
-			   label,
-			   5, 6,
-			   0 ,1,
-			   GTK_SHRINK,
-			   GTK_SHRINK,
-			   0, 0 );
-	gtk_widget_show ( label );
-
-	label = gtk_label_new ( _( "Origine" ));
-	gtk_table_attach ( GTK_TABLE ( table_recapitulatif ),
-			   label,
-			   6, 7,
-			   0 ,1,
-			   GTK_SHRINK,
-			   GTK_SHRINK,
-			   0, 0 );
-	gtk_widget_show ( label );
-
-
-
-	/* si aucun compte n'est ouvert, on crée les devises de base */
-
-	if ( !gsb_data_account_get_accounts_amount () )
-	{
-	    menus_sensitifs ( FALSE );
-	    ajout_devise (NULL);
-	}
-
-	list_tmp = liste_comptes_importes;
-
-	while ( list_tmp )
-	{
-	    cree_ligne_recapitulatif ( list_tmp -> data,
-				       g_slist_position ( liste_comptes_importes,
-							  list_tmp ) + 1);
-	    list_tmp = list_tmp -> next;
-	}
-
-	/* on rajoute ensuite le bouton pour ajouter des devises */
-
-	hbox = gtk_hbox_new ( FALSE,
-			      0 );
-	gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog_recapitulatif ) -> vbox ),
-			     hbox,
-			     FALSE,
-			     FALSE,
-			     0 );
-	gtk_widget_show ( hbox );
-
-	bouton = gtk_button_new_with_label ( _("Add a currency") );
-	gtk_button_set_relief ( GTK_BUTTON ( bouton ),
-				GTK_RELIEF_NONE );
-	gtk_signal_connect ( GTK_OBJECT ( bouton ),
-			     "clicked",
-			     GTK_SIGNAL_FUNC ( ajout_devise_dans_liste_import ),
-			     NULL );
-	gtk_box_pack_start ( GTK_BOX ( hbox ),
-			     bouton,
-			     TRUE,
-			     FALSE,
-			     0 );
-	gtk_widget_show ( bouton );
     }
 
-    retour = gtk_dialog_run ( GTK_DIALOG ( dialog_recapitulatif ));
+    /* Replace button. */
+    button_next = g_object_get_data ( assistant, "button_next" );
+    gtk_widget_destroy ( button_next );
+    button_next = gtk_dialog_add_button ( assistant, GTK_STOCK_GO_FORWARD,
+					  GTK_RESPONSE_YES );
+    g_object_set_data ( assistant, "button_next", button_next );
 
-    switch ( retour )
-    {
-	case GTK_RESPONSE_OK:
+    printf (">>> NTH pages %d\n", gtk_notebook_get_n_pages ( g_object_get_data ( assistant, "notebook" ) ) );
 
-	    /*  on a appuyé sur ok, il ne reste plus qu'à traiter les infos */
+    /* si aucun compte n'est ouvert, on crée les devises de base */
 
-	    traitement_operations_importees ();
-	    gtk_widget_destroy ( dialog_recapitulatif );
-	    break;
+/*     if ( !gsb_data_account_get_accounts_amount () ) */
+/*     { */
+/* 	menus_sensitifs ( FALSE ); */
+/* 	ajout_devise (NULL); */
+/*     } */
 
-	case 1:
-	    /*  on a appuyé sur ajouter, on réaffiche la boite de sélection de fichier */
-
-	    gtk_widget_hide ( dialog_recapitulatif );
-	    selection_fichiers_import ();
-
-	    break;
-
-	default:
-	    /* on annule */
-	    gtk_widget_destroy ( dialog_recapitulatif );
-
-    }
     return ( FALSE );
 }
 /* *******************************************************************************/
@@ -606,76 +764,118 @@ void ajout_devise_dans_liste_import ( void )
 
 
 /* *******************************************************************************/
-void cree_ligne_recapitulatif ( struct struct_compte_importation *compte,
-				gint position )
+GtkWidget * cree_ligne_recapitulatif ( struct struct_compte_importation *compte )
 {
-    /* crée la ligne du compte en argument dans le récapitulatif à la position donnée */
+    GtkWidget * vbox, * hbox, * label, * menu, * menu_item, * radio, * radiogroup;
+    GtkWidget * alignement;
+    gchar * short_filename;
+    gint no_compte_trouve, size, spacing;
 
-    GtkWidget *label;
-    GtkWidget *menu;
-    GtkWidget *menu_item;
-    gint no_compte_trouve;
+    vbox = gtk_vbox_new ( FALSE, 6 );
+    gtk_container_set_border_width ( GTK_CONTAINER(vbox), 12 );
 
-
-    /* mise en place de la date si elle existe */
-
-    if ( compte -> date_fin )
+    short_filename = g_strrstr ( compte -> filename, C_DIRECTORY_SEPARATOR );
+    if ( ! short_filename )
     {
-	label = gtk_label_new ( gsb_format_gdate ( compte -> date_fin ) );
-	gtk_table_attach ( GTK_TABLE ( table_recapitulatif ),
-			   label,
-			   0, 1,
-			   position, position+1,
-			   GTK_SHRINK,
-			   GTK_SHRINK,
-			   0, 0 );
-	gtk_widget_show ( label );
+	short_filename = compte -> filename;
     }
     else
     {
-	label = gtk_label_new ( _("none"));
-	gtk_table_attach ( GTK_TABLE ( table_recapitulatif ),
-			   label,
-			   0, 1,
-			   position, position+1,
-			   GTK_SHRINK,
-			   GTK_SHRINK,
-			   0, 0 );
-	gtk_widget_show ( label );
+	short_filename ++;
     }
 
+    label = gtk_label_new ( "" );
+    gtk_label_set_markup ( GTK_LABEL ( label ),
+			   g_strdup_printf ( _("<span size=\"x-large\">%s</span>\n\n"
+					       "What do you want to do with contents from <tt>%s</tt>?\n"),
+					     compte -> nom_de_compte, short_filename ) );
+    gtk_box_pack_start ( GTK_BOX ( vbox ), label, FALSE, FALSE, 0 );
 
-    /* mise en place du nom du compte s'il existe */
+    /* New account */
+    radio = gtk_radio_button_new_with_label ( NULL, _("Create a new account") );
+    radiogroup = radio;
+    gtk_box_pack_start ( GTK_BOX ( vbox ), radio, FALSE, FALSE, 0 );
+    _gtk_check_button_get_props ( radio, &size, &spacing );
 
-    if ( compte -> nom_de_compte )
-    {
-	label = gtk_label_new ( compte -> nom_de_compte );
-	gtk_table_attach ( GTK_TABLE ( table_recapitulatif ),
-			   label,
-			   1, 2,
-			   position, position+1,
-			   GTK_SHRINK,
-			   GTK_SHRINK,
-			   0, 0 );
-	gtk_widget_show ( label );
-    }
+    compte -> hbox1 = gtk_hbox_new ( FALSE, 6 );
+    gtk_box_pack_start ( GTK_BOX ( vbox ), compte -> hbox1, FALSE, FALSE, 0 );
+    label = gtk_label_new ( _("Account type:") );
+    alignement = gtk_alignment_new ( 0.5, 0.5, 1, 1 );
+    gtk_container_set_border_width ( GTK_CONTAINER ( alignement ), 2 );
+    gtk_alignment_set_padding ( GTK_ALIGNMENT ( alignement ), 0, 0, 2 * spacing + size, 0 );
+    gtk_container_add ( GTK_CONTAINER ( alignement ), label );
+    gtk_box_pack_start ( GTK_BOX ( compte -> hbox1 ), alignement, FALSE, FALSE, 0 );
+    compte -> bouton_type_compte = gtk_option_menu_new ();
+    gtk_option_menu_set_menu ( GTK_OPTION_MENU ( compte -> bouton_type_compte ), 
+			       creation_menu_type_compte () );
+    gtk_box_pack_start ( GTK_BOX ( compte -> hbox1 ), compte -> bouton_type_compte, 
+			 TRUE, TRUE, 0 );
+
+    g_object_set_data ( G_OBJECT ( radio ), "associated", compte -> hbox1 );
+    g_object_set_data ( G_OBJECT ( radio ), "account", compte );
+    g_signal_connect ( G_OBJECT ( radio ), "toggled", 
+		       G_CALLBACK ( import_account_action_activated ), 0 );
 
 
-    /* on crée le bouton de choix de devise */
+    /* Add to account */
+    radio = gtk_radio_button_new_with_label_from_widget ( GTK_RADIO_BUTTON ( radiogroup ), 
+							  _("Add transactions to an account") );
+    gtk_box_pack_start ( GTK_BOX ( vbox ), radio, FALSE, FALSE, 0 );
+    _gtk_check_button_get_props ( radio, &size, &spacing );
+
+    compte -> hbox2 = gtk_hbox_new ( FALSE, 6 );
+    gtk_box_pack_start ( GTK_BOX ( vbox ), compte -> hbox2, FALSE, FALSE, 0 );
+    label = gtk_label_new ( _("Account name:") );
+    alignement = gtk_alignment_new ( 0.5, 0.5, 1, 1 );
+    gtk_container_set_border_width ( GTK_CONTAINER ( alignement ), 2 );
+    gtk_alignment_set_padding ( GTK_ALIGNMENT ( alignement ), 0, 0, 2 * spacing + size, 0 );
+    gtk_container_add ( GTK_CONTAINER ( alignement ), label );
+    gtk_box_pack_start ( GTK_BOX ( compte -> hbox2 ), alignement, FALSE, FALSE, 0 );
+    compte -> bouton_compte_add = gtk_option_menu_new ();
+    gtk_option_menu_set_menu ( GTK_OPTION_MENU ( compte -> bouton_compte_add ), 
+			       creation_option_menu_comptes ( NULL, TRUE, FALSE ) );
+    gtk_box_pack_start ( GTK_BOX ( compte -> hbox2 ), compte -> bouton_compte_add, TRUE, TRUE, 0 );
+    gtk_widget_set_sensitive ( compte -> hbox2, FALSE );
+
+    g_object_set_data ( G_OBJECT ( radio ), "associated", compte -> hbox2 );
+    g_object_set_data ( G_OBJECT ( radio ), "account", compte );
+    g_signal_connect ( G_OBJECT ( radio ), "toggled", 
+		       G_CALLBACK ( import_account_action_activated ), 1 );
+
+    /* Mark account */
+    radio = gtk_radio_button_new_with_label_from_widget ( GTK_RADIO_BUTTON ( radiogroup ), 
+							  _("Mark transactions of an account") );
+    gtk_box_pack_start ( GTK_BOX ( vbox ), radio, FALSE, FALSE, 0 );
+    _gtk_check_button_get_props ( radio, &size, &spacing );
+
+    compte -> hbox3 = gtk_hbox_new ( FALSE, 6 );
+    gtk_box_pack_start ( GTK_BOX ( vbox ), compte -> hbox3, FALSE, FALSE, 0 );
+    label = gtk_label_new ( _("Account name:") );
+    alignement = gtk_alignment_new ( 0.5, 0.5, 1, 1 );
+    gtk_container_set_border_width ( GTK_CONTAINER ( alignement ), 2 );
+    gtk_alignment_set_padding ( GTK_ALIGNMENT ( alignement ), 0, 0, 2 * spacing + size, 0 );
+    gtk_container_add ( GTK_CONTAINER ( alignement ), label );
+    gtk_box_pack_start ( GTK_BOX ( compte -> hbox3 ), alignement, FALSE, FALSE, 0 );
+    compte -> bouton_compte_mark = gtk_option_menu_new ();
+    gtk_option_menu_set_menu ( GTK_OPTION_MENU ( compte -> bouton_compte_mark ), 
+			       creation_option_menu_comptes ( NULL, TRUE, FALSE ) );
+    gtk_box_pack_start ( GTK_BOX ( compte -> hbox3 ), compte -> bouton_compte_mark, TRUE, TRUE, 0 );
+    gtk_widget_set_sensitive ( compte -> hbox3, FALSE );
+
+    g_object_set_data ( G_OBJECT ( radio ), "associated", compte -> hbox3 );
+    g_object_set_data ( G_OBJECT ( radio ), "account", compte );
+    g_signal_connect ( G_OBJECT ( radio ), "toggled", 
+		       G_CALLBACK ( import_account_action_activated ), 2 );
+
+    /* Currency */
+    hbox = gtk_hbox_new ( FALSE, 6 );
+    label = gtk_label_new ( _("Account currency:") );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 0 );
+    gtk_box_pack_start ( GTK_BOX ( vbox ), hbox, FALSE, FALSE, 0 );
 
     compte -> bouton_devise = gtk_option_menu_new ();
     gtk_option_menu_set_menu ( GTK_OPTION_MENU ( compte -> bouton_devise ),
-			       creation_option_menu_devises ( 0,
-							      liste_struct_devises ));
-    gtk_table_attach ( GTK_TABLE ( table_recapitulatif ),
-		       compte -> bouton_devise,
-		       2, 3,
-		       position, position+1,
-		       GTK_SHRINK,
-		       GTK_SHRINK,
-		       0, 0 );
-    gtk_widget_show ( compte -> bouton_devise );
-
+			       creation_option_menu_devises ( 0, liste_struct_devises ));
 
     if ( compte -> devise )
     {
@@ -695,7 +895,7 @@ void cree_ligne_recapitulatif ( struct struct_compte_importation *compte,
 	{
 	    /* 	    la devise avait un nom mais n'a pas été retrouvée; 2 possibilités : */
 	    /* 		- soit elle n'est pas crÃ©é (l'utilisateur
-			  la créera une fois la fenetre affichée) */ 
+			  la créera une fois la fenetre affichée) */
 	    /* 		- soit elle est créé mais pas avec le bon code */
 	    dialogue_warning_hint ( g_strdup_printf ( _( "Currency of imported account '%s' is %s.  Either this currency doesn't exist so you have to create it in next window, or this currency already exists but the ISO code is wrong.\nTo avoid this message, please set its ISO code in configuration."),
 						      compte -> nom_de_compte,
@@ -704,236 +904,258 @@ void cree_ligne_recapitulatif ( struct struct_compte_importation *compte,
 
 	}
     }
+    gtk_box_pack_start ( GTK_BOX ( compte -> bouton_devise ), label, FALSE, FALSE, 0 );
 
-    /* on crée les boutons de comptes et de type de compte tout de suite */
-    /*   pour les (dé)sensitiver lors de changement de l'action */
-
-    compte -> bouton_compte = gtk_option_menu_new ();
-    compte -> bouton_type_compte = gtk_option_menu_new ();
-
-
-    /* on crée le bouton de l'action demandée */
-    /* si aucun fichier n'est ouvert, on ne propose que créer un compte */
-
-    compte -> bouton_action = gtk_option_menu_new ();
-
-    menu = gtk_menu_new ();
-
-    menu_item = gtk_menu_item_new_with_label ( _("Create a new account"));
-    gtk_object_set_data ( GTK_OBJECT ( menu_item ),
-			  "no_action",
-			  GINT_TO_POINTER ( 0 ) );
-    if ( gsb_data_account_get_accounts_amount () )
-	gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
-				    "activate",
-				    GTK_SIGNAL_FUNC ( desensitive_widget ),
-				    GTK_OBJECT ( compte -> bouton_compte ));
-    gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
-				"activate",
-				GTK_SIGNAL_FUNC ( sensitive_widget ),
-				GTK_OBJECT ( compte -> bouton_type_compte ));
-    gtk_menu_append ( GTK_MENU ( menu ),
-		      menu_item );
-    gtk_widget_show ( menu_item );
-
-    if ( gsb_data_account_get_accounts_amount () )
-    {
-	menu_item = gtk_menu_item_new_with_label ( _("Add the transactions"));
-	gtk_object_set_data ( GTK_OBJECT ( menu_item ),
-			      "no_action",
-			      GINT_TO_POINTER ( 1 ));
-	gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
-				    "activate",
-				    GTK_SIGNAL_FUNC ( sensitive_widget ),
-				    GTK_OBJECT ( compte -> bouton_compte ));
-	gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
-				    "activate",
-				    GTK_SIGNAL_FUNC ( desensitive_widget ),
-				    GTK_OBJECT ( compte -> bouton_type_compte ));
-	gtk_menu_append ( GTK_MENU ( menu ),
-			  menu_item );
-	gtk_widget_show ( menu_item );
-
-	menu_item = gtk_menu_item_new_with_label ( _("Mark transactions"));
-	gtk_object_set_data ( GTK_OBJECT ( menu_item ),
-			      "no_action",
-			      GINT_TO_POINTER ( 2 ) );
-	gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
-				    "activate",
-				    GTK_SIGNAL_FUNC ( sensitive_widget ),
-				    GTK_OBJECT ( compte -> bouton_compte ));
-	gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
-				    "activate",
-				    GTK_SIGNAL_FUNC ( desensitive_widget ),
-				    GTK_OBJECT ( compte -> bouton_type_compte ));
-	gtk_menu_append ( GTK_MENU ( menu ),
-			  menu_item );
-	gtk_widget_show ( menu_item );
-    }
-
-    gtk_option_menu_set_menu ( GTK_OPTION_MENU ( compte -> bouton_action ),
-			       menu );
-    gtk_widget_show ( menu );
-    gtk_table_attach ( GTK_TABLE ( table_recapitulatif ),
-		       compte -> bouton_action,
-		       3, 4,
-		       position, position+1,
-		       GTK_SHRINK,
-		       GTK_SHRINK,
-		       0, 0 );
-    gtk_widget_show ( compte -> bouton_action );
-
-
-    /* on crée le bouton du compte sélectionné */
-    /* si aucun fichier n'est ouvert, on ne crée pas ce bouton */
-
-    no_compte_trouve = -1;
-
-    if ( gsb_data_account_get_accounts_amount () )
-    {
-	GSList *list_tmp;
-
-	menu = gtk_menu_new ();
-
-	list_tmp = gsb_data_account_get_list_accounts ();
-
-	while ( list_tmp )
-	{
-	    gint i;
-
-	    i = gsb_data_account_get_no_account ( list_tmp -> data );
-
-	    if ( !gsb_data_account_get_closed_account (i))
-	    {
-		menu_item = gtk_menu_item_new_with_label ( gsb_data_account_get_name (i));
-		gtk_object_set_data ( GTK_OBJECT ( menu_item ),
-				      "account_number",
-				      GINT_TO_POINTER (i));
-
-		/* on recherche quel compte était noté dans le fichier  */
-		/* s'il y a une id, on la prend en priorité sur le nom */
-
-		if ( compte -> id_compte
-		     &&
-		     gsb_data_account_get_id (i)
-		     &&
-		     !g_strcasecmp ( compte -> id_compte,
-				     gsb_data_account_get_id (i)))
-		    no_compte_trouve = i;
-
-		/* on ne passe par cette étape que si le compte n'a pas déjà été trouvé avec l'id */
-
-		if ( no_compte_trouve == -1
-		     &&
-		     compte -> nom_de_compte
-		     &&
-		     !g_strcasecmp ( compte -> nom_de_compte,
-				     gsb_data_account_get_name (i)))
-		    no_compte_trouve = i;
-
-
-		gtk_menu_append ( GTK_MENU ( menu ),
-				  menu_item );
-		gtk_widget_show ( menu_item );
-	    }
-	    list_tmp = list_tmp -> next;
-	}
-
-	gtk_option_menu_set_menu ( GTK_OPTION_MENU ( compte -> bouton_compte ),
-				   menu );
-	gtk_widget_show ( menu );
-
-	gtk_table_attach ( GTK_TABLE ( table_recapitulatif ),
-			   compte -> bouton_compte,
-			   4, 5,
-			   position, position+1,
-			   GTK_SHRINK,
-			   GTK_SHRINK,
-			   0, 0 );
-	gtk_widget_show ( compte -> bouton_compte );
-
-    }
-
-    /* on crée le bouton du type de compte  */
-
-
-    gtk_option_menu_set_menu ( GTK_OPTION_MENU ( compte -> bouton_type_compte ),
-			       creation_menu_type_compte() );
-    gtk_table_attach ( GTK_TABLE ( table_recapitulatif ),
-		       compte -> bouton_type_compte,
-		       5, 6,
-		       position, position+1,
-		       GTK_SHRINK,
-		       GTK_SHRINK,
-		       0, 0 );
-    gtk_widget_show ( compte -> bouton_type_compte );
-
-    switch ( compte -> type_de_compte )
-    {
-	case 3:
-	    /* actif ou passif */
-
-	    gtk_option_menu_set_history ( GTK_OPTION_MENU ( compte -> bouton_type_compte ),
-					  2 );
-	    break;
-
-	case 7:
-	    /* cash */
-
-	    gtk_option_menu_set_history ( GTK_OPTION_MENU ( compte -> bouton_type_compte ),
-					  1 );
-	    break;
-    }
-
-    /* mise en place de l'origine */
-
-    switch ( compte -> origine )
-    {
-	case QIF_IMPORT :
-	    label = gtk_label_new ( _( "QIF file"));
-	    break;
-
-	case OFX_IMPORT:
-	    label = gtk_label_new ( _( "OFX file"));
-	    break;
-
-/* 	case HTML_IMPORT: */
-/* 	    label = gtk_label_new ( _( "HTML file")); */
-/* 	    break; */
-
-	case GNUCASH_IMPORT:
-	    label = gtk_label_new ( _( "Gnucash file"));
-	    break;
-
-	default: 
-	    label = gtk_label_new ( _("Unknown"));
-    }
-
-    gtk_table_attach ( GTK_TABLE ( table_recapitulatif ),
-		       label,
-		       6, 7,
-		       position, position+1,
-		       GTK_SHRINK,
-		       GTK_SHRINK,
-		       0, 0 );
-    gtk_widget_show ( label );
-
-    /* 	si on a trouvé un compte qui correspond, on l'affiche, et on passe le 1er option menu à ajouter les opérations */
-
-    if ( no_compte_trouve != -1 )
-    {
-	gtk_option_menu_set_history ( GTK_OPTION_MENU ( compte -> bouton_compte ),
-				      no_compte_trouve );
-	gtk_option_menu_set_history ( GTK_OPTION_MENU ( compte -> bouton_action ),
-				      1 );
-	gtk_widget_set_sensitive ( compte -> bouton_type_compte,
-				   FALSE );
-    }
-    else
-	gtk_widget_set_sensitive ( compte -> bouton_compte,
-				   FALSE );
+    return vbox;
 
 }
+
+
+
+/**
+ *
+ *
+ */
+gboolean import_account_action_activated ( GtkWidget * radio, gint action )
+{
+    struct struct_compte_importation * account;
+
+    printf ( " >> action %d\n", action );
+
+    account = g_object_get_data ( G_OBJECT ( radio ), "account" );
+    
+    gtk_widget_set_sensitive ( account -> hbox1, FALSE );
+    gtk_widget_set_sensitive ( account -> hbox2, FALSE );
+    gtk_widget_set_sensitive ( account -> hbox3, FALSE );
+    gtk_widget_set_sensitive ( g_object_get_data ( G_OBJECT ( radio ), "associated" ), TRUE );
+
+    account -> action = action;
+
+    return FALSE;    
+}
+
+
+/*     /\* mise en place de la date si elle existe *\/ */
+/*     /\* label = gtk_label_new ( gsb_format_gdate ( compte -> date_fin ) ); *\/ */
+
+
+/*     /\* on crée le bouton de choix de devise *\/ */
+
+/*     compte -> bouton_devise = gtk_option_menu_new (); */
+/*     gtk_option_menu_set_menu ( GTK_OPTION_MENU ( compte -> bouton_devise ), */
+/* 			       creation_option_menu_devises ( 0, */
+/* 							      liste_struct_devises )); */
+/*     gtk_widget_show ( compte -> bouton_devise ); */
+
+
+/*     if ( compte -> devise ) */
+/*     { */
+/* 	struct struct_devise *devise; */
+
+/* 	/\* First, we search currency from ISO4217 code for existing currencies *\/ */
+/* 	devise = devise_par_code_iso ( compte -> devise ); */
+/* 	/\* Then, by nickname for existing currencies *\/ */
+/* 	if ( ! devise ) */
+/* 	  devise = devise_par_nom ( compte -> devise ); */
+
+/* 	if ( devise ) */
+/* 	    gtk_option_menu_set_history ( GTK_OPTION_MENU ( compte -> bouton_devise ), */
+/* 					  g_slist_index ( liste_struct_devises, */
+/* 							  devise )); */
+/* 	else */
+/* 	{ */
+/* 	    /\* 	    la devise avait un nom mais n'a pas été retrouvée; 2 possibilités : *\/ */
+/* 	    /\* 		- soit elle n'est pas crÃ©é (l'utilisateur */
+/* 			  la créera une fois la fenetre affichée) *\/  */
+/* 	    /\* 		- soit elle est créé mais pas avec le bon code *\/ */
+/* 	    dialogue_warning_hint ( g_strdup_printf ( _( "Currency of imported account '%s' is %s.  Either this currency doesn't exist so you have to create it in next window, or this currency already exists but the ISO code is wrong.\nTo avoid this message, please set its ISO code in configuration."), */
+/* 						      compte -> nom_de_compte, */
+/* 						      compte -> devise ), */
+/* 				    g_strdup_printf ( _("Can't associate ISO 4217 code for currency '%s'."),  compte -> devise )); */
+
+/* 	} */
+/*     } */
+
+/*     /\* on crée les boutons de comptes et de type de compte tout de suite *\/ */
+/*     /\*   pour les (dé)sensitiver lors de changement de l'action *\/ */
+
+/*     compte -> bouton_compte = gtk_option_menu_new (); */
+/*     compte -> bouton_type_compte = gtk_option_menu_new (); */
+
+
+/*     /\* on crée le bouton de l'action demandée *\/ */
+/*     /\* si aucun fichier n'est ouvert, on ne propose que créer un compte *\/ */
+
+/*     compte -> bouton_action = gtk_option_menu_new (); */
+
+/*     menu = gtk_menu_new (); */
+
+/*     menu_item = gtk_menu_item_new_with_label ( _("Create a new account")); */
+/*     gtk_object_set_data ( GTK_OBJECT ( menu_item ), */
+/* 			  "no_action", */
+/* 			  GINT_TO_POINTER ( 0 ) ); */
+/*     if ( gsb_data_account_get_accounts_amount () ) */
+/* 	gtk_signal_connect_object ( GTK_OBJECT ( menu_item ), */
+/* 				    "activate", */
+/* 				    GTK_SIGNAL_FUNC ( desensitive_widget ), */
+/* 				    GTK_OBJECT ( compte -> bouton_compte )); */
+/*     gtk_signal_connect_object ( GTK_OBJECT ( menu_item ), */
+/* 				"activate", */
+/* 				GTK_SIGNAL_FUNC ( sensitive_widget ), */
+/* 				GTK_OBJECT ( compte -> bouton_type_compte )); */
+/*     gtk_menu_append ( GTK_MENU ( menu ), */
+/* 		      menu_item ); */
+/*     gtk_widget_show ( menu_item ); */
+
+/*     if ( gsb_data_account_get_accounts_amount () ) */
+/*     { */
+/* 	menu_item = gtk_menu_item_new_with_label ( _("Add the transactions")); */
+/* 	gtk_object_set_data ( GTK_OBJECT ( menu_item ), */
+/* 			      "no_action", */
+/* 			      GINT_TO_POINTER ( 1 )); */
+/* 	gtk_signal_connect_object ( GTK_OBJECT ( menu_item ), */
+/* 				    "activate", */
+/* 				    GTK_SIGNAL_FUNC ( sensitive_widget ), */
+/* 				    GTK_OBJECT ( compte -> bouton_compte )); */
+/* 	gtk_signal_connect_object ( GTK_OBJECT ( menu_item ), */
+/* 				    "activate", */
+/* 				    GTK_SIGNAL_FUNC ( desensitive_widget ), */
+/* 				    GTK_OBJECT ( compte -> bouton_type_compte )); */
+/* 	gtk_menu_append ( GTK_MENU ( menu ), */
+/* 			  menu_item ); */
+/* 	gtk_widget_show ( menu_item ); */
+
+/* 	menu_item = gtk_menu_item_new_with_label ( _("Mark transactions")); */
+/* 	gtk_object_set_data ( GTK_OBJECT ( menu_item ), */
+/* 			      "no_action", */
+/* 			      GINT_TO_POINTER ( 2 ) ); */
+/* 	gtk_signal_connect_object ( GTK_OBJECT ( menu_item ), */
+/* 				    "activate", */
+/* 				    GTK_SIGNAL_FUNC ( sensitive_widget ), */
+/* 				    GTK_OBJECT ( compte -> bouton_compte )); */
+/* 	gtk_signal_connect_object ( GTK_OBJECT ( menu_item ), */
+/* 				    "activate", */
+/* 				    GTK_SIGNAL_FUNC ( desensitive_widget ), */
+/* 				    GTK_OBJECT ( compte -> bouton_type_compte )); */
+/* 	gtk_menu_append ( GTK_MENU ( menu ), */
+/* 			  menu_item ); */
+/* 	gtk_widget_show ( menu_item ); */
+/*     } */
+
+/*     gtk_option_menu_set_menu ( GTK_OPTION_MENU ( compte -> bouton_action ), */
+/* 			       menu ); */
+/*     gtk_widget_show ( menu ); */
+/*     gtk_widget_show ( compte -> bouton_action ); */
+
+
+/*     /\* on crée le bouton du compte sélectionné *\/ */
+/*     /\* si aucun fichier n'est ouvert, on ne crée pas ce bouton *\/ */
+
+/*     no_compte_trouve = -1; */
+
+/*     if ( gsb_data_account_get_accounts_amount () ) */
+/*     { */
+/* 	GSList *list_tmp; */
+
+/* 	menu = gtk_menu_new (); */
+
+/* 	list_tmp = gsb_data_account_get_list_accounts (); */
+
+/* 	while ( list_tmp ) */
+/* 	{ */
+/* 	    gint i; */
+
+/* 	    i = gsb_data_account_get_no_account ( list_tmp -> data ); */
+
+/* 	    if ( !gsb_data_account_get_closed_account (i)) */
+/* 	    { */
+/* 		menu_item = gtk_menu_item_new_with_label ( gsb_data_account_get_name (i)); */
+/* 		gtk_object_set_data ( GTK_OBJECT ( menu_item ), */
+/* 				      "account_number", */
+/* 				      GINT_TO_POINTER (i)); */
+
+/* 		/\* on recherche quel compte était noté dans le fichier  *\/ */
+/* 		/\* s'il y a une id, on la prend en priorité sur le nom *\/ */
+
+/* 		if ( compte -> id_compte */
+/* 		     && */
+/* 		     gsb_data_account_get_id (i) */
+/* 		     && */
+/* 		     !g_strcasecmp ( compte -> id_compte, */
+/* 				     gsb_data_account_get_id (i))) */
+/* 		    no_compte_trouve = i; */
+
+/* 		/\* on ne passe par cette étape que si le compte n'a pas déjà été trouvé avec l'id *\/ */
+
+/* 		if ( no_compte_trouve == -1 */
+/* 		     && */
+/* 		     compte -> nom_de_compte */
+/* 		     && */
+/* 		     !g_strcasecmp ( compte -> nom_de_compte, */
+/* 				     gsb_data_account_get_name (i))) */
+/* 		    no_compte_trouve = i; */
+
+
+/* 		gtk_menu_append ( GTK_MENU ( menu ), */
+/* 				  menu_item ); */
+/* 		gtk_widget_show ( menu_item ); */
+/* 	    } */
+/* 	    list_tmp = list_tmp -> next; */
+/* 	} */
+
+/* 	gtk_option_menu_set_menu ( GTK_OPTION_MENU ( compte -> bouton_compte ), */
+/* 				   menu ); */
+/* 	gtk_widget_show ( menu ); */
+
+/* 	gtk_widget_show ( compte -> bouton_compte ); */
+
+/*     } */
+
+/*     /\* on crée le bouton du type de compte  *\/ */
+
+
+/*     gtk_option_menu_set_menu ( GTK_OPTION_MENU ( compte -> bouton_type_compte ), */
+/* 			       creation_menu_type_compte() ); */
+/*     gtk_widget_show ( compte -> bouton_type_compte ); */
+
+/*     switch ( compte -> type_de_compte ) */
+/*     { */
+/* 	case 3: */
+/* 	    /\* actif ou passif *\/ */
+
+/* 	    gtk_option_menu_set_history ( GTK_OPTION_MENU ( compte -> bouton_type_compte ), */
+/* 					  2 ); */
+/* 	    break; */
+
+/* 	case 7: */
+/* 	    /\* cash *\/ */
+
+/* 	    gtk_option_menu_set_history ( GTK_OPTION_MENU ( compte -> bouton_type_compte ), */
+/* 					  1 ); */
+/* 	    break; */
+/*     } */
+
+/*     /\* mise en place de l'origine *\/ */
+/*     label = gtk_label_new ( type_string_representation ( compte -> origine ) ); */
+
+/*     gtk_widget_show ( label ); */
+
+/*     /\* 	si on a trouvé un compte qui correspond, on l'affiche, et on passe le 1er option menu à ajouter les opérations *\/ */
+
+/*     if ( no_compte_trouve != -1 ) */
+/*     { */
+/* 	gtk_option_menu_set_history ( GTK_OPTION_MENU ( compte -> bouton_compte ), */
+/* 				      no_compte_trouve ); */
+/* 	gtk_option_menu_set_history ( GTK_OPTION_MENU ( compte -> bouton_action ), */
+/* 				      1 ); */
+/* 	gtk_widget_set_sensitive ( compte -> bouton_type_compte, */
+/* 				   FALSE ); */
+/*     } */
+/*     else */
+/* 	gtk_widget_set_sensitive ( compte -> bouton_compte, */
+/* 				   FALSE ); */
+
+/* } */
 /* *******************************************************************************/
 
 
@@ -968,8 +1190,7 @@ void traitement_operations_importees ( void )
 
 	compte = list_tmp -> data;
 
-	switch ( GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( compte -> bouton_action ) -> menu_item ),
-							 "no_action" )))
+	switch ( compte -> action )
 	{
 	    case 0:
 		/* create */
@@ -987,7 +1208,7 @@ void traitement_operations_importees ( void )
 		/* add */
 
 		gsb_import_add_imported_transactions ( compte,
-						       recupere_no_compte ( compte -> bouton_compte ));
+						       recupere_no_compte ( compte -> bouton_compte_add ));
 
 		break;
 
@@ -1950,7 +2171,7 @@ void pointe_opes_importees ( struct struct_compte_importation *imported_account 
 
     /* on se place sur le compte dans lequel on va pointer les opés */
 
-    account_number = recupere_no_compte ( imported_account -> bouton_compte );
+    account_number = recupere_no_compte ( imported_account -> bouton_compte_mark );
 
     /* si le compte importé a une id, on la vérifie ici */
     /*     si elle est absente, on met celle importée */
@@ -2641,60 +2862,107 @@ gboolean filetype_changed ( GtkOptionMenu * option_menu, gpointer user_data )
 
 
 
-enum import_type autodetect_file_type ( FILE * fichier, gchar * pointeur_char )
+enum import_type autodetect_file_type ( gchar * filename, FILE * fichier, 
+					gchar * pointeur_char )
 {
-  enum import_type type;
+    gchar * extension;
+    enum import_type type = TYPE_UNKNOWN;
 
-/* TODO: add it again */
-   if ( g_strrstr ( pointeur_char,  
- 		   "Date;Type;" )) /* c'est un fichier csv */ 
-     { 
-       type = TYPE_CSV; 
-     } 
-   else  
-   if ( g_strrstr ( pointeur_char,
-			"ofx" )
-	    ||
-	    g_strrstr ( pointeur_char,
-			"OFX" ))
+    extension = strrchr ( filename, '.' );
+    if ( extension )
     {
-      type = TYPE_OFX;
-    }
-   else if ( !my_strncasecmp ( pointeur_char, "!Type", 5 ) ||
-	     !my_strncasecmp ( pointeur_char, "!Account", 8 ) || 
-	     !my_strncasecmp ( pointeur_char, "!Option", 7 ))
-   {
-       type = TYPE_QIF;
-   }
-  else
-    {
-      if ( !strncmp ( pointeur_char, "<?xml", 5 ))
+	if ( !strcasecmp ( extension + 1, "csv" ) )
 	{
-	  get_line_from_file ( fichier, &pointeur_char );
-	  if ( !strncmp ( pointeur_char, "<gnc-v2", 7 ))
+	    return TYPE_CSV;
+	}
+	if ( !strcasecmp ( extension + 1, "ofx" ) )
+	{
+	    return TYPE_OFX;
+	}
+	if ( !strcasecmp ( extension + 1, "gnc" ) )
+	{
+	    return TYPE_GNUCASH;
+	}
+	if ( !strcasecmp ( extension + 1, "gnucash" ) )
+	{
+	    return TYPE_GNUCASH;
+	}
+	if ( !strcasecmp ( extension + 1, "qif" ) )
+	{
+	    return TYPE_QIF;
+	}
+    }
+    
+    if ( ! pointeur_char )
+    {
+	return TYPE_UNKNOWN;
+    }
+    
+    if ( g_strrstr ( pointeur_char, "ofx" ) || g_strrstr ( pointeur_char, "OFX" ))
+    {
+	type = TYPE_OFX;
+    }
+    else if ( !my_strncasecmp ( pointeur_char, "!Type", 5 ) ||
+	      !my_strncasecmp ( pointeur_char, "!Account", 8 ) || 
+	      !my_strncasecmp ( pointeur_char, "!Option", 7 ))
+    {
+	type = TYPE_QIF;
+    }
+    else
+    {
+	if ( !strncmp ( pointeur_char, "<?xml", 5 ) &&
+	     fichier != NULL )
+	{
+	    get_line_from_file ( fichier, &pointeur_char );
+	    if ( !strncmp ( pointeur_char, "<gnc-v2", 7 ))
 	    {
-	      type = TYPE_GNUCASH;
+		type = TYPE_GNUCASH;
 	    }
-	  else
+	    else
 	    {
-	      type = TYPE_UNKNOWN;
+		type = TYPE_UNKNOWN;
 	    }
 	}
-      else {
-	  /* Do not implement HTML at the moment */
-/* 	if ( pointeur_char[0] == '<' ) */
-/* 	  { */
-/* 	    type = TYPE_HTML; */
-/* 	  } */
-/* 	else */
-/* 	  { */
+	else
+	{
 	    type = TYPE_UNKNOWN;
-/* 	  } */
-      }
+	}
     }
 
   return type;
 }
+
+
+
+/**
+ *
+ *
+ *
+ */
+gchar * type_string_representation ( enum import_type type )
+{
+    switch ( type )
+    {
+	case TYPE_OFX:
+	    return _("OFX file");
+
+	case TYPE_QIF:
+	    return _("QIF file");
+
+	case TYPE_CSV:
+	    return _("CSV file");
+
+	case TYPE_GNUCASH:
+	    return _("Gnucash file");
+
+	default:
+	    return _("Unknown format");
+    }
+    
+    return _("Unknown format");
+}
+
+
 
 /* Local Variables: */
 /* c-basic-offset: 4 */

@@ -8,8 +8,9 @@
 
 
 /* START_DECLARATION */
-gboolean importer_csv ();
-gboolean recuperation_donnees_csv ( FILE *fichier );
+gboolean csv_import_csv_account ( GtkWidget * assistant, gchar * filename );
+GtkWidget * import_create_csv_preview_page ( GtkWidget * assistant );
+gboolean import_enter_csv_preview_page ( GtkWidget * assistant );
 /* END_DECLARATION */
 
 struct csv_field {

@@ -24,12 +24,10 @@
 
 /*START_INCLUDE*/
 #include "import_csv.h"
-#include "utils_str.h"
 #include "csv_parse.h"
-#include "erreur.h"
-#include "dialog.h"
-#include "utils_files.h"
-#include "gsb_assistant.h"
+#include "utils_dates.h"
+#include "utils_str.h"
+#include "import.h"
 #include "utils.h"
 #include "utils_editables.h"
 #include "structures.h"
@@ -39,6 +37,7 @@
 
 /*START_EXTERN*/
 extern GSList *liste_comptes_importes;
+extern GSList *liste_comptes_importes_error;
 extern gint max;
 extern GtkTreeStore *model;
 /*END_EXTERN*/
@@ -50,8 +49,6 @@ static gboolean csv_import_change_separator ( GtkEntry * entry, gchar * value,
 static gint csv_import_count_columns ( gchar * contents, gchar * separator );
 static GtkTreeModel * csv_import_create_model ( GtkTreeView * tree_preview, gchar * contents, 
 					 gchar * separator );
-static gboolean csv_import_enter_final_page ( GtkWidget * assistant );
-static gboolean csv_import_enter_preview_page ( GtkWidget * assistant );
 static GtkWidget * csv_import_fields_menu ( GtkTreeViewColumn * col, gint field );
 static gint * csv_import_guess_fields_config ( gchar * contents, gint size );
 static gchar * csv_import_guess_separator ( gchar * contents );
@@ -60,8 +57,6 @@ static gboolean csv_import_header_on_click ( GtkWidget * button, GdkEventButton 
 static gboolean csv_import_try_separator ( gchar * contents, gchar * separator );
 static gint * csv_import_update_fields_config ( gchar * contents, gint size );
 static gboolean csv_import_update_preview ( GtkWidget * assistant );
-static GtkWidget * cvs_import_create_first_page ( GtkWidget * assistant );
-static GtkWidget * cvs_import_create_second_page ( GtkWidget * assistant );
 /*END_STATIC*/
 
 
@@ -99,71 +94,8 @@ struct csv_field csv_fields[14] = {
 struct struct_compte_importation * compte;
 
 
-/**
- *
- *
- */
-gboolean recuperation_donnees_csv ( FILE *fichier )
-{
-    GtkWidget * a;
 
-    compte = calloc ( 1, sizeof ( struct struct_compte_importation ));
-    compte -> origine = CSV_IMPORT;
-    compte -> type_de_compte = 0;
-    compte -> solde = 0;
-    compte -> nom_de_compte = g_strdup ( _("Imported account with no name" ));
-
-    a = gsb_assistant_new ( "Importing a CSV file.",
-			    "This assistant will help you import a CSV file into Grisbi."
-			    "\n\n"
-			    "If Grisbi can't automatically guess CSV format, it will be "
-			    "necessary to manually configure its format in this assistant.",
-			    "csv.png" );
-
-    gsb_assistant_add_page ( a, cvs_import_create_first_page ( a ), 1, 0, 2, NULL );
-    gsb_assistant_add_page ( a, cvs_import_create_second_page ( a ), 2, 1, 3,
-			     G_CALLBACK ( csv_import_enter_preview_page ) );
-    gsb_assistant_add_page ( a, gtk_label_new ( "Plop page 3" ), 3, 2, 4, 
-			     G_CALLBACK ( csv_import_enter_final_page ) );
-
-    gsb_assistant_run ( a );
-
-    liste_comptes_importes = g_slist_append ( liste_comptes_importes, compte );
-
-    return FALSE;
-}
-
-
-
-/**
- *
- *
- *
- */
-GtkWidget * cvs_import_create_first_page ( GtkWidget * assistant )
-{
-    GtkWidget * vbox, * paddingbox, * chooser;
-
-    vbox = gtk_vbox_new ( FALSE, 6 );
-    gtk_container_set_border_width ( GTK_CONTAINER(vbox), 12 );
-
-    paddingbox = new_paddingbox_with_title ( vbox, TRUE, "CSV file to import" );
-    
-    chooser = gtk_file_chooser_button_new ( "Import CSV file",
-					    GTK_FILE_CHOOSER_ACTION_OPEN );
-    gtk_box_pack_start ( GTK_BOX(paddingbox), chooser, FALSE, FALSE, 6 );
-
-    /* Test, remove before commiting */
-    gtk_file_chooser_set_filename ( GTK_FILE_CHOOSER(chooser), 
-				    "/home/benj/.grisbi/Exemple.gsb_Compte_Courant.csv" );
-    g_object_set_data ( G_OBJECT(assistant), "filename_widget", chooser );
-
-    return vbox;
-}
-
-
-
-GtkWidget * cvs_import_create_second_page ( GtkWidget * assistant )
+GtkWidget * import_create_csv_preview_page ( GtkWidget * assistant )
 {
     GtkWidget * vbox, * paddingbox, * tree_preview, * entry, * sw;
 
@@ -293,7 +225,9 @@ gchar * csv_import_guess_separator ( gchar * contents )
 	}
     }
 
-    return NULL;
+    /* Comma is the most used separator, so as we are puzzled we try
+     * this one. */
+    return ",";
 }
 
 
@@ -454,23 +388,15 @@ gboolean csv_import_change_separator ( GtkEntry * entry, gchar * value,
 
 gboolean csv_import_update_preview ( GtkWidget * assistant )
 {
-    gchar * contents, * filename, * separator, * label = g_strdup ("");
+    gchar * contents, * separator, * label = g_strdup ("");
     GtkTreeModel * model;
     GtkTreeView * tree_preview;
     GSList * list;
-    gsize size;
     gint line = 0;
-    GError * error;
 
     separator = g_object_get_data ( G_OBJECT(assistant), "separator" );
-    filename = g_object_get_data ( G_OBJECT(assistant), "filename" );
     tree_preview = g_object_get_data ( G_OBJECT(assistant), "tree_preview" );
-
-    if ( ! g_file_get_contents ( filename, &contents, &size, &error ) )
-    {
-	printf ("Unable to read file: %s\n", error->message);
-	return FALSE;
-    }
+    contents =  g_object_get_data ( G_OBJECT(assistant), "contents" );
 
     model = csv_import_create_model ( tree_preview, contents, separator );
     if ( model )
@@ -522,18 +448,18 @@ gboolean csv_import_update_preview ( GtkWidget * assistant )
  */
 GtkWidget * csv_import_fields_menu ( GtkTreeViewColumn * col, gint field )
 {
-    GtkWidget * menu, * omenu, * item;
+    GtkWidget * menu, * item;
     int i;
 
     menu = gtk_menu_new();
 
     for ( i = 0 ; csv_fields[i] . name ; i++ )
     {
-	item = gtk_menu_item_new_with_label ( csv_fields[i] . name );
+	item = gtk_menu_item_new_with_label ( (gchar *) csv_fields[i] . name );
 	g_object_set_data ( G_OBJECT ( item ), "column", col );
-	g_object_set_data ( G_OBJECT ( item ), "field", field );
+	g_object_set_data ( G_OBJECT ( item ), "field", (gpointer) field );
 	gtk_signal_connect ( GTK_OBJECT ( item ), "activate",
-			     GTK_SIGNAL_FUNC ( csv_import_change_field ), i );
+			     GTK_SIGNAL_FUNC ( csv_import_change_field ), (gpointer) i );
 	gtk_menu_append ( GTK_MENU ( menu ), item );
     }
 
@@ -553,7 +479,7 @@ gboolean csv_import_change_field ( GtkWidget * item, gint no_menu )
     gint field;
 
     col = g_object_get_data ( G_OBJECT(item), "column" );
-    field = g_object_get_data ( G_OBJECT(item), "field" );
+    field = GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT(item), "field" ) );
 
     gtk_tree_view_column_set_title ( col, csv_fields [ no_menu ] . name );
     csv_fields_config [ field ] = no_menu;
@@ -568,23 +494,37 @@ gboolean csv_import_change_field ( GtkWidget * item, gint no_menu )
  *
  *
  */
-gboolean csv_import_enter_preview_page ( GtkWidget * assistant )
+gboolean import_enter_csv_preview_page ( GtkWidget * assistant )
 {
-    GtkWidget * button, * entry;
-    gchar * contents;
+    GtkWidget * entry;
+    GSList * files;
+    gchar * contents, * filename;
     gsize * size;
     GError * error;
 
-    button = g_object_get_data ( G_OBJECT(assistant), "filename_widget" );
-    g_object_set_data ( G_OBJECT(assistant), "filename", 
-			gtk_file_chooser_get_filename ( GTK_FILE_CHOOSER(button) ) );
+    /* Find first CSV to import. */
+    files = import_selected_files ( assistant );
+    while ( files )
+    {
+	struct imported_file * imported = files -> data;
 
-    if ( ! g_file_get_contents ( gtk_file_chooser_get_filename ( GTK_FILE_CHOOSER(button) ), 
-				 &contents, &size, &error ) )
+	if ( imported -> type == TYPE_CSV )
+	{
+	    filename = imported -> name;
+	    break;
+	}
+	files = files -> next;
+    }
+    g_return_val_if_fail ( filename, FALSE );
+
+    /* Open file */
+    if ( ! g_file_get_contents ( filename, &contents, &size, &error ) )
     {
 	printf ("Unable to read file: %s\n", error -> message);
 	return FALSE;
     }
+
+    g_object_set_data ( G_OBJECT(assistant), "contents", contents );
 
     entry = g_object_get_data ( G_OBJECT(assistant), "entry" );
     if ( entry )
@@ -592,8 +532,6 @@ gboolean csv_import_enter_preview_page ( GtkWidget * assistant )
 	gtk_entry_set_text ( GTK_ENTRY(entry), csv_import_guess_separator ( contents ) );
     }
 
-    g_object_set_data ( G_OBJECT(assistant), "contents", contents );
-    
     return FALSE;
 }
 
@@ -604,13 +542,26 @@ gboolean csv_import_enter_preview_page ( GtkWidget * assistant )
  *
  *
  */
-gboolean csv_import_enter_final_page ( GtkWidget * assistant )
+gboolean csv_import_csv_account ( GtkWidget * assistant, gchar * filename )
 {
     gchar * contents, * separator;
     GSList * list;
 
+    compte = calloc ( 1, sizeof ( struct struct_compte_importation ));
+    compte -> type_de_compte = 0;
+    compte -> solde = 0;
+    compte -> nom_de_compte = g_strdup ( _("Imported account with no name" ));
+    compte -> origine = CSV_IMPORT;
+
     contents = g_object_get_data ( G_OBJECT(assistant), "contents" );
     separator = g_object_get_data ( G_OBJECT(assistant), "separator" );
+
+    if ( ! csv_fields_config )
+    {
+	liste_comptes_importes_error = g_slist_append ( liste_comptes_importes_error, 
+							compte );
+	return FALSE;
+    }
 
     do
     {
@@ -618,6 +569,8 @@ gboolean csv_import_enter_final_page ( GtkWidget * assistant )
     }
     while ( list == GINT_TO_POINTER(-1) );
 
+    list = csv_parse_line ( &contents, separator );
+	
     do
     {
 	struct struct_ope_importation * ope;
@@ -625,11 +578,17 @@ gboolean csv_import_enter_final_page ( GtkWidget * assistant )
 
 	ope = malloc ( sizeof ( struct struct_ope_importation ) );
 	bzero ( ope, sizeof ( struct struct_ope_importation ) );
+	ope -> date = gdate_today ();
+	ope -> id_operation = g_strdup ( "" );
+	ope -> date_tmp = g_strdup ( "" );
+	ope -> tiers = g_strdup ( "" );
+	ope -> notes = g_strdup ( "" );
+	ope -> categ = g_strdup ( "" );
+	ope -> guid = g_strdup ( "" );
 
-	list = csv_parse_line ( &contents, separator );
-	
 	if ( list == GINT_TO_POINTER(-1) )
 	{
+	    list = csv_parse_line ( &contents, separator );
 	    continue;
 	}
 
@@ -638,7 +597,7 @@ gboolean csv_import_enter_final_page ( GtkWidget * assistant )
 	    struct csv_field * field = & csv_fields [ csv_fields_config[i] ];
 	    if ( field -> parse )
 	    {
-		printf ("> Parsing %s ... ",  field -> name );
+		printf ("> Parsing %s as %s ... ",  list -> data, field -> name );
 		if ( field -> validate )
 		{
 		    if ( field -> validate ( list -> data ) )
@@ -649,348 +608,33 @@ gboolean csv_import_enter_final_page ( GtkWidget * assistant )
 		    {
 			printf ("(invalid)");
 		    }
-		    printf ("\n");
 		}
+		printf ("\n");
 	    }
 	    list = list -> next;
 	}
 
+	list = csv_parse_line ( &contents, separator );
+
+	printf (">> Appending new transaction\n");
 	compte -> operations_importees = g_slist_append ( compte -> operations_importees,
 							  ope );
     }
     while ( list );
 
+    if ( compte -> operations_importees )
+    {
+	/* Finally, we register it. */
+	liste_comptes_importes = g_slist_append ( liste_comptes_importes, compte );
+    }
+    else
+    {
+	/* ... or not, if no transaction was imported (implement sanitizing). */
+	liste_comptes_importes_error = g_slist_append ( liste_comptes_importes_error, 
+							compte );
+    }
+
     return FALSE;
-}
-
-
-/**
- *
- *
- *
- */
-gboolean recuperation_donnees_csv_old ( FILE *fichier )
-{
-	/* on va récupérer ici chaque ligne d'un fichier csv et le handler import va gérer
-	l'importation dans un compte existant ou nouveau */
-
-	/* message debug qui indique le debut */
-	debug_message(WHERE_AM_I,_("Start Import"),DEBUG_LEVEL_NOTICE,FALSE); 
-	
-	/* initialisation de variables */
-	gchar *pointeur_char; /* ligne de fichier */
-	struct struct_compte_importation *compte; /* un compte */
-	gint retour = 0; 
-	gchar **tab_lignecourante; /* pointeur sur une ligne du fichier */
-	gint nb_lignes_fichier = 0; 
-	gint nb_lignes_entete = 0; 
-	gint nb_lignes_lues = 0;
-	gint nb_operations_trouvees = 0;
-
-	/* fichier pointe sur le fichier qui a été reconnu comme csv */
-	rewind ( fichier );
-
-	do
-	{
-		/* si on est déjà à la fin du fichier, on quitte */
-		if ( retour == EOF )
-		{
-			debug_message(WHERE_AM_I,_("CSV File is empty!"),DEBUG_LEVEL_IMPORTANT,FALSE); 
-			dialogue ( _("This file is empty!") );
-			return FALSE;
-		}
-
-		debug_message(WHERE_AM_I,_("File parsing start"),DEBUG_LEVEL_INFO,FALSE); 
-		
-		/* on crée un nouveau compte */
-		compte = calloc ( 1, sizeof ( struct struct_compte_importation ));
-	
-		/* c'est une importation csv */
-		compte -> origine = CSV_IMPORT;
-	
-		/* on place le type de compte a bank */
-		compte -> type_de_compte = 0;
-
-		/* récupération du solde initial ( on doit virer la , que money met pour séparer les milliers ) */
-		/* on ne vire la , que s'il y a un . */
-		/* en csv nous n'avons pas cette info */
-		compte -> solde = 0;
-
-		/* récupération du nom du compte */
-		/* en csv nous n'avons pas cette info */
-		compte -> nom_de_compte = g_strdup ( _("Imported account with no name" ));
-		
-		/* il n'y a pas d'autres informations sur le compte, il faudra le paramètrer */
-		/* plus tard si il s'agit d'un import initial ou non, de plus le csv ne donne */
-		/* aucune infos sur le compte */
-		
-		debug_message(WHERE_AM_I,_("Begin operation import"),DEBUG_LEVEL_DEBUG,FALSE); 
-		
-		/* récupération des opérations en brut, on les traitera ensuite */
-		do
-		{
-			struct struct_ope_importation *operation;
-			operation = calloc ( 1,sizeof ( struct struct_ope_importation ));
-			gchar **tab_date;
-			gint jour = 0, mois = 0, annee = 0;
-			gint erreur_date = 0, erreur_montant = 0;
-			
-			retour = get_line_from_file ( fichier,&pointeur_char );
-			
-			/* on supprime le retour a la ligne */
-			pointeur_char[strlen(pointeur_char) - 1] = '\0';
-			
-			debug_message(WHERE_AM_I,_("Find a new line"),DEBUG_LEVEL_INFO,FALSE);
-			debug_message(WHERE_AM_I,g_strdup_printf(_("Line is %s"),pointeur_char),DEBUG_LEVEL_INFO,FALSE);
-			
-			if ( retour != EOF && pointeur_char && g_strrstr ( pointeur_char, "Date;Type;" ) && count_char_from_string(";",pointeur_char)==8 )
-			{
-				/* c'est une ligne d'en tete alors on passe */
-				nb_lignes_entete++; nb_lignes_fichier++;
-				
-				debug_message(WHERE_AM_I,_("Skip this line (header)"),DEBUG_LEVEL_INFO,FALSE); 
-			}
-			else if ( retour != EOF && !g_strrstr ( pointeur_char, "Date;Type;" ) && count_char_from_string(";",pointeur_char)==8 )
-			{
-				/* c'est une ligne qui semble ok */
-				nb_lignes_lues++; nb_lignes_fichier++;
-
-				debug_message(WHERE_AM_I,_("Find a new operation"),DEBUG_LEVEL_INFO,FALSE); 
-				
-				/* on explose la ligne courante */
-				tab_lignecourante=g_strsplit( pointeur_char, ";",0);
-				
-				/* Date;Type;Tiers;Catégorie;S/catégorie;Notes;Débit;Crédit;P;Solde	*/
-				/* 19/12/2000;Solde initial;Création du compte;;;Création le 20/12/2000;;118,53;R */
-				/* 12/20/2000;Chèque;CCP;Automobile;Carburant;0266002C;17,49;;R */
-				/* 12/25/2000;Chèque;CCP;Noel;Cadeau;C'est un cadeau;;25,00;R */
-				/* Date => 0; ok */
-				/* Type => 1; */
-				/* Tiers => 2; ok */
-				/* Catégorie => 3; */
-				/* S/catégorie => 4; */
-				/* Notes => 5; ok */
-				/* Débit => 6; ok */
-				/* Crédit => 7; ok */
-				/* P => 8; ok */
-				
-				
-				/* récupération de la date au format JJ/MM/AAAA ou JJ/MM/AA */
-				/* il faudrait avoir en fonction de la locale une couche d'abstraction pour l'import de date */
-				/* pour le moment je controle que la date 12/27/2004 est valide auquel cas on est en locale us */
-				/* sinon en locale fr. voir fonction gdate g_date_set_parse() */
-				
-				debug_message(WHERE_AM_I,g_strdup_printf(_("Date is %s"),tab_lignecourante[0]),DEBUG_LEVEL_INFO,FALSE);
-				
-				/* le champs date contient t'il le bon nb de caracteres ? */
-				if (strlen(tab_lignecourante[0]) == 10 || strlen(tab_lignecourante[0]) == 8)
-				{
-					/* on split pour récupèrer les valeurs jour, mois et année */
-					tab_date = g_strsplit (tab_lignecourante[0],"/",3 );
-					
-					/* on a les trois valeurs donc on a une date complete probablement */
-					if ( tab_date [2] && tab_date [1] && tab_date[0])
-					{
-						/* on recupere le mois et le jour */
-						if ( TRUE || g_date_valid_dmy ( 12,27,2004 ) ) /* si cette date est valide alors on est format us */
-						{
-							mois = my_strtod ( tab_date[0],NULL );
-							jour = my_strtod ( tab_date[1],NULL );
-						}
-						else /* sinon en format fr */
-						{
-							jour = my_strtod ( tab_date[0],NULL );
-							mois = my_strtod ( tab_date[1],NULL );
-						}
-	
-						/* on recupere l'annee */
-						if ( strlen ( tab_date[2] ) == 4 )
-						{
-							annee = my_strtod ( tab_date[2],NULL );
-						}
-						else
-						{
-							annee = my_strtod ( tab_date[2],NULL );
-						
-							/* on gere les annees a partir de 1981 */
-							if ( annee < 80 ) { annee = annee + 2000;	}
-							else { annee = annee + 1900; }
-						}
-					}
-			
-					debug_message(WHERE_AM_I,g_strdup_printf(_("Date parsed is jour=%d mois=%d annee=%d"),jour,mois,annee),DEBUG_LEVEL_INFO,FALSE);
-					
-					g_strfreev ( tab_date );
-					
-					/* on controle la validite de la date */
-					if ( !g_date_valid_dmy ( jour,mois,annee ))
-					{
-						erreur_date = 1; /* date erronee, on place le flag erreur date a 1 */
-					}
-				}
-				else /* date erronee, on place le flag erreur date a 1 */
-				{
-					erreur_date = 1; /* date erronee, on place le flag erreur date a 1 */
-				}
-				
-				if (erreur_date == 0)
-				{				
-					operation -> date = g_date_new_dmy ( jour,mois,annee );
-				}
-				else
-				{
-					/* une erreur sur la date, j'affiche le dialog d'erreur et on va mettre la date a une valeur bidon */
-					debug_message(WHERE_AM_I,_("Can't parse date in CSV file!"),DEBUG_LEVEL_IMPORTANT,FALSE); 
-					dialogue_error_hint ( _("Dates can't be parsed in CSV file."),_("Grisbi automatically tries to parse dates from CSV files using heuristics.  Please double check that they are valid and contact grisbi development team for assistance if needed. Operation will be imported with date set on 01/01/1970") );
-					
-					/* l'opération n'a pas de date, c'est pas normal. pour éviter de la perdre, on va lui */
-					/* donner la date 01/01/1980 et on ajoutera plus tard a la note [opération sans date] */
-					operation -> date = g_date_new_dmy 	(01,01,1970);
-				}
-			
-				debug_message(WHERE_AM_I,g_strdup_printf(_("Trying tiers %s"),tab_lignecourante[2]),DEBUG_LEVEL_INFO,FALSE);
-				
-				/* récupération du tiers */
-				operation -> tiers = g_strstrip ( tab_lignecourante[2] );
-				if ( !g_utf8_validate ( operation -> tiers ,-1,NULL ))
-				{
-					operation -> tiers = latin2utf8 (operation -> tiers ); 
-				}
-				if ( !strlen ( operation -> tiers ))
-				{
-					operation -> tiers = NULL;
-				}
-				
-				debug_message(WHERE_AM_I,g_strdup_printf(_("Tiers found %s"),operation -> tiers),DEBUG_LEVEL_INFO,FALSE);
-				debug_message(WHERE_AM_I,g_strdup_printf(_("Trying amount debit %s credit %s"),tab_lignecourante[6],tab_lignecourante[7]),DEBUG_LEVEL_INFO,FALSE);
-				
-				/* récupération du montant */
-				if ( strlen ( tab_lignecourante[6] )>=4) /* c'est un débit */
-				{
-					operation -> montant = my_strtod (tab_lignecourante[6],NULL ); 
-					operation -> montant = operation -> montant * -1; /* on multiplie par -1 pour indiquer le débit */
-				}
-				
-				if ( strlen ( tab_lignecourante[7] ) >= 4 ) /* c'est un crédit */
-				{
-					operation -> montant = my_strtod (tab_lignecourante[7],NULL ); 
-				}
-
-				if (!operation -> montant)
-				{
-					/* une erreur sur la date, j'affiche le dialog d'erreur et on va mettre la date a une valeur bidon */
-					debug_message(WHERE_AM_I,_("Can't parse amount in CSV file!"),DEBUG_LEVEL_IMPORTANT,FALSE); 
-					dialogue_error_hint ( _("Amount can't be parsed in CSV file."),_("Grisbi automatically tries to parse amount from CSV files using heuristics.  Please double check that they are valid and contact grisbi development team for assistance if needed. Operation will be imported with amount set to 0") );
-					
-					/* l'opération n'a pas de date, c'est pas normal. pour éviter de la perdre, on va lui */
-					/* donner la date 01/01/1980 et on ajoutera plus tard a la note [opération sans date] */
-					operation -> montant = 0;
-				}
-				
-				debug_message(WHERE_AM_I,g_strdup_printf(_("Amount found %5.2f"),operation -> montant),DEBUG_LEVEL_INFO,FALSE);
-				debug_message(WHERE_AM_I,g_strdup_printf(_("Trying note %s"),tab_lignecourante[5]),DEBUG_LEVEL_INFO,FALSE);
-				
-				/* récupération de la note */
-				operation -> notes = g_strstrip ( tab_lignecourante[5] );
-				if ( !g_utf8_validate ( operation -> notes ,-1,NULL ))
-				{
-					operation -> notes = latin2utf8 (operation -> notes ); 
-				}
-				if ( !strlen ( operation -> notes ))
-				{
-					operation -> notes = NULL;
-				}
-				/* on a eu une erreur de date plus haut donc on l'indique dans la note */
-				if ( erreur_date == 1)
-				{
-					operation -> notes = g_strconcat ( operation -> notes,_(" [Transaction imported without date]"),NULL );
-				}
-				/* on a eu une erreur de date plus haut donc on l'indique dans la note */
-				if ( erreur_montant == 1)
-				{
-					operation -> notes = g_strconcat ( operation -> notes,_(" [Transaction imported with 0 amount]"),NULL );
-				}
-				
-				debug_message(WHERE_AM_I,g_strdup_printf(_("Note found %s"),operation -> notes),DEBUG_LEVEL_INFO,FALSE);
-				debug_message(WHERE_AM_I,g_strdup_printf(_("Trying pointage %s"),tab_lignecourante[8]),DEBUG_LEVEL_INFO,FALSE);
-				
-				/* récupération du pointage */
-				if ( strcmp(g_strstrip ( tab_lignecourante[8] ),"P") )
-				{
-					operation -> p_r = OPERATION_POINTEE;
-				}
-				else if ( strcmp(g_strstrip ( tab_lignecourante[8] ),"R") )
-				{
-					operation -> p_r = OPERATION_RAPPROCHEE;
-				}
-				else
-				{	
-					operation -> p_r = OPERATION_NORMALE;
-				}
-	
-				debug_message(WHERE_AM_I,g_strdup_printf(_("Pointage found %d"),operation -> p_r),DEBUG_LEVEL_INFO,FALSE);
-				debug_message(WHERE_AM_I,g_strdup_printf(_("Trying categ %s : %s"),tab_lignecourante[3],tab_lignecourante[4]),DEBUG_LEVEL_INFO,FALSE);
-				
-				/* récupération des catég (concatenation categ:souscateg */
-				/* il faudrait peut etre changer ce separateur car cela interdit les ":" dans les noms de categ */
-				operation -> categ = g_strconcat ( g_strstrip ( tab_lignecourante[3]),":",g_strstrip ( tab_lignecourante[4]),NULL );
-				if ( !g_utf8_validate ( operation -> categ ,-1,NULL ))
-				{
-					operation -> categ = latin2utf8 (operation -> categ ); 
-				}
-				if ( !strlen ( operation -> categ ))
-				{
-					operation -> categ = NULL;
-				}				
-				
-				debug_message(WHERE_AM_I,g_strdup_printf(_("Categ found %s"),operation -> categ),DEBUG_LEVEL_INFO,FALSE);
-				
-				/* on enregistre l'opé */
-
-				if ( retour != EOF && operation && operation -> date )
-				{
-					nb_operations_trouvees++;
-					compte -> operations_importees = g_slist_append ( compte -> operations_importees,operation );
-				}
-				else
-				{
-					/*c'est la fin du fichier ou l'opé n'est pas valide */
-					free ( operation );
-					operation = NULL;
-				}
-			}
-
-			/* 	à ce stade, soit on est à la fin d'une opération, soit à la fin du fichier */
-			/* 	en théorie, on a toujours  à la fin d'une opération */
-			/*  donc si on en est à eof on n'enregistre pas l'opé */
-		
-			/*if ( retour != EOF )
-			{
-				if ( !(operation -> date_tmp && strlen ( g_strstrip (operation -> date_tmp ))))
-				{
-
-					compte -> operations_importees = g_slist_append ( compte -> operations_importees,operation );
-				}
-			}*/
-		
-		}
-		/* on continue à enregistrer les opés jusqu'à la fin du fichier ou jusqu'à un changement de compte */
-		while ( retour != EOF	);
-	
-		/* toutes les opérations du compte ont été récupérées */
-		/* ajoute ce compte aux autres comptes importés */
-		liste_comptes_importes = g_slist_append ( liste_comptes_importes,compte );
-	
-	}
-	while ( retour != EOF );
-
-	/* message debug qui indique la fin */
-	debug_message(WHERE_AM_I,
-								g_strdup_printf(_("Import Done : %d operations founds (%d total lines, %d header lines, %d read lines)"),
-											nb_operations_trouvees,nb_lignes_fichier,nb_lignes_entete,nb_lignes_lues),
-								DEBUG_LEVEL_NOTICE,FALSE); 
-	
-	return ( TRUE );
 }
 
 
