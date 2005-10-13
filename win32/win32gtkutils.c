@@ -185,7 +185,7 @@ gboolean win32_make_sure_the_gtk2_dlls_path_is_in_PATH()
  */
 #define CASE_LCID_RETURN_LANG(lcid,lang)   case lcid : return g_strdup(lang) 
 static gchar* win32_lcid_to_lang(LCID lcid) 
-{
+{ /* {{{ */
     switch(lcid) {
         CASE_LCID_RETURN_LANG(1026,"bg"); /* bulgarian */
         CASE_LCID_RETURN_LANG(1027,"ca"); /* catalan */
@@ -225,38 +225,44 @@ static gchar* win32_lcid_to_lang(LCID lcid)
         default:
                 return (gchar*)NULL;
         }
-}
+} /* }}} */
 
-/* Determine and set Gaim locale as follows (in order of priority):
-   - Check GAIMLANG env var
-   - Check NSIS Installer Language reg value
-   - Use default user locale
-*/
-void win32_set_locale() 
+/**
+ * Read the registry and return the corresponding value as a gchar* (g_strdup already done)
+ *
+ * @param a_hRoot
+ * @param a_szKey
+ * @param a_szValue
+ * @param a_dwType
+ *
+ */
+gchar* win32_strdup_registry(HKEY a_hRoot, TCHAR* a_szKey, TCHAR* a_szValue, DWORD a_dwType)
 {
     gchar* gzLocale = NULL;
-    
     // Retrieve value set by grisbi_set_language
     DWORD   dwStatus         = NO_ERROR;
-    DWORD   dwType           = REG_SZ;
-    PCHAR   pKeyValBuffer    = NULL   ;
+    DWORD   dwType           = a_dwType;
+    PCHAR   pKeyValBuffer    = NULL;
     DWORD   dwKeyValSize     = 0;
-    HKEY    hKey             = HKEY_CURRENT_USER;
-
+    HKEY    hKey             = a_hRoot;
+    
+    // ---------------------------------------------------------------------
+    // Grisbi language has been configured through the specific application
+    // ---------------------------------------------------------------------
     // Retrieve the application location from registry
-    dwStatus = RegOpenKeyEx(HKEY_CURRENT_USER, (LPCSTR)"SOFTWARE\\GRISBI", 0, KEY_READ, &hKey);
+    dwStatus = RegOpenKeyEx(a_hRoot, (LPCSTR)a_szKey, 0, KEY_READ, &hKey);
     if (dwStatus == NO_ERROR)
     {
         // Get the size of the key to allocate the correct size for the temporary pBuffer
-        dwStatus = RegQueryValueEx(hKey,(LPCSTR)"LANG",0,&dwType,(LPBYTE)pKeyValBuffer,&dwKeyValSize);
+        dwStatus = RegQueryValueEx(hKey, (LPCSTR)a_szValue,0,&dwType,(LPBYTE)pKeyValBuffer,&dwKeyValSize);
         if (dwStatus == NO_ERROR)
         {
             // allocate the buffer and don't forget the '\0'
             pKeyValBuffer = (char*)malloc(sizeof(char*)*(dwKeyValSize+1));
             memset(pKeyValBuffer,0,(sizeof(char*)*(dwKeyValSize+1)));
 
-            // At last, ... read the value ...
-            dwStatus = RegQueryValueEx(hKey,(LPCSTR)"LANG",0,&dwType,(LPBYTE)pKeyValBuffer,&dwKeyValSize);
+            // At least, ... read the value ...
+            dwStatus = RegQueryValueEx(hKey,(LPCSTR)a_szValue,0,&dwType,(LPBYTE)pKeyValBuffer,&dwKeyValSize);
             if ((dwStatus == NO_ERROR)&&(dwKeyValSize == 0))
             {
                 dwStatus = ERROR_EMPTY;
@@ -271,39 +277,80 @@ void win32_set_locale()
         gzLocale = g_strdup((gchar*)pKeyValBuffer);
     }
 
-    // TODO
+    if (pKeyValBuffer)
+    {
+        free(pKeyValBuffer);
+        pKeyValBuffer = NULL;
+    }
 
-    if(!gzLocale)
+    SetLastError(dwStatus);
+    return (gzLocale);
+}
+/**
+ * 
+ * Determine and set Grisbi locale as follows (in order of priority):
+ * - Value of HKCU\SOFTWARE\GRISBI\LANG
+ * - Value of %LANG% (LANG con content a LOCALE definition or a LCID value)
+ * - Default user value
+ * 
+ * @return Does the function change the application context LANG value
+ * @retval TRUE a value have set to LANG
+ * @retval FALSE LANG has not been modified for any reason.
+ * 
+*/
+gboolean win32_set_locale() 
+{ /* {{{ */
+    gchar* gzLocale          = NULL;
+    BOOL    bFound           = FALSE;
+    
+    // ---------------------------------------------------------------------
+    // Grisbi language has been configured through the specific application
+    // ---------------------------------------------------------------------
+    // 1 - look into HKCU/SOFTWARE/GRISBI/LANG
+    gzLocale = win32_strdup_registry(HKEY_CURRENT_USER,"SOFTWARE\\GRISBI","LANG",REG_SZ);
+    bFound   = (BOOL)(gzLocale && (*gzLocale));
+
+    // ---------------------------------------------------------------------
+    // Try to find language setting using the LANG environment variable
+    // ---------------------------------------------------------------------
+    if(!bFound)
     {
         gzLocale = g_strdup((char*)getenv("LANG"));
+        bFound   = (BOOL)(gzLocale && (*gzLocale));
+        if (bFound)
+        {
+            // LANG can contain the Windows LCID instead of the LC_LOCALE value, in this case we need to convert it
+            // LANG can the LCID given in decimal
+            // LANG can the LCID given is hexadecimal
+            // When LANG is the LCID its size is 3 or 4 and start with a digit
+            // In other case we suppose LANG to be a valid LC_LOCALE value
+            int len = strlen(gzLocale);
+            if ( (len==3||len==4)&&(g_ascii_isdigit(*gzLocale))) 
+            {
+                    gzLocale = win32_lcid_to_lang(atoi(gzLocale));
+                    bFound   = (BOOL)(gzLocale && (*gzLocale));
+            }
+        }
+        
     }
-    // Retrieve current Windows value
-    if (!gzLocale)
+    // ---------------------------------------------------------------------
+    // Last change: retrieve current Windows value
+    // ---------------------------------------------------------------------
+    if ( (!bFound) || (!gzLocale) || ( (gzLocale) && (!(*gzLocale)) ) )
     {
         gzLocale = win32_lcid_to_lang(GetUserDefaultLCID());
     }
 
-    // In the last change LANG=en
-    if (!gzLocale)
+    if ((gzLocale)&&(*gzLocale))
     {
-        gzLocale = g_strdup("en");
-    }
-
-
-    if (gzLocale)
-    {
-        // Check the validity of LANG, some time in contains Windows code and not locale string
-        if (g_ascii_isdigit(*gzLocale)&& g_ascii_isdigit(*(gzLocale+1)) && g_ascii_isdigit(*(gzLocale+2))&&g_ascii_isdigit(*(gzLocale+3)))
-        {
-            gzLocale = win32_lcid_to_lang(atoi(gzLocale));
-        }
-    }
-    if (gzLocale)
-    {
+        bFound = TRUE;
         g_setenv("LANG",gzLocale,TRUE);
         g_free(gzLocale);
+        gzLocale = NULL;
     }
-}
+    return bFound;
+} /* }}} */
+
 
 #ifdef __cplusplus
 }
