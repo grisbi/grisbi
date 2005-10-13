@@ -28,7 +28,6 @@
 #include "variables-extern.c"
 #include "constants.h"
 
-
 /*START_INCLUDE*/
 #include "utils_files.h"
 #include "print_config.h"
@@ -215,10 +214,19 @@ GtkWidget * my_file_chooser ()
  * \param mode fopen mode argument
  *
  * \return file descriptor returned by fopen
+ * \retval NULL if the utf8filename is not a valid utf8 string
+ * 
  */
 FILE* utf8_fopen(gchar* utf8filename,gchar* mode)
 {
-    return fopen(g_filename_from_utf8(utf8filename,-1,NULL,NULL,NULL),mode);
+    FILE*  pfd               = NULL;
+    gchar* syslocale_filename = g_filename_from_utf8(utf8filename,-1,NULL,NULL,NULL);
+    if (syslocale_filename != NULL)
+    {
+        pfd = fopen(syslocale_filename,mode);
+        g_free(syslocale_filename);
+    }
+    return pfd;
 }
 
 /**
@@ -230,10 +238,18 @@ FILE* utf8_fopen(gchar* utf8filename,gchar* mode)
  * \param mode open mode argument
  *
  * \return file descriptor returned by open
+ * \retval -1 if the utf8filename is not a valid utf8 string
  */
 gint utf8_open(gchar* utf8filename,gint mode)
 {
-    return open(g_filename_from_utf8(utf8filename,-1,NULL,NULL,NULL),mode);
+    gint fd                  = -1;
+    gchar* syslocale_filename = g_filename_from_utf8(utf8filename,-1,NULL,NULL,NULL);
+    if (syslocale_filename != NULL)
+    {
+        fd = open(syslocale_filename,mode);
+        g_free(syslocale_filename);
+    }
+    return fd;
 }
 
 /**
@@ -245,11 +261,20 @@ gint utf8_open(gchar* utf8filename,gint mode)
  * \param stat pointer to a stat struct
  *
  * \return stat returned value
+ * \retval -1 if the utf8filename is not a valid utf8 string
  */
 gint utf8_stat(gchar* utf8filename,struct stat* filestat)
 {
-    return stat(g_filename_from_utf8(utf8filename,-1,NULL,NULL,NULL),filestat);
+    gint status               = -1;
+    gchar* syslocale_filename = g_filename_from_utf8(utf8filename,-1,NULL,NULL,NULL);
+    if (syslocale_filename != NULL)
+    {
+        status = stat(syslocale_filename,filestat);
+        g_free(syslocale_filename);
+    }
+    return status;
 }
+
 /**
  * \brief utf8 version of xmlParseFile 
  * 
@@ -258,10 +283,18 @@ gint utf8_stat(gchar* utf8filename,struct stat* filestat)
  * \param utf8filename file to  path coded using utf8 charset
  *
  * \return xmlParseFile returned value
+ * \retval NULL if the utf8filename is not a valid utf8 string
  */
 xmlDocPtr utf8_xmlParseFile(const gchar *utf8filename)
 { 
-    return xmlParseFile(g_filename_from_utf8(utf8filename,-1,NULL,NULL,NULL));
+    xmlDocPtr ptr = NULL;
+    gchar* syslocale_filename = g_filename_from_utf8(utf8filename,-1,NULL,NULL,NULL);
+    if (syslocale_filename != NULL)
+    {
+        ptr = xmlParseFile(syslocale_filename);
+        g_free(syslocale_filename);
+    }
+    return ptr;
 }
 /**
  * \brief utf8 version of xmlSaveFormatFile 
@@ -273,23 +306,39 @@ xmlDocPtr utf8_xmlParseFile(const gchar *utf8filename)
  * \param format                file format to use
  *
  * \return xmlSaveFormatFile returned value
+ * \retval -1 if the utf8filename is not a valid utf8 string
  */
-gint        utf8_xmlSaveFormatFile(const gchar *utf8filename, xmlDocPtr cur, gint format)
+gint utf8_xmlSaveFormatFile(const gchar *utf8filename, xmlDocPtr cur, gint format)
 { 
-    return xmlSaveFormatFile(g_filename_from_utf8(utf8filename,-1,NULL,NULL,NULL),cur,format);
+    gint   status             = -1;
+    gchar* syslocale_filename = g_filename_from_utf8(utf8filename,-1,NULL,NULL,NULL);
+    if (syslocale_filename != NULL)
+    {
+        status = xmlSaveFormatFile(syslocale_filename,cur,format);
+        g_free(syslocale_filename);
+    }
+    return status;
 }
 /**
- * \brief utf8 version of stat (see stat for more detail about mode)
+ * \brief utf8 version of remove (see remove for more detail about mode)
  * 
  * convert utf8 file path into the locale OS charset before calling remove
  *
  * \param utf8filename file to remove path coded using utf8 charset
  *
  * \return remove returned value
+ * \retval -1 if the utf8filename is not a valid utf8 string
  */
 gint utf8_remove(const gchar* utf8filename)
 {
-    return remove(g_filename_from_utf8(utf8filename,-1,NULL,NULL,NULL));
+    gint   status             = -1;
+    gchar* syslocale_filename = g_filename_from_utf8(utf8filename,-1,NULL,NULL,NULL);
+    if (syslocale_filename != NULL)
+    {
+        status = remove(syslocale_filename);
+        g_free(syslocale_filename);
+    }
+    return status;
 }
 
 
