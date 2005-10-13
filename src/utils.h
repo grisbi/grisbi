@@ -6,6 +6,8 @@ gboolean met_en_normal ( GtkWidget *event_box,
 		     gpointer pointeur );
 gchar *gsb_today ( void ) ;
 GDate *gdate_today ( void );
+void gsb_date_secured_g_date_set_time(GDate* pdate, GTime gtime);
+
 gboolean modifie_date ( GtkWidget *entree );
 gboolean format_date ( GtkWidget *entree );
 double gsb_strtod ( char *nptr, char **endptr );

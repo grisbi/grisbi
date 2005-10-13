@@ -26,6 +26,7 @@
 #include "variables-extern.c"
 #include "ofx.h"
 #include "dialog.h"
+#include "utils.h"
 
 #ifdef NOOFX
 /* dummy recuperation_donnees_ofx function implementation for system with no LIBOFX */
@@ -361,7 +362,7 @@ int ofx_proc_transaction_cb(struct OfxTransactionData data)
     date = g_date_new ();
     if ( data.date_posted_valid )
     {
-	g_date_set_time ( date,
+	gsb_date_secured_g_date_set_time ( date,
 			  data.date_posted );
 	if ( g_date_valid ( date ))
 	    ope_import -> date_de_valeur = date;
@@ -371,7 +372,7 @@ int ofx_proc_transaction_cb(struct OfxTransactionData data)
 
     if ( data.date_initiated_valid )
     {
-	g_date_set_time ( date,
+	gsb_date_secured_g_date_set_time ( date,
 			  data.date_initiated );
 	if ( g_date_valid ( date ))
 	    ope_import -> date = date;
@@ -513,7 +514,7 @@ int ofx_proc_statement_cb(struct OfxStatementData data)
     {
 	date = g_date_new ();
 
-	g_date_set_time ( date,
+	gsb_date_secured_g_date_set_time ( date,
 			  data.date_start );
 	if ( g_date_valid ( date ))
 	    compte_ofx_importation_en_cours -> date_depart = date;
@@ -523,7 +524,7 @@ int ofx_proc_statement_cb(struct OfxStatementData data)
     {
 	date = g_date_new ();
 
-	g_date_set_time ( date,
+	gsb_date_secured_g_date_set_time ( date,
 			  data.date_end );
 	if ( g_date_valid ( date ))
 	    compte_ofx_importation_en_cours -> date_fin = date;

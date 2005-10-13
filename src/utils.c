@@ -95,6 +95,41 @@ GDate *gdate_today ( void )
 }
 /******************************************************************************/
 
+/**
+ * Always set date with a valid value even if given time is not a valid one.
+ * 
+ * On Windows Plateform (and some others?) mktime return value is limited:
+ * If timeptr references a date before midnight, January 1, 1970, or if the 
+ * calendar time cannot be represented, mktime returns -1 cast to type time_t.
+ *
+ * libofx is using mktime on date field and some bank are using 01/01/1900 as start date
+ * which make Grisbi unable to import the file 
+ *
+ * If the gtime parameter is -1, the function set the date to the first day
+ * of the Unix Universe aka 01/01/1970. even if it'snt the one of the system.
+ * 
+ * There is a very very very low risk to find some one who wants to import operation
+ * which have been done before this date.
+ * 
+ * using Grisbi before this date.
+ * 
+ * @param pdate GDate to set
+ * @param gtime time
+ * 
+ */
+void gsb_date_secured_g_date_set_time(GDate* pdate, GTime gtime)
+{
+    if(gtime == (GTime)(-1)) 
+    {
+        g_date_set_day(pdate,1);
+        g_date_set_month(pdate,G_DATE_JANUARY);
+        g_date_set_year(pdate,1970);
+    }
+    else
+    {
+        g_date_set_time(pdate,gtime);
+    }
+}
 
 /******************************************************************************/
 /* Fonction modifie_date                                                      */
