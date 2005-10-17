@@ -338,7 +338,7 @@ gchar * gsb_format_gdate ( GDate *date )
 
     if ( !date || !g_date_valid ( date ))
     {
-	return NULL;
+	return "";
     }
 
     g_date_strftime ( retour_str, SIZEOF_FORMATTED_STRING_DATE, "%x", date );
