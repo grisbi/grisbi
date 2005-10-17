@@ -25,6 +25,7 @@
 
 /*START_INCLUDE*/
 #include "csv_parse.h"
+#include "utils_devises.h"
 #include "utils_dates.h"
 #include "utils_str.h"
 #include "csv.h"
@@ -191,8 +192,7 @@ gboolean csv_import_validate_date ( gchar * string )
     g_return_if_fail ( string );
     
     date = gsb_parse_date_string ( string );
-
-    return date &&  g_date_valid ( date );
+    return date && g_date_valid ( date );
 }
 
 
@@ -212,6 +212,8 @@ gboolean csv_import_validate_number ( gchar * string )
 	{
 	    return FALSE;
 	}
+
+	string ++;
     }
 
     return TRUE;
@@ -262,9 +264,17 @@ gboolean csv_import_valid_date ( gchar * string )
  */
 gboolean csv_import_parse_currency ( struct struct_ope_importation * ope, gchar * string )
 {
+    struct struct_devise * currency;
+
     g_return_if_fail ( string );
-    ope -> date_de_valeur = gsb_parse_date_string ( string );
-    return g_date_valid ( ope -> date_de_valeur );
+
+    currency = devise_par_nom ( string );
+    if ( ! currency )
+    {
+	return FALSE;
+    }
+
+    return currency -> no_devise;
 }
 
 
@@ -276,7 +286,13 @@ gboolean csv_import_parse_currency ( struct struct_ope_importation * ope, gchar 
 gboolean csv_import_parse_date ( struct struct_ope_importation * ope, gchar * string )
 {
     g_return_if_fail ( string );
+
     ope -> date = gsb_parse_date_string ( string );
+    if ( ! ope -> date )
+    {
+	ope -> date = gdate_today ();
+    }
+
     return g_date_valid ( ope -> date );
 }
 
@@ -422,19 +438,41 @@ gboolean csv_import_parse_p_r ( struct struct_ope_importation * ope, gchar * str
     if ( ! strcmp ( string, "P" ) )
     {
 	ope -> p_r = OPERATION_POINTEE;
+	return TRUE;
     }
     else if ( ! strcmp ( string, "T" ) )
     {
 	ope -> p_r = OPERATION_TELERAPPROCHEE;
+	return TRUE;
     }
     else if ( ! strcmp ( string, "R" ) )
     {
 	ope -> p_r = OPERATION_RAPPROCHEE;
+	return TRUE;
     }
-    else
+    else if ( ! strlen ( string ) )
     {
 	ope -> p_r = OPERATION_NORMALE;
+	return TRUE;
     }
+    return FALSE;
+}
+
+
+
+/**
+ *
+ *
+ */
+gboolean csv_import_parse_breakdown ( struct struct_ope_importation * ope, gchar * string )
+{
+    g_return_if_fail ( string );
+
+    if ( ! strcmp ( string, "V" ) )
+    {
+	ope -> operation_ventilee = 1;
+    }
+
     return TRUE;
 }
 
