@@ -79,8 +79,10 @@ struct csv_field csv_fields[14] = {
     { N_("Sub-Category"),   0.0, csv_import_validate_string, csv_import_parse_sub_category },
     { N_("Amount"),	    0.0, csv_import_validate_amount, csv_import_parse_amount },
     { N_("Credit"),	    0.0, csv_import_validate_amount, csv_import_parse_credit },
-    { N_("Debit"),	    0.0, csv_import_validate_amount, csv_import_parse_debit },
+    { N_("Debit (absolute)"),0.0, csv_import_validate_amount, csv_import_parse_debit },
+    { N_("Debit (negative)"),0.0, csv_import_validate_amount, csv_import_parse_credit },
     { N_("P/R"),	    0.0, csv_import_validate_string, csv_import_parse_p_r },
+    { N_("Breakdown"),	    0.0, csv_import_validate_string, csv_import_parse_breakdown },
     { NULL },
 };
 
@@ -349,7 +351,7 @@ gint * csv_import_update_fields_config ( gchar * contents, gint size )
 gint * csv_import_guess_fields_config ( gchar * contents, gint size )
 {
     gint * default_config;
-    gint benj_config[13] = { 0, 0, 2, 12, 4, 10, 11, 0, 7, 8, 5, 0 };
+    gint benj_config[13] = { 0, 0, 2, 13, 4, 10, 12, 0, 7, 8, 5, 0 };
 
     default_config = (gint *) malloc ( size * sizeof ( int ) );
 /*     bzero ( default_config, size * sizeof(int) );  */
@@ -552,6 +554,8 @@ gboolean csv_import_csv_account ( GtkWidget * assistant, gchar * filename )
     compte -> solde = 0;
     compte -> nom_de_compte = g_strdup ( _("Imported account with no name" ));
     compte -> origine = CSV_IMPORT;
+    compte -> filename = filename;
+    compte -> operations_importees = NULL;
 
     contents = g_object_get_data ( G_OBJECT(assistant), "contents" );
     separator = g_object_get_data ( G_OBJECT(assistant), "separator" );
@@ -579,7 +583,7 @@ gboolean csv_import_csv_account ( GtkWidget * assistant, gchar * filename )
 	ope = malloc ( sizeof ( struct struct_ope_importation ) );
 	bzero ( ope, sizeof ( struct struct_ope_importation ) );
 	ope -> date = gdate_today ();
-	ope -> id_operation = g_strdup ( "" );
+	ope -> id_operation = NULL;
 	ope -> date_tmp = g_strdup ( "" );
 	ope -> tiers = g_strdup ( "" );
 	ope -> notes = g_strdup ( "" );
@@ -602,7 +606,10 @@ gboolean csv_import_csv_account ( GtkWidget * assistant, gchar * filename )
 		{
 		    if ( field -> validate ( list -> data ) )
 		    {
-			field -> parse ( ope, list -> data );
+			if ( ! field -> parse ( ope, list -> data ) )
+			{
+			    printf ("(failed)");
+			}
 		    }
 		    else
 		    {
@@ -616,7 +623,7 @@ gboolean csv_import_csv_account ( GtkWidget * assistant, gchar * filename )
 
 	list = csv_parse_line ( &contents, separator );
 
-	printf (">> Appending new transaction\n");
+	printf (">> Appending new transaction %p\n", ope );
 	compte -> operations_importees = g_slist_append ( compte -> operations_importees,
 							  ope );
     }
