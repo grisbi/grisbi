@@ -35,6 +35,7 @@
 #include "utils.h"
 #include "utils_montants.h"
 #include "comptes_gestion.h"
+#include "comptes_traitements.h"
 #include "import_csv.h"
 #include "utils_devises.h"
 #include "dialog.h"
@@ -61,9 +62,9 @@
 #include "utils_comptes.h"
 #include "imputation_budgetaire.h"
 #include "structures.h"
+#include "gsb_file_config.h"
 #include "import.h"
 #include "include.h"
-#include "gsb_file_config.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -80,13 +81,14 @@ static gboolean click_sur_liste_opes_orphelines ( GtkCellRendererToggle *rendere
 static void confirmation_enregistrement_ope_import ( struct struct_compte_importation *imported_account );
 static GtkWidget * create_file_format_import_menu ();
 static void cree_liens_virements_ope_import ( void );
-static GtkWidget * cree_ligne_recapitulatif ( struct struct_compte_importation *compte );
+static GtkWidget * cree_ligne_recapitulatif ( struct struct_compte_importation * compte );
 static gboolean filetype_changed ( GtkOptionMenu * option_menu, gpointer user_data );
 static void gsb_import_add_imported_transactions ( struct struct_compte_importation *imported_account,
 					    gint account_number );
 static gint gsb_import_create_imported_account ( struct struct_compte_importation *imported_account );
 static gint gsb_import_create_transaction ( struct struct_ope_importation *imported_transaction,
 				     gint account_number );
+static gboolean import_account_action_activated ( GtkWidget * radio, gint action );
 static gboolean import_active_toggled ( GtkCellRendererToggle * cell, gchar *path_str,
 				 gpointer model );
 static GtkWidget * import_create_file_selection_page ( GtkWidget * assistant );
@@ -100,7 +102,6 @@ static gboolean import_switch_type ( GtkCellRendererText *cell, const gchar *pat
 static void pointe_opes_importees ( struct struct_compte_importation *imported_account );
 static void traitement_operations_importees ( void );
 static gchar * type_string_representation ( enum import_type type );
-static gboolean import_account_action_activated ( GtkWidget * radio, gint action );
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -114,7 +115,6 @@ extern gint mise_a_jour_combofix_tiers_necessaire;
 extern gint mise_a_jour_liste_comptes_accueil;
 extern gint mise_a_jour_soldes_minimaux;
 extern GtkTreeStore *model;
-extern GtkTreeSelection * selection;
 extern GtkWidget *tree_view;
 extern GtkWidget *tree_view_vbox;
 extern GtkWidget *window;
@@ -709,6 +709,8 @@ gboolean affichage_recapitulatif_importation ( GtkWidget * assistant )
 
 	gsb_assistant_add_page ( assistant, cree_ligne_recapitulatif ( list_tmp -> data ), 
 				 page, page - 1, page + 1, G_CALLBACK ( NULL ) );
+	page ++;
+
 	list_tmp = list_tmp -> next;
     }
 
@@ -764,7 +766,7 @@ void ajout_devise_dans_liste_import ( void )
 
 
 /* *******************************************************************************/
-GtkWidget * cree_ligne_recapitulatif ( struct struct_compte_importation *compte )
+GtkWidget * cree_ligne_recapitulatif ( struct struct_compte_importation * compte )
 {
     GtkWidget * vbox, * hbox, * label, * menu, * menu_item, * radio, * radiogroup;
     GtkWidget * alignement;
@@ -1361,8 +1363,6 @@ void cree_liens_virements_ope_import ( void )
 								   0);
 		gsb_data_transaction_set_transaction_number_transfer ( transaction_number_tmp,
 								       0);
-		gsb_data_transaction_set_bank_references ( transaction_number_tmp,
-							   NULL);
 	    }
 	    else
 	    {
@@ -1416,9 +1416,9 @@ void cree_liens_virements_ope_import ( void )
 									   gsb_data_transaction_get_account_number (transaction_number_tmp));
 
 			gsb_data_transaction_set_bank_references ( transaction_number_tmp,
-								   NULL);
+								   "" );
 			gsb_data_transaction_set_bank_references ( contra_transaction_number_tmp,
-								   NULL);
+								   "" );
 		    }
 		    list_tmp_transactions_2 = list_tmp_transactions_2 -> next;
 		}
@@ -1431,11 +1431,11 @@ void cree_liens_virements_ope_import ( void )
 								       0);
 		    gsb_data_transaction_set_transaction_number_transfer ( transaction_number_tmp,
 									   0);
-		    gsb_data_transaction_set_bank_references ( transaction_number_tmp,
-							       NULL);
+		    gsb_data_transaction_set_bank_references ( transaction_number_tmp, "" );
 		}
 	    }
 	}
+
 	list_tmp_transactions = list_tmp_transactions -> next;
     }
 }
@@ -2136,6 +2136,9 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
 	else
 	    gsb_data_transaction_set_method_of_payment_number ( transaction_number,
 								gsb_data_account_get_default_credit (account_number));
+	
+	gsb_data_transaction_set_method_of_payment_content ( transaction_number,
+							     utils_str_itoa ( imported_transaction -> cheque ) );
 
     }
 
@@ -2143,6 +2146,10 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
 
     gsb_data_transaction_set_marked_transaction ( transaction_number,
 						  imported_transaction -> p_r );
+
+    /* Various things we have to set. */
+    gsb_data_transaction_set_bank_references ( transaction_number, "" );
+    gsb_data_transaction_set_voucher ( transaction_number, "" );
 
     /* si c'est une ope de ventilation, lui ajoute le no de l'opération précédente */
 

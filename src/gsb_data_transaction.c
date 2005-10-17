@@ -324,7 +324,10 @@ gchar *gsb_data_transaction_get_transaction_id ( gint no_transaction )
     if ( !transaction )
 	return NULL;
 
-    return transaction -> transaction_id;
+    if ( transaction -> transaction_id )
+	return transaction -> transaction_id;
+    else
+	return "";
 }
 
 
@@ -1323,7 +1326,7 @@ gboolean gsb_data_transaction_set_voucher ( gint no_transaction,
 	 strlen (voucher))
 	transaction -> voucher = g_strdup (voucher);
     else
-	transaction -> voucher = NULL;
+	transaction -> voucher = "";
     
     return TRUE;
 }
@@ -1518,6 +1521,8 @@ gint gsb_data_transaction_new_transaction_with_number ( gint no_account,
     transaction -> account_number = no_account;
     transaction -> transaction_number = transaction_number;
     transaction -> currency_number = gsb_data_account_get_currency (no_account);
+    transaction -> voucher = "";
+    transaction -> bank_references = "";
 
     transactions_list = g_slist_append ( transactions_list,
 					 transaction );
