@@ -1431,11 +1431,11 @@ gboolean changement_nom_entree_devise ( GtkEditable *editable, gchar * text,
 					gint length, gpointer data )
 {
     struct struct_devise *devise;
-    GtkTreeSelection * selection = gtk_tree_view_get_selection ( g_object_get_data ( editable, "view" ) );
-    GtkTreeStore * tree_model;
     GtkTreeSelection * selection;
+    GtkTreeStore * tree_model;
     GtkTreeIter iter;
 
+    selection = gtk_tree_view_get_selection ( g_object_get_data ( editable, "view" ) );
     devise = currency_get_selected ( g_object_get_data ( editable, "view" ) );
 
     if ( !selection || ! gtk_tree_selection_get_selected (selection, &tree_model, &iter))
@@ -1460,6 +1460,7 @@ gboolean changement_code_entree_devise ( GtkEditable *editable, gchar * text,
     GtkTreeSelection * selection;
     GtkTreeIter iter;
 
+    selection = gtk_tree_view_get_selection ( g_object_get_data ( editable, "view" ) );
     devise = currency_get_selected ( g_object_get_data ( editable, "view" ) );
 
     if ( !selection || ! gtk_tree_selection_get_selected (selection, &tree_model, &iter))
@@ -1484,6 +1485,7 @@ gboolean changement_iso_code_entree_devise ( GtkEditable *editable, gchar * text
     GtkTreeSelection * selection;
     GtkTreeIter iter;
 
+    selection = gtk_tree_view_get_selection ( g_object_get_data ( editable, "view" ) );
     devise = currency_get_selected ( g_object_get_data ( editable, "view" ) );
 
     if ( !selection || ! gtk_tree_selection_get_selected (selection, &tree_model, &iter))
