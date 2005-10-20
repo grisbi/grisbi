@@ -876,7 +876,8 @@ GtkWidget * cree_ligne_recapitulatif ( struct struct_compte_importation * compte
     radio = gtk_radio_button_new_with_label ( NULL, _("Create a new account") );
     radiogroup = radio;
     gtk_box_pack_start ( GTK_BOX ( vbox ), radio, FALSE, FALSE, 0 );
-    _gtk_check_button_get_props ( radio, &size, &spacing );
+    gtk_widget_style_get (radio, "indicator_size", &size, NULL);
+    gtk_widget_style_get (radio, "indicator_spacing", &spacing, NULL);
 
     compte -> hbox1 = gtk_hbox_new ( FALSE, 6 );
     gtk_box_pack_start ( GTK_BOX ( vbox ), compte -> hbox1, FALSE, FALSE, 0 );
@@ -902,7 +903,6 @@ GtkWidget * cree_ligne_recapitulatif ( struct struct_compte_importation * compte
     radio = gtk_radio_button_new_with_label_from_widget ( GTK_RADIO_BUTTON ( radiogroup ), 
 							  _("Add transactions to an account") );
     gtk_box_pack_start ( GTK_BOX ( vbox ), radio, FALSE, FALSE, 0 );
-    _gtk_check_button_get_props ( radio, &size, &spacing );
 
     compte -> hbox2 = gtk_hbox_new ( FALSE, 6 );
     gtk_box_pack_start ( GTK_BOX ( vbox ), compte -> hbox2, FALSE, FALSE, 0 );
@@ -927,7 +927,6 @@ GtkWidget * cree_ligne_recapitulatif ( struct struct_compte_importation * compte
     radio = gtk_radio_button_new_with_label_from_widget ( GTK_RADIO_BUTTON ( radiogroup ), 
 							  _("Mark transactions of an account") );
     gtk_box_pack_start ( GTK_BOX ( vbox ), radio, FALSE, FALSE, 0 );
-    _gtk_check_button_get_props ( radio, &size, &spacing );
 
     compte -> hbox3 = gtk_hbox_new ( FALSE, 6 );
     gtk_box_pack_start ( GTK_BOX ( vbox ), compte -> hbox3, FALSE, FALSE, 0 );
