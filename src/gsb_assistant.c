@@ -112,7 +112,7 @@ GtkWidget * gsb_assistant_new ( gchar * title, gchar * explanation,
     g_signal_connect ( notebook, "switch-page",
 		       G_CALLBACK ( gsb_assistant_change_page ), assistant );
 
-    g_object_set_data ( assistant, "next0", 1 );
+    gsb_assistant_set_next ( assistant, 0, 1 );
     g_object_set_data ( assistant, "notebook", notebook );
     g_object_set_data ( assistant, "title", title );
 
@@ -127,10 +127,10 @@ void gsb_assistant_add_page ( GtkWidget * assistant, GtkWidget * widget, gint po
     GtkWidget * notebook;
 
     notebook = g_object_get_data ( assistant, "notebook" );
-    gtk_notebook_append_page ( notebook, widget, gtk_label_new("") );
+    gtk_notebook_insert_page ( notebook, widget, gtk_label_new(""), position );
 
-    g_object_set_data ( assistant, g_strdup_printf ( "prev%d", position ), prev );
-    g_object_set_data ( assistant, g_strdup_printf ( "next%d", position ), next );
+    gsb_assistant_set_prev ( assistant, position, prev );
+    gsb_assistant_set_next ( assistant, position, next );
     g_object_set_data ( assistant, g_strdup_printf ( "enter%d", position ), enter_callback );
 
     gtk_widget_show_all ( widget );
@@ -232,6 +232,38 @@ gboolean gsb_assistant_change_page ( GtkNotebook * notebook, GtkNotebookPage * n
     }
 
     return FALSE;
+}
+
+
+
+/**
+ *
+ *
+ *
+ */
+void gsb_assistant_set_prev ( GtkWidget * assistant, gint page, gint prev )
+{
+    gchar * string;
+
+    string = g_strdup_printf ( "prev%d", page );
+    g_object_set_data ( assistant, string, prev );
+    free ( string );
+}
+
+
+
+/**
+ *
+ *
+ *
+ */
+void gsb_assistant_set_next ( GtkWidget * assistant, gint page, gint next )
+{
+    gchar * string;
+
+    string = g_strdup_printf ( "next%d", page );
+    g_object_set_data ( assistant, string, next );
+    free ( string );
 }
 
 
