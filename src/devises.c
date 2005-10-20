@@ -142,7 +142,6 @@ extern GtkWidget *bouton_devise_categ_etat;
 extern GtkWidget *bouton_devise_ib_etat;
 extern GtkWidget *bouton_devise_montant_etat;
 extern GtkWidget *bouton_devise_tiers_etat;
-extern struct struct_compte_importation * compte;
 extern GtkWidget *detail_devise_compte;
 extern GtkWidget *hbox_boutons_modif;
 extern GSList *liste_struct_echeances;
@@ -1441,7 +1440,7 @@ gboolean changement_nom_entree_devise ( GtkEditable *editable, gchar * text,
     if ( !selection || ! gtk_tree_selection_get_selected (selection, &tree_model, &iter))
 	return(FALSE);
 
-    devise -> nom_devise = g_strdup ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree_nom_devise_parametres ))));
+    devise -> nom_devise = g_strstrip ( g_strdup ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree_nom_devise_parametres ))));
 
     gtk_tree_store_set ( GTK_TREE_STORE ( tree_model ), &iter,
 			 CURRENCY_NAME_COLUMN, devise -> nom_devise,
@@ -1466,7 +1465,7 @@ gboolean changement_code_entree_devise ( GtkEditable *editable, gchar * text,
     if ( !selection || ! gtk_tree_selection_get_selected (selection, &tree_model, &iter))
 	return(FALSE);
 
-    devise -> code_devise = g_strdup ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree_code_devise_parametres ))));
+    devise -> code_devise = g_strstrip ( g_strdup ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree_code_devise_parametres ))));
 
     gtk_tree_store_set ( GTK_TREE_STORE ( tree_model ), &iter,
 			 CURRENCY_NICKNAME_COLUMN, devise -> code_devise,
@@ -1491,7 +1490,7 @@ gboolean changement_iso_code_entree_devise ( GtkEditable *editable, gchar * text
     if ( !selection || ! gtk_tree_selection_get_selected (selection, &tree_model, &iter))
 	return(FALSE);
 
-    devise -> code_iso4217_devise = g_strdup ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree_iso_code_devise_parametres ))));
+    devise -> code_iso4217_devise = g_strstrip ( g_strdup ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree_iso_code_devise_parametres ))));
 
 
     gtk_tree_store_set ( GTK_TREE_STORE ( tree_model ), &iter,
@@ -1549,7 +1548,7 @@ void update_exchange_rate_cache ( struct struct_devise * currency1,
 {
     struct cached_exchange_rate * tmp;
 
-    tmp = (struct cached_exchange_rate *) malloc(sizeof(struct cached_exchange_rate));
+    tmp = (struct cached_exchange_rate *) g_malloc(sizeof(struct cached_exchange_rate));
 
     tmp -> currency1 = currency1;
     tmp -> currency2 = currency2;
@@ -1571,7 +1570,7 @@ struct struct_devise *create_currency ( gchar * nom_devise, gchar * code_devise,
 {
   struct struct_devise * devise;
   
-  devise = malloc ( sizeof ( struct struct_devise ));
+  devise = g_malloc ( sizeof ( struct struct_devise ));
   devise -> nom_devise = nom_devise;
   devise -> code_devise = code_devise;
   devise -> code_iso4217_devise = code_iso4217_devise;
