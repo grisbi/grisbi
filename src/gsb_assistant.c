@@ -84,11 +84,11 @@ GtkWidget * gsb_assistant_new ( gchar * title, gchar * explanation,
     label = gtk_label_new ( "" );
     gtk_label_set_markup ( label, g_strconcat ( "<b><span size=\"x-large\">",
 						title, "</span></b>", NULL ) );
-    gtk_box_pack_start ( hbox, label, TRUE, TRUE, 0 );
+    gtk_box_pack_start ( GTK_BOX(hbox), label, TRUE, TRUE, 0 );
 
     image = gtk_image_new_from_file ( g_strconcat ( PIXMAPS_DIR, C_DIRECTORY_SEPARATOR,
 						    image_filename, NULL) );
-    gtk_box_pack_start ( hbox, image, FALSE, FALSE, 0 );
+    gtk_box_pack_start ( GTK_BOX(hbox), image, FALSE, FALSE, 0 );
 
     gtk_box_pack_start ( GTK_DIALOG(assistant) -> vbox, eb, 
 			 FALSE, FALSE, 0 );
@@ -102,10 +102,10 @@ GtkWidget * gsb_assistant_new ( gchar * title, gchar * explanation,
     gtk_text_view_set_wrap_mode (GTK_TEXT_VIEW (view), GTK_WRAP_WORD);
     buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (view));
     gtk_text_buffer_set_text (buffer, g_strconcat ( "\n", explanation, "\n", NULL ), -1);
-    gtk_text_view_set_editable ( view, FALSE );
-    gtk_text_view_set_cursor_visible ( view, FALSE );
-    gtk_text_view_set_left_margin ( view, 12 );
-    gtk_text_view_set_right_margin ( view, 12 );
+    gtk_text_view_set_editable ( GTK_TEXT_VIEW(view), FALSE );
+    gtk_text_view_set_cursor_visible ( GTK_TEXT_VIEW(view), FALSE );
+    gtk_text_view_set_left_margin ( GTK_TEXT_VIEW(view), 12 );
+    gtk_text_view_set_right_margin ( GTK_TEXT_VIEW(view), 12 );
 
     gtk_notebook_append_page ( notebook, view, gtk_label_new("") );
 
