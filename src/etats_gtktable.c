@@ -32,6 +32,7 @@
 #include "operations_liste.h"
 #include "utils.h"
 #include "structures.h"
+#include "import.h"
 #include "etats_config.h"
 /*END_INCLUDE*/
 
@@ -69,7 +70,6 @@ struct struct_etat_affichage gtktable_affichage = {
 
 
 /*START_EXTERN*/
-extern struct struct_compte_importation * compte;
 extern gint nb_colonnes;
 extern GtkWidget *scrolled_window_etat;
 /*END_EXTERN*/

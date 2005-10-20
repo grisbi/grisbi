@@ -106,7 +106,6 @@ GtkWidget *formulaire;
 /*START_EXTERN*/
 extern     gchar * buffer ;
 extern gint col_depart_drag;
-extern struct struct_compte_importation * compte;
 extern gint ligne_depart_drag;
 extern gint nb_colonnes;
 extern GtkWidget *preview;

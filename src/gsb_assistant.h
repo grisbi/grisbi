@@ -11,6 +11,8 @@ void gsb_assistant_add_page ( GtkWidget * assistant, GtkWidget * widget, gint po
 GtkWidget * gsb_assistant_new ( gchar * title, gchar * explanation,
 				gchar * image_filename );
 GtkResponseType gsb_assistant_run ( GtkWidget * assistant );
+void gsb_assistant_set_next ( GtkWidget * assistant, gint page, gint next );
+void gsb_assistant_set_prev ( GtkWidget * assistant, gint page, gint prev );
 /* END_DECLARATION */
 
 #endif

@@ -3,7 +3,7 @@
 
 /* START_INCLUDE_H */
 #include "import_csv.h"
-#include "structures.h"
+#include "import.h"
 /* END_INCLUDE_H */
 
 

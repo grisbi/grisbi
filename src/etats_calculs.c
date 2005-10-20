@@ -81,7 +81,6 @@ extern gint ancienne_ib_etat;
 extern gint ancienne_sous_categ_etat;
 extern gint ancienne_sous_ib_etat;
 extern gint changement_de_groupe_etat;
-extern struct struct_compte_importation * compte;
 extern GDate *date_debut_periode;
 extern gint debut_affichage_etat;
 extern struct struct_devise *devise_categ_etat;

@@ -45,7 +45,6 @@ static gint recherche_exercice_par_nom ( struct struct_exercice *exercice,
 
 
 /*START_EXTERN*/
-extern struct struct_compte_importation * compte;
 extern GtkWidget *nom_exercice;
 /*END_EXTERN*/
 

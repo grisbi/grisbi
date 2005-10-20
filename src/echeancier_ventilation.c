@@ -103,7 +103,6 @@ gint enregistre_ope_au_retour_echeances;            /* à 1 si au click du bouto
 
 /*START_EXTERN*/
 extern GtkWidget *barre_outils;
-extern struct struct_compte_importation * compte;
 extern GtkWidget *formulaire;
 extern GtkWidget *formulaire_echeancier;
 extern GtkWidget *formulaire_echeancier;

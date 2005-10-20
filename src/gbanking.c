@@ -36,7 +36,6 @@
 #include "import.h"
 #include "dialog.h"
 #include "include.h"
-#include "structures.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -44,7 +43,6 @@
 
 
 /*START_EXTERN*/
-extern struct struct_compte_importation * compte;
 extern AB_BANKING *gbanking;
 extern GSList *liste_comptes_importes;
 /*END_EXTERN*/

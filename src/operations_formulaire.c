@@ -115,7 +115,6 @@ GtkWidget *tab_widget_formulaire[4][6];
 
 /*START_EXTERN*/
 extern gboolean block_menu_cb ;
-extern struct struct_compte_importation * compte;
 extern GdkColor couleur_grise;
 extern struct struct_devise *devise_compte;
 extern GtkWidget *formulaire;

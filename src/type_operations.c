@@ -81,7 +81,6 @@ GtkWidget *vbox_fleches_tri;
 GtkWidget * details_paddingbox;
 
 /*START_EXTERN*/
-extern struct struct_compte_importation * compte;
 extern GtkWidget *fenetre_preferences;
 extern GtkWidget *formulaire;
 extern GtkWidget *label_saisie_modif;
@@ -934,7 +933,7 @@ void ajouter_type_operation ( void )
 			 PAYMENT_METHODS_TYPE_COLUMN, &no_compte,
 			 -1);
 
-    type_ope = malloc ( sizeof ( struct struct_type_ope ));
+    type_ope = g_malloc ( sizeof ( struct struct_type_ope ));
 
     if ( gsb_data_account_get_method_payment_list (no_compte) )
 	type_ope -> no_type = ((struct struct_type_ope *)

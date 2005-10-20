@@ -40,6 +40,7 @@
 #include "utils_str.h"
 #include "structures.h"
 #include "metatree.h"
+#include "import.h"
 #include "include.h"
 /*END_INCLUDE*/
 

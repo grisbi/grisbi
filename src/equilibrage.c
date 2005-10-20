@@ -44,6 +44,7 @@
 #include "utils_types.h"
 #include "structures.h"
 #include "equilibrage.h"
+#include "import.h"
 #include "include.h"
 /*END_INCLUDE*/
 
@@ -103,7 +104,6 @@ gint ancien_retient_affichage_par_compte;
 
 
 /*START_EXTERN*/
-extern struct struct_compte_importation * compte;
 extern GtkWidget *label_last_statement;
 extern gint mise_a_jour_liste_comptes_accueil;
 extern GtkTreeStore *model;
@@ -346,7 +346,7 @@ void equilibrage ( void )
 		{
 		    gint i;
 
-		    rempl_zero = malloc ((longueur-nouvelle_longueur+1)*sizeof (gchar));
+		    rempl_zero = g_malloc ((longueur-nouvelle_longueur+1)*sizeof (gchar));
 
 		    for ( i=0 ; i<longueur-nouvelle_longueur ; i++ )
 			rempl_zero[i]=48;
@@ -725,7 +725,7 @@ gboolean fin_equilibrage ( GtkWidget *bouton_ok, gpointer data )
 	{
 	    /* le rapprochement n'existe pas */
 
-	    rapprochement = malloc ( sizeof ( struct struct_no_rapprochement ));
+	    rapprochement = g_malloc ( sizeof ( struct struct_no_rapprochement ));
 	    rapprochement -> no_rapprochement = g_slist_length ( liste_struct_rapprochements ) + 1;
 	    rapprochement -> nom_rapprochement = g_strdup ( rap_txt );
 

@@ -43,7 +43,6 @@ static int myisolat1ToUTF8(unsigned char* out, int *outlen,
 
 /*START_EXTERN*/
 extern     gchar * buffer ;
-extern struct struct_compte_importation * compte;
 extern FILE * out;
 /*END_EXTERN*/
 

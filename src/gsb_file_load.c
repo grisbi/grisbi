@@ -107,7 +107,6 @@ extern gint affichage_echeances_perso_nb_libre;
 extern     gchar * buffer ;
 extern gchar *chemin_logo;
 extern GtkWidget *code_banque;
-extern struct struct_compte_importation * compte;
 extern GtkWidget *email_banque;
 extern GtkWidget *email_correspondant;
 extern GtkWidget *fax_correspondant;

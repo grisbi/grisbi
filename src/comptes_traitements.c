@@ -63,7 +63,6 @@
 /*START_EXTERN*/
 extern GtkWidget *account_page;
 extern GtkWidget *bouton_supprimer_compte;
-extern struct struct_compte_importation * compte;
 extern gint compte_courant_onglet;
 extern struct operation_echeance *echeance_selectionnnee;
 extern GSList *liste_struct_echeances;
@@ -420,7 +419,7 @@ void creation_types_par_defaut ( gint no_compte,
 
 	struct struct_type_ope *type_ope;
 
-	type_ope = malloc ( sizeof ( struct struct_type_ope ));
+	type_ope = g_malloc ( sizeof ( struct struct_type_ope ));
 	type_ope -> no_type = 1;
 	type_ope -> nom_type = g_strdup ( _("Transfer") );
 	type_ope -> signe_type = 0;
@@ -433,7 +432,7 @@ void creation_types_par_defaut ( gint no_compte,
 					      g_slist_append ( gsb_data_account_get_method_payment_list (no_compte),
 							       type_ope ) );
 
-	type_ope = malloc ( sizeof ( struct struct_type_ope ));
+	type_ope = g_malloc ( sizeof ( struct struct_type_ope ));
 	type_ope -> no_type = 2;
 	type_ope -> nom_type = g_strdup ( _("Deposit") );
 	type_ope -> signe_type = 2;
@@ -446,7 +445,7 @@ void creation_types_par_defaut ( gint no_compte,
 					      g_slist_append ( gsb_data_account_get_method_payment_list (no_compte),
 							       type_ope ) );
 
-	type_ope = malloc ( sizeof ( struct struct_type_ope ));
+	type_ope = g_malloc ( sizeof ( struct struct_type_ope ));
 	type_ope -> no_type = 3;
 	type_ope -> nom_type = g_strdup ( _("Credit card") );
 	type_ope -> signe_type = 1;
@@ -459,7 +458,7 @@ void creation_types_par_defaut ( gint no_compte,
 					      g_slist_append ( gsb_data_account_get_method_payment_list (no_compte),
 							       type_ope ) );
 
-	type_ope = malloc ( sizeof ( struct struct_type_ope ));
+	type_ope = g_malloc ( sizeof ( struct struct_type_ope ));
 	type_ope -> no_type = 4;
 	type_ope -> nom_type = g_strdup ( _("Direct debit") );
 	type_ope -> signe_type = 1;
@@ -472,7 +471,7 @@ void creation_types_par_defaut ( gint no_compte,
 					      g_slist_append ( gsb_data_account_get_method_payment_list (no_compte),
 							       type_ope ) );
 
-	type_ope = malloc ( sizeof ( struct struct_type_ope ));
+	type_ope = g_malloc ( sizeof ( struct struct_type_ope ));
 	type_ope -> no_type = 5;
 	type_ope -> nom_type = g_strdup ( _("Cheque") );
 	type_ope -> signe_type = 1;
@@ -516,7 +515,7 @@ void creation_types_par_defaut ( gint no_compte,
 
 	    struct struct_type_ope *type_ope;
 
-	    type_ope = malloc ( sizeof ( struct struct_type_ope ));
+	    type_ope = g_malloc ( sizeof ( struct struct_type_ope ));
 	    type_ope -> no_type = 1;
 	    type_ope -> nom_type = g_strdup ( _("Transfer") );
 	    type_ope -> signe_type = 0;

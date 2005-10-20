@@ -74,7 +74,6 @@ gchar *nom_fichier_backup;
 
 
 /*START_EXTERN*/
-extern struct struct_compte_importation * compte;
 extern gchar *dernier_chemin_de_travail;
 extern GSList *liste_struct_echeances;
 extern GSList *liste_struct_etats;

@@ -80,7 +80,6 @@ extern gint affichage_echeances;
 extern gint affichage_echeances_perso_nb_libre;
 extern gchar *chemin_logo;
 extern GtkWidget *code_banque;
-extern struct struct_compte_importation * compte;
 extern GtkWidget *email_banque;
 extern GtkWidget *email_correspondant;
 extern struct struct_etat *etat_courant;
@@ -186,7 +185,7 @@ gboolean gsb_file_save_save_file ( gchar *filename,
 	+ report_part * g_slist_length ( liste_struct_etats );
 
     iterator = 0;
-    file_content = malloc ( length_calculated );
+    file_content = g_malloc ( length_calculated );
 
     /* begin the file whit xml markup */
     
