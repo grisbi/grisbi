@@ -56,11 +56,15 @@ static gint bloque_echap_choix_devise ( GtkWidget *dialog,
 				 gpointer null );
 static struct cached_exchange_rate *cached_exchange_rate ( struct struct_devise * currency1, 
 						    struct struct_devise * currency2 );
-static gboolean changement_code_entree_devise ( void );
-static gboolean changement_iso_code_entree_devise ( void );
-static gboolean changement_nom_entree_devise ( void );
+static gboolean changement_code_entree_devise ( GtkEditable *editable, gchar * text,
+					 gint length, gpointer data );
+static gboolean changement_iso_code_entree_devise ( GtkEditable *editable, gchar * text,
+					     gint length, gpointer data );
+static gboolean changement_nom_entree_devise ( GtkEditable *editable, gchar * text,
+					gint length, gpointer data );
 static struct struct_devise *create_currency ( gchar * nom_devise, gchar * code_devise, 
 					gchar * code_iso4217_devise );
+static struct struct_devise * currency_get_selected ( GtkTreeView * view );
 static gboolean deselection_ligne_devise ( GtkWidget *liste,
 				    gint ligne,
 				    gint colonne,
@@ -121,7 +125,6 @@ GtkWidget *option_menu_devise_1;
 GtkWidget *option_menu_devise_2;
 
 
-GtkWidget *clist_devises_parametres;
 GtkWidget *bouton_supprimer_devise;
 GtkWidget *entree_nom_devise_parametres;
 GtkWidget *entree_iso_code_devise_parametres;
@@ -199,6 +202,8 @@ gboolean select_currency_in_iso_list ( GtkTreeSelection *selection, GtkTreeModel
 
     return ( FALSE );
 } 
+
+
 
 /**
  * Update various widgets related to currencies
@@ -381,6 +386,7 @@ void fill_currency_list ( GtkTreeView * view, gboolean include_obsolete )
 				CURRENCY_NAME_COLUMN, _(currency -> currency_name),
 				CURRENCY_ISO_CODE_COLUMN, _(currency -> currency_code),
 				CURRENCY_NICKNAME_COLUMN, _(currency -> currency_nickname),
+				CURRENCY_POINTER_COLUMN, currency,
 				CURRENCY_HAS_FLAG, TRUE,
 				-1);
 	}
@@ -424,7 +430,7 @@ GtkWidget * new_currency_tree ()
     model = gtk_tree_store_new (NUM_CURRENCIES_COLUMNS,
 				GDK_TYPE_PIXBUF, G_TYPE_BOOLEAN,
 				G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING,
-				G_TYPE_STRING );
+				G_TYPE_STRING, G_TYPE_POINTER );
 
     /* Create tree view */
     treeview = gtk_tree_view_new_with_model (GTK_TREE_MODEL(model));
@@ -1145,12 +1151,6 @@ GtkWidget *onglet_devises ( void )
     /* Input form for currencies */
     paddingbox = new_paddingbox_with_title (vbox_pref, FALSE, _("Currency properties"));
 
-    /* Selecting a currency activates this form */
-    gtk_signal_connect ( GTK_OBJECT (clist_devises_parametres), "select-row",
-			 GTK_SIGNAL_FUNC ( selection_ligne_devise ), paddingbox );
-    gtk_signal_connect ( GTK_OBJECT (clist_devises_parametres), "unselect-row",
-			 GTK_SIGNAL_FUNC ( deselection_ligne_devise ), paddingbox );
-
     /* Create table */
     table = gtk_table_new ( 2, 2, FALSE );
     gtk_table_set_col_spacings ( GTK_TABLE ( table ), 5 );
@@ -1166,8 +1166,8 @@ GtkWidget *onglet_devises ( void )
     entree_nom_devise_parametres = new_text_entry ( NULL, (GCallback) changement_nom_entree_devise, NULL );
     gtk_table_attach ( GTK_TABLE ( table ), entree_nom_devise_parametres, 1, 2, 0, 1, 
 		       GTK_EXPAND | GTK_FILL, 0, 0, 0 );
-    g_object_set_data ( G_OBJECT(currency_list_model), "entry_name", 
-			entree_nom_devise_parametres  );
+    g_object_set_data ( G_OBJECT(currency_list_model), "entry_name", entree_nom_devise_parametres );
+    g_object_set_data ( G_OBJECT(entree_nom_devise_parametres), "view", currency_list_view );
 
     /* Create code entry */
     label = gtk_label_new (COLON(_("Sign")));
@@ -1178,8 +1178,8 @@ GtkWidget *onglet_devises ( void )
     entree_code_devise_parametres = new_text_entry ( NULL, (GCallback) changement_code_entree_devise, NULL );
     gtk_table_attach ( GTK_TABLE ( table ), entree_code_devise_parametres, 1, 2, 1, 2,
 		       GTK_EXPAND | GTK_FILL, 0, 0, 0 );
-    g_object_set_data ( G_OBJECT(currency_list_model), "entry_code", 
-			entree_code_devise_parametres  );
+    g_object_set_data ( G_OBJECT(currency_list_model), "entry_code", entree_code_devise_parametres );
+    g_object_set_data ( G_OBJECT(entree_code_devise_parametres), "view", currency_list_view );
 
     /* Create code entry */
     label = gtk_label_new ( COLON(_("ISO code")) );
@@ -1187,11 +1187,12 @@ GtkWidget *onglet_devises ( void )
     gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
     gtk_table_attach ( GTK_TABLE ( table ), label, 0, 1, 2, 3,
 		       GTK_SHRINK | GTK_FILL, 0, 0, 0 );
-    entree_iso_code_devise_parametres = new_text_entry ( NULL, (GCallback) changement_iso_code_entree_devise, NULL );
+    entree_iso_code_devise_parametres = new_text_entry ( NULL, (GCallback) changement_iso_code_entree_devise, 
+							 NULL );
     gtk_table_attach ( GTK_TABLE ( table ), entree_iso_code_devise_parametres, 1, 2, 2, 3,
 		       GTK_EXPAND | GTK_FILL, 0, 0, 0 );
-    g_object_set_data ( G_OBJECT(currency_list_model), "entry_iso_code", 
-			entree_iso_code_devise_parametres  );
+    g_object_set_data ( G_OBJECT(currency_list_model), "entry_iso_code", entree_iso_code_devise_parametres );
+    g_object_set_data ( G_OBJECT(entree_iso_code_devise_parametres), "view", currency_list_view );
 
     return ( vbox_pref );
 }
@@ -1221,6 +1222,7 @@ void append_currency_to_currency_list ( GtkTreeStore * model, struct struct_devi
 			 CURRENCY_NAME_COLUMN, devise -> nom_devise,
 			 CURRENCY_ISO_CODE_COLUMN, devise -> code_iso4217_devise,
 			 CURRENCY_NICKNAME_COLUMN, devise -> code_devise,
+			 CURRENCY_POINTER_COLUMN, devise,
 			 CURRENCY_HAS_FLAG, TRUE,
 			 -1);
 }
@@ -1394,63 +1396,105 @@ gboolean deselection_ligne_devise ( GtkWidget *liste,
 
     return FALSE;
 }
-/* **************************************************************************************************************************** */
 
 
 
-/* **************************************************************************************************************************** */
-gboolean changement_nom_entree_devise ( void )
+/**
+ *
+ *
+ *
+ */
+struct struct_devise * currency_get_selected ( GtkTreeView * view )
+{
+    GtkTreeSelection * selection = gtk_tree_view_get_selection ( view );
+    GtkTreeIter iter;
+    GtkTreeModel * tree_model;
+    struct struct_devise * currency; 
+
+    if ( !selection || ! gtk_tree_selection_get_selected (selection, &tree_model, &iter))
+	return(FALSE);
+
+    gtk_tree_model_get ( tree_model, &iter, 
+			 CURRENCY_POINTER_COLUMN, &currency,
+			 -1 );
+
+    return currency;
+}
+
+
+
+/**
+ *
+ *
+ */
+gboolean changement_nom_entree_devise ( GtkEditable *editable, gchar * text,
+					gint length, gpointer data )
 {
     struct struct_devise *devise;
+    GtkTreeSelection * selection = gtk_tree_view_get_selection ( g_object_get_data ( editable, "view" ) );
+    GtkTreeStore * tree_model;
+    GtkTreeSelection * selection;
+    GtkTreeIter iter;
 
-    devise = gtk_clist_get_row_data ( GTK_CLIST ( clist_devises_parametres ),
-				      ligne_selection_devise );
+    devise = currency_get_selected ( g_object_get_data ( editable, "view" ) );
+
+    if ( !selection || ! gtk_tree_selection_get_selected (selection, &tree_model, &iter))
+	return(FALSE);
 
     devise -> nom_devise = g_strdup ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree_nom_devise_parametres ))));
 
-    gtk_clist_set_text ( GTK_CLIST ( clist_devises_parametres ),
-			 ligne_selection_devise,
-			 0,
-			 devise -> nom_devise );
+    gtk_tree_store_set ( GTK_TREE_STORE ( tree_model ), &iter,
+			 CURRENCY_NAME_COLUMN, devise -> nom_devise,
+			 -1);
 
     return FALSE;
 }
-/* **************************************************************************************************************************** */
 
 
-/* **************************************************************************************************************************** */
-gboolean changement_code_entree_devise ( void )
+
+gboolean changement_code_entree_devise ( GtkEditable *editable, gchar * text,
+					 gint length, gpointer data )
 {
     struct struct_devise *devise;
+    GtkTreeStore * tree_model;
+    GtkTreeSelection * selection;
+    GtkTreeIter iter;
 
-    devise = gtk_clist_get_row_data ( GTK_CLIST ( clist_devises_parametres ),
-				      ligne_selection_devise );
+    devise = currency_get_selected ( g_object_get_data ( editable, "view" ) );
+
+    if ( !selection || ! gtk_tree_selection_get_selected (selection, &tree_model, &iter))
+	return(FALSE);
 
     devise -> code_devise = g_strdup ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree_code_devise_parametres ))));
 
-    gtk_clist_set_text ( GTK_CLIST ( clist_devises_parametres ),
-			 ligne_selection_devise,
-			 2,
-			 devise -> code_devise );
+    gtk_tree_store_set ( GTK_TREE_STORE ( tree_model ), &iter,
+			 CURRENCY_NICKNAME_COLUMN, devise -> code_devise,
+			 -1);
 
     return FALSE;
 }
-/* **************************************************************************************************************************** */
 
-/* **************************************************************************************************************************** */
-gboolean changement_iso_code_entree_devise ( void )
+
+
+gboolean changement_iso_code_entree_devise ( GtkEditable *editable, gchar * text,
+					     gint length, gpointer data )
 {
     struct struct_devise *devise;
+    GtkTreeStore * tree_model;
+    GtkTreeSelection * selection;
+    GtkTreeIter iter;
 
-    devise = gtk_clist_get_row_data ( GTK_CLIST ( clist_devises_parametres ),
-				      ligne_selection_devise );
+    devise = currency_get_selected ( g_object_get_data ( editable, "view" ) );
+
+    if ( !selection || ! gtk_tree_selection_get_selected (selection, &tree_model, &iter))
+	return(FALSE);
 
     devise -> code_iso4217_devise = g_strdup ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree_iso_code_devise_parametres ))));
 
-    gtk_clist_set_text ( GTK_CLIST ( clist_devises_parametres ),
-			 ligne_selection_devise,
-			 1,
-			 devise -> code_iso4217_devise );
+
+    gtk_tree_store_set ( GTK_TREE_STORE ( tree_model ), &iter,
+			 CURRENCY_ISO_CODE_COLUMN, devise -> code_iso4217_devise,
+			 -1);
 
     return FALSE;
 }
@@ -1548,6 +1592,12 @@ struct struct_devise *create_currency ( gchar * nom_devise, gchar * code_devise,
 }
 
 
+
+/**
+ *
+ *
+ *
+ */
 struct struct_devise * find_currency_from_iso4217_list ( gchar * currency_name )
 {
   struct iso_4217_currency * currency = iso_4217_currencies;
@@ -1563,7 +1613,7 @@ struct struct_devise * find_currency_from_iso4217_list ( gchar * currency_name )
 
   return NULL;
 }
-/* ***************************************************************************************** */
+
 
 
 /** get and return the number of the currency in the option_menu given in param
