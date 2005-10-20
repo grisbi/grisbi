@@ -109,8 +109,8 @@ GtkWidget * gsb_assistant_new ( gchar * title, gchar * explanation,
 
     gtk_notebook_append_page ( notebook, view, gtk_label_new("") );
 
-    g_signal_connect ( notebook, "switch-page",
-		       G_CALLBACK ( gsb_assistant_change_page ), assistant );
+    g_signal_connect_after ( notebook, "switch-page",
+			     G_CALLBACK ( gsb_assistant_change_page ), assistant );
 
     gsb_assistant_set_next ( assistant, 0, 1 );
     g_object_set_data ( assistant, "notebook", notebook );
