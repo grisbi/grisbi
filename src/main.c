@@ -161,22 +161,22 @@ int main (int argc, char *argv[])
     win32_make_sure_the_gtk2_dlls_path_is_in_PATH(); 
 #endif
 
-	bindtextdomain ("grisbi-tips", LOCALEDIR);
-	bind_textdomain_codeset ("grisbi-tips", "UTF-8");
+    bindtextdomain ("grisbi-tips", LOCALEDIR);
+    bind_textdomain_codeset ("grisbi-tips", "UTF-8");
 
-	bindtextdomain (PACKAGE, LOCALEDIR);
-	bind_textdomain_codeset (PACKAGE, "UTF-8");
-	textdomain (PACKAGE);
+    bindtextdomain ("grisbi", LOCALEDIR);
+    bind_textdomain_codeset ("grisbi", "UTF-8");
+    textdomain ("grisbi");
 
-	if ( setlocale ( LC_MONETARY, getenv ( "LC_MONETARY" ) ) == NULL )
-	{
-	    setlocale ( LC_MONETARY, getenv ( "LANG" ) );
-	}
+    if ( setlocale ( LC_MONETARY, getenv ( "LC_MONETARY" ) ) == NULL )
+    {
+	setlocale ( LC_MONETARY, getenv ( "LANG" ) );
+    }
 
-	/* FIXME : tous les arguments du gnome_init... */
-	/* 	gnome_init_with_popt_table ("Grisbi", VERSION, argc, argv, options, 0, &ctx); */
+    /* FIXME : tous les arguments du gnome_init... */
+    /* 	gnome_init_with_popt_table ("Grisbi", VERSION, argc, argv, options, 0, &ctx); */
 
-	gtk_init(&argc, &argv);
+    gtk_init(&argc, &argv);
 
 	/* on commence par détourner le signal SIGSEGV */
 #ifndef _WIN32
