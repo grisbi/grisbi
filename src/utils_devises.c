@@ -95,6 +95,9 @@ struct struct_devise *devise_par_code_iso ( gchar *code_iso )
 {
     GSList *liste_tmp;
 
+    if ( ! code_iso )
+	return NULL;
+
     liste_tmp = g_slist_find_custom ( liste_struct_devises,
 				      g_strstrip ( code_iso ),
 				      (GCompareFunc) recherche_devise_par_code_iso );
