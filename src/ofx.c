@@ -59,7 +59,6 @@ gint  message_erreur_operation;
 
 
 /*START_EXTERN*/
-extern struct struct_compte_importation * compte;
 extern GSList *liste_comptes_importes;
 extern GSList *liste_comptes_importes_error;
 /*END_EXTERN*/
@@ -116,7 +115,7 @@ gboolean recuperation_donnees_ofx ( gchar *nom_fichier )
 	struct struct_compte_importation * account;
 	account = calloc ( 1, sizeof ( struct struct_compte_importation ));
 	account -> nom_de_compte = _("Invalid OFX file");
-	compte -> filename = nom_fichier;
+	account -> filename = nom_fichier;
 	account -> origine = TYPE_OFX;
 	liste_comptes_importes_error = g_slist_append ( liste_comptes_importes_error,
 							account );
