@@ -46,7 +46,14 @@ extern GtkWidget *window;
 
 
 /**
- *
+ * Create and initialize a new grisbi assistant.  It is basically
+ * composed of a GtkDialog with a notebook that is switched from page
+ * to page when user click on dialog buttons.
+ * 
+ * \param title			Title of the assistant.
+ * \param explanation		Short text to display in the first
+ *				page of the assistant.
+ * \param image_filename	Icon to display in the title.
  *
  */
 GtkWidget * gsb_assistant_new ( gchar * title, gchar * explanation,
@@ -121,6 +128,19 @@ GtkWidget * gsb_assistant_new ( gchar * title, gchar * explanation,
 
 
 
+/**
+ * Add a page to the Grisbi assistant.
+ * 
+ * \param assistant		Grisbi assistant to add a page to.
+ * \param widget		Widget containing the new page to insert.
+ * \param position		Number of the page to insert.  Page 0 is
+ *				reserved to the explanation label.
+ * \param prev			Page to display when the "Previous" button is 
+ *				clicked.
+ * \param next			Page to display when the "Next" button is clicked.
+ * \param enter_callback	A callback to connect to the "switch-page" callback
+ *				of the Grisbi assistant notebook.
+ */
 void gsb_assistant_add_page ( GtkWidget * assistant, GtkWidget * widget, gint position,
 			      gint prev, gint next, GCallback enter_callback )
 {
@@ -138,6 +158,16 @@ void gsb_assistant_add_page ( GtkWidget * assistant, GtkWidget * widget, gint po
 
 
 
+/**
+ * Run the Grisbi assistant.  This will pop up a new dialog.
+ * 
+ * \param assistant	Grisbi assistant to run.
+ *
+ * \return		Outcome of the Grisbi assistant.  Can be
+ *			GTK_RESPONSE_APPLY for success and
+ *			GTK_RESPONSE_CANCEL for failure 
+ *			(user canceled or closed dialog).
+ */
 GtkResponseType gsb_assistant_run ( GtkWidget * assistant )
 {
     gint state = 0;
@@ -168,9 +198,6 @@ GtkResponseType gsb_assistant_run ( GtkWidget * assistant )
 	switch ( result )
 	{
 	    case GTK_RESPONSE_YES:
-		printf ("??> NTH pages %d\n", gtk_notebook_get_n_pages ( g_object_get_data ( assistant, "notebook" ) ) );
-
-
 		gtk_widget_set_sensitive ( button_prev, TRUE );
 		if ( gtk_notebook_get_n_pages ( notebook ) == ( next + 1 ) )
 		{
@@ -214,8 +241,16 @@ GtkResponseType gsb_assistant_run ( GtkWidget * assistant )
 
 
 /**
- * TODO
- *
+ * Call a user-defined optional callback when user change page.  Note
+ * that it is called AFTER stock callbacks for various reasons.
+ * 
+ * \param notebook	This Grisbi assistant notebook.
+ * \param npage		Not used.
+ * \param page		Page selected.
+ * \param assistant	Grisbi assistant containing the notebook.
+ * 
+ * \return		Result from user-defined callback or FALSE if
+ *			no callback defined.
  */
 gboolean gsb_assistant_change_page ( GtkNotebook * notebook, GtkNotebookPage * npage, 
 				     gint page, gpointer assistant )
@@ -237,9 +272,12 @@ gboolean gsb_assistant_change_page ( GtkNotebook * notebook, GtkNotebookPage * n
 
 
 /**
+ * Change the previous page associated to a notebook page.  This can
+ * be used to insert a page between two others.
  *
- *
- *
+ * \param assistant	A pointer to a Grisbi assistant.
+ * \param page		Page to change previous link.
+ * \param prev		Number of the new previous page.
  */
 void gsb_assistant_set_prev ( GtkWidget * assistant, gint page, gint prev )
 {
@@ -253,9 +291,12 @@ void gsb_assistant_set_prev ( GtkWidget * assistant, gint page, gint prev )
 
 
 /**
+ * Change the next page associated to a notebook page.  This can
+ * be used to insert a page between two others.
  *
- *
- *
+ * \param assistant	A pointer to a Grisbi assistant.
+ * \param page		Page to change next link.
+ * \param next		Number of the new next page.
  */
 void gsb_assistant_set_next ( GtkWidget * assistant, gint page, gint next )
 {
