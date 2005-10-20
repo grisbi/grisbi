@@ -93,8 +93,9 @@ static gboolean import_active_toggled ( GtkCellRendererToggle * cell, gchar *pat
 				 gpointer model );
 static GtkWidget * import_create_file_selection_page ( GtkWidget * assistant );
 static GtkWidget * import_create_final_page ( GtkWidget * assistant );
+static GtkWidget * import_create_resume_page ( GtkWidget * assistant );
 static gboolean import_enter_file_selection_page ( GtkWidget * assistant );
-static gboolean import_enter_final_page ( GtkWidget * assistant );
+static gboolean import_enter_resume_page ( GtkWidget * assistant );
 static void import_preview_maybe_sensitive_next ( GtkWidget * assistant, GtkTreeModel * model ) ;
 static gboolean import_select_file ( GtkWidget * button, GtkWidget * assistant );
 static gboolean import_switch_type ( GtkCellRendererText *cell, const gchar *path,
@@ -106,7 +107,6 @@ static gchar * type_string_representation ( enum import_type type );
 
 /*START_EXTERN*/
 extern     gchar * buffer ;
-extern struct struct_compte_importation * compte;
 extern GtkWidget *formulaire;
 extern gchar *last_date;
 extern GSList *liste_struct_devises;
@@ -141,6 +141,15 @@ enum import_filesel_columns {
     IMPORT_FILESEL_NUM_COLS,
 };
 
+/** Page numbering for the import wizard. */
+enum import_pages {
+    IMPORT_STARTUP_PAGE,
+    IMPORT_FILESEL_PAGE,
+    IMPORT_CSV_PAGE,
+    IMPORT_RESUME_PAGE,
+    IMPORT_FIRST_ACCOUNT_PAGE,
+};
+
 
 /* *******************************************************************************/
 /* fonction importer_fichier */
@@ -156,18 +165,22 @@ void importer_fichier ( void )
     virements_a_chercher = 0;
 
 
-    a = gsb_assistant_new ( "Importing a new file",
+    a = gsb_assistant_new ( "Importing transactions into Grisbi",
 			    "This assistant will help you import one or several files into Grisbi."
 			    "\n\n"
 			    "Grisbi will try to do its best to guess which format are imported, but you may have to manually set them in the list of next page.",
 			    "csv.png" );
 
-    gsb_assistant_add_page ( a, import_create_file_selection_page ( a ), 1, 0, 3, 
+    gsb_assistant_add_page ( a, import_create_file_selection_page ( a ), 
+			     IMPORT_FILESEL_PAGE, IMPORT_STARTUP_PAGE, IMPORT_RESUME_PAGE, 
 			     G_CALLBACK ( import_enter_file_selection_page ) );
-    gsb_assistant_add_page ( a, import_create_csv_preview_page ( a ), 2, 1, 3,
+    gsb_assistant_add_page ( a, import_create_csv_preview_page ( a ), 
+			     IMPORT_CSV_PAGE, IMPORT_FILESEL_PAGE, IMPORT_RESUME_PAGE,
 			     G_CALLBACK ( import_enter_csv_preview_page ) );
-    gsb_assistant_add_page ( a, import_create_final_page ( a ), 3, 1, 4, 
-			     G_CALLBACK ( import_enter_final_page ) );
+    gsb_assistant_add_page ( a, import_create_resume_page ( a ), 
+			     IMPORT_RESUME_PAGE, IMPORT_FILESEL_PAGE, 
+			     IMPORT_FIRST_ACCOUNT_PAGE, 
+			     G_CALLBACK ( import_enter_resume_page ) );
 
     if ( gsb_assistant_run ( a ) == GTK_RESPONSE_APPLY )
     {
@@ -293,8 +306,10 @@ gboolean import_switch_type ( GtkCellRendererText *cell, const gchar *path,
 		  * we add a conditional jump there. */
 		 if ( i == TYPE_CSV )
 		 {
-		     g_object_set_data ( G_OBJECT ( assistant ), "next1", 2 );
-		     g_object_set_data ( G_OBJECT ( assistant ), "prev3", 2 );
+		     gsb_assistant_set_next ( assistant, IMPORT_FILESEL_PAGE, 
+					      IMPORT_CSV_PAGE );
+		     gsb_assistant_set_prev ( assistant, IMPORT_RESUME_PAGE, 
+					      IMPORT_CSV_PAGE );
 		 }
 
 		 import_preview_maybe_sensitive_next ( assistant, model );
@@ -434,7 +449,8 @@ gboolean import_select_file ( GtkWidget * button, GtkWidget * assistant )
 	     * add a conditional jump there. */
 	    if ( type == TYPE_CSV )
 	    {
-		g_object_set_data ( G_OBJECT ( assistant ), "next1", 2 );
+		gsb_assistant_set_next ( assistant, IMPORT_FILESEL_PAGE, IMPORT_CSV_PAGE );
+		gsb_assistant_set_prev ( assistant, IMPORT_RESUME_PAGE, IMPORT_CSV_PAGE );
 	    }
 
 	    if ( type != TYPE_UNKNOWN )
@@ -465,7 +481,7 @@ gboolean import_select_file ( GtkWidget * button, GtkWidget * assistant )
  *
  *
  */
-GtkWidget * import_create_final_page ( GtkWidget * assistant )
+GtkWidget * import_create_resume_page ( GtkWidget * assistant )
 {
     GtkWidget * view;
     GtkTextBuffer * buffer;
@@ -498,7 +514,7 @@ GtkWidget * import_create_final_page ( GtkWidget * assistant )
  *
  *
  */
-gboolean import_enter_final_page ( GtkWidget * assistant )
+gboolean import_enter_resume_page ( GtkWidget * assistant )
 {
     GSList * files = import_selected_files ( assistant ), * list;
     FILE * qif_fd;
@@ -563,6 +579,12 @@ gboolean import_enter_final_page ( GtkWidget * assistant )
 	    struct struct_compte_importation * compte;
 	    compte = list -> data;
 
+	    /* Fix account name if needed. */
+	    if ( ! compte -> nom_de_compte )
+	    {
+		compte -> nom_de_compte = _("Unnamed Imported account");
+	    }
+
 	    gtk_text_buffer_insert_with_tags_by_name (buffer, &iter, 
 						      g_strconcat ( "• ",
 								    compte -> nom_de_compte,
@@ -622,6 +644,44 @@ gboolean import_enter_final_page ( GtkWidget * assistant )
 /**
  *
  *
+ */
+GtkWidget * import_create_final_page ( GtkWidget * assistant )
+{
+    GtkWidget * view;
+    GtkTextBuffer * buffer;
+    GtkTextIter iter;
+
+    view = gtk_text_view_new ();
+    gtk_text_view_set_wrap_mode (GTK_TEXT_VIEW (view), GTK_WRAP_WORD);
+
+    gtk_text_view_set_editable ( view, FALSE );
+    gtk_text_view_set_cursor_visible ( view, FALSE );
+    gtk_text_view_set_left_margin ( view, 12 );
+    gtk_text_view_set_right_margin ( view, 12 );
+
+    buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (view));
+    gtk_text_buffer_create_tag ( buffer, "x-large",
+				 "scale", PANGO_SCALE_X_LARGE, NULL);
+    gtk_text_buffer_get_iter_at_offset (buffer, &iter, 1);
+  
+    gtk_text_buffer_insert (buffer, &iter, "\n", -1 );
+    gtk_text_buffer_insert_with_tags_by_name (buffer, &iter,
+					      _("Import terminated"), -1,
+					      "x-large", NULL);
+    gtk_text_buffer_insert (buffer, &iter, "\n\n", -1 );
+    gtk_text_buffer_insert (buffer, &iter, 
+			    _("You have successfully set up transactions import into Grisbi.  Press the 'Close' button to terminate import."), 
+			    -1 );
+    gtk_text_buffer_insert (buffer, &iter, "\n\n", -1 );
+
+    return view;
+}
+
+
+
+/**
+ *
+ *
  *
  */
 GSList * import_selected_files ( GtkWidget * assistant )
@@ -640,7 +700,7 @@ GSList * import_selected_files ( GtkWidget * assistant )
 	struct imported_file * imported;
 	gboolean selected;
 
-	imported = malloc ( sizeof ( struct imported_file * ) );
+	imported = g_malloc ( sizeof ( struct imported_file * ) );
 	gtk_tree_model_get ( GTK_TREE_STORE ( model ), &iter, 
 			     0, &selected,
 			     2, &(imported -> name), 
@@ -665,12 +725,9 @@ GSList * import_selected_files ( GtkWidget * assistant )
  */
 gboolean affichage_recapitulatif_importation ( GtkWidget * assistant )
 {
+    GtkWidget *scrolled_window, *bouton, *button_next, *label;
     gint retour, page;
-    GtkWidget *label;
     GSList *list_tmp;
-    GtkWidget *scrolled_window;
-    GtkWidget *bouton;
-    GtkWidget *button_next;
 
     /* We have to do that as soon as possible since this would reset currencies */
     if ( !gsb_data_account_get_accounts_amount () )
@@ -679,7 +736,7 @@ gboolean affichage_recapitulatif_importation ( GtkWidget * assistant )
       }
 
     /* Initial page is fourth. */
-    page = 4;
+    page = IMPORT_FIRST_ACCOUNT_PAGE;
 
     /* First, iter to see if we need to create currencies */
     list_tmp = liste_comptes_importes;
@@ -713,6 +770,10 @@ gboolean affichage_recapitulatif_importation ( GtkWidget * assistant )
 
 	list_tmp = list_tmp -> next;
     }
+
+    /* And final page */
+    gsb_assistant_add_page ( assistant, import_create_final_page ( assistant ), 
+			     page, page - 1, -1, G_CALLBACK ( NULL ) );
 
     /* Replace button. */
     button_next = g_object_get_data ( assistant, "button_next" );
@@ -762,10 +823,14 @@ void ajout_devise_dans_liste_import ( void )
 	list_tmp = list_tmp -> next;
     }
 }
-/* *******************************************************************************/
 
 
-/* *******************************************************************************/
+
+/**
+ *
+ *
+ *
+ */
 GtkWidget * cree_ligne_recapitulatif ( struct struct_compte_importation * compte )
 {
     GtkWidget * vbox, * hbox, * label, * menu, * menu_item, * radio, * radiogroup;
@@ -776,17 +841,26 @@ GtkWidget * cree_ligne_recapitulatif ( struct struct_compte_importation * compte
     vbox = gtk_vbox_new ( FALSE, 6 );
     gtk_container_set_border_width ( GTK_CONTAINER(vbox), 12 );
 
-    short_filename = g_strrstr ( compte -> filename, C_DIRECTORY_SEPARATOR );
-    if ( ! short_filename )
+    if ( compte -> filename )
     {
-	short_filename = compte -> filename;
+	short_filename = g_strrstr ( compte -> filename, C_DIRECTORY_SEPARATOR );
+	if ( ! short_filename )
+	{
+	    short_filename = compte -> filename;
+	}
+	else 
+	{
+	    short_filename ++;
+	}
     }
     else
     {
-	short_filename ++;
+	short_filename = _("file");
     }
 
     label = gtk_label_new ( "" );
+    gtk_misc_set_alignment ( GTK_MISC ( label ), 0, 0.5);
+    gtk_label_set_justify ( GTK_LABEL ( label ), GTK_JUSTIFY_LEFT );
     gtk_label_set_markup ( GTK_LABEL ( label ),
 			   g_strdup_printf ( _("<span size=\"x-large\">%s</span>\n\n"
 					       "What do you want to do with contents from <tt>%s</tt>?\n"),
