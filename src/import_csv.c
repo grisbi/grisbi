@@ -30,7 +30,6 @@
 #include "import.h"
 #include "utils.h"
 #include "utils_editables.h"
-#include "structures.h"
 #include "include.h"
 #include "import_csv.h"
 /*END_INCLUDE*/
@@ -61,14 +60,11 @@ static gboolean csv_import_update_preview ( GtkWidget * assistant );
 
 
 
-/* Globals */
 gint * csv_fields_config = NULL; /** Array of pointers to fields.  */
 
-
 /** Contain configuration of CSV fields.  */
-struct csv_field csv_fields[14] = {
+struct csv_field csv_fields[16] = {
     { N_("Unknown field"),  0.0, NULL,			     NULL		     },
-/*     { N_("Account"),	    0.0, csv_import_validate_string, NULL		     }, */
     { N_("Currency"),	    0.0, csv_import_validate_string, csv_import_parse_currency },
     { N_("Date"),	    0.0, csv_import_validate_date,   csv_import_parse_date },
     { N_("Value date"),	    0.0, csv_import_validate_date,   csv_import_parse_value_date },
@@ -85,9 +81,6 @@ struct csv_field csv_fields[14] = {
     { N_("Breakdown"),	    0.0, csv_import_validate_string, csv_import_parse_breakdown },
     { NULL },
 };
-
-
-struct struct_compte_importation * compte;
 
 
 
@@ -158,12 +151,11 @@ GtkTreeModel * csv_import_create_model ( GtkTreeView * tree_preview, gchar * con
 	list = list -> next;
     }
 
-    types = (GType *) malloc ( size * sizeof ( GType ) );
+    types = (GType *) g_malloc ( size * sizeof ( GType ) );
     for ( i = 0 ; i < size ; i ++ ) 
     {
 	GtkTreeViewColumn * col;
 	GtkCellRenderer * cell;
-	GtkWidget * button;
 
 	types[i] = G_TYPE_STRING;
 	cell = gtk_cell_renderer_text_new ();
@@ -200,7 +192,8 @@ gboolean csv_import_header_on_click ( GtkWidget * button, GdkEventButton * ev,
 
     col = g_object_get_data ( G_OBJECT ( button ), "column" );
 
-    menu = csv_import_fields_menu ( col, GPOINTER_TO_INT ( no_column ) );
+    menu = csv_import_fields_menu ( GTK_TREE_VIEW_COLUMN ( col ), 
+				    GPOINTER_TO_INT ( no_column ) );
     gtk_menu_popup ( GTK_MENU(menu), NULL, NULL, NULL, NULL, 3, gtk_get_current_event_time());
     
     return FALSE;
@@ -315,14 +308,14 @@ gint * csv_import_update_fields_config ( gchar * contents, gint size )
 {
     gint i, * old_csv_fields_config = csv_fields_config;
 
-    g_return_if_fail ( size );
+    g_return_val_if_fail ( size, NULL );
 
     if ( ! old_csv_fields_config )
     {
 	return csv_import_guess_fields_config ( contents, size );
     }
 
-    csv_fields_config = (gint *) malloc ( ( size + 2 ) * sizeof ( gint ) );
+    csv_fields_config = (gint *) g_malloc ( ( size + 2 ) * sizeof ( gint ) );
 
     for ( i = 0; i < size && old_csv_fields_config [ i ] != -1 ; i ++ )
     {
@@ -334,7 +327,7 @@ gint * csv_import_update_fields_config ( gchar * contents, gint size )
 	csv_fields_config[i] = 0;
     }
 
-    free ( old_csv_fields_config );
+    g_free ( old_csv_fields_config );
     csv_fields_config [ i ] = -1;    
 
     return csv_fields_config;
@@ -352,7 +345,7 @@ gint * csv_import_guess_fields_config ( gchar * contents, gint size )
     gint * default_config;
     gint benj_config[13] = { 0, 0, 2, 13, 4, 10, 12, 0, 7, 8, 5, 0 };
 
-    default_config = (gint *) malloc ( size * sizeof ( int ) );
+    default_config = (gint *) g_malloc ( size * sizeof ( int ) );
 /*     bzero ( default_config, size * sizeof(int) );  */
     bcopy ( benj_config, default_config, size * sizeof(int) );
 
@@ -500,7 +493,7 @@ gboolean import_enter_csv_preview_page ( GtkWidget * assistant )
     GtkWidget * entry;
     GSList * files;
     gchar * contents, * filename;
-    gsize * size;
+    gsize size;
     GError * error;
 
     /* Find first CSV to import. */
@@ -545,16 +538,14 @@ gboolean import_enter_csv_preview_page ( GtkWidget * assistant )
  */
 gboolean csv_import_csv_account ( GtkWidget * assistant, gchar * filename )
 {
+    struct struct_compte_importation * compte;
     gchar * contents, * separator;
     GSList * list;
 
-    compte = calloc ( 1, sizeof ( struct struct_compte_importation ));
-    compte -> type_de_compte = 0;
-    compte -> solde = 0;
-    compte -> nom_de_compte = g_strdup ( _("Imported account with no name" ));
-    compte -> origine = CSV_IMPORT;
-    compte -> filename = filename;
-    compte -> operations_importees = NULL;
+    compte = g_malloc0 ( sizeof ( struct struct_compte_importation ));
+    compte -> nom_de_compte = g_strdup ( _("Imported CSV account" ));
+    compte -> origine = TYPE_CSV;
+    compte -> filename = g_strdup ( filename );
 
     contents = g_object_get_data ( G_OBJECT(assistant), "contents" );
     separator = g_object_get_data ( G_OBJECT(assistant), "separator" );
@@ -579,7 +570,7 @@ gboolean csv_import_csv_account ( GtkWidget * assistant, gchar * filename )
 	struct struct_ope_importation * ope;
 	int i;
 
-	ope = malloc ( sizeof ( struct struct_ope_importation ) );
+	ope = g_malloc ( sizeof ( struct struct_ope_importation ) );
 	bzero ( ope, sizeof ( struct struct_ope_importation ) );
 	ope -> date = gdate_today ();
 	ope -> id_operation = NULL;
