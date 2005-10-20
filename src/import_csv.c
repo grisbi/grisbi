@@ -151,7 +151,7 @@ GtkTreeModel * csv_import_create_model ( GtkTreeView * tree_preview, gchar * con
 	list = list -> next;
     }
 
-    types = (GType *) g_malloc ( size * sizeof ( GType ) );
+    types = (GType *) g_malloc0 ( size * sizeof ( GType ) );
     for ( i = 0 ; i < size ; i ++ ) 
     {
 	GtkTreeViewColumn * col;
