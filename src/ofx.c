@@ -44,7 +44,6 @@ gboolean recuperation_donnees_ofx ( gchar *nom_fichier )
 #include "ofx.h"
 #include "import.h"
 #include "include.h"
-#include "structures.h"
 /*END_INCLUDE*/
 
 
@@ -55,7 +54,7 @@ GSList *liste_comptes_importes_ofx;
 struct struct_compte_importation *compte_ofx_importation_en_cours;
 gint erreur_import_ofx;
 gint  message_erreur_operation;
-
+gchar * ofx_filename;
 
 
 /*START_EXTERN*/
@@ -87,6 +86,7 @@ gboolean recuperation_donnees_ofx ( gchar *nom_fichier )
     compte_ofx_importation_en_cours = NULL;
     erreur_import_ofx = 0;
     message_erreur_operation = 0;
+    ofx_filename = nom_fichier;
 
     /* 	la lib ofx ne tient pas compte du 1er argument */
     argv[1] = nom_fichier;
@@ -113,9 +113,9 @@ gboolean recuperation_donnees_ofx ( gchar *nom_fichier )
     if ( !compte_ofx_importation_en_cours )
     {
 	struct struct_compte_importation * account;
-	account = calloc ( 1, sizeof ( struct struct_compte_importation ));
+	account = g_malloc0 ( sizeof ( struct struct_compte_importation ));
 	account -> nom_de_compte = _("Invalid OFX file");
-	account -> filename = nom_fichier;
+	account -> filename = g_strdup ( nom_fichier );
 	account -> origine = TYPE_OFX;
 	liste_comptes_importes_error = g_slist_append ( liste_comptes_importes_error,
 							account );
@@ -247,16 +247,16 @@ int ofx_proc_account_cb(struct OfxAccountData data)
 	liste_comptes_importes_ofx = g_slist_append ( liste_comptes_importes_ofx,
 						      compte_ofx_importation_en_cours );
 
-    compte_ofx_importation_en_cours = calloc ( 1,
-					       sizeof ( struct struct_compte_importation ));
+    compte_ofx_importation_en_cours = g_malloc0 ( sizeof ( struct struct_compte_importation ));
 
     if ( data.account_id_valid )
     {
 	compte_ofx_importation_en_cours -> id_compte = g_strdup ( data.account_id );
 	compte_ofx_importation_en_cours -> nom_de_compte = g_strdup ( data.account_name );
+	compte_ofx_importation_en_cours -> filename = ofx_filename;
     }
 
-    compte_ofx_importation_en_cours -> origine = 1;
+    compte_ofx_importation_en_cours -> origine = TYPE_OFX;
 
     if ( data.account_type_valid )
 	compte_ofx_importation_en_cours -> type_de_compte = data.account_type;
@@ -343,8 +343,7 @@ int ofx_proc_transaction_cb(struct OfxTransactionData data)
 
     /*     c'est parti, on crée et remplit l'opération */
 
-    ope_import = calloc ( 1,
-			  sizeof ( struct struct_ope_importation ));
+    ope_import = g_malloc0 ( sizeof ( struct struct_ope_importation ));
 
     if ( data.fi_id_valid )
 	ope_import -> id_operation = g_strdup ( data.fi_id );

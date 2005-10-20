@@ -30,7 +30,6 @@
 #include "dialog.h"
 #include "utils_files.h"
 #include "utils_str.h"
-#include "structures.h"
 #include "import.h"
 #include "include.h"
 /*END_INCLUDE*/
@@ -58,7 +57,6 @@ static void update_split ( struct gnucash_split * split, gdouble amount,
 
 /*START_EXTERN*/
 extern     gchar * buffer ;
-extern struct struct_compte_importation * compte;
 extern GSList *liste_comptes_importes;
 extern GSList *liste_comptes_importes_error;
 extern gchar * tempname;
@@ -86,6 +84,7 @@ struct gnucash_split {
 /* Variables */
 GSList * gnucash_categories = NULL;
 
+gchar * gnucash_filename = NULL;
 
 
 /**
@@ -101,6 +100,7 @@ gboolean recuperation_donnees_gnucash ( gchar * filename )
   xmlDocPtr doc;
   struct struct_compte_importation * account;
 
+  gnucash_filename = g_strdup ( filename );
   doc = parse_gnucash_file ( filename );
 
   if ( doc )
@@ -115,10 +115,10 @@ gboolean recuperation_donnees_gnucash ( gchar * filename )
   }
 
   /* So, we failed to import file. */
-  account = calloc ( 1, sizeof ( struct struct_compte_importation ));
+  account = g_malloc0 ( sizeof ( struct struct_compte_importation ));
   account -> origine = TYPE_GNUCASH;
   account -> nom_de_compte = _("Gnucash invalid account");
-  account -> filename = filename;
+  account -> filename = g_strdup ( filename );
   liste_comptes_importes_error = g_slist_append ( liste_comptes_importes_error, account );
   return FALSE;
 }
@@ -208,6 +208,7 @@ void recuperation_donnees_gnucash_compte ( xmlNodePtr compte_node )
     }
 
     compte -> nom_de_compte = child_content ( compte_node, "name" );
+    compte -> filename = gnucash_filename;
     compte -> solde = 0;
     compte -> devise = get_currency ( get_child(compte_node, "commodity") );
     compte -> guid = child_content ( compte_node, "id" );

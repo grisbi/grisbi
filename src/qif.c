@@ -36,9 +36,9 @@
 #include "gsb_data_transaction.h"
 #include "utils.h"
 #include "search_glist.h"
-#include "structures.h"
 #include "import.h"
 #include "include.h"
+#include "structures.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -51,7 +51,6 @@ GSList *liste_entrees_exportation;
 
 
 /*START_EXTERN*/
-extern struct struct_compte_importation * compte;
 extern GSList *liste_comptes_importes;
 extern GSList *liste_comptes_importes_error;
 extern gchar *nom_fichier_comptes;
@@ -75,9 +74,9 @@ gboolean recuperation_donnees_qif ( FILE * fichier, gchar * filename )
 
     rewind ( fichier );
     
-    compte = calloc ( 1, sizeof ( struct struct_compte_importation ));
+    compte = g_malloc0 ( sizeof ( struct struct_compte_importation ));
     compte -> nom_de_compte = _("Invalid QIF file");
-    compte -> filename = filename;
+    compte -> filename = g_strdup ( filename );
     compte -> origine = TYPE_QIF;
 
     do
@@ -174,7 +173,7 @@ gboolean recuperation_donnees_qif ( FILE * fichier, gchar * filename )
 		return TRUE;
 	}
 
-	compte = calloc ( 1, sizeof ( struct struct_compte_importation ));
+	compte = g_malloc0 ( sizeof ( struct struct_compte_importation ));
 	compte -> origine = TYPE_QIF;
 
 	/* récupération du type de compte */
@@ -296,7 +295,7 @@ gboolean recuperation_donnees_qif ( FILE * fichier, gchar * filename )
 		if ( pointeur_char[0] == 'L' )
 		{
 		    compte -> nom_de_compte = get_line_from_string ( pointeur_char ) + 1;
-		    compte -> filename = filename;
+		    compte -> filename = g_strdup ( filename );
 
 		    /* on vire les crochets s'ils y sont */
 
@@ -339,6 +338,7 @@ gboolean recuperation_donnees_qif ( FILE * fichier, gchar * filename )
 	    /* c'est un compte ccard */
 
 	    compte -> nom_de_compte = g_strdup ( _("Credit card"));
+	    compte -> filename = g_strdup ( filename );
 	    compte -> solde = 0;
 	    retour = 0;
 	}
@@ -346,7 +346,7 @@ gboolean recuperation_donnees_qif ( FILE * fichier, gchar * filename )
 	/* si le compte n'a pas de nom, on en met un ici */
 
 	if ( !compte -> nom_de_compte )
-	    compte -> nom_de_compte = g_strdup ( _("Imported account with no name" ));
+	    compte -> nom_de_compte = g_strdup ( _("Imported QIF account" ));
 
 	if ( retour == EOF )
 	{
