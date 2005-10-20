@@ -28,6 +28,7 @@
 #include "utils_devises.h"
 #include "utils_dates.h"
 #include "utils_str.h"
+#include "import.h"
 #include "structures.h"
 /*END_INCLUDE*/
 
@@ -36,7 +37,6 @@ extern FILE * out;
 /*END_EXTERN*/
 
 /*START_STATIC*/
-static gboolean csv_import_valid_date ( gchar * string );
 static gchar * sanitize_field ( gchar * begin, gchar * end  );
 /*END_STATIC*/
 
@@ -248,19 +248,6 @@ gboolean csv_import_validate_amount ( gchar * string )
  *
  *
  */
-gboolean csv_import_valid_date ( gchar * string )
-{
-    g_return_val_if_fail ( string, FALSE );
-    return g_date_valid ( gsb_parse_date_string ( string ) );
-}
-
-
-
-
-/**
- *
- *
- */
 gboolean csv_import_parse_currency ( struct struct_ope_importation * ope, gchar * string )
 {
     struct struct_devise * currency;
@@ -465,7 +452,7 @@ gboolean csv_import_parse_p_r ( struct struct_ope_importation * ope, gchar * str
  */
 gboolean csv_import_parse_breakdown ( struct struct_ope_importation * ope, gchar * string )
 {
-    g_return_if_fail ( string );
+    g_return_val_if_fail ( string, NULL );
 
     if ( ! strcmp ( string, "V" ) )
     {
