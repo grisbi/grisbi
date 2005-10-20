@@ -87,16 +87,15 @@ struct csv_field csv_fields[14] = {
 };
 
 
-
-/* definition temporaire pour indiquer l'en tete du debug CSV, qui */
-#define WHERE_AM_I g_strdup_printf("Import CSV (%s)",DEBUG_WHERE_AM_I)
-
-
-
 struct struct_compte_importation * compte;
 
 
 
+/**
+ *
+ *
+ *
+ */
 GtkWidget * import_create_csv_preview_page ( GtkWidget * assistant )
 {
     GtkWidget * vbox, * paddingbox, * tree_preview, * entry, * sw;

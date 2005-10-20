@@ -14,7 +14,7 @@ gboolean import_enter_csv_preview_page ( GtkWidget * assistant );
 /* END_DECLARATION */
 
 struct csv_field {
-    gboolean * name;
+    gchar * name;
     gfloat alignment;
     gboolean (* validate ) ( gchar * );
     gboolean (* parse ) ( struct struct_ope_importation *, gchar * );
