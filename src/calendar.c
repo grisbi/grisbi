@@ -141,7 +141,7 @@ GtkWidget *gsb_calendar_new ( GtkWidget *entry )
 
     /* on récupère la taille de la popup */
 
-    taille_popup = malloc ( sizeof ( GtkRequisition ));
+    taille_popup = g_malloc ( sizeof ( GtkRequisition ));
     gtk_widget_size_request ( GTK_WIDGET ( popup ), taille_popup );
 
     /* pour la soustraire à la position de l'entrée date */
@@ -199,7 +199,7 @@ gboolean clavier_calendrier ( GtkCalendar *pCalendar,
 			      GdkEventKey *ev,
 			      GtkWidget *entry )
 {
-    gint jour, mois, annee;
+    guint jour, mois, annee;
     gint offset = 7;
     GtkWidget *pTopLevelWidget;
 
