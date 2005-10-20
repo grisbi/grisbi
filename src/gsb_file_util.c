@@ -82,7 +82,7 @@ gint gsb_file_util_compress_file ( gchar **file_content,
 
 	new_length = compressBound (length);
 
-	temp = malloc (new_length);
+	temp = g_malloc (new_length);
 
 	result = compress2 ( (guchar *) temp, &new_length,
 			     (guchar *) *file_content, length,
@@ -100,7 +100,7 @@ gint gsb_file_util_compress_file ( gchar **file_content,
 
 	str_length = utils_str_itoa (length);
 
-	*file_content = malloc (23 + strlen (str_length) + 1 + new_length);
+	*file_content = g_malloc (23 + strlen (str_length) + 1 + new_length);
 	
 	memcpy ( *file_content, "Grisbi compressed file ", 23 );
 	iterator = 23;
@@ -150,7 +150,7 @@ gint gsb_file_util_compress_file ( gchar **file_content,
 	zip_begining = zip_begining + 1;
 	zip_size = length - (zip_begining - *file_content );
 
-	temp = malloc ( new_length );
+	temp = g_malloc ( new_length );
 	result = uncompress ( (guchar *) temp, &new_length,
 			      (guchar *) zip_begining, zip_size);
 
@@ -221,7 +221,7 @@ gulong gsb_file_util_crypt_file ( gchar * file_name, gchar **file_content,
 
 	/* we create a copy of the file in memory which will begin by "Grisbi encrypted file " */
 
-	encrypted_file = malloc ( (length + 22) * sizeof ( gchar ));
+	encrypted_file = g_malloc ( (length + 22) * sizeof ( gchar ));
 	strncpy ( encrypted_file,
 		  "Grisbi encrypted file ",
 		  22 );
@@ -292,7 +292,7 @@ return_bad_password:
 
 	/* we create a copy of the file in memory which will begin by "Grisbi encrypted file " */
 
-	decrypted_file = malloc ( length * sizeof ( gchar ));
+	decrypted_file = g_malloc ( length * sizeof ( gchar ));
 	memmove ( decrypted_file,
 		  *file_content + 22,
 		  length );

@@ -953,7 +953,7 @@ void gsb_file_config_get_xml_text_element ( GMarkupParseContext *context,
 		   "fichier" ))
     {
 	if (!tab_noms_derniers_fichiers_ouverts)
-	    tab_noms_derniers_fichiers_ouverts = malloc ( nb_max_derniers_fichiers_ouverts * sizeof(gchar *) );
+	    tab_noms_derniers_fichiers_ouverts = g_malloc ( nb_max_derniers_fichiers_ouverts * sizeof(gchar *) );
 
 	tab_noms_derniers_fichiers_ouverts[nb_derniers_fichiers_ouverts] = g_strdup (text);
 	nb_derniers_fichiers_ouverts++;

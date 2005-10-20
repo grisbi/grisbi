@@ -98,7 +98,7 @@ gboolean gsb_file_others_save_category ( gchar *filename )
     length_calculated = length_part * g_slist_length (gsb_data_category_get_categories_list());
 
     iterator = 0;
-    file_content = malloc ( length_calculated );
+    file_content = g_malloc ( length_calculated );
 
     /* begin the file whit xml markup */
     
@@ -180,7 +180,7 @@ gboolean gsb_file_others_save_budget ( gchar *filename )
     length_calculated = length_part * g_slist_length (gsb_data_budget_get_budgets_list());
 
     iterator = 0;
-    file_content = malloc ( length_calculated );
+    file_content = g_malloc ( length_calculated );
 
     /* begin the file whit xml markup */
     
@@ -262,7 +262,7 @@ gboolean gsb_file_others_save_report ( gchar *filename )
     length_calculated = length_part * g_slist_length ( liste_struct_etats );
 
     iterator = 0;
-    file_content = malloc ( length_calculated );
+    file_content = g_malloc ( length_calculated );
 
     /* begin the file whit xml markup */
     

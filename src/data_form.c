@@ -67,7 +67,7 @@ struct organisation_formulaire *gsb_form_new_organization ( void )
     gint i, j;
     gint taille[6] = { 15, 50, 15, 15, 0, 0 };
 
-    new_form = malloc ( sizeof ( struct organisation_formulaire ));
+    new_form = g_malloc ( sizeof ( struct organisation_formulaire ));
     
     new_form -> nb_colonnes = 4;
     new_form -> nb_lignes = 3;
@@ -94,7 +94,7 @@ struct organisation_formulaire *gsb_form_dup_organization ( struct organisation_
     if ( !form_organisation )
 	return NULL;
 
-    new_form = malloc ( sizeof ( struct organisation_formulaire ));
+    new_form = g_malloc ( sizeof ( struct organisation_formulaire ));
     
     memcpy ( new_form,
 	     form_organisation,

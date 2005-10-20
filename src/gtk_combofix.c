@@ -2163,7 +2163,7 @@ static gboolean touche_pressee_dans_popup ( GtkWidget *popup,
     gtk_signal_emit_by_name ( GTK_OBJECT ( combofix -> entry ),
 			      "key-press-event",
 			      event,
-			      malloc ( sizeof ( gboolean )) );
+			      g_malloc ( sizeof ( gboolean )) );
     return FALSE;
 }
 /* **************************************************************************************************** */

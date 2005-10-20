@@ -201,7 +201,7 @@ GDate * gsb_parse_date_string ( const gchar * date_string )
 	 !strlen (date_string))
 	return NULL;
 
-    date = (GDate *) malloc ( sizeof (GDate) );
+    date = (GDate *) g_malloc ( sizeof (GDate) );
 
     g_date_set_parse ( date, date_string );
     if ( g_date_valid ( date ) )
