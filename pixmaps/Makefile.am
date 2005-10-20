@@ -1,3 +1,5 @@
+SUBDIRS = flags
+
 grisbi_pixmapsdir = $(datadir)/pixmaps/grisbi
 
 grisbi_pixmaps_DATA = \
