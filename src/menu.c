@@ -184,10 +184,10 @@ GtkActionEntry entries[] = {
 { "SaveAs",		GTK_STOCK_SAVE_AS,	_("_Save as..."),
   NULL,			NULL,			G_CALLBACK( gsb_save_file_as ) },	
 
-{ "ImportFile",		NULL,			_("_Import QIF/OFX/CSV/Gnucash file..."),
+{ "ImportFile",		GTK_STOCK_CONVERT,	_("_Import QIF/OFX/CSV/Gnucash file..."),
   NULL,			NULL,			G_CALLBACK( importer_fichier ) },
 
-{ "ExportFile",		NULL,			_("_Export QIF file..."),
+{ "ExportFile",		GTK_STOCK_CONVERT,	_("_Export QIF file..."),
   NULL,			NULL,			G_CALLBACK( exporter_fichier_qif ) },
 
 { "Close",		GTK_STOCK_CLOSE,	_("_Close"),
