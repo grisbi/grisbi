@@ -597,6 +597,11 @@ gboolean import_enter_resume_page ( GtkWidget * assistant )
 	    list = list -> next;
 	}
 
+	while ( gtk_notebook_get_n_pages ( g_object_get_data ( assistant, "notebook" ) ) >
+		IMPORT_FIRST_ACCOUNT_PAGE )
+	{
+	    gtk_notebook_remove_page ( g_object_get_data ( assistant, "notebook" ), -1 );
+	}
 	affichage_recapitulatif_importation ( assistant );
     }
     else 
