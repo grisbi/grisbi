@@ -841,7 +841,7 @@ GtkWidget * cree_ligne_recapitulatif ( struct struct_compte_importation * compte
     GtkWidget * vbox, * hbox, * label, * menu, * menu_item, * radio, * radiogroup;
     GtkWidget * alignement;
     gchar * short_filename;
-    gint no_compte_trouve, size, spacing;
+    gint no_compte_trouve, size = 0, spacing = 0;
 
     vbox = gtk_vbox_new ( FALSE, 6 );
     gtk_container_set_border_width ( GTK_CONTAINER(vbox), 12 );
