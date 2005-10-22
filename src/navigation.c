@@ -776,7 +776,7 @@ void gsb_gui_navigation_add_account ( gint account_nb )
 /**
  * Remove account from the navigation pane.
  *
- * \param account_nb	Account ID to add.
+ * \param account_nb	Account ID to remove.
  */
 void gsb_gui_navigation_remove_account ( gint account_nb )
 {

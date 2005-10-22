@@ -2013,7 +2013,7 @@ GtkTreeIter *gsb_transactions_list_get_iter_from_transaction ( gint transaction_
     if ( !model)
 	return NULL;
 
-    /* we go throw the list in the model untill we find the transaction */
+    /* we go through the list in the model untill we find the transaction */
 
     if ( gtk_tree_model_get_iter_first ( GTK_TREE_MODEL ( model ),
 					 &iter ))
