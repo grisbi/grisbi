@@ -123,7 +123,6 @@ extern GtkWidget *window;
 
 
 /** used to keep the number of the mother transaction while importing breakdown transactions */
-
 static gint mother_transaction_number;
 gint valeur_echelle_recherche_date_import;
 GSList *liste_comptes_importes;
@@ -149,6 +148,7 @@ enum import_pages {
     IMPORT_RESUME_PAGE,
     IMPORT_FIRST_ACCOUNT_PAGE,
 };
+
 
 
 /* *******************************************************************************/
@@ -984,7 +984,7 @@ GtkWidget * cree_ligne_recapitulatif ( struct struct_compte_importation * compte
 
 	}
     }
-    gtk_box_pack_start ( GTK_BOX ( compte -> bouton_devise ), label, FALSE, FALSE, 0 );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), compte -> bouton_devise, FALSE, FALSE, 0 );
 
     return vbox;
 
@@ -1334,6 +1334,7 @@ void traitement_operations_importees ( void )
 	GSList *list_tmp;
 
 	list_tmp = gsb_data_account_get_list_accounts ();
+	demande_mise_a_jour_tous_comptes ();
 
 	while ( list_tmp )
 	{
@@ -1362,13 +1363,9 @@ void traitement_operations_importees ( void )
 
 		gsb_menu_update_accounts_in_menus();
 	    }
-	    
-	    if ( gsb_data_account_get_update_list(i) )
-	    {
-		gtk_list_store_clear ( gsb_transactions_list_get_store()  );
-		gsb_data_account_set_update_list ( i,
-					      0 );
-	    }
+
+	    gsb_data_account_list_gui_change_current_account ( GINT_TO_POINTER(i) );
+	    remplissage_details_compte ();
 
 	    list_tmp = list_tmp -> next;
 	}
@@ -1429,8 +1426,11 @@ void cree_liens_virements_ope_import ( void )
 	    gint contra_account_number;
 
 	    contra_account_name = gsb_data_transaction_get_bank_references (transaction_number_tmp);
-	    contra_account_name++;
-	    contra_account_name[strlen(contra_account_name)-1] = 0;
+	    if ( contra_account_name && strlen ( contra_account_name ) )
+	    {
+		contra_account_name++;
+		contra_account_name[strlen(contra_account_name)-1] = 0;
+	    }
 	    contra_account_number = gsb_data_account_get_no_account_by_name ( contra_account_name );
 
 	    if ( contra_account_number == -1 )
@@ -1657,14 +1657,14 @@ void gsb_import_add_imported_transactions ( struct struct_compte_importation *im
 		if ( question_yes_no_hint ( _("The id of the imported and chosen accounts are different"),
 					    _("Perhaps you choose a wrong account ?  If you choose to continue, the id of the account will be changed.  Do you want to continue ?")))
 		    gsb_data_account_set_id (account_number,
-					g_strdup ( imported_account -> id_compte ));
+					     g_strdup ( imported_account -> id_compte ));
 		else
 		    return;
 	    }
 	}
 	else
 	    gsb_data_account_set_id (account_number,
-				g_strdup ( imported_account -> id_compte ));
+				     g_strdup ( imported_account -> id_compte ));
 
     }
 
@@ -1712,8 +1712,8 @@ void gsb_import_add_imported_transactions ( struct struct_compte_importation *im
 	/* on ne fait le tour de la liste des opés que si la date de l'opé importée est inférieure à la dernière date */
 	/* de la liste */
 
-	if ( g_date_compare ( last_date,
-			      imported_transaction -> date ) >= 0 )
+	if ( last_date && g_date_compare ( last_date,
+					   imported_transaction -> date ) >= 0 )
 	{
 	    /* 	    si l'opé d'import a une id, on recherche ça en priorité */
 
@@ -1722,8 +1722,8 @@ void gsb_import_add_imported_transactions ( struct struct_compte_importation *im
 		 operation_par_id ( imported_transaction -> id_operation,
 				    account_number ))
 		/* comme on est sûr que cette opé a déjà été enregistree, on met l'action à 2, cad on demande l'avis de personne pour */
-		    /*     pas l'enregistrer */
-		    imported_transaction -> action = 2;
+		/*     pas l'enregistrer */
+		imported_transaction -> action = 2;
 
 	    /* 	    si l'opé d'import a un no de chq, on le recherche */
 
@@ -1813,13 +1813,12 @@ void gsb_import_add_imported_transactions ( struct struct_compte_importation *im
 	imported_transaction = list_tmp -> data;
 
 	/* vérifie qu'on doit bien l'enregistrer */
-
-	if ( !imported_transaction -> action )
+	if ( imported_transaction -> action == 0 )
 	{
 	    /* on récupère à ce niveau la devise choisie dans la liste */
 
 	    imported_transaction -> devise = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( imported_account -> bouton_devise ) -> menu_item ),
-										 "no_devise" ));
+										     "no_devise" ));
 	    gsb_import_create_transaction ( imported_transaction,
 					    account_number );
 	} 
@@ -1828,7 +1827,7 @@ void gsb_import_add_imported_transactions ( struct struct_compte_importation *im
 
 
     gsb_data_account_set_update_list ( account_number,
-				  1 );
+				       1 );
 /*     calcule_solde_compte ( account_number ); */
 /*     calcule_solde_pointe_compte ( account_number ); */
 
