@@ -114,7 +114,7 @@ int main (int argc, char *argv[])
 #ifdef _WIN32
     /* Retrieve exception information and store them under grisbi.rpt file!
      * see http://jrfonseca.dyndns.org/projects/gnu-win32/software/drmingw/index.html for more information */
-    LoadLibrary("lexchndl.dll");
+    LoadLibrary("exchndl.dll");
     
     /* we store the path of the running file to use it for pixmaps, help and locales .... */
     win32_set_app_path(argv[0]);
