@@ -425,8 +425,7 @@ gint gsb_data_category_new ( gchar *name )
 
     /* create the new category with a new number */
 
-    category_number = gsb_data_category_new_with_number ( gsb_data_category_max_number () + 1,
-							  NULL );
+    category_number = gsb_data_category_new_with_number ( gsb_data_category_max_number () + 1 );
 
     /* append the name if necessary */
 
@@ -447,13 +446,10 @@ gint gsb_data_category_new ( gchar *name )
  * 
  *
  * \param number the number we want to give to that category
- * \param import_list a g_slist with the imported categories if we are importing them,
- * NULL else and the category will be hapened to the normal categories list
  *
  * \return the number of the new category
  * */
-gint gsb_data_category_new_with_number ( gint number,
-					 GSList **import_list)
+gint gsb_data_category_new_with_number ( gint number )
 {
     struct_category *category;
 
@@ -461,12 +457,8 @@ gint gsb_data_category_new_with_number ( gint number,
 			sizeof ( struct_category ));
     category -> category_number = number;
 
-    if ( import_list )
-	*import_list = g_slist_append ( *import_list,
-					category );
-    else
-	category_list = g_slist_append ( category_list,
-					 category );
+    category_list = g_slist_append ( category_list,
+				     category );
 
     category_buffer = category;
 
@@ -550,8 +542,7 @@ gint gsb_data_category_new_sub_category ( gint category_number,
     gint sub_category_number;
 
     sub_category_number = gsb_data_category_new_sub_category_with_number ( gsb_data_category_max_sub_category_number (category_number) + 1,
-									   category_number,
-									   NULL );
+									   category_number );
 
     /* append the name if necessary */
 
@@ -573,23 +564,16 @@ gint gsb_data_category_new_sub_category ( gint category_number,
  *
  * \param number the number we want to give to that sub-category
  * \param category_number the number of the mother
- * \param import_list a g_slist with the imported categories if we are importing them,
- * NULL else and the category will be hapened to the normal categories list
  *
  * \return the number of the new sub-category or 0 if problem
  * */
 gint gsb_data_category_new_sub_category_with_number ( gint number,
-						      gint category_number,
-						      GSList **import_list)
+						      gint category_number)
 {
     struct_category *category;
     struct_sub_category *sub_category;
 
-/*     if ( import_list ) */
-/* 	category = gsb_data_category_get_structure_in_list ( category_number, */
-/* 							     *import_list ); */
-/*     else */
-	category = gsb_data_category_get_structure ( category_number );
+    category = gsb_data_category_get_structure ( category_number );
 
     if (!category)
 	return 0;

@@ -278,7 +278,7 @@ GtkDialog * dialogue_conditional_new ( gchar *text, gchar * var, GtkMessageType 
 
     gtk_window_set_modal ( GTK_WINDOW ( dialog ), TRUE );
 
-    return dialog;
+    return GTK_DIALOG (dialog);
 }
 
 

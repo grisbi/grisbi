@@ -34,6 +34,8 @@ sources = \
 	gsb_data_category.c	\
 	gsb_data_payee.c	\
 	gsb_data_report.c	\
+	gsb_data_report_amout_comparison.c	\
+	gsb_data_report_text_comparison.c	\
 	gsb_data_transaction.c	\
 	gsb_file_config.c	\
 	gsb_file_load.c		\
@@ -137,6 +139,8 @@ grisbi_INCLUDES =		\
 	gsb_data_category.h	\
 	gsb_data_payee.h	\
 	gsb_data_report.h	\
+	gsb_data_report_amout_comparison.h	\
+	gsb_data_report_text_comparison.h	\
 	gsb_data_transaction.h	\
 	gsb_file_config.h	\
 	gsb_file_load.h		\

@@ -25,6 +25,8 @@
 #include "dialog.h"
 #include "etats_support.h"
 #include "utils_file_selection.h"
+#include "gsb_data_report.h"
+#include "navigation.h"
 #include "utils_files.h"
 #include "structures.h"
 #include "etats_config.h"
@@ -43,7 +45,6 @@ static void html_safe ( gchar * text ) ;
 
 /*START_EXTERN*/
 extern gchar *dernier_chemin_de_travail;
-extern struct struct_etat *etat_courant;
 extern gint nb_colonnes;
 /*END_EXTERN*/
 
@@ -89,6 +90,10 @@ void html_attach_label ( gchar * text, gdouble properties, int x, int x2, int y,
 			  enum alignement align, gpointer  ope )
 {
     int pad, realsize, realcolumns;
+    gint current_report_number;
+
+    current_report_number = gsb_gui_navigation_get_current_report ();
+
 
     if ( !text )
 	text = "";
@@ -116,14 +121,14 @@ void html_attach_label ( gchar * text, gdouble properties, int x, int x2, int y,
     realsize = (x2 - x);
     if ( realsize > 1 )
     {
-	if ( etat_courant -> afficher_opes )
+	if ( gsb_data_report_get_show_report_transactions (current_report_number))
 	{
 	    realsize /= 2;
 	    if ( x == 0 )
 		realsize ++;
 	}
     }
-    if ( etat_courant -> afficher_opes )
+    if ( gsb_data_report_get_show_report_transactions (current_report_number))
 	realcolumns = (float)((nb_colonnes / 2) + 1);
     else 
 	realcolumns = nb_colonnes;

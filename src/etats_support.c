@@ -25,7 +25,9 @@
 /*START_INCLUDE*/
 #include "etats_support.h"
 #include "utils_exercices.h"
+#include "gsb_data_report.h"
 #include "utils_dates.h"
+#include "navigation.h"
 #include "include.h"
 #include "structures.h"
 /*END_INCLUDE*/
@@ -37,7 +39,6 @@
 
 
 /*START_EXTERN*/
-extern struct struct_etat *etat_courant;
 extern GSList *liste_struct_exercices;
 extern GtkWidget *nom_exercice;
 /*END_EXTERN*/
@@ -49,14 +50,17 @@ gchar * etats_titre ()
 {
     gchar *titre;
     GDate *date_jour;
+    gint current_report_number;
+
+    current_report_number = gsb_gui_navigation_get_current_report ();
 
     date_jour = g_date_new ();
     g_date_set_time ( date_jour,
 		      time ( NULL ));
 
-    titre = etat_courant -> nom_etat;
+    titre = gsb_data_report_get_report_name (current_report_number);
 
-    if ( etat_courant -> exo_date )
+    if ( gsb_data_report_get_use_financial_year (current_report_number))
     {
 	GSList *liste_tmp;
 	struct struct_exercice *exo;
@@ -71,7 +75,7 @@ gchar * etats_titre ()
 	exo_precedent = NULL;
 	exo = NULL;
 
-	switch ( etat_courant -> utilise_detail_exo )
+	switch ( gsb_data_report_get_financial_year_type (current_report_number))
 	{
 	    case 0:
 		/* tous les exos */
@@ -173,7 +177,7 @@ gchar * etats_titre ()
 		/* exos perso */
 		/* 	  un ou plusieurs exos ont été sélectionnés, on récupère le nom de chacuns */
 
-		liste_tmp = etat_courant -> no_exercices;
+		liste_tmp = gsb_data_report_get_financial_year_list (current_report_number);
 
 		if ( g_slist_length ( liste_tmp ) > 1 )
 		    titre = g_strconcat ( titre,
@@ -188,7 +192,7 @@ gchar * etats_titre ()
 		{
 		    exo = exercice_par_no ( GPOINTER_TO_INT ( liste_tmp -> data ));
 
-		    if ( liste_tmp == g_slist_last ( etat_courant -> no_exercices ))
+		    if ( liste_tmp == g_slist_last ( gsb_data_report_get_financial_year_list (current_report_number)))
 			titre = g_strconcat ( titre,
 					      exo -> nom_exercice,
 					      NULL );
@@ -213,7 +217,7 @@ gchar * etats_titre ()
 	gchar buffer_date_2[15];
 	GDate *date_tmp;
 
-	switch ( etat_courant -> no_plage_date )
+	switch ( gsb_data_report_get_date_type (current_report_number))
 	{
 	    case 0:
 		/* toutes */
@@ -227,12 +231,14 @@ gchar * etats_titre ()
 	    case 1:
 		/* plage perso */
 
-		if ( etat_courant -> date_perso_debut && etat_courant -> date_perso_fin )
+		if ( gsb_data_report_get_personal_date_start (current_report_number)
+		     &&
+		     gsb_data_report_get_personal_date_end (current_report_number))
 		    titre = g_strconcat ( titre,
 					  ", ",
 					  g_strdup_printf ( _("Result from %s to %s"),
-							    gsb_format_gdate ( etat_courant -> date_perso_debut ),
-							    gsb_format_gdate ( etat_courant -> date_perso_fin ) ),
+							    gsb_format_gdate ( gsb_data_report_get_personal_date_start (current_report_number)),
+							    gsb_format_gdate ( gsb_data_report_get_personal_date_end (current_report_number)) ),
 					  NULL );
 		else
 		    titre = g_strconcat ( titre,

@@ -31,11 +31,11 @@
 
 /*START_INCLUDE*/
 #include "gsb_data_payee.h"
+#include "gsb_data_report.h"
 #include "gsb_data_transaction.h"
 #include "tiers_onglet.h"
 #include "traitement_variables.h"
 #include "include.h"
-#include "structures.h"
 /*END_INCLUDE*/
 
 
@@ -63,7 +63,6 @@ static void gsb_data_payee_reset_counters ( void );
 
 /*START_EXTERN*/
 extern     gchar * buffer ;
-extern GSList *liste_struct_etats;
 /*END_EXTERN*/
 
 /** contains the g_slist of struct_payee */
@@ -448,20 +447,20 @@ GSList *gsb_data_payee_get_name_and_report_list ( void )
     /* we append the selected reports */
 
     tmp_list = NULL;
-    pointer = liste_struct_etats;
+    pointer = gsb_data_report_get_report_list ();
 
     while ( pointer )
     {
-	struct struct_etat *etat;
+	gint report_number;
 
-	etat = pointer -> data;
+	report_number = gsb_data_report_get_report_number (pointer -> data);
 
-	if ( etat -> inclure_dans_tiers )
+	if ( gsb_data_report_get_append_in_payee (report_number))
 	{
 	    if ( tmp_list )
 		tmp_list = g_slist_append ( tmp_list,
 					    g_strconcat ( "\t",
-							  g_strdup ( etat -> nom_etat ),
+							  g_strdup (gsb_data_report_get_report_name(report_number)),
 							  NULL ));
 	    else
 	    {
@@ -469,7 +468,7 @@ GSList *gsb_data_payee_get_name_and_report_list ( void )
 					    _("Report"));
 		tmp_list = g_slist_append ( tmp_list,
 					    g_strconcat ( "\t",
-							  g_strdup ( etat -> nom_etat ),
+							  g_strdup (gsb_data_report_get_report_name(report_number)),
 							  NULL ));
 	    }
 	}

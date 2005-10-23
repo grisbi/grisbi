@@ -42,7 +42,6 @@
 #include "utils_buttons.h"
 #include "utils.h"
 #include "utils_editables.h"
-#include "etats_config.h"
 #include "affichage_formulaire.h"
 #include "operations_formulaire.h"
 #include "structures.h"
@@ -81,7 +80,6 @@ gint no_devise_totaux_ib;
 /*START_EXTERN*/
 extern MetatreeInterface * budgetary_interface ;
 extern gchar *dernier_chemin_de_travail;
-extern struct struct_etat *etat_courant;
 extern GtkTreeStore *model;
 extern gint modif_imputation;
 extern GtkTreeSelection * selection;
@@ -346,14 +344,6 @@ void mise_a_jour_combofix_imputation ( void )
 			    gsb_data_budget_get_name_list (TRUE, TRUE),
 			    TRUE,
 			    TRUE );
-
-    /* FIXME : ça ne devrait pas se trouver dans cette fonction */
-
-    if ( etat_courant )
-    {
-	remplissage_liste_ib_etats ();
-	selectionne_devise_ib_etat_courant ();
-    }
 
     mise_a_jour_combofix_imputation_necessaire = 0;
     modif_imputation = 1;

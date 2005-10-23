@@ -31,6 +31,7 @@
 #include "dialog.h"
 #include "gsb_data_budget.h"
 #include "gsb_data_category.h"
+#include "gsb_data_report.h"
 #include "gsb_file_load.h"
 #include "gsb_file_save.h"
 #include "navigation.h"
@@ -61,8 +62,6 @@ static void gsb_file_others_start_element ( GMarkupParseContext *context,
 
 
 /*START_EXTERN*/
-extern GSList *liste_struct_etats;
-extern gint no_dernier_etat;
 /*END_EXTERN*/
 
 
@@ -259,7 +258,7 @@ gboolean gsb_file_others_save_report ( gchar *filename )
 
     length_part = 2500;
     
-    length_calculated = length_part * g_slist_length ( liste_struct_etats );
+    length_calculated = length_part * g_slist_length (gsb_data_report_get_report_list ());
 
     iterator = 0;
     file_content = g_malloc ( length_calculated );
@@ -472,7 +471,7 @@ gboolean gsb_file_others_load ( gchar *filename,
 
 	switch ( origin )
 	{
-	    struct struct_etat *report;
+	    gint report_number;
 
 	    case 0:
 		/* comes for category */
@@ -496,44 +495,56 @@ gboolean gsb_file_others_load ( gchar *filename,
 		 * so we erase them here because perhaps they doesn't exist and show
 		 * a warning : the user has to do it by himself (untill a druid to help him ?) */
 
-		report = import_list -> data;
+/* 		report = import_list -> data; */
 
-		if (report)
-		{
-		    /* set the new number */
-		    report -> no_etat = ++no_dernier_etat;
+/* 		if (report) */
+/* 		{ */
+
+		report_number = gsb_data_report_new ( _("Imported report"));
 
 		    /* set the currencies */
-		    report -> devise_de_calcul_general = 1;
-		    report -> devise_de_calcul_categ = 1;
-		    report -> devise_de_calcul_ib = 1;
-		    report -> devise_de_calcul_tiers = 1;
-		    report -> choix_devise_montant = 1;
+		    gsb_data_report_set_currency_general ( report_number,
+							   1 );
+		    gsb_data_report_set_category_currency ( report_number,
+							    1 );
+		    gsb_data_report_set_budget_currency ( report_number,
+							  1 );
+		    gsb_data_report_set_payee_currency ( report_number,
+							 1 );
+		    gsb_data_report_set_amount_comparison_currency ( report_number,
+								     1 );
 
 		    /* erase the financials years */
-		    report -> no_exercices = NULL;
+		    gsb_data_report_set_financial_year_list ( report_number,
+							      NULL );
 		    /* erase the accounts */
-		    report -> no_comptes = NULL;
+		    gsb_data_report_set_account_numbers ( report_number,
+							  NULL);
 		    /* erase the transferts accounts */
-		    report -> no_comptes_virements = NULL;
+		    gsb_data_report_set_transfer_account_numbers ( report_number,
+								   NULL );
 		    /* erase the categories */
-		    report -> no_categ = NULL;
+		    gsb_data_report_set_category_numbers ( report_number,
+							   NULL );
 		    /* erase the budget */
-		    report -> no_ib = NULL;
+		    gsb_data_report_set_budget_numbers ( report_number,
+							 NULL );
 		    /* erase the parties */
-		    report -> no_tiers = NULL;
+		    gsb_data_report_set_payee_numbers ( report_number,
+							NULL );
 		    /* erase the kinds of payment */
-		    report -> noms_modes_paiement = NULL;
+		    gsb_data_report_set_method_of_payment_list ( report_number,
+								 NULL );
 
 		    /* append it to the list */
-		    liste_struct_etats = g_slist_append ( liste_struct_etats, 
-							  report );
-		    gsb_gui_navigation_add_report ( report );
+/* 		    liste_struct_etats = g_slist_append ( liste_struct_etats,  */
+/* 							  report ); */
+/* 		    gsb_gui_navigation_add_report ( report ); */
 
 		    /* inform the user of that */
 		    dialogue_hint ( _("Some things in a report cannot be imported :\nThe selected lists of financial years, accounts, transfer accounts, categories, budgetaries, parties and kind of payments.\nSo that lists have been erased while the import.\nThe currencies have been set too on the first currency of this grisbi file.\nYou should check and modify that in the property box of that account."),
 				    _("Importing a report"));
-		}
+/* 		} */
 		break;
 	}
 
@@ -610,12 +621,12 @@ void gsb_file_others_start_element ( GMarkupParseContext *context,
 				     GSList **import_list,
 				     GError **error)
 {
+    /* FIXME : the functions to import payee/categ/budget and report must be made again */
     if ( !strcmp ( element_name,
 		   "Category" ))
     {
 	gsb_file_load_category ( attribute_names,
-				 attribute_values,
-				 import_list );
+				 attribute_values );
 	return;
     }
 
@@ -623,8 +634,7 @@ void gsb_file_others_start_element ( GMarkupParseContext *context,
 		   "Sub_category" ))
     {
 	gsb_file_load_sub_category ( attribute_names,
-				     attribute_values,
-				     import_list );
+				     attribute_values );
 	return;
     }
 
@@ -632,8 +642,7 @@ void gsb_file_others_start_element ( GMarkupParseContext *context,
 		   "Budgetary" ))
     {
 	gsb_file_load_budgetary ( attribute_names,
-				  attribute_values,
-				  import_list );
+				  attribute_values );
 	return;
     }
 
@@ -641,8 +650,7 @@ void gsb_file_others_start_element ( GMarkupParseContext *context,
 		   "Sub_budgetary" ))
     {
 	gsb_file_load_sub_budgetary ( attribute_names,
-				      attribute_values,
-				      import_list );
+				      attribute_values );
 	return;
     }
 
@@ -650,8 +658,7 @@ void gsb_file_others_start_element ( GMarkupParseContext *context,
 		   "Report" ))
     {
 	gsb_file_load_report ( attribute_names,
-			       attribute_values,
-			       import_list );
+			       attribute_values );
 	return;
     }
 
@@ -659,8 +666,7 @@ void gsb_file_others_start_element ( GMarkupParseContext *context,
 		   "Text_comparison" ))
     {
 	gsb_file_load_text_comparison ( attribute_names,
-					attribute_values,
-					import_list );
+					attribute_values );
 	return;
     }
 
@@ -668,8 +674,7 @@ void gsb_file_others_start_element ( GMarkupParseContext *context,
 		   "Amount_comparison" ))
     {
 	gsb_file_load_amount_comparison ( attribute_names,
-					  attribute_values,
-					  import_list );
+					  attribute_values );
 	return;
     }
 }

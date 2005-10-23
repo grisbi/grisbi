@@ -34,7 +34,6 @@
 #include "gtk_combofix.h"
 #include "utils_buttons.h"
 #include "utils.h"
-#include "etats_config.h"
 #include "affichage_formulaire.h"
 #include "operations_formulaire.h"
 #include "structures.h"
@@ -80,7 +79,6 @@ GtkTreeStore *payee_tree_model;
 
 
 /*START_EXTERN*/
-extern struct struct_etat *etat_courant;
 extern GtkTreeStore *model;
 extern MetatreeInterface * payee_interface ;
 extern GtkTreeSelection * selection;
@@ -510,14 +508,6 @@ void mise_a_jour_combofix_tiers ( void )
 				gsb_data_payee_get_name_list(),
 				FALSE,
 				TRUE );
-
-    /* FIXME : ça ne devrait pas se trouver dans cette fonction */
-
-    if ( etat_courant )
-    {
-	remplissage_liste_tiers_etats ();
-	selectionne_liste_tiers_etat_courant ();
-    }
 
     mise_a_jour_combofix_tiers_necessaire = 0;
 }

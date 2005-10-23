@@ -24,6 +24,8 @@
 /*START_INCLUDE*/
 #include "etats_latex.h"
 #include "dialog.h"
+#include "gsb_data_report.h"
+#include "navigation.h"
 #include "print_config.h"
 #include "utils_files.h"
 #include "structures.h"
@@ -60,7 +62,6 @@ struct struct_etat_affichage latex_affichage = {
 };
 
 /*START_EXTERN*/
-extern struct struct_etat *etat_courant;
 extern gint nb_colonnes;
 /*END_EXTERN*/
 
@@ -88,6 +89,10 @@ void latex_attach_label ( gchar * text, gdouble properties, int x, int x2, int y
 			  enum alignement align, gpointer  ope )
 {
     int pad, realsize, realcolumns;
+    gint current_report_number;
+
+    current_report_number = gsb_gui_navigation_get_current_report ();
+
 
     if ( !text )
 	text = "";
@@ -111,14 +116,14 @@ void latex_attach_label ( gchar * text, gdouble properties, int x, int x2, int y
     realsize = (x2 - x);
     if ( realsize > 1 )
     {
-	if ( etat_courant -> afficher_opes )
+	if ( gsb_data_report_get_show_report_transactions (current_report_number))
 	{
 	    realsize /= 2;
 	    if ( x == 0 )
 		realsize ++;
 	}
     }
-    if ( etat_courant -> afficher_opes )
+    if ( gsb_data_report_get_show_report_transactions (current_report_number))
 	realcolumns = (float)((nb_colonnes / 2) + 1);
     else 
 	realcolumns = nb_colonnes;
@@ -241,6 +246,10 @@ gint latex_initialise (GSList * opes_selectionnees)
     gfloat colwidth, real_width;
     gchar * filename;
     int i;
+    gint current_report_number;
+
+    current_report_number = gsb_gui_navigation_get_current_report ();
+
 
     if ( ! print_config() )
 	return FALSE;
@@ -304,7 +313,7 @@ gint latex_initialise (GSList * opes_selectionnees)
 	real_width = ((etat.print_config.paper_config.width-20)/10);
     }
 
-    if ( etat_courant -> afficher_opes )
+    if ( gsb_data_report_get_show_report_transactions (current_report_number))
     {
 	colwidth = real_width / ((float) (nb_colonnes / 2) + 1 );
 	fprintf ( out, "p{%fcm}", colwidth);

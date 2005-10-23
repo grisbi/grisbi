@@ -44,6 +44,7 @@
 #include "gsb_data_budget.h"
 #include "gsb_data_category.h"
 #include "gsb_data_payee.h"
+#include "gsb_data_report.h"
 #include "gsb_data_transaction.h"
 #include "utils_dates.h"
 #include "gtk_combofix.h"
@@ -123,7 +124,6 @@ extern gint hauteur_ligne_liste_opes;
 extern GtkItemFactory *item_factory_menu_general;
 extern gchar *last_date;
 extern GSList *liste_struct_devises;
-extern GSList *liste_struct_etats;
 extern gint mise_a_jour_combofix_categ_necessaire;
 extern gint mise_a_jour_combofix_imputation_necessaire;
 extern gint mise_a_jour_combofix_tiers_necessaire;
@@ -2378,7 +2378,7 @@ GSList *gsb_form_get_parties_list_from_report ( void )
 	    /* toutes les vérifications ont été faites précédemment */
 
 	    gchar **tab_char;
-	    struct struct_etat *report;
+	    gint report_number = 0;
 	    GSList *list_transactions;
 	    GSList *list_tmp;
 
@@ -2389,14 +2389,13 @@ GSList *gsb_form_get_parties_list_from_report ( void )
 	    if ( tab_char[1] )
 	    {
 		tab_char[1] = g_strstrip ( tab_char[1] );
-		list_tmp = liste_struct_etats;
-		report = NULL;
+		list_tmp = gsb_data_report_get_report_list ();
 
 		while ( list_tmp )
 		{
-		    report = list_tmp -> data;
+		    report_number = gsb_data_report_get_report_number (list_tmp -> data);
 
-		    if ( !strcmp ( report -> nom_etat,
+		    if ( !strcmp ( gsb_data_report_get_report_name (report_number),
 				   tab_char[1] ))
 			list_tmp = NULL;
 		    else
@@ -2405,9 +2404,9 @@ GSList *gsb_form_get_parties_list_from_report ( void )
 
 		g_strfreev ( tab_char );
 
-		/* à ce niveau, report contient l'adr le la struct de l'état choisi */
+		/* à ce niveau, report_numbe contient le no le la struct de l'état choisi */
 
-		list_transactions = recupere_opes_etat ( report );
+		list_transactions = recupere_opes_etat ( gsb_data_report_get_pointer_to_report (report_number));
 
 		list_tmp = list_transactions;
 
@@ -2646,16 +2645,16 @@ sort_test_cheques :
 	if ( tab_char[1] )
 	{
 	    tab_char[1] = g_strstrip ( tab_char[1] );
-	    list_tmp = liste_struct_etats;
+	    list_tmp = gsb_data_report_get_report_list ();
 	    trouve = 0;
 
 	    while ( list_tmp )
 	    {
-		struct struct_etat *report;
+		gint report_number;
 
-		report = list_tmp -> data;
+		report_number = gsb_data_report_get_report_number (list_tmp -> data);
 
-		if ( !strcmp ( report -> nom_etat,
+		if ( !strcmp ( gsb_data_report_get_report_name (report_number),
 			       tab_char[1] ))
 		{
 		    trouve = 1;

@@ -434,8 +434,7 @@ gint gsb_data_budget_new ( gchar *name )
 
     /* create the new budget with a new number */
 
-    budget_number = gsb_data_budget_new_with_number ( gsb_data_budget_max_number () + 1,
-						      NULL );
+    budget_number = gsb_data_budget_new_with_number ( gsb_data_budget_max_number () + 1 );
 
     /* append the name if necessary */
 
@@ -461,8 +460,7 @@ gint gsb_data_budget_new ( gchar *name )
  *
  * \return the number of the new budget
  * */
-gint gsb_data_budget_new_with_number ( gint number,
-				       GSList **import_list)
+gint gsb_data_budget_new_with_number ( gint number )
 {
     struct_budget *budget;
 
@@ -470,12 +468,8 @@ gint gsb_data_budget_new_with_number ( gint number,
 		      sizeof ( struct_budget ));
     budget -> budget_number = number;
 
-    if ( import_list )
-	*import_list = g_slist_append ( *import_list,
-					budget );
-    else
-	budget_list = g_slist_append ( budget_list,
-				       budget );
+    budget_list = g_slist_append ( budget_list,
+				   budget );
 
     budget_buffer = budget;
 
@@ -559,8 +553,7 @@ gint gsb_data_budget_new_sub_budget ( gint budget_number,
     gint sub_budget_number;
 
     sub_budget_number = gsb_data_budget_new_sub_budget_with_number ( gsb_data_budget_max_sub_budget_number (budget_number) + 1,
-								     budget_number,
-								     NULL );
+								     budget_number );
 
     /* append the name if necessary */
 
@@ -582,22 +575,15 @@ gint gsb_data_budget_new_sub_budget ( gint budget_number,
  *
  * \param number the number we want to give to that sub-budget
  * \param budget_number the number of the mother
- * \param import_list a g_slist with the imported budgets if we are importing them,
- * NULL else and the budget will be hapened to the normal budgets list
  *
  * \return the number of the new sub-budget or 0 if problem
  * */
 gint gsb_data_budget_new_sub_budget_with_number ( gint number,
-						  gint budget_number,
-						  GSList **import_list)
+						  gint budget_number)
 {
     struct_budget *budget;
     struct_sub_budget *sub_budget;
 
-    /*     if ( import_list ) */
-    /* 	budget = gsb_data_budget_get_structure_in_list ( budget_number, */
-    /* 							     *import_list ); */
-    /*     else */
     budget = gsb_data_budget_get_structure ( budget_number );
 
     if (!budget)
@@ -1386,8 +1372,6 @@ gboolean gsb_data_budget_merge_budget_list ( GSList *list_to_merge )
  * */
 gboolean gsb_data_budget_merge_category_list ( void )
 {
-    GSList *list_tmp;
-
     if ( !question_yes_no_hint ( _("Merge the categories list"),
 				 _("Warning: this will add all the categories and subcategories to the budgetary lines!\nBesides you can't cancel this afterwards.\nWe advise you not to use this unless you know exactly what you are doing.\nDo you want to continue anyway?")))
 	return FALSE;

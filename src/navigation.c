@@ -29,6 +29,7 @@
 #include "utils_devises.h"
 #include "gsb_data_account.h"
 #include "operations_comptes.h"
+#include "gsb_data_report.h"
 #include "fenetre_principale.h"
 #include "menu.h"
 #include "operations_liste.h"
@@ -68,8 +69,8 @@ static  gboolean gsb_gui_navigation_update_account_iterator ( GtkTreeModel * tre
 static gboolean gsb_gui_navigation_update_notebook ( GtkTreeSelection * selection,
 					      GtkTreeModel * model );
 static void gsb_gui_navigation_update_report_iter ( GtkTreeModel * model, 
-					      GtkTreeIter * report_iter,
-					      struct struct_etat * report );
+					     GtkTreeIter * report_iter,
+					     gint report_number );
 static  gboolean gsb_gui_navigation_update_report_iterator ( GtkTreeModel * tree_model, 
 							    GtkTreePath *path, 
 							    GtkTreeIter *iter, 
@@ -87,7 +88,6 @@ static gboolean navigation_tree_drag_data_get ( GtkTreeDragSource * drag_source,
 
 /*START_EXTERN*/
 extern gint compte_courant_onglet;
-extern GSList *liste_struct_etats;
 extern GtkTreeStore *model;
 extern GtkTreeSelection * selection;
 extern gchar *titre_fichier;
@@ -155,7 +155,7 @@ GtkWidget * create_navigation_pane ( void )
 					    GDK_TYPE_PIXBUF,
 					    G_TYPE_BOOLEAN, G_TYPE_STRING, 
 					    G_TYPE_INT, G_TYPE_INT, 
-					    G_TYPE_INT, G_TYPE_POINTER,
+					    G_TYPE_INT, G_TYPE_INT,
 					    G_TYPE_INT );
 
     /* Enable drag & drop */
@@ -384,21 +384,25 @@ void create_report_list ( GtkTreeModel * model, GtkTreeIter * reports_iter )
     GSList *tmp_list;
     GtkTreeIter iter;
 
-    /* Fill in with accounts. */
-    tmp_list = liste_struct_etats;
+    /* Fill in with reports */
+    
+    tmp_list = gsb_data_report_get_report_list ();
+
     while ( tmp_list )
     {
-	struct struct_etat * etat = tmp_list -> data;
+	gint report_number;
+
+	report_number = gsb_data_report_get_report_number (tmp_list -> data);
 
 	gtk_tree_store_append(GTK_TREE_STORE(model), &iter, reports_iter);
 	gtk_tree_store_set(GTK_TREE_STORE(model), &iter, 
 			   NAVIGATION_PIX_VISIBLE, FALSE, 
-			   NAVIGATION_TEXT, etat -> nom_etat,
+			   NAVIGATION_TEXT, gsb_data_report_get_report_name (report_number),
 			   NAVIGATION_FONT, 400,
 			   NAVIGATION_PAGE, GSB_REPORTS_PAGE,
 			   NAVIGATION_ACCOUNT, -1,
 			   NAVIGATION_SENSITIVE, 1,
-			   NAVIGATION_REPORT, etat,
+			   NAVIGATION_REPORT, report_number,
 			   -1 );
 	
 	tmp_list = tmp_list -> next;
@@ -446,7 +450,7 @@ gboolean gsb_gui_navigation_update_notebook ( GtkTreeSelection * selection,
 					      GtkTreeModel * model )
 {
     GtkTreeIter iter;
-    gpointer report;
+    gint report_number;
     gint account_nb, page;
 
     if (! gtk_tree_selection_get_selected (selection, NULL, &iter))
@@ -457,7 +461,7 @@ gboolean gsb_gui_navigation_update_notebook ( GtkTreeSelection * selection,
     gtk_tree_model_get (model, &iter, 
 			NAVIGATION_PAGE, &page,
 			NAVIGATION_ACCOUNT, &account_nb,
-			NAVIGATION_REPORT, &report,
+			NAVIGATION_REPORT, &report_number,
 			-1 );
     gsb_gui_notebook_change_page ( (GsbGeneralNotebookPages) page );
 
@@ -467,10 +471,7 @@ gboolean gsb_gui_navigation_update_notebook ( GtkTreeSelection * selection,
 	remplissage_details_compte ();
     }
 
-    if ( report > 0 )
-    {
-	changement_etat ( (struct struct_etat *) report );
-    }
+    changement_etat ( report_number );
 
     return FALSE;
 }
@@ -550,11 +551,11 @@ static gboolean gsb_gui_navigation_update_report_iterator ( GtkTreeModel * tree_
  *
  * \param report_nb	Number of the report that has to be updated.
  */
-void gsb_gui_navigation_update_report ( struct struct_etat * report )
+void gsb_gui_navigation_update_report ( gint report_number ) 
 {
     gtk_tree_model_foreach ( GTK_TREE_MODEL(navigation_model),
 			     (GtkTreeModelForeachFunc) gsb_gui_navigation_update_report_iterator,
-			     GINT_TO_POINTER ( report ) );
+			     GINT_TO_POINTER ( report_number ) );
 }
 
 
@@ -567,13 +568,13 @@ void gsb_gui_navigation_update_report ( struct struct_etat * report )
  * \param data		Number of report as a reference.
  */
 void gsb_gui_navigation_update_report_iter ( GtkTreeModel * model, 
-					      GtkTreeIter * report_iter,
-					      struct struct_etat * report )
+					     GtkTreeIter * report_iter,
+					     gint report_number )
 {
     gtk_tree_store_set(GTK_TREE_STORE(model), report_iter, 
-		       NAVIGATION_TEXT, report -> nom_etat, 
+		       NAVIGATION_TEXT, gsb_data_report_get_report_name (report_number), 
 		       NAVIGATION_PAGE, GSB_REPORTS_PAGE,
-		       NAVIGATION_REPORT, report,
+		       NAVIGATION_REPORT, report_number,
 		       NAVIGATION_ACCOUNT, -1,
 		       NAVIGATION_SENSITIVE, 1,
 		       -1 );
@@ -598,13 +599,13 @@ static gboolean gsb_gui_navigation_remove_report_iterator ( GtkTreeModel * tree_
 							     GtkTreeIter *iter, 
 							     gpointer data )
 {
-    gpointer report;
+    gint report;
 
     gtk_tree_model_get ( GTK_TREE_MODEL ( tree_model ), iter,
 			 NAVIGATION_REPORT, &report, 
 			 -1 );
 
-    if ( report == data )
+    if ( report == GPOINTER_TO_INT (data))
     {
 	gtk_tree_store_remove ( GTK_TREE_STORE(tree_model), iter );
 	return TRUE;
@@ -620,7 +621,7 @@ static gboolean gsb_gui_navigation_remove_report_iterator ( GtkTreeModel * tree_
  *
  * \param report_nb	Report ID to add.
  */
-void gsb_gui_navigation_add_report ( struct struct_etat * report )
+void gsb_gui_navigation_add_report ( gint report_number )
 {
     GtkTreeIter parent, iter;
     GtkTreeSelection * selection;
@@ -631,7 +632,7 @@ void gsb_gui_navigation_add_report ( struct struct_etat * report )
     gtk_tree_model_get_iter ( GTK_TREE_MODEL(navigation_model), &parent, path );
     gtk_tree_store_append ( GTK_TREE_STORE(navigation_model), &iter, &parent );
 
-    gsb_gui_navigation_update_report_iter ( GTK_TREE_MODEL(navigation_model), &iter, report );    
+    gsb_gui_navigation_update_report_iter ( GTK_TREE_MODEL(navigation_model), &iter, report_number );    
 
     selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW(navigation_tree_view) );
     gtk_tree_selection_select_iter ( selection, &iter );
@@ -644,13 +645,48 @@ void gsb_gui_navigation_add_report ( struct struct_etat * report )
  *
  * \param report_nb	Report ID to add.
  */
-void gsb_gui_navigation_remove_report ( struct struct_etat * report )
+void gsb_gui_navigation_remove_report ( gint report_number )
 {
     gtk_tree_model_foreach ( GTK_TREE_MODEL(navigation_model), 
 			     (GtkTreeModelForeachFunc) gsb_gui_navigation_remove_report_iterator, 
-			     GINT_TO_POINTER ( report ) );
+			     GINT_TO_POINTER ( report_number ) );
    
 }
+
+
+/**
+ * return the number of the current selected report
+ *
+ * \param
+ *
+ * \return the current number of the report, or 0 if none selected
+ * */
+gint gsb_gui_navigation_get_current_report ( void )
+{
+    GtkTreeSelection *selection;
+    GtkTreeIter iter;
+    gint page;
+
+    selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (navigation_tree_view));
+
+    if (! gtk_tree_selection_get_selected (selection, NULL, &iter))
+	return 0;
+
+    gtk_tree_model_get ( GTK_TREE_MODEL (navigation_model),
+			 &iter,
+			 NAVIGATION_PAGE, &page,
+			 -1);
+    
+    if ( page == GSB_REPORTS_PAGE)
+    {
+	gint report_number;
+	gtk_tree_model_get (GTK_TREE_MODEL(navigation_model), &iter, NAVIGATION_REPORT, &report_number, -1);
+
+	return report_number;
+    }
+    return 0;
+}
+
 
 
 
@@ -803,7 +839,7 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
     GtkTreeIter iter;
     gchar * title, * suffix = "";
     gint account_nb, page;
-    gpointer pointer;
+    gint report_number;
 
     if (! gtk_tree_selection_get_selected (selection, NULL, &iter))
 	return FALSE;
@@ -848,11 +884,10 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 	    break;
 
 	case GSB_REPORTS_PAGE:
-	    gtk_tree_model_get (model, &iter, NAVIGATION_REPORT, &pointer, -1);
-	    if ( pointer )
+	    gtk_tree_model_get (model, &iter, NAVIGATION_REPORT, &report_number, -1);
+	    if ( report_number )
 	    {
-		struct struct_etat * etat = pointer;
-		title = g_strconcat ( _("Report"), " : ", etat -> nom_etat, NULL );
+		title = g_strconcat ( _("Report"), " : ", gsb_data_report_get_report_name (report_number), NULL );
 	    }
 	    else
 	    {

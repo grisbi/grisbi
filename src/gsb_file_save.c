@@ -27,9 +27,13 @@
 #include "gsb_data_budget.h"
 #include "gsb_data_category.h"
 #include "gsb_data_payee.h"
+#include "gsb_data_report_amout_comparison.h"
+#include "gsb_data_report.h"
+#include "gsb_data_report_text_comparison.h"
 #include "gsb_data_transaction.h"
 #include "gsb_file_util.h"
 #include "utils_dates.h"
+#include "navigation.h"
 #include "utils_str.h"
 #include "structures.h"
 #include "echeancier_liste.h"
@@ -82,7 +86,6 @@ extern gchar *chemin_logo;
 extern GtkWidget *code_banque;
 extern GtkWidget *email_banque;
 extern GtkWidget *email_correspondant;
-extern struct struct_etat *etat_courant;
 extern GtkWidget *fax_correspondant;
 extern gint ligne_affichage_une_ligne;
 extern GSList *lignes_affichage_deux_lignes;
@@ -90,7 +93,6 @@ extern GSList *lignes_affichage_trois_lignes;
 extern GSList *liste_struct_banques;
 extern GSList *liste_struct_devises;
 extern GSList *liste_struct_echeances;
-extern GSList *liste_struct_etats;
 extern GSList *liste_struct_exercices;
 extern GSList *liste_struct_rapprochements;
 extern gint nb_colonnes;
@@ -182,7 +184,7 @@ gboolean gsb_file_save_save_file ( gchar *filename,
 	+ bank_part * g_slist_length ( liste_struct_banques )
 	+ financial_year_part * g_slist_length (liste_struct_exercices  )
 	+ reconcile_part * g_slist_length ( liste_struct_rapprochements )
-	+ report_part * g_slist_length ( liste_struct_etats );
+	+ report_part * g_slist_length ( gsb_data_report_get_report_list ());
 
     iterator = 0;
     file_content = g_malloc ( length_calculated );
@@ -1306,12 +1308,12 @@ gulong gsb_file_save_report_part ( gulong iterator,
 {
     GSList *list_tmp;
 	
-    list_tmp = liste_struct_etats;
+    list_tmp = gsb_data_report_get_report_list ();
 
     while ( list_tmp )
     {
 	gchar *new_string;
-	struct struct_etat *report;
+	gint report_number;
 	GSList *pointer_list;
 	gchar *general_sort_type;
 	gchar *financial_year_select;
@@ -1322,14 +1324,14 @@ gulong gsb_file_save_report_part ( gulong iterator,
 	gchar *payee_selected;
 	gchar *payment_method_list;
 	GSList *list_tmp_2;
-
-	report = list_tmp -> data;
+	
+	report_number = gsb_data_report_get_report_number (list_tmp -> data);
 
 	/* if we need only the current report, we check here */
 
 	if ( current_report
 	     &&
-	     etat_courant -> no_etat != report -> no_etat )
+	     gsb_gui_navigation_get_current_report() != report_number )
 	{
 	    list_tmp = list_tmp -> next;
 	    continue;
@@ -1337,7 +1339,7 @@ gulong gsb_file_save_report_part ( gulong iterator,
 
 	/* set the general sort type */
 
-	pointer_list = report -> type_classement;
+	pointer_list = gsb_data_report_get_sorting_type (report_number);
 	general_sort_type = NULL;
 
 	while ( pointer_list )
@@ -1355,7 +1357,7 @@ gulong gsb_file_save_report_part ( gulong iterator,
 
 	/* set the financial_year_select */
 
-	pointer_list = report -> no_exercices;
+	pointer_list = gsb_data_report_get_financial_year_list (report_number);
 	financial_year_select = NULL;
 
 	while ( pointer_list )
@@ -1373,7 +1375,7 @@ gulong gsb_file_save_report_part ( gulong iterator,
 
 	/* set the account_selected */
 
-	pointer_list = report -> no_comptes;
+	pointer_list = gsb_data_report_get_account_numbers (report_number);
 	account_selected = NULL;
 
 	while ( pointer_list )
@@ -1391,7 +1393,7 @@ gulong gsb_file_save_report_part ( gulong iterator,
 
 	/* 	set the transfer_selected_accounts */
 	
-	pointer_list = report -> no_comptes_virements;
+	pointer_list = gsb_data_report_get_transfer_account_numbers (report_number);
 	transfer_selected_accounts = NULL;
 
 	while ( pointer_list )
@@ -1409,7 +1411,7 @@ gulong gsb_file_save_report_part ( gulong iterator,
 
 	/* 	set the categ_selected */
 	
-	pointer_list = report -> no_categ;
+	pointer_list = gsb_data_report_get_category_numbers (report_number);
 	categ_selected = NULL;
 
 	while ( pointer_list )
@@ -1427,7 +1429,7 @@ gulong gsb_file_save_report_part ( gulong iterator,
 
 	/* 	set the budget_selected */
 
-	pointer_list = report -> no_ib;
+	pointer_list = gsb_data_report_get_budget_numbers (report_number);
 	budget_selected = NULL;
 
 	while ( pointer_list )
@@ -1445,7 +1447,7 @@ gulong gsb_file_save_report_part ( gulong iterator,
 
 	/* 	set the payee_selected */
 
-	pointer_list = report -> no_tiers;
+	pointer_list = gsb_data_report_get_payee_numbers (report_number);
 	payee_selected = NULL;
 
 	while ( pointer_list )
@@ -1463,7 +1465,7 @@ gulong gsb_file_save_report_part ( gulong iterator,
 
 	/* 	set the payment_method_list */
 
-	pointer_list = report -> noms_modes_paiement;
+	pointer_list = gsb_data_report_get_method_of_payment_list (report_number);
 	payment_method_list = NULL;
 
 	while ( pointer_list )
@@ -1560,83 +1562,83 @@ gulong gsb_file_save_report_part ( gulong iterator,
 					       "\t\tPayment_method_list=\"%s\"\n"
 					       "\t\tUse_text=\"%d\"\n"
 					       "\t\tUse_amount=\"%d\" />\n",
-	    report -> no_etat,
-	    report -> nom_etat,
+	    report_number,
+	    gsb_data_report_get_report_name (report_number),
 	    general_sort_type,
-	    report -> afficher_r,
-	    report -> afficher_opes,
-	    report -> afficher_nb_opes,
-	    report -> afficher_no_ope,
-	    report -> afficher_date_ope,
-	    report -> afficher_tiers_ope,
-	    report -> afficher_categ_ope,
-	    report -> afficher_sous_categ_ope,
-	    report -> afficher_type_ope,
-	    report -> afficher_ib_ope,
-	    report -> afficher_sous_ib_ope,
-	    report -> afficher_cheque_ope,
-	    report -> afficher_notes_ope,
-	    report -> afficher_pc_ope,
-	    report -> afficher_rappr_ope,
-	    report -> afficher_infobd_ope,
-	    report -> afficher_exo_ope,
-	    report -> type_classement_ope,
-	    report -> afficher_titre_colonnes,
-	    report -> type_affichage_titres,
-	    report -> pas_detailler_ventilation,
-	    report -> separer_revenus_depenses,
-	    report -> devise_de_calcul_general,
-	    report -> inclure_dans_tiers,
-	    report -> ope_clickables,
-	    report -> exo_date,
-	    report -> utilise_detail_exo,
+	    gsb_data_report_get_show_r (report_number),
+	    gsb_data_report_get_show_report_transactions (report_number),
+	    gsb_data_report_get_show_report_transaction_amount (report_number),
+	    gsb_data_report_get_show_report_transaction_number (report_number),
+	    gsb_data_report_get_show_report_date (report_number),
+	    gsb_data_report_get_show_report_payee (report_number),
+	    gsb_data_report_get_show_report_category (report_number),
+	    gsb_data_report_get_show_report_sub_category (report_number),
+	    gsb_data_report_get_show_report_method_of_payment (report_number),
+	    gsb_data_report_get_show_report_budget (report_number),
+	    gsb_data_report_get_show_report_sub_budget (report_number),
+	    gsb_data_report_get_show_report_method_of_payment_content (report_number),
+	    gsb_data_report_get_show_report_note (report_number),
+	    gsb_data_report_get_show_report_voucher (report_number),
+	    gsb_data_report_get_show_report_marked (report_number),
+	    gsb_data_report_get_show_report_bank_references (report_number),
+	    gsb_data_report_get_show_report_financial_year (report_number),
+	    gsb_data_report_get_sorting_report (report_number),
+	    gsb_data_report_get_column_title_show (report_number),
+	    gsb_data_report_get_column_title_type (report_number),
+	    gsb_data_report_get_not_detail_breakdown (report_number),
+	    gsb_data_report_get_split_credit_debit (report_number),
+	    gsb_data_report_get_currency_general (report_number),
+	    gsb_data_report_get_append_in_payee (report_number),
+	    gsb_data_report_get_report_can_click (report_number),
+	    gsb_data_report_get_use_financial_year (report_number),
+	    gsb_data_report_get_financial_year_type (report_number),
 	    financial_year_select,
-	    report -> no_plage_date,
-	    gsb_format_gdate (report -> date_perso_debut),
-	    gsb_format_gdate (report -> date_perso_fin),
-	    report -> separation_par_plage,
-	    report -> type_separation_plage,
-	    report -> separation_par_exo,
-	    report -> jour_debut_semaine,
-	    report -> utilise_detail_comptes,
+	    gsb_data_report_get_date_type (report_number),
+	    gsb_format_gdate (gsb_data_report_get_personal_date_start (report_number)),
+	    gsb_format_gdate (gsb_data_report_get_personal_date_end (report_number)),
+	    gsb_data_report_get_period_split (report_number),
+	    gsb_data_report_get_period_split_type (report_number),
+	    gsb_data_report_get_financial_year_split (report_number),
+	    gsb_data_report_get_period_split_day (report_number),
+	    gsb_data_report_get_account_use_chosen (report_number),
 	    account_selected,
-	    report -> regroupe_ope_par_compte,
-	    report -> affiche_sous_total_compte,
-	    report -> afficher_nom_compte,
-	    report -> type_virement,
+	    gsb_data_report_get_account_group_reports (report_number),
+	    gsb_data_report_get_account_show_amount (report_number),
+	    gsb_data_report_get_account_show_name (report_number),
+	    gsb_data_report_get_transfer_choice (report_number),
 	    transfer_selected_accounts,
-	    report -> exclure_ope_non_virement,
-	    report -> utilise_categ,
-	    report -> utilise_detail_categ,
+	    gsb_data_report_get_transfer_reports_only (report_number),
+	    gsb_data_report_get_category_used (report_number),
+	    gsb_data_report_get_category_detail_used (report_number),
 	    categ_selected,
-	    report -> exclure_ope_sans_categ,
-	    report -> affiche_sous_total_categ,
-	    report -> afficher_sous_categ,
-	    report -> afficher_pas_de_sous_categ,
-	    report -> affiche_sous_total_sous_categ,
-	    report -> devise_de_calcul_categ,
-	    report -> afficher_nom_categ,
-	    report -> utilise_ib,
-	    report -> utilise_detail_ib,
+	    gsb_data_report_get_category_only_report_with_category (report_number),
+	    gsb_data_report_get_category_show_category_amount (report_number),
+	    gsb_data_report_get_category_show_sub_category (report_number),
+	    gsb_data_report_get_category_show_without_category (report_number),
+	    gsb_data_report_get_category_show_sub_category_amount (report_number),
+	    gsb_data_report_get_category_currency (report_number),
+	    gsb_data_report_get_category_show_name (report_number),
+	    gsb_data_report_get_budget_used (report_number),
+	    gsb_data_report_get_budget_detail_used (report_number),
 	    budget_selected,
-	    report -> exclure_ope_sans_ib,
-	    report -> affiche_sous_total_ib,
-	    report -> afficher_sous_ib,
-	    report -> afficher_pas_de_sous_ib,
-	    report -> affiche_sous_total_sous_ib,
-	    report -> devise_de_calcul_ib,
-	    report -> afficher_nom_ib,
-	    report -> utilise_tiers,
-	    report -> utilise_detail_tiers,
+	    gsb_data_report_get_budget_only_report_with_budget (report_number),
+	    gsb_data_report_get_budget_show_budget_amount (report_number),
+	    gsb_data_report_get_budget_show_sub_budget (report_number),
+	    gsb_data_report_get_budget_show_without_budget (report_number),
+	    gsb_data_report_get_budget_show_sub_budget_amount (report_number),
+	    gsb_data_report_get_budget_currency (report_number),
+	    gsb_data_report_get_budget_show_name (report_number),
+	    gsb_data_report_get_payee_used (report_number),
+	    gsb_data_report_get_payee_detail_used (report_number),
 	    payee_selected,
-	    report -> affiche_sous_total_tiers,
-	    report -> devise_de_calcul_tiers,
-	    report -> afficher_nom_tiers,
-	    report -> choix_devise_montant,
-	    report -> exclure_montants_nuls,
+	    gsb_data_report_get_payee_show_payee_amount (report_number),
+	    gsb_data_report_get_payee_currency (report_number),
+	    gsb_data_report_get_payee_show_name (report_number),
+	    gsb_data_report_get_amount_comparison_currency (report_number),
+	    gsb_data_report_get_amount_comparison_only_report_non_null (report_number),
 	    payment_method_list,
-	    report -> utilise_texte,
-	    report -> utilise_montant);
+	    gsb_data_report_get_text_comparison_used (report_number),
+	    gsb_data_report_get_amount_comparison_used (report_number));
 
 	g_free (general_sort_type);
 	g_free (financial_year_select);
@@ -1657,17 +1659,18 @@ gulong gsb_file_save_report_part ( gulong iterator,
 
 	/* save the text comparison */
 
-	list_tmp_2 = report -> liste_struct_comparaison_textes;
+	list_tmp_2 = gsb_data_report_get_text_comparison_list (report_number);
 
 	while ( list_tmp_2 )
 	{
-	    struct struct_comparaison_textes_etat *text_comparison;
+	    gint text_comparison_number;
 
-	    text_comparison = list_tmp_2 -> data;
+	    text_comparison_number = GPOINTER_TO_INT (list_tmp_2 -> data);
 
 	    /* now we can fill the file content */
 
 	    new_string = g_markup_printf_escaped ( "\t<Text_comparison\n"
+						   "\t\tComparison_number=\"%d\"\n"
 						   "\t\tReport_nb=\"%d\"\n"
 						   "\t\tLast_comparison=\"%d\"\n"
 						   "\t\tObject=\"%d\"\n"
@@ -1677,19 +1680,20 @@ gulong gsb_file_save_report_part ( gulong iterator,
 						   "\t\tComparison_1=\"%d\"\n"
 						   "\t\tLink_1_2=\"%d\"\n"
 						   "\t\tComparison_2=\"%d\"\n"
-						   "\t\tAmount_1=\"%d\"\n"
-						   "\t\tAmount_2=\"%d\" />\n",
-						   report -> no_etat,
-						   text_comparison -> lien_struct_precedente,
-						   text_comparison -> champ,
-						   text_comparison -> operateur,
-						   text_comparison -> texte,
-						   text_comparison -> utilise_txt,
-						   text_comparison -> comparateur_1,
-						   text_comparison -> lien_1_2,
-						   text_comparison -> comparateur_2,
-						   text_comparison -> montant_1,
-						   text_comparison -> montant_2);
+						   "\t\tAmount_1=\"%4.2f\"\n"
+						   "\t\tAmount_2=\"%4.2f\" />\n",
+						   text_comparison_number,
+						   report_number,
+						   gsb_data_report_text_comparison_get_link_to_last_text_comparison (text_comparison_number),
+						   gsb_data_report_text_comparison_get_field (text_comparison_number),
+						   gsb_data_report_text_comparison_get_operator (text_comparison_number),
+						   gsb_data_report_text_comparison_get_text (text_comparison_number),
+						   gsb_data_report_text_comparison_get_use_text (text_comparison_number),
+						   gsb_data_report_text_comparison_get_first_comparison (text_comparison_number),
+						   gsb_data_report_text_comparison_get_link_first_to_second_part (text_comparison_number),
+						   gsb_data_report_text_comparison_get_second_comparison (text_comparison_number),
+						   gsb_data_report_text_comparison_get_first_amount (text_comparison_number),
+						   gsb_data_report_text_comparison_get_second_amount (text_comparison_number));
 
 	    /* append the new string to the file content
 	     * and take the new iterator */
@@ -1704,17 +1708,18 @@ gulong gsb_file_save_report_part ( gulong iterator,
 
 	/* save the amount comparison */
 
-	list_tmp_2 = report -> liste_struct_comparaison_montants;
+	list_tmp_2 = gsb_data_report_get_amount_comparison_list (report_number);
 
 	while ( list_tmp_2 )
 	{
-	    struct struct_comparaison_montants_etat *amount_comparison;
+	    gint amount_comparison_number;
 
-	    amount_comparison = list_tmp_2 -> data;
+	    amount_comparison_number = GPOINTER_TO_INT (list_tmp_2 -> data);
 
 	    /* now we can fill the file content */
 
 	    new_string = g_markup_printf_escaped ( "\t<Amount_comparison\n"
+						   "\t\tComparison_number=\"%d\"\n"
 						   "\t\tReport_nb=\"%d\"\n"
 						   "\t\tLast_comparison=\"%d\"\n"
 						   "\t\tComparison_1=\"%d\"\n"
@@ -1722,13 +1727,14 @@ gulong gsb_file_save_report_part ( gulong iterator,
 						   "\t\tComparison_2=\"%d\"\n"
 						   "\t\tAmount_1=\"%4.7f\"\n"
 						   "\t\tAmount_2=\"%4.7f\" />\n",
-						   report -> no_etat,
-						   amount_comparison -> lien_struct_precedente,
-						   amount_comparison -> comparateur_1,
-						   amount_comparison -> lien_1_2,
-						   amount_comparison -> comparateur_2,
-						   amount_comparison -> montant_1,
-						   amount_comparison -> montant_2);
+						   amount_comparison_number,
+						   report_number,
+						   gsb_data_report_amount_comparison_get_link_to_last_amount_comparison (amount_comparison_number),
+						   gsb_data_report_amount_comparison_get_first_comparison (amount_comparison_number),
+						   gsb_data_report_amount_comparison_get_link_first_to_second_part (amount_comparison_number),
+						   gsb_data_report_amount_comparison_get_second_comparison (amount_comparison_number),
+						   gsb_data_report_amount_comparison_get_first_amount (amount_comparison_number),
+						   gsb_data_report_amount_comparison_get_second_amount (amount_comparison_number));
 
 	    /* append the new string to the file content
 	     * and take the new iterator */

@@ -30,6 +30,7 @@
 #include "gsb_data_category.h"
 #include "gsb_data_transaction.h"
 #include "gsb_file_others.h"
+#include "navigation.h"
 #include "gtk_combofix.h"
 #include "main.h"
 #include "utils_buttons.h"
@@ -195,7 +196,6 @@ int no_devise_totaux_categ;
 /*START_EXTERN*/
 extern MetatreeInterface * category_interface ;
 extern gchar *dernier_chemin_de_travail;
-extern struct struct_etat *etat_courant;
 extern GtkTreeStore *model;
 extern gint modif_categ;
 extern GtkTreeSelection * selection;
@@ -463,7 +463,7 @@ void mise_a_jour_combofix_categ ( void )
 				TRUE, TRUE );
 
     /* FIXME : this should not be in this function */
-    if ( etat_courant )
+    if ( gsb_gui_navigation_get_current_report () )
     {
 	remplissage_liste_categ_etats ();
 	selectionne_liste_categ_etat_courant ();

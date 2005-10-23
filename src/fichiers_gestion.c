@@ -76,7 +76,6 @@ gchar *nom_fichier_backup;
 /*START_EXTERN*/
 extern gchar *dernier_chemin_de_travail;
 extern GSList *liste_struct_echeances;
-extern GSList *liste_struct_etats;
 extern GtkWidget *main_vbox;
 extern gint max;
 extern gint mise_a_jour_fin_comptes_passifs;
@@ -774,7 +773,6 @@ gboolean fermer_fichier ( void )
 	    g_slist_free ( liste_struct_echeances );
 	    g_slist_free ( scheduled_transactions_to_take );
 	    g_slist_free ( scheduled_transactions_taken );
-	    g_slist_free ( liste_struct_etats );
 
 	    gtk_signal_disconnect_by_func ( GTK_OBJECT ( notebook_general ),
 					    GTK_SIGNAL_FUNC ( gsb_gui_on_notebook_switch_page ),

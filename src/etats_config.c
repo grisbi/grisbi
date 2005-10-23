@@ -40,6 +40,9 @@
 #include "gsb_data_budget.h"
 #include "gsb_data_category.h"
 #include "gsb_data_payee.h"
+#include "gsb_data_report_amout_comparison.h"
+#include "gsb_data_report.h"
+#include "gsb_data_report_text_comparison.h"
 #include "navigation.h"
 #include "classement_operations.h"
 #include "traitement_variables.h"
@@ -50,13 +53,13 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static void ajoute_ligne_liste_comparaisons_montants_etat ( struct struct_comparaison_montants_etat *ancien_comp_montants );
-static void ajoute_ligne_liste_comparaisons_textes_etat ( struct struct_comparaison_textes_etat *ancien_comp_textes );
+static void ajoute_ligne_liste_comparaisons_montants_etat ( gint last_amount_comparison_number );
+static void ajoute_ligne_liste_comparaisons_textes_etat ( gint last_text_comparison_number );
 static void annule_modif_config ( void );
 static void change_comparaison_montant ( GtkWidget *menu_item,
-				  struct struct_comparaison_montants_etat *comp_montants );
+				  gint amount_comparison_number );
 static void change_comparaison_texte ( GtkWidget *menu_item,
-				struct struct_comparaison_textes_etat *comp_textes );
+				gint text_comparison_number );
 static void change_separation_result_periode ( void );
 static void click_bas_classement_etat ( void );
 static void click_haut_classement_etat ( void );
@@ -66,14 +69,14 @@ static void click_liste_etat ( GtkCList *liste,
 static void click_type_categ_etat ( gint type );
 static void click_type_ib_etat ( gint type );
 static gboolean clique_sur_entree_date_etat ( GtkWidget *entree, GdkEventButton *ev );
-static GtkWidget *cree_bouton_champ ( struct struct_comparaison_textes_etat *comp_textes );
-static GtkWidget *cree_bouton_comparateur_montant ( struct struct_comparaison_montants_etat *comp_montants );
-static GtkWidget *cree_bouton_comparateur_texte ( struct struct_comparaison_textes_etat *comp_textes );
+static GtkWidget *cree_bouton_champ ( gint text_comparison_number );
+static GtkWidget *cree_bouton_comparateur_montant ( gint amount_comparison_number );
+static GtkWidget *cree_bouton_comparateur_texte ( gint text_comparison_number );
 static GtkWidget *cree_bouton_lien ( GtkWidget *hbox );
 static GtkWidget *cree_bouton_lien_lignes_comparaison ( void );
-static GtkWidget *cree_bouton_operateur_txt ( struct struct_comparaison_textes_etat *comp_textes );
-static GtkWidget *cree_ligne_comparaison_montant ( struct struct_comparaison_montants_etat *comp_montants );
-static GtkWidget *cree_ligne_comparaison_texte ( struct struct_comparaison_textes_etat *comp_textes );
+static GtkWidget *cree_bouton_operateur_txt ( gint text_comparison_number );
+static GtkWidget *cree_ligne_comparaison_montant ( gint amount_comparison_number );
+static GtkWidget *cree_ligne_comparaison_texte ( gint text_comparison_number );
 static void modif_type_separation_dates ( gint *origine );
 static GtkWidget *onglet_affichage_etat_devises ( void );
 static GtkWidget *onglet_affichage_etat_divers ( void );
@@ -96,18 +99,21 @@ static gboolean pression_touche_date_etat ( GtkWidget *widget,
 static void recuperation_info_perso_etat ( void );
 static void remplissage_liste_comptes_virements ( void );
 static void remplissage_liste_exo_etats ( void );
+static void remplissage_liste_ib_etats ( void );
 static void remplissage_liste_modes_paiement_etats ( void );
+static void remplissage_liste_tiers_etats ( void );
 static void remplit_liste_comparaisons_montants_etat ( void );
 static void remplit_liste_comparaisons_textes_etat ( void );
-static void retire_ligne_liste_comparaisons_montants_etat ( struct struct_comparaison_montants_etat *ancien_comp_montants );
-static void retire_ligne_liste_comparaisons_textes_etat ( struct struct_comparaison_textes_etat *ancien_comp_textes );
+static void retire_ligne_liste_comparaisons_montants_etat ( gint last_amount_comparison_number );
+static void retire_ligne_liste_comparaisons_textes_etat ( gint last_text_comparison_number );
 static void selectionne_liste_exo_etat_courant ( void );
 static void selectionne_liste_ib_etat_courant ( void );
 static void selectionne_liste_modes_paiement_etat_courant ( void );
+static void selectionne_liste_tiers_etat_courant ( void );
 static void selectionne_liste_virements_etat_courant ( void );
 static void selectionne_partie_liste_compte_etat ( gint *type_compte );
 static void selectionne_partie_liste_compte_vir_etat ( gint *type_compte );
-static void sensitive_hbox_fonction_bouton_txt ( struct struct_comparaison_textes_etat *comp_textes );
+static void sensitive_hbox_fonction_bouton_txt ( gint text_comparison_number );
 static gboolean sortie_entree_date_etat ( GtkWidget *entree );
 static void stylise_tab_label_etat ( gint *no_page );
 /*END_STATIC*/
@@ -302,7 +308,6 @@ GtkWidget *liste_mode_paiement_etat;
 
 
 /*START_EXTERN*/
-extern struct struct_etat *etat_courant;
 extern GtkWidget *frame_liste_etats;
 extern GSList *liste_struct_devises;
 extern GSList *liste_struct_exercices;
@@ -332,8 +337,9 @@ void personnalisation_etat (void)
     GtkWidget *hbox;
     GtkCTreeNode *parent;
     GSList *list_tmp;
+    gint current_report_number;
 
-    if ( !etat_courant )
+    if ( !(current_report_number = gsb_gui_navigation_get_current_report()))
 	return;
 
     if ( gtk_notebook_get_current_page ( GTK_NOTEBOOK ( notebook_general)) != 7 )
@@ -481,7 +487,6 @@ void personnalisation_etat (void)
 			   FALSE,
 			   0 );
 	gtk_widget_show ( bouton);
-
     }
 
 
@@ -494,11 +499,11 @@ void personnalisation_etat (void)
     /* on met le nom de l'état */
 
     gtk_entry_set_text ( GTK_ENTRY ( entree_nom_etat ),
-			 etat_courant -> nom_etat );
+			 gsb_data_report_get_report_name (current_report_number) );
 
     /* on remplit le ctree en fonction du classement courant */
 
-    list_tmp = etat_courant -> type_classement;
+    list_tmp = gsb_data_report_get_sorting_type (current_report_number);
     parent = NULL;
     gtk_clist_clear ( GTK_CLIST ( liste_type_classement_etat ));
 
@@ -553,13 +558,13 @@ void personnalisation_etat (void)
 			   0,
 			   0 );
 
-    if ( etat_courant -> afficher_r )
+    if ( gsb_data_report_get_show_r (current_report_number))
     {
-	if ( etat_courant -> afficher_r == 1 )
+	if ( gsb_data_report_get_show_r (current_report_number) == 1 )
 	    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_opes_non_r_etat ),
 					   TRUE );
 	else
-	    if ( etat_courant -> afficher_r )
+	    if (gsb_data_report_get_show_r (current_report_number))
 		gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_opes_r_etat ),
 					       TRUE );
     }
@@ -568,56 +573,56 @@ void personnalisation_etat (void)
 				       TRUE );
 
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_opes ),
-				   etat_courant -> afficher_opes );
+				   gsb_data_report_get_show_report_transactions (current_report_number));
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_nb_opes ),
-				   etat_courant -> afficher_nb_opes );
+				   gsb_data_report_get_show_report_transaction_amount (current_report_number));
 
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_no_ope ),
-				   etat_courant -> afficher_no_ope );
+				   gsb_data_report_get_show_report_transaction_number (current_report_number));
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_date_opes ),
-				   etat_courant -> afficher_date_ope );
+				   gsb_data_report_get_show_report_date (current_report_number));
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_tiers_opes ),
-				   etat_courant -> afficher_tiers_ope );
+				   gsb_data_report_get_show_report_payee (current_report_number));
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_categ_opes ),
-				   etat_courant -> afficher_categ_ope );
+				   gsb_data_report_get_show_report_category (current_report_number));
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_sous_categ_opes ),
-				   etat_courant -> afficher_sous_categ_ope );
+				   gsb_data_report_get_show_report_sub_category (current_report_number));
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_type_ope ),
-				   etat_courant -> afficher_type_ope );
+				   gsb_data_report_get_show_report_method_of_payment (current_report_number));
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_ib_opes ),
-				   etat_courant -> afficher_ib_ope );
+				   gsb_data_report_get_show_report_budget (current_report_number));
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_sous_ib_opes ),
-				   etat_courant -> afficher_sous_ib_ope );
+				   gsb_data_report_get_show_report_sub_budget (current_report_number));
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_no_cheque ),
-				   etat_courant -> afficher_cheque_ope );
+				   gsb_data_report_get_show_report_method_of_payment_content (current_report_number));
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_notes_opes ),
-				   etat_courant -> afficher_notes_ope );
+				   gsb_data_report_get_show_report_note (current_report_number));
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_pc_opes ),
-				   etat_courant -> afficher_pc_ope );
+				   gsb_data_report_get_show_report_voucher (current_report_number));
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_no_rappr ),
-				   etat_courant -> afficher_rappr_ope );
+				   gsb_data_report_get_show_report_marked (current_report_number));
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_infobd_opes ),
-				   etat_courant -> afficher_infobd_ope );
+				   gsb_data_report_get_show_report_bank_references (current_report_number));
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_pas_detailler_ventilation ),
-				   etat_courant -> pas_detailler_ventilation );
+				   gsb_data_report_get_not_detail_breakdown (current_report_number));
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_separer_revenus_depenses ),
-				   etat_courant -> separer_revenus_depenses );
+				   gsb_data_report_get_split_credit_debit (current_report_number));
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_exo_opes ),
-				   etat_courant -> afficher_exo_ope );
+				   gsb_data_report_get_show_report_financial_year (current_report_number));
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_titres_colonnes ),
-				   etat_courant -> afficher_titre_colonnes );
+				   gsb_data_report_get_column_title_show (current_report_number));
 
     gtk_option_menu_set_history ( GTK_OPTION_MENU ( bouton_choix_classement_ope_etat ),
-				  etat_courant -> type_classement_ope );
+				  gsb_data_report_get_sorting_report (current_report_number));
 
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_rendre_ope_clickables ),
-				   etat_courant -> ope_clickables );
+				   gsb_data_report_get_report_can_click (current_report_number));
 
-    if ( !etat_courant -> type_affichage_titres )
+    if ( !gsb_data_report_get_column_title_type (current_report_number))
 	gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_titre_en_haut ),
 				       TRUE );
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_inclure_dans_tiers ),
-				   etat_courant -> inclure_dans_tiers );
+				   gsb_data_report_get_append_in_payee (current_report_number));
 
     /* on rend insensitif les sous qque choses si nécessaire */
 
@@ -636,12 +641,12 @@ void personnalisation_etat (void)
 
     gtk_option_menu_set_history ( GTK_OPTION_MENU ( bouton_devise_general_etat ),
 				  g_slist_index ( liste_struct_devises,
-						  devise_par_no ( etat_courant -> devise_de_calcul_general )));
+						  devise_par_no ( gsb_data_report_get_currency_general (current_report_number))));
 
     /* onglet dates */
 
 
-    if ( etat_courant -> exo_date )
+    if ( gsb_data_report_get_use_financial_year (current_report_number))
     {
 	gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( radio_button_utilise_exo ),
 				       TRUE );
@@ -655,7 +660,7 @@ void personnalisation_etat (void)
     sens_desensitive_pointeur ( radio_button_utilise_exo,
 				bouton_separe_exo_etat );
 
-    if ( etat_courant -> utilise_detail_exo == 3 )
+    if ( gsb_data_report_get_financial_year_type (current_report_number) == 3 )
 	gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_detaille_exo_etat ),
 				       TRUE );
     else
@@ -663,9 +668,9 @@ void personnalisation_etat (void)
 	gtk_widget_set_sensitive ( vbox_generale_exo_etat,
 				   FALSE );
 
-	if ( etat_courant -> utilise_detail_exo )
+	if ( gsb_data_report_get_financial_year_type (current_report_number))
 	{
-	    if ( etat_courant -> utilise_detail_exo == 1 )
+	    if ( gsb_data_report_get_financial_year_type (current_report_number) == 1 )
 		gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_exo_courant ),
 					       TRUE );
 	    else
@@ -683,15 +688,15 @@ void personnalisation_etat (void)
     selectionne_liste_exo_etat_courant ();
 
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_separe_exo_etat ),
-				   etat_courant -> separation_par_exo );
+				   gsb_data_report_get_financial_year_split (current_report_number));
 
     /* on sélectionne la plage de date */
 
     gtk_clist_select_row ( GTK_CLIST ( liste_plages_dates_etat ),
-			   etat_courant -> no_plage_date,
+			   gsb_data_report_get_date_type (current_report_number),
 			   0 );
 
-    if ( etat_courant -> no_plage_date != 1 )
+    if ( gsb_data_report_get_date_type (current_report_number) != 1 )
     {
 	gtk_widget_set_sensitive ( entree_date_init_etat,
 				   FALSE );
@@ -708,23 +713,23 @@ void personnalisation_etat (void)
 
     /* on remplit les dates perso si elles existent */
 
-    if ( etat_courant -> date_perso_debut )
+    if ( gsb_data_report_get_personal_date_start (current_report_number))
 	gtk_entry_set_text ( GTK_ENTRY ( entree_date_init_etat ),
-			     gsb_format_gdate ( etat_courant -> date_perso_debut ) );
+			     gsb_format_gdate ( gsb_data_report_get_personal_date_start (current_report_number)) );
 
-    if ( etat_courant -> date_perso_fin )
+    if ( gsb_data_report_get_personal_date_end (current_report_number))
 	gtk_entry_set_text ( GTK_ENTRY ( entree_date_finale_etat ),
-			     gsb_format_gdate ( etat_courant -> date_perso_fin ) );
+			     gsb_format_gdate ( gsb_data_report_get_personal_date_end (current_report_number)) );
 
     /* on remplit les détails de la séparation des dates */
 
-    if ( etat_courant -> separation_par_plage )
+    if ( gsb_data_report_get_period_split (current_report_number))
     {
 	gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_separe_plages_etat ),
 				       TRUE );
 	gtk_widget_set_sensitive ( bouton_type_separe_plages_etat,
 				   TRUE );
-	modif_type_separation_dates ( GINT_TO_POINTER ( etat_courant -> type_separation_plage ));
+	modif_type_separation_dates ( GINT_TO_POINTER ( gsb_data_report_get_period_split_type (current_report_number)));
     }
     else
     {
@@ -735,15 +740,15 @@ void personnalisation_etat (void)
     }
 
     gtk_option_menu_set_history ( GTK_OPTION_MENU ( bouton_type_separe_plages_etat ),
-				  etat_courant -> type_separation_plage );
+				  gsb_data_report_get_period_split_type (current_report_number));
     gtk_option_menu_set_history ( GTK_OPTION_MENU ( bouton_debut_semaine ),
-				  etat_courant -> jour_debut_semaine );
+				  gsb_data_report_get_period_split_day (current_report_number));
 
 
     /* onglet comptes */
 
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_detaille_comptes_etat ),
-				   etat_courant -> utilise_detail_comptes );
+				   gsb_data_report_get_account_use_chosen (current_report_number));
 
     sens_desensitive_pointeur ( bouton_detaille_comptes_etat,
 				vbox_generale_comptes_etat );
@@ -752,28 +757,28 @@ void personnalisation_etat (void)
     selectionne_liste_comptes_etat_courant ();
 
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_regroupe_ope_compte_etat ),
-				   etat_courant -> regroupe_ope_par_compte );
+				   gsb_data_report_get_account_group_reports (current_report_number));
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_affiche_sous_total_compte ),
-				   etat_courant -> affiche_sous_total_compte );
+				   gsb_data_report_get_account_show_amount (current_report_number));
 
     sens_desensitive_pointeur ( bouton_regroupe_ope_compte_etat,
 				bouton_affiche_sous_total_compte );
 
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_noms_comptes ),
-				   etat_courant -> afficher_nom_compte );
+				   gsb_data_report_get_account_show_name (current_report_number));
 
 
     /* onglet virements */
 
 
-    if ( etat_courant -> type_virement )
+    if ( gsb_data_report_get_transfer_choice (current_report_number))
     {
-	if ( etat_courant -> type_virement == 1 )
+	if ( gsb_data_report_get_transfer_choice (current_report_number)== 1 )
 	    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_inclusion_virements_actifs_etat ),
 					   TRUE );
 	else
 	{
-	    if ( etat_courant -> type_virement == 2 )
+	    if ( gsb_data_report_get_transfer_choice (current_report_number)== 2 )
 		gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_inclusion_virements_hors_etat ),
 					       TRUE );
 	    else
@@ -795,13 +800,13 @@ void personnalisation_etat (void)
     selectionne_liste_virements_etat_courant ();
 
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_exclure_non_virements_etat ),
-				   etat_courant -> exclure_ope_non_virement );
+				   gsb_data_report_get_transfer_reports_only (current_report_number));
 
 
     /* onglet catégories */
 
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_utilise_categ_etat ),
-				   etat_courant -> utilise_categ );
+				   gsb_data_report_get_category_used (current_report_number));
 
     sens_desensitive_pointeur ( bouton_utilise_categ_etat,
 				bouton_affiche_sous_total_categ );
@@ -815,7 +820,7 @@ void personnalisation_etat (void)
 				bouton_afficher_noms_categ );
 
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_detaille_categ_etat ),
-				   etat_courant -> utilise_detail_categ );
+				   gsb_data_report_get_category_detail_used (current_report_number));
 
     sens_desensitive_pointeur ( bouton_detaille_categ_etat,
 				hbox_detaille_categ_etat );
@@ -826,15 +831,15 @@ void personnalisation_etat (void)
     selectionne_liste_categ_etat_courant ();
 
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_exclure_ope_sans_categ ),
-				   etat_courant -> exclure_ope_sans_categ );
+				   gsb_data_report_get_category_only_report_with_category (current_report_number));
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_affiche_sous_total_categ ),
-				   etat_courant -> affiche_sous_total_categ );
+				   gsb_data_report_get_category_show_category_amount (current_report_number));
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_sous_categ ),
-				   etat_courant -> afficher_sous_categ );
+				   gsb_data_report_get_category_show_sub_category (current_report_number));
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_affiche_sous_total_sous_categ ),
-				   etat_courant -> affiche_sous_total_sous_categ );
+				   gsb_data_report_get_category_show_sub_category_amount (current_report_number));
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_pas_de_sous_categ ),
-				   etat_courant -> afficher_pas_de_sous_categ );
+				   gsb_data_report_get_category_show_without_category (current_report_number));
 
 
     /* mise en forme de la devise */
@@ -842,13 +847,13 @@ void personnalisation_etat (void)
     selectionne_devise_categ_etat_courant ();
 
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_noms_categ ),
-				   etat_courant -> afficher_nom_categ );
+				   gsb_data_report_get_category_show_name (current_report_number));
 
 
     /* onglet ib */
 
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_utilise_ib_etat ),
-				   etat_courant -> utilise_ib );
+				   gsb_data_report_get_budget_used (current_report_number));
 
     sens_desensitive_pointeur ( bouton_utilise_ib_etat,
 				bouton_affiche_sous_total_ib );
@@ -862,7 +867,7 @@ void personnalisation_etat (void)
 				bouton_afficher_noms_ib );
 
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_detaille_ib_etat ),
-				   etat_courant -> utilise_detail_ib );
+				   gsb_data_report_get_budget_detail_used (current_report_number));
 
     sens_desensitive_pointeur ( bouton_detaille_ib_etat,
 				hbox_detaille_ib_etat );
@@ -873,27 +878,27 @@ void personnalisation_etat (void)
     selectionne_liste_ib_etat_courant ();
 
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_exclure_ope_sans_ib ),
-				   etat_courant -> exclure_ope_sans_ib );
+				   gsb_data_report_get_budget_only_report_with_budget (current_report_number));
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_affiche_sous_total_ib ),
-				   etat_courant -> affiche_sous_total_ib );
+				   gsb_data_report_get_budget_show_budget_amount (current_report_number));
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_sous_ib ),
-				   etat_courant -> afficher_sous_ib );
+				   gsb_data_report_get_budget_show_sub_budget (current_report_number));
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_affiche_sous_total_sous_ib ),
-				   etat_courant -> affiche_sous_total_sous_ib );
+				   gsb_data_report_get_budget_show_sub_budget_amount (current_report_number));
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_pas_de_sous_ib ),
-				   etat_courant -> afficher_pas_de_sous_ib );
+				   gsb_data_report_get_budget_show_without_budget (current_report_number));
 
     /* mise en forme de la devise */
 
     selectionne_devise_ib_etat_courant ();
 
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_noms_ib ),
-				   etat_courant -> afficher_nom_ib );
+				   gsb_data_report_get_budget_show_name (current_report_number));
 
     /* onglet tiers */
 
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_utilise_tiers_etat ),
-				   etat_courant -> utilise_tiers );
+				   gsb_data_report_get_payee_used (current_report_number));
 
     sens_desensitive_pointeur ( bouton_utilise_tiers_etat,
 				bouton_afficher_noms_tiers );
@@ -901,7 +906,7 @@ void personnalisation_etat (void)
 				bouton_affiche_sous_total_tiers );
 
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_detaille_tiers_etat ),
-				   etat_courant -> utilise_detail_tiers );
+				   gsb_data_report_get_payee_detail_used (current_report_number));
 
     sens_desensitive_pointeur ( bouton_detaille_tiers_etat,
 				hbox_detaille_tiers_etat );
@@ -912,19 +917,19 @@ void personnalisation_etat (void)
     selectionne_liste_tiers_etat_courant();
 
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_affiche_sous_total_tiers ),
-				   etat_courant -> affiche_sous_total_tiers );
+				   gsb_data_report_get_payee_show_payee_amount (current_report_number));
 
     /* mise en forme de la devise */
 
     selectionne_devise_tiers_etat_courant ();
 
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_noms_tiers ),
-				   etat_courant -> afficher_nom_tiers );
+				   gsb_data_report_get_payee_show_name (current_report_number));
 
     /*  onglet texte */
 
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_utilise_texte ),
-				   etat_courant -> utilise_texte );
+				   gsb_data_report_get_text_comparison_used (current_report_number));
     sens_desensitive_pointeur ( bouton_utilise_texte,
 				vbox_generale_textes_etat );
     remplit_liste_comparaisons_textes_etat ();
@@ -933,21 +938,21 @@ void personnalisation_etat (void)
     /* onglet montant */
 
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_utilise_montant ),
-				   etat_courant -> utilise_montant );
+				   gsb_data_report_get_amount_comparison_used (current_report_number));
     gtk_option_menu_set_history ( GTK_OPTION_MENU ( bouton_devise_montant_etat ),
 				  g_slist_index ( liste_struct_devises,
-						  devise_par_no ( etat_courant -> choix_devise_montant )));
+						  devise_par_no ( gsb_data_report_get_amount_comparison_currency (current_report_number))));
     sens_desensitive_pointeur ( bouton_utilise_montant,
 				vbox_generale_montants_etat );
     remplit_liste_comparaisons_montants_etat ();
 
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_exclure_ope_nulles_etat ),
-				   etat_courant -> exclure_montants_nuls );
+				   gsb_data_report_get_amount_comparison_only_report_non_null (current_report_number));
 
     /* onglet modes de paiement */
 
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_detaille_mode_paiement_etat ),
-				   etat_courant -> utilise_mode_paiement );
+				   gsb_data_report_get_method_of_payment_used (current_report_number));
 
     sens_desensitive_pointeur ( bouton_detaille_mode_paiement_etat,
 				vbox_mode_paiement_etat );
@@ -981,13 +986,14 @@ void annule_modif_config ( void )
 void selectionne_liste_exo_etat_courant ( void )
 {
     GSList *pointeur_sliste;
+    gint current_report_number;
 
-    if ( !etat_courant )
-	return;
+    current_report_number = gsb_gui_navigation_get_current_report ();
+
 
     gtk_clist_unselect_all ( GTK_CLIST ( liste_exo_etat ));
 
-    pointeur_sliste = etat_courant -> no_exercices;
+    pointeur_sliste = gsb_data_report_get_financial_year_list (current_report_number);
 
     while ( pointeur_sliste )
     {
@@ -1004,15 +1010,17 @@ void selectionne_liste_exo_etat_courant ( void )
 void selectionne_liste_comptes_etat_courant ( void )
 {
     GSList *pointeur_sliste;
+    gint current_report_number;
 
-    if ( !etat_courant )
-	return;
+    current_report_number = gsb_gui_navigation_get_current_report ();
+
+
     if ( !liste_comptes_etat )
 	return;
 
     gtk_clist_unselect_all ( GTK_CLIST ( liste_comptes_etat ));
 
-    pointeur_sliste = etat_courant -> no_comptes;
+    pointeur_sliste = gsb_data_report_get_account_numbers (current_report_number);
 
     while ( pointeur_sliste )
     {
@@ -1029,13 +1037,14 @@ void selectionne_liste_comptes_etat_courant ( void )
 void selectionne_liste_virements_etat_courant ( void )
 {
     GSList *pointeur_sliste;
+    gint current_report_number;
 
-    if ( !etat_courant )
-	return;
+    current_report_number = gsb_gui_navigation_get_current_report ();
+
 
     gtk_clist_unselect_all ( GTK_CLIST ( liste_comptes_virements ));
 
-    pointeur_sliste = etat_courant -> no_comptes_virements;
+    pointeur_sliste = gsb_data_report_get_transfer_account_numbers (current_report_number);
 
     while ( pointeur_sliste )
     {
@@ -1052,15 +1061,15 @@ void selectionne_liste_virements_etat_courant ( void )
 void selectionne_liste_categ_etat_courant ( void )
 {
     GSList *pointeur_sliste;
+    gint current_report_number;
 
-    if ( !etat_courant )
-	return;
     if ( !liste_categ_etat )
 	return;
 
+    current_report_number = gsb_gui_navigation_get_current_report ();
     gtk_clist_unselect_all ( GTK_CLIST ( liste_categ_etat ));
 
-    pointeur_sliste = etat_courant -> no_categ;
+    pointeur_sliste = gsb_data_report_get_category_numbers (current_report_number);
 
     while ( pointeur_sliste )
     {
@@ -1076,12 +1085,14 @@ void selectionne_liste_categ_etat_courant ( void )
 /******************************************************************************/
 void selectionne_devise_categ_etat_courant ( void )
 {
-    if ( !etat_courant )
-	return;
+    gint current_report_number;
+
+    current_report_number = gsb_gui_navigation_get_current_report ();
+
 
     gtk_option_menu_set_history ( GTK_OPTION_MENU ( bouton_devise_categ_etat ),
 				  g_slist_index ( liste_struct_devises,
-						  devise_par_no ( etat_courant -> devise_de_calcul_categ )));
+						  devise_par_no ( gsb_data_report_get_category_currency (current_report_number))));
 }
 /******************************************************************************/
 
@@ -1089,13 +1100,14 @@ void selectionne_devise_categ_etat_courant ( void )
 void selectionne_liste_ib_etat_courant ( void )
 {
     GSList *pointeur_sliste;
+    gint current_report_number;
 
-    if ( !etat_courant )
-	return;
+    current_report_number = gsb_gui_navigation_get_current_report ();
+
 
     gtk_clist_unselect_all ( GTK_CLIST ( liste_ib_etat ));
 
-    pointeur_sliste = etat_courant -> no_ib;
+    pointeur_sliste = gsb_data_report_get_budget_numbers (current_report_number);
 
     while ( pointeur_sliste )
     {
@@ -1111,12 +1123,13 @@ void selectionne_liste_ib_etat_courant ( void )
 /******************************************************************************/
 void selectionne_devise_ib_etat_courant ( void )
 {
-    if ( !etat_courant )
-	return;
+    gint current_report_number;
+
+    current_report_number = gsb_gui_navigation_get_current_report ();
 
     gtk_option_menu_set_history ( GTK_OPTION_MENU ( bouton_devise_ib_etat ),
 				  g_slist_index ( liste_struct_devises,
-						  devise_par_no ( etat_courant -> devise_de_calcul_ib )));
+						  devise_par_no ( gsb_data_report_get_budget_currency (current_report_number))));
 }
 /******************************************************************************/
 
@@ -1124,16 +1137,17 @@ void selectionne_devise_ib_etat_courant ( void )
 void selectionne_liste_tiers_etat_courant ( void )
 {
     GSList *pointeur_sliste;
+    gint current_report_number;
 
-    if ( !etat_courant )
-	return;
+    current_report_number = gsb_gui_navigation_get_current_report ();
+
 
     if ( !onglet_config_etat )
 	return;
 
     gtk_clist_unselect_all ( GTK_CLIST ( liste_tiers_etat ));
 
-    pointeur_sliste = etat_courant -> no_tiers;
+    pointeur_sliste = gsb_data_report_get_payee_numbers (current_report_number);
 
     while ( pointeur_sliste )
     {
@@ -1149,25 +1163,27 @@ void selectionne_liste_tiers_etat_courant ( void )
 /******************************************************************************/
 void selectionne_devise_tiers_etat_courant ( void )
 {
-    if ( !etat_courant )
-	return;
+    gint current_report_number;
+
+    current_report_number = gsb_gui_navigation_get_current_report ();
 
     gtk_option_menu_set_history ( GTK_OPTION_MENU ( bouton_devise_tiers_etat ),
 				  g_slist_index ( liste_struct_devises,
-						  devise_par_no ( etat_courant -> devise_de_calcul_tiers )));
+						  devise_par_no ( gsb_data_report_get_payee_currency (current_report_number))));
 }
 /******************************************************************************/
 
 /******************************************************************************/
 void recuperation_info_perso_etat ( void )
 {
-    GSList *liste_tmp;
+    GSList *comparison_list;
     GList *list_tmp;
     gchar *pointeur_char;
     gint i;
-    struct struct_comparaison_montants_etat *comp_montants;
-    struct struct_comparaison_textes_etat *comp_textes;
+    gint amount_comparison_number;
+    gint current_report_number;
 
+    current_report_number = gsb_gui_navigation_get_current_report ();
 
     /* vérification que les dates init et finales sont correctes */
 
@@ -1199,12 +1215,13 @@ void recuperation_info_perso_etat ( void )
     if ( strlen ( pointeur_char )
 	 &&
 	 strcmp ( pointeur_char,
-		  etat_courant -> nom_etat ))
+		  gsb_data_report_get_report_name (current_report_number) ))
     {
-	etat_courant -> nom_etat = g_strdup ( pointeur_char );
+	gsb_data_report_set_report_name ( current_report_number,
+					  pointeur_char );
 
 /* 	gtk_label_set_text ( GTK_LABEL ( label_etat_courant ), */
-/* 			     etat_courant -> nom_etat ); */
+/* 			     gsb_data_report_get_report_name (current_report_number) ); */
 
 	/* on réaffiche la liste des états */
 
@@ -1214,9 +1231,10 @@ void recuperation_info_perso_etat ( void )
 
     /* récupération du type de classement */
 
-    g_slist_free ( etat_courant -> type_classement );
+    g_slist_free ( gsb_data_report_get_sorting_type (current_report_number));
 
-    etat_courant -> type_classement = NULL;
+    gsb_data_report_set_sorting_type ( current_report_number,
+				       NULL );
 
     for ( i=0 ; i<GTK_CLIST ( liste_type_classement_etat ) -> rows ; i++ )
     {
@@ -1226,97 +1244,134 @@ void recuperation_info_perso_etat ( void )
 							     gtk_ctree_node_nth ( GTK_CTREE ( liste_type_classement_etat ),
 										  i )));
 
-	etat_courant -> type_classement = g_slist_append ( etat_courant -> type_classement,
-							  GINT_TO_POINTER ( no ));
+	gsb_data_report_set_sorting_type ( current_report_number,
+					   g_slist_append ( gsb_data_report_get_sorting_type (current_report_number),
+							    GINT_TO_POINTER ( no )));
 
 	/* rajoute les ss categ et ss ib */
 
 	if ( no == 1 )
-	    etat_courant -> type_classement = g_slist_append ( etat_courant -> type_classement,
-							      GINT_TO_POINTER ( 2 ));
+	    gsb_data_report_set_sorting_type ( current_report_number,
+					       g_slist_append ( gsb_data_report_get_sorting_type (current_report_number),
+								GINT_TO_POINTER ( 2 )));
 	if ( no == 3 )
-	    etat_courant -> type_classement = g_slist_append ( etat_courant -> type_classement,
-							      GINT_TO_POINTER ( 4 ));
+	    gsb_data_report_set_sorting_type ( current_report_number,
+					       g_slist_append ( gsb_data_report_get_sorting_type (current_report_number),
+								GINT_TO_POINTER ( 4 )));
     }
 
     /* récupération de l'affichage ou non des R */
 
     if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_opes_r_et_non_r_etat )) )
-	etat_courant -> afficher_r = 0;
+	gsb_data_report_set_show_r ( current_report_number,
+				     0 );
     else
     {
 	if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_opes_non_r_etat )) )
-	    etat_courant -> afficher_r = 1;
+	    gsb_data_report_set_show_r ( current_report_number,
+					 1 );
 	else
-	    etat_courant -> afficher_r = 2;
+	    gsb_data_report_set_show_r ( current_report_number,
+					 2 );
     }
 
     /* récupération de l'affichage des opés */
 
-    etat_courant -> afficher_opes = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_opes ));
-    etat_courant -> afficher_nb_opes = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_nb_opes ));
+    gsb_data_report_set_show_report_transactions ( current_report_number,
+						   gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_opes )));
+    gsb_data_report_set_show_report_transaction_amount ( current_report_number,
+							 gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_nb_opes )));
 
-    etat_courant -> afficher_no_ope = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_no_ope ));
-    etat_courant -> afficher_date_ope = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_date_opes ));
-    etat_courant -> afficher_tiers_ope = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_tiers_opes ));
-    etat_courant -> afficher_categ_ope = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_categ_opes ));
-    etat_courant -> afficher_sous_categ_ope = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_sous_categ_opes ));
-    etat_courant -> afficher_type_ope = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_type_ope ));
-    etat_courant -> afficher_ib_ope = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_ib_opes ));
-    etat_courant -> afficher_sous_ib_ope = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_sous_ib_opes ));
-    etat_courant -> afficher_cheque_ope = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_no_cheque ));
-    etat_courant -> afficher_notes_ope = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_notes_opes ));
-    etat_courant -> afficher_pc_ope = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_pc_opes ));
-    etat_courant -> afficher_rappr_ope = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_no_rappr ));
-    etat_courant -> afficher_infobd_ope = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_infobd_opes ));
-    etat_courant -> pas_detailler_ventilation = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_pas_detailler_ventilation ));
-    etat_courant -> separer_revenus_depenses = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_separer_revenus_depenses ));
-    etat_courant -> afficher_exo_ope = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_exo_opes ));
-    etat_courant -> afficher_titre_colonnes = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_titres_colonnes ));
-    etat_courant -> type_affichage_titres = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_titre_changement ));
+    gsb_data_report_set_show_report_transaction_number ( current_report_number,
+							 gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_no_ope )));
+    gsb_data_report_set_show_report_date ( current_report_number,
+					   gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_date_opes )));
+    gsb_data_report_set_show_report_payee ( current_report_number,
+					    gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_tiers_opes )));
+    gsb_data_report_set_show_report_category ( current_report_number,
+					       gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_categ_opes )));
+    gsb_data_report_set_show_report_sub_category ( current_report_number,
+						   gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_sous_categ_opes )));
+    gsb_data_report_set_show_report_method_of_payment ( current_report_number,
+							gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_type_ope )));
+    gsb_data_report_set_show_report_budget ( current_report_number,
+					     gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_ib_opes )));
+    gsb_data_report_set_show_report_sub_budget ( current_report_number,
+						 gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_sous_ib_opes )));
+    gsb_data_report_set_show_report_method_of_payment_content ( current_report_number,
+								gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_no_cheque )));
+    gsb_data_report_set_show_report_note ( current_report_number,
+					   gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_notes_opes )));
+    gsb_data_report_set_show_report_voucher ( current_report_number,
+					      gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_pc_opes )));
+    gsb_data_report_set_show_report_marked ( current_report_number,
+					     gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_no_rappr )));
+    gsb_data_report_set_show_report_bank_references ( current_report_number,
+						      gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_infobd_opes )));
+    gsb_data_report_set_not_detail_breakdown ( current_report_number,
+					       gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_pas_detailler_ventilation )));
+    gsb_data_report_set_split_credit_debit ( current_report_number,
+					     gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_separer_revenus_depenses )));
+    gsb_data_report_set_show_report_financial_year ( current_report_number,
+						     gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_exo_opes )));
+    gsb_data_report_set_column_title_show ( current_report_number,
+					    gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_titres_colonnes )));
+    gsb_data_report_set_column_title_type ( current_report_number,
+					    gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_titre_changement )));
 
-    etat_courant -> type_classement_ope = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( bouton_choix_classement_ope_etat ) -> menu_item ),
-										  "no_classement" ));
+    gsb_data_report_set_sorting_report ( current_report_number,
+					 GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( bouton_choix_classement_ope_etat ) -> menu_item ),
+										 "no_classement" )));
 
-    etat_courant -> ope_clickables = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_rendre_ope_clickables ));
+    gsb_data_report_set_report_can_click ( current_report_number,
+					   gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_rendre_ope_clickables )));
 
-    etat_courant -> devise_de_calcul_general = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( bouton_devise_general_etat ) -> menu_item ),
-										       "no_devise" ));
-    etat_courant -> inclure_dans_tiers = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_inclure_dans_tiers ));
+    gsb_data_report_set_currency_general ( current_report_number,
+					   GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( bouton_devise_general_etat ) -> menu_item ),
+										   "no_devise" )));
+    gsb_data_report_set_append_in_payee ( current_report_number,
+					  gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_inclure_dans_tiers )));
 
 
     /* récupération des dates */
 
-    etat_courant -> exo_date = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( radio_button_utilise_exo ));
+    gsb_data_report_set_use_financial_year ( current_report_number,
+					     gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( radio_button_utilise_exo )));
 
     if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_exo_tous )) )
-	etat_courant -> utilise_detail_exo = 0;
+	gsb_data_report_set_financial_year_type ( current_report_number,
+						  0 );
     else
     {
 	if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_exo_courant )) )
-	    etat_courant -> utilise_detail_exo = 1;
+	    gsb_data_report_set_financial_year_type ( current_report_number,
+						      1 );
 	else
 	{
 	    if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_exo_precedent )) )
-		etat_courant -> utilise_detail_exo = 2;
+		gsb_data_report_set_financial_year_type ( current_report_number,
+							  2 );
 	    else
-		etat_courant -> utilise_detail_exo = 3;
+		gsb_data_report_set_financial_year_type ( current_report_number,
+							  3 );
 	}
     }
 
-    if ( etat_courant -> no_exercices )
+    if ( gsb_data_report_get_financial_year_list (current_report_number))
     {
-	g_slist_free ( etat_courant -> no_exercices );
-	etat_courant -> no_exercices = NULL;
+	g_slist_free ( gsb_data_report_get_financial_year_list (current_report_number));
+	gsb_data_report_set_financial_year_list ( current_report_number,
+						  NULL );
     }
 
     list_tmp = GTK_CLIST ( liste_exo_etat ) -> selection;
 
     while ( list_tmp )
     {
-	etat_courant -> no_exercices = g_slist_append ( etat_courant -> no_exercices,
-							gtk_clist_get_row_data ( GTK_CLIST ( liste_exo_etat ),
-										 GPOINTER_TO_INT ( list_tmp -> data )));
+	gsb_data_report_set_financial_year_list ( current_report_number,
+						  g_slist_append ( gsb_data_report_get_financial_year_list (current_report_number),
+								   gtk_clist_get_row_data ( GTK_CLIST ( liste_exo_etat ),
+											    GPOINTER_TO_INT ( list_tmp -> data ))));
 	list_tmp = list_tmp -> next;
     }
 
@@ -1326,56 +1381,67 @@ void recuperation_info_perso_etat ( void )
 	   ==
 	   GTK_CLIST ( liste_exo_etat ) -> rows )
 	 &&
-	 etat_courant -> utilise_detail_exo == 3 )
+	 gsb_data_report_get_financial_year_type (current_report_number) == 3 )
     {
 	dialogue_special ( GTK_MESSAGE_INFO, 
 			   make_hint ( _("Performance issue."),
 				       _("All financial years have been selected.  Grisbi will run faster without the \"Detail financial years\" option activated.") ) );
-	etat_courant -> utilise_detail_exo = FALSE;
+	gsb_data_report_set_financial_year_type ( current_report_number,
+						  0 );
     }
 
 
-    etat_courant -> separation_par_exo = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_separe_exo_etat ));
+    gsb_data_report_set_financial_year_split ( current_report_number,
+					       gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_separe_exo_etat )));
 
-    etat_courant -> no_plage_date = GPOINTER_TO_INT ( GTK_CLIST ( liste_plages_dates_etat ) -> selection -> data );
+    gsb_data_report_set_date_type ( current_report_number,
+				    GPOINTER_TO_INT ( GTK_CLIST ( liste_plages_dates_etat ) -> selection -> data ));
 
     if ( strlen ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree_date_init_etat ))))
 	 &&
 	 format_date ( entree_date_init_etat ))
     {
-	etat_courant -> date_perso_debut = gsb_parse_date_string ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree_date_init_etat ) ) );
+	gsb_data_report_set_personal_date_start ( current_report_number,
+						  gsb_parse_date_string ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree_date_init_etat ) ) ));
     }
 
     if ( strlen ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree_date_finale_etat ))))
 	 &&
 	 format_date ( entree_date_finale_etat ))
     {
-	etat_courant -> date_perso_fin = gsb_parse_date_string ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree_date_finale_etat ) ) );
+	gsb_data_report_set_personal_date_end ( current_report_number,
+						gsb_parse_date_string ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree_date_finale_etat ) ) ));
     }
 
-    etat_courant -> separation_par_plage = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_separe_plages_etat ));
-    etat_courant -> type_separation_plage = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( bouton_type_separe_plages_etat ) -> menu_item ),
-										    "type" ));
-    etat_courant -> jour_debut_semaine = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( bouton_debut_semaine ) -> menu_item ),
-										 "jour" ));
+    gsb_data_report_set_period_split ( current_report_number,
+				       gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_separe_plages_etat )));
+    gsb_data_report_set_period_split_type ( current_report_number,
+					    GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( bouton_type_separe_plages_etat ) -> menu_item ),
+										    "type" )));
+    gsb_data_report_set_period_split_day ( current_report_number,
+					   GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( bouton_debut_semaine ) -> menu_item ),
+										   "jour" )));
 
     /* récupération des comptes */
 
-    etat_courant -> utilise_detail_comptes = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_detaille_comptes_etat ));
+    gsb_data_report_set_account_use_chosen ( current_report_number,
+					     gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_detaille_comptes_etat )));
 
-    if ( etat_courant -> no_comptes )
+    if ( gsb_data_report_get_account_numbers (current_report_number))
     {
-	g_slist_free ( etat_courant -> no_comptes );
-	etat_courant -> no_comptes = NULL;
+	g_slist_free ( gsb_data_report_get_account_numbers (current_report_number));
+	gsb_data_report_set_account_numbers ( current_report_number,
+					      NULL );
     }
 
     list_tmp = GTK_CLIST ( liste_comptes_etat ) -> selection;
 
     while ( list_tmp )
     {
-	etat_courant -> no_comptes = g_slist_append ( etat_courant -> no_comptes,
-						      gtk_clist_get_row_data ( GTK_CLIST ( liste_comptes_etat ),
-									       GPOINTER_TO_INT ( list_tmp -> data )));
+	gsb_data_report_set_account_numbers ( current_report_number,
+					      g_slist_append ( gsb_data_report_get_account_numbers (current_report_number),
+							       gtk_clist_get_row_data ( GTK_CLIST ( liste_comptes_etat ),
+											GPOINTER_TO_INT ( list_tmp -> data ))));
 	list_tmp = list_tmp -> next;
     }
 
@@ -1385,73 +1451,88 @@ void recuperation_info_perso_etat ( void )
 	   ==
 	   GTK_CLIST ( liste_comptes_etat ) -> rows )
 	 &&
-	 etat_courant -> utilise_detail_comptes )
+	 gsb_data_report_get_account_use_chosen (current_report_number))
     {
 	dialogue_special ( GTK_MESSAGE_INFO, 
 			   make_hint ( _("Performance issue."),
 				       _("All accounts have been selected.  Grisbi will run faster without the \"Detail accounts used\" option activated.") ) );
-	etat_courant -> utilise_detail_comptes = FALSE;
+	gsb_data_report_set_account_use_chosen ( current_report_number,
+						 0 );
     }
 
-    etat_courant -> regroupe_ope_par_compte = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_regroupe_ope_compte_etat ));
-    etat_courant -> affiche_sous_total_compte = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_affiche_sous_total_compte ));
-    etat_courant -> afficher_nom_compte = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_noms_comptes ));
+    gsb_data_report_set_account_group_reports ( current_report_number,
+						gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_regroupe_ope_compte_etat )));
+    gsb_data_report_set_account_show_amount ( current_report_number,
+					      gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_affiche_sous_total_compte )));
+    gsb_data_report_set_account_show_name ( current_report_number,
+					    gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_noms_comptes )));
 
 
     /* récupération des virements */
 
     if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_inclusion_virements_actifs_etat )))
-	etat_courant -> type_virement = 1;
+	gsb_data_report_set_transfer_choice ( current_report_number,
+					      1 );
     else
 	if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_inclusion_virements_hors_etat )))
-	    etat_courant -> type_virement = 2;
+	    gsb_data_report_set_transfer_choice ( current_report_number,
+						  2 );
 	else
 	{
 	    if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_non_inclusion_virements )))
-		etat_courant -> type_virement = 0;
+		gsb_data_report_set_transfer_choice ( current_report_number,
+						      0 );
 	    else
-		etat_courant -> type_virement = 3;
+		gsb_data_report_set_transfer_choice ( current_report_number,
+						      3 );
 	}
 
-    if ( etat_courant -> no_comptes_virements )
+    if ( gsb_data_report_get_transfer_account_numbers (current_report_number))
     {
-	g_slist_free ( etat_courant -> no_comptes_virements );
-	etat_courant -> no_comptes_virements = NULL;
+	g_slist_free ( gsb_data_report_get_transfer_account_numbers (current_report_number));
+	gsb_data_report_set_transfer_account_numbers ( current_report_number,
+						       NULL );
     }
 
     list_tmp = GTK_CLIST ( liste_comptes_virements ) -> selection;
 
     while ( list_tmp )
     {
-	etat_courant -> no_comptes_virements = g_slist_append ( etat_courant -> no_comptes_virements,
-								gtk_clist_get_row_data ( GTK_CLIST ( liste_comptes_virements ),
-											 GPOINTER_TO_INT ( list_tmp -> data )));
+	gsb_data_report_set_transfer_account_numbers ( current_report_number,
+						       g_slist_append ( gsb_data_report_get_transfer_account_numbers (current_report_number),
+									gtk_clist_get_row_data ( GTK_CLIST ( liste_comptes_virements ),
+												 GPOINTER_TO_INT ( list_tmp -> data ))));
 	list_tmp = list_tmp -> next;
     }
 
-    etat_courant -> exclure_ope_non_virement = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_exclure_non_virements_etat ));
+    gsb_data_report_set_transfer_reports_only ( current_report_number,
+						gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_exclure_non_virements_etat )));
 
 
 
     /*   récupération des catégories */
 
-    etat_courant -> utilise_categ = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_utilise_categ_etat ));
+    gsb_data_report_set_category_used ( current_report_number,
+					gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_utilise_categ_etat )));
 
-    etat_courant -> utilise_detail_categ = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_detaille_categ_etat ));
+    gsb_data_report_set_category_detail_used ( current_report_number,
+					       gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_detaille_categ_etat )));
 
-    if ( etat_courant -> no_categ )
+    if ( gsb_data_report_get_category_numbers (current_report_number))
     {
-	g_slist_free ( etat_courant -> no_categ );
-	etat_courant -> no_categ = NULL;
+	g_slist_free ( gsb_data_report_get_category_numbers (current_report_number));
+	gsb_data_report_set_category_numbers ( current_report_number,
+					       NULL );
     }
 
     list_tmp = GTK_CLIST ( liste_categ_etat ) -> selection;
 
     while ( list_tmp )
     {
-	etat_courant -> no_categ = g_slist_append ( etat_courant -> no_categ,
-						    gtk_clist_get_row_data ( GTK_CLIST ( liste_categ_etat ),
-									     GPOINTER_TO_INT ( list_tmp -> data )));
+	gsb_data_report_set_category_numbers ( current_report_number,
+					       g_slist_append ( gsb_data_report_get_category_numbers (current_report_number),
+								gtk_clist_get_row_data ( GTK_CLIST ( liste_categ_etat ),
+											 GPOINTER_TO_INT ( list_tmp -> data ))));
 	list_tmp = list_tmp -> next;
     }
 
@@ -1461,48 +1542,61 @@ void recuperation_info_perso_etat ( void )
 	   ==
 	   GTK_CLIST ( liste_categ_etat ) -> rows )
 	 &&
-	 etat_courant -> utilise_detail_categ )
+	 gsb_data_report_get_category_detail_used (current_report_number))
     {
 	dialogue_special ( GTK_MESSAGE_INFO, 
 			   make_hint ( _("Performance issue."),
 				       _("All categories have been selected.  Grisbi will run faster without the \"Detail categories used\" option activated.") ) );
-	etat_courant -> utilise_detail_categ = FALSE;
+	gsb_data_report_set_category_detail_used ( current_report_number,
+						   0 );
     }
 
-    etat_courant -> exclure_ope_sans_categ = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_exclure_ope_sans_categ ));
-    etat_courant -> affiche_sous_total_categ = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_affiche_sous_total_categ ));
-    etat_courant -> afficher_sous_categ = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_sous_categ ));
-    etat_courant -> affiche_sous_total_sous_categ = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_affiche_sous_total_sous_categ ));
-    etat_courant -> afficher_pas_de_sous_categ = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_pas_de_sous_categ ));
+    gsb_data_report_set_category_only_report_with_category ( current_report_number,
+							     gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_exclure_ope_sans_categ )));
+    gsb_data_report_set_category_show_category_amount ( current_report_number,
+							gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_affiche_sous_total_categ )));
+    gsb_data_report_set_category_show_sub_category ( current_report_number,
+						     gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_sous_categ )));
+    gsb_data_report_set_category_show_sub_category_amount ( current_report_number,
+							    gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_affiche_sous_total_sous_categ )));
+    gsb_data_report_set_category_show_without_category ( current_report_number,
+							 gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_pas_de_sous_categ )));
 
-    etat_courant -> devise_de_calcul_categ = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( bouton_devise_categ_etat ) -> menu_item ),
-										     "no_devise" ));
-    etat_courant -> afficher_nom_categ = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_noms_categ ));
+    gsb_data_report_set_category_currency ( current_report_number,
+					    GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( bouton_devise_categ_etat ) -> menu_item ),
+										    "no_devise" )));
+    gsb_data_report_set_category_show_name ( current_report_number,
+					     gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_noms_categ )));
 
 
     /*   récupération des ib */
 
-    etat_courant -> utilise_ib = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_utilise_ib_etat ));
+    gsb_data_report_set_budget_used ( current_report_number,
+				      gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_utilise_ib_etat )));
 
-    etat_courant -> utilise_detail_ib = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_detaille_ib_etat ));
+    gsb_data_report_set_budget_detail_used ( current_report_number,
+					     gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_detaille_ib_etat )));
 
-    if ( etat_courant -> no_ib )
+    if ( gsb_data_report_get_budget_numbers (current_report_number))
     {
-	g_slist_free ( etat_courant -> no_ib );
-	etat_courant -> no_ib = NULL;
+	g_slist_free ( gsb_data_report_get_budget_numbers (current_report_number));
+	gsb_data_report_set_budget_numbers ( current_report_number,
+					     NULL );
     }
 
     list_tmp = GTK_CLIST ( liste_ib_etat ) -> selection;
 
     while ( list_tmp )
     {
-	etat_courant -> no_ib = g_slist_append ( etat_courant -> no_ib,
-						 gtk_clist_get_row_data ( GTK_CLIST ( liste_ib_etat ),
-									  GPOINTER_TO_INT ( list_tmp -> data )));
+	gsb_data_report_set_budget_numbers ( current_report_number,
+					     g_slist_append ( gsb_data_report_get_budget_numbers (current_report_number),
+							      gtk_clist_get_row_data ( GTK_CLIST ( liste_ib_etat ),
+										       GPOINTER_TO_INT ( list_tmp -> data ))));
 	list_tmp = list_tmp -> next;
     }
 
-    etat_courant -> afficher_sous_ib = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_sous_ib ));
+    gsb_data_report_set_budget_show_sub_budget ( current_report_number,
+						 gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_sous_ib )));
 
     /*   si toutes les ib ont été sélectionnés, on met utilise_detail_ib à 0 (plus rapide) */
 
@@ -1510,44 +1604,55 @@ void recuperation_info_perso_etat ( void )
 	   ==
 	   GTK_CLIST ( liste_ib_etat ) -> rows )
 	 &&
-	 etat_courant -> utilise_detail_ib )
+	 gsb_data_report_get_budget_detail_used (current_report_number))
     {
 	dialogue_special ( GTK_MESSAGE_INFO, 
 			   make_hint ( _("Performance issue."),
 				       _("All budgetary lines have been selected.  Grisbi will run faster without the \"Detail budgetary lines used\" option activated.") ) );
-	etat_courant -> utilise_detail_ib = FALSE;
+	gsb_data_report_set_budget_detail_used ( current_report_number,
+						 0 );
     }
 
-    etat_courant -> exclure_ope_sans_ib = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_exclure_ope_sans_ib ));
-    etat_courant -> affiche_sous_total_ib = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_affiche_sous_total_ib ));
-    etat_courant -> affiche_sous_total_sous_ib = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_affiche_sous_total_sous_ib ));
-    etat_courant -> afficher_pas_de_sous_ib = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_pas_de_sous_ib ));
+    gsb_data_report_set_budget_only_report_with_budget ( current_report_number,
+							 gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_exclure_ope_sans_ib )));
+    gsb_data_report_set_budget_show_budget_amount ( current_report_number,
+						    gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_affiche_sous_total_ib )));
+    gsb_data_report_set_budget_show_sub_budget_amount ( current_report_number,
+							gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_affiche_sous_total_sous_ib )));
+    gsb_data_report_set_budget_show_without_budget ( current_report_number,
+						     gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_pas_de_sous_ib )));
 
-    etat_courant -> devise_de_calcul_ib = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( bouton_devise_ib_etat ) -> menu_item ),
-										  "no_devise" ));
-    etat_courant -> afficher_nom_ib = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_noms_ib ));
+    gsb_data_report_set_budget_currency ( current_report_number,
+					  GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( bouton_devise_ib_etat ) -> menu_item ),
+										  "no_devise" )));
+    gsb_data_report_set_budget_show_name ( current_report_number,
+					   gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_noms_ib )));
 
 
 
     /*   récupération des tiers */
 
-    etat_courant -> utilise_tiers = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_utilise_tiers_etat ));
+    gsb_data_report_set_payee_used ( current_report_number,
+				     gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_utilise_tiers_etat )));
 
-    etat_courant -> utilise_detail_tiers = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_detaille_tiers_etat ));
+    gsb_data_report_set_payee_detail_used ( current_report_number,
+					    gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_detaille_tiers_etat )));
 
-    if ( etat_courant -> no_tiers )
+    if ( gsb_data_report_get_payee_numbers (current_report_number))
     {
-	g_slist_free ( etat_courant -> no_tiers );
-	etat_courant -> no_tiers = NULL;
+	g_slist_free ( gsb_data_report_get_payee_numbers (current_report_number));
+	gsb_data_report_set_payee_numbers ( current_report_number,
+					    NULL );
     }
 
     list_tmp = GTK_CLIST ( liste_tiers_etat ) -> selection;
 
     while ( list_tmp )
     {
-	etat_courant -> no_tiers = g_slist_append ( etat_courant -> no_tiers,
-						    gtk_clist_get_row_data ( GTK_CLIST ( liste_tiers_etat ),
-									     GPOINTER_TO_INT ( list_tmp -> data )));
+	gsb_data_report_set_payee_numbers ( current_report_number,
+					    g_slist_append ( gsb_data_report_get_payee_numbers (current_report_number),
+							     gtk_clist_get_row_data ( GTK_CLIST ( liste_tiers_etat ),
+										      GPOINTER_TO_INT ( list_tmp -> data ))));
 	list_tmp = list_tmp -> next;
     }
 
@@ -1557,147 +1662,184 @@ void recuperation_info_perso_etat ( void )
 	   ==
 	   GTK_CLIST ( liste_tiers_etat ) -> rows )
 	 &&
-	 etat_courant -> utilise_detail_tiers )
+	 gsb_data_report_get_payee_detail_used (current_report_number))
     {
 	dialogue_special ( GTK_MESSAGE_INFO, 
 			   make_hint ( _("Performance issue."),
 				       _("All payees have been selected.  Grisbi will run faster without the \"Detail payees used\" option activated.") ) );
-	etat_courant -> utilise_detail_tiers = FALSE;
+	gsb_data_report_set_payee_detail_used ( current_report_number,
+						0 );
     }
 
-    etat_courant -> affiche_sous_total_tiers = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_affiche_sous_total_tiers ));
+    gsb_data_report_set_payee_show_payee_amount ( current_report_number,
+						  gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_affiche_sous_total_tiers )));
 
-    etat_courant -> devise_de_calcul_tiers = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( bouton_devise_tiers_etat ) -> menu_item ),
-										     "no_devise" ));
-    etat_courant -> afficher_nom_tiers = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_noms_tiers ));
+    gsb_data_report_set_payee_currency ( current_report_number,
+					 GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( bouton_devise_tiers_etat ) -> menu_item ),
+										 "no_devise" )));
+    gsb_data_report_set_payee_show_name ( current_report_number,
+					  gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_noms_tiers )));
 
 
 
     /* récupération du texte */
 
-    etat_courant -> utilise_texte = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_utilise_texte ));
+    gsb_data_report_set_text_comparison_used ( current_report_number,
+					       gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_utilise_texte )));
 
     /* récupération de la liste des comparaisons de texte */
     /*   il y a au moins une structure de créée, si celle si a l'entrée txt et 2 montants vides, */
     /* c'est qu'il n'y a aucune liste */
 
-    comp_textes = etat_courant -> liste_struct_comparaison_textes -> data;
+    /*     text_comparison_number = GPOINTER_TO_INT (gsb_data_report_get_text_comparison_list (current_report_number)-> data); */
 
     /* on a rentré au moins une comparaison */
     /* on rempli les champs de la structure */
 
-    liste_tmp = etat_courant -> liste_struct_comparaison_textes;
+    comparison_list = gsb_data_report_get_text_comparison_list (current_report_number);
 
-    while ( liste_tmp )
+    while ( comparison_list )
     {
-	comp_textes = liste_tmp -> data;
+	gchar *string;
+	gint text_comparison_number;
 
-	if ( comp_textes -> bouton_lien )
-	    comp_textes -> lien_struct_precedente = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( comp_textes -> bouton_lien ) -> menu_item ),
-											    "no_lien" ));
+	text_comparison_number = GPOINTER_TO_INT (comparison_list -> data);
+
+	if ( gsb_data_report_text_comparison_get_button_link (text_comparison_number))
+	    gsb_data_report_text_comparison_set_link_to_last_text_comparison ( text_comparison_number,
+									       GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU (gsb_data_report_text_comparison_get_button_link (text_comparison_number)) -> menu_item ),
+														       "no_lien" )));
 	else
-	    comp_textes -> lien_struct_precedente = -1;
+	    gsb_data_report_text_comparison_set_link_to_last_text_comparison ( text_comparison_number,
+									       -1 );
 
+	gsb_data_report_text_comparison_set_field ( text_comparison_number,
+						    GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU (gsb_data_report_text_comparison_get_button_field (text_comparison_number)) -> menu_item ),
+											    "no_champ" )));
+	gsb_data_report_text_comparison_set_use_text ( text_comparison_number,
+						       gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON (gsb_data_report_text_comparison_get_button_use_text (text_comparison_number))));
+	gsb_data_report_text_comparison_set_operator ( text_comparison_number,
+						       GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU (gsb_data_report_text_comparison_get_button_operator (text_comparison_number)) -> menu_item ),
+											       "no_operateur" )));
 
-	comp_textes -> champ = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( comp_textes -> bouton_champ ) -> menu_item ),
-								       "no_champ" ));
-	comp_textes -> utilise_txt = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( comp_textes -> bouton_utilise_txt ));
-	comp_textes -> operateur = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( comp_textes -> bouton_operateur ) -> menu_item ),
-									   "no_operateur" ));
-	comp_textes -> texte = g_strstrip ( g_strdup ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( comp_textes -> entree_txt ))));
-	if ( !strlen ( comp_textes -> texte ))
-	    comp_textes -> texte = NULL;
+	string = g_strstrip ( g_strdup (gtk_entry_get_text ( GTK_ENTRY (gsb_data_report_text_comparison_get_entry_text (text_comparison_number)))));
+	if ( strlen (string))
+	    gsb_data_report_text_comparison_set_text ( text_comparison_number,
+						       string );
+	else
+	    gsb_data_report_text_comparison_set_text ( text_comparison_number,
+						       NULL );
 
-	comp_textes -> comparateur_1 = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( comp_textes -> bouton_comparateur_1 ) -> menu_item ),
-									       "no_comparateur" ));
-	comp_textes -> lien_1_2 = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( comp_textes -> bouton_lien_1_2 ) -> menu_item ),
-									  "no_lien" ));
-	comp_textes -> comparateur_2 = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( comp_textes -> bouton_comparateur_2 ) -> menu_item ),
-									       "no_comparateur" ));
-	comp_textes -> montant_1 = utils_str_atoi ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( comp_textes -> entree_montant_1 )));
-	comp_textes -> montant_2 = utils_str_atoi ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( comp_textes -> entree_montant_2 )));
+	gsb_data_report_text_comparison_set_first_comparison ( text_comparison_number,
+							       GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU (gsb_data_report_text_comparison_get_button_first_comparison (text_comparison_number)) -> menu_item ),
+												       "no_comparateur" )));
+	gsb_data_report_text_comparison_set_link_first_to_second_part ( text_comparison_number,
+									GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU (gsb_data_report_text_comparison_get_button_link_first_to_second_part (text_comparison_number)) -> menu_item ),
+														"no_lien" )));
+	gsb_data_report_text_comparison_set_second_comparison ( text_comparison_number,
+								GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU (gsb_data_report_text_comparison_get_button_second_comparison (text_comparison_number)) -> menu_item ),
+													"no_comparateur" )));
+	gsb_data_report_text_comparison_set_first_amount ( text_comparison_number,
+							   utils_str_atoi ( gtk_entry_get_text ( GTK_ENTRY (gsb_data_report_text_comparison_get_entry_first_amount (text_comparison_number)))));
+	gsb_data_report_text_comparison_set_second_amount ( text_comparison_number,
+							    utils_str_atoi (gtk_entry_get_text ( GTK_ENTRY (gsb_data_report_text_comparison_get_entry_second_amount (text_comparison_number)))));
 
-	liste_tmp = liste_tmp -> next;
+	comparison_list = comparison_list -> next;
     }
 
     /* récupération du montant */
 
-    etat_courant -> utilise_montant = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_utilise_montant ));
-    etat_courant -> choix_devise_montant = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( bouton_devise_montant_etat ) -> menu_item ),
-										   "no_devise" ));
+    gsb_data_report_set_amount_comparison_used ( current_report_number,
+						 gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_utilise_montant )));
+    gsb_data_report_set_amount_comparison_currency ( current_report_number,
+    GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( bouton_devise_montant_etat ) -> menu_item ),
+					    "no_devise" )));
 
     /* récupération de la liste des comparaisons de montant */
-    /*   il y a au moins une structure de créée, si celle si a les 2 montants vides, */
+    /*   il y a au moins une structure de créé, si celle si a les 2 montants vides, */
     /* c'est qu'il n'y a aucune liste */
 
-    comp_montants = etat_courant -> liste_struct_comparaison_montants -> data;
+    amount_comparison_number = GPOINTER_TO_INT (gsb_data_report_get_amount_comparison_list (current_report_number)-> data);
 
-    if ( g_slist_length ( etat_courant -> liste_struct_comparaison_montants ) == 1
+    if ( g_slist_length ( gsb_data_report_get_amount_comparison_list (current_report_number)) == 1
 	 &&
-	 !strlen ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( comp_montants -> entree_montant_1 ))))
+	 !strlen ( gtk_entry_get_text ( GTK_ENTRY (gsb_data_report_amount_comparison_get_entry_first_amount (amount_comparison_number))))
 	 &&
-	 !strlen ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( comp_montants -> entree_montant_2 ))))
+	 !strlen ( gtk_entry_get_text ( GTK_ENTRY (gsb_data_report_amount_comparison_get_entry_second_amount (amount_comparison_number))))
 	 &&
-	 GTK_WIDGET_SENSITIVE ( comp_montants -> entree_montant_1 )
+	 GTK_WIDGET_SENSITIVE (gsb_data_report_amount_comparison_get_entry_first_amount (amount_comparison_number))
 	 &&
-	 GTK_WIDGET_SENSITIVE ( comp_montants -> entree_montant_2 ))
+	 GTK_WIDGET_SENSITIVE (gsb_data_report_amount_comparison_get_entry_second_amount (amount_comparison_number)))
     {
-	g_slist_free ( etat_courant -> liste_struct_comparaison_montants );
-	etat_courant -> liste_struct_comparaison_montants = NULL;
+	g_slist_free ( gsb_data_report_get_amount_comparison_list (current_report_number));
+	gsb_data_report_set_amount_comparison_list ( current_report_number,
+						     NULL );
     }
     else
     {
 	/* on a rentré au moins une comparaison */
 	/* on rempli les champs de la structure */
 
-	GSList *liste_tmp;
+	GSList *comparison_list;
 
-	liste_tmp = etat_courant -> liste_struct_comparaison_montants;
+	comparison_list = gsb_data_report_get_amount_comparison_list (current_report_number);
 
-	while ( liste_tmp )
+	while ( comparison_list )
 	{
-	    comp_montants = liste_tmp -> data;
+	    amount_comparison_number = GPOINTER_TO_INT (comparison_list -> data);
 
-	    if ( comp_montants -> bouton_lien )
-		comp_montants -> lien_struct_precedente = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( comp_montants -> bouton_lien ) -> menu_item ),
-												  "no_lien" ));
+	    if ( gsb_data_report_amount_comparison_get_button_link (amount_comparison_number))
+		gsb_data_report_amount_comparison_set_link_to_last_amount_comparison ( amount_comparison_number,
+										       GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU (gsb_data_report_amount_comparison_get_button_link (amount_comparison_number)) -> menu_item ),
+															       "no_lien" )));
 	    else
-		comp_montants -> lien_struct_precedente = -1;
+		gsb_data_report_amount_comparison_set_link_to_last_amount_comparison ( amount_comparison_number,
+										       -1 );
 
-	    comp_montants -> comparateur_1 = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( comp_montants -> bouton_comparateur_1 ) -> menu_item ),
-										     "no_comparateur" ));
-	    comp_montants -> lien_1_2 = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( comp_montants -> bouton_lien_1_2 ) -> menu_item ),
-										"no_lien" ));
-	    comp_montants -> comparateur_2 = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( comp_montants -> bouton_comparateur_2 ) -> menu_item ),
-										     "no_comparateur" ));
-	    comp_montants -> montant_1 = my_strtod ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( comp_montants -> entree_montant_1 )),
-						     NULL );
-	    comp_montants -> montant_2 = my_strtod ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( comp_montants -> entree_montant_2 )),
-						     NULL );
+	    gsb_data_report_amount_comparison_set_first_comparison ( amount_comparison_number,
+								     GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU (gsb_data_report_amount_comparison_get_button_first_comparison (amount_comparison_number)) -> menu_item ),
+													     "no_comparateur" )));
 
-	    liste_tmp = liste_tmp -> next;
+	    gsb_data_report_amount_comparison_set_link_first_to_second_part ( amount_comparison_number,
+									      GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU (gsb_data_report_amount_comparison_get_button_link_first_to_second_part (amount_comparison_number)) -> menu_item ),
+														      "no_lien" )));
+	    gsb_data_report_amount_comparison_set_second_comparison ( amount_comparison_number,
+								      GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU (gsb_data_report_amount_comparison_get_button_second_comparison (amount_comparison_number)) -> menu_item ),
+													      "no_comparateur" )));
+	    gsb_data_report_amount_comparison_set_first_amount ( amount_comparison_number,
+								 my_strtod ( (gchar *) gtk_entry_get_text ( GTK_ENTRY (gsb_data_report_amount_comparison_get_entry_first_amount (amount_comparison_number))),
+									     NULL ));
+	    gsb_data_report_amount_comparison_set_second_amount ( amount_comparison_number,
+								  my_strtod ( (gchar *) gtk_entry_get_text ( GTK_ENTRY (gsb_data_report_amount_comparison_get_entry_second_amount (amount_comparison_number))),
+									      NULL ));
+
+	    comparison_list = comparison_list -> next;
 	}
     }
 
-    etat_courant -> exclure_montants_nuls = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_exclure_ope_nulles_etat ));
+    gsb_data_report_set_amount_comparison_only_report_non_null ( current_report_number,
+								 gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_exclure_ope_nulles_etat )));
 
     /* récupération des modes de paiement */
 
-    etat_courant -> utilise_mode_paiement = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_detaille_mode_paiement_etat ));
+    gsb_data_report_set_method_of_payment_used ( current_report_number,
+						 gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_detaille_mode_paiement_etat )));
 
-    if ( etat_courant -> noms_modes_paiement )
+    if ( gsb_data_report_get_method_of_payment_list (current_report_number))
     {
-	g_slist_free ( etat_courant -> noms_modes_paiement );
-	etat_courant -> noms_modes_paiement = NULL;
+	g_slist_free ( gsb_data_report_get_method_of_payment_list (current_report_number));
+	gsb_data_report_set_method_of_payment_list ( current_report_number,
+						     NULL );
     }
 
     list_tmp = GTK_CLIST ( liste_mode_paiement_etat ) -> selection;
 
     while ( list_tmp )
     {
-	etat_courant -> noms_modes_paiement = g_slist_append ( etat_courant -> noms_modes_paiement,
-							       gtk_clist_get_row_data ( GTK_CLIST ( liste_mode_paiement_etat ),
-											GPOINTER_TO_INT ( list_tmp -> data )));
+	gsb_data_report_set_method_of_payment_list ( current_report_number,
+						     g_slist_append ( gsb_data_report_get_method_of_payment_list (current_report_number),
+								      gtk_clist_get_row_data ( GTK_CLIST ( liste_mode_paiement_etat ),
+											       GPOINTER_TO_INT ( list_tmp -> data ))));
 	list_tmp = list_tmp -> next;
     }
 
@@ -1707,12 +1849,13 @@ void recuperation_info_perso_etat ( void )
 	   ==
 	   GTK_CLIST ( liste_mode_paiement_etat ) -> rows )
 	 &&
-	 etat_courant -> utilise_mode_paiement )
+	 gsb_data_report_get_method_of_payment_used (current_report_number))
     {
 	dialogue_special ( GTK_MESSAGE_INFO, 
 			   make_hint ( _("Performance issue."),
 				       _("All methods of payment have been selected.  Grisbi will run faster without the \"Detail methods of payment used\" option activated.") ) );
-	etat_courant -> utilise_mode_paiement = FALSE;
+	gsb_data_report_set_method_of_payment_used ( current_report_number,
+						     0 );
     }
 
 
@@ -1725,7 +1868,7 @@ void recuperation_info_perso_etat ( void )
 
     /* on réaffiche l'état */
 
-    rafraichissement_etat ( etat_courant );
+    rafraichissement_etat ( gsb_gui_navigation_get_current_report ());
 
     /* on repasse à la 1ère page du notebook */
     gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_etats ),
@@ -1733,7 +1876,7 @@ void recuperation_info_perso_etat ( void )
     gtk_widget_set_sensitive ( frame_liste_etats,
 			       TRUE );
 
-    gsb_gui_navigation_update_report ( etat_courant );
+    gsb_gui_navigation_update_report ( gsb_gui_navigation_get_current_report ());
 }
 /******************************************************************************/
 
@@ -3861,9 +4004,13 @@ GtkWidget *onglet_etat_texte ( void )
 /******************************************************************************/
 void remplit_liste_comparaisons_textes_etat ( void )
 {
-    GSList *liste_tmp;
+    GSList *list_tmp;
+    gint current_report_number;
 
-    liste_tmp = etat_courant -> liste_struct_comparaison_textes;
+    current_report_number = gsb_gui_navigation_get_current_report ();
+
+
+    list_tmp = gsb_data_report_get_text_comparison_list (current_report_number);
 
 
     /* commence par effacer l'ancienne liste */
@@ -3875,115 +4022,121 @@ void remplit_liste_comparaisons_textes_etat ( void )
 
     /*   s'il n'y a rien dans la liste, on met juste une ligne vide */
 
-    if ( !liste_tmp )
+    if ( !list_tmp )
     {
-	ajoute_ligne_liste_comparaisons_textes_etat ( NULL );
+	ajoute_ligne_liste_comparaisons_textes_etat (0);
 	return;
     }
 
     /*   on fait le tour de la liste des comparaisons de texte, ajoute une ligne */
     /* et la remplit à chaque fois */
 
-    while ( liste_tmp )
+    while ( list_tmp )
     {
-	struct struct_comparaison_textes_etat *comp_textes;
+	gint text_comparison_number;
+	GtkWidget *widget;
 
-	comp_textes = liste_tmp -> data;
+	text_comparison_number = GPOINTER_TO_INT (list_tmp -> data);
 
 	/* on crée la ligne et remplit les widget de la structure */
 
-	comp_textes -> vbox_ligne = cree_ligne_comparaison_texte ( comp_textes );
+	widget = cree_ligne_comparaison_texte (text_comparison_number);
+	gsb_data_report_text_comparison_set_vbox_line ( text_comparison_number,
+							widget );
 	gtk_box_pack_start ( GTK_BOX ( liste_textes_etat ),
-			     comp_textes -> vbox_ligne,
+			     widget,
 			     FALSE,
 			     FALSE,
 			     0 );
-	gtk_widget_show ( comp_textes -> vbox_ligne );
+	gtk_widget_show ( widget );
 
 	/* on remplit maintenant les widget avec les valeurs de la stucture */
 
 	/*       s'il n'y a pas de lien avec la struct précédente, on le vire */
 	/* on rajoute le && car parfois le bouton de lien se met quand même en 1ère ligne */
 
-	if ( comp_textes -> lien_struct_precedente != -1
+	if ( gsb_data_report_text_comparison_get_link_to_last_text_comparison (text_comparison_number) != -1
 	     &&
-	     liste_tmp != etat_courant -> liste_struct_comparaison_textes )
-	    gtk_option_menu_set_history ( GTK_OPTION_MENU ( comp_textes -> bouton_lien ),
-					  comp_textes -> lien_struct_precedente );
+	     list_tmp != gsb_data_report_get_text_comparison_list (current_report_number))
+	    gtk_option_menu_set_history ( GTK_OPTION_MENU (gsb_data_report_text_comparison_get_button_link (text_comparison_number)),
+					  gsb_data_report_text_comparison_get_link_to_last_text_comparison (text_comparison_number));
 	else
 	{
-	    gtk_widget_destroy ( comp_textes -> bouton_lien );
-	    comp_textes -> bouton_lien = NULL;
+	    gtk_widget_destroy (gsb_data_report_text_comparison_get_button_link (text_comparison_number));
+	    gsb_data_report_text_comparison_set_button_link ( text_comparison_number,
+							      NULL);
 	}
 
 
-	gtk_option_menu_set_history ( GTK_OPTION_MENU ( comp_textes -> bouton_champ ),
-				      comp_textes -> champ );
-	gtk_option_menu_set_history ( GTK_OPTION_MENU ( comp_textes -> bouton_operateur ),
-				      comp_textes -> operateur );
-	if ( comp_textes -> texte )
-	    gtk_entry_set_text ( GTK_ENTRY ( comp_textes -> entree_txt ),
-				 comp_textes -> texte );
-	gtk_option_menu_set_history ( GTK_OPTION_MENU ( comp_textes -> bouton_comparateur_1 ),
-				      comp_textes -> comparateur_1 );
-	gtk_option_menu_set_history ( GTK_OPTION_MENU ( comp_textes -> bouton_lien_1_2 ),
-				      comp_textes -> lien_1_2 );
-	gtk_option_menu_set_history ( GTK_OPTION_MENU ( comp_textes -> bouton_comparateur_2 ),
-				      comp_textes -> comparateur_2 );
-	gtk_entry_set_text ( GTK_ENTRY ( comp_textes -> entree_montant_1 ),
-			     utils_str_itoa ( comp_textes -> montant_1 ));
-	gtk_entry_set_text ( GTK_ENTRY ( comp_textes -> entree_montant_2 ),
-			     utils_str_itoa ( comp_textes -> montant_2 ));
+	gtk_option_menu_set_history ( GTK_OPTION_MENU (gsb_data_report_text_comparison_get_button_field (text_comparison_number)),
+				      gsb_data_report_text_comparison_get_field (text_comparison_number));
+	gtk_option_menu_set_history ( GTK_OPTION_MENU (gsb_data_report_text_comparison_get_button_operator (text_comparison_number)),
+				      gsb_data_report_text_comparison_get_operator (text_comparison_number));
+	
+	if (gsb_data_report_text_comparison_get_text (text_comparison_number))
+	    gtk_entry_set_text ( GTK_ENTRY (gsb_data_report_text_comparison_get_entry_text (text_comparison_number)),
+				 gsb_data_report_text_comparison_get_text (text_comparison_number));
 
-	if ( comp_textes -> utilise_txt )
-	    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( comp_textes -> bouton_utilise_txt ),
+	gtk_option_menu_set_history ( GTK_OPTION_MENU (gsb_data_report_text_comparison_get_button_first_comparison (text_comparison_number)),
+				      gsb_data_report_text_comparison_get_first_comparison (text_comparison_number));
+	gtk_option_menu_set_history ( GTK_OPTION_MENU (gsb_data_report_text_comparison_get_button_link_first_to_second_part (text_comparison_number)),
+				      gsb_data_report_text_comparison_get_link_first_to_second_part (text_comparison_number));
+	gtk_option_menu_set_history ( GTK_OPTION_MENU (gsb_data_report_text_comparison_get_button_second_comparison (text_comparison_number)),
+				      gsb_data_report_text_comparison_get_second_comparison (text_comparison_number));
+	gtk_entry_set_text ( GTK_ENTRY (gsb_data_report_text_comparison_get_entry_first_amount (text_comparison_number)),
+			     utils_str_itoa (gsb_data_report_text_comparison_get_first_amount (text_comparison_number)));
+	gtk_entry_set_text ( GTK_ENTRY (gsb_data_report_text_comparison_get_entry_second_amount (text_comparison_number)),
+			     utils_str_itoa (gsb_data_report_text_comparison_get_second_amount (text_comparison_number)));
+
+	if (gsb_data_report_text_comparison_get_use_text (text_comparison_number))
+	    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON (gsb_data_report_text_comparison_get_button_use_text (text_comparison_number)),
 					   TRUE );
 	else
-	    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( comp_textes -> bouton_utilise_no ),
+	    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON (gsb_data_report_text_comparison_get_button_use_number (text_comparison_number)),
 					   TRUE );
 
 
 	/* on désensitive tous ce qui est nécessaire */
 
-	if ( comp_textes -> champ == 8
+	if ( gsb_data_report_text_comparison_get_field (text_comparison_number) == 8
 	     ||
-	     comp_textes -> champ == 9
+	     gsb_data_report_text_comparison_get_field (text_comparison_number) == 9
 	     ||
-	     comp_textes -> champ == 10 )
+	     gsb_data_report_text_comparison_get_field (text_comparison_number) == 10 )
 	{
 	    /* 	  on est sur un chq ou une pc */
 	    /* on rend sensitif les check button et la hbox correspondante */
 
-	    sensitive_widget ( comp_textes -> bouton_utilise_txt );
-	    sensitive_widget ( comp_textes -> bouton_utilise_no );
-	    sensitive_hbox_fonction_bouton_txt ( comp_textes );
+	    sensitive_widget (gsb_data_report_text_comparison_get_button_use_text (text_comparison_number));
+	    sensitive_widget (gsb_data_report_text_comparison_get_button_use_number (text_comparison_number));
+	    sensitive_hbox_fonction_bouton_txt (text_comparison_number);
 	}
 	else
 	{
-	    desensitive_widget ( comp_textes -> bouton_utilise_txt );
-	    desensitive_widget ( comp_textes -> bouton_utilise_no );
-	    desensitive_widget ( comp_textes -> hbox_chq );
-	    sensitive_widget ( comp_textes -> hbox_txt );
+	    desensitive_widget (gsb_data_report_text_comparison_get_button_use_text (text_comparison_number));
+	    desensitive_widget (gsb_data_report_text_comparison_get_button_use_number (text_comparison_number));
+	    desensitive_widget (gsb_data_report_text_comparison_get_hbox_cheque (text_comparison_number));
+	    sensitive_widget (gsb_data_report_text_comparison_get_hbox_text (text_comparison_number));
 	}
 	/* on sensitive/désensitive l'entrée txt*/
 
-	if ( comp_textes -> operateur >= 4 )
-	    desensitive_widget ( comp_textes -> entree_txt );
+	if ( gsb_data_report_text_comparison_get_operator (text_comparison_number) >= 4 )
+	    desensitive_widget (gsb_data_report_text_comparison_get_entry_text (text_comparison_number));
 
 	/* on sensitive/désensitive les entrées de montant si nécessaire */
 
-	if ( comp_textes -> comparateur_1 == 6 )
-	    desensitive_widget ( comp_textes -> entree_montant_1 );
+	if ( gsb_data_report_text_comparison_get_first_comparison (text_comparison_number) == 6 )
+	    desensitive_widget (gsb_data_report_text_comparison_get_entry_first_amount (text_comparison_number));
 
-	if ( comp_textes -> comparateur_2 == 6 )
-	    desensitive_widget ( comp_textes -> entree_montant_2 );
+	if ( gsb_data_report_text_comparison_get_second_comparison (text_comparison_number) == 6 )
+	    desensitive_widget (gsb_data_report_text_comparison_get_entry_second_amount (text_comparison_number));
 
 	/* on sensitive/désensitive la hbox_2 si nécessaire */
 
-	if ( comp_textes -> lien_1_2 == 3 )
-	    desensitive_widget ( comp_textes -> hbox_partie_2 );
+	if ( gsb_data_report_text_comparison_get_link_first_to_second_part (text_comparison_number) == 3 )
+	    desensitive_widget (gsb_data_report_text_comparison_get_hbox_second_part (text_comparison_number));
 
-	liste_tmp = liste_tmp -> next;
+	list_tmp = list_tmp -> next;
     }
 }
 /******************************************************************************/
@@ -3993,74 +4146,83 @@ void remplit_liste_comparaisons_textes_etat ( void )
 /* si ancien_comp_textes n'est pas nul, la ligne est insérée juste après celle de l'argument */
 /******************************************************************************/
 
-void ajoute_ligne_liste_comparaisons_textes_etat ( struct struct_comparaison_textes_etat *ancien_comp_textes )
+void ajoute_ligne_liste_comparaisons_textes_etat ( gint last_text_comparison_number )
 {
-    struct struct_comparaison_textes_etat *comp_textes;
+    gint text_comparison_number;
     gint position;
+    gint current_report_number;
+    GtkWidget *widget;
+
+    current_report_number = gsb_gui_navigation_get_current_report ();
 
     /* on récupère tout de suite la position à laquelle il faut insérer la ligne */
 
-    if ( ancien_comp_textes )
-	position = g_slist_index ( etat_courant -> liste_struct_comparaison_textes,
-				   ancien_comp_textes ) + 1;
+    if ( last_text_comparison_number )
+	position = g_slist_index ( gsb_data_report_get_text_comparison_list (current_report_number),
+				   GINT_TO_POINTER (last_text_comparison_number)) + 1;
     else
 	position = 0;
 
     /* on commence par créer une structure vide */
 
-    comp_textes = calloc ( 1,
-			   sizeof ( struct struct_comparaison_textes_etat ));
-
-
+    text_comparison_number = gsb_data_report_text_comparison_new (0);
+    gsb_data_report_text_comparison_set_report_number ( text_comparison_number,
+							current_report_number );
+    
     /* on crée la ligne et remplit les widget de la structure */
 
-    comp_textes -> vbox_ligne = cree_ligne_comparaison_texte ( comp_textes );
+    widget = cree_ligne_comparaison_texte (text_comparison_number);
+    gsb_data_report_text_comparison_set_vbox_line ( text_comparison_number,
+						    widget );
     gtk_box_pack_start ( GTK_BOX ( liste_textes_etat ),
-			 comp_textes -> vbox_ligne,
+			 widget,
 			 FALSE,
 			 FALSE,
 			 0 );
-    gtk_widget_show ( comp_textes -> vbox_ligne );
+    gtk_widget_show ( widget );
 
     /* on vire le lien de la ligne s'il n'y a pas encore de liste */
     /*   (cad si c'est la 1ère ligne) */
 
-    if ( !etat_courant -> liste_struct_comparaison_textes )
+    if ( !gsb_data_report_get_text_comparison_list (current_report_number))
     {
-	gtk_widget_destroy ( comp_textes -> bouton_lien );
-	comp_textes -> bouton_lien = NULL;
+	gtk_widget_destroy (gsb_data_report_text_comparison_get_button_link (text_comparison_number));
+	gsb_data_report_text_comparison_set_button_link ( text_comparison_number,
+							  NULL );
     }
 
     /*   par défaut, le bouton bouton_lien_1_2 est sur stop */
 
-    gtk_option_menu_set_history ( GTK_OPTION_MENU ( comp_textes -> bouton_lien_1_2 ),
+    gtk_option_menu_set_history ( GTK_OPTION_MENU (gsb_data_report_text_comparison_get_button_link_first_to_second_part (text_comparison_number)),
 				  3 );
-    comp_textes -> lien_1_2 = 3;
-    gtk_widget_set_sensitive ( comp_textes -> hbox_partie_2,
+    gsb_data_report_text_comparison_set_link_first_to_second_part ( text_comparison_number,
+								    3 );
+    gtk_widget_set_sensitive ( gsb_data_report_text_comparison_get_hbox_second_part (text_comparison_number),
 			       FALSE );
 
 
     /*   par défaut, la ligne de chq est non sensitive */
 
-    gtk_widget_set_sensitive ( comp_textes -> bouton_utilise_txt,
+    gtk_widget_set_sensitive ( gsb_data_report_text_comparison_get_button_use_text (text_comparison_number),
 			       FALSE );
-    gtk_widget_set_sensitive ( comp_textes -> bouton_utilise_no,
+    gtk_widget_set_sensitive ( gsb_data_report_text_comparison_get_button_use_number (text_comparison_number),
 			       FALSE );
-    gtk_widget_set_sensitive ( comp_textes -> hbox_chq,
+    gtk_widget_set_sensitive ( gsb_data_report_text_comparison_get_hbox_cheque (text_comparison_number),
 			       FALSE );
 
 
     /* on met la structure dans la liste à la position demandée */
 
-    etat_courant -> liste_struct_comparaison_textes = g_slist_insert ( etat_courant -> liste_struct_comparaison_textes,
-								       comp_textes,
-								       position );
+    gsb_data_report_set_text_comparison_list ( current_report_number,
+					       g_slist_insert ( gsb_data_report_get_text_comparison_list (current_report_number),
+								GINT_TO_POINTER (text_comparison_number),
+								position ));
 
 
     /* on met la ligne à sa place dans la liste */
 
     gtk_box_reorder_child ( GTK_BOX ( liste_textes_etat ),
-			    comp_textes -> vbox_ligne,
+			    gsb_data_report_text_comparison_get_vbox_line (text_comparison_number),
 			    position );
 }
 /******************************************************************************/
@@ -4069,7 +4231,7 @@ void ajoute_ligne_liste_comparaisons_textes_etat ( struct struct_comparaison_tex
 /* crée la hbox de la ligne et la renvoie */
 /* remplie en même temps les widget de la struct envoyée en argument, sauf hbox_ligne */
 /******************************************************************************/
-GtkWidget *cree_ligne_comparaison_texte ( struct struct_comparaison_textes_etat *comp_textes )
+GtkWidget *cree_ligne_comparaison_texte ( gint text_comparison_number )
 {
     GtkWidget *vbox;
     GtkWidget *label;
@@ -4094,9 +4256,10 @@ GtkWidget *cree_ligne_comparaison_texte ( struct struct_comparaison_textes_etat 
     gtk_widget_show ( hbox );
 
 
-    comp_textes -> bouton_lien = cree_bouton_lien_lignes_comparaison ();
+    gsb_data_report_text_comparison_set_button_link ( text_comparison_number,
+						      cree_bouton_lien_lignes_comparaison ());
     gtk_box_pack_start ( GTK_BOX ( hbox ),
-			 comp_textes -> bouton_lien,
+			 gsb_data_report_text_comparison_get_button_link (text_comparison_number),
 			 FALSE,
 			 FALSE,
 			 0 );
@@ -4111,16 +4274,21 @@ GtkWidget *cree_ligne_comparaison_texte ( struct struct_comparaison_textes_etat 
 
     /*   avant de créer le bouton des champs, on doit créer hbox_txt, hbox_chq et les 2 check button */
 
-    comp_textes -> hbox_txt = gtk_hbox_new ( FALSE,
-					     5 );
-    comp_textes -> hbox_chq = gtk_hbox_new ( FALSE,
-					     5 );
-    comp_textes -> bouton_utilise_txt = gtk_radio_button_new ( NULL );
-    comp_textes -> bouton_utilise_no = gtk_radio_button_new ( gtk_radio_button_group ( GTK_RADIO_BUTTON( comp_textes -> bouton_utilise_txt )));
+    gsb_data_report_text_comparison_set_hbox_text ( text_comparison_number,
+						    gtk_hbox_new ( FALSE,
+								   5 ));
+    gsb_data_report_text_comparison_set_hbox_cheque ( text_comparison_number,
+						      gtk_hbox_new ( FALSE,
+								     5 ));
+    gsb_data_report_text_comparison_set_button_use_text ( text_comparison_number,
+							  gtk_radio_button_new ( NULL ));
+    gsb_data_report_text_comparison_set_button_use_number ( text_comparison_number,
+							    gtk_radio_button_new ( gtk_radio_button_group ( GTK_RADIO_BUTTON(gsb_data_report_text_comparison_get_button_use_text (text_comparison_number)))));
 
-    comp_textes -> bouton_champ = cree_bouton_champ ( comp_textes );
+    gsb_data_report_text_comparison_set_button_field ( text_comparison_number,
+						       cree_bouton_champ ( text_comparison_number ));
     gtk_box_pack_start ( GTK_BOX ( hbox ),
-			 comp_textes -> bouton_champ,
+			 gsb_data_report_text_comparison_get_button_field (text_comparison_number),
 			 FALSE,
 			 FALSE,
 			 0 );
@@ -4150,49 +4318,51 @@ GtkWidget *cree_ligne_comparaison_texte ( struct struct_comparaison_textes_etat 
 
     /* on met le check button utilisé en cas de champ à no */
 
-    gtk_signal_connect ( GTK_OBJECT ( comp_textes -> bouton_utilise_txt ),
+    gtk_signal_connect ( GTK_OBJECT ( gsb_data_report_text_comparison_get_button_use_text (text_comparison_number)),
 			 "toggled",
 			 GTK_SIGNAL_FUNC ( sens_desensitive_pointeur ),
-			 comp_textes -> hbox_txt );
+			 gsb_data_report_text_comparison_get_hbox_text (text_comparison_number));
     gtk_box_pack_start ( GTK_BOX ( hbox ),
-			 comp_textes -> bouton_utilise_txt,
+			 gsb_data_report_text_comparison_get_button_use_text (text_comparison_number),
 			 FALSE,
 			 FALSE,
 			 0 );
-    gtk_widget_show ( comp_textes -> bouton_utilise_txt );
+    gtk_widget_show ( gsb_data_report_text_comparison_get_button_use_text (text_comparison_number));
 
 
     /* on met maintenant le comparateur txt */
 
     gtk_box_pack_start ( GTK_BOX ( hbox ),
-			 comp_textes -> hbox_txt,
+			 gsb_data_report_text_comparison_get_hbox_text (text_comparison_number),
 			 FALSE,
 			 FALSE,
 			 0 );
-    gtk_widget_show ( comp_textes -> hbox_txt );
+    gtk_widget_show (gsb_data_report_text_comparison_get_hbox_text (text_comparison_number));
 
     /* avant de créer l'opérateur, on doit créer l'entrée de txt */
 
-    comp_textes -> entree_txt = gtk_entry_new ();
+    gsb_data_report_text_comparison_set_entry_text ( text_comparison_number,
+						     gtk_entry_new ());
 
-    comp_textes -> bouton_operateur = cree_bouton_operateur_txt ( comp_textes );
-    gtk_box_pack_start ( GTK_BOX ( comp_textes -> hbox_txt ),
-			 comp_textes -> bouton_operateur,
+    gsb_data_report_text_comparison_set_button_operator ( text_comparison_number,
+							  cree_bouton_operateur_txt (text_comparison_number));
+    gtk_box_pack_start ( GTK_BOX (gsb_data_report_text_comparison_get_hbox_text (text_comparison_number)),
+			 gsb_data_report_text_comparison_get_button_operator (text_comparison_number),
 			 FALSE,
 			 FALSE,
 			 0 );
 
     /* on peut maintenant mettre l'entrée de txt */
 
-    gtk_widget_set_usize ( comp_textes -> entree_txt,
+    gtk_widget_set_usize ( gsb_data_report_text_comparison_get_entry_text (text_comparison_number),
 			   150,
 			   FALSE );
-    gtk_box_pack_start ( GTK_BOX ( comp_textes -> hbox_txt ),
-			 comp_textes -> entree_txt,
+    gtk_box_pack_start ( GTK_BOX (gsb_data_report_text_comparison_get_hbox_text (text_comparison_number)),
+			 gsb_data_report_text_comparison_get_entry_text (text_comparison_number),
 			 FALSE,
 			 FALSE,
 			 0 );
-    gtk_widget_show ( comp_textes -> entree_txt );
+    gtk_widget_show (gsb_data_report_text_comparison_get_entry_text (text_comparison_number));
 
 
     /* on crée maintenant la 2ème ligne qui concerne les tests de chq */
@@ -4220,124 +4390,130 @@ GtkWidget *cree_ligne_comparaison_texte ( struct struct_comparaison_textes_etat 
 
     /* on met le check button utilisé en cas de champ à no */
 
-    gtk_signal_connect ( GTK_OBJECT ( comp_textes -> bouton_utilise_no ),
+    gtk_signal_connect ( GTK_OBJECT (gsb_data_report_text_comparison_get_button_use_number (text_comparison_number)),
 			 "toggled",
 			 GTK_SIGNAL_FUNC ( sens_desensitive_pointeur ),
-			 comp_textes -> hbox_chq );
+			 gsb_data_report_text_comparison_get_hbox_cheque (text_comparison_number));
     gtk_box_pack_start ( GTK_BOX ( hbox ),
-			 comp_textes -> bouton_utilise_no,
+			 gsb_data_report_text_comparison_get_button_use_number (text_comparison_number),
 			 FALSE,
 			 FALSE,
 			 0 );
-    gtk_widget_show ( comp_textes -> bouton_utilise_no );
+    gtk_widget_show (gsb_data_report_text_comparison_get_button_use_number (text_comparison_number));
 
 
     /* mise en place de la hbox des montants de chq */
 
     gtk_box_pack_start ( GTK_BOX ( hbox ),
-			 comp_textes -> hbox_chq,
+			 gsb_data_report_text_comparison_get_hbox_cheque (text_comparison_number),
 			 FALSE,
 			 FALSE,
 			 0 );
-    gtk_widget_show ( comp_textes -> hbox_chq );
+    gtk_widget_show (gsb_data_report_text_comparison_get_hbox_cheque (text_comparison_number));
 
 
     label = gtk_label_new ( POSTSPACIFY(_("is")));
-    gtk_box_pack_start ( GTK_BOX ( comp_textes -> hbox_chq ),
+    gtk_box_pack_start ( GTK_BOX (gsb_data_report_text_comparison_get_hbox_cheque (text_comparison_number)),
 			 label,
 			 FALSE,
 			 FALSE,
 			 0 );
     gtk_widget_show ( label );
 
-    comp_textes -> bouton_comparateur_1 = cree_bouton_comparateur_texte ( comp_textes );
-    gtk_box_pack_start ( GTK_BOX ( comp_textes -> hbox_chq ),
-			 comp_textes -> bouton_comparateur_1,
+    gsb_data_report_text_comparison_set_button_first_comparison ( text_comparison_number,
+								  cree_bouton_comparateur_texte (text_comparison_number));
+    gtk_box_pack_start ( GTK_BOX (gsb_data_report_text_comparison_get_hbox_cheque (text_comparison_number)),
+			 gsb_data_report_text_comparison_get_button_first_comparison (text_comparison_number),
 			 FALSE,
 			 FALSE,
 			 0 );
 
     label = gtk_label_new ( SPACIFY(_("to")));
-    gtk_box_pack_start ( GTK_BOX ( comp_textes -> hbox_chq ),
+    gtk_box_pack_start ( GTK_BOX (gsb_data_report_text_comparison_get_hbox_cheque (text_comparison_number)),
 			 label,
 			 FALSE,
 			 FALSE,
 			 0 );
     gtk_widget_show ( label );
 
-    comp_textes -> entree_montant_1 = gtk_entry_new ();
-    gtk_widget_set_usize ( comp_textes -> entree_montant_1,
+    gsb_data_report_text_comparison_set_entry_first_amount ( text_comparison_number,
+							     gtk_entry_new ());
+    gtk_widget_set_usize ( gsb_data_report_text_comparison_get_entry_first_amount (text_comparison_number),
 			   100,
 			   FALSE );
-    gtk_box_pack_start ( GTK_BOX ( comp_textes -> hbox_chq ),
-			 comp_textes -> entree_montant_1,
+    gtk_box_pack_start ( GTK_BOX (gsb_data_report_text_comparison_get_hbox_cheque (text_comparison_number)),
+			 gsb_data_report_text_comparison_get_entry_first_amount (text_comparison_number),
 			 FALSE,
 			 FALSE,
 			 0 );
-    gtk_widget_show ( comp_textes -> entree_montant_1 );
+    gtk_widget_show (gsb_data_report_text_comparison_get_entry_first_amount (text_comparison_number));
 
 
-    /* la fonction cree_bouton_lien_montant va se servir de comp_montants -> hbox_partie_2 */
+    /* la fonction cree_bouton_lien_montant va se servir de hbox_partie_2 */
     /* il faut donc créer celle ci avant l'appel de la fonction */
 
-    comp_textes -> hbox_partie_2 = gtk_hbox_new ( FALSE,
-						  5 );
+    gsb_data_report_text_comparison_set_hbox_second_part ( text_comparison_number,
+							   gtk_hbox_new ( FALSE,
+									  5 ));
 
     /* on crée alors le bouton de lien */
 
-    comp_textes -> bouton_lien_1_2 = cree_bouton_lien ( comp_textes -> hbox_partie_2 );
-    gtk_box_pack_start ( GTK_BOX ( comp_textes -> hbox_chq ),
-			 comp_textes -> bouton_lien_1_2,
+    gsb_data_report_text_comparison_set_button_link_first_to_second_part ( text_comparison_number,
+									   cree_bouton_lien (gsb_data_report_text_comparison_get_hbox_second_part (text_comparison_number)));
+    gtk_box_pack_start ( GTK_BOX (gsb_data_report_text_comparison_get_hbox_cheque (text_comparison_number)),
+			 gsb_data_report_text_comparison_get_button_link_first_to_second_part (text_comparison_number),
 			 FALSE,
 			 FALSE,
 			 0 );
 
     /* on ajoute la hbox2 */
 
-    gtk_box_pack_start ( GTK_BOX ( comp_textes -> hbox_chq ),
-			 comp_textes -> hbox_partie_2,
+    gtk_box_pack_start ( GTK_BOX (gsb_data_report_text_comparison_get_hbox_cheque (text_comparison_number)),
+			 gsb_data_report_text_comparison_get_hbox_second_part (text_comparison_number),
 			 FALSE,
 			 FALSE,
 			 0 );
-    gtk_widget_show ( comp_textes -> hbox_partie_2 );
+    gtk_widget_show (gsb_data_report_text_comparison_get_hbox_second_part (text_comparison_number));
 
-    /* on peut maintenant ajouter dans comp_montants -> hbox_partie_2 */
+    /* on peut maintenant ajouter dans hbox_partie_2 */
 
-    comp_textes -> bouton_comparateur_2 = cree_bouton_comparateur_texte ( comp_textes );
-    gtk_box_pack_start ( GTK_BOX ( comp_textes -> hbox_partie_2 ),
-			 comp_textes -> bouton_comparateur_2,
+    gsb_data_report_text_comparison_set_button_second_comparison ( text_comparison_number,
+								   cree_bouton_comparateur_texte (text_comparison_number));
+    gtk_box_pack_start ( GTK_BOX (gsb_data_report_text_comparison_get_hbox_second_part (text_comparison_number)),
+			 gsb_data_report_text_comparison_get_button_second_comparison (text_comparison_number),
 			 FALSE,
 			 FALSE,
 			 0 );
 
     label = gtk_label_new ( SPACIFY(_("to")));
-    gtk_box_pack_start ( GTK_BOX ( comp_textes -> hbox_partie_2 ),
+    gtk_box_pack_start ( GTK_BOX (gsb_data_report_text_comparison_get_hbox_second_part (text_comparison_number)),
 			 label,
 			 FALSE,
 			 FALSE,
 			 0 );
     gtk_widget_show ( label );
 
-    comp_textes -> entree_montant_2 = gtk_entry_new ();
-    gtk_widget_set_usize ( comp_textes -> entree_montant_2,
+    gsb_data_report_text_comparison_set_entry_second_amount ( text_comparison_number,
+							      gtk_entry_new ());
+    gtk_widget_set_usize ( gsb_data_report_text_comparison_get_entry_second_amount (text_comparison_number),
 			   100,
 			   FALSE );
-    gtk_box_pack_start ( GTK_BOX ( comp_textes -> hbox_partie_2 ),
-			 comp_textes -> entree_montant_2,
+    gtk_box_pack_start ( GTK_BOX (gsb_data_report_text_comparison_get_hbox_second_part (text_comparison_number)),
+			 gsb_data_report_text_comparison_get_entry_second_amount (text_comparison_number),
 			 FALSE,
 			 FALSE,
 			 0 );
-    gtk_widget_show ( comp_textes -> entree_montant_2 );
+    gtk_widget_show (gsb_data_report_text_comparison_get_entry_second_amount (text_comparison_number));
 
     /* on met les bouton ajouter et supprimer */
 
     bouton = gtk_button_new_with_label ( _("Add"));
     gtk_button_set_relief ( GTK_BUTTON ( bouton ),
 			    GTK_RELIEF_NONE );
-    gtk_signal_connect_object ( GTK_OBJECT ( bouton ),
-				"clicked",
-				GTK_SIGNAL_FUNC ( ajoute_ligne_liste_comparaisons_textes_etat ),
-				(GtkObject *) comp_textes );
+    g_signal_connect_swapped ( G_OBJECT ( bouton ),
+			       "clicked",
+			       G_CALLBACK ( ajoute_ligne_liste_comparaisons_textes_etat ),
+			       GINT_TO_POINTER (text_comparison_number));
     gtk_box_pack_start ( GTK_BOX ( hbox ),
 			 bouton,
 			 FALSE,
@@ -4348,10 +4524,10 @@ GtkWidget *cree_ligne_comparaison_texte ( struct struct_comparaison_textes_etat 
     bouton = gtk_button_new_with_label ( _("Remove"));
     gtk_button_set_relief ( GTK_BUTTON ( bouton ),
 			    GTK_RELIEF_NONE );
-    gtk_signal_connect_object ( GTK_OBJECT ( bouton ),
-				"clicked",
-				GTK_SIGNAL_FUNC ( retire_ligne_liste_comparaisons_textes_etat ),
-				(GtkObject *) comp_textes );
+    g_signal_connect_swapped ( G_OBJECT ( bouton ),
+			       "clicked",
+			       G_CALLBACK ( retire_ligne_liste_comparaisons_textes_etat ),
+			       GINT_TO_POINTER (text_comparison_number));
     gtk_box_pack_start ( GTK_BOX ( hbox ),
 			 bouton,
 			 FALSE,
@@ -4365,33 +4541,39 @@ GtkWidget *cree_ligne_comparaison_texte ( struct struct_comparaison_textes_etat 
 /******************************************************************************/
 
 /******************************************************************************/
-void retire_ligne_liste_comparaisons_textes_etat ( struct struct_comparaison_textes_etat *ancien_comp_textes )
+void retire_ligne_liste_comparaisons_textes_etat ( gint last_text_comparison_number )
 {
+    gint current_report_number;
+
+    current_report_number = gsb_gui_navigation_get_current_report ();
+
     /* il faut qu'il y ai plus d'une ligne affichée */
 
-    if ( g_slist_length ( etat_courant -> liste_struct_comparaison_textes ) < 2 )
+    if ( g_slist_length ( gsb_data_report_get_text_comparison_list (current_report_number)) < 2 )
 	return;
 
     /* on commence par supprimer la ligne dans la liste */
 
-    gtk_widget_destroy ( ancien_comp_textes -> vbox_ligne );
+    gtk_widget_destroy (gsb_data_report_text_comparison_get_vbox_line (last_text_comparison_number));
 
     /* si la structure qu'on retire est la 1ère, on vire le widget de lient */
 
-    if ( !g_slist_index ( etat_courant -> liste_struct_comparaison_textes,
-			  ancien_comp_textes ))
+    if ( !g_slist_index ( gsb_data_report_get_text_comparison_list (current_report_number),
+			  GINT_TO_POINTER (last_text_comparison_number)))
     {
-	struct struct_comparaison_textes_etat *comp_textes;
+	gint text_comparison_number;
 
-	comp_textes = etat_courant -> liste_struct_comparaison_textes -> next -> data;
-	gtk_widget_destroy ( comp_textes -> bouton_lien );
-	comp_textes -> bouton_lien = NULL;
+	text_comparison_number = GPOINTER_TO_INT (gsb_data_report_get_text_comparison_list (current_report_number)-> next -> data);
+	gtk_widget_destroy (gsb_data_report_text_comparison_get_button_link (text_comparison_number));
+	gsb_data_report_text_comparison_set_button_link ( text_comparison_number,
+							  NULL );
     }
 
     /* et on retire la struct de la sliste */
 
-    etat_courant -> liste_struct_comparaison_textes = g_slist_remove ( etat_courant -> liste_struct_comparaison_textes,
-								       ancien_comp_textes );
+    gsb_data_report_set_text_comparison_list ( current_report_number,
+					       g_slist_remove ( gsb_data_report_get_text_comparison_list (current_report_number),
+								GINT_TO_POINTER (last_text_comparison_number)));
 }
 /******************************************************************************/
 
@@ -4400,7 +4582,7 @@ void retire_ligne_liste_comparaisons_textes_etat ( struct struct_comparaison_tex
 /* la hbox correspondante ( txt ou chq ) */
 /* il faut donc que hbox_txt,  hbox_chq et les 2 check button soient déjà créées */
 /******************************************************************************/
-GtkWidget *cree_bouton_champ ( struct struct_comparaison_textes_etat *comp_textes )
+GtkWidget *cree_bouton_champ ( gint text_comparison_number )
 {
     GtkWidget *bouton;
     GtkWidget *menu;
@@ -4426,23 +4608,23 @@ GtkWidget *cree_bouton_champ ( struct struct_comparaison_textes_etat *comp_texte
     gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
 				"activate",
 				GTK_SIGNAL_FUNC ( gtk_toggle_button_set_active ),
-				GTK_OBJECT ( comp_textes -> bouton_utilise_txt ));
+				GTK_OBJECT (gsb_data_report_text_comparison_get_button_use_text (text_comparison_number)));
     gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
 				"activate",
 				GTK_SIGNAL_FUNC ( sensitive_widget ),
-				GTK_OBJECT ( comp_textes -> hbox_txt ));
+				GTK_OBJECT (gsb_data_report_text_comparison_get_hbox_text (text_comparison_number)));
     gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
 				"activate",
 				GTK_SIGNAL_FUNC ( desensitive_widget ),
-				GTK_OBJECT ( comp_textes -> hbox_chq ));
+				GTK_OBJECT (gsb_data_report_text_comparison_get_hbox_cheque (text_comparison_number)));
     gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
 				"activate",
 				GTK_SIGNAL_FUNC ( sensitive_widget ),
-				GTK_OBJECT ( comp_textes -> bouton_utilise_txt ));
+				GTK_OBJECT (gsb_data_report_text_comparison_get_button_use_text (text_comparison_number)));
     gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
 				"activate",
 				GTK_SIGNAL_FUNC ( desensitive_widget ),
-				GTK_OBJECT ( comp_textes -> bouton_utilise_no ));
+				GTK_OBJECT (gsb_data_report_text_comparison_get_button_use_number (text_comparison_number)));
     gtk_widget_show ( menu_item );
 
     menu_item = gtk_menu_item_new_with_label ( _("the payee information"));
@@ -4454,23 +4636,23 @@ GtkWidget *cree_bouton_champ ( struct struct_comparaison_textes_etat *comp_texte
     gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
 				"activate",
 				GTK_SIGNAL_FUNC ( gtk_toggle_button_set_active ),
-				GTK_OBJECT ( comp_textes -> bouton_utilise_txt ));
+				GTK_OBJECT (gsb_data_report_text_comparison_get_button_use_text (text_comparison_number)));
     gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
 				"activate",
 				GTK_SIGNAL_FUNC ( sensitive_widget ),
-				GTK_OBJECT ( comp_textes -> hbox_txt ));
+				GTK_OBJECT (gsb_data_report_text_comparison_get_hbox_text (text_comparison_number)));
     gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
 				"activate",
 				GTK_SIGNAL_FUNC ( desensitive_widget ),
-				GTK_OBJECT ( comp_textes -> hbox_chq ));
+				GTK_OBJECT (gsb_data_report_text_comparison_get_hbox_cheque (text_comparison_number)));
     gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
 				"activate",
 				GTK_SIGNAL_FUNC ( sensitive_widget ),
-				GTK_OBJECT ( comp_textes -> bouton_utilise_txt ));
+				GTK_OBJECT (gsb_data_report_text_comparison_get_button_use_text (text_comparison_number)));
     gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
 				"activate",
 				GTK_SIGNAL_FUNC ( desensitive_widget ),
-				GTK_OBJECT ( comp_textes -> bouton_utilise_no ));
+				GTK_OBJECT (gsb_data_report_text_comparison_get_button_use_number (text_comparison_number)));
     gtk_widget_show ( menu_item );
 
     menu_item = gtk_menu_item_new_with_label ( _("the category"));
@@ -4482,23 +4664,23 @@ GtkWidget *cree_bouton_champ ( struct struct_comparaison_textes_etat *comp_texte
     gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
 				"activate",
 				GTK_SIGNAL_FUNC ( gtk_toggle_button_set_active ),
-				GTK_OBJECT ( comp_textes -> bouton_utilise_txt ));
+				GTK_OBJECT (gsb_data_report_text_comparison_get_button_use_text (text_comparison_number)));
     gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
 				"activate",
 				GTK_SIGNAL_FUNC ( sensitive_widget ),
-				GTK_OBJECT ( comp_textes -> hbox_txt ));
+				GTK_OBJECT (gsb_data_report_text_comparison_get_hbox_text (text_comparison_number)));
     gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
 				"activate",
 				GTK_SIGNAL_FUNC ( desensitive_widget ),
-				GTK_OBJECT ( comp_textes -> hbox_chq ));
+				GTK_OBJECT (gsb_data_report_text_comparison_get_hbox_cheque (text_comparison_number)));
     gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
 				"activate",
 				GTK_SIGNAL_FUNC ( sensitive_widget ),
-				GTK_OBJECT ( comp_textes -> bouton_utilise_txt ));
+				GTK_OBJECT (gsb_data_report_text_comparison_get_button_use_text (text_comparison_number)));
     gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
 				"activate",
 				GTK_SIGNAL_FUNC ( desensitive_widget ),
-				GTK_OBJECT ( comp_textes -> bouton_utilise_no ));
+				GTK_OBJECT (gsb_data_report_text_comparison_get_button_use_number (text_comparison_number)));
     gtk_widget_show ( menu_item );
 
     menu_item = gtk_menu_item_new_with_label ( _("the sub-category"));
@@ -4510,23 +4692,23 @@ GtkWidget *cree_bouton_champ ( struct struct_comparaison_textes_etat *comp_texte
     gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
 				"activate",
 				GTK_SIGNAL_FUNC ( gtk_toggle_button_set_active ),
-				GTK_OBJECT ( comp_textes -> bouton_utilise_txt ));
+				GTK_OBJECT (gsb_data_report_text_comparison_get_button_use_text (text_comparison_number)));
     gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
 				"activate",
 				GTK_SIGNAL_FUNC ( sensitive_widget ),
-				GTK_OBJECT ( comp_textes -> hbox_txt ));
+				GTK_OBJECT (gsb_data_report_text_comparison_get_hbox_text (text_comparison_number)));
     gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
 				"activate",
 				GTK_SIGNAL_FUNC ( desensitive_widget ),
-				GTK_OBJECT ( comp_textes -> hbox_chq ));
+				GTK_OBJECT (gsb_data_report_text_comparison_get_hbox_cheque (text_comparison_number)));
     gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
 				"activate",
 				GTK_SIGNAL_FUNC ( sensitive_widget ),
-				GTK_OBJECT ( comp_textes -> bouton_utilise_txt ));
+				GTK_OBJECT (gsb_data_report_text_comparison_get_button_use_text (text_comparison_number)));
     gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
 				"activate",
 				GTK_SIGNAL_FUNC ( desensitive_widget ),
-				GTK_OBJECT ( comp_textes -> bouton_utilise_no ));
+				GTK_OBJECT (gsb_data_report_text_comparison_get_button_use_number (text_comparison_number)));
     gtk_widget_show ( menu_item );
 
     menu_item = gtk_menu_item_new_with_label ( _("the budgetary line"));
@@ -4538,23 +4720,23 @@ GtkWidget *cree_bouton_champ ( struct struct_comparaison_textes_etat *comp_texte
     gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
 				"activate",
 				GTK_SIGNAL_FUNC ( gtk_toggle_button_set_active ),
-				GTK_OBJECT ( comp_textes -> bouton_utilise_txt ));
+				GTK_OBJECT (gsb_data_report_text_comparison_get_button_use_text (text_comparison_number)));
     gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
 				"activate",
 				GTK_SIGNAL_FUNC ( sensitive_widget ),
-				GTK_OBJECT ( comp_textes -> hbox_txt ));
+				GTK_OBJECT (gsb_data_report_text_comparison_get_hbox_text (text_comparison_number)));
     gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
 				"activate",
 				GTK_SIGNAL_FUNC ( desensitive_widget ),
-				GTK_OBJECT ( comp_textes -> hbox_chq ));
+				GTK_OBJECT (gsb_data_report_text_comparison_get_hbox_cheque (text_comparison_number)));
     gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
 				"activate",
 				GTK_SIGNAL_FUNC ( sensitive_widget ),
-				GTK_OBJECT ( comp_textes -> bouton_utilise_txt ));
+				GTK_OBJECT (gsb_data_report_text_comparison_get_button_use_text (text_comparison_number)));
     gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
 				"activate",
 				GTK_SIGNAL_FUNC ( desensitive_widget ),
-				GTK_OBJECT ( comp_textes -> bouton_utilise_no ));
+				GTK_OBJECT (gsb_data_report_text_comparison_get_button_use_number (text_comparison_number)));
     gtk_widget_show ( menu_item );
 
     menu_item = gtk_menu_item_new_with_label ( _("the sub-budgetary line"));
@@ -4566,23 +4748,23 @@ GtkWidget *cree_bouton_champ ( struct struct_comparaison_textes_etat *comp_texte
     gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
 				"activate",
 				GTK_SIGNAL_FUNC ( gtk_toggle_button_set_active ),
-				GTK_OBJECT ( comp_textes -> bouton_utilise_txt ));
+				GTK_OBJECT (gsb_data_report_text_comparison_get_button_use_text (text_comparison_number)));
     gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
 				"activate",
 				GTK_SIGNAL_FUNC ( sensitive_widget ),
-				GTK_OBJECT ( comp_textes -> hbox_txt ));
+				GTK_OBJECT (gsb_data_report_text_comparison_get_hbox_text (text_comparison_number)));
     gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
 				"activate",
 				GTK_SIGNAL_FUNC ( desensitive_widget ),
-				GTK_OBJECT ( comp_textes -> hbox_chq ));
+				GTK_OBJECT (gsb_data_report_text_comparison_get_hbox_cheque (text_comparison_number)));
     gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
 				"activate",
 				GTK_SIGNAL_FUNC ( sensitive_widget ),
-				GTK_OBJECT ( comp_textes -> bouton_utilise_txt ));
+				GTK_OBJECT (gsb_data_report_text_comparison_get_button_use_text (text_comparison_number)));
     gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
 				"activate",
 				GTK_SIGNAL_FUNC ( desensitive_widget ),
-				GTK_OBJECT ( comp_textes -> bouton_utilise_no ));
+				GTK_OBJECT (gsb_data_report_text_comparison_get_button_use_number (text_comparison_number)));
     gtk_widget_show ( menu_item );
 
     menu_item = gtk_menu_item_new_with_label ( _("the note"));
@@ -4594,23 +4776,23 @@ GtkWidget *cree_bouton_champ ( struct struct_comparaison_textes_etat *comp_texte
     gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
 				"activate",
 				GTK_SIGNAL_FUNC ( gtk_toggle_button_set_active ),
-				GTK_OBJECT ( comp_textes -> bouton_utilise_txt ));
+				GTK_OBJECT (gsb_data_report_text_comparison_get_button_use_text (text_comparison_number)));
     gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
 				"activate",
 				GTK_SIGNAL_FUNC ( sensitive_widget ),
-				GTK_OBJECT ( comp_textes -> hbox_txt ));
+				GTK_OBJECT (gsb_data_report_text_comparison_get_hbox_text (text_comparison_number)));
     gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
 				"activate",
 				GTK_SIGNAL_FUNC ( desensitive_widget ),
-				GTK_OBJECT ( comp_textes -> hbox_chq ));
+				GTK_OBJECT (gsb_data_report_text_comparison_get_hbox_cheque (text_comparison_number)));
     gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
 				"activate",
 				GTK_SIGNAL_FUNC ( sensitive_widget ),
-				GTK_OBJECT ( comp_textes -> bouton_utilise_txt ));
+				GTK_OBJECT (gsb_data_report_text_comparison_get_button_use_text (text_comparison_number)));
     gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
 				"activate",
 				GTK_SIGNAL_FUNC ( desensitive_widget ),
-				GTK_OBJECT ( comp_textes -> bouton_utilise_no ));
+				GTK_OBJECT (gsb_data_report_text_comparison_get_button_use_number (text_comparison_number)));
     gtk_widget_show ( menu_item );
 
     menu_item = gtk_menu_item_new_with_label ( _("the bank reference"));
@@ -4622,23 +4804,23 @@ GtkWidget *cree_bouton_champ ( struct struct_comparaison_textes_etat *comp_texte
     gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
 				"activate",
 				GTK_SIGNAL_FUNC ( gtk_toggle_button_set_active ),
-				GTK_OBJECT ( comp_textes -> bouton_utilise_txt ));
+				GTK_OBJECT (gsb_data_report_text_comparison_get_button_use_text (text_comparison_number)));
     gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
 				"activate",
 				GTK_SIGNAL_FUNC ( sensitive_widget ),
-				GTK_OBJECT ( comp_textes -> hbox_txt ));
+				GTK_OBJECT (gsb_data_report_text_comparison_get_hbox_text (text_comparison_number)));
     gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
 				"activate",
 				GTK_SIGNAL_FUNC ( desensitive_widget ),
-				GTK_OBJECT ( comp_textes -> hbox_chq ));
+				GTK_OBJECT (gsb_data_report_text_comparison_get_hbox_cheque (text_comparison_number)));
     gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
 				"activate",
 				GTK_SIGNAL_FUNC ( sensitive_widget ),
-				GTK_OBJECT ( comp_textes -> bouton_utilise_txt ));
+				GTK_OBJECT (gsb_data_report_text_comparison_get_button_use_text (text_comparison_number)));
     gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
 				"activate",
 				GTK_SIGNAL_FUNC ( desensitive_widget ),
-				GTK_OBJECT ( comp_textes -> bouton_utilise_no ));
+				GTK_OBJECT (gsb_data_report_text_comparison_get_button_use_number (text_comparison_number)));
     gtk_widget_show ( menu_item );
 
     menu_item = gtk_menu_item_new_with_label ( _("the voucher"));
@@ -4650,15 +4832,15 @@ GtkWidget *cree_bouton_champ ( struct struct_comparaison_textes_etat *comp_texte
     gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
 				"activate",
 				GTK_SIGNAL_FUNC ( sensitive_widget ),
-				GTK_OBJECT ( comp_textes -> bouton_utilise_txt ));
+				GTK_OBJECT (gsb_data_report_text_comparison_get_button_use_text (text_comparison_number)));
     gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
 				"activate",
 				GTK_SIGNAL_FUNC ( sensitive_widget ),
-				GTK_OBJECT ( comp_textes -> bouton_utilise_no ));
-    gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
-				"activate",
-				GTK_SIGNAL_FUNC ( sensitive_hbox_fonction_bouton_txt ),
-				(GtkObject *) comp_textes );
+				GTK_OBJECT (gsb_data_report_text_comparison_get_button_use_number (text_comparison_number)));
+    g_signal_connect_swapped ( G_OBJECT ( menu_item ),
+			       "activate",
+			       G_CALLBACK ( sensitive_hbox_fonction_bouton_txt ),
+			       GINT_TO_POINTER (text_comparison_number));
     gtk_widget_show ( menu_item );
 
 
@@ -4671,15 +4853,15 @@ GtkWidget *cree_bouton_champ ( struct struct_comparaison_textes_etat *comp_texte
     gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
 				"activate",
 				GTK_SIGNAL_FUNC ( sensitive_widget ),
-				GTK_OBJECT ( comp_textes -> bouton_utilise_txt ));
+				GTK_OBJECT (gsb_data_report_text_comparison_get_button_use_text (text_comparison_number)));
     gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
 				"activate",
 				GTK_SIGNAL_FUNC ( sensitive_widget ),
-				GTK_OBJECT ( comp_textes -> bouton_utilise_no ));
-    gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
+				GTK_OBJECT (gsb_data_report_text_comparison_get_button_use_number (text_comparison_number)));
+    g_signal_connect_swapped ( G_OBJECT ( menu_item ),
 				"activate",
-				GTK_SIGNAL_FUNC ( sensitive_hbox_fonction_bouton_txt ),
-				(GtkObject *) comp_textes );
+				G_CALLBACK ( sensitive_hbox_fonction_bouton_txt ),
+				GINT_TO_POINTER (text_comparison_number));
     gtk_widget_show ( menu_item );
 
     menu_item = gtk_menu_item_new_with_label ( _("the reconciliation reference"));
@@ -4691,15 +4873,15 @@ GtkWidget *cree_bouton_champ ( struct struct_comparaison_textes_etat *comp_texte
     gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
 				"activate",
 				GTK_SIGNAL_FUNC ( sensitive_widget ),
-				GTK_OBJECT ( comp_textes -> bouton_utilise_txt ));
+				GTK_OBJECT (gsb_data_report_text_comparison_get_button_use_text (text_comparison_number)));
     gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
 				"activate",
 				GTK_SIGNAL_FUNC ( sensitive_widget ),
-				GTK_OBJECT ( comp_textes -> bouton_utilise_no ));
-    gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
+				GTK_OBJECT (gsb_data_report_text_comparison_get_button_use_number (text_comparison_number)));
+    g_signal_connect_swapped ( G_OBJECT ( menu_item ),
 				"activate",
-				GTK_SIGNAL_FUNC ( sensitive_hbox_fonction_bouton_txt ),
-				(GtkObject *) comp_textes );
+				G_CALLBACK ( sensitive_hbox_fonction_bouton_txt ),
+				GINT_TO_POINTER (text_comparison_number));
     gtk_widget_show ( menu_item );
 
     gtk_option_menu_set_menu ( GTK_OPTION_MENU ( bouton ),
@@ -4714,19 +4896,19 @@ GtkWidget *cree_bouton_champ ( struct struct_comparaison_textes_etat *comp_texte
 /* cette fonction est appellée lorsqu'on sélectionne un champ de texte à no */
 /* elle rend sensitif la hbox correspondant au check button */
 /******************************************************************************/
-void sensitive_hbox_fonction_bouton_txt ( struct struct_comparaison_textes_etat *comp_textes )
+void sensitive_hbox_fonction_bouton_txt ( gint text_comparison_number )
 {
-    sens_desensitive_pointeur ( comp_textes -> bouton_utilise_txt,
-				comp_textes -> hbox_txt );
-    sens_desensitive_pointeur ( comp_textes -> bouton_utilise_no,
-				comp_textes -> hbox_chq );
+    sens_desensitive_pointeur ( gsb_data_report_text_comparison_get_button_use_text (text_comparison_number),
+				gsb_data_report_text_comparison_get_hbox_text (text_comparison_number));
+    sens_desensitive_pointeur ( gsb_data_report_text_comparison_get_button_use_number (text_comparison_number),
+				gsb_data_report_text_comparison_get_hbox_cheque (text_comparison_number));
 }
 /******************************************************************************/
 
 /******************************************************************************/
 /* cette fonction crée un option_menu avec contient, ne contient pas ... */
 /******************************************************************************/
-GtkWidget *cree_bouton_operateur_txt ( struct struct_comparaison_textes_etat *comp_textes )
+GtkWidget *cree_bouton_operateur_txt ( gint text_comparison_number )
 {
     GtkWidget *bouton;
     GtkWidget *menu;
@@ -4746,7 +4928,7 @@ GtkWidget *cree_bouton_operateur_txt ( struct struct_comparaison_textes_etat *co
     gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
 				"activate",
 				GTK_SIGNAL_FUNC ( sensitive_widget ),
-				GTK_OBJECT ( comp_textes -> entree_txt ));
+				GTK_OBJECT (gsb_data_report_text_comparison_get_entry_text (text_comparison_number)));
     gtk_widget_show ( menu_item );
 
     menu_item = gtk_menu_item_new_with_label ( _("doesn't contain"));
@@ -4758,7 +4940,7 @@ GtkWidget *cree_bouton_operateur_txt ( struct struct_comparaison_textes_etat *co
     gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
 				"activate",
 				GTK_SIGNAL_FUNC ( sensitive_widget ),
-				GTK_OBJECT ( comp_textes -> entree_txt ));
+				GTK_OBJECT (gsb_data_report_text_comparison_get_entry_text (text_comparison_number)));
     gtk_widget_show ( menu_item );
 
     menu_item = gtk_menu_item_new_with_label ( _("begins with"));
@@ -4770,7 +4952,7 @@ GtkWidget *cree_bouton_operateur_txt ( struct struct_comparaison_textes_etat *co
     gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
 				"activate",
 				GTK_SIGNAL_FUNC ( sensitive_widget ),
-				GTK_OBJECT ( comp_textes -> entree_txt ));
+				GTK_OBJECT (gsb_data_report_text_comparison_get_entry_text (text_comparison_number)));
     gtk_widget_show ( menu_item );
 
     menu_item = gtk_menu_item_new_with_label ( _("ends with"));
@@ -4782,7 +4964,7 @@ GtkWidget *cree_bouton_operateur_txt ( struct struct_comparaison_textes_etat *co
     gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
 				"activate",
 				GTK_SIGNAL_FUNC ( sensitive_widget ),
-				GTK_OBJECT ( comp_textes -> entree_txt ));
+				GTK_OBJECT (gsb_data_report_text_comparison_get_entry_text (text_comparison_number)));
     gtk_widget_show ( menu_item );
 
     menu_item = gtk_menu_item_new_with_label ( _("is empty"));
@@ -4794,7 +4976,7 @@ GtkWidget *cree_bouton_operateur_txt ( struct struct_comparaison_textes_etat *co
     gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
 				"activate",
 				GTK_SIGNAL_FUNC ( desensitive_widget ),
-				GTK_OBJECT ( comp_textes -> entree_txt ));
+				GTK_OBJECT (gsb_data_report_text_comparison_get_entry_text (text_comparison_number)));
     gtk_widget_show ( menu_item );
 
     menu_item = gtk_menu_item_new_with_label ( _("isn't empty"));
@@ -4806,7 +4988,7 @@ GtkWidget *cree_bouton_operateur_txt ( struct struct_comparaison_textes_etat *co
     gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
 				"activate",
 				GTK_SIGNAL_FUNC ( desensitive_widget ),
-				GTK_OBJECT ( comp_textes -> entree_txt ));
+				GTK_OBJECT (gsb_data_report_text_comparison_get_entry_text (text_comparison_number)));
     gtk_widget_show ( menu_item );
 
 
@@ -4927,9 +5109,13 @@ GtkWidget *onglet_etat_montant ( void )
 /******************************************************************************/
 void remplit_liste_comparaisons_montants_etat ( void )
 {
-    GSList *liste_tmp;
+    GSList *list_tmp;
+    gint current_report_number;
 
-    liste_tmp = etat_courant -> liste_struct_comparaison_montants;
+    current_report_number = gsb_gui_navigation_get_current_report ();
+
+
+    list_tmp = gsb_data_report_get_amount_comparison_list (current_report_number);
 
 
     /* commence par effacer l'ancienne liste */
@@ -4941,82 +5127,87 @@ void remplit_liste_comparaisons_montants_etat ( void )
 
     /*   s'il n'y a rien dans la liste, on met juste une ligne vide */
 
-    if ( !liste_tmp )
+    if ( !list_tmp )
     {
-	ajoute_ligne_liste_comparaisons_montants_etat ( NULL );
+	ajoute_ligne_liste_comparaisons_montants_etat (0);
 	return;
     }
 
     /*   on fait le tour de la liste des comparaisons de montant, ajoute une ligne */
     /* et la remplit à chaque fois */
 
-    while ( liste_tmp )
+    while ( list_tmp )
     {
-	struct struct_comparaison_montants_etat *comp_montants;
+	gint amount_comparison_number;
+	GtkWidget *hbox;
 
-	comp_montants = liste_tmp -> data;
+	amount_comparison_number = GPOINTER_TO_INT (list_tmp -> data);
+	hbox = cree_ligne_comparaison_montant (amount_comparison_number);
 
 	/* on crée la ligne et remplit les widget de la structure */
 
-	comp_montants -> hbox_ligne = cree_ligne_comparaison_montant ( comp_montants );
+	gsb_data_report_amount_comparison_set_hbox_line ( amount_comparison_number,
+							  hbox);
 	gtk_box_pack_start ( GTK_BOX ( liste_montants_etat ),
-			     comp_montants -> hbox_ligne,
+			     hbox,
 			     FALSE,
 			     FALSE,
 			     0 );
-	gtk_widget_show ( comp_montants -> hbox_ligne );
+	gtk_widget_show ( hbox );
 
 	/* on remplit maintenant les widget avec les valeurs de la stucture */
 
 	/*       s'il n'y a pas de lien avec la struct précédente, on le vire */
 	/* on rajoute le && car parfois le bouton de lien se met quand même en 1ère ligne */
 
-	if ( comp_montants -> lien_struct_precedente != -1
+	if ( gsb_data_report_amount_comparison_get_link_to_last_amount_comparison (amount_comparison_number) != -1
 	     &&
-	     liste_tmp != etat_courant -> liste_struct_comparaison_montants )
-	    gtk_option_menu_set_history ( GTK_OPTION_MENU ( comp_montants -> bouton_lien ),
-					  comp_montants -> lien_struct_precedente );
+	     list_tmp != gsb_data_report_get_amount_comparison_list (current_report_number))
+	    gtk_option_menu_set_history ( GTK_OPTION_MENU (gsb_data_report_amount_comparison_get_button_link (amount_comparison_number)),
+					  gsb_data_report_amount_comparison_get_link_to_last_amount_comparison (amount_comparison_number));
 	else
 	{
-	    gtk_widget_destroy ( comp_montants -> bouton_lien );
-	    comp_montants -> bouton_lien = NULL;
+	    gtk_widget_destroy (gsb_data_report_amount_comparison_get_button_link (amount_comparison_number));
+	    gsb_data_report_amount_comparison_set_button_link ( amount_comparison_number,
+								NULL );
 	}
 
 
-	gtk_option_menu_set_history ( GTK_OPTION_MENU ( comp_montants -> bouton_comparateur_1 ),
-				      comp_montants -> comparateur_1 );
-	gtk_option_menu_set_history ( GTK_OPTION_MENU ( comp_montants -> bouton_lien_1_2 ),
-				      comp_montants -> lien_1_2 );
-	gtk_option_menu_set_history ( GTK_OPTION_MENU ( comp_montants -> bouton_comparateur_2 ),
-				      comp_montants -> comparateur_2 );
-	gtk_entry_set_text ( GTK_ENTRY ( comp_montants -> entree_montant_1 ),
+	gtk_option_menu_set_history ( GTK_OPTION_MENU (gsb_data_report_amount_comparison_get_button_first_comparison (amount_comparison_number)),
+				      gsb_data_report_amount_comparison_get_first_comparison (amount_comparison_number));
+	gtk_option_menu_set_history ( GTK_OPTION_MENU (gsb_data_report_amount_comparison_get_button_link_first_to_second_part (amount_comparison_number)),
+				      gsb_data_report_amount_comparison_get_link_first_to_second_part (amount_comparison_number));
+	gtk_option_menu_set_history ( GTK_OPTION_MENU (gsb_data_report_amount_comparison_get_button_second_comparison (amount_comparison_number)),
+				      gsb_data_report_amount_comparison_get_second_comparison (amount_comparison_number));
+
+	gtk_entry_set_text ( GTK_ENTRY (gsb_data_report_amount_comparison_get_entry_first_amount (amount_comparison_number)),
 			     g_strdup_printf ( "%4.2f",
-					       comp_montants -> montant_1 ));
-	gtk_entry_set_text ( GTK_ENTRY ( comp_montants -> entree_montant_2 ),
+					       gsb_data_report_amount_comparison_get_first_amount (amount_comparison_number)));
+	gtk_entry_set_text ( GTK_ENTRY (gsb_data_report_amount_comparison_get_entry_second_amount (amount_comparison_number)),
 			     g_strdup_printf ( "%4.2f",
-					       comp_montants -> montant_2 ));
+					       gsb_data_report_amount_comparison_get_second_amount (amount_comparison_number)));
 
 	/* on sensitive/désensitive les entrées si nécessaire */
 
-	if ( comp_montants -> comparateur_1 > 5 )
-	    desensitive_widget ( comp_montants -> entree_montant_1 );
+	if ( gsb_data_report_amount_comparison_get_first_comparison (amount_comparison_number) > 5 )
+	    desensitive_widget (gsb_data_report_amount_comparison_get_entry_first_amount (amount_comparison_number));
 	else
-	    sensitive_widget ( comp_montants -> entree_montant_1 );
+	    sensitive_widget (gsb_data_report_amount_comparison_get_entry_first_amount (amount_comparison_number));
 
-	if ( comp_montants -> comparateur_2 > 5 )
-	    desensitive_widget ( comp_montants -> entree_montant_2 );
+	if ( gsb_data_report_amount_comparison_get_second_comparison (amount_comparison_number) > 5 )
+	    desensitive_widget (gsb_data_report_amount_comparison_get_entry_second_amount (amount_comparison_number));
 	else
-	    sensitive_widget ( comp_montants -> entree_montant_2 );
+	    sensitive_widget (gsb_data_report_amount_comparison_get_entry_second_amount (amount_comparison_number));
 
 
 	/* on sensitive/désensitive la hbox_2 si nécessaire */
 
-	if ( comp_montants -> lien_1_2 == 3 )
-	    desensitive_widget ( comp_montants -> hbox_partie_2 );
+	if ( gsb_data_report_amount_comparison_get_link_first_to_second_part (amount_comparison_number) == 3 )
+	    desensitive_widget (gsb_data_report_amount_comparison_get_hbox_second_part (amount_comparison_number));
 	else
-	    sensitive_widget ( comp_montants -> hbox_partie_2 );
+	    sensitive_widget (gsb_data_report_amount_comparison_get_hbox_second_part (amount_comparison_number));
 
-	liste_tmp = liste_tmp -> next;
+	list_tmp = list_tmp -> next;
     }
 }
 /******************************************************************************/
@@ -5026,63 +5217,73 @@ void remplit_liste_comparaisons_montants_etat ( void )
 /* si ancien_comp_montants n'est pas nul, la ligne est insérée juste après celle de l'argument */
 /******************************************************************************/
 
-void ajoute_ligne_liste_comparaisons_montants_etat ( struct struct_comparaison_montants_etat *ancien_comp_montants )
+void ajoute_ligne_liste_comparaisons_montants_etat ( gint last_amount_comparison_number )
 {
-    struct struct_comparaison_montants_etat *comp_montants;
     gint position;
+    gint current_report_number;
+    gint amount_comparison_number;
+    GtkWidget *hbox;
+
+    current_report_number = gsb_gui_navigation_get_current_report ();
+
 
     /* on récupère tout de suite la position à laquelle il faut insérer la ligne */
 
-    if ( ancien_comp_montants )
-	position = g_slist_index ( etat_courant -> liste_struct_comparaison_montants,
-				   ancien_comp_montants ) + 1;
+    if ( last_amount_comparison_number )
+	position = g_slist_index ( gsb_data_report_get_amount_comparison_list (current_report_number),
+				   GINT_TO_POINTER (last_amount_comparison_number)) + 1;
     else
 	position = 0;
 
     /* on commence par créer une structure vide */
 
-    comp_montants = calloc ( 1,
-			     sizeof ( struct struct_comparaison_montants_etat ));
-
+    amount_comparison_number = gsb_data_report_amount_comparison_new (0);
+    gsb_data_report_amount_comparison_set_report_number ( amount_comparison_number,
+							  current_report_number);
 
     /* on crée la ligne et remplit les widget de la structure */
 
-    comp_montants -> hbox_ligne = cree_ligne_comparaison_montant ( comp_montants );
+    hbox = cree_ligne_comparaison_montant (amount_comparison_number);
+    gsb_data_report_amount_comparison_set_hbox_line ( amount_comparison_number,
+						      hbox);
     gtk_box_pack_start ( GTK_BOX ( liste_montants_etat ),
-			 comp_montants -> hbox_ligne,
+			 hbox,
 			 FALSE,
 			 FALSE,
 			 0 );
-    gtk_widget_show ( comp_montants -> hbox_ligne );
+    gtk_widget_show ( hbox );
 
     /* on vire le lien de la ligne s'il n'y a pas encore de liste */
-    /*   (cad si c'est la 1Ãšre ligne) */
+    /*   (cad si c'est la 1ère ligne) */
 
-    if ( !etat_courant -> liste_struct_comparaison_montants )
+    if ( !gsb_data_report_get_amount_comparison_list (current_report_number))
     {
-	gtk_widget_destroy ( comp_montants -> bouton_lien );
-	comp_montants -> bouton_lien = NULL;
+	gtk_widget_destroy (gsb_data_report_amount_comparison_get_button_link (amount_comparison_number));
+	gsb_data_report_amount_comparison_set_button_link ( amount_comparison_number,
+							    NULL );
     }
 
     /*   par défaut, le bouton bouton_lien_1_2 est sur stop */
 
-    gtk_option_menu_set_history ( GTK_OPTION_MENU ( comp_montants -> bouton_lien_1_2 ),
+    gtk_option_menu_set_history ( GTK_OPTION_MENU (gsb_data_report_amount_comparison_get_button_link_first_to_second_part (amount_comparison_number)),
 				  3 );
-    comp_montants -> lien_1_2 = 3;
-    gtk_widget_set_sensitive ( comp_montants -> hbox_partie_2,
+    gsb_data_report_amount_comparison_set_link_first_to_second_part ( amount_comparison_number,
+								      3 );
+    gtk_widget_set_sensitive ( gsb_data_report_amount_comparison_get_hbox_second_part (amount_comparison_number),
 			       FALSE );
 
     /* on met la structure dans la liste à la position demandée */
 
-    etat_courant -> liste_struct_comparaison_montants = g_slist_insert ( etat_courant -> liste_struct_comparaison_montants,
-									 comp_montants,
-									 position );
+    gsb_data_report_set_amount_comparison_list ( current_report_number,
+						 g_slist_insert ( gsb_data_report_get_amount_comparison_list (current_report_number),
+								  GINT_TO_POINTER (amount_comparison_number),
+								  position ));
 
 
     /* on met la ligne à sa place dans la liste */
 
     gtk_box_reorder_child ( GTK_BOX ( liste_montants_etat ),
-			    comp_montants -> hbox_ligne,
+			    gsb_data_report_amount_comparison_get_hbox_line (amount_comparison_number),
 			    position );
 }
 /******************************************************************************/
@@ -5091,23 +5292,27 @@ void ajoute_ligne_liste_comparaisons_montants_etat ( struct struct_comparaison_m
 /* crée la hbox de la ligne et la renvoie */
 /* remplie en même temps les widget de la struct envoyée en argument, sauf hbox_ligne */
 /******************************************************************************/
-GtkWidget *cree_ligne_comparaison_montant ( struct struct_comparaison_montants_etat *comp_montants )
+GtkWidget *cree_ligne_comparaison_montant ( gint amount_comparison_number )
 {
     GtkWidget *hbox;
     GtkWidget *label;
     GtkWidget *bouton;
+    GtkWidget *widget;
+    GtkWidget *widget_1;
 
     /*   on laisse les infos vides, on met juste les boutons et les labels */
 
     hbox = gtk_hbox_new ( FALSE,
 			  5 );
 
-    comp_montants -> bouton_lien = cree_bouton_lien_lignes_comparaison ();
+    widget = cree_bouton_lien_lignes_comparaison ();
     gtk_box_pack_start ( GTK_BOX ( hbox ),
-			 comp_montants -> bouton_lien,
+			 widget,
 			 FALSE,
 			 FALSE,
 			 0 );
+    gsb_data_report_amount_comparison_set_button_link ( amount_comparison_number,
+							widget );
 
     label = gtk_label_new ( POSTSPACIFY(_("Transactions with an amount of")));
     gtk_box_pack_start ( GTK_BOX ( hbox ),
@@ -5117,12 +5322,14 @@ GtkWidget *cree_ligne_comparaison_montant ( struct struct_comparaison_montants_e
 			 0 );
     gtk_widget_show ( label );
 
-    comp_montants -> bouton_comparateur_1 = cree_bouton_comparateur_montant ( comp_montants );
+    widget = cree_bouton_comparateur_montant (amount_comparison_number);
     gtk_box_pack_start ( GTK_BOX ( hbox ),
-			 comp_montants -> bouton_comparateur_1,
+			 widget,
 			 FALSE,
 			 FALSE,
 			 0 );
+    gsb_data_report_amount_comparison_set_button_first_comparison ( amount_comparison_number,
+								    widget );
 
     label = gtk_label_new ( SPACIFY(_("to")));
     gtk_box_pack_start ( GTK_BOX ( hbox ),
@@ -5132,79 +5339,89 @@ GtkWidget *cree_ligne_comparaison_montant ( struct struct_comparaison_montants_e
 			 0 );
     gtk_widget_show ( label );
 
-    comp_montants -> entree_montant_1 = gtk_entry_new ();
-    gtk_widget_set_usize ( comp_montants -> entree_montant_1,
+    widget = gtk_entry_new ();
+    gtk_widget_set_usize ( widget,
 			   50,
 			   FALSE );
     gtk_box_pack_start ( GTK_BOX ( hbox ),
-			 comp_montants -> entree_montant_1,
+			 widget,
 			 FALSE,
 			 FALSE,
 			 0 );
-    gtk_widget_show ( comp_montants -> entree_montant_1 );
-
+    gtk_widget_show ( widget );
+    gsb_data_report_amount_comparison_set_entry_first_amount ( amount_comparison_number,
+							       widget);
 
     /* la fonction cree_bouton_lien va se servir de comp_montants -> hbox_partie_2 */
     /* il faut donc créer celle ci avant l'appel de la fonction */
+    /* the hbox is created in widget_1 and is used later */
 
-    comp_montants -> hbox_partie_2 = gtk_hbox_new ( FALSE,
-						    5 );
+    widget_1 = gtk_hbox_new ( FALSE,
+			      5 );
 
     /* on crée alors le bouton de lien */
 
-    comp_montants -> bouton_lien_1_2 = cree_bouton_lien ( comp_montants -> hbox_partie_2 );
+    widget = cree_bouton_lien ( widget );
     gtk_box_pack_start ( GTK_BOX ( hbox ),
-			 comp_montants -> bouton_lien_1_2,
+			 widget,
 			 FALSE,
 			 FALSE,
 			 0 );
+    gsb_data_report_amount_comparison_set_button_link_first_to_second_part ( amount_comparison_number,
+									     widget);
 
     /* on ajoute la hbox2 */
 
     gtk_box_pack_start ( GTK_BOX ( hbox ),
-			 comp_montants -> hbox_partie_2,
+			 widget_1,
 			 FALSE,
 			 FALSE,
 			 0 );
-    gtk_widget_show ( comp_montants -> hbox_partie_2 );
+    gtk_widget_show ( widget_1 );
+    gsb_data_report_amount_comparison_set_hbox_second_part ( amount_comparison_number,
+							     widget_1);
 
     /* on peut maintenant ajouter dans comp_montants -> hbox_partie_2 */
 
-    comp_montants -> bouton_comparateur_2 = cree_bouton_comparateur_montant ( comp_montants );
-    gtk_box_pack_start ( GTK_BOX ( comp_montants -> hbox_partie_2 ),
-			 comp_montants -> bouton_comparateur_2,
+    widget = cree_bouton_comparateur_montant ( amount_comparison_number );
+    gtk_box_pack_start ( GTK_BOX ( widget_1 ),
+			 widget,
 			 FALSE,
 			 FALSE,
 			 0 );
+    gsb_data_report_amount_comparison_set_button_second_comparison ( amount_comparison_number,
+								     widget);
 
     label = gtk_label_new ( SPACIFY(_("to")));
-    gtk_box_pack_start ( GTK_BOX ( comp_montants -> hbox_partie_2 ),
+    gtk_box_pack_start ( GTK_BOX ( widget_1 ),
 			 label,
 			 FALSE,
 			 FALSE,
 			 0 );
     gtk_widget_show ( label );
 
-    comp_montants -> entree_montant_2 = gtk_entry_new ();
-    gtk_widget_set_usize ( comp_montants -> entree_montant_2,
+    widget = gtk_entry_new ();
+    gtk_widget_set_usize ( widget,
 			   50,
 			   FALSE );
-    gtk_box_pack_start ( GTK_BOX ( comp_montants -> hbox_partie_2 ),
-			 comp_montants -> entree_montant_2,
+    gtk_box_pack_start ( GTK_BOX ( widget_1 ),
+			 widget,
 			 FALSE,
 			 FALSE,
 			 0 );
-    gtk_widget_show ( comp_montants -> entree_montant_2 );
+    gtk_widget_show ( widget );
+    gsb_data_report_amount_comparison_set_entry_second_amount ( amount_comparison_number,
+								widget);
 
     /* on met les bouton ajouter et supprimer */
 
     bouton = gtk_button_new_with_label ( _("Add"));
     gtk_button_set_relief ( GTK_BUTTON ( bouton ),
 			    GTK_RELIEF_NONE );
-    gtk_signal_connect_object ( GTK_OBJECT ( bouton ),
-				"clicked",
-				GTK_SIGNAL_FUNC ( ajoute_ligne_liste_comparaisons_montants_etat ),
-				(GtkObject *) comp_montants );
+    g_signal_connect_swapped ( G_OBJECT (bouton),
+			       "clicked",
+			       G_CALLBACK (ajoute_ligne_liste_comparaisons_montants_etat),
+			       GINT_TO_POINTER (amount_comparison_number));
     gtk_box_pack_start ( GTK_BOX ( hbox ),
 			 bouton,
 			 FALSE,
@@ -5215,10 +5432,10 @@ GtkWidget *cree_ligne_comparaison_montant ( struct struct_comparaison_montants_e
     bouton = gtk_button_new_with_label ( _("Remove"));
     gtk_button_set_relief ( GTK_BUTTON ( bouton ),
 			    GTK_RELIEF_NONE );
-    gtk_signal_connect_object ( GTK_OBJECT ( bouton ),
-				"clicked",
-				GTK_SIGNAL_FUNC ( retire_ligne_liste_comparaisons_montants_etat ),
-				(GtkObject *) comp_montants );
+    g_signal_connect_swapped ( G_OBJECT (bouton),
+			       "clicked",
+			       G_CALLBACK (retire_ligne_liste_comparaisons_montants_etat),
+			       GINT_TO_POINTER (amount_comparison_number));
     gtk_box_pack_start ( GTK_BOX ( hbox ),
 			 bouton,
 			 FALSE,
@@ -5279,7 +5496,7 @@ GtkWidget *cree_bouton_lien_lignes_comparaison ( void )
 /******************************************************************************/
 /* cette fonction crée un option_menu avec =,<,<=,>,>=, nul, non nul, positif, nég */
 /******************************************************************************/
-GtkWidget *cree_bouton_comparateur_montant ( struct struct_comparaison_montants_etat *comp_montants )
+GtkWidget *cree_bouton_comparateur_montant ( gint amount_comparison_number )
 {
     GtkWidget *bouton;
     GtkWidget *menu;
@@ -5296,10 +5513,10 @@ GtkWidget *cree_bouton_comparateur_montant ( struct struct_comparaison_montants_
     gtk_object_set_data ( GTK_OBJECT ( menu_item ),
 			  "no_comparateur",
 			  GINT_TO_POINTER ( 0 ));
-    gtk_signal_connect ( GTK_OBJECT ( menu_item ),
-			 "activate",
-			 GTK_SIGNAL_FUNC ( change_comparaison_montant ),
-			 comp_montants );
+    g_signal_connect ( G_OBJECT ( menu_item ),
+		       "activate",
+		       G_CALLBACK ( change_comparaison_montant ),
+		       GINT_TO_POINTER (amount_comparison_number));
     gtk_widget_show ( menu_item );
 
     menu_item = gtk_menu_item_new_with_label ( _("less than"));
@@ -5308,10 +5525,10 @@ GtkWidget *cree_bouton_comparateur_montant ( struct struct_comparaison_montants_
     gtk_object_set_data ( GTK_OBJECT ( menu_item ),
 			  "no_comparateur",
 			  GINT_TO_POINTER ( 1 ));
-    gtk_signal_connect ( GTK_OBJECT ( menu_item ),
-			 "activate",
-			 GTK_SIGNAL_FUNC ( change_comparaison_montant ),
-			 comp_montants );
+    g_signal_connect ( G_OBJECT ( menu_item ),
+		       "activate",
+		       G_CALLBACK ( change_comparaison_montant ),
+		       GINT_TO_POINTER (amount_comparison_number));
     gtk_widget_show ( menu_item );
 
     menu_item = gtk_menu_item_new_with_label ( _("less than or equal"));
@@ -5320,10 +5537,10 @@ GtkWidget *cree_bouton_comparateur_montant ( struct struct_comparaison_montants_
     gtk_object_set_data ( GTK_OBJECT ( menu_item ),
 			  "no_comparateur",
 			  GINT_TO_POINTER ( 2 ));
-    gtk_signal_connect ( GTK_OBJECT ( menu_item ),
-			 "activate",
-			 GTK_SIGNAL_FUNC ( change_comparaison_montant ),
-			 comp_montants );
+    g_signal_connect ( G_OBJECT ( menu_item ),
+		       "activate",
+		       G_CALLBACK ( change_comparaison_montant ),
+		       GINT_TO_POINTER (amount_comparison_number));
     gtk_widget_show ( menu_item );
 
     menu_item = gtk_menu_item_new_with_label ( _("greater than"));
@@ -5332,10 +5549,10 @@ GtkWidget *cree_bouton_comparateur_montant ( struct struct_comparaison_montants_
     gtk_object_set_data ( GTK_OBJECT ( menu_item ),
 			  "no_comparateur",
 			  GINT_TO_POINTER ( 3 ));
-    gtk_signal_connect ( GTK_OBJECT ( menu_item ),
-			 "activate",
-			 GTK_SIGNAL_FUNC ( change_comparaison_montant ),
-			 comp_montants );
+    g_signal_connect ( G_OBJECT ( menu_item ),
+		       "activate",
+		       G_CALLBACK ( change_comparaison_montant ),
+		       GINT_TO_POINTER (amount_comparison_number));
     gtk_widget_show ( menu_item );
 
     menu_item = gtk_menu_item_new_with_label ( _("greater than or equal"));
@@ -5344,10 +5561,10 @@ GtkWidget *cree_bouton_comparateur_montant ( struct struct_comparaison_montants_
     gtk_object_set_data ( GTK_OBJECT ( menu_item ),
 			  "no_comparateur",
 			  GINT_TO_POINTER ( 4 ));
-    gtk_signal_connect ( GTK_OBJECT ( menu_item ),
-			 "activate",
-			 GTK_SIGNAL_FUNC ( change_comparaison_montant ),
-			 comp_montants );
+    g_signal_connect ( G_OBJECT ( menu_item ),
+		       "activate",
+		       G_CALLBACK ( change_comparaison_montant ),
+		       GINT_TO_POINTER (amount_comparison_number));
     gtk_widget_show ( menu_item );
 
     menu_item = gtk_menu_item_new_with_label ( _("different from"));
@@ -5356,10 +5573,10 @@ GtkWidget *cree_bouton_comparateur_montant ( struct struct_comparaison_montants_
     gtk_object_set_data ( GTK_OBJECT ( menu_item ),
 			  "no_comparateur",
 			  GINT_TO_POINTER ( 5 ));
-    gtk_signal_connect ( GTK_OBJECT ( menu_item ),
-			 "activate",
-			 GTK_SIGNAL_FUNC ( change_comparaison_montant ),
-			 comp_montants );
+    g_signal_connect ( G_OBJECT ( menu_item ),
+		       "activate",
+		       G_CALLBACK ( change_comparaison_montant ),
+		       GINT_TO_POINTER (amount_comparison_number));
     gtk_widget_show ( menu_item );
 
     menu_item = gtk_menu_item_new_with_label ( _("null"));
@@ -5368,10 +5585,10 @@ GtkWidget *cree_bouton_comparateur_montant ( struct struct_comparaison_montants_
     gtk_object_set_data ( GTK_OBJECT ( menu_item ),
 			  "no_comparateur",
 			  GINT_TO_POINTER ( 6 ));
-    gtk_signal_connect ( GTK_OBJECT ( menu_item ),
-			 "activate",
-			 GTK_SIGNAL_FUNC ( change_comparaison_montant ),
-			 comp_montants );
+    g_signal_connect ( G_OBJECT ( menu_item ),
+		       "activate",
+		       G_CALLBACK ( change_comparaison_montant ),
+		       GINT_TO_POINTER (amount_comparison_number));
     gtk_widget_show ( menu_item );
 
     menu_item = gtk_menu_item_new_with_label ( _("not null"));
@@ -5380,10 +5597,10 @@ GtkWidget *cree_bouton_comparateur_montant ( struct struct_comparaison_montants_
     gtk_object_set_data ( GTK_OBJECT ( menu_item ),
 			  "no_comparateur",
 			  GINT_TO_POINTER ( 7 ));
-    gtk_signal_connect ( GTK_OBJECT ( menu_item ),
-			 "activate",
-			 GTK_SIGNAL_FUNC ( change_comparaison_montant ),
-			 comp_montants );
+    g_signal_connect ( G_OBJECT ( menu_item ),
+		       "activate",
+		       G_CALLBACK ( change_comparaison_montant ),
+		       GINT_TO_POINTER (amount_comparison_number));
     gtk_widget_show ( menu_item );
 
     menu_item = gtk_menu_item_new_with_label ( _("positive"));
@@ -5392,10 +5609,10 @@ GtkWidget *cree_bouton_comparateur_montant ( struct struct_comparaison_montants_
     gtk_object_set_data ( GTK_OBJECT ( menu_item ),
 			  "no_comparateur",
 			  GINT_TO_POINTER ( 8 ));
-    gtk_signal_connect ( GTK_OBJECT ( menu_item ),
-			 "activate",
-			 GTK_SIGNAL_FUNC ( change_comparaison_montant ),
-			 comp_montants );
+    g_signal_connect ( G_OBJECT ( menu_item ),
+		       "activate",
+		       G_CALLBACK ( change_comparaison_montant ),
+		       GINT_TO_POINTER (amount_comparison_number));
     gtk_widget_show ( menu_item );
 
     menu_item = gtk_menu_item_new_with_label ( _("negative"));
@@ -5404,10 +5621,10 @@ GtkWidget *cree_bouton_comparateur_montant ( struct struct_comparaison_montants_
     gtk_object_set_data ( GTK_OBJECT ( menu_item ),
 			  "no_comparateur",
 			  GINT_TO_POINTER ( 9 ));
-    gtk_signal_connect ( GTK_OBJECT ( menu_item ),
-			 "activate",
-			 GTK_SIGNAL_FUNC ( change_comparaison_montant ),
-			 comp_montants );
+    g_signal_connect ( G_OBJECT ( menu_item ),
+		       "activate",
+		       G_CALLBACK ( change_comparaison_montant ),
+		       GINT_TO_POINTER (amount_comparison_number));
     gtk_widget_show ( menu_item );
 
     gtk_option_menu_set_menu ( GTK_OPTION_MENU ( bouton ),
@@ -5423,7 +5640,7 @@ GtkWidget *cree_bouton_comparateur_montant ( struct struct_comparaison_montants_
 /* donc si on choisit nul, non nul, pos ou nég, on grise l'entrée */
 /******************************************************************************/
 void change_comparaison_montant ( GtkWidget *menu_item,
-				  struct struct_comparaison_montants_etat *comp_montants )
+				  gint amount_comparison_number )
 {
     gint sensitif;
 
@@ -5443,11 +5660,13 @@ void change_comparaison_montant ( GtkWidget *menu_item,
 	    sensitif = 1;
     }
 
-    if ( gtk_menu_get_attach_widget ( GTK_MENU ( menu_item -> parent )) == comp_montants -> bouton_comparateur_1 )
-	gtk_widget_set_sensitive ( comp_montants -> entree_montant_1,
+    if ( gtk_menu_get_attach_widget ( GTK_MENU ( menu_item -> parent ))
+	 == 
+	 gsb_data_report_amount_comparison_get_button_first_comparison (amount_comparison_number))
+	gtk_widget_set_sensitive ( gsb_data_report_amount_comparison_get_entry_first_amount (amount_comparison_number),
 				   sensitif );
     else
-	gtk_widget_set_sensitive ( comp_montants -> entree_montant_2,
+	gtk_widget_set_sensitive ( gsb_data_report_amount_comparison_get_entry_second_amount (amount_comparison_number),
 				   sensitif );
 }
 /******************************************************************************/
@@ -5455,7 +5674,7 @@ void change_comparaison_montant ( GtkWidget *menu_item,
 /******************************************************************************/
 /* cette fonction crée un option_menu avec =,<,<=,>,>= */
 /******************************************************************************/
-GtkWidget *cree_bouton_comparateur_texte ( struct struct_comparaison_textes_etat *comp_textes )
+GtkWidget *cree_bouton_comparateur_texte ( gint text_comparison_number )
 {
     GtkWidget *bouton;
     GtkWidget *menu;
@@ -5472,10 +5691,10 @@ GtkWidget *cree_bouton_comparateur_texte ( struct struct_comparaison_textes_etat
     gtk_object_set_data ( GTK_OBJECT ( menu_item ),
 			  "no_comparateur",
 			  GINT_TO_POINTER ( 0 ));
-    gtk_signal_connect ( GTK_OBJECT ( menu_item ),
-			 "activate",
-			 GTK_SIGNAL_FUNC ( change_comparaison_texte ),
-			 comp_textes );
+    g_signal_connect ( G_OBJECT ( menu_item ),
+		       "activate",
+		       G_CALLBACK ( change_comparaison_texte ),
+		       GINT_TO_POINTER (text_comparison_number));
     gtk_widget_show ( menu_item );
 
     menu_item = gtk_menu_item_new_with_label ( _("less than"));
@@ -5484,10 +5703,10 @@ GtkWidget *cree_bouton_comparateur_texte ( struct struct_comparaison_textes_etat
     gtk_object_set_data ( GTK_OBJECT ( menu_item ),
 			  "no_comparateur",
 			  GINT_TO_POINTER ( 1 ));
-    gtk_signal_connect ( GTK_OBJECT ( menu_item ),
-			 "activate",
-			 GTK_SIGNAL_FUNC ( change_comparaison_texte ),
-			 comp_textes );
+    g_signal_connect ( G_OBJECT ( menu_item ),
+		       "activate",
+		       G_CALLBACK ( change_comparaison_texte ),
+		       GINT_TO_POINTER (text_comparison_number));
     gtk_widget_show ( menu_item );
 
     menu_item = gtk_menu_item_new_with_label ( _("less than or equal"));
@@ -5496,10 +5715,10 @@ GtkWidget *cree_bouton_comparateur_texte ( struct struct_comparaison_textes_etat
     gtk_object_set_data ( GTK_OBJECT ( menu_item ),
 			  "no_comparateur",
 			  GINT_TO_POINTER ( 2 ));
-    gtk_signal_connect ( GTK_OBJECT ( menu_item ),
-			 "activate",
-			 GTK_SIGNAL_FUNC ( change_comparaison_texte ),
-			 comp_textes );
+    g_signal_connect ( G_OBJECT ( menu_item ),
+		       "activate",
+		       G_CALLBACK ( change_comparaison_texte ),
+		       GINT_TO_POINTER (text_comparison_number));
     gtk_widget_show ( menu_item );
 
     menu_item = gtk_menu_item_new_with_label ( _("greater than"));
@@ -5508,10 +5727,10 @@ GtkWidget *cree_bouton_comparateur_texte ( struct struct_comparaison_textes_etat
     gtk_object_set_data ( GTK_OBJECT ( menu_item ),
 			  "no_comparateur",
 			  GINT_TO_POINTER ( 3 ));
-    gtk_signal_connect ( GTK_OBJECT ( menu_item ),
-			 "activate",
-			 GTK_SIGNAL_FUNC ( change_comparaison_texte ),
-			 comp_textes );
+    g_signal_connect ( G_OBJECT ( menu_item ),
+		       "activate",
+		       G_CALLBACK ( change_comparaison_texte ),
+		       GINT_TO_POINTER (text_comparison_number));
     gtk_widget_show ( menu_item );
 
     menu_item = gtk_menu_item_new_with_label ( _("greater than or equal"));
@@ -5520,10 +5739,10 @@ GtkWidget *cree_bouton_comparateur_texte ( struct struct_comparaison_textes_etat
     gtk_object_set_data ( GTK_OBJECT ( menu_item ),
 			  "no_comparateur",
 			  GINT_TO_POINTER ( 4 ));
-    gtk_signal_connect ( GTK_OBJECT ( menu_item ),
-			 "activate",
-			 GTK_SIGNAL_FUNC ( change_comparaison_texte ),
-			 comp_textes );
+    g_signal_connect ( G_OBJECT ( menu_item ),
+		       "activate",
+		       G_CALLBACK ( change_comparaison_texte ),
+		       GINT_TO_POINTER (text_comparison_number));
     gtk_widget_show ( menu_item );
 
     menu_item = gtk_menu_item_new_with_label ( _("different from"));
@@ -5532,10 +5751,10 @@ GtkWidget *cree_bouton_comparateur_texte ( struct struct_comparaison_textes_etat
     gtk_object_set_data ( GTK_OBJECT ( menu_item ),
 			  "no_comparateur",
 			  GINT_TO_POINTER ( 5 ));
-    gtk_signal_connect ( GTK_OBJECT ( menu_item ),
-			 "activate",
-			 GTK_SIGNAL_FUNC ( change_comparaison_texte ),
-			 comp_textes );
+    g_signal_connect ( G_OBJECT ( menu_item ),
+		       "activate",
+		       G_CALLBACK ( change_comparaison_texte ),
+		       GINT_TO_POINTER (text_comparison_number));
     gtk_widget_show ( menu_item );
 
     menu_item = gtk_menu_item_new_with_label ( _("the biggest"));
@@ -5544,10 +5763,10 @@ GtkWidget *cree_bouton_comparateur_texte ( struct struct_comparaison_textes_etat
     gtk_object_set_data ( GTK_OBJECT ( menu_item ),
 			  "no_comparateur",
 			  GINT_TO_POINTER ( 6 ));
-    gtk_signal_connect ( GTK_OBJECT ( menu_item ),
-			 "activate",
-			 GTK_SIGNAL_FUNC ( change_comparaison_texte ),
-			 comp_textes );
+    g_signal_connect ( G_OBJECT ( menu_item ),
+		       "activate",
+		       G_CALLBACK ( change_comparaison_texte ),
+		       GINT_TO_POINTER (text_comparison_number));
     gtk_widget_show ( menu_item );
 
 
@@ -5564,7 +5783,7 @@ GtkWidget *cree_bouton_comparateur_texte ( struct struct_comparaison_textes_etat
 /* donc si on choisit nul, non nul, pos ou nég, on grise l'entrée */
 /******************************************************************************/
 void change_comparaison_texte ( GtkWidget *menu_item,
-				struct struct_comparaison_textes_etat *comp_textes )
+				gint text_comparison_number )
 {
     gint sensitif;
 
@@ -5575,11 +5794,11 @@ void change_comparaison_texte ( GtkWidget *menu_item,
 	sensitif = 1;
 
 
-    if ( gtk_menu_get_attach_widget ( GTK_MENU ( menu_item -> parent )) == comp_textes -> bouton_comparateur_1 )
-	gtk_widget_set_sensitive ( comp_textes -> entree_montant_1,
+    if ( gtk_menu_get_attach_widget ( GTK_MENU ( menu_item -> parent )) ==  gsb_data_report_text_comparison_get_button_first_comparison (text_comparison_number))
+	gtk_widget_set_sensitive ( gsb_data_report_text_comparison_get_entry_first_amount (text_comparison_number),
 				   sensitif );
     else
-	gtk_widget_set_sensitive ( comp_textes -> entree_montant_2,
+	gtk_widget_set_sensitive ( gsb_data_report_text_comparison_get_entry_second_amount (text_comparison_number),
 				   sensitif );
 }
 /******************************************************************************/
@@ -5660,33 +5879,39 @@ GtkWidget *cree_bouton_lien ( GtkWidget *hbox )
 
 
 /******************************************************************************/
-void retire_ligne_liste_comparaisons_montants_etat ( struct struct_comparaison_montants_etat *ancien_comp_montants )
+void retire_ligne_liste_comparaisons_montants_etat ( gint last_amount_comparison_number )
 {
-    /* il faut qu'il y ai plus d'une ligne affichée */
+     gint current_report_number;
 
-    if ( g_slist_length ( etat_courant -> liste_struct_comparaison_montants ) < 2 )
+    current_report_number = gsb_gui_navigation_get_current_report ();
+    
+    /* il faut qu'il y ai plus d'une ligne affichée */
+    
+    if ( g_slist_length ( gsb_data_report_get_amount_comparison_list (current_report_number)) < 2 )
 	return;
 
     /* on commence par supprimer la ligne dans la liste */
 
-    gtk_widget_destroy ( ancien_comp_montants -> hbox_ligne );
+    gtk_widget_destroy ( gsb_data_report_amount_comparison_get_hbox_line (last_amount_comparison_number));
 
     /* si la structure qu'on retire est la 1ère, on vire le widget de lient */
 
-    if ( !g_slist_index ( etat_courant -> liste_struct_comparaison_montants,
-			  ancien_comp_montants ))
+    if ( !g_slist_index ( gsb_data_report_get_amount_comparison_list (current_report_number),
+			  GINT_TO_POINTER (last_amount_comparison_number)))
     {
-	struct struct_comparaison_montants_etat *comp_montants;
+	gint amount_comparison_number;
 
-	comp_montants = etat_courant -> liste_struct_comparaison_montants -> next -> data;
-	gtk_widget_destroy ( comp_montants -> bouton_lien );
-	comp_montants -> bouton_lien = NULL;
+	amount_comparison_number = GPOINTER_TO_INT (gsb_data_report_get_amount_comparison_list (current_report_number)-> next -> data);
+	gtk_widget_destroy ( gsb_data_report_amount_comparison_get_button_link (amount_comparison_number));
+	gsb_data_report_amount_comparison_set_button_link ( amount_comparison_number,
+							    NULL );
     }
 
     /* et on retire la struct de la sliste */
 
-    etat_courant -> liste_struct_comparaison_montants = g_slist_remove ( etat_courant -> liste_struct_comparaison_montants,
-									 ancien_comp_montants );
+    gsb_data_report_set_amount_comparison_list ( current_report_number,
+						 g_slist_remove ( gsb_data_report_get_amount_comparison_list (current_report_number),
+								  GINT_TO_POINTER (last_amount_comparison_number)));
 }
 /******************************************************************************/
 
@@ -7789,7 +8014,6 @@ GtkWidget *onglet_etat_mode_paiement ( void )
 void remplissage_liste_modes_paiement_etats ( void )
 {
     GSList *liste_nom_types;
-    GSList *liste_tmp;
     GSList *list_tmp;
 
 
@@ -7807,16 +8031,17 @@ void remplissage_liste_modes_paiement_etats ( void )
     while ( list_tmp )
     {
 	gint i;
+	GSList *list_tmp_2;
 
 	i = gsb_data_account_get_no_account ( list_tmp -> data );
 
-	liste_tmp = gsb_data_account_get_method_payment_list (i);
+	list_tmp_2 = gsb_data_account_get_method_payment_list (i);
 
-	while ( liste_tmp )
+	while ( list_tmp_2 )
 	{
 	    struct struct_type_ope *type_ope;
 
-	    type_ope = liste_tmp -> data;
+	    type_ope = list_tmp_2 -> data;
 
 	    if ( !g_slist_find_custom ( liste_nom_types,
 					type_ope -> nom_type,
@@ -7824,7 +8049,7 @@ void remplissage_liste_modes_paiement_etats ( void )
 		liste_nom_types = g_slist_append ( liste_nom_types,
 						   g_strdup ( type_ope -> nom_type ));
 
-	    liste_tmp = liste_tmp -> next;
+	    list_tmp_2 = list_tmp_2 -> next;
 	}
 
 	list_tmp = list_tmp -> next;
@@ -7836,20 +8061,20 @@ void remplissage_liste_modes_paiement_etats ( void )
     liste_nom_types = g_slist_sort ( liste_nom_types,
 				     (GCompareFunc) gsb_strcasecmp );
 
-    liste_tmp = liste_nom_types;
+    list_tmp = liste_nom_types;
 
-    while ( liste_tmp )
+    while ( list_tmp )
     {
 	gint ligne;
 
 	ligne = gtk_clist_append ( GTK_CLIST ( liste_mode_paiement_etat ),
-				   (gchar **) &liste_tmp -> data );
+				   (gchar **) &list_tmp -> data );
 
 	gtk_clist_set_row_data ( GTK_CLIST ( liste_mode_paiement_etat ),
 				 ligne,
-				 liste_tmp -> data );
+				 list_tmp -> data );
 
-	liste_tmp = liste_tmp -> next;
+	list_tmp = list_tmp -> next;
     }
 }
 /******************************************************************************/
@@ -7860,22 +8085,24 @@ void remplissage_liste_modes_paiement_etats ( void )
 void selectionne_liste_modes_paiement_etat_courant ( void )
 {
     gint i;
+    gint current_report_number;
 
-    if ( !etat_courant )
-	return;
+    current_report_number = gsb_gui_navigation_get_current_report ();
+
+
     if ( !liste_comptes_etat )
 	return;
 
     gtk_clist_unselect_all ( GTK_CLIST ( liste_mode_paiement_etat ));
 
-    if ( !etat_courant -> noms_modes_paiement )
+    if ( !gsb_data_report_get_method_of_payment_list (current_report_number))
 	return;
 
     /* on fait le tour de la liste pour voir s'il y a un état sélectionné */
 
     for ( i=0 ; i < GTK_CLIST ( liste_mode_paiement_etat ) -> rows ; i++ )
     {
-	if ( g_slist_find_custom ( etat_courant -> noms_modes_paiement,
+	if ( g_slist_find_custom ( gsb_data_report_get_method_of_payment_list (current_report_number),
 				   gtk_clist_get_row_data ( GTK_CLIST ( liste_mode_paiement_etat ),
 							    i ),
 				   (GCompareFunc) cherche_string_equivalente_dans_slist ))

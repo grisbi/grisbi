@@ -86,10 +86,8 @@ extern GtkWidget *bouton_dupliquer_etat;
 extern GtkWidget *bouton_effacer_etat;
 extern GtkWidget *bouton_exporter_etat;
 extern GtkWidget *bouton_personnaliser_etat;
-extern struct struct_etat *etat_courant;
 extern gint hauteur_window;
 extern gint largeur_window;
-extern GSList *liste_struct_etats;
 extern gchar *nom_fichier_comptes;
 extern GtkWidget *notebook_aff_donnees;
 extern GtkWidget *notebook_config_etat;
@@ -322,21 +320,8 @@ int main (int argc, char *argv[])
 
 			/* s'il y a un chiffre ensuite, on ouvre
 			 * l'état correspondant à ce chiffre */
-			if ( (opt.report_no != -1) &&
-			     liste_struct_etats )
+			if ( (opt.report_no != -1))
 			{
-			    GSList *liste_tmp;
-
-			    liste_tmp = g_slist_nth ( liste_struct_etats,
-						      opt.report_no);
-
-			    /* si on a sélectionné un état qui
-			     * n'existait pas, on ouvre le 1er */
-			    if ( !liste_tmp )
-				liste_tmp = liste_struct_etats;
-
-			    etat_courant = liste_tmp -> data;
-
 			    /* TODO, update with navigation list */
 /* 			    remplissage_liste_etats (); */
 
@@ -345,10 +330,7 @@ int main (int argc, char *argv[])
 			    gtk_widget_set_sensitive ( bouton_dupliquer_etat, TRUE );
 			    gtk_widget_set_sensitive ( bouton_effacer_etat, TRUE );
 
-/* 			    gtk_label_set_text ( GTK_LABEL ( label_etat_courant ), */
-/* 						 etat_courant -> nom_etat ); */
-
-			    rafraichissement_etat ( etat_courant );
+			    rafraichissement_etat ( opt.report_no );
 
 			    /* s'il y a une suite dans la demande en
 			     * ligne de commande, on ouvre la

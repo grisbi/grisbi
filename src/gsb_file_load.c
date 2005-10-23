@@ -28,6 +28,9 @@
 #include "gsb_data_budget.h"
 #include "gsb_data_category.h"
 #include "gsb_data_payee.h"
+#include "gsb_data_report_amout_comparison.h"
+#include "gsb_data_report.h"
+#include "gsb_data_report_text_comparison.h"
 #include "gsb_data_transaction.h"
 #include "gsb_file_util.h"
 #include "data_form.h"
@@ -117,7 +120,6 @@ extern GSList *lignes_affichage_trois_lignes;
 extern GSList *liste_struct_banques;
 extern GSList *liste_struct_devises;
 extern GSList *liste_struct_echeances;
-extern GSList *liste_struct_etats;
 extern GSList *liste_struct_exercices;
 extern GSList *liste_struct_rapprochements;
 extern gint nb_colonnes;
@@ -153,7 +155,6 @@ static struct
 } download_tmp_values;
 
 static gint account_number_tmp;
-static struct struct_etat *report_tmp;
 
 /* to import older file than 0.6, makes the link between category and sub-category */
 static gint last_category = 0;
@@ -163,6 +164,8 @@ static gint last_sub_category_number = 0;
 static gint last_budget = 0;
 static gint last_sub_budget_number = 0;
 
+/* to import older file than 0.6, makes the link between report and comparison structures */
+gint last_report_number;
 
 /* used to get the sort of the accounts in the version < 0.6 */
 static GSList *sort_accounts;
@@ -451,8 +454,7 @@ void gsb_file_load_start_element ( GMarkupParseContext *context,
 		   "Category" ))
     {
 	gsb_file_load_category ( attribute_names,
-				 attribute_values,
-				 NULL );
+				 attribute_values );
 	return;
     }
 
@@ -460,8 +462,7 @@ void gsb_file_load_start_element ( GMarkupParseContext *context,
 		   "Sub_category" ))
     {
 	gsb_file_load_sub_category ( attribute_names,
-				     attribute_values,
-				     NULL );
+				     attribute_values );
 	return;
     }
 
@@ -469,8 +470,7 @@ void gsb_file_load_start_element ( GMarkupParseContext *context,
 		   "Budgetary" ))
     {
 	gsb_file_load_budgetary ( attribute_names,
-				  attribute_values,
-				  NULL );
+				  attribute_values );
 	return;
     }
 
@@ -478,8 +478,7 @@ void gsb_file_load_start_element ( GMarkupParseContext *context,
 		   "Sub_budgetary" ))
     {
 	gsb_file_load_sub_budgetary ( attribute_names,
-				      attribute_values,
-				      NULL );
+				      attribute_values );
 	return;
     }
 
@@ -519,8 +518,7 @@ void gsb_file_load_start_element ( GMarkupParseContext *context,
 		   "Report" ))
     {
 	gsb_file_load_report ( attribute_names,
-			       attribute_values,
-			       NULL );
+			       attribute_values );
 	return;
     }
 
@@ -528,8 +526,7 @@ void gsb_file_load_start_element ( GMarkupParseContext *context,
 		   "Text_comparison" ))
     {
 	gsb_file_load_text_comparison ( attribute_names,
-					attribute_values,
-					NULL );
+					attribute_values);
 	return;
     }
 
@@ -537,8 +534,7 @@ void gsb_file_load_start_element ( GMarkupParseContext *context,
 		   "Amount_comparison" ))
     {
 	gsb_file_load_amount_comparison ( attribute_names,
-					  attribute_values,
-					  NULL );
+					  attribute_values);
 	return;
     }
 }
@@ -1927,13 +1923,10 @@ void gsb_file_load_party ( const gchar **attribute_names,
  *
  * \param attribute_names
  * \param attribute_values
- * \param import_list that parameter is NULL for the grisbi file loading, but
- * not NULL for the category importing
  *
  * */
 void gsb_file_load_category ( const gchar **attribute_names,
-			      const gchar **attribute_values,
-			      GSList **import_list )
+			      const gchar **attribute_values )
 {
     gint i=0;
     gint category_number = 0;
@@ -1956,15 +1949,7 @@ void gsb_file_load_category ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Nb" ))
 	{
-	    /* not sure tha *import_list give sigsev if import_list = NULL,
-	     * so check it before, perhaps can remove the check ? */
-	    
-	    if (import_list)
-		category_number = gsb_data_category_new_with_number ( utils_str_atoi (attribute_values[i]),
-								      *import_list );
-	    else
-		category_number = gsb_data_category_new_with_number ( utils_str_atoi (attribute_values[i]),
-								      NULL ); 
+	    category_number = gsb_data_category_new_with_number ( utils_str_atoi (attribute_values[i]));
 
 	    i++;
 	    continue;
@@ -2000,13 +1985,10 @@ void gsb_file_load_category ( const gchar **attribute_names,
  *
  * \param attribute_names
  * \param attribute_values
- * \param import_list that parameter is NULL for the grisbi file loading, but
- * not NULL for the category importing
  *
  * */
 void gsb_file_load_sub_category ( const gchar **attribute_names,
-				  const gchar **attribute_values,
-				  GSList **import_list )
+				  const gchar **attribute_values)
 {
     gint i=0;
     gint category_number = 0;
@@ -2038,17 +2020,8 @@ void gsb_file_load_sub_category ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Nb" ))
 	{
-	    /* not sure tha *import_list give sigsev if import_list = NULL,
-	     * so check it before, perhaps can remove the check ? */
-	    
-	    if (import_list)
-		sub_category_number = gsb_data_category_new_sub_category_with_number ( utils_str_atoi (attribute_values[i]),
-										       category_number,
-										       *import_list );
-	    else
-		sub_category_number = gsb_data_category_new_sub_category_with_number ( utils_str_atoi (attribute_values[i]),
-										       category_number,
-										       NULL ); 
+	    sub_category_number = gsb_data_category_new_sub_category_with_number ( utils_str_atoi (attribute_values[i]),
+										   category_number );
 	    i++;
 	    continue;
 	}
@@ -2075,13 +2048,10 @@ void gsb_file_load_sub_category ( const gchar **attribute_names,
  *
  * \param attribute_names
  * \param attribute_values
- * \param import_list that parameter is NULL for the grisbi file loading, but
- * not NULL for the category importing
  *
  * */
 void gsb_file_load_budgetary ( const gchar **attribute_names,
-			       const gchar **attribute_values,
-			       GSList **import_list )
+			       const gchar **attribute_values )
 {
     gint i=0;
     gint budget_number = 0;
@@ -2104,15 +2074,7 @@ void gsb_file_load_budgetary ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Nb" ))
 	{
-	    /* not sure that *import_list give sigsev if import_list = NULL,
-	     * so check it before, perhaps can remove the check ? */
-
-	    if (import_list)
-		budget_number = gsb_data_budget_new_with_number ( utils_str_atoi (attribute_values[i]),
-								  *import_list );
-	    else
-		budget_number = gsb_data_budget_new_with_number ( utils_str_atoi (attribute_values[i]),
-								  NULL ); 
+	    budget_number = gsb_data_budget_new_with_number ( utils_str_atoi (attribute_values[i]));
 
 	    i++;
 	    continue;
@@ -2148,13 +2110,10 @@ void gsb_file_load_budgetary ( const gchar **attribute_names,
  *
  * \param attribute_names
  * \param attribute_values
- * \param import_list that parameter is NULL for the grisbi file loading, but
- * not NULL for the budget importing
  *
  * */
 void gsb_file_load_sub_budgetary ( const gchar **attribute_names,
-				   const gchar **attribute_values,
-				   GSList **import_list )
+				   const gchar **attribute_values)
 {
     gint i=0;
     gint budget_number = 0;
@@ -2186,17 +2145,8 @@ void gsb_file_load_sub_budgetary ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Nb" ))
 	{
-	    /* not sure that *import_list give sigsev if import_list = NULL,
-	     * so check it before, perhaps can remove the check ? */
-
-	    if (import_list)
-		sub_budget_number = gsb_data_budget_new_sub_budget_with_number ( utils_str_atoi (attribute_values[i]),
-										 budget_number,
-										 *import_list );
-	    else
-		sub_budget_number = gsb_data_budget_new_sub_budget_with_number ( utils_str_atoi (attribute_values[i]),
-										 budget_number,
-										 NULL ); 
+	    sub_budget_number = gsb_data_budget_new_sub_budget_with_number ( utils_str_atoi (attribute_values[i]),
+									     budget_number );
 	    i++;
 	    continue;
 	}
@@ -2612,22 +2562,16 @@ void gsb_file_load_reconcile ( const gchar **attribute_names,
  *
  * \param attribute_names
  * \param attribute_values
- * \param import_list that parameter is NULL for the grisbi file loading, but
- * not NULL for the category importing
  *
  * */
 void gsb_file_load_report ( const gchar **attribute_names,
-			    const gchar **attribute_values,
-			    GSList **import_list )
+			    const gchar **attribute_values )
 {
-    struct struct_etat *report;
     gint i=0;
+    gint report_number = 0;
 
     if ( !attribute_names[i] )
 	return;
-
-    report = calloc ( 1,
-		      sizeof ( struct struct_etat ) );
 
     do
     {
@@ -2644,7 +2588,7 @@ void gsb_file_load_report ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Nb" ))
 	{
-	    report -> no_etat = utils_str_atoi (attribute_values[i]);
+	    report_number = gsb_data_report_new_with_number (utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
 	}
@@ -2652,7 +2596,8 @@ void gsb_file_load_report ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Name" ))
 	{
-	    report -> nom_etat = g_strdup (attribute_values[i]);
+	    gsb_data_report_set_report_name ( report_number,
+					      attribute_values[i]);
 	    i++;
 	    continue;
 	}
@@ -2660,8 +2605,9 @@ void gsb_file_load_report ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "General_sort_type" ))
 	{
-	    report -> type_classement = gsb_string_get_list_from_string (attribute_values[i],
-									 "/-/" );
+	    gsb_data_report_set_sorting_type ( report_number,
+					       gsb_string_get_list_from_string (attribute_values[i],
+										"/-/" ));
 	    i++;
 	    continue;
 	}
@@ -2669,7 +2615,8 @@ void gsb_file_load_report ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Show_r" ))
 	{
-	    report -> afficher_r = utils_str_atoi (attribute_values[i]);
+	    gsb_data_report_set_show_r ( report_number,
+					 utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
 	}
@@ -2677,7 +2624,8 @@ void gsb_file_load_report ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Show_transaction" ))
 	{
-	    report -> afficher_opes = utils_str_atoi (attribute_values[i]);
+	    gsb_data_report_set_show_report_transactions ( report_number,
+							   utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
 	}
@@ -2685,7 +2633,8 @@ void gsb_file_load_report ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Show_transaction_amount" ))
 	{
-	    report -> afficher_nb_opes = utils_str_atoi (attribute_values[i]);
+	    gsb_data_report_set_show_report_transaction_amount ( report_number,
+								 utils_str_atoi (attribute_values[i] ));
 	    i++;
 	    continue;
 	}
@@ -2693,7 +2642,8 @@ void gsb_file_load_report ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Show_transaction_nb" ))
 	{
-	    report -> afficher_no_ope = utils_str_atoi (attribute_values[i]);
+	    gsb_data_report_set_show_report_transaction_number ( report_number,
+								 utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
 	}
@@ -2701,7 +2651,8 @@ void gsb_file_load_report ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Show_transaction_date" ))
 	{
-	    report -> afficher_date_ope = utils_str_atoi (attribute_values[i]);
+	    gsb_data_report_set_show_report_date ( report_number,
+						   utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
 	}
@@ -2709,7 +2660,8 @@ void gsb_file_load_report ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Show_transaction_payee" ))
 	{
-	    report -> afficher_tiers_ope = utils_str_atoi (attribute_values[i]);
+	    gsb_data_report_set_show_report_payee ( report_number,
+						    utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
 	}
@@ -2717,7 +2669,8 @@ void gsb_file_load_report ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Show_transaction_categ" ))
 	{
-	    report -> afficher_categ_ope = utils_str_atoi (attribute_values[i]);
+	    gsb_data_report_set_show_report_category ( report_number,
+						       utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
 	}
@@ -2725,7 +2678,8 @@ void gsb_file_load_report ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Show_transaction_sub_categ" ))
 	{
-	    report -> afficher_sous_categ_ope = utils_str_atoi (attribute_values[i]);
+	    gsb_data_report_set_show_report_sub_category ( report_number,
+							   utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
 	}
@@ -2733,7 +2687,8 @@ void gsb_file_load_report ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Show_transaction_payment" ))
 	{
-	    report -> afficher_type_ope = utils_str_atoi (attribute_values[i]);
+	    gsb_data_report_set_show_report_method_of_payment ( report_number,
+								utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
 	}
@@ -2741,7 +2696,8 @@ void gsb_file_load_report ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Show_transaction_budget" ))
 	{
-	    report -> afficher_ib_ope = utils_str_atoi (attribute_values[i]);
+	    gsb_data_report_set_show_report_budget ( report_number,
+						     utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
 	}
@@ -2749,7 +2705,8 @@ void gsb_file_load_report ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Show_transaction_sub_budget" ))
 	{
-	    report -> afficher_sous_ib_ope = utils_str_atoi (attribute_values[i]);
+	    gsb_data_report_set_show_report_sub_budget ( report_number,
+							 utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
 	}
@@ -2757,7 +2714,8 @@ void gsb_file_load_report ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Show_transaction_chq" ))
 	{
-	    report -> afficher_cheque_ope = utils_str_atoi (attribute_values[i]);
+	    gsb_data_report_set_show_report_method_of_payment_content ( report_number,
+									utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
 	}
@@ -2765,7 +2723,8 @@ void gsb_file_load_report ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Show_transaction_note" ))
 	{
-	    report -> afficher_notes_ope = utils_str_atoi (attribute_values[i]);
+	    gsb_data_report_set_show_report_note ( report_number,
+						   utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
 	}
@@ -2773,7 +2732,8 @@ void gsb_file_load_report ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Show_transaction_voucher" ))
 	{
-	    report -> afficher_pc_ope = utils_str_atoi (attribute_values[i]);
+	    gsb_data_report_set_show_report_voucher ( report_number,
+						      utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
 	}
@@ -2781,7 +2741,8 @@ void gsb_file_load_report ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Show_transaction_reconcile" ))
 	{
-	    report -> afficher_rappr_ope = utils_str_atoi (attribute_values[i]);
+	    gsb_data_report_set_show_report_marked ( report_number,
+						     utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
 	}
@@ -2789,7 +2750,8 @@ void gsb_file_load_report ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Show_transaction_bank" ))
 	{
-	    report -> afficher_infobd_ope = utils_str_atoi (attribute_values[i]);
+	    gsb_data_report_set_show_report_bank_references ( report_number,
+							      utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
 	}
@@ -2797,7 +2759,8 @@ void gsb_file_load_report ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Show_transaction_fin_year" ))
 	{
-	    report -> afficher_exo_ope = utils_str_atoi (attribute_values[i]);
+	    gsb_data_report_set_show_report_financial_year ( report_number,
+							     utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
 	}
@@ -2805,7 +2768,8 @@ void gsb_file_load_report ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Show_transaction_sort_type" ))
 	{
-	    report -> type_classement_ope = utils_str_atoi (attribute_values[i]);
+	    gsb_data_report_set_sorting_report ( report_number,
+						 utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
 	}
@@ -2813,7 +2777,8 @@ void gsb_file_load_report ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Show_columns_titles" ))
 	{
-	    report -> afficher_titre_colonnes = utils_str_atoi (attribute_values[i]);
+	    gsb_data_report_set_column_title_show ( report_number,
+						    utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
 	}
@@ -2821,7 +2786,8 @@ void gsb_file_load_report ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Show_title_column_kind" ))
 	{
-	    report -> type_affichage_titres = utils_str_atoi (attribute_values[i]);
+	    gsb_data_report_set_column_title_type ( report_number,
+						    utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
 	}
@@ -2829,7 +2795,8 @@ void gsb_file_load_report ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Show_exclude_breakdown_child" ))
 	{
-	    report -> pas_detailler_ventilation = utils_str_atoi (attribute_values[i]);
+	    gsb_data_report_set_not_detail_breakdown ( report_number,
+						       utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
 	}
@@ -2837,7 +2804,8 @@ void gsb_file_load_report ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Show_split_amounts" ))
 	{
-	    report -> separer_revenus_depenses = utils_str_atoi (attribute_values[i]);
+	    gsb_data_report_set_split_credit_debit ( report_number,
+						     utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
 	}
@@ -2845,7 +2813,8 @@ void gsb_file_load_report ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Currency_general" ))
 	{
-	    report -> devise_de_calcul_general = utils_str_atoi (attribute_values[i]);
+	    gsb_data_report_set_currency_general ( report_number,
+						   utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
 	}
@@ -2853,7 +2822,8 @@ void gsb_file_load_report ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Report_in_payees" ))
 	{
-	    report -> inclure_dans_tiers = utils_str_atoi (attribute_values[i]);
+	    gsb_data_report_set_append_in_payee ( report_number,
+						  utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
 	}
@@ -2861,7 +2831,8 @@ void gsb_file_load_report ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Report_can_click" ))
 	{
-	    report -> ope_clickables = utils_str_atoi (attribute_values[i]);
+	    gsb_data_report_set_report_can_click ( report_number,
+						   utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
 	}
@@ -2869,7 +2840,8 @@ void gsb_file_load_report ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Financial_year_used" ))
 	{
-	    report -> exo_date = utils_str_atoi (attribute_values[i]);
+	    gsb_data_report_set_use_financial_year ( report_number,
+						     utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
 	}
@@ -2877,7 +2849,8 @@ void gsb_file_load_report ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Financial_year_kind" ))
 	{
-	    report -> utilise_detail_exo = utils_str_atoi (attribute_values[i]);
+	    gsb_data_report_set_financial_year_type ( report_number,
+						      utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
 	}
@@ -2885,8 +2858,9 @@ void gsb_file_load_report ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Financial_year_select" ))
 	{
-	    report -> no_exercices = gsb_string_get_list_from_string (attribute_values[i],
-								      "/-/" );
+	    gsb_data_report_set_financial_year_list ( report_number,
+						      gsb_string_get_list_from_string (attribute_values[i],
+										       "/-/" ));
 	    i++;
 	    continue;
 	}
@@ -2894,7 +2868,8 @@ void gsb_file_load_report ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Date_kind" ))
 	{
-	    report -> no_plage_date = utils_str_atoi (attribute_values[i]);
+	    gsb_data_report_set_date_type ( report_number,
+					    utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
 	}
@@ -2902,7 +2877,8 @@ void gsb_file_load_report ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Date_begining" ))
 	{
-	    report -> date_perso_debut = gsb_parse_date_string (attribute_values[i]);
+	    gsb_data_report_set_personal_date_start ( report_number,
+						      gsb_parse_date_string (attribute_values[i]));
 	    i++;
 	    continue;
 	}
@@ -2910,7 +2886,8 @@ void gsb_file_load_report ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Date_end" ))
 	{
-	    report -> date_perso_fin = gsb_parse_date_string (attribute_values[i]);
+	    gsb_data_report_set_personal_date_end ( report_number,
+						    gsb_parse_date_string (attribute_values[i]));
 	    i++;
 	    continue;
 	}
@@ -2918,7 +2895,8 @@ void gsb_file_load_report ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Split_by_date" ))
 	{
-	    report -> separation_par_plage = utils_str_atoi (attribute_values[i]);
+	    gsb_data_report_set_period_split ( report_number,
+					       utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
 	}
@@ -2926,7 +2904,8 @@ void gsb_file_load_report ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Split_date_period" ))
 	{
-	    report -> type_separation_plage = utils_str_atoi (attribute_values[i]);
+	    gsb_data_report_set_period_split_type ( report_number,
+						    utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
 	}
@@ -2934,7 +2913,8 @@ void gsb_file_load_report ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Split_by_fin_year" ))
 	{
-	    report -> separation_par_exo = utils_str_atoi (attribute_values[i]);
+	    gsb_data_report_set_financial_year_split ( report_number,
+						       utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
 	}
@@ -2942,7 +2922,8 @@ void gsb_file_load_report ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Split_day_begining" ))
 	{
-	    report -> jour_debut_semaine = utils_str_atoi (attribute_values[i]);
+	    gsb_data_report_set_period_split_day ( report_number,
+						   utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
 	}
@@ -2950,7 +2931,8 @@ void gsb_file_load_report ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Account_use_selection" ))
 	{
-	    report -> utilise_detail_comptes = utils_str_atoi (attribute_values[i]);
+	    gsb_data_report_set_account_use_chosen ( report_number,
+						     utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
 	}
@@ -2958,8 +2940,9 @@ void gsb_file_load_report ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Account_selected" ))
 	{
-	    report -> no_comptes = gsb_string_get_list_from_string (attribute_values[i],
-								    "/-/" );
+	    gsb_data_report_set_account_numbers ( report_number,
+						  gsb_string_get_list_from_string (attribute_values[i],
+										   "/-/" ));
 	    i++;
 	    continue;
 	}
@@ -2967,7 +2950,8 @@ void gsb_file_load_report ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Account_group_transactions" ))
 	{
-	    report -> regroupe_ope_par_compte = utils_str_atoi (attribute_values[i]);
+	    gsb_data_report_set_account_group_reports ( report_number,
+							utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
 	}
@@ -2975,7 +2959,8 @@ void gsb_file_load_report ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Account_show_amount" ))
 	{
-	    report -> affiche_sous_total_compte = utils_str_atoi (attribute_values[i]);
+	    gsb_data_report_set_account_show_amount ( report_number,
+						      utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
 	}
@@ -2983,7 +2968,8 @@ void gsb_file_load_report ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Account_show_name" ))
 	{
-	    report -> afficher_nom_compte = utils_str_atoi (attribute_values[i]);
+	    gsb_data_report_set_account_show_name ( report_number,
+						    utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
 	}
@@ -2991,7 +2977,8 @@ void gsb_file_load_report ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Transfer_kind" ))
 	{
-	    report -> type_virement = utils_str_atoi (attribute_values[i]);
+	    gsb_data_report_set_transfer_choice ( report_number,
+						  utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
 	}
@@ -2999,8 +2986,9 @@ void gsb_file_load_report ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Transfer_selected_accounts" ))
 	{
-	    report -> no_comptes_virements = gsb_string_get_list_from_string (attribute_values[i],
-									      "/-/" );
+	    gsb_data_report_set_transfer_account_numbers ( report_number,
+							   gsb_string_get_list_from_string (attribute_values[i],
+											    "/-/" ));
 	    i++;
 	    continue;
 	}
@@ -3008,7 +2996,8 @@ void gsb_file_load_report ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Transfer_exclude_transactions" ))
 	{
-	    report -> exclure_ope_non_virement = utils_str_atoi (attribute_values[i]);
+	    gsb_data_report_set_transfer_reports_only ( report_number,
+							utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
 	}
@@ -3016,7 +3005,8 @@ void gsb_file_load_report ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Categ_use" ))
 	{
-	    report -> utilise_categ = utils_str_atoi (attribute_values[i]);
+	    gsb_data_report_set_category_used ( report_number,
+						utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
 	}
@@ -3024,7 +3014,8 @@ void gsb_file_load_report ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Categ_use_selection" ))
 	{
-	    report -> utilise_detail_categ = utils_str_atoi (attribute_values[i]);
+	    gsb_data_report_set_category_detail_used ( report_number,
+						       utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
 	}
@@ -3032,8 +3023,9 @@ void gsb_file_load_report ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Categ_selected" ))
 	{
-	    report -> no_categ = gsb_string_get_list_from_string (attribute_values[i],
-								  "/-/" );
+	    gsb_data_report_set_category_numbers ( report_number,
+						   gsb_string_get_list_from_string (attribute_values[i],
+										    "/-/" ));
 	    i++;
 	    continue;
 	}
@@ -3041,7 +3033,8 @@ void gsb_file_load_report ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Categ_exclude_transactions" ))
 	{
-	    report -> exclure_ope_sans_categ = utils_str_atoi (attribute_values[i]);
+	    gsb_data_report_set_category_only_report_with_category ( report_number,
+								     utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
 	}
@@ -3049,7 +3042,8 @@ void gsb_file_load_report ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Categ_show_amount" ))
 	{
-	    report -> affiche_sous_total_categ = utils_str_atoi (attribute_values[i]);
+	    gsb_data_report_set_category_show_category_amount ( report_number,
+								utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
 	}
@@ -3057,7 +3051,8 @@ void gsb_file_load_report ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Categ_show_sub_categ" ))
 	{
-	    report -> afficher_sous_categ = utils_str_atoi (attribute_values[i]);
+	    gsb_data_report_set_category_show_sub_category ( report_number,
+							     utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
 	}
@@ -3065,7 +3060,8 @@ void gsb_file_load_report ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Categ_show_without_sub_categ" ))
 	{
-	    report -> afficher_pas_de_sous_categ = utils_str_atoi (attribute_values[i]);
+	    gsb_data_report_set_category_show_without_category ( report_number,
+								 utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
 	}
@@ -3073,7 +3069,8 @@ void gsb_file_load_report ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Categ_show_sub_categ_amount" ))
 	{
-	    report -> affiche_sous_total_sous_categ = utils_str_atoi (attribute_values[i]);
+	    gsb_data_report_set_category_show_sub_category_amount ( report_number,
+								    utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
 	}
@@ -3081,7 +3078,8 @@ void gsb_file_load_report ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Categ_currency" ))
 	{
-	    report -> devise_de_calcul_categ = utils_str_atoi (attribute_values[i]);
+	    gsb_data_report_set_category_currency ( report_number,
+						    utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
 	}
@@ -3089,7 +3087,8 @@ void gsb_file_load_report ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Categ_show_name" ))
 	{
-	    report -> afficher_nom_categ = utils_str_atoi (attribute_values[i]);
+	    gsb_data_report_set_category_show_name ( report_number,
+						     utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
 	}
@@ -3097,7 +3096,8 @@ void gsb_file_load_report ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Budget_use" ))
 	{
-	    report -> utilise_ib = utils_str_atoi (attribute_values[i]);
+	    gsb_data_report_set_budget_used ( report_number,
+					      utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
 	}
@@ -3105,7 +3105,8 @@ void gsb_file_load_report ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Budget_use_selection" ))
 	{
-	    report -> utilise_detail_ib = utils_str_atoi (attribute_values[i]);
+	    gsb_data_report_set_budget_detail_used ( report_number,
+						     utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
 	}
@@ -3113,8 +3114,9 @@ void gsb_file_load_report ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Budget_selected" ))
 	{
-	    report -> no_ib = gsb_string_get_list_from_string (attribute_values[i],
-							       "/-/" );
+	    gsb_data_report_set_budget_numbers ( report_number,
+						 gsb_string_get_list_from_string (attribute_values[i],
+										  "/-/" ));
 	    i++;
 	    continue;
 	}
@@ -3122,7 +3124,8 @@ void gsb_file_load_report ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Budget_exclude_transactions" ))
 	{
-	    report -> exclure_ope_sans_ib = utils_str_atoi (attribute_values[i]);
+	    gsb_data_report_set_budget_only_report_with_budget ( report_number,
+								 utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
 	}
@@ -3130,7 +3133,8 @@ void gsb_file_load_report ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Budget_show_amount" ))
 	{
-	    report -> affiche_sous_total_ib = utils_str_atoi (attribute_values[i]);
+	    gsb_data_report_set_budget_show_budget_amount ( report_number,
+							    utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
 	}
@@ -3138,7 +3142,8 @@ void gsb_file_load_report ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Budget_show_sub_budget" ))
 	{
-	    report -> afficher_sous_ib = utils_str_atoi (attribute_values[i]);
+	    gsb_data_report_set_budget_show_sub_budget ( report_number,
+							 utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
 	}
@@ -3146,7 +3151,8 @@ void gsb_file_load_report ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Budget_show_without_sub_budget" ))
 	{
-	    report -> afficher_pas_de_sous_ib = utils_str_atoi (attribute_values[i]);
+	    gsb_data_report_set_budget_show_without_budget ( report_number,
+							     utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
 	}
@@ -3154,7 +3160,8 @@ void gsb_file_load_report ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Budget_show_sub_budget_amount" ))
 	{
-	    report -> affiche_sous_total_sous_ib = utils_str_atoi (attribute_values[i]);
+	    gsb_data_report_set_budget_show_sub_budget_amount ( report_number,
+								utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
 	}
@@ -3162,7 +3169,8 @@ void gsb_file_load_report ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Budget_currency" ))
 	{
-	    report -> devise_de_calcul_ib = utils_str_atoi (attribute_values[i]);
+	    gsb_data_report_set_budget_currency ( report_number,
+						  utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
 	}
@@ -3170,7 +3178,8 @@ void gsb_file_load_report ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Budget_show_name" ))
 	{
-	    report -> afficher_nom_ib = utils_str_atoi (attribute_values[i]);
+	    gsb_data_report_set_budget_show_name ( report_number,
+						   utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
 	}
@@ -3178,7 +3187,8 @@ void gsb_file_load_report ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Payee_use" ))
 	{
-	    report -> utilise_tiers = utils_str_atoi (attribute_values[i]);
+	    gsb_data_report_set_payee_used ( report_number,
+					     utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
 	}
@@ -3186,7 +3196,8 @@ void gsb_file_load_report ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Payee_use_selection" ))
 	{
-	    report -> utilise_detail_tiers = utils_str_atoi (attribute_values[i]);
+	    gsb_data_report_set_payee_detail_used ( report_number,
+						    utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
 	}
@@ -3194,8 +3205,9 @@ void gsb_file_load_report ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Payee_selected" ))
 	{
-	    report -> no_tiers = gsb_string_get_list_from_string (attribute_values[i],
-								  "/-/" );
+	    gsb_data_report_set_payee_numbers ( report_number,
+						gsb_string_get_list_from_string (attribute_values[i],
+										 "/-/" ));
 	    i++;
 	    continue;
 	}
@@ -3203,7 +3215,8 @@ void gsb_file_load_report ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Payee_show_amount" ))
 	{
-	    report -> affiche_sous_total_tiers = utils_str_atoi (attribute_values[i]);
+	    gsb_data_report_set_payee_show_payee_amount ( report_number,
+							  utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
 	}
@@ -3211,7 +3224,8 @@ void gsb_file_load_report ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Payee_currency" ))
 	{
-	    report -> devise_de_calcul_tiers = utils_str_atoi (attribute_values[i]);
+	    gsb_data_report_set_payee_currency ( report_number,
+						 utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
 	}
@@ -3219,7 +3233,8 @@ void gsb_file_load_report ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Payee_show_name" ))
 	{
-	    report -> afficher_nom_tiers = utils_str_atoi (attribute_values[i]);
+	    gsb_data_report_set_payee_show_name ( report_number,
+						  utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
 	}
@@ -3227,7 +3242,8 @@ void gsb_file_load_report ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Amount_currency" ))
 	{
-	    report -> choix_devise_montant = utils_str_atoi (attribute_values[i]);
+	    gsb_data_report_set_amount_comparison_currency ( report_number,
+							     utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
 	}
@@ -3235,7 +3251,8 @@ void gsb_file_load_report ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Amount_exclude_null" ))
 	{
-	    report -> exclure_montants_nuls = utils_str_atoi (attribute_values[i]);
+	    gsb_data_report_set_amount_comparison_only_report_non_null ( report_number,
+									 utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
 	}
@@ -3243,8 +3260,9 @@ void gsb_file_load_report ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Payment_method_list" ))
 	{
-	    report -> noms_modes_paiement = gsb_string_get_list_from_string (attribute_values[i],
-									     "/-/" );
+	    gsb_data_report_set_method_of_payment_list ( report_number,
+							 gsb_string_get_list_from_string (attribute_values[i],
+											  "/-/" ));
 	    i++;
 	    continue;
 	}
@@ -3252,7 +3270,8 @@ void gsb_file_load_report ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Use_text" ))
 	{
-	    report -> utilise_texte = utils_str_atoi (attribute_values[i]);
+	    gsb_data_report_set_text_comparison_used ( report_number,
+						       utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
 	}
@@ -3260,7 +3279,8 @@ void gsb_file_load_report ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Use_amount" ))
 	{
-	    report -> utilise_montant = utils_str_atoi (attribute_values[i]);
+	    gsb_data_report_set_amount_comparison_used ( report_number,
+							 utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
 	}
@@ -3269,13 +3289,6 @@ void gsb_file_load_report ( const gchar **attribute_names,
 	i++;
     }
     while ( attribute_names[i] );
-
-    if ( import_list )
-	*import_list = g_slist_append ( *import_list,
-					report );
-    else
-	liste_struct_etats = g_slist_append ( liste_struct_etats,
-					      report );
 }
 
 /**
@@ -3283,25 +3296,17 @@ void gsb_file_load_report ( const gchar **attribute_names,
  *
  * \param attribute_names
  * \param attribute_values
- * \param import_list that parameter is NULL for the grisbi file loading, but
- * not NULL for the category importing
  *
  * */
 void gsb_file_load_text_comparison ( const gchar **attribute_names,
-				     const gchar **attribute_values,
-				     GSList **import_list )
+				     const gchar **attribute_values )
 {
-    struct struct_comparaison_textes_etat *text_comparison;
+    gint text_comparison_number = 0;
     gint i=0;
     gint report_number = 0;
-    struct struct_etat *report;
-    GSList *list_tmp;
 
     if ( !attribute_names[i] )
 	return;
-
-    text_comparison = calloc ( 1,
-			       sizeof ( struct struct_comparaison_textes_etat ) );
 
     do
     {
@@ -3316,9 +3321,19 @@ void gsb_file_load_text_comparison ( const gchar **attribute_names,
 	}
 
 	if ( !strcmp ( attribute_names[i],
+		       "Comparison_number" ))
+	{
+	    text_comparison_number = gsb_data_report_text_comparison_new (utils_str_atoi (attribute_values[i]));
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
 		       "Report_nb" ))
 	{
 	    report_number = utils_str_atoi (attribute_values[i]);
+	    gsb_data_report_text_comparison_set_report_number ( text_comparison_number,
+								report_number );
 	    i++;
 	    continue;
 	}
@@ -3326,7 +3341,8 @@ void gsb_file_load_text_comparison ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Last_comparison" ))
 	{
-	    text_comparison -> lien_struct_precedente = utils_str_atoi (attribute_values[i]);
+	    gsb_data_report_text_comparison_set_link_to_last_text_comparison ( text_comparison_number,
+									       utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
 	}
@@ -3334,7 +3350,8 @@ void gsb_file_load_text_comparison ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Object" ))
 	{
-	    text_comparison -> champ = utils_str_atoi (attribute_values[i]);
+	    gsb_data_report_text_comparison_set_field ( text_comparison_number,
+							utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
 	}
@@ -3342,7 +3359,8 @@ void gsb_file_load_text_comparison ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Operator" ))
 	{
-	    text_comparison -> operateur = utils_str_atoi (attribute_values[i]);
+	    gsb_data_report_text_comparison_set_operator ( text_comparison_number,
+							   utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
 	}
@@ -3350,7 +3368,8 @@ void gsb_file_load_text_comparison ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Text" ))
 	{
-	    text_comparison -> texte = g_strdup (attribute_values[i]);
+	    gsb_data_report_text_comparison_set_text ( text_comparison_number,
+						       attribute_values[i]);
 	    i++;
 	    continue;
 	}
@@ -3358,7 +3377,8 @@ void gsb_file_load_text_comparison ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Use_text" ))
 	{
-	    text_comparison -> utilise_txt = utils_str_atoi (attribute_values[i]);
+	    gsb_data_report_text_comparison_set_use_text ( text_comparison_number,
+							   utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
 	}
@@ -3366,7 +3386,8 @@ void gsb_file_load_text_comparison ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Comparison_1" ))
 	{
-	    text_comparison -> comparateur_1 = utils_str_atoi (attribute_values[i]);
+	    gsb_data_report_text_comparison_set_first_comparison ( text_comparison_number,
+								   utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
 	}
@@ -3374,7 +3395,8 @@ void gsb_file_load_text_comparison ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Link_1_2" ))
 	{
-	    text_comparison -> lien_1_2 = utils_str_atoi (attribute_values[i]);
+	    gsb_data_report_text_comparison_set_link_first_to_second_part ( text_comparison_number,
+									    utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
 	}
@@ -3382,7 +3404,8 @@ void gsb_file_load_text_comparison ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Comparison_2" ))
 	{
-	    text_comparison -> comparateur_2 = utils_str_atoi (attribute_values[i]);
+	    gsb_data_report_text_comparison_set_second_comparison ( text_comparison_number,
+								    utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
 	}
@@ -3390,7 +3413,8 @@ void gsb_file_load_text_comparison ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Amount_1" ))
 	{
-	    text_comparison -> montant_1 = utils_str_atoi (attribute_values[i]);
+	    gsb_data_report_text_comparison_set_first_amount ( text_comparison_number,
+							       utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
 	}
@@ -3398,7 +3422,8 @@ void gsb_file_load_text_comparison ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Amount_2" ))
 	{
-	    text_comparison -> montant_2 = utils_str_atoi (attribute_values[i]);
+	    gsb_data_report_text_comparison_set_second_amount ( text_comparison_number,
+								utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
 	}
@@ -3408,36 +3433,9 @@ void gsb_file_load_text_comparison ( const gchar **attribute_names,
     }
     while ( attribute_names[i] );
 
-    /* if we have an import_list, so we are importing a report,
-     * so if we are here, the report is necessary the first one
-     * of that list */
-    
-    if ( import_list )
-	report = (*import_list) -> data;
-    else
-    {
-    /* FIXME : to remove when do the struct of report
-     * get_report_by_no */
-
-	report = NULL;
-	list_tmp = liste_struct_etats;
-
-	while ( list_tmp )
-	{
-	    report = list_tmp -> data;
-
-	    if ( report -> no_etat == report_number )
-		list_tmp = NULL;
-	    else
-	    {
-		report= NULL;
-		list_tmp = list_tmp -> next;
-	    }
-	}
-    }
-    if ( report )
-	report -> liste_struct_comparaison_textes = g_slist_append ( report -> liste_struct_comparaison_textes,
-								     text_comparison );
+    gsb_data_report_set_text_comparison_list ( report_number,
+					       g_slist_append ( gsb_data_report_get_text_comparison_list (report_number),
+								GINT_TO_POINTER (text_comparison_number)));
 }
 
 
@@ -3446,25 +3444,17 @@ void gsb_file_load_text_comparison ( const gchar **attribute_names,
  *
  * \param attribute_names
  * \param attribute_values
- * \param import_list that parameter is NULL for the grisbi file loading, but
- * not NULL for the category importing
  *
  * */
 void gsb_file_load_amount_comparison ( const gchar **attribute_names,
-				       const gchar **attribute_values,
-				       GSList **import_list )
+				       const gchar **attribute_values )
 {
-    struct struct_comparaison_montants_etat *amount_comparison;
     gint i=0;
+    gint amount_comparison_number = 0;
     gint report_number = 0;
-    struct struct_etat *report;
-    GSList *list_tmp;
 
     if ( !attribute_names[i] )
 	return;
-
-    amount_comparison = calloc ( 1,
-			       sizeof ( struct struct_comparaison_montants_etat ) );
 
     do
     {
@@ -3472,8 +3462,16 @@ void gsb_file_load_amount_comparison ( const gchar **attribute_names,
 	/* 	   go to the next */
 
 	if ( !strcmp (attribute_values[i],
-	     "(null)"))
+		      "(null)"))
 	{
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Comparison_number" ))
+	{
+	    amount_comparison_number = gsb_data_report_amount_comparison_new (utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
 	}
@@ -3482,6 +3480,8 @@ void gsb_file_load_amount_comparison ( const gchar **attribute_names,
 		       "Report_nb" ))
 	{
 	    report_number = utils_str_atoi (attribute_values[i]);
+	    gsb_data_report_amount_comparison_set_report_number ( amount_comparison_number,
+								  report_number);
 	    i++;
 	    continue;
 	}
@@ -3489,7 +3489,8 @@ void gsb_file_load_amount_comparison ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Last_comparison" ))
 	{
-	    amount_comparison -> lien_struct_precedente = utils_str_atoi (attribute_values[i]);
+	    gsb_data_report_amount_comparison_set_link_to_last_amount_comparison ( amount_comparison_number,
+										   utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
 	}
@@ -3497,7 +3498,8 @@ void gsb_file_load_amount_comparison ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Comparison_1" ))
 	{
-	    amount_comparison -> comparateur_1 = utils_str_atoi (attribute_values[i]);
+	    gsb_data_report_amount_comparison_set_first_comparison ( amount_comparison_number,
+								     utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
 	}
@@ -3505,7 +3507,8 @@ void gsb_file_load_amount_comparison ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Link_1_2" ))
 	{
-	    amount_comparison -> lien_1_2 = utils_str_atoi (attribute_values[i]);
+	    gsb_data_report_amount_comparison_set_link_first_to_second_part ( amount_comparison_number,
+									      utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
 	}
@@ -3513,7 +3516,8 @@ void gsb_file_load_amount_comparison ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Comparison_2" ))
 	{
-	    amount_comparison -> comparateur_2 = utils_str_atoi (attribute_values[i]);
+	    gsb_data_report_amount_comparison_set_second_comparison ( amount_comparison_number,
+								      utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
 	}
@@ -3521,8 +3525,9 @@ void gsb_file_load_amount_comparison ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Amount_1" ))
 	{
-	    amount_comparison -> montant_1 = g_strtod (attribute_values[i],
-						       NULL );
+	    gsb_data_report_amount_comparison_set_first_amount ( amount_comparison_number,
+								 g_strtod (attribute_values[i],
+									   NULL ));
 	    i++;
 	    continue;
 	}
@@ -3530,8 +3535,9 @@ void gsb_file_load_amount_comparison ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Amount_2" ))
 	{
-	    amount_comparison -> montant_2 = g_strtod (attribute_values[i],
-						       NULL );
+	    gsb_data_report_amount_comparison_set_second_amount ( amount_comparison_number,
+								  g_strtod (attribute_values[i],
+									    NULL ));
 	    i++;
 	    continue;
 	}
@@ -3540,36 +3546,10 @@ void gsb_file_load_amount_comparison ( const gchar **attribute_names,
 	i++;
     }
     while ( attribute_names[i] );
-
-    /* if we have an import_list, so we are importing a report,
-     * so if we are here, the report is necessary the first one
-     * of that list */
-
-    if ( import_list )
-	report = (*import_list) -> data;
-    else
-    {
-	/* FIXME : to remove when do the struct of report */
-
-	report = NULL;
-	list_tmp = liste_struct_etats;
-
-	while ( list_tmp )
-	{
-	    report = list_tmp -> data;
-
-	    if ( report -> no_etat == report_number )
-		list_tmp = NULL;
-	    else
-	    {
-		report= NULL;
-		list_tmp = list_tmp -> next;
-	    }
-	}
-    }
-    if ( report )
-	report -> liste_struct_comparaison_montants = g_slist_append ( report -> liste_struct_comparaison_montants,
-								       amount_comparison );
+    
+    gsb_data_report_set_amount_comparison_list ( report_number,
+						 g_slist_append ( gsb_data_report_get_amount_comparison_list (report_number),
+								  GINT_TO_POINTER (amount_comparison_number)));
 }
 
 
@@ -4318,8 +4298,7 @@ void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
 	{
 	    if ( !strcmp ( attribute_names[i],
 			   "No" ))
-		last_category = gsb_data_category_new_with_number ( utils_str_atoi (attribute_values[i]),
-								    NULL ); 
+		last_category = gsb_data_category_new_with_number ( utils_str_atoi (attribute_values[i])); 
 
 	    if ( !strcmp ( attribute_names[i],
 			   "Nom" ))
@@ -4347,8 +4326,7 @@ void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
 	    if ( !strcmp ( attribute_names[i],
 			   "No" ))
 		last_sub_category_number = gsb_data_category_new_sub_category_with_number ( utils_str_atoi (attribute_values[i]),
-											    last_category,
-											    NULL );
+											    last_category);
 
 	    if ( !strcmp ( attribute_names[i],
 			   "Nom" ))
@@ -4369,8 +4347,7 @@ void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
 	{
 	    if ( !strcmp ( attribute_names[i],
 			   "No" ))
-		last_budget = gsb_data_budget_new_with_number ( utils_str_atoi (attribute_values[i]),
-								NULL ); 
+		last_budget = gsb_data_budget_new_with_number ( utils_str_atoi (attribute_values[i])); 
 
 	    if ( !strcmp ( attribute_names[i],
 			   "Nom" ))
@@ -4398,8 +4375,7 @@ void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
 	    if ( !strcmp ( attribute_names[i],
 			   "No" ))
 		last_sub_budget_number = gsb_data_budget_new_sub_budget_with_number ( utils_str_atoi (attribute_values[i]),
-										      last_budget,
-										      NULL );
+										      last_budget);
 
 	    if ( !strcmp ( attribute_names[i],
 			   "Nom" ))
@@ -4731,57 +4707,70 @@ void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
 
 	if ( attribute_names[i] )
 	{
-	    struct struct_comparaison_textes_etat *comp_textes;
+	    gint text_comparison_number;
 
-	    comp_textes = calloc ( 1,
-				   sizeof ( struct struct_comparaison_textes_etat ));
+	    /* no number for version <0.6 */
+	    text_comparison_number = gsb_data_report_text_comparison_new (0);
+	    gsb_data_report_text_comparison_set_report_number ( text_comparison_number,
+								last_report_number );
 
 	    do
 	    {
 		if ( !strcmp ( attribute_names[i],
 			       "Lien_struct" ))
-		    comp_textes -> lien_struct_precedente = utils_str_atoi ( attribute_values[i]);
+		    gsb_data_report_text_comparison_set_link_to_last_text_comparison ( text_comparison_number,
+										       utils_str_atoi ( attribute_values[i]));
 		if ( !strcmp ( attribute_names[i],
 			       "Champ" ))
-		    comp_textes -> champ = utils_str_atoi ( attribute_values[i]);
+		    gsb_data_report_text_comparison_set_field ( text_comparison_number,
+								utils_str_atoi ( attribute_values[i]));
 		if ( !strcmp ( attribute_names[i],
 			       "Op" ))
-		    comp_textes -> operateur = utils_str_atoi ( attribute_values[i]);
+		    gsb_data_report_text_comparison_set_operator ( text_comparison_number,
+								   utils_str_atoi ( attribute_values[i]));
 		if ( !strcmp ( attribute_names[i],
 			       "Txt" ))
-		    comp_textes -> texte = g_strdup (attribute_values[i]);
+		    gsb_data_report_text_comparison_set_text ( text_comparison_number,
+							       attribute_values[i]);
 		if ( !strcmp ( attribute_names[i],
 			       "Util_txt" ))
-		    comp_textes -> utilise_txt = utils_str_atoi ( attribute_values[i]);
+		    gsb_data_report_text_comparison_set_use_text ( text_comparison_number,
+								   utils_str_atoi ( attribute_values[i]));
 		if ( !strcmp ( attribute_names[i],
 			       "Comp_1" ))
-		    comp_textes -> comparateur_1 = utils_str_atoi ( attribute_values[i]);
+		    gsb_data_report_text_comparison_set_first_comparison ( text_comparison_number,
+									   utils_str_atoi ( attribute_values[i]));
 		if ( !strcmp ( attribute_names[i],
 			       "Lien_1_2" ))
-		    comp_textes -> lien_1_2 = utils_str_atoi ( attribute_values[i]);
+		    gsb_data_report_text_comparison_set_link_first_to_second_part ( text_comparison_number,
+										    utils_str_atoi ( attribute_values[i]));
 		if ( !strcmp ( attribute_names[i],
 			       "Comp_2" ))
-		    comp_textes -> comparateur_2 = utils_str_atoi ( attribute_values[i]);
+		    gsb_data_report_text_comparison_set_second_comparison ( text_comparison_number,
+									    utils_str_atoi ( attribute_values[i]));
 		if ( !strcmp ( attribute_names[i],
 			       "Mont_1" ))
-		    comp_textes -> montant_1 = utils_str_atoi ( attribute_values[i]);
+		    gsb_data_report_text_comparison_set_first_amount ( text_comparison_number,
+								       utils_str_atoi ( attribute_values[i]));
 		if ( !strcmp ( attribute_names[i],
 			       "Mont_2" ))
-		    comp_textes -> montant_2 = utils_str_atoi ( attribute_values[i]);
+		    gsb_data_report_text_comparison_set_second_amount ( text_comparison_number,
+									utils_str_atoi ( attribute_values[i]));
 
 		i++;
 	    }
 	    while ( attribute_names[i] );
 
-	    report_tmp -> liste_struct_comparaison_textes = g_slist_append ( report_tmp -> liste_struct_comparaison_textes,
-								       comp_textes );
+	    gsb_data_report_set_text_comparison_list ( last_report_number,
+						       g_slist_append ( gsb_data_report_get_text_comparison_list (last_report_number),
+									GINT_TO_POINTER (text_comparison_number)));
 	}
 	return;
     }
 
     if ( !strcmp ( element_name,
 		   "Comp" )
- 	 &&
+	 &&
 	 attribute_names[1]
 	 &&
 	 !strcmp ( attribute_names[1],
@@ -4793,40 +4782,48 @@ void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
 
 	if ( attribute_names[i] )
 	{
-	    struct struct_comparaison_montants_etat *comp_montants;
+	    gint amount_comparison_number;
 
-	    comp_montants = calloc ( 1,
-				     sizeof ( struct struct_comparaison_montants_etat ));
+	    /* no number for version <0.6 */
+	    amount_comparison_number = gsb_data_report_amount_comparison_new (0);
+	    gsb_data_report_amount_comparison_set_report_number ( amount_comparison_number,
+								  last_report_number );
 
 	    do
 	    {
 		if ( !strcmp ( attribute_names[i],
 			       "Lien_struct" ))
-		    comp_montants -> lien_struct_precedente = utils_str_atoi ( attribute_values[i]);
+		    gsb_data_report_amount_comparison_set_link_to_last_amount_comparison ( amount_comparison_number,
+											   utils_str_atoi ( attribute_values[i]));
 		if ( !strcmp ( attribute_names[i],
 			       "Comp_1" ))
-		    comp_montants -> comparateur_1 = utils_str_atoi ( attribute_values[i]);
+		    gsb_data_report_amount_comparison_set_first_comparison ( amount_comparison_number,
+									     utils_str_atoi ( attribute_values[i]));
 		if ( !strcmp ( attribute_names[i],
 			       "Lien_1_2" ))
-		    comp_montants -> lien_1_2 = utils_str_atoi ( attribute_values[i]);
+		    gsb_data_report_amount_comparison_set_link_first_to_second_part ( amount_comparison_number,
+										      utils_str_atoi ( attribute_values[i]));
 		if ( !strcmp ( attribute_names[i],
 			       "Comp_2" ))
-		    comp_montants -> comparateur_2 = utils_str_atoi ( attribute_values[i]);
+		    gsb_data_report_amount_comparison_set_second_comparison ( amount_comparison_number,
+									      utils_str_atoi ( attribute_values[i]));
 		if ( !strcmp ( attribute_names[i],
 			       "Mont_1" ))
-		    comp_montants -> montant_1 = my_strtod ( attribute_values[i],
-							     NULL );
+		    gsb_data_report_amount_comparison_set_first_amount ( amount_comparison_number,
+									 my_strtod ( attribute_values[i],
+										     NULL ));
 		if ( !strcmp ( attribute_names[i],
 			       "Mont_2" ))
-		    comp_montants -> montant_2 = my_strtod ( attribute_values[i],
-							     NULL );
-
+		    gsb_data_report_amount_comparison_set_second_amount ( amount_comparison_number,
+									  my_strtod ( attribute_values[i],
+										      NULL ));
 		i++;
 	    }
 	    while ( attribute_names[i] );
 
-	    report_tmp -> liste_struct_comparaison_montants = g_slist_append ( report_tmp -> liste_struct_comparaison_montants,
-									       comp_montants );
+	    gsb_data_report_set_amount_comparison_list ( last_report_number,
+							 g_slist_append ( gsb_data_report_get_amount_comparison_list (last_report_number),
+									  GINT_TO_POINTER (amount_comparison_number)));
 	    return;
 	}
     }
@@ -4846,8 +4843,9 @@ void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
 	    {
 		if ( !strcmp ( attribute_names[i],
 			       "Nom" ))
-		    report_tmp -> noms_modes_paiement = g_slist_append ( report_tmp -> noms_modes_paiement,
-									 g_strdup (attribute_values[i]));
+		    gsb_data_report_set_method_of_payment_list ( last_report_number,
+								 g_slist_append ( gsb_data_report_get_method_of_payment_list (last_report_number),
+										  g_strdup (attribute_values[i])));
 
 		i++;
 	    }
@@ -5569,16 +5567,16 @@ void gsb_file_load_report_part_before_0_6 ( GMarkupParseContext *context,
     if ( !strcmp ( element_name,
 		   "No" ))
     {
-	report_tmp = calloc ( 1, sizeof ( struct struct_etat ));
-	report_tmp -> no_etat = utils_str_atoi (text);
-	liste_struct_etats = g_slist_append ( liste_struct_etats,report_tmp  );
+	last_report_number = gsb_data_report_new_with_number (utils_str_atoi (text));
+	return;
     }
 
 
     if ( !strcmp ( element_name,
 		   "Nom" ))
     {
-	report_tmp -> nom_etat = g_strdup (text);
+	gsb_data_report_set_report_name ( last_report_number,
+					  text);
 	return;
     }
 
@@ -5586,21 +5584,9 @@ void gsb_file_load_report_part_before_0_6 ( GMarkupParseContext *context,
     if ( !strcmp ( element_name,
 		   "Type_classement" ))
     {
-	gchar **pointeur_char;
-	gint i;
-
-	pointeur_char = g_strsplit ( text,
-				     "/",
-				     0 );
-	i=0;
-
-	while ( pointeur_char[i] )
-	{
-	    report_tmp -> type_classement = g_slist_append ( report_tmp -> type_classement,
-							     GINT_TO_POINTER ( utils_str_atoi ( pointeur_char[i] )));
-	    i++;
-	}
-	g_strfreev ( pointeur_char );
+	gsb_data_report_set_sorting_type ( last_report_number,
+					   gsb_string_get_list_from_string ( text,
+									     "/" ));
 	return;
     }
 
@@ -5608,189 +5594,216 @@ void gsb_file_load_report_part_before_0_6 ( GMarkupParseContext *context,
     if ( !strcmp ( element_name,
 		   "Aff_r" ))
     {
-	report_tmp -> afficher_r = utils_str_atoi (text);
+	gsb_data_report_set_show_r ( last_report_number,
+				     utils_str_atoi (text));
 	return;
     }
 
     if ( !strcmp ( element_name,
 		   "Aff_ope" ))
     {
-	report_tmp -> afficher_opes = utils_str_atoi (text);
+	gsb_data_report_set_show_report_transactions ( last_report_number,
+						       utils_str_atoi (text));
 	return;
     }
 
     if ( !strcmp ( element_name,
 		   "Aff_nb_ope" ))
     {
-	report_tmp -> afficher_nb_opes = utils_str_atoi (text);
+	gsb_data_report_set_show_report_transaction_amount ( last_report_number,
+							     utils_str_atoi (text));
 	return;
     }
 
     if ( !strcmp ( element_name,
 		   "Aff_no_ope" ))
     {
-	report_tmp -> afficher_no_ope = utils_str_atoi (text);
+	gsb_data_report_set_show_report_transaction_number ( last_report_number,
+							     utils_str_atoi (text));
 	return;
     }
 
     if ( !strcmp ( element_name,
 		   "Aff_date_ope" ))
     {
-	report_tmp -> afficher_date_ope = utils_str_atoi (text);
+	gsb_data_report_set_show_report_date ( last_report_number,
+					       utils_str_atoi (text));
 	return;
     }
 
     if ( !strcmp ( element_name,
 		   "Aff_tiers_ope" ))
     {
-	report_tmp -> afficher_tiers_ope = utils_str_atoi (text);
+	gsb_data_report_set_show_report_payee ( last_report_number,
+						utils_str_atoi (text));
 	return;
     }
 
     if ( !strcmp ( element_name,
 		   "Aff_categ_ope" ))
     {
-	report_tmp -> afficher_categ_ope = utils_str_atoi (text);
+	gsb_data_report_set_show_report_category ( last_report_number,
+						   utils_str_atoi (text));
 	return;
     }
 
     if ( !strcmp ( element_name,
 		   "Aff_ss_categ_ope" ))
     {
-	report_tmp -> afficher_sous_categ_ope = utils_str_atoi (text);
+	gsb_data_report_set_show_report_sub_category ( last_report_number,
+						       utils_str_atoi (text));
 	return;
     }
 
     if ( !strcmp ( element_name,
 		   "Aff_type_ope" ))
     {
-	report_tmp -> afficher_type_ope = utils_str_atoi (text);
+	gsb_data_report_set_show_report_method_of_payment ( last_report_number,
+							    utils_str_atoi (text));
 	return;
     }
 
     if ( !strcmp ( element_name,
 		   "Aff_ib_ope" ))
     {
-	report_tmp -> afficher_ib_ope = utils_str_atoi (text);
+	gsb_data_report_set_show_report_budget ( last_report_number,
+						 utils_str_atoi (text));
 	return;
     }
 
     if ( !strcmp ( element_name,
 		   "Aff_ss_ib_ope" ))
     {
-	report_tmp ->afficher_sous_ib_ope  = utils_str_atoi (text);
+	gsb_data_report_set_show_report_sub_budget ( last_report_number,
+						     utils_str_atoi (text));
 	return;
     }
 
     if ( !strcmp ( element_name,
 		   "Aff_cheque_ope" ))
     {
-	report_tmp -> afficher_cheque_ope = utils_str_atoi (text);
+	gsb_data_report_set_show_report_method_of_payment_content ( last_report_number,
+								    utils_str_atoi (text));
 	return;
     }
 
     if ( !strcmp ( element_name,
 		   "Aff_notes_ope" ))
     {
-	report_tmp -> afficher_notes_ope = utils_str_atoi (text);
+	gsb_data_report_set_show_report_note ( last_report_number,
+					       utils_str_atoi (text));
 	return;
     }
 
     if ( !strcmp ( element_name,
 		   "Aff_pc_ope" ))
     {
-	report_tmp -> afficher_pc_ope = utils_str_atoi (text);
+	gsb_data_report_set_show_report_voucher ( last_report_number,
+						  utils_str_atoi (text));
 	return;
     }
 
     if ( !strcmp ( element_name,
 		   "Aff_rappr_ope" ))
     {
-	report_tmp -> afficher_rappr_ope = utils_str_atoi (text);
+	gsb_data_report_set_show_report_marked ( last_report_number,
+						 utils_str_atoi (text));
 	return;
     }
 
     if ( !strcmp ( element_name,
 		   "Aff_infobd_ope" ))
     {
-	report_tmp -> afficher_infobd_ope = utils_str_atoi (text);
+	gsb_data_report_set_show_report_bank_references ( last_report_number,
+							  utils_str_atoi (text));
 	return;
     }
 
     if ( !strcmp ( element_name,
 		   "Aff_exo_ope" ))
     {
-	report_tmp -> afficher_exo_ope = utils_str_atoi (text);
+	gsb_data_report_set_show_report_financial_year ( last_report_number,
+							 utils_str_atoi (text));
 	return;
     }
 
     if ( !strcmp ( element_name,
 		   "Class_ope" ))
     {
-	report_tmp -> type_classement_ope = utils_str_atoi (text);
+	gsb_data_report_set_sorting_report ( last_report_number,
+					     utils_str_atoi (text));
 	return;
     }
 
     if ( !strcmp ( element_name,
 		   "Aff_titres_col" ))
     {
-	report_tmp -> afficher_titre_colonnes = utils_str_atoi (text);
+	gsb_data_report_set_column_title_show ( last_report_number,
+						utils_str_atoi (text));
 	return;
     }
 
     if ( !strcmp ( element_name,
 		   "Aff_titres_chgt" ))
     {
-	report_tmp -> type_affichage_titres = utils_str_atoi (text);
+	gsb_data_report_set_column_title_type ( last_report_number,
+						utils_str_atoi (text));
 	return;
     }
 
     if ( !strcmp ( element_name,
 		   "Pas_detail_ventil" ))
     {
-	report_tmp -> pas_detailler_ventilation = utils_str_atoi (text);
+	gsb_data_report_set_not_detail_breakdown ( last_report_number,
+						   utils_str_atoi (text));
 	return;
     }
 
     if ( !strcmp ( element_name,
 		   "Sep_rev_dep" ))
     {
-	report_tmp -> separer_revenus_depenses = utils_str_atoi (text);
+	gsb_data_report_set_split_credit_debit ( last_report_number,
+						 utils_str_atoi (text));
 	return;
     }
 
     if ( !strcmp ( element_name,
 		   "Devise_gen" ))
     {
-	report_tmp -> devise_de_calcul_general = utils_str_atoi (text);
+	gsb_data_report_set_currency_general ( last_report_number,
+					       utils_str_atoi (text));
 	return;
     }
 
     if ( !strcmp ( element_name,
 		   "Incl_tiers" ))
     {
-	report_tmp -> inclure_dans_tiers = utils_str_atoi (text);
+	gsb_data_report_set_append_in_payee ( last_report_number,
+					      utils_str_atoi (text));
 	return;
     }
 
     if ( !strcmp ( element_name,
 		   "Ope_click" ))
     {
-	report_tmp -> ope_clickables = utils_str_atoi (text);
+	gsb_data_report_set_report_can_click ( last_report_number,
+					       utils_str_atoi (text));
 	return;
     }
 
     if ( !strcmp ( element_name,
 		   "Exo_date" ))
     {
-	report_tmp -> exo_date = utils_str_atoi (text);
+	gsb_data_report_set_use_financial_year ( last_report_number,
+						 utils_str_atoi (text));
 	return;
     }
 
     if ( !strcmp ( element_name,
 		   "Detail_exo" ))
     {
-	report_tmp -> utilise_detail_exo = utils_str_atoi (text);
+	gsb_data_report_set_financial_year_type ( last_report_number,
+						  utils_str_atoi (text));
 	return;
     }
 
@@ -5807,8 +5820,9 @@ void gsb_file_load_report_part_before_0_6 ( GMarkupParseContext *context,
 
 	while ( pointeur_char[i] )
 	{
-	    report_tmp -> no_exercices = g_slist_append ( report_tmp -> no_exercices,
-							  GINT_TO_POINTER ( utils_str_atoi ( pointeur_char[i] )));
+	    gsb_data_report_set_financial_year_list ( last_report_number,
+						      g_slist_append ( gsb_data_report_get_financial_year_list (last_report_number),
+								       GINT_TO_POINTER ( utils_str_atoi ( pointeur_char[i] ))));
 	    i++;
 	}
 	g_strfreev ( pointeur_char );
@@ -5818,7 +5832,8 @@ void gsb_file_load_report_part_before_0_6 ( GMarkupParseContext *context,
     if ( !strcmp ( element_name,
 		   "Plage_date" ))
     {
-	report_tmp -> no_plage_date = utils_str_atoi (text);
+	gsb_data_report_set_date_type ( last_report_number,
+					utils_str_atoi (text));
 	return;
     }
 
@@ -5833,9 +5848,10 @@ void gsb_file_load_report_part_before_0_6 ( GMarkupParseContext *context,
 				     "/",
 				     0 );
 
-	report_tmp -> date_perso_debut = g_date_new_dmy ( utils_str_atoi ( pointeur_char[0] ),
-							  utils_str_atoi ( pointeur_char[1] ),
-							  utils_str_atoi ( pointeur_char[2] ));
+	gsb_data_report_set_personal_date_start ( last_report_number,
+						  g_date_new_dmy ( utils_str_atoi ( pointeur_char[0] ),
+								   utils_str_atoi ( pointeur_char[1] ),
+								   utils_str_atoi ( pointeur_char[2] )));
 	g_strfreev ( pointeur_char );
 	return;
     }
@@ -5850,9 +5866,10 @@ void gsb_file_load_report_part_before_0_6 ( GMarkupParseContext *context,
 				     "/",
 				     0 );
 
-	report_tmp -> date_perso_fin = g_date_new_dmy ( utils_str_atoi ( pointeur_char[0] ),
-							utils_str_atoi ( pointeur_char[1] ),
-							utils_str_atoi ( pointeur_char[2] ));
+	gsb_data_report_set_personal_date_end ( last_report_number,
+						g_date_new_dmy ( utils_str_atoi ( pointeur_char[0] ),
+								 utils_str_atoi ( pointeur_char[1] ),
+								 utils_str_atoi ( pointeur_char[2] )));
 	g_strfreev ( pointeur_char );
 	return;
     }
@@ -5860,35 +5877,40 @@ void gsb_file_load_report_part_before_0_6 ( GMarkupParseContext *context,
     if ( !strcmp ( element_name,
 		   "Utilise_plages" ))
     {
-	report_tmp -> separation_par_plage = utils_str_atoi (text);
+	gsb_data_report_set_period_split ( last_report_number,
+					   utils_str_atoi (text));
 	return;
     }
 
     if ( !strcmp ( element_name,
 		   "Sep_plages" ))
     {
-	report_tmp -> type_separation_plage = utils_str_atoi (text);
+	gsb_data_report_set_period_split_type ( last_report_number,
+						utils_str_atoi (text));
 	return;
     }
 
     if ( !strcmp ( element_name,
 		   "Sep_exo" ))
     {
-	report_tmp -> separation_par_exo = utils_str_atoi (text);
+	gsb_data_report_set_financial_year_split ( last_report_number,
+						   utils_str_atoi (text));
 	return;
     }
 
     if ( !strcmp ( element_name,
 		   "Deb_sem_plages" ))
     {
-	report_tmp -> jour_debut_semaine = utils_str_atoi (text);
+	gsb_data_report_set_period_split_day ( last_report_number,
+					       utils_str_atoi (text));
 	return;
     }
 
     if ( !strcmp ( element_name,
 		   "Detail_comptes" ))
     {
-	report_tmp -> utilise_detail_comptes = utils_str_atoi (text);
+	gsb_data_report_set_account_use_chosen ( last_report_number,
+						 utils_str_atoi (text));
 	return;
     }
 
@@ -5905,8 +5927,9 @@ void gsb_file_load_report_part_before_0_6 ( GMarkupParseContext *context,
 
 	while ( pointeur_char[i] )
 	{
-	    report_tmp ->no_comptes  = g_slist_append ( report_tmp -> no_comptes,
-						  GINT_TO_POINTER ( utils_str_atoi ( pointeur_char[i] )));
+	    gsb_data_report_set_account_numbers ( last_report_number,
+						  g_slist_append ( gsb_data_report_get_account_numbers (last_report_number),
+								   GINT_TO_POINTER ( utils_str_atoi ( pointeur_char[i] ))));
 	    i++;
 	}
 	g_strfreev ( pointeur_char );
@@ -5917,28 +5940,32 @@ void gsb_file_load_report_part_before_0_6 ( GMarkupParseContext *context,
     if ( !strcmp ( element_name,
 		   "Grp_ope_compte" ))
     {
-	report_tmp -> regroupe_ope_par_compte = utils_str_atoi (text);
+	gsb_data_report_set_account_group_reports ( last_report_number,
+						    utils_str_atoi (text));
 	return;
     }
 
     if ( !strcmp ( element_name,
 		   "Total_compte" ))
     {
-	report_tmp -> affiche_sous_total_compte = utils_str_atoi (text);
+	gsb_data_report_set_account_show_amount ( last_report_number,
+						  utils_str_atoi (text));
 	return;
     }
 
     if ( !strcmp ( element_name,
 		   "Aff_nom_compte" ))
     {
-	report_tmp -> afficher_nom_compte = utils_str_atoi (text);
+	gsb_data_report_set_account_show_name ( last_report_number,
+						utils_str_atoi (text));
 	return;
     }
 
     if ( !strcmp ( element_name,
 		   "Type_vir" ))
     {
-	report_tmp -> type_virement = utils_str_atoi (text);
+	gsb_data_report_set_transfer_choice ( last_report_number,
+					      utils_str_atoi (text));
 	return;
     }
 
@@ -5955,8 +5982,9 @@ void gsb_file_load_report_part_before_0_6 ( GMarkupParseContext *context,
 
 	while ( pointeur_char[i] )
 	{
-	    report_tmp ->no_comptes_virements  = g_slist_append ( report_tmp -> no_comptes_virements,
-							    GINT_TO_POINTER ( utils_str_atoi ( pointeur_char[i] )));
+	    gsb_data_report_set_transfer_account_numbers ( last_report_number,
+							   g_slist_append ( gsb_data_report_get_transfer_account_numbers (last_report_number),
+									    GINT_TO_POINTER ( utils_str_atoi ( pointeur_char[i] ))));
 	    i++;
 	}
 	g_strfreev ( pointeur_char );
@@ -5966,21 +5994,24 @@ void gsb_file_load_report_part_before_0_6 ( GMarkupParseContext *context,
     if ( !strcmp ( element_name,
 		   "Exclure_non_vir" ))
     {
-	report_tmp -> exclure_ope_non_virement = utils_str_atoi (text);
+	gsb_data_report_set_transfer_reports_only ( last_report_number,
+						    utils_str_atoi (text));
 	return;
     }
 
     if ( !strcmp ( element_name,
 		   "Categ" ))
     {
-	report_tmp -> utilise_categ = utils_str_atoi (text);
+	gsb_data_report_set_category_used ( last_report_number,
+					    utils_str_atoi (text));
 	return;
     }
 
     if ( !strcmp ( element_name,
 		   "Detail_categ" ))
     {
-	report_tmp -> utilise_detail_categ = utils_str_atoi (text);
+	gsb_data_report_set_category_detail_used ( last_report_number,
+						   utils_str_atoi (text));
 	return;
     }
 
@@ -5997,8 +6028,9 @@ void gsb_file_load_report_part_before_0_6 ( GMarkupParseContext *context,
 
 	while ( pointeur_char[i] )
 	{
-	    report_tmp -> no_categ = g_slist_append ( report_tmp -> no_categ,
-						GINT_TO_POINTER ( utils_str_atoi ( pointeur_char[i] )));
+	    gsb_data_report_set_category_numbers ( last_report_number,
+						   g_slist_append ( gsb_data_report_get_category_numbers (last_report_number),
+								    GINT_TO_POINTER ( utils_str_atoi ( pointeur_char[i] ))));
 	    i++;
 	}
 	g_strfreev ( pointeur_char );
@@ -6008,63 +6040,72 @@ void gsb_file_load_report_part_before_0_6 ( GMarkupParseContext *context,
     if ( !strcmp ( element_name,
 		   "Exclut_categ" ))
     {
-	report_tmp -> exclure_ope_sans_categ = utils_str_atoi (text);
+	gsb_data_report_set_category_only_report_with_category ( last_report_number,
+								 utils_str_atoi (text));
 	return;
     }
 
     if ( !strcmp ( element_name,
 		   "Total_categ" ))
     {
-	report_tmp -> affiche_sous_total_categ = utils_str_atoi (text);
+	gsb_data_report_set_category_show_category_amount ( last_report_number,
+							    utils_str_atoi (text));
 	return;
     }
 
     if ( !strcmp ( element_name,
 		   "Aff_ss_categ" ))
     {
-	report_tmp -> afficher_sous_categ = utils_str_atoi (text);
+	gsb_data_report_set_category_show_sub_category ( last_report_number,
+							 utils_str_atoi (text));
 	return;
     }
 
     if ( !strcmp ( element_name,
 		   "Aff_pas_ss_categ" ))
     {
-	report_tmp -> afficher_pas_de_sous_categ = utils_str_atoi (text);
+	gsb_data_report_set_category_show_without_category ( last_report_number,
+							     utils_str_atoi (text));
 	return;
     }
 
     if ( !strcmp ( element_name,
 		   "Total_ss_categ" ))
     {
-	report_tmp -> affiche_sous_total_sous_categ = utils_str_atoi (text);
+	gsb_data_report_set_category_show_sub_category_amount ( last_report_number,
+								utils_str_atoi (text));
 	return;
     }
 
     if ( !strcmp ( element_name,
 		   "Devise_categ" ))
     {
-	report_tmp -> devise_de_calcul_categ = utils_str_atoi (text);
+	gsb_data_report_set_category_currency ( last_report_number,
+						utils_str_atoi (text));
 	return;
     }
 
     if ( !strcmp ( element_name,
 		   "Aff_nom_categ" ))
     {
-	report_tmp -> afficher_nom_categ = utils_str_atoi (text);
+	gsb_data_report_set_category_show_name ( last_report_number,
+						 utils_str_atoi (text));
 	return;
     }
 
     if ( !strcmp ( element_name,
 		   "IB" ))
     {
-	report_tmp -> utilise_ib = utils_str_atoi (text);
+	gsb_data_report_set_budget_used ( last_report_number,
+					  utils_str_atoi (text));
 	return;
     }
 
     if ( !strcmp ( element_name,
 		   "Detail_ib" ))
     {
-	report_tmp -> utilise_detail_ib = utils_str_atoi (text);
+	gsb_data_report_set_budget_detail_used ( last_report_number,
+						 utils_str_atoi (text));
 	return;
     }
 
@@ -6081,8 +6122,9 @@ void gsb_file_load_report_part_before_0_6 ( GMarkupParseContext *context,
 
 	while ( pointeur_char[i] )
 	{
-	    report_tmp -> no_ib = g_slist_append ( report_tmp -> no_ib,
-					     GINT_TO_POINTER ( utils_str_atoi ( pointeur_char[i] )));
+	    gsb_data_report_set_budget_numbers ( last_report_number,
+						 g_slist_append ( gsb_data_report_get_budget_numbers (last_report_number),
+								  GINT_TO_POINTER ( utils_str_atoi ( pointeur_char[i] ))));
 	    i++;
 	}
 	g_strfreev ( pointeur_char );
@@ -6093,63 +6135,72 @@ void gsb_file_load_report_part_before_0_6 ( GMarkupParseContext *context,
     if ( !strcmp ( element_name,
 		   "Exclut_ib" ))
     {
-	report_tmp -> exclure_ope_sans_ib = utils_str_atoi (text);
+	gsb_data_report_set_budget_only_report_with_budget ( last_report_number,
+							     utils_str_atoi (text));
 	return;
     }
 
     if ( !strcmp ( element_name,
 		   "Total_ib" ))
     {
-	report_tmp -> affiche_sous_total_ib = utils_str_atoi (text);
+	gsb_data_report_set_budget_show_budget_amount ( last_report_number,
+							utils_str_atoi (text));
 	return;
     }
 
     if ( !strcmp ( element_name,
 		   "Aff_ss_ib" ))
     {
-	report_tmp -> afficher_sous_ib = utils_str_atoi (text);
+	gsb_data_report_set_budget_show_sub_budget ( last_report_number,
+						     utils_str_atoi (text));
 	return;
     }
 
     if ( !strcmp ( element_name,
 		   "Aff_pas_ss_ib" ))
     {
-	report_tmp -> afficher_pas_de_sous_ib = utils_str_atoi (text);
+	gsb_data_report_set_budget_show_without_budget ( last_report_number,
+							 utils_str_atoi (text));
 	return;
     }
 
     if ( !strcmp ( element_name,
 		   "Total_ss_ib" ))
     {
-	report_tmp -> affiche_sous_total_sous_ib = utils_str_atoi (text);
+	gsb_data_report_set_budget_show_sub_budget_amount ( last_report_number,
+							    utils_str_atoi (text));
 	return;
     }
 
     if ( !strcmp ( element_name,
 		   "Devise_ib" ))
     {
-	report_tmp -> devise_de_calcul_ib = utils_str_atoi (text);
+	gsb_data_report_set_budget_currency ( last_report_number,
+					      utils_str_atoi (text));
 	return;
     }
 
     if ( !strcmp ( element_name,
 		   "Aff_nom_ib" ))
     {
-	report_tmp -> afficher_nom_ib = utils_str_atoi (text);
+	gsb_data_report_set_budget_show_name ( last_report_number,
+					       utils_str_atoi (text));
 	return;
     }
 
     if ( !strcmp ( element_name,
 		   "Tiers" ))
     {
-	report_tmp -> utilise_tiers = utils_str_atoi (text);
+	gsb_data_report_set_payee_used ( last_report_number,
+					 utils_str_atoi (text));
 	return;
     }
 
     if ( !strcmp ( element_name,
 		   "Detail_tiers" ))
     {
-	report_tmp -> utilise_detail_tiers = utils_str_atoi (text);
+	gsb_data_report_set_payee_detail_used ( last_report_number,
+						utils_str_atoi (text));
 	return;
     }
 
@@ -6166,8 +6217,9 @@ void gsb_file_load_report_part_before_0_6 ( GMarkupParseContext *context,
 
 	while ( pointeur_char[i] )
 	{
-	    report_tmp -> no_tiers = g_slist_append ( report_tmp -> no_tiers,
-						GINT_TO_POINTER ( utils_str_atoi ( pointeur_char[i] )));
+	    gsb_data_report_set_payee_numbers ( last_report_number,
+						g_slist_append ( gsb_data_report_get_payee_numbers (last_report_number),
+								 GINT_TO_POINTER ( utils_str_atoi ( pointeur_char[i] ))));
 	    i++;
 	}
 	g_strfreev ( pointeur_char );
@@ -6177,59 +6229,66 @@ void gsb_file_load_report_part_before_0_6 ( GMarkupParseContext *context,
     if ( !strcmp ( element_name,
 		   "Total_tiers" ))
     {
-	report_tmp -> affiche_sous_total_tiers = utils_str_atoi (text);
+	gsb_data_report_set_payee_show_payee_amount ( last_report_number,
+						      utils_str_atoi (text));
 	return;
     }
 
     if ( !strcmp ( element_name,
 		   "Devise_tiers" ))
     {
-	report_tmp -> devise_de_calcul_tiers = utils_str_atoi (text);
+	gsb_data_report_set_payee_currency ( last_report_number,
+					     utils_str_atoi (text));
 	return;
     }
 
     if ( !strcmp ( element_name,
 		   "Aff_nom_tiers" ))
     {
-	report_tmp -> afficher_nom_tiers = utils_str_atoi (text);
+	gsb_data_report_set_payee_show_name ( last_report_number,
+					      utils_str_atoi (text));
 	return;
     }
 
     if ( !strcmp ( element_name,
 		   "Texte" ))
     {
-	report_tmp -> utilise_texte = utils_str_atoi (text);
+	gsb_data_report_set_text_comparison_used ( last_report_number,
+						   utils_str_atoi (text));
 	return;
     }
 
     if ( !strcmp ( element_name,
 		   "Montant" ))
     {
-	report_tmp -> utilise_montant = utils_str_atoi (text);
+	gsb_data_report_set_amount_comparison_used ( last_report_number,
+						     utils_str_atoi (text));
 	return;
     }
 
     if ( !strcmp ( element_name,
 		   "Montant_devise" ))
     {
-	report_tmp -> choix_devise_montant = utils_str_atoi (text);
+	gsb_data_report_set_amount_comparison_currency ( last_report_number,
+							 utils_str_atoi (text));
 	return;
     }
 
     if ( !strcmp ( element_name,
 		   "Excl_nul" ))
     {
-	report_tmp -> exclure_montants_nuls = utils_str_atoi (text);
+	gsb_data_report_set_amount_comparison_only_report_non_null ( last_report_number,
+								     utils_str_atoi (text));
 	return;
     }
 
     if ( !strcmp ( element_name,
 		   "Detail_mod_paie" ))
     {
-	report_tmp -> utilise_mode_paiement = utils_str_atoi (text);
+	gsb_data_report_set_method_of_payment_used ( last_report_number,
+						     utils_str_atoi (text));
 	return;
     }
-
 }
 
 /* Local Variables: */

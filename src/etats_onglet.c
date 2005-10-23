@@ -23,10 +23,13 @@
 
 
 /*START_INCLUDE*/
+#include "structures.h"
 #include "etats_onglet.h"
 #include "etats_calculs.h"
 #include "dialog.h"
 #include "utils_file_selection.h"
+#include "gsb_data_report_amout_comparison.h"
+#include "gsb_data_report.h"
 #include "gsb_file_others.h"
 #include "navigation.h"
 #include "menu.h"
@@ -36,25 +39,20 @@
 #include "etats_config.h"
 #include "utils_files.h"
 #include "include.h"
-#include "structures.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
 static void change_choix_nouvel_etat ( GtkWidget *menu_item,
 				GtkWidget *label_description );
-static void export_etat_vers_html ( struct struct_etat *etat );
+static void export_etat_vers_html ( gint report_number );
 static GtkWidget *gsb_gui_create_report_toolbar ( void );
 /*END_STATIC*/
 
 
-
-GSList *liste_struct_etats;
-gint no_dernier_etat;
 GtkWidget *frame_liste_etats;
 /** TODO put that in the state frame above  */
 /* GtkWidget *label_etat_courant;        /\* label en haut de la liste des états *\/ */
 GtkWidget *vbox_liste_etats;          /* vbox contenant la liste des états */
-struct struct_etat *etat_courant;
 GtkWidget *bouton_effacer_etat;
 GtkWidget *bouton_personnaliser_etat;
 GtkWidget *bouton_imprimer_etat;
@@ -166,9 +164,6 @@ GtkWidget *creation_onglet_etats ( void )
 {
     GtkWidget *tab, *vbox;
 
-    /*   au départ, aucun état n'est ouvert */
-    etat_courant = NULL;
-
     tab = gtk_vbox_new ( FALSE, 6 );
     gtk_box_pack_start ( GTK_BOX ( tab ), gsb_gui_create_report_toolbar(), 
 			 FALSE, FALSE, 0 );
@@ -210,8 +205,8 @@ GtkWidget *creation_onglet_etats ( void )
 
 gboolean ajout_etat ( void )
 {
-    struct struct_etat *etat;
-    struct struct_comparaison_montants_etat *comp_montant;
+    gint report_number;
+    gint amount_comparison_number;
     GtkWidget *dialog;
     gint resultat;
     GtkWidget *frame;
@@ -337,149 +332,202 @@ gboolean ajout_etat ( void )
 	return FALSE;
     }
 
-
-    /* on récupère le type d'état voulu */
+    /* get the wanted report */
 
     resultat = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( option_menu ) -> menu_item ),
 						       "no_etat" ));
     gtk_widget_destroy ( GTK_WIDGET ( dialog ));
 
-
-    /* on crée le nouvel état */
-
-    etat = calloc ( 1, sizeof ( struct struct_etat ));
-
-    etat -> no_etat = ++no_dernier_etat;
-
-
-    /* on remplit maintenant l'état en fonction de ce qu'on a demandé */
+    /* create and fill the new report */
 
     switch ( resultat )
     {
 	case 0:
-	    /*  revenus et dépenses du mois précédent  */
+	    /*  Previous month incomes and outgoings  */
 
-	    etat -> nom_etat = g_strdup ( _("Previous month incomes and outgoings") );
+	    report_number = gsb_data_report_new (_("Previous month incomes and outgoings"));
 
-	    etat -> separer_revenus_depenses = 1;
-	    etat -> no_plage_date = 7;
+	    gsb_data_report_set_split_credit_debit ( report_number,
+						     1 );
+	    gsb_data_report_set_date_type ( report_number,
+					    7 );
 
+	    /*   le classement de base est 1-2-3-4-5-6 */
 
-	    /*   le classement de base est 1-2-3-4-5-6 (cf structure.h) */
+	    gsb_data_report_set_sorting_type ( report_number,
+					       g_slist_append ( gsb_data_report_get_sorting_type (report_number),
+								GINT_TO_POINTER ( 1 )));
+	    gsb_data_report_set_sorting_type ( report_number,
+					       g_slist_append ( gsb_data_report_get_sorting_type (report_number),
+								GINT_TO_POINTER ( 2 )));
+	    gsb_data_report_set_sorting_type ( report_number,
+					       g_slist_append ( gsb_data_report_get_sorting_type (report_number),
+								GINT_TO_POINTER ( 3 )));
+	    gsb_data_report_set_sorting_type ( report_number,
+					       g_slist_append ( gsb_data_report_get_sorting_type (report_number),
+								GINT_TO_POINTER ( 4 )));
+	    gsb_data_report_set_sorting_type ( report_number,
+					       g_slist_append ( gsb_data_report_get_sorting_type (report_number),
+								GINT_TO_POINTER ( 5 )));
+	    gsb_data_report_set_sorting_type ( report_number,
+					       g_slist_append ( gsb_data_report_get_sorting_type (report_number),
+								GINT_TO_POINTER ( 6 )));
 
-	    etat -> type_classement = g_slist_append ( etat -> type_classement,
-						      GINT_TO_POINTER ( 1 ));
-	    etat -> type_classement = g_slist_append ( etat -> type_classement,
-						      GINT_TO_POINTER ( 2 ));
-	    etat -> type_classement = g_slist_append ( etat -> type_classement,
-						      GINT_TO_POINTER ( 3 ));
-	    etat -> type_classement = g_slist_append ( etat -> type_classement,
-						      GINT_TO_POINTER ( 4 ));
-	    etat -> type_classement = g_slist_append ( etat -> type_classement,
-						      GINT_TO_POINTER ( 5 ));
-	    etat -> type_classement = g_slist_append ( etat -> type_classement,
-						      GINT_TO_POINTER ( 6 ));
-
-	    etat -> type_virement = 2;
-	    etat -> utilise_categ = 1;
-	    etat -> afficher_sous_categ = 1;
-	    etat -> affiche_sous_total_categ = 1;
-	    etat -> affiche_sous_total_sous_categ = 1;
-	    etat -> afficher_pas_de_sous_categ = 1;
-	    etat -> afficher_nom_categ = 1;
+	    gsb_data_report_set_transfer_choice ( report_number,
+						  2 );
+	    gsb_data_report_set_category_used ( report_number,
+						1 );
+	    gsb_data_report_set_category_show_sub_category ( report_number,
+							     1 );
+	    gsb_data_report_set_category_show_category_amount ( report_number,
+								1 );
+	    gsb_data_report_set_category_show_sub_category_amount ( report_number,
+								    1 );
+	    gsb_data_report_set_category_show_without_category ( report_number,
+								 1 );
+	    gsb_data_report_set_category_show_name ( report_number,
+						     1 );
 
 	    /*   les devises sont à 1 (euro) */
 
-	    etat -> devise_de_calcul_general = 1;
-	    etat -> devise_de_calcul_categ = 1;
-	    etat -> devise_de_calcul_ib = 1;
-	    etat -> devise_de_calcul_tiers = 1;
-	    etat -> choix_devise_montant = 1;
+	    gsb_data_report_set_currency_general ( report_number,
+						   1 );
+	    gsb_data_report_set_category_currency ( report_number,
+						    1 );
+	    gsb_data_report_set_budget_currency ( report_number,
+						  1 );
+	    gsb_data_report_set_payee_currency ( report_number,
+						 1 );
+	    gsb_data_report_set_amount_comparison_currency ( report_number,
+							     1 );
 
 	    break;
 
 	case 1:
-	    /*  revenus et dépenses du mois courant  */
+	    /*  Current month incomes and outgoings */
 
-	    etat -> nom_etat = g_strdup ( _("Current month incomes and outgoings") );
+	    report_number = gsb_data_report_new (_("Current month incomes and outgoings"));
 
-	    etat -> separer_revenus_depenses = 1;
-	    etat -> no_plage_date = 3;
+	    gsb_data_report_set_split_credit_debit ( report_number,
+						     1 );
+	    gsb_data_report_set_date_type ( report_number,
+					    3 );
 
 
 	    /*   le classement de base est 1-2-3-4-5-6 (cf structure.h) */
 
-	    etat -> type_classement = g_slist_append ( etat -> type_classement,
-						      GINT_TO_POINTER ( 1 ));
-	    etat -> type_classement = g_slist_append ( etat -> type_classement,
-						      GINT_TO_POINTER ( 2 ));
-	    etat -> type_classement = g_slist_append ( etat -> type_classement,
-						      GINT_TO_POINTER ( 3 ));
-	    etat -> type_classement = g_slist_append ( etat -> type_classement,
-						      GINT_TO_POINTER ( 4 ));
-	    etat -> type_classement = g_slist_append ( etat -> type_classement,
-						      GINT_TO_POINTER ( 5 ));
-	    etat -> type_classement = g_slist_append ( etat -> type_classement,
-						      GINT_TO_POINTER ( 6 ));
+	    gsb_data_report_set_sorting_type ( report_number,
+					       g_slist_append ( gsb_data_report_get_sorting_type (report_number),
+								GINT_TO_POINTER ( 1 )));
+	    gsb_data_report_set_sorting_type ( report_number,
+					       g_slist_append ( gsb_data_report_get_sorting_type (report_number),
+								GINT_TO_POINTER ( 2 )));
+	    gsb_data_report_set_sorting_type ( report_number,
+					       g_slist_append ( gsb_data_report_get_sorting_type (report_number),
+								GINT_TO_POINTER ( 3 )));
+	    gsb_data_report_set_sorting_type ( report_number,
+					       g_slist_append ( gsb_data_report_get_sorting_type (report_number),
+								GINT_TO_POINTER ( 4 )));
+	    gsb_data_report_set_sorting_type ( report_number,
+					       g_slist_append ( gsb_data_report_get_sorting_type (report_number),
+								GINT_TO_POINTER ( 5 )));
+	    gsb_data_report_set_sorting_type ( report_number,
+					       g_slist_append ( gsb_data_report_get_sorting_type (report_number),
+								GINT_TO_POINTER ( 6 )));
 
-	    etat -> type_virement = 2;
-	    etat -> utilise_categ = 1;
-	    etat -> afficher_sous_categ = 1;
-	    etat -> affiche_sous_total_categ = 1;
-	    etat -> affiche_sous_total_sous_categ = 1;
-	    etat -> afficher_pas_de_sous_categ = 1;
-	    etat -> afficher_nom_categ = 1;
+
+	    gsb_data_report_set_transfer_choice ( report_number,
+						  2 );
+	    gsb_data_report_set_category_used ( report_number,
+						1 );
+	    gsb_data_report_set_category_show_sub_category ( report_number,
+							     1 );
+	    gsb_data_report_set_category_show_category_amount ( report_number,
+								1 );
+	    gsb_data_report_set_category_show_sub_category_amount ( report_number,
+								    1 );
+	    gsb_data_report_set_category_show_without_category ( report_number,
+								 1 );
+	    gsb_data_report_set_category_show_name ( report_number,
+						     1 );
 
 	    /*   les devises sont à 1 (euro) */
 
-	    etat -> devise_de_calcul_general = 1;
-	    etat -> devise_de_calcul_categ = 1;
-	    etat -> devise_de_calcul_ib = 1;
-	    etat -> devise_de_calcul_tiers = 1;
-	    etat -> choix_devise_montant = 1;
+	    gsb_data_report_set_currency_general ( report_number,
+						   1 );
+	    gsb_data_report_set_category_currency ( report_number,
+						    1 );
+	    gsb_data_report_set_budget_currency ( report_number,
+						  1 );
+	    gsb_data_report_set_payee_currency ( report_number,
+						 1 );
+	    gsb_data_report_set_amount_comparison_currency ( report_number,
+							     1 );
 
 	    break;
 
 
 	case 2:
 
-	    /* on ajoute le budget annuel */
+	    /* Annual budget */
 
-	    etat -> nom_etat = g_strdup ( _("Annual budget") );
+	    report_number = gsb_data_report_new (_("Annual budget"));
 
 	    /*   le classement de base est 1-2-3-4-5-6 (cf structure.h) */
 
-	    etat -> type_classement = g_slist_append ( etat -> type_classement,
-						      GINT_TO_POINTER ( 1 ));
-	    etat -> type_classement = g_slist_append ( etat -> type_classement,
-						      GINT_TO_POINTER ( 2 ));
-	    etat -> type_classement = g_slist_append ( etat -> type_classement,
-						      GINT_TO_POINTER ( 3 ));
-	    etat -> type_classement = g_slist_append ( etat -> type_classement,
-						      GINT_TO_POINTER ( 4 ));
-	    etat -> type_classement = g_slist_append ( etat -> type_classement,
-						      GINT_TO_POINTER ( 5 ));
-	    etat -> type_classement = g_slist_append ( etat -> type_classement,
-						      GINT_TO_POINTER ( 6 ));
+	    gsb_data_report_set_sorting_type ( report_number,
+					       g_slist_append ( gsb_data_report_get_sorting_type (report_number),
+								GINT_TO_POINTER ( 1 )));
+	    gsb_data_report_set_sorting_type ( report_number,
+					       g_slist_append ( gsb_data_report_get_sorting_type (report_number),
+								GINT_TO_POINTER ( 2 )));
+	    gsb_data_report_set_sorting_type ( report_number,
+					       g_slist_append ( gsb_data_report_get_sorting_type (report_number),
+								GINT_TO_POINTER ( 3 )));
+	    gsb_data_report_set_sorting_type ( report_number,
+					       g_slist_append ( gsb_data_report_get_sorting_type (report_number),
+								GINT_TO_POINTER ( 4 )));
+	    gsb_data_report_set_sorting_type ( report_number,
+					       g_slist_append ( gsb_data_report_get_sorting_type (report_number),
+								GINT_TO_POINTER ( 5 )));
+	    gsb_data_report_set_sorting_type ( report_number,
+					       g_slist_append ( gsb_data_report_get_sorting_type (report_number),
+								GINT_TO_POINTER ( 6 )));
+
 
 	    /*   les devises sont à 1 (euro) */
 
-	    etat -> devise_de_calcul_general = 1;
-	    etat -> devise_de_calcul_categ = 1;
-	    etat -> devise_de_calcul_ib = 1;
-	    etat -> devise_de_calcul_tiers = 1;
-	    etat -> choix_devise_montant = 1;
+	    gsb_data_report_set_currency_general ( report_number,
+						   1 );
+	    gsb_data_report_set_category_currency ( report_number,
+						    1 );
+	    gsb_data_report_set_budget_currency ( report_number,
+						  1 );
+	    gsb_data_report_set_payee_currency ( report_number,
+						 1 );
+	    gsb_data_report_set_amount_comparison_currency ( report_number,
+							     1 );
 
-	    etat -> separer_revenus_depenses = 1;
-	    etat -> no_plage_date = 4;
-	    etat -> utilise_categ = 1;
-	    etat -> exclure_ope_sans_categ = 1;
-	    etat -> affiche_sous_total_categ = 1;
-	    etat -> afficher_sous_categ = 1;
-	    etat -> afficher_pas_de_sous_categ = 1;
-	    etat -> affiche_sous_total_sous_categ = 1;
-	    etat -> afficher_nom_categ = 1;
-	    etat -> exclure_montants_nuls = 1;
+	    gsb_data_report_set_split_credit_debit ( report_number,
+						     1 );
+	    gsb_data_report_set_date_type ( report_number,
+					    4 );
+	    gsb_data_report_set_category_used ( report_number,
+						1 );
+	    gsb_data_report_set_category_only_report_with_category ( report_number,
+								     1 );
+	    gsb_data_report_set_category_show_category_amount ( report_number,
+								1 );
+	    gsb_data_report_set_category_show_sub_category ( report_number,
+							     1 );
+	    gsb_data_report_set_category_show_without_category ( report_number,
+								 1 );
+	    gsb_data_report_set_category_show_sub_category_amount ( report_number,
+								    1 );
+	    gsb_data_report_set_category_show_name ( report_number,
+						     1 );
+	    gsb_data_report_set_amount_comparison_only_report_non_null ( report_number,
+									 1 );
 
 	    /*   tout le reste est à NULL, ce qui est très bien */
 
@@ -489,47 +537,70 @@ gboolean ajout_etat ( void )
 
 	case 3:
 
-	    /* on ajoute un état vierge appelé nouvel état */
+	    /* New report */
 
-	    etat -> nom_etat = g_strdup ( _("New report") );
+	    report_number = gsb_data_report_new (_("New report"));
 
-	    /*   le classement de base est 1-2-3-4-5-6 (cf structure.h) */
+	    /*   le classement de base est 1-2-3-4-5-6  */
 
-	    etat -> type_classement = g_slist_append ( etat -> type_classement,
-						      GINT_TO_POINTER ( 1 ));
-	    etat -> type_classement = g_slist_append ( etat -> type_classement,
-						      GINT_TO_POINTER ( 2 ));
-	    etat -> type_classement = g_slist_append ( etat -> type_classement,
-						      GINT_TO_POINTER ( 3 ));
-	    etat -> type_classement = g_slist_append ( etat -> type_classement,
-						      GINT_TO_POINTER ( 4 ));
-	    etat -> type_classement = g_slist_append ( etat -> type_classement,
-						      GINT_TO_POINTER ( 5 ));
-	    etat -> type_classement = g_slist_append ( etat -> type_classement,
-						      GINT_TO_POINTER ( 6 ));
+	    gsb_data_report_set_sorting_type ( report_number,
+					       g_slist_append ( gsb_data_report_get_sorting_type (report_number),
+								GINT_TO_POINTER ( 1 )));
+	    gsb_data_report_set_sorting_type ( report_number,
+					       g_slist_append ( gsb_data_report_get_sorting_type (report_number),
+								GINT_TO_POINTER ( 2 )));
+	    gsb_data_report_set_sorting_type ( report_number,
+					       g_slist_append ( gsb_data_report_get_sorting_type (report_number),
+								GINT_TO_POINTER ( 3 )));
+	    gsb_data_report_set_sorting_type ( report_number,
+					       g_slist_append ( gsb_data_report_get_sorting_type (report_number),
+								GINT_TO_POINTER ( 4 )));
+	    gsb_data_report_set_sorting_type ( report_number,
+					       g_slist_append ( gsb_data_report_get_sorting_type (report_number),
+								GINT_TO_POINTER ( 5 )));
+	    gsb_data_report_set_sorting_type ( report_number,
+					       g_slist_append ( gsb_data_report_get_sorting_type (report_number),
+								GINT_TO_POINTER ( 6 )));
 
 	    /*   les devises sont à 1 (euro) */
 
-	    etat -> devise_de_calcul_general = 1;
-	    etat -> devise_de_calcul_categ = 1;
-	    etat -> devise_de_calcul_ib = 1;
-	    etat -> devise_de_calcul_tiers = 1;
+	    gsb_data_report_set_currency_general ( report_number,
+						   1 );
+	    gsb_data_report_set_category_currency ( report_number,
+						    1 );
+	    gsb_data_report_set_budget_currency ( report_number,
+						  1 );
+	    gsb_data_report_set_payee_currency ( report_number,
+						 1 );
 
-	    etat -> choix_devise_montant = 1;
+	    gsb_data_report_set_amount_comparison_currency ( report_number,
+							     1 );
 
 
-	    etat -> afficher_opes = 1;
-	    etat -> afficher_date_ope = 1;
-	    etat -> afficher_tiers_ope = 1;
-	    etat -> afficher_categ_ope = 1;
-	    etat -> separer_revenus_depenses = 1;
-	    etat -> type_virement = 2;
-	    etat -> utilise_categ = 1;
-	    etat -> affiche_sous_total_categ = 1;
-	    etat -> afficher_sous_categ = 1;
-	    etat -> affiche_sous_total_sous_categ = 1;
-	    etat -> afficher_nom_categ = 1;
-	    etat -> exclure_montants_nuls = 1;
+	    gsb_data_report_set_show_report_transactions ( report_number,
+							   1 );
+	    gsb_data_report_set_show_report_date ( report_number,
+						   1 );
+	    gsb_data_report_set_show_report_payee ( report_number,
+						    1 );
+	    gsb_data_report_set_show_report_category ( report_number,
+						       1 );
+	    gsb_data_report_set_split_credit_debit ( report_number,
+						     1 );
+	    gsb_data_report_set_transfer_choice ( report_number,
+						  2 );
+	    gsb_data_report_set_category_used ( report_number,
+						1 );
+	    gsb_data_report_set_category_show_category_amount ( report_number,
+								1 );
+	    gsb_data_report_set_category_show_sub_category ( report_number,
+							     1 );
+	    gsb_data_report_set_category_show_sub_category_amount ( report_number,
+								    1 );
+	    gsb_data_report_set_category_show_name ( report_number,
+						     1 );
+	    gsb_data_report_set_amount_comparison_only_report_non_null ( report_number,
+									 1 );
 
 
 	    /*   tout le reste est à NULL, ce qui est très bien */
@@ -538,53 +609,75 @@ gboolean ajout_etat ( void )
 
 	case 4:
 
-	    /* remise de chèques */
+	    /* Cheques deposit */
 
-	    etat -> nom_etat = g_strdup ( _("Cheques deposit") );
+	    report_number = gsb_data_report_new (_("Cheques deposit"));
 
 	    /*   le classement de base est 1-2-3-4-5-6 (cf structure.h) */
 
-	    etat -> type_classement = g_slist_append ( etat -> type_classement,
-						      GINT_TO_POINTER ( 1 ));
-	    etat -> type_classement = g_slist_append ( etat -> type_classement,
-						      GINT_TO_POINTER ( 2 ));
-	    etat -> type_classement = g_slist_append ( etat -> type_classement,
-						      GINT_TO_POINTER ( 3 ));
-	    etat -> type_classement = g_slist_append ( etat -> type_classement,
-						      GINT_TO_POINTER ( 4 ));
-	    etat -> type_classement = g_slist_append ( etat -> type_classement,
-						      GINT_TO_POINTER ( 5 ));
-	    etat -> type_classement = g_slist_append ( etat -> type_classement,
-						      GINT_TO_POINTER ( 6 ));
+	    gsb_data_report_set_sorting_type ( report_number,
+					       g_slist_append ( gsb_data_report_get_sorting_type (report_number),
+								GINT_TO_POINTER ( 1 )));
+	    gsb_data_report_set_sorting_type ( report_number,
+					       g_slist_append ( gsb_data_report_get_sorting_type (report_number),
+								GINT_TO_POINTER ( 2 )));
+	    gsb_data_report_set_sorting_type ( report_number,
+					       g_slist_append ( gsb_data_report_get_sorting_type (report_number),
+								GINT_TO_POINTER ( 3 )));
+	    gsb_data_report_set_sorting_type ( report_number,
+					       g_slist_append ( gsb_data_report_get_sorting_type (report_number),
+								GINT_TO_POINTER ( 4 )));
+	    gsb_data_report_set_sorting_type ( report_number,
+					       g_slist_append ( gsb_data_report_get_sorting_type (report_number),
+								GINT_TO_POINTER ( 5 )));
+	    gsb_data_report_set_sorting_type ( report_number,
+					       g_slist_append ( gsb_data_report_get_sorting_type (report_number),
+								GINT_TO_POINTER ( 6 )));
 
 	    /*   les devises sont à 1 (euro) */
 
-	    etat -> devise_de_calcul_general = 1;
-	    etat -> devise_de_calcul_categ = 1;
-	    etat -> devise_de_calcul_ib = 1;
-	    etat -> devise_de_calcul_tiers = 1;
-	    etat -> choix_devise_montant = 1;
+	    gsb_data_report_set_currency_general ( report_number,
+						   1 );
+	    gsb_data_report_set_category_currency ( report_number,
+						    1 );
+	    gsb_data_report_set_budget_currency ( report_number,
+						  1 );
+	    gsb_data_report_set_payee_currency ( report_number,
+						 1 );
+	    gsb_data_report_set_amount_comparison_currency ( report_number,
+							     1 );
 
 
-	    etat -> afficher_opes = 1;
-	    etat -> afficher_nb_opes = 1;
-	    etat -> afficher_tiers_ope = 1;
-	    etat -> afficher_infobd_ope = 1;
-	    etat -> type_virement = 2;
-	    etat -> exclure_montants_nuls = 1;
-	    etat -> utilise_montant = 1;
+	    gsb_data_report_set_show_report_transactions ( report_number,
+							   1 );
+	    gsb_data_report_set_show_report_transaction_amount ( report_number,
+								 1 );
+	    gsb_data_report_set_show_report_payee ( report_number,
+						    1 );
+	    gsb_data_report_set_show_report_bank_references ( report_number,
+							      1 );
+	    gsb_data_report_set_transfer_choice ( report_number,
+						  2 );
+	    gsb_data_report_set_amount_comparison_only_report_non_null ( report_number,
+									 1 );
+	    gsb_data_report_set_amount_comparison_used ( report_number,
+							 1 );
 
 	    /* on doit créer une structure de montant qui dit que ça va être positif */
 
-	    comp_montant = calloc ( 1,
-				    sizeof ( struct struct_comparaison_montants_etat ));
-	    comp_montant -> lien_struct_precedente = -1;
-	    comp_montant -> comparateur_1 = 8;
-	    comp_montant -> lien_1_2 = 3;
+	    amount_comparison_number = gsb_data_report_amount_comparison_new (0);
+	    gsb_data_report_amount_comparison_set_report_number ( amount_comparison_number,
+								  report_number);
+	    gsb_data_report_amount_comparison_set_link_to_last_amount_comparison ( amount_comparison_number,
+										   -1 );
+	    gsb_data_report_amount_comparison_set_first_comparison ( amount_comparison_number,
+								     8 );
+	    gsb_data_report_amount_comparison_set_link_first_to_second_part ( amount_comparison_number,
+									      3 );
 
-	    etat -> liste_struct_comparaison_montants = g_slist_append ( etat -> liste_struct_comparaison_montants,
-									 comp_montant );
-
+	    gsb_data_report_set_amount_comparison_list ( report_number,
+							 g_slist_append ( gsb_data_report_get_amount_comparison_list (report_number),
+									  GINT_TO_POINTER (amount_comparison_number)));
 
 	    /*   tout le reste est à NULL, ce qui est très bien */
 
@@ -592,56 +685,85 @@ gboolean ajout_etat ( void )
 
 	case 5:
 
-	    /* dépenses mensuelles par tiers */
+	    /* Monthly outgoings by payee */
 
-	    etat -> nom_etat = g_strdup ( _("Monthly outgoings by payee") );
+	    report_number = gsb_data_report_new (_("Monthly outgoings by payee"));
 
-	    /*   le classement de base est 1-2-3-4-5-6 (cf structure.h) */
+	    /*   le classement de base est 1-2-3-4-5-6  */
 
-	    etat -> type_classement = g_slist_append ( etat -> type_classement,
-						      GINT_TO_POINTER ( 6 ));
-	    etat -> type_classement = g_slist_append ( etat -> type_classement,
-						      GINT_TO_POINTER ( 1 ));
-	    etat -> type_classement = g_slist_append ( etat -> type_classement,
-						      GINT_TO_POINTER ( 2 ));
-	    etat -> type_classement = g_slist_append ( etat -> type_classement,
-						      GINT_TO_POINTER ( 3 ));
-	    etat -> type_classement = g_slist_append ( etat -> type_classement,
-						      GINT_TO_POINTER ( 4 ));
-	    etat -> type_classement = g_slist_append ( etat -> type_classement,
-						      GINT_TO_POINTER ( 5 ));
+	    gsb_data_report_set_sorting_type ( report_number,
+					       g_slist_append ( gsb_data_report_get_sorting_type (report_number),
+								GINT_TO_POINTER ( 6 )));
+	    gsb_data_report_set_sorting_type ( report_number,
+					       g_slist_append ( gsb_data_report_get_sorting_type (report_number),
+								GINT_TO_POINTER ( 1 )));
+	    gsb_data_report_set_sorting_type ( report_number,
+					       g_slist_append ( gsb_data_report_get_sorting_type (report_number),
+								GINT_TO_POINTER ( 2 )));
+	    gsb_data_report_set_sorting_type ( report_number,
+					       g_slist_append ( gsb_data_report_get_sorting_type (report_number),
+								GINT_TO_POINTER ( 3 )));
+	    gsb_data_report_set_sorting_type ( report_number,
+					       g_slist_append ( gsb_data_report_get_sorting_type (report_number),
+								GINT_TO_POINTER ( 4 )));
+	    gsb_data_report_set_sorting_type ( report_number,
+					       g_slist_append ( gsb_data_report_get_sorting_type (report_number),
+								GINT_TO_POINTER ( 5 )));
+
 
 	    /*   les devises sont à 1 (euro) */
 
-	    etat -> devise_de_calcul_general = 1;
-	    etat -> devise_de_calcul_categ = 1;
-	    etat -> devise_de_calcul_ib = 1;
-	    etat -> devise_de_calcul_tiers = 1;
-	    etat -> choix_devise_montant = 1;
+	    gsb_data_report_set_currency_general ( report_number,
+						   1 );
+	    gsb_data_report_set_category_currency ( report_number,
+						    1 );
+	    gsb_data_report_set_budget_currency ( report_number,
+						  1 );
+	    gsb_data_report_set_payee_currency ( report_number,
+						 1 );
+	    gsb_data_report_set_amount_comparison_currency ( report_number,
+							     1 );
 
 
-	    etat -> afficher_opes = 1;
-	    etat -> afficher_nb_opes = 1;
-	    etat -> afficher_tiers_ope = 1;
-	    etat -> type_classement_ope = 2;
-	    etat -> afficher_titre_colonnes = 1;
-	    etat -> no_plage_date = 7;
-	    etat -> utilise_categ = 1;
-	    etat -> affiche_sous_total_categ = 1;
-	    etat -> afficher_sous_categ = 1;
-	    etat -> afficher_nom_categ = 1;
+	    gsb_data_report_set_show_report_transactions ( report_number,
+							   1 );
+	    gsb_data_report_set_show_report_transaction_amount ( report_number,
+								 1 );
+	    gsb_data_report_set_show_report_payee ( report_number,
+						    1 );
+	    gsb_data_report_set_sorting_report ( report_number,
+						 2 );
+	    gsb_data_report_set_column_title_show ( report_number,
+						    1 );
+	    gsb_data_report_set_date_type ( report_number,
+					    7 );
+	    gsb_data_report_set_category_used ( report_number,
+						1 );
+	    gsb_data_report_set_category_show_category_amount ( report_number,
+								1 );
+	    gsb_data_report_set_category_show_sub_category ( report_number,
+							     1 );
+	    gsb_data_report_set_category_show_name ( report_number,
+						     1 );
 
-	    etat -> afficher_date_ope = 1;
-	    etat -> afficher_categ_ope = 1;
-	    etat -> separer_revenus_depenses = 1;
-	    etat -> type_virement = 2;
-//	    etat -> exclure_ope_sans_categ = 1;
-	    etat -> affiche_sous_total_sous_categ = 1;
-//	    etat -> exclure_ope_sans_ib = 1;
-	    etat -> exclure_montants_nuls = 1;
-	    etat -> utilise_tiers = 1;
-	    etat -> affiche_sous_total_tiers = 1;
-	    etat -> afficher_nom_tiers = 1;
+	    gsb_data_report_set_show_report_date ( report_number,
+						   1 );
+	    gsb_data_report_set_show_report_category ( report_number,
+						       1 );
+	    gsb_data_report_set_split_credit_debit ( report_number,
+						     1 );
+	    gsb_data_report_set_transfer_choice ( report_number,
+						  2 );
+	    gsb_data_report_set_category_show_sub_category_amount ( report_number,
+								    1 );
+	    gsb_data_report_set_amount_comparison_only_report_non_null ( report_number,
+									 1 );
+	    gsb_data_report_set_payee_used ( report_number,
+					     1 );
+	    gsb_data_report_set_payee_show_payee_amount ( report_number,
+							  1 );
+	    gsb_data_report_set_payee_show_name ( report_number,
+						  1 );
 
 
 	    /*   tout le reste est à NULL, ce qui est très bien */
@@ -650,54 +772,84 @@ gboolean ajout_etat ( void )
 
 	case 6:
 
-	    /* recherche */
+	    /* Search */
 
-	    etat -> nom_etat = g_strdup ( _("Search") );
+	    report_number = gsb_data_report_new (_("Search"));
 
-	    /*   le classement de base est 1-2-3-4-5-6 (cf structure.h) */
+	    /*   le classement de base est 1-2-3-4-5-6  */
 
-	    etat -> type_classement = g_slist_append ( etat -> type_classement,
-						      GINT_TO_POINTER ( 1 ));
-	    etat -> type_classement = g_slist_append ( etat -> type_classement,
-						      GINT_TO_POINTER ( 2 ));
-	    etat -> type_classement = g_slist_append ( etat -> type_classement,
-						      GINT_TO_POINTER ( 3 ));
-	    etat -> type_classement = g_slist_append ( etat -> type_classement,
-						      GINT_TO_POINTER ( 4 ));
-	    etat -> type_classement = g_slist_append ( etat -> type_classement,
-						      GINT_TO_POINTER ( 5 ));
-	    etat -> type_classement = g_slist_append ( etat -> type_classement,
-						      GINT_TO_POINTER ( 6 ));
+	    gsb_data_report_set_sorting_type ( report_number,
+					       g_slist_append ( gsb_data_report_get_sorting_type (report_number),
+								GINT_TO_POINTER ( 1 )));
+	    gsb_data_report_set_sorting_type ( report_number,
+					       g_slist_append ( gsb_data_report_get_sorting_type (report_number),
+								GINT_TO_POINTER ( 2 )));
+	    gsb_data_report_set_sorting_type ( report_number,
+					       g_slist_append ( gsb_data_report_get_sorting_type (report_number),
+								GINT_TO_POINTER ( 3 )));
+	    gsb_data_report_set_sorting_type ( report_number,
+					       g_slist_append ( gsb_data_report_get_sorting_type (report_number),
+								GINT_TO_POINTER ( 4 )));
+	    gsb_data_report_set_sorting_type ( report_number,
+					       g_slist_append ( gsb_data_report_get_sorting_type (report_number),
+								GINT_TO_POINTER ( 5 )));
+	    gsb_data_report_set_sorting_type ( report_number,
+					       g_slist_append ( gsb_data_report_get_sorting_type (report_number),
+								GINT_TO_POINTER ( 6 )));
 
 	    /*   les devises sont à 1 (euro) */
 
-	    etat -> devise_de_calcul_general = 1;
-	    etat -> devise_de_calcul_categ = 1;
-	    etat -> devise_de_calcul_ib = 1;
-	    etat -> devise_de_calcul_tiers = 1;
-	    etat -> choix_devise_montant = 1;
+	    gsb_data_report_set_currency_general ( report_number,
+						   1 );
+	    gsb_data_report_set_category_currency ( report_number,
+						    1 );
+	    gsb_data_report_set_budget_currency ( report_number,
+						  1 );
+	    gsb_data_report_set_payee_currency ( report_number,
+						 1 );
+	    gsb_data_report_set_amount_comparison_currency ( report_number,
+							     1 );
 
 
-	    etat -> afficher_opes = 1;
-	    etat -> afficher_date_ope = 1;
-	    etat -> afficher_tiers_ope = 1;
-	    etat -> afficher_categ_ope = 1;
-	    etat -> afficher_sous_categ_ope = 1;
-	    etat -> afficher_type_ope = 1;
-	    etat -> afficher_ib_ope = 1;
-	    etat -> afficher_sous_ib_ope = 1;
-	    etat -> afficher_cheque_ope = 1;
-	    etat -> afficher_notes_ope = 1;
-	    etat -> afficher_pc_ope = 1;
-	    etat -> afficher_rappr_ope = 1;
-	    etat -> afficher_infobd_ope = 1;
-	    etat -> afficher_exo_ope = 1;
+	    gsb_data_report_set_show_report_transactions ( report_number,
+							   1 );
+	    gsb_data_report_set_show_report_date ( report_number,
+						   1 );
+	    gsb_data_report_set_show_report_payee ( report_number,
+						    1 );
+	    gsb_data_report_set_show_report_category ( report_number,
+						       1 );
+	    gsb_data_report_set_show_report_sub_category ( report_number,
+							   1 );
+	    gsb_data_report_set_show_report_method_of_payment ( report_number,
+								1 );
+	    gsb_data_report_set_show_report_budget ( report_number,
+						     1 );
+	    gsb_data_report_set_show_report_sub_budget ( report_number,
+							 1 );
+	    gsb_data_report_set_show_report_method_of_payment_content ( report_number,
+									1 );
+	    gsb_data_report_set_show_report_note ( report_number,
+						   1 );
+	    gsb_data_report_set_show_report_voucher ( report_number,
+						      1 );
+	    gsb_data_report_set_show_report_marked ( report_number,
+						     1 );
+	    gsb_data_report_set_show_report_bank_references ( report_number,
+							      1 );
+	    gsb_data_report_set_show_report_financial_year ( report_number,
+							     1 );
 
-	    etat -> ope_clickables = 1;
-	    etat -> no_plage_date = 4;
-	    etat -> separation_par_plage = 1;
-	    etat -> type_separation_plage = 2;
-	    etat -> type_virement = 2;
+	    gsb_data_report_set_report_can_click ( report_number,
+						   1 );
+	    gsb_data_report_set_date_type ( report_number,
+					    4 );
+	    gsb_data_report_set_period_split ( report_number,
+					       1 );
+	    gsb_data_report_set_period_split_type ( report_number,
+						    2 );
+	    gsb_data_report_set_transfer_choice ( report_number,
+						  2 );
 
 	    /*   tout le reste est à NULL, ce qui est très bien */
 
@@ -709,26 +861,14 @@ gboolean ajout_etat ( void )
 	    return FALSE;
     }
 
-    /* on l'ajoute à la liste */
-    liste_struct_etats = g_slist_append ( liste_struct_etats, etat );
-
-    /* on réaffiche la liste des états */
-    etat_courant = etat;
-
-    /* TODO, update with navigation list */
-/*     remplissage_liste_etats (); */
-
     gtk_widget_set_sensitive ( bouton_personnaliser_etat, TRUE );
     gtk_widget_set_sensitive ( bouton_imprimer_etat, TRUE );
     gtk_widget_set_sensitive ( bouton_exporter_etat, TRUE );
     gtk_widget_set_sensitive ( bouton_dupliquer_etat, TRUE );
     gtk_widget_set_sensitive ( bouton_effacer_etat, TRUE );
 
-/*     gtk_label_set_text ( GTK_LABEL ( label_etat_courant ), */
-/* 			 etat_courant -> nom_etat ); */
-
     /* Add an entry in navigation pane. */
-    gsb_gui_navigation_add_report ( etat );
+    gsb_gui_navigation_add_report ( report_number );
 
     personnalisation_etat ();
     modification_fichier ( TRUE );
@@ -805,7 +945,11 @@ void change_choix_nouvel_etat ( GtkWidget *menu_item,
 /*****************************************************************************************************/
 void efface_etat ( void )
 {
-    if ( !liste_struct_etats || !etat_courant )
+    gint current_report_number;
+
+    current_report_number = gsb_gui_navigation_get_current_report ();
+
+    if ( !current_report_number )
 	return;
 
      if ( gtk_notebook_get_current_page ( GTK_NOTEBOOK ( notebook_general)) != 7 )
@@ -813,18 +957,17 @@ void efface_etat ( void )
 				7 );
 
    if ( !question_yes_no_hint ( g_strdup_printf (_("Delete report \"%s\"?"),
-						  etat_courant -> nom_etat ),
+						  gsb_data_report_get_report_name (current_report_number) ),
 				 _("This will irreversibly remove this report.  There is no undo for this.") ))
 	return;
 
-    /*   on met l'état courant à -1 et */
-    /* le bouton à null, et le label de l'état en cours à rien */
-    liste_struct_etats = g_slist_remove ( liste_struct_etats, etat_courant );
+   /* remove the report */
+
+    gsb_data_report_remove ( current_report_number );
 
     /* Update reports list in navigation. */
-    gsb_gui_navigation_remove_report ( etat_courant );
+    gsb_gui_navigation_remove_report ( gsb_data_report_get_pointer_to_report (current_report_number));
 
-    etat_courant = NULL;
     gtk_widget_set_sensitive ( bouton_personnaliser_etat, FALSE );
     gtk_widget_set_sensitive ( bouton_imprimer_etat, FALSE );
     gtk_widget_set_sensitive ( bouton_exporter_etat, FALSE );
@@ -853,7 +996,6 @@ void efface_etat ( void )
     if ( GTK_BIN ( scrolled_window_etat ) -> child )
 	gtk_widget_hide ( GTK_BIN ( scrolled_window_etat ) -> child );
 
-/*     remplissage_liste_etats (); */
     modification_fichier ( TRUE );
 
 }
@@ -861,9 +1003,8 @@ void efface_etat ( void )
 
 
 /*****************************************************************************************************/
-void changement_etat ( struct struct_etat *etat )
+void changement_etat ( gint report_number )
 {
-    etat_courant = etat;
     gtk_widget_set_sensitive ( bouton_personnaliser_etat, TRUE );
     gtk_widget_set_sensitive ( bouton_imprimer_etat, TRUE );
     gtk_widget_set_sensitive ( bouton_exporter_etat, TRUE );
@@ -889,11 +1030,7 @@ void changement_etat ( struct struct_etat *etat )
 							   menu_name(_("Reports"), _("Edit report..."), NULL)),
 			       TRUE );
 
-/*     gtk_label_set_text ( GTK_LABEL ( label_etat_courant ), etat -> nom_etat ); */
-/*     gtk_label_set_line_wrap ( GTK_LABEL ( label_etat_courant ), TRUE ); */
-
-    /* on affiche l'état */
-    rafraichissement_etat ( etat );
+    rafraichissement_etat ( report_number );
 }
 
 
@@ -902,9 +1039,9 @@ void changement_etat ( struct struct_etat *etat )
  *
  *
  */
-void export_etat_vers_html ( struct struct_etat *etat )
+void export_etat_vers_html ( gint report_number )
 {
-    affichage_etat ( etat, &html_affichage );
+    affichage_etat ( report_number, &html_affichage );
 }
 
 
@@ -919,7 +1056,7 @@ void export_etat_courant_vers_html ( )
 	gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general),
 				7 );
 
-    export_etat_vers_html ( NULL );
+    export_etat_vers_html ( gsb_gui_navigation_get_current_report ());
 }
 
 
@@ -929,6 +1066,9 @@ void exporter_etat ( void )
     GtkWidget *fenetre_nom;
     gint resultat;
     gchar *nom_etat;
+    gint current_report_number;
+
+    current_report_number = gsb_gui_navigation_get_current_report ();
 
     if ( gtk_notebook_get_current_page ( GTK_NOTEBOOK ( notebook_general)) != 7 )
 	gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general),
@@ -938,7 +1078,7 @@ void exporter_etat ( void )
     file_selection_set_filename ( GTK_FILE_SELECTION ( fenetre_nom ),
 				  dernier_chemin_de_travail );
     file_selection_set_entry (  GTK_FILE_SELECTION ( fenetre_nom ),
-				g_strconcat ( safe_file_name ( etat_courant -> nom_etat ),
+				g_strconcat ( safe_file_name ( gsb_data_report_get_report_name (current_report_number) ),
 					      ".egsb",
 					      NULL ));
     resultat = gtk_dialog_run ( GTK_DIALOG ( fenetre_nom ));
@@ -1020,127 +1160,22 @@ void importer_etat ( void )
 
 void dupliquer_etat ( void )
 {
-    struct struct_etat *etat;
-    GSList *liste_tmp;
+    gint report_number;
+    gint current_report_number;
+
+    current_report_number = gsb_gui_navigation_get_current_report ();
 
     if ( gtk_notebook_get_current_page ( GTK_NOTEBOOK ( notebook_general)) != 7 )
 	gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general),
 				7 );
 
-    etat = calloc ( 1,
-		    sizeof ( struct struct_etat ));
-
-
-    /* on recopie les données de l'état courant */
-
-    memcpy ( etat,
-	     etat_courant,
-	     sizeof ( struct struct_etat ));
-
-    /* il reste juste à faire une copie des listes et des chaines pour terminer */
-
-    etat -> no_etat = ++no_dernier_etat;
-
-    etat -> nom_etat = g_strdup ( etat_courant -> nom_etat );
-    etat -> no_exercices = g_slist_copy ( etat_courant -> no_exercices );
-
-    if ( etat_courant -> date_perso_debut )
-	etat -> date_perso_debut = g_date_new_dmy ( g_date_day ( etat_courant -> date_perso_debut ),
-						    g_date_month ( etat_courant -> date_perso_debut ),
-						    g_date_year ( etat_courant -> date_perso_debut ));
-
-    if ( etat_courant -> date_perso_fin )
-	etat -> date_perso_fin = g_date_new_dmy ( g_date_day ( etat_courant -> date_perso_fin ),
-						  g_date_month ( etat_courant -> date_perso_fin ),
-						  g_date_year ( etat_courant -> date_perso_fin ));
-
-    etat -> type_classement = g_slist_copy ( etat_courant -> type_classement );
-    etat -> no_comptes = g_slist_copy ( etat_courant -> no_comptes );
-    etat -> no_comptes_virements = g_slist_copy ( etat_courant -> no_comptes_virements );
-    etat -> no_categ = g_slist_copy ( etat_courant -> no_categ );
-    etat -> no_ib = g_slist_copy ( etat_courant -> no_ib );
-    etat -> no_tiers = g_slist_copy ( etat_courant -> no_tiers );
-
-
-    /* on fait une copie de la liste des textes */
-
-    if ( etat -> liste_struct_comparaison_textes )
-    {
-	etat -> liste_struct_comparaison_textes = NULL;
-
-	liste_tmp = etat_courant -> liste_struct_comparaison_textes;
-
-	while ( liste_tmp )
-	{
-	    struct struct_comparaison_textes_etat *ancien_comp_textes;
-	    struct struct_comparaison_textes_etat *comp_textes;
-
-	    ancien_comp_textes = liste_tmp -> data;
-
-	    comp_textes = calloc ( 1,
-				   sizeof ( struct struct_comparaison_textes_etat ));
-
-	    memcpy ( comp_textes,
-		     ancien_comp_textes,
-		     sizeof ( struct struct_comparaison_textes_etat ));
-
-	    comp_textes -> texte = g_strdup ( comp_textes -> texte );
-
-	    etat -> liste_struct_comparaison_textes = g_slist_append ( etat -> liste_struct_comparaison_textes,
-								       comp_textes );
-	    liste_tmp = liste_tmp -> next;
-	}
-    }
-
-    /* on fait une copie de la liste des montants */
-
-    if ( etat -> liste_struct_comparaison_montants )
-    {
-	etat -> liste_struct_comparaison_montants = NULL;
-
-	liste_tmp = etat_courant -> liste_struct_comparaison_montants;
-
-	while ( liste_tmp )
-	{
-	    struct struct_comparaison_montants_etat *ancien_comp_montants;
-	    struct struct_comparaison_montants_etat *comp_montants;
-
-	    ancien_comp_montants = liste_tmp -> data;
-
-	    comp_montants = calloc ( 1,
-				     sizeof ( struct struct_comparaison_montants_etat ));
-
-	    memcpy ( comp_montants,
-		     ancien_comp_montants,
-		     sizeof ( struct struct_comparaison_montants_etat ));
-
-	    etat -> liste_struct_comparaison_montants = g_slist_append ( etat -> liste_struct_comparaison_montants,
-									 comp_montants );
-	    liste_tmp = liste_tmp -> next;
-	}
-    }
-
-
-
-    /* on l'ajoute à la liste */
-
-    liste_struct_etats = g_slist_append ( liste_struct_etats,
-					  etat );
-
-    /* on réaffiche la liste des états */
-
-    etat_courant = etat;
-
-    /* TODO, update with navigation list */
-/*     remplissage_liste_etats (); */
+    report_number = gsb_data_report_dup (current_report_number);
 
     gtk_widget_set_sensitive ( bouton_personnaliser_etat, TRUE );
     gtk_widget_set_sensitive ( bouton_imprimer_etat, TRUE );
     gtk_widget_set_sensitive ( bouton_exporter_etat, TRUE );
     gtk_widget_set_sensitive ( bouton_dupliquer_etat, TRUE );
     gtk_widget_set_sensitive ( bouton_effacer_etat, TRUE );
-
-/*     gtk_label_set_text ( GTK_LABEL ( label_etat_courant ), etat_courant -> nom_etat ); */
 
     gtk_widget_set_sensitive ( bouton_effacer_etat, TRUE );
 

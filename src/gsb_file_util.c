@@ -638,8 +638,6 @@ gboolean gsb_file_util_modify_lock ( gboolean create_swp )
  * */
 void gsb_file_util_change_permissions ( void )
 {
-    gint resultat;
-
     /* On Windows, the chmod feature does not work: FAT does not
      * have right access permission notions , on NTFS it to
      * complicated to implement => the feature is removed from the

@@ -27,6 +27,7 @@
 #include "include.h"
 
 /*START_INCLUDE*/
+#include "structures.h"
 #include "etats_affiche.h"
 #include "etats_calculs.h"
 #include "utils_devises.h"
@@ -36,12 +37,13 @@
 #include "gsb_data_budget.h"
 #include "gsb_data_category.h"
 #include "gsb_data_payee.h"
+#include "gsb_data_report.h"
 #include "gsb_data_transaction.h"
 #include "utils_dates.h"
+#include "navigation.h"
 #include "utils_rapprochements.h"
 #include "utils_types.h"
 #include "utils_str.h"
-#include "structures.h"
 #include "etats_config.h"
 #include "include.h"
 /*END_INCLUDE*/
@@ -77,7 +79,6 @@ extern struct struct_devise *devise_generale_etat;
 extern struct struct_devise *devise_ib_etat;
 extern struct struct_devise *devise_tiers_etat;
 extern struct struct_etat_affichage * etat_affichage_output;
-extern struct struct_etat *etat_courant;
 extern gint exo_en_cours_etat;
 extern gint ligne_debut_partie;
 extern gdouble montant_categ_etat;
@@ -141,24 +142,27 @@ gint etat_affiche_affiche_separateur ( gint ligne )
 gint etat_affiche_affiche_total_categories ( gint ligne )
 {
     char * text;
+    gint current_report_number;
 
-    if ( etat_courant -> utilise_categ
+    current_report_number = gsb_gui_navigation_get_current_report ();
+
+    if ( gsb_data_report_get_category_used (current_report_number)
 	 &&
-	 etat_courant -> affiche_sous_total_categ )
+	 gsb_data_report_get_category_show_category_amount (current_report_number))
     {
 	/* si rien n'est affiché en dessous de la catég, on */
 	/* met le résultat sur la ligne de la catég */
 	/* sinon on fait une barre et on met le résultat */
 
-	if ( etat_courant -> afficher_sous_categ
+	if ( gsb_data_report_get_category_show_sub_category (current_report_number)
 	     ||
-	     etat_courant -> utilise_ib
+	     gsb_data_report_get_budget_used (current_report_number)
 	     ||
-	     etat_courant -> regroupe_ope_par_compte
+	     gsb_data_report_get_account_group_reports (current_report_number)
 	     ||
-	     etat_courant -> utilise_tiers
+	     gsb_data_report_get_payee_used (current_report_number)
 	     ||
-	     etat_courant -> afficher_opes )
+	     gsb_data_report_get_show_report_transactions (current_report_number) )
 	{
 	    etat_affiche_attach_label ( NULL, TEXT_NORMAL, 1, nb_colonnes -1, ligne, ligne + 1, LEFT, NULL );
 	    ligne++;
@@ -168,7 +172,7 @@ gint etat_affiche_affiche_total_categories ( gint ligne )
 
 	    if ( nom_categ_en_cours )
 	    {
-		if ( etat_courant -> afficher_nb_opes )
+		if ( gsb_data_report_get_show_report_transaction_amount (current_report_number))
 		{
 		    if ( nb_ope_categ_etat <= 1 )
 			text = g_strdup_printf ( _("Total %s (%d transaction)"), nom_categ_en_cours, nb_ope_categ_etat );
@@ -180,7 +184,7 @@ gint etat_affiche_affiche_total_categories ( gint ligne )
 	    }
 	    else
 	    {
-		if ( etat_courant -> afficher_nb_opes )
+		if ( gsb_data_report_get_show_report_transaction_amount (current_report_number))
 		{
 		    if ( nb_ope_categ_etat <= 1 )
 			text = g_strdup_printf ( COLON(_("Category total (%d transaction)")), nb_ope_categ_etat);
@@ -207,7 +211,7 @@ gint etat_affiche_affiche_total_categories ( gint ligne )
 	{
 	    ligne--;
 
-	    if ( etat_courant -> afficher_nb_opes )
+	    if ( gsb_data_report_get_show_report_transaction_amount (current_report_number))
 	    {
 		if ( nb_ope_categ_etat <= 1 )
 		    text = g_strdup_printf ( _("%4.2f %s (%d transaction)"), montant_categ_etat,
@@ -224,7 +228,6 @@ gint etat_affiche_affiche_total_categories ( gint ligne )
 
 	    ligne++;
 	}
-
     }
 
     montant_categ_etat = 0;
@@ -246,24 +249,28 @@ gint etat_affiche_affiche_total_categories ( gint ligne )
 gint etat_affiche_affiche_total_sous_categ ( gint ligne )
 {
     gchar * text;
+    gint current_report_number;
 
-    if ( etat_courant -> utilise_categ
+    current_report_number = gsb_gui_navigation_get_current_report ();
+
+
+    if ( gsb_data_report_get_category_used (current_report_number)
 	 &&
-	 etat_courant -> afficher_sous_categ
+	 gsb_data_report_get_category_show_sub_category (current_report_number)
 	 &&
-	 etat_courant -> affiche_sous_total_sous_categ )
+	 gsb_data_report_get_category_show_sub_category_amount (current_report_number))
     {
 	/* si rien n'est affiché en dessous de la sous_categ, on */
 	/* met le résultat sur la ligne de la ss categ */
 	/* sinon on fait une barre et on met le résultat */
 
-	if ( etat_courant -> utilise_ib
+	if ( gsb_data_report_get_budget_used (current_report_number)
 	     ||
-	     etat_courant -> regroupe_ope_par_compte
+	     gsb_data_report_get_account_group_reports (current_report_number)
 	     ||
-	     etat_courant -> utilise_tiers
+	     gsb_data_report_get_payee_used (current_report_number)
 	     ||
-	     etat_courant -> afficher_opes )
+	     gsb_data_report_get_show_report_transactions (current_report_number))
 	{
 	    etat_affiche_attach_label ( NULL, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, LEFT, NULL );
 	    ligne++;
@@ -275,7 +282,7 @@ gint etat_affiche_affiche_total_sous_categ ( gint ligne )
 		 &&
 		 nom_ss_categ_en_cours )
 	    {
-		if ( etat_courant -> afficher_nb_opes )
+		if ( gsb_data_report_get_show_report_transaction_amount (current_report_number))
 		{
 		    if ( nb_ope_sous_categ_etat <= 1 )
 			text = g_strdup_printf ( COLON(_("Total %s: %s (%d transaction)")), nom_categ_en_cours,
@@ -289,7 +296,7 @@ gint etat_affiche_affiche_total_sous_categ ( gint ligne )
 	    }
 	    else
 	    {
-		if ( etat_courant -> afficher_nb_opes )
+		if ( gsb_data_report_get_show_report_transaction_amount (current_report_number))
 		{
 		    if ( nb_ope_sous_categ_etat <= 1 )
 			text = g_strdup_printf ( COLON(_("Sub-categories total (%d transaction)")),
@@ -314,7 +321,7 @@ gint etat_affiche_affiche_total_sous_categ ( gint ligne )
 	{
 	    ligne--;
 
-	    if ( etat_courant -> afficher_nb_opes )
+	    if ( gsb_data_report_get_show_report_transaction_amount (current_report_number))
 	    {
 		if ( nb_ope_sous_categ_etat <= 1 )
 		    text = g_strdup_printf ( _("%4.2f %s (%d transaction)"), montant_sous_categ_etat,
@@ -350,22 +357,26 @@ gint etat_affiche_affiche_total_sous_categ ( gint ligne )
 gint etat_affiche_affiche_total_ib ( gint ligne )
 {
     gchar * text;
+    gint current_report_number;
 
-    if ( etat_courant -> utilise_ib
+    current_report_number = gsb_gui_navigation_get_current_report ();
+
+
+    if ( gsb_data_report_get_budget_used (current_report_number)
 	 &&
-	 etat_courant -> affiche_sous_total_ib )
+	 gsb_data_report_get_budget_show_budget_amount (current_report_number))
     {
 	/* si rien n'est affiché en dessous de la ib, on */
 	/* met le résultat sur la ligne de l'ib */
 	/* sinon on fait une barre et on met le résultat */
 
-	if ( etat_courant -> afficher_sous_ib
+	if ( gsb_data_report_get_budget_show_sub_budget (current_report_number)
 	     ||
-	     etat_courant -> regroupe_ope_par_compte
+	     gsb_data_report_get_account_group_reports (current_report_number)
 	     ||
-	     etat_courant -> utilise_tiers
+	     gsb_data_report_get_payee_used (current_report_number)
 	     ||
-	     etat_courant -> afficher_opes )
+	     gsb_data_report_get_show_report_transactions (current_report_number))
 	{
 	    etat_affiche_attach_label ( NULL, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, LEFT, NULL );
 	    ligne++;
@@ -375,7 +386,7 @@ gint etat_affiche_affiche_total_ib ( gint ligne )
 
 	    if ( nom_ib_en_cours )
 	    {
-		if ( etat_courant -> afficher_nb_opes )
+		if ( gsb_data_report_get_show_report_transaction_amount (current_report_number))
 		{
 		    if ( nb_ope_ib_etat <= 1 )
 			text = g_strdup_printf ( _("Total %s (%d transaction)"), nom_ib_en_cours, nb_ope_ib_etat );
@@ -387,7 +398,7 @@ gint etat_affiche_affiche_total_ib ( gint ligne )
 	    }
 	    else
 	    {
-		if ( etat_courant -> afficher_nb_opes )
+		if ( gsb_data_report_get_show_report_transaction_amount (current_report_number))
 		{
 		    if ( nb_ope_ib_etat <= 1 )
 			text = g_strdup_printf ( COLON(_("Budgetary lines total: (%d transaction)")),
@@ -413,7 +424,7 @@ gint etat_affiche_affiche_total_ib ( gint ligne )
 	{
 	    ligne--;
 
-	    if ( etat_courant -> afficher_nb_opes )
+	    if ( gsb_data_report_get_show_report_transaction_amount (current_report_number))
 	    {
 		if ( nb_ope_ib_etat <= 1 )
 		    text = g_strdup_printf ( _("%4.2f %s (%d transaction)"), montant_ib_etat,
@@ -449,22 +460,26 @@ gint etat_affiche_affiche_total_ib ( gint ligne )
 gint etat_affiche_affiche_total_sous_ib ( gint ligne )
 {
     gchar * text;
+    gint current_report_number;
 
-    if ( etat_courant -> utilise_ib
+    current_report_number = gsb_gui_navigation_get_current_report ();
+
+
+    if ( gsb_data_report_get_budget_used (current_report_number)
 	 &&
-	 etat_courant -> afficher_sous_ib
+	 gsb_data_report_get_budget_show_sub_budget (current_report_number)
 	 &&
-	 etat_courant -> affiche_sous_total_sous_ib )
+	 gsb_data_report_get_budget_show_sub_budget_amount (current_report_number))
     {
 	/* si rien n'est affiché en dessous de la sous ib, on */
 	/* met le résultat sur la ligne de la sous ib */
 	/* sinon on fait une barre et on met le résultat */
 
-	if ( etat_courant -> regroupe_ope_par_compte
+	if ( gsb_data_report_get_account_group_reports (current_report_number)
 	     ||
-	     etat_courant -> utilise_tiers
+	     gsb_data_report_get_payee_used (current_report_number)
 	     ||
-	     etat_courant -> afficher_opes )
+	     gsb_data_report_get_show_report_transactions (current_report_number))
 	{
 
 	    etat_affiche_attach_label ( NULL, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, LEFT, NULL );
@@ -477,7 +492,7 @@ gint etat_affiche_affiche_total_sous_ib ( gint ligne )
 		 &&
 		 nom_ss_ib_en_cours )
 	    {
-		if ( etat_courant -> afficher_nb_opes )
+		if ( gsb_data_report_get_show_report_transaction_amount (current_report_number))
 		{
 		    if ( nb_ope_sous_ib_etat <= 1 )
 			text = g_strdup_printf ( COLON(_("Total %s: %s (%d transaction)")), nom_ib_en_cours,
@@ -491,7 +506,7 @@ gint etat_affiche_affiche_total_sous_ib ( gint ligne )
 	    }
 	    else
 	    {
-		if ( etat_courant -> afficher_nb_opes )
+		if ( gsb_data_report_get_show_report_transaction_amount (current_report_number))
 		{
 		    if ( nb_ope_sous_ib_etat <= 1 )
 			text = g_strdup_printf ( COLON(_("Sub-budgetary lines total: (%d transaction)")),
@@ -517,7 +532,7 @@ gint etat_affiche_affiche_total_sous_ib ( gint ligne )
 	{
 	    ligne--;
 
-	    if ( etat_courant -> afficher_nb_opes )
+	    if ( gsb_data_report_get_show_report_transaction_amount (current_report_number))
 	    {
 		if ( nb_ope_sous_ib_etat <= 1 )
 		    text = g_strdup_printf ( _("%4.2f %s (%d transaction)"), montant_sous_ib_etat,
@@ -553,18 +568,22 @@ gint etat_affiche_affiche_total_sous_ib ( gint ligne )
 gint etat_affiche_affiche_total_compte ( gint ligne )
 {
     gchar * text;
+    gint current_report_number;
 
-    if ( etat_courant -> regroupe_ope_par_compte
+    current_report_number = gsb_gui_navigation_get_current_report ();
+
+
+    if ( gsb_data_report_get_account_group_reports (current_report_number)
 	 &&
-	 etat_courant -> affiche_sous_total_compte )
+	 gsb_data_report_get_account_show_amount (current_report_number))
     {
 	/* si rien n'est affiché en dessous du compte, on */
 	/* met le résultat sur la ligne du compte */
 	/* sinon on fait une barre et on met le rÃ©sultat */
 
-	if ( etat_courant -> utilise_tiers
+	if ( gsb_data_report_get_payee_used (current_report_number)
 	     ||
-	     etat_courant -> afficher_opes )
+	     gsb_data_report_get_show_report_transactions (current_report_number))
 	{
 	    etat_affiche_attach_label ( NULL, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, CENTER, NULL );
 	    ligne++;
@@ -574,7 +593,7 @@ gint etat_affiche_affiche_total_compte ( gint ligne )
 
 	    if ( nom_compte_en_cours )
 	    {
-		if ( etat_courant -> afficher_nb_opes )
+		if ( gsb_data_report_get_show_report_transaction_amount (current_report_number))
 		{
 		    if ( nb_ope_compte_etat <= 1 )
 			text = g_strdup_printf ( _("Total %s (%d transaction)"), nom_compte_en_cours, nb_ope_compte_etat );
@@ -586,7 +605,7 @@ gint etat_affiche_affiche_total_compte ( gint ligne )
 	    }
 	    else
 	    {
-		if ( etat_courant -> afficher_nb_opes )
+		if ( gsb_data_report_get_show_report_transaction_amount (current_report_number))
 		{
 		    if ( nb_ope_compte_etat <= 1 )
 			text = g_strdup_printf ( COLON(_("Account total: (%d transaction)")), nb_ope_compte_etat );
@@ -610,7 +629,7 @@ gint etat_affiche_affiche_total_compte ( gint ligne )
 	{
 	    ligne--;
 
-	    if ( etat_courant -> afficher_nb_opes )
+	    if ( gsb_data_report_get_show_report_transaction_amount (current_report_number))
 	    {
 		if ( nb_ope_compte_etat <= 1 )
 		    text = g_strdup_printf ( _("%4.2f %s (%d transaction)"), montant_compte_etat,
@@ -646,16 +665,20 @@ gint etat_affiche_affiche_total_compte ( gint ligne )
 gint etat_affiche_affiche_total_tiers ( gint ligne )
 {
     gchar * text;
+    gint current_report_number;
 
-    if ( etat_courant -> utilise_tiers
+    current_report_number = gsb_gui_navigation_get_current_report ();
+
+
+    if ( gsb_data_report_get_payee_used (current_report_number)
 	 &&
-	 etat_courant -> affiche_sous_total_tiers )
+	 gsb_data_report_get_payee_show_payee_amount (current_report_number))
     {
 	/* si rien n'est affiché en dessous du tiers, on */
 	/* met le résultat sur la ligne du tiers */
 	/* sinon on fait une barre et on met le résultat */
 
-	if ( etat_courant -> afficher_opes )
+	if ( gsb_data_report_get_show_report_transactions (current_report_number))
 	{
 
 	    etat_affiche_attach_label ( NULL, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, CENTER, NULL );
@@ -666,7 +689,7 @@ gint etat_affiche_affiche_total_tiers ( gint ligne )
 
 	    if ( nom_tiers_en_cours )
 	    {
-		if ( etat_courant -> afficher_nb_opes )
+		if ( gsb_data_report_get_show_report_transaction_amount (current_report_number))
 		{
 		    if ( nb_ope_tiers_etat <= 1 )
 			text = g_strdup_printf ( _("Total %s (%d transaction)"), nom_tiers_en_cours, nb_ope_tiers_etat );
@@ -678,7 +701,7 @@ gint etat_affiche_affiche_total_tiers ( gint ligne )
 	    }
 	    else
 	    {
-		if ( etat_courant -> afficher_nb_opes )
+		if ( gsb_data_report_get_show_report_transaction_amount (current_report_number))
 		{
 		    if ( nb_ope_tiers_etat <= 1 )
 			text = g_strdup_printf ( COLON(_("Payee total: (%d transaction)")), nb_ope_tiers_etat );
@@ -702,7 +725,7 @@ gint etat_affiche_affiche_total_tiers ( gint ligne )
 	{
 	    ligne--;
 
-	    if ( etat_courant -> afficher_nb_opes )
+	    if ( gsb_data_report_get_show_report_transaction_amount (current_report_number))
 	    {
 		if ( nb_ope_tiers_etat <= 1 )
 		    text = g_strdup_printf ( _("%4.2f %s (%d transaction)"), montant_tiers_etat,
@@ -741,7 +764,11 @@ gint etat_affiche_affiche_total_tiers ( gint ligne )
 /*****************************************************************************************************/
 gint etat_affiche_affiche_total_periode ( gpointer operation, gint ligne, gint force )
 {
-    if ( etat_courant -> separation_par_plage )
+    gint current_report_number;
+
+    current_report_number = gsb_gui_navigation_get_current_report ();
+
+    if ( gsb_data_report_get_period_split (current_report_number))
     {
 	gchar *text;
 
@@ -756,7 +783,7 @@ gint etat_affiche_affiche_total_periode ( gpointer operation, gint ligne, gint f
 		/*  il y a une opération, on va rechercher le début de la période qui la contient */
 		/* ça peut être le début de la semaine, du mois ou de l'année de l'opé */
 
-		switch ( etat_courant -> type_separation_plage )
+		switch ( gsb_data_report_get_period_split_type (current_report_number))
 		{
 		    case 0:
 			/* séparation par semaine : on recherche le début de la semaine qui contient l'opé */
@@ -765,14 +792,14 @@ gint etat_affiche_affiche_total_periode ( gpointer operation, gint ligne, gint f
 							      g_date_month ( gsb_data_transaction_get_date (gsb_data_transaction_get_transaction_number (operation))),
 							      g_date_year ( gsb_data_transaction_get_date (gsb_data_transaction_get_transaction_number (operation))));
 
-			if ( g_date_weekday ( date_debut_periode )  != (etat_courant -> jour_debut_semaine + 1 ))
+			if ( g_date_weekday ( date_debut_periode )  != (gsb_data_report_get_period_split_day (current_report_number) + 1 ))
 			{
-			    if ( g_date_weekday ( date_debut_periode ) < (etat_courant -> jour_debut_semaine + 1 ))
+			    if ( g_date_weekday ( date_debut_periode ) < (gsb_data_report_get_period_split_day (current_report_number)+ 1 ))
 				g_date_subtract_days ( date_debut_periode,
-						       g_date_weekday ( date_debut_periode ) + etat_courant -> jour_debut_semaine - 2 );
+						       g_date_weekday ( date_debut_periode ) + gsb_data_report_get_period_split_day (current_report_number)- 2 );
 			    else
 				g_date_subtract_days ( date_debut_periode,
-						       g_date_weekday ( date_debut_periode ) - etat_courant -> jour_debut_semaine - 1 );
+						       g_date_weekday ( date_debut_periode ) - gsb_data_report_get_period_split_day (current_report_number)- 1 );
 			}
 			break;
 
@@ -800,7 +827,7 @@ gint etat_affiche_affiche_total_periode ( gpointer operation, gint ligne, gint f
 
 	/* on vérifie maintenant s'il faut afficher un total ou pas */
 
-	switch ( etat_courant -> type_separation_plage )
+	switch ( gsb_data_report_get_period_split_type (current_report_number))
 	{
 	    gchar buffer[30];
 	    GDate *date_tmp;
@@ -826,7 +853,7 @@ gint etat_affiche_affiche_total_periode ( gpointer operation, gint ligne, gint f
 
 	    if ( !force
 		 &&
-		 ( g_date_weekday ( gsb_data_transaction_get_date (gsb_data_transaction_get_transaction_number (operation)))  != (etat_courant -> jour_debut_semaine + 1 )
+		 ( g_date_weekday ( gsb_data_transaction_get_date (gsb_data_transaction_get_transaction_number (operation)))  != (gsb_data_report_get_period_split_day (current_report_number)+ 1 )
 		   &&
 		   g_date_compare ( gsb_data_transaction_get_date (gsb_data_transaction_get_transaction_number (operation)),
 				    date_tmp ) < 0 ))
@@ -834,14 +861,14 @@ gint etat_affiche_affiche_total_periode ( gpointer operation, gint ligne, gint f
 
 	    /* on doit retrouver la date du début de semaine et y ajouter 6j pour afficher la période */
 
-	    if ( g_date_weekday ( date_debut_periode )  != (etat_courant -> jour_debut_semaine + 1 ))
+	    if ( g_date_weekday ( date_debut_periode )  != (gsb_data_report_get_period_split_day (current_report_number)+ 1 ))
 	    {
-		if ( g_date_weekday ( date_debut_periode ) < (etat_courant -> jour_debut_semaine + 1 ))
+		if ( g_date_weekday ( date_debut_periode ) < (gsb_data_report_get_period_split_day (current_report_number)+ 1 ))
 		    g_date_subtract_days ( date_debut_periode,
-					   g_date_weekday ( date_debut_periode ) + etat_courant -> jour_debut_semaine - 2 );
+					   g_date_weekday ( date_debut_periode ) + gsb_data_report_get_period_split_day (current_report_number)- 2 );
 		else
 		    g_date_subtract_days ( date_debut_periode,
-					   g_date_weekday ( date_debut_periode ) - etat_courant -> jour_debut_semaine - 1 );
+					   g_date_weekday ( date_debut_periode ) - gsb_data_report_get_period_split_day (current_report_number)- 1 );
 	    }
 
 
@@ -852,7 +879,7 @@ gint etat_affiche_affiche_total_periode ( gpointer operation, gint ligne, gint f
 					g_date_year ( date_debut_periode ));
 	    g_date_add_days ( date_tmp,
 			      6 );
-	    if ( etat_courant -> afficher_nb_opes )
+	    if ( gsb_data_report_get_show_report_transaction_amount (current_report_number))
 	    {
 		if ( nb_ope_periode_etat <= 1 )
 		    text = g_strdup_printf ( _("Result from %s to %s (%d transaction):"),
@@ -885,7 +912,7 @@ gint etat_affiche_affiche_total_periode ( gpointer operation, gint ligne, gint f
 			      "%B %Y",
 			      date_debut_periode );
 
-	    if ( etat_courant -> afficher_nb_opes )
+	    if ( gsb_data_report_get_show_report_transaction_amount (current_report_number))
 	    {
 		if ( nb_ope_periode_etat <= 1 )
 		    text = g_strdup_printf ( COLON(_("Result of %s (%d transaction)")),
@@ -913,7 +940,7 @@ gint etat_affiche_affiche_total_periode ( gpointer operation, gint ligne, gint f
 			      "%Y",
 			      date_debut_periode );
 
-	    if ( etat_courant -> afficher_nb_opes )
+	    if ( gsb_data_report_get_show_report_transaction_amount (current_report_number))
 	    {
 		if ( nb_ope_periode_etat <= 1 )
 		    text = g_strdup_printf ( COLON(_("Result for %s (%d transaction)")),
@@ -956,7 +983,7 @@ gint etat_affiche_affiche_total_periode ( gpointer operation, gint ligne, gint f
 	    /*  il y a une opération, on va rechercher le début de la période qui la contient */
 	    /* ça peut être le début de la semaine, du mois ou de l'année de l'opé */
 
-	    switch ( etat_courant -> type_separation_plage )
+	    switch ( gsb_data_report_get_period_split_type (current_report_number))
 	    {
 		case 0:
 		    /* séparation par semaine : on recherche le début de la semaine qui contient l'opé */
@@ -965,14 +992,14 @@ gint etat_affiche_affiche_total_periode ( gpointer operation, gint ligne, gint f
 							  g_date_month ( gsb_data_transaction_get_date (gsb_data_transaction_get_transaction_number (operation))),
 							  g_date_year ( gsb_data_transaction_get_date (gsb_data_transaction_get_transaction_number (operation))));
 
-		    if ( g_date_weekday ( date_debut_periode )  != (etat_courant -> jour_debut_semaine + 1 ))
+		    if ( g_date_weekday ( date_debut_periode )  != (gsb_data_report_get_period_split_day (current_report_number)+ 1 ))
 		    {
-			if ( g_date_weekday ( date_debut_periode ) < (etat_courant -> jour_debut_semaine + 1 ))
+			if ( g_date_weekday ( date_debut_periode ) < (gsb_data_report_get_period_split_day (current_report_number)+ 1 ))
 			    g_date_subtract_days ( date_debut_periode,
-						   g_date_weekday ( date_debut_periode ) + etat_courant -> jour_debut_semaine - 2 );
+						   g_date_weekday ( date_debut_periode ) + gsb_data_report_get_period_split_day (current_report_number)- 2 );
 			else
 			    g_date_subtract_days ( date_debut_periode,
-						   g_date_weekday ( date_debut_periode ) - etat_courant -> jour_debut_semaine - 1 );
+						   g_date_weekday ( date_debut_periode ) - gsb_data_report_get_period_split_day (current_report_number)- 1 );
 		    }
 		    break;
 
@@ -1012,7 +1039,11 @@ gint etat_affiche_affiche_total_periode ( gpointer operation, gint ligne, gint f
 /*****************************************************************************************************/
 gint etat_affiche_affiche_total_exercice ( gpointer operation, gint ligne, gint force )
 {
-    if ( etat_courant -> separation_par_exo )
+    gint current_report_number;
+
+    current_report_number = gsb_gui_navigation_get_current_report ();
+
+    if ( gsb_data_report_get_financial_year_split (current_report_number))
     {
 	gchar *text;
 
@@ -1037,7 +1068,7 @@ gint etat_affiche_affiche_total_exercice ( gpointer operation, gint ligne, gint 
 	if ( exo_en_cours_etat )
 	{
 	    /* 	    les opés ont un exo */
-	    if ( etat_courant -> afficher_nb_opes )
+	    if ( gsb_data_report_get_show_report_transaction_amount (current_report_number))
 	    {
 		if ( nb_ope_periode_etat <= 1 )
 		    text = g_strdup_printf ( COLON(_("Result of %s (%d transaction)")),
@@ -1055,7 +1086,7 @@ gint etat_affiche_affiche_total_exercice ( gpointer operation, gint ligne, gint 
 	else
 	{
 	    /* 	    les opés n'ont pas d'exo */
-	    if ( etat_courant -> afficher_nb_opes )
+	    if ( gsb_data_report_get_show_report_transaction_amount (current_report_number))
 	    {
 		if ( nb_ope_periode_etat <= 1 )
 		    text = g_strdup_printf ( COLON(_("Result without financial year (%d transaction)")),
@@ -1109,10 +1140,14 @@ gint etat_affiche_affichage_ligne_ope ( gpointer operation,
 {
     gint colonne;
     gchar *text;
+    gint current_report_number;
+
+    current_report_number = gsb_gui_navigation_get_current_report ();
+
 
     /* on met tous les labels dans un event_box pour aller directement sur l'opé si elle est clickée */
 
-    if ( etat_courant -> afficher_opes )
+    if ( gsb_data_report_get_show_report_transactions (current_report_number))
     {
 	/* on affiche ce qui est demandé pour les opés */
 
@@ -1124,9 +1159,9 @@ gint etat_affiche_affichage_ligne_ope ( gpointer operation,
 
 	if ( !titres_affiches
 	     &&
-	     etat_courant -> afficher_titre_colonnes
+	     gsb_data_report_get_column_title_show (current_report_number)
 	     &&
-	     etat_courant -> type_affichage_titres )
+	     gsb_data_report_get_column_title_type (current_report_number))
 	    ligne = etat_affiche_affiche_titres_colonnes ( ligne );
 
 	colonne = 1;
@@ -1134,11 +1169,11 @@ gint etat_affiche_affichage_ligne_ope ( gpointer operation,
 	/*       pour chaque info, on vérifie si on l'opé doit être clickable */
 	/* si c'est le cas, on place le label dans un event_box */
 
-	if ( etat_courant -> afficher_no_ope )
+	if ( gsb_data_report_get_show_report_transaction_number (current_report_number))
 	{
 	    text = utils_str_itoa ( transaction_number);
 
-	    if ( etat_courant -> ope_clickables )
+	    if ( gsb_data_report_get_report_can_click (current_report_number))
 	    {
 		etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, operation );
 	    }
@@ -1151,11 +1186,11 @@ gint etat_affiche_affichage_ligne_ope ( gpointer operation,
 	    colonne = colonne + 2;
 	}
 
-	if ( etat_courant -> afficher_date_ope )
+	if ( gsb_data_report_get_show_report_date (current_report_number))
 	{
 	    text = gsb_format_gdate ( gsb_data_transaction_get_date (transaction_number));
 
-	    if ( etat_courant -> ope_clickables )
+	    if ( gsb_data_report_get_report_can_click (current_report_number))
 	    {
 		etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, operation );
 	    }
@@ -1168,13 +1203,13 @@ gint etat_affiche_affichage_ligne_ope ( gpointer operation,
 	    colonne = colonne + 2;
 	}
 
-	if ( etat_courant -> afficher_exo_ope )
+	if ( gsb_data_report_get_show_report_financial_year (current_report_number))
 	{
 	    if ( gsb_data_transaction_get_financial_year_number ( transaction_number))
 	    {
 		text = exercice_name_by_no ( gsb_data_transaction_get_financial_year_number ( transaction_number));
 
-		if ( etat_courant -> ope_clickables )
+		if ( gsb_data_report_get_report_can_click (current_report_number))
 		{
 		    etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, operation );
 		}
@@ -1188,13 +1223,13 @@ gint etat_affiche_affichage_ligne_ope ( gpointer operation,
 	}
 
 
-	if ( etat_courant -> afficher_tiers_ope )
+	if ( gsb_data_report_get_show_report_payee (current_report_number))
 	{
 	    if ( gsb_data_transaction_get_party_number ( transaction_number))
 	    {
 		text = gsb_data_payee_get_name ( gsb_data_transaction_get_party_number ( transaction_number), TRUE );
 
-		if ( etat_courant -> ope_clickables )
+		if ( gsb_data_report_get_report_can_click (current_report_number))
 		{
 		    etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, operation );
 		}
@@ -1208,7 +1243,7 @@ gint etat_affiche_affichage_ligne_ope ( gpointer operation,
 	    colonne = colonne + 2;
 	}
 
-	if ( etat_courant -> afficher_categ_ope )
+	if ( gsb_data_report_get_show_report_category (current_report_number))
 	{
 	    gchar *pointeur;
 
@@ -1236,7 +1271,7 @@ gint etat_affiche_affichage_ligne_ope ( gpointer operation,
 
 	    if ( pointeur )
 	    {
-		if ( etat_courant -> ope_clickables )
+		if ( gsb_data_report_get_report_can_click (current_report_number))
 		{
 		    etat_affiche_attach_label ( pointeur, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, operation );
 		}
@@ -1251,7 +1286,7 @@ gint etat_affiche_affichage_ligne_ope ( gpointer operation,
 	}
 
 
-	if ( etat_courant -> afficher_ib_ope )
+	if ( gsb_data_report_get_show_report_budget (current_report_number))
 	{
 	    if ( gsb_data_transaction_get_budgetary_number ( transaction_number))
 	    {
@@ -1261,7 +1296,7 @@ gint etat_affiche_affichage_ligne_ope ( gpointer operation,
 						      gsb_data_transaction_get_sub_budgetary_number ( transaction_number),
 						      NULL );
 
-		if ( etat_courant -> ope_clickables )
+		if ( gsb_data_report_get_report_can_click (current_report_number))
 		{
 		    etat_affiche_attach_label ( pointeur, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, operation );
 		}
@@ -1276,13 +1311,13 @@ gint etat_affiche_affichage_ligne_ope ( gpointer operation,
 	}
 
 
-	if ( etat_courant -> afficher_notes_ope )
+	if ( gsb_data_report_get_show_report_note (current_report_number))
 	{
 	    if ( gsb_data_transaction_get_notes ( transaction_number))
 	    {
 		text =  gsb_data_transaction_get_notes ( transaction_number);
 
-		if ( etat_courant -> ope_clickables )
+		if ( gsb_data_report_get_report_can_click (current_report_number))
 		{
 		    etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, operation );
 		}
@@ -1300,13 +1335,13 @@ gint etat_affiche_affichage_ligne_ope ( gpointer operation,
 	    colonne = colonne + 2;
 	}
 
-	if ( etat_courant -> afficher_type_ope )
+	if ( gsb_data_report_get_show_report_method_of_payment (current_report_number))
 	{
 	    text = type_ope_name_by_no ( gsb_data_transaction_get_method_of_payment_number ( transaction_number),
 					 gsb_data_transaction_get_account_number (transaction_number));
 	    if ( text )
 	    {
-		if ( etat_courant -> ope_clickables )
+		if ( gsb_data_report_get_report_can_click (current_report_number))
 		{
 		    etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, operation );
 		}
@@ -1321,7 +1356,7 @@ gint etat_affiche_affichage_ligne_ope ( gpointer operation,
 	}
 
 
-	if ( etat_courant -> afficher_cheque_ope )
+	if ( gsb_data_report_get_show_report_method_of_payment_content (current_report_number))
 	{
 	    /* Si l'opération est une opération de ventilation, il faut rechercher
 	       l'opération mère pour pouvoir récupérer le n° du chèque */
@@ -1361,7 +1396,7 @@ gint etat_affiche_affichage_ligne_ope ( gpointer operation,
 	    {
 		text = gsb_data_transaction_get_method_of_payment_content ( transaction_number);
 
-		if ( etat_courant -> ope_clickables )
+		if ( gsb_data_report_get_report_can_click (current_report_number))
 		{
 		    etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, operation );
 		}
@@ -1376,13 +1411,13 @@ gint etat_affiche_affichage_ligne_ope ( gpointer operation,
 	}
 
 
-	if ( etat_courant -> afficher_pc_ope )
+	if ( gsb_data_report_get_show_report_voucher (current_report_number))
 	{
 	    if ( gsb_data_transaction_get_voucher ( transaction_number))
 	    {
 		text = gsb_data_transaction_get_voucher ( transaction_number);
 
-		if ( etat_courant -> ope_clickables )
+		if ( gsb_data_report_get_report_can_click (current_report_number))
 		{
 		    etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, operation );
 		}
@@ -1398,13 +1433,13 @@ gint etat_affiche_affichage_ligne_ope ( gpointer operation,
 
 
 
-	if ( etat_courant -> afficher_infobd_ope )
+	if ( gsb_data_report_get_show_report_bank_references (current_report_number))
 	{
 	    if ( gsb_data_transaction_get_bank_references ( transaction_number))
 	    {
 		text = gsb_data_transaction_get_bank_references ( transaction_number);
 
-		if ( etat_courant -> ope_clickables )
+		if ( gsb_data_report_get_report_can_click (current_report_number))
 		{
 		    etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, operation );
 		}
@@ -1418,13 +1453,13 @@ gint etat_affiche_affichage_ligne_ope ( gpointer operation,
 	    colonne = colonne + 2;
 	}
 
-	if ( etat_courant -> afficher_rappr_ope )
+	if ( gsb_data_report_get_show_report_marked (current_report_number))
 	{
 	    text = rapprochement_name_by_no ( gsb_data_transaction_get_reconcile_number ( transaction_number));
 
 	    if ( text )
 	    {
-		    if ( etat_courant -> ope_clickables )
+		    if ( gsb_data_report_get_report_can_click (current_report_number))
 		    {
 			etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, operation );
 		    }
@@ -1448,7 +1483,7 @@ gint etat_affiche_affichage_ligne_ope ( gpointer operation,
 	else
 	    text = g_strdup_printf  ( _("%4.2f %s"), gsb_data_transaction_get_amount ( transaction_number), devise_code_by_no ( gsb_data_transaction_get_currency_number ( transaction_number)) );
 
-	if ( etat_courant -> ope_clickables )
+	if ( gsb_data_report_get_report_can_click (current_report_number))
 	{
 	    etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, RIGHT, operation );
 	}
@@ -1474,6 +1509,10 @@ gint etat_affiche_affiche_total_partiel ( gdouble total_partie,
 					  gint type )
 {
     gchar * text;
+    gint current_report_number;
+
+    current_report_number = gsb_gui_navigation_get_current_report ();
+
 
     etat_affiche_attach_label ( NULL, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, CENTER, NULL );
     ligne++;
@@ -1483,7 +1522,7 @@ gint etat_affiche_affiche_total_partiel ( gdouble total_partie,
 
     if ( type )
     {
-	if ( etat_courant -> afficher_nb_opes )
+	if ( gsb_data_report_get_show_report_transaction_amount (current_report_number))
 	{
 	    if ( nb_ope_partie_etat <= 1 )
 		text = g_strdup_printf ( COLON(_("Total expenses (%d transaction)")), nb_ope_partie_etat );
@@ -1495,7 +1534,7 @@ gint etat_affiche_affiche_total_partiel ( gdouble total_partie,
     }
     else
     {
-	if ( etat_courant -> afficher_nb_opes )
+	if ( gsb_data_report_get_show_report_transaction_amount (current_report_number))
 	{
 	    if ( nb_ope_partie_etat <= 1 )
 		text = g_strdup_printf ( COLON(_("Total income (%d transaction)")), nb_ope_partie_etat );
@@ -1535,6 +1574,10 @@ gint etat_affiche_affiche_total_general ( gdouble total_general,
 					  gint ligne )
 {
     gchar * text;
+    gint current_report_number;
+
+    current_report_number = gsb_gui_navigation_get_current_report ();
+
 
     etat_affiche_attach_label ( NULL, TEXT_NORMAL, 1, nb_colonnes, ligne, ligne + 1, CENTER, NULL );
     ligne++;
@@ -1542,7 +1585,7 @@ gint etat_affiche_affiche_total_general ( gdouble total_general,
     etat_affiche_attach_hsep ( 0, nb_colonnes, ligne, ligne + 1 );
     ligne++;
 
-    if ( etat_courant -> afficher_nb_opes )
+    if ( gsb_data_report_get_show_report_transaction_amount (current_report_number))
     {
 	if ( nb_ope_general_etat <= 1 )
 	    text = g_strdup_printf ( COLON(_("General total (%d transaction)")), nb_ope_general_etat );
@@ -1577,13 +1620,17 @@ gint etat_affiche_affiche_categ_etat ( gpointer operation,
 {
     gchar *pointeur_char;
     gint transaction_number;
+    gint current_report_number;
+
+    current_report_number = gsb_gui_navigation_get_current_report ();
+
 
     transaction_number = gsb_data_transaction_get_transaction_number (operation);
 
     /* vérifie qu'il y a un changement de catégorie */
     /* ça peut être aussi chgt pour virement, ventilation ou pas de categ */
 
-    if ( etat_courant -> utilise_categ
+    if ( gsb_data_report_get_category_used (current_report_number)
 	 &&
 	 ( gsb_data_transaction_get_category_number ( transaction_number)!= ancienne_categ_etat
 	   ||
@@ -1626,7 +1673,7 @@ gint etat_affiche_affiche_categ_etat ( gpointer operation,
 
 	/*       si on a demandé de ne pas afficher les noms des catég, on saute la partie suivante */
 
-	if ( etat_courant -> afficher_nom_categ )
+	if ( gsb_data_report_get_category_show_name (current_report_number))
 	{
 	    if ( gsb_data_transaction_get_category_number ( transaction_number))
 	    {
@@ -1692,10 +1739,14 @@ gint etat_affiche_affiche_sous_categ_etat ( gpointer operation,
 					    gint ligne )
 {
     gchar *pointeur_char;
+    gint current_report_number;
 
-    if ( etat_courant -> utilise_categ
+    current_report_number = gsb_gui_navigation_get_current_report ();
+
+
+    if ( gsb_data_report_get_category_used (current_report_number)
 	 &&
-	 etat_courant -> afficher_sous_categ
+	 gsb_data_report_get_category_show_sub_category (current_report_number)
 	 &&
 	 gsb_data_transaction_get_category_number ( gsb_data_transaction_get_transaction_number (operation ))
 	 &&
@@ -1725,7 +1776,7 @@ gint etat_affiche_affiche_sous_categ_etat ( gpointer operation,
 
 	/*       si on a demandé de ne pas afficher les noms des ss-catég, on saute la partie suivante */
 
-	if ( etat_courant -> afficher_nom_categ )
+	if ( gsb_data_report_get_category_show_name (current_report_number))
 	{
 	    gint transaction_number;
 
@@ -1737,7 +1788,7 @@ gint etat_affiche_affiche_sous_categ_etat ( gpointer operation,
 
 	    if ( !pointeur_char )
 	    {
-		if ( etat_courant -> afficher_pas_de_sous_categ )
+		if ( gsb_data_report_get_category_show_without_category (current_report_number))
 		    pointeur_char = g_strconcat ( decalage_sous_categ,
 						  _("No subcategory"),
 						  NULL );
@@ -1772,11 +1823,15 @@ gint etat_affiche_affiche_ib_etat ( gpointer operation,
 				    gint ligne )
 {
     gchar *pointeur_char;
+    gint current_report_number;
+
+    current_report_number = gsb_gui_navigation_get_current_report ();
+
 
     /* mise en place de l'ib */
 
 
-    if ( etat_courant -> utilise_ib
+    if ( gsb_data_report_get_budget_used (current_report_number)
 	 &&
 	 gsb_data_transaction_get_budgetary_number ( gsb_data_transaction_get_transaction_number (operation )) != ancienne_ib_etat )
     {
@@ -1804,7 +1859,7 @@ gint etat_affiche_affiche_ib_etat ( gpointer operation,
 
 	/*       si on a demandé de ne pas afficher les noms des ib, on saute la partie suivante */
 
-	if ( etat_courant -> afficher_nom_ib )
+	if ( gsb_data_report_get_budget_show_name (current_report_number))
 	{
 	    if ( gsb_data_transaction_get_budgetary_number ( gsb_data_transaction_get_transaction_number (operation )))
 	    {
@@ -1848,14 +1903,18 @@ gint etat_affiche_affiche_sous_ib_etat ( gpointer operation,
 					 gint ligne )
 {
     gchar *pointeur_char;
+    gint current_report_number;
+
+    current_report_number = gsb_gui_navigation_get_current_report ();
+
 
 
     /* mise en place de la sous_ib */
 
 
-    if ( etat_courant -> utilise_ib
+    if ( gsb_data_report_get_budget_used (current_report_number)
 	 &&
-	 etat_courant -> afficher_sous_ib
+	 gsb_data_report_get_budget_show_sub_budget (current_report_number)
 	 &&
 	 gsb_data_transaction_get_budgetary_number ( gsb_data_transaction_get_transaction_number (operation ))
 	 &&
@@ -1885,7 +1944,7 @@ gint etat_affiche_affiche_sous_ib_etat ( gpointer operation,
 
 	/*       si on a demandé de ne pas afficher les noms des ss-ib, on saute la partie suivante */
 
-	if ( etat_courant -> afficher_nom_ib )
+	if ( gsb_data_report_get_budget_show_name (current_report_number))
 	{
 	    nom_ss_ib_en_cours = gsb_data_budget_get_sub_budget_name ( gsb_data_transaction_get_budgetary_number ( gsb_data_transaction_get_transaction_number (operation )),
 								       gsb_data_transaction_get_sub_budgetary_number ( gsb_data_transaction_get_transaction_number (operation )),
@@ -1896,7 +1955,7 @@ gint etat_affiche_affiche_sous_ib_etat ( gpointer operation,
 					      NULL );
 	    else
 	    {
-		if ( etat_courant -> afficher_pas_de_sous_ib )
+		if ( gsb_data_report_get_budget_show_without_budget (current_report_number))
 		    pointeur_char = g_strconcat ( decalage_sous_ib,
 						  _("No sub-budgetary line"),
 						  NULL );
@@ -1931,10 +1990,14 @@ gint etat_affiche_affiche_compte_etat ( gpointer operation,
 					gint ligne )
 {
     gchar *pointeur_char;
+    gint current_report_number;
+
+    current_report_number = gsb_gui_navigation_get_current_report ();
+
 
     /* mise en place du compte */
 
-    if ( etat_courant -> regroupe_ope_par_compte
+    if ( gsb_data_report_get_account_group_reports (current_report_number)
 	 &&
 	 gsb_data_transaction_get_account_number (gsb_data_transaction_get_transaction_number (operation)) != ancien_compte_etat )
     {
@@ -1962,7 +2025,7 @@ gint etat_affiche_affiche_compte_etat ( gpointer operation,
 
 	/*       si on a demandé de ne pas afficher les noms des comptes, on saute la partie suivante */
 
-	if ( etat_courant -> afficher_nom_compte )
+	if ( gsb_data_report_get_account_show_name (current_report_number))
 	{
 	    pointeur_char = g_strconcat ( decalage_compte,
 					  gsb_data_account_get_name (gsb_data_transaction_get_account_number (gsb_data_transaction_get_transaction_number (operation))),
@@ -1996,10 +2059,14 @@ gint etat_affiche_affiche_tiers_etat ( gpointer operation,
 				       gint ligne )
 {
     gchar *pointeur_char;
+    gint current_report_number;
+
+    current_report_number = gsb_gui_navigation_get_current_report ();
+
 
     /* affiche le tiers */
 
-    if ( etat_courant -> utilise_tiers
+    if ( gsb_data_report_get_payee_used (current_report_number)
 	 &&
 	 gsb_data_transaction_get_party_number ( gsb_data_transaction_get_transaction_number (operation )) != ancien_tiers_etat )
     {
@@ -2027,7 +2094,7 @@ gint etat_affiche_affiche_tiers_etat ( gpointer operation,
 
 	/*       si on a demandé de ne pas afficher les noms des tiers, on saute la partie suivante */
 
-	if ( etat_courant -> afficher_nom_tiers )
+	if ( gsb_data_report_get_payee_show_name (current_report_number))
 	{
 	    if ( gsb_data_transaction_get_party_number ( gsb_data_transaction_get_transaction_number (operation )))
 	    {
@@ -2109,10 +2176,14 @@ gint etat_affiche_affiche_totaux_sous_jaccent ( gint origine,
 						gint ligne )
 {
     GSList *pointeur_glist;
+    gint current_report_number;
+
+    current_report_number = gsb_gui_navigation_get_current_report ();
+
 
     /* on doit partir du bout de la liste pour revenir vers la structure demandée */
     
-    pointeur_glist = g_slist_reverse (g_slist_copy ( etat_courant -> type_classement ));
+    pointeur_glist = g_slist_reverse (g_slist_copy ( gsb_data_report_get_sorting_type (current_report_number)));
 
     while ( GPOINTER_TO_INT ( pointeur_glist -> data ) != origine )
     {
@@ -2157,87 +2228,91 @@ gint etat_affiche_affiche_totaux_sous_jaccent ( gint origine,
 gint etat_affiche_affiche_titres_colonnes ( gint ligne )
 {
     gint colonne;
+    gint current_report_number;
+
+    current_report_number = gsb_gui_navigation_get_current_report ();
+
 
     colonne = 1;
 
-    if ( etat_courant -> afficher_no_ope )
+    if ( gsb_data_report_get_show_report_transaction_number (current_report_number))
     {
 	etat_affiche_attach_label ( _("Number"), TEXT_BOLD, colonne, colonne + 1, ligne, ligne + 1, CENTER, NULL );
 	etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
 	colonne = colonne + 2;
     }
 
-    if ( etat_courant -> afficher_date_ope )
+    if ( gsb_data_report_get_show_report_date (current_report_number))
     {
 	etat_affiche_attach_label ( _("Date"), TEXT_BOLD, colonne, colonne + 1, ligne, ligne + 1, CENTER, NULL );
 	etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
 	colonne = colonne + 2;
     }
 
-    if ( etat_courant -> afficher_exo_ope )
+    if ( gsb_data_report_get_show_report_financial_year (current_report_number))
     {
 	etat_affiche_attach_label ( _("Financial year"), TEXT_BOLD, colonne, colonne + 1, ligne, ligne + 1, CENTER, NULL );
 	etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
 	colonne = colonne + 2;
     }
 
-    if ( etat_courant -> afficher_tiers_ope )
+    if ( gsb_data_report_get_show_report_payee (current_report_number))
     {
 	etat_affiche_attach_label ( _("Payee"), TEXT_BOLD, colonne, colonne + 1, ligne, ligne + 1, CENTER, NULL );
 	etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
 	colonne = colonne + 2;
     }
 
-    if ( etat_courant -> afficher_categ_ope )
+    if ( gsb_data_report_get_show_report_category (current_report_number))
     {
 	etat_affiche_attach_label ( _("Category"), TEXT_BOLD, colonne, colonne + 1, ligne, ligne + 1, CENTER, NULL );
 	etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
 	colonne = colonne + 2;
     }
 
-    if ( etat_courant -> afficher_ib_ope )
+    if ( gsb_data_report_get_show_report_budget (current_report_number))
     {
 	etat_affiche_attach_label ( _("Budgetary line"), TEXT_BOLD, colonne, colonne + 1, ligne, ligne + 1, CENTER, NULL );
 	etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
 	colonne = colonne + 2;
     }
 
-    if ( etat_courant -> afficher_notes_ope )
+    if ( gsb_data_report_get_show_report_note (current_report_number))
     {
 	etat_affiche_attach_label ( _("Notes"), TEXT_BOLD, colonne, colonne + 1, ligne, ligne + 1, CENTER, NULL );
 	etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
 	colonne = colonne + 2;
     }
 
-    if ( etat_courant -> afficher_type_ope )
+    if ( gsb_data_report_get_show_report_method_of_payment (current_report_number))
     {
 	etat_affiche_attach_label ( _("Payment methods"), TEXT_BOLD, colonne, colonne + 1, ligne, ligne + 1, CENTER, NULL );
 	etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
 	colonne = colonne + 2;
     }
 
-    if ( etat_courant -> afficher_cheque_ope )
+    if ( gsb_data_report_get_show_report_method_of_payment_content (current_report_number))
     {
 	etat_affiche_attach_label ( _("Cheque"), TEXT_BOLD, colonne, colonne + 1, ligne, ligne + 1, CENTER, NULL );
 	etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
 	colonne = colonne + 2;
     }
 
-    if ( etat_courant -> afficher_pc_ope )
+    if ( gsb_data_report_get_show_report_voucher (current_report_number))
     {
 	etat_affiche_attach_label ( _("Voucher"), TEXT_BOLD, colonne, colonne + 1, ligne, ligne + 1, CENTER, NULL );
 	etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
 	colonne = colonne + 2;
     }
 
-    if ( etat_courant -> afficher_infobd_ope )
+    if ( gsb_data_report_get_show_report_bank_references (current_report_number))
     {
 	etat_affiche_attach_label ( _("Bank references"), TEXT_BOLD, colonne, colonne + 1, ligne, ligne + 1, CENTER, NULL );
 	etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
 	colonne = colonne + 2;
     }
 
-    if ( etat_courant -> afficher_rappr_ope )
+    if ( gsb_data_report_get_show_report_marked (current_report_number))
     {
 	etat_affiche_attach_label ( _("Statement"), TEXT_BOLD, colonne, colonne + 1, ligne, ligne + 1, CENTER, NULL );
 	etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );

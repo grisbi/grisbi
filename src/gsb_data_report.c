@@ -24,7 +24,7 @@
 /* ************************************************************************** */
 
 /**
- * \file gsb_data_account.c
+ * \file gsb_data_report.c
  * work with the account structure, no GUI here
  */
 
@@ -33,6 +33,9 @@
 
 /*START_INCLUDE*/
 #include "gsb_data_report.h"
+#include "gsb_data_report_amout_comparison.h"
+#include "gsb_data_report_text_comparison.h"
+#include "utils_dates.h"
 /*END_INCLUDE*/
 
 /** \struct
@@ -102,7 +105,7 @@ typedef struct
 
     /** @name transfer part of the report */
     gint transfer_choice;   /* 0: no transfer / 1: transfers only on liabilities and assets accounts/2:transfer outside the report/3:perso */
-    GSList *transfer_account_numbers_perso;
+    GSList *transfer_account_numbers;
     gint transfer_reports_only;
 
     /** @name category part of the report */
@@ -154,243 +157,8 @@ typedef struct
 
 
 /*START_STATIC*/
-static gint gsb_data_report_get_account_group_reports ( gint report_number );
-static GSList *gsb_data_report_get_account_numbers ( gint report_number );
-static gint gsb_data_report_get_account_show_amount ( gint report_number );
-static gint gsb_data_report_get_account_show_name ( gint report_number );
-static gint gsb_data_report_get_account_use_chosen ( gint report_number );
-static gint gsb_data_report_get_amount_comparison_currency ( gint report_number );
-static GSList *gsb_data_report_get_amount_comparison_list ( gint report_number );
-static gint gsb_data_report_get_amount_comparison_only_report_non_null ( gint report_number );
-static gint gsb_data_report_get_amount_comparison_used ( gint report_number );
-static gint gsb_data_report_get_append_in_payee ( gint report_number );
-static gint gsb_data_report_get_budget_currency ( gint report_number );
-static gint gsb_data_report_get_budget_detail_used ( gint report_number );
-static GSList *gsb_data_report_get_budget_numbers ( gint report_number );
-static gint gsb_data_report_get_budget_only_report_with_budget ( gint report_number );
-static gint gsb_data_report_get_budget_show_budget_amount ( gint report_number );
-static gint gsb_data_report_get_budget_show_name ( gint report_number );
-static gint gsb_data_report_get_budget_show_sub_budget ( gint report_number );
-static gint gsb_data_report_get_budget_show_without_budget ( gint report_number );
-static gint gsb_data_report_get_budget_used ( gint report_number );
-static gint gsb_data_report_get_category_currency ( gint report_number );
-static gint gsb_data_report_get_category_detail_used ( gint report_number );
-static GSList *gsb_data_report_get_category_numbers ( gint report_number );
-static gint gsb_data_report_get_category_only_report_with_category ( gint report_number );
-static gint gsb_data_report_get_category_show_category_amount ( gint report_number );
-static gint gsb_data_report_get_category_show_name ( gint report_number );
-static gint gsb_data_report_get_category_show_sub_category ( gint report_number );
-static gint gsb_data_report_get_category_show_sub_category_amount ( gint report_number );
-static gint gsb_data_report_get_category_show_without_category ( gint report_number );
-static gint gsb_data_report_get_category_used ( gint report_number );
-static gint gsb_data_report_get_column_title_show ( gint report_number );
-static gint gsb_data_report_get_column_title_type ( gint report_number );
-static gint gsb_data_report_get_currency_general ( gint report_number );
-static gint gsb_data_report_get_date_type ( gint report_number );
-static GSList *gsb_data_report_get_financial_year_list ( gint report_number );
-static gint gsb_data_report_get_financial_year_split ( gint report_number );
-static gint gsb_data_report_get_financial_year_type ( gint report_number );
-static GSList *gsb_data_report_get_list_reports ( void );
-static GSList *gsb_data_report_get_method_of_payment_list ( gint report_number );
-static gint gsb_data_report_get_method_of_payment_used ( gint report_number );
-static gint gsb_data_report_get_not_detail_breakdown ( gint report_number );
-static gint gsb_data_report_get_payee_currency ( gint report_number );
-static gint gsb_data_report_get_payee_detail_used ( gint report_number );
-static GSList *gsb_data_report_get_payee_numbers ( gint report_number );
-static gint gsb_data_report_get_payee_show_name ( gint report_number );
-static gint gsb_data_report_get_payee_show_payee_amount ( gint report_number );
-static gint gsb_data_report_get_payee_used ( gint report_number );
-static gint gsb_data_report_get_period_split ( gint report_number );
-static gint gsb_data_report_get_period_split_day ( gint report_number );
-static gint gsb_data_report_get_period_split_type ( gint report_number );
-static GDate *gsb_data_report_get_personal_date_end ( gint report_number );
-static GDate *gsb_data_report_get_personal_date_start ( gint report_number );
-static struct_report *gsb_data_report_get_report_by_no ( gint report_number );
-static gint gsb_data_report_get_report_can_click ( gint report_number );
-static gchar *gsb_data_report_get_report_name ( gint report_number );
-static gint gsb_data_report_get_show_r ( gint report_number );
-static gint gsb_data_report_get_show_report_bank_references ( gint report_number );
-static gint gsb_data_report_get_show_report_budget ( gint report_number );
-static gint gsb_data_report_get_show_report_category ( gint report_number );
-static gint gsb_data_report_get_show_report_date ( gint report_number );
-static gint gsb_data_report_get_show_report_financial_year ( gint report_number );
-static gint gsb_data_report_get_show_report_marked ( gint report_number );
-static gint gsb_data_report_get_show_report_method_of_payment ( gint report_number );
-static gint gsb_data_report_get_show_report_method_of_payment_content ( gint report_number );
-static gint gsb_data_report_get_show_report_note ( gint report_number );
-static gint gsb_data_report_get_show_report_payee ( gint report_number );
-static gint gsb_data_report_get_show_report_sub_budget ( gint report_number );
-static gint gsb_data_report_get_show_report_sub_category ( gint report_number );
-static gint gsb_data_report_get_show_report_transaction_amount ( gint report_number );
-static gint gsb_data_report_get_show_report_transaction_number ( gint report_number );
-static gint gsb_data_report_get_show_report_transactions ( gint report_number );
-static gint gsb_data_report_get_show_report_voucher ( gint report_number );
-static gint gsb_data_report_get_sorting_report ( gint report_number );
-static GSList *gsb_data_report_get_sorting_type ( gint report_number );
-static gint gsb_data_report_get_split_credit_debit ( gint report_number );
-static GSList *gsb_data_report_get_text_comparison_list ( gint report_number );
-static gint gsb_data_report_get_text_comparison_used ( gint report_number );
-static GSList *gsb_data_report_get_transfer_account_numbers_perso ( gint report_number );
-static gint gsb_data_report_get_transfer_choice ( gint report_number );
-static gint gsb_data_report_get_transfer_reports_only ( gint report_number );
-static gint gsb_data_report_get_use_financial_year ( gint report_number );
-static gboolean gsb_data_report_init_variables ( void );
-static gboolean gsb_data_report_set_account_group_reports ( gint report_number,
-						     gint account_group_reports );
-static gboolean gsb_data_report_set_account_numbers ( gint report_number,
-					       GSList *account_numbers );
-static gboolean gsb_data_report_set_account_show_amount ( gint report_number,
-						   gint account_show_amount );
-static gboolean gsb_data_report_set_account_show_name ( gint report_number,
-						 gint account_show_name );
-static gboolean gsb_data_report_set_account_use_choosen ( gint report_number,
-						   gint account_use_chosen );
-static gboolean gsb_data_report_set_amount_comparison_currency ( gint report_number,
-							  gint amount_comparison_currency );
-static gboolean gsb_data_report_set_amount_comparison_list ( gint report_number,
-						      GSList *amount_comparison_list );
-static gboolean gsb_data_report_set_amount_comparison_only_report_non_null ( gint report_number,
-								      gint amount_comparison_only_report_non_null );
-static gboolean gsb_data_report_set_amount_comparison_used ( gint report_number,
-						      gint amount_comparison_used );
-static gboolean gsb_data_report_set_append_in_payee ( gint report_number,
-					       gint append_in_payee );
-static gboolean gsb_data_report_set_budget_currency ( gint report_number,
-					       gint budget_currency );
-static gboolean gsb_data_report_set_budget_detail_used ( gint report_number,
-						  gint budget_detail_used );
-static gboolean gsb_data_report_set_budget_numbers ( gint report_number,
-					      GSList *budget_numbers );
-static gboolean gsb_data_report_set_budget_only_report_with_budget ( gint report_number,
-							      gint budget_only_report_with_budget );
-static gboolean gsb_data_report_set_budget_show_budget_amount ( gint report_number,
-							 gint budget_show_budget_amount );
-static gboolean gsb_data_report_set_budget_show_name ( gint report_number,
-						gint budget_show_name );
-static gboolean gsb_data_report_set_budget_show_sub_budget ( gint report_number,
-						      gint budget_show_sub_budget );
-static gboolean gsb_data_report_set_budget_show_without_budget ( gint report_number,
-							  gint budget_show_without_budget );
-static gboolean gsb_data_report_set_budget_used ( gint report_number,
-					   gint budget_used );
-static gboolean gsb_data_report_set_category_currency ( gint report_number,
-						 gint category_currency );
-static gboolean gsb_data_report_set_category_detail_used ( gint report_number,
-						    gint category_detail_used );
-static gboolean gsb_data_report_set_category_numbers ( gint report_number,
-						GSList *category_numbers );
-static gboolean gsb_data_report_set_category_only_report_with_category ( gint report_number,
-								  gint category_only_report_with_category );
-static gboolean gsb_data_report_set_category_show_category_amount ( gint report_number,
-							     gint category_show_category_amount );
-static gboolean gsb_data_report_set_category_show_name ( gint report_number,
-						  gint category_show_name );
-static gboolean gsb_data_report_set_category_show_sub_category ( gint report_number,
-							  gint category_show_sub_category );
-static gboolean gsb_data_report_set_category_show_sub_category_amount ( gint report_number,
-								 gint category_show_sub_category_amount );
-static gboolean gsb_data_report_set_category_show_without_category ( gint report_number,
-							      gint category_show_without_category );
-static gboolean gsb_data_report_set_category_used ( gint report_number,
-					     gint category_used );
-static gboolean gsb_data_report_set_column_title_show ( gint report_number,
-						 gint column_title_show );
-static gboolean gsb_data_report_set_column_title_type ( gint report_number,
-						 gint column_title_type );
-static gboolean gsb_data_report_set_currency_general ( gint report_number,
-						gint currency_general );
-static gboolean gsb_data_report_set_date_type ( gint report_number,
-					 gint date_type );
-static gboolean gsb_data_report_set_financial_year_list ( gint report_number,
-						   GSList *financial_year_list );
-static gboolean gsb_data_report_set_financial_year_split ( gint report_number,
-						    gint financial_year_split );
-static gboolean gsb_data_report_set_financial_year_type ( gint report_number,
-						   gint financial_year_type );
-static gboolean gsb_data_report_set_method_of_payment_list ( gint report_number,
-						      GSList *method_of_payment_list );
-static gboolean gsb_data_report_set_method_of_payment_used ( gint report_number,
-						      gint method_of_payment_used );
-static gboolean gsb_data_report_set_not_detail_breakdown ( gint report_number,
-						    gint not_detail_breakdown );
-static gboolean gsb_data_report_set_payee_currency ( gint report_number,
-					      gint payee_currency );
-static gboolean gsb_data_report_set_payee_detail_used ( gint report_number,
-						 gint payee_detail_used );
-static gboolean gsb_data_report_set_payee_numbers ( gint report_number,
-					     GSList *payee_numbers );
-static gboolean gsb_data_report_set_payee_show_name ( gint report_number,
-					       gint payee_show_name );
-static gboolean gsb_data_report_set_payee_show_payee_amount ( gint report_number,
-						       gint payee_show_payee_amount );
-static gboolean gsb_data_report_set_payee_used ( gint report_number,
-					  gint payee_used );
-static gboolean gsb_data_report_set_period_split ( gint report_number,
-					    gint period_split );
-static gboolean gsb_data_report_set_period_split_day ( gint report_number,
-						gint period_split_day );
-static gboolean gsb_data_report_set_period_split_type ( gint report_number,
-						 gint period_split_type );
-static gboolean gsb_data_report_set_personal_date_end ( gint report_number,
-						 GDate *personal_date_end );
-static gboolean gsb_data_report_set_personal_date_start ( gint report_number,
-						   GDate *personal_date_start );
-static gboolean gsb_data_report_set_report_can_click ( gint report_number,
-						gint report_can_click );
-static gboolean gsb_data_report_set_report_name ( gint report_number,
-					   gchar *report_name );
-static gboolean gsb_data_report_set_show_r ( gint report_number,
-				      gint show_r );
-static gboolean gsb_data_report_set_show_report_bank_references ( gint report_number,
-							   gint show_report_bank_references );
-static gboolean gsb_data_report_set_show_report_budget ( gint report_number,
-						  gint show_report_budget );
-static gboolean gsb_data_report_set_show_report_category ( gint report_number,
-						    gint show_report_category );
-static gboolean gsb_data_report_set_show_report_date ( gint report_number,
-						gint show_report_date );
-static gboolean gsb_data_report_set_show_report_financial_year ( gint report_number,
-							  gint show_report_financial_year );
-static gboolean gsb_data_report_set_show_report_marked ( gint report_number,
-						  gint show_report_marked );
-static gboolean gsb_data_report_set_show_report_method_of_payment ( gint report_number,
-							     gint show_report_method_of_payment );
-static gboolean gsb_data_report_set_show_report_method_of_payment_content ( gint report_number,
-								     gint show_report_method_of_payment_content );
-static gboolean gsb_data_report_set_show_report_note ( gint report_number,
-						gint show_report_note );
-static gboolean gsb_data_report_set_show_report_payee ( gint report_number,
-						 gint show_report_payee );
-static gboolean gsb_data_report_set_show_report_sub_budget ( gint report_number,
-						      gint show_report_sub_budget );
-static gboolean gsb_data_report_set_show_report_sub_category ( gint report_number,
-							gint show_report_sub_category );
-static gboolean gsb_data_report_set_show_report_transaction_amount ( gint report_number,
-							      gint show_report_transaction_amount );
-static gboolean gsb_data_report_set_show_report_transaction_number ( gint report_number,
-							      gint show_report_transaction_number );
-static gboolean gsb_data_report_set_show_report_transactions ( gint report_number,
-							gint show_report_transactions );
-static gboolean gsb_data_report_set_show_report_voucher ( gint report_number,
-						   gint show_report_voucher );
-static gboolean gsb_data_report_set_sorting_report ( gint report_number,
-					      gint sorting_report );
-static gboolean gsb_data_report_set_sorting_type ( gint report_number,
-					    GSList *sorting_type );
-static gboolean gsb_data_report_set_split_credit_debit ( gint report_number,
-						  gint split_credit_debit );
-static gboolean gsb_data_report_set_text_comparison_list ( gint report_number,
-						    GSList *text_comparison_list );
-static gboolean gsb_data_report_set_text_comparison_used ( gint report_number,
-						    gint text_comparison_used );
-static gboolean gsb_data_report_set_transfer_account_numbers_perso ( gint report_number,
-							      GSList *transfer_account_numbers_perso );
-static gboolean gsb_data_report_set_transfer_choice ( gint report_number,
-					       gint transfer_choice );
-static gboolean gsb_data_report_set_transfer_reports_only ( gint report_number,
-						     gint transfer_reports_only );
-static gboolean gsb_data_report_set_use_financial_year ( gint report_number,
-						  gint use_financial_year );
+static  struct_report *gsb_data_report_get_report_by_no ( gint report_number );
+static gint gsb_data_report_max_number ( void );
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -400,10 +168,7 @@ extern     gchar * buffer ;
 
 
 /** contains a g_slist of struct_report */
-static GSList *list_reports;
-
-/** the number of the current report */
-static gint current_report;
+static GSList *report_list;
 
 /** a pointers to the last report used (to increase the speed) */
 static struct_report *report_buffer;
@@ -421,8 +186,7 @@ static struct_report *report_buffer;
 gboolean gsb_data_report_init_variables ( void )
 {
     report_buffer = NULL;
-    list_reports = NULL;
-    current_report = 0;
+    report_list = NULL;
 
     return FALSE;
 }
@@ -436,21 +200,20 @@ gboolean gsb_data_report_init_variables ( void )
  * 
  * \return a g_slist on the reports
  * */
-GSList *gsb_data_report_get_list_reports ( void )
+GSList *gsb_data_report_get_report_list ( void )
 {
-    return list_reports;
+    return report_list;
 }
 
-
 /**
- * return the report which the number is in the parameter. 
+ * return a pointer on the report which the number is in the parameter. 
  * that report is stored in the buffer
  * 
  * \param report_number
  * 
  * \return a pointer to the report, NULL if not found
  * */
-struct_report *gsb_data_report_get_report_by_no ( gint report_number )
+static struct_report *gsb_data_report_get_report_by_no ( gint report_number )
 {
     GSList *reports_list_tmp;
 
@@ -461,7 +224,7 @@ struct_report *gsb_data_report_get_report_by_no ( gint report_number )
 	 report_buffer -> report_number == report_number )
 	return report_buffer;
 
-    reports_list_tmp = list_reports;
+    reports_list_tmp = report_list;
 
     while ( reports_list_tmp )
     {
@@ -483,6 +246,207 @@ struct_report *gsb_data_report_get_report_by_no ( gint report_number )
     return NULL;
 }
 
+
+/**
+ * return the report which the number is in the parameter. 
+ * this is a transitionnal function which should be disappear
+ * 
+ * \param report_number
+ * 
+ * \return a pointer to the report, NULL if not found
+ * */
+gpointer gsb_data_report_get_pointer_to_report ( gint report_number )
+{
+    GSList *reports_list_tmp;
+
+    /* check first if the report is in the buffer */
+
+    if ( report_buffer
+	 &&
+	 report_buffer -> report_number == report_number )
+	return report_buffer;
+
+    reports_list_tmp = report_list;
+
+    while ( reports_list_tmp )
+    {
+	struct_report *report;
+
+	report = reports_list_tmp -> data;
+
+	if ( report -> report_number == report_number )
+	{
+	    report_buffer = report;
+	    return report;
+	}
+
+	reports_list_tmp = reports_list_tmp -> next;
+    }
+
+    /* here, we didn't find any report with that number */
+
+    return NULL;
+}
+
+
+/**
+ * get the number of the report and save the pointer in the buffer
+ * which will increase the speed later
+ * 
+ * \param report_pointer a pointer to a report
+ * 
+ * \return the number of the report
+ * */
+gint gsb_data_report_get_report_number ( gpointer report_pointer )
+{
+    struct_report *report;
+
+    report = report_pointer;
+
+    if ( !report )
+	return 0;
+
+    /* if we want the report number, usually it's to make other stuff after that
+     * so we will save the adr of the report to increase the speed after */
+
+    report_buffer = report;
+
+    return report -> report_number;
+}
+
+
+/** find and return the last number of report
+ * 
+ * \param none
+ *
+ * \return last number of report
+ * */
+gint gsb_data_report_max_number ( void )
+{
+    GSList *tmp;
+    gint number_tmp = 0;
+
+    tmp = report_list;
+
+    while ( tmp )
+    {
+	struct_report *report;
+
+	report = tmp -> data;
+
+	if ( report -> report_number > number_tmp )
+	    number_tmp = report -> report_number;
+
+	tmp = tmp -> next;
+    }
+    return number_tmp;
+}
+
+
+
+/**
+ * create a new report, give it a number, append it to the list
+ * and return the number
+ *
+ * \param name the name of the report (can be freed after, it's a copy) or NULL
+ *
+ * \return the number of the new report
+ * */
+gint gsb_data_report_new ( gchar *name )
+{
+    gint report_number;
+
+    /* create the new report with a new number */
+
+    report_number = gsb_data_report_new_with_number ( gsb_data_report_max_number () + 1 );
+
+    /* append the name if necessary */
+
+    if (name)
+	gsb_data_report_set_report_name ( report_number,
+					  name );
+
+    return report_number;
+}
+
+
+/**
+ * create a new report with a number, append it to the list
+ * and return the number
+ *
+ * \param number the number we want to give to that report
+ *
+ * \return the number of the new report
+ * */
+gint gsb_data_report_new_with_number ( gint number )
+{
+    struct_report *report;
+
+    report = calloc ( 1,
+		      sizeof ( struct_report ));
+    report -> report_number = number;
+
+    report_list = g_slist_append ( report_list,
+				   report );
+
+    report_buffer = report;
+
+    return report -> report_number;
+}
+
+
+/**
+ * remove a report
+ *
+ * \param no_report the report we want to remove
+ *
+ * \return TRUE ok
+ * */
+gboolean gsb_data_report_remove ( gint no_report )
+{
+    struct_report *report;
+    GSList *list_tmp;
+
+    report = gsb_data_report_get_report_by_no ( no_report );
+
+    if (!report)
+	return FALSE;
+
+    /* remove first the comparison */
+
+    list_tmp = report -> text_comparison_list;
+
+    while ( list_tmp )
+    {
+	gsb_data_report_text_comparison_remove ( GPOINTER_TO_INT (list_tmp -> data));
+
+	list_tmp = list_tmp -> next;
+    }
+
+    list_tmp = report -> amount_comparison_list;
+
+    while ( list_tmp )
+    {
+	gsb_data_report_amount_comparison_remove ( GPOINTER_TO_INT (list_tmp -> data));
+
+	list_tmp = list_tmp -> next;
+    }
+
+    g_slist_free (report -> financial_year_list);
+    g_slist_free (report -> sorting_type);
+    g_slist_free (report -> account_numbers);
+    g_slist_free (report -> transfer_account_numbers);
+    g_slist_free (report -> category_numbers);
+    g_slist_free (report -> budget_numbers);
+    g_slist_free (report -> payee_numbers);
+    g_slist_free (report -> method_of_payment_list);
+
+    report_list = g_slist_remove ( report_list,
+				   report );
+    g_free (report);
+
+    return TRUE;
+}
 
 
 /**
@@ -513,7 +477,7 @@ gchar *gsb_data_report_get_report_name ( gint report_number )
  * \return TRUE if ok
  * */
 gboolean gsb_data_report_set_report_name ( gint report_number,
-					   gchar *report_name )
+					   const gchar *report_name )
 {
     struct_report *report;
 
@@ -2017,7 +1981,7 @@ gint gsb_data_report_get_account_use_chosen ( gint report_number )
  *
  * \return TRUE if ok
  * */
-gboolean gsb_data_report_set_account_use_choosen ( gint report_number,
+gboolean gsb_data_report_set_account_use_chosen ( gint report_number,
 						   gint account_use_chosen )
 {
     struct_report *report;
@@ -2806,6 +2770,49 @@ gboolean gsb_data_report_set_budget_show_budget_amount ( gint report_number,
     return TRUE;
 }
 
+/**
+ * get the  budget_show_sub_budget_amount
+ * 
+ * \param report_number the number of the report
+ *
+ * \return the budget_show_sub_budget_amount  of the report, -1 if problem
+ * */
+gint gsb_data_report_get_budget_show_sub_budget_amount ( gint report_number )
+{
+    struct_report *report;
+
+    report = gsb_data_report_get_report_by_no (report_number);
+
+    if ( !report )
+	return -1;
+
+    return report -> budget_show_sub_budget_amount;
+}
+
+/** 
+ * set the budget_show_sub_budget_amount
+ * 
+ * \param report_number number of the report
+ * \param budget_show_sub_budget_amount
+ *
+ * \return TRUE if ok
+ * */
+gboolean gsb_data_report_set_budget_show_sub_budget_amount ( gint report_number,
+							 gint budget_show_sub_budget_amount )
+{
+    struct_report *report;
+
+    report = gsb_data_report_get_report_by_no (report_number);
+
+    if ( !report )
+	return FALSE;
+
+    report -> budget_show_sub_budget_amount = budget_show_sub_budget_amount;
+
+    return TRUE;
+}
+
+
 
 /**
  * get the  budget_only_report_with_budget
@@ -3535,13 +3542,13 @@ gboolean gsb_data_report_set_account_numbers ( gint report_number,
 }
 
 /**
- * get the  transfer_account_numbers_perso
+ * get the  transfer_account_numbers
  * 
  * \param report_number the number of the report
  *
- * \return the transfer_account_numbers_perso  of the report, -1 if problem
+ * \return the transfer_account_numbers  of the report, -1 if problem
  * */
-GSList *gsb_data_report_get_transfer_account_numbers_perso ( gint report_number )
+GSList *gsb_data_report_get_transfer_account_numbers ( gint report_number )
 {
     struct_report *report;
 
@@ -3550,19 +3557,19 @@ GSList *gsb_data_report_get_transfer_account_numbers_perso ( gint report_number 
     if ( !report )
 	return NULL;
 
-    return report -> transfer_account_numbers_perso;
+    return report -> transfer_account_numbers;
 }
 
 /** 
- * set the transfer_account_numbers_perso
+ * set the transfer_account_numbers
  * 
  * \param report_number number of the report
- * \param transfer_account_numbers_perso
+ * \param transfer_account_numbers
  *
  * \return TRUE if ok
  * */
-gboolean gsb_data_report_set_transfer_account_numbers_perso ( gint report_number,
-							      GSList *transfer_account_numbers_perso )
+gboolean gsb_data_report_set_transfer_account_numbers ( gint report_number,
+							GSList *transfer_account_numbers )
 {
     struct_report *report;
 
@@ -3571,7 +3578,7 @@ gboolean gsb_data_report_set_transfer_account_numbers_perso ( gint report_number
     if ( !report )
 	return FALSE;
 
-    report -> transfer_account_numbers_perso = transfer_account_numbers_perso;
+    report -> transfer_account_numbers = transfer_account_numbers;
 
     return TRUE;
 }
@@ -3830,3 +3837,80 @@ gboolean gsb_data_report_set_method_of_payment_list ( gint report_number,
 
 
 
+/**
+ * dupplicate the report
+ *
+ * \param report_number
+ *
+ * \return number of the new report
+ * */
+gint gsb_data_report_dup ( gint report_number )
+{
+    gint new_report_number;
+    struct_report *report;
+    struct_report *new_report;
+    GSList *list_tmp;
+
+    new_report_number = gsb_data_report_new ( NULL );
+
+    report = gsb_data_report_get_report_by_no (report_number);
+
+    if ( !report )
+	return 0;
+
+    new_report = gsb_data_report_get_report_by_no (new_report_number);
+
+    if ( !new_report )
+	return 0;
+
+    memcpy ( new_report,
+	     report,
+	     sizeof ( struct_report ));
+
+    /* we had to duplicate the strings, dates and lists */
+
+    new_report -> report_name = g_strdup ( report -> report_name );
+    new_report -> financial_year_list = g_slist_copy ( report -> financial_year_list );
+    new_report -> sorting_type = g_slist_copy ( report -> sorting_type );
+    new_report -> account_numbers = g_slist_copy ( report -> account_numbers );
+    new_report -> transfer_account_numbers = g_slist_copy ( report -> transfer_account_numbers );
+    new_report -> category_numbers = g_slist_copy ( report -> category_numbers );
+    new_report -> budget_numbers = g_slist_copy ( report -> budget_numbers );
+    new_report -> payee_numbers = g_slist_copy ( report -> payee_numbers );
+    new_report -> method_of_payment_list = g_slist_copy ( report -> method_of_payment_list );
+
+    new_report -> personal_date_start = gsb_date_copy ( report -> personal_date_start );
+    new_report -> personal_date_end = gsb_date_copy ( report -> personal_date_end );
+
+    list_tmp = report -> text_comparison_list;
+    new_report -> text_comparison_list = NULL;
+
+    while ( list_tmp )
+    {
+	gint text_comparison_number;
+
+	text_comparison_number = gsb_data_report_text_comparison_dup ( GPOINTER_TO_INT (list_tmp -> data));
+	gsb_data_report_text_comparison_set_report_number ( text_comparison_number,
+							    new_report_number );
+	new_report -> text_comparison_list = g_slist_append ( new_report -> text_comparison_list,
+							      GINT_TO_POINTER (text_comparison_number));
+	list_tmp = list_tmp -> next;
+    }
+
+    list_tmp = report -> amount_comparison_list;
+    new_report -> amount_comparison_list = NULL;
+
+    while ( list_tmp )
+    {
+	gint amount_comparison_number;
+
+	amount_comparison_number = gsb_data_report_amount_comparison_dup ( GPOINTER_TO_INT (list_tmp -> data));
+	gsb_data_report_amount_comparison_set_report_number ( amount_comparison_number,
+							      new_report_number );
+	new_report -> amount_comparison_list = g_slist_append ( new_report -> amount_comparison_list,
+								GINT_TO_POINTER (amount_comparison_number));
+	list_tmp = list_tmp -> next;
+    }
+
+    return new_report_number;
+}

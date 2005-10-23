@@ -1682,8 +1682,8 @@ gboolean gsb_transactions_list_current_transaction_down ( gint no_account )
 
      if ( DEBUG )
 	printf ( "gsb_transactions_list_current_transaction_down\n");
-
-   current_transaction_number = gsb_data_account_get_current_transaction_number (no_account);
+     
+     current_transaction_number = gsb_data_account_get_current_transaction_number (no_account);
 
     transaction_number = gsb_transactions_list_get_transaction_next ( current_transaction_number,
 								      gsb_data_transaction_get_mother_transaction_number (current_transaction_number));
