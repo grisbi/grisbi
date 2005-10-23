@@ -1,6 +1,6 @@
 1 - "You can press <tt>Ctrl-R</tt> to reconcile a transaction in transactions list."
 
-2 - "Grisbi automatically save a copy of your work if it segfaults.
+2 - "Grisbi automatically saves a copy of your work if it segfaults.
 
 Thus it is unlikely that you loose any data in case Grisbi encounters a segmentation error."
 
@@ -24,5 +24,16 @@ Create a 'Professional expenses' budgetary line and put all professional expense
 
 Then, you can create a new report that sums up transactions from the 'Profesionnal expenses' budgetary line and see the balance."
 
-8 - "No more tips available !  Please send any tips you know to grisbi-devel@lists.sourceforge.net so that we can include them in next version for all users."
+8 - "You can double-click on any date entry to pop up a calendar in order to enter a date more easily."
 
+9 - "You can use the import facility to automatically reconcile transactions against a QIF or OFX file from your online bank."
+
+10 - "You can configure the contents of the transaction list.
+
+Right-click on a cell of the transaction list and select the 'Change cell content' option.  Then select any content you want and configure transaction list to your needs."
+
+11 - "You can configure fields displayed in the transaction form.
+
+Go to the 'preferences' dialog and select the 'Form content' option.  Then you can click on fields to be displayed and drag them through the form to adjust their position."
+
+12 - "No more tip available !  Please send any tips you know to grisbi-devel@lists.sourceforge.net so that we can include them in next version for all users."
