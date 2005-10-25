@@ -72,6 +72,7 @@ void a_propos ( GtkWidget *bouton,
       _("Giorgio Mandolfo (giorgio[at]pollycoke.org): Italian"),
       _("Martin Stromberger (Fabiolla[at]aon.at): German"),
       _("Ryszard Jeziorski (r.jeziorski[at]dart.kielce.pl): Polish"),
+      _("Marek Donar (mdonar[at]post.cz: czech"),
       NULL };
     const gchar *liens[] = { 
                 COLON(_("Website")),
