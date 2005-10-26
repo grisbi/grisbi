@@ -37,18 +37,19 @@
 #include "comptes_gestion.h"
 #include "comptes_traitements.h"
 #include "import_csv.h"
+#include "operations_liste.h"
 #include "utils_devises.h"
 #include "dialog.h"
 #include "utils_files.h"
 #include "gsb_assistant.h"
 #include "gsb_data_account.h"
+#include "operations_comptes.h"
 #include "gsb_data_category.h"
 #include "gsb_data_payee.h"
 #include "gsb_data_transaction.h"
 #include "utils_dates.h"
 #include "navigation.h"
 #include "menu.h"
-#include "operations_liste.h"
 #include "fichiers_gestion.h"
 #include "traitement_variables.h"
 #include "accueil.h"
@@ -202,7 +203,8 @@ void importer_fichier ( void )
  */
 GtkWidget * import_create_file_selection_page ( GtkWidget * assistant )
 {
-    GtkWidget * vbox, * paddingbox, * chooser, * hbox, * tree_view, * column, * sw;
+    GtkWidget * vbox, * paddingbox, * chooser, * tree_view, * sw;
+    GtkTreeViewColumn *column;
     GtkCellRenderer *renderer;
     GtkTreeModel * model, * list_acc;
     int i;
@@ -226,8 +228,8 @@ GtkWidget * import_create_file_selection_page ( GtkWidget * assistant )
     gtk_box_pack_start ( GTK_BOX(paddingbox), sw, TRUE, TRUE, 6 );
 
     /* Tree view and model. */
-    model = gtk_tree_store_new ( IMPORT_FILESEL_NUM_COLS, G_TYPE_BOOLEAN, G_TYPE_STRING, 
-				 G_TYPE_STRING, G_TYPE_INT );
+    model = GTK_TREE_MODEL ( gtk_tree_store_new ( IMPORT_FILESEL_NUM_COLS, G_TYPE_BOOLEAN, G_TYPE_STRING, 
+				 G_TYPE_STRING, G_TYPE_INT ));
     tree_view = gtk_tree_view_new_with_model ( GTK_TREE_MODEL ( model ) );
     gtk_container_add ( GTK_CONTAINER ( sw ), tree_view );
 
@@ -243,12 +245,12 @@ GtkWidget * import_create_file_selection_page ( GtkWidget * assistant )
     renderer = gtk_cell_renderer_combo_new ();
     g_signal_connect ( G_OBJECT (renderer), "edited", G_CALLBACK ( import_switch_type), 
 		       model );
-    list_acc = gtk_list_store_new (1, G_TYPE_STRING);
+    list_acc = GTK_TREE_MODEL (gtk_list_store_new (1, G_TYPE_STRING));
     for ( i = 0 ; i < TYPE_MAX ; i++ )
     {
 	GtkTreeIter iter; 
-	gtk_list_store_append (list_acc, &iter);
-	gtk_list_store_set (list_acc, &iter, 0, type_string_representation ( i ), -1);
+	gtk_list_store_append (GTK_LIST_STORE (list_acc), &iter);
+	gtk_list_store_set (GTK_LIST_STORE (list_acc), &iter, 0, type_string_representation ( i ), -1);
     }
     g_object_set ( renderer, 
 		   "model", list_acc, 
@@ -286,10 +288,9 @@ gboolean import_switch_type ( GtkCellRendererText *cell, const gchar *path,
 {
      GtkTreeIter iter;
      guint i = 0;
-     gchar *name = NULL;
      GtkWidget * assistant;
 
-     assistant = g_object_get_data ( model, "assistant" );
+     assistant = g_object_get_data ( G_OBJECT (model), "assistant" );
 
      if ( gtk_tree_model_get_iter_from_string ( GTK_TREE_MODEL ( model ), &iter, path ))
      {
@@ -297,7 +298,7 @@ gboolean import_switch_type ( GtkCellRendererText *cell, const gchar *path,
 	 {
 	     if ( ! strcmp ( value, type_string_representation ( i ) ) )
 	     {
-		 gtk_tree_store_set ( model, &iter,
+		 gtk_tree_store_set ( GTK_TREE_STORE (model), &iter,
 				      IMPORT_FILESEL_TYPENAME, value, 
 				      IMPORT_FILESEL_TYPE, i, 
 				      -1 );
@@ -312,7 +313,7 @@ gboolean import_switch_type ( GtkCellRendererText *cell, const gchar *path,
 					      IMPORT_CSV_PAGE );
 		 }
 
-		 import_preview_maybe_sensitive_next ( assistant, model );
+		 import_preview_maybe_sensitive_next ( assistant, GTK_TREE_MODEL ( model ));
 	     }
 	 }
      }
@@ -377,10 +378,10 @@ void import_preview_maybe_sensitive_next ( GtkWidget * assistant, GtkTreeModel *
     GtkTreeIter iter;
 
     /* Don't allow going to next page if no file is selected yet. */
-    gtk_widget_set_sensitive ( g_object_get_data ( assistant, "button_next" ), FALSE );
+    gtk_widget_set_sensitive ( g_object_get_data ( G_OBJECT (assistant), "button_next" ), FALSE );
 
     gtk_tree_model_get_iter_first ( model, &iter );
-    if ( ! gtk_tree_store_iter_is_valid ( model, &iter ))
+    if ( ! gtk_tree_store_iter_is_valid ( GTK_TREE_STORE (model), &iter ))
     {
 	return;
     }
@@ -390,13 +391,13 @@ void import_preview_maybe_sensitive_next ( GtkWidget * assistant, GtkTreeModel *
     {
 	gboolean selected;
 	enum import_type type;
-	gtk_tree_model_get ( GTK_TREE_STORE ( model ), &iter, 
+	gtk_tree_model_get ( GTK_TREE_MODEL ( model ), &iter, 
 			     IMPORT_FILESEL_SELECTED, &selected, 
 			     IMPORT_FILESEL_TYPE, &type,
 			     -1 );
 	if ( selected && type != TYPE_UNKNOWN )
 	{
-	    gtk_widget_set_sensitive ( g_object_get_data ( assistant, "button_next" ), 
+	    gtk_widget_set_sensitive ( g_object_get_data ( G_OBJECT (assistant), "button_next" ), 
 				       TRUE );
 	    return;
 	}
@@ -456,7 +457,7 @@ gboolean import_select_file ( GtkWidget * button, GtkWidget * assistant )
 	    if ( type != TYPE_UNKNOWN )
 	    {
 		/* A valid file was selected, so we can now go ahead. */
-		gtk_widget_set_sensitive ( g_object_get_data ( assistant, "button_next" ), 
+		gtk_widget_set_sensitive ( g_object_get_data ( G_OBJECT (assistant), "button_next" ), 
 					   TRUE );
 	    }
 
@@ -489,10 +490,10 @@ GtkWidget * import_create_resume_page ( GtkWidget * assistant )
     view = gtk_text_view_new ();
     gtk_text_view_set_wrap_mode (GTK_TEXT_VIEW (view), GTK_WRAP_WORD);
 
-    gtk_text_view_set_editable ( view, FALSE );
-    gtk_text_view_set_cursor_visible ( view, FALSE );
-    gtk_text_view_set_left_margin ( view, 12 );
-    gtk_text_view_set_right_margin ( view, 12 );
+    gtk_text_view_set_editable ( GTK_TEXT_VIEW (view), FALSE );
+    gtk_text_view_set_cursor_visible ( GTK_TEXT_VIEW (view), FALSE );
+    gtk_text_view_set_left_margin ( GTK_TEXT_VIEW (view), 12 );
+    gtk_text_view_set_right_margin ( GTK_TEXT_VIEW (view), 12 );
 
     buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (view));
     gtk_text_buffer_create_tag ( buffer, "bold",
@@ -539,7 +540,7 @@ gboolean import_enter_resume_page ( GtkWidget * assistant )
 		break;
 
 	    case TYPE_QIF :
-		if ( qif_fd = utf8_fopen ( imported -> name, "r" ) )
+		if ( (qif_fd = utf8_fopen ( imported -> name, "r" )))
 		{
 		    recuperation_donnees_qif ( qif_fd, imported -> name );
 		    fclose ( qif_fd );
@@ -597,10 +598,10 @@ gboolean import_enter_resume_page ( GtkWidget * assistant )
 	    list = list -> next;
 	}
 
-	while ( gtk_notebook_get_n_pages ( g_object_get_data ( assistant, "notebook" ) ) >
+	while ( gtk_notebook_get_n_pages ( g_object_get_data ( G_OBJECT (assistant), "notebook" ) ) >
 		IMPORT_FIRST_ACCOUNT_PAGE )
 	{
-	    gtk_notebook_remove_page ( g_object_get_data ( assistant, "notebook" ), -1 );
+	    gtk_notebook_remove_page ( g_object_get_data ( G_OBJECT (assistant), "notebook" ), -1 );
 	}
 	affichage_recapitulatif_importation ( assistant );
     }
@@ -659,10 +660,10 @@ GtkWidget * import_create_final_page ( GtkWidget * assistant )
     view = gtk_text_view_new ();
     gtk_text_view_set_wrap_mode (GTK_TEXT_VIEW (view), GTK_WRAP_WORD);
 
-    gtk_text_view_set_editable ( view, FALSE );
-    gtk_text_view_set_cursor_visible ( view, FALSE );
-    gtk_text_view_set_left_margin ( view, 12 );
-    gtk_text_view_set_right_margin ( view, 12 );
+    gtk_text_view_set_editable ( GTK_TEXT_VIEW (view), FALSE );
+    gtk_text_view_set_cursor_visible ( GTK_TEXT_VIEW (view), FALSE );
+    gtk_text_view_set_left_margin ( GTK_TEXT_VIEW (view), 12 );
+    gtk_text_view_set_right_margin ( GTK_TEXT_VIEW (view), 12 );
 
     buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (view));
     gtk_text_buffer_create_tag ( buffer, "x-large",
@@ -706,7 +707,7 @@ GSList * import_selected_files ( GtkWidget * assistant )
 	gboolean selected;
 
 	imported = g_malloc ( sizeof ( struct imported_file * ) );
-	gtk_tree_model_get ( GTK_TREE_STORE ( model ), &iter, 
+	gtk_tree_model_get ( GTK_TREE_MODEL ( model ), &iter, 
 			     0, &selected,
 			     2, &(imported -> name), 
 			     3, &(imported -> type), 
@@ -730,8 +731,8 @@ GSList * import_selected_files ( GtkWidget * assistant )
  */
 gboolean affichage_recapitulatif_importation ( GtkWidget * assistant )
 {
-    GtkWidget *scrolled_window, *bouton, *button_next, *label;
-    gint retour, page;
+    GtkWidget *button_next;
+    gint page;
     GSList *list_tmp;
 
     /* We have to do that as soon as possible since this would reset currencies */
@@ -781,13 +782,13 @@ gboolean affichage_recapitulatif_importation ( GtkWidget * assistant )
 			     page, page - 1, -1, G_CALLBACK ( NULL ) );
 
     /* Replace button. */
-    button_next = g_object_get_data ( assistant, "button_next" );
+    button_next = g_object_get_data ( G_OBJECT (assistant), "button_next" );
     gtk_widget_destroy ( button_next );
-    button_next = gtk_dialog_add_button ( assistant, GTK_STOCK_GO_FORWARD,
+    button_next = gtk_dialog_add_button ( GTK_DIALOG (assistant), GTK_STOCK_GO_FORWARD,
 					  GTK_RESPONSE_YES );
-    g_object_set_data ( assistant, "button_next", button_next );
+    g_object_set_data ( G_OBJECT (assistant), "button_next", button_next );
 
-    printf (">>> NTH pages %d\n", gtk_notebook_get_n_pages ( g_object_get_data ( assistant, "notebook" ) ) );
+    printf (">>> NTH pages %d\n", gtk_notebook_get_n_pages ( g_object_get_data ( G_OBJECT (assistant), "notebook" ) ) );
 
     /* si aucun compte n'est ouvert, on crée les devises de base */
 
@@ -838,10 +839,10 @@ void ajout_devise_dans_liste_import ( void )
  */
 GtkWidget * cree_ligne_recapitulatif ( struct struct_compte_importation * compte )
 {
-    GtkWidget * vbox, * hbox, * label, * menu, * menu_item, * radio, * radiogroup;
+    GtkWidget * vbox, * hbox, * label, * radio, * radiogroup;
     GtkWidget * alignement;
     gchar * short_filename;
-    gint no_compte_trouve, size = 0, spacing = 0;
+    gint size = 0, spacing = 0;
 
     vbox = gtk_vbox_new ( FALSE, 6 );
     gtk_container_set_border_width ( GTK_CONTAINER(vbox), 12 );
@@ -921,7 +922,7 @@ GtkWidget * cree_ligne_recapitulatif ( struct struct_compte_importation * compte
     g_object_set_data ( G_OBJECT ( radio ), "associated", compte -> hbox2 );
     g_object_set_data ( G_OBJECT ( radio ), "account", compte );
     g_signal_connect ( G_OBJECT ( radio ), "toggled", 
-		       G_CALLBACK ( import_account_action_activated ), 1 );
+		       G_CALLBACK ( import_account_action_activated ), GINT_TO_POINTER (1));
 
     /* Mark account */
     radio = gtk_radio_button_new_with_label_from_widget ( GTK_RADIO_BUTTON ( radiogroup ), 
@@ -945,7 +946,7 @@ GtkWidget * cree_ligne_recapitulatif ( struct struct_compte_importation * compte
     g_object_set_data ( G_OBJECT ( radio ), "associated", compte -> hbox3 );
     g_object_set_data ( G_OBJECT ( radio ), "account", compte );
     g_signal_connect ( G_OBJECT ( radio ), "toggled", 
-		       G_CALLBACK ( import_account_action_activated ), 2 );
+		       G_CALLBACK ( import_account_action_activated ), GINT_TO_POINTER (2));
 
     /* Currency */
     hbox = gtk_hbox_new ( FALSE, 6 );

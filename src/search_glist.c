@@ -109,29 +109,6 @@ gint recherche_devise_par_no ( struct struct_devise *devise,
 
 
 
-/*****************************************************************************/
-gint recherche_echeance_par_no ( struct operation_echeance *echeance,
-				 gint no_echeance )
-{
-    return ( !(echeance -> no_operation == no_echeance ));
-}
-/*****************************************************************************/
-
-
-/* *********************************************************************************************************** */
-/* cette fonction est appelée pour chercher dans les échéances si certaines sont  */
-/* associées au compte en train d'être supprimé */
-/* *********************************************************************************************************** */
-
-gint recherche_echeance_par_no_compte ( struct operation_echeance *echeance,
-					gint no_compte )
-{
-    return ( echeance -> compte != no_compte );
-}
-/* *********************************************************************************************************** */
-
-
-
 /******************************************************************************/
 gint recherche_rapprochement_par_nom ( struct struct_no_rapprochement *rapprochement,
 				       gchar *no_rap )

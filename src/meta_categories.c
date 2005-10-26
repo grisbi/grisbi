@@ -27,6 +27,7 @@
 #include "meta_categories.h"
 #include "utils_devises.h"
 #include "gsb_data_category.h"
+#include "gsb_data_scheduled.h"
 #include "gsb_data_transaction.h"
 #include "categories_onglet.h"
 #include "include.h"
@@ -54,12 +55,12 @@ static gboolean category_remove_transaction_from_div ( gpointer  trans,
 						int div_id );
 static gboolean category_remove_transaction_from_sub_div ( gpointer  trans, 
 						    int div_id, int sub_div_id );
-static gint category_scheduled_div_id ( struct operation_echeance * scheduled );
-static void category_scheduled_set_div_id ( struct operation_echeance * scheduled, 
+static gint category_scheduled_div_id ( gint scheduled_number );
+static void category_scheduled_set_div_id ( gint scheduled_number,
 				     int no_div );
-static void category_scheduled_set_sub_div_id ( struct operation_echeance * scheduled, 
+static void category_scheduled_set_sub_div_id ( gint scheduled_number,
 					 int no_sub_div );
-static gint category_scheduled_sub_div_id ( struct operation_echeance * scheduled );
+static gint category_scheduled_sub_div_id ( gint scheduled_number);
 static gdouble category_sub_div_balance ( gpointer div, gpointer sub_div );
 static gchar * category_sub_div_name ( gpointer sub_div );
 static gint category_sub_div_nb_transactions ( gpointer div, gpointer sub_div );
@@ -403,10 +404,10 @@ void category_transaction_set_sub_div_id ( gpointer  transaction,
  *
  * \return -1 if no type is supported in backend model, type otherwise.
  */
-gint category_scheduled_div_id ( struct operation_echeance * scheduled )
+gint category_scheduled_div_id ( gint scheduled_number )
 {
-    if ( scheduled )
-	return scheduled -> categorie;
+    if ( scheduled_number )
+	return gsb_data_scheduled_get_category_number (scheduled_number);
     return 0;
 }
 
@@ -416,10 +417,10 @@ gint category_scheduled_div_id ( struct operation_echeance * scheduled )
  *
  *
  */
-gint category_scheduled_sub_div_id ( struct operation_echeance * scheduled )
+gint category_scheduled_sub_div_id ( gint scheduled_number)
 {
-    if ( scheduled )
-	return scheduled -> sous_categorie;
+    if ( scheduled_number )
+	return gsb_data_scheduled_get_sub_category_number (scheduled_number);
     return 0;
 }
 
@@ -429,14 +430,16 @@ gint category_scheduled_sub_div_id ( struct operation_echeance * scheduled )
  *
  *
  */
-void category_scheduled_set_div_id ( struct operation_echeance * scheduled, 
+void category_scheduled_set_div_id ( gint scheduled_number,
 				     int no_div )
 {
-    if ( scheduled )
+    if ( scheduled_number )
     {
-	scheduled -> categorie = no_div;
-	if ( !scheduled -> categorie )
-	    scheduled -> compte_virement = 0;
+	gsb_data_scheduled_set_category_number ( scheduled_number,
+						 no_div);
+	if ( !gsb_data_scheduled_get_category_number (scheduled_number))
+	    gsb_data_scheduled_set_account_number_transfer ( scheduled_number,
+							     0 );
     }
 }
 
@@ -446,11 +449,12 @@ void category_scheduled_set_div_id ( struct operation_echeance * scheduled,
  *
  *
  */
-void category_scheduled_set_sub_div_id ( struct operation_echeance * scheduled, 
+void category_scheduled_set_sub_div_id ( gint scheduled_number,
 					 int no_sub_div )
 {
-    if ( scheduled )
-	scheduled -> sous_categorie = no_sub_div;
+    if ( scheduled_number )
+	gsb_data_scheduled_set_sub_category_number ( scheduled_number,
+						     no_sub_div);
 }
 
 

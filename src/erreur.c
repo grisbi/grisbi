@@ -43,6 +43,10 @@
 #include "structures.h"
 /*END_INCLUDE*/
 
+#ifdef HAVE_BACKTRACE
+#include "execinfo.h"
+#endif
+
 /*START_STATIC*/
 static gchar *get_debug_time ( void );
 static GtkWidget * print_backtrace ( void );
@@ -53,9 +57,9 @@ extern AB_BANKING *gbanking;
 extern gchar *nom_fichier_comptes;
 /*END_EXTERN*/
 
-#ifdef HAVE_AQBANKING
-extern AB_BANKING *gbanking;
-#endif
+/* #ifdef HAVE_AQBANKING */
+/* extern AB_BANKING *gbanking; */
+/* #endif */
 
 
 gint debugging_grisbi;

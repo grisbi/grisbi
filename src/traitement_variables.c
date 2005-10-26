@@ -33,6 +33,7 @@
 #include "gsb_data_report_amout_comparison.h"
 #include "gsb_data_report.h"
 #include "gsb_data_report_text_comparison.h"
+#include "gsb_data_scheduled.h"
 #include "gsb_data_transaction.h"
 #include "menu.h"
 #include "structures.h"
@@ -103,7 +104,6 @@ extern GSList *lignes_affichage_trois_lignes;
 extern GtkWidget *liste_categ_etat;
 extern GSList *liste_struct_banques;
 extern GSList *liste_struct_devises;
-extern GSList *liste_struct_echeances;
 extern GSList *liste_struct_exercices;
 extern GSList *liste_struct_rapprochements;
 extern gint mise_a_jour_combofix_categ_necessaire;
@@ -116,10 +116,8 @@ extern gint mise_a_jour_liste_echeances_manuelles_accueil;
 extern gint mise_a_jour_soldes_minimaux;
 extern gint nb_banques;
 extern gint nb_devises;
-extern gint nb_echeances;
 extern gint no_derniere_banque;
 extern gint no_derniere_devise;
-extern gint no_derniere_echeance;
 extern int no_devise_totaux_categ;
 extern gint no_devise_totaux_ib;
 extern gint no_devise_totaux_tiers;
@@ -185,6 +183,7 @@ void init_variables ( void )
     gsb_data_report_init_variables ();
     gsb_data_report_amount_comparison_init_variables ();
     gsb_data_report_text_comparison_init_variables ();
+    gsb_data_scheduled_init_variables ();
 
     crypt_key = NULL;
 
@@ -206,9 +205,6 @@ void init_variables ( void )
     nom_fichier_backup = NULL;
     chemin_logo = NULL;
 
-    liste_struct_echeances = NULL;
-    nb_echeances = 0;
-    no_derniere_echeance = 0;
     affichage_echeances = SCHEDULER_PERIODICITY_ONCE_VIEW;
     affichage_echeances_perso_nb_libre = 0;
     affichage_echeances_perso_j_m_a = PERIODICITY_DAYS;
@@ -396,8 +392,6 @@ void menus_sensitifs ( gboolean sensitif )
 
     while ( *tmp )
     {
-	GtkWidget * widget;
-
 	gsb_gui_sensitive_menu_item_from_string ( *tmp, sensitif );
 	tmp++;
     }

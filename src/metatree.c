@@ -30,6 +30,7 @@
 #include "gsb_data_account.h"
 #include "operations_comptes.h"
 #include "gsb_data_payee.h"
+#include "gsb_data_scheduled.h"
 #include "gsb_data_transaction.h"
 #include "utils_dates.h"
 #include "fenetre_principale.h"
@@ -79,7 +80,6 @@ static void supprimer_sub_division ( GtkTreeView * tree_view, GtkTreeModel * mod
 
 /*START_EXTERN*/
 extern GtkWidget *formulaire;
-extern GSList *liste_struct_echeances;
 extern GtkTreeStore *model;
 extern GtkTreeSelection * selection;
 extern GtkWidget *tree_view;
@@ -520,18 +520,18 @@ gboolean supprimer_division ( GtkTreeView * tree_view )
 	/* fait le tour des échéances pour mettre le nouveau numéro
 	 * de division et sub_division  */
 
-	liste_tmp = liste_struct_echeances;
+	liste_tmp = gsb_data_scheduled_get_scheduled_list ();
 
 	while ( liste_tmp )
 	{
-	    struct operation_echeance *echeance;
+	    gint scheduled_number;
 
-	    echeance = liste_tmp -> data;
+	    scheduled_number = gsb_data_scheduled_get_scheduled_number (liste_tmp -> data);
 
-	    if ( iface -> scheduled_div_id ( echeance ) == no_division )
+	    if ( iface -> scheduled_div_id (scheduled_number) == no_division )
 	    {
-		iface -> scheduled_set_div_id ( echeance, nouveau_no_division );
-		iface -> scheduled_set_sub_div_id ( echeance, nouveau_no_sub_division );
+		iface -> scheduled_set_div_id ( scheduled_number, nouveau_no_division );
+		iface -> scheduled_set_sub_div_id ( scheduled_number, nouveau_no_sub_division );
 	    }
 
 	    liste_tmp = liste_tmp -> next;
@@ -621,20 +621,20 @@ void supprimer_sub_division ( GtkTreeView * tree_view, GtkTreeModel * model,
 	/* fait le tour des échéances pour mettre le nouveau numéro
 	 * de division et sub_division  */
 
-	liste_tmp = liste_struct_echeances;
+	liste_tmp = gsb_data_scheduled_get_scheduled_list ();
 
 	while ( liste_tmp )
 	{
-	    struct operation_echeance *echeance;
+	    gint scheduled_number;
 
-	    echeance = liste_tmp -> data;
+	    scheduled_number = gsb_data_scheduled_get_scheduled_number (liste_tmp -> data);
 
-	    if ( iface -> scheduled_div_id ( echeance ) == no_division &&
-		 ( iface -> scheduled_sub_div_id ( echeance ) == 
+	    if ( iface -> scheduled_div_id (scheduled_number) == no_division &&
+		 ( iface -> scheduled_sub_div_id (scheduled_number) == 
 		   iface -> sub_div_id ( sub_division ) ) )
 	    {
-		iface -> scheduled_set_div_id ( echeance, nouveau_no_division );
-		iface -> scheduled_set_sub_div_id ( echeance, nouveau_no_sub_division );
+		iface -> scheduled_set_div_id ( scheduled_number, nouveau_no_division );
+		iface -> scheduled_set_sub_div_id ( scheduled_number, nouveau_no_sub_division );
 	    }
 
 	    liste_tmp = liste_tmp -> next;
@@ -1335,16 +1335,18 @@ gboolean find_associated_transactions ( MetatreeInterface * iface,
     }
 
 
-    liste_tmp = liste_struct_echeances;
+    liste_tmp = gsb_data_scheduled_get_scheduled_list ();
 
     /* fait le tour des échéances pour en trouver une qui a cette catégorie  */
     while ( liste_tmp )
     {
-	struct operation_echeance *echeance = liste_tmp -> data;
+	gint scheduled_number;
 
-	if ( iface -> scheduled_div_id ( echeance ) == no_division && 
+	scheduled_number = gsb_data_scheduled_get_scheduled_number (liste_tmp -> data);
+
+	if ( iface -> scheduled_div_id (scheduled_number) == no_division && 
 	     ( no_sub_division == -1 ||
-	       iface -> scheduled_div_id ( echeance ) == no_sub_division ) )
+	       iface -> scheduled_div_id (scheduled_number) == no_sub_division ) )
 	{
 	    return TRUE;
 	}

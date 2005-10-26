@@ -54,12 +54,12 @@ static gboolean payee_remove_transaction_from_div ( gpointer  trans,
 					     int div_id );
 static gboolean payee_remove_transaction_from_sub_div ( gpointer  trans, 
 						 int div_id, int sub_div_id );
-static gint payee_scheduled_div_id ( struct operation_echeance * scheduled );
-static void payee_scheduled_set_div_id ( struct operation_echeance * scheduled, 
+static gint payee_scheduled_div_id ( gint scheduled_number );
+static void payee_scheduled_set_div_id ( gint scheduled_number, 
 				  int no_div );
-static void payee_scheduled_set_sub_div_id ( struct operation_echeance * scheduled, 
+static void payee_scheduled_set_sub_div_id ( gint scheduled_number,
 				      int no_sub_div );
-static gint payee_scheduled_sub_div_id ( struct operation_echeance * scheduled );
+static gint payee_scheduled_sub_div_id ( gint scheduled_number );
 static gdouble payee_sub_div_balance ( gpointer div, gpointer sub_div );
 static gint payee_sub_div_id ( gpointer sub_payee );
 static gchar * payee_sub_div_name ( gpointer sub_div );
@@ -329,7 +329,7 @@ void payee_transaction_set_sub_div_id ( gpointer  transaction,
  *
  * \return -1 if no type is supported in backend model, type otherwise.
  */
-gint payee_scheduled_div_id ( struct operation_echeance * scheduled )
+gint payee_scheduled_div_id ( gint scheduled_number )
 {
     return -1;
 }
@@ -340,7 +340,7 @@ gint payee_scheduled_div_id ( struct operation_echeance * scheduled )
  *
  *
  */
-gint payee_scheduled_sub_div_id ( struct operation_echeance * scheduled )
+gint payee_scheduled_sub_div_id ( gint scheduled_number )
 {
     return -1;
 }
@@ -351,7 +351,7 @@ gint payee_scheduled_sub_div_id ( struct operation_echeance * scheduled )
  *
  *
  */
-void payee_scheduled_set_div_id ( struct operation_echeance * scheduled, 
+void payee_scheduled_set_div_id ( gint scheduled_number, 
 				  int no_div )
 {
 
@@ -363,7 +363,7 @@ void payee_scheduled_set_div_id ( struct operation_echeance * scheduled,
  *
  *
  */
-void payee_scheduled_set_sub_div_id ( struct operation_echeance * scheduled, 
+void payee_scheduled_set_sub_div_id ( gint scheduled_number,
 				      int no_sub_div )
 {
 

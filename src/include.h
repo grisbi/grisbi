@@ -5,6 +5,7 @@
 #include <libintl.h>
 #include <locale.h>
 #include <stdio.h>
+#include <stdlib.h>
 #ifdef HAVE_STRINGS_H
 #  include <strings.h>
 #endif

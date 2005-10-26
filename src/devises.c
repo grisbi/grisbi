@@ -27,8 +27,8 @@
 #include "devises.h"
 #include "dialog.h"
 #include "utils_devises.h"
-#include "utils_editables.h"
 #include "gsb_data_account.h"
+#include "gsb_data_scheduled.h"
 #include "gsb_data_transaction.h"
 #include "categories_onglet.h"
 #include "imputation_budgetaire.h"
@@ -37,6 +37,7 @@
 #include "traitement_variables.h"
 #include "utils_str.h"
 #include "utils.h"
+#include "utils_editables.h"
 #include "etats_config.h"
 #include "utils_buttons.h"
 #include "affichage_formulaire.h"
@@ -65,11 +66,6 @@ static gboolean changement_nom_entree_devise ( GtkEditable *editable, gchar * te
 static struct struct_devise *create_currency ( gchar * nom_devise, gchar * code_devise, 
 					gchar * code_iso4217_devise );
 static struct struct_devise * currency_get_selected ( GtkTreeView * view );
-static gboolean deselection_ligne_devise ( GtkWidget *liste,
-				    gint ligne,
-				    gint colonne,
-				    GdkEventButton *ev,
-				    GtkWidget *frame );
 static gboolean devise_selectionnee ( GtkWidget *menu_shell, gint origine );
 static void fill_currency_list ( GtkTreeView * view, gboolean include_obsolete );
 static gint gsb_currency_find_currency_in_option_menu ( GtkWidget *option_menu,
@@ -83,11 +79,6 @@ static gboolean rebuild_currency_list ( GtkWidget * checkbox, GtkTreeView * view
 static void retrait_devise ( GtkWidget *bouton,
 		      GtkWidget *liste );
 static gboolean select_currency_in_iso_list ( GtkTreeSelection *selection, GtkTreeModel *model );
-static gboolean selection_ligne_devise ( GtkWidget *liste,
-				  gint ligne,
-				  gint colonne,
-				  GdkEventButton *ev,
-				  GtkWidget *frame );
 static void update_currency_widgets();
 static void update_exchange_rate_cache ( struct struct_devise * currency1, 
 				  struct struct_devise * currency2,
@@ -144,7 +135,6 @@ extern GtkWidget *bouton_devise_montant_etat;
 extern GtkWidget *bouton_devise_tiers_etat;
 extern GtkWidget *detail_devise_compte;
 extern GtkWidget *hbox_boutons_modif;
-extern GSList *liste_struct_echeances;
 extern gint mise_a_jour_combofix_categ_necessaire;
 extern gint mise_a_jour_combofix_imputation_necessaire;
 extern gint mise_a_jour_combofix_tiers_necessaire;
@@ -767,11 +757,14 @@ void retrait_devise ( GtkWidget *bouton,
     {
 	GSList *list_tmp;
 
-	list_tmp = liste_struct_echeances;
+	list_tmp = gsb_data_scheduled_get_scheduled_list ();
 
 	while ( list_tmp )
 	{
-	    if ( ((struct operation_echeance *)(list_tmp -> data )) -> devise == devise -> no_devise )
+	    gint scheduled_number;
+
+	    scheduled_number = gsb_data_scheduled_get_scheduled_number (list_tmp -> data);
+	    if ( gsb_data_scheduled_get_currency_number (scheduled_number) == devise -> no_devise )
 	    {
 		devise_trouvee = 1;
 		list_tmp = NULL;
@@ -795,7 +788,6 @@ void retrait_devise ( GtkWidget *bouton,
 
     liste_struct_devises = g_slist_remove ( liste_struct_devises, devise );
     nb_devises--;
-
 }
 /***********************************************************************************************************/
 
@@ -1339,63 +1331,6 @@ GtkWidget *tab_display_totals ( void )
 
 
 
-/* **************************************************************************************************************************** */
-/* Fonction selection_ligne_devise */
-/* appelÃÂ©e lorsqu'on sÃÂ©lectionne une devise dans la liste */
-/* **************************************************************************************************************************** */
-
-gboolean selection_ligne_devise ( GtkWidget *liste,
-				  gint ligne,
-				  gint colonne,
-				  GdkEventButton *ev,
-				  GtkWidget *frame )
-{
-    struct struct_devise *devise;
-
-    ligne_selection_devise = ligne;
-    devise = gtk_clist_get_row_data ( GTK_CLIST ( liste ),
-				      ligne_selection_devise );
-
-    /* met le nom et le code de la devise */
-    entry_set_value(entree_nom_devise_parametres, &(devise->nom_devise));
-    entry_set_value(entree_code_devise_parametres, &(devise->code_devise));
-    entry_set_value(entree_iso_code_devise_parametres, &(devise->code_iso4217_devise));
-
-    /*     nÃ©cessaire d'interdire le changement du nom de l'euro car tous les tests se font sur son nom */
-
-    if ( strcmp ( devise->nom_devise, "Euro" ))
-	gtk_widget_set_sensitive ( entree_nom_devise_parametres,
-				   TRUE );
-    else
-	gtk_widget_set_sensitive ( entree_nom_devise_parametres,
-				   FALSE );
-
-    return FALSE;
-}
-/* **************************************************************************************************************************** */
-
-
-/* **************************************************************************************************************************** */
-/* Fonction deselection_ligne_devise */
-/* appelÃÂ©e lorsqu'on dÃÂ©sÃ,CCÂ©(Blectionne une devise dans la liste */
-/* **************************************************************************************************************************** */
-
-gboolean deselection_ligne_devise ( GtkWidget *liste,
-				    gint ligne,
-				    gint colonne,
-				    GdkEventButton *ev,
-				    GtkWidget *frame )
-{
-    ligne_selection_devise = -1;
-
-    /* retire le nom et le code de la devise */
-    entry_set_value(entree_nom_devise_parametres, NULL);
-    entry_set_value(entree_code_devise_parametres, NULL);
-    entry_set_value(entree_iso_code_devise_parametres, NULL);
-
-    return FALSE;
-}
-
 
 
 /**
@@ -1431,11 +1366,11 @@ gboolean changement_nom_entree_devise ( GtkEditable *editable, gchar * text,
 {
     struct struct_devise *devise;
     GtkTreeSelection * selection;
-    GtkTreeStore * tree_model;
+    GtkTreeModel * tree_model;
     GtkTreeIter iter;
 
-    selection = gtk_tree_view_get_selection ( g_object_get_data ( editable, "view" ) );
-    devise = currency_get_selected ( g_object_get_data ( editable, "view" ) );
+    selection = gtk_tree_view_get_selection ( g_object_get_data ( G_OBJECT (editable), "view" ) );
+    devise = currency_get_selected ( g_object_get_data ( G_OBJECT (editable), "view" ) );
 
     if ( !selection || ! gtk_tree_selection_get_selected (selection, &tree_model, &iter))
 	return(FALSE);
@@ -1455,12 +1390,12 @@ gboolean changement_code_entree_devise ( GtkEditable *editable, gchar * text,
 					 gint length, gpointer data )
 {
     struct struct_devise *devise;
-    GtkTreeStore * tree_model;
+    GtkTreeModel * tree_model;
     GtkTreeSelection * selection;
     GtkTreeIter iter;
 
-    selection = gtk_tree_view_get_selection ( g_object_get_data ( editable, "view" ) );
-    devise = currency_get_selected ( g_object_get_data ( editable, "view" ) );
+    selection = gtk_tree_view_get_selection ( g_object_get_data ( G_OBJECT (editable), "view" ) );
+    devise = currency_get_selected ( g_object_get_data ( G_OBJECT (editable), "view" ) );
 
     if ( !selection || ! gtk_tree_selection_get_selected (selection, &tree_model, &iter))
 	return(FALSE);
@@ -1480,12 +1415,12 @@ gboolean changement_iso_code_entree_devise ( GtkEditable *editable, gchar * text
 					     gint length, gpointer data )
 {
     struct struct_devise *devise;
-    GtkTreeStore * tree_model;
+    GtkTreeModel * tree_model;
     GtkTreeSelection * selection;
     GtkTreeIter iter;
 
-    selection = gtk_tree_view_get_selection ( g_object_get_data ( editable, "view" ) );
-    devise = currency_get_selected ( g_object_get_data ( editable, "view" ) );
+    selection = gtk_tree_view_get_selection ( g_object_get_data ( G_OBJECT (editable), "view" ) );
+    devise = currency_get_selected ( g_object_get_data ( G_OBJECT (editable), "view" ) );
 
     if ( !selection || ! gtk_tree_selection_get_selected (selection, &tree_model, &iter))
 	return(FALSE);

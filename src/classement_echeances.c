@@ -27,7 +27,7 @@
 
 /*START_INCLUDE*/
 #include "classement_echeances.h"
-#include "structures.h"
+#include "gsb_data_scheduled.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -43,11 +43,11 @@
 /* ************************************************************************* */
 /* Classement de deux Ã©chÃ©ances d'opÃ©rations par date                        */
 /* ************************************************************************* */
-gint classement_sliste_echeance_par_date ( struct operation_echeance * a, 
-					   struct operation_echeance * b )
+gint classement_sliste_echeance_par_date ( gint scheduled_number_1, 
+					   gint scheduled_number_2 )
 {
-    return ( g_date_compare ( a -> date,
-			      b -> date ));
+    return ( g_date_compare ( gsb_data_scheduled_get_date (scheduled_number_1),
+			      gsb_data_scheduled_get_date (scheduled_number_2) ));
 }
 
 

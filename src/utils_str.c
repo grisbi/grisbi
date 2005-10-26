@@ -145,7 +145,7 @@ double my_strtod ( const char *nptr, const char **endptr )
 {
     double entier=0, mantisse=0, resultat=0;
     int invert = 0;
-    char * p;
+    const char * p;
 
     if (!nptr)
 	return 0;
@@ -164,7 +164,7 @@ double my_strtod ( const char *nptr, const char **endptr )
 
 	if ( *p == ',' || *p == '.' )
 	{
-	    char * m;
+	    const char * m;
 	    for ( m = p+1; m <= nptr+strlen(nptr) && 
 		  (g_ascii_isdigit(*m) || g_ascii_isspace(*m)); m++)
 		/* Nothing, just loop */ ;
@@ -199,7 +199,7 @@ double my_strtod ( const char *nptr, const char **endptr )
 
 
 
-gchar * latin2utf8 (char * inchar)
+gchar * latin2utf8 ( char * inchar)
 {
     guchar buffer[1024];
     int outlen, inlen, res;

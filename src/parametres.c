@@ -616,7 +616,7 @@ GtkWidget *onglet_fichier ( void )
     /* crypt the grisbi file */
     crypt_file_button = 
 	new_checkbox_with_title ( _("Encrypt Grisbi file"),
-				  &(etat.crypt_file), gsb_gui_encryption_toggled );
+				  &(etat.crypt_file), G_CALLBACK (gsb_gui_encryption_toggled));
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), crypt_file_button,
 			 FALSE, FALSE, 0 );
 
@@ -734,7 +734,7 @@ GtkWidget *onglet_fichier ( void )
  */
 gboolean gsb_gui_encryption_toggled ( GtkWidget * checkbox, gpointer data )
 {
-    if ( gtk_toggle_button_get_active ( checkbox ) )
+    if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON (checkbox)))
     {
 	dialog_message ( "encryption-is-irreversible" );
     }

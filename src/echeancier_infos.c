@@ -29,7 +29,8 @@
 
 /*START_INCLUDE*/
 #include "echeancier_infos.h"
-#include "structures.h"
+#include "gsb_data_scheduled.h"
+#include "utils_dates.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -46,7 +47,6 @@ gint affichage_echeances;
 gint affichage_echeances_perso_nb_libre;     /* contient le contenu de l'entrÃ©e */
 
 /*START_EXTERN*/
-extern GSList *liste_struct_echeances;
 /*END_EXTERN*/
 
 
@@ -121,61 +121,59 @@ void mise_a_jour_calendrier ( void )
     /* on fait le tour de toutes les Ã©chÃ©ances, les amÃšne au mois du calendrier
        et mise en gras du jour de l'Ã©chÃ©ance */
 
-    pointeur = liste_struct_echeances;
+    pointeur = gsb_data_scheduled_get_scheduled_list ();
 
     while ( pointeur )
     {
 	GDate *copie_date_ech;
-	struct operation_echeance *echeance;
+	gint scheduled_number;
 
-	echeance = pointeur -> data;
+	scheduled_number = gsb_data_scheduled_get_scheduled_number (pointeur -> data);
 
-	copie_date_ech = g_date_new_dmy ( echeance -> jour,
-					  echeance -> mois,
-					  echeance -> annee );
+	copie_date_ech = gsb_date_copy (gsb_data_scheduled_get_date (scheduled_number));
 
-	if ( !g_date_valid_dmy ( echeance -> jour, echeance -> mois, echeance -> annee ) )
+	if ( !g_date_valid (gsb_data_scheduled_get_date (scheduled_number)))
 	    break;
 
 	/* si c'est une fois */
 	/* ou si c'est personnalisÃ© mais la periodicitÃ© est de 0, */
 	/* on passe */
 
-	if ( echeance -> periodicite
+	if ( gsb_data_scheduled_get_frequency (scheduled_number)
 	     &&
 	     !(
-	       echeance -> periodicite == 4
+	       gsb_data_scheduled_get_frequency (scheduled_number) == 4
 	       &&
-	       !echeance -> periodicite_personnalisee ))
+	       !gsb_data_scheduled_get_user_interval (scheduled_number)))
 	    while ( g_date_compare ( copie_date_ech,
 				     date_calendrier ) < 0 )
 	    {
-		/* pÃ©riodicitÃ© hebdomadaire */
-		if ( echeance -> periodicite == 1 )
+		/* périodicité hebdomadaire */
+		if ( gsb_data_scheduled_get_frequency (scheduled_number) == 1 )
 		    g_date_add_days ( copie_date_ech,
 				      7 );
 		else
-		    /* pÃ©riodicitÃ© mensuelle */
-		    if ( echeance -> periodicite == 2 )
+		    /* périodicité mensuelle */
+		    if ( gsb_data_scheduled_get_frequency (scheduled_number) == 2 )
 			g_date_add_months ( copie_date_ech,
 					    1 );
 		    else
-			/* pÃ©riodicitÃ© annuelle */
-			if ( echeance -> periodicite == 3 )
+			/* périodicité annuelle */
+			if ( gsb_data_scheduled_get_frequency (scheduled_number) == 3 )
 			    g_date_add_years ( copie_date_ech,
 					       1 );
 			else
 			    /* pÃ©riodicitÃ© perso */
-			    if ( !echeance -> intervalle_periodicite_personnalisee )
+			    if ( !gsb_data_scheduled_get_user_interval (scheduled_number))
 				g_date_add_days ( copie_date_ech,
-						  echeance -> periodicite_personnalisee );
+						  gsb_data_scheduled_get_user_entry (scheduled_number));
 			    else
-				if ( echeance -> intervalle_periodicite_personnalisee == 1 )
+				if ( gsb_data_scheduled_get_user_interval (scheduled_number) == 1 )
 				    g_date_add_months ( copie_date_ech,
-							echeance -> periodicite_personnalisee );
+							gsb_data_scheduled_get_user_entry (scheduled_number));
 				else
 				    g_date_add_years ( copie_date_ech,
-						       echeance -> periodicite_personnalisee );
+						       gsb_data_scheduled_get_user_entry (scheduled_number));
 	    }  
 
 	/* Ã  ce niveau, soit l'Ã©chÃ©ance est sur le mois du calendrier,
@@ -183,12 +181,12 @@ void mise_a_jour_calendrier ( void )
 
 	if ( !( copie_date_ech -> month != date_calendrier -> month
 		||
-		( echeance -> date_limite
+		( gsb_data_scheduled_get_limit_date (scheduled_number)
 		  &&
 		  g_date_compare ( copie_date_ech,
-				   echeance -> date_limite ) > 0 )
+				   gsb_data_scheduled_get_limit_date (scheduled_number)) > 0 )
 		||
-		( !echeance -> periodicite
+		( !gsb_data_scheduled_get_frequency (scheduled_number)
 		  &&
 		  copie_date_ech -> year != date_calendrier -> year )))
 	    gtk_calendar_mark_day ( GTK_CALENDAR ( calendrier_echeances ),

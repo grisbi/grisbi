@@ -17,10 +17,6 @@ gint recherche_devise_par_no ( struct struct_devise *devise,
 			       gint *no_devise );
 gint recherche_devise_par_nom ( struct struct_devise *devise,
 				gchar *nom );
-gint recherche_echeance_par_no ( struct operation_echeance *echeance,
-				 gint no_echeance );
-gint recherche_echeance_par_no_compte ( struct operation_echeance *echeance,
-					gint no_compte );
 gint recherche_exercice_par_no ( struct struct_exercice *exercice,
 				 gint *no_exercice );
 gint recherche_operation_par_cheque ( gpointer operation,

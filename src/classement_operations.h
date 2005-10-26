@@ -6,9 +6,6 @@
 
 
 /* START_DECLARATION */
-gint classement_liste_par_no_ope_ventil ( GtkWidget *liste,
-					  GtkCListRow *ligne_1,
-					  GtkCListRow *ligne_2 );
 gint gsb_strcasecmp ( gchar *string_1,
 		      gchar *string_2 );
 gint gsb_transactions_list_sort_column_0 ( GtkTreeModel *model,

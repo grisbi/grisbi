@@ -27,6 +27,7 @@
 #include "meta_budgetary.h"
 #include "utils_devises.h"
 #include "gsb_data_budget.h"
+#include "gsb_data_scheduled.h"
 #include "gsb_data_transaction.h"
 #include "imputation_budgetaire.h"
 #include "include.h"
@@ -55,12 +56,12 @@ static gboolean budgetary_line_remove_transaction_from_div ( gpointer  trans,
 						      int div_id );
 static gboolean budgetary_line_remove_transaction_from_sub_div ( gpointer  trans, 
 							  int div_id, int sub_div_id );
-static gint budgetary_line_scheduled_div_id ( struct operation_echeance * scheduled );
-static void budgetary_line_scheduled_set_div_id ( struct operation_echeance * scheduled, 
+static gint budgetary_line_scheduled_div_id ( gint scheduled_number );
+static void budgetary_line_scheduled_set_div_id ( gint scheduled_number,
 					   int no_div );
-static void budgetary_line_scheduled_set_sub_div_id ( struct operation_echeance * scheduled, 
+static void budgetary_line_scheduled_set_sub_div_id ( gint scheduled_number,
 					       int no_sub_div );
-static gint budgetary_line_scheduled_sub_div_id ( struct operation_echeance * scheduled );
+static gint budgetary_line_scheduled_sub_div_id ( gint scheduled_number );
 static gdouble budgetary_line_sub_div_balance ( gpointer div, gpointer sub_div );
 static gchar * budgetary_line_sub_div_name ( gpointer sub_div );
 static gint budgetary_line_sub_div_nb_transactions ( gpointer div, gpointer sub_div );
@@ -397,10 +398,10 @@ void budgetary_line_transaction_set_sub_div_id ( gpointer  transaction,
  *
  * \return -1 if no type is supported in backend model, type otherwise.
  */
-gint budgetary_line_scheduled_div_id ( struct operation_echeance * scheduled )
+gint budgetary_line_scheduled_div_id ( gint scheduled_number )
 {
-    if ( scheduled )
-	return scheduled -> imputation;
+    if ( scheduled_number )
+	return gsb_data_scheduled_get_budgetary_number (scheduled_number);
     return 0;
 }
 
@@ -410,10 +411,10 @@ gint budgetary_line_scheduled_div_id ( struct operation_echeance * scheduled )
  *
  *
  */
-gint budgetary_line_scheduled_sub_div_id ( struct operation_echeance * scheduled )
+gint budgetary_line_scheduled_sub_div_id ( gint scheduled_number )
 {
-    if ( scheduled )
-	return scheduled -> sous_imputation;
+    if ( scheduled_number )
+	return gsb_data_scheduled_get_sub_budgetary_number (scheduled_number);
     return 0;
 }
 
@@ -423,14 +424,16 @@ gint budgetary_line_scheduled_sub_div_id ( struct operation_echeance * scheduled
  *
  *
  */
-void budgetary_line_scheduled_set_div_id ( struct operation_echeance * scheduled, 
+void budgetary_line_scheduled_set_div_id ( gint scheduled_number,
 					   int no_div )
 {
-    if ( scheduled )
+    if ( scheduled_number )
     {
-	scheduled -> imputation = no_div;
-	if ( !scheduled -> imputation )
-	    scheduled -> compte_virement = 0;
+	gsb_data_scheduled_set_budgetary_number ( scheduled_number,
+						  no_div );
+	if ( !no_div )
+	    gsb_data_scheduled_set_account_number_transfer ( scheduled_number,
+							     0 );
     }
 }
 
@@ -440,11 +443,12 @@ void budgetary_line_scheduled_set_div_id ( struct operation_echeance * scheduled
  *
  *
  */
-void budgetary_line_scheduled_set_sub_div_id ( struct operation_echeance * scheduled, 
+void budgetary_line_scheduled_set_sub_div_id ( gint scheduled_number,
 					       int no_sub_div )
 {
-    if ( scheduled )
-	scheduled -> sous_imputation = no_sub_div;
+    if ( scheduled_number )
+	gsb_data_scheduled_set_sub_budgetary_number ( scheduled_number,
+						      no_sub_div);
 }
 
 

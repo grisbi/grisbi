@@ -45,6 +45,7 @@
 static void ajouter_type_operation ( void );
 static void changement_choix_type_echeancier ( struct struct_type_ope *type );
 static void changement_choix_type_formulaire ( struct struct_type_ope *type );
+static gint cherche_no_menu_type_associe ( gint demande );
 static void fill_payment_method_tree ();
 static gint find_operation_type_by_type ( gint no_compte, gint signe_type, gint exclude );
 static void modification_entree_nom_type ( void );

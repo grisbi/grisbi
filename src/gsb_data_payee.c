@@ -218,7 +218,7 @@ gint gsb_data_payee_new ( gchar *name )
     if (name)
 	payee -> payee_name = g_strdup (name);
     else 
-	payee -> payee_name = g_strdup ("");
+	payee -> payee_name = NULL;
 
     payee_list = g_slist_append ( payee_list, payee );
 
@@ -343,7 +343,7 @@ gint gsb_data_payee_get_pointer_from_name_in_glist ( struct_payee *payee,
  * \return the name of the payee or NULL/No payee if problem
  * */
 gchar *gsb_data_payee_get_name ( gint no_payee,
-			    gboolean can_return_null)
+				 gboolean can_return_null)
 {
     struct_payee *payee;
 
@@ -386,7 +386,11 @@ gboolean gsb_data_payee_set_name ( gint no_payee,
 	free (payee -> payee_name);
     
     /* and copy the new one */
+   if (name)
     payee -> payee_name = g_strdup (name);
+   else
+    payee -> payee_name = NULL;
+
     return TRUE;
 }
 
@@ -512,7 +516,7 @@ gchar *gsb_data_payee_get_description ( gint no_payee )
  * \return TRUE if ok or FALSE if problem
  * */
 gboolean gsb_data_payee_set_description ( gint no_payee,
-				     const gchar *description )
+					  const gchar *description )
 {
     struct_payee *payee;
 
@@ -527,7 +531,11 @@ gboolean gsb_data_payee_set_description ( gint no_payee,
 	free (payee -> payee_description);
     
     /* and copy the new one */
-    payee -> payee_description = g_strdup (description);
+    if (description)
+	payee -> payee_description = g_strdup (description);
+    else
+	payee -> payee_description = NULL;
+
     return TRUE;
 }
 

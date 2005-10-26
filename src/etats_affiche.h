@@ -2,7 +2,19 @@
 #define _ETATS_AFFICHE_H (1)
 /* START_INCLUDE_H */
 #include "etats_affiche.h"
+#include "structures.h"
 /* END_INCLUDE_H */
+
+
+/** Device independant drawing functions for reports */
+struct struct_etat_affichage
+{
+    gint (* initialise) ();	/** Initialisation of drawing session  */
+    gint (* finish) ();		/** End of drawing session  */
+    void (* attach_hsep) (int, int, int, int); /** Draw horizontal separator (aka "-")  */
+    void (* attach_vsep) (int, int, int, int); /** Draw vertical separator (aka "|") */
+    void (* attach_label) (gchar *, gdouble, int, int, int, int, enum alignement, gpointer); /** Drraw a label with properties  */
+};
 
 
 /* START_DECLARATION */

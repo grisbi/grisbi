@@ -486,7 +486,10 @@ gboolean gsb_data_report_set_report_name ( gint report_number,
     if ( !report )
 	return FALSE;
 
-    report -> report_name = g_strdup (report_name);
+    if (report_name)
+	report -> report_name = g_strdup (report_name);
+    else
+	report -> report_name = NULL;
 
     return TRUE;
 }
@@ -3869,7 +3872,8 @@ gint gsb_data_report_dup ( gint report_number )
 
     /* we had to duplicate the strings, dates and lists */
 
-    new_report -> report_name = g_strdup ( report -> report_name );
+    if( report -> report_name )
+	new_report -> report_name = g_strdup ( report -> report_name );
     new_report -> financial_year_list = g_slist_copy ( report -> financial_year_list );
     new_report -> sorting_type = g_slist_copy ( report -> sorting_type );
     new_report -> account_numbers = g_slist_copy ( report -> account_numbers );

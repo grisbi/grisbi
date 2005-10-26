@@ -36,6 +36,7 @@ sources = \
 	gsb_data_report.c	\
 	gsb_data_report_amout_comparison.c	\
 	gsb_data_report_text_comparison.c	\
+	gsb_data_scheduled.c	\
 	gsb_data_transaction.c	\
 	gsb_file_config.c	\
 	gsb_file_load.c		\
@@ -51,7 +52,6 @@ sources = \
 	echeancier_formulaire.c	\
 	echeancier_liste.c	\
 	echeancier_infos.c	\
-	echeancier_ventilation.c\
 	equilibrage.c		\
 	erreur.c		\
 	etats_affiche.c		\
@@ -100,7 +100,6 @@ sources = \
 	utils_comptes.c		\
 	utils_dates.c		\
 	utils_devises.c		\
-	utils_echeances.c	\
 	utils_editables.c	\
 	utils_exercices.c	\
 	utils_file_selection.c \
@@ -141,6 +140,7 @@ grisbi_INCLUDES =		\
 	gsb_data_report.h	\
 	gsb_data_report_amout_comparison.h	\
 	gsb_data_report_text_comparison.h	\
+	gsb_data_scheduled.h	\
 	gsb_data_transaction.h	\
 	gsb_file_config.h	\
 	gsb_file_load.h		\
@@ -156,7 +156,6 @@ grisbi_INCLUDES =		\
 	echeancier_formulaire.h	\
 	echeancier_liste.h	\
 	echeancier_infos.h	\
-	echeancier_ventilation.h\
 	equilibrage.h		\
 	erreur.h		\
 	etats_calculs.h		\
@@ -200,7 +199,6 @@ grisbi_INCLUDES =		\
 	utils_comptes.h		\
 	utils_dates.h		\
 	utils_devises.h		\
-	utils_echeances.h	\
 	utils_editables.h	\
 	utils_exercices.h	\
 	utils_file_selection.h	\

@@ -2406,7 +2406,7 @@ GSList *gsb_form_get_parties_list_from_report ( void )
 
 		/* à ce niveau, report_numbe contient le no le la struct de l'état choisi */
 
-		list_transactions = recupere_opes_etat ( gsb_data_report_get_pointer_to_report (report_number));
+		list_transactions = recupere_opes_etat ( report_number);
 
 		list_tmp = list_transactions;
 

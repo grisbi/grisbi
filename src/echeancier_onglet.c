@@ -22,7 +22,6 @@
 
 /*START_INCLUDE*/
 #include "echeancier_onglet.h"
-#include "echeancier_ventilation.h"
 #include "echeancier_formulaire.h"
 #include "echeancier_liste.h"
 #include "include.h"
@@ -67,12 +66,6 @@ GtkWidget *creation_onglet_echeancier ( void )
 			       creation_liste_echeances(),
 			       gtk_label_new ( _("Scheduler list") ) );
 
-    /*  Création de la fenêtre de la liste des ventils des échéances */
-    gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_liste_ventil_echeances ),
-			       creation_fenetre_ventilation_echeances(),
-			       gtk_label_new ( _("Scheduler broken down transactions") ) );
-
-
     /* création des formulaires */
     frame_formulaire_echeancier = gtk_expander_new_with_mnemonic ( g_strconcat ( 
 							 "<b>",
@@ -97,11 +90,6 @@ GtkWidget *creation_onglet_echeancier ( void )
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_formulaire_echeances ),
 			       creation_formulaire_echeancier (),
 			       gtk_label_new ( _("Form") ) );
-
-    /* création du formulaire de ventilation */
-    gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_formulaire_echeances ),
-			       creation_formulaire_ventilation_echeances  (),
-			       gtk_label_new ( _("Breakdown") ) );
 
     return ( vbox );
 }

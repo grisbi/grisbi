@@ -37,6 +37,7 @@
 #include "gsb_data_account.h"
 #include "operations_comptes.h"
 #include "gsb_data_payee.h"
+#include "gsb_data_scheduled.h"
 #include "gsb_data_transaction.h"
 #include "utils_dates.h"
 #include "navigation.h"
@@ -54,7 +55,7 @@
 static gboolean click_sur_compte_accueil ( gint *no_compte );
 static gboolean saisie_echeance_accueil ( GtkWidget *event_box,
 				   GdkEventButton *event,
-				   struct operation_echeance *echeance );
+				   gint scheduled_number );
 static gboolean select_expired_scheduled_transaction ( GtkWidget * event_box, GdkEventButton *event,
 						gpointer  operation );
 static void update_fin_comptes_passifs ( void );
@@ -65,7 +66,6 @@ static void update_soldes_minimaux ( void );
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern struct operation_echeance *echeance_selectionnnee;
 extern GtkWidget *formulaire;
 extern GtkWidget *formulaire_echeancier;
 extern GtkWidget *formulaire_echeancier;
@@ -283,15 +283,10 @@ void mise_a_jour_accueil ( void )
 /* ************************************************************************* */
 gboolean saisie_echeance_accueil ( GtkWidget *event_box,
 				   GdkEventButton *event,
-				   struct operation_echeance *echeance )
+				   gint scheduled_number )
 {
     GtkWidget *ancien_parent, *dialog;
-    struct operation_echeance *ancienne_selection_echeance;
     gint resultat, width;
-
-    /* on sélectionne l'échéance demandée */
-    ancienne_selection_echeance = echeance_selectionnnee;
-    echeance_selectionnnee = echeance;
 
     ancien_parent = formulaire_echeancier -> parent;
 
@@ -315,7 +310,7 @@ gboolean saisie_echeance_accueil ( GtkWidget *event_box,
     etat.formulaire_echeance_dans_fenetre = 1;
 
     /* remplit le formulaire */
-    click_sur_saisir_echeance();
+    click_sur_saisir_echeance(scheduled_number);
 
     gtk_widget_show ( formulaire_echeancier );
     if ( etat.affiche_boutons_valider_annuler )
@@ -361,10 +356,8 @@ gboolean saisie_echeance_accueil ( GtkWidget *event_box,
 
     formulaire_echeancier_a_zero();
 
-    echeance_selectionnnee = ancienne_selection_echeance;
-
     if ( !etat.formulaire_echeancier_toujours_affiche )
-	gtk_expander_set_expanded ( frame_formulaire_echeancier, FALSE );
+	gtk_expander_set_expanded ( GTK_EXPANDER (frame_formulaire_echeancier), FALSE );
 
     return FALSE;
 }
@@ -1552,6 +1545,10 @@ void update_liste_echeances_manuelles_accueil ( void )
 
 	while ( pointeur_liste )
 	{
+	    gint scheduled_number;
+
+	    scheduled_number = GPOINTER_TO_INT (pointeur_liste -> data);
+
 	    hbox = gtk_hbox_new ( TRUE, 5 );
 	    gtk_box_pack_start ( GTK_BOX ( vbox ), hbox, FALSE, FALSE, 0 );
 	    gtk_widget_show (  hbox );
@@ -1570,15 +1567,14 @@ void update_liste_echeances_manuelles_accueil ( void )
 	    gtk_signal_connect ( GTK_OBJECT ( event_box ),
 				 "button-press-event",
 				 (GtkSignalFunc) saisie_echeance_accueil,
-				 ECHEANCE_COURANTE );
+				 GINT_TO_POINTER (scheduled_number));
 	    gtk_box_pack_start ( GTK_BOX ( hbox ), event_box, TRUE, TRUE, 5 );
 	    gtk_widget_show ( event_box  );
 
 	    label = gtk_label_new ( g_strdup_printf ( "%s : %s",
-						      gsb_format_date ( ECHEANCE_COURANTE->jour,
-									 ECHEANCE_COURANTE->mois,
-									 ECHEANCE_COURANTE->annee ),
-						      gsb_data_payee_get_name ( ECHEANCE_COURANTE->tiers, FALSE )));
+						      gsb_format_gdate (gsb_data_scheduled_get_date (scheduled_number)),
+						      gsb_data_payee_get_name (gsb_data_scheduled_get_party_number (scheduled_number),
+									       FALSE )));
 
 	    gtk_widget_set_style ( label, style_label );
 	    gtk_misc_set_alignment ( GTK_MISC ( label ), MISC_LEFT, MISC_VERT_CENTER );
@@ -1587,16 +1583,16 @@ void update_liste_echeances_manuelles_accueil ( void )
 
 	    /* label à droite */
 
-	    if ( ECHEANCE_COURANTE -> montant >= 0 )
+	    if ( gsb_data_scheduled_get_amount (scheduled_number) >= 0 )
 		label = gtk_label_new ( g_strdup_printf (_("%4.2f %s credit on %s"),
-							 ECHEANCE_COURANTE->montant,
-							 devise_code_by_no(ECHEANCE_COURANTE -> devise ),
-							 gsb_data_account_get_name (ECHEANCE_COURANTE->compte) ));
+							 gsb_data_scheduled_get_amount (scheduled_number),
+							 devise_code_by_no(gsb_data_scheduled_get_currency_number (scheduled_number)),
+							 gsb_data_account_get_name (gsb_data_scheduled_get_account_number (scheduled_number))));
 	    else
 		label = gtk_label_new ( g_strdup_printf (_("%4.2f %s debit on %s"),
-							 -ECHEANCE_COURANTE->montant,
-							 devise_code_by_no( ECHEANCE_COURANTE -> devise ),
-							 gsb_data_account_get_name (ECHEANCE_COURANTE->compte) ));
+							 -gsb_data_scheduled_get_amount (scheduled_number),
+							 devise_code_by_no(gsb_data_scheduled_get_currency_number (scheduled_number)),
+							 gsb_data_account_get_name (gsb_data_scheduled_get_account_number (scheduled_number))));
 
 
 	    gtk_misc_set_alignment ( GTK_MISC ( label ), MISC_LEFT, MISC_VERT_CENTER );
@@ -1605,13 +1601,6 @@ void update_liste_echeances_manuelles_accueil ( void )
 
 	    pointeur_liste = pointeur_liste -> next;
 	}
-
-	/* on met une ligne vide pour faire joli */
-
-	/*      label = gtk_label_new ("");
-		gtk_box_pack_start ( GTK_BOX (vbox ), label, FALSE, FALSE, 0 );
-		gtk_widget_show ( label ); */
-
     }
     else
     {
@@ -2088,10 +2077,10 @@ gboolean select_expired_scheduled_transaction ( GtkWidget * event_box, GdkEventB
 
 /** update the finished scheduled transactions part in the main page
  * the scheduled transaction in param is finished
- * \param scheduled_transaction
+ * \param scheduled_number
  * \return FALSE
  * */
-gboolean gsb_main_page_update_finished_scheduled_transactions ( struct operation_echeance *scheduled_transaction )
+gboolean gsb_main_page_update_finished_scheduled_transactions ( gint scheduled_number )
 {
     GtkWidget *label;
 
@@ -2118,16 +2107,16 @@ gboolean gsb_main_page_update_finished_scheduled_transactions ( struct operation
 
     /* append in the vbox the finished scheduled transaction */
 
-    if ( scheduled_transaction -> montant >= 0 )
+    if ( gsb_data_scheduled_get_amount (scheduled_number) >= 0 )
 	label = gtk_label_new ( g_strdup_printf (PRESPACIFY(_("%4.2f %s credit on %s")),
-						 scheduled_transaction -> montant,
-						 devise_code_by_no ( scheduled_transaction -> devise ),
-						 gsb_data_account_get_name (scheduled_transaction -> compte) ));
+						 gsb_data_scheduled_get_amount (scheduled_number),
+						 devise_code_by_no (gsb_data_scheduled_get_currency_number (scheduled_number)),
+						 gsb_data_account_get_name (gsb_data_scheduled_get_account_number (scheduled_number)) ));
     else
 	label = gtk_label_new ( g_strdup_printf (PRESPACIFY(_("%4.2f %s debit on %s")),
-						 -scheduled_transaction -> montant,
-						 devise_code_by_no ( scheduled_transaction -> devise ),
-						 gsb_data_account_get_name (scheduled_transaction -> compte) ));
+						 -gsb_data_scheduled_get_amount (scheduled_number),
+						 devise_code_by_no (gsb_data_scheduled_get_currency_number (scheduled_number)),
+						 gsb_data_account_get_name (gsb_data_scheduled_get_account_number (scheduled_number)) ));
 
 
     gtk_misc_set_alignment ( GTK_MISC ( label ),

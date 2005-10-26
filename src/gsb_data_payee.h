@@ -8,7 +8,7 @@ void gsb_data_payee_add_transaction_to_payee ( gint transaction_number );
 gdouble gsb_data_payee_get_balance ( gint no_payee );
 gchar *gsb_data_payee_get_description ( gint no_payee );
 gchar *gsb_data_payee_get_name ( gint no_payee,
-			    gboolean can_return_null);
+				 gboolean can_return_null);
 GSList *gsb_data_payee_get_name_and_report_list ( void );
 GSList *gsb_data_payee_get_name_list ( void );
 gint gsb_data_payee_get_nb_transactions ( gint no_payee );
@@ -23,7 +23,7 @@ gint gsb_data_payee_new ( gchar *name );
 gboolean gsb_data_payee_remove ( gint no_payee );
 void gsb_data_payee_remove_transaction_from_payee ( gint transaction_number );
 gboolean gsb_data_payee_set_description ( gint no_payee,
-				     const gchar *description );
+					  const gchar *description );
 gboolean gsb_data_payee_set_name ( gint no_payee,
 			      const gchar *name );
 gint gsb_data_payee_set_new_number ( gint no_payee,

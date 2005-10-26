@@ -82,8 +82,6 @@ gboolean gsb_transactions_list_append_transaction ( gint transaction_number,
 						    GtkListStore *store );
 gboolean gsb_transactions_list_append_white_line ( gint mother_transaction_number,
 						   GtkListStore *store );
-gboolean gsb_transactions_list_button_press ( GtkWidget *tree_view,
-					      GdkEventButton *ev );
 gint gsb_transactions_list_clone_transaction ( gint transaction_number );
 gboolean gsb_transactions_list_delete_transaction ( gint transaction_number );
 gboolean gsb_transactions_list_edit_current_transaction ( void );

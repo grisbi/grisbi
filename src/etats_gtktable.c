@@ -34,6 +34,7 @@
 #include "structures.h"
 #include "import.h"
 #include "etats_config.h"
+#include "etats_affiche.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

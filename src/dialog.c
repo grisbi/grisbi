@@ -350,14 +350,14 @@ void dialogue_conditional ( gchar *text, gchar * var )
  */
 void dialogue_conditional_special ( gchar *text, gchar * var, GtkMessageType type )
 {
-    GtkDialog * dialog;
+    GtkDialog *dialog;
 
     dialog = dialogue_conditional_new ( text, var, type, GTK_BUTTONS_CLOSE );
     if ( ! dialog )
 	return;
 
     gtk_dialog_run ( GTK_DIALOG (dialog) );
-    gtk_widget_destroy ( dialog );
+    gtk_widget_destroy ( GTK_WIDGET (dialog));
 }
 
 
@@ -459,7 +459,7 @@ gboolean question_conditional_yes_no ( gchar * var )
 	return messages[i].default_answer;
 
     response = gtk_dialog_run (GTK_DIALOG (dialog));
-    gtk_widget_destroy ( dialog );
+    gtk_widget_destroy ( GTK_WIDGET (dialog));
 
     if ( response == GTK_RESPONSE_YES )
 	messages[i].default_answer = TRUE;

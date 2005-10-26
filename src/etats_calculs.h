@@ -4,6 +4,7 @@
 #include "etats_calculs.h"
 /* END_INCLUDE_H */
 
+#include "etats_affiche.h"
 
 /* START_DECLARATION */
 void affichage_etat ( gint report_number, 

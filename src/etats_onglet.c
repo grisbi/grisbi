@@ -23,7 +23,6 @@
 
 
 /*START_INCLUDE*/
-#include "structures.h"
 #include "etats_onglet.h"
 #include "etats_calculs.h"
 #include "dialog.h"
@@ -39,6 +38,7 @@
 #include "etats_config.h"
 #include "utils_files.h"
 #include "include.h"
+#include "structures.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -966,7 +966,7 @@ void efface_etat ( void )
     gsb_data_report_remove ( current_report_number );
 
     /* Update reports list in navigation. */
-    gsb_gui_navigation_remove_report ( gsb_data_report_get_pointer_to_report (current_report_number));
+    gsb_gui_navigation_remove_report ( current_report_number);
 
     gtk_widget_set_sensitive ( bouton_personnaliser_etat, FALSE );
     gtk_widget_set_sensitive ( bouton_imprimer_etat, FALSE );

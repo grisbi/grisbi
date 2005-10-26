@@ -30,6 +30,7 @@
 #include "gsb_data_report_amout_comparison.h"
 #include "gsb_data_report.h"
 #include "gsb_data_report_text_comparison.h"
+#include "gsb_data_scheduled.h"
 #include "gsb_data_transaction.h"
 #include "gsb_file_util.h"
 #include "utils_dates.h"
@@ -92,7 +93,6 @@ extern GSList *lignes_affichage_deux_lignes;
 extern GSList *lignes_affichage_trois_lignes;
 extern GSList *liste_struct_banques;
 extern GSList *liste_struct_devises;
-extern GSList *liste_struct_echeances;
 extern GSList *liste_struct_exercices;
 extern GSList *liste_struct_rapprochements;
 extern gint nb_colonnes;
@@ -852,41 +852,41 @@ gulong gsb_file_save_scheduled_part ( gulong iterator,
 {
     GSList *list_tmp;
 	
-    list_tmp = liste_struct_echeances;
+    list_tmp = gsb_data_scheduled_get_scheduled_list ();
 
     while ( list_tmp )
     {
-	struct operation_echeance *echeance;
+	gint scheduled_number;
 	gchar *new_string;
 
-	echeance = list_tmp -> data;
+	scheduled_number = gsb_data_scheduled_get_scheduled_number (list_tmp -> data);
 
 	/* now we can fill the file content */
 
 	new_string = g_markup_printf_escaped ( "\t<Scheduled Nb=\"%d\" Dt=\"%s\" Ac=\"%d\" Am=\"%4.7f\" Cu=\"%d\" Pa=\"%d\" Ca=\"%d\" Sca=\"%d\" Tra=\"%d\" Pn=\"%d\" CPn=\"%d\" Pc=\"%s\" Fi=\"%d\" Bu=\"%d\" Sbu=\"%d\" No=\"%s\" Au=\"%d\" Pe=\"%d\" Pei=\"%d\" Pep=\"%d\" Dtl=\"%s\" Br=\"%d\" Mo=\"%d\" />\n",
-					       echeance -> no_operation,
-					       gsb_format_gdate ( echeance -> date),
-					       echeance -> compte,
-					       echeance -> montant,
-					       echeance -> devise,
-					       echeance -> tiers,
-					       echeance -> categorie,
-					       echeance -> sous_categorie,
-					       echeance -> compte_virement,
-					       echeance -> type_ope,
-					       echeance -> type_contre_ope,
-					       echeance -> contenu_type,
-					       echeance -> no_exercice,
-					       echeance -> imputation,
-					       echeance -> sous_imputation,
-					       echeance -> notes,
-					       echeance -> auto_man,
-					       echeance -> periodicite,
-					       echeance -> intervalle_periodicite_personnalisee,
-					       echeance -> periodicite_personnalisee,
-					       gsb_format_gdate ( echeance -> date_limite),
-					       echeance -> operation_ventilee,
-					       echeance -> no_operation_ventilee_associee );
+					       scheduled_number,
+					       gsb_format_gdate (gsb_data_scheduled_get_date ( scheduled_number)),
+					       gsb_data_scheduled_get_account_number ( scheduled_number),
+					       gsb_data_scheduled_get_amount ( scheduled_number),
+					       gsb_data_scheduled_get_currency_number ( scheduled_number),
+					       gsb_data_scheduled_get_party_number ( scheduled_number),
+					       gsb_data_scheduled_get_category_number ( scheduled_number),
+					       gsb_data_scheduled_get_sub_category_number ( scheduled_number),
+					       gsb_data_scheduled_get_account_number_transfer ( scheduled_number),
+					       gsb_data_scheduled_get_method_of_payment_number ( scheduled_number),
+					       gsb_data_scheduled_get_contra_method_of_payment_number ( scheduled_number),
+					       gsb_data_scheduled_get_method_of_payment_content ( scheduled_number),
+					       gsb_data_scheduled_get_financial_year_number ( scheduled_number),
+					       gsb_data_scheduled_get_budgetary_number ( scheduled_number),
+					       gsb_data_scheduled_get_sub_budgetary_number ( scheduled_number),
+					       gsb_data_scheduled_get_notes ( scheduled_number),
+					       gsb_data_scheduled_get_automatic_scheduled ( scheduled_number),
+					       gsb_data_scheduled_get_frequency ( scheduled_number),
+					       gsb_data_scheduled_get_user_interval ( scheduled_number),
+					       gsb_data_scheduled_get_user_entry ( scheduled_number),
+					       gsb_format_gdate (gsb_data_scheduled_get_limit_date ( scheduled_number)),
+					       gsb_data_scheduled_get_breakdown_of_scheduled ( scheduled_number),
+					       gsb_data_scheduled_get_mother_scheduled_number ( scheduled_number));
 
 	/* append the new string to the file content
 	 * and take the new iterator */

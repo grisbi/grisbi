@@ -23,7 +23,6 @@
 
 
 /*START_INCLUDE*/
-#include "structures.h"
 #include "etats_calculs.h"
 #include "search_glist.h"
 #include "utils_devises.h"
@@ -40,6 +39,7 @@
 #include "utils_rapprochements.h"
 #include "utils_types.h"
 #include "utils_str.h"
+#include "structures.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

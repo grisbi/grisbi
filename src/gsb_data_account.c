@@ -115,6 +115,7 @@ typedef struct
 
 /*START_STATIC*/
 static struct_account *gsb_data_account_get_structure ( gint no );
+static gboolean gsb_data_account_get_update_list ( gint no_account );
 static gint gsb_data_account_max_number ( void );
 /*END_STATIC*/
 

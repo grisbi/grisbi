@@ -3,9 +3,8 @@
 /*                                                                            */
 /*                                  data_account                              */
 /*                                                                            */
-/*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org)	      */
-/*			2003-2004 Benjamin Drieu (bdrieu@april.org)	      */
-/*			2003-2004 Alain Portal (aportal@univ-montp2.fr)	      */
+/*     Copyright (C)	2000-2006 Cédric Auger (cedric@grisbi.org)	      */
+/*			2003-2006 Benjamin Drieu (bdrieu@april.org)	      */
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -347,8 +346,10 @@ gboolean gsb_data_transaction_set_transaction_id ( gint no_transaction,
     if ( !transaction )
 	return FALSE;
 
-    transaction -> transaction_id = g_strdup (transaction_id);
-    
+    if (transaction_id)
+	transaction -> transaction_id = g_strdup (transaction_id);
+    else
+    	transaction -> transaction_id = NULL;
     return TRUE;
 }
 
@@ -1377,8 +1378,11 @@ gboolean gsb_data_transaction_set_bank_references ( gint no_transaction,
 }
 
 
-/** get the  transaction_number_transfer
+/**
+ * get the  transaction_number_transfer
+ * 
  * \param no_transaction the number of the transaction
+ * 
  * \return the transaction_number_transfer number of the transaction
  * */
 gint gsb_data_transaction_get_transaction_number_transfer ( gint no_transaction )
@@ -1641,9 +1645,12 @@ gboolean gsb_data_transaction_copy_transaction ( gint source_transaction_number,
     return TRUE;
 }
 
-/** remove the transaction from the transaction's list
- * don't free the transaction
+/**
+ * remove the transaction from the transaction's list
+ * free the transaction
+ * 
  * \param transaction_number
+ *
  * \return TRUE if ok
  * */
 gboolean gsb_data_transaction_remove_transaction ( gint transaction_number )
@@ -1657,5 +1664,6 @@ gboolean gsb_data_transaction_remove_transaction ( gint transaction_number )
 
     transactions_list = g_slist_remove ( transactions_list,
 					 transaction );
+    g_free (transaction);
     return TRUE;
 }

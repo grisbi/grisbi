@@ -41,7 +41,6 @@
 #include "operations_formulaire.h"
 #include "structures.h"
 #include "include.h"
-#include "echeancier_ventilation.h"
 #include "echeancier_formulaire.h"
 /*END_INCLUDE*/
 
@@ -200,7 +199,6 @@ extern GtkTreeStore *model;
 extern gint modif_categ;
 extern GtkTreeSelection * selection;
 extern GtkWidget *widget_formulaire_echeancier[SCHEDULER_FORM_TOTAL_WIDGET];
-extern GtkWidget *widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_TOTAL_WIDGET];
 extern GtkWidget *window;
 /*END_EXTERN*/
 
@@ -454,13 +452,6 @@ void mise_a_jour_combofix_categ ( void )
 	gtk_combofix_set_list ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_CATEGORY] ),
 				list_tmp, TRUE, TRUE );
 
-    if ( GTK_IS_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_BREAKDOWN_FORM_CATEGORY] ))
-	gtk_combofix_set_list ( GTK_COMBOFIX ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_CATEGORY] ),
-				gsb_data_category_get_name_list ( TRUE,
-								  TRUE,
-								  TRUE,
-								  FALSE ),
-				TRUE, TRUE );
 
     /* FIXME : this should not be in this function */
     if ( gsb_gui_navigation_get_current_report () )
@@ -787,7 +778,7 @@ gboolean edit_category ( GtkTreeView * view )
 
     if ( !sub_category_number )
     {
-	guint type;
+	gint type;
 
 	/* Description entry */
 	label = gtk_label_new ( _("Type"));

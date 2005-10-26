@@ -790,7 +790,10 @@ gboolean gsb_data_budget_set_name ( gint no_budget,
 	free (budget -> budget_name);
 
     /* and copy the new one */
-    budget -> budget_name = g_strdup (name);
+    if ( name )
+	budget -> budget_name = g_strdup (name);
+    else
+	budget -> budget_name = NULL;
     return TRUE;
 }
 
@@ -847,7 +850,10 @@ gboolean gsb_data_budget_set_sub_budget_name ( gint no_budget,
 	free (sub_budget -> sub_budget_name);
 
     /* and copy the new one */
-    sub_budget -> sub_budget_name = g_strdup (name);
+    if ( name )
+	sub_budget -> sub_budget_name = g_strdup (name);
+    else
+	sub_budget -> sub_budget_name = NULL;
     return TRUE;
 }
 

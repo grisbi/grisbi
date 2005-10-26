@@ -71,7 +71,7 @@ gchar * child_content ( xmlNodePtr node, gchar * child_name )
   child_node = get_child ( node, child_name );
 
   if ( child_node )
-    return xmlNodeGetContent ( child_node );
+    return (gchar *) xmlNodeGetContent ( child_node );
   
   return NULL;
 }

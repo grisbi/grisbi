@@ -27,7 +27,6 @@
 #include "include.h"
 
 /*START_INCLUDE*/
-#include "structures.h"
 #include "etats_affiche.h"
 #include "etats_calculs.h"
 #include "utils_devises.h"
@@ -44,6 +43,7 @@
 #include "utils_rapprochements.h"
 #include "utils_types.h"
 #include "utils_str.h"
+#include "structures.h"
 #include "etats_config.h"
 #include "include.h"
 /*END_INCLUDE*/

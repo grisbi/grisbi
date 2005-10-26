@@ -31,10 +31,10 @@
 #include "type_operations.h"
 #include "comptes_gestion.h"
 #include "dialog.h"
-#include "utils_echeances.h"
 #include "fichiers_gestion.h"
 #include "gsb_data_account.h"
 #include "operations_comptes.h"
+#include "gsb_data_scheduled.h"
 #include "gsb_data_transaction.h"
 #include "navigation.h"
 #include "menu.h"
@@ -64,8 +64,6 @@
 extern GtkWidget *account_page;
 extern GtkWidget *bouton_supprimer_compte;
 extern gint compte_courant_onglet;
-extern struct operation_echeance *echeance_selectionnnee;
-extern GSList *liste_struct_echeances;
 extern gint mise_a_jour_combofix_categ_necessaire;
 extern gint mise_a_jour_combofix_imputation_necessaire;
 extern gint mise_a_jour_combofix_tiers_necessaire;
@@ -73,7 +71,6 @@ extern gint mise_a_jour_fin_comptes_passifs;
 extern gint mise_a_jour_liste_comptes_accueil;
 extern gint mise_a_jour_liste_echeances_manuelles_accueil;
 extern gint mise_a_jour_soldes_minimaux;
-extern gint nb_echeances;
 extern GtkWidget *notebook_general;
 extern GtkStyle *style_entree_formulaire[2];
 extern GtkWidget *tree_view_vbox;
@@ -157,7 +154,6 @@ gboolean delete_account ( void )
 {
     gint deleted_account;
     gint page_number;
-    struct operation_echeance *echeance;
     GSList *list_tmp;
 
     deleted_account = compte_courant_onglet;
@@ -183,14 +179,16 @@ gboolean delete_account ( void )
 
     /* delete the schedules transactions on that account */
 
-    while ( (echeance = echeance_par_no_compte ( deleted_account )))
-    {
-	if ( echeance_selectionnnee == echeance )
-	    echeance_selectionnnee = GINT_TO_POINTER (-1);
+    list_tmp = gsb_data_scheduled_get_scheduled_list ();
 
-	liste_struct_echeances = g_slist_remove ( liste_struct_echeances,
-						  echeance );
-	nb_echeances--;
+    while (list_tmp)
+    {
+	gint scheduled_number;
+
+	scheduled_number = gsb_data_scheduled_get_scheduled_number (list_tmp -> data);
+
+	if ( gsb_data_scheduled_get_account_number (scheduled_number) == deleted_account )
+	    gsb_data_scheduled_remove_scheduled (scheduled_number);
     }
 
 

@@ -14,28 +14,28 @@ typedef enum GSB_BUTTON_STYLE {
 
 
 /*START_DECLARATION*/
-void checkbox_set_value ( GtkWidget * checkbox, guint * data, gboolean update );
+void checkbox_set_value ( GtkWidget * checkbox, gint * data, gboolean update );
 GtkWidget *cree_bouton_url ( const gchar *adr,
 			     const gchar *inscription );
 GtkWidget * new_button_with_label_and_image ( GsbButtonStyle style,
 					      gchar * name, gchar * filename,
 					      GCallback callback, gpointer data );
-GtkWidget *new_checkbox_with_title ( gchar * label, guint * data, GCallback hook);
+GtkWidget *new_checkbox_with_title ( gchar * label, gint * data, GCallback hook);
 GtkWidget * new_int_spin_button ( gint * value, 
 				  gdouble lower, gdouble upper, 
 				  gdouble step_increment, gdouble page_increment, 
 				  gdouble page_size, 
-				  gdouble climb_rate, guint digits,
+				  gdouble climb_rate, gint digits,
 				  GCallback hook );
-GtkWidget * new_radiogroup ( gchar * choice1, gchar * choice2, guint * data, GCallback hook );
+GtkWidget * new_radiogroup ( gchar * choice1, gchar * choice2, gint * data, GCallback hook );
 GtkWidget *new_radiogroup_with_title ( GtkWidget * parent,
 				       gchar * title, gchar * choice1, gchar * choice2,
-				       guint * data, GCallback hook );
+				       gint * data, GCallback hook );
 GtkWidget * new_spin_button ( gdouble * value, 
 			      gdouble lower, gdouble upper, 
 			      gdouble step_increment, gdouble page_increment, 
 			      gdouble page_size, 
-			      gdouble climb_rate, guint digits,
+			      gdouble climb_rate, gint digits,
 			      GCallback hook );
 GtkWidget * new_stock_button_with_label ( GsbButtonStyle style,
 					  gchar * stock_id, gchar * name, 

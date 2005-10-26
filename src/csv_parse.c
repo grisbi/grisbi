@@ -452,7 +452,7 @@ gboolean csv_import_parse_p_r ( struct struct_ope_importation * ope, gchar * str
  */
 gboolean csv_import_parse_breakdown ( struct struct_ope_importation * ope, gchar * string )
 {
-    g_return_val_if_fail ( string, NULL );
+    g_return_val_if_fail ( string, FALSE );
 
     if ( ! strcmp ( string, "V" ) )
     {

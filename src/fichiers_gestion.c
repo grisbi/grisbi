@@ -41,6 +41,7 @@
 #include "gsb_data_account.h"
 #include "operations_comptes.h"
 #include "gsb_data_category.h"
+#include "gsb_data_scheduled.h"
 #include "gsb_data_transaction.h"
 #include "gsb_file_config.h"
 #include "gsb_file_load.h"
@@ -75,7 +76,6 @@ gchar *nom_fichier_backup;
 
 /*START_EXTERN*/
 extern gchar *dernier_chemin_de_travail;
-extern GSList *liste_struct_echeances;
 extern GtkWidget *main_vbox;
 extern gint max;
 extern gint mise_a_jour_fin_comptes_passifs;
@@ -222,7 +222,7 @@ void ouvrir_fichier ( void )
     gtk_widget_show ( selection_fichier );
 
     file_selection_set_filename ( GTK_FILE_SELECTION ( selection_fichier ), "*.gsb" );
-    gtk_file_selection_complete ( selection_fichier, "*.gsb" );
+    gtk_file_selection_complete ( GTK_FILE_SELECTION (selection_fichier), "*.gsb" );
 }
 /* ************************************************************************************************************ */
 
@@ -770,7 +770,7 @@ gboolean fermer_fichier ( void )
 
 	    /* libère les échéances */
 
-	    g_slist_free ( liste_struct_echeances );
+	    g_slist_free ( gsb_data_scheduled_get_scheduled_list () );
 	    g_slist_free ( scheduled_transactions_to_take );
 	    g_slist_free ( scheduled_transactions_taken );
 

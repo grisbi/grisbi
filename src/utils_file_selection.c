@@ -176,9 +176,9 @@ GtkWidget* file_selection_new(const gchar      *title,const  gint properties)
     GtkWidget *filesel;
 
     filesel = gtk_file_selection_new(title);
-    gtk_window_set_destroy_with_parent ( filesel, TRUE );
-    gtk_window_set_modal ( filesel, TRUE );
-    gtk_file_selection_complete ( filesel, "*.gsb" );
+    gtk_window_set_destroy_with_parent ( GTK_WINDOW (filesel), TRUE );
+    gtk_window_set_modal ( GTK_WINDOW (filesel), TRUE );
+    gtk_file_selection_complete ( GTK_FILE_SELECTION (filesel), "*.gsb" );
 
 #ifdef _WIN32_USE_FILE_DIALOG
     /*! \todo On Windows, we "hijack" the standard gtk signals */

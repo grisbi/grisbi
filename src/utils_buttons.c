@@ -36,7 +36,7 @@
 /*START_STATIC*/
 static GtkWidget * new_image_label ( GsbButtonStyle style, gchar * image_name, gchar * name );
 static GtkWidget * new_stock_image_label ( GsbButtonStyle style, gchar * stock_id, gchar * name );
-static gboolean set_boolean ( GtkWidget * checkbox, guint * dummy);
+static gboolean set_boolean ( GtkWidget * checkbox, gint * dummy);
 static gboolean set_double_from_spin ( GtkWidget * spin, gdouble * dummy);
 static gboolean set_int_from_spin ( GtkWidget * spin, gint * dummy);
 /*END_STATIC*/
@@ -59,7 +59,7 @@ extern GtkWidget *window;
  * \param hook A GCallBack to execute if not null
  * \return A newly allocated GtkVBox
  */
-GtkWidget *new_checkbox_with_title ( gchar * label, guint * data, GCallback hook)
+GtkWidget *new_checkbox_with_title ( gchar * label, gint * data, GCallback hook)
 {
     GtkWidget * checkbox;
 
@@ -98,7 +98,7 @@ GtkWidget *new_checkbox_with_title ( gchar * label, guint * data, GCallback hook
  */
 GtkWidget *new_radiogroup_with_title ( GtkWidget * parent,
 				       gchar * title, gchar * choice1, gchar * choice2,
-				       guint * data, GCallback hook )
+				       gint * data, GCallback hook )
 {
     GtkWidget * paddingbox;
 
@@ -116,7 +116,7 @@ GtkWidget *new_radiogroup_with_title ( GtkWidget * parent,
  *
  *
  */
-GtkWidget * new_radiogroup ( gchar * choice1, gchar * choice2, guint * data, GCallback hook )
+GtkWidget * new_radiogroup ( gchar * choice1, gchar * choice2, gint * data, GCallback hook )
 {
     GtkWidget * button1, *button2, *vbox;
     
@@ -161,7 +161,7 @@ GtkWidget * new_radiogroup ( gchar * choice1, gchar * choice2, guint * data, GCa
  * checkbox's handlers as well.
  * \param update Whether to update checkbox's data as well.
  */
-void checkbox_set_value ( GtkWidget * checkbox, guint * data, gboolean update )
+void checkbox_set_value ( GtkWidget * checkbox, gint * data, gboolean update )
 {
     if (data)
     {
@@ -199,7 +199,7 @@ void checkbox_set_value ( GtkWidget * checkbox, guint * data, gboolean update )
  * \param checkbox a pointer to a checkbox widget.
  * \param data a pointer to an integer that is to be modified.
  */
-gboolean set_boolean ( GtkWidget * checkbox, guint * dummy)
+gboolean set_boolean ( GtkWidget * checkbox, gint * dummy)
 {
     gboolean *data;
 
@@ -228,7 +228,7 @@ GtkWidget * new_int_spin_button ( gint * value,
 				  gdouble lower, gdouble upper, 
 				  gdouble step_increment, gdouble page_increment, 
 				  gdouble page_size, 
-				  gdouble climb_rate, guint digits,
+				  gdouble climb_rate, gint digits,
 				  GCallback hook )
 {
     GtkWidget * spin;
@@ -276,7 +276,7 @@ GtkWidget * new_spin_button ( gdouble * value,
 			      gdouble lower, gdouble upper, 
 			      gdouble step_increment, gdouble page_increment, 
 			      gdouble page_size, 
-			      gdouble climb_rate, guint digits,
+			      gdouble climb_rate, gint digits,
 			      GCallback hook )
 {
     GtkWidget * spin;

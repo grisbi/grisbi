@@ -29,7 +29,6 @@
 #include "accueil.h"
 #include "utils_montants.h"
 #include "utils_exercices.h"
-#include "classement_echeances.h"
 #include "operations_formulaire.h"
 #include "barre_outils.h"
 #include "type_operations.h"
@@ -43,6 +42,7 @@
 #include "gsb_data_budget.h"
 #include "gsb_data_category.h"
 #include "gsb_data_payee.h"
+#include "gsb_data_scheduled.h"
 #include "gsb_data_transaction.h"
 #include "utils_dates.h"
 #include "classement_operations.h"
@@ -80,6 +80,8 @@ static gboolean gsb_gui_change_cell_content ( GtkWidget * item, gint number );
 static GtkWidget * gsb_gui_create_cell_contents_menu ( int x, int y );
 static gboolean gsb_gui_update_row_foreach ( GtkTreeModel *model, GtkTreePath *path,
 				      GtkTreeIter *iter, gint coords[2] );
+static gboolean gsb_transactions_list_button_press ( GtkWidget *tree_view,
+					      GdkEventButton *ev );
 static gboolean gsb_transactions_list_change_sort_type ( GtkWidget *menu_item,
 						  gint *no_column );
 static gboolean gsb_transactions_list_check_mark ( gpointer transaction );
@@ -119,7 +121,7 @@ static void move_selected_operation_to_account ( GtkMenuItem * menu_item );
 static void p_press (void);
 static void popup_transaction_context_menu ( gboolean full, int x, int y );
 static void r_press (void);
-static struct operation_echeance *schedule_transaction ( gpointer * transaction );
+static gint schedule_transaction ( gint transaction_number );
 static gdouble solde_debut_affichage ( gint no_account );
 static void update_titres_tree_view ( void );
 /*END_STATIC*/
@@ -177,7 +179,6 @@ extern GdkColor couleur_grise;
 extern GdkColor couleur_selection;
 extern struct struct_devise *devise_compte;
 extern struct struct_devise *devise_operation;
-extern struct operation_echeance *echeance_selectionnnee;
 extern GtkWidget *formulaire;
 extern GtkWidget *label_equilibrage_ecart;
 extern GtkWidget *label_equilibrage_pointe;
@@ -187,7 +188,6 @@ extern GSList *lignes_affichage_deux_lignes;
 extern GSList *lignes_affichage_trois_lignes;
 extern GSList *liste_labels_titres_colonnes_liste_ope ;
 extern GSList *liste_struct_devises;
-extern GSList *liste_struct_echeances;
 extern gint max;
 extern gint mise_a_jour_combofix_categ_necessaire;
 extern gint mise_a_jour_combofix_imputation_necessaire;
@@ -197,8 +197,6 @@ extern gint mise_a_jour_liste_echeances_auto_accueil;
 extern gint mise_a_jour_soldes_minimaux;
 extern GtkTreeStore *model;
 extern gint nb_colonnes;
-extern gint nb_echeances;
-extern gint no_derniere_echeance;
 extern GtkWidget *notebook_general;
 extern gdouble operations_pointees;
 extern PangoFontDescription *pango_desc_fonte_liste;
@@ -3250,10 +3248,10 @@ GtkWidget * gsb_gui_create_cell_contents_menu ( int x, int y )
     for ( i = 0 ; labels_boutons[i] ; i++ )
     {
 	item = gtk_menu_item_new_with_label ( labels_boutons[i] );
-	g_object_set_data ( item, "x", x );
-	g_object_set_data ( item, "y", y );
+	g_object_set_data ( G_OBJECT (item), "x", GINT_TO_POINTER (x) );
+	g_object_set_data ( G_OBJECT (item), "y", GINT_TO_POINTER (y) );
 	g_signal_connect ( G_OBJECT(item), "activate", 
-			   G_CALLBACK(gsb_gui_change_cell_content), i );
+			   G_CALLBACK(gsb_gui_change_cell_content), GINT_TO_POINTER (i));
 	gtk_menu_append ( menu, item );
     }
     
@@ -3316,13 +3314,13 @@ gboolean gsb_gui_change_cell_content ( GtkWidget * item, gint number )
 {
     gint coords[2];
 
-    coords[0] = g_object_get_data ( item, "x" );
-    coords[1] = g_object_get_data ( item, "y" );
+    coords[0] = GPOINTER_TO_INT (g_object_get_data ( G_OBJECT (item), "x" ));
+    coords[1] = GPOINTER_TO_INT (g_object_get_data ( G_OBJECT (item), "y" ));
 
     tab_affichage_ope[coords[1]][coords[0]] = number + 1;
     
-    gtk_tree_model_foreach ( gsb_transactions_list_get_store (),
-			     gsb_gui_update_row_foreach, coords );
+    gtk_tree_model_foreach ( GTK_TREE_MODEL (gsb_transactions_list_get_store ()),
+			     (GtkTreeModelForeachFunc) gsb_gui_update_row_foreach, coords );
 
     return FALSE;
 }
@@ -3651,20 +3649,21 @@ gboolean move_operation_to_account ( gint transaction_number,
  */
 void schedule_selected_transaction ()
 {
-    struct operation_echeance * echeance;
+    gint scheduled_number;
 
-    if (! assert_selected_transaction()) return;
+    if (!assert_selected_transaction())
+	return;
 
-    echeance = schedule_transaction ( gsb_data_transaction_get_pointer_to_transaction (gsb_data_account_get_current_transaction_number (gsb_data_account_get_current_account ())));
+    scheduled_number = schedule_transaction ( gsb_data_account_get_current_transaction_number (gsb_data_account_get_current_account ()));
 
     mise_a_jour_liste_echeances_auto_accueil = 1;
     remplissage_liste_echeance ();
 
-    echeance_selectionnnee = echeance;
+    gsb_data_scheduled_set_current_scheduled_number (scheduled_number);
     formulaire_echeancier_a_zero();
     degrise_formulaire_echeancier();
-    selectionne_echeance (echeance_selectionnnee);
-    edition_echeance ();
+    selectionne_echeance (gsb_data_scheduled_get_current_scheduled_number ());
+    edition_echeance (scheduled_number);
 
     gtk_notebook_set_current_page ( GTK_NOTEBOOK(notebook_general), 2 );
 
@@ -3677,79 +3676,85 @@ void schedule_selected_transaction ()
  *  Convert transaction to a template of scheduled transaction.
  *
  * \param transaction Transaction to use as a template.
+ *
+ * \return the number of the scheduled transaction
  */
-struct operation_echeance *schedule_transaction ( gpointer * transaction )
+gint schedule_transaction ( gint transaction_number )
 {
-    struct operation_echeance *echeance;
+    gint scheduled_number;
 
-    echeance = (struct operation_echeance *) calloc ( 1,
-						      sizeof(struct operation_echeance) );
-    if ( !echeance )
-    {
-	dialogue_error_memory ();
-	return(FALSE);
-    }
+    scheduled_number = gsb_data_scheduled_new_scheduled ();
 
-    echeance -> compte = gsb_data_transaction_get_account_number (gsb_data_transaction_get_transaction_number (transaction));
-    echeance -> date = gsb_date_copy (gsb_data_transaction_get_date ( gsb_data_transaction_get_transaction_number ( transaction )));
+    if ( !scheduled_number)
+	return FALSE;
 
-    echeance -> montant = gsb_data_transaction_get_amount ( gsb_data_transaction_get_transaction_number (transaction ));
-    echeance -> devise = gsb_data_transaction_get_currency_number ( gsb_data_transaction_get_transaction_number (transaction ));
-
-    echeance -> tiers = gsb_data_transaction_get_party_number ( gsb_data_transaction_get_transaction_number (transaction ));
-    echeance -> categorie = gsb_data_transaction_get_category_number ( gsb_data_transaction_get_transaction_number (transaction ));
-    echeance -> sous_categorie = gsb_data_transaction_get_sub_category_number ( gsb_data_transaction_get_transaction_number (transaction ));
+    gsb_data_scheduled_set_account_number ( scheduled_number,
+					    gsb_data_transaction_get_account_number (transaction_number));
+    gsb_data_scheduled_set_date ( scheduled_number,
+				  gsb_date_copy (gsb_data_transaction_get_date (transaction_number)));
+    gsb_data_scheduled_set_amount ( scheduled_number,
+				    gsb_data_transaction_get_amount (transaction_number));
+    gsb_data_scheduled_set_currency_number ( scheduled_number,
+					     gsb_data_transaction_get_currency_number (transaction_number));
+    gsb_data_scheduled_set_party_number ( scheduled_number,
+					  gsb_data_transaction_get_party_number (transaction_number));
+    gsb_data_scheduled_set_category_number ( scheduled_number,
+					     gsb_data_transaction_get_category_number (transaction_number));
+    gsb_data_scheduled_set_sub_category_number ( scheduled_number,
+						 gsb_data_transaction_get_sub_category_number (transaction_number));
 
     /*     pour 1 virement, categ et sous categ sont à 0, et compte_virement contient le no de compte */
     /* 	mais si categ et sous categ sont à 0 et que ce n'est pas un virement ni une ventil, compte_virement = -1 */
     /*     on va changer ça la prochaine version, dès que c'est pas un virement -> -1 */
 
-    if ( gsb_data_transaction_get_transaction_number_transfer ( gsb_data_transaction_get_transaction_number (transaction )))
+    if ( gsb_data_transaction_get_transaction_number_transfer (transaction_number))
     {
 	/* 	c'est un virement, on met la relation et on recherche le type de la contre opération */
 
-	gpointer contra_transaction;
+	gint contra_transaction_number;
 
-	echeance -> compte_virement = gsb_data_transaction_get_account_number_transfer ( gsb_data_transaction_get_transaction_number (transaction ));
+	gsb_data_scheduled_set_account_number_transfer ( scheduled_number,
+							 gsb_data_transaction_get_account_number_transfer (transaction_number));
 
-	contra_transaction = gsb_data_transaction_get_pointer_to_transaction (gsb_data_transaction_get_transaction_number_transfer (gsb_data_transaction_get_transaction_number (transaction)));
+	contra_transaction_number = gsb_data_transaction_get_transaction_number_transfer (transaction_number);
 
-	if ( contra_transaction )
-	    echeance -> type_contre_ope = gsb_data_transaction_get_method_of_payment_number ( gsb_data_transaction_get_transaction_number (contra_transaction ));
+	gsb_data_scheduled_set_contra_method_of_payment_number ( scheduled_number,
+								 gsb_data_transaction_get_method_of_payment_number (contra_transaction_number));
     }
     else
-	if ( !echeance -> categorie
+	if ( !gsb_data_scheduled_get_category_number (scheduled_number)
 	     &&
-	     !gsb_data_transaction_get_breakdown_of_transaction ( gsb_data_transaction_get_transaction_number (transaction )))
-	    echeance -> compte_virement = -1;
+	     !gsb_data_transaction_get_breakdown_of_transaction (transaction_number))
+		gsb_data_scheduled_set_account_number_transfer ( scheduled_number,
+								 -1 );
 
-    echeance -> notes = g_strdup ( gsb_data_transaction_get_notes ( gsb_data_transaction_get_transaction_number (transaction )));
-    echeance -> type_ope = gsb_data_transaction_get_method_of_payment_number ( gsb_data_transaction_get_transaction_number (transaction ));
-    echeance -> contenu_type = g_strdup ( gsb_data_transaction_get_method_of_payment_content ( gsb_data_transaction_get_transaction_number (transaction )));
+    gsb_data_scheduled_set_notes ( scheduled_number,
+				   gsb_data_transaction_get_notes (transaction_number));
+    gsb_data_scheduled_set_method_of_payment_number ( scheduled_number,
+						      gsb_data_transaction_get_method_of_payment_number (transaction_number));
+    gsb_data_scheduled_set_method_of_payment_content ( scheduled_number,
+						       gsb_data_transaction_get_method_of_payment_content (transaction_number));
 
-
-    echeance -> no_exercice = gsb_data_transaction_get_financial_year_number ( gsb_data_transaction_get_transaction_number (transaction ));
-    echeance -> imputation = gsb_data_transaction_get_budgetary_number ( gsb_data_transaction_get_transaction_number (transaction ));
-    echeance -> sous_imputation = gsb_data_transaction_get_sub_budgetary_number ( gsb_data_transaction_get_transaction_number (transaction ));
-
-    echeance -> operation_ventilee = gsb_data_transaction_get_breakdown_of_transaction ( gsb_data_transaction_get_transaction_number (transaction ));
+    gsb_data_scheduled_set_financial_year_number ( scheduled_number,
+						   gsb_data_transaction_get_financial_year_number (transaction_number));
+    gsb_data_scheduled_set_budgetary_number ( scheduled_number,
+					      gsb_data_transaction_get_budgetary_number (transaction_number));
+    gsb_data_scheduled_set_sub_budgetary_number ( scheduled_number,
+						  gsb_data_transaction_get_sub_budgetary_number (transaction_number));
+    gsb_data_scheduled_set_breakdown_of_scheduled ( scheduled_number,
+						    gsb_data_transaction_get_breakdown_of_transaction (transaction_number));
 
     /*     par défaut, on met en manuel, pour éviter si l'utilisateur se gourre dans la date, */
     /*     (c'est le cas, à 0 avec calloc) */
     /*     que l'opé soit enregistrée immédiatement ; de même on le met en mensuel par défaut */
     /* 	pour la même raison */
 
-    echeance -> periodicite = 2;
-
-    echeance -> no_operation = ++no_derniere_echeance;
-    nb_echeances++;
-    liste_struct_echeances = g_slist_insert_sorted ( liste_struct_echeances,
-						     echeance,
-						     (GCompareFunc) classement_sliste_echeance_par_date );
+    gsb_data_scheduled_set_frequency ( scheduled_number,
+				       2);
 
     /*     on récupère les opés de ventil si c'était une opé ventilée */
 
-    if ( echeance -> operation_ventilee )
+    if ( gsb_data_scheduled_get_breakdown_of_scheduled ( scheduled_number))
     {
 	GSList *list_tmp_transactions;
 	list_tmp_transactions = gsb_data_transaction_get_transactions_list ();
@@ -3759,79 +3764,83 @@ struct operation_echeance *schedule_transaction ( gpointer * transaction )
 	    gint transaction_number_tmp;
 	    transaction_number_tmp = gsb_data_transaction_get_transaction_number (list_tmp_transactions -> data);
 
-	    if ( gsb_data_transaction_get_account_number (transaction_number_tmp) == gsb_data_transaction_get_account_number (gsb_data_transaction_get_transaction_number (transaction))
+	    if ( gsb_data_transaction_get_account_number (transaction_number_tmp) == gsb_data_transaction_get_account_number (transaction_number)
 		 &&
-		 gsb_data_transaction_get_mother_transaction_number (transaction_number_tmp) == gsb_data_transaction_get_transaction_number (transaction))
+		 gsb_data_transaction_get_mother_transaction_number (transaction_number_tmp) == transaction_number)
 	    {
-		struct operation_echeance *echeance_de_ventil;
+		gint breakdown_scheduled_number;
 
-		echeance_de_ventil = calloc ( 1,
-					      sizeof ( struct operation_echeance));
+		breakdown_scheduled_number = gsb_data_scheduled_new_scheduled ();
 
-		if ( !echeance_de_ventil )
-		{
-		    dialogue_error_memory ();
-		    return(FALSE);
-		}
+		if ( !breakdown_scheduled_number)
+		    return FALSE;
 
-		echeance_de_ventil -> compte = gsb_data_transaction_get_account_number (transaction_number_tmp);
-		echeance_de_ventil -> date = gsb_date_copy (gsb_data_transaction_get_date (transaction_number_tmp));
-
-		echeance_de_ventil -> montant = gsb_data_transaction_get_amount ( transaction_number_tmp);
-		echeance_de_ventil -> devise = gsb_data_transaction_get_currency_number ( transaction_number_tmp);
-
-		echeance_de_ventil -> tiers = gsb_data_transaction_get_party_number ( transaction_number_tmp);
-		echeance_de_ventil -> categorie = gsb_data_transaction_get_category_number ( transaction_number_tmp);
-		echeance_de_ventil -> sous_categorie = gsb_data_transaction_get_sub_category_number ( transaction_number_tmp);
+		gsb_data_scheduled_set_account_number ( breakdown_scheduled_number,
+							gsb_data_transaction_get_account_number (transaction_number_tmp));
+		gsb_data_scheduled_set_date ( breakdown_scheduled_number,
+					      gsb_date_copy (gsb_data_transaction_get_date (transaction_number_tmp)));
+		gsb_data_scheduled_set_amount ( breakdown_scheduled_number,
+						gsb_data_transaction_get_amount (transaction_number_tmp));
+		gsb_data_scheduled_set_currency_number ( breakdown_scheduled_number,
+							 gsb_data_transaction_get_currency_number (transaction_number_tmp));
+		gsb_data_scheduled_set_party_number ( breakdown_scheduled_number,
+						      gsb_data_transaction_get_party_number (transaction_number_tmp));
+		gsb_data_scheduled_set_category_number ( breakdown_scheduled_number,
+							 gsb_data_transaction_get_category_number (transaction_number_tmp));
+		gsb_data_scheduled_set_sub_category_number ( breakdown_scheduled_number,
+							     gsb_data_transaction_get_sub_category_number (transaction_number_tmp));
 
 		/*     pour 1 virement, categ et sous categ sont à 0, et compte_virement contient le no de compte */
 		/* 	mais si categ et sous categ sont à 0 et que ce n'est pas un virement, compte_virement = -1 */
 		/*     on va changer ça la prochaine version, dès que c'est pas un virement -> -1 */
 
-		if ( gsb_data_transaction_get_transaction_number_transfer ( transaction_number_tmp))
+		if ( gsb_data_transaction_get_transaction_number_transfer (transaction_number_tmp))
 		{
 		    /* 	c'est un virement, on met la relation et on recherche le type de la contre opération */
 
 		    gint contra_transaction_number;
 
-		    echeance_de_ventil -> compte_virement = gsb_data_transaction_get_account_number_transfer (transaction_number_tmp);
+		    gsb_data_scheduled_set_account_number_transfer ( breakdown_scheduled_number,
+								     gsb_data_transaction_get_account_number_transfer (transaction_number_tmp));
+
 		    contra_transaction_number = gsb_data_transaction_get_transaction_number_transfer (transaction_number_tmp);
 
-		    if ( contra_transaction_number )
-			echeance_de_ventil -> type_contre_ope = gsb_data_transaction_get_method_of_payment_number (contra_transaction_number);
+		    gsb_data_scheduled_set_contra_method_of_payment_number ( breakdown_scheduled_number,
+									     gsb_data_transaction_get_method_of_payment_number (contra_transaction_number));
 		}
 		else
-		    if ( !echeance_de_ventil -> categorie )
-			echeance_de_ventil -> compte_virement = -1;
+		    if ( !gsb_data_scheduled_get_category_number (breakdown_scheduled_number))
+			gsb_data_scheduled_set_account_number_transfer ( breakdown_scheduled_number,
+									 -1 );
 
-		echeance_de_ventil -> notes = g_strdup ( gsb_data_transaction_get_notes ( transaction_number_tmp));
-		echeance_de_ventil -> type_ope = gsb_data_transaction_get_method_of_payment_number ( transaction_number_tmp);
-		echeance_de_ventil -> contenu_type = g_strdup ( gsb_data_transaction_get_method_of_payment_content ( transaction_number_tmp));
+		gsb_data_scheduled_set_notes ( breakdown_scheduled_number,
+					       gsb_data_transaction_get_notes (transaction_number_tmp));
+		gsb_data_scheduled_set_method_of_payment_number ( breakdown_scheduled_number,
+								  gsb_data_transaction_get_method_of_payment_number (transaction_number_tmp));
+		gsb_data_scheduled_set_method_of_payment_content ( breakdown_scheduled_number,
+								   gsb_data_transaction_get_method_of_payment_content (transaction_number_tmp));
+		gsb_data_scheduled_set_financial_year_number ( breakdown_scheduled_number,
+							       gsb_data_transaction_get_financial_year_number (transaction_number_tmp));
+		gsb_data_scheduled_set_budgetary_number ( breakdown_scheduled_number,
+							  gsb_data_transaction_get_budgetary_number (transaction_number_tmp));
+		gsb_data_scheduled_set_sub_budgetary_number ( breakdown_scheduled_number,
+							      gsb_data_transaction_get_sub_budgetary_number (transaction_number_tmp));
 
-
-		echeance_de_ventil -> no_exercice = gsb_data_transaction_get_financial_year_number ( transaction_number_tmp);
-		echeance_de_ventil -> imputation = gsb_data_transaction_get_budgetary_number ( transaction_number_tmp);
-		echeance_de_ventil -> sous_imputation = gsb_data_transaction_get_sub_budgetary_number ( transaction_number_tmp);
-
-		echeance_de_ventil-> no_operation_ventilee_associee = echeance -> no_operation;
+		gsb_data_scheduled_set_mother_scheduled_number ( breakdown_scheduled_number,
+								 scheduled_number );
 
 		/*     par défaut, on met en manuel, pour éviter si l'utilisateur se gourre dans la date, */
 		/*     (c'est le cas, à 0 avec calloc) */
 		/*     que l'opé soit enregistrée immédiatement ; de même on le met en mensuel par défaut */
 		/* 	pour la même raison */
 
-		echeance_de_ventil -> periodicite = 2;
-
-		echeance_de_ventil -> no_operation = ++no_derniere_echeance;
-		nb_echeances++;
-		liste_struct_echeances = g_slist_insert_sorted ( liste_struct_echeances,
-								 echeance_de_ventil,
-								 (GCompareFunc) classement_sliste_echeance_par_date );
+		gsb_data_scheduled_set_frequency ( breakdown_scheduled_number,
+						   2);
 	    }
 	    list_tmp_transactions = list_tmp_transactions -> next;
 	}
     }
-    return echeance;
+    return scheduled_number;
 }
 
 
@@ -3840,7 +3849,6 @@ struct operation_echeance *schedule_transaction ( gpointer * transaction )
 /******************************************************************************/
 gboolean affichage_traits_liste_operation ( void )
 {
-
     GdkWindow *fenetre;
     gint i;
     gint largeur, hauteur;

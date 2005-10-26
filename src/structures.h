@@ -57,45 +57,45 @@
 /* variables contenant juste 0 ou 1 */
 
 struct {
-    guint modification_fichier;
-    guint ctrl;
-    guint equilibrage;
-    guint r_modifiable;
-    guint dernier_fichier_auto;
-    guint sauvegarde_auto;             /* utilisé pour enregistrer le fichier automatiquementà la fermeture */
-    guint sauvegarde_demarrage;        /* utilisé pour enregistrer le fichier s'il s'est bien ouvert */
-    guint entree;   			 /* si etat.entree = 1, la touche entrée finit l'opération */ 
-    guint alerte_mini;
-    guint formulaire_toujours_affiche;
-    guint alerte_permission;   /* à un si le message d'alerte s'affiche */
-    guint fichier_deja_ouvert;   /* à un si lors de l'ouverture, le fichier semblait déjà ouvert */
-    guint force_enregistrement;    /* à un si on force l'enregistrement */
-    guint affichage_exercice_automatique;   /* à 1 si exercice automatique selon la date, 0 si affiche le dernier choisi */
-    guint crypt_file;   /* TRUE if we want to crypt the file */
-    guint compress_file;  /* TRUE if we want to compress the grisbi file */
-    guint compress_backup;  /* TRUE if we want to compress the backup */
+    gint modification_fichier;
+    gint ctrl;
+    gint equilibrage;
+    gint r_modifiable;
+    gint dernier_fichier_auto;
+    gint sauvegarde_auto;             /* utilisé pour enregistrer le fichier automatiquementà la fermeture */
+    gint sauvegarde_demarrage;        /* utilisé pour enregistrer le fichier s'il s'est bien ouvert */
+    gint entree;   			 /* si etat.entree = 1, la touche entrée finit l'opération */ 
+    gint alerte_mini;
+    gint formulaire_toujours_affiche;
+    gint alerte_permission;   /* à un si le message d'alerte s'affiche */
+    gint fichier_deja_ouvert;   /* à un si lors de l'ouverture, le fichier semblait déjà ouvert */
+    gint force_enregistrement;    /* à un si on force l'enregistrement */
+    gint affichage_exercice_automatique;   /* à 1 si exercice automatique selon la date, 0 si affiche le dernier choisi */
+    gint crypt_file;   /* TRUE if we want to crypt the file */
+    gint compress_file;  /* TRUE if we want to compress the grisbi file */
+    gint compress_backup;  /* TRUE if we want to compress the backup */
 
-    guint formulaire_distinct_par_compte;  /* à 1 si le formulaire est différent pour chaque compte */
-    guint affiche_boutons_valider_annuler;
-    guint affiche_nb_ecritures_listes;
-    guint classement_par_date;   /* à 1 si le classement de la liste d'opé se fait par date */
-    guint largeur_auto_colonnes;
-    guint retient_affichage_par_compte;   /* à 1 si les caractéristiques de l'affichage (R, non R ...) diffèrent par compte */
-    guint en_train_de_sauvegarder;
-    guint en_train_de_charger;
-    guint utilise_logo;
-    guint utilise_fonte_listes;
-    guint affichage_grille;         /* à 1 si la grille est affichée */
-    guint display_toolbar;
-    guint show_closed_accounts;
+    gint formulaire_distinct_par_compte;  /* à 1 si le formulaire est différent pour chaque compte */
+    gint affiche_boutons_valider_annuler;
+    gint affiche_nb_ecritures_listes;
+    gint classement_par_date;   /* à 1 si le classement de la liste d'opé se fait par date */
+    gint largeur_auto_colonnes;
+    gint retient_affichage_par_compte;   /* à 1 si les caractéristiques de l'affichage (R, non R ...) diffèrent par compte */
+    gint en_train_de_sauvegarder;
+    gint en_train_de_charger;
+    gint utilise_logo;
+    gint utilise_fonte_listes;
+    gint affichage_grille;         /* à 1 si la grille est affichée */
+    gint display_toolbar;
+    gint show_closed_accounts;
 
     /* Various display message stuff  */
-    guint display_message_lock_active;
-    guint display_message_file_readable;
-    guint display_message_minimum_alert;
-    guint display_message_no_budgetary_line;
-    guint display_message_qif_export_currency;
-    guint display_message_ofx_security;
+    gint display_message_lock_active;
+    gint display_message_file_readable;
+    gint display_message_minimum_alert;
+    gint display_message_no_budgetary_line;
+    gint display_message_qif_export_currency;
+    gint display_message_ofx_security;
 
     /* Various commands */
     gchar * browser_command;
@@ -118,65 +118,14 @@ struct {
 
     /* variables sur l'échéancier */
 
-    guint formulaire_echeancier_toujours_affiche;
-    guint formulaire_echeance_dans_fenetre;        /* à 1 lorsque le formulaire de l'échéancier est dans une fenetre à part */
-    guint affichage_commentaire_echeancier;     /* à 1 si le commentaire est affiché */
+    gint formulaire_echeancier_toujours_affiche;
+    gint formulaire_echeance_dans_fenetre;        /* à 1 lorsque le formulaire de l'échéancier est dans une fenetre à part */
+    gint affichage_commentaire_echeancier;     /* à 1 si le commentaire est affiché */
 
     /* Tips */
     gint last_tip; 
     gint show_tip; 
 } etat;
-
-
-
-struct operation_echeance
-{
-    guint no_operation;
-    gint compte;
-
-    GDate *date;
-    guint jour;
-    guint mois;
-    guint annee;
-
-    gdouble montant;
-    gint devise;
-
-    guint tiers;
-    guint categorie;
-    guint sous_categorie;
-    gchar *notes;
-
-    gint type_ope;        /* variable suivant le compte */
-    gchar *contenu_type;          /* ce peut être un no de chèque, de virement ou tout ce qu'on veut */
-
-    gshort auto_man;           /* 0=manuel, 1=automatique */
-
-    guint no_exercice;             /* exercice de l'opé */
-    guint imputation;
-    guint sous_imputation;
-
-    gshort periodicite;             /*  0=une fois, 1=hebdo, 2=mensuel, 3=annuel, 4=perso */
-    gshort intervalle_periodicite_personnalisee;   /* 0=jours, 1=mois, 2=annees */
-    guint periodicite_personnalisee;
-
-    GDate *date_limite;
-    gint jour_limite;
-    gint mois_limite;
-    gint annee_limite;
-
-    gint compte_virement;    /* à  -1 si c'est une échéance sans categ, et que ce n'est ni un virement ni une ventil */
-    gint type_contre_ope;        /* variable suivant le compte */
-
-    gint operation_ventilee;        /* à 1 si c'est une opé ventilée */
-    guint no_operation_ventilee_associee;      /* si c'est une opé d'une ventilation, contient le no de l'opé ventilée */
-};
-
-
-
-#define COMPTE_ECHEANCE GTK_LABEL (GTK_BIN ( widget_formulaire_echeancier[5]  )  -> child ) -> label
-#define ECHEANCE_COURANTE ((struct operation_echeance *)  ( pointeur_liste -> data ))
-
 
 
 /* devises */
@@ -271,36 +220,25 @@ enum alignement {
     LEFT, CENTER, RIGHT,
 };
 
-/** Device independant drawing functions for reports */
-struct struct_etat_affichage
-{
-    gint (* initialise) ();	/** Initialisation of drawing session  */
-    gint (* finish) ();		/** End of drawing session  */
-    void (* attach_hsep) (int, int, int, int); /** Draw horizontal separator (aka "-")  */
-    void (* attach_vsep) (int, int, int, int); /** Draw vertical separator (aka "|") */
-    void (* attach_label) (gchar *, gdouble, int, int, int, int, enum alignement, gpointer); /** Drraw a label with properties  */
-};
-
-
 /* struture d'une opé de ventil */
 
 struct struct_ope_ventil
 {
-    guint no_operation;
+    gint no_operation;
 
     gdouble montant;
 
-    guint categorie;
-    guint sous_categorie;
+    gint categorie;
+    gint sous_categorie;
 
     gchar *notes;
 
-    guint imputation;
-    guint sous_imputation;
+    gint imputation;
+    gint sous_imputation;
     gchar *no_piece_comptable;
 
-    guint relation_no_operation;      /* contient le no de l'opé associée quand elle est déjà créée, -1 si c'est un virement non créé */
-    guint relation_no_compte;
+    gint relation_no_operation;      /* contient le no de l'opé associée quand elle est déjà créée, -1 si c'est un virement non créé */
+    gint relation_no_compte;
     gint no_type_associe;
 
     gint pointe;

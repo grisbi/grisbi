@@ -136,7 +136,7 @@ void display_tip ( gboolean force )
 gchar * get_next_tip ()
 {
   gchar * buffer, * tip = NULL, ** tips;
-  gint length;
+  gsize length;
 
   // If there any problem during tip file reading, return NULL 
   if (!g_file_get_contents ( g_strconcat ( HELP_PATH, C_DIRECTORY_SEPARATOR, "tips.txt", NULL ),

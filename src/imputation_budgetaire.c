@@ -672,7 +672,7 @@ gboolean edit_budgetary_line ( GtkTreeView * view )
 
     if ( !sub_budget_number )
     {
-	guint type;
+	gint type;
 
 	/* Description entry */
 	label = gtk_label_new ( _("Type"));

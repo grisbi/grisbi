@@ -36,7 +36,6 @@
 #include "utils.h"
 #include "dialog.h"
 #include "structures.h"
-#include "echeancier_ventilation.h"
 #include "echeancier_formulaire.h"
 #include "operations_formulaire.h"
 #include "include.h"
@@ -81,7 +80,6 @@ gint ligne_selection_exercice;
 extern GtkWidget *fenetre_preferences;
 extern GtkWidget *formulaire;
 extern GtkWidget *widget_formulaire_echeancier[SCHEDULER_FORM_TOTAL_WIDGET];
-extern GtkWidget *widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_TOTAL_WIDGET];
 /*END_EXTERN*/
 
 
@@ -137,15 +135,6 @@ gboolean update_financial_year_menus ()
 	gtk_option_menu_set_menu ( GTK_OPTION_MENU (widget_formulaire_echeancier[SCHEDULER_FORM_EXERCICE]),
 				   creation_menu_exercices (1) );
     }
-
-    if ( widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_EXERCICE] &&
-	 GTK_OPTION_MENU(widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_EXERCICE]) -> menu )
-    {
-	gtk_widget_destroy ( GTK_OPTION_MENU(widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_EXERCICE]) -> menu );
-	gtk_option_menu_set_menu ( GTK_OPTION_MENU (widget_formulaire_ventilation_echeances[SCHEDULER_BREAKDOWN_FORM_EXERCICE]),
-				   creation_menu_exercices (1) );
-    }
-
     return FALSE;
 }
 
@@ -426,7 +415,8 @@ void selection_ligne_exercice ( GtkWidget *liste,
     entry_set_value ( nom_exercice, &(exercice -> nom_exercice) );
     date_set_value ( debut_exercice, &(exercice -> date_debut), TRUE );
     date_set_value ( fin_exercice, &(exercice -> date_fin), TRUE );
-    checkbox_set_value ( affichage_exercice, &(exercice->affiche_dans_formulaire), 
+    checkbox_set_value ( affichage_exercice,
+			 &(exercice->affiche_dans_formulaire), 
 			 TRUE );
 
     gtk_widget_set_sensitive ( paddingbox_details, TRUE );

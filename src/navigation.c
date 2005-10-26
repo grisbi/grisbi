@@ -537,7 +537,7 @@ static gboolean gsb_gui_navigation_update_report_iterator ( GtkTreeModel * tree_
 
     if ( report_nb == GPOINTER_TO_INT ( data ) )
     {
-	gsb_gui_navigation_update_report_iter ( tree_model, iter, data );
+	gsb_gui_navigation_update_report_iter ( tree_model, iter, GPOINTER_TO_INT ( data ));
 	return TRUE;
     }
 

@@ -67,7 +67,6 @@ gint gsb_data_account_get_sort_column ( gint no_account );
 GSList *gsb_data_account_get_sort_list ( gint no_account );
 gint gsb_data_account_get_sort_type ( gint no_account );
 gint gsb_data_account_get_split_neutral_payment ( gint no_account );
-gboolean gsb_data_account_get_update_list ( gint no_account );
 gdouble gsb_data_account_get_vertical_adjustment_value ( gint no_account );
 gboolean gsb_data_account_init_variables ( void );
 gint gsb_data_account_new ( kind_account account_kind );

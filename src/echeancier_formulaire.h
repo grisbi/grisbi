@@ -26,7 +26,6 @@
 
 /* START_INCLUDE_H */
 #include "echeancier_formulaire.h"
-#include "structures.h"
 /* END_INCLUDE_H */
 
 
@@ -34,8 +33,8 @@
 GtkWidget *creation_formulaire_echeancier ( void );
 void degrise_formulaire_echeancier ( void );
 void formulaire_echeancier_a_zero ( void );
-gint gsb_scheduler_create_transaction_from_scheduled_transaction ( struct operation_echeance *scheduled_transaction );
-gboolean gsb_scheduler_increase_scheduled_transaction ( struct operation_echeance *scheduled_transaction );
+gint gsb_scheduler_create_transaction_from_scheduled_transaction ( gint scheduled_number );
+gboolean gsb_scheduler_increase_scheduled_transaction ( gint scheduled_number );
 void gsb_scheduler_validate_form ( void );
 /* END_DECLARATION */
 #endif

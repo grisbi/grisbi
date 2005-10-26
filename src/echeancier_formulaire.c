@@ -32,7 +32,6 @@
 #include "comptes_traitements.h"
 #include "utils_exercices.h"
 #include "type_operations.h"
-#include "classement_echeances.h"
 #include "devises.h"
 #include "utils_devises.h"
 #include "dialog.h"
@@ -42,6 +41,7 @@
 #include "gsb_data_budget.h"
 #include "gsb_data_category.h"
 #include "gsb_data_payee.h"
+#include "gsb_data_scheduled.h"
 #include "gsb_data_transaction.h"
 #include "utils_dates.h"
 #include "accueil.h"
@@ -53,7 +53,6 @@
 #include "utils_str.h"
 #include "utils_comptes.h"
 #include "utils_operations.h"
-#include "echeancier_ventilation.h"
 #include "structures.h"
 #include "echeancier_formulaire.h"
 #include "include.h"
@@ -77,8 +76,8 @@ static gboolean gsb_scheduler_check_form ( void );
 static gint gsb_scheduler_create_transaction_from_scheduled_form ( void );
 static gboolean gsb_scheduler_get_category_for_transaction_from_form ( gint transaction_number );
 static gboolean gsb_scheduler_get_category_for_transaction_from_transaction ( gint transaction_number,
-								       struct operation_echeance *scheduled_transaction );
-static gboolean gsb_scheduler_increase_date ( struct operation_echeance *scheduled_transaction,
+								       gint scheduled_number );
+static gboolean gsb_scheduler_increase_date ( gint scheduled_number,
 				       GDate *date );
 static gboolean pression_touche_formulaire_echeancier ( GtkWidget *widget,
 						 GdkEventKey *ev,
@@ -94,19 +93,15 @@ GtkWidget *hbox_valider_annuler_echeance;
 
 
 /*START_EXTERN*/
-extern gint enregistre_ope_au_retour_echeances;
 extern GtkWidget *formulaire;
 extern GtkWidget *formulaire_echeancier;
 extern GtkWidget *formulaire_echeancier;
 extern GtkWidget *frame_formulaire_echeancier;
 extern GSList *liste_struct_devises;
-extern GSList *liste_struct_echeances;
 extern GtkWidget *main_page_finished_scheduled_transactions_part;
 extern gint mise_a_jour_combofix_categ_necessaire;
 extern gint mise_a_jour_liste_echeances_auto_accueil;
 extern gint mise_a_jour_liste_echeances_manuelles_accueil;
-extern gint nb_echeances;
-extern gint no_derniere_echeance;
 extern FILE * out;
 extern GtkStyle *style_entree_formulaire[2];
 extern GtkWidget *tree_view_liste_echeances;
@@ -859,7 +854,7 @@ GtkWidget *creation_formulaire_echeancier ( void )
     /* on associe au formulaire l'adr de l'échéance courante */
 
     gtk_object_set_data ( GTK_OBJECT ( formulaire_echeancier ),
-			  "adr_echeance",
+			  "scheduled_number",
 			  NULL );
 
     formulaire_echeancier_a_zero ();
@@ -905,7 +900,7 @@ gboolean entree_perd_focus_echeancier ( GtkWidget *entree,
 		/* on ne change l'exercice que si c'est une nouvelle échéance */
 
 		if ( !gtk_object_get_data ( GTK_OBJECT ( formulaire_echeancier ),
-					    "adr_echeance" ))
+					    "scheduled_number" ))
 		    affiche_exercice_par_date( widget_formulaire_echeancier[SCHEDULER_FORM_DATE],
 					       widget_formulaire_echeancier[SCHEDULER_FORM_EXERCICE] );
 	    }
@@ -1399,9 +1394,8 @@ void cache_personnalisation_echeancier ( void )
  * */
 void gsb_scheduler_validate_form ( void )
 {
-    struct operation_echeance *scheduled_transaction;
+    gint scheduled_number;
     gchar **tab_char;
-    gchar *char_ptr;
 
     gint compte_virement;
     compte_virement = 0;
@@ -1409,12 +1403,12 @@ void gsb_scheduler_validate_form ( void )
     if ( !gsb_scheduler_check_form ())
 	return;
 
-    /* get the scheduled_transaction, will be NULL if it's a new one */
+    /* get the scheduled transaction, will be NULL if it's a new one */
 
-    scheduled_transaction = gtk_object_get_data ( GTK_OBJECT ( formulaire_echeancier ),
-						  "adr_echeance" );
+    scheduled_number = GPOINTER_TO_INT (gtk_object_get_data ( GTK_OBJECT ( formulaire_echeancier ),
+							      "scheduled_number" ));
 
-    /* if the label label_saisie_modif is Input, it's a modification or new scheduled_transaction,
+    /* if the label label_saisie_modif is Input, it's a modification or new scheduled transaction,
      * else we want to create a transaction from that scheduled transaction */
 
     if ( strcmp ( GTK_LABEL ( label_saisie_modif ) -> label,
@@ -1425,52 +1419,42 @@ void gsb_scheduler_validate_form ( void )
 	/* si c'est une nouvelle échéance, on la crée */
 	/* et on lui met son numéro tout de suite */
 
-	if ( !scheduled_transaction )
-	{
-	    scheduled_transaction = calloc ( 1,
-					     sizeof ( struct operation_echeance ));
-	    scheduled_transaction -> no_operation = ++no_derniere_echeance;
-	    nb_echeances++;
-	}
+	if ( !scheduled_number )
+	    gsb_data_scheduled_new_scheduled ();
 
 	/* récupère la date */
 
-	char_ptr = g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY (widget_formulaire_echeancier[SCHEDULER_FORM_DATE] )));
-
-	scheduled_transaction -> date = gsb_parse_date_string ( char_ptr );
-	if ( scheduled_transaction -> date )
-	{
-	    scheduled_transaction -> jour = scheduled_transaction -> date -> day;
-	    scheduled_transaction -> mois = scheduled_transaction -> date -> month;
-	    scheduled_transaction -> annee = scheduled_transaction -> date -> year;
-	}
+	gsb_data_scheduled_set_date ( scheduled_number,
+				      gsb_parse_date_string (gtk_entry_get_text ( GTK_ENTRY (widget_formulaire_echeancier[SCHEDULER_FORM_DATE]))));
 
 	/* récupération du tiers, s'il n'existe pas, on le crée */
 
 	if ( gtk_widget_get_style ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_PARTY] ) -> entry ) == style_entree_formulaire[ENCLAIR] )
 	{
-	    char_ptr = gtk_combofix_get_text ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_PARTY] ));
-
-	    scheduled_transaction -> tiers  = gsb_data_payee_get_number_by_name (char_ptr,
-									    TRUE );
+	    gsb_data_scheduled_set_party_number ( scheduled_number,
+						  gsb_data_payee_get_number_by_name ( gtk_combofix_get_text ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_PARTY])),
+										      TRUE ));
 	}
 
 	/* récupération du montant */
 
 	if ( gtk_widget_get_style ( widget_formulaire_echeancier[SCHEDULER_FORM_DEBIT] ) == style_entree_formulaire[ENCLAIR] )
-	    scheduled_transaction -> montant = -calcule_total_entree (widget_formulaire_echeancier[SCHEDULER_FORM_DEBIT] );
+	    gsb_data_scheduled_set_amount ( scheduled_number,
+					    -calcule_total_entree (widget_formulaire_echeancier[SCHEDULER_FORM_DEBIT]));
 	else
-	    scheduled_transaction -> montant = calcule_total_entree (widget_formulaire_echeancier[SCHEDULER_FORM_CREDIT] );
+	    gsb_data_scheduled_set_amount ( scheduled_number,
+					    calcule_total_entree (widget_formulaire_echeancier[SCHEDULER_FORM_CREDIT]));
 
 	/* récupération de la devise */
 
-	scheduled_transaction -> devise = ((struct struct_devise *)( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_DEVISE] ) -> menu_item ),
-											   "adr_devise" ))) -> no_devise;
+	gsb_data_scheduled_set_currency_number ( scheduled_number,
+						 ((struct struct_devise *)( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_DEVISE] ) -> menu_item ),
+												  "adr_devise" ))) -> no_devise);
 
 	/* récupération du no de compte */
 
-	scheduled_transaction -> compte = recupere_no_compte ( widget_formulaire_echeancier[SCHEDULER_FORM_ACCOUNT] );
-
+	gsb_data_scheduled_set_account_number ( scheduled_number,
+						recupere_no_compte ( widget_formulaire_echeancier[SCHEDULER_FORM_ACCOUNT]));
 
 	/*   récupération des catégories / sous-catég, s'ils n'existent pas, on les crée */
 	/* s'il n'y a pas de catég, ce n'es pas un virement non plus, donc on met compte_virement à -1 */
@@ -1496,13 +1480,17 @@ void gsb_scheduler_validate_form ( void )
 		{
 		    /* c'est un virement, il n'y a donc aucune catégorie */
 
-		    scheduled_transaction -> categorie = 0;
-		    scheduled_transaction -> sous_categorie = 0;
-		    scheduled_transaction -> operation_ventilee = 0;
+		    gsb_data_scheduled_set_category_number ( scheduled_number,
+							     0 );
+		    gsb_data_scheduled_set_sub_category_number ( scheduled_number,
+								 0 );
+		    gsb_data_scheduled_set_breakdown_of_scheduled ( scheduled_number,
+								    0 );
 
 		    /* recherche le no de compte du virement */
 
-		    scheduled_transaction -> compte_virement = gsb_data_account_get_no_account_by_name ( tab_char[1] );
+		    gsb_data_scheduled_set_account_number_transfer ( scheduled_number,
+								     gsb_data_account_get_no_account_by_name ( tab_char[1] ));
 		}
 		else
 		{
@@ -1515,49 +1503,59 @@ void gsb_scheduler_validate_form ( void )
 			/* on va appeler la fonction validation_ope_de_ventilation */
 			/* qui va créer les nouvelles opé*/
 
-			validation_ope_de_ventilation_echeances ( scheduled_transaction );
-			scheduled_transaction -> categorie = 0;
-			scheduled_transaction -> sous_categorie = 0;
-			scheduled_transaction -> operation_ventilee = 1;
-			scheduled_transaction -> compte_virement = 0;
-
+			gsb_data_scheduled_set_category_number ( scheduled_number,
+								 0 );
+			gsb_data_scheduled_set_sub_category_number ( scheduled_number,
+								     0 );
+			gsb_data_scheduled_set_breakdown_of_scheduled ( scheduled_number,
+									1 );
+			gsb_data_scheduled_set_account_number_transfer ( scheduled_number,
+									 0 );
 		    }
 		    else
 		    {
 			/* it's a normal category */
-			scheduled_transaction -> categorie = gsb_data_category_get_number_by_name ( tab_char[0],
-												    TRUE,
-												    scheduled_transaction -> montant < 0);
-			scheduled_transaction -> sous_categorie = gsb_data_category_get_sub_category_number_by_name ( scheduled_transaction -> categorie,
-														      tab_char[1],
-														      TRUE );
-			scheduled_transaction -> compte_virement = 0;
-			scheduled_transaction -> operation_ventilee = 0;
+			gsb_data_scheduled_set_category_number ( scheduled_number,
+								 gsb_data_category_get_number_by_name ( tab_char[0],
+													TRUE,
+													gsb_data_scheduled_get_amount (scheduled_number) < 0));
+			gsb_data_scheduled_set_sub_category_number ( scheduled_number,
+								     gsb_data_category_get_sub_category_number_by_name ( gsb_data_scheduled_get_category_number (scheduled_number),
+															 tab_char[1],
+															 TRUE ));
+			gsb_data_scheduled_set_breakdown_of_scheduled ( scheduled_number,
+									0 );
+			gsb_data_scheduled_set_account_number_transfer ( scheduled_number,
+									 0 );
 		    }
 		}
 	    }
 	    g_strfreev ( tab_char );
 	}
 	else
-	    scheduled_transaction -> compte_virement = -1;
+	    gsb_data_scheduled_set_account_number_transfer ( scheduled_number,
+							     -1 );
 
 	/* récupération du type d'opération */
 
 	if ( GTK_WIDGET_VISIBLE ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] ))
 	{
-	    scheduled_transaction -> type_ope = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] ) -> menu_item ),
-											"no_type" ));
+	    gsb_data_scheduled_set_method_of_payment_number ( scheduled_number,
+							      GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] ) -> menu_item ),
+												      "no_type" )));
 
 	    if ( GTK_WIDGET_VISIBLE ( widget_formulaire_echeancier[SCHEDULER_FORM_CHEQUE] )
 		 &&
 		 gtk_widget_get_style ( widget_formulaire_echeancier[SCHEDULER_FORM_CHEQUE] ) == style_entree_formulaire[ENCLAIR] )
-		scheduled_transaction -> contenu_type = g_strdup ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_echeancier[SCHEDULER_FORM_CHEQUE] ))));
+		gsb_data_scheduled_set_method_of_payment_content ( scheduled_number,
+								   gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_echeancier[SCHEDULER_FORM_CHEQUE] )));
 	}
 
 	/* récupération du no d'exercice */
 
-	scheduled_transaction -> no_exercice = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_EXERCICE] ) -> menu_item ),
-										       "no_exercice" ));
+	gsb_data_scheduled_set_financial_year_number ( scheduled_number,
+						       GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_EXERCICE] ) -> menu_item ),
+											       "no_exercice" )));
 
 	/* récupération de l'imputation budgétaire */
 
@@ -1574,63 +1572,56 @@ void gsb_scheduler_validate_form ( void )
 
 	    if ( strlen ( tab_char[0] ) )
 	    {
-		scheduled_transaction -> imputation = gsb_data_budget_get_number_by_name ( tab_char[0],
-											   TRUE,
-											   scheduled_transaction -> montant < 0);
-		scheduled_transaction -> sous_imputation = gsb_data_budget_get_sub_budget_number_by_name ( scheduled_transaction -> imputation,
-													   tab_char[1],
-													   TRUE );
+		gsb_data_scheduled_set_budgetary_number ( scheduled_number,
+		gsb_data_budget_get_number_by_name ( tab_char[0],
+						     TRUE,
+						     gsb_data_scheduled_get_amount (scheduled_number) < 0));
+		gsb_data_scheduled_set_sub_budgetary_number ( scheduled_number,
+							      gsb_data_budget_get_sub_budget_number_by_name ( gsb_data_scheduled_get_budgetary_number (scheduled_number),
+													      tab_char[1],
+													      TRUE ));
 	    }
 	    g_strfreev ( tab_char );
 	}
 
 	/*       récupération de auto_man */
 
-	scheduled_transaction -> auto_man = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_MODE]  ) -> menu_item ),
-										    "auto_man" ) );
+	gsb_data_scheduled_set_automatic_scheduled ( scheduled_number,
+						     GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_MODE]  ) -> menu_item ),
+											     "auto_man" )));
 
 	/* récupération des notes */
 
 	if ( gtk_widget_get_style ( widget_formulaire_echeancier[SCHEDULER_FORM_NOTES] ) == style_entree_formulaire[ENCLAIR] )
-	    scheduled_transaction -> notes = g_strdup ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_echeancier[SCHEDULER_FORM_NOTES] ))));
+	    gsb_data_scheduled_set_notes ( scheduled_number,
+					   gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_echeancier[SCHEDULER_FORM_NOTES] )));
 
 
 	/* récupération de la fréquence */
 
-	scheduled_transaction -> periodicite = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_FREQUENCY]  ) -> menu_item ),
-										       "periodicite" ) );
+	gsb_data_scheduled_set_frequency ( scheduled_number,
+					   GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_FREQUENCY]  ) -> menu_item ),
+										   "periodicite" )));
 
-	if ( scheduled_transaction -> periodicite == 4 )
+	if ( gsb_data_scheduled_get_frequency (scheduled_number) == 4 )
 	{
-	    scheduled_transaction -> intervalle_periodicite_personnalisee = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_FREQ_CUSTOM_MENU]  ) -> menu_item ),
-														    "intervalle_perso" ) );
-
-	    scheduled_transaction -> periodicite_personnalisee = my_strtod ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_echeancier[SCHEDULER_FORM_FREQ_CUSTOM_NB] )),
-									     NULL );
+	    gsb_data_scheduled_set_user_interval ( scheduled_number,
+						   GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_FREQ_CUSTOM_MENU]  ) -> menu_item ),
+											   "intervalle_perso" )));
+	    gsb_data_scheduled_set_user_entry ( scheduled_number,
+						my_strtod (gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_echeancier[SCHEDULER_FORM_FREQ_CUSTOM_NB] )),
+							   NULL ));
 	}
 
-	if ( scheduled_transaction -> periodicite
+	if ( gsb_data_scheduled_get_frequency (scheduled_number)
 	     &&
 	     gtk_widget_get_style ( widget_formulaire_echeancier[SCHEDULER_FORM_FINAL_DATE] ) == style_entree_formulaire[ENCLAIR] )
 	{
 	    /* traitement de la date limite */
 	    
-	    scheduled_transaction -> date_limite = gsb_parse_date_string ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_echeancier[SCHEDULER_FORM_FINAL_DATE] ) ) ) );
-	    if ( scheduled_transaction -> date_limite )
-	    {
-		scheduled_transaction -> jour_limite = scheduled_transaction -> date_limite -> day;
-		scheduled_transaction -> mois_limite = scheduled_transaction -> date_limite -> month;
-		scheduled_transaction -> annee_limite = scheduled_transaction -> date_limite -> year;
-	    }
+	    gsb_data_scheduled_set_limit_date ( scheduled_number,
+						gsb_parse_date_string ( gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_echeancier[SCHEDULER_FORM_FINAL_DATE]))));
 	}
-	    
-	/* si c'est une nouvelle opé,  on l'ajoute à la liste */
-
-	if ( !gtk_object_get_data ( GTK_OBJECT ( formulaire_echeancier ),
-				    "adr_echeance" ) )
-	    liste_struct_echeances = g_slist_insert_sorted ( liste_struct_echeances,
-							     scheduled_transaction,
-							     (GCompareFunc) classement_sliste_echeance_par_date );
     }
     else
     {
@@ -1640,7 +1631,7 @@ void gsb_scheduler_validate_form ( void )
 
 	/* the scheduled transaction goes to the next date */
 
-	gsb_scheduler_increase_scheduled_transaction ( scheduled_transaction );
+	gsb_scheduler_increase_scheduled_transaction (scheduled_number);
 
 	/* réaffiche les option menu de la périodicité, des banques et de l'automatisme, effacés pour une saisie d'opé */
 
@@ -1667,7 +1658,6 @@ void gsb_scheduler_validate_form ( void )
     mise_a_jour_accueil();
     modification_fichier ( TRUE );
 }
-
 
 
 /** check if the scheduled transaction in the schedule's form is ok to continue
@@ -1706,59 +1696,11 @@ gboolean gsb_scheduler_check_form ( void )
 	return FALSE;
     }
 
-    /* if it's a breakdown, check the children */
-
-    if ( !strcmp ( g_strstrip ( gtk_combofix_get_text ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_CATEGORY] ))),
-		   _("Breakdown of transaction") )
-	 &&
-	 !gtk_object_get_data ( GTK_OBJECT ( formulaire_echeancier ),
-				"liste_adr_ventilation" ))
-    {
-	GSList *slist_ptr;
-
-	enregistre_ope_au_retour_echeances = 1;
-
-	/* We check if one of the subtransactions of the breakdown of
-	   transaction is a transfer on itself. */
-
-	slist_ptr = gtk_object_get_data ( GTK_OBJECT ( formulaire_echeancier ),
-					  "liste_adr_ventilation" );
-	while ( slist_ptr
-		&&
-		slist_ptr != GINT_TO_POINTER ( -1 ))
-	{
-	    struct struct_ope_ventil *scheduled_transaction;
-
-	    scheduled_transaction = slist_ptr -> data;
-
-	    if ( scheduled_transaction -> relation_no_compte != -1
-		 &&
-		 scheduled_transaction -> relation_no_compte
-		 == 
-		 recupere_no_compte ( widget_formulaire_echeancier[SCHEDULER_FORM_ACCOUNT] ))
-	    {
-		dialogue_error_hint ( _("This breakdown of transaction has a transfer on itself.  Either change the sub transaction to transfer on another account or change account of the transaction itself."),
-				      _("Invalid breakdown of transaction."));
-		return FALSE;
-	    }
-	    slist_ptr = slist_ptr -> next;
-	}
-
-	if ( gtk_widget_get_style ( widget_formulaire_echeancier[TRANSACTION_FORM_DEBIT] ) == style_entree_formulaire[ENCLAIR] )
-	    ventiler_operation_echeances ( -my_strtod ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_echeancier[SCHEDULER_FORM_DEBIT] ))),
-							NULL ));
-	else
-	    ventiler_operation_echeances ( my_strtod ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_echeancier[SCHEDULER_FORM_CREDIT] ))),
-						       NULL ));
-
-	return FALSE;
-    }
-
     /* check if it's not a transfer on itself */
 
     if ( !g_strcasecmp ( g_strstrip ( gtk_combofix_get_text ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_CATEGORY] ))),
 			 g_strconcat ( COLON(_("Transfer")),
-				       COMPTE_ECHEANCE,
+				       GTK_LABEL (GTK_BIN ( widget_formulaire_echeancier[5]  )  -> child ) -> label,
 				       NULL )))
     {
 	dialogue_error_hint ( _("Transfers can't be associated with their own account.  Please associate another account with this transfer."),
@@ -2117,54 +2059,54 @@ gboolean gsb_scheduler_get_category_for_transaction_from_form ( gint transaction
 /**
  * create a new transaction and fill it from a scheduled transaction
  * 
- * \param scheduled_transaction the transaction we use to fill the new transaction*
+ * \param scheduled_number the transaction we use to fill the new transaction
  *
  * \return the number of the new transaction
  * */
-gint gsb_scheduler_create_transaction_from_scheduled_transaction ( struct operation_echeance *scheduled_transaction )
+gint gsb_scheduler_create_transaction_from_scheduled_transaction ( gint scheduled_number )
 {
     gint transaction_number;
 
-    transaction_number = gsb_data_transaction_new_transaction (scheduled_transaction -> compte);
+    transaction_number = gsb_data_transaction_new_transaction (gsb_data_scheduled_get_account_number (scheduled_number));
 
     /* begin to fill the new transaction */
 
     gsb_data_transaction_set_date ( transaction_number,
-				    gsb_date_copy (scheduled_transaction -> date));
+				    gsb_date_copy (gsb_data_scheduled_get_date (scheduled_number)));
     gsb_data_transaction_set_party_number ( transaction_number,
-					    scheduled_transaction -> tiers );
+					    gsb_data_scheduled_get_party_number (scheduled_number));
     gsb_data_transaction_set_amount ( transaction_number,
-				      scheduled_transaction -> montant);
+				      gsb_data_scheduled_get_amount (scheduled_number));
     gsb_data_transaction_set_currency_number ( transaction_number,
-					       scheduled_transaction -> devise );
+					       gsb_data_scheduled_get_currency_number (scheduled_number));
     gsb_currency_check_for_change ( transaction_number );
     gsb_data_transaction_set_method_of_payment_number ( transaction_number,
-							scheduled_transaction -> type_ope );
+							gsb_data_scheduled_get_method_of_payment_number (scheduled_number));
     gsb_data_transaction_set_notes ( transaction_number,
-				     scheduled_transaction -> notes );
+				     gsb_data_scheduled_get_notes (scheduled_number));
     gsb_data_transaction_set_method_of_payment_content ( transaction_number,
-							 scheduled_transaction -> contenu_type );
+							 gsb_data_scheduled_get_method_of_payment_content (scheduled_number));
     gsb_data_transaction_set_automatic_transaction ( transaction_number,
-						     scheduled_transaction -> auto_man );
+						     gsb_data_scheduled_get_automatic_scheduled (scheduled_number));
     gsb_data_transaction_set_budgetary_number ( transaction_number,
-						scheduled_transaction -> imputation);
+						gsb_data_scheduled_get_budgetary_number (scheduled_number));
     gsb_data_transaction_set_sub_budgetary_number ( transaction_number,
-						    scheduled_transaction -> sous_imputation);
+						    gsb_data_scheduled_get_sub_budgetary_number (scheduled_number));
 
     /* if the financial year is automatic, we set it here */
 
-    if ( scheduled_transaction -> no_exercice == -2 )
+    if ( gsb_data_scheduled_get_financial_year_number (scheduled_number) == -2 )
 	gsb_data_transaction_set_financial_year_number ( transaction_number,
 							 recherche_exo_correspondant ( gsb_data_transaction_get_date (transaction_number)));
     else
 	gsb_data_transaction_set_financial_year_number ( transaction_number,
-							 scheduled_transaction -> no_exercice);
+							 gsb_data_scheduled_get_financial_year_number (scheduled_number));
 
 
     /* get the category */
 
     gsb_scheduler_get_category_for_transaction_from_transaction ( transaction_number,
-								  scheduled_transaction );
+								  scheduled_number );
 
     /* we show the new transaction in the tree view */
 
@@ -2180,26 +2122,27 @@ gint gsb_scheduler_create_transaction_from_scheduled_transaction ( struct operat
  * do the necessary (create contra-transaction, take the children's transactions
  * 
  * \param transaction_number
+ * \param scheduled_number
  *
  * \return TRUE if ok, FALSE else
  * */
 gboolean gsb_scheduler_get_category_for_transaction_from_transaction ( gint transaction_number,
-								       struct operation_echeance *scheduled_transaction )
+								       gint scheduled_number )
 {
     /* if category is set, it's a normal category */
 
-    if ( scheduled_transaction -> categorie )
+    if ( gsb_data_scheduled_get_category_number (scheduled_number))
     {
 	/* it's a normal category */
 
 	gsb_data_transaction_set_category_number ( transaction_number,
-						   scheduled_transaction -> categorie );
+						   gsb_data_scheduled_get_category_number (scheduled_number));
 	gsb_data_transaction_set_sub_category_number ( transaction_number,
-						       scheduled_transaction -> sous_categorie );
+						       gsb_data_scheduled_get_sub_category_number (scheduled_number));
 	return TRUE;
     }
 
-    if ( scheduled_transaction -> operation_ventilee )
+    if ( gsb_data_scheduled_get_breakdown_of_scheduled (scheduled_number))
     {
 	/* it's a breakdown of transaction,
 	 * we will check all the scheduled transactions to find all the children */
@@ -2209,17 +2152,17 @@ gboolean gsb_scheduler_get_category_for_transaction_from_transaction ( gint tran
 	gsb_data_transaction_set_breakdown_of_transaction ( transaction_number,
 							    1 );
 
-	scheduled_transactions_list = liste_struct_echeances;
+	scheduled_transactions_list = gsb_data_scheduled_get_scheduled_list ();
 
 	while (scheduled_transactions_list)
 	{
-	    struct operation_echeance *scheduled_transaction_child;
+	    gint child_scheduled_number;
 
-	    scheduled_transaction_child = scheduled_transactions_list -> data;
+	    child_scheduled_number = gsb_data_scheduled_get_scheduled_number (scheduled_transactions_list -> data);
 
-	    if ( scheduled_transaction_child -> no_operation_ventilee_associee == scheduled_transaction -> no_operation )
+	    if ( child_scheduled_number == scheduled_number )
 	    {
-		/* the scheduled_transaction_child is a child of scheduled_transaction */
+		/* the child_scheduled_number is a child of scheduled_transaction */
 
 		gint breakdown_transaction_number;
 
@@ -2240,31 +2183,31 @@ gboolean gsb_scheduler_get_category_for_transaction_from_transaction ( gint tran
 		/* now we had to change what is specific to the daughter */
 
 		gsb_data_transaction_set_amount ( breakdown_transaction_number,
-						  scheduled_transaction -> montant );
+						  gsb_data_scheduled_get_amount (child_scheduled_number));
 		gsb_data_transaction_set_category_number ( breakdown_transaction_number,
-							   scheduled_transaction -> categorie );
+							   gsb_data_scheduled_get_category_number (child_scheduled_number));
 		gsb_data_transaction_set_sub_category_number ( breakdown_transaction_number,
-							       scheduled_transaction -> sous_categorie );
+							       gsb_data_scheduled_get_sub_category_number (child_scheduled_number));
 		gsb_data_transaction_set_notes ( breakdown_transaction_number,
-						 scheduled_transaction -> notes );
+						 gsb_data_scheduled_get_notes (child_scheduled_number));
 		gsb_data_transaction_set_budgetary_number ( breakdown_transaction_number,
-							    scheduled_transaction -> imputation);
+							    gsb_data_scheduled_get_budgetary_number (child_scheduled_number));
 		gsb_data_transaction_set_sub_budgetary_number ( breakdown_transaction_number,
-								scheduled_transaction -> sous_imputation);
+								gsb_data_scheduled_get_sub_budgetary_number (child_scheduled_number));
 		gsb_data_transaction_set_financial_year_number ( breakdown_transaction_number,
-								 scheduled_transaction -> no_exercice);
+								 gsb_data_scheduled_get_financial_year_number (child_scheduled_number));
 
 		/* if it's a transfer, set the contra transaction */
 
-		if ( scheduled_transaction -> compte_virement != -1 )
+		if ( gsb_data_scheduled_get_account_number_transfer (child_scheduled_number) != -1 )
 		{
 		    gint contra_transaction_number;
 
 		    contra_transaction_number = gsb_form_validate_transfer ( breakdown_transaction_number,
 									     TRUE,
-									     gsb_data_account_get_name ( scheduled_transaction -> compte_virement ));
+									     gsb_data_account_get_name (gsb_data_scheduled_get_account_number_transfer (child_scheduled_number)));
 		    gsb_data_transaction_set_method_of_payment_number ( contra_transaction_number,
-									scheduled_transaction -> type_contre_ope );
+									gsb_data_scheduled_get_contra_method_of_payment_number (child_scheduled_number));
 
 		}
 		update_transaction_in_trees (gsb_data_transaction_get_pointer_to_transaction(breakdown_transaction_number));
@@ -2278,15 +2221,15 @@ gboolean gsb_scheduler_get_category_for_transaction_from_transaction ( gint tran
 	 * so it's a transfer, except if the target account is -1 then it's a
 	 * transaction with no category */
 
-	if ( scheduled_transaction -> compte_virement != -1 )
+	if ( gsb_data_scheduled_get_account_number_transfer (scheduled_number) != -1 )
 	{
 	    gint contra_transaction_number;
 
 	    contra_transaction_number = gsb_form_validate_transfer ( transaction_number,
 								     TRUE,
-								     gsb_data_account_get_name ( scheduled_transaction -> compte_virement ));
+								     gsb_data_account_get_name (gsb_data_scheduled_get_account_number_transfer (scheduled_number)));
 	    gsb_data_transaction_set_method_of_payment_number ( contra_transaction_number,
-								scheduled_transaction -> type_contre_ope );
+								gsb_data_scheduled_get_contra_method_of_payment_number (scheduled_number));
 
 	}
     }
@@ -2390,48 +2333,45 @@ void formulaire_echeancier_a_zero ( void )
     /* on associe au formulaire l'adr de l'échéance courante */
 
     gtk_object_set_data ( GTK_OBJECT ( formulaire_echeancier ),
-			  "adr_echeance",
+			  "scheduled_number",
 			  NULL );
 }
 /******************************************************************************/
 
-/** set the next date in the scheduled transaction
+/**
+ * set the next date in the scheduled transaction
  * if it's above the limit date, that transaction is deleted
- * \param scheduled_transaction the transaction we want to increase
+ * 
+ * \param scheduled_number the scheduled transaction we want to increase
+ * 
  * \return FALSE if the scheduled transaction is finished, TRUE else
  * */
-gboolean gsb_scheduler_increase_scheduled_transaction ( struct operation_echeance *scheduled_transaction )
+gboolean gsb_scheduler_increase_scheduled_transaction ( gint scheduled_number )
 {
-    g_return_val_if_fail ( g_date_valid ( scheduled_transaction -> date ), TRUE );
+    g_return_val_if_fail ( g_date_valid (gsb_data_scheduled_get_date (scheduled_number)), TRUE );
 
     /* increase the date of the scheduled_transaction */
 
-    gsb_scheduler_increase_date ( scheduled_transaction,
-				  scheduled_transaction -> date );
+    gsb_scheduler_increase_date ( scheduled_number,
+				  gsb_data_scheduled_get_date (scheduled_number));
 
     /* si l'échéance est finie, on la vire, sinon on met à jour les var jour, mois et année */
 
     if ( main_page_finished_scheduled_transactions_part
 	 && 
-	 ( !scheduled_transaction -> periodicite 
+	 ( ! gsb_data_scheduled_get_frequency (scheduled_number)
 	   ||
 	   (
-	    scheduled_transaction -> date_limite
+	    gsb_data_scheduled_get_limit_date (scheduled_number)
 	    &&
-	    g_date_compare ( scheduled_transaction -> date,
-			     scheduled_transaction -> date_limite ) > 0  )) )
+	    g_date_compare ( gsb_data_scheduled_get_date (scheduled_number),
+			     gsb_data_scheduled_get_limit_date (scheduled_number)) > 0  )) )
     {
 	/* update the main page */
 
-	gsb_main_page_update_finished_scheduled_transactions (scheduled_transaction);
-	gsb_scheduler_delete_scheduled_transaction (scheduled_transaction);
+	gsb_main_page_update_finished_scheduled_transactions (scheduled_number);
+	gsb_scheduler_delete_scheduled_transaction (scheduled_number);
 	return FALSE;
-    }
-    else
-    {
-	scheduled_transaction -> jour = scheduled_transaction -> date -> day;
-	scheduled_transaction -> mois = scheduled_transaction -> date -> month;
-	scheduled_transaction -> annee = scheduled_transaction -> date -> year;
     }
     return TRUE;
 }
@@ -2439,15 +2379,14 @@ gboolean gsb_scheduler_increase_scheduled_transaction ( struct operation_echeanc
 
 /** increase the date given in param with what is describe
  * in the scheduled transaction (it doen't do any copy of the date !)
- * \param scheduled_transaction it contains the parameters to increase the date
+ * \param scheduled_number it contains the parameters to increase the date
  * \param date a GDate which will be increase
  * \return FALSE
  * */
-gboolean gsb_scheduler_increase_date ( struct operation_echeance *scheduled_transaction,
+gboolean gsb_scheduler_increase_date ( gint scheduled_number,
 				       GDate *date )
 {
-    printf ( "%d\n", scheduled_transaction -> periodicite );
-    switch ( scheduled_transaction -> periodicite )
+    switch ( gsb_data_scheduled_get_frequency (scheduled_number))
     {
 	case 1:
 	    /* périodicité hebdomadaire */
@@ -2479,11 +2418,11 @@ gboolean gsb_scheduler_increase_date ( struct operation_echeance *scheduled_tran
 	default:
 	    /* périodicité perso */
 
-	    switch ( scheduled_transaction -> intervalle_periodicite_personnalisee )
+	    switch ( gsb_data_scheduled_get_user_interval (scheduled_number) )
 	    {
 		case 0:
 		    g_date_add_days ( date,
-				      scheduled_transaction -> periodicite_personnalisee );
+				      gsb_data_scheduled_get_user_entry (scheduled_number));
 
 		    /* magouille car il semble y avoir un bug dans g_date_add_days qui ne fait pas l'addition si on ne met pas la ligne suivante */
 		    /* FIXME check if the bug in g_date_add_days is still present */
@@ -2493,16 +2432,15 @@ gboolean gsb_scheduler_increase_date ( struct operation_echeance *scheduled_tran
 
 		case 1:
 		    g_date_add_months ( date,
-					scheduled_transaction -> periodicite_personnalisee );
+					gsb_data_scheduled_get_user_entry (scheduled_number));
 		    break;
 
 		case 2:
 		    g_date_add_years ( date,
-				       scheduled_transaction -> periodicite_personnalisee );
+				       gsb_data_scheduled_get_user_entry (scheduled_number));
 		    break;
 	    }    
     }
-
     return FALSE;
 }
 
@@ -2744,14 +2682,7 @@ void degrise_formulaire_echeancier ( void )
 /******************************************************************************/
 void basculer_vers_ventilation_echeances ( void )
 {
-    enregistre_ope_au_retour_echeances = 0;
-
-    if ( gtk_widget_get_style ( widget_formulaire_echeancier[SCHEDULER_FORM_DEBIT] ) == style_entree_formulaire[ENCLAIR] )
-	ventiler_operation_echeances  ( -my_strtod ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_echeancier[SCHEDULER_FORM_DEBIT] ))),
-						     NULL ));
-    else
-	ventiler_operation_echeances  ( my_strtod ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_echeancier[SCHEDULER_FORM_CREDIT] ))),
-						    NULL ));
+    /* FIXME : to remove */
 }
 /******************************************************************************/
 

@@ -492,7 +492,7 @@ gboolean import_enter_csv_preview_page ( GtkWidget * assistant )
 {
     GtkWidget * entry;
     GSList * files;
-    gchar * contents, * filename;
+    gchar * contents, * filename = NULL;
     gsize size;
     GError * error;
 
@@ -591,7 +591,7 @@ gboolean csv_import_csv_account ( GtkWidget * assistant, gchar * filename )
 	    struct csv_field * field = & csv_fields [ csv_fields_config[i] ];
 	    if ( field -> parse )
 	    {
-		printf ("> Parsing %s as %s ... ",  list -> data, field -> name );
+		printf ("> Parsing %s as %s ... ",  (gchar *) list -> data, field -> name );
 		if ( field -> validate )
 		{
 		    if ( field -> validate ( list -> data ) )

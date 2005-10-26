@@ -783,7 +783,10 @@ gboolean gsb_data_category_set_name ( gint no_category,
 	free (category -> category_name);
 
     /* and copy the new one */
-    category -> category_name = g_strdup (name);
+    if ( name )
+	category -> category_name = g_strdup (name);
+    else
+	category -> category_name = NULL;
     return TRUE;
 }
 
@@ -840,7 +843,11 @@ gboolean gsb_data_category_set_sub_category_name ( gint no_category,
 	free (sub_category -> sub_category_name);
 
     /* and copy the new one */
-    sub_category -> sub_category_name = g_strdup (name);
+    if ( name )
+	sub_category -> sub_category_name = g_strdup (name);
+    else
+	sub_category -> sub_category_name = NULL;
+
     return TRUE;
 }
 

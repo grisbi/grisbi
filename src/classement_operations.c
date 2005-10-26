@@ -1485,36 +1485,6 @@ gint gsb_transactions_list_sort_by_chq ( GtkTreeModel *model,
 
 
 
-/* ************************************************************************** */
-/* classement par no d'opé (donc d'entrée)                                    */
-/* FIXME : encore utilisé par les échéances */
-/* ************************************************************************** */
-gint classement_liste_par_no_ope_ventil ( GtkWidget *liste,
-					  GtkCListRow *ligne_1,
-					  GtkCListRow *ligne_2 )
-{
-    struct operation_echeance *operation_1;
-    struct operation_echeance *operation_2;
-
-    operation_1 = ligne_1 -> data;
-    operation_2 = ligne_2 -> data;
-
-    if ( operation_1 == GINT_TO_POINTER ( -1 ) )
-	return ( 1 );
-
-    if ( operation_2 == GINT_TO_POINTER ( -1 ) )
-	return ( -1 );
-
-    if ( operation_1 == NULL )
-	return ( 1 );
-
-    if ( operation_2 == NULL )
-	return ( -1 );
-
-    return ( operation_1 -> no_operation - operation_2 -> no_operation );
-}
-/* ************************************************************************** */
-
 
 
 /** do the same as g_strcasecmp but works alse with the accents on the words

@@ -38,10 +38,10 @@ typedef struct metatree_interface {
     gint (* transaction_sub_div_id) (gpointer);
     void (* transaction_set_div_id) (gpointer, int);
     void (* transaction_set_sub_div_id) (gpointer, int);
-    gint (* scheduled_div_id) (struct operation_echeance *);
-    gint (* scheduled_sub_div_id) (struct operation_echeance *);
-    void (* scheduled_set_div_id) (struct operation_echeance *, int);
-    void (* scheduled_set_sub_div_id) (struct operation_echeance *, int);
+    gint (* scheduled_div_id) (int);
+    gint (* scheduled_sub_div_id) (int);
+    void (* scheduled_set_div_id) (int, int);
+    void (* scheduled_set_sub_div_id) (int, int);
 
     /* Write operations on div */
     gint (* add_div) ();

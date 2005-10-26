@@ -645,7 +645,6 @@ gboolean gsb_gui_toggle_show_reconciled ()
  * */
 gboolean gsb_menu_update_view_menu ( gint account_number )
 {
-    GtkWidget *check_menu_item;
     gchar * item_name = NULL;
 
     if ( DEBUG )
@@ -656,8 +655,8 @@ gboolean gsb_menu_update_view_menu ( gint account_number )
 
     /* update the showing of reconciled transactions */
 
-    gtk_toggle_action_set_active ( gtk_ui_manager_get_action ( ui_manager, 
-							       menu_name ( "ViewMenu", "ShowReconciled", NULL ) ), 
+    gtk_toggle_action_set_active ( GTK_TOGGLE_ACTION (gtk_ui_manager_get_action ( ui_manager, 
+										  menu_name ( "ViewMenu", "ShowReconciled", NULL ))), 
 				   gsb_data_account_get_r (account_number) );
 
     /* update the number of line showed */
@@ -678,7 +677,7 @@ gboolean gsb_menu_update_view_menu ( gint account_number )
 	    break;
     }
 
-    gtk_toggle_action_set_active ( gtk_ui_manager_get_action ( ui_manager, item_name ),
+    gtk_toggle_action_set_active ( GTK_TOGGLE_ACTION (gtk_ui_manager_get_action ( ui_manager, item_name )),
 				   TRUE );
 
     block_menu_cb = FALSE;
@@ -714,7 +713,6 @@ gboolean gsb_menu_update_accounts_in_menus ( void )
     while ( list_tmp )
     {
 	gint i;
-	GtkItemFactoryEntry *item_factory_entry;
 
 	i = gsb_data_account_get_no_account ( list_tmp -> data );
 
