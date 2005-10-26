@@ -220,6 +220,7 @@ enum alignement {
     LEFT, CENTER, RIGHT,
 };
 
+
 /* struture d'une opé de ventil */
 
 struct struct_ope_ventil
