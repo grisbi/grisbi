@@ -112,6 +112,7 @@ GtkWidget *init_menus ( GtkWidget *vbox )
 	{menu_name(_("Reports"), _("Clone report"), NULL),   "<CTRL><SHIFT>C", G_CALLBACK (dupliquer_etat ), 0, "<StockItem>", GTK_STOCK_COPY },
 	{menu_name(_("Reports"), _("Print report"), NULL),   NULL, G_CALLBACK ( impression_etat_courant), 0, "<StockItem>", GTK_STOCK_PRINT },
 	{menu_name(_("Reports"), _("Export report as HTML..."), NULL),   NULL, G_CALLBACK ( export_etat_courant_vers_html), 0, "<StockItem>", GTK_STOCK_CONVERT },
+	{menu_name(_("Reports"), _("Export report as CSV..."), NULL),   NULL, G_CALLBACK ( export_etat_courant_vers_csv), 0, "<StockItem>", GTK_STOCK_CONVERT },
 	{menu_name(_("Reports"), "Sep1", NULL),    NULL, NULL, 0, "<Separator>", NULL },
 	{menu_name(_("Reports"), _("Import report file"), NULL),   NULL, G_CALLBACK (importer_etat ), 0, "<StockItem>", GTK_STOCK_CONVERT },
 	{menu_name(_("Reports"), _("Export report file"), NULL),   NULL, G_CALLBACK ( exporter_etat), 0, "<StockItem>", GTK_STOCK_CONVERT },
