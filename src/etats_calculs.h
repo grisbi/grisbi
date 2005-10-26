@@ -22,3 +22,4 @@ void impression_etat ( struct struct_etat *etat );
 void impression_etat_courant ( );
 void export_etat_vers_html ( struct struct_etat *etat );
 void export_etat_courant_vers_html ( );
+void export_etat_courant_vers_csv ( );

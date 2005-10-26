@@ -26,6 +26,7 @@
 
 #include "devises.h"
 #include "etats_gtktable.h"
+#include "etats_csv.h"
 #include "etats_html.h"
 #include "etats_latex.h"
 #include "etats_affiche.h"
@@ -1519,6 +1520,16 @@ void export_etat_courant_vers_html ( )
 				7 );
 
     export_etat_vers_html ( NULL );
+}
+
+
+
+void export_etat_courant_vers_csv ( )
+{
+    if ( gtk_notebook_get_current_page ( GTK_NOTEBOOK ( notebook_general)) != 7 )
+	gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general), 7 );
+
+    affichage_etat ( NULL, &csv_affichage );
 }
 
 
