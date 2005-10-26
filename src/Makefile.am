@@ -32,6 +32,7 @@ sources = 			\
 	etats_gtktable.c	\
 	etats_html.c		\
 	etats_latex.c		\
+	etats_csv.c		\
 	etats_onglet.c		\
 	etats_support.c		\
 	exercice.c		\
