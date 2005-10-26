@@ -131,6 +131,7 @@ gint recent_files_merge_id = -1, move_to_account_merge_id = -1;
 "      <menuitem action='ImportReport'/>"
 "      <menuitem action='ExportReport'/>"
 "      <menuitem action='ExportReportHTML'/>"
+"      <menuitem action='ExportReportCSV'/>"
 "      <separator/>"
 "      <menuitem action='RemoveReport'/>"
 "      <menuitem action='EditReport'/>"
@@ -256,6 +257,8 @@ GtkActionEntry entries[] = {
 
 { "ExportReportHTML",	NULL,			_("_Export report as HTML..."),
   NULL,			NULL,			G_CALLBACK( export_etat_courant_vers_html ) },
+{ "ExportReportCSV",	NULL,			_("_Export report as CSV..."),
+  NULL,			NULL,			G_CALLBACK( export_etat_courant_vers_csv ) },
 
 { "RemoveReport",	GTK_STOCK_DELETE,	_("_Remove report"),
   NULL,			"",			G_CALLBACK( efface_etat ) },
