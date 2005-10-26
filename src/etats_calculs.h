@@ -6,6 +6,7 @@
 
 #include "etats_affiche.h"
 
+
 /* START_DECLARATION */
 void affichage_etat ( gint report_number, 
 		      struct struct_etat_affichage * affichage );
