@@ -26,4 +26,4 @@ gint cherche_no_menu_type_echeancier ( gint demande );
 void changement_choix_type_formulaire ( struct struct_type_ope *type );
 void changement_choix_type_echeancier ( struct struct_type_ope *type );
 gchar * automatic_numbering_get_new_number ( struct struct_type_ope * type );
-
+gchar * automatic_numbering_get_current_number ( struct struct_type_ope * type );

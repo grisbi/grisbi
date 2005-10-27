@@ -50,7 +50,7 @@ enum payment_methods_columns {
 };
 
 
-GtkWidget *treeview;
+GtkWidget *payment_method_treeview;
 GtkTreeStore *model;
 
 /** Global to handle sensitiveness */
@@ -285,9 +285,9 @@ GtkWidget *onglet_types_operations ( void )
 				G_TYPE_BOOLEAN,
 				G_TYPE_BOOLEAN,
 				G_TYPE_POINTER);
-    treeview = gtk_tree_view_new_with_model ( GTK_TREE_MODEL (model) );
-    gtk_tree_view_set_rules_hint (GTK_TREE_VIEW (treeview), TRUE);
-    g_signal_connect (gtk_tree_view_get_selection (GTK_TREE_VIEW (treeview)), 
+    payment_method_treeview = gtk_tree_view_new_with_model ( GTK_TREE_MODEL (model) );
+    gtk_tree_view_set_rules_hint (GTK_TREE_VIEW (payment_method_treeview), TRUE);
+    g_signal_connect (gtk_tree_view_get_selection (GTK_TREE_VIEW (payment_method_treeview)), 
 		      "changed", 
 		      G_CALLBACK (select_payment_method),
 		      model);
@@ -300,7 +300,7 @@ GtkWidget *onglet_types_operations ( void )
     gtk_tree_view_column_set_attributes (column, cell,
 					 "text", PAYMENT_METHODS_NAME_COLUMN,
 					 NULL);
-    gtk_tree_view_append_column ( GTK_TREE_VIEW(treeview), column);
+    gtk_tree_view_append_column ( GTK_TREE_VIEW(payment_method_treeview), column);
 
     /* Defaults */
     cell = gtk_cell_renderer_toggle_new ();
@@ -316,7 +316,7 @@ GtkWidget *onglet_types_operations ( void )
 					 "activatable", PAYMENT_METHODS_ACTIVABLE_COLUMN,
 					 "visible", PAYMENT_METHODS_VISIBLE_COLUMN,
 					 NULL);
-    gtk_tree_view_append_column ( GTK_TREE_VIEW(treeview), column);
+    gtk_tree_view_append_column ( GTK_TREE_VIEW(payment_method_treeview), column);
 
     /* Numbering */
     cell = gtk_cell_renderer_text_new ();
@@ -326,13 +326,13 @@ GtkWidget *onglet_types_operations ( void )
     gtk_tree_view_column_set_attributes (column, cell,
 					 "text", PAYMENT_METHODS_NUMBERING_COLUMN,
 					 NULL);
-    gtk_tree_view_append_column ( GTK_TREE_VIEW(treeview), column);
+    gtk_tree_view_append_column ( GTK_TREE_VIEW(payment_method_treeview), column);
 
     /* expand all rows after the treeview widget has been realized */
-    g_signal_connect (treeview, "realize",
+    g_signal_connect (payment_method_treeview, "realize",
 		      G_CALLBACK (gtk_tree_view_expand_all), NULL);
     gtk_container_add ( GTK_CONTAINER ( scrolled_window ),
-			treeview );
+			payment_method_treeview );
 
     fill_payment_method_tree ();
 
@@ -467,8 +467,7 @@ GtkWidget *onglet_types_operations ( void )
  * Callback used when a payment method is selected in payment methods
  * list.
  */
-    gboolean
-select_payment_method ( GtkTreeSelection *selection, GtkTreeModel *model )
+gboolean select_payment_method ( GtkTreeSelection *selection, GtkTreeModel *model )
 {
     GtkTreeIter iter;
     GValue value_visible = {0, };
@@ -503,8 +502,7 @@ select_payment_method ( GtkTreeSelection *selection, GtkTreeModel *model )
 			    -1);
 	/* Filling entries */
 	entry_set_value ( entree_type_nom, &(type_ope -> nom_type) );
-	spin_button_set_value ( entree_type_dernier_no, 
-				(gint *) &(type_ope -> no_en_cours) );
+	spin_button_set_value ( entree_type_dernier_no, &(type_ope -> no_en_cours) );
 	checkbox_set_value ( entree_automatic_numbering, 
 			     &(type_ope -> numerotation_auto), TRUE );
 	gtk_option_menu_set_history ( GTK_OPTION_MENU ( bouton_signe_type ),
@@ -534,7 +532,7 @@ void modification_entree_nom_type ( void )
     GtkTreeIter iter;
     gboolean good, visible;
 
-    selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (treeview));
+    selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (payment_method_treeview));
     good = gtk_tree_selection_get_selected (selection, NULL, &iter);
 
     if (good)
@@ -606,7 +604,7 @@ void modification_type_numerotation_auto (void)
     gboolean good, visible;
     GtkTreeIter iter;
 
-    selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (treeview));
+    selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (payment_method_treeview));
     good = gtk_tree_selection_get_selected (selection, NULL, &iter);
 
     gtk_tree_model_get ( GTK_TREE_MODEL(model), &iter, 
@@ -620,6 +618,7 @@ void modification_type_numerotation_auto (void)
     if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( entree_automatic_numbering )))
     {
 	type_ope -> numerotation_auto = 1;
+	type_ope -> affiche_entree = 1;
 	gtk_widget_set_sensitive ( entree_type_dernier_no, TRUE );
 	gtk_tree_store_set (GTK_TREE_STORE (model), &iter, 
 			    PAYMENT_METHODS_NUMBERING_COLUMN, utils_itoa(type_ope->no_en_cours), 
@@ -628,6 +627,7 @@ void modification_type_numerotation_auto (void)
     else
     {
 	type_ope -> numerotation_auto = 0;
+	type_ope -> affiche_entree = 0;
 	gtk_widget_set_sensitive ( entree_type_dernier_no, FALSE );
 	gtk_tree_store_set (GTK_TREE_STORE (model), &iter, 
 			    PAYMENT_METHODS_NUMBERING_COLUMN, "", 
@@ -649,7 +649,7 @@ void modification_entree_type_dernier_no ( void )
     GtkTreeIter iter;
     gboolean good, visible;
 
-    selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (treeview));
+    selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (payment_method_treeview));
     good = gtk_tree_selection_get_selected (selection, NULL, &iter);
 
     gtk_tree_model_get ( GTK_TREE_MODEL(model), &iter, 
@@ -693,9 +693,9 @@ gboolean select_type_ope ( GtkTreeModel *model, GtkTreePath *path,
 
     if (type_ope == data)
     {
-	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (treeview));
+	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (payment_method_treeview));
 	gtk_tree_selection_select_iter (selection, iter);
-	gtk_tree_view_scroll_to_cell ( GTK_TREE_VIEW(treeview), path, NULL, 
+	gtk_tree_view_scroll_to_cell ( GTK_TREE_VIEW(payment_method_treeview), path, NULL, 
 				       TRUE, 0.5, 0);
 	return TRUE;
     }
@@ -750,7 +750,7 @@ void modification_type_signe ( gint *no_menu )
     GtkTreeIter iter;
     gboolean good, visible;
 
-    selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (treeview));
+    selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (payment_method_treeview));
     good = gtk_tree_selection_get_selected (selection, NULL, &iter);
 
     if (good)
@@ -801,7 +801,7 @@ void modification_type_signe ( gint *no_menu )
 					  model );
 	gtk_tree_store_clear ( GTK_TREE_STORE (model) );
 	fill_payment_method_tree ();
-	gtk_tree_view_expand_all ( GTK_TREE_VIEW(treeview) );
+	gtk_tree_view_expand_all ( GTK_TREE_VIEW(payment_method_treeview) );
 	g_signal_handlers_unblock_by_func ( selection,
 					    G_CALLBACK (select_payment_method),
 					    model );
@@ -826,7 +826,7 @@ void ajouter_type_operation ( void )
     gboolean good, visible;
     GValue value_name = {0, };
 
-    selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (treeview));
+    selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (payment_method_treeview));
     good = gtk_tree_selection_get_selected (selection, NULL, &iter);
 
     if ( good )
@@ -933,7 +933,7 @@ void ajouter_type_operation ( void )
     /* Select and view new position */
     gtk_tree_selection_select_iter ( selection, &iter );
     treepath = gtk_tree_model_get_path ( GTK_TREE_MODEL(model), &iter );
-    gtk_tree_view_scroll_to_cell ( GTK_TREE_VIEW(treeview), treepath, NULL, 
+    gtk_tree_view_scroll_to_cell ( GTK_TREE_VIEW(payment_method_treeview), treepath, NULL, 
 				   TRUE, 0.5, 0);
     gtk_tree_path_free ( treepath );
 
@@ -975,7 +975,7 @@ void supprimer_type_operation ( void )
     gboolean good, visible;
 
     /** First, we find related GtkTreeIter and stsruct_type_ope pointer. */
-    selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (treeview));
+    selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (payment_method_treeview));
     good = gtk_tree_selection_get_selected (selection, NULL, &iter);
 
     if ( good )
@@ -1612,7 +1612,7 @@ void changement_choix_type_formulaire ( struct struct_type_ope *type )
 	{
 	    entree_prend_focus ( widget_formulaire_operations[TRANSACTION_FORM_CHEQUE] );
 	    gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_operations[TRANSACTION_FORM_CHEQUE] ),
-				 automatic_numbering_get_new_number ( type ));
+				 automatic_numbering_get_current_number ( type ));
 	}
 	else
 	{
@@ -1670,8 +1670,35 @@ gchar * automatic_numbering_get_new_number ( struct struct_type_ope * type )
 {
     if ( type )
     {
-	return utils_itoa ( type -> no_en_cours  + 1 );
+	return utils_itoa ( type -> no_en_cours );
     }
 
     return "1";
 }
+
+
+
+/**
+ * Get the max content number associated to a type structure and
+ * return it.
+ *
+ * \param type	The type structure to compute.
+ *
+ * \return	A textual representation of the maximum.
+ */
+gchar * automatic_numbering_get_current_number ( struct struct_type_ope * type )
+{
+    if ( type )
+    {
+ 	return utils_itoa ( type -> no_en_cours );
+    }
+  
+    return "1";
+}
+
+
+
+
+/* Local Variables: */
+/* c-basic-offset: 4 */
+/* End: */
