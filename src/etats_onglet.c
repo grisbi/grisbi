@@ -38,6 +38,7 @@
 #include "etats_config.h"
 #include "utils_files.h"
 #include "include.h"
+#include "etats_csv.h"
 #include "structures.h"
 /*END_INCLUDE*/
 
@@ -69,6 +70,7 @@ GtkWidget *onglet_config_etat;
 
 
 /*START_EXTERN*/
+extern struct struct_etat_affichage csv_affichage ;
 extern gchar *dernier_chemin_de_travail;
 extern struct struct_etat_affichage html_affichage ;
 extern GtkItemFactory *item_factory_menu_general;
@@ -1057,6 +1059,19 @@ void export_etat_courant_vers_html ( )
 				7 );
 
     export_etat_vers_html ( gsb_gui_navigation_get_current_report ());
+}
+
+
+/**
+ *
+ *
+ */
+void export_etat_courant_vers_csv ( )
+{
+    if ( gtk_notebook_get_current_page ( GTK_NOTEBOOK ( notebook_general)) != 7 )
+	gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general), 7 );
+
+    affichage_etat ( NULL, &csv_affichage );
 }
 
 
