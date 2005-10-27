@@ -303,7 +303,7 @@ GtkWidget *onglet_exercices ( void )
 		       0, 0 );
 
     /* Activate in transaction form? */
-    affichage_exercice = new_checkbox_with_title (_("Hide financial year in transaction form"),
+    affichage_exercice = new_checkbox_with_title (_("Activate financial year in transaction form"),
 						  NULL, 
 						  G_CALLBACK(update_financial_year_menus));
     gtk_box_pack_start ( GTK_BOX ( paddingbox_details ), affichage_exercice,
