@@ -1100,7 +1100,7 @@ void gsb_file_config_clean_config ( void )
     buffer_dernier_fichier = g_strdup ( "" );
     etat.sauvegarde_auto = 0;    /* on ne sauvegarde pas automatiquement */
     etat.entree = 1;    /* la touche entree provoque l'enregistrement de l'opération */
-    nb_days_before_scheduled = 3;     /* nb de jours avant l'échéance pour prévenir */
+    nb_days_before_scheduled = 0;     /* nb de jours avant l'échéance pour prévenir */
     etat.formulaire_toujours_affiche = 0;       /* le formulaire ne s'affiche que lors de l'edition d'1 opé */
     etat.formulaire_echeancier_toujours_affiche = 0;       /* le formulaire ne s'affiche que lors de l'edition d'1 opé */
     etat.affichage_exercice_automatique = 1;        /* l'exercice est choisi en fonction de la date */
