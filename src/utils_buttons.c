@@ -254,9 +254,11 @@ GtkWidget * new_int_spin_button ( gint * value,
     if ( hook )
     {
 	g_object_set_data ( G_OBJECT (spin), "hook",
-			    (gpointer) g_signal_connect_swapped ( GTK_OBJECT (adjustment), 
-								  "value-changed", 
-								  (GCallback) hook, spin ));
+			    (gpointer) g_signal_connect_data ( GTK_OBJECT (adjustment), 
+							       "value-changed", 
+							       (GCallback) hook, spin,
+							       NULL, 
+							       G_CONNECT_AFTER | G_CONNECT_SWAPPED ) );
     }
 
     return spin;
