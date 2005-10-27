@@ -2297,13 +2297,6 @@ gboolean gsb_transactions_list_edit_current_transaction ( void )
 		    gtk_option_menu_set_history (  GTK_OPTION_MENU ( widget ),
 						   cherche_no_menu_exercice ( gsb_data_transaction_get_financial_year_number (transaction_number),
 									      widget ));
-
-		    /* 		    si l'opé est ventilée, on désensitive l'exo */
-
-		    if ( gsb_data_transaction_get_breakdown_of_transaction (transaction_number))
-			gtk_widget_set_sensitive ( widget,
-						   FALSE );
-
 		    break;
 
 		case TRANSACTION_FORM_PARTY:
