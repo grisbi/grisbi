@@ -53,7 +53,6 @@ gint gsb_data_report_get_period_split_day ( gint report_number );
 gint gsb_data_report_get_period_split_type ( gint report_number );
 GDate *gsb_data_report_get_personal_date_end ( gint report_number );
 GDate *gsb_data_report_get_personal_date_start ( gint report_number );
-gpointer gsb_data_report_get_pointer_to_report ( gint report_number );
 gint gsb_data_report_get_report_can_click ( gint report_number );
 GSList *gsb_data_report_get_report_list ( void );
 gchar *gsb_data_report_get_report_name ( gint report_number );

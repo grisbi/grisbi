@@ -21,12 +21,29 @@
 
 
 #include "include.h"
-#include "structures.h"
-#include "etats_csv.h"
 
+/*START_INCLUDE*/
+#include "etats_csv.h"
 #include "dialog.h"
-#include "etats.h"
+#include "utils_file_selection.h"
+#include "gsb_data_report.h"
+#include "navigation.h"
 #include "utils_files.h"
+#include "etats_config.h"
+#include "include.h"
+#include "etats_csv.h"
+#include "etats_affiche.h"
+/*END_INCLUDE*/
+
+/*START_STATIC*/
+static void csv_attach_hsep ( int x, int x2, int y, int y2);
+static void csv_attach_label ( gchar * text, gdouble properties, int x, int x2, int y, int y2, 
+			  enum alignement align, gpointer ope );
+static void csv_attach_vsep ( int x, int x2, int y, int y2);
+static gint csv_finish ();
+static gint csv_initialise (GSList * opes_selectionnees);
+static void csv_safe ( gchar * text ) ;
+/*END_STATIC*/
 
 
 struct struct_etat_affichage csv_affichage = {
@@ -152,9 +169,18 @@ void csv_attach_hsep ( int x, int x2, int y, int y2)
  */
 gint csv_initialise (GSList * opes_selectionnees)
 {
+    GtkWidget * file_selector;
     gfloat colwidth, real_width;
     gchar * filename;
     int i;
+
+/*     file_selector = file_selection_new (_("Select a new logo"), */
+/* 					FILE_SELECTION_IS_OPEN_DIALOG|FILE_SELECTION_MUST_EXIST); */
+
+/*     g_signal_connect (G_OBJECT (GTK_FILE_SELECTION (file_selector)->ok_button), */
+/* 		      "clicked", */
+/* 		      G_CALLBACK (NULL), */
+/* 		      (gpointer) file_selector); */
 
     filename = "output.csv";
     unlink ( filename );

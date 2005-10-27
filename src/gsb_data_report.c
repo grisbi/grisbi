@@ -157,6 +157,7 @@ typedef struct
 
 
 /*START_STATIC*/
+static gpointer gsb_data_report_get_pointer_to_report ( gint report_number );
 static  struct_report *gsb_data_report_get_report_by_no ( gint report_number );
 static gint gsb_data_report_max_number ( void );
 /*END_STATIC*/

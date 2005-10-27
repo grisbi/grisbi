@@ -19,7 +19,7 @@ enum view_menu_action {
 
 
 /* START_DECLARATION */
-void affiche_derniers_fichiers_ouverts ( void );
+gboolean affiche_derniers_fichiers_ouverts ( void );
 void efface_derniers_fichiers_ouverts ( void );
 gboolean gsb_gui_sensitive_menu_item ( gchar * root_menu_name, gchar * submenu_name,
 				       gchar * subsubmenu_name, gboolean state );
