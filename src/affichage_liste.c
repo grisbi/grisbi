@@ -443,6 +443,15 @@ GtkWidget *onglet_diverse_form_and_lists ( void )
 					    _("according to transaction date"),
 					    &etat.affichage_exercice_automatique, 
 					    NULL);
+    /* Payee search fields */
+    paddingbox = new_paddingbox_with_title (vbox_pref, FALSE, 
+					    COLON(_("Payee completion")));
+
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ),
+			 new_checkbox_with_title (_("Limit payee completion to current account"),
+						  &etat.limit_completion_to_current_account,
+						  ((GCallback) NULL )),
+			 FALSE, FALSE, 0 );
 
     if ( !gsb_data_account_get_accounts_amount () )
     {

@@ -2028,7 +2028,14 @@ gint gsb_transactions_look_for_last_party ( gint no_party,
     }
 
     if ( last_transaction_with_party_in_account )
+    {
 	return last_transaction_with_party_in_account;
+    }
+
+    if ( etat.limit_completion_to_current_account )
+    {
+	return 0;
+    }
 
     return last_transaction_with_party_not_in_account;
 }

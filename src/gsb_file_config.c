@@ -286,6 +286,10 @@ gboolean gsb_file_config_load_config ( void )
 								   "Shown",
 								   "Show automatic financial year",
 								   NULL );
+    etat.limit_completion_to_current_account = g_key_file_get_integer ( config,
+									"Shown",
+									"Limit payee completion",
+									NULL );
 
     etat.display_toolbar = g_key_file_get_integer ( config,
 						    "Shown",
@@ -564,6 +568,11 @@ gboolean gsb_file_config_save_config ( void )
 			     "Shown",
 			     "Show automatic financial year",
 			     etat.affichage_exercice_automatique );
+
+    g_key_file_set_integer ( config,
+			     "Shown",
+			     "Limit payee completion",
+			     etat.limit_completion_to_current_account );
 
     g_key_file_set_integer ( config,
 			     "Shown",
@@ -1104,6 +1113,7 @@ void gsb_file_config_clean_config ( void )
     etat.formulaire_toujours_affiche = 0;       /* le formulaire ne s'affiche que lors de l'edition d'1 opé */
     etat.formulaire_echeancier_toujours_affiche = 0;       /* le formulaire ne s'affiche que lors de l'edition d'1 opé */
     etat.affichage_exercice_automatique = 1;        /* l'exercice est choisi en fonction de la date */
+    etat.limit_completion_to_current_account = 0;        /* By default, do full search */
     etat.display_toolbar = GSB_BUTTON_BOTH;        /* How to display toolbar icons. */
     etat.show_closed_accounts = FALSE;
 

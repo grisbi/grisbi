@@ -70,7 +70,14 @@ struct {
     gint alerte_permission;   /* à un si le message d'alerte s'affiche */
     gint fichier_deja_ouvert;   /* à un si lors de l'ouverture, le fichier semblait déjà ouvert */
     gint force_enregistrement;    /* à un si on force l'enregistrement */
-    gint affichage_exercice_automatique;   /* à 1 si exercice automatique selon la date, 0 si affiche le dernier choisi */
+    gint affichage_exercice_automatique;   /* à 1 si exercice
+					    * automatique selon la
+    date, 0 si affiche le dernier choisi */
+    gboolean limit_completion_to_current_account;   /** Limit payee *
+						     completion to
+						     current account,
+						     or do a full
+						     search. */
     gint crypt_file;   /* TRUE if we want to crypt the file */
     gint compress_file;  /* TRUE if we want to compress the grisbi file */
     gint compress_backup;  /* TRUE if we want to compress the backup */
