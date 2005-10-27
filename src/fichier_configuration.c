@@ -629,7 +629,7 @@ void raz_configuration ( void )
     buffer_dernier_fichier = g_strdup ( "" );
     etat.sauvegarde_auto = 0;    /* on ne sauvegarde pas automatiquement */
     etat.entree = 1;    /* la touche entree provoque l'enregistrement de l'opération */
-    decalage_echeance = 3;     /* nb de jours avant l'échéance pour prévenir */
+    decalage_echeance = 0;     /* nb de jours avant l'échéance pour prévenir */
     etat.formulaire_toujours_affiche = 0;       /* le formulaire ne s'affiche que lors de l'edition d'1 opé */
     etat.formulaire_echeancier_toujours_affiche = 0;       /* le formulaire ne s'affiche que lors de l'edition d'1 opé */
     etat.affichage_exercice_automatique = 1;        /* l'exercice est choisi en fonction de la date */
