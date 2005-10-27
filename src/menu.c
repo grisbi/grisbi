@@ -70,6 +70,7 @@ extern gsize nb_derniers_fichiers_ouverts ;
 extern gchar **tab_noms_derniers_fichiers_ouverts ;
 extern GtkWidget *tree_view_liste_echeances;
 extern GtkWidget *window;
+extern guint nb_max_derniers_fichiers_ouverts;
 /*END_EXTERN*/
 
 
@@ -361,16 +362,21 @@ void efface_derniers_fichiers_ouverts ( void )
 /**
  * Add menu items to the "Recent files" submenu.
  */
-void affiche_derniers_fichiers_ouverts ( void )
+gboolean affiche_derniers_fichiers_ouverts ( void )
 {
     gint i;
     GtkActionGroup * action_group;
 
     efface_derniers_fichiers_ouverts ();
 
-    if ( !nb_derniers_fichiers_ouverts )
+    if ( nb_derniers_fichiers_ouverts > nb_max_derniers_fichiers_ouverts )
     {
-	return;
+	nb_derniers_fichiers_ouverts = nb_max_derniers_fichiers_ouverts;
+    }
+	
+    if ( ! nb_derniers_fichiers_ouverts || ! nb_max_derniers_fichiers_ouverts )
+    {
+	return FALSE;
     }
 
     action_group = gtk_action_group_new ( "Group2" );
@@ -400,6 +406,8 @@ void affiche_derniers_fichiers_ouverts ( void )
 				tmp_label, tmp_name, GTK_UI_MANAGER_MENUITEM, FALSE );
     }
     gtk_ui_manager_ensure_update ( ui_manager );
+
+    return FALSE;
 }
 
 
