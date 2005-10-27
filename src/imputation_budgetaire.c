@@ -1279,12 +1279,7 @@ gboolean expand_selected_ib (  )
 
     if ( GTK_CLIST ( arbre_imputation ) -> selection
 	 &&
-	 ( GTK_CTREE_ROW ( ( GTK_CLIST ( arbre_imputation ) -> selection ) -> data ) -> level == 4
-	   ||
-	   ( GTK_CTREE_ROW ( ( GTK_CLIST ( arbre_imputation ) -> selection ) -> data ) -> level == 3
-	     &&
-	     gtk_ctree_node_get_row_data ( GTK_CTREE ( arbre_imputation ),
-					   GTK_CTREE_ROW ( GTK_CTREE_ROW (( GTK_CLIST ( arbre_imputation ) -> selection ) -> data ) -> parent ) -> parent ) > 0)))
+	 GTK_CTREE_ROW ( ( GTK_CLIST ( arbre_imputation ) -> selection ) -> data ) -> level == 4 )
     {
 	/* passage sur le compte concerné */
 
