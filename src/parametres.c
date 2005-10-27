@@ -38,6 +38,7 @@
 #include "traitement_variables.h"
 #include "type_operations.h"
 #include "utils.h"
+#include "menu.h"
 
 
 
@@ -560,7 +561,8 @@ GtkWidget *onglet_fichier ( void )
 			 FALSE, FALSE, 0 );
     spin_button_derniers_fichiers_ouverts = 
 	new_int_spin_button ( &(nb_max_derniers_fichiers_ouverts),
-			      0.0, 20.0, 1.0, 5.0, 1.0, 1.0, 0, NULL );
+			      0.0, 20.0, 1.0, 5.0, 1.0, 1.0, 0, 
+			      G_CALLBACK ( affiche_derniers_fichiers_ouverts ) );
     gtk_box_pack_start ( GTK_BOX ( hbox ), spin_button_derniers_fichiers_ouverts,
 			 FALSE, FALSE, 0 );
 
