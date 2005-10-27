@@ -217,6 +217,8 @@ void affiche_derniers_fichiers_ouverts ( void )
 {
     gint i;
 
+    efface_derniers_fichiers_ouverts ();
+
     if ( !nb_derniers_fichiers_ouverts )
     {
 	gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
@@ -224,6 +226,11 @@ void affiche_derniers_fichiers_ouverts ( void )
 				   FALSE );
 
 	return;
+    }
+
+    if ( nb_derniers_fichiers_ouverts > nb_max_derniers_fichiers_ouverts )
+    {
+	nb_derniers_fichiers_ouverts = nb_max_derniers_fichiers_ouverts;
     }
 
     for ( i=0 ; i<nb_derniers_fichiers_ouverts ; i++ )
