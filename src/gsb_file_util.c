@@ -380,8 +380,7 @@ gchar *gsb_file_util_ask_for_crypt_key ( gchar * file_name, gboolean encrypt )
 					   ( encrypt ? _("Crypt file") : _("Decrypt file") ),
 					   GTK_RESPONSE_OK,
 					   NULL );
-    gtk_dialog_set_default_response ( GTK_DIALOG ( dialog ),
-				      GTK_RESPONSE_OK );
+    gtk_dialog_set_default_response ( GTK_DIALOG ( dialog ), GTK_RESPONSE_OK );
 
     hbox = gtk_hbox_new ( FALSE, 6 );
     gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox), hbox, TRUE, TRUE, 6 );
