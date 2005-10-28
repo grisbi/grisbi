@@ -67,10 +67,10 @@ static  void menu_add_widget (GtkUIManager * p_uiManager, GtkWidget * p_widget,
 
 /*START_EXTERN*/
 extern gsize nb_derniers_fichiers_ouverts ;
+extern gint nb_max_derniers_fichiers_ouverts ;
 extern gchar **tab_noms_derniers_fichiers_ouverts ;
 extern GtkWidget *tree_view_liste_echeances;
 extern GtkWidget *window;
-extern guint nb_max_derniers_fichiers_ouverts;
 /*END_EXTERN*/
 
 

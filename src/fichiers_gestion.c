@@ -207,22 +207,19 @@ void ouvrir_fichier ( void )
 
     selection_fichier = file_selection_new ( _("Open an accounts file"),
 					     FILE_SELECTION_MUST_EXIST);
-    gtk_window_set_position ( GTK_WINDOW ( selection_fichier ),
-			      GTK_WIN_POS_MOUSE);
+    gtk_window_set_position ( GTK_WINDOW ( selection_fichier ), GTK_WIN_POS_MOUSE);
 
-    gtk_signal_connect_object ( GTK_OBJECT ( GTK_FILE_SELECTION ( selection_fichier ) -> cancel_button ),
-				"clicked",
-				GTK_SIGNAL_FUNC ( gtk_widget_destroy ),
-				GTK_OBJECT ( selection_fichier ));
-    gtk_signal_connect_object ( GTK_OBJECT ( GTK_FILE_SELECTION ( selection_fichier ) -> ok_button ),
-				"clicked",
-				GTK_SIGNAL_FUNC ( fichier_selectionne ),
-				GTK_OBJECT (selection_fichier) );
+    switch ( gtk_dialog_run ( selection_fichier ) )
+    {
+	case GTK_RESPONSE_OK:
+	    fichier_selectionne ( selection_fichier );
 
-    gtk_widget_show ( selection_fichier );
+      default:
+	  break;
+    }
+    gtk_widget_destroy ( selection_fichier );
 
     file_selection_set_filename ( GTK_FILE_SELECTION ( selection_fichier ), "*.gsb" );
-    gtk_file_selection_complete ( GTK_FILE_SELECTION (selection_fichier), "*.gsb" );
 }
 /* ************************************************************************************************************ */
 

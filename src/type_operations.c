@@ -43,6 +43,7 @@
 
 /*START_STATIC*/
 static void ajouter_type_operation ( void );
+static gchar * automatic_numbering_get_current_number ( struct struct_type_ope * type );
 static void changement_choix_type_echeancier ( struct struct_type_ope *type );
 static void changement_choix_type_formulaire ( struct struct_type_ope *type );
 static gint cherche_no_menu_type_associe ( gint demande );

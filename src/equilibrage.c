@@ -110,7 +110,6 @@ extern GtkTreeStore *model;
 extern GtkWidget * navigation_tree_view;
 extern FILE * out;
 extern GtkWidget * reconcile_panel;
-extern GtkWidget *treeview;
 extern GtkWidget *vbox_fleches_tri;
 /*END_EXTERN*/
 

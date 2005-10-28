@@ -111,7 +111,6 @@ extern gint nb_colonnes;
 extern GtkWidget *preview;
 extern GtkTooltips *tooltips_general_grisbi;
 extern GtkWidget *tree_view;
-extern GtkWidget *treeview;
 extern GtkWidget *window;
 /*END_EXTERN*/
 

@@ -35,10 +35,17 @@
 
 /*START_STATIC*/
 static GtkWidget * new_image_label ( GsbButtonStyle style, gchar * image_name, gchar * name );
+static GtkWidget * new_spin_button ( gdouble * value, 
+			      gdouble lower, gdouble upper, 
+			      gdouble step_increment, gdouble page_increment, 
+			      gdouble page_size, 
+			      gdouble climb_rate, gint digits,
+			      GCallback hook );
 static GtkWidget * new_stock_image_label ( GsbButtonStyle style, gchar * stock_id, gchar * name );
 static gboolean set_boolean ( GtkWidget * checkbox, gint * dummy);
 static gboolean set_double_from_spin ( GtkWidget * spin, gdouble * dummy);
 static gboolean set_int_from_spin ( GtkWidget * spin, gint * dummy);
+static void spin_button_set_value_double ( GtkWidget * spin, gdouble * value );
 /*END_STATIC*/
 
 

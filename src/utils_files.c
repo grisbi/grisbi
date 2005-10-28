@@ -65,22 +65,16 @@ void browse_file ( GtkButton *button, gpointer data )
 				   GTK_WINDOW ( window ));
     gtk_window_set_modal ( GTK_WINDOW ( file_selector ), TRUE );
 
-    /* Connect button click to entry change */
-    g_object_set_data ( G_OBJECT(GTK_FILE_SELECTION (file_selector)->ok_button),
-			"entry", file_selector );
-    g_signal_connect ( GTK_OBJECT (GTK_FILE_SELECTION (file_selector)->ok_button),
-		       "clicked", G_CALLBACK (change_print_to_file), data);
+    switch ( gtk_dialog_run ( file_selector ) )
+    {
+	case GTK_RESPONSE_OK:
+	    gtk_entry_set_text ( GTK_ENTRY(data),
+				 file_selection_get_filename (file_selector) );
 
-    /* Ensure that the dialog box is destroyed when the user clicks a button. */
-    g_signal_connect_swapped ( GTK_OBJECT (GTK_FILE_SELECTION (file_selector)->ok_button),
-			       "clicked", G_CALLBACK (gtk_widget_destroy), 
-			       (gpointer) file_selector); 
-
-    g_signal_connect_swapped ( GTK_OBJECT (GTK_FILE_SELECTION (file_selector)->cancel_button),
-			       "clicked", G_CALLBACK (gtk_widget_destroy),
-			       (gpointer) file_selector); 
-
-    gtk_widget_show_all ( file_selector );
+	default:
+	    gtk_widget_destroy ( file_selector );
+	    break;
+    }
 }
 
 /**

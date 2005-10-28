@@ -83,7 +83,6 @@ extern GtkWidget *formulaire;
 extern GtkTreeStore *model;
 extern GtkTreeSelection * selection;
 extern GtkWidget *tree_view;
-extern GtkWidget *treeview;
 /*END_EXTERN*/
 
 

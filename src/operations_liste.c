@@ -206,7 +206,6 @@ extern gdouble solde_initial;
 extern GtkStyle *style_entree_formulaire[2];
 extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][TRANSACTION_LIST_COL_NB];
 extern GtkWidget *tree_view;
-extern GtkWidget *treeview;
 extern GtkWidget *window;
 /*END_EXTERN*/
 

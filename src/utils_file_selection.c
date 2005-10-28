@@ -52,7 +52,7 @@ static  gboolean _file_selection_check_filename ( GtkWidget *selection_fichier);
 static  gboolean _file_selection_overwrite_file_check( GtkWidget *selection_fichier);
 static void file_selection_check_filename_signal(GtkWidget *selection_fichier);
 static gchar* file_selection_get_entry(GtkFileSelection* filesel);
-static gchar** file_selection_get_selections(GtkFileSelection* filesel);
+static GSList * file_selection_get_selections(GtkFileSelection* filesel);
 static void file_selection_overwrite_file_check_signal(GtkWidget *selection_fichier);
 /*END_STATIC*/
 
@@ -67,6 +67,8 @@ extern GtkTreeSelection * selection;
 
 #define FILE_SELECTION_PROPERTY(prop,value) ((prop & value) == value) 
     
+
+
 /** Validate the selected filename from a GtkFileSelection
  *
  * If the user select or enter an existing filename, this function asks her to confirm she wants to
@@ -160,6 +162,8 @@ void file_selection_check_filename_signal(GtkWidget *selection_fichier)
 			(_file_selection_check_filename(selection_fichier) == TRUE) ? GTK_RESPONSE_OK : GTK_RESPONSE_NONE);
 } /* }}} file_selection_check_filename_signal */
 
+
+
 /* file_selection_new a enhanced version of gtk_file_selection_new.
  *
  * Include the overwrite check feature in the save mode dialog
@@ -171,44 +175,22 @@ void file_selection_check_filename_signal(GtkWidget *selection_fichier)
  *  Authorised to hijack the gtk file dialog under Windows to use
  *  the Windows standard one.
  * */
-GtkWidget* file_selection_new(const gchar      *title,const  gint properties)
+GtkWidget* file_selection_new ( const gchar *title, const gint properties )
 { /* {{{ */
     GtkWidget *filesel;
 
-    filesel = gtk_file_selection_new(title);
-    gtk_window_set_destroy_with_parent ( GTK_WINDOW (filesel), TRUE );
-    gtk_window_set_modal ( GTK_WINDOW (filesel), TRUE );
-    gtk_file_selection_complete ( GTK_FILE_SELECTION (filesel), "*.gsb" );
-
-#ifdef _WIN32_USE_FILE_DIALOG
-    /*! \todo On Windows, we "hijack" the standard gtk signals */
-    win32_file_selection_set_properties(properties);
-    g_signal_connect_data  (GTK_OBJECT(filesel), "show", G_CALLBACK( win32_file_selection_signal_show) , NULL, NULL,0);
-    g_signal_connect_data  (GTK_OBJECT(filesel), "hide", G_CALLBACK( win32_file_selection_signal_hide) , NULL, NULL,0);
-#else
-    gtk_window_set_modal ( GTK_WINDOW ( filesel ), TRUE );
-
-    if (FILE_SELECTION_PROPERTY(properties,FILE_SELECTION_IS_SAVE_DIALOG) && !FILE_SELECTION_PROPERTY(properties,FILE_SELECTION_NOOVERWRITECHECK))
-     {
-        g_signal_connect_swapped  (GTK_OBJECT ( GTK_FILE_SELECTION ( filesel ) -> ok_button),
-				   "clicked",
-				   GTK_SIGNAL_FUNC(file_selection_overwrite_file_check_signal),
-				   GTK_OBJECT (filesel) );
-    }
-    else if (FILE_SELECTION_PROPERTY(properties,FILE_SELECTION_IS_OPEN_DIALOG) && !FILE_SELECTION_PROPERTY(properties,FILE_SELECTION_MUST_EXIST))
-    {
-        g_signal_connect_swapped  (GTK_OBJECT ( GTK_FILE_SELECTION ( filesel ) -> ok_button),
-				   "clicked",
-				   GTK_SIGNAL_FUNC(file_selection_check_filename_signal),
-				   GTK_OBJECT (filesel) );
-    }
-
-
-#endif
+    filesel = gtk_file_chooser_dialog_new ( title, NULL, 
+					    ( properties & FILE_SELECTION_IS_SAVE_DIALOG ?
+					      GTK_FILE_CHOOSER_ACTION_SAVE :
+					      GTK_FILE_CHOOSER_ACTION_OPEN ),
+					    GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+					    GTK_STOCK_OPEN, GTK_RESPONSE_OK,
+					    NULL );
 
     return GTK_WIDGET (filesel);
 
 } /* }}} file_selection_new */
+
 
 
 /** file_selection_set_entry.
@@ -221,8 +203,11 @@ GtkWidget* file_selection_new(const gchar      *title,const  gint properties)
  */
 void file_selection_set_entry(GtkFileSelection* filesel,const gchar* utf8string)
 { /* {{{ */
-    gtk_entry_set_text ( GTK_ENTRY (filesel->selection_entry),g_filename_from_utf8(utf8string,-1,NULL,NULL,NULL));
+    gtk_file_chooser_set_filename ( filesel, 
+				    g_filename_from_utf8(utf8string,-1,NULL,NULL,NULL) );
 } /* }}} file_selection_set_entry */
+
+
 
 /** file_selection_get_entry.
  * 
@@ -237,8 +222,10 @@ void file_selection_set_entry(GtkFileSelection* filesel,const gchar* utf8string)
  */
 gchar* file_selection_get_entry(GtkFileSelection* filesel)
 { /* {{{ */
-    return g_filename_to_utf8(gtk_entry_get_text(GTK_ENTRY (filesel->selection_entry)),-1,NULL,NULL,NULL);
+    return g_filename_to_utf8 ( gtk_file_chooser_get_filename ( filesel ),-1,NULL,NULL,NULL);
 } /* }}} file_selection_get_entry */
+
+
 
 /** file_selection_set_filename
  *
@@ -249,7 +236,8 @@ gchar* file_selection_get_entry(GtkFileSelection* filesel)
  */
 void file_selection_set_filename(GtkFileSelection* filesel,const gchar* utf8filename)
 { /* {{{ */
-    gtk_file_selection_set_filename(filesel, g_locale_from_utf8(utf8filename,-1,NULL,NULL,NULL));
+    gtk_file_chooser_set_filename ( filesel, 
+				    g_filename_from_utf8(utf8filename,-1,NULL,NULL,NULL) );
 } /* }}} file_selection_set_filename */
 
 /** file_selection_get_filename
@@ -263,7 +251,7 @@ void file_selection_set_filename(GtkFileSelection* filesel,const gchar* utf8file
  */
 gchar* file_selection_get_filename(GtkFileSelection* filesel)
 { /* {{{ */
-    return g_filename_to_utf8(gtk_file_selection_get_filename(filesel),-1,NULL,NULL,NULL);
+    return gtk_file_chooser_get_filename ( filesel );
 } /* }}} file_selection_get_filename */
 
 /**
@@ -280,40 +268,12 @@ gchar* file_selection_get_filename(GtkFileSelection* filesel)
  *   It should be unallocated by the caller. Use g_strfreev() to free it.
  *   
  * */
-gchar** file_selection_get_selections(GtkFileSelection* filesel)
+GSList * file_selection_get_selections(GtkFileSelection* filesel)
 { /* {{{ */
-    gchar** gtk_selections = gtk_file_selection_get_selections(filesel);
-    gchar** utf8selections = NULL;
-    gint    num_selections = -1;
-    gint    idx_selection  = 0;
-    
-    // Count number of selected file
-    while (gtk_selections[++num_selections]);
-
-    // alloc new selection table
-    if (num_selections > 0)
-    {
-        utf8selections = (gchar**)g_malloc((num_selections+1)*sizeof(gchar*));
-    }
-
-    // fill the new selection table with the uft8 converted selected strings
-    // free the gtk allocated strings (no more needed)
-    if (utf8selections)
-    {
-        for (idx_selection=0;idx_selection <num_selections;idx_selection++)
-        {
-            utf8selections[idx_selection] = g_filename_to_utf8(gtk_selections[idx_selection],-1,NULL,NULL,NULL);
-        }
-        utf8selections[idx_selection] = NULL;
-    }
-    if (gtk_selections)
-    {
-        g_strfreev(gtk_selections);
-    }
-
-    return utf8selections;
-
+    return gtk_file_chooser_get_filenames  ( filesel );
 } /* }}} file_selection_get_selections */
+
+
 
 /** 
  * file_selection_get_last_directory
@@ -330,7 +290,7 @@ gchar** file_selection_get_selections(GtkFileSelection* filesel)
  * */
 gchar* file_selection_get_last_directory(GtkFileSelection* filesel,gboolean ended) 
 {/* {{{ */
-    gchar*   dirstr      = g_strdup(GTK_LABEL(GTK_BIN(GTK_OPTION_MENU(filesel->history_pulldown))->child)->label);
+    gchar * dirstr = gtk_file_chooser_get_current_folder ( filesel );
     gint     dirstr_len  = strlen(dirstr);
     gchar*   sepstr      = g_strdup(G_DIR_SEPARATOR_S);
     gint     sepstr_len  = strlen(sepstr);
