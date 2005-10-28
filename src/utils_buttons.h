@@ -31,12 +31,6 @@ GtkWidget * new_radiogroup ( gchar * choice1, gchar * choice2, gint * data, GCal
 GtkWidget *new_radiogroup_with_title ( GtkWidget * parent,
 				       gchar * title, gchar * choice1, gchar * choice2,
 				       gint * data, GCallback hook );
-GtkWidget * new_spin_button ( gdouble * value, 
-			      gdouble lower, gdouble upper, 
-			      gdouble step_increment, gdouble page_increment, 
-			      gdouble page_size, 
-			      gdouble climb_rate, gint digits,
-			      GCallback hook );
 GtkWidget * new_stock_button_with_label ( GsbButtonStyle style,
 					  gchar * stock_id, gchar * name, 
 					  GCallback callback, gpointer data );
@@ -46,7 +40,6 @@ GtkWidget * new_stock_button_with_label_menu ( GsbButtonStyle style,
 gboolean set_int_from_menu ( GtkWidget * menu, gint * dummy);
 void set_popup_position (GtkMenu *menu, gint *x, gint *y, gboolean *push_in, gpointer user_data);
 void spin_button_set_value ( GtkWidget * spin, gint * value );
-void spin_button_set_value_double ( GtkWidget * spin, gdouble * value );
 /*END_DECLARATION*/
 
 #endif
