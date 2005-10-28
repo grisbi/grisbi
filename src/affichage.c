@@ -40,13 +40,12 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static void change_animation ( GtkWidget *widget,
-			gpointer user_data );
+static void change_animation ( GtkWidget * file_selector );
 static gboolean change_choix_utilise_fonte_liste ( GtkWidget *check_button,
 					    GtkWidget *vbox );
 static gboolean change_choix_utilise_logo ( GtkWidget *check_button,
 				     GtkWidget *hbox );
-static void change_logo_accueil ( GtkWidget *widget, gpointer user_data );
+static void change_logo_accueil ( GtkWidget * file_selector );
 static gboolean change_toolbar_display_mode ( GtkRadioButton * button );
 static void choix_fonte ( GtkWidget *bouton,
 		   gchar *fonte,
@@ -74,10 +73,10 @@ extern GtkWidget *entree_titre_fichier;
 extern GtkWidget *fenetre_preferences;
 extern GtkWidget *formulaire;
 extern gint hauteur_ligne_liste_opes;
+extern GtkWidget *hbox_title;
 extern GtkWidget *hbox_valider_annuler_echeance;
 extern GtkWidget *label_titre_fichier;
 extern GtkWidget *logo_accueil;
-extern GtkWidget *page_accueil;
 extern PangoFontDescription *pango_desc_fonte_liste;
 extern GtkWidget *separateur_formulaire_echeancier;
 extern gchar *titre_fichier;
@@ -448,8 +447,7 @@ gboolean change_choix_utilise_logo ( GtkWidget *check_button,
 	    /* Update homepage logo */
 
 	    logo_accueil =  gtk_image_new_from_file ( chemin_logo );
-	    gtk_box_pack_start ( GTK_BOX ( page_accueil ), logo_accueil,
-				 FALSE, FALSE, 0 );
+	    gtk_box_pack_start ( GTK_BOX ( hbox_title ), logo_accueil, FALSE, FALSE, 0 );
 	    gtk_widget_show ( logo_accueil );
 	}
     }
@@ -727,13 +725,13 @@ void choix_fonte ( GtkWidget *bouton,
 
 
 /* **************************************************************************************************************************** */
-void change_logo_accueil ( GtkWidget *widget, gpointer user_data )
+void change_logo_accueil ( GtkWidget * file_selector )
 {
-    GtkWidget *file_selector = (GtkWidget *)user_data;
     GdkPixbuf * pixbuf;
     const gchar *selected_filename;
 
-    selected_filename = file_selection_get_filename (GTK_FILE_SELECTION (file_selector));
+    selected_filename = file_selection_get_filename (GTK_FILE_CHOOSER (file_selector));
+    printf ("%s", selected_filename );
 
     if ( gsb_data_account_get_accounts_amount () )
     {
@@ -753,8 +751,7 @@ void change_logo_accueil ( GtkWidget *widget, gpointer user_data )
 	    gtk_widget_destroy ( logo_accueil ); 
 
 	    logo_accueil =  gtk_image_new_from_file ( chemin_logo );
-	    gtk_box_pack_start ( GTK_BOX ( page_accueil ), logo_accueil,
-				 FALSE, FALSE, 0 );
+	    gtk_box_pack_start ( GTK_BOX ( hbox_title ), logo_accueil, FALSE, FALSE, 0 );
 	    gtk_widget_show ( logo_accueil );
 	}
 
@@ -791,10 +788,8 @@ void change_logo_accueil ( GtkWidget *widget, gpointer user_data )
 
 
 /* **************************************************************************************************************************** */
-void change_animation ( GtkWidget *widget,
-			gpointer user_data )
+void change_animation ( GtkWidget * file_selector )
 {
-    GtkWidget *file_selector = (GtkWidget *)user_data;
     GdkPixbufAnimation *pixbuf=NULL;
 
     etat.fichier_animation_attente = file_selection_get_filename (GTK_FILE_SELECTION (file_selector));
@@ -857,41 +852,33 @@ gboolean modification_logo_accueil ( gint origine )
     {
 	file_selector = file_selection_new (_("Select a new animation"),
                                             FILE_SELECTION_IS_OPEN_DIALOG|FILE_SELECTION_MUST_EXIST);
-	g_signal_connect (G_OBJECT (GTK_FILE_SELECTION (file_selector)->ok_button),
-			  "clicked",
-			  G_CALLBACK (change_animation),
-			  (gpointer) file_selector);
     }
     else
     {
 	file_selector = file_selection_new (_("Select a new logo"),
                                             FILE_SELECTION_IS_OPEN_DIALOG|FILE_SELECTION_MUST_EXIST);
-
-	g_signal_connect (G_OBJECT (GTK_FILE_SELECTION (file_selector)->ok_button),
-			  "clicked",
-			  G_CALLBACK (change_logo_accueil),
-			  (gpointer) file_selector);
     }
 
     gtk_window_set_transient_for ( GTK_WINDOW ( file_selector ),
 				   GTK_WINDOW ( fenetre_preferences ));
     gtk_window_set_modal ( GTK_WINDOW ( file_selector ), TRUE );
 
-    /* Ensure that the dialog box is destroyed when the user clicks a button. */
+    switch ( gtk_dialog_run ( file_selector ) )
+    {
+	case GTK_RESPONSE_OK:
+	    if ( origine )
+	    {
+		change_animation ( file_selector );
+	    }
+	    {
+		change_logo_accueil ( file_selector );
+	    }
+	default:
+	    gtk_widget_destroy ( file_selector );
+	    break;
+    }
 
-    g_signal_connect_swapped (GTK_OBJECT (GTK_FILE_SELECTION (file_selector)->ok_button),
-			      "clicked",
-			      G_CALLBACK (gtk_widget_destroy), 
-			      (gpointer) file_selector); 
 
-    g_signal_connect_swapped (GTK_OBJECT (GTK_FILE_SELECTION (file_selector)->cancel_button),
-			      "clicked",
-			      G_CALLBACK (gtk_widget_destroy),
-			      (gpointer) file_selector); 
-
-    /* Display that dialog */
-
-    gtk_widget_show (file_selector);
     return ( FALSE );
 }
 /* **************************************************************************************************************************** */
