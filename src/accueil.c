@@ -83,6 +83,7 @@ extern GtkWidget *window;
 
 gchar *chemin_logo;
 GtkWidget *logo_accueil;
+GtkWidget *hbox_title;
 GtkWidget *label_temps;
 GtkWidget *label_titre_fichier;
 GtkWidget *frame_etat_comptes_accueil;
@@ -137,10 +138,10 @@ GtkWidget *creation_onglet_accueil ( void )
     /* en dessous, on met le titre du fichier s'il existe */
     if ( titre_fichier )
     {
-	GtkWidget * hbox, * eb;
+	GtkWidget * eb;
 	GtkStyle * style;
 
-	hbox = gtk_hbox_new ( FALSE, 0 );
+	hbox_title = gtk_hbox_new ( FALSE, 0 );
 
 	eb = gtk_event_box_new ();
 	style = gtk_widget_get_style ( eb );
@@ -154,12 +155,12 @@ GtkWidget *creation_onglet_accueil ( void )
 	if ( etat.utilise_logo && chemin_logo )
 	{
 	    logo_accueil =  gtk_image_new_from_file ( chemin_logo );
-	    gtk_box_pack_start ( GTK_BOX ( hbox ), logo_accueil, FALSE, FALSE, 20 );
+	    gtk_box_pack_start ( GTK_BOX ( hbox_title ), logo_accueil, FALSE, FALSE, 20 );
 	}
 	
-	gtk_box_pack_start ( GTK_BOX ( hbox ), label_titre_fichier, TRUE, TRUE, 20 );
-	gtk_container_set_border_width ( GTK_CONTAINER ( hbox ), 6 );
-	gtk_container_add ( GTK_CONTAINER(eb), hbox );
+	gtk_box_pack_end ( GTK_BOX ( hbox_title ), label_titre_fichier, TRUE, TRUE, 20 );
+	gtk_container_set_border_width ( GTK_CONTAINER ( hbox_title ), 6 );
+	gtk_container_add ( GTK_CONTAINER(eb), hbox_title );
 	gtk_box_pack_start ( GTK_BOX ( base ), eb, FALSE, FALSE, 0 );
 	gtk_widget_show_all ( eb );
     }
