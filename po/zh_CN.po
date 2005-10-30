@@ -347,7 +347,7 @@ msgstr "种类"
 #: src/affichage_liste.c:47 src/affichage_liste.c:864
 #: src/affichage_liste.c:1081 src/csv.c:246
 msgid "C/R"
-msgstr ""
+msgstr "C/R"
 
 #: src/affichage_liste.c:48 src/affichage_liste.c:876
 #: src/affichage_liste.c:1085 src/csv.c:257 src/echeancier_formulaire.c:1075
@@ -458,7 +458,7 @@ msgstr "交易列表排序"
 
 #: src/affichage_liste.c:421
 msgid "by value date"
-msgstr ""
+msgstr "按有效日期"
 
 #: src/affichage_liste.c:422
 msgid "by date"
@@ -1832,21 +1832,21 @@ msgstr "调整数量"
 #. met le pointage
 #: src/csv.c:306 src/etats_affiche.c:1410 src/etats_affiche.c:1420
 msgid "C"
-msgstr ""
+msgstr "C"
 
 #: src/csv.c:307 src/etats_affiche.c:1415 src/operations_liste.c:1100
 #: src/operations_liste.c:2026
 msgid "R"
-msgstr ""
+msgstr "R"
 
 #: src/csv.c:308 src/operations_liste.c:1104
 msgid "T"
-msgstr ""
+msgstr "T"
 
 #. on commence par mettre la catÃ©g et sous categ de l'opÃ© et de l'opÃ© de ventilation
 #: src/csv.c:440
 msgid "B"
-msgstr ""
+msgstr "B"
 
 #: src/csv.c:591 src/echeancier_ventilation.c:780
 #: src/operations_formulaire.c:1028 src/operations_formulaire.c:2404
@@ -3150,7 +3150,7 @@ msgstr "所有的栏位都没有填！"
 
 #: src/devises.c:875
 msgid "..."
-msgstr ""
+msgstr "..."
 
 #: src/devises.c:964
 #, c-format
@@ -3504,11 +3504,11 @@ msgstr "日程清单"
 
 #: src/echeancier_onglet.c:135
 msgid "Scheduler broken down transactions"
-msgstr ""
+msgstr "日程细目交易"
 
 #: src/echeancier_ventilation.c:227 src/ventilation.c:230
 msgid "Break down amount"
-msgstr ""
+msgstr "细目合计"
 
 #: src/echeancier_ventilation.c:254 src/ventilation.c:257
 msgid "Not assigned"
@@ -3521,76 +3521,80 @@ msgstr "关联的支付方式"
 
 #: src/echeancier_ventilation.c:1599 src/ventilation.c:1597
 msgid "The associated account for this transfer is invalid"
-msgstr ""
+msgstr "本转帐关联的账户不合法"
 
 #: src/echeancier_ventilation.c:1607 src/ventilation.c:1604
 msgid "It's impossible to transfer an account to itself"
-msgstr ""
+msgstr "可以转帐给自身账户"
 
 #: src/echeancier_ventilation.c:1614 src/ventilation.c:1611
 msgid "No account associated with the transfer"
-msgstr ""
+msgstr "本交易没有关联账户"
 
 #: src/echeancier_ventilation.c:2483 src/ventilation.c:2561
 msgid "Incomplete breakdown"
-msgstr ""
+msgstr "没有完成的细目分类"
 
 #: src/echeancier_ventilation.c:2484 src/ventilation.c:2562
 msgid ""
 "Transaction amount isn't fully broken down.\n"
 "Proceed anyway?"
 msgstr ""
+"交易总额没有完全细目分类。\n"
+"继续吗？"
 
 #: src/echeancier_ventilation.c:2666 src/ventilation.c:2806
 msgid "A breakdown line is to be deleted though it is not yet registered."
-msgstr ""
+msgstr "一行细目分类还没有注册就将被删除。"
 
 #: src/equilibrage.c:122 src/equilibrage.c:136
 msgid "Reconciliation reference"
-msgstr ""
+msgstr "相关调整"
 
 #: src/equilibrage.c:135
 msgid ""
 "If reconciliation reference ends in a digit, it is automatically incremented "
 "at each reconciliation."
 msgstr ""
+"如果相关调整用数字结束，"
+"将来的每次调整都会自动增加。"
 
 #: src/equilibrage.c:319
 msgid "Final balance"
-msgstr ""
+msgstr "最终余额"
 
 #: src/equilibrage.c:341
 msgid "Checking"
-msgstr ""
+msgstr "支票"
 
 #: src/equilibrage.c:370
 msgid "Variance"
-msgstr ""
+msgstr "冲突"
 
 #: src/equilibrage.c:847 src/operations_liste.c:1096
 #: src/operations_liste.c:1914
 msgid "P"
-msgstr ""
+msgstr "P"
 
 #: src/equilibrage.c:900 src/operations_comptes.c:312
 #: src/operations_liste.c:764 src/operations_liste.c:1969
 #, c-format
 msgid "Checked balance: %4.2f %s"
-msgstr ""
+msgstr "选中余额：%4.2f %s"
 
 #: src/equilibrage.c:927
 msgid "There is a variance"
-msgstr ""
+msgstr "发现一个矛盾"
 
 #: src/equilibrage.c:977 src/operations_comptes.c:299
 #, c-format
 msgid "Last statement: %02d/%02d/%d"
-msgstr ""
+msgstr "最后报告：%02d/%02d/%d"
 
 #. le rapprochement existe dÃ©jÃ 
 #: src/equilibrage.c:1001
 msgid "Reconciliation reference already exist"
-msgstr ""
+msgstr "相关调整已存在"
 
 #: src/equilibrage.c:1002
 msgid ""
@@ -3598,10 +3602,13 @@ msgid ""
 "problem, but perhaps it is.  Be sure you want to do.\n"
 "Proceed anyway?"
 msgstr ""
+"选择的相关调整已经存在。也许这不是个"
+"问题，但如果是的话，请确定您想要这么做。\n"
+"仍然继续吗？"
 
 #: src/equilibrage.c:1028
 msgid "No reconciliation reference"
-msgstr ""
+msgstr "没有相关调整"
 
 #: src/equilibrage.c:1029
 msgid ""
@@ -3610,62 +3617,68 @@ msgid ""
 "reconciliation reference.\n"
 "Proceed anyway?"
 msgstr ""
+"您正在调整一个没有提供关联调整的账户。"
+"这样的话，您将无法根据关联找到这些交易。"
+"\n"
+"仍然继续吗？"
 
 #: src/equilibrage.c:1646 src/operations_onglet.c:83 src/parametres.c:261
 #: src/type_operations.c:255
 msgid "Reconciliation"
-msgstr ""
+msgstr "调整"
 
 #: src/equilibrage.c:1650
 msgid "Reconciliation: sort transactions"
-msgstr ""
+msgstr "调整：交易排序"
 
 #: src/equilibrage.c:1698
 msgid "Sort by date"
-msgstr ""
+msgstr "按日期排序"
 
 #: src/equilibrage.c:1715
 msgid "Split neutral payment methods"
-msgstr ""
+msgstr "分开中性支付方式"
 
 #: src/erreur.c:102
 msgid "Log message"
-msgstr ""
+msgstr "消息日志"
 
 #: src/erreur.c:108
 msgid "This operation returned a message"
-msgstr ""
+msgstr "本操作返回一条消息"
 
 #: src/erreur.c:163
 msgid ""
 "Grisbi triggered a segmentation fault and cannot continue its execution.\n"
 "\n"
 msgstr ""
+"Grisbi触发了一个严重错误，不能继续运行。\n"
+"\n"
 
 #: src/erreur.c:177
 msgid "File is corrupted."
-msgstr ""
+msgstr "文件已损坏"
 
 #: src/erreur.c:183
 msgid "Error occured saving file."
-msgstr ""
+msgstr "保存文件时发生错误。"
 
 #: src/erreur.c:226
 #, c-format
 msgid "Grisbi made a backup file at '%s'."
-msgstr ""
+msgstr "Grisbi在 '%s'生成了一个备份文件。"
 
 #: src/erreur.c:233
 msgid "Please report this problem to http://www.grisbi.org/bugtracking/"
-msgstr ""
+msgstr "请到 http://www.grisbi.org/bugtracking/报告错误"
 
 #: src/erreur.c:237
 msgid "Grisbi terminated due to a segmentation fault."
-msgstr ""
+msgstr "Grisbi由于严重错误而退出。"
 
 #: src/etat_io.c:58
 msgid "This file is not a Grisbi report"
-msgstr ""
+msgstr "该文件不是Grisbi报表"
 
 #: src/etat_io.c:67
 #, c-format
@@ -3673,74 +3686,76 @@ msgid ""
 "This report has been produced with grisbi version %s, Grisbi will "
 "nevertheless try to import it."
 msgstr ""
+"该报表是由Grisbi版本 %s产生的， Grisbi将 "
+"尝试导入。"
 
 #: src/etat_io.c:68 src/fichiers_io.c:8832 src/fichiers_io.c:9185
 msgid "Version mismatch"
-msgstr ""
+msgstr "版本不匹配"
 
 #: src/etat_io.c:74
 msgid "Invalid report file"
-msgstr ""
+msgstr "非法报表文件"
 
 #: src/etat_io.c:766
 #, c-format
 msgid "%sCurrency %s not found.\n"
-msgstr ""
+msgstr "%s货币 %s 未找到。\n"
 
 #: src/etat_io.c:769
 #, c-format
 msgid "Currency %s not found.\n"
-msgstr ""
+msgstr "货币 %s 未找到。\n"
 
 #: src/etat_io.c:810
 #, c-format
 msgid "%sFinancial year %s not found.\n"
-msgstr ""
+msgstr "%s财年 %s 为找到。\n"
 
 #: src/etat_io.c:813
 #, c-format
 msgid "Financial year %s not found.\n"
-msgstr ""
+msgstr "财年 %s 未找到\n"
 
 #: src/etat_io.c:856
 #, c-format
 msgid "%sAccount %s not found.\n"
-msgstr ""
+msgstr "%s账户 %s 未找到。\n"
 
 #: src/etat_io.c:859
 #, c-format
 msgid "Account %s not found.\n"
-msgstr ""
+msgstr "账户 %s 未找到\n"
 
 #: src/etat_io.c:899
 #, c-format
 msgid "%sCategory %s not found.\n"
-msgstr ""
+msgstr "%s类别 %s 未找到。\n"
 
 #: src/etat_io.c:902
 #, c-format
 msgid "Category %s not found.\n"
-msgstr ""
+msgstr "类别 %s 未找到。\n"
 
 #: src/etat_io.c:942
 #, c-format
 msgid "%sBudget line %s not found.\n"
-msgstr ""
+msgstr "%s预算行 %s 未找到。\n"
 
 #: src/etat_io.c:945
 #, c-format
 msgid "Budget line %s not found.\n"
-msgstr ""
+msgstr "预算行 %s 未找到。\n"
 
 #: src/etat_io.c:986
 #, c-format
 msgid "%sThird party %s not found.\n"
-msgstr ""
+msgstr "%s第三方 %s 未找到。\n"
 
 #: src/etat_io.c:989
 #, c-format
 msgid "Third party %s not found.\n"
-msgstr ""
+msgstr "第三方 %s 未找到。\n"
 
 #: src/etat_io.c:1739
 #, c-format
@@ -3750,265 +3765,269 @@ msgid ""
 "Error:\n"
 "%s"
 msgstr ""
+"保存文件发生错误 %s\n"
+"\n"
+"错误：\n"
+"%s"
 
 #: src/etats_affiche.c:106 src/etats_affiche.c:313 src/etats_affiche.c:512
 #: src/etats_affiche.c:604
 #, c-format
 msgid "Total %s (%d transaction)"
-msgstr ""
+msgstr "总计 %s (%d 交易)"
 
 #: src/etats_affiche.c:108 src/etats_affiche.c:315 src/etats_affiche.c:514
 #: src/etats_affiche.c:606
 #, c-format
 msgid "Total %s (%d transactions)"
-msgstr ""
+msgstr "总计 %s (%d 交易)"
 
 #: src/etats_affiche.c:111 src/etats_affiche.c:318 src/etats_affiche.c:517
 msgid "Total"
-msgstr ""
+msgstr "总计"
 
 #: src/etats_affiche.c:118
 #, c-format
 msgid "Category total (%d transaction)"
-msgstr ""
+msgstr "类别总计 (%d 交易)"
 
 #: src/etats_affiche.c:120
 #, c-format
 msgid "Category total (%d transactions)"
-msgstr ""
+msgstr "类别总计 (%d 交易)"
 
 #: src/etats_affiche.c:123
 msgid "Category total"
-msgstr ""
+msgstr "类别总计"
 
 #: src/etats_affiche.c:145 src/etats_affiche.c:252 src/etats_affiche.c:351
 #: src/etats_affiche.c:455 src/etats_affiche.c:548 src/etats_affiche.c:640
 #, c-format
 msgid "%4.2f %s (%d transaction)"
-msgstr ""
+msgstr "%4.2f %s (%d 交易)"
 
 #: src/etats_affiche.c:148 src/etats_affiche.c:255 src/etats_affiche.c:354
 #: src/etats_affiche.c:458 src/etats_affiche.c:551 src/etats_affiche.c:643
 #, c-format
 msgid "%4.2f %s (%d transactions)"
-msgstr ""
+msgstr "%4.2f %s (%d 交易)"
 
 #: src/etats_affiche.c:213 src/etats_affiche.c:415
 #, c-format
 msgid "Total %s: %s (%d transaction)"
-msgstr ""
+msgstr "总计 %s: %s (%d 交易)"
 
 #: src/etats_affiche.c:216 src/etats_affiche.c:418
 #, c-format
 msgid "Total %s: %s (%d transactions)"
-msgstr ""
+msgstr "总计 %s: %s (%d 交易)"
 
 #: src/etats_affiche.c:220 src/etats_affiche.c:422
 #, c-format
 msgid "Total %s: %s"
-msgstr ""
+msgstr "总计 %s: %s"
 
 #: src/etats_affiche.c:227
 #, c-format
 msgid "Sub-categories total (%d transaction)"
-msgstr ""
+msgstr "子类别总计 (%d 交易)"
 
 #: src/etats_affiche.c:230
 #, c-format
 msgid "Sub-categories total (%d transactions)"
-msgstr ""
+msgstr "子类别总计 (%d 交易)"
 
 #: src/etats_affiche.c:234
 msgid "Sub-categories total"
-msgstr ""
+msgstr "子类别总计"
 
 #: src/etats_affiche.c:325
 #, c-format
 msgid "Budgetary lines total: (%d transaction)"
-msgstr ""
+msgstr "预算行总计： (%d 交易)"
 
 #: src/etats_affiche.c:328
 #, c-format
 msgid "Budgetary lines total: (%d transactions)"
-msgstr ""
+msgstr "预算行总计： (%d 交易)"
 
 #: src/etats_affiche.c:332
 msgid "Budgetary lines total"
-msgstr ""
+msgstr "预算行总计"
 
 #: src/etats_affiche.c:429
 #, c-format
 msgid "Sub-budgetary lines total: (%d transaction)"
-msgstr ""
+msgstr "子预算行总计： (%d 交易)"
 
 #: src/etats_affiche.c:432
 #, c-format
 msgid "Sub-budgetary lines total: (%d transactions)"
-msgstr ""
+msgstr "子预算行总计： (%d 交易)"
 
 #: src/etats_affiche.c:436
 msgid "Sub-budgetary lines total"
-msgstr ""
+msgstr "子预算行总计"
 
 #: src/etats_affiche.c:524
 #, c-format
 msgid "Account total: (%d transaction)"
-msgstr ""
+msgstr "账户总计：: (%d 交易)"
 
 #: src/etats_affiche.c:526
 #, c-format
 msgid "Account total: (%d transactions)"
-msgstr ""
+msgstr "账户总计 (%d 交易)"
 
 #: src/etats_affiche.c:529
 msgid "Account total"
-msgstr ""
+msgstr "账户总计"
 
 #: src/etats_affiche.c:609
 #, c-format
 msgid "Total %s"
-msgstr ""
+msgstr "总计 %s"
 
 #: src/etats_affiche.c:616
 #, c-format
 msgid "Third party total: (%d transaction)"
-msgstr ""
+msgstr "第三方总计 (%d 交易)"
 
 #: src/etats_affiche.c:618
 #, c-format
 msgid "Third party total: (%d transactions)"
-msgstr ""
+msgstr "第三方总计: (%d transactions)"
 
 #: src/etats_affiche.c:621
 msgid "Third party total"
-msgstr ""
+msgstr "第三方总计"
 
 #: src/etats_affiche.c:790
 #, c-format
 msgid "Result from %d/%d/%d to %d/%d/%d (%d transaction):"
-msgstr ""
+msgstr "从 %d/%d/%d 到 %d/%d/%d 的结果(%d 交易)："
 
 #: src/etats_affiche.c:799
 #, c-format
 msgid "Result from %d/%d/%d to %d/%d/%d (%d transactions):"
-msgstr ""
+msgstr "从 %d/%d/%d 到 %d/%d/%d 的结果(%d 交易):"
 
 #: src/etats_affiche.c:809
 #, c-format
 msgid "Result from %d/%d/%d to %d/%d/%d:"
-msgstr ""
+msgstr "从 %d/%d/%d 到 %d/%d/%d 的结果："
 
 #: src/etats_affiche.c:835 src/etats_affiche.c:987
 #, c-format
 msgid "Result of %s (%d transaction)"
-msgstr ""
+msgstr " %s 的结果 (%d 交易)"
 
 #: src/etats_affiche.c:838 src/etats_affiche.c:991
 #, c-format
 msgid "Result of %s (%d transactions)"
-msgstr ""
+msgstr " %s 的结果(%d 交易)"
 
 #: src/etats_affiche.c:842 src/etats_affiche.c:996
 #, c-format
 msgid "Result of %s"
-msgstr ""
+msgstr "%s 的结果"
 
 #: src/etats_affiche.c:863
 #, c-format
 msgid "Result for %s (%d transaction)"
-msgstr ""
+msgstr " %s 的结果(%d 交易)"
 
 #: src/etats_affiche.c:866
 #, c-format
 msgid "Result for %s (%d transactions)"
-msgstr ""
+msgstr " %s 的结果(%d 交易)"
 
 #: src/etats_affiche.c:870
 #, c-format
 msgid "Result for %s"
-msgstr ""
+msgstr "%s 的结果"
 
 #: src/etats_affiche.c:1005
 #, c-format
 msgid "Result without financial year (%d transaction)"
-msgstr ""
+msgstr "没有财年的结果 (%d 交易)"
 
 #: src/etats_affiche.c:1008
 #, c-format
 msgid "Result without financial year (%d transactions)"
-msgstr ""
+msgstr "没有财年的结果 (%d 交易)"
 
 #: src/etats_affiche.c:1012
 msgid "Result without financial year"
-msgstr ""
+msgstr "没有财年的结果"
 
 #: src/etats_affiche.c:1192 src/operations_liste.c:1071
 #, c-format
 msgid "Transfer to %s"
-msgstr ""
+msgstr "转帐到 %s"
 
 #: src/etats_affiche.c:1194 src/operations_liste.c:1074
 #, c-format
 msgid "Transfer from %s"
-msgstr ""
+msgstr "从 %s 转帐"
 
 #: src/etats_affiche.c:1525
 #, c-format
 msgid "Total expenses (%d transaction)"
-msgstr ""
+msgstr "支出总计 (%d 交易)"
 
 #: src/etats_affiche.c:1527
 #, c-format
 msgid "Total expenses (%d transactions)"
-msgstr ""
+msgstr "支出总计 (%d 交易)"
 
 #: src/etats_affiche.c:1530
 msgid "Total expenses"
-msgstr ""
+msgstr "支出总计"
 
 #: src/etats_affiche.c:1537
 #, c-format
 msgid "Total income (%d transaction)"
-msgstr ""
+msgstr "收入总计 (%d 交易)"
 
 #: src/etats_affiche.c:1539
 #, c-format
 msgid "Total income (%d transactions)"
-msgstr ""
+msgstr "收入总计 (%d 交易)"
 
 #: src/etats_affiche.c:1542
 msgid "Total income"
-msgstr ""
+msgstr "收入总计"
 
 #: src/etats_affiche.c:1584
 #, c-format
 msgid "General total (%d transaction)"
-msgstr ""
+msgstr "一般总计 (%d 交易)"
 
 #: src/etats_affiche.c:1586
 #, c-format
 msgid "General total (%d transactions)"
-msgstr ""
+msgstr "一般总计 (%d 交易)"
 
 #: src/etats_affiche.c:1589
 msgid "General total"
-msgstr ""
+msgstr "一般总计"
 
 #: src/etats_affiche.c:1679
 msgid "Transfert"
-msgstr ""
+msgstr "转帐"
 
 #: src/etats_affiche.c:1782
 msgid "No subcategory"
-msgstr ""
+msgstr "没有子类别"
 
 #: src/etats_affiche.c:1860
 msgid "No budgetary line"
-msgstr ""
+msgstr "没有预算行"
 
 #: src/etats_affiche.c:1948
 msgid "No sub-budgetary line"
-msgstr ""
+msgstr "没有子预算行"
 
 #: src/etats_affiche.c:2120
 msgid "Incomes"
@@ -4020,69 +4039,69 @@ msgstr "支出"
 
 #: src/etats_affiche.c:2216
 msgid "Number"
-msgstr ""
+msgstr "编号"
 
 #. Now we have a model, create view
 #: src/etats_affiche.c:2265 src/etats_config.c:159 src/parametres.c:310
 #: src/type_operations.c:259
 msgid "Payment methods"
-msgstr ""
+msgstr "支付方式"
 
 #: src/etats_affiche.c:2293 src/ofx.c:410
 msgid "Check"
-msgstr ""
+msgstr "支票"
 
 #: src/etats_affiche.c:2300
 msgid "Statement"
-msgstr ""
+msgstr "结算单"
 
 #: src/etats_config.c:43
 msgid "All"
-msgstr ""
+msgstr "全部"
 
 #: src/etats_config.c:45
 msgid "Total to now"
-msgstr ""
+msgstr "当前总计"
 
 #: src/etats_config.c:46
 msgid "Current month"
-msgstr ""
+msgstr "本月"
 
 #: src/etats_config.c:47
 msgid "Current year"
-msgstr ""
+msgstr "本年"
 
 #: src/etats_config.c:48
 msgid "Current month to now"
-msgstr ""
+msgstr "本月到现在"
 
 #: src/etats_config.c:49
 msgid "Current year to now"
-msgstr ""
+msgstr "本年到现在"
 
 #: src/etats_config.c:50
 msgid "Previous month"
-msgstr ""
+msgstr "上月"
 
 #: src/etats_config.c:51
 msgid "Previous year"
-msgstr ""
+msgstr "去年"
 
 #: src/etats_config.c:52
 msgid "Last 30 days"
-msgstr ""
+msgstr "过去30天"
 
 #: src/etats_config.c:53
 msgid "Last 3 months"
-msgstr ""
+msgstr "过去3个月"
 
 #: src/etats_config.c:54
 msgid "Last 6 months"
-msgstr ""
+msgstr "过去6个月"
 
 #: src/etats_config.c:55
 msgid "Last 12 months"
-msgstr ""
+msgstr "过去12个月"
 
 #: src/etats_config.c:59
 msgid "Monday"
@@ -4114,19 +4133,19 @@ msgstr "星期日"
 
 #: src/etats_config.c:94
 msgid "Reports setup"
-msgstr ""
+msgstr "报表设置"
 
 #: src/etats_config.c:121
 msgid "Data selection"
-msgstr ""
+msgstr "数据选择"
 
 #: src/etats_config.c:127
 msgid "Dates"
-msgstr ""
+msgstr "日期"
 
 #: src/etats_config.c:131
 msgid "Transfers"
-msgstr ""
+msgstr "转帐"
 
 #. mise en place de la frame des comptes
 #. Accounts menu
@@ -4138,31 +4157,31 @@ msgstr ""
 #: src/traitement_variables.c:99 src/traitement_variables.c:222
 #: src/traitement_variables.c:225
 msgid "Accounts"
-msgstr ""
+msgstr "账户"
 
 #: src/etats_config.c:151
 msgid "Texts"
-msgstr ""
+msgstr "文本"
 
 #: src/etats_config.c:155
 msgid "Amounts"
-msgstr ""
+msgstr "总额"
 
 #: src/etats_config.c:169
 msgid "Data organisation"
-msgstr ""
+msgstr "数据组织"
 
 #: src/etats_config.c:176
 msgid "Data display"
-msgstr ""
+msgstr "数据显示"
 
 #: src/etats_config.c:948
 msgid "Invalid custom initial date"
-msgstr ""
+msgstr "非法的初始日期"
 
 #: src/etats_config.c:955
 msgid "Invalid custom final date"
-msgstr ""
+msgstr "非法的结束日期"
 
 #: src/etats_config.c:1107
 msgid ""
