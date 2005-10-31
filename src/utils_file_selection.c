@@ -184,7 +184,9 @@ GtkWidget* file_selection_new ( const gchar *title, const gint properties )
 					      GTK_FILE_CHOOSER_ACTION_SAVE :
 					      GTK_FILE_CHOOSER_ACTION_OPEN ),
 					    GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-					    GTK_STOCK_OPEN, GTK_RESPONSE_OK,
+					    ( properties & FILE_SELECTION_IS_SAVE_DIALOG ?
+					      GTK_STOCK_SAVE : GTK_STOCK_OPEN ),
+					    GTK_RESPONSE_OK,
 					    NULL );
 
     return GTK_WIDGET (filesel);
