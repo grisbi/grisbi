@@ -107,6 +107,9 @@ gint recent_files_merge_id = -1, move_to_account_merge_id = -1;
 "	<menu action='MoveToAnotherAccount'>"
 "       </menu>"
 "	<separator/>"
+"       <menuitem action='NewAccount'/>"
+"       <menuitem action='RemoveAccount'/>"
+"	<separator/>"
 "	<menuitem action='Preferences'/>"
 "    </menu>"
 "    <menu action='ViewMenu'>"
@@ -119,23 +122,6 @@ gint recent_files_merge_id = -1, move_to_account_merge_id = -1;
 "      <menuitem action='ShowTwoLines'/>"
 "      <menuitem action='ShowThreeLines'/>"
 "      <menuitem action='ShowFourLines'/>"
-"    </menu>"
-"    <menu action='AccountMenu'>"
-"      <menuitem action='NewAccount'/>"
-"      <menuitem action='RemoveAccount'/>"
-"    </menu>"
-"    <menu action='ReportsMenu'>"
-"      <menuitem action='NewReport'/>"
-"      <separator/>"
-"      <menuitem action='CloneReport'/>"
-"      <menuitem action='PrintReport'/>"
-"      <menuitem action='ImportReport'/>"
-"      <menuitem action='ExportReport'/>"
-"      <menuitem action='ExportReportHTML'/>"
-"      <menuitem action='ExportReportCSV'/>"
-"      <separator/>"
-"      <menuitem action='RemoveReport'/>"
-"      <menuitem action='EditReport'/>"
 "    </menu>"
 "    <menu action='HelpMenu'>"
 "      <menuitem action='Manual'/>"
@@ -182,7 +168,6 @@ GtkActionEntry entries[] = {
 { "Save",		GTK_STOCK_SAVE,		_("_Save"),
   NULL,			NULL,			G_CALLBACK( enregistrement_fichier ) },
 
-/* Arg */
 { "SaveAs",		GTK_STOCK_SAVE_AS,	_("_Save as..."),
   NULL,			NULL,			G_CALLBACK( gsb_save_file_as ) },	
 
@@ -213,7 +198,6 @@ GtkActionEntry entries[] = {
 { "EditTransaction",	GTK_STOCK_PROPERTIES,	_("_Edit transaction"),	
   "",			NULL,			G_CALLBACK( gsb_transactions_list_edit_current_transaction ) },
 
-/* Argh */
 { "ConvertToScheduled",	GTK_STOCK_CONVERT,	_("Convert to _scheduled transaction"),
   NULL,			NULL,			G_CALLBACK( schedule_selected_transaction ) },
 
@@ -227,45 +211,11 @@ GtkActionEntry entries[] = {
 { "ViewMenu",		NULL,			_("_View"),
   NULL,			NULL,			G_CALLBACK( NULL ) },
 
-/* Account menu */
-{ "AccountMenu",	NULL,			_("_Accounts"),
-  NULL,			NULL,			G_CALLBACK( NULL ) },
-
 { "NewAccount",		GTK_STOCK_NEW,		_("_New account"),
   "",			NULL,			G_CALLBACK( new_account ) },
 
 { "RemoveAccount",	GTK_STOCK_DELETE,	_("_Remove current account"),
   "",			NULL,			G_CALLBACK( delete_account ) },
-
-/* Reports menu */
-{ "ReportsMenu",	NULL,			_("_Reports"),
-  NULL,			NULL,			G_CALLBACK( NULL ) },
-
-{ "NewReport",		GTK_STOCK_NEW,		_("_New report"),
-  "",			"",			G_CALLBACK( ajout_etat ) },
-
-{ "CloneReport",	GTK_STOCK_COPY,		_("_Clone report"),
-  "",			NULL,			G_CALLBACK( dupliquer_etat ) },
-
-{ "PrintReport",	GTK_STOCK_PRINT,	_("_Print report..."),
-  "",			"",			G_CALLBACK( impression_etat_courant ) },
-
-{ "ImportReport",	GTK_STOCK_CONVERT,	_("_Import report..."),
-  NULL,			NULL,			G_CALLBACK( importer_etat ) },
-
-{ "ExportReport",	GTK_STOCK_CONVERT,	_("_Export report..."),
-  NULL,			NULL,			G_CALLBACK( exporter_etat ) },
-
-{ "ExportReportHTML",	NULL,			_("_Export report as HTML..."),
-  NULL,			NULL,			G_CALLBACK( export_etat_courant_vers_html ) },
-{ "ExportReportCSV",	NULL,			_("_Export report as CSV..."),
-  NULL,			NULL,			G_CALLBACK( export_etat_courant_vers_csv ) },
-
-{ "RemoveReport",	GTK_STOCK_DELETE,	_("_Remove report"),
-  NULL,			"",			G_CALLBACK( efface_etat ) },
-
-{ "EditReport",		GTK_STOCK_PROPERTIES,	_("_Edit report"),
-  NULL,			"",			G_CALLBACK( personnalisation_etat ) },
 
 /* Help Menu */
 { "HelpMenu",		NULL,			_("_Help"),
