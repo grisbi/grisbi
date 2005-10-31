@@ -366,6 +366,7 @@ void menus_sensitifs ( gboolean sensitif )
 	menu_name ( "EditMenu",		"ConvertToScheduled",	NULL ),
 	menu_name ( "EditMenu",		"MoveToAnotherAccount",	NULL ),
 	menu_name ( "EditMenu",		"Preferences",		NULL ),
+	menu_name ( "EditMenu",		"RemoveAccount",	NULL ),
 	menu_name ( "ViewMenu",		"ShowTransactionForm",	NULL ),
 	menu_name ( "ViewMenu",		"ShowGrid",		NULL ),
 	menu_name ( "ViewMenu",		"ShowReconciled",	NULL ),
@@ -374,15 +375,6 @@ void menus_sensitifs ( gboolean sensitif )
 	menu_name ( "ViewMenu",		"ShowTwoLines",		NULL ),
 	menu_name ( "ViewMenu",		"ShowThreeLines",	NULL ),
 	menu_name ( "ViewMenu",		"ShowFourLines",	NULL ),
-	menu_name ( "AccountMenu",	"RemoveAccount",	NULL ),
-	menu_name ( "ReportsMenu",	"NewReport",		NULL ),
-	menu_name ( "ReportsMenu",	"CloneReport",		NULL ),
-	menu_name ( "ReportsMenu",	"PrintReport",		NULL ),
-	menu_name ( "ReportsMenu",	"ImportReport",		NULL ),
-	menu_name ( "ReportsMenu",	"ExportReport",		NULL ),
-	menu_name ( "ReportsMenu",	"ExportReportHTML",	NULL ),
-	menu_name ( "ReportsMenu",	"RemoveReport",		NULL ),
-	menu_name ( "ReportsMenu",	"EditReport",		NULL ),
 	NULL,
     };
     gchar ** tmp = items;
