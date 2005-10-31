@@ -60,8 +60,9 @@ struct print_config
 
 
 /*START_DECLARATION*/
-gboolean change_print_to_file ( GtkButton *button, gpointer data );
 gboolean print_config ( );
+struct print_config * print_config_dup ();
+void print_config_set ( struct print_config * config );
 /*END_DECLARATION*/
 
 #endif /* PRINT_CONFIG_H */

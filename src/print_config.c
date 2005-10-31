@@ -34,6 +34,7 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
+static gboolean change_print_to_file ( GtkButton *button, gpointer data );
 static GtkWidget * print_config_appearance ( GtkWidget * dialog );
 static GtkWidget * print_config_general ( GtkWidget * dialog );
 static GtkWidget * print_config_paper ( GtkWidget * dialog );
@@ -107,6 +108,10 @@ gboolean print_config ( )
 	    FILE * test;
 	    gchar * filename;
 
+	    if ( etat.print_config.printer )
+	    {
+		break;
+	    }
 
 	    filename = g_strdup ( gtk_entry_get_text ( GTK_ENTRY (g_object_get_data(G_OBJECT(dialog), 
 										    "printer_filename") ) ) );
@@ -364,6 +369,35 @@ gboolean print_config_radio_toggled ( GtkToggleButton * togglebutton, gpointer u
 
   return FALSE;
 }
+
+
+
+/**
+ * Make a backup of print configuration and return it.  Very handy to
+ * make temporary backups.
+ *
+ * \return A newly-allocated print configuration.
+ */
+struct print_config * print_config_dup ()
+{
+    return g_memdup ( &(etat.print_config), sizeof ( struct print_config ) );
+}
+
+
+
+/**
+ * Set the print configuration according to print_config structure
+ * passed in argument.
+ *
+ * \param print_config	Print configuration to set.
+ *
+ */
+void print_config_set ( struct print_config * config )
+{
+    g_memmove ( &(etat.print_config), config, sizeof ( struct print_config ) );
+}
+
+
 
 /* Local Variables: */
 /* c-basic-offset: 4 */
