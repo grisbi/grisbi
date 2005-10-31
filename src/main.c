@@ -166,9 +166,9 @@ int main (int argc, char *argv[])
     bindtextdomain ("grisbi-tips", LOCALEDIR);
     bind_textdomain_codeset ("grisbi-tips", "UTF-8");
 
-    bindtextdomain ("grisbi", LOCALEDIR);
-    bind_textdomain_codeset ("grisbi", "UTF-8");
-    textdomain ("grisbi");
+    bindtextdomain (PACKAGE, LOCALEDIR);
+    bind_textdomain_codeset (PACKAGE, "UTF-8");
+    textdomain (PACKAGE);
 
     if ( setlocale ( LC_MONETARY, getenv ( "LC_MONETARY" ) ) == NULL )
     {
