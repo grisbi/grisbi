@@ -24,7 +24,6 @@
 #include "etats_html.h"
 #include "dialog.h"
 #include "etats_support.h"
-#include "utils_file_selection.h"
 #include "gsb_data_report.h"
 #include "navigation.h"
 #include "utils_files.h"
@@ -40,12 +39,11 @@ static void html_attach_label ( gchar * text, gdouble properties, int x, int x2,
 			  enum alignement align, gpointer  ope );
 static void html_attach_vsep ( int x, int x2, int y, int y2);
 static gint html_finish ();
-static gint html_initialise (GSList * opes_selectionnees);
+static gint html_initialise ( GSList * opes_selectionnees, gchar * filename );
 static void html_safe ( gchar * text ) ;
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern gchar *dernier_chemin_de_travail;
 extern gint nb_colonnes;
 /*END_EXTERN*/
 
@@ -274,69 +272,18 @@ void html_attach_hsep ( int x, int x2, int y, int y2)
  *
  * \return TRUE on succes, FALSE otherwise.
  */
-gint html_initialise (GSList * opes_selectionnees)
+gint html_initialise ( GSList * opes_selectionnees, gchar * filename )
 {
     GtkWidget * file_selector;
-    gchar * filename;
     gint resultat;
+
+    g_return_val_if_fail ( filename, FALSE );
 
     html_lastline = -1;
     html_lastcol = 0;
     html_last_is_hsep = FALSE;
     html_first_line = TRUE;
 
-    file_selector = gtk_file_selection_new ( _("Export report to HTML file."));
-    file_selection_set_filename ( GTK_FILE_SELECTION ( file_selector ),
-					     dernier_chemin_de_travail );
-
-    file_selection_set_entry ( GTK_FILE_SELECTION ( file_selector ), 
-			       safe_file_name ( g_strconcat (etats_titre(), ".html", NULL)));
-
-    do 
-    {
-	resultat = gtk_dialog_run ( GTK_DIALOG (file_selector) );
-	if ( resultat == GTK_RESPONSE_OK )
-	{
-	    FILE * test;
-	    gchar * filename;
-
-	    filename = file_selection_get_filename ( GTK_FILE_SELECTION ( file_selector ));
-
-	    test = utf8_fopen ( filename, "r" );
-	    if ( test )
-	    {
-		fclose ( test );
-		if ( question_yes_no_hint ( g_strdup_printf ( _("File %s already exists."), 
-							      filename ),
-					    _("Do you want to overwrite it?  There is no undo for this.") ) )
-		{
-		    break;
-		}
-	    }
-	    else
-	    {
-		break;
-	    }
-	}
-	else
-	{
-	    break;
-	}
-    }
-    while ( 1 );
-
-    switch ( resultat )
-      {
-      case GTK_RESPONSE_OK :
-	filename = file_selection_get_filename ( GTK_FILE_SELECTION ( file_selector ));
-	break;
-	
-      default:
-	gtk_widget_destroy ( file_selector );
-	return FALSE;
-      }
-    gtk_widget_destroy ( file_selector );
-    
     html_out = utf8_fopen ( filename, "w" );
     if ( ! html_out )
     {

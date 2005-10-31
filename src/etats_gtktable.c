@@ -38,24 +38,15 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static void gtktable_attach_hsep ( int x, int x2, int y, int y2);;
+static void gtktable_attach_hsep ( int x, int x2, int y, int y2);
 static void gtktable_attach_label ( gchar * text, gdouble properties, int x, int x2, int y, int y2, 
-			     enum alignement align, gpointer  ope );;
-static void gtktable_attach_vsep ( int x, int x2, int y, int y2);;
+			     enum alignement align, gpointer  ope );
+static void gtktable_attach_vsep ( int x, int x2, int y, int y2);
 static void gtktable_click_sur_ope_etat ( gpointer operation );
-static gint gtktable_finish ();;
-static gint gtktable_initialise (GSList * opes_selectionnees);;
+static gint gtktable_finish ();
+static gint gtktable_initialise ( GSList * opes_selectionnees, gchar * filename );
 /*END_STATIC*/
 
-
-
-
-gint gtktable_initialise (GSList * opes_selectionnees);
-gint gtktable_finish ();
-void gtktable_attach_hsep ( int x, int x2, int y, int y2);
-void gtktable_attach_vsep ( int x, int x2, int y, int y2);
-void gtktable_attach_label ( gchar * text, gdouble properties, int x, int x2, int y, int y2, 
-			     enum alignement align, gpointer  ope );
 GtkWidget *table_etat;
 struct struct_etat_affichage gtktable_affichage;
 
@@ -214,7 +205,7 @@ void gtktable_attach_hsep ( int x, int x2, int y, int y2)
 
 
 /*****************************************************************************************************/
-gint gtktable_initialise (GSList * opes_selectionnees)
+gint gtktable_initialise ( GSList * opes_selectionnees, gchar * filename )
 {
     /* on peut maintenant créer la table */
     /* pas besoin d'indiquer la hauteur, elle grandit automatiquement */

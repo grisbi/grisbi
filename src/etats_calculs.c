@@ -36,6 +36,7 @@
 #include "gsb_data_report_text_comparison.h"
 #include "gsb_data_transaction.h"
 #include "navigation.h"
+#include "print_config.h"
 #include "utils_rapprochements.h"
 #include "utils_types.h"
 #include "utils_str.h"
@@ -54,7 +55,8 @@ static gint compare_montants_etat ( gdouble montant_ope,
 			     gdouble montant_test,
 			     gint comparateur );
 static void etape_finale_affichage_etat ( GSList *ope_selectionnees,
-				   struct struct_etat_affichage *affichage);
+				   struct struct_etat_affichage *affichage,
+				   gchar * filename );
 static void impression_etat ( gint report_number );
 static gchar *recupere_texte_test_etat ( gpointer operation,
 				  gint champ );
@@ -129,8 +131,8 @@ extern GtkTreeSelection * selection;
 
 
 /*****************************************************************************************************/
-void affichage_etat ( gint report_number, 
-		      struct struct_etat_affichage * affichage )
+void affichage_etat ( gint report_number, struct struct_etat_affichage * affichage,
+		      gchar * filename )
 {
     GSList *liste_opes_selectionnees;
 
@@ -150,14 +152,12 @@ void affichage_etat ( gint report_number,
 
     liste_opes_selectionnees = recupere_opes_etat ( report_number );
 
-
     /*   à ce niveau, on a récupéré toutes les opés qui entreront dans */
     /* l'état ; reste plus qu'à les classer et les afficher */
     /* on classe la liste et l'affiche en fonction du choix du type de classement */
 
     etat_affichage_output = affichage;
-    etape_finale_affichage_etat ( liste_opes_selectionnees, affichage );
-
+    etape_finale_affichage_etat ( liste_opes_selectionnees, affichage, filename );
 }
 /*****************************************************************************************************/
 
@@ -1478,7 +1478,7 @@ void rafraichissement_etat ( gint report_number )
     if ( !report_number )
 	report_number = gsb_gui_navigation_get_current_report ();
 
-    affichage_etat ( report_number, &gtktable_affichage );
+    affichage_etat ( report_number, &gtktable_affichage, NULL );
 }
 
 
@@ -1487,7 +1487,11 @@ void rafraichissement_etat ( gint report_number )
 /*****************************************************************************************************/
 void impression_etat ( gint report_number )
 {
-    affichage_etat ( report_number, &latex_affichage );
+
+    if ( ! print_config() )
+	return;
+
+    affichage_etat ( report_number, &latex_affichage, NULL );
 }
 
 
@@ -1857,32 +1861,22 @@ gint classement_ope_perso_etat ( gpointer operation_1,
 
     return ( retour );
 }
-/*****************************************************************************************************/
 
 
 
-
-
-/*****************************************************************************************************/
+/**
+ *
+ *
+ */
 void etape_finale_affichage_etat ( GSList *ope_selectionnees,
-				   struct struct_etat_affichage *affichage)
+				   struct struct_etat_affichage *affichage,
+				   gchar * filename )
 {
-    GSList *liste_ope_revenus;
-    GSList *liste_ope_depenses;
-    GSList *pointeur_tmp;
-    gint i;
-    gint ligne;
-    gdouble total_partie;
-    gdouble total_general;
-    gchar *decalage_base;
-    gchar *decalage_categ;
-    gchar *decalage_sous_categ;
-    gchar *decalage_ib;
-    gchar *decalage_sous_ib;
-    gchar *decalage_compte;
-    gchar *decalage_tiers;
-    GSList *pointeur_glist;
-    gint current_report_number;
+    GSList *liste_ope_revenus, *liste_ope_depenses, *pointeur_tmp, *pointeur_glist;
+    gchar *decalage_base, *decalage_categ, *decalage_sous_categ, *decalage_ib;
+    gchar *decalage_sous_ib, *decalage_compte, *decalage_tiers;
+    gint i, ligne, current_report_number;
+    gdouble total_partie, total_general;
 
     current_report_number = gsb_gui_navigation_get_current_report ();
 
@@ -2120,9 +2114,10 @@ pas_decalage:
     nom_compte_en_cours = NULL;
     nom_tiers_en_cours = NULL;
 
-    if (! etat_affiche_initialise (ope_selectionnees))
+    if ( ! etat_affiche_initialise ( ope_selectionnees, filename ) )
+    {
 	return;
-
+    }
 
     /* on commence à remplir le tableau */
 

@@ -9,7 +9,7 @@
 /** Device independant drawing functions for reports */
 struct struct_etat_affichage
 {
-    gint (* initialise) ();	/** Initialisation of drawing session  */
+    gint (* initialise) ( GSList *, gchar * );	/** Initialisation of drawing session  */
     gint (* finish) ();		/** End of drawing session  */
     void (* attach_hsep) (int, int, int, int); /** Draw horizontal separator (aka "-")  */
     void (* attach_vsep) (int, int, int, int); /** Draw vertical separator (aka "|") */
@@ -59,6 +59,6 @@ gint etat_affiche_affiche_total_tiers ( gint ligne );
 gint etat_affiche_affiche_totaux_sous_jaccent ( gint origine,
 						gint ligne );
 gint etat_affiche_finish ();
-gint etat_affiche_initialise (GSList * opes_selectionnees);
+gint etat_affiche_initialise (GSList * opes_selectionnees, gchar * filename );
 /* END_DECLARATION */
 #endif

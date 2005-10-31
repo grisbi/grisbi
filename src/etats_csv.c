@@ -25,7 +25,6 @@
 /*START_INCLUDE*/
 #include "etats_csv.h"
 #include "dialog.h"
-#include "utils_file_selection.h"
 #include "gsb_data_report.h"
 #include "navigation.h"
 #include "utils_files.h"
@@ -41,7 +40,7 @@ static void csv_attach_label ( gchar * text, gdouble properties, int x, int x2, 
 			  enum alignement align, gpointer ope );
 static void csv_attach_vsep ( int x, int x2, int y, int y2);
 static gint csv_finish ();
-static gint csv_initialise (GSList * opes_selectionnees);
+static gint csv_initialise (GSList * opes_selectionnees, gchar * filename );
 static void csv_safe ( gchar * text ) ;
 /*END_STATIC*/
 
@@ -121,7 +120,7 @@ void csv_attach_label ( gchar * text, gdouble properties, int x, int x2, int y, 
 	realcolumns = nb_colonnes;
 
     fprintf ( csv_out, "\"" );
-    csv_safe(text);
+    csv_safe ( g_strstrip ( g_strdup ( text ) ) );
     fprintf ( csv_out, "\"" );
 
     for ( x++; x < x2 ; x ++ )
@@ -167,27 +166,22 @@ void csv_attach_hsep ( int x, int x2, int y, int y2)
  *
  * \return TRUE on succes, FALSE otherwise.
  */
-gint csv_initialise (GSList * opes_selectionnees)
+gint csv_initialise (GSList * opes_selectionnees, gchar * filename )
 {
     GtkWidget * file_selector;
     gfloat colwidth, real_width;
-    gchar * filename;
     int i;
 
-/*     file_selector = file_selection_new (_("Select a new logo"), */
-/* 					FILE_SELECTION_IS_OPEN_DIALOG|FILE_SELECTION_MUST_EXIST); */
+    g_return_val_if_fail ( filename, FALSE );
 
-/*     g_signal_connect (G_OBJECT (GTK_FILE_SELECTION (file_selector)->ok_button), */
-/* 		      "clicked", */
-/* 		      G_CALLBACK (NULL), */
-/* 		      (gpointer) file_selector); */
-
-    filename = "output.csv";
-    unlink ( filename );
+    unlink ( filename );	/* We don't care if this fails, this
+				 * is just to guarantee next will
+				 * not fail if file is existing.  This
+				 * will help against file races. */
     csv_out = utf8_fopen ( filename, "w+x" );
     if ( ! csv_out )
     {
-	dialogue_error ( g_strdup_printf (_("File '%s' already exists"), filename ));
+	dialogue_error ( g_strdup_printf (_("Unable to open file '%s'"), filename ));
 	return FALSE;
     }
 

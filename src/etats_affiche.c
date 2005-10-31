@@ -2355,9 +2355,9 @@ void etat_affiche_attach_label ( gchar * text, gdouble properties, int x, int x2
 
 
 
-gint etat_affiche_initialise (GSList * opes_selectionnees)
+gint etat_affiche_initialise (GSList * opes_selectionnees, gchar * filename )
 {
-    return etat_affichage_output -> initialise (opes_selectionnees);
+    return etat_affichage_output -> initialise ( opes_selectionnees, filename );
 }
 
 

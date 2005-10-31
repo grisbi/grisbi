@@ -40,7 +40,7 @@ static void latex_attach_label ( gchar * text, gdouble properties, int x, int x2
 			  enum alignement align, gpointer  ope );
 static void latex_attach_vsep ( int x, int x2, int y, int y2);
 static gint latex_finish ();
-static gint latex_initialise (GSList * opes_selectionnees);
+static gint latex_initialise (GSList * opes_selectionnees, gchar * filename );
 static void latex_safe ( gchar * text ) ;
 /*END_STATIC*/
 
@@ -242,23 +242,17 @@ void latex_attach_hsep ( int x, int x2, int y, int y2)
  *
  * \return TRUE on succes, FALSE otherwise.
  */
-gint latex_initialise (GSList * opes_selectionnees)
+gint latex_initialise (GSList * opes_selectionnees, gchar * filename )
 {
     gfloat colwidth, real_width;
-    gchar * filename;
-    int i;
-    gint current_report_number;
+    gint i, current_report_number;
 
     current_report_number = gsb_gui_navigation_get_current_report ();
-
-
-    if ( ! print_config() )
-	return FALSE;
 
     if ( etat.print_config.printer || etat.print_config.filetype == POSTSCRIPT_FILE )
     {
 	tempname = g_strdup_printf ( "gsbpt%d", g_random_int_range (0,99999) );
-	filename =  g_strdup_printf ( "%s.tex", tempname );
+	filename = g_strdup_printf ( "%s.tex", tempname );
     }
     else
     {
@@ -450,6 +444,7 @@ void latex_safe ( gchar * text )
     }
 
 }
+
 
 /* Local Variables: */
 /* c-basic-offset: 4 */
