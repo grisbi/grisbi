@@ -23,7 +23,6 @@
 
 /*START_INCLUDE*/
 #include "navigation.h"
-#include "etats_onglet.h"
 #include "equilibrage.h"
 #include "echeancier_infos.h"
 #include "utils_devises.h"
@@ -31,6 +30,7 @@
 #include "operations_comptes.h"
 #include "gsb_data_report.h"
 #include "fenetre_principale.h"
+#include "etats_onglet.h"
 #include "menu.h"
 #include "operations_liste.h"
 #include "comptes_gestion.h"
@@ -471,7 +471,17 @@ gboolean gsb_gui_navigation_update_notebook ( GtkTreeSelection * selection,
 	remplissage_details_compte ();
     }
 
-    changement_etat ( report_number );
+    if ( page == GSB_REPORTS_PAGE )
+    {
+	if ( report_number > 0 )
+	{
+	    gsb_gui_update_gui_to_report ( report_number );
+	}
+	else
+	{
+	    gsb_gui_unsensitive_report_widgets ();
+	}
+    }
 
     return FALSE;
 }
