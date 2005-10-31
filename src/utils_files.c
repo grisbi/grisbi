@@ -27,7 +27,6 @@
 
 /*START_INCLUDE*/
 #include "utils_files.h"
-#include "print_config.h"
 #include "dialog.h"
 #include "utils_file_selection.h"
 #include "include.h"
@@ -301,7 +300,7 @@ gint utf8_remove(const gchar* utf8filename)
  */
 gchar * safe_file_name ( gchar* filename )
 {
-    return g_strdelimit ( g_strdup(filename), "/\\", '_' );
+    return g_strdelimit ( g_strdup(filename), G_DIR_SEPARATOR_S, '_' );
 }
 
 
