@@ -31,22 +31,29 @@
 #include "gsb_data_report.h"
 #include "gsb_file_others.h"
 #include "navigation.h"
-#include "menu.h"
 #include "traitement_variables.h"
 #include "utils_buttons.h"
 #include "utils.h"
 #include "etats_config.h"
+#include "print_config.h"
 #include "utils_files.h"
+#include "structures.h"
 #include "include.h"
 #include "etats_csv.h"
-#include "structures.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static void change_choix_nouvel_etat ( GtkWidget *menu_item,
-				GtkWidget *label_description );
-static void export_etat_vers_html ( gint report_number );
+static gboolean ajout_etat ( void );
+static void change_choix_nouvel_etat ( GtkWidget *menu_item, GtkWidget *label_description );
+static void dupliquer_etat ( void );
+static void efface_etat ( void );
+static void export_etat_courant_vers_csv ( gchar * filename );
+static void export_etat_courant_vers_html ( gchar * filename );
+static void export_etat_vers_html ( gint report_number, gchar * filename );
+static void exporter_etat ( void );
 static GtkWidget *gsb_gui_create_report_toolbar ( void );
+static gboolean gsb_report_export_change_format ( GtkWidget * combo, GtkWidget * selector );
+static void importer_etat ( void );
 /*END_STATIC*/
 
 
@@ -73,7 +80,7 @@ GtkWidget *onglet_config_etat;
 extern struct struct_etat_affichage csv_affichage ;
 extern gchar *dernier_chemin_de_travail;
 extern struct struct_etat_affichage html_affichage ;
-extern GtkItemFactory *item_factory_menu_general;
+extern struct struct_etat_affichage latex_affichage ;
 extern GtkWidget *notebook_general;
 extern GtkTreeSelection * selection;
 extern GtkWidget *window;
@@ -151,6 +158,7 @@ GtkWidget *gsb_gui_create_report_toolbar ( void )
 							  NULL ), 
     gtk_box_pack_start ( GTK_BOX ( hbox2 ), bouton_dupliquer_etat, FALSE, FALSE, 0 );
 
+    gsb_gui_unsensitive_report_widgets ();
     gtk_widget_show_all ( hbox );
 
     return ( hbox );
@@ -159,8 +167,9 @@ GtkWidget *gsb_gui_create_report_toolbar ( void )
 
 
 /**
+ * Create the report tab widgets.
  *
- *
+ * \return	 A newly allocated vbox.
  */
 GtkWidget *creation_onglet_etats ( void )
 {
@@ -196,32 +205,23 @@ GtkWidget *creation_onglet_etats ( void )
 
     return ( tab );
 }
-/*****************************************************************************************************/
 
 
-
-/*****************************************************************************************************/
-/* on propose une liste d'√©tats pr√©mach√©s et les remplis en fonction du choix */
-/* de la personne */
-/*****************************************************************************************************/
-
+/**
+ * Ask for a report type for a template list, create the report and
+ * update user interface.
+ *
+ * \return	FALSE
+ */
 gboolean ajout_etat ( void )
 {
-    gint report_number;
-    gint amount_comparison_number;
-    GtkWidget *dialog;
-    gint resultat;
-    GtkWidget *frame;
-    GtkWidget *option_menu;
-    GtkWidget *menu;
-    GtkWidget *menu_item;
-    GtkWidget *label_description;
+    gint report_number, amount_comparison_number, resultat;
+    GtkWidget *dialog, *frame, *option_menu, *menu, *menu_item, *label_description;
     GtkWidget *scrolled_window;
 
 
     if ( gtk_notebook_get_current_page ( GTK_NOTEBOOK ( notebook_general)) != 7 )
-	gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general),
-				7 );
+	gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general), 7 );
 
     dialog = dialogue_special_no_run ( GTK_MESSAGE_QUESTION,
 				       GTK_BUTTONS_OK_CANCEL,
@@ -863,26 +863,27 @@ gboolean ajout_etat ( void )
 	    return FALSE;
     }
 
-    gtk_widget_set_sensitive ( bouton_personnaliser_etat, TRUE );
-    gtk_widget_set_sensitive ( bouton_imprimer_etat, TRUE );
-    gtk_widget_set_sensitive ( bouton_exporter_etat, TRUE );
-    gtk_widget_set_sensitive ( bouton_dupliquer_etat, TRUE );
-    gtk_widget_set_sensitive ( bouton_effacer_etat, TRUE );
-
     /* Add an entry in navigation pane. */
     gsb_gui_navigation_add_report ( report_number );
+    gsb_gui_update_gui_to_report ( report_number );
 
     personnalisation_etat ();
     modification_fichier ( TRUE );
 
     return FALSE;
 }
-/*****************************************************************************************************/
 
 
-/*****************************************************************************************************/
-void change_choix_nouvel_etat ( GtkWidget *menu_item,
-				GtkWidget *label_description )
+
+/**
+ * Callback triggered when user change the menu of template reports in
+ * the "new report" dialog,
+ *
+ * \param menu_item		Menu item that triggered signal.
+ * \param label_description	A GtkLabel to fill with the long
+ *				description of template report.
+ */
+void change_choix_nouvel_etat ( GtkWidget *menu_item, GtkWidget *label_description )
 {
     gchar *description;
 
@@ -940,11 +941,12 @@ void change_choix_nouvel_etat ( GtkWidget *menu_item,
 			 description );
 
 }
-/*****************************************************************************************************/
 
 
 
-/*****************************************************************************************************/
+/**
+ * Delete current report, after a confirmation dialog.
+ */
 void efface_etat ( void )
 {
     gint current_report_number;
@@ -970,42 +972,38 @@ void efface_etat ( void )
     /* Update reports list in navigation. */
     gsb_gui_navigation_remove_report ( current_report_number);
 
+    gsb_gui_unsensitive_report_widgets ();
+
+    modification_fichier ( TRUE );
+
+}
+
+
+
+/**
+ * Set widgets associated to active report unsensitive.  For instance
+ * when there is no selected report.
+ */
+void gsb_gui_unsensitive_report_widgets ()
+{
+    if ( scrolled_window_etat && GTK_BIN ( scrolled_window_etat ) -> child )
+	gtk_widget_hide ( GTK_BIN ( scrolled_window_etat ) -> child );
+
     gtk_widget_set_sensitive ( bouton_personnaliser_etat, FALSE );
     gtk_widget_set_sensitive ( bouton_imprimer_etat, FALSE );
     gtk_widget_set_sensitive ( bouton_exporter_etat, FALSE );
     gtk_widget_set_sensitive ( bouton_dupliquer_etat, FALSE );
     gtk_widget_set_sensitive ( bouton_effacer_etat, FALSE );
-    gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
-							   menu_name(_("Reports"), _("Clone report"), NULL)),
-			       FALSE );
-    gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
-							   menu_name(_("Reports"), _("Print report..."), NULL)),
-			       FALSE );
-    gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
-							   menu_name(_("Reports"), _("Export report..."), NULL)),
-			       FALSE );
-    gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
-							   menu_name(_("Reports"), _("Export report as HTML..."), NULL)),
-			       FALSE );
-    gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
-							   menu_name(_("Reports"), _("Remove report"), NULL)),
-			       FALSE );
-    gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
-							   menu_name(_("Reports"), _("Edit report..."), NULL)),
-			       FALSE );
-
-
-    if ( GTK_BIN ( scrolled_window_etat ) -> child )
-	gtk_widget_hide ( GTK_BIN ( scrolled_window_etat ) -> child );
-
-    modification_fichier ( TRUE );
-
 }
-/*****************************************************************************************************/
 
 
-/*****************************************************************************************************/
-void changement_etat ( gint report_number )
+/**
+ * Set widgets associated to active report sensitive.  For instance
+ * when a report has just been selected.
+ *
+ * \param report_number		Report to display.
+ */
+void gsb_gui_update_gui_to_report ( gint report_number )
 {
     gtk_widget_set_sensitive ( bouton_personnaliser_etat, TRUE );
     gtk_widget_set_sensitive ( bouton_imprimer_etat, TRUE );
@@ -1013,116 +1011,203 @@ void changement_etat ( gint report_number )
     gtk_widget_set_sensitive ( bouton_dupliquer_etat, TRUE );
     gtk_widget_set_sensitive ( bouton_effacer_etat, TRUE );
 
-    gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
-							   menu_name(_("Reports"), _("Clone report"), NULL)),
-			       TRUE );
-    gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
-							   menu_name(_("Reports"), _("Print report..."), NULL)),
-			       TRUE );
-    gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
-							   menu_name(_("Reports"), _("Export report..."), NULL)),
-			       TRUE );
-    gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
-							   menu_name(_("Reports"), _("Export report as HTML..."), NULL)),
-			       TRUE );
-    gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
-							   menu_name(_("Reports"), _("Remove report"), NULL)),
-			       TRUE );
-    gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
-							   menu_name(_("Reports"), _("Edit report..."), NULL)),
-			       TRUE );
-
     rafraichissement_etat ( report_number );
 }
 
 
 
 /**
+ * Export a report as a HTML file.  It uses a "benj's meta structure"
+ * affichage_etat structure as a backend.
  *
- *
+ * \param report_number		Report to export as HTML.
+ * \param filename		Filename to save report into.
  */
-void export_etat_vers_html ( gint report_number )
+void export_etat_vers_html ( gint report_number, gchar * filename )
 {
-    affichage_etat ( report_number, &html_affichage );
+    affichage_etat ( report_number, &html_affichage, filename );
 }
 
 
 
 /**
+ * Export current report as a HTML file.  It uses a "benj's meta
+ * structure" affichage_etat structure as a backend.
  *
- *
+ * \param filename		Filename to save report into.
  */
-void export_etat_courant_vers_html ( )
-{
-    if ( gtk_notebook_get_current_page ( GTK_NOTEBOOK ( notebook_general)) != 7 )
-	gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general),
-				7 );
-
-    export_etat_vers_html ( gsb_gui_navigation_get_current_report ());
-}
-
-
-/**
- *
- *
- */
-void export_etat_courant_vers_csv ( )
+void export_etat_courant_vers_html ( gchar * filename )
 {
     if ( gtk_notebook_get_current_page ( GTK_NOTEBOOK ( notebook_general)) != 7 )
 	gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general), 7 );
 
-    affichage_etat ( NULL, &csv_affichage );
+    export_etat_vers_html ( gsb_gui_navigation_get_current_report (), filename );
 }
 
 
 
+/**
+ * Export current report as a CSV file.  It uses a "benj's meta
+ * structure" affichage_etat structure as a backend.
+ *
+ * \param filename		Filename to save report into.
+ */
+void export_etat_courant_vers_csv ( gchar * filename )
+{
+    if ( gtk_notebook_get_current_page ( GTK_NOTEBOOK ( notebook_general)) != 7 )
+	gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general), 7 );
+
+    affichage_etat ( 0, &csv_affichage, filename );
+}
+
+
+
+/**
+ * Callback of the file format menu in the export report dialog.  It
+ * is responsible to change the "format" object property of the
+ * dialog, which is used when it is closed to determine format.  
+ * 
+ * It is also responsible to change the default value of filename in
+ * the selector.  For that, it uses the "basename" property set in the
+ * chosser creation.  The "basename" property is the report name.
+ * 
+ * \param combo		Combo box that triggered event.
+ * \param selector	GtkFileChooser containing combo.
+ * 
+ * \return FALSE
+ */
+gboolean gsb_report_export_change_format ( GtkWidget * combo, GtkWidget * selector )
+{
+    gchar * name, * extension;
+
+    g_object_set_data ( G_OBJECT(selector), "format", 
+			(gpointer) gtk_combo_box_get_active ( GTK_COMBO_BOX(combo) ) );
+
+    name = safe_file_name ( g_object_get_data ( selector, "basename" ) );
+    switch ( gtk_combo_box_get_active ( GTK_COMBO_BOX(combo) ) )
+    {
+	    case 0:		/* EGSB */
+		extension = "egsb";
+		break;
+
+	    case 1:		/* HTML */
+		extension = "html";
+		break;
+
+	    case 2:		/* CSV */
+		extension = "csv";
+		break;
+
+	    case 3:		/* Postscript */
+		extension = "ps";
+		break;
+
+		extension = "tex";
+	    case 4:		/* Latex */
+		break;
+
+	    default :
+		extension = NULL;
+		break;
+    }
+
+    gtk_file_chooser_set_current_name ( GTK_FILE_CHOOSER(selector), 
+					g_strconcat ( name, ".", extension, NULL ) );
+    return FALSE;
+}
+
+
+
+/**
+ * This is responsible of exporting current report.  This function
+ * will ask a filename, a format, and call the appropriate benj's meta
+ * backend to do the job.
+ */
 void exporter_etat ( void )
 {
-    GtkWidget *fenetre_nom;
-    gint resultat;
-    gchar *nom_etat;
-    gint current_report_number;
+    GtkWidget * fenetre_nom, *hbox, * combo;
+    gint resultat, current_report_number;
+    gchar * nom_etat;
+    struct print_config * print_config_backup;
 
     current_report_number = gsb_gui_navigation_get_current_report ();
 
     if ( gtk_notebook_get_current_page ( GTK_NOTEBOOK ( notebook_general)) != 7 )
-	gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general),
-				7 );
-
-    fenetre_nom = file_selection_new (_("Export report"),FILE_SELECTION_IS_SAVE_DIALOG );
-    file_selection_set_filename ( GTK_FILE_SELECTION ( fenetre_nom ),
-				  dernier_chemin_de_travail );
-    file_selection_set_entry (  GTK_FILE_SELECTION ( fenetre_nom ),
-				g_strconcat ( safe_file_name ( gsb_data_report_get_report_name (current_report_number) ),
-					      ".egsb",
-					      NULL ));
+	gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general), 7 );
+    
+    fenetre_nom = file_selection_new ( _("Export report"), FILE_SELECTION_IS_SAVE_DIALOG );
+    g_object_set_data ( G_OBJECT(fenetre_nom), "basename", 
+			gsb_data_report_get_report_name ( gsb_gui_navigation_get_current_report () ) );
+    
+    hbox = gtk_hbox_new ( FALSE, 6 );
+    gtk_box_pack_start ( GTK_BOX(hbox), gtk_label_new ( COLON(_("File format")) ), 
+			 FALSE, FALSE, 0 );
+    
+    combo = gtk_combo_box_new_text();
+    gtk_box_pack_start ( GTK_BOX(hbox), combo, TRUE, TRUE, 0 );
+    gtk_combo_box_append_text ( GTK_COMBO_BOX(combo), _("Grisbi report file (egsb file)" ) );
+    gtk_combo_box_append_text ( GTK_COMBO_BOX(combo), _("HTML file" ) );
+    gtk_combo_box_append_text ( GTK_COMBO_BOX(combo), _("CSV file" ) );
+    gtk_combo_box_append_text ( GTK_COMBO_BOX(combo), _("Postscript file" ) );
+    gtk_combo_box_append_text ( GTK_COMBO_BOX(combo), _("Latex file" ) );
+    gtk_combo_box_set_active ( GTK_COMBO_BOX(combo), 0 );
+    g_signal_connect ( G_OBJECT(combo), "changed", 
+		       G_CALLBACK ( gsb_report_export_change_format ), 
+		       (gpointer) fenetre_nom );
+    gtk_widget_show_all ( hbox );
+    gtk_file_chooser_set_extra_widget ( GTK_FILE_CHOOSER(fenetre_nom), hbox );
+    
     resultat = gtk_dialog_run ( GTK_DIALOG ( fenetre_nom ));
-
-    switch ( resultat )
+    if ( resultat == GTK_RESPONSE_OK )
     {
-	case GTK_RESPONSE_OK :
-	    nom_etat = file_selection_get_filename ( GTK_FILE_SELECTION ( fenetre_nom ));
+	nom_etat = file_selection_get_filename ( GTK_FILE_SELECTION ( fenetre_nom ));
+	
+	switch ( (gint) g_object_get_data ( G_OBJECT(fenetre_nom), "format" ) )
+	{
+	    case 0:		/* EGSB */
+		gsb_file_others_save_report ( nom_etat );
+		break;
+		
+	    case 1:		/* HTML */
+		export_etat_courant_vers_html ( nom_etat );
+		break;
 
-	    gtk_widget_destroy ( GTK_WIDGET ( fenetre_nom ));
+	    case 2:		/* CSV */
+		export_etat_courant_vers_csv ( nom_etat );
+		break;
 
-	    /* la v√©rification que c'est possible a ÈtÈ faite par la boite de selection*/
+	    case 3:		/* Postscript */
+		print_config_backup = print_config_dup ( );
+		etat.print_config.printer = FALSE;
+		etat.print_config.filetype = POSTSCRIPT_FILE;
+		etat.print_config.printer_filename = nom_etat;
+		affichage_etat ( gsb_gui_navigation_get_current_report (),
+				 &latex_affichage, nom_etat );
+		print_config_set ( print_config_backup );
+		break;
 
-	    if ( !gsb_file_others_save_report ( nom_etat ))
-	    {
-		return;
-	    }
+	    case 4:		/* Latex */
+		print_config_backup = print_config_dup ( );
+		etat.print_config.printer = FALSE;
+		etat.print_config.filetype = LATEX_FILE;
+		etat.print_config.printer_filename = nom_etat;
+		affichage_etat ( gsb_gui_navigation_get_current_report (),
+				 &latex_affichage, nom_etat );
+		print_config_set ( print_config_backup );
+		break;
 
-	    break;
-
-	default :
-	    gtk_widget_destroy ( GTK_WIDGET ( fenetre_nom ));
-	    return;
+	    default :
+		break;
+	}
     }
+    gtk_widget_destroy ( GTK_WIDGET ( fenetre_nom ));
 }
-/*****************************************************************************************************/
 
 
-/*****************************************************************************************************/
+
+/**
+ * Import a report.
+ */
 void importer_etat ( void )
 {
     GtkWidget *fenetre_nom;
@@ -1130,16 +1215,13 @@ void importer_etat ( void )
     gchar *nom_etat;
 
     if ( gtk_notebook_get_current_page ( GTK_NOTEBOOK ( notebook_general)) != 7 )
-	gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general),
-				7 );
+	gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general), 7 );
 
     fenetre_nom = file_selection_new ( _("Import a report") , FILE_SELECTION_MUST_EXIST);
     file_selection_set_filename ( GTK_FILE_SELECTION ( fenetre_nom ),
-				      dernier_chemin_de_travail );
+				  dernier_chemin_de_travail );
     file_selection_set_entry (  GTK_FILE_SELECTION ( fenetre_nom ),
-			 g_strconcat ( dernier_chemin_de_travail,
-				       ".egsb",
-				       NULL ));
+				g_strconcat ( dernier_chemin_de_travail, ".egsb", NULL ));
 
     resultat = gtk_dialog_run ( GTK_DIALOG ( fenetre_nom ));
 
@@ -1151,13 +1233,10 @@ void importer_etat ( void )
 	    gtk_widget_destroy ( GTK_WIDGET ( fenetre_nom ));
 
 	    /* la v√©rification que c'est possible a ÈtÈ faite par la boite de selection*/
-
-
 	    if ( !gsb_file_others_load_report ( nom_etat ))
 	    {
 		return;
 	    }
-
 	    break;
 
 	default :
@@ -1165,39 +1244,28 @@ void importer_etat ( void )
 	    return;
     }
 }
-/*****************************************************************************************************/
 
 
 
-/*****************************************************************************************************/
-/* cette fonction cr√©e une copie de l'√©tat courant */
-/*****************************************************************************************************/
-
+/**
+ * Make a copy of current report and update user interface.
+ */
 void dupliquer_etat ( void )
 {
-    gint report_number;
-    gint current_report_number;
+    gint report_number, current_report_number;
 
     current_report_number = gsb_gui_navigation_get_current_report ();
 
     if ( gtk_notebook_get_current_page ( GTK_NOTEBOOK ( notebook_general)) != 7 )
-	gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general),
-				7 );
+	gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general), 7 );
 
     report_number = gsb_data_report_dup (current_report_number);
 
-    gtk_widget_set_sensitive ( bouton_personnaliser_etat, TRUE );
-    gtk_widget_set_sensitive ( bouton_imprimer_etat, TRUE );
-    gtk_widget_set_sensitive ( bouton_exporter_etat, TRUE );
-    gtk_widget_set_sensitive ( bouton_dupliquer_etat, TRUE );
-    gtk_widget_set_sensitive ( bouton_effacer_etat, TRUE );
-
-    gtk_widget_set_sensitive ( bouton_effacer_etat, TRUE );
+    gsb_gui_update_gui_to_report ( report_number );
 
     personnalisation_etat ();
     modification_fichier ( TRUE );
 }
-/*****************************************************************************************************/
 
 
 /* Local Variables: */
