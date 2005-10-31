@@ -70,7 +70,7 @@ GtkWidget *new_checkbox_with_title ( gchar * label, gint * data, GCallback hook)
 {
     GtkWidget * checkbox;
 
-    checkbox = gtk_check_button_new_with_label ( label );
+    checkbox = gtk_check_button_new_with_mnemonic ( label );
     checkbox_set_value ( checkbox, data, TRUE );
 
     g_object_set_data ( G_OBJECT (checkbox), "set-boolean", 
@@ -129,9 +129,9 @@ GtkWidget * new_radiogroup ( gchar * choice1, gchar * choice2, gint * data, GCal
     
     vbox = gtk_vbox_new ( FALSE, 6 );
 
-    button1 = gtk_radio_button_new_with_label ( NULL, choice1 );
+    button1 = gtk_radio_button_new_with_mnemonic ( NULL, choice1 );
     gtk_box_pack_start (GTK_BOX(vbox), button1, FALSE, FALSE, 0 );
-    button2 = gtk_radio_button_new_with_label ( gtk_radio_button_group (GTK_RADIO_BUTTON(button1)), 
+    button2 = gtk_radio_button_new_with_mnemonic ( gtk_radio_button_group (GTK_RADIO_BUTTON(button1)), 
 						choice2 );
     gtk_box_pack_start (GTK_BOX(vbox), button2, FALSE, FALSE, 0 );
 
@@ -483,7 +483,7 @@ GtkWidget *cree_bouton_url ( const gchar *adr,
 {
     GtkWidget *bouton;
 
-    bouton = gtk_button_new_with_label ( inscription );
+    bouton = gtk_button_new_with_mnemonic ( inscription );
     gtk_button_set_relief ( GTK_BUTTON ( bouton ),
 			    GTK_RELIEF_NONE );
     g_signal_connect_data ( G_OBJECT ( bouton ),
