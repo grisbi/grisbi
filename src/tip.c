@@ -176,35 +176,48 @@ gchar * get_next_tip ()
  */
 gchar * format_tip ( gchar * tip )
 {
-  g_strstrip ( tip );
+    gchar * new, * tmp;
 
-  /** Tokens removed include  */
+    g_strstrip ( tip );
 
-  /* leading '- ' if any */
-  if ( g_str_has_prefix ( tip, "- " ) )
+    /** Tokens removed include  */
+
+    /* leading '- ' if any */
+    if ( g_str_has_prefix ( tip, "- " ) )
     {
-      tip += 2;
+	tip += 2;
     }
 
-  /* leading '"' if any */
-  if ( g_str_has_prefix ( tip, "\"" ) )
+    /* leading '"' if any */
+    if ( g_str_has_prefix ( tip, "\"" ) )
     {
-      tip ++;
+	tip ++;
     }
 
-  /* any '\n' at the end of the string */
-  while ( g_str_has_suffix ( tip, "\n" ) )
+    /* any '\n' at the end of the string */
+    while ( g_str_has_suffix ( tip, "\n" ) )
     {
-      tip[strlen(tip)-1] = '\0';
+	tip[strlen(tip)-1] = '\0';
     }
 
-  /* trailing '"' if any */
-  if ( g_str_has_suffix ( tip, "\"" ) )
+    /* trailing '"' if any */
+    if ( g_str_has_suffix ( tip, "\"" ) )
     {
-      tip[strlen(tip)-1] = '\0';
+	tip[strlen(tip)-1] = '\0';
     }
 
-  return tip;
+    new = g_strdup ( tip );
+    for ( tmp = new ; * tmp ; tmp ++, tip ++ )
+    {
+	if ( * tip == '\\' )
+	{
+	    tip ++;
+	}
+	*tmp = *tip;
+    }
+    *tmp = '\0';    
+
+    return new;
 }
 
 
