@@ -604,10 +604,10 @@ void affiche_exercice_par_date ( GtkWidget *entree_date,
     }
 
     /*       si rien trouvé, met à aucun */
-
-    if ( !trouve )
-	gtk_option_menu_set_history ( GTK_OPTION_MENU ( option_menu_exercice ),
-				      0 );
+    /* FIXME: I think that if we found nothing, we don't touch anything.  */
+/*     if ( !trouve ) */
+/* 	gtk_option_menu_set_history ( GTK_OPTION_MENU ( option_menu_exercice ), */
+/* 				      0 ); */
 }
 /* ************************************************************************************************************** */
 
