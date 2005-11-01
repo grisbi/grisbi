@@ -1745,22 +1745,6 @@ gboolean gsb_scheduler_check_form ( void )
 	g_strfreev ( tab_char );
     }
 
-    /* vérification si c'est une échéance auto que ce n'est pas un chèque */
-
-    if ( GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_MODE]  ) -> menu_item ),
-						 "auto_man" )) == 1
-	 &&
-	 GTK_WIDGET_VISIBLE ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] )
-	 &&
-	 ((struct struct_type_ope  *)( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] ) -> menu_item ),
-							     "adr_type" )))->numerotation_auto )
-    {
-	dialogue_error_hint ( _("Impossible to create or entry an automatic scheduled transaction\n with a cheque or a method of payment with an automatic incremental number."),
-			      _("Invalid scheduled transaction.") );
-	return FALSE;
-    }
-
-
     return TRUE;
 }
 
@@ -2065,7 +2049,7 @@ gboolean gsb_scheduler_get_category_for_transaction_from_form ( gint transaction
  * */
 gint gsb_scheduler_create_transaction_from_scheduled_transaction ( gint scheduled_number )
 {
-    gint transaction_number;
+    gint transaction_number, payment_method;
 
     transaction_number = gsb_data_transaction_new_transaction (gsb_data_scheduled_get_account_number (scheduled_number));
 
@@ -2084,8 +2068,20 @@ gint gsb_scheduler_create_transaction_from_scheduled_transaction ( gint schedule
 							gsb_data_scheduled_get_method_of_payment_number (scheduled_number));
     gsb_data_transaction_set_notes ( transaction_number,
 				     gsb_data_scheduled_get_notes (scheduled_number));
-    gsb_data_transaction_set_method_of_payment_content ( transaction_number,
-							 gsb_data_scheduled_get_method_of_payment_content (scheduled_number));
+
+    payment_method = gsb_data_scheduled_get_method_of_payment_content (scheduled_number);
+    if ( payment_method )
+    {
+	struct struct_type_ope * type_ope = type_ope_par_no ( payment_method );
+	gsb_data_transaction_set_method_of_payment_content ( transaction_number,
+							     automatic_numbering_get_new_number ( type_ope ) );
+	type_ope -> no_en_cours ++;
+    }
+    else
+    {
+	gsb_data_transaction_set_method_of_payment_content ( transaction_number,
+							     gsb_data_scheduled_get_method_of_payment_content (scheduled_number) );
+    }
     gsb_data_transaction_set_automatic_transaction ( transaction_number,
 						     gsb_data_scheduled_get_automatic_scheduled (scheduled_number));
     gsb_data_transaction_set_budgetary_number ( transaction_number,
