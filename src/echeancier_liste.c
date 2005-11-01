@@ -442,8 +442,12 @@ void remplissage_liste_echeance ( void )
 	    GDate *pGDateCurrent;
 	    gint scheduled_number_buf;
 
-	    if ( !g_date_valid ( gsb_data_scheduled_get_date (scheduled_number)))
+	    if ( !gsb_data_scheduled_get_date (scheduled_number) || 
+		 !g_date_valid ( gsb_data_scheduled_get_date (scheduled_number)))
+	    {
+		slist_ptr = slist_ptr -> next;
 		continue;
+	    }
 
 	    ligne[COL_NB_DATE] = gsb_format_gdate (gsb_data_scheduled_get_date (scheduled_number));
 
@@ -1381,9 +1385,10 @@ gboolean changement_taille_liste_echeances ( GtkWidget *tree_view,
     /* on établit alors les largeurs des colonnes */
 	/* 	on ne met pas la valeur de la dernière colonne */
 
-    for ( i = 0 ; i < NB_COLS_SCHEDULER - 1 ; i++ )
-	gtk_tree_view_column_set_fixed_width ( GTK_TREE_VIEW_COLUMN ( colonnes_liste_echeancier[i] ),
-					       (scheduler_col_width[i] * largeur ) / 100 );
+    /* FIXME: REMOVE */
+/*     for ( i = 0 ; i < NB_COLS_SCHEDULER - 1 ; i++ ) */
+/* 	gtk_tree_view_column_set_fixed_width ( GTK_TREE_VIEW_COLUMN ( colonnes_liste_echeancier[i] ), */
+/* 					       (scheduler_col_width[i] * largeur ) / 100 ); */
 
     /* on sauve la valeur courante de la largeur de la liste pour
        une utilisation ultérieure */
@@ -1516,8 +1521,8 @@ void gsb_scheduler_check_scheduled_transactions_time_limit ( void )
 
 	/* we check that scheduled transaction only if it's not a child of a breakdown */
 
-	if ( !gsb_data_scheduled_get_mother_scheduled_number (scheduled_number)
-	     &&
+	if ( !gsb_data_scheduled_get_mother_scheduled_number (scheduled_number) &&
+	     gsb_data_scheduled_get_date (scheduled_number) &&
 	     g_date_compare ( gsb_data_scheduled_get_date (scheduled_number),
 			      pGDateCurrent ) <= 0 )
 	{
