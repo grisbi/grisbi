@@ -2425,12 +2425,6 @@ gboolean gsb_transactions_list_edit_current_transaction ( void )
 			gtk_combofix_set_text ( GTK_COMBOFIX ( widget ),
 						char_tmp );
 		    }
-
-		    /* 		    si l'opé est ventilée, on dÃ©sensitive l'ib */
-
-		    if ( gsb_data_transaction_get_breakdown_of_transaction ( transaction_number))
-			gtk_widget_set_sensitive ( widget,
-						   FALSE );
 		    break;
 
 		case TRANSACTION_FORM_NOTES:

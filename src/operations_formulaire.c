@@ -1003,15 +1003,6 @@ gboolean entree_perd_focus ( GtkWidget *entree,
 
 		    g_strfreev ( tab_char );
 		}
-		else
-		{
-		    if ( verifie_element_formulaire_existe ( TRANSACTION_FORM_EXERCICE ))
-			gtk_widget_set_sensitive ( widget_formulaire_par_element (TRANSACTION_FORM_EXERCICE),
-						   FALSE );
-		    if ( verifie_element_formulaire_existe ( TRANSACTION_FORM_BUDGET ))
-			gtk_widget_set_sensitive ( widget_formulaire_par_element (TRANSACTION_FORM_BUDGET),
-						   FALSE );
-		}
 	    }
 	    else
 		texte = _("Categories : Sub-categories");
