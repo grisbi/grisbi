@@ -1516,6 +1516,7 @@ void gsb_scheduler_check_scheduled_transactions_time_limit ( void )
     while ( slist_ptr )
     {
 	gint scheduled_number;
+	GDate * tmp_date;
 
 	scheduled_number = gsb_data_scheduled_get_scheduled_number (slist_ptr -> data);
 
@@ -1528,6 +1529,8 @@ void gsb_scheduler_check_scheduled_transactions_time_limit ( void )
 	{
 	    if ( gsb_data_scheduled_get_automatic_scheduled (scheduled_number))
 	    {
+		GDate * tmp_date;
+
 		/* take automaticly the scheduled transaction untill today */
 
 		while ( slist_ptr != last_slist_ptr
@@ -1556,6 +1559,14 @@ void gsb_scheduler_check_scheduled_transactions_time_limit ( void )
 			}
 			slist_ptr = last_slist_ptr;
 		    }
+
+		    tmp_date = g_memdup ( pGDateCurrent, sizeof ( pGDateCurrent ) );
+		    if ( ! date_suivante_echeance ( scheduled_number, tmp_date ) )
+		    {
+			free ( tmp_date );
+			break;
+		    }
+		    free ( tmp_date );
 		}
 	    }
 	    else
@@ -1563,7 +1574,6 @@ void gsb_scheduler_check_scheduled_transactions_time_limit ( void )
 		scheduled_transactions_to_take = g_slist_append ( scheduled_transactions_to_take ,
 								  GINT_TO_POINTER (scheduled_number));
 	}
-
 
 	if ( last_slist_ptr == gsb_data_scheduled_get_scheduled_list ()
 	     &&
@@ -1574,6 +1584,14 @@ void gsb_scheduler_check_scheduled_transactions_time_limit ( void )
 	    last_slist_ptr = slist_ptr;
 	    slist_ptr = slist_ptr -> next;
 	}
+
+	tmp_date = g_memdup ( pGDateCurrent, sizeof ( pGDateCurrent ) );
+	if ( ! date_suivante_echeance ( scheduled_number, tmp_date ) )
+	{
+	    free ( tmp_date );
+	    break;
+	}
+	free ( tmp_date );
     }
 
     if ( scheduled_transactions_taken )
@@ -1718,6 +1736,9 @@ GDate *date_suivante_echeance ( gint scheduled_number,
 	    g_date_add_years ( pGDateCurrent, 1 );
 
 	case SCHEDULER_PERIODICITY_CUSTOM_VIEW:
+	    if ( gsb_data_scheduled_get_user_entry (scheduled_number) <= 0 )
+		return NULL;
+
 	    switch (gsb_data_scheduled_get_user_interval (scheduled_number))
 	    {
 		case PERIODICITY_DAYS:

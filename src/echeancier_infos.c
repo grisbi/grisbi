@@ -132,8 +132,12 @@ void mise_a_jour_calendrier ( void )
 
 	copie_date_ech = gsb_date_copy (gsb_data_scheduled_get_date (scheduled_number));
 
-	if ( !g_date_valid (gsb_data_scheduled_get_date (scheduled_number)))
-	    break;
+	if ( !gsb_data_scheduled_get_date (scheduled_number) ||
+	     !g_date_valid (gsb_data_scheduled_get_date (scheduled_number)))
+	{
+	    pointeur = pointeur -> next;
+	    continue;
+	}
 
 	/* si c'est une fois */
 	/* ou si c'est personnalisÃ© mais la periodicitÃ© est de 0, */
@@ -163,7 +167,13 @@ void mise_a_jour_calendrier ( void )
 			    g_date_add_years ( copie_date_ech,
 					       1 );
 			else
+			{
 			    /* pÃ©riodicitÃ© perso */
+			    if ( ! gsb_data_scheduled_get_user_entry (scheduled_number) )
+			    {
+				return;
+			    }
+
 			    if ( !gsb_data_scheduled_get_user_interval (scheduled_number))
 				g_date_add_days ( copie_date_ech,
 						  gsb_data_scheduled_get_user_entry (scheduled_number));
@@ -174,6 +184,7 @@ void mise_a_jour_calendrier ( void )
 				else
 				    g_date_add_years ( copie_date_ech,
 						       gsb_data_scheduled_get_user_entry (scheduled_number));
+			}
 	    }  
 
 	/* Ã  ce niveau, soit l'Ã©chÃ©ance est sur le mois du calendrier,
