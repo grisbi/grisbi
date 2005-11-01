@@ -2616,6 +2616,7 @@ void incrementation_echeance ( struct operation_echeance *echeance )
 		g_date_add_years ( echeance -> date,
 				   1 );
 	    else
+	    {
 		/* périodicité perso */
 		if ( !echeance -> intervalle_periodicite_personnalisee )
 		{
@@ -2633,6 +2634,7 @@ void incrementation_echeance ( struct operation_echeance *echeance )
 		    else
 			g_date_add_years ( echeance -> date,
 					   echeance -> periodicite_personnalisee );
+	    }
 
     /* on recommence l'incrémentation sur la copie de la date pour avoir la date suivante */
     /* permet de voir si c'était la dernière incrémentation */

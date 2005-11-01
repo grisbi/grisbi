@@ -1874,8 +1874,7 @@ void verification_echeances_a_terme ( void )
 	{
 	    /* tant que cette échéance auto n'est pas arrivée à aujourd'hui, on recommence */
 
-	    while ( pointeur_liste != ancien_pointeur
-		    &&
+	    while ( pointeur_liste != ancien_pointeur &&
 		    g_date_compare ( ECHEANCE_COURANTE -> date, pGDateCurrent ) <= 0 )
 	    {
 		struct structure_operation * operation;
@@ -2129,6 +2128,13 @@ void verification_echeances_a_terme ( void )
 			ancien_pointeur = gsliste_echeances;
 		    pointeur_liste = ancien_pointeur;
 		}
+
+		if ( ! date_suivante_echeance ( ECHEANCE_COURANTE, 
+						g_memdup ( pGDateCurrent,
+							   sizeof ( pGDateCurrent ) ) ) )
+		{
+		    break;
+		}
 	    }
 	}
 	else if ( ! ECHEANCE_COURANTE -> no_operation_ventilee_associee )
@@ -2272,6 +2278,12 @@ GDate *date_suivante_echeance ( struct operation_echeance *echeance,
 		g_date_add_years ( pGDateCurrent,
 				   1 );
 	    else
+	    {
+		if ( ! echeance -> periodicite_personnalisee )
+		{
+		    return NULL;
+		}
+
 		/* périodicité perso */
 		if ( !echeance -> intervalle_periodicite_personnalisee )
 		{
@@ -2290,6 +2302,7 @@ GDate *date_suivante_echeance ( struct operation_echeance *echeance,
 		    else
 			g_date_add_years ( pGDateCurrent,
 					   echeance -> periodicite_personnalisee );
+	    }
 
     if ( echeance -> date_limite
 	 &&
