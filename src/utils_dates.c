@@ -227,7 +227,11 @@ GDate * gsb_parse_date_string ( const gchar * date_string )
 		else
 		    annee = annee + 1900;
 	    }
-	    return g_date_new_dmy ( jour, mois, annee );
+	    if ( g_date_valid_dmy (jour, mois, annee ) )
+		return g_date_new_dmy ( jour, mois, annee );
+	    else
+		return NULL;
+
 	}
 	else
 	{
@@ -238,7 +242,11 @@ GDate * gsb_parse_date_string ( const gchar * date_string )
 		jour = utils_str_atoi ( tab_date[0] );
 		mois = utils_str_atoi ( tab_date[1] );
 		annee = g_date_year ( date );
-		return g_date_new_dmy ( jour, mois, annee );
+		if ( g_date_valid_dmy (jour, mois, annee ) )
+		    return g_date_new_dmy ( jour, mois, annee );
+		else
+		    return NULL;
+
 	    }
 	    else
 	    {
@@ -256,7 +264,10 @@ GDate * gsb_parse_date_string ( const gchar * date_string )
 		    jour = utils_str_atoi ( tab_date[0] );
 		    mois = g_date_month ( date );
 		    annee = g_date_year ( date );
-		    return g_date_new_dmy ( jour, mois, annee );
+		    if ( g_date_valid_dmy (jour, mois, annee ) )
+			return g_date_new_dmy ( jour, mois, annee );
+		    else
+			return NULL;
 
 		/* forme jjmm */
 		case 4 :
@@ -267,7 +278,10 @@ GDate * gsb_parse_date_string ( const gchar * date_string )
 		    jour = utils_str_atoi ( buffer );
 		    mois = utils_str_atoi ( tab_date[0] + 2 );
 		    annee = g_date_year ( date );
-		    return g_date_new_dmy ( jour, mois, annee );
+		    if ( g_date_valid_dmy (jour, mois, annee ) )
+			return g_date_new_dmy ( jour, mois, annee );
+		    else
+			return NULL;
 
 		/* forme jjmmaa */
 		case 6:
@@ -281,7 +295,10 @@ GDate * gsb_parse_date_string ( const gchar * date_string )
 
 		    mois = utils_str_atoi ( buffer );
 		    annee = utils_str_atoi ( tab_date[0] + 4 ) + 2000;
-		    return g_date_new_dmy ( jour, mois, annee );
+		    if ( g_date_valid_dmy (jour, mois, annee ) )
+			return g_date_new_dmy ( jour, mois, annee );
+		    else
+			return NULL;
 
 		/* forme jjmmaaaa */
 		case 8:
@@ -295,7 +312,10 @@ GDate * gsb_parse_date_string ( const gchar * date_string )
 
 		    mois = utils_str_atoi ( buffer );
 		    annee = utils_str_atoi ( tab_date[0] + 4 );
-		    return g_date_new_dmy ( jour, mois, annee );
+		    if ( g_date_valid_dmy (jour, mois, annee ) )
+			return g_date_new_dmy ( jour, mois, annee );
+		    else
+			return NULL;
 		}
 	    }
 	}
