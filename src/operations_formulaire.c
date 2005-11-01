@@ -996,10 +996,6 @@ gboolean entree_perd_focus ( GtkWidget *entree,
 		    gchar **tableau_char;
 
 		    gtk_widget_hide ( widget_formulaire_operations[TRANSACTION_FORM_BREAKDOWN] );
-		    gtk_widget_set_sensitive ( widget_formulaire_operations[TRANSACTION_FORM_EXERCICE],
-					       TRUE );
-		    gtk_widget_set_sensitive ( widget_formulaire_operations[TRANSACTION_FORM_BUDGET],
-					       TRUE );
 
 		    /* vérification que ce n'est pas un virement */
 
@@ -1104,10 +1100,6 @@ gboolean entree_perd_focus ( GtkWidget *entree,
 		else
 		{
 		    gtk_widget_show ( widget_formulaire_operations[TRANSACTION_FORM_BREAKDOWN] );
-		    gtk_widget_set_sensitive ( widget_formulaire_operations[TRANSACTION_FORM_EXERCICE],
-					       FALSE );
-		    gtk_widget_set_sensitive ( widget_formulaire_operations[TRANSACTION_FORM_BUDGET],
-					       FALSE );
 		}
 	    }
 	    else
@@ -1207,9 +1199,10 @@ gboolean clique_champ_formulaire ( GtkWidget *entree,
 
     /*     we set the exercice */
 
-    if ( etat.utilise_exercice )
-	affiche_exercice_par_date ( widget_formulaire_operations[TRANSACTION_FORM_DATE],
-				    widget_formulaire_operations[TRANSACTION_FORM_EXERCICE] );
+    /* FIXME: seems buggy */
+/*     if ( etat.utilise_exercice ) */
+/* 	affiche_exercice_par_date ( widget_formulaire_operations[TRANSACTION_FORM_DATE], */
+/* 				    widget_formulaire_operations[TRANSACTION_FORM_EXERCICE] ); */
 
 
     /* si ev est null ( cad que ça ne vient pas d'un click mais appelé par ex
@@ -2768,11 +2761,8 @@ void recuperation_donnees_generales_formulaire ( struct structure_operation *ope
 									   "no_exercice" ));
 
     /* récupération de l'imputation budgétaire */
-    /* si c'est une opé ventilée, on ne récupère pas l'ib */
 
-    if ( gtk_widget_get_style ( GTK_COMBOFIX ( widget_formulaire_operations[TRANSACTION_FORM_BUDGET] ) -> entry ) == style_entree_formulaire[ENCLAIR]
-	 &&
-	 !GTK_WIDGET_VISIBLE ( widget_formulaire_operations[TRANSACTION_FORM_BREAKDOWN] ))
+    if ( gtk_widget_get_style ( GTK_COMBOFIX ( widget_formulaire_operations[TRANSACTION_FORM_BUDGET] ) -> entry ) == style_entree_formulaire[ENCLAIR] )
     {
 	struct struct_imputation *imputation;
 
@@ -3401,7 +3391,7 @@ void formulaire_a_zero (void)
     gtk_widget_set_sensitive ( GTK_WIDGET ( widget_formulaire_operations[TRANSACTION_FORM_DEVISE] ),
 			       FALSE );
     gtk_widget_set_sensitive ( GTK_WIDGET ( widget_formulaire_operations[TRANSACTION_FORM_EXERCICE] ),
-			       FALSE );
+			       etat.utilise_exercice );
     gtk_widget_set_sensitive ( GTK_WIDGET ( hbox_valider_annuler_ope ),
 			       FALSE );
     gtk_widget_set_sensitive ( widget_formulaire_operations[TRANSACTION_FORM_BUDGET],
@@ -3581,12 +3571,6 @@ void degrise_formulaire_operations ( void )
 			       TRUE );
     gtk_widget_set_sensitive ( GTK_WIDGET ( hbox_valider_annuler_ope ),
 			       TRUE );
-
-    /* on ne dégrise l'exo que si le bouton ventiler n'est pas visible */
-
-    if ( !GTK_WIDGET_VISIBLE ( widget_formulaire_operations[TRANSACTION_FORM_BREAKDOWN] ))
-	gtk_widget_set_sensitive ( GTK_WIDGET ( widget_formulaire_operations[TRANSACTION_FORM_EXERCICE] ),
-				   etat.utilise_exercice );
 
     /*   si le type par défaut est un chèque, on met le nouveau numéro */
 

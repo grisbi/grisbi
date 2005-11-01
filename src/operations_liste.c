@@ -1746,33 +1746,29 @@ void edition_operation ( void )
 							      widget_formulaire_operations[TRANSACTION_FORM_EXERCICE] ));
 
     /* met en place l'imputation budgétaire */
-    /* si c'est une opé ventilée, on met rien */
 
-    if ( !operation -> operation_ventilee )
+    liste_tmp = g_slist_find_custom ( liste_struct_imputation,
+				      GINT_TO_POINTER ( operation -> imputation ),
+				      ( GCompareFunc ) recherche_imputation_par_no );
+
+    if ( liste_tmp )
     {
-	liste_tmp = g_slist_find_custom ( liste_struct_imputation,
-					  GINT_TO_POINTER ( operation -> imputation ),
-					  ( GCompareFunc ) recherche_imputation_par_no );
+	GSList *liste_tmp_2;
 
-	if ( liste_tmp )
-	{
-	    GSList *liste_tmp_2;
+	entree_prend_focus ( widget_formulaire_operations[TRANSACTION_FORM_BUDGET]);
 
-	    entree_prend_focus ( widget_formulaire_operations[TRANSACTION_FORM_BUDGET]);
-
-	    liste_tmp_2 = g_slist_find_custom ( (( struct struct_imputation * )( liste_tmp -> data )) -> liste_sous_imputation,
-						GINT_TO_POINTER ( operation -> sous_imputation ),
-						( GCompareFunc ) recherche_sous_imputation_par_no );
-	    if ( liste_tmp_2 )
-		gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_operations[TRANSACTION_FORM_BUDGET] ),
-					g_strconcat ( (( struct struct_imputation * )( liste_tmp -> data )) -> nom_imputation,
-						      " : ",
-						      (( struct struct_sous_imputation * )( liste_tmp_2 -> data )) -> nom_sous_imputation,
-						      NULL ));
-	    else
-		gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_operations[TRANSACTION_FORM_BUDGET] ),
-					(( struct struct_imputation * )( liste_tmp -> data )) -> nom_imputation );
-	}
+	liste_tmp_2 = g_slist_find_custom ( (( struct struct_imputation * )( liste_tmp -> data )) -> liste_sous_imputation,
+					    GINT_TO_POINTER ( operation -> sous_imputation ),
+					    ( GCompareFunc ) recherche_sous_imputation_par_no );
+	if ( liste_tmp_2 )
+	    gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_operations[TRANSACTION_FORM_BUDGET] ),
+				    g_strconcat ( (( struct struct_imputation * )( liste_tmp -> data )) -> nom_imputation,
+						  " : ",
+						  (( struct struct_sous_imputation * )( liste_tmp_2 -> data )) -> nom_sous_imputation,
+						  NULL ));
+	else
+	    gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_operations[TRANSACTION_FORM_BUDGET] ),
+				    (( struct struct_imputation * )( liste_tmp -> data )) -> nom_imputation );
     }
 
     /* mise en place de la pièce comptable */

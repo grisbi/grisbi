@@ -315,6 +315,7 @@ void ajout_exercice ( GtkWidget *bouton,
     exercice = calloc ( 1, sizeof ( struct struct_exercice ));
     exercice -> no_exercice = -1;
     exercice -> nom_exercice = g_strdup ( _("New financial year") );
+    exercice -> affiche_dans_formulaire = 1;
     liste_struct_exercices = g_slist_append ( liste_struct_exercices, exercice );
 
     exercice -> no_exercice = ++no_derniere_exercice;
