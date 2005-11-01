@@ -66,7 +66,7 @@ GtkWidget *bouton_personnaliser_etat;
 GtkWidget *bouton_imprimer_etat;
 GtkWidget *bouton_exporter_etat;
 GtkWidget *bouton_dupliquer_etat;
-GtkWidget *scrolled_window_etat;          /* contient l'état en cours */
+GtkWidget *scrolled_window_etat = NULL;          /* contient l'état en cours */
 gint nb_colonnes;
 gint ligne_debut_partie;
 GtkWidget *notebook_etats;
@@ -986,7 +986,8 @@ void efface_etat ( void )
  */
 void gsb_gui_unsensitive_report_widgets ()
 {
-    if ( scrolled_window_etat && GTK_BIN ( scrolled_window_etat ) -> child )
+    if ( scrolled_window_etat && GTK_IS_WIDGET ( scrolled_window_etat ) && 
+	 GTK_BIN ( scrolled_window_etat ) -> child )
 	gtk_widget_hide ( GTK_BIN ( scrolled_window_etat ) -> child );
 
     gtk_widget_set_sensitive ( bouton_personnaliser_etat, FALSE );
