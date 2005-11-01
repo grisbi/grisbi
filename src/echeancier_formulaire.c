@@ -1611,20 +1611,6 @@ void fin_edition_echeance ( void )
 	g_strfreev ( tableau_char );
     }
 
-    /* vérification si c'est une échéance auto que ce n'est pas un chèque */
-
-    if ( GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_MODE]  ) -> menu_item ),
-						 "auto_man" )) == 1
-	 &&
-	 GTK_WIDGET_VISIBLE ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] )
-	 &&
-	 ((struct struct_type_ope  *)( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] ) -> menu_item ),
-							     "adr_type" )))->numerotation_auto )
-    {
-	dialogue ( PRESPACIFY(_("Impossible to create or entry an automatic scheduled transaction\n with a cheque or a method of payment with an automatic incremental number.")) );
-	return;
-    }
-
     /* récupération de l'opération : soit l'adr de la struct, soit NULL si nouvelle */
 
     echeance = gtk_object_get_data ( GTK_OBJECT ( formulaire_echeancier ),

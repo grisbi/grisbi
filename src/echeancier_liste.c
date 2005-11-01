@@ -1878,9 +1878,10 @@ void verification_echeances_a_terme ( void )
 		    &&
 		    g_date_compare ( ECHEANCE_COURANTE -> date, pGDateCurrent ) <= 0 )
 	    {
-		struct structure_operation *operation;
+		struct structure_operation * operation;
+		struct struct_type_ope * type_ope = NULL;
 		gint virement;
-		GSList *pointeur_liste_ventil;
+		GSList *pointeur_liste_ventil, *tmp;
 
 		/* We check if one of the subtransactions of the breakdown of
 		   transaction is a transfer on itself. */
@@ -1917,10 +1918,9 @@ void verification_echeances_a_terme ( void )
 		operation -> mois = ECHEANCE_COURANTE -> mois;
 		operation -> annee = ECHEANCE_COURANTE -> annee;
 
-		operation ->date = g_date_new_dmy ( operation ->jour,
-						    operation ->mois,
-						    operation ->annee);
-
+		operation -> date = g_date_new_dmy ( operation ->jour,
+						     operation ->mois,
+						     operation ->annee);
 
 		operation -> no_compte = ECHEANCE_COURANTE -> compte;
 		operation -> tiers = ECHEANCE_COURANTE -> tiers;
@@ -1990,8 +1990,23 @@ void verification_echeances_a_terme ( void )
 
 
 		operation -> type_ope = ECHEANCE_COURANTE -> type_ope;
-		if ( ECHEANCE_COURANTE -> contenu_type )
+		tmp = g_slist_find_custom ( TYPES_OPES,
+					    GINT_TO_POINTER ( ECHEANCE_COURANTE -> type_ope ),
+					    (GCompareFunc) recherche_type_ope_par_no );
+		if ( tmp )
+		{
+		    type_ope = (struct struct_type_ope *) tmp -> data;
+		}
+		if ( type_ope && type_ope -> numerotation_auto )
+		{
+		    operation -> contenu_type = automatic_numbering_get_new_number ( type_ope );
+		    type_ope -> no_en_cours ++;
+
+		}
+		else if ( ECHEANCE_COURANTE -> contenu_type )
+		{
 		    operation -> contenu_type = ECHEANCE_COURANTE -> contenu_type;
+		}
 
 		operation -> auto_man = ECHEANCE_COURANTE -> auto_man;
 		operation -> imputation = ECHEANCE_COURANTE -> imputation;
