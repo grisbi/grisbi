@@ -236,6 +236,8 @@ gpointer gsb_data_category_get_sub_category_structure ( gint no_category,
 	return sub_category_buffer;
 
     category = gsb_data_category_get_structure ( no_category );
+    if ( ! category )
+	return NULL;
 
     tmp = category -> sub_category_list;
 
