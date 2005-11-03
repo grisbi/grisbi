@@ -2749,12 +2749,18 @@ void calcule_total_montant_categ ( void )
 	    if ( operation -> categorie )
 	    {
 		struct struct_categ *categorie;
+		GSList * tmp_categ;
 
 		/* il y a une catégorie */
 
-		categorie = g_slist_find_custom ( liste_struct_categories,
+		tmp_categ = g_slist_find_custom ( liste_struct_categories,
 						  GINT_TO_POINTER ( operation -> categorie ),
-						  (GCompareFunc) recherche_categorie_par_no ) -> data;
+						  (GCompareFunc) recherche_categorie_par_no );
+		if ( ! tmp_categ )
+		{
+		    return;
+		}
+		categorie = tmp_categ -> data;
 
 		/* recherche la place du tiers dans la liste */
 
