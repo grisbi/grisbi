@@ -6,5 +6,6 @@
 
 
 /* START_DECLARATION */
+struct struct_devise * payee_tree_currency ( );
 /* END_DECLARATION */
 #endif

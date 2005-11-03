@@ -36,6 +36,7 @@
 #include "gsb_data_transaction.h"
 #include "categories_onglet.h"
 #include "traitement_variables.h"
+#include "meta_categories.h"
 #include "include.h"
 /*END_INCLUDE*/
 
@@ -48,7 +49,7 @@ typedef struct
     /** @name category content */
     guint category_number;
     gchar *category_name;
-    gint category_type;		/**< 0:credit / 1:debit / 2:special (transfert, breakdown...) */
+   gint category_type;		/**< 0:credit / 1:debit / 2:special (transfert, breakdown...) */
 
     GSList *sub_category_list;
 
@@ -1206,6 +1207,8 @@ void gsb_data_category_reset_counters ( void )
     /* reset the empty category */
     empty_category -> category_balance = 0.0;
     empty_category -> category_nb_transactions = 0;
+    empty_category -> category_direct_balance = 0.0;
+    empty_category -> category_nb_direct_transactions = 0;
 }
 
 /**
@@ -1255,25 +1258,28 @@ void gsb_data_category_add_transaction_to_category ( gint transaction_number )
     if ( category )
     {
 	category -> category_nb_transactions ++;
-	category -> category_balance += gsb_data_transaction_get_adjusted_amount (transaction_number);
+	category -> category_balance += gsb_data_transaction_get_adjusted_amount_for_currency ( transaction_number, category_tree_currency () -> no_devise );
     }
     else
     {
 	empty_category -> category_nb_transactions ++;
-	empty_category -> category_balance += gsb_data_transaction_get_adjusted_amount (transaction_number);
+	empty_category -> category_balance += gsb_data_transaction_get_adjusted_amount_for_currency ( transaction_number, category_tree_currency () -> no_devise );
     }
 
     if ( sub_category )
     {
 	sub_category -> sub_category_nb_transactions ++;
-	sub_category -> sub_category_balance += gsb_data_transaction_get_adjusted_amount (transaction_number);
+	sub_category -> sub_category_balance += gsb_data_transaction_get_adjusted_amount_for_currency ( transaction_number, category_tree_currency () -> no_devise);
+
+
+gsb_data_transaction_get_adjusted_amount (transaction_number);
     }
     else
     {
 	if ( category )
 	{
 	    category -> category_nb_direct_transactions ++;
-	    category -> category_direct_balance += gsb_data_transaction_get_adjusted_amount (transaction_number);
+	    category -> category_direct_balance += gsb_data_transaction_get_adjusted_amount_for_currency ( transaction_number, category_tree_currency () -> no_devise );
 	}
     }
 }
@@ -1299,7 +1305,7 @@ void gsb_data_category_remove_transaction_from_category ( gint transaction_numbe
     if ( category )
     {
 	category -> category_nb_transactions --;
-	category -> category_balance -= gsb_data_transaction_get_adjusted_amount (transaction_number);
+	category -> category_balance -= gsb_data_transaction_get_adjusted_amount_for_currency ( transaction_number, category_tree_currency () -> no_devise );
 	if ( !category -> category_nb_transactions ) /* Cope with float errors */
 	    category -> category_balance = 0.0;
     }
@@ -1307,7 +1313,7 @@ void gsb_data_category_remove_transaction_from_category ( gint transaction_numbe
     if ( sub_category )
     {
 	sub_category -> sub_category_nb_transactions --;
-	sub_category -> sub_category_balance -= gsb_data_transaction_get_adjusted_amount (transaction_number);
+	sub_category -> sub_category_balance -= gsb_data_transaction_get_adjusted_amount_for_currency ( transaction_number, category_tree_currency () -> no_devise );
 	if ( !sub_category -> sub_category_nb_transactions ) /* Cope with float errors */
 	    sub_category -> sub_category_balance = 0.0;
     }
@@ -1316,7 +1322,7 @@ void gsb_data_category_remove_transaction_from_category ( gint transaction_numbe
 	if ( category )
 	{
 	    category -> category_nb_direct_transactions --;
-	    category -> category_direct_balance -= gsb_data_transaction_get_adjusted_amount (transaction_number);
+	    category -> category_direct_balance -= gsb_data_transaction_get_adjusted_amount_for_currency ( transaction_number, category_tree_currency () -> no_devise );
 	}
     }
 }
@@ -1348,8 +1354,9 @@ void gsb_data_category_create_default_category_list ( void )
 
     while ( categories_de_base_debit[i] )
     {
-	list_tmp = g_slist_append ( list_tmp,
-				    categories_de_base_debit[i] );
+	gint categ = gsb_data_category_new ( categories_de_base_debit[i] );
+	gsb_data_category_set_type ( categ, 1 );
+	list_tmp = g_slist_append ( list_tmp, categories_de_base_credit[i] );
 	i++;
     }
     gsb_data_category_merge_category_list (list_tmp);
@@ -1360,8 +1367,9 @@ void gsb_data_category_create_default_category_list ( void )
 
     while ( categories_de_base_credit[i] )
     {
-	list_tmp = g_slist_append ( list_tmp,
-				    categories_de_base_credit[i] );
+	gint categ = gsb_data_category_new ( categories_de_base_debit[i] );
+	gsb_data_category_set_type ( categ, 1 );
+	list_tmp = g_slist_append ( list_tmp, categories_de_base_credit[i] );
 	i++;
     }
     gsb_data_category_merge_category_list (list_tmp);

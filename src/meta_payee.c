@@ -70,7 +70,6 @@ static void payee_transaction_set_div_id ( gpointer  transaction,
 static void payee_transaction_set_sub_div_id ( gpointer  transaction, 
 					int no_sub_div );
 static gint payee_transaction_sub_div_id ( gpointer  transaction );
-static struct struct_devise * payee_tree_currency ( );
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -85,7 +84,7 @@ static MetatreeInterface _payee_interface = {
     N_("Payee"),
     N_("No payee"),
     N_("No sub-payee"),
-    gsb_data_payee_get_without_payee,
+    gsb_data_payee_get_empty_payee,
     gsb_data_payee_get_structure,
     payee_get_sub_div_pointer,
     payee_get_div_pointer_from_name,

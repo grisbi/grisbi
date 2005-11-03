@@ -71,7 +71,6 @@ static void budgetary_line_transaction_set_div_id ( gpointer  transaction,
 static void budgetary_line_transaction_set_sub_div_id ( gpointer  transaction, 
 						 int no_sub_div );
 static gint budgetary_line_transaction_sub_div_id ( gpointer  transaction );
-static struct struct_devise * budgetary_line_tree_currency ( );
 /*END_STATIC*/
 
 /*START_EXTERN*/

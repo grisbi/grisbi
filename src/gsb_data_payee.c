@@ -36,6 +36,7 @@
 #include "tiers_onglet.h"
 #include "traitement_variables.h"
 #include "include.h"
+#include "meta_payee.h"
 /*END_INCLUDE*/
 
 
@@ -73,7 +74,7 @@ static struct_payee *payee_buffer;
 
 /** a pointer to a "blank" payee structure, used in the list of payee
  * to group the transactions without payee */
-static struct_payee *without_payee;
+static struct_payee *empty_payee;
 
 
 /**
@@ -90,8 +91,8 @@ gboolean gsb_data_payee_init_variables ( void )
 
     /* create the blank payee */
 
-    without_payee = calloc ( 1, sizeof ( struct_payee ));
-    without_payee -> payee_name = _("No payee");
+    empty_payee = calloc ( 1, sizeof ( struct_payee ));
+    empty_payee -> payee_name = _("No payee");
 
 
 
@@ -609,8 +610,8 @@ void gsb_data_payee_reset_counters ( void )
     
     /* reset the blank payee counters */
 
-    without_payee -> payee_balance = 0.0;
-    without_payee -> payee_nb_transactions = 0;
+    empty_payee -> payee_balance = 0.0;
+    empty_payee -> payee_nb_transactions = 0;
 }
 
 /**
@@ -655,17 +656,17 @@ void gsb_data_payee_add_transaction_to_payee ( gint transaction_number )
     payee = gsb_data_payee_get_structure ( gsb_data_transaction_get_party_number (transaction_number));
 
     /* if no payee in that transaction, and it's neither a breakdown, neither a transfer,
-     * we work with without_payee */
+     * we work with empty_payee */
 
     if (!payee
 	&&
 	!gsb_data_transaction_get_breakdown_of_transaction (transaction_number)
 	&& 
 	!gsb_data_transaction_get_transaction_number_transfer (transaction_number))
-	payee = without_payee;
+	payee = empty_payee;
 
 	payee -> payee_nb_transactions ++;
-	payee -> payee_balance += gsb_data_transaction_get_adjusted_amount (transaction_number);
+	payee -> payee_balance += gsb_data_transaction_get_adjusted_amount_for_currency ( transaction_number, payee_tree_currency () -> no_devise );
 }
 
 
@@ -684,17 +685,17 @@ void gsb_data_payee_remove_transaction_from_payee ( gint transaction_number )
     payee = gsb_data_payee_get_structure ( gsb_data_transaction_get_party_number (transaction_number));
 
     /* if no payee in that transaction, and it's neither a breakdown, neither a transfer,
-     * we work with without_payee */
+     * we work with empty_payee */
 
     if (!payee
 	&&
 	!gsb_data_transaction_get_breakdown_of_transaction (transaction_number)
 	&& 
 	!gsb_data_transaction_get_transaction_number_transfer (transaction_number))
-	payee = without_payee;
+	payee = empty_payee;
 
 	payee -> payee_nb_transactions --;
-	payee -> payee_balance -= gsb_data_transaction_get_adjusted_amount (transaction_number);
+	payee -> payee_balance -= gsb_data_transaction_get_adjusted_amount_for_currency ( transaction_number, payee_tree_currency () -> no_devise );
 
 	if ( !payee -> payee_nb_transactions ) /* Cope with float errors */
 	    payee -> payee_balance = 0.0;
@@ -706,10 +707,10 @@ void gsb_data_payee_remove_transaction_from_payee ( gint transaction_number )
  *
  * \param
  *
- * \return a pointer to the without_payee struct
+ * \return a pointer to the empty_payee struct
  * */
-gpointer gsb_data_payee_get_without_payee ( void )
+gpointer gsb_data_payee_get_empty_payee ( void )
 {
-    return (gpointer) without_payee;
+    return (gpointer) empty_payee;
 }
 

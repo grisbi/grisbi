@@ -17,7 +17,7 @@ gint gsb_data_payee_get_number_by_name ( gchar *name,
 				    gboolean create );
 GSList *gsb_data_payee_get_payees_list ( void );
 gpointer gsb_data_payee_get_structure ( gint no_payee );
-gpointer gsb_data_payee_get_without_payee ( void );
+gpointer gsb_data_payee_get_empty_payee ( void );
 gboolean gsb_data_payee_init_variables ( void );
 gint gsb_data_payee_new ( gchar *name );
 gboolean gsb_data_payee_remove ( gint no_payee );

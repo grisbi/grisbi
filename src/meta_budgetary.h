@@ -6,5 +6,6 @@
 
 
 /* START_DECLARATION */
+struct struct_devise * budgetary_line_tree_currency ( );
 /* END_DECLARATION */
 #endif
