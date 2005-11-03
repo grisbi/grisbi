@@ -158,7 +158,6 @@ GtkWidget *gsb_gui_create_report_toolbar ( void )
 							  NULL ), 
     gtk_box_pack_start ( GTK_BOX ( hbox2 ), bouton_dupliquer_etat, FALSE, FALSE, 0 );
 
-    gsb_gui_unsensitive_report_widgets ();
     gtk_widget_show_all ( hbox );
 
     return ( hbox );
@@ -202,6 +201,8 @@ GtkWidget *creation_onglet_etats ( void )
     onglet_config_etat = NULL;
 
     gtk_widget_show_all ( tab );
+
+    gsb_gui_unsensitive_report_widgets ();
 
     return ( tab );
 }
