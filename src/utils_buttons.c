@@ -616,7 +616,7 @@ GtkWidget * new_stock_image_label ( GsbButtonStyle style, gchar * stock_id, gcha
     if ( style == GSB_BUTTON_ICON || style == GSB_BUTTON_BOTH )
     {
 	image = gtk_image_new_from_stock ( stock_id, GTK_ICON_SIZE_LARGE_TOOLBAR );
-	gtk_box_pack_start ( GTK_BOX(vbox), image, FALSE, FALSE, 0 );
+	gtk_box_pack_start ( GTK_BOX(vbox), image, TRUE, TRUE, 0 );
     }
 
     /* Define label */
@@ -625,7 +625,7 @@ GtkWidget * new_stock_image_label ( GsbButtonStyle style, gchar * stock_id, gcha
 	label = gtk_label_new ( name );
 	gtk_label_set_text_with_mnemonic ( GTK_LABEL(label), name );
 	gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_CENTER );
-	gtk_box_pack_start ( GTK_BOX(vbox), label, FALSE, FALSE, 0 );
+	gtk_box_pack_start ( GTK_BOX(vbox), label, TRUE, TRUE, 0 );
     }
     
     return vbox;
