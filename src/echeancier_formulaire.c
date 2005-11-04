@@ -2061,7 +2061,7 @@ void fin_edition_echeance ( void )
 
 	if ( gtk_widget_get_style ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_CATEGORY] ) -> entry ) == style_entree_formulaire[ENCLAIR] )
 	{
-	    struct struct_categ *categ;
+	    struct struct_categ *categ = NULL;
 
 	    tableau_char = g_strsplit ( g_strstrip ( gtk_combofix_get_text ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_CATEGORY] ))),
 					":",
@@ -2091,21 +2091,28 @@ void fin_edition_echeance ( void )
 		    pointeur_liste = g_slist_find_custom ( liste_struct_categories,
 							   tableau_char[0],
 							   ( GCompareFunc ) recherche_categorie_par_nom );
-
-		    if ( pointeur_liste )
+		    
+		    if ( ! echeance -> operation_ventilee )
 		    {
-			categ = pointeur_liste -> data;
-			rafraichir_categ = 0;
+			if ( pointeur_liste )
+			{
+			    categ = pointeur_liste -> data;
+			    rafraichir_categ = 0;
+			}
+			else
+			{
+			    categ = ajoute_nouvelle_categorie ( tableau_char[0] );
+			    rafraichir_categ = 1;
+			}
+			operation -> categorie = categ -> no_categ;
 		    }
 		    else
 		    {
-			categ = ajoute_nouvelle_categorie ( tableau_char[0] );
-			rafraichir_categ = 1;
+			operation -> categorie = 0;
+			rafraichir_categ = 0;
 		    }
 
-		    operation -> categorie = categ -> no_categ;
-
-		    if ( tableau_char[1] && strlen (tableau_char[1]) )
+		    if ( categ && tableau_char[1] && strlen (tableau_char[1]) )
 		    {
 			struct struct_sous_categ *sous_categ;
 
