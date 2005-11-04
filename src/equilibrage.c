@@ -636,7 +636,7 @@ void equilibrage ( void )
     gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_comptes_equilibrage ),
 			    2 );
 
-    gtk_widget_grab_focus ( entree_no_rapprochement );
+    gtk_widget_grab_focus ( entree_nouvelle_date_equilibrage );
 }
 /******************************************************************************/
 
