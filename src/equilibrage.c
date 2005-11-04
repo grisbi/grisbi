@@ -537,7 +537,6 @@ void equilibrage ( void )
 
 	    gtk_entry_set_text ( GTK_ENTRY ( entree_no_rapprochement ),
 				 new_rap );
-
 	}
     }
     else
@@ -637,10 +636,7 @@ void equilibrage ( void )
     gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_comptes_equilibrage ),
 			    2 );
 
-
-    /* la liste des opé prend le focus */
-
-    gtk_widget_grab_focus ( GTK_WIDGET ( CLIST_OPERATIONS ));
+    gtk_widget_grab_focus ( entree_no_rapprochement );
 }
 /******************************************************************************/
 
