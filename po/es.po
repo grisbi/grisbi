@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-11-04 20:33+0100\n"
-"PO-Revision-Date: 2005-11-04 21:24+0100\n"
+"PO-Revision-Date: 2005-11-05 10:09+0100\n"
 "Last-Translator: Carlos M. Cámara Mora <carcam_moceu@yahoo.es>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -6861,21 +6861,19 @@ msgstr "Efectivo"
 
 #: src/qif.c:125 src/qif.c:235
 msgid "ccard"
-msgstr ""
+msgstr "ccard"
 
 #: src/qif.c:128 src/qif.c:184
 msgid "invst"
 msgstr "Invers"
 
 #: src/qif.c:131 src/qif.c:205
-#, fuzzy
 msgid "oth a"
-msgstr "la fecha"
+msgstr "oth a"
 
 #: src/qif.c:134 src/qif.c:213
-#, fuzzy
 msgid "oth l"
-msgstr "Mensualmente"
+msgstr "oth l"
 
 #: src/qif.c:153 src/qif.c:339
 msgid "This file is empty!"
