@@ -1,3 +1,4 @@
+# translation of fr.po to Français
 # translation of fr.po to
 # translation of fr.po to français
 # translation of fr.po to
@@ -14,15 +15,16 @@
 # Alain PORTAL <alain.portal@free.fr>, 2004.
 # Alain PORTAL <aportal@univ-montp2.fr>, 2005.
 # Benjamin Drieu,,, <benj@atlin>, 2005.
+# Wilfried Kopp <wilfried.kopp@wanadoo.fr>, 2005.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-10-20 18:10+0200\n"
-"PO-Revision-Date: 2005-11-09 23:39+0100\n"
-"Last-Translator: \n"
-"Language-Team:  <en@li.org>\n"
+"PO-Revision-Date: 2005-11-10 21:30+0100\n"
+"Last-Translator: Wilfried Kopp <wilfried.kopp@wanadoo.fr>\n"
+"Language-Team: Français <en@li.org>\n"
 "MIME-Version: (null)\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -3416,7 +3418,6 @@ msgstr ""
 "avec support unicode."
 
 #: src/etats_latex.c:351
-#, fuzzy
 msgid "LaTeX run was unable to complete."
 msgstr ""
 "L'exécution de LaTeX a échoué, consulter la sortie de la console pour plus "
@@ -3797,7 +3798,7 @@ msgstr ""
 
 #: src/fichiers_gestion.c:385 src/fichiers_gestion.c:393
 #: src/gsb_file_load.c:247 src/gsb_file_load.c:259 src/gsb_file_load.c:353
-#, fuzzy, c-format
+#, c-format
 msgid "Error loading file '%s'"
 msgstr "Erreur lors de l'ouverture du fichier « %s »."
 
@@ -3815,7 +3816,6 @@ msgid "Checking schedulers"
 msgstr "Vérification de l'échéancier"
 
 #: src/fichiers_gestion.c:417
-#, fuzzy
 msgid "Checking amounts"
 msgstr "Pointage"
 
@@ -3844,9 +3844,8 @@ msgid "Can not save file \"%s\""
 msgstr "Impossible d'enregistrer le fichier \"%s\""
 
 #: src/fichiers_gestion.c:639
-#, fuzzy
 msgid "Save locked files?"
-msgstr "Enregistrer le fichier"
+msgstr "Enregistrer le fichier verrouillé ?"
 
 #: src/fichiers_gestion.c:640
 #, c-format
@@ -3895,16 +3894,14 @@ msgid "Warning"
 msgstr "Attention"
 
 #: src/gbanking.c:178
-#, fuzzy
 msgid "An error or warning has occured. Do you still want to import the data ?"
 msgstr ""
-"Il y a eu une erreur ou un avertissement. Voulez-vous toujours importer le "
-"fichier ?"
+"Il y a eu une erreur ou un avertissement. Voulez-vous toujours importer les "
+"données ?"
 
 #: src/gnucash.c:120
-#, fuzzy
 msgid "Gnucash invalid account"
-msgstr "Fichier de compte invalide."
+msgstr "Fichier de compte Gnucash invalide."
 
 #: src/gnucash.c:553 src/utils_file_selection.c:142
 #, c-format
@@ -3955,6 +3952,8 @@ msgid ""
 "Bad no column to gsb_data_account_set_column_sort () in data_account.c\n"
 "no_column = %d\n"
 msgstr ""
+"Colonne invalide passé à gsb_data_account_set_column_sort() dans data_account.\n"
+"colonne = %d\n"
 
 #: src/gsb_data_budget.c:150
 #, fuzzy
@@ -3962,7 +3961,6 @@ msgid "No budget line"
 msgstr "Aucune imputation"
 
 #: src/gsb_data_budget.c:1391
-#, fuzzy
 msgid "Merge the categories list"
 msgstr "Fusionner les catégories importées avec les existantes ?"
 
@@ -3980,7 +3978,6 @@ msgstr ""
 "Êtes-vous sûr de continuer ?"
 
 #: src/gsb_data_category.c:141
-#, fuzzy
 msgid "No category line"
 msgstr "Aucune catégorie"
 
@@ -3994,9 +3991,9 @@ msgid "Report"
 msgstr "État"
 
 #: src/gsb_file_config.c:658
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot save configuration file '%s': %s"
-msgstr "Impossible de sauvegarder le fichier '%s': %s"
+msgstr "Impossible d'enregistrer la configuration. '%s': %s"
 
 #: src/gsb_file_config.c:700
 #, c-format
@@ -4008,7 +4005,7 @@ msgstr ""
 "veuillez le vérifier."
 
 #: src/gsb_file_config.c:735
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot open config file '%s': %s"
 msgstr "Impossible d'ouvrir le fichier '%s': %s"
 
@@ -4032,9 +4029,8 @@ msgstr ""
 "veuillez le vérifier et réessayer."
 
 #: src/gsb_file_load.c:393 src/gsb_file_load.c:3822
-#, fuzzy
 msgid "This is not a Grisbi file... Loading aborted."
-msgstr "Ce fichier n'est pas une liste de catégories Grisbi"
+msgstr "Ce fichier n'est pas un fichier Grisbi... Chargement annulé."
 
 #: src/gsb_file_load.c:553
 #, c-format
@@ -4074,49 +4070,47 @@ msgid ""
 "The currencies have been set too on the first currency of this grisbi file.\n"
 "You should check and modify that in the property box of that account."
 msgstr ""
+"Certaines données dans un rapports ne peuvent être importées :\n"
+"La liste des années, comptes, catégories, budgets, tiers ou type de paiement.\n"
+"Ces listes ont donc été supprimées lors de l'importation.\n"
+"Les devises ont été initialisées aussi avec la première devise du fichier Grisbi.\n"
+"Vous devriez vérifier et ajuster les proprétés de ce compte."
 
 #: src/gsb_file_others.c:535
-#, fuzzy
 msgid "Importing a report"
 msgstr "Importer un état"
 
 #: src/gsb_file_others.c:571
-#, fuzzy
 msgid "This is not a grisbi file, loading canceled..."
-msgstr "Ce fichier n'est pas une liste de catégories Grisbi"
+msgstr "Ce fichier n'est pas un fichier Grisbi, chargement annulé..."
 
 #: src/gsb_file_others.c:582
-#, fuzzy
 msgid "This is not a category file, loading canceled..."
-msgstr "Ce fichier n'est pas une liste de catégories Grisbi"
+msgstr "Ce fichier n'est pas une liste de catégories Grisbi, action annulée"
 
 #: src/gsb_file_others.c:590
-#, fuzzy
 msgid "This is not a budget file, loading canceled..."
-msgstr "Ce fichier n'est pas une liste de catégories Grisbi"
+msgstr "Ce fichier n'est pas un fichier de budget Grisbi, action annulée..."
 
 #: src/gsb_file_others.c:599
-#, fuzzy
 msgid "This is not a report file, loading canceled..."
-msgstr "Ce fichier n'est pas une liste de catégories Grisbi"
+msgstr "Ce fichier n'est pas un fichier d'état Grisbi, action annulée."
 
 #: src/gsb_file_util.c:94
-#, fuzzy
 msgid "File compression"
-msgstr "Niveau de compression du fichier"
+msgstr "Compression du fichier"
 
 #: src/gsb_file_util.c:135 src/gsb_file_util.c:145 src/gsb_file_util.c:160
-#, fuzzy
 msgid "File uncompression"
-msgstr "Niveau de compression du fichier"
+msgstr "Décompression du fichier"
 
 #: src/gsb_file_util.c:257
 msgid "Error while crypting the file, the file saved won't be crypted."
-msgstr ""
+msgstr "Erreur lors du cryptage du fichier, le fichier enregistré ne sera pas crypté."
 
 #: src/gsb_file_util.c:325
 msgid "Error while decrypting the file, the file cannot be opened."
-msgstr ""
+msgstr "Erreur lors du décryptage du fichier, ce fichier ne peut pas être ouvert."
 
 #: src/gsb_file_util.c:347
 msgid "The password was incorrect ! Please try again..."
@@ -4161,14 +4155,14 @@ msgid "Don't ask password again for this session."
 msgstr "Ne pas redemander le mot de passe pour la session."
 
 #: src/gsb_file_util.c:539
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot open file '%s' to mark it as used: %s"
-msgstr "Impossible d'ouvrir le fichier '%s': %s"
+msgstr "Impossible d'ouvrir le fichier '%s' en accès exclusif: %s"
 
 #: src/gsb_file_util.c:594
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot write lock file :'%s': %s"
-msgstr "Impossible de marquer le fichier '%s' comme utilisé: %s"
+msgstr "Impossible de vérrouiller le fichier '%s': %s"
 
 #: src/gsb_file_util.c:620
 #, fuzzy, c-format
@@ -4185,16 +4179,15 @@ msgstr ""
 
 #: src/gtk_cell_renderer_expander.c:167
 msgid "Inconsistent state"
-msgstr ""
+msgstr "Etat non valide"
 
 #: src/gtk_cell_renderer_expander.c:168
 msgid "The inconsistent state of the button"
 msgstr ""
 
 #: src/gtk_cell_renderer_expander.c:176
-#, fuzzy
 msgid "Activatable"
-msgstr "Activer"
+msgstr "Activable"
 
 #: src/gtk_cell_renderer_expander.c:177
 msgid "The expander button can be activated"
@@ -4202,11 +4195,11 @@ msgstr ""
 
 #: src/help.c:56
 msgid "Programming"
-msgstr "Programation"
+msgstr "Programmation"
 
 #: src/help.c:57
 msgid "Alain Portal (aportal[at]univ-monpt2.fr)"
-msgstr ""
+msgstr "Alain Portal (aportal[at]univ-monpt2.fr)"
 
 #: src/help.c:58
 msgid "Benjamin Drieu (bdrieu[at]april.org)"
@@ -4219,35 +4212,35 @@ msgstr "Cédric Auger (cedric[at]grisbi.org)"
 
 #: src/help.c:60 src/help.c:66
 msgid "Francois Terrot (grisbi[at]terrot.net)"
-msgstr "Francois Terrot (grisbi[at]terrot.net)"
+msgstr "François Terrot (grisbi[at]terrot.net)"
 
 #: src/help.c:63
 msgid "Packaging"
-msgstr ""
+msgstr "Création du package"
 
 #: src/help.c:64
 msgid "Alain Pichon (aph[at]grisbi.org)"
-msgstr ""
+msgstr "Alain Pichon (aph[at]grisbi.org)"
 
 #: src/help.c:65
 msgid "Baluchiterium  (baluchiterium[at]users.sf.net)"
-msgstr ""
+msgstr "Baluchiterium  (baluchiterium[at]users.sf.net)"
 
 #: src/help.c:67
 msgid "Gerald Niel (gerald.niel[at]grisbi.org)"
-msgstr ""
+msgstr "Gerald Niel (gerald.niel[at]grisbi.org)"
 
 #: src/help.c:68
 msgid "PMF (ugly.duck[at]gmx.de)"
-msgstr ""
+msgstr "PMF (ugly.duck[at]gmx.de)"
 
 #: src/help.c:69
 msgid "Pascal Bleser (guru[at]linuxbe.org)"
-msgstr ""
+msgstr "Pascal Bleser (guru[at]linuxbe.org)"
 
 #: src/help.c:70
 msgid "Sylvain Glaize (mokona[at]puupuu.org)"
-msgstr ""
+msgstr "Sylvain Glaize (mokona[at]puupuu.org)"
 
 #: src/help.c:71
 msgid "Thierry Thomas (thierry[at]pompo.net)"
@@ -4255,7 +4248,7 @@ msgstr "Thierry Thomas (thierry[at]pompo.net)"
 
 #: src/help.c:72
 msgid "Vincent Marqueton (vincent[at]marqueton.com)"
-msgstr ""
+msgstr "Vincent Marqueton (vincent[at]marqueton.com)"
 
 #: src/help.c:75
 msgid "Translation"
@@ -4271,7 +4264,7 @@ msgstr "Benjamin Drieu (bdrieu[at]april.org) : Anglais"
 
 #: src/help.c:78
 msgid "Carlos M. CÃ¡mara Mora (carcam_moceu[at]yahoo.es): Spanish"
-msgstr ""
+msgstr "Carlos M. CÃ¡mara Mora (carcam_moceu[at]yahoo.es): Espagnol"
 
 #: src/help.c:79
 msgid "Daniel Cartron (cartron[at]grisbi.org): English"
@@ -4279,15 +4272,15 @@ msgstr "Daniel Cartron (cartron[at]grisbi.org) : Anglais"
 
 #: src/help.c:80
 msgid "Edwin Huijsing (e.huijsing[at]fiberworld.nl): Dutch"
-msgstr ""
+msgstr "Edwin Huijsing (e.huijsing[at]fiberworld.nl): Hollandais"
 
 #: src/help.c:81
 msgid "Fabio Erculiani (fabio.erculiani[at]tiscali.it): Italian"
-msgstr ""
+msgstr "Fabio Erculiani (fabio.erculiani[at]tiscali.it): Italien"
 
 #: src/help.c:82
 msgid "Flavio Henrique Somensi (flavio[at]opens.com.br): Brazilian Portuguese"
-msgstr ""
+msgstr "Flavio Henrique Somensi (flavio[at]opens.com.br): Brésilien, Portuguais"
 
 #: src/help.c:83
 msgid "Giorgio Mandolfo (giorgio[at]pollycoke.org): Italian"
@@ -4295,15 +4288,15 @@ msgstr "Giorgio Mandolfo (giorgio[at]pollycoke.org) : Italien"
 
 #: src/help.c:84
 msgid "Martin Stromberger (Fabiolla[at]aon.at): German"
-msgstr ""
+msgstr "Martin Stromberger (Fabiolla[at]aon.at): Allemand"
 
 #: src/help.c:85
 msgid "Ryszard Jeziorski (rjeziorski[at]eagle): Polish"
-msgstr ""
+msgstr "Ryszard Jeziorski (rjeziorski[at]eagle): Polonais"
 
 #: src/help.c:88
 msgid "Other"
-msgstr ""
+msgstr "Autre"
 
 #: src/help.c:89
 msgid "Alain Portal (aportal[at]univ-monpt2.fr): manual"
@@ -4327,7 +4320,7 @@ msgstr "Dominique Parisot (parisot[at]villey-le-sec.com) : contributeur"
 
 #: src/help.c:94
 msgid "Gerald Niel (gerald.niel[at]grisbi.org): administration"
-msgstr ""
+msgstr "Gerald Niel (gerald.niel[at]grisbi.org): administration"
 
 #: src/help.c:102
 msgid "Development list (discuss, participate, criticize, ...) : "
@@ -4356,7 +4349,7 @@ msgstr "À propos..."
 #. Resume
 #: src/help.c:153
 msgid "Personal finance manager for everyone"
-msgstr ""
+msgstr "Gestionnaire de comptes personels"
 
 #: src/help.c:164
 msgid "About Grisbi"
@@ -4371,9 +4364,8 @@ msgid "License"
 msgstr "Licence"
 
 #: src/import.c:266
-#, fuzzy
 msgid "File name"
-msgstr "Nom du titulaire"
+msgstr "Nom du fichier"
 
 #: src/import.c:418
 #, fuzzy
@@ -4382,17 +4374,19 @@ msgstr "Sélectionner les fichiers à importer"
 
 #: src/import.c:567
 msgid "Congratulations !"
-msgstr ""
+msgstr "Félicitations !"
 
 #: src/import.c:572
 msgid ""
 "You successfully imported files into Grisbi.  The following pages will help "
 "you set up imported data for the following files:"
 msgstr ""
+"L'importation des fichiers s'est bien déroulé.  Les dialogues suivant vont vous assister "
+"à l'importation des données pour les fichiers suivants :"
 
 #: src/import.c:599
 msgid "Error !"
-msgstr ""
+msgstr "Erreur !"
 
 #: src/import.c:604
 msgid ""
@@ -5222,7 +5216,7 @@ msgstr "Cloner l'opération"
 msgid "Convert transaction to scheduled transaction"
 msgstr "Convertir l'opération en échéance"
 
-#. Move to another account
+#.  to another account
 #: src/operations_liste.c:3193
 msgid "Move transaction to another account"
 msgstr "Déplacer l'opération vers un autre compte"
