@@ -2257,6 +2257,11 @@ GDate *date_suivante_echeance ( struct operation_echeance *echeance,
 	return ( pGDateCurrent );
     }
 
+    if ( ! pGDateCurrent || ! g_date_valid ( pGDateCurrent ) )
+    {
+	return NULL;
+    }
+
     /* périodicité hebdomadaire */
     if ( echeance -> periodicite == 1 )
     {
@@ -2279,29 +2284,32 @@ GDate *date_suivante_echeance ( struct operation_echeance *echeance,
 				   1 );
 	    else
 	    {
-		if ( ! echeance -> periodicite_personnalisee )
+		if ( ! echeance -> periodicite_personnalisee ||
+		     !g_date_valid(pGDateCurrent) )
 		{
 		    return NULL;
 		}
-
-		/* périodicité perso */
-		if ( !echeance -> intervalle_periodicite_personnalisee )
-		{
-		    g_date_add_days ( pGDateCurrent,
-				      echeance -> periodicite_personnalisee );
-
-		    /* magouille car il semble y avoir un bug dans g_date_add_days
-		       qui ne fait pas l'addition si on ne met pas la ligne suivante */
-		    g_date_add_months ( pGDateCurrent,
-					0 );
-		}
 		else
-		    if ( echeance -> intervalle_periodicite_personnalisee == 1 )
+		{
+		    /* périodicité perso */
+		    if ( !echeance -> intervalle_periodicite_personnalisee )
+		    {
+			g_date_add_days ( pGDateCurrent,
+					  echeance -> periodicite_personnalisee );
+
+			/* magouille car il semble y avoir un bug dans g_date_add_days
+			   qui ne fait pas l'addition si on ne met pas la ligne suivante */
 			g_date_add_months ( pGDateCurrent,
-					    echeance -> periodicite_personnalisee );
+					    0 );
+		    }
 		    else
-			g_date_add_years ( pGDateCurrent,
-					   echeance -> periodicite_personnalisee );
+			if ( echeance -> intervalle_periodicite_personnalisee == 1 )
+			    g_date_add_months ( pGDateCurrent,
+						echeance -> periodicite_personnalisee );
+			else
+			    g_date_add_years ( pGDateCurrent,
+					       echeance -> periodicite_personnalisee );
+		}
 	    }
 
     if ( echeance -> date_limite
