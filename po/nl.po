@@ -1,16 +1,15 @@
-# translation of nl1.po to Nederlands
 # translation of nl.po to Nederlands
 # Dutch translation of PACKAGE.
 # Copyright (C) 2005 THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# E.Huijsing <lighthous@users.sourceforge.net>, 2005.
+# E. Huijsing <lighthous@users.sourceforge.net>, 2005.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-05-14 17:39+0200\n"
-"PO-Revision-Date: 05/11/05 17:03\n"
+"PO-Revision-Date: 11/11/05 20:46\n"
 "Last-Translator: E. Huijsing <lighthous@users.sourceforge.net>\n"
 "Language-Team: Nederlands\n"
 "MIME-Version: 1.0\n"
@@ -826,15 +825,15 @@ msgstr "Financiële uitgave : Bank kosten"
 
 #: src/categories_onglet.c:82
 msgid "Financial expenses : Loan/Mortgage"
-msgstr "Finaciële uitgave : Lening/Hypotheek"
+msgstr "Financiële uitgave : Lening/Hypotheek"
 
 #: src/categories_onglet.c:83
 msgid "Financial expenses : Charges"
-msgstr "Finaciële uitgave : Kosten"
+msgstr "Financiële uitgave : Kosten"
 
 #: src/categories_onglet.c:84
 msgid "Financial expenses : Refunding"
-msgstr "Finaciële uitgave : Terug te betalen"
+msgstr "Financiële uitgave : Terug te betalen"
 
 #: src/categories_onglet.c:85
 msgid "Professional expenses : Non refundable"
@@ -1155,7 +1154,7 @@ msgstr "Bedrag per sub-categorie"
 #: src/categories_onglet.c:192 src/imputation_budgetaire.c:70
 #: src/tiers_onglet.c:67
 msgid "Amount per account"
-msgstr "Bedrag per reken"
+msgstr "Bedrag per rekening"
 
 #: src/categories_onglet.c:237 src/imputation_budgetaire.c:114
 #: src/tiers_onglet.c:118
@@ -1607,7 +1606,7 @@ msgstr "Persoon heeft eigen adres"
 
 #: src/comptes_gestion.c:290
 msgid "Financial institution"
-msgstr "Finaciële instelling"
+msgstr "Financiële instelling"
 
 #: src/comptes_gestion.c:319
 msgid "Details"
@@ -3674,7 +3673,7 @@ msgstr "Er is een fout ontstaan tijdens het opslaan"
 #: src/erreur.c:226
 #, c-format
 msgid "Grisbi made a backup file at '%s'."
-msgstr "Grisbi maakt zijn backupbestand in '%s'."
+msgstr "Grisbi maakt zijn reservebestand in '%s'."
 
 #: src/erreur.c:233
 msgid "Please report this problem to http://www.grisbi.org/bugtracking/"
@@ -4196,8 +4195,8 @@ msgid ""
 "All the financial years have been selected. Grisbi will run faster\n"
 "without the \"Detail financial years\" option"
 msgstr ""
-"Alle finaciële jaren zijn geselecteerd. Grisbi zal snellerzijn\n"
-"zonder de optie \"Gedetailleerde finaciële jaren\" in werking stellen"
+"Alle financiële jaren zijn geselecteerd. Grisbi zal snellerzijn\n"
+"zonder de optie \"Gedetailleerde financiële jaren\" in werking stellen"
 
 #: src/etats_config.c:1184
 msgid ""
@@ -4247,7 +4246,7 @@ msgstr "Gebruik data bereik"
 
 #: src/etats_config.c:1762
 msgid "Use financial years"
-msgstr "Gebruik finaciële jaren"
+msgstr "Gebruik financiële jaren"
 
 #: src/etats_config.c:1800
 msgid "All financial years"
@@ -5368,7 +5367,7 @@ msgstr "Bestand aan het laden"
 
 #: src/fichiers_gestion.c:271
 msgid "Loading backup"
-msgstr "Laden Backup bestand"
+msgstr "Laden reserve bestand"
 
 #. on a rÃ©ussi a charger la sauvegarde
 #: src/fichiers_gestion.c:276
@@ -5378,7 +5377,7 @@ msgid ""
 "However, all changes made since this backup were possibly lost."
 msgstr ""
 "Grisbi was niet in staat om het bestand te laden. Grisbi heef in plaats "
-"hiervan het backup bestand geladen.\n"
+"hiervan het reserve bestand geladen.\n"
 "Hierdoor zijn alle veranderingen sinds de backup verloren."
 
 #: src/fichiers_gestion.c:285
@@ -5387,7 +5386,7 @@ msgid ""
 "backup file instead."
 msgstr ""
 "Grisbi was niet in staat het bestand te laden.  Daarbij was Grisbi ook niet "
-"in staat om een backup bestand te laden"
+"in staat om een reserve bestand te laden"
 
 #: src/fichiers_gestion.c:343
 msgid "Formatting transactions"
@@ -5438,7 +5437,7 @@ msgstr "Grisbi - geen naam"
 
 #: src/fichiers_gestion.c:738
 msgid "Saving backup"
-msgstr "Bezig met opslaan van backup"
+msgstr "Bezig met opslaan van reserve bestand"
 
 #: src/fichiers_io.c:114
 msgid "Invalid accounts file"
@@ -5488,7 +5487,7 @@ msgstr ""
 "zijn).\n"
 "Grisbi kan het bestand niet opslaan. Als U het bestand wil opslaan moet u de "
 "optie \"Forceren om een geblokkeerd bestanden op te slaan\" in het "
-"voorkeurmenu aanvinken."
+"voorkeuren menu aanvinken."
 
 #. FIXME
 #: src/fichiers_io.c:1839
@@ -5537,7 +5536,7 @@ msgid ""
 msgstr ""
 "Grisbi was niet in staat het bestand weg te schrijven, het bestand zit op "
 "slot.  Bewaar het bestand met een andere naam of actiever de \"%s\" optie in "
-"het voorkeur menu.  Een alternatief is de \"%s\" optie hier onder."
+"het voorkeuren menu.  Een alternatief is de \"%s\" optie hier onder."
 
 #: src/fichiers_io.c:6470 src/parametres.c:535
 msgid "Force saving of locked files"
@@ -5851,7 +5850,7 @@ msgid ""
 msgstr ""
 "De valuta van de geïmporteerde rekening '%s' is %s.  Deze valuta bestaat "
 "niet. Maak deze aan, als de valuta reeds bestaat maar de ISO code is fout.\n"
-"Om dit venster verder te voorkomen controleert U de ISO code in het voorkeur "
+"Om dit venster verder te voorkomen controleert U de ISO code in het voorkeuren "
 "menu."
 
 #: src/import.c:626
@@ -6241,7 +6240,7 @@ msgstr "Verplaats de transactie naar een andere rekening"
 
 #: src/menu.c:97
 msgid "Preferences"
-msgstr "Voorkeur"
+msgstr "Voorkeuren"
 
 #: src/menu.c:116 src/traitement_variables.c:126
 #: src/traitement_variables.c:252
@@ -6252,7 +6251,7 @@ msgstr "Importeer rapport bestand"
 #: src/menu.c:124 src/menu.c:125 src/menu.c:126 src/menu.c:127 src/menu.c:128
 #: src/menu.c:129 src/menu.c:130 src/menu.c:131 src/menu.c:132 src/menu.c:133
 msgid "Help"
-msgstr "Help"
+msgstr "Hulp"
 
 #: src/menu.c:126
 msgid "Grisbi Manual"
@@ -6675,7 +6674,7 @@ msgstr "Automatisch opslaan tijdens het afsluiten"
 
 #: src/parametres.c:544
 msgid "File compression level"
-msgstr "Bestandst dichtheids nivo"
+msgstr "Bestandst compressieniveau"
 
 #: src/parametres.c:558
 msgid "Memorise last opened files"
@@ -6683,24 +6682,24 @@ msgstr "Recent geopende bestanden herinneren"
 
 #: src/parametres.c:569
 msgid "Backups"
-msgstr "Backup bestand"
+msgstr "Reserve bestand"
 
 #: src/parametres.c:573
 msgid "Make a backup copy after opening files"
-msgstr "Maak een backup kopie na het open van het bestand"
+msgstr "Een reserve kopie maken na het openen van een bestand."
 
 #. Automatic backup ?
 #: src/parametres.c:579
 msgid "Make a backup copy before saving files"
-msgstr "Maak een backup kopie van het bestand voor het opslaan"
+msgstr "Maak een reserve kopie van het bestand voor het opslaan"
 
 #: src/parametres.c:596
 msgid "Backup file"
-msgstr "Backup bestand"
+msgstr "Reserve bestand"
 
 #: src/parametres.c:635
 msgid "Backup compression level"
-msgstr "Backup bestand dichtheids nivo"
+msgstr "Reserve bestand compressieniveau"
 
 #: src/parametres.c:667
 msgid "backup.gsb"
