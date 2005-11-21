@@ -397,7 +397,7 @@ GtkWidget *creation_barre_outils_echeancier ( void )
 						       GTK_STOCK_PROPERTIES, 
 						       _("Edit"),
 						       G_CALLBACK ( edition_echeance ),
-						       NULL ), 
+						       0 ), 
 			 FALSE, FALSE, 0 );
 
     /* Display/hide comments */
