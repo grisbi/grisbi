@@ -14,4 +14,5 @@ gboolean souris_equilibrage ( GtkWidget *entree,
 			      GdkEventButton *event );
 gboolean clavier_equilibrage ( GtkWidget *widget,
 			       GdkEventKey *event );
+void fill_reconciliation_tree ();
 

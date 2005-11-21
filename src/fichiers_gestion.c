@@ -340,6 +340,37 @@ void ouverture_confirmee ( void )
 	}
     }
 
+    /* bug avant la 0.5.8, les modes de paiements ajoutés ne figurent pas dans le tri, on les ajoute ici */
+
+    for ( i=0 ; i<nb_comptes ; i++ )
+    {
+	GSList *liste_types_ope;
+	
+	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + i;
+
+	liste_types_ope = TYPES_OPES;
+	
+	while ( liste_types_ope )
+	{
+	    struct struct_type_ope *type;
+
+	    type = liste_types_ope -> data;
+
+	    if ( !g_slist_find ( LISTE_TRI,
+				 GINT_TO_POINTER (type -> no_type)))
+	    {
+		/* on ajoute ce no de type à la liste du tri */
+		LISTE_TRI = g_slist_append ( LISTE_TRI,
+					     GINT_TO_POINTER (type -> no_type));
+	    }
+
+	    liste_types_ope = liste_types_ope -> next;
+	}
+    }
+
+
+
+    
     update_attente ( _("Formatting transactions") );
 
     /* on save le nom du fichier dans les derniers ouverts */

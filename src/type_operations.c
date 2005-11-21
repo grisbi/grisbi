@@ -26,6 +26,7 @@
 #include "variables-extern.c"
 #include "type_operations.h"
 #include "constants.h"
+#include "equilibrage.h"
 
 
 #include "dialog.h"
@@ -546,6 +547,7 @@ void modification_entree_nom_type ( void )
 	gtk_tree_store_set (GTK_TREE_STORE (model), &iter, 
 			    PAYMENT_METHODS_NAME_COLUMN, type_ope -> nom_type, 
 			    -1);
+	fill_reconciliation_tree ();
 
 	if ( (menu = creation_menu_types ( 1, compte_courant , 0 )))
 	{
@@ -663,6 +665,8 @@ void modification_entree_type_dernier_no ( void )
 			    PAYMENT_METHODS_NUMBERING_COLUMN, 
 			    utils_itoa(type_ope -> no_en_cours), 
 			    -1);
+	fill_reconciliation_tree ();
+
     }
 }
 
@@ -808,6 +812,9 @@ void modification_type_signe ( gint *no_menu )
 	gtk_tree_model_foreach ( GTK_TREE_MODEL (model), 
 				 (GtkTreeModelForeachFunc) select_type_ope,
 				 (gpointer) type_ope );
+
+
+	fill_reconciliation_tree ();
     }
 
 }
@@ -940,23 +947,14 @@ void ajouter_type_operation ( void )
     /* Add to payment methods */
     TYPES_OPES = g_slist_append ( TYPES_OPES, type_ope );
 
+    /* ajoute au tri du compte */
+
+    LISTE_TRI = g_slist_append ( LISTE_TRI,
+				 GINT_TO_POINTER (type_ope -> no_type));
+    fill_reconciliation_tree ();
+
     /* Mark file as modified */
     modification_fichier ( TRUE );
-
-    /* FIXME: implement that */
-    /*       /\* on ajoute ce type à la liste des tris *\/ */
-
-    /*       liste_tri_tmp[no_compte] = g_slist_append ( liste_tri_tmp[no_compte],	/\* FIXME *\/ */
-    /* 						  GINT_TO_POINTER ( type_ope -> no_type )); */
-
-    /*       /\*   si les neutres doivent être intégrés dans les débits crédits, on ajoute son opposé *\/ */
-
-    /*       if ( neutres_inclus_tmp[no_compte] ) */
-    /* 	liste_tri_tmp[no_compte] = g_slist_append ( liste_tri_tmp[no_compte], */
-    /* 						    GINT_TO_POINTER ( -type_ope -> no_type )); */
-
-    /*       remplit_liste_tri_par_type ( no_compte ); */
-
 
 }
 

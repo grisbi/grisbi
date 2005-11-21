@@ -1266,6 +1266,7 @@ void fill_reconciliation_tree ()
     if ( nb_comptes == 0 )
 	return;
 
+    gtk_tree_store_clear (reconcile_model);
     pUserAccountsList = g_slist_copy ( ordre_comptes );
 
     do
