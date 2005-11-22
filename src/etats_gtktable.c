@@ -29,7 +29,7 @@
 #include "gsb_data_account.h"
 #include "operations_comptes.h"
 #include "gsb_data_transaction.h"
-#include "operations_liste.h"
+#include "gsb_transactions_list.h"
 #include "utils.h"
 #include "structures.h"
 #include "import.h"
@@ -272,8 +272,7 @@ void gtktable_click_sur_ope_etat ( gpointer operation )
 	     !gsb_data_account_get_r (gsb_data_account_get_current_account ()))
 	    mise_a_jour_affichage_r ( TRUE );
 
-	gsb_transactions_list_set_current_transaction ( transaction_number,
-							0 );
+	gsb_transactions_list_set_current_transaction ( transaction_number );
     }
 }
 /*****************************************************************************************************/

@@ -262,9 +262,12 @@ gboolean gsb_data_transaction_save_transaction_pointer ( gpointer transaction )
 }
 
 
-/** return the transaction which the number is in the parameter. 
+/**
+ * return the transaction which the number is in the parameter. 
  * the new transaction is stored in the buffer
+ * 
  * \param no_transaction
+ * 
  * \return a pointer to the transaction, NULL if not found
  * */
 struct_transaction *gsb_data_transaction_get_transaction_by_no ( gint no_transaction )
@@ -354,8 +357,11 @@ gboolean gsb_data_transaction_set_transaction_id ( gint no_transaction,
 }
 
 
-/** get the account_number
+/**
+ * get the account_number
+ * 
  * \param no_transaction the number of the transaction
+ * 
  * \return the account of the transaction or -1 if problem
  * */
 gint gsb_data_transaction_get_account_number ( gint no_transaction )

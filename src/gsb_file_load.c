@@ -42,7 +42,7 @@
 #include "utils_files.h"
 #include "structures.h"
 #include "echeancier_liste.h"
-#include "operations_liste.h"
+#include "gsb_transactions_list.h"
 #include "include.h"
 #include "echeancier_infos.h"
 #include "devises_constants.h"
@@ -685,41 +685,17 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
 			    "Transactions_view" ))
 	{
 	    gchar **pointeur_char;
-	    gint k, l;
-	    gint number_columns;
+	    gint k;
 
 	    pointeur_char = g_strsplit ( g_strdup (attribute_values[i]),
 					 "-",
 					 0 );
 
-	    /* there is a pb here to go from 0.5.5 and before, untill
-	     * 0.6.0 because the nb of columns goes from 8 to 9 ; the
-	     * best is to check how much numbers there is and to
-	     * divide it by TRANSACTION_LIST_ROWS_NB so we'll have the
-	     * last nb of columns. it will work event if we increase
-	     * again the number of columns, but we need to find
-	     * another way if TRANSACTION_LIST_ROWS_NB increases */
-
-	    k = 0;
-	    while (pointeur_char[k])
-		k++;
-	    number_columns = k/TRANSACTION_LIST_ROWS_NB;
-
-	    for ( k=0 ; k<TRANSACTION_LIST_ROWS_NB ; k++ )
-		for ( l=0 ; l<= number_columns ; l++ )
-		{
-		    /* we have to check here because if one time we
-		     * change TRANSACTION_LIST_ROWS_NB or
-		     * TRANSACTION_LIST_COL_NB, it will crash without
-		     * that (ex : (5.5 -> 6.0 )) */
-		    if (  pointeur_char[l + k*TRANSACTION_LIST_COL_NB] )
-			tab_affichage_ope[k][l] = utils_str_atoi ( pointeur_char[l + k*number_columns]);
-		    else
-			l = TRANSACTION_LIST_COL_NB;
-		}
+	    for ( i = 0 ; i<TRANSACTION_LIST_ROWS_NB ; i++ )
+		for ( k = 0 ; k<TRANSACTION_LIST_COL_NB ; k++ )
+		    tab_affichage_ope[i][k] = utils_str_atoi ( pointeur_char[i + k*TRANSACTION_LIST_COL_NB]);
 
 	    g_strfreev ( pointeur_char );
-
 	}
 
 	else if ( !strcmp ( attribute_names[i],
@@ -3569,7 +3545,7 @@ gboolean gsb_file_load_update_previous_version ( void )
     struct struct_devise *devise;
     struct stat buffer_stat;
     GSList *list_tmp;
-    gint i,j;
+    gint i;
     GSList *list_tmp_transactions;
     gint version_number;
 
@@ -3707,17 +3683,6 @@ gboolean gsb_file_load_update_previous_version ( void )
 	    gsb_data_account_reorder ( sort_accounts );
 	    g_slist_free ( sort_accounts );
 
-
-	    /* we have now 8 columns, but as before it was 7, and the first
-	     * is at the begining, we have to split on the right */
-
-	    for ( j=0 ; j<TRANSACTION_LIST_ROWS_NB ; j++ )
-	    {
-		for ( i=TRANSACTION_LIST_COL_NB-1 ; i ; i-- )
-		    tab_affichage_ope[j][i] = tab_affichage_ope[j][i-1];
-		tab_affichage_ope[j][0] = 0;
-	    }
-
 	    list_tmp = gsb_data_account_get_list_accounts ();
 
 	    while ( list_tmp )
@@ -3733,6 +3698,78 @@ gboolean gsb_file_load_update_previous_version ( void )
 
 		list_tmp = list_tmp -> next;
 	    }
+
+	case 56:
+	case 57:
+
+	    /* a problem untill the 0.5.7 :
+	     * all new method of payment are not added to the sorting list for reconciliation,
+	     * we add them here */
+
+	    list_tmp = gsb_data_account_get_list_accounts ();
+
+	    while ( list_tmp )
+	    {
+		GSList *method_payment_list;
+
+		i = gsb_data_account_get_no_account ( list_tmp -> data );
+		method_payment_list = gsb_data_account_get_method_payment_list ( i );
+
+		while (method_payment_list)
+		{
+		    struct struct_type_ope *type;
+
+		    type = method_payment_list -> data;
+		    
+		    if ( !g_slist_find ( gsb_data_account_get_sort_list (i),
+					 GINT_TO_POINTER (type -> no_type)))
+			/* FIXME before 0.6 : faire une fonction add pour les types opés et method of payment */
+			gsb_data_account_set_sort_list ( i,
+							 g_slist_append ( gsb_data_account_get_sort_list (i),
+									  GINT_TO_POINTER (type -> no_type)));
+
+		    method_payment_list = method_payment_list -> next;
+		}
+		list_tmp = list_tmp -> next;
+	    }
+
+
+	case 58:
+
+	    /* there is a bug untill now, which is some children of breakdown
+	     * are not marked R, and the mother is...
+	     * very annoying now, we MUST mark them as R, so check here... */
+
+	    list_tmp_transactions = gsb_data_transaction_get_transactions_list ();
+
+	    while ( list_tmp_transactions )
+	    {
+		gint transaction_number;
+		transaction_number = gsb_data_transaction_get_transaction_number (list_tmp_transactions -> data);
+
+		/*  if it's a breakdown and marked R, we look for the children */
+
+		if ( gsb_data_transaction_get_breakdown_of_transaction (transaction_number)
+		     &&
+		     gsb_data_transaction_get_marked_transaction (transaction_number) == 3)
+		{
+		    GSList *list_tmp_transactions_2;
+		    list_tmp_transactions_2 = gsb_data_transaction_get_transactions_list ();
+
+		    while ( list_tmp_transactions_2 )
+		    {
+			gint transaction_number_2;
+			transaction_number_2 = gsb_data_transaction_get_transaction_number (list_tmp_transactions_2 -> data);
+
+			if ( gsb_data_transaction_get_mother_transaction_number (transaction_number_2) == transaction_number)
+			    gsb_data_transaction_set_marked_transaction ( transaction_number_2,
+									  3 );
+			list_tmp_transactions_2 = list_tmp_transactions_2 -> next;
+		    }
+		}
+		list_tmp_transactions = list_tmp_transactions -> next;
+	    }
+
 
 
 

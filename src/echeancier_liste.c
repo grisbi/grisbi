@@ -48,7 +48,7 @@
 #include "utils_buttons.h"
 #include "utils.h"
 #include "utils_comptes.h"
-#include "operations_liste.h"
+#include "gsb_transactions_list.h"
 #include "utils_str.h"
 #include "structures.h"
 #include "echeancier_liste.h"

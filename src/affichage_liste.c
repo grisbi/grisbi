@@ -23,7 +23,7 @@
 
 /*START_INCLUDE*/
 #include "affichage_liste.h"
-#include "operations_liste.h"
+#include "gsb_transactions_list.h"
 #include "gsb_data_account.h"
 #include "traitement_variables.h"
 #include "utils_buttons.h"
@@ -361,16 +361,8 @@ void recuperation_noms_colonnes_et_tips ( void )
     for ( i=0 ; i<TRANSACTION_LIST_ROWS_NB ; i++ )
 	for ( j=0 ; j<TRANSACTION_LIST_COL_NB ; j++ )
 	{
-	    switch ( tab_affichage_ope[i][j] )
-	    {
-		case 0:
-		    ligne[j] = "x";
-		    break;
-
-		default:
-		    ligne[j] = g_slist_nth_data ( liste_labels_titres_colonnes_liste_ope,
-						  tab_affichage_ope[i][j] - 1 );
-	    }
+	    ligne[j] = g_slist_nth_data ( liste_labels_titres_colonnes_liste_ope,
+					  tab_affichage_ope[i][j] - 1 );
 
 	    /* 	  si on est sur la 1ère ligne, on met les titres ainsi que la 1ere ligne des tips */
 	    /* 	    sinon, on rajoute aux tips existant */

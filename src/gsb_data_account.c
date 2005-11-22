@@ -36,7 +36,7 @@
 #include "data_currency.h"
 #include "data_form.h"
 #include "data_payment.h"
-#include "operations_liste.h"
+#include "gsb_transactions_list.h"
 #include "include.h"
 #include "structures.h"
 /*END_INCLUDE*/

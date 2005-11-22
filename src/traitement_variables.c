@@ -41,7 +41,7 @@
 #include "echeancier_liste.h"
 #include "include.h"
 #include "echeancier_infos.h"
-#include "operations_liste.h"
+#include "gsb_transactions_list.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -66,7 +66,7 @@ gchar *labels_titres_colonnes_liste_ope[] = {
     N_("Notes"),
     N_("Bank references"),
     N_("Transaction number"),
-    N_("Nb"),
+    N_("Number"),
     NULL };
 
 

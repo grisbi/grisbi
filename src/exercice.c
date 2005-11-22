@@ -28,7 +28,7 @@
 #include "utils_buttons.h"
 #include "utils_exercices.h"
 #include "utils_dates.h"
-#include "operations_liste.h"
+#include "gsb_transactions_list.h"
 #include "utils_editables.h"
 #include "gsb_data_account.h"
 #include "gsb_data_transaction.h"

@@ -43,6 +43,7 @@ sources = \
 	gsb_file_others.c	\
 	gsb_file_save.c		\
 	gsb_file_util.c		\
+	gsb_transactions_list.c	\
 	data_currency.c		\
 	data_form.c		\
 	data_payment.c		\
@@ -70,7 +71,6 @@ sources = \
 	gsb_assistant.c		\
 	gtk_combofix.c		\
 	gtk_list_button.c	\
-	gtk_cell_renderer_expander.c	\
 	help.c			\
 	imputation_budgetaire.c	\
 	main.c			\
@@ -83,7 +83,6 @@ sources = \
 	ofx.c                   \
 	operations_comptes.c	\
 	operations_formulaire.c \
-	operations_liste.c	\
 	operations_onglet.c	\
 	parametres.c		\
 	parse_cmdline.c		\
@@ -148,6 +147,7 @@ grisbi_INCLUDES =		\
 	gsb_file_others.h	\
 	gsb_file_save.h		\
 	gsb_file_util.h		\
+	gsb_transactions_list.h	\
 	data_currency.h		\
 	data_form.h		\
 	data_payment.h		\
@@ -180,7 +180,6 @@ grisbi_INCLUDES =		\
 	navigation.h		\
 	operations_comptes.h	\
 	operations_formulaire.h	\
-	operations_liste.h	\
 	operations_onglet.h	\
 	parametres.h		\
 	parse_cmdline.h		\

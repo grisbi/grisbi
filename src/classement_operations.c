@@ -33,7 +33,7 @@
 #include "gsb_data_payee.h"
 #include "gsb_data_transaction.h"
 #include "utils_exercices.h"
-#include "operations_liste.h"
+#include "gsb_transactions_list.h"
 #include "utils_rapprochements.h"
 #include "utils_types.h"
 #include "structures.h"

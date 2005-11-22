@@ -32,7 +32,7 @@
 /*START_INCLUDE*/
 #include "barre_outils.h"
 #include "echeancier_liste.h"
-#include "operations_liste.h"
+#include "gsb_transactions_list.h"
 #include "equilibrage.h"
 #include "gsb_data_account.h"
 #include "utils_str.h"
@@ -265,28 +265,28 @@ gboolean change_aspect_liste ( gint demande )
 	    widget = gtk_item_factory_get_item ( item_factory_menu_general,
 						 gsb_string_escape_underscores( menu_name(_("_View"), _("Show one line per transaction"), NULL) ));
 	    gtk_check_menu_item_set_active( GTK_CHECK_MENU_ITEM(widget), TRUE );
-	    mise_a_jour_affichage_lignes ( demande );
+	    gsb_transactions_list_set_visible_rows_number ( demande );
 	    modification_fichier ( TRUE );
 	    break;
 	case 2 :
 	    widget = gtk_item_factory_get_item ( item_factory_menu_general,
 						 gsb_string_escape_underscores( menu_name(_("_View"), _("Show two lines per transaction"), NULL) ) );
 	    gtk_check_menu_item_set_active( GTK_CHECK_MENU_ITEM(widget), TRUE );
-	    mise_a_jour_affichage_lignes ( demande );
+	    gsb_transactions_list_set_visible_rows_number ( demande );
 	    modification_fichier ( TRUE );
 	    break;
 	case 3 :
 	    widget = gtk_item_factory_get_item ( item_factory_menu_general,
 						 gsb_string_escape_underscores( menu_name(_("_View"), _("Show three lines per transaction"), NULL) ) );
 	    gtk_check_menu_item_set_active( GTK_CHECK_MENU_ITEM(widget), TRUE );
-	    mise_a_jour_affichage_lignes ( demande );
+	    gsb_transactions_list_set_visible_rows_number ( demande );
 	    modification_fichier ( TRUE );
 	    break;
 	case 4 :
 	    widget = gtk_item_factory_get_item ( item_factory_menu_general,
 						 gsb_string_escape_underscores(menu_name(_("_View"), _("Show four lines per transaction"), NULL) ) );
 	    gtk_check_menu_item_set_active( GTK_CHECK_MENU_ITEM(widget), TRUE );
-	    mise_a_jour_affichage_lignes ( demande );
+	    gsb_transactions_list_set_visible_rows_number ( demande );
 	    modification_fichier ( TRUE );
 	    break;
 

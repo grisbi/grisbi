@@ -37,7 +37,7 @@
 #include "comptes_gestion.h"
 #include "comptes_traitements.h"
 #include "import_csv.h"
-#include "operations_liste.h"
+#include "gsb_transactions_list.h"
 #include "utils_devises.h"
 #include "dialog.h"
 #include "utils_files.h"

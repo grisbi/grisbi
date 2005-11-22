@@ -34,7 +34,7 @@
 #include "type_operations.h"
 #include "utils_editables.h"
 #include "utils_montants.h"
-#include "operations_liste.h"
+#include "gsb_transactions_list.h"
 #include "devises.h"
 #include "utils_devises.h"
 #include "dialog.h"
@@ -3211,13 +3211,12 @@ gboolean gsb_transactions_list_append_new_transaction ( gint transaction_number 
 	/* we show the breakdowns daughter because it's a new transaction,
 	 * so they will be always shown for now */
 
-	gsb_data_account_list_set_breakdowns_visible ( transaction_number,
-						  TRUE );
+/* 	gsb_data_account_list_set_breakdowns_visible ( transaction_number, */
+/* 						  TRUE ); */
 
 	/* we select the white line of that breakdown */
 
-	gsb_transactions_list_set_current_transaction ( -1,
-							transaction_number );
+	gsb_transactions_list_set_current_transaction ( -1 );
     }	
 
     gsb_transactions_list_set_visibles_rows_on_transaction (transaction_number);
@@ -3262,7 +3261,8 @@ gboolean gsb_transactions_list_update_transaction ( gpointer transaction )
 		 gsb_data_transaction_get_transaction_number (transaction));
 
     store = gsb_transactions_list_get_store();
-    iter = gsb_transactions_list_get_iter_from_transaction (gsb_data_transaction_get_transaction_number (transaction ));
+    iter = gsb_transactions_list_get_iter_from_transaction (gsb_data_transaction_get_transaction_number (transaction ),
+							    0 );
 
     for ( j = 0 ; j < TRANSACTION_LIST_ROWS_NB ; j++ )
     {

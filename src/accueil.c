@@ -42,7 +42,7 @@
 #include "utils_dates.h"
 #include "navigation.h"
 #include "fenetre_principale.h"
-#include "operations_liste.h"
+#include "gsb_transactions_list.h"
 #include "main.h"
 #include "utils.h"
 #include "comptes_gestion.h"

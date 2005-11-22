@@ -48,7 +48,7 @@
 #include "gsb_file_save.h"
 #include "gsb_file_util.h"
 #include "echeancier_liste.h"
-#include "operations_liste.h"
+#include "gsb_transactions_list.h"
 #include "traitement_variables.h"
 #include "main.h"
 #include "accueil.h"

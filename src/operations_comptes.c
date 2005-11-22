@@ -29,7 +29,7 @@
 #include "gsb_data_account.h"
 #include "utils_dates.h"
 #include "menu.h"
-#include "operations_liste.h"
+#include "gsb_transactions_list.h"
 #include "gtk_list_button.h"
 #include "traitement_variables.h"
 #include "comptes_traitements.h"

@@ -30,7 +30,7 @@
 #include "menu.h"
 #include "help.h"
 #include "echeancier_liste.h"
-#include "operations_liste.h"
+#include "gsb_transactions_list.h"
 #include "operations_formulaire.h"
 #include "barre_outils.h"
 #include "comptes_traitements.h"

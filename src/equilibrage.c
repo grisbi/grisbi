@@ -32,7 +32,7 @@
 #include "equilibrage.h"
 #include "utils_montants.h"
 #include "dialog.h"
-#include "operations_liste.h"
+#include "gsb_transactions_list.h"
 #include "utils_dates.h"
 #include "calendar.h"
 #include "gsb_data_account.h"
@@ -54,7 +54,6 @@ static gboolean clavier_equilibrage ( GtkWidget *widget,
 			       GdkEventKey *event );
 static void deplacement_type_tri_bas ( void );
 static void deplacement_type_tri_haut ( GtkWidget * button, gpointer data );
-static void fill_reconciliation_tree ();
 static gboolean fin_equilibrage ( GtkWidget *bouton_ok, gpointer data );
 static gboolean modif_entree_solde_final_equilibrage ( void );
 static gboolean modif_entree_solde_init_equilibrage ( void );
@@ -438,7 +437,7 @@ void equilibrage ( void )
 
     ancien_nb_lignes_ope = gsb_data_account_get_nb_rows ( gsb_data_account_get_current_account () );
     gsb_data_account_set_nb_rows ( gsb_data_account_get_current_account (), 1 );
-    mise_a_jour_affichage_lignes ( 1 );
+    gsb_transactions_list_set_visible_rows_number ( 1 );
 
     gtk_widget_show_all ( reconcile_panel );
     gtk_widget_set_sensitive ( navigation_tree_view, FALSE );
@@ -538,7 +537,7 @@ gboolean annuler_equilibrage ( void )
 
     gsb_data_account_set_nb_rows ( gsb_data_account_get_current_account (), 
 			      ancien_nb_lignes_ope );
-    mise_a_jour_affichage_lignes ( ancien_nb_lignes_ope );
+    gsb_transactions_list_set_visible_rows_number ( ancien_nb_lignes_ope );
 
     gsb_data_account_set_r (gsb_data_account_get_current_account (),
 		       ancien_r_modifiable );
@@ -580,7 +579,8 @@ gboolean gsb_reconcile_mark_transaction ( gpointer transaction )
 
     montant = gsb_data_transaction_get_adjusted_amount ( gsb_data_transaction_get_transaction_number (transaction));
 
-    iter = gsb_transactions_list_get_iter_from_transaction ( gsb_data_transaction_get_transaction_number (transaction ));
+    iter = gsb_transactions_list_get_iter_from_transaction ( gsb_data_transaction_get_transaction_number (transaction),
+							     0 );
 
     if ( gsb_data_transaction_get_marked_transaction ( gsb_data_transaction_get_transaction_number (transaction )))
     {
@@ -591,7 +591,7 @@ gboolean gsb_reconcile_mark_transaction ( gpointer transaction )
 	gsb_data_transaction_set_marked_transaction ( gsb_data_transaction_get_transaction_number (transaction),
 						      0 );
 
-	gtk_list_store_set ( GTK_LIST_STORE ( model ),
+	gtk_tree_store_set ( GTK_TREE_STORE ( model ),
 			     iter,
 			     col, NULL,
 			     -1 );
@@ -605,7 +605,7 @@ gboolean gsb_reconcile_mark_transaction ( gpointer transaction )
 	gsb_data_transaction_set_marked_transaction ( gsb_data_transaction_get_transaction_number (transaction),
 						      1 );
 	
-	gtk_list_store_set ( GTK_LIST_STORE ( model ),
+	gtk_tree_store_set ( GTK_TREE_STORE ( model ),
 			     iter,
 			     col, _("P"),
 			     -1 );
@@ -872,6 +872,7 @@ void fill_reconciliation_tree ()
     GtkTreeIter account_iter, payment_method_iter;
     GSList *list_tmp;
 
+    gtk_tree_store_clear (reconcile_model);
     list_tmp = gsb_data_account_get_list_accounts ();
 
     while ( list_tmp )

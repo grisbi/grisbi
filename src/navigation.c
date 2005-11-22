@@ -32,7 +32,7 @@
 #include "fenetre_principale.h"
 #include "etats_onglet.h"
 #include "menu.h"
-#include "operations_liste.h"
+#include "gsb_transactions_list.h"
 #include "comptes_gestion.h"
 #include "echeancier_liste.h"
 #include "gsb_file_config.h"

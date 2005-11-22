@@ -19,6 +19,7 @@ enum reconciliation_columns {
 /* START_DECLARATION */
 GtkWidget *creation_fenetre_equilibrage ( void );
 void equilibrage ( void );
+void fill_reconciliation_tree ();
 gboolean gsb_reconcile_mark_transaction ( gpointer transaction );
 GtkWidget * tab_display_reconciliation ( void );
 /* END_DECLARATION */

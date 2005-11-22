@@ -29,6 +29,7 @@
 #include "dialog.h"
 #include "operations_formulaire.h"
 #include "utils_editables.h"
+#include "equilibrage.h"
 #include "gsb_data_account.h"
 #include "gsb_data_transaction.h"
 #include "traitement_variables.h"
@@ -576,6 +577,8 @@ void modification_entree_nom_type ( void )
 	gtk_tree_store_set (GTK_TREE_STORE (model), &iter, 
 			    PAYMENT_METHODS_NAME_COLUMN, type_ope -> nom_type, 
 			    -1);
+	fill_reconciliation_tree ();
+	
 
 	if ( verifie_element_formulaire_existe ( TRANSACTION_FORM_TYPE ))
 	{
@@ -695,6 +698,8 @@ void modification_entree_type_dernier_no ( void )
 			    PAYMENT_METHODS_NUMBERING_COLUMN, 
 			    automatic_numbering_get_current_number ( type_ope ),
 			    -1);
+
+	fill_reconciliation_tree ();
     }
 }
 
@@ -838,6 +843,8 @@ void modification_type_signe ( gint *no_menu )
 	gtk_tree_model_foreach ( GTK_TREE_MODEL (model), 
 				 (GtkTreeModelForeachFunc) select_type_ope,
 				 (gpointer) type_ope );
+	fill_reconciliation_tree ();
+
     }
 
 }
@@ -969,26 +976,17 @@ void ajouter_type_operation ( void )
 
     /* Add to payment methods */
     gsb_data_account_set_method_payment_list ( no_compte,
-					  g_slist_append ( gsb_data_account_get_method_payment_list (no_compte), type_ope ) );
+					       g_slist_append ( gsb_data_account_get_method_payment_list (no_compte), type_ope ) );
+
+    /* add to the sorted list */
+    /* FIXME before 0.6 : faire une fonction add pour les types opés et method of payment */
+    gsb_data_account_set_sort_list ( no_compte,
+				     g_slist_append ( gsb_data_account_get_sort_list (no_compte),
+						      GINT_TO_POINTER (type_ope -> no_type)));
+    fill_reconciliation_tree ();
 
     /* Mark file as modified */
     modification_fichier ( TRUE );
-
-    /* FIXME: implement that */
-    /*       /\* on ajoute ce type à la liste des tris *\/ */
-
-    /*       liste_tri_tmp[no_compte] = g_slist_append ( liste_tri_tmp[no_compte],	/\* FIXME *\/ */
-    /* 						  GINT_TO_POINTER ( type_ope -> no_type )); */
-
-    /*       /\*   si les neutres doivent être intégrés dans les débits crédits, on ajoute son opposé *\/ */
-
-    /*       if ( neutres_inclus_tmp[no_compte] ) */
-    /* 	liste_tri_tmp[no_compte] = g_slist_append ( liste_tri_tmp[no_compte], */
-    /* 						    GINT_TO_POINTER ( -type_ope -> no_type )); */
-
-    /*       remplit_liste_tri_par_type ( no_compte ); */
-
-
 }
 
 

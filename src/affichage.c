@@ -29,7 +29,7 @@
 #include "affichage_formulaire.h"
 #include "utils_file_selection.h"
 #include "gsb_data_account.h"
-#include "operations_liste.h"
+#include "gsb_transactions_list.h"
 #include "main.h"
 #include "traitement_variables.h"
 #include "utils.h"
@@ -665,7 +665,7 @@ void update_fonte_listes ( void )
 					     &iter ))
 	    do
 	    {
-		gtk_list_store_set ( GTK_LIST_STORE (gsb_transactions_list_get_store() ),
+		gtk_tree_store_set ( GTK_TREE_STORE (gsb_transactions_list_get_store() ),
 				     &iter,
 				     TRANSACTION_COL_NB_FONT, fonte_desc,
 				     -1 );

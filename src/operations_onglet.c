@@ -26,7 +26,7 @@
 
 /*START_INCLUDE*/
 #include "operations_onglet.h"
-#include "operations_liste.h"
+#include "gsb_transactions_list.h"
 #include "operations_formulaire.h"
 #include "gsb_data_account.h"
 #include "include.h"

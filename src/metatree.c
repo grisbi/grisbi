@@ -24,7 +24,7 @@
 
 /*START_INCLUDE*/
 #include "metatree.h"
-#include "operations_liste.h"
+#include "gsb_transactions_list.h"
 #include "utils_devises.h"
 #include "dialog.h"
 #include "gsb_data_account.h"
@@ -779,7 +779,7 @@ gboolean division_activated ( GtkTreeView * treeview, GtkTreePath * path,
 					       gsb_data_transaction_get_account_number (transaction_number), 
 					       NULL );
 
-	    gsb_transactions_list_set_current_transaction ( transaction_number, 0 );
+	    gsb_transactions_list_set_current_transaction ( transaction_number );
 	    gsb_transactions_list_move_to_current_transaction ( gsb_data_transaction_get_account_number (transaction_number) );
 	}
 	else
