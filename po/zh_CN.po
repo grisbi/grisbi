@@ -2457,8 +2457,8 @@ msgid "Belize Dollar"
 msgstr "Belize Dollar"
 
 #: src/devises.c:127
-msgid "Belize Dollar"
-msgstr "Belize Dollar"
+msgid "Belize"
+msgstr "Belize"
 
 #: src/devises.c:128
 msgid "Costa Rican Colon"
