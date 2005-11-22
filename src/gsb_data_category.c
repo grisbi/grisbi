@@ -32,11 +32,11 @@
 
 /*START_INCLUDE*/
 #include "gsb_data_category.h"
+#include "meta_categories.h"
 #include "gsb_data_account.h"
 #include "gsb_data_transaction.h"
 #include "categories_onglet.h"
 #include "traitement_variables.h"
-#include "meta_categories.h"
 #include "include.h"
 /*END_INCLUDE*/
 

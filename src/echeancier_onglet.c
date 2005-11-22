@@ -23,7 +23,7 @@
 /*START_INCLUDE*/
 #include "echeancier_onglet.h"
 #include "echeancier_formulaire.h"
-#include "echeancier_liste.h"
+#include "gsb_scheduler_list.h"
 #include "include.h"
 #include "structures.h"
 /*END_INCLUDE*/

@@ -37,7 +37,7 @@
 #include "navigation.h"
 #include "utils_str.h"
 #include "structures.h"
-#include "echeancier_liste.h"
+#include "gsb_scheduler_list.h"
 #include "gsb_transactions_list.h"
 #include "include.h"
 #include "echeancier_infos.h"

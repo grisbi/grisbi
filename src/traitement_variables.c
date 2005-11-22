@@ -38,7 +38,7 @@
 #include "menu.h"
 #include "structures.h"
 #include "traitement_variables.h"
-#include "echeancier_liste.h"
+#include "gsb_scheduler_list.h"
 #include "include.h"
 #include "echeancier_infos.h"
 #include "gsb_transactions_list.h"

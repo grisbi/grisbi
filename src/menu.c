@@ -29,7 +29,7 @@
 /*START_INCLUDE*/
 #include "menu.h"
 #include "help.h"
-#include "echeancier_liste.h"
+#include "gsb_scheduler_list.h"
 #include "gsb_transactions_list.h"
 #include "operations_formulaire.h"
 #include "barre_outils.h"

@@ -36,7 +36,7 @@
 #include "echeancier_formulaire.h"
 #include "utils_devises.h"
 #include "dialog.h"
-#include "echeancier_liste.h"
+#include "gsb_scheduler_list.h"
 #include "equilibrage.h"
 #include "gsb_data_account.h"
 #include "gsb_data_budget.h"

@@ -30,7 +30,7 @@
 /*START_INCLUDE*/
 #include "accueil.h"
 #include "classement_echeances.h"
-#include "echeancier_liste.h"
+#include "gsb_scheduler_list.h"
 #include "utils_devises.h"
 #include "dialog.h"
 #include "echeancier_formulaire.h"

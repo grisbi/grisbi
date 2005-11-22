@@ -30,6 +30,7 @@
 #include "utils_files.h"
 #include "etats_config.h"
 #include "include.h"
+#include "structures.h"
 #include "etats_csv.h"
 #include "etats_affiche.h"
 /*END_INCLUDE*/

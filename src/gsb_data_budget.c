@@ -31,13 +31,13 @@
 
 /*START_INCLUDE*/
 #include "gsb_data_budget.h"
+#include "meta_budgetary.h"
 #include "gsb_data_category.h"
 #include "gsb_data_transaction.h"
 #include "categories_onglet.h"
 #include "traitement_variables.h"
 #include "dialog.h"
 #include "include.h"
-#include "meta_budgetary.h"
 /*END_INCLUDE*/
 
 

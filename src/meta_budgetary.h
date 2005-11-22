@@ -2,6 +2,7 @@
 #define _META_BUDGETARY_H (1)
 /* START_INCLUDE_H */
 #include "meta_budgetary.h"
+#include "structures.h"
 /* END_INCLUDE_H */
 
 

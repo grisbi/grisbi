@@ -35,8 +35,8 @@
 #include "gsb_data_transaction.h"
 #include "tiers_onglet.h"
 #include "traitement_variables.h"
-#include "include.h"
 #include "meta_payee.h"
+#include "include.h"
 /*END_INCLUDE*/
 
 

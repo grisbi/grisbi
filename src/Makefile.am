@@ -43,6 +43,7 @@ sources = \
 	gsb_file_others.c	\
 	gsb_file_save.c		\
 	gsb_file_util.c		\
+	gsb_scheduler_list.c	\
 	gsb_transactions_list.c	\
 	data_currency.c		\
 	data_form.c		\
@@ -51,7 +52,6 @@ sources = \
 	dialog.c		\
 	echeancier_onglet.c	\
 	echeancier_formulaire.c	\
-	echeancier_liste.c	\
 	echeancier_infos.c	\
 	equilibrage.c		\
 	erreur.c		\
@@ -147,6 +147,7 @@ grisbi_INCLUDES =		\
 	gsb_file_others.h	\
 	gsb_file_save.h		\
 	gsb_file_util.h		\
+	gsb_scheduler_list.h	\
 	gsb_transactions_list.h	\
 	data_currency.h		\
 	data_form.h		\
@@ -155,7 +156,6 @@ grisbi_INCLUDES =		\
 	dialog.h		\
 	echeancier_onglet.h	\
 	echeancier_formulaire.h	\
-	echeancier_liste.h	\
 	echeancier_infos.h	\
 	equilibrage.h		\
 	erreur.h		\

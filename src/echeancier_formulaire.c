@@ -28,10 +28,10 @@
 /*START_INCLUDE*/
 #include "echeancier_formulaire.h"
 #include "exercice.h"
+#include "type_operations.h"
 #include "utils_editables.h"
 #include "comptes_traitements.h"
 #include "utils_exercices.h"
-#include "type_operations.h"
 #include "devises.h"
 #include "utils_devises.h"
 #include "dialog.h"
@@ -45,13 +45,14 @@
 #include "gsb_data_transaction.h"
 #include "utils_dates.h"
 #include "accueil.h"
-#include "echeancier_liste.h"
+#include "gsb_scheduler_list.h"
 #include "gtk_combofix.h"
 #include "main.h"
 #include "categories_onglet.h"
 #include "traitement_variables.h"
 #include "utils_str.h"
 #include "utils_comptes.h"
+#include "utils_types.h"
 #include "utils_operations.h"
 #include "structures.h"
 #include "echeancier_formulaire.h"
@@ -2072,7 +2073,8 @@ gint gsb_scheduler_create_transaction_from_scheduled_transaction ( gint schedule
     payment_method = gsb_data_scheduled_get_method_of_payment_content (scheduled_number);
     if ( payment_method )
     {
-	struct struct_type_ope * type_ope = type_ope_par_no ( payment_method );
+	struct struct_type_ope * type_ope = type_ope_par_no ( payment_method,
+							      gsb_data_scheduled_get_account_number (scheduled_number));
 	gsb_data_transaction_set_method_of_payment_content ( transaction_number,
 							     automatic_numbering_get_new_number ( type_ope ) );
 	type_ope -> no_en_cours ++;

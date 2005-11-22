@@ -34,7 +34,7 @@
 #include "menu.h"
 #include "gsb_transactions_list.h"
 #include "comptes_gestion.h"
-#include "echeancier_liste.h"
+#include "gsb_scheduler_list.h"
 #include "gsb_file_config.h"
 #include "navigation.h"
 #include "include.h"
