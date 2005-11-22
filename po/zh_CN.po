@@ -245,7 +245,7 @@ msgstr "备用地址"
 
 #: src/affichage.c:760
 msgid "Sans 10"
-msgstr ""
+msgstr "Sans 10"
 
 #: src/affichage.c:811
 msgid "Transaction list font"
