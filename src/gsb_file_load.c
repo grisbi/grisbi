@@ -686,15 +686,15 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
 			    "Transactions_view" ))
 	{
 	    gchar **pointeur_char;
-	    gint k;
+	    gint j, k;
 
 	    pointeur_char = g_strsplit ( g_strdup (attribute_values[i]),
 					 "-",
 					 0 );
 
-	    for ( i = 0 ; i<TRANSACTION_LIST_ROWS_NB ; i++ )
+	    for ( j = 0 ; j<TRANSACTION_LIST_ROWS_NB ; j++ )
 		for ( k = 0 ; k<TRANSACTION_LIST_COL_NB ; k++ )
-		    tab_affichage_ope[i][k] = utils_str_atoi ( pointeur_char[i + k*TRANSACTION_LIST_COL_NB]);
+		    tab_affichage_ope[i][k] = utils_str_atoi ( pointeur_char[k + j*TRANSACTION_LIST_COL_NB]);
 
 	    g_strfreev ( pointeur_char );
 	}

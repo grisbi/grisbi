@@ -245,6 +245,10 @@ gpointer gsb_data_budget_get_sub_budget_structure ( gint no_budget,
 	return sub_budget_buffer;
 
     budget = gsb_data_budget_get_structure ( no_budget );
+    if ( ! budget )
+    {
+	return NULL;
+    }
 
     tmp = budget -> sub_budget_list;
 
