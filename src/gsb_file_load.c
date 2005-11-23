@@ -138,6 +138,7 @@ extern GtkWidget *tel_correspondant;
 extern gchar *titre_fichier;
 extern gint valeur_echelle_recherche_date_import;
 extern GtkWidget *web_banque;
+extern int no_derniere_devise;
 /*END_EXTERN*/
 
 static struct
@@ -2181,6 +2182,10 @@ void gsb_file_load_currency ( const gchar **attribute_names,
 		       "Nb" ))
 	{
 	    currency -> no_devise = utils_str_atoi (attribute_values[i]);
+	    if ( currency -> no_devise > no_derniere_devise )
+	    {
+		no_derniere_devise = currency -> no_devise;
+	    }
 	    i++;
 	    continue;
 	}
@@ -4137,8 +4142,14 @@ void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
 
 		if ( !strcmp ( attribute_names[i],
 			       "Devise" ))
+		{
 		    gsb_data_scheduled_set_currency_number ( scheduled_number,
 							     utils_str_atoi (attribute_values[i]));
+		    if ( utils_str_atoi (attribute_values[i]) > no_derniere_devise )
+		    {
+			no_derniere_devise = utils_str_atoi (attribute_values[i]);
+		    }
+		}
 
 		if ( !strcmp ( attribute_names[i],
 			       "Tiers" ))
