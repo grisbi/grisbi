@@ -52,9 +52,6 @@
 
 /*START_STATIC*/
 static void append_currency_to_currency_list ( GtkTreeStore * model, struct struct_devise * devise );
-static gint bloque_echap_choix_devise ( GtkWidget *dialog,
-				 GdkEventKey *key,
-				 gpointer null );
 static struct cached_exchange_rate *cached_exchange_rate ( struct struct_devise * currency1, 
 						    struct struct_devise * currency2 );
 static gboolean changement_code_entree_devise ( GtkEditable *editable, gchar * text,
@@ -76,8 +73,7 @@ static GtkWidget * new_currency_option_menu ( gint * value, GCallback hook );
 static GtkWidget * new_currency_tree ();
 static GtkWidget * new_currency_vbox ();
 static gboolean rebuild_currency_list ( GtkWidget * checkbox, GtkTreeView * view );
-static void retrait_devise ( GtkWidget *bouton,
-		      GtkWidget *liste );
+static void retrait_devise ( GtkWidget *bouton, GtkWidget * view );
 static gboolean select_currency_in_iso_list ( GtkTreeSelection *selection, GtkTreeModel *model );
 static void update_currency_widgets();
 static void update_exchange_rate_cache ( struct struct_devise * currency1, 
@@ -121,7 +117,6 @@ GtkWidget *entree_nom_devise_parametres;
 GtkWidget *entree_iso_code_devise_parametres;
 GtkWidget *entree_code_devise_parametres;
 
-gint ligne_selection_devise;               /* contient la ligne sélectionnée dans la liste des devises */
 struct struct_devise *devise_compte;
 struct struct_devise *devise_operation;
 
@@ -532,14 +527,14 @@ GtkWidget * new_currency_vbox ()
 
 
 
-/***********************************************************************************************************/
-/* Fonction ajout_devise */
-/* appelée pour créer une nouvelle devise */
-/* soit c'est la clist des paramètres */
-/* soit il est NULL, quand il provient de l'import ou nouveau fichier */
-/* dans tous les cas, on ne repart pas s'il n'y a aucune devise définie */
-/***********************************************************************************************************/
-
+/**
+ * Pop up a dialog to create a new currency, do some sanity checks and
+ * call the create_currency() function to do the grunt work.
+ * 
+ * \param widget	GtkButton that triggered event.
+ * 
+ * \return TRUE if currency has been created.
+ */
 gboolean ajout_devise ( GtkWidget *widget )
 {
     GtkWidget *dialog, *label, *table, *model, *list, *paddingbox;
@@ -554,15 +549,7 @@ gboolean ajout_devise ( GtkWidget *widget )
 					   GTK_STOCK_OK,1,
 					   NULL );
 
-    gtk_container_set_border_width ( GTK_CONTAINER ( dialog ), 10 );
-    gtk_signal_connect ( GTK_OBJECT ( dialog ),
-			 "destroy",
-			 GTK_SIGNAL_FUNC ( gtk_signal_emit_stop_by_name ),
-			 "destroy" );
-    gtk_signal_connect ( GTK_OBJECT ( dialog ),
-			 "key-press-event",
-			 GTK_SIGNAL_FUNC ( bloque_echap_choix_devise ),
-			 NULL );
+    gtk_container_set_border_width ( GTK_CONTAINER ( dialog ), 12 );
 
     paddingbox = 
 	new_paddingbox_with_title (GTK_WIDGET ( GTK_DIALOG ( dialog ) -> vbox ),
@@ -684,57 +671,30 @@ gboolean ajout_devise ( GtkWidget *widget )
     gtk_widget_destroy ( GTK_WIDGET ( dialog ));
     return TRUE;
 }
-/***********************************************************************************************************/
 
 
 
-/***********************************************************************************************************/
-gint bloque_echap_choix_devise ( GtkWidget *dialog,
-				 GdkEventKey *key,
-				 gpointer null )
+/**
+ * Remove selected currency from currency list.  First, be sure there
+ * is no use for it.
+ *
+ * \param bouton	Widget that triggered event.
+ * \param view		GtkTreeView that contains selected currency.
+ */
+void retrait_devise ( GtkWidget *bouton, GtkWidget * view )
 {
-
-    /* emp�,CE�(Bche la touche echap de fermer la fenetre */
-
-    if ( key -> keyval == GDK_Escape )
-    {
-	gtk_signal_emit_stop_by_name ( GTK_OBJECT ( dialog ),
-				       "key-press-event" );
-	return ( TRUE );
-    }
-
-    return ( FALSE );
-
-}
-/***********************************************************************************************************/
-
-
-
-
-
-
-/***********************************************************************************************************/
-/* Fonction retrait_devise */
-/***********************************************************************************************************/
-
-void retrait_devise ( GtkWidget *bouton,
-		      GtkWidget *liste )
-{
-    gint devise_trouvee;
+    gint devise_trouvee = 0;
     struct struct_devise *devise;
     GSList *list_tmp_transactions;
 
-
-    if ( ligne_selection_devise == -1 )
+    devise = currency_get_selected ( view );
+    if ( ! devise )
+    {
 	return;
-
-    devise = gtk_clist_get_row_data ( GTK_CLIST ( liste ),
-				      ligne_selection_devise );
+    }
 
     /* we look for that currency in all the transactions and scheduler,
      * if we find it, we cannot delete it */
-
-    devise_trouvee = 0;
 
     list_tmp_transactions = gsb_data_transaction_get_transactions_list ();
 
@@ -782,15 +742,10 @@ void retrait_devise ( GtkWidget *bouton,
 	return;
     }
 
-
-    gtk_clist_remove ( GTK_CLIST ( liste ), ligne_selection_devise );
-
+    remove_selected_currency_from_currency_view ( view );
     liste_struct_devises = g_slist_remove ( liste_struct_devises, devise );
     nb_devises--;
 }
-/***********************************************************************************************************/
-
-
 
 
 
@@ -1134,8 +1089,9 @@ GtkWidget *onglet_devises ( void )
 
     /* Button "Remove" */
     bouton_supprimer_devise = gtk_button_new_from_stock (GTK_STOCK_REMOVE);
+    g_object_set_data ( G_OBJECT(bouton_supprimer_devise), "view", currency_list_view );
     gtk_signal_connect ( GTK_OBJECT ( bouton_supprimer_devise ), "clicked",
-			 GTK_SIGNAL_FUNC  ( retrait_devise ), currency_list_model );
+			 GTK_SIGNAL_FUNC  ( retrait_devise ), currency_list_view );
     gtk_box_pack_start ( GTK_BOX ( vbox ), bouton_supprimer_devise, FALSE, FALSE, 5 );
 
     /* Input form for currencies */
@@ -1330,12 +1286,12 @@ GtkWidget *tab_display_totals ( void )
 
 
 
-
-
 /**
+ * Obtain selected currency from currency tree.
  *
- *
- *
+ * \param view		GtkTreeView to remove currency from.
+ * 
+ * \return		A pointer to selected currency.
  */
 struct struct_devise * currency_get_selected ( GtkTreeView * view )
 {
@@ -1352,6 +1308,28 @@ struct struct_devise * currency_get_selected ( GtkTreeView * view )
 			 -1 );
 
     return currency;
+}
+
+
+
+/**
+ * Remove selected currency from tree.  In fact, this is a generic
+ * function that could be used for any purpose (and could be then
+ * renamed).
+ *
+ * \param view	GtkTreeView to remove selected entry from.
+ */
+void remove_selected_currency_from_currency_view ( GtkTreeView * view )
+{
+    GtkTreeSelection * selection = gtk_tree_view_get_selection ( view );
+    GtkTreeIter iter;
+    GtkTreeModel * tree_model;
+    struct struct_devise * currency; 
+
+    if ( !selection || ! gtk_tree_selection_get_selected (selection, &tree_model, &iter))
+	return(FALSE);
+
+    gtk_tree_store_remove ( tree_model, &iter );
 }
 
 
@@ -1515,10 +1493,6 @@ struct struct_devise *create_currency ( gchar * nom_devise, gchar * code_devise,
 
   devise -> change = 0;
 
-
-  /* 	  si le widget n'est pas nul, c'est une clist, c'est que l'appel vient du menu de configuration, */
-  /* on met la liste à  jour et on ajoute la devise à  liste_struct_devises */
-
   devise -> no_devise = ++no_derniere_devise;
   liste_struct_devises = g_slist_append ( liste_struct_devises, devise );
   nb_devises++;
@@ -1551,8 +1525,12 @@ struct struct_devise * find_currency_from_iso4217_list ( gchar * currency_name )
 
 
 
-/** get and return the number of the currency in the option_menu given in param
+/** 
+ * Get and return the number of the currency in the option_menu given
+ * in param
+ * 
  * \param currency_option_menu an option menu with the currencies
+ * 
  * \return the number of currency
  * */
 gint gsb_currency_get_option_menu_currency ( GtkWidget *currency_option_menu )
@@ -1573,11 +1551,12 @@ gint gsb_currency_get_option_menu_currency ( GtkWidget *currency_option_menu )
 
 
 
-/** check if a transaction need an exchange rate and fees with its account
- * if yes, ask for that and set the in the transaction
+/** 
+ * Check if a transaction need an exchange rate and fees with its
+ * account if yes, ask for that and set the in the transaction.
+ * 
  * \param no_transaction
- * \return
- * */
+ */
 void gsb_currency_check_for_change ( gint no_transaction )
 {
     struct struct_devise *transaction_currency;
