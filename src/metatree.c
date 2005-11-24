@@ -1084,7 +1084,6 @@ gboolean division_node_maybe_expand ( GtkTreeModel *model, GtkTreePath *path,
 				      GtkTreeIter *iter, gpointer data )
 {
     GtkTreeView * tree_view = g_object_get_data ( G_OBJECT(model), "tree-view" );
-    extern GtkWidget * main_statusbar;
 
     if ( tree_view )
     {
