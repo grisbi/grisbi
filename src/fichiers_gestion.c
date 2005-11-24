@@ -31,7 +31,6 @@
 #include "fichiers_gestion.h"
 #include "menu.h"
 #include "devises.h"
-#include "patienter.h"
 #include "utils_montants.h"
 #include "fenetre_principale.h"
 #include "comptes_traitements.h"
@@ -47,7 +46,9 @@
 #include "gsb_file_load.h"
 #include "gsb_file_save.h"
 #include "gsb_file_util.h"
+#include "echeancier_liste.h"
 #include "gsb_scheduler_list.h"
+#include "gsb_status.h"
 #include "gsb_transactions_list.h"
 #include "traitement_variables.h"
 #include "main.h"
@@ -86,12 +87,16 @@ extern gint nb_max_derniers_fichiers_ouverts ;
 extern gchar *nom_fichier_comptes;
 extern GtkWidget *notebook_general;
 extern GSList *scheduled_transactions_taken;
+extern GSList *scheduled_transactions_taken;
+extern GSList *scheduled_transactions_to_take;
 extern GSList *scheduled_transactions_to_take;
 extern gchar **tab_noms_derniers_fichiers_ouverts ;
 extern gchar *titre_fichier;
 extern GtkWidget *tree_view_vbox;
 extern GtkWidget *window;
 extern GtkWidget *window_vbox_principale;
+extern GtkWidget *main_hpaned ;
+extern GtkWidget *table_etat;
 /*END_EXTERN*/
 
 
@@ -133,9 +138,6 @@ gboolean new_file ( void )
 
     /* on se met sur l'onglet de propriétés du compte */
     gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ), GSB_ACCOUNT_PAGE );
-
-    /* Update headings. */
-    gsb_gui_headings_update ( g_strconcat ( "Grisbi : " , titre_fichier, NULL ), "" );
 
     modification_fichier ( TRUE );
     return FALSE;
@@ -284,14 +286,14 @@ gboolean gsb_file_open_file ( gchar *filename )
 {
     gint i;
     GSList *list_tmp;
-    GtkWidget *main_widget;
-    GtkWidget *tree_view_widget;
+    GtkWidget *main_widget, *tree_view_widget;
 
     if ( DEBUG )
 	printf ( "gsb_file_open_file : %s\n",
 		 filename );
 
-    mise_en_route_attente ( _("Load an accounts file") );
+    gsb_status_message ( _("Load an accounts file") );
+/*     gsb_status_start_activity (); */
 
     /* try to load the file */
 
@@ -306,7 +308,7 @@ gboolean gsb_file_open_file ( gchar *filename )
 	    gchar *backup_filename;
 	    gchar **tab_char;
 
-	    update_attente ( _("Autosave") );
+	    gsb_status_message ( _("Autosave") );
 
 	    backup_filename = g_strdup ( filename );
 
@@ -333,13 +335,15 @@ gboolean gsb_file_open_file ( gchar *filename )
 	    gsb_file_save_save_file ( backup_filename,
 				      etat.compress_backup );
 	}
+/* 	gsb_status_stop_activity (); */
     }
     else
     {
 	/* the loading failed
 	 * if the saving function at opening is set, we ask to load the last file */
 
-	annulation_attente ();
+/* 	gsb_status_stop_activity (); */
+	gsb_status_clear ();
 
 	if ( etat.sauvegarde_demarrage )
 	{
@@ -369,7 +373,7 @@ gboolean gsb_file_open_file ( gchar *filename )
 	    else
 		close (result);
 
-	    mise_en_route_attente ( _("Loading backup") );
+	    gsb_status_message ( _("Loading backup") );
 
 	    /* try to load the backup */
 
@@ -384,7 +388,7 @@ gboolean gsb_file_open_file ( gchar *filename )
 	    {
 		/* the loading backup failed */
 
-		annulation_attente ();
+		gsb_status_clear ();
 		dialogue_error_hint ( _("Grisbi was unable to load file.  Additionally, Grisbi was unable to load a backup file instead."),
 				      g_strdup_printf ( _("Error loading file '%s'"), filename) );
 		return FALSE;
@@ -396,11 +400,7 @@ gboolean gsb_file_open_file ( gchar *filename )
 
     /* ok, here the file or backup is loaded */
 
-    update_attente ( _("Checking schedulers"));
-
-    /* set the name of the file in the window title */
-
-    affiche_titre_fenetre();
+    gsb_status_message ( _("Checking schedulers"));
 
     /* the the name in the last opened files */
 
@@ -410,7 +410,7 @@ gboolean gsb_file_open_file ( gchar *filename )
 
     recuperation_noms_colonnes_et_tips ();
 
-    update_attente ( _("Checking amounts"));
+    gsb_status_message ( _("Checking amounts"));
 
     /* check the amounts of all the accounts */
 
@@ -445,8 +445,11 @@ gboolean gsb_file_open_file ( gchar *filename )
 
     /* we make the main window */
 
-    update_attente ( _("Making main window"));
+    gsb_status_message ( _("Making main window"));
     main_widget = create_main_widget();
+
+    /* set the name of the file in the window title */
+    affiche_titre_fenetre();
     
     /* we show and update the menus */
 
@@ -458,9 +461,6 @@ gboolean gsb_file_open_file ( gchar *filename )
     /*     on ajoute la fentre principale à la window */
     gtk_box_pack_start ( GTK_BOX (window_vbox_principale), main_widget, TRUE, TRUE, 0 );
     gtk_widget_show ( main_widget );
-
-    /* Update headings. */
-    gsb_gui_headings_update ( g_strconcat ( "Grisbi : " , titre_fichier, NULL ), "" );
 
     /* create and fill the gui transactions list */
 
@@ -479,7 +479,7 @@ gboolean gsb_file_open_file ( gchar *filename )
     /* check the schedulers */
     gsb_scheduler_check_scheduled_transactions_time_limit ();
 
-    annulation_attente ();
+    gsb_status_clear ();
     return TRUE;
 }
 
@@ -550,7 +550,7 @@ gboolean enregistrement_fichier ( gint origine )
     /*   on a maintenant un nom de fichier */
     /*     et on sait qu'on peut sauvegarder */
 
-    mise_en_route_attente ( _("Save file") );
+    gsb_status_message ( _("Save file") );
 
     result = gsb_file_save_save_file ( nouveau_nom_enregistrement,
 				       etat.compress_file );
@@ -580,7 +580,7 @@ gboolean enregistrement_fichier ( gint origine )
 
     enregistrement_backup();
 
-    annulation_attente();
+    gsb_status_clear();
 
     return ( result );
 }
@@ -783,8 +783,10 @@ gboolean fermer_fichier ( void )
 
 	    menus_sensitifs ( FALSE );
 
+	    main_hpaned = NULL;
+	    table_etat = NULL;
+
 	    return ( TRUE );
-	    break;
 
 	default :
 	    return FALSE;
@@ -826,8 +828,20 @@ void affiche_titre_fenetre ( void )
     titre = g_strconcat ( titre, " - ", _("Grisbi"), NULL );
     gtk_window_set_title ( GTK_WINDOW ( window ), titre );
 
+    /* Update headings. */
+    if ( nom_fichier_comptes )
+    {
+	if ( titre_fichier && strlen ( titre_fichier ) )
+	{
+	    titre = g_strconcat ( "Grisbi : " , titre_fichier, NULL );
+	}
+	else
+	{
+	    titre = g_strconcat ( "Grisbi : " , _("My accounts"), NULL );
+	}
+	gsb_gui_headings_update ( titre, "" );
+    }
 }
-/* ************************************************************************************************************ */
 
 
 
@@ -843,12 +857,12 @@ gboolean enregistrement_backup ( void )
     if ( !nom_fichier_backup || !strlen(nom_fichier_backup) )
 	return FALSE;
 
-    update_attente ( _("Saving backup") );
+    gsb_status_message ( _("Saving backup") );
 
     retour = gsb_file_save_save_file( nom_fichier_backup,
 				      etat.compress_backup );
 
-    annulation_attente();
+    gsb_status_clear();
 
     return ( retour );
 }
