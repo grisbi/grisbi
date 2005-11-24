@@ -1084,6 +1084,7 @@ gboolean division_node_maybe_expand ( GtkTreeModel *model, GtkTreePath *path,
 				      GtkTreeIter *iter, gpointer data )
 {
     GtkTreeView * tree_view = g_object_get_data ( G_OBJECT(model), "tree-view" );
+    extern GtkWidget * main_statusbar;
 
     if ( tree_view )
     {
@@ -1699,6 +1700,11 @@ inline gboolean metatree_sort_column  ( GtkTreeModel * model,
 	return g_date_compare ( date_a, date_b );
     }
     
+    if ( ! date_b )
+	return 1;
+    if ( ! date_a )
+	return -1;
+
     return g_utf8_collate ( string_a, string_b );
 }
 
