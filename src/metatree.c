@@ -25,6 +25,7 @@
 /*START_INCLUDE*/
 #include "metatree.h"
 #include "gsb_transactions_list.h"
+#include "erreur.h"
 #include "utils_devises.h"
 #include "dialog.h"
 #include "gsb_data_account.h"
@@ -852,9 +853,8 @@ gboolean division_row_drop_possible ( GtkTreeDragDest * drag_dest, GtkTreePath *
 gboolean division_drag_data_received ( GtkTreeDragDest * drag_dest, GtkTreePath * dest_path,
 				       GtkSelectionData * selection_data )
 {
-    if ( DEBUG )
-	printf ("division_drag_data_received %p, %p, %p\n", drag_dest, dest_path, 
-		selection_data);
+    devel_debug ( g_strdup_printf ("division_drag_data_received %p, %p, %p", drag_dest, dest_path, 
+				   selection_data));
 
     if ( dest_path && selection_data )
     {

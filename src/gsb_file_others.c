@@ -28,6 +28,7 @@
 
 /*START_INCLUDE*/
 #include "gsb_file_others.h"
+#include "erreur.h"
 #include "dialog.h"
 #include "gsb_data_budget.h"
 #include "gsb_data_category.h"
@@ -83,9 +84,8 @@ gboolean gsb_file_others_save_category ( gchar *filename )
     gchar *file_content;
     gulong length_part;
 
-    if ( DEBUG )
-	printf ( "gsb_file_others_save_category : %s\n",
-		 filename );
+    devel_debug ( g_strdup_printf ("gsb_file_others_save_category : %s",
+				   filename ));
 
     /* we begin to try to reserve enough memory to make the entire file
      * if not enough, we will make it growth later
@@ -165,9 +165,8 @@ gboolean gsb_file_others_save_budget ( gchar *filename )
     gchar *file_content;
     gulong length_part;
 
-    if ( DEBUG )
-	printf ( "gsb_file_others_save_budget : %s\n",
-		 filename );
+    devel_debug ( g_strdup_printf ("gsb_file_others_save_budget : %s",
+				   filename ));
 
     /* we begin to try to reserve enough memory to make the entire file
      * if not enough, we will make it growth later
@@ -247,9 +246,8 @@ gboolean gsb_file_others_save_report ( gchar *filename )
     gchar *file_content;
     gulong length_part;
 
-    if ( DEBUG )
-	printf ( "gsb_file_others_save_report : %s\n",
-		 filename );
+    devel_debug ( g_strdup_printf ("gsb_file_others_save_report : %s",
+				   filename ));
 
     /* we begin to try to reserve enough memory to make the entire file
      * if not enough, we will make it growth later
@@ -405,9 +403,8 @@ gboolean gsb_file_others_load ( gchar *filename,
     gchar *file_content;
     GSList *import_list = NULL;
 
-    if ( DEBUG )
-	printf ( "gsb_file_others_load %s\n", 
-		 filename );
+    devel_debug ( g_strdup_printf ( "gsb_file_others_load %s", 
+				    filename ));
 
     /* general check */
     

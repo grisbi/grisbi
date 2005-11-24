@@ -32,6 +32,7 @@
 #include "comptes_gestion.h"
 #include "banque.h"
 #include "devises.h"
+#include "erreur.h"
 #include "utils_devises.h"
 #include "dialog.h"
 #include "operations_formulaire.h"
@@ -778,8 +779,7 @@ void remplissage_details_compte ( void )
     struct struct_banque *banque;
     struct struct_devise *devise;
 
-    if ( DEBUG )
-	printf ( "remplissage_details_compte\n" );
+    devel_debug ( "remplissage_details_compte" );
 
     g_return_if_fail ( compte_courant_onglet >= 0 );
 

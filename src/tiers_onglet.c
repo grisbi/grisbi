@@ -28,6 +28,7 @@
 
 /*START_INCLUDE*/
 #include "tiers_onglet.h"
+#include "erreur.h"
 #include "metatree.h"
 #include "gsb_data_payee.h"
 #include "utils_editables.h"
@@ -36,9 +37,9 @@
 #include "utils.h"
 #include "affichage_formulaire.h"
 #include "operations_formulaire.h"
-#include "structures.h"
 #include "echeancier_formulaire.h"
 #include "include.h"
+#include "structures.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -493,8 +494,7 @@ gboolean edit_payee ( GtkTreeView * view )
 /* ***************************************************************************************************** */
 void mise_a_jour_combofix_tiers ( void )
 {
-    if ( DEBUG )
-	printf ( "mise_a_jour_combofix_tiers\n" );
+    devel_debug ( "mise_a_jour_combofix_tiers" );
 
     if ( verifie_element_formulaire_existe ( TRANSACTION_FORM_PARTY ) &&
 	 widget_formulaire_par_element (TRANSACTION_FORM_PARTY) &&

@@ -51,6 +51,7 @@
 #include "gsb_data_account.h"
 #include "gsb_file_config.h"
 #include "fichiers_gestion.h"
+#include "gsb_status.h"
 #include "traitement_variables.h"
 #include "parse_cmdline.h"
 #include "etats_config.h"

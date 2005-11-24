@@ -108,8 +108,7 @@ extern gint mise_a_jour_liste_echeances_auto_accueil;
 extern gint mise_a_jour_liste_echeances_manuelles_accueil;
 extern FILE * out;
 extern GtkStyle *style_entree_formulaire[2];
-extern GtkWidget *tree_view_liste_echeances;
-extern GtkWidget *tree_view_liste_echeances;
+extern GtkWidget *tree_view_scheduler_list;
 /*END_EXTERN*/
 
 
@@ -873,7 +872,7 @@ void echap_formulaire_echeancier ( void )
 {
     formulaire_echeancier_a_zero();
 
-    gtk_widget_grab_focus ( tree_view_liste_echeances );
+    gtk_widget_grab_focus ( tree_view_scheduler_list );
 
     if ( !etat.formulaire_echeancier_toujours_affiche )
 	gtk_expander_set_expanded ( GTK_EXPANDER(frame_formulaire_echeancier), FALSE );
@@ -1175,7 +1174,7 @@ gboolean pression_touche_formulaire_echeancier ( GtkWidget *widget,
 
 	    /* on fait perdre le focus au widget courant pour faire
 	       les changements automatiques si nécessaire */
-	    gtk_widget_grab_focus ( tree_view_liste_echeances );
+	    gtk_widget_grab_focus ( tree_view_scheduler_list );
 
 	    /* on donne le focus au widget suivant */
 	    no_widget = ( no_widget + 1 ) % SCHEDULER_FORM_TOTAL_WIDGET;
@@ -1269,7 +1268,7 @@ gboolean pression_touche_formulaire_echeancier ( GtkWidget *widget,
 		    /* on fait perdre le focus au widget courant pour faire
 		       les changements automatiques si nécessaire */
 
-		    gtk_widget_grab_focus ( tree_view_liste_echeances );
+		    gtk_widget_grab_focus ( tree_view_scheduler_list );
 		    gsb_scheduler_validate_form ();
 		}
 	    }
@@ -1658,7 +1657,7 @@ void gsb_scheduler_validate_form ( void )
     mise_a_jour_liste_echeances_manuelles_accueil = 1;
     mise_a_jour_liste_echeances_auto_accueil = 1;
     remplissage_liste_echeance ();
-    gtk_widget_grab_focus ( tree_view_liste_echeances );
+    gtk_widget_grab_focus ( tree_view_scheduler_list );
 
     mise_a_jour_accueil();
     modification_fichier ( TRUE );

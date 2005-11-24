@@ -27,13 +27,13 @@
 
 /*START_INCLUDE*/
 #include "utils_operations.h"
+#include "erreur.h"
 #include "gsb_data_budget.h"
 #include "gsb_data_category.h"
 #include "gsb_data_payee.h"
 #include "gsb_data_transaction.h"
 #include "search_glist.h"
 #include "metatree.h"
-#include "structures.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -145,8 +145,7 @@ void update_transaction_in_payee_tree ( gpointer  transaction )
  */
 void update_transaction_in_trees ( gpointer  transaction )
 {
-    if ( DEBUG )
-	printf ( "update_transaction_in_trees\n" );
+    devel_debug ( "update_transaction_in_trees" );
     update_transaction_in_categ_tree ( transaction );
     update_transaction_in_payee_tree ( transaction );
     update_transaction_in_budgetary_line_tree ( transaction );

@@ -35,17 +35,17 @@
 #include "operations_formulaire.h"
 #include "barre_outils.h"
 #include "comptes_traitements.h"
+#include "erreur.h"
 #include "fichiers_gestion.h"
 #include "qif.h"
-#include "erreur.h"
 #include "tip.h"
 #include "gsb_data_account.h"
 #include "import.h"
 #include "utils.h"
 #include "parametres.h"
-#include "structures.h"
 #include "menu.h"
 #include "include.h"
+#include "structures.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -67,8 +67,7 @@ static  void menu_add_widget (GtkUIManager * p_uiManager, GtkWidget * p_widget,
 extern gsize nb_derniers_fichiers_ouverts ;
 extern gint nb_max_derniers_fichiers_ouverts ;
 extern gchar **tab_noms_derniers_fichiers_ouverts ;
-extern GtkWidget *tree_view_liste_echeances;
-extern GtkWidget *tree_view_liste_echeances;
+extern GtkWidget *tree_view_scheduler_list;
 extern GtkWidget *window;
 /*END_EXTERN*/
 
@@ -522,7 +521,7 @@ gboolean gsb_gui_toggle_grid_mode ()
     {
 	/* 		on affiche les grilles */
 
-	g_signal_connect_after ( G_OBJECT ( tree_view_liste_echeances ),
+	g_signal_connect_after ( G_OBJECT ( tree_view_scheduler_list ),
 				 "expose-event",
 				 G_CALLBACK ( affichage_traits_liste_echeances ),
 				 NULL );
@@ -547,7 +546,7 @@ gboolean gsb_gui_toggle_grid_mode ()
     {
 	GSList *list_tmp;
 
-	g_signal_handlers_disconnect_by_func ( G_OBJECT ( tree_view_liste_echeances ),
+	g_signal_handlers_disconnect_by_func ( G_OBJECT ( tree_view_scheduler_list ),
 					       G_CALLBACK ( affichage_traits_liste_echeances ),
 					       NULL );
 
@@ -568,7 +567,7 @@ gboolean gsb_gui_toggle_grid_mode ()
     }
 
     gtk_widget_queue_draw ( gsb_transactions_list_get_tree_view());
-    gtk_widget_queue_draw ( tree_view_liste_echeances );
+    gtk_widget_queue_draw ( tree_view_scheduler_list );
     return FALSE;
 }
 
@@ -607,9 +606,8 @@ gboolean gsb_menu_update_view_menu ( gint account_number )
 {
     gchar * item_name = NULL;
 
-    if ( DEBUG )
-	printf ( "gsb_menu_update_view_menu account : %d\n",
-		 account_number );
+    devel_debug ( g_strdup_printf ("gsb_menu_update_view_menu account : %d",
+				   account_number ));
 
     block_menu_cb = TRUE;
 
@@ -658,8 +656,7 @@ gboolean gsb_menu_update_accounts_in_menus ( void )
     GSList *list_tmp;
     GtkActionGroup * action_group;
 
-    if ( DEBUG )
-	printf ( "gsb_menu_update_accounts_in_menus\n" );
+    devel_debug ( "gsb_menu_update_accounts_in_menus" );
 
     if ( move_to_account_merge_id != -1 ) 
 	gtk_ui_manager_remove_ui ( ui_manager, move_to_account_merge_id );

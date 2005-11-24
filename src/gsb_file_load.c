@@ -22,6 +22,7 @@
 
 /*START_INCLUDE*/
 #include "gsb_file_load.h"
+#include "erreur.h"
 #include "utils_devises.h"
 #include "dialog.h"
 #include "gsb_data_account.h"
@@ -40,12 +41,12 @@
 #include "traitement_variables.h"
 #include "fichiers_gestion.h"
 #include "utils_files.h"
-#include "structures.h"
 #include "echeancier_liste.h"
 #include "gsb_scheduler_list.h"
 #include "gsb_transactions_list.h"
 #include "include.h"
 #include "echeancier_infos.h"
+#include "structures.h"
 #include "devises_constants.h"
 /*END_INCLUDE*/
 
@@ -238,9 +239,8 @@ gboolean gsb_file_load_open_file ( gchar *filename )
     gchar *file_content;
     guint length;
 
-    if ( DEBUG )
-	printf ( "gsb_file_load_open_file %s\n", 
-		 filename );
+    devel_debug ( g_strdup_printf ("gsb_file_load_open_file %s", 
+				   filename ));
 
     /* general check */
     

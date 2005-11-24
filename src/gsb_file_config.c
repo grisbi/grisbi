@@ -31,6 +31,7 @@
 
 /*START_INCLUDE*/
 #include "gsb_file_config.h"
+#include "erreur.h"
 #include "dialog.h"
 #include "utils_str.h"
 #include "configuration.h"
@@ -38,9 +39,9 @@
 #include "utils_files.h"
 #include "print_config.h"
 #include "gsb_file_config.h"
-#include "structures.h"
 #include "utils_buttons.h"
 #include "include.h"
+#include "structures.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -396,8 +397,7 @@ gboolean gsb_file_config_save_config ( void )
     FILE *conf_file;
     gint i;
     
-    if ( DEBUG )
-	printf ( "gsb_file_config_save_config\n" );
+    devel_debug ( "gsb_file_config_save_config" );
 
     filename = g_strconcat ( my_get_grisbirc_dir(), C_GRISBIRC, NULL );
     config = g_key_file_new ();
@@ -695,9 +695,8 @@ gboolean gsb_file_config_load_last_xml_config ( gchar *filename )
     gchar *file_content;
     gsize length;
 
-    if ( DEBUG )
-	printf ( "gsb_file_config_load_last_xml_config %s\n", 
-		 filename );
+    devel_debug ( g_strdup_printf ("gsb_file_config_load_last_xml_config %s", 
+				   filename ));
 
     /* check if the file exists */
     

@@ -33,6 +33,7 @@
 #include "type_operations.h"
 #include "barre_outils.h"
 #include "echeancier_formulaire.h"
+#include "erreur.h"
 #include "utils_devises.h"
 #include "dialog.h"
 #include "operations_formulaire.h"
@@ -57,6 +58,9 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
+static void gsb_scheduler_list_create_list_columns ( GtkWidget *tree_view );
+static GtkTreeStore *gsb_scheduler_list_create_store ( void );
+static GtkWidget *gsb_scheduler_list_create_tree_view (void);
 /*END_STATIC*/
 
 
@@ -78,8 +82,8 @@ gint selection_echeance_finie;
 GtkWidget *frame_formulaire_echeancier;
 GtkWidget *formulaire_echeancier;
 
-GtkWidget *tree_view_liste_echeances;
-GtkTreeViewColumn *colonnes_liste_echeancier[NB_COLS_SCHEDULER];
+GtkWidget *tree_view_scheduler_list;
+GtkTreeViewColumn *scheduler_list_column[NB_COLS_SCHEDULER];
 
 GtkWidget *bouton_saisir_echeancier;
 
@@ -98,7 +102,6 @@ extern gint affichage_echeances_perso_nb_libre;
 extern gint ancienne_largeur_echeances;
 extern gint bloque_taille_colonne;
 extern GtkWidget *bouton_saisir_echeancier;
-extern GtkTreeViewColumn *colonnes_liste_echeancier[NB_COLS_SCHEDULER];
 extern GdkColor couleur_fond[2];
 extern GdkColor couleur_grise;
 extern GdkColor couleur_selection;
@@ -119,23 +122,127 @@ extern gint scheduler_col_width[NB_COLS_SCHEDULER] ;
 extern GtkTreeSelection * selection;
 extern gint selection_echeance_finie;
 extern GtkWidget *tree_view;
-extern GtkWidget *tree_view_liste_echeances;
 extern GtkWidget *widget_formulaire_echeancier[SCHEDULER_FORM_TOTAL_WIDGET];
 extern GtkWidget *window;
 /*END_EXTERN*/
 
 
-
-/*****************************************************************************/
-/* fonction creation_liste_echeances					     */
-/* renvoie la tree_view pour y mettre les échéances				     */
-/*****************************************************************************/
-GtkWidget *creation_liste_echeances ( void )
+/**
+ * create the scheduler list
+ *
+ * \param
+ *
+ * \return a vbox widget containing the list
+ * */
+GtkWidget *gsb_scheduler_list_create_list ( void )
 {
     GtkWidget *vbox, *scrolled_window;
-    GtkListStore *store;
+    GtkWidget *tree_view;
+
+    /* first, a vbox */
+    vbox = gtk_vbox_new ( FALSE, 5 );
+    gtk_container_set_border_width ( GTK_CONTAINER ( vbox ), 0 );
+    gtk_widget_show ( vbox );
+
+    /* create the toolbar */ 
+    gtk_box_pack_start ( GTK_BOX ( vbox ),
+			 creation_barre_outils_echeancier(),
+			 FALSE, FALSE, 0 );
+
+    /* create the scrolled window */ 
+    scrolled_window = gtk_scrolled_window_new ( NULL, NULL);
+    gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window ),
+				     GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC );
+    gtk_scrolled_window_set_shadow_type ( GTK_SCROLLED_WINDOW ( scrolled_window ),
+					  GTK_SHADOW_IN );
+    gtk_box_pack_start ( GTK_BOX ( vbox ),
+			 scrolled_window,
+			 TRUE, TRUE, 0 );
+    gtk_widget_show ( scrolled_window );
+
+    /* create the tree_view */ 
+    tree_view = gsb_scheduler_list_create_tree_view ();
+    gtk_container_add ( GTK_CONTAINER (scrolled_window),
+			tree_view);
+ 
+    
+    /* create the columns */
+    gsb_scheduler_list_create_list_columns (tree_view);
+
+    /* show/hide the columns with the user conf */
+
+    etat.affichage_commentaire_echeancier = 1 - etat.affichage_commentaire_echeancier;
+    affiche_cache_commentaire_echeancier (tree_view);
+
+    /* create the store and set it in the tree_view */
+
+    gtk_tree_view_set_model ( GTK_TREE_VIEW (tree_view),
+			      GTK_TREE_MODEL (gsb_scheduler_list_create_store ()));
+
+    tree_view_scheduler_list = tree_view;
+    remplissage_liste_echeance();
+    update_couleurs_background_echeancier ();
+    selectionne_echeance (-1);
+
+    return vbox;
+
+}
+
+
+/**
+ * create and configure the tree view of the scheduled transactions
+ *
+ * \param
+ *
+ * \return the tree_view
+ * */
+GtkWidget *gsb_scheduler_list_create_tree_view (void)
+{
+    GtkWidget * tree_view;
+
+    tree_view = gtk_tree_view_new ();
+
+    /* can select only one line */
+
+    gtk_tree_selection_set_mode ( GTK_TREE_SELECTION ( gtk_tree_view_get_selection ( GTK_TREE_VIEW( tree_view ))),
+				  GTK_SELECTION_SINGLE );
+
+    /* 	set the grid */
+
+    if ( etat.affichage_grille )
+	g_signal_connect_after ( G_OBJECT ( tree_view ),
+				 "expose-event",
+				 G_CALLBACK ( affichage_traits_liste_echeances ),
+				 NULL );
+    g_signal_connect ( G_OBJECT ( tree_view ), "button_press_event",
+		       G_CALLBACK ( click_ligne_echeance ),
+		       NULL );
+    g_signal_connect ( G_OBJECT ( tree_view ), "key_press_event",
+		       G_CALLBACK ( traitement_clavier_liste_echeances ),
+		       NULL );
+    
+    /*  FIXME : to move the size of the form with the window */ 
+    /*     g_signal_connect ( G_OBJECT ( tree_view ), "size-allocate", */
+    /* 		       G_CALLBACK ( changement_taille_liste_echeances ), */
+    /* 		       NULL ); */
+
+    gtk_widget_show ( tree_view );
+
+    return tree_view;
+}
+
+
+/**
+ * create and append the columns of the tree_view
+ *
+ * \param tree_view the tree_view
+ *
+ * \return
+ * */
+void gsb_scheduler_list_create_list_columns ( GtkWidget *tree_view )
+{
     gint i;
-    gchar *titres_echeance[] = {
+    gchar *scheduler_titles[] = {
 	_("Date"), _("Account"), _("Payee"), _("Frequency"), 
 	_("Mode"), _("Notes"), _("Amount"), _("Balance")
     };
@@ -144,99 +251,59 @@ GtkWidget *creation_liste_echeances ( void )
 	COLUMN_CENTER, COLUMN_LEFT, COLUMN_RIGHT, COLUMN_RIGHT
     };
 
-    /*   à la base, on a une vbox */
-    vbox = gtk_vbox_new ( FALSE, 5 );
-    gtk_container_set_border_width ( GTK_CONTAINER ( vbox ), 0 );
-    gtk_widget_show ( vbox );
+    devel_debug ( "gsb_scheduler_list_create_list_columns" );
 
-    /* création de la barre d'outils */ 
-    gtk_box_pack_start ( GTK_BOX ( vbox ), creation_barre_outils_echeancier(),
-			 FALSE, FALSE, 0 );
-
-    /* création de la scrolled window */ 
-    scrolled_window = gtk_scrolled_window_new ( NULL, NULL);
-    gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window ),
-				     GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC );
-    gtk_scrolled_window_set_shadow_type ( GTK_SCROLLED_WINDOW ( scrolled_window ),
-					  GTK_SHADOW_IN );
-    gtk_box_pack_start ( GTK_BOX ( vbox ), scrolled_window, TRUE, TRUE, 0 );
-    gtk_widget_show ( scrolled_window );
-
-    /*     création du tree view */ 
-    tree_view_liste_echeances = gtk_tree_view_new ();
-    gtk_container_add ( GTK_CONTAINER ( scrolled_window ), tree_view_liste_echeances );
-    gtk_widget_show ( tree_view_liste_echeances );
-
-    /*     on ne peut sélectionner qu'une ligne */
-
-    gtk_tree_selection_set_mode ( GTK_TREE_SELECTION ( gtk_tree_view_get_selection ( GTK_TREE_VIEW( tree_view_liste_echeances ))),
-				  GTK_SELECTION_NONE );
-
-    /* 	met en place la grille */
-
-    if ( etat.affichage_grille )
-	g_signal_connect_after ( G_OBJECT ( tree_view_liste_echeances ), "expose-event",
-				 G_CALLBACK ( affichage_traits_liste_echeances ),
-				 NULL );
-
-    /* vérifie le simple ou double click */ 
-    g_signal_connect ( G_OBJECT ( tree_view_liste_echeances ), "button_press_event",
-		       G_CALLBACK ( click_ligne_echeance ),
-		       NULL );
-
-    /* vérifie la touche entrée, haut et bas */ 
-    g_signal_connect ( G_OBJECT ( tree_view_liste_echeances ), "key_press_event",
-		       G_CALLBACK ( traitement_clavier_liste_echeances ),
-		       NULL );
-    
-/*     ajuste les colonnes si modification de la taille */ 
-    g_signal_connect ( G_OBJECT ( tree_view_liste_echeances ), "size-allocate",
-		       G_CALLBACK ( changement_taille_liste_echeances ),
-		       NULL );
-    
-    /*     création des colonnes */
     for ( i = 0 ; i < NB_COLS_SCHEDULER ; i++ )
     {
 	GtkCellRenderer *cell_renderer;
 
 	cell_renderer = gtk_cell_renderer_text_new ();
 
-	g_object_set ( G_OBJECT (GTK_CELL_RENDERER ( cell_renderer )), "xalign",
+	g_object_set ( G_OBJECT (GTK_CELL_RENDERER ( cell_renderer )),
+		       "xalign",
 		       col_justs[i], NULL );
 
-	colonnes_liste_echeancier[i] = gtk_tree_view_column_new_with_attributes ( titres_echeance[i],
-										  cell_renderer,
-										  "text", i,
-										  "cell-background-gdk", 8,
-										  "font-desc", 12,
-										  NULL );
-	gtk_tree_view_column_set_alignment ( GTK_TREE_VIEW_COLUMN ( colonnes_liste_echeancier[i] ),
+	scheduler_list_column[i] = gtk_tree_view_column_new_with_attributes ( scheduler_titles[i],
+									      cell_renderer,
+									      "text", i,
+									      "cell-background-gdk", 8,
+									      "font-desc", 12,
+									      NULL );
+	gtk_tree_view_column_set_alignment ( GTK_TREE_VIEW_COLUMN ( scheduler_list_column[i] ),
 					     col_justs[i] );
 
-	gtk_tree_view_append_column ( GTK_TREE_VIEW ( tree_view_liste_echeances ),
-				      GTK_TREE_VIEW_COLUMN ( colonnes_liste_echeancier[i] ));
-	gtk_tree_view_column_set_clickable ( GTK_TREE_VIEW_COLUMN ( colonnes_liste_echeancier[i] ),
-					     TRUE );
-	gtk_tree_view_column_set_resizable ( GTK_TREE_VIEW_COLUMN ( colonnes_liste_echeancier[i] ),
-					     TRUE );
-	gtk_tree_view_column_set_sizing ( GTK_TREE_VIEW_COLUMN ( colonnes_liste_echeancier[i] ),
-					  GTK_TREE_VIEW_COLUMN_FIXED );
+	gtk_tree_view_append_column ( GTK_TREE_VIEW ( tree_view ),
+				      GTK_TREE_VIEW_COLUMN ( scheduler_list_column[i] ));
 
-/* 	g_signal_connect ( G_OBJECT ( colonnes_liste_echeancier[i] ), */
-/* 			   "clicked", */
-/* 			   G_CALLBACK ( click_sur_titre_colonne_echeancier ), */
-/* 			   GINT_TO_POINTER (i)); */
+	/* no sorting by columns for now */
+	gtk_tree_view_column_set_clickable ( GTK_TREE_VIEW_COLUMN ( scheduler_list_column[i] ),
+					     FALSE );
+
+	/* automatic sizing */
+	gtk_tree_view_column_set_expand ( scheduler_list_column[i],
+					  TRUE );
+	gtk_tree_view_column_set_sizing ( GTK_TREE_VIEW_COLUMN ( scheduler_list_column[i] ),
+					  GTK_TREE_VIEW_COLUMN_AUTOSIZE );
+	gtk_tree_view_column_set_resizable ( GTK_TREE_VIEW_COLUMN ( scheduler_list_column[i] ),
+					     TRUE );
     }
+}
 
-    /*     on a créé les colonnes, on va afficher/cacher selon la préf de l'utilisateur */
 
-    etat.affichage_commentaire_echeancier = 1 - etat.affichage_commentaire_echeancier;
-    affiche_cache_commentaire_echeancier ();
+/**
+ * create and return the tree store of the scheduler list
+ *
+ * \param
+ *
+ * \return a gtk_tree_store
+ * */
+GtkTreeStore *gsb_scheduler_list_create_store ( void )
+{
+    GtkTreeStore *store;
 
-    /*     on crée le list_store maintenant et on l'associe vide au tree_view */
-    /* création de la liste des échéances */
+    devel_debug ( "gsb_scheduler_list_create_store" );
 
-    store = gtk_list_store_new ( SCHEDULER_COL_NB_TOTAL,
+    store = gtk_tree_store_new ( SCHEDULER_COL_NB_TOTAL,
 				 G_TYPE_STRING,
 				 G_TYPE_STRING,
 				 G_TYPE_STRING,
@@ -251,26 +318,13 @@ GtkWidget *creation_liste_echeances ( void )
 				 G_TYPE_INT,
 				 PANGO_TYPE_FONT_DESCRIPTION );
 
-    gtk_tree_view_set_model ( GTK_TREE_VIEW (tree_view_liste_echeances),
-			      GTK_TREE_MODEL ( store ));
-
-    remplissage_liste_echeance();
-    update_couleurs_background_echeancier ();
-    selectionne_echeance (-1);
-
-    return vbox;
-
+    return store;
 }
-/*****************************************************************************/
-
-
-
-
 
 /*****************************************************************************/
 /* cette fonction teste la touche entrée sur la liste d'échéances	     */
 /*****************************************************************************/
-gboolean traitement_clavier_liste_echeances ( GtkWidget *tree_view_liste_echeances,
+gboolean traitement_clavier_liste_echeances ( GtkWidget *tree_view_scheduler_list,
 					      GdkEventKey *evenement )
 {
     gint ligne_selectionnee;
@@ -337,7 +391,7 @@ gboolean traitement_clavier_liste_echeances ( GtkWidget *tree_view_liste_echeanc
 /*****************************************************************************/
 /* dOm fonction callback						     */
 /*****************************************************************************/
-void affiche_cache_commentaire_echeancier( void )
+void affiche_cache_commentaire_echeancier( GtkWidget *tree_view )
 {
     gint largeur;
     
@@ -348,31 +402,31 @@ void affiche_cache_commentaire_echeancier( void )
 
     bloque_taille_colonne = 1;
 
-    largeur = tree_view_liste_echeances -> allocation.width;
+    largeur = tree_view -> allocation.width;
 
     if ( etat.affichage_commentaire_echeancier )
     {
-	gtk_tree_view_column_set_visible ( GTK_TREE_VIEW_COLUMN ( colonnes_liste_echeancier[COL_NB_FREQUENCY] ),
+	gtk_tree_view_column_set_visible ( GTK_TREE_VIEW_COLUMN ( scheduler_list_column[COL_NB_FREQUENCY] ),
 					   FALSE );
-	gtk_tree_view_column_set_visible ( GTK_TREE_VIEW_COLUMN ( colonnes_liste_echeancier[COL_NB_MODE] ),
+	gtk_tree_view_column_set_visible ( GTK_TREE_VIEW_COLUMN ( scheduler_list_column[COL_NB_MODE] ),
 					   FALSE );
-	if ( GTK_WIDGET_REALIZED ( tree_view_liste_echeances ))
-	    gtk_tree_view_column_set_visible ( GTK_TREE_VIEW_COLUMN ( colonnes_liste_echeancier[COL_NB_NOTES] ),
+	if ( GTK_WIDGET_REALIZED ( tree_view ))
+	    gtk_tree_view_column_set_visible ( GTK_TREE_VIEW_COLUMN ( scheduler_list_column[COL_NB_NOTES] ),
 					       TRUE );
     }
     else
     {
-	gtk_tree_view_column_set_visible ( GTK_TREE_VIEW_COLUMN ( colonnes_liste_echeancier[COL_NB_FREQUENCY] ),
+	gtk_tree_view_column_set_visible ( GTK_TREE_VIEW_COLUMN ( scheduler_list_column[COL_NB_FREQUENCY] ),
 					   TRUE );
-	gtk_tree_view_column_set_visible ( GTK_TREE_VIEW_COLUMN ( colonnes_liste_echeancier[COL_NB_MODE] ),
+	gtk_tree_view_column_set_visible ( GTK_TREE_VIEW_COLUMN ( scheduler_list_column[COL_NB_MODE] ),
 					   TRUE );
-	gtk_tree_view_column_set_visible ( GTK_TREE_VIEW_COLUMN ( colonnes_liste_echeancier[COL_NB_NOTES] ),
+	gtk_tree_view_column_set_visible ( GTK_TREE_VIEW_COLUMN ( scheduler_list_column[COL_NB_NOTES] ),
 					   FALSE );
-	if ( GTK_WIDGET_REALIZED ( tree_view_liste_echeances ))
+	if ( GTK_WIDGET_REALIZED ( tree_view ))
 	{
-	    gtk_tree_view_column_set_fixed_width ( GTK_TREE_VIEW_COLUMN ( colonnes_liste_echeancier[COL_NB_FREQUENCY] ),
+	    gtk_tree_view_column_set_fixed_width ( GTK_TREE_VIEW_COLUMN ( scheduler_list_column[COL_NB_FREQUENCY] ),
 						   (scheduler_col_width[COL_NB_FREQUENCY] * largeur ) / 100 );
-	    gtk_tree_view_column_set_fixed_width ( GTK_TREE_VIEW_COLUMN ( colonnes_liste_echeancier[COL_NB_MODE] ),
+	    gtk_tree_view_column_set_fixed_width ( GTK_TREE_VIEW_COLUMN ( scheduler_list_column[COL_NB_MODE] ),
 						   (scheduler_col_width[COL_NB_MODE] * largeur ) / 100 );
 	}
     }
@@ -404,19 +458,18 @@ void click_sur_saisir_echeance ( gint scheduled_number )
 /*****************************************************************************/
 void remplissage_liste_echeance ( void )
 {
-    GtkListStore *store;
+    GtkTreeStore *store;
     GSList *slist_ptr;
     GDate *date_fin;
     gint i;
     GtkTreeIter iter;
 
 
-    if ( DEBUG )
-	printf ( "remplissage_liste_echeance\n" );
+    devel_debug ( "remplissage_liste_echeance" );
 
     /*     récupération du store */
 
-    store = GTK_LIST_STORE (gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view_liste_echeances )));
+    store = GTK_TREE_STORE (gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view_scheduler_list )));
     
     /*     récupération de la date de la fin de l'affichage */
 
@@ -424,7 +477,7 @@ void remplissage_liste_echeance ( void )
 
      /* on efface la liste */
 
-    gtk_list_store_clear ( GTK_LIST_STORE ( store ));
+    gtk_tree_store_clear ( GTK_TREE_STORE ( store ));
 
     /*     remplissage de la liste */
 
@@ -500,15 +553,17 @@ void remplissage_liste_echeance ( void )
 
 	    do
 	    {
-		gtk_list_store_append ( GTK_LIST_STORE (store), &iter );
+		gtk_tree_store_append ( GTK_TREE_STORE (store),
+					&iter,
+					NULL );
 
 		for ( i=0 ; i<NB_COLS_SCHEDULER ; i++ )
-		    gtk_list_store_set ( GTK_LIST_STORE ( store ), &iter,
+		    gtk_tree_store_set ( GTK_TREE_STORE ( store ), &iter,
 					 i, ligne[i], -1 );
 
 		/* on met le numéro de l'échéance celui ci est
 		 * à NULL si c'est une échéance calculée */
-		gtk_list_store_set ( GTK_LIST_STORE ( store ), &iter,
+		gtk_tree_store_set ( GTK_TREE_STORE ( store ), &iter,
 				     SCHEDULER_COL_NB_TRANSACTION_NUMBER, scheduled_number_buf,
 				     -1 );
 
@@ -528,12 +583,13 @@ void remplissage_liste_echeance ( void )
 
     /* met la ligne blanche */
 
-    gtk_list_store_append ( GTK_LIST_STORE (store),
-			    &iter );
+    gtk_tree_store_append ( GTK_TREE_STORE (store),
+			    &iter,
+			    NULL );
 
     /* on met le numéro de l'échéance à -1 */
 
-    gtk_list_store_set ( GTK_LIST_STORE ( store ),
+    gtk_tree_store_set ( GTK_TREE_STORE ( store ),
 			 &iter,
 			 SCHEDULER_COL_NB_TRANSACTION_NUMBER, -1,
 			 -1 );
@@ -545,15 +601,14 @@ void remplissage_liste_echeance ( void )
 void update_couleurs_background_echeancier ( void )
 {
     GtkTreeIter iter;
-    GtkListStore *store;
+    GtkTreeStore *store;
     gint couleur_en_cours;
     gboolean result_iter;
 
-    if ( DEBUG )
-	printf ( "update_couleurs_background_echeancier\n" );
+    devel_debug ( "update_couleurs_background_echeancier" );
 
 
-    store = GTK_LIST_STORE ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view_liste_echeances )));
+    store = GTK_TREE_STORE ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view_scheduler_list )));
     couleur_en_cours = 0;
 
     result_iter = gtk_tree_model_get_iter_first ( GTK_TREE_MODEL ( store ),
@@ -569,12 +624,12 @@ void update_couleurs_background_echeancier ( void )
 			     -1 );
 
 	if ( scheduled_number )
-	    gtk_list_store_set ( store,
+	    gtk_tree_store_set ( store,
 				 &iter,
 				 SCHEDULER_COL_NB_BACKGROUND, &couleur_fond[couleur_en_cours],
 				 -1 );
 	else
-	    gtk_list_store_set ( store,
+	    gtk_tree_store_set ( store,
 				 &iter,
 				 SCHEDULER_COL_NB_BACKGROUND, &couleur_grise,
 				 -1 );
@@ -601,13 +656,10 @@ void selectionne_echeance ( gint scheduled_number )
     GdkColor *couleur;
     GtkTreeModel *model;
 
-    if ( DEBUG )
-    {
-	if ( scheduled_number < 0)
-	    printf ( "White scheduled selection\n");
-	else
-	    printf ( "scheduled selection number %d\n",scheduled_number );
-    }
+    if ( scheduled_number < 0)
+	devel_debug ( "White scheduled selection");
+    else
+	devel_debug (g_strdup_printf ( "scheduled selection number %d",scheduled_number ));
 
     if ( (scheduled_number == gsb_data_scheduled_get_current_scheduled_number ()
 	 &&
@@ -619,7 +671,7 @@ void selectionne_echeance ( gint scheduled_number )
 	return;
 
 
-    model = GTK_TREE_MODEL ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view_liste_echeances )));
+    model = GTK_TREE_MODEL ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view_scheduler_list )));
 
     /*   vire l'ancienne sélection : consiste à remettre la couleur d'origine du background */
 
@@ -633,7 +685,7 @@ void selectionne_echeance ( gint scheduled_number )
 			     iter,
 			     SCHEDULER_COL_NB_SAVE_BACKGROUND, &couleur,
 			     -1 );
-	gtk_list_store_set ( GTK_LIST_STORE (model),
+	gtk_tree_store_set ( GTK_TREE_STORE (model),
 			     iter,
 			     SCHEDULER_COL_NB_BACKGROUND,couleur,
 			     9, NULL,
@@ -650,7 +702,7 @@ void selectionne_echeance ( gint scheduled_number )
 			 iter,
 			 SCHEDULER_COL_NB_BACKGROUND, &couleur,
 			 -1 );
-    gtk_list_store_set ( GTK_LIST_STORE (model),
+    gtk_tree_store_set ( GTK_TREE_STORE (model),
 			 iter,
 			 SCHEDULER_COL_NB_BACKGROUND, &couleur_selection,
 			 SCHEDULER_COL_NB_SAVE_BACKGROUND, couleur,
@@ -681,9 +733,9 @@ void ajuste_scrolling_liste_echeances_a_selection ( void )
     /*     si on n'a pas encore récupéré la hauteur des lignes, on va le faire ici */
 
     if ( !hauteur_ligne_liste_opes )
-	hauteur_ligne_liste_opes = recupere_hauteur_ligne_tree_view ( tree_view_liste_echeances );
+	hauteur_ligne_liste_opes = recupere_hauteur_ligne_tree_view ( tree_view_scheduler_list );
 
-    v_adjustment = gtk_tree_view_get_vadjustment ( GTK_TREE_VIEW ( tree_view_liste_echeances ));
+    v_adjustment = gtk_tree_view_get_vadjustment ( GTK_TREE_VIEW ( tree_view_scheduler_list ));
 
     y_ligne = cherche_ligne_echeance ( gsb_data_scheduled_get_current_scheduled_number () ) * hauteur_ligne_liste_opes;
 
@@ -720,7 +772,7 @@ GtkTreeIter *cherche_iter_echeance ( gint scheduled_number )
     if ( !scheduled_number )
 	return NULL;
 
-    model = GTK_TREE_MODEL ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view_liste_echeances )));
+    model = GTK_TREE_MODEL ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view_scheduler_list )));
 
     /*     on va faire le tour de la liste, et dès qu'une opé = echeance */
     /* 	on retourne son iter */
@@ -759,7 +811,7 @@ gint cherche_ligne_echeance ( gint scheduled_number )
 
     iter = cherche_iter_echeance ( scheduled_number );
 
-    return ( utils_str_atoi ( gtk_tree_model_get_string_from_iter (  GTK_TREE_MODEL ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view_liste_echeances ))),
+    return ( utils_str_atoi ( gtk_tree_model_get_string_from_iter (  GTK_TREE_MODEL ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view_scheduler_list ))),
 							      iter )));
 }
 /******************************************************************************/
@@ -775,12 +827,12 @@ gint cherche_echeance_from_ligne ( gint ligne )
     GtkTreeIter iter;
     gint scheduled_number;
 
-    if ( !gtk_tree_model_get_iter_from_string (GTK_TREE_MODEL ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view_liste_echeances ))),
+    if ( !gtk_tree_model_get_iter_from_string (GTK_TREE_MODEL ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view_scheduler_list ))),
 					       &iter,
 					       utils_str_itoa (ligne)))
 	return 0;
 
-    gtk_tree_model_get ( GTK_TREE_MODEL ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view_liste_echeances ))),
+    gtk_tree_model_get ( GTK_TREE_MODEL ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view_scheduler_list ))),
 			 &iter,
 			 SCHEDULER_COL_NB_TRANSACTION_NUMBER, &scheduled_number,
 			 -1 );
@@ -1200,8 +1252,7 @@ void supprime_echeance ( gint scheduled_number )
 {
     gint resultat;
 
-    if ( DEBUG )
-	printf ( "supprime_echeance\n" );
+    devel_debug ( "supprime_echeance" );
 
     if ( !scheduled_number )
 	scheduled_number = gsb_data_scheduled_get_current_scheduled_number ();
@@ -1313,7 +1364,8 @@ gboolean changement_taille_liste_echeances ( GtkWidget *tree_view,
     gint largeur;
     gint i;
     gint col1, col2, col3, col4, col5, col6, col7;
-
+    /* FIXME remove */
+return;
     /*     on va séparer en 2 parties : */
     /* 	soit la largeur = ancienne_largeur_echeances, dans ce cas on dit que c'est un redimensionnement de colonne */
     /* 	soit la largeur != ancienne_largeur_echeances et c'est un redimensionnement de la liste */
@@ -1347,7 +1399,7 @@ gboolean changement_taille_liste_echeances ( GtkWidget *tree_view,
 	{
 	    /* calcul de la valeur relative du redimensionnement de la colonne concernée */
 
-	    largeur = gtk_tree_view_column_get_width ( GTK_TREE_VIEW_COLUMN ( colonnes_liste_echeancier[i] ));
+	    largeur = gtk_tree_view_column_get_width ( GTK_TREE_VIEW_COLUMN ( scheduler_list_column[i] ));
 
 	    scheduler_col_width[i] = (largeur * 100) / allocation -> width;
 	}
@@ -1387,7 +1439,7 @@ gboolean changement_taille_liste_echeances ( GtkWidget *tree_view,
 
     /* FIXME: REMOVE */
 /*     for ( i = 0 ; i < NB_COLS_SCHEDULER - 1 ; i++ ) */
-/* 	gtk_tree_view_column_set_fixed_width ( GTK_TREE_VIEW_COLUMN ( colonnes_liste_echeancier[i] ), */
+/* 	gtk_tree_view_column_set_fixed_width ( GTK_TREE_VIEW_COLUMN ( scheduler_list_column[i] ), */
 /* 					       (scheduler_col_width[i] * largeur ) / 100 ); */
 
     /* on sauve la valeur courante de la largeur de la liste pour
@@ -1492,8 +1544,7 @@ void gsb_scheduler_check_scheduled_transactions_time_limit ( void )
     GSList *slist_ptr;
     GSList *last_slist_ptr;
 
-    if ( DEBUG )
-	printf ( "gsb_scheduler_check_scheduled_transactions_time_limit\n" );
+    devel_debug ( "gsb_scheduler_check_scheduled_transactions_time_limit" );
 
     /* the scheduled transactions to take will be check here,
      * but the scheduled transactions taked will be add to the append ones */
@@ -1798,7 +1849,7 @@ gboolean affichage_traits_liste_echeances ( void )
     GtkAdjustment *adjustment;
     gint derniere_ligne;
 
-    fenetre = gtk_tree_view_get_bin_window ( GTK_TREE_VIEW ( tree_view_liste_echeances ));
+    fenetre = gtk_tree_view_get_bin_window ( GTK_TREE_VIEW ( tree_view_scheduler_list ));
 
     gdk_drawable_get_size ( GDK_DRAWABLE ( fenetre ),
 			    &largeur,
@@ -1809,12 +1860,14 @@ gboolean affichage_traits_liste_echeances ( void )
 
     /*     si la hauteur des lignes n'est pas encore calculée, on le fait ici */
 
-    hauteur_ligne_liste_opes = recupere_hauteur_ligne_tree_view ( tree_view_liste_echeances );
+    hauteur_ligne_liste_opes = recupere_hauteur_ligne_tree_view ( tree_view_scheduler_list );
 
     /*     on commence par calculer la dernière ligne en pixel correspondant à la dernière opé de la liste */
     /* 	pour éviter de dessiner les traits en dessous */
 
-    derniere_ligne = hauteur_ligne_liste_opes * GTK_LIST_STORE ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view_liste_echeances ))) -> length;
+/*     derniere_ligne = hauteur_ligne_liste_opes * GTK_TREE_STORE ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view_scheduler_list ))) -> length; */
+    /* FIXME grill echeances */
+    derniere_ligne = 5;
     hauteur = MIN ( derniere_ligne,
 		    hauteur );
 
@@ -1826,7 +1879,7 @@ gboolean affichage_traits_liste_echeances ( void )
 
     for ( i=0 ; i<6 ; i++ )
     {
-	x = x + gtk_tree_view_column_get_width ( GTK_TREE_VIEW_COLUMN ( colonnes_liste_echeancier[i] ));
+	x = x + gtk_tree_view_column_get_width ( GTK_TREE_VIEW_COLUMN ( scheduler_list_column[i] ));
 	gdk_draw_line ( GDK_DRAWABLE ( fenetre ),
 			gc_separateur_operation,
 			x, 0,
@@ -1838,7 +1891,7 @@ gboolean affichage_traits_liste_echeances ( void )
 
     if ( hauteur_ligne_liste_opes )
     {
-	adjustment = gtk_tree_view_get_vadjustment ( GTK_TREE_VIEW ( tree_view_liste_echeances ));
+	adjustment = gtk_tree_view_get_vadjustment ( GTK_TREE_VIEW ( tree_view_scheduler_list ));
 
 	y = ( hauteur_ligne_liste_opes ) * ( ceil ( adjustment->value / hauteur_ligne_liste_opes )) - adjustment -> value;
 

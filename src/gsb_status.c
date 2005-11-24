@@ -29,12 +29,18 @@
 
 /*START_INCLUDE*/
 #include "gsb_status.h"
+#include "main.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
+static gboolean gsb_status_pulse (  );
+static void gsb_status_remove_progress (  );
+static void gsb_status_set_progress ( gdouble ratio, gdouble max );
+static void gsb_status_show_progress ();
 /*END_STATIC*/
 
 /*START_EXTERN*/
+extern gint max;
 extern GtkWidget *window;
 /*END_EXTERN*/
 

@@ -26,6 +26,7 @@
 
 /*START_INCLUDE*/
 #include "operations_comptes.h"
+#include "erreur.h"
 #include "gsb_data_account.h"
 #include "utils_dates.h"
 #include "menu.h"
@@ -35,8 +36,8 @@
 #include "comptes_traitements.h"
 #include "operations_formulaire.h"
 #include "utils_comptes.h"
-#include "structures.h"
 #include "include.h"
+#include "structures.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -124,8 +125,7 @@ gboolean gsb_data_account_list_gui_change_current_account ( gint *no_account )
     new_account = GPOINTER_TO_INT ( no_account );
     current_account = gsb_data_account_get_current_account ();
 
-    if ( DEBUG )
-	printf ( "gsb_data_account_list_gui_change_current_account : %d\n", new_account );
+    devel_debug ( g_strdup_printf ("gsb_data_account_list_gui_change_current_account : %d", new_account ));
 
     /* sensitive the last account in the menu */
 

@@ -26,6 +26,7 @@
 
 /*START_INCLUDE*/
 #include "traitement_variables.h"
+#include "erreur.h"
 #include "gsb_data_account.h"
 #include "gsb_data_budget.h"
 #include "gsb_data_category.h"
@@ -146,17 +147,15 @@ extern GtkWidget *window;
 
 void modification_fichier ( gboolean modif )
 {
+    devel_debug ( g_strdup_printf ("modification_fichier : %d", modif ));
+
     if ( modif )
     {
-	if ( DEBUG )
-	    printf ( "fichier modifie\n" );
 	etat.modification_fichier = 1;
 	gsb_gui_sensitive_menu_item ( "FileMenu", "Save", NULL, TRUE );
     }
     else
     {
-	if ( DEBUG )
-	    printf ( "fichier non modifie\n" );
 	etat.modification_fichier = 0;
 	gsb_gui_sensitive_menu_item ( "FileMenu", "Save", NULL, FALSE );
     }
@@ -175,8 +174,7 @@ void init_variables ( void )
     gint i;
     gint scheduler_col_width_init[NB_COLS_SCHEDULER] = { 10, 26, 20, 14, 14, 28, 8};
 
-    if ( DEBUG )
-	printf ( "init_variables\n" );
+    devel_debug ( "init_variables" );
 
     gsb_data_account_init_variables ();
     gsb_data_transaction_init_variables ();
@@ -382,8 +380,7 @@ void menus_sensitifs ( gboolean sensitif )
     };
     gchar ** tmp = items;
     
-    if ( DEBUG )
-	printf ( "menus_sensitifs : %d\n", sensitif );
+    devel_debug ( g_strdup_printf ("menus_sensitifs : %d", sensitif ));
 
     while ( *tmp )
     {

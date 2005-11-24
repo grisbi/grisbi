@@ -23,7 +23,6 @@
 /*START_INCLUDE*/
 #include "echeancier_onglet.h"
 #include "echeancier_formulaire.h"
-#include "echeancier_liste.h"
 #include "gsb_scheduler_list.h"
 #include "include.h"
 #include "structures.h"
@@ -65,7 +64,7 @@ GtkWidget *creation_onglet_echeancier ( void )
 
     /*  Création de la fenêtre de la liste des échéances */
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_liste_ventil_echeances ),
-			       creation_liste_echeances(),
+			       gsb_scheduler_list_create_list(),
 			       gtk_label_new ( _("Scheduler list") ) );
 
     /* création des formulaires */

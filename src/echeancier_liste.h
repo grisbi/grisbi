@@ -54,7 +54,6 @@ gint cherche_ligne_echeance ( gint scheduled_number );
 gboolean click_ligne_echeance ( GtkWidget *tree_view,
 				GdkEventButton *evenement );
 void click_sur_saisir_echeance ( gint scheduled_number );
-GtkWidget *creation_liste_echeances ( void );
 GDate *date_fin_affichage_liste_echeance ( void );
 GDate *date_suivante_echeance ( gint scheduled_number,
 				GDate *pGDateCurrent );

@@ -26,6 +26,7 @@
 
 /*START_INCLUDE*/
 #include "gsb_file_util.h"
+#include "erreur.h"
 #include "dialog.h"
 #include "gsb_data_account.h"
 #include "gsb_data_transaction.h"
@@ -67,9 +68,8 @@ gint gsb_file_util_compress_file ( gchar **file_content,
      * seems to work... perhaps there is a better way ?
      * so here a gchar comes in, but it's hidden with (guchar *) to zlib... */
 
-    if (DEBUG)
-	printf ( "gsb_file_util_compress_file : %d\n",
-		 compress );
+    devel_debug ( g_strdup_printf ("gsb_file_util_compress_file : %d",
+				   compress ));
 
     if ( compress )
     {
@@ -193,8 +193,7 @@ gulong gsb_file_util_crypt_file ( gchar * file_name, gchar **file_content,
     gchar *key;
     gulong position;
 
-    if ( DEBUG )
-	printf ( "gsb_file_util_crypt_file : %d\n", crypt );
+    devel_debug ( g_strdup_printf ("gsb_file_util_crypt_file : %d", crypt ));
 
     if ( crypt )
     {
@@ -474,8 +473,7 @@ void switch_t_r ( void )
     if ( !gsb_data_account_get_accounts_amount () )
 	return;
 
-    if ( DEBUG )
-	printf ( "switch_t_r\n");
+    devel_debug ( "switch_t_r");
 
 
     list_tmp_transactions = gsb_data_transaction_get_transactions_list ();

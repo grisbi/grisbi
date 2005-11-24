@@ -57,6 +57,7 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
+static GtkWidget *creation_liste_echeances ( void );
 /*END_STATIC*/
 
 
@@ -98,7 +99,6 @@ extern gint affichage_echeances_perso_nb_libre;
 extern gint ancienne_largeur_echeances;
 extern gint bloque_taille_colonne;
 extern GtkWidget *bouton_saisir_echeancier;
-extern GtkTreeViewColumn *colonnes_liste_echeancier[NB_COLS_SCHEDULER];
 extern GdkColor couleur_fond[2];
 extern GdkColor couleur_grise;
 extern GdkColor couleur_selection;
@@ -119,7 +119,6 @@ extern gint scheduler_col_width[NB_COLS_SCHEDULER] ;
 extern GtkTreeSelection * selection;
 extern gint selection_echeance_finie;
 extern GtkWidget *tree_view;
-extern GtkWidget *tree_view_liste_echeances;
 extern GtkWidget *widget_formulaire_echeancier[SCHEDULER_FORM_TOTAL_WIDGET];
 extern GtkWidget *window;
 /*END_EXTERN*/

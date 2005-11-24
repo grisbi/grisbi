@@ -31,6 +31,7 @@
 #include "tiers_onglet.h"
 #include "devises.h"
 #include "utils.h"
+#include "erreur.h"
 #include "utils_devises.h"
 #include "dialog.h"
 #include "utils_exercices.h"
@@ -3409,8 +3410,7 @@ void remplissage_liste_categ_etats ( void )
     if ( !liste_categ_etat )
 	return;
 
-    if ( DEBUG )
-	printf ( "remplissage_liste_categ_etats\n" );
+    devel_debug ( "remplissage_liste_categ_etats" );
 
     gtk_clist_clear ( GTK_CLIST ( liste_categ_etat ) );
 
@@ -3684,8 +3684,7 @@ void remplissage_liste_ib_etats ( void )
     if ( !onglet_config_etat )
 	return;
 
-    if ( DEBUG )
-	printf ( "remplissage_liste_ib_etats\n" );
+    devel_debug ( "remplissage_liste_ib_etats" );
 
     gtk_clist_clear ( GTK_CLIST ( liste_ib_etat ) );
 
@@ -3880,8 +3879,7 @@ void remplissage_liste_tiers_etats ( void )
     if ( !onglet_config_etat )
 	return;
 
-    if ( DEBUG)
-	printf ( "remplissage_liste_tiers_etats\n" );
+    devel_debug ( "remplissage_liste_tiers_etats" );
 
     gtk_clist_clear ( GTK_CLIST ( liste_tiers_etat ) );
 

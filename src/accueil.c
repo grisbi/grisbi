@@ -32,6 +32,7 @@
 #include "classement_echeances.h"
 #include "echeancier_liste.h"
 #include "gsb_scheduler_list.h"
+#include "erreur.h"
 #include "utils_devises.h"
 #include "dialog.h"
 #include "echeancier_formulaire.h"
@@ -398,8 +399,7 @@ void update_liste_comptes_accueil ( void )
 	 !gsb_data_account_get_accounts_amount () )
 	return;
 
-    if ( DEBUG )
-	printf ( "update_liste_comptes_accueil\n" );
+    devel_debug ( "update_liste_comptes_accueil" );
 
     mise_a_jour_liste_comptes_accueil = 0;
 
@@ -1491,8 +1491,7 @@ void update_liste_echeances_manuelles_accueil ( void )
     if ( !mise_a_jour_liste_echeances_manuelles_accueil )
 	return;
 
-    if ( DEBUG )
-	printf ( "update_liste_echeances_manuelles_accueil\n" );
+    devel_debug ( "update_liste_echeances_manuelles_accueil" );
 
     mise_a_jour_liste_echeances_manuelles_accueil = 0;
 
@@ -1620,8 +1619,7 @@ void update_liste_echeances_auto_accueil ( void )
     if ( ! mise_a_jour_liste_echeances_auto_accueil )
 	return;
 
-    if ( DEBUG )
-	printf ( "update_liste_echeances_auto_accueil\n" );
+    devel_debug ( "update_liste_echeances_auto_accueil" );
 
     mise_a_jour_liste_echeances_auto_accueil = 0;
 
@@ -1737,8 +1735,7 @@ void update_soldes_minimaux ( void )
     if ( !mise_a_jour_soldes_minimaux  )
 	return;
 
-    if ( DEBUG )
-	printf ( "update_soldes_minimaux\n" );
+    devel_debug ( "update_soldes_minimaux" );
 
     mise_a_jour_soldes_minimaux = 0;
 
@@ -1842,8 +1839,7 @@ void affiche_dialogue_soldes_minimaux ( void )
     if ( !mise_a_jour_soldes_minimaux  )
 	return;
 
-    if ( DEBUG )
-	printf ( "affiche_dialogue_soldes_minimaux\n" );
+    devel_debug ( "affiche_dialogue_soldes_minimaux" );
 
     liste_autorise = NULL;
     liste_voulu = NULL;
@@ -2018,8 +2014,7 @@ void update_fin_comptes_passifs ( void )
     if ( !mise_a_jour_fin_comptes_passifs  )
 	return;
 
-    if ( DEBUG )
-	printf ( "update_fin_comptes_passifs\n" );
+    devel_debug ( "update_fin_comptes_passifs" );
 
     mise_a_jour_fin_comptes_passifs = 0;
 

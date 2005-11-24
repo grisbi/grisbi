@@ -22,6 +22,7 @@
 
 /*START_INCLUDE*/
 #include "gsb_file_save.h"
+#include "erreur.h"
 #include "dialog.h"
 #include "gsb_data_account.h"
 #include "gsb_data_budget.h"
@@ -36,10 +37,10 @@
 #include "utils_dates.h"
 #include "navigation.h"
 #include "utils_str.h"
-#include "structures.h"
 #include "echeancier_liste.h"
 #include "gsb_scheduler_list.h"
 #include "gsb_transactions_list.h"
+#include "structures.h"
 #include "include.h"
 #include "echeancier_infos.h"
 /*END_INCLUDE*/
@@ -150,9 +151,8 @@ gboolean gsb_file_save_save_file ( gchar *filename,
     gint reconcile_part;
     gint report_part;
 
-    if ( DEBUG )
-	printf ( "gsb_file_save_save_file : %s\n",
-		 filename );
+    devel_debug ( g_strdup_printf ("gsb_file_save_save_file : %s",
+				   filename ));
 
     do_chmod = !g_file_test ( filename,
 			      G_FILE_TEST_EXISTS );
@@ -328,8 +328,7 @@ gulong gsb_file_save_append_part ( gulong iterator,
 	*file_content = realloc ( *file_content,
 				  *length_calculated );
 
-	if ( DEBUG )
-	    printf ( "The length calculated for saving file should be bigger?\n" );
+	notice_debug ( "The length calculated for saving file should be bigger?" );
     }
 
     memcpy ( *file_content + iterator,

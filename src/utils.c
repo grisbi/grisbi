@@ -31,11 +31,12 @@
 
 /*START_INCLUDE*/
 #include "utils.h"
+#include "erreur.h"
 #include "dialog.h"
 #include "gsb_data_account.h"
 #include "gsb_file_config.h"
-#include "structures.h"
 #include "include.h"
+#include "structures.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -320,8 +321,7 @@ gboolean assert_account_loaded ()
 /******************************************************************************/
 void update_ecran ( void )
 {
-    if ( DEBUG )
-	printf ( "update_ecran\n" );
+    devel_debug ( "update_ecran" );
 
     while ( g_main_iteration (FALSE));
 }

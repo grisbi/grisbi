@@ -36,6 +36,7 @@
 #include "utils_montants.h"
 #include "gsb_transactions_list.h"
 #include "devises.h"
+#include "erreur.h"
 #include "utils_devises.h"
 #include "dialog.h"
 #include "equilibrage.h"
@@ -216,8 +217,7 @@ void remplissage_formulaire ( gint no_compte )
     gint i, j;
     GtkWidget *table;
 
-    if ( DEBUG )
-	printf ( "remplissage_formulaire compte %d\n", no_compte );
+    devel_debug ( g_strdup_printf ("remplissage_formulaire compte %d", no_compte ));
 
     /*     s'il y avait déjà un formulaire, on l'efface */
 
@@ -3187,9 +3187,8 @@ gint gsb_form_validate_transfer ( gint transaction_number,
  * */
 gboolean gsb_transactions_list_append_new_transaction ( gint transaction_number )
 {
-    if ( DEBUG )
-	printf ( "gsb_transactions_list_append_new_transaction %d\n",
-		 transaction_number );
+    devel_debug ( g_strdup_printf ("gsb_transactions_list_append_new_transaction %d",
+				   transaction_number ));
 
     if ( !gsb_transactions_list_get_store ())
 	return FALSE;
@@ -3256,9 +3255,8 @@ gboolean gsb_transactions_list_update_transaction ( gpointer transaction )
     GtkListStore *store;
     GtkTreeIter *iter;
 
-    if ( DEBUG )
-	printf ( "gsb_transactions_list_update_transaction no %d\n",
-		 gsb_data_transaction_get_transaction_number (transaction));
+    devel_debug ( g_strdup_printf ( "gsb_transactions_list_update_transaction no %d",
+				    gsb_data_transaction_get_transaction_number (transaction)));
 
     store = gsb_transactions_list_get_store();
     iter = gsb_transactions_list_get_iter_from_transaction (gsb_data_transaction_get_transaction_number (transaction ),

@@ -80,8 +80,7 @@ extern GtkWidget *bouton_saisir_echeancier;
 extern GtkWidget *formulaire;
 extern GtkItemFactory *item_factory_menu_general;
 extern GtkTooltips *tooltips_general_grisbi;
-extern GtkWidget *tree_view_liste_echeances;
-extern GtkWidget *tree_view_liste_echeances;
+extern GtkWidget *tree_view_scheduler_list;
 /*END_EXTERN*/
 
 
@@ -206,7 +205,7 @@ gboolean change_aspect_liste ( gint demande )
 	    {
 		/* 		on affiche les grilles */
 
-		g_signal_connect_after ( G_OBJECT ( tree_view_liste_echeances ),
+		g_signal_connect_after ( G_OBJECT ( tree_view_scheduler_list ),
 					 "expose-event",
 					 G_CALLBACK ( affichage_traits_liste_echeances ),
 					 NULL );
@@ -231,7 +230,7 @@ gboolean change_aspect_liste ( gint demande )
 	    {
 		GSList *list_tmp;
 
-		g_signal_handlers_disconnect_by_func ( G_OBJECT ( tree_view_liste_echeances ),
+		g_signal_handlers_disconnect_by_func ( G_OBJECT ( tree_view_scheduler_list ),
 						       G_CALLBACK ( affichage_traits_liste_echeances ),
 						       NULL );
 
@@ -251,7 +250,7 @@ gboolean change_aspect_liste ( gint demande )
 		}
 	    }
 	    gtk_widget_queue_draw ( gsb_transactions_list_get_tree_view());
-	    gtk_widget_queue_draw ( tree_view_liste_echeances );
+	    gtk_widget_queue_draw ( tree_view_scheduler_list );
 
 	    block_menu_cb = TRUE;
 	    widget = gtk_item_factory_get_item ( item_factory_menu_general,

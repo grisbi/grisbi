@@ -34,6 +34,7 @@
 #include "type_operations.h"
 #include "comptes_traitements.h"
 #include "echeancier_formulaire.h"
+#include "erreur.h"
 #include "utils_devises.h"
 #include "dialog.h"
 #include "echeancier_liste.h"
@@ -307,8 +308,7 @@ gboolean gsb_transactions_list_sort_column_changed ( GtkTreeViewColumn *tree_vie
     GtkSortType sort_type;
     gint sort_column_id;
 
-    if ( DEBUG )
-	printf ( "gsb_transactions_list_sort_column_changed\n" );
+    devel_debug ( "gsb_transactions_list_sort_column_changed" );
 
     /* the third click give no sort for the column
      * we forbid that here, so now, there is always a column which sort the tree view */
@@ -475,8 +475,7 @@ void update_titres_tree_view ( void )
 /******************************************************************************/
 void remplissage_liste_operations ( gint compte )
 {
-    if ( DEBUG )
-	printf ( "remplissage_liste_operations compte %d\n", compte );
+    devel_debug ( g_strdup_printf ("remplissage_liste_operations compte %d", compte ));
 
     /* FIXME  cette fonction est à virer */
 
@@ -517,8 +516,7 @@ GtkTreeStore *gsb_transactions_list_create_store ( void )
 {
     GtkTreeStore *store;
 
-    if ( DEBUG )
-	printf ( "gsb_transactions_list_create_store\n" );
+    devel_debug ( "gsb_transactions_list_create_store" );
 
     /* definitions of the columns in operations_liste.h */
 
@@ -556,8 +554,7 @@ GtkTreeModel *gsb_transactions_list_set_filter_store ( GtkTreeStore *store )
 {
     GtkTreeModel *filter_model;
 
-    if ( DEBUG )
-	printf ( "gsb_transactions_list_set_filter_store\n" );
+    devel_debug ( "gsb_transactions_list_set_filter_store" );
 
     filter_model = gtk_tree_model_filter_new ( GTK_TREE_MODEL ( store ),
 					       NULL );
@@ -725,8 +722,7 @@ gboolean gsb_transactions_list_fill_store ( GtkTreeStore *store )
 {
     GSList *transactions_list;
 
-    if ( DEBUG )
-	printf ( "gsb_transactions_list_fill_store\n" );
+    devel_debug ( "gsb_transactions_list_fill_store" );
 
     transactions_list = gsb_data_transaction_get_transactions_list ();
 
@@ -767,7 +763,6 @@ gboolean gsb_transactions_list_fill_store ( GtkTreeStore *store )
 
     return FALSE; 
 }
-/******************************************************************************/
 
 
 
@@ -1163,8 +1158,7 @@ gboolean gsb_transactions_list_set_background_color ( gint no_account )
     gint i;
     gint nb_rows_by_transaction;
 
-    if ( DEBUG )
-	printf ( "gsb_transactions_list_set_background_color :  no_account %d\n", no_account );
+    devel_debug ( g_strdup_printf ("gsb_transactions_list_set_background_color :  no_account %d", no_account ));
 
     model = GTK_TREE_MODEL (gsb_transactions_list_get_store());
     model_sort = GTK_TREE_MODEL_SORT (gsb_transactions_list_get_sortable());
@@ -1277,8 +1271,7 @@ gboolean gsb_transactions_list_set_transactions_balances ( gint no_account )
     GtkTreePath *path;
     GtkTreeModel *model;
 
-    if ( DEBUG )
-	printf ( "gsb_transactions_list_set_transactions_balances, no_account : %d\n", no_account );
+    devel_debug ( g_strdup_printf ("gsb_transactions_list_set_transactions_balances, no_account : %d", no_account ));
 
     /*     on commence par retrouver la colonne et la ligne pour afficher le solde de l'opé */
 
@@ -1372,9 +1365,8 @@ gboolean gsb_transactions_list_set_adjustment_value ( gint account_number )
     GtkAdjustment *adjustment;
     gdouble value;
 
-    if ( DEBUG )
-	printf ( "gsb_transactions_list_set_adjustment_value account %d\n",
-		 account_number );
+    devel_debug ( g_strdup_printf ("gsb_transactions_list_set_adjustment_value account %d",
+				   account_number ));
 
 /*     update_ecran (); */
 
@@ -1661,8 +1653,7 @@ gboolean gsb_transactions_list_current_transaction_up ( gint no_account )
     GtkTreePath *path;
     GtkTreePath *path_sorted;
     
-    if ( DEBUG )
-	printf ( "gsb_transactions_list_current_transaction_up\n" );
+    devel_debug ( "gsb_transactions_list_current_transaction_up" );
 
     transaction_number = gsb_data_account_get_current_transaction_number ( no_account );
 
@@ -1724,8 +1715,7 @@ gboolean gsb_transactions_list_current_transaction_down ( gint no_account )
     gint transaction_number;
     gint current_transaction_number;
 
-     if ( DEBUG )
-	printf ( "gsb_transactions_list_current_transaction_down\n");
+    devel_debug ( "gsb_transactions_list_current_transaction_down");
      
      current_transaction_number = gsb_data_account_get_current_transaction_number (no_account);
 
@@ -1824,9 +1814,8 @@ gboolean gsb_transactions_list_set_current_transaction ( gint transaction_number
     gint current_transaction_number;
     gint account_number;
 
-    if ( DEBUG )
-	printf ( "gsb_transactions_list_set_current_transaction %d\n",
-		 transaction_number );
+    devel_debug ( g_strdup_printf ("gsb_transactions_list_set_current_transaction %d",
+				   transaction_number ));
     
     if ( !gsb_transactions_list_get_tree_view()
 	 ||
@@ -1937,8 +1926,7 @@ gboolean gsb_transactions_list_move_to_current_transaction ( gint no_account )
     GtkTreePath *path;
     GtkTreePath *path_sorted;
 
-    if ( DEBUG )
-	printf ( "gsb_transactions_list_move_to_current_transaction, compte %d\n", no_account );
+    devel_debug ( g_strdup_printf ("gsb_transactions_list_move_to_current_transaction, compte %d", no_account ));
 
     path = gsb_transactions_list_get_path_from_transaction ( gsb_data_account_get_current_transaction_number (no_account));
     path_sorted = gsb_transactions_list_get_sorted_path_from_list_path ( path, no_account );
@@ -2944,9 +2932,8 @@ gboolean gsb_transactions_list_delete_transaction ( gint transaction_number )
 	 transaction_number < 0 )
 	return FALSE;
 
-    if ( DEBUG )
-	printf ( "gsb_transactions_list_delete_transaction no %d\n",
-		 transaction_number );
+    devel_debug ( g_strdup_printf ("gsb_transactions_list_delete_transaction no %d",
+				   transaction_number ));
 
     /* check if the transaction is not reconciled */
 
@@ -3176,9 +3163,8 @@ gboolean gsb_transactions_list_delete_transaction_from_tree_view ( gpointer tran
     if ( !transaction )
 	return FALSE;
 
-    if ( DEBUG )
-	printf ( "gsb_transactions_list_delete_transaction_from_tree_view no %d\n",
-		 gsb_data_transaction_get_transaction_number (transaction) );
+    devel_debug ( g_strdup_printf ("gsb_transactions_list_delete_transaction_from_tree_view no %d",
+				   gsb_data_transaction_get_transaction_number (transaction)));
 
     iter = gsb_transactions_list_get_iter_from_transaction (gsb_data_transaction_get_transaction_number (transaction),
 							    0 );
@@ -4262,8 +4248,7 @@ void mise_a_jour_affichage_r ( gint affichage_r )
     if ( affichage_r == gsb_data_account_get_r (gsb_data_account_get_current_account ()) )
 	return;
 
-    if ( DEBUG )
-	printf ( "mise_a_jour_affichage_r afficher : %d\n", affichage_r );
+    devel_debug ( g_strdup_printf ("mise_a_jour_affichage_r afficher : %d", affichage_r ));
 
     gsb_data_account_set_r (gsb_data_account_get_current_account (),
 			    affichage_r );
@@ -4302,8 +4287,7 @@ void gsb_transactions_list_set_visible_rows_number ( gint rows_number )
     GSList *list_tmp;
     gint current_account;
 
-    if ( DEBUG )
-	printf ( "gsb_transactions_list_set_visible_rows_number %d lines\n", rows_number );
+    devel_debug ( g_strdup_printf ("gsb_transactions_list_set_visible_rows_number %d lines", rows_number ));
 
     current_account = gsb_data_account_get_current_account ();
     if ( rows_number == gsb_data_account_get_nb_rows (current_account))
@@ -4426,8 +4410,7 @@ gboolean gsb_transactions_list_set_visibles_rows_on_account ( gint no_account )
     GtkTreeModel *sortable_model;
     GtkTreeIter iter;
 
-    if ( DEBUG )
-	printf ( "gsb_transactions_list_set_visibles_rows_on_account %d\n", no_account );
+    devel_debug ( g_strdup_printf ("gsb_transactions_list_set_visibles_rows_on_account %d", no_account ));
 
     sortable_model = GTK_TREE_MODEL (gsb_transactions_list_get_store ());
 
@@ -4562,8 +4545,7 @@ void gsb_transactions_list_change_expanders ( gint only_current_account )
     GtkTreeModel *tree_store;
     GtkTreeIter iter;
 
-    if ( DEBUG )
-	printf ( "gsb_transactions_list_change_expanders, only_current_account =  %d\n", only_current_account );
+    devel_debug ( g_strdup_printf ("gsb_transactions_list_change_expanders, only_current_account =  %d", only_current_account ));
 
     tree_store = GTK_TREE_MODEL (gsb_transactions_list_get_store ());
 

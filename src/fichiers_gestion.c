@@ -34,8 +34,8 @@
 #include "utils_montants.h"
 #include "fenetre_principale.h"
 #include "comptes_traitements.h"
-#include "dialog.h"
 #include "erreur.h"
+#include "dialog.h"
 #include "utils_file_selection.h"
 #include "gsb_data_account.h"
 #include "operations_comptes.h"
@@ -56,8 +56,8 @@
 #include "utils_files.h"
 #include "parametres.h"
 #include "affichage_liste.h"
-#include "structures.h"
 #include "include.h"
+#include "structures.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -77,6 +77,7 @@ gchar *nom_fichier_backup;
 
 /*START_EXTERN*/
 extern gchar *dernier_chemin_de_travail;
+extern GtkWidget *main_hpaned ;
 extern GtkWidget *main_vbox;
 extern gint max;
 extern gint mise_a_jour_fin_comptes_passifs;
@@ -91,12 +92,11 @@ extern GSList *scheduled_transactions_taken;
 extern GSList *scheduled_transactions_to_take;
 extern GSList *scheduled_transactions_to_take;
 extern gchar **tab_noms_derniers_fichiers_ouverts ;
+extern GtkWidget *table_etat ;
 extern gchar *titre_fichier;
 extern GtkWidget *tree_view_vbox;
 extern GtkWidget *window;
 extern GtkWidget *window_vbox_principale;
-extern GtkWidget *main_hpaned ;
-extern GtkWidget *table_etat;
 /*END_EXTERN*/
 
 
@@ -288,9 +288,8 @@ gboolean gsb_file_open_file ( gchar *filename )
     GSList *list_tmp;
     GtkWidget *main_widget, *tree_view_widget;
 
-    if ( DEBUG )
-	printf ( "gsb_file_open_file : %s\n",
-		 filename );
+    devel_debug ( g_strdup_printf ("gsb_file_open_file : %s",
+				   filename ));
 
     gsb_status_message ( _("Load an accounts file") );
 /*     gsb_status_start_activity (); */
@@ -508,16 +507,14 @@ gboolean enregistrement_fichier ( gint origine )
     gint etat_force, result;
     gchar *nouveau_nom_enregistrement;
 
-    if ( DEBUG )
-	printf ( "enregistrement_fichier from %d\n", origine );
+    devel_debug (g_strdup_printf ( "enregistrement_fichier from %d", origine ));
 
     etat_force = 0;
 
     if ( ( ! etat.modification_fichier && origine != -2 ) ||
 	 ! gsb_data_account_get_accounts_amount () )
     {
-	if ( DEBUG )
-	    printf ( "nothing done in enregistrement_fichier\n" );
+	notice_debug ( "nothing done in enregistrement_fichier" );
 	return ( TRUE );
     }
 
@@ -722,8 +719,7 @@ gboolean fermer_fichier ( void )
 {
     gint result;
 
-    if ( DEBUG)
-	printf ( "fermer_fichier\n" );
+    devel_debug ( "fermer_fichier" );
 
 
     if ( !gsb_data_account_get_accounts_amount () )
@@ -807,8 +803,7 @@ void affiche_titre_fenetre ( void )
     gchar *titre = NULL;
     gint i=0;
 
-    if ( DEBUG )
-	printf ( "affiche_titre_fenetre\n" );
+    devel_debug ( "affiche_titre_fenetre" );
 
     if ( titre_fichier && strlen(titre_fichier) )
       titre = titre_fichier;
@@ -876,8 +871,7 @@ void ajoute_new_file_liste_ouverture ( gchar *path_fichier )
     gint position;
     gchar *dernier;
 
-    if ( DEBUG )
-	printf ( "ajoute_new_file_liste_ouverture : %s\n", path_fichier );
+    devel_debug ( g_strdup_printf ("ajoute_new_file_liste_ouverture : %s", path_fichier ));
 
     if ( !nb_max_derniers_fichiers_ouverts ||
 	 ! path_fichier)

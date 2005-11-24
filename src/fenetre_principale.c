@@ -31,14 +31,14 @@
 #include "comptes_onglet.h"
 #include "echeancier_onglet.h"
 #include "etats_onglet.h"
-#include "gsb_status.h"
+#include "erreur.h"
 #include "main.h"
 #include "categories_onglet.h"
 #include "imputation_budgetaire.h"
 #include "tiers_onglet.h"
 #include "include.h"
-#include "structures.h"
 #include "fenetre_principale.h"
+#include "structures.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -74,7 +74,7 @@ extern GtkTreeStore *budgetary_line_tree_model;
 extern GtkTreeStore * categ_tree_model;
 extern AB_BANKING *gbanking;
 extern GtkWidget * hpaned;
-extern GtkWidget *main_statusbar;
+extern GtkWidget *main_statusbar ;
 extern GtkTreeStore *payee_tree_model;
 extern GtkWidget * scheduler_calendar;
 /*END_EXTERN*/
@@ -160,8 +160,7 @@ static GtkWidget *create_main_notebook (void )
     GtkWidget *page_queue;
 #endif
 
-    if ( DEBUG )
-	printf ( "create_main_notebook\n" );
+    devel_debug ( "create_main_notebook" );
 
     /* création du notebook de base */
 

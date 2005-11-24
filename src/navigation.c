@@ -93,8 +93,7 @@ extern GtkTreeStore *model;
 extern GtkTreeSelection * selection;
 extern gchar *titre_fichier;
 extern GtkWidget *tree_view;
-extern GtkWidget *tree_view_liste_echeances;
-extern GtkWidget *tree_view_liste_echeances;
+extern GtkWidget *tree_view_scheduler_list;
 /*END_EXTERN*/
 
 
@@ -1065,7 +1064,7 @@ gboolean gsb_gui_navigation_check_key_press ( GtkWidget *tree_view,
 		case GDK_KP_Down :
 		case GDK_Delete :               /*  del  */
 
-		    traitement_clavier_liste_echeances  ( tree_view_liste_echeances,
+		    traitement_clavier_liste_echeances  ( tree_view_scheduler_list,
 							  ev );
 		    return TRUE;
 	    }

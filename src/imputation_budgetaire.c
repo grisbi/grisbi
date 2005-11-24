@@ -32,6 +32,7 @@
 /*START_INCLUDE*/
 #include "imputation_budgetaire.h"
 #include "metatree.h"
+#include "erreur.h"
 #include "dialog.h"
 #include "utils_file_selection.h"
 #include "gsb_data_budget.h"
@@ -44,9 +45,9 @@
 #include "utils_editables.h"
 #include "affichage_formulaire.h"
 #include "operations_formulaire.h"
-#include "structures.h"
 #include "echeancier_formulaire.h"
 #include "include.h"
+#include "structures.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -236,8 +237,7 @@ void remplit_arbre_imputation ( void )
     GSList *budget_list;
     GtkTreeIter iter_budgetary_line, iter_sub_budgetary_line;
 
-    if ( DEBUG )
-	printf ( "remplit_arbre_imputation\n" );
+    devel_debug ( "remplit_arbre_imputation" );
 
     /** First, remove previous tree */
     gtk_tree_store_clear ( GTK_TREE_STORE (budgetary_line_tree_model));
@@ -331,8 +331,7 @@ gboolean budgetary_line_drag_data_get ( GtkTreeDragSource * drag_source, GtkTree
 
 void mise_a_jour_combofix_imputation ( void )
 {
-    if ( DEBUG )
-	printf ( "mise_a_jour_combofix_imputation\n" );
+    devel_debug ( "mise_a_jour_combofix_imputation" );
 
     if ( verifie_element_formulaire_existe ( TRANSACTION_FORM_BUDGET ))
 	gtk_combofix_set_list ( GTK_COMBOFIX ( widget_formulaire_par_element (TRANSACTION_FORM_BUDGET) ),

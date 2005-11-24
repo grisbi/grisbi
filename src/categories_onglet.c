@@ -25,6 +25,7 @@
 /*START_INCLUDE*/
 #include "categories_onglet.h"
 #include "metatree.h"
+#include "erreur.h"
 #include "dialog.h"
 #include "utils_file_selection.h"
 #include "gsb_data_category.h"
@@ -39,9 +40,9 @@
 #include "etats_config.h"
 #include "affichage_formulaire.h"
 #include "operations_formulaire.h"
-#include "structures.h"
 #include "include.h"
 #include "echeancier_formulaire.h"
+#include "structures.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -343,8 +344,7 @@ void remplit_arbre_categ ( void )
     GSList *category_list;
     GtkTreeIter iter_categ, iter_sous_categ;
 
-    if ( DEBUG )
-	printf ( "remplit_arbre_categ\n" );
+    devel_debug ( "remplit_arbre_categ" );
 
     /** First, remove previous tree */
     gtk_tree_store_clear ( GTK_TREE_STORE (categ_tree_model) );
@@ -434,8 +434,7 @@ void mise_a_jour_combofix_categ ( void )
 {
     GSList *list_tmp;
 
-    if ( DEBUG )
-	printf ( "mise_a_jour_combofix_categ\n" );
+    devel_debug ( "mise_a_jour_combofix_categ" );
 
     list_tmp = gsb_data_category_get_name_list ( TRUE,
 						 TRUE,

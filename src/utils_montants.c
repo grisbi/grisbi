@@ -27,9 +27,9 @@
 
 /*START_INCLUDE*/
 #include "utils_montants.h"
+#include "erreur.h"
 #include "gsb_data_account.h"
 #include "gsb_data_transaction.h"
-#include "structures.h"
 #include "import.h"
 /*END_INCLUDE*/
 
@@ -117,8 +117,7 @@ gdouble calcule_solde_compte ( gint account_number )
     gdouble amount;
     GSList *list_tmp;
 
-    if ( DEBUG )
-	printf ( "calcule_solde_compte %d\n", account_number );
+    devel_debug ( g_strdup_printf ("calcule_solde_compte %d", account_number ));
 
     amount = gsb_data_account_get_init_balance (account_number);
 
@@ -152,8 +151,7 @@ gdouble calcule_solde_pointe_compte ( gint account_number )
     gdouble amount;
     GSList *list_tmp;
 
-    if ( DEBUG )
-	printf ( "calcule_solde_pointe_compte %d\n", account_number );
+    devel_debug ( g_strdup_printf ("calcule_solde_pointe_compte %d", account_number ));
 
     amount = gsb_data_account_get_init_balance (account_number);
 
