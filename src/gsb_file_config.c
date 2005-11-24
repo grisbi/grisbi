@@ -60,6 +60,7 @@ extern GtkWidget *main_hpaned ;
 extern gint max;
 extern struct conditional_message messages[] ;
 extern gint nb_days_before_scheduled;
+extern gint nb_days_before_scheduled;
 extern gchar *nom_fichier_comptes;
 extern GtkWidget *window;
 /*END_EXTERN*/
@@ -489,10 +490,13 @@ gboolean gsb_file_config_save_config ( void )
 			     "Load last file",
 			     etat.dernier_fichier_auto );
 
-    g_key_file_set_string ( config,
-			    "IO",
-			    "Name last file",
-			    nom_fichier_comptes );
+    if ( nom_fichier_comptes )
+    {
+	g_key_file_set_string ( config,
+				"IO",
+				"Name last file",
+				nom_fichier_comptes );
+    }
 
     g_key_file_set_integer ( config,
 			     "IO",
