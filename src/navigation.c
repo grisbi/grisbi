@@ -34,6 +34,7 @@
 #include "menu.h"
 #include "gsb_transactions_list.h"
 #include "comptes_gestion.h"
+#include "echeancier_liste.h"
 #include "gsb_scheduler_list.h"
 #include "gsb_file_config.h"
 #include "navigation.h"
@@ -92,6 +93,7 @@ extern GtkTreeStore *model;
 extern GtkTreeSelection * selection;
 extern gchar *titre_fichier;
 extern GtkWidget *tree_view;
+extern GtkWidget *tree_view_liste_echeances;
 extern GtkWidget *tree_view_liste_echeances;
 /*END_EXTERN*/
 
@@ -665,7 +667,7 @@ void gsb_gui_navigation_remove_report ( gint report_number )
 
 
 /**
- * return the number of the current selected report
+ * Return the number of the current selected report
  *
  * \param
  *
@@ -676,6 +678,11 @@ gint gsb_gui_navigation_get_current_report ( void )
     GtkTreeSelection *selection;
     GtkTreeIter iter;
     gint page;
+
+    if ( ! navigation_tree_view )
+    {
+	return 0;
+    }
 
     selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (navigation_tree_view));
 
@@ -859,7 +866,14 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
     switch ( page )
     {
 	case GSB_HOME_PAGE:
-	    title = g_strconcat ( "Grisbi : " , titre_fichier, NULL );
+	    if ( titre_fichier && strlen ( titre_fichier ) )
+	    {
+		title = g_strconcat ( "Grisbi : " , titre_fichier, NULL );
+	    }
+	    else
+	    {
+		title = g_strconcat ( "Grisbi : " , _("My accounts"), NULL );
+	    }
 	    break;
 
 	case GSB_ACCOUNT_PAGE:
