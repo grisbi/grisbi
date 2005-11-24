@@ -38,6 +38,7 @@
 #include "menu.h"
 #include "structures.h"
 #include "traitement_variables.h"
+#include "echeancier_liste.h"
 #include "gsb_scheduler_list.h"
 #include "include.h"
 #include "echeancier_infos.h"
@@ -123,6 +124,8 @@ extern gint no_devise_totaux_ib;
 extern gint no_devise_totaux_tiers;
 extern gchar *nom_fichier_backup;
 extern GSList *scheduled_transactions_taken;
+extern GSList *scheduled_transactions_taken;
+extern gint scheduler_col_width[NB_COLS_SCHEDULER] ;
 extern gint scheduler_col_width[NB_COLS_SCHEDULER] ;
 extern GtkWidget *solde_label ;
 extern GtkWidget *solde_label_pointe ;

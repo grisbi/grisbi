@@ -31,6 +31,7 @@
 
 /*START_INCLUDE*/
 #include "barre_outils.h"
+#include "echeancier_liste.h"
 #include "gsb_scheduler_list.h"
 #include "gsb_transactions_list.h"
 #include "equilibrage.h"
@@ -75,9 +76,11 @@ GtkWidget *fleche_bas;
 /*START_EXTERN*/
 extern gboolean block_menu_cb ;
 extern GtkWidget *bouton_saisir_echeancier;
+extern GtkWidget *bouton_saisir_echeancier;
 extern GtkWidget *formulaire;
 extern GtkItemFactory *item_factory_menu_general;
 extern GtkTooltips *tooltips_general_grisbi;
+extern GtkWidget *tree_view_liste_echeances;
 extern GtkWidget *tree_view_liste_echeances;
 /*END_EXTERN*/
 

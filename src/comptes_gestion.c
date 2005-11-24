@@ -44,6 +44,7 @@
 #include "utils_str.h"
 #include "utils.h"
 #include "etats_config.h"
+#include "echeancier_liste.h"
 #include "gsb_scheduler_list.h"
 #include "gsb_transactions_list.h"
 #include "imputation_budgetaire.h"

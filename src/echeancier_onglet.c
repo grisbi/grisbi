@@ -23,6 +23,7 @@
 /*START_INCLUDE*/
 #include "echeancier_onglet.h"
 #include "echeancier_formulaire.h"
+#include "echeancier_liste.h"
 #include "gsb_scheduler_list.h"
 #include "include.h"
 #include "structures.h"
@@ -40,6 +41,7 @@ GtkWidget *notebook_liste_ventil_echeances;
 
 /*START_EXTERN*/
 extern GtkWidget *formulaire;
+extern GtkWidget *frame_formulaire_echeancier;
 extern GtkWidget *frame_formulaire_echeancier;
 /*END_EXTERN*/
 

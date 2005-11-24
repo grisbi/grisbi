@@ -31,7 +31,6 @@
 /*START_INCLUDE*/
 #include "import.h"
 #include "devises.h"
-#include "patienter.h"
 #include "utils.h"
 #include "utils_montants.h"
 #include "comptes_gestion.h"
@@ -50,6 +49,7 @@
 #include "utils_dates.h"
 #include "navigation.h"
 #include "menu.h"
+#include "gsb_status.h"
 #include "fichiers_gestion.h"
 #include "traitement_variables.h"
 #include "accueil.h"
@@ -1256,8 +1256,9 @@ void traitement_operations_importees ( void )
 	new_file = 0;
     else
     {
-/* 	init_variables (); */
 	init_variables_new_file ();
+	init_gui_new_file ();
+/* 	init_variables (); */
 	new_file = 1;
     }
 
@@ -1321,13 +1322,9 @@ void traitement_operations_importees ( void )
 
     /* création des listes d'opé */
 
-    mise_en_route_attente ( _("Please wait") );
+    gsb_status_message ( _("Please wait") );
 
-    if ( new_file )
-    {
-	init_gui_new_file ();
-    }
-    else
+    if ( ! new_file )
     {
 	/* on fait le tour des comptes ajoutés pour leur créer une liste d'opé */
 	/* 	et mettre à jour ceux qui le doivent */
@@ -1387,7 +1384,7 @@ void traitement_operations_importees ( void )
     if ( mise_a_jour_combofix_categ_necessaire )
 	mise_a_jour_combofix_categ();
 
-    annulation_attente();
+    gsb_status_clear();
 
     modification_fichier ( TRUE );
 }

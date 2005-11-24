@@ -37,6 +37,7 @@ enum scheduler_periodicity {
 
 
 /* START_INCLUDE_H */
+#include "echeancier_liste.h"
 #include "gsb_scheduler_list.h"
 /* END_INCLUDE_H */
 
@@ -44,10 +45,22 @@ enum scheduler_periodicity {
 /* START_DECLARATION */
 gboolean affichage_traits_liste_echeances ( void );
 void affiche_cache_commentaire_echeancier( void );
+void ajuste_scrolling_liste_echeances_a_selection ( void );
+gboolean changement_taille_liste_echeances ( GtkWidget *tree_view,
+					     GtkAllocation *allocation );
+gint cherche_echeance_from_ligne ( gint ligne );
+GtkTreeIter *cherche_iter_echeance ( gint scheduled_number );
+gint cherche_ligne_echeance ( gint scheduled_number );
+gboolean click_ligne_echeance ( GtkWidget *tree_view,
+				GdkEventButton *evenement );
 void click_sur_saisir_echeance ( gint scheduled_number );
 GtkWidget *creation_liste_echeances ( void );
+GDate *date_fin_affichage_liste_echeance ( void );
+GDate *date_suivante_echeance ( gint scheduled_number,
+				GDate *pGDateCurrent );
 void edition_echeance ( gint scheduled_number );
 gboolean gsb_gui_change_scheduler_view ( enum scheduler_periodicity periodicity );
+gboolean gsb_gui_popup_custom_periodicity_dialog ();
 void gsb_scheduler_check_scheduled_transactions_time_limit ( void );
 gboolean gsb_scheduler_delete_scheduled_transaction ( gint scheduled_number );
 void new_scheduled_transaction ( void );
@@ -56,5 +69,6 @@ void selectionne_echeance ( gint scheduled_number );
 void supprime_echeance ( gint scheduled_number );
 gboolean traitement_clavier_liste_echeances ( GtkWidget *tree_view_liste_echeances,
 					      GdkEventKey *evenement );
+void update_couleurs_background_echeancier ( void );
 /* END_DECLARATION */
 #endif

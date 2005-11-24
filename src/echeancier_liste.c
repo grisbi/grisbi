@@ -28,6 +28,7 @@
 
 /*START_INCLUDE*/
 #include "echeancier_liste.h"
+#include "gsb_scheduler_list.h"
 #include "utils_exercices.h"
 #include "type_operations.h"
 #include "barre_outils.h"
@@ -56,19 +57,6 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static void ajuste_scrolling_liste_echeances_a_selection ( void );
-static gboolean changement_taille_liste_echeances ( GtkWidget *tree_view,
-					     GtkAllocation *allocation );
-static gint cherche_echeance_from_ligne ( gint ligne );
-static GtkTreeIter *cherche_iter_echeance ( gint scheduled_number );
-static gint cherche_ligne_echeance ( gint scheduled_number );
-static gboolean click_ligne_echeance ( GtkWidget *tree_view,
-				GdkEventButton *evenement );
-static GDate *date_fin_affichage_liste_echeance ( void );
-static GDate *date_suivante_echeance ( gint scheduled_number,
-				GDate *pGDateCurrent );
-static gboolean gsb_gui_popup_custom_periodicity_dialog ();
-static void update_couleurs_background_echeancier ( void );
 /*END_STATIC*/
 
 
@@ -107,19 +95,31 @@ GSList *scheduled_transactions_taken;
 /*START_EXTERN*/
 extern gint affichage_echeances;
 extern gint affichage_echeances_perso_nb_libre;
+extern gint ancienne_largeur_echeances;
+extern gint bloque_taille_colonne;
+extern GtkWidget *bouton_saisir_echeancier;
+extern GtkTreeViewColumn *colonnes_liste_echeancier[NB_COLS_SCHEDULER];
 extern GdkColor couleur_fond[2];
 extern GdkColor couleur_grise;
 extern GdkColor couleur_selection;
 extern GtkWidget *formulaire;
 extern GtkWidget *formulaire_echeancier;
+extern GtkWidget *formulaire_echeancier;
+extern GtkWidget *frame_formulaire_echeancier;
 extern GdkGC *gc_separateur_operation;
 extern gint hauteur_ligne_liste_opes;
 extern GtkWidget *label_saisie_modif;
 extern gint mise_a_jour_liste_echeances_auto_accueil;
 extern gint mise_a_jour_liste_echeances_manuelles_accueil;
 extern GtkTreeStore *model;
+extern gint nb_days_before_scheduled;
+extern GSList *scheduled_transactions_taken;
+extern GSList *scheduled_transactions_to_take;
+extern gint scheduler_col_width[NB_COLS_SCHEDULER] ;
 extern GtkTreeSelection * selection;
+extern gint selection_echeance_finie;
 extern GtkWidget *tree_view;
+extern GtkWidget *tree_view_liste_echeances;
 extern GtkWidget *widget_formulaire_echeancier[SCHEDULER_FORM_TOTAL_WIDGET];
 extern GtkWidget *window;
 /*END_EXTERN*/

@@ -45,6 +45,7 @@
 #include "traitement_variables.h"
 #include "utils_comptes.h"
 #include "etats_config.h"
+#include "echeancier_liste.h"
 #include "gsb_scheduler_list.h"
 #include "structures.h"
 #include "operations_formulaire.h"

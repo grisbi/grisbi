@@ -73,6 +73,7 @@ static GtkWidget * new_currency_option_menu ( gint * value, GCallback hook );
 static GtkWidget * new_currency_tree ();
 static GtkWidget * new_currency_vbox ();
 static gboolean rebuild_currency_list ( GtkWidget * checkbox, GtkTreeView * view );
+static void remove_selected_currency_from_currency_view ( GtkTreeView * view );
 static void retrait_devise ( GtkWidget *bouton, GtkWidget * view );
 static gboolean select_currency_in_iso_list ( GtkTreeSelection *selection, GtkTreeModel *model );
 static void update_currency_widgets();

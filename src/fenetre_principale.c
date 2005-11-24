@@ -31,6 +31,7 @@
 #include "comptes_onglet.h"
 #include "echeancier_onglet.h"
 #include "etats_onglet.h"
+#include "gsb_status.h"
 #include "main.h"
 #include "categories_onglet.h"
 #include "imputation_budgetaire.h"
@@ -49,7 +50,6 @@ static  GtkWidget *create_main_notebook (void );
 GtkWidget *notebook_general;
 GtkWidget *main_hpaned = NULL;
 GtkWidget *main_vbox;
-GtkWidget *main_statusbar;
 
 /* adr de l'onglet accueil */
 GtkWidget *page_accueil;
@@ -74,6 +74,7 @@ extern GtkTreeStore *budgetary_line_tree_model;
 extern GtkTreeStore * categ_tree_model;
 extern AB_BANKING *gbanking;
 extern GtkWidget * hpaned;
+extern GtkWidget *main_statusbar;
 extern GtkTreeStore *payee_tree_model;
 extern GtkWidget * scheduler_calendar;
 /*END_EXTERN*/
@@ -94,7 +95,7 @@ extern AB_BANKING *gbanking;
  */
 GtkWidget * create_main_widget ( void )
 {
-    GtkWidget *hbox, *eb;
+    GtkWidget *hbox, *eb, *statusbar;
     GtkStyle * style;
 
     /* All stuff will be put in a huge vbox, with an hbox containing
@@ -135,9 +136,6 @@ GtkWidget * create_main_widget ( void )
     if ( etat.largeur_colonne_comptes_operation )
 	gtk_paned_set_position ( GTK_PANED ( main_hpaned ), 
 				 etat.largeur_colonne_comptes_operation );
-
-    main_statusbar = gtk_statusbar_new ();
-    gtk_box_pack_start ( GTK_BOX(main_vbox), main_statusbar, FALSE, FALSE, 0 );
 
     gtk_widget_show ( notebook_general );
     gtk_widget_show ( main_vbox );

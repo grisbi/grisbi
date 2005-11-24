@@ -29,6 +29,7 @@
 /*START_INCLUDE*/
 #include "menu.h"
 #include "help.h"
+#include "echeancier_liste.h"
 #include "gsb_scheduler_list.h"
 #include "gsb_transactions_list.h"
 #include "operations_formulaire.h"
@@ -66,6 +67,7 @@ static  void menu_add_widget (GtkUIManager * p_uiManager, GtkWidget * p_widget,
 extern gsize nb_derniers_fichiers_ouverts ;
 extern gint nb_max_derniers_fichiers_ouverts ;
 extern gchar **tab_noms_derniers_fichiers_ouverts ;
+extern GtkWidget *tree_view_liste_echeances;
 extern GtkWidget *tree_view_liste_echeances;
 extern GtkWidget *window;
 /*END_EXTERN*/

@@ -114,7 +114,9 @@ extern GtkStyle *style_label_nom_compte;
  */
 int main (int argc, char *argv[])
 {
-		initialize_debugging();
+    GtkWidget * statusbar;
+
+    initialize_debugging();
 	
 #ifndef _WIN32
     struct sigaction sig_sev;
@@ -239,6 +241,9 @@ int main (int argc, char *argv[])
 			    window_vbox_principale );
 	gtk_widget_show ( window_vbox_principale );
 
+	/* We create the statusbar first. */
+	statusbar = gsb_new_statusbar ();
+	gtk_box_pack_end ( GTK_BOX(window_vbox_principale), statusbar, FALSE, FALSE, 0 );
 
 	init_variables ();
 	gsb_file_config_load_config ();

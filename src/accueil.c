@@ -30,6 +30,7 @@
 /*START_INCLUDE*/
 #include "accueil.h"
 #include "classement_echeances.h"
+#include "echeancier_liste.h"
 #include "gsb_scheduler_list.h"
 #include "utils_devises.h"
 #include "dialog.h"
@@ -69,12 +70,15 @@ static void update_soldes_minimaux ( void );
 extern GtkWidget *formulaire;
 extern GtkWidget *formulaire_echeancier;
 extern GtkWidget *formulaire_echeancier;
+extern GtkWidget *formulaire_echeancier;
+extern GtkWidget *frame_formulaire_echeancier;
 extern GtkWidget *frame_formulaire_echeancier;
 extern GtkWidget *hbox_valider_annuler_echeance;
 extern GSList *liste_struct_devises;
 extern GtkWidget *notebook_formulaire_echeances;
-extern gint patience_en_cours;
 extern GSList *scheduled_transactions_taken;
+extern GSList *scheduled_transactions_taken;
+extern GSList *scheduled_transactions_to_take;
 extern GSList *scheduled_transactions_to_take;
 extern GtkWidget *separateur_formulaire_echeancier;
 extern gchar *titre_fichier;
@@ -1867,9 +1871,7 @@ void affiche_dialogue_soldes_minimaux ( void )
 	     &&
 	     gsb_data_account_get_kind (i) != GSB_TYPE_LIABILITIES
 	     &&
-	     !gsb_data_account_get_mini_balance_authorized_message (i)
-	     &&
-	     !patience_en_cours )
+	     !gsb_data_account_get_mini_balance_authorized_message (i) )
 	{
 	    if ( solde_courant  < solde_mini_voulu )
 	    {
@@ -1893,9 +1895,7 @@ void affiche_dialogue_soldes_minimaux ( void )
 	     &&
 	     gsb_data_account_get_kind (i) != GSB_TYPE_LIABILITIES
 	     &&
-	     !gsb_data_account_get_mini_balance_wanted_message (i)
-	     &&
-	     !patience_en_cours )
+	     !gsb_data_account_get_mini_balance_wanted_message (i) )
 	{
 	    liste_voulu = g_slist_append ( liste_voulu,
 					   gsb_data_account_get_name (i) );

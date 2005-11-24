@@ -29,13 +29,13 @@
 
 /*START_INCLUDE*/
 #include "erreur.h"
-#include "patienter.h"
 #include "utils.h"
 #include "dialog.h"
 #include "fichiers_gestion.h"
 #include "gsb_file_config.h"
 #include "gsb_file_save.h"
 #include "gsb_file_util.h"
+#include "gsb_status.h"
 #include "traitement_variables.h"
 #include "utils_files.h"
 #include "utils_str.h"
@@ -192,12 +192,12 @@ void traitement_sigsegv ( gint signal_nb )
 						"/#grisbi_plantage_sans_nom#",
 						NULL );
 
-	mise_en_route_attente ( _("Save file") );
+	gsb_status_message ( _("Save file") );
 
 	gsb_file_save_save_file ( nom_fichier_comptes,
 				  etat.compress_file );
 
-	annulation_attente();
+	gsb_status_clear();
 
 	errmsg = g_strconcat ( errmsg, 
 			       g_strdup_printf ( _("Grisbi made a backup file at '%s'."),

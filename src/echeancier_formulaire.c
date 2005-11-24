@@ -45,6 +45,7 @@
 #include "gsb_data_transaction.h"
 #include "utils_dates.h"
 #include "accueil.h"
+#include "echeancier_liste.h"
 #include "gsb_scheduler_list.h"
 #include "gtk_combofix.h"
 #include "main.h"
@@ -97,6 +98,8 @@ GtkWidget *hbox_valider_annuler_echeance;
 extern GtkWidget *formulaire;
 extern GtkWidget *formulaire_echeancier;
 extern GtkWidget *formulaire_echeancier;
+extern GtkWidget *formulaire_echeancier;
+extern GtkWidget *frame_formulaire_echeancier;
 extern GtkWidget *frame_formulaire_echeancier;
 extern GSList *liste_struct_devises;
 extern GtkWidget *main_page_finished_scheduled_transactions_part;
@@ -105,6 +108,7 @@ extern gint mise_a_jour_liste_echeances_auto_accueil;
 extern gint mise_a_jour_liste_echeances_manuelles_accueil;
 extern FILE * out;
 extern GtkStyle *style_entree_formulaire[2];
+extern GtkWidget *tree_view_liste_echeances;
 extern GtkWidget *tree_view_liste_echeances;
 /*END_EXTERN*/
 
