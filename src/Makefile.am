@@ -69,6 +69,7 @@ sources = \
 	fichiers_gestion.c	\
 	gnucash.c               \
 	gsb_assistant.c		\
+	gsb_status.c		\
 	gtk_combofix.c		\
 	gtk_list_button.c	\
 	help.c			\
@@ -86,7 +87,6 @@ sources = \
 	operations_onglet.c	\
 	parametres.c		\
 	parse_cmdline.c		\
-	patienter.c		\
 	print_config.c		\
 	qif.c			\
 	import.c		\
@@ -183,7 +183,6 @@ grisbi_INCLUDES =		\
 	operations_onglet.h	\
 	parametres.h		\
 	parse_cmdline.h		\
-	patienter.h		\
 	print_config.h		\
 	qif.h			\
 	import.h		\
