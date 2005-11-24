@@ -47,7 +47,7 @@ static gint gtktable_finish ();
 static gint gtktable_initialise ( GSList * opes_selectionnees, gchar * filename );
 /*END_STATIC*/
 
-GtkWidget *table_etat;
+GtkWidget *table_etat = NULL;
 struct struct_etat_affichage gtktable_affichage;
 
 struct struct_etat_affichage gtktable_affichage = {
@@ -210,10 +210,10 @@ gint gtktable_initialise ( GSList * opes_selectionnees, gchar * filename )
     /* on peut maintenant créer la table */
     /* pas besoin d'indiquer la hauteur, elle grandit automatiquement */
 
-    if ( GTK_IS_WIDGET(table_etat) )
+    if ( table_etat && GTK_IS_TABLE(table_etat) )
 	gtk_widget_destroy (table_etat);
 
-    if ( GTK_BIN ( scrolled_window_etat ) -> child )
+    if ( scrolled_window_etat && GTK_BIN ( scrolled_window_etat ) -> child )
 	gtk_widget_hide ( GTK_BIN ( scrolled_window_etat ) -> child );
 
     table_etat = gtk_table_new ( 0, nb_colonnes, FALSE );

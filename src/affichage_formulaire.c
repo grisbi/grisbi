@@ -555,6 +555,9 @@ gboolean recherche_place_element_formulaire ( struct organisation_formulaire *st
 {
     gint i, j;
 
+    if ( ! structure_formulaire )
+	return FALSE;
+
     for ( i=0 ; i < structure_formulaire -> nb_lignes ; i++ )
 	for ( j=0 ; j < structure_formulaire -> nb_colonnes ; j++ )
 	    if ( structure_formulaire -> tab_remplissage_formulaire[i][j] == no_element )
