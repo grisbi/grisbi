@@ -28,9 +28,9 @@
 #include "gnucash.h"
 #include "utils_xml.h"
 #include "dialog.h"
+#include "import.h"
 #include "utils_files.h"
 #include "utils_str.h"
-#include "import.h"
 #include "include.h"
 /*END_INCLUDE*/
 
@@ -117,7 +117,7 @@ gboolean recuperation_donnees_gnucash ( gchar * filename )
   /* So, we failed to import file. */
   account = g_malloc0 ( sizeof ( struct struct_compte_importation ));
   account -> origine = TYPE_GNUCASH;
-  account -> nom_de_compte = _("Gnucash invalid account");
+  account -> nom_de_compte = _("Invalid Gnucash account");
   account -> filename = g_strdup ( filename );
   liste_comptes_importes_error = g_slist_append ( liste_comptes_importes_error, account );
   return FALSE;
@@ -213,6 +213,8 @@ void recuperation_donnees_gnucash_compte ( xmlNodePtr compte_node )
     compte -> devise = get_currency ( get_child(compte_node, "commodity") );
     compte -> guid = child_content ( compte_node, "id" );
     compte -> operations_importees = NULL;
+
+    compte -> nom_de_compte = unique_imported_name ( compte -> nom_de_compte );
 
     liste_comptes_importes = g_slist_append ( liste_comptes_importes, compte );
 }

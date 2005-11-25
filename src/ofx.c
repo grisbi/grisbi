@@ -40,9 +40,9 @@ gboolean recuperation_donnees_ofx ( gchar *nom_fichier )
 /*START_INCLUDE*/
 #include "ofx.h"
 #include "dialog.h"
+#include "import.h"
 #include "utils_str.h"
 #include "ofx.h"
-#include "import.h"
 #include "include.h"
 /*END_INCLUDE*/
 
@@ -114,7 +114,7 @@ gboolean recuperation_donnees_ofx ( gchar *nom_fichier )
     {
 	struct struct_compte_importation * account;
 	account = g_malloc0 ( sizeof ( struct struct_compte_importation ));
-	account -> nom_de_compte = _("Invalid OFX file");
+	account -> nom_de_compte = unique_imported_name ( _("Invalid OFX file") );
 	account -> filename = g_strdup ( nom_fichier );
 	account -> origine = TYPE_OFX;
 	liste_comptes_importes_error = g_slist_append ( liste_comptes_importes_error,
@@ -252,7 +252,7 @@ int ofx_proc_account_cb(struct OfxAccountData data)
     if ( data.account_id_valid )
     {
 	compte_ofx_importation_en_cours -> id_compte = g_strdup ( data.account_id );
-	compte_ofx_importation_en_cours -> nom_de_compte = g_strdup ( data.account_name );
+	compte_ofx_importation_en_cours -> nom_de_compte = unique_imported_name ( g_strdup ( data.account_name ) );
 	compte_ofx_importation_en_cours -> filename = ofx_filename;
     }
 

@@ -75,7 +75,7 @@ gboolean recuperation_donnees_qif ( FILE * fichier, gchar * filename )
     rewind ( fichier );
     
     compte = g_malloc0 ( sizeof ( struct struct_compte_importation ));
-    compte -> nom_de_compte = _("Invalid QIF file");
+    compte -> nom_de_compte = unique_imported_name ( _("Invalid QIF file") );
     compte -> filename = g_strdup ( filename );
     compte -> origine = TYPE_QIF;
 
@@ -320,6 +320,8 @@ gboolean recuperation_donnees_qif ( FILE * fichier, gchar * filename )
 									      ' ' ));
 			compte -> nom_de_compte =  latin2utf8 (g_strstrip ( compte -> nom_de_compte ));
 		    }
+
+		    compte -> nom_de_compte = unique_imported_name ( compte -> nom_de_compte );
 		}
 
 		/* on récupère la date du fichier */
@@ -337,7 +339,7 @@ gboolean recuperation_donnees_qif ( FILE * fichier, gchar * filename )
 	{
 	    /* c'est un compte ccard */
 
-	    compte -> nom_de_compte = g_strdup ( _("Credit card"));
+	    compte -> nom_de_compte = unique_imported_name ( g_strdup ( _("Credit card")) );
 	    compte -> filename = g_strdup ( filename );
 	    compte -> solde = 0;
 	    retour = 0;
@@ -346,7 +348,7 @@ gboolean recuperation_donnees_qif ( FILE * fichier, gchar * filename )
 	/* si le compte n'a pas de nom, on en met un ici */
 
 	if ( !compte -> nom_de_compte )
-	    compte -> nom_de_compte = g_strdup ( _("Imported QIF account" ));
+	    compte -> nom_de_compte = unique_imported_name ( g_strdup ( _("Imported QIF account" )) );
 
 	if ( retour == EOF )
 	{

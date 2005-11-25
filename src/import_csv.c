@@ -59,8 +59,8 @@ static gboolean csv_import_update_preview ( GtkWidget * assistant );
 /*END_STATIC*/
 
 
-
-gint * csv_fields_config = NULL; /** Array of pointers to fields.  */
+/** Array of pointers to fields.  */
+gint * csv_fields_config = NULL;
 
 /** Contain configuration of CSV fields.  */
 struct csv_field csv_fields[16] = {
@@ -543,7 +543,7 @@ gboolean csv_import_csv_account ( GtkWidget * assistant, gchar * filename )
     GSList * list;
 
     compte = g_malloc0 ( sizeof ( struct struct_compte_importation ));
-    compte -> nom_de_compte = g_strdup ( _("Imported CSV account" ));
+    compte -> nom_de_compte = unique_imported_name ( g_strdup ( _("Imported CSV account" ) ) );
     compte -> origine = TYPE_CSV;
     compte -> filename = g_strdup ( filename );
 
