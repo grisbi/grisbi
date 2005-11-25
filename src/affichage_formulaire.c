@@ -485,7 +485,11 @@ void mise_a_jour_organisation_formulaire ( gint no_compte )
 						  G_CALLBACK ( toggled_signal_configuration_formulaire ),
 						  NULL );
 		gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( boutons_organisation_formulaire[j + i*6] ),
-					       verifie_element_formulaire_existe ( no_element_en_cours ));
+					       recherche_place_element_formulaire
+					       ( gsb_data_account_get_form_organization (no_compte),
+						 no_element_en_cours,
+						 NULL,
+						 NULL ) );
 		g_signal_handlers_unblock_by_func ( G_OBJECT ( boutons_organisation_formulaire[j + i*6] ),
 						    G_CALLBACK ( toggled_signal_configuration_formulaire ),
 						    NULL );
