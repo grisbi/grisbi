@@ -128,8 +128,7 @@ GtkWidget *onglet_display_transaction_form ( void )
     GtkWidget *liste_organisation;
 
 
-    vbox_pref = new_vbox_with_title_and_icon ( _("Transaction form"),
-					       "form.png" );
+    vbox_pref = new_vbox_with_title_and_icon ( _("Transaction form"), "form.png" );
 
     /*     organisation du formulaire */
 
@@ -221,7 +220,7 @@ GtkWidget * onglet_display_fonts ( void )
 			       GTK_SIGNAL_FUNC ( modification_logo_accueil ), NULL );
     gtk_box_pack_start ( GTK_BOX ( hbox ), logo_button, FALSE, FALSE, 0 );
 
-    label = gtk_label_new ( _("Click on preview to change homepage logo") );
+    label = gtk_label_new ( _("Click on preview to change logo") );
     gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 0 );
 
     /* Change fonts */
