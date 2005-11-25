@@ -75,8 +75,9 @@ GtkWidget * gsb_new_statusbar ()
 
 
 /**
+ * Display a message in the status bar.
  *
- *
+ * \param message	Message to display.
  */
 void gsb_status_message ( gchar * message )
 {
@@ -90,8 +91,7 @@ void gsb_status_message ( gchar * message )
 
 
 /**
- *
- *
+ * Clear any message in the status bar.
  */
 void gsb_status_clear (  )
 {
@@ -108,8 +108,7 @@ void gsb_status_clear (  )
 
 
 /**
- *
- *
+ * Display a progress bar in the status bar.  Does not set any value.
  */
 void gsb_status_show_progress ()
 {
@@ -126,8 +125,15 @@ void gsb_status_show_progress ()
 
 
 /**
+ * Set value of the progress bar in status bar.  If no progress bar
+ * has been shown precedently (via gsb_status_show_progress()), do
+ * nothing.
  *
- *
+ * \param ratio		Fraction value to set.
+ * \param max		Maximum possible value.
+ * 
+ * To set the progress bar to half of its size, simply use something
+ * like gsb_status_set_progress ( 0.5, 1.0 ).
  */
 void gsb_status_set_progress ( gdouble ratio, gdouble max )
 {
@@ -142,8 +148,7 @@ void gsb_status_set_progress ( gdouble ratio, gdouble max )
 
 
 /**
- *
- *
+ * Remove progress bar from status bar.
  */
 void gsb_status_remove_progress (  )
 {
@@ -159,8 +164,10 @@ void gsb_status_remove_progress (  )
 
 
 /**
+ * Increment the status bar.  This should be called as a timeout
+ * function.
  *
- *
+ * \return TRUE
  */
 gboolean gsb_status_pulse (  )
 {
@@ -179,6 +186,10 @@ gboolean gsb_status_pulse (  )
 
 
 
+/**
+ * Display the progress bar and add a timeout function to update it
+ * continuously.
+ */
 void gsb_status_start_activity (  )
 {
     gsb_status_show_progress ();
@@ -187,6 +198,9 @@ void gsb_status_start_activity (  )
 
 
 
+/**
+ * Remove the progress bar and associated timeout.
+ */
 void gsb_status_stop_activity (  )
 {
     g_source_remove ( timer_id );
