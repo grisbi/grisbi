@@ -25,7 +25,6 @@ typedef enum _kind_account	kind_account;
 /* START_DECLARATION */
 gboolean gsb_data_account_delete ( gint no_account );
 gint gsb_data_account_first_number ( void );
-gpointer gsb_data_account_get_account_button ( gint no_account );
 gint gsb_data_account_get_accounts_amount ( void );
 gint gsb_data_account_get_bank ( gint no_account );
 gchar *gsb_data_account_get_bank_account_key ( gint no_account );
@@ -71,8 +70,6 @@ gdouble gsb_data_account_get_vertical_adjustment_value ( gint no_account );
 gboolean gsb_data_account_init_variables ( void );
 gint gsb_data_account_new ( kind_account account_kind );
 gboolean gsb_data_account_reorder ( GSList *new_order );
-gboolean gsb_data_account_set_account_button ( gint no_account,
-					  gpointer account_button );
 gint gsb_data_account_set_account_number ( gint no_account,
 					   gint new_no );
 gboolean gsb_data_account_set_bank ( gint no_account,

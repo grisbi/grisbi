@@ -114,9 +114,12 @@ typedef struct
 
 
 /*START_STATIC*/
+static gpointer gsb_data_account_get_account_button ( gint no_account );
 static struct_account *gsb_data_account_get_structure ( gint no );
 static gboolean gsb_data_account_get_update_list ( gint no_account );
 static gint gsb_data_account_max_number ( void );
+static gboolean gsb_data_account_set_account_button ( gint no_account,
+					  gpointer account_button );
 /*END_STATIC*/
 
 /*START_EXTERN*/
