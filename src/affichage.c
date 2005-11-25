@@ -250,7 +250,7 @@ GtkWidget * onglet_display_fonts ( void )
     /* Create font button */
 
     font_button = gtk_button_new ();
-    hbox_font = gtk_hbox_new ( FALSE, 0 );
+    hbox_font = gtk_hbox_new ( FALSE, 6 );
     if ( !pango_desc_fonte_liste )
 	pango_desc_fonte_liste = pango_font_description_from_string ("Sans 10" );
 
@@ -266,14 +266,14 @@ GtkWidget * onglet_display_fonts ( void )
     gtk_container_add (GTK_CONTAINER(font_button), hbox_font);
     gtk_signal_connect ( GTK_OBJECT ( font_button ), "clicked",
 			 GTK_SIGNAL_FUNC ( choix_fonte ), NULL );
-    gtk_box_pack_end ( GTK_BOX ( hbox ), font_button, FALSE, FALSE, 0 );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), font_button, TRUE, TRUE, 0 );
 
     update_font_button(list_font_name_label, list_font_size_label,
 		       pango_font_description_to_string ( pango_desc_fonte_liste));
 
     /*     mise en place du raz de la fonte */
     init_button = gtk_button_new_with_label ( SPACIFY(_("Revert to default font")) );
-    gtk_box_pack_end ( GTK_BOX ( hbox ), init_button, TRUE, FALSE, 0 );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), init_button, FALSE, FALSE, 0 );
 
     g_signal_connect (init_button, "clicked", G_CALLBACK (init_fonts), NULL);
 
