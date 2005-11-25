@@ -170,11 +170,6 @@ gboolean gsb_file_config_load_config ( void )
     if ( font_string )
 	pango_desc_fonte_liste = pango_font_description_from_string ( font_string );
     
-    etat.fichier_animation_attente = g_key_file_get_string ( config,
-							     "General",
-							     "Waiting animation",
-							     NULL );
-
     etat.latex_command = g_key_file_get_string ( config,
 						 "General",
 						 "Latex command",
@@ -454,10 +449,6 @@ gboolean gsb_file_config_save_config ( void )
 				"General",
 				"Font name",
 				pango_font_description_to_string (pango_desc_fonte_liste));
-    g_key_file_set_string ( config,
-			    "General",
-			    "Waiting animation",
-			    etat.fichier_animation_attente );
     g_key_file_set_string ( config,
 			    "General",
 			    "Latex command",
@@ -870,12 +861,6 @@ void gsb_file_config_get_xml_text_element ( GMarkupParseContext *context,
 	etat.dvips_command = g_strdup (text);
 	return;
     }
-     if ( !strcmp ( element_name,
-		   "Animation_attente" ))
-    {
-	etat.fichier_animation_attente = g_strdup (text);
-	return;
-    }
 
     if ( !strcmp ( element_name,
 		   "Largeur_colonne_comptes_operation" ))
@@ -1138,7 +1123,6 @@ void gsb_file_config_clean_config ( void )
 
     etat.largeur_auto_colonnes = 0;
     etat.retient_affichage_par_compte = 0;
-    etat.fichier_animation_attente = g_strdup ( ANIM_PATH );
 
     etat.last_tip = 0;
     etat.show_tip = FALSE;

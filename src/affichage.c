@@ -40,7 +40,6 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static void change_animation ( GtkWidget * file_selector );
 static gboolean change_choix_utilise_fonte_liste ( GtkWidget *check_button,
 					    GtkWidget *vbox );
 static gboolean change_choix_utilise_logo ( GtkWidget *check_button,
@@ -52,7 +51,7 @@ static void choix_fonte ( GtkWidget *bouton,
 		   gpointer null );
 static gboolean init_fonts ( GtkWidget * button,
 		      gpointer user_data);
-static gboolean modification_logo_accueil ( gint origine );
+static gboolean modification_logo_accueil ( );
 static void update_font_button(GtkWidget * name_label,
 			GtkWidget * size_label,
 			gchar * fontname);
@@ -94,10 +93,6 @@ GtkWidget *logo_button;
 
 /** GtkImage containing the preview  */
 GtkWidget *preview;
-
-GtkWidget *anim_button;
-GtkWidget *anim_preview;
-
 
 
 /**
@@ -164,52 +159,34 @@ GtkWidget *onglet_display_transaction_form ( void )
  */
 GtkWidget * onglet_display_fonts ( void )
 {
-    GtkWidget *hbox, *vbox_pref;
-    GtkWidget *label, *paddingbox;
-    GtkWidget *font_button;
-    GtkWidget *hbox_font, *init_button;
+    GtkWidget *hbox, *vbox_pref, *label, *paddingbox, *font_button;
+    GtkWidget *hbox_font, *init_button, *check_button, *vbox;
     GdkPixbuf * pixbuf = NULL;
-    GtkWidget *check_button;
-    GtkWidget *vbox;
-    GdkPixbufAnimation *pixbuf_anim=NULL;
 
-    vbox_pref = new_vbox_with_title_and_icon ( _("Fonts & logo"),
-					       "fonts.png" );
+    vbox_pref = new_vbox_with_title_and_icon ( _("Fonts & logo"), "fonts.png" );
 
     /* Change Grisbi Logo */
-    paddingbox = new_paddingbox_with_title ( vbox_pref, FALSE,
-					     _("Grisbi logo") );
+    paddingbox = new_paddingbox_with_title ( vbox_pref, FALSE, _("Grisbi logo") );
 
     hbox = gtk_hbox_new ( FALSE, 5 );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox,
-			 FALSE, FALSE, 0 );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0 );
 
     check_button = gtk_check_button_new_with_label ( _("Use the logo"));
-    gtk_box_pack_start ( GTK_BOX ( hbox ),
-			 check_button,
-			 FALSE,
-			 FALSE,
-			 0 );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), check_button, FALSE, FALSE, 0 );
 
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( check_button ),
 				   etat.utilise_logo );
 
     hbox = gtk_hbox_new ( FALSE, 5 );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox,
-			 FALSE, FALSE, 0 );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0 );
 
-    /*     le logo est grisé ou non suivant qu'on l'utilise ou pas */
-
-    gtk_widget_set_sensitive ( hbox,
-			       etat.utilise_logo );
-    g_signal_connect ( G_OBJECT ( check_button ),
-		       "toggled",
-		       G_CALLBACK ( change_choix_utilise_logo ),
-		       hbox );
+    /*     le logo est grisé ou non suivant qu'on l'utilise ou pas */ 
+    gtk_widget_set_sensitive ( hbox, etat.utilise_logo );
+    g_signal_connect ( G_OBJECT ( check_button ), "toggled",
+		       G_CALLBACK ( change_choix_utilise_logo ), hbox );
 
     logo_button = gtk_button_new ();
-    gtk_button_set_relief ( GTK_BUTTON ( logo_button ),
-			    GTK_RELIEF_NONE );
+    gtk_button_set_relief ( GTK_BUTTON ( logo_button ), GTK_RELIEF_NONE );
 
     if ( chemin_logo )
     {
@@ -224,7 +201,7 @@ GtkWidget * onglet_display_fonts ( void )
     else
     {
 	if ( gdk_pixbuf_get_width(pixbuf) > 64 ||
-	     gdk_pixbuf_get_height(pixbuf) > 64)
+	     gdk_pixbuf_get_height(pixbuf) > 64 )
 	{
 	    GdkPixbuf * tmp;
 	    tmp = gdk_pixbuf_new ( GDK_COLORSPACE_RGB, TRUE, 8, 
@@ -242,117 +219,33 @@ GtkWidget * onglet_display_fonts ( void )
     gtk_container_add (GTK_CONTAINER(logo_button), preview);
     g_signal_connect_swapped ( G_OBJECT ( logo_button ), "clicked",
 			       GTK_SIGNAL_FUNC ( modification_logo_accueil ), NULL );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), logo_button,
-			 FALSE, FALSE, 0 );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), logo_button, FALSE, FALSE, 0 );
 
     label = gtk_label_new ( _("Click on preview to change homepage logo") );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), label,
-			 FALSE, FALSE, 0 );
-
-
-
-    /*     mise en place du choix de l'animation */
-
-    hbox = gtk_hbox_new ( FALSE, 5 );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox,
-			 FALSE, FALSE, 0 );
-
-    /*     le logo est grisé ou non suivant qu'on l'utilise ou pas */
-
-    anim_button = gtk_button_new ();
-    gtk_button_set_relief ( GTK_BUTTON ( anim_button ),
-			    GTK_RELIEF_NONE );
-
-    if ( etat.fichier_animation_attente )
-	pixbuf_anim = gdk_pixbuf_animation_new_from_file (etat.fichier_animation_attente, NULL);
-
-    if (pixbuf_anim)
-    {
-	/* 	si l'animation est trop grande, compliqué pour la réduire de taille */
-	/* 	    donc on affiche juste la première image en pixbuf */
-
-	if ( gdk_pixbuf_animation_get_width (pixbuf_anim) > 64
-	     ||
-	     gdk_pixbuf_animation_get_height (pixbuf_anim) > 64 )
-	{
-	    GdkPixbuf * tmp;
-	    tmp = gdk_pixbuf_new ( GDK_COLORSPACE_RGB, TRUE, 8, 
-				   gdk_pixbuf_animation_get_width(pixbuf_anim)/2, 
-				   gdk_pixbuf_animation_get_height(pixbuf_anim)/2 );
-	    gdk_pixbuf_scale ( gdk_pixbuf_animation_get_static_image ( pixbuf_anim ), tmp, 0, 0, 
-			       gdk_pixbuf_animation_get_width(pixbuf_anim)/2, 
-			       gdk_pixbuf_animation_get_height(pixbuf_anim)/2,
-			       0, 0, 0.5, 0.5, GDK_INTERP_HYPER );
-	    anim_preview = gtk_image_new_from_pixbuf ( tmp );
-	}
-	else
-	    anim_preview = gtk_image_new_from_animation (pixbuf_anim);
-    }
-    else
-	anim_preview = gtk_image_new_from_stock ( GTK_STOCK_MISSING_IMAGE, 
-						  GTK_ICON_SIZE_BUTTON );
-
-    gtk_container_add (GTK_CONTAINER(anim_button), 
-		       anim_preview);
-    g_signal_connect_swapped ( G_OBJECT ( anim_button ),
-			       "clicked",
-			       GTK_SIGNAL_FUNC ( modification_logo_accueil ), 
-			       GINT_TO_POINTER (1) );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), anim_button,
-			 FALSE, FALSE, 0 );
-
-    label = gtk_label_new ( _("Click on preview to change animation") );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), label,
-			 FALSE, FALSE, 0 );
-
+    gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 0 );
 
     /* Change fonts */
-    paddingbox = new_paddingbox_with_title ( vbox_pref, FALSE,
-					     _("Fonts") );
+    paddingbox = new_paddingbox_with_title ( vbox_pref, FALSE, _("Fonts") );
 
-    hbox = gtk_hbox_new ( FALSE,
-			  0 );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ),
-			 hbox,
-			 FALSE,
-			 FALSE,
-			 0 );
+    hbox = gtk_hbox_new ( FALSE, 0 );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0 );
 
     check_button = gtk_check_button_new_with_label ( _("Use a custom font for the transactions"));
-    gtk_box_pack_start ( GTK_BOX ( hbox ),
-			 check_button,
-			 FALSE,
-			 FALSE,
-			 0 );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), check_button, FALSE, FALSE, 0 );
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( check_button ),
 				   etat.utilise_fonte_listes );
 
-    /*     on crée la vbox qui contiendra la font button et le raz */
+    /*     on crée la vbox qui contiendra la font button et le raz */ 
+    vbox = gtk_vbox_new ( FALSE, 10 );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), vbox, FALSE, FALSE, 0 );
 
-    vbox = gtk_vbox_new ( FALSE,
-			  10 );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ),
-			 vbox,
-			 FALSE,
-			 FALSE,
-			 0 );
+    gtk_widget_set_sensitive ( vbox, etat.utilise_fonte_listes );
+    g_signal_connect ( G_OBJECT ( check_button ), "toggled",
+		       G_CALLBACK ( change_choix_utilise_fonte_liste ), vbox );
 
-    gtk_widget_set_sensitive ( vbox,
-			       etat.utilise_fonte_listes );
-    g_signal_connect ( G_OBJECT ( check_button ),
-		       "toggled",
-		       G_CALLBACK ( change_choix_utilise_fonte_liste ),
-		       vbox );
-
-    /* mise en place de la ligne du font button */
-
-    hbox = gtk_hbox_new ( TRUE,
-			  0 );
-    gtk_box_pack_start ( GTK_BOX ( vbox ),
-			 hbox,
-			 FALSE,
-			 FALSE,
-			 0 );
+    /* mise en place de la ligne du font button */ 
+    hbox = gtk_hbox_new ( TRUE, 0 );
+    gtk_box_pack_start ( GTK_BOX ( vbox ), hbox, FALSE, FALSE, 0 );
 
     /* Create font button */
 
@@ -362,52 +255,27 @@ GtkWidget * onglet_display_fonts ( void )
 	pango_desc_fonte_liste = pango_font_description_from_string ("Sans 10" );
 
     list_font_name_label = gtk_label_new (pango_font_description_to_string ( pango_desc_fonte_liste ));
-    gtk_widget_modify_font (list_font_name_label,
-				pango_desc_fonte_liste);
-    gtk_box_pack_start ( GTK_BOX ( hbox_font ), 
-			 list_font_name_label,
+    gtk_widget_modify_font (list_font_name_label, pango_desc_fonte_liste);
+    gtk_box_pack_start ( GTK_BOX ( hbox_font ), list_font_name_label,
 			 TRUE, TRUE, 5 );
-    gtk_box_pack_start ( GTK_BOX ( hbox_font ), 
-			 gtk_vseparator_new (),
+    gtk_box_pack_start ( GTK_BOX ( hbox_font ), gtk_vseparator_new (),
 			 FALSE, FALSE, 0 );
     list_font_size_label = gtk_label_new ("");
-    gtk_box_pack_start ( GTK_BOX ( hbox_font ), 
-			 list_font_size_label,
+    gtk_box_pack_start ( GTK_BOX ( hbox_font ), list_font_size_label,
 			 FALSE, FALSE, 5 );
     gtk_container_add (GTK_CONTAINER(font_button), hbox_font);
-    gtk_signal_connect ( GTK_OBJECT ( font_button ),
-			 "clicked",
-			 GTK_SIGNAL_FUNC ( choix_fonte ),
-			 NULL );
-    gtk_box_pack_end ( GTK_BOX ( hbox ),
-			 font_button,
-			 FALSE,
-			 FALSE,
-			 0 );
+    gtk_signal_connect ( GTK_OBJECT ( font_button ), "clicked",
+			 GTK_SIGNAL_FUNC ( choix_fonte ), NULL );
+    gtk_box_pack_end ( GTK_BOX ( hbox ), font_button, FALSE, FALSE, 0 );
 
-    update_font_button(list_font_name_label,
-		       list_font_size_label,
+    update_font_button(list_font_name_label, list_font_size_label,
 		       pango_font_description_to_string ( pango_desc_fonte_liste));
 
     /*     mise en place du raz de la fonte */
-
-    hbox = gtk_hbox_new ( FALSE,
-			  0 );
-    gtk_box_pack_start ( GTK_BOX ( vbox ),
-			 hbox,
-			 FALSE,
-			 FALSE,
-			 0 );
-
     init_button = gtk_button_new_with_label ( SPACIFY(_("Revert to default font")) );
-    gtk_box_pack_end ( GTK_BOX ( hbox ),
-			 init_button,
-			 TRUE,
-			 FALSE,
-			 0 );
+    gtk_box_pack_end ( GTK_BOX ( hbox ), init_button, TRUE, FALSE, 0 );
 
-    g_signal_connect (init_button, "clicked", 
-		      G_CALLBACK (init_fonts), NULL);
+    g_signal_connect (init_button, "clicked", G_CALLBACK (init_fonts), NULL);
 
     if ( !gsb_data_account_get_accounts_amount () )
     {
@@ -787,92 +655,24 @@ void change_logo_accueil ( GtkWidget * file_selector )
 /* **************************************************************************************************************************** */
 
 
-/* **************************************************************************************************************************** */
-void change_animation ( GtkWidget * file_selector )
-{
-    GdkPixbufAnimation *pixbuf=NULL;
-
-    etat.fichier_animation_attente = file_selection_get_filename (GTK_FILE_SELECTION (file_selector));
-
-
-    if ( !etat.fichier_animation_attente
-	 ||
-	 !strlen ( g_strstrip (etat.fichier_animation_attente )) )
-	etat.fichier_animation_attente = NULL;
-
-    /* Update preview */
-    if ( etat.fichier_animation_attente )
-	pixbuf = gdk_pixbuf_animation_new_from_file (etat.fichier_animation_attente, NULL);
-
-    gtk_container_remove (GTK_CONTAINER(anim_button),
-			  anim_preview);
-
-    if (pixbuf)
-    {
-	/* 	si l'animation est trop grande, compliqué pour la réduire de taille */
-	/* 	    donc on affiche juste la première image en pixbuf */
-
-	if ( gdk_pixbuf_animation_get_width (pixbuf) > 64
-	     ||
-	     gdk_pixbuf_animation_get_height (pixbuf) > 64 )
-	{
-	    GdkPixbuf * tmp;
-	    tmp = gdk_pixbuf_new ( GDK_COLORSPACE_RGB, TRUE, 8, 
-				   gdk_pixbuf_animation_get_width(pixbuf)/2, 
-				   gdk_pixbuf_animation_get_height(pixbuf)/2 );
-	    gdk_pixbuf_scale ( gdk_pixbuf_animation_get_static_image ( pixbuf ), tmp, 0, 0, 
-			       gdk_pixbuf_animation_get_width(pixbuf)/2, 
-			       gdk_pixbuf_animation_get_height(pixbuf)/2,
-			       0, 0, 0.5, 0.5, GDK_INTERP_HYPER );
-	    anim_preview = gtk_image_new_from_pixbuf ( tmp );
-	}
-	else
-	    anim_preview = gtk_image_new_from_animation (pixbuf);
-    }
-    else
-	anim_preview = gtk_image_new_from_stock ( GTK_STOCK_MISSING_IMAGE, 
-						  GTK_ICON_SIZE_BUTTON );
-    gtk_widget_show ( anim_preview );
-    gtk_container_add ( GTK_CONTAINER(anim_button),
-			anim_preview );
-}
-/* **************************************************************************************************************************** */
-
-
 
 /* **************************************************************************************************************************** */
-gboolean modification_logo_accueil ( gint origine )
+gboolean modification_logo_accueil ( )
 {
     GtkWidget *file_selector;
 
-    /*     origine = 0 si c'est pour une modif du logo d'accueil */
-    /* 	=1 pour une modif de l'animation d'attente */
-
-    if ( origine )
-    {
-	file_selector = file_selection_new (_("Select a new animation"),
-                                            FILE_SELECTION_IS_OPEN_DIALOG|FILE_SELECTION_MUST_EXIST);
-    }
-    else
-    {
-	file_selector = file_selection_new (_("Select a new logo"),
-                                            FILE_SELECTION_IS_OPEN_DIALOG|FILE_SELECTION_MUST_EXIST);
-    }
+    file_selector = file_selection_new (_("Select a new logo"),
+					FILE_SELECTION_IS_OPEN_DIALOG|FILE_SELECTION_MUST_EXIST);
 
     gtk_window_set_transient_for ( GTK_WINDOW ( file_selector ),
 				   GTK_WINDOW ( fenetre_preferences ));
     gtk_window_set_modal ( GTK_WINDOW ( file_selector ), TRUE );
 
-    switch ( gtk_dialog_run ( file_selector ) )
+    switch ( gtk_dialog_run ( GTK_DIALOG ( file_selector ) ) )
     {
 	case GTK_RESPONSE_OK:
-	    if ( origine )
-	    {
-		change_animation ( file_selector );
-	    }
-	    {
-		change_logo_accueil ( file_selector );
-	    }
+	    change_logo_accueil ( file_selector );
+
 	default:
 	    gtk_widget_destroy ( file_selector );
 	    break;
@@ -881,7 +681,6 @@ gboolean modification_logo_accueil ( gint origine )
 
     return ( FALSE );
 }
-/* **************************************************************************************************************************** */
 
 
 

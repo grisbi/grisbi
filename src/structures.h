@@ -109,10 +109,6 @@ struct {
     gchar * latex_command;
     gchar * dvips_command;
 
-    /*     chemin de l'image affichée quand on patiente */
-
-    gchar *fichier_animation_attente;
-
     /* Print stuff */
     struct print_config print_config;
     
