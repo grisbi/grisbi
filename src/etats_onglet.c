@@ -31,6 +31,7 @@
 #include "gsb_data_report.h"
 #include "gsb_file_others.h"
 #include "navigation.h"
+#include "gsb_status.h"
 #include "traitement_variables.h"
 #include "utils_buttons.h"
 #include "utils.h"
@@ -49,7 +50,6 @@ static void dupliquer_etat ( void );
 static void efface_etat ( void );
 static void export_etat_courant_vers_csv ( gchar * filename );
 static void export_etat_courant_vers_html ( gchar * filename );
-static void export_etat_vers_html ( gint report_number, gchar * filename );
 static void exporter_etat ( void );
 static GtkWidget *gsb_gui_create_report_toolbar ( void );
 static gboolean gsb_report_export_change_format ( GtkWidget * combo, GtkWidget * selector );
@@ -1019,19 +1019,6 @@ void gsb_gui_update_gui_to_report ( gint report_number )
 
 
 /**
- * Export a report as a HTML file.  It uses a "benj's meta structure"
- * affichage_etat structure as a backend.
- *
- * \param report_number		Report to export as HTML.
- * \param filename		Filename to save report into.
- */
-void export_etat_vers_html ( gint report_number, gchar * filename )
-{
-}
-
-
-
-/**
  * Export current report as a HTML file.  It uses a "benj's meta
  * structure" affichage_etat structure as a backend.
  *
@@ -1084,7 +1071,7 @@ gboolean gsb_report_export_change_format ( GtkWidget * combo, GtkWidget * select
     g_object_set_data ( G_OBJECT(selector), "format", 
 			(gpointer) gtk_combo_box_get_active ( GTK_COMBO_BOX(combo) ) );
 
-    name = safe_file_name ( g_object_get_data ( selector, "basename" ) );
+    name = safe_file_name ( g_object_get_data ( G_OBJECT ( selector ), "basename" ) );
     switch ( gtk_combo_box_get_active ( GTK_COMBO_BOX(combo) ) )
     {
 	    case 0:		/* EGSB */
@@ -1165,7 +1152,7 @@ void exporter_etat ( void )
     resultat = gtk_dialog_run ( GTK_DIALOG ( fenetre_nom ));
     if ( resultat == GTK_RESPONSE_OK )
     {
-	nom_etat = file_selection_get_filename ( GTK_FILE_SELECTION ( fenetre_nom ));
+	nom_etat = file_selection_get_filename ( GTK_FILE_CHOOSER ( fenetre_nom ));
 	
 	gsb_status_message ( _("Exporting report ...") );
 
@@ -1227,9 +1214,9 @@ void importer_etat ( void )
 	gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general), 7 );
 
     fenetre_nom = file_selection_new ( _("Import a report") , FILE_SELECTION_MUST_EXIST);
-    file_selection_set_filename ( GTK_FILE_SELECTION ( fenetre_nom ),
+    file_selection_set_filename ( GTK_FILE_CHOOSER ( fenetre_nom ),
 				  dernier_chemin_de_travail );
-    file_selection_set_entry (  GTK_FILE_SELECTION ( fenetre_nom ),
+    file_selection_set_entry (  GTK_FILE_CHOOSER ( fenetre_nom ),
 				g_strconcat ( dernier_chemin_de_travail, ".egsb", NULL ));
 
     resultat = gtk_dialog_run ( GTK_DIALOG ( fenetre_nom ));
@@ -1237,7 +1224,7 @@ void importer_etat ( void )
     switch ( resultat )
     {
 	case GTK_RESPONSE_OK :
-	    nom_etat =file_selection_get_filename ( GTK_FILE_SELECTION ( fenetre_nom ));
+	    nom_etat =file_selection_get_filename ( GTK_FILE_CHOOSER ( fenetre_nom ));
 
 	    gtk_widget_destroy ( GTK_WIDGET ( fenetre_nom ));
 
