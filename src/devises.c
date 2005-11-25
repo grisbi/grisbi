@@ -688,7 +688,7 @@ void retrait_devise ( GtkWidget *bouton, GtkWidget * view )
     struct struct_devise *devise;
     GSList *list_tmp_transactions;
 
-    devise = currency_get_selected ( view );
+    devise = currency_get_selected ( GTK_TREE_VIEW ( view ) );
     if ( ! devise )
     {
 	return;
