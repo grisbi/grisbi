@@ -37,6 +37,8 @@ static gboolean gsb_status_pulse (  );
 static void gsb_status_remove_progress (  );
 static void gsb_status_set_progress ( gdouble ratio, gdouble max );
 static void gsb_status_show_progress ();
+static void gsb_status_start_activity (  );
+static void gsb_status_stop_activity (  );
 /*END_STATIC*/
 
 /*START_EXTERN*/
