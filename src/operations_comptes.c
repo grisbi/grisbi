@@ -41,8 +41,6 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static void changement_no_compte_par_menu ( gpointer null,
-				     gint no_account_plus_un );
 static gboolean gsb_data_account_list_gui_change_order ( GtkWidget *button );
 static GtkWidget *gsb_data_account_list_gui_create_account_button ( gint no_account,
 							gint group,
@@ -67,47 +65,6 @@ extern gchar *last_date;
 extern gint mise_a_jour_liste_comptes_accueil;
 extern gint nb_colonnes;
 /*END_EXTERN*/
-
-
-
-
-/** return a button with an icon and the name of the account
- * \param no_account
- * \param group 1 for the transactions list, 2 for the account page
- * \param callback function to call when clicked
- * \return a GtkButton
- * */
-GtkWidget *gsb_data_account_list_gui_create_account_button ( gint no_account,
-							gint group,
-							gpointer callback )
-{
-    GtkWidget *button;
-
-    button = gtk_list_button_new ( gsb_data_account_get_name (no_account), group, TRUE, GINT_TO_POINTER (no_account));
-
-    if ( group == 1 )
-	gsb_data_account_set_account_button( no_account,
-					button );
-
-    g_signal_connect_swapped ( G_OBJECT (button),
-			       "clicked",
-			       G_CALLBACK ( callback ),
-			       GINT_TO_POINTER ( no_account ) );
-    g_signal_connect ( G_OBJECT ( button ),
-		       "reordered",
-		       G_CALLBACK ( gsb_data_account_list_gui_change_order ),
-		       NULL );
-    gtk_widget_show ( button );
-
-    return ( button );
-}
-
-
-void changement_no_compte_par_menu ( gpointer null,
-				     gint no_account_plus_un )
-{
-    gsb_data_account_list_gui_change_current_account ( GINT_TO_POINTER ( no_account_plus_un - 1) );
-}
 
 
 
