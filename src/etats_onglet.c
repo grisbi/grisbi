@@ -1027,7 +1027,6 @@ void gsb_gui_update_gui_to_report ( gint report_number )
  */
 void export_etat_vers_html ( gint report_number, gchar * filename )
 {
-    affichage_etat ( report_number, &html_affichage, filename );
 }
 
 
@@ -1043,7 +1042,7 @@ void export_etat_courant_vers_html ( gchar * filename )
     if ( gtk_notebook_get_current_page ( GTK_NOTEBOOK ( notebook_general)) != 7 )
 	gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general), 7 );
 
-    export_etat_vers_html ( gsb_gui_navigation_get_current_report (), filename );
+    affichage_etat ( gsb_gui_navigation_get_current_report (), &html_affichage, filename );
 }
 
 
@@ -1104,8 +1103,8 @@ gboolean gsb_report_export_change_format ( GtkWidget * combo, GtkWidget * select
 		extension = "ps";
 		break;
 
-		extension = "tex";
 	    case 4:		/* Latex */
+		extension = "tex";
 		break;
 
 	    default :
@@ -1158,12 +1157,18 @@ void exporter_etat ( void )
 		       (gpointer) fenetre_nom );
     gtk_widget_show_all ( hbox );
     gtk_file_chooser_set_extra_widget ( GTK_FILE_CHOOSER(fenetre_nom), hbox );
+
+    gtk_file_chooser_set_current_name ( GTK_FILE_CHOOSER(fenetre_nom), 
+					g_strconcat ( safe_file_name ( gsb_data_report_get_report_name ( gsb_gui_navigation_get_current_report () ) ),
+						      ".egsb", NULL ) );
     
     resultat = gtk_dialog_run ( GTK_DIALOG ( fenetre_nom ));
     if ( resultat == GTK_RESPONSE_OK )
     {
 	nom_etat = file_selection_get_filename ( GTK_FILE_SELECTION ( fenetre_nom ));
 	
+	gsb_status_message ( _("Exporting report ...") );
+
 	switch ( (gint) g_object_get_data ( G_OBJECT(fenetre_nom), "format" ) )
 	{
 	    case 0:		/* EGSB */
@@ -1201,6 +1206,8 @@ void exporter_etat ( void )
 	    default :
 		break;
 	}
+
+	gsb_status_message ( _("Done") );
     }
     gtk_widget_destroy ( GTK_WIDGET ( fenetre_nom ));
 }
