@@ -475,8 +475,9 @@ gboolean exporter_categ ( GtkButton * widget, gpointer data )
     gchar *nom_categ;
 
     fenetre_nom = file_selection_new ( _("Export categories"), FILE_SELECTION_IS_SAVE_DIALOG );
-    file_selection_set_filename ( GTK_FILE_SELECTION ( fenetre_nom ), dernier_chemin_de_travail );
-    file_selection_set_entry ( GTK_FILE_SELECTION ( fenetre_nom ), ".cgsb" );
+    file_selection_set_filename ( GTK_FILE_CHOOSER ( fenetre_nom ), 
+				  dernier_chemin_de_travail );
+    file_selection_set_entry ( GTK_FILE_CHOOSER ( fenetre_nom ), ".cgsb" );
     
     resultat = gtk_dialog_run ( GTK_DIALOG ( fenetre_nom ));
 
@@ -486,7 +487,7 @@ gboolean exporter_categ ( GtkButton * widget, gpointer data )
 	return FALSE;
     }
 
-    nom_categ = file_selection_get_filename ( GTK_FILE_SELECTION ( fenetre_nom ));
+    nom_categ = file_selection_get_filename ( GTK_FILE_CHOOSER ( fenetre_nom ));
     gtk_widget_destroy ( GTK_WIDGET ( fenetre_nom ));
 
     gsb_file_others_save_category ( nom_categ );
@@ -509,8 +510,8 @@ void importer_categ ( void )
 
     dialog = file_selection_new ( _("Import categories"),
 				       FILE_SELECTION_IS_OPEN_DIALOG | FILE_SELECTION_MUST_EXIST);
-    file_selection_set_filename ( GTK_FILE_SELECTION ( dialog ), dernier_chemin_de_travail );
-    file_selection_set_entry ( GTK_FILE_SELECTION ( dialog ), ".cgsb" );
+    file_selection_set_filename ( GTK_FILE_CHOOSER ( dialog ), dernier_chemin_de_travail );
+    file_selection_set_entry ( GTK_FILE_CHOOSER ( dialog ), ".cgsb" );
 
     resultat = gtk_dialog_run ( GTK_DIALOG ( dialog ));
 
@@ -520,7 +521,7 @@ void importer_categ ( void )
 	return;
     }
 
-    category_name = file_selection_get_filename ( GTK_FILE_SELECTION ( dialog ));
+    category_name = file_selection_get_filename ( GTK_FILE_CHOOSER ( dialog ));
     gtk_widget_destroy ( GTK_WIDGET ( dialog ));
 
     last_transaction_number = gsb_data_transaction_get_last_number();
