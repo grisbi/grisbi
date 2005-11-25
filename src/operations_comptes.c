@@ -31,21 +31,13 @@
 #include "utils_dates.h"
 #include "menu.h"
 #include "gsb_transactions_list.h"
-#include "gtk_list_button.h"
-#include "traitement_variables.h"
 #include "comptes_traitements.h"
 #include "operations_formulaire.h"
-#include "utils_comptes.h"
 #include "include.h"
 #include "structures.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static gboolean gsb_data_account_list_gui_change_order ( GtkWidget *button );
-static GtkWidget *gsb_data_account_list_gui_create_account_button ( gint no_account,
-							gint group,
-							gpointer callback );
-static void verifie_no_account_clos ( gint no_nouveau_no_account );
 /*END_STATIC*/
 
 
@@ -62,7 +54,6 @@ GtkWidget *label_last_statement;
 extern gint compte_courant_onglet;
 extern GtkWidget *formulaire;
 extern gchar *last_date;
-extern gint mise_a_jour_liste_comptes_accueil;
 extern gint nb_colonnes;
 /*END_EXTERN*/
 
@@ -144,72 +135,6 @@ gboolean gsb_data_account_list_gui_change_current_account ( gint *no_account )
 
     return FALSE;
 }
-/* ********************************************************************************************************** */
-
-
-/* ********************************************************************************************************** */
-/* cette fonction est appelée lors d'un changement de no_account */
-/* cherche si le nouveau no_account est clos, si c'est le cas, ferme l'icone du no_account courant */
-/* ********************************************************************************************************** */
-void verifie_no_account_clos ( gint no_nouveau_no_account )
-{
-    /*     si le no_account courant est déjà cloturé, on fait rien */
-
-    if ( gsb_data_account_get_closed_account (gsb_data_account_get_current_account ()) )
-	return;
-
-    if ( gsb_data_account_get_closed_account (no_nouveau_no_account) )
-    {
-	gtk_list_button_close ( GTK_BUTTON ( gsb_data_account_get_account_button (gsb_data_account_get_current_account ()) ));
-    }
-}
-/* ********************************************************************************************************** */
-
-
-
-
-
-/** 
- * Called when the order of accounts changed
- *
- * \param button
- * \return FALSE
- * */
-gboolean gsb_data_account_list_gui_change_order ( GtkWidget *button )
-{
-    GSList *new_list_order;
-    GList *list_buttons_accounts;
-
-    list_buttons_accounts = GTK_BOX ( button-> parent ) -> children;
-    new_list_order = NULL;
-
-    while ( list_buttons_accounts )
-    {
-	GtkBoxChild *box_child;
-
-	box_child = list_buttons_accounts -> data;
-
-	new_list_order = g_slist_append ( new_list_order,
-					  gtk_list_button_get_data ( GTK_LIST_BUTTON ( box_child -> widget )));
-	list_buttons_accounts = list_buttons_accounts -> next;
-    }
-
-    gsb_data_account_reorder ( new_list_order );
-    g_slist_free (new_list_order);
-
-    /* we remake the other accounts list */
-
-    gsb_menu_update_accounts_in_menus ();
-
-    mise_a_jour_liste_comptes_accueil = 1;
-
-    update_options_menus_comptes ();
-    modification_fichier (TRUE);
-
-    return ( FALSE );
-}
-/* *********************************************************************************************************** */
-
 
 
 
