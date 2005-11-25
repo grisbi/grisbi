@@ -409,9 +409,7 @@ void remplissage_liste_echeance ( void )
     gint i;
     GtkTreeIter iter;
 
-
-    if ( DEBUG )
-	printf ( "remplissage_liste_echeance\n" );
+    devel_debug ( "remplissage_liste_echeance\n" );
 
     /*     récupération du store */
 
@@ -548,8 +546,7 @@ void update_couleurs_background_echeancier ( void )
     gint couleur_en_cours;
     gboolean result_iter;
 
-    if ( DEBUG )
-	printf ( "update_couleurs_background_echeancier\n" );
+    devel_debug ( "update_couleurs_background_echeancier\n" );
 
 
     store = GTK_LIST_STORE ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view_liste_echeances )));
@@ -600,13 +597,10 @@ void selectionne_echeance ( gint scheduled_number )
     GdkColor *couleur;
     GtkTreeModel *model;
 
-    if ( DEBUG )
-    {
-	if ( scheduled_number < 0)
-	    printf ( "White scheduled selection\n");
-	else
-	    printf ( "scheduled selection number %d\n",scheduled_number );
-    }
+    if ( scheduled_number < 0)
+	notice_debug ( "White scheduled selection\n");
+    else
+	notice_debug ( "scheduled selection number %d\n",scheduled_number );
 
     if ( (scheduled_number == gsb_data_scheduled_get_current_scheduled_number ()
 	 &&
@@ -1199,8 +1193,7 @@ void supprime_echeance ( gint scheduled_number )
 {
     gint resultat;
 
-    if ( DEBUG )
-	printf ( "supprime_echeance\n" );
+    devel_debug ( "supprime_echeance\n" );
 
     if ( !scheduled_number )
 	scheduled_number = gsb_data_scheduled_get_current_scheduled_number ();
@@ -1491,8 +1484,7 @@ void gsb_scheduler_check_scheduled_transactions_time_limit ( void )
     GSList *slist_ptr;
     GSList *last_slist_ptr;
 
-    if ( DEBUG )
-	printf ( "gsb_scheduler_check_scheduled_transactions_time_limit\n" );
+    devel_debug ( "gsb_scheduler_check_scheduled_transactions_time_limit\n" );
 
     /* the scheduled transactions to take will be check here,
      * but the scheduled transactions taked will be add to the append ones */
