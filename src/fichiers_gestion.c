@@ -291,8 +291,7 @@ gboolean gsb_file_open_file ( gchar *filename )
     devel_debug ( g_strdup_printf ("gsb_file_open_file : %s",
 				   filename ));
 
-    gsb_status_message ( _("Load an accounts file") );
-/*     gsb_status_start_activity (); */
+    gsb_status_message ( _("Loading accounts") );
 
     /* try to load the file */
 
@@ -307,7 +306,7 @@ gboolean gsb_file_open_file ( gchar *filename )
 	    gchar *backup_filename;
 	    gchar **tab_char;
 
-	    gsb_status_message ( _("Autosave") );
+	    gsb_status_message ( _("Autosaving") );
 
 	    backup_filename = g_strdup ( filename );
 
@@ -334,15 +333,13 @@ gboolean gsb_file_open_file ( gchar *filename )
 	    gsb_file_save_save_file ( backup_filename,
 				      etat.compress_backup );
 	}
-/* 	gsb_status_stop_activity (); */
     }
     else
     {
-	/* the loading failed
-	 * if the saving function at opening is set, we ask to load the last file */
+	/* Loading failed.  If the saving function at opening is set,
+	 * we ask to load the last file */
 
-/* 	gsb_status_stop_activity (); */
-	gsb_status_clear ();
+	gsb_status_message ( _("Failed to load accounts") );
 
 	if ( etat.sauvegarde_demarrage )
 	{
@@ -387,7 +384,6 @@ gboolean gsb_file_open_file ( gchar *filename )
 	    {
 		/* the loading backup failed */
 
-		gsb_status_clear ();
 		dialogue_error_hint ( _("Grisbi was unable to load file.  Additionally, Grisbi was unable to load a backup file instead."),
 				      g_strdup_printf ( _("Error loading file '%s'"), filename) );
 		return FALSE;
@@ -444,7 +440,7 @@ gboolean gsb_file_open_file ( gchar *filename )
 
     /* we make the main window */
 
-    gsb_status_message ( _("Making main window"));
+    gsb_status_message ( _("Creating main window"));
     main_widget = create_main_widget();
 
     /* set the name of the file in the window title */
@@ -478,7 +474,7 @@ gboolean gsb_file_open_file ( gchar *filename )
     /* check the schedulers */
     gsb_scheduler_check_scheduled_transactions_time_limit ();
 
-    gsb_status_clear ();
+    gsb_status_message ( _("Done") );
     return TRUE;
 }
 
@@ -547,7 +543,7 @@ gboolean enregistrement_fichier ( gint origine )
     /*   on a maintenant un nom de fichier */
     /*     et on sait qu'on peut sauvegarder */
 
-    gsb_status_message ( _("Save file") );
+    gsb_status_message ( _("Saving file") );
 
     result = gsb_file_save_save_file ( nouveau_nom_enregistrement,
 				       etat.compress_file );
@@ -577,7 +573,7 @@ gboolean enregistrement_fichier ( gint origine )
 
     enregistrement_backup();
 
-    gsb_status_clear();
+    gsb_status_message ( _("Done") );
 
     return ( result );
 }
@@ -857,7 +853,7 @@ gboolean enregistrement_backup ( void )
     retour = gsb_file_save_save_file( nom_fichier_backup,
 				      etat.compress_backup );
 
-    gsb_status_clear();
+    gsb_status_message ( _("Done") );
 
     return ( retour );
 }
