@@ -92,6 +92,11 @@ void gsb_status_message ( gchar * message )
 
     gsb_status_clear ();
     message_id = gtk_statusbar_push ( main_statusbar, context_id, message );
+
+    /** Call gtk_main_iteration() to ensure status message is
+     * displayed.  This is done because we need to display it
+     * immediately without waiting to return to gtk_main().  */
+    while ( gtk_events_pending () ) gtk_main_iteration ( );
 }
 
 
@@ -109,6 +114,11 @@ void gsb_status_clear (  )
 	gtk_statusbar_remove ( main_statusbar, context_id, message_id );
 	message_id = -1;
     }
+
+    /** Call gtk_main_iteration() to ensure status message is
+     * displayed.  This is done because we need to display it
+     * immediately without waiting to return to gtk_main().  */
+    while ( gtk_events_pending () ) gtk_main_iteration ( );
 }
 
 
