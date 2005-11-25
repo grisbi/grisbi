@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /* \file            utils_file_selection.c                                    */
 /*                                                                            */
-/*                  GtkFileSelection enhancement API                          */
+/*                  GtkFileChooser enhancement API                          */
 /*                                                                            */
 /*   Manages implicit conversion between UTF8 to sysop locale charset :       */
 /*      All input string are given in UTF8 to the API which convert them to   */
 /*      the good charset, (same for output from locale to UTF8)               */
-/*   Add some more convenient ways to access the GtkFileSelection properties  */
+/*   Add some more convenient ways to access the GtkFileChooser properties  */
 /*                                                                            */
 /*                                                                            */
 /*     Copyright (C)	2004- François Terrot (grisbi@terrot.net)	      */
@@ -51,8 +51,8 @@ extern "C" {
 static  gboolean _file_selection_check_filename ( GtkWidget *selection_fichier);
 static  gboolean _file_selection_overwrite_file_check( GtkWidget *selection_fichier);
 static void file_selection_check_filename_signal(GtkWidget *selection_fichier);
-static gchar* file_selection_get_entry(GtkFileSelection* filesel);
-static GSList * file_selection_get_selections(GtkFileSelection* filesel);
+static gchar* file_selection_get_entry(GtkFileChooser* filesel);
+static GSList * file_selection_get_selections(GtkFileChooser* filesel);
 static void file_selection_overwrite_file_check_signal(GtkWidget *selection_fichier);
 /*END_STATIC*/
 
@@ -69,12 +69,12 @@ extern GtkTreeSelection * selection;
     
 
 
-/** Validate the selected filename from a GtkFileSelection
+/** Validate the selected filename from a GtkFileChooser
  *
  * If the user select or enter an existing filename, this function asks her to confirm she wants to
  * overwrite the file.
  * 
- * \param selection_fichier GtkFileSelection widget
+ * \param selection_fichier GtkFileChooser widget
  * \return
  *      - TRUE if the filename is ok (file does not exists or user confirm to overwrite it)
  *      - FALSE in all other cases (filename empty, ...)
@@ -121,9 +121,9 @@ void file_selection_overwrite_file_check_signal(GtkWidget *selection_fichier)
 			(_file_selection_overwrite_file_check(selection_fichier) == TRUE) ? GTK_RESPONSE_OK : GTK_RESPONSE_NONE);
 } /* }}} file_selection_overwrite_file_check_signal */
 
-/** Validate the selected filename from a GtkFileSelection.  Check if file exists.
+/** Validate the selected filename from a GtkFileChooser.  Check if file exists.
  *
- * \param selection_fichier GtkFileSelection widget
+ * \param selection_fichier GtkFileChooser widget
  * \return
  *      - TRUE if the filename is ok (file exists and is valid)
  *      - FALSE in all other cases (filename empty, ...)
@@ -197,13 +197,13 @@ GtkWidget* file_selection_new ( const gchar *title, const gint properties )
 
 /** file_selection_set_entry.
  *
- *  Set the "filename" entry widget of the given GtkFileSelection dialog with an UTF-8 string
+ *  Set the "filename" entry widget of the given GtkFileChooser dialog with an UTF-8 string
  *
- * \param filesel GtkFileSelection widget
+ * \param filesel GtkFileChooser widget
  * \param utf8string a UTF-8 coded string to be put in the netry field
  *  
  */
-void file_selection_set_entry(GtkFileSelection* filesel,const gchar* utf8string)
+void file_selection_set_entry(GtkFileChooser* filesel,const gchar* utf8string)
 { /* {{{ */
     gtk_file_chooser_set_filename ( filesel, 
 				    g_filename_from_utf8(utf8string,-1,NULL,NULL,NULL) );
@@ -213,16 +213,16 @@ void file_selection_set_entry(GtkFileSelection* filesel,const gchar* utf8string)
 
 /** file_selection_get_entry.
  * 
- * Get the text (converted in UTF-8 string) of the filename entry field of a GtkFileSelection dialog
+ * Get the text (converted in UTF-8 string) of the filename entry field of a GtkFileChooser dialog
  *
- * \param filesel GtkFileSelection widget
+ * \param filesel GtkFileChooser widget
  *
  * \return the entry string converted in UFT-8 charset.
  *  The returned string has been allocated in this function are need to be release
  *  where no more used (no need to add any g_strdup string to use it)
  *  
  */
-gchar* file_selection_get_entry(GtkFileSelection* filesel)
+gchar* file_selection_get_entry(GtkFileChooser* filesel)
 { /* {{{ */
     return g_filename_to_utf8 ( gtk_file_chooser_get_filename ( filesel ),-1,NULL,NULL,NULL);
 } /* }}} file_selection_get_entry */
@@ -231,12 +231,12 @@ gchar* file_selection_get_entry(GtkFileSelection* filesel)
 
 /** file_selection_set_filename
  *
- * Set the filename property of the GtkFileSelection after having converted in the locale char set
+ * Set the filename property of the GtkFileChooser after having converted in the locale char set
  *
- * \param filesel GtkFileSelection widget handle
+ * \param filesel GtkFileChooser widget handle
  * \param utf8filename the string to set coded with the UTF8 charset
  */
-void file_selection_set_filename(GtkFileSelection* filesel,const gchar* utf8filename)
+void file_selection_set_filename(GtkFileChooser* filesel,const gchar* utf8filename)
 { /* {{{ */
     gtk_file_chooser_set_filename ( filesel, 
 				    g_filename_from_utf8(utf8filename,-1,NULL,NULL,NULL) );
@@ -244,14 +244,14 @@ void file_selection_set_filename(GtkFileSelection* filesel,const gchar* utf8file
 
 /** file_selection_get_filename
  *
- * Get the filename property of the GtkFileSelection, converted in UFT-8 charset
+ * Get the filename property of the GtkFileChooser, converted in UFT-8 charset
  *
- * \param  filesel GtkFileSelection widget handle
+ * \param  filesel GtkFileChooser widget handle
  * \return the filename string converted in UFT-8 charset.
  *  The returned string has been allocated in this function are need to be release
  *  where no more used (no need to add any g_strdup string to use it)
  */
-gchar* file_selection_get_filename(GtkFileSelection* filesel)
+gchar* file_selection_get_filename(GtkFileChooser* filesel)
 { /* {{{ */
     return gtk_file_chooser_get_filename ( filesel );
 } /* }}} file_selection_get_filename */
@@ -259,7 +259,7 @@ gchar* file_selection_get_filename(GtkFileSelection* filesel)
 /**
  * file_selection_get_selections.
  * 
- * @param filesel GtkFileSelection widget descriptor
+ * @param filesel GtkFileChooser widget descriptor
  *
  * Provided the exactly the same service as gtk_file_selection_get_selections, except that the
  * results string of the list are already coded using UTF-8 charset.
@@ -270,7 +270,7 @@ gchar* file_selection_get_filename(GtkFileSelection* filesel)
  *   It should be unallocated by the caller. Use g_strfreev() to free it.
  *   
  * */
-GSList * file_selection_get_selections(GtkFileSelection* filesel)
+GSList * file_selection_get_selections(GtkFileChooser* filesel)
 { /* {{{ */
     return gtk_file_chooser_get_filenames  ( filesel );
 } /* }}} file_selection_get_selections */
@@ -290,7 +290,7 @@ GSList * file_selection_get_selections(GtkFileSelection* filesel)
  * There is no need to use g_strdup before using the returned string.
  *
  * */
-gchar* file_selection_get_last_directory(GtkFileSelection* filesel,gboolean ended) 
+gchar* file_selection_get_last_directory(GtkFileChooser* filesel,gboolean ended) 
 {/* {{{ */
     gchar * dirstr = gtk_file_chooser_get_current_folder ( filesel );
     gint     dirstr_len  = strlen(dirstr);
