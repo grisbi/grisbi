@@ -84,6 +84,7 @@ extern struct struct_etat_affichage latex_affichage ;
 extern GtkWidget *notebook_general;
 extern GtkTreeSelection * selection;
 extern GtkWidget *window;
+extern GtkTooltips *tooltips_general_grisbi;
 /*END_EXTERN*/
 
 
@@ -95,7 +96,7 @@ extern GtkWidget *window;
  */
 GtkWidget *gsb_gui_create_report_toolbar ( void )
 {
-    GtkWidget *hbox, *handlebox, *hbox2;
+    GtkWidget *hbox, *handlebox, *hbox2, *button;
 
     hbox = gtk_hbox_new ( FALSE, 5 );
 
@@ -107,27 +108,32 @@ GtkWidget *gsb_gui_create_report_toolbar ( void )
     gtk_container_add ( GTK_CONTAINER(handlebox), hbox2 );
 
     /* Add various icons */
-    gtk_box_pack_start ( GTK_BOX ( hbox2 ),
-			 new_button_with_label_and_image ( etat.display_toolbar,
-							   _("New report"),
-							   "new-report.png",
-							   G_CALLBACK ( ajout_etat ),
-							   NULL ),
-			 FALSE, FALSE, 0 );
+    button = new_button_with_label_and_image ( etat.display_toolbar,
+					       _("New report"),
+					       "new-report.png",
+					       G_CALLBACK ( ajout_etat ),
+					       NULL );
+    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi ), button,
+			   _("Create a new report"), "" );
+    gtk_box_pack_start ( GTK_BOX ( hbox2 ), button, FALSE, FALSE, 0 );
 
-    gtk_box_pack_start ( GTK_BOX ( hbox2 ), 
-			 new_stock_button_with_label ( etat.display_toolbar,
-						       GTK_STOCK_OPEN, 
-						       _("Import"),
-						       G_CALLBACK (importer_etat),
-						       NULL ), 
-			 FALSE, FALSE, 0 );
+    button = new_stock_button_with_label ( etat.display_toolbar,
+					   GTK_STOCK_OPEN, 
+					   _("Import"),
+					   G_CALLBACK (importer_etat),
+					   NULL );
+    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi ), button,
+			   _("Import a Grisbi report file (.egsb)"), "" );
+    gtk_box_pack_start ( GTK_BOX ( hbox2 ), button, FALSE, FALSE, 0 );
 
     bouton_exporter_etat = new_stock_button_with_label ( etat.display_toolbar,
 							 GTK_STOCK_SAVE, 
 							 _("Export"),
 							 G_CALLBACK (exporter_etat),
 							 NULL );
+    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi ), 
+			   bouton_exporter_etat,
+			   _("Export selected report to egsb, HTML, Tex, PostScript"), "" );
     gtk_box_pack_start ( GTK_BOX ( hbox2 ), bouton_exporter_etat, FALSE, FALSE, 0 );
 
     bouton_imprimer_etat = new_stock_button_with_label ( etat.display_toolbar,
@@ -135,6 +141,9 @@ GtkWidget *gsb_gui_create_report_toolbar ( void )
 							 _("Print"),
 							 G_CALLBACK (impression_etat_courant),
 							 NULL );
+    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi ), 
+			   bouton_imprimer_etat,
+			   _("Print selected report"), "" );
     gtk_box_pack_start ( GTK_BOX ( hbox2 ), bouton_imprimer_etat, FALSE, FALSE, 0 );
 
     bouton_effacer_etat = new_stock_button_with_label ( etat.display_toolbar,
@@ -142,6 +151,9 @@ GtkWidget *gsb_gui_create_report_toolbar ( void )
 							_("Delete"),
 							G_CALLBACK ( efface_etat ),
 							NULL );
+    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi ), 
+			   bouton_effacer_etat,
+			   _("Delete selected report"), "" );
     gtk_box_pack_start ( GTK_BOX ( hbox2 ), bouton_effacer_etat, FALSE, FALSE, 0 );
 
     bouton_personnaliser_etat = new_stock_button_with_label ( etat.display_toolbar,
@@ -149,6 +161,9 @@ GtkWidget *gsb_gui_create_report_toolbar ( void )
 							      _("Properties"),
 							      G_CALLBACK (personnalisation_etat),
 							      NULL ), 
+    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi ), 
+			   bouton_personnaliser_etat,
+			   _("Edit selected report"), "" );
     gtk_box_pack_start ( GTK_BOX ( hbox2 ), bouton_personnaliser_etat, FALSE, FALSE, 0 );
 
     bouton_dupliquer_etat = new_stock_button_with_label ( etat.display_toolbar,
@@ -156,6 +171,9 @@ GtkWidget *gsb_gui_create_report_toolbar ( void )
 							  _("Clone"),
 							  G_CALLBACK (dupliquer_etat),
 							  NULL ), 
+    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi ), 
+			   bouton_dupliquer_etat,
+			   _("Clone selected report"), "" );
     gtk_box_pack_start ( GTK_BOX ( hbox2 ), bouton_dupliquer_etat, FALSE, FALSE, 0 );
 
     gtk_widget_show_all ( hbox );
