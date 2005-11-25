@@ -349,13 +349,13 @@ gint latex_finish ()
 
     if ( etat.print_config.printer || etat.print_config.filetype == POSTSCRIPT_FILE )
     {
-	command = g_strdup_printf ( "%s -interaction=nonstopmode %s.tex", etat.latex_command, tempname );
+	command = g_strdup_printf ( "%s -interaction=nonstopmode \"%s.tex\"", etat.latex_command, tempname );
 	if ( system ( command ) > 0 )
 	    dialogue_error_hint ( _("See console output for details.  Be sure you have installed LaTeX properly with unicode support."),
 				  _("LaTeX run was unable to complete.") );
 	else 
 	{
-	  command = g_strdup_printf ( "%s %s %s.dvi -o %s",  etat.dvips_command,
+	  command = g_strdup_printf ( "%s %s \"%s.dvi\" -o \"%s\"",  etat.dvips_command,
 				      ( etat.print_config.orientation == LANDSCAPE ? "-t landscape" : ""),
 				      tempname,
 				      (etat.print_config.printer ? 
