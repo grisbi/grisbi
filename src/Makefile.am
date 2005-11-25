@@ -71,7 +71,6 @@ sources = \
 	gsb_assistant.c		\
 	gsb_status.c		\
 	gtk_combofix.c		\
-	gtk_list_button.c	\
 	help.c			\
 	imputation_budgetaire.c	\
 	main.c			\
@@ -171,7 +170,6 @@ grisbi_INCLUDES =		\
 	fichiers_gestion.h	\
 	format.h		\
 	gtk_combofix.h		\
-	gtk_list_button.h	\
 	help.h			\
 	imputation_budgetaire.h	\
 	include.h		\
