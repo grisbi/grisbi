@@ -340,6 +340,9 @@ void debug_message ( gchar *prefixe, gchar *message, gint level, gboolean force_
     {
 	/* on affiche dans la console le message */
 	printf(g_strdup_printf(_("%s : %s - %s\n"),get_debug_time(),prefixe,message));
+
+	/* Same for status bar */
+	gsb_status_message ( message );
     }
 }
 
