@@ -324,12 +324,12 @@ gint latex_finish ()
 
     if ( etat.print_config.printer || etat.print_config.filetype == POSTSCRIPT_FILE )
       {
-	command = g_strdup_printf ( "%s -interaction=nonstopmode %s.tex", etat.latex_command, latex_tempname );
+	command = g_strdup_printf ( "%s -interaction=nonstopmode \"%s.tex\"", etat.latex_command, latex_tempname );
 	if ( system ( command ) > 0 )
 	  dialogue_error ( _("LaTeX run was unable to complete, see console output for details.") );
 	else 
 	  {
-	    command = g_strdup_printf ( "%s %s %s.dvi -o %s",  etat.dvips_command,
+	    command = g_strdup_printf ( "%s %s \"%s.dvi\" -o \"%s\"",  etat.dvips_command,
 					( etat.print_config.orientation == LANDSCAPE ? "-t landscape" : ""),
 					latex_tempname,
 					(etat.print_config.printer ? 
