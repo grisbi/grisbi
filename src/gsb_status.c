@@ -47,11 +47,17 @@ extern GtkWidget *window;
 /** Status bar displayed in the bottom of Grisbi window.  */
 GtkWidget *main_statusbar = NULL;
 
+/** Context ID from the GtkStatusBar. */
+guint context_id;
+
+/** Message ID from the GtkStatusBar.  */
+guint message_id = -1;
+
 /** Optional progress bar in main status bar.  */
 GtkWidget * progress_bar = NULL;
 
-guint context_id;
-guint message_id = -1;
+/** Timer ID of the timeout responsible for updating the
+ * GtkProgressBar.  */
 int timer_id;
 
 
