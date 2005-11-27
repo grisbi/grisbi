@@ -5135,6 +5135,9 @@ gboolean charge_operations_version_0_5_0 ( xmlDocPtr doc )
 			    operation_echeance -> no_operation_ventilee_associee = my_atoi ( xmlGetProp ( node_detail,
 												       "No_ech_associee" ));
 
+			    /* a bug before set to 1 operation_ventilee of the children... */
+			    if ( operation_echeance -> no_operation_ventilee_associee )
+				operation_echeance -> operation_ventilee = 0;
 
 
 			    gsliste_echeances = g_slist_append ( gsliste_echeances,

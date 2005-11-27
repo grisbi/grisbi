@@ -2739,9 +2739,7 @@ void validation_ope_de_ventilation_echeances ( struct operation_echeance *operat
 		    /* théoriquement, cette ligne n'est pas nécessaire vu que c'est une modif d'opé de ventil */
 
 		    ope_modifiee -> no_operation_ventilee_associee = operation -> no_operation;
-		    ope_modifiee -> operation_ventilee = 1;
-		
-
+		    ope_modifiee -> operation_ventilee = 0;
 		}
 	    }
 	    else
