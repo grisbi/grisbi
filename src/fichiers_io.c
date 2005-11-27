@@ -5139,7 +5139,6 @@ gboolean charge_operations_version_0_5_0 ( xmlDocPtr doc )
 			    if ( operation_echeance -> no_operation_ventilee_associee )
 				operation_echeance -> operation_ventilee = 0;
 
-
 			    gsliste_echeances = g_slist_append ( gsliste_echeances,
 								 operation_echeance);
 			}

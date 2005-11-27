@@ -2786,7 +2786,7 @@ void validation_ope_de_ventilation_echeances ( struct operation_echeance *operat
 		nouvelle_ope -> type_ope = operation -> type_ope;
 		nouvelle_ope -> auto_man = operation -> auto_man;
 		nouvelle_ope -> no_operation_ventilee_associee = operation -> no_operation;
-		nouvelle_ope -> operation_ventilee = 1;
+		nouvelle_ope -> operation_ventilee = 0;
 
 		/* on ajoute cette opé à la liste */
 
