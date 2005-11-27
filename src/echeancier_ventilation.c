@@ -1658,6 +1658,11 @@ void fin_edition_ventilation_echeances ( void )
                                    ":",
                                    2 );
 
+       tableau_char[0] = g_strstrip ( tableau_char[0] );
+
+       if ( tableau_char[1] )
+	   tableau_char[1] = g_strstrip ( tableau_char[1] );
+
 	if ( strlen ( tableau_char[0] ) )
 	{
 	    /* on vérifie ici si c'est un virement */
