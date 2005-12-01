@@ -186,31 +186,38 @@ gboolean charge_operations ( void )
 
 	    /* récupère la version de fichier */
 
-	    if (( !strcmp (  xmlNodeGetContent ( root->children->next->children->next ),
-			     "0.3.2" )))
-		return ( charge_operations_version_0_3_2 ( doc ));
+	    if ( root->children && root->children->next && root->children->next->children )
+	    {
+		if (( !strcmp (  xmlNodeGetContent ( root->children->next->children->next ),
+				 "0.3.2" )))
+		    return ( charge_operations_version_0_3_2 ( doc ));
 
-	    if (( !strcmp (  xmlNodeGetContent ( root->children->next->children->next ),
-			     "0.3.3" )))
-		return ( charge_operations_version_0_3_2 ( doc ));
+		if (( !strcmp (  xmlNodeGetContent ( root->children->next->children->next ),
+				 "0.3.3" )))
+		    return ( charge_operations_version_0_3_2 ( doc ));
 
-	    if (( !strcmp (  xmlNodeGetContent ( root->children->next->children->next ),
-			     "0.4.0" )))
-		return ( charge_operations_version_0_4_0 ( doc ));
+		if (( !strcmp (  xmlNodeGetContent ( root->children->next->children->next ),
+				 "0.4.0" )))
+		    return ( charge_operations_version_0_4_0 ( doc ));
 
-	    if (( !strcmp (  xmlNodeGetContent ( root->children->next->children->next ),
-			     "0.4.1" )))
-		return ( charge_operations_version_0_4_1 ( doc ));
-	    if (( !strncmp (  xmlNodeGetContent ( root->children->next->children->next ),
-			      "0.5.0", 5 )))
-		return ( charge_operations_version_0_5_0 ( doc ));
+		if (( !strcmp (  xmlNodeGetContent ( root->children->next->children->next ),
+				 "0.4.1" )))
+		    return ( charge_operations_version_0_4_1 ( doc ));
+		if (( !strncmp (  xmlNodeGetContent ( root->children->next->children->next ),
+				  "0.5.0", 5 )))
+		    return ( charge_operations_version_0_5_0 ( doc ));
 
-	    /* 	à ce niveau, c'est que que la version n'est pas connue de grisbi, on donne alors */
-	    /* la version nécessaire pour l'ouvrir */
+		/* 	à ce niveau, c'est que que la version n'est pas connue de grisbi, on donne alors */
+		/* la version nécessaire pour l'ouvrir */
 
-	    dialogue_error ( g_strdup_printf ( _("Grisbi version %s is needed to open this file"),
-					       xmlNodeGetContent ( root->children->next -> children->next  )));
-
+		dialogue_error ( g_strdup_printf ( _("Grisbi version %s is needed to open this file"),
+						   xmlNodeGetContent ( root->children->next -> children->next  )));
+	    }
+	    else
+	    {
+		dialogue_error ( g_strdup_printf ( _("Grisbi version %s is needed to open this file"),
+						   ("0.6") ) );
+	    }
 	    xmlFreeDoc ( doc );
 
 	    return ( FALSE );
