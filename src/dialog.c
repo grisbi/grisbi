@@ -388,42 +388,29 @@ gboolean question_conditional_yes_no ( gchar *texte, int * var )
 gchar *demande_texte ( gchar *titre_fenetre,
 		       gchar *question )
 {
-    GtkWidget *dialog;
+    GtkWidget *dialog, *label, *entree, *hbox;
     gint resultat;
-    GtkWidget *label;
-    GtkWidget *entree;
     gchar *retour;
 
-    dialog = gtk_dialog_new_with_buttons ( titre_fenetre,
-					   GTK_WINDOW (window),
-					   GTK_DIALOG_MODAL,
-					   GTK_STOCK_OK,0,
-					   GTK_STOCK_CANCEL,1,
-					   NULL );
+    dialog = dialogue_special_no_run ( GTK_MESSAGE_QUESTION, GTK_BUTTONS_OK_CANCEL, 
+				       make_hint ( question, "" ) );
+    gtk_dialog_set_default_response ( GTK_DIALOG(dialog), GTK_RESPONSE_OK ); 
 
-    label = gtk_label_new ( question );
-    gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox ),
-			 label,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show ( label );
+    hbox = gtk_hbox_new ( FALSE, 12 );
+    gtk_box_pack_start ( GTK_DIALOG ( dialog ) -> vbox, hbox, FALSE, FALSE, 0 );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), gtk_label_new(COLON(_("Value"))), 
+			 FALSE, FALSE, 6 );
 
     entree = gtk_entry_new ();
-    gtk_entry_set_activates_default ( GTK_ENTRY ( entree ),
-				      TRUE );
-    gtk_window_set_focus ( GTK_WINDOW ( dialog ),
-			   entree );
-    gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox ),
-			 entree,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show ( entree );
+    gtk_entry_set_activates_default ( GTK_ENTRY ( entree ), TRUE );
+    gtk_window_set_focus ( GTK_WINDOW ( dialog ), entree );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), entree, TRUE, TRUE, 6 );
 
-    resultat = gtk_dialog_run ( GTK_DIALOG ( dialog ));
+    gtk_widget_show_all ( dialog );
+    
+    resultat = gtk_dialog_run ( GTK_DIALOG ( dialog ) );
 
-    if ( resultat )
+    if ( resultat != GTK_RESPONSE_OK )
     {
 	gtk_widget_destroy ( GTK_WIDGET ( dialog ));
 	return ( NULL );
