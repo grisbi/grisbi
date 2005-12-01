@@ -1710,8 +1710,8 @@ void supprimer_categ ( void )
 	dialog = gtk_dialog_new_with_buttons ( _("Remove a category"),
 					       GTK_WINDOW ( window ),
 					       GTK_DIALOG_MODAL,
-					       GTK_STOCK_OK, 0,
 					       GTK_STOCK_CANCEL, 1,
+					       GTK_STOCK_OK, 0,
 					       NULL);
 
 	label = gtk_label_new ( COLON(_("Selected category still contains transactions.\n\nYou may")) );
@@ -2075,8 +2075,8 @@ void supprimer_sous_categ ( void )
 	dialog = gtk_dialog_new_with_buttons ( _("Remove sub-category"),
 					       GTK_WINDOW ( window ),
 					       GTK_DIALOG_MODAL,
-					       GTK_STOCK_OK, 0,
 					       GTK_STOCK_CANCEL, 1,
+					       GTK_STOCK_OK, 0,
 					       NULL);
 
 	label = gtk_label_new ( COLON(_("Selected sub-category still contains transactions.\n\nYou may")) );
@@ -3126,8 +3126,8 @@ void importer_categ ( void )
     dialog = gtk_dialog_new_with_buttons ( _("Import a category list"),
 					   GTK_WINDOW (window),
 					   GTK_DIALOG_MODAL,
-					   GTK_STOCK_OK,0,
 					   GTK_STOCK_CANCEL,1,
+					   GTK_STOCK_OK,0,
 					   NULL );
     gtk_signal_connect ( GTK_OBJECT ( dialog ),
 			 "destroy",
