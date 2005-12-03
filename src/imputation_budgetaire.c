@@ -84,9 +84,9 @@ extern gchar *dernier_chemin_de_travail;
 extern GtkTreeStore *model;
 extern gint modif_imputation;
 extern GtkTreeSelection * selection;
+extern GtkTooltips *tooltips_general_grisbi;
 extern GtkWidget *widget_formulaire_echeancier[SCHEDULER_FORM_TOTAL_WIDGET];
 extern GtkWidget *window;
-extern GtkTooltips *tooltips_general_grisbi;
 /*END_EXTERN*/
 
 

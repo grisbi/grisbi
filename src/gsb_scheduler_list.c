@@ -80,7 +80,6 @@ static GDate *gsb_scheduler_list_get_next_date ( gint scheduled_number,
 					  GDate *pGDateCurrent );
 static gboolean gsb_scheduler_list_selection_changed ( GtkTreeSelection *selection,
 						gpointer null );
-static gboolean gsb_scheduler_list_set_background_color ( GtkWidget *tree_view );
 /*END_STATIC*/
 
 
@@ -322,7 +321,8 @@ GtkTreeModel *gsb_scheduler_list_create_store ( void )
 				 GDK_TYPE_COLOR,
 				 G_TYPE_STRING,
 				 G_TYPE_INT,
-				 PANGO_TYPE_FONT_DESCRIPTION );
+				 PANGO_TYPE_FONT_DESCRIPTION,
+				 G_TYPE_BOOLEAN );
 
     sortable = gtk_tree_model_sort_new_with_model ( GTK_TREE_MODEL (store));
     gtk_tree_sortable_set_default_sort_func ( GTK_TREE_SORTABLE (sortable),
@@ -366,7 +366,6 @@ gint gsb_scheduler_list_default_sort_function ( GtkTreeModel *model,
 			 -1 );
     date_2 = gsb_parse_date_string ( date_str );
 
-
     if ( date_1
 	 &&
 	 date_2 )
@@ -384,36 +383,6 @@ gint gsb_scheduler_list_default_sort_function ( GtkTreeModel *model,
 	return return_value;
     else
 	return ( number_1 - number_2 );
-}
-
-
-/**
- * called when a key is pressed on the scheduled transactions list
- *
- * \param tree_view
- * \param ev
- *
- * \return FALSE
- * */
-gboolean gsb_scheduler_list_key_press ( GtkWidget *tree_view,
-					GdkEventKey *ev )
-{
-    switch ( ev->keyval )
-    {
-	case GDK_Return :		/* touches entrée */
-	case GDK_KP_Enter :
-
-	    gsb_scheduler_list_edit_transaction (gsb_scheduler_list_get_current_scheduled_number (tree_view));
-	    break;
-
-
-	case GDK_Delete :               /*  del  */
-
-	    supprime_echeance ( gsb_scheduler_list_get_current_scheduled_number (tree_view));
-	    break;
-    }
-
-    return ( FALSE );    
 }
 
 
@@ -561,7 +530,7 @@ void gsb_scheduler_list_add_scheduled_to_list ( gint scheduled_number,
 {
     gchar *ligne[NB_COLS_SCHEDULER];
     GDate *pGDateCurrent;
-    gint scheduled_number_buf;
+    gint virtual_transaction = 0;
     GtkTreeIter iter;
     GtkTreeIter *mother_iter;
     gint frequency;
@@ -640,10 +609,6 @@ void gsb_scheduler_list_add_scheduled_to_list ( gint scheduled_number,
     ligne[COL_NB_NOTES] = gsb_data_scheduled_get_notes (scheduled_number);
     ligne[COL_NB_AMOUNT] = g_strdup_printf ( "%4.2f", gsb_data_scheduled_get_amount (scheduled_number));
 
-    /* scheduled_number_buf contain the number of the real scheduled transaction,
-     * will be set to 0 for the next ones */
-    scheduled_number_buf = scheduled_number;
-
     pGDateCurrent = gsb_date_copy (gsb_data_scheduled_get_date (scheduled_number));
 
     do
@@ -651,7 +616,7 @@ void gsb_scheduler_list_add_scheduled_to_list ( gint scheduled_number,
 	gtk_tree_store_append ( GTK_TREE_STORE (store),
 				&iter,
 				mother_iter );
-printf ( "add list : no %d / date : %s /tiers : %s / montant : %s\n", scheduled_number, ligne[COL_NB_DATE], ligne[COL_NB_PARTY],  ligne[COL_NB_AMOUNT] );
+
 	for ( i=0 ; i<NB_COLS_SCHEDULER ; i++ )
 	    gtk_tree_store_set ( GTK_TREE_STORE ( store ), &iter,
 				 i, ligne[i], -1 );
@@ -659,7 +624,8 @@ printf ( "add list : no %d / date : %s /tiers : %s / montant : %s\n", scheduled_
 	/* set the number of scheduled transaction to 0 if it's not the first one
 	 * (when more than one showed ) */
 	gtk_tree_store_set ( GTK_TREE_STORE ( store ), &iter,
-			     SCHEDULER_COL_NB_TRANSACTION_NUMBER, scheduled_number_buf,
+			     SCHEDULER_COL_NB_TRANSACTION_NUMBER, scheduled_number,
+			     SCHEDULER_COL_NB_VIRTUAL_TRANSACTION, virtual_transaction,
 			     -1 );
 
 	/* if it's a breakdown, we show only one time and color the background */
@@ -673,7 +639,8 @@ printf ( "add list : no %d / date : %s /tiers : %s / montant : %s\n", scheduled_
 	    pGDateCurrent = gsb_scheduler_list_get_next_date ( scheduled_number, pGDateCurrent );
 
 	    ligne[COL_NB_DATE] = gsb_format_gdate ( pGDateCurrent );
-	    scheduled_number_buf = 0;
+	    /* now, it's not real transactions */
+	    virtual_transaction = TRUE;
 	}
     }
     while ( pGDateCurrent &&
@@ -714,7 +681,7 @@ gboolean gsb_scheduler_list_set_background_color ( GtkWidget *tree_view )
     while ((path = gtk_tree_model_sort_convert_path_to_child_path ( GTK_TREE_MODEL_SORT (sort_model),
 								    sorted_path )))
     {
-	gint scheduled_number;
+	gint virtual_transaction;
 	GtkTreeIter iter;
 	gchar *amount;
 
@@ -729,28 +696,22 @@ gboolean gsb_scheduler_list_set_background_color ( GtkWidget *tree_view )
 
 	gtk_tree_model_get ( GTK_TREE_MODEL ( store ),
 			     &iter,
-			     SCHEDULER_COL_NB_TRANSACTION_NUMBER, &scheduled_number,
+			     SCHEDULER_COL_NB_VIRTUAL_TRANSACTION, &virtual_transaction,
 			     COL_NB_AMOUNT, &amount,
 			     -1 );
-printf ( "sorted_path : %s / path %s /no %d /montant %s\n", gtk_tree_path_to_string (sorted_path), gtk_tree_path_to_string (path),scheduled_number, amount );
-	if ( scheduled_number )
-	{
-	    printf ( "%d\n", current_color );
+	if ( virtual_transaction )
 	    gtk_tree_store_set ( store,
 				 &iter,
 				 SCHEDULER_COL_NB_BACKGROUND, &couleur_grise,
 				 -1 );
-/* 	    gtk_tree_store_set ( store, */
-/* 				 &iter, */
-/* 				 SCHEDULER_COL_NB_BACKGROUND, &couleur_fond[current_color], */
-/* 				 -1 ); */
+	else
+	{
+	    gtk_tree_store_set ( store,
+				 &iter,
+				 SCHEDULER_COL_NB_BACKGROUND, &couleur_fond[current_color],
+				 -1 );
 	    current_color = !current_color;
 	}
-	else
-	    gtk_tree_store_set ( store,
-				 &iter,
-				 SCHEDULER_COL_NB_BACKGROUND, &couleur_grise,
-				 -1 );
 
 	gtk_tree_path_free (path);
 
@@ -960,6 +921,41 @@ gboolean gsb_scheduler_list_selection_changed ( GtkTreeSelection *selection,
 
 
 /**
+ * called when a key is pressed on the scheduled transactions list
+ *
+ * \param tree_view
+ * \param ev
+ *
+ * \return FALSE
+ * */
+gboolean gsb_scheduler_list_key_press ( GtkWidget *tree_view,
+					GdkEventKey *ev )
+{
+    gint scheduled_number;
+
+    scheduled_number = gsb_scheduler_list_get_current_scheduled_number (tree_view);
+
+    switch ( ev->keyval )
+    {
+	case GDK_Return :		/* touches entrée */
+	case GDK_KP_Enter :
+
+	    if ( scheduled_number )
+		gsb_scheduler_list_edit_transaction (scheduled_number);
+	    break;
+
+
+	case GDK_Delete :               /*  del  */
+
+	    if ( scheduled_number )
+		supprime_echeance (scheduled_number);
+	    break;
+    }
+    return ( FALSE );    
+}
+
+
+/**
  * called when we press a button on the list
  *
  * \param tree_view
@@ -987,6 +983,7 @@ gboolean gsb_scheduler_list_button_press ( GtkWidget *tree_view,
 
 /**
  * get the current selected transaction and return it
+ * if it's a virtual transaction, return 0
  *
  * \param tree_view
  *
@@ -997,6 +994,7 @@ gint gsb_scheduler_list_get_current_scheduled_number ( GtkWidget *tree_view )
     GList *list_tmp;
     GtkTreeModel *model;
     gint scheduled_number;
+    gint virtual_transaction;
     GtkTreeIter iter;
 
     list_tmp = gtk_tree_selection_get_selected_rows ( gtk_tree_view_get_selection (GTK_TREE_VIEW (tree_view)),
@@ -1011,12 +1009,16 @@ gint gsb_scheduler_list_get_current_scheduled_number ( GtkWidget *tree_view )
     gtk_tree_model_get ( GTK_TREE_MODEL (model),
 			 &iter,
 			 SCHEDULER_COL_NB_TRANSACTION_NUMBER, &scheduled_number,
+			 SCHEDULER_COL_NB_VIRTUAL_TRANSACTION, &virtual_transaction,
 			 -1 );
 
     g_list_foreach (list_tmp, (GFunc) gtk_tree_path_free, NULL);
     g_list_free (list_tmp);
 
-    return scheduled_number;
+    if ( virtual_transaction )
+	return 0;
+    else
+	return scheduled_number;
 }
 
 
@@ -1044,6 +1046,9 @@ gboolean gsb_scheduler_list_edit_transaction ( gint scheduled_number )
 
     devel_debug ( g_strdup_printf ( "gsb_scheduler_list_edit_transaction %d",
 				    scheduled_number ));
+
+    if ( !scheduled_number )
+	return FALSE;
 
     mother_number = gsb_data_scheduled_get_mother_scheduled_number (scheduled_number);
 
@@ -1329,9 +1334,9 @@ gboolean gsb_scheduler_list_edit_transaction ( gint scheduled_number )
 
     return (FALSE);
 }
-/*****************************************************************************/
 
-/*****************************************************************************/
+
+
 void supprime_echeance ( gint scheduled_number )
 {
     gint resultat;

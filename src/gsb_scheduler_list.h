@@ -20,8 +20,9 @@
 #define SCHEDULER_COL_NB_AMOUNT_COLOR 10 	/*< color of the amount */
 #define SCHEDULER_COL_NB_TRANSACTION_NUMBER 11
 #define SCHEDULER_COL_NB_FONT 12		/*< PangoFontDescription if used */
+#define SCHEDULER_COL_NB_VIRTUAL_TRANSACTION 13 /*< to 1 if it's a calculated scheduled transaction (for longer view), so, cannot edit */
 
-#define SCHEDULER_COL_NB_TOTAL 13 
+#define SCHEDULER_COL_NB_TOTAL 14
 
 
 enum scheduler_periodicity {
@@ -53,6 +54,7 @@ gboolean gsb_scheduler_list_fill_list ( GtkWidget *tree_view );
 gint gsb_scheduler_list_get_current_scheduled_number ( GtkWidget *tree_view );
 gboolean gsb_scheduler_list_key_press ( GtkWidget *tree_view,
 					GdkEventKey *ev );
+gboolean gsb_scheduler_list_set_background_color ( GtkWidget *tree_view );
 gboolean gsb_scheduler_list_show_notes ( void );
 void new_scheduled_transaction ( void );
 void supprime_echeance ( gint scheduled_number );
