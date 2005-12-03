@@ -54,9 +54,7 @@ gboolean gsb_scheduler_list_fill_list ( GtkWidget *tree_view );
 gint gsb_scheduler_list_get_current_scheduled_number ( GtkWidget *tree_view );
 gboolean gsb_scheduler_list_key_press ( GtkWidget *tree_view,
 					GdkEventKey *ev );
-gboolean gsb_scheduler_list_set_background_color ( GtkWidget *tree_view );
 gboolean gsb_scheduler_list_show_notes ( void );
-void new_scheduled_transaction ( void );
 void supprime_echeance ( gint scheduled_number );
 /* END_DECLARATION */
 #endif

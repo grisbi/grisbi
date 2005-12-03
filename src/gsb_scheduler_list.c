@@ -80,6 +80,7 @@ static GDate *gsb_scheduler_list_get_next_date ( gint scheduled_number,
 					  GDate *pGDateCurrent );
 static gboolean gsb_scheduler_list_selection_changed ( GtkTreeSelection *selection,
 						gpointer null );
+static gboolean gsb_scheduler_list_set_background_color ( GtkWidget *tree_view );
 /*END_STATIC*/
 
 
@@ -685,10 +686,6 @@ gboolean gsb_scheduler_list_set_background_color ( GtkWidget *tree_view )
 	GtkTreeIter iter;
 	gchar *amount;
 
-/* xxx pb ici car sur des vues plus longues certaines echeances restent blanches */
-/*     avec le printf plus bas, on dirait que c'est la fonction gtk convert_path... qui */
-/*     fait pas bien son boulot ??? */
-/*     restera ensuite à vérifier lors de la validation du formulaire si c'est une opé fille */
 
 	gtk_tree_model_get_iter ( GTK_TREE_MODEL ( store ),
 				  &iter,
@@ -699,6 +696,7 @@ gboolean gsb_scheduler_list_set_background_color ( GtkWidget *tree_view )
 			     SCHEDULER_COL_NB_VIRTUAL_TRANSACTION, &virtual_transaction,
 			     COL_NB_AMOUNT, &amount,
 			     -1 );
+	
 	if ( virtual_transaction )
 	    gtk_tree_store_set ( store,
 				 &iter,
@@ -1019,15 +1017,6 @@ gint gsb_scheduler_list_get_current_scheduled_number ( GtkWidget *tree_view )
 	return 0;
     else
 	return scheduled_number;
-}
-
-
-/**
- * Ready the form to create a new scheduled transaction
- */
-void new_scheduled_transaction ( void )
-{
-    gsb_scheduler_list_edit_transaction (-1);
 }
 
 

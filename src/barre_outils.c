@@ -392,7 +392,7 @@ GtkWidget *creation_barre_outils_echeancier ( void )
     button = new_button_with_label_and_image ( etat.display_toolbar,
 					       _("_New scheduled"),
 					       "new-scheduled.png",
-					       G_CALLBACK ( new_scheduled_transaction ),
+					       G_CALLBACK (gsb_scheduler_list_edit_transaction),
 					       GINT_TO_POINTER(-1) );
     gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi ), button,
 			   _("Prepare form to create a new scheduled transaction"), "" );
