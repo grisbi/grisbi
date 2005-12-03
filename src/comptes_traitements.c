@@ -38,6 +38,7 @@
 #include "gsb_data_transaction.h"
 #include "navigation.h"
 #include "menu.h"
+#include "gsb_scheduler_list.h"
 #include "main.h"
 #include "categories_onglet.h"
 #include "imputation_budgetaire.h"
@@ -45,8 +46,6 @@
 #include "traitement_variables.h"
 #include "utils_comptes.h"
 #include "etats_config.h"
-#include "echeancier_liste.h"
-#include "gsb_scheduler_list.h"
 #include "structures.h"
 #include "operations_formulaire.h"
 #include "fenetre_principale.h"
@@ -74,6 +73,7 @@ extern gint mise_a_jour_liste_echeances_manuelles_accueil;
 extern gint mise_a_jour_soldes_minimaux;
 extern GtkWidget *notebook_general;
 extern GtkStyle *style_entree_formulaire[2];
+extern GtkWidget *tree_view_scheduler_list;
 extern GtkWidget *tree_view_vbox;
 extern GtkWidget *widget_formulaire_echeancier[SCHEDULER_FORM_TOTAL_WIDGET];
 /*END_EXTERN*/
@@ -270,7 +270,7 @@ gboolean delete_account ( void )
 
     update_options_menus_comptes ();
 
-    remplissage_liste_echeance ();
+    gsb_scheduler_list_fill_list (tree_view_scheduler_list);
     mise_a_jour_liste_echeances_manuelles_accueil = 1;
     mise_a_jour_liste_comptes_accueil = 1;
     mise_a_jour_soldes_minimaux = 1;

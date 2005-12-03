@@ -39,7 +39,6 @@
 #include "menu.h"
 #include "structures.h"
 #include "traitement_variables.h"
-#include "echeancier_liste.h"
 #include "gsb_scheduler_list.h"
 #include "include.h"
 #include "echeancier_infos.h"
@@ -82,6 +81,7 @@ GtkStyle *style_gris;
 GdkColor couleur_fond[2];
 GdkColor couleur_grise;
 GdkColor couleur_selection;
+GdkColor breakdown_background;
 GSList *liste_labels_titres_colonnes_liste_ope = NULL;
 
 gchar *nom_fichier_comptes;
@@ -125,8 +125,6 @@ extern gint no_devise_totaux_ib;
 extern gint no_devise_totaux_tiers;
 extern gchar *nom_fichier_backup;
 extern GSList *scheduled_transactions_taken;
-extern GSList *scheduled_transactions_taken;
-extern gint scheduler_col_width[NB_COLS_SCHEDULER] ;
 extern gint scheduler_col_width[NB_COLS_SCHEDULER] ;
 extern GtkWidget *solde_label ;
 extern GtkWidget *solde_label_pointe ;
@@ -302,6 +300,13 @@ void initialisation_couleurs_listes ( void )
     couleur_grise.green = COULEUR_GRISE_GREEN;
     couleur_grise.blue = COULEUR_GRISE_BLUE;
     couleur_grise.pixel = 0;
+
+    /* color for breakdown children */
+
+    breakdown_background.red = BREAKDOWN_BACKGROUND_COLOR_RED;
+    breakdown_background.green = BREAKDOWN_BACKGROUND_COLOR_GREEN;
+    breakdown_background.blue = BREAKDOWN_BACKGROUND_COLOR_BLUE;
+    breakdown_background.pixel = 0;
 
     /* initialise la couleur de la sélection */
 

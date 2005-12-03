@@ -33,13 +33,11 @@
 #include "barre_outils.h"
 #include "type_operations.h"
 #include "comptes_traitements.h"
-#include "echeancier_formulaire.h"
 #include "erreur.h"
 #include "utils_devises.h"
 #include "dialog.h"
-#include "echeancier_liste.h"
-#include "gsb_scheduler_list.h"
 #include "equilibrage.h"
+#include "echeancier_formulaire.h"
 #include "gsb_data_account.h"
 #include "gsb_data_budget.h"
 #include "gsb_data_category.h"
@@ -47,6 +45,7 @@
 #include "gsb_data_scheduled.h"
 #include "gsb_data_transaction.h"
 #include "utils_dates.h"
+#include "gsb_scheduler_list.h"
 #include "classement_operations.h"
 #include "gtk_combofix.h"
 #include "main.h"
@@ -177,8 +176,8 @@ GtkTreeModel *transactions_sortable_model = NULL;
 
 /*START_EXTERN*/
 extern GtkWidget *bouton_ok_equilibrage;
+extern GdkColor breakdown_background;
 extern GdkColor couleur_fond[2];
-extern GdkColor couleur_grise;
 extern GdkColor couleur_selection;
 extern struct struct_devise *devise_compte;
 extern struct struct_devise *devise_operation;
@@ -209,6 +208,7 @@ extern gdouble solde_initial;
 extern GtkStyle *style_entree_formulaire[2];
 extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][TRANSACTION_LIST_COL_NB];
 extern GtkWidget *tree_view;
+extern GtkWidget *tree_view_scheduler_list;
 extern GtkWidget *window;
 /*END_EXTERN*/
 
@@ -814,10 +814,16 @@ gboolean gsb_transactions_list_append_white_line ( gint mother_transaction_numbe
 			     TRANSACTION_COL_NB_VISIBLE, TRUE,
 			     -1 );
 
-	/* if it's a breakdown, there is only 1 line */
+	/* if it's a breakdown, there is only 1 line and the color is special */
 
 	if ( mother_transaction_number )
+	{
+	    gtk_tree_store_set ( store,
+				 &iter,
+				 TRANSACTION_COL_NB_BACKGROUND, &breakdown_background,
+				 -1 );
 	    line = TRANSACTION_LIST_ROWS_NB;
+	}
     }
     return FALSE;
 }
@@ -903,12 +909,13 @@ gboolean gsb_transactions_list_fill_row ( gint transaction_number,
 			     -1 );
     }
 
-    /* if it's a breakdown daughter, for now we just show it */
+    /* if it's a breakdown daughter, for now we just show it and we can set the color */
 
     if ( gsb_data_transaction_get_mother_transaction_number (transaction_number))
 	gtk_tree_store_set ( store,
 			     iter,
 			     TRANSACTION_COL_NB_VISIBLE, TRUE,
+			     TRANSACTION_COL_NB_BACKGROUND, &breakdown_background,
 			     -1 );
 
     /* if we use a custom font... */
@@ -1136,7 +1143,6 @@ gchar *gsb_transactions_list_grep_cell_content ( gint transaction_number,
     }
     return ( NULL );
 }
-/******************************************************************************/
 
 
 /** 
@@ -1210,45 +1216,21 @@ gboolean gsb_transactions_list_set_background_color ( gint no_account )
 	else
 	    color_column = TRANSACTION_COL_NB_BACKGROUND;
 
-	/* if it's a breakdown, it's not the same color */
+	gtk_tree_store_set ( GTK_TREE_STORE ( model ),
+			     &iter,
+			     color_column, &couleur_fond[couleur_en_cours],
+			     -1 );
 
-	if ( gsb_data_transaction_get_mother_transaction_number (transaction_number))
+	if ( ++i == nb_rows_by_transaction)
 	{
-	    gtk_tree_store_set ( GTK_TREE_STORE ( model ),
-				 &iter,
-				 color_column, &couleur_grise,
-				 -1 );
-	}
-	else
-	{
-	    gtk_tree_store_set ( GTK_TREE_STORE ( model ),
-				 &iter,
-				 color_column, &couleur_fond[couleur_en_cours],
-				 -1 );
-
-	    if ( ++i == nb_rows_by_transaction)
-	    {
-		i = 0;
-		couleur_en_cours = 1 - couleur_en_cours;
-	    }
+	    i = 0;
+	    couleur_en_cours = 1 - couleur_en_cours;
 	}
 
-	/* if the next row is a child, we go into it, and go back to the transactions
-	 * at the end */
+	/* needn't to go in a child because the color is always the same, so
+	 * gtk_tree_path_next is enough */
 
-	if ( gsb_data_transaction_get_breakdown_of_transaction (transaction_number)
-	     &&
-	     line_in_transaction == nb_rows_by_transaction)
-	    gtk_tree_path_down (path_sort);
-	else
-	{
-	    if ( transaction_number < 0
-		 &&
-		 gtk_tree_path_get_depth (path_sort) == 2 )
-		gtk_tree_path_up (path_sort);
-
-	    gtk_tree_path_next ( path_sort );
-	}
+	gtk_tree_path_next ( path_sort );
     }
     return FALSE;
 }
@@ -1878,12 +1860,7 @@ gboolean gsb_transactions_list_set_current_transaction ( gint transaction_number
 
     iter = gsb_transactions_list_get_iter_from_transaction (transaction_number,
 							    0 );
-/*     xxx j'en suis ici */
-/* 	l'autre : arrive pas à sélectionner une opé fille, le pb vient de gsb_transactions_list_get_iter_from_transaction */
-/* 	car gtk_tree_model_iter_next ne descend pas dans les enfants, donc trouver un moyen à partir de l'opé mère */
-/* 	après il reste à modifier l'attache des enfants à la mère quand change le nb de lignes affichées */
-/* 	puis voir pour l'histoire des R qu'on affiche pas au démarrage */
-/*  */
+
     if ( iter )
     {
 	/* 	iter est maintenant positionne sur la 1ère ligne de l'ope à sélectionner */
@@ -3775,13 +3752,11 @@ void schedule_selected_transaction ()
     scheduled_number = schedule_transaction ( gsb_data_account_get_current_transaction_number (gsb_data_account_get_current_account ()));
 
     mise_a_jour_liste_echeances_auto_accueil = 1;
-    remplissage_liste_echeance ();
+    gsb_scheduler_list_fill_list (tree_view_scheduler_list);
 
-    gsb_data_scheduled_set_current_scheduled_number (scheduled_number);
     formulaire_echeancier_a_zero();
-    degrise_formulaire_echeancier();
-    selectionne_echeance (gsb_data_scheduled_get_current_scheduled_number ());
-    edition_echeance (scheduled_number);
+    gsb_scheduler_form_set_sensitive(gsb_data_scheduled_get_mother_scheduled_number (scheduled_number));
+    gsb_scheduler_list_edit_transaction (gsb_scheduler_list_get_current_scheduled_number (tree_view_scheduler_list));
 
     gtk_notebook_set_current_page ( GTK_NOTEBOOK(notebook_general), 2 );
 

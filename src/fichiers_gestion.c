@@ -46,7 +46,6 @@
 #include "gsb_file_load.h"
 #include "gsb_file_save.h"
 #include "gsb_file_util.h"
-#include "echeancier_liste.h"
 #include "gsb_scheduler_list.h"
 #include "gsb_status.h"
 #include "gsb_transactions_list.h"
@@ -88,8 +87,6 @@ extern gint nb_max_derniers_fichiers_ouverts ;
 extern gchar *nom_fichier_comptes;
 extern GtkWidget *notebook_general;
 extern GSList *scheduled_transactions_taken;
-extern GSList *scheduled_transactions_taken;
-extern GSList *scheduled_transactions_to_take;
 extern GSList *scheduled_transactions_to_take;
 extern gchar **tab_noms_derniers_fichiers_ouverts ;
 extern GtkWidget *table_etat ;

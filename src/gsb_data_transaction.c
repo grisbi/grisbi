@@ -1585,12 +1585,14 @@ gpointer gsb_data_transaction_new_white_line ( gint mother_transaction_number)
     /* we fill some things for the child breakdown to help to sort the list */
 
     transaction -> account_number = gsb_data_transaction_get_account_number (mother_transaction_number);
-    transaction -> date = gsb_date_copy ( gsb_data_transaction_get_date (mother_transaction_number));
-    transaction -> party_number = gsb_data_transaction_get_party_number (mother_transaction_number);
-    transaction -> mother_transaction_number = mother_transaction_number;
 
     if ( mother_transaction_number )
+    {
 	transaction -> transaction_number = gsb_data_transaction_get_last_white_number () - 1;
+	transaction -> date = gsb_date_copy ( gsb_data_transaction_get_date (mother_transaction_number));
+	transaction -> party_number = gsb_data_transaction_get_party_number (mother_transaction_number);
+	transaction -> mother_transaction_number = mother_transaction_number;
+    }
     else
 	transaction -> transaction_number = -1;
 

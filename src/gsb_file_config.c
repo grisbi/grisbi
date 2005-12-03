@@ -61,7 +61,6 @@ extern GtkWidget *main_hpaned ;
 extern gint max;
 extern struct conditional_message messages[] ;
 extern gint nb_days_before_scheduled;
-extern gint nb_days_before_scheduled;
 extern gchar *nom_fichier_comptes;
 extern GtkWidget *window;
 /*END_EXTERN*/

@@ -189,7 +189,7 @@ gboolean format_date ( GtkWidget *entree )
  * \param	
  *
  */
-GDate * gsb_parse_date_string ( const gchar * date_string )
+GDate *gsb_parse_date_string ( const gchar *date_string )
 {
     gchar * separators[4] = { "/", ".", "-", NULL };
     int jour = -1, mois = -1, annee = -1, i;

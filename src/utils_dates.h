@@ -13,7 +13,7 @@ GtkWidget * get_entry_from_date_entry (GtkWidget * hbox);
 GDate *gsb_date_copy ( GDate *date );
 gchar * gsb_format_date ( gint day, gint month, gint year );
 gchar * gsb_format_gdate ( GDate *date );
-GDate * gsb_parse_date_string ( const gchar * date_string );
+GDate *gsb_parse_date_string ( const gchar *date_string );
 gchar *gsb_today ( void );
 gboolean modifie_date ( GtkWidget *entree );
 GtkWidget * new_date_entry ( gchar ** value, GCallback hook );

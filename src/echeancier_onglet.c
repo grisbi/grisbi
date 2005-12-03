@@ -41,7 +41,6 @@ GtkWidget *notebook_liste_ventil_echeances;
 /*START_EXTERN*/
 extern GtkWidget *formulaire;
 extern GtkWidget *frame_formulaire_echeancier;
-extern GtkWidget *frame_formulaire_echeancier;
 /*END_EXTERN*/
 
 /*****************************************************************************************************/

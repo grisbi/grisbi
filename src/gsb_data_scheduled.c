@@ -35,7 +35,6 @@
 /*START_INCLUDE*/
 #include "gsb_data_scheduled.h"
 #include "dialog.h"
-#include "utils_dates.h"
 #include "include.h"
 /*END_INCLUDE*/
 
@@ -88,13 +87,11 @@ typedef struct
 static gint gsb_data_scheduled_get_last_number (void);
 static gint gsb_data_scheduled_get_last_white_number (void);
 static struct_scheduled *gsb_data_scheduled_get_scheduled_by_no ( gint no_scheduled );
-static gpointer gsb_data_scheduled_new_white_line ( gint mother_scheduled_number);
 static gboolean gsb_data_scheduled_save_scheduled_pointer ( gpointer scheduled );
 /*END_STATIC*/
 
 /*START_EXTERN*/
 extern     gchar * buffer ;
-extern GtkTreeSelection * selection;
 /*END_EXTERN*/
 
 
@@ -112,12 +109,6 @@ static struct_scheduled *scheduled_buffer[2];
 /** set the current buffer used */
 static gint current_scheduled_buffer;
 
-/** the current number of the scheduled on the selection,
- * that number is >0 for a scheduled, <0 for white lines
- * (-1 for general white line, <-1 for breakdowns white line) */
-static gint current_scheduled_selection;
-
-
 /** set the scheduleds global variables to NULL, usually when we init all the global variables
  * \param none
  * \return FALSE
@@ -128,7 +119,6 @@ gboolean gsb_data_scheduled_init_variables ( void )
     scheduled_buffer[1] = NULL;
     current_scheduled_buffer = 0;
     scheduled_list = NULL;
-    current_scheduled_selection = 0;
 
     return FALSE;
 }
@@ -312,36 +302,6 @@ struct_scheduled *gsb_data_scheduled_get_scheduled_by_no ( gint no_scheduled )
 }
 
 
-/**
- * get the scheduled number of the selection
- * that number is >0 for a scheduled, <0 for white lines
- * (-1 for general white line, <-1 for breakdowns white line)
- *
- * \param
- *
- * \return the number of the scheduled selected
- * */
-gint gsb_data_scheduled_get_current_scheduled_number ( void )
-{
-    return current_scheduled_selection;
-}
-
-
-/**
- * set the scheduled number of the selection
- * that number is >0 for a scheduled, <0 for white lines
- * (-1 for general white line, <-1 for breakdowns white line)
- *
- * \param the current scheduled selected
- *
- * \return FALSE
- * */
-gboolean gsb_data_scheduled_set_current_scheduled_number ( gint scheduled_number )
-{
-    current_scheduled_selection = scheduled_number;
-    
-    return FALSE;
-}
 
 /**
  * get the account_number
@@ -1398,9 +1358,10 @@ gint gsb_data_scheduled_new_scheduled ( void )
  * 
  * \param mother_scheduled_number the number of the mother's scheduled if it's a breakdown child ; 0 if not
  *
- * \return the pointer of the white line
+ * \return the number of the white line
+ *
  * */
-gpointer gsb_data_scheduled_new_white_line ( gint mother_scheduled_number)
+gint gsb_data_scheduled_new_white_line ( gint mother_scheduled_number)
 {
     struct_scheduled *scheduled;
 
@@ -1410,27 +1371,26 @@ gpointer gsb_data_scheduled_new_white_line ( gint mother_scheduled_number)
     if ( !scheduled )
     {
 	dialogue_error ( _("Cannot allocate memory, bad things will happen soon") );
-	return NULL;
+	/* to avoid more error, return the number of the general white line... */
+	return -1;
     }
 
     /* we fill some things for the child breakdown to help to sort the list */
 
-    scheduled -> account_number = gsb_data_scheduled_get_account_number (mother_scheduled_number);
-    scheduled -> date = gsb_date_copy ( gsb_data_scheduled_get_date (mother_scheduled_number));
-    scheduled -> party_number = gsb_data_scheduled_get_party_number (mother_scheduled_number);
-    scheduled -> mother_scheduled_number = mother_scheduled_number;
-
     if ( mother_scheduled_number )
+    {
 	scheduled -> scheduled_number = gsb_data_scheduled_get_last_white_number () - 1;
+	scheduled -> mother_scheduled_number = mother_scheduled_number;
+    }
     else
 	scheduled -> scheduled_number = -1;
 
     white_scheduled_list = g_slist_append ( white_scheduled_list,
-					     scheduled );
+					    scheduled );
 
     gsb_data_scheduled_save_scheduled_pointer (scheduled);
 
-    return scheduled;
+    return scheduled -> scheduled_number;
 }
 
 

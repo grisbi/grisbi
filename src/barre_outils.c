@@ -31,7 +31,6 @@
 
 /*START_INCLUDE*/
 #include "barre_outils.h"
-#include "echeancier_liste.h"
 #include "gsb_scheduler_list.h"
 #include "gsb_transactions_list.h"
 #include "equilibrage.h"
@@ -75,7 +74,6 @@ GtkWidget *fleche_bas;
 
 /*START_EXTERN*/
 extern gboolean block_menu_cb ;
-extern GtkWidget *bouton_saisir_echeancier;
 extern GtkWidget *bouton_saisir_echeancier;
 extern GtkWidget *formulaire;
 extern GtkItemFactory *item_factory_menu_general;
@@ -358,7 +356,7 @@ gboolean popup_scheduled_view_mode_menu ( GtkWidget * button )
     {
 	item = gtk_menu_item_new_with_label ( names[i] );
 	gtk_signal_connect_object ( GTK_OBJECT ( item ), "activate",
-				    GTK_SIGNAL_FUNC ( gsb_gui_change_scheduler_view ),
+				    GTK_SIGNAL_FUNC ( gsb_scheduler_list_change_scheduler_view ),
 				    GINT_TO_POINTER(i) );
 	gtk_menu_append ( GTK_MENU ( menu ), item );
     }
@@ -376,6 +374,8 @@ gboolean popup_scheduled_view_mode_menu ( GtkWidget * button )
 /**
  * Create the toolbar that contains all elements needed to manipulate
  * the scheduler.
+ *
+ * \param 
  *
  * \return A newly created hbox.
  */
@@ -410,7 +410,7 @@ GtkWidget *creation_barre_outils_echeancier ( void )
     button = new_stock_button_with_label ( etat.display_toolbar,
 					   GTK_STOCK_PROPERTIES, 
 					   _("Edit"),
-					   G_CALLBACK ( edition_echeance ),
+					   G_CALLBACK ( gsb_scheduler_list_edit_transaction ),
 					   0 );
     gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi ), button,
 			   _("Edit selected transaction"), "" );
@@ -420,7 +420,7 @@ GtkWidget *creation_barre_outils_echeancier ( void )
     scheduler_display_hide_comments = new_button_with_label_and_image ( etat.display_toolbar,
 									_("Comments"),
 									"comments.png",
-									G_CALLBACK ( affiche_cache_commentaire_echeancier ),
+									G_CALLBACK ( gsb_scheduler_list_show_notes ),
 									0 );
     gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi ), 
 			   scheduler_display_hide_comments,
@@ -432,7 +432,7 @@ GtkWidget *creation_barre_outils_echeancier ( void )
     bouton_saisir_echeancier = new_stock_button_with_label ( etat.display_toolbar,
 							     GTK_STOCK_EXECUTE, 
 							     _("Execute"),
-							     G_CALLBACK ( click_sur_saisir_echeance ),
+							     G_CALLBACK ( gsb_scheduler_list_execute_transaction ),
 							     NULL ); 
     gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi ), 
 			   bouton_saisir_echeancier,

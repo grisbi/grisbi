@@ -10,7 +10,6 @@ gint gsb_data_scheduled_get_budgetary_number ( gint no_scheduled );
 gint gsb_data_scheduled_get_category_number ( gint no_scheduled );
 gint gsb_data_scheduled_get_contra_method_of_payment_number ( gint no_scheduled );
 gint gsb_data_scheduled_get_currency_number ( gint no_scheduled );
-gint gsb_data_scheduled_get_current_scheduled_number ( void );
 GDate *gsb_data_scheduled_get_date ( gint no_scheduled );
 gint gsb_data_scheduled_get_financial_year_number ( gint no_scheduled );
 gint gsb_data_scheduled_get_frequency ( gint no_scheduled );
@@ -29,6 +28,7 @@ gint gsb_data_scheduled_get_user_interval ( gint no_scheduled );
 gboolean gsb_data_scheduled_init_variables ( void );
 gint gsb_data_scheduled_new_scheduled ( void );
 gint gsb_data_scheduled_new_scheduled_with_number ( gint scheduled_number );
+gint gsb_data_scheduled_new_white_line ( gint mother_scheduled_number);
 gboolean gsb_data_scheduled_remove_scheduled ( gint scheduled_number );
 gboolean gsb_data_scheduled_set_account_number ( gint no_scheduled,
 						 gint no_account );
@@ -48,7 +48,6 @@ gboolean gsb_data_scheduled_set_contra_method_of_payment_number ( gint no_schedu
 								  gint number );
 gboolean gsb_data_scheduled_set_currency_number ( gint no_scheduled,
 						  gint no_currency );
-gboolean gsb_data_scheduled_set_current_scheduled_number ( gint scheduled_number );
 gboolean gsb_data_scheduled_set_date ( gint no_scheduled,
 				       GDate *date );
 gboolean gsb_data_scheduled_set_financial_year_number ( gint no_scheduled,

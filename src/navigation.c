@@ -32,10 +32,9 @@
 #include "fenetre_principale.h"
 #include "etats_onglet.h"
 #include "menu.h"
+#include "gsb_scheduler_list.h"
 #include "gsb_transactions_list.h"
 #include "comptes_gestion.h"
-#include "echeancier_liste.h"
-#include "gsb_scheduler_list.h"
 #include "gsb_file_config.h"
 #include "navigation.h"
 #include "include.h"
@@ -1064,8 +1063,8 @@ gboolean gsb_gui_navigation_check_key_press ( GtkWidget *tree_view,
 		case GDK_KP_Down :
 		case GDK_Delete :               /*  del  */
 
-		    traitement_clavier_liste_echeances  ( tree_view_scheduler_list,
-							  ev );
+		    gsb_scheduler_list_key_press  ( tree_view_scheduler_list,
+						    ev );
 		    return TRUE;
 	    }
 	    break;

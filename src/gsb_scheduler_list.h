@@ -37,38 +37,24 @@ enum scheduler_periodicity {
 
 
 /* START_INCLUDE_H */
-#include "echeancier_liste.h"
 #include "gsb_scheduler_list.h"
 /* END_INCLUDE_H */
 
 
 /* START_DECLARATION */
 gboolean affichage_traits_liste_echeances ( void );
-void affiche_cache_commentaire_echeancier( GtkWidget *tree_view );
-void ajuste_scrolling_liste_echeances_a_selection ( void );
-gboolean changement_taille_liste_echeances ( GtkWidget *tree_view,
-					     GtkAllocation *allocation );
-gint cherche_echeance_from_ligne ( gint ligne );
-GtkTreeIter *cherche_iter_echeance ( gint scheduled_number );
-gint cherche_ligne_echeance ( gint scheduled_number );
-gboolean click_ligne_echeance ( GtkWidget *tree_view,
-				GdkEventButton *evenement );
-void click_sur_saisir_echeance ( gint scheduled_number );
-GDate *date_fin_affichage_liste_echeance ( void );
-GDate *date_suivante_echeance ( gint scheduled_number,
-				GDate *pGDateCurrent );
-void edition_echeance ( gint scheduled_number );
-gboolean gsb_gui_change_scheduler_view ( enum scheduler_periodicity periodicity );
-gboolean gsb_gui_popup_custom_periodicity_dialog ();
 void gsb_scheduler_check_scheduled_transactions_time_limit ( void );
 gboolean gsb_scheduler_delete_scheduled_transaction ( gint scheduled_number );
+gboolean gsb_scheduler_list_change_scheduler_view ( enum scheduler_periodicity periodicity );
 GtkWidget *gsb_scheduler_list_create_list ( void );
+gboolean gsb_scheduler_list_edit_transaction ( gint scheduled_number );
+gboolean gsb_scheduler_list_execute_transaction ( gint scheduled_number );
+gboolean gsb_scheduler_list_fill_list ( GtkWidget *tree_view );
+gint gsb_scheduler_list_get_current_scheduled_number ( GtkWidget *tree_view );
+gboolean gsb_scheduler_list_key_press ( GtkWidget *tree_view,
+					GdkEventKey *ev );
+gboolean gsb_scheduler_list_show_notes ( void );
 void new_scheduled_transaction ( void );
-void remplissage_liste_echeance ( void );
-void selectionne_echeance ( gint scheduled_number );
 void supprime_echeance ( gint scheduled_number );
-gboolean traitement_clavier_liste_echeances ( GtkWidget *tree_view_scheduler_list,
-					      GdkEventKey *evenement );
-void update_couleurs_background_echeancier ( void );
 /* END_DECLARATION */
 #endif

@@ -41,11 +41,10 @@
 #include "traitement_variables.h"
 #include "fichiers_gestion.h"
 #include "utils_files.h"
-#include "echeancier_liste.h"
 #include "gsb_scheduler_list.h"
+#include "echeancier_infos.h"
 #include "gsb_transactions_list.h"
 #include "include.h"
-#include "echeancier_infos.h"
 #include "structures.h"
 #include "devises_constants.h"
 /*END_INCLUDE*/
@@ -134,7 +133,6 @@ extern GtkWidget *nom_correspondant;
 extern GtkWidget *nom_exercice;
 extern gchar *nom_fichier_backup;
 extern GtkWidget *remarque_banque;
-extern gint scheduler_col_width[NB_COLS_SCHEDULER] ;
 extern gint scheduler_col_width[NB_COLS_SCHEDULER] ;
 extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][TRANSACTION_LIST_COL_NB];
 extern GtkWidget *tel_banque;
@@ -3740,6 +3738,23 @@ gboolean gsb_file_load_update_previous_version ( void )
 		list_tmp = list_tmp -> next;
 	    }
 
+	    /* a problem untill the 0.5.7, the children of a scheduled breakdown are marked
+	     * as a breakdown mother */
+
+	    list_tmp_transactions = gsb_data_scheduled_get_scheduled_list ();
+
+	    while ( list_tmp_transactions )
+	    {
+		gint scheduled_number;
+		scheduled_number = gsb_data_scheduled_get_scheduled_number (list_tmp_transactions -> data);
+
+		if ( gsb_data_scheduled_get_mother_scheduled_number (scheduled_number))
+		    gsb_data_scheduled_set_breakdown_of_scheduled ( scheduled_number,
+								    0 );
+		list_tmp_transactions = list_tmp_transactions -> next;
+	    }
+
+
 
 	case 58:
 
@@ -3777,6 +3792,60 @@ gboolean gsb_file_load_update_previous_version ( void )
 		list_tmp_transactions = list_tmp_transactions -> next;
 	    }
 
+	    /* change to the 0.6.0 : the number of choice of periodicity
+	     * now 7 choice => in scheduler_periodicity, we have to change
+	     * the last choices to the new numbers */
+
+	    list_tmp_transactions = gsb_data_scheduled_get_scheduled_list ();
+
+	    while ( list_tmp_transactions )
+	    {
+		gint scheduled_number;
+
+		scheduled_number = gsb_data_scheduled_get_scheduled_number (list_tmp_transactions -> data);
+
+		switch ( gsb_data_scheduled_get_frequency (scheduled_number))
+		{
+		    case 0:
+		    case 1:
+		    case 2:
+			/* for once, weekly and months, no change */
+			break;
+
+		    case 3:
+			/* year frequency */
+			gsb_data_scheduled_set_frequency ( scheduled_number,
+							   SCHEDULER_PERIODICITY_YEAR_VIEW );
+			break;
+
+		    case 4:
+			/* custom frequency */
+			gsb_data_scheduled_set_frequency ( scheduled_number,
+							   SCHEDULER_PERIODICITY_CUSTOM_VIEW );
+			break;
+		}
+
+		switch ( gsb_data_scheduled_get_user_interval ( scheduled_number ))
+		{
+		    case 0:
+			/* no change for day */
+			break;
+
+		    case 1:
+			/* for months */
+			gsb_data_scheduled_set_user_interval ( scheduled_number,
+							       PERIODICITY_MONTHS );
+			break;
+
+		    case 2:
+			/* for years */
+			gsb_data_scheduled_set_user_interval ( scheduled_number,
+							       PERIODICITY_YEARS );
+			break;
+		}
+							    
+		list_tmp_transactions = list_tmp_transactions -> next;
+	    }
 
 
 

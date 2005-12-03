@@ -45,7 +45,6 @@
 #include "gsb_data_transaction.h"
 #include "utils_dates.h"
 #include "accueil.h"
-#include "echeancier_liste.h"
 #include "gsb_scheduler_list.h"
 #include "gtk_combofix.h"
 #include "main.h"
@@ -98,8 +97,6 @@ GtkWidget *hbox_valider_annuler_echeance;
 extern GtkWidget *formulaire;
 extern GtkWidget *formulaire_echeancier;
 extern GtkWidget *formulaire_echeancier;
-extern GtkWidget *formulaire_echeancier;
-extern GtkWidget *frame_formulaire_echeancier;
 extern GtkWidget *frame_formulaire_echeancier;
 extern GSList *liste_struct_devises;
 extern GtkWidget *main_page_finished_scheduled_transactions_part;
@@ -1099,7 +1096,7 @@ gboolean clique_champ_formulaire_echeancier ( GtkWidget *entree,
     GtkWidget *popup_cal;
     /* on rend sensitif tout ce qui ne l'était pas sur le formulaire */
 
-    degrise_formulaire_echeancier ();
+    gsb_scheduler_form_set_sensitive (FALSE);
 
     /* si l'entrée de la date et grise, on met la date courante */
 
@@ -1656,7 +1653,7 @@ void gsb_scheduler_validate_form ( void )
 
     mise_a_jour_liste_echeances_manuelles_accueil = 1;
     mise_a_jour_liste_echeances_auto_accueil = 1;
-    remplissage_liste_echeance ();
+    gsb_scheduler_list_fill_list (tree_view_scheduler_list);
     gtk_widget_grab_focus ( tree_view_scheduler_list );
 
     mise_a_jour_accueil();
@@ -2073,7 +2070,7 @@ gint gsb_scheduler_create_transaction_from_scheduled_transaction ( gint schedule
     gsb_data_transaction_set_notes ( transaction_number,
 				     gsb_data_scheduled_get_notes (scheduled_number));
 
-    payment_method = gsb_data_scheduled_get_method_of_payment_content (scheduled_number);
+    payment_method = gsb_data_scheduled_get_method_of_payment_number (scheduled_number);
     if ( payment_method )
     {
 	struct struct_type_ope * type_ope = type_ope_par_no ( payment_method,
@@ -2658,20 +2655,74 @@ void completion_operation_par_tiers_echeancier ( void )
 }
 /******************************************************************************/
 
-/******************************************************************************/
-void degrise_formulaire_echeancier ( void )
+
+/**
+ * set the form sensitive, depend if it's a breakdown child or normal scheduled transaction
+ *
+ * \param breakdown_child
+ *
+ * \return FALSE
+ * */
+gboolean gsb_scheduler_form_set_sensitive ( gboolean breakdown_child )
 {
-    gtk_widget_set_sensitive ( GTK_WIDGET ( widget_formulaire_echeancier[SCHEDULER_FORM_DEVISE] ), TRUE );
-    gtk_widget_set_sensitive ( GTK_WIDGET ( widget_formulaire_echeancier[SCHEDULER_FORM_ACCOUNT] ), TRUE );
-    gtk_widget_set_sensitive ( GTK_WIDGET ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] ), TRUE );
+    if ( breakdown_child )
+    {
+	gtk_widget_set_sensitive ( widget_formulaire_echeancier[SCHEDULER_FORM_DATE],
+				   FALSE );
+	gtk_widget_set_sensitive ( widget_formulaire_echeancier[SCHEDULER_FORM_PARTY],
+				   FALSE );
+	gtk_widget_set_sensitive ( widget_formulaire_echeancier[SCHEDULER_FORM_DEVISE],
+				   FALSE );
+	gtk_widget_set_sensitive ( widget_formulaire_echeancier[SCHEDULER_FORM_ACCOUNT],
+				   FALSE );
+	gtk_widget_set_sensitive ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE],
+				   FALSE );
+	gtk_widget_set_sensitive ( widget_formulaire_echeancier[SCHEDULER_FORM_CHEQUE],
+				   FALSE );
+	gtk_widget_set_sensitive ( widget_formulaire_echeancier[SCHEDULER_FORM_MODE],
+				   FALSE );
+	gtk_widget_set_sensitive ( widget_formulaire_echeancier[SCHEDULER_FORM_FREQUENCY],
+				   FALSE );
+	gtk_widget_set_sensitive ( widget_formulaire_echeancier[SCHEDULER_FORM_FINAL_DATE],
+				   FALSE );
+	gtk_widget_set_sensitive ( widget_formulaire_echeancier[SCHEDULER_FORM_FREQ_CUSTOM_NB],
+				   FALSE );
+	gtk_widget_set_sensitive ( widget_formulaire_echeancier[SCHEDULER_FORM_FREQ_CUSTOM_MENU],
+				   FALSE );
+    }
+    else
+    {
+	/* here it's only for real transactions, not children */
+	gtk_widget_set_sensitive ( widget_formulaire_echeancier[SCHEDULER_FORM_DATE],
+				   TRUE );
+	gtk_widget_set_sensitive ( widget_formulaire_echeancier[SCHEDULER_FORM_PARTY],
+				   TRUE );
+	gtk_widget_set_sensitive ( widget_formulaire_echeancier[SCHEDULER_FORM_DEVISE],
+				   TRUE );
+	gtk_widget_set_sensitive ( widget_formulaire_echeancier[SCHEDULER_FORM_ACCOUNT],
+				   TRUE );
+	gtk_widget_set_sensitive ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE],
+				   TRUE );
+	gtk_widget_set_sensitive ( widget_formulaire_echeancier[SCHEDULER_FORM_CHEQUE],
+				   TRUE );
+	gtk_widget_set_sensitive ( widget_formulaire_echeancier[SCHEDULER_FORM_MODE],
+				   TRUE );
+	gtk_widget_set_sensitive ( widget_formulaire_echeancier[SCHEDULER_FORM_FREQUENCY],
+				   TRUE );
+	gtk_widget_set_sensitive ( widget_formulaire_echeancier[SCHEDULER_FORM_FINAL_DATE],
+				   TRUE );
+	gtk_widget_set_sensitive ( widget_formulaire_echeancier[SCHEDULER_FORM_FREQ_CUSTOM_NB],
+				   TRUE );
+	gtk_widget_set_sensitive ( widget_formulaire_echeancier[SCHEDULER_FORM_FREQ_CUSTOM_MENU],
+				   TRUE );
+    }
+
     gtk_widget_set_sensitive ( GTK_WIDGET ( widget_formulaire_echeancier[SCHEDULER_FORM_EXERCICE] ), TRUE );
-    gtk_widget_set_sensitive ( GTK_WIDGET ( widget_formulaire_echeancier[SCHEDULER_FORM_MODE] ), TRUE );
-    gtk_widget_set_sensitive ( GTK_WIDGET ( widget_formulaire_echeancier[SCHEDULER_FORM_FREQUENCY] ), TRUE );
-    gtk_widget_set_sensitive ( GTK_WIDGET ( widget_formulaire_echeancier[SCHEDULER_FORM_FREQ_CUSTOM_MENU] ), TRUE );
     gtk_widget_set_sensitive ( GTK_WIDGET ( hbox_valider_annuler_echeance ), TRUE );
     gtk_widget_show ( label_saisie_modif );
+
+    return FALSE;
 }
-/******************************************************************************/
 
 
 

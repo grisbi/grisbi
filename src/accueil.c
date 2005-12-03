@@ -30,8 +30,6 @@
 /*START_INCLUDE*/
 #include "accueil.h"
 #include "classement_echeances.h"
-#include "echeancier_liste.h"
-#include "gsb_scheduler_list.h"
 #include "erreur.h"
 #include "utils_devises.h"
 #include "dialog.h"
@@ -44,6 +42,7 @@
 #include "utils_dates.h"
 #include "navigation.h"
 #include "fenetre_principale.h"
+#include "gsb_scheduler_list.h"
 #include "gsb_transactions_list.h"
 #include "main.h"
 #include "utils.h"
@@ -71,15 +70,11 @@ static void update_soldes_minimaux ( void );
 extern GtkWidget *formulaire;
 extern GtkWidget *formulaire_echeancier;
 extern GtkWidget *formulaire_echeancier;
-extern GtkWidget *formulaire_echeancier;
-extern GtkWidget *frame_formulaire_echeancier;
 extern GtkWidget *frame_formulaire_echeancier;
 extern GtkWidget *hbox_valider_annuler_echeance;
 extern GSList *liste_struct_devises;
 extern GtkWidget *notebook_formulaire_echeances;
 extern GSList *scheduled_transactions_taken;
-extern GSList *scheduled_transactions_taken;
-extern GSList *scheduled_transactions_to_take;
 extern GSList *scheduled_transactions_to_take;
 extern GtkWidget *separateur_formulaire_echeancier;
 extern gchar *titre_fichier;
@@ -316,7 +311,7 @@ gboolean saisie_echeance_accueil ( GtkWidget *event_box,
     etat.formulaire_echeance_dans_fenetre = 1;
 
     /* remplit le formulaire */
-    click_sur_saisir_echeance(scheduled_number);
+    gsb_scheduler_list_execute_transaction(scheduled_number);
 
     gtk_widget_show ( formulaire_echeancier );
     if ( etat.affiche_boutons_valider_annuler )

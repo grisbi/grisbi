@@ -40,13 +40,12 @@
 #include "gsb_data_transaction.h"
 #include "navigation.h"
 #include "menu.h"
+#include "gsb_scheduler_list.h"
 #include "categories_onglet.h"
 #include "traitement_variables.h"
 #include "utils_str.h"
 #include "utils.h"
 #include "etats_config.h"
-#include "echeancier_liste.h"
-#include "gsb_scheduler_list.h"
 #include "gsb_transactions_list.h"
 #include "imputation_budgetaire.h"
 #include "tiers_onglet.h"
@@ -97,6 +96,7 @@ extern gint mise_a_jour_liste_comptes_accueil;
 extern gint mise_a_jour_liste_echeances_manuelles_accueil;
 extern gint mise_a_jour_soldes_minimaux;
 extern GtkTreeSelection * selection;
+extern GtkWidget *tree_view_scheduler_list;
 /*END_EXTERN*/
 
 
@@ -1196,7 +1196,7 @@ void modification_details_compte ( void )
 	gsb_gui_navigation_update_account ( compte_courant_onglet );
 	gsb_menu_update_accounts_in_menus ();
 	mise_a_jour_liste_comptes_accueil = 1;
-	remplissage_liste_echeance ();
+	gsb_scheduler_list_fill_list (tree_view_scheduler_list);
 	mise_a_jour_liste_echeances_manuelles_accueil = 1;
 	mise_a_jour_soldes_minimaux = 1;
 	mise_a_jour_fin_comptes_passifs = 1;
@@ -1232,7 +1232,6 @@ void modification_details_compte ( void )
 
 void sort_du_detail_compte ( void )
 {
-
     if ( GTK_WIDGET_SENSITIVE ( hbox_boutons_modif ) )
     {
 	gint resultat;
