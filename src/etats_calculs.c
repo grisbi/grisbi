@@ -1565,13 +1565,13 @@ classement_suivant:
 
 	    if ( etat_courant -> utilise_categ )
 	    {
-		if ( operation_1 -> categorie != operation_2 -> categorie )
-		    return ( operation_1 -> categorie - operation_2 -> categorie );
+		struct struct_categ * categ1, * categ2;
+		GSList * tmp;
 
-		/*     si  les catégories sont nulles, on doit départager entre virements, pas */
-		/* de categ ou opé ventilée */
-		/* on met en 1er les opés sans categ, ensuite les ventilations et enfin les virements */
-
+		/* Si les catégories sont nulles, on doit départager
+		 * entre virements, pas de categ ou opé ventilée on
+		 * met en 1er les opés sans categ, ensuite les
+		 * ventilations et enfin les virements */
 		if ( !operation_1 -> categorie )
 		{
 		    if ( operation_1 -> operation_ventilee )
@@ -1596,6 +1596,26 @@ classement_suivant:
 				return ( -1 );
 		    }
 		}
+		if ( ! operation_1 -> categorie || ! operation_2 -> categorie )
+		{
+		    return operation_1 -> categorie - operation_2 -> categorie;
+		}
+
+		tmp = g_slist_find_custom ( liste_struct_categories,
+					    GINT_TO_POINTER ( operation_1 -> categorie ),
+					    ( GCompareFunc ) recherche_categorie_par_no );
+		if ( tmp )
+		    categ1 = tmp -> data;
+
+		tmp = g_slist_find_custom ( liste_struct_categories,
+					    GINT_TO_POINTER ( operation_2 -> categorie ),
+					    ( GCompareFunc ) recherche_categorie_par_no );
+		if ( tmp )
+		    categ2 = tmp -> data;
+
+		if ( operation_1 -> categorie != operation_2 -> categorie )
+		    return g_utf8_collate ( categ1 -> nom_categ, categ2 -> nom_categ );
+
 	    }
 
 	    /*       les catégories sont identiques, passe au classement suivant */
@@ -1613,8 +1633,47 @@ classement_suivant:
 		 &&
 		 etat_courant -> afficher_sous_categ )
 	    {
+		struct struct_sous_categ * scateg1, * scateg2;
+		struct struct_categ * categ1, * categ2;
+		GSList * tmp;
+
+		if ( ! operation_1 -> categorie || ! operation_2 -> categorie )
+		    return operation_1 -> categorie - operation_2 -> categorie;
+
+		if ( ! operation_1 -> sous_categorie || ! operation_2 -> sous_categorie )
+		    return operation_1 -> sous_categorie - operation_2 -> sous_categorie;
+
+		tmp = g_slist_find_custom ( liste_struct_categories,
+					    GINT_TO_POINTER ( operation_1 -> categorie ),
+					    ( GCompareFunc ) recherche_categorie_par_no );
+		if ( tmp )
+		    categ1 = tmp -> data;
+
+		tmp = g_slist_find_custom ( liste_struct_categories,
+					    GINT_TO_POINTER ( operation_2 -> categorie ),
+					    ( GCompareFunc ) recherche_categorie_par_no );
+		if ( tmp )
+		    categ2 = tmp -> data;
+		tmp = g_slist_find_custom ( categ1 -> liste_sous_categ,
+					    GINT_TO_POINTER ( operation_1 -> sous_categorie ),
+					    ( GCompareFunc ) recherche_sous_categorie_par_no );
+		if ( tmp )
+		    scateg1 = tmp -> data;
+
+		if ( operation_1 -> categorie != operation_2 -> categorie )
+		    return g_utf8_collate ( categ1 -> nom_categ, categ2 -> nom_categ );
+
+		if ( ! categ1 -> liste_sous_categ || ! categ2 -> liste_sous_categ )
+		    return categ1 -> liste_sous_categ - categ2 -> liste_sous_categ;
+
+		tmp = g_slist_find_custom ( categ2 -> liste_sous_categ,
+					    GINT_TO_POINTER ( operation_2 -> sous_categorie ),
+					    ( GCompareFunc ) recherche_sous_categorie_par_no );
+		if ( tmp )
+		    scateg2 = tmp -> data;
+		
 		if ( operation_1 -> sous_categorie != operation_2 -> sous_categorie )
-		    return ( operation_1 -> sous_categorie - operation_2 -> sous_categorie );
+		    return ( g_utf8_collate ( scateg1 -> nom_sous_categ, scateg2 -> nom_sous_categ ) );
 	    }
 
 	    /*       les ss-catégories sont identiques, passe au classement suivant */
@@ -1630,8 +1689,26 @@ classement_suivant:
 
 	    if ( etat_courant -> utilise_ib )
 	    {
-		if ( operation_1 -> imputation != operation_2 -> imputation )
+		struct struct_imputation * ib1, * ib2;
+		GSList * tmp;
+
+		if ( !operation_1 -> imputation || !operation_2 -> imputation )
 		    return ( operation_1 -> imputation - operation_2 -> imputation );
+
+		tmp = g_slist_find_custom ( liste_struct_imputation,
+					    GINT_TO_POINTER ( operation_1 -> imputation ),
+					    ( GCompareFunc ) recherche_imputation_par_no );
+		if ( tmp )
+		    ib1 = tmp -> data;
+
+		tmp = g_slist_find_custom ( liste_struct_imputation,
+					    GINT_TO_POINTER ( operation_2 -> imputation ),
+					    ( GCompareFunc ) recherche_imputation_par_no );
+		if ( tmp )
+		    ib2 = tmp -> data;
+
+		if ( ib1 && ib2 && ( ib1 != ib2 ) )
+		    return g_utf8_collate ( ib1 -> nom_imputation, ib2 -> nom_imputation );
 	    }
 
 	    /*       les ib sont identiques, passe au classement suivant */
@@ -1649,8 +1726,50 @@ classement_suivant:
 		 &&
 		 etat_courant -> afficher_sous_ib )
 	    {
-		if ( operation_1 -> sous_imputation != operation_2 -> sous_imputation )
+		struct struct_imputation * ib1, * ib2;
+		struct struct_sous_imputation * sib1, * sib2;
+		GSList * tmp;
+
+		if ( !operation_1 -> imputation || !operation_2 -> imputation )
+		    return ( operation_1 -> imputation - operation_2 -> imputation );
+
+		if ( !operation_1 -> sous_imputation || !operation_2 -> sous_imputation )
 		    return ( operation_1 -> sous_imputation - operation_2 -> sous_imputation );
+
+		tmp = g_slist_find_custom ( liste_struct_imputation,
+					    GINT_TO_POINTER ( operation_1 -> imputation ),
+					    ( GCompareFunc ) recherche_imputation_par_no );
+		if ( tmp )
+		    ib1 = tmp -> data;
+
+		tmp = g_slist_find_custom ( liste_struct_imputation,
+					    GINT_TO_POINTER ( operation_2 -> imputation ),
+					    ( GCompareFunc ) recherche_imputation_par_no );
+		if ( tmp )
+		    ib2 = tmp -> data;
+
+		if ( ib1 -> no_imputation != ib2 -> no_imputation )
+		    return g_utf8_collate ( ib1 -> nom_imputation, ib2 -> nom_imputation );
+
+		if ( ! ib1 -> liste_sous_imputation || ! ib2 -> liste_sous_imputation )
+		    return ib1 -> liste_sous_imputation - ib2 -> liste_sous_imputation;
+
+		tmp = g_slist_find_custom ( ib1 -> liste_sous_imputation,
+					    GINT_TO_POINTER ( operation_1 -> sous_imputation ),
+					    ( GCompareFunc ) recherche_sous_imputation_par_no );
+		if ( tmp )
+		    sib1 = tmp -> data;
+
+		tmp = g_slist_find_custom ( ib2 -> liste_sous_imputation,
+					    GINT_TO_POINTER ( operation_2 -> sous_imputation ),
+					    ( GCompareFunc ) recherche_sous_imputation_par_no );
+		if ( tmp )
+		    sib2 = tmp -> data;
+
+		if ( sib1 && sib2 )
+		    return g_utf8_collate ( sib1 -> nom_sous_imputation, 
+					    sib2 -> nom_sous_imputation );
+		
 	    }
 
 	    /*       les ib sont identiques, passe au classement suivant */
