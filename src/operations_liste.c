@@ -2503,7 +2503,6 @@ void verification_mise_a_jour_liste ( void )
     if ( !MISE_A_JOUR )
 	return;
 
-
     ajustement = gtk_clist_get_vadjustment ( GTK_CLIST ( CLIST_OPERATIONS ));
 
     haut = ajustement -> upper;
@@ -2518,29 +2517,14 @@ void verification_mise_a_jour_liste ( void )
 
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte;
 
-    if ( ajustement -> page_size == ajustement -> upper )
-	gtk_adjustment_set_value ( GTK_ADJUSTMENT ( ajustement ),
-				   ajustement -> lower  );
-    else
-	if ( page_size == haut )
-	{
-	    gtk_clist_moveto ( GTK_CLIST ( CLIST_OPERATIONS ),
-			       gtk_clist_find_row_from_data ( GTK_CLIST ( CLIST_OPERATIONS ),
-							      OPERATION_SELECTIONNEE ),
-			       0,
-			       0.5,
-			       0 );
-	    selectionne_ligne ( compte );
-	}
-	else
-	{
-	    new_bas = ajustement -> lower + ajustement -> page_size;
-
-	    new_value = ( ajustement -> upper - new_bas ) * value / ( haut - bas );
-
-	    gtk_adjustment_set_value ( GTK_ADJUSTMENT ( ajustement ),
-				       new_value );
-	}
+    gtk_clist_moveto ( GTK_CLIST ( CLIST_OPERATIONS ),
+		       gtk_clist_find_row_from_data ( GTK_CLIST ( CLIST_OPERATIONS ),
+						      OPERATION_SELECTIONNEE ),
+		       0,
+		       0.5,
+		       0 );
+    selectionne_ligne ( compte );
+ 
     MISE_A_JOUR = 0;
 }
 /******************************************************************************/
