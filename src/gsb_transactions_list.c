@@ -3039,6 +3039,8 @@ gboolean gsb_transactions_list_delete_transaction ( gint transaction_number )
     mise_a_jour_soldes_minimaux = 1;
     affiche_dialogue_soldes_minimaux ();
 
+    /* We blank form. */
+    echap_formulaire ();
 
     /* FIXME : on devrait réafficher les listes de tiers, categ, ib... */
 
