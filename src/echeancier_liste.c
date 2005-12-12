@@ -2023,13 +2023,13 @@ void verification_echeances_a_terme ( void )
 
 		ajout_operation ( operation );
 
-		/*   si c'était un virement, on crée une copie de l'opé, on l'ajoute à la liste puis on remplit les relations */
-
-		/* FIXME : le jour où on choisira le type de la contre opération dans les échéances, il faudra changer ici */
+		/*   si c'était un virement, on crée une copie de
+		 *   l'opé, on l'ajoute à la liste puis on remplit
+		 *   les relations */
 		if ( virement )
 		    cree_contre_operation_echeance ( operation,
 						     ECHEANCE_COURANTE -> compte_virement,
-						     operation -> type_ope );
+						     ECHEANCE_COURANTE -> type_contre_ope );
 
 		/* 	si c'était une échéance ventilée, c'est ici qu'on fait joujou */
 
