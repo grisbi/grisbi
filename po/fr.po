@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-05-14 17:39+0200\n"
-"PO-Revision-Date: 2005-05-14 17:35+0200\n"
+"POT-Creation-Date: 2005-11-23 14:23+0100\n"
+"PO-Revision-Date: 2005-12-12 21:20+0100\n"
 "Last-Translator: Alain PORTAL <aportal@univ-montp2.fr>\n"
 "Language-Team: français <traduc@traduc.org>\n"
 "MIME-Version: (null)\n"
@@ -54,78 +54,78 @@ msgid "Accounts under wanted balance"
 msgstr "Comptes sous le solde minimum voulu"
 
 #. crÃ©e la boite de dialogue
-#: src/accueil.c:315
+#: src/accueil.c:328
 msgid "Enter a scheduled transaction"
 msgstr "Saisie d'une opération planifiée"
 
-#: src/accueil.c:364 src/echeancier_onglet.c:168 src/operations_onglet.c:127
+#: src/accueil.c:377 src/echeancier_onglet.c:168 src/operations_onglet.c:127
 msgid "Form"
 msgstr "Formulaire"
 
-#: src/accueil.c:518
+#: src/accueil.c:531
 #, c-format
 msgid "Account balances in %s"
 msgstr "Solde des comptes en %s"
 
 #. CrÃ©ation et remplissage de la premiÃ¨re ligne du tableau
-#: src/accueil.c:524 src/accueil.c:846 src/accueil.c:1167
+#: src/accueil.c:537 src/accueil.c:859 src/accueil.c:1180
 #: src/operations_liste.c:150
 msgid "Reconciled balance"
 msgstr "Solde pointé"
 
-#: src/accueil.c:528 src/accueil.c:850 src/accueil.c:1171
+#: src/accueil.c:541 src/accueil.c:863 src/accueil.c:1184
 msgid "Current balance"
 msgstr "Solde courant"
 
 #. CrÃ©ation et remplissage de la (nb_comptes + 3)iÃ¨me ligne du tableau :
 #. elle contient la somme des soldes de chaque compte
 #. DeuxiÃ¨me colonne
-#: src/accueil.c:766 src/accueil.c:1087 src/accueil.c:1408
+#: src/accueil.c:779 src/accueil.c:1100 src/accueil.c:1421
 msgid "Global balances"
 msgstr "Soldes finaux"
 
-#: src/accueil.c:840
+#: src/accueil.c:853
 #, c-format
 msgid "Liabilities accounts balances in %s"
 msgstr "Solde des comptes de passif en %s"
 
-#: src/accueil.c:1161
+#: src/accueil.c:1174
 #, c-format
 msgid "Assets accounts balances in %s"
 msgstr "Solde des comptes d'actif en %s"
 
-#: src/accueil.c:1581 src/accueil.c:1693
+#: src/accueil.c:1594 src/accueil.c:1706
 msgid "No third party defined"
 msgstr "Aucun tiers défini"
 
-#: src/accueil.c:1593 src/accueil.c:1707 src/echeancier_formulaire.c:2716
-#: src/echeancier_formulaire.c:2760
+#: src/accueil.c:1606 src/accueil.c:1720 src/echeancier_formulaire.c:2711
+#: src/echeancier_formulaire.c:2755
 #, c-format
 msgid "%4.2f %s credit on %s"
 msgstr "Crédit de %4.2f %s sur %s"
 
-#: src/accueil.c:1598 src/accueil.c:1712 src/echeancier_formulaire.c:2721
-#: src/echeancier_formulaire.c:2765
+#: src/accueil.c:1611 src/accueil.c:1725 src/echeancier_formulaire.c:2716
+#: src/echeancier_formulaire.c:2760
 #, c-format
 msgid "%4.2f %s debit on %s"
 msgstr "Débit de %4.2f %s sur %s"
 
-#: src/accueil.c:1794 src/accueil.c:1829
+#: src/accueil.c:1807 src/accueil.c:1842
 #, c-format
 msgid "Balance of account %s is under wanted and authorised minima!"
 msgstr "Le compte %s est passé sous les seuils minimums autorisés et voulus !"
 
-#: src/accueil.c:1800
+#: src/accueil.c:1813
 #, c-format
 msgid "Balance of account %s is under authorised minimum!"
 msgstr "Le compte %s est passé sous le seuil minimum autorisé !"
 
-#: src/accueil.c:1835
+#: src/accueil.c:1848
 #, c-format
 msgid "Balance of account %s is under wanted minimum!"
 msgstr "Le compte %s est passé sous le seuil minimum voulu !"
 
-#: src/affichage.c:131 src/parametres.c:236
+#: src/affichage.c:131 src/parametres.c:237
 msgid "Transaction form"
 msgstr "Formulaire de saisie d'opérations"
 
@@ -189,7 +189,7 @@ msgstr "sélectionné en dernier"
 msgid "according to transaction date"
 msgstr "correspondant à la date de l'opération"
 
-#: src/affichage.c:248 src/parametres.c:212
+#: src/affichage.c:248 src/parametres.c:213
 msgid "Fonts & logo"
 msgstr "Polices et logo"
 
@@ -222,7 +222,7 @@ msgstr "Choisir une police pour les opérations"
 msgid "Revert to default font"
 msgstr "Rétablir la police par défaut"
 
-#: src/affichage.c:603 src/parametres.c:228
+#: src/affichage.c:603 src/parametres.c:229
 msgid "Addresses & titles"
 msgstr "Adresses et titres"
 
@@ -268,18 +268,18 @@ msgstr "Sélection d'un nouveau logo"
 #. on met les titres des colonnes
 #: src/affichage_liste.c:35 src/affichage_liste.c:720
 #: src/affichage_liste.c:1033 src/csv.c:239 src/echeancier_formulaire.c:905
-#: src/echeancier_formulaire.c:2533 src/echeancier_liste.c:400
+#: src/echeancier_formulaire.c:2526 src/echeancier_liste.c:400
 #: src/equilibrage.c:194 src/etats_affiche.c:2223 src/import.c:352
 #: src/import.c:2658 src/operations_formulaire.c:790
-#: src/operations_formulaire.c:1415 src/operations_formulaire.c:1465
-#: src/operations_formulaire.c:1514 src/operations_formulaire.c:1553
+#: src/operations_formulaire.c:1408 src/operations_formulaire.c:1458
+#: src/operations_formulaire.c:1507 src/operations_formulaire.c:1546
 #: src/operations_formulaire.c:3338
 msgid "Date"
 msgstr "Date"
 
 #. mise en place de la frame des tiers
 #: src/affichage_liste.c:37 src/affichage_liste.c:1041 src/csv.c:247
-#: src/echeancier_formulaire.c:914 src/echeancier_formulaire.c:2535
+#: src/echeancier_formulaire.c:914 src/echeancier_formulaire.c:2528
 #: src/echeancier_liste.c:402 src/etats_affiche.c:2237 src/etats_config.c:139
 #: src/etats_config.c:270 src/etats_config.c:7217 src/fenetre_principale.c:96
 #: src/import.c:2665 src/operations_formulaire.c:800
@@ -288,9 +288,9 @@ msgid "Third party"
 msgstr "Tiers"
 
 #: src/affichage_liste.c:38 src/echeancier_formulaire.c:1067
-#: src/echeancier_formulaire.c:2545 src/echeancier_ventilation.c:967
+#: src/echeancier_formulaire.c:2538 src/echeancier_ventilation.c:967
 #: src/echeancier_ventilation.c:1495 src/etats_affiche.c:2251
-#: src/etats_config.c:262 src/operations_formulaire.c:1127
+#: src/etats_config.c:262 src/operations_formulaire.c:1119
 #: src/operations_formulaire.c:3355 src/ventilation.c:968
 #: src/ventilation.c:1493
 msgid "Budgetary line"
@@ -299,7 +299,7 @@ msgstr "Imputation budgétaire"
 #. Debit type
 #: src/affichage_liste.c:39 src/affichage_liste.c:768
 #: src/affichage_liste.c:1049 src/categories_onglet.c:288 src/csv.c:249
-#: src/echeancier_formulaire.c:975 src/echeancier_formulaire.c:2537
+#: src/echeancier_formulaire.c:975 src/echeancier_formulaire.c:2530
 #: src/echeancier_ventilation.c:913 src/echeancier_ventilation.c:932
 #: src/echeancier_ventilation.c:1491 src/imputation_budgetaire.c:165
 #: src/operations_formulaire.c:891 src/operations_formulaire.c:3343
@@ -313,10 +313,10 @@ msgstr "Débit"
 #: src/affichage_liste.c:40 src/affichage_liste.c:780
 #: src/affichage_liste.c:1053 src/categories_onglet.c:304 src/csv.c:248
 #: src/echeancier_formulaire.c:1037 src/echeancier_formulaire.c:1279
-#: src/echeancier_formulaire.c:2539 src/echeancier_ventilation.c:885
+#: src/echeancier_formulaire.c:2532 src/echeancier_ventilation.c:885
 #: src/echeancier_ventilation.c:960 src/echeancier_ventilation.c:1493
 #: src/imputation_budgetaire.c:181 src/operations_formulaire.c:976
-#: src/operations_formulaire.c:1335 src/operations_formulaire.c:3345
+#: src/operations_formulaire.c:1328 src/operations_formulaire.c:3345
 #: src/type_operations.c:173 src/type_operations.c:443
 #: src/type_operations.c:858 src/ventilation.c:886 src/ventilation.c:961
 #: src/ventilation.c:1491
@@ -357,20 +357,20 @@ msgstr "P/R"
 
 #: src/affichage_liste.c:48 src/affichage_liste.c:876
 #: src/affichage_liste.c:1085 src/csv.c:257 src/echeancier_formulaire.c:1075
-#: src/echeancier_formulaire.c:2547 src/echeancier_ventilation.c:974
+#: src/echeancier_formulaire.c:2540 src/echeancier_ventilation.c:974
 #: src/echeancier_ventilation.c:1497 src/etats_affiche.c:2279
-#: src/operations_formulaire.c:1133 src/operations_formulaire.c:3357
+#: src/operations_formulaire.c:1125 src/operations_formulaire.c:3357
 #: src/ventilation.c:975 src/ventilation.c:1495
 msgid "Voucher"
 msgstr "Pièce comptable"
 
 #. Notes
 #: src/affichage_liste.c:49 src/affichage_liste.c:888
-#: src/affichage_liste.c:1089 src/banque.c:709 src/csv.c:254
-#: src/echeancier_formulaire.c:1081 src/echeancier_formulaire.c:2549
+#: src/affichage_liste.c:1089 src/banque.c:711 src/csv.c:254
+#: src/echeancier_formulaire.c:1081 src/echeancier_formulaire.c:2542
 #: src/echeancier_liste.c:405 src/echeancier_ventilation.c:82
 #: src/echeancier_ventilation.c:864 src/echeancier_ventilation.c:1489
-#: src/etats_affiche.c:2258 src/operations_formulaire.c:1140
+#: src/etats_affiche.c:2258 src/operations_formulaire.c:1132
 #: src/operations_formulaire.c:3360 src/ventilation.c:85 src/ventilation.c:865
 #: src/ventilation.c:1487
 msgid "Notes"
@@ -378,7 +378,7 @@ msgstr "Remarques"
 
 #: src/affichage_liste.c:50 src/affichage_liste.c:900
 #: src/affichage_liste.c:1093 src/csv.c:259 src/etats_affiche.c:2286
-#: src/operations_formulaire.c:1146 src/operations_formulaire.c:3362
+#: src/operations_formulaire.c:1138 src/operations_formulaire.c:3362
 msgid "Bank references"
 msgstr "Infos banque/guichet"
 
@@ -411,7 +411,7 @@ msgid "Col7"
 msgstr "Col7"
 
 #. Ã  la base, on met une vbox
-#: src/affichage_liste.c:75 src/parametres.c:244
+#: src/affichage_liste.c:75 src/parametres.c:245
 msgid "Transactions list cells"
 msgstr "Cellules de la liste des opérations"
 
@@ -496,7 +496,7 @@ msgstr "4ème ligne"
 msgid "Payer/payee"
 msgstr "Débiteur/Créditeur"
 
-#: src/affichage_liste.c:816 src/equilibrage.c:1683
+#: src/affichage_liste.c:816 src/equilibrage.c:1679
 msgid "Payment method"
 msgstr "Méthodes de réglement"
 
@@ -507,7 +507,7 @@ msgid "Categories"
 msgstr "Catégories"
 
 #: src/affichage_liste.c:924 src/affichage_liste.c:1101
-#: src/operations_formulaire.c:1121 src/operations_formulaire.c:3352
+#: src/operations_formulaire.c:1113 src/operations_formulaire.c:3352
 msgid "Cheque/Transfer number"
 msgstr "N° Chèque/Virement"
 
@@ -518,9 +518,9 @@ msgid "Budgetary lines"
 msgstr "Imputations budgétaires"
 
 #: src/banque.c:122 src/comptes_traitements.c:135
-#: src/comptes_traitements.c:145 src/operations_formulaire.c:2221
-#: src/operations_liste.c:2890 src/operations_liste.c:2957
-#: src/operations_liste.c:3229 src/operations_liste.c:3322
+#: src/comptes_traitements.c:145 src/operations_formulaire.c:2216
+#: src/operations_liste.c:2882 src/operations_liste.c:2949
+#: src/operations_liste.c:3222 src/operations_liste.c:3315
 msgid "Cannot allocate memory, bad things will happen soon"
 msgstr "Erreur dans l'allocation de mémoire, ça va très mal se passer"
 
@@ -528,11 +528,11 @@ msgstr "Erreur dans l'allocation de mémoire, ça va très mal se passer"
 msgid "New bank"
 msgstr "Nouvelle banque"
 
-#: src/banque.c:199 src/banque.c:203
+#: src/banque.c:201 src/banque.c:205
 msgid "Confirmation of bank removal"
 msgstr "Confirmation de suppression de banque"
 
-#: src/banque.c:200
+#: src/banque.c:202
 #, c-format
 msgid ""
 "Bank \"%s\" is used by one or several accounts.\n"
@@ -541,7 +541,7 @@ msgstr ""
 "La banque « %s » est utilisée pour un ou plusieurs comptes. Voulez-vous "
 "vraiment l'effacer ?"
 
-#: src/banque.c:204
+#: src/banque.c:206
 #, c-format
 msgid "Are you sure you want to remove bank \"%s\"?\n"
 msgstr "Êtes-vous sûr de vouloir supprimer la banque « %s » ?\n"
@@ -549,29 +549,29 @@ msgstr "Êtes-vous sûr de vouloir supprimer la banque « %s » ?\n"
 #. le premier nom est Aucune
 #. le premier nom est Aucun
 #. on lui associe 0
-#: src/banque.c:278 src/echeancier_formulaire.c:1489 src/equilibrage.c:573
-#: src/exercice.c:568
+#: src/banque.c:280 src/echeancier_formulaire.c:1489 src/equilibrage.c:572
+#: src/exercice.c:569
 msgid "None"
 msgstr "Aucun"
 
 #. ligne de l'Ã©tablissement financier
-#: src/banque.c:345 src/comptes_gestion.c:279
+#: src/banque.c:347 src/comptes_gestion.c:279
 msgid "Bank"
 msgstr "Banque"
 
-#: src/banque.c:346
+#: src/banque.c:348
 msgid "Contact name"
 msgstr "Correspondant"
 
-#: src/banque.c:348 src/parametres.c:294
+#: src/banque.c:350 src/parametres.c:295
 msgid "Banks"
 msgstr "Banques"
 
-#: src/banque.c:352
+#: src/banque.c:354
 msgid "Known banks"
 msgstr "Banques connues"
 
-#: src/banque.c:532
+#: src/banque.c:534
 msgid "Bank details"
 msgstr "Détails de la banque"
 
@@ -579,48 +579,48 @@ msgstr "Détails de la banque"
 #. Name
 #. Create currency name entry
 #. Financial year name
-#: src/banque.c:543 src/banque.c:649 src/devises.c:1501 src/exercice.c:129
+#: src/banque.c:545 src/banque.c:651 src/devises.c:1502 src/exercice.c:129
 #: src/exercice.c:240 src/import.c:362 src/type_operations.c:379
 msgid "Name"
 msgstr "Nom"
 
 #. Bank Sort code item
-#: src/banque.c:558
+#: src/banque.c:560
 msgid "Sort code"
 msgstr "Code banque"
 
 #. Bank address
-#: src/banque.c:573 src/comptes_gestion.c:233
+#: src/banque.c:575 src/comptes_gestion.c:233
 msgid "Address"
 msgstr "Adresse"
 
 #. Phone number
-#: src/banque.c:596 src/banque.c:664
+#: src/banque.c:598 src/banque.c:666
 msgid "Phone"
 msgstr "Téléphone"
 
 #. E-mail
 #. E-Mail
-#: src/banque.c:611 src/banque.c:694
+#: src/banque.c:613 src/banque.c:696
 msgid "E-Mail"
 msgstr "Mail"
 
 #. Website
-#: src/banque.c:626 src/help.c:77
+#: src/banque.c:628 src/help.c:79
 msgid "Website"
 msgstr "Web"
 
 #. Contact
-#: src/banque.c:641
+#: src/banque.c:643
 msgid "Contact"
 msgstr "Correspondant"
 
 #. Fax
-#: src/banque.c:679
+#: src/banque.c:681
 msgid "Fax"
 msgstr "Fax"
 
-#: src/banque.c:769
+#: src/banque.c:771
 msgid "Edit bank"
 msgstr "Éditer la banque"
 
@@ -688,7 +688,7 @@ msgstr "Afficher les sous-divisions"
 
 #. ajoute le bouton annuler
 #. Add the "cancel" button
-#: src/calendar.c:111 src/utils.c:1516
+#: src/calendar.c:111 src/utils.c:1555
 msgid "Cancel"
 msgstr "Annuler"
 
@@ -1191,13 +1191,13 @@ msgstr "Exporter"
 #. mise en place du bouton importer
 #: src/categories_onglet.c:444 src/etats_onglet.c:376 src/import.c:2847
 #: src/imputation_budgetaire.c:356 src/menu.c:75 src/menu.c:76
-#: src/parametres.c:188
+#: src/parametres.c:189
 msgid "Import"
 msgstr "Importer"
 
 #: src/categories_onglet.c:650 src/categories_onglet.c:707
 #: src/categories_onglet.c:773 src/categories_onglet.c:833
-#: src/categories_onglet.c:863 src/categories_onglet.c:2867
+#: src/categories_onglet.c:863 src/categories_onglet.c:2873
 #: src/etats_affiche.c:128 src/etats_affiche.c:152 src/etats_affiche.c:238
 #: src/etats_affiche.c:259 src/etats_affiche.c:337 src/etats_affiche.c:358
 #: src/etats_affiche.c:441 src/etats_affiche.c:462 src/etats_affiche.c:534
@@ -1206,7 +1206,7 @@ msgstr "Importer"
 #: src/etats_affiche.c:1485 src/etats_affiche.c:1547 src/etats_affiche.c:1593
 #: src/imputation_budgetaire.c:564 src/imputation_budgetaire.c:624
 #: src/imputation_budgetaire.c:690 src/imputation_budgetaire.c:749
-#: src/imputation_budgetaire.c:778 src/imputation_budgetaire.c:2625
+#: src/imputation_budgetaire.c:778 src/imputation_budgetaire.c:2620
 #: src/tiers_onglet.c:434 src/tiers_onglet.c:1630
 #, c-format
 msgid "%4.2f %s"
@@ -1286,10 +1286,10 @@ msgstr "Supprimer simplement cette sous-catégorie."
 
 #: src/categories_onglet.c:2565 src/csv.c:424 src/echeancier_formulaire.c:1047
 #: src/echeancier_formulaire.c:1505 src/echeancier_formulaire.c:1538
-#: src/echeancier_formulaire.c:1765 src/echeancier_liste.c:1201
+#: src/echeancier_formulaire.c:1751 src/echeancier_liste.c:1201
 #: src/echeancier_ventilation.c:204 src/etats_affiche.c:1688
-#: src/operations_formulaire.c:994 src/operations_formulaire.c:1829
-#: src/operations_formulaire.c:2524 src/operations_formulaire.c:2868
+#: src/operations_formulaire.c:994 src/operations_formulaire.c:1822
+#: src/operations_formulaire.c:2519 src/operations_formulaire.c:2868
 #: src/operations_liste.c:1085 src/operations_liste.c:1703
 #: src/ventilation.c:207
 msgid "Breakdown of transaction"
@@ -1299,28 +1299,28 @@ msgstr "Opération ventilée"
 #: src/categories_onglet.c:2568 src/comptes_traitements.c:556
 #: src/comptes_traitements.c:641 src/csv.c:449 src/csv.c:574
 #: src/echeancier_formulaire.c:1526 src/echeancier_formulaire.c:1573
-#: src/echeancier_formulaire.c:1735 src/echeancier_formulaire.c:2093
-#: src/echeancier_formulaire.c:2994 src/echeancier_liste.c:1226
+#: src/echeancier_formulaire.c:1721 src/echeancier_formulaire.c:2079
+#: src/echeancier_formulaire.c:2989 src/echeancier_liste.c:1226
 #: src/echeancier_ventilation.c:771 src/echeancier_ventilation.c:1580
 #: src/echeancier_ventilation.c:1666 src/echeancier_ventilation.c:2015
-#: src/echeancier_ventilation.c:2288 src/ofx.c:442
-#: src/operations_formulaire.c:1019 src/operations_formulaire.c:1938
-#: src/operations_formulaire.c:1943 src/operations_formulaire.c:2391
+#: src/echeancier_ventilation.c:2288 src/ofx.c:443
+#: src/operations_formulaire.c:1015 src/operations_formulaire.c:1931
+#: src/operations_formulaire.c:1936 src/operations_formulaire.c:2386
 #: src/operations_formulaire.c:2948 src/operations_liste.c:1644
 #: src/ventilation.c:772 src/ventilation.c:1578 src/ventilation.c:1659
 #: src/ventilation.c:2028 src/ventilation.c:2366
 msgid "Transfer"
 msgstr "Virement"
 
-#: src/categories_onglet.c:2884
+#: src/categories_onglet.c:2890
 msgid "New category"
 msgstr "Nouvelle catégorie"
 
-#: src/categories_onglet.c:2885
+#: src/categories_onglet.c:2891
 msgid "Enter name for new category"
 msgstr "Entrer le nom de la nouvelle catégorie"
 
-#: src/categories_onglet.c:2892
+#: src/categories_onglet.c:2898
 msgid ""
 "Category names must be both unique and not empty.  Please use another name "
 "for this category."
@@ -1328,20 +1328,20 @@ msgstr ""
 "Les catégories doivent être à la fois uniques et non nulles. Utiliser un "
 "autre nom pour cette catégorie."
 
-#: src/categories_onglet.c:2893
+#: src/categories_onglet.c:2899
 #, c-format
 msgid "Category '%s' already exists."
 msgstr "La catégorie '%s' existe déjà."
 
-#: src/categories_onglet.c:2949
+#: src/categories_onglet.c:2955
 msgid "New sub-category"
 msgstr "Nouvelle sous-catégorie"
 
-#: src/categories_onglet.c:2950
+#: src/categories_onglet.c:2956
 msgid "Enter name for new sub-category"
 msgstr "Entrer le nom de la nouvelle sous-catégorie"
 
-#: src/categories_onglet.c:2971
+#: src/categories_onglet.c:2977
 msgid ""
 "Sub-category names must be both unique and not empty.  Please use another "
 "name for this sub-category."
@@ -1349,63 +1349,63 @@ msgstr ""
 "Les sous catégories doivent être à la fois uniques et non nulles. Utiliser "
 "un autre nom pour cette sous catégorie."
 
-#: src/categories_onglet.c:2972
+#: src/categories_onglet.c:2978
 #, c-format
 msgid "Sub-category '%s' already exists."
 msgstr "La sous-catégorie '%s' existe déjà."
 
-#: src/categories_onglet.c:3028
+#: src/categories_onglet.c:3034
 msgid "Export categories"
 msgstr "Exporter les catégories"
 
-#: src/categories_onglet.c:3052 src/erreur.c:218 src/erreur.c:220
+#: src/categories_onglet.c:3058 src/erreur.c:218 src/erreur.c:220
 #: src/etats_onglet.c:1186 src/fichiers_gestion.c:544
-#: src/fichiers_gestion.c:546 src/imputation_budgetaire.c:2792
+#: src/fichiers_gestion.c:546 src/imputation_budgetaire.c:2787
 msgid "Save file"
 msgstr "Enregistrer le fichier"
 
-#: src/categories_onglet.c:3053 src/etats_onglet.c:1187
-#: src/imputation_budgetaire.c:2793
+#: src/categories_onglet.c:3059 src/etats_onglet.c:1187
+#: src/imputation_budgetaire.c:2788
 msgid "File exists. Do you want to overwrite it?"
 msgstr "Le fichier existe. Voulez-vous l'écraser ?"
 
-#: src/categories_onglet.c:3058 src/etats_onglet.c:1192
-#: src/imputation_budgetaire.c:2798
+#: src/categories_onglet.c:3064 src/etats_onglet.c:1192
+#: src/imputation_budgetaire.c:2793
 #, c-format
 msgid "Invalid filename \"%s\"!"
 msgstr "Nom de fichier « %s » invalide !"
 
-#: src/categories_onglet.c:3066
+#: src/categories_onglet.c:3072
 msgid "Error saving file."
 msgstr "Erreur lors de l'enregistrement du fichier."
 
 #. on permet de remplacer/fusionner la liste
-#: src/categories_onglet.c:3094 src/categories_onglet.c:3120
+#: src/categories_onglet.c:3100 src/categories_onglet.c:3126
 msgid "Import a category list"
 msgstr "Importer une liste de catégories"
 
 #. il y a dÃ©jÃ  des opÃ©rations dans le fichier, on ne peut que fusionner
-#: src/categories_onglet.c:3139
+#: src/categories_onglet.c:3145
 msgid ""
 "File already contains transactions, the two categories lists will be merged."
 msgstr ""
 "Le fichier contient déjà des opérations, les deux listes de catégories "
 "seront fusionnées."
 
-#: src/categories_onglet.c:3149 src/imputation_budgetaire.c:2887
+#: src/categories_onglet.c:3155 src/imputation_budgetaire.c:2882
 msgid "Do you want"
 msgstr "Voulez-vous"
 
-#: src/categories_onglet.c:3167
+#: src/categories_onglet.c:3173
 msgid "Merge the two categories lists"
 msgstr "Fusionner les deux listes de catégories"
 
-#: src/categories_onglet.c:3175
+#: src/categories_onglet.c:3181
 msgid "Replace the old categories list"
 msgstr "Remplacer l'ancienne liste des catégories"
 
-#: src/categories_onglet.c:3209 src/etats_onglet.c:1250
-#: src/imputation_budgetaire.c:2947
+#: src/categories_onglet.c:3215 src/etats_onglet.c:1250
+#: src/imputation_budgetaire.c:2942
 msgid "Cannot import file."
 msgstr "Impossible d'importer le fichier."
 
@@ -1731,18 +1731,18 @@ msgstr ""
 msgid "Exchange rate between the 2 currencies is 0."
 msgstr "Le taux de change entre les deux monnaies est nul."
 
-#: src/comptes_gestion.c:1240 src/devises.c:381 src/devises.c:957
-#: src/devises.c:1776 src/devises.c:1858 src/devises.c:2201 src/devises.c:2206
-#: src/devises.c:2331 src/echeancier_formulaire.c:2052
-#: src/echeancier_formulaire.c:2054 src/echeancier_formulaire.c:2428
-#: src/echeancier_formulaire.c:2430 src/echeancier_liste.c:1952
-#: src/echeancier_liste.c:1954 src/etats_calculs.c:2449
-#: src/etats_calculs.c:2454 src/etats_calculs.c:2484 src/etats_calculs.c:2489
-#: src/etats_calculs.c:2519 src/etats_calculs.c:2524 src/etats_calculs.c:2568
-#: src/etats_calculs.c:2573 src/etats_calculs.c:2599 src/etats_calculs.c:2604
-#: src/etats_calculs.c:2632 src/etats_calculs.c:2637 src/etats_calculs.c:2665
-#: src/etats_calculs.c:2670 src/operations_formulaire.c:2698
-#: src/operations_formulaire.c:2699 src/operations_liste.c:1576
+#: src/comptes_gestion.c:1240 src/devises.c:382 src/devises.c:958
+#: src/devises.c:1777 src/devises.c:1859 src/devises.c:2202 src/devises.c:2207
+#: src/devises.c:2338 src/echeancier_formulaire.c:2038
+#: src/echeancier_formulaire.c:2040 src/echeancier_formulaire.c:2421
+#: src/echeancier_formulaire.c:2423 src/echeancier_liste.c:1951
+#: src/echeancier_liste.c:1953 src/etats_calculs.c:2467
+#: src/etats_calculs.c:2472 src/etats_calculs.c:2521 src/etats_calculs.c:2526
+#: src/etats_calculs.c:2574 src/etats_calculs.c:2579 src/etats_calculs.c:2642
+#: src/etats_calculs.c:2647 src/etats_calculs.c:2692 src/etats_calculs.c:2697
+#: src/etats_calculs.c:2744 src/etats_calculs.c:2749 src/etats_calculs.c:2796
+#: src/etats_calculs.c:2801 src/operations_formulaire.c:2701
+#: src/operations_formulaire.c:2702 src/operations_liste.c:1576
 #: src/operations_liste.c:1578 src/ventilation.c:2972 src/ventilation.c:2974
 #: src/ventilation.c:3191 src/ventilation.c:3193
 msgid "Euro"
@@ -1782,12 +1782,12 @@ msgstr ""
 "Cela détruira irrémédiablement votre compte ainsi que toutes les opérations "
 "qui y étaient précédemment. Il n'y a pas d'annulation possible."
 
-#: src/comptes_traitements.c:568 src/ofx.c:430
+#: src/comptes_traitements.c:568 src/ofx.c:431
 msgid "Deposit"
 msgstr "Dépôt"
 
 #. c'est un compte ccard
-#: src/comptes_traitements.c:580 src/qif.c:284
+#: src/comptes_traitements.c:580 src/qif.c:324
 msgid "Credit card"
 msgstr "Carte de crédit"
 
@@ -1812,7 +1812,7 @@ msgstr ""
 "Choisissez le type de compte.Votre choix influera sur les méthodes de "
 "paiement par défaut.Vous pourrez ultérieurement changer le type de compte."
 
-#: src/csv.c:221 src/qif.c:1049 src/qif.c:1507
+#: src/csv.c:221 src/qif.c:1089 src/qif.c:1547
 #, c-format
 msgid ""
 "Error for the file \"%s\" :\n"
@@ -1855,7 +1855,7 @@ msgid "C"
 msgstr "P"
 
 #: src/csv.c:307 src/etats_affiche.c:1415 src/operations_liste.c:1100
-#: src/operations_liste.c:2026
+#: src/operations_liste.c:2018
 msgid "R"
 msgstr "R"
 
@@ -1869,7 +1869,7 @@ msgid "B"
 msgstr "V"
 
 #: src/csv.c:591 src/echeancier_ventilation.c:780
-#: src/operations_formulaire.c:1028 src/operations_formulaire.c:2404
+#: src/operations_formulaire.c:1024 src/operations_formulaire.c:2399
 #: src/operations_formulaire.c:2960 src/ventilation.c:781
 msgid "Deleted account"
 msgstr "Compte supprimé"
@@ -1883,7 +1883,7 @@ msgstr "Compte supprimé"
 #: src/devises.c:75 src/devises.c:76 src/devises.c:77 src/devises.c:78
 #: src/devises.c:79 src/devises.c:80 src/devises.c:81 src/devises.c:82
 #: src/devises.c:83 src/devises.c:84 src/devises.c:85 src/devises.c:86
-#: src/devises.c:491
+#: src/devises.c:492
 msgid "Africa"
 msgstr "Afrique"
 
@@ -2166,7 +2166,7 @@ msgstr "Zimbabwe"
 #: src/devises.c:115 src/devises.c:116 src/devises.c:117 src/devises.c:118
 #: src/devises.c:119 src/devises.c:120 src/devises.c:121 src/devises.c:122
 #: src/devises.c:123 src/devises.c:124 src/devises.c:125 src/devises.c:126
-#: src/devises.c:492
+#: src/devises.c:493
 msgid "Asia"
 msgstr "Asie"
 
@@ -2487,7 +2487,7 @@ msgid "China"
 msgstr "Chine"
 
 #: src/devises.c:127 src/devises.c:128 src/devises.c:129 src/devises.c:130
-#: src/devises.c:131 src/devises.c:132 src/devises.c:493
+#: src/devises.c:131 src/devises.c:132 src/devises.c:494
 msgid "Central America"
 msgstr "Amérique centrale"
 
@@ -2547,7 +2547,7 @@ msgstr "Panama"
 #: src/devises.c:153 src/devises.c:154 src/devises.c:155 src/devises.c:156
 #: src/devises.c:157 src/devises.c:158 src/devises.c:159 src/devises.c:160
 #: src/devises.c:161 src/devises.c:162 src/devises.c:163 src/devises.c:164
-#: src/devises.c:165 src/devises.c:166 src/devises.c:167 src/devises.c:494
+#: src/devises.c:165 src/devises.c:166 src/devises.c:167 src/devises.c:495
 msgid "Europe"
 msgstr "Europe"
 
@@ -2823,7 +2823,7 @@ msgstr "Ukraine"
 #: src/devises.c:168 src/devises.c:169 src/devises.c:170 src/devises.c:171
 #: src/devises.c:172 src/devises.c:173 src/devises.c:174 src/devises.c:175
 #: src/devises.c:176 src/devises.c:177 src/devises.c:178 src/devises.c:179
-#: src/devises.c:180 src/devises.c:181 src/devises.c:495
+#: src/devises.c:180 src/devises.c:181 src/devises.c:496
 msgid "Northern America"
 msgstr "Amérique du Nord"
 
@@ -2939,7 +2939,7 @@ msgstr "Etats-Unis"
 #: src/devises.c:186 src/devises.c:187 src/devises.c:188 src/devises.c:189
 #: src/devises.c:190 src/devises.c:191 src/devises.c:192 src/devises.c:193
 #: src/devises.c:194 src/devises.c:195 src/devises.c:196 src/devises.c:197
-#: src/devises.c:198 src/devises.c:496
+#: src/devises.c:198 src/devises.c:497
 msgid "Pacific Ocean"
 msgstr "Océan Pacifique"
 
@@ -3049,132 +3049,137 @@ msgstr "Vanuatu"
 
 #: src/devises.c:199 src/devises.c:200 src/devises.c:201 src/devises.c:202
 #: src/devises.c:203 src/devises.c:204 src/devises.c:205 src/devises.c:206
-#: src/devises.c:497
+#: src/devises.c:207 src/devises.c:498
 msgid "Southern America"
 msgstr "Amérique du Sud"
 
 #: src/devises.c:199
-msgid "Chilean Peso"
-msgstr "Peso chilien"
+#, fuzzy
+msgid "Brazilian Real"
+msgstr "Rial iranien"
 
-#: src/devises.c:199
-msgid "Chile"
-msgstr "Chili"
-
-#: src/devises.c:200
-msgid "Colombian Peso"
-msgstr "Peso colombien"
-
-#: src/devises.c:200
-msgid "Colombia"
-msgstr "Colombie"
-
-#: src/devises.c:201
-msgid "Ecuador Sucre"
-msgstr "Sucre"
-
-#: src/devises.c:201
-msgid "Ecuador"
-msgstr "Equateur"
-
-#: src/devises.c:202
-msgid "Guyana Dollar"
-msgstr "Dollar de Guyane"
-
-#: src/devises.c:202
-msgid "Guyana"
-msgstr "Guyane"
-
-#: src/devises.c:203
-msgid "Paraguay Guarani"
-msgstr "Guarani"
-
-#: src/devises.c:203
-msgid "Paraguay"
-msgstr "Paraguay"
-
-#: src/devises.c:204
-msgid "Real"
-msgstr "Real"
-
-#: src/devises.c:204
+#: src/devises.c:199 src/devises.c:205
 msgid "Brazil"
 msgstr "Brésil"
 
+#: src/devises.c:200
+msgid "Chilean Peso"
+msgstr "Peso chilien"
+
+#: src/devises.c:200
+msgid "Chile"
+msgstr "Chili"
+
+#: src/devises.c:201
+msgid "Colombian Peso"
+msgstr "Peso colombien"
+
+#: src/devises.c:201
+msgid "Colombia"
+msgstr "Colombie"
+
+#: src/devises.c:202
+msgid "Ecuador Sucre"
+msgstr "Sucre"
+
+#: src/devises.c:202
+msgid "Ecuador"
+msgstr "Equateur"
+
+#: src/devises.c:203
+msgid "Guyana Dollar"
+msgstr "Dollar de Guyane"
+
+#: src/devises.c:203
+msgid "Guyana"
+msgstr "Guyane"
+
+#: src/devises.c:204
+msgid "Paraguay Guarani"
+msgstr "Guarani"
+
+#: src/devises.c:204
+msgid "Paraguay"
+msgstr "Paraguay"
+
 #: src/devises.c:205
+msgid "Real"
+msgstr "Real"
+
+#: src/devises.c:206
 msgid "Suriname Guilder"
 msgstr "Florin de Surinam"
 
-#: src/devises.c:205
+#: src/devises.c:206
 msgid "Suriname"
 msgstr "Surinam"
 
-#: src/devises.c:206
+#: src/devises.c:207
 msgid "Venezuelan Bolivar"
 msgstr "Bolivar"
 
-#: src/devises.c:206
+#: src/devises.c:207
 msgid "Venezuela"
 msgstr "Vénézuela"
 
 #. le 1er item c'est aucune devise
-#: src/devises.c:424
+#: src/devises.c:425
 msgid "No associated currency"
 msgstr "Pas de devise associée"
 
-#: src/devises.c:588
+#: src/devises.c:589
 msgid "Country name"
 msgstr "Pays"
 
 #. Currency name
-#: src/devises.c:598 src/devises.c:711
+#: src/devises.c:599 src/devises.c:712
 msgid "Currency name"
 msgstr "Nom de la devise"
 
-#: src/devises.c:608 src/devises.c:1378
+#: src/devises.c:609 src/devises.c:1379
 msgid "ISO Code"
 msgstr "Code ISO"
 
 #. Create code entry
-#: src/devises.c:619 src/devises.c:1379 src/devises.c:1516
+#: src/devises.c:620 src/devises.c:1380 src/devises.c:1517
 msgid "Sign"
 msgstr "Symbole"
 
-#: src/devises.c:646
+#: src/devises.c:647
 msgid "Include obsolete currencies"
 msgstr "Afficher les devises obsolètes"
 
-#: src/devises.c:675 src/import.c:456
+#: src/devises.c:676 src/import.c:456
 msgid "Add a currency"
 msgstr "Ajout d'une devise"
 
-#: src/devises.c:693
+#: src/devises.c:694
 msgid "ISO 4217 currencies"
 msgstr "Devises ISO 4217"
 
-#: src/devises.c:700
+#: src/devises.c:701
 msgid "Currency details"
 msgstr "Détails de la devise"
 
 #. Currency ISO code
-#: src/devises.c:728
+#: src/devises.c:729
 msgid "Currency ISO 4217 code"
 msgstr "Code ISO 4217 de la devise"
 
 #. Currency usual sign
-#: src/devises.c:743
+#: src/devises.c:744
 msgid "Currency sign"
 msgstr "Signe de la devise"
 
-#: src/devises.c:819
+#: src/devises.c:820
 msgid "All fields are not filled in!"
 msgstr "Tous les champs ne sont pas remplis !"
 
-#: src/devises.c:875
+#: src/devises.c:876
 msgid "..."
 msgstr "..."
 
-#: src/devises.c:964
+#: src/devises.c:965
 #, c-format
 msgid ""
 "The %s currency is used in the current account.\n"
@@ -3183,93 +3188,103 @@ msgstr ""
 "La devise %s est utilisée dans le fichier courant.\n"
 "Vous ne pouvez la supprimer."
 
-#: src/devises.c:1024
+#: src/devises.c:1025
 msgid "Enter exchange rate"
 msgstr "Entrer le taux de change"
 
-#: src/devises.c:1034
+#: src/devises.c:1035
 #, c-format
 msgid "Please enter exchange rate for %s"
 msgstr "Veuillez entrer le taux de change pour la monnaie %s"
 
-#: src/devises.c:1046
+#: src/devises.c:1047
 msgid "A"
 msgstr "Un"
 
-#: src/devises.c:1054
+#: src/devises.c:1055
 msgid "equals"
 msgstr "vaut"
 
-#: src/devises.c:1116
+#: src/devises.c:1117
 msgid "Exchange fees"
 msgstr "Frais de change"
 
-#: src/devises.c:1377 src/import.c:372
+#: src/devises.c:1378 src/import.c:372
 msgid "Currency"
 msgstr "Devise"
 
-#: src/devises.c:1383 src/etats_config.c:6196 src/parametres.c:286
+#: src/devises.c:1384 src/etats_config.c:6196 src/parametres.c:287
 msgid "Currencies"
 msgstr "Devises"
 
-#: src/devises.c:1387
+#: src/devises.c:1388
 msgid "Known currencies"
 msgstr "Devises connues"
 
-#: src/devises.c:1480
+#: src/devises.c:1481
 msgid "Currency properties"
 msgstr "Propriétés de la devise"
 
 #. Create code entry
-#: src/devises.c:1532
+#: src/devises.c:1533
 msgid "ISO code"
 msgstr "Code ISO"
 
 #. Will switch to Euro?
-#: src/devises.c:1548
+#: src/devises.c:1549
 msgid "Will switch to Euro"
 msgstr "Passera à l'Euro"
 
-#: src/devises.c:1559
+#: src/devises.c:1560
 msgid "Associated currency"
 msgstr "Devise associée"
 
-#: src/devises.c:1580
+#: src/devises.c:1581
 msgid "One"
 msgstr "Un(e)"
 
-#: src/devises.c:1588
+#: src/devises.c:1589
 msgid "costs"
 msgstr "vaut"
 
-#: src/devises.c:1680 src/parametres.c:269
+#: src/devises.c:1681 src/parametres.c:270
 msgid "Totals currencies"
 msgstr "Devises des totaux"
 
-#: src/devises.c:1687
+#: src/devises.c:1688
 msgid "Currency for third parties tree"
 msgstr "Devise pour l'arbre des tiers"
 
-#: src/devises.c:1697
+#: src/devises.c:1698
 msgid "Currency for categories tree"
 msgstr "Devise pour l'arbre des catégories"
 
-#: src/devises.c:1707
+#: src/devises.c:1708
 msgid "Currency for budgetary lines tree"
 msgstr "Devise pour l'arbre des imputations budgétaires"
 
-#: src/devises.c:1923
+#: src/devises.c:1924
 msgid "Last exchange rate"
 msgstr "Dernier taux de change"
 
-#: src/devises.c:1929
+#: src/devises.c:1930
 msgid "No exchange rate defined"
 msgstr "Aucun change défini"
 
-#: src/dialog.c:244 src/dialog.c:364 src/fichiers_io.c:6471
-#: src/fichiers_io.c:9389
+#: src/devises.c:2256
+#, fuzzy
+msgid "No name"
+msgstr "Sans nom %d"
+
+#: src/dialog.c:244 src/dialog.c:364 src/fichiers_io.c:6539
+#: src/fichiers_io.c:9462
 msgid "Do not show this message again"
 msgstr "Ne plus montrer ce message"
+
+#: src/dialog.c:401
+#, fuzzy
+msgid "Value"
+msgstr "Date de valeur"
 
 #: src/echeancier_formulaire.c:255 src/echeancier_formulaire.c:256
 #: src/operations_formulaire.c:256 src/operations_formulaire.c:257
@@ -3297,12 +3312,12 @@ msgid "Automatic/manual scheduled transaction"
 msgstr "Opération planifiée automatique / manuelle"
 
 #: src/echeancier_formulaire.c:538 src/echeancier_liste.c:809
-#: src/operations_liste.c:1816
+#: src/operations_liste.c:1808
 msgid "Manual"
 msgstr "Manuel"
 
 #: src/echeancier_formulaire.c:546 src/echeancier_liste.c:807
-#: src/exercice.c:553
+#: src/exercice.c:554
 msgid "Automatic"
 msgstr "Automatique"
 
@@ -3351,23 +3366,23 @@ msgstr "Mois"
 msgid "Years"
 msgstr "Années"
 
-#: src/echeancier_formulaire.c:1044 src/echeancier_formulaire.c:2541
+#: src/echeancier_formulaire.c:1044 src/echeancier_formulaire.c:2534
 #: src/echeancier_ventilation.c:857 src/echeancier_ventilation.c:1487
-#: src/operations_formulaire.c:1114 src/operations_formulaire.c:3350
+#: src/operations_formulaire.c:1106 src/operations_formulaire.c:3350
 #: src/ventilation.c:858 src/ventilation.c:1485
 msgid "Categories : Sub-categories"
 msgstr "Catégories : Sous-catégories"
 
-#: src/echeancier_formulaire.c:1062 src/echeancier_formulaire.c:2543
+#: src/echeancier_formulaire.c:1062 src/echeancier_formulaire.c:2536
 msgid "Transfer reference"
 msgstr "N° Virement"
 
-#: src/echeancier_formulaire.c:1090 src/echeancier_formulaire.c:2551
+#: src/echeancier_formulaire.c:1090 src/echeancier_formulaire.c:2544
 msgid "Limit date"
 msgstr "Date limite"
 
-#: src/echeancier_formulaire.c:1478 src/equilibrage.c:948
-#: src/equilibrage.c:968 src/operations_formulaire.c:2347
+#: src/echeancier_formulaire.c:1478 src/equilibrage.c:944
+#: src/equilibrage.c:964 src/operations_formulaire.c:2342
 msgid "Invalid date"
 msgstr "Date invalide"
 
@@ -3375,7 +3390,7 @@ msgstr "Date invalide"
 msgid "Invalid limit date"
 msgstr "Date limite invalide"
 
-#: src/echeancier_formulaire.c:1530 src/operations_formulaire.c:2433
+#: src/echeancier_formulaire.c:1530 src/operations_formulaire.c:2428
 msgid "Can't issue a transfer its own account."
 msgstr "Impossibilité de transférer sur son propre compte"
 
@@ -3383,28 +3398,20 @@ msgstr "Impossibilité de transférer sur son propre compte"
 msgid "A breakdown of transaction is a transfer to this account.\n"
 msgstr "Une ventilation est un virement vers ce compte. \n"
 
-#: src/echeancier_formulaire.c:1583 src/operations_formulaire.c:2397
+#: src/echeancier_formulaire.c:1583 src/operations_formulaire.c:2392
 msgid "There is no associated account for this transfer."
 msgstr "Il n'y a pas de compte associé au virement."
 
-#: src/echeancier_formulaire.c:1606 src/operations_formulaire.c:2426
+#: src/echeancier_formulaire.c:1606 src/operations_formulaire.c:2421
 msgid "Associated account of this transfer is invalid."
 msgstr "Le compte associé au virement est invalide"
 
-#: src/echeancier_formulaire.c:1624
-msgid ""
-"Impossible to create or entry an automatic scheduled transaction\n"
-" with a cheque or a method of payment with an automatic incremental number."
-msgstr ""
-"Impossible de créer ou saisir une opération planifiée automatique\n"
-" avec un chèque ou un mode de règlement à incrémentation automatique."
-
-#: src/echeancier_formulaire.c:1637 src/echeancier_liste.c:664
+#: src/echeancier_formulaire.c:1623 src/echeancier_liste.c:664
 #: src/type_operations.c:1571 src/type_operations.c:1642
 msgid "Input"
 msgstr "Saisie"
 
-#: src/echeancier_formulaire.c:2591 src/echeancier_liste.c:557
+#: src/echeancier_formulaire.c:2584 src/echeancier_liste.c:557
 #: src/echeancier_liste.c:988
 msgid "Modification"
 msgstr "Modif"
@@ -3595,32 +3602,32 @@ msgstr "Pointage"
 msgid "Variance"
 msgstr "Écart"
 
-#: src/equilibrage.c:847 src/operations_liste.c:1096
-#: src/operations_liste.c:1914
+#: src/equilibrage.c:843 src/operations_liste.c:1096
+#: src/operations_liste.c:1906
 msgid "P"
 msgstr "P"
 
-#: src/equilibrage.c:900 src/operations_comptes.c:312
-#: src/operations_liste.c:764 src/operations_liste.c:1969
+#: src/equilibrage.c:896 src/operations_comptes.c:312
+#: src/operations_liste.c:764 src/operations_liste.c:1961
 #, c-format
 msgid "Checked balance: %4.2f %s"
 msgstr "Solde pointé : %4.2f %s"
 
-#: src/equilibrage.c:927
+#: src/equilibrage.c:923
 msgid "There is a variance"
 msgstr "L'écart n'est pas de zéro"
 
-#: src/equilibrage.c:977 src/operations_comptes.c:299
+#: src/equilibrage.c:973 src/operations_comptes.c:299
 #, c-format
 msgid "Last statement: %02d/%02d/%d"
 msgstr "Dernier relevé : %02d/%02d/%d"
 
 #. le rapprochement existe dÃ©jÃ 
-#: src/equilibrage.c:1001
+#: src/equilibrage.c:997
 msgid "Reconciliation reference already exist"
 msgstr "Le numéro de rapprochement existe déjà"
 
-#: src/equilibrage.c:1002
+#: src/equilibrage.c:998
 msgid ""
 "The choosen reconciliation reference already exists.  Perhaps it's not a "
 "problem, but perhaps it is.  Be sure you want to do.\n"
@@ -3630,11 +3637,11 @@ msgstr ""
 "problème, mais peut-être que si. Soyez sûr de ce que vous voulez faire.\n"
 "Continuer quand même ?"
 
-#: src/equilibrage.c:1028
+#: src/equilibrage.c:1024
 msgid "No reconciliation reference"
 msgstr "Pas de numéro de rapprochement"
 
-#: src/equilibrage.c:1029
+#: src/equilibrage.c:1025
 msgid ""
 "You are reconciling the account without giving a reconciliation reference.  "
 "By doing this, you will unable to find these transactions according a "
@@ -3646,20 +3653,20 @@ msgstr ""
 "opérations par une recherche sur le numéro de rapprochement.\n"
 "Continuer quand même ?"
 
-#: src/equilibrage.c:1646 src/operations_onglet.c:83 src/parametres.c:261
+#: src/equilibrage.c:1642 src/operations_onglet.c:83 src/parametres.c:262
 #: src/type_operations.c:255
 msgid "Reconciliation"
 msgstr "Rapprochement"
 
-#: src/equilibrage.c:1650
+#: src/equilibrage.c:1646
 msgid "Reconciliation: sort transactions"
 msgstr "Rapprochement : tri des opérations"
 
-#: src/equilibrage.c:1698
+#: src/equilibrage.c:1694
 msgid "Sort by date"
 msgstr "Tri par date"
 
-#: src/equilibrage.c:1715
+#: src/equilibrage.c:1711
 msgid "Split neutral payment methods"
 msgstr "Séparer les modes de paiement neutres"
 
@@ -3714,7 +3721,7 @@ msgstr ""
 "Ce rapport a été créé avec la version %s de Grisbi ; Grisbi va néanmoins "
 "essayer de l'importer."
 
-#: src/etat_io.c:68 src/fichiers_io.c:8832 src/fichiers_io.c:9185
+#: src/etat_io.c:68 src/fichiers_io.c:8905 src/fichiers_io.c:9258
 msgid "Version mismatch"
 msgstr "Mauvaise version"
 
@@ -4067,12 +4074,12 @@ msgid "Number"
 msgstr "N°"
 
 #. Now we have a model, create view
-#: src/etats_affiche.c:2265 src/etats_config.c:159 src/parametres.c:310
+#: src/etats_affiche.c:2265 src/etats_config.c:159 src/parametres.c:311
 #: src/type_operations.c:259
 msgid "Payment methods"
-msgstr "Modes de réglement"
+msgstr "Modes de réglements"
 
-#: src/etats_affiche.c:2293 src/ofx.c:410
+#: src/etats_affiche.c:2293 src/ofx.c:411
 msgid "Check"
 msgstr "Chèque"
 
@@ -4861,30 +4868,34 @@ msgstr "Sélectionner les opérations en fonction des modes de règlement"
 msgid "Select methods of payment to include"
 msgstr "Sélectionner les modes de règlement à inclure dans l'état"
 
-#: src/etats_html.c:263
+#: src/etats_html.c:287
 msgid "Export report to HTML file."
 msgstr "Exporter l'état vers un fichier HTML."
 
-#: src/etats_html.c:284 src/print_config.c:104
+#: src/etats_html.c:308 src/print_config.c:104
 #, c-format
 msgid "File %s already exists."
 msgstr "Le fichier '%s' existe déjà"
 
-#: src/etats_html.c:286 src/print_config.c:106
+#: src/etats_html.c:310 src/print_config.c:106
 msgid "Do you want to overwrite it?  There is no undo for this."
 msgstr "Voulez vous l'écraser ?. Il n'y a pas d'annulation possible."
 
-#: src/etats_html.c:318
+#: src/etats_html.c:345
 msgid "Make sure file exists and is writable."
 msgstr ""
 "Assurez-vous que le fichier existe et qu'il soit accessible en écriture."
 
-#: src/etats_html.c:319
+#: src/etats_html.c:346
 #, c-format
 msgid "Cannot open file '%s' for writing"
 msgstr "Impossible d'ouvrir le fichier « %s » en écriture"
 
-#: src/etats_latex.c:241 src/export.c:289 src/qif.c:1016
+#: src/etats_html.c:392 src/etats_latex.c:349
+msgid "Cannot send job to printer"
+msgstr "Impossible d'envoyer le document à l'imprimante"
+
+#: src/etats_latex.c:241 src/export.c:289 src/qif.c:1056
 #, c-format
 msgid "File '%s' already exists"
 msgstr "Le fichier '%s' existe déjà"
@@ -4894,10 +4905,6 @@ msgid "LaTeX run was unable to complete, see console output for details."
 msgstr ""
 "L'exécution de LaTeX a échoué, consulter la sortie de la console pour plus "
 "de détails."
-
-#: src/etats_latex.c:349
-msgid "Cannot send job to printer"
-msgstr "Impossible d'envoyer le document à l'imprimante"
 
 #: src/etats_latex.c:355
 msgid "dvips was unable to complete, see console output for details."
@@ -4915,15 +4922,15 @@ msgstr ""
 #: src/etats_onglet.c:1134 src/fenetre_principale.c:120 src/menu.c:108
 #: src/menu.c:109 src/menu.c:110 src/menu.c:111 src/menu.c:112 src/menu.c:113
 #: src/menu.c:114 src/menu.c:115 src/menu.c:116 src/menu.c:117 src/menu.c:118
-#: src/menu.c:119 src/menu.c:120 src/menu.c:121 src/traitement_variables.c:123
-#: src/traitement_variables.c:126 src/traitement_variables.c:129
-#: src/traitement_variables.c:132 src/traitement_variables.c:135
-#: src/traitement_variables.c:138 src/traitement_variables.c:141
-#: src/traitement_variables.c:144 src/traitement_variables.c:249
-#: src/traitement_variables.c:252 src/traitement_variables.c:255
-#: src/traitement_variables.c:258 src/traitement_variables.c:261
-#: src/traitement_variables.c:264 src/traitement_variables.c:267
-#: src/traitement_variables.c:270
+#: src/menu.c:119 src/menu.c:120 src/menu.c:121 src/menu.c:122
+#: src/traitement_variables.c:123 src/traitement_variables.c:126
+#: src/traitement_variables.c:129 src/traitement_variables.c:132
+#: src/traitement_variables.c:135 src/traitement_variables.c:138
+#: src/traitement_variables.c:141 src/traitement_variables.c:144
+#: src/traitement_variables.c:249 src/traitement_variables.c:252
+#: src/traitement_variables.c:255 src/traitement_variables.c:258
+#: src/traitement_variables.c:261 src/traitement_variables.c:264
+#: src/traitement_variables.c:267 src/traitement_variables.c:270
 msgid "Reports"
 msgstr "États"
 
@@ -4958,7 +4965,7 @@ msgid "Print report"
 msgstr "Imprimer l'état"
 
 #: src/etats_onglet.c:306 src/etats_onglet.c:1083 src/etats_onglet.c:1128
-#: src/menu.c:117 src/traitement_variables.c:138
+#: src/menu.c:118 src/traitement_variables.c:138
 #: src/traitement_variables.c:264
 msgid "Export report file"
 msgstr "Exporter l'état vers un fichier..."
@@ -4970,13 +4977,13 @@ msgid "Export report as HTML..."
 msgstr "Exporter un état en HTML..."
 
 #: src/etats_onglet.c:312 src/etats_onglet.c:1086 src/etats_onglet.c:1131
-#: src/menu.c:119 src/traitement_variables.c:141
+#: src/menu.c:120 src/traitement_variables.c:141
 #: src/traitement_variables.c:267
 msgid "Remove report"
 msgstr "Effacer l'état"
 
 #: src/etats_onglet.c:315 src/etats_onglet.c:1089 src/etats_onglet.c:1134
-#: src/menu.c:121 src/traitement_variables.c:144
+#: src/menu.c:122 src/traitement_variables.c:144
 #: src/traitement_variables.c:270
 msgid "Edit report"
 msgstr "Éditer l'état"
@@ -5141,7 +5148,7 @@ msgstr ""
 msgid "Export report"
 msgstr "Exporter un état"
 
-#: src/etats_onglet.c:1200 src/imputation_budgetaire.c:2805
+#: src/etats_onglet.c:1200 src/imputation_budgetaire.c:2800
 msgid "Cannot save file."
 msgstr "Impossible d'enregistrer le fichier."
 
@@ -5217,7 +5224,7 @@ msgstr "de %s %d"
 msgid "to %s %d"
 msgstr "à %s %d"
 
-#: src/exercice.c:131 src/parametres.c:302
+#: src/exercice.c:131 src/parametres.c:303
 msgid "Financial years"
 msgstr "Exercices"
 
@@ -5253,21 +5260,21 @@ msgstr "Activer dans le formulaire de saisie d'opérations"
 msgid "New financial year"
 msgstr "Nouvel exercice"
 
-#: src/exercice.c:460
+#: src/exercice.c:461
 msgid "The financial year must have a name."
 msgstr "Vous devez donner un nom à l'exercice."
 
 #. le second est non affichÃ©
 #. on lui associe -1
-#: src/exercice.c:583
+#: src/exercice.c:584
 msgid "Not displayed"
 msgstr "Non affiché"
 
-#: src/exercice.c:759
+#: src/exercice.c:760
 msgid "Automatic association for the financial year"
 msgstr "Association automatique d'exercice"
 
-#: src/exercice.c:766
+#: src/exercice.c:767
 msgid ""
 "This function assigns each transaction without a financial year to the\n"
 "one related to its transaction date.  If no financial year matches,\n"
@@ -5281,11 +5288,11 @@ msgstr ""
 msgid "Export files"
 msgstr "Exporter des fichiers"
 
-#: src/export.c:182 src/qif.c:929
+#: src/export.c:182 src/qif.c:969
 msgid "Select accounts to export"
 msgstr "Sélectionner les comptes à exporter"
 
-#: src/export.c:292 src/qif.c:1018
+#: src/export.c:292 src/qif.c:1058
 msgid ""
 "This will irreversibly overwrite previous file.  There is no undo for this."
 msgstr ""
@@ -5297,7 +5304,7 @@ msgstr ""
 msgid "File name '%s' invalid!"
 msgstr "Nom de fichier invalide « %s » !"
 
-#: src/export.c:377 src/qif.c:909
+#: src/export.c:377 src/qif.c:949
 msgid "Your file must have a name (saved) to be exported."
 msgstr "Vous devez nommer (enregistrer) votre fichier pour pouvoir l'exporter."
 
@@ -5305,7 +5312,7 @@ msgstr "Vous devez nommer (enregistrer) votre fichier pour pouvoir l'exporter."
 msgid "Export format does not define currencies."
 msgstr "Le format d'export ne définit pas de devise."
 
-#: src/export.c:382 src/qif.c:915
+#: src/export.c:382 src/qif.c:955
 msgid "All transactions will be converted into currency of their account."
 msgstr ""
 "Toutes les opérations seront converties dans la devise de leur compte "
@@ -5332,9 +5339,9 @@ msgstr "Comptes vers un fichier CSV ..."
 #: src/export.c:463 src/menu.c:65 src/menu.c:66 src/menu.c:67 src/menu.c:68
 #: src/menu.c:69 src/menu.c:70 src/menu.c:71 src/menu.c:72 src/menu.c:73
 #: src/menu.c:74 src/menu.c:75 src/menu.c:76 src/menu.c:77 src/menu.c:79
-#: src/menu.c:80 src/menu.c:81 src/menu.c:82 src/menu.c:83 src/menu.c:200
-#: src/menu.c:204 src/menu.c:222 src/menu.c:243 src/menu.c:254
-#: src/print_config.c:204 src/traitement_variables.c:58
+#: src/menu.c:80 src/menu.c:81 src/menu.c:82 src/menu.c:83 src/menu.c:201
+#: src/menu.c:205 src/menu.c:225 src/menu.c:251 src/menu.c:262
+#: src/print_config.c:207 src/traitement_variables.c:58
 #: src/traitement_variables.c:65 src/traitement_variables.c:87
 #: src/traitement_variables.c:90 src/traitement_variables.c:93
 #: src/traitement_variables.c:96 src/traitement_variables.c:207
@@ -5363,19 +5370,19 @@ msgstr "Liste des catégories (écritures)"
 msgid "Budgetary lines list (transactions)"
 msgstr "Liste des imputations budgétaires (écritures)"
 
-#: src/fichier_configuration.c:439
+#: src/fichier_configuration.c:444
 msgid "File : "
 msgstr "Fichier :"
 
-#: src/fichier_configuration.c:442
+#: src/fichier_configuration.c:447
 msgid "Error opening config"
 msgstr "Erreur lors de l'ouverture de la configuration."
 
-#: src/fichier_configuration.c:683 src/print_config.c:41
+#: src/fichier_configuration.c:688 src/print_config.c:41
 msgid "A4"
 msgstr "A4"
 
-#: src/fichier_configuration.c:880
+#: src/fichier_configuration.c:885
 #, c-format
 msgid "Error saving file '%s': %s"
 msgstr "Erreur lors de l'enregistrement du fichier '%s': %s"
@@ -5464,28 +5471,35 @@ msgstr "Grisbi - Sans nom"
 msgid "Saving backup"
 msgstr "Enregistrement de la sauvegarde"
 
-#: src/fichiers_io.c:114
+#: src/fichiers_io.c:141
+#, c-format
+msgid ""
+"%s doen't seem to be a regular file,\n"
+"please check it and try again."
+msgstr ""
+
+#: src/fichiers_io.c:182
 msgid "Invalid accounts file"
 msgstr "Fichier de compte invalide."
 
 #. Ã  ce niveau, c'est que que la version n'est pas connue de grisbi, on donne alors
 #. la version nÃ©cessaire pour l'ouvrir
-#: src/fichiers_io.c:143
+#: src/fichiers_io.c:211
 #, c-format
 msgid "Grisbi version %s is needed to open this file"
 msgstr "Pour ouvrir ce fichier, il vous faut la version %s de Grisbi"
 
-#: src/fichiers_io.c:152 src/fichiers_io.c:163
+#: src/fichiers_io.c:220 src/fichiers_io.c:231
 #, c-format
 msgid "Cannot open file '%s': %s"
 msgstr "Impossible d'ouvrir le fichier '%s': %s"
 
-#: src/fichiers_io.c:155
+#: src/fichiers_io.c:223
 #, c-format
 msgid "Cannot open file '%s' : this is not a grisbi file"
 msgstr "Impossible d'ouvrir le fichier '%s': ce n'est pas un fichier Grisbi"
 
-#: src/fichiers_io.c:197
+#: src/fichiers_io.c:265
 #, c-format
 msgid ""
 "Warning: Grisbi data format has changed. Grisbi made a backup under '%s'.\n"
@@ -5496,12 +5510,12 @@ msgstr ""
 "Gardez-la un certain temps pour pouvoir éventuellement y revenir en cas de "
 "problème."
 
-#: src/fichiers_io.c:232 src/fichiers_io.c:1978 src/fichiers_io.c:4235
+#: src/fichiers_io.c:300 src/fichiers_io.c:2046 src/fichiers_io.c:4303
 #, c-format
 msgid "File \"%s\" is already opened"
 msgstr "Le fichier « %s » est déjà ouvert"
 
-#: src/fichiers_io.c:233 src/fichiers_io.c:1979 src/fichiers_io.c:4236
+#: src/fichiers_io.c:301 src/fichiers_io.c:2047 src/fichiers_io.c:4304
 msgid ""
 "Either this file is already opened by another user or it wasn't closed "
 "correctly (maybe Grisbi crashed?).\n"
@@ -5515,7 +5529,7 @@ msgstr ""
 "Paramètres. »"
 
 #. FIXME
-#: src/fichiers_io.c:1839
+#: src/fichiers_io.c:1907
 msgid ""
 "There was a bug in versions before 0.4.0, which could lead to orphan "
 "transactions (either transfers without countra-transaction, or breakdown "
@@ -5531,16 +5545,16 @@ msgstr ""
 "Grisbi a cherché de telles opérations et a trouvé :\n"
 "\n"
 
-#: src/fichiers_io.c:1845
+#: src/fichiers_io.c:1913
 msgid "breakdown transactions, all of them were deleted.\n"
 msgstr "opérations ventilées, toutes ont été effacées.\n"
 
-#: src/fichiers_io.c:1852
+#: src/fichiers_io.c:1920
 msgid "transfers without contra-transaction, which categories were deleted.\n"
 msgstr ""
 "virements sans contre opération, dont les catégories ont été effacées.\n"
 
-#: src/fichiers_io.c:1857
+#: src/fichiers_io.c:1925
 msgid ""
 "These modifications should not impact on neither Grisbi's behavior nor your "
 "accounts balances."
@@ -5548,12 +5562,12 @@ msgstr ""
 "Ces modifications ne devraient pas modifier le comportement de Grisbi ni les "
 "soldes de vos comptes."
 
-#: src/fichiers_io.c:6467
+#: src/fichiers_io.c:6535
 #, c-format
 msgid "Can not save file \"%s\""
 msgstr "Impossible d'enregistrer le fichier « %s »"
 
-#: src/fichiers_io.c:6469
+#: src/fichiers_io.c:6537
 #, c-format
 msgid ""
 "Grisbi was unable to save this file because it is locked.  Please save it "
@@ -5564,25 +5578,25 @@ msgstr ""
 "Veuillez le sauvegarder sous un autre nom ou activer l'option « %s » dans la "
 "configuration. Alternativement, choisissez l'option « %s » ci dessous."
 
-#: src/fichiers_io.c:6470 src/parametres.c:535
+#: src/fichiers_io.c:6538 src/parametres.c:536
 msgid "Force saving of locked files"
 msgstr "Forcer l'enregistrement des fichiers verrouillés"
 
-#: src/fichiers_io.c:8574 src/fichiers_io.c:8788 src/fichiers_io.c:9142
+#: src/fichiers_io.c:8642 src/fichiers_io.c:8861 src/fichiers_io.c:9215
 #, c-format
 msgid "Cannot save file '%s': %s"
 msgstr "Impossible de sauvegarder le fichier '%s': %s"
 
-#: src/fichiers_io.c:8617
+#: src/fichiers_io.c:8690
 #, c-format
 msgid "Cannot lock file '%s': %s"
 msgstr "Impossible de marquer le fichier '%s' comme utilisé: %s"
 
-#: src/fichiers_io.c:8822
+#: src/fichiers_io.c:8895
 msgid "This file is not a Grisbi category list file"
 msgstr "Ce fichier n'est pas une liste de catégories Grisbi"
 
-#: src/fichiers_io.c:8831
+#: src/fichiers_io.c:8904
 #, c-format
 msgid ""
 "This categories list has been produced with grisbi version %s, Grisbi will "
@@ -5591,15 +5605,15 @@ msgstr ""
 "Ce fichier de catégories a été créé avec la version %s de Grisbi. Grisbi va "
 "néanmoins essayer de l'importer."
 
-#: src/fichiers_io.c:8839
+#: src/fichiers_io.c:8912
 msgid "Invalid categories file"
 msgstr "Fichier de catégories invalide."
 
-#: src/fichiers_io.c:9175
+#: src/fichiers_io.c:9248
 msgid "This file is not a grisbi budgetary lines file"
 msgstr "Ce fichier n'est pas une liste d'imputaions budgétaires Grisbi"
 
-#: src/fichiers_io.c:9184
+#: src/fichiers_io.c:9257
 #, c-format
 msgid ""
 "This budgetary lines list has been produced with grisbi version %s, Grisbi "
@@ -5608,11 +5622,11 @@ msgstr ""
 "Ce fichier d'imputations budgétaires a été créé avec la version %s de "
 "Grisbi. Grisbi va néanmoins essayer de l'importer."
 
-#: src/fichiers_io.c:9192
+#: src/fichiers_io.c:9265
 msgid "Invalid budgetary lines file"
 msgstr "Fichier d'imputations budgétaires invalide."
 
-#: src/fichiers_io.c:9386
+#: src/fichiers_io.c:9459
 msgid ""
 "Your account file should not be readable by anybody else, but it is. You "
 "should change its permissions.\n"
@@ -5731,7 +5745,8 @@ msgid "Thierry Thomas (thierry[at]pompo.net): FreeBSD packaging"
 msgstr "Thierry Thomas (thierry[at]pompo.net) : paquets FreeBSD"
 
 #: src/help.c:62
-msgid "Vincent Marqueton (vincent[at]marqueton.org): Fink packaging"
+#, fuzzy
+msgid "Vincent Marqueton (vincent[at]marqueton.com): Fink packaging"
 msgstr "Vincent·Marqueton·(vincent[at]marqueton.org):·Paquets Fink"
 
 #: src/help.c:65
@@ -5767,54 +5782,62 @@ msgid "Giorgio Mandolfo (giorgio[at]pollycoke.org): Italian"
 msgstr "Giorgio Mandolfo (giorgio[at]pollycoke.org) : Italien"
 
 #: src/help.c:73
+msgid "Marek Donar (mdonar[at]post.cz): Czech"
+msgstr ""
+
+#: src/help.c:74
 msgid "Martin Stromberger (Fabiolla[at]aon.at): German"
 msgstr "Martin Stromberger (Fabiolla[at]aon.at): Allemand"
 
-#: src/help.c:74
+#: src/help.c:75
+msgid "Mircea Aronovici (bucuresti[at]free.fr): Romanian"
+msgstr ""
+
+#: src/help.c:76
 msgid "Ryszard Jeziorski (r.jeziorski[at]dart.kielce.pl): Polish"
 msgstr "Ryszard·Jeziorski·(r.jeziorski[at]dart.kielce.pl):·Polonais"
 
-#: src/help.c:80
+#: src/help.c:82
 msgid "Development list (discuss, participate, criticize, ...): "
 msgstr "Liste de développement (discussion, participation, critiques, ...) : "
 
-#: src/help.c:82 src/help.c:88
+#: src/help.c:84 src/help.c:90
 msgid "subscribe"
 msgstr "s'inscrire"
 
-#: src/help.c:83
+#: src/help.c:85
 msgid "Bug report"
 msgstr "Rapport de bogue"
 
-#: src/help.c:86
+#: src/help.c:88
 msgid "Information list (new releases announces, ...): "
 msgstr "Liste d'informations (annonce de nouvelles versions, ...) : "
 
-#: src/help.c:89
+#: src/help.c:91
 msgid "Grisbi documentation"
 msgstr "Documentation de Grisbi"
 
-#: src/help.c:96
+#: src/help.c:98
 msgid "About..."
 msgstr "À propos..."
 
-#: src/help.c:140
+#: src/help.c:142
 msgid "About Grisbi"
 msgstr "À propos de Grisbi"
 
-#: src/help.c:175
+#: src/help.c:177
 msgid "Authors"
 msgstr "Auteurs"
 
-#: src/help.c:212
+#: src/help.c:214
 msgid "Translators"
 msgstr "Traducteurs"
 
-#: src/help.c:259
+#: src/help.c:261
 msgid "Links"
 msgstr "Liens"
 
-#: src/help.c:283
+#: src/help.c:285
 msgid "License"
 msgstr "Licence"
 
@@ -5909,7 +5932,7 @@ msgstr "Fichier QIF"
 msgid "OFX file"
 msgstr "Fichier OFX"
 
-#: src/import.c:820
+#: src/import.c:820 src/print_config.c:232
 msgid "HTML file"
 msgstr "Fichier HTML"
 
@@ -6042,11 +6065,11 @@ msgstr "Aucune imputation"
 msgid "%d/%d/%d : %4.2f %s [ %s ]"
 msgstr "%d/%d/%d : %4.2f %s [ %s ]"
 
-#: src/imputation_budgetaire.c:1591
+#: src/imputation_budgetaire.c:1586
 msgid "Delete a budgetary line"
 msgstr "Suppression d'une imputation"
 
-#: src/imputation_budgetaire.c:1598
+#: src/imputation_budgetaire.c:1593
 msgid ""
 "Some transactions are still assigned to this budgetary line.\n"
 "\n"
@@ -6056,23 +6079,23 @@ msgstr ""
 "\n"
 "Vous pouvez"
 
-#: src/imputation_budgetaire.c:1623 src/imputation_budgetaire.c:1954
+#: src/imputation_budgetaire.c:1618 src/imputation_budgetaire.c:1949
 msgid "Move the transactions to"
 msgstr "Transférer les opérations sur"
 
-#: src/imputation_budgetaire.c:1708
+#: src/imputation_budgetaire.c:1703
 msgid "Just delete the budgetary line."
 msgstr " Supprimer simplement cette imputation."
 
-#: src/imputation_budgetaire.c:1734 src/imputation_budgetaire.c:2064
+#: src/imputation_budgetaire.c:1729 src/imputation_budgetaire.c:2059
 msgid "Please enter a budgetary line!"
 msgstr "Veuillez entrer une imputation !"
 
-#: src/imputation_budgetaire.c:1922
+#: src/imputation_budgetaire.c:1917
 msgid "Deleting a budgetaty line"
 msgstr "Suppression d'une sous-imputation"
 
-#: src/imputation_budgetaire.c:1929
+#: src/imputation_budgetaire.c:1924
 msgid ""
 "Some transactions are still assigned to this sub-budgetary line.\n"
 "\n"
@@ -6082,11 +6105,11 @@ msgstr ""
 "\n"
 "Vous pouvez"
 
-#: src/imputation_budgetaire.c:2038
+#: src/imputation_budgetaire.c:2033
 msgid "Just delete the sub-budgetary line."
 msgstr "Supprimer simplement cette sous-imputation."
 
-#: src/imputation_budgetaire.c:2319
+#: src/imputation_budgetaire.c:2314
 msgid ""
 "Budgetary lines names must be both unique and not empty.  Please use another "
 "name for this budgetary line."
@@ -6094,12 +6117,12 @@ msgstr ""
 "Les imputations budgétaires doivent être à la fois uniques et non nulles. "
 "Utiliser un autre nom pour cette imputation budgétaire."
 
-#: src/imputation_budgetaire.c:2320
+#: src/imputation_budgetaire.c:2315
 #, c-format
 msgid "Budgetary line '%s' already exists."
 msgstr "L'imputation budgétaire « %s » existe déjà."
 
-#: src/imputation_budgetaire.c:2361
+#: src/imputation_budgetaire.c:2356
 msgid ""
 "Sub-budgetary lines names must be both unique and not empty.  Please use "
 "another name for this sub-budgetary line."
@@ -6107,12 +6130,12 @@ msgstr ""
 "Les sous imputations budgétaires doivent être à la fois uniques et non "
 "nulles. Utiliser un autre nom pour cette sous imputation budgétaire."
 
-#: src/imputation_budgetaire.c:2362
+#: src/imputation_budgetaire.c:2357
 #, c-format
 msgid "Sub-budgetary line '%s' already exists."
 msgstr "La sous imputation budgétaire « %s » existe déjà."
 
-#: src/imputation_budgetaire.c:2384
+#: src/imputation_budgetaire.c:2379
 msgid ""
 "Warning: this will add all the categories and subcategories to the budgetary "
 "lines!\n"
@@ -6126,33 +6149,33 @@ msgstr ""
 "De plus, cette opération est irréversible (pas d'annulation)\n"
 "Êtes-vous sûr de continuer ?"
 
-#: src/imputation_budgetaire.c:2642
+#: src/imputation_budgetaire.c:2637
 msgid "New budgetary line"
 msgstr "Nouvelle imputation"
 
-#: src/imputation_budgetaire.c:2643
+#: src/imputation_budgetaire.c:2638
 msgid "Enter the name of the new budgetary line"
 msgstr "Entrer le nom de la nouvelle imputation"
 
-#: src/imputation_budgetaire.c:2699
+#: src/imputation_budgetaire.c:2694
 msgid "New sub-budgetary line"
 msgstr "Nouvelle sous-imputation"
 
-#: src/imputation_budgetaire.c:2700
+#: src/imputation_budgetaire.c:2695
 msgid "Enter the name of the new sub-budgetary line"
 msgstr "Entrer le nom de la nouvelle sous-imputation"
 
-#: src/imputation_budgetaire.c:2769
+#: src/imputation_budgetaire.c:2764
 msgid "Export the budgetary lines"
 msgstr "Exporter les imputations budgétaires"
 
 #. on permet de remplacer/fusionner la liste
-#: src/imputation_budgetaire.c:2833 src/imputation_budgetaire.c:2858
+#: src/imputation_budgetaire.c:2828 src/imputation_budgetaire.c:2853
 msgid "Import the budgetary lines"
 msgstr "Importer une liste d'imputations budgétaires"
 
 #. il y a dÃ©jÃ  des opÃ©rations dans le fichier, on ne peut que fusionner
-#: src/imputation_budgetaire.c:2877
+#: src/imputation_budgetaire.c:2872
 msgid ""
 "File already contains transactions, the two budgetary lines lists will be "
 "merged."
@@ -6160,15 +6183,15 @@ msgstr ""
 "Le fichier contient déjà des opérations, les deux listes de catégories "
 "seront fusionnées."
 
-#: src/imputation_budgetaire.c:2905
+#: src/imputation_budgetaire.c:2900
 msgid "Merge the two lists of budgetary lines"
 msgstr "Fusionner les deux listes d'imputation budgétaires"
 
-#: src/imputation_budgetaire.c:2913
+#: src/imputation_budgetaire.c:2908
 msgid "Replace the old list of budgetary lines"
 msgstr "Remplacer l'ancienne liste d'imputations budgétaires"
 
-#: src/main.c:140
+#: src/main.c:146
 #, c-format
 msgid "Error on sigaction: SIGSEGV won't be trapped\n"
 msgstr "Erreur sur sigaction, le signal SIGSEGV ne sera pas détourné\n"
@@ -6190,8 +6213,8 @@ msgstr "Enregistrer"
 msgid "Save as"
 msgstr "Enregistrer sous"
 
-#: src/menu.c:73 src/menu.c:200 src/menu.c:204 src/menu.c:222 src/menu.c:243
-#: src/menu.c:254
+#: src/menu.c:73 src/menu.c:201 src/menu.c:205 src/menu.c:225 src/menu.c:251
+#: src/menu.c:262
 msgid "Recently opened files"
 msgstr "Derniers fichiers"
 
@@ -6228,13 +6251,13 @@ msgid "Edit"
 msgstr "Édition"
 
 #. New transaction
-#: src/menu.c:88 src/operations_liste.c:2686 src/traitement_variables.c:102
+#: src/menu.c:88 src/operations_liste.c:2678 src/traitement_variables.c:102
 #: src/traitement_variables.c:228
 msgid "New transaction"
 msgstr "Nouvelle opération"
 
 #. New transaction from
-#: src/menu.c:89 src/operations_liste.c:2694 src/traitement_variables.c:105
+#: src/menu.c:89 src/operations_liste.c:2686 src/traitement_variables.c:105
 #: src/traitement_variables.c:231
 msgid "Use selected transaction as a template"
 msgstr "Utiliser l'opération sélectionnée comme modèle"
@@ -6244,19 +6267,19 @@ msgid "Remove transaction"
 msgstr "Supprimer une opération"
 
 #. Clone transaction
-#: src/menu.c:91 src/operations_liste.c:2714 src/traitement_variables.c:111
+#: src/menu.c:91 src/operations_liste.c:2706 src/traitement_variables.c:111
 #: src/traitement_variables.c:237
 msgid "Clone transaction"
 msgstr "Cloner l'opération"
 
 #. Edit transaction
-#: src/menu.c:92 src/operations_liste.c:2673 src/traitement_variables.c:114
+#: src/menu.c:92 src/operations_liste.c:2665 src/traitement_variables.c:114
 #: src/traitement_variables.c:240
 msgid "Edit transaction"
 msgstr "Éditer l'opération"
 
 #. Convert to scheduled transaction
-#: src/menu.c:94 src/operations_liste.c:2727 src/traitement_variables.c:117
+#: src/menu.c:94 src/operations_liste.c:2719 src/traitement_variables.c:117
 #: src/traitement_variables.c:243
 msgid "Convert transaction to scheduled transaction"
 msgstr "Convertir l'opération en opération planifiée"
@@ -6264,7 +6287,7 @@ msgstr "Convertir l'opération en opération planifiée"
 #. Move to another account
 #: src/menu.c:95 src/operations_comptes.c:403 src/operations_comptes.c:408
 #: src/operations_comptes.c:488 src/operations_comptes.c:503
-#: src/operations_comptes.c:510 src/operations_liste.c:2737
+#: src/operations_comptes.c:510 src/operations_liste.c:2729
 #: src/traitement_variables.c:120 src/traitement_variables.c:246
 msgid "Move transaction to another account"
 msgstr "Déplacer l'opération vers un autre compte"
@@ -6273,50 +6296,55 @@ msgstr "Déplacer l'opération vers un autre compte"
 msgid "Preferences"
 msgstr "Paramètres"
 
-#: src/menu.c:116 src/traitement_variables.c:126
+#: src/menu.c:115
+#, fuzzy
+msgid "Export report as CSV..."
+msgstr "Exporter un état en HTML..."
+
+#: src/menu.c:117 src/traitement_variables.c:126
 #: src/traitement_variables.c:252
 msgid "Import report file"
 msgstr "Importer un fichier d'état"
 
 #. Help menu
-#: src/menu.c:124 src/menu.c:125 src/menu.c:126 src/menu.c:127 src/menu.c:128
-#: src/menu.c:129 src/menu.c:130 src/menu.c:131 src/menu.c:132 src/menu.c:133
+#: src/menu.c:125 src/menu.c:126 src/menu.c:127 src/menu.c:128 src/menu.c:129
+#: src/menu.c:130 src/menu.c:131 src/menu.c:132 src/menu.c:133 src/menu.c:134
 msgid "Help"
 msgstr "Aide"
 
-#: src/menu.c:126
+#: src/menu.c:127
 msgid "Grisbi Manual"
 msgstr "Manuel de Grisbi"
 
-#: src/menu.c:127
+#: src/menu.c:128
 msgid "Quickstart"
 msgstr "Démarrage rapide"
 
-#: src/menu.c:128
+#: src/menu.c:129
 msgid "Translation"
 msgstr "Traduction"
 
-#: src/menu.c:129
+#: src/menu.c:130
 msgid "About"
 msgstr "À propos..."
 
-#: src/menu.c:131
+#: src/menu.c:132
 msgid "Grisbi website"
 msgstr "Site web Grisbi"
 
-#: src/menu.c:132
+#: src/menu.c:133
 msgid "Report a bug"
 msgstr "Signaler un bogue"
 
-#: src/menu.c:133
+#: src/menu.c:134
 msgid "On line User's guide"
 msgstr "Documentation en ligne"
 
-#: src/menu.c:288
+#: src/menu.c:296
 msgid "_C"
 msgstr "_fr"
 
-#: src/ofx.c:34
+#: src/ofx.c:35
 msgid ""
 "This build of Grisbi does not support OFX, please recompile Grisbi with OFX "
 "support enabled"
@@ -6324,35 +6352,35 @@ msgstr ""
 "Cette construction de Grisbi ne gère pas le format OFX. Veuillez recompiler "
 "Grisbi en activant la gestion du format OFX."
 
-#: src/ofx.c:35 src/ofx.c:94
+#: src/ofx.c:36 src/ofx.c:95
 #, c-format
 msgid "Cannot process OFX file '%s'"
 msgstr "Impossible d'ouvrir le fichier '%s'"
 
 #. Case of Windows, libofx.dll is not present or Grisbi failed in dynamically loading ofx_proc_file
-#: src/ofx.c:93
+#: src/ofx.c:94
 msgid "The OFX support can not be enabled!"
 msgstr "La gestion dee l'OFX ne peut pas être activé !"
 
-#: src/ofx.c:105
+#: src/ofx.c:106
 msgid "The new account has not been created."
 msgstr "Le nouveau compte n'a pas été créé."
 
-#: src/ofx.c:110
+#: src/ofx.c:111
 msgid "Warning"
 msgstr "Attention"
 
-#: src/ofx.c:111
+#: src/ofx.c:112
 msgid "An error or warning has occured. Do you still want to import the file ?"
 msgstr ""
 "Il y a eu une erreur ou un avertissement. Voulez-vous toujours importer le "
 "fichier ?"
 
-#: src/ofx.c:167 src/ofx.c:179
+#: src/ofx.c:168 src/ofx.c:180
 msgid "The file has returned the next message :\n"
 msgstr "Le fichier a renvoyé le message suivant :\n"
 
-#: src/ofx.c:173 src/ofx.c:185
+#: src/ofx.c:174 src/ofx.c:186
 msgid "The file has returned a warning message which is no valid."
 msgstr "Le fichier a retourné un message d'avertissement non valide."
 
@@ -6373,7 +6401,7 @@ msgstr "Le fichier a retourné un message d'avertissement non valide."
 #. printf ( "currency %s\n", data.currency );
 #. printf ( "memo_valid %d\n", data.memo_valid );
 #. printf ( "memo %s\n", data.memo );
-#: src/ofx.c:227
+#: src/ofx.c:228
 msgid ""
 "That file contains something on proc_security_cb.\n"
 "I didn't have any file to test that function.\n"
@@ -6384,52 +6412,52 @@ msgstr ""
 "Si vous pouvez contacter l'équipe de grisbi pour les aider à combler cet "
 "lacune !! Merci !"
 
-#: src/ofx.c:346
+#: src/ofx.c:347
 msgid "A transaction try to be saved but no account was created...\n"
 msgstr ""
 "Tentative d'enregistrement d'une opération sans compte créé précédemment...\n"
 
-#: src/ofx.c:414
+#: src/ofx.c:415
 msgid "Interest"
 msgstr "Intérêt"
 
-#: src/ofx.c:418
+#: src/ofx.c:419
 msgid "Dividend"
 msgstr "Dividende"
 
-#: src/ofx.c:422
+#: src/ofx.c:423
 msgid "Service charge"
 msgstr "Frais de service"
 
-#: src/ofx.c:426
+#: src/ofx.c:427
 msgid "Fee"
 msgstr "Frais"
 
-#: src/ofx.c:434
+#: src/ofx.c:435
 msgid "Cash dispenser"
 msgstr "Distributeur de billets"
 
-#: src/ofx.c:438
+#: src/ofx.c:439
 msgid "Point of sale"
 msgstr "Point de vente"
 
-#: src/ofx.c:446
+#: src/ofx.c:447
 msgid "Electronic payment"
 msgstr "Paiement électronique"
 
-#: src/ofx.c:450
+#: src/ofx.c:451
 msgid "Cash"
 msgstr "Espèces"
 
-#: src/ofx.c:454
+#: src/ofx.c:455
 msgid "Direct deposit"
 msgstr "Dépôt direct"
 
-#: src/ofx.c:458
+#: src/ofx.c:459
 msgid "Merchant initiated debit"
 msgstr "Prélèvement"
 
-#: src/ofx.c:462
+#: src/ofx.c:463
 msgid "Repeating payment/standing order"
 msgstr "Paiement répété"
 
@@ -6460,37 +6488,37 @@ msgstr "Change"
 msgid "Contra-transaction method of payment"
 msgstr "Mode de règlement de la contre-opération"
 
-#: src/operations_formulaire.c:1838
+#: src/operations_formulaire.c:1831
 msgid "Recover breakdown?"
 msgstr "Récupération des ventilations ?"
 
-#: src/operations_formulaire.c:1839
+#: src/operations_formulaire.c:1832
 msgid "Do you want to recover all the lines of the last breakdown?"
 msgstr ""
 "Voulez-vous récupérer aussi les opérations de la dernière ventilation ?"
 
-#: src/operations_formulaire.c:2092 src/operations_formulaire.c:2544
+#: src/operations_formulaire.c:2087 src/operations_formulaire.c:2539
 #: src/tiers_onglet.c:1429
 msgid "Report"
 msgstr "État"
 
-#: src/operations_formulaire.c:2166
+#: src/operations_formulaire.c:2161
 msgid "No third party selected for this report."
 msgstr "Cet état ne comporte pas de tiers sélectionnés."
 
-#: src/operations_formulaire.c:2339
+#: src/operations_formulaire.c:2334
 msgid "You must enter a date."
 msgstr "Une date est obligatoire."
 
-#: src/operations_formulaire.c:2367
+#: src/operations_formulaire.c:2362
 msgid "Invalid date."
 msgstr "La date est invalide."
 
-#: src/operations_formulaire.c:2444
+#: src/operations_formulaire.c:2439
 msgid "Can't issue a transfer on a closed account."
 msgstr "Impossible d'effectuer un virement sur un compte clos"
 
-#: src/operations_formulaire.c:2475
+#: src/operations_formulaire.c:2470
 msgid ""
 "Selected method of payment has an automatic incremental number\n"
 "but doesn't contain any number.\n"
@@ -6500,7 +6528,7 @@ msgstr ""
 "aucun numéro.\n"
 "Souhaitez-vous continuer ?"
 
-#: src/operations_formulaire.c:2505
+#: src/operations_formulaire.c:2500
 msgid ""
 "Warning: this cheque number is already used.\n"
 "Continue anyway?"
@@ -6508,13 +6536,13 @@ msgstr ""
 "Attention, le numéro du chèque est déjà utilisé.\n"
 "Souhaitez-vous continuer ?"
 
-#: src/operations_formulaire.c:2553
+#: src/operations_formulaire.c:2548
 msgid "A transaction with a multiple third party must be a new one."
 msgstr ""
 "Une opération dont le tiers est un état doit forcément être une nouvelle "
 "opération."
 
-#: src/operations_formulaire.c:2587
+#: src/operations_formulaire.c:2582
 msgid "Invalid multiple third party."
 msgstr "Le nom de l'état dans le tiers est invalide."
 
@@ -6566,26 +6594,26 @@ msgstr ""
 msgid "Transfer: deleted account"
 msgstr "Virement : Compte supprimé"
 
-#: src/operations_liste.c:1813
+#: src/operations_liste.c:1805
 msgid "Auto"
 msgstr "Auto"
 
-#: src/operations_liste.c:1829
+#: src/operations_liste.c:1821
 msgid "No reconciliation number"
 msgstr "Pas de numéro de rapprochement"
 
-#: src/operations_liste.c:2106
+#: src/operations_liste.c:2098
 msgid "Impossible to delete a reconciled transaction."
 msgstr "Impossible de supprimer une opération relevée."
 
-#: src/operations_liste.c:2131
+#: src/operations_liste.c:2123
 msgid ""
 "The contra-transaction of this transfer is reconciled, deletion impossible."
 msgstr ""
 "La contre-opération de ce virement est relevée, la suppression est "
 "impossible."
 
-#: src/operations_liste.c:2179
+#: src/operations_liste.c:2171
 msgid ""
 "One of the breakdown lines is a transfer whose contra-transaction is "
 "reconciled.  Deletion canceled."
@@ -6594,69 +6622,69 @@ msgstr ""
 "opération est relevée. La suppression est annulée."
 
 #. Delete transaction
-#: src/operations_liste.c:2702
+#: src/operations_liste.c:2694
 msgid "Delete transaction"
 msgstr "Supprimer l'opération"
 
-#: src/operations_liste.c:3133
+#: src/operations_liste.c:3125
 msgid "Cannot move a transfer on his contra-account"
 msgstr "Impossible de déplacer un virement vers son compte de destination"
 
 #. Create dialog
-#: src/parametres.c:150
+#: src/parametres.c:151
 msgid "Grisbi setup"
 msgstr "Configuration Grisbi"
 
-#: src/parametres.c:180 src/parametres.c:514
+#: src/parametres.c:181 src/parametres.c:515
 msgid "Files"
 msgstr "Fichiers"
 
-#: src/parametres.c:196 src/parametres.c:715
+#: src/parametres.c:197 src/parametres.c:717
 msgid "Programs"
 msgstr "Programmes"
 
-#: src/parametres.c:205
+#: src/parametres.c:206
 msgid "Display"
 msgstr "Affichage"
 
-#: src/parametres.c:220 src/parametres.c:380
+#: src/parametres.c:221 src/parametres.c:381
 msgid "Messages & warnings"
 msgstr "Messages et alertes"
 
-#: src/parametres.c:252
+#: src/parametres.c:253
 msgid "Transactions list lines"
 msgstr "Lignes de la liste des opérations"
 
-#: src/parametres.c:279
+#: src/parametres.c:280
 msgid "Resources"
 msgstr "Ressources"
 
-#: src/parametres.c:385
+#: src/parametres.c:386
 msgid "Warnings messages"
 msgstr "Messages d'alerte"
 
 #. Display a warning message if minimum balances are under minimum level
-#: src/parametres.c:388
+#: src/parametres.c:389
 msgid "Do not Warn if balances are under minimum levels"
 msgstr "Ne pas avertir lorsque les seuils minimums sont atteints"
 
-#: src/parametres.c:397
+#: src/parametres.c:398
 msgid "Do not warn if account file is readable by someone else"
 msgstr ""
 "Ne pas avertir lorsque le fichier de compte est lisible par quelqu'un d'autre"
 
 #. Display a warning message if file is already opened
-#: src/parametres.c:402
+#: src/parametres.c:403
 msgid "Do not warn about an already opened file"
 msgstr "Ne pas avertir lorsque le fichier est déjà ouvert"
 
 #. Display a warning message that QIF doesn't contain currencies
-#: src/parametres.c:407
+#: src/parametres.c:408
 msgid "Do not warn about QIF not containing currencies"
 msgstr "Ne pas avertir que le format QIF ne contient pas de devises"
 
 #. Display a warning message that manually reconciliation isn't a good way
-#: src/parametres.c:412
+#: src/parametres.c:413
 msgid ""
 "Do not warn about manually reconciliation\n"
 "(with shortcut <Ctrl><R>)"
@@ -6665,108 +6693,108 @@ msgstr ""
 "(en utilisant le raccourci clavier <Ctrl><R>)"
 
 #. Display a warning message when trying to remove a transaction
-#: src/parametres.c:418
+#: src/parametres.c:419
 msgid "Do not warn about removal transaction"
 msgstr "Ne pas avertir lors de la suppression d'une opération"
 
 #. Display a warning message when trying to remove a scheduled transaction
-#: src/parametres.c:423
+#: src/parametres.c:424
 msgid "Do not warn about removal scheduled transaction"
 msgstr "Ne pas avertir lors de la suppression d'une opération planifiée"
 
 #. Display a warning message when a breakdown is incomplete
-#: src/parametres.c:428
+#: src/parametres.c:429
 msgid "Do not warn about incomplete breakdown"
 msgstr "Ne pas avertir lors d'une ventilation incomplète"
 
 #. Display a warning message when no reconciliation reference given
-#: src/parametres.c:433
+#: src/parametres.c:434
 msgid "Do not warn about no reconciliation reference"
 msgstr "Ne pas avertir de l'absence de numéro de rapprochement"
 
 #. Display a warning message when no reconciliation reference given
-#: src/parametres.c:438
+#: src/parametres.c:439
 msgid "Do not warn about existing reconciliation reference"
 msgstr "Ne pas avertir que le numéro de rapprochement existe déjà"
 
 #. Display a warning message when last chance to abort reconciliation
-#: src/parametres.c:443
+#: src/parametres.c:444
 msgid "Do not warn about last chance to abort reconciliation"
 msgstr ""
 "Ne pas avertir que c'est la dernière chance d'abandonner le rapprochement"
 
-#: src/parametres.c:451
+#: src/parametres.c:452
 msgid "Scheduler warnings"
 msgstr "Alertes de l'échéancier"
 
-#: src/parametres.c:455
+#: src/parametres.c:456
 msgid ""
 "Number of days before a warning message advertising a scheduled transaction"
 msgstr "Nombre de jours précédant le rappel d'une opération planifiée"
 
-#: src/parametres.c:519
+#: src/parametres.c:520
 msgid "Account files handling"
 msgstr "Gestion des fichiers de comptes"
 
-#: src/parametres.c:523
+#: src/parametres.c:524
 msgid "Automatically load last file on startup"
 msgstr "Chargement automatique du dernier fichier consulté"
 
-#: src/parametres.c:528
+#: src/parametres.c:529
 msgid "Automatically save on exit"
 msgstr "Enregistrer automatiquement en fermant"
 
-#: src/parametres.c:544
+#: src/parametres.c:545
 msgid "File compression level"
 msgstr "Niveau de compression du fichier"
 
-#: src/parametres.c:558
+#: src/parametres.c:559
 msgid "Memorise last opened files"
 msgstr "Mémorisation des derniers fichiers ouverts"
 
-#: src/parametres.c:569
+#: src/parametres.c:571
 msgid "Backups"
 msgstr "Sauvegardes"
 
-#: src/parametres.c:573
+#: src/parametres.c:575
 msgid "Make a backup copy after opening files"
 msgstr "Effectuer une copie de sauvegarde après avoir ouvert les fichiers"
 
 #. Automatic backup ?
-#: src/parametres.c:579
+#: src/parametres.c:581
 msgid "Make a backup copy before saving files"
 msgstr "Effectuer une copie de sauvegarde avant d'enregistrer les fichiers"
 
-#: src/parametres.c:596
+#: src/parametres.c:598
 msgid "Backup file"
 msgstr "Fichier de sauvegarde"
 
-#: src/parametres.c:635
+#: src/parametres.c:637
 msgid "Backup compression level"
 msgstr "Niveau de compression de la sauvegarde"
 
-#: src/parametres.c:667
+#: src/parametres.c:669
 msgid "backup.gsb"
 msgstr "sauvegarde.gsb"
 
-#: src/parametres.c:717
+#: src/parametres.c:719
 msgid "Print support"
 msgstr "Imprimer l'état"
 
-#: src/parametres.c:724
+#: src/parametres.c:726
 msgid "LaTeX command"
 msgstr "Commande LaTeX"
 
-#: src/parametres.c:732
+#: src/parametres.c:734
 msgid "dvips command"
 msgstr "Commande dvips"
 
 #. Misc
-#: src/parametres.c:741 src/print_config.c:319
+#: src/parametres.c:743 src/print_config.c:326
 msgid "Misc"
 msgstr "Divers"
 
-#: src/parametres.c:748
+#: src/parametres.c:750
 msgid "Web browser"
 msgstr "Navigateur web"
 
@@ -6787,15 +6815,18 @@ msgid "A6"
 msgstr "A6"
 
 #: src/print_config.c:44
-msgid "Letter"
+#, fuzzy
+msgid "USletter"
 msgstr "Letter"
 
 #: src/print_config.c:45
-msgid "Legal"
-msgstr "Legal"
+#, fuzzy
+msgid "USlegal"
+msgstr "Senegal"
 
 #: src/print_config.c:46
-msgid "Executive"
+#, fuzzy
+msgid "USexecutive"
 msgstr "Executive"
 
 #: src/print_config.c:78
@@ -6808,51 +6839,80 @@ msgstr "Papier"
 
 #. Printer paddingbox
 #. Print to printer
-#: src/print_config.c:182 src/print_config.c:190
+#: src/print_config.c:184 src/print_config.c:192
 msgid "Printer"
 msgstr "Imprimante"
 
-#: src/print_config.c:225
+#: src/print_config.c:228
 msgid "Postscript file"
 msgstr "Fichier Postscript"
 
-#: src/print_config.c:227
+#: src/print_config.c:230
 msgid "LaTeX file"
 msgstr "Fichier LaTeX"
 
 #. Paper size
-#: src/print_config.c:260
+#: src/print_config.c:267
 msgid "Size"
 msgstr "Taille"
 
 #. Paper orientation
-#: src/print_config.c:284
+#: src/print_config.c:291
 msgid "Orientation"
 msgstr "Orientation"
 
-#: src/print_config.c:286
+#: src/print_config.c:293
 msgid "Portrait"
 msgstr "Portrait"
 
-#: src/print_config.c:289
+#: src/print_config.c:296
 msgid "Landscape"
 msgstr "Paysage"
 
 #. Headers
-#: src/print_config.c:313
+#: src/print_config.c:320
 msgid "Headers"
 msgstr "En-têtes"
 
 #. Footers
-#: src/print_config.c:316
+#: src/print_config.c:323
 msgid "Footers"
 msgstr "Pieds de page"
 
-#: src/qif.c:131 src/qif.c:299
+#: src/qif.c:119 src/qif.c:176
+#, fuzzy
+msgid "bank"
+msgstr "Banque"
+
+#: src/qif.c:122 src/qif.c:197
+#, fuzzy
+msgid "cash"
+msgstr "Espèces"
+
+#: src/qif.c:125 src/qif.c:235
+msgid "ccard"
+msgstr ""
+
+#: src/qif.c:128 src/qif.c:184
+#, fuzzy
+msgid "invst"
+msgstr "Liens"
+
+#: src/qif.c:131 src/qif.c:205
+#, fuzzy
+msgid "oth a"
+msgstr "la date"
+
+#: src/qif.c:134 src/qif.c:213
+#, fuzzy
+msgid "oth l"
+msgstr "Mensuel"
+
+#: src/qif.c:153 src/qif.c:339
 msgid "This file is empty!"
 msgstr "Le fichier ne contient aucune opération !"
 
-#: src/qif.c:161
+#: src/qif.c:189
 msgid ""
 "Grisbi found an investment account, which is not implemented yet.  "
 "Nevertheless, Grisbi will try to import it as a bank account."
@@ -6860,19 +6920,19 @@ msgstr ""
 "Grisbi a trouvé un compte d'investissement, qui n'est pas encore implémenté. "
 "Cependant, Grisbi va tenter de l'importer comme un compte en banque"
 
-#: src/qif.c:292
+#: src/qif.c:332
 msgid "Imported account with no name"
 msgstr "Compte importé sans nom"
 
-#: src/qif.c:578 src/qif.c:581
+#: src/qif.c:618 src/qif.c:621
 msgid " [Transaction imported without date]"
 msgstr "[Opération importée sans date]"
 
-#: src/qif.c:731
+#: src/qif.c:771
 msgid "Dates can't be parsed in QIF file."
 msgstr "Les dates du fichier QIF ne peuvent pas être interprétées"
 
-#: src/qif.c:732
+#: src/qif.c:772
 msgid ""
 "Grisbi automatically tries to parse dates from QIF files using heuristics.  "
 "Please double check that they are valid and contact grisbi development team "
@@ -6882,15 +6942,15 @@ msgstr ""
 "heuristiques. Soyez sûrs que ce sont des fichiers valides et contactez "
 "l'équipe de développement de Grisbi pour assistance le cas échéant."
 
-#: src/qif.c:914
+#: src/qif.c:954
 msgid "QIF format does not define currencies."
 msgstr "Le format QIF ne définit pas de devise."
 
-#: src/qif.c:918
+#: src/qif.c:958
 msgid "Export QIF files"
 msgstr "Exporter un fichier QIF"
 
-#: src/qif.c:1023
+#: src/qif.c:1063
 #, c-format
 msgid "File name '%s' invalid !"
 msgstr "Nom de fichier invalide : « %s »"
@@ -7035,7 +7095,7 @@ msgstr ""
 msgid "Associate transactions with"
 msgstr "Associer ces opérations avec"
 
-#: src/utils.c:718
+#: src/utils.c:757
 #, c-format
 msgid ""
 "Grisbi was unable to execute a web browser to browse url <tt>%s</tt>.  "
@@ -7044,11 +7104,11 @@ msgstr ""
 "Grisbi n'a pas pu lancer le navigateur web pour parcourir la page <tt>%s</"
 "tt>. Veuillez modifier votre configuration vers un exécutable valide."
 
-#: src/utils.c:719 src/utils.c:753
+#: src/utils.c:758 src/utils.c:792
 msgid "Cannot run web browser"
 msgstr "Impossible de lancer le navigateur web"
 
-#: src/utils.c:752
+#: src/utils.c:791
 #, c-format
 msgid ""
 "Grisbi was unable to execute '%s'\n"
@@ -7057,16 +7117,16 @@ msgstr ""
 "Grisbi n'a pas pu lancer « %s ». Veuillez modifier votre configuration vers "
 "un exécutable valide."
 
-#: src/utils_files.c:61
+#: src/utils_files.c:60
 msgid "Print to file"
 msgstr "Imprimer dans un fichier"
 
 #. aie, pb de mÃ©moire, on vire
-#: src/utils_files.c:142 src/utils_files.c:159
+#: src/utils_files.c:141 src/utils_files.c:158
 msgid "Memory allocation error"
 msgstr "Erreur d'allocation mémoire"
 
-#: src/utils_files.c:200
+#: src/utils_files.c:199
 msgid "Browse"
 msgstr "Parcourir"
 
@@ -7081,6 +7141,17 @@ msgid "This transfer has a reconciled contra-transaction, deletion canceled."
 msgstr ""
 "La contre-opération de ce virement est relevée, on ne peut donc les "
 "supprimer."
+
+#~ msgid ""
+#~ "Impossible to create or entry an automatic scheduled transaction\n"
+#~ " with a cheque or a method of payment with an automatic incremental "
+#~ "number."
+#~ msgstr ""
+#~ "Impossible de créer ou saisir une opération planifiée automatique\n"
+#~ " avec un chèque ou un mode de règlement à incrémentation automatique."
+
+#~ msgid "Legal"
+#~ msgstr "Legal"
 
 #, fuzzy
 #~ msgid "/C"
