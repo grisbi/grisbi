@@ -3871,6 +3871,10 @@ gint gsb_data_report_dup ( gint report_number )
 	     report,
 	     sizeof ( struct_report ));
 
+    /* We have to overwrite report number to be sure this won't
+     * duplicate old report number. */
+    new_report -> report_number = new_report_number;
+
     /* we had to duplicate the strings, dates and lists */
 
     if( report -> report_name )
