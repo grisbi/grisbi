@@ -22,7 +22,7 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-10-20 18:10+0200\n"
-"PO-Revision-Date: 2005-11-10 21:30+0100\n"
+"PO-Revision-Date: 2005-12-12 21:22+0100\n"
 "Last-Translator: Wilfried Kopp <wilfried.kopp@wanadoo.fr>\n"
 "Language-Team: Français <en@li.org>\n"
 "MIME-Version: (null)\n"
@@ -2604,7 +2604,7 @@ msgstr "N°"
 #: src/etats_affiche.c:2214 src/etats_config.c:415 src/parametres.c:384
 #: src/type_operations.c:289
 msgid "Payment methods"
-msgstr "Modes de réglement"
+msgstr "Modes de réglements"
 
 #: src/etats_affiche.c:2242
 msgid "Statement"
