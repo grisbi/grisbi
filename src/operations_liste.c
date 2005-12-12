@@ -1306,7 +1306,11 @@ gboolean traitement_clavier_liste ( GtkCList *liste,
 							_("You are currently trying to remove a transaction.  There "
 							  "is no undo for this.  Do you confirm the removal?"),
 							&etat.display_message_remove_transaction))
+		{
 		    supprime_operation ( OPERATION_SELECTIONNEE );
+		    echap_formulaire ();
+		}
+		
 	    }
 	    return TRUE;
 
@@ -2777,6 +2781,7 @@ void remove_transaction ()
 
     supprime_operation ( OPERATION_SELECTIONNEE );
     gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ), 1 );
+    echap_formulaire ();
 }
 
 
@@ -3155,6 +3160,7 @@ gboolean move_operation_to_account ( struct structure_operation * transaction,
 
     transaction -> no_compte = account;
     p_tab_nom_de_compte_variable = tmp;
+
     return TRUE;
 }
 
