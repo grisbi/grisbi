@@ -601,7 +601,7 @@ gint gsb_data_category_new_sub_category_with_number ( gint number,
  * \param name the name of the category
  * \param create TRUE if we want to create it if it doen't exist
  * \param category_type the type of the category if we create it
- *
+ * 0:credit / 1:debit / 2:special (transfert, breakdown...) *
  * \return the number of the category or 0 if problem
  * */
 gint gsb_data_category_get_number_by_name ( gchar *name,
@@ -1348,6 +1348,10 @@ void gsb_data_category_create_default_category_list ( void )
      * or leave them blank...
      * */
 
+    /** FIXME: this does not really work, placeholder  */
+    dialogue_warning_hint ("Please don't report bugs on the pre-made category list which is buggy.",
+			   "This does not work properly yet.");
+
     /** In fact, we merge the category list with nothing, ending in
      * creating the base categories. */
 
@@ -1358,11 +1362,11 @@ void gsb_data_category_create_default_category_list ( void )
     {
 	gint categ = gsb_data_category_new ( categories_de_base_debit[i] );
 	gsb_data_category_set_type ( categ, 1 );
-	list_tmp = g_slist_append ( list_tmp, categories_de_base_credit[i] );
+	list_tmp = g_slist_append ( list_tmp, categ );
 	i++;
     }
     gsb_data_category_merge_category_list (list_tmp);
-    free (list_tmp);
+    g_slist_free (list_tmp);
 
     list_tmp = NULL;
     i = 0;
@@ -1371,11 +1375,11 @@ void gsb_data_category_create_default_category_list ( void )
     {
 	gint categ = gsb_data_category_new ( categories_de_base_debit[i] );
 	gsb_data_category_set_type ( categ, 1 );
-	list_tmp = g_slist_append ( list_tmp, categories_de_base_credit[i] );
+	list_tmp = g_slist_append ( list_tmp, categ );
 	i++;
     }
     gsb_data_category_merge_category_list (list_tmp);
-    free (list_tmp);
+    g_slist_free (list_tmp);
 }
 
 
@@ -1396,24 +1400,15 @@ gboolean gsb_data_category_merge_category_list ( GSList *list_to_merge )
     while ( list_tmp )
     {
 	gint category_number;
-	struct_category *new_category;
 
-	new_category = list_tmp -> data;
-
-	/* we try to find the new category in the currents categories
-	 * if don't, it creates it */
-
-	category_number = gsb_data_category_get_number_by_name ( new_category -> category_name,
-								 TRUE,
-								 new_category -> category_type );
+	category_number = list_tmp -> data; 
 
 	/* we check category_number but normally it will always != 0 */
-
 	if ( category_number )
 	{
 	    GSList *sub_list_tmp;
 
-	    sub_list_tmp = new_category -> sub_category_list;
+	    sub_list_tmp = gsb_data_category_get_sub_category_list ( category_number );
 
 	    while ( sub_list_tmp )
 	    {
