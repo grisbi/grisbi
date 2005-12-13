@@ -134,6 +134,7 @@ enum import_filesel_columns {
     IMPORT_FILESEL_SELECTED = 0,
     IMPORT_FILESEL_TYPENAME,
     IMPORT_FILESEL_FILENAME,
+    IMPORT_FILESEL_REALNAME,
     IMPORT_FILESEL_TYPE,
     IMPORT_FILESEL_NUM_COLS,
 };
@@ -225,8 +226,9 @@ GtkWidget * import_create_file_selection_page ( GtkWidget * assistant )
     gtk_box_pack_start ( GTK_BOX(paddingbox), sw, TRUE, TRUE, 6 );
 
     /* Tree view and model. */
-    model = GTK_TREE_MODEL ( gtk_tree_store_new ( IMPORT_FILESEL_NUM_COLS, G_TYPE_BOOLEAN, G_TYPE_STRING, 
-				 G_TYPE_STRING, G_TYPE_INT ));
+    model = GTK_TREE_MODEL ( gtk_tree_store_new ( IMPORT_FILESEL_NUM_COLS, G_TYPE_BOOLEAN, 
+						  G_TYPE_STRING, G_TYPE_STRING, 
+						  G_TYPE_STRING, G_TYPE_INT ));
     tree_view = gtk_tree_view_new_with_model ( GTK_TREE_MODEL ( model ) );
     gtk_container_add ( GTK_CONTAINER ( sw ), tree_view );
 
@@ -440,6 +442,7 @@ gboolean import_select_file ( GtkWidget * button, GtkWidget * assistant )
 				 IMPORT_FILESEL_SELECTED, TRUE,
 				 IMPORT_FILESEL_TYPENAME, type_string_representation (type),
 				 IMPORT_FILESEL_FILENAME, g_path_get_basename ( iterator -> data ),
+				 IMPORT_FILESEL_REALNAME, iterator -> data,
 				 IMPORT_FILESEL_TYPE, type,
 				 -1 ); 
 
@@ -705,9 +708,9 @@ GSList * import_selected_files ( GtkWidget * assistant )
 
 	imported = g_malloc ( sizeof ( struct imported_file * ) );
 	gtk_tree_model_get ( GTK_TREE_MODEL ( model ), &iter, 
-			     0, &selected,
-			     2, &(imported -> name), 
-			     3, &(imported -> type), 
+			     IMPORT_FILESEL_SELECTED, &selected,
+			     IMPORT_FILESEL_REALNAME, &(imported -> name), 
+			     IMPORT_FILESEL_TYPE, &(imported -> type), 
 			     -1 );
 
 	if ( selected )
