@@ -439,7 +439,7 @@ gboolean import_select_file ( GtkWidget * button, GtkWidget * assistant )
 	    gtk_tree_store_set ( GTK_TREE_STORE ( model ), &iter, 
 				 IMPORT_FILESEL_SELECTED, TRUE,
 				 IMPORT_FILESEL_TYPENAME, type_string_representation (type),
-				 IMPORT_FILESEL_FILENAME, iterator -> data,
+				 IMPORT_FILESEL_FILENAME, g_path_get_basename ( iterator -> data ),
 				 IMPORT_FILESEL_TYPE, type,
 				 -1 ); 
 
