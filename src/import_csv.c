@@ -82,6 +82,8 @@ struct csv_field csv_fields[16] = {
     { NULL },
 };
 
+#define MAX_TOP_LINES 10
+
 
 
 /**
@@ -126,22 +128,46 @@ GtkWidget * import_create_csv_preview_page ( GtkWidget * assistant )
  *
  *
  */
+void skip_line_toggled ( GtkCellRendererToggle * cell, gchar * path_str, 
+			 GtkTreeView * tree_preview )
+{
+    GtkTreePath *path = gtk_tree_path_new_from_string (path_str);
+    GtkTreeIter iter;
+    gboolean toggle_item;
+    GtkTreeModel * tree_model = gtk_tree_view_get_model ( tree_preview );;
+
+    /* Get toggled iter */
+    gtk_tree_model_get_iter ( GTK_TREE_MODEL ( tree_model ), &iter, path );
+    gtk_tree_model_get ( GTK_TREE_MODEL ( tree_model ), &iter, 0, &toggle_item, -1 );
+    gtk_tree_store_set ( GTK_TREE_STORE ( tree_model ), &iter, 0, !toggle_item, -1);
+}
+
+
+
+/**
+ *
+ *
+ *
+ */
 GtkTreeModel * csv_import_create_model ( GtkTreeView * tree_preview, gchar * contents, 
 					 gchar * separator )
 {
     GtkTreeStore * model;
+    GtkTreeViewColumn * col;
+    GtkCellRenderer * cell;
     GType * types;
     gint size, i;
     GSList * list;
 
     size = csv_import_count_columns ( contents, separator );
     printf (">> SIZE is %d\n", size );
-    if ( ! size )
+    if ( ! size || ! contents)
     {
 	return NULL;
     }
 
     csv_fields_config = csv_import_update_fields_config ( contents, size );
+/*     csv_fields_config = csv_import_guess_fields_config ( contents, size ); */
 
     /* Remove previous columns if any. */
     list = (GSList *) gtk_tree_view_get_columns ( GTK_TREE_VIEW(tree_preview) );
@@ -151,17 +177,23 @@ GtkTreeModel * csv_import_create_model ( GtkTreeView * tree_preview, gchar * con
 	list = list -> next;
     }
 
-    types = (GType *) g_malloc0 ( size * sizeof ( GType ) );
+    types = (GType *) g_malloc0 ( ( size + 1 ) * sizeof ( int ) );
+
+    types[0] = G_TYPE_BOOLEAN;
+    cell = gtk_cell_renderer_toggle_new ();
+    col = gtk_tree_view_column_new_with_attributes ( _("Skip"),
+						     cell, "active", 0,
+						     NULL);
+    gtk_tree_view_append_column ( tree_preview, col );
+    g_signal_connect ( cell, "toggled", G_CALLBACK ( skip_line_toggled ), tree_preview );
+
     for ( i = 0 ; i < size ; i ++ ) 
     {
-	GtkTreeViewColumn * col;
-	GtkCellRenderer * cell;
-
-	types[i] = G_TYPE_STRING;
+	types[i+1] = G_TYPE_STRING;
 	cell = gtk_cell_renderer_text_new ();
-
 	col = gtk_tree_view_column_new_with_attributes ( csv_fields [ csv_fields_config[i] ] . name,
-							 cell, "text", i,
+							 cell, "text", i + 1,
+							 "strikethrough", 0,
 							 NULL);
 	gtk_tree_view_append_column ( tree_preview, col );
 
@@ -170,10 +202,10 @@ GtkTreeModel * csv_import_create_model ( GtkTreeView * tree_preview, gchar * con
 	g_signal_connect ( G_OBJECT ( col -> button ),
 			   "button-press-event",
 			   G_CALLBACK ( csv_import_header_on_click ),
-			   GINT_TO_POINTER ( i ) );
+			   GINT_TO_POINTER ( i + 1 ) );
     }
 
-    model =  gtk_tree_store_newv ( size, types );
+    model =  gtk_tree_store_newv ( size + 1, types );
 
     return (GtkTreeModel *) model;
 }
@@ -276,10 +308,14 @@ gint csv_import_count_columns ( gchar * contents, gchar * separator )
 {
     gint max = 0, i = 0;
     GSList * list;
+    gchar * tmp = contents;
+
+    if ( ! contents )
+	return 0;
 
     do
     {
-	list = csv_parse_line ( &contents, separator );
+	list = csv_parse_line ( &tmp, separator );
 	
 	if ( list == GINT_TO_POINTER(-1) )
 	{
@@ -293,7 +329,7 @@ gint csv_import_count_columns ( gchar * contents, gchar * separator )
 
 	i++;
     } 
-    while ( list && i < 5 );
+    while ( list && i < MAX_TOP_LINES );
 
     return max;
 }
@@ -327,7 +363,10 @@ gint * csv_import_update_fields_config ( gchar * contents, gint size )
 	csv_fields_config[i] = 0;
     }
 
-    g_free ( old_csv_fields_config );
+    if ( old_csv_fields_config )
+    {
+	g_free ( old_csv_fields_config );
+    }
     csv_fields_config [ i ] = -1;    
 
     return csv_fields_config;
@@ -380,9 +419,14 @@ gboolean csv_import_change_separator ( GtkEntry * entry, gchar * value,
 
 
 
+/**
+ *
+ *
+ *
+ */
 gboolean csv_import_update_preview ( GtkWidget * assistant )
 {
-    gchar * contents, * separator, * label = g_strdup ("");
+    gchar * contents, * separator;
     GtkTreeModel * model;
     GtkTreeView * tree_preview;
     GSList * list;
@@ -390,7 +434,9 @@ gboolean csv_import_update_preview ( GtkWidget * assistant )
 
     separator = g_object_get_data ( G_OBJECT(assistant), "separator" );
     tree_preview = g_object_get_data ( G_OBJECT(assistant), "tree_preview" );
-    contents =  g_object_get_data ( G_OBJECT(assistant), "contents" );
+    contents = g_object_get_data ( G_OBJECT(assistant), "contents" );
+    if ( ! contents || ! tree_preview || ! separator )
+	return FALSE;
 
     model = csv_import_create_model ( tree_preview, contents, separator );
     if ( model )
@@ -398,10 +444,10 @@ gboolean csv_import_update_preview ( GtkWidget * assistant )
 	gtk_tree_view_set_model ( GTK_TREE_VIEW(tree_preview), model );
     }
 
-    while ( line < 5 )
+    while ( line < MAX_TOP_LINES )
     {
 	GtkTreeIter iter;
-	gint i = 0;
+	gint i = 1;
 
 	do
 	{
@@ -419,8 +465,6 @@ gboolean csv_import_update_preview ( GtkWidget * assistant )
 	{
 	    gtk_tree_store_set ( GTK_TREE_STORE ( model ), &iter, i, 
 				 gsb_string_truncate ( list -> data ), -1 ); 
-	    if ( list -> data )
-		label = g_strconcat ( label, "[[", list -> data, "]]\n", NULL );
 
 	    i++;
 
@@ -518,13 +562,14 @@ gboolean import_enter_csv_preview_page ( GtkWidget * assistant )
 	return FALSE;
     }
 
-    g_object_set_data ( G_OBJECT(assistant), "contents", contents );
+    g_object_set_data ( G_OBJECT(assistant), "contents", g_strdup ( contents ) );
 
     entry = g_object_get_data ( G_OBJECT(assistant), "entry" );
     if ( entry )
     {
 	gtk_entry_set_text ( GTK_ENTRY(entry), csv_import_guess_separator ( contents ) );
     }
+
 
     return FALSE;
 }
