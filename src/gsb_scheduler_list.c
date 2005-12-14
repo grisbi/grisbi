@@ -57,49 +57,55 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static void ajuste_scrolling_liste_echeances_a_selection ( void );
-static gboolean changement_taille_liste_echeances ( GtkWidget *tree_view,
-					     GtkAllocation *allocation );
-static gint cherche_ligne_echeance ( gint scheduled_number );
-static gboolean gsb_gui_popup_custom_periodicity_dialog ();
 static void gsb_scheduler_list_add_scheduled_to_list ( gint scheduled_number,
 						GtkTreeStore *store,
 						GDate *end_date );
 static gboolean gsb_scheduler_list_button_press ( GtkWidget *tree_view,
 					   GdkEventButton *ev );
 static void gsb_scheduler_list_create_list_columns ( GtkWidget *tree_view );
-static GtkTreeModel *gsb_scheduler_list_create_store ( void );
+static GtkTreeModel *gsb_scheduler_list_create_model ( void );
 static GtkWidget *gsb_scheduler_list_create_tree_view (void);
 static gint gsb_scheduler_list_default_sort_function ( GtkTreeModel *model,
 						GtkTreeIter *iter_1,
 						GtkTreeIter *iter_2,
 						gpointer null );
+static gboolean gsb_scheduler_list_fill_transaction_row ( GtkTreeStore *store,
+						   GtkTreeIter *iter,
+						   gchar *line[NB_COLS_SCHEDULER] );
+static gboolean gsb_scheduler_list_fill_transaction_text ( gint scheduled_number,
+						    gchar *line[NB_COLS_SCHEDULER]  );
 static GDate *gsb_scheduler_list_get_end_date_scheduled_showed ( void );
 static GtkTreeIter *gsb_scheduler_list_get_iter_from_scheduled_number ( gint scheduled_number );
+static GSList *gsb_scheduler_list_get_iter_list_from_scheduled_number ( gint scheduled_number );
+static GtkTreeModel *gsb_scheduler_list_get_model ( void );
 static GDate *gsb_scheduler_list_get_next_date ( gint scheduled_number,
 					  GDate *pGDateCurrent );
+static GtkTreeModelSort *gsb_scheduler_list_get_sorted_model ( void );
+static gboolean gsb_scheduler_list_popup_custom_periodicity_dialog (void);
 static gboolean gsb_scheduler_list_selection_changed ( GtkTreeSelection *selection,
 						gpointer null );
-static gboolean gsb_scheduler_list_set_background_color ( GtkWidget *tree_view );
+static void gsb_scheduler_list_set_model ( GtkTreeModel *model );
+static void gsb_scheduler_list_set_sorted_model ( GtkTreeModelSort *tree_model_sort );
+static void gsb_scheduler_list_set_tree_view ( GtkWidget *tree_view );
 /*END_STATIC*/
 
 
 
-/* contient la largeur de la colonne en % de la largeur de la liste */
-
-gint scheduler_col_width[NB_COLS_SCHEDULER] ;
-
+/* FIXME : remove after the new form */
 GtkWidget *frame_formulaire_echeancier;
 GtkWidget *formulaire_echeancier;
 
-GtkWidget *tree_view_scheduler_list;
-GtkTreeViewColumn *scheduler_list_column[NB_COLS_SCHEDULER];
+/** set the tree view and models as static, we can access to them
+ * by the functions gsb_scheduler_list_get_tree_view...
+ * don't call them directly */
+static GtkWidget *tree_view_scheduler_list;
+static GtkTreeModel *tree_model_scheduler_list;
+static GtkTreeModelSort *tree_model_sort_scheduler_list;
 
-GtkWidget *bouton_saisir_echeancier;
+static GtkTreeViewColumn *scheduler_list_column[NB_COLS_SCHEDULER];
 
-gint nb_days_before_scheduled;      /* nb de jours avant l'échéance pour prévenir */
-
-gint ancienne_largeur_echeances;
+/** number of days before the scheduled to execute it */
+gint nb_days_before_scheduled;
 
 /** lists of number of scheduled transactions taken or to be taken */
 GSList *scheduled_transactions_to_take;
@@ -112,7 +118,6 @@ extern gint affichage_echeances_perso_nb_libre;
 extern GdkColor breakdown_background;
 extern GdkColor couleur_fond[2];
 extern GdkColor couleur_grise;
-extern GtkWidget *formulaire;
 extern GtkWidget *formulaire_echeancier;
 extern GdkGC *gc_separateur_operation;
 extern gint hauteur_ligne_liste_opes;
@@ -120,6 +125,9 @@ extern GtkWidget *label_saisie_modif;
 extern gint mise_a_jour_liste_echeances_auto_accueil;
 extern gint mise_a_jour_liste_echeances_manuelles_accueil;
 extern GtkTreeStore *model;
+extern GtkWidget *scheduler_button_delete;
+extern GtkWidget *scheduler_button_edit;
+extern GtkWidget *scheduler_button_execute;
 extern GtkTreeSelection * selection;
 extern GtkWidget *tree_view;
 extern GtkWidget *widget_formulaire_echeancier[SCHEDULER_FORM_TOTAL_WIDGET];
@@ -163,7 +171,8 @@ GtkWidget *gsb_scheduler_list_create_list ( void )
 
     /* we create and set the tree_view in the page */
     tree_view = gsb_scheduler_list_create_tree_view ();
-     gtk_container_add ( GTK_CONTAINER (scrolled_window),
+    gsb_scheduler_list_set_tree_view (tree_view);
+    gtk_container_add ( GTK_CONTAINER (scrolled_window),
 			tree_view);
  
     
@@ -178,18 +187,93 @@ GtkWidget *gsb_scheduler_list_create_list ( void )
     /* create the store and set it in the tree_view */
 
     gtk_tree_view_set_model ( GTK_TREE_VIEW (tree_view),
-			      GTK_TREE_MODEL (gsb_scheduler_list_create_store ()));
+			      gsb_scheduler_list_create_model ());
 
     g_signal_connect ( G_OBJECT ( gtk_tree_view_get_selection( GTK_TREE_VIEW (tree_view))),
 		       "changed",
 		       G_CALLBACK (gsb_scheduler_list_selection_changed),
 		       NULL );
-    tree_view_scheduler_list = tree_view;
     gsb_scheduler_list_fill_list(tree_view);
     gsb_scheduler_list_set_background_color (tree_view);
 
     return vbox;
 }
+
+/**
+ * return the scheduler tree view
+ *
+ * \param
+ *
+ * \return the scheduler tree_view
+ * */
+GtkWidget *gsb_scheduler_list_get_tree_view ( void )
+{
+    return tree_view_scheduler_list;
+}
+
+/**
+ * set the scheduler tree view
+ *
+ * \param tree_view
+ *
+ * \return 
+ * */
+void gsb_scheduler_list_set_tree_view ( GtkWidget *tree_view )
+{
+    tree_view_scheduler_list = tree_view;
+}
+
+
+/**
+ * return the scheduler tree_model
+ *
+ * \param
+ *
+ * \return the scheduler tree_model
+ * */
+GtkTreeModel *gsb_scheduler_list_get_model ( void )
+{
+    return tree_model_scheduler_list;
+}
+
+/**
+ * set the scheduler tree_model
+ *
+ * \param model
+ *
+ * \return 
+ * */
+void gsb_scheduler_list_set_model ( GtkTreeModel *model )
+{
+    tree_model_scheduler_list = model;
+}
+
+
+
+/**
+ * return the scheduler tree model sort
+ *
+ * \param
+ *
+ * \return the scheduler tree_model_sort
+ * */
+GtkTreeModelSort *gsb_scheduler_list_get_sorted_model ( void )
+{
+    return tree_model_sort_scheduler_list;
+}
+
+/**
+ * set the scheduler tree  model sort
+ *
+ * \param tree_model_sort
+ *
+ * \return 
+ * */
+void gsb_scheduler_list_set_sorted_model ( GtkTreeModelSort *tree_model_sort )
+{
+    tree_model_sort_scheduler_list = tree_model_sort;
+}
+
 
 /**
  * create and configure the tree view of the scheduled transactions
@@ -302,7 +386,7 @@ void gsb_scheduler_list_create_list_columns ( GtkWidget *tree_view )
  *
  * \return a gtk_tree_store
  * */
-GtkTreeModel *gsb_scheduler_list_create_store ( void )
+GtkTreeModel *gsb_scheduler_list_create_model ( void )
 {
     GtkTreeStore *store;
     GtkTreeModel *sortable;
@@ -325,7 +409,9 @@ GtkTreeModel *gsb_scheduler_list_create_store ( void )
 				 PANGO_TYPE_FONT_DESCRIPTION,
 				 G_TYPE_BOOLEAN );
 
+    gsb_scheduler_list_set_model (GTK_TREE_MODEL (store));
     sortable = gtk_tree_model_sort_new_with_model ( GTK_TREE_MODEL (store));
+    gsb_scheduler_list_set_sorted_model (GTK_TREE_MODEL_SORT (sortable));
     gtk_tree_sortable_set_default_sort_func ( GTK_TREE_SORTABLE (sortable),
 					      (GtkTreeIterCompareFunc) gsb_scheduler_list_default_sort_function,
 					      NULL,
@@ -427,13 +513,18 @@ gboolean gsb_scheduler_list_execute_transaction ( gint scheduled_number )
 				    scheduled_number ));
 
     if ( !scheduled_number )
-	scheduled_number = gsb_scheduler_list_get_current_scheduled_number (tree_view_scheduler_list);
+	scheduled_number = gsb_scheduler_list_get_current_scheduled_number (gsb_scheduler_list_get_tree_view ());
 
     formulaire_echeancier_a_zero();
     gsb_scheduler_form_set_sensitive( gsb_data_scheduled_get_mother_scheduled_number (scheduled_number));
 
     gtk_label_set_text ( GTK_LABEL ( label_saisie_modif ),
 			 _("Input") );
+
+    /* inform the form that we execute a transaction */
+    g_object_set_data ( G_OBJECT ( formulaire_echeancier ),
+			"execute_transaction",
+			GINT_TO_POINTER (1));
     gsb_scheduler_list_edit_transaction (scheduled_number);
 
     gtk_widget_hide ( widget_formulaire_echeancier[SCHEDULER_FORM_FINAL_DATE] );
@@ -448,7 +539,6 @@ gboolean gsb_scheduler_list_execute_transaction ( gint scheduled_number )
 
 
 
-
 /**
  * fill the scheduled transactions list
  *
@@ -459,7 +549,7 @@ gboolean gsb_scheduler_list_execute_transaction ( gint scheduled_number )
 gboolean gsb_scheduler_list_fill_list ( GtkWidget *tree_view )
 {
     GtkTreeStore *store;
-    GSList *slist_ptr;
+    GSList *tmp_list;
     GDate *end_date;
     GtkTreeIter iter;
 
@@ -474,13 +564,13 @@ gboolean gsb_scheduler_list_fill_list ( GtkWidget *tree_view )
     gtk_tree_store_clear (store);
 
     /* fill the list */
-    slist_ptr = gsb_data_scheduled_get_scheduled_list ();
+    tmp_list = gsb_data_scheduled_get_scheduled_list ();
 
-    while ( slist_ptr )
+    while ( tmp_list )
     {
 	gint scheduled_number;
 
-	scheduled_number = gsb_data_scheduled_get_scheduled_number (slist_ptr -> data);
+	scheduled_number = gsb_data_scheduled_get_scheduled_number (tmp_list -> data);
 
 	gsb_scheduler_list_add_scheduled_to_list ( scheduled_number,
 						   store,
@@ -493,7 +583,7 @@ gboolean gsb_scheduler_list_fill_list ( GtkWidget *tree_view )
 						       store,
 						       end_date );
 
-	slist_ptr = slist_ptr -> next;
+	tmp_list = tmp_list -> next;
     }
 
     /* create and append the white line */
@@ -506,10 +596,6 @@ gboolean gsb_scheduler_list_fill_list ( GtkWidget *tree_view )
 			 SCHEDULER_COL_NB_TRANSACTION_NUMBER, gsb_data_scheduled_new_white_line (0),
 			 -1 );
 
-    /* at this level, no selection */
-
-    gtk_widget_set_sensitive ( bouton_saisir_echeancier,
-			       FALSE );
     return FALSE;
 }
 
@@ -529,98 +615,33 @@ void gsb_scheduler_list_add_scheduled_to_list ( gint scheduled_number,
 						GtkTreeStore *store,
 						GDate *end_date )
 {
-    gchar *ligne[NB_COLS_SCHEDULER];
     GDate *pGDateCurrent;
     gint virtual_transaction = 0;
-    GtkTreeIter iter;
     GtkTreeIter *mother_iter;
-    gint frequency;
-    gint i;
+    gchar *line[NB_COLS_SCHEDULER];
 
     devel_debug ( g_strdup_printf ( "gsb_scheduler_list_add_scheduled_to_list %d",
 				    scheduled_number ));
 
     /* fill the mother_iter if needed, else will be set to NULL */
     mother_iter = gsb_scheduler_list_get_iter_from_scheduled_number (gsb_data_scheduled_get_mother_scheduled_number (scheduled_number));
-
-    frequency = gsb_data_scheduled_get_frequency (scheduled_number);
-
-    /* that first part is filled only for mother */
-
-    if ( mother_iter )
-    {
-	/* for child breakdown we set all to NULL except the party, we show the category instead */
-	ligne[COL_NB_DATE] = NULL;
-	ligne[COL_NB_FREQUENCY] = NULL;
-	ligne[COL_NB_ACCOUNT] = NULL;
-	ligne[COL_NB_MODE] = NULL;
-
-	if ( gsb_data_scheduled_get_category_number (scheduled_number))
-	    ligne[COL_NB_PARTY] = gsb_data_category_get_name ( gsb_data_scheduled_get_category_number (scheduled_number),
-							       gsb_data_scheduled_get_sub_category_number (scheduled_number),
-							       NULL );
-	else
-	    ligne[COL_NB_PARTY] = NULL;
-    }
-    else
-    {
-	/* fill her for normal scheduled transaction (not children) */
-
-	ligne[COL_NB_DATE] = gsb_format_gdate (gsb_data_scheduled_get_date (scheduled_number));
-
-	if ( frequency == SCHEDULER_PERIODICITY_CUSTOM_VIEW )
-	{
-	    switch (gsb_data_scheduled_get_user_interval (scheduled_number))
-	    {
-		case PERIODICITY_DAYS:
-		    ligne[COL_NB_FREQUENCY] = g_strdup_printf ( _("%d days"),
-								gsb_data_scheduled_get_user_entry (scheduled_number));
-		    break;
-
-		case PERIODICITY_MONTHS:
-		    ligne[COL_NB_FREQUENCY] = g_strdup_printf ( _("%d months"),
-								gsb_data_scheduled_get_user_entry (scheduled_number));
-		    break;
-
-		case PERIODICITY_YEARS:
-		    ligne[COL_NB_FREQUENCY] = g_strdup_printf ( _("%d years"),
-								gsb_data_scheduled_get_user_entry (scheduled_number));
-	    }
-	}
-	else
-	    if ( frequency < SCHEDULER_PERIODICITY_NB_CHOICES
-		 &&
-		 frequency > 0 )
-	    {
-		gchar * names[] = { _("Once"), _("Weekly"), _("Montly"), 
-		    _("Bimonthly"), _("Quarterly"), _("Yearly") };
-		ligne[COL_NB_FREQUENCY] = names [frequency];
-	    }
-
-	ligne[COL_NB_ACCOUNT] = gsb_data_account_get_name (gsb_data_scheduled_get_account_number (scheduled_number));
-	ligne[COL_NB_PARTY] = gsb_data_payee_get_name (gsb_data_scheduled_get_party_number (scheduled_number),
-						       TRUE );
-	if ( gsb_data_scheduled_get_automatic_scheduled (scheduled_number))
-	    ligne[COL_NB_MODE]=_("Automatic");
-	else
-	    ligne[COL_NB_MODE] = _("Manual");
-    }
-
-    /* that can be filled for mother and children of breakdown */
-    ligne[COL_NB_NOTES] = gsb_data_scheduled_get_notes (scheduled_number);
-    ligne[COL_NB_AMOUNT] = g_strdup_printf ( "%4.2f", gsb_data_scheduled_get_amount (scheduled_number));
-
     pGDateCurrent = gsb_date_copy (gsb_data_scheduled_get_date (scheduled_number));
+
+    /* fill the text line */
+    gsb_scheduler_list_fill_transaction_text ( scheduled_number,
+					       line );
 
     do
     {
+	GtkTreeIter iter;
+
 	gtk_tree_store_append ( GTK_TREE_STORE (store),
 				&iter,
 				mother_iter );
 
-	for ( i=0 ; i<NB_COLS_SCHEDULER ; i++ )
-	    gtk_tree_store_set ( GTK_TREE_STORE ( store ), &iter,
-				 i, ligne[i], -1 );
+	gsb_scheduler_list_fill_transaction_row ( store,
+						  &iter,
+						  line );
 
 	/* set the number of scheduled transaction to 0 if it's not the first one
 	 * (when more than one showed ) */
@@ -639,7 +660,7 @@ void gsb_scheduler_list_add_scheduled_to_list ( gint scheduled_number,
 	{
 	    pGDateCurrent = gsb_scheduler_list_get_next_date ( scheduled_number, pGDateCurrent );
 
-	    ligne[COL_NB_DATE] = gsb_format_gdate ( pGDateCurrent );
+	    line[COL_NB_DATE] = gsb_format_gdate ( pGDateCurrent );
 	    /* now, it's not real transactions */
 	    virtual_transaction = TRUE;
 	}
@@ -647,11 +668,196 @@ void gsb_scheduler_list_add_scheduled_to_list ( gint scheduled_number,
     while ( pGDateCurrent &&
 	    g_date_compare ( end_date, pGDateCurrent ) > 0 &&
 	    affichage_echeances != SCHEDULER_PERIODICITY_ONCE_VIEW &&
-	    frequency &&
 	    !mother_iter );
 
     if ( mother_iter )
 	gtk_tree_iter_free (mother_iter);
+}
+
+
+/**
+ * remove the given scheduled transaction from the list
+ * and too all the corresponding virtual transactions
+ * 
+ * \param transaction_number
+ *
+ * \return FALSE
+ * */
+gboolean gsb_scheduler_list_remove_transaction_from_list ( gint scheduled_number )
+{
+    GSList *iter_list;
+
+    /* at this level, normally the transaction is already deleted,
+     * so we cannot call gsb_data_scheduled_... we have only the number
+     * to remove it from the list */
+
+    iter_list = gsb_scheduler_list_get_iter_list_from_scheduled_number ( scheduled_number );
+
+    if ( iter_list )
+    {
+	GtkTreeStore *store;
+	GSList *tmp_list;
+
+	store = GTK_TREE_STORE (gsb_scheduler_list_get_model ());
+	tmp_list = iter_list;
+
+	while (tmp_list)
+	{
+	    GtkTreeIter *iter;
+
+	    iter = tmp_list -> data;
+
+	    gtk_tree_store_remove ( store,
+				    iter );
+	    gtk_tree_iter_free ( iter );
+	    tmp_list = tmp_list -> next;
+	}
+    }
+    else
+	warning_debug ( g_strdup_printf ( "in gsb_scheduler_list_remove_transaction_from_list, ask to remove the transaction no %d,\nbut didn't find the iter in the list...\nIt's normal if appending a new scheduled transaction, but abnormal else...",
+					  scheduled_number ));
+	
+    return FALSE;
+}
+
+
+/**
+ * update the scheduled transaction in the list (and all the virtuals too)
+ *
+ * \param scheduled_number
+ *
+ * \return FALSE
+ * */
+gboolean gsb_scheduler_list_update_transaction_in_list ( gint scheduled_number )
+{
+    GtkTreeStore *store;
+
+    if ( !scheduled_number )
+	return FALSE;
+
+    /* i tried first to change directly the lines, but very very complex with all the
+     * different views, so the simpliest solution is to erase the transaction and
+     * add it again to the list : it's faster than filling all the list and work in
+     * all cases
+     * if it's a new transaction, gsb_scheduler_list_remove_transaction_from_list won't
+     * find it and won't do anything... */
+
+    store = GTK_TREE_STORE (gsb_scheduler_list_get_model ());
+
+    gsb_scheduler_list_remove_transaction_from_list (scheduled_number);
+    gsb_scheduler_list_add_scheduled_to_list ( scheduled_number,
+					       store,
+					       gsb_scheduler_list_get_end_date_scheduled_showed ());
+
+    return FALSE;
+}
+
+
+/**
+ * fill the char tab in the param with the transaction given in param
+ *
+ * \param scheduled_number
+ * \param  line a tab of gchar with NB_COLS_SCHEDULER of size, wich will contain the text of the line
+ *
+ * \return FALSE
+ * */
+gboolean gsb_scheduler_list_fill_transaction_text ( gint scheduled_number,
+						    gchar *line[NB_COLS_SCHEDULER]  )
+{
+    if ( gsb_data_scheduled_get_mother_scheduled_number (scheduled_number))
+    {
+	/* for child breakdown we set all to NULL except the party, we show the category instead */
+	line[COL_NB_DATE] = NULL;
+	line[COL_NB_FREQUENCY] = NULL;
+	line[COL_NB_ACCOUNT] = NULL;
+	line[COL_NB_MODE] = NULL;
+
+	if ( gsb_data_scheduled_get_category_number (scheduled_number))
+	    line[COL_NB_PARTY] = gsb_data_category_get_name ( gsb_data_scheduled_get_category_number (scheduled_number),
+							       gsb_data_scheduled_get_sub_category_number (scheduled_number),
+							       NULL );
+	else
+	    line[COL_NB_PARTY] = NULL;
+    }
+    else
+    {
+	/* fill her for normal scheduled transaction (not children) */
+
+	gint frequency;
+
+	line[COL_NB_DATE] = gsb_format_gdate (gsb_data_scheduled_get_date (scheduled_number));
+	frequency = gsb_data_scheduled_get_frequency (scheduled_number);
+
+	if ( frequency == SCHEDULER_PERIODICITY_CUSTOM_VIEW )
+	{
+	    switch (gsb_data_scheduled_get_user_interval (scheduled_number))
+	    {
+		case PERIODICITY_DAYS:
+		    line[COL_NB_FREQUENCY] = g_strdup_printf ( _("%d days"),
+								gsb_data_scheduled_get_user_entry (scheduled_number));
+		    break;
+
+		case PERIODICITY_MONTHS:
+		    line[COL_NB_FREQUENCY] = g_strdup_printf ( _("%d months"),
+								gsb_data_scheduled_get_user_entry (scheduled_number));
+		    break;
+
+		case PERIODICITY_YEARS:
+		    line[COL_NB_FREQUENCY] = g_strdup_printf ( _("%d years"),
+								gsb_data_scheduled_get_user_entry (scheduled_number));
+	    }
+	}
+	else
+	    if ( frequency < SCHEDULER_PERIODICITY_NB_CHOICES
+		 &&
+		 frequency > 0 )
+	    {
+		gchar * names[] = { _("Once"), _("Weekly"), _("Montly"), 
+		    _("Bimonthly"), _("Quarterly"), _("Yearly") };
+		line[COL_NB_FREQUENCY] = names [frequency];
+	    }
+
+	line[COL_NB_ACCOUNT] = gsb_data_account_get_name (gsb_data_scheduled_get_account_number (scheduled_number));
+	line[COL_NB_PARTY] = gsb_data_payee_get_name (gsb_data_scheduled_get_party_number (scheduled_number),
+						       TRUE );
+	if ( gsb_data_scheduled_get_automatic_scheduled (scheduled_number))
+	    line[COL_NB_MODE]=_("Automatic");
+	else
+	    line[COL_NB_MODE] = _("Manual");
+    }
+
+    /* that can be filled for mother and children of breakdown */
+    line[COL_NB_NOTES] = gsb_data_scheduled_get_notes (scheduled_number);
+    line[COL_NB_AMOUNT] = g_strdup_printf ( "%4.2f", gsb_data_scheduled_get_amount (scheduled_number));
+
+    return FALSE;
+}
+
+
+
+/**
+ * fill the row pointed by the iter with the content of
+ * the char tab given in param
+ *
+ * \param store
+ * \param iter
+ * \param line a tab of gchar with NB_COLS_SCHEDULER of size, wich is the text content of the line
+ * 
+ * \return FALSE
+ * */
+gboolean gsb_scheduler_list_fill_transaction_row ( GtkTreeStore *store,
+						   GtkTreeIter *iter,
+						   gchar *line[NB_COLS_SCHEDULER] )
+{
+    gint i;
+
+    for ( i=0 ; i<NB_COLS_SCHEDULER ; i++ )
+	gtk_tree_store_set ( GTK_TREE_STORE ( store ),
+			     iter,
+			     i, line[i],
+			     -1 );
+
+    return FALSE;
 }
 
 
@@ -723,42 +929,8 @@ gboolean gsb_scheduler_list_set_background_color ( GtkWidget *tree_view )
 
 
 
-
-
-
-/******************************************************************************/
-void ajuste_scrolling_liste_echeances_a_selection ( void )
-{
-    GtkAdjustment *v_adjustment;
-    gint y_ligne;
-
-    /*     si on n'a pas encore récupéré la hauteur des lignes, on va le faire ici */
-
-    if ( !hauteur_ligne_liste_opes )
-	hauteur_ligne_liste_opes = recupere_hauteur_ligne_tree_view ( tree_view_scheduler_list );
-
-    v_adjustment = gtk_tree_view_get_vadjustment ( GTK_TREE_VIEW ( tree_view_scheduler_list ));
-
-    y_ligne = cherche_ligne_echeance ( gsb_scheduler_list_get_current_scheduled_number (tree_view_scheduler_list) ) * hauteur_ligne_liste_opes;
-
-    /*     si l'opé est trop haute, on la rentre et la met en haut */
-
-    if ( y_ligne < v_adjustment -> value )
-	gtk_adjustment_set_value ( GTK_ADJUSTMENT ( v_adjustment ),
-				   y_ligne );
-    else
-	if ( (y_ligne + hauteur_ligne_liste_opes ) > ( v_adjustment -> value + v_adjustment -> page_size ))
-	    gtk_adjustment_set_value ( GTK_ADJUSTMENT ( v_adjustment ),
-				       y_ligne + hauteur_ligne_liste_opes - v_adjustment -> page_size );
-}
-/******************************************************************************/
-
-
-
-
-/* 
+/** 
  * get the iter of the scheduled transaction given in param
- * !!! for now, don't go into the children of breakdown, must adapt if needed
  * 
  * \param scheduled_number
  * 
@@ -766,55 +938,141 @@ void ajuste_scrolling_liste_echeances_a_selection ( void )
  * */
 GtkTreeIter *gsb_scheduler_list_get_iter_from_scheduled_number ( gint scheduled_number )
 {
-    gint scheduled_transaction_buf;
     GtkTreeIter iter;
     GtkTreeModel *model;
+    gint mother_number;
+    gboolean return_iter = TRUE;
 
     if ( !scheduled_number )
 	return NULL;
 
-    model = GTK_TREE_MODEL (gtk_tree_model_sort_get_model ( GTK_TREE_MODEL_SORT(gtk_tree_view_get_model ( GTK_TREE_VIEW (tree_view_scheduler_list)))));
+    /* that function is called too for deleting a scheduled transaction,
+     * and it can be already deleted, so we cannot call gsb_data_scheduled_... here
+     * but... we need to know if it's a child breakdown, so we call it, in all
+     * the cases, if the transactions doesn't exist we will have no mother, so very good !*/
 
-    /*     on va faire le tour de la liste, et dès qu'une opé = echeance */
-    /* 	on retourne son iter */
+    mother_number = gsb_data_scheduled_get_mother_scheduled_number (scheduled_number);
+
+    model = gsb_scheduler_list_get_model ();
+
+    /* go throw the list to find the transaction */
 
     gtk_tree_model_get_iter_first ( model,
 				    &iter );
-    scheduled_transaction_buf = 0;
 
-    do
+    while ( return_iter )
     {
+	gint scheduled_transaction_buf;
+
 	gtk_tree_model_get ( model,
 			     &iter,
 			     SCHEDULER_COL_NB_TRANSACTION_NUMBER, &scheduled_transaction_buf,
 			     -1 );
+	if ( scheduled_transaction_buf == scheduled_number )
+	    return ( gtk_tree_iter_copy ( &iter ));
+	
+	if ( scheduled_transaction_buf == mother_number )
+	{
+	    GtkTreeIter *mother_iter;
+	 
+	    mother_iter = gtk_tree_iter_copy (&iter);
+	    return_iter = gtk_tree_model_iter_children ( model,
+							 &iter,
+							 mother_iter );
+	    gtk_tree_iter_free (mother_iter);
+	}
+	else
+	    return_iter = gtk_tree_model_iter_next ( model,
+						     &iter );
     }
-    while ( scheduled_transaction_buf != scheduled_number
-	    &&
-	    gtk_tree_model_iter_next ( model,
-				       &iter ));
-
-    if ( scheduled_transaction_buf == scheduled_number )
-	return ( gtk_tree_iter_copy ( &iter ));
-    else
-	return NULL;
+    return NULL;
 }
 
 
-
-/******************************************************************************/
-/* cette fonction renvoie le no de ligne de l'opération en argument */
-/******************************************************************************/
-gint cherche_ligne_echeance ( gint scheduled_number )
+/** 
+ * the same as gsb_scheduler_list_get_iter_from_scheduled_number but
+ * return a gslist of iter corresponding to that scheduled number,
+ * so there is only 1 iter for the once view, but more than 1 for the other views
+ * use when changin the scheduled, to change also the virtuals ones on the screen
+ * 
+ * \param scheduled_number
+ * 
+ * \return a gslist of pointer to the iters, need to be free, or NULL if not found
+ * */
+GSList *gsb_scheduler_list_get_iter_list_from_scheduled_number ( gint scheduled_number )
 {
-    GtkTreeIter *iter;
+    GtkTreeIter iter;
+    GtkTreeModel *model;
+    gint mother_number;
+    gboolean return_iter = TRUE;
+    GSList *iter_list = NULL;
 
-    iter = gsb_scheduler_list_get_iter_from_scheduled_number ( scheduled_number );
+    if ( !scheduled_number )
+	return NULL;
 
-    return ( utils_str_atoi ( gtk_tree_model_get_string_from_iter (  GTK_TREE_MODEL ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view_scheduler_list ))),
-							      iter )));
+    /* that function is called too for deleting a scheduled transaction,
+     * and it can be already deleted, so we cannot call gsb_data_scheduled_... here
+     * but... we need to know if it's a child breakdown, so we call it, in all
+     * the cases, if the transactions doesn't exist we will have no mother, so very good !*/
+
+    mother_number = gsb_data_scheduled_get_mother_scheduled_number (scheduled_number);
+
+    model = gsb_scheduler_list_get_model ();
+
+    /* go throw the list to find the transaction */
+
+    gtk_tree_model_get_iter_first ( model,
+				    &iter );
+
+    while ( return_iter )
+    {
+	gint scheduled_transaction_buf;
+
+	gtk_tree_model_get ( model,
+			     &iter,
+			     SCHEDULER_COL_NB_TRANSACTION_NUMBER, &scheduled_transaction_buf,
+			     -1 );
+
+	if ( scheduled_transaction_buf == scheduled_number )
+	{
+	    iter_list = g_slist_append ( iter_list,
+					 gtk_tree_iter_copy ( &iter ));
+
+	    /* we have found the correct iter, but we want to continue to search,
+	     * so we have to go back to the mother if necessary
+	     * after that scheduled_transaction_buf is on the child, not on the
+	     * mother so we will continue to the next scheduled transasction */
+
+	    if ( mother_number )
+	    {
+		GtkTreeIter *child_iter;
+
+		child_iter = gtk_tree_iter_copy (&iter);
+		gtk_tree_model_iter_parent ( model,
+					     &iter,
+					     child_iter );
+		gtk_tree_iter_free (child_iter);
+	    }
+
+	}
+	
+	if ( scheduled_transaction_buf == mother_number )
+	{
+	    GtkTreeIter *mother_iter;
+	 
+	    mother_iter = gtk_tree_iter_copy (&iter);
+	    return_iter = gtk_tree_model_iter_children ( model,
+							 &iter,
+							 mother_iter );
+	    gtk_tree_iter_free (mother_iter);
+	}
+	else
+	    return_iter = gtk_tree_model_iter_next ( model,
+						     &iter );
+    }
+    return iter_list;
 }
-/******************************************************************************/
+
 
 
 /**
@@ -909,10 +1167,20 @@ gboolean gsb_scheduler_list_selection_changed ( GtkTreeSelection *selection,
 
     /* sensitive/unsensitive the button execute */
 
-    gtk_widget_set_sensitive ( bouton_saisir_echeancier,
+    gtk_widget_set_sensitive ( scheduler_button_execute,
 			       (current_scheduled_number > 0)
 			       &&
 			       !gsb_data_scheduled_get_mother_scheduled_number (current_scheduled_number));
+
+    /* sensitive/unsensitive the button edit */
+
+    gtk_widget_set_sensitive ( scheduler_button_edit,
+			       (current_scheduled_number > 0));
+
+    /* sensitive/unsensitive the button delete */
+
+    gtk_widget_set_sensitive ( scheduler_button_delete,
+			       (current_scheduled_number > 0));
 
     return FALSE;
 }
@@ -945,8 +1213,8 @@ gboolean gsb_scheduler_list_key_press ( GtkWidget *tree_view,
 
 	case GDK_Delete :               /*  del  */
 
-	    if ( scheduled_number )
-		supprime_echeance (scheduled_number);
+	    if ( scheduled_number > 0 )
+		gsb_scheduler_list_delete_scheduled_transaction (scheduled_number);
 	    break;
     }
     return ( FALSE );    
@@ -1315,313 +1583,133 @@ gboolean gsb_scheduler_list_edit_transaction ( gint scheduled_number )
 			      -1 );
     gtk_widget_grab_focus ( widget_formulaire_echeancier[focus_number] );
 
-    /* met l'adr de l'échéance courante dans l'entrée de la date */
 
-    gtk_object_set_data ( GTK_OBJECT ( formulaire_echeancier ),
-			  "scheduled_number",
-			  GINT_TO_POINTER (scheduled_number));
+    /* set the scheduled_number in the form */
+
+    g_object_set_data ( G_OBJECT ( formulaire_echeancier ),
+			"scheduled_number",
+			GINT_TO_POINTER (scheduled_number));
 
     return (FALSE);
 }
 
 
 
-void supprime_echeance ( gint scheduled_number )
-{
-    gint resultat;
-
-    devel_debug ( "supprime_echeance" );
-
-    if ( !scheduled_number )
-	scheduled_number = gsb_scheduler_list_get_current_scheduled_number (tree_view_scheduler_list);
-
-    if ( !scheduled_number
-	 ||
-	 scheduled_number < 0 )
-	return;
-
-    /* si la périodicité n'est pas de 1 fois demande juste celle ci ou toutes,
-       sinon, choisit automatiquement toutes */
-
-    if ( gsb_data_scheduled_get_frequency (scheduled_number))
-    {
-	GtkWidget * dialog;
-	gchar * occurences = "";
-
-	occurences = g_strdup_printf ( _("%s : %s [%4.2f %s]"),
-				       gsb_format_gdate ( gsb_data_scheduled_get_date (scheduled_number)),
-				       gsb_data_payee_get_name ( gsb_data_scheduled_get_party_number (scheduled_number), FALSE ),
-				       gsb_data_scheduled_get_amount (scheduled_number),
-				       devise_name ( devise_par_no (gsb_data_scheduled_get_currency_number (scheduled_number))));
-
-	dialog = dialogue_special_no_run ( GTK_MESSAGE_QUESTION, GTK_BUTTONS_NONE,
-					   make_hint ( _("Delete this scheduled transaction?"),
-						       g_strconcat ( _("Do you want to delete just this occurrence or the whole scheduled transaction?\n\n"),
-								     occurences, NULL )));
-	gtk_dialog_add_buttons ( GTK_DIALOG(dialog),
-				 GTK_STOCK_CANCEL, 2,
-				 _("All the occurences"), 1,
-				 _("Only this one"), 0,
-				 NULL );
-
-	resultat = gtk_dialog_run ( GTK_DIALOG ( dialog ));
-	gtk_widget_destroy ( dialog );
-    }
-    else
-	resultat = 1;
-
-    switch ( resultat )
-    {
-	case 0:
-	    gsb_scheduler_increase_scheduled_transaction (scheduled_number);
-	    gsb_scheduler_list_fill_list (tree_view_scheduler_list);
-	    break;
-
-	case 1:
-	    gsb_scheduler_delete_scheduled_transaction (scheduled_number);
-	    gsb_scheduler_list_fill_list (tree_view_scheduler_list);
-	    break;
-    }
-
-    mise_a_jour_calendrier();
-    mise_a_jour_liste_echeances_manuelles_accueil = 1;
-    modification_fichier (TRUE);
-}
-/*****************************************************************************/
-
-/** delete the scheduled transaction, delete the children if it's a breakdown
+/**
+ * delete the scheduled transaction
+ * 
  * \param scheduled_number the transaction to delete
+ * 
  * \return FALSE
  * */
-gboolean gsb_scheduler_delete_scheduled_transaction ( gint scheduled_number )
+gboolean gsb_scheduler_list_delete_scheduled_transaction ( gint scheduled_number )
 {
-    /* check here if it's a breakdown */
-    
-    if ( gsb_data_scheduled_get_breakdown_of_scheduled (scheduled_number))
-    {
-	/* it is a breakdown, delete the children */
+    gint result;
 
-	GSList *list_ptr;
+    devel_debug ( g_strdup_printf ( "gsb_scheduler_list_delete_scheduled_transaction %d",
+				    scheduled_number ));
 
-	list_ptr = gsb_data_scheduled_get_scheduled_list ();
+    if ( !scheduled_number )
+	scheduled_number = gsb_scheduler_list_get_current_scheduled_number (gsb_scheduler_list_get_tree_view ());
 
-	while ( list_ptr )
-	{
-	    gint scheduled_transaction_buf;
-
-	    scheduled_transaction_buf = gsb_data_scheduled_get_scheduled_number (list_ptr -> data);
-
-	    if ( gsb_data_scheduled_get_mother_scheduled_number (scheduled_transaction_buf) == scheduled_number )
-	    {
-		list_ptr = list_ptr -> next;
-		gsb_data_scheduled_remove_scheduled (scheduled_transaction_buf);
-	    }
-	    else
-		list_ptr = list_ptr -> next;
-	}
-    }
-
-    /* now remove really the scheduled transaction */
-
-    gsb_data_scheduled_remove_scheduled (scheduled_number);
-
-    /* FIXME : faire descendre la sélection */
-    return FALSE;
-}
-
-/*****************************************************************************/
-/* Fonction changement_taille_liste_echeances				     */
-/* avec les tree view, cette fonction est appelée quand : */
-/* -click sur un titre de colonne */
-/* -modification de la taille d'une colonne */
-/* -modification de la taille du tree_view */
-/*****************************************************************************/
-gboolean changement_taille_liste_echeances ( GtkWidget *tree_view,
-					     GtkAllocation *allocation )
-{
-    gint largeur;
-    gint i;
-    gint col1, col2, col3, col4, col5, col6, col7;
-    /* FIXME remove */
-return FALSE;
-    /*     on va séparer en 2 parties : */
-    /* 	soit la largeur = ancienne_largeur_echeances, dans ce cas on dit que c'est un redimensionnement de colonne */
-    /* 	soit la largeur != ancienne_largeur_echeances et c'est un redimensionnement de la liste */
-
-    if ( tree_view -> allocation.width == ancienne_largeur_echeances )
-    {
-	/* 	c'est un redimensionnement de colonne */
-	/* on ne fait juste que récupérer les largeurs de colonnes */
-
-	gint rapport_frequence;
-
-	/* 	si on venait juste de redimensionner la liste, on fait rien */
-
-/* 	if ( bloque_taille_colonne ) */
-/* 	{ */
-/* 	    bloque_taille_colonne = 0; */
-/* 	    return FALSE;  */
-/* 	} */
-
-	printf ( "redimension colonne\n" );
-
-	/* 	avant de modifier, on va garder le rapport entre la fréquence et le mode */
-	/* 	    pour les réappliquer derrière */
-
-	if ( scheduler_col_width[COL_NB_NOTES] )
-	    rapport_frequence = (scheduler_col_width[COL_NB_FREQUENCY] * 100 ) / (scheduler_col_width[COL_NB_NOTES]);
-	else
-	    rapport_frequence = 50;
-	
-	for ( i = 0 ; i < NB_COLS_SCHEDULER ; i++ )
-	{
-	    /* calcul de la valeur relative du redimensionnement de la colonne concernée */
-
-	    largeur = gtk_tree_view_column_get_width ( GTK_TREE_VIEW_COLUMN ( scheduler_list_column[i] ));
-
-	    scheduler_col_width[i] = (largeur * 100) / allocation -> width;
-	}
-
-	/* 	en fonction de la conf, on calcule la largeur des notes ou remet le rapport entre */
-	/* 	    la fréquence et le mode */
-
-	if ( etat.affichage_commentaire_echeancier )
-	{
-	    /* 	    c'est la note qui est affichée, donc on applique le rapport aux */
-	    /* 		2 colonnes non affichées */
-	
-	    scheduler_col_width[COL_NB_FREQUENCY] = (rapport_frequence * scheduler_col_width[COL_NB_NOTES]) / 100;
-	    scheduler_col_width[COL_NB_MODE] = scheduler_col_width[COL_NB_NOTES] - scheduler_col_width[COL_NB_FREQUENCY];
-	}
-	else
-	{
-	    /* 	    la colonne cachée de notes vaut la somme des 2 affichées */
-
-	    scheduler_col_width[COL_NB_NOTES] =  scheduler_col_width[COL_NB_FREQUENCY] + scheduler_col_width[COL_NB_MODE];
-	}
+    if ( scheduled_number <= 0 )
 	return FALSE;
+
+    /* split with child of breakdown or normal scheduled,
+     * for a child, we directly delete it, for mother, ask
+     * for just that occurrence or the complete transaction */
+
+    if ( gsb_data_scheduled_get_mother_scheduled_number (scheduled_number))
+    {
+	if ( !question_yes_no_hint ( _("Delete a scheduled transaction"),
+				     g_strdup_printf ( _("Do you really want to delete the child of breakdown whit the category '%s' ?"),
+						       gsb_data_category_get_name ( gsb_data_scheduled_get_category_number (scheduled_number),
+										    gsb_data_scheduled_get_sub_category_number (scheduled_number),
+										    NULL ))))
+	    return FALSE;
+
+	/* !! important to remove first from the list... */
+	gsb_scheduler_list_remove_transaction_from_list ( scheduled_number );
+	gsb_data_scheduled_remove_scheduled (scheduled_number);
     }
+    else
+    {
+	/* ask if we want to remove only the current one (so only change the date
+	 * for the next) or all (so remove the transaction */
 
-    /*     si on est ici, c'est qu'on redimensionne la liste */
+	if ( gsb_data_scheduled_get_frequency (scheduled_number))
+	{
+	    GtkWidget *dialog;
+	    gchar *occurences;
 
-    printf ( "redimension liste\n" );
+	    occurences = g_strdup_printf ( _("Do you want to delete just this occurrence or the whole scheduled transaction?\n\n%s : %s [%4.2f %s]"),
+					   gsb_format_gdate ( gsb_data_scheduled_get_date (scheduled_number)),
+					   gsb_data_payee_get_name ( gsb_data_scheduled_get_party_number (scheduled_number), FALSE ),
+					   gsb_data_scheduled_get_amount (scheduled_number),
+					   devise_name ( devise_par_no (gsb_data_scheduled_get_currency_number (scheduled_number))));
 
-    largeur = tree_view -> allocation.width ;
+	    dialog = dialogue_special_no_run ( GTK_MESSAGE_QUESTION, GTK_BUTTONS_NONE,
+					       make_hint ( _("Delete this scheduled transaction?"),
+							   occurences ));
 
-    /* on établit alors les largeurs des colonnes */
-	/* 	on ne met pas la valeur de la dernière colonne */
+	    gtk_dialog_add_buttons ( GTK_DIALOG(dialog),
+				     GTK_STOCK_CANCEL, 2,
+				     _("All the occurences"), 1,
+				     _("Only this one"), 0,
+				     NULL );
 
-    /* FIXME: REMOVE */
-/*     for ( i = 0 ; i < NB_COLS_SCHEDULER - 1 ; i++ ) */
-/* 	gtk_tree_view_column_set_fixed_width ( GTK_TREE_VIEW_COLUMN ( scheduler_list_column[i] ), */
-/* 					       (scheduler_col_width[i] * largeur ) / 100 ); */
+	    result = gtk_dialog_run ( GTK_DIALOG ( dialog ));
+	    g_free (occurences);
+	    gtk_widget_destroy ( dialog );
+	}
+	else
+	    result = 1;
 
-    /* on sauve la valeur courante de la largeur de la liste pour
-       une utilisation ultérieure */
+	switch ( result )
+	{
+	    case 0:
+		if ( gsb_scheduler_increase_scheduled_transaction (scheduled_number))
+		    gsb_scheduler_list_update_transaction_in_list (scheduled_number);
+		else
+		    gsb_scheduler_list_remove_transaction_from_list ( scheduled_number );
+		break;
 
-    ancienne_largeur_echeances = largeur ;
+	    case 1:
+		gsb_data_scheduled_remove_scheduled (scheduled_number);
+		gsb_scheduler_list_remove_transaction_from_list ( scheduled_number );
+		break;
+	}
 
-    /* met les entrées du formulaire à la même taille */
+	gsb_scheduler_list_set_background_color (gsb_scheduler_list_get_tree_view ());
 
-    col1 = ( 7 * largeur) / 100;
-    col2 = ( 13 * largeur) / 100;
-    col3 = ( 30 * largeur) / 100;
-    col4 = ( 12 * largeur) / 100;
-    col5 = ( 12 * largeur) / 100;
-    col6 = ( 10 * largeur) / 100;
-    col7 = ( 10 * largeur) / 100;
+	mise_a_jour_calendrier();
+	mise_a_jour_liste_echeances_manuelles_accueil = 1;
+    }
+    modification_fichier (TRUE);
 
-    /* 1ère ligne */
-
-    gtk_widget_set_usize ( GTK_WIDGET ( label_saisie_modif ),
-			   col1,
-			   FALSE );
-    gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_echeancier[SCHEDULER_FORM_DATE] ),
-			   col2,
-			   FALSE );
-    gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_echeancier[SCHEDULER_FORM_PARTY] ),
-			   col3,
-			   FALSE );
-    gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_echeancier[SCHEDULER_FORM_DEBIT] ),
-			   col4,
-			   FALSE );
-    gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_echeancier[SCHEDULER_FORM_CREDIT] ),
-			   col5,
-			   FALSE );
-    gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_echeancier[SCHEDULER_FORM_DEVISE] ),
-			   col6 + col7,
-			   FALSE );
-
-    /* 2ème ligne */
-
-    gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_echeancier[SCHEDULER_FORM_ACCOUNT] ),
-			   col1 + col2,
-			   FALSE );
-    gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_echeancier[SCHEDULER_FORM_CATEGORY] ),
-			   col3,
-			   FALSE );
-    gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] ),
-			   col4 + col5,
-			   FALSE );
-    gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_echeancier[SCHEDULER_FORM_CHEQUE] ),
-			   col6 + col7,
-			   FALSE );
-
-    /* 3ème ligne */
-
-    gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_echeancier[SCHEDULER_FORM_EXERCICE] ),
-			   col1 + col2,
-			   FALSE );
-    gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_echeancier[SCHEDULER_FORM_BUDGETARY] ),
-			   col3,
-			   FALSE );
-    gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_echeancier[SCHEDULER_FORM_BREAKDOWN] ),
-			   col4 + col5,
-			   FALSE );
-    gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_echeancier[SCHEDULER_FORM_VOUCHER] ),
-			   col6 + col7,
-			   FALSE );
-
-    /* 4ème ligne */
-
-    gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_echeancier[SCHEDULER_FORM_MODE] ),
-			   col1 + col2,
-			   FALSE );
-    gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_echeancier[SCHEDULER_FORM_NOTES] ),
-			   col3,
-			   FALSE );
-    gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_echeancier[SCHEDULER_FORM_FREQUENCY] ),
-			   col4,
-			   FALSE );
-    gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_echeancier[SCHEDULER_FORM_FINAL_DATE] ),
-			   col5,
-			   FALSE );
-    gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_echeancier[SCHEDULER_FORM_FREQ_CUSTOM_NB] ),
-			   col6,
-			   FALSE );
-    gtk_widget_set_usize ( GTK_WIDGET ( widget_formulaire_echeancier[SCHEDULER_FORM_FREQ_CUSTOM_MENU] ),
-			   col7,
-			   FALSE );
     return FALSE;
 }
 
 
 
-/** check the scheduled transactions if the are in time limit
+/**
+ * check the scheduled transactions if the are in time limit
  * and make the transactions if necessary
+ * 
  * \param
+ * 
  * \return
  * */
-void gsb_scheduler_check_scheduled_transactions_time_limit ( void )
+void gsb_scheduler_list_check_scheduled_transactions_time_limit ( void )
 {
     GDate *pGDateCurrent;
-    GSList *slist_ptr;
-    GSList *last_slist_ptr;
+    GSList *tmp_list;
+    gboolean automatic_transactions_taken = FALSE;
 
-    devel_debug ( "gsb_scheduler_check_scheduled_transactions_time_limit" );
+    devel_debug ( "gsb_scheduler_list_check_scheduled_transactions_time_limit" );
 
     /* the scheduled transactions to take will be check here,
-     * but the scheduled transactions taked will be add to the append ones */
+     * but the scheduled transactions taken will be add to the already appended ones */
 
     scheduled_transactions_to_take = NULL;
 
@@ -1633,93 +1721,69 @@ void gsb_scheduler_check_scheduled_transactions_time_limit ( void )
 
     /* check all the scheduled transactions,
      * if automatic, it's taken
-     * if manual, appened into scheduled_transactions_to_take */
+     * if manual, appended into scheduled_transactions_to_take */
 
-    slist_ptr = gsb_data_scheduled_get_scheduled_list ();
-    last_slist_ptr = NULL;
+    tmp_list = gsb_data_scheduled_get_scheduled_list ();
 
-    while ( slist_ptr )
+    while ( tmp_list )
     {
 	gint scheduled_number;
-	GDate * tmp_date;
 
-	scheduled_number = gsb_data_scheduled_get_scheduled_number (slist_ptr -> data);
+	scheduled_number = gsb_data_scheduled_get_scheduled_number (tmp_list -> data);
 
 	/* we check that scheduled transaction only if it's not a child of a breakdown */
 
-	if ( !gsb_data_scheduled_get_mother_scheduled_number (scheduled_number) &&
-	     gsb_data_scheduled_get_date (scheduled_number) &&
+	if ( !gsb_data_scheduled_get_mother_scheduled_number (scheduled_number)
+	     &&
+	     gsb_data_scheduled_get_date (scheduled_number)
+	     &&
 	     g_date_compare ( gsb_data_scheduled_get_date (scheduled_number),
 			      pGDateCurrent ) <= 0 )
 	{
 	    if ( gsb_data_scheduled_get_automatic_scheduled (scheduled_number))
 	    {
-		GDate * tmp_date;
+		gint transaction_number;
 
 		/* take automaticly the scheduled transaction untill today */
 
-		while ( slist_ptr != last_slist_ptr
-			&&
-			g_date_compare ( gsb_data_scheduled_get_date (scheduled_number), pGDateCurrent ) <= 0 )
+
+		transaction_number = gsb_scheduler_create_transaction_from_scheduled_transaction (scheduled_number,
+												  0 );
+		if ( gsb_data_scheduled_get_breakdown_of_scheduled (scheduled_number))
+		    gsb_scheduler_execute_children_of_scheduled_transaction ( scheduled_number,
+									      transaction_number );
+
+		scheduled_transactions_taken = g_slist_append ( scheduled_transactions_taken,
+								GINT_TO_POINTER (transaction_number));
+		automatic_transactions_taken = TRUE;
+
+		/* set the scheduled transaction to the next date,
+		 * if it's not finished, we check them again if it need to be
+		 * executed more than one time (the easiest way is to check
+		 * all again, i don't think it will have thousand of scheduled transactions, 
+		 * so no much waste of time...) */
+		if (gsb_scheduler_increase_scheduled_transaction (scheduled_number))
 		{
-		    gint transaction_number;
-
-		    transaction_number = gsb_scheduler_create_transaction_from_scheduled_transaction (scheduled_number);
-
-		    scheduled_transactions_taken = g_slist_append ( scheduled_transactions_taken,
-								    GINT_TO_POINTER (transaction_number));
-
-		    /* set the scheduled transaction to the next date,
-		     * if it finished, we set slist_ptr on the slist just before that one
-		     * and finish the while */
-
-		    if ( !gsb_scheduler_increase_scheduled_transaction (scheduled_number))
-		    {
-			if ( !last_slist_ptr )
-			{
-			    last_slist_ptr = gsb_data_scheduled_get_scheduled_list ();
-			    /* as we will check again all the scheduled transactions, set that list
-			     * to NULL */
-			    scheduled_transactions_to_take = NULL;
-			}
-			slist_ptr = last_slist_ptr;
-		    }
-
-		    tmp_date = g_memdup ( pGDateCurrent, sizeof ( pGDateCurrent ) );
-		    if ( ! gsb_scheduler_list_get_next_date ( scheduled_number, tmp_date ) )
-		    {
-			free ( tmp_date );
-			break;
-		    }
-		    free ( tmp_date );
+		    scheduled_transactions_to_take = NULL;
+		    tmp_list = gsb_data_scheduled_get_scheduled_list ();
 		}
+		else
+		    /* the scheduled is finish, so we needn't to check it again ... */
+		    tmp_list = tmp_list -> next;
 	    }
 	    else
+	    {
 		/* it's a manual scheduled transaction, we put it in the slist */
 		scheduled_transactions_to_take = g_slist_append ( scheduled_transactions_to_take ,
 								  GINT_TO_POINTER (scheduled_number));
+		tmp_list = tmp_list -> next;
+	    }
 	}
-
-	if ( last_slist_ptr == gsb_data_scheduled_get_scheduled_list ()
-	     &&
-	     slist_ptr == last_slist_ptr )
-	    last_slist_ptr = NULL;
 	else
-	{
-	    last_slist_ptr = slist_ptr;
-	    slist_ptr = slist_ptr -> next;
-	}
-
-	tmp_date = g_memdup ( pGDateCurrent, sizeof ( pGDateCurrent ) );
-	if ( ! gsb_scheduler_list_get_next_date ( scheduled_number, tmp_date ) )
-	{
-	    free ( tmp_date );
-	    break;
-	}
-	free ( tmp_date );
+	    tmp_list = tmp_list -> next;
     }
 
-    if ( scheduled_transactions_taken )
+    if ( automatic_transactions_taken )
     {
 	mise_a_jour_liste_echeances_auto_accueil = 1;
 	modification_fichier ( TRUE );
@@ -1727,94 +1791,6 @@ void gsb_scheduler_check_scheduled_transactions_time_limit ( void )
 
     if ( scheduled_transactions_to_take )
 	mise_a_jour_liste_echeances_manuelles_accueil = 1;
-}
-/*****************************************************************************/
-
-
-gboolean gsb_gui_popup_custom_periodicity_dialog ()
-{
-    GtkWidget * dialog, *hbox, *hbox2, *paddingbox, *omenu, *menu, *label, *entry, *item;
-    gchar * names[] = { _("days"), _("weeks"), _("months"), _("years"), NULL };
-    int i;
-
-    dialog = gtk_dialog_new_with_buttons ( _("Scheduler frequency"), 
-					   GTK_WINDOW (window), GTK_DIALOG_MODAL,
-					   GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-					   GTK_STOCK_APPLY, GTK_RESPONSE_OK,
-					   NULL);
-
-    /* Ugly dance to avoid side effects on dialog's vbox. */
-    hbox = gtk_hbox_new ( FALSE, 0 );
-    gtk_box_pack_start ( GTK_BOX(GTK_DIALOG(dialog)->vbox), hbox, FALSE, FALSE, 0 );
-    paddingbox = new_paddingbox_with_title ( hbox, TRUE, _("Scheduler frequency") );
-    gtk_container_set_border_width ( GTK_CONTAINER(hbox), 6 );
-    gtk_container_set_border_width ( GTK_CONTAINER(paddingbox), 6 );
-
-    hbox2 = gtk_hbox_new ( FALSE, 0 );
-    gtk_box_pack_start ( GTK_BOX(paddingbox), hbox2, FALSE, FALSE, 0 );
-
-    label = gtk_label_new ( _("Show transactions for the next "));
-    gtk_box_pack_start ( GTK_BOX(hbox2), label, FALSE, FALSE, 0 );
-    entry = new_int_spin_button ( &affichage_echeances_perso_nb_libre, 
-				  0.0, 65536.0, 1.0, 5.0, 1.0, 1.0, 0, NULL );
-    gtk_box_pack_start ( GTK_BOX(hbox2), entry, FALSE, FALSE, 6 );
-
-    omenu = gtk_option_menu_new ();
-    menu = gtk_menu_new();
-    gtk_option_menu_set_menu ( GTK_OPTION_MENU(omenu), menu );
-    gtk_box_pack_start ( GTK_BOX(hbox2), omenu, FALSE, FALSE, 0 );
-
-    for ( i = 0; names[i]; i++ )
-    {
-	item = gtk_menu_item_new_with_label ( names[i] );
-	gtk_menu_append ( menu, item );
-    }
-    gtk_option_menu_set_history ( GTK_OPTION_MENU ( omenu ),
-				  affichage_echeances_perso_j_m_a );
-
-    gtk_widget_show_all ( dialog );
-
-    switch ( gtk_dialog_run ( GTK_DIALOG ( dialog ) ) )
-    {
-	case GTK_RESPONSE_OK:
-	    affichage_echeances_perso_j_m_a = gtk_option_menu_get_history ( GTK_OPTION_MENU ( omenu ) );
-	    affichage_echeances_perso_nb_libre = utils_str_atoi ( gtk_entry_get_text ( GTK_ENTRY(entry)) );
-	    gtk_widget_destroy ( dialog );
-	    return TRUE;
-    }
-
-    gtk_widget_destroy ( dialog );
-    return FALSE;
-}
-
-
-
-/*****************************************************************************/
-/* Fonction appelée lorsqu'on change le bouton pour l'affichage des	     */
-/* échéances ( choix mois, 2 mois ... )					     */
-/*****************************************************************************/
-gboolean gsb_scheduler_list_change_scheduler_view ( enum scheduler_periodicity periodicity )
-{
-    gchar * names[] = { _("Unique view"), _("Week view"), _("Month view"), 
-			_("Two months view"), _("Quarter view"), 
-			_("Year view"), _("Custom view"), NULL };
-
-    if ( periodicity == SCHEDULER_PERIODICITY_CUSTOM_VIEW )
-    {
-	if ( ! gsb_gui_popup_custom_periodicity_dialog () )
-	    return FALSE;
-    }
-
-    gsb_gui_headings_update ( g_strconcat ( _("Scheduled transactions"), " : ", 
-					    names[periodicity], NULL), "" );
-
-    affichage_echeances = periodicity;
-    gsb_scheduler_list_fill_list (tree_view_scheduler_list);
-    gsb_scheduler_list_set_background_color (tree_view_scheduler_list);
-
-    modification_fichier ( TRUE );
-
-    return FALSE;
 }
 
 
@@ -1910,6 +1886,7 @@ GDate *gsb_scheduler_list_get_next_date ( gint scheduled_number,
 
 
 
+/* FIXME ???xxx to remove ?? affichage_traits_liste_echeances */
 /******************************************************************************/
 /* cette fonction affiche les traits verticaux et horizontaux sur la liste des échéances */
 /******************************************************************************/
@@ -1923,7 +1900,7 @@ gboolean affichage_traits_liste_echeances ( void )
     GtkAdjustment *adjustment;
     gint derniere_ligne;
 
-    fenetre = gtk_tree_view_get_bin_window ( GTK_TREE_VIEW ( tree_view_scheduler_list ));
+    fenetre = gtk_tree_view_get_bin_window ( GTK_TREE_VIEW ( gsb_scheduler_list_get_tree_view () ));
 
     gdk_drawable_get_size ( GDK_DRAWABLE ( fenetre ),
 			    &largeur,
@@ -1934,7 +1911,7 @@ gboolean affichage_traits_liste_echeances ( void )
 
     /*     si la hauteur des lignes n'est pas encore calculée, on le fait ici */
 
-    hauteur_ligne_liste_opes = recupere_hauteur_ligne_tree_view ( tree_view_scheduler_list );
+    hauteur_ligne_liste_opes = recupere_hauteur_ligne_tree_view ( gsb_scheduler_list_get_tree_view () );
 
     /*     on commence par calculer la dernière ligne en pixel correspondant à la dernière opé de la liste */
     /* 	pour éviter de dessiner les traits en dessous */
@@ -1965,7 +1942,7 @@ gboolean affichage_traits_liste_echeances ( void )
 
     if ( hauteur_ligne_liste_opes )
     {
-	adjustment = gtk_tree_view_get_vadjustment ( GTK_TREE_VIEW ( tree_view_scheduler_list ));
+	adjustment = gtk_tree_view_get_vadjustment ( GTK_TREE_VIEW ( gsb_scheduler_list_get_tree_view () ));
 
 	y = ( hauteur_ligne_liste_opes ) * ( ceil ( adjustment->value / hauteur_ligne_liste_opes )) - adjustment -> value;
 
@@ -1984,9 +1961,103 @@ gboolean affichage_traits_liste_echeances ( void )
 
     return FALSE;
 }
-/******************************************************************************/
 
 
+
+/**
+ * called from the toolbar to change the scheduler view
+ *
+ * \param periodicity the new view wanted
+ *
+ * \return FALSE
+ * */
+gboolean gsb_scheduler_list_change_scheduler_view ( enum scheduler_periodicity periodicity )
+{
+    gchar * names[] = { _("Unique view"), _("Week view"), _("Month view"), 
+			_("Two months view"), _("Quarter view"), 
+			_("Year view"), _("Custom view"), NULL };
+
+    if ( periodicity == SCHEDULER_PERIODICITY_CUSTOM_VIEW )
+    {
+	if ( !gsb_scheduler_list_popup_custom_periodicity_dialog () )
+	    return FALSE;
+    }
+
+    gsb_gui_headings_update ( g_strconcat ( _("Scheduled transactions"), " : ", 
+					    names[periodicity], NULL), "" );
+
+    affichage_echeances = periodicity;
+    gsb_scheduler_list_fill_list (gsb_scheduler_list_get_tree_view ());
+    gsb_scheduler_list_set_background_color (gsb_scheduler_list_get_tree_view ());
+
+    modification_fichier ( TRUE );
+    return FALSE;
+}
+
+
+
+/**
+ * called when the user choose a custom periodicity on the toolbar
+ *
+ * \param
+ *
+ * \return TRUE : did his choice, FALSE : cancel the choice
+ * */
+gboolean gsb_scheduler_list_popup_custom_periodicity_dialog (void)
+{
+    GtkWidget * dialog, *hbox, *hbox2, *paddingbox, *omenu, *menu, *label, *entry, *item;
+    gchar * names[] = { _("days"), _("weeks"), _("months"), _("years"), NULL };
+    int i;
+
+    dialog = gtk_dialog_new_with_buttons ( _("Scheduler frequency"), 
+					   GTK_WINDOW (window), GTK_DIALOG_MODAL,
+					   GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+					   GTK_STOCK_APPLY, GTK_RESPONSE_OK,
+					   NULL);
+
+    /* Ugly dance to avoid side effects on dialog's vbox. */
+    hbox = gtk_hbox_new ( FALSE, 0 );
+    gtk_box_pack_start ( GTK_BOX(GTK_DIALOG(dialog)->vbox), hbox, FALSE, FALSE, 0 );
+    paddingbox = new_paddingbox_with_title ( hbox, TRUE, _("Scheduler frequency") );
+    gtk_container_set_border_width ( GTK_CONTAINER(hbox), 6 );
+    gtk_container_set_border_width ( GTK_CONTAINER(paddingbox), 6 );
+
+    hbox2 = gtk_hbox_new ( FALSE, 0 );
+    gtk_box_pack_start ( GTK_BOX(paddingbox), hbox2, FALSE, FALSE, 0 );
+
+    label = gtk_label_new ( _("Show transactions for the next "));
+    gtk_box_pack_start ( GTK_BOX(hbox2), label, FALSE, FALSE, 0 );
+    entry = new_int_spin_button ( &affichage_echeances_perso_nb_libre, 
+				  0.0, 65536.0, 1.0, 5.0, 1.0, 1.0, 0, NULL );
+    gtk_box_pack_start ( GTK_BOX(hbox2), entry, FALSE, FALSE, 6 );
+
+    omenu = gtk_option_menu_new ();
+    menu = gtk_menu_new();
+    gtk_option_menu_set_menu ( GTK_OPTION_MENU(omenu), menu );
+    gtk_box_pack_start ( GTK_BOX(hbox2), omenu, FALSE, FALSE, 0 );
+
+    for ( i = 0; names[i]; i++ )
+    {
+	item = gtk_menu_item_new_with_label ( names[i] );
+	gtk_menu_append ( menu, item );
+    }
+    gtk_option_menu_set_history ( GTK_OPTION_MENU ( omenu ),
+				  affichage_echeances_perso_j_m_a );
+
+    gtk_widget_show_all ( dialog );
+
+    switch ( gtk_dialog_run ( GTK_DIALOG ( dialog ) ) )
+    {
+	case GTK_RESPONSE_OK:
+	    affichage_echeances_perso_j_m_a = gtk_option_menu_get_history ( GTK_OPTION_MENU ( omenu ) );
+	    affichage_echeances_perso_nb_libre = utils_str_atoi ( gtk_entry_get_text ( GTK_ENTRY(entry)) );
+	    gtk_widget_destroy ( dialog );
+	    return TRUE;
+    }
+
+    gtk_widget_destroy ( dialog );
+    return FALSE;
+}
 
 
 

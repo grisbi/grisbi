@@ -218,8 +218,11 @@ gint gsb_data_account_new ( kind_account account_kind )
 
 
 
-/** delete and free the account given
+/**
+ * delete and free the account given
+ * 
  * \param no_account the no of account
+ * 
  * \return TRUE if ok
  * */
 gboolean gsb_data_account_delete ( gint no_account )
@@ -236,7 +239,12 @@ gboolean gsb_data_account_delete ( gint no_account )
     g_slist_free ( account -> sort_list );
     
     list_accounts = g_slist_remove ( list_accounts,
-					    account );
+				     account );
+
+    /* remove the budget from the buffers */
+
+    if ( account_buffer == account )
+	account_buffer = NULL;
     free ( account );
 
     return TRUE;
@@ -992,13 +1000,16 @@ gboolean gsb_data_account_get_mini_balance_authorized_message ( gint no_account 
 }
 
 
-/** set the value of mini_balance_authorized_message in the account given
+/**
+ * set the value of mini_balance_authorized_message in the account given
+ * 
  * \param no_account no of the account
  * \param value 
+ * 
  * \return TRUE, ok ; FALSE, problem
  * */
 gboolean gsb_data_account_set_mini_balance_authorized_message ( gint no_account,
-							   gboolean value )
+								gboolean value )
 {
     struct_account *account;
 
@@ -1014,8 +1025,11 @@ gboolean gsb_data_account_set_mini_balance_authorized_message ( gint no_account,
 
 
 
-/** get the reconcile_date of the account
+/**
+ * get the reconcile_date of the account
+ * 
  * \param no_account no of the account
+ * 
  * \return a GDate of the reconcile date or NULL if the account doesn't exist
  * */
 GDate *gsb_data_account_get_current_reconcile_date ( gint no_account )

@@ -322,7 +322,6 @@ extern GtkWidget *notebook_selection;
 extern GtkWidget *onglet_config_etat;
 extern GtkTreeSelection * selection;
 extern GtkStyle *style_label;
-extern GtkStyle *style_label_nom_compte;
 /*END_EXTERN*/
 
 
@@ -1892,8 +1891,11 @@ void stylise_tab_label_etat ( gint *no_page )
     GtkStyle *style;
 
     /* par défaut le style est normal */
+    /* FIXME : see why it's to NULL, was to style_label_nom_compte before,
+     * but style_label_nom_compte was NULL, so I set style to NULL, would
+     * be good to check... [cedric] */
 
-    style = style_label_nom_compte;
+    style = NULL;
 
     switch ( GPOINTER_TO_INT ( no_page ))
     {

@@ -444,7 +444,12 @@ gboolean gsb_data_report_remove ( gint no_report )
 
     report_list = g_slist_remove ( report_list,
 				   report );
-    g_free (report);
+
+    /* remove the report from the buffer */
+
+    if ( report_buffer == report )
+	report_buffer = NULL;
+     g_free (report);
 
     return TRUE;
 }

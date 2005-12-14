@@ -546,6 +546,26 @@ GtkWidget *creation_menu_exercices ( gint origine )
 /* ************************************************************************************************************ */
 
 
+/**
+ * get the number of the selected financial year in the option menu
+ * in the param
+ * that option menu has to be created before with creation_menu_exercices
+ *
+ * \param financial_year_option_menu
+ *
+ * \return the number of the financial year
+ * */
+gint gsb_financial_year_get_number_from_option_menu ( GtkWidget *option_menu )
+{
+    gint financial_year_number;
+
+    financial_year_number = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU (option_menu) -> menu_item ),
+								    "no_exercice" ));
+    return financial_year_number;
+}
+
+
+
 /* ************************************************************************************************************** */
 /* fonction affiche_exercice_par_date */
 /* met automatiquement l'option menu de l'exercice par rapport */

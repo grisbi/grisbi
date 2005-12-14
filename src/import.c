@@ -1117,7 +1117,7 @@ void traitement_operations_importees ( void )
 
 	mise_a_jour_liste_comptes_accueil = 1;
 	mise_a_jour_soldes_minimaux = 1;
-	mise_a_jour_accueil ();
+	mise_a_jour_accueil (FALSE);
 
 
     }

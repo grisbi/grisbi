@@ -59,11 +59,11 @@ static gboolean saisie_echeance_accueil ( GtkWidget *event_box,
 				   gint scheduled_number );
 static gboolean select_expired_scheduled_transaction ( GtkWidget * event_box, GdkEventButton *event,
 						gpointer  operation );
-static void update_fin_comptes_passifs ( void );
-static void update_liste_comptes_accueil ( void );
-static void update_liste_echeances_auto_accueil ( void );
-static void update_liste_echeances_manuelles_accueil ( void );
-static void update_soldes_minimaux ( void );
+static void update_fin_comptes_passifs ( gboolean force );
+static void update_liste_comptes_accueil ( gboolean force );
+static void update_liste_echeances_auto_accueil ( gboolean force );
+static void update_liste_echeances_manuelles_accueil ( gboolean force );
+static void update_soldes_minimaux ( gboolean force );
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -93,7 +93,6 @@ GtkWidget *frame_etat_echeances_auto_accueil;
 GtkWidget *main_page_finished_scheduled_transactions_part;
 GtkWidget *frame_etat_soldes_minimaux_autorises;
 GtkWidget *frame_etat_soldes_minimaux_voulus;
-GtkStyle *style_label_nom_compte;
 GtkStyle *style_label;
 GtkWidget * label_jour;
 
@@ -259,22 +258,22 @@ GtkWidget *creation_onglet_accueil ( void )
 /* ************************************************************************* */
 
 
-
-
-
-/* ************************************************************************* */
-/* fonction appelée lors de l'ouverture de nouveau fichier */
-/* et quand on passe sur l'onglet accueil */
-/* fait le tour des fonctions update qui vont */
-/* s'updater si nécessaire */
-/* ************************************************************************* */
-void mise_a_jour_accueil ( void )
+/**
+ * update the first page, force the updating if asked,
+ * else, each function will decide if it need to be
+ * updated or not
+ *
+ * \param force TRUE if we want to update all
+ *
+ * \return
+ * */
+void mise_a_jour_accueil ( gboolean force )
 {
-    update_liste_comptes_accueil ();
-    update_liste_echeances_manuelles_accueil ();
-    update_liste_echeances_auto_accueil ();
-    update_soldes_minimaux ();
-    update_fin_comptes_passifs ();
+    update_liste_comptes_accueil (force);
+    update_liste_echeances_manuelles_accueil (force);
+    update_liste_echeances_auto_accueil (force);
+    update_soldes_minimaux (force);
+    update_fin_comptes_passifs (force);
 }
 
 
@@ -371,7 +370,7 @@ gboolean saisie_echeance_accueil ( GtkWidget *event_box,
 /* affiche la liste des comptes et leur solde courant dans la frame qui leur */
 /* est réservée dans l'accueil                                               */
 /* ************************************************************************* */
-void update_liste_comptes_accueil ( void )
+void update_liste_comptes_accueil ( gboolean force )
 {
     GtkWidget *pTable, *pEventBox, *pLabel, *vbox, *paddingbox;
     GdkColor CouleurSoldeAlarmeVerteNormal, CouleurSoldeAlarmeVertePrelight,
@@ -388,10 +387,11 @@ void update_liste_comptes_accueil ( void )
     gdouble solde_pointe_affichage_liste;
     GSList *list_tmp;
 
-
-    if ( !mise_a_jour_liste_comptes_accueil
-	 ||
-	 !gsb_data_account_get_accounts_amount () )
+    if ( !force
+	 &&
+	 !(mise_a_jour_liste_comptes_accueil
+	   && 
+	   gsb_data_account_get_accounts_amount ()))
 	return;
 
     devel_debug ( "update_liste_comptes_accueil" );
@@ -1479,11 +1479,14 @@ gboolean click_sur_compte_accueil ( gint *no_compte )
 
 
 /* ************************************************************************* */
-void update_liste_echeances_manuelles_accueil ( void )
+void update_liste_echeances_manuelles_accueil ( gboolean force )
 {
-    gsb_scheduler_check_scheduled_transactions_time_limit ();
+    /* need to set that in first because can change mise_a_jour_liste_echeances_manuelles_accueil */
+    gsb_scheduler_list_check_scheduled_transactions_time_limit ();
 
-    if ( !mise_a_jour_liste_echeances_manuelles_accueil )
+    if ( !force
+	 &&
+	 !mise_a_jour_liste_echeances_manuelles_accueil )
 	return;
 
     devel_debug ( "update_liste_echeances_manuelles_accueil" );
@@ -1609,9 +1612,11 @@ void update_liste_echeances_manuelles_accueil ( void )
 /* ************************************************************************* */
 
 /* ************************************************************************* */
-void update_liste_echeances_auto_accueil ( void )
+void update_liste_echeances_auto_accueil ( gboolean force )
 {
-    if ( ! mise_a_jour_liste_echeances_auto_accueil )
+    if ( !force
+	 &&
+	 !mise_a_jour_liste_echeances_auto_accueil )
 	return;
 
     devel_debug ( "update_liste_echeances_auto_accueil" );
@@ -1716,7 +1721,7 @@ void update_liste_echeances_auto_accueil ( void )
 /* et ajoute dans l'accueil les comptes sous les soldes minimaux */
 /* ************************************************************************* */
 
-void update_soldes_minimaux ( void )
+void update_soldes_minimaux ( gboolean force )
 {
     GtkWidget *vbox_1;
     GtkWidget *vbox_2;
@@ -1727,7 +1732,9 @@ void update_soldes_minimaux ( void )
     GSList *list_tmp;
 
 
-    if ( !mise_a_jour_soldes_minimaux  )
+    if ( !force
+	 &&
+	 !mise_a_jour_soldes_minimaux  )
 	return;
 
     devel_debug ( "update_soldes_minimaux" );
@@ -1998,7 +2005,7 @@ void affiche_dialogue_soldes_minimaux ( void )
 
 
 /* ************************************************************************* */
-void update_fin_comptes_passifs ( void )
+void update_fin_comptes_passifs ( gboolean force )
 {
     GtkWidget *vbox;
     GtkWidget *label;
@@ -2006,7 +2013,9 @@ void update_fin_comptes_passifs ( void )
     GSList *pointeur;
     GSList *list_tmp;
 
-    if ( !mise_a_jour_fin_comptes_passifs  )
+    if ( !force
+	 &&
+	 !mise_a_jour_fin_comptes_passifs  )
 	return;
 
     devel_debug ( "update_fin_comptes_passifs" );

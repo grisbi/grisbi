@@ -330,6 +330,22 @@ void notice_debug ( gchar *message )
 }
 
 
+/**
+ * send a warning default debug message
+ *
+ * \param message
+ *
+ * \return
+ * */
+void warning_debug ( gchar *message )
+{
+    debug_message ( "Warning : ",
+		    message,
+		    DEBUG_LEVEL_IMPORTANT,
+		    FALSE );
+}
+
+
 /*************************************************************************************************************/
 /* affiche de message de debug dans la console (uniquement si show_grisbi_debug est a TRUE)									 */
 /*************************************************************************************************************/
@@ -342,7 +358,8 @@ void debug_message ( gchar *prefixe, gchar *message, gint level, gboolean force_
 	printf(g_strdup_printf(_("%s : %s - %s\n"),get_debug_time(),prefixe,message));
 
 	/* Same for status bar */
-	gsb_status_message ( message );
+	/* blocked by cedric : too slow... find another way ? */
+	/* 	gsb_status_message ( message ); */
     }
 }
 

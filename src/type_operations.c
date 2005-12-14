@@ -86,6 +86,8 @@ GtkWidget * details_paddingbox;
 /*START_EXTERN*/
 extern GtkWidget *fenetre_preferences;
 extern GtkWidget *formulaire;
+extern GtkWidget *formulaire_echeancier;
+extern GtkWidget *formulaire_echeancier;
 extern GtkWidget *label_saisie_modif;
 extern gint max;
 extern GtkTreeSelection * selection;
@@ -601,8 +603,7 @@ void modification_entree_nom_type ( void )
 		    gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_par_element (TRANSACTION_FORM_TYPE) ),
 						  0 );
 		    gsb_data_account_set_default_debit ( gsb_data_account_get_current_account (),
-						    GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_par_element (TRANSACTION_FORM_TYPE) ) -> menu_item ),
-											  "no_type" )));
+							 gsb_payment_method_get_payment_number_from_option_menu (widget_formulaire_par_element (TRANSACTION_FORM_TYPE)));
 
 		    /* on affiche l'entrée des chèques si nécessaire */
 		    type = g_object_get_data ( G_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_par_element (TRANSACTION_FORM_TYPE) ) -> menu_item ),
@@ -1119,8 +1120,7 @@ void supprimer_type_operation ( void )
 
 	    /* Find new type */
 	    if ( GTK_MENU_SHELL ( menu ) -> children )
-		nouveau_type = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( option_menu ) -> menu_item ),
-								       "no_type" ));
+		nouveau_type = gsb_payment_method_get_payment_number_from_option_menu (option_menu);
 	    else
 		nouveau_type = 0;
 
@@ -1287,6 +1287,26 @@ GtkWidget *creation_menu_types ( gint demande,
 /* ************************************************************************************************************** */
 
 
+/**
+ * find and return the curent selected method of payment in
+ * the option menu given in param
+ *
+ * \param payment_option_menu an option_menu created by creation_menu_types
+ *
+ * \return the number of the method of payment currently selected or 0 if problem
+ * */
+gint gsb_payment_method_get_payment_number_from_option_menu ( GtkWidget *payment_option_menu )
+{
+    gint payment_method;
+
+    if ( !payment_option_menu )
+	return 0;
+
+    payment_method = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU (payment_option_menu) -> menu_item ),
+							     "no_type" ));
+    return payment_method;
+}
+
 
 /* ************************************************************************************************************** */
 /* Fonction cherche_no_menu_type */
@@ -1439,8 +1459,10 @@ gint cherche_no_menu_type_echeancier ( gint demande )
 
 	    if ( ( type -> affiche_entree && !type -> numerotation_auto)
 		 ||
-		 ( type -> numerotation_auto && !strcmp ( GTK_LABEL ( label_saisie_modif ) -> label,
-							  _("Input") )))
+		 ( type -> numerotation_auto
+		   &&
+		   g_object_get_data ( G_OBJECT ( formulaire_echeancier ),
+				       "execute_transaction")))
 	    {
 		/* si c'est une saisie, mais le numéro de chq */
 

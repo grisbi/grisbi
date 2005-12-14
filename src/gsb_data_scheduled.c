@@ -79,7 +79,6 @@ typedef struct
     gint user_interval;					/**<  0=days, 1=monthes, 2=years */
     gint user_entry;
     GDate *limit_date;
-
 } struct_scheduled;
 
 
@@ -1397,7 +1396,8 @@ gint gsb_data_scheduled_new_white_line ( gint mother_scheduled_number)
 
 /**
  * remove the scheduled from the scheduled's list
- * free the scheduled
+ * free the scheduled, if there's some children,
+ * remove also the children
  * 
  * \param scheduled_number
  * 
@@ -1412,8 +1412,87 @@ gboolean gsb_data_scheduled_remove_scheduled ( gint scheduled_number )
     if ( !scheduled )
 	return FALSE;
 
+    if ( scheduled -> breakdown_of_scheduled )
+    {
+	GSList *list_tmp;
+
+	list_tmp = gsb_data_scheduled_get_children (scheduled_number);
+
+	while ( list_tmp )
+	{
+	    struct_scheduled *scheduled_child;
+
+	    scheduled_child = gsb_data_scheduled_get_scheduled_by_no (GPOINTER_TO_INT (list_tmp -> data));
+
+	    if ( scheduled_child )
+	    {
+		scheduled_list = g_slist_remove ( scheduled_list,
+						  scheduled_child );
+		/* we free the buffer to avoid big possibly crashes */
+
+		if ( scheduled_buffer[0] == scheduled_child )
+		    scheduled_buffer[0] = NULL;
+		if ( scheduled_buffer[1] == scheduled_child )
+		    scheduled_buffer[1] = NULL;
+
+		g_free ( scheduled_child );
+	    }
+	    list_tmp = list_tmp -> next;
+	}
+    }
+
     scheduled_list = g_slist_remove ( scheduled_list,
 				      scheduled );
+
+    /* we free the buffer to avoid big possibly crashes */
+
+    if ( scheduled_buffer[0] == scheduled )
+	scheduled_buffer[0] = NULL;
+    if ( scheduled_buffer[1] == scheduled )
+	scheduled_buffer[1] = NULL;
+
     g_free (scheduled);
     return TRUE;
 }
+
+
+/**
+ * find the children of the breakdown given in param and
+ * return their numbers in a GSList
+ * the list sould be freed
+ *
+ * \param scheduled_number a breakdown of scheduled transaction
+ *
+ * \return a GSList of the numbers of the children, NULL if no child
+ * */
+GSList *gsb_data_scheduled_get_children ( gint scheduled_number )
+{
+    struct_scheduled *scheduled;
+    GSList *children_list = NULL;
+    GSList *tmp_list;
+
+    scheduled = gsb_data_scheduled_get_scheduled_by_no ( scheduled_number);
+
+    if ( !scheduled
+	 ||
+	 !scheduled -> breakdown_of_scheduled)
+	return NULL;
+
+    tmp_list = scheduled_list;
+
+    while ( tmp_list )
+    {
+	struct_scheduled *tmp_scheduled;
+
+	tmp_scheduled = tmp_list -> data;
+
+	if ( tmp_scheduled -> mother_scheduled_number == scheduled_number )
+	    children_list = g_slist_append ( children_list,
+					     GINT_TO_POINTER ( tmp_scheduled -> scheduled_number ));
+
+	tmp_list = tmp_list -> next;
+    }
+    return children_list;
+}
+
+

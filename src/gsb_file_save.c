@@ -105,7 +105,7 @@ extern GtkWidget *nom_correspondant;
 extern GtkWidget *nom_exercice;
 extern gchar *nom_fichier_backup;
 extern GtkWidget *remarque_banque;
-extern gint scheduler_col_width[NB_COLS_SCHEDULER] ;
+extern gint scheduler_col_width[NB_COLS_SCHEDULER];
 extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][TRANSACTION_LIST_COL_NB];
 extern GtkWidget *tel_banque;
 extern GtkWidget *tel_correspondant;

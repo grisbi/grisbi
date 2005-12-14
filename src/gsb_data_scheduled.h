@@ -8,6 +8,7 @@ gint gsb_data_scheduled_get_automatic_scheduled ( gint no_scheduled );
 gint gsb_data_scheduled_get_breakdown_of_scheduled ( gint no_scheduled );
 gint gsb_data_scheduled_get_budgetary_number ( gint no_scheduled );
 gint gsb_data_scheduled_get_category_number ( gint no_scheduled );
+GSList *gsb_data_scheduled_get_children ( gint scheduled_number );
 gint gsb_data_scheduled_get_contra_method_of_payment_number ( gint no_scheduled );
 gint gsb_data_scheduled_get_currency_number ( gint no_scheduled );
 GDate *gsb_data_scheduled_get_date ( gint no_scheduled );

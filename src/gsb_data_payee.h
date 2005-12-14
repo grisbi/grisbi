@@ -15,7 +15,7 @@ GSList *gsb_data_payee_get_name_list ( void );
 gint gsb_data_payee_get_nb_transactions ( gint no_payee );
 gint gsb_data_payee_get_no_payee ( gpointer payee_ptr );
 gint gsb_data_payee_get_number_by_name ( gchar *name,
-				    gboolean create );
+					 gboolean create );
 GSList *gsb_data_payee_get_payees_list ( void );
 gpointer gsb_data_payee_get_structure ( gint no_payee );
 gboolean gsb_data_payee_init_variables ( void );
@@ -27,7 +27,7 @@ gboolean gsb_data_payee_set_description ( gint no_payee,
 gboolean gsb_data_payee_set_name ( gint no_payee,
 			      const gchar *name );
 gint gsb_data_payee_set_new_number ( gint no_payee,
-				gint new_no_payee );
+				     gint new_no_payee );
 void gsb_data_payee_update_counters ( void );
 /* END_DECLARATION */
 #endif

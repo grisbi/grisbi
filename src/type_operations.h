@@ -26,6 +26,7 @@ gint cherche_no_menu_type_echeancier ( gint demande );
 GtkWidget *creation_menu_types ( gint demande,
 				 gint compte,
 				 gint origine );
+gint gsb_payment_method_get_payment_number_from_option_menu ( GtkWidget *payment_option_menu );
 GtkWidget *onglet_types_operations ( void );
 /* END_DECLARATION */
 #endif

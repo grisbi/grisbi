@@ -1567,9 +1567,9 @@ gint gsb_data_transaction_new_transaction ( gint no_account )
  * 
  * \param mother_transaction_number the number of the mother's transaction if it's a breakdown child ; 0 if not
  *
- * \return the pointer of the white line
+ * \return the number of the white line
  * */
-gpointer gsb_data_transaction_new_white_line ( gint mother_transaction_number)
+gint gsb_data_transaction_new_white_line ( gint mother_transaction_number)
 {
     struct_transaction *transaction;
 
@@ -1579,7 +1579,7 @@ gpointer gsb_data_transaction_new_white_line ( gint mother_transaction_number)
     if ( !transaction )
     {
 	dialogue_error ( _("Cannot allocate memory, bad things will happen soon") );
-	return NULL;
+	return 0;
     }
 
     /* we fill some things for the child breakdown to help to sort the list */
@@ -1601,7 +1601,7 @@ gpointer gsb_data_transaction_new_white_line ( gint mother_transaction_number)
 
     gsb_data_transaction_save_transaction_pointer (transaction);
 
-    return transaction;
+    return transaction -> transaction_number;
 }
 
 
@@ -1672,6 +1672,14 @@ gboolean gsb_data_transaction_remove_transaction ( gint transaction_number )
 
     transactions_list = g_slist_remove ( transactions_list,
 					 transaction );
+
+    /* we free the buffer to avoid big possibly crashes */
+
+    if ( transaction_buffer[0] == transaction )
+	transaction_buffer[0] = NULL;
+    if ( transaction_buffer[1] == transaction )
+	transaction_buffer[1] = NULL;
+
     g_free (transaction);
     return TRUE;
 }

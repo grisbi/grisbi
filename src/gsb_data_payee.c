@@ -33,8 +33,6 @@
 #include "gsb_data_payee.h"
 #include "gsb_data_report.h"
 #include "gsb_data_transaction.h"
-#include "tiers_onglet.h"
-#include "traitement_variables.h"
 #include "meta_payee.h"
 #include "include.h"
 /*END_INCLUDE*/
@@ -57,7 +55,7 @@ typedef struct
 
 /*START_STATIC*/
 static gint gsb_data_payee_get_pointer_from_name_in_glist ( struct_payee *payee,
-						gchar *name );
+						     gchar *name );
 static gint gsb_data_payee_max_number ( void );
 static void gsb_data_payee_reset_counters ( void );
 /*END_STATIC*/
@@ -223,11 +221,6 @@ gint gsb_data_payee_new ( gchar *name )
 
     payee_list = g_slist_append ( payee_list, payee );
 
-    if (name)
-	mise_a_jour_combofix_tiers ();
-
-    modification_fichier(TRUE);
-
     return payee -> payee_number;
 }
 
@@ -252,8 +245,12 @@ gboolean gsb_data_payee_remove ( gint no_payee )
     payee_list = g_slist_remove ( payee_list,
 				  payee );
     
-    mise_a_jour_combofix_tiers ();
-    modification_fichier(TRUE);
+    /* remove the payee from the buffers */
+
+    if ( payee_buffer == payee )
+	payee_buffer = NULL;
+    g_free (payee);
+
     return TRUE;
 }
 
@@ -269,7 +266,7 @@ gboolean gsb_data_payee_remove ( gint no_payee )
  * \return the new number or 0 if the payee doen't exist
  * */
 gint gsb_data_payee_set_new_number ( gint no_payee,
-				gint new_no_payee )
+				     gint new_no_payee )
 {
     struct_payee *payee;
 
@@ -293,7 +290,7 @@ gint gsb_data_payee_set_new_number ( gint no_payee,
  * \return the number of the payee or 0 if problem
  * */
 gint gsb_data_payee_get_number_by_name ( gchar *name,
-				    gboolean create )
+					 gboolean create )
 {
     GSList *list_tmp;
     gint payee_number = 0;
@@ -329,7 +326,7 @@ gint gsb_data_payee_get_number_by_name ( gchar *name,
  * \return 0 if it's the same name
  * */
 gint gsb_data_payee_get_pointer_from_name_in_glist ( struct_payee *payee,
-						gchar *name )
+						     gchar *name )
 {
     return ( g_strcasecmp ( payee -> payee_name,
 			    name ));

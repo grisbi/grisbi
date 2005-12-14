@@ -237,6 +237,13 @@ gboolean gsb_data_report_amount_comparison_remove ( gint amount_comparison_numbe
     amount_comparison_list = g_slist_remove ( amount_comparison_list,
 					      amount_comparison );
 
+    /* remove the amount_comparison from the buffer */
+
+    if ( amount_comparison_buffer == amount_comparison )
+	amount_comparison_buffer = NULL;
+
+    g_free (amount_comparison);
+
     return TRUE;
 }
 

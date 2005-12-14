@@ -10,6 +10,6 @@ gpointer operation_par_cheque ( gint no_cheque,
 				gint no_compte );
 gpointer operation_par_id ( gchar *no_id,
 					       gint no_compte );
-void update_transaction_in_trees ( gpointer  transaction );
+void update_transaction_in_trees ( gint transaction_number );
 /* END_DECLARATION */
 #endif

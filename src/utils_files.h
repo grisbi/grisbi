@@ -18,7 +18,6 @@ gchar* my_get_grisbirc_dir(void);
 gchar* my_get_gsb_file_default_dir(void);
 gchar * safe_file_name ( gchar* filename );
 FILE* utf8_fopen(gchar* utf8filename,gchar* mode);
-gint utf8_open(gchar* utf8filename,gint mode);
 gint utf8_remove(const gchar* utf8filename);
 gint utf8_stat(gchar* utf8filename,struct stat* filestat);
 xmlDocPtr utf8_xmlParseFile(const gchar *utf8filename);

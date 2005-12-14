@@ -73,8 +73,8 @@ gint find_p_r_col ();
 gchar *gsb_transactions_get_category_real_name ( gint transaction_number );
 gboolean gsb_transactions_list_append_transaction ( gint transaction_number,
 						    GtkTreeStore *store );
-gboolean gsb_transactions_list_append_white_line ( gint mother_transaction_number,
-						   GtkTreeStore *store );
+gint gsb_transactions_list_append_white_line ( gint mother_transaction_number,
+					       GtkTreeStore *store );
 gint gsb_transactions_list_clone_transaction ( gint transaction_number );
 gboolean gsb_transactions_list_delete_transaction ( gint transaction_number );
 gboolean gsb_transactions_list_edit_current_transaction ( void );

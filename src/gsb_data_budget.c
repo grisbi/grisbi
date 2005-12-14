@@ -34,8 +34,6 @@
 #include "meta_budgetary.h"
 #include "gsb_data_category.h"
 #include "gsb_data_transaction.h"
-#include "categories_onglet.h"
-#include "traitement_variables.h"
 #include "dialog.h"
 #include "include.h"
 /*END_INCLUDE*/
@@ -79,14 +77,6 @@ typedef struct
     gdouble sub_budget_balance;
 } struct_sub_budget;
 
-/**
- * \struct 
- * Describe a budget
- */
-/* typedef struct */
-/* { */
-/*  */
-/* } struct_transaction; */
 
 
 /*START_STATIC*/
@@ -446,10 +436,6 @@ gint gsb_data_budget_new ( gchar *name )
     if (name)
 	gsb_data_budget_set_name ( budget_number,
 				   name );
-
-    mise_a_jour_combofix_categ ();
-    modification_fichier(TRUE);
-
     return budget_number;
 }
 
@@ -504,8 +490,12 @@ gboolean gsb_data_budget_remove ( gint no_budget )
     budget_list = g_slist_remove ( budget_list,
 				   budget );
 
-    mise_a_jour_combofix_categ ();
-    modification_fichier(TRUE);
+    /* remove the budget from the buffers */
+
+    if ( budget_buffer == budget )
+	budget_buffer = NULL;
+    g_free (budget);
+
     return TRUE;
 }
 
@@ -537,8 +527,12 @@ gboolean gsb_data_budget_sub_budget_remove ( gint no_budget,
     budget -> sub_budget_list = g_slist_remove ( budget -> sub_budget_list,
 						 sub_budget );
 
-    mise_a_jour_combofix_categ ();
-    modification_fichier(TRUE);
+    /* remove the budget from the buffers */
+
+    if ( sub_budget_buffer == sub_budget )
+	sub_budget_buffer = NULL;
+    g_free (sub_budget);
+
     return TRUE;
 }
 
@@ -566,10 +560,6 @@ gint gsb_data_budget_new_sub_budget ( gint budget_number,
 	gsb_data_budget_set_sub_budget_name ( budget_number,
 					      sub_budget_number,
 					      name );
-
-    mise_a_jour_combofix_categ ();
-    modification_fichier(TRUE);
-
     return budget_number;
 }
 

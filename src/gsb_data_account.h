@@ -119,7 +119,7 @@ gboolean gsb_data_account_set_method_payment_list ( gint no_account,
 gboolean gsb_data_account_set_mini_balance_authorized ( gint no_account,
 						   gdouble balance );
 gboolean gsb_data_account_set_mini_balance_authorized_message ( gint no_account,
-							   gboolean value );
+								gboolean value );
 gboolean gsb_data_account_set_mini_balance_wanted ( gint no_account,
 					       gdouble balance );
 gboolean gsb_data_account_set_mini_balance_wanted_message ( gint no_account,

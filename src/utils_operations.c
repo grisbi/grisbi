@@ -37,9 +37,9 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static void update_transaction_in_budgetary_line_tree ( gpointer  transaction );
-static void update_transaction_in_categ_tree ( gpointer  transaction );
-static void update_transaction_in_payee_tree ( gpointer  transaction );
+static void update_transaction_in_budgetary_line_tree ( gint transaction_number );
+static void update_transaction_in_categ_tree ( gint transaction_number );
+static void update_transaction_in_payee_tree ( gint transaction_number );
 /*END_STATIC*/
 
 
@@ -103,11 +103,11 @@ gpointer operation_par_id ( gchar *no_id,
  *
  *
  */
-void update_transaction_in_categ_tree ( gpointer  transaction )
+void update_transaction_in_categ_tree ( gint transaction_number )
 {
     /* FIXME: Kludgeish, we should maintain a state. */
     gsb_data_category_update_counters();
-    update_transaction_in_tree ( category_interface, GTK_TREE_MODEL (categ_tree_model), transaction );
+    update_transaction_in_tree ( category_interface, GTK_TREE_MODEL (categ_tree_model), transaction_number );
 }
 
 
@@ -116,12 +116,12 @@ void update_transaction_in_categ_tree ( gpointer  transaction )
  *
  *
  */
-void update_transaction_in_budgetary_line_tree ( gpointer  transaction )
+void update_transaction_in_budgetary_line_tree ( gint transaction_number )
 {
     /* FIXME: Kludgeish, we should maintain a state. */
     gsb_data_budget_update_counters();
     update_transaction_in_tree ( budgetary_interface, GTK_TREE_MODEL (budgetary_line_tree_model), 
-				 transaction );
+				 transaction_number );
 }
 
 
@@ -130,11 +130,11 @@ void update_transaction_in_budgetary_line_tree ( gpointer  transaction )
  *
  *
  */
-void update_transaction_in_payee_tree ( gpointer  transaction )
+void update_transaction_in_payee_tree ( gint transaction_number )
 {
     /* FIXME: Kludgeish, we should maintain a state. */
     gsb_data_payee_update_counters ();
-    update_transaction_in_tree ( payee_interface, GTK_TREE_MODEL (payee_tree_model), transaction );
+    update_transaction_in_tree ( payee_interface, GTK_TREE_MODEL (payee_tree_model), transaction_number );
 }
 
 
@@ -143,12 +143,13 @@ void update_transaction_in_payee_tree ( gpointer  transaction )
  *
  *
  */
-void update_transaction_in_trees ( gpointer  transaction )
+void update_transaction_in_trees ( gint transaction_number )
 {
-    devel_debug ( "update_transaction_in_trees" );
-    update_transaction_in_categ_tree ( transaction );
-    update_transaction_in_payee_tree ( transaction );
-    update_transaction_in_budgetary_line_tree ( transaction );
+    devel_debug ( g_strdup_printf ( "update_transaction_in_trees : %d", 
+				    transaction_number ));
+    update_transaction_in_categ_tree ( transaction_number );
+    update_transaction_in_payee_tree ( transaction_number );
+    update_transaction_in_budgetary_line_tree ( transaction_number );
 }
 
 /* Local Variables: */

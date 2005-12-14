@@ -257,6 +257,12 @@ gboolean gsb_data_report_text_comparison_remove ( gint text_comparison_number )
     text_comparison_list = g_slist_remove ( text_comparison_list,
 					    text_comparison );
 
+    /* remove the text_comparison from the buffer */
+
+    if ( text_comparison_buffer == text_comparison )
+	text_comparison_buffer = NULL;
+    g_free (text_comparison);
+
     return TRUE;
 }
 

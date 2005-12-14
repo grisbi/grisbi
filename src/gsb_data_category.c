@@ -35,8 +35,6 @@
 #include "meta_categories.h"
 #include "gsb_data_account.h"
 #include "gsb_data_transaction.h"
-#include "categories_onglet.h"
-#include "traitement_variables.h"
 #include "include.h"
 /*END_INCLUDE*/
 
@@ -49,7 +47,7 @@ typedef struct
     /** @name category content */
     guint category_number;
     gchar *category_name;
-   gint category_type;		/**< 0:credit / 1:debit / 2:special (transfert, breakdown...) */
+    gint category_type;		/**< 0:credit / 1:debit / 2:special (transfert, breakdown...) */
 
     GSList *sub_category_list;
 
@@ -435,10 +433,6 @@ gint gsb_data_category_new ( gchar *name )
     if (name)
 	gsb_data_category_set_name ( category_number,
 				     name );
-
-    mise_a_jour_combofix_categ ();
-    modification_fichier(TRUE);
-
     return category_number;
 }
 
@@ -491,8 +485,12 @@ gboolean gsb_data_category_remove ( gint no_category )
     category_list = g_slist_remove ( category_list,
 				     category );
 
-    mise_a_jour_combofix_categ ();
-    modification_fichier(TRUE);
+    /* remove the categ from the buffers */
+
+    if ( category_buffer == category )
+	category_buffer = NULL;
+    g_free (category);
+
     return TRUE;
 }
 
@@ -524,8 +522,12 @@ gboolean gsb_data_category_sub_category_remove ( gint no_category,
     category -> sub_category_list = g_slist_remove ( category -> sub_category_list,
 						     sub_category );
 
-    mise_a_jour_combofix_categ ();
-    modification_fichier(TRUE);
+    /* remove the sub_categ from the buffers */
+
+    if ( sub_category_buffer == sub_category )
+	sub_category_buffer = NULL;
+    g_free (sub_category);
+
     return TRUE;
 }
 
@@ -553,10 +555,6 @@ gint gsb_data_category_new_sub_category ( gint category_number,
 	gsb_data_category_set_sub_category_name ( category_number,
 						  sub_category_number,
 						  name );
-
-    mise_a_jour_combofix_categ ();
-    modification_fichier(TRUE);
-
     return category_number;
 }
 

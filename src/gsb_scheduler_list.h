@@ -44,17 +44,20 @@ enum scheduler_periodicity {
 
 /* START_DECLARATION */
 gboolean affichage_traits_liste_echeances ( void );
-void gsb_scheduler_check_scheduled_transactions_time_limit ( void );
-gboolean gsb_scheduler_delete_scheduled_transaction ( gint scheduled_number );
 gboolean gsb_scheduler_list_change_scheduler_view ( enum scheduler_periodicity periodicity );
+void gsb_scheduler_list_check_scheduled_transactions_time_limit ( void );
 GtkWidget *gsb_scheduler_list_create_list ( void );
+gboolean gsb_scheduler_list_delete_scheduled_transaction ( gint scheduled_number );
 gboolean gsb_scheduler_list_edit_transaction ( gint scheduled_number );
 gboolean gsb_scheduler_list_execute_transaction ( gint scheduled_number );
 gboolean gsb_scheduler_list_fill_list ( GtkWidget *tree_view );
 gint gsb_scheduler_list_get_current_scheduled_number ( GtkWidget *tree_view );
+GtkWidget *gsb_scheduler_list_get_tree_view ( void );
 gboolean gsb_scheduler_list_key_press ( GtkWidget *tree_view,
 					GdkEventKey *ev );
+gboolean gsb_scheduler_list_remove_transaction_from_list ( gint scheduled_number );
+gboolean gsb_scheduler_list_set_background_color ( GtkWidget *tree_view );
 gboolean gsb_scheduler_list_show_notes ( void );
-void supprime_echeance ( gint scheduled_number );
+gboolean gsb_scheduler_list_update_transaction_in_list ( gint scheduled_number );
 /* END_DECLARATION */
 #endif

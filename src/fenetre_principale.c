@@ -260,7 +260,7 @@ gboolean gsb_gui_on_notebook_switch_page ( GtkNotebook *notebook,
     switch ( numero_page )
     {
     case GSB_HOME_PAGE:
-	mise_a_jour_accueil ();
+	mise_a_jour_accueil (FALSE);
 	break;
 
     case GSB_PAYEES_PAGE:

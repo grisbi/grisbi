@@ -178,6 +178,8 @@ GtkWidget *creation_formulaire ( void )
 
     formulaire = gtk_vbox_new ( FALSE, 5 );
 
+/* xxx !!!!!!! ajouter au formulaire un check_button 'récupérer les opés ventilée' pour une ventil */
+/*     au lieu d'afficher la fenetre pour les récupérer (à cause du bug) */
 
     /*     mise en place de la vbox qui contient les éléments du formulaire */
 
@@ -2339,7 +2341,7 @@ gboolean gsb_form_finish_edition ( void )
 
     affiche_dialogue_soldes_minimaux ();
 
-    update_transaction_in_trees (gsb_data_transaction_get_pointer_to_transaction (transaction_number));
+    update_transaction_in_trees (transaction_number);
 
     modification_fichier ( TRUE );
     return FALSE;
@@ -2690,8 +2692,11 @@ sort_test_cheques :
 }
 /******************************************************************************/
 
-/** take the datas in the form and put them in the transaction in param
+/**
+ * take the datas in the form and put them in the transaction in param
+ * 
  * \param transaction_number the transaction to modify
+ * 
  * \return
  * */
 void gsb_form_take_datas_from_form ( gint transaction_number )
@@ -2737,17 +2742,16 @@ void gsb_form_take_datas_from_form ( gint transaction_number )
 		    /* soit c'est une modif d'opé et on touche pas à l'exo */
 		    /* soit c'est une nouvelle opé et on met l'exo à 0 */
 
-		    if ( GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget ) -> menu_item ),
-								 "no_exercice" )) == -1 )
+		    if ( gsb_financial_year_get_number_from_option_menu (widget) == -1 )
 		    {
+			/* FIXME : ici, devrait tester si c'est une nouvelle opé... */
 			if ( !transaction_number)
 			    gsb_data_transaction_set_financial_year_number ( transaction_number,
-									     0);
+									     0 );
 		    }
 		    else
 			gsb_data_transaction_set_financial_year_number ( transaction_number,
-									 GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget ) -> menu_item ),
-														 "no_exercice" )));
+									 gsb_financial_year_get_number_from_option_menu (widget));
 
 		    break;
 
@@ -2820,8 +2824,7 @@ void gsb_form_take_datas_from_form ( gint transaction_number )
 		    if ( GTK_WIDGET_VISIBLE ( widget_formulaire_par_element (TRANSACTION_FORM_TYPE) ))
 		    {
 			gsb_data_transaction_set_method_of_payment_number ( transaction_number,
-									    GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget ) -> menu_item ),
-														    "no_type" )));
+									    gsb_payment_method_get_payment_number_from_option_menu (widget));
 
 			if ( GTK_WIDGET_VISIBLE ( widget_formulaire_par_element (TRANSACTION_FORM_CHEQUE) )
 			     &&
@@ -3149,8 +3152,7 @@ gint gsb_form_validate_transfer ( gint transaction_number,
 	 GTK_WIDGET_VISIBLE ( widget_formulaire_par_element (TRANSACTION_FORM_CONTRA) ))
     {
 	gsb_data_transaction_set_method_of_payment_number ( contra_transaction_number,
-							    GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_par_element (TRANSACTION_FORM_CONTRA) ) -> menu_item ),
-												    "no_type" )));
+							    gsb_payment_method_get_payment_number_from_option_menu (widget_formulaire_par_element (TRANSACTION_FORM_CONTRA)));
     }
 
     /* set the link between the transactions */
@@ -3187,16 +3189,20 @@ gint gsb_form_validate_transfer ( gint transaction_number,
  * */
 gboolean gsb_transactions_list_append_new_transaction ( gint transaction_number )
 {
+    GtkTreeStore *store;
+    
     devel_debug ( g_strdup_printf ("gsb_transactions_list_append_new_transaction %d",
 				   transaction_number ));
 
-    if ( !gsb_transactions_list_get_store ())
+    store = gsb_transactions_list_get_store ();
+
+    if ( !store)
 	return FALSE;
 
     /* append the transaction to the tree view */
 
     gsb_transactions_list_append_transaction ( transaction_number,
-					       gsb_transactions_list_get_store ());
+					       store);
 
     /* if the transaction is a breakdown mother, we happen a white line,
      * which is a normal transaction but with nothing and with the breakdown
@@ -3204,18 +3210,14 @@ gboolean gsb_transactions_list_append_new_transaction ( gint transaction_number 
 
     if ( gsb_data_transaction_get_breakdown_of_transaction (transaction_number))
     {
-	gsb_transactions_list_append_white_line ( transaction_number,
-						  gsb_transactions_list_get_store ());
-
-	/* we show the breakdowns daughter because it's a new transaction,
-	 * so they will be always shown for now */
-
-/* 	gsb_data_account_list_set_breakdowns_visible ( transaction_number, */
-/* 						  TRUE ); */
+	gint white_line_number;
+	
+	white_line_number = gsb_transactions_list_append_white_line ( transaction_number,
+								      store);
 
 	/* we select the white line of that breakdown */
 
-	gsb_transactions_list_set_current_transaction ( -1 );
+	gsb_transactions_list_set_current_transaction (white_line_number);
     }	
 
     gsb_transactions_list_set_visibles_rows_on_transaction (transaction_number);

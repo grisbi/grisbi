@@ -63,6 +63,12 @@ GtkWidget *bouton_enleve_r;
 GtkWidget *bouton_grille;
 GtkWidget *bouton_grille_echeancier;
 
+/** here are the 3 buttons on the scheduler toolbar
+ * which can been unsensitive or sensitive */
+GtkWidget *scheduler_button_execute;
+GtkWidget *scheduler_button_delete;
+GtkWidget *scheduler_button_edit;
+
 /* widgets du bouton pour afficher/cacher le formulaire */
 
 GtkWidget *bouton_affiche_cache_formulaire;
@@ -74,11 +80,9 @@ GtkWidget *fleche_bas;
 
 /*START_EXTERN*/
 extern gboolean block_menu_cb ;
-extern GtkWidget *bouton_saisir_echeancier;
 extern GtkWidget *formulaire;
 extern GtkItemFactory *item_factory_menu_general;
 extern GtkTooltips *tooltips_general_grisbi;
-extern GtkWidget *tree_view_scheduler_list;
 /*END_EXTERN*/
 
 
@@ -212,7 +216,7 @@ gboolean change_aspect_liste ( gint demande )
 	    {
 		/* 		on affiche les grilles */
 
-		g_signal_connect_after ( G_OBJECT ( tree_view_scheduler_list ),
+		g_signal_connect_after ( G_OBJECT ( gsb_scheduler_list_get_tree_view () ),
 					 "expose-event",
 					 G_CALLBACK ( affichage_traits_liste_echeances ),
 					 NULL );
@@ -237,7 +241,7 @@ gboolean change_aspect_liste ( gint demande )
 	    {
 		GSList *list_tmp;
 
-		g_signal_handlers_disconnect_by_func ( G_OBJECT ( tree_view_scheduler_list ),
+		g_signal_handlers_disconnect_by_func ( G_OBJECT ( gsb_scheduler_list_get_tree_view () ),
 						       G_CALLBACK ( affichage_traits_liste_echeances ),
 						       NULL );
 
@@ -257,7 +261,7 @@ gboolean change_aspect_liste ( gint demande )
 		}
 	    }
 	    gtk_widget_queue_draw ( gsb_transactions_list_get_tree_view());
-	    gtk_widget_queue_draw ( tree_view_scheduler_list );
+	    gtk_widget_queue_draw ( gsb_scheduler_list_get_tree_view () );
 
 	    block_menu_cb = TRUE;
 	    widget = gtk_item_factory_get_item ( item_factory_menu_general,
@@ -398,23 +402,27 @@ GtkWidget *creation_barre_outils_echeancier ( void )
 			   _("Prepare form to create a new scheduled transaction"), "" );
     gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 0 );
 
-    button = new_stock_button_with_label ( etat.display_toolbar,
-					   GTK_STOCK_DELETE, 
-					   _("Delete"),
-					   G_CALLBACK ( supprime_echeance ),
-					   NULL );
-    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi ), button,
+    scheduler_button_delete = new_stock_button_with_label ( etat.display_toolbar,
+							    GTK_STOCK_DELETE, 
+							    _("Delete"),
+							    G_CALLBACK ( gsb_scheduler_list_delete_scheduled_transaction ),
+							    NULL );
+    gtk_widget_set_sensitive ( scheduler_button_delete,
+			       FALSE );
+    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi ), scheduler_button_delete,
 			   _("Delete selected scheduled transaction"), "" );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 0 );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), scheduler_button_delete, FALSE, FALSE, 0 );
 
-    button = new_stock_button_with_label ( etat.display_toolbar,
-					   GTK_STOCK_PROPERTIES, 
-					   _("Edit"),
-					   G_CALLBACK ( gsb_scheduler_list_edit_transaction ),
-					   0 );
-    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi ), button,
+    scheduler_button_edit = new_stock_button_with_label ( etat.display_toolbar,
+							  GTK_STOCK_PROPERTIES, 
+							  _("Edit"),
+							  G_CALLBACK ( gsb_scheduler_list_edit_transaction ),
+							  0 );
+    gtk_widget_set_sensitive ( scheduler_button_edit,
+			       FALSE );
+    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi ), scheduler_button_edit,
 			   _("Edit selected transaction"), "" );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 0 );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), scheduler_button_edit, FALSE, FALSE, 0 );
 
     /* Display/hide comments */
     scheduler_display_hide_comments = new_button_with_label_and_image ( etat.display_toolbar,
@@ -429,15 +437,17 @@ GtkWidget *creation_barre_outils_echeancier ( void )
 			 FALSE, FALSE, 0 );
 
     /* Execute transaction */
-    bouton_saisir_echeancier = new_stock_button_with_label ( etat.display_toolbar,
+    scheduler_button_execute = new_stock_button_with_label ( etat.display_toolbar,
 							     GTK_STOCK_EXECUTE, 
 							     _("Execute"),
 							     G_CALLBACK ( gsb_scheduler_list_execute_transaction ),
 							     NULL ); 
+    gtk_widget_set_sensitive ( scheduler_button_execute,
+			       FALSE );
     gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi ), 
-			   bouton_saisir_echeancier,
+			   scheduler_button_execute,
 			   _("Execute current scheduled transaction if it is at maturity date"), "" );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), bouton_saisir_echeancier, FALSE, FALSE, 0 );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), scheduler_button_execute, FALSE, FALSE, 0 );
 
     button = new_stock_button_with_label_menu ( etat.display_toolbar,
 						GTK_STOCK_SELECT_COLOR, _("View"),

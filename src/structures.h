@@ -228,35 +228,6 @@ enum alignement {
 };
 
 
-/* struture d'une opé de ventil */
-
-struct struct_ope_ventil
-{
-    gint no_operation;
-
-    gdouble montant;
-
-    gint categorie;
-    gint sous_categorie;
-
-    gchar *notes;
-
-    gint imputation;
-    gint sous_imputation;
-    gchar *no_piece_comptable;
-
-    gint relation_no_operation;      /* contient le no de l'opé associée quand elle est déjà créée, -1 si c'est un virement non créé */
-    gint relation_no_compte;
-    gint no_type_associe;
-
-    gint pointe;
-
-    gint no_exercice;
-
-    gint supprime;   /* à 1 quand cette opé doit être supprimée */
-    gint par_completion;    /*à 1 si cette opé a été ajoutée suite à une complétion de tiers*/
-};
-
 
 /* Handle an ISO 4217 currency.  Not specific to Grisbi. */
 struct iso_4217_currency 

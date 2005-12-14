@@ -96,7 +96,6 @@ extern gint mise_a_jour_liste_comptes_accueil;
 extern gint mise_a_jour_liste_echeances_manuelles_accueil;
 extern gint mise_a_jour_soldes_minimaux;
 extern GtkTreeSelection * selection;
-extern GtkWidget *tree_view_scheduler_list;
 /*END_EXTERN*/
 
 
@@ -1196,7 +1195,7 @@ void modification_details_compte ( void )
 	gsb_gui_navigation_update_account ( compte_courant_onglet );
 	gsb_menu_update_accounts_in_menus ();
 	mise_a_jour_liste_comptes_accueil = 1;
-	gsb_scheduler_list_fill_list (tree_view_scheduler_list);
+	gsb_scheduler_list_fill_list (gsb_scheduler_list_get_tree_view ());
 	mise_a_jour_liste_echeances_manuelles_accueil = 1;
 	mise_a_jour_soldes_minimaux = 1;
 	mise_a_jour_fin_comptes_passifs = 1;

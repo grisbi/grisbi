@@ -133,7 +133,6 @@ extern GtkWidget *nom_correspondant;
 extern GtkWidget *nom_exercice;
 extern gchar *nom_fichier_backup;
 extern GtkWidget *remarque_banque;
-extern gint scheduler_col_width[NB_COLS_SCHEDULER] ;
 extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][TRANSACTION_LIST_COL_NB];
 extern GtkWidget *tel_banque;
 extern GtkWidget *tel_correspondant;
@@ -172,6 +171,8 @@ gint last_report_number;
 /* used to get the sort of the accounts in the version < 0.6 */
 static GSList *sort_accounts;
 
+/** FIXME : here for now, will be use to save and restore the width of the list */
+gint scheduler_col_width[NB_COLS_SCHEDULER];
 
 
 
@@ -765,7 +766,6 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
 		scheduler_col_width[j] = utils_str_atoi ( pointeur_char[j]);
 
 	    g_strfreev ( pointeur_char );
-
 	}
 
 	i++;
@@ -3818,7 +3818,10 @@ gboolean gsb_file_load_update_previous_version ( void )
 							   SCHEDULER_PERIODICITY_YEAR_VIEW );
 			break;
 
+			/* there is a bug and the periodicity can be more than 4...
+			 * so set the default here to set it to SCHEDULER_PERIODICITY_CUSTOM_VIEW */
 		    case 4:
+		    default:
 			/* custom frequency */
 			gsb_data_scheduled_set_frequency ( scheduled_number,
 							   SCHEDULER_PERIODICITY_CUSTOM_VIEW );
@@ -4358,7 +4361,7 @@ void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
 			       "No" ))
 		{
 		    payee_number = gsb_data_payee_set_new_number ( payee_number,
-							      utils_str_atoi (attribute_values[i]));
+								   utils_str_atoi (attribute_values[i]));
 		    i++;
 		    continue;
 		}
@@ -4367,7 +4370,7 @@ void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
 			       "Nom" ))
 		{
 		    gsb_data_payee_set_name ( payee_number,
-					 attribute_values[i]);
+					      attribute_values[i]);
 		    i++;
 		    continue;
 		}
@@ -4376,7 +4379,7 @@ void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
 			       "Informations" ))
 		{
 		    gsb_data_payee_set_description ( payee_number,
-						attribute_values[i]);
+						     attribute_values[i]);
 		    i++;
 		    continue;
 		}

@@ -63,7 +63,6 @@
 static void ajoute_new_file_liste_ouverture ( gchar *path_fichier );
 static gchar *demande_nom_enregistrement ( void );
 static gboolean enregistrement_backup ( void );
-static gboolean enregistrer_fichier_sous ( void );
 static void fichier_selectionne ( GtkWidget *selection_fichier);
 /*END_STATIC*/
 
@@ -79,9 +78,6 @@ extern gchar *dernier_chemin_de_travail;
 extern GtkWidget *main_hpaned ;
 extern GtkWidget *main_vbox;
 extern gint max;
-extern gint mise_a_jour_fin_comptes_passifs;
-extern gint mise_a_jour_liste_comptes_accueil;
-extern gint mise_a_jour_soldes_minimaux;
 extern gsize nb_derniers_fichiers_ouverts ;
 extern gint nb_max_derniers_fichiers_ouverts ;
 extern gchar *nom_fichier_comptes;
@@ -208,7 +204,7 @@ void ouvrir_fichier ( void )
 					     FILE_SELECTION_MUST_EXIST);
     gtk_window_set_position ( GTK_WINDOW ( selection_fichier ), GTK_WIN_POS_MOUSE);
 
-    switch ( gtk_dialog_run ( selection_fichier ) )
+    switch ( gtk_dialog_run ( GTK_DIALOG (selection_fichier)))
     {
 	case GTK_RESPONSE_OK:
 	    fichier_selectionne ( selection_fichier );
@@ -218,7 +214,7 @@ void ouvrir_fichier ( void )
     }
     gtk_widget_destroy ( selection_fichier );
 
-    file_selection_set_filename ( GTK_FILE_SELECTION ( selection_fichier ), "*.gsb" );
+    file_selection_set_filename ( GTK_FILE_CHOOSER ( selection_fichier ), "*.gsb" );
 }
 /* ************************************************************************************************************ */
 
@@ -259,13 +255,13 @@ void fichier_selectionne ( GtkWidget *selection_fichier)
 
     /* on prend le nouveau nom du fichier */
 
-    nom_fichier_comptes = file_selection_get_filename ( GTK_FILE_SELECTION ( selection_fichier)) ;
+    nom_fichier_comptes = file_selection_get_filename ( GTK_FILE_CHOOSER ( selection_fichier)) ;
 
     gtk_widget_hide ( selection_fichier );
 
     /* on met le répertoire courant dans la variable correspondante */
 
-    dernier_chemin_de_travail = file_selection_get_last_directory(GTK_FILE_SELECTION ( selection_fichier),TRUE);
+    dernier_chemin_de_travail = file_selection_get_last_directory(GTK_FILE_CHOOSER ( selection_fichier),TRUE);
 
     gsb_file_open_file (nom_fichier_comptes);
 }
@@ -274,27 +270,34 @@ void fichier_selectionne ( GtkWidget *selection_fichier)
 
 
 /**
- * ope a new grisbi file, don't check anything about another opened file that must
+ * open a new grisbi file, don't check anything about another opened file that must
  * have been done before
+ * 
  * \para filename the name of the file
- * \return TRUE ok
+ * 
+ * \return TRUE ok, FALSE problem
  * */
 gboolean gsb_file_open_file ( gchar *filename )
 {
     gint i;
     GSList *list_tmp;
-    GtkWidget *main_widget, *tree_view_widget;
+    GtkWidget *main_widget;
 
     devel_debug ( g_strdup_printf ("gsb_file_open_file : %s",
 				   filename ));
+
+    if ( !filename
+	 ||
+	 !strlen (filename))
+	return FALSE;
 
     gsb_status_message ( _("Loading accounts") );
 
     /* try to load the file */
 
-    if ( gsb_file_load_open_file ( filename ) )
+    if ( gsb_file_load_open_file (filename))
     {
-	/* the file has opened succesfully */
+	/* the file has been opened succesfully */
 
 	/* we make a backup if necessary */
 
@@ -326,9 +329,9 @@ gboolean gsb_file_open_file ( gchar *filename )
 				NULL );
 
 	    g_strfreev ( tab_char );
-
 	    gsb_file_save_save_file ( backup_filename,
 				      etat.compress_backup );
+	    g_free (backup_filename);
 	}
     }
     else
@@ -341,32 +344,21 @@ gboolean gsb_file_open_file ( gchar *filename )
 	if ( etat.sauvegarde_demarrage )
 	{
 	    gchar *backup_filename;
-	    gint result;
 	    gchar **tab_char;
 
+	    gsb_status_message ( _("Loading backup") );
+
 	    /* create the name of the backup */
-
-	    backup_filename = g_strdup ( filename );
 	    i=0;
-
-	    tab_char = g_strsplit ( backup_filename, C_DIRECTORY_SEPARATOR, 0);
+	    tab_char = g_strsplit ( filename, C_DIRECTORY_SEPARATOR, 0);
 	    while ( tab_char[i] )
 		i++;
-
 	    backup_filename = g_strconcat ( my_get_gsb_file_default_dir(),
 					    C_DIRECTORY_SEPARATOR,
 					    tab_char [i-1],
 					    ".bak",
 					    NULL );
 	    g_strfreev ( tab_char );
-
-	    result = utf8_open ( backup_filename, O_RDONLY);
-	    if (result == -1)
-		return FALSE;
-	    else
-		close (result);
-
-	    gsb_status_message ( _("Loading backup") );
 
 	    /* try to load the backup */
 
@@ -376,6 +368,7 @@ gboolean gsb_file_open_file ( gchar *filename )
 
 		dialogue_error_hint ( _("Grisbi was unable to load file.  However, Grisbi loaded a backup file instead but all changes made since this backup were possibly lost."),
 				      g_strdup_printf ( _("Error loading file '%s'"), filename) );
+		g_free (backup_filename);
 	    }
 	    else
 	    {
@@ -383,6 +376,7 @@ gboolean gsb_file_open_file ( gchar *filename )
 
 		dialogue_error_hint ( _("Grisbi was unable to load file.  Additionally, Grisbi was unable to load a backup file instead."),
 				      g_strdup_printf ( _("Error loading file '%s'"), filename) );
+		g_free (backup_filename);
 		return FALSE;
 	    }
 	}
@@ -402,74 +396,65 @@ gboolean gsb_file_open_file ( gchar *filename )
 
     recuperation_noms_colonnes_et_tips ();
 
-    gsb_status_message ( _("Checking amounts"));
+    /* we show and update the menus */
+    menus_sensitifs ( TRUE );
+
+    /* check the schedulers */
+    gsb_status_message ( _("Checking scheduled transactions"));
+    gsb_scheduler_list_check_scheduled_transactions_time_limit ();
 
     /* check the amounts of all the accounts */
 
+    gsb_status_message ( _("Checking amounts"));
     list_tmp = gsb_data_account_get_list_accounts ();
 
     while ( list_tmp )
     {
-	gint i;
-
 	i = gsb_data_account_get_no_account ( list_tmp -> data );
 
 	gsb_data_account_set_current_balance ( i, 
-					  calcule_solde_compte ( i ));
+					       calcule_solde_compte ( i ));
 	gsb_data_account_set_marked_balance ( i, 
-					 calcule_solde_pointe_compte ( i ));
+					      calcule_solde_pointe_compte ( i ));
 
-	/* 	on met à jour les affichage solde mini et autres */
+	/* set the minimum balances to be shown or not
+	 * if we are already under the minimum, we will show nothing */
 
 	gsb_data_account_set_mini_balance_authorized_message ( i,
-							  gsb_data_account_get_current_balance (i) < gsb_data_account_get_mini_balance_authorized (i));
+							       gsb_data_account_get_current_balance (i) < gsb_data_account_get_mini_balance_authorized (i));
 	gsb_data_account_set_mini_balance_wanted_message ( i,
-						      gsb_data_account_get_current_balance (i) < gsb_data_account_get_mini_balance_wanted (i) );
-
+							   gsb_data_account_get_current_balance (i) < gsb_data_account_get_mini_balance_wanted (i) );
 	list_tmp = list_tmp -> next;
     }
-
-    /* we will need to update the main page */
-
-    mise_a_jour_liste_comptes_accueil = 1;
-    mise_a_jour_soldes_minimaux = 1;
-    mise_a_jour_fin_comptes_passifs = 1;
 
     /* we make the main window */
 
     gsb_status_message ( _("Creating main window"));
+
     main_widget = create_main_widget();
 
-    /* set the name of the file in the window title */
+    /* set the name of the file in the window title
+     * and in the menu of the main window, so main_widget must
+     * have been created */
     affiche_titre_fenetre();
-    
-    /* we show and update the menus */
-
-    menus_sensitifs ( TRUE );
 
     gsb_menu_update_view_menu (gsb_data_account_get_current_account ());
     gsb_menu_update_accounts_in_menus ();
 
-    /*     on ajoute la fentre principale à la window */
+    /* append that window to the main window */
     gtk_box_pack_start ( GTK_BOX (window_vbox_principale), main_widget, TRUE, TRUE, 0 );
     gtk_widget_show ( main_widget );
 
     /* create and fill the gui transactions list */
 
-    tree_view_widget = gsb_transactions_list_make_gui_list ();
     gtk_box_pack_start ( GTK_BOX ( tree_view_vbox ),
-			 tree_view_widget,
+			 gsb_transactions_list_make_gui_list (),
 			 TRUE,
 			 TRUE,
 			 0 );
-    gtk_widget_show ( tree_view_widget );
 
     /* update the main page */
-
-    mise_a_jour_accueil ();
-
-    /* check the schedulers */
-    gsb_scheduler_check_scheduled_transactions_time_limit ();
+    mise_a_jour_accueil (TRUE);
 
     gsb_status_message ( _("Done") );
     return TRUE;
@@ -577,14 +562,6 @@ gboolean enregistrement_fichier ( gint origine )
 /* ************************************************************************************************************ */
 
 
-/* ************************************************************************************************************ */
-gboolean enregistrer_fichier_sous ( void )
-{
-    return (  enregistrement_fichier ( -2 ) );
-}
-/* ************************************************************************************************************ */
-
-
 
 /* ************************************************************************************************************ */
 /* cette fonction est appelée pour proposer d'enregistrer si le fichier est modifié */
@@ -676,9 +653,9 @@ gchar *demande_nom_enregistrement ( void )
     fenetre_nom = file_selection_new ( _("Name the accounts file"),FILE_SELECTION_IS_SAVE_DIALOG);
     gtk_window_set_modal ( GTK_WINDOW ( fenetre_nom ),
 			   TRUE );
-    file_selection_set_filename ( GTK_FILE_SELECTION ( fenetre_nom ),
+    file_selection_set_filename ( GTK_FILE_CHOOSER ( fenetre_nom ),
                                   dernier_chemin_de_travail );
-    file_selection_set_entry ( GTK_FILE_SELECTION ( fenetre_nom ),
+    file_selection_set_entry ( GTK_FILE_CHOOSER ( fenetre_nom ),
 			 ".gsb" );
 
     resultat = gtk_dialog_run ( GTK_DIALOG ( fenetre_nom ));
@@ -686,7 +663,7 @@ gchar *demande_nom_enregistrement ( void )
     switch ( resultat )
     {
 	case GTK_RESPONSE_OK :
-	    nouveau_nom = file_selection_get_filename ( GTK_FILE_SELECTION ( fenetre_nom ));
+	    nouveau_nom = file_selection_get_filename ( GTK_FILE_CHOOSER ( fenetre_nom ));
 
 	    gtk_widget_destroy ( GTK_WIDGET ( fenetre_nom ));
 

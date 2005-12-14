@@ -72,12 +72,6 @@ gchar *labels_titres_colonnes_liste_ope[] = {
 
 
 
-/* les styles de couleur */
-
-GtkStyle *style_couleur [2];
-GtkStyle *style_rouge_couleur [2];
-GtkStyle *style_gris;
-
 GdkColor couleur_fond[2];
 GdkColor couleur_grise;
 GdkColor couleur_selection;
@@ -125,13 +119,12 @@ extern gint no_devise_totaux_ib;
 extern gint no_devise_totaux_tiers;
 extern gchar *nom_fichier_backup;
 extern GSList *scheduled_transactions_taken;
-extern gint scheduler_col_width[NB_COLS_SCHEDULER] ;
+extern gint scheduler_col_width[NB_COLS_SCHEDULER];
 extern GtkWidget *solde_label ;
 extern GtkWidget *solde_label_pointe ;
 extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][TRANSACTION_LIST_COL_NB];
 extern GtkTooltips *tooltips_general_grisbi;
 extern gint valeur_echelle_recherche_date_import;
-extern GtkWidget *window;
 /*END_EXTERN*/
 
 
@@ -266,7 +259,6 @@ void init_variables ( void )
 
     for ( i = 0 ; i < NB_COLS_SCHEDULER ; i++ )
 	scheduler_col_width[i] = scheduler_col_width_init[i];
-
 }
 /*****************************************************************************************************/
 
@@ -278,6 +270,8 @@ void init_variables ( void )
 void initialisation_couleurs_listes ( void )
 {
     GdkColor couleur_rouge;
+
+    devel_debug ("initialisation_couleurs_listes");
 
     /* Initialisation des couleurs de la clist */
 
@@ -313,43 +307,6 @@ void initialisation_couleurs_listes ( void )
     couleur_selection.red= COULEUR_SELECTION_RED;
     couleur_selection.green= COULEUR_SELECTION_GREEN ;
     couleur_selection.blue= COULEUR_SELECTION_BLUE;
-
-    /* FIXME : plus besoin des styles... */
-    /* initialise les variables style_couleur_1 et style_couleur_2 qui serviront */
-    /* à mettre la couleur de fond */
-
-    style_couleur [0] = gtk_style_copy ( gtk_widget_get_style (GTK_WIDGET (window)) );
-    style_couleur [0]->fg[GTK_STATE_NORMAL] = style_couleur [0]->black;
-    style_couleur [0]->base[GTK_STATE_NORMAL] = couleur_fond[2];
-    style_couleur [0]->fg[GTK_STATE_SELECTED] = style_couleur [0]->black;
-    style_couleur [0]->bg[GTK_STATE_SELECTED] = couleur_selection;
-
-    style_couleur [1] = gtk_style_copy ( gtk_widget_get_style (GTK_WIDGET (window)) );
-    style_couleur [1]->fg[GTK_STATE_NORMAL] = style_couleur [1]->black;
-    style_couleur [1]->base[GTK_STATE_NORMAL] = couleur_fond[1];
-    style_couleur [1]->fg[GTK_STATE_SELECTED] = style_couleur [1]->black;
-    style_couleur [1]->bg[GTK_STATE_SELECTED] = couleur_selection;
-
-
-    /* initialise les variables style_rouge_couleur [1] et style_rouge_couleur [2] qui serviront */
-    /* à mettre en rouge le solde quand il est négatif */
-
-    style_rouge_couleur [0] = gtk_style_copy ( gtk_widget_get_style (GTK_WIDGET (window)) );
-    style_rouge_couleur [0] ->fg[GTK_STATE_NORMAL] = couleur_rouge;
-    style_rouge_couleur [0] ->base[GTK_STATE_NORMAL] = couleur_fond[2];
-    style_rouge_couleur [0] ->fg[GTK_STATE_SELECTED] = couleur_rouge;
-    style_rouge_couleur [0] ->bg[GTK_STATE_SELECTED] = couleur_selection;
-
-    style_rouge_couleur [1] = gtk_style_copy ( gtk_widget_get_style (GTK_WIDGET (window)) );
-    style_rouge_couleur [1] ->fg[GTK_STATE_NORMAL] = couleur_rouge;
-    style_rouge_couleur [1] ->base[GTK_STATE_NORMAL] = couleur_fond[1];
-    style_rouge_couleur [1] ->fg[GTK_STATE_SELECTED] = couleur_rouge;
-    style_rouge_couleur [1] ->bg[GTK_STATE_SELECTED] = couleur_selection;
-
-    style_gris = gtk_style_copy ( gtk_widget_get_style (GTK_WIDGET (window)) );
-    style_gris ->base[GTK_STATE_NORMAL] = couleur_grise;
-    style_gris ->fg[GTK_STATE_NORMAL] = style_gris->black;
-
 }
 /*****************************************************************************************************/
 
@@ -408,6 +365,8 @@ void initialise_tab_affichage_ope ( void )
 	{0, 0, 0, 0, 0, 0, 0 }
     };
     gint i, j;
+
+    devel_debug ("initialise_tab_affichage_ope");
 
     for ( i = 0 ; i<TRANSACTION_LIST_ROWS_NB ; i++ )
 	for ( j = 0 ; j<TRANSACTION_LIST_COL_NB ; j++ )

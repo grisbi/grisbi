@@ -12,5 +12,6 @@ gboolean fermeture_grisbi ( void );
 void initialize_debugging ( void );
 void notice_debug ( gchar *message );
 void traitement_sigsegv ( gint signal_nb );
+void warning_debug ( gchar *message );
 /* END_DECLARATION */
 #endif
