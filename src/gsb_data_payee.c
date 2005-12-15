@@ -33,6 +33,7 @@
 #include "gsb_data_payee.h"
 #include "gsb_data_report.h"
 #include "gsb_data_transaction.h"
+#include "utils_str.h"
 #include "meta_payee.h"
 #include "include.h"
 /*END_INCLUDE*/
@@ -215,7 +216,7 @@ gint gsb_data_payee_new ( gchar *name )
     payee -> payee_number = gsb_data_payee_max_number () + 1;
 
     if (name)
-	payee -> payee_name = g_strdup (name);
+	payee -> payee_name = my_strdup (name);
     else 
 	payee -> payee_name = NULL;
 
@@ -352,7 +353,7 @@ gchar *gsb_data_payee_get_name ( gint no_payee,
 	if (can_return_null)
 	    return NULL;
 	else
-	    return (  g_strdup (_("No payee defined")));
+	    return (  my_strdup (_("No payee defined")));
     }
 
     return payee -> payee_name;
@@ -385,7 +386,7 @@ gboolean gsb_data_payee_set_name ( gint no_payee,
     
     /* and copy the new one */
    if (name)
-    payee -> payee_name = g_strdup (name);
+    payee -> payee_name = my_strdup (name);
    else
     payee -> payee_name = NULL;
 
@@ -462,7 +463,7 @@ GSList *gsb_data_payee_get_name_and_report_list ( void )
 	    if ( tmp_list )
 		tmp_list = g_slist_append ( tmp_list,
 					    g_strconcat ( "\t",
-							  g_strdup (gsb_data_report_get_report_name(report_number)),
+							  my_strdup (gsb_data_report_get_report_name(report_number)),
 							  NULL ));
 	    else
 	    {
@@ -470,7 +471,7 @@ GSList *gsb_data_payee_get_name_and_report_list ( void )
 					    _("Report"));
 		tmp_list = g_slist_append ( tmp_list,
 					    g_strconcat ( "\t",
-							  g_strdup (gsb_data_report_get_report_name(report_number)),
+							  my_strdup (gsb_data_report_get_report_name(report_number)),
 							  NULL ));
 	    }
 	}
@@ -530,7 +531,7 @@ gboolean gsb_data_payee_set_description ( gint no_payee,
     
     /* and copy the new one */
     if (description)
-	payee -> payee_description = g_strdup (description);
+	payee -> payee_description = my_strdup (description);
     else
 	payee -> payee_description = NULL;
 

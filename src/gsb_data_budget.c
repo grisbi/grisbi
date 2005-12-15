@@ -34,6 +34,7 @@
 #include "meta_budgetary.h"
 #include "gsb_data_category.h"
 #include "gsb_data_transaction.h"
+#include "utils_str.h"
 #include "dialog.h"
 #include "include.h"
 /*END_INCLUDE*/
@@ -786,7 +787,7 @@ gboolean gsb_data_budget_set_name ( gint no_budget,
 
     /* and copy the new one */
     if ( name )
-	budget -> budget_name = g_strdup (name);
+	budget -> budget_name = my_strdup (name);
     else
 	budget -> budget_name = NULL;
     return TRUE;
@@ -846,7 +847,7 @@ gboolean gsb_data_budget_set_sub_budget_name ( gint no_budget,
 
     /* and copy the new one */
     if ( name )
-	sub_budget -> sub_budget_name = g_strdup (name);
+	sub_budget -> sub_budget_name = my_strdup (name);
     else
 	sub_budget -> sub_budget_name = NULL;
     return TRUE;

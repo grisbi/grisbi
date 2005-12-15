@@ -19,6 +19,7 @@ gint my_strcasecmp ( gchar *chaine_1,
 gchar *my_strdelimit ( const gchar *string,
 		       gchar *delimiters,
 		       gchar *new_delimiters );
+gchar *my_strdup ( const gchar *string );
 gint my_strncasecmp ( gchar *chaine_1,
 		      gchar *chaine_2,
 		      gint longueur );

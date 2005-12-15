@@ -33,8 +33,10 @@
 /*START_INCLUDE*/
 #include "gsb_data_category.h"
 #include "meta_categories.h"
+#include "dialog.h"
 #include "gsb_data_account.h"
 #include "gsb_data_transaction.h"
+#include "utils_str.h"
 #include "include.h"
 /*END_INCLUDE*/
 
@@ -785,7 +787,7 @@ gboolean gsb_data_category_set_name ( gint no_category,
 
     /* and copy the new one */
     if ( name )
-	category -> category_name = g_strdup (name);
+	category -> category_name = my_strdup (name);
     else
 	category -> category_name = NULL;
     return TRUE;
@@ -845,7 +847,7 @@ gboolean gsb_data_category_set_sub_category_name ( gint no_category,
 
     /* and copy the new one */
     if ( name )
-	sub_category -> sub_category_name = g_strdup (name);
+	sub_category -> sub_category_name = my_strdup (name);
     else
 	sub_category -> sub_category_name = NULL;
 

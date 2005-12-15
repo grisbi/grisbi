@@ -67,7 +67,7 @@ gchar *gsb_today ( void )
 
     g_date_strftime ( date_str, SIZEOF_FORMATTED_STRING_DATE, "%x", date );
 
-    return ( g_strdup ( date_str ) );
+    return ( my_strdup ( date_str ) );
 }
 /******************************************************************************/
 
@@ -363,7 +363,7 @@ gchar * gsb_format_gdate ( GDate *date )
 
     g_date_strftime ( retour_str, SIZEOF_FORMATTED_STRING_DATE, "%x", date );
 
-    return g_strdup ( retour_str );
+    return my_strdup ( retour_str );
 }
 
 

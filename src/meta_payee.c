@@ -28,6 +28,7 @@
 #include "utils_devises.h"
 #include "gsb_data_payee.h"
 #include "gsb_data_transaction.h"
+#include "utils_str.h"
 #include "include.h"
 #include "structures.h"
 /*END_INCLUDE*/
@@ -386,7 +387,7 @@ gint payee_add_div ()
     int i = 1;
 
     /** Find a unique name for payee */
-    name =  g_strdup ( _("New payee") );
+    name =  my_strdup ( _("New payee") );
 
     while ( gsb_data_payee_get_number_by_name ( name,
 					   FALSE ))

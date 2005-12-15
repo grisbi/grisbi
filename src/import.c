@@ -1292,7 +1292,7 @@ gint gsb_import_create_imported_account ( struct struct_compte_importation *impo
 	gchar **tab_str;
 
 	gsb_data_account_set_id (account_number,
-			    g_strdup ( imported_account -> id_compte ));
+			    my_strdup ( imported_account -> id_compte ));
 
 	/* 	en théorie cet id est "no_banque no_guichet no_comptecle" */
 	/* on va essayer d'importer ces données ici */
@@ -1304,16 +1304,16 @@ gint gsb_import_create_imported_account ( struct struct_compte_importation *impo
 	if ( tab_str[1] )
 	{
 	    gsb_data_account_set_bank_branch_code ( account_number,
-					       g_strdup ( tab_str[1] ) );
+					       my_strdup ( tab_str[1] ) );
 
 	    if ( tab_str[2] )
 	    {
 		gchar *temp;
 
 		gsb_data_account_set_bank_account_key ( account_number,
-						   g_strdup ( tab_str[2] + strlen ( tab_str[2] ) - 1 ) );
+						   my_strdup ( tab_str[2] + strlen ( tab_str[2] ) - 1 ) );
 
-		temp = g_strdup ( tab_str[2] );
+		temp = my_strdup ( tab_str[2] );
 
 		temp[strlen (temp) - 1 ] = 0;
 		gsb_data_account_set_bank_account_number ( account_number,
@@ -1330,7 +1330,7 @@ gint gsb_import_create_imported_account ( struct struct_compte_importation *impo
 			       g_strstrip ( imported_account -> nom_de_compte ) );
     else
 	gsb_data_account_set_name ( account_number,
-			       g_strdup ( _("Imported account")) );
+			       my_strdup ( _("Imported account")) );
 
     /* choix de la devise du compte */
 
@@ -1400,14 +1400,14 @@ void gsb_import_add_imported_transactions ( struct struct_compte_importation *im
 		if ( question_yes_no_hint ( _("The id of the imported and chosen accounts are different"),
 					    _("Perhaps you choose a wrong account ?  If you choose to continue, the id of the account will be changed.  Do you want to continue ?")))
 		    gsb_data_account_set_id (account_number,
-					     g_strdup ( imported_account -> id_compte ));
+					     my_strdup ( imported_account -> id_compte ));
 		else
 		    return;
 	    }
 	}
 	else
 	    gsb_data_account_set_id (account_number,
-				     g_strdup ( imported_account -> id_compte ));
+				     my_strdup ( imported_account -> id_compte ));
 
     }
 
@@ -1790,7 +1790,7 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
 
     if ( imported_transaction -> id_operation )
 	gsb_data_transaction_set_transaction_id ( transaction_number,
-						  g_strdup ( imported_transaction -> id_operation ));
+						  my_strdup ( imported_transaction -> id_operation ));
 
     /* récupération de la date */
 
@@ -2018,14 +2018,14 @@ void pointe_opes_importees ( struct struct_compte_importation *imported_account 
 		if ( question_yes_no_hint ( _("The id of the imported and chosen accounts are different"),
 					    _("Perhaps you choose a wrong account ?  If you choose to continue, the id of the account will be changed.  Do you want to continue ?")))
 		    gsb_data_account_set_id (account_number,
-					g_strdup ( imported_account -> id_compte ));
+					my_strdup ( imported_account -> id_compte ));
 		else
 		    return;
 	    }
 	}
 	else
 	    gsb_data_account_set_id (account_number,
-				g_strdup ( imported_account -> id_compte ));
+				my_strdup ( imported_account -> id_compte ));
 
     }
 

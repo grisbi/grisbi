@@ -53,6 +53,7 @@
 #include "main.h"
 #include "accueil.h"
 #include "utils_files.h"
+#include "utils_str.h"
 #include "parametres.h"
 #include "affichage_liste.h"
 #include "include.h"
@@ -308,7 +309,7 @@ gboolean gsb_file_open_file ( gchar *filename )
 
 	    gsb_status_message ( _("Autosaving") );
 
-	    backup_filename = g_strdup ( filename );
+	    backup_filename = my_strdup ( filename );
 
 	    /* we get only the name of the file, not the path */
 
@@ -782,7 +783,7 @@ void affiche_titre_fenetre ( void )
 	parametres = g_strsplit ( nom_fichier_comptes, C_DIRECTORY_SEPARATOR, 0);
 	while ( parametres[i] )
 	  i++;
-	titre = g_strdup(parametres [i-1]);
+	titre = my_strdup(parametres [i-1]);
 	g_strfreev ( parametres );
     }
     else
@@ -893,9 +894,9 @@ void ajoute_new_file_liste_ouverture ( gchar *path_fichier )
 	for ( i=position ; i>0 ; i-- )
 	    tab_noms_derniers_fichiers_ouverts[i] = tab_noms_derniers_fichiers_ouverts[i-1];
 	if ( path_fichier )
-	    tab_noms_derniers_fichiers_ouverts[0] = g_strdup ( path_fichier );
+	    tab_noms_derniers_fichiers_ouverts[0] = my_strdup ( path_fichier );
 	else
-	    tab_noms_derniers_fichiers_ouverts[0] = g_strdup ( "<no file>" );
+	    tab_noms_derniers_fichiers_ouverts[0] = my_strdup ( "<no file>" );
 
 	affiche_derniers_fichiers_ouverts();
 
@@ -922,7 +923,7 @@ void ajoute_new_file_liste_ouverture ( gchar *path_fichier )
 	tab_noms_derniers_fichiers_ouverts[nb_derniers_fichiers_ouverts-1] = dernier;
     }
 
-    tab_noms_derniers_fichiers_ouverts[0] = g_strdup ( path_fichier );
+    tab_noms_derniers_fichiers_ouverts[0] = my_strdup ( path_fichier );
 
 
     affiche_derniers_fichiers_ouverts();

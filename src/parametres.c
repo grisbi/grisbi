@@ -29,6 +29,7 @@
 #include "dialog.h"
 #include "gsb_data_account.h"
 #include "traitement_variables.h"
+#include "utils_str.h"
 #include "utils_editables.h"
 #include "affichage_liste.h"
 #include "banque.h"
@@ -560,7 +561,7 @@ gboolean gsb_gui_messages_toggled ( GtkCellRendererToggle *cell, gchar *path_str
  */
 gboolean change_backup_path ( GtkEntry *entry, gchar *value, gint length, gint * position )
 {
-    nom_fichier_backup = g_strdup ( gtk_entry_get_text ( GTK_ENTRY(entry) ));
+    nom_fichier_backup = my_strdup ( gtk_entry_get_text ( GTK_ENTRY(entry) ));
 
     if ( nom_fichier_backup && !strlen(nom_fichier_backup) )
     {

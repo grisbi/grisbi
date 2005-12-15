@@ -27,6 +27,7 @@
 
 /*START_INCLUDE*/
 #include "utils_exercices.h"
+#include "utils_str.h"
 #include "search_glist.h"
 #include "structures.h"
 /*END_INCLUDE*/
@@ -162,7 +163,7 @@ gchar *exercice_name_by_no ( gint no_exo )
     exo = exercice_par_no ( no_exo );
 
     if ( exo )
-	return ( g_strdup (exo -> nom_exercice ));
+	return ( my_strdup (exo -> nom_exercice ));
 
     return NULL;
 }

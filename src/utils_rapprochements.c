@@ -27,6 +27,7 @@
 
 /*START_INCLUDE*/
 #include "utils_rapprochements.h"
+#include "utils_str.h"
 #include "search_glist.h"
 #include "structures.h"
 /*END_INCLUDE*/
@@ -96,7 +97,7 @@ gchar *rapprochement_name_by_no ( gint no_rapprochement )
     rapprochement = rapprochement_par_no ( no_rapprochement );
 
     if ( rapprochement )
-	return ( g_strdup (rapprochement -> nom_rapprochement ));
+	return ( my_strdup (rapprochement -> nom_rapprochement ));
 
     return NULL;
 }

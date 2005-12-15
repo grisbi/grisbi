@@ -38,8 +38,8 @@
 #include "navigation.h"
 #include "gtk_combofix.h"
 #include "traitement_variables.h"
-#include "comptes_gestion.h"
 #include "utils_str.h"
+#include "comptes_gestion.h"
 #include "structures.h"
 #include "metatree.h"
 #include "import.h"
@@ -1170,11 +1170,11 @@ gboolean find_destination_blob ( MetatreeInterface * iface, GtkTreeModel * model
 	{
 	    case 1:
 		liste_division_debit = g_slist_append ( liste_division_debit,
-							g_strdup ( iface -> div_name ( p_division ) ) );
+							my_strdup ( iface -> div_name ( p_division ) ) );
 		break;
 	    default:
 		liste_division_credit = g_slist_append ( liste_division_credit,
-							 g_strdup ( iface -> div_name ( p_division ) ) );
+							 my_strdup ( iface -> div_name ( p_division ) ) );
 		break;
 	}
 

@@ -46,11 +46,11 @@
 #include "gtk_combofix.h"
 #include "echeancier_infos.h"
 #include "traitement_variables.h"
+#include "utils_str.h"
 #include "utils_buttons.h"
 #include "utils.h"
 #include "utils_comptes.h"
 #include "gsb_transactions_list.h"
-#include "utils_str.h"
 #include "structures.h"
 #include "gsb_scheduler_list.h"
 #include "include.h"
@@ -1524,7 +1524,7 @@ gboolean gsb_scheduler_list_edit_transaction ( gint scheduled_number )
 		{
 		    if ( gsb_data_scheduled_get_breakdown_of_scheduled (scheduled_number))
 		    {
-			texte =  g_strdup (_("Breakdown of transaction"));
+			texte =  my_strdup (_("Breakdown of transaction"));
 
 			gtk_widget_set_sensitive ( widget_formulaire_echeancier[SCHEDULER_FORM_EXERCICE],
 						   FALSE );

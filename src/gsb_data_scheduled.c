@@ -35,6 +35,7 @@
 /*START_INCLUDE*/
 #include "gsb_data_scheduled.h"
 #include "dialog.h"
+#include "utils_str.h"
 #include "include.h"
 /*END_INCLUDE*/
 
@@ -699,7 +700,7 @@ gboolean gsb_data_scheduled_set_notes ( gint no_scheduled,
     if ( notes
 	 &&
 	 strlen (notes))
-	scheduled -> notes = g_strdup (notes);
+	scheduled -> notes = my_strdup (notes);
     else
 	scheduled -> notes = NULL;
 
@@ -794,7 +795,7 @@ gboolean gsb_data_scheduled_set_method_of_payment_content ( gint no_scheduled,
     if ( method_of_payment_content
 	 &&
 	 strlen (method_of_payment_content))
-	scheduled -> method_of_payment_content = g_strdup (method_of_payment_content);
+	scheduled -> method_of_payment_content = my_strdup (method_of_payment_content);
     else
 	scheduled -> method_of_payment_content = NULL;
 

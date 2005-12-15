@@ -791,7 +791,7 @@ void gsb_file_config_get_xml_text_element ( GMarkupParseContext *context,
     if ( !strcmp ( element_name,
 		   "Dernier_chemin_de_travail" ))
     {
-	dernier_chemin_de_travail = g_strdup (text);
+	dernier_chemin_de_travail = my_strdup (text);
 
 	if ( !strlen (dernier_chemin_de_travail))
 	    dernier_chemin_de_travail = g_strconcat ( my_get_gsb_file_default_dir(), C_DIRECTORY_SEPARATOR,NULL );
@@ -851,13 +851,13 @@ void gsb_file_config_get_xml_text_element ( GMarkupParseContext *context,
     if ( !strcmp ( element_name,
 		   "Latex_command" ))
     {
-	etat.latex_command = g_strdup (text);
+	etat.latex_command = my_strdup (text);
 	return;
     }
      if ( !strcmp ( element_name,
 		   "Dvips_command" ))
     {
-	etat.dvips_command = g_strdup (text);
+	etat.dvips_command = my_strdup (text);
 	return;
     }
 
@@ -906,7 +906,7 @@ void gsb_file_config_get_xml_text_element ( GMarkupParseContext *context,
     if ( !strcmp ( element_name,
 		   "Nom_dernier_fichier" ))
     {
-	nom_fichier_comptes = g_strdup (text);
+	nom_fichier_comptes = my_strdup (text);
 	return;
     }
   
@@ -951,7 +951,7 @@ void gsb_file_config_get_xml_text_element ( GMarkupParseContext *context,
 	if (!tab_noms_derniers_fichiers_ouverts)
 	    tab_noms_derniers_fichiers_ouverts = g_malloc ( nb_max_derniers_fichiers_ouverts * sizeof(gchar *) );
 
-	tab_noms_derniers_fichiers_ouverts[nb_derniers_fichiers_ouverts] = g_strdup (text);
+	tab_noms_derniers_fichiers_ouverts[nb_derniers_fichiers_ouverts] = my_strdup (text);
 	nb_derniers_fichiers_ouverts++;
 	return;
     }
@@ -1058,13 +1058,13 @@ void gsb_file_config_get_xml_text_element ( GMarkupParseContext *context,
     if ( !strcmp ( element_name,
 		   "printer_name" ))
     {
-	etat.print_config.printer_name = g_strdup (text);
+	etat.print_config.printer_name = my_strdup (text);
 	return;
     }
       if ( !strcmp ( element_name,
 		   "printer_filename" ))
     {
-	etat.print_config.printer_filename = g_strdup (text);
+	etat.print_config.printer_filename = my_strdup (text);
 	return;
     }
       if ( !strcmp ( element_name,
@@ -1093,7 +1093,7 @@ void gsb_file_config_clean_config ( void )
 
     etat.r_modifiable = 0;       /* on ne peux modifier les opé relevées */
     etat.dernier_fichier_auto = 1;   /*  on n'ouvre pas directement le dernier fichier */
-    buffer_dernier_fichier = g_strdup ( "" );
+    buffer_dernier_fichier = my_strdup ( "" );
     etat.sauvegarde_auto = 0;    /* on ne sauvegarde pas automatiquement */
     etat.entree = 1;    /* la touche entree provoque l'enregistrement de l'opération */
     nb_days_before_scheduled = 0;     /* nb de jours avant l'échéance pour prévenir */

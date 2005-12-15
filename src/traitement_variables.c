@@ -259,6 +259,10 @@ void init_variables ( void )
 
     for ( i = 0 ; i < NB_COLS_SCHEDULER ; i++ )
 	scheduler_col_width[i] = scheduler_col_width_init[i];
+
+    /* by default, we don't fill the transactions list with the R transactions */
+    etat.fill_r_at_begining = 0;
+    etat.fill_r_done = 0;
 }
 /*****************************************************************************************************/
 

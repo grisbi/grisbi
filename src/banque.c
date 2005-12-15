@@ -33,6 +33,7 @@
 #include "utils_editables.h"
 #include "gsb_data_account.h"
 #include "traitement_variables.h"
+#include "utils_str.h"
 #include "utils.h"
 #include "search_glist.h"
 #include "structures.h"
@@ -180,7 +181,7 @@ struct struct_banque * ajout_banque ( GtkWidget *bouton, GtkWidget *clist )
 	return NULL;
     }
     banque -> no_banque = ++nb_banques;
-    banque -> nom_banque = g_strdup ( _("New bank") );
+    banque -> nom_banque = my_strdup ( _("New bank") );
     banque -> nom_correspondant = "";
     liste_struct_banques = g_slist_append ( liste_struct_banques, banque );
     ligne[0] = banque -> nom_banque;

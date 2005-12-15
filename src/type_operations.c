@@ -33,8 +33,8 @@
 #include "gsb_data_account.h"
 #include "gsb_data_transaction.h"
 #include "traitement_variables.h"
-#include "utils.h"
 #include "utils_str.h"
+#include "utils.h"
 #include "affichage_formulaire.h"
 #include "structures.h"
 #include "type_operations.h"
@@ -950,7 +950,7 @@ void ajouter_type_operation ( void )
     else
 	type_ope -> no_type = 1;
 
-    type_ope -> nom_type = g_strdup ( _("New payment method") );
+    type_ope -> nom_type = my_strdup ( _("New payment method") );
     type_ope -> signe_type = type_final;
     type_ope -> affiche_entree = 0;
     type_ope -> numerotation_auto = 0;

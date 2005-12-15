@@ -46,6 +46,7 @@
 #include "gsb_transactions_list.h"
 #include "main.h"
 #include "utils.h"
+#include "utils_str.h"
 #include "comptes_gestion.h"
 #include "structures.h"
 #include "accueil.h"
@@ -132,7 +133,7 @@ GtkWidget *creation_onglet_accueil ( void )
     gtk_widget_show ( base );
 
     if ( !chemin_logo || !strlen ( chemin_logo ))
-	chemin_logo = g_strdup ( LOGO_PATH );
+	chemin_logo = my_strdup ( LOGO_PATH );
 
     /* en dessous, on met le titre du fichier s'il existe */
     if ( titre_fichier )

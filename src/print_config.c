@@ -26,6 +26,7 @@
 #include "print_config.h"
 #include "utils_file_selection.h"
 #include "utils_files.h"
+#include "utils_str.h"
 #include "utils.h"
 #include "dialog.h"
 #include "include.h"
@@ -113,7 +114,7 @@ gboolean print_config ( )
 		break;
 	    }
 
-	    filename = g_strdup ( gtk_entry_get_text ( GTK_ENTRY (g_object_get_data(G_OBJECT(dialog), 
+	    filename = my_strdup ( gtk_entry_get_text ( GTK_ENTRY (g_object_get_data(G_OBJECT(dialog), 
 										    "printer_filename") ) ) );
 
 	    test = utf8_fopen ( filename, "r" );
@@ -143,8 +144,8 @@ gboolean print_config ( )
     if ( response == GTK_RESPONSE_OK )
     {
 	etat.print_config.printer = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON (g_object_get_data(G_OBJECT(dialog), "printer")) );
-	etat.print_config.printer_name = g_strdup ( gtk_entry_get_text ( GTK_ENTRY (g_object_get_data(G_OBJECT(dialog), "printer_name") )));
-	etat.print_config.printer_filename = g_strdup ( gtk_entry_get_text ( GTK_ENTRY (g_object_get_data(G_OBJECT(dialog), "printer_filename") )));
+	etat.print_config.printer_name = my_strdup ( gtk_entry_get_text ( GTK_ENTRY (g_object_get_data(G_OBJECT(dialog), "printer_name") )));
+	etat.print_config.printer_filename = my_strdup ( gtk_entry_get_text ( GTK_ENTRY (g_object_get_data(G_OBJECT(dialog), "printer_filename") )));
 
 	etat.print_config.filetype = gtk_option_menu_get_history ( GTK_OPTION_MENU (g_object_get_data(G_OBJECT(dialog), "filetype") ));
 

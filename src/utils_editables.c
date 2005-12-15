@@ -156,7 +156,7 @@ gboolean set_text (GtkEntry *entry, gchar *value,
 
     data = g_object_get_data ( G_OBJECT ( entry ), "pointer");
     if (data)
-	*data = g_strdup ((gchar*) gtk_entry_get_text ( GTK_ENTRY (entry) ));
+	*data = my_strdup ((gchar*) gtk_entry_get_text ( GTK_ENTRY (entry) ));
 
     /* Mark file as modified */
     modification_fichier ( TRUE );
@@ -311,7 +311,7 @@ gboolean set_text_from_area ( GtkTextBuffer *buffer, gpointer dummy )
     gtk_text_buffer_get_iter_at_offset ( buffer, &end, -1 );
 
     if (data)
-	*data = g_strdup ( gtk_text_buffer_get_text (buffer, &start, &end, 0) );
+	*data = my_strdup ( gtk_text_buffer_get_text (buffer, &start, &end, 0) );
 
     /* Mark file as modified */
     modification_fichier ( TRUE );
@@ -354,7 +354,7 @@ gdouble calcule_total_entree ( GtkWidget *entry )
 
     total = 0;
 	
-    string = g_strdup ( gtk_entry_get_text ( GTK_ENTRY ( entry )));
+    string = my_strdup ( gtk_entry_get_text ( GTK_ENTRY ( entry )));
 
     pointeur = string + strlen (string);
 

@@ -56,6 +56,8 @@ static gboolean csv_import_header_on_click ( GtkWidget * button, GdkEventButton 
 static gboolean csv_import_try_separator ( gchar * contents, gchar * separator );
 static gint * csv_import_update_fields_config ( gchar * contents, gint size );
 static gboolean csv_import_update_preview ( GtkWidget * assistant );
+static void skip_line_toggled ( GtkCellRendererToggle * cell, gchar * path_str, 
+			 GtkTreeView * tree_preview );
 /*END_STATIC*/
 
 
@@ -247,7 +249,7 @@ gchar * csv_import_guess_separator ( gchar * contents )
     {
 	if ( csv_import_try_separator ( contents, separators[i] ) )
 	{
-	    return g_strdup ( separators[i] );
+	    return my_strdup ( separators[i] );
 	}
     }
 
@@ -562,7 +564,7 @@ gboolean import_enter_csv_preview_page ( GtkWidget * assistant )
 	return FALSE;
     }
 
-    g_object_set_data ( G_OBJECT(assistant), "contents", g_strdup ( contents ) );
+    g_object_set_data ( G_OBJECT(assistant), "contents", my_strdup ( contents ) );
 
     entry = g_object_get_data ( G_OBJECT(assistant), "entry" );
     if ( entry )
@@ -588,9 +590,9 @@ gboolean csv_import_csv_account ( GtkWidget * assistant, gchar * filename )
     GSList * list;
 
     compte = g_malloc0 ( sizeof ( struct struct_compte_importation ));
-    compte -> nom_de_compte = unique_imported_name ( g_strdup ( _("Imported CSV account" ) ) );
+    compte -> nom_de_compte = unique_imported_name ( my_strdup ( _("Imported CSV account" ) ) );
     compte -> origine = TYPE_CSV;
-    compte -> filename = g_strdup ( filename );
+    compte -> filename = my_strdup ( filename );
 
     contents = g_object_get_data ( G_OBJECT(assistant), "contents" );
     separator = g_object_get_data ( G_OBJECT(assistant), "separator" );
@@ -619,11 +621,11 @@ gboolean csv_import_csv_account ( GtkWidget * assistant, gchar * filename )
 	bzero ( ope, sizeof ( struct struct_ope_importation ) );
 	ope -> date = gdate_today ();
 	ope -> id_operation = NULL;
-	ope -> date_tmp = g_strdup ( "" );
-	ope -> tiers = g_strdup ( "" );
-	ope -> notes = g_strdup ( "" );
-	ope -> categ = g_strdup ( "" );
-	ope -> guid = g_strdup ( "" );
+	ope -> date_tmp = my_strdup ( "" );
+	ope -> tiers = my_strdup ( "" );
+	ope -> notes = my_strdup ( "" );
+	ope -> categ = my_strdup ( "" );
+	ope -> guid = my_strdup ( "" );
 
 	if ( list == GINT_TO_POINTER(-1) )
 	{

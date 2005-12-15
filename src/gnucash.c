@@ -28,9 +28,9 @@
 #include "gnucash.h"
 #include "utils_xml.h"
 #include "dialog.h"
+#include "utils_str.h"
 #include "import.h"
 #include "utils_files.h"
-#include "utils_str.h"
 #include "include.h"
 /*END_INCLUDE*/
 
@@ -100,7 +100,7 @@ gboolean recuperation_donnees_gnucash ( gchar * filename )
   xmlDocPtr doc;
   struct struct_compte_importation * account;
 
-  gnucash_filename = g_strdup ( filename );
+  gnucash_filename = my_strdup ( filename );
   doc = parse_gnucash_file ( filename );
 
   if ( doc )
@@ -118,7 +118,7 @@ gboolean recuperation_donnees_gnucash ( gchar * filename )
   account = g_malloc0 ( sizeof ( struct struct_compte_importation ));
   account -> origine = TYPE_GNUCASH;
   account -> nom_de_compte = _("Invalid Gnucash account");
-  account -> filename = g_strdup ( filename );
+  account -> filename = my_strdup ( filename );
   liste_comptes_importes_error = g_slist_append ( liste_comptes_importes_error, account );
   return FALSE;
 }
@@ -668,19 +668,19 @@ void update_split ( struct gnucash_split * split, gdouble amount,
 {
   if ( categ )
     {
-      split -> category = g_strdup ( categ );
+      split -> category = my_strdup ( categ );
     }
 
   if ( account )
     {
       if ( !split -> account )
 	{
-	  split -> account = g_strdup ( account );
+	  split -> account = my_strdup ( account );
 	  split -> amount = amount;
 	}
       else
 	{
-	  split -> contra_account = g_strdup ( account );
+	  split -> contra_account = my_strdup ( account );
 	}
     }
 }
@@ -704,11 +704,11 @@ struct gnucash_split * new_split ( gdouble amount, gchar * account, gchar * cate
 
   split -> amount = amount;
   if ( account )
-    split -> account = g_strdup ( account );
+    split -> account = my_strdup ( account );
   else 
     split -> account = NULL;
   if ( categ )
-    split -> category = g_strdup ( categ );
+    split -> category = my_strdup ( categ );
   else 
     split -> category = NULL;
 

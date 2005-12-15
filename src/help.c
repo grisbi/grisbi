@@ -26,6 +26,7 @@
 #include "help.h"
 #include "utils_buttons.h"
 #include "dialog.h"
+#include "utils_str.h"
 #include "structures.h"
 #include "include.h"
 /*END_INCLUDE*/
@@ -136,7 +137,7 @@ NULL );
 
     /* Logo */
     if ( !chemin_logo || !strlen ( chemin_logo ))
-	chemin_logo = g_strdup ( LOGO_PATH );
+	chemin_logo = my_strdup ( LOGO_PATH );
     logo =  gtk_image_new_from_file ( chemin_logo );
     gtk_box_pack_start ( GTK_BOX ( vbox ), logo, FALSE, FALSE, 0 );
 

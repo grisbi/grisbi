@@ -75,18 +75,18 @@ gint gsb_data_account_set_account_number ( gint no_account,
 gboolean gsb_data_account_set_bank ( gint no_account,
 				gint bank );
 gboolean gsb_data_account_set_bank_account_key ( gint no_account,
-					    gchar *bank_account_key );
+						 const gchar *bank_account_key );
 gboolean gsb_data_account_set_bank_account_number ( gint no_account,
-					       gchar *bank_account_number );
+						    const gchar *bank_account_number );
 gboolean gsb_data_account_set_bank_branch_code ( gint no_account,
-					    gchar *bank_branch_code );
+						 const gchar *bank_branch_code );
 gboolean gsb_data_account_set_closed_account ( gint no_account,
 					  gint closed_account );
 gboolean gsb_data_account_set_column_sort ( gint no_account,
 				       gint no_column,
 				       gint column_sort );
 gboolean gsb_data_account_set_comment ( gint no_account,
-				   gchar *comment );
+					const gchar *comment );
 gboolean gsb_data_account_set_currency ( gint no_account,
 				    gint currency );
 gboolean gsb_data_account_set_current_account ( gint no_current_account );
@@ -103,11 +103,11 @@ gboolean gsb_data_account_set_default_debit ( gint no_account,
 gboolean gsb_data_account_set_form_organization ( gint no_account,
 					     struct organisation_formulaire *form_organization );
 gboolean gsb_data_account_set_holder_address ( gint no_account,
-					  gchar *holder_address );
+					       const gchar *holder_address );
 gboolean gsb_data_account_set_holder_name ( gint no_account,
-				       gchar *holder_name );
+					    const gchar *holder_name );
 gboolean gsb_data_account_set_id ( gint no_account,
-			      gchar *id );
+				   const gchar *id );
 gboolean gsb_data_account_set_init_balance ( gint no_account,
 					gdouble balance );
 gboolean gsb_data_account_set_kind ( gint no_account,
@@ -125,11 +125,11 @@ gboolean gsb_data_account_set_mini_balance_wanted ( gint no_account,
 gboolean gsb_data_account_set_mini_balance_wanted_message ( gint no_account,
 						       gboolean value );
 gboolean gsb_data_account_set_name ( gint no_account,
-				gchar *name );
+				     const gchar *name );
 gboolean gsb_data_account_set_nb_rows ( gint no_account,
 					gint nb_rows );
 gboolean gsb_data_account_set_r ( gint no_account,
-			     gboolean show_r );
+				  gboolean show_r );
 gboolean gsb_data_account_set_reconcile_balance ( gint no_account,
 					     gdouble balance );
 gboolean gsb_data_account_set_reconcile_last_number ( gint no_account,

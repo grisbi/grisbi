@@ -40,8 +40,8 @@ gboolean recuperation_donnees_ofx ( gchar *nom_fichier )
 /*START_INCLUDE*/
 #include "ofx.h"
 #include "dialog.h"
-#include "import.h"
 #include "utils_str.h"
+#include "import.h"
 #include "ofx.h"
 #include "include.h"
 /*END_INCLUDE*/
@@ -115,7 +115,7 @@ gboolean recuperation_donnees_ofx ( gchar *nom_fichier )
 	struct struct_compte_importation * account;
 	account = g_malloc0 ( sizeof ( struct struct_compte_importation ));
 	account -> nom_de_compte = unique_imported_name ( _("Invalid OFX file") );
-	account -> filename = g_strdup ( nom_fichier );
+	account -> filename = my_strdup ( nom_fichier );
 	account -> origine = TYPE_OFX;
 	liste_comptes_importes_error = g_slist_append ( liste_comptes_importes_error,
 							account );
@@ -251,8 +251,8 @@ int ofx_proc_account_cb(struct OfxAccountData data)
 
     if ( data.account_id_valid )
     {
-	compte_ofx_importation_en_cours -> id_compte = g_strdup ( data.account_id );
-	compte_ofx_importation_en_cours -> nom_de_compte = unique_imported_name ( g_strdup ( data.account_name ) );
+	compte_ofx_importation_en_cours -> id_compte = my_strdup ( data.account_id );
+	compte_ofx_importation_en_cours -> nom_de_compte = unique_imported_name ( my_strdup ( data.account_name ) );
 	compte_ofx_importation_en_cours -> filename = ofx_filename;
     }
 
@@ -262,7 +262,7 @@ int ofx_proc_account_cb(struct OfxAccountData data)
 	compte_ofx_importation_en_cours -> type_de_compte = data.account_type;
 
     if ( data.currency_valid )
-	compte_ofx_importation_en_cours -> devise = g_strdup ( data.currency );
+	compte_ofx_importation_en_cours -> devise = my_strdup ( data.currency );
 
 
     return 0;
@@ -346,7 +346,7 @@ int ofx_proc_transaction_cb(struct OfxTransactionData data)
     ope_import = g_malloc0 ( sizeof ( struct struct_ope_importation ));
 
     if ( data.fi_id_valid )
-	ope_import -> id_operation = g_strdup ( data.fi_id );
+	ope_import -> id_operation = my_strdup ( data.fi_id );
 
     date = g_date_new ();
     if ( data.date_posted_valid )
@@ -372,10 +372,10 @@ int ofx_proc_transaction_cb(struct OfxTransactionData data)
 	ope_import -> date = ope_import -> date_de_valeur;
 
     if ( data.name_valid )
-	ope_import -> tiers = g_strdup ( data.name );
+	ope_import -> tiers = my_strdup ( data.name );
 
     if ( data.memo_valid )
-	ope_import -> notes = g_strdup ( data.memo );
+	ope_import -> notes = my_strdup ( data.memo );
 
     if ( data.check_number_valid )
 	ope_import -> cheque = utils_str_atoi ( data.check_number );
@@ -397,59 +397,59 @@ int ofx_proc_transaction_cb(struct OfxTransactionData data)
 		/* 		   si c'est un chèque, svt ya pas de tiers, on va mettre chèque...  */
 
 		if ( !ope_import -> tiers )
-		    ope_import -> tiers = g_strdup ( _("Check"));
+		    ope_import -> tiers = my_strdup ( _("Check"));
 		break;
 	    case OFX_INT:
 		if ( !ope_import -> tiers )
-		    ope_import -> tiers = g_strdup ( _("Interest"));
+		    ope_import -> tiers = my_strdup ( _("Interest"));
 		break;
 	    case OFX_DIV:
 		if ( !ope_import -> tiers )
-		    ope_import -> tiers = g_strdup ( _("Dividend"));
+		    ope_import -> tiers = my_strdup ( _("Dividend"));
 		break;
 	    case OFX_SRVCHG:
 		if ( !ope_import -> tiers )
-		    ope_import -> tiers = g_strdup ( _("Service charge"));
+		    ope_import -> tiers = my_strdup ( _("Service charge"));
 		break;
 	    case OFX_FEE:
 		if ( !ope_import -> tiers )
-		    ope_import -> tiers = g_strdup ( _("Fee"));
+		    ope_import -> tiers = my_strdup ( _("Fee"));
 		break;
 	    case OFX_DEP:
 		if ( !ope_import -> tiers )
-		    ope_import -> tiers = g_strdup ( _("Deposit"));
+		    ope_import -> tiers = my_strdup ( _("Deposit"));
 		break;
 	    case OFX_ATM:
 		if ( !ope_import -> tiers )
-		    ope_import -> tiers = g_strdup ( _("Cash dispenser"));
+		    ope_import -> tiers = my_strdup ( _("Cash dispenser"));
 		break;
 	    case OFX_POS:
 		if ( !ope_import -> tiers )
-		    ope_import -> tiers = g_strdup ( _("Point of sale"));
+		    ope_import -> tiers = my_strdup ( _("Point of sale"));
 		break;
 	    case OFX_XFER:
 		if ( !ope_import -> tiers )
-		    ope_import -> tiers = g_strdup ( _("Transfer"));
+		    ope_import -> tiers = my_strdup ( _("Transfer"));
 		break;
 	    case OFX_PAYMENT:
 		if ( !ope_import -> tiers )
-		    ope_import -> tiers = g_strdup ( _("Electronic payment"));
+		    ope_import -> tiers = my_strdup ( _("Electronic payment"));
 		break;
 	    case OFX_CASH:
 		if ( !ope_import -> tiers )
-		    ope_import -> tiers = g_strdup ( _("Cash"));
+		    ope_import -> tiers = my_strdup ( _("Cash"));
 		break;
 	    case OFX_DIRECTDEP:
 		if ( !ope_import -> tiers )
-		    ope_import -> tiers = g_strdup ( _("Direct deposit"));
+		    ope_import -> tiers = my_strdup ( _("Direct deposit"));
 		break;
 	    case OFX_DIRECTDEBIT:
 		if ( !ope_import -> tiers )
-		    ope_import -> tiers = g_strdup ( _("Merchant initiated debit"));
+		    ope_import -> tiers = my_strdup ( _("Merchant initiated debit"));
 		break;
 	    case OFX_REPEATPMT:
 		if ( !ope_import -> tiers )
-		    ope_import -> tiers = g_strdup ( _("Repeating payment/standing order"));
+		    ope_import -> tiers = my_strdup ( _("Repeating payment/standing order"));
 		break;
 
 	    case OFX_DEBIT:

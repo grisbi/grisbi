@@ -32,6 +32,7 @@
 #include "gsb_transactions_list.h"
 #include "main.h"
 #include "traitement_variables.h"
+#include "utils_str.h"
 #include "utils.h"
 #include "utils_editables.h"
 #include "structures.h"
@@ -453,7 +454,7 @@ void update_font_button(GtkWidget * name_label,
     gtk_widget_modify_font (name_label,
 			    pango_font_description_from_string(fontname));
 
-    font_name = g_strdup ( fontname );
+    font_name = my_strdup ( fontname );
     tmp = font_name + strlen(font_name) - 1;
     while (g_ascii_isdigit(*tmp) ||
 	   (*tmp) == '.')
@@ -603,7 +604,7 @@ void change_logo_accueil ( GtkWidget * file_selector )
     if ( gsb_data_account_get_accounts_amount () )
     {
 	/* on change le logo */
-	chemin_logo = g_strdup ( (gchar *) selected_filename );
+	chemin_logo = my_strdup ( (gchar *) selected_filename );
 
 	if ( !chemin_logo ||
 	     !strlen ( g_strstrip ( chemin_logo )) )

@@ -30,6 +30,7 @@
 #include "gsb_data_scheduled.h"
 #include "gsb_data_transaction.h"
 #include "categories_onglet.h"
+#include "utils_str.h"
 #include "include.h"
 #include "structures.h"
 /*END_INCLUDE*/
@@ -469,7 +470,7 @@ gint category_add_div ()
     int i = 1;
 
     /** Find a unique name for category */
-    name =  g_strdup (_("New category"));
+    name =  my_strdup (_("New category"));
 
     while ( gsb_data_category_get_number_by_name ( name, FALSE, 0 ))
     {
@@ -500,7 +501,7 @@ gint category_add_sub_div ( int div_id )
 	return -1;
 
     /** Find a unique name for category */
-    name =  g_strdup (_("New sub-category"));
+    name =  my_strdup (_("New sub-category"));
 
     while ( gsb_data_category_get_sub_category_number_by_name ( div_id, name, FALSE ))
     {

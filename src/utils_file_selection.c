@@ -42,6 +42,7 @@ extern "C" {
 /*START_INCLUDE*/
 #include "utils_file_selection.h"
 #include "dialog.h"
+#include "utils_str.h"
 #include "utils_files.h"
 #include "utils_file_selection.h"
 #include "include.h"
@@ -83,7 +84,7 @@ extern GtkTreeSelection * selection;
 static gboolean _file_selection_overwrite_file_check( GtkWidget *selection_fichier)
 { /* {{{ */
     gboolean result = TRUE;
-    gchar* filename = g_strdup ( gtk_file_selection_get_filename ( GTK_FILE_SELECTION ( selection_fichier)) );
+    gchar* filename = my_strdup ( gtk_file_selection_get_filename ( GTK_FILE_SELECTION ( selection_fichier)) );
     struct stat test_file;
 
     if ((!filename)||(!strlen(filename)))
@@ -131,7 +132,7 @@ void file_selection_overwrite_file_check_signal(GtkWidget *selection_fichier)
 static gboolean _file_selection_check_filename ( GtkWidget *selection_fichier)
 { /* {{{ */
     gboolean result = TRUE;
-    gchar* filename = g_strdup ( gtk_file_selection_get_filename ( GTK_FILE_SELECTION ( selection_fichier)) );
+    gchar* filename = my_strdup ( gtk_file_selection_get_filename ( GTK_FILE_SELECTION ( selection_fichier)) );
     struct stat test_file;
 
     if ((!filename)||(!strlen(filename)))
@@ -219,7 +220,7 @@ void file_selection_set_entry(GtkFileChooser* filesel,const gchar* utf8string)
  *
  * \return the entry string converted in UFT-8 charset.
  *  The returned string has been allocated in this function are need to be release
- *  where no more used (no need to add any g_strdup string to use it)
+ *  where no more used (no need to add any my_strdup string to use it)
  *  
  */
 gchar* file_selection_get_entry(GtkFileChooser* filesel)
@@ -249,7 +250,7 @@ void file_selection_set_filename(GtkFileChooser* filesel,const gchar* utf8filena
  * \param  filesel GtkFileChooser widget handle
  * \return the filename string converted in UFT-8 charset.
  *  The returned string has been allocated in this function are need to be release
- *  where no more used (no need to add any g_strdup string to use it)
+ *  where no more used (no need to add any my_strdup string to use it)
  */
 gchar* file_selection_get_filename(GtkFileChooser* filesel)
 { /* {{{ */
@@ -287,14 +288,14 @@ GSList * file_selection_get_selections(GtkFileChooser* filesel)
  * UTF8 returned string.
  * 
  * \return newly allocated utf-8 string which should be freed after no more needed.
- * There is no need to use g_strdup before using the returned string.
+ * There is no need to use my_strdup before using the returned string.
  *
  * */
 gchar* file_selection_get_last_directory(GtkFileChooser* filesel,gboolean ended) 
 {/* {{{ */
     gchar * dirstr = gtk_file_chooser_get_current_folder ( filesel );
     gint     dirstr_len  = strlen(dirstr);
-    gchar*   sepstr      = g_strdup(G_DIR_SEPARATOR_S);
+    gchar*   sepstr      = my_strdup(G_DIR_SEPARATOR_S);
     gint     sepstr_len  = strlen(sepstr);
     gboolean is_endedstr = FALSE;
 

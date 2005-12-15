@@ -431,7 +431,7 @@ gchar *gsb_file_util_ask_for_crypt_key ( gchar * file_name, gboolean encrypt )
     {	
 	case GTK_RESPONSE_OK:
 
-	    key = g_strdup (gtk_entry_get_text ( GTK_ENTRY ( entry )));
+	    key = my_strdup (gtk_entry_get_text ( GTK_ENTRY ( entry )));
 
 	    if (!strlen (key))
 		key = NULL;

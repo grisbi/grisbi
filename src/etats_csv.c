@@ -27,6 +27,7 @@
 #include "dialog.h"
 #include "gsb_data_report.h"
 #include "navigation.h"
+#include "utils_str.h"
 #include "utils_files.h"
 #include "etats_config.h"
 #include "include.h"
@@ -121,7 +122,7 @@ void csv_attach_label ( gchar * text, gdouble properties, int x, int x2, int y, 
 	realcolumns = nb_colonnes;
 
     fprintf ( csv_out, "\"" );
-    csv_safe ( g_strstrip ( g_strdup ( text ) ) );
+    csv_safe ( g_strstrip ( my_strdup ( text ) ) );
     fprintf ( csv_out, "\"" );
 
     for ( x++; x < x2 ; x ++ )

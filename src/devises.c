@@ -619,9 +619,9 @@ gboolean ajout_devise ( GtkWidget *widget )
     {
 	case 1 :
 
-	    nom_devise = g_strstrip ( g_strdup ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree_nom ))));
-	    code_devise = g_strstrip ( g_strdup ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree_code ))));
-	    code_iso4217_devise = g_strstrip ( g_strdup ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree_iso_code ))));
+	    nom_devise = g_strstrip ( my_strdup ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree_nom ))));
+	    code_devise = g_strstrip ( my_strdup ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree_code ))));
+	    code_iso4217_devise = g_strstrip ( my_strdup ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree_iso_code ))));
 
 	    if ( strlen ( nom_devise ) && 
 		 (strlen ( code_devise ) ||
@@ -1353,7 +1353,7 @@ gboolean changement_nom_entree_devise ( GtkEditable *editable, gchar * text,
     if ( !selection || ! gtk_tree_selection_get_selected (selection, &tree_model, &iter))
 	return(FALSE);
 
-    devise -> nom_devise = g_strstrip ( g_strdup ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree_nom_devise_parametres ))));
+    devise -> nom_devise = g_strstrip ( my_strdup ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree_nom_devise_parametres ))));
 
     gtk_tree_store_set ( GTK_TREE_STORE ( tree_model ), &iter,
 			 CURRENCY_NAME_COLUMN, devise -> nom_devise,
@@ -1378,7 +1378,7 @@ gboolean changement_code_entree_devise ( GtkEditable *editable, gchar * text,
     if ( !selection || ! gtk_tree_selection_get_selected (selection, &tree_model, &iter))
 	return(FALSE);
 
-    devise -> code_devise = g_strstrip ( g_strdup ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree_code_devise_parametres ))));
+    devise -> code_devise = g_strstrip ( my_strdup ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree_code_devise_parametres ))));
 
     gtk_tree_store_set ( GTK_TREE_STORE ( tree_model ), &iter,
 			 CURRENCY_NICKNAME_COLUMN, devise -> code_devise,
@@ -1403,7 +1403,7 @@ gboolean changement_iso_code_entree_devise ( GtkEditable *editable, gchar * text
     if ( !selection || ! gtk_tree_selection_get_selected (selection, &tree_model, &iter))
 	return(FALSE);
 
-    devise -> code_iso4217_devise = g_strstrip ( g_strdup ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree_iso_code_devise_parametres ))));
+    devise -> code_iso4217_devise = g_strstrip ( my_strdup ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree_iso_code_devise_parametres ))));
 
 
     gtk_tree_store_set ( GTK_TREE_STORE ( tree_model ), &iter,
@@ -1621,7 +1621,7 @@ gboolean gsb_gui_select_default_currency ( GtkTreeModel * tree_model, GtkTreePat
 			 -1 );
     if ( conv && conv -> int_curr_symbol && strlen ( conv -> int_curr_symbol ) )
     {
-	symbol = g_strstrip ( g_strdup ( conv -> int_curr_symbol ));
+	symbol = g_strstrip ( my_strdup ( conv -> int_curr_symbol ));
 	if ( ! strcmp ( code, symbol ) )
 	{
 	    good = TRUE;
@@ -1630,7 +1630,7 @@ gboolean gsb_gui_select_default_currency ( GtkTreeModel * tree_model, GtkTreePat
     }
     else
     {
-	symbol = g_strstrip ( g_strdup ( country ) );
+	symbol = g_strstrip ( my_strdup ( country ) );
 	if ( ! strcmp ( symbol, _("United States") ) )
 	{
 	    good = TRUE;

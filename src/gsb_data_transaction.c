@@ -38,6 +38,7 @@
 #include "dialog.h"
 #include "gsb_data_account.h"
 #include "utils_dates.h"
+#include "utils_str.h"
 #include "include.h"
 #include "structures.h"
 /*END_INCLUDE*/
@@ -350,7 +351,7 @@ gboolean gsb_data_transaction_set_transaction_id ( gint no_transaction,
 	return FALSE;
 
     if (transaction_id)
-	transaction -> transaction_id = g_strdup (transaction_id);
+	transaction -> transaction_id = my_strdup (transaction_id);
     else
     	transaction -> transaction_id = NULL;
     return TRUE;
@@ -972,7 +973,7 @@ gboolean gsb_data_transaction_set_notes ( gint no_transaction,
     if ( notes
 	 &&
 	 strlen (notes))
-	transaction -> notes = g_strdup (notes);
+	transaction -> notes = my_strdup (notes);
     else
 	transaction -> notes = NULL;
     
@@ -1056,7 +1057,7 @@ gboolean gsb_data_transaction_set_method_of_payment_content ( gint no_transactio
     if ( method_of_payment_content
 	 &&
 	 strlen (method_of_payment_content))
-	transaction -> method_of_payment_content = g_strdup (method_of_payment_content);
+	transaction -> method_of_payment_content = my_strdup (method_of_payment_content);
     else
 	transaction -> method_of_payment_content = NULL;
     
@@ -1331,7 +1332,7 @@ gboolean gsb_data_transaction_set_voucher ( gint no_transaction,
     if ( voucher
 	 &&
 	 strlen (voucher))
-	transaction -> voucher = g_strdup (voucher);
+	transaction -> voucher = my_strdup (voucher);
     else
 	transaction -> voucher = "";
     
@@ -1376,7 +1377,7 @@ gboolean gsb_data_transaction_set_bank_references ( gint no_transaction,
     if ( bank_references
 	 &&
 	 strlen (bank_references))
-	transaction -> bank_references = g_strdup (bank_references);
+	transaction -> bank_references = my_strdup (bank_references);
     else
 	transaction -> bank_references = NULL;
     
@@ -1640,13 +1641,13 @@ gboolean gsb_data_transaction_copy_transaction ( gint source_transaction_number,
     target_transaction -> marked_transaction = 0;
 
     if ( target_transaction -> notes)
-	target_transaction -> notes = g_strdup ( target_transaction -> notes );
+	target_transaction -> notes = my_strdup ( target_transaction -> notes );
     if ( target_transaction -> voucher)
-	target_transaction -> voucher = g_strdup ( target_transaction -> voucher );
+	target_transaction -> voucher = my_strdup ( target_transaction -> voucher );
     if ( target_transaction -> bank_references)
-	target_transaction -> bank_references = g_strdup ( target_transaction -> bank_references );
+	target_transaction -> bank_references = my_strdup ( target_transaction -> bank_references );
     if ( target_transaction -> method_of_payment_content)
-	target_transaction -> method_of_payment_content = g_strdup ( target_transaction -> method_of_payment_content );
+	target_transaction -> method_of_payment_content = my_strdup ( target_transaction -> method_of_payment_content );
 
     target_transaction -> transaction_id = NULL;
 

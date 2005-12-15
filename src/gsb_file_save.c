@@ -194,7 +194,7 @@ gboolean gsb_file_save_save_file ( gchar *filename,
     iterator = gsb_file_save_append_part ( iterator,
 					   &length_calculated,
 					   &file_content,
-					   g_strdup ("<?xml version=\"1.0\"?>\n<Grisbi>\n"));
+					   my_strdup ("<?xml version=\"1.0\"?>\n<Grisbi>\n"));
 
     iterator = gsb_file_save_general_part ( iterator,
 					    &length_calculated,
@@ -253,7 +253,7 @@ gboolean gsb_file_save_save_file ( gchar *filename,
     iterator = gsb_file_save_append_part ( iterator,
 					   &length_calculated,
 					   &file_content,
-					   g_strdup ("</Grisbi>"));
+					   my_strdup ("</Grisbi>"));
 
     /* before saving the file, we compress and crypt it if necessary */
 
@@ -444,6 +444,7 @@ gulong gsb_file_save_general_part ( gulong iterator,
 					   "\t\tUse_logo=\"%d\"\n"
 					   "\t\tPath_logo=\"%s\"\n"
 					   "\t\tRemind_display_per_account=\"%d\"\n"
+					   "\t\tFill_r_at_begining=\"%d\"\n"
 					   "\t\tTransactions_view=\"%s\"\n"
 					   "\t\tTransaction_column_width_ratio=\"%s\"\n"
 					   "\t\tOne_line_showed=\"%d\"\n"
@@ -468,6 +469,7 @@ gulong gsb_file_save_general_part ( gulong iterator,
 	etat.utilise_logo,
 	chemin_logo,
 	etat.retient_affichage_par_compte,
+	etat.fill_r_at_begining,
 	transactions_view,
 	transaction_column_width_ratio,
 	ligne_affichage_une_ligne,
@@ -541,7 +543,7 @@ gulong gsb_file_save_account_part ( gulong iterator,
 	    g_free (third_string_to_free);
 	}
 	else
-	    last_reconcile_date = g_strdup ("");
+	    last_reconcile_date = my_strdup ("");
 
 	/* set the sort_list */
 

@@ -1985,7 +1985,7 @@ gboolean gsb_scheduler_get_category_for_transaction_from_form ( gint transaction
 
     if ( gtk_widget_get_style ( category_entry ) == style_entree_formulaire[ENCLAIR] )
     {
-	char_ptr = g_strstrip ( g_strdup ( gtk_entry_get_text ( GTK_ENTRY ( category_entry ))));
+	char_ptr = g_strstrip ( my_strdup ( gtk_entry_get_text ( GTK_ENTRY ( category_entry ))));
 
 	/* we check first if it's a breakdown, next a transfer and after a normal category
 	 * each time we needn't to set the differents variables to 0 because here it's always

@@ -34,6 +34,7 @@
 #include "gsb_data_transaction.h"
 #include "utils_exercices.h"
 #include "gsb_transactions_list.h"
+#include "utils_str.h"
 #include "utils_rapprochements.h"
 #include "utils_types.h"
 #include "structures.h"
@@ -1495,7 +1496,7 @@ gint gsb_transactions_list_sort_by_chq ( GtkTreeModel *model,
 gint gsb_strcasecmp ( gchar *string_1,
 		      gchar *string_2 )
 {
-    string_1 = g_strdup ( string_1 );
+    string_1 = my_strdup ( string_1 );
     string_1 = g_strdelimit ( string_1, "éÉèÈêÊ", 'e' );
     string_1 = g_strdelimit ( string_1, "çÇ", 'c' );
     string_1 = g_strdelimit ( string_1, "àÀ", 'a' );
@@ -1503,7 +1504,7 @@ gint gsb_strcasecmp ( gchar *string_1,
     string_1 = g_strdelimit ( string_1, "ôÔ", 'o' );
     string_1 = g_strdelimit ( string_1, "îÎ", 'i' );
 
-    string_2 = g_strdup ( string_2 );
+    string_2 = my_strdup ( string_2 );
     string_2 = g_strdelimit ( string_2, "éÉèÈêÊ", 'e' );
     string_2 = g_strdelimit ( string_2, "çÇ", 'c' );
     string_2 = g_strdelimit ( string_2, "àÀ", 'a' );

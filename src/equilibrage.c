@@ -326,7 +326,7 @@ void equilibrage ( void )
 
 		pointeur_mobile++;
 
-		partie_num = g_strdup ( pointeur_mobile );
+		partie_num = my_strdup ( pointeur_mobile );
 		pointeur_mobile[0] = 0;
 
 		longueur = strlen ( partie_num );
@@ -726,7 +726,7 @@ gboolean fin_equilibrage ( GtkWidget *bouton_ok, gpointer data )
 
 	    rapprochement = g_malloc ( sizeof ( struct struct_no_rapprochement ));
 	    rapprochement -> no_rapprochement = g_slist_length ( liste_struct_rapprochements ) + 1;
-	    rapprochement -> nom_rapprochement = g_strdup ( rap_txt );
+	    rapprochement -> nom_rapprochement = my_strdup ( rap_txt );
 
 	    liste_struct_rapprochements = g_slist_append ( liste_struct_rapprochements,
 							   rapprochement );

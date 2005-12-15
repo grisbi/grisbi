@@ -1722,7 +1722,7 @@ void recuperation_info_perso_etat ( void )
 						       GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU (gsb_data_report_text_comparison_get_button_operator (text_comparison_number)) -> menu_item ),
 											       "no_operateur" )));
 
-	string = g_strstrip ( g_strdup (gtk_entry_get_text ( GTK_ENTRY (gsb_data_report_text_comparison_get_entry_text (text_comparison_number)))));
+	string = g_strstrip ( my_strdup (gtk_entry_get_text ( GTK_ENTRY (gsb_data_report_text_comparison_get_entry_text (text_comparison_number)))));
 	if ( strlen (string))
 	    gsb_data_report_text_comparison_set_text ( text_comparison_number,
 						       string );
@@ -8047,7 +8047,7 @@ void remplissage_liste_modes_paiement_etats ( void )
 					type_ope -> nom_type,
 					(GCompareFunc) cherche_string_equivalente_dans_slist ))
 		liste_nom_types = g_slist_append ( liste_nom_types,
-						   g_strdup ( type_ope -> nom_type ));
+						   my_strdup ( type_ope -> nom_type ));
 
 	    list_tmp_2 = list_tmp_2 -> next;
 	}

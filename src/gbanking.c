@@ -34,6 +34,7 @@
 /*START_INCLUDE*/
 #include "gbanking.h"
 #include "import.h"
+#include "utils_str.h"
 #include "dialog.h"
 #include "include.h"
 /*END_INCLUDE*/
@@ -66,10 +67,10 @@ int GrisbiBanking_ImportContext(AB_BANKING *ab, AB_IMEXPORTER_CONTEXT *ctx){
     compte_nouveau=calloc(1, sizeof(struct struct_compte_importation));
     s=AB_ImExporterAccountInfo_GetAccountNumber(ai);
     if (s)
-      compte_nouveau->id_compte=g_strdup(s);
+      compte_nouveau->id_compte=my_strdup(s);
     s=AB_ImExporterAccountInfo_GetAccountName(ai);
     if (s)
-      compte_nouveau->nom_de_compte=g_strdup(s);
+      compte_nouveau->nom_de_compte=my_strdup(s);
     compte_nouveau->origine=GBANKING_IMPORT;
 
     t=AB_ImExporterAccountInfo_GetFirstTransaction(ai);
@@ -131,7 +132,7 @@ int GrisbiBanking_ImportContext(AB_BANKING *ab, AB_IMEXPORTER_CONTEXT *ctx){
 	  se=GWEN_StringListEntry_Next(se);
 	} /* while */
         if (GWEN_Buffer_GetUsedBytes(nbuf))
-	  ope_import->tiers=g_strdup(GWEN_Buffer_GetStart(nbuf));
+	  ope_import->tiers=my_strdup(GWEN_Buffer_GetStart(nbuf));
         GWEN_Buffer_free(nbuf);
       } /* if remote name */
 
@@ -153,7 +154,7 @@ int GrisbiBanking_ImportContext(AB_BANKING *ab, AB_IMEXPORTER_CONTEXT *ctx){
 	  se=GWEN_StringListEntry_Next(se);
 	} /* while */
         if (GWEN_Buffer_GetUsedBytes(nbuf))
-	  ope_import->notes=g_strdup(GWEN_Buffer_GetStart(nbuf));
+	  ope_import->notes=my_strdup(GWEN_Buffer_GetStart(nbuf));
 	GWEN_Buffer_free(nbuf);
       } /* if purpose */
 

@@ -26,6 +26,7 @@
 #define START_INCLUDE
 #include "tip.h"
 #include "dialog.h"
+#include "utils_str.h"
 #include "utils_buttons.h"
 #include "gsb_file_config.h"
 #include "include.h"
@@ -206,7 +207,7 @@ gchar * format_tip ( gchar * tip )
 	tip[strlen(tip)-1] = '\0';
     }
 
-    new = g_strdup ( tip );
+    new = my_strdup ( tip );
     for ( tmp = new ; * tmp ; tmp ++, tip ++ )
     {
 	if ( * tip == '\\' )

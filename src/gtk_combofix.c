@@ -28,6 +28,7 @@
 
 /*START_INCLUDE*/
 #include "gtk_combofix.h"
+#include "utils_str.h"
 #include "gtk_combofix.h"
 /*END_INCLUDE*/
 
@@ -301,7 +302,7 @@ GtkWidget *gtk_combofix_new ( GSList *liste,
     while ( pointeur )
     {
 	nouvelle_liste = g_slist_append ( nouvelle_liste,
-					  g_strdup ( pointeur -> data ) );
+					  my_strdup ( pointeur -> data ) );
 	pointeur = pointeur -> next;
     }
 
@@ -408,7 +409,7 @@ GtkWidget *gtk_combofix_new_complex ( GSList *liste,
 	while ( sous_pointeur )
 	{
 	    sous_liste = g_slist_append ( sous_liste,
-					  g_strdup ( sous_pointeur -> data ) );
+					  my_strdup ( sous_pointeur -> data ) );
 	    sous_pointeur = sous_pointeur -> next;
 	}
 
@@ -722,7 +723,7 @@ recherche_completion:
 	    {
 		gchar *string;
 
-		string = g_strdup ( sous_liste_tmp -> data );
+		string = my_strdup ( sous_liste_tmp -> data );
 
 		/* la comparaison est différente selon que ce soit une catég ou une sous catég : */
 		/*  pour une catég, on la compare directement avec l'entrée */
@@ -929,7 +930,7 @@ recherche_completion:
 	    {
 		gchar *string;
 
-		string = g_strdup ( sous_liste_tmp -> data );
+		string = my_strdup ( sous_liste_tmp -> data );
 
 		if ( string[0] != '\t' )
 		{
@@ -1521,7 +1522,7 @@ static gboolean verifie_efface_texte ( GtkWidget *entree,
 
     /* crée la future chaine */
 
-    chaine = g_strdup ( gtk_entry_get_text ( GTK_ENTRY ( combofix -> entry ) ));
+    chaine = my_strdup ( gtk_entry_get_text ( GTK_ENTRY ( combofix -> entry ) ));
     longueur = strlen ( chaine );
 
     if ( end > longueur )
@@ -2065,7 +2066,7 @@ void gtk_combofix_set_list ( GtkComboFix *combofix,
 	    while ( sous_pointeur )
 	    {
 		sous_liste = g_slist_append ( sous_liste,
-					      g_strdup ( sous_pointeur -> data ) );
+					      my_strdup ( sous_pointeur -> data ) );
 		sous_pointeur = sous_pointeur -> next;
 	    }
 
@@ -2078,7 +2079,7 @@ void gtk_combofix_set_list ( GtkComboFix *combofix,
 	while ( pointeur )
 	{
 	    nouvelle_liste = g_slist_append ( nouvelle_liste,
-					      g_strdup ( pointeur -> data ) );
+					      my_strdup ( pointeur -> data ) );
 	    pointeur = pointeur -> next;
 	}
 

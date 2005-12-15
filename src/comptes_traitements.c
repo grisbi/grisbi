@@ -44,6 +44,7 @@
 #include "imputation_budgetaire.h"
 #include "tiers_onglet.h"
 #include "traitement_variables.h"
+#include "utils_str.h"
 #include "utils_comptes.h"
 #include "etats_config.h"
 #include "structures.h"
@@ -419,7 +420,7 @@ void creation_types_par_defaut ( gint no_compte,
 
 	type_ope = g_malloc ( sizeof ( struct struct_type_ope ));
 	type_ope -> no_type = 1;
-	type_ope -> nom_type = g_strdup ( _("Transfer") );
+	type_ope -> nom_type = my_strdup ( _("Transfer") );
 	type_ope -> signe_type = 0;
 	type_ope -> affiche_entree = 1;
 	type_ope -> numerotation_auto = 0;
@@ -432,7 +433,7 @@ void creation_types_par_defaut ( gint no_compte,
 
 	type_ope = g_malloc ( sizeof ( struct struct_type_ope ));
 	type_ope -> no_type = 2;
-	type_ope -> nom_type = g_strdup ( _("Deposit") );
+	type_ope -> nom_type = my_strdup ( _("Deposit") );
 	type_ope -> signe_type = 2;
 	type_ope -> affiche_entree = 0;
 	type_ope -> numerotation_auto = 0;
@@ -445,7 +446,7 @@ void creation_types_par_defaut ( gint no_compte,
 
 	type_ope = g_malloc ( sizeof ( struct struct_type_ope ));
 	type_ope -> no_type = 3;
-	type_ope -> nom_type = g_strdup ( _("Credit card") );
+	type_ope -> nom_type = my_strdup ( _("Credit card") );
 	type_ope -> signe_type = 1;
 	type_ope -> affiche_entree = 0;
 	type_ope -> numerotation_auto = 0;
@@ -458,7 +459,7 @@ void creation_types_par_defaut ( gint no_compte,
 
 	type_ope = g_malloc ( sizeof ( struct struct_type_ope ));
 	type_ope -> no_type = 4;
-	type_ope -> nom_type = g_strdup ( _("Direct debit") );
+	type_ope -> nom_type = my_strdup ( _("Direct debit") );
 	type_ope -> signe_type = 1;
 	type_ope -> affiche_entree = 0;
 	type_ope -> numerotation_auto = 0;
@@ -471,7 +472,7 @@ void creation_types_par_defaut ( gint no_compte,
 
 	type_ope = g_malloc ( sizeof ( struct struct_type_ope ));
 	type_ope -> no_type = 5;
-	type_ope -> nom_type = g_strdup ( _("Cheque") );
+	type_ope -> nom_type = my_strdup ( _("Cheque") );
 	type_ope -> signe_type = 1;
 	type_ope -> affiche_entree = 1;
 	type_ope -> numerotation_auto = 1;
@@ -515,7 +516,7 @@ void creation_types_par_defaut ( gint no_compte,
 
 	    type_ope = g_malloc ( sizeof ( struct struct_type_ope ));
 	    type_ope -> no_type = 1;
-	    type_ope -> nom_type = g_strdup ( _("Transfer") );
+	    type_ope -> nom_type = my_strdup ( _("Transfer") );
 	    type_ope -> signe_type = 0;
 	    type_ope -> affiche_entree = 1;
 	    type_ope -> numerotation_auto = 0;

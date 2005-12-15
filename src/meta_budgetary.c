@@ -30,6 +30,7 @@
 #include "gsb_data_scheduled.h"
 #include "gsb_data_transaction.h"
 #include "imputation_budgetaire.h"
+#include "utils_str.h"
 #include "include.h"
 #include "structures.h"
 /*END_INCLUDE*/
@@ -463,7 +464,7 @@ gint budgetary_line_add_div ()
     int i = 1;
 
     /** Find a unique name for budget */
-    name =  g_strdup (_("New budget"));
+    name =  my_strdup (_("New budget"));
 
     while ( gsb_data_budget_get_number_by_name ( name, FALSE, 0 ))
     {
@@ -494,7 +495,7 @@ gint budgetary_line_add_sub_div ( int div_id )
 	return -1;
 
     /** Find a unique name for budget */
-    name =  g_strdup (_("New sub-budget"));
+    name =  my_strdup (_("New sub-budget"));
 
     while ( gsb_data_budget_get_sub_budget_number_by_name ( div_id, name, FALSE ))
     {

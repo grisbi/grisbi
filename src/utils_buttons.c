@@ -28,6 +28,7 @@
 #include "utils_buttons.h"
 #include "utils.h"
 #include "traitement_variables.h"
+#include "utils_str.h"
 #include "structures.h"
 #include "gsb_file_config.h"
 #include "utils_buttons.h"
@@ -489,7 +490,7 @@ GtkWidget *cree_bouton_url ( const gchar *adr,
     g_signal_connect_data ( G_OBJECT ( bouton ),
 			    "clicked",
 			    G_CALLBACK ( lance_navigateur_web ),
-			    g_strdup ( adr),
+			    my_strdup ( adr),
 			    NULL,
 			    G_CONNECT_SWAPPED );
     return ( bouton );

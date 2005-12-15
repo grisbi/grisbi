@@ -132,6 +132,11 @@ struct {
     /* Tips */
     gint last_tip; 
     gint show_tip; 
+
+    /* fill the list with the R transactions at begining */
+    gint fill_r_at_begining;
+    /* TRUE if the R transactions are filled in the list */
+    gint fill_r_done;
 } etat;
 
 

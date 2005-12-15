@@ -76,7 +76,7 @@ gboolean recuperation_donnees_qif ( FILE * fichier, gchar * filename )
     
     compte = g_malloc0 ( sizeof ( struct struct_compte_importation ));
     compte -> nom_de_compte = unique_imported_name ( _("Invalid QIF file") );
-    compte -> filename = g_strdup ( filename );
+    compte -> filename = my_strdup ( filename );
     compte -> origine = TYPE_QIF;
 
     do
@@ -295,7 +295,7 @@ gboolean recuperation_donnees_qif ( FILE * fichier, gchar * filename )
 		if ( pointeur_char[0] == 'L' )
 		{
 		    compte -> nom_de_compte = get_line_from_string ( pointeur_char ) + 1;
-		    compte -> filename = g_strdup ( filename );
+		    compte -> filename = my_strdup ( filename );
 
 		    /* on vire les crochets s'ils y sont */
 
@@ -339,8 +339,8 @@ gboolean recuperation_donnees_qif ( FILE * fichier, gchar * filename )
 	{
 	    /* c'est un compte ccard */
 
-	    compte -> nom_de_compte = unique_imported_name ( g_strdup ( _("Credit card")) );
-	    compte -> filename = g_strdup ( filename );
+	    compte -> nom_de_compte = unique_imported_name ( my_strdup ( _("Credit card")) );
+	    compte -> filename = my_strdup ( filename );
 	    compte -> solde = 0;
 	    retour = 0;
 	}
@@ -348,7 +348,7 @@ gboolean recuperation_donnees_qif ( FILE * fichier, gchar * filename )
 	/* si le compte n'a pas de nom, on en met un ici */
 
 	if ( !compte -> nom_de_compte )
-	    compte -> nom_de_compte = unique_imported_name ( g_strdup ( _("Imported QIF account" )) );
+	    compte -> nom_de_compte = unique_imported_name ( my_strdup ( _("Imported QIF account" )) );
 
 	if ( retour == EOF )
 	{
@@ -397,7 +397,7 @@ gboolean recuperation_donnees_qif ( FILE * fichier, gchar * filename )
 		    /* les opés on transformera les dates en gdate */
 
 		    if ( pointeur_char[0] == 'D' )
-			operation -> date_tmp = g_strdup ( pointeur_char + 1 );
+			operation -> date_tmp = my_strdup ( pointeur_char + 1 );
 
 
 		    /* récupération du pointage */
@@ -471,10 +471,10 @@ gboolean recuperation_donnees_qif ( FILE * fichier, gchar * filename )
 		    {
 			if ( g_utf8_validate ( pointeur_char+1,-1,NULL ))
 			{
-			    operation -> tiers = g_strdup ( pointeur_char + 1 );
+			    operation -> tiers = my_strdup ( pointeur_char + 1 );
 			}
 			else
-			    operation -> tiers = latin2utf8 (g_strdup ( pointeur_char + 1 )); 
+			    operation -> tiers = latin2utf8 (my_strdup ( pointeur_char + 1 )); 
 		    }
 
 
@@ -484,10 +484,10 @@ gboolean recuperation_donnees_qif ( FILE * fichier, gchar * filename )
 		    {
 			if ( g_utf8_validate ( pointeur_char+1,-1,NULL ))
 			{
-			    operation -> categ = g_strdup ( pointeur_char + 1 );
+			    operation -> categ = my_strdup ( pointeur_char + 1 );
 			}
 			else
-			    operation -> categ = latin2utf8 (g_strdup ( pointeur_char + 1 )); 
+			    operation -> categ = latin2utf8 (my_strdup ( pointeur_char + 1 )); 
 		    }
 
 
@@ -532,7 +532,7 @@ gboolean recuperation_donnees_qif ( FILE * fichier, gchar * filename )
 
 			    /* récupération des données de l'opération en cours */
 
-			    ventilation -> date_tmp = g_strdup ( operation -> date_tmp );
+			    ventilation -> date_tmp = my_strdup ( operation -> date_tmp );
 			    ventilation -> tiers = operation -> tiers;
 			    ventilation -> cheque = operation -> cheque;
 			    ventilation -> p_r = operation -> p_r;
@@ -541,10 +541,10 @@ gboolean recuperation_donnees_qif ( FILE * fichier, gchar * filename )
 
 			if ( g_utf8_validate ( pointeur_char+1,-1,NULL ))
 			{
-			    ventilation -> categ = g_strdup ( pointeur_char + 1 );
+			    ventilation -> categ = my_strdup ( pointeur_char + 1 );
 			}
 			else
-			    ventilation -> categ = latin2utf8 (g_strdup ( pointeur_char + 1 )); 
+			    ventilation -> categ = latin2utf8 (my_strdup ( pointeur_char + 1 )); 
 
 
 		    }
@@ -632,13 +632,13 @@ gboolean recuperation_donnees_qif ( FILE * fichier, gchar * filename )
 			/* 	l'opération n'a pas de date, c'est pas normal. pour éviter de la perdre, on va lui */
 			/* 	 donner la date 01/01/1970 et on ajoute au tiers [opération sans date] */
 
-			operation -> date_tmp = g_strdup ( "01/01/1970" );
+			operation -> date_tmp = my_strdup ( "01/01/1970" );
 			if ( operation -> tiers )
 			    operation -> tiers = g_strconcat ( operation -> tiers,
 							       _(" [Transaction imported without date]"),
 							       NULL );
 			else
-			    operation -> tiers = g_strdup ( _(" [Transaction imported without date]"));
+			    operation -> tiers = my_strdup ( _(" [Transaction imported without date]"));
 		    }
 		    compte -> operations_importees = g_slist_append ( compte -> operations_importees,
 								      operation );
@@ -1015,7 +1015,7 @@ void exporter_fichier_qif ( void )
 	gtk_entry_set_text ( GTK_ENTRY ( entree ),
 			     g_strconcat ( nom_fichier_comptes,
 					   "_",
-					   g_strdelimit ( g_strdup ( gsb_data_account_get_name (i)) , " ", '_' ),
+					   g_strdelimit ( my_strdup ( gsb_data_account_get_name (i)) , " ", '_' ),
 					   ".qif",
 					   NULL ));
 	gtk_widget_set_sensitive ( entree,
@@ -1069,7 +1069,7 @@ choix_liste_fichier:
 	struct stat test_fichier;
 
 
-	nom_fichier_qif = g_strdup ( gtk_entry_get_text ( GTK_ENTRY ( liste_tmp -> data )));
+	nom_fichier_qif = my_strdup ( gtk_entry_get_text ( GTK_ENTRY ( liste_tmp -> data )));
 
 
 	if ( utf8_stat ( nom_fichier_qif, &test_fichier ) != -1 )
@@ -1105,7 +1105,7 @@ choix_liste_fichier:
     {
 	/*       ouverture du fichier, si pb, on marque l'erreur et passe au fichier suivant */
 
-	nom_fichier_qif = g_strdup ( gtk_entry_get_text ( GTK_ENTRY ( liste_tmp -> data )));
+	nom_fichier_qif = my_strdup ( gtk_entry_get_text ( GTK_ENTRY ( liste_tmp -> data )));
 
 	if ( !( fichier_qif = utf8_fopen ( nom_fichier_qif,
 				      "w" ) ))

@@ -36,6 +36,7 @@
 #include "data_currency.h"
 #include "data_form.h"
 #include "data_payment.h"
+#include "utils_str.h"
 #include "gsb_transactions_list.h"
 #include "include.h"
 #include "structures.h"
@@ -485,7 +486,7 @@ gboolean gsb_data_account_get_r ( gint no_account )
  * \return TRUE, ok ; FALSE, problem
  * */
 gboolean gsb_data_account_set_r ( gint no_account,
-			     gboolean show_r )
+				  gboolean show_r )
 {
     struct_account *account;
 
@@ -516,13 +517,17 @@ gchar *gsb_data_account_get_id ( gint no_account )
 }
 
 
-/** set the id of the account
+/** 
+ * set the id of the account
+ * the id is copied in memory
+ * 
  * \param no_account no of the account
  * \param id id to set
+ * 
  * \return TRUE, ok ; FALSE, problem
  * */
 gboolean gsb_data_account_set_id ( gint no_account,
-			      gchar *id )
+				   const gchar *id )
 {
     struct_account *account;
 
@@ -531,7 +536,7 @@ gboolean gsb_data_account_set_id ( gint no_account,
     if (!account )
 	return FALSE;
 
-    account -> account_id = id;
+    account -> account_id = my_strdup (id);
 
     return TRUE;
 }
@@ -594,13 +599,17 @@ gchar *gsb_data_account_get_name ( gint no_account )
 }
 
 
-/** set the name of the account
+/** 
+ * set the name of the account
+ * the name is copied in memory
+ * 
  * \param no_account no of the account
  * \param name name to set
+ * 
  * \return TRUE, ok ; FALSE, problem
  * */
 gboolean gsb_data_account_set_name ( gint no_account,
-				gchar *name )
+				     const gchar *name )
 {
     struct_account *account;
 
@@ -609,7 +618,7 @@ gboolean gsb_data_account_set_name ( gint no_account,
     if (!account )
 	return FALSE;
 
-    account -> account_name = name;
+    account -> account_name = my_strdup (name);
 
     return TRUE;
 }
@@ -1276,13 +1285,17 @@ gchar *gsb_data_account_get_bank_branch_code ( gint no_account )
 }
 
 
-/** set the bank_branch_code of the account
+/** 
+ * set the bank_branch_code of the account
+ * the code is copied in memory
+ * 
  * \param no_account no of the account
  * \param bank_branch_code bank_branch_code to set
+ * 
  * \return TRUE, ok ; FALSE, problem
  * */
 gboolean gsb_data_account_set_bank_branch_code ( gint no_account,
-					    gchar *bank_branch_code )
+						 const gchar *bank_branch_code )
 {
     struct_account *account;
 
@@ -1291,7 +1304,7 @@ gboolean gsb_data_account_set_bank_branch_code ( gint no_account,
     if (!account )
 	return FALSE;
 
-    account -> bank_branch_code = bank_branch_code;
+    account -> bank_branch_code = my_strdup (bank_branch_code);
 
     return TRUE;
 }
@@ -1314,13 +1327,17 @@ gchar *gsb_data_account_get_bank_account_number ( gint no_account )
 }
 
 
-/** set the bank_account_number of the account
+/**
+ * set the bank_account_number of the account
+ * the number is copied in memory
+ * 
  * \param no_account no of the account
  * \param bank_account_number bank_account_number to set
+ * 
  * \return TRUE, ok ; FALSE, problem
  * */
 gboolean gsb_data_account_set_bank_account_number ( gint no_account,
-					       gchar *bank_account_number )
+						    const gchar *bank_account_number )
 {
     struct_account *account;
 
@@ -1329,7 +1346,7 @@ gboolean gsb_data_account_set_bank_account_number ( gint no_account,
     if (!account )
 	return FALSE;
 
-    account -> bank_account_number = bank_account_number;
+    account -> bank_account_number = my_strdup (bank_account_number);
 
     return TRUE;
 }
@@ -1353,13 +1370,17 @@ gchar *gsb_data_account_get_bank_account_key ( gint no_account )
 }
 
 
-/** set the bank_account_key of the account
+/** 
+ * set the bank_account_key of the account
+ * the key is copied in memory
+ * 
  * \param no_account no of the account
  * \param bank_account_key bank_account_key to set
+ * 
  * \return TRUE, ok ; FALSE, problem
  * */
 gboolean gsb_data_account_set_bank_account_key ( gint no_account,
-					    gchar *bank_account_key )
+						 const gchar *bank_account_key )
 {
     struct_account *account;
 
@@ -1368,7 +1389,7 @@ gboolean gsb_data_account_set_bank_account_key ( gint no_account,
     if (!account )
 	return FALSE;
 
-    account -> bank_account_key = bank_account_key;
+    account -> bank_account_key = my_strdup (bank_account_key);
 
     return TRUE;
 }
@@ -1429,13 +1450,17 @@ gchar *gsb_data_account_get_comment ( gint no_account )
 }
 
 
-/** set the comment of the account
+/**
+ * set the comment of the account
+ * the comment is copied in memory
+ * 
  * \param no_account no of the account
  * \param comment comment to set
+ * 
  * \return TRUE, ok ; FALSE, problem
  * */
 gboolean gsb_data_account_set_comment ( gint no_account,
-				   gchar *comment )
+					const gchar *comment )
 {
     struct_account *account;
 
@@ -1444,7 +1469,7 @@ gboolean gsb_data_account_set_comment ( gint no_account,
     if (!account )
 	return FALSE;
 
-    account -> comment = comment;
+    account -> comment = my_strdup (comment);
 
     return TRUE;
 }
@@ -1582,13 +1607,17 @@ gchar *gsb_data_account_get_holder_name ( gint no_account )
 }
 
 
-/** set the holder_name of the account
+/**
+ * set the holder_name of the account
+ * the name is copied in memory
+ * 
  * \param no_account no of the account
  * \param holder_name holder_name to set
+ * 
  * \return TRUE, ok ; FALSE, problem
  * */
 gboolean gsb_data_account_set_holder_name ( gint no_account,
-				       gchar *holder_name )
+					    const gchar *holder_name )
 {
     struct_account *account;
 
@@ -1597,7 +1626,7 @@ gboolean gsb_data_account_set_holder_name ( gint no_account,
     if (!account )
 	return FALSE;
 
-    account -> holder_name = holder_name;
+    account -> holder_name = my_strdup (holder_name);
 
     return TRUE;
 }
@@ -1620,13 +1649,17 @@ gchar *gsb_data_account_get_holder_address ( gint no_account )
 }
 
 
-/** set the holder_address of the account
+/**
+ * set the holder_address of the account
+ * the address is copied in memory
+ * 
  * \param no_account no of the account
  * \param holder_address holder_address to set
+ * 
  * \return TRUE, ok ; FALSE, problem
  * */
 gboolean gsb_data_account_set_holder_address ( gint no_account,
-					  gchar *holder_address )
+					       const gchar *holder_address )
 {
     struct_account *account;
 
@@ -1635,7 +1668,7 @@ gboolean gsb_data_account_set_holder_address ( gint no_account,
     if (!account )
 	return FALSE;
 
-    account -> holder_address = holder_address;
+    account -> holder_address = my_strdup (holder_address);
 
     return TRUE;
 }

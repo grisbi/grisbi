@@ -33,6 +33,7 @@
 #include "gsb_data_account.h"
 #include "gsb_data_transaction.h"
 #include "traitement_variables.h"
+#include "utils_str.h"
 #include "utils.h"
 #include "dialog.h"
 #include "structures.h"
@@ -340,7 +341,7 @@ void ajout_exercice ( GtkWidget *bouton,
        tous les paramètres à 0 et le no à -1 */
     exercice = g_malloc0 ( sizeof ( struct struct_exercice ));
     exercice -> no_exercice = -1;
-    exercice -> nom_exercice = g_strdup ( _("New financial year") );
+    exercice -> nom_exercice = my_strdup ( _("New financial year") );
     exercice -> affiche_dans_formulaire = 1;
     liste_struct_exercices = g_slist_append ( liste_struct_exercices, exercice );
 

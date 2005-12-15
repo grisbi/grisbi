@@ -36,6 +36,7 @@
 #include "gsb_data_report_amout_comparison.h"
 #include "gsb_data_report_text_comparison.h"
 #include "utils_dates.h"
+#include "utils_str.h"
 /*END_INCLUDE*/
 
 /** \struct
@@ -493,7 +494,7 @@ gboolean gsb_data_report_set_report_name ( gint report_number,
 	return FALSE;
 
     if (report_name)
-	report -> report_name = g_strdup (report_name);
+	report -> report_name = my_strdup (report_name);
     else
 	report -> report_name = NULL;
 
@@ -3883,7 +3884,7 @@ gint gsb_data_report_dup ( gint report_number )
     /* we had to duplicate the strings, dates and lists */
 
     if( report -> report_name )
-	new_report -> report_name = g_strdup ( report -> report_name );
+	new_report -> report_name = my_strdup ( report -> report_name );
     new_report -> financial_year_list = g_slist_copy ( report -> financial_year_list );
     new_report -> sorting_type = g_slist_copy ( report -> sorting_type );
     new_report -> account_numbers = g_slist_copy ( report -> account_numbers );

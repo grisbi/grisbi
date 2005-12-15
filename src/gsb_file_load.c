@@ -584,19 +584,19 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
 	else if ( !strcmp ( attribute_names[i],
 			    "File_version" ))
 	{
-	    download_tmp_values.file_version = g_strdup (attribute_values[i]);
+	    download_tmp_values.file_version = my_strdup (attribute_values[i]);
 	}
 
 	else if ( !strcmp ( attribute_names[i],
 			    "Grisbi_version" ))
 	{
-	    download_tmp_values.grisbi_version = g_strdup (attribute_values[i]);
+	    download_tmp_values.grisbi_version = my_strdup (attribute_values[i]);
 	}
 
 	else if ( !strcmp ( attribute_names[i],
 			    "Backup_file" ))
 	{
-	    nom_fichier_backup = g_strdup (attribute_values[i]);
+	    nom_fichier_backup = my_strdup (attribute_values[i]);
 	}
 
 	else if ( !strcmp ( attribute_names[i],
@@ -608,19 +608,19 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
 	else if ( !strcmp ( attribute_names[i],
 			    "File_title" ))
 	{
-	    titre_fichier = g_strdup (attribute_values[i]);
+	    titre_fichier = my_strdup (attribute_values[i]);
 	}
 
 	else if ( !strcmp ( attribute_names[i],
 			    "General_address" ))
 	{
-	    adresse_commune = g_strdup (attribute_values[i]);
+	    adresse_commune = my_strdup (attribute_values[i]);
 	}
 
 	else if ( !strcmp ( attribute_names[i],
 			    "Second_general_address" ))
 	{
-	    adresse_secondaire = g_strdup (attribute_values[i]);
+	    adresse_secondaire = my_strdup (attribute_values[i]);
 	}
 
 	else if ( !strcmp ( attribute_names[i],
@@ -674,13 +674,19 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
 	else if ( !strcmp ( attribute_names[i],
 			    "Path_logo" ))
 	{
-	    chemin_logo = g_strdup (attribute_values[i]);
+	    chemin_logo = my_strdup (attribute_values[i]);
 	}
 
 	else if ( !strcmp ( attribute_names[i],
 			    "Remind_display_per_account" ))
 	{
-	    etat.retient_affichage_par_compte = utils_str_atoi( g_strdup (attribute_values[i]));
+	    etat.retient_affichage_par_compte = utils_str_atoi( attribute_values[i]);
+	}
+
+	else if ( !strcmp ( attribute_names[i],
+			    "Fill_r_at_begining" ))
+	{
+	    etat.fill_r_at_begining = utils_str_atoi( attribute_values[i]);
 	}
 
 	else if ( !strcmp ( attribute_names[i],
@@ -689,7 +695,7 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
 	    gchar **pointeur_char;
 	    gint j, k;
 
-	    pointeur_char = g_strsplit ( g_strdup (attribute_values[i]),
+	    pointeur_char = g_strsplit ( attribute_values[i],
 					 "-",
 					 0 );
 
@@ -711,7 +717,7 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
 	{
 	    gchar **pointeur_char;
 
-	    pointeur_char = g_strsplit ( g_strdup (attribute_values[i]),
+	    pointeur_char = g_strsplit ( attribute_values[i],
 					 "-",
 					 0 );
 
@@ -730,7 +736,7 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
 	{
 	    gchar **pointeur_char;
 
-	    pointeur_char = g_strsplit ( g_strdup (attribute_values[i]),
+	    pointeur_char = g_strsplit ( attribute_values[i],
 					 "-",
 					 0 );
 
@@ -749,7 +755,7 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
 	else if ( !strcmp ( attribute_names[i],
 			    "Remind_form_per_account" ))
 	{
-	    etat.formulaire_distinct_par_compte = utils_str_atoi( g_strdup (attribute_values[i]));
+	    etat.formulaire_distinct_par_compte = utils_str_atoi( attribute_values[i]);
 	}
 
 	else if ( !strcmp ( attribute_names[i],
@@ -758,7 +764,7 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
 	    gchar **pointeur_char;
 	    gint j;
 
-	    pointeur_char = g_strsplit ( g_strdup (attribute_values[i]),
+	    pointeur_char = g_strsplit ( attribute_values[i],
 					 "-",
 					 0 );
 
@@ -808,7 +814,7 @@ void gsb_file_load_account_part ( const gchar **attribute_names,
 	{
 	    account_number_tmp = gsb_data_account_new ( GSB_TYPE_BANK );
 	    gsb_data_account_set_name ( account_number_tmp,
-				   g_strdup (attribute_values[i]) );
+					attribute_values[i]);
 	    i++;
 	    continue;
 	}
@@ -818,7 +824,7 @@ void gsb_file_load_account_part ( const gchar **attribute_names,
 	{
 	    if ( strlen (attribute_values[i]))
 		gsb_data_account_set_id (account_number_tmp,
-				    g_strdup (attribute_values[i]));
+					 attribute_values[i]);
 	    i++;
 	    continue;
 	}
@@ -836,7 +842,7 @@ void gsb_file_load_account_part ( const gchar **attribute_names,
 		       "Owner" ))
 	{
 	    gsb_data_account_set_holder_name ( account_number_tmp,
-					  g_strdup (attribute_values[i]));
+					       attribute_values[i]);
 	    i++;
 	    continue;
 	}
@@ -872,7 +878,7 @@ void gsb_file_load_account_part ( const gchar **attribute_names,
 		       "Bank_branch_code" ))
 	{
 	    gsb_data_account_set_bank_branch_code ( account_number_tmp,
-					       g_strdup (attribute_values[i]) );
+						    attribute_values[i]);
 	    i++;
 	    continue;
 	}
@@ -881,7 +887,7 @@ void gsb_file_load_account_part ( const gchar **attribute_names,
 		       "Bank_account_number" ))
 	{
 	    gsb_data_account_set_bank_account_number ( account_number_tmp,
-						  g_strdup (attribute_values[i]));
+						       attribute_values[i]);
 	    i++;
 	    continue;
 	}
@@ -890,7 +896,7 @@ void gsb_file_load_account_part ( const gchar **attribute_names,
 		       "Key" ))
 	{
 	    gsb_data_account_set_bank_account_key ( account_number_tmp,
-					       g_strdup (attribute_values[i]) );
+						    attribute_values[i]);
 	    i++;
 	    continue;
 	}
@@ -899,7 +905,7 @@ void gsb_file_load_account_part ( const gchar **attribute_names,
 		       "Initial_balance" ))
 	{
 	    gsb_data_account_set_init_balance (account_number_tmp,
-					  my_strtod ( g_strdup (attribute_values[i]),
+					  my_strtod ( attribute_values[i],
 						      NULL ));
 	    i++;
 	    continue;
@@ -909,7 +915,7 @@ void gsb_file_load_account_part ( const gchar **attribute_names,
 		       "Minimum_wanted_balance" ))
 	{
 	    gsb_data_account_set_mini_balance_wanted ( account_number_tmp, 
-						  my_strtod ( g_strdup (attribute_values[i]),
+						  my_strtod ( attribute_values[i],
 							      NULL ));
 	    i++;
 	    continue;
@@ -919,8 +925,8 @@ void gsb_file_load_account_part ( const gchar **attribute_names,
 		       "Minimum_authorised_balance" ))
 	{
 	    gsb_data_account_set_mini_balance_authorized ( account_number_tmp, 
-						      my_strtod ( g_strdup (attribute_values[i]),
-								  NULL ));
+							   my_strtod ( attribute_values[i],
+								       NULL ));
 	    i++;
 	    continue;
 	}
@@ -948,8 +954,8 @@ void gsb_file_load_account_part ( const gchar **attribute_names,
 		       "Last_reconcile_balance" ))
 	{
 	    gsb_data_account_set_reconcile_balance ( account_number_tmp,
-						my_strtod ( g_strdup (attribute_values[i]),
-							    NULL ) );
+						     my_strtod ( attribute_values[i],
+								 NULL ));
 	    i++;
 	    continue;
 	}
@@ -994,7 +1000,7 @@ void gsb_file_load_account_part ( const gchar **attribute_names,
 		       "Comment" ))
 	{
 	    gsb_data_account_set_comment ( account_number_tmp,
-				      g_strdup (attribute_values[i]) );
+					   attribute_values[i]);
 	    i++;
 	    continue;
 	}
@@ -1003,7 +1009,7 @@ void gsb_file_load_account_part ( const gchar **attribute_names,
 		       "Owner_address" ))
 	{
 	    gsb_data_account_set_holder_address ( account_number_tmp,
-					     g_strdup (attribute_values[i]) );
+						  attribute_values[i]);
 	    i++;
 	    continue;
 	}
@@ -1216,7 +1222,7 @@ void gsb_file_load_payment_part ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Name" ))
 	{
-	    payment_method -> nom_type = g_strdup (attribute_values[i]);
+	    payment_method -> nom_type = my_strdup (attribute_values[i]);
 	    i++;
 	    continue;
 	}
@@ -2193,7 +2199,7 @@ void gsb_file_load_currency ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Na" ))
 	{
-	    currency -> nom_devise = g_strdup (attribute_values[i]);
+	    currency -> nom_devise = my_strdup (attribute_values[i]);
 	    i++;
 	    continue;
 	}
@@ -2201,7 +2207,7 @@ void gsb_file_load_currency ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Co" ))
 	{
-	    currency -> code_devise = g_strdup (attribute_values[i]);
+	    currency -> code_devise = my_strdup (attribute_values[i]);
 	    i++;
 	    continue;
 	}
@@ -2209,7 +2215,7 @@ void gsb_file_load_currency ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Ico" ))
 	{
-	    currency -> code_iso4217_devise = g_strdup (attribute_values[i]);
+	    currency -> code_iso4217_devise = my_strdup (attribute_values[i]);
 	    i++;
 	    continue;
 	}
@@ -2307,7 +2313,7 @@ void gsb_file_load_bank ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Na" ))
 	{
-	    bank -> nom_banque = g_strdup (attribute_values[i]);
+	    bank -> nom_banque = my_strdup (attribute_values[i]);
 	    i++;
 	    continue;
 	}
@@ -2315,7 +2321,7 @@ void gsb_file_load_bank ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Co" ))
 	{
-	    bank -> code_banque = g_strdup (attribute_values[i]);
+	    bank -> code_banque = my_strdup (attribute_values[i]);
 	    i++;
 	    continue;
 	}
@@ -2323,7 +2329,7 @@ void gsb_file_load_bank ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Adr" ))
 	{
-	    bank -> adr_banque = g_strdup (attribute_values[i]);
+	    bank -> adr_banque = my_strdup (attribute_values[i]);
 	    i++;
 	    continue;
 	}
@@ -2331,7 +2337,7 @@ void gsb_file_load_bank ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Tel" ))
 	{
-	    bank -> tel_banque = g_strdup (attribute_values[i]);
+	    bank -> tel_banque = my_strdup (attribute_values[i]);
 	    i++;
 	    continue;
 	}
@@ -2339,7 +2345,7 @@ void gsb_file_load_bank ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Mail" ))
 	{
-	    bank -> email_banque = g_strdup (attribute_values[i]);
+	    bank -> email_banque = my_strdup (attribute_values[i]);
 	    i++;
 	    continue;
 	}
@@ -2347,7 +2353,7 @@ void gsb_file_load_bank ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Web" ))
 	{
-	    bank -> web_banque = g_strdup (attribute_values[i]);
+	    bank -> web_banque = my_strdup (attribute_values[i]);
 	    i++;
 	    continue;
 	}
@@ -2355,7 +2361,7 @@ void gsb_file_load_bank ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Nac" ))
 	{
-	    bank -> nom_correspondant = g_strdup (attribute_values[i]);
+	    bank -> nom_correspondant = my_strdup (attribute_values[i]);
 	    i++;
 	    continue;
 	}
@@ -2363,7 +2369,7 @@ void gsb_file_load_bank ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Faxc" ))
 	{
-	    bank -> fax_correspondant = g_strdup (attribute_values[i]);
+	    bank -> fax_correspondant = my_strdup (attribute_values[i]);
 	    i++;
 	    continue;
 	}
@@ -2371,7 +2377,7 @@ void gsb_file_load_bank ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Telc" ))
 	{
-	    bank -> tel_correspondant = g_strdup (attribute_values[i]);
+	    bank -> tel_correspondant = my_strdup (attribute_values[i]);
 	    i++;
 	    continue;
 	}
@@ -2379,7 +2385,7 @@ void gsb_file_load_bank ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Mailc" ))
 	{
-	    bank -> email_correspondant = g_strdup (attribute_values[i]);
+	    bank -> email_correspondant = my_strdup (attribute_values[i]);
 	    i++;
 	    continue;
 	}
@@ -2387,7 +2393,7 @@ void gsb_file_load_bank ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Rem" ))
 	{
-	    bank -> remarque_banque = g_strdup (attribute_values[i]);
+	    bank -> remarque_banque = my_strdup (attribute_values[i]);
 	    i++;
 	    continue;
 	}
@@ -2445,7 +2451,7 @@ void gsb_file_load_financial_year ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Na" ))
 	{
-	    financial_year -> nom_exercice = g_strdup (attribute_values[i]);
+	    financial_year -> nom_exercice = my_strdup (attribute_values[i]);
 	    i++;
 	    continue;
 	}
@@ -2526,7 +2532,7 @@ void gsb_file_load_reconcile ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Na" ))
 	{
-	    reconcile_struct -> nom_rapprochement = g_strdup (attribute_values[i]);
+	    reconcile_struct -> nom_rapprochement = my_strdup (attribute_values[i]);
 	    i++;
 	    continue;
 	}
@@ -3620,12 +3626,12 @@ gboolean gsb_file_load_update_previous_version ( void )
 	    /* 	    passage à l'utf8 : on fait le tour des devises pour retrouver l'euro */
 	    /* Handle Euro nicely */
 
-	    devise = devise_par_nom ( g_strdup ("Euro"));
+	    devise = devise_par_nom ( my_strdup ("Euro"));
 
 	    if ( devise )
 	    {
 		devise -> code_devise = "€";
-		devise -> code_iso4217_devise = g_strdup ("EUR");
+		devise -> code_iso4217_devise = my_strdup ("EUR");
 	    }
 
 
@@ -3892,7 +3898,7 @@ gboolean gsb_file_load_update_previous_version ( void )
 	   strlen ( chemin_logo )
 	   &&
 	   utf8_stat ( chemin_logo, &buffer_stat) == -1 ))
-	chemin_logo = g_strdup ( LOGO_PATH );
+	chemin_logo = my_strdup ( LOGO_PATH );
 
     /* on marque le fichier comme ouvert */
 
@@ -3975,7 +3981,7 @@ void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
 		    type -> no_type = utils_str_atoi ( attribute_values[i] );
 		if ( !strcmp ( attribute_names[i],
 			       "Nom" ))
-		    type -> nom_type = g_strdup ( attribute_values[i] );
+		    type -> nom_type = my_strdup ( attribute_values[i] );
 		if ( !strcmp ( attribute_names[i],
 			       "Signe" ))
 		    type -> signe_type = utils_str_atoi ( attribute_values[i] );
@@ -4513,19 +4519,19 @@ void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
 
 		if ( !strcmp ( attribute_names[i],
 			       "Nom" ))
-		    devise -> nom_devise = g_strdup (attribute_values[i]);
+		    devise -> nom_devise = my_strdup (attribute_values[i]);
 
 		if ( !strcmp ( attribute_names[i],
 			       "IsoCode" )
 		     &&
 		     strlen (attribute_values[i]))
-		    devise -> code_iso4217_devise = g_strdup (attribute_values[i]);
+		    devise -> code_iso4217_devise = my_strdup (attribute_values[i]);
 
 		if ( !strcmp ( attribute_names[i],
 			       "Code" )
 		     &&
 		     strlen (attribute_values[i]))
-		    devise -> code_devise = g_strdup (attribute_values[i]);
+		    devise -> code_devise = my_strdup (attribute_values[i]);
 
 		/* 	   la suite n'est utile que pour les anciennes devises qui sont passées à l'euro */
 		/* 	non utilisées pour les autres */
@@ -4619,67 +4625,67 @@ void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
 		
 		if ( !strcmp ( attribute_names[i],
 			       "Nom" ))
-		    banque -> nom_banque = g_strdup (attribute_values[i]);
+		    banque -> nom_banque = my_strdup (attribute_values[i]);
 		
 		if ( !strcmp ( attribute_names[i],
 			       "Code" )
 		     &&
 		     strlen (attribute_values[i]))
-		    banque -> code_banque = g_strdup (attribute_values[i]);
+		    banque -> code_banque = my_strdup (attribute_values[i]);
 		
 		if ( !strcmp ( attribute_names[i],
 			       "Adresse" )
 		     &&
 		     strlen (attribute_values[i]))
-		    banque -> adr_banque = g_strdup (attribute_values[i]);
+		    banque -> adr_banque = my_strdup (attribute_values[i]);
 		
 		if ( !strcmp ( attribute_names[i],
 			       "Tel" )
 		     &&
 		     strlen (attribute_values[i]))
-		    banque -> tel_banque = g_strdup (attribute_values[i]);
+		    banque -> tel_banque = my_strdup (attribute_values[i]);
 		
 		if ( !strcmp ( attribute_names[i],
 			       "Mail" )
 		     &&
 		     strlen (attribute_values[i]))
-		    banque -> email_banque = g_strdup (attribute_values[i]);
+		    banque -> email_banque = my_strdup (attribute_values[i]);
 		
 		if ( !strcmp ( attribute_names[i],
 			       "Web" )
 		     &&
 		     strlen (attribute_values[i]))
-		    banque -> web_banque = g_strdup (attribute_values[i]);
+		    banque -> web_banque = my_strdup (attribute_values[i]);
 		
 		if ( !strcmp ( attribute_names[i],
 			       "Nom_correspondant" )
 		     &&
 		     strlen (attribute_values[i]))
-		    banque -> nom_correspondant = g_strdup (attribute_values[i]);
+		    banque -> nom_correspondant = my_strdup (attribute_values[i]);
 		
 		if ( !strcmp ( attribute_names[i],
 			       "Fax_correspondant" )
 		     &&
 		     strlen (attribute_values[i]))
-		    banque -> fax_correspondant = g_strdup (attribute_values[i]);
+		    banque -> fax_correspondant = my_strdup (attribute_values[i]);
 		
 		if ( !strcmp ( attribute_names[i],
 			       "Tel_correspondant" )
 		     &&
 		     strlen (attribute_values[i]))
-		    banque -> tel_correspondant = g_strdup (attribute_values[i]);
+		    banque -> tel_correspondant = my_strdup (attribute_values[i]);
 		
 		if ( !strcmp ( attribute_names[i],
 			       "Mail_correspondant" )
 		     &&
 		     strlen (attribute_values[i]))
-		    banque -> email_correspondant = g_strdup (attribute_values[i]);
+		    banque -> email_correspondant = my_strdup (attribute_values[i]);
 		
 		if ( !strcmp ( attribute_names[i],
 			       "Remarques" )
 		     &&
 		     strlen (attribute_values[i]))
-		    banque -> remarque_banque = g_strdup (attribute_values[i]);
+		    banque -> remarque_banque = my_strdup (attribute_values[i]);
 
 		i++;
 	    }
@@ -4713,7 +4719,7 @@ void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
 
 		if ( !strcmp ( attribute_names[i],
 			       "Nom" ))
-		    exercice -> nom_exercice = g_strdup ( attribute_values[i]);
+		    exercice -> nom_exercice = my_strdup ( attribute_values[i]);
 
 		if ( !strcmp ( attribute_names[i],
 			       "Date_debut" )
@@ -4785,7 +4791,7 @@ void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
 
 		if ( !strcmp ( attribute_names[i],
 			       "Nom" ))
-		    rapprochement -> nom_rapprochement = g_strdup ( attribute_values[i]);
+		    rapprochement -> nom_rapprochement = my_strdup ( attribute_values[i]);
 
 		i++;
 	    }
@@ -4948,7 +4954,7 @@ void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
 			       "Nom" ))
 		    gsb_data_report_set_method_of_payment_list ( last_report_number,
 								 g_slist_append ( gsb_data_report_get_method_of_payment_list (last_report_number),
-										  g_strdup (attribute_values[i])));
+										  my_strdup (attribute_values[i])));
 
 		i++;
 	    }
@@ -5014,42 +5020,42 @@ void gsb_file_load_general_part_before_0_6 ( GMarkupParseContext *context,
     if ( !strcmp ( element_name,
 		   "Version_fichier" ))
     {
-	download_tmp_values.file_version = g_strdup (text);
+	download_tmp_values.file_version = my_strdup (text);
 	return;
     }
 
     if ( !strcmp ( element_name,
 		   "Version_grisbi" ))
     {
-	download_tmp_values.grisbi_version = g_strdup (text);
+	download_tmp_values.grisbi_version = my_strdup (text);
 	return;
     }
 
     if ( !strcmp ( element_name,
 		   "Backup" ))
     {
-	nom_fichier_backup = g_strdup (text);
+	nom_fichier_backup = my_strdup (text);
 	return;
     }
 
     if ( !strcmp ( element_name,
 		   "Titre" ))
     {
-	titre_fichier = g_strdup (text);
+	titre_fichier = my_strdup (text);
 	return;
     }
 
     if ( !strcmp ( element_name,
 		   "Adresse_commune" ))
     {
-	adresse_commune = g_strdup (text);
+	adresse_commune = my_strdup (text);
 	return;
     }
 
     if ( !strcmp ( element_name,
 		   "Adresse_secondaire" ))
     {
-	adresse_secondaire = g_strdup (text);
+	adresse_secondaire = my_strdup (text);
 	return;
     }
 
@@ -5109,14 +5115,14 @@ void gsb_file_load_general_part_before_0_6 ( GMarkupParseContext *context,
     if ( !strcmp ( element_name,
 		   "Chemin_logo" ))
     {
-	chemin_logo = g_strdup (text);
+	chemin_logo = my_strdup (text);
 	return;
     }
 
     if ( !strcmp ( element_name,
 		   "Caracteristiques_par_compte" ))
     {
-	etat.retient_affichage_par_compte = utils_str_atoi( g_strdup (text));
+	etat.retient_affichage_par_compte = utils_str_atoi( my_strdup (text));
 	return;
     }
 
@@ -5127,7 +5133,7 @@ void gsb_file_load_general_part_before_0_6 ( GMarkupParseContext *context,
 	gint i, j;
 	gint number_columns;
 
-	pointeur_char = g_strsplit ( g_strdup (text),
+	pointeur_char = g_strsplit ( my_strdup (text),
 				     "-",
 				     0 );
 
@@ -5170,7 +5176,7 @@ void gsb_file_load_general_part_before_0_6 ( GMarkupParseContext *context,
     {
 	gchar **pointeur_char;
 
-	pointeur_char = g_strsplit ( g_strdup (text),
+	pointeur_char = g_strsplit ( text,
 				     "-",
 				     0 );
 
@@ -5189,7 +5195,7 @@ void gsb_file_load_general_part_before_0_6 ( GMarkupParseContext *context,
     {
 	gchar **pointeur_char;
 
-	pointeur_char = g_strsplit ( g_strdup (text),
+	pointeur_char = g_strsplit ( text,
 				     "-",
 				     0 );
 
@@ -5208,7 +5214,7 @@ void gsb_file_load_general_part_before_0_6 ( GMarkupParseContext *context,
     if ( !strcmp ( element_name,
 		   "Formulaire_distinct_par_compte" ))
     {
-	etat.formulaire_distinct_par_compte = utils_str_atoi( g_strdup (text));
+	etat.formulaire_distinct_par_compte = utils_str_atoi( text);
 	return;
     }
 
@@ -5218,7 +5224,7 @@ void gsb_file_load_general_part_before_0_6 ( GMarkupParseContext *context,
 	gchar **pointeur_char;
 	gint i;
 
-	pointeur_char = g_strsplit ( g_strdup (text),
+	pointeur_char = g_strsplit ( text,
 				     "-",
 				     0 );
 
@@ -5287,7 +5293,7 @@ void gsb_file_load_account_part_before_0_6 ( GMarkupParseContext *context,
     {
 	account_number_tmp = gsb_data_account_new ( GSB_TYPE_BANK );
 	gsb_data_account_set_name ( account_number_tmp,
-			       g_strdup (text) );
+				    text);
 	return;
     }
 
@@ -5295,7 +5301,7 @@ void gsb_file_load_account_part_before_0_6 ( GMarkupParseContext *context,
 		   "Id_compte" ))
     {
 	gsb_data_account_set_id (account_number_tmp,
-			    g_strdup (text));
+				 text);
 	if ( !strlen ( gsb_data_account_get_id (account_number_tmp)))
 	    gsb_data_account_set_id (account_number_tmp,
 				NULL );
@@ -5316,7 +5322,7 @@ void gsb_file_load_account_part_before_0_6 ( GMarkupParseContext *context,
 		   "Titulaire" ))
     {
 	gsb_data_account_set_holder_name ( account_number_tmp,
-				      g_strdup (text));
+					   text);
 	return;
     }
 
@@ -5348,7 +5354,7 @@ void gsb_file_load_account_part_before_0_6 ( GMarkupParseContext *context,
 		   "Guichet" ))
     {
 	gsb_data_account_set_bank_branch_code ( account_number_tmp,
-					   g_strdup (text) );
+						text);
 	return;
     }
 
@@ -5356,7 +5362,7 @@ void gsb_file_load_account_part_before_0_6 ( GMarkupParseContext *context,
 		   "No_compte_banque" ))
     {
 	gsb_data_account_set_bank_account_number ( account_number_tmp,
-					      g_strdup (text));
+						   text);
 	return;
     }
 
@@ -5364,7 +5370,7 @@ void gsb_file_load_account_part_before_0_6 ( GMarkupParseContext *context,
 		   "Cle_du_compte" ))
     {
 	gsb_data_account_set_bank_account_key ( account_number_tmp,
-					   g_strdup (text) );
+						text);
 	return;
     }
 
@@ -5372,7 +5378,7 @@ void gsb_file_load_account_part_before_0_6 ( GMarkupParseContext *context,
 		   "Solde_initial" ))
     {
 	gsb_data_account_set_init_balance (account_number_tmp,
-				      my_strtod ( g_strdup (text),
+				      my_strtod ( text,
 						  NULL ));
 	return;
     }
@@ -5381,7 +5387,7 @@ void gsb_file_load_account_part_before_0_6 ( GMarkupParseContext *context,
 		   "Solde_mini_voulu" ))
     {
 	gsb_data_account_set_mini_balance_wanted ( account_number_tmp, 
-					      my_strtod ( g_strdup (text),
+					      my_strtod ( text,
 							  NULL ));
 	return;
     }
@@ -5390,7 +5396,7 @@ void gsb_file_load_account_part_before_0_6 ( GMarkupParseContext *context,
 		   "Solde_mini_autorise" ))
     {
 	gsb_data_account_set_mini_balance_authorized ( account_number_tmp, 
-						  my_strtod ( g_strdup (text),
+						  my_strtod ( text,
 							      NULL ));
 	return;
     }
@@ -5400,10 +5406,11 @@ void gsb_file_load_account_part_before_0_6 ( GMarkupParseContext *context,
     {
 	gchar **pointeur_char;
 
-	if ( g_strdup (text) &&
+	if ( text
+	      &&
 	     strlen (text) > 0 )
 	{
-	    pointeur_char = g_strsplit ( g_strdup (text), "/", 0 );
+	    pointeur_char = g_strsplit ( text, "/", 0 );
 	    gsb_data_account_set_current_reconcile_date ( account_number_tmp,
 						     g_date_new_dmy ( utils_str_atoi ( pointeur_char [0] ),
 								      utils_str_atoi ( pointeur_char [1] ),
@@ -5417,7 +5424,7 @@ void gsb_file_load_account_part_before_0_6 ( GMarkupParseContext *context,
 		   "Solde_dernier_releve" ))
     {
 	gsb_data_account_set_reconcile_balance ( account_number_tmp,
-					    my_strtod ( g_strdup (text),
+					    my_strtod ( text,
 							NULL ) );
 	return;
     }
@@ -5458,7 +5465,7 @@ void gsb_file_load_account_part_before_0_6 ( GMarkupParseContext *context,
 		   "Commentaires" ))
     {
 	gsb_data_account_set_comment ( account_number_tmp,
-				  g_strdup (text) );
+				       text);
 	return;
     }
 
@@ -5466,7 +5473,7 @@ void gsb_file_load_account_part_before_0_6 ( GMarkupParseContext *context,
 		   "Adresse_du_titulaire" ))
     {
 	gsb_data_account_set_holder_address ( account_number_tmp,
-					 g_strdup (text) );
+					      text);
 	return;
     }
 
@@ -5508,12 +5515,12 @@ void gsb_file_load_account_part_before_0_6 ( GMarkupParseContext *context,
 	gsb_data_account_set_sort_list ( account_number_tmp,
 				    NULL );
 
-	if ( g_strdup (text))
+	if (text)
 	{
 	    gchar **pointeur_char;
 	    gint i;
 
-	    pointeur_char = g_strsplit ( g_strdup (text),
+	    pointeur_char = g_strsplit ( text,
 					 "/",
 					 0 );
 
@@ -5553,7 +5560,7 @@ void gsb_file_load_account_part_before_0_6 ( GMarkupParseContext *context,
 	gint i;
 	gchar **pointeur_char;
 
-	pointeur_char = g_strsplit ( g_strdup (text),
+	pointeur_char = g_strsplit ( text,
 				     "-",
 				     0 );
 
@@ -5603,7 +5610,7 @@ void gsb_file_load_account_part_before_0_6 ( GMarkupParseContext *context,
 						calloc ( 1,
 							 sizeof ( struct organisation_formulaire )) );
 
-	pointeur_char = g_strsplit ( g_strdup (text),
+	pointeur_char = g_strsplit ( text,
 				     "-",
 				     0 );
 
@@ -5627,7 +5634,7 @@ void gsb_file_load_account_part_before_0_6 ( GMarkupParseContext *context,
 						calloc ( 1,
 							 sizeof ( struct organisation_formulaire )) );
 
-	pointeur_char = g_strsplit ( g_strdup (text),
+	pointeur_char = g_strsplit ( text,
 				     "-",
 				     0 );
 
@@ -5916,7 +5923,7 @@ void gsb_file_load_report_part_before_0_6 ( GMarkupParseContext *context,
 	gchar **pointeur_char;
 	gint i;
 
-	pointeur_char = g_strsplit ( g_strdup (text),
+	pointeur_char = g_strsplit ( text,
 				     "/",
 				     0 );
 	i=0;
@@ -5947,7 +5954,7 @@ void gsb_file_load_report_part_before_0_6 ( GMarkupParseContext *context,
     {
 	gchar **pointeur_char;
 
-	pointeur_char = g_strsplit ( g_strdup (text),
+	pointeur_char = g_strsplit ( text,
 				     "/",
 				     0 );
 
@@ -5965,7 +5972,7 @@ void gsb_file_load_report_part_before_0_6 ( GMarkupParseContext *context,
     {
 	gchar **pointeur_char;
 
-	pointeur_char = g_strsplit ( g_strdup (text),
+	pointeur_char = g_strsplit ( text,
 				     "/",
 				     0 );
 
@@ -6023,7 +6030,7 @@ void gsb_file_load_report_part_before_0_6 ( GMarkupParseContext *context,
 	gchar **pointeur_char;
 	gint i;
 
-	pointeur_char = g_strsplit ( g_strdup (text),
+	pointeur_char = g_strsplit ( text,
 				     "/",
 				     0 );
 	i=0;
@@ -6078,7 +6085,7 @@ void gsb_file_load_report_part_before_0_6 ( GMarkupParseContext *context,
 	gchar **pointeur_char;
 	gint i;
 
-	pointeur_char = g_strsplit ( g_strdup (text),
+	pointeur_char = g_strsplit ( text,
 				     "/",
 				     0 );
 	i=0;
@@ -6124,7 +6131,7 @@ void gsb_file_load_report_part_before_0_6 ( GMarkupParseContext *context,
 	gchar **pointeur_char;
 	gint i;
 
-	pointeur_char = g_strsplit ( g_strdup (text),
+	pointeur_char = g_strsplit ( text,
 				     "/",
 				     0 );
 	i=0;
@@ -6218,7 +6225,7 @@ void gsb_file_load_report_part_before_0_6 ( GMarkupParseContext *context,
 	gchar **pointeur_char;
 	gint i;
 
-	pointeur_char = g_strsplit ( g_strdup (text),
+	pointeur_char = g_strsplit ( text,
 				     "/",
 				     0 );
 	i=0;
@@ -6313,7 +6320,7 @@ void gsb_file_load_report_part_before_0_6 ( GMarkupParseContext *context,
 	gchar **pointeur_char;
 	gint i;
 
-	pointeur_char = g_strsplit ( g_strdup (text),
+	pointeur_char = g_strsplit ( text,
 				     "/",
 				     0 );
 	i=0;

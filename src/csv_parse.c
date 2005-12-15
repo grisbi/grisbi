@@ -304,7 +304,7 @@ gboolean csv_import_parse_value_date ( struct struct_ope_importation * ope, gcha
 gboolean csv_import_parse_payee ( struct struct_ope_importation * ope, gchar * string )
 {
     g_return_val_if_fail ( string, FALSE );
-    ope -> tiers = g_strdup ( string );
+    ope -> tiers = my_strdup ( string );
     return TRUE;
 }
 
@@ -317,7 +317,7 @@ gboolean csv_import_parse_payee ( struct struct_ope_importation * ope, gchar * s
 gboolean csv_import_parse_notes ( struct struct_ope_importation * ope, gchar * string )
 {
     g_return_val_if_fail ( string, FALSE );
-    ope -> notes = g_strdup ( string );
+    ope -> notes = my_strdup ( string );
     return TRUE;
 }
 
@@ -343,7 +343,7 @@ gboolean csv_import_parse_voucher ( struct struct_ope_importation * ope, gchar *
 gboolean csv_import_parse_category ( struct struct_ope_importation * ope, gchar * string )
 {
     g_return_val_if_fail ( string, FALSE );
-    ope -> categ = g_strdup ( string );
+    ope -> categ = my_strdup ( string );
     return TRUE;
 }
 

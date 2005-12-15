@@ -55,13 +55,13 @@
 #include "tiers_onglet.h"
 #include "operations_comptes.h"
 #include "traitement_variables.h"
+#include "utils_str.h"
 #include "utils_operations.h"
 #include "affichage_formulaire.h"
 #include "utils_comptes.h"
 #include "etats_calculs.h"
 #include "utils_types.h"
 #include "utils.h"
-#include "utils_str.h"
 #include "structures.h"
 #include "operations_formulaire.h"
 #include "include.h"
@@ -1692,7 +1692,7 @@ gboolean completion_operation_par_tiers ( GtkWidget *entree )
 
     /*     s'il n'y a rien dans le tiers, on retourne FALSE */
 
-    nom_tiers = g_strstrip ( g_strdup ( gtk_entry_get_text ( GTK_ENTRY ( entree ))));
+    nom_tiers = g_strstrip ( my_strdup ( gtk_entry_get_text ( GTK_ENTRY ( entree ))));
 
     if ( !strlen ( nom_tiers ))
 	return FALSE;
@@ -2317,7 +2317,7 @@ gboolean gsb_form_finish_edition ( void )
 	/* it was a new transaction, we save the last date entry */
 
 	date_entry = widget_formulaire_par_element (TRANSACTION_FORM_DATE);
-	last_date = g_strdup ( gtk_entry_get_text ( GTK_ENTRY ( date_entry )));
+	last_date = my_strdup ( gtk_entry_get_text ( GTK_ENTRY ( date_entry )));
 
 	gsb_transactions_list_edit_current_transaction ();
     }
@@ -2596,7 +2596,7 @@ gboolean gsb_form_validate_form_transaction ( gint transaction_number )
 
 	    /* vérifie si le no de chèque n'est pas déjà utilisé */
 
-	    operation_tmp = operation_par_cheque ( utils_str_atoi ( g_strdup ( gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_par_element (TRANSACTION_FORM_CHEQUE) )))),
+	    operation_tmp = operation_par_cheque ( utils_str_atoi ( my_strdup ( gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_par_element (TRANSACTION_FORM_CHEQUE) )))),
 						   gsb_data_account_get_current_account () );
 
 	    /* si on a trouvé le même no de chèque, si c'est une nouvelle opé, c'est pas normal, */
@@ -2813,7 +2813,7 @@ void gsb_form_take_datas_from_form ( gint transaction_number )
 
 		    if ( gtk_widget_get_style ( widget ) == style_entree_formulaire[ENCLAIR] )
 			gsb_data_transaction_set_notes ( transaction_number,
-							 g_strstrip ( g_strdup ( gtk_entry_get_text ( GTK_ENTRY ( widget )))));
+							 g_strstrip ( my_strdup ( gtk_entry_get_text ( GTK_ENTRY ( widget )))));
 		    else
 			gsb_data_transaction_set_notes ( transaction_number,
 							 NULL );
@@ -2836,7 +2836,7 @@ void gsb_form_take_datas_from_form ( gint transaction_number )
 							 "adr_type" );
 
 			    gsb_data_transaction_set_method_of_payment_content ( transaction_number,
-										 g_strstrip ( g_strdup ( gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_par_element (TRANSACTION_FORM_CHEQUE) )))));
+										 g_strstrip ( my_strdup ( gtk_entry_get_text ( GTK_ENTRY ( widget_formulaire_par_element (TRANSACTION_FORM_CHEQUE) )))));
 
 			    if ( type -> numerotation_auto )
 				type -> no_en_cours = ( utils_str_atoi ( gsb_data_transaction_get_method_of_payment_content ( transaction_number)));
@@ -2869,7 +2869,7 @@ void gsb_form_take_datas_from_form ( gint transaction_number )
 
 		    if ( gtk_widget_get_style ( widget ) == style_entree_formulaire[ENCLAIR] )
 			gsb_data_transaction_set_bank_references ( transaction_number,
-								   g_strstrip ( g_strdup ( gtk_entry_get_text ( GTK_ENTRY ( widget )))));
+								   g_strstrip ( my_strdup ( gtk_entry_get_text ( GTK_ENTRY ( widget )))));
 		    else
 			gsb_data_transaction_set_bank_references ( transaction_number,
 								   NULL);
@@ -2879,7 +2879,7 @@ void gsb_form_take_datas_from_form ( gint transaction_number )
 
 		    if ( gtk_widget_get_style ( widget ) == style_entree_formulaire[ENCLAIR] )
 			gsb_data_transaction_set_voucher ( transaction_number,
-							   g_strstrip ( g_strdup ( gtk_entry_get_text ( GTK_ENTRY ( widget )))));
+							   g_strstrip ( my_strdup ( gtk_entry_get_text ( GTK_ENTRY ( widget )))));
 		    else
 			gsb_data_transaction_set_voucher ( transaction_number,
 							   NULL);
@@ -2912,7 +2912,7 @@ gboolean gsb_form_get_categories ( gint transaction_number,
 
     if ( gtk_widget_get_style ( category_entry ) == style_entree_formulaire[ENCLAIR] )
     {
-	char_ptr = g_strstrip ( g_strdup ( gtk_entry_get_text ( GTK_ENTRY ( category_entry ))));
+	char_ptr = g_strstrip ( my_strdup ( gtk_entry_get_text ( GTK_ENTRY ( category_entry ))));
 
 	if ( !strcmp ( char_ptr,
 		       _("Breakdown of transaction") ))

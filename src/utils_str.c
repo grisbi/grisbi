@@ -218,7 +218,7 @@ gchar * latin2utf8 ( char * inchar)
     res = myisolat1ToUTF8(buffer, &outlen, inchar, &inlen);
     buffer[outlen] = 0;
 
-    return (g_strdup ( buffer ));
+    return (my_strdup ( buffer ));
 }
 
 int myisolat1ToUTF8(unsigned char* out, int *outlen,
@@ -409,6 +409,21 @@ gint my_strncasecmp ( gchar *chaine_1,
 }
 /* ******************************************************************************* */
 
+/**
+ * protect the my_strdup function if the string is NULL
+ * don't use my_strdup directly !!
+ *
+ * \param string the string to be dupped
+ *
+ * \return a copy of that string
+ * */
+gchar *my_strdup ( const gchar *string )
+{
+    if ( string )
+	return g_strdup (string);
+    else
+	return NULL;
+}
 
 
 /* ******************************************************************************* */
@@ -427,7 +442,7 @@ gchar *limit_string ( gchar *string,
     if ( strlen ( string ) <= length )
 	return string;
 
-    string_return = g_strdup ( string );
+    string_return = my_strdup ( string );
     string_return[length-3] = '.';
     string_return[length-2] = '.';
     string_return[length-1] = '.';
@@ -451,7 +466,7 @@ gchar *get_line_from_string ( gchar *string )
     if ( !string )
 	return NULL;
 	    
-    pointeur_char = g_strdup ( string );
+    pointeur_char = my_strdup ( string );
 
     pointeur_char = g_strdelimit ( pointeur_char,
 				   "\n\r",
@@ -550,7 +565,7 @@ gchar * gsb_string_escape_underscores ( gchar * orig )
     }
     *iter = 0;
 
-    return g_strdup (new);
+    return my_strdup (new);
 }
 
 
@@ -569,7 +584,7 @@ gchar * gsb_string_truncate ( gchar * string )
 
     if ( strlen(string) < 20 )
     {
-	return g_strdup ( string );
+	return my_strdup ( string );
     }
     
     tmp = string + 20;
@@ -577,7 +592,7 @@ gchar * gsb_string_truncate ( gchar * string )
     {
 	/* We do not risk splitting the string in the middle of a
 	   UTF-8 accent ... the end is probably near btw. */
-	return g_strdup ( string );
+	return my_strdup ( string );
     }
     else 
     {

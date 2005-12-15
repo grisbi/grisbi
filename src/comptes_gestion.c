@@ -935,7 +935,7 @@ void modification_details_compte ( void )
     /* récupération du titulaire */
 
     gsb_data_account_set_holder_name ( compte_courant_onglet,
-				  g_strdup ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( detail_titulaire_compte )))) );
+				  my_strdup ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( detail_titulaire_compte )))) );
 
     if ( !strlen ( gsb_data_account_get_holder_name (compte_courant_onglet) ))
 	gsb_data_account_set_holder_name ( compte_courant_onglet,
@@ -1058,7 +1058,7 @@ void modification_details_compte ( void )
     /* enregistrement du no de guichet */
 
     gsb_data_account_set_bank_branch_code ( compte_courant_onglet,
-				       g_strdup ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( detail_guichet )))));
+				       my_strdup ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( detail_guichet )))));
 
     if ( !strlen ( gsb_data_account_get_bank_branch_code (compte_courant_onglet) ))
 	gsb_data_account_set_bank ( compte_courant_onglet,
@@ -1067,7 +1067,7 @@ void modification_details_compte ( void )
     /* enregistrement du no de compte */
 
     gsb_data_account_set_bank_account_number ( compte_courant_onglet,
-					  g_strdup ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( detail_no_compte )))) );
+					  my_strdup ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( detail_no_compte )))) );
 
     if ( !strlen ( gsb_data_account_get_bank_account_number (compte_courant_onglet) ))
 	gsb_data_account_set_bank_account_number ( compte_courant_onglet,
@@ -1076,7 +1076,7 @@ void modification_details_compte ( void )
     /* enregistrement de la clé du compte */
 
     gsb_data_account_set_bank_account_key ( compte_courant_onglet,
-				       g_strdup ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( detail_cle_compte )))) );
+				       my_strdup ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( detail_cle_compte )))) );
 
     if ( !strlen ( gsb_data_account_get_bank_account_key (compte_courant_onglet) ))
 	gsb_data_account_set_bank_account_key ( compte_courant_onglet,
@@ -1190,7 +1190,7 @@ void modification_details_compte ( void )
 		  gsb_data_account_get_name (compte_courant_onglet) ) )
     {
 	gsb_data_account_set_name ( compte_courant_onglet,
-			       g_strdup ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( detail_nom_compte )))) );
+			       my_strdup ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( detail_nom_compte )))) );
 
 	gsb_gui_navigation_update_account ( compte_courant_onglet );
 	gsb_menu_update_accounts_in_menus ();
