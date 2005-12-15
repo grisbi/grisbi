@@ -260,6 +260,14 @@ GtkWidget *onglet_affichage_operations ( void )
 		       (GCallback) transactions_list_display_modes_menu_changed,
 		       NULL );
 
+    /* add the 'loading r into the list at begining' */
+
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ),
+			 new_checkbox_with_title (_("Load the R transactions into the list at the begining\n(use if look often the R transactions)"),
+						  &etat.fill_r_at_begining,
+						  NULL ),
+			 FALSE, FALSE, 0 );
+
     /* Then add the "sort by" buttons */
     paddingbox = new_radiogroup_with_title (vbox_pref,
 					    _("Sort transaction list"),

@@ -196,7 +196,6 @@ extern GSList *lignes_affichage_deux_lignes;
 extern GSList *lignes_affichage_trois_lignes;
 extern GSList *liste_labels_titres_colonnes_liste_ope ;
 extern GSList *liste_struct_devises;
-extern gint max;
 extern gint mise_a_jour_combofix_categ_necessaire;
 extern gint mise_a_jour_combofix_imputation_necessaire;
 extern gint mise_a_jour_combofix_tiers_necessaire;
@@ -731,7 +730,7 @@ GtkWidget *gsb_transactions_list_create_tree_view ( GtkTreeModel *model )
  * fill the new store with the all the transactions
  * normally called at the opening of a file
  * 
- * \param by_part if TRUE, stop after a max number of transactions and return like that
+ * \param store the store to fill (normally... it exists only one...)
  * 
  * \return FALSE
  * */
@@ -751,8 +750,13 @@ gboolean gsb_transactions_list_fill_store ( GtkTreeStore *store )
 
 	transaction_number = gsb_data_transaction_get_transaction_number (transactions_list -> data);
 
-	/* FIXME : à changer par une liste à part ou laisser comme ça ? (pour le retrait des R au démarrage) */
-	if ( gsb_data_transaction_get_marked_transaction (transaction_number) == 3 )
+	/* normally fill only the non-R transactions, which is much faster,
+	 * except if the user choose to load them at the begining */
+
+	if ( !etat.fill_r_at_begining
+	     &&
+	     gsb_data_transaction_get_marked_transaction (transaction_number) == 3
+ )
 	{
 	    transactions_list = transactions_list -> next;
 	    continue;
@@ -2748,7 +2752,8 @@ gboolean gsb_transactions_list_edit_current_transaction ( void )
 
     return FALSE;
 }
-/******************************************************************************/
+
+
 
 /******************************************************************************/
 /* Fonction p_press */
@@ -3463,7 +3468,6 @@ gboolean gsb_gui_update_row_foreach ( GtkTreeModel *model, GtkTreePath *path,
 {
     gint line, transaction_number;
     gpointer pointer;
-printf ( "ça passe à  gsb_gui_update_row_foreach peut être pb ici\n" );
     gtk_tree_model_get ( model, iter,
 			 TRANSACTION_COL_NB_TRANSACTION_LINE, &line,
 			 TRANSACTION_COL_NB_TRANSACTION_ADDRESS, &pointer,
@@ -4307,34 +4311,76 @@ void mise_a_jour_labels_soldes ( void )
 /******************************************************************************/
 void mise_a_jour_affichage_r ( gint affichage_r )
 {
-    GSList *list_tmp;
+    gint current_account;
+
+    devel_debug ( g_strdup_printf ("mise_a_jour_affichage_r afficher : %d", affichage_r ));
+
+    current_account = gsb_data_account_get_current_account ();
+
+    /* if the R transactions are not loaded and we want to show them,
+     * we do it here */
+
+    if ( !etat.fill_r_done
+	 &&
+	 affichage_r == 1 )
+    {
+	GtkTreeStore *store;
+	GtkWidget *message_window;
+
+	/* we show a message because it can take some time */
+
+	message_window = gsb_dialog_create_information_window ( make_hint("Loading the releved transactions",
+									  "This operation can take some time..." ));
+	gtk_widget_show (message_window);
+	update_ecran ();
+
+	store = gsb_transactions_list_get_store ();
+	gtk_tree_store_clear (store);
+
+	/* we have to load all the R transactions,
+	 * the simplest way is to refill the store because
+	 * most of the time will be spend for R transactions */
+	etat.fill_r_at_begining = 1;
+	
+	gsb_transactions_list_fill_store (store);
+
+	etat.fill_r_at_begining = 0;
+	etat.fill_r_done = 1;
+
+	gtk_widget_destroy (message_window);
+    }
 
     /*     we check all the accounts */
     /* 	if etat.retient_affichage_par_compte is set, only gsb_data_account_get_current_account () will change */
     /* 	else, all the accounts change */
 
-    if ( affichage_r == gsb_data_account_get_r (gsb_data_account_get_current_account ()) )
+    if ( affichage_r == gsb_data_account_get_r (current_account))
 	return;
 
-    devel_debug ( g_strdup_printf ("mise_a_jour_affichage_r afficher : %d", affichage_r ));
+    gsb_data_account_set_r ( current_account,
+			     affichage_r );
 
-    gsb_data_account_set_r (gsb_data_account_get_current_account (),
-			    affichage_r );
-
-    list_tmp = gsb_data_account_get_list_accounts ();
-
-    while ( list_tmp )
+    if ( !etat.retient_affichage_par_compte )
     {
-	gint i;
+	GSList *list_tmp;
 
-	i = gsb_data_account_get_no_account ( list_tmp -> data );
+	list_tmp = gsb_data_account_get_list_accounts ();
 
-	if ( !etat.retient_affichage_par_compte )
+	while ( list_tmp )
+	{
+	    gint i;
+
+	    i = gsb_data_account_get_no_account ( list_tmp -> data );
 	    gsb_data_account_set_r ( i,
 				     affichage_r );
 
-	list_tmp = list_tmp -> next;
+	    list_tmp = list_tmp -> next;
+	}
     }
+
+    gsb_transactions_list_set_visibles_rows_on_account (current_account);
+    gsb_transactions_list_set_background_color (current_account);
+
     return;
 }
 /******************************************************************************/

@@ -559,6 +559,37 @@ void dialog_message ( gchar * label, ... )
     }
 }
 
+/**
+ * create and return a window with the text given in param
+ * don't show the window
+ * FIXME : should be improved in the 0.6 => benj ?
+ *
+ * \param text
+ *
+ * \return a GtkWindow
+ * */
+GtkWindow *gsb_dialog_create_information_window ( gchar *text )
+{
+    GtkWindow *message_window;
+    GtkWidget *label;
+
+    message_window = GTK_WINDOW (gtk_window_new (GTK_WINDOW_POPUP));
+    gtk_window_set_transient_for ( GTK_WINDOW (message_window),
+				   GTK_WINDOW (window));
+    gtk_window_set_modal ( GTK_WINDOW (message_window),
+			   TRUE );
+    gtk_window_set_position ( GTK_WINDOW (message_window),
+			      GTK_WIN_POS_CENTER );
+
+    label = gtk_label_new (text);
+    gtk_label_set_markup ( GTK_LABEL (label),
+			   text );
+    gtk_container_add ( GTK_CONTAINER(message_window),
+			label );
+    gtk_widget_show (label);
+
+    return message_window;
+}
 
 /* Local Variables: */
 /* c-basic-offset: 4 */

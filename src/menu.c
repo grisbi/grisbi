@@ -586,8 +586,6 @@ gboolean gsb_gui_toggle_show_reconciled ()
     else
 	change_aspect_liste(5);
 
-    gsb_transactions_list_set_visibles_rows_on_account ( gsb_data_account_get_current_account () );
-
     return FALSE;
 }
 

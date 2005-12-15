@@ -20,6 +20,7 @@ GtkWidget * dialogue_special_no_run ( GtkMessageType param, GtkButtonsType butto
 				      gchar * text );
 void dialogue_warning ( gchar *text );
 void dialogue_warning_hint ( gchar *text, gchar * hint );
+GtkWindow *gsb_dialog_create_information_window ( gchar *text );
 gchar * make_hint ( gchar * hint, gchar * text );
 gboolean question ( gchar *texte );
 gboolean question_conditional_yes_no ( gchar * var );
