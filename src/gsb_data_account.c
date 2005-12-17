@@ -34,7 +34,7 @@
 /*START_INCLUDE*/
 #include "gsb_data_account.h"
 #include "data_currency.h"
-#include "data_form.h"
+#include "gsb_data_form.h"
 #include "data_payment.h"
 #include "utils_str.h"
 #include "gsb_transactions_list.h"
@@ -67,7 +67,6 @@ typedef struct
     /** @name showed list stuff */
     gint show_r;                      /**< 1 : reconciled transactions are showed */
     gint nb_rows_by_transaction;      /**< 1, 2, 3, 4  */
-    gpointer account_button;        /**< the button in the list of accounts on the transactions page */
     gint update_list;                /**< 1 when the list need to be updated when showed */
 
     /** @name remaining of the balances */
@@ -115,12 +114,9 @@ typedef struct
 
 
 /*START_STATIC*/
-static gpointer gsb_data_account_get_account_button ( gint no_account );
 static struct_account *gsb_data_account_get_structure ( gint no );
 static gboolean gsb_data_account_get_update_list ( gint no_account );
 static gint gsb_data_account_max_number ( void );
-static gboolean gsb_data_account_set_account_button ( gint no_account,
-					  gpointer account_button );
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -1784,44 +1780,6 @@ gboolean gsb_data_account_set_default_credit ( gint no_account,
 	return FALSE;
 
     account -> default_credit = default_credit;
-
-    return TRUE;
-}
-
-
-/** get the account_button of the account
- * \param no_account no of the account
- * \return tree or NULL if the account doesn't exist
- * */
-gpointer gsb_data_account_get_account_button ( gint no_account )
-{
-    struct_account *account;
-
-    account = gsb_data_account_get_structure ( no_account );
-
-    if (!account )
-	return NULL;
-
-    return account -> account_button;
-}
-
-
-/** set the account_button of the account
- * \param no_account no of the account
- * \param account_button account_button to set
- * \return TRUE, ok ; FALSE, problem
- * */
-gboolean gsb_data_account_set_account_button ( gint no_account,
-					  gpointer account_button )
-{
-    struct_account *account;
-
-    account = gsb_data_account_get_structure ( no_account );
-
-    if (!account )
-	return FALSE;
-
-    account -> account_button = account_button;
 
     return TRUE;
 }

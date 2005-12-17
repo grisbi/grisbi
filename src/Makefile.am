@@ -32,6 +32,7 @@ sources = \
 	gsb_data_account.c	\
 	gsb_data_budget.c	\
 	gsb_data_category.c	\
+	gsb_data_form.c		\
 	gsb_data_payee.c	\
 	gsb_data_report.c	\
 	gsb_data_report_amout_comparison.c	\
@@ -43,10 +44,10 @@ sources = \
 	gsb_file_others.c	\
 	gsb_file_save.c		\
 	gsb_file_util.c		\
+	gsb_form.c		\
 	gsb_scheduler_list.c	\
 	gsb_transactions_list.c	\
 	data_currency.c		\
-	data_form.c		\
 	data_payment.c		\
 	devises.c		\
 	dialog.c		\
@@ -135,6 +136,7 @@ grisbi_INCLUDES =		\
 	gsb_data_account.h	\
 	gsb_data_budget.h	\
 	gsb_data_category.h	\
+	gsb_data_form.h		\
 	gsb_data_payee.h	\
 	gsb_data_report.h	\
 	gsb_data_report_amout_comparison.h	\
@@ -146,10 +148,10 @@ grisbi_INCLUDES =		\
 	gsb_file_others.h	\
 	gsb_file_save.h		\
 	gsb_file_util.h		\
+	gsb_form.h		\
 	gsb_scheduler_list.h	\
 	gsb_transactions_list.h	\
 	data_currency.h		\
-	data_form.h		\
 	data_payment.h		\
 	devises.h		\
 	dialog.h		\
