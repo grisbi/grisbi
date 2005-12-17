@@ -35,7 +35,7 @@
 #include "gtk_combofix.h"
 #include "utils_buttons.h"
 #include "utils.h"
-#include "affichage_formulaire.h"
+#include "gsb_form_config.h"
 #include "operations_formulaire.h"
 #include "echeancier_formulaire.h"
 #include "include.h"

@@ -40,7 +40,7 @@
 #include "utils_editables.h"
 #include "etats_config.h"
 #include "utils_buttons.h"
-#include "affichage_formulaire.h"
+#include "gsb_form_config.h"
 #include "operations_formulaire.h"
 #include "structures.h"
 #include "devises.h"

@@ -33,9 +33,71 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
+static gboolean gsb_form_hide ( void );
+static gboolean gsb_form_show ( void );
+static gboolean gsb_form_valid ( void );
 /*END_STATIC*/
 
 /*START_EXTERN*/
 /*END_EXTERN*/
 
+
+
+/**
+ * show the form, detect automatickly what we need to show, even for transactions,
+ * scheduled_transactions and the buttons valid/cancel
+ *
+ * \param
+ *
+ * \return FALSE
+ * */
+gboolean gsb_form_show ( void )
+{
+
+
+    return FALSE;
+}
+
+
+/** 
+ * hide the form, for now destroy it
+ *
+ * \param
+ *
+ * \return FALSE
+ * */
+gboolean gsb_form_hide ( void )
+{
+
+
+    return FALSE;
+}
+
+/**
+ * check the values in the form and valid them
+ *
+ * \param
+ *
+ * \return TRUE if the form is ok, FALSE else
+ * */
+gboolean gsb_form_valid ( void )
+{
+
+    return TRUE;
+}
+
+
+/**
+ * get the values in the form and fill the given transaction
+ *
+ * \param transaction_number
+ *
+ * \return FALSE
+ * */
+gboolean gsb_fom_fill_transaction ( gint transaction_number )
+{
+
+
+    return FALSE;
+}
 

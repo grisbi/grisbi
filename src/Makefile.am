@@ -17,7 +17,6 @@ sources = \
 	accueil.c		\
 	affichage.c		\
 	affichage_liste.c	\
-	affichage_formulaire.c	\
 	banque.c		\
 	barre_outils.c		\
 	calendar.c		\
@@ -45,6 +44,7 @@ sources = \
 	gsb_file_save.c		\
 	gsb_file_util.c		\
 	gsb_form.c		\
+	gsb_form_config.c	\
 	gsb_scheduler_list.c	\
 	gsb_transactions_list.c	\
 	data_currency.c		\
@@ -120,7 +120,6 @@ grisbi_INCLUDES =		\
 	accueil.h		\
 	affichage.h		\
 	affichage_liste.h	\
-	affichage_formulaire.h	\
 	banque.h		\
 	barre_outils.h		\
 	calendar.h		\
@@ -149,6 +148,7 @@ grisbi_INCLUDES =		\
 	gsb_file_save.h		\
 	gsb_file_util.h		\
 	gsb_form.h		\
+	gsb_form_config.h	\
 	gsb_scheduler_list.h	\
 	gsb_transactions_list.h	\
 	data_currency.h		\

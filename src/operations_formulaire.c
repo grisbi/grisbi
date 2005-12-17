@@ -57,7 +57,7 @@
 #include "traitement_variables.h"
 #include "utils_str.h"
 #include "utils_operations.h"
-#include "affichage_formulaire.h"
+#include "gsb_form_config.h"
 #include "utils_comptes.h"
 #include "etats_calculs.h"
 #include "utils_types.h"

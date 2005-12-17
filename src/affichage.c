@@ -26,7 +26,6 @@
 /*START_INCLUDE*/
 #include "affichage.h"
 #include "fichiers_gestion.h"
-#include "affichage_formulaire.h"
 #include "utils_file_selection.h"
 #include "gsb_data_account.h"
 #include "gsb_transactions_list.h"
@@ -71,7 +70,6 @@ extern GtkWidget *entree_adresse_commune;
 extern GtkWidget *entree_adresse_secondaire;
 extern GtkWidget *entree_titre_fichier;
 extern GtkWidget *fenetre_preferences;
-extern GtkWidget *formulaire;
 extern gint hauteur_ligne_liste_opes;
 extern GtkWidget *hbox_title;
 extern GtkWidget *hbox_valider_annuler_echeance;
@@ -119,34 +117,6 @@ gboolean update_transaction_form ( GtkWidget * checkbox, gpointer data )
 	gtk_widget_hide ( hbox_valider_annuler_echeance );
     }
     return ( FALSE );
-}
-
-
-
-GtkWidget *onglet_display_transaction_form ( void )
-{
-    GtkWidget *vbox_pref;
-    GtkWidget *liste_organisation;
-
-
-    vbox_pref = new_vbox_with_title_and_icon ( _("Transaction form"), "form.png" );
-
-    /*     organisation du formulaire */
-
-    liste_organisation = creation_liste_organisation_formulaire ();
-    gtk_box_pack_start ( GTK_BOX ( vbox_pref ),
-			 liste_organisation,
-			 FALSE, FALSE, 0 );
-    gtk_widget_show ( liste_organisation );
-
-    
-
-    if ( !gsb_data_account_get_accounts_amount () )
-    {
-	gtk_widget_set_sensitive ( vbox_pref, FALSE );
-    }
-
-    return vbox_pref;
 }
 
 

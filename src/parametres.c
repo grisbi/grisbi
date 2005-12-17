@@ -35,6 +35,7 @@
 #include "banque.h"
 #include "devises.h"
 #include "affichage.h"
+#include "gsb_form_config.h"
 #include "exercice.h"
 #include "import.h"
 #include "type_operations.h"

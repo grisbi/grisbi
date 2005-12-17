@@ -38,7 +38,7 @@
 #include "utils.h"
 #include "utils_editables.h"
 #include "etats_config.h"
-#include "affichage_formulaire.h"
+#include "gsb_form_config.h"
 #include "operations_formulaire.h"
 #include "include.h"
 #include "echeancier_formulaire.h"
