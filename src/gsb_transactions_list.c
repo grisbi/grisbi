@@ -755,8 +755,7 @@ gboolean gsb_transactions_list_fill_store ( GtkTreeStore *store )
 
 	if ( !etat.fill_r_at_begining
 	     &&
-	     gsb_data_transaction_get_marked_transaction (transaction_number) == 3
- )
+	     gsb_data_transaction_get_marked_transaction (transaction_number) == 3 )
 	{
 	    transactions_list = transactions_list -> next;
 	    continue;
@@ -950,9 +949,12 @@ gboolean gsb_transactions_list_fill_row ( gint transaction_number,
 
 
 
-/** take in a transaction the content to set in a cell of the transaction's list
+/**
+ * take in a transaction the content to set in a cell of the transaction's list
+ * 
  * \param transaction_number
  * \param cell_content_number what we need in the transaction
+ * 
  * \return the content of the transaction, in gchar
  * */
 gchar *gsb_transactions_list_grep_cell_content ( gint transaction_number,

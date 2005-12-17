@@ -232,6 +232,8 @@ gpointer gsb_data_category_get_sub_category_structure ( gint no_category,
 
     if ( sub_category_buffer
 	 &&
+	 sub_category_buffer -> mother_category_number == no_category
+	 &&
 	 sub_category_buffer -> sub_category_number == no_sub_category )
 	return sub_category_buffer;
 

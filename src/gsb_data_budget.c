@@ -232,6 +232,8 @@ gpointer gsb_data_budget_get_sub_budget_structure ( gint no_budget,
 
     if ( sub_budget_buffer
 	 &&
+	 sub_budget_buffer -> mother_budget_number == no_budget
+	 &&
 	 sub_budget_buffer -> sub_budget_number == no_sub_budget )
 	return sub_budget_buffer;
 
