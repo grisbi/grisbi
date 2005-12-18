@@ -28,6 +28,7 @@
 #include "dialog.h"
 #include "utils_devises.h"
 #include "gsb_data_account.h"
+#include "gsb_data_form.h"
 #include "gsb_data_scheduled.h"
 #include "gsb_data_transaction.h"
 #include "categories_onglet.h"
@@ -40,7 +41,6 @@
 #include "utils_editables.h"
 #include "etats_config.h"
 #include "utils_buttons.h"
-#include "gsb_form_config.h"
 #include "operations_formulaire.h"
 #include "structures.h"
 #include "devises.h"
@@ -194,7 +194,7 @@ gboolean select_currency_in_iso_list ( GtkTreeSelection *selection, GtkTreeModel
  */
 void update_currency_widgets()
 {
-    if ( verifie_element_formulaire_existe ( TRANSACTION_FORM_DEVISE ))
+    if ( gsb_data_form_check_for_value ( TRANSACTION_FORM_DEVISE ))
     {
 	gtk_widget_destroy ( GTK_OPTION_MENU ( widget_formulaire_par_element (TRANSACTION_FORM_DEVISE) ) -> menu );
 	gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_par_element (TRANSACTION_FORM_DEVISE) ),

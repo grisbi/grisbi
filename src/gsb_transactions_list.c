@@ -41,6 +41,7 @@
 #include "gsb_data_account.h"
 #include "gsb_data_budget.h"
 #include "gsb_data_category.h"
+#include "gsb_data_form.h"
 #include "gsb_data_payee.h"
 #include "gsb_data_scheduled.h"
 #include "gsb_data_transaction.h"
@@ -203,7 +204,6 @@ extern gint mise_a_jour_liste_comptes_accueil;
 extern gint mise_a_jour_liste_echeances_auto_accueil;
 extern gint mise_a_jour_soldes_minimaux;
 extern GtkTreeStore *model;
-extern gint nb_colonnes;
 extern GtkWidget *notebook_general;
 extern gdouble operations_pointees;
 extern PangoFontDescription *pango_desc_fonte_liste;
@@ -2396,13 +2396,14 @@ gint find_p_r_line ()
 gboolean gsb_transactions_list_edit_current_transaction ( void )
 {
     gchar *char_tmp;
-    gint i, j;
-    struct organisation_formulaire *form_organization;
+    gint row, column;
     GtkWidget *menu;
     gint focus_to;
     gint transaction_number;
+    gint account_number;
 
-    transaction_number = gsb_data_account_get_current_transaction_number (gsb_data_account_get_current_account ());
+    account_number = gsb_data_account_get_current_account ();
+    transaction_number = gsb_data_account_get_current_transaction_number (account_number);
 
     formulaire_a_zero ();
     degrise_formulaire_operations ();
@@ -2446,16 +2447,19 @@ gboolean gsb_transactions_list_edit_current_transaction ( void )
 
     /*     on fait le tour du formulaire en ne remplissant que ce qui est nécessaire */
 
-    form_organization = renvoie_organisation_formulaire ();
-
-    for ( i=0 ; i < form_organization -> nb_lignes ; i++ )
-	for ( j=0 ; j <  form_organization -> nb_colonnes ; j++ )
+    for ( row=0 ; row < gsb_data_form_get_nb_rows (account_number) ; row++ )
+	for ( column=0 ; column <  gsb_data_form_get_nb_columns (account_number) ; column++ )
 	{
 	    GtkWidget *widget;
+	    gint value;
 
-	    widget =  widget_formulaire_par_element ( form_organization -> tab_remplissage_formulaire[i][j] );
+	    value = gsb_data_form_get_value (account_number,
+					     column,
+					     row );
 
-	    switch ( form_organization -> tab_remplissage_formulaire[i][j] )
+	    widget =  widget_formulaire_par_element (value);
+
+	    switch (value)
 	    {
 		case TRANSACTION_FORM_OP_NB:
 
@@ -2642,9 +2646,9 @@ gboolean gsb_transactions_list_edit_current_transaction ( void )
 		case TRANSACTION_FORM_TYPE:
 
 		    if ( gsb_data_transaction_get_amount ( transaction_number)< 0 )
-			menu = creation_menu_types ( 1, gsb_data_account_get_current_account (), 0  );
+			menu = creation_menu_types ( 1, account_number, 0  );
 		    else
-			menu = creation_menu_types ( 2, gsb_data_account_get_current_account (), 0  );
+			menu = creation_menu_types ( 2, account_number, 0  );
 
 		    if ( menu )
 		    {

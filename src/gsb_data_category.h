@@ -1,5 +1,10 @@
 #ifndef _GSB_CATEGORY_DATA_H
 #define _GSB_CATEGORY_DATA_H (1)
+
+/* START_INCLUDE_H */
+#include "gsb_data_category.h"
+/* END_INCLUDE_H */
+
 /* START_DECLARATION */
 void gsb_data_category_add_transaction_to_category ( gint transaction_number );
 void gsb_data_category_create_default_category_list ( void );

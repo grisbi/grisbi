@@ -28,13 +28,13 @@
 #include "operations_comptes.h"
 #include "erreur.h"
 #include "gsb_data_account.h"
+#include "gsb_data_form.h"
 #include "utils_dates.h"
 #include "menu.h"
 #include "gsb_transactions_list.h"
 #include "comptes_traitements.h"
 #include "operations_formulaire.h"
 #include "include.h"
-#include "structures.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -54,7 +54,6 @@ GtkWidget *label_last_statement;
 extern gint compte_courant_onglet;
 extern GtkWidget *formulaire;
 extern gchar *last_date;
-extern gint nb_colonnes;
 /*END_EXTERN*/
 
 
@@ -145,24 +144,27 @@ gboolean gsb_data_account_list_gui_change_current_account ( gint *no_account )
 void mise_a_jour_taille_formulaire ( gint largeur_formulaire )
 {
 
-    gint i, j;
-    struct organisation_formulaire *organisation_formulaire;
+    gint row, column;
+    gint account_number;
 
     if ( !largeur_formulaire )
 	return;
 
-    organisation_formulaire = renvoie_organisation_formulaire ();
+    account_number = gsb_data_account_get_current_account ();
 
-    for ( i=0 ; i < organisation_formulaire -> nb_lignes ; i++ )
-	for ( j=0 ; j < organisation_formulaire -> nb_colonnes ; j++ )
+    for ( row=0 ; row < gsb_data_form_get_nb_rows (account_number) ; row++ )
+	for ( column=0 ; column < gsb_data_form_get_nb_columns (account_number) ; column++ )
 	{
 	    GtkWidget *widget;
 
-	    widget = widget_formulaire_par_element ( organisation_formulaire -> tab_remplissage_formulaire[i][j] );
+	    widget = widget_formulaire_par_element ( gsb_data_form_get_value ( account_number,
+									       column,
+									       row ));
 
 	    if ( widget )
 		gtk_widget_set_usize ( widget,
-				       organisation_formulaire -> taille_colonne_pourcent[j] * largeur_formulaire / 100,
+				       gsb_data_form_get_width_column (account_number,
+								       column ) * largeur_formulaire / 100,
 				       FALSE );
 	}
 }

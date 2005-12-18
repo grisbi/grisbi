@@ -33,13 +33,13 @@
 
 /*START_INCLUDE*/
 #include "gsb_data_account.h"
+#include "dialog.h"
 #include "data_currency.h"
 #include "gsb_data_form.h"
 #include "data_payment.h"
 #include "utils_str.h"
 #include "gsb_transactions_list.h"
 #include "include.h"
-#include "structures.h"
 /*END_INCLUDE*/
 
 /** \struct
@@ -109,7 +109,7 @@ typedef struct
     gdouble vertical_adjustment_value;
 
     /** @name struct of the form's organization */
-    struct organisation_formulaire *form_organization;
+    gpointer form_organization;
 } struct_account;
 
 
@@ -166,9 +166,12 @@ GSList *gsb_data_account_get_list_accounts ( void )
 }
 
 
-/** create a new account and add to the list of accounts
+/**
+ * create a new account and add to the list of accounts
+ * 
  * \param account_type the type of the account
- * \return no of account
+ * 
+ * \return no of account, -1 if problem
  * */
 gint gsb_data_account_new ( kind_account account_kind )
 {
@@ -178,7 +181,16 @@ gint gsb_data_account_new ( kind_account account_kind )
 		       sizeof ( struct_account ));
 
     if ( !account )
+    {
+	dialogue_error_memory ();
 	return -1;
+    }
+
+    /* we have to append the account first because some functions later will
+     * look for that account */
+
+    list_accounts = g_slist_append ( list_accounts,
+				     account );
 
     account -> account_number = gsb_data_account_max_number () + 1;
     account -> account_name = g_strdup_printf ( _("No name %d"),
@@ -191,24 +203,29 @@ gint gsb_data_account_new ( kind_account account_kind )
     account -> current_transaction_number = -1;
     account -> vertical_adjustment_value = (gdouble) -1;
     
-    /*     if it's the first account, we put default conf (R not displayed and 3 lines per transaction) */
+    /*     if it's the first account, we set default conf (R not displayed and 3 lines per transaction) */
     /*     else we keep the conf of the last account */
     /*     same for the form organization */
 
     if ( account -> account_number == 1 )
     {
 	account -> nb_rows_by_transaction = 3;
-	account -> form_organization = gsb_form_new_organization ();
+	gsb_data_form_new_organization (account -> account_number);
+	gsb_data_form_set_default_organization (account -> account_number);
     }
     else
     {
 	account -> show_r = gsb_data_account_get_r ( gsb_data_account_max_number ());
 	account -> nb_rows_by_transaction = gsb_data_account_get_nb_rows ( gsb_data_account_max_number ());
-	account -> form_organization = gsb_form_dup_organization ( gsb_data_account_get_structure (gsb_data_account_max_number ()) -> form_organization );
-    }
 
-    list_accounts = g_slist_append ( list_accounts,
-					    account );
+	/* try to copy the form of the last account, else make a new form */
+	if ( !gsb_data_form_dup_organization ( gsb_data_account_max_number () - 1,
+					       account -> account_number ))
+	{
+	    gsb_data_form_new_organization (account -> account_number);
+	    gsb_data_form_set_default_organization (account -> account_number);
+	}
+    }
 
     return account -> account_number;
 }
@@ -306,12 +323,17 @@ gint gsb_data_account_first_number ( void )
 }
 
 
-/** give the number of the current account 
+/**
+ * give the number of the current account 
+ * 
  * \param none
+ * 
  * \return the number of the current account
  * */
 gint gsb_data_account_get_current_account ( void )
 {
+    /* FIXME : !!!! xxx cette fonction gsb_data_account_get_current_account doit virer, le current account va être celui sélectionné */
+    /* 	    dans le tree */
     return current_account;
 }
 
@@ -1903,11 +1925,14 @@ gboolean gsb_data_account_set_sort_column ( gint no_account,
 
 
 
-/** get the form_organization of the account
+/**
+ * get the form_organization of the account
+ * 
  * \param no_account no of the account
+ * 
  * \return form_organization or NULL if the account doesn't exist
  * */
-struct organisation_formulaire *gsb_data_account_get_form_organization ( gint no_account )
+gpointer gsb_data_account_get_form_organization ( gint no_account )
 {
     struct_account *account;
 
@@ -1920,13 +1945,16 @@ struct organisation_formulaire *gsb_data_account_get_form_organization ( gint no
 }
 
 
-/** set the form_organization of the account
+/**
+ * set the form_organization of the account
+ * 
  * \param no_account no of the account
  * \param form_organization form_organization to set
+ * 
  * \return TRUE, ok ; FALSE, problem
  * */
 gboolean gsb_data_account_set_form_organization ( gint no_account,
-					     struct organisation_formulaire *form_organization )
+						  gpointer form_organization )
 {
     struct_account *account;
 

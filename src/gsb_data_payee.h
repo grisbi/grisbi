@@ -2,6 +2,11 @@
 #define _GSB_PAYEE_DATA_H (1)
 
 
+/* START_INCLUDE_H */
+#include "gsb_data_payee.h"
+/* END_INCLUDE_H */
+
+
 
 /* START_DECLARATION */
 void gsb_data_payee_add_transaction_to_payee ( gint transaction_number );

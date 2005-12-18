@@ -250,42 +250,4 @@ struct iso_4217_currency
 #define STANDARD_WIDTH 6
 #define STANDARD_DIALOG_WIDTH 12
 
-/* organisation du formulaire */
-
-struct organisation_formulaire
-{
-    /*     nombre de colonnes : de 3 à 6 */
-
-    gint nb_colonnes;
-
-    /*     nombre de lignes : de 1 à 4 */
-
-    gint nb_lignes;
-
-    /*     remplissage du formulaire */
-    /* 	1: date (obligatoire) */
-    /* 	2: débit (obligatoire) */
-    /* 	3: crédit (obligatoire) */
-    /* 	4: date de val */
-    /* 	5: exo */
-    /* 	6: tiers */
-    /* 	7: categ */
-    /* 	8: bouton de ventil */
-    /* 	9: ib */
-    /* 	10: notes */
-    /* 	11: mode de paiement */
-    /* 	12: no de chq */
-    /* 	13: devise */
-    /* 	14: bouton change */
-    /* 	15: pièce comptable */
-    /* 	16: info b/g */
-    /* 	17: mode paiement contre opé */
-	
-    gint tab_remplissage_formulaire[4][6];
-
-    /*     rapport de taille entre les colonnes */
-
-    gint taille_colonne_pourcent[6];
-
-};
 #endif

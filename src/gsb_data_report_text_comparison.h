@@ -1,5 +1,10 @@
 #ifndef _GSB_DATA_REPORT_TEXT_COMPARISON_H
 #define _GSB_DATA_REPORT_TEXT_COMPARISON_H (1)
+
+/* START_INCLUDE_H */
+#include "gsb_data_report_text_comparison.h"
+/* END_INCLUDE_H */
+
 /* START_DECLARATION */
 gint gsb_data_report_text_comparison_dup ( gint last_text_comparison_number );
 gpointer gsb_data_report_text_comparison_get_button_field ( gint text_comparison_number );

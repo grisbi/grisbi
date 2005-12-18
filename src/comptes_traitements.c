@@ -48,7 +48,7 @@
 #include "utils_comptes.h"
 #include "etats_config.h"
 #include "structures.h"
-#include "operations_formulaire.h"
+#include "gsb_data_form.h"
 #include "fenetre_principale.h"
 #include "echeancier_formulaire.h"
 #include "include.h"

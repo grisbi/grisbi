@@ -1,5 +1,10 @@
 #ifndef _GSB_DATA_REPORT_H
 #define _GSB_DATA_REPORT_H (1)
+
+/* START_INCLUDE_H */
+#include "gsb_data_report.h"
+/* END_INCLUDE_H */
+
 /* START_DECLARATION */
 gint gsb_data_report_dup ( gint report_number );
 gint gsb_data_report_get_account_group_reports ( gint report_number );

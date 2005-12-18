@@ -56,6 +56,7 @@
 #include "utils_types.h"
 #include "utils_operations.h"
 #include "structures.h"
+#include "gsb_data_form.h"
 #include "echeancier_infos.h"
 #include "echeancier_formulaire.h"
 #include "include.h"

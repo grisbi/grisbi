@@ -30,7 +30,7 @@
 #include "calendar.h"
 #include "traitement_variables.h"
 #include "utils_str.h"
-#include "operations_formulaire.h"
+#include "gsb_data_form.h"
 #include "include.h"
 /*END_INCLUDE*/
 

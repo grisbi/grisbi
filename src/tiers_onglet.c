@@ -30,12 +30,12 @@
 #include "tiers_onglet.h"
 #include "erreur.h"
 #include "metatree.h"
+#include "gsb_data_form.h"
 #include "gsb_data_payee.h"
 #include "utils_editables.h"
 #include "gtk_combofix.h"
 #include "utils_buttons.h"
 #include "utils.h"
-#include "gsb_form_config.h"
 #include "operations_formulaire.h"
 #include "echeancier_formulaire.h"
 #include "include.h"
@@ -503,7 +503,7 @@ void mise_a_jour_combofix_tiers ( void )
 {
     devel_debug ( "mise_a_jour_combofix_tiers" );
 
-    if ( verifie_element_formulaire_existe ( TRANSACTION_FORM_PARTY ) &&
+    if ( gsb_data_form_check_for_value ( TRANSACTION_FORM_PARTY ) &&
 	 widget_formulaire_par_element (TRANSACTION_FORM_PARTY) &&
 	 GTK_IS_COMBOFIX ( widget_formulaire_par_element (TRANSACTION_FORM_PARTY) ))
 	gtk_combofix_set_list ( GTK_COMBOFIX ( widget_formulaire_par_element (TRANSACTION_FORM_PARTY) ),

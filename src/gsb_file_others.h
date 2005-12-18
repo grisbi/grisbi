@@ -1,5 +1,10 @@
 #ifndef _GSB_FILE_OTHERS_H
 #define _GSB_FILE_OTHERS_H (1)
+
+/* START_INCLUDE_H */
+#include "gsb_file_others.h"
+/* END_INCLUDE_H */
+
 /* START_DECLARATION */
 gboolean gsb_file_others_load_budget ( gchar *filename );
 gboolean gsb_file_others_load_category ( gchar *filename );

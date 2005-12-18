@@ -1,5 +1,10 @@
 #ifndef _GSB_DATA_REPORT_AMOUT_COMPARISON_H
 #define _GSB_DATA_REPORT_AMOUT_COMPARISON_H (1)
+
+/* START_INCLUDE_H */
+#include "gsb_data_report_amout_comparison.h"
+/* END_INCLUDE_H */
+
 /* START_DECLARATION */
 gint gsb_data_report_amount_comparison_dup ( gint last_amount_comparison_number );
 gpointer gsb_data_report_amount_comparison_get_button_first_comparison ( gint amount_comparison_number );

@@ -1,6 +1,11 @@
 #ifndef _GSB_FILE_CONFIG_H
 #define _GSB_FILE_CONFIG_H (1)
 
+/* START_INCLUDE_H */
+#include "gsb_file_config.h"
+/* END_INCLUDE_H */
+
+
 #define ETAT_WWW_BROWSER "www-browser"
 
 #ifndef _WIN32

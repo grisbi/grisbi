@@ -38,7 +38,7 @@
 #include "dialog.h"
 #include "structures.h"
 #include "echeancier_formulaire.h"
-#include "operations_formulaire.h"
+#include "gsb_data_form.h"
 #include "include.h"
 /*END_INCLUDE*/
 

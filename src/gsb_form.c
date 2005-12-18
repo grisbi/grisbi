@@ -33,6 +33,7 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
+static gboolean gsb_fom_fill_transaction ( gint transaction_number );
 static gboolean gsb_form_hide ( void );
 static gboolean gsb_form_show ( void );
 static gboolean gsb_form_valid ( void );

@@ -166,5 +166,12 @@ static struct iso_4217_currency iso_4217_currencies[] = {
     { N_("Southern America"), N_("Venezuelan Bolivar"), N_("Venezuela"), "VEB", NULL, TRUE, "VEB.png" },
     { NULL },
 };
+/* START_INCLUDE_H */
+/* END_INCLUDE_H */
+
+
+/* START_DECLARATION */
+/* END_DECLARATION */
+
 
 #endif

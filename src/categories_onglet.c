@@ -29,6 +29,7 @@
 #include "dialog.h"
 #include "utils_file_selection.h"
 #include "gsb_data_category.h"
+#include "gsb_data_form.h"
 #include "gsb_data_transaction.h"
 #include "gsb_file_others.h"
 #include "navigation.h"
@@ -38,7 +39,6 @@
 #include "utils.h"
 #include "utils_editables.h"
 #include "etats_config.h"
-#include "gsb_form_config.h"
 #include "operations_formulaire.h"
 #include "include.h"
 #include "echeancier_formulaire.h"
@@ -442,7 +442,7 @@ void mise_a_jour_combofix_categ ( void )
 						 TRUE,
 						 TRUE );
 
-    if ( verifie_element_formulaire_existe ( TRANSACTION_FORM_CATEGORY )
+    if ( gsb_data_form_check_for_value ( TRANSACTION_FORM_CATEGORY )
 	 &&
 	 GTK_IS_COMBOFIX ( widget_formulaire_par_element (TRANSACTION_FORM_CATEGORY)))
 	gtk_combofix_set_list ( GTK_COMBOFIX ( widget_formulaire_par_element (TRANSACTION_FORM_CATEGORY) ),

@@ -31,11 +31,11 @@
 #include "utils_editables.h"
 #include "equilibrage.h"
 #include "gsb_data_account.h"
+#include "gsb_data_form.h"
 #include "gsb_data_transaction.h"
 #include "traitement_variables.h"
 #include "utils_str.h"
 #include "utils.h"
-#include "gsb_form_config.h"
 #include "structures.h"
 #include "type_operations.h"
 #include "echeancier_formulaire.h"
@@ -582,7 +582,7 @@ void modification_entree_nom_type ( void )
 	fill_reconciliation_tree ();
 	
 
-	if ( verifie_element_formulaire_existe ( TRANSACTION_FORM_TYPE ))
+	if ( gsb_data_form_check_for_value ( TRANSACTION_FORM_TYPE ))
 	{
 	    if ( (menu = creation_menu_types ( 1, gsb_data_account_get_current_account () , 0 )))
 	    {
@@ -1325,7 +1325,7 @@ gint cherche_no_menu_type ( gint demande )
     if ( !demande )
 	return ( FALSE );
 
-    if ( verifie_element_formulaire_existe ( TRANSACTION_FORM_TYPE ) && 
+    if ( gsb_data_form_check_for_value ( TRANSACTION_FORM_TYPE ) && 
 	 GTK_MENU_SHELL ( GTK_OPTION_MENU ( widget_formulaire_par_element (TRANSACTION_FORM_TYPE) ) -> menu ))
 	liste_tmp = GTK_MENU_SHELL ( GTK_OPTION_MENU ( widget_formulaire_par_element (TRANSACTION_FORM_TYPE) ) -> menu ) -> children;
     else
@@ -1383,7 +1383,7 @@ gint cherche_no_menu_type_associe ( gint demande )
 	return ( FALSE );
 
 
-    if ( verifie_element_formulaire_existe ( TRANSACTION_FORM_CONTRA ))
+    if ( gsb_data_form_check_for_value ( TRANSACTION_FORM_CONTRA ))
     {
 	GtkWidget * menu = NULL, *widget;
 
@@ -1493,7 +1493,7 @@ gint cherche_no_menu_type_echeancier ( gint demande )
 /* ************************************************************************************************************** */
 void changement_choix_type_formulaire ( struct struct_type_ope *type )
 {
-    if ( !verifie_element_formulaire_existe ( TRANSACTION_FORM_CHEQUE ))
+    if ( !gsb_data_form_check_for_value ( TRANSACTION_FORM_CHEQUE ))
 	return;
 
     /* affiche l'entrée de chèque si nécessaire */

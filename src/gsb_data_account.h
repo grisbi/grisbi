@@ -4,7 +4,6 @@
 
 /* START_INCLUDE_H */
 #include "gsb_data_account.h"
-#include "structures.h"
 /* END_INCLUDE_H */
 
 
@@ -41,7 +40,7 @@ GDate *gsb_data_account_get_current_reconcile_date ( gint no_account );
 gint gsb_data_account_get_current_transaction_number ( gint no_account );
 gint gsb_data_account_get_default_credit ( gint no_account );
 gint gsb_data_account_get_default_debit ( gint no_account );
-struct organisation_formulaire *gsb_data_account_get_form_organization ( gint no_account );
+gpointer gsb_data_account_get_form_organization ( gint no_account );
 gchar *gsb_data_account_get_holder_address ( gint no_account );
 gchar *gsb_data_account_get_holder_name ( gint no_account );
 gchar *gsb_data_account_get_id ( gint no_account );
@@ -101,7 +100,7 @@ gboolean gsb_data_account_set_default_credit ( gint no_account,
 gboolean gsb_data_account_set_default_debit ( gint no_account,
 					 gint default_debit );
 gboolean gsb_data_account_set_form_organization ( gint no_account,
-					     struct organisation_formulaire *form_organization );
+						  gpointer form_organization );
 gboolean gsb_data_account_set_holder_address ( gint no_account,
 					       const gchar *holder_address );
 gboolean gsb_data_account_set_holder_name ( gint no_account,

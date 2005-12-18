@@ -1,5 +1,10 @@
 #ifndef _GSB_BUDGET_DATA_H
 #define _GSB_BUDGET_DATA_H (1)
+
+/* START_INCLUDE_H */
+#include "gsb_data_budget.h"
+/* END_INCLUDE_H */
+
 /* START_DECLARATION */
 void gsb_data_budget_add_transaction_to_budget ( gint transaction_number );
 gdouble gsb_data_budget_get_balance ( gint no_budget );

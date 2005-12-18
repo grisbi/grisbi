@@ -36,6 +36,7 @@
 #include "dialog.h"
 #include "utils_file_selection.h"
 #include "gsb_data_budget.h"
+#include "gsb_data_form.h"
 #include "gsb_data_transaction.h"
 #include "gsb_file_others.h"
 #include "gtk_combofix.h"
@@ -43,7 +44,6 @@
 #include "utils_buttons.h"
 #include "utils.h"
 #include "utils_editables.h"
-#include "gsb_form_config.h"
 #include "operations_formulaire.h"
 #include "echeancier_formulaire.h"
 #include "include.h"
@@ -334,7 +334,7 @@ void mise_a_jour_combofix_imputation ( void )
 {
     devel_debug ( "mise_a_jour_combofix_imputation" );
 
-    if ( verifie_element_formulaire_existe ( TRANSACTION_FORM_BUDGET ))
+    if ( gsb_data_form_check_for_value ( TRANSACTION_FORM_BUDGET ))
 	gtk_combofix_set_list ( GTK_COMBOFIX ( widget_formulaire_par_element (TRANSACTION_FORM_BUDGET) ),
 				gsb_data_budget_get_name_list (TRUE, TRUE),
 				TRUE,

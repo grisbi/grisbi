@@ -1,5 +1,10 @@
 #ifndef _GSB_DATA_SCHEDULED_H
 #define _GSB_DATA_SCHEDULED_H (1)
+
+/* START_INCLUDE_H */
+#include "gsb_data_scheduled.h"
+/* END_INCLUDE_H */
+
 /* START_DECLARATION */
 gint gsb_data_scheduled_get_account_number ( gint no_scheduled );
 gint gsb_data_scheduled_get_account_number_transfer ( gint no_scheduled );

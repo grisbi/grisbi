@@ -27,6 +27,7 @@
 #include "gsb_data_account.h"
 #include "gsb_data_budget.h"
 #include "gsb_data_category.h"
+#include "gsb_data_form.h"
 #include "gsb_data_payee.h"
 #include "gsb_data_report_amout_comparison.h"
 #include "gsb_data_report.h"
@@ -96,7 +97,6 @@ extern GSList *liste_struct_banques;
 extern GSList *liste_struct_devises;
 extern GSList *liste_struct_exercices;
 extern GSList *liste_struct_rapprochements;
-extern gint nb_colonnes;
 extern int no_devise_totaux_categ;
 extern gint no_devise_totaux_ib;
 extern gint no_devise_totaux_tiers;
@@ -516,7 +516,7 @@ gulong gsb_file_save_account_part ( gulong iterator,
 	gchar *first_string_to_free;
 	gchar *second_string_to_free;
 	gchar *third_string_to_free;
-	gint i;
+	gint account_number;
 	gint j, k;
 	gchar *last_reconcile_date;
 	gchar *sort_list;
@@ -526,17 +526,17 @@ gulong gsb_file_save_account_part ( gulong iterator,
 	GSList *list_tmp_2;
 	gchar *new_string;
 
-	i = gsb_data_account_get_no_account ( list_tmp -> data );
+	account_number = gsb_data_account_get_no_account ( list_tmp -> data );
 
 	/* set the last reconcile date */
 
-	if ( gsb_data_account_get_current_reconcile_date (i) )
+	if ( gsb_data_account_get_current_reconcile_date (account_number) )
 	{
-	    last_reconcile_date = g_strconcat ( first_string_to_free = utils_str_itoa ( g_date_day ( gsb_data_account_get_current_reconcile_date (i) ) ),
+	    last_reconcile_date = g_strconcat ( first_string_to_free = utils_str_itoa ( g_date_day ( gsb_data_account_get_current_reconcile_date (account_number) ) ),
 						"/",
-						second_string_to_free = utils_str_itoa ( g_date_month ( gsb_data_account_get_current_reconcile_date (i) ) ),
+						second_string_to_free = utils_str_itoa ( g_date_month ( gsb_data_account_get_current_reconcile_date (account_number) ) ),
 						"/",
-						third_string_to_free = utils_str_itoa ( g_date_year ( gsb_data_account_get_current_reconcile_date (i) ) ),
+						third_string_to_free = utils_str_itoa ( g_date_year ( gsb_data_account_get_current_reconcile_date (account_number) ) ),
 						NULL );
 	    g_free (first_string_to_free);
 	    g_free (second_string_to_free);
@@ -547,7 +547,7 @@ gulong gsb_file_save_account_part ( gulong iterator,
 
 	/* set the sort_list */
 
-	list_tmp_2 = gsb_data_account_get_sort_list (i);
+	list_tmp_2 = gsb_data_account_get_sort_list (account_number);
 	sort_list = NULL;
 
 	while ( list_tmp_2 )
@@ -577,14 +577,14 @@ gulong gsb_file_save_account_part ( gulong iterator,
 	    {
 		sort_kind_column = g_strconcat ( first_string_to_free = sort_kind_column,
 						 "-",
-						 second_string_to_free = utils_str_itoa ( gsb_data_account_get_column_sort ( i,
+						 second_string_to_free = utils_str_itoa ( gsb_data_account_get_column_sort ( account_number,
 												j )),
 						 NULL );
 		g_free (first_string_to_free);
 		g_free (second_string_to_free);
 	    }
 	    else
-		sort_kind_column = utils_str_itoa ( gsb_data_account_get_column_sort ( i,
+		sort_kind_column = utils_str_itoa ( gsb_data_account_get_column_sort ( account_number,
 								     j ));
 	}
 
@@ -592,36 +592,42 @@ gulong gsb_file_save_account_part ( gulong iterator,
 
 	form_organization = NULL;
 
-	for ( k=0 ; k<4 ; k++ )
-	    for ( j=0 ; j< 6 ; j++ )
+	for ( k=0 ; k<MAX_HEIGHT ; k++ )
+	    for ( j=0 ; j<MAX_WIDTH ; j++ )
 		if ( form_organization )
 		{ 
 		    form_organization = g_strconcat ( first_string_to_free = form_organization,
 						      "-",
-						      second_string_to_free = utils_str_itoa ( gsb_data_account_get_form_organization (i) -> tab_remplissage_formulaire [k][j] ),
+						      second_string_to_free = utils_str_itoa ( gsb_data_form_get_value ( account_number,
+															 j,
+															 k )),
 						      NULL );
 		    g_free (first_string_to_free);
 		    g_free (second_string_to_free);
 		}
 		else
-		    form_organization = utils_str_itoa ( gsb_data_account_get_form_organization (i) -> tab_remplissage_formulaire [k][j] );
+		    form_organization = utils_str_itoa (gsb_data_form_get_value ( account_number,
+										  j,
+										  k ));
 
 	/* set the form columns width */
 
 	form_columns_width = NULL;
 
-	for ( k=0 ; k<6 ; k++ )
+	for ( k=0 ; k<MAX_WIDTH ; k++ )
 	    if ( form_columns_width )
 	    {
 		form_columns_width = g_strconcat ( first_string_to_free = form_columns_width,
 						   "-",
-						   second_string_to_free = utils_str_itoa ( gsb_data_account_get_form_organization (i) -> taille_colonne_pourcent [k] ),
+						   second_string_to_free = utils_str_itoa ( gsb_data_form_get_width_column ( account_number,
+															     k )),
 						   NULL );
 		g_free (first_string_to_free);
 		g_free (second_string_to_free);
 	    }
 	    else
-		form_columns_width = utils_str_itoa ( gsb_data_account_get_form_organization (i) -> taille_colonne_pourcent [k] );
+		form_columns_width = utils_str_itoa ( gsb_data_form_get_width_column ( account_number,
+										       k ));
 
 	/* now we can fill the file content */
 
@@ -659,37 +665,37 @@ gulong gsb_file_save_account_part ( gulong iterator,
 					       "\t\tForm_lines_number=\"%d\"\n"
 					       "\t\tForm_organization=\"%s\"\n"
 					       "\t\tForm_columns_width=\"%s\" />\n",
-	    gsb_data_account_get_name (i),
-	    gsb_data_account_get_id (i),
-	    i,
-	    gsb_data_account_get_holder_name (i),
-	    gsb_data_account_get_kind (i),
-	    gsb_data_account_get_currency (i),
-	    gsb_data_account_get_bank (i),
-	    gsb_data_account_get_bank_branch_code (i),
-	    gsb_data_account_get_bank_account_number (i),
-	    gsb_data_account_get_bank_account_key (i),
-	    gsb_data_account_get_init_balance (i),
-	    gsb_data_account_get_mini_balance_wanted (i),
-	    gsb_data_account_get_mini_balance_authorized (i),
+	    gsb_data_account_get_name (account_number),
+	    gsb_data_account_get_id (account_number),
+	    account_number,
+	    gsb_data_account_get_holder_name (account_number),
+	    gsb_data_account_get_kind (account_number),
+	    gsb_data_account_get_currency (account_number),
+	    gsb_data_account_get_bank (account_number),
+	    gsb_data_account_get_bank_branch_code (account_number),
+	    gsb_data_account_get_bank_account_number (account_number),
+	    gsb_data_account_get_bank_account_key (account_number),
+	    gsb_data_account_get_init_balance (account_number),
+	    gsb_data_account_get_mini_balance_wanted (account_number),
+	    gsb_data_account_get_mini_balance_authorized (account_number),
 	    last_reconcile_date,
-	    gsb_data_account_get_reconcile_balance (i),
-	    gsb_data_account_get_reconcile_last_number (i),
-	    gsb_data_account_get_closed_account (i),
-	    gsb_data_account_get_r (i),
-	    gsb_data_account_get_nb_rows (i),
-	    gsb_data_account_get_comment (i),
-	    gsb_data_account_get_holder_address (i),
-	    gsb_data_account_get_default_debit (i),
-	    gsb_data_account_get_default_credit (i),
-	    gsb_data_account_get_reconcile_sort_type (i),
-	    gsb_data_account_get_split_neutral_payment (i),
+	    gsb_data_account_get_reconcile_balance (account_number),
+	    gsb_data_account_get_reconcile_last_number (account_number),
+	    gsb_data_account_get_closed_account (account_number),
+	    gsb_data_account_get_r (account_number),
+	    gsb_data_account_get_nb_rows (account_number),
+	    gsb_data_account_get_comment (account_number),
+	    gsb_data_account_get_holder_address (account_number),
+	    gsb_data_account_get_default_debit (account_number),
+	    gsb_data_account_get_default_credit (account_number),
+	    gsb_data_account_get_reconcile_sort_type (account_number),
+	    gsb_data_account_get_split_neutral_payment (account_number),
 	    sort_list,
-	    gsb_data_account_get_sort_type (i),
-	    gsb_data_account_get_sort_column (i),
+	    gsb_data_account_get_sort_type (account_number),
+	    gsb_data_account_get_sort_column (account_number),
 	    sort_kind_column,
-	    gsb_data_account_get_form_organization (i) -> nb_colonnes,
-	    gsb_data_account_get_form_organization (i) -> nb_lignes,
+	    gsb_data_form_get_nb_columns (account_number),
+	    gsb_data_form_get_nb_rows (account_number),
 	    form_organization,
 	    form_columns_width );
 
