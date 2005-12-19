@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-11-06 11:00+0800\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"POT-Creation-Date: 2005-12-19 11:18+0100\n"
+"PO-Revision-Date: 2005-12-19 11:25+0100\n"
 "Last-Translator: Jianyu Tang <jianyunet@gmail.com>\n"
 "Language-Team: zh_CN <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -93,14 +93,14 @@ msgstr "资产账户余额"
 msgid "No third party defined"
 msgstr "没有定义第三方"
 
-#: src/accueil.c:1606 src/accueil.c:1720 src/echeancier_formulaire.c:2716
-#: src/echeancier_formulaire.c:2760
+#: src/accueil.c:1606 src/accueil.c:1720 src/echeancier_formulaire.c:2711
+#: src/echeancier_formulaire.c:2755
 #, c-format
 msgid "%4.2f %s credit on %s"
 msgstr "%4.2f %s 记入贷方 %s"
 
-#: src/accueil.c:1611 src/accueil.c:1725 src/echeancier_formulaire.c:2721
-#: src/echeancier_formulaire.c:2765
+#: src/accueil.c:1611 src/accueil.c:1725 src/echeancier_formulaire.c:2716
+#: src/echeancier_formulaire.c:2760
 #, c-format
 msgid "%4.2f %s debit on %s"
 msgstr "%4.2f %s 记入借方 %s"
@@ -120,7 +120,7 @@ msgstr "账户 %s 的余额小于审核的最小值"
 msgid "Balance of account %s is under wanted minimum!"
 msgstr "账户 %s 的余额小于预期值"
 
-#: src/affichage.c:131 src/parametres.c:236
+#: src/affichage.c:131 src/parametres.c:237
 msgid "Transaction form"
 msgstr "交易表格"
 
@@ -147,7 +147,7 @@ msgstr "交易编号"
 
 #: src/affichage.c:161 src/affichage_liste.c:36 src/affichage_liste.c:732
 #: src/affichage_liste.c:1037 src/csv.c:240 src/operations_formulaire.c:983
-#: src/operations_formulaire.c:3358
+#: src/operations_formulaire.c:3342
 msgid "Value date"
 msgstr "有效日期"
 
@@ -184,7 +184,7 @@ msgstr "最后选择的财年"
 msgid "according to transaction date"
 msgstr "根据交易日期"
 
-#: src/affichage.c:248 src/parametres.c:212
+#: src/affichage.c:248 src/parametres.c:213
 msgid "Fonts & logo"
 msgstr "字体和标志"
 
@@ -216,7 +216,7 @@ msgstr "本交易使用自定义的字体"
 msgid "Revert to default font"
 msgstr "恢复默认字体"
 
-#: src/affichage.c:603 src/parametres.c:228
+#: src/affichage.c:603 src/parametres.c:229
 msgid "Addresses & titles"
 msgstr "地址和名称抬头"
 
@@ -262,30 +262,30 @@ msgstr "选择一个新标志图"
 #. on met les titres des colonnes
 #: src/affichage_liste.c:35 src/affichage_liste.c:720
 #: src/affichage_liste.c:1033 src/csv.c:239 src/echeancier_formulaire.c:905
-#: src/echeancier_formulaire.c:2533 src/echeancier_liste.c:400
+#: src/echeancier_formulaire.c:2526 src/echeancier_liste.c:400
 #: src/equilibrage.c:194 src/etats_affiche.c:2223 src/import.c:352
 #: src/import.c:2658 src/operations_formulaire.c:790
-#: src/operations_formulaire.c:1415 src/operations_formulaire.c:1465
-#: src/operations_formulaire.c:1514 src/operations_formulaire.c:1553
-#: src/operations_formulaire.c:3348
+#: src/operations_formulaire.c:1408 src/operations_formulaire.c:1458
+#: src/operations_formulaire.c:1507 src/operations_formulaire.c:1546
+#: src/operations_formulaire.c:3332
 msgid "Date"
 msgstr "日期"
 
 #. mise en place de la frame des tiers
 #: src/affichage_liste.c:37 src/affichage_liste.c:1041 src/csv.c:247
-#: src/echeancier_formulaire.c:914 src/echeancier_formulaire.c:2535
+#: src/echeancier_formulaire.c:914 src/echeancier_formulaire.c:2528
 #: src/echeancier_liste.c:402 src/etats_affiche.c:2237 src/etats_config.c:139
 #: src/etats_config.c:270 src/etats_config.c:7217 src/fenetre_principale.c:96
 #: src/import.c:2665 src/operations_formulaire.c:800
-#: src/operations_formulaire.c:3351
+#: src/operations_formulaire.c:3335
 msgid "Third party"
 msgstr "第三方"
 
 #: src/affichage_liste.c:38 src/echeancier_formulaire.c:1067
-#: src/echeancier_formulaire.c:2545 src/echeancier_ventilation.c:967
+#: src/echeancier_formulaire.c:2538 src/echeancier_ventilation.c:967
 #: src/echeancier_ventilation.c:1495 src/etats_affiche.c:2251
-#: src/etats_config.c:262 src/operations_formulaire.c:1127
-#: src/operations_formulaire.c:3365 src/ventilation.c:968
+#: src/etats_config.c:262 src/operations_formulaire.c:1119
+#: src/operations_formulaire.c:3349 src/ventilation.c:968
 #: src/ventilation.c:1493
 msgid "Budgetary line"
 msgstr "预算行"
@@ -293,12 +293,12 @@ msgstr "预算行"
 #. Debit type
 #: src/affichage_liste.c:39 src/affichage_liste.c:768
 #: src/affichage_liste.c:1049 src/categories_onglet.c:288 src/csv.c:249
-#: src/echeancier_formulaire.c:975 src/echeancier_formulaire.c:2537
+#: src/echeancier_formulaire.c:975 src/echeancier_formulaire.c:2530
 #: src/echeancier_ventilation.c:913 src/echeancier_ventilation.c:932
 #: src/echeancier_ventilation.c:1491 src/imputation_budgetaire.c:165
-#: src/operations_formulaire.c:891 src/operations_formulaire.c:3353
-#: src/type_operations.c:159 src/type_operations.c:436
-#: src/type_operations.c:862 src/ventilation.c:914 src/ventilation.c:933
+#: src/operations_formulaire.c:891 src/operations_formulaire.c:3337
+#: src/type_operations.c:160 src/type_operations.c:437
+#: src/type_operations.c:869 src/ventilation.c:914 src/ventilation.c:933
 #: src/ventilation.c:1489
 msgid "Debit"
 msgstr "借方"
@@ -307,12 +307,12 @@ msgstr "借方"
 #: src/affichage_liste.c:40 src/affichage_liste.c:780
 #: src/affichage_liste.c:1053 src/categories_onglet.c:304 src/csv.c:248
 #: src/echeancier_formulaire.c:1037 src/echeancier_formulaire.c:1279
-#: src/echeancier_formulaire.c:2539 src/echeancier_ventilation.c:885
+#: src/echeancier_formulaire.c:2532 src/echeancier_ventilation.c:885
 #: src/echeancier_ventilation.c:960 src/echeancier_ventilation.c:1493
 #: src/imputation_budgetaire.c:181 src/operations_formulaire.c:976
-#: src/operations_formulaire.c:1335 src/operations_formulaire.c:3355
-#: src/type_operations.c:173 src/type_operations.c:443
-#: src/type_operations.c:858 src/ventilation.c:886 src/ventilation.c:961
+#: src/operations_formulaire.c:1328 src/operations_formulaire.c:3339
+#: src/type_operations.c:174 src/type_operations.c:444
+#: src/type_operations.c:865 src/ventilation.c:886 src/ventilation.c:961
 #: src/ventilation.c:1491
 msgid "Credit"
 msgstr "贷方"
@@ -351,9 +351,9 @@ msgstr "C/R"
 
 #: src/affichage_liste.c:48 src/affichage_liste.c:876
 #: src/affichage_liste.c:1085 src/csv.c:257 src/echeancier_formulaire.c:1075
-#: src/echeancier_formulaire.c:2547 src/echeancier_ventilation.c:974
+#: src/echeancier_formulaire.c:2540 src/echeancier_ventilation.c:974
 #: src/echeancier_ventilation.c:1497 src/etats_affiche.c:2279
-#: src/operations_formulaire.c:1133 src/operations_formulaire.c:3367
+#: src/operations_formulaire.c:1125 src/operations_formulaire.c:3351
 #: src/ventilation.c:975 src/ventilation.c:1495
 msgid "Voucher"
 msgstr "凭证"
@@ -361,18 +361,18 @@ msgstr "凭证"
 #. Notes
 #: src/affichage_liste.c:49 src/affichage_liste.c:888
 #: src/affichage_liste.c:1089 src/banque.c:711 src/csv.c:254
-#: src/echeancier_formulaire.c:1081 src/echeancier_formulaire.c:2549
+#: src/echeancier_formulaire.c:1081 src/echeancier_formulaire.c:2542
 #: src/echeancier_liste.c:405 src/echeancier_ventilation.c:82
 #: src/echeancier_ventilation.c:864 src/echeancier_ventilation.c:1489
-#: src/etats_affiche.c:2258 src/operations_formulaire.c:1140
-#: src/operations_formulaire.c:3370 src/ventilation.c:85 src/ventilation.c:865
+#: src/etats_affiche.c:2258 src/operations_formulaire.c:1132
+#: src/operations_formulaire.c:3354 src/ventilation.c:85 src/ventilation.c:865
 #: src/ventilation.c:1487
 msgid "Notes"
 msgstr "备注"
 
 #: src/affichage_liste.c:50 src/affichage_liste.c:900
 #: src/affichage_liste.c:1093 src/csv.c:259 src/etats_affiche.c:2286
-#: src/operations_formulaire.c:1146 src/operations_formulaire.c:3372
+#: src/operations_formulaire.c:1138 src/operations_formulaire.c:3356
 msgid "Bank references"
 msgstr "银行征信"
 
@@ -405,7 +405,7 @@ msgid "Col7"
 msgstr "列7"
 
 #. Ã  la base, on met une vbox
-#: src/affichage_liste.c:75 src/parametres.c:244
+#: src/affichage_liste.c:75 src/parametres.c:245
 msgid "Transactions list cells"
 msgstr "交易清单单元格"
 
@@ -489,7 +489,7 @@ msgstr "第四行"
 msgid "Payer/payee"
 msgstr "支付方"
 
-#: src/affichage_liste.c:816 src/equilibrage.c:1683
+#: src/affichage_liste.c:816 src/equilibrage.c:1680
 msgid "Payment method"
 msgstr "支付方式"
 
@@ -500,7 +500,7 @@ msgid "Categories"
 msgstr "类别"
 
 #: src/affichage_liste.c:924 src/affichage_liste.c:1101
-#: src/operations_formulaire.c:1121 src/operations_formulaire.c:3362
+#: src/operations_formulaire.c:1113 src/operations_formulaire.c:3346
 msgid "Cheque/Transfer number"
 msgstr "支票/转帐编号"
 
@@ -511,9 +511,9 @@ msgid "Budgetary lines"
 msgstr "预算行"
 
 #: src/banque.c:122 src/comptes_traitements.c:135
-#: src/comptes_traitements.c:145 src/operations_formulaire.c:2223
-#: src/operations_liste.c:2890 src/operations_liste.c:2957
-#: src/operations_liste.c:3229 src/operations_liste.c:3322
+#: src/comptes_traitements.c:145 src/operations_formulaire.c:2210
+#: src/operations_liste.c:2871 src/operations_liste.c:2938
+#: src/operations_liste.c:3211 src/operations_liste.c:3304
 msgid "Cannot allocate memory, bad things will happen soon"
 msgstr "系统内存不足，请尽快关闭"
 
@@ -542,8 +542,8 @@ msgstr "您确定要删除银行 \"%s\"吗？\n"
 #. le premier nom est Aucune
 #. le premier nom est Aucun
 #. on lui associe 0
-#: src/banque.c:280 src/echeancier_formulaire.c:1489 src/equilibrage.c:573
-#: src/exercice.c:568
+#: src/banque.c:280 src/echeancier_formulaire.c:1489 src/equilibrage.c:572
+#: src/exercice.c:569
 msgid "None"
 msgstr "无"
 
@@ -556,7 +556,7 @@ msgstr "银行"
 msgid "Contact name"
 msgstr "联系人"
 
-#: src/banque.c:350 src/parametres.c:294
+#: src/banque.c:350 src/parametres.c:295
 msgid "Banks"
 msgstr "银行"
 
@@ -572,8 +572,8 @@ msgstr "银行明细"
 #. Name
 #. Create currency name entry
 #. Financial year name
-#: src/banque.c:545 src/banque.c:651 src/devises.c:1502 src/exercice.c:129
-#: src/exercice.c:240 src/import.c:362 src/type_operations.c:379
+#: src/banque.c:545 src/banque.c:651 src/devises.c:1503 src/exercice.c:129
+#: src/exercice.c:240 src/import.c:362 src/type_operations.c:380
 msgid "Name"
 msgstr "名称"
 
@@ -599,7 +599,7 @@ msgid "E-Mail"
 msgstr "电子邮件"
 
 #. Website
-#: src/banque.c:628 src/help.c:77
+#: src/banque.c:628 src/help.c:79
 msgid "Website"
 msgstr "网站"
 
@@ -681,7 +681,7 @@ msgstr "显示子分隔线"
 
 #. ajoute le bouton annuler
 #. Add the "cancel" button
-#: src/calendar.c:111 src/utils.c:1520
+#: src/calendar.c:111 src/utils.c:1555
 msgid "Cancel"
 msgstr "取消"
 
@@ -1186,13 +1186,13 @@ msgstr "导出"
 #. mise en place du bouton importer
 #: src/categories_onglet.c:444 src/etats_onglet.c:376 src/import.c:2847
 #: src/imputation_budgetaire.c:356 src/menu.c:75 src/menu.c:76
-#: src/parametres.c:188
+#: src/parametres.c:189
 msgid "Import"
 msgstr "导入"
 
 #: src/categories_onglet.c:650 src/categories_onglet.c:707
 #: src/categories_onglet.c:773 src/categories_onglet.c:833
-#: src/categories_onglet.c:863 src/categories_onglet.c:2867
+#: src/categories_onglet.c:863 src/categories_onglet.c:2873
 #: src/etats_affiche.c:128 src/etats_affiche.c:152 src/etats_affiche.c:238
 #: src/etats_affiche.c:259 src/etats_affiche.c:337 src/etats_affiche.c:358
 #: src/etats_affiche.c:441 src/etats_affiche.c:462 src/etats_affiche.c:534
@@ -1201,7 +1201,7 @@ msgstr "导入"
 #: src/etats_affiche.c:1485 src/etats_affiche.c:1547 src/etats_affiche.c:1593
 #: src/imputation_budgetaire.c:564 src/imputation_budgetaire.c:624
 #: src/imputation_budgetaire.c:690 src/imputation_budgetaire.c:749
-#: src/imputation_budgetaire.c:778 src/imputation_budgetaire.c:2625
+#: src/imputation_budgetaire.c:778 src/imputation_budgetaire.c:2620
 #: src/tiers_onglet.c:434 src/tiers_onglet.c:1630
 #, c-format
 msgid "%4.2f %s"
@@ -1281,11 +1281,11 @@ msgstr "仍然删除该子类"
 
 #: src/categories_onglet.c:2565 src/csv.c:424 src/echeancier_formulaire.c:1047
 #: src/echeancier_formulaire.c:1505 src/echeancier_formulaire.c:1538
-#: src/echeancier_formulaire.c:1765 src/echeancier_liste.c:1201
+#: src/echeancier_formulaire.c:1751 src/echeancier_liste.c:1201
 #: src/echeancier_ventilation.c:204 src/etats_affiche.c:1688
-#: src/operations_formulaire.c:994 src/operations_formulaire.c:1829
-#: src/operations_formulaire.c:2526 src/operations_formulaire.c:2878
-#: src/operations_liste.c:1085 src/operations_liste.c:1703
+#: src/operations_formulaire.c:994 src/operations_formulaire.c:1822
+#: src/operations_formulaire.c:2513 src/operations_formulaire.c:2862
+#: src/operations_liste.c:1085 src/operations_liste.c:1707
 #: src/ventilation.c:207
 msgid "Breakdown of transaction"
 msgstr "交易细目分类"
@@ -1294,107 +1294,107 @@ msgstr "交易细目分类"
 #: src/categories_onglet.c:2568 src/comptes_traitements.c:556
 #: src/comptes_traitements.c:641 src/csv.c:449 src/csv.c:574
 #: src/echeancier_formulaire.c:1526 src/echeancier_formulaire.c:1573
-#: src/echeancier_formulaire.c:1735 src/echeancier_formulaire.c:2093
-#: src/echeancier_formulaire.c:2994 src/echeancier_liste.c:1226
+#: src/echeancier_formulaire.c:1721 src/echeancier_formulaire.c:2079
+#: src/echeancier_formulaire.c:2989 src/echeancier_liste.c:1226
 #: src/echeancier_ventilation.c:771 src/echeancier_ventilation.c:1580
-#: src/echeancier_ventilation.c:1666 src/echeancier_ventilation.c:2015
-#: src/echeancier_ventilation.c:2288 src/ofx.c:442
-#: src/operations_formulaire.c:1019 src/operations_formulaire.c:1938
-#: src/operations_formulaire.c:1943 src/operations_formulaire.c:2393
-#: src/operations_formulaire.c:2958 src/operations_liste.c:1644
+#: src/echeancier_ventilation.c:1671 src/echeancier_ventilation.c:2020
+#: src/echeancier_ventilation.c:2293 src/ofx.c:443
+#: src/operations_formulaire.c:1015 src/operations_formulaire.c:1925
+#: src/operations_formulaire.c:1930 src/operations_formulaire.c:2380
+#: src/operations_formulaire.c:2942 src/operations_liste.c:1648
 #: src/ventilation.c:772 src/ventilation.c:1578 src/ventilation.c:1659
 #: src/ventilation.c:2028 src/ventilation.c:2366
 msgid "Transfer"
 msgstr "转帐"
 
-#: src/categories_onglet.c:2884
+#: src/categories_onglet.c:2890
 msgid "New category"
 msgstr "新增类别"
 
-#: src/categories_onglet.c:2885
+#: src/categories_onglet.c:2891
 msgid "Enter name for new category"
 msgstr "请输入新类别的名称"
 
-#: src/categories_onglet.c:2892
+#: src/categories_onglet.c:2898
 msgid ""
 "Category names must be both unique and not empty.  Please use another name "
 "for this category."
 msgstr "类别名称必须唯一而且不能填空，请为本类别使用另外的名称。"
 
-#: src/categories_onglet.c:2893
+#: src/categories_onglet.c:2899
 #, c-format
 msgid "Category '%s' already exists."
 msgstr "类别 '%s' 已经存在"
 
-#: src/categories_onglet.c:2949
+#: src/categories_onglet.c:2955
 msgid "New sub-category"
 msgstr "新增子类"
 
-#: src/categories_onglet.c:2950
+#: src/categories_onglet.c:2956
 msgid "Enter name for new sub-category"
 msgstr "请输入新增子类的名称"
 
-#: src/categories_onglet.c:2971
+#: src/categories_onglet.c:2977
 msgid ""
 "Sub-category names must be both unique and not empty.  Please use another "
 "name for this sub-category."
 msgstr "类别名称必须唯一而且不能填空，请为本类别使用另外的名称。"
 
-#: src/categories_onglet.c:2972
+#: src/categories_onglet.c:2978
 #, c-format
 msgid "Sub-category '%s' already exists."
 msgstr "新增子类 '%s' 已经存在"
 
-#: src/categories_onglet.c:3028
+#: src/categories_onglet.c:3034
 msgid "Export categories"
 msgstr "导出类别"
 
-#: src/categories_onglet.c:3052 src/erreur.c:218 src/erreur.c:220
-#: src/etats_onglet.c:1186 src/fichiers_gestion.c:544
-#: src/fichiers_gestion.c:546 src/imputation_budgetaire.c:2792
+#: src/categories_onglet.c:3058 src/erreur.c:218 src/erreur.c:220
+#: src/etats_onglet.c:1186 src/fichiers_gestion.c:575
+#: src/fichiers_gestion.c:577 src/imputation_budgetaire.c:2787
 msgid "Save file"
 msgstr "保存文件"
 
-#: src/categories_onglet.c:3053 src/etats_onglet.c:1187
-#: src/imputation_budgetaire.c:2793
+#: src/categories_onglet.c:3059 src/etats_onglet.c:1187
+#: src/imputation_budgetaire.c:2788
 msgid "File exists. Do you want to overwrite it?"
 msgstr "文件已存在。您想覆盖原文件吗？"
 
-#: src/categories_onglet.c:3058 src/etats_onglet.c:1192
-#: src/imputation_budgetaire.c:2798
+#: src/categories_onglet.c:3064 src/etats_onglet.c:1192
+#: src/imputation_budgetaire.c:2793
 #, c-format
 msgid "Invalid filename \"%s\"!"
 msgstr "文件名 \"%s\" 无效"
 
-#: src/categories_onglet.c:3066
+#: src/categories_onglet.c:3072
 msgid "Error saving file."
 msgstr "保存文件时发生错误"
 
 #. on permet de remplacer/fusionner la liste
-#: src/categories_onglet.c:3094 src/categories_onglet.c:3120
+#: src/categories_onglet.c:3100 src/categories_onglet.c:3126
 msgid "Import a category list"
 msgstr "导入类别清单"
 
 #. il y a dÃ©jÃ  des opÃ©rations dans le fichier, on ne peut que fusionner
-#: src/categories_onglet.c:3139
+#: src/categories_onglet.c:3145
 msgid ""
 "File already contains transactions, the two categories lists will be merged."
 msgstr "该文件已经包含了历史交易，两个类别清单将被合并。"
 
-#: src/categories_onglet.c:3149 src/imputation_budgetaire.c:2887
+#: src/categories_onglet.c:3155 src/imputation_budgetaire.c:2882
 msgid "Do you want"
 msgstr "您想要"
 
-#: src/categories_onglet.c:3167
+#: src/categories_onglet.c:3173
 msgid "Merge the two categories lists"
 msgstr "合并这两份类别清单"
 
-#: src/categories_onglet.c:3175
+#: src/categories_onglet.c:3181
 msgid "Replace the old categories list"
 msgstr "替换旧的类别清单"
 
-#: src/categories_onglet.c:3209 src/etats_onglet.c:1250
-#: src/imputation_budgetaire.c:2947
+#: src/categories_onglet.c:3215 src/etats_onglet.c:1250
+#: src/imputation_budgetaire.c:2942
 msgid "Cannot import file."
 msgstr "不能导入文件"
 
@@ -1695,19 +1695,19 @@ msgstr "到欧元的转换是无法恢复的，您确定要这么做吗？"
 msgid "Exchange rate between the 2 currencies is 0."
 msgstr "两个货币的汇率是0."
 
-#: src/comptes_gestion.c:1240 src/devises.c:382 src/devises.c:958
-#: src/devises.c:1777 src/devises.c:1859 src/devises.c:2202 src/devises.c:2207
-#: src/devises.c:2338 src/echeancier_formulaire.c:2052
-#: src/echeancier_formulaire.c:2054 src/echeancier_formulaire.c:2428
-#: src/echeancier_formulaire.c:2430 src/echeancier_liste.c:1952
-#: src/echeancier_liste.c:1954 src/etats_calculs.c:2456
-#: src/etats_calculs.c:2461 src/etats_calculs.c:2491 src/etats_calculs.c:2496
-#: src/etats_calculs.c:2526 src/etats_calculs.c:2531 src/etats_calculs.c:2575
-#: src/etats_calculs.c:2580 src/etats_calculs.c:2606 src/etats_calculs.c:2611
-#: src/etats_calculs.c:2639 src/etats_calculs.c:2644 src/etats_calculs.c:2672
-#: src/etats_calculs.c:2677 src/operations_formulaire.c:2708
-#: src/operations_formulaire.c:2709 src/operations_liste.c:1576
-#: src/operations_liste.c:1578 src/ventilation.c:2972 src/ventilation.c:2974
+#: src/comptes_gestion.c:1240 src/devises.c:382 src/devises.c:959
+#: src/devises.c:1778 src/devises.c:1860 src/devises.c:2203 src/devises.c:2208
+#: src/devises.c:2339 src/echeancier_formulaire.c:2038
+#: src/echeancier_formulaire.c:2040 src/echeancier_formulaire.c:2421
+#: src/echeancier_formulaire.c:2423 src/echeancier_liste.c:1951
+#: src/echeancier_liste.c:1953 src/etats_calculs.c:2586
+#: src/etats_calculs.c:2591 src/etats_calculs.c:2640 src/etats_calculs.c:2645
+#: src/etats_calculs.c:2693 src/etats_calculs.c:2698 src/etats_calculs.c:2761
+#: src/etats_calculs.c:2766 src/etats_calculs.c:2811 src/etats_calculs.c:2816
+#: src/etats_calculs.c:2863 src/etats_calculs.c:2868 src/etats_calculs.c:2915
+#: src/etats_calculs.c:2920 src/operations_formulaire.c:2695
+#: src/operations_formulaire.c:2696 src/operations_liste.c:1580
+#: src/operations_liste.c:1582 src/ventilation.c:2972 src/ventilation.c:2974
 #: src/ventilation.c:3191 src/ventilation.c:3193
 msgid "Euro"
 msgstr "欧元"
@@ -1744,7 +1744,7 @@ msgid ""
 "previously contained.  There is no undo for this."
 msgstr "删除本账户是无法恢复的，包括之前所有的操作。"
 
-#: src/comptes_traitements.c:568 src/ofx.c:430
+#: src/comptes_traitements.c:568 src/ofx.c:431
 msgid "Deposit"
 msgstr "存款"
 
@@ -1817,7 +1817,7 @@ msgid "C"
 msgstr "C"
 
 #: src/csv.c:307 src/etats_affiche.c:1415 src/operations_liste.c:1100
-#: src/operations_liste.c:2026
+#: src/operations_liste.c:2022
 msgid "R"
 msgstr "R"
 
@@ -1831,8 +1831,8 @@ msgid "B"
 msgstr "B"
 
 #: src/csv.c:591 src/echeancier_ventilation.c:780
-#: src/operations_formulaire.c:1028 src/operations_formulaire.c:2406
-#: src/operations_formulaire.c:2970 src/ventilation.c:781
+#: src/operations_formulaire.c:1024 src/operations_formulaire.c:2393
+#: src/operations_formulaire.c:2954 src/ventilation.c:781
 msgid "Deleted account"
 msgstr "已删除账户"
 
@@ -3091,54 +3091,54 @@ msgid "Country name"
 msgstr "国家"
 
 #. Currency name
-#: src/devises.c:599 src/devises.c:712
+#: src/devises.c:600 src/devises.c:713
 msgid "Currency name"
 msgstr "货币名称"
 
-#: src/devises.c:609 src/devises.c:1379
+#: src/devises.c:610 src/devises.c:1380
 msgid "ISO Code"
 msgstr "ISO编号"
 
 #. Create code entry
-#: src/devises.c:620 src/devises.c:1380 src/devises.c:1517
+#: src/devises.c:621 src/devises.c:1381 src/devises.c:1518
 msgid "Sign"
 msgstr "符号"
 
-#: src/devises.c:647
+#: src/devises.c:648
 msgid "Include obsolete currencies"
 msgstr "包含过期的货币"
 
-#: src/devises.c:676 src/import.c:456
+#: src/devises.c:677 src/import.c:456
 msgid "Add a currency"
 msgstr "新增货币"
 
-#: src/devises.c:694
+#: src/devises.c:695
 msgid "ISO 4217 currencies"
 msgstr "ISO4217货币"
 
-#: src/devises.c:701
+#: src/devises.c:702
 msgid "Currency details"
 msgstr "货币明细"
 
 #. Currency ISO code
-#: src/devises.c:729
+#: src/devises.c:730
 msgid "Currency ISO 4217 code"
 msgstr "ISO4217编号"
 
 #. Currency usual sign
-#: src/devises.c:744
+#: src/devises.c:745
 msgid "Currency sign"
 msgstr "货币符号"
 
-#: src/devises.c:820
+#: src/devises.c:821
 msgid "All fields are not filled in!"
 msgstr "所有的栏位都没有填！"
 
-#: src/devises.c:876
+#: src/devises.c:877
 msgid "..."
 msgstr "..."
 
-#: src/devises.c:965
+#: src/devises.c:966
 #, c-format
 msgid ""
 "The %s currency is used in the current account.\n"
@@ -3147,98 +3147,103 @@ msgstr ""
 "货币 %s 被当前账户使用。\n"
 "您不能删除"
 
-#: src/devises.c:1025
+#: src/devises.c:1026
 msgid "Enter exchange rate"
 msgstr "输入汇率"
 
-#: src/devises.c:1035
+#: src/devises.c:1036
 #, c-format
 msgid "Please enter exchange rate for %s"
 msgstr "请输入 %s 的汇率"
 
-#: src/devises.c:1047
+#: src/devises.c:1048
 msgid "A"
 msgstr "一单位"
 
-#: src/devises.c:1055
+#: src/devises.c:1056
 msgid "equals"
 msgstr "等于"
 
-#: src/devises.c:1117
+#: src/devises.c:1118
 msgid "Exchange fees"
 msgstr "兑费"
 
-#: src/devises.c:1378 src/import.c:372
+#: src/devises.c:1379 src/import.c:372
 msgid "Currency"
 msgstr "货币"
 
-#: src/devises.c:1384 src/etats_config.c:6196 src/parametres.c:286
+#: src/devises.c:1385 src/etats_config.c:6196 src/parametres.c:287
 msgid "Currencies"
 msgstr "货币"
 
-#: src/devises.c:1388
+#: src/devises.c:1389
 msgid "Known currencies"
 msgstr "已知货币"
 
-#: src/devises.c:1481
+#: src/devises.c:1482
 msgid "Currency properties"
 msgstr "货币属性"
 
 #. Create code entry
-#: src/devises.c:1533
+#: src/devises.c:1534
 msgid "ISO code"
 msgstr "ISO编号"
 
 #. Will switch to Euro?
-#: src/devises.c:1549
+#: src/devises.c:1550
 msgid "Will switch to Euro"
 msgstr "转换成欧元"
 
-#: src/devises.c:1560
+#: src/devises.c:1561
 msgid "Associated currency"
 msgstr "关联货币"
 
-#: src/devises.c:1581
+#: src/devises.c:1582
 msgid "One"
 msgstr "一单位"
 
-#: src/devises.c:1589
+#: src/devises.c:1590
 msgid "costs"
 msgstr "兑换"
 
-#: src/devises.c:1681 src/parametres.c:269
+#: src/devises.c:1682 src/parametres.c:270
 msgid "Totals currencies"
 msgstr "所有货币"
 
-#: src/devises.c:1688
+#: src/devises.c:1689
 msgid "Currency for third parties tree"
 msgstr "第三方树的货币"
 
-#: src/devises.c:1698
+#: src/devises.c:1699
 msgid "Currency for categories tree"
 msgstr "分类树的货币"
 
-#: src/devises.c:1708
+#: src/devises.c:1709
 msgid "Currency for budgetary lines tree"
 msgstr "预算行树的货币"
 
-#: src/devises.c:1924
+#: src/devises.c:1925
 msgid "Last exchange rate"
 msgstr "最后一次汇率"
 
-#: src/devises.c:1930
+#: src/devises.c:1931
 msgid "No exchange rate defined"
 msgstr "没有定义汇率"
 
-#: src/devises.c:2256
-#, fuzzy
+#: src/devises.c:2257
 msgid "No name"
-msgstr "未命名 %d"
+msgstr "未命名"
 
-#: src/dialog.c:244 src/dialog.c:364 src/fichiers_io.c:6539
-#: src/fichiers_io.c:9462
+#: src/dialog.c:244 src/dialog.c:364 src/fichiers_io.c:6548
+#: src/fichiers_io.c:9471
 msgid "Do not show this message again"
 msgstr "不再显示本消息"
+
+#: src/dialog.c:401 src/echeancier_formulaire.c:1623
+#: src/echeancier_liste.c:664 src/type_operations.c:1569
+#: src/type_operations.c:1640
+msgid "Input"
+msgstr "输入"
 
 #: src/echeancier_formulaire.c:255 src/echeancier_formulaire.c:256
 #: src/operations_formulaire.c:256 src/operations_formulaire.c:257
@@ -3266,12 +3271,12 @@ msgid "Automatic/manual scheduled transaction"
 msgstr "自动/手动安排交易"
 
 #: src/echeancier_formulaire.c:538 src/echeancier_liste.c:809
-#: src/operations_liste.c:1816
+#: src/operations_liste.c:1812
 msgid "Manual"
 msgstr "手动"
 
 #: src/echeancier_formulaire.c:546 src/echeancier_liste.c:807
-#: src/exercice.c:553
+#: src/exercice.c:554
 msgid "Automatic"
 msgstr "自动"
 
@@ -3320,23 +3325,23 @@ msgstr "月"
 msgid "Years"
 msgstr "年"
 
-#: src/echeancier_formulaire.c:1044 src/echeancier_formulaire.c:2541
+#: src/echeancier_formulaire.c:1044 src/echeancier_formulaire.c:2534
 #: src/echeancier_ventilation.c:857 src/echeancier_ventilation.c:1487
-#: src/operations_formulaire.c:1114 src/operations_formulaire.c:3360
+#: src/operations_formulaire.c:1106 src/operations_formulaire.c:3344
 #: src/ventilation.c:858 src/ventilation.c:1485
 msgid "Categories : Sub-categories"
 msgstr "类别 : 子类别"
 
-#: src/echeancier_formulaire.c:1062 src/echeancier_formulaire.c:2543
+#: src/echeancier_formulaire.c:1062 src/echeancier_formulaire.c:2536
 msgid "Transfer reference"
 msgstr "转帐关系"
 
-#: src/echeancier_formulaire.c:1090 src/echeancier_formulaire.c:2551
+#: src/echeancier_formulaire.c:1090 src/echeancier_formulaire.c:2544
 msgid "Limit date"
 msgstr "限制日期"
 
-#: src/echeancier_formulaire.c:1478 src/equilibrage.c:948
-#: src/equilibrage.c:968 src/operations_formulaire.c:2349
+#: src/echeancier_formulaire.c:1478 src/equilibrage.c:944
+#: src/equilibrage.c:964 src/operations_formulaire.c:2336
 msgid "Invalid date"
 msgstr "非法日期"
 
@@ -3344,7 +3349,7 @@ msgstr "非法日期"
 msgid "Invalid limit date"
 msgstr "非法限制日期"
 
-#: src/echeancier_formulaire.c:1530 src/operations_formulaire.c:2435
+#: src/echeancier_formulaire.c:1530 src/operations_formulaire.c:2422
 msgid "Can't issue a transfer its own account."
 msgstr "不能转帐到本账户。"
 
@@ -3352,28 +3357,15 @@ msgstr "不能转帐到本账户。"
 msgid "A breakdown of transaction is a transfer to this account.\n"
 msgstr "交易的细目分类是本账户的转帐。\n"
 
-#: src/echeancier_formulaire.c:1583 src/operations_formulaire.c:2399
+#: src/echeancier_formulaire.c:1583 src/operations_formulaire.c:2386
 msgid "There is no associated account for this transfer."
 msgstr "本转帐没有相关账户。"
 
-#: src/echeancier_formulaire.c:1606 src/operations_formulaire.c:2428
+#: src/echeancier_formulaire.c:1606 src/operations_formulaire.c:2415
 msgid "Associated account of this transfer is invalid."
 msgstr "本转帐的相关账户非法。"
 
-#: src/echeancier_formulaire.c:1624
-msgid ""
-"Impossible to create or entry an automatic scheduled transaction\n"
-" with a cheque or a method of payment with an automatic incremental number."
-msgstr ""
-"无法新增或者更改一个自动定期交易，\n"
-"由于它用自增的方式给支票或者支付方式编号。"
-
-#: src/echeancier_formulaire.c:1637 src/echeancier_liste.c:664
-#: src/type_operations.c:1571 src/type_operations.c:1642
-msgid "Input"
-msgstr "输入"
-
-#: src/echeancier_formulaire.c:2591 src/echeancier_liste.c:557
+#: src/echeancier_formulaire.c:2584 src/echeancier_liste.c:557
 #: src/echeancier_liste.c:988
 msgid "Modification"
 msgstr "更改"
@@ -3411,7 +3403,7 @@ msgstr ""
 "定期交易"
 
 #: src/echeancier_liste.c:401 src/etats_config.c:266 src/import.c:394
-#: src/type_operations.c:299
+#: src/type_operations.c:300
 msgid "Account"
 msgstr "账户"
 
@@ -3517,11 +3509,11 @@ msgstr "可以转帐给自身账户"
 msgid "No account associated with the transfer"
 msgstr "本交易没有关联账户"
 
-#: src/echeancier_ventilation.c:2483 src/ventilation.c:2561
+#: src/echeancier_ventilation.c:2488 src/ventilation.c:2561
 msgid "Incomplete breakdown"
 msgstr "没有完成的细目分类"
 
-#: src/echeancier_ventilation.c:2484 src/ventilation.c:2562
+#: src/echeancier_ventilation.c:2489 src/ventilation.c:2562
 msgid ""
 "Transaction amount isn't fully broken down.\n"
 "Proceed anyway?"
@@ -3529,7 +3521,7 @@ msgstr ""
 "交易总额没有完全细目分类。\n"
 "继续吗？"
 
-#: src/echeancier_ventilation.c:2666 src/ventilation.c:2806
+#: src/echeancier_ventilation.c:2671 src/ventilation.c:2806
 msgid "A breakdown line is to be deleted though it is not yet registered."
 msgstr "一行细目分类还没有注册就将被删除。"
 
@@ -3555,32 +3547,32 @@ msgstr "支票"
 msgid "Variance"
 msgstr "冲突"
 
-#: src/equilibrage.c:847 src/operations_liste.c:1096
-#: src/operations_liste.c:1914
+#: src/equilibrage.c:843 src/operations_liste.c:1096
+#: src/operations_liste.c:1910
 msgid "P"
 msgstr "P"
 
-#: src/equilibrage.c:900 src/operations_comptes.c:312
-#: src/operations_liste.c:764 src/operations_liste.c:1969
+#: src/equilibrage.c:896 src/operations_comptes.c:312
+#: src/operations_liste.c:764 src/operations_liste.c:1965
 #, c-format
 msgid "Checked balance: %4.2f %s"
 msgstr "选中余额：%4.2f %s"
 
-#: src/equilibrage.c:927
+#: src/equilibrage.c:923
 msgid "There is a variance"
 msgstr "发现一个矛盾"
 
-#: src/equilibrage.c:977 src/operations_comptes.c:299
+#: src/equilibrage.c:973 src/operations_comptes.c:299
 #, c-format
 msgid "Last statement: %02d/%02d/%d"
 msgstr "最后报告：%02d/%02d/%d"
 
 #. le rapprochement existe dÃ©jÃ 
-#: src/equilibrage.c:1001
+#: src/equilibrage.c:997
 msgid "Reconciliation reference already exist"
 msgstr "相关调整已存在"
 
-#: src/equilibrage.c:1002
+#: src/equilibrage.c:998
 msgid ""
 "The choosen reconciliation reference already exists.  Perhaps it's not a "
 "problem, but perhaps it is.  Be sure you want to do.\n"
@@ -3590,11 +3582,11 @@ msgstr ""
 "做。\n"
 "仍然继续吗？"
 
-#: src/equilibrage.c:1028
+#: src/equilibrage.c:1024
 msgid "No reconciliation reference"
 msgstr "没有相关调整"
 
-#: src/equilibrage.c:1029
+#: src/equilibrage.c:1025
 msgid ""
 "You are reconciling the account without giving a reconciliation reference.  "
 "By doing this, you will unable to find these transactions according a "
@@ -3605,20 +3597,20 @@ msgstr ""
 "易。\n"
 "仍然继续吗？"
 
-#: src/equilibrage.c:1646 src/operations_onglet.c:83 src/parametres.c:261
-#: src/type_operations.c:255
+#: src/equilibrage.c:1643 src/operations_onglet.c:83 src/parametres.c:262
+#: src/type_operations.c:256
 msgid "Reconciliation"
 msgstr "调整"
 
-#: src/equilibrage.c:1650
+#: src/equilibrage.c:1647
 msgid "Reconciliation: sort transactions"
 msgstr "调整：交易排序"
 
-#: src/equilibrage.c:1698
+#: src/equilibrage.c:1695
 msgid "Sort by date"
 msgstr "按日期排序"
 
-#: src/equilibrage.c:1715
+#: src/equilibrage.c:1712
 msgid "Split neutral payment methods"
 msgstr "分开中性支付方式"
 
@@ -3670,7 +3662,7 @@ msgid ""
 "nevertheless try to import it."
 msgstr "该报表是由Grisbi版本 %s产生的， Grisbi将 尝试导入。"
 
-#: src/etat_io.c:68 src/fichiers_io.c:8905 src/fichiers_io.c:9258
+#: src/etat_io.c:68 src/fichiers_io.c:8914 src/fichiers_io.c:9267
 msgid "Version mismatch"
 msgstr "版本不匹配"
 
@@ -4023,12 +4015,12 @@ msgid "Number"
 msgstr "编号"
 
 #. Now we have a model, create view
-#: src/etats_affiche.c:2265 src/etats_config.c:159 src/parametres.c:310
-#: src/type_operations.c:259
+#: src/etats_affiche.c:2265 src/etats_config.c:159 src/parametres.c:311
+#: src/type_operations.c:260
 msgid "Payment methods"
 msgstr "支付方式"
 
-#: src/etats_affiche.c:2293 src/ofx.c:410
+#: src/etats_affiche.c:2293 src/ofx.c:411
 msgid "Check"
 msgstr "支票"
 
@@ -4862,15 +4854,15 @@ msgstr "dvips不能结束，请参见控制台输出信息。"
 #: src/etats_onglet.c:1134 src/fenetre_principale.c:120 src/menu.c:108
 #: src/menu.c:109 src/menu.c:110 src/menu.c:111 src/menu.c:112 src/menu.c:113
 #: src/menu.c:114 src/menu.c:115 src/menu.c:116 src/menu.c:117 src/menu.c:118
-#: src/menu.c:119 src/menu.c:120 src/menu.c:121 src/traitement_variables.c:123
-#: src/traitement_variables.c:126 src/traitement_variables.c:129
-#: src/traitement_variables.c:132 src/traitement_variables.c:135
-#: src/traitement_variables.c:138 src/traitement_variables.c:141
-#: src/traitement_variables.c:144 src/traitement_variables.c:249
-#: src/traitement_variables.c:252 src/traitement_variables.c:255
-#: src/traitement_variables.c:258 src/traitement_variables.c:261
-#: src/traitement_variables.c:264 src/traitement_variables.c:267
-#: src/traitement_variables.c:270
+#: src/menu.c:119 src/menu.c:120 src/menu.c:121 src/menu.c:122
+#: src/traitement_variables.c:123 src/traitement_variables.c:126
+#: src/traitement_variables.c:129 src/traitement_variables.c:132
+#: src/traitement_variables.c:135 src/traitement_variables.c:138
+#: src/traitement_variables.c:141 src/traitement_variables.c:144
+#: src/traitement_variables.c:249 src/traitement_variables.c:252
+#: src/traitement_variables.c:255 src/traitement_variables.c:258
+#: src/traitement_variables.c:261 src/traitement_variables.c:264
+#: src/traitement_variables.c:267 src/traitement_variables.c:270
 msgid "Reports"
 msgstr "报表"
 
@@ -4905,7 +4897,7 @@ msgid "Print report"
 msgstr "打印报表"
 
 #: src/etats_onglet.c:306 src/etats_onglet.c:1083 src/etats_onglet.c:1128
-#: src/menu.c:117 src/traitement_variables.c:138
+#: src/menu.c:118 src/traitement_variables.c:138
 #: src/traitement_variables.c:264
 msgid "Export report file"
 msgstr "导出报表文件"
@@ -4917,13 +4909,13 @@ msgid "Export report as HTML..."
 msgstr "导出报表为HTML..."
 
 #: src/etats_onglet.c:312 src/etats_onglet.c:1086 src/etats_onglet.c:1131
-#: src/menu.c:119 src/traitement_variables.c:141
+#: src/menu.c:120 src/traitement_variables.c:141
 #: src/traitement_variables.c:267
 msgid "Remove report"
 msgstr "删除报表"
 
 #: src/etats_onglet.c:315 src/etats_onglet.c:1089 src/etats_onglet.c:1134
-#: src/menu.c:121 src/traitement_variables.c:144
+#: src/menu.c:122 src/traitement_variables.c:144
 #: src/traitement_variables.c:270
 msgid "Edit report"
 msgstr "修改报表"
@@ -4948,8 +4940,8 @@ msgid ""
 "You are about to create a new report.  For convenience, you can choose "
 "between the following templates.  Reports may be customized later."
 msgstr ""
-"您想新建一份报表。  为方便起见，您可疑 "
-"在以下模板中选择一份。 稍后再进行定制。"
+"您想新建一份报表。  为方便起见，您可疑 在以下模板中选择一份。 稍后再进行定"
+"制。"
 
 #: src/etats_onglet.c:477
 msgid "Report type"
@@ -5008,9 +5000,8 @@ msgid ""
 "categories and sub-categories. You just need to select the account(s). By "
 "default, all accounts are selected."
 msgstr ""
-"本报表显示上月份按类别、子类别排序的交易的总额。"
-"您只需要选择账户。默认情况下选中所有的账户。"
-""
+"本报表显示上月份按类别、子类别排序的交易的总额。您只需要选择账户。默认情况下"
+"选中所有的账户。"
 
 #. revenus et dÃ©penses du mois en cours
 #: src/etats_onglet.c:999
@@ -5019,18 +5010,15 @@ msgid ""
 "categories and sub-categories. You just need to select the account(s). By "
 "default, all accounts are selected."
 msgstr ""
-"本报表显示本月份按类别、子类别排序的交易的总额。"
-"您只需要选择账户。默认情况下选中所有的账户。"
-""
+"本报表显示本月份按类别、子类别排序的交易的总额。您只需要选择账户。默认情况下"
+"选中所有的账户。"
 
 #. budget annuel
 #: src/etats_onglet.c:1005
 msgid ""
 "This report displays annual budget. You just need to select the account(s). "
 "By default all accounts are selected."
-msgstr ""
-"本报表显示年度预算。您只需要选择账户。"
-"默认情况下选中所有的账户。"
+msgstr "本报表显示年度预算。您只需要选择账户。默认情况下选中所有的账户。"
 
 #. etat vierge
 #: src/etats_onglet.c:1011
@@ -5042,9 +5030,7 @@ msgstr "本报表是空的。您需要重新定制。"
 msgid ""
 "This report displays the cheques deposit. You just need to select the account"
 "(s). By default all accounts are selected."
-msgstr ""
-"本报表显示支票存入。您只需要选择账户。"
-"默认情况下选中所有的账户。"
+msgstr "本报表显示支票存入。您只需要选择账户。默认情况下选中所有的账户。"
 
 #. dÃ©penses mensuelles par tiers
 #: src/etats_onglet.c:1023
@@ -5052,8 +5038,8 @@ msgid ""
 "This report displays current month's outgoings sorted by third parties. You "
 "just need to select the account(s). By default all accounts areselected."
 msgstr ""
-"本报表显示本月按第三方排序的收支。您只需要选择账户。"
-"默认情况下选中所有的账户。"
+"本报表显示本月按第三方排序的收支。您只需要选择账户。默认情况下选中所有的账"
+"户。"
 
 #. recherche
 #: src/etats_onglet.c:1029
@@ -5063,10 +5049,8 @@ msgid ""
 "parties etc. criteria thant you want. By default the transactions are "
 "clickables."
 msgstr ""
-"本报表显示本年度所有账户交易的信息。"
-"您只需要增加总额、日期、第三方等条件信息。"
-"默认设定下交易是可易点击的。"
-""
+"本报表显示本年度所有账户交易的信息。您只需要增加总额、日期、第三方等条件信"
+"息。默认设定下交易是可易点击的。"
 
 #: src/etats_onglet.c:1034
 msgid "???? should not be displayed..."
@@ -5085,7 +5069,7 @@ msgstr "这样将永久删除报表，无法恢复。"
 msgid "Export report"
 msgstr "导出报表"
 
-#: src/etats_onglet.c:1200 src/imputation_budgetaire.c:2805
+#: src/etats_onglet.c:1200 src/imputation_budgetaire.c:2800
 msgid "Cannot save file."
 msgstr "不能保存文件"
 
@@ -5161,7 +5145,7 @@ msgstr "从 %s %d"
 msgid "to %s %d"
 msgstr "到 %s %d"
 
-#: src/exercice.c:131 src/parametres.c:302
+#: src/exercice.c:131 src/parametres.c:303
 msgid "Financial years"
 msgstr "财年"
 
@@ -5197,21 +5181,21 @@ msgstr "表格中激活"
 msgid "New financial year"
 msgstr "新财年"
 
-#: src/exercice.c:460
+#: src/exercice.c:461
 msgid "The financial year must have a name."
 msgstr "财年必须有一个名称"
 
 #. le second est non affichÃ©
 #. on lui associe -1
-#: src/exercice.c:583
+#: src/exercice.c:584
 msgid "Not displayed"
 msgstr "没有显示"
 
-#: src/exercice.c:759
+#: src/exercice.c:760
 msgid "Automatic association for the financial year"
 msgstr "自动与财年关联"
 
-#: src/exercice.c:766
+#: src/exercice.c:767
 msgid ""
 "This function assigns each transaction without a financial year to the\n"
 "one related to its transaction date.  If no financial year matches,\n"
@@ -5232,8 +5216,7 @@ msgstr "选择要导出的账户"
 #: src/export.c:292 src/qif.c:1058
 msgid ""
 "This will irreversibly overwrite previous file.  There is no undo for this."
-msgstr ""
-"将永久覆盖原文件。无法恢复。"
+msgstr "将永久覆盖原文件。无法恢复。"
 
 #: src/export.c:304
 #, c-format
@@ -5273,8 +5256,8 @@ msgstr "导出为CSV文件"
 #: src/export.c:463 src/menu.c:65 src/menu.c:66 src/menu.c:67 src/menu.c:68
 #: src/menu.c:69 src/menu.c:70 src/menu.c:71 src/menu.c:72 src/menu.c:73
 #: src/menu.c:74 src/menu.c:75 src/menu.c:76 src/menu.c:77 src/menu.c:79
-#: src/menu.c:80 src/menu.c:81 src/menu.c:82 src/menu.c:83 src/menu.c:200
-#: src/menu.c:204 src/menu.c:222 src/menu.c:243 src/menu.c:254
+#: src/menu.c:80 src/menu.c:81 src/menu.c:82 src/menu.c:83 src/menu.c:201
+#: src/menu.c:205 src/menu.c:225 src/menu.c:251 src/menu.c:262
 #: src/print_config.c:207 src/traitement_variables.c:58
 #: src/traitement_variables.c:65 src/traitement_variables.c:87
 #: src/traitement_variables.c:90 src/traitement_variables.c:93
@@ -5312,7 +5295,7 @@ msgstr "文件 : "
 msgid "Error opening config"
 msgstr "打开配置文件发生错误"
 
-#: src/fichier_configuration.c:688 src/print_config.c:41
+#: src/fichier_configuration.c:688
 msgid "A4"
 msgstr "A4"
 
@@ -5340,66 +5323,63 @@ msgid ""
 "instead.\n"
 "However, all changes made since this backup were possibly lost."
 msgstr ""
-"Grisbi不能载入文件。但是，Grisbi载入了一个"
-"备份文件代替它。\n"
+"Grisbi不能载入文件。但是，Grisbi载入了一个备份文件代替它。\n"
 "然而，该备份文件的改变可能被丢失。"
 
 #: src/fichiers_gestion.c:285
 msgid ""
 "Grisbi was unable to load file.  Additionnaly, Grisbi was unable to load a "
 "backup file instead."
-msgstr ""
-"Grisbi不能载入文件。而且，也"
-"不能载入备份文件代替。"
+msgstr "Grisbi不能载入文件。而且，也不能载入备份文件代替。"
 
-#: src/fichiers_gestion.c:343
+#: src/fichiers_gestion.c:374
 msgid "Formatting transactions"
 msgstr "交易格式化"
 
-#: src/fichiers_gestion.c:432
+#: src/fichiers_gestion.c:463
 #, c-format
 msgid "Save changes to document '%s' before closing?"
 msgstr "关闭前保存更新到文件 '%s' 吗？"
 
-#: src/fichiers_gestion.c:433
+#: src/fichiers_gestion.c:464
 msgid "unnamed"
 msgstr "未命名"
 
-#: src/fichiers_gestion.c:441
+#: src/fichiers_gestion.c:472
 msgid "Close without saving"
 msgstr "不保存关闭"
 
-#: src/fichiers_gestion.c:447
+#: src/fichiers_gestion.c:478
 msgid "If you close without saving, all of your changes will be discarded."
 msgstr "如果您不保存就关闭文件，将丢失更新的数据"
 
-#: src/fichiers_gestion.c:475
+#: src/fichiers_gestion.c:506
 msgid "Name the accounts file"
 msgstr "命名账户文件"
 
-#: src/fichiers_gestion.c:506
+#: src/fichiers_gestion.c:537
 msgid "File already exists"
 msgstr "文件已经存在"
 
-#: src/fichiers_gestion.c:507
+#: src/fichiers_gestion.c:538
 #, c-format
 msgid "Do you want to overwrite file \"%s\"?"
 msgstr "您要覆盖原文件 \"%s\" 吗？"
 
-#: src/fichiers_gestion.c:515
+#: src/fichiers_gestion.c:546
 #, c-format
 msgid "Invalid filename: \"%s\"!"
 msgstr "文件名称不正确: \"%s\"！"
 
-#: src/fichiers_gestion.c:698 src/fichiers_gestion.c:709
+#: src/fichiers_gestion.c:729 src/fichiers_gestion.c:740
 msgid "Grisbi"
 msgstr "Grisbi"
 
-#: src/fichiers_gestion.c:707
+#: src/fichiers_gestion.c:738
 msgid "Grisbi - No name"
 msgstr "Grisbi - 未命名"
 
-#: src/fichiers_gestion.c:738
+#: src/fichiers_gestion.c:769
 msgid "Saving backup"
 msgstr "保存备份"
 
@@ -5418,22 +5398,22 @@ msgstr "错误的账户文件"
 
 #. Ã  ce niveau, c'est que que la version n'est pas connue de grisbi, on donne alors
 #. la version nÃ©cessaire pour l'ouvrir
-#: src/fichiers_io.c:211
+#: src/fichiers_io.c:213 src/fichiers_io.c:218
 #, c-format
 msgid "Grisbi version %s is needed to open this file"
 msgstr "打开此文件需要Grisbi版本 %s "
 
-#: src/fichiers_io.c:220 src/fichiers_io.c:231
+#: src/fichiers_io.c:227 src/fichiers_io.c:238
 #, c-format
 msgid "Cannot open file '%s': %s"
 msgstr "不能打开文件 '%s': %s"
 
-#: src/fichiers_io.c:223
+#: src/fichiers_io.c:230
 #, c-format
 msgid "Cannot open file '%s' : this is not a grisbi file"
 msgstr "不能打开文件 '%s' : 不是grisbi能识别的文件"
 
-#: src/fichiers_io.c:265
+#: src/fichiers_io.c:272
 #, c-format
 msgid ""
 "Warning: Grisbi data format has changed. Grisbi made a backup under '%s'.\n"
@@ -5442,25 +5422,23 @@ msgstr ""
 "警告：Grisbi 数据格式被改变了。Grisbi在  '%s' 保留了一个备份。\n"
 "为以防万一，请暂时保留它。"
 
-#: src/fichiers_io.c:300 src/fichiers_io.c:2046 src/fichiers_io.c:4303
+#: src/fichiers_io.c:307 src/fichiers_io.c:2053 src/fichiers_io.c:4310
 #, c-format
 msgid "File \"%s\" is already opened"
 msgstr "文件 \"%s\" 已经打开过了"
 
-#: src/fichiers_io.c:301 src/fichiers_io.c:2047 src/fichiers_io.c:4304
+#: src/fichiers_io.c:308 src/fichiers_io.c:2054 src/fichiers_io.c:4311
 msgid ""
 "Either this file is already opened by another user or it wasn't closed "
 "correctly (maybe Grisbi crashed?).\n"
 "Grisbi can't save the file unless you activate the \"Force saving locked "
 "files\" option in setup."
 msgstr ""
-"该文件可能已被其他用户打开或者没有"
-"正常关闭 （可能Grisbi异常退出了？)。\n"
-"Grisbi 不能保存文件，除非您选择 \"强制保存加锁文件\" "
-" 选项。"
+"该文件可能已被其他用户打开或者没有正常关闭 （可能Grisbi异常退出了？)。\n"
+"Grisbi 不能保存文件，除非您选择 \"强制保存加锁文件\"  选项。"
 
 #. FIXME
-#: src/fichiers_io.c:1907
+#: src/fichiers_io.c:1914
 msgid ""
 "There was a bug in versions before 0.4.0, which could lead to orphan "
 "transactions (either transfers without countra-transaction, or breakdown "
@@ -5469,101 +5447,92 @@ msgid ""
 "Grisbi searched for such transaction and found:\n"
 "\n"
 msgstr ""
-"Grisbi低于 0.4.0的版本有一个错误，可能导致孤儿 "
-"交易（例如没有相对的反交易，或者细目分类"
-"详情没有关联到细目分类。\n"
+"Grisbi低于 0.4.0的版本有一个错误，可能导致孤儿 交易（例如没有相对的反交易，或"
+"者细目分类详情没有关联到细目分类。\n"
 "\n"
 "Grisbi 查找了这类交易并找到了：\n"
 "\n"
 
-#: src/fichiers_io.c:1913
+#: src/fichiers_io.c:1920
 msgid "breakdown transactions, all of them were deleted.\n"
 msgstr "残缺的交易，将被全部删除。\n"
 
-#: src/fichiers_io.c:1920
+#: src/fichiers_io.c:1927
 msgid "transfers without contra-transaction, which categories were deleted.\n"
 msgstr "交易没有反交易，这些类别将被删除。\n"
 
-#: src/fichiers_io.c:1925
+#: src/fichiers_io.c:1932
 msgid ""
 "These modifications should not impact on neither Grisbi's behavior nor your "
 "accounts balances."
-msgstr ""
-"这些修改不会影响Grisbi的行为"
-"和您的账户余额。"
+msgstr "这些修改不会影响Grisbi的行为和您的账户余额。"
 
-#: src/fichiers_io.c:6535
+#: src/fichiers_io.c:6544
 #, c-format
 msgid "Can not save file \"%s\""
 msgstr "不能保存文件 \"%s\""
 
-#: src/fichiers_io.c:6537
+#: src/fichiers_io.c:6546
 #, c-format
 msgid ""
 "Grisbi was unable to save this file because it is locked.  Please save it "
 "with another name or activate the \"%s\" option in setup.  Alternatively, "
 "choose the \"%s\" option below."
 msgstr ""
-"Grisbi不能保存文件，因为它被锁住了。请"
-"用另一个名字保存或者激活 \"%s\" 选项。"
+"Grisbi不能保存文件，因为它被锁住了。请用另一个名字保存或者激活 \"%s\" 选项。"
 "或者选择下面的 \"%s\" 选项。"
 
-#: src/fichiers_io.c:6538 src/parametres.c:535
+#: src/fichiers_io.c:6547 src/parametres.c:536
 msgid "Force saving of locked files"
 msgstr "强制保存加锁的文件"
 
-#: src/fichiers_io.c:8642 src/fichiers_io.c:8861 src/fichiers_io.c:9215
+#: src/fichiers_io.c:8651 src/fichiers_io.c:8870 src/fichiers_io.c:9224
 #, c-format
 msgid "Cannot save file '%s': %s"
 msgstr "不能保存文件 '%s': %s"
 
-#: src/fichiers_io.c:8690
+#: src/fichiers_io.c:8699
 #, c-format
 msgid "Cannot lock file '%s': %s"
 msgstr "不能锁定文件 '%s': %s"
 
-#: src/fichiers_io.c:8895
+#: src/fichiers_io.c:8904
 msgid "This file is not a Grisbi category list file"
 msgstr "此文件不是Grisbi的类别清单文件"
 
-#: src/fichiers_io.c:8904
+#: src/fichiers_io.c:8913
 #, c-format
 msgid ""
 "This categories list has been produced with grisbi version %s, Grisbi will "
 "nevertheless try to import it."
-msgstr ""
-"该类别清单由 Grisbi 版本 %s 产生，"
-"当然，Grisbi 还是会尝试导入。"
+msgstr "该类别清单由 Grisbi 版本 %s 产生，当然，Grisbi 还是会尝试导入。"
 
-#: src/fichiers_io.c:8912
+#: src/fichiers_io.c:8921
 msgid "Invalid categories file"
 msgstr "错误的类别文件"
 
-#: src/fichiers_io.c:9248
+#: src/fichiers_io.c:9257
 msgid "This file is not a grisbi budgetary lines file"
 msgstr "该文件不是Grisbi预算行文件"
 
-#: src/fichiers_io.c:9257
+#: src/fichiers_io.c:9266
 #, c-format
 msgid ""
 "This budgetary lines list has been produced with grisbi version %s, Grisbi "
 "will nevertheless try to import it."
-msgstr ""
-"该预算行清单由Grisbi版本 %s 产生，"
-"当然，Grisbi 还是会尝试导入。"
+msgstr "该预算行清单由Grisbi版本 %s 产生，当然，Grisbi 还是会尝试导入。"
 
-#: src/fichiers_io.c:9265
+#: src/fichiers_io.c:9274
 msgid "Invalid budgetary lines file"
 msgstr "错误的预算行文件"
 
-#: src/fichiers_io.c:9459
+#: src/fichiers_io.c:9468
 msgid ""
 "Your account file should not be readable by anybody else, but it is. You "
 "should change its permissions.\n"
 "Should this be fixed now?"
 msgstr ""
-"您的账户文件不应能被他人打开，但是它是。"
-"您应该改变它的可读权限。\n"
+"您的账户文件不应能被他人打开，但是它是。您应该改变它的可读权限。\n"
 "现在改变吗？"
 
 #: src/gnucash.c:517
@@ -5581,8 +5550,8 @@ msgid ""
 "Grisbi needs to open a temporary file in order to import Gnucash data but "
 "file can't be created.  Check that you have permission to do that."
 msgstr ""
-"Grisbi 需要打开一个临时文件以前导入 Gnucash 数据，"
-"但是，这个文件不能产生，请检查您的权限。"
+"Grisbi 需要打开一个临时文件以前导入 Gnucash 数据，但是，这个文件不能产生，请"
+"检查您的权限。"
 
 #: src/gnucash.c:528
 #, c-format
@@ -5600,12 +5569,10 @@ msgid ""
 "features will come."
 msgstr ""
 "Grisbi 是 Linux 下的一个个人财务应用软件\n"
-"让您可以方便的安排您的金融交易，"
-"无论它们是什么。"
-"因此，您可以更容易的按需要来管理它们。\n"
-"Grisbi 不但关注日常使用的方便和效率，"
-"也重视满足高端用户的需求。 我们"
-"将逐步实现这些功能。"
+"让您可以方便的安排您的金融交易，无论它们是什么。因此，您可以更容易的按需要来"
+"管理它们。\n"
+"Grisbi 不但关注日常使用的方便和效率，也重视满足高端用户的需求。 我们将逐步实"
+"现这些功能。"
 
 #: src/help.c:47
 msgid "Alain Pichon (aph[at]grisbi.org): RHEL and Fedora packaging"
@@ -5647,15 +5614,12 @@ msgstr "Dominique Parisot (parisot[at]villey-le-sec.com): 贡献者"
 msgid ""
 "Francois Terrot (grisbi[at]terrot.net): Windows packaging and port, "
 "programming"
-msgstr ""
-"Francois Terrot (grisbi[at]terrot.net): Windows 软件包和移植，"
-"程序"
+msgstr "Francois Terrot (grisbi[at]terrot.net): Windows 软件包和移植，程序"
 
 #: src/help.c:57
 msgid ""
 "Gerald Niel (gerald.niel[at]grisbi.org): Darwin packaging, administration"
-msgstr ""
-"Gerald Niel (gerald.niel[at]grisbi.org): Darwin 软件包，管理"
+msgstr "Gerald Niel (gerald.niel[at]grisbi.org): Darwin 软件包，管理"
 
 #: src/help.c:58
 msgid "PMF (ugly.duck[at]gmx.de): Zaurus packaging"
@@ -5710,54 +5674,62 @@ msgid "Giorgio Mandolfo (giorgio[at]pollycoke.org): Italian"
 msgstr "Giorgio Mandolfo (giorgio[at]pollycoke.org): Italian"
 
 #: src/help.c:73
+msgid "Marek Donar (mdonar[at]post.cz): Czech"
+msgstr ""
+
+#: src/help.c:74
 msgid "Martin Stromberger (Fabiolla[at]aon.at): German"
 msgstr "Martin Stromberger (Fabiolla[at]aon.at): German"
 
-#: src/help.c:74
+#: src/help.c:75
+msgid "Mircea Aronovici (bucuresti[at]free.fr): Romanian"
+msgstr ""
+
+#: src/help.c:76
 msgid "Ryszard Jeziorski (r.jeziorski[at]dart.kielce.pl): Polish"
 msgstr "Ryszard Jeziorski (r.jeziorski[at]dart.kielce.pl): Polish"
 
-#: src/help.c:80
+#: src/help.c:82
 msgid "Development list (discuss, participate, criticize, ...): "
 msgstr "开发名单（讨论，会议，评论）："
 
-#: src/help.c:82 src/help.c:88
+#: src/help.c:84 src/help.c:90
 msgid "subscribe"
 msgstr "订阅"
 
-#: src/help.c:83
+#: src/help.c:85
 msgid "Bug report"
 msgstr "报告软件缺陷"
 
-#: src/help.c:86
+#: src/help.c:88
 msgid "Information list (new releases announces, ...): "
 msgstr "信息邮件列表 （例如新版本发布声明等）："
 
-#: src/help.c:89
+#: src/help.c:91
 msgid "Grisbi documentation"
 msgstr "Grisbi文档"
 
-#: src/help.c:96
+#: src/help.c:98
 msgid "About..."
 msgstr "关于..."
 
-#: src/help.c:140
+#: src/help.c:142
 msgid "About Grisbi"
 msgstr "关于Grisbi"
 
-#: src/help.c:175
+#: src/help.c:177
 msgid "Authors"
 msgstr "作者"
 
-#: src/help.c:212
+#: src/help.c:214
 msgid "Translators"
 msgstr "翻译"
 
-#: src/help.c:259
+#: src/help.c:261
 msgid "Links"
 msgstr "链接"
 
-#: src/help.c:283
+#: src/help.c:285
 msgid "License"
 msgstr "许可证"
 
@@ -5771,9 +5743,8 @@ msgid ""
 "file or a gnucash file, please contact the grisbi team to resolve this "
 "problem."
 msgstr ""
-"Grisbi 不能识别该文件的类型。如果是 QIF， 一种 OFX "
-"文件或者 gnucash文件，请联系 Grisbi 团队以解决"
-"这个问题。"
+"Grisbi 不能识别该文件的类型。如果是 QIF， 一种 OFX 文件或者 gnucash文件，请联"
+"系 Grisbi 团队以解决这个问题。"
 
 #: src/import.c:219 src/import.c:227
 #, c-format
@@ -5820,9 +5791,8 @@ msgid ""
 "but the ISO code is wrong.\n"
 "To avoid this message, please set its ISO code in configuration."
 msgstr ""
-"以导入账户 '%s' 的货币是 %s。可能这个货币不存在，"
-"您需要在对话框中新建它；或者该货币已存在，"
-"但它的 ISO 编码错误。\n"
+"以导入账户 '%s' 的货币是 %s。可能这个货币不存在，您需要在对话框中新建它；或者"
+"该货币已存在，但它的 ISO 编码错误。\n"
 "想让本消息不在出现，请设定对应的ISO编码。"
 
 #: src/import.c:626
@@ -5878,8 +5848,7 @@ msgid ""
 "Perhaps you choose a wrong account ?  If you choose to continue, the id of "
 "the account will be changed.  Do you want to continue ?"
 msgstr ""
-"也许您选择了错误的账户？如果您选择继续，"
-"本账户的ID将被改变。您确定要继续吗？"
+"也许您选择了错误的账户？如果您选择继续，本账户的ID将被改变。您确定要继续吗？"
 
 #: src/import.c:1796
 msgid "Confirmation of importation of transactions"
@@ -5889,9 +5858,7 @@ msgstr "导入交易确认"
 msgid ""
 "Some imported transactions seem to be already saved. Please select the "
 "transactions to import."
-msgstr ""
-"一些导入的交易似乎已经被保存过了。"
-"请选择导入的交易。"
+msgstr "一些导入的交易似乎已经被保存过了。请选择导入的交易。"
 
 #: src/import.c:1874
 #, c-format
@@ -5981,11 +5948,11 @@ msgstr "没有预算行"
 msgid "%d/%d/%d : %4.2f %s [ %s ]"
 msgstr "%d/%d/%d : %4.2f %s [ %s ]"
 
-#: src/imputation_budgetaire.c:1591
+#: src/imputation_budgetaire.c:1586
 msgid "Delete a budgetary line"
 msgstr "删除预算行"
 
-#: src/imputation_budgetaire.c:1598
+#: src/imputation_budgetaire.c:1593
 msgid ""
 "Some transactions are still assigned to this budgetary line.\n"
 "\n"
@@ -5995,23 +5962,23 @@ msgstr ""
 "\n"
 "您可以"
 
-#: src/imputation_budgetaire.c:1623 src/imputation_budgetaire.c:1954
+#: src/imputation_budgetaire.c:1618 src/imputation_budgetaire.c:1949
 msgid "Move the transactions to"
 msgstr "移动该交易到"
 
-#: src/imputation_budgetaire.c:1708
+#: src/imputation_budgetaire.c:1703
 msgid "Just delete the budgetary line."
 msgstr "仅删除该预算行。"
 
-#: src/imputation_budgetaire.c:1734 src/imputation_budgetaire.c:2064
+#: src/imputation_budgetaire.c:1729 src/imputation_budgetaire.c:2059
 msgid "Please enter a budgetary line!"
 msgstr "请输入一个预算行！"
 
-#: src/imputation_budgetaire.c:1922
+#: src/imputation_budgetaire.c:1917
 msgid "Deleting a budgetaty line"
 msgstr "删除预算行"
 
-#: src/imputation_budgetaire.c:1929
+#: src/imputation_budgetaire.c:1924
 msgid ""
 "Some transactions are still assigned to this sub-budgetary line.\n"
 "\n"
@@ -6021,37 +5988,33 @@ msgstr ""
 "\n"
 "您可以"
 
-#: src/imputation_budgetaire.c:2038
+#: src/imputation_budgetaire.c:2033
 msgid "Just delete the sub-budgetary line."
 msgstr "仅删除本子预算行。"
 
-#: src/imputation_budgetaire.c:2319
+#: src/imputation_budgetaire.c:2314
 msgid ""
 "Budgetary lines names must be both unique and not empty.  Please use another "
 "name for this budgetary line."
-msgstr ""
-"预算行名称必须唯一而且不能为空。"
-"请使用另一个名称。"
+msgstr "预算行名称必须唯一而且不能为空。请使用另一个名称。"
 
-#: src/imputation_budgetaire.c:2320
+#: src/imputation_budgetaire.c:2315
 #, c-format
 msgid "Budgetary line '%s' already exists."
 msgstr "预算行 '%s' 已存在。"
 
-#: src/imputation_budgetaire.c:2361
+#: src/imputation_budgetaire.c:2356
 msgid ""
 "Sub-budgetary lines names must be both unique and not empty.  Please use "
 "another name for this sub-budgetary line."
-msgstr ""
-"子预算行名称必须唯一而且不能为空。"
-"请使用另一个名称。"
+msgstr "子预算行名称必须唯一而且不能为空。请使用另一个名称。"
 
-#: src/imputation_budgetaire.c:2362
+#: src/imputation_budgetaire.c:2357
 #, c-format
 msgid "Sub-budgetary line '%s' already exists."
 msgstr "子预算行 '%s' 已存在。"
 
-#: src/imputation_budgetaire.c:2384
+#: src/imputation_budgetaire.c:2379
 msgid ""
 "Warning: this will add all the categories and subcategories to the budgetary "
 "lines!\n"
@@ -6059,55 +6022,52 @@ msgid ""
 "We advise you not to use this unless you know exactly what you are doing.\n"
 "Do you want to continue anyway?"
 msgstr ""
-"警告：将增加所有的类别和子类别到"
-"预算行！\n"
+"警告：将增加所有的类别和子类别到预算行！\n"
 "而且您不能在稍后取消。\n"
 "我们建议您不要使用这个，除非您清楚的知道你在做什么。\n"
 "您想继续吗？"
 
-#: src/imputation_budgetaire.c:2642
+#: src/imputation_budgetaire.c:2637
 msgid "New budgetary line"
 msgstr "新的预算行"
 
-#: src/imputation_budgetaire.c:2643
+#: src/imputation_budgetaire.c:2638
 msgid "Enter the name of the new budgetary line"
 msgstr "输入新预算行的名称"
 
-#: src/imputation_budgetaire.c:2699
+#: src/imputation_budgetaire.c:2694
 msgid "New sub-budgetary line"
 msgstr "新子预算行"
 
-#: src/imputation_budgetaire.c:2700
+#: src/imputation_budgetaire.c:2695
 msgid "Enter the name of the new sub-budgetary line"
 msgstr "输入新子预算行的名称"
 
-#: src/imputation_budgetaire.c:2769
+#: src/imputation_budgetaire.c:2764
 msgid "Export the budgetary lines"
 msgstr "导出预算行"
 
 #. on permet de remplacer/fusionner la liste
-#: src/imputation_budgetaire.c:2833 src/imputation_budgetaire.c:2858
+#: src/imputation_budgetaire.c:2828 src/imputation_budgetaire.c:2853
 msgid "Import the budgetary lines"
 msgstr "导入预算行"
 
 #. il y a dÃ©jÃ  des opÃ©rations dans le fichier, on ne peut que fusionner
-#: src/imputation_budgetaire.c:2877
+#: src/imputation_budgetaire.c:2872
 msgid ""
 "File already contains transactions, the two budgetary lines lists will be "
 "merged."
-msgstr ""
-"文件已经包含了交易，两份预算行清单将被"
-"合并。"
+msgstr "文件已经包含了交易，两份预算行清单将被合并。"
 
-#: src/imputation_budgetaire.c:2905
+#: src/imputation_budgetaire.c:2900
 msgid "Merge the two lists of budgetary lines"
 msgstr "合并预算行清单"
 
-#: src/imputation_budgetaire.c:2913
+#: src/imputation_budgetaire.c:2908
 msgid "Replace the old list of budgetary lines"
 msgstr "替换旧的预算行清单"
 
-#: src/main.c:142
+#: src/main.c:146
 #, c-format
 msgid "Error on sigaction: SIGSEGV won't be trapped\n"
 msgstr "信号错误：SIGSEGV不能捕捉\n"
@@ -6129,8 +6089,8 @@ msgstr "保存"
 msgid "Save as"
 msgstr "另存为"
 
-#: src/menu.c:73 src/menu.c:200 src/menu.c:204 src/menu.c:222 src/menu.c:243
-#: src/menu.c:254
+#: src/menu.c:73 src/menu.c:201 src/menu.c:205 src/menu.c:225 src/menu.c:251
+#: src/menu.c:262
 msgid "Recently opened files"
 msgstr "最近打开的文件"
 
@@ -6167,13 +6127,13 @@ msgid "Edit"
 msgstr "编辑"
 
 #. New transaction
-#: src/menu.c:88 src/operations_liste.c:2686 src/traitement_variables.c:102
+#: src/menu.c:88 src/operations_liste.c:2666 src/traitement_variables.c:102
 #: src/traitement_variables.c:228
 msgid "New transaction"
 msgstr "新交易"
 
 #. New transaction from
-#: src/menu.c:89 src/operations_liste.c:2694 src/traitement_variables.c:105
+#: src/menu.c:89 src/operations_liste.c:2674 src/traitement_variables.c:105
 #: src/traitement_variables.c:231
 msgid "Use selected transaction as a template"
 msgstr "使用选中交易做模板"
@@ -6183,19 +6143,19 @@ msgid "Remove transaction"
 msgstr "删除交易"
 
 #. Clone transaction
-#: src/menu.c:91 src/operations_liste.c:2714 src/traitement_variables.c:111
+#: src/menu.c:91 src/operations_liste.c:2694 src/traitement_variables.c:111
 #: src/traitement_variables.c:237
 msgid "Clone transaction"
 msgstr "复制交易"
 
 #. Edit transaction
-#: src/menu.c:92 src/operations_liste.c:2673 src/traitement_variables.c:114
+#: src/menu.c:92 src/operations_liste.c:2653 src/traitement_variables.c:114
 #: src/traitement_variables.c:240
 msgid "Edit transaction"
 msgstr "更改交易"
 
 #. Convert to scheduled transaction
-#: src/menu.c:94 src/operations_liste.c:2727 src/traitement_variables.c:117
+#: src/menu.c:94 src/operations_liste.c:2707 src/traitement_variables.c:117
 #: src/traitement_variables.c:243
 msgid "Convert transaction to scheduled transaction"
 msgstr "转换交易为计划交易"
@@ -6203,7 +6163,7 @@ msgstr "转换交易为计划交易"
 #. Move to another account
 #: src/menu.c:95 src/operations_comptes.c:403 src/operations_comptes.c:408
 #: src/operations_comptes.c:488 src/operations_comptes.c:503
-#: src/operations_comptes.c:510 src/operations_liste.c:2737
+#: src/operations_comptes.c:510 src/operations_liste.c:2717
 #: src/traitement_variables.c:120 src/traitement_variables.c:246
 msgid "Move transaction to another account"
 msgstr "移动交易到另一个账户"
@@ -6212,84 +6172,86 @@ msgstr "移动交易到另一个账户"
 msgid "Preferences"
 msgstr "选项"
 
-#: src/menu.c:116 src/traitement_variables.c:126
+#: src/menu.c:115
+msgid "Export report as CSV..."
+msgstr "导出报表为CSV..."
+
+#: src/menu.c:117 src/traitement_variables.c:126
 #: src/traitement_variables.c:252
 msgid "Import report file"
 msgstr "导入报表文件"
 
 #. Help menu
-#: src/menu.c:124 src/menu.c:125 src/menu.c:126 src/menu.c:127 src/menu.c:128
-#: src/menu.c:129 src/menu.c:130 src/menu.c:131 src/menu.c:132 src/menu.c:133
+#: src/menu.c:125 src/menu.c:126 src/menu.c:127 src/menu.c:128 src/menu.c:129
+#: src/menu.c:130 src/menu.c:131 src/menu.c:132 src/menu.c:133 src/menu.c:134
 msgid "Help"
 msgstr "帮助"
 
-#: src/menu.c:126
+#: src/menu.c:127
 msgid "Grisbi Manual"
 msgstr "Grisbi手册"
 
-#: src/menu.c:127
+#: src/menu.c:128
 msgid "Quickstart"
 msgstr "快速入门"
 
-#: src/menu.c:128
+#: src/menu.c:129
 msgid "Translation"
 msgstr "翻译"
 
-#: src/menu.c:129
+#: src/menu.c:130
 msgid "About"
 msgstr "关于"
 
-#: src/menu.c:131
+#: src/menu.c:132
 msgid "Grisbi website"
 msgstr "Grisbi官方网站"
 
-#: src/menu.c:132
+#: src/menu.c:133
 msgid "Report a bug"
 msgstr "报告软件缺陷"
 
-#: src/menu.c:133
+#: src/menu.c:134
 msgid "On line User's guide"
 msgstr "在线用户指南"
 
-#: src/menu.c:288
+#: src/menu.c:296
 msgid "_C"
 msgstr "_C"
 
-#: src/ofx.c:34
+#: src/ofx.c:35
 msgid ""
 "This build of Grisbi does not support OFX, please recompile Grisbi with OFX "
 "support enabled"
-msgstr ""
-"您使用的Grisbi版本不能支持OFX文件类型，"
-"请重新获取支持OFX的版本"
+msgstr "您使用的Grisbi版本不能支持OFX文件类型，请重新获取支持OFX的版本"
 
-#: src/ofx.c:35 src/ofx.c:94
+#: src/ofx.c:36 src/ofx.c:95
 #, c-format
 msgid "Cannot process OFX file '%s'"
 msgstr "不能解析 OFX 文件 '%s'"
 
 #. Case of Windows, libofx.dll is not present or Grisbi failed in dynamically loading ofx_proc_file
-#: src/ofx.c:93
+#: src/ofx.c:94
 msgid "The OFX support can not be enabled!"
 msgstr "OFX支持不能开启！"
 
-#: src/ofx.c:105
+#: src/ofx.c:106
 msgid "The new account has not been created."
 msgstr "新账户没有被建立。"
 
-#: src/ofx.c:110
+#: src/ofx.c:111
 msgid "Warning"
 msgstr "警告"
 
-#: src/ofx.c:111
+#: src/ofx.c:112
 msgid "An error or warning has occured. Do you still want to import the file ?"
 msgstr "发现了一个错误或是警告。您仍然希望导入文件吗？"
 
-#: src/ofx.c:167 src/ofx.c:179
+#: src/ofx.c:168 src/ofx.c:180
 msgid "The file has returned the next message :\n"
 msgstr "文件返回了下一条消息：\n"
 
-#: src/ofx.c:173 src/ofx.c:185
+#: src/ofx.c:174 src/ofx.c:186
 msgid "The file has returned a warning message which is no valid."
 msgstr "文件返回了一条无效的警告消息。"
 
@@ -6310,7 +6272,7 @@ msgstr "文件返回了一条无效的警告消息。"
 #. printf ( "currency %s\n", data.currency );
 #. printf ( "memo_valid %d\n", data.memo_valid );
 #. printf ( "memo %s\n", data.memo );
-#: src/ofx.c:227
+#: src/ofx.c:228
 msgid ""
 "That file contains something on proc_security_cb.\n"
 "I didn't have any file to test that function.\n"
@@ -6320,51 +6282,51 @@ msgstr ""
 "我没有任何可用来测试这些功能的文件。\n"
 "请联系 Grisbi 团队来实现这些功能。"
 
-#: src/ofx.c:346
+#: src/ofx.c:347
 msgid "A transaction try to be saved but no account was created...\n"
 msgstr "试图保存没有建立账户的交易...\n"
 
-#: src/ofx.c:414
+#: src/ofx.c:415
 msgid "Interest"
 msgstr "兴趣"
 
-#: src/ofx.c:418
+#: src/ofx.c:419
 msgid "Dividend"
 msgstr "红利奖金"
 
-#: src/ofx.c:422
+#: src/ofx.c:423
 msgid "Service charge"
 msgstr "服务费用"
 
-#: src/ofx.c:426
+#: src/ofx.c:427
 msgid "Fee"
 msgstr "费用"
 
-#: src/ofx.c:434
+#: src/ofx.c:435
 msgid "Cash dispenser"
 msgstr "现金提款机"
 
-#: src/ofx.c:438
+#: src/ofx.c:439
 msgid "Point of sale"
 msgstr "销售点"
 
-#: src/ofx.c:446
+#: src/ofx.c:447
 msgid "Electronic payment"
 msgstr "电子支付"
 
-#: src/ofx.c:450
+#: src/ofx.c:451
 msgid "Cash"
 msgstr "现金"
 
-#: src/ofx.c:454
+#: src/ofx.c:455
 msgid "Direct deposit"
 msgstr "直接存款"
 
-#: src/ofx.c:458
+#: src/ofx.c:459
 msgid "Merchant initiated debit"
 msgstr "商户初始借入"
 
-#: src/ofx.c:462
+#: src/ofx.c:463
 msgid "Repeating payment/standing order"
 msgstr "重复支付/中止订单"
 
@@ -6395,36 +6357,28 @@ msgstr "更改"
 msgid "Contra-transaction method of payment"
 msgstr "反交易支付方式"
 
-#: src/operations_formulaire.c:1838
-msgid "Recover breakdown?"
-msgstr "恢复故障？"
-
-#: src/operations_formulaire.c:1839
-msgid "Do you want to recover all the lines of the last breakdown?"
-msgstr "您想恢复最后一个细目分类的所有行吗？"
-
-#: src/operations_formulaire.c:2094 src/operations_formulaire.c:2546
+#: src/operations_formulaire.c:2081 src/operations_formulaire.c:2533
 #: src/tiers_onglet.c:1429
 msgid "Report"
 msgstr "报表"
 
-#: src/operations_formulaire.c:2168
+#: src/operations_formulaire.c:2155
 msgid "No third party selected for this report."
 msgstr "本报表没有选择第三方。"
 
-#: src/operations_formulaire.c:2341
+#: src/operations_formulaire.c:2328
 msgid "You must enter a date."
 msgstr "您必须输入日期"
 
-#: src/operations_formulaire.c:2369
+#: src/operations_formulaire.c:2356
 msgid "Invalid date."
 msgstr "日期格式错误"
 
-#: src/operations_formulaire.c:2446
+#: src/operations_formulaire.c:2433
 msgid "Can't issue a transfer on a closed account."
 msgstr "不能在结算账户上产生交易。"
 
-#: src/operations_formulaire.c:2477
+#: src/operations_formulaire.c:2464
 msgid ""
 "Selected method of payment has an automatic incremental number\n"
 "but doesn't contain any number.\n"
@@ -6434,7 +6388,7 @@ msgstr ""
 "但是没有任何编号。\n"
 "仍然继续？"
 
-#: src/operations_formulaire.c:2507
+#: src/operations_formulaire.c:2494
 msgid ""
 "Warning: this cheque number is already used.\n"
 "Continue anyway?"
@@ -6442,11 +6396,11 @@ msgstr ""
 "警告：该支票的编号已经使用过了。\n"
 "仍然继续？"
 
-#: src/operations_formulaire.c:2555
+#: src/operations_formulaire.c:2542
 msgid "A transaction with a multiple third party must be a new one."
 msgstr "有多个第三方的交易必须生成新的交易。"
 
-#: src/operations_formulaire.c:2589
+#: src/operations_formulaire.c:2576
 msgid "Invalid multiple third party."
 msgstr "无效的多第三方。"
 
@@ -6474,119 +6428,113 @@ msgstr "删除交易确认"
 msgid ""
 "You are currently trying to remove a transaction.  There is no undo for "
 "this.  Do you confirm the removal?"
-msgstr ""
-"您试图删除一笔交易。这是不能恢复的。"
-"您确定吗？"
+msgstr "您试图删除一笔交易。这是不能恢复的。您确定吗？"
 
-#: src/operations_liste.c:1325
+#: src/operations_liste.c:1329
 msgid "Confirmation of manual (un)reconciliation"
 msgstr "手工对账（取消对账）确认"
 
-#: src/operations_liste.c:1326
+#: src/operations_liste.c:1330
 msgid ""
 "You are currently trying to reconcile or unreconcile manually a transaction "
 "which isn't a regular way to do.\n"
 "\n"
 "Are you really sure to know what you do?"
 msgstr ""
-"您试图手工对账或反对账一笔"
-"交易，这不是通常的做法。\n"
+"您试图手工对账或反对账一笔交易，这不是通常的做法。\n"
 "\n"
 "您确定要这么做吗？"
 
-#: src/operations_liste.c:1633
+#: src/operations_liste.c:1637
 msgid "Transfer: deleted account"
 msgstr "转帐：已删除的账户"
 
-#: src/operations_liste.c:1813
+#: src/operations_liste.c:1809
 msgid "Auto"
 msgstr "自动"
 
-#: src/operations_liste.c:1829
+#: src/operations_liste.c:1825
 msgid "No reconciliation number"
 msgstr "没有调整编号"
 
-#: src/operations_liste.c:2106
+#: src/operations_liste.c:2102
 msgid "Impossible to delete a reconciled transaction."
 msgstr "不能删除一笔对账交易。"
 
-#: src/operations_liste.c:2131
+#: src/operations_liste.c:2127
 msgid ""
 "The contra-transaction of this transfer is reconciled, deletion impossible."
-msgstr ""
-"该转帐的反交易被对账过，不能删除。"
+msgstr "该转帐的反交易被对账过，不能删除。"
 
-#: src/operations_liste.c:2179
+#: src/operations_liste.c:2175
 msgid ""
 "One of the breakdown lines is a transfer whose contra-transaction is "
 "reconciled.  Deletion canceled."
-msgstr ""
-"其中的一条细目分类是一笔反交易"
-"已经过对账的交易。取消删除"
+msgstr "其中的一条细目分类是一笔反交易已经过对账的交易。取消删除"
 
 #. Delete transaction
-#: src/operations_liste.c:2702
+#: src/operations_liste.c:2682
 msgid "Delete transaction"
 msgstr "删除交易"
 
-#: src/operations_liste.c:3133
+#: src/operations_liste.c:3114
 msgid "Cannot move a transfer on his contra-account"
 msgstr "不能移动交易到它的反账户"
 
 #. Create dialog
-#: src/parametres.c:150
+#: src/parametres.c:151
 msgid "Grisbi setup"
 msgstr "Grisbi设置"
 
-#: src/parametres.c:180 src/parametres.c:514
+#: src/parametres.c:181 src/parametres.c:515
 msgid "Files"
 msgstr "文件"
 
-#: src/parametres.c:196 src/parametres.c:715
+#: src/parametres.c:197 src/parametres.c:717
 msgid "Programs"
 msgstr "程序"
 
-#: src/parametres.c:205
+#: src/parametres.c:206
 msgid "Display"
 msgstr "显示"
 
-#: src/parametres.c:220 src/parametres.c:380
+#: src/parametres.c:221 src/parametres.c:381
 msgid "Messages & warnings"
 msgstr "消息和警告"
 
-#: src/parametres.c:252
+#: src/parametres.c:253
 msgid "Transactions list lines"
 msgstr "交易清单行"
 
-#: src/parametres.c:279
+#: src/parametres.c:280
 msgid "Resources"
 msgstr "资源"
 
-#: src/parametres.c:385
+#: src/parametres.c:386
 msgid "Warnings messages"
 msgstr "警告信息"
 
 #. Display a warning message if minimum balances are under minimum level
-#: src/parametres.c:388
+#: src/parametres.c:389
 msgid "Do not Warn if balances are under minimum levels"
 msgstr "如果余额小于最小值不要警告"
 
-#: src/parametres.c:397
+#: src/parametres.c:398
 msgid "Do not warn if account file is readable by someone else"
 msgstr "如果账户文件能被其他人读取不要警告"
 
 #. Display a warning message if file is already opened
-#: src/parametres.c:402
+#: src/parametres.c:403
 msgid "Do not warn about an already opened file"
 msgstr "如果文件已经被打开不要警告"
 
 #. Display a warning message that QIF doesn't contain currencies
-#: src/parametres.c:407
+#: src/parametres.c:408
 msgid "Do not warn about QIF not containing currencies"
 msgstr "如果QIF文件没有包含货币不要警告"
 
 #. Display a warning message that manually reconciliation isn't a good way
-#: src/parametres.c:412
+#: src/parametres.c:413
 msgid ""
 "Do not warn about manually reconciliation\n"
 "(with shortcut <Ctrl><R>)"
@@ -6595,139 +6543,113 @@ msgstr ""
 "(快捷键 <Ctrl><R>)"
 
 #. Display a warning message when trying to remove a transaction
-#: src/parametres.c:418
+#: src/parametres.c:419
 msgid "Do not warn about removal transaction"
 msgstr "删除交易不要警告"
 
 #. Display a warning message when trying to remove a scheduled transaction
-#: src/parametres.c:423
+#: src/parametres.c:424
 msgid "Do not warn about removal scheduled transaction"
 msgstr "删除计划交易不警告"
 
 #. Display a warning message when a breakdown is incomplete
-#: src/parametres.c:428
+#: src/parametres.c:429
 msgid "Do not warn about incomplete breakdown"
 msgstr "未完成的细目分类不警告"
 
 #. Display a warning message when no reconciliation reference given
-#: src/parametres.c:433
+#: src/parametres.c:434
 msgid "Do not warn about no reconciliation reference"
 msgstr "对账引用不警告"
 
 #. Display a warning message when no reconciliation reference given
-#: src/parametres.c:438
+#: src/parametres.c:439
 msgid "Do not warn about existing reconciliation reference"
 msgstr "已存在的对账引用不警告"
 
 #. Display a warning message when last chance to abort reconciliation
-#: src/parametres.c:443
+#: src/parametres.c:444
 msgid "Do not warn about last chance to abort reconciliation"
 msgstr "取消对账的最后一次机会不警告"
 
-#: src/parametres.c:451
+#: src/parametres.c:452
 msgid "Scheduler warnings"
 msgstr "计划调度器警告"
 
-#: src/parametres.c:455
+#: src/parametres.c:456
 msgid ""
 "Number of days before a warning message advertising a scheduled transaction"
 msgstr "计划交易的提醒将提前的天数"
 
-#: src/parametres.c:519
+#: src/parametres.c:520
 msgid "Account files handling"
 msgstr "账户文件处理选项"
 
-#: src/parametres.c:523
+#: src/parametres.c:524
 msgid "Automatically load last file on startup"
 msgstr "启动时自动载入最后一次使用的文件"
 
-#: src/parametres.c:528
+#: src/parametres.c:529
 msgid "Automatically save on exit"
 msgstr "退出时自动保存"
 
-#: src/parametres.c:544
+#: src/parametres.c:545
 msgid "File compression level"
 msgstr "文件压缩等级"
 
-#: src/parametres.c:558
+#: src/parametres.c:559
 msgid "Memorise last opened files"
 msgstr "记住上次打开的文件"
 
-#: src/parametres.c:569
+#: src/parametres.c:571
 msgid "Backups"
 msgstr "备份"
 
-#: src/parametres.c:573
+#: src/parametres.c:575
 msgid "Make a backup copy after opening files"
 msgstr "打开文件时保存一份备份文件"
 
 #. Automatic backup ?
-#: src/parametres.c:579
+#: src/parametres.c:581
 msgid "Make a backup copy before saving files"
 msgstr "保存文件时制作一份备份"
 
-#: src/parametres.c:596
+#: src/parametres.c:598
 msgid "Backup file"
 msgstr "备份文件"
 
-#: src/parametres.c:635
+#: src/parametres.c:637
 msgid "Backup compression level"
 msgstr "备份文件压缩等级"
 
-#: src/parametres.c:667
+#: src/parametres.c:669
 msgid "backup.gsb"
 msgstr "备份.gsb"
 
-#: src/parametres.c:717
+#: src/parametres.c:719
 msgid "Print support"
 msgstr "打印支持"
 
-#: src/parametres.c:724
+#: src/parametres.c:726
 msgid "LaTeX command"
 msgstr "LaTex指令"
 
-#: src/parametres.c:732
+#: src/parametres.c:734
 msgid "dvips command"
 msgstr "dvips指令"
 
 #. Misc
-#: src/parametres.c:741 src/print_config.c:326
+#: src/parametres.c:743 src/print_config.c:326
 msgid "Misc"
 msgstr "其他"
 
-#: src/parametres.c:748
+#: src/parametres.c:750
 msgid "Web browser"
 msgstr "Web浏览器"
 
 #: src/patienter.c:78
 msgid "Wait please..."
 msgstr "请稍等..."
-
-#: src/print_config.c:40
-msgid "A3"
-msgstr "A3"
-
-#: src/print_config.c:42
-msgid "A5"
-msgstr "A5"
-
-#: src/print_config.c:43
-msgid "A6"
-msgstr "A6"
-
-#: src/print_config.c:44
-#, fuzzy
-msgid "USletter"
-msgstr "信纸"
-
-#: src/print_config.c:45
-#, fuzzy
-msgid "USlegal"
-msgstr "USlegal"
-
-#: src/print_config.c:46
-msgid "USexecutive"
-msgstr "USexecutive"
 
 #: src/print_config.c:78
 msgid "General"
@@ -6780,12 +6702,10 @@ msgid "Footers"
 msgstr "页脚"
 
 #: src/qif.c:119 src/qif.c:176
-#, fuzzy
 msgid "bank"
 msgstr "银行"
 
 #: src/qif.c:122 src/qif.c:197
-#, fuzzy
 msgid "cash"
 msgstr "现金"
 
@@ -6817,8 +6737,8 @@ msgid ""
 "Grisbi found an investment account, which is not implemented yet.  "
 "Nevertheless, Grisbi will try to import it as a bank account."
 msgstr ""
-"Grisbi 发现了一个投资账户，但相关的功能还没有实现。"
-"因此， Grisbi 将按银行账户导入。"
+"Grisbi 发现了一个投资账户，但相关的功能还没有实现。因此， Grisbi 将按银行账户"
+"导入。"
 
 #: src/qif.c:332
 msgid "Imported account with no name"
@@ -6838,9 +6758,8 @@ msgid ""
 "Please double check that they are valid and contact grisbi development team "
 "for assistance if needed"
 msgstr ""
-"Grisbi 尝试用试探的方法识别 QIF 文件。"
-"如果文件有效且需要帮助，请双击"
-"并联系Grisbi开发团队"
+"Grisbi 尝试用试探的方法识别 QIF 文件。如果文件有效且需要帮助，请双击并联系"
+"Grisbi开发团队"
 
 #: src/qif.c:954
 msgid "QIF format does not define currencies."
@@ -6902,9 +6821,7 @@ msgstr "请输入一个第三方。"
 msgid ""
 "Grisbi is unable to find this third party.  Be sure entered name is valid "
 "and that this third party exists."
-msgstr ""
-"Grisbi i不能找到第三方。请确保输入的名称有效"
-"并且第三方存在。"
+msgstr "Grisbi i不能找到第三方。请确保输入的名称有效并且第三方存在。"
 
 #: src/tiers_onglet.c:1296
 #, c-format
@@ -6923,9 +6840,7 @@ msgstr "输入新第三方的名称"
 msgid ""
 "Third party names must be both unique and not empty.  Please use another "
 "name for this third party."
-msgstr ""
-"第三方的名称必须唯一且不能为空。请使用"
-"另一个名字。"
+msgstr "第三方的名称必须唯一且不能为空。请使用另一个名字。"
 
 #: src/tiers_onglet.c:1658
 #, c-format
@@ -6934,81 +6849,80 @@ msgstr "第三方 '%s' 已存在。"
 
 #. Should not happen theorically
 #. Should not happen!
-#: src/type_operations.c:106 src/type_operations.c:878
+#: src/type_operations.c:107 src/type_operations.c:885
 msgid "Serious brain damage expected."
 msgstr "严重错误"
 
-#: src/type_operations.c:264
+#: src/type_operations.c:265
 msgid "Known payment methods"
 msgstr "现有支付方式"
 
-#: src/type_operations.c:313
+#: src/type_operations.c:314
 msgid "Default"
 msgstr "默认"
 
-#: src/type_operations.c:325
+#: src/type_operations.c:326
 msgid "Numbering"
 msgstr "编码"
 
-#: src/type_operations.c:369
+#: src/type_operations.c:370
 msgid "Payment method details"
 msgstr "支付方式明细"
 
 #. Automatic numbering
-#: src/type_operations.c:393
+#: src/type_operations.c:394
 msgid "Automatic numbering"
 msgstr "自动编码"
 
-#: src/type_operations.c:409
+#: src/type_operations.c:410
 msgid "Activate"
 msgstr "活动"
 
 #. Payment method type
-#: src/type_operations.c:417
+#: src/type_operations.c:418
 msgid "Type"
 msgstr "类型"
 
 #. Neutral type
-#: src/type_operations.c:429
+#: src/type_operations.c:430
 msgid "Neutral"
 msgstr "中立"
 
-#: src/type_operations.c:915
+#: src/type_operations.c:922
 msgid "New payment method"
 msgstr "新支付方式"
 
-#: src/type_operations.c:1014
+#: src/type_operations.c:1012
 msgid "Delete a payment method"
 msgstr "删除支付方式"
 
-#: src/type_operations.c:1022
+#: src/type_operations.c:1020
 msgid ""
 "Some transactions still use that payment method.  As deletion of this method "
 "is irreversible, these transactions are to be associated with another "
 "payment method."
 msgstr ""
-"有些交易仍在使用该支付方式。由于删除该方式"
-"是不能撤消的，这些交易将被关联到"
-"另一种支付方式。"
+"有些交易仍在使用该支付方式。由于删除该方式是不能撤消的，这些交易将被关联到另"
+"一种支付方式。"
 
-#: src/type_operations.c:1039
+#: src/type_operations.c:1037
 msgid "Associate transactions with"
 msgstr "用...关联交易"
 
-#: src/utils.c:722
+#: src/utils.c:757
 #, c-format
 msgid ""
 "Grisbi was unable to execute a web browser to browse url <tt>%s</tt>.  "
 "Please adjust your settings to a valid executable."
 msgstr ""
-"Grisbi 不能打开浏览器访问网址：<tt>%s</tt>。 "
-"请检查您的设置以使用正确的浏览器。"
+"Grisbi 不能打开浏览器访问网址：<tt>%s</tt>。 请检查您的设置以使用正确的浏览"
+"器。"
 
-#: src/utils.c:723 src/utils.c:757
+#: src/utils.c:758 src/utils.c:792
 msgid "Cannot run web browser"
 msgstr "无法运行web浏览器"
 
-#: src/utils.c:756
+#: src/utils.c:791
 #, c-format
 msgid ""
 "Grisbi was unable to execute '%s'\n"
@@ -7017,16 +6931,16 @@ msgstr ""
 "Grisbi 不能执行 '%s'\n"
 "请检查您的设置。"
 
-#: src/utils_files.c:61
+#: src/utils_files.c:60
 msgid "Print to file"
 msgstr "打印到文件"
 
 #. aie, pb de mÃ©moire, on vire
-#: src/utils_files.c:142 src/utils_files.c:159
+#: src/utils_files.c:141 src/utils_files.c:158
 msgid "Memory allocation error"
 msgstr "应用程序不能获得足够的内存"
 
-#: src/utils_files.c:200
+#: src/utils_files.c:199
 msgid "Browse"
 msgstr "浏览"
 
@@ -7037,3 +6951,41 @@ msgstr "该交易有对账过的细目分类行，取消删除。"
 #: src/ventilation.c:2228
 msgid "This transfer has a reconciled contra-transaction, deletion canceled."
 msgstr "该转帐有对账过的反交易，取消删除。"
+
+#~ msgid "A3"
+#~ msgstr "A3"
+
+#~ msgid "A5"
+#~ msgstr "A5"
+
+#~ msgid "A6"
+#~ msgstr "A6"
+
+#, fuzzy
+#~ msgid "USletter"
+#~ msgstr "信纸"
+
+#, fuzzy
+#~ msgid "USlegal"
+#~ msgstr "USlegal"
+
+#~ msgid "USexecutive"
+#~ msgstr "USexecutive"
+
+#, fuzzy
+#~ msgid "Value"
+#~ msgstr "有效日期"
+
+#~ msgid ""
+#~ "Impossible to create or entry an automatic scheduled transaction\n"
+#~ " with a cheque or a method of payment with an automatic incremental "
+#~ "number."
+#~ msgstr ""
+#~ "无法新增或者更改一个自动定期交易，\n"
+#~ "由于它用自增的方式给支票或者支付方式编号。"
+
+#~ msgid "Recover breakdown?"
+#~ msgstr "恢复故障？"
+
+#~ msgid "Do you want to recover all the lines of the last breakdown?"
+#~ msgstr "您想恢复最后一个细目分类的所有行吗？"

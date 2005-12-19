@@ -38,8 +38,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ro\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-11-23 14:23+0100\n"
-"PO-Revision-Date: 2005-11-23 14:21+0100\n"
+"POT-Creation-Date: 2005-12-19 11:18+0100\n"
+"PO-Revision-Date: 2005-12-19 11:24+0100\n"
 "Last-Translator: Mircea Aronovici <bucuresti@free.fr>\n"
 "Language-Team:  <bucuresti@free.fr>\n"
 "MIME-Version: 1.0\n"
@@ -178,7 +178,7 @@ msgstr "Numărul tranzacţiei"
 
 #: src/affichage.c:161 src/affichage_liste.c:36 src/affichage_liste.c:732
 #: src/affichage_liste.c:1037 src/csv.c:240 src/operations_formulaire.c:983
-#: src/operations_formulaire.c:3348
+#: src/operations_formulaire.c:3342
 msgid "Value date"
 msgstr "Data de valoare"
 
@@ -299,7 +299,7 @@ msgstr "Selectarea uni nou logo"
 #: src/import.c:2658 src/operations_formulaire.c:790
 #: src/operations_formulaire.c:1408 src/operations_formulaire.c:1458
 #: src/operations_formulaire.c:1507 src/operations_formulaire.c:1546
-#: src/operations_formulaire.c:3338
+#: src/operations_formulaire.c:3332
 msgid "Date"
 msgstr "Data"
 
@@ -309,7 +309,7 @@ msgstr "Data"
 #: src/echeancier_liste.c:402 src/etats_affiche.c:2237 src/etats_config.c:139
 #: src/etats_config.c:270 src/etats_config.c:7217 src/fenetre_principale.c:96
 #: src/import.c:2665 src/operations_formulaire.c:800
-#: src/operations_formulaire.c:3341
+#: src/operations_formulaire.c:3335
 msgid "Third party"
 msgstr "Terţ"
 
@@ -317,7 +317,7 @@ msgstr "Terţ"
 #: src/echeancier_formulaire.c:2538 src/echeancier_ventilation.c:967
 #: src/echeancier_ventilation.c:1495 src/etats_affiche.c:2251
 #: src/etats_config.c:262 src/operations_formulaire.c:1119
-#: src/operations_formulaire.c:3355 src/ventilation.c:968
+#: src/operations_formulaire.c:3349 src/ventilation.c:968
 #: src/ventilation.c:1493
 msgid "Budgetary line"
 msgstr "Imputaţie bugetară"
@@ -328,9 +328,9 @@ msgstr "Imputaţie bugetară"
 #: src/echeancier_formulaire.c:975 src/echeancier_formulaire.c:2530
 #: src/echeancier_ventilation.c:913 src/echeancier_ventilation.c:932
 #: src/echeancier_ventilation.c:1491 src/imputation_budgetaire.c:165
-#: src/operations_formulaire.c:891 src/operations_formulaire.c:3343
-#: src/type_operations.c:159 src/type_operations.c:436
-#: src/type_operations.c:862 src/ventilation.c:914 src/ventilation.c:933
+#: src/operations_formulaire.c:891 src/operations_formulaire.c:3337
+#: src/type_operations.c:160 src/type_operations.c:437
+#: src/type_operations.c:869 src/ventilation.c:914 src/ventilation.c:933
 #: src/ventilation.c:1489
 msgid "Debit"
 msgstr "Debit"
@@ -342,9 +342,9 @@ msgstr "Debit"
 #: src/echeancier_formulaire.c:2532 src/echeancier_ventilation.c:885
 #: src/echeancier_ventilation.c:960 src/echeancier_ventilation.c:1493
 #: src/imputation_budgetaire.c:181 src/operations_formulaire.c:976
-#: src/operations_formulaire.c:1328 src/operations_formulaire.c:3345
-#: src/type_operations.c:173 src/type_operations.c:443
-#: src/type_operations.c:858 src/ventilation.c:886 src/ventilation.c:961
+#: src/operations_formulaire.c:1328 src/operations_formulaire.c:3339
+#: src/type_operations.c:174 src/type_operations.c:444
+#: src/type_operations.c:865 src/ventilation.c:886 src/ventilation.c:961
 #: src/ventilation.c:1491
 msgid "Credit"
 msgstr "Credit"
@@ -385,7 +385,7 @@ msgstr "P/R"
 #: src/affichage_liste.c:1085 src/csv.c:257 src/echeancier_formulaire.c:1075
 #: src/echeancier_formulaire.c:2540 src/echeancier_ventilation.c:974
 #: src/echeancier_ventilation.c:1497 src/etats_affiche.c:2279
-#: src/operations_formulaire.c:1125 src/operations_formulaire.c:3357
+#: src/operations_formulaire.c:1125 src/operations_formulaire.c:3351
 #: src/ventilation.c:975 src/ventilation.c:1495
 msgid "Voucher"
 msgstr "Piesă contabilă"
@@ -397,14 +397,14 @@ msgstr "Piesă contabilă"
 #: src/echeancier_liste.c:405 src/echeancier_ventilation.c:82
 #: src/echeancier_ventilation.c:864 src/echeancier_ventilation.c:1489
 #: src/etats_affiche.c:2258 src/operations_formulaire.c:1132
-#: src/operations_formulaire.c:3360 src/ventilation.c:85 src/ventilation.c:865
+#: src/operations_formulaire.c:3354 src/ventilation.c:85 src/ventilation.c:865
 #: src/ventilation.c:1487
 msgid "Notes"
 msgstr "Observaţii"
 
 #: src/affichage_liste.c:50 src/affichage_liste.c:900
 #: src/affichage_liste.c:1093 src/csv.c:259 src/etats_affiche.c:2286
-#: src/operations_formulaire.c:1138 src/operations_formulaire.c:3362
+#: src/operations_formulaire.c:1138 src/operations_formulaire.c:3356
 msgid "Bank references"
 msgstr "Informaţie bancă/ghişet"
 
@@ -521,7 +521,7 @@ msgstr "a patra linie"
 msgid "Payer/payee"
 msgstr "Debitor/creditor"
 
-#: src/affichage_liste.c:816 src/equilibrage.c:1679
+#: src/affichage_liste.c:816 src/equilibrage.c:1680
 msgid "Payment method"
 msgstr "Metode de plată"
 
@@ -532,7 +532,7 @@ msgid "Categories"
 msgstr "Categorii"
 
 #: src/affichage_liste.c:924 src/affichage_liste.c:1101
-#: src/operations_formulaire.c:1113 src/operations_formulaire.c:3352
+#: src/operations_formulaire.c:1113 src/operations_formulaire.c:3346
 msgid "Cheque/Transfer number"
 msgstr "Nr cec/Virament"
 
@@ -543,9 +543,9 @@ msgid "Budgetary lines"
 msgstr "Imputaţii bugetare"
 
 #: src/banque.c:122 src/comptes_traitements.c:135
-#: src/comptes_traitements.c:145 src/operations_formulaire.c:2216
-#: src/operations_liste.c:2882 src/operations_liste.c:2949
-#: src/operations_liste.c:3222 src/operations_liste.c:3315
+#: src/comptes_traitements.c:145 src/operations_formulaire.c:2210
+#: src/operations_liste.c:2871 src/operations_liste.c:2938
+#: src/operations_liste.c:3211 src/operations_liste.c:3304
 msgid "Cannot allocate memory, bad things will happen soon"
 msgstr "Eroare în alocarea memoriei se va termina foarte rău"
 
@@ -604,8 +604,8 @@ msgstr "Amănunte despre bancă"
 #. Name
 #. Create currency name entry
 #. Financial year name
-#: src/banque.c:545 src/banque.c:651 src/devises.c:1502 src/exercice.c:129
-#: src/exercice.c:240 src/import.c:362 src/type_operations.c:379
+#: src/banque.c:545 src/banque.c:651 src/devises.c:1503 src/exercice.c:129
+#: src/exercice.c:240 src/import.c:362 src/type_operations.c:380
 msgid "Name"
 msgstr "Nume"
 
@@ -1314,8 +1314,8 @@ msgstr "Suprimaţi pur şi simplu această categorie"
 #: src/echeancier_formulaire.c:1751 src/echeancier_liste.c:1201
 #: src/echeancier_ventilation.c:204 src/etats_affiche.c:1688
 #: src/operations_formulaire.c:994 src/operations_formulaire.c:1822
-#: src/operations_formulaire.c:2519 src/operations_formulaire.c:2868
-#: src/operations_liste.c:1085 src/operations_liste.c:1703
+#: src/operations_formulaire.c:2513 src/operations_formulaire.c:2862
+#: src/operations_liste.c:1085 src/operations_liste.c:1707
 #: src/ventilation.c:207
 msgid "Breakdown of transaction"
 msgstr "Tranzacţie ventilată"
@@ -1327,11 +1327,11 @@ msgstr "Tranzacţie ventilată"
 #: src/echeancier_formulaire.c:1721 src/echeancier_formulaire.c:2079
 #: src/echeancier_formulaire.c:2989 src/echeancier_liste.c:1226
 #: src/echeancier_ventilation.c:771 src/echeancier_ventilation.c:1580
-#: src/echeancier_ventilation.c:1666 src/echeancier_ventilation.c:2015
-#: src/echeancier_ventilation.c:2288 src/ofx.c:443
-#: src/operations_formulaire.c:1015 src/operations_formulaire.c:1931
-#: src/operations_formulaire.c:1936 src/operations_formulaire.c:2386
-#: src/operations_formulaire.c:2948 src/operations_liste.c:1644
+#: src/echeancier_ventilation.c:1671 src/echeancier_ventilation.c:2020
+#: src/echeancier_ventilation.c:2293 src/ofx.c:443
+#: src/operations_formulaire.c:1015 src/operations_formulaire.c:1925
+#: src/operations_formulaire.c:1930 src/operations_formulaire.c:2380
+#: src/operations_formulaire.c:2942 src/operations_liste.c:1648
 #: src/ventilation.c:772 src/ventilation.c:1578 src/ventilation.c:1659
 #: src/ventilation.c:2028 src/ventilation.c:2366
 msgid "Transfer"
@@ -1384,8 +1384,8 @@ msgid "Export categories"
 msgstr "Exportaţi categoriile."
 
 #: src/categories_onglet.c:3058 src/erreur.c:218 src/erreur.c:220
-#: src/etats_onglet.c:1186 src/fichiers_gestion.c:544
-#: src/fichiers_gestion.c:546 src/imputation_budgetaire.c:2787
+#: src/etats_onglet.c:1186 src/fichiers_gestion.c:575
+#: src/fichiers_gestion.c:577 src/imputation_budgetaire.c:2787
 msgid "Save file"
 msgstr "Înregistraţi fişierul."
 
@@ -1744,19 +1744,19 @@ msgstr ""
 msgid "Exchange rate between the 2 currencies is 0."
 msgstr "Cursul de schimbare între cele două monede este zero. "
 
-#: src/comptes_gestion.c:1240 src/devises.c:382 src/devises.c:958
-#: src/devises.c:1777 src/devises.c:1859 src/devises.c:2202 src/devises.c:2207
-#: src/devises.c:2338 src/echeancier_formulaire.c:2038
+#: src/comptes_gestion.c:1240 src/devises.c:382 src/devises.c:959
+#: src/devises.c:1778 src/devises.c:1860 src/devises.c:2203 src/devises.c:2208
+#: src/devises.c:2339 src/echeancier_formulaire.c:2038
 #: src/echeancier_formulaire.c:2040 src/echeancier_formulaire.c:2421
 #: src/echeancier_formulaire.c:2423 src/echeancier_liste.c:1951
-#: src/echeancier_liste.c:1953 src/etats_calculs.c:2467
-#: src/etats_calculs.c:2472 src/etats_calculs.c:2521 src/etats_calculs.c:2526
-#: src/etats_calculs.c:2574 src/etats_calculs.c:2579 src/etats_calculs.c:2642
-#: src/etats_calculs.c:2647 src/etats_calculs.c:2692 src/etats_calculs.c:2697
-#: src/etats_calculs.c:2744 src/etats_calculs.c:2749 src/etats_calculs.c:2796
-#: src/etats_calculs.c:2801 src/operations_formulaire.c:2701
-#: src/operations_formulaire.c:2702 src/operations_liste.c:1576
-#: src/operations_liste.c:1578 src/ventilation.c:2972 src/ventilation.c:2974
+#: src/echeancier_liste.c:1953 src/etats_calculs.c:2586
+#: src/etats_calculs.c:2591 src/etats_calculs.c:2640 src/etats_calculs.c:2645
+#: src/etats_calculs.c:2693 src/etats_calculs.c:2698 src/etats_calculs.c:2761
+#: src/etats_calculs.c:2766 src/etats_calculs.c:2811 src/etats_calculs.c:2816
+#: src/etats_calculs.c:2863 src/etats_calculs.c:2868 src/etats_calculs.c:2915
+#: src/etats_calculs.c:2920 src/operations_formulaire.c:2695
+#: src/operations_formulaire.c:2696 src/operations_liste.c:1580
+#: src/operations_liste.c:1582 src/ventilation.c:2972 src/ventilation.c:2974
 #: src/ventilation.c:3191 src/ventilation.c:3193
 msgid "Euro"
 msgstr "Euro"
@@ -1868,7 +1868,7 @@ msgid "C"
 msgstr "P"
 
 #: src/csv.c:307 src/etats_affiche.c:1415 src/operations_liste.c:1100
-#: src/operations_liste.c:2018
+#: src/operations_liste.c:2022
 msgid "R"
 msgstr "R"
 
@@ -1882,8 +1882,8 @@ msgid "B"
 msgstr "V"
 
 #: src/csv.c:591 src/echeancier_ventilation.c:780
-#: src/operations_formulaire.c:1024 src/operations_formulaire.c:2399
-#: src/operations_formulaire.c:2960 src/ventilation.c:781
+#: src/operations_formulaire.c:1024 src/operations_formulaire.c:2393
+#: src/operations_formulaire.c:2954 src/ventilation.c:781
 msgid "Deleted account"
 msgstr "Cont suprimat"
 
@@ -3146,54 +3146,54 @@ msgid "Country name"
 msgstr "Nom de ţară"
 
 #. Currency name
-#: src/devises.c:599 src/devises.c:712
+#: src/devises.c:600 src/devises.c:713
 msgid "Currency name"
 msgstr "Numele devizei"
 
-#: src/devises.c:609 src/devises.c:1379
+#: src/devises.c:610 src/devises.c:1380
 msgid "ISO Code"
 msgstr "Cod ISO"
 
 #. Create code entry
-#: src/devises.c:620 src/devises.c:1380 src/devises.c:1517
+#: src/devises.c:621 src/devises.c:1381 src/devises.c:1518
 msgid "Sign"
 msgstr "Simbol"
 
-#: src/devises.c:647
+#: src/devises.c:648
 msgid "Include obsolete currencies"
 msgstr "Afişa devizele învechite"
 
-#: src/devises.c:676 src/import.c:456
+#: src/devises.c:677 src/import.c:456
 msgid "Add a currency"
 msgstr "Ajuta o devizā"
 
-#: src/devises.c:694
+#: src/devises.c:695
 msgid "ISO 4217 currencies"
 msgstr "Devize ISO 4217"
 
-#: src/devises.c:701
+#: src/devises.c:702
 msgid "Currency details"
 msgstr "Detalii a devizei"
 
 #. Currency ISO code
-#: src/devises.c:729
+#: src/devises.c:730
 msgid "Currency ISO 4217 code"
 msgstr "Cod ISO 4217 al devizei"
 
 #. Currency usual sign
-#: src/devises.c:744
+#: src/devises.c:745
 msgid "Currency sign"
 msgstr "Semn al devizei"
 
-#: src/devises.c:820
+#: src/devises.c:821
 msgid "All fields are not filled in!"
 msgstr "Toate câmpurile nu sunt pline"
 
-#: src/devises.c:876
+#: src/devises.c:877
 msgid "..."
 msgstr "..."
 
-#: src/devises.c:965
+#: src/devises.c:966
 #, c-format
 msgid ""
 "The %s currency is used in the current account.\n"
@@ -3202,103 +3202,103 @@ msgstr ""
 "Deviza %s este utilizatā în fişierul curent.\n"
 "Nu puteţi să-l suprimaţi"
 
-#: src/devises.c:1025
+#: src/devises.c:1026
 msgid "Enter exchange rate"
 msgstr "Intraţi cursul de schimb"
 
-#: src/devises.c:1035
+#: src/devises.c:1036
 #, c-format
 msgid "Please enter exchange rate for %s"
 msgstr "Intraţi cursul de schimb pentru moneda %s"
 
-#: src/devises.c:1047
+#: src/devises.c:1048
 msgid "A"
 msgstr "Unu"
 
-#: src/devises.c:1055
+#: src/devises.c:1056
 msgid "equals"
 msgstr "valoare"
 
-#: src/devises.c:1117
+#: src/devises.c:1118
 msgid "Exchange fees"
 msgstr "Cheltueli de schimb"
 
-#: src/devises.c:1378 src/import.c:372
+#: src/devises.c:1379 src/import.c:372
 msgid "Currency"
 msgstr "Deviză"
 
-#: src/devises.c:1384 src/etats_config.c:6196 src/parametres.c:287
+#: src/devises.c:1385 src/etats_config.c:6196 src/parametres.c:287
 msgid "Currencies"
 msgstr "Devize"
 
-#: src/devises.c:1388
+#: src/devises.c:1389
 msgid "Known currencies"
 msgstr "Devize cunoscute"
 
-#: src/devises.c:1481
+#: src/devises.c:1482
 msgid "Currency properties"
 msgstr "Proprietăţi a devizei"
 
 #. Create code entry
-#: src/devises.c:1533
+#: src/devises.c:1534
 msgid "ISO code"
 msgstr "Cod ISO"
 
 #. Will switch to Euro?
-#: src/devises.c:1549
+#: src/devises.c:1550
 msgid "Will switch to Euro"
 msgstr "Va trece la Euro"
 
-#: src/devises.c:1560
+#: src/devises.c:1561
 msgid "Associated currency"
 msgstr "Devise asociate"
 
-#: src/devises.c:1581
+#: src/devises.c:1582
 msgid "One"
 msgstr "Un(una)"
 
-#: src/devises.c:1589
+#: src/devises.c:1590
 msgid "costs"
 msgstr "costă"
 
-#: src/devises.c:1681 src/parametres.c:270
+#: src/devises.c:1682 src/parametres.c:270
 msgid "Totals currencies"
 msgstr "Devize de totaluri"
 
-#: src/devises.c:1688
+#: src/devises.c:1689
 msgid "Currency for third parties tree"
 msgstr "Deviză pentru arborele de treimi"
 
-#: src/devises.c:1698
+#: src/devises.c:1699
 msgid "Currency for categories tree"
 msgstr "Devize pentru arborele de categorii"
 
-#: src/devises.c:1708
+#: src/devises.c:1709
 msgid "Currency for budgetary lines tree"
 msgstr "Devize pentru arborele de imputaţii bugetare"
 
-#: src/devises.c:1924
+#: src/devises.c:1925
 msgid "Last exchange rate"
 msgstr "Ultima cotă de schimb"
 
-#: src/devises.c:1930
+#: src/devises.c:1931
 msgid "No exchange rate defined"
 msgstr "Nici'un schimb definit"
 
-#: src/devises.c:2256
-#, fuzzy
+#: src/devises.c:2257
 msgid "No name"
-msgstr "Fără nume %d"
+msgstr "Fără nume"
 
-#: src/dialog.c:244 src/dialog.c:364 src/fichiers_io.c:6539
-#: src/fichiers_io.c:9462
+#: src/dialog.c:244 src/dialog.c:364 src/fichiers_io.c:6548
+#: src/fichiers_io.c:9471
 msgid "Do not show this message again"
 msgstr "A nu mai arăta acest mesaj"
 
-#: src/dialog.c:401
-#, fuzzy
-msgid "Value"
-msgstr "Data de valoare"
+#: src/dialog.c:401 src/echeancier_formulaire.c:1623
+#: src/echeancier_liste.c:664 src/type_operations.c:1569
+#: src/type_operations.c:1640
+msgid "Input"
+msgstr "Sezie"
 
 #: src/echeancier_formulaire.c:255 src/echeancier_formulaire.c:256
 #: src/operations_formulaire.c:256 src/operations_formulaire.c:257
@@ -3326,7 +3326,7 @@ msgid "Automatic/manual scheduled transaction"
 msgstr "Operaţie planificată automatic  /  manual"
 
 #: src/echeancier_formulaire.c:538 src/echeancier_liste.c:809
-#: src/operations_liste.c:1808
+#: src/operations_liste.c:1812
 msgid "Manual"
 msgstr "Manual"
 
@@ -3382,7 +3382,7 @@ msgstr "Ani"
 
 #: src/echeancier_formulaire.c:1044 src/echeancier_formulaire.c:2534
 #: src/echeancier_ventilation.c:857 src/echeancier_ventilation.c:1487
-#: src/operations_formulaire.c:1106 src/operations_formulaire.c:3350
+#: src/operations_formulaire.c:1106 src/operations_formulaire.c:3344
 #: src/ventilation.c:858 src/ventilation.c:1485
 msgid "Categories : Sub-categories"
 msgstr "Categorii : Sub-categorii"
@@ -3396,7 +3396,7 @@ msgid "Limit date"
 msgstr "Dată limită"
 
 #: src/echeancier_formulaire.c:1478 src/equilibrage.c:944
-#: src/equilibrage.c:964 src/operations_formulaire.c:2342
+#: src/equilibrage.c:964 src/operations_formulaire.c:2336
 msgid "Invalid date"
 msgstr "Dată neconformă"
 
@@ -3404,7 +3404,7 @@ msgstr "Dată neconformă"
 msgid "Invalid limit date"
 msgstr "Dată limită neconformă"
 
-#: src/echeancier_formulaire.c:1530 src/operations_formulaire.c:2428
+#: src/echeancier_formulaire.c:1530 src/operations_formulaire.c:2422
 msgid "Can't issue a transfer its own account."
 msgstr "Impusibilitate de transfer pe contul său"
 
@@ -3412,18 +3412,13 @@ msgstr "Impusibilitate de transfer pe contul său"
 msgid "A breakdown of transaction is a transfer to this account.\n"
 msgstr "O ventilaţie este un virament spre acest cont.\n"
 
-#: src/echeancier_formulaire.c:1583 src/operations_formulaire.c:2392
+#: src/echeancier_formulaire.c:1583 src/operations_formulaire.c:2386
 msgid "There is no associated account for this transfer."
 msgstr "Nu există cont asociat la virament."
 
-#: src/echeancier_formulaire.c:1606 src/operations_formulaire.c:2421
+#: src/echeancier_formulaire.c:1606 src/operations_formulaire.c:2415
 msgid "Associated account of this transfer is invalid."
 msgstr "Contul asociat la virament nu este valid"
-
-#: src/echeancier_formulaire.c:1623 src/echeancier_liste.c:664
-#: src/type_operations.c:1571 src/type_operations.c:1642
-msgid "Input"
-msgstr "Sezie"
 
 #: src/echeancier_formulaire.c:2584 src/echeancier_liste.c:557
 #: src/echeancier_liste.c:988
@@ -3463,7 +3458,7 @@ msgstr ""
 "planificată selecţionată"
 
 #: src/echeancier_liste.c:401 src/etats_config.c:266 src/import.c:394
-#: src/type_operations.c:299
+#: src/type_operations.c:300
 msgid "Account"
 msgstr "Cont"
 
@@ -3574,11 +3569,11 @@ msgstr "Imposibil de a vira un cont pe el însuşi"
 msgid "No account associated with the transfer"
 msgstr "Nucu'un cont asociat la virament"
 
-#: src/echeancier_ventilation.c:2483 src/ventilation.c:2561
+#: src/echeancier_ventilation.c:2488 src/ventilation.c:2561
 msgid "Incomplete breakdown"
 msgstr "Ventilaţie incomplectă"
 
-#: src/echeancier_ventilation.c:2484 src/ventilation.c:2562
+#: src/echeancier_ventilation.c:2489 src/ventilation.c:2562
 msgid ""
 "Transaction amount isn't fully broken down.\n"
 "Proceed anyway?"
@@ -3586,7 +3581,7 @@ msgstr ""
 "Suma operaţiei nu este total ventilată.\n"
 "Vreţi să continuaţi totuşi ?"
 
-#: src/echeancier_ventilation.c:2666 src/ventilation.c:2806
+#: src/echeancier_ventilation.c:2671 src/ventilation.c:2806
 msgid "A breakdown line is to be deleted though it is not yet registered."
 msgstr ""
 "O operaţie de ventilare a fost marcată pentru suprimare atunci când nu era "
@@ -3617,12 +3612,12 @@ msgid "Variance"
 msgstr "Ecartament"
 
 #: src/equilibrage.c:843 src/operations_liste.c:1096
-#: src/operations_liste.c:1906
+#: src/operations_liste.c:1910
 msgid "P"
 msgstr "P"
 
 #: src/equilibrage.c:896 src/operations_comptes.c:312
-#: src/operations_liste.c:764 src/operations_liste.c:1961
+#: src/operations_liste.c:764 src/operations_liste.c:1965
 #, c-format
 msgid "Checked balance: %4.2f %s"
 msgstr "Sold marcat : %4.2f %s"
@@ -3667,20 +3662,20 @@ msgstr ""
 "căutare pe numărul de apropiere.\n"
 "Vreţi să continuaţi totuşi ? "
 
-#: src/equilibrage.c:1642 src/operations_onglet.c:83 src/parametres.c:262
-#: src/type_operations.c:255
+#: src/equilibrage.c:1643 src/operations_onglet.c:83 src/parametres.c:262
+#: src/type_operations.c:256
 msgid "Reconciliation"
 msgstr "Apropiere"
 
-#: src/equilibrage.c:1646
+#: src/equilibrage.c:1647
 msgid "Reconciliation: sort transactions"
 msgstr "Apropiere : tri de operaţii"
 
-#: src/equilibrage.c:1694
+#: src/equilibrage.c:1695
 msgid "Sort by date"
 msgstr "Tri pe dată"
 
-#: src/equilibrage.c:1711
+#: src/equilibrage.c:1712
 msgid "Split neutral payment methods"
 msgstr "Separaţati modele de plată neutre"
 
@@ -3735,7 +3730,7 @@ msgstr ""
 "Acest raport a fost creat cu versiunea %s de Grisbi ; Grisbi cu toate "
 "acestea va încerca să-l importe. "
 
-#: src/etat_io.c:68 src/fichiers_io.c:8905 src/fichiers_io.c:9258
+#: src/etat_io.c:68 src/fichiers_io.c:8914 src/fichiers_io.c:9267
 msgid "Version mismatch"
 msgstr "Versiunea nu este bună"
 
@@ -4089,7 +4084,7 @@ msgstr "Număr"
 
 #. Now we have a model, create view
 #: src/etats_affiche.c:2265 src/etats_config.c:159 src/parametres.c:311
-#: src/type_operations.c:259
+#: src/type_operations.c:260
 msgid "Payment methods"
 msgstr "Moduri de plată"
 
@@ -5393,7 +5388,7 @@ msgstr "Fişier :"
 msgid "Error opening config"
 msgstr "Eroare la deschiderea configuraţiei"
 
-#: src/fichier_configuration.c:688 src/print_config.c:41
+#: src/fichier_configuration.c:688
 msgid "A4"
 msgstr "A4"
 
@@ -5433,56 +5428,56 @@ msgstr ""
 "Grisbi nu a putut încărca fişierul. Mai mult, Grisbi nu a putut încărca "
 "fişierul de salvare în locul lui."
 
-#: src/fichiers_gestion.c:343
+#: src/fichiers_gestion.c:374
 msgid "Formatting transactions"
 msgstr "Punerea în formă de operaţiuni"
 
-#: src/fichiers_gestion.c:432
+#: src/fichiers_gestion.c:463
 #, c-format
 msgid "Save changes to document '%s' before closing?"
 msgstr "Salvaţi modificaţiile în document '%s' înainte de al părăsi ?"
 
-#: src/fichiers_gestion.c:433
+#: src/fichiers_gestion.c:464
 msgid "unnamed"
 msgstr "făra nume"
 
-#: src/fichiers_gestion.c:441
+#: src/fichiers_gestion.c:472
 msgid "Close without saving"
 msgstr "Închide fără salvare"
 
-#: src/fichiers_gestion.c:447
+#: src/fichiers_gestion.c:478
 msgid "If you close without saving, all of your changes will be discarded."
 msgstr ""
 "Dacă închideţi fără să salvaţi fişierul toate modificaţiile făcute vor fi "
 "ignorate."
 
-#: src/fichiers_gestion.c:475
+#: src/fichiers_gestion.c:506
 msgid "Name the accounts file"
 msgstr "Creaţia unui nume de fişier de conturi"
 
-#: src/fichiers_gestion.c:506
+#: src/fichiers_gestion.c:537
 msgid "File already exists"
 msgstr "Fişierul există deja"
 
-#: src/fichiers_gestion.c:507
+#: src/fichiers_gestion.c:538
 #, c-format
 msgid "Do you want to overwrite file \"%s\"?"
 msgstr "Vreţi să striviţi fişierul \"%s\"?"
 
-#: src/fichiers_gestion.c:515
+#: src/fichiers_gestion.c:546
 #, c-format
 msgid "Invalid filename: \"%s\"!"
 msgstr "Nume de fişier invalid \"%s\"!"
 
-#: src/fichiers_gestion.c:698 src/fichiers_gestion.c:709
+#: src/fichiers_gestion.c:729 src/fichiers_gestion.c:740
 msgid "Grisbi"
 msgstr "Grisbi"
 
-#: src/fichiers_gestion.c:707
+#: src/fichiers_gestion.c:738
 msgid "Grisbi - No name"
 msgstr "Grisbi - Fără nume"
 
-#: src/fichiers_gestion.c:738
+#: src/fichiers_gestion.c:769
 msgid "Saving backup"
 msgstr "Înregistrarea salvării"
 
@@ -5499,22 +5494,22 @@ msgstr "Fişier de cont invalid."
 
 #. Ã  ce niveau, c'est que que la version n'est pas connue de grisbi, on donne alors
 #. la version nÃ©cessaire pour l'ouvrir
-#: src/fichiers_io.c:211
+#: src/fichiers_io.c:213 src/fichiers_io.c:218
 #, c-format
 msgid "Grisbi version %s is needed to open this file"
 msgstr "Vă trebuie versiunea %s de Grisbi pentru a deschide acest fişier"
 
-#: src/fichiers_io.c:220 src/fichiers_io.c:231
+#: src/fichiers_io.c:227 src/fichiers_io.c:238
 #, c-format
 msgid "Cannot open file '%s': %s"
 msgstr "Imposibil de a deschide fişierul '%s': %s"
 
-#: src/fichiers_io.c:223
+#: src/fichiers_io.c:230
 #, c-format
 msgid "Cannot open file '%s' : this is not a grisbi file"
 msgstr "Nu este un fişier Grisbi imposibil de a deschide fişierul '%s'"
 
-#: src/fichiers_io.c:265
+#: src/fichiers_io.c:272
 #, c-format
 msgid ""
 "Warning: Grisbi data format has changed. Grisbi made a backup under '%s'.\n"
@@ -5524,12 +5519,12 @@ msgstr ""
 "vechiului fişier cub numele de '%s'.\n"
 "Păstraţ-il un timp pentru a putea reveni în caz de problemă."
 
-#: src/fichiers_io.c:300 src/fichiers_io.c:2046 src/fichiers_io.c:4303
+#: src/fichiers_io.c:307 src/fichiers_io.c:2053 src/fichiers_io.c:4310
 #, c-format
 msgid "File \"%s\" is already opened"
 msgstr "Fişierul \"%s\" este deja deschis"
 
-#: src/fichiers_io.c:301 src/fichiers_io.c:2047 src/fichiers_io.c:4304
+#: src/fichiers_io.c:308 src/fichiers_io.c:2054 src/fichiers_io.c:4311
 msgid ""
 "Either this file is already opened by another user or it wasn't closed "
 "correctly (maybe Grisbi crashed?).\n"
@@ -5542,7 +5537,7 @@ msgstr ""
 "înregistrarea fişierelor zăvorite din cutia de dialog « Preferinţe »"
 
 #. FIXME
-#: src/fichiers_io.c:1907
+#: src/fichiers_io.c:1914
 msgid ""
 "There was a bug in versions before 0.4.0, which could lead to orphan "
 "transactions (either transfers without countra-transaction, or breakdown "
@@ -5558,15 +5553,15 @@ msgstr ""
 "Grisbi a căutat asemenea operaţiuni şi a găsit :\n"
 "\n"
 
-#: src/fichiers_io.c:1913
+#: src/fichiers_io.c:1920
 msgid "breakdown transactions, all of them were deleted.\n"
 msgstr "operaţiuni ventilate, toate au fost şterse \n"
 
-#: src/fichiers_io.c:1920
+#: src/fichiers_io.c:1927
 msgid "transfers without contra-transaction, which categories were deleted.\n"
 msgstr "viramente fără contra operaţiune, a căror categorii au fost şterse \n"
 
-#: src/fichiers_io.c:1925
+#: src/fichiers_io.c:1932
 msgid ""
 "These modifications should not impact on neither Grisbi's behavior nor your "
 "accounts balances."
@@ -5574,12 +5569,12 @@ msgstr ""
 "Aceste modificaţii nu trebue să modifice comportamentul lui Grisbi nici "
 "soldurile conturilor voastre."
 
-#: src/fichiers_io.c:6535
+#: src/fichiers_io.c:6544
 #, c-format
 msgid "Can not save file \"%s\""
 msgstr "Impsibil de a înregistra fişierul \"%s\""
 
-#: src/fichiers_io.c:6537
+#: src/fichiers_io.c:6546
 #, c-format
 msgid ""
 "Grisbi was unable to save this file because it is locked.  Please save it "
@@ -5590,25 +5585,25 @@ msgstr ""
 "il sub un alt nume s'au activaţi opţiunea \"%s\" în configuraţie. "
 "Alternativ, alegeţi opţiunea \"%s\"dedesupt. "
 
-#: src/fichiers_io.c:6538 src/parametres.c:536
+#: src/fichiers_io.c:6547 src/parametres.c:536
 msgid "Force saving of locked files"
 msgstr "Forţaţi înregistrarea fişierilor zăvorite"
 
-#: src/fichiers_io.c:8642 src/fichiers_io.c:8861 src/fichiers_io.c:9215
+#: src/fichiers_io.c:8651 src/fichiers_io.c:8870 src/fichiers_io.c:9224
 #, c-format
 msgid "Cannot save file '%s': %s"
 msgstr "Imposibil de a salva fişierul '%s': %s"
 
-#: src/fichiers_io.c:8690
+#: src/fichiers_io.c:8699
 #, c-format
 msgid "Cannot lock file '%s': %s"
 msgstr "Imposibil de a marca fişierul '%s' ca utilizat: %s"
 
-#: src/fichiers_io.c:8895
+#: src/fichiers_io.c:8904
 msgid "This file is not a Grisbi category list file"
 msgstr "Acest fişier nu este o listă de categorii Grisbi"
 
-#: src/fichiers_io.c:8904
+#: src/fichiers_io.c:8913
 #, c-format
 msgid ""
 "This categories list has been produced with grisbi version %s, Grisbi will "
@@ -5617,15 +5612,15 @@ msgstr ""
 "Acest fişier de categorie a fost creat cu versiunea %s de Grisbi. Cu toate "
 "aceasta, Grisbi va încerca de al importa."
 
-#: src/fichiers_io.c:8912
+#: src/fichiers_io.c:8921
 msgid "Invalid categories file"
 msgstr "Categorie de fişier invalidă."
 
-#: src/fichiers_io.c:9248
+#: src/fichiers_io.c:9257
 msgid "This file is not a grisbi budgetary lines file"
 msgstr "Acest fişier nu este o listă de imputaţii bugetare Grisbi"
 
-#: src/fichiers_io.c:9257
+#: src/fichiers_io.c:9266
 #, c-format
 msgid ""
 "This budgetary lines list has been produced with grisbi version %s, Grisbi "
@@ -5634,11 +5629,11 @@ msgstr ""
 "Acest fişier de imputaţii bugetare a fost creat cu versiunea %s de Grisbi. "
 "Grisbi va încerca cu toate acestea de a-l importa."
 
-#: src/fichiers_io.c:9265
+#: src/fichiers_io.c:9274
 msgid "Invalid budgetary lines file"
 msgstr "Fişier de imputaţiuni bugetare invalid."
 
-#: src/fichiers_io.c:9459
+#: src/fichiers_io.c:9468
 msgid ""
 "Your account file should not be readable by anybody else, but it is. You "
 "should change its permissions.\n"
@@ -5704,7 +5699,6 @@ msgstr ""
 "RedHart şi Fedora"
 
 #: src/help.c:49
-#, fuzzy
 msgid "Andre Pascual (andre[at]linuxgraphic.org): Logo"
 msgstr "André Pascual (andre[at]linuxgraphic.org) : Logo"
 
@@ -5717,17 +5711,14 @@ msgid "Baluchiterium  (baluchiterium[at]users.sf.net): Slackware packaging"
 msgstr ""
 
 #: src/help.c:52
-#, fuzzy
 msgid "Benjamin Drieu (bdrieu[at]april.org): Programming, Debian packaging"
 msgstr "Benjamin Drieu (bdrieu[at]april.org) : Programare, pachete Debian"
 
 #: src/help.c:53
-#, fuzzy
 msgid "Cedric Auger (cedric[at]grisbi.org): Programming"
 msgstr "Cedric Auger (cedric[at]grisbi.org) : Programare"
 
 #: src/help.c:54
-#, fuzzy
 msgid "Daniel Cartron (doc[at]grisbi.org): Manual, website, consultancy"
 msgstr "Daniel Cartron (doc[at]grisbi.org) : manual, site web, sfaturi"
 
@@ -5742,10 +5733,9 @@ msgid ""
 msgstr "Francois Terrot (grisbi[at]terrot.net) : portaj  ipşachete Windows"
 
 #: src/help.c:57
-#, fuzzy
 msgid ""
 "Gerald Niel (gerald.niel[at]grisbi.org): Darwin packaging, administration"
-msgstr "Gérald Niel (gerald.niel[at]grisbi.org) : pachete Slackware, sit web"
+msgstr "Gérald Niel (gerald.niel[at]grisbi.org) : pachete Darwin, sit web"
 
 #: src/help.c:58
 msgid "PMF (ugly.duck[at]gmx.de): Zaurus packaging"
@@ -5756,9 +5746,8 @@ msgid "Pascal Bleser (guru[at]linuxbe.org): SuSE packaging"
 msgstr "Pascal Bleser (guru[at]linuxbe.org): pachete SuSE"
 
 #: src/help.c:60
-#, fuzzy
 msgid "Sylvain Glaize (mokona[at]puupuu.org): Mandriva packaging"
-msgstr "Sylvain Glaize (mokona[at]puupuu.org): pachete Mandrake"
+msgstr "Sylvain Glaize (mokona[at]puupuu.org): pachete Mandriva"
 
 #: src/help.c:61
 msgid "Thierry Thomas (thierry[at]pompo.net): FreeBSD packaging"
@@ -5769,12 +5758,10 @@ msgid "Vincent Marqueton (vincent[at]marqueton.com): Fink packaging"
 msgstr ""
 
 #: src/help.c:65
-#, fuzzy
 msgid "Alain Portal (dionysos[at]grisbi.org): English"
 msgstr "Alain Portal (dionysos[at]grisbi.org) : Engleză"
 
 #: src/help.c:66
-#, fuzzy
 msgid "Benjamin Drieu (bdrieu[at]april.org): English"
 msgstr "Benjamin Drieu (bdrieu[at]april.org) : Engleză"
 
@@ -5783,7 +5770,6 @@ msgid "Carlos M. CÃ¡mara Mora (carcam_moceu[at]yahoo.es): Spanish"
 msgstr ""
 
 #: src/help.c:68
-#, fuzzy
 msgid "Daniel Cartron (cartron[at]grisbi.org): English"
 msgstr "Daniel Cartron (cartron[at]grisbi.org) : Engleză"
 
@@ -5802,7 +5788,6 @@ msgstr ""
 "brazilieni"
 
 #: src/help.c:72
-#, fuzzy
 msgid "Giorgio Mandolfo (giorgio[at]pollycoke.org): Italian"
 msgstr "Giorgio Mandolfo (giorgio[at]pollycoke.org) : Italiană"
 
@@ -5823,7 +5808,6 @@ msgid "Ryszard Jeziorski (r.jeziorski[at]dart.kielce.pl): Polish"
 msgstr ""
 
 #: src/help.c:82
-#, fuzzy
 msgid "Development list (discuss, participate, criticize, ...): "
 msgstr "Listă de dezvoltare ( discuţiin participare, critici, ..) : "
 
@@ -5836,7 +5820,6 @@ msgid "Bug report"
 msgstr "Raport de bog"
 
 #: src/help.c:88
-#, fuzzy
 msgid "Information list (new releases announces, ...): "
 msgstr "Listă de informaţii ( anunţuri de noi versiuni, ...) : "
 
@@ -6276,13 +6259,13 @@ msgid "Edit"
 msgstr "Editare"
 
 #. New transaction
-#: src/menu.c:88 src/operations_liste.c:2678 src/traitement_variables.c:102
+#: src/menu.c:88 src/operations_liste.c:2666 src/traitement_variables.c:102
 #: src/traitement_variables.c:228
 msgid "New transaction"
 msgstr "O nouă operaţiune"
 
 #. New transaction from
-#: src/menu.c:89 src/operations_liste.c:2686 src/traitement_variables.c:105
+#: src/menu.c:89 src/operations_liste.c:2674 src/traitement_variables.c:105
 #: src/traitement_variables.c:231
 msgid "Use selected transaction as a template"
 msgstr "Utiliza operaţiunea selecţionată ca model"
@@ -6292,19 +6275,19 @@ msgid "Remove transaction"
 msgstr "Suprimarea unei operaţiuni"
 
 #. Clone transaction
-#: src/menu.c:91 src/operations_liste.c:2706 src/traitement_variables.c:111
+#: src/menu.c:91 src/operations_liste.c:2694 src/traitement_variables.c:111
 #: src/traitement_variables.c:237
 msgid "Clone transaction"
 msgstr "Clonaţi operaţiunea"
 
 #. Edit transaction
-#: src/menu.c:92 src/operations_liste.c:2665 src/traitement_variables.c:114
+#: src/menu.c:92 src/operations_liste.c:2653 src/traitement_variables.c:114
 #: src/traitement_variables.c:240
 msgid "Edit transaction"
 msgstr "Edtarea operaţiunii"
 
 #. Convert to scheduled transaction
-#: src/menu.c:94 src/operations_liste.c:2719 src/traitement_variables.c:117
+#: src/menu.c:94 src/operations_liste.c:2707 src/traitement_variables.c:117
 #: src/traitement_variables.c:243
 msgid "Convert transaction to scheduled transaction"
 msgstr "Convertirea operaţiunii în operaţiune planificată"
@@ -6312,7 +6295,7 @@ msgstr "Convertirea operaţiunii în operaţiune planificată"
 #. Move to another account
 #: src/menu.c:95 src/operations_comptes.c:403 src/operations_comptes.c:408
 #: src/operations_comptes.c:488 src/operations_comptes.c:503
-#: src/operations_comptes.c:510 src/operations_liste.c:2729
+#: src/operations_comptes.c:510 src/operations_liste.c:2717
 #: src/traitement_variables.c:120 src/traitement_variables.c:246
 msgid "Move transaction to another account"
 msgstr "Deplasaţi operaţiunea spre un alt cont"
@@ -6322,9 +6305,8 @@ msgid "Preferences"
 msgstr "Preferinţe"
 
 #: src/menu.c:115
-#, fuzzy
 msgid "Export report as CSV..."
-msgstr "Exportaţi o stare în HTML"
+msgstr "Exportaţi o stare în CSV"
 
 #: src/menu.c:117 src/traitement_variables.c:126
 #: src/traitement_variables.c:252
@@ -6512,36 +6494,28 @@ msgstr "Schimb"
 msgid "Contra-transaction method of payment"
 msgstr "Mod de plată a contra-operaţiunii"
 
-#: src/operations_formulaire.c:1831
-msgid "Recover breakdown?"
-msgstr "Recuperarea ventilaţiilor ?"
-
-#: src/operations_formulaire.c:1832
-msgid "Do you want to recover all the lines of the last breakdown?"
-msgstr "Vreţi să recuperaţi de asemenea operaţiunile ultimei ventilaţii ?"
-
-#: src/operations_formulaire.c:2087 src/operations_formulaire.c:2539
+#: src/operations_formulaire.c:2081 src/operations_formulaire.c:2533
 #: src/tiers_onglet.c:1429
 msgid "Report"
 msgstr "Stare"
 
-#: src/operations_formulaire.c:2161
+#: src/operations_formulaire.c:2155
 msgid "No third party selected for this report."
 msgstr "Această stare nu comportă terţi selecţionaţi."
 
-#: src/operations_formulaire.c:2334
+#: src/operations_formulaire.c:2328
 msgid "You must enter a date."
 msgstr "O dată este obligatorie."
 
-#: src/operations_formulaire.c:2362
+#: src/operations_formulaire.c:2356
 msgid "Invalid date."
 msgstr "Data este invalidă."
 
-#: src/operations_formulaire.c:2439
+#: src/operations_formulaire.c:2433
 msgid "Can't issue a transfer on a closed account."
 msgstr "Imposibil de a efectua un virament pe un cont închis"
 
-#: src/operations_formulaire.c:2470
+#: src/operations_formulaire.c:2464
 msgid ""
 "Selected method of payment has an automatic incremental number\n"
 "but doesn't contain any number.\n"
@@ -6551,7 +6525,7 @@ msgstr ""
 "număr.\n"
 "Vreţi să continuaţi ?"
 
-#: src/operations_formulaire.c:2500
+#: src/operations_formulaire.c:2494
 msgid ""
 "Warning: this cheque number is already used.\n"
 "Continue anyway?"
@@ -6559,13 +6533,13 @@ msgstr ""
 "Atenţiune, numărul cecului este deja utilizat.\n"
 "Vreţi să continuaţi ?"
 
-#: src/operations_formulaire.c:2548
+#: src/operations_formulaire.c:2542
 msgid "A transaction with a multiple third party must be a new one."
 msgstr ""
 "O operaţiune a cărui terţ este o stare trebuie să fie fără îndoială o nouă "
 "operaţiune. "
 
-#: src/operations_formulaire.c:2582
+#: src/operations_formulaire.c:2576
 msgid "Invalid multiple third party."
 msgstr "Numele de stare în terţ este invalidă"
 
@@ -6597,11 +6571,11 @@ msgstr ""
 "Sunteţi pe cale de a încerca suprimarea o operaţiune. Nu este anulaţie "
 "posibilă. Confirmaţi suprimarea ?"
 
-#: src/operations_liste.c:1325
+#: src/operations_liste.c:1329
 msgid "Confirmation of manual (un)reconciliation"
 msgstr "Confirmare a unui (un)apropiere manuală"
 
-#: src/operations_liste.c:1326
+#: src/operations_liste.c:1330
 msgid ""
 "You are currently trying to reconcile or unreconcile manually a transaction "
 "which isn't a regular way to do.\n"
@@ -6612,30 +6586,30 @@ msgstr ""
 "operaţiune pe o cale nu prea normală.\n"
 "Sunteţi sigur de ceeace faceţi ?"
 
-#: src/operations_liste.c:1633
+#: src/operations_liste.c:1637
 msgid "Transfer: deleted account"
 msgstr "Virament : Cont suprimat"
 
-#: src/operations_liste.c:1805
+#: src/operations_liste.c:1809
 msgid "Auto"
 msgstr "Automatic"
 
-#: src/operations_liste.c:1821
+#: src/operations_liste.c:1825
 #, fuzzy
 msgid "No reconciliation number"
 msgstr "Număr de apropiere"
 
-#: src/operations_liste.c:2098
+#: src/operations_liste.c:2102
 msgid "Impossible to delete a reconciled transaction."
 msgstr "Imposibil de a suprima o operaţiune listată."
 
-#: src/operations_liste.c:2123
+#: src/operations_liste.c:2127
 msgid ""
 "The contra-transaction of this transfer is reconciled, deletion impossible."
 msgstr ""
 "Contra-operaţiunea acestui virament este listata, suprimarea este imposibilă."
 
-#: src/operations_liste.c:2171
+#: src/operations_liste.c:2175
 msgid ""
 "One of the breakdown lines is a transfer whose contra-transaction is "
 "reconciled.  Deletion canceled."
@@ -6644,11 +6618,11 @@ msgstr ""
 "operaţiunea este listată.Suprimarea este anulată."
 
 #. Delete transaction
-#: src/operations_liste.c:2694
+#: src/operations_liste.c:2682
 msgid "Delete transaction"
 msgstr "Suprima operaţiunea"
 
-#: src/operations_liste.c:3125
+#: src/operations_liste.c:3114
 msgid "Cannot move a transfer on his contra-account"
 msgstr "Imposibil de a deplasa un virament spre contul său de destinaţie"
 
@@ -6822,33 +6796,6 @@ msgstr "Navigator web"
 msgid "Wait please..."
 msgstr "Aşteptaţi un moment..."
 
-#: src/print_config.c:40
-msgid "A3"
-msgstr "A3"
-
-#: src/print_config.c:42
-msgid "A5"
-msgstr "A5"
-
-#: src/print_config.c:43
-msgid "A6"
-msgstr "A6"
-
-#: src/print_config.c:44
-#, fuzzy
-msgid "USletter"
-msgstr "Scrisoare"
-
-#: src/print_config.c:45
-#, fuzzy
-msgid "USlegal"
-msgstr "Senegal"
-
-#: src/print_config.c:46
-#, fuzzy
-msgid "USexecutive"
-msgstr "Executivă"
-
 #: src/print_config.c:78
 msgid "General"
 msgstr "Generalităţi"
@@ -6900,12 +6847,10 @@ msgid "Footers"
 msgstr "Josul paginii"
 
 #: src/qif.c:119 src/qif.c:176
-#, fuzzy
 msgid "bank"
 msgstr "Bancă"
 
 #: src/qif.c:122 src/qif.c:197
-#, fuzzy
 msgid "cash"
 msgstr "În lichid"
 
@@ -7054,54 +6999,54 @@ msgstr "Terţul '%s' există deja."
 
 #. Should not happen theorically
 #. Should not happen!
-#: src/type_operations.c:106 src/type_operations.c:878
+#: src/type_operations.c:107 src/type_operations.c:885
 msgid "Serious brain damage expected."
 msgstr "Mari probleme în perspectivă."
 
-#: src/type_operations.c:264
+#: src/type_operations.c:265
 msgid "Known payment methods"
 msgstr "Moduri de plată definite"
 
-#: src/type_operations.c:313
+#: src/type_operations.c:314
 msgid "Default"
 msgstr "Configuraţie de bază"
 
-#: src/type_operations.c:325
+#: src/type_operations.c:326
 msgid "Numbering"
 msgstr "Numerotare"
 
-#: src/type_operations.c:369
+#: src/type_operations.c:370
 msgid "Payment method details"
 msgstr "Detalii asupra modului de plată"
 
 #. Automatic numbering
-#: src/type_operations.c:393
+#: src/type_operations.c:394
 msgid "Automatic numbering"
 msgstr "Numerotare automatică"
 
-#: src/type_operations.c:409
+#: src/type_operations.c:410
 msgid "Activate"
 msgstr "A activa"
 
 #. Payment method type
-#: src/type_operations.c:417
+#: src/type_operations.c:418
 msgid "Type"
 msgstr "Tip"
 
 #. Neutral type
-#: src/type_operations.c:429
+#: src/type_operations.c:430
 msgid "Neutral"
 msgstr "Neutru"
 
-#: src/type_operations.c:915
+#: src/type_operations.c:922
 msgid "New payment method"
 msgstr "Nou mod de plată"
 
-#: src/type_operations.c:1014
+#: src/type_operations.c:1012
 msgid "Delete a payment method"
 msgstr "Ştergerea unui mod de plată"
 
-#: src/type_operations.c:1022
+#: src/type_operations.c:1020
 msgid ""
 "Some transactions still use that payment method.  As deletion of this method "
 "is irreversible, these transactions are to be associated with another "
@@ -7110,7 +7055,7 @@ msgstr ""
 "Operaţiunile sunt încă afectate de acest mod de plată.Această suprimare "
 "fiind ireversibilă, aceste operaţiuni vor fi asociate la un alt mod de plată."
 
-#: src/type_operations.c:1039
+#: src/type_operations.c:1037
 msgid "Associate transactions with"
 msgstr "Asocia aceste operaţiuni cu"
 
@@ -7160,6 +7105,37 @@ msgid "This transfer has a reconciled contra-transaction, deletion canceled."
 msgstr ""
 "Contra-operaţiunea acestui virament este relevată şi deci nu se poate "
 "suprima."
+
+#~ msgid "A3"
+#~ msgstr "A3"
+
+#~ msgid "A5"
+#~ msgstr "A5"
+
+#~ msgid "A6"
+#~ msgstr "A6"
+
+#, fuzzy
+#~ msgid "USletter"
+#~ msgstr "Scrisoare"
+
+#, fuzzy
+#~ msgid "USlegal"
+#~ msgstr "Senegal"
+
+#, fuzzy
+#~ msgid "USexecutive"
+#~ msgstr "Executivă"
+
+#, fuzzy
+#~ msgid "Value"
+#~ msgstr "Data de valoare"
+
+#~ msgid "Recover breakdown?"
+#~ msgstr "Recuperarea ventilaţiilor ?"
+
+#~ msgid "Do you want to recover all the lines of the last breakdown?"
+#~ msgstr "Vreţi să recuperaţi de asemenea operaţiunile ultimei ventilaţii ?"
 
 #~ msgid ""
 #~ "Impossible to create or entry an automatic scheduled transaction\n"
