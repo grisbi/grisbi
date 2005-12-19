@@ -388,7 +388,7 @@ gboolean question_conditional_yes_no ( gchar *texte, int * var )
 gchar *demande_texte ( gchar *titre_fenetre,
 		       gchar *question )
 {
-    GtkWidget *dialog, *label, *entree, *hbox;
+    GtkWidget *dialog, *entree, *hbox;
     gint resultat;
     gchar *retour;
 
@@ -397,7 +397,7 @@ gchar *demande_texte ( gchar *titre_fenetre,
     gtk_dialog_set_default_response ( GTK_DIALOG(dialog), GTK_RESPONSE_OK ); 
 
     hbox = gtk_hbox_new ( FALSE, 12 );
-    gtk_box_pack_start ( GTK_DIALOG ( dialog ) -> vbox, hbox, FALSE, FALSE, 0 );
+    gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox ), hbox, FALSE, FALSE, 0 );
     gtk_box_pack_start ( GTK_BOX ( hbox ), gtk_label_new(COLON(_("Input"))), 
 			 FALSE, FALSE, 6 );
 
