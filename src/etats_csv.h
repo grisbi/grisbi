@@ -1,6 +1,6 @@
 /* fichier d'en tête etats_csv.h */
 
-struct struct_etat_affichage csv_affichage;
+extern struct struct_etat_affichage csv_affichage;
 
 /* Csv backend functions */
 gint csv_initialise (GSList * opes_selectionnees);

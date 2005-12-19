@@ -32,14 +32,26 @@
 #include "utils_files.h"
 #include "print_config.h"
 #include "dialog.h"
+#include "include.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
 static void browse_file ( GtkButton *button, gpointer data );
+static gint get_line_from_file ( FILE *fichier,
+			  gchar **string );
+static GtkWidget * my_file_chooser ();
+static gchar* my_get_grisbirc_dir(void);
+static gchar* my_get_gsb_file_default_dir(void);
+static gchar * safe_file_name ( gchar* filename );
+static gint utf8_open(gchar* utf8filename,gint mode);
+static gint utf8_remove(const gchar* utf8filename);
+static gint utf8_stat(gchar* utf8filename,struct stat* filestat);
+static gint utf8_xmlSaveFormatFile(const gchar *utf8filename, xmlDocPtr cur, gint format);
 /*END_STATIC*/
 
 
 /*START_EXTERN*/
+extern gchar version[10];
 extern GtkWidget *window;
 /*END_EXTERN*/
 
