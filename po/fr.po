@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-12-19 11:18+0100\n"
-"PO-Revision-Date: 2005-12-19 11:28+0100\n"
+"PO-Revision-Date: 2005-12-19 21:31+0100\n"
 "Last-Translator: Alain PORTAL <aportal@univ-montp2.fr>\n"
 "Language-Team: français <traduc@traduc.org>\n"
 "MIME-Version: (null)\n"
@@ -5742,7 +5742,7 @@ msgstr "Thierry Thomas (thierry[at]pompo.net) : paquets FreeBSD"
 
 #: src/help.c:62
 msgid "Vincent Marqueton (vincent[at]marqueton.com): Fink packaging"
-msgstr "Vincent Marqueton (vincent[at]marqueton.org): paquets Fink"
+msgstr "Vincent Marqueton (vincent[at]marqueton.com): paquets Fink"
 
 #: src/help.c:65
 msgid "Alain Portal (dionysos[at]grisbi.org): English"
