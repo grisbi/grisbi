@@ -1,3 +1,12 @@
+New in version 0.5.8 :
+ - Bug fixes
+ - Some minor UI tweaking
+ - CSV export of reports
+ - Chinese translation thanks to Jianyu Tang
+ - Czech translation thanks to Marek Donar
+ - Romanian translation thanks to Mircea Aronovici
+ - Russian translation thanks to Alexandre Prokoudine
+
 New in version 0.5.7 :
  - Bug fixes
 

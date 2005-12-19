@@ -398,7 +398,7 @@ gchar *demande_texte ( gchar *titre_fenetre,
 
     hbox = gtk_hbox_new ( FALSE, 12 );
     gtk_box_pack_start ( GTK_DIALOG ( dialog ) -> vbox, hbox, FALSE, FALSE, 0 );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), gtk_label_new(COLON(_("Value"))), 
+    gtk_box_pack_start ( GTK_BOX ( hbox ), gtk_label_new(COLON(_("Input"))), 
 			 FALSE, FALSE, 6 );
 
     entree = gtk_entry_new ();

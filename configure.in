@@ -5,7 +5,7 @@ AM_ACLOCAL_INCLUDE(macros)
 AM_MAINTAINER_MODE
 
 PACKAGE=grisbi
-VERSION=0.5.7
+VERSION=0.5.8
 dnl MKINSTALLDIRS
 dnl AC_DEFINE_UNQUOTED(PACKAGE, "$PACKAGE")
 dnl AC_DEFINE_UNQUOTED(VERSION, "$VERSION")
@@ -18,7 +18,7 @@ AC_STDC_HEADERS
 AC_PROG_RANLIB
 
 dnl Check for NLS support.
-ALL_LINGUAS="de es fr it pl pt_BR nl ro ru zh_CN cs"
+ALL_LINGUAS="cs de es fr it pl pt_BR nl ro ru zh_CN"
 AM_GNU_GETTEXT
 AC_CHECK_LIB(intl,main)
 
