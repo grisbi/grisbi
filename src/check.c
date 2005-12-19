@@ -39,25 +39,14 @@
 
 
 /*START_STATIC*/
-static gboolean contra_transaction_check ( void );
-static gboolean debug_check ( void );
-static gboolean duplicate_budgetary_line_check ();
-static gboolean duplicate_categ_check ();
-static gboolean financial_years_check ( void );
-static gint find_duplicate_budgetary_line ( struct struct_sous_imputation * a, 
-				     struct struct_sous_imputation * b );
-static gint find_duplicate_categ ( struct struct_sous_categ * a, struct struct_sous_categ * b );
-static gboolean reconciliation_check ( void );
+gboolean reconciliation_check ( void );
+gboolean duplicate_categ_check ( void );
+gboolean duplicate_budgetary_line_check ( void );
+gboolean contra_transaction_check ( void );
+gboolean financial_years_check ( void );
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern GSList *liste_struct_categories;
-extern GSList *liste_struct_imputation;
-extern int nb_comptes;
-extern GSList *ordre_comptes;
-extern gpointer ** p_tab_nom_de_compte ;
-extern gpointer ** p_tab_nom_de_compte_variable;
-extern gchar version[10];
 /*END_EXTERN*/
 
 

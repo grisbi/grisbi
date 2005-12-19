@@ -2494,6 +2494,7 @@ void verification_mise_a_jour_liste ( void )
 {
     GtkAdjustment *ajustement;
     gfloat haut, bas, value, page_size;
+    gfloat new_bas, new_value;
     gint compte;
 
     compte = gtk_notebook_get_current_page ( GTK_NOTEBOOK ( notebook_listes_operations )) - 1;

@@ -32,7 +32,6 @@
 
 
 /*START_EXTERN*/
-extern gchar version[10];
 /*END_EXTERN*/
 
 
