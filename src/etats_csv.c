@@ -66,7 +66,7 @@ gint csv_lastline = 1;
 void csv_attach_label ( gchar * text, gdouble properties, int x, int x2, int y, int y2, 
 			  enum alignement align, struct structure_operation * ope )
 {
-    int pad, realsize, realcolumns, i;
+    int pad, realsize, realcolumns;
 
     if ( !text )
 	text = "";
@@ -79,7 +79,7 @@ void csv_attach_label ( gchar * text, gdouble properties, int x, int x2, int y, 
     }
 
     for ( pad = csv_lastcol ; pad < x ; pad ++ )
-	fprintf ( csv_out, "," );
+	fprintf ( csv_out, ";" );
 
     realsize = (x2 - x);
     if ( realsize > 1 )
@@ -103,7 +103,7 @@ void csv_attach_label ( gchar * text, gdouble properties, int x, int x2, int y, 
     fprintf ( csv_out, "\"" );
 
     for ( x++; x < x2 ; x ++ )
-	fprintf ( csv_out, "," );
+	fprintf ( csv_out, ";" );
 
     csv_lastcol = x2;
 }
@@ -147,11 +147,62 @@ void csv_attach_hsep ( int x, int x2, int y, int y2)
  */
 gint csv_initialise (GSList * opes_selectionnees)
 {
-    gfloat colwidth, real_width;
     gchar * filename;
-    int i;
+    gint resultat;
+    GtkWidget * file_selector;
 
-    filename = "output.csv";
+    file_selector = gtk_file_selection_new ( _("Export report as CSV..."));
+    file_selection_set_filename ( GTK_FILE_SELECTION ( file_selector ),
+				  dernier_chemin_de_travail );
+
+    file_selection_set_entry ( GTK_FILE_SELECTION ( file_selector ), 
+			       safe_file_name ( g_strconcat (etats_titre(), ".csv", NULL)));
+
+    do 
+    {
+	resultat = gtk_dialog_run ( GTK_DIALOG (file_selector) );
+	if ( resultat == GTK_RESPONSE_OK )
+	{
+	    FILE * test;
+	    gchar * filename;
+
+	    filename = file_selection_get_filename ( GTK_FILE_SELECTION ( file_selector ));
+
+	    test = utf8_fopen ( filename, "r" );
+	    if ( test )
+	    {
+		fclose ( test );
+		if ( question_yes_no_hint ( g_strdup_printf ( _("File %s already exists."), 
+							      filename ),
+					    _("Do you want to overwrite it?  There is no undo for this.") ) )
+		{
+		    break;
+		}
+	    }
+	    else
+	    {
+		break;
+	    }
+	}
+	else
+	{
+	    break;
+	}
+    }
+    while ( 1 );
+
+    switch ( resultat )
+      {
+      case GTK_RESPONSE_OK :
+	filename = file_selection_get_filename ( GTK_FILE_SELECTION ( file_selector ));
+	break;
+	
+      default:
+	gtk_widget_destroy ( file_selector );
+	return FALSE;
+      }
+    gtk_widget_destroy ( file_selector );
+
     unlink ( filename );
     csv_out = utf8_fopen ( filename, "w+x" );
     if ( ! csv_out )
@@ -159,8 +210,6 @@ gint csv_initialise (GSList * opes_selectionnees)
 	dialogue_error ( g_strdup_printf (_("File '%s' already exists"), filename ));
 	return FALSE;
     }
-
-    return TRUE;
 }
 
 
