@@ -592,6 +592,7 @@ GtkWidget * new_currency_list ()
 						     NULL);
     column = gtk_tree_view_get_column (GTK_TREE_VIEW (treeview), col_offset - 1);
     gtk_tree_view_column_set_clickable (GTK_TREE_VIEW_COLUMN (column), TRUE);
+    gtk_tree_view_column_set_expand (GTK_TREE_VIEW_COLUMN (column), TRUE);
 
     cell = gtk_cell_renderer_text_new ();
     col_offset = 
