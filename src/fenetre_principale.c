@@ -142,6 +142,9 @@ GtkWidget * create_main_widget ( void )
     gtk_widget_show ( main_hpaned );
     gtk_widget_show ( main_statusbar );
 
+    /* Blank the transaction list. */
+    gsb_transactions_list_set_store (NULL);
+
     return main_vbox;
 }
 

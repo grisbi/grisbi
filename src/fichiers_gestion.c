@@ -400,12 +400,11 @@ gboolean gsb_file_open_file ( gchar *filename )
     /* we show and update the menus */
     menus_sensitifs ( TRUE );
 
-    /* check the schedulers */
-    gsb_status_message ( _("Checking scheduled transactions"));
-    gsb_scheduler_list_check_scheduled_transactions_time_limit ();
+    /* we make the main window */
+    gsb_status_message ( _("Creating main window"));
+    main_widget = create_main_widget();
 
     /* check the amounts of all the accounts */
-
     gsb_status_message ( _("Checking amounts"));
     list_tmp = gsb_data_account_get_list_accounts ();
 
@@ -428,11 +427,9 @@ gboolean gsb_file_open_file ( gchar *filename )
 	list_tmp = list_tmp -> next;
     }
 
-    /* we make the main window */
-
-    gsb_status_message ( _("Creating main window"));
-
-    main_widget = create_main_widget();
+    /* check the schedulers */
+    gsb_status_message ( _("Checking scheduled transactions"));
+    gsb_scheduler_list_check_scheduled_transactions_time_limit ();
 
     /* set the name of the file in the window title
      * and in the menu of the main window, so main_widget must
@@ -447,7 +444,6 @@ gboolean gsb_file_open_file ( gchar *filename )
     gtk_widget_show ( main_widget );
 
     /* create and fill the gui transactions list */
-
     gtk_box_pack_start ( GTK_BOX ( tree_view_vbox ),
 			 gsb_transactions_list_make_gui_list (),
 			 TRUE,
