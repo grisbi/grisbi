@@ -309,6 +309,9 @@ GtkWidget *creation_liste_etats ( void )
 							   menu_name(_("Reports"), _("Export report as HTML..."), NULL)),
 			       FALSE );
     gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
+							   menu_name(_("Reports"), _("Export report as CSV..."), NULL)),
+			       FALSE );
+    gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
 							   menu_name(_("Reports"), _("Remove report"), NULL)),
 			       FALSE );
     gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
@@ -1080,6 +1083,9 @@ void efface_etat ( void )
 							   menu_name(_("Reports"), _("Export report as HTML..."), NULL)),
 			       FALSE );
     gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
+							   menu_name(_("Reports"), _("Export report as CSV..."), NULL)),
+			       FALSE );
+    gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
 							   menu_name(_("Reports"), _("Export report file"), NULL)),
 			       FALSE );
     gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
@@ -1123,6 +1129,9 @@ void changement_etat ( GtkWidget *bouton,
 			       TRUE );
     gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
 							   menu_name(_("Reports"), _("Export report as HTML..."), NULL)),
+			       TRUE );
+    gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
+							   menu_name(_("Reports"), _("Export report as CSV..."), NULL)),
 			       TRUE );
     gtk_widget_set_sensitive ( gtk_item_factory_get_item ( item_factory_menu_general,
 							   menu_name(_("Reports"), _("Export report file"), NULL)),
