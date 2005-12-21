@@ -414,6 +414,7 @@ void import_preview_maybe_sensitive_next ( GtkWidget * assistant, GtkTreeModel *
 gboolean import_select_file ( GtkWidget * button, GtkWidget * assistant )
 {
     GtkWidget * dialog;
+    GtkFileFilter * filter;
 
     dialog = gtk_file_chooser_dialog_new ( _("Choose files to import."),
 					   NULL, GTK_FILE_CHOOSER_ACTION_OPEN,
@@ -421,6 +422,36 @@ gboolean import_select_file ( GtkWidget * button, GtkWidget * assistant )
 					   GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT,
 					   NULL );
     gtk_file_chooser_set_select_multiple ( GTK_FILE_CHOOSER ( dialog ), TRUE );
+
+    filter = gtk_file_filter_new ();
+    gtk_file_filter_set_name ( filter, _("All files") );
+    gtk_file_filter_add_pattern ( filter, "*" );
+    gtk_file_chooser_add_filter ( dialog, filter );
+    gtk_file_chooser_set_filter ( dialog, filter );
+
+    filter = gtk_file_filter_new ();
+    gtk_file_filter_set_name ( filter, _("QIF files") );
+    gtk_file_filter_add_pattern ( filter, "*.qif" );
+    gtk_file_chooser_add_filter ( dialog, filter );
+
+    filter = gtk_file_filter_new ();
+    gtk_file_filter_set_name ( filter, _("OFX files") );
+    gtk_file_filter_add_pattern ( filter, "*.ofx" );
+    gtk_file_chooser_add_filter ( dialog, filter );
+
+    filter = gtk_file_filter_new ();
+    gtk_file_filter_set_name ( filter, _("Gnucash files") );
+    gtk_file_filter_add_pattern ( filter, "*.gnc" );
+    gtk_file_filter_add_pattern ( filter, "*.gnucash" );
+    gtk_file_chooser_add_filter ( dialog, filter );
+
+    filter = gtk_file_filter_new ();
+    gtk_file_filter_set_name ( filter, _("CSV files") );
+    gtk_file_filter_add_pattern ( filter, "*.csv" );
+    gtk_file_filter_add_pattern ( filter, "*.tsv" );
+    gtk_file_filter_add_pattern ( filter, "*.txt" );
+    gtk_file_chooser_add_filter ( dialog, filter );
+
 
     if ( gtk_dialog_run ( GTK_DIALOG (dialog ) ) == GTK_RESPONSE_ACCEPT )
     {
@@ -706,7 +737,7 @@ GSList * import_selected_files ( GtkWidget * assistant )
 	struct imported_file * imported;
 	gboolean selected;
 
-	imported = g_malloc ( sizeof ( struct imported_file * ) );
+	imported = g_malloc0 ( sizeof ( struct imported_file ) );
 	gtk_tree_model_get ( GTK_TREE_MODEL ( model ), &iter, 
 			     IMPORT_FILESEL_SELECTED, &selected,
 			     IMPORT_FILESEL_REALNAME, &(imported -> name), 
@@ -1129,7 +1160,7 @@ void traitement_operations_importees ( void )
     if ( mise_a_jour_combofix_categ_necessaire )
 	mise_a_jour_combofix_categ();
 
-    gsb_status_clear();
+/*     gsb_status_clear(); */
 
     modification_fichier ( TRUE );
 }
