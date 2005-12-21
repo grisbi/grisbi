@@ -47,7 +47,7 @@ static gchar * sanitize_field ( gchar * begin, gchar * end  );
  *
  *
  */
-GSList * csv_parse_line ( gchar * contents[], gchar * separator )
+GSList * csv_parse_line ( gchar ** contents, gchar * separator )
 {
     gchar * tmp = (* contents), * begin = tmp;
     gint is_unquoted = FALSE, len = strlen ( separator );
@@ -80,7 +80,7 @@ GSList * csv_parse_line ( gchar * contents[], gchar * separator )
 		    tmp++;
 		    while ( *tmp )
 		    {
-			/* Thsi is lame escaping but we need to
+			/* This is lame escaping but we need to
 			 * support it. */
 			if ( *tmp == '\\' && *(tmp+1) == '"' )
 			{
@@ -127,10 +127,10 @@ gchar * sanitize_field ( gchar * begin, gchar * end  )
 
     g_return_val_if_fail ( begin <= end, NULL );
 
-    if ( begin == end )
+    if ( end <= begin )
 	return "";
 
-    iter = field = g_malloc ( end - begin );
+    iter = field = g_malloc0 ( end - begin + 1 );
 
     /* Strip out intial white spaces. */
     while ( *begin == ' ' )
