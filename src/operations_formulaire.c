@@ -130,7 +130,6 @@ extern gint mise_a_jour_combofix_tiers_necessaire;
 extern gint mise_a_jour_fin_comptes_passifs;
 extern gint mise_a_jour_liste_comptes_accueil;
 extern gint mise_a_jour_soldes_minimaux;
-extern gint nb_colonnes;
 extern FILE * out;
 extern gdouble taux_de_change[2];
 extern GtkTooltips *tooltips_general_grisbi;

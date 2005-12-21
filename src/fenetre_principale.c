@@ -32,6 +32,7 @@
 #include "echeancier_onglet.h"
 #include "etats_onglet.h"
 #include "erreur.h"
+#include "gsb_transactions_list.h"
 #include "main.h"
 #include "categories_onglet.h"
 #include "imputation_budgetaire.h"

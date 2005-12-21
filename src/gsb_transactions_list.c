@@ -116,7 +116,6 @@ static void gsb_transactions_list_set_filter (GtkTreeModel *filter_model);
 static GtkTreeModel *gsb_transactions_list_set_filter_store ( GtkTreeStore *store );
 static void gsb_transactions_list_set_sortable (GtkTreeModel *sortable_model);
 static GtkTreeModel *gsb_transactions_list_set_sorting_store ( GtkTreeModel *filter_model );
-static void gsb_transactions_list_set_store (GtkTreeStore *store);
 static void gsb_transactions_list_set_tree_view (GtkWidget *tree_view);
 static gboolean gsb_transactions_list_sort_column_changed ( GtkTreeViewColumn *tree_view_column );
 static void gsb_transactions_list_swap_children ( GtkTreeIter *new_mother_iter,

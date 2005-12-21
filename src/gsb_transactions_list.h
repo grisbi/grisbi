@@ -93,6 +93,7 @@ gboolean gsb_transactions_list_move_to_current_transaction ( gint no_account );
 gboolean gsb_transactions_list_set_adjustment_value ( gint account_number );
 gboolean gsb_transactions_list_set_background_color ( gint no_account );
 gboolean gsb_transactions_list_set_current_transaction ( gint transaction_number );
+void gsb_transactions_list_set_store (GtkTreeStore *store);
 gboolean gsb_transactions_list_set_transactions_balances ( gint no_account );
 void gsb_transactions_list_set_visible_rows_number ( gint rows_number );
 gboolean gsb_transactions_list_set_visibles_rows_on_account ( gint no_account );
