@@ -242,20 +242,29 @@ gboolean csv_import_header_on_click ( GtkWidget * button, GdkEventButton * ev,
  */
 gchar * csv_import_guess_separator ( gchar * contents )
 {
-    gchar * separators[] = { ",", ";", "	", " ", NULL };
-    gint i;
+    gchar * separators[5] = { ",", ";", "	", " ", NULL }, * cmax = NULL;
+    gint i, max = 0;
 
     for ( i = 0 ; separators[i] ; i++ )
     {
-	if ( csv_import_try_separator ( contents, separators[i] ) )
+	gchar * tmp = contents;
+	int n = csv_import_try_separator ( tmp, separators[i] );;
+
+	if ( n > max )
 	{
-	    return my_strdup ( separators[i] );
+	    max = n;
+	    cmax = separators[i];
 	}
+    }
+
+    if ( cmax )
+    {
+	return g_strdup ( cmax );
     }
 
     /* Comma is the most used separator, so as we are puzzled we try
      * this one. */
-    return ",";
+    return g_strdup ( "," );
 }
 
 
@@ -265,10 +274,20 @@ gchar * csv_import_guess_separator ( gchar * contents )
  *
  *
  */
-gboolean csv_import_try_separator ( gchar * contents, gchar * separator )
+gint csv_import_try_separator ( gchar * contents, gchar * separator )
 {
     GSList * list;
     int cols, i = 0;
+
+    printf ("Skipping three lines\n");
+    for ( i = 0; i < 3; i ++ )
+    {
+	do 
+	{
+	    list = csv_parse_line ( &contents, separator );
+	}
+	while ( list ==  GINT_TO_POINTER(-1) );
+    }
 
     do 
     {
@@ -296,8 +315,8 @@ gboolean csv_import_try_separator ( gchar * contents, gchar * separator )
     } 
     while ( list && i < 10 );
 
-    printf ("> I believe separator is %s\n", separator );
-    return TRUE;
+    printf ("> I believe separator could be %s\n", separator );
+    return cols;
 }
 
 
@@ -365,10 +384,10 @@ gint * csv_import_update_fields_config ( gchar * contents, gint size )
 	csv_fields_config[i] = 0;
     }
 
-    if ( old_csv_fields_config )
-    {
-	g_free ( old_csv_fields_config );
-    }
+/*     if ( old_csv_fields_config ) */
+/*     { */
+/* 	g_free ( old_csv_fields_config ); */
+/*     } */
     csv_fields_config [ i ] = -1;    
 
     return csv_fields_config;
@@ -386,8 +405,7 @@ gint * csv_import_guess_fields_config ( gchar * contents, gint size )
     gint * default_config;
     gint benj_config[13] = { 0, 0, 2, 13, 4, 10, 12, 0, 7, 8, 5, 0 };
 
-    default_config = (gint *) g_malloc ( size * sizeof ( int ) );
-/*     bzero ( default_config, size * sizeof(int) );  */
+    default_config = (gint *) g_malloc ( ( size + 1 ) * sizeof ( int ) );
     bcopy ( benj_config, default_config, size * sizeof(int) );
 
     default_config [ size ] = -1;
@@ -569,9 +587,9 @@ gboolean import_enter_csv_preview_page ( GtkWidget * assistant )
     entry = g_object_get_data ( G_OBJECT(assistant), "entry" );
     if ( entry )
     {
+/* 	gtk_entry_set_text ( GTK_ENTRY(entry), "," ); */
 	gtk_entry_set_text ( GTK_ENTRY(entry), csv_import_guess_separator ( contents ) );
     }
-
 
     return FALSE;
 }
