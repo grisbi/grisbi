@@ -5,8 +5,9 @@
 #include "gsb_form_config.h"
 /* END_INCLUDE_H */
 
+/* normally should have here only gsb_form_config_create_page */
 
 /* START_DECLARATION */
-GtkWidget *onglet_display_transaction_form ( void );
+GtkWidget *gsb_form_config_create_page ( void );
 /* END_DECLARATION */
 #endif

@@ -28,6 +28,7 @@
 #include "utils_buttons.h"
 #include "dialog.h"
 #include "gsb_data_account.h"
+#include "gsb_form_config.h"
 #include "traitement_variables.h"
 #include "utils_str.h"
 #include "utils_editables.h"
@@ -35,7 +36,6 @@
 #include "banque.h"
 #include "devises.h"
 #include "affichage.h"
-#include "gsb_form_config.h"
 #include "exercice.h"
 #include "import.h"
 #include "type_operations.h"
@@ -329,7 +329,7 @@ void preferences ( gint page )
 			0, _("Form content"),
 			1, TRANSACTION_FORM_PAGE,
 			-1);
-    gtk_notebook_append_page (preference_frame, onglet_display_transaction_form(), NULL);
+    gtk_notebook_append_page (preference_frame, gsb_form_config_create_page(), NULL);
 
     gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2,&iter );
     gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),

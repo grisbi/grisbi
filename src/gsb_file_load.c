@@ -3546,372 +3546,6 @@ void gsb_file_load_amount_comparison ( const gchar **attribute_names,
 
 
 
-/**
- * called after downloading a file, check the version and do the changes if
- * necessary
- * 
- * \param
- * 
- * \return
- * */
-gboolean gsb_file_load_update_previous_version ( void )
-{
-    struct struct_devise *devise;
-    struct stat buffer_stat;
-    GSList *list_tmp;
-    gint i;
-    GSList *list_tmp_transactions;
-    gint version_number;
-
-    version_number = utils_str_atoi ( g_strjoinv ( "",
-						   g_strsplit ( download_tmp_values.file_version,
-								".",
-								0 )));
-
-    /*     par défaut le fichier n'est pas modifié sauf si on charge une version précédente */
-
-    modification_fichier ( FALSE );
-
-    switch ( version_number )
-    {
-	/* ************************************* */
-	/*     ouverture d'un fichier 0.4.0      */
-	/* ************************************* */
-
-	case 40:
-
-	    /* il n'y a aucune différence de struct entre la 0.4.0 et la 0.4.1 */
-	    /* sauf que la 0.4.0 n'attribuait pas le no de relevé aux opés filles */
-	    /* d'une ventilation */
-
-	    list_tmp_transactions = gsb_data_transaction_get_transactions_list ();
-
-	    while ( list_tmp_transactions )
-	    {
-		gint transaction_number_tmp;
-		transaction_number_tmp = gsb_data_transaction_get_transaction_number (list_tmp_transactions -> data);
-
-		/*  si l'opération est une ventil, on refait le tour de la liste pour trouver ses filles */
-
-		if ( gsb_data_transaction_get_breakdown_of_transaction (transaction_number_tmp))
-		{
-		    GSList *list_tmp_transactions_2;
-		    list_tmp_transactions_2 = gsb_data_transaction_get_transactions_list ();
-
-		    while ( list_tmp_transactions_2 )
-		    {
-			gint transaction_number_tmp_2;
-			transaction_number_tmp_2 = gsb_data_transaction_get_transaction_number (list_tmp_transactions_2 -> data);
-
-			if ( gsb_data_transaction_get_account_number (transaction_number_tmp_2) == gsb_data_transaction_get_account_number (transaction_number_tmp)
-			     &&
-			     gsb_data_transaction_get_mother_transaction_number (transaction_number_tmp_2) == transaction_number_tmp)
-			    gsb_data_transaction_set_reconcile_number ( transaction_number_tmp_2,
-									gsb_data_transaction_get_reconcile_number (transaction_number_tmp));
-
-			list_tmp_transactions_2 = list_tmp_transactions_2 -> next;
-		    }
-		}
-		list_tmp_transactions = list_tmp_transactions -> next;
-	    }
-
-
-	    /* ************************************* */
-	    /* 	    ouverture d'un fichier 0.4.1     */
-	    /* ************************************* */
-
-	case 41:
-
-	    /*     ajout de la 0.5 -> valeur_echelle_recherche_date_import qu'on me à 2 */
-
-	    valeur_echelle_recherche_date_import = 2;
-
-	    /* 	    passage à l'utf8 : on fait le tour des devises pour retrouver l'euro */
-	    /* Handle Euro nicely */
-
-	    devise = devise_par_nom ( my_strdup ("Euro"));
-
-	    if ( devise )
-	    {
-		devise -> code_devise = "€";
-		devise -> code_iso4217_devise = my_strdup ("EUR");
-	    }
-
-
-	    /* ************************************* */
-	    /* 	    ouverture d'un fichier 0.5.0     */
-	    /* ************************************* */
-
-	case 50:
-	    /* pour l'instant le fichier 0.5.1 ne diffère pas de la version 0.5.0 */
-	    /*     excepté un changement dans la notation du pointage */
-	    /*     rien=0 ; P=1 ; T=2 ; R=3 */
-	    /*     on fait donc le tour des opés pour inverser R et P */
-
-	    switch_t_r ();
-
-	    /* 	    un bug dans la 0.5.0 permettait à des comptes d'avoir un affichage différent, */
-	    /* 	    même si celui ci devait être identique pour tous, on vérifie ici */
-
-	    if ( !etat.retient_affichage_par_compte )
-	    {
-		gint affichage_r;
-		gint nb_lignes_ope;
-		GSList *list_tmp;
-
-		affichage_r = gsb_data_account_get_r (gsb_data_account_get_current_account ());
-		nb_lignes_ope = gsb_data_account_get_nb_rows ( gsb_data_account_get_current_account () );
-
-		list_tmp = gsb_data_account_get_list_accounts ();
-
-		while ( list_tmp )
-		{
-		    i = gsb_data_account_get_no_account ( list_tmp -> data );
-
-		    gsb_data_account_set_r ( i,
-					affichage_r );
-		    gsb_data_account_set_nb_rows ( i, 
-					      nb_lignes_ope );
-
-		    list_tmp = list_tmp -> next;
-		}
-	    } 
-
-
-    
-
-	    /* ************************************* */
-	    /* 	    ouverture d'un fichier 0.5.1     */
-	    /* ************************************* */
-
-	case 51:
-
-	    /* ************************************* */
-	    /* 	    ouverture d'un fichier 0.5.5     */
-	    /* ************************************* */
-
-	case 55:
-
-	    /* now the order of the accounts are the order in the GSList */
-
-	    gsb_data_account_reorder ( sort_accounts );
-	    g_slist_free ( sort_accounts );
-
-	    list_tmp = gsb_data_account_get_list_accounts ();
-
-	    while ( list_tmp )
-	    {
-		i = gsb_data_account_get_no_account ( list_tmp -> data );
-
-		/* set the new form organization */
-		gsb_data_form_new_organization (i);
-		gsb_data_form_set_default_organization (i);
-
-		/* 	   set the current sort by date and ascending sort */
-		init_default_sort_column (i);
-
-		list_tmp = list_tmp -> next;
-	    }
-
-	case 56:
-	case 57:
-
-	    /* a problem untill the 0.5.7 :
-	     * all new method of payment are not added to the sorting list for reconciliation,
-	     * we add them here */
-
-	    list_tmp = gsb_data_account_get_list_accounts ();
-
-	    while ( list_tmp )
-	    {
-		GSList *method_payment_list;
-
-		i = gsb_data_account_get_no_account ( list_tmp -> data );
-		method_payment_list = gsb_data_account_get_method_payment_list ( i );
-
-		while (method_payment_list)
-		{
-		    struct struct_type_ope *type;
-
-		    type = method_payment_list -> data;
-		    
-		    if ( !g_slist_find ( gsb_data_account_get_sort_list (i),
-					 GINT_TO_POINTER (type -> no_type)))
-			/* FIXME before 0.6 : faire une fonction add pour les types opés et method of payment */
-			gsb_data_account_set_sort_list ( i,
-							 g_slist_append ( gsb_data_account_get_sort_list (i),
-									  GINT_TO_POINTER (type -> no_type)));
-
-		    method_payment_list = method_payment_list -> next;
-		}
-		list_tmp = list_tmp -> next;
-	    }
-
-	    /* a problem untill the 0.5.7, the children of a scheduled breakdown are marked
-	     * as a breakdown mother */
-
-	    list_tmp_transactions = gsb_data_scheduled_get_scheduled_list ();
-
-	    while ( list_tmp_transactions )
-	    {
-		gint scheduled_number;
-		scheduled_number = gsb_data_scheduled_get_scheduled_number (list_tmp_transactions -> data);
-
-		if ( gsb_data_scheduled_get_mother_scheduled_number (scheduled_number))
-		    gsb_data_scheduled_set_breakdown_of_scheduled ( scheduled_number,
-								    0 );
-		list_tmp_transactions = list_tmp_transactions -> next;
-	    }
-
-
-
-	case 58:
-
-	    /* there is a bug untill now, which is some children of breakdown
-	     * are not marked R, and the mother is...
-	     * very annoying now, we MUST mark them as R, so check here... */
-
-	    list_tmp_transactions = gsb_data_transaction_get_transactions_list ();
-
-	    while ( list_tmp_transactions )
-	    {
-		gint transaction_number;
-		transaction_number = gsb_data_transaction_get_transaction_number (list_tmp_transactions -> data);
-
-		/*  if it's a breakdown and marked R, we look for the children */
-
-		if ( gsb_data_transaction_get_breakdown_of_transaction (transaction_number)
-		     &&
-		     gsb_data_transaction_get_marked_transaction (transaction_number) == 3)
-		{
-		    GSList *list_tmp_transactions_2;
-		    list_tmp_transactions_2 = gsb_data_transaction_get_transactions_list ();
-
-		    while ( list_tmp_transactions_2 )
-		    {
-			gint transaction_number_2;
-			transaction_number_2 = gsb_data_transaction_get_transaction_number (list_tmp_transactions_2 -> data);
-
-			if ( gsb_data_transaction_get_mother_transaction_number (transaction_number_2) == transaction_number)
-			    gsb_data_transaction_set_marked_transaction ( transaction_number_2,
-									  3 );
-			list_tmp_transactions_2 = list_tmp_transactions_2 -> next;
-		    }
-		}
-		list_tmp_transactions = list_tmp_transactions -> next;
-	    }
-
-	    /* change to the 0.6.0 : the number of choice of periodicity
-	     * now 7 choice => in scheduler_periodicity, we have to change
-	     * the last choices to the new numbers */
-
-	    list_tmp_transactions = gsb_data_scheduled_get_scheduled_list ();
-
-	    while ( list_tmp_transactions )
-	    {
-		gint scheduled_number;
-
-		scheduled_number = gsb_data_scheduled_get_scheduled_number (list_tmp_transactions -> data);
-
-		switch ( gsb_data_scheduled_get_frequency (scheduled_number))
-		{
-		    case 0:
-		    case 1:
-		    case 2:
-			/* for once, weekly and months, no change */
-			break;
-
-		    case 3:
-			/* year frequency */
-			gsb_data_scheduled_set_frequency ( scheduled_number,
-							   SCHEDULER_PERIODICITY_YEAR_VIEW );
-			break;
-
-			/* there is a bug and the periodicity can be more than 4...
-			 * so set the default here to set it to SCHEDULER_PERIODICITY_CUSTOM_VIEW */
-		    case 4:
-		    default:
-			/* custom frequency */
-			gsb_data_scheduled_set_frequency ( scheduled_number,
-							   SCHEDULER_PERIODICITY_CUSTOM_VIEW );
-			break;
-		}
-
-		switch ( gsb_data_scheduled_get_user_interval ( scheduled_number ))
-		{
-		    case 0:
-			/* no change for day */
-			break;
-
-		    case 1:
-			/* for months */
-			gsb_data_scheduled_set_user_interval ( scheduled_number,
-							       PERIODICITY_MONTHS );
-			break;
-
-		    case 2:
-			/* for years */
-			gsb_data_scheduled_set_user_interval ( scheduled_number,
-							       PERIODICITY_YEARS );
-			break;
-		}
-							    
-		list_tmp_transactions = list_tmp_transactions -> next;
-	    }
-
-
-
-	    /* ********************************************************* */
-	    /* 	    à mettre à chaque fois juste avant la version stable */
-	    /* ********************************************************* */
-
-	    modification_fichier ( TRUE );
-
-	    /* ************************************* */
-	    /* 	    ouverture d'un fichier 0.6.0     */
-	    /* ************************************* */
-
-	case 60:
-
-
-
-	    break;
-
-	default :
-	    /* 	à ce niveau, c'est que que la version n'est pas connue de grisbi, on donne alors */
-	    /* la version nécessaire pour l'ouvrir */
-
-	    dialogue_error ( g_strdup_printf ( _("Grisbi version %s is needed to open this file.\nYou are using version %s."),
-					       download_tmp_values.grisbi_version,
-					       VERSION ));
-
-	    return ( FALSE );
-    }
-
-    /*     on met maintenant les généralités pour toutes les versions */
-
-    /* 	s'il y avait un ancien logo mais qu'il n'existe plus, on met le logo par défaut */
-
-    if ( !chemin_logo
-	 ||
-	 !strlen ( chemin_logo )
-	 ||
-	 ( chemin_logo
-	   &&
-	   strlen ( chemin_logo )
-	   &&
-	   utf8_stat ( chemin_logo, &buffer_stat) == -1 ))
-	chemin_logo = my_strdup ( LOGO_PATH );
-
-    /* on marque le fichier comme ouvert */
-
-    gsb_file_util_modify_lock ( TRUE );
-
-
-    return TRUE;
-}
-
-
 void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
 					      const gchar *element_name,
 					      const gchar **attribute_names,
@@ -6401,6 +6035,385 @@ void gsb_file_load_report_part_before_0_6 ( GMarkupParseContext *context,
 	return;
     }
 }
+
+/**
+ * called after downloading a file, check the version and do the changes if
+ * necessary
+ * 
+ * \param
+ * 
+ * \return
+ * */
+gboolean gsb_file_load_update_previous_version ( void )
+{
+    struct struct_devise *devise;
+    struct stat buffer_stat;
+    GSList *list_tmp;
+    gint i;
+    GSList *list_tmp_transactions;
+    gint version_number;
+
+    version_number = utils_str_atoi ( g_strjoinv ( "",
+						   g_strsplit ( download_tmp_values.file_version,
+								".",
+								0 )));
+
+    /*     par défaut le fichier n'est pas modifié sauf si on charge une version précédente */
+
+    modification_fichier ( FALSE );
+
+    switch ( version_number )
+    {
+	/* ************************************* */
+	/*     ouverture d'un fichier 0.4.0      */
+	/* ************************************* */
+
+	case 40:
+
+	    /* il n'y a aucune différence de struct entre la 0.4.0 et la 0.4.1 */
+	    /* sauf que la 0.4.0 n'attribuait pas le no de relevé aux opés filles */
+	    /* d'une ventilation */
+
+	    list_tmp_transactions = gsb_data_transaction_get_transactions_list ();
+
+	    while ( list_tmp_transactions )
+	    {
+		gint transaction_number_tmp;
+		transaction_number_tmp = gsb_data_transaction_get_transaction_number (list_tmp_transactions -> data);
+
+		/*  si l'opération est une ventil, on refait le tour de la liste pour trouver ses filles */
+
+		if ( gsb_data_transaction_get_breakdown_of_transaction (transaction_number_tmp))
+		{
+		    GSList *list_tmp_transactions_2;
+		    list_tmp_transactions_2 = gsb_data_transaction_get_transactions_list ();
+
+		    while ( list_tmp_transactions_2 )
+		    {
+			gint transaction_number_tmp_2;
+			transaction_number_tmp_2 = gsb_data_transaction_get_transaction_number (list_tmp_transactions_2 -> data);
+
+			if ( gsb_data_transaction_get_account_number (transaction_number_tmp_2) == gsb_data_transaction_get_account_number (transaction_number_tmp)
+			     &&
+			     gsb_data_transaction_get_mother_transaction_number (transaction_number_tmp_2) == transaction_number_tmp)
+			    gsb_data_transaction_set_reconcile_number ( transaction_number_tmp_2,
+									gsb_data_transaction_get_reconcile_number (transaction_number_tmp));
+
+			list_tmp_transactions_2 = list_tmp_transactions_2 -> next;
+		    }
+		}
+		list_tmp_transactions = list_tmp_transactions -> next;
+	    }
+
+
+	    /* ************************************* */
+	    /* 	    ouverture d'un fichier 0.4.1     */
+	    /* ************************************* */
+
+	case 41:
+
+	    /*     ajout de la 0.5 -> valeur_echelle_recherche_date_import qu'on me à 2 */
+
+	    valeur_echelle_recherche_date_import = 2;
+
+	    /* 	    passage à l'utf8 : on fait le tour des devises pour retrouver l'euro */
+	    /* Handle Euro nicely */
+
+	    devise = devise_par_nom ( my_strdup ("Euro"));
+
+	    if ( devise )
+	    {
+		devise -> code_devise = "€";
+		devise -> code_iso4217_devise = my_strdup ("EUR");
+	    }
+
+
+	    /* ************************************* */
+	    /* 	    ouverture d'un fichier 0.5.0     */
+	    /* ************************************* */
+
+	case 50:
+
+	    /* ************************************* */
+	    /* 	    ouverture d'un fichier 0.5.1     */
+	    /* ************************************* */
+
+	case 51:
+
+	    /* ************************************* */
+	    /* 	    ouverture d'un fichier 0.5.5     */
+	    /* ************************************* */
+
+	case 55:
+
+
+	    /* ************************************* */
+	    /* 	    ouverture d'un fichier 0.5.6     */
+	    /* ************************************* */
+
+	case 56:
+
+	    /* ************************************* */
+	    /* 	    ouverture d'un fichier 0.5.7     */
+	    /* ************************************* */
+
+	case 57:
+
+	    /* ************************************* */
+	    /* 	    ouverture d'un fichier 0.5.8     */
+	    /* ************************************* */
+
+	case 58:
+
+	    /* all the change between the 0.5.0 and 0.6.0 are set here because a confuse between
+	     * the number of version and the number of file structure */
+
+	    /* pour l'instant le fichier 0.5.1 ne diffère pas de la version 0.5.0 */
+	    /*     excepté un changement dans la notation du pointage */
+	    /*     rien=0 ; P=1 ; T=2 ; R=3 */
+	    /*     on fait donc le tour des opés pour inverser R et P */
+
+	    switch_t_r ();
+
+	    /* 	    un bug dans la 0.5.0 permettait à des comptes d'avoir un affichage différent, */
+	    /* 	    même si celui ci devait être identique pour tous, on vérifie ici */
+
+	    if ( !etat.retient_affichage_par_compte )
+	    {
+		gint affichage_r;
+		gint nb_lignes_ope;
+		GSList *list_tmp;
+
+		affichage_r = gsb_data_account_get_r (gsb_data_account_get_current_account ());
+		nb_lignes_ope = gsb_data_account_get_nb_rows ( gsb_data_account_get_current_account () );
+
+		list_tmp = gsb_data_account_get_list_accounts ();
+
+		while ( list_tmp )
+		{
+		    i = gsb_data_account_get_no_account ( list_tmp -> data );
+
+		    gsb_data_account_set_r ( i,
+					     affichage_r );
+		    gsb_data_account_set_nb_rows ( i, 
+						   nb_lignes_ope );
+
+		    list_tmp = list_tmp -> next;
+		}
+	    } 
+
+	    /* a problem untill the 0.5.7 :
+	     * all new method of payment are not added to the sorting list for reconciliation,
+	     * we add them here */
+
+	    list_tmp = gsb_data_account_get_list_accounts ();
+
+	    while ( list_tmp )
+	    {
+		GSList *method_payment_list;
+
+		i = gsb_data_account_get_no_account ( list_tmp -> data );
+		method_payment_list = gsb_data_account_get_method_payment_list ( i );
+
+		while (method_payment_list)
+		{
+		    struct struct_type_ope *type;
+
+		    type = method_payment_list -> data;
+		    
+		    if ( !g_slist_find ( gsb_data_account_get_sort_list (i),
+					 GINT_TO_POINTER (type -> no_type)))
+			/* FIXME before 0.6 : faire une fonction add pour les types opés et method of payment */
+			gsb_data_account_set_sort_list ( i,
+							 g_slist_append ( gsb_data_account_get_sort_list (i),
+									  GINT_TO_POINTER (type -> no_type)));
+
+		    method_payment_list = method_payment_list -> next;
+		}
+		list_tmp = list_tmp -> next;
+	    }
+
+	    /* a problem untill the 0.5.7, the children of a scheduled breakdown are marked
+	     * as a breakdown mother */
+
+	    list_tmp_transactions = gsb_data_scheduled_get_scheduled_list ();
+
+	    while ( list_tmp_transactions )
+	    {
+		gint scheduled_number;
+		scheduled_number = gsb_data_scheduled_get_scheduled_number (list_tmp_transactions -> data);
+
+		if ( gsb_data_scheduled_get_mother_scheduled_number (scheduled_number))
+		    gsb_data_scheduled_set_breakdown_of_scheduled ( scheduled_number,
+								    0 );
+		list_tmp_transactions = list_tmp_transactions -> next;
+	    }
+
+	    /* now the order of the accounts are the order in the GSList */
+
+	    gsb_data_account_reorder ( sort_accounts );
+	    g_slist_free ( sort_accounts );
+
+	    list_tmp = gsb_data_account_get_list_accounts ();
+
+	    while ( list_tmp )
+	    {
+		i = gsb_data_account_get_no_account ( list_tmp -> data );
+
+		/* set the new form organization */
+		gsb_data_form_new_organization (i);
+		gsb_data_form_set_default_organization (i);
+
+		/* 	   set the current sort by date and ascending sort */
+		init_default_sort_column (i);
+
+		list_tmp = list_tmp -> next;
+	    }
+
+	    /* there is a bug untill now, which is some children of breakdown
+	     * are not marked R, and the mother is...
+	     * very annoying now, we MUST mark them as R, so check here... */
+
+	    list_tmp_transactions = gsb_data_transaction_get_transactions_list ();
+
+	    while ( list_tmp_transactions )
+	    {
+		gint transaction_number;
+		transaction_number = gsb_data_transaction_get_transaction_number (list_tmp_transactions -> data);
+
+		/*  if it's a breakdown and marked R, we look for the children */
+
+		if ( gsb_data_transaction_get_breakdown_of_transaction (transaction_number)
+		     &&
+		     gsb_data_transaction_get_marked_transaction (transaction_number) == 3)
+		{
+		    GSList *list_tmp_transactions_2;
+		    list_tmp_transactions_2 = gsb_data_transaction_get_transactions_list ();
+
+		    while ( list_tmp_transactions_2 )
+		    {
+			gint transaction_number_2;
+			transaction_number_2 = gsb_data_transaction_get_transaction_number (list_tmp_transactions_2 -> data);
+
+			if ( gsb_data_transaction_get_mother_transaction_number (transaction_number_2) == transaction_number)
+			    gsb_data_transaction_set_marked_transaction ( transaction_number_2,
+									  3 );
+			list_tmp_transactions_2 = list_tmp_transactions_2 -> next;
+		    }
+		}
+		list_tmp_transactions = list_tmp_transactions -> next;
+	    }
+
+	    /* change to the 0.6.0 : the number of choice of periodicity
+	     * now 7 choice => in scheduler_periodicity, we have to change
+	     * the last choices to the new numbers */
+
+	    list_tmp_transactions = gsb_data_scheduled_get_scheduled_list ();
+
+	    while ( list_tmp_transactions )
+	    {
+		gint scheduled_number;
+
+		scheduled_number = gsb_data_scheduled_get_scheduled_number (list_tmp_transactions -> data);
+
+		switch ( gsb_data_scheduled_get_frequency (scheduled_number))
+		{
+		    case 0:
+		    case 1:
+		    case 2:
+			/* for once, weekly and months, no change */
+			break;
+
+		    case 3:
+			/* year frequency */
+			gsb_data_scheduled_set_frequency ( scheduled_number,
+							   SCHEDULER_PERIODICITY_YEAR_VIEW );
+			break;
+
+			/* there is a bug and the periodicity can be more than 4...
+			 * so set the default here to set it to SCHEDULER_PERIODICITY_CUSTOM_VIEW */
+		    case 4:
+		    default:
+			/* custom frequency */
+			gsb_data_scheduled_set_frequency ( scheduled_number,
+							   SCHEDULER_PERIODICITY_CUSTOM_VIEW );
+			break;
+		}
+
+		switch ( gsb_data_scheduled_get_user_interval ( scheduled_number ))
+		{
+		    case 0:
+			/* no change for day */
+			break;
+
+		    case 1:
+			/* for months */
+			gsb_data_scheduled_set_user_interval ( scheduled_number,
+							       PERIODICITY_MONTHS );
+			break;
+
+		    case 2:
+			/* for years */
+			gsb_data_scheduled_set_user_interval ( scheduled_number,
+							       PERIODICITY_YEARS );
+			break;
+		}
+							    
+		list_tmp_transactions = list_tmp_transactions -> next;
+	    }
+
+
+
+	    /* ********************************************************* */
+	    /* 	    à mettre à chaque fois juste avant la version stable */
+	    /* ********************************************************* */
+
+	    modification_fichier ( TRUE );
+
+	    /* ************************************* */
+	    /* 	    ouverture d'un fichier 0.6.0     */
+	    /* ************************************* */
+
+	case 60:
+
+
+
+	    break;
+
+	default :
+	    /* 	à ce niveau, c'est que que la version n'est pas connue de grisbi, on donne alors */
+	    /* la version nécessaire pour l'ouvrir */
+
+	    dialogue_error ( g_strdup_printf ( _("Grisbi version %s is needed to open this file.\nYou are using version %s."),
+					       download_tmp_values.grisbi_version,
+					       VERSION ));
+
+	    return ( FALSE );
+    }
+
+    /*     on met maintenant les généralités pour toutes les versions */
+
+    /* 	s'il y avait un ancien logo mais qu'il n'existe plus, on met le logo par défaut */
+
+    if ( !chemin_logo
+	 ||
+	 !strlen ( chemin_logo )
+	 ||
+	 ( chemin_logo
+	   &&
+	   strlen ( chemin_logo )
+	   &&
+	   utf8_stat ( chemin_logo, &buffer_stat) == -1 ))
+	chemin_logo = my_strdup ( LOGO_PATH );
+
+    /* on marque le fichier comme ouvert */
+
+    gsb_file_util_modify_lock ( TRUE );
+
+
+    return TRUE;
+}
+
 
 /* Local Variables: */
 /* c-basic-offset: 4 */

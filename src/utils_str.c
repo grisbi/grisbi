@@ -43,6 +43,7 @@ static int myisolat1ToUTF8(unsigned char* out, int *outlen,
 
 /*START_EXTERN*/
 extern     gchar * buffer ;
+extern gint max;
 extern FILE * out;
 /*END_EXTERN*/
 
@@ -426,11 +427,15 @@ gchar *my_strdup ( const gchar *string )
 }
 
 
-/* ******************************************************************************* */
-/* cette fonction s'assure que la chaine donnÃ©e en argument ne dÃ©passe pas la taille */
-/* donnÃ©e en argument. si elle dÃ©passe, renvoie la chaine, avec la taille voulue, et */
-/* ... Ã  la fin */
-/* ******************************************************************************* */
+/**
+ * check if the string is maximum to the length
+ * if bigger, limit it and set ... at the end
+ *
+ * \param string the string to check
+ * \param length the limit length we want
+ *
+ * \return a dupplicate version of the string with max length character (must to be freed)
+ * */
 gchar *limit_string ( gchar *string,
 		      gint length )
 {
@@ -440,7 +445,7 @@ gchar *limit_string ( gchar *string,
 	return NULL;
 
     if ( strlen ( string ) <= length )
-	return string;
+	return g_strdup (string);
 
     string_return = my_strdup ( string );
     string_return[length-3] = '.';

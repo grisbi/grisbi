@@ -6,5 +6,6 @@
 /* END_INCLUDE_H */
 
 /* START_DECLARATION */
+gchar *gsb_form_get_element_name ( gint element_number );
 /* END_DECLARATION */
 #endif

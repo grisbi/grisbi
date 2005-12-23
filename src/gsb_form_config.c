@@ -26,7 +26,6 @@
  * all that you need for the config of the form is here !!!
  */
 
-
 #include "include.h"
 
 /*START_INCLUDE*/
@@ -36,27 +35,29 @@
 #include "dialog.h"
 #include "gsb_data_account.h"
 #include "gsb_data_form.h"
+#include "gsb_form.h"
 #include "utils_str.h"
 #include "operations_comptes.h"
 #include "traitement_variables.h"
 #include "utils_buttons.h"
 #include "utils_comptes.h"
 #include "operations_formulaire.h"
-#include "erreur.h"
 #include "include.h"
 #include "structures.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static gboolean ajoute_colonne_organisation_formulaire ( void );
-static gboolean ajoute_ligne_organisation_formulaire ( void );
-static gboolean allocation_liste_organisation_formulaire ( GtkWidget *tree_view,
-						    GtkAllocation *allocation );
-static gboolean change_taille_colonne_organisation_formulaire ( GtkWidget *tree_view,
-							 GdkEventMotion *motion );
-static GtkWidget *creation_liste_organisation_formulaire ( void );
+static gboolean gsb_form_config_add_column ( void );
+static gboolean gsb_form_config_add_line ( void );
+static gboolean gsb_form_config_change_account_choice ( GtkWidget *menu_item );
+static gboolean gsb_form_config_change_column_size ( GtkWidget *tree_view,
+					      GtkAllocation *allocation );
 static gboolean gsb_form_config_check_for_removing ( gint account_number,
 					      gint removing_row );
+static GtkWidget *gsb_form_config_create_buttons_table ( void );
+static GtkWidget *gsb_form_config_create_sizing_buttons_line ( void );
+static GtkListStore *gsb_form_config_create_store ( void );
+static GtkWidget *gsb_form_config_create_tree_view ( GtkListStore *store );
 static gboolean gsb_form_config_drag_begin ( GtkWidget *tree_view,
 				      GdkDragContext *drag_context,
 				      gpointer null );
@@ -64,17 +65,20 @@ static gboolean gsb_form_config_drag_end ( GtkWidget *tree_view,
 				      GdkDragContext *drag_context,
 				      gpointer null );
 static gboolean gsb_form_config_fill_store ( gint account_number );
-static void mise_a_jour_organisation_formulaire ( gint account_number );
-static gboolean modification_compte_choix_formulaire ( GtkWidget *menu_item );
-static gboolean modification_formulaire_distinct_par_compte ( void );
-static gchar *recherche_nom_element_formulaire ( gint no_element );
-static gboolean retire_colonne_organisation_formulaire ( void );
-static gboolean retire_ligne_organisation_formulaire ( void );
-static gboolean toggled_signal_configuration_formulaire ( GtkWidget *toggle_button );
+static void gsb_form_config_make_configuration_box ( GtkWidget *vbox_parent );
+static gboolean gsb_form_config_realized ( GtkWidget *tree_view );
+static gboolean gsb_form_config_remove_column ( void );
+static gboolean gsb_form_config_remove_line ( void );
+static gboolean gsb_form_config_switch_general_to_several_form ( void );
+static gboolean gsb_form_config_toggle_element_button ( GtkWidget *toggle_button );
+static gboolean gsb_form_config_update_form_config ( gint account_number );
 /*END_STATIC*/
 
 /*START_EXTERN*/
 extern     gchar * buffer ;
+extern GtkWidget *formulaire;
+extern gint max;
+extern GtkTreeStore *model;
 extern GtkWidget *preview;
 extern GtkTooltips *tooltips_general_grisbi;
 extern GtkWidget *tree_view;
@@ -82,68 +86,39 @@ extern GtkWidget *window;
 /*END_EXTERN*/
 
 
-/* utilisé pour éviter que ça s'emballe lors du réglage de la largeur des colonnes du formulaire */
 
-gint allocation_precedente_organisation_formulaire;
+/** tmp for drag'n drop */
+static gint start_drag_column;
+static gint start_drag_row;
 
-/* titre des colonnes de la liste de configuration du formulaire */
+/* buttons to config the form */
+static GtkWidget *form_config_buttons[TRANSACTION_FORM_WIDGET_NB-3];
 
-gchar *nom_colonne[6] = {
-    N_("Col 1"),
-    N_("Col 2"),
-    N_("Col 3"),
-    N_("Col 4"),
-    N_("Col 5"),
-    N_("Col 6")
-};
+/** the option menu which contains all the accounts, to configure the form */
+static GtkWidget *accounts_option_menu;
 
-/* utilisé pour la configuration du formulaire */
-
-gint start_drag_column;
-gint start_drag_row;
-
-/* les adr des toggles button du contenu du formulaire */
-
-GtkWidget *boutons_organisation_formulaire[TRANSACTION_FORM_WIDGET_NB-3];
-
-/* l'option menu des comptes pour le choix d'un formulaire par compte */
-/* ou le même pour tous les comptes */
-
-GtkWidget *option_menu_comptes_choix_formulaire;
-
-/*     rempli lors de l'affichage des paramètres */
-
-GtkWidget *tree_view_organisation_formulaire;
-GtkTreeViewColumn *tree_view_column_organisation_formulaire[6];
-
-GtkWidget *formulaire;
+/** the tree view */
+static GtkWidget *form_config_tree_view;
 
 
 
 /**
  * create and return the page to be set in the configuration page
+ * this is normally the only function which can be called from outside
  *
  * \param
  *
  * \return the complete page
  * */
-GtkWidget *onglet_display_transaction_form ( void )
+GtkWidget *gsb_form_config_create_page ( void )
 {
     GtkWidget *vbox_pref;
-    GtkWidget *liste_organisation;
-
 
     vbox_pref = new_vbox_with_title_and_icon ( _("Transaction form"), "form.png" );
 
-    /*     organisation du formulaire */
+    /* add the page into the box */
 
-    liste_organisation = creation_liste_organisation_formulaire ();
-    gtk_box_pack_start ( GTK_BOX ( vbox_pref ),
-			 liste_organisation,
-			 FALSE, FALSE, 0 );
-    gtk_widget_show ( liste_organisation );
-
-    
+    gsb_form_config_make_configuration_box (vbox_pref);
 
     if ( !gsb_data_account_get_accounts_amount () )
     {
@@ -154,101 +129,109 @@ GtkWidget *onglet_display_transaction_form ( void )
 }
 
 
-/* *************************************************************************** */
-/* cette fonction crée une liste de 6 colonnes sur 4 lignes utilisée pour */
-/* organiser le formulaire d'opérations */
-/* *************************************************************************** */
-GtkWidget *creation_liste_organisation_formulaire ( void )
+/**
+ * create the box for configuring the form,
+ * append that box into the vbox_parent
+ *
+ * \param vbox_parent the box into we want to make the configuration box
+ *
+ * \return
+ * */
+void gsb_form_config_make_configuration_box ( GtkWidget *vbox_parent )
 {
-    GtkWidget *fenetre;
-    GtkListStore *store;
-    gint row, column;
-    GtkWidget *hbox, *hbox2;
-    GtkWidget *bouton;
-    GtkWidget *label;
+    GtkWidget *hbox;
+    GtkWidget *button;
     GtkWidget *paddingbox;
-    GtkWidget *table;
-    gint no_element_en_cours;
-    GtkWidget *scrolled_window;
-    GtkTargetEntry target_entry[] =
-    {
-	{ "text", GTK_TARGET_SAME_WIDGET, 0 }
-    };
 
+    /* create the paddingbox into the parent */
 
-    /*     le fenetre sera une vbox avec la liste en haut et les boutons +- col et lignes */
-    /* 	en dessous, et ce qu'on veut afficher en dessous */
-
-    fenetre = gtk_vbox_new ( FALSE,
-			     5 );
-    gtk_widget_show ( fenetre );
-
-    
-    /*     mise en place de la boite qui contiendra la liste du formulaire */
-
-    paddingbox = new_paddingbox_with_title ( fenetre,
-					     FALSE,
+    paddingbox = new_paddingbox_with_title ( vbox_parent,
+					     TRUE,
 					     _("Form structure preview"));
 
-    /*     on propose de séparer l'affichage par compte */
-    /* 	soit chaque compte a son formulaire */
-    /* 	soit chaque compte utilise le formulaire du compte 0 */
+    /* we can organize the form
+     * either the same for all the accounts
+     * either each account has its own configuration */
 
     hbox = gtk_hbox_new ( FALSE,
 			  5 );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox),
+    gtk_box_pack_start ( GTK_BOX (paddingbox),
 			 hbox,
 			 FALSE,
 			 FALSE,
 			 0 );
     gtk_widget_show ( hbox );
 
-    /* mise en place du bouton de choix */
+    /* the button to choose the configuration for all/one account */
 
-    bouton = new_checkbox_with_title ( _("Each account has his own form"),
+    button = new_checkbox_with_title ( _("Each account has his own form"),
 				       &etat.formulaire_distinct_par_compte,
-				       G_CALLBACK ( modification_formulaire_distinct_par_compte ));
+				       G_CALLBACK ( gsb_form_config_switch_general_to_several_form ));
     gtk_box_pack_start ( GTK_BOX (hbox ),
-			 bouton,
+			 button,
 			 FALSE,
 			 FALSE,
 			 0 );
-    gtk_widget_show ( bouton );
+    gtk_widget_show ( button );
 
-    /*     mise en place de l'option menu des comptes */
+    /* the accounts option_menu */
 
-    option_menu_comptes_choix_formulaire =  gtk_option_menu_new ();
-    gtk_option_menu_set_menu ( GTK_OPTION_MENU ( option_menu_comptes_choix_formulaire ),
-			       creation_option_menu_comptes ( (GtkSignalFunc) modification_compte_choix_formulaire ,
+    accounts_option_menu = gtk_option_menu_new ();
+    gtk_widget_set_sensitive ( accounts_option_menu,
+			       etat.formulaire_distinct_par_compte );
+    gtk_option_menu_set_menu ( GTK_OPTION_MENU ( accounts_option_menu ),
+			       creation_option_menu_comptes ( (GtkSignalFunc) gsb_form_config_change_account_choice ,
 							      TRUE,
 							      FALSE ));
     gtk_box_pack_start ( GTK_BOX (hbox ),
-			 option_menu_comptes_choix_formulaire,
+			 accounts_option_menu,
 			 FALSE,
 			 FALSE,
 			 0 );
-    gtk_widget_show ( option_menu_comptes_choix_formulaire );
+    gtk_widget_show ( accounts_option_menu );
 
-    gtk_widget_set_sensitive ( option_menu_comptes_choix_formulaire,
-			       etat.formulaire_distinct_par_compte );
+    /* create the tree_view */
 
-    /*     mise en place du scrolled window */
-    /* 	il est utilisé pour éviter l'agrandissement de la fenetre de conf */
-    /* 	si l'utilisateur change de trop la largeur des colonnes */
-    
-    scrolled_window = gtk_scrolled_window_new ( FALSE,
-						FALSE );
-    gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window ),
-				     GTK_POLICY_ALWAYS,
-				     GTK_POLICY_NEVER );
+    form_config_tree_view = gsb_form_config_create_tree_view (gsb_form_config_create_store ());
     gtk_box_pack_start ( GTK_BOX ( paddingbox),
-			 scrolled_window,
-			 TRUE,
-			 TRUE,
+			 form_config_tree_view,
+			 FALSE,
+			 FALSE,
 			 0 );
-    gtk_widget_show ( scrolled_window );
+    gtk_widget_show ( form_config_tree_view );
 
-    /*     création du store */
+
+    /* set the buttons line to increase/decrease the form */
+
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ),
+			 gsb_form_config_create_sizing_buttons_line (),
+			 FALSE,
+			 FALSE,
+			 0 );
+
+    /* set the box with the buttons */
+
+    paddingbox = new_paddingbox_with_title ( vbox_parent,
+					     FALSE,
+					     _("Form structure content"));
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ),
+			 gsb_form_config_create_buttons_table (),
+			 FALSE, 
+			 FALSE, 
+			 0 );
+}
+
+
+/**
+ * create and return the store (a list) for the configuration of the form
+ *
+ * \param
+ *
+ * \return the new store
+ * */
+GtkListStore *gsb_form_config_create_store ( void )
+{
+    GtkListStore *store;
 
     store = gtk_list_store_new ( MAX_WIDTH,
 				 G_TYPE_STRING,
@@ -257,80 +240,117 @@ GtkWidget *creation_liste_organisation_formulaire ( void )
 				 G_TYPE_STRING,
 				 G_TYPE_STRING,
 				 G_TYPE_STRING );
+     return store;
+}
 
-    /*     on crée maintenant le tree_view */
 
-    tree_view_organisation_formulaire = gtk_tree_view_new_with_model ( GTK_TREE_MODEL ( store ));
-    gtk_tree_selection_set_mode ( GTK_TREE_SELECTION ( gtk_tree_view_get_selection (GTK_TREE_VIEW (tree_view_organisation_formulaire))),
+/**
+ * create the tree_view for the form configuration
+ * set the model given in param
+ * set the columns and all the connections
+ *
+ * \param model the model to set in the tree_view
+ *
+ * \return the tree_view
+ * */
+GtkWidget *gsb_form_config_create_tree_view ( GtkListStore *store )
+{
+    GtkWidget *tree_view;
+    gint column;
+    GtkTargetEntry target_entry[] = {
+	{ "text", GTK_TARGET_SAME_WIDGET, 0 }
+    };
+    gchar *columns_titles[6] = {
+	N_("Col 1"),
+	N_("Col 2"),
+	N_("Col 3"),
+	N_("Col 4"),
+	N_("Col 5"),
+	N_("Col 6")
+    };
+
+    if ( !store )
+	return NULL;
+
+    /* create the tree_view, it would be better to set it into a scrolled window,
+     * but when we do that, there is automatickly a line on the bottom of the list
+     * and it's annoying for the drag'n drop ; i didn't succeed in removing that line...[cedric]
+     * the problem of the choice here is if we try to increase too much the width of the column,
+     * the config box increase too */
+
+    tree_view = gtk_tree_view_new_with_model ( GTK_TREE_MODEL ( store ));
+    gtk_tree_selection_set_mode ( GTK_TREE_SELECTION ( gtk_tree_view_get_selection (GTK_TREE_VIEW (tree_view))),
 				  GTK_SELECTION_NONE );
-    gtk_container_add ( GTK_CONTAINER ( scrolled_window),
-			tree_view_organisation_formulaire );
-    gtk_widget_show ( tree_view_organisation_formulaire );
 
-    /*     on crée les colonnes */
+    /* set the columns */
 
     for ( column=0 ; column< MAX_WIDTH ; column++ )
     {
-	tree_view_column_organisation_formulaire[column] = gtk_tree_view_column_new_with_attributes ( nom_colonne[column],
-												      gtk_cell_renderer_text_new (),
-												      "text", column,
-												      NULL );
-	gtk_tree_view_append_column ( GTK_TREE_VIEW ( tree_view_organisation_formulaire ),
-				      GTK_TREE_VIEW_COLUMN ( tree_view_column_organisation_formulaire[column]));
-	gtk_tree_view_column_set_sizing ( GTK_TREE_VIEW_COLUMN (tree_view_column_organisation_formulaire[column]),
-					  GTK_TREE_VIEW_COLUMN_AUTOSIZE );
-	gtk_tree_view_column_set_expand ( GTK_TREE_VIEW_COLUMN (tree_view_column_organisation_formulaire[column]),
-					  TRUE );
-	gtk_tree_view_column_set_resizable ( GTK_TREE_VIEW_COLUMN (tree_view_column_organisation_formulaire[column]),
+	GtkTreeViewColumn *tree_view_column;
+
+	tree_view_column = gtk_tree_view_column_new_with_attributes ( columns_titles[column],
+								      gtk_cell_renderer_text_new (),
+								      "text", column,
+								      NULL );
+	gtk_tree_view_append_column ( GTK_TREE_VIEW ( tree_view ),
+				      GTK_TREE_VIEW_COLUMN ( tree_view_column));
+	gtk_tree_view_column_set_sizing ( GTK_TREE_VIEW_COLUMN (tree_view_column),
+					  GTK_TREE_VIEW_COLUMN_FIXED );
+	gtk_tree_view_column_set_resizable ( GTK_TREE_VIEW_COLUMN (tree_view_column),
 					     TRUE );
     }
 
+    /* we will fille the form and size the columns when the window will be realized */
 
-    /*     on met en place le size allocate pour régler la largeur des colonnes en fonction de la */
-    /* 	taille de la liste */
-
-    g_signal_connect ( G_OBJECT ( tree_view_organisation_formulaire ),
-		       "size-allocate",
-		       G_CALLBACK ( allocation_liste_organisation_formulaire ),
+    g_signal_connect ( G_OBJECT ( tree_view ),
+		       "realize",
+		       G_CALLBACK ( gsb_form_config_realized ),
 		       NULL );
 
-    /*     pour le changement de taille des colonnes, pas trouvé mieux... */
-
-    g_signal_connect ( G_OBJECT (tree_view_organisation_formulaire),
-		       "motion-notify-event",
-		       G_CALLBACK ( change_taille_colonne_organisation_formulaire ),
+    /* save and modify the form when change the size of the columns */
+    g_signal_connect ( G_OBJECT (tree_view),
+		       "size_allocate",
+		       G_CALLBACK ( gsb_form_config_change_column_size ),
 		       NULL );
 
-    gtk_drag_source_set ( tree_view_organisation_formulaire,
+    gtk_drag_source_set ( tree_view,
 			  GDK_BUTTON1_MASK,
 			  target_entry, 1,
 			  GDK_ACTION_MOVE );
-    g_signal_connect ( G_OBJECT (tree_view_organisation_formulaire),
+    g_signal_connect ( G_OBJECT (tree_view),
 		       "drag-begin",
 		       G_CALLBACK ( gsb_form_config_drag_begin ),
 		       NULL );
-    gtk_drag_dest_set ( tree_view_organisation_formulaire,
+    gtk_drag_dest_set ( tree_view,
 			GTK_DEST_DEFAULT_ALL,
 			target_entry, 1,
 			GDK_ACTION_MOVE );
-    g_signal_connect ( G_OBJECT (tree_view_organisation_formulaire),
+    g_signal_connect ( G_OBJECT (tree_view),
 		       "drag-end",
 		       G_CALLBACK ( gsb_form_config_drag_end ),
 		       NULL );
 
+    return tree_view;
+}
 
-    /*     mise en place des boutons d'agrandissement ou de rétrécissement */
+
+/**
+ * create the line to change the size of the tree_view / form
+ *
+ * \param
+ *
+ * \return a hbox wich contains the buttons
+ * */
+GtkWidget *gsb_form_config_create_sizing_buttons_line ( void )
+{
+    GtkWidget *hbox, *hbox2;
+    GtkWidget *button;
+    GtkWidget *label;
 
     hbox = gtk_hbox_new ( FALSE,
 			  5 );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ),
-			 hbox,
-			 TRUE,
-			 TRUE,
-			 0 );
-    gtk_widget_show ( hbox );
 
-    /*     mise en place du choix du nb de lignes */
+    /* line number choice */
 
     hbox2 = gtk_hbox_new ( FALSE,
 			   5 );
@@ -341,19 +361,19 @@ GtkWidget *creation_liste_organisation_formulaire ( void )
 			 0 );
     gtk_widget_show ( hbox2 );
 
-    bouton = gtk_button_new_from_stock ( GTK_STOCK_REMOVE );
-    g_signal_connect ( G_OBJECT ( bouton ),
+    button = gtk_button_new_from_stock ( GTK_STOCK_REMOVE );
+    g_signal_connect ( G_OBJECT ( button ),
 		       "clicked",
-		       G_CALLBACK ( retire_ligne_organisation_formulaire ),
+		       G_CALLBACK ( gsb_form_config_remove_line ),
 		       NULL );
-    gtk_button_set_relief ( GTK_BUTTON( bouton ),
+    gtk_button_set_relief ( GTK_BUTTON( button ),
 			    GTK_RELIEF_NONE );
     gtk_box_pack_start ( GTK_BOX ( hbox2 ),
-			 bouton,
+			 button,
 			 FALSE,
 			 FALSE,
 			 0 );
-    gtk_widget_show ( bouton );
+    gtk_widget_show ( button );
 
     label = gtk_label_new ( _("rows"));
     gtk_box_pack_start ( GTK_BOX ( hbox2 ),
@@ -363,21 +383,21 @@ GtkWidget *creation_liste_organisation_formulaire ( void )
 			 0 );
     gtk_widget_show ( label );
 
-    bouton = gtk_button_new_from_stock ( GTK_STOCK_ADD );
-    g_signal_connect ( G_OBJECT ( bouton ),
+    button = gtk_button_new_from_stock ( GTK_STOCK_ADD );
+    g_signal_connect ( G_OBJECT ( button ),
 		       "clicked",
-		       G_CALLBACK ( ajoute_ligne_organisation_formulaire ),
+		       G_CALLBACK ( gsb_form_config_add_line ),
 		       NULL );
-    gtk_button_set_relief ( GTK_BUTTON( bouton ),
+    gtk_button_set_relief ( GTK_BUTTON( button ),
 			    GTK_RELIEF_NONE );
     gtk_box_pack_start ( GTK_BOX ( hbox2 ),
-			 bouton,
+			 button,
 			 FALSE,
 			 FALSE,
 			 0 );
-    gtk_widget_show ( bouton );
+    gtk_widget_show ( button );
 
-    /*     mise en place des boutons pour l'ajout de colonnes */
+    /* columns number choice */
 
     hbox2 = gtk_hbox_new ( FALSE,
 			   5 );
@@ -388,19 +408,19 @@ GtkWidget *creation_liste_organisation_formulaire ( void )
 		       0 );
     gtk_widget_show ( hbox2 );
 
-    bouton = gtk_button_new_from_stock ( GTK_STOCK_REMOVE );
-    g_signal_connect ( G_OBJECT ( bouton ),
+    button = gtk_button_new_from_stock ( GTK_STOCK_REMOVE );
+    g_signal_connect ( G_OBJECT ( button ),
 		       "clicked",
-		       G_CALLBACK ( retire_colonne_organisation_formulaire ),
+		       G_CALLBACK ( gsb_form_config_remove_column ),
 		       NULL );
-    gtk_button_set_relief ( GTK_BUTTON( bouton ),
+    gtk_button_set_relief ( GTK_BUTTON( button ),
 			    GTK_RELIEF_NONE );
     gtk_box_pack_start ( GTK_BOX ( hbox2 ),
-			 bouton,
+			 button,
 			 FALSE,
 			 FALSE,
 			 0 );
-    gtk_widget_show ( bouton );
+    gtk_widget_show ( button );
 
     label = gtk_label_new ( _("columns"));
     gtk_box_pack_start ( GTK_BOX ( hbox2 ),
@@ -410,207 +430,208 @@ GtkWidget *creation_liste_organisation_formulaire ( void )
 			 0 );
     gtk_widget_show ( label );
 
-    bouton = gtk_button_new_from_stock ( GTK_STOCK_ADD );
-    g_signal_connect ( G_OBJECT ( bouton ),
+    button = gtk_button_new_from_stock ( GTK_STOCK_ADD );
+    g_signal_connect ( G_OBJECT ( button ),
 		       "clicked",
-		       G_CALLBACK ( ajoute_colonne_organisation_formulaire ),
+		       G_CALLBACK ( gsb_form_config_add_column ),
 		       NULL );
-    gtk_button_set_relief ( GTK_BUTTON( bouton ),
+    gtk_button_set_relief ( GTK_BUTTON( button ),
 			    GTK_RELIEF_NONE );
     gtk_box_pack_start ( GTK_BOX ( hbox2 ),
-			 bouton,
+			 button,
 			 FALSE,
 			 FALSE,
 			 0 );
-    gtk_widget_show ( bouton );
-    
+    gtk_widget_show ( button );
 
-    /*     mise en place de la boite qui contiendra les composants du formulaire */
+    return hbox;
+}
 
-    paddingbox = new_paddingbox_with_title ( fenetre,
-					     FALSE,
-					     _("Form structure content"));
 
-    /*     création du tooltips s'il ne l'est pas déjà */
+/**
+ * create the table of buttons and set the signals
+ *
+ * \param
+ *
+ * \return the new table of buttons
+ * */
+GtkWidget *gsb_form_config_create_buttons_table ( void )
+{
+    GtkWidget *table;
+    gint current_element_number;
+    gint row, column;
+
+    /* create tooltip */
 
     if ( !tooltips_general_grisbi )
 	tooltips_general_grisbi = gtk_tooltips_new ();
 
-    /* on crée maintenant une table de 3x6 boutons */
+    /* the table is 3x6 buttons */
     table = gtk_table_new ( 3, 6, FALSE );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), table,
-			 FALSE, FALSE, 0 );
 
-    /*     on commence après la date, le débit et le crédit qui sont obligatoires */
+    /* the date, debit and credit are obligatory, so begin to number 4 */
 
-    no_element_en_cours = 4;
+    current_element_number = 4;
 
     for ( row=0 ; row<3 ; row++ )
 	for ( column=0 ; column<6 ; column++ )
 	{
 	    gchar *string;
-	    gchar *string_modifie;
+	    gchar *changed_string;
 
-	    string = recherche_nom_element_formulaire (no_element_en_cours);
+	    string = gsb_form_get_element_name (current_element_number);
 
 	    if ( string )
 	    {
-		/*on va couper cette chaine si elle est plus grande que 10 caractères */
-		
-		string_modifie = limit_string ( string,
+		/* the max string in the button is 10 characters */
+
+		changed_string = limit_string ( string,
 						10 );
 
-		boutons_organisation_formulaire[column + row*6] = gtk_toggle_button_new_with_label ( string_modifie );
-		g_object_set_data ( G_OBJECT ( boutons_organisation_formulaire[column + row*6] ),
-				    "no_element",
-				    GINT_TO_POINTER ( no_element_en_cours));
-
-		g_signal_connect ( G_OBJECT ( boutons_organisation_formulaire[column + row*6] ),
+		form_config_buttons[column + row*6] = gtk_toggle_button_new_with_label ( changed_string );
+		g_object_set_data ( G_OBJECT ( form_config_buttons[column + row*6] ),
+				    "element_number",
+				    GINT_TO_POINTER ( current_element_number));
+		g_signal_connect ( G_OBJECT ( form_config_buttons[column + row*6] ),
 				   "toggled",
-				   G_CALLBACK (toggled_signal_configuration_formulaire),
+				   G_CALLBACK (gsb_form_config_toggle_element_button),
 				   NULL );
 		gtk_table_attach_defaults ( GTK_TABLE ( table ),
-					    boutons_organisation_formulaire[column + row*6],
+					    form_config_buttons[column + row*6],
 					    column, column+1,
 					    row, row+1 );
-		
-		/* 		mise en place du tooltips */
+
+		/* set the tooltip with the real name */
 
 		gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi ),
-				       boutons_organisation_formulaire[column + row*6],
+				       form_config_buttons[column + row*6],
 				       string,
 				       string );
+		g_free (changed_string);
 	    }
 
-	    no_element_en_cours++;
+	    current_element_number++;
 	}
-
-    allocation_precedente_organisation_formulaire = 0;
-
-    /*     tout est créé, on rempli maintenant avec le compte 0 */
-
-    mise_a_jour_organisation_formulaire ( 0 );
-
-    return (fenetre); 
+    return table;
 }
-/* *************************************************************************** */
 
 
-/* *************************************************************************** */
-/* cette fonction remplit la liste de l'organisation du formulaire et rend */
-/* actif les boutons nécessaires pour le compte donné en argument */
-/* *************************************************************************** */
-void mise_a_jour_organisation_formulaire ( gint account_number )
+/**
+ * fill the form and set the correct buttons as active/passive
+ *
+ * \param account_number
+ *
+ * \return FALSE
+ * */
+gboolean gsb_form_config_update_form_config ( gint account_number )
 {
     gint row;
     gint column;
-    gint no_element_en_cours;
+    gint current_element_number;
     
-    /*     on commence par remplir le store */
-
+    /* fill the store */
     gsb_form_config_fill_store (account_number);
 
-    /*     on rend visible les colonnes nécessaires */
+    /* show/hide the necessary columns in the tree view */
+    for ( column=0 ; column<MAX_WIDTH ; column++ )
+	gtk_tree_view_column_set_visible ( gtk_tree_view_get_column ( GTK_TREE_VIEW ( form_config_tree_view ),
+								      column ),
+					   column<gsb_data_form_get_nb_columns (account_number ));
 
-    for ( row=0 ; row<MAX_WIDTH ; row++ )
-	if ( row<gsb_data_form_get_nb_columns (account_number))
-	    gtk_tree_view_column_set_visible ( GTK_TREE_VIEW_COLUMN ( tree_view_column_organisation_formulaire[row] ),
-					       TRUE );
-	else
-    	    gtk_tree_view_column_set_visible ( GTK_TREE_VIEW_COLUMN ( tree_view_column_organisation_formulaire[row] ),
-					       FALSE );
+    /* active/unactive the buttons, begin on the fourth element number because the
+     * date, debit and credit are obligatory */
 
-    /*     on rend in/actif les boutons nécessaires */
-
-    /*     on commence après la date, le débit et le crédit qui sont obligatoires */
-
-    no_element_en_cours = 4;
+    current_element_number = 4;
 
     for ( row=0 ; row<3 ; row++ )
 	for ( column=0 ; column<6 ; column++ )
 	{
 	    if ( column + row*6 < TRANSACTION_FORM_WIDGET_NB - 3 &&
-		 boutons_organisation_formulaire[column + row*6] )
+		 form_config_buttons[column + row*6] )
 	    {
-		g_signal_handlers_block_by_func ( G_OBJECT ( boutons_organisation_formulaire[column + row*6] ),
-						  G_CALLBACK ( toggled_signal_configuration_formulaire ),
+		g_signal_handlers_block_by_func ( G_OBJECT ( form_config_buttons[column + row*6] ),
+						  G_CALLBACK ( gsb_form_config_toggle_element_button ),
 						  NULL );
-		gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( boutons_organisation_formulaire[column + row*6] ),
+		gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( form_config_buttons[column + row*6] ),
 					       gsb_data_form_look_for_value ( account_number,
-									      no_element_en_cours,
+									      current_element_number,
 									      NULL, NULL ));
-		g_signal_handlers_unblock_by_func ( G_OBJECT ( boutons_organisation_formulaire[column + row*6] ),
-						    G_CALLBACK ( toggled_signal_configuration_formulaire ),
+		g_signal_handlers_unblock_by_func ( G_OBJECT ( form_config_buttons[column + row*6] ),
+						    G_CALLBACK ( gsb_form_config_toggle_element_button ),
 						    NULL );
 	    }
-	    no_element_en_cours++;
+	    current_element_number++;
 	}
+    return FALSE;
 }
-/* *************************************************************************** */
 
 
-
-/* *************************************************************************** */
-/* cette fonction est appelée lorsqu'on change le bouton du choix du formulaire */
-/* différent par compte. (dé)grise l'option menu des comptes et le remet sur le premier */
-/* compte si on le grise */
-/* *************************************************************************** */
-gboolean modification_formulaire_distinct_par_compte ( void )
+/**
+ * called when click on the button "each account has his form",
+ * unsensitive/sensitive the accounts option_menu,
+ * if unsensitive, set the menu to the first account
+ *
+ * \param
+ *
+ * \return FALSE*/
+gboolean gsb_form_config_switch_general_to_several_form ( void )
 {
     if ( etat.formulaire_distinct_par_compte )
-	gtk_widget_set_sensitive ( option_menu_comptes_choix_formulaire,
+	gtk_widget_set_sensitive ( accounts_option_menu,
 				   TRUE );
     else
     {
-	gtk_option_menu_set_history ( GTK_OPTION_MENU ( option_menu_comptes_choix_formulaire ),
+	gtk_option_menu_set_history ( GTK_OPTION_MENU ( accounts_option_menu ),
 				      0 );
-	modification_compte_choix_formulaire ( GTK_OPTION_MENU ( option_menu_comptes_choix_formulaire ) -> menu_item );
-	gtk_widget_set_sensitive ( option_menu_comptes_choix_formulaire,
+	gsb_form_config_change_account_choice ( GTK_OPTION_MENU ( accounts_option_menu ) -> menu_item );
+	gtk_widget_set_sensitive ( accounts_option_menu,
 				   FALSE );
     }
-
     return FALSE;
 }
-/* *************************************************************************** */
 
 						       
-/* *************************************************************************** */
-/* cette fonction est appelée si on change le compte affiché par l'option menu */
-/* *************************************************************************** */
-gboolean modification_compte_choix_formulaire ( GtkWidget *menu_item )
+/**
+ * called if we change the account in the option menu of the accounts
+ *
+ * \param menu_item
+ *
+ * \return FALSE
+ * */
+gboolean gsb_form_config_change_account_choice ( GtkWidget *menu_item )
 {
     gint account_number;
 
     account_number = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( menu_item ),
-							"account_number" ));
-    mise_a_jour_organisation_formulaire ( account_number );
-
+							     "account_number" ));
+    gsb_form_config_update_form_config ( account_number );
 
     return FALSE;
 }
-/* *************************************************************************** */
 
 
-
-
-/* *************************************************************************** */
-/* cette fonction est appelée lorsqu'on clique sur l'un des boutons de l'organisation */
-/* du formulaire, elle ajoute ou retire l'élément de la liste */
-/* *************************************************************************** */
-gboolean toggled_signal_configuration_formulaire ( GtkWidget *toggle_button )
+/**
+ * called when toggle a button of the form configuration, append or remove
+ * the value from the tree view
+ *
+ * \param toggle_button the button we click
+ *
+ * \return FALSE
+ * */
+gboolean gsb_form_config_toggle_element_button ( GtkWidget *toggle_button )
 {
-    gint no_element;
+    gint element_number;
     gint no_second_element;
     gint i, j;
     gint account_number;
 
-    /*     on commence par rechercher le no de l'élément */
+    /* get the element number */
 
-    no_element = GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT ( toggle_button ),
-						       "no_element" ));
-    /*     on met ici le 2nd elt si nécessaire */
+    element_number = GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT ( toggle_button ),
+							   "element_number" ));
+    /* set the second element number if necessary (FIXME : to remove ??) */
 
-    switch ( no_element )
+    switch ( element_number )
     {
 	case TRANSACTION_FORM_TYPE:
 	    /* 	    c'est le mode de paiement, on met le chq */
@@ -623,12 +644,12 @@ gboolean toggled_signal_configuration_formulaire ( GtkWidget *toggle_button )
 	    break;
 
 	case TRANSACTION_FORM_DEVISE:
-	    /* 	    c'est la devise, on met le bouton de change */
+	    /* 	    c'est la devise, on met le button de change */
 	    no_second_element = TRANSACTION_FORM_CHANGE;
 	    break;
 
 	case TRANSACTION_FORM_CHANGE:
-	    /* 	    c'est le bouton de change, on met la devise */
+	    /* 	    c'est le button de change, on met la devise */
 	    no_second_element = TRANSACTION_FORM_DEVISE;
 	    break;
 
@@ -636,9 +657,9 @@ gboolean toggled_signal_configuration_formulaire ( GtkWidget *toggle_button )
 	    no_second_element = -1;
     }
 
-    account_number = recupere_no_compte ( option_menu_comptes_choix_formulaire );
+    account_number = recupere_no_compte ( accounts_option_menu );
 
-    /*     on met à jour le tableau */
+    /* update the table */
 
     if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( toggle_button )))
     {
@@ -664,7 +685,7 @@ gboolean toggled_signal_configuration_formulaire ( GtkWidget *toggle_button )
 			gsb_data_form_set_value ( account_number,
 						  j,
 						  i,
-						  no_element );
+						  element_number );
 			place_trouvee = 1;
 			i = gsb_data_form_get_nb_rows (account_number);
 			j = gsb_data_form_get_nb_columns (account_number);
@@ -686,7 +707,7 @@ gboolean toggled_signal_configuration_formulaire ( GtkWidget *toggle_button )
 			    gsb_data_form_set_value ( account_number,
 						      colonne_premier_elt,
 						      ligne_premier_elt,
-						      no_element );
+						      element_number );
 			    gsb_data_form_set_value ( account_number,
 						      j,
 						      i,
@@ -705,13 +726,13 @@ gboolean toggled_signal_configuration_formulaire ( GtkWidget *toggle_button )
 
 	    if ( no_second_element != -1 )
 	    {
-		g_signal_handlers_block_by_func ( G_OBJECT ( boutons_organisation_formulaire[no_second_element-4] ),
-						  G_CALLBACK ( toggled_signal_configuration_formulaire ),
+		g_signal_handlers_block_by_func ( G_OBJECT ( form_config_buttons[no_second_element-4] ),
+						  G_CALLBACK ( gsb_form_config_toggle_element_button ),
 						  NULL );
-		gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( boutons_organisation_formulaire[no_second_element-4] ),
+		gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( form_config_buttons[no_second_element-4] ),
 					       TRUE );
-		g_signal_handlers_unblock_by_func ( G_OBJECT ( boutons_organisation_formulaire[no_second_element-4] ),
-						    G_CALLBACK ( toggled_signal_configuration_formulaire ),
+		g_signal_handlers_unblock_by_func ( G_OBJECT ( form_config_buttons[no_second_element-4] ),
+						    G_CALLBACK ( gsb_form_config_toggle_element_button ),
 						    NULL );
 	    }
 	}
@@ -720,12 +741,12 @@ gboolean toggled_signal_configuration_formulaire ( GtkWidget *toggle_button )
 	    /* 	    le tableau est trop petit pour rajouter un élément */
 	
 	    g_signal_handlers_block_by_func ( G_OBJECT ( toggle_button ),
-					      G_CALLBACK ( toggled_signal_configuration_formulaire ),
+					      G_CALLBACK ( gsb_form_config_toggle_element_button ),
 					      NULL );
 	    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( toggle_button ),
 					   FALSE );
 	    g_signal_handlers_unblock_by_func ( G_OBJECT ( toggle_button ),
-						G_CALLBACK ( toggled_signal_configuration_formulaire ),
+						G_CALLBACK ( gsb_form_config_toggle_element_button ),
 						NULL );
 
 	    if ( no_second_element == -1 )
@@ -740,17 +761,17 @@ gboolean toggled_signal_configuration_formulaire ( GtkWidget *toggle_button )
     }
     else
     {
-	/* 	on a désenclenché le bouton */
+	/* 	on a désenclenché le button */
 
 	if ( no_second_element != -1 )
 	{
-	    g_signal_handlers_block_by_func ( G_OBJECT ( boutons_organisation_formulaire[no_second_element-4] ),
-					      G_CALLBACK ( toggled_signal_configuration_formulaire ),
+	    g_signal_handlers_block_by_func ( G_OBJECT ( form_config_buttons[no_second_element-4] ),
+					      G_CALLBACK ( gsb_form_config_toggle_element_button ),
 					      NULL );
-	    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( boutons_organisation_formulaire[no_second_element-4] ),
+	    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( form_config_buttons[no_second_element-4] ),
 					   FALSE );
-	    g_signal_handlers_unblock_by_func ( G_OBJECT ( boutons_organisation_formulaire[no_second_element-4] ),
-						G_CALLBACK ( toggled_signal_configuration_formulaire ),
+	    g_signal_handlers_unblock_by_func ( G_OBJECT ( form_config_buttons[no_second_element-4] ),
+						G_CALLBACK ( gsb_form_config_toggle_element_button ),
 						NULL );
 	}
 
@@ -758,7 +779,7 @@ gboolean toggled_signal_configuration_formulaire ( GtkWidget *toggle_button )
 	    for ( j=0 ; j < gsb_data_form_get_nb_columns (account_number) ; j++ )
 		if ( gsb_data_form_get_value (account_number,
 					      j,
-					      i ) == no_element )
+					      i ) == element_number )
 		{
 		    gsb_data_form_set_value ( account_number,
 					      j,
@@ -771,26 +792,24 @@ gboolean toggled_signal_configuration_formulaire ( GtkWidget *toggle_button )
 		    }
 		    else
 		    {
-			no_element = no_second_element;
+			element_number = no_second_element;
 			no_second_element = -1;
 			i = 0;
 			j = 0;
 		    }
 		}
     }
-    /*     on réaffiche la liste */
 
+    /* fill the list */
     gsb_form_config_fill_store (account_number);
-
     modification_fichier (TRUE);
     return FALSE;
-
 }
-/* *************************************************************************** */
 
 
 /**
  * fill the configuration store according to the organization for the account given
+ * and update the form if necessary
  *
  * \param account_number
  *
@@ -801,11 +820,11 @@ gboolean gsb_form_config_fill_store ( gint account_number )
     gint row;
     GtkListStore *store;
 
-    store = GTK_LIST_STORE ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view_organisation_formulaire )));
+    store = GTK_LIST_STORE ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( form_config_tree_view )));
 						
     gtk_list_store_clear ( store );
 
-    for ( row=0 ; row < gsb_data_form_get_nb_rows (account_number) - 1 ; row++ )
+    for ( row=0 ; row < gsb_data_form_get_nb_rows (account_number) ; row++ )
     {
 	GtkTreeIter iter;
 	gint column;
@@ -814,14 +833,12 @@ gboolean gsb_form_config_fill_store ( gint account_number )
 				&iter );
 
 	for ( column = 0 ; column < gsb_data_form_get_nb_columns (account_number) ; column++ )
-	{
 	    gtk_list_store_set ( GTK_LIST_STORE ( store ),
 				 &iter,
-				 column, recherche_nom_element_formulaire (gsb_data_form_get_value ( account_number,
+				 column, gsb_form_get_element_name (gsb_data_form_get_value ( account_number,
 												     column,
 												     row )),
 				 -1 );
-	}
     }
 
     /* update the form if necessary */
@@ -835,206 +852,97 @@ gboolean gsb_form_config_fill_store ( gint account_number )
 }
 
 
-
-
-/* *************************************************************************** */
-/* cette fonction prend un numéro d'élément du formulaire et renvoie son texte */
-/* retourne NULL si pas trouvé */
-/* *************************************************************************** */
-gchar *recherche_nom_element_formulaire ( gint no_element )
-{
-    switch ( no_element )
-    {
-	case -1:
-	    /* that value shouldn't be there, it shows that a gsb_data_form_... returns
-	     * an error value */
-	    warning_debug ( "recherche_nom_element_formulaire : a value in the form is -1 wich should not happen.\nA gsb_data_form_... function must have returned an error value..." );
-	    return ("");
-	    break;
-
-	case TRANSACTION_FORM_DATE:
-	    return (N_("Date"));
-	    break;
-
-	case TRANSACTION_FORM_DEBIT:
-	    return (N_("Debit"));
-	    break;
-
-	case TRANSACTION_FORM_CREDIT:
-	    return (N_("Credit"));
-	    break;
-
-	case TRANSACTION_FORM_VALUE_DATE:
-	    return (N_("Value date"));
-	    break;
-
-	case TRANSACTION_FORM_EXERCICE:
-	    return (N_("Financial year"));
-	    break;
-
-	case TRANSACTION_FORM_PARTY:
-	    return (N_("Payee"));
-	    break;
-
-	case TRANSACTION_FORM_CATEGORY:
-	    return (N_("Categories"));
-	    break;
-
-	case TRANSACTION_FORM_FREE:
-	    return (N_("Free"));
-	    break;
-
-	case TRANSACTION_FORM_BUDGET:
-	    return (N_("Budgetary line"));
-	    break;
-
-	case TRANSACTION_FORM_NOTES:
-	    return (N_("Notes"));
-	    break;
-
-	case TRANSACTION_FORM_TYPE:
-	    return (N_("Method of payment"));
-	    break;
-
-	case TRANSACTION_FORM_CHEQUE:
-	    return (N_("Cheque/Transfer number"));
-	    break;
-
-	case TRANSACTION_FORM_DEVISE:
-	    return (N_("Currency"));
-	    break;
-
-	case TRANSACTION_FORM_CHANGE:
-	    return (N_("Change"));
-	    break;
-
-	case TRANSACTION_FORM_VOUCHER:
-	    return (N_("Voucher"));
-	    break;
-
-	case TRANSACTION_FORM_BANK:
-	    return (N_("Bank references"));
-	    break;
-
-	case TRANSACTION_FORM_CONTRA:
-	    return (N_("Contra-transaction method of payment"));
-	    break;
-
-	case TRANSACTION_FORM_OP_NB:
-	    return (N_("Transaction number"));
-	    break;
-
-	case TRANSACTION_FORM_MODE:
-	    return (N_("Automatic/Manual"));
-	    break;
-    }
-
-    return NULL;
-}
-/* *************************************************************************** */
-
-
-/* *************************************************************************** */
-/* fonction appelée à l'affichage de la liste d'organisation du formulaire */
-/* pour adapter la taille des colonnes à celle demandée */
-/* *************************************************************************** */
-gboolean allocation_liste_organisation_formulaire ( GtkWidget *tree_view,
-						    GtkAllocation *allocation )
+/**
+ * called once the window is realized,
+ * fill the form and size the columns according to the configuration
+ *
+ * \param tree_view
+ *
+ * \return FALSE
+ * */
+gboolean gsb_form_config_realized ( GtkWidget *tree_view )
 {
     gint column;
     gint account_number;
+    gint width;
 
-    if ( ! assert_account_loaded() )
+    if ( !assert_account_loaded())
       return FALSE;
 
-    if ( allocation_precedente_organisation_formulaire == allocation -> width )
-	return FALSE;
+    account_number = recupere_no_compte ( accounts_option_menu );
+    width = tree_view -> allocation.width;
 
-    allocation_precedente_organisation_formulaire= allocation -> width;
+    /* fill and update the form list and buttons */
+    gsb_form_config_update_form_config(account_number);
 
-    account_number = recupere_no_compte ( option_menu_comptes_choix_formulaire );
-
-    for ( column=0 ; column < gsb_data_form_get_nb_columns (account_number) - 1 ; column++ )
+    for ( column=0 ; column < gsb_data_form_get_nb_columns (account_number) ; column++ )
+    {
 	gtk_tree_view_column_set_fixed_width ( gtk_tree_view_get_column ( GTK_TREE_VIEW ( tree_view ),
 									  column ),
-					       gsb_data_form_get_width_column (account_number,
-									       column ) * allocation -> width / 100 );
+					       gsb_data_form_get_width_column ( account_number,
+										column ) * width / 100 );
+    }
     return FALSE;
 }
-/* *************************************************************************** */
 
 
 
-/* *************************************************************************** */
-/* cette fonction est appelée lors d'un motion sur la liste */
-/* utilisée pour récupérer les changements de taille des colonnes */
-/* pas trouvé de signal spécial pour le changement de taille des colonnes */
-/* *************************************************************************** */
-gboolean change_taille_colonne_organisation_formulaire ( GtkWidget *tree_view,
-							 GdkEventMotion *motion )
+/**
+ * called when change the size of the columns,
+ * save the percent and change the size of the form according the new size
+ *
+ * \param tree_view
+ * \param allocation
+ *
+ * \return FALSE
+ * */
+gboolean gsb_form_config_change_column_size ( GtkWidget *tree_view,
+					      GtkAllocation *allocation )
 {
     gint column;
-    gint total_taille_colonnes;
     gint account_number;
 
-    /*     si le bouton gauche n'est pas enfoncé, on vire */
-
-    if ( motion -> state != GDK_BUTTON1_MASK )
+    if ( !GTK_WIDGET_REALIZED (tree_view))
 	return FALSE;
-    
-    account_number = recupere_no_compte ( option_menu_comptes_choix_formulaire );
 
-    /*     on récupère la taille des colonnes et vérifie avec la dernière s'il y a eu modification */
-    /* 	ou non  */
+    account_number = recupere_no_compte ( accounts_option_menu );
 
-    total_taille_colonnes = 0;
-
-    for ( column=0 ; column < gsb_data_form_get_nb_columns (account_number) - 1 ; column++ )
+    for ( column=0 ; column < gsb_data_form_get_nb_columns (account_number) ; column++ )
     {
-	gint colonne;
-	gfloat total;
+	gint size_column;
 
-	colonne = gtk_tree_view_column_get_width ( gtk_tree_view_get_column ( GTK_TREE_VIEW ( tree_view ),
-									      column ));
-	total = colonne * 100 / tree_view -> allocation.width;
+	size_column = gtk_tree_view_column_get_width ( gtk_tree_view_get_column ( GTK_TREE_VIEW ( tree_view ),
+										  column ));
 	gsb_data_form_set_width_column ( account_number,
 					 column,
-					 total );
-	total_taille_colonnes = total_taille_colonnes + total;
+					 size_column * 100 / allocation -> width );
     }
 
-    if ( gsb_data_form_get_width_column ( account_number,
-					  gsb_data_form_get_nb_columns (account_number) - 1) != ( 95 - total_taille_colonnes ))
-    {
-	gsb_data_form_set_width_column ( account_number,
-					 gsb_data_form_get_nb_columns (account_number) - 1,
-					 95 - total_taille_colonnes );
-	modification_fichier ( TRUE );
-    }
-    
-    /*     on met à jour le formulaire des opés si nécessaire */
+    modification_fichier ( TRUE );
+
+    /* update the form if needed */
 
     if ( !etat.formulaire_distinct_par_compte
 	 ||
-	 recupere_no_compte ( option_menu_comptes_choix_formulaire ) == gsb_data_account_get_current_account () )
+	 recupere_no_compte ( accounts_option_menu ) == gsb_data_account_get_current_account ())
 	mise_a_jour_taille_formulaire ( formulaire -> allocation.width );
 
     return FALSE;
 }
-/* *************************************************************************** */
 
 
-
-/* *************************************************************************** */
-/* fonction appelée lorsqu'on clicke sur + ligne */
-/* *************************************************************************** */
-gboolean ajoute_ligne_organisation_formulaire ( void )
+/**
+ * called when the user click on "add line"
+ *
+ * \param
+ *
+ * \return FALSE
+ * */
+gboolean gsb_form_config_add_line ( void )
 {
-    GtkTreeIter iter;
-    GtkListStore *store;
     gint account_number;
 
-    account_number = recupere_no_compte ( option_menu_comptes_choix_formulaire );
+    account_number = recupere_no_compte ( accounts_option_menu );
 
     if ( gsb_data_form_get_nb_rows (account_number) == MAX_HEIGHT )
 	return FALSE;
@@ -1042,32 +950,26 @@ gboolean ajoute_ligne_organisation_formulaire ( void )
     gsb_data_form_set_nb_rows ( account_number,
 				gsb_data_form_get_nb_rows (account_number) + 1 );
 
-    /*     on crée une ligne blanche dans le treeview */
-
-    store = GTK_LIST_STORE ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view_organisation_formulaire )));
-
-    gtk_list_store_append ( store,
-			    &iter );
-
+    /* update the form */
+    gsb_form_config_fill_store (account_number);
     modification_fichier (TRUE);
-
     return FALSE;
 }
-/* *************************************************************************** */
 
 
-
-
-/* *************************************************************************** */
-/* fonction appelée lorsqu'on clicke sur - ligne */
-/* *************************************************************************** */
-gboolean retire_ligne_organisation_formulaire ( void )
+/**
+ * called when the user click on "remove line"
+ *
+ * \param
+ *
+ * \return FALSE
+ * */
+gboolean gsb_form_config_remove_line ( void )
 {
-    GtkTreeIter iter;
     gint column;
     gint account_number;
 
-    account_number = recupere_no_compte ( option_menu_comptes_choix_formulaire );
+    account_number = recupere_no_compte ( accounts_option_menu );
 
     if ( gsb_data_form_get_nb_rows (account_number) == 1 )
 	return FALSE;
@@ -1081,8 +983,7 @@ gboolean retire_ligne_organisation_formulaire ( void )
     gsb_data_form_set_nb_rows ( account_number,
 				gsb_data_form_get_nb_rows (account_number) - 1 );
 
-    /*     on peut donc retirer la dernière ligne, on replace les éléments s'y trouvant */
-    /* 	dans ce qui restera */
+    /* move automatickly the values inside the new tinier form */
     
     for ( column=0 ; column< gsb_data_form_get_nb_columns (account_number) ; column++ )
     {
@@ -1090,7 +991,8 @@ gboolean retire_ligne_organisation_formulaire ( void )
 				       column,
 				       gsb_data_form_get_nb_rows (account_number)))
 	{
-	    /* 	    on a trouvé qque chose, on recherche la première place de libre */
+	    /* there is something inside the part wich will be removed, so look for the first
+	     * place possible to move it */
 
 	    gint tmp_row, tmp_column;
 
@@ -1116,96 +1018,67 @@ gboolean retire_ligne_organisation_formulaire ( void )
 	}
     }
 
-    /*     on vire la ligne */
-
-    gtk_tree_model_get_iter_from_string ( GTK_TREE_MODEL ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view_organisation_formulaire ))),
-					  &iter,
-					  utils_str_itoa (gsb_data_form_get_nb_rows (account_number)));
-    gtk_list_store_remove ( GTK_LIST_STORE ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view_organisation_formulaire ))),
-			    &iter );
-
-    /*     on réaffiche la liste */
-	    
+    /* update the form */
     gsb_form_config_fill_store (account_number);
-    
     modification_fichier (TRUE);
     return FALSE;
 }
-/* *************************************************************************** */
 
 
-
-
-/* *************************************************************************** */
-/* fonction appelée lorsqu'on clicke sur + colonne */
-/* *************************************************************************** */
-gboolean ajoute_colonne_organisation_formulaire ( void )
+/**
+ * called when the user click on "add column"
+ *
+ * \param
+ *
+ * \return FALSE
+ * */
+gboolean gsb_form_config_add_column ( void )
 {
-    gint column;
-    gint total_taille_colonnes;
     gint account_number;
     gint nb_columns;
+    gint new_size;
 
-    account_number = recupere_no_compte ( option_menu_comptes_choix_formulaire );
+    account_number = recupere_no_compte ( accounts_option_menu );
     nb_columns = gsb_data_form_get_nb_columns (account_number);
 
     if ( nb_columns == MAX_WIDTH )
 	return FALSE;
 
-    gtk_tree_view_column_set_visible ( GTK_TREE_VIEW_COLUMN ( tree_view_column_organisation_formulaire[nb_columns]),
-				       TRUE );
+    /* set the new size of the 2 last columns to half of the last column */
 
-    /*     on modifie le pourcentage des colonnes pour la voir un peu */
-
-    total_taille_colonnes = 0;
-
-    for ( column=0 ; column < nb_columns ; column++ )
-    {
-	gfloat total;
-
-	total = gsb_data_form_get_width_column ( account_number,
-						 column );
-	if ( total > 5 )
-	{
-	    total = total - 2;
-	    gsb_data_form_set_width_column ( account_number,
-					     column,
-					     total );
-	}
-	total_taille_colonnes = total_taille_colonnes + total;
-    }    
-
+    new_size = gsb_data_form_get_width_column ( account_number,
+						nb_columns - 1) / 2;
+    gsb_data_form_set_width_column ( account_number,
+				     nb_columns - 1,
+				     new_size );
     gsb_data_form_set_width_column ( account_number,
 				     nb_columns,
-				     95 - total_taille_colonnes );
-
+				     new_size );
     gsb_data_form_set_nb_columns ( account_number,
 				   nb_columns + 1 );
 
-    /*     on affiche le résultat */
+    /* show the result */
 
-    allocation_precedente_organisation_formulaire = 0;
-    allocation_liste_organisation_formulaire ( tree_view_organisation_formulaire,
-					       &( tree_view_organisation_formulaire-> allocation));
-
+    gsb_form_config_realized ( form_config_tree_view );
     modification_fichier (TRUE);
     return FALSE;
 }
-/* *************************************************************************** */
 
 
-
-
-/* *************************************************************************** */
-/* fonction appelée lorsqu'on clicke sur - colonne */
-/* *************************************************************************** */
-gboolean retire_colonne_organisation_formulaire ( void )
+/**
+ * called when the user click on "remove column"
+ *
+ * \param
+ *
+ * \return FALSE
+ * */
+gboolean gsb_form_config_remove_column ( void )
 {
     gint row;
     gint account_number;
     gint nb_columns;
     
-    account_number = recupere_no_compte ( option_menu_comptes_choix_formulaire );
+    account_number = recupere_no_compte ( accounts_option_menu );
     nb_columns = gsb_data_form_get_nb_columns (account_number);
 
     if ( nb_columns == 1 )
@@ -1221,9 +1094,7 @@ gboolean retire_colonne_organisation_formulaire ( void )
     gsb_data_form_set_nb_columns ( account_number,
 				   nb_columns );
 
-
-    /*     on peut donc retirer la dernière colonne, on replace les éléments s'y trouvant */
-    /* 	dans ce qui restera */
+    /* move the values in the last column to another place */
     
     for ( row=0 ; row< gsb_data_form_get_nb_rows (account_number) ; row++ )
     {
@@ -1257,19 +1128,23 @@ gboolean retire_colonne_organisation_formulaire ( void )
 	}
     }
 
-    /*     on vire la colonne */
+    /* change the size of the last column */
+    gsb_data_form_set_width_column ( account_number,
+				     nb_columns - 1,
+				     gsb_data_form_get_width_column ( account_number,
+								      nb_columns )
+				     +
+				     gsb_data_form_get_width_column ( account_number,
+								      nb_columns ));
+    gsb_data_form_set_width_column ( account_number,
+				     nb_columns,
+				     0 );
 
-    	    gtk_tree_view_column_set_visible ( GTK_TREE_VIEW_COLUMN ( tree_view_column_organisation_formulaire[nb_columns] ),
-					       FALSE );
-
-    /*     on réaffiche la liste */
-	    
-    gsb_form_config_fill_store ( account_number);
-
+    /* fill the list */
+    gsb_form_config_realized ( form_config_tree_view );
     modification_fichier (TRUE);
     return FALSE;
 }
-/* *************************************************************************** */
 
 
 
@@ -1436,7 +1311,7 @@ gboolean gsb_form_config_drag_end ( GtkWidget *tree_view,
 
     /* swap the cells in the tab */
 
-    account_number = recupere_no_compte ( option_menu_comptes_choix_formulaire );
+    account_number = recupere_no_compte ( accounts_option_menu );
 
     buffer = gsb_data_form_get_value ( account_number,
 				       start_drag_column,
@@ -1455,8 +1330,7 @@ gboolean gsb_form_config_drag_end ( GtkWidget *tree_view,
     /* fill the list */
 	    
     gsb_form_config_fill_store (account_number);
-
-    modification_fichier (FALSE);
+    modification_fichier (TRUE);
     return (FALSE);
 }
 
@@ -1465,6 +1339,9 @@ gboolean gsb_form_config_drag_end ( GtkWidget *tree_view,
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */
+
+
+
 
 
 

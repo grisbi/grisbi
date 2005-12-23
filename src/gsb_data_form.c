@@ -143,8 +143,9 @@ gboolean gsb_data_form_set_default_organization ( gint account_number )
     if ( !form )
 	return FALSE;
 
-    form -> columns = MAX_WIDTH;
-    form -> rows = MAX_HEIGHT;
+    /* by default, 4 columns and 3 rows */
+    form -> columns = 4;
+    form -> rows = 3;
 
     for ( i = 0 ; i<MAX_HEIGHT ; i++ )
 	for ( j = 0 ; j<MAX_WIDTH ; j++ )

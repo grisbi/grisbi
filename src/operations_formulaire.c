@@ -112,13 +112,13 @@ GtkStyle *style_entree_formulaire[2];
 
 GtkWidget *tab_widget_formulaire[4][6];
 
+GtkWidget *formulaire;
 
 
 /*START_EXTERN*/
 extern gboolean block_menu_cb ;
 extern GdkColor couleur_grise;
 extern struct struct_devise *devise_compte;
-extern GtkWidget *formulaire;
 extern GtkWidget *frame_droite_bas;
 extern gint hauteur_ligne_liste_opes;
 extern GtkItemFactory *item_factory_menu_general;

@@ -7,7 +7,11 @@
 #include "print_config.h"
 #include "utils_str.h"
 
+/* the VERSION_FICHIER is in fact the lowest version which can be used to open the
+ * file, so each time we make an incompatibility issue, VERSION_FICHIER must be set
+ * to VERSION_GRISBI */
 #define VERSION_FICHIER "0.6.0"
+
 #define VERSION_FICHIER_ETAT "0.6.0"
 #define VERSION_FICHIER_CATEG "0.6.0"
 #define VERSION_FICHIER_IB "0.6.0"

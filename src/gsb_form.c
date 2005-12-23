@@ -30,6 +30,9 @@
 
 /*START_INCLUDE*/
 #include "gsb_form.h"
+#include "erreur.h"
+#include "include.h"
+#include "gsb_data_form.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -101,4 +104,104 @@ gboolean gsb_fom_fill_transaction ( gint transaction_number )
 
     return FALSE;
 }
+
+
+
+/**
+ * get an element number and return its name
+ *
+ * \param element_number
+ *
+ * \return the name of the element
+ * */
+gchar *gsb_form_get_element_name ( gint element_number )
+{
+    switch ( element_number )
+    {
+	case -1:
+	    /* that value shouldn't be there, it shows that a gsb_data_form_... returns
+	     * an error value */
+	    warning_debug ( "gsb_form_get_element_name : a value in the form is -1 wich should not happen.\nA gsb_data_form_... function must have returned an error value..." );
+	    return ("");
+	    break;
+
+	case TRANSACTION_FORM_DATE:
+	    return (N_("Date"));
+	    break;
+
+	case TRANSACTION_FORM_DEBIT:
+	    return (N_("Debit"));
+	    break;
+
+	case TRANSACTION_FORM_CREDIT:
+	    return (N_("Credit"));
+	    break;
+
+	case TRANSACTION_FORM_VALUE_DATE:
+	    return (N_("Value date"));
+	    break;
+
+	case TRANSACTION_FORM_EXERCICE:
+	    return (N_("Financial year"));
+	    break;
+
+	case TRANSACTION_FORM_PARTY:
+	    return (N_("Payee"));
+	    break;
+
+	case TRANSACTION_FORM_CATEGORY:
+	    return (N_("Categories"));
+	    break;
+
+	case TRANSACTION_FORM_FREE:
+	    return (N_("Free"));
+	    break;
+
+	case TRANSACTION_FORM_BUDGET:
+	    return (N_("Budgetary line"));
+	    break;
+
+	case TRANSACTION_FORM_NOTES:
+	    return (N_("Notes"));
+	    break;
+
+	case TRANSACTION_FORM_TYPE:
+	    return (N_("Method of payment"));
+	    break;
+
+	case TRANSACTION_FORM_CHEQUE:
+	    return (N_("Cheque/Transfer number"));
+	    break;
+
+	case TRANSACTION_FORM_DEVISE:
+	    return (N_("Currency"));
+	    break;
+
+	case TRANSACTION_FORM_CHANGE:
+	    return (N_("Change"));
+	    break;
+
+	case TRANSACTION_FORM_VOUCHER:
+	    return (N_("Voucher"));
+	    break;
+
+	case TRANSACTION_FORM_BANK:
+	    return (N_("Bank references"));
+	    break;
+
+	case TRANSACTION_FORM_CONTRA:
+	    return (N_("Contra-transaction method of payment"));
+	    break;
+
+	case TRANSACTION_FORM_OP_NB:
+	    return (N_("Transaction number"));
+	    break;
+
+	case TRANSACTION_FORM_MODE:
+	    return (N_("Automatic/Manual"));
+	    break;
+    }
+    return NULL;
+}
+
 
